@@ -1,149 +1,69 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Mon, 26 Nov 2018 09:35:55 -0700
-Subject: [PATCH 7/8] blk-mq: use bd->last == true for list inserts
-In-Reply-To: <20181126163556.5181-1-axboe@kernel.dk>
-References: <20181126163556.5181-1-axboe@kernel.dk>
-Message-ID: <20181126163556.5181-8-axboe@kernel.dk>
+From: emilne@redhat.com (Ewan D. Milne)
+Date: Mon, 26 Nov 2018 12:01:30 -0500
+Subject: [PATCH] nvme-fc: initialize nvme_req(rq)->ctrl after calling
+ __nvme_fc_init_request()
+Message-ID: <20181126170130.8591-1-emilne@redhat.com>
 
-If we are issuing a list of requests, we know if we're at the last one.
-If we fail issuing, ensure that we call ->commits_rqs() to flush any
-potential previous requests.
+__nvme_fc_init_request() invokes memset() on the nvme_fcp_op_w_sgl structure, which
+NULLed-out the nvme_req(req)->ctrl field previously set by nvme_fc_init_request().
+This apparently was not referenced until commit faf4a44fff ("nvme: support traffic
+based keep-alive") which now results in a crash in nvme_complete_rq():
 
-Signed-off-by: Jens Axboe <axboe at kernel.dk>
+[ 8386.897130] RIP: 0010:panic+0x220/0x26c
+[ 8386.901406] Code: 83 3d 6f ee 72 01 00 74 05 e8 e8 54 02 00 48 c7 c6 40 fd 5b b4 48 c7 c7 d8 8d c6 b3 31e
+[ 8386.922359] RSP: 0018:ffff99650019fc40 EFLAGS: 00000246 ORIG_RAX: ffffffffffffff13
+[ 8386.930804] RAX: 0000000000000046 RBX: 0000000000000000 RCX: 0000000000000006
+[ 8386.938764] RDX: 0000000000000000 RSI: 0000000000000082 RDI: ffff8e325f8168b0
+[ 8386.946725] RBP: ffff99650019fcb0 R08: 0000000000000000 R09: 00000000000004f8
+[ 8386.954687] R10: 0000000000000000 R11: ffff99650019f9b8 R12: ffffffffb3c55f3c
+[ 8386.962648] R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000001
+[ 8386.970613]  oops_end+0xd1/0xe0
+[ 8386.974116]  no_context+0x1b2/0x3c0
+[ 8386.978006]  do_page_fault+0x32/0x140
+[ 8386.982090]  page_fault+0x1e/0x30
+[ 8386.985786] RIP: 0010:nvme_complete_rq+0x65/0x1d0 [nvme_core]
+[ 8386.992195] Code: 41 bc 03 00 00 00 74 16 0f 86 c3 00 00 00 66 3d 83 00 41 bc 06 00 00 00 0f 85 e7 00 000
+[ 8387.013147] RSP: 0018:ffff99650019fe18 EFLAGS: 00010246
+[ 8387.018973] RAX: 0000000000000000 RBX: ffff8e322ae51280 RCX: 0000000000000001
+[ 8387.026935] RDX: 0000000000000400 RSI: 0000000000000001 RDI: ffff8e322ae51280
+[ 8387.034897] RBP: ffff8e322ae51280 R08: 0000000000000000 R09: ffffffffb2f0b890
+[ 8387.042859] R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000000
+[ 8387.050821] R13: 0000000000000100 R14: 0000000000000004 R15: ffff8e2b0446d990
+[ 8387.058782]  ? swiotlb_unmap_page+0x40/0x40
+[ 8387.063448]  nvme_fc_complete_rq+0x2d/0x70 [nvme_fc]
+[ 8387.068986]  blk_done_softirq+0xa1/0xd0
+[ 8387.073264]  __do_softirq+0xd6/0x2a9
+[ 8387.077251]  run_ksoftirqd+0x26/0x40
+[ 8387.081238]  smpboot_thread_fn+0x10e/0x160
+[ 8387.085807]  kthread+0xf8/0x130
+[ 8387.089309]  ? sort_range+0x20/0x20
+[ 8387.093198]  ? kthread_stop+0x110/0x110
+[ 8387.097475]  ret_from_fork+0x35/0x40
+[ 8387.101462] ---[ end trace 7106b0adf5e422f8 ]---
+
+Fixes: faf4a44fff ("nvme: support traffic based keep-alive")
+Signed-off-by: Ewan D. Milne <emilne at redhat.com>
 ---
- block/blk-core.c |  2 +-
- block/blk-mq.c   | 32 ++++++++++++++++++++++++--------
- block/blk-mq.h   |  2 +-
- 3 files changed, 26 insertions(+), 10 deletions(-)
+ drivers/nvme/host/fc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/block/blk-core.c b/block/blk-core.c
-index c9758d185357..808a65d23f1a 100644
---- a/block/blk-core.c
-+++ b/block/blk-core.c
-@@ -1334,7 +1334,7 @@ blk_status_t blk_insert_cloned_request(struct request_queue *q, struct request *
- 	 * bypass a potential scheduler on the bottom device for
- 	 * insert.
- 	 */
--	return blk_mq_request_issue_directly(rq);
-+	return blk_mq_request_issue_directly(rq, true);
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 83131e4..240d09e 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -1746,12 +1746,12 @@ enum {
+ 	struct nvme_fc_queue *queue = &ctrl->queues[queue_idx];
+ 	int res;
+ 
+-	nvme_req(rq)->ctrl = &ctrl->ctrl;
+ 	res = __nvme_fc_init_request(ctrl, queue, &op->op, rq, queue->rqcnt++);
+ 	if (res)
+ 		return res;
+ 	op->op.fcp_req.first_sgl = &op->sgl[0];
+ 	op->op.fcp_req.private = &op->priv[0];
++	nvme_req(rq)->ctrl = &ctrl->ctrl;
+ 	return res;
  }
- EXPORT_SYMBOL_GPL(blk_insert_cloned_request);
- 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 6a249bf6ed00..0a12cec0b426 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -1260,6 +1260,14 @@ bool blk_mq_dispatch_rq_list(struct request_queue *q, struct list_head *list,
- 	if (!list_empty(list)) {
- 		bool needs_restart;
- 
-+		/*
-+		 * If we didn't flush the entire list, we could have told
-+		 * the driver there was more coming, but that turned out to
-+		 * be a lie.
-+		 */
-+		if (q->mq_ops->commit_rqs)
-+			q->mq_ops->commit_rqs(hctx);
-+
- 		spin_lock(&hctx->lock);
- 		list_splice_init(list, &hctx->dispatch);
- 		spin_unlock(&hctx->lock);
-@@ -1736,12 +1744,12 @@ static blk_qc_t request_to_qc_t(struct blk_mq_hw_ctx *hctx, struct request *rq)
- 
- static blk_status_t __blk_mq_issue_directly(struct blk_mq_hw_ctx *hctx,
- 					    struct request *rq,
--					    blk_qc_t *cookie)
-+					    blk_qc_t *cookie, bool last)
- {
- 	struct request_queue *q = rq->q;
- 	struct blk_mq_queue_data bd = {
- 		.rq = rq,
--		.last = true,
-+		.last = last,
- 	};
- 	blk_qc_t new_cookie;
- 	blk_status_t ret;
-@@ -1776,7 +1784,7 @@ static blk_status_t __blk_mq_issue_directly(struct blk_mq_hw_ctx *hctx,
- static blk_status_t __blk_mq_try_issue_directly(struct blk_mq_hw_ctx *hctx,
- 						struct request *rq,
- 						blk_qc_t *cookie,
--						bool bypass_insert)
-+						bool bypass_insert, bool last)
- {
- 	struct request_queue *q = rq->q;
- 	bool run_queue = true;
-@@ -1805,7 +1813,7 @@ static blk_status_t __blk_mq_try_issue_directly(struct blk_mq_hw_ctx *hctx,
- 		goto insert;
- 	}
- 
--	return __blk_mq_issue_directly(hctx, rq, cookie);
-+	return __blk_mq_issue_directly(hctx, rq, cookie, last);
- insert:
- 	if (bypass_insert)
- 		return BLK_STS_RESOURCE;
-@@ -1824,7 +1832,7 @@ static void blk_mq_try_issue_directly(struct blk_mq_hw_ctx *hctx,
- 
- 	hctx_lock(hctx, &srcu_idx);
- 
--	ret = __blk_mq_try_issue_directly(hctx, rq, cookie, false);
-+	ret = __blk_mq_try_issue_directly(hctx, rq, cookie, false, true);
- 	if (ret == BLK_STS_RESOURCE || ret == BLK_STS_DEV_RESOURCE)
- 		blk_mq_sched_insert_request(rq, false, true, false);
- 	else if (ret != BLK_STS_OK)
-@@ -1833,7 +1841,7 @@ static void blk_mq_try_issue_directly(struct blk_mq_hw_ctx *hctx,
- 	hctx_unlock(hctx, srcu_idx);
- }
- 
--blk_status_t blk_mq_request_issue_directly(struct request *rq)
-+blk_status_t blk_mq_request_issue_directly(struct request *rq, bool last)
- {
- 	blk_status_t ret;
- 	int srcu_idx;
-@@ -1841,7 +1849,7 @@ blk_status_t blk_mq_request_issue_directly(struct request *rq)
- 	struct blk_mq_hw_ctx *hctx = rq->mq_hctx;
- 
- 	hctx_lock(hctx, &srcu_idx);
--	ret = __blk_mq_try_issue_directly(hctx, rq, &unused_cookie, true);
-+	ret = __blk_mq_try_issue_directly(hctx, rq, &unused_cookie, true, last);
- 	hctx_unlock(hctx, srcu_idx);
- 
- 	return ret;
-@@ -1856,7 +1864,7 @@ void blk_mq_try_issue_list_directly(struct blk_mq_hw_ctx *hctx,
- 				queuelist);
- 
- 		list_del_init(&rq->queuelist);
--		ret = blk_mq_request_issue_directly(rq);
-+		ret = blk_mq_request_issue_directly(rq, list_empty(list));
- 		if (ret != BLK_STS_OK) {
- 			if (ret == BLK_STS_RESOURCE ||
- 					ret == BLK_STS_DEV_RESOURCE) {
-@@ -1866,6 +1874,14 @@ void blk_mq_try_issue_list_directly(struct blk_mq_hw_ctx *hctx,
- 			blk_mq_end_request(rq, ret);
- 		}
- 	}
-+
-+	/*
-+	 * If we didn't flush the entire list, we could have told
-+	 * the driver there was more coming, but that turned out to
-+	 * be a lie.
-+	 */
-+	if (!list_empty(list) && hctx->queue->mq_ops->commit_rqs)
-+		hctx->queue->mq_ops->commit_rqs(hctx);
- }
- 
- static blk_qc_t blk_mq_make_request(struct request_queue *q, struct bio *bio)
-diff --git a/block/blk-mq.h b/block/blk-mq.h
-index 9ae8e9f8f8b1..7291e5379358 100644
---- a/block/blk-mq.h
-+++ b/block/blk-mq.h
-@@ -69,7 +69,7 @@ void blk_mq_insert_requests(struct blk_mq_hw_ctx *hctx, struct blk_mq_ctx *ctx,
- 				struct list_head *list);
- 
- /* Used by blk_insert_cloned_request() to issue request directly */
--blk_status_t blk_mq_request_issue_directly(struct request *rq);
-+blk_status_t blk_mq_request_issue_directly(struct request *rq, bool last);
- void blk_mq_try_issue_list_directly(struct blk_mq_hw_ctx *hctx,
- 				    struct list_head *list);
  
 -- 
-2.17.1
+1.8.3.1
