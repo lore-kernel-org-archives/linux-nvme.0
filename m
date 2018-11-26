@@ -1,48 +1,54 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 26 Nov 2018 08:31:11 -0700
-Subject: Two M.2 NVMe drives with same NQN, one gets removed
-In-Reply-To: <20181126133839.GA4348@dingwall.me.uk>
-References: <20181126133839.GA4348@dingwall.me.uk>
-Message-ID: <20181126153110.GM26707@localhost.localdomain>
+Date: Mon, 26 Nov 2018 08:40:22 -0700
+Subject: [PATCH 1/3] nvme: enable multipathing by default
+In-Reply-To: <94c71f85-3ff8-ca11-05fa-b5a489c302d8@grimberg.me>
+References: <20181120162734.2013-1-hch@lst.de>
+ <20181120162734.2013-2-hch@lst.de>
+ <20181120184749.GF26707@localhost.localdomain>
+ <20181121082724.GA29231@lst.de>
+ <94c71f85-3ff8-ca11-05fa-b5a489c302d8@grimberg.me>
+Message-ID: <20181126154021.GO26707@localhost.localdomain>
 
-On Mon, Nov 26, 2018@01:38:39PM +0000, James Dingwall wrote:
-> Hi,
+On Wed, Nov 21, 2018@06:44:05PM -0800, Sagi Grimberg wrote:
 > 
-> We have also encountered this issue but the devices have a customised
-> firmware from Lenovo:
+> >> This is okay with me, but I have one little follow-on I'd like to RFC here:
+> >>
+> >> The /dev/nvme naming convention with multiplath has broken people's
+> >> minds, and making it default will invite a lot of repeat questions on
+> >> how to match up block to admin handles.
+> >>
+> >> Could we promote /dev/nvme0 to be a subsystem handle instead of a
+> >> controller handle, and add new per-controller handles, like /dev/nvme0c1,
+> >> nvme0c2, etc...? The subsystem handle's management interface can just use
+> >> the first active controller to forward admin commands, and per-controller
+> >> specific administration can be taught to use the new handles as needed.
+> >>
+> >> Tooling shouldn't care about the names, but I am not sure if this could
+> >> possibly break productino scripts. The naming disconnect has broken
+> >> some things, though, so I hope this doesn't end up being a pick your
+> >> poision suggestion...
+> > 
+> > The problem is that typical admin command are sensitive to the controller
+> > they are sent to, so a per-subsystem handle does not make whole lot
+> > sense.  But I like the idea of the nvmeXcY names.  Maybe we just keep
+> > the nvmeX names as an additional alias for the first found controller
+> > in a subsystem and otherwise use nvmeXcY?
 > 
-> # nvme id-ctrl /dev/nvme0
-> NVME Identify Controller:
-> vid : 0x8086
-> ssvid : 0x8086
-> sn : BTHH82250N1X1P0E
-> mn : INTEL SSDPEKKF010T8L
-> fr : L08P
+> Not sure if different naming conventions between controllers are a good
+> idea..
 > 
-> https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1803692?comments=all
-> 
-> I tried to force install the Intel firmware but that did not work.  I
-> was fobbed off by Lenovo support with a 'we don't support Linux' even
-> after pointing out the upstream Intel fix.  Is there any possibility
-> of being able to work around this in the nvme code?
-> 
-> Thanks,
-> James
+> What is the problem of simply changing nvmeX to nvmeXcY? if nvmeX is
+> a must perhaps we can soft link nvmeX to nvmeXc1?
 
-Hi James,
+I am not aware of anything that has a hard dependency on /dev/nvmeX
+being present, but I can't say if that applies to everyone. I'll check
+with some internal folks if this will break there tools/workflows.
 
-According to the resolution discussion here:
+It will just take some minor shuffling of the initialization order to do
+this since we currently assign the controller instance before we know
+the subsystem instance. Otherwise, it should work.
 
-  https://downloadcenter.intel.com/download/28320/Known-Issue-Intel-SSD-760p-Pro-7600p-Series-SubNQN-Conflict-on-Linux
+I'll finish off the code and send separately. As far as this patch
+series is concerned, looks good to me.
 
-  "
-  If you purchased your Intel? SSD from an OEM, your firmware version may
-  have a different naming. Contact your local OEM representative for
-  latest firmware revisions.
-  "
-
-Sounds like Lenovo will need to merge the Intel update into their
-specific firmware if they haven't already done so.
-
-Thansk,
-Keith
+Reviewed-by: Keith Busch <keith.busch at intel.com>
