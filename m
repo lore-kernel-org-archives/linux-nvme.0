@@ -1,14 +1,29 @@
-From: emilne@redhat.com (Ewan D. Milne)
-Date: Mon, 26 Nov 2018 16:31:12 -0500
-Subject: [PATCH] nvme-fc: initialize nvme_req(rq)->ctrl after calling
- __nvme_fc_init_request()
-In-Reply-To: <20181126212617.12269-1-emilne@redhat.com>
-References: <20181126212617.12269-1-emilne@redhat.com>
-Message-ID: <181e9cb49b93d6119b0d5ee8651c1b3e10c6d08c.camel@redhat.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 26 Nov 2018 16:39:47 -0700
+Subject: [PATCH] nvme: Free ctrl device name on init failure
+Message-ID: <20181126233947.5256-1-keith.busch@intel.com>
 
-On Mon, 2018-11-26@16:26 -0500, Ewan D. Milne wrote:
-> 
+Free the kobject name that was allocated for the controller device on
+failure rather than its parent.
 
-My apologies, duplicate email.
+Fixes: d22524a4782a9 ("nvme: switch controller refcounting to use struct device")
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
--Ewan
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 559d567693b8..5afda6fe5ae9 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3585,7 +3585,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 
+ 	return 0;
+ out_free_name:
+-	kfree_const(dev->kobj.name);
++	kfree_const(ctrl->device->kobj.name);
+ out_release_instance:
+ 	ida_simple_remove(&nvme_instance_ida, ctrl->instance);
+ out:
+-- 
+2.14.4
