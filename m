@@ -1,52 +1,160 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Tue, 27 Nov 2018 08:20:05 -0700
-Subject: [PATCH 2/7] block: have ->poll_fn() return number of entries
- polled
-In-Reply-To: <eee2f768-5ca2-aaa1-7d04-4fd7c9623312@grimberg.me>
-References: <20181117214354.822-1-axboe@kernel.dk>
- <20181117214354.822-3-axboe@kernel.dk>
- <fb1200ad-35ef-1c2e-25cf-d8a71bc505b5@grimberg.me>
- <ba2d191c-cf9d-07f1-5875-6a07ef043949@kernel.dk>
- <eee2f768-5ca2-aaa1-7d04-4fd7c9623312@grimberg.me>
-Message-ID: <470ea9e2-9546-8001-bed9-ed4753f061cb@kernel.dk>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 27 Nov 2018 08:37:10 -0700
+Subject: [PATCH] nvme: Implement Enhanced Command Retry
+Message-ID: <20181127153710.6328-1-keith.busch@intel.com>
 
-On 11/27/18 3:10 AM, Sagi Grimberg wrote:
->> No, it'll be exactly the same, and believe me, I've done plenty of
->> performance testing to ensure that it works well.  In fact, with the
->> changes queued up and this on top, polling is both faster and more
->> efficient than it ever has been before, for both the classic
->> preadv2/pwritev2 and the async polled IO.
-> 
-> I don't argue that this has not been tested, I was referring to the
-> following use-case: app queues say 16 I/Os with io_submit and then
-> issues preadv2 for an "important" 512B sector.
-> 
-> With this proposed change, is poll_fn more likely to return with the
-> first completion it sees rather than continue poll until it sees that
-> specific I/O it polled for?
+A controller may have an internal state that is not able to successfully
+process commands for a short duration. In such states, an immediate
+command requeue is expected to fail. The driver may exceed its max
+retry count, which permanently ends the command in failure when the same
+command would succeed after waiting for the controller to be ready.
 
-Any IO completion will make it return, that was the case before and that
-is still the case. If it isn't your specific IO, then you get to go
-around the loop again.
+NVMe ratified TP 4033 provides a delay hint in the completion status
+code for failed commands. Implement the retry delay based on the command
+completion status and the controller's requested delay.
 
->> I think that would be useless. For SYNC type polling with one thread, it
->> doesn't matter if we're looking for a particular IO, or just any IO.
->> Once your into two threads, you're already wasting huge amounts of CPU,
->> just to get to QD=2. The poll loop handles finding each others IOs just
->> fine, so there's no worry on that side.
->>
->> Polling was originally designed for the strictly SYNC interfaces, and
->> since we had the cookie anyway, it was tempting to look for a specific
->> IO. I think that was a mistake, as it assumed that we'd never do async
->> polling.
-> 
-> Not arguing. Just now that we already have the selective interface in
-> place I'm asking is it OK to change that (IFF the above question is
-> indeed real) esoteric as this use-case may be...
+Note that requeued commands are handled per request_queue, not per
+individual request. If multiple commands fail, the controller should
+consistently report the desired delay time for retryable commands in
+all CQEs, otherwise the requeue list may be kicked too soon.
 
-It won't cause any real change for the sync use case. There's no
-difference between multiple sync users of polling and a mixed async/sync
-polled use case in that regard.
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/core.c | 37 ++++++++++++++++++++++++++++++++++++-
+ drivers/nvme/host/nvme.h |  1 +
+ include/linux/nvme.h     | 17 ++++++++++++++++-
+ 3 files changed, 53 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index c418b7a347e0..7397cb48db70 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -261,8 +261,16 @@ void nvme_complete_rq(struct request *req)
+ 		}
+ 
+ 		if (!blk_queue_dying(req->q)) {
++			unsigned long delay = 0;
++			struct nvme_ns *ns = req->q->queuedata;
++			u16 crd = (nvme_req(req)->status & NVME_SC_CRD) >> 11;
++
++			if (crd && ns)
++				delay = ns->ctrl->crdt[crd - 1] * 100;
++
+ 			nvme_req(req)->retries++;
+-			blk_mq_requeue_request(req, true);
++			blk_mq_requeue_request(req, false);
++			blk_mq_delay_kick_requeue_list(req->q, delay);
+ 			return;
+ 		}
+ 	}
+@@ -1883,6 +1891,25 @@ static int nvme_configure_timestamp(struct nvme_ctrl *ctrl)
+ 	return ret;
+ }
+ 
++static int nvme_configure_acre(struct nvme_ctrl *ctrl)
++{
++	struct nvme_feat_host_behavior *host;
++	int ret;
++
++	if (!ctrl->crdt[0])
++		return 0;
++
++	host = kzalloc(sizeof(*host), GFP_KERNEL);
++	if (!host)
++		return 0;
++
++	host->acre = NVME_ENABLE_ACRE;
++	ret = nvme_set_features(ctrl, NVME_FEAT_HOST_BEHAVIOR, 0,
++				host, sizeof(*host), NULL);
++	kfree(host);
++	return ret;
++}
++
+ static int nvme_configure_apst(struct nvme_ctrl *ctrl)
+ {
+ 	/*
+@@ -2404,6 +2431,10 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 		ctrl->quirks &= ~NVME_QUIRK_NO_DEEPEST_PS;
+ 	}
+ 
++	ctrl->crdt[0] = le16_to_cpu(id->crdt1);
++	ctrl->crdt[1] = le16_to_cpu(id->crdt2);
++	ctrl->crdt[2] = le16_to_cpu(id->crdt3);
++
+ 	ctrl->oacs = le16_to_cpu(id->oacs);
+ 	ctrl->oncs = le16_to_cpup(&id->oncs);
+ 	ctrl->oaes = le32_to_cpu(id->oaes);
+@@ -2504,6 +2535,10 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 	if (ret < 0)
+ 		return ret;
+ 
++	ret = nvme_configure_acre(ctrl);
++	if (ret < 0)
++		return ret;
++
+ 	ctrl->identified = true;
+ 
+ 	return 0;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 27663ce3044e..51063dbf08bf 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -181,6 +181,7 @@ struct nvme_ctrl {
+ 	u32 page_size;
+ 	u32 max_hw_sectors;
+ 	u32 max_segments;
++	u16 crdt[3];
+ 	u16 oncs;
+ 	u16 oacs;
+ 	u16 nssa;
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index c03973c215ad..88812cb15be0 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -223,7 +223,11 @@ struct nvme_id_ctrl {
+ 	__le32			rtd3e;
+ 	__le32			oaes;
+ 	__le32			ctratt;
+-	__u8			rsvd100[156];
++	__u8			rsvd100[28];
++	__le16			crdt1;
++	__le16			crdt2;
++	__le16			crdt3;
++	__u8			rsvd134[122];
+ 	__le16			oacs;
+ 	__u8			acl;
+ 	__u8			aerl;
+@@ -756,6 +760,15 @@ enum {
+ 	NVME_HOST_MEM_RETURN	= (1 << 1),
+ };
+ 
++struct nvme_feat_host_behavior {
++	__u8 acre;
++	__u8 resv1[511];
++};
++
++enum {
++	NVME_ENABLE_ACRE	= 1,
++};
++
+ /* Admin commands */
+ 
+ enum nvme_admin_opcode {
+@@ -810,6 +823,7 @@ enum {
+ 	NVME_FEAT_RRL		= 0x12,
+ 	NVME_FEAT_PLM_CONFIG	= 0x13,
+ 	NVME_FEAT_PLM_WINDOW	= 0x14,
++	NVME_FEAT_HOST_BEHAVIOR	= 0x16,
+ 	NVME_FEAT_SW_PROGRESS	= 0x80,
+ 	NVME_FEAT_HOST_ID	= 0x81,
+ 	NVME_FEAT_RESV_MASK	= 0x82,
+@@ -1265,6 +1279,7 @@ enum {
+ 	NVME_SC_ANA_TRANSITION		= 0x303,
+ 	NVME_SC_HOST_PATH_ERROR		= 0x370,
+ 
++	NVME_SC_CRD			= 0x1800,
+ 	NVME_SC_DNR			= 0x4000,
+ };
+ 
 -- 
-Jens Axboe
+2.14.4
