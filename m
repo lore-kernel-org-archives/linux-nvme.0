@@ -1,15 +1,11 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Tue, 27 Nov 2018 08:33:49 +0100
-Subject: [PATCH] drivers/nvme/host/rdma.c: Fix double freeing of async
- event data
-In-Reply-To: <1543252659-22757-1-git-send-email-psajeepa@purestorage.com>
-References: <1543252659-22757-1-git-send-email-psajeepa@purestorage.com>
-Message-ID: <20181127073349.GA25211@infradead.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 27 Nov 2018 08:35:51 +0100
+Subject: [PATCH] nvme-fc: initialize nvme_req(rq)->ctrl after calling
+ __nvme_fc_init_request()
+In-Reply-To: <20181126170130.8591-1-emilne@redhat.com>
+References: <20181126170130.8591-1-emilne@redhat.com>
+Message-ID: <20181127073550.GB29997@lst.de>
 
-On Mon, Nov 26, 2018@10:17:39AM -0700, Prabhath Sajeepa wrote:
-> Some error paths in configuration of admin queue free data buffer
-> associated with async request SQE without resetting the data buffer
-> pointer to NULL, This buffer is also freed up again if the controller
-> is shutdown or reset.
+Thanks,
 
-Can you please provide a signoff?
+applied to nvme-4.20.
