@@ -1,12 +1,12 @@
-From: emilne@redhat.com (Ewan D. Milne)
-Date: Tue, 27 Nov 2018 17:11:54 -0500
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 27 Nov 2018 15:21:02 -0700
 Subject: [PATCH] nvme-core: flush namespace scanning work just before
  removing namespaces
 In-Reply-To: <20181121231737.6802-1-sagi@grimberg.me>
 References: <20181121231737.6802-1-sagi@grimberg.me>
-Message-ID: <6f3e821ee1a17354ce1ac36cd5c7fa48caa72991.camel@redhat.com>
+Message-ID: <20181127222102.GC6401@localhost.localdomain>
 
-On Wed, 2018-11-21@15:17 -0800, Sagi Grimberg wrote:
+On Wed, Nov 21, 2018@03:17:37PM -0800, Sagi Grimberg wrote:
 > nvme_stop_ctrl can be called also for reset flow and there is no need to
 > flush the scan_work as namespaces are not being removed. This can cause
 > deadlock in rdma, fc and loop drivers since nvme_stop_ctrl barriers
@@ -19,14 +19,11 @@ On Wed, 2018-11-21@15:17 -0800, Sagi Grimberg wrote:
 > 
 > Reported-by: Ming Lei <ming.lei at redhat.com>
 > Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> ---
-> This is a stable candidate...
-> 
->  drivers/nvme/host/core.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index c418b7a347e0..2e0571584e7a 100644
+
+Looks good to me.
+
+Reviewed-by: Keith Busch <keith.busch at intel.com>
+
 > --- a/drivers/nvme/host/core.c
 > +++ b/drivers/nvme/host/core.c
 > @@ -3327,6 +3327,9 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
@@ -47,11 +44,4 @@ On Wed, 2018-11-21@15:17 -0800, Sagi Grimberg wrote:
 >  	cancel_work_sync(&ctrl->fw_act_work);
 >  	if (ctrl->ops->stop_ctrl)
 >  		ctrl->ops->stop_ctrl(ctrl);
-
-With this change, I can no longer reproduce the NVMe fabrics reset hangs
-I was seeing (e.g. after a few hundred resets).  A longer-duration fabric
-connection bounce test survived as well, this change looks good to me.
-
-Thanks for fixing this, Sagi.
-
-Tested-by: Ewan D. Milne <emilne at redhat.com>
+> -- 
