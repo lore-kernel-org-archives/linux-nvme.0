@@ -1,41 +1,54 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 27 Nov 2018 15:16:04 -0800
-Subject: [PATCH v4 02/13] datagram: open-code copy_page_to_iter
+Date: Tue, 27 Nov 2018 15:16:09 -0800
+Subject: [PATCH v4 07/13] nvmet: Add install_queue callout
 In-Reply-To: <20181127231615.9446-1-sagi@grimberg.me>
 References: <20181127231615.9446-1-sagi@grimberg.me>
-Message-ID: <20181127231615.9446-3-sagi@grimberg.me>
+Message-ID: <20181127231615.9446-8-sagi@grimberg.me>
 
 From: Sagi Grimberg <sagi@lightbitslabs.com>
 
-This will be useful to consolidate skb_copy_and_hash_datagram_iter and
-skb_copy_and_csum_datagram to a single code path.
+nvmet-tcp will implement it to allocate queue commands which
+are only known at nvmf connect time (sq size).
 
+Reviewed-by: Christoph Hellwig <hch at lst.de>
 Signed-off-by: Sagi Grimberg <sagi at lightbitslabs.com>
 ---
- net/core/datagram.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ drivers/nvme/target/fabrics-cmd.c | 10 ++++++++++
+ drivers/nvme/target/nvmet.h       |  1 +
+ 2 files changed, 11 insertions(+)
 
-diff --git a/net/core/datagram.c b/net/core/datagram.c
-index 57f3a6fcfc1e..abe642181b64 100644
---- a/net/core/datagram.c
-+++ b/net/core/datagram.c
-@@ -445,11 +445,14 @@ int skb_copy_datagram_iter(const struct sk_buff *skb, int offset,
+diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-cmd.c
+index 328ae46d8344..ee7d84621d65 100644
+--- a/drivers/nvme/target/fabrics-cmd.c
++++ b/drivers/nvme/target/fabrics-cmd.c
+@@ -121,6 +121,16 @@ static u16 nvmet_install_queue(struct nvmet_ctrl *ctrl, struct nvmet_req *req)
+ 		req->rsp->sq_head = cpu_to_le16(0xffff);
+ 	}
  
- 		end = start + skb_frag_size(frag);
- 		if ((copy = end - offset) > 0) {
-+			struct page *page = skb_frag_page(frag);
-+			u8 *vaddr = kmap(page);
++	if (ctrl->ops->install_queue) {
++		u16 ret = ctrl->ops->install_queue(req->sq);
 +
- 			if (copy > len)
- 				copy = len;
--			n = copy_page_to_iter(skb_frag_page(frag),
--					      frag->page_offset + offset -
--					      start, copy, to);
-+			n = copy_to_iter(vaddr + frag->page_offset +
-+					 offset - start, copy, to);
-+			kunmap(page);
- 			offset += n;
- 			if (n != copy)
- 				goto short_copy;
++		if (ret) {
++			pr_err("failed to install queue %d cntlid %d ret %x\n",
++				qid, ret, ctrl->cntlid);
++			return ret;
++		}
++	}
++
+ 	return 0;
+ }
+ 
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 7d8b7a7d572a..89df51ee5bdf 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -279,6 +279,7 @@ struct nvmet_fabrics_ops {
+ 	void (*delete_ctrl)(struct nvmet_ctrl *ctrl);
+ 	void (*disc_traddr)(struct nvmet_req *req,
+ 			struct nvmet_port *port, char *traddr);
++	u16 (*install_queue)(struct nvmet_sq *nvme_sq);
+ };
+ 
+ #define NVMET_MAX_INLINE_BIOVEC	8
 -- 
 2.17.1
