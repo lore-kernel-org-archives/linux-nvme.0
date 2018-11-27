@@ -1,58 +1,57 @@
 From: osandov@osandov.com (Omar Sandoval)
-Date: Tue, 27 Nov 2018 15:43:03 -0800
-Subject: [PATCH 3/8] blk-mq: add mq_ops->commit_rqs()
-In-Reply-To: <20181126163556.5181-4-axboe@kernel.dk>
+Date: Tue, 27 Nov 2018 15:45:38 -0800
+Subject: [PATCH 5/8] virtio_blk: implement mq_ops->commit_rqs() hook
+In-Reply-To: <20181126163556.5181-6-axboe@kernel.dk>
 References: <20181126163556.5181-1-axboe@kernel.dk>
- <20181126163556.5181-4-axboe@kernel.dk>
-Message-ID: <20181127234303.GC846@vader>
+ <20181126163556.5181-6-axboe@kernel.dk>
+Message-ID: <20181127234538.GD846@vader>
 
-On Mon, Nov 26, 2018@09:35:51AM -0700, Jens Axboe wrote:
-> blk-mq passes information to the hardware about any given request being
-> the last that we will issue in this sequence. The point is that hardware
-> can defer costly doorbell type writes to the last request. But if we run
-> into errors issuing a sequence of requests, we may never send the request
-> with bd->last == true set. For that case, we need a hook that tells the
-> hardware that nothing else is coming right now.
-> 
-> For failures returned by the drivers ->queue_rq() hook, the driver is
-> responsible for flushing pending requests, if it uses bd->last to
-> optimize that part. This works like before, no changes there.
+On Mon, Nov 26, 2018@09:35:53AM -0700, Jens Axboe wrote:
+> We need this for blk-mq to kick things into gear, if we told it that
+> we had more IO coming, but then failed to deliver on that promise.
 
 Reviewed-by: Omar Sandoval <osandov at fb.com>
 
+But also cc'd the virtio-blk maintainers.
+
 > Signed-off-by: Jens Axboe <axboe at kernel.dk>
 > ---
->  include/linux/blk-mq.h | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+>  drivers/block/virtio_blk.c | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
 > 
-> diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-> index ca0520ca6437..1fd139b65a6e 100644
-> --- a/include/linux/blk-mq.h
-> +++ b/include/linux/blk-mq.h
-> @@ -117,6 +117,7 @@ struct blk_mq_queue_data {
+> diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
+> index 6e869d05f91e..b49c57e77780 100644
+> --- a/drivers/block/virtio_blk.c
+> +++ b/drivers/block/virtio_blk.c
+> @@ -214,6 +214,20 @@ static void virtblk_done(struct virtqueue *vq)
+>  	spin_unlock_irqrestore(&vblk->vqs[qid].lock, flags);
+>  }
 >  
->  typedef blk_status_t (queue_rq_fn)(struct blk_mq_hw_ctx *,
->  		const struct blk_mq_queue_data *);
-> +typedef void (commit_rqs_fn)(struct blk_mq_hw_ctx *);
->  /* takes rq->cmd_flags as input, returns a hardware type index */
->  typedef int (rq_flags_to_type_fn)(struct request_queue *, unsigned int);
->  typedef bool (get_budget_fn)(struct blk_mq_hw_ctx *);
-> @@ -144,6 +145,15 @@ struct blk_mq_ops {
->  	 */
->  	queue_rq_fn		*queue_rq;
->  
-> +	/*
-> +	 * If a driver uses bd->last to judge when to submit requests to
-> +	 * hardware, it must define this function. In case of errors that
-> +	 * make us stop issuing further requests, this hook serves the
-> +	 * purpose of kicking the hardware (which the last request otherwise
-> +	 * would have done).
-> +	 */
-> +	commit_rqs_fn		*commit_rqs;
+> +static void virtio_commit_rqs(struct blk_mq_hw_ctx *hctx)
+> +{
+> +	struct virtio_blk *vblk = hctx->queue->queuedata;
+> +	int qid = hctx->queue_num;
+> +	bool kick;
 > +
->  	/*
->  	 * Return a queue map type for the given request/bio flags
->  	 */
+> +	spin_lock_irq(&vblk->vqs[qid].lock);
+> +	kick = virtqueue_kick_prepare(vblk->vqs[qid].vq);
+> +	spin_unlock_irq(&vblk->vqs[qid].lock);
+> +
+> +	if (kick)
+> +		virtqueue_notify(vblk->vqs[qid].vq);
+> +}
+> +
+>  static blk_status_t virtio_queue_rq(struct blk_mq_hw_ctx *hctx,
+>  			   const struct blk_mq_queue_data *bd)
+>  {
+> @@ -638,6 +652,7 @@ static void virtblk_initialize_rq(struct request *req)
+>  
+>  static const struct blk_mq_ops virtio_mq_ops = {
+>  	.queue_rq	= virtio_queue_rq,
+> +	.commit_rqs	= virtio_commit_rqs,
+>  	.complete	= virtblk_request_done,
+>  	.init_request	= virtblk_init_request,
+>  #ifdef CONFIG_VIRTIO_BLK_SCSI
 > -- 
 > 2.17.1
 > 
