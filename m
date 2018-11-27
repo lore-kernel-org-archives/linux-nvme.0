@@ -1,26 +1,57 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Tue, 27 Nov 2018 09:07:52 -0800
-Subject: [PATCH] nvme-fc: initialize nvme_req(rq)->ctrl after calling
- __nvme_fc_init_request()
-In-Reply-To: <20181126170130.8591-1-emilne@redhat.com>
-References: <20181126170130.8591-1-emilne@redhat.com>
-Message-ID: <ac63d3c1-73ce-a96c-fa41-9191b26e96ab@broadcom.com>
+From: emilne@redhat.com (Ewan D. Milne)
+Date: Tue, 27 Nov 2018 17:11:54 -0500
+Subject: [PATCH] nvme-core: flush namespace scanning work just before
+ removing namespaces
+In-Reply-To: <20181121231737.6802-1-sagi@grimberg.me>
+References: <20181121231737.6802-1-sagi@grimberg.me>
+Message-ID: <6f3e821ee1a17354ce1ac36cd5c7fa48caa72991.camel@redhat.com>
 
-
-
-On 11/26/2018 9:01 AM, Ewan D. Milne wrote:
-> __nvme_fc_init_request() invokes memset() on the nvme_fcp_op_w_sgl structure, which
-> NULLed-out the nvme_req(req)->ctrl field previously set by nvme_fc_init_request().
-> This apparently was not referenced until commit faf4a44fff ("nvme: support traffic
-> based keep-alive") which now results in a crash in nvme_complete_rq():
->
-> ...
->
-> Fixes: faf4a44fff ("nvme: support traffic based keep-alive")
-> Signed-off-by: Ewan D. Milne <emilne at redhat.com>
+On Wed, 2018-11-21@15:17 -0800, Sagi Grimberg wrote:
+> nvme_stop_ctrl can be called also for reset flow and there is no need to
+> flush the scan_work as namespaces are not being removed. This can cause
+> deadlock in rdma, fc and loop drivers since nvme_stop_ctrl barriers
+> before controller teardown (and specifically I/O cancellation of the
+> scan_work itself) takes place, but the scan_work will be blocked anyways
+> so there is no need to flush it.
+> 
+> Instead, move scan_work flush to nvme_remove_namespaces() where it really
+> needs to flush.
+> 
+> Reported-by: Ming Lei <ming.lei at redhat.com>
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 > ---
->
+> This is a stable candidate...
+> 
+>  drivers/nvme/host/core.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index c418b7a347e0..2e0571584e7a 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -3327,6 +3327,9 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
+>  	struct nvme_ns *ns, *next;
+>  	LIST_HEAD(ns_list);
+>  
+> +	/* prevent racing with ns scanning */
+> +	flush_work(&ctrl->scan_work);
+> +
+>  	/*
+>  	 * The dead states indicates the controller was not gracefully
+>  	 * disconnected. In that case, we won't be able to flush any data while
+> @@ -3489,7 +3492,6 @@ void nvme_stop_ctrl(struct nvme_ctrl *ctrl)
+>  	nvme_mpath_stop(ctrl);
+>  	nvme_stop_keep_alive(ctrl);
+>  	flush_work(&ctrl->async_event_work);
+> -	flush_work(&ctrl->scan_work);
+>  	cancel_work_sync(&ctrl->fw_act_work);
+>  	if (ctrl->ops->stop_ctrl)
+>  		ctrl->ops->stop_ctrl(ctrl);
 
-looks good. Thank Ewan.
+With this change, I can no longer reproduce the NVMe fabrics reset hangs
+I was seeing (e.g. after a few hundred resets).  A longer-duration fabric
+connection bounce test survived as well, this change looks good to me.
 
--- james
+Thanks for fixing this, Sagi.
+
+Tested-by: Ewan D. Milne <emilne at redhat.com>
