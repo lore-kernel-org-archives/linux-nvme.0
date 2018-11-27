@@ -1,48 +1,55 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 27 Nov 2018 02:05:14 +0200
-Subject: [PATCH v3 13/13] nvme-tcp: add NVMe over TCP host driver
-In-Reply-To: <af432c70-1b3a-6c62-bb13-67bf7df1a43f@grimberg.me>
-References: <20181122015615.15763-1-sagi@grimberg.me>
- <20181122015615.15763-14-sagi@grimberg.me> <20181122080224.GA26504@lst.de>
- <af432c70-1b3a-6c62-bb13-67bf7df1a43f@grimberg.me>
-Message-ID: <e4407485-843a-7968-c367-29d60baf8373@mellanox.com>
+Date: Tue, 27 Nov 2018 02:38:04 +0200
+Subject: block and nvme polling improvements
+In-Reply-To: <20181121162347.17430-1-hch@lst.de>
+References: <20181121162347.17430-1-hch@lst.de>
+Message-ID: <2afdac7a-e031-0d51-38cc-b8ce39b91c79@mellanox.com>
 
-+static enum blk_eh_timer_return
->>> +nvme_tcp_timeout(struct request *rq, bool reserved)
->>> +{
->>> +??? struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
->>> +??? struct nvme_tcp_ctrl *ctrl = req->queue->ctrl;
->>> +??? struct nvme_tcp_cmd_pdu *pdu = req->pdu;
->>> +
->>> +??? dev_dbg(ctrl->ctrl.device,
->>> +??????? "queue %d: timeout request %#x type %d\n",
->>> +??????? nvme_tcp_queue_id(req->queue), rq->tag,
->>> +??????? pdu->hdr.type);
->>> +
->>> +??? if (ctrl->ctrl.state != NVME_CTRL_LIVE) {
->>> +??????? union nvme_result res = {};
->>> +
->>> +??????? nvme_req(rq)->flags |= NVME_REQ_CANCELLED;
->>> +??????? nvme_end_request(rq, NVME_SC_ABORT_REQ, res);
->>> +??????? return BLK_EH_DONE;
->>
->> This looks odd.? It's not really the timeout handlers job to
->> call nvme_end_request here.
+
+On 11/21/2018 6:23 PM, Christoph Hellwig wrote:
+> Hi all,
 >
-> Well.. if we are not yet LIVE, we will not trigger error
-> recovery, which means nothing will complete this command so
-> something needs to do it...
+> this series optimizes a few bits in the block layer and nvme code
+> related to polling.
 >
-> I think that we need it for rdma too..
+> It starts by moving the queue types recently introduce entirely into
+> the block layer instead of requiring an indirect call for them.
+>
+> It then switches nvme and the block layer to only allow polling
+> with separate poll queues, which allows us to realize the following
+> benefits:
+>
+>   - poll queues can safely avoid disabling irqs on any locks
+>     (we already do that in NVMe, but it isn't 100% kosher as-is)
+>   - regular interrupt driven queues can drop the CQ lock entirely,
+>     as we won't race for completing CQs
+>
+> Then we drop the NVMe RDMA code, as it doesn't follow the new mode,
+> and remove the nvme multipath polling code including the block hooks
+> for it, which didn't make much sense to start with given that we
+> started bypassing the multipath code for single controller subsystems
+> early on.  Last but not least we enable polling in the block layer
+> by default if the underlying driver has poll queues, as that already
+> requires explicit user action.
+>
+> Note that it would be really nice to have polling back for RDMA with
+> dedicated poll queues, but that might take a while.  Also based on
+> Jens' polling aio patches we could now implement a model in nvmet
+> where we have a thread polling both the backend nvme device and
+> the RDMA CQs, which might give us some pretty nice performace
+> (I know Sagi looked into something similar a while ago).
 
+That's interesting. Can you share more on that ? what is the model 
+(thread per core ?)
 
-yes we do. and we've patches in our pipe.
-
-I'm thinking on a wider change in the error/recovery flows but might 
-send it "as is" meanwhile.
+I'll take a deeper look into polling aio patches from Jens.
 
 
 >
-> ...
+> A git tree is also available at:
 >
-> The rest of the comments will be addressed in the next submission..
+>      git://git.infradead.org/users/hch/misc.git nvme-polling
+>
+> Gitweb:
+>
+>      http://git.infradead.org/users/hch/block.git/shortlog/refs/heads/nvme-polling
