@@ -1,54 +1,99 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 27 Nov 2018 15:16:09 -0800
-Subject: [PATCH v4 07/13] nvmet: Add install_queue callout
+Date: Tue, 27 Nov 2018 15:16:03 -0800
+Subject: [PATCH v4 01/13] ath6kl: add ath6kl_ prefix to crypto_type
 In-Reply-To: <20181127231615.9446-1-sagi@grimberg.me>
 References: <20181127231615.9446-1-sagi@grimberg.me>
-Message-ID: <20181127231615.9446-8-sagi@grimberg.me>
+Message-ID: <20181127231615.9446-2-sagi@grimberg.me>
 
 From: Sagi Grimberg <sagi@lightbitslabs.com>
 
-nvmet-tcp will implement it to allocate queue commands which
-are only known at nvmf connect time (sq size).
+Prevent a namespace conflict as in following patches as skbuff.h will
+include the crypto API.
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+Cc: Kalle Valo <kvalo at codeaurora.org>
 Signed-off-by: Sagi Grimberg <sagi at lightbitslabs.com>
 ---
- drivers/nvme/target/fabrics-cmd.c | 10 ++++++++++
- drivers/nvme/target/nvmet.h       |  1 +
- 2 files changed, 11 insertions(+)
+ drivers/net/wireless/ath/ath6kl/cfg80211.c | 2 +-
+ drivers/net/wireless/ath/ath6kl/common.h   | 2 +-
+ drivers/net/wireless/ath/ath6kl/wmi.c      | 6 +++---
+ drivers/net/wireless/ath/ath6kl/wmi.h      | 6 +++---
+ 4 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-cmd.c
-index 328ae46d8344..ee7d84621d65 100644
---- a/drivers/nvme/target/fabrics-cmd.c
-+++ b/drivers/nvme/target/fabrics-cmd.c
-@@ -121,6 +121,16 @@ static u16 nvmet_install_queue(struct nvmet_ctrl *ctrl, struct nvmet_req *req)
- 		req->rsp->sq_head = cpu_to_le16(0xffff);
- 	}
+diff --git a/drivers/net/wireless/ath/ath6kl/cfg80211.c b/drivers/net/wireless/ath/ath6kl/cfg80211.c
+index e121187f371f..fa049c4ae315 100644
+--- a/drivers/net/wireless/ath/ath6kl/cfg80211.c
++++ b/drivers/net/wireless/ath/ath6kl/cfg80211.c
+@@ -1322,7 +1322,7 @@ static int ath6kl_cfg80211_set_default_key(struct wiphy *wiphy,
+ 	struct ath6kl_vif *vif = netdev_priv(ndev);
+ 	struct ath6kl_key *key = NULL;
+ 	u8 key_usage;
+-	enum crypto_type key_type = NONE_CRYPT;
++	enum ath6kl_crypto_type key_type = NONE_CRYPT;
  
-+	if (ctrl->ops->install_queue) {
-+		u16 ret = ctrl->ops->install_queue(req->sq);
-+
-+		if (ret) {
-+			pr_err("failed to install queue %d cntlid %d ret %x\n",
-+				qid, ret, ctrl->cntlid);
-+			return ret;
-+		}
-+	}
-+
- 	return 0;
+ 	ath6kl_dbg(ATH6KL_DBG_WLAN_CFG, "%s: index %d\n", __func__, key_index);
+ 
+diff --git a/drivers/net/wireless/ath/ath6kl/common.h b/drivers/net/wireless/ath/ath6kl/common.h
+index 4f82e8632d37..d6e5234f67a1 100644
+--- a/drivers/net/wireless/ath/ath6kl/common.h
++++ b/drivers/net/wireless/ath/ath6kl/common.h
+@@ -67,7 +67,7 @@ struct ath6kl_llc_snap_hdr {
+ 	__be16 eth_type;
+ } __packed;
+ 
+-enum crypto_type {
++enum ath6kl_crypto_type {
+ 	NONE_CRYPT          = 0x01,
+ 	WEP_CRYPT           = 0x02,
+ 	TKIP_CRYPT          = 0x04,
+diff --git a/drivers/net/wireless/ath/ath6kl/wmi.c b/drivers/net/wireless/ath/ath6kl/wmi.c
+index 777acc564ac9..9d7ac1ab2d02 100644
+--- a/drivers/net/wireless/ath/ath6kl/wmi.c
++++ b/drivers/net/wireless/ath/ath6kl/wmi.c
+@@ -1849,9 +1849,9 @@ int ath6kl_wmi_connect_cmd(struct wmi *wmi, u8 if_idx,
+ 			   enum network_type nw_type,
+ 			   enum dot11_auth_mode dot11_auth_mode,
+ 			   enum auth_mode auth_mode,
+-			   enum crypto_type pairwise_crypto,
++			   enum ath6kl_crypto_type pairwise_crypto,
+ 			   u8 pairwise_crypto_len,
+-			   enum crypto_type group_crypto,
++			   enum ath6kl_crypto_type group_crypto,
+ 			   u8 group_crypto_len, int ssid_len, u8 *ssid,
+ 			   u8 *bssid, u16 channel, u32 ctrl_flags,
+ 			   u8 nw_subtype)
+@@ -2301,7 +2301,7 @@ int ath6kl_wmi_disctimeout_cmd(struct wmi *wmi, u8 if_idx, u8 timeout)
  }
  
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 7d8b7a7d572a..89df51ee5bdf 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -279,6 +279,7 @@ struct nvmet_fabrics_ops {
- 	void (*delete_ctrl)(struct nvmet_ctrl *ctrl);
- 	void (*disc_traddr)(struct nvmet_req *req,
- 			struct nvmet_port *port, char *traddr);
-+	u16 (*install_queue)(struct nvmet_sq *nvme_sq);
- };
+ int ath6kl_wmi_addkey_cmd(struct wmi *wmi, u8 if_idx, u8 key_index,
+-			  enum crypto_type key_type,
++			  enum ath6kl_crypto_type key_type,
+ 			  u8 key_usage, u8 key_len,
+ 			  u8 *key_rsc, unsigned int key_rsc_len,
+ 			  u8 *key_material,
+diff --git a/drivers/net/wireless/ath/ath6kl/wmi.h b/drivers/net/wireless/ath/ath6kl/wmi.h
+index a60bb49fe920..784940ba4c90 100644
+--- a/drivers/net/wireless/ath/ath6kl/wmi.h
++++ b/drivers/net/wireless/ath/ath6kl/wmi.h
+@@ -2556,9 +2556,9 @@ int ath6kl_wmi_connect_cmd(struct wmi *wmi, u8 if_idx,
+ 			   enum network_type nw_type,
+ 			   enum dot11_auth_mode dot11_auth_mode,
+ 			   enum auth_mode auth_mode,
+-			   enum crypto_type pairwise_crypto,
++			   enum ath6kl_crypto_type pairwise_crypto,
+ 			   u8 pairwise_crypto_len,
+-			   enum crypto_type group_crypto,
++			   enum ath6kl_crypto_type group_crypto,
+ 			   u8 group_crypto_len, int ssid_len, u8 *ssid,
+ 			   u8 *bssid, u16 channel, u32 ctrl_flags,
+ 			   u8 nw_subtype);
+@@ -2610,7 +2610,7 @@ int ath6kl_wmi_config_debug_module_cmd(struct wmi *wmi, u32 valid, u32 config);
  
- #define NVMET_MAX_INLINE_BIOVEC	8
+ int ath6kl_wmi_get_stats_cmd(struct wmi *wmi, u8 if_idx);
+ int ath6kl_wmi_addkey_cmd(struct wmi *wmi, u8 if_idx, u8 key_index,
+-			  enum crypto_type key_type,
++			  enum ath6kl_crypto_type key_type,
+ 			  u8 key_usage, u8 key_len,
+ 			  u8 *key_rsc, unsigned int key_rsc_len,
+ 			  u8 *key_material,
 -- 
 2.17.1
