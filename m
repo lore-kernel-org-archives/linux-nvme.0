@@ -1,74 +1,65 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Tue, 27 Nov 2018 19:37:41 -0700
-Subject: [PATCH 7/8] blk-mq: use bd->last == true for list inserts
-In-Reply-To: <20181128014922.GE11128@ming.t460p>
+From: mst@redhat.com (Michael S. Tsirkin)
+Date: Tue, 27 Nov 2018 22:05:18 -0500
+Subject: [PATCH 5/8] virtio_blk: implement mq_ops->commit_rqs() hook
+In-Reply-To: <20181127234538.GD846@vader>
 References: <20181126163556.5181-1-axboe@kernel.dk>
- <20181126163556.5181-8-axboe@kernel.dk> <20181128014922.GE11128@ming.t460p>
-Message-ID: <c148e021-6c93-38c8-662e-0c123bf26e87@kernel.dk>
+ <20181126163556.5181-6-axboe@kernel.dk>
+ <20181127234538.GD846@vader>
+Message-ID: <20181127220128-mutt-send-email-mst@kernel.org>
 
-On 11/27/18 6:49 PM, Ming Lei wrote:
-> On Mon, Nov 26, 2018@09:35:55AM -0700, Jens Axboe wrote:
->> If we are issuing a list of requests, we know if we're at the last one.
->> If we fail issuing, ensure that we call ->commits_rqs() to flush any
->> potential previous requests.
->>
->> Signed-off-by: Jens Axboe <axboe at kernel.dk>
->> ---
->>  block/blk-core.c |  2 +-
->>  block/blk-mq.c   | 32 ++++++++++++++++++++++++--------
->>  block/blk-mq.h   |  2 +-
->>  3 files changed, 26 insertions(+), 10 deletions(-)
->>
->> diff --git a/block/blk-core.c b/block/blk-core.c
->> index c9758d185357..808a65d23f1a 100644
->> --- a/block/blk-core.c
->> +++ b/block/blk-core.c
->> @@ -1334,7 +1334,7 @@ blk_status_t blk_insert_cloned_request(struct request_queue *q, struct request *
->>  	 * bypass a potential scheduler on the bottom device for
->>  	 * insert.
->>  	 */
->> -	return blk_mq_request_issue_directly(rq);
->> +	return blk_mq_request_issue_directly(rq, true);
->>  }
->>  EXPORT_SYMBOL_GPL(blk_insert_cloned_request);
->>  
->> diff --git a/block/blk-mq.c b/block/blk-mq.c
->> index 6a249bf6ed00..0a12cec0b426 100644
->> --- a/block/blk-mq.c
->> +++ b/block/blk-mq.c
->> @@ -1260,6 +1260,14 @@ bool blk_mq_dispatch_rq_list(struct request_queue *q, struct list_head *list,
->>  	if (!list_empty(list)) {
->>  		bool needs_restart;
->>  
->> +		/*
->> +		 * If we didn't flush the entire list, we could have told
->> +		 * the driver there was more coming, but that turned out to
->> +		 * be a lie.
->> +		 */
->> +		if (q->mq_ops->commit_rqs)
->> +			q->mq_ops->commit_rqs(hctx);
->> +
+On Tue, Nov 27, 2018@03:45:38PM -0800, Omar Sandoval wrote:
+> On Mon, Nov 26, 2018@09:35:53AM -0700, Jens Axboe wrote:
+> > We need this for blk-mq to kick things into gear, if we told it that
+> > we had more IO coming, but then failed to deliver on that promise.
 > 
-> Looks you miss to do it for blk_mq_do_dispatch_sched() and
-> blk_mq_do_dispatch_ctx(), in which only one request is added to
-> the rq_list.
+> Reviewed-by: Omar Sandoval <osandov at fb.com>
+> 
+> But also cc'd the virtio-blk maintainers.
 
-blk_mq_do_dispatch() is handled through blk_mq_dispatch_rq_list(),
-it doesn't need to do this on its own, it's only working on
-single requests.
+Acked-by: Michael S. Tsirkin <mst at redhat.com>
 
-Ditto for blk_mq_do_dispatch()
 
-> Maybe we can call the .commit_rqs(hctx) just at the end of
-> blk_mq_sched_dispatch_requests() for cover all non-direct-issue
-> cases.
+Feel free to queue with other changes.
 
-I think you miss the point of ->commits_rqs() - it's only meant to
-catch the case where we set bd->last == false, and never got to
-the end. Like not getting a driver tag, for instance. It's not
-meant to always be a kick things into gear, it's more efficient
-to use bd->last for the general case, as most drivers require some
-sort of locking for the submission.
 
--- 
-Jens Axboe
+> > Signed-off-by: Jens Axboe <axboe at kernel.dk>
+> > ---
+> >  drivers/block/virtio_blk.c | 15 +++++++++++++++
+> >  1 file changed, 15 insertions(+)
+> > 
+> > diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
+> > index 6e869d05f91e..b49c57e77780 100644
+> > --- a/drivers/block/virtio_blk.c
+> > +++ b/drivers/block/virtio_blk.c
+> > @@ -214,6 +214,20 @@ static void virtblk_done(struct virtqueue *vq)
+> >  	spin_unlock_irqrestore(&vblk->vqs[qid].lock, flags);
+> >  }
+> >  
+> > +static void virtio_commit_rqs(struct blk_mq_hw_ctx *hctx)
+> > +{
+> > +	struct virtio_blk *vblk = hctx->queue->queuedata;
+> > +	int qid = hctx->queue_num;
+> > +	bool kick;
+> > +
+> > +	spin_lock_irq(&vblk->vqs[qid].lock);
+> > +	kick = virtqueue_kick_prepare(vblk->vqs[qid].vq);
+> > +	spin_unlock_irq(&vblk->vqs[qid].lock);
+> > +
+> > +	if (kick)
+> > +		virtqueue_notify(vblk->vqs[qid].vq);
+> > +}
+> > +
+> >  static blk_status_t virtio_queue_rq(struct blk_mq_hw_ctx *hctx,
+> >  			   const struct blk_mq_queue_data *bd)
+> >  {
+> > @@ -638,6 +652,7 @@ static void virtblk_initialize_rq(struct request *req)
+> >  
+> >  static const struct blk_mq_ops virtio_mq_ops = {
+> >  	.queue_rq	= virtio_queue_rq,
+> > +	.commit_rqs	= virtio_commit_rqs,
+> >  	.complete	= virtblk_request_done,
+> >  	.init_request	= virtblk_init_request,
+> >  #ifdef CONFIG_VIRTIO_BLK_SCSI
+> > -- 
+> > 2.17.1
+> > 
