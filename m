@@ -1,52 +1,35 @@
 From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 28 Nov 2018 06:11:33 -0700
-Subject: [PATCH 8/8] blk-mq: add plug case for devices that implement
- ->commits_rqs()
-In-Reply-To: <20181128072655.GE11774@infradead.org>
-References: <20181126163556.5181-1-axboe@kernel.dk>
- <20181126163556.5181-9-axboe@kernel.dk>
- <20181128072655.GE11774@infradead.org>
-Message-ID: <3976c13f-4a64-38cc-24a0-645842618b0b@kernel.dk>
+Date: Wed, 28 Nov 2018 06:35:31 -0700
+Subject: [PATCHSET v2 0/8] block plugging improvements
+Message-ID: <20181128133538.20329-1-axboe@kernel.dk>
 
-On 11/28/18 12:26 AM, Christoph Hellwig wrote:
->> +	} else if (plug && q->mq_ops->commit_rqs) {
->> +		/*
->> +		 * If we have a ->commit_rqs(), then we know the driver can
->> +		 * batch submission doorbell updates. Add rq to plug list,
->> +		 * and flush if we exceed the plug count only.
->> +		 */
->> +		blk_mq_bio_to_request(rq, bio);
->> +		blk_mq_put_ctx(data.ctx);
->> +
->> +		/*
->> +		 * If we have requests for more than one queue here, we
->> +		 * should sort the list when it's flushed.
->> +		 */
->> +		if (!plug->do_sort && !list_empty(&plug->mq_list)) {
->> +			same_queue_rq = list_first_entry(&plug->mq_list,
->> +						struct request, queuelist);
->> +			if (same_queue_rq->q != q)
->> +				plug->do_sort = true;
->> +		}
->> +
->> +		list_add_tail(&rq->queuelist, &plug->mq_list);
->> +		plug->rq_count++;
->> +		if (plug->rq_count >= BLK_MAX_REQUEST_COUNT) {
->> +			blk_flush_plug_list(plug, false);
->> +			trace_block_plug(q);
->> +		}
-> 
-> This seems like a slight variation of the the single queue plug
-> case.  Can we share the code instead of having slightly differing
-> logic?
+Series improving plugging for fast devices, but some fixes in here too.
 
-I'll see if I can fold them.
+Patch 1 changes the logic for when we sort the plug list, switching
+it to only doing it if we have requests for multiple queues in the
+plug (and enough requests to warrant an actual sort).
 
-> Also that should this respect blk_queue_nomerges?
+2-6 add a ->commit_rqs() hook and implement it in drivers that use (or
+will use) bd->last to optimize IO submission. If a driver currently uses
+bd->last to know if it's needed to kick the hardware into action, there
+are cases where we flag bd->last == false, but then fail to submit any
+further IO due to other resource constraints. We probably get saved by
+the fact that this happens for the case where we have pending IO and
+that will eventually guarantee forward progress, but we really should
+kick IO into gear at that point.
 
-It doesn't do any merging at all, it's just batching for the list
-inserts. In terms of plug merging, if nomerges isn't true, then we would
-have done that further up.
+7 improves plugging for blk-mq.
+
+In terms of improvements, for virtualized nvme, I've seen a 2-x IOPS
+improvement with proper handling of bd->last with this series.
+
+Changes since v1:
+
+- Fold the plug case for blk-mq, do it if we have 1 hw queue, or
+  if we have ->commit_rqs().
+- Add disable/enable IRQ to ataflop
+- Drop nvme ring index helper
+- Rework when to sort patch
 
 -- 
 Jens Axboe
