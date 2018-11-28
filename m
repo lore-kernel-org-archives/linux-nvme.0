@@ -1,135 +1,120 @@
 From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 28 Nov 2018 06:35:34 -0700
-Subject: [PATCH 3/7] nvme: implement mq_ops->commit_rqs() hook
+Date: Wed, 28 Nov 2018 06:35:37 -0700
+Subject: [PATCH 6/7] blk-mq: use bd->last == true for list inserts
 In-Reply-To: <20181128133538.20329-1-axboe@kernel.dk>
 References: <20181128133538.20329-1-axboe@kernel.dk>
-Message-ID: <20181128133538.20329-4-axboe@kernel.dk>
+Message-ID: <20181128133538.20329-7-axboe@kernel.dk>
 
-Split the command submission and the SQ doorbell ring, and add the
-doorbell ring as our ->commit_rqs() hook. This allows a list of
-requests to be issued, with nvme only writing the SQ update when
-it's necessary. This is more efficient if we have lists of requests
-to issue, particularly on virtualized hardware, where writing the
-SQ doorbell is more expensive than on real hardware. For those cases,
-performance increases of 2-3x have been observed.
+If we are issuing a list of requests, we know if we're at the last one.
+If we fail issuing, ensure that we call ->commits_rqs() to flush any
+potential previous requests.
 
-The use case for this is plugged IO, where blk-mq flushes a batch of
-requests at the time.
-
+Reviewed-by: Omar Sandoval <osandov at fb.com>
 Signed-off-by: Jens Axboe <axboe at kernel.dk>
 ---
- drivers/nvme/host/pci.c | 52 ++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 46 insertions(+), 6 deletions(-)
+ block/blk-core.c |  2 +-
+ block/blk-mq.c   | 16 ++++++++--------
+ block/blk-mq.h   |  2 +-
+ 3 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 73effe586e5f..42472bd0cfed 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -203,6 +203,7 @@ struct nvme_queue {
- 	u16 q_depth;
- 	s16 cq_vector;
- 	u16 sq_tail;
-+	u16 last_sq_tail;
- 	u16 cq_head;
- 	u16 last_cq_head;
- 	u16 qid;
-@@ -522,22 +523,59 @@ static int nvme_pci_map_queues(struct blk_mq_tag_set *set)
- 	return 0;
+diff --git a/block/blk-core.c b/block/blk-core.c
+index d107d016b92b..3f6f5e6c2fe4 100644
+--- a/block/blk-core.c
++++ b/block/blk-core.c
+@@ -1334,7 +1334,7 @@ blk_status_t blk_insert_cloned_request(struct request_queue *q, struct request *
+ 	 * bypass a potential scheduler on the bottom device for
+ 	 * insert.
+ 	 */
+-	return blk_mq_request_issue_directly(rq);
++	return blk_mq_request_issue_directly(rq, true);
  }
+ EXPORT_SYMBOL_GPL(blk_insert_cloned_request);
  
-+static inline void nvme_write_sq_db(struct nvme_queue *nvmeq)
-+{
-+	if (nvme_dbbuf_update_and_check_event(nvmeq->sq_tail,
-+			nvmeq->dbbuf_sq_db, nvmeq->dbbuf_sq_ei))
-+		writel(nvmeq->sq_tail, nvmeq->q_db);
-+	nvmeq->last_sq_tail = nvmeq->sq_tail;
-+}
-+
-+static inline int nvme_next_ring_index(struct nvme_queue *nvmeq, u16 index)
-+{
-+	if (++index == nvmeq->q_depth)
-+		return 0;
-+
-+	return index;
-+}
-+
- /**
-  * nvme_submit_cmd() - Copy a command into a queue and ring the doorbell
-  * @nvmeq: The queue to use
-  * @cmd: The command to send
-+ * @write_sq: whether to write to the SQ doorbell
-  */
--static void nvme_submit_cmd(struct nvme_queue *nvmeq, struct nvme_command *cmd)
-+static void nvme_submit_cmd(struct nvme_queue *nvmeq, struct nvme_command *cmd,
-+			    bool write_sq)
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 18ff47a85ad3..9e1045152e45 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -1743,12 +1743,12 @@ static blk_qc_t request_to_qc_t(struct blk_mq_hw_ctx *hctx, struct request *rq)
+ 
+ static blk_status_t __blk_mq_issue_directly(struct blk_mq_hw_ctx *hctx,
+ 					    struct request *rq,
+-					    blk_qc_t *cookie)
++					    blk_qc_t *cookie, bool last)
  {
-+	u16 next_tail;
-+
- 	spin_lock(&nvmeq->sq_lock);
- 
- 	memcpy(&nvmeq->sq_cmds[nvmeq->sq_tail], cmd, sizeof(*cmd));
- 
- 	if (++nvmeq->sq_tail == nvmeq->q_depth)
- 		nvmeq->sq_tail = 0;
--	if (nvme_dbbuf_update_and_check_event(nvmeq->sq_tail,
--			nvmeq->dbbuf_sq_db, nvmeq->dbbuf_sq_ei))
--		writel(nvmeq->sq_tail, nvmeq->q_db);
-+
-+	next_tail = nvmeq->sq_tail + 1;
-+	if (next_tail == nvmeq->q_depth)
-+		next_tail = 0;
-+
-+	/*
-+	 * Write sq tail if we have to, OR if the next command would wrap
-+	 */
-+	if (write_sq || next_tail == nvmeq->last_sq_tail)
-+		nvme_write_sq_db(nvmeq);
-+	spin_unlock(&nvmeq->sq_lock);
-+}
-+
-+static void nvme_commit_rqs(struct blk_mq_hw_ctx *hctx)
-+{
-+	struct nvme_queue *nvmeq = hctx->driver_data;
-+
-+	spin_lock(&nvmeq->sq_lock);
-+	if (nvmeq->sq_tail != nvmeq->last_sq_tail)
-+		nvme_write_sq_db(nvmeq);
- 	spin_unlock(&nvmeq->sq_lock);
- }
- 
-@@ -923,7 +961,7 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	struct request_queue *q = rq->q;
+ 	struct blk_mq_queue_data bd = {
+ 		.rq = rq,
+-		.last = true,
++		.last = last,
+ 	};
+ 	blk_qc_t new_cookie;
+ 	blk_status_t ret;
+@@ -1783,7 +1783,7 @@ static blk_status_t __blk_mq_issue_directly(struct blk_mq_hw_ctx *hctx,
+ static blk_status_t __blk_mq_try_issue_directly(struct blk_mq_hw_ctx *hctx,
+ 						struct request *rq,
+ 						blk_qc_t *cookie,
+-						bool bypass_insert)
++						bool bypass_insert, bool last)
+ {
+ 	struct request_queue *q = rq->q;
+ 	bool run_queue = true;
+@@ -1812,7 +1812,7 @@ static blk_status_t __blk_mq_try_issue_directly(struct blk_mq_hw_ctx *hctx,
+ 		goto insert;
  	}
  
- 	blk_mq_start_request(req);
--	nvme_submit_cmd(nvmeq, &cmnd);
-+	nvme_submit_cmd(nvmeq, &cmnd, bd->last);
- 	return BLK_STS_OK;
- out_cleanup_iod:
- 	nvme_free_iod(dev, req);
-@@ -1108,7 +1146,7 @@ static void nvme_pci_submit_async_event(struct nvme_ctrl *ctrl)
- 	memset(&c, 0, sizeof(c));
- 	c.common.opcode = nvme_admin_async_event;
- 	c.common.command_id = NVME_AQ_BLK_MQ_DEPTH;
--	nvme_submit_cmd(nvmeq, &c);
-+	nvme_submit_cmd(nvmeq, &c, true);
+-	return __blk_mq_issue_directly(hctx, rq, cookie);
++	return __blk_mq_issue_directly(hctx, rq, cookie, last);
+ insert:
+ 	if (bypass_insert)
+ 		return BLK_STS_RESOURCE;
+@@ -1831,7 +1831,7 @@ static void blk_mq_try_issue_directly(struct blk_mq_hw_ctx *hctx,
+ 
+ 	hctx_lock(hctx, &srcu_idx);
+ 
+-	ret = __blk_mq_try_issue_directly(hctx, rq, cookie, false);
++	ret = __blk_mq_try_issue_directly(hctx, rq, cookie, false, true);
+ 	if (ret == BLK_STS_RESOURCE || ret == BLK_STS_DEV_RESOURCE)
+ 		blk_mq_sched_insert_request(rq, false, true, false);
+ 	else if (ret != BLK_STS_OK)
+@@ -1840,7 +1840,7 @@ static void blk_mq_try_issue_directly(struct blk_mq_hw_ctx *hctx,
+ 	hctx_unlock(hctx, srcu_idx);
  }
  
- static int adapter_delete_queue(struct nvme_dev *dev, u8 opcode, u16 id)
-@@ -1531,6 +1569,7 @@ static void nvme_init_queue(struct nvme_queue *nvmeq, u16 qid)
+-blk_status_t blk_mq_request_issue_directly(struct request *rq)
++blk_status_t blk_mq_request_issue_directly(struct request *rq, bool last)
+ {
+ 	blk_status_t ret;
+ 	int srcu_idx;
+@@ -1848,7 +1848,7 @@ blk_status_t blk_mq_request_issue_directly(struct request *rq)
+ 	struct blk_mq_hw_ctx *hctx = rq->mq_hctx;
  
- 	spin_lock_irq(&nvmeq->cq_lock);
- 	nvmeq->sq_tail = 0;
-+	nvmeq->last_sq_tail = 0;
- 	nvmeq->cq_head = 0;
- 	nvmeq->cq_phase = 1;
- 	nvmeq->q_db = &dev->dbs[qid * 2 * dev->db_stride];
-@@ -1603,6 +1642,7 @@ static const struct blk_mq_ops nvme_mq_admin_ops = {
+ 	hctx_lock(hctx, &srcu_idx);
+-	ret = __blk_mq_try_issue_directly(hctx, rq, &unused_cookie, true);
++	ret = __blk_mq_try_issue_directly(hctx, rq, &unused_cookie, true, last);
+ 	hctx_unlock(hctx, srcu_idx);
  
- #define NVME_SHARED_MQ_OPS					\
- 	.queue_rq		= nvme_queue_rq,		\
-+	.commit_rqs		= nvme_commit_rqs,		\
- 	.rq_flags_to_type	= nvme_rq_flags_to_type,	\
- 	.complete		= nvme_pci_complete_rq,		\
- 	.init_hctx		= nvme_init_hctx,		\
+ 	return ret;
+@@ -1863,7 +1863,7 @@ void blk_mq_try_issue_list_directly(struct blk_mq_hw_ctx *hctx,
+ 				queuelist);
+ 
+ 		list_del_init(&rq->queuelist);
+-		ret = blk_mq_request_issue_directly(rq);
++		ret = blk_mq_request_issue_directly(rq, list_empty(list));
+ 		if (ret != BLK_STS_OK) {
+ 			if (ret == BLK_STS_RESOURCE ||
+ 					ret == BLK_STS_DEV_RESOURCE) {
+diff --git a/block/blk-mq.h b/block/blk-mq.h
+index 9ae8e9f8f8b1..7291e5379358 100644
+--- a/block/blk-mq.h
++++ b/block/blk-mq.h
+@@ -69,7 +69,7 @@ void blk_mq_insert_requests(struct blk_mq_hw_ctx *hctx, struct blk_mq_ctx *ctx,
+ 				struct list_head *list);
+ 
+ /* Used by blk_insert_cloned_request() to issue request directly */
+-blk_status_t blk_mq_request_issue_directly(struct request *rq);
++blk_status_t blk_mq_request_issue_directly(struct request *rq, bool last);
+ void blk_mq_try_issue_list_directly(struct blk_mq_hw_ctx *hctx,
+ 				    struct list_head *list);
+ 
 -- 
 2.17.1
