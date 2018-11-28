@@ -1,91 +1,53 @@
 From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 28 Nov 2018 06:35:33 -0700
-Subject: [PATCH 2/7] blk-mq: add mq_ops->commit_rqs()
+Date: Wed, 28 Nov 2018 06:35:35 -0700
+Subject: [PATCH 4/7] virtio_blk: implement mq_ops->commit_rqs() hook
 In-Reply-To: <20181128133538.20329-1-axboe@kernel.dk>
 References: <20181128133538.20329-1-axboe@kernel.dk>
-Message-ID: <20181128133538.20329-3-axboe@kernel.dk>
+Message-ID: <20181128133538.20329-5-axboe@kernel.dk>
 
-blk-mq passes information to the hardware about any given request being
-the last that we will issue in this sequence. The point is that hardware
-can defer costly doorbell type writes to the last request. But if we run
-into errors issuing a sequence of requests, we may never send the request
-with bd->last == true set. For that case, we need a hook that tells the
-hardware that nothing else is coming right now.
-
-For failures returned by the drivers ->queue_rq() hook, the driver is
-responsible for flushing pending requests, if it uses bd->last to
-optimize that part. This works like before, no changes there.
+We need this for blk-mq to kick things into gear, if we told it that
+we had more IO coming, but then failed to deliver on that promise.
 
 Reviewed-by: Omar Sandoval <osandov at fb.com>
-Reviewed-by: Ming Lei <ming.lei at redhat.com>
+Acked-by: Michael S. Tsirkin <mst at redhat.com>
 Reviewed-by: Christoph Hellwig <hch at lst.de>
 Signed-off-by: Jens Axboe <axboe at kernel.dk>
 ---
- block/blk-mq.c         | 16 ++++++++++++++++
- include/linux/blk-mq.h | 10 ++++++++++
- 2 files changed, 26 insertions(+)
+ drivers/block/virtio_blk.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 0e2663048d95..18ff47a85ad3 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -1259,6 +1259,14 @@ bool blk_mq_dispatch_rq_list(struct request_queue *q, struct list_head *list,
- 	if (!list_empty(list)) {
- 		bool needs_restart;
- 
-+		/*
-+		 * If we didn't flush the entire list, we could have told
-+		 * the driver there was more coming, but that turned out to
-+		 * be a lie.
-+		 */
-+		if (q->mq_ops->commit_rqs)
-+			q->mq_ops->commit_rqs(hctx);
-+
- 		spin_lock(&hctx->lock);
- 		list_splice_init(list, &hctx->dispatch);
- 		spin_unlock(&hctx->lock);
-@@ -1865,6 +1873,14 @@ void blk_mq_try_issue_list_directly(struct blk_mq_hw_ctx *hctx,
- 			blk_mq_end_request(rq, ret);
- 		}
- 	}
-+
-+	/*
-+	 * If we didn't flush the entire list, we could have told
-+	 * the driver there was more coming, but that turned out to
-+	 * be a lie.
-+	 */
-+	if (!list_empty(list) && hctx->queue->mq_ops->commit_rqs)
-+		hctx->queue->mq_ops->commit_rqs(hctx);
+diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
+index 6e869d05f91e..912c4265e592 100644
+--- a/drivers/block/virtio_blk.c
++++ b/drivers/block/virtio_blk.c
+@@ -214,6 +214,20 @@ static void virtblk_done(struct virtqueue *vq)
+ 	spin_unlock_irqrestore(&vblk->vqs[qid].lock, flags);
  }
  
- static void blk_add_rq_to_plug(struct blk_plug *plug, struct request *rq)
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index b8de11e0603b..467f1dd21ccf 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -117,6 +117,7 @@ struct blk_mq_queue_data {
- 
- typedef blk_status_t (queue_rq_fn)(struct blk_mq_hw_ctx *,
- 		const struct blk_mq_queue_data *);
-+typedef void (commit_rqs_fn)(struct blk_mq_hw_ctx *);
- /* takes rq->cmd_flags as input, returns a hardware type index */
- typedef int (rq_flags_to_type_fn)(struct request_queue *, unsigned int);
- typedef bool (get_budget_fn)(struct blk_mq_hw_ctx *);
-@@ -144,6 +145,15 @@ struct blk_mq_ops {
- 	 */
- 	queue_rq_fn		*queue_rq;
- 
-+	/*
-+	 * If a driver uses bd->last to judge when to submit requests to
-+	 * hardware, it must define this function. In case of errors that
-+	 * make us stop issuing further requests, this hook serves the
-+	 * purpose of kicking the hardware (which the last request otherwise
-+	 * would have done).
-+	 */
-+	commit_rqs_fn		*commit_rqs;
++static void virtio_commit_rqs(struct blk_mq_hw_ctx *hctx)
++{
++	struct virtio_blk *vblk = hctx->queue->queuedata;
++	struct virtio_blk_vq *vq = &vblk->vqs[hctx->queue_num];
++	bool kick;
 +
- 	/*
- 	 * Return a queue map type for the given request/bio flags
- 	 */
++	spin_lock_irq(&vq->lock);
++	kick = virtqueue_kick_prepare(vq->vq);
++	spin_unlock_irq(&vq->lock);
++
++	if (kick)
++		virtqueue_notify(vq->vq);
++}
++
+ static blk_status_t virtio_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 			   const struct blk_mq_queue_data *bd)
+ {
+@@ -638,6 +652,7 @@ static void virtblk_initialize_rq(struct request *req)
+ 
+ static const struct blk_mq_ops virtio_mq_ops = {
+ 	.queue_rq	= virtio_queue_rq,
++	.commit_rqs	= virtio_commit_rqs,
+ 	.complete	= virtblk_request_done,
+ 	.init_request	= virtblk_init_request,
+ #ifdef CONFIG_VIRTIO_BLK_SCSI
 -- 
 2.17.1
