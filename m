@@ -1,66 +1,63 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Tue, 27 Nov 2018 17:04:44 -0800
-Subject: [PATCH v2] nvme: validate controller state before rescheduling keep
- alive
-Message-ID: <20181128010444.8747-1-jsmart2021@gmail.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Wed, 28 Nov 2018 09:38:54 +0800
+Subject: [PATCH 3/8] blk-mq: add mq_ops->commit_rqs()
+In-Reply-To: <20181126163556.5181-4-axboe@kernel.dk>
+References: <20181126163556.5181-1-axboe@kernel.dk>
+ <20181126163556.5181-4-axboe@kernel.dk>
+Message-ID: <20181128013852.GD11128@ming.t460p>
 
-Delete operations are seeing NULL pointer references in call_timer_fn.
-Tracking these back, the timer appears to be the keep alive timer.
+On Mon, Nov 26, 2018@09:35:51AM -0700, Jens Axboe wrote:
+> blk-mq passes information to the hardware about any given request being
+> the last that we will issue in this sequence. The point is that hardware
+> can defer costly doorbell type writes to the last request. But if we run
+> into errors issuing a sequence of requests, we may never send the request
+> with bd->last == true set. For that case, we need a hook that tells the
+> hardware that nothing else is coming right now.
+> 
+> For failures returned by the drivers ->queue_rq() hook, the driver is
+> responsible for flushing pending requests, if it uses bd->last to
+> optimize that part. This works like before, no changes there.
+> 
+> Signed-off-by: Jens Axboe <axboe at kernel.dk>
+> ---
+>  include/linux/blk-mq.h | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+> index ca0520ca6437..1fd139b65a6e 100644
+> --- a/include/linux/blk-mq.h
+> +++ b/include/linux/blk-mq.h
+> @@ -117,6 +117,7 @@ struct blk_mq_queue_data {
+>  
+>  typedef blk_status_t (queue_rq_fn)(struct blk_mq_hw_ctx *,
+>  		const struct blk_mq_queue_data *);
+> +typedef void (commit_rqs_fn)(struct blk_mq_hw_ctx *);
+>  /* takes rq->cmd_flags as input, returns a hardware type index */
+>  typedef int (rq_flags_to_type_fn)(struct request_queue *, unsigned int);
+>  typedef bool (get_budget_fn)(struct blk_mq_hw_ctx *);
+> @@ -144,6 +145,15 @@ struct blk_mq_ops {
+>  	 */
+>  	queue_rq_fn		*queue_rq;
+>  
+> +	/*
+> +	 * If a driver uses bd->last to judge when to submit requests to
+> +	 * hardware, it must define this function. In case of errors that
+> +	 * make us stop issuing further requests, this hook serves the
+> +	 * purpose of kicking the hardware (which the last request otherwise
+> +	 * would have done).
+> +	 */
+> +	commit_rqs_fn		*commit_rqs;
+> +
+>  	/*
+>  	 * Return a queue map type for the given request/bio flags
+>  	 */
+> -- 
+> 2.17.1
+>
 
-nvme_keep_alive_work() which is tied to the timer that is cancelled
-by nvme_stop_keep_alive(), simply starts the keep alive io but doesn't
-wait for it's completion. So nvme_stop_keep_alive() only stops a timer
-when it's pending. When a keep alive is in flight, there is no timer
-running and the nvme_stop_keep_alive() will have no affect on the keep
-alive io. Thus, if the io completes successfully, the keep alive timer
-will be rescheduled.   In the failure case, delete is called, the
-controller state is changed, the nvme_stop_keep_alive() is called while
-the io is outstanding, and the delete path continues on. The keep
-alive happens to successfully complete before the delete paths mark it
-as aborted as part of the queue termination, so the timer is restarted.
-The delete paths then tear down the controller, and later on the timer
-code fires and the timer entry is now corrupt.
+Looks fine,
 
-Fix by validating the controller state before rescheduling the keep
-alive. Testing with the fix has confirmed the condition above was hit.
+Reviewed-by: Ming Lei <ming.lei at redhat.com>
 
-Signed-off-by: James Smart <jsmart2021 at gmail.com>
-
----
-v2:
-  added locking around controller state check. Could have used rmb
-  and wmb, but this isn't a performance condition.
----
- drivers/nvme/host/core.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index bb39b91253c2..7c2184fa2917 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -831,6 +831,8 @@ static int nvme_submit_user_cmd(struct request_queue *q,
- static void nvme_keep_alive_end_io(struct request *rq, blk_status_t status)
- {
- 	struct nvme_ctrl *ctrl = rq->end_io_data;
-+	unsigned long flags;
-+	bool startka = false;
- 
- 	blk_mq_free_request(rq);
- 
-@@ -841,7 +843,13 @@ static void nvme_keep_alive_end_io(struct request *rq, blk_status_t status)
- 		return;
- 	}
- 
--	schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
-+	spin_lock_irqsave(&ctrl->lock, flags);
-+	if (ctrl->state == NVME_CTRL_LIVE ||
-+	    ctrl->state == NVME_CTRL_CONNECTING)
-+		startka = true;
-+	spin_unlock_irqrestore(&ctrl->lock, flags);
-+	if (startka)
-+		schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
- }
- 
- static int nvme_keep_alive(struct nvme_ctrl *ctrl)
--- 
-2.13.7
+Thanks,
+Ming
