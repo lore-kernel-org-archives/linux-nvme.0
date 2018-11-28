@@ -1,19 +1,17 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Tue, 27 Nov 2018 23:20:37 -0800
-Subject: [PATCH 4/8] nvme: implement mq_ops->commit_rqs() hook
-In-Reply-To: <20181126163556.5181-5-axboe@kernel.dk>
+Date: Tue, 27 Nov 2018 23:21:33 -0800
+Subject: [PATCH 5/8] virtio_blk: implement mq_ops->commit_rqs() hook
+In-Reply-To: <20181126163556.5181-6-axboe@kernel.dk>
 References: <20181126163556.5181-1-axboe@kernel.dk>
- <20181126163556.5181-5-axboe@kernel.dk>
-Message-ID: <20181128072037.GB11774@infradead.org>
+ <20181126163556.5181-6-axboe@kernel.dk>
+Message-ID: <20181128072133.GC11774@infradead.org>
 
-> +static inline int nvme_next_ring_index(struct nvme_queue *nvmeq, u16 index)
-> +{
-> +	if (++index == nvmeq->q_depth)
-> +		return 0;
-> +
-> +	return index;
+On Mon, Nov 26, 2018@09:35:53AM -0700, Jens Axboe wrote:
+> We need this for blk-mq to kick things into gear, if we told it that
+> we had more IO coming, but then failed to deliver on that promise.
+> 
+> Signed-off-by: Jens Axboe <axboe at kernel.dk>
 
-Can you please just drop this helper?  It makes the code not only
-less readable but also longer.
+Looks fine,
 
-Otherwise the change looks fine to me.
+Reviewed-by: Christoph Hellwig <hch at lst.de>
