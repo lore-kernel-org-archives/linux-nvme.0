@@ -1,34 +1,66 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Tue, 27 Nov 2018 17:16:17 -0700
-Subject: [PATCH 2/8] block: improve logic around when to sort a plug list
-In-Reply-To: <20181128000501.GH846@vader>
-References: <20181126163556.5181-1-axboe@kernel.dk>
- <20181126163556.5181-3-axboe@kernel.dk> <20181127233142.GB846@vader>
- <b6cfc7c8-39f4-252b-8c27-3a75f561061a@kernel.dk>
- <62f96268-f596-78b8-d227-6be1f5ae1cea@kernel.dk> <20181128000501.GH846@vader>
-Message-ID: <142fca05-eb21-48ff-8dc3-ddc8797e7e1a@kernel.dk>
+From: jsmart2021@gmail.com (James Smart)
+Date: Tue, 27 Nov 2018 17:04:44 -0800
+Subject: [PATCH v2] nvme: validate controller state before rescheduling keep
+ alive
+Message-ID: <20181128010444.8747-1-jsmart2021@gmail.com>
 
-On 11/27/18 5:05 PM, Omar Sandoval wrote:
->> +static void blk_add_rq_to_plug(struct blk_plug *plug, struct request *rq)
->> +{
->> +	list_add_tail(&rq->queuelist, &plug->mq_list);
->> +	plug->rq_count++;
->> +	if (!plug->multiple_queues && !list_is_singular(&plug->mq_list)) {
->> +		struct request *tmp;
->> +
->> +		tmp = list_first_entry(&plug->mq_list, struct request,
->> +						queuelist);
->> +		if (tmp->q != rq->q)
->> +			plug->multiple_queues = true;
-> 
-> Actually, I thought we want to sort whenever there are different
-> software/hardware queues on the plug list, even if they're on the same
-> queue?
+Delete operations are seeing NULL pointer references in call_timer_fn.
+Tracking these back, the timer appears to be the keep alive timer.
 
-That was the original intent, but with the tons of testing I've done
-lately, the cost of sorting batches is higher than the cost we pay for
-having to do multiple inserts. So I think the only sane case is >= 3
-requests, and multiple queues.
+nvme_keep_alive_work() which is tied to the timer that is cancelled
+by nvme_stop_keep_alive(), simply starts the keep alive io but doesn't
+wait for it's completion. So nvme_stop_keep_alive() only stops a timer
+when it's pending. When a keep alive is in flight, there is no timer
+running and the nvme_stop_keep_alive() will have no affect on the keep
+alive io. Thus, if the io completes successfully, the keep alive timer
+will be rescheduled.   In the failure case, delete is called, the
+controller state is changed, the nvme_stop_keep_alive() is called while
+the io is outstanding, and the delete path continues on. The keep
+alive happens to successfully complete before the delete paths mark it
+as aborted as part of the queue termination, so the timer is restarted.
+The delete paths then tear down the controller, and later on the timer
+code fires and the timer entry is now corrupt.
 
+Fix by validating the controller state before rescheduling the keep
+alive. Testing with the fix has confirmed the condition above was hit.
+
+Signed-off-by: James Smart <jsmart2021 at gmail.com>
+
+---
+v2:
+  added locking around controller state check. Could have used rmb
+  and wmb, but this isn't a performance condition.
+---
+ drivers/nvme/host/core.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index bb39b91253c2..7c2184fa2917 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -831,6 +831,8 @@ static int nvme_submit_user_cmd(struct request_queue *q,
+ static void nvme_keep_alive_end_io(struct request *rq, blk_status_t status)
+ {
+ 	struct nvme_ctrl *ctrl = rq->end_io_data;
++	unsigned long flags;
++	bool startka = false;
+ 
+ 	blk_mq_free_request(rq);
+ 
+@@ -841,7 +843,13 @@ static void nvme_keep_alive_end_io(struct request *rq, blk_status_t status)
+ 		return;
+ 	}
+ 
+-	schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
++	spin_lock_irqsave(&ctrl->lock, flags);
++	if (ctrl->state == NVME_CTRL_LIVE ||
++	    ctrl->state == NVME_CTRL_CONNECTING)
++		startka = true;
++	spin_unlock_irqrestore(&ctrl->lock, flags);
++	if (startka)
++		schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
+ }
+ 
+ static int nvme_keep_alive(struct nvme_ctrl *ctrl)
 -- 
-Jens Axboe
+2.13.7
