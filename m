@@ -1,11 +1,10 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 28 Nov 2018 07:57:09 +0100
-Subject: [PATCH] nvme-core: flush namespace scanning work just before
- removing namespaces
-In-Reply-To: <20181121231737.6802-1-sagi@grimberg.me>
-References: <20181121231737.6802-1-sagi@grimberg.me>
-Message-ID: <20181128065709.GA20292@lst.de>
+Date: Wed, 28 Nov 2018 07:59:14 +0100
+Subject: [PATCHv2] nvme: Implement Enhanced Command Retry
+In-Reply-To: <20181127164057.6459-1-keith.busch@intel.com>
+References: <20181127164057.6459-1-keith.busch@intel.com>
+Message-ID: <20181128065914.GA20346@lst.de>
 
 Thanks,
 
-applied to nvme-4.20.
+applied to nvme-4.21.
