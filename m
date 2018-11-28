@@ -1,63 +1,60 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Wed, 28 Nov 2018 09:38:54 +0800
-Subject: [PATCH 3/8] blk-mq: add mq_ops->commit_rqs()
-In-Reply-To: <20181126163556.5181-4-axboe@kernel.dk>
+Date: Wed, 28 Nov 2018 09:49:24 +0800
+Subject: [PATCH 7/8] blk-mq: use bd->last == true for list inserts
+In-Reply-To: <20181126163556.5181-8-axboe@kernel.dk>
 References: <20181126163556.5181-1-axboe@kernel.dk>
- <20181126163556.5181-4-axboe@kernel.dk>
-Message-ID: <20181128013852.GD11128@ming.t460p>
+ <20181126163556.5181-8-axboe@kernel.dk>
+Message-ID: <20181128014922.GE11128@ming.t460p>
 
-On Mon, Nov 26, 2018@09:35:51AM -0700, Jens Axboe wrote:
-> blk-mq passes information to the hardware about any given request being
-> the last that we will issue in this sequence. The point is that hardware
-> can defer costly doorbell type writes to the last request. But if we run
-> into errors issuing a sequence of requests, we may never send the request
-> with bd->last == true set. For that case, we need a hook that tells the
-> hardware that nothing else is coming right now.
-> 
-> For failures returned by the drivers ->queue_rq() hook, the driver is
-> responsible for flushing pending requests, if it uses bd->last to
-> optimize that part. This works like before, no changes there.
+On Mon, Nov 26, 2018@09:35:55AM -0700, Jens Axboe wrote:
+> If we are issuing a list of requests, we know if we're at the last one.
+> If we fail issuing, ensure that we call ->commits_rqs() to flush any
+> potential previous requests.
 > 
 > Signed-off-by: Jens Axboe <axboe at kernel.dk>
 > ---
->  include/linux/blk-mq.h | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+>  block/blk-core.c |  2 +-
+>  block/blk-mq.c   | 32 ++++++++++++++++++++++++--------
+>  block/blk-mq.h   |  2 +-
+>  3 files changed, 26 insertions(+), 10 deletions(-)
 > 
-> diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-> index ca0520ca6437..1fd139b65a6e 100644
-> --- a/include/linux/blk-mq.h
-> +++ b/include/linux/blk-mq.h
-> @@ -117,6 +117,7 @@ struct blk_mq_queue_data {
->  
->  typedef blk_status_t (queue_rq_fn)(struct blk_mq_hw_ctx *,
->  		const struct blk_mq_queue_data *);
-> +typedef void (commit_rqs_fn)(struct blk_mq_hw_ctx *);
->  /* takes rq->cmd_flags as input, returns a hardware type index */
->  typedef int (rq_flags_to_type_fn)(struct request_queue *, unsigned int);
->  typedef bool (get_budget_fn)(struct blk_mq_hw_ctx *);
-> @@ -144,6 +145,15 @@ struct blk_mq_ops {
+> diff --git a/block/blk-core.c b/block/blk-core.c
+> index c9758d185357..808a65d23f1a 100644
+> --- a/block/blk-core.c
+> +++ b/block/blk-core.c
+> @@ -1334,7 +1334,7 @@ blk_status_t blk_insert_cloned_request(struct request_queue *q, struct request *
+>  	 * bypass a potential scheduler on the bottom device for
+>  	 * insert.
 >  	 */
->  	queue_rq_fn		*queue_rq;
+> -	return blk_mq_request_issue_directly(rq);
+> +	return blk_mq_request_issue_directly(rq, true);
+>  }
+>  EXPORT_SYMBOL_GPL(blk_insert_cloned_request);
 >  
-> +	/*
-> +	 * If a driver uses bd->last to judge when to submit requests to
-> +	 * hardware, it must define this function. In case of errors that
-> +	 * make us stop issuing further requests, this hook serves the
-> +	 * purpose of kicking the hardware (which the last request otherwise
-> +	 * would have done).
-> +	 */
-> +	commit_rqs_fn		*commit_rqs;
+> diff --git a/block/blk-mq.c b/block/blk-mq.c
+> index 6a249bf6ed00..0a12cec0b426 100644
+> --- a/block/blk-mq.c
+> +++ b/block/blk-mq.c
+> @@ -1260,6 +1260,14 @@ bool blk_mq_dispatch_rq_list(struct request_queue *q, struct list_head *list,
+>  	if (!list_empty(list)) {
+>  		bool needs_restart;
+>  
+> +		/*
+> +		 * If we didn't flush the entire list, we could have told
+> +		 * the driver there was more coming, but that turned out to
+> +		 * be a lie.
+> +		 */
+> +		if (q->mq_ops->commit_rqs)
+> +			q->mq_ops->commit_rqs(hctx);
 > +
->  	/*
->  	 * Return a queue map type for the given request/bio flags
->  	 */
-> -- 
-> 2.17.1
->
 
-Looks fine,
+Looks you miss to do it for blk_mq_do_dispatch_sched() and
+blk_mq_do_dispatch_ctx(), in which only one request is added to
+the rq_list.
 
-Reviewed-by: Ming Lei <ming.lei at redhat.com>
+Maybe we can call the .commit_rqs(hctx) just at the end of
+blk_mq_sched_dispatch_requests() for cover all non-direct-issue
+cases.
 
 Thanks,
 Ming
