@@ -1,35 +1,98 @@
 From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 28 Nov 2018 06:35:31 -0700
-Subject: [PATCHSET v2 0/8] block plugging improvements
-Message-ID: <20181128133538.20329-1-axboe@kernel.dk>
+Date: Wed, 28 Nov 2018 06:35:32 -0700
+Subject: [PATCH 1/7] block: improve logic around when to sort a plug list
+In-Reply-To: <20181128133538.20329-1-axboe@kernel.dk>
+References: <20181128133538.20329-1-axboe@kernel.dk>
+Message-ID: <20181128133538.20329-2-axboe@kernel.dk>
 
-Series improving plugging for fast devices, but some fixes in here too.
+Only do it if we have requests for multiple queues in the same
+plug.
 
-Patch 1 changes the logic for when we sort the plug list, switching
-it to only doing it if we have requests for multiple queues in the
-plug (and enough requests to warrant an actual sort).
+Signed-off-by: Jens Axboe <axboe at kernel.dk>
+---
+ block/blk-core.c       |  1 +
+ block/blk-mq.c         | 23 ++++++++++++++++++-----
+ include/linux/blkdev.h |  1 +
+ 3 files changed, 20 insertions(+), 5 deletions(-)
 
-2-6 add a ->commit_rqs() hook and implement it in drivers that use (or
-will use) bd->last to optimize IO submission. If a driver currently uses
-bd->last to know if it's needed to kick the hardware into action, there
-are cases where we flag bd->last == false, but then fail to submit any
-further IO due to other resource constraints. We probably get saved by
-the fact that this happens for the case where we have pending IO and
-that will eventually guarantee forward progress, but we really should
-kick IO into gear at that point.
-
-7 improves plugging for blk-mq.
-
-In terms of improvements, for virtualized nvme, I've seen a 2-x IOPS
-improvement with proper handling of bd->last with this series.
-
-Changes since v1:
-
-- Fold the plug case for blk-mq, do it if we have 1 hw queue, or
-  if we have ->commit_rqs().
-- Add disable/enable IRQ to ataflop
-- Drop nvme ring index helper
-- Rework when to sort patch
-
+diff --git a/block/blk-core.c b/block/blk-core.c
+index be9233400314..d107d016b92b 100644
+--- a/block/blk-core.c
++++ b/block/blk-core.c
+@@ -1780,6 +1780,7 @@ void blk_start_plug(struct blk_plug *plug)
+ 	INIT_LIST_HEAD(&plug->mq_list);
+ 	INIT_LIST_HEAD(&plug->cb_list);
+ 	plug->rq_count = 0;
++	plug->multiple_queues = false;
+ 
+ 	/*
+ 	 * Store ordering should not be needed here, since a potential
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index a82830f39933..0e2663048d95 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -1677,7 +1677,8 @@ void blk_mq_flush_plug_list(struct blk_plug *plug, bool from_schedule)
+ 	list_splice_init(&plug->mq_list, &list);
+ 	plug->rq_count = 0;
+ 
+-	list_sort(NULL, &list, plug_rq_cmp);
++	if (plug->rq_count > 2 && plug->multiple_queues)
++		list_sort(NULL, &list, plug_rq_cmp);
+ 
+ 	this_q = NULL;
+ 	this_hctx = NULL;
+@@ -1866,6 +1867,20 @@ void blk_mq_try_issue_list_directly(struct blk_mq_hw_ctx *hctx,
+ 	}
+ }
+ 
++static void blk_add_rq_to_plug(struct blk_plug *plug, struct request *rq)
++{
++	list_add_tail(&rq->queuelist, &plug->mq_list);
++	plug->rq_count++;
++	if (!plug->multiple_queues && !list_is_singular(&plug->mq_list)) {
++		struct request *tmp;
++
++		tmp = list_first_entry(&plug->mq_list, struct request,
++						queuelist);
++		if (tmp->q != rq->q)
++			plug->multiple_queues = true;
++	}
++}
++
+ static blk_qc_t blk_mq_make_request(struct request_queue *q, struct bio *bio)
+ {
+ 	const int is_sync = op_is_sync(bio->bi_opf);
+@@ -1932,8 +1947,7 @@ static blk_qc_t blk_mq_make_request(struct request_queue *q, struct bio *bio)
+ 			trace_block_plug(q);
+ 		}
+ 
+-		list_add_tail(&rq->queuelist, &plug->mq_list);
+-		plug->rq_count++;
++		blk_add_rq_to_plug(plug, rq);
+ 	} else if (plug && !blk_queue_nomerges(q)) {
+ 		blk_mq_bio_to_request(rq, bio);
+ 
+@@ -1950,8 +1964,7 @@ static blk_qc_t blk_mq_make_request(struct request_queue *q, struct bio *bio)
+ 			list_del_init(&same_queue_rq->queuelist);
+ 			plug->rq_count--;
+ 		}
+-		list_add_tail(&rq->queuelist, &plug->mq_list);
+-		plug->rq_count++;
++		blk_add_rq_to_plug(plug, rq);
+ 
+ 		blk_mq_put_ctx(data.ctx);
+ 
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 02732cae6080..08d940f85fa0 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -1131,6 +1131,7 @@ struct blk_plug {
+ 	struct list_head mq_list; /* blk-mq requests */
+ 	struct list_head cb_list; /* md requires an unplug callback */
+ 	unsigned short rq_count;
++	bool multiple_queues;
+ };
+ #define BLK_MAX_REQUEST_COUNT 16
+ #define BLK_PLUG_FLUSH_SIZE (128 * 1024)
 -- 
-Jens Axboe
+2.17.1
