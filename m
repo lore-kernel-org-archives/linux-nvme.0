@@ -1,98 +1,91 @@
 From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 28 Nov 2018 06:35:32 -0700
-Subject: [PATCH 1/7] block: improve logic around when to sort a plug list
+Date: Wed, 28 Nov 2018 06:35:33 -0700
+Subject: [PATCH 2/7] blk-mq: add mq_ops->commit_rqs()
 In-Reply-To: <20181128133538.20329-1-axboe@kernel.dk>
 References: <20181128133538.20329-1-axboe@kernel.dk>
-Message-ID: <20181128133538.20329-2-axboe@kernel.dk>
+Message-ID: <20181128133538.20329-3-axboe@kernel.dk>
 
-Only do it if we have requests for multiple queues in the same
-plug.
+blk-mq passes information to the hardware about any given request being
+the last that we will issue in this sequence. The point is that hardware
+can defer costly doorbell type writes to the last request. But if we run
+into errors issuing a sequence of requests, we may never send the request
+with bd->last == true set. For that case, we need a hook that tells the
+hardware that nothing else is coming right now.
 
+For failures returned by the drivers ->queue_rq() hook, the driver is
+responsible for flushing pending requests, if it uses bd->last to
+optimize that part. This works like before, no changes there.
+
+Reviewed-by: Omar Sandoval <osandov at fb.com>
+Reviewed-by: Ming Lei <ming.lei at redhat.com>
+Reviewed-by: Christoph Hellwig <hch at lst.de>
 Signed-off-by: Jens Axboe <axboe at kernel.dk>
 ---
- block/blk-core.c       |  1 +
- block/blk-mq.c         | 23 ++++++++++++++++++-----
- include/linux/blkdev.h |  1 +
- 3 files changed, 20 insertions(+), 5 deletions(-)
+ block/blk-mq.c         | 16 ++++++++++++++++
+ include/linux/blk-mq.h | 10 ++++++++++
+ 2 files changed, 26 insertions(+)
 
-diff --git a/block/blk-core.c b/block/blk-core.c
-index be9233400314..d107d016b92b 100644
---- a/block/blk-core.c
-+++ b/block/blk-core.c
-@@ -1780,6 +1780,7 @@ void blk_start_plug(struct blk_plug *plug)
- 	INIT_LIST_HEAD(&plug->mq_list);
- 	INIT_LIST_HEAD(&plug->cb_list);
- 	plug->rq_count = 0;
-+	plug->multiple_queues = false;
- 
- 	/*
- 	 * Store ordering should not be needed here, since a potential
 diff --git a/block/blk-mq.c b/block/blk-mq.c
-index a82830f39933..0e2663048d95 100644
+index 0e2663048d95..18ff47a85ad3 100644
 --- a/block/blk-mq.c
 +++ b/block/blk-mq.c
-@@ -1677,7 +1677,8 @@ void blk_mq_flush_plug_list(struct blk_plug *plug, bool from_schedule)
- 	list_splice_init(&plug->mq_list, &list);
- 	plug->rq_count = 0;
+@@ -1259,6 +1259,14 @@ bool blk_mq_dispatch_rq_list(struct request_queue *q, struct list_head *list,
+ 	if (!list_empty(list)) {
+ 		bool needs_restart;
  
--	list_sort(NULL, &list, plug_rq_cmp);
-+	if (plug->rq_count > 2 && plug->multiple_queues)
-+		list_sort(NULL, &list, plug_rq_cmp);
- 
- 	this_q = NULL;
- 	this_hctx = NULL;
-@@ -1866,6 +1867,20 @@ void blk_mq_try_issue_list_directly(struct blk_mq_hw_ctx *hctx,
++		/*
++		 * If we didn't flush the entire list, we could have told
++		 * the driver there was more coming, but that turned out to
++		 * be a lie.
++		 */
++		if (q->mq_ops->commit_rqs)
++			q->mq_ops->commit_rqs(hctx);
++
+ 		spin_lock(&hctx->lock);
+ 		list_splice_init(list, &hctx->dispatch);
+ 		spin_unlock(&hctx->lock);
+@@ -1865,6 +1873,14 @@ void blk_mq_try_issue_list_directly(struct blk_mq_hw_ctx *hctx,
+ 			blk_mq_end_request(rq, ret);
+ 		}
  	}
++
++	/*
++	 * If we didn't flush the entire list, we could have told
++	 * the driver there was more coming, but that turned out to
++	 * be a lie.
++	 */
++	if (!list_empty(list) && hctx->queue->mq_ops->commit_rqs)
++		hctx->queue->mq_ops->commit_rqs(hctx);
  }
  
-+static void blk_add_rq_to_plug(struct blk_plug *plug, struct request *rq)
-+{
-+	list_add_tail(&rq->queuelist, &plug->mq_list);
-+	plug->rq_count++;
-+	if (!plug->multiple_queues && !list_is_singular(&plug->mq_list)) {
-+		struct request *tmp;
+ static void blk_add_rq_to_plug(struct blk_plug *plug, struct request *rq)
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index b8de11e0603b..467f1dd21ccf 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -117,6 +117,7 @@ struct blk_mq_queue_data {
+ 
+ typedef blk_status_t (queue_rq_fn)(struct blk_mq_hw_ctx *,
+ 		const struct blk_mq_queue_data *);
++typedef void (commit_rqs_fn)(struct blk_mq_hw_ctx *);
+ /* takes rq->cmd_flags as input, returns a hardware type index */
+ typedef int (rq_flags_to_type_fn)(struct request_queue *, unsigned int);
+ typedef bool (get_budget_fn)(struct blk_mq_hw_ctx *);
+@@ -144,6 +145,15 @@ struct blk_mq_ops {
+ 	 */
+ 	queue_rq_fn		*queue_rq;
+ 
++	/*
++	 * If a driver uses bd->last to judge when to submit requests to
++	 * hardware, it must define this function. In case of errors that
++	 * make us stop issuing further requests, this hook serves the
++	 * purpose of kicking the hardware (which the last request otherwise
++	 * would have done).
++	 */
++	commit_rqs_fn		*commit_rqs;
 +
-+		tmp = list_first_entry(&plug->mq_list, struct request,
-+						queuelist);
-+		if (tmp->q != rq->q)
-+			plug->multiple_queues = true;
-+	}
-+}
-+
- static blk_qc_t blk_mq_make_request(struct request_queue *q, struct bio *bio)
- {
- 	const int is_sync = op_is_sync(bio->bi_opf);
-@@ -1932,8 +1947,7 @@ static blk_qc_t blk_mq_make_request(struct request_queue *q, struct bio *bio)
- 			trace_block_plug(q);
- 		}
- 
--		list_add_tail(&rq->queuelist, &plug->mq_list);
--		plug->rq_count++;
-+		blk_add_rq_to_plug(plug, rq);
- 	} else if (plug && !blk_queue_nomerges(q)) {
- 		blk_mq_bio_to_request(rq, bio);
- 
-@@ -1950,8 +1964,7 @@ static blk_qc_t blk_mq_make_request(struct request_queue *q, struct bio *bio)
- 			list_del_init(&same_queue_rq->queuelist);
- 			plug->rq_count--;
- 		}
--		list_add_tail(&rq->queuelist, &plug->mq_list);
--		plug->rq_count++;
-+		blk_add_rq_to_plug(plug, rq);
- 
- 		blk_mq_put_ctx(data.ctx);
- 
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 02732cae6080..08d940f85fa0 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -1131,6 +1131,7 @@ struct blk_plug {
- 	struct list_head mq_list; /* blk-mq requests */
- 	struct list_head cb_list; /* md requires an unplug callback */
- 	unsigned short rq_count;
-+	bool multiple_queues;
- };
- #define BLK_MAX_REQUEST_COUNT 16
- #define BLK_PLUG_FLUSH_SIZE (128 * 1024)
+ 	/*
+ 	 * Return a queue map type for the given request/bio flags
+ 	 */
 -- 
 2.17.1
