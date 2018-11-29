@@ -1,27 +1,47 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 29 Nov 2018 10:42:37 -0700
-Subject: [PATCH 3/7] nvme: implement mq_ops->commit_rqs() hook
-In-Reply-To: <20181129173806.GA9377@localhost.localdomain>
-References: <20181128133538.20329-1-axboe@kernel.dk>
- <20181128133538.20329-4-axboe@kernel.dk>
- <20181129154713.GC7234@infradead.org>
- <2188627d-6d45-fe8a-8d31-fa46fdb82618@kernel.dk>
- <20181129170430.GA27364@infradead.org>
- <64106f7d-73d9-70f3-7b28-9b836994d5aa@kernel.dk>
- <20181129173806.GA9377@localhost.localdomain>
-Message-ID: <29b70753-b4e0-d382-c9c1-fe46d85850d4@kernel.dk>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 29 Nov 2018 20:12:57 +0100
+Subject: block and nvme polling improvements V2
+Message-ID: <20181129191310.9795-1-hch@lst.de>
 
-On 11/29/18 10:38 AM, Keith Busch wrote:
-> On Thu, Nov 29, 2018@10:06:20AM -0700, Jens Axboe wrote:
->> On 11/29/18 10:04 AM, Christoph Hellwig wrote:
->>> gcc never warns about unused static inline functions.  Which makes a lot
->>> of sense at least for headers..
->>
->> Not so much for non-headers :-)
-> 
-> You can #include .c files too! :)
+Hi all,
 
-There's always that one guy...
+this series optimizes a few bits in the block layer and nvme code
+related to polling.
 
--- 
-Jens Axboe
+It starts by moving the queue types recently introduce entirely into
+the block layer instead of requiring an indirect call for them.
+
+It then switches nvme and the block layer to only allow polling
+with separate poll queues, which allows us to realize the following
+benefits:
+
+ - poll queues can safely avoid disabling irqs on any locks
+   (we already do that in NVMe, but it isn't 100% kosher as-is)
+ - regular interrupt driven queues can drop the CQ lock entirely,
+   as we won't race for completing CQs
+
+Then we drop the NVMe RDMA code, as it doesn't follow the new mode,
+and remove the nvme multipath polling code including the block hooks
+for it, which didn't make much sense to start with given that we
+started bypassing the multipath code for single controller subsystems
+early on.  Last but not least we enable polling in the block layer
+by default if the underlying driver has poll queues, as that already
+requires explicit user action.
+
+Note that it would be really nice to have polling back for RDMA with
+dedicated poll queues, but that might take a while.  Also based on
+Jens' polling aio patches we could now implement a model in nvmet
+where we have a thread polling both the backend nvme device and
+the RDMA CQs, which might give us some pretty nice performace
+(I know Sagi looked into something similar a while ago).
+
+A git tree is also available at:
+
+    git://git.infradead.org/users/hch/block.git nvme-polling
+
+Gitweb:
+
+    http://git.infradead.org/users/hch/block.git/shortlog/refs/heads/nvme-polling
+
+Changes since v2:
+ - rebased to the latest block for-4.21 tree
