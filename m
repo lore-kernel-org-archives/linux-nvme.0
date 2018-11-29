@@ -1,197 +1,128 @@
-From: sashal@kernel.org (Sasha Levin)
-Date: Thu, 29 Nov 2018 00:55:16 -0500
-Subject: [PATCH AUTOSEL 4.19 25/68] nvme-fc: resolve io failures during connect
-In-Reply-To: <20181129055559.159228-1-sashal@kernel.org>
-References: <20181129055559.159228-1-sashal@kernel.org>
-Message-ID: <20181129055559.159228-25-sashal@kernel.org>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Thu, 29 Nov 2018 15:01:17 +0800
+Subject: [PATCH 6/7] blk-mq: use bd->last == true for list inserts
+In-Reply-To: <20181128133538.20329-7-axboe@kernel.dk>
+References: <20181128133538.20329-1-axboe@kernel.dk>
+ <20181128133538.20329-7-axboe@kernel.dk>
+Message-ID: <20181129070116.GA27186@ming.t460p>
 
-From: James Smart <jsmart2021@gmail.com>
+On Wed, Nov 28, 2018@06:35:37AM -0700, Jens Axboe wrote:
+> If we are issuing a list of requests, we know if we're at the last one.
+> If we fail issuing, ensure that we call ->commits_rqs() to flush any
+> potential previous requests.
+> 
+> Reviewed-by: Omar Sandoval <osandov at fb.com>
+> Signed-off-by: Jens Axboe <axboe at kernel.dk>
+> ---
+>  block/blk-core.c |  2 +-
+>  block/blk-mq.c   | 16 ++++++++--------
+>  block/blk-mq.h   |  2 +-
+>  3 files changed, 10 insertions(+), 10 deletions(-)
+> 
+> diff --git a/block/blk-core.c b/block/blk-core.c
+> index d107d016b92b..3f6f5e6c2fe4 100644
+> --- a/block/blk-core.c
+> +++ b/block/blk-core.c
+> @@ -1334,7 +1334,7 @@ blk_status_t blk_insert_cloned_request(struct request_queue *q, struct request *
+>  	 * bypass a potential scheduler on the bottom device for
+>  	 * insert.
+>  	 */
+> -	return blk_mq_request_issue_directly(rq);
+> +	return blk_mq_request_issue_directly(rq, true);
+>  }
+>  EXPORT_SYMBOL_GPL(blk_insert_cloned_request);
+>  
+> diff --git a/block/blk-mq.c b/block/blk-mq.c
+> index 18ff47a85ad3..9e1045152e45 100644
+> --- a/block/blk-mq.c
+> +++ b/block/blk-mq.c
+> @@ -1743,12 +1743,12 @@ static blk_qc_t request_to_qc_t(struct blk_mq_hw_ctx *hctx, struct request *rq)
+>  
+>  static blk_status_t __blk_mq_issue_directly(struct blk_mq_hw_ctx *hctx,
+>  					    struct request *rq,
+> -					    blk_qc_t *cookie)
+> +					    blk_qc_t *cookie, bool last)
+>  {
+>  	struct request_queue *q = rq->q;
+>  	struct blk_mq_queue_data bd = {
+>  		.rq = rq,
+> -		.last = true,
+> +		.last = last,
+>  	};
+>  	blk_qc_t new_cookie;
+>  	blk_status_t ret;
+> @@ -1783,7 +1783,7 @@ static blk_status_t __blk_mq_issue_directly(struct blk_mq_hw_ctx *hctx,
+>  static blk_status_t __blk_mq_try_issue_directly(struct blk_mq_hw_ctx *hctx,
+>  						struct request *rq,
+>  						blk_qc_t *cookie,
+> -						bool bypass_insert)
+> +						bool bypass_insert, bool last)
+>  {
+>  	struct request_queue *q = rq->q;
+>  	bool run_queue = true;
+> @@ -1812,7 +1812,7 @@ static blk_status_t __blk_mq_try_issue_directly(struct blk_mq_hw_ctx *hctx,
+>  		goto insert;
+>  	}
+>  
+> -	return __blk_mq_issue_directly(hctx, rq, cookie);
+> +	return __blk_mq_issue_directly(hctx, rq, cookie, last);
+>  insert:
+>  	if (bypass_insert)
+>  		return BLK_STS_RESOURCE;
+> @@ -1831,7 +1831,7 @@ static void blk_mq_try_issue_directly(struct blk_mq_hw_ctx *hctx,
+>  
+>  	hctx_lock(hctx, &srcu_idx);
+>  
+> -	ret = __blk_mq_try_issue_directly(hctx, rq, cookie, false);
+> +	ret = __blk_mq_try_issue_directly(hctx, rq, cookie, false, true);
+>  	if (ret == BLK_STS_RESOURCE || ret == BLK_STS_DEV_RESOURCE)
+>  		blk_mq_sched_insert_request(rq, false, true, false);
+>  	else if (ret != BLK_STS_OK)
+> @@ -1840,7 +1840,7 @@ static void blk_mq_try_issue_directly(struct blk_mq_hw_ctx *hctx,
+>  	hctx_unlock(hctx, srcu_idx);
+>  }
+>  
+> -blk_status_t blk_mq_request_issue_directly(struct request *rq)
+> +blk_status_t blk_mq_request_issue_directly(struct request *rq, bool last)
+>  {
+>  	blk_status_t ret;
+>  	int srcu_idx;
+> @@ -1848,7 +1848,7 @@ blk_status_t blk_mq_request_issue_directly(struct request *rq)
+>  	struct blk_mq_hw_ctx *hctx = rq->mq_hctx;
+>  
+>  	hctx_lock(hctx, &srcu_idx);
+> -	ret = __blk_mq_try_issue_directly(hctx, rq, &unused_cookie, true);
+> +	ret = __blk_mq_try_issue_directly(hctx, rq, &unused_cookie, true, last);
+>  	hctx_unlock(hctx, srcu_idx);
+>  
+>  	return ret;
+> @@ -1863,7 +1863,7 @@ void blk_mq_try_issue_list_directly(struct blk_mq_hw_ctx *hctx,
+>  				queuelist);
+>  
+>  		list_del_init(&rq->queuelist);
+> -		ret = blk_mq_request_issue_directly(rq);
+> +		ret = blk_mq_request_issue_directly(rq, list_empty(list));
+>  		if (ret != BLK_STS_OK) {
+>  			if (ret == BLK_STS_RESOURCE ||
+>  					ret == BLK_STS_DEV_RESOURCE) {
+> diff --git a/block/blk-mq.h b/block/blk-mq.h
+> index 9ae8e9f8f8b1..7291e5379358 100644
+> --- a/block/blk-mq.h
+> +++ b/block/blk-mq.h
+> @@ -69,7 +69,7 @@ void blk_mq_insert_requests(struct blk_mq_hw_ctx *hctx, struct blk_mq_ctx *ctx,
+>  				struct list_head *list);
+>  
+>  /* Used by blk_insert_cloned_request() to issue request directly */
+> -blk_status_t blk_mq_request_issue_directly(struct request *rq);
+> +blk_status_t blk_mq_request_issue_directly(struct request *rq, bool last);
+>  void blk_mq_try_issue_list_directly(struct blk_mq_hw_ctx *hctx,
+>  				    struct list_head *list);
+>  
+> -- 
+> 2.17.1
+> 
 
-[ Upstream commit 4cff280a5fccf6513ed9e895bb3a4e7ad8b0cedc ]
+Reviewed-by: Ming Lei <ming.lei at redhat.com>
 
-If an io error occurs on an io issued while connecting, recovery
-of the io falls flat as the state checking ends up nooping the error
-handler.
-
-Create an err_work work item that is scheduled upon an io error while
-connecting. The work thread terminates all io on all queues and marks
-the queues as not connected.  The termination of the io will return
-back to the callee, which will then back out of the connection attempt
-and will reschedule, if possible, the connection attempt.
-
-The changes:
-- in case there are several commands hitting the error handler, a
-  state flag is kept so that the error work is only scheduled once,
-  on the first error. The subsequent errors can be ignored.
-- The calling sequence to stop keep alive and terminate the queues
-  and their io is lifted from the reset routine. Made a small
-  service routine used by both reset and err_work.
-- During debugging, found that the teardown path can reference
-  an uninitialized pointer, resulting in a NULL pointer oops.
-  The aen_ops weren't initialized yet. Add validation on their
-  initialization before calling the teardown routine.
-
-Signed-off-by: James Smart <jsmart2021 at gmail.com>
-Signed-off-by: Christoph Hellwig <hch at lst.de>
-Signed-off-by: Sasha Levin <sashal at kernel.org>
----
- drivers/nvme/host/fc.c | 73 ++++++++++++++++++++++++++++++++++++------
- 1 file changed, 63 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 611e70cae754..9375fa705d82 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -144,6 +144,7 @@ struct nvme_fc_ctrl {
- 
- 	bool			ioq_live;
- 	bool			assoc_active;
-+	atomic_t		err_work_active;
- 	u64			association_id;
- 
- 	struct list_head	ctrl_list;	/* rport->ctrl_list */
-@@ -152,6 +153,7 @@ struct nvme_fc_ctrl {
- 	struct blk_mq_tag_set	tag_set;
- 
- 	struct delayed_work	connect_work;
-+	struct work_struct	err_work;
- 
- 	struct kref		ref;
- 	u32			flags;
-@@ -1523,6 +1525,10 @@ nvme_fc_abort_aen_ops(struct nvme_fc_ctrl *ctrl)
- 	struct nvme_fc_fcp_op *aen_op = ctrl->aen_ops;
- 	int i;
- 
-+	/* ensure we've initialized the ops once */
-+	if (!(aen_op->flags & FCOP_FLAGS_AEN))
-+		return;
-+
- 	for (i = 0; i < NVME_NR_AEN_COMMANDS; i++, aen_op++)
- 		__nvme_fc_abort_op(ctrl, aen_op);
- }
-@@ -2036,7 +2042,25 @@ nvme_fc_nvme_ctrl_freed(struct nvme_ctrl *nctrl)
- static void
- nvme_fc_error_recovery(struct nvme_fc_ctrl *ctrl, char *errmsg)
- {
--	/* only proceed if in LIVE state - e.g. on first error */
-+	int active;
-+
-+	/*
-+	 * if an error (io timeout, etc) while (re)connecting,
-+	 * it's an error on creating the new association.
-+	 * Start the error recovery thread if it hasn't already
-+	 * been started. It is expected there could be multiple
-+	 * ios hitting this path before things are cleaned up.
-+	 */
-+	if (ctrl->ctrl.state == NVME_CTRL_CONNECTING) {
-+		active = atomic_xchg(&ctrl->err_work_active, 1);
-+		if (!active && !schedule_work(&ctrl->err_work)) {
-+			atomic_set(&ctrl->err_work_active, 0);
-+			WARN_ON(1);
-+		}
-+		return;
-+	}
-+
-+	/* Otherwise, only proceed if in LIVE state - e.g. on first error */
- 	if (ctrl->ctrl.state != NVME_CTRL_LIVE)
- 		return;
- 
-@@ -2802,6 +2826,7 @@ nvme_fc_delete_ctrl(struct nvme_ctrl *nctrl)
- {
- 	struct nvme_fc_ctrl *ctrl = to_fc_ctrl(nctrl);
- 
-+	cancel_work_sync(&ctrl->err_work);
- 	cancel_delayed_work_sync(&ctrl->connect_work);
- 	/*
- 	 * kill the association on the link side.  this will block
-@@ -2854,23 +2879,30 @@ nvme_fc_reconnect_or_delete(struct nvme_fc_ctrl *ctrl, int status)
- }
- 
- static void
--nvme_fc_reset_ctrl_work(struct work_struct *work)
-+__nvme_fc_terminate_io(struct nvme_fc_ctrl *ctrl)
- {
--	struct nvme_fc_ctrl *ctrl =
--		container_of(work, struct nvme_fc_ctrl, ctrl.reset_work);
--	int ret;
--
--	nvme_stop_ctrl(&ctrl->ctrl);
-+	nvme_stop_keep_alive(&ctrl->ctrl);
- 
- 	/* will block will waiting for io to terminate */
- 	nvme_fc_delete_association(ctrl);
- 
--	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING)) {
-+	if (ctrl->ctrl.state != NVME_CTRL_CONNECTING &&
-+	    !nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING))
- 		dev_err(ctrl->ctrl.device,
- 			"NVME-FC{%d}: error_recovery: Couldn't change state "
- 			"to CONNECTING\n", ctrl->cnum);
--		return;
--	}
-+}
-+
-+static void
-+nvme_fc_reset_ctrl_work(struct work_struct *work)
-+{
-+	struct nvme_fc_ctrl *ctrl =
-+		container_of(work, struct nvme_fc_ctrl, ctrl.reset_work);
-+	int ret;
-+
-+	__nvme_fc_terminate_io(ctrl);
-+
-+	nvme_stop_ctrl(&ctrl->ctrl);
- 
- 	if (ctrl->rport->remoteport.port_state == FC_OBJSTATE_ONLINE)
- 		ret = nvme_fc_create_association(ctrl);
-@@ -2885,6 +2917,24 @@ nvme_fc_reset_ctrl_work(struct work_struct *work)
- 			ctrl->cnum);
- }
- 
-+static void
-+nvme_fc_connect_err_work(struct work_struct *work)
-+{
-+	struct nvme_fc_ctrl *ctrl =
-+			container_of(work, struct nvme_fc_ctrl, err_work);
-+
-+	__nvme_fc_terminate_io(ctrl);
-+
-+	atomic_set(&ctrl->err_work_active, 0);
-+
-+	/*
-+	 * Rescheduling the connection after recovering
-+	 * from the io error is left to the reconnect work
-+	 * item, which is what should have stalled waiting on
-+	 * the io that had the error that scheduled this work.
-+	 */
-+}
-+
- static const struct nvme_ctrl_ops nvme_fc_ctrl_ops = {
- 	.name			= "fc",
- 	.module			= THIS_MODULE,
-@@ -2995,6 +3045,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- 	ctrl->cnum = idx;
- 	ctrl->ioq_live = false;
- 	ctrl->assoc_active = false;
-+	atomic_set(&ctrl->err_work_active, 0);
- 	init_waitqueue_head(&ctrl->ioabort_wait);
- 
- 	get_device(ctrl->dev);
-@@ -3002,6 +3053,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- 
- 	INIT_WORK(&ctrl->ctrl.reset_work, nvme_fc_reset_ctrl_work);
- 	INIT_DELAYED_WORK(&ctrl->connect_work, nvme_fc_connect_ctrl_work);
-+	INIT_WORK(&ctrl->err_work, nvme_fc_connect_err_work);
- 	spin_lock_init(&ctrl->lock);
- 
- 	/* io queue count */
-@@ -3092,6 +3144,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- fail_ctrl:
- 	nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_DELETING);
- 	cancel_work_sync(&ctrl->ctrl.reset_work);
-+	cancel_work_sync(&ctrl->err_work);
- 	cancel_delayed_work_sync(&ctrl->connect_work);
- 
- 	ctrl->ctrl.opts = NULL;
--- 
-2.17.1
+Thanks,
+Ming
