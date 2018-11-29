@@ -1,31 +1,30 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 29 Nov 2018 20:13:10 +0100
-Subject: [PATCH 13/13] block: enable polling by default if a poll map is
- initalized
-In-Reply-To: <20181129191310.9795-1-hch@lst.de>
+From: axboe@fb.com (Jens Axboe)
+Date: Thu, 29 Nov 2018 19:50:09 +0000
+Subject: [PATCH 01/13] block: move queues types to the block layer
+In-Reply-To: <20181129191310.9795-2-hch@lst.de>
 References: <20181129191310.9795-1-hch@lst.de>
-Message-ID: <20181129191310.9795-14-hch@lst.de>
+ <20181129191310.9795-2-hch@lst.de>
+Message-ID: <c20e4d66-0fc5-ab65-2805-c4b22012c1c5@fb.com>
 
-If the user did setup polling in the driver we should not require
-another know in the block layer to enable it.
+On 11/29/18 12:12 PM, Christoph Hellwig wrote:
+> Having another indirect all in the fast path doesn't really help
+> in our post-spectre world.  Also having too many queue type is just
+> going to create confusion, so I'd rather manage them centrally.
+> 
+> Note that the queue type naming and ordering changes a bit - the
+> first index now is the defauly queue for everything not explicitly
+                         ^^^^^^^
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
- block/blk-mq.c | 2 ++
- 1 file changed, 2 insertions(+)
+default
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 9c90c5038d07..a550a00ac00c 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -2811,6 +2811,8 @@ struct request_queue *blk_mq_init_allocated_queue(struct blk_mq_tag_set *set,
- 	q->tag_set = set;
- 
- 	q->queue_flags |= QUEUE_FLAG_MQ_DEFAULT;
-+	if (set->nr_maps > HCTX_TYPE_POLL)
-+		blk_queue_flag_set(QUEUE_FLAG_POLL, q);
- 
- 	if (!(set->flags & BLK_MQ_F_SG_MERGE))
- 		blk_queue_flag_set(QUEUE_FLAG_NO_SG_MERGE, q);
+> marked, the optional ones are read and poll queues.
+
+Looks fine to me, was hoping NOT to bring this into the core, but
+I guess it might be more manageable there in the long run. And it's
+hard to argue with getting rid of the flags_to_type indirect.
+
+Side not, should probably make the sysfs 'type' attribute a string
+at this point.
+
 -- 
-2.19.1
+Jens Axboe
