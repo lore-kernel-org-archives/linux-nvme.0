@@ -1,10 +1,11 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 29 Nov 2018 16:43:34 +0100
-Subject: [PATCH] nvme-rdma: Fix double freeing of async event data
-In-Reply-To: <1543428689-13382-1-git-send-email-psajeepa@purestorage.com>
-References: <1543428689-13382-1-git-send-email-psajeepa@purestorage.com>
-Message-ID: <20181129154334.GA26303@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Thu, 29 Nov 2018 07:44:28 -0800
+Subject: [PATCH 1/7] block: improve logic around when to sort a plug list
+In-Reply-To: <20181128133538.20329-2-axboe@kernel.dk>
+References: <20181128133538.20329-1-axboe@kernel.dk>
+ <20181128133538.20329-2-axboe@kernel.dk>
+Message-ID: <20181129154428.GA7234@infradead.org>
 
-Thanks,
+Looks good,
 
-applied to nvme-4.20.
+Reviewed-by: Christoph Hellwig <hch at lst.de>
