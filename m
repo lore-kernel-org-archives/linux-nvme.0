@@ -1,65 +1,99 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 29 Nov 2018 20:13:01 +0100
-Subject: [PATCH 04/13] nvme-pci: only allow polling with separate poll queues
+Date: Thu, 29 Nov 2018 20:13:02 +0100
+Subject: [PATCH 05/13] nvme-pci: consolidate code for polling non-dedicated
+ queues
 In-Reply-To: <20181129191310.9795-1-hch@lst.de>
 References: <20181129191310.9795-1-hch@lst.de>
-Message-ID: <20181129191310.9795-5-hch@lst.de>
+Message-ID: <20181129191310.9795-6-hch@lst.de>
 
-This will allow us to simplify both the regular NVMe interrupt handler
-and the upcoming aio poll code.  In addition to that the separate
-queues are generally a good idea for performance reasons.
+We have three places that can poll for I/O completions on a normal
+interrupt-enabled queue.  All of them are in slow path code, so
+consolidate them to a single helper that uses spin_lock_irqsave and
+removes the fast path cqe_pending check.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/pci.c | 18 +++++-------------
- 1 file changed, 5 insertions(+), 13 deletions(-)
+ drivers/nvme/host/pci.c | 35 ++++++++++++-----------------------
+ 1 file changed, 12 insertions(+), 23 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index b820dd0351cb..d42bb76e5e78 100644
+index d42bb76e5e78..10c26a2e355a 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -1089,13 +1089,6 @@ static int __nvme_poll(struct nvme_queue *nvmeq, unsigned int tag)
+@@ -1072,17 +1072,19 @@ static irqreturn_t nvme_irq_check(int irq, void *data)
+ 	return IRQ_NONE;
  }
  
- static int nvme_poll(struct blk_mq_hw_ctx *hctx)
--{
--	struct nvme_queue *nvmeq = hctx->driver_data;
--
--	return __nvme_poll(nvmeq, -1);
--}
--
--static int nvme_poll_noirq(struct blk_mq_hw_ctx *hctx)
+-static int __nvme_poll(struct nvme_queue *nvmeq, unsigned int tag)
++/*
++ * Poll for completions any queue, including those not dedicated to polling.
++ * Can be called from any context.
++ */
++static int nvme_poll_irqdisable(struct nvme_queue *nvmeq, unsigned int tag)
  {
- 	struct nvme_queue *nvmeq = hctx->driver_data;
++	unsigned long flags;
  	u16 start, end;
-@@ -1605,12 +1598,11 @@ static const struct blk_mq_ops nvme_mq_admin_ops = {
+ 	int found;
  
- static const struct blk_mq_ops nvme_mq_ops = {
- 	NVME_SHARED_MQ_OPS,
--	.poll			= nvme_poll,
- };
+-	if (!nvme_cqe_pending(nvmeq))
+-		return 0;
+-
+-	spin_lock_irq(&nvmeq->cq_lock);
++	spin_lock_irqsave(&nvmeq->cq_lock, flags);
+ 	found = nvme_process_cq(nvmeq, &start, &end, tag);
+-	spin_unlock_irq(&nvmeq->cq_lock);
++	spin_unlock_irqrestore(&nvmeq->cq_lock, flags);
  
--static const struct blk_mq_ops nvme_mq_poll_noirq_ops = {
-+static const struct blk_mq_ops nvme_mq_poll_ops = {
- 	NVME_SHARED_MQ_OPS,
--	.poll			= nvme_poll_noirq,
-+	.poll			= nvme_poll,
- };
+ 	nvme_complete_cqes(nvmeq, start, end);
+ 	return found;
+@@ -1279,7 +1281,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ 	/*
+ 	 * Did we miss an interrupt?
+ 	 */
+-	if (__nvme_poll(nvmeq, req->tag)) {
++	if (nvme_poll_irqdisable(nvmeq, req->tag)) {
+ 		dev_warn(dev->ctrl.device,
+ 			 "I/O %d QID %d timeout, completion polled\n",
+ 			 req->tag, nvmeq->qid);
+@@ -1406,18 +1408,13 @@ static int nvme_suspend_queue(struct nvme_queue *nvmeq)
+ static void nvme_disable_admin_queue(struct nvme_dev *dev, bool shutdown)
+ {
+ 	struct nvme_queue *nvmeq = &dev->queues[0];
+-	u16 start, end;
  
- static void nvme_dev_remove_admin(struct nvme_dev *dev)
-@@ -2298,10 +2290,10 @@ static int nvme_dev_add(struct nvme_dev *dev)
- 	int ret;
+ 	if (shutdown)
+ 		nvme_shutdown_ctrl(&dev->ctrl);
+ 	else
+ 		nvme_disable_ctrl(&dev->ctrl, dev->ctrl.cap);
  
- 	if (!dev->ctrl.tagset) {
--		if (!dev->io_queues[HCTX_TYPE_POLL])
--			dev->tagset.ops = &nvme_mq_ops;
-+		if (dev->io_queues[HCTX_TYPE_POLL])
-+			dev->tagset.ops = &nvme_mq_poll_ops;
- 		else
--			dev->tagset.ops = &nvme_mq_poll_noirq_ops;
-+			dev->tagset.ops = &nvme_mq_ops;
+-	spin_lock_irq(&nvmeq->cq_lock);
+-	nvme_process_cq(nvmeq, &start, &end, -1);
+-	spin_unlock_irq(&nvmeq->cq_lock);
+-
+-	nvme_complete_cqes(nvmeq, start, end);
++	nvme_poll_irqdisable(nvmeq, -1);
+ }
  
- 		dev->tagset.nr_hw_queues = dev->online_queues - 1;
- 		dev->tagset.nr_maps = HCTX_MAX_TYPES;
+ static int nvme_cmb_qdepth(struct nvme_dev *dev, int nr_io_queues,
+@@ -2217,17 +2214,9 @@ static void nvme_del_queue_end(struct request *req, blk_status_t error)
+ static void nvme_del_cq_end(struct request *req, blk_status_t error)
+ {
+ 	struct nvme_queue *nvmeq = req->end_io_data;
+-	u16 start, end;
+ 
+-	if (!error) {
+-		unsigned long flags;
+-
+-		spin_lock_irqsave(&nvmeq->cq_lock, flags);
+-		nvme_process_cq(nvmeq, &start, &end, -1);
+-		spin_unlock_irqrestore(&nvmeq->cq_lock, flags);
+-
+-		nvme_complete_cqes(nvmeq, start, end);
+-	}
++	if (!error)
++		nvme_poll_irqdisable(nvmeq, -1);
+ 
+ 	nvme_del_queue_end(req, error);
+ }
 -- 
 2.19.1
