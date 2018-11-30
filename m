@@ -1,20 +1,20 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 29 Nov 2018 17:30:25 -0800
-Subject: [PATCH] nvme-rdma: complete requests from ->timeout
-In-Reply-To: <1543535954-28073-1-git-send-email-jalee@purestorage.com>
-References: <1543535954-28073-1-git-send-email-jalee@purestorage.com>
-Message-ID: <cc7cbad6-0e7d-8328-c602-61d659c3a7de@grimberg.me>
+Date: Thu, 29 Nov 2018 17:34:30 -0800
+Subject: Whenever running nvme discover command, syslog shows warning
+ messages
+In-Reply-To: <bdd5f3c7-8173-dd63-3a47-df87a9c2d14c@broadcom.com>
+References: <CY4PR1301MB2008564EA917C4FE4D63298585D20@CY4PR1301MB2008.namprd13.prod.outlook.com>
+ <bdd5f3c7-8173-dd63-3a47-df87a9c2d14c@broadcom.com>
+Message-ID: <7a1a884d-5be0-064a-0865-51bca20ba919@grimberg.me>
 
 
-> This does not hold at least for NVMe RDMA host driver. An example scenario
-> is when the RDMA connection is gone while the controller is being deleted.
-> In this case, the nvmf_reg_write32() for sending shutdown admin command by
-> the delete_work could be hung forever if the command is not completed by
-> the timeout handler.
+> no there's not - currently.
+> 
+> I find them worthwhile to see, as it hints at what the admin or 
+> scripting is doing, as well as giving hints on when nvme? names may be 
+> reallocated. I would not remove them for normal storage controllers. 
+> Perhaps a discovery controller could be filtered out, but I still find 
+> it useful.
 
-If the queue is gone, this means that the queue has already flushed and
-any commands that were inflight has completed with a flush error
-completion...
-
-Can you describe the scenario that caused this hang? When has the
-queue became "gone" and when did the shutdown command execute?
+We can filter it out for discovery controllers... I'm pretty indifferent
+about it...
