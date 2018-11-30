@@ -1,48 +1,59 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Fri, 30 Nov 2018 15:20:19 +0000
-Subject: [PATCH 01/13] block: move queues types to the block layer
-In-Reply-To: <20181130080013.GB18936@lst.de>
-References: <20181129191310.9795-1-hch@lst.de>
- <20181129191310.9795-2-hch@lst.de>
- <20181129201914.GB9377@localhost.localdomain> <20181130080013.GB18936@lst.de>
-Message-ID: <00bcc7f1-9d2b-ceb8-49d6-b3c857fd2df7@fb.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Fri, 30 Nov 2018 08:26:33 -0800
+Subject: [GIT PULL] nvme fixes for 4.20
+In-Reply-To: <01b6314c-903e-6787-ccf6-e93aa789199a@kernel.dk>
+References: <20181130152430.GA3107@infradead.org>
+ <01b6314c-903e-6787-ccf6-e93aa789199a@kernel.dk>
+Message-ID: <20181130162633.GA16933@infradead.org>
 
-On 11/30/18 1:00 AM, Christoph Hellwig wrote:
-> On Thu, Nov 29, 2018@01:19:14PM -0700, Keith Busch wrote:
->> On Thu, Nov 29, 2018@08:12:58PM +0100, Christoph Hellwig wrote:
->>> +enum hctx_type {
->>> +	HCTX_TYPE_DEFAULT,	/* all I/O not otherwise accounted for */
->>> +	HCTX_TYPE_READ,		/* just for READ I/O */
->>> +	HCTX_TYPE_POLL,		/* polled I/O of any kind */
->>> +
->>> +	HCTX_MAX_TYPES,
->>>  };
->>
->> Well, there goes my plan to use this with Weighted-Round-Robin NVMe IO
->> queues!
+On Fri, Nov 30, 2018@08:26:24AM -0700, Jens Axboe wrote:
+> On 11/30/18 8:24 AM, Christoph Hellwig wrote:
+> > Various fixlets all over, including throwing in a 'default y' for the
+> > multipath code, given that we want people to actually enable it for full
+> > functionality.
 > 
-> Wo between what do you even want to round robin?  If it is between
-> reads and writes that's easy.  If we want priority reads or writes
-> (separate from polling) that's also still fairly easily.
-> 
-> Btw, one thing I wanted to try once I get hold of the right hardware
-> is to mark the poll queues as priority queues and see if that makes
-> any differents in poll IOPS/latency.
+> Why enable it by default? 99.9% of users aren't going to care. That
+> seems like an odd choice.
 
-Probably not a lot, if anything. Only for heavily mixed cases I'd
-suspect it to make a difference. I can run some tests with it.
+Because its small, and if you don't have it you are going to run into
+problems pretty soon.
 
-And beware that I've seen weird queue priority issues, ala the one
-fixed by:
+Anyway, to get the fixes out ASAP here is the updated request without
+it:
 
-commit 9abd68ef454c824bfd18629033367b4382b5f390 (tag: for-linus-20180511)
-Author: Jens Axboe <axboe at kernel.dk>
-Date:   Tue May 8 10:25:15 2018 -0600
+The following changes since commit 14b04063cc994effc86f976625bf8f806d8d44cb:
 
-    nvme: add quirk to force medium priority for SQ creation
+  Merge branch 'nvme-4.20' of git://git.infradead.org/nvme into for-linus (2018-11-21 05:56:28 -0700)
 
-So we need to be careful with enabling priorities, I suspect. Hopefully
-that's a standalone case.
+are available in the Git repository at:
 
--- 
-Jens Axboe
+  git://git.infradead.org/nvme.git nvme-4.20
+
+for you to fetch changes up to 6344d02dc8f886b6bbcd922ae1a17e4a41500f2d:
+
+  nvme-rdma: fix double freeing of async event data (2018-11-30 17:23:23 +0100)
+
+----------------------------------------------------------------
+Christoph Hellwig (1):
+      nvme: warn when finding multi-port subsystems without multipathing enabled
+
+Ewan D. Milne (1):
+      nvme-fc: initialize nvme_req(rq)->ctrl after calling __nvme_fc_init_request()
+
+Igor Konopko (1):
+      nvme-pci: fix surprise removal
+
+Keith Busch (1):
+      nvme: Free ctrl device name on init failure
+
+Prabhath Sajeepa (1):
+      nvme-rdma: fix double freeing of async event data
+
+Sagi Grimberg (1):
+      nvme: flush namespace scanning work just before removing namespaces
+
+ drivers/nvme/host/core.c | 8 +++++---
+ drivers/nvme/host/fc.c   | 2 +-
+ drivers/nvme/host/nvme.h | 3 +++
+ drivers/nvme/host/rdma.c | 2 ++
+ 4 files changed, 11 insertions(+), 4 deletions(-)
