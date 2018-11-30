@@ -1,27 +1,33 @@
-From: davem@davemloft.net (David Miller)
-Date: Thu, 29 Nov 2018 18:14:03 -0800 (PST)
-Subject: [PATCH v4 00/13] TCP transport binding for NVMe over Fabrics
-In-Reply-To: <133a9650-4413-8692-4200-9d54710e7358@grimberg.me>
-References: <20181127231615.9446-1-sagi@grimberg.me>
- <20181128070116.GB20369@lst.de>
- <133a9650-4413-8692-4200-9d54710e7358@grimberg.me>
-Message-ID: <20181129.181403.1046644111319738364.davem@davemloft.net>
+From: s90752@hotmail.com (Ching-Chiao Chang)
+Date: Fri, 30 Nov 2018 02:40:52 +0000
+Subject: Whenever running nvme discover command, syslog shows warning
+ messages
+In-Reply-To: <7a1a884d-5be0-064a-0865-51bca20ba919@grimberg.me>
+References: <CY4PR1301MB2008564EA917C4FE4D63298585D20@CY4PR1301MB2008.namprd13.prod.outlook.com>
+ <bdd5f3c7-8173-dd63-3a47-df87a9c2d14c@broadcom.com>,
+ <7a1a884d-5be0-064a-0865-51bca20ba919@grimberg.me>
+Message-ID: <CY4PR1301MB200823FB5DF08223456D9D1F85D30@CY4PR1301MB2008.namprd13.prod.outlook.com>
+
+The reason I would like to avoid those messages is that when we put the nvme discover command in a loop, it generates a tons of those messages is syslog.
+
+
+
+Thanks.
+
 
 From: Sagi Grimberg <sagi@grimberg.me>
-Date: Thu, 29 Nov 2018 17:24:09 -0800
+Sent: Friday, November 30, 2018 9:34 AM
+To: James Smart; Ching-Chiao Chang; linux-nvme at lists.infradead.org
+Subject: Re: Whenever running nvme discover command, syslog shows warning messages
+?
 
+> no there's not - currently.
 > 
->> What is the plan ahead here?  I think the nvme code looks pretty
->> reasonable now (I'll do another pass at nitpicking), but we need the
->> networking stuff sorted out with at least ACKs, or a merge through
->> the networking tree and then a shared branch we can pull in.
-> 
-> I would think that having Dave ack patches 1-3 and taking it via the
-> nvme tree should be easier..
-> 
-> Dave? What would you prefer?
+> I find them worthwhile to see, as it hints at what the admin or 
+> scripting is doing, as well as giving hints on when nvme? names may be 
+> reallocated. I would not remove them for normal storage controllers. 
+> Perhaps a discovery controller could be filtered out, but I still find 
+> it useful.
 
-No preference, if the nvme tree makes things easier for you then
-please do it that way.
-
-Acked-by: David S. Miller <davem at davemloft.net>
+We can filter it out for discovery controllers... I'm pretty indifferent
+about it...
