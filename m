@@ -1,18 +1,20 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 29 Nov 2018 17:24:09 -0800
-Subject: [PATCH v4 00/13] TCP transport binding for NVMe over Fabrics
-In-Reply-To: <20181128070116.GB20369@lst.de>
-References: <20181127231615.9446-1-sagi@grimberg.me>
- <20181128070116.GB20369@lst.de>
-Message-ID: <133a9650-4413-8692-4200-9d54710e7358@grimberg.me>
+Date: Thu, 29 Nov 2018 17:30:25 -0800
+Subject: [PATCH] nvme-rdma: complete requests from ->timeout
+In-Reply-To: <1543535954-28073-1-git-send-email-jalee@purestorage.com>
+References: <1543535954-28073-1-git-send-email-jalee@purestorage.com>
+Message-ID: <cc7cbad6-0e7d-8328-c602-61d659c3a7de@grimberg.me>
 
 
-> What is the plan ahead here?  I think the nvme code looks pretty
-> reasonable now (I'll do another pass at nitpicking), but we need the
-> networking stuff sorted out with at least ACKs, or a merge through
-> the networking tree and then a shared branch we can pull in.
+> This does not hold at least for NVMe RDMA host driver. An example scenario
+> is when the RDMA connection is gone while the controller is being deleted.
+> In this case, the nvmf_reg_write32() for sending shutdown admin command by
+> the delete_work could be hung forever if the command is not completed by
+> the timeout handler.
 
-I would think that having Dave ack patches 1-3 and taking it via the
-nvme tree should be easier..
+If the queue is gone, this means that the queue has already flushed and
+any commands that were inflight has completed with a flush error
+completion...
 
-Dave? What would you prefer?
+Can you describe the scenario that caused this hang? When has the
+queue became "gone" and when did the shutdown command execute?
