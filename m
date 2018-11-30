@@ -1,40 +1,29 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 30 Nov 2018 09:16:29 +0100
-Subject: [PATCH 08/13] nvme-pci: remove the CQ lock for interrupt
- driven queues
-In-Reply-To: <20181129210840.GG9377@localhost.localdomain>
+Date: Fri, 30 Nov 2018 09:00:13 +0100
+Subject: [PATCH 01/13] block: move queues types to the block layer
+In-Reply-To: <20181129201914.GB9377@localhost.localdomain>
 References: <20181129191310.9795-1-hch@lst.de>
- <20181129191310.9795-9-hch@lst.de>
- <20181129210840.GG9377@localhost.localdomain>
-Message-ID: <20181130081629.GD18936@lst.de>
+ <20181129191310.9795-2-hch@lst.de>
+ <20181129201914.GB9377@localhost.localdomain>
+Message-ID: <20181130080013.GB18936@lst.de>
 
-On Thu, Nov 29, 2018@02:08:40PM -0700, Keith Busch wrote:
-> On Thu, Nov 29, 2018@08:13:05PM +0100, Christoph Hellwig wrote:
-> > @@ -1050,12 +1051,16 @@ static irqreturn_t nvme_irq(int irq, void *data)
-> >  	irqreturn_t ret = IRQ_NONE;
-> >  	u16 start, end;
-> >  
-> > -	spin_lock(&nvmeq->cq_lock);
-> > +	/*
-> > +	 * The rmb/wmb pair ensures we see all updates from a previous run of
-> > +	 * the irq handler, even if that was on another CPU.
-> > +	 */
-> > +	rmb();
-> >  	if (nvmeq->cq_head != nvmeq->last_cq_head)
-> >  		ret = IRQ_HANDLED;
-> >  	nvme_process_cq(nvmeq, &start, &end, -1);
-> >  	nvmeq->last_cq_head = nvmeq->cq_head;
-> > -	spin_unlock(&nvmeq->cq_lock);
-> > +	wmb();
-> >  
-> >  	if (start != end) {
-> >  		nvme_complete_cqes(nvmeq, start, end);
+On Thu, Nov 29, 2018@01:19:14PM -0700, Keith Busch wrote:
+> On Thu, Nov 29, 2018@08:12:58PM +0100, Christoph Hellwig wrote:
+> > +enum hctx_type {
+> > +	HCTX_TYPE_DEFAULT,	/* all I/O not otherwise accounted for */
+> > +	HCTX_TYPE_READ,		/* just for READ I/O */
+> > +	HCTX_TYPE_POLL,		/* polled I/O of any kind */
+> > +
+> > +	HCTX_MAX_TYPES,
+> >  };
 > 
-> We saved the "start, end" only so we could do the real completion
-> without holding a queue lock. Since you're not using a lock anymore,
-> a further optimization can complete the CQE inline with moving the cq
-> head so that we don't go through queue twice.
-> 
-> That can be a follow on, though, this patch looks fine.
+> Well, there goes my plan to use this with Weighted-Round-Robin NVMe IO
+> queues!
 
-We still hold the lock for the polling case.
+Wo between what do you even want to round robin?  If it is between
+reads and writes that's easy.  If we want priority reads or writes
+(separate from polling) that's also still fairly easily.
+
+Btw, one thing I wanted to try once I get hold of the right hardware
+is to mark the poll queues as priority queues and see if that makes
+any differents in poll IOPS/latency.
