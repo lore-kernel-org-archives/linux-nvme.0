@@ -1,136 +1,31 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri, 31 Aug 2018 18:36:05 -0700
-Subject: [PATCH nvme-cli 4/4] fabrics: add disconnect-all command
-In-Reply-To: <20180901013605.10658-1-sagi@grimberg.me>
-References: <20180901013605.10658-1-sagi@grimberg.me>
-Message-ID: <20180901013605.10658-5-sagi@grimberg.me>
+From: hch@lst.de (Christoph Hellwig)
+Date: Sat, 1 Dec 2018 17:48:04 +0100
+Subject: [PATCH 1/2] blk-mq: Export iterating all tagged requests
+In-Reply-To: <823fc3bf-78a4-c8fb-c80c-e3944f320af0@kernel.dk>
+References: <20181130202635.11145-1-keith.busch@intel.com>
+ <823fc3bf-78a4-c8fb-c80c-e3944f320af0@kernel.dk>
+Message-ID: <20181201164804.GB19557@lst.de>
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- Documentation/nvme-disconnect-all.txt | 34 +++++++++++++++++++++++++++
- fabrics.c                             | 29 +++++++++++++++++++++++
- fabrics.h                             |  1 +
- nvme-builtin.h                        |  1 +
- nvme.c                                |  6 +++++
- 5 files changed, 71 insertions(+)
- create mode 100644 Documentation/nvme-disconnect-all.txt
+On Fri, Nov 30, 2018@01:36:09PM -0700, Jens Axboe wrote:
+> On 11/30/18 1:26 PM, Keith Busch wrote:
+> > A driver may wish to iterate every tagged request, not just ones that
+> > satisfy blk_mq_request_started(). The intended use is so a driver may
+> > terminate entered requests on quiesced queues.
+> 
+> How about we just move the started check into the handler passed in for
+> those that care about it? Much saner to make the interface iterate
+> everything, and leave whatever state check to the callback.
 
-diff --git a/Documentation/nvme-disconnect-all.txt b/Documentation/nvme-disconnect-all.txt
-new file mode 100644
-index 000000000000..6be7e414dea7
---- /dev/null
-+++ b/Documentation/nvme-disconnect-all.txt
-@@ -0,0 +1,34 @@
-+nvme-disconnect-all(1)
-+======================
-+
-+NAME
-+----
-+nvme-disconnect-all - Disconnect from all connected Fabrics controllers.
-+
-+SYNOPSIS
-+--------
-+[verse]
-+'nvme disconnect-all'
-+
-+DESCRIPTION
-+-----------
-+Disconnects and removes all existing NVMe over Fabrics controllers.
-+
-+See the documentation for the nvme-disconnect(1) command for further
-+background.
-+
-+EXAMPLES
-+--------
-+* Disconnect all existing nvme controllers:
-++
-+------------
-+# nvme disconnect-all
-+------------
-+
-+SEE ALSO
-+--------
-+nvme-disconnect(1)
-+
-+NVME
-+----
-+Part of the nvme-user suite
-diff --git a/fabrics.c b/fabrics.c
-index 09cb97c5b880..029105b227ff 100644
---- a/fabrics.c
-+++ b/fabrics.c
-@@ -1048,3 +1048,32 @@ int disconnect(const char *desc, int argc, char **argv)
- 
- 	return ret;
- }
-+
-+int disconnect_all(const char *desc, int argc, char **argv)
-+{
-+	struct subsys_list_item *slist;
-+	int i, j, ret = 0, subcnt = 0;
-+	const struct argconfig_commandline_options command_line_options[] = {
-+		{NULL},
-+	};
-+
-+	ret = argconfig_parse(argc, argv, desc, command_line_options, &cfg,
-+			sizeof(cfg));
-+	if (ret)
-+		return ret;
-+
-+	slist = get_subsys_list(&subcnt);
-+	for (i = 0; i < subcnt; i++) {
-+		struct subsys_list_item *subsys = &slist[i];
-+
-+		for (j = 0; j < subsys->nctrls; j++) {
-+			struct ctrl_list_item *ctrl = &subsys->ctrls[j];
-+
-+			ret = disconnect_by_device(ctrl->name);
-+			if (ret)
-+				goto out;
-+		}
-+	}
-+out:
-+	return ret;
-+}
-diff --git a/fabrics.h b/fabrics.h
-index 91aec90f0ab0..988f3ef2fbc4 100644
---- a/fabrics.h
-+++ b/fabrics.h
-@@ -4,5 +4,6 @@
- extern int discover(const char *desc, int argc, char **argv, bool connect);
- extern int connect(const char *desc, int argc, char **argv);
- extern int disconnect(const char *desc, int argc, char **argv);
-+extern int disconnect_all(const char *desc, int argc, char **argv);
- 
- #endif
-diff --git a/nvme-builtin.h b/nvme-builtin.h
-index f9e47b33803c..afd12b055910 100644
---- a/nvme-builtin.h
-+++ b/nvme-builtin.h
-@@ -63,6 +63,7 @@ COMMAND_LIST(
- 	ENTRY("connect-all", "Discover and Connect to NVMeoF subsystems", connect_all_cmd)
- 	ENTRY("connect", "Connect to NVMeoF subsystem", connect_cmd)
- 	ENTRY("disconnect", "Disconnect from NVMeoF subsystem", disconnect_cmd)
-+	ENTRY("disconnect-all", "Disconnect from all connected NVMeoF subsystems", disconnect_all_cmd)
- 	ENTRY("gen-hostnqn", "Generate NVMeoF host NQN", gen_hostnqn_cmd)
- 	ENTRY("dir-receive", "Submit a Directive Receive command, return results", dir_receive)
- 	ENTRY("dir-send", "Submit a Directive Send command, return results", dir_send)
-diff --git a/nvme.c b/nvme.c
-index 80422516e6ad..a17a4f9393dc 100644
---- a/nvme.c
-+++ b/nvme.c
-@@ -4624,6 +4624,12 @@ static int disconnect_cmd(int argc, char **argv, struct command *command, struct
- 	return disconnect(desc, argc, argv);
- }
- 
-+static int disconnect_all_cmd(int argc, char **argv, struct command *command, struct plugin *plugin)
-+{
-+	const char *desc = "Disconnect from all connected NVMeoF subsystems";
-+	return disconnect_all(desc, argc, argv);
-+}
-+
- void register_extension(struct plugin *plugin)
- {
- 	plugin->parent = &nvme;
--- 
-2.17.1
+So we used to do that, and I changed it back in May to test for
+MQ_RQ_IN_FLIGHT, and then Ming changed it to check
+blk_mq_request_started.  So this is clearly a minefield of sorts..
+
+Note that at least mtip32xx, nbd, skd and the various nvme transports
+want to use the function to terminate all requests in the error
+path, and it would be great to have one single understood, documented
+and debugged helper for that in the core, so this is a vote for moving
+more of the logic in your second helper into the core code.  skd
+will need actually use ->complete to release resources for that, though
+and mtip plays some odd abort bits.  If it weren't for the interesting
+abort behavior in nvme-fc that means we could even unexport the
+low-level interface.
