@@ -1,35 +1,20 @@
-From: israelr@mellanox.com (Israel Rukshin)
-Date: Mon,  3 Dec 2018 15:50:05 +0000
-Subject: [PATCH 2/2] nvme: Remove unused function
-In-Reply-To: <1543852205-776-1-git-send-email-israelr@mellanox.com>
-References: <1543852205-776-1-git-send-email-israelr@mellanox.com>
-Message-ID: <1543852205-776-2-git-send-email-israelr@mellanox.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 3 Dec 2018 11:15:21 -0700
+Subject: [PATCH 07/13] nvme-pci: don't poll from irq context when
+ deleting queues
+In-Reply-To: <20181202164628.1116-8-hch@lst.de>
+References: <20181202164628.1116-1-hch@lst.de>
+ <20181202164628.1116-8-hch@lst.de>
+Message-ID: <20181203181520.GF14775@localhost.localdomain>
 
-Signed-off-by: Israel Rukshin <israelr at mellanox.com>
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
----
- drivers/nvme/host/nvme.h | 9 ---------
- 1 file changed, 9 deletions(-)
+On Sun, Dec 02, 2018@08:46:22AM -0800, Christoph Hellwig wrote:
+> This is the last place outside of nvme_irq that handles CQEs from
+> interrupt context, and thus is in the way of removing the cq_lock for
+> normal queues, and avoiding lockdep warnings on the poll queues, for
+> which we already take it without IRQ disabling.
+> 
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index cee79cb..5486d4c 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -364,15 +364,6 @@ static inline void nvme_fault_inject_fini(struct nvme_ns *ns) {}
- static inline void nvme_should_fail(struct request *req) {}
- #endif
- 
--static inline bool nvme_ctrl_ready(struct nvme_ctrl *ctrl)
--{
--	u32 val = 0;
--
--	if (ctrl->ops->reg_read32(ctrl, NVME_REG_CSTS, &val))
--		return false;
--	return val & NVME_CSTS_RDY;
--}
--
- static inline int nvme_reset_subsystem(struct nvme_ctrl *ctrl)
- {
- 	if (!ctrl->subsystem)
--- 
-1.8.3.1
+Looks good.
+
+Reviewed-by: Keith Busch <keith.busch at intel.com>
