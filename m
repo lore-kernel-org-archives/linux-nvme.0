@@ -1,23 +1,37 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 3 Dec 2018 07:27:26 -0700
-Subject: NVMe drive kernel fail after hotplug kernel 4.16.12
-In-Reply-To: <SN6PR07MB42219ADDE6D4E35F953A4A90F8AE0@SN6PR07MB4221.namprd07.prod.outlook.com>
-References: <AM6PR03MB4038E7290A514371F9D60E17F87F0@AM6PR03MB4038.eurprd03.prod.outlook.com>
- <AM6PR03MB4038A5FDD819AE34DDDE54A4F87E0@AM6PR03MB4038.eurprd03.prod.outlook.com>
- <20180613151128.GB5574@localhost.localdomain>
- <AM6PR03MB40389E7C34537DF6CCDF0904F8400@AM6PR03MB4038.eurprd03.prod.outlook.com>
- <B58D82457FDA0744A320A2FC5AC253B978F0A162@fmsmsx104.amr.corp.intel.com>
- <SN6PR07MB42219ADDE6D4E35F953A4A90F8AE0@SN6PR07MB4221.namprd07.prod.outlook.com>
-Message-ID: <20181203142725.GA14775@localhost.localdomain>
+From: israelr@mellanox.com (Israel Rukshin)
+Date: Mon,  3 Dec 2018 15:50:04 +0000
+Subject: [PATCH 1/2] nvmet-rdma: Fix response use after free
+Message-ID: <1543852205-776-1-git-send-email-israelr@mellanox.com>
 
-On Mon, Dec 03, 2018@02:50:44AM -0800, Albert Schlegel wrote:
-> Hi Keith,
-> 
-> unfornately your commit does not fix our problem. Now we get a NULL pointer dereference.
-> We tested the kernel? 4.20-rc3 and got the following output after power fail of the nvme device:
+nvmet_rdma_release_rsp() may free the response before using it at error flow.
 
-You're talking about a different problem. Alex reported this regression
-after 4.20-rc2, and Igor wrote the fix(*) committed in 4.20-rc4. Try
-that one.
+Fixes: 8407879 ("nvmet-rdma: fix possible bogus dereference under heavy load")
+Signed-off-by: Israel Rukshin <israelr at mellanox.com>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ drivers/nvme/target/rdma.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
- * https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit?id=751a0cc0cd3a0d51e6aaf6fd3b8bd31f4ecfaf3e
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index 3f7971d3..732806a 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -529,6 +529,7 @@ static void nvmet_rdma_send_done(struct ib_cq *cq, struct ib_wc *wc)
+ {
+ 	struct nvmet_rdma_rsp *rsp =
+ 		container_of(wc->wr_cqe, struct nvmet_rdma_rsp, send_cqe);
++	struct nvmet_rdma_queue *queue = rsp->queue;
+ 
+ 	nvmet_rdma_release_rsp(rsp);
+ 
+@@ -536,7 +537,7 @@ static void nvmet_rdma_send_done(struct ib_cq *cq, struct ib_wc *wc)
+ 		     wc->status != IB_WC_WR_FLUSH_ERR)) {
+ 		pr_err("SEND for CQE 0x%p failed with status %s (%d).\n",
+ 			wc->wr_cqe, ib_wc_status_msg(wc->status), wc->status);
+-		nvmet_rdma_error_comp(rsp->queue);
++		nvmet_rdma_error_comp(queue);
+ 	}
+ }
+ 
+-- 
+1.8.3.1
