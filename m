@@ -1,24 +1,27 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 4 Dec 2018 09:13:48 -0800
-Subject: [PATCH 05/13] nvme-pci: consolidate code for polling
- non-dedicated queues
-In-Reply-To: <20181204150449.GB3630@lst.de>
+Date: Tue, 4 Dec 2018 09:18:22 -0800
+Subject: [PATCH 10/13] nvme-mpath: remove I/O polling support
+In-Reply-To: <20181204150729.GD3630@lst.de>
 References: <20181202164628.1116-1-hch@lst.de>
- <20181202164628.1116-6-hch@lst.de>
- <9abd8fde-58c4-0704-1e42-d066b674bb90@grimberg.me>
- <20181204150449.GB3630@lst.de>
-Message-ID: <687e3fd9-fe73-5205-5656-d4861d7dd274@grimberg.me>
+ <20181202164628.1116-11-hch@lst.de>
+ <f62ed781-28cd-dae0-f3aa-544d75cdc4fc@grimberg.me>
+ <20181204150729.GD3630@lst.de>
+Message-ID: <76b2d640-aba6-3869-4420-8c09b8e2ea77@grimberg.me>
 
 
->>> +static int nvme_poll_irqdisable(struct nvme_queue *nvmeq, unsigned int tag)
+>>> If it really becomes an issue we
+>>> should rework the nvme code to also skip the multipath code for any
+>>> private namespace, even if that could mean some trouble when rescanning.
+>>>
 >>
->> Do we still need to carry the tag around?
+>> This requires some explanation? skip the multipath code how?
 > 
-> Yes, the timeout handler polls for a specific tag.
+> We currently always go through the multipath node as long the the
+> controller is multipath capable.  If we care about e.g. polling
+> on a private namespace on a dual ported U.2 drive we'd have to make
+> sure we don't go through the multipath device node for private namespaces
+> that can only have one path, but only for shared namespaces.
 
-Does it have to? the documentation suggests that we missed
-an interrupt, so it is probably waiting on the completion queue.
-
-I'd say that it'd be better if the tag search would be implemented
-on the timeout handler alone so we don't have to pass the tag around
-for everyone... Thoughts?
+But we'd still use the multipath node for shared namespaces (and also
+polling if needed). I agree that private namespaces can skip the
+multipath node.
