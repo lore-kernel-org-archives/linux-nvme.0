@@ -1,31 +1,24 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 4 Dec 2018 16:00:22 +0100
-Subject: [PATCH 01/13] block: move queues types to the block layer
-In-Reply-To: <5a1cd7aa-8937-ae23-c9ae-c8ddaf525080@grimberg.me>
+Date: Tue, 4 Dec 2018 16:04:03 +0100
+Subject: [PATCH 02/13] nvme-pci: use atomic bitops to mark a queue enabled
+In-Reply-To: <1ad65e6d-8b42-6f8e-8eb7-0b28b04e5dd4@grimberg.me>
 References: <20181202164628.1116-1-hch@lst.de>
- <20181202164628.1116-2-hch@lst.de>
- <5a1cd7aa-8937-ae23-c9ae-c8ddaf525080@grimberg.me>
-Message-ID: <20181204150022.GA3440@lst.de>
+ <20181202164628.1116-3-hch@lst.de>
+ <1ad65e6d-8b42-6f8e-8eb7-0b28b04e5dd4@grimberg.me>
+Message-ID: <20181204150403.GA3630@lst.de>
 
-On Mon, Dec 03, 2018@04:49:56PM -0800, Sagi Grimberg wrote:
->> @@ -103,12 +101,17 @@ static inline struct blk_mq_hw_ctx *blk_mq_map_queue(struct request_queue *q,
->>   						     unsigned int flags,
->>   						     unsigned int cpu)
->>   {
->> -	int hctx_type = 0;
->> +	enum hctx_type type = HCTX_TYPE_DEFAULT;
->> +
->> +	if (q->tag_set->nr_maps > HCTX_TYPE_POLL &&
->> +	    ((flags & REQ_HIPRI) && test_bit(QUEUE_FLAG_POLL, &q->queue_flags)))
->> +		type = HCTX_TYPE_POLL;
->>   -	if (q->mq_ops->rq_flags_to_type)
->> -		hctx_type = q->mq_ops->rq_flags_to_type(q, flags);
->> +	else if (q->tag_set->nr_maps > HCTX_TYPE_READ &&
->> +		 ((flags & REQ_OP_MASK) == REQ_OP_READ))
->> +		type = HCTX_TYPE_READ;
+On Mon, Dec 03, 2018@04:54:15PM -0800, Sagi Grimberg wrote:
 >
-> Nit, there seems to be an extra newline that can be omitted here before
-> the else if statement (if I'm reading this correctly)...
+>> @@ -2173,6 +2157,8 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+>>     	if (nr_io_queues == 0)
+>>   		return 0;
+>> +	
+>> +	clear_bit(NVMEQ_ENABLED, &adminq->flags);
+>>   
+>
+> This is a change of behavior, looks correct though as we can fail
+> nvme_setup_irqs after we freed the admin vector. Needs documentation 
+> though..
 
-Empty lines can always be ommited, but in this case I actually like it
-as it seems to help readability..
+I have a hard time parsing the above, can you point to where the problem
+is?
