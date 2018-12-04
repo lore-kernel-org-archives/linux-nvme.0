@@ -1,72 +1,30 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon,  3 Dec 2018 17:52:13 -0800
-Subject: [PATCH v5 09/13] nvme-fabrics: allow user passing data digest
+Date: Mon,  3 Dec 2018 17:52:16 -0800
+Subject: [PATCH v5 12/13] nvmet: allow configfs tcp trtype configuration
 In-Reply-To: <20181204015217.16613-1-sagi@grimberg.me>
 References: <20181204015217.16613-1-sagi@grimberg.me>
-Message-ID: <20181204015217.16613-10-sagi@grimberg.me>
+Message-ID: <20181204015217.16613-13-sagi@grimberg.me>
 
 From: Sagi Grimberg <sagi@lightbitslabs.com>
 
-Data digest is a nvme-tcp specific feature, but nothing prevents other
-transports reusing the concept so do not associate with tcp transport
-solely.
-
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
 Reviewed-by: Christoph Hellwig <hch at lst.de>
 Signed-off-by: Sagi Grimberg <sagi at lightbitslabs.com>
 ---
- drivers/nvme/host/fabrics.c | 5 +++++
- drivers/nvme/host/fabrics.h | 2 ++
- 2 files changed, 7 insertions(+)
+ drivers/nvme/target/configfs.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 4272f8a95db3..9c62c6838b76 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -615,6 +615,7 @@ static const match_table_t opt_tokens = {
- 	{ NVMF_OPT_DUP_CONNECT,		"duplicate_connect"	},
- 	{ NVMF_OPT_DISABLE_SQFLOW,	"disable_sqflow"	},
- 	{ NVMF_OPT_HDR_DIGEST,		"hdr_digest"		},
-+	{ NVMF_OPT_DATA_DIGEST,		"data_digest"		},
- 	{ NVMF_OPT_ERR,			NULL			}
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index db2cb64be7ba..618bbd006544 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -34,6 +34,7 @@ static const struct nvmet_transport_name {
+ } nvmet_transport_names[] = {
+ 	{ NVMF_TRTYPE_RDMA,	"rdma" },
+ 	{ NVMF_TRTYPE_FC,	"fc" },
++	{ NVMF_TRTYPE_TCP,	"tcp" },
+ 	{ NVMF_TRTYPE_LOOP,	"loop" },
  };
  
-@@ -635,6 +636,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 	opts->kato = NVME_DEFAULT_KATO;
- 	opts->duplicate_connect = false;
- 	opts->hdr_digest = false;
-+	opts->data_digest = false;
- 
- 	options = o = kstrdup(buf, GFP_KERNEL);
- 	if (!options)
-@@ -832,6 +834,9 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 		case NVMF_OPT_HDR_DIGEST:
- 			opts->hdr_digest = true;
- 			break;
-+		case NVMF_OPT_DATA_DIGEST:
-+			opts->data_digest = true;
-+			break;
- 		default:
- 			pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
- 				p);
-diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-index a6127f1a9e8e..524a02a67817 100644
---- a/drivers/nvme/host/fabrics.h
-+++ b/drivers/nvme/host/fabrics.h
-@@ -60,6 +60,7 @@ enum {
- 	NVMF_OPT_DUP_CONNECT	= 1 << 13,
- 	NVMF_OPT_DISABLE_SQFLOW = 1 << 14,
- 	NVMF_OPT_HDR_DIGEST	= 1 << 15,
-+	NVMF_OPT_DATA_DIGEST	= 1 << 16,
- };
- 
- /**
-@@ -105,6 +106,7 @@ struct nvmf_ctrl_options {
- 	int			max_reconnects;
- 	bool			disable_sqflow;
- 	bool			hdr_digest;
-+	bool			data_digest;
- };
- 
- /*
 -- 
 2.17.1
