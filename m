@@ -1,42 +1,54 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon,  3 Dec 2018 17:52:06 -0800
-Subject: [PATCH v5 02/13] datagram: open-code copy_page_to_iter
+Date: Mon,  3 Dec 2018 17:52:07 -0800
+Subject: [PATCH v5 03/13] iov_iter: pass void csum pointer to
+ csum_and_copy_to_iter
 In-Reply-To: <20181204015217.16613-1-sagi@grimberg.me>
 References: <20181204015217.16613-1-sagi@grimberg.me>
-Message-ID: <20181204015217.16613-3-sagi@grimberg.me>
+Message-ID: <20181204015217.16613-4-sagi@grimberg.me>
 
 From: Sagi Grimberg <sagi@lightbitslabs.com>
 
-This will be useful to consolidate skb_copy_and_hash_datagram_iter and
-skb_copy_and_csum_datagram to a single code path.
+The single caller to csum_and_copy_to_iter is skb_copy_and_csum_datagram
+and we are trying to unite its logic with skb_copy_datagram_iter by passing
+a callback to the copy function that we want to apply. Thus, we need
+to make the checksum pointer private to the function.
 
 Acked-by: David S. Miller <davem at davemloft.net>
 Signed-off-by: Sagi Grimberg <sagi at lightbitslabs.com>
 ---
- net/core/datagram.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ include/linux/uio.h | 2 +-
+ lib/iov_iter.c      | 3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/net/core/datagram.c b/net/core/datagram.c
-index 57f3a6fcfc1e..abe642181b64 100644
---- a/net/core/datagram.c
-+++ b/net/core/datagram.c
-@@ -445,11 +445,14 @@ int skb_copy_datagram_iter(const struct sk_buff *skb, int offset,
+diff --git a/include/linux/uio.h b/include/linux/uio.h
+index 55ce99ddb912..41d1f8d3313d 100644
+--- a/include/linux/uio.h
++++ b/include/linux/uio.h
+@@ -266,7 +266,7 @@ static inline void iov_iter_reexpand(struct iov_iter *i, size_t count)
+ {
+ 	i->count = count;
+ }
+-size_t csum_and_copy_to_iter(const void *addr, size_t bytes, __wsum *csum, struct iov_iter *i);
++size_t csum_and_copy_to_iter(const void *addr, size_t bytes, void *csump, struct iov_iter *i);
+ size_t csum_and_copy_from_iter(void *addr, size_t bytes, __wsum *csum, struct iov_iter *i);
+ bool csum_and_copy_from_iter_full(void *addr, size_t bytes, __wsum *csum, struct iov_iter *i);
  
- 		end = start + skb_frag_size(frag);
- 		if ((copy = end - offset) > 0) {
-+			struct page *page = skb_frag_page(frag);
-+			u8 *vaddr = kmap(page);
-+
- 			if (copy > len)
- 				copy = len;
--			n = copy_page_to_iter(skb_frag_page(frag),
--					      frag->page_offset + offset -
--					      start, copy, to);
-+			n = copy_to_iter(vaddr + frag->page_offset +
-+					 offset - start, copy, to);
-+			kunmap(page);
- 			offset += n;
- 			if (n != copy)
- 				goto short_copy;
+diff --git a/lib/iov_iter.c b/lib/iov_iter.c
+index 7ebccb5c1637..db93531ca3e3 100644
+--- a/lib/iov_iter.c
++++ b/lib/iov_iter.c
+@@ -1432,10 +1432,11 @@ bool csum_and_copy_from_iter_full(void *addr, size_t bytes, __wsum *csum,
+ }
+ EXPORT_SYMBOL(csum_and_copy_from_iter_full);
+ 
+-size_t csum_and_copy_to_iter(const void *addr, size_t bytes, __wsum *csum,
++size_t csum_and_copy_to_iter(const void *addr, size_t bytes, void *csump,
+ 			     struct iov_iter *i)
+ {
+ 	const char *from = addr;
++	__wsum *csum = csump;
+ 	__wsum sum, next;
+ 	size_t off = 0;
+ 	sum = *csum;
 -- 
 2.17.1
