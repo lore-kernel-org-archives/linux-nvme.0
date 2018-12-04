@@ -1,31 +1,32 @@
 From: axboe@fb.com (Jens Axboe)
-Date: Tue, 4 Dec 2018 18:19:53 +0000
-Subject: [PATCH 06/13] nvme-pci: refactor nvme_disable_io_queues
-In-Reply-To: <20181204150517.GC3630@lst.de>
+Date: Tue, 4 Dec 2018 18:19:20 +0000
+Subject: [PATCH 05/13] nvme-pci: consolidate code for polling
+ non-dedicated queues
+In-Reply-To: <687e3fd9-fe73-5205-5656-d4861d7dd274@grimberg.me>
 References: <20181202164628.1116-1-hch@lst.de>
- <20181202164628.1116-7-hch@lst.de>
- <0997230c-a13e-65ea-130a-cca366336989@grimberg.me>
- <20181204150517.GC3630@lst.de>
-Message-ID: <0a96d78e-91c6-8367-e50d-35c239111a79@fb.com>
+ <20181202164628.1116-6-hch@lst.de>
+ <9abd8fde-58c4-0704-1e42-d066b674bb90@grimberg.me>
+ <20181204150449.GB3630@lst.de>
+ <687e3fd9-fe73-5205-5656-d4861d7dd274@grimberg.me>
+Message-ID: <275863f0-bb1f-8939-f6ba-6059b463d10a@fb.com>
 
-On 12/4/18 8:05 AM, Christoph Hellwig wrote:
-> On Mon, Dec 03, 2018@05:00:59PM -0800, Sagi Grimberg wrote:
->>
->>> @@ -2428,7 +2426,8 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
->>>   	nvme_stop_queues(&dev->ctrl);
->>>     	if (!dead && dev->ctrl.queue_count > 0) {
->>> -		nvme_disable_io_queues(dev);
->>> +		if (nvme_disable_io_queues(dev, nvme_admin_delete_sq))
->>> +			
->>
->> Would be nice if the opcode change would be kept inside but still
->> split like:
+On 12/4/18 10:13 AM, Sagi Grimberg wrote:
 > 
-> I actually like not having another wrapper to stop through..
+>>>> +static int nvme_poll_irqdisable(struct nvme_queue *nvmeq, unsigned int tag)
+>>>
+>>> Do we still need to carry the tag around?
+>>
+>> Yes, the timeout handler polls for a specific tag.
 > 
-> Keith, Jens, any preference?
+> Does it have to? the documentation suggests that we missed
+> an interrupt, so it is probably waiting on the completion queue.
+> 
+> I'd say that it'd be better if the tag search would be implemented
+> on the timeout handler alone so we don't have to pass the tag around
+> for everyone... Thoughts?
 
-Fine either way, prefer not having a wrapper.
+Without that you don't know if that's the request that completed. You
+have to be able to look that up from the timeout handler.
 
 -- 
 Jens Axboe
