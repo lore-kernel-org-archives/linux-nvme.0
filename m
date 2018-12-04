@@ -1,29 +1,24 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 4 Dec 2018 09:11:27 -0800
-Subject: [PATCH 02/13] nvme-pci: use atomic bitops to mark a queue enabled
-In-Reply-To: <20181204150403.GA3630@lst.de>
+Date: Tue, 4 Dec 2018 09:13:48 -0800
+Subject: [PATCH 05/13] nvme-pci: consolidate code for polling
+ non-dedicated queues
+In-Reply-To: <20181204150449.GB3630@lst.de>
 References: <20181202164628.1116-1-hch@lst.de>
- <20181202164628.1116-3-hch@lst.de>
- <1ad65e6d-8b42-6f8e-8eb7-0b28b04e5dd4@grimberg.me>
- <20181204150403.GA3630@lst.de>
-Message-ID: <93e33763-ca30-2995-7040-9bfd92a09d7d@grimberg.me>
+ <20181202164628.1116-6-hch@lst.de>
+ <9abd8fde-58c4-0704-1e42-d066b674bb90@grimberg.me>
+ <20181204150449.GB3630@lst.de>
+Message-ID: <687e3fd9-fe73-5205-5656-d4861d7dd274@grimberg.me>
 
 
->>> @@ -2173,6 +2157,8 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
->>>      	if (nr_io_queues == 0)
->>>    		return 0;
->>> +	
->>> +	clear_bit(NVMEQ_ENABLED, &adminq->flags);
->>>    
+>>> +static int nvme_poll_irqdisable(struct nvme_queue *nvmeq, unsigned int tag)
 >>
->> This is a change of behavior, looks correct though as we can fail
->> nvme_setup_irqs after we freed the admin vector. Needs documentation
->> though..
+>> Do we still need to carry the tag around?
 > 
-> I have a hard time parsing the above, can you point to where the problem
-> is?
+> Yes, the timeout handler polls for a specific tag.
 
-This flag replaces cq_vector = -1 for indicating the queue state so I'd
-expect that it would not appear where the former didn't. In this case
-we clear the flag in a place that before we did not set the cq_vector
-before, which seems correct to me though.
+Does it have to? the documentation suggests that we missed
+an interrupt, so it is probably waiting on the completion queue.
+
+I'd say that it'd be better if the tag search would be implemented
+on the timeout handler alone so we don't have to pass the tag around
+for everyone... Thoughts?
