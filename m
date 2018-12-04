@@ -1,27 +1,43 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 4 Dec 2018 09:18:22 -0800
-Subject: [PATCH 10/13] nvme-mpath: remove I/O polling support
-In-Reply-To: <20181204150729.GD3630@lst.de>
-References: <20181202164628.1116-1-hch@lst.de>
- <20181202164628.1116-11-hch@lst.de>
- <f62ed781-28cd-dae0-f3aa-544d75cdc4fc@grimberg.me>
- <20181204150729.GD3630@lst.de>
-Message-ID: <76b2d640-aba6-3869-4420-8c09b8e2ea77@grimberg.me>
+Date: Tue, 4 Dec 2018 09:21:19 -0800
+Subject: [PATCH 1/2] nvmet-rdma: Fix response use after free
+In-Reply-To: <3b123a7f-5655-91f5-d1d8-fec5fe18d36a@mellanox.com>
+References: <1543852205-776-1-git-send-email-israelr@mellanox.com>
+ <97bc61b4-d5b7-6dc9-668e-a3900a08f993@grimberg.me>
+ <3b123a7f-5655-91f5-d1d8-fec5fe18d36a@mellanox.com>
+Message-ID: <d3b37bde-4fb4-aed7-a34a-c5da2847c278@grimberg.me>
 
 
->>> If it really becomes an issue we
->>> should rework the nvme code to also skip the multipath code for any
->>> private namespace, even if that could mean some trouble when rescanning.
->>>
+>>> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+>>> index 3f7971d3..732806a 100644
+>>> --- a/drivers/nvme/target/rdma.c
+>>> +++ b/drivers/nvme/target/rdma.c
+>>> @@ -529,6 +529,7 @@ static void nvmet_rdma_send_done(struct ib_cq 
+>>> *cq, struct ib_wc *wc)
+>>> ? {
+>>> ????? struct nvmet_rdma_rsp *rsp =
+>>> ????????? container_of(wc->wr_cqe, struct nvmet_rdma_rsp, send_cqe);
+>>> +??? struct nvmet_rdma_queue *queue = rsp->queue;
 >>
->> This requires some explanation? skip the multipath code how?
+>> Didn't you mean:
+>> +??? struct nvmet_rdma_queue *queue = cq->cq_context;
+>>
+>> I'm not sure what this is solving otherwise...
 > 
-> We currently always go through the multipath node as long the the
-> controller is multipath capable.  If we care about e.g. polling
-> on a private namespace on a dual ported U.2 drive we'd have to make
-> sure we don't go through the multipath device node for private namespaces
-> that can only have one path, but only for shared namespaces.
+> it doesn't matter where you take the queue pointer from.
+> 
+> the important thing is to take it before you run 
+> nvmet_rdma_release_rsp(rsp) because after your commit that allocate the 
+> rsp dynamically
+> 
+> you free it too:
+> 
+> if (rsp->allocated) {
+>  ??????????????? kfree(rsp);
+>  ??????????????? return;
+>  ??????? }
+> 
+> so you might get use after free ... (nvmet_rdma_error_comp(rsp->queue); )
 
-But we'd still use the multipath node for shared namespaces (and also
-polling if needed). I agree that private namespaces can skip the
-multipath node.
+Yes you're right, now I get what this is doing. But perhaps for
+consistency lets use the cq_context across all the completion handlers.
