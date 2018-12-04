@@ -1,10 +1,100 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 3 Dec 2018 17:39:14 -0800
-Subject: [PATCH 7/7] blk-mq: use plug for devices that implement
- ->commits_rqs()
-In-Reply-To: <20181128133538.20329-8-axboe@kernel.dk>
-References: <20181128133538.20329-1-axboe@kernel.dk>
- <20181128133538.20329-8-axboe@kernel.dk>
-Message-ID: <f72ee67d-7611-9e28-7051-0c00a71da0fc@grimberg.me>
+Date: Mon,  3 Dec 2018 17:52:05 -0800
+Subject: [PATCH v5 01/13] ath6kl: add ath6kl_ prefix to crypto_type
+In-Reply-To: <20181204015217.16613-1-sagi@grimberg.me>
+References: <20181204015217.16613-1-sagi@grimberg.me>
+Message-ID: <20181204015217.16613-2-sagi@grimberg.me>
 
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+From: Sagi Grimberg <sagi@lightbitslabs.com>
+
+Prevent a namespace conflict as in following patches as skbuff.h will
+include the crypto API.
+
+Acked-by: David S. Miller <davem at davemloft.net>
+Cc: Kalle Valo <kvalo at codeaurora.org>
+Signed-off-by: Sagi Grimberg <sagi at lightbitslabs.com>
+---
+ drivers/net/wireless/ath/ath6kl/cfg80211.c | 2 +-
+ drivers/net/wireless/ath/ath6kl/common.h   | 2 +-
+ drivers/net/wireless/ath/ath6kl/wmi.c      | 6 +++---
+ drivers/net/wireless/ath/ath6kl/wmi.h      | 6 +++---
+ 4 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/net/wireless/ath/ath6kl/cfg80211.c b/drivers/net/wireless/ath/ath6kl/cfg80211.c
+index e121187f371f..fa049c4ae315 100644
+--- a/drivers/net/wireless/ath/ath6kl/cfg80211.c
++++ b/drivers/net/wireless/ath/ath6kl/cfg80211.c
+@@ -1322,7 +1322,7 @@ static int ath6kl_cfg80211_set_default_key(struct wiphy *wiphy,
+ 	struct ath6kl_vif *vif = netdev_priv(ndev);
+ 	struct ath6kl_key *key = NULL;
+ 	u8 key_usage;
+-	enum crypto_type key_type = NONE_CRYPT;
++	enum ath6kl_crypto_type key_type = NONE_CRYPT;
+ 
+ 	ath6kl_dbg(ATH6KL_DBG_WLAN_CFG, "%s: index %d\n", __func__, key_index);
+ 
+diff --git a/drivers/net/wireless/ath/ath6kl/common.h b/drivers/net/wireless/ath/ath6kl/common.h
+index 4f82e8632d37..d6e5234f67a1 100644
+--- a/drivers/net/wireless/ath/ath6kl/common.h
++++ b/drivers/net/wireless/ath/ath6kl/common.h
+@@ -67,7 +67,7 @@ struct ath6kl_llc_snap_hdr {
+ 	__be16 eth_type;
+ } __packed;
+ 
+-enum crypto_type {
++enum ath6kl_crypto_type {
+ 	NONE_CRYPT          = 0x01,
+ 	WEP_CRYPT           = 0x02,
+ 	TKIP_CRYPT          = 0x04,
+diff --git a/drivers/net/wireless/ath/ath6kl/wmi.c b/drivers/net/wireless/ath/ath6kl/wmi.c
+index 777acc564ac9..9d7ac1ab2d02 100644
+--- a/drivers/net/wireless/ath/ath6kl/wmi.c
++++ b/drivers/net/wireless/ath/ath6kl/wmi.c
+@@ -1849,9 +1849,9 @@ int ath6kl_wmi_connect_cmd(struct wmi *wmi, u8 if_idx,
+ 			   enum network_type nw_type,
+ 			   enum dot11_auth_mode dot11_auth_mode,
+ 			   enum auth_mode auth_mode,
+-			   enum crypto_type pairwise_crypto,
++			   enum ath6kl_crypto_type pairwise_crypto,
+ 			   u8 pairwise_crypto_len,
+-			   enum crypto_type group_crypto,
++			   enum ath6kl_crypto_type group_crypto,
+ 			   u8 group_crypto_len, int ssid_len, u8 *ssid,
+ 			   u8 *bssid, u16 channel, u32 ctrl_flags,
+ 			   u8 nw_subtype)
+@@ -2301,7 +2301,7 @@ int ath6kl_wmi_disctimeout_cmd(struct wmi *wmi, u8 if_idx, u8 timeout)
+ }
+ 
+ int ath6kl_wmi_addkey_cmd(struct wmi *wmi, u8 if_idx, u8 key_index,
+-			  enum crypto_type key_type,
++			  enum ath6kl_crypto_type key_type,
+ 			  u8 key_usage, u8 key_len,
+ 			  u8 *key_rsc, unsigned int key_rsc_len,
+ 			  u8 *key_material,
+diff --git a/drivers/net/wireless/ath/ath6kl/wmi.h b/drivers/net/wireless/ath/ath6kl/wmi.h
+index a60bb49fe920..784940ba4c90 100644
+--- a/drivers/net/wireless/ath/ath6kl/wmi.h
++++ b/drivers/net/wireless/ath/ath6kl/wmi.h
+@@ -2556,9 +2556,9 @@ int ath6kl_wmi_connect_cmd(struct wmi *wmi, u8 if_idx,
+ 			   enum network_type nw_type,
+ 			   enum dot11_auth_mode dot11_auth_mode,
+ 			   enum auth_mode auth_mode,
+-			   enum crypto_type pairwise_crypto,
++			   enum ath6kl_crypto_type pairwise_crypto,
+ 			   u8 pairwise_crypto_len,
+-			   enum crypto_type group_crypto,
++			   enum ath6kl_crypto_type group_crypto,
+ 			   u8 group_crypto_len, int ssid_len, u8 *ssid,
+ 			   u8 *bssid, u16 channel, u32 ctrl_flags,
+ 			   u8 nw_subtype);
+@@ -2610,7 +2610,7 @@ int ath6kl_wmi_config_debug_module_cmd(struct wmi *wmi, u32 valid, u32 config);
+ 
+ int ath6kl_wmi_get_stats_cmd(struct wmi *wmi, u8 if_idx);
+ int ath6kl_wmi_addkey_cmd(struct wmi *wmi, u8 if_idx, u8 key_index,
+-			  enum crypto_type key_type,
++			  enum ath6kl_crypto_type key_type,
+ 			  u8 key_usage, u8 key_len,
+ 			  u8 *key_rsc, unsigned int key_rsc_len,
+ 			  u8 *key_material,
+-- 
+2.17.1
