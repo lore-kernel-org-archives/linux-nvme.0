@@ -1,22 +1,21 @@
-From: bvanassche@acm.org (Bart Van Assche)
-Date: Mon, 03 Dec 2018 14:42:56 -0800
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 3 Dec 2018 16:33:57 -0800
 Subject: [PATCH] nvme-core: small cleanups
-In-Reply-To: <20181129171804.5241-1-chaitanya.kulkarni@wdc.com>
+In-Reply-To: <1543876976.185366.175.camel@acm.org>
 References: <20181129171804.5241-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <1543876976.185366.175.camel@acm.org>
+ <1543876976.185366.175.camel@acm.org>
+Message-ID: <01b3109f-76d4-590b-b643-028ed1ee0dc3@grimberg.me>
 
-On Thu, 2018-11-29@09:18 -0800, Chaitanya Kulkarni wrote:
->  static int nvme_identify_ctrl(struct nvme_ctrl *dev, struct nvme_id_ctrl **id)
->  {
-> -	struct nvme_command c = { };
-> +	struct nvme_command c;
->  	int error;
->  
-> +	memset(&c, 0, sizeof(c));
 
-Please drop this and all similar changes. I think the preferred style in the Linux
-kernel for structure initialization is to use "= { }" instead of memset().
+>>   static int nvme_identify_ctrl(struct nvme_ctrl *dev, struct nvme_id_ctrl **id)
+>>   {
+>> -	struct nvme_command c = { };
+>> +	struct nvme_command c;
+>>   	int error;
+>>   
+>> +	memset(&c, 0, sizeof(c));
+> 
+> Please drop this and all similar changes. I think the preferred style in the Linux
+> kernel for structure initialization is to use "= { }" instead of memset().
 
-Thanks,
-
-Bart.
+Agree with Bart.
