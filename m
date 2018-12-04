@@ -1,22 +1,80 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 4 Dec 2018 16:07:29 +0100
-Subject: [PATCH 10/13] nvme-mpath: remove I/O polling support
-In-Reply-To: <f62ed781-28cd-dae0-f3aa-544d75cdc4fc@grimberg.me>
-References: <20181202164628.1116-1-hch@lst.de>
- <20181202164628.1116-11-hch@lst.de>
- <f62ed781-28cd-dae0-f3aa-544d75cdc4fc@grimberg.me>
-Message-ID: <20181204150729.GD3630@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Tue, 4 Dec 2018 07:10:15 -0800
+Subject: [PATCH v2] nvme: validate controller state before rescheduling
+ keep alive
+In-Reply-To: <20181128010444.8747-1-jsmart2021@gmail.com>
+References: <20181128010444.8747-1-jsmart2021@gmail.com>
+Message-ID: <20181204151015.GA25635@infradead.org>
 
-On Mon, Dec 03, 2018@05:11:43PM -0800, Sagi Grimberg wrote:
->> If it really becomes an issue we
->> should rework the nvme code to also skip the multipath code for any
->> private namespace, even if that could mean some trouble when rescanning.
->>
->
-> This requires some explanation? skip the multipath code how?
+Sagi,
 
-We currently always go through the multipath node as long the the
-controller is multipath capable.  If we care about e.g. polling
-on a private namespace on a dual ported U.2 drive we'd have to make
-sure we don't go through the multipath device node for private namespaces
-that can only have one path, but only for shared namespaces.
+any comments?  Otherwise I'll queue this up.
+
+On Tue, Nov 27, 2018@05:04:44PM -0800, James Smart wrote:
+> Delete operations are seeing NULL pointer references in call_timer_fn.
+> Tracking these back, the timer appears to be the keep alive timer.
+> 
+> nvme_keep_alive_work() which is tied to the timer that is cancelled
+> by nvme_stop_keep_alive(), simply starts the keep alive io but doesn't
+> wait for it's completion. So nvme_stop_keep_alive() only stops a timer
+> when it's pending. When a keep alive is in flight, there is no timer
+> running and the nvme_stop_keep_alive() will have no affect on the keep
+> alive io. Thus, if the io completes successfully, the keep alive timer
+> will be rescheduled.   In the failure case, delete is called, the
+> controller state is changed, the nvme_stop_keep_alive() is called while
+> the io is outstanding, and the delete path continues on. The keep
+> alive happens to successfully complete before the delete paths mark it
+> as aborted as part of the queue termination, so the timer is restarted.
+> The delete paths then tear down the controller, and later on the timer
+> code fires and the timer entry is now corrupt.
+> 
+> Fix by validating the controller state before rescheduling the keep
+> alive. Testing with the fix has confirmed the condition above was hit.
+> 
+> Signed-off-by: James Smart <jsmart2021 at gmail.com>
+> 
+> ---
+> v2:
+>   added locking around controller state check. Could have used rmb
+>   and wmb, but this isn't a performance condition.
+> ---
+>  drivers/nvme/host/core.c | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index bb39b91253c2..7c2184fa2917 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -831,6 +831,8 @@ static int nvme_submit_user_cmd(struct request_queue *q,
+>  static void nvme_keep_alive_end_io(struct request *rq, blk_status_t status)
+>  {
+>  	struct nvme_ctrl *ctrl = rq->end_io_data;
+> +	unsigned long flags;
+> +	bool startka = false;
+>  
+>  	blk_mq_free_request(rq);
+>  
+> @@ -841,7 +843,13 @@ static void nvme_keep_alive_end_io(struct request *rq, blk_status_t status)
+>  		return;
+>  	}
+>  
+> -	schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
+> +	spin_lock_irqsave(&ctrl->lock, flags);
+> +	if (ctrl->state == NVME_CTRL_LIVE ||
+> +	    ctrl->state == NVME_CTRL_CONNECTING)
+> +		startka = true;
+> +	spin_unlock_irqrestore(&ctrl->lock, flags);
+> +	if (startka)
+> +		schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
+>  }
+>  
+>  static int nvme_keep_alive(struct nvme_ctrl *ctrl)
+> -- 
+> 2.13.7
+> 
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
+---end quoted text---
