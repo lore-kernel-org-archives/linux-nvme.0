@@ -1,16 +1,18 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 4 Dec 2018 09:07:12 -0800
-Subject: [PATCH v2] nvme: validate controller state before rescheduling
- keep alive
-In-Reply-To: <20181204151015.GA25635@infradead.org>
-References: <20181128010444.8747-1-jsmart2021@gmail.com>
- <20181204151015.GA25635@infradead.org>
-Message-ID: <a73bdaf8-c706-4470-fbb8-102171699687@grimberg.me>
+Date: Tue, 4 Dec 2018 09:08:33 -0800
+Subject: [PATCH 01/13] block: move queues types to the block layer
+In-Reply-To: <20181204150022.GA3440@lst.de>
+References: <20181202164628.1116-1-hch@lst.de>
+ <20181202164628.1116-2-hch@lst.de>
+ <5a1cd7aa-8937-ae23-c9ae-c8ddaf525080@grimberg.me>
+ <20181204150022.GA3440@lst.de>
+Message-ID: <35684119-ac22-df3a-94cf-ede80ab3ce8d@grimberg.me>
 
-> Sagi,
+
+>> Nit, there seems to be an extra newline that can be omitted here before
+>> the else if statement (if I'm reading this correctly)...
 > 
-> any comments?  Otherwise I'll queue this up.
+> Empty lines can always be ommited, but in this case I actually like it
+> as it seems to help readability..
 
-You can add my:
-
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+If you think its useful I'm fine with it as is...
