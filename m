@@ -1,17 +1,24 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 4 Dec 2018 16:04:49 +0100
-Subject: [PATCH 05/13] nvme-pci: consolidate code for polling
- non-dedicated queues
-In-Reply-To: <9abd8fde-58c4-0704-1e42-d066b674bb90@grimberg.me>
+Date: Tue, 4 Dec 2018 16:05:17 +0100
+Subject: [PATCH 06/13] nvme-pci: refactor nvme_disable_io_queues
+In-Reply-To: <0997230c-a13e-65ea-130a-cca366336989@grimberg.me>
 References: <20181202164628.1116-1-hch@lst.de>
- <20181202164628.1116-6-hch@lst.de>
- <9abd8fde-58c4-0704-1e42-d066b674bb90@grimberg.me>
-Message-ID: <20181204150449.GB3630@lst.de>
+ <20181202164628.1116-7-hch@lst.de>
+ <0997230c-a13e-65ea-130a-cca366336989@grimberg.me>
+Message-ID: <20181204150517.GC3630@lst.de>
 
-On Mon, Dec 03, 2018@04:58:25PM -0800, Sagi Grimberg wrote:
+On Mon, Dec 03, 2018@05:00:59PM -0800, Sagi Grimberg wrote:
 >
->> +static int nvme_poll_irqdisable(struct nvme_queue *nvmeq, unsigned int tag)
+>> @@ -2428,7 +2426,8 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+>>   	nvme_stop_queues(&dev->ctrl);
+>>     	if (!dead && dev->ctrl.queue_count > 0) {
+>> -		nvme_disable_io_queues(dev);
+>> +		if (nvme_disable_io_queues(dev, nvme_admin_delete_sq))
+>> +			
 >
-> Do we still need to carry the tag around?
+> Would be nice if the opcode change would be kept inside but still
+> split like:
 
-Yes, the timeout handler polls for a specific tag.
+I actually like not having another wrapper to stop through..
+
+Keith, Jens, any preference?
