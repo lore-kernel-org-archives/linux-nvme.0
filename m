@@ -1,80 +1,24 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Tue, 4 Dec 2018 07:10:15 -0800
-Subject: [PATCH v2] nvme: validate controller state before rescheduling
- keep alive
-In-Reply-To: <20181128010444.8747-1-jsmart2021@gmail.com>
-References: <20181128010444.8747-1-jsmart2021@gmail.com>
-Message-ID: <20181204151015.GA25635@infradead.org>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 4 Dec 2018 08:46:00 -0700
+Subject: [PATCH 1/2] blk-mq: Export iterating all tagged requests
+In-Reply-To: <8cd9a950-6605-6387-e4d4-4346a46da781@grimberg.me>
+References: <20181130202635.11145-1-keith.busch@intel.com>
+ <823fc3bf-78a4-c8fb-c80c-e3944f320af0@kernel.dk>
+ <20181201164804.GB19557@lst.de>
+ <9346f289-f265-e2ee-2d2c-c97973b45e23@suse.de>
+ <8cd9a950-6605-6387-e4d4-4346a46da781@grimberg.me>
+Message-ID: <20181204154559.GJ14775@localhost.localdomain>
 
-Sagi,
+On Mon, Dec 03, 2018@05:33:06PM -0800, Sagi Grimberg wrote:
+> >>
+> > Yes, I'm very much in favour of this, too.
+> > We always have this IMO slightly weird notion of stopping the queue, set 
+> > some error flags in the driver, then _restarting_ the queue, just so 
+> > that the driver then sees the error flag and terminates the requests.
+> > Which I always found quite counter-intuitive.
+> 
+> What about requests that come in after the iteration runs? how are those
+> terminated?
 
-any comments?  Otherwise I'll queue this up.
-
-On Tue, Nov 27, 2018@05:04:44PM -0800, James Smart wrote:
-> Delete operations are seeing NULL pointer references in call_timer_fn.
-> Tracking these back, the timer appears to be the keep alive timer.
-> 
-> nvme_keep_alive_work() which is tied to the timer that is cancelled
-> by nvme_stop_keep_alive(), simply starts the keep alive io but doesn't
-> wait for it's completion. So nvme_stop_keep_alive() only stops a timer
-> when it's pending. When a keep alive is in flight, there is no timer
-> running and the nvme_stop_keep_alive() will have no affect on the keep
-> alive io. Thus, if the io completes successfully, the keep alive timer
-> will be rescheduled.   In the failure case, delete is called, the
-> controller state is changed, the nvme_stop_keep_alive() is called while
-> the io is outstanding, and the delete path continues on. The keep
-> alive happens to successfully complete before the delete paths mark it
-> as aborted as part of the queue termination, so the timer is restarted.
-> The delete paths then tear down the controller, and later on the timer
-> code fires and the timer entry is now corrupt.
-> 
-> Fix by validating the controller state before rescheduling the keep
-> alive. Testing with the fix has confirmed the condition above was hit.
-> 
-> Signed-off-by: James Smart <jsmart2021 at gmail.com>
-> 
-> ---
-> v2:
->   added locking around controller state check. Could have used rmb
->   and wmb, but this isn't a performance condition.
-> ---
->  drivers/nvme/host/core.c | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index bb39b91253c2..7c2184fa2917 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -831,6 +831,8 @@ static int nvme_submit_user_cmd(struct request_queue *q,
->  static void nvme_keep_alive_end_io(struct request *rq, blk_status_t status)
->  {
->  	struct nvme_ctrl *ctrl = rq->end_io_data;
-> +	unsigned long flags;
-> +	bool startka = false;
->  
->  	blk_mq_free_request(rq);
->  
-> @@ -841,7 +843,13 @@ static void nvme_keep_alive_end_io(struct request *rq, blk_status_t status)
->  		return;
->  	}
->  
-> -	schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
-> +	spin_lock_irqsave(&ctrl->lock, flags);
-> +	if (ctrl->state == NVME_CTRL_LIVE ||
-> +	    ctrl->state == NVME_CTRL_CONNECTING)
-> +		startka = true;
-> +	spin_unlock_irqrestore(&ctrl->lock, flags);
-> +	if (startka)
-> +		schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
->  }
->  
->  static int nvme_keep_alive(struct nvme_ctrl *ctrl)
-> -- 
-> 2.13.7
-> 
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
----end quoted text---
+If we've reached a dead state, I think you'd want to start a queue freeze
+before running the terminating iterator.
