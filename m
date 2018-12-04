@@ -1,17 +1,25 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 3 Dec 2018 16:58:25 -0800
-Subject: [PATCH 05/13] nvme-pci: consolidate code for polling
- non-dedicated queues
-In-Reply-To: <20181202164628.1116-6-hch@lst.de>
+Date: Mon, 3 Dec 2018 17:00:59 -0800
+Subject: [PATCH 06/13] nvme-pci: refactor nvme_disable_io_queues
+In-Reply-To: <20181202164628.1116-7-hch@lst.de>
 References: <20181202164628.1116-1-hch@lst.de>
- <20181202164628.1116-6-hch@lst.de>
-Message-ID: <9abd8fde-58c4-0704-1e42-d066b674bb90@grimberg.me>
+ <20181202164628.1116-7-hch@lst.de>
+Message-ID: <0997230c-a13e-65ea-130a-cca366336989@grimberg.me>
 
 
-> +static int nvme_poll_irqdisable(struct nvme_queue *nvmeq, unsigned int tag)
+> @@ -2428,7 +2426,8 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+>   	nvme_stop_queues(&dev->ctrl);
+>   
+>   	if (!dead && dev->ctrl.queue_count > 0) {
+> -		nvme_disable_io_queues(dev);
+> +		if (nvme_disable_io_queues(dev, nvme_admin_delete_sq))
+> +			
 
-Do we still need to carry the tag around?
+Would be nice if the opcode change would be kept inside but still
+split like:
 
-Other than that,
-
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+static void nvme_disable_io_queues(struct nvme_dev *dev)
+{
+	if (__nvme_disable_io_queues(dev, nvme_admin_delete_sq))
+		__nvme_disable_io_queues(dev, nvme_admin_delete_cq);
+}
