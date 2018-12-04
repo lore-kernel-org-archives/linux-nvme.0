@@ -1,43 +1,30 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 4 Dec 2018 09:21:19 -0800
-Subject: [PATCH 1/2] nvmet-rdma: Fix response use after free
-In-Reply-To: <3b123a7f-5655-91f5-d1d8-fec5fe18d36a@mellanox.com>
-References: <1543852205-776-1-git-send-email-israelr@mellanox.com>
- <97bc61b4-d5b7-6dc9-668e-a3900a08f993@grimberg.me>
- <3b123a7f-5655-91f5-d1d8-fec5fe18d36a@mellanox.com>
-Message-ID: <d3b37bde-4fb4-aed7-a34a-c5da2847c278@grimberg.me>
+Date: Tue, 4 Dec 2018 09:23:11 -0800
+Subject: [PATCH 1/2] blk-mq: Export iterating all tagged requests
+In-Reply-To: <5af6dfb3-c471-1377-2d1d-b2a4b15eef43@broadcom.com>
+References: <20181130202635.11145-1-keith.busch@intel.com>
+ <823fc3bf-78a4-c8fb-c80c-e3944f320af0@kernel.dk>
+ <20181201164804.GB19557@lst.de>
+ <9346f289-f265-e2ee-2d2c-c97973b45e23@suse.de>
+ <8cd9a950-6605-6387-e4d4-4346a46da781@grimberg.me>
+ <20181204154559.GJ14775@localhost.localdomain>
+ <5af6dfb3-c471-1377-2d1d-b2a4b15eef43@broadcom.com>
+Message-ID: <19b3821e-02fa-bd09-1b90-0dd8904e8a57@grimberg.me>
 
 
->>> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
->>> index 3f7971d3..732806a 100644
->>> --- a/drivers/nvme/target/rdma.c
->>> +++ b/drivers/nvme/target/rdma.c
->>> @@ -529,6 +529,7 @@ static void nvmet_rdma_send_done(struct ib_cq 
->>> *cq, struct ib_wc *wc)
->>> ? {
->>> ????? struct nvmet_rdma_rsp *rsp =
->>> ????????? container_of(wc->wr_cqe, struct nvmet_rdma_rsp, send_cqe);
->>> +??? struct nvmet_rdma_queue *queue = rsp->queue;
->>
->> Didn't you mean:
->> +??? struct nvmet_rdma_queue *queue = cq->cq_context;
->>
->> I'm not sure what this is solving otherwise...
+>>>> Yes, I'm very much in favour of this, too.
+>>>> We always have this IMO slightly weird notion of stopping the queue, 
+>>>> set
+>>>> some error flags in the driver, then _restarting_ the queue, just so
+>>>> that the driver then sees the error flag and terminates the requests.
+>>>> Which I always found quite counter-intuitive.
+>>> What about requests that come in after the iteration runs? how are those
+>>> terminated?
+>> If we've reached a dead state, I think you'd want to start a queue freeze
+>> before running the terminating iterator.
 > 
-> it doesn't matter where you take the queue pointer from.
-> 
-> the important thing is to take it before you run 
-> nvmet_rdma_release_rsp(rsp) because after your commit that allocate the 
-> rsp dynamically
-> 
-> you free it too:
-> 
-> if (rsp->allocated) {
->  ??????????????? kfree(rsp);
->  ??????????????? return;
->  ??????? }
-> 
-> so you might get use after free ... (nvmet_rdma_error_comp(rsp->queue); )
+> For the requests that come in after the iterator, the nvmf_check_ready() 
+> routine, which validates controller state, will catch and bounce them.
 
-Yes you're right, now I get what this is doing. But perhaps for
-consistency lets use the cq_context across all the completion handlers.
+The point of this patch was to omit the check in queue_rq like Keith
+did in patch #2.
