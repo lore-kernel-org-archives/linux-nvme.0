@@ -1,44 +1,42 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Tue, 4 Dec 2018 11:40:16 -0700
-Subject: block and nvme polling improvements V3
-In-Reply-To: <20181202164628.1116-1-hch@lst.de>
-References: <20181202164628.1116-1-hch@lst.de>
-Message-ID: <11a7106d-17e2-ceb4-bc16-22b447d0bc0f@kernel.dk>
+From: james.smart@broadcom.com (James Smart)
+Date: Tue, 4 Dec 2018 11:13:49 -0800
+Subject: [PATCH 1/2] blk-mq: Export iterating all tagged requests
+In-Reply-To: <19b3821e-02fa-bd09-1b90-0dd8904e8a57@grimberg.me>
+References: <20181130202635.11145-1-keith.busch@intel.com>
+ <823fc3bf-78a4-c8fb-c80c-e3944f320af0@kernel.dk>
+ <20181201164804.GB19557@lst.de>
+ <9346f289-f265-e2ee-2d2c-c97973b45e23@suse.de>
+ <8cd9a950-6605-6387-e4d4-4346a46da781@grimberg.me>
+ <20181204154559.GJ14775@localhost.localdomain>
+ <5af6dfb3-c471-1377-2d1d-b2a4b15eef43@broadcom.com>
+ <19b3821e-02fa-bd09-1b90-0dd8904e8a57@grimberg.me>
+Message-ID: <2ba6570b-1684-6082-7b70-f51a4136b38a@broadcom.com>
 
-On 12/2/18 9:46 AM, Christoph Hellwig wrote:
-> Hi all,
-> 
-> this series optimizes a few bits in the block layer and nvme code
-> related to polling.
-> 
-> It starts by moving the queue types recently introduce entirely into
-> the block layer instead of requiring an indirect call for them.
-> 
-> It then switches nvme and the block layer to only allow polling
-> with separate poll queues, which allows us to realize the following
-> benefits:
-> 
->  - poll queues can safely avoid disabling irqs on any locks
->    (we already do that in NVMe, but it isn't 100% kosher as-is)
->  - regular interrupt driven queues can drop the CQ lock entirely,
->    as we won't race for completing CQs
-> 
-> Then we drop the NVMe RDMA code, as it doesn't follow the new mode,
-> and remove the nvme multipath polling code including the block hooks
-> for it, which didn't make much sense to start with given that we
-> started bypassing the multipath code for single controller subsystems
-> early on.  Last but not least we enable polling in the block layer
-> by default if the underlying driver has poll queues, as that already
-> requires explicit user action.
-> 
-> Note that it would be really nice to have polling back for RDMA with
-> dedicated poll queues, but that might take a while.  Also based on
-> Jens' polling aio patches we could now implement a model in nvmet
-> where we have a thread polling both the backend nvme device and
-> the RDMA CQs, which might give us some pretty nice performace
-> (I know Sagi looked into something similar a while ago).
 
-Applied, thanks.
 
--- 
-Jens Axboe
+On 12/4/2018 9:23 AM, Sagi Grimberg wrote:
+>
+>>>>> Yes, I'm very much in favour of this, too.
+>>>>> We always have this IMO slightly weird notion of stopping the 
+>>>>> queue, set
+>>>>> some error flags in the driver, then _restarting_ the queue, just so
+>>>>> that the driver then sees the error flag and terminates the requests.
+>>>>> Which I always found quite counter-intuitive.
+>>>> What about requests that come in after the iteration runs? how are 
+>>>> those
+>>>> terminated?
+>>> If we've reached a dead state, I think you'd want to start a queue 
+>>> freeze
+>>> before running the terminating iterator.
+>>
+>> For the requests that come in after the iterator, the 
+>> nvmf_check_ready() routine, which validates controller state, will 
+>> catch and bounce them.
+>
+> The point of this patch was to omit the check in queue_rq like Keith
+> did in patch #2.
+
+well - I'm not sure that's possible. The fabrics will have different 
+time constraints vs pci.
+
+-- james
