@@ -1,32 +1,44 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Tue, 4 Dec 2018 18:19:20 +0000
-Subject: [PATCH 05/13] nvme-pci: consolidate code for polling
- non-dedicated queues
-In-Reply-To: <687e3fd9-fe73-5205-5656-d4861d7dd274@grimberg.me>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Tue, 4 Dec 2018 11:40:16 -0700
+Subject: block and nvme polling improvements V3
+In-Reply-To: <20181202164628.1116-1-hch@lst.de>
 References: <20181202164628.1116-1-hch@lst.de>
- <20181202164628.1116-6-hch@lst.de>
- <9abd8fde-58c4-0704-1e42-d066b674bb90@grimberg.me>
- <20181204150449.GB3630@lst.de>
- <687e3fd9-fe73-5205-5656-d4861d7dd274@grimberg.me>
-Message-ID: <275863f0-bb1f-8939-f6ba-6059b463d10a@fb.com>
+Message-ID: <11a7106d-17e2-ceb4-bc16-22b447d0bc0f@kernel.dk>
 
-On 12/4/18 10:13 AM, Sagi Grimberg wrote:
+On 12/2/18 9:46 AM, Christoph Hellwig wrote:
+> Hi all,
 > 
->>>> +static int nvme_poll_irqdisable(struct nvme_queue *nvmeq, unsigned int tag)
->>>
->>> Do we still need to carry the tag around?
->>
->> Yes, the timeout handler polls for a specific tag.
+> this series optimizes a few bits in the block layer and nvme code
+> related to polling.
 > 
-> Does it have to? the documentation suggests that we missed
-> an interrupt, so it is probably waiting on the completion queue.
+> It starts by moving the queue types recently introduce entirely into
+> the block layer instead of requiring an indirect call for them.
 > 
-> I'd say that it'd be better if the tag search would be implemented
-> on the timeout handler alone so we don't have to pass the tag around
-> for everyone... Thoughts?
+> It then switches nvme and the block layer to only allow polling
+> with separate poll queues, which allows us to realize the following
+> benefits:
+> 
+>  - poll queues can safely avoid disabling irqs on any locks
+>    (we already do that in NVMe, but it isn't 100% kosher as-is)
+>  - regular interrupt driven queues can drop the CQ lock entirely,
+>    as we won't race for completing CQs
+> 
+> Then we drop the NVMe RDMA code, as it doesn't follow the new mode,
+> and remove the nvme multipath polling code including the block hooks
+> for it, which didn't make much sense to start with given that we
+> started bypassing the multipath code for single controller subsystems
+> early on.  Last but not least we enable polling in the block layer
+> by default if the underlying driver has poll queues, as that already
+> requires explicit user action.
+> 
+> Note that it would be really nice to have polling back for RDMA with
+> dedicated poll queues, but that might take a while.  Also based on
+> Jens' polling aio patches we could now implement a model in nvmet
+> where we have a thread polling both the backend nvme device and
+> the RDMA CQs, which might give us some pretty nice performace
+> (I know Sagi looked into something similar a while ago).
 
-Without that you don't know if that's the request that completed. You
-have to be able to look that up from the timeout handler.
+Applied, thanks.
 
 -- 
 Jens Axboe
