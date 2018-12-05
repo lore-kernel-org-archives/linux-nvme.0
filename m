@@ -1,21 +1,41 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 5 Dec 2018 08:43:59 -0700
-Subject: Whenever running nvme discover command, syslog shows warning
- messages
-In-Reply-To: <BN6PR1301MB2001C46B2AA0738A52AEDD6885AF0@BN6PR1301MB2001.namprd13.prod.outlook.com>
-References: <CY4PR1301MB2008564EA917C4FE4D63298585D20@CY4PR1301MB2008.namprd13.prod.outlook.com>
- <bdd5f3c7-8173-dd63-3a47-df87a9c2d14c@broadcom.com>
- <7a1a884d-5be0-064a-0865-51bca20ba919@grimberg.me>
- <CY4PR1301MB200823FB5DF08223456D9D1F85D30@CY4PR1301MB2008.namprd13.prod.outlook.com>
- <4fb9c4fc-e5ce-2238-fbcf-1fdd6da10e23@broadcom.com>
- <BN6PR1301MB2001C46B2AA0738A52AEDD6885AF0@BN6PR1301MB2001.namprd13.prod.outlook.com>
-Message-ID: <20181205154359.GA18064@localhost.localdomain>
+From: israelr@mellanox.com (Israel Rukshin)
+Date: Wed,  5 Dec 2018 16:54:57 +0000
+Subject: [PATCH V2] nvmet-rdma: Fix response use after free
+Message-ID: <1544028897-10405-1-git-send-email-israelr@mellanox.com>
 
-On Tue, Dec 04, 2018@10:27:26PM +0000, Ching-Chiao Chang wrote:
-> It is not test case, we would like to run nvme discover in loop in an
-> initiator, and whenever there is an NVMe volume can be attached, the
-> the initiator can discover it and connect it automatically.
+nvmet_rdma_release_rsp() may free the response before using it at error flow.
 
-Polling for infrequent events is silly. Can we get an asynchronous event
-notification for this? I don't see any exiting events pointing back to
-the discovery log page, so maybe there's a TP opprotunity here.
+Fixes: 8407879 ("nvmet-rdma: fix possible bogus dereference under heavy load")
+Signed-off-by: Israel Rukshin <israelr at mellanox.com>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+---
+
+v1->v2: take queue from cq_context like in other completion handlers
+
+---
+ drivers/nvme/target/rdma.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index 3f7971d3..583086d 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -529,6 +529,7 @@ static void nvmet_rdma_send_done(struct ib_cq *cq, struct ib_wc *wc)
+ {
+ 	struct nvmet_rdma_rsp *rsp =
+ 		container_of(wc->wr_cqe, struct nvmet_rdma_rsp, send_cqe);
++	struct nvmet_rdma_queue *queue = cq->cq_context;
+ 
+ 	nvmet_rdma_release_rsp(rsp);
+ 
+@@ -536,7 +537,7 @@ static void nvmet_rdma_send_done(struct ib_cq *cq, struct ib_wc *wc)
+ 		     wc->status != IB_WC_WR_FLUSH_ERR)) {
+ 		pr_err("SEND for CQE 0x%p failed with status %s (%d).\n",
+ 			wc->wr_cqe, ib_wc_status_msg(wc->status), wc->status);
+-		nvmet_rdma_error_comp(rsp->queue);
++		nvmet_rdma_error_comp(queue);
+ 	}
+ }
+ 
+-- 
+1.8.3.1
