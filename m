@@ -1,72 +1,27 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 6 Dec 2018 22:52:12 -0700
-Subject: [PATCH V2] blk-mq: re-build queue map in case of kdump kernel
-In-Reply-To: <20181207030353.27575-1-ming.lei@redhat.com>
-References: <20181207030353.27575-1-ming.lei@redhat.com>
-Message-ID: <cd0c4c59-fd9a-aebe-5f25-aa02878f66ad@kernel.dk>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Fri, 7 Dec 2018 07:38:21 -0800
+Subject: [GIT PULL] nvme fixes for 4.20
+Message-ID: <20181207153821.GA14210@infradead.org>
 
-On 12/6/18 8:03 PM, Ming Lei wrote:
-> Now almost all .map_queues() implementation based on managed irq
-> affinity doesn't update queue mapping and it just retrieves the
-> old built mapping, so if nr_hw_queues is changed, the mapping talbe
-> includes stale mapping. And only blk_mq_map_queues() may rebuild
-> the mapping talbe.
-> 
-> One case is that we limit .nr_hw_queues as 1 in case of kdump kernel.
-> However, drivers often builds queue mapping before allocating tagset
-> via pci_alloc_irq_vectors_affinity(), but set->nr_hw_queues can be set
-> as 1 in case of kdump kernel, so wrong queue mapping is used, and
-> kernel panic[1] is observed during booting.
-> 
-> This patch fixes the kernel panic triggerd on nvme by rebulding the
-> mapping table via blk_mq_map_queues().
-> 
-> [1] kernel panic log
-> [    4.438371] nvme nvme0: 16/0/0 default/read/poll queues
-> [    4.443277] BUG: unable to handle kernel NULL pointer dereference at 0000000000000098
-> [    4.444681] PGD 0 P4D 0
-> [    4.445367] Oops: 0000 [#1] SMP NOPTI
-> [    4.446342] CPU: 3 PID: 201 Comm: kworker/u33:10 Not tainted 4.20.0-rc5-00664-g5eb02f7ee1eb-dirty #459
-> [    4.447630] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.10.2-2.fc27 04/01/2014
-> [    4.448689] Workqueue: nvme-wq nvme_scan_work [nvme_core]
-> [    4.449368] RIP: 0010:blk_mq_map_swqueue+0xfb/0x222
-> [    4.450596] Code: 04 f5 20 28 ef 81 48 89 c6 39 55 30 76 93 89 d0 48 c1 e0 04 48 03 83 f8 05 00 00 48 8b 00 42 8b 3c 28 48 8b 43 58 48 8b 04 f8 <48> 8b b8 98 00 00 00 4c 0f a3 37 72 42 f0 4c 0f ab 37 66 8b b8 f6
-> [    4.453132] RSP: 0018:ffffc900023b3cd8 EFLAGS: 00010286
-> [    4.454061] RAX: 0000000000000000 RBX: ffff888174448000 RCX: 0000000000000001
-> [    4.456480] RDX: 0000000000000001 RSI: ffffe8feffc506c0 RDI: 0000000000000001
-> [    4.458750] RBP: ffff88810722d008 R08: ffff88817647a880 R09: 0000000000000002
-> [    4.464580] R10: ffffc900023b3c10 R11: 0000000000000004 R12: ffff888174448538
-> [    4.467803] R13: 0000000000000004 R14: 0000000000000001 R15: 0000000000000001
-> [    4.469220] FS:  0000000000000000(0000) GS:ffff88817bac0000(0000) knlGS:0000000000000000
-> [    4.471554] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [    4.472464] CR2: 0000000000000098 CR3: 0000000174e4e001 CR4: 0000000000760ee0
-> [    4.474264] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> [    4.476007] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-> [    4.477061] PKRU: 55555554
-> [    4.477464] Call Trace:
-> [    4.478731]  blk_mq_init_allocated_queue+0x36a/0x3ad
-> [    4.479595]  blk_mq_init_queue+0x32/0x4e
-> [    4.480178]  nvme_validate_ns+0x98/0x623 [nvme_core]
-> [    4.480963]  ? nvme_submit_sync_cmd+0x1b/0x20 [nvme_core]
-> [    4.481685]  ? nvme_identify_ctrl.isra.8+0x70/0xa0 [nvme_core]
-> [    4.482601]  nvme_scan_work+0x23a/0x29b [nvme_core]
-> [    4.483269]  ? _raw_spin_unlock_irqrestore+0x25/0x38
-> [    4.483930]  ? try_to_wake_up+0x38d/0x3b3
-> [    4.484478]  ? process_one_work+0x179/0x2fc
-> [    4.485118]  process_one_work+0x1d3/0x2fc
-> [    4.485655]  ? rescuer_thread+0x2ae/0x2ae
-> [    4.486196]  worker_thread+0x1e9/0x2be
-> [    4.486841]  kthread+0x115/0x11d
-> [    4.487294]  ? kthread_park+0x76/0x76
-> [    4.487784]  ret_from_fork+0x3a/0x50
-> [    4.488322] Modules linked in: nvme nvme_core qemu_fw_cfg virtio_scsi ip_tables
-> [    4.489428] Dumping ftrace buffer:
-> [    4.489939]    (ftrace buffer empty)
-> [    4.490492] CR2: 0000000000000098
-> [    4.491052] ---[ end trace 03cd268ad5a86ff7 ]---
+The following changes since commit ba7aeae5539c7a7cccc4cf07a2bc61281a93c50e:
 
-Works for me, tested various configs and stubbed out the kdump check.
-Thanks for fixing this, applied to 4.21.
+  block, bfq: fix decrement of num_active_groups (2018-12-07 07:40:07 -0700)
 
--- 
-Jens Axboe
+are available in the Git repository at:
+
+  git://git.infradead.org/nvme.git nvme-4.20
+
+for you to fetch changes up to d7dcdf9d4e15189ecfda24cc87339a3425448d5c:
+
+  nvmet-rdma: fix response use after free (2018-12-07 07:11:11 -0800)
+
+----------------------------------------------------------------
+Israel Rukshin (1):
+      nvmet-rdma: fix response use after free
+
+James Smart (1):
+      nvme: validate controller state before rescheduling keep alive
+
+ drivers/nvme/host/core.c   | 10 +++++++++-
+ drivers/nvme/target/rdma.c |  3 ++-
+ 2 files changed, 11 insertions(+), 2 deletions(-)
