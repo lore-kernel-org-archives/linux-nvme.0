@@ -1,24 +1,11 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 10 Dec 2018 12:18:18 -0800
-Subject: [PATCH 04/12] nvmet: add interface to update error-log page
-In-Reply-To: <20181210055011.3146-5-chaitanya.kulkarni@wdc.com>
+Date: Mon, 10 Dec 2018 12:22:35 -0800
+Subject: [PATCH 05/12] nvmet: add error log support in the core
+In-Reply-To: <20181210055011.3146-6-chaitanya.kulkarni@wdc.com>
 References: <20181210055011.3146-1-chaitanya.kulkarni@wdc.com>
- <20181210055011.3146-5-chaitanya.kulkarni@wdc.com>
-Message-ID: <8f2faf9c-4a48-c4d1-bb7b-f4f6a0a25ad2@grimberg.me>
+ <20181210055011.3146-6-chaitanya.kulkarni@wdc.com>
+Message-ID: <74eb8cc3-3c5c-c6a4-d090-a2cfa95f6ebd@grimberg.me>
 
+Looks good,
 
-> +static void nvmet_set_error(struct nvmet_req *req, u16 status)
-> +{
-> +	struct nvmet_ctrl *ctrl = req->sq->ctrl;
-> +	struct nvme_error_slot *new_error_slot;
-> +	unsigned long flags;
-> +
-> +	req->rsp->status = cpu_to_le16(status << 1);
-> +
-> +	if (!ctrl)
-> +		return;
-> +
-> +	spin_lock_irqsave(&ctrl->error_lock, flags);
-> +	ctrl->counter++;
-
-ctrl->err_counter reads out better.
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
