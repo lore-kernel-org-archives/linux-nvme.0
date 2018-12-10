@@ -1,191 +1,192 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Sun,  9 Dec 2018 21:50:07 -0800
-Subject: [PATCH 08/12] nvmet: add error log support for fabrics-cmd
+Date: Sun,  9 Dec 2018 21:50:06 -0800
+Subject: [PATCH 07/12] nvmet: add error log support for file backend
 In-Reply-To: <20181210055011.3146-1-chaitanya.kulkarni@wdc.com>
 References: <20181210055011.3146-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20181210055011.3146-9-chaitanya.kulkarni@wdc.com>
+Message-ID: <20181210055011.3146-8-chaitanya.kulkarni@wdc.com>
 
-This patch adds the support to maintain error log page for the fabrics
-prop get, prop set, and admin connect commands. Here we also update the
-discovery.c and add update set/get features and parse functions to
-support error log page.
+This patch adds support for the file backend to populate the
+error log entries. Here we map the errno to the NVMe status codes.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- drivers/nvme/target/discovery.c   | 10 +++++++
- drivers/nvme/target/fabrics-cmd.c | 50 +++++++++++++++++++++++--------
- 2 files changed, 47 insertions(+), 13 deletions(-)
+ drivers/nvme/target/core.c        | 42 +++++++++++++++++++++++++++++++
+ drivers/nvme/target/io-cmd-file.c | 35 +++++++++++++++-----------
+ drivers/nvme/target/nvmet.h       |  2 ++
+ 3 files changed, 64 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
-index e1bb254671de..d2cb71a0b419 100644
---- a/drivers/nvme/target/discovery.c
-+++ b/drivers/nvme/target/discovery.c
-@@ -259,6 +259,8 @@ static void nvmet_execute_disc_set_features(struct nvmet_req *req)
- 						  NVMET_DISC_AEN_CFG_OPTIONAL);
- 		break;
- 	default:
-+		req->error_loc =
-+			offsetof(struct nvme_common_command, cdw10);
- 		stat = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
- 		break;
- 	}
-@@ -279,6 +281,8 @@ static void nvmet_execute_disc_get_features(struct nvmet_req *req)
- 		nvmet_get_feat_async_event(req);
- 		break;
- 	default:
-+		req->error_loc =
-+			offsetof(struct nvme_common_command, cdw10);
- 		stat = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
- 		break;
- 	}
-@@ -293,6 +297,8 @@ u16 nvmet_parse_discovery_cmd(struct nvmet_req *req)
- 	if (unlikely(!(req->sq->ctrl->csts & NVME_CSTS_RDY))) {
- 		pr_err("got cmd %d while not ready\n",
- 		       cmd->common.opcode);
-+		req->error_loc =
-+			offsetof(struct nvme_common_command, opcode);
- 		return NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
- 	}
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 5f0b281945e4..dee691f6e3b3 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -45,6 +45,48 @@ u32 nvmet_ana_group_enabled[NVMET_MAX_ANAGRPS + 1];
+ u64 nvmet_ana_chgcnt;
+ DECLARE_RWSEM(nvmet_ana_sem);
  
-@@ -323,6 +329,8 @@ u16 nvmet_parse_discovery_cmd(struct nvmet_req *req)
- 		default:
- 			pr_err("unsupported get_log_page lid %d\n",
- 			       cmd->get_log_page.lid);
-+			req->error_loc =
-+				offsetof(struct nvme_get_log_page_command, lid);
- 		return NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
- 		}
- 	case nvme_admin_identify:
-@@ -335,10 +343,12 @@ u16 nvmet_parse_discovery_cmd(struct nvmet_req *req)
- 		default:
- 			pr_err("unsupported identify cns %d\n",
- 			       cmd->identify.cns);
-+			req->error_loc = offsetof(struct nvme_identify, cns);
- 			return NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
- 		}
- 	default:
- 		pr_err("unhandled cmd %d\n", cmd->common.opcode);
-+		req->error_loc = offsetof(struct nvme_common_command, opcode);
- 		return NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
- 	}
- 
-diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-cmd.c
-index ee7d84621d65..993a84e67a3a 100644
---- a/drivers/nvme/target/fabrics-cmd.c
-+++ b/drivers/nvme/target/fabrics-cmd.c
-@@ -17,23 +17,26 @@
- 
- static void nvmet_execute_prop_set(struct nvmet_req *req)
- {
-+	u64 val = le64_to_cpu(req->cmd->prop_set.value);
- 	u16 status = 0;
- 
--	if (!(req->cmd->prop_set.attrib & 1)) {
--		u64 val = le64_to_cpu(req->cmd->prop_set.value);
--
--		switch (le32_to_cpu(req->cmd->prop_set.offset)) {
--		case NVME_REG_CC:
--			nvmet_update_cc(req->sq->ctrl, val);
--			break;
--		default:
--			status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
--			break;
--		}
--	} else {
-+	if (req->cmd->prop_set.attrib & 1) {
-+		req->error_loc =
-+			offsetof(struct nvmf_property_set_command, attrib);
- 		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
-+		goto out;
- 	}
- 
-+	switch (le32_to_cpu(req->cmd->prop_set.offset)) {
-+	case NVME_REG_CC:
-+		nvmet_update_cc(req->sq->ctrl, val);
++inline u16 errno_to_nvme_status(struct nvmet_req *req, int errno)
++{
++	u16 status;
++
++	switch (errno) {
++	case -ENOSPC:
++		req->error_loc = offsetof(struct nvme_rw_command, length);
++		status = NVME_SC_CAP_EXCEEDED | NVME_SC_DNR;
 +		break;
++	case -EREMOTEIO:
++		req->error_loc = offsetof(struct nvme_rw_command, slba);
++		status = NVME_SC_LBA_RANGE | NVME_SC_DNR;
++		break;
++	case -EOPNOTSUPP:
++		req->error_loc = offsetof(struct nvme_common_command, opcode);
++		switch (req->cmd->common.opcode) {
++		case nvme_cmd_dsm:
++		case nvme_cmd_write_zeroes:
++			status = NVME_SC_ONCS_NOT_SUPPORTED | NVME_SC_DNR;
++			break;
++		default:
++			status = NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
++		}
++		break;
++	case -ENODATA:
++		req->error_loc = offsetof(struct nvme_rw_command, nsid);
++		status = NVME_SC_ACCESS_DENIED;
++		break;
++	case -EILSEQ:
++		req->error_loc = offsetof(struct nvme_rw_command, nsid);
++		status = NVME_SC_INVALID_PI;
++		break;
++	case -EIO:
++		/* FALLTHRU */
 +	default:
-+		req->error_loc =
-+			offsetof(struct nvmf_property_set_command, offset);
-+		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
++		req->error_loc = offsetof(struct nvme_common_command, opcode);
++		status = NVME_SC_INTERNAL | NVME_SC_DNR;
 +	}
-+out:
- 	nvmet_req_complete(req, status);
++
++	return status;
++}
++
+ static struct nvmet_subsys *nvmet_find_get_subsys(struct nvmet_port *port,
+ 		const char *subsysnqn);
+ 
+diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
+index 12eaa8ddc248..517522305e5c 100644
+--- a/drivers/nvme/target/io-cmd-file.c
++++ b/drivers/nvme/target/io-cmd-file.c
+@@ -112,6 +112,7 @@ static ssize_t nvmet_file_submit_bvec(struct nvmet_req *req, loff_t pos,
+ static void nvmet_file_io_done(struct kiocb *iocb, long ret, long ret2)
+ {
+ 	struct nvmet_req *req = container_of(iocb, struct nvmet_req, f.iocb);
++	u16 status = NVME_SC_SUCCESS;
+ 
+ 	if (req->f.bvec != req->inline_bvec) {
+ 		if (likely(req->f.mpool_alloc == false))
+@@ -120,8 +121,9 @@ static void nvmet_file_io_done(struct kiocb *iocb, long ret, long ret2)
+ 			mempool_free(req->f.bvec, req->ns->bvec_pool);
+ 	}
+ 
+-	nvmet_req_complete(req, ret != req->data_len ?
+-			NVME_SC_INTERNAL | NVME_SC_DNR : 0);
++	if (unlikely(ret != req->data_len))
++		status = errno_to_nvme_status(req, ret);
++	nvmet_req_complete(req, status);
  }
  
-@@ -69,6 +72,16 @@ static void nvmet_execute_prop_get(struct nvmet_req *req)
+ static bool nvmet_file_execute_io(struct nvmet_req *req, int ki_flags)
+@@ -140,7 +142,7 @@ static bool nvmet_file_execute_io(struct nvmet_req *req, int ki_flags)
+ 
+ 	pos = le64_to_cpu(req->cmd->rw.slba) << req->ns->blksize_shift;
+ 	if (unlikely(pos + req->data_len > req->ns->size)) {
+-		nvmet_req_complete(req, NVME_SC_LBA_RANGE | NVME_SC_DNR);
++		nvmet_req_complete(req, errno_to_nvme_status(req, -ENOSPC));
+ 		return true;
+ 	}
+ 
+@@ -254,9 +256,7 @@ static void nvmet_file_execute_rw(struct nvmet_req *req)
+ 
+ u16 nvmet_file_flush(struct nvmet_req *req)
+ {
+-	if (vfs_fsync(req->ns->file, 1) < 0)
+-		return NVME_SC_INTERNAL | NVME_SC_DNR;
+-	return 0;
++	return errno_to_nvme_status(req, vfs_fsync(req->ns->file, 1));
+ }
+ 
+ static void nvmet_file_flush_work(struct work_struct *w)
+@@ -277,30 +277,34 @@ static void nvmet_file_execute_discard(struct nvmet_req *req)
+ 	int mode = FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE;
+ 	struct nvme_dsm_range range;
+ 	loff_t offset, len;
+-	u16 ret;
++	u16 status = 0;
++	int ret;
+ 	int i;
+ 
+ 	for (i = 0; i <= le32_to_cpu(req->cmd->dsm.nr); i++) {
+-		ret = nvmet_copy_from_sgl(req, i * sizeof(range), &range,
++		status = nvmet_copy_from_sgl(req, i * sizeof(range), &range,
+ 					sizeof(range));
+-		if (ret)
++		if (status)
+ 			break;
+ 
+ 		offset = le64_to_cpu(range.slba) << req->ns->blksize_shift;
+ 		len = le32_to_cpu(range.nlb);
+ 		len <<= req->ns->blksize_shift;
+ 		if (offset + len > req->ns->size) {
+-			ret = NVME_SC_LBA_RANGE | NVME_SC_DNR;
++			req->error_slba = le64_to_cpu(range.slba);
++			status = errno_to_nvme_status(req, -ENOSPC);
+ 			break;
+ 		}
+ 
+-		if (vfs_fallocate(req->ns->file, mode, offset, len)) {
+-			ret = NVME_SC_INTERNAL | NVME_SC_DNR;
++		ret = vfs_fallocate(req->ns->file, mode, offset, len);
++		if (ret) {
++			req->error_slba = le64_to_cpu(range.slba);
++			status = errno_to_nvme_status(req, ret);
+ 			break;
  		}
  	}
  
-+
-+	if (status && req->cmd->prop_get.attrib & 1) {
-+		req->error_loc =
-+			offsetof(struct nvmf_property_get_command, offset);
-+	} else {
-+		req->error_loc =
-+			offsetof(struct nvmf_property_get_command, attrib);
-+	}
-+
-+
- 	req->rsp->result.u64 = cpu_to_le64(val);
- 	nvmet_req_complete(req, status);
+-	nvmet_req_complete(req, ret);
++	nvmet_req_complete(req, status);
  }
-@@ -89,6 +102,7 @@ u16 nvmet_parse_fabrics_cmd(struct nvmet_req *req)
+ 
+ static void nvmet_file_dsm_work(struct work_struct *w)
+@@ -340,12 +344,12 @@ static void nvmet_file_write_zeroes_work(struct work_struct *w)
+ 			req->ns->blksize_shift);
+ 
+ 	if (unlikely(offset + len > req->ns->size)) {
+-		nvmet_req_complete(req, NVME_SC_LBA_RANGE | NVME_SC_DNR);
++		nvmet_req_complete(req, errno_to_nvme_status(req, -ENOSPC));
+ 		return;
+ 	}
+ 
+ 	ret = vfs_fallocate(req->ns->file, mode, offset, len);
+-	nvmet_req_complete(req, ret < 0 ? NVME_SC_INTERNAL | NVME_SC_DNR : 0);
++	nvmet_req_complete(req, ret < 0 ? errno_to_nvme_status(req, ret) : 0);
+ }
+ 
+ static void nvmet_file_execute_write_zeroes(struct nvmet_req *req)
+@@ -380,6 +384,7 @@ u16 nvmet_file_parse_io_cmd(struct nvmet_req *req)
  	default:
- 		pr_err("received unknown capsule type 0x%x\n",
- 			cmd->fabrics.fctype);
-+		req->error_loc = offsetof(struct nvmf_common_command, fctype);
- 		return NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
- 	}
- 
-@@ -105,10 +119,12 @@ static u16 nvmet_install_queue(struct nvmet_ctrl *ctrl, struct nvmet_req *req)
- 	old = cmpxchg(&req->sq->ctrl, NULL, ctrl);
- 	if (old) {
- 		pr_warn("queue already connected!\n");
-+		req->error_loc = offsetof(struct nvmf_connect_command, opcode);
- 		return NVME_SC_CONNECT_CTRL_BUSY | NVME_SC_DNR;
- 	}
- 	if (!sqsize) {
- 		pr_warn("queue size zero!\n");
-+		req->error_loc = offsetof(struct nvmf_connect_command, sqsize);
- 		return NVME_SC_CONNECT_INVALID_PARAM | NVME_SC_DNR;
- 	}
- 
-@@ -157,6 +173,7 @@ static void nvmet_execute_admin_connect(struct nvmet_req *req)
- 	if (c->recfmt != 0) {
- 		pr_warn("invalid connect version (%d).\n",
- 			le16_to_cpu(c->recfmt));
-+		req->error_loc = offsetof(struct nvmf_connect_command, recfmt);
- 		status = NVME_SC_CONNECT_FORMAT | NVME_SC_DNR;
- 		goto out;
- 	}
-@@ -171,8 +188,13 @@ static void nvmet_execute_admin_connect(struct nvmet_req *req)
- 
- 	status = nvmet_alloc_ctrl(d->subsysnqn, d->hostnqn, req,
- 				  le32_to_cpu(c->kato), &ctrl);
--	if (status)
-+	if (status) {
-+		if (status == (NVME_SC_INVALID_FIELD | NVME_SC_DNR))
-+			req->error_loc =
-+				offsetof(struct nvme_common_command, opcode);
- 		goto out;
-+	}
-+
- 	uuid_copy(&ctrl->hostid, &d->hostid);
- 
- 	status = nvmet_install_queue(ctrl, req);
-@@ -259,11 +281,13 @@ u16 nvmet_parse_connect_cmd(struct nvmet_req *req)
- 	if (cmd->common.opcode != nvme_fabrics_command) {
- 		pr_err("invalid command 0x%x on unconnected queue.\n",
- 			cmd->fabrics.opcode);
+ 		pr_err("unhandled cmd for file ns %d on qid %d\n",
+ 				cmd->common.opcode, req->sq->qid);
 +		req->error_loc = offsetof(struct nvme_common_command, opcode);
  		return NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
  	}
- 	if (cmd->fabrics.fctype != nvme_fabrics_type_connect) {
- 		pr_err("invalid capsule type 0x%x on unconnected queue.\n",
- 			cmd->fabrics.fctype);
-+		req->error_loc = offsetof(struct nvmf_common_command, fctype);
- 		return NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
- 	}
- 
+ }
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 662def80ff23..03f91cd3c24d 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -494,4 +494,6 @@ static inline u32 nvmet_rw_len(struct nvmet_req *req)
+ 	return ((u32)le16_to_cpu(req->cmd->rw.length) + 1) <<
+ 			req->ns->blksize_shift;
+ }
++
++u16 errno_to_nvme_status(struct nvmet_req *req, int errno);
+ #endif /* _NVMET_H */
 -- 
 2.17.0
