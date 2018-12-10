@@ -1,41 +1,51 @@
-From: cgxu519@gmx.com (Chengguang Xu)
-Date: Tue, 11 Dec 2018 07:24:34 +0800
-Subject: [PATCH] nvme: add __exit annotation
-Message-ID: <20181210232434.11615-1-cgxu519@gmx.com>
+From: jalee@purestorage.com (Jaesoo Lee)
+Date: Mon, 10 Dec 2018 15:40:16 -0800
+Subject: [PATCH] nvme-rdma: complete requests from ->timeout
+In-Reply-To: <b7b26a7a-70be-d805-ee64-67fba0b4efa8@mellanox.com>
+References: <1543535954-28073-1-git-send-email-jalee@purestorage.com>
+ <cc7cbad6-0e7d-8328-c602-61d659c3a7de@grimberg.me>
+ <b7b26a7a-70be-d805-ee64-67fba0b4efa8@mellanox.com>
+Message-ID: <CAJX3Cti_ZJF5E+NRuRzSeEUgaXsbA2U9C+Rh5OdYd4EMwXC1gw@mail.gmail.com>
 
-Add __exit annotation to cleanup helper which is only
-called once in the module.
+It seems that your patch is addressing the same bug. I will see if
+that works for our failure scenarios.
 
-Signed-off-by: Chengguang Xu <cgxu519 at gmx.com>
----
- drivers/nvme/host/core.c | 2 +-
- drivers/nvme/host/nvme.h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Why don't you make it upstream?
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 962012135b62..e63a445f18b6 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3746,7 +3746,7 @@ int __init nvme_core_init(void)
- 	return result;
- }
- 
--void nvme_core_exit(void)
-+void __exit nvme_core_exit(void)
- {
- 	ida_destroy(&nvme_subsystems_ida);
- 	class_destroy(nvme_subsys_class);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 081cbdcce880..e6b4856b25fd 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -572,6 +572,6 @@ static inline struct nvme_ns *nvme_get_ns_from_dev(struct device *dev)
- }
- 
- int __init nvme_core_init(void);
--void nvme_core_exit(void);
-+void __exit nvme_core_exit(void);
- 
- #endif /* _NVME_H */
--- 
-2.17.2
+On Sun, Dec 9, 2018@6:22 AM Nitzan Carmi <nitzanc@mellanox.com> wrote:
+>
+> Hi,
+> We encountered similar issue.
+> I think that the problem is that error_recovery might not even be
+> queued, in case we're in DELETING state (or CONNECTING state, for that
+> matter), because we cannot move from those states to RESETTING.
+>
+> We prepared some patches which handle completions in case such scenario
+> happens (which, in fact, might happen in numerous error flows).
+>
+> Does it solve your problem?
+> Nitzan.
+>
+>
+> On 30/11/2018 03:30, Sagi Grimberg wrote:
+> >
+> >> This does not hold at least for NVMe RDMA host driver. An example
+> >> scenario
+> >> is when the RDMA connection is gone while the controller is being
+> >> deleted.
+> >> In this case, the nvmf_reg_write32() for sending shutdown admin
+> >> command by
+> >> the delete_work could be hung forever if the command is not completed by
+> >> the timeout handler.
+> >
+> > If the queue is gone, this means that the queue has already flushed and
+> > any commands that were inflight has completed with a flush error
+> > completion...
+> >
+> > Can you describe the scenario that caused this hang? When has the
+> > queue became "gone" and when did the shutdown command execute?
+> >
+> > _______________________________________________
+> > Linux-nvme mailing list
+> > Linux-nvme at lists.infradead.org
+> > http://lists.infradead.org/mailman/listinfo/linux-nvme
