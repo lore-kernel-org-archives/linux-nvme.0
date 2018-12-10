@@ -1,163 +1,51 @@
-From: linux@roeck-us.net (Guenter Roeck)
-Date: Sun, 9 Dec 2018 12:32:07 -0800
-Subject: [PATCH] nvme: fix irq vs io_queue calculations
-In-Reply-To: <0d463400-f954-7588-1ae9-2c68e52e9082@kernel.dk>
-References: <0d463400-f954-7588-1ae9-2c68e52e9082@kernel.dk>
-Message-ID: <5a2c709d-19e8-ee51-dfb6-c681d2fbd068@roeck-us.net>
+From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Sun,  9 Dec 2018 21:49:59 -0800
+Subject: [PATCH 00/12] nvmet: add error log page support
+Message-ID: <20181210055011.3146-1-chaitanya.kulkarni@wdc.com>
 
-On 12/9/18 10:21 AM, Jens Axboe wrote:
-> Guenter reported an boot hang issue on HPPA after we default to 0 poll
-> queues. We have two issues in the queue count calculations:
-> 
-> 1) We don't separate the poll queues from the read/write queues. This is
->     important, since the former doesn't need interrupts.
-> 2) The adjust logic is broken.
-> 
-> Adjust the poll queue count before doing nvme_calc_io_queues(). The poll
-> queue count is only limited by the IO queue count we were able to get
-> from the controller, not failures in the IRQ allocation loop. This
-> leaves nvme_calc_io_queues() just adjusting the read/write queue map.
-> 
-> Reported-by: Reported-by: Guenter Roeck <linux at roeck-us.net>
-> Signed-off-by: Jens Axboe <axboe at kernel.dk>
+Hi,
 
-Tested-by: Guenter Roeck <linux at roeck-us.net>
+This patch series adds support for the NVMe Over Fabrics target error
+log page.
 
-> 
-> ---
-> 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 7732c4979a4e..0fe48b128aff 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -2030,60 +2030,40 @@ static int nvme_setup_host_mem(struct nvme_dev *dev)
->   	return ret;
->   }
->   
-> -static void nvme_calc_io_queues(struct nvme_dev *dev, unsigned int nr_io_queues)
-> +static void nvme_calc_io_queues(struct nvme_dev *dev, unsigned int irq_queues)
->   {
->   	unsigned int this_w_queues = write_queues;
-> -	unsigned int this_p_queues = poll_queues;
->   
->   	/*
->   	 * Setup read/write queue split
->   	 */
-> -	if (nr_io_queues == 1) {
-> +	if (irq_queues == 1) {
->   		dev->io_queues[HCTX_TYPE_DEFAULT] = 1;
->   		dev->io_queues[HCTX_TYPE_READ] = 0;
-> -		dev->io_queues[HCTX_TYPE_POLL] = 0;
->   		return;
->   	}
->   
-> -	/*
-> -	 * Configure number of poll queues, if set
-> -	 */
-> -	if (this_p_queues) {
-> -		/*
-> -		 * We need at least one queue left. With just one queue, we'll
-> -		 * have a single shared read/write set.
-> -		 */
-> -		if (this_p_queues >= nr_io_queues) {
-> -			this_w_queues = 0;
-> -			this_p_queues = nr_io_queues - 1;
-> -		}
-> -
-> -		dev->io_queues[HCTX_TYPE_POLL] = this_p_queues;
-> -		nr_io_queues -= this_p_queues;
-> -	} else
-> -		dev->io_queues[HCTX_TYPE_POLL] = 0;
-> -
->   	/*
->   	 * If 'write_queues' is set, ensure it leaves room for at least
->   	 * one read queue
->   	 */
-> -	if (this_w_queues >= nr_io_queues)
-> -		this_w_queues = nr_io_queues - 1;
-> +	if (this_w_queues >= irq_queues)
-> +		this_w_queues = irq_queues - 1;
->   
->   	/*
->   	 * If 'write_queues' is set to zero, reads and writes will share
->   	 * a queue set.
->   	 */
->   	if (!this_w_queues) {
-> -		dev->io_queues[HCTX_TYPE_DEFAULT] = nr_io_queues;
-> +		dev->io_queues[HCTX_TYPE_DEFAULT] = irq_queues;
->   		dev->io_queues[HCTX_TYPE_READ] = 0;
->   	} else {
->   		dev->io_queues[HCTX_TYPE_DEFAULT] = this_w_queues;
-> -		dev->io_queues[HCTX_TYPE_READ] = nr_io_queues - this_w_queues;
-> +		dev->io_queues[HCTX_TYPE_READ] = irq_queues - this_w_queues;
->   	}
->   }
->   
-> -static int nvme_setup_irqs(struct nvme_dev *dev, int nr_io_queues)
-> +static int nvme_setup_irqs(struct nvme_dev *dev, unsigned int nr_io_queues)
->   {
->   	struct pci_dev *pdev = to_pci_dev(dev->dev);
->   	int irq_sets[2];
-> @@ -2093,6 +2073,20 @@ static int nvme_setup_irqs(struct nvme_dev *dev, int nr_io_queues)
->   		.sets = irq_sets,
->   	};
->   	int result = 0;
-> +	unsigned int irq_queues, this_p_queues;
-> +
-> +	/*
-> +	 * Poll queues don't need interrupts, but we need at least one IO
-> +	 * queue left over for non-polled IO.
-> +	 */
-> +	this_p_queues = poll_queues;
-> +	if (this_p_queues >= nr_io_queues) {
-> +		this_p_queues = nr_io_queues - 1;
-> +		irq_queues = 1;
-> +	} else {
-> +		irq_queues = nr_io_queues - this_p_queues;
-> +	}
-> +	dev->io_queues[HCTX_TYPE_POLL] = this_p_queues;
->   
->   	/*
->   	 * For irq sets, we have to ask for minvec == maxvec. This passes
-> @@ -2100,7 +2094,7 @@ static int nvme_setup_irqs(struct nvme_dev *dev, int nr_io_queues)
->   	 * IRQ vector needs.
->   	 */
->   	do {
-> -		nvme_calc_io_queues(dev, nr_io_queues);
-> +		nvme_calc_io_queues(dev, irq_queues);
->   		irq_sets[0] = dev->io_queues[HCTX_TYPE_DEFAULT];
->   		irq_sets[1] = dev->io_queues[HCTX_TYPE_READ];
->   		if (!irq_sets[1])
-> @@ -2111,11 +2105,11 @@ static int nvme_setup_irqs(struct nvme_dev *dev, int nr_io_queues)
->   		 * 1 + 1 queues, just ask for a single vector. We'll share
->   		 * that between the single IO queue and the admin queue.
->   		 */
-> -		if (!(result < 0 && nr_io_queues == 1))
-> -			nr_io_queues = irq_sets[0] + irq_sets[1] + 1;
-> +		if (!(result < 0 || irq_queues == 1))
-> +			irq_queues = irq_sets[0] + irq_sets[1] + 1;
->   
-> -		result = pci_alloc_irq_vectors_affinity(pdev, nr_io_queues,
-> -				nr_io_queues,
-> +		result = pci_alloc_irq_vectors_affinity(pdev, irq_queues,
-> +				irq_queues,
->   				PCI_IRQ_ALL_TYPES | PCI_IRQ_AFFINITY, &affd);
->   
->   		/*
-> @@ -2125,12 +2119,12 @@ static int nvme_setup_irqs(struct nvme_dev *dev, int nr_io_queues)
->   		 * likely does not. Back down to ask for just one vector.
->   		 */
->   		if (result == -ENOSPC) {
-> -			nr_io_queues--;
-> -			if (!nr_io_queues)
-> +			irq_queues--;
-> +			if (!irq_queues)
->   				return result;
->   			continue;
->   		} else if (result == -EINVAL) {
-> -			nr_io_queues = 1;
-> +			irq_queues = 1;
->   			continue;
->   		} else if (result <= 0)
->   			return -EIO;
-> 
+For I/O backend when the namespace is configured with bdev we just map
+the blk_status to NVMe error status and for file backend we just map
+the errno to the NVMe error status.
+
+We add new fields to the nvmet_req to hold the error log information and
+to the nvmet_ctrl to hold the error log page. We update the error log
+page in the request completion path in the nvmet_req_complete() and
+implement admin command so that host can read the error log page.
+
+Regards,
+Chaitanya
+
+Chaitanya Kulkarni (12):
+  nvme: remove nvme_common command cdw10 array
+  nvme: add error log page slot definition
+  nvmet: add error-log definitions
+  nvmet: add interface to update error-log page
+  nvmet: add error log support in the core
+  nvmet: add error log support for bdev backend
+  nvmet: add error log support for file backend
+  nvmet: add error log support for fabrics-cmd
+  nvmet: add error log support for rdma backend
+  nvmet: add error log support for admin-cmd
+  nvmet: add error log page cmd handler
+  nvmet: update smart log with num err log entries
+
+ drivers/nvme/host/core.c          |  18 ++---
+ drivers/nvme/host/trace.h         |   4 +-
+ drivers/nvme/target/admin-cmd.c   |  80 +++++++++++++++++-----
+ drivers/nvme/target/core.c        | 107 +++++++++++++++++++++++++++---
+ drivers/nvme/target/discovery.c   |  14 +++-
+ drivers/nvme/target/fabrics-cmd.c |  50 ++++++++++----
+ drivers/nvme/target/io-cmd-bdev.c |  84 ++++++++++++++++++++---
+ drivers/nvme/target/io-cmd-file.c |  35 +++++-----
+ drivers/nvme/target/nvmet.h       |  14 +++-
+ drivers/nvme/target/rdma.c        |  10 ++-
+ include/linux/nvme.h              |  21 +++++-
+ 11 files changed, 357 insertions(+), 80 deletions(-)
+
+-- 
+2.17.0
