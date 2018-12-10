@@ -1,30 +1,41 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Mon, 10 Dec 2018 22:53:15 +0000
-Subject: [PATCH 07/12] nvmet: add error log support for file backend
-In-Reply-To: <b2bc67f7-0b75-40cd-ff74-3b4f3284be3b@grimberg.me>
-References: <20181210055011.3146-1-chaitanya.kulkarni@wdc.com>
- <20181210055011.3146-8-chaitanya.kulkarni@wdc.com>,
- <b2bc67f7-0b75-40cd-ff74-3b4f3284be3b@grimberg.me>
-Message-ID: <BYAPR04MB450254940F29FC613F42445F86A50@BYAPR04MB4502.namprd04.prod.outlook.com>
+From: cgxu519@gmx.com (Chengguang Xu)
+Date: Tue, 11 Dec 2018 07:24:34 +0800
+Subject: [PATCH] nvme: add __exit annotation
+Message-ID: <20181210232434.11615-1-cgxu519@gmx.com>
 
+Add __exit annotation to cleanup helper which is only
+called once in the module.
 
+Signed-off-by: Chengguang Xu <cgxu519 at gmx.com>
+---
+ drivers/nvme/host/core.c | 2 +-
+ drivers/nvme/host/nvme.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-
-
-
-
-From: Sagi Grimberg <sagi@grimberg.me>
-Sent: Monday, December 10, 2018 12:32 PM
-To: Chaitanya Kulkarni; linux-nvme at lists.infradead.org
-Cc: hch at lst.de; keith.busch at intel.com
-Subject: Re: [PATCH 07/12] nvmet: add error log support for file backend
-? 
-
-
-> +???? case -EILSEQ:
-> +???????????? req->error_loc = offsetof(struct nvme_rw_command, nsid);
-> +???????????? status = NVME_SC_INVALID_PI;
-
-Same here...
-[CK] Will skip this errorno in the next round.
-    
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 962012135b62..e63a445f18b6 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3746,7 +3746,7 @@ int __init nvme_core_init(void)
+ 	return result;
+ }
+ 
+-void nvme_core_exit(void)
++void __exit nvme_core_exit(void)
+ {
+ 	ida_destroy(&nvme_subsystems_ida);
+ 	class_destroy(nvme_subsys_class);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 081cbdcce880..e6b4856b25fd 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -572,6 +572,6 @@ static inline struct nvme_ns *nvme_get_ns_from_dev(struct device *dev)
+ }
+ 
+ int __init nvme_core_init(void);
+-void nvme_core_exit(void);
++void __exit nvme_core_exit(void);
+ 
+ #endif /* _NVME_H */
+-- 
+2.17.2
