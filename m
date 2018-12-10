@@ -1,84 +1,106 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Sun,  9 Dec 2018 21:50:03 -0800
-Subject: [PATCH 04/12] nvmet: add interface to update error-log page
+Date: Sun,  9 Dec 2018 21:50:04 -0800
+Subject: [PATCH 05/12] nvmet: add error log support in the core
 In-Reply-To: <20181210055011.3146-1-chaitanya.kulkarni@wdc.com>
 References: <20181210055011.3146-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20181210055011.3146-5-chaitanya.kulkarni@wdc.com>
+Message-ID: <20181210055011.3146-6-chaitanya.kulkarni@wdc.com>
 
-This patch adds nvmet_req based interface to the nvmet-core so that
-we can update the error log page. We update error log page in
-the request completion path when status is not set to NVME_SC_SUCCESS.
+This patch adds the support to maintain error log page for the
+nvmet-core.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- drivers/nvme/target/core.c  | 31 ++++++++++++++++++++++++++++++-
- drivers/nvme/target/nvmet.h |  5 -----
- 2 files changed, 30 insertions(+), 6 deletions(-)
+ drivers/nvme/target/core.c | 31 +++++++++++++++++++++++--------
+ 1 file changed, 23 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 4ed0022b8450..4fe70fc322b4 100644
+index 4fe70fc322b4..5f0b281945e4 100644
 --- a/drivers/nvme/target/core.c
 +++ b/drivers/nvme/target/core.c
-@@ -611,14 +611,43 @@ static void nvmet_update_sq_head(struct nvmet_req *req)
- 	req->rsp->sq_head = cpu_to_le16(req->sq->sqhd & 0x0000FFFF);
+@@ -51,22 +51,28 @@ static struct nvmet_subsys *nvmet_find_get_subsys(struct nvmet_port *port,
+ u16 nvmet_copy_to_sgl(struct nvmet_req *req, off_t off, const void *buf,
+ 		size_t len)
+ {
+-	if (sg_pcopy_from_buffer(req->sg, req->sg_cnt, buf, len, off) != len)
++	if (sg_pcopy_from_buffer(req->sg, req->sg_cnt, buf, len, off) != len) {
++		req->error_loc = offsetof(struct nvme_common_command, dptr);
+ 		return NVME_SC_SGL_INVALID_DATA | NVME_SC_DNR;
++	}
+ 	return 0;
  }
  
-+static void nvmet_set_error(struct nvmet_req *req, u16 status)
-+{
-+	struct nvmet_ctrl *ctrl = req->sq->ctrl;
-+	struct nvme_error_slot *new_error_slot;
-+	unsigned long flags;
-+
-+	req->rsp->status = cpu_to_le16(status << 1);
-+
-+	if (!ctrl)
-+		return;
-+
-+	spin_lock_irqsave(&ctrl->error_lock, flags);
-+	ctrl->counter++;
-+	new_error_slot = &ctrl->slots[ctrl->counter % NVMET_ERROR_LOG_SLOTS];
-+
-+	new_error_slot->error_count = cpu_to_le64(ctrl->counter);
-+	new_error_slot->sqid = cpu_to_le16(req->sq->qid);
-+	new_error_slot->cmdid = cpu_to_le16(req->cmd->common.command_id);
-+	new_error_slot->status_field = cpu_to_le16(status << 1);
-+	new_error_slot->param_error_location = cpu_to_le16(req->error_loc);
-+	new_error_slot->lba = cpu_to_le64(req->error_slba);
-+	new_error_slot->nsid = cpu_to_le32(req->cmd->common.nsid);
-+	spin_unlock_irqrestore(&ctrl->error_lock, flags);
-+
-+	/* set the more bit for this request */
-+	req->rsp->status |= cpu_to_le16(1 << 14);
-+}
-+
- static void __nvmet_req_complete(struct nvmet_req *req, u16 status)
+ u16 nvmet_copy_from_sgl(struct nvmet_req *req, off_t off, void *buf, size_t len)
  {
- 	if (!req->sq->sqhd_disabled)
- 		nvmet_update_sq_head(req);
- 	req->rsp->sq_id = cpu_to_le16(req->sq->qid);
- 	req->rsp->command_id = req->cmd->common.command_id;
-+
- 	if (unlikely(status))
--		nvmet_set_status(req, status);
-+		nvmet_set_error(req, status);
- 	if (req->ns)
- 		nvmet_put_namespace(req->ns);
- 	req->ops->queue_response(req);
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 5a19f64de891..662def80ff23 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -327,11 +327,6 @@ struct nvmet_req {
+-	if (sg_pcopy_to_buffer(req->sg, req->sg_cnt, buf, len, off) != len)
++	if (sg_pcopy_to_buffer(req->sg, req->sg_cnt, buf, len, off) != len) {
++		req->error_loc = offsetof(struct nvme_common_command, dptr);
+ 		return NVME_SC_SGL_INVALID_DATA | NVME_SC_DNR;
++	}
+ 	return 0;
+ }
  
- extern struct workqueue_struct *buffered_io_wq;
- 
--static inline void nvmet_set_status(struct nvmet_req *req, u16 status)
--{
--	req->rsp->status = cpu_to_le16(status << 1);
--}
--
- static inline void nvmet_set_result(struct nvmet_req *req, u32 result)
+ u16 nvmet_zero_sgl(struct nvmet_req *req, off_t off, size_t len)
  {
- 	req->rsp->result.u32 = cpu_to_le32(result);
+-	if (sg_zero_buffer(req->sg, req->sg_cnt, len, off) != len)
++	if (sg_zero_buffer(req->sg, req->sg_cnt, len, off) != len) {
++		req->error_loc = offsetof(struct nvme_common_command, dptr);
+ 		return NVME_SC_SGL_INVALID_DATA | NVME_SC_DNR;
++	}
+ 	return 0;
+ }
+ 
+@@ -768,14 +774,20 @@ static u16 nvmet_parse_io_cmd(struct nvmet_req *req)
+ 		return ret;
+ 
+ 	req->ns = nvmet_find_namespace(req->sq->ctrl, cmd->rw.nsid);
+-	if (unlikely(!req->ns))
++	if (unlikely(!req->ns)) {
++		req->error_loc = offsetof(struct nvme_common_command, nsid);
+ 		return NVME_SC_INVALID_NS | NVME_SC_DNR;
++	}
+ 	ret = nvmet_check_ana_state(req->port, req->ns);
+-	if (unlikely(ret))
++	if (unlikely(ret)) {
++		req->error_loc = offsetof(struct nvme_common_command, nsid);
+ 		return ret;
++	}
+ 	ret = nvmet_io_cmd_check_access(req);
+-	if (unlikely(ret))
++	if (unlikely(ret)) {
++		req->error_loc = offsetof(struct nvme_common_command, nsid);
+ 		return ret;
++	}
+ 
+ 	if (req->ns->file)
+ 		return nvmet_file_parse_io_cmd(req);
+@@ -803,6 +815,7 @@ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
+ 
+ 	/* no support for fused commands yet */
+ 	if (unlikely(flags & (NVME_CMD_FUSE_FIRST | NVME_CMD_FUSE_SECOND))) {
++		req->error_loc = offsetof(struct nvme_common_command, flags);
+ 		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
+ 		goto fail;
+ 	}
+@@ -813,6 +826,7 @@ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
+ 	 * byte aligned.
+ 	 */
+ 	if (unlikely((flags & NVME_CMD_SGL_ALL) != NVME_CMD_SGL_METABUF)) {
++		req->error_loc = offsetof(struct nvme_common_command, flags);
+ 		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
+ 		goto fail;
+ 	}
+@@ -858,9 +872,10 @@ EXPORT_SYMBOL_GPL(nvmet_req_uninit);
+ 
+ void nvmet_req_execute(struct nvmet_req *req)
+ {
+-	if (unlikely(req->data_len != req->transfer_len))
++	if (unlikely(req->data_len != req->transfer_len)) {
++		req->error_loc = offsetof(struct nvme_common_command, dptr);
+ 		nvmet_req_complete(req, NVME_SC_SGL_INVALID_DATA | NVME_SC_DNR);
+-	else
++	} else
+ 		req->execute(req);
+ }
+ EXPORT_SYMBOL_GPL(nvmet_req_execute);
 -- 
 2.17.0
