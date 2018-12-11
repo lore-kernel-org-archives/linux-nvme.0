@@ -1,75 +1,90 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 11 Dec 2018 02:49:31 -0800
-Subject: [PATCH 1/5] blk-mq-rdma: pass in queue map to blk_mq_rdma_map_queues
+Date: Tue, 11 Dec 2018 02:49:33 -0800
+Subject: [PATCH 3/5] nvme-fabrics: allow user to set nr_write_queues for
+ separate queue maps
 In-Reply-To: <20181211104936.25333-1-sagi@grimberg.me>
 References: <20181211104936.25333-1-sagi@grimberg.me>
-Message-ID: <20181211104936.25333-2-sagi@grimberg.me>
+Message-ID: <20181211104936.25333-4-sagi@grimberg.me>
+
+This argument will specify how many I/O queues will be connected
+in create_ctrl in addition to nr_io_queues. With this configuration,
+I/O that carries payload from the host to the target, will use
+the default hctx queue map, and I/O that involves target to host
+transfers will use the read hctx queue map.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- block/blk-mq-rdma.c         | 8 ++++----
- drivers/nvme/host/rdma.c    | 2 +-
- include/linux/blk-mq-rdma.h | 2 +-
- 3 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/nvme/host/fabrics.c | 15 ++++++++++++++-
+ drivers/nvme/host/fabrics.h |  3 +++
+ 2 files changed, 17 insertions(+), 1 deletion(-)
 
-diff --git a/block/blk-mq-rdma.c b/block/blk-mq-rdma.c
-index a71576aff3a5..45030a81a1ed 100644
---- a/block/blk-mq-rdma.c
-+++ b/block/blk-mq-rdma.c
-@@ -29,24 +29,24 @@
-  * @set->nr_hw_queues, or @dev does not provide an affinity mask for a
-  * vector, we fallback to the naive mapping.
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 9c62c6838b76..066c3a02e08b 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -616,6 +616,7 @@ static const match_table_t opt_tokens = {
+ 	{ NVMF_OPT_DISABLE_SQFLOW,	"disable_sqflow"	},
+ 	{ NVMF_OPT_HDR_DIGEST,		"hdr_digest"		},
+ 	{ NVMF_OPT_DATA_DIGEST,		"data_digest"		},
++	{ NVMF_OPT_NR_WRITE_QUEUES,	"nr_write_queues=%d"	},
+ 	{ NVMF_OPT_ERR,			NULL			}
+ };
+ 
+@@ -837,6 +838,18 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 		case NVMF_OPT_DATA_DIGEST:
+ 			opts->data_digest = true;
+ 			break;
++		case NVMF_OPT_NR_WRITE_QUEUES:
++			if (match_int(args, &token)) {
++				ret = -EINVAL;
++				goto out;
++			}
++			if (token <= 0) {
++				pr_err("Invalid nr_write_queues %d\n", token);
++				ret = -EINVAL;
++				goto out;
++			}
++			opts->nr_write_queues = token;
++			break;
+ 		default:
+ 			pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
+ 				p);
+@@ -954,7 +967,7 @@ EXPORT_SYMBOL_GPL(nvmf_free_options);
+ #define NVMF_ALLOWED_OPTS	(NVMF_OPT_QUEUE_SIZE | NVMF_OPT_NR_IO_QUEUES | \
+ 				 NVMF_OPT_KATO | NVMF_OPT_HOSTNQN | \
+ 				 NVMF_OPT_HOST_ID | NVMF_OPT_DUP_CONNECT |\
+-				 NVMF_OPT_DISABLE_SQFLOW)
++				 NVMF_OPT_DISABLE_SQFLOW | NVMF_OPT_NR_WRITE_QUEUES)
+ 
+ static struct nvme_ctrl *
+ nvmf_create_ctrl(struct device *dev, const char *buf, size_t count)
+diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+index 28dc916ef26b..81b8fd1c0c5d 100644
+--- a/drivers/nvme/host/fabrics.h
++++ b/drivers/nvme/host/fabrics.h
+@@ -61,6 +61,7 @@ enum {
+ 	NVMF_OPT_DISABLE_SQFLOW = 1 << 14,
+ 	NVMF_OPT_HDR_DIGEST	= 1 << 15,
+ 	NVMF_OPT_DATA_DIGEST	= 1 << 16,
++	NVMF_OPT_NR_WRITE_QUEUES = 1 << 17,
+ };
+ 
+ /**
+@@ -91,6 +92,7 @@ enum {
+  * @disable_sqflow: disable controller sq flow control
+  * @hdr_digest: generate/verify header digest (TCP)
+  * @data_digest: generate/verify data digest (TCP)
++ * @nr_write_queues: number of queues for write I/O
   */
--int blk_mq_rdma_map_queues(struct blk_mq_tag_set *set,
-+int blk_mq_rdma_map_queues(struct blk_mq_queue_map *map,
- 		struct ib_device *dev, int first_vec)
- {
- 	const struct cpumask *mask;
- 	unsigned int queue, cpu;
+ struct nvmf_ctrl_options {
+ 	unsigned		mask;
+@@ -110,6 +112,7 @@ struct nvmf_ctrl_options {
+ 	bool			disable_sqflow;
+ 	bool			hdr_digest;
+ 	bool			data_digest;
++	unsigned int		nr_write_queues;
+ };
  
--	for (queue = 0; queue < set->nr_hw_queues; queue++) {
-+	for (queue = 0; queue < map->nr_queues; queue++) {
- 		mask = ib_get_vector_affinity(dev, first_vec + queue);
- 		if (!mask)
- 			goto fallback;
- 
- 		for_each_cpu(cpu, mask)
--			set->map[0].mq_map[cpu] = queue;
-+			map->mq_map[cpu] = map->queue_offset + queue;
- 	}
- 
- 	return 0;
- 
- fallback:
--	return blk_mq_map_queues(&set->map[0]);
-+	return blk_mq_map_queues(map);
- }
- EXPORT_SYMBOL_GPL(blk_mq_rdma_map_queues);
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index f2db848f6985..5057d5ab5aaa 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1751,7 +1751,7 @@ static int nvme_rdma_map_queues(struct blk_mq_tag_set *set)
- {
- 	struct nvme_rdma_ctrl *ctrl = set->driver_data;
- 
--	return blk_mq_rdma_map_queues(set, ctrl->device->dev, 0);
-+	return blk_mq_rdma_map_queues(&set->map[0], ctrl->device->dev, 0);
- }
- 
- static const struct blk_mq_ops nvme_rdma_mq_ops = {
-diff --git a/include/linux/blk-mq-rdma.h b/include/linux/blk-mq-rdma.h
-index b4ade198007d..7b6ecf9ac4c3 100644
---- a/include/linux/blk-mq-rdma.h
-+++ b/include/linux/blk-mq-rdma.h
-@@ -4,7 +4,7 @@
- struct blk_mq_tag_set;
- struct ib_device;
- 
--int blk_mq_rdma_map_queues(struct blk_mq_tag_set *set,
-+int blk_mq_rdma_map_queues(struct blk_mq_queue_map *map,
- 		struct ib_device *dev, int first_vec);
- 
- #endif /* _LINUX_BLK_MQ_RDMA_H */
+ /*
 -- 
 2.17.1
