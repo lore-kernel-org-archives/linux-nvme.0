@@ -1,8 +1,8 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 11 Dec 2018 02:52:00 -0800
-Subject: [PATCH] nvme: add __exit annotation
-In-Reply-To: <20181210232434.11615-1-cgxu519@gmx.com>
-References: <20181210232434.11615-1-cgxu519@gmx.com>
-Message-ID: <2fd0f699-deca-106c-a75e-7cbbdd0f4d4e@grimberg.me>
+Date: Tue, 11 Dec 2018 02:50:05 -0800
+Subject: [PATCH] nvme: fix irq vs io_queue calculations
+In-Reply-To: <0d463400-f954-7588-1ae9-2c68e52e9082@kernel.dk>
+References: <0d463400-f954-7588-1ae9-2c68e52e9082@kernel.dk>
+Message-ID: <aeee5f1e-9ab6-5474-226f-4ff588dbebae@grimberg.me>
 
 Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
