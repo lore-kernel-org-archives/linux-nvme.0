@@ -1,60 +1,40 @@
-From: nitzanc@mellanox.com (Nitzan Carmi)
-Date: Tue, 11 Dec 2018 09:14:10 +0000
-Subject: [PATCH] nvme-rdma: complete requests from ->timeout
-In-Reply-To: <CAJX3Cti_ZJF5E+NRuRzSeEUgaXsbA2U9C+Rh5OdYd4EMwXC1gw@mail.gmail.com>
-References: <1543535954-28073-1-git-send-email-jalee@purestorage.com>
- <cc7cbad6-0e7d-8328-c602-61d659c3a7de@grimberg.me>
- <b7b26a7a-70be-d805-ee64-67fba0b4efa8@mellanox.com>
- <CAJX3Cti_ZJF5E+NRuRzSeEUgaXsbA2U9C+Rh5OdYd4EMwXC1gw@mail.gmail.com>
-Message-ID: <773bb91f-40a4-a525-f7b8-db821b402821@mellanox.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 11 Dec 2018 02:49:30 -0800
+Subject: [PATCH 0/5] implement nvmf read/write queue maps
+Message-ID: <20181211104936.25333-1-sagi@grimberg.me>
 
-I was just in the middle of sending this to upstream when I saw your 
-mail, and thought too that it addresses the same bug, although I see a 
-little different call trace than yours.
+This set implements read/write queue maps to nvmf (implemented in tcp
+and rdma). We basically allow the users to pass in nr_write_queues
+argument that will basically maps a separate set of queues to host
+write I/O (or more correctly non-read I/O) and a set of queues to
+hold read I/O (which is now controlled by the known nr_io_queues).
 
-I would be happy if you can verify that this patch works for you too,
-and we can push it to upstream.
+A patchset that restores nvme-rdma polling is in the pipe.
+The polling is less trivial because:
+1. we can find non I/O completions in the cq (i.e. memreg)
+2. we need to start with non-polling for a sane connect and
+   then switch to polling which is not trivial behind the
+   cq API we use.
 
-On 11/12/2018 01:40, Jaesoo Lee wrote:
-> It seems that your patch is addressing the same bug. I will see if
-> that works for our failure scenarios.
-> 
-> Why don't you make it upstream?
-> 
-> On Sun, Dec 9, 2018@6:22 AM Nitzan Carmi <nitzanc@mellanox.com> wrote:
->>
->> Hi,
->> We encountered similar issue.
->> I think that the problem is that error_recovery might not even be
->> queued, in case we're in DELETING state (or CONNECTING state, for that
->> matter), because we cannot move from those states to RESETTING.
->>
->> We prepared some patches which handle completions in case such scenario
->> happens (which, in fact, might happen in numerous error flows).
->>
->> Does it solve your problem?
->> Nitzan.
->>
->>
->> On 30/11/2018 03:30, Sagi Grimberg wrote:
->>>
->>>> This does not hold at least for NVMe RDMA host driver. An example
->>>> scenario
->>>> is when the RDMA connection is gone while the controller is being
->>>> deleted.
->>>> In this case, the nvmf_reg_write32() for sending shutdown admin
->>>> command by
->>>> the delete_work could be hung forever if the command is not completed by
->>>> the timeout handler.
->>>
->>> If the queue is gone, this means that the queue has already flushed and
->>> any commands that were inflight has completed with a flush error
->>> completion...
->>>
->>> Can you describe the scenario that caused this hang? When has the
->>> queue became "gone" and when did the shutdown command execute?
->>>
->>> _______________________________________________
->>> Linux-nvme mailing list
->>> Linux-nvme at lists.infradead.org
->>> http://lists.infradead.org/mailman/listinfo/linux-nvme
+Note that read/write separation for rdma but especially tcp this can be
+very clear win as we minimize the risk for head-of-queue blocking for
+mixed workloads over a single tcp byte stream.
+
+Sagi Grimberg (5):
+  blk-mq-rdma: pass in queue map to blk_mq_rdma_map_queues
+  nvme-fabrics: add missing nvmf_ctrl_options documentation
+  nvme-fabrics: allow user to set nr_write_queues for separate queue
+    maps
+  nvme-tcp: support separate queue maps for read and write
+  nvme-rdma: support read/write queue separation
+
+ block/blk-mq-rdma.c         |  8 +++---
+ drivers/nvme/host/fabrics.c | 15 ++++++++++-
+ drivers/nvme/host/fabrics.h |  6 +++++
+ drivers/nvme/host/rdma.c    | 39 ++++++++++++++++++++++++---
+ drivers/nvme/host/tcp.c     | 53 ++++++++++++++++++++++++++++++++-----
+ include/linux/blk-mq-rdma.h |  2 +-
+ 6 files changed, 108 insertions(+), 15 deletions(-)
+
+-- 
+2.17.1
