@@ -1,79 +1,85 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 11 Dec 2018 15:35:14 -0800
-Subject: [PATCH v2 1/5] blk-mq-rdma: pass in queue map to
- blk_mq_rdma_map_queues
+Date: Tue, 11 Dec 2018 15:35:19 -0800
+Subject: [PATCH v2 nvme-cli 6/5] fabrics: pass in number of write queues
 In-Reply-To: <20181211233519.9350-1-sagi@grimberg.me>
 References: <20181211233519.9350-1-sagi@grimberg.me>
-Message-ID: <20181211233519.9350-2-sagi@grimberg.me>
+Message-ID: <20181211233519.9350-7-sagi@grimberg.me>
 
-will be used by nvme-rdma for queue map separation support.
+nr_write_queues specifies the number of additional queues that
+will be connected. These queues will host write I/O (host to target
+payload) while nr_io_queues will host read I/O (target to host payload).
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- block/blk-mq-rdma.c         | 8 ++++----
- drivers/nvme/host/rdma.c    | 2 +-
- include/linux/blk-mq-rdma.h | 2 +-
- 3 files changed, 6 insertions(+), 6 deletions(-)
+ Documentation/nvme-connect.txt |  5 +++++
+ fabrics.c                      | 11 +++++++++++
+ 2 files changed, 16 insertions(+)
 
-diff --git a/block/blk-mq-rdma.c b/block/blk-mq-rdma.c
-index a71576aff3a5..45030a81a1ed 100644
---- a/block/blk-mq-rdma.c
-+++ b/block/blk-mq-rdma.c
-@@ -29,24 +29,24 @@
-  * @set->nr_hw_queues, or @dev does not provide an affinity mask for a
-  * vector, we fallback to the naive mapping.
-  */
--int blk_mq_rdma_map_queues(struct blk_mq_tag_set *set,
-+int blk_mq_rdma_map_queues(struct blk_mq_queue_map *map,
- 		struct ib_device *dev, int first_vec)
- {
- 	const struct cpumask *mask;
- 	unsigned int queue, cpu;
+diff --git a/Documentation/nvme-connect.txt b/Documentation/nvme-connect.txt
+index af78b2a8238f..d4a0e6678475 100644
+--- a/Documentation/nvme-connect.txt
++++ b/Documentation/nvme-connect.txt
+@@ -16,6 +16,7 @@ SYNOPSIS
+ 		[--host-traddr=<traddr>   | -w <traddr>]
+ 		[--hostnqn=<hostnqn>      | -q <hostnqn>]
+ 		[--nr-io-queues=<#>       | -i <#>]
++		[--nr-write-queues=<#>    | -W <#>]
+ 		[--queue-size=<#>         | -Q <#>]
+ 		[--keep-alive-tmo=<#>     | -k <#>]
+ 		[--reconnect-delay=<#>    | -c <#>]
+@@ -75,6 +76,10 @@ OPTIONS
+ --nr-io-queues=<#>::
+ 	Overrides the default number of I/O queues create by the driver.
  
--	for (queue = 0; queue < set->nr_hw_queues; queue++) {
-+	for (queue = 0; queue < map->nr_queues; queue++) {
- 		mask = ib_get_vector_affinity(dev, first_vec + queue);
- 		if (!mask)
- 			goto fallback;
- 
- 		for_each_cpu(cpu, mask)
--			set->map[0].mq_map[cpu] = queue;
-+			map->mq_map[cpu] = map->queue_offset + queue;
++-W <#>::
++--nr-write-queues=<#>::
++	Adds additional queues that will be used for write I/O.
++
+ -Q <#>::
+ --queue-size=<#>::
+ 	Overrides the default number of elements in the I/O queues created
+diff --git a/fabrics.c b/fabrics.c
+index 93f3410a1c72..bc6a0b7e4e21 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -53,6 +53,7 @@ static struct config {
+ 	char *hostnqn;
+ 	char *hostid;
+ 	int  nr_io_queues;
++	int  nr_write_queues;
+ 	int  queue_size;
+ 	int  keep_alive_tmo;
+ 	int  reconnect_delay;
+@@ -621,6 +622,8 @@ static int build_options(char *argstr, int max_len)
+ 		    add_argument(&argstr, &max_len, "hostid", cfg.hostid)) ||
+ 	    add_int_argument(&argstr, &max_len, "nr_io_queues",
+ 				cfg.nr_io_queues) ||
++	    add_int_argument(&argstr, &max_len, "nr_write_queues",
++				cfg.nr_write_queues) ||
+ 	    add_int_argument(&argstr, &max_len, "queue_size", cfg.queue_size) ||
+ 	    add_int_argument(&argstr, &max_len, "keep_alive_tmo",
+ 				cfg.keep_alive_tmo) ||
+@@ -694,6 +697,13 @@ retry:
+ 		p += len;
  	}
  
- 	return 0;
- 
- fallback:
--	return blk_mq_map_queues(&set->map[0]);
-+	return blk_mq_map_queues(map);
- }
- EXPORT_SYMBOL_GPL(blk_mq_rdma_map_queues);
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index f2db848f6985..5057d5ab5aaa 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1751,7 +1751,7 @@ static int nvme_rdma_map_queues(struct blk_mq_tag_set *set)
- {
- 	struct nvme_rdma_ctrl *ctrl = set->driver_data;
- 
--	return blk_mq_rdma_map_queues(set, ctrl->device->dev, 0);
-+	return blk_mq_rdma_map_queues(&set->map[0], ctrl->device->dev, 0);
- }
- 
- static const struct blk_mq_ops nvme_rdma_mq_ops = {
-diff --git a/include/linux/blk-mq-rdma.h b/include/linux/blk-mq-rdma.h
-index b4ade198007d..7b6ecf9ac4c3 100644
---- a/include/linux/blk-mq-rdma.h
-+++ b/include/linux/blk-mq-rdma.h
-@@ -4,7 +4,7 @@
- struct blk_mq_tag_set;
- struct ib_device;
- 
--int blk_mq_rdma_map_queues(struct blk_mq_tag_set *set,
-+int blk_mq_rdma_map_queues(struct blk_mq_queue_map *map,
- 		struct ib_device *dev, int first_vec);
- 
- #endif /* _LINUX_BLK_MQ_RDMA_H */
++	if (cfg.nr_write_queues) {
++		len = sprintf(p, ",nr_write_queues=%d", cfg.nr_write_queues);
++		if (len < 0)
++			return -EINVAL;
++		p += len;
++	}
++
+ 	if (cfg.host_traddr) {
+ 		len = sprintf(p, ",host_traddr=%s", cfg.host_traddr);
+ 		if (len < 0)
+@@ -1009,6 +1019,7 @@ int connect(const char *desc, int argc, char **argv)
+ 		{"hostnqn",         'q', "LIST", CFG_STRING, &cfg.hostnqn,         required_argument, "user-defined hostnqn" },
+ 		{"hostid",          'I', "LIST", CFG_STRING, &cfg.hostid,      required_argument, "user-defined hostid (if default not used)"},
+ 		{"nr-io-queues",    'i', "LIST", CFG_INT, &cfg.nr_io_queues,    required_argument, "number of io queues to use (default is core count)" },
++		{"nr-write-queues",  'W', "LIST", CFG_INT, &cfg.nr_write_queues,    required_argument, "number of write queues to use (default 0)" },
+ 		{"queue-size",      'Q', "LIST", CFG_INT, &cfg.queue_size,      required_argument, "number of io queue elements to use (default 128)" },
+ 		{"keep-alive-tmo",  'k', "LIST", CFG_INT, &cfg.keep_alive_tmo,  required_argument, "keep alive timeout period in seconds" },
+ 		{"reconnect-delay", 'c', "LIST", CFG_INT, &cfg.reconnect_delay, required_argument, "reconnect timeout period in seconds" },
 -- 
 2.17.1
