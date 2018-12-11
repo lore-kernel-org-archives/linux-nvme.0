@@ -1,46 +1,91 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 11 Dec 2018 15:35:13 -0800
-Subject: [PATCH v2 0/5] implement nvmf read/write queue maps
-Message-ID: <20181211233519.9350-1-sagi@grimberg.me>
+Date: Tue, 11 Dec 2018 15:35:16 -0800
+Subject: [PATCH v2 3/5] nvme-fabrics: allow user to set nr_write_queues for
+ separate queue maps
+In-Reply-To: <20181211233519.9350-1-sagi@grimberg.me>
+References: <20181211233519.9350-1-sagi@grimberg.me>
+Message-ID: <20181211233519.9350-4-sagi@grimberg.me>
 
-This set implements read/write queue maps to nvmf (implemented in tcp
-and rdma). We basically allow the users to pass in nr_write_queues
-argument that will basically maps a separate set of queues to host
-write I/O (or more correctly non-read I/O) and a set of queues to
-hold read I/O (which is now controlled by the known nr_io_queues).
+This argument will specify how many I/O queues will be connected
+in create_ctrl in addition to nr_io_queues. With this configuration,
+I/O that carries payload from the host to the target, will use
+the default hctx queue map, and I/O that involves target to host
+transfers will use the read hctx queue map.
 
-A patchset that restores nvme-rdma polling is in the pipe.
-The polling is less trivial because:
-1. we can find non I/O completions in the cq (i.e. memreg)
-2. we need to start with non-polling for a sane connect and
-   then switch to polling which is not trivial behind the
-   cq API we use.
+Reviewed-by: Christoph Hellwig <hch at lst.de>
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/host/fabrics.c | 15 ++++++++++++++-
+ drivers/nvme/host/fabrics.h |  3 +++
+ 2 files changed, 17 insertions(+), 1 deletion(-)
 
-Note that read/write separation for rdma but especially tcp this can be
-very clear win as we minimize the risk for head-of-queue blocking for
-mixed workloads over a single tcp byte stream.
-
-Changes from v1:
-- simplified map_queues in nvme-tcp and nvme-rdma
-- improved change logs
-- collected review tags
-- added nr-write-queues entry in nvme-cli docuementation
-
-Sagi Grimberg (5):
-  blk-mq-rdma: pass in queue map to blk_mq_rdma_map_queues
-  nvme-fabrics: add missing nvmf_ctrl_options documentation
-  nvme-fabrics: allow user to set nr_write_queues for separate queue
-    maps
-  nvme-tcp: support separate queue maps for read and write
-  nvme-rdma: support separate queue maps for read and write
-
- block/blk-mq-rdma.c         |  8 +++----
- drivers/nvme/host/fabrics.c | 15 ++++++++++++-
- drivers/nvme/host/fabrics.h |  6 +++++
- drivers/nvme/host/rdma.c    | 28 ++++++++++++++++++++---
- drivers/nvme/host/tcp.c     | 44 ++++++++++++++++++++++++++++++++-----
- include/linux/blk-mq-rdma.h |  2 +-
- 6 files changed, 88 insertions(+), 15 deletions(-)
-
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 9c62c6838b76..066c3a02e08b 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -616,6 +616,7 @@ static const match_table_t opt_tokens = {
+ 	{ NVMF_OPT_DISABLE_SQFLOW,	"disable_sqflow"	},
+ 	{ NVMF_OPT_HDR_DIGEST,		"hdr_digest"		},
+ 	{ NVMF_OPT_DATA_DIGEST,		"data_digest"		},
++	{ NVMF_OPT_NR_WRITE_QUEUES,	"nr_write_queues=%d"	},
+ 	{ NVMF_OPT_ERR,			NULL			}
+ };
+ 
+@@ -837,6 +838,18 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 		case NVMF_OPT_DATA_DIGEST:
+ 			opts->data_digest = true;
+ 			break;
++		case NVMF_OPT_NR_WRITE_QUEUES:
++			if (match_int(args, &token)) {
++				ret = -EINVAL;
++				goto out;
++			}
++			if (token <= 0) {
++				pr_err("Invalid nr_write_queues %d\n", token);
++				ret = -EINVAL;
++				goto out;
++			}
++			opts->nr_write_queues = token;
++			break;
+ 		default:
+ 			pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
+ 				p);
+@@ -954,7 +967,7 @@ EXPORT_SYMBOL_GPL(nvmf_free_options);
+ #define NVMF_ALLOWED_OPTS	(NVMF_OPT_QUEUE_SIZE | NVMF_OPT_NR_IO_QUEUES | \
+ 				 NVMF_OPT_KATO | NVMF_OPT_HOSTNQN | \
+ 				 NVMF_OPT_HOST_ID | NVMF_OPT_DUP_CONNECT |\
+-				 NVMF_OPT_DISABLE_SQFLOW)
++				 NVMF_OPT_DISABLE_SQFLOW | NVMF_OPT_NR_WRITE_QUEUES)
+ 
+ static struct nvme_ctrl *
+ nvmf_create_ctrl(struct device *dev, const char *buf, size_t count)
+diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+index 28dc916ef26b..81b8fd1c0c5d 100644
+--- a/drivers/nvme/host/fabrics.h
++++ b/drivers/nvme/host/fabrics.h
+@@ -61,6 +61,7 @@ enum {
+ 	NVMF_OPT_DISABLE_SQFLOW = 1 << 14,
+ 	NVMF_OPT_HDR_DIGEST	= 1 << 15,
+ 	NVMF_OPT_DATA_DIGEST	= 1 << 16,
++	NVMF_OPT_NR_WRITE_QUEUES = 1 << 17,
+ };
+ 
+ /**
+@@ -91,6 +92,7 @@ enum {
+  * @disable_sqflow: disable controller sq flow control
+  * @hdr_digest: generate/verify header digest (TCP)
+  * @data_digest: generate/verify data digest (TCP)
++ * @nr_write_queues: number of queues for write I/O
+  */
+ struct nvmf_ctrl_options {
+ 	unsigned		mask;
+@@ -110,6 +112,7 @@ struct nvmf_ctrl_options {
+ 	bool			disable_sqflow;
+ 	bool			hdr_digest;
+ 	bool			data_digest;
++	unsigned int		nr_write_queues;
+ };
+ 
+ /*
 -- 
 2.17.1
