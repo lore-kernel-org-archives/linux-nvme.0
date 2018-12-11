@@ -1,72 +1,25 @@
-From: jalee@purestorage.com (Jaesoo Lee)
-Date: Tue, 11 Dec 2018 15:16:30 -0800
-Subject: [PATCH] nvme-rdma: complete requests from ->timeout
-In-Reply-To: <773bb91f-40a4-a525-f7b8-db821b402821@mellanox.com>
-References: <1543535954-28073-1-git-send-email-jalee@purestorage.com>
- <cc7cbad6-0e7d-8328-c602-61d659c3a7de@grimberg.me>
- <b7b26a7a-70be-d805-ee64-67fba0b4efa8@mellanox.com>
- <CAJX3Cti_ZJF5E+NRuRzSeEUgaXsbA2U9C+Rh5OdYd4EMwXC1gw@mail.gmail.com>
- <773bb91f-40a4-a525-f7b8-db821b402821@mellanox.com>
-Message-ID: <CAJX3Ctjtt2zebuLfzKM30PV1x3fm8HaJJFJw3zZSOShWnQnu=Q@mail.gmail.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 11 Dec 2018 15:34:29 -0800
+Subject: [PATCH nvme-cli 6/5] fabrics: pass in nr_write_queues
+In-Reply-To: <20181211193015.GC8101@localhost.localdomain>
+References: <20181211104936.25333-1-sagi@grimberg.me>
+ <20181211104936.25333-7-sagi@grimberg.me>
+ <20181211193015.GC8101@localhost.localdomain>
+Message-ID: <45d197ee-9f2e-ab65-4927-f8f7308395d3@grimberg.me>
 
-I cannot reproduce the bug with the patch; in my failure scenarios, it
-seems that completing the request on errors in nvme_rdma_send_done
-makes __nvme_submit_sync_cmd to be unblocked. Also, I think this is
-safe from the double completions.
 
-However, it seems that nvme_rdma_timeout code is still not free from
-the double completion problem. So, it looks promising to me if you
-could separate out the nvme_rdma_wr_error handling code as a new
-patch.
-On Tue, Dec 11, 2018@1:14 AM Nitzan Carmi <nitzanc@mellanox.com> wrote:
->
-> I was just in the middle of sending this to upstream when I saw your
-> mail, and thought too that it addresses the same bug, although I see a
-> little different call trace than yours.
->
-> I would be happy if you can verify that this patch works for you too,
-> and we can push it to upstream.
->
-> On 11/12/2018 01:40, Jaesoo Lee wrote:
-> > It seems that your patch is addressing the same bug. I will see if
-> > that works for our failure scenarios.
-> >
-> > Why don't you make it upstream?
-> >
-> > On Sun, Dec 9, 2018@6:22 AM Nitzan Carmi <nitzanc@mellanox.com> wrote:
-> >>
-> >> Hi,
-> >> We encountered similar issue.
-> >> I think that the problem is that error_recovery might not even be
-> >> queued, in case we're in DELETING state (or CONNECTING state, for that
-> >> matter), because we cannot move from those states to RESETTING.
-> >>
-> >> We prepared some patches which handle completions in case such scenario
-> >> happens (which, in fact, might happen in numerous error flows).
-> >>
-> >> Does it solve your problem?
-> >> Nitzan.
-> >>
-> >>
-> >> On 30/11/2018 03:30, Sagi Grimberg wrote:
-> >>>
-> >>>> This does not hold at least for NVMe RDMA host driver. An example
-> >>>> scenario
-> >>>> is when the RDMA connection is gone while the controller is being
-> >>>> deleted.
-> >>>> In this case, the nvmf_reg_write32() for sending shutdown admin
-> >>>> command by
-> >>>> the delete_work could be hung forever if the command is not completed by
-> >>>> the timeout handler.
-> >>>
-> >>> If the queue is gone, this means that the queue has already flushed and
-> >>> any commands that were inflight has completed with a flush error
-> >>> completion...
-> >>>
-> >>> Can you describe the scenario that caused this hang? When has the
-> >>> queue became "gone" and when did the shutdown command execute?
-> >>>
-> >>> _______________________________________________
-> >>> Linux-nvme mailing list
-> >>> Linux-nvme at lists.infradead.org
-> >>> http://lists.infradead.org/mailman/listinfo/linux-nvme
+> On Tue, Dec 11, 2018@02:49:36AM -0800, Sagi Grimberg wrote:
+>>   	if (cfg.host_traddr) {
+>>   		len = sprintf(p, ",host_traddr=%s", cfg.host_traddr);
+>>   		if (len < 0)
+>> @@ -1009,6 +1019,7 @@ int connect(const char *desc, int argc, char **argv)
+>>   		{"hostnqn",         'q', "LIST", CFG_STRING, &cfg.hostnqn,         required_argument, "user-defined hostnqn" },
+>>   		{"hostid",          'I', "LIST", CFG_STRING, &cfg.hostid,      required_argument, "user-defined hostid (if default not used)"},
+>>   		{"nr-io-queues",    'i', "LIST", CFG_INT, &cfg.nr_io_queues,    required_argument, "number of io queues to use (default is core count)" },
+>> +		{"nr_write_queues",  'W', "LIST", CFG_INT, &cfg.nr_write_queues,    required_argument, "number of write queues to use (default 0)" },
+> 
+> I realize the kernel's nvme-admin uses "_", but everything else in the
+> shell utility here uses "-", so just want to use that for consistency.
+> And the documentation needs to include this as well.
+
+Will do.
