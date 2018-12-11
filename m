@@ -1,23 +1,27 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 11 Dec 2018 15:38:57 -0800
-Subject: [PATCH] nvme-rdma: complete requests from ->timeout
-In-Reply-To: <CAJX3Ctjtt2zebuLfzKM30PV1x3fm8HaJJFJw3zZSOShWnQnu=Q@mail.gmail.com>
-References: <1543535954-28073-1-git-send-email-jalee@purestorage.com>
- <cc7cbad6-0e7d-8328-c602-61d659c3a7de@grimberg.me>
- <b7b26a7a-70be-d805-ee64-67fba0b4efa8@mellanox.com>
- <CAJX3Cti_ZJF5E+NRuRzSeEUgaXsbA2U9C+Rh5OdYd4EMwXC1gw@mail.gmail.com>
- <773bb91f-40a4-a525-f7b8-db821b402821@mellanox.com>
- <CAJX3Ctjtt2zebuLfzKM30PV1x3fm8HaJJFJw3zZSOShWnQnu=Q@mail.gmail.com>
-Message-ID: <c645f196-3fbb-c9b9-5686-730ceed102fa@grimberg.me>
+Date: Tue, 11 Dec 2018 15:59:36 -0800
+Subject: [PATCH 10/12] nvmet: add error log support for admin-cmd
+In-Reply-To: <20181211141547.GA8591@lst.de>
+References: <20181210055011.3146-1-chaitanya.kulkarni@wdc.com>
+ <BYAPR04MB4502206C5362955EF2F2014686A50@BYAPR04MB4502.namprd04.prod.outlook.com>
+ <20181211141547.GA8591@lst.de>
+Message-ID: <3501d39f-76db-0f10-8ca6-0d397c53f273@grimberg.me>
 
-> I cannot reproduce the bug with the patch; in my failure scenarios, it
-> seems that completing the request on errors in nvme_rdma_send_done
-> makes __nvme_submit_sync_cmd to be unblocked. Also, I think this is
-> safe from the double completions.
+
+>> I'm wandering how we can guarantee that we don't forget to set
+>> req->error_loc for all future errors...
+>>
+>> Anyways..
+>>
+>> [CK] One way to do that is to have a default centralized mapping from the error codes,
+>> not sure if that is worth an effort though, will skip this for now.
 > 
-> However, it seems that nvme_rdma_timeout code is still not free from
-> the double completion problem. So, it looks promising to me if you
-> could separate out the nvme_rdma_wr_error handling code as a new
-> patch.
+> Well, the M bit and the error log page are optional features.
+> Maybe we should only set the M bit and generate a log page if error_loc
+> is set?  Although for that we'd need to initialize it to -1 as 0
+> is a valid error location.
+> 
+> We could then also add a debug option to print a warning for errors
+> without error_loc if we care enough.
 
-Guys, can you please send proper patches so we can review properly?
+Sounds good to me...
