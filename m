@@ -1,42 +1,24 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 11 Dec 2018 14:42:20 +0100
-Subject: [PATCH 5/5] nvme-rdma: support read/write queue separation
-In-Reply-To: <20181211104936.25333-6-sagi@grimberg.me>
-References: <20181211104936.25333-1-sagi@grimberg.me>
- <20181211104936.25333-6-sagi@grimberg.me>
-Message-ID: <20181211134220.GE20614@lst.de>
+From: hch@lst.de (hch@lst.de)
+Date: Tue, 11 Dec 2018 15:15:47 +0100
+Subject: [PATCH 10/12] nvmet: add error log support for admin-cmd
+In-Reply-To: <BYAPR04MB4502206C5362955EF2F2014686A50@BYAPR04MB4502.namprd04.prod.outlook.com>
+References: <20181210055011.3146-1-chaitanya.kulkarni@wdc.com>
+ <BYAPR04MB4502206C5362955EF2F2014686A50@BYAPR04MB4502.namprd04.prod.outlook.com>
+Message-ID: <20181211141547.GA8591@lst.de>
 
-This probably wants a little explanation..
+On Mon, Dec 10, 2018@10:55:08PM +0000, Chaitanya Kulkarni wrote:
+> I'm wandering how we can guarantee that we don't forget to set
+> req->error_loc for all future errors...
+> 
+> Anyways..
+> 
+> [CK] One way to do that is to have a default centralized mapping from the error codes,
+> not sure if that is worth an effort though, will skip this for now.
 
->  	struct nvme_rdma_ctrl *ctrl = set->driver_data;
-> +	struct blk_mq_queue_map *map;
-> +	int offset = 0;
-> +
-> +	if (ctrl->ctrl.opts->nr_write_queues) {
-> +		/* separate read/write queues */
-> +		map = &set->map[HCTX_TYPE_DEFAULT];
-> +		map->queue_offset = offset;
-> +		map->nr_queues = ctrl->ctrl.opts->nr_write_queues;
-> +		blk_mq_rdma_map_queues(map, ctrl->device->dev, 0);
-> +		offset += map->nr_queues;
-> +
-> +		map = &set->map[HCTX_TYPE_READ];
-> +		map->nr_queues = ctrl->ctrl.opts->nr_io_queues;
-> +		map->queue_offset = offset;
-> +		blk_mq_rdma_map_queues(map, ctrl->device->dev, offset);
-> +		offset += map->nr_queues;
->  
-> +	} else {
-> +		/* mixed read/write queues */
-> +		map = &set->map[HCTX_TYPE_DEFAULT];
-> +		map->queue_offset = 0;
-> +		map->nr_queues = ctrl->ctrl.opts->nr_io_queues;
-> +		blk_mq_rdma_map_queues(map, ctrl->device->dev, 0);
-> +
-> +		map = &set->map[HCTX_TYPE_READ];
-> +		map->queue_offset = 0;
-> +		map->nr_queues = ctrl->ctrl.opts->nr_io_queues;
-> +		blk_mq_rdma_map_queues(map, ctrl->device->dev, 0);
-> +	}
+Well, the M bit and the error log page are optional features.
+Maybe we should only set the M bit and generate a log page if error_loc
+is set?  Although for that we'd need to initialize it to -1 as 0
+is a valid error location.
 
-Same comment and suggested style as for the TCP one.
+We could then also add a debug option to print a warning for errors
+without error_loc if we care enough.
