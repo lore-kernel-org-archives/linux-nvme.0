@@ -1,23 +1,57 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 11 Dec 2018 12:30:15 -0700
-Subject: [PATCH nvme-cli 6/5] fabrics: pass in nr_write_queues
-In-Reply-To: <20181211104936.25333-7-sagi@grimberg.me>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 11 Dec 2018 15:11:19 -0800
+Subject: [PATCH 4/5] nvme-tcp: support separate queue maps for read and
+ write
+In-Reply-To: <20181211134135.GD20614@lst.de>
 References: <20181211104936.25333-1-sagi@grimberg.me>
- <20181211104936.25333-7-sagi@grimberg.me>
-Message-ID: <20181211193015.GC8101@localhost.localdomain>
+ <20181211104936.25333-5-sagi@grimberg.me> <20181211134135.GD20614@lst.de>
+Message-ID: <0b392933-9cdd-bfba-ea14-cdabc31a1dcb@grimberg.me>
 
-On Tue, Dec 11, 2018@02:49:36AM -0800, Sagi Grimberg wrote:
->  	if (cfg.host_traddr) {
->  		len = sprintf(p, ",host_traddr=%s", cfg.host_traddr);
->  		if (len < 0)
-> @@ -1009,6 +1019,7 @@ int connect(const char *desc, int argc, char **argv)
->  		{"hostnqn",         'q', "LIST", CFG_STRING, &cfg.hostnqn,         required_argument, "user-defined hostnqn" },
->  		{"hostid",          'I', "LIST", CFG_STRING, &cfg.hostid,      required_argument, "user-defined hostid (if default not used)"},
->  		{"nr-io-queues",    'i', "LIST", CFG_INT, &cfg.nr_io_queues,    required_argument, "number of io queues to use (default is core count)" },
-> +		{"nr_write_queues",  'W', "LIST", CFG_INT, &cfg.nr_write_queues,    required_argument, "number of write queues to use (default 0)" },
 
-I realize the kernel's nvme-admin uses "_", but everything else in the
-shell utility here uses "-", so just want to use that for consistency.
-And the documentation needs to include this as well.
+>> +static int nvme_tcp_map_queues(struct blk_mq_tag_set *set)
+>> +{
+>> +	struct nvme_tcp_ctrl *ctrl = set->driver_data;
+>> +	struct blk_mq_queue_map *map;
+>> +
+>> +	if (ctrl->ctrl.opts->nr_write_queues) {
+>> +		/* separate read/write queues */
+>> +		map = &set->map[HCTX_TYPE_DEFAULT];
+>> +		map->queue_offset = 0;
+>> +		map->nr_queues = ctrl->ctrl.opts->nr_write_queues;
+>> +		blk_mq_map_queues(map);
+> 
+> Shouldn't this use nr_io_queues?
 
-Otherwise this is great.
+The intent is that HCTX_TYPE_READ will always use nr_io_queues and
+HCTX_TYPE_DEFAULT will use nr_write_queues.. I'll document that
+in the change log.
+
+> Also I find the reused local map variable a little odd and not helpful
+> for readability.  What about something like:
+> 
+> static int nvme_tcp_map_queues(struct blk_mq_tag_set *set)
+> {
+> 	struct nvme_tcp_ctrl *ctrl = set->driver_data;
+> 
+> 	set->map[HCTX_TYPE_DEFAULT].queue_offset = 0;
+> 	set->map[HCTX_TYPE_DEFAULT].nr_queues = ctrl->ctrl.opts->nr_io_queues;
+> 	blk_mq_map_queues(&set->map[HCTX_TYPE_DEFAULT]);
+> 
+> 	if (ctrl->ctrl.opts->nr_write_queues) {
+> 		/* separate read/write queues */
+> 		set->map[HCTX_TYPE_READ].queue_offset =
+> 				ctrl->ctrl.opts->nr_io_queues;
+> 		set->map[HCTX_TYPE_READ].nr_queues =
+> 				ctrl->ctrl.opts->nr_write_queues;
+> 	} else {
+> 		/* mixed read/write queues */
+> 		set->map[HCTX_TYPE_READ].queue_offset = 0;
+> 		set->map[HCTX_TYPE_READ].nr_queues =
+> 				ctrl->ctrl.opts->nr_io_queues;
+> 	}
+> 	blk_mq_map_queues(&set->map[HCTX_TYPE_READ]);
+> 	return 0;
+> }
+
+That's better.. I'll update the patch with a change according to my
+note above..
