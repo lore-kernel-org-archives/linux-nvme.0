@@ -1,57 +1,72 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 11 Dec 2018 15:11:19 -0800
-Subject: [PATCH 4/5] nvme-tcp: support separate queue maps for read and
- write
-In-Reply-To: <20181211134135.GD20614@lst.de>
-References: <20181211104936.25333-1-sagi@grimberg.me>
- <20181211104936.25333-5-sagi@grimberg.me> <20181211134135.GD20614@lst.de>
-Message-ID: <0b392933-9cdd-bfba-ea14-cdabc31a1dcb@grimberg.me>
+From: jalee@purestorage.com (Jaesoo Lee)
+Date: Tue, 11 Dec 2018 15:16:30 -0800
+Subject: [PATCH] nvme-rdma: complete requests from ->timeout
+In-Reply-To: <773bb91f-40a4-a525-f7b8-db821b402821@mellanox.com>
+References: <1543535954-28073-1-git-send-email-jalee@purestorage.com>
+ <cc7cbad6-0e7d-8328-c602-61d659c3a7de@grimberg.me>
+ <b7b26a7a-70be-d805-ee64-67fba0b4efa8@mellanox.com>
+ <CAJX3Cti_ZJF5E+NRuRzSeEUgaXsbA2U9C+Rh5OdYd4EMwXC1gw@mail.gmail.com>
+ <773bb91f-40a4-a525-f7b8-db821b402821@mellanox.com>
+Message-ID: <CAJX3Ctjtt2zebuLfzKM30PV1x3fm8HaJJFJw3zZSOShWnQnu=Q@mail.gmail.com>
 
+I cannot reproduce the bug with the patch; in my failure scenarios, it
+seems that completing the request on errors in nvme_rdma_send_done
+makes __nvme_submit_sync_cmd to be unblocked. Also, I think this is
+safe from the double completions.
 
->> +static int nvme_tcp_map_queues(struct blk_mq_tag_set *set)
->> +{
->> +	struct nvme_tcp_ctrl *ctrl = set->driver_data;
->> +	struct blk_mq_queue_map *map;
->> +
->> +	if (ctrl->ctrl.opts->nr_write_queues) {
->> +		/* separate read/write queues */
->> +		map = &set->map[HCTX_TYPE_DEFAULT];
->> +		map->queue_offset = 0;
->> +		map->nr_queues = ctrl->ctrl.opts->nr_write_queues;
->> +		blk_mq_map_queues(map);
-> 
-> Shouldn't this use nr_io_queues?
-
-The intent is that HCTX_TYPE_READ will always use nr_io_queues and
-HCTX_TYPE_DEFAULT will use nr_write_queues.. I'll document that
-in the change log.
-
-> Also I find the reused local map variable a little odd and not helpful
-> for readability.  What about something like:
-> 
-> static int nvme_tcp_map_queues(struct blk_mq_tag_set *set)
-> {
-> 	struct nvme_tcp_ctrl *ctrl = set->driver_data;
-> 
-> 	set->map[HCTX_TYPE_DEFAULT].queue_offset = 0;
-> 	set->map[HCTX_TYPE_DEFAULT].nr_queues = ctrl->ctrl.opts->nr_io_queues;
-> 	blk_mq_map_queues(&set->map[HCTX_TYPE_DEFAULT]);
-> 
-> 	if (ctrl->ctrl.opts->nr_write_queues) {
-> 		/* separate read/write queues */
-> 		set->map[HCTX_TYPE_READ].queue_offset =
-> 				ctrl->ctrl.opts->nr_io_queues;
-> 		set->map[HCTX_TYPE_READ].nr_queues =
-> 				ctrl->ctrl.opts->nr_write_queues;
-> 	} else {
-> 		/* mixed read/write queues */
-> 		set->map[HCTX_TYPE_READ].queue_offset = 0;
-> 		set->map[HCTX_TYPE_READ].nr_queues =
-> 				ctrl->ctrl.opts->nr_io_queues;
-> 	}
-> 	blk_mq_map_queues(&set->map[HCTX_TYPE_READ]);
-> 	return 0;
-> }
-
-That's better.. I'll update the patch with a change according to my
-note above..
+However, it seems that nvme_rdma_timeout code is still not free from
+the double completion problem. So, it looks promising to me if you
+could separate out the nvme_rdma_wr_error handling code as a new
+patch.
+On Tue, Dec 11, 2018@1:14 AM Nitzan Carmi <nitzanc@mellanox.com> wrote:
+>
+> I was just in the middle of sending this to upstream when I saw your
+> mail, and thought too that it addresses the same bug, although I see a
+> little different call trace than yours.
+>
+> I would be happy if you can verify that this patch works for you too,
+> and we can push it to upstream.
+>
+> On 11/12/2018 01:40, Jaesoo Lee wrote:
+> > It seems that your patch is addressing the same bug. I will see if
+> > that works for our failure scenarios.
+> >
+> > Why don't you make it upstream?
+> >
+> > On Sun, Dec 9, 2018@6:22 AM Nitzan Carmi <nitzanc@mellanox.com> wrote:
+> >>
+> >> Hi,
+> >> We encountered similar issue.
+> >> I think that the problem is that error_recovery might not even be
+> >> queued, in case we're in DELETING state (or CONNECTING state, for that
+> >> matter), because we cannot move from those states to RESETTING.
+> >>
+> >> We prepared some patches which handle completions in case such scenario
+> >> happens (which, in fact, might happen in numerous error flows).
+> >>
+> >> Does it solve your problem?
+> >> Nitzan.
+> >>
+> >>
+> >> On 30/11/2018 03:30, Sagi Grimberg wrote:
+> >>>
+> >>>> This does not hold at least for NVMe RDMA host driver. An example
+> >>>> scenario
+> >>>> is when the RDMA connection is gone while the controller is being
+> >>>> deleted.
+> >>>> In this case, the nvmf_reg_write32() for sending shutdown admin
+> >>>> command by
+> >>>> the delete_work could be hung forever if the command is not completed by
+> >>>> the timeout handler.
+> >>>
+> >>> If the queue is gone, this means that the queue has already flushed and
+> >>> any commands that were inflight has completed with a flush error
+> >>> completion...
+> >>>
+> >>> Can you describe the scenario that caused this hang? When has the
+> >>> queue became "gone" and when did the shutdown command execute?
+> >>>
+> >>> _______________________________________________
+> >>> Linux-nvme mailing list
+> >>> Linux-nvme at lists.infradead.org
+> >>> http://lists.infradead.org/mailman/listinfo/linux-nvme
