@@ -1,90 +1,93 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 11 Dec 2018 02:49:33 -0800
-Subject: [PATCH 3/5] nvme-fabrics: allow user to set nr_write_queues for
- separate queue maps
+Date: Tue, 11 Dec 2018 02:49:35 -0800
+Subject: [PATCH 5/5] nvme-rdma: support read/write queue separation
 In-Reply-To: <20181211104936.25333-1-sagi@grimberg.me>
 References: <20181211104936.25333-1-sagi@grimberg.me>
-Message-ID: <20181211104936.25333-4-sagi@grimberg.me>
-
-This argument will specify how many I/O queues will be connected
-in create_ctrl in addition to nr_io_queues. With this configuration,
-I/O that carries payload from the host to the target, will use
-the default hctx queue map, and I/O that involves target to host
-transfers will use the read hctx queue map.
+Message-ID: <20181211104936.25333-6-sagi@grimberg.me>
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/fabrics.c | 15 ++++++++++++++-
- drivers/nvme/host/fabrics.h |  3 +++
- 2 files changed, 17 insertions(+), 1 deletion(-)
+ drivers/nvme/host/rdma.c | 39 ++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 36 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 9c62c6838b76..066c3a02e08b 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -616,6 +616,7 @@ static const match_table_t opt_tokens = {
- 	{ NVMF_OPT_DISABLE_SQFLOW,	"disable_sqflow"	},
- 	{ NVMF_OPT_HDR_DIGEST,		"hdr_digest"		},
- 	{ NVMF_OPT_DATA_DIGEST,		"data_digest"		},
-+	{ NVMF_OPT_NR_WRITE_QUEUES,	"nr_write_queues=%d"	},
- 	{ NVMF_OPT_ERR,			NULL			}
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 5057d5ab5aaa..cfe823a491f2 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -645,6 +645,8 @@ static int nvme_rdma_alloc_io_queues(struct nvme_rdma_ctrl *ctrl)
+ 	nr_io_queues = min_t(unsigned int, nr_io_queues,
+ 				ibdev->num_comp_vectors);
+ 
++	nr_io_queues += min(opts->nr_write_queues, num_online_cpus());
++
+ 	ret = nvme_set_queue_count(&ctrl->ctrl, &nr_io_queues);
+ 	if (ret)
+ 		return ret;
+@@ -714,6 +716,7 @@ static struct blk_mq_tag_set *nvme_rdma_alloc_tagset(struct nvme_ctrl *nctrl,
+ 		set->driver_data = ctrl;
+ 		set->nr_hw_queues = nctrl->queue_count - 1;
+ 		set->timeout = NVME_IO_TIMEOUT;
++		set->nr_maps = 2 /* default + read */;
+ 	}
+ 
+ 	ret = blk_mq_alloc_tag_set(set);
+@@ -1750,8 +1753,37 @@ static void nvme_rdma_complete_rq(struct request *rq)
+ static int nvme_rdma_map_queues(struct blk_mq_tag_set *set)
+ {
+ 	struct nvme_rdma_ctrl *ctrl = set->driver_data;
++	struct blk_mq_queue_map *map;
++	int offset = 0;
++
++	if (ctrl->ctrl.opts->nr_write_queues) {
++		/* separate read/write queues */
++		map = &set->map[HCTX_TYPE_DEFAULT];
++		map->queue_offset = offset;
++		map->nr_queues = ctrl->ctrl.opts->nr_write_queues;
++		blk_mq_rdma_map_queues(map, ctrl->device->dev, 0);
++		offset += map->nr_queues;
++
++		map = &set->map[HCTX_TYPE_READ];
++		map->nr_queues = ctrl->ctrl.opts->nr_io_queues;
++		map->queue_offset = offset;
++		blk_mq_rdma_map_queues(map, ctrl->device->dev, offset);
++		offset += map->nr_queues;
+ 
+-	return blk_mq_rdma_map_queues(&set->map[0], ctrl->device->dev, 0);
++	} else {
++		/* mixed read/write queues */
++		map = &set->map[HCTX_TYPE_DEFAULT];
++		map->queue_offset = 0;
++		map->nr_queues = ctrl->ctrl.opts->nr_io_queues;
++		blk_mq_rdma_map_queues(map, ctrl->device->dev, 0);
++
++		map = &set->map[HCTX_TYPE_READ];
++		map->queue_offset = 0;
++		map->nr_queues = ctrl->ctrl.opts->nr_io_queues;
++		blk_mq_rdma_map_queues(map, ctrl->device->dev, 0);
++	}
++
++	return 0;
+ }
+ 
+ static const struct blk_mq_ops nvme_rdma_mq_ops = {
+@@ -1906,7 +1938,7 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
+ 	INIT_WORK(&ctrl->err_work, nvme_rdma_error_recovery_work);
+ 	INIT_WORK(&ctrl->ctrl.reset_work, nvme_rdma_reset_ctrl_work);
+ 
+-	ctrl->ctrl.queue_count = opts->nr_io_queues + 1; /* +1 for admin queue */
++	ctrl->ctrl.queue_count = opts->nr_io_queues + opts->nr_write_queues + 1;
+ 	ctrl->ctrl.sqsize = opts->queue_size - 1;
+ 	ctrl->ctrl.kato = opts->kato;
+ 
+@@ -1957,7 +1989,8 @@ static struct nvmf_transport_ops nvme_rdma_transport = {
+ 	.module		= THIS_MODULE,
+ 	.required_opts	= NVMF_OPT_TRADDR,
+ 	.allowed_opts	= NVMF_OPT_TRSVCID | NVMF_OPT_RECONNECT_DELAY |
+-			  NVMF_OPT_HOST_TRADDR | NVMF_OPT_CTRL_LOSS_TMO,
++			  NVMF_OPT_HOST_TRADDR | NVMF_OPT_CTRL_LOSS_TMO |
++			  NVMF_OPT_NR_IO_QUEUES,
+ 	.create_ctrl	= nvme_rdma_create_ctrl,
  };
  
-@@ -837,6 +838,18 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 		case NVMF_OPT_DATA_DIGEST:
- 			opts->data_digest = true;
- 			break;
-+		case NVMF_OPT_NR_WRITE_QUEUES:
-+			if (match_int(args, &token)) {
-+				ret = -EINVAL;
-+				goto out;
-+			}
-+			if (token <= 0) {
-+				pr_err("Invalid nr_write_queues %d\n", token);
-+				ret = -EINVAL;
-+				goto out;
-+			}
-+			opts->nr_write_queues = token;
-+			break;
- 		default:
- 			pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
- 				p);
-@@ -954,7 +967,7 @@ EXPORT_SYMBOL_GPL(nvmf_free_options);
- #define NVMF_ALLOWED_OPTS	(NVMF_OPT_QUEUE_SIZE | NVMF_OPT_NR_IO_QUEUES | \
- 				 NVMF_OPT_KATO | NVMF_OPT_HOSTNQN | \
- 				 NVMF_OPT_HOST_ID | NVMF_OPT_DUP_CONNECT |\
--				 NVMF_OPT_DISABLE_SQFLOW)
-+				 NVMF_OPT_DISABLE_SQFLOW | NVMF_OPT_NR_WRITE_QUEUES)
- 
- static struct nvme_ctrl *
- nvmf_create_ctrl(struct device *dev, const char *buf, size_t count)
-diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-index 28dc916ef26b..81b8fd1c0c5d 100644
---- a/drivers/nvme/host/fabrics.h
-+++ b/drivers/nvme/host/fabrics.h
-@@ -61,6 +61,7 @@ enum {
- 	NVMF_OPT_DISABLE_SQFLOW = 1 << 14,
- 	NVMF_OPT_HDR_DIGEST	= 1 << 15,
- 	NVMF_OPT_DATA_DIGEST	= 1 << 16,
-+	NVMF_OPT_NR_WRITE_QUEUES = 1 << 17,
- };
- 
- /**
-@@ -91,6 +92,7 @@ enum {
-  * @disable_sqflow: disable controller sq flow control
-  * @hdr_digest: generate/verify header digest (TCP)
-  * @data_digest: generate/verify data digest (TCP)
-+ * @nr_write_queues: number of queues for write I/O
-  */
- struct nvmf_ctrl_options {
- 	unsigned		mask;
-@@ -110,6 +112,7 @@ struct nvmf_ctrl_options {
- 	bool			disable_sqflow;
- 	bool			hdr_digest;
- 	bool			data_digest;
-+	unsigned int		nr_write_queues;
- };
- 
- /*
 -- 
 2.17.1
