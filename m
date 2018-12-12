@@ -1,19 +1,46 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 12 Dec 2018 08:37:56 +0100
-Subject: [PATCH RFC 4/4] nvme-multipath: disable polling for underlying
- namespace request queue
-In-Reply-To: <f134d4e7-5d0e-7345-0414-9aa3524c75e9@grimberg.me>
-References: <20181211233652.9705-1-sagi@grimberg.me>
- <20181211233652.9705-5-sagi@grimberg.me> <20181212071140.GD28461@lst.de>
- <d0d76a09-7ec9-2018-d4ce-7a08d4ab4002@grimberg.me>
- <20181212072132.GA28850@lst.de>
- <f134d4e7-5d0e-7345-0414-9aa3524c75e9@grimberg.me>
-Message-ID: <20181212073756.GB29091@lst.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 11 Dec 2018 23:38:53 -0800
+Subject: [PATCH v3 0/5] implement nvmf read/write queue maps
+Message-ID: <20181212073858.7102-1-sagi@grimberg.me>
 
-On Tue, Dec 11, 2018@11:29:33PM -0800, Sagi Grimberg wrote:
-> Yea I agree.. Would probably make better sense to forbid it in the core,
-> but I'm not entirely sure how this is possible make_request drivers...
+This set implements read/write queue maps to nvmf (implemented in tcp
+and rdma). We basically allow the users to pass in nr_write_queues
+argument that will basically maps a separate set of queues to host
+write I/O (or more correctly non-read I/O) and a set of queues to
+hold read I/O (which is now controlled by the known nr_io_queues).
 
-Either we can clear the flag in generic_make_request when QUEUE_FLAG_POLL
-is not set, or just change the few users to never even set it in that
-case.
+Note that read/write separation is a clear win for rdma but especially
+for tcp as we minimize the risk for head-of-queue blocking for
+mixed workloads over a single stream.
+
+Changes from v2:
+- moved NVMF_OPT_NR_WRITE_QUEUES from NVMF_ALLOWED_OPTS to the individual
+  drivers
+- removed obfuscated expression
+- omitted nvme-cli patch (can be taken from v1)
+- collected review tags
+
+Changes from v1:
+- simplified map_queues in nvme-tcp and nvme-rdma
+- improved change logs
+- collected review tags
+- added nr-write-queues entry in nvme-cli docuementation
+
+Sagi Grimberg (5):
+  blk-mq-rdma: pass in queue map to blk_mq_rdma_map_queues
+  nvme-fabrics: add missing nvmf_ctrl_options documentation
+  nvme-fabrics: allow user to set nr_write_queues for separate queue
+    maps
+  nvme-tcp: support separate queue maps for read and write
+  nvme-rdma: support separate queue maps for read and write
+
+ block/blk-mq-rdma.c         |  8 +++----
+ drivers/nvme/host/fabrics.c | 13 +++++++++++
+ drivers/nvme/host/fabrics.h |  6 +++++
+ drivers/nvme/host/rdma.c    | 28 ++++++++++++++++++++---
+ drivers/nvme/host/tcp.c     | 44 ++++++++++++++++++++++++++++++++-----
+ include/linux/blk-mq-rdma.h |  2 +-
+ 6 files changed, 87 insertions(+), 14 deletions(-)
+
+-- 
+2.17.1
