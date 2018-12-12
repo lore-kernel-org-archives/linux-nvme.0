@@ -1,15 +1,10 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 12 Dec 2018 08:45:54 +0100
-Subject: [PATCHv2] nvmetcli: ANA configuration support
-In-Reply-To: <88f6608b-df3c-2528-4f9c-1e4610fabf44@suse.com>
-References: <20181108122736.76270-1-hare@suse.de>
- <20181114151417.GA28175@lst.de>
- <88f6608b-df3c-2528-4f9c-1e4610fabf44@suse.com>
-Message-ID: <20181212074554.GC29137@lst.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 11 Dec 2018 23:46:04 -0800
+Subject: [PATCH 1/2] nvme: Introduce nvme_is_aen_req function
+In-Reply-To: <20181212065501.21580-1-nitzanc@mellanox.com>
+References: <20181212065501.21580-1-nitzanc@mellanox.com>
+Message-ID: <1e347e83-1f06-3e43-7dfe-fe7b0e6f264f@grimberg.me>
 
-On Wed, Nov 14, 2018@04:23:08PM +0100, Hannes Reinecke wrote:
-> Gnaa. My python skills are crap.
->
-> Will see to have it fixed.
-
-Did you get a chance to look at it?
+Don't really see the point of this wrapper... But if
+you are going to introduce it, you need to have others
+use it as well...
