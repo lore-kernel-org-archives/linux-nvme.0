@@ -1,26 +1,21 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 11 Dec 2018 22:49:16 -0800
-Subject: [PATCH] scatterlist: Update size type to support greater then 4GB
- size.
-In-Reply-To: <20181211.222950.1995970751331458343.davem@davemloft.net>
-References: <1544595853-18492-1-git-send-email-amhetre@nvidia.com>
- <20181211.222950.1995970751331458343.davem@davemloft.net>
-Message-ID: <5f70fc16-e3cd-37c1-e7ed-e131ad79d387@grimberg.me>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 12 Dec 2018 08:05:10 +0100
+Subject: [PATCH v2 4/5] nvme-tcp: support separate queue maps for read
+ and write
+In-Reply-To: <20181211233519.9350-5-sagi@grimberg.me>
+References: <20181211233519.9350-1-sagi@grimberg.me>
+ <20181211233519.9350-5-sagi@grimberg.me>
+Message-ID: <20181212070510.GA28461@lst.de>
 
+> -	queue->io_cpu = (qid == 0) ? 0 : qid - 1;
+> +	n = (qid ? qid - 1 : 0) % num_online_cpus();
+> +	queue->io_cpu = cpumask_next_wrap(n - 1, cpu_online_mask, -1, false);
 
->>   struct nvme_sgl_desc {
->>   	__le64	addr;
->> -	__le32	length;
->> +	__le64	length;
->>   	__u8	rsvd[3];
->>   	__u8	type;
->>   };
-> 
-> Isn't this a device or protocol defined datastructure?  You can't just
-> change it like this.
+Nitpick: can you use an if/else here?  The ? : construct just looks
+like obsfucation.
 
-You're correct, we can't...
-[Replied before seeing this issue was already highlighted]
+If nothing else pops up I can fix that up when applying.
 
-The positive side is that it can safely be removed without affecting the
-rest of the patch...
+Otherwise:
+
+Reviewed-by: Christoph Hellwig <hch at lst.de>
