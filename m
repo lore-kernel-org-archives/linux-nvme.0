@@ -1,107 +1,158 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Wed, 12 Dec 2018 15:11:41 -0800
-Subject: [PATCH V2 05/12] nvmet: add error log support in the core
+Date: Wed, 12 Dec 2018 15:11:42 -0800
+Subject: [PATCH V2 06/12] nvmet: add error log support for bdev backend
 In-Reply-To: <20181212231148.4107-1-chaitanya.kulkarni@wdc.com>
 References: <20181212231148.4107-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20181212231148.4107-6-chaitanya.kulkarni@wdc.com>
+Message-ID: <20181212231148.4107-7-chaitanya.kulkarni@wdc.com>
 
-This patch adds the support to maintain error log page for the
-nvmet-core.
+This patch adds the support for the block device backend to populate the
+error log entries. Here we map the blk_status_t to the NVMe status.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/target/core.c | 31 +++++++++++++++++++++++--------
- 1 file changed, 23 insertions(+), 8 deletions(-)
+ drivers/nvme/target/io-cmd-bdev.c | 84 ++++++++++++++++++++++++++-----
+ 1 file changed, 72 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index b6493753070b..4177df6e0d70 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -51,22 +51,28 @@ static struct nvmet_subsys *nvmet_find_get_subsys(struct nvmet_port *port,
- u16 nvmet_copy_to_sgl(struct nvmet_req *req, off_t off, const void *buf,
- 		size_t len)
- {
--	if (sg_pcopy_from_buffer(req->sg, req->sg_cnt, buf, len, off) != len)
-+	if (sg_pcopy_from_buffer(req->sg, req->sg_cnt, buf, len, off) != len) {
-+		req->error_loc = offsetof(struct nvme_common_command, dptr);
- 		return NVME_SC_SGL_INVALID_DATA | NVME_SC_DNR;
-+	}
- 	return 0;
- }
- 
- u16 nvmet_copy_from_sgl(struct nvmet_req *req, off_t off, void *buf, size_t len)
- {
--	if (sg_pcopy_to_buffer(req->sg, req->sg_cnt, buf, len, off) != len)
-+	if (sg_pcopy_to_buffer(req->sg, req->sg_cnt, buf, len, off) != len) {
-+		req->error_loc = offsetof(struct nvme_common_command, dptr);
- 		return NVME_SC_SGL_INVALID_DATA | NVME_SC_DNR;
-+	}
- 	return 0;
- }
- 
- u16 nvmet_zero_sgl(struct nvmet_req *req, off_t off, size_t len)
- {
--	if (sg_zero_buffer(req->sg, req->sg_cnt, len, off) != len)
-+	if (sg_zero_buffer(req->sg, req->sg_cnt, len, off) != len) {
-+		req->error_loc = offsetof(struct nvme_common_command, dptr);
- 		return NVME_SC_SGL_INVALID_DATA | NVME_SC_DNR;
-+	}
- 	return 0;
- }
- 
-@@ -769,14 +775,20 @@ static u16 nvmet_parse_io_cmd(struct nvmet_req *req)
- 		return ret;
- 
- 	req->ns = nvmet_find_namespace(req->sq->ctrl, cmd->rw.nsid);
--	if (unlikely(!req->ns))
-+	if (unlikely(!req->ns)) {
-+		req->error_loc = offsetof(struct nvme_common_command, nsid);
- 		return NVME_SC_INVALID_NS | NVME_SC_DNR;
-+	}
- 	ret = nvmet_check_ana_state(req->port, req->ns);
--	if (unlikely(ret))
-+	if (unlikely(ret)) {
-+		req->error_loc = offsetof(struct nvme_common_command, nsid);
- 		return ret;
-+	}
- 	ret = nvmet_io_cmd_check_access(req);
--	if (unlikely(ret))
-+	if (unlikely(ret)) {
-+		req->error_loc = offsetof(struct nvme_common_command, nsid);
- 		return ret;
-+	}
- 
- 	if (req->ns->file)
- 		return nvmet_file_parse_io_cmd(req);
-@@ -804,6 +816,7 @@ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
- 
- 	/* no support for fused commands yet */
- 	if (unlikely(flags & (NVME_CMD_FUSE_FIRST | NVME_CMD_FUSE_SECOND))) {
-+		req->error_loc = offsetof(struct nvme_common_command, flags);
- 		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
- 		goto fail;
+diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+index c1cb2ed5531c..8a70c58d4246 100644
+--- a/drivers/nvme/target/io-cmd-bdev.c
++++ b/drivers/nvme/target/io-cmd-bdev.c
+@@ -44,13 +44,69 @@ void nvmet_bdev_ns_disable(struct nvmet_ns *ns)
  	}
-@@ -814,6 +827,7 @@ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
- 	 * byte aligned.
- 	 */
- 	if (unlikely((flags & NVME_CMD_SGL_ALL) != NVME_CMD_SGL_METABUF)) {
-+		req->error_loc = offsetof(struct nvme_common_command, flags);
- 		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
- 		goto fail;
- 	}
-@@ -859,9 +873,10 @@ EXPORT_SYMBOL_GPL(nvmet_req_uninit);
- 
- void nvmet_req_execute(struct nvmet_req *req)
- {
--	if (unlikely(req->data_len != req->transfer_len))
-+	if (unlikely(req->data_len != req->transfer_len)) {
-+		req->error_loc = offsetof(struct nvme_common_command, dptr);
- 		nvmet_req_complete(req, NVME_SC_SGL_INVALID_DATA | NVME_SC_DNR);
--	else
-+	} else
- 		req->execute(req);
  }
- EXPORT_SYMBOL_GPL(nvmet_req_execute);
+ 
++static u16 blk_to_nvme_status(struct nvmet_req *req, blk_status_t blk_sts)
++{
++	u16 status = NVME_SC_SUCCESS;
++
++	if (likely(blk_sts == BLK_STS_OK))
++		return status;
++	/*
++	 * Right now there exists M : 1 mapping between block layer error
++	 * to the NVMe status code (see nvme_error_status()). For consistency,
++	 * when we reverse map we use most appropriate NVMe Status code from
++	 * the group of the NVMe staus codes used in the nvme_error_status().
++	 */
++	switch (blk_sts) {
++	case BLK_STS_NOSPC:
++		status = NVME_SC_CAP_EXCEEDED | NVME_SC_DNR;
++		req->error_loc = offsetof(struct nvme_rw_command, length);
++		break;
++	case BLK_STS_TARGET:
++		status = NVME_SC_LBA_RANGE | NVME_SC_DNR;
++		req->error_loc = offsetof(struct nvme_rw_command, slba);
++		break;
++	case BLK_STS_NOTSUPP:
++		req->error_loc = offsetof(struct nvme_common_command, opcode);
++		switch (req->cmd->common.opcode) {
++		case nvme_cmd_dsm:
++		case nvme_cmd_write_zeroes:
++			status = NVME_SC_ONCS_NOT_SUPPORTED | NVME_SC_DNR;
++			break;
++		default:
++			status = NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
++		}
++		break;
++	case BLK_STS_MEDIUM:
++		status = NVME_SC_ACCESS_DENIED;
++		req->error_loc = offsetof(struct nvme_rw_command, nsid);
++		break;
++	case BLK_STS_IOERR:
++		/* fallthru */
++	default:
++		status = NVME_SC_INTERNAL | NVME_SC_DNR;
++		req->error_loc = offsetof(struct nvme_common_command, opcode);
++	}
++
++	switch (req->cmd->common.opcode) {
++	case nvme_cmd_read:
++	case nvme_cmd_write:
++		req->error_slba = le64_to_cpu(req->cmd->rw.slba);
++		break;
++	case nvme_cmd_write_zeroes:
++		req->error_slba =
++			le64_to_cpu(req->cmd->write_zeroes.slba);
++		break;
++	default:
++		req->error_slba = 0;
++	}
++	return status;
++}
++
+ static void nvmet_bio_done(struct bio *bio)
+ {
+ 	struct nvmet_req *req = bio->bi_private;
+ 
+-	nvmet_req_complete(req,
+-		bio->bi_status ? NVME_SC_INTERNAL | NVME_SC_DNR : 0);
+-
++	nvmet_req_complete(req, blk_to_nvme_status(req, bio->bi_status));
+ 	if (bio != &req->b.inline_bio)
+ 		bio_put(bio);
+ }
+@@ -137,18 +193,21 @@ u16 nvmet_bdev_flush(struct nvmet_req *req)
+ 	return 0;
+ }
+ 
+-static u16 nvmet_bdev_discard_range(struct nvmet_ns *ns,
++static u16 nvmet_bdev_discard_range(struct nvmet_req *req,
+ 		struct nvme_dsm_range *range, struct bio **bio)
+ {
++	struct nvmet_ns *ns = req->ns;
+ 	int ret;
+ 
+ 	ret = __blkdev_issue_discard(ns->bdev,
+ 			le64_to_cpu(range->slba) << (ns->blksize_shift - 9),
+ 			le32_to_cpu(range->nlb) << (ns->blksize_shift - 9),
+ 			GFP_KERNEL, 0, bio);
+-	if (ret && ret != -EOPNOTSUPP)
+-		return NVME_SC_INTERNAL | NVME_SC_DNR;
+-	return 0;
++
++	if (ret)
++		req->error_slba = le64_to_cpu(range->slba);
++
++	return blk_to_nvme_status(req, errno_to_blk_status(ret));
+ }
+ 
+ static void nvmet_bdev_execute_discard(struct nvmet_req *req)
+@@ -164,7 +223,7 @@ static void nvmet_bdev_execute_discard(struct nvmet_req *req)
+ 		if (status)
+ 			break;
+ 
+-		status = nvmet_bdev_discard_range(req->ns, &range, &bio);
++		status = nvmet_bdev_discard_range(req, &range, &bio);
+ 		if (status)
+ 			break;
+ 	}
+@@ -205,16 +264,16 @@ static void nvmet_bdev_execute_write_zeroes(struct nvmet_req *req)
+ 	u16 status = NVME_SC_SUCCESS;
+ 	sector_t sector;
+ 	sector_t nr_sector;
++	int ret;
+ 
+ 	sector = le64_to_cpu(write_zeroes->slba) <<
+ 		(req->ns->blksize_shift - 9);
+ 	nr_sector = (((sector_t)le16_to_cpu(write_zeroes->length) + 1) <<
+ 		(req->ns->blksize_shift - 9));
+ 
+-	if (__blkdev_issue_zeroout(req->ns->bdev, sector, nr_sector,
+-				GFP_KERNEL, &bio, 0))
+-		status = NVME_SC_INTERNAL | NVME_SC_DNR;
+-
++	ret = __blkdev_issue_zeroout(req->ns->bdev, sector, nr_sector,
++			GFP_KERNEL, &bio, 0);
++	status = blk_to_nvme_status(req, errno_to_blk_status(ret));
+ 	if (bio) {
+ 		bio->bi_private = req;
+ 		bio->bi_end_io = nvmet_bio_done;
+@@ -249,6 +308,7 @@ u16 nvmet_bdev_parse_io_cmd(struct nvmet_req *req)
+ 	default:
+ 		pr_err("unhandled cmd %d on qid %d\n", cmd->common.opcode,
+ 		       req->sq->qid);
++		req->error_loc = offsetof(struct nvme_common_command, opcode);
+ 		return NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
+ 	}
+ }
 -- 
 2.17.0
