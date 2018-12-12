@@ -1,29 +1,28 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 12 Dec 2018 09:36:36 -0700
-Subject: [PATCH v2] nvme: provide fallback for discard alloc failure
-In-Reply-To: <20181212162855.GA10895@localhost.localdomain>
-References: <87d6d992-6d9f-c863-c14c-e4f3555cb3d6@kernel.dk>
- <20181212162855.GA10895@localhost.localdomain>
-Message-ID: <f53d0bc1-6fe0-12e5-c210-e583d71bc739@kernel.dk>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Wed, 12 Dec 2018 10:37:59 -0600
+Subject: [PATCH RFC 0/4] restore polling to nvme-rdma
+In-Reply-To: <20181211233652.9705-1-sagi@grimberg.me>
+References: <20181211233652.9705-1-sagi@grimberg.me>
+Message-ID: <02a201d49239$0b00f3f0$2102dbd0$@opengridcomputing.com>
 
-On 12/12/18 9:28 AM, Keith Busch wrote:
-> On Wed, Dec 12, 2018@09:18:11AM -0700, Jens Axboe wrote:
->> When boxes are run near (or to) OOM, we have a problem with the discard
->> page allocation in nvme. If we fail allocating the special page, we
->> return busy, and it'll get retried. But since ordering is honored for
->> dispatch requests, we can keep retrying this same IO and failing. Behind
->> that IO could be requests that want to free memory, but they never get
->> the chance.
->>
->> Allocate a fixed discard page per controller for a safe fallback, and use
->> that if the initial allocation fails.
+Hey Sagi,
+
+> Subject: [PATCH RFC 0/4] restore polling to nvme-rdma
 > 
-> Do we need to allocate this per controller? One page for the whole driver
-> may be sufficient to make forward progress, right?
+> Add an additional queue mapping for polling queues that will
+> host polling for latency critical I/O.
+> 
+> One caveat is that we don't want these queues to be pure polling
+> as we don't want to bother with polling for the initial nvmf connect
+> I/O. Hence, introduce ib_change_cq_ctx that will modify the cq polling
+> context from SOFTIRQ to DIRECT. Note that this function is not safe
+> with inflight I/O so the caller must make sure not to call it without
+> having all I/O quiesced (we also relax the ib_cq_completion_direct warning
+> as we have a scenario that this can happen).
 
-It should be, but that might create a shit storm if we're OOM and have
-tons of drives. I think one per controller is saner, and it's dwarfed
-by memory we consume anyway in static allocations.
+Is there no way to handle this in the core?  Maybe have the polling context
+transition to DIRECT when the queue becomes empty and before re-arming the
+CQ?  So ib_change_cq_ctx() would be called to indicate the change should
+happen when it is safe to do so.  
 
--- 
-Jens Axboe
+Just a thought..
