@@ -1,46 +1,34 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 12 Dec 2018 00:53:47 -0800
-Subject: [PATCH RFC 0/4] restore polling to nvme-rdma
-In-Reply-To: <20181212080945.GA29679@lst.de>
-References: <20181211233652.9705-1-sagi@grimberg.me>
- <20181212070756.GC28461@lst.de>
- <937fc9db-1248-fcad-1b59-627c4b44ef16@grimberg.me>
- <20181212080945.GA29679@lst.de>
-Message-ID: <5f34c9df-b0be-102a-eabe-7b4613b0c9c0@grimberg.me>
+From: cascardo@canonical.com (Thadeu Lima de Souza Cascardo)
+Date: Wed, 12 Dec 2018 10:39:06 -0200
+Subject: [PATCH 4/4] block: expose devt for GENHD_FL_HIDDEN disks
+In-Reply-To: <20181206202200.GA32080@lst.de>
+References: <20181206164812.30925-1-cascardo@canonical.com>
+ <20181206164812.30925-5-cascardo@canonical.com>
+ <20181206202200.GA32080@lst.de>
+Message-ID: <20181212123906.GI4269@calabresa>
 
-
->> I found it cumbersome so I didn't really consider it...
->> Isn't it a bit awkward? we will need to implement polled connect
->> locally in nvme-rdma (because fabrics doesn't know anything about
->> queues, hctx or polling).
+On Thu, Dec 06, 2018@09:22:00PM +0100, Christoph Hellwig wrote:
+> On Thu, Dec 06, 2018@02:48:12PM -0200, Thadeu Lima de Souza Cascardo wrote:
+> > Without this exposure, lsblk will fail as it tries to find out the
+> > device's dev_t numbers. This causes a real problem for nvme multipath
+> > devices, as their slaves are hidden.
+> > 
+> > Exposing them fixes the problem, even though trying to open the devices
+> > returns an error in the case of nvme multipath. So, right now, it's the
+> > driver's responsibility to return a failure to open hidden devices.
 > 
-> Well, it should just be a little blk_poll loop, right?
+> So the problem with this is that it will cause udev to actually create
+> the /dev/nvmeXcYnZ nodes, which due to the previous patch will always
+> fail to open, which is a bit confusing.  I guess we could live with this
+> if we add udev rules to supress the creation or something, but in general
+> it is a bit ugly.
 
-Not so much about the poll loop, but the fact that we will need
-to check if we need to poll for this special case every time in
-.queue_rq and its somewhat annoying...
+Well, udev could just look at the hidden attribute. At least to some, the fact
+that lsblk would fail was reason enough to revert the patches, so I would
+rather apply the entire set.
 
->> I'm open to looking at it if you think that this is better. Note that if
->> we had the CQ in our hands, we would do exactly what we did here
->> effectively: use interrupt for the connect and then simply not
->> re-arm it again and poll... Should we poll the connect just because
->> we are behind the CQ API?
-> 
-> I'm just worried that the switch between the different context looks
-> like a way to easy way to shoot yourself in the foot, so if we can
-> avoid exposing that it would make for a harder to abuse API.
+We could add a message to the log when users try to open them, but given that
+some programs (udev is one) would open them without any user interaction, maybe
+we shouldn't.
 
-Well, it would have been 100% safe if we could undo a cq re-arm that we
-did in the past...
-
-The code is documented that the caller must make sure that there is no
-inflight I/O during the invocation of the routine..
-
-We could be creative if we really want to make it 100% safe for inflight
-I/O (although no one should ever need to use that). We can flush the
-current cq context (work/irq), switch to polling context, then create a
-single entry QP attached to this CQ and drain it :)
-That would make it safe but its brain-dead...
-
-Anyway, if people think its really a bad idea we'll go ahead and
-poll the nvmf connect...
+Cascardo.
