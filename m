@@ -1,45 +1,30 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Wed, 12 Dec 2018 00:38:27 +0000
-Subject: [PATCH 10/12] nvmet: add error log support for admin-cmd
-In-Reply-To: <3501d39f-76db-0f10-8ca6-0d397c53f273@grimberg.me>
-References: <20181210055011.3146-1-chaitanya.kulkarni@wdc.com>
- <BYAPR04MB4502206C5362955EF2F2014686A50@BYAPR04MB4502.namprd04.prod.outlook.com>
- <20181211141547.GA8591@lst.de>,
- <3501d39f-76db-0f10-8ca6-0d397c53f273@grimberg.me>
-Message-ID: <BYAPR04MB4502EC5E5E9EAC45C1F831D986A70@BYAPR04MB4502.namprd04.prod.outlook.com>
+From: jalee@purestorage.com (Jaesoo Lee)
+Date: Tue, 11 Dec 2018 17:31:23 -0800
+Subject: [PATCH] nvme-rdma: complete requests from ->timeout
+In-Reply-To: <c645f196-3fbb-c9b9-5686-730ceed102fa@grimberg.me>
+References: <1543535954-28073-1-git-send-email-jalee@purestorage.com>
+ <cc7cbad6-0e7d-8328-c602-61d659c3a7de@grimberg.me>
+ <b7b26a7a-70be-d805-ee64-67fba0b4efa8@mellanox.com>
+ <CAJX3Cti_ZJF5E+NRuRzSeEUgaXsbA2U9C+Rh5OdYd4EMwXC1gw@mail.gmail.com>
+ <773bb91f-40a4-a525-f7b8-db821b402821@mellanox.com>
+ <CAJX3Ctjtt2zebuLfzKM30PV1x3fm8HaJJFJw3zZSOShWnQnu=Q@mail.gmail.com>
+ <c645f196-3fbb-c9b9-5686-730ceed102fa@grimberg.me>
+Message-ID: <CAJX3Ctg9rn2JyTL1xfb2htWjPaB3qj9t4gV=QZ+3yjGbCNz8UA@mail.gmail.com>
 
+Please drop this patch. However, it would be happy if this bug can be
+fixed as soon as possible.
 
-
-
-
-
-
-From: Sagi Grimberg <sagi@grimberg.me>
-Sent: Tuesday, December 11, 2018 3:59 PM
-To: hch at lst.de; Chaitanya Kulkarni
-Cc: linux-nvme at lists.infradead.org; keith.busch at intel.com
-Subject: Re: [PATCH 10/12] nvmet: add error log support for admin-cmd
-? 
- 
-
->> I'm wandering how we can guarantee that we don't forget to set
->> req->error_loc for all future errors...
->>
->> Anyways..
->>
->> [CK] One way to do that is to have a default centralized mapping from the error codes,
->> not sure if that is worth an effort though, will skip this for now.
-> 
-> Well, the M bit and the error log page are optional features.
-> Maybe we should only set the M bit and generate a log page if error_loc
-> is set?? Although for that we'd need to initialize it to -1 as 0
-> is a valid error location.
-> 
-> We could then also add a debug option to print a warning for errors
-> without error_loc if we care enough.
-
-Sounds good to me...
-
-
-
-[CK] Okay, will send a new series with Christoph's suggestion.    
+Nitzan, do you mind if you send your patch for review?
+On Tue, Dec 11, 2018@3:39 PM Sagi Grimberg <sagi@grimberg.me> wrote:
+>
+> > I cannot reproduce the bug with the patch; in my failure scenarios, it
+> > seems that completing the request on errors in nvme_rdma_send_done
+> > makes __nvme_submit_sync_cmd to be unblocked. Also, I think this is
+> > safe from the double completions.
+> >
+> > However, it seems that nvme_rdma_timeout code is still not free from
+> > the double completion problem. So, it looks promising to me if you
+> > could separate out the nvme_rdma_wr_error handling code as a new
+> > patch.
+>
+> Guys, can you please send proper patches so we can review properly?
