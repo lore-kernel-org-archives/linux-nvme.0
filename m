@@ -1,27 +1,33 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 12 Dec 2018 08:11:40 +0100
-Subject: [PATCH RFC 4/4] nvme-multipath: disable polling for underlying
- namespace request queue
-In-Reply-To: <20181211233652.9705-5-sagi@grimberg.me>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 11 Dec 2018 23:16:31 -0800
+Subject: [PATCH RFC 0/4] restore polling to nvme-rdma
+In-Reply-To: <20181212070756.GC28461@lst.de>
 References: <20181211233652.9705-1-sagi@grimberg.me>
- <20181211233652.9705-5-sagi@grimberg.me>
-Message-ID: <20181212071140.GD28461@lst.de>
+ <20181212070756.GC28461@lst.de>
+Message-ID: <937fc9db-1248-fcad-1b59-627c4b44ef16@grimberg.me>
 
-[adding Jens]
 
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -1547,6 +1547,8 @@ static void __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
->  	if (ns->head->disk) {
->  		nvme_update_disk_info(ns->head->disk, ns, id);
->  		blk_queue_stack_limits(ns->head->disk->queue, ns->queue);
-> +		/* XXX: multipath device does not support polling for now... */
-> +		blk_queue_flag_clear(QUEUE_FLAG_POLL, ns->queue);
+>> Add an additional queue mapping for polling queues that will
+>> host polling for latency critical I/O.
+>>
+>> One caveat is that we don't want these queues to be pure polling
+>> as we don't want to bother with polling for the initial nvmf connect
+>> I/O. Hence, introduce ib_change_cq_ctx that will modify the cq polling
+>> context from SOFTIRQ to DIRECT.
+> 
+> So do we really care?  Yes, polling for the initial connect is not
+> exactly efficient, but then again it doesn't happen all that often.
+> 
+> Except for efficiency is there any problem with just starting out
+> in polling mode?
 
-I'd drop the XXX.  But I think we actually have a block layer problem
-here.  Currently stacking devices will just pass through REQ_HIPRI,
-despite none of them supporting any polling for it.
+I found it cumbersome so I didn't really consider it...
+Isn't it a bit awkward? we will need to implement polled connect
+locally in nvme-rdma (because fabrics doesn't know anything about
+queues, hctx or polling).
 
-So we need to make sure in the block layer or I/O submitter that
-REQ_HIPRI is only set if QUEUE_FLAG_POLL is supported.  I think it would
-also help if we rename it to REQ_POLL to make this more obvious.
+I'm open to looking at it if you think that this is better. Note that if
+we had the CQ in our hands, we would do exactly what we did here
+effectively: use interrupt for the connect and then simply not
+re-arm it again and poll... Should we poll the connect just because
+we are behind the CQ API?
