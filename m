@@ -1,33 +1,54 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Wed, 12 Dec 2018 12:10:45 -0600
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 12 Dec 2018 10:23:12 -0800
 Subject: [PATCH RFC 0/4] restore polling to nvme-rdma
-In-Reply-To: <bd50927c-c72b-01f6-bad7-080076610cde@grimberg.me>
+In-Reply-To: <20181212140518.GA4527@lst.de>
 References: <20181211233652.9705-1-sagi@grimberg.me>
- <02a201d49239$0b00f3f0$2102dbd0$@opengridcomputing.com>
- <bd50927c-c72b-01f6-bad7-080076610cde@grimberg.me>
-Message-ID: <033101d49246$00d1c320$02754960$@opengridcomputing.com>
+ <20181212070756.GC28461@lst.de>
+ <937fc9db-1248-fcad-1b59-627c4b44ef16@grimberg.me>
+ <20181212080945.GA29679@lst.de>
+ <5f34c9df-b0be-102a-eabe-7b4613b0c9c0@grimberg.me>
+ <20181212140518.GA4527@lst.de>
+Message-ID: <1abe2fa0-e05a-e8a7-47e6-6e37b4d8011e@grimberg.me>
 
-> > Hey Sagi,
-> 
-> Hi Steve,
-> 
-> > Is there no way to handle this in the core?  Maybe have the polling context
-> > transition to DIRECT when the queue becomes empty and before re-arming
-> the
-> > CQ?
-> 
-> That is what I suggested, but that would mean that we we need to drain
-> the cq before making the switch, which means we need to allocate a
-> dedicated qp for that cq, and even that doesn't guarantee that the
-> ULP is not posting other wrs on its own qp(s)...
-> 
-> So making this safe for infight I/O would be a challenge... If we end
-> up agreeing that we are ok with this functionality, I'd much rather not
-> deal with it and simply document "use with care".
-> 
-> > So ib_change_cq_ctx() would be called to indicate the change should
-> > happen when it is safe to do so.
-> 
-> You lost me here... ib_change_cq_ctx would get called by who and when?
 
-I didn't look in detail at your changes, but ib_change_cq_ctx() is called by the application, right?  I was just asking what if the semantics of the call were "change the context when it is safe to do so" vs "do it immediately and hope there are no outstanding WRs".   But I don't think this semantic change simplifies the problem.  
+>>> Well, it should just be a little blk_poll loop, right?
+>>
+>> Not so much about the poll loop, but the fact that we will need
+>> to check if we need to poll for this special case every time in
+>> .queue_rq and its somewhat annoying...
+> 
+> I don't think we need to add any special check in queue_rq.  Any
+> polled command should be marked as HIPRI from the submitting code,
+> and that includes the queue creation.
+
+Hmm, good idea, perhaps adding something like to following:
+--
+/**
+  * blk_execute_rq_polled - execute a request and poll for its completion
+  * @q:          queue to insert the request in
+  * @bd_disk:    matching gendisk
+  * @rq:         request to insert
+  * @at_head:    insert request at head or tail of queue
+  *
+  * Description:
+  *    Insert a fully prepared request at the back of the I/O scheduler
+  *    queue for execution and poll for completion.
+  */
+void blk_execute_rq_polled(struct request_queue *q, struct gendisk *bd_disk,
+                    struct request *rq, int at_head)
+{
+         DECLARE_COMPLETION_ONSTACK(wait);
+         unsigned long hang_check;
+
+	rq->cmd_flags |= REQ_HIPRI;
+         rq->end_io_data = &wait;
+         blk_execute_rq_nowait(q, bd_disk, rq, at_head, blk_end_sync_rq);
+
+         while (!completion_done(&wait))
+		blk_poll(q, 0, true);
+}
+EXPORT_SYMBOL(blk_execute_rq_polled);
+--
+
+and __nvme_submit_sync_cmd() can receive a poll argument as well to call
+blk_execute_req_polled()?
