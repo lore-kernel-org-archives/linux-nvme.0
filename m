@@ -1,35 +1,15 @@
-From: amhetre@nvidia.com (Ashish Mhetre)
-Date: Wed, 12 Dec 2018 13:15:15 +0530
-Subject: [PATCH] scatterlist: Update size type to support greater then 4GB
- size.
-In-Reply-To: <5f70fc16-e3cd-37c1-e7ed-e131ad79d387@grimberg.me>
-References: <1544595853-18492-1-git-send-email-amhetre@nvidia.com>
- <20181211.222950.1995970751331458343.davem@davemloft.net>
- <5f70fc16-e3cd-37c1-e7ed-e131ad79d387@grimberg.me>
-Message-ID: <eea4ccbb-a750-581f-525c-ce05d912f537@nvidia.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 12 Dec 2018 08:45:54 +0100
+Subject: [PATCHv2] nvmetcli: ANA configuration support
+In-Reply-To: <88f6608b-df3c-2528-4f9c-1e4610fabf44@suse.com>
+References: <20181108122736.76270-1-hare@suse.de>
+ <20181114151417.GA28175@lst.de>
+ <88f6608b-df3c-2528-4f9c-1e4610fabf44@suse.com>
+Message-ID: <20181212074554.GC29137@lst.de>
 
+On Wed, Nov 14, 2018@04:23:08PM +0100, Hannes Reinecke wrote:
+> Gnaa. My python skills are crap.
+>
+> Will see to have it fixed.
 
-
-On 12/12/18 12:19 PM, Sagi Grimberg wrote:
-> 
->>> ? struct nvme_sgl_desc {
->>> ????? __le64??? addr;
->>> -??? __le32??? length;
->>> +??? __le64??? length;
->>> ????? __u8??? rsvd[3];
->>> ????? __u8??? type;
->>> ? };
->>
->> Isn't this a device or protocol defined datastructure?? You can't just
->> change it like this.
-> 
-> You're correct, we can't...
-> [Replied before seeing this issue was already highlighted]
-> 
-> The positive side is that it can safely be removed without affecting the
-> rest of the patch...
-
-Ohh, I am not aware of this protocol defined data-structures. But it 
-seems that this need not be changed as Sagi is saying sg length for NVME
-will never cross 32 bit size.
-I'll send a new version removing this change. Thanks.
+Did you get a chance to look at it?
