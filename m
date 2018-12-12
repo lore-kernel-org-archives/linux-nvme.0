@@ -1,20 +1,30 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 12 Dec 2018 09:58:41 -0800
-Subject: [PATCH v2 0/5] implement nvmf read/write queue maps
-In-Reply-To: <477ef7e7-bc81-5c27-84ba-27c75989bdc4@broadcom.com>
-References: <20181211233519.9350-1-sagi@grimberg.me>
- <477ef7e7-bc81-5c27-84ba-27c75989bdc4@broadcom.com>
-Message-ID: <be43de64-eb4b-c116-85f2-8c5d5a62e3c1@grimberg.me>
+Date: Wed, 12 Dec 2018 10:05:13 -0800
+Subject: [PATCH RFC 0/4] restore polling to nvme-rdma
+In-Reply-To: <02a201d49239$0b00f3f0$2102dbd0$@opengridcomputing.com>
+References: <20181211233652.9705-1-sagi@grimberg.me>
+ <02a201d49239$0b00f3f0$2102dbd0$@opengridcomputing.com>
+Message-ID: <bd50927c-c72b-01f6-bad7-080076610cde@grimberg.me>
 
 
-> Sagi,
-> 
-> What other wins are there for this split ?
-> 
-> I'm considering whether its worthwhile for fc as well, but the hol issue 
-> doesn't exist with fc. What else is being resolved ?
+> Hey Sagi,
 
-I've pondered it myself, which is why I didn't add it to fc as well
-(would have been easy enough I think). I guess that with this the
-user can limit writes compared to read by assigning less queues as
-jens suggested in his patches...
+Hi Steve,
+
+> Is there no way to handle this in the core?  Maybe have the polling context
+> transition to DIRECT when the queue becomes empty and before re-arming the
+> CQ?
+
+That is what I suggested, but that would mean that we we need to drain
+the cq before making the switch, which means we need to allocate a
+dedicated qp for that cq, and even that doesn't guarantee that the
+ULP is not posting other wrs on its own qp(s)...
+
+So making this safe for infight I/O would be a challenge... If we end
+up agreeing that we are ok with this functionality, I'd much rather not
+deal with it and simply document "use with care".
+
+> So ib_change_cq_ctx() would be called to indicate the change should
+> happen when it is safe to do so.
+
+You lost me here... ib_change_cq_ctx would get called by who and when?
