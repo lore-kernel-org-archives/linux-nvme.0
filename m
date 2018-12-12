@@ -1,46 +1,79 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 11 Dec 2018 23:38:53 -0800
-Subject: [PATCH v3 0/5] implement nvmf read/write queue maps
-Message-ID: <20181212073858.7102-1-sagi@grimberg.me>
+Date: Tue, 11 Dec 2018 23:38:54 -0800
+Subject: [PATCH v3 1/5] blk-mq-rdma: pass in queue map to
+ blk_mq_rdma_map_queues
+In-Reply-To: <20181212073858.7102-1-sagi@grimberg.me>
+References: <20181212073858.7102-1-sagi@grimberg.me>
+Message-ID: <20181212073858.7102-2-sagi@grimberg.me>
 
-This set implements read/write queue maps to nvmf (implemented in tcp
-and rdma). We basically allow the users to pass in nr_write_queues
-argument that will basically maps a separate set of queues to host
-write I/O (or more correctly non-read I/O) and a set of queues to
-hold read I/O (which is now controlled by the known nr_io_queues).
+will be used by nvme-rdma for queue map separation support.
 
-Note that read/write separation is a clear win for rdma but especially
-for tcp as we minimize the risk for head-of-queue blocking for
-mixed workloads over a single stream.
+Reviewed-by: Christoph Hellwig <hch at lst.de>
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ block/blk-mq-rdma.c         | 8 ++++----
+ drivers/nvme/host/rdma.c    | 2 +-
+ include/linux/blk-mq-rdma.h | 2 +-
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-Changes from v2:
-- moved NVMF_OPT_NR_WRITE_QUEUES from NVMF_ALLOWED_OPTS to the individual
-  drivers
-- removed obfuscated expression
-- omitted nvme-cli patch (can be taken from v1)
-- collected review tags
-
-Changes from v1:
-- simplified map_queues in nvme-tcp and nvme-rdma
-- improved change logs
-- collected review tags
-- added nr-write-queues entry in nvme-cli docuementation
-
-Sagi Grimberg (5):
-  blk-mq-rdma: pass in queue map to blk_mq_rdma_map_queues
-  nvme-fabrics: add missing nvmf_ctrl_options documentation
-  nvme-fabrics: allow user to set nr_write_queues for separate queue
-    maps
-  nvme-tcp: support separate queue maps for read and write
-  nvme-rdma: support separate queue maps for read and write
-
- block/blk-mq-rdma.c         |  8 +++----
- drivers/nvme/host/fabrics.c | 13 +++++++++++
- drivers/nvme/host/fabrics.h |  6 +++++
- drivers/nvme/host/rdma.c    | 28 ++++++++++++++++++++---
- drivers/nvme/host/tcp.c     | 44 ++++++++++++++++++++++++++++++++-----
- include/linux/blk-mq-rdma.h |  2 +-
- 6 files changed, 87 insertions(+), 14 deletions(-)
-
+diff --git a/block/blk-mq-rdma.c b/block/blk-mq-rdma.c
+index a71576aff3a5..45030a81a1ed 100644
+--- a/block/blk-mq-rdma.c
++++ b/block/blk-mq-rdma.c
+@@ -29,24 +29,24 @@
+  * @set->nr_hw_queues, or @dev does not provide an affinity mask for a
+  * vector, we fallback to the naive mapping.
+  */
+-int blk_mq_rdma_map_queues(struct blk_mq_tag_set *set,
++int blk_mq_rdma_map_queues(struct blk_mq_queue_map *map,
+ 		struct ib_device *dev, int first_vec)
+ {
+ 	const struct cpumask *mask;
+ 	unsigned int queue, cpu;
+ 
+-	for (queue = 0; queue < set->nr_hw_queues; queue++) {
++	for (queue = 0; queue < map->nr_queues; queue++) {
+ 		mask = ib_get_vector_affinity(dev, first_vec + queue);
+ 		if (!mask)
+ 			goto fallback;
+ 
+ 		for_each_cpu(cpu, mask)
+-			set->map[0].mq_map[cpu] = queue;
++			map->mq_map[cpu] = map->queue_offset + queue;
+ 	}
+ 
+ 	return 0;
+ 
+ fallback:
+-	return blk_mq_map_queues(&set->map[0]);
++	return blk_mq_map_queues(map);
+ }
+ EXPORT_SYMBOL_GPL(blk_mq_rdma_map_queues);
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index f2db848f6985..5057d5ab5aaa 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1751,7 +1751,7 @@ static int nvme_rdma_map_queues(struct blk_mq_tag_set *set)
+ {
+ 	struct nvme_rdma_ctrl *ctrl = set->driver_data;
+ 
+-	return blk_mq_rdma_map_queues(set, ctrl->device->dev, 0);
++	return blk_mq_rdma_map_queues(&set->map[0], ctrl->device->dev, 0);
+ }
+ 
+ static const struct blk_mq_ops nvme_rdma_mq_ops = {
+diff --git a/include/linux/blk-mq-rdma.h b/include/linux/blk-mq-rdma.h
+index b4ade198007d..7b6ecf9ac4c3 100644
+--- a/include/linux/blk-mq-rdma.h
++++ b/include/linux/blk-mq-rdma.h
+@@ -4,7 +4,7 @@
+ struct blk_mq_tag_set;
+ struct ib_device;
+ 
+-int blk_mq_rdma_map_queues(struct blk_mq_tag_set *set,
++int blk_mq_rdma_map_queues(struct blk_mq_queue_map *map,
+ 		struct ib_device *dev, int first_vec);
+ 
+ #endif /* _LINUX_BLK_MQ_RDMA_H */
 -- 
 2.17.1
