@@ -1,34 +1,28 @@
-From: cascardo@canonical.com (Thadeu Lima de Souza Cascardo)
-Date: Wed, 12 Dec 2018 10:39:06 -0200
-Subject: [PATCH 4/4] block: expose devt for GENHD_FL_HIDDEN disks
-In-Reply-To: <20181206202200.GA32080@lst.de>
-References: <20181206164812.30925-1-cascardo@canonical.com>
- <20181206164812.30925-5-cascardo@canonical.com>
- <20181206202200.GA32080@lst.de>
-Message-ID: <20181212123906.GI4269@calabresa>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 12 Dec 2018 15:05:18 +0100
+Subject: [PATCH RFC 0/4] restore polling to nvme-rdma
+In-Reply-To: <5f34c9df-b0be-102a-eabe-7b4613b0c9c0@grimberg.me>
+References: <20181211233652.9705-1-sagi@grimberg.me>
+ <20181212070756.GC28461@lst.de>
+ <937fc9db-1248-fcad-1b59-627c4b44ef16@grimberg.me>
+ <20181212080945.GA29679@lst.de>
+ <5f34c9df-b0be-102a-eabe-7b4613b0c9c0@grimberg.me>
+Message-ID: <20181212140518.GA4527@lst.de>
 
-On Thu, Dec 06, 2018@09:22:00PM +0100, Christoph Hellwig wrote:
-> On Thu, Dec 06, 2018@02:48:12PM -0200, Thadeu Lima de Souza Cascardo wrote:
-> > Without this exposure, lsblk will fail as it tries to find out the
-> > device's dev_t numbers. This causes a real problem for nvme multipath
-> > devices, as their slaves are hidden.
-> > 
-> > Exposing them fixes the problem, even though trying to open the devices
-> > returns an error in the case of nvme multipath. So, right now, it's the
-> > driver's responsibility to return a failure to open hidden devices.
-> 
-> So the problem with this is that it will cause udev to actually create
-> the /dev/nvmeXcYnZ nodes, which due to the previous patch will always
-> fail to open, which is a bit confusing.  I guess we could live with this
-> if we add udev rules to supress the creation or something, but in general
-> it is a bit ugly.
+On Wed, Dec 12, 2018@12:53:47AM -0800, Sagi Grimberg wrote:
+>> Well, it should just be a little blk_poll loop, right?
+>
+> Not so much about the poll loop, but the fact that we will need
+> to check if we need to poll for this special case every time in
+> .queue_rq and its somewhat annoying...
 
-Well, udev could just look at the hidden attribute. At least to some, the fact
-that lsblk would fail was reason enough to revert the patches, so I would
-rather apply the entire set.
+I don't think we need to add any special check in queue_rq.  Any
+polled command should be marked as HIPRI from the submitting code,
+and that includes the queue creation.
 
-We could add a message to the log when users try to open them, but given that
-some programs (udev is one) would open them without any user interaction, maybe
-we shouldn't.
+> Anyway, if people think its really a bad idea we'll go ahead and
+> poll the nvmf connect...
 
-Cascardo.
+I'm really just worried about the completion context switching.  If the
+RDMA folks are happy with that API and you strongly favour this version
+I'll let you decide.
