@@ -1,76 +1,15 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 11 Dec 2018 23:56:26 -0800
-Subject: [PATCH 2/2] nvme-rdma: Handle completions if error_recovery fails
-In-Reply-To: <20181212065501.21580-2-nitzanc@mellanox.com>
-References: <20181212065501.21580-1-nitzanc@mellanox.com>
- <20181212065501.21580-2-nitzanc@mellanox.com>
-Message-ID: <24f0d05c-b309-a00d-ddd3-f13f0ac74268@grimberg.me>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 12 Dec 2018 00:06:52 -0800
+Subject: [PATCH] scatterlist: Update size type to support greater then
+ 4GB size.
+In-Reply-To: <1544595853-18492-1-git-send-email-amhetre@nvidia.com>
+References: <1544595853-18492-1-git-send-email-amhetre@nvidia.com>
+Message-ID: <20181212080652.GA14877@infradead.org>
 
-> Error recovery might not be executed, in case ctrl.state
-> cannot be moved to RESETTING state. This might happen in:
->   - state CONNECTING - during nvmf_connect command failure.
->   - state DELETING - during nvmf_set_features command failure
->                      (in nvme_shutdown_ctrl).
-> 
-> We need to complete these hanging requests with DNR error.
+scatterlist elements longer than 4GB sound odd.  Please submit it
+in a series with your actual user so that we can help figuring out
+if it really makes sense or if there is a better way to solve your
+problem.
 
-There is quite a lot going on than what you describe. In fact
-you don't even describe what you are doing here, just the problem
-which is only a part of the story..
-
-
-> -static void nvme_rdma_error_recovery(struct nvme_rdma_ctrl *ctrl)
-> +static int nvme_rdma_error_recovery(struct nvme_rdma_ctrl *ctrl)
->   {
-> -	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RESETTING))
-> -		return;
-> +	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RESETTING)) {
-> +		if (ctrl->ctrl.state == NVME_CTRL_RESETTING)
-> +			return 0;
-> +		else
-> +			return -EAGAIN;
-> +	}
->   
->   	queue_work(nvme_wq, &ctrl->err_work);
-> +	return 0;
->   }
->   
-
-> @@ -1679,16 +1725,21 @@ static enum blk_eh_timer_return
->   nvme_rdma_timeout(struct request *rq, bool reserved)
->   {
->   	struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
-> +	struct nvme_rdma_ctrl *ctrl = req->queue->ctrl;
->   
-> -	dev_warn(req->queue->ctrl->ctrl.device,
-> +	dev_warn(ctrl->ctrl.device,
->   		 "I/O %d QID %d timeout, reset controller\n",
->   		 rq->tag, nvme_rdma_queue_idx(req->queue));
->   
-> -	/* queue error recovery */
-> -	nvme_rdma_error_recovery(req->queue->ctrl);
-> -
-> -	/* fail with DNR on cmd timeout */
-> -	nvme_req(rq)->status = NVME_SC_ABORT_REQ | NVME_SC_DNR;
-> +	/*
-> +	 * if error recovery succeed it will end the request,
-> +	 * otherwise we have to manually end it
-> +	 */
-> +	if (nvme_rdma_error_recovery(ctrl)) {
-> +		req->status = cpu_to_le16((NVME_SC_ABORT_REQ |
-> +					   NVME_SC_DNR) << 1);
-> +		nvme_end_request(rq, req->status, req->result);
-> +	}
->   
->   	return BLK_EH_DONE;
->   }
-> 
-
-Can't you live with just the two hunks above? and in the timeout
-handler you need to stop the queue before you complete the I/O to
-barrier against competing completions.
-
-Also, lets get rid of DNR while we're at it.
-
-I don't see why you need the others... I need further explanation for
-that.
+As is this patch will massively increase the memory usage for all users
+of struct scatterlist, so you better have a really good reason.
