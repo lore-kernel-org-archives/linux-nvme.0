@@ -1,28 +1,18 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 13 Dec 2018 12:34:07 -0800
-Subject: [PATCH] nvme: fix kernel paging oops
-Message-ID: <20181213203407.2374-1-sagi@grimberg.me>
+Date: Thu, 13 Dec 2018 12:39:23 -0800
+Subject: [GIT PULL] second batch of nvme updates for 4.21
+In-Reply-To: <20181213195607.GA7751@infradead.org>
+References: <20181213195607.GA7751@infradead.org>
+Message-ID: <7a753aff-21dc-99c4-1fec-0a610700ae22@grimberg.me>
 
-free the controller discard_page correctly.
 
-Fixes: cb5b7262b011 ("nvme: provide fallback for discard alloc failure")
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Hi Jens,
+> 
+> here is the second large chunk of nvme updates for 4.21:
+> 
+>   - host and target support for NVMe over TCP (Sagi Grimberg,
+> 	Roy Shterman, Solganik Alexander)
+>   - error log page support in target (Chaitanya Kulkarni)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 4d8ee7186268..136512e8ba58 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3596,7 +3596,7 @@ static void nvme_free_ctrl(struct device *dev)
- 	ida_simple_remove(&nvme_instance_ida, ctrl->instance);
- 	kfree(ctrl->effects);
- 	nvme_mpath_uninit(ctrl);
--	kfree(ctrl->discard_page);
-+	__free_page(ctrl->discard_page);
- 
- 	if (subsys) {
- 		mutex_lock(&subsys->lock);
--- 
-2.17.1
+Worth mentioning that support for separate queue maps was added as well,
+but we all already knew that, so just for the protocol...
