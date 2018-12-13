@@ -1,112 +1,80 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 13 Dec 2018 13:34:08 -0800
-Subject: [PATCH v3 4/6] nvme-fabrics: allow nvmf_connect_io_queue to poll
+Date: Thu, 13 Dec 2018 13:34:09 -0800
+Subject: [PATCH v3 5/6] nvme-fabrics: allow user to pass in nr_poll_queues
 In-Reply-To: <20181213213410.9841-1-sagi@grimberg.me>
 References: <20181213213410.9841-1-sagi@grimberg.me>
-Message-ID: <20181213213410.9841-5-sagi@grimberg.me>
+Message-ID: <20181213213410.9841-6-sagi@grimberg.me>
 
-Preparation for polling support for fabrics. Polling support
-means that our completion queues are not generating any interrupts
-which means we need to poll for the nvmf io queue connect as well.
+This argument will specify how many polling I/O queues
+to connect when creating the controller. These I/O queues
+will host I/O that is set with REQ_HIPRI.
 
 Reviewed-by: Christoph Hellwig <hch at lst.de>
-Reviewed by Steve Wise <swise at opengridcomputing.com>
+Reviewed-by: Steve Wise <swise at opengridcomputing.com>
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/fabrics.c | 4 ++--
- drivers/nvme/host/fabrics.h | 2 +-
- drivers/nvme/host/fc.c      | 2 +-
- drivers/nvme/host/rdma.c    | 2 +-
- drivers/nvme/host/tcp.c     | 2 +-
- drivers/nvme/target/loop.c  | 2 +-
- 6 files changed, 7 insertions(+), 7 deletions(-)
+ drivers/nvme/host/fabrics.c | 13 +++++++++++++
+ drivers/nvme/host/fabrics.h |  3 +++
+ 2 files changed, 16 insertions(+)
 
 diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index d93a169f6403..5ff14f46a8d9 100644
+index 5ff14f46a8d9..b2ab213f43de 100644
 --- a/drivers/nvme/host/fabrics.c
 +++ b/drivers/nvme/host/fabrics.c
-@@ -441,7 +441,7 @@ EXPORT_SYMBOL_GPL(nvmf_connect_admin_queue);
-  *	> 0: NVMe error status code
-  *	< 0: Linux errno error code
-  */
--int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
-+int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid, bool poll)
- {
- 	struct nvme_command cmd;
- 	struct nvmf_connect_data *data;
-@@ -468,7 +468,7 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
+@@ -617,6 +617,7 @@ static const match_table_t opt_tokens = {
+ 	{ NVMF_OPT_HDR_DIGEST,		"hdr_digest"		},
+ 	{ NVMF_OPT_DATA_DIGEST,		"data_digest"		},
+ 	{ NVMF_OPT_NR_WRITE_QUEUES,	"nr_write_queues=%d"	},
++	{ NVMF_OPT_NR_POLL_QUEUES,	"nr_poll_queues=%d"	},
+ 	{ NVMF_OPT_ERR,			NULL			}
+ };
  
- 	ret = __nvme_submit_sync_cmd(ctrl->connect_q, &cmd, &res,
- 			data, sizeof(*data), 0, qid, 1,
--			BLK_MQ_REQ_RESERVED | BLK_MQ_REQ_NOWAIT, false);
-+			BLK_MQ_REQ_RESERVED | BLK_MQ_REQ_NOWAIT, poll);
- 	if (ret) {
- 		nvmf_log_connect_error(ctrl, ret, le32_to_cpu(res.u32),
- 				       &cmd, data);
+@@ -850,6 +851,18 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 			}
+ 			opts->nr_write_queues = token;
+ 			break;
++		case NVMF_OPT_NR_POLL_QUEUES:
++			if (match_int(args, &token)) {
++				ret = -EINVAL;
++				goto out;
++			}
++			if (token <= 0) {
++				pr_err("Invalid nr_poll_queues %d\n", token);
++				ret = -EINVAL;
++				goto out;
++			}
++			opts->nr_poll_queues = token;
++			break;
+ 		default:
+ 			pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
+ 				p);
 diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-index 81b8fd1c0c5d..cad70a9f976a 100644
+index cad70a9f976a..478343b73e38 100644
 --- a/drivers/nvme/host/fabrics.h
 +++ b/drivers/nvme/host/fabrics.h
-@@ -168,7 +168,7 @@ int nvmf_reg_read32(struct nvme_ctrl *ctrl, u32 off, u32 *val);
- int nvmf_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val);
- int nvmf_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val);
- int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl);
--int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid);
-+int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid, bool poll);
- int nvmf_register_transport(struct nvmf_transport_ops *ops);
- void nvmf_unregister_transport(struct nvmf_transport_ops *ops);
- void nvmf_free_options(struct nvmf_ctrl_options *opts);
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index b79e41938513..89accc76d71c 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -1975,7 +1975,7 @@ nvme_fc_connect_io_queues(struct nvme_fc_ctrl *ctrl, u16 qsize)
- 					(qsize / 5));
- 		if (ret)
- 			break;
--		ret = nvmf_connect_io_queue(&ctrl->ctrl, i);
-+		ret = nvmf_connect_io_queue(&ctrl->ctrl, i, false);
- 		if (ret)
- 			break;
+@@ -62,6 +62,7 @@ enum {
+ 	NVMF_OPT_HDR_DIGEST	= 1 << 15,
+ 	NVMF_OPT_DATA_DIGEST	= 1 << 16,
+ 	NVMF_OPT_NR_WRITE_QUEUES = 1 << 17,
++	NVMF_OPT_NR_POLL_QUEUES = 1 << 18,
+ };
  
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index ed726da77b5b..b907ed43814f 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -598,7 +598,7 @@ static int nvme_rdma_start_queue(struct nvme_rdma_ctrl *ctrl, int idx)
- 	int ret;
+ /**
+@@ -93,6 +94,7 @@ enum {
+  * @hdr_digest: generate/verify header digest (TCP)
+  * @data_digest: generate/verify data digest (TCP)
+  * @nr_write_queues: number of queues for write I/O
++ * @nr_poll_queues: number of queues for polling I/O
+  */
+ struct nvmf_ctrl_options {
+ 	unsigned		mask;
+@@ -113,6 +115,7 @@ struct nvmf_ctrl_options {
+ 	bool			hdr_digest;
+ 	bool			data_digest;
+ 	unsigned int		nr_write_queues;
++	unsigned int		nr_poll_queues;
+ };
  
- 	if (idx)
--		ret = nvmf_connect_io_queue(&ctrl->ctrl, idx);
-+		ret = nvmf_connect_io_queue(&ctrl->ctrl, idx, false);
- 	else
- 		ret = nvmf_connect_admin_queue(&ctrl->ctrl);
- 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 51826479a41e..762a676403ef 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1393,7 +1393,7 @@ static int nvme_tcp_start_queue(struct nvme_ctrl *nctrl, int idx)
- 	int ret;
- 
- 	if (idx)
--		ret = nvmf_connect_io_queue(nctrl, idx);
-+		ret = nvmf_connect_io_queue(nctrl, idx, false);
- 	else
- 		ret = nvmf_connect_admin_queue(nctrl);
- 
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index 9908082b32c4..4aac1b4a8112 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -345,7 +345,7 @@ static int nvme_loop_connect_io_queues(struct nvme_loop_ctrl *ctrl)
- 	int i, ret;
- 
- 	for (i = 1; i < ctrl->ctrl.queue_count; i++) {
--		ret = nvmf_connect_io_queue(&ctrl->ctrl, i);
-+		ret = nvmf_connect_io_queue(&ctrl->ctrl, i, false);
- 		if (ret)
- 			return ret;
- 		set_bit(NVME_LOOP_Q_LIVE, &ctrl->queues[i].flags);
+ /*
 -- 
 2.17.1
