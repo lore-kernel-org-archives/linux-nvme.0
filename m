@@ -1,55 +1,44 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 13 Dec 2018 09:51:06 +0100
-Subject: [PATCH 2/3] nvmet-tcp: fix endianess annotations
+Date: Thu, 13 Dec 2018 09:51:07 +0100
+Subject: [PATCH 3/3] nvme-pci: refactor nvme_poll_irqdisable to make sparse
+ happy
 In-Reply-To: <20181213085107.17183-1-hch@lst.de>
 References: <20181213085107.17183-1-hch@lst.de>
-Message-ID: <20181213085107.17183-3-hch@lst.de>
+Message-ID: <20181213085107.17183-4-hch@lst.de>
+
+By duplicating the nvme_process_cq in both branches we keep the
+sparse lock context checking happy, so do it.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/tcp.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ drivers/nvme/host/pci.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 15543358e245..5b64051671ca 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -35,7 +35,7 @@ struct nvme_tcp_request {
- 	u32			pdu_sent;
- 	u16			ttag;
- 	struct list_head	entry;
--	u32			ddgst;
-+	__le32			ddgst;
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index fb9d8270f32c..c0f66d2f6e80 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1093,15 +1093,15 @@ static int nvme_poll_irqdisable(struct nvme_queue *nvmeq, unsigned int tag)
+ 	 * using the CQ lock.  For normal interrupt driven threads we have
+ 	 * to disable the interrupt to avoid racing with it.
+ 	 */
+-	if (nvmeq->cq_vector == -1)
++	if (nvmeq->cq_vector == -1) {
+ 		spin_lock(&nvmeq->cq_poll_lock);
+-	else
+-		disable_irq(pci_irq_vector(pdev, nvmeq->cq_vector));
+-	found = nvme_process_cq(nvmeq, &start, &end, tag);
+-	if (nvmeq->cq_vector == -1)
++		found = nvme_process_cq(nvmeq, &start, &end, tag);
+ 		spin_unlock(&nvmeq->cq_poll_lock);
+-	else
++	} else {
++		disable_irq(pci_irq_vector(pdev, nvmeq->cq_vector));
++		found = nvme_process_cq(nvmeq, &start, &end, tag);
+ 		enable_irq(pci_irq_vector(pdev, nvmeq->cq_vector));
++	}
  
- 	struct bio		*curr_bio;
- 	struct iov_iter		iter;
-@@ -272,7 +272,8 @@ nvme_tcp_fetch_request(struct nvme_tcp_queue *queue)
- 	return req;
- }
- 
--static inline void nvme_tcp_ddgst_final(struct ahash_request *hash, u32 *dgst)
-+static inline void nvme_tcp_ddgst_final(struct ahash_request *hash,
-+		__le32 *dgst)
- {
- 	ahash_request_set_crypt(hash, NULL, (u8 *)dgst, 0);
- 	crypto_ahash_final(hash);
-@@ -817,7 +818,7 @@ static void nvme_tcp_fail_request(struct nvme_tcp_request *req)
- 	union nvme_result res = {};
- 
- 	nvme_end_request(blk_mq_rq_from_pdu(req),
--		NVME_SC_DATA_XFER_ERROR, res);
-+		cpu_to_le16(NVME_SC_DATA_XFER_ERROR), res);
- }
- 
- static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
-@@ -1950,7 +1951,7 @@ nvme_tcp_timeout(struct request *rq, bool reserved)
- 		union nvme_result res = {};
- 
- 		nvme_req(rq)->flags |= NVME_REQ_CANCELLED;
--		nvme_end_request(rq, NVME_SC_ABORT_REQ, res);
-+		nvme_end_request(rq, cpu_to_le16(NVME_SC_ABORT_REQ), res);
- 		return BLK_EH_DONE;
- 	}
- 
+ 	nvme_complete_cqes(nvmeq, start, end);
+ 	return found;
 -- 
 2.19.2
