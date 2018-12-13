@@ -1,18 +1,16 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 13 Dec 2018 12:39:23 -0800
-Subject: [GIT PULL] second batch of nvme updates for 4.21
-In-Reply-To: <20181213195607.GA7751@infradead.org>
-References: <20181213195607.GA7751@infradead.org>
-Message-ID: <7a753aff-21dc-99c4-1fec-0a610700ae22@grimberg.me>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Thu, 13 Dec 2018 13:39:29 -0700
+Subject: [PATCH] nvme: fix kernel paging oops
+In-Reply-To: <20181213203407.2374-1-sagi@grimberg.me>
+References: <20181213203407.2374-1-sagi@grimberg.me>
+Message-ID: <ab607e4c-6277-90ef-2608-4251fe218974@kernel.dk>
 
+On 12/13/18 1:34 PM, Sagi Grimberg wrote:
+> free the controller discard_page correctly.
 
-> Hi Jens,
-> 
-> here is the second large chunk of nvme updates for 4.21:
-> 
->   - host and target support for NVMe over TCP (Sagi Grimberg,
-> 	Roy Shterman, Solganik Alexander)
->   - error log page support in target (Chaitanya Kulkarni)
+Huh, I wonder why I haven't hit that. But obviously correct...
 
-Worth mentioning that support for separate queue maps was added as well,
-but we all already knew that, so just for the protocol...
+Christoph, I'll apply this one directly.
+
+-- 
+Jens Axboe
