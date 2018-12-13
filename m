@@ -1,19 +1,18 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Thu, 13 Dec 2018 09:29:54 -0600
-Subject: [PATCH v2 nvme-cli 7/6] fabrics: pass in number of polling queues
-In-Reply-To: <20181213063819.13614-8-sagi@grimberg.me>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 13 Dec 2018 07:49:42 -0800
+Subject: [PATCH v2 6/6] nvme-multipath: disable polling for underlying
+ namespace request queue
+In-Reply-To: <20181213083157.GD869@lst.de>
 References: <20181213063819.13614-1-sagi@grimberg.me>
- <20181213063819.13614-8-sagi@grimberg.me>
-Message-ID: <f9731fb3-ac83-296c-609a-cff7c6261091@opengridcomputing.com>
+ <20181213063819.13614-7-sagi@grimberg.me> <20181213083157.GD869@lst.de>
+Message-ID: <4f3f213e-9042-5963-d47d-0ee501bf94fa@grimberg.me>
 
 
-On 12/13/2018 12:38 AM, Sagi Grimberg wrote:
-> nr_poll_queues specifies the number of additional queues that will
-> be connected for hosting polling latency critical I/O.
->
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> +	if (!test_bit(QUEUE_FLAG_POLL, &q->queue_flags))
+> +		bio->bi_opf &= ~REQ_HIPRI;
+> +
 
+Maybe we can simply check (q->queue_flags & (1 << QUEUE_FLAG_POLL)) and
+avoid the extra atomic operation in the host path?
 
-Looks good.
-
-Signed-off-by: Steve Wise <swise at opengridcomputing.com
+Would it make sense?
