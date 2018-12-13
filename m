@@ -1,76 +1,44 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 12 Dec 2018 22:38:19 -0800
-Subject: [PATCH v2 nvme-cli 7/6] fabrics: pass in number of polling queues
-In-Reply-To: <20181213063819.13614-1-sagi@grimberg.me>
-References: <20181213063819.13614-1-sagi@grimberg.me>
-Message-ID: <20181213063819.13614-8-sagi@grimberg.me>
+Date: Wed, 12 Dec 2018 22:38:12 -0800
+Subject: [PATCH v2 0/6] restore nvme-rdma polling
+Message-ID: <20181213063819.13614-1-sagi@grimberg.me>
 
-nr_poll_queues specifies the number of additional queues that will
-be connected for hosting polling latency critical I/O.
+Add an additional queue mapping for polling queues that will
+host polling for latency critical I/O.
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- Documentation/nvme-connect.txt |  5 +++++
- fabrics.c                      | 10 ++++++++++
- 2 files changed, 15 insertions(+)
+Allocate the poll queues with IB_POLL_DIRECT context. For nvmf connect
+we introduce a new blk_execute_rq_polled to poll for the completion and
+have nvmf_connect_io_queue use it for conneting polling queues.
 
-diff --git a/Documentation/nvme-connect.txt b/Documentation/nvme-connect.txt
-index d4a0e6678475..5412472dbd35 100644
---- a/Documentation/nvme-connect.txt
-+++ b/Documentation/nvme-connect.txt
-@@ -17,6 +17,7 @@ SYNOPSIS
- 		[--hostnqn=<hostnqn>      | -q <hostnqn>]
- 		[--nr-io-queues=<#>       | -i <#>]
- 		[--nr-write-queues=<#>    | -W <#>]
-+		[--nr-poll-queues=<#>     | -P <#>]
- 		[--queue-size=<#>         | -Q <#>]
- 		[--keep-alive-tmo=<#>     | -k <#>]
- 		[--reconnect-delay=<#>    | -c <#>]
-@@ -80,6 +81,10 @@ OPTIONS
- --nr-write-queues=<#>::
- 	Adds additional queues that will be used for write I/O.
- 
-+-P <#>::
-+--nr-poll-queues=<#>::
-+	Adds additional queues that will be used for polling latency sensitive I/O.
-+
- -Q <#>::
- --queue-size=<#>::
- 	Overrides the default number of elements in the I/O queues created
-diff --git a/fabrics.c b/fabrics.c
-index 5cc1a795345a..efe2ce89cdca 100644
---- a/fabrics.c
-+++ b/fabrics.c
-@@ -54,6 +54,7 @@ static struct config {
- 	char *hostid;
- 	int  nr_io_queues;
- 	int  nr_write_queues;
-+	int  nr_poll_queues;
- 	int  queue_size;
- 	int  keep_alive_tmo;
- 	int  reconnect_delay;
-@@ -624,6 +625,8 @@ static int build_options(char *argstr, int max_len)
- 				cfg.nr_io_queues) ||
- 	    add_int_argument(&argstr, &max_len, "nr_write_queues",
- 				cfg.nr_write_queues) ||
-+	    add_int_argument(&argstr, &max_len, "nr_poll_queues",
-+				cfg.nr_poll_queues) ||
- 	    add_int_argument(&argstr, &max_len, "queue_size", cfg.queue_size) ||
- 	    add_int_argument(&argstr, &max_len, "keep_alive_tmo",
- 				cfg.keep_alive_tmo) ||
-@@ -704,6 +707,13 @@ retry:
- 		p += len;
- 	}
- 
-+	if (cfg.nr_poll_queues) {
-+		len = sprintf(p, ",nr_poll_queues=%d", cfg.nr_poll_queues);
-+		if (len < 0)
-+			return -EINVAL;
-+		p += len;
-+	}
-+
- 	if (cfg.host_traddr) {
- 		len = sprintf(p, ",host_traddr=%s", cfg.host_traddr);
- 		if (len < 0)
+Finally, we turn off polling support for nvme-multipath as it won't invoke
+polling and our completion queues no longer generates any interrupts for
+it. I didn't come up with a good way to get around it so far...
+
+Changes from v1:
+- get rid of ib_change_cq_ctx
+- poll for nvmf connect over poll queues
+
+Sagi Grimberg (6):
+  block: introduce blk_execute_rq_polled
+  nvme-core: allow __nvme_submit_sync_cmd to poll
+  nvme-fabrics: allow nvmf_connect_io_queue to poll
+  nvme-fabrics: allow user to pass in nr_poll_queues
+  nvme-rdma: implement polling queue map
+  nvme-multipath: disable polling for underlying namespace request queue
+
+ block/blk-exec.c            | 29 +++++++++++++++++++
+ block/blk-mq.c              |  8 -----
+ drivers/nvme/host/core.c    | 15 ++++++----
+ drivers/nvme/host/fabrics.c | 25 ++++++++++++----
+ drivers/nvme/host/fabrics.h |  5 +++-
+ drivers/nvme/host/fc.c      |  2 +-
+ drivers/nvme/host/nvme.h    |  2 +-
+ drivers/nvme/host/rdma.c    | 58 +++++++++++++++++++++++++++++++++----
+ drivers/nvme/host/tcp.c     |  2 +-
+ drivers/nvme/target/loop.c  |  2 +-
+ include/linux/blk-mq.h      |  8 +++++
+ include/linux/blkdev.h      |  2 ++
+ 12 files changed, 128 insertions(+), 30 deletions(-)
+
 -- 
 2.17.1
