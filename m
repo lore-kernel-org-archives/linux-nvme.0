@@ -1,9 +1,9 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Wed, 12 Dec 2018 23:30:53 -0500
-Subject: [PATCH AUTOSEL 4.14 40/41] nvmet-rdma: fix response use after free
-In-Reply-To: <20181213043054.75891-1-sashal@kernel.org>
-References: <20181213043054.75891-1-sashal@kernel.org>
-Message-ID: <20181213043054.75891-40-sashal@kernel.org>
+Date: Wed, 12 Dec 2018 23:31:59 -0500
+Subject: [PATCH AUTOSEL 4.9 33/34] nvmet-rdma: fix response use after free
+In-Reply-To: <20181213043200.76295-1-sashal@kernel.org>
+References: <20181213043200.76295-1-sashal@kernel.org>
+Message-ID: <20181213043200.76295-33-sashal@kernel.org>
 
 From: Israel Rukshin <israelr@mellanox.com>
 
@@ -23,7 +23,7 @@ Signed-off-by: Sasha Levin <sashal at kernel.org>
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index a70b3d24936d..5d8140e58f6f 100644
+index 2dfd877974d7..486393fa4f3e 100644
 --- a/drivers/nvme/target/rdma.c
 +++ b/drivers/nvme/target/rdma.c
 @@ -524,6 +524,7 @@ static void nvmet_rdma_send_done(struct ib_cq *cq, struct ib_wc *wc)
