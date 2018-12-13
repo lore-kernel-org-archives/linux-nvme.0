@@ -1,39 +1,87 @@
-From: cascardo@canonical.com (Thadeu Lima de Souza Cascardo)
-Date: Thu, 13 Dec 2018 19:00:43 -0200
-Subject: [PATCH 4/4] block: expose devt for GENHD_FL_HIDDEN disks
-In-Reply-To: <20181213202016.GA15992@lst.de>
-References: <20181206164812.30925-1-cascardo@canonical.com>
- <20181206164812.30925-5-cascardo@canonical.com>
- <b3ef062d-3bc3-fdf8-f395-31d1822a3192@suse.de>
- <20181213143218.GA8723@lst.de> <20181213152532.GA5321@calabresa>
- <20181213202016.GA15992@lst.de>
-Message-ID: <20181213210042.GC5321@calabresa>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 13 Dec 2018 13:29:17 -0800
+Subject: [PATCH] nvme-rdma: fix timeout handler
+Message-ID: <20181213212917.8900-1-sagi@grimberg.me>
 
-On Thu, Dec 13, 2018@09:20:16PM +0100, Christoph Hellwig wrote:
-> On Thu, Dec 13, 2018@01:25:33PM -0200, Thadeu Lima de Souza Cascardo wrote:
-> > > And I've checked back - lsblk actually works just fine at the moment.
-> > > But it turns out once we create the slave links it stops working,
-> > > which is a really good argument against the first two patches, which
-> > > would otherwise seem nice..
-> > 
-> > Which is why I have sent the "paths/" patchset in the first place. Because I
-> > did some homework and read the previous discussion about this, and how lsblk
-> > failure to behave with slave links led to the revert of the slaves/holders
-> > patch by Dr. Hannes.
-> 
-> Sorry, I did not actually notice that Hannes patch manually created
-> the same slaves/holders link we otherwise create using the block layer
-> APIs.  Had I realized those actually were the same that had saved
-> me some work.
-> 
-> So I guess the v2 paths/ link patch from you is the least of all evils.
-> Hannes, can you look over that one?
+Currently, we have several problems with the timeout
+handler:
+1. If we timeout on the controller establishment flow, we will
+hang because we don't execute the error recovery (and we shouldn't
+because the create_ctrl flow needs to fail and cleanup on its own)
+2. We might also hang if we get a disconnet on a queue while the
+controller is already deleting. This racy flow can cause the
+controller disable/shutdown admin command to hang.
 
-No hard feelings. Sorry we had to go through all these messages to make that
-clear.
+We cannot complete a timed out request from the timeout handler
+without mutual exclusion from the teardown flow (e.g.
+nvme_rdma_error_recovery_work). So we serialize it in the
+timeout handler and stop the queue to guarantee that no
+one races with us from completing the request.
 
-This should be Message-Id: <20181101232955.19329-1-cascardo at canonical.com> and
-Hannes was on Cc as well.
+Reported-by: Jaesoo Lee <jalee at purestorage.com>
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/host/rdma.c | 33 +++++++++++++++++++++++----------
+ 1 file changed, 23 insertions(+), 10 deletions(-)
 
-Regards.
-Cascardo.
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 80b3113b45fb..af8f4cedabc1 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1080,12 +1080,13 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
+ 	nvme_rdma_reconnect_or_remove(ctrl);
+ }
+ 
+-static void nvme_rdma_error_recovery(struct nvme_rdma_ctrl *ctrl)
++static int nvme_rdma_error_recovery(struct nvme_rdma_ctrl *ctrl)
+ {
+ 	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RESETTING))
+-		return;
++		return -EBUSY;
+ 
+ 	queue_work(nvme_wq, &ctrl->err_work);
++	return 0;
+ }
+ 
+ static void nvme_rdma_wr_error(struct ib_cq *cq, struct ib_wc *wc,
+@@ -1693,18 +1694,30 @@ static enum blk_eh_timer_return
+ nvme_rdma_timeout(struct request *rq, bool reserved)
+ {
+ 	struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
++	struct nvme_rdma_queue *queue = req->queue;
++	struct nvme_rdma_ctrl *ctrl = queue->ctrl;
++
++	dev_warn(ctrl->ctrl.device, "I/O %d QID %d timeout\n",
++		 rq->tag, nvme_rdma_queue_idx(queue));
+ 
+-	dev_warn(req->queue->ctrl->ctrl.device,
+-		 "I/O %d QID %d timeout, reset controller\n",
+-		 rq->tag, nvme_rdma_queue_idx(req->queue));
++	if (nvme_rdma_error_recovery(req->queue->ctrl)) {
++		union nvme_result res = {};
+ 
+-	/* queue error recovery */
+-	nvme_rdma_error_recovery(req->queue->ctrl);
++		nvme_rdma_stop_queue(queue);
++		flush_work(&ctrl->err_work);
+ 
+-	/* fail with DNR on cmd timeout */
+-	nvme_req(rq)->status = NVME_SC_ABORT_REQ | NVME_SC_DNR;
++		/*
++		 * now no-one is competing with us, safely check if the
++		 * was completed and fail it if not.
++		 */
++		if (READ_ONCE(rq->state) != MQ_RQ_COMPLETE) {
++			nvme_req(rq)->flags |= NVME_REQ_CANCELLED;
++			nvme_end_request(rq, NVME_SC_ABORT_REQ, res);
++			return BLK_EH_DONE;
++		}
++	}
+ 
+-	return BLK_EH_DONE;
++	return BLK_EH_RESET_TIMER;
+ }
+ 
+ static blk_status_t nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
+-- 
+2.17.1
