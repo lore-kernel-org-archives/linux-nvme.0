@@ -1,22 +1,26 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 13 Dec 2018 13:01:25 -0700
-Subject: [GIT PULL] second batch of nvme updates for 4.21
-In-Reply-To: <20181213195607.GA7751@infradead.org>
-References: <20181213195607.GA7751@infradead.org>
-Message-ID: <7fb2a1a7-5aa9-3a06-6418-76c6a1f2a474@kernel.dk>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 13 Dec 2018 21:10:38 +0100
+Subject: [PATCH 1/3] nvmet-tcp: fix endianess annotations
+In-Reply-To: <631dd9ef-5ce6-27d4-8a4f-ca625cc816bb@grimberg.me>
+References: <20181213085107.17183-1-hch@lst.de>
+ <20181213085107.17183-2-hch@lst.de>
+ <631dd9ef-5ce6-27d4-8a4f-ca625cc816bb@grimberg.me>
+Message-ID: <20181213201038.GC15478@lst.de>
 
-On 12/13/18 12:56 PM, Christoph Hellwig wrote:
-> Hi Jens,
-> 
-> here is the second large chunk of nvme updates for 4.21:
-> 
->  - host and target support for NVMe over TCP (Sagi Grimberg,
-> 	Roy Shterman, Solganik Alexander)
->  - error log page support in target (Chaitanya Kulkarni)
-> 
-> plus small fixes and improvements from Jens Axboe and Chengguang Xu.
+On Thu, Dec 13, 2018@08:42:15AM -0800, Sagi Grimberg wrote:
+>
+>> @@ -776,7 +776,7 @@ static int nvmet_tcp_handle_icreq(struct nvmet_tcp_queue *queue)
+>>   	icresp->hdr.pdo = 0;
+>>   	icresp->hdr.plen = cpu_to_le32(icresp->hdr.hlen);
+>>   	icresp->pfv = cpu_to_le16(NVME_TCP_PFV_1_0);
+>> -	icresp->maxdata = 0xffff; /* FIXME: support r2t */
+>> +	icresp->maxdata = cpu_to_le32(0xffff); /* FIXME: support r2t */
+>>   	icresp->cpda = 0;
+>>   	if (queue->hdr_digest)
+>>   		icresp->digest |= NVME_TCP_HDR_DIGEST_ENABLE;
+>
+> This needs an actual fix, we need to send 0xffffffff as we don't have
+> this any limitation..
 
-Pulled, thanks.
-
--- 
-Jens Axboe
+Please either send a fix on top of this, or if you want separately
+and I'll rebase.
