@@ -1,107 +1,110 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 12 Dec 2018 22:38:13 -0800
-Subject: [PATCH v2 1/6] block: introduce blk_execute_rq_polled
+Date: Wed, 12 Dec 2018 22:38:15 -0800
+Subject: [PATCH v2 3/6] nvme-fabrics: allow nvmf_connect_io_queue to poll
 In-Reply-To: <20181213063819.13614-1-sagi@grimberg.me>
 References: <20181213063819.13614-1-sagi@grimberg.me>
-Message-ID: <20181213063819.13614-2-sagi@grimberg.me>
+Message-ID: <20181213063819.13614-4-sagi@grimberg.me>
 
-Used forsynchronous requests that needs polling. If we are knowingly
-sending a request down to a poll queue, we need a synchronous interface
-to poll for its completion.
+Preparation for polling support for fabrics. Polling support
+means that our completion queues are not generating any interrupts
+which means we need to poll for the nvmf io queue connect as well.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- block/blk-exec.c       | 29 +++++++++++++++++++++++++++++
- block/blk-mq.c         |  8 --------
- include/linux/blk-mq.h |  8 ++++++++
- include/linux/blkdev.h |  2 ++
- 4 files changed, 39 insertions(+), 8 deletions(-)
+ drivers/nvme/host/fabrics.c | 4 ++--
+ drivers/nvme/host/fabrics.h | 2 +-
+ drivers/nvme/host/fc.c      | 2 +-
+ drivers/nvme/host/rdma.c    | 2 +-
+ drivers/nvme/host/tcp.c     | 2 +-
+ drivers/nvme/target/loop.c  | 2 +-
+ 6 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/block/blk-exec.c b/block/blk-exec.c
-index a34b7d918742..572032d60001 100644
---- a/block/blk-exec.c
-+++ b/block/blk-exec.c
-@@ -90,3 +90,32 @@ void blk_execute_rq(struct request_queue *q, struct gendisk *bd_disk,
- 		wait_for_completion_io(&wait);
- }
- EXPORT_SYMBOL(blk_execute_rq);
-+
-+/**
-+ * blk_execute_rq_polled - execute a request and poll for its completion
-+ * @q:		queue to insert the request in
-+ * @bd_disk:	matching gendisk
-+ * @rq:		request to insert
-+ * @at_head:    insert request at head or tail of queue
-+ *
-+ * Description:
-+ *    Insert a fully prepared request at the back of the I/O scheduler queue
-+ *    for execution and wait for completion.
-+ */
-+void blk_execute_rq_polled(struct request_queue *q, struct gendisk *bd_disk,
-+		   struct request *rq, int at_head)
-+{
-+	DECLARE_COMPLETION_ONSTACK(wait);
-+
-+	WARN_ON_ONCE(!test_bit(QUEUE_FLAG_POLL, &q->queue_flags));
-+
-+	rq->cmd_flags |= REQ_HIPRI;
-+	rq->end_io_data = &wait;
-+	blk_execute_rq_nowait(q, bd_disk, rq, at_head, blk_end_sync_rq);
-+
-+	while (!completion_done(&wait)) {
-+		blk_poll(q, request_to_qc_t(rq->mq_hctx, rq), true);
-+		cond_resched();
-+	}
-+}
-+EXPORT_SYMBOL(blk_execute_rq_polled);
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 65770da99159..65d3f3a69c0d 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -1747,14 +1747,6 @@ static void blk_mq_bio_to_request(struct request *rq, struct bio *bio)
- 	blk_account_io_start(rq, true);
- }
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index d93a169f6403..5ff14f46a8d9 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -441,7 +441,7 @@ EXPORT_SYMBOL_GPL(nvmf_connect_admin_queue);
+  *	> 0: NVMe error status code
+  *	< 0: Linux errno error code
+  */
+-int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
++int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid, bool poll)
+ {
+ 	struct nvme_command cmd;
+ 	struct nvmf_connect_data *data;
+@@ -468,7 +468,7 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
  
--static blk_qc_t request_to_qc_t(struct blk_mq_hw_ctx *hctx, struct request *rq)
--{
--	if (rq->tag != -1)
--		return blk_tag_to_qc_t(rq->tag, hctx->queue_num, false);
--
--	return blk_tag_to_qc_t(rq->internal_tag, hctx->queue_num, true);
--}
--
- static blk_status_t __blk_mq_issue_directly(struct blk_mq_hw_ctx *hctx,
- 					    struct request *rq,
- 					    blk_qc_t *cookie, bool last)
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 57eda7b20243..c77cba1ec0f5 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -357,4 +357,12 @@ static inline void *blk_mq_rq_to_pdu(struct request *rq)
- 	for ((i) = 0; (i) < (hctx)->nr_ctx &&				\
- 	     ({ ctx = (hctx)->ctxs[(i)]; 1; }); (i)++)
+ 	ret = __nvme_submit_sync_cmd(ctrl->connect_q, &cmd, &res,
+ 			data, sizeof(*data), 0, qid, 1,
+-			BLK_MQ_REQ_RESERVED | BLK_MQ_REQ_NOWAIT, false);
++			BLK_MQ_REQ_RESERVED | BLK_MQ_REQ_NOWAIT, poll);
+ 	if (ret) {
+ 		nvmf_log_connect_error(ctrl, ret, le32_to_cpu(res.u32),
+ 				       &cmd, data);
+diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+index 81b8fd1c0c5d..cad70a9f976a 100644
+--- a/drivers/nvme/host/fabrics.h
++++ b/drivers/nvme/host/fabrics.h
+@@ -168,7 +168,7 @@ int nvmf_reg_read32(struct nvme_ctrl *ctrl, u32 off, u32 *val);
+ int nvmf_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val);
+ int nvmf_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val);
+ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl);
+-int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid);
++int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid, bool poll);
+ int nvmf_register_transport(struct nvmf_transport_ops *ops);
+ void nvmf_unregister_transport(struct nvmf_transport_ops *ops);
+ void nvmf_free_options(struct nvmf_ctrl_options *opts);
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index b79e41938513..89accc76d71c 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -1975,7 +1975,7 @@ nvme_fc_connect_io_queues(struct nvme_fc_ctrl *ctrl, u16 qsize)
+ 					(qsize / 5));
+ 		if (ret)
+ 			break;
+-		ret = nvmf_connect_io_queue(&ctrl->ctrl, i);
++		ret = nvmf_connect_io_queue(&ctrl->ctrl, i, false);
+ 		if (ret)
+ 			break;
  
-+static inline blk_qc_t request_to_qc_t(struct blk_mq_hw_ctx *hctx, struct request *rq)
-+{
-+	if (rq->tag != -1)
-+		return blk_tag_to_qc_t(rq->tag, hctx->queue_num, false);
-+
-+	return blk_tag_to_qc_t(rq->internal_tag, hctx->queue_num, true);
-+}
-+
- #endif
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 81f1b105946b..9f48d8855916 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -860,6 +860,8 @@ extern void blk_execute_rq(struct request_queue *, struct gendisk *,
- 			  struct request *, int);
- extern void blk_execute_rq_nowait(struct request_queue *, struct gendisk *,
- 				  struct request *, int, rq_end_io_fn *);
-+void blk_execute_rq_polled(struct request_queue *q, struct gendisk *bd_disk,
-+		   struct request *rq, int at_head);
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index ed726da77b5b..b907ed43814f 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -598,7 +598,7 @@ static int nvme_rdma_start_queue(struct nvme_rdma_ctrl *ctrl, int idx)
+ 	int ret;
  
- int blk_status_to_errno(blk_status_t status);
- blk_status_t errno_to_blk_status(int errno);
+ 	if (idx)
+-		ret = nvmf_connect_io_queue(&ctrl->ctrl, idx);
++		ret = nvmf_connect_io_queue(&ctrl->ctrl, idx, false);
+ 	else
+ 		ret = nvmf_connect_admin_queue(&ctrl->ctrl);
+ 
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 51826479a41e..762a676403ef 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1393,7 +1393,7 @@ static int nvme_tcp_start_queue(struct nvme_ctrl *nctrl, int idx)
+ 	int ret;
+ 
+ 	if (idx)
+-		ret = nvmf_connect_io_queue(nctrl, idx);
++		ret = nvmf_connect_io_queue(nctrl, idx, false);
+ 	else
+ 		ret = nvmf_connect_admin_queue(nctrl);
+ 
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index 9908082b32c4..4aac1b4a8112 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -345,7 +345,7 @@ static int nvme_loop_connect_io_queues(struct nvme_loop_ctrl *ctrl)
+ 	int i, ret;
+ 
+ 	for (i = 1; i < ctrl->ctrl.queue_count; i++) {
+-		ret = nvmf_connect_io_queue(&ctrl->ctrl, i);
++		ret = nvmf_connect_io_queue(&ctrl->ctrl, i, false);
+ 		if (ret)
+ 			return ret;
+ 		set_bit(NVME_LOOP_Q_LIVE, &ctrl->queues[i].flags);
 -- 
 2.17.1
