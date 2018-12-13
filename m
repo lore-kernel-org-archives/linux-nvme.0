@@ -1,36 +1,55 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 13 Dec 2018 09:51:05 +0100
-Subject: [PATCH 1/3] nvmet-tcp: fix endianess annotations
+Date: Thu, 13 Dec 2018 09:51:06 +0100
+Subject: [PATCH 2/3] nvmet-tcp: fix endianess annotations
 In-Reply-To: <20181213085107.17183-1-hch@lst.de>
 References: <20181213085107.17183-1-hch@lst.de>
-Message-ID: <20181213085107.17183-2-hch@lst.de>
+Message-ID: <20181213085107.17183-3-hch@lst.de>
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/target/tcp.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/nvme/host/tcp.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index d31bec260160..44b37b202e39 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -758,7 +758,7 @@ static int nvmet_tcp_handle_icreq(struct nvmet_tcp_queue *queue)
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 15543358e245..5b64051671ca 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -35,7 +35,7 @@ struct nvme_tcp_request {
+ 	u32			pdu_sent;
+ 	u16			ttag;
+ 	struct list_head	entry;
+-	u32			ddgst;
++	__le32			ddgst;
  
- 	if (icreq->maxr2t != 0) {
- 		pr_err("queue %d: unsupported maxr2t %d\n", queue->idx,
--			le16_to_cpu(icreq->maxr2t) + 1);
-+			le32_to_cpu(icreq->maxr2t) + 1);
- 		return -EPROTO;
+ 	struct bio		*curr_bio;
+ 	struct iov_iter		iter;
+@@ -272,7 +272,8 @@ nvme_tcp_fetch_request(struct nvme_tcp_queue *queue)
+ 	return req;
+ }
+ 
+-static inline void nvme_tcp_ddgst_final(struct ahash_request *hash, u32 *dgst)
++static inline void nvme_tcp_ddgst_final(struct ahash_request *hash,
++		__le32 *dgst)
+ {
+ 	ahash_request_set_crypt(hash, NULL, (u8 *)dgst, 0);
+ 	crypto_ahash_final(hash);
+@@ -817,7 +818,7 @@ static void nvme_tcp_fail_request(struct nvme_tcp_request *req)
+ 	union nvme_result res = {};
+ 
+ 	nvme_end_request(blk_mq_rq_from_pdu(req),
+-		NVME_SC_DATA_XFER_ERROR, res);
++		cpu_to_le16(NVME_SC_DATA_XFER_ERROR), res);
+ }
+ 
+ static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
+@@ -1950,7 +1951,7 @@ nvme_tcp_timeout(struct request *rq, bool reserved)
+ 		union nvme_result res = {};
+ 
+ 		nvme_req(rq)->flags |= NVME_REQ_CANCELLED;
+-		nvme_end_request(rq, NVME_SC_ABORT_REQ, res);
++		nvme_end_request(rq, cpu_to_le16(NVME_SC_ABORT_REQ), res);
+ 		return BLK_EH_DONE;
  	}
  
-@@ -776,7 +776,7 @@ static int nvmet_tcp_handle_icreq(struct nvmet_tcp_queue *queue)
- 	icresp->hdr.pdo = 0;
- 	icresp->hdr.plen = cpu_to_le32(icresp->hdr.hlen);
- 	icresp->pfv = cpu_to_le16(NVME_TCP_PFV_1_0);
--	icresp->maxdata = 0xffff; /* FIXME: support r2t */
-+	icresp->maxdata = cpu_to_le32(0xffff); /* FIXME: support r2t */
- 	icresp->cpda = 0;
- 	if (queue->hdr_digest)
- 		icresp->digest |= NVME_TCP_HDR_DIGEST_ENABLE;
 -- 
 2.19.2
