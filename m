@@ -1,19 +1,34 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Thu, 13 Dec 2018 09:25:00 -0600
-Subject: [PATCH v2 3/6] nvme-fabrics: allow nvmf_connect_io_queue to poll
-In-Reply-To: <20181213063819.13614-4-sagi@grimberg.me>
-References: <20181213063819.13614-1-sagi@grimberg.me>
- <20181213063819.13614-4-sagi@grimberg.me>
-Message-ID: <89faa415-cbbb-d3d1-10f5-5eca509f1479@opengridcomputing.com>
+From: cascardo@canonical.com (Thadeu Lima de Souza Cascardo)
+Date: Thu, 13 Dec 2018 13:25:33 -0200
+Subject: [PATCH 4/4] block: expose devt for GENHD_FL_HIDDEN disks
+In-Reply-To: <20181213143218.GA8723@lst.de>
+References: <20181206164812.30925-1-cascardo@canonical.com>
+ <20181206164812.30925-5-cascardo@canonical.com>
+ <b3ef062d-3bc3-fdf8-f395-31d1822a3192@suse.de>
+ <20181213143218.GA8723@lst.de>
+Message-ID: <20181213152532.GA5321@calabresa>
 
+On Thu, Dec 13, 2018@03:32:18PM +0100, Christoph Hellwig wrote:
+> On Thu, Dec 13, 2018@10:18:40AM +0100, Hannes Reinecke wrote:
+> > Welll ... this is not just 'lsblk', but more importantly this will force 
+> > udev to create _block_ device nodes for the hidden devices, essentially 
+> > 'unhide' them.
+> >
+> > Is this what we want?
+> > Christoph?
+> > I thought the entire _point_ of having hidden devices is that the are ... 
+> > well ... hidden ...
+> 
+> Yes, that is why I really don't like the last two patches.
+> 
+> And I've checked back - lsblk actually works just fine at the moment.
+> But it turns out once we create the slave links it stops working,
+> which is a really good argument against the first two patches, which
+> would otherwise seem nice..
 
-On 12/13/2018 12:38 AM, Sagi Grimberg wrote:
-> Preparation for polling support for fabrics. Polling support
-> means that our completion queues are not generating any interrupts
-> which means we need to poll for the nvmf io queue connect as well.
->
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+Which is why I have sent the "paths/" patchset in the first place. Because I
+did some homework and read the previous discussion about this, and how lsblk
+failure to behave with slave links led to the revert of the slaves/holders
+patch by Dr. Hannes.
 
-Looks good.
-
-Reviewed by Steve Wise <swise at opengridcomputing.com>
+Cascardo.
