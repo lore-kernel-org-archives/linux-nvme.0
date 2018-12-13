@@ -1,70 +1,47 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Wed, 12 Dec 2018 23:28:35 -0500
-Subject: [PATCH AUTOSEL 4.19 70/73] nvme: validate controller state before
- rescheduling keep alive
-In-Reply-To: <20181213042838.75160-1-sashal@kernel.org>
-References: <20181213042838.75160-1-sashal@kernel.org>
-Message-ID: <20181213042838.75160-70-sashal@kernel.org>
+Date: Wed, 12 Dec 2018 23:30:53 -0500
+Subject: [PATCH AUTOSEL 4.14 40/41] nvmet-rdma: fix response use after free
+In-Reply-To: <20181213043054.75891-1-sashal@kernel.org>
+References: <20181213043054.75891-1-sashal@kernel.org>
+Message-ID: <20181213043054.75891-40-sashal@kernel.org>
 
-From: James Smart <jsmart2021@gmail.com>
+From: Israel Rukshin <israelr@mellanox.com>
 
-[ Upstream commit 86880d646122240596d6719b642fee3213239994 ]
+[ Upstream commit d7dcdf9d4e15189ecfda24cc87339a3425448d5c ]
 
-Delete operations are seeing NULL pointer references in call_timer_fn.
-Tracking these back, the timer appears to be the keep alive timer.
+nvmet_rdma_release_rsp() may free the response before using it at error
+flow.
 
-nvme_keep_alive_work() which is tied to the timer that is cancelled
-by nvme_stop_keep_alive(), simply starts the keep alive io but doesn't
-wait for it's completion. So nvme_stop_keep_alive() only stops a timer
-when it's pending. When a keep alive is in flight, there is no timer
-running and the nvme_stop_keep_alive() will have no affect on the keep
-alive io. Thus, if the io completes successfully, the keep alive timer
-will be rescheduled.   In the failure case, delete is called, the
-controller state is changed, the nvme_stop_keep_alive() is called while
-the io is outstanding, and the delete path continues on. The keep
-alive happens to successfully complete before the delete paths mark it
-as aborted as part of the queue termination, so the timer is restarted.
-The delete paths then tear down the controller, and later on the timer
-code fires and the timer entry is now corrupt.
-
-Fix by validating the controller state before rescheduling the keep
-alive. Testing with the fix has confirmed the condition above was hit.
-
-Signed-off-by: James Smart <jsmart2021 at gmail.com>
+Fixes: 8407879 ("nvmet-rdma: fix possible bogus dereference under heavy load")
+Signed-off-by: Israel Rukshin <israelr at mellanox.com>
 Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 Signed-off-by: Sasha Levin <sashal at kernel.org>
 ---
- drivers/nvme/host/core.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ drivers/nvme/target/rdma.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 0ba301f7e8b4..05bd7f49d6e0 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -831,6 +831,8 @@ static int nvme_submit_user_cmd(struct request_queue *q,
- static void nvme_keep_alive_end_io(struct request *rq, blk_status_t status)
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index a70b3d24936d..5d8140e58f6f 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -524,6 +524,7 @@ static void nvmet_rdma_send_done(struct ib_cq *cq, struct ib_wc *wc)
  {
- 	struct nvme_ctrl *ctrl = rq->end_io_data;
-+	unsigned long flags;
-+	bool startka = false;
+ 	struct nvmet_rdma_rsp *rsp =
+ 		container_of(wc->wr_cqe, struct nvmet_rdma_rsp, send_cqe);
++	struct nvmet_rdma_queue *queue = cq->cq_context;
  
- 	blk_mq_free_request(rq);
+ 	nvmet_rdma_release_rsp(rsp);
  
-@@ -841,7 +843,13 @@ static void nvme_keep_alive_end_io(struct request *rq, blk_status_t status)
- 		return;
+@@ -531,7 +532,7 @@ static void nvmet_rdma_send_done(struct ib_cq *cq, struct ib_wc *wc)
+ 		     wc->status != IB_WC_WR_FLUSH_ERR)) {
+ 		pr_err("SEND for CQE 0x%p failed with status %s (%d).\n",
+ 			wc->wr_cqe, ib_wc_status_msg(wc->status), wc->status);
+-		nvmet_rdma_error_comp(rsp->queue);
++		nvmet_rdma_error_comp(queue);
  	}
- 
--	schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
-+	spin_lock_irqsave(&ctrl->lock, flags);
-+	if (ctrl->state == NVME_CTRL_LIVE ||
-+	    ctrl->state == NVME_CTRL_CONNECTING)
-+		startka = true;
-+	spin_unlock_irqrestore(&ctrl->lock, flags);
-+	if (startka)
-+		schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
  }
  
- static int nvme_keep_alive(struct nvme_ctrl *ctrl)
 -- 
 2.19.1
