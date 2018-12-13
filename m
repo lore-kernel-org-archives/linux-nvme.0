@@ -1,134 +1,178 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 12 Dec 2018 22:38:14 -0800
-Subject: [PATCH v2 2/6] nvme-core: allow __nvme_submit_sync_cmd to poll
+Date: Wed, 12 Dec 2018 22:38:17 -0800
+Subject: [PATCH v2 5/6] nvme-rdma: implement polling queue map
 In-Reply-To: <20181213063819.13614-1-sagi@grimberg.me>
 References: <20181213063819.13614-1-sagi@grimberg.me>
-Message-ID: <20181213063819.13614-3-sagi@grimberg.me>
+Message-ID: <20181213063819.13614-6-sagi@grimberg.me>
 
-Pass poll bool to indicate that we need it to poll. This prepares us for
-polling support in nvmf since connect is an I/O that will be queued
-and has to be polled in order to complete.
+When passed with nr_poll_queues setup additional queues with cq polling
+context IB_POLL_DIRECT (no interrupts) and make sure to set
+QUEUE_FLAG_POLL on the connect_q. In addition add the third queue
+mapping for polling queues.
+
+nvmf connect on this queue is polled for like all other requests so make
+nvmf_connect_io_queue poll for polling queues.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/core.c    | 13 ++++++++-----
- drivers/nvme/host/fabrics.c | 10 +++++-----
- drivers/nvme/host/nvme.h    |  2 +-
- 3 files changed, 14 insertions(+), 11 deletions(-)
+ drivers/nvme/host/rdma.c | 58 +++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 52 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index f90576862736..eb1c10b0eaf0 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -713,7 +713,7 @@ EXPORT_SYMBOL_GPL(nvme_setup_cmd);
- int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- 		union nvme_result *result, void *buffer, unsigned bufflen,
- 		unsigned timeout, int qid, int at_head,
--		blk_mq_req_flags_t flags)
-+		blk_mq_req_flags_t flags, bool poll)
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index b907ed43814f..80b3113b45fb 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -162,6 +162,13 @@ static inline int nvme_rdma_queue_idx(struct nvme_rdma_queue *queue)
+ 	return queue - queue->ctrl->queues;
+ }
+ 
++static bool nvme_rdma_poller_queue(struct nvme_rdma_queue *queue)
++{
++	return nvme_rdma_queue_idx(queue) >
++		queue->ctrl->ctrl.opts->nr_io_queues +
++		queue->ctrl->ctrl.opts->nr_write_queues;
++}
++
+ static inline size_t nvme_rdma_inline_data_size(struct nvme_rdma_queue *queue)
  {
- 	struct request *req;
+ 	return queue->cmnd_capsule_len - sizeof(struct nvme_command);
+@@ -440,6 +447,7 @@ static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue)
+ 	const int send_wr_factor = 3;			/* MR, SEND, INV */
+ 	const int cq_factor = send_wr_factor + 1;	/* + RECV */
+ 	int comp_vector, idx = nvme_rdma_queue_idx(queue);
++	enum ib_poll_context poll_ctx;
  	int ret;
-@@ -730,7 +730,10 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- 			goto out;
+ 
+ 	queue->device = nvme_rdma_find_get_device(queue->cm_id);
+@@ -456,10 +464,16 @@ static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue)
+ 	 */
+ 	comp_vector = idx == 0 ? idx : idx - 1;
+ 
++	/* Polling queues need direct cq polling context */
++	if (nvme_rdma_poller_queue(queue))
++		poll_ctx = IB_POLL_DIRECT;
++	else
++		poll_ctx = IB_POLL_SOFTIRQ;
++
+ 	/* +1 for ib_stop_cq */
+ 	queue->ib_cq = ib_alloc_cq(ibdev, queue,
+ 				cq_factor * queue->queue_size + 1,
+-				comp_vector, IB_POLL_SOFTIRQ);
++				comp_vector, poll_ctx);
+ 	if (IS_ERR(queue->ib_cq)) {
+ 		ret = PTR_ERR(queue->ib_cq);
+ 		goto out_put_dev;
+@@ -595,15 +609,17 @@ static void nvme_rdma_stop_io_queues(struct nvme_rdma_ctrl *ctrl)
+ 
+ static int nvme_rdma_start_queue(struct nvme_rdma_ctrl *ctrl, int idx)
+ {
++	struct nvme_rdma_queue *queue = &ctrl->queues[idx];
++	bool poll = nvme_rdma_poller_queue(queue);
+ 	int ret;
+ 
+ 	if (idx)
+-		ret = nvmf_connect_io_queue(&ctrl->ctrl, idx, false);
++		ret = nvmf_connect_io_queue(&ctrl->ctrl, idx, poll);
+ 	else
+ 		ret = nvmf_connect_admin_queue(&ctrl->ctrl);
+ 
+ 	if (!ret)
+-		set_bit(NVME_RDMA_Q_LIVE, &ctrl->queues[idx].flags);
++		set_bit(NVME_RDMA_Q_LIVE, &queue->flags);
+ 	else
+ 		dev_info(ctrl->ctrl.device,
+ 			"failed to connect queue: %d ret=%d\n", idx, ret);
+@@ -646,6 +662,7 @@ static int nvme_rdma_alloc_io_queues(struct nvme_rdma_ctrl *ctrl)
+ 				ibdev->num_comp_vectors);
+ 
+ 	nr_io_queues += min(opts->nr_write_queues, num_online_cpus());
++	nr_io_queues += min(opts->nr_poll_queues, num_online_cpus());
+ 
+ 	ret = nvme_set_queue_count(&ctrl->ctrl, &nr_io_queues);
+ 	if (ret)
+@@ -716,7 +733,7 @@ static struct blk_mq_tag_set *nvme_rdma_alloc_tagset(struct nvme_ctrl *nctrl,
+ 		set->driver_data = ctrl;
+ 		set->nr_hw_queues = nctrl->queue_count - 1;
+ 		set->timeout = NVME_IO_TIMEOUT;
+-		set->nr_maps = 2 /* default + read */;
++		set->nr_maps = HCTX_MAX_TYPES;
  	}
  
--	blk_execute_rq(req->q, NULL, req, at_head);
-+	if (poll)
-+		blk_execute_rq_polled(req->q, NULL, req, at_head);
-+	else
-+		blk_execute_rq(req->q, NULL, req, at_head);
- 	if (result)
- 		*result = nvme_req(req)->result;
- 	if (nvme_req(req)->flags & NVME_REQ_CANCELLED)
-@@ -747,7 +750,7 @@ int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- 		void *buffer, unsigned bufflen)
+ 	ret = blk_mq_alloc_tag_set(set);
+@@ -864,6 +881,10 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
+ 			ret = PTR_ERR(ctrl->ctrl.connect_q);
+ 			goto out_free_tag_set;
+ 		}
++
++		if (ctrl->ctrl.opts->nr_poll_queues)
++			blk_queue_flag_set(QUEUE_FLAG_POLL,
++				ctrl->ctrl.connect_q);
+ 	} else {
+ 		blk_mq_update_nr_hw_queues(&ctrl->tag_set,
+ 			ctrl->ctrl.queue_count - 1);
+@@ -1742,6 +1763,14 @@ static blk_status_t nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	return BLK_STS_IOERR;
+ }
+ 
++static int nvme_rdma_poll(struct blk_mq_hw_ctx *hctx)
++{
++	struct nvme_rdma_queue *queue = hctx->driver_data;
++	struct ib_cq *cq = queue->ib_cq;
++
++	return ib_process_cq_direct(cq, -1);
++}
++
+ static void nvme_rdma_complete_rq(struct request *rq)
  {
- 	return __nvme_submit_sync_cmd(q, cmd, NULL, buffer, bufflen, 0,
--			NVME_QID_ANY, 0, 0);
-+			NVME_QID_ANY, 0, 0, false);
+ 	struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
+@@ -1772,6 +1801,21 @@ static int nvme_rdma_map_queues(struct blk_mq_tag_set *set)
+ 			ctrl->device->dev, 0);
+ 	blk_mq_rdma_map_queues(&set->map[HCTX_TYPE_READ],
+ 			ctrl->device->dev, 0);
++
++	if (ctrl->ctrl.opts->nr_poll_queues) {
++		set->map[HCTX_TYPE_POLL].nr_queues =
++				ctrl->ctrl.opts->nr_poll_queues;
++		set->map[HCTX_TYPE_POLL].queue_offset =
++				ctrl->ctrl.opts->nr_io_queues;
++		if (ctrl->ctrl.opts->nr_write_queues)
++			set->map[HCTX_TYPE_POLL].queue_offset +=
++				ctrl->ctrl.opts->nr_write_queues;
++	} else {
++		set->map[HCTX_TYPE_POLL].nr_queues =
++				ctrl->ctrl.opts->nr_io_queues;
++		set->map[HCTX_TYPE_POLL].queue_offset = 0;
++	}
++	blk_mq_map_queues(&set->map[HCTX_TYPE_POLL]);
+ 	return 0;
  }
- EXPORT_SYMBOL_GPL(nvme_submit_sync_cmd);
  
-@@ -1058,7 +1061,7 @@ static int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword
- 	c.features.dword11 = cpu_to_le32(dword11);
+@@ -1783,6 +1827,7 @@ static const struct blk_mq_ops nvme_rdma_mq_ops = {
+ 	.init_hctx	= nvme_rdma_init_hctx,
+ 	.timeout	= nvme_rdma_timeout,
+ 	.map_queues	= nvme_rdma_map_queues,
++	.poll		= nvme_rdma_poll,
+ };
  
- 	ret = __nvme_submit_sync_cmd(dev->admin_q, &c, &res,
--			buffer, buflen, 0, NVME_QID_ANY, 0, 0);
-+			buffer, buflen, 0, NVME_QID_ANY, 0, 0, false);
- 	if (ret >= 0 && result)
- 		*result = le32_to_cpu(res.u32);
- 	return ret;
-@@ -1703,7 +1706,7 @@ int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
- 	cmd.common.cdw10[1] = cpu_to_le32(len);
+ static const struct blk_mq_ops nvme_rdma_admin_mq_ops = {
+@@ -1927,7 +1972,8 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
+ 	INIT_WORK(&ctrl->err_work, nvme_rdma_error_recovery_work);
+ 	INIT_WORK(&ctrl->ctrl.reset_work, nvme_rdma_reset_ctrl_work);
  
- 	return __nvme_submit_sync_cmd(ctrl->admin_q, &cmd, NULL, buffer, len,
--				      ADMIN_TIMEOUT, NVME_QID_ANY, 1, 0);
-+				      ADMIN_TIMEOUT, NVME_QID_ANY, 1, 0, false);
- }
- EXPORT_SYMBOL_GPL(nvme_sec_submit);
- #endif /* CONFIG_BLK_SED_OPAL */
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 19ff0eae4582..d93a169f6403 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -159,7 +159,7 @@ int nvmf_reg_read32(struct nvme_ctrl *ctrl, u32 off, u32 *val)
- 	cmd.prop_get.offset = cpu_to_le32(off);
+-	ctrl->ctrl.queue_count = opts->nr_io_queues + opts->nr_write_queues + 1;
++	ctrl->ctrl.queue_count = opts->nr_io_queues + opts->nr_write_queues +
++				opts->nr_poll_queues + 1;
+ 	ctrl->ctrl.sqsize = opts->queue_size - 1;
+ 	ctrl->ctrl.kato = opts->kato;
  
- 	ret = __nvme_submit_sync_cmd(ctrl->admin_q, &cmd, &res, NULL, 0, 0,
--			NVME_QID_ANY, 0, 0);
-+			NVME_QID_ANY, 0, 0, false);
+@@ -1979,7 +2025,7 @@ static struct nvmf_transport_ops nvme_rdma_transport = {
+ 	.required_opts	= NVMF_OPT_TRADDR,
+ 	.allowed_opts	= NVMF_OPT_TRSVCID | NVMF_OPT_RECONNECT_DELAY |
+ 			  NVMF_OPT_HOST_TRADDR | NVMF_OPT_CTRL_LOSS_TMO |
+-			  NVMF_OPT_NR_WRITE_QUEUES,
++			  NVMF_OPT_NR_WRITE_QUEUES | NVMF_OPT_NR_POLL_QUEUES,
+ 	.create_ctrl	= nvme_rdma_create_ctrl,
+ };
  
- 	if (ret >= 0)
- 		*val = le64_to_cpu(res.u64);
-@@ -206,7 +206,7 @@ int nvmf_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val)
- 	cmd.prop_get.offset = cpu_to_le32(off);
- 
- 	ret = __nvme_submit_sync_cmd(ctrl->admin_q, &cmd, &res, NULL, 0, 0,
--			NVME_QID_ANY, 0, 0);
-+			NVME_QID_ANY, 0, 0, false);
- 
- 	if (ret >= 0)
- 		*val = le64_to_cpu(res.u64);
-@@ -252,7 +252,7 @@ int nvmf_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val)
- 	cmd.prop_set.value = cpu_to_le64(val);
- 
- 	ret = __nvme_submit_sync_cmd(ctrl->admin_q, &cmd, NULL, NULL, 0, 0,
--			NVME_QID_ANY, 0, 0);
-+			NVME_QID_ANY, 0, 0, false);
- 	if (unlikely(ret))
- 		dev_err(ctrl->device,
- 			"Property Set error: %d, offset %#x\n",
-@@ -406,7 +406,7 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
- 
- 	ret = __nvme_submit_sync_cmd(ctrl->admin_q, &cmd, &res,
- 			data, sizeof(*data), 0, NVME_QID_ANY, 1,
--			BLK_MQ_REQ_RESERVED | BLK_MQ_REQ_NOWAIT);
-+			BLK_MQ_REQ_RESERVED | BLK_MQ_REQ_NOWAIT, false);
- 	if (ret) {
- 		nvmf_log_connect_error(ctrl, ret, le32_to_cpu(res.u32),
- 				       &cmd, data);
-@@ -468,7 +468,7 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
- 
- 	ret = __nvme_submit_sync_cmd(ctrl->connect_q, &cmd, &res,
- 			data, sizeof(*data), 0, qid, 1,
--			BLK_MQ_REQ_RESERVED | BLK_MQ_REQ_NOWAIT);
-+			BLK_MQ_REQ_RESERVED | BLK_MQ_REQ_NOWAIT, false);
- 	if (ret) {
- 		nvmf_log_connect_error(ctrl, ret, le32_to_cpu(res.u32),
- 				       &cmd, data);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 8e0ec365ce8d..75ed640a5ef0 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -444,7 +444,7 @@ int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- 		union nvme_result *result, void *buffer, unsigned bufflen,
- 		unsigned timeout, int qid, int at_head,
--		blk_mq_req_flags_t flags);
-+		blk_mq_req_flags_t flags, bool flag);
- int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count);
- void nvme_stop_keep_alive(struct nvme_ctrl *ctrl);
- int nvme_reset_ctrl(struct nvme_ctrl *ctrl);
 -- 
 2.17.1
