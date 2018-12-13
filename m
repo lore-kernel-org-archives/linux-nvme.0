@@ -1,18 +1,18 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 13 Dec 2018 09:27:32 +0100
-Subject: [PATCH v2 2/6] nvme-core: allow __nvme_submit_sync_cmd to poll
-In-Reply-To: <20181213063819.13614-3-sagi@grimberg.me>
+Date: Thu, 13 Dec 2018 09:27:56 +0100
+Subject: [PATCH v2 3/6] nvme-fabrics: allow nvmf_connect_io_queue to poll
+In-Reply-To: <20181213063819.13614-4-sagi@grimberg.me>
 References: <20181213063819.13614-1-sagi@grimberg.me>
- <20181213063819.13614-3-sagi@grimberg.me>
-Message-ID: <20181213082732.GB869@lst.de>
+ <20181213063819.13614-4-sagi@grimberg.me>
+Message-ID: <20181213082756.GC869@lst.de>
 
-On Wed, Dec 12, 2018@10:38:14PM -0800, Sagi Grimberg wrote:
-> Pass poll bool to indicate that we need it to poll. This prepares us for
-> polling support in nvmf since connect is an I/O that will be queued
-> and has to be polled in order to complete.
+On Wed, Dec 12, 2018@10:38:15PM -0800, Sagi Grimberg wrote:
+> Preparation for polling support for fabrics. Polling support
+> means that our completion queues are not generating any interrupts
+> which means we need to poll for the nvmf io queue connect as well.
+> 
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 
-I hate these bool parameters.  Maybe we just need a blk_execute_rq_flags
-that instead of the at_head paramter takes a flags paramter.  I guess
-for now this is ok, but I don't really like it:
+Looks good,
 
 Reviewed-by: Christoph Hellwig <hch at lst.de>
