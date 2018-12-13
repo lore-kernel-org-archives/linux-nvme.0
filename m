@@ -1,44 +1,28 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 13 Dec 2018 21:13:30 +0100
-Subject: [PATCH v2 6/6] nvme-multipath: disable polling for underlying
- namespace request queue
-In-Reply-To: <0c5c172f-9b34-3cba-37ab-a39ad9351da5@grimberg.me>
-References: <20181213063819.13614-1-sagi@grimberg.me>
- <20181213063819.13614-7-sagi@grimberg.me> <20181213083157.GD869@lst.de>
- <4f3f213e-9042-5963-d47d-0ee501bf94fa@grimberg.me>
- <20181213155235.GA10566@lst.de>
- <0c5c172f-9b34-3cba-37ab-a39ad9351da5@grimberg.me>
-Message-ID: <20181213201330.GD15478@lst.de>
+Date: Thu, 13 Dec 2018 21:20:16 +0100
+Subject: [PATCH 4/4] block: expose devt for GENHD_FL_HIDDEN disks
+In-Reply-To: <20181213152532.GA5321@calabresa>
+References: <20181206164812.30925-1-cascardo@canonical.com>
+ <20181206164812.30925-5-cascardo@canonical.com>
+ <b3ef062d-3bc3-fdf8-f395-31d1822a3192@suse.de> <20181213143218.GA8723@lst.de>
+ <20181213152532.GA5321@calabresa>
+Message-ID: <20181213202016.GA15992@lst.de>
 
-On Thu, Dec 13, 2018@08:14:57AM -0800, Sagi Grimberg wrote:
->>>> +	if (!test_bit(QUEUE_FLAG_POLL, &q->queue_flags))
->>>> +		bio->bi_opf &= ~REQ_HIPRI;
->>>> +
->>>
->>> Maybe we can simply check (q->queue_flags & (1 << QUEUE_FLAG_POLL)) and
->>> avoid the extra atomic operation in the host path?
->>>
->>> Would it make sense?
->>
->> test_bit is not usually implemented as an atomic operation.
->>
->> Take a look at e.g.
->>
->> arch/x86/include/asm/bitops.h:constant_test_bit()
->
-> Ah.. But its still read from volatile argument so still more expensive?
+On Thu, Dec 13, 2018@01:25:33PM -0200, Thadeu Lima de Souza Cascardo wrote:
+> > And I've checked back - lsblk actually works just fine at the moment.
+> > But it turns out once we create the slave links it stops working,
+> > which is a really good argument against the first two patches, which
+> > would otherwise seem nice..
+> 
+> Which is why I have sent the "paths/" patchset in the first place. Because I
+> did some homework and read the previous discussion about this, and how lsblk
+> failure to behave with slave links led to the revert of the slaves/holders
+> patch by Dr. Hannes.
 
-I don't think the volatile should make a difference.  I actually
-compiled both versions and the test_bit version generates a movq + testl
-insted of testb:
+Sorry, I did not actually notice that Hannes patch manually created
+the same slaves/holders link we otherwise create using the block layer
+APIs.  Had I realized those actually were the same that had saved
+me some work.
 
--	movq	120(%rbx), %rdx	# MEM[(const long unsigned int *)q_38 + 120B], _135
--	testl	$524288, %edx	#, _135
-+	testb	$8, 122(%rbx)	#, q_40->queue_flags
-
-But actually generates a larger object:
-
- 36966	   9470	     88	  46524	   b5bc	blk-core.o-opencode
- 36956	   9470	     88	  46514	   b5b2	blk-core.o-test-bit
-
-No idea what is going there.
+So I guess the v2 paths/ link patch from you is the least of all evils.
+Hannes, can you look over that one?
