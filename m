@@ -1,27 +1,21 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 13 Dec 2018 08:14:57 -0800
-Subject: [PATCH v2 6/6] nvme-multipath: disable polling for underlying
- namespace request queue
-In-Reply-To: <20181213155235.GA10566@lst.de>
-References: <20181213063819.13614-1-sagi@grimberg.me>
- <20181213063819.13614-7-sagi@grimberg.me> <20181213083157.GD869@lst.de>
- <4f3f213e-9042-5963-d47d-0ee501bf94fa@grimberg.me>
- <20181213155235.GA10566@lst.de>
-Message-ID: <0c5c172f-9b34-3cba-37ab-a39ad9351da5@grimberg.me>
+Date: Thu, 13 Dec 2018 08:42:15 -0800
+Subject: [PATCH 1/3] nvmet-tcp: fix endianess annotations
+In-Reply-To: <20181213085107.17183-2-hch@lst.de>
+References: <20181213085107.17183-1-hch@lst.de>
+ <20181213085107.17183-2-hch@lst.de>
+Message-ID: <631dd9ef-5ce6-27d4-8a4f-ca625cc816bb@grimberg.me>
 
->>> +	if (!test_bit(QUEUE_FLAG_POLL, &q->queue_flags))
->>> +		bio->bi_opf &= ~REQ_HIPRI;
->>> +
->>
->> Maybe we can simply check (q->queue_flags & (1 << QUEUE_FLAG_POLL)) and
->> avoid the extra atomic operation in the host path?
->>
->> Would it make sense?
-> 
-> test_bit is not usually implemented as an atomic operation.
-> 
-> Take a look at e.g.
-> 
-> arch/x86/include/asm/bitops.h:constant_test_bit()
 
-Ah.. But its still read from volatile argument so still more expensive?
+> @@ -776,7 +776,7 @@ static int nvmet_tcp_handle_icreq(struct nvmet_tcp_queue *queue)
+>   	icresp->hdr.pdo = 0;
+>   	icresp->hdr.plen = cpu_to_le32(icresp->hdr.hlen);
+>   	icresp->pfv = cpu_to_le16(NVME_TCP_PFV_1_0);
+> -	icresp->maxdata = 0xffff; /* FIXME: support r2t */
+> +	icresp->maxdata = cpu_to_le32(0xffff); /* FIXME: support r2t */
+>   	icresp->cpda = 0;
+>   	if (queue->hdr_digest)
+>   		icresp->digest |= NVME_TCP_HDR_DIGEST_ENABLE;
+
+This needs an actual fix, we need to send 0xffffffff as we don't have
+this any limitation..
