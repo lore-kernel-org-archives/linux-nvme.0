@@ -1,22 +1,19 @@
 From: swise@opengridcomputing.com (Steve Wise)
-Date: Thu, 13 Dec 2018 09:23:52 -0600
-Subject: [PATCH v2 1/6] block: introduce blk_execute_rq_polled
-In-Reply-To: <20181213063819.13614-2-sagi@grimberg.me>
+Date: Thu, 13 Dec 2018 09:25:00 -0600
+Subject: [PATCH v2 3/6] nvme-fabrics: allow nvmf_connect_io_queue to poll
+In-Reply-To: <20181213063819.13614-4-sagi@grimberg.me>
 References: <20181213063819.13614-1-sagi@grimberg.me>
- <20181213063819.13614-2-sagi@grimberg.me>
-Message-ID: <998d400e-f81a-469e-5105-47f063d15466@opengridcomputing.com>
+ <20181213063819.13614-4-sagi@grimberg.me>
+Message-ID: <89faa415-cbbb-d3d1-10f5-5eca509f1479@opengridcomputing.com>
 
 
 On 12/13/2018 12:38 AM, Sagi Grimberg wrote:
-> Used forsynchronous requests that needs polling. If we are knowingly
-
-nit:? "Used for synchronous requests that need polling."
-
-
-> sending a request down to a poll queue, we need a synchronous interface
-> to poll for its completion.
+> Preparation for polling support for fabrics. Polling support
+> means that our completion queues are not generating any interrupts
+> which means we need to poll for the nvmf io queue connect as well.
 >
 > Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 
+Looks good.
 
-Reviewed-by: Steve Wise <swise at opengricomputing.com>
+Reviewed by Steve Wise <swise at opengridcomputing.com>
