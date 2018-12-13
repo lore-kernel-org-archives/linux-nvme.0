@@ -1,79 +1,37 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Thu, 13 Dec 2018 10:18:40 +0100
-Subject: [PATCH 4/4] block: expose devt for GENHD_FL_HIDDEN disks
-In-Reply-To: <20181206164812.30925-5-cascardo@canonical.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Thu, 13 Dec 2018 10:33:13 +0100
+Subject: [PATCH 0/4] nvme multipath: expose slaves/holders
+In-Reply-To: <20181206164812.30925-1-cascardo@canonical.com>
 References: <20181206164812.30925-1-cascardo@canonical.com>
- <20181206164812.30925-5-cascardo@canonical.com>
-Message-ID: <b3ef062d-3bc3-fdf8-f395-31d1822a3192@suse.de>
+Message-ID: <bd4405c7-560c-f138-78f0-023807f96367@suse.de>
 
-On 12/6/18 5:48 PM, Thadeu Lima de Souza Cascardo wrote:
-> Without this exposure, lsblk will fail as it tries to find out the
-> device's dev_t numbers. This causes a real problem for nvme multipath
-> devices, as their slaves are hidden.
+On 06/12/2018 17:48, Thadeu Lima de Souza Cascardo wrote:
+> Exposing slaves/holders is necessary in order to find out the real PCI device
+> and its driver for the root filesystem when generating an initramfs with
+> initramfs-tools. That fails right now for nvme multipath devices, which this
+> patchset fixes.
 > 
-> Exposing them fixes the problem, even though trying to open the devices
-> returns an error in the case of nvme multipath. So, right now, it's the
-> driver's responsibility to return a failure to open hidden devices.
-> 
-> Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo at canonical.com>
-> ---
->   block/genhd.c | 9 ++++-----
->   1 file changed, 4 insertions(+), 5 deletions(-)
-> 
-> diff --git a/block/genhd.c b/block/genhd.c
-> index 7674fce32fca..65a7fa664188 100644
-> --- a/block/genhd.c
-> +++ b/block/genhd.c
-> @@ -687,6 +687,7 @@ static void __device_add_disk(struct device *parent, struct gendisk *disk,
->   
->   	disk_alloc_events(disk);
->   
-> +	disk_to_dev(disk)->devt = devt;
->   	if (disk->flags & GENHD_FL_HIDDEN) {
->   		/*
->   		 * Don't let hidden disks show up in /proc/partitions,
-> @@ -698,13 +699,12 @@ static void __device_add_disk(struct device *parent, struct gendisk *disk,
->   		int ret;
->   
->   		/* Register BDI before referencing it from bdev */
-> -		disk_to_dev(disk)->devt = devt;
->   		ret = bdi_register_owner(disk->queue->backing_dev_info,
->   						disk_to_dev(disk));
->   		WARN_ON(ret);
-> -		blk_register_region(disk_devt(disk), disk->minors, NULL,
-> -				    exact_match, exact_lock, disk);
->   	}
-> +	blk_register_region(disk_devt(disk), disk->minors, NULL,
-> +			    exact_match, exact_lock, disk);
->   	register_disk(parent, disk, groups);
->   	if (register_queue)
->   		blk_register_queue(disk);
-> @@ -776,8 +776,7 @@ void del_gendisk(struct gendisk *disk)
->   		WARN_ON(1);
->   	}
->   
-> -	if (!(disk->flags & GENHD_FL_HIDDEN))
-> -		blk_unregister_region(disk_devt(disk), disk->minors);
-> +	blk_unregister_region(disk_devt(disk), disk->minors);
->   
->   	kobject_put(disk->part0.holder_dir);
->   	kobject_put(disk->slave_dir);
-> 
-Welll ... this is not just 'lsblk', but more importantly this will force 
-udev to create _block_ device nodes for the hidden devices, essentially 
-'unhide' them.
+> However, because the slave devices are hidden, lsblk fails without some extra
+> patches, as it can't find the device numbers for the slave devices, and exits.
 
-Is this what we want?
-Christoph?
-I thought the entire _point_ of having hidden devices is that the are 
-... well ... hidden ...
+Sorry for chiming in so late, can someone give me an explanation what
+actually is broken?
 
-Cheers,
+I know this is technically a user visible regression, but isn't lsblk
+(and others) already fixed? I believe it's [1] in util-linux.
 
-Hannes
+And to find out the PCI device, why do you need slaves/holders here?
+Have a look at blktest's _get_pci_dev_from_blkdev() function [2].
+
+[1] d51f05bfecb2 ("lsblk: try device/dev to read devno")
+[2] https://github.com/osandov/blktests/blob/master/common/rc#L185
+
+Byte,
+	Johannes
 -- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
+Johannes Thumshirn                            SUSE Labs Filesystems
+jthumshirn at suse.de                                +49 911 74053 689
 SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
 HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
