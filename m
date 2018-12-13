@@ -1,19 +1,24 @@
 From: swise@opengridcomputing.com (Steve Wise)
-Date: Thu, 13 Dec 2018 09:26:36 -0600
-Subject: [PATCH v2 4/6] nvme-fabrics: allow user to pass in nr_poll_queues
-In-Reply-To: <20181213063819.13614-5-sagi@grimberg.me>
+Date: Thu, 13 Dec 2018 09:28:14 -0600
+Subject: [PATCH v2 5/6] nvme-rdma: implement polling queue map
+In-Reply-To: <20181213063819.13614-6-sagi@grimberg.me>
 References: <20181213063819.13614-1-sagi@grimberg.me>
- <20181213063819.13614-5-sagi@grimberg.me>
-Message-ID: <19dbe333-55cb-d16c-f9b3-4aa2b1ce2ca1@opengridcomputing.com>
+ <20181213063819.13614-6-sagi@grimberg.me>
+Message-ID: <8ae11687-ad3f-953d-883e-98ac45aecfea@opengridcomputing.com>
 
 
 On 12/13/2018 12:38 AM, Sagi Grimberg wrote:
-> This argument will specify how many polling I/O queues
-> to connect when creating the controller. These I/O queues
-> will host I/O that is set with REQ_HIPRI.
+> When passed with nr_poll_queues setup additional queues with cq polling
+> context IB_POLL_DIRECT (no interrupts) and make sure to set
+> QUEUE_FLAG_POLL on the connect_q. In addition add the third queue
+> mapping for polling queues.
+>
+> nvmf connect on this queue is polled for like all other requests so make
+> nvmf_connect_io_queue poll for polling queues.
 >
 > Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 
-Is there a default if none is specified on the 'nvme connect' command?
+
+Looks good.
 
 Reviewed-by: Steve Wise <swise at opengridcomputing.com>
