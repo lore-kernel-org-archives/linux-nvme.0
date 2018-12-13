@@ -1,16 +1,39 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 13 Dec 2018 13:39:29 -0700
-Subject: [PATCH] nvme: fix kernel paging oops
-In-Reply-To: <20181213203407.2374-1-sagi@grimberg.me>
-References: <20181213203407.2374-1-sagi@grimberg.me>
-Message-ID: <ab607e4c-6277-90ef-2608-4251fe218974@kernel.dk>
+From: cascardo@canonical.com (Thadeu Lima de Souza Cascardo)
+Date: Thu, 13 Dec 2018 19:00:43 -0200
+Subject: [PATCH 4/4] block: expose devt for GENHD_FL_HIDDEN disks
+In-Reply-To: <20181213202016.GA15992@lst.de>
+References: <20181206164812.30925-1-cascardo@canonical.com>
+ <20181206164812.30925-5-cascardo@canonical.com>
+ <b3ef062d-3bc3-fdf8-f395-31d1822a3192@suse.de>
+ <20181213143218.GA8723@lst.de> <20181213152532.GA5321@calabresa>
+ <20181213202016.GA15992@lst.de>
+Message-ID: <20181213210042.GC5321@calabresa>
 
-On 12/13/18 1:34 PM, Sagi Grimberg wrote:
-> free the controller discard_page correctly.
+On Thu, Dec 13, 2018@09:20:16PM +0100, Christoph Hellwig wrote:
+> On Thu, Dec 13, 2018@01:25:33PM -0200, Thadeu Lima de Souza Cascardo wrote:
+> > > And I've checked back - lsblk actually works just fine at the moment.
+> > > But it turns out once we create the slave links it stops working,
+> > > which is a really good argument against the first two patches, which
+> > > would otherwise seem nice..
+> > 
+> > Which is why I have sent the "paths/" patchset in the first place. Because I
+> > did some homework and read the previous discussion about this, and how lsblk
+> > failure to behave with slave links led to the revert of the slaves/holders
+> > patch by Dr. Hannes.
+> 
+> Sorry, I did not actually notice that Hannes patch manually created
+> the same slaves/holders link we otherwise create using the block layer
+> APIs.  Had I realized those actually were the same that had saved
+> me some work.
+> 
+> So I guess the v2 paths/ link patch from you is the least of all evils.
+> Hannes, can you look over that one?
 
-Huh, I wonder why I haven't hit that. But obviously correct...
+No hard feelings. Sorry we had to go through all these messages to make that
+clear.
 
-Christoph, I'll apply this one directly.
+This should be Message-Id: <20181101232955.19329-1-cascardo at canonical.com> and
+Hannes was on Cc as well.
 
--- 
-Jens Axboe
+Regards.
+Cascardo.
