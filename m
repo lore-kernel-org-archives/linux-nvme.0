@@ -1,37 +1,19 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 13 Dec 2018 10:33:13 +0100
-Subject: [PATCH 0/4] nvme multipath: expose slaves/holders
-In-Reply-To: <20181206164812.30925-1-cascardo@canonical.com>
-References: <20181206164812.30925-1-cascardo@canonical.com>
-Message-ID: <bd4405c7-560c-f138-78f0-023807f96367@suse.de>
+From: martin.kaspar@obedovekarty.cz (Martin Kaspar)
+Date: Thu, 13 Dec 2018 10:22:30 GMT
+Subject: =?UTF-8?Q?Ob=C4=9Bdov=C3=A9_karty?=
+Message-ID: <20181213112119-0.1.1r.9cge.0.eg14pfpodq@obedovekarty.cz>
 
-On 06/12/2018 17:48, Thadeu Lima de Souza Cascardo wrote:
-> Exposing slaves/holders is necessary in order to find out the real PCI device
-> and its driver for the root filesystem when generating an initramfs with
-> initramfs-tools. That fails right now for nvme multipath devices, which this
-> patchset fixes.
-> 
-> However, because the slave devices are hidden, lsblk fails without some extra
-> patches, as it can't find the device numbers for the slave devices, and exits.
+Dobr? den,
+ 
+modern? p??sp?vek na stravov?n? v podob? ob?dov? karty, kterou lze pou??t ve v?ce ne? 15 000 restaurac?ch a gastronomick?ch za??zen? po cel? zemi, je n?stroj, kter? V?m pom??e poskytnout sv?m zam?stnanc?m nej??dan?j?? benefit v ?R.
 
-Sorry for chiming in so late, can someone give me an explanation what
-actually is broken?
+V?zkum Sv?tov? zdravotnick? organizace WHO nazna?uje, ?e zam?stnanec, kter? dost?v?  od sv?ho zam?stnavatele p??sp?vek na j?dlo, je efektivn?j?? o 20 % a po?et absenc? kles? o 27 %.
 
-I know this is technically a user visible regression, but isn't lsblk
-(and others) already fixed? I believe it's [1] in util-linux.
+V?b?rem na?ich ob?dov?ch karet jako formy v?hod zam?stnavatel z?sk? nejen produktivn?j?? a k pr?ci v?ce motivovan? zam?stnance, ale tak? finan?n? v?hody, proto?e hodnota prost?edk? na kart? znamen? ?sporu 34 % p?i odvodech na soci?ln?m a zdravotn?m poji?t?n? zam?stnance a na dani z p??jmu. Nav?c je p??sp?vek na ob?dovou kartu zam?stnanci o 48 % v?hodn?j?? ne? p??sp?vek do mzdy.
+ 
+Mohli bych V?m poskytnout v?ce informac? o na?? ob?dov? kart??
 
-And to find out the PCI device, why do you need slaves/holders here?
-Have a look at blktest's _get_pci_dev_from_blkdev() function [2].
 
-[1] d51f05bfecb2 ("lsblk: try device/dev to read devno")
-[2] https://github.com/osandov/blktests/blob/master/common/rc#L185
-
-Byte,
-	Johannes
--- 
-Johannes Thumshirn                            SUSE Labs Filesystems
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+Martin Kaspar
+Project Manager 
+www.obedovekarty.cz
