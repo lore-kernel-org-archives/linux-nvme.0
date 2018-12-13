@@ -1,47 +1,76 @@
-From: sashal@kernel.org (Sasha Levin)
-Date: Wed, 12 Dec 2018 23:31:59 -0500
-Subject: [PATCH AUTOSEL 4.9 33/34] nvmet-rdma: fix response use after free
-In-Reply-To: <20181213043200.76295-1-sashal@kernel.org>
-References: <20181213043200.76295-1-sashal@kernel.org>
-Message-ID: <20181213043200.76295-33-sashal@kernel.org>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 12 Dec 2018 22:38:19 -0800
+Subject: [PATCH v2 nvme-cli 7/6] fabrics: pass in number of polling queues
+In-Reply-To: <20181213063819.13614-1-sagi@grimberg.me>
+References: <20181213063819.13614-1-sagi@grimberg.me>
+Message-ID: <20181213063819.13614-8-sagi@grimberg.me>
 
-From: Israel Rukshin <israelr@mellanox.com>
+nr_poll_queues specifies the number of additional queues that will
+be connected for hosting polling latency critical I/O.
 
-[ Upstream commit d7dcdf9d4e15189ecfda24cc87339a3425448d5c ]
-
-nvmet_rdma_release_rsp() may free the response before using it at error
-flow.
-
-Fixes: 8407879 ("nvmet-rdma: fix possible bogus dereference under heavy load")
-Signed-off-by: Israel Rukshin <israelr at mellanox.com>
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
-Signed-off-by: Christoph Hellwig <hch at lst.de>
-Signed-off-by: Sasha Levin <sashal at kernel.org>
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/target/rdma.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ Documentation/nvme-connect.txt |  5 +++++
+ fabrics.c                      | 10 ++++++++++
+ 2 files changed, 15 insertions(+)
 
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 2dfd877974d7..486393fa4f3e 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -524,6 +524,7 @@ static void nvmet_rdma_send_done(struct ib_cq *cq, struct ib_wc *wc)
- {
- 	struct nvmet_rdma_rsp *rsp =
- 		container_of(wc->wr_cqe, struct nvmet_rdma_rsp, send_cqe);
-+	struct nvmet_rdma_queue *queue = cq->cq_context;
+diff --git a/Documentation/nvme-connect.txt b/Documentation/nvme-connect.txt
+index d4a0e6678475..5412472dbd35 100644
+--- a/Documentation/nvme-connect.txt
++++ b/Documentation/nvme-connect.txt
+@@ -17,6 +17,7 @@ SYNOPSIS
+ 		[--hostnqn=<hostnqn>      | -q <hostnqn>]
+ 		[--nr-io-queues=<#>       | -i <#>]
+ 		[--nr-write-queues=<#>    | -W <#>]
++		[--nr-poll-queues=<#>     | -P <#>]
+ 		[--queue-size=<#>         | -Q <#>]
+ 		[--keep-alive-tmo=<#>     | -k <#>]
+ 		[--reconnect-delay=<#>    | -c <#>]
+@@ -80,6 +81,10 @@ OPTIONS
+ --nr-write-queues=<#>::
+ 	Adds additional queues that will be used for write I/O.
  
- 	nvmet_rdma_release_rsp(rsp);
- 
-@@ -531,7 +532,7 @@ static void nvmet_rdma_send_done(struct ib_cq *cq, struct ib_wc *wc)
- 		     wc->status != IB_WC_WR_FLUSH_ERR)) {
- 		pr_err("SEND for CQE 0x%p failed with status %s (%d).\n",
- 			wc->wr_cqe, ib_wc_status_msg(wc->status), wc->status);
--		nvmet_rdma_error_comp(rsp->queue);
-+		nvmet_rdma_error_comp(queue);
++-P <#>::
++--nr-poll-queues=<#>::
++	Adds additional queues that will be used for polling latency sensitive I/O.
++
+ -Q <#>::
+ --queue-size=<#>::
+ 	Overrides the default number of elements in the I/O queues created
+diff --git a/fabrics.c b/fabrics.c
+index 5cc1a795345a..efe2ce89cdca 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -54,6 +54,7 @@ static struct config {
+ 	char *hostid;
+ 	int  nr_io_queues;
+ 	int  nr_write_queues;
++	int  nr_poll_queues;
+ 	int  queue_size;
+ 	int  keep_alive_tmo;
+ 	int  reconnect_delay;
+@@ -624,6 +625,8 @@ static int build_options(char *argstr, int max_len)
+ 				cfg.nr_io_queues) ||
+ 	    add_int_argument(&argstr, &max_len, "nr_write_queues",
+ 				cfg.nr_write_queues) ||
++	    add_int_argument(&argstr, &max_len, "nr_poll_queues",
++				cfg.nr_poll_queues) ||
+ 	    add_int_argument(&argstr, &max_len, "queue_size", cfg.queue_size) ||
+ 	    add_int_argument(&argstr, &max_len, "keep_alive_tmo",
+ 				cfg.keep_alive_tmo) ||
+@@ -704,6 +707,13 @@ retry:
+ 		p += len;
  	}
- }
  
++	if (cfg.nr_poll_queues) {
++		len = sprintf(p, ",nr_poll_queues=%d", cfg.nr_poll_queues);
++		if (len < 0)
++			return -EINVAL;
++		p += len;
++	}
++
+ 	if (cfg.host_traddr) {
+ 		len = sprintf(p, ",host_traddr=%s", cfg.host_traddr);
+ 		if (len < 0)
 -- 
-2.19.1
+2.17.1
