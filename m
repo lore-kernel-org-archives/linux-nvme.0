@@ -1,36 +1,16 @@
-From: colin.king@canonical.com (Colin King)
-Date: Fri, 14 Dec 2018 18:31:21 +0000
-Subject: [PATCH][next] nvmet: fix comparison of a u16 with -1
-Message-ID: <20181214183121.17445-1-colin.king@canonical.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Fri, 14 Dec 2018 10:43:20 -0800
+Subject: [PATCH] nvme-pci: only set nr_maps to 2 if poll queues are
+ supported
+In-Reply-To: <20181214162019.14847-1-hch@lst.de>
+References: <20181214162019.14847-1-hch@lst.de>
+Message-ID: <9d2fa9e4-927e-655b-5db3-32d8f0a17db7@grimberg.me>
 
-From: Colin Ian King <colin.king@canonical.com>
 
-Currently the u16 req->error_loc is being compared to -1 which
-will always be false.  Fix this by casting -1 to u16 to fix this.
+> The block layer now enables polling support on a queue if nr_maps
+> includes the poll map, so we should only set that if we actually
+> support poll queues.
+> 
+> Fixes:  6544d229bf ("block: enable polling by default if a poll map is initalized")
 
-Detected by clang:
-  warning: result of comparison of constant -1 with expression of
-  type 'u16' (aka 'unsigned short') is always false
-  [-Wtautological-constant-out-of-range-compare]
-
-Fixes: 76574f37bf4c ("nvmet: add interface to update error-log page")
-Signed-off-by: Colin Ian King <colin.king at canonical.com>
----
- drivers/nvme/target/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index cc81d0231587..b9c219c931eb 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -663,7 +663,7 @@ static void nvmet_set_error(struct nvmet_req *req, u16 status)
- 
- 	req->rsp->status = cpu_to_le16(status << 1);
- 
--	if (!ctrl || req->error_loc == -1)
-+	if (!ctrl || req->error_loc == (u16)-1)
- 		return;
- 
- 	spin_lock_irqsave(&ctrl->error_lock, flags);
--- 
-2.19.1
+What does it fix? is there a bug when setting 3 queue maps?
