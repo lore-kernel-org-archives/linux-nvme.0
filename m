@@ -1,9 +1,22 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 13 Dec 2018 13:35:31 -0800
-Subject: [PATCH] nvme-rdma: fix timeout handler
-In-Reply-To: <20181213212917.8900-1-sagi@grimberg.me>
-References: <20181213212917.8900-1-sagi@grimberg.me>
-Message-ID: <fa19e6a2-e358-6e29-53c7-4a68eacf6a93@grimberg.me>
+From: marc.smith@mcc.edu (Marc Smith)
+Date: Fri, 14 Dec 2018 01:39:42 -0500
+Subject: Find Allocation Unit Size
+Message-ID: <CAHkw+LdJZD6Z3BgSve-Sg2FyrNZ9iaBw1RUehS7o+2mTEpWCjA@mail.gmail.com>
 
-This was meant to be an RFC, not yet for inclusion. I mostly
-wanted Jaesoo and Nitzan to provide their feedback...
+Hi,
+
+I'm testing some NVMe drives, and playing with creating multiple
+namespaces (via the nvme CLI tool). I've noticed with some values,
+there is rounding that is occurring (or so I assume). I'm using a 4096
+block size, and with values like 200 GiB or 1000 GiB I do not see the
+rounding occur (checking value in bytes against unvmcap after
+creation).
+
+But other values do seem to round... I suspect this is aligning to the
+allocation unit size, but I'm not sure where to find that value for my
+NVMe drives? Hoping someone could point me in the right direction!
+
+Thanks in advance.
+
+
+--Marc
