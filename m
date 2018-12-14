@@ -1,36 +1,17 @@
-From: marc.smith@mcc.edu (Marc Smith)
-Date: Fri, 14 Dec 2018 10:44:39 -0500
-Subject: Find Allocation Unit Size
-In-Reply-To: <20181214144159.GB13491@localhost.localdomain>
-References: <CAHkw+LdJZD6Z3BgSve-Sg2FyrNZ9iaBw1RUehS7o+2mTEpWCjA@mail.gmail.com>
- <20181214144159.GB13491@localhost.localdomain>
-Message-ID: <CAHkw+Le5jSaNbQ+eZjARNhNpBHAOxfqEjoTUC8to1_HDiJYzhw@mail.gmail.com>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Fri, 14 Dec 2018 08:45:02 -0700
+Subject: [PATCH] nvme-pci: only set nr_maps to 2 if poll queues are
+ supported
+In-Reply-To: <20181214154233.14354-1-hch@lst.de>
+References: <20181214154233.14354-1-hch@lst.de>
+Message-ID: <1aeb230f-a292-f824-71b6-d17fb754504e@kernel.dk>
 
-On Fri, Dec 14, 2018@9:44 AM Keith Busch <keith.busch@intel.com> wrote:
->
-> On Fri, Dec 14, 2018@01:39:42AM -0500, Marc Smith wrote:
-> > Hi,
-> >
-> > I'm testing some NVMe drives, and playing with creating multiple
-> > namespaces (via the nvme CLI tool). I've noticed with some values,
-> > there is rounding that is occurring (or so I assume). I'm using a 4096
-> > block size, and with values like 200 GiB or 1000 GiB I do not see the
-> > rounding occur (checking value in bytes against unvmcap after
-> > creation).
-> >
-> > But other values do seem to round... I suspect this is aligning to the
-> > allocation unit size, but I'm not sure where to find that value for my
-> > NVMe drives? Hoping someone could point me in the right direction!
-> >
-> > Thanks in advance.
->
-> The spec says a device may have a minimal size granularity for creating
-> namespaces, but currently doesn't provide a way to discover what that is.`
+On 12/14/18 8:42 AM, Christoph Hellwig wrote:
+> The block layer now enables polling support on a queue if nr_maps
+> includes the poll map, so we should only set that if we actually
+> support poll queues.
 
-Interesting... do you believe that is something that the device
-manufacturer can (or will) provide? Or maybe something in the device
-spec sheet (going to check that now...)?
+Looks good to me, but needs a Fixes line.
 
-Thanks for the quick response.
-
---Marc
+-- 
+Jens Axboe
