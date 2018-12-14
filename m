@@ -1,25 +1,30 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 14 Dec 2018 07:41:59 -0700
-Subject: Find Allocation Unit Size
-In-Reply-To: <CAHkw+LdJZD6Z3BgSve-Sg2FyrNZ9iaBw1RUehS7o+2mTEpWCjA@mail.gmail.com>
-References: <CAHkw+LdJZD6Z3BgSve-Sg2FyrNZ9iaBw1RUehS7o+2mTEpWCjA@mail.gmail.com>
-Message-ID: <20181214144159.GB13491@localhost.localdomain>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 14 Dec 2018 16:42:33 +0100
+Subject: [PATCH] nvme-pci: only set nr_maps to 2 if poll queues are supported
+Message-ID: <20181214154233.14354-1-hch@lst.de>
 
-On Fri, Dec 14, 2018@01:39:42AM -0500, Marc Smith wrote:
-> Hi,
-> 
-> I'm testing some NVMe drives, and playing with creating multiple
-> namespaces (via the nvme CLI tool). I've noticed with some values,
-> there is rounding that is occurring (or so I assume). I'm using a 4096
-> block size, and with values like 200 GiB or 1000 GiB I do not see the
-> rounding occur (checking value in bytes against unvmcap after
-> creation).
-> 
-> But other values do seem to round... I suspect this is aligning to the
-> allocation unit size, but I'm not sure where to find that value for my
-> NVMe drives? Hoping someone could point me in the right direction!
-> 
-> Thanks in advance.
+The block layer now enables polling support on a queue if nr_maps
+includes the poll map, so we should only set that if we actually
+support poll queues.
 
-The spec says a device may have a minimal size granularity for creating
-namespaces, but currently doesn't provide a way to discover what that is.`
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+---
+ drivers/nvme/host/pci.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index fb9d8270f32c..8b62d0075e48 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2293,6 +2293,9 @@ static int nvme_dev_add(struct nvme_dev *dev)
+ 	if (!dev->ctrl.tagset) {
+ 		dev->tagset.ops = &nvme_mq_ops;
+ 		dev->tagset.nr_hw_queues = dev->online_queues - 1;
++		dev->tagset.nr_maps = 2; /* default + read */
++		if (dev->io_queues[HCTX_TYPE_POLL])
++			dev->tagset.nr_maps++;
+ 		dev->tagset.nr_maps = HCTX_MAX_TYPES;
+ 		dev->tagset.timeout = NVME_IO_TIMEOUT;
+ 		dev->tagset.numa_node = dev_to_node(dev->dev);
+-- 
+2.19.2
