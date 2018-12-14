@@ -1,43 +1,31 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 14 Dec 2018 16:46:32 +0100
-Subject: [PATCH v3 6/6] nvme-rdma: implement polling queue map
-In-Reply-To: <20181213213410.9841-7-sagi@grimberg.me>
-References: <20181213213410.9841-1-sagi@grimberg.me>
- <20181213213410.9841-7-sagi@grimberg.me>
-Message-ID: <20181214154632.GC24417@lst.de>
+Date: Fri, 14 Dec 2018 17:20:19 +0100
+Subject: [PATCH] nvme-pci: only set nr_maps to 2 if poll queues are supported
+Message-ID: <20181214162019.14847-1-hch@lst.de>
 
-> +static bool nvme_rdma_poller_queue(struct nvme_rdma_queue *queue)
+The block layer now enables polling support on a queue if nr_maps
+includes the poll map, so we should only set that if we actually
+support poll queues.
 
-Can we please make this poll_queue?  or at least polled_queue?
-poller sounds odd..
+Fixes:  6544d229bf ("block: enable polling by default if a poll map is initalized")
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+---
+ drivers/nvme/host/pci.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-> -		set->nr_maps = 2 /* default + read */;
-> +		set->nr_maps = HCTX_MAX_TYPES;
->  	}
->  
->  	ret = blk_mq_alloc_tag_set(set);
-> @@ -864,6 +881,10 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
->  			ret = PTR_ERR(ctrl->ctrl.connect_q);
->  			goto out_free_tag_set;
->  		}
-> +
-> +		if (ctrl->ctrl.opts->nr_poll_queues)
-> +			blk_queue_flag_set(QUEUE_FLAG_POLL,
-> +				ctrl->ctrl.connect_q);
-
-The block core is supposed to detect we can poll based on nr_maps > 2,
-and then set QUEUE_FLAG_POLL automatically.  Although I got the details
-wrong for PCI as well, but I just sent a fix..
-> +static int nvme_rdma_poll(struct blk_mq_hw_ctx *hctx)
-> +{
-> +	struct nvme_rdma_queue *queue = hctx->driver_data;
-> +	struct ib_cq *cq = queue->ib_cq;
-> +
-> +	return ib_process_cq_direct(cq, -1);
-
-I think we can skip the cq local variable here.
-
-Otherwise this looks really nice and simple, thanks for looking into it!
-
-Do you have any performance number, especially with Jens' ringbuffer
-code?
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index fb9d8270f32c..8b62d0075e48 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2293,6 +2293,9 @@ static int nvme_dev_add(struct nvme_dev *dev)
+ 	if (!dev->ctrl.tagset) {
+ 		dev->tagset.ops = &nvme_mq_ops;
+ 		dev->tagset.nr_hw_queues = dev->online_queues - 1;
++		dev->tagset.nr_maps = 2; /* default + read */
++		if (dev->io_queues[HCTX_TYPE_POLL])
++			dev->tagset.nr_maps++;
+ 		dev->tagset.nr_maps = HCTX_MAX_TYPES;
+ 		dev->tagset.timeout = NVME_IO_TIMEOUT;
+ 		dev->tagset.numa_node = dev_to_node(dev->dev);
+-- 
+2.19.2
