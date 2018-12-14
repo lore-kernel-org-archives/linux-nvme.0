@@ -1,31 +1,63 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Fri, 14 Dec 2018 11:50:25 -0700
-Subject: [PATCH] nvme-pci: only set nr_maps to 2 if poll queues are
- supported
-In-Reply-To: <9d2fa9e4-927e-655b-5db3-32d8f0a17db7@grimberg.me>
-References: <20181214162019.14847-1-hch@lst.de>
- <9d2fa9e4-927e-655b-5db3-32d8f0a17db7@grimberg.me>
-Message-ID: <e6ff4bc1-2fbe-9aef-a384-ee19b4788460@kernel.dk>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Fri, 14 Dec 2018 10:59:51 -0800
+Subject: [PATCH v3 6/6] nvme-rdma: implement polling queue map
+In-Reply-To: <20181214154632.GC24417@lst.de>
+References: <20181213213410.9841-1-sagi@grimberg.me>
+ <20181213213410.9841-7-sagi@grimberg.me> <20181214154632.GC24417@lst.de>
+Message-ID: <1ae85cf5-4b54-c1f2-7337-16184f7ba5d4@grimberg.me>
 
-On 12/14/18 11:43 AM, Sagi Grimberg wrote:
+
+>> +static bool nvme_rdma_poller_queue(struct nvme_rdma_queue *queue)
 > 
->> The block layer now enables polling support on a queue if nr_maps
->> includes the poll map, so we should only set that if we actually
->> support poll queues.
->>
->> Fixes:  6544d229bf ("block: enable polling by default if a poll map is initalized")
+> Can we please make this poll_queue?  or at least polled_queue?
+> poller sounds odd..
+
+Changed to nvme_rdma_poll_queue..
+
 > 
-> What does it fix? is there a bug when setting 3 queue maps?
+>> -		set->nr_maps = 2 /* default + read */;
+>> +		set->nr_maps = HCTX_MAX_TYPES;
+>>   	}
+>>   
+>>   	ret = blk_mq_alloc_tag_set(set);
+>> @@ -864,6 +881,10 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
+>>   			ret = PTR_ERR(ctrl->ctrl.connect_q);
+>>   			goto out_free_tag_set;
+>>   		}
+>> +
+>> +		if (ctrl->ctrl.opts->nr_poll_queues)
+>> +			blk_queue_flag_set(QUEUE_FLAG_POLL,
+>> +				ctrl->ctrl.connect_q);
+> 
+> The block core is supposed to detect we can poll based on nr_maps > 2,
+> and then set QUEUE_FLAG_POLL automatically.  Although I got the details
+> wrong for PCI as well, but I just sent a fix..
 
-After the recent changes, blk_mq_init_allocated_queue() does this:
+I'll lose that, but I didn't understand what you got wrong for pci?
+(didn't understand the fix either)
 
-if (set->nr_maps > HCTX_TYPE_POLL)
-	blk_queue_flag_set(QUEUE_FLAG_POLL, q);
+>> +static int nvme_rdma_poll(struct blk_mq_hw_ctx *hctx)
+>> +{
+>> +	struct nvme_rdma_queue *queue = hctx->driver_data;
+>> +	struct ib_cq *cq = queue->ib_cq;
+>> +
+>> +	return ib_process_cq_direct(cq, -1);
+> 
+> I think we can skip the cq local variable here.
 
-since the core doesn't have any notion of how many queues are used for
-what. We only support polling if you have explicit poll queues now,
-hence the above is wrong if nvme says nr_maps is 3 and it doesn't have
-any poll queues.
+Lost..
 
--- 
-Jens Axboe
+> Otherwise this looks really nice and simple, thanks for looking into it!
+> 
+> Do you have any performance number, especially with Jens' ringbuffer
+> code?
+
+Well, I can get from my local vm on my laptop on top of soft-roce 7K
+iops :) (compared tp 5.5K without polling, but not something to
+conclude from)
+
+I don't have any numbers to show for right now...
+
+As I said in the cover letter, we want a way to tell ib_poll_cq_direct
+to not count send completions (where we end our sqe), right now we are
+probably screwing up poll_success stat...
