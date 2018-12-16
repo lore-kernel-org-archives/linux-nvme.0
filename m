@@ -1,109 +1,271 @@
 From: yupeng0921@gmail.com (yupeng)
-Date: Sat, 15 Dec 2018 17:48:49 -0800
-Subject: [PATCH v2 2/2] trace nvme submit queue status
-In-Reply-To: <20181216014849.8584-1-yupeng0921@gmail.com>
-References: <20181216014849.8584-1-yupeng0921@gmail.com>
-Message-ID: <20181216014849.8584-2-yupeng0921@gmail.com>
+Date: Sat, 15 Dec 2018 17:48:48 -0800
+Subject: [PATCH v2 1/2] share nvme trace event helper functions with multiple
+ nvme modules
+Message-ID: <20181216014849.8584-1-yupeng0921@gmail.com>
 
-export nvme disk name, queue id, sq_head, sq_tail to trace event
-usage example:
-go to the event directory:
-cd /sys/kernel/debug/tracing/events/nvme/nvme_sq
-filter by disk name:
-echo 'disk=="nvme1n1"' > filter
-enable the event:
-echo 1 > enable
-check results from trace_pipe:
-cat /sys/kernel/debug/tracing/trace_pipe
-In practice, this patch help me debug hardware related
-performant issue.
+The trace.c could only be used by core.c, move it to a header file and
+then other nvme modules could also use it. This commit creates a new
+header file trace_common.h, which has all the functions of trace.c. It
+changes all functions to static functions, so any other modules could
+include it without conflict. This commit also moves some common
+functions from trace.h to trace_common.h. Because the trace events in
+trace.h are used by nvme-core only, this commit renames the trace.h to
+trace_core.h.
 
 Signed-off-by: yupeng <yupeng0921 at gmail.com>
 ---
- drivers/nvme/host/pci.c       |  7 +++++
- drivers/nvme/host/trace_pci.h | 49 +++++++++++++++++++++++++++++++++++
- 2 files changed, 56 insertions(+)
- create mode 100644 drivers/nvme/host/trace_pci.h
+ drivers/nvme/host/Makefile                    |  1 -
+ drivers/nvme/host/core.c                      |  2 +-
+ drivers/nvme/host/{trace.c => trace_common.h} | 82 +++++++++++++++++--
+ drivers/nvme/host/{trace.h => trace_core.h}   | 76 +----------------
+ 4 files changed, 80 insertions(+), 81 deletions(-)
+ rename drivers/nvme/host/{trace.c => trace_common.h} (55%)
+ rename drivers/nvme/host/{trace.h => trace_core.h} (56%)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index c33bb201b884..974cb05b3592 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -32,6 +32,9 @@
- #include <linux/sed-opal.h>
- #include <linux/pci-p2pdma.h>
+diff --git a/drivers/nvme/host/Makefile b/drivers/nvme/host/Makefile
+index aea459c65ae1..165c265f57f1 100644
+--- a/drivers/nvme/host/Makefile
++++ b/drivers/nvme/host/Makefile
+@@ -9,7 +9,6 @@ obj-$(CONFIG_NVME_RDMA)			+= nvme-rdma.o
+ obj-$(CONFIG_NVME_FC)			+= nvme-fc.o
  
-+#define CREATE_TRACE_POINTS
-+#include "trace_pci.h"
-+
+ nvme-core-y				:= core.o
+-nvme-core-$(CONFIG_TRACING)		+= trace.o
+ nvme-core-$(CONFIG_NVME_MULTIPATH)	+= multipath.o
+ nvme-core-$(CONFIG_NVM)			+= lightnvm.o
+ nvme-core-$(CONFIG_FAULT_INJECTION_DEBUG_FS)	+= fault_inject.o
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 962012135b62..a1cf8df4c507 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -30,7 +30,7 @@
+ #include <asm/unaligned.h>
+ 
+ #define CREATE_TRACE_POINTS
+-#include "trace.h"
++#include "trace_core.h"
+ 
  #include "nvme.h"
+ #include "fabrics.h"
+diff --git a/drivers/nvme/host/trace.c b/drivers/nvme/host/trace_common.h
+similarity index 55%
+rename from drivers/nvme/host/trace.c
+rename to drivers/nvme/host/trace_common.h
+index 25b0e310f4a8..b9b88da74f58 100644
+--- a/drivers/nvme/host/trace.c
++++ b/drivers/nvme/host/trace_common.h
+@@ -12,9 +12,16 @@
+  * more details.
+  */
  
- #define SQ_SIZE(depth)		(depth * sizeof(struct nvme_command))
-@@ -899,6 +902,10 @@ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq, u16 idx)
- 	}
+-#include <asm/unaligned.h>
+-#include "trace.h"
++#ifndef TRACE_HEADER_MULTI_READ
++
++#include <linux/nvme.h>
++#include <linux/tracepoint.h>
++#include <linux/trace_seq.h>
++
++#include "nvme.h"
  
- 	req = blk_mq_tag_to_rq(*nvmeq->tags, cqe->command_id);
-+	trace_nvme_sq(req->rq_disk,
-+		nvmeq->qid,
-+		le16_to_cpu(cqe->sq_head),
-+		nvmeq->sq_tail);
- 	nvme_end_request(req, cqe->status, cqe->result);
++#ifdef CONFIG_TRACING
++#include <asm/unaligned.h>
+ static const char *nvme_trace_create_sq(struct trace_seq *p, u8 *cdw10)
+ {
+ 	const char *ret = trace_seq_buffer_ptr(p);
+@@ -99,7 +106,7 @@ static const char *nvme_trace_common(struct trace_seq *p, u8 *cdw10)
+ 	return ret;
  }
  
-diff --git a/drivers/nvme/host/trace_pci.h b/drivers/nvme/host/trace_pci.h
-new file mode 100644
-index 000000000000..a48bdd4412e4
---- /dev/null
-+++ b/drivers/nvme/host/trace_pci.h
-@@ -0,0 +1,49 @@
-+/*
-+ * NVM Express device driver tracepoints
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ */
+-const char *nvme_trace_parse_admin_cmd(struct trace_seq *p,
++static const char *nvme_trace_parse_admin_cmd(struct trace_seq *p,
+ 				       u8 opcode, u8 *cdw10)
+ {
+ 	switch (opcode) {
+@@ -114,7 +121,7 @@ const char *nvme_trace_parse_admin_cmd(struct trace_seq *p,
+ 	}
+ }
+ 
+-const char *nvme_trace_parse_nvm_cmd(struct trace_seq *p,
++static const char *nvme_trace_parse_nvm_cmd(struct trace_seq *p,
+ 				     u8 opcode, u8 *cdw10)
+ {
+ 	switch (opcode) {
+@@ -129,7 +136,7 @@ const char *nvme_trace_parse_nvm_cmd(struct trace_seq *p,
+ 	}
+ }
+ 
+-const char *nvme_trace_disk_name(struct trace_seq *p, char *name)
++static const char *nvme_trace_disk_name(struct trace_seq *p, char *name)
+ {
+ 	const char *ret = trace_seq_buffer_ptr(p);
+ 
+@@ -139,3 +146,68 @@ const char *nvme_trace_disk_name(struct trace_seq *p, char *name)
+ 
+ 	return ret;
+ }
 +
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM nvme
++#endif	/* CONFIG_TRACING */
 +
-+#if !defined(_TRACE_NVME_H) || defined(TRACE_HEADER_MULTI_READ)
-+#define _TRACE_NVME_H
++static inline void __assign_disk_name(char *name, struct gendisk *disk)
++{
++	if (disk)
++		memcpy(name, disk->disk_name, DISK_NAME_LEN);
++	else
++		memset(name, 0, DISK_NAME_LEN);
++}
 +
++#define nvme_admin_opcode_name(opcode)	{ opcode, #opcode }
++#define show_admin_opcode_name(val)					\
++	__print_symbolic(val,						\
++		nvme_admin_opcode_name(nvme_admin_delete_sq),		\
++		nvme_admin_opcode_name(nvme_admin_create_sq),		\
++		nvme_admin_opcode_name(nvme_admin_get_log_page),	\
++		nvme_admin_opcode_name(nvme_admin_delete_cq),		\
++		nvme_admin_opcode_name(nvme_admin_create_cq),		\
++		nvme_admin_opcode_name(nvme_admin_identify),		\
++		nvme_admin_opcode_name(nvme_admin_abort_cmd),		\
++		nvme_admin_opcode_name(nvme_admin_set_features),	\
++		nvme_admin_opcode_name(nvme_admin_get_features),	\
++		nvme_admin_opcode_name(nvme_admin_async_event),		\
++		nvme_admin_opcode_name(nvme_admin_ns_mgmt),		\
++		nvme_admin_opcode_name(nvme_admin_activate_fw),		\
++		nvme_admin_opcode_name(nvme_admin_download_fw),		\
++		nvme_admin_opcode_name(nvme_admin_ns_attach),		\
++		nvme_admin_opcode_name(nvme_admin_keep_alive),		\
++		nvme_admin_opcode_name(nvme_admin_directive_send),	\
++		nvme_admin_opcode_name(nvme_admin_directive_recv),	\
++		nvme_admin_opcode_name(nvme_admin_dbbuf),		\
++		nvme_admin_opcode_name(nvme_admin_format_nvm),		\
++		nvme_admin_opcode_name(nvme_admin_security_send),	\
++		nvme_admin_opcode_name(nvme_admin_security_recv),	\
++		nvme_admin_opcode_name(nvme_admin_sanitize_nvm))
++
++#define nvme_opcode_name(opcode)	{ opcode, #opcode }
++#define show_nvm_opcode_name(val)				\
++	__print_symbolic(val,					\
++		nvme_opcode_name(nvme_cmd_flush),		\
++		nvme_opcode_name(nvme_cmd_write),		\
++		nvme_opcode_name(nvme_cmd_read),		\
++		nvme_opcode_name(nvme_cmd_write_uncor),		\
++		nvme_opcode_name(nvme_cmd_compare),		\
++		nvme_opcode_name(nvme_cmd_write_zeroes),	\
++		nvme_opcode_name(nvme_cmd_dsm),			\
++		nvme_opcode_name(nvme_cmd_resv_register),	\
++		nvme_opcode_name(nvme_cmd_resv_report),		\
++		nvme_opcode_name(nvme_cmd_resv_acquire),	\
++		nvme_opcode_name(nvme_cmd_resv_release))
++
++#define show_opcode_name(qid, opcode)					\
++	(qid ? show_nvm_opcode_name(opcode) : show_admin_opcode_name(opcode))
++
++#define parse_nvme_cmd(qid, opcode, cdw10) 			\
++	(qid ?							\
++	 nvme_trace_parse_nvm_cmd(p, opcode, cdw10) : 		\
++	 nvme_trace_parse_admin_cmd(p, opcode, cdw10))
++
++#define __print_disk_name(name)				\
++	nvme_trace_disk_name(p, name)
++
++
++#endif	/* TRACE_HEADER_MULTI_READ */
+diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace_core.h
+similarity index 56%
+rename from drivers/nvme/host/trace.h
+rename to drivers/nvme/host/trace_core.h
+index 196d5bd56718..ed60ad6cf634 100644
+--- a/drivers/nvme/host/trace.h
++++ b/drivers/nvme/host/trace_core.h
+@@ -18,79 +18,7 @@
+ #if !defined(_TRACE_NVME_H) || defined(TRACE_HEADER_MULTI_READ)
+ #define _TRACE_NVME_H
+ 
+-#include <linux/nvme.h>
+-#include <linux/tracepoint.h>
+-#include <linux/trace_seq.h>
+-
+-#include "nvme.h"
+-
+-#define nvme_admin_opcode_name(opcode)	{ opcode, #opcode }
+-#define show_admin_opcode_name(val)					\
+-	__print_symbolic(val,						\
+-		nvme_admin_opcode_name(nvme_admin_delete_sq),		\
+-		nvme_admin_opcode_name(nvme_admin_create_sq),		\
+-		nvme_admin_opcode_name(nvme_admin_get_log_page),	\
+-		nvme_admin_opcode_name(nvme_admin_delete_cq),		\
+-		nvme_admin_opcode_name(nvme_admin_create_cq),		\
+-		nvme_admin_opcode_name(nvme_admin_identify),		\
+-		nvme_admin_opcode_name(nvme_admin_abort_cmd),		\
+-		nvme_admin_opcode_name(nvme_admin_set_features),	\
+-		nvme_admin_opcode_name(nvme_admin_get_features),	\
+-		nvme_admin_opcode_name(nvme_admin_async_event),		\
+-		nvme_admin_opcode_name(nvme_admin_ns_mgmt),		\
+-		nvme_admin_opcode_name(nvme_admin_activate_fw),		\
+-		nvme_admin_opcode_name(nvme_admin_download_fw),		\
+-		nvme_admin_opcode_name(nvme_admin_ns_attach),		\
+-		nvme_admin_opcode_name(nvme_admin_keep_alive),		\
+-		nvme_admin_opcode_name(nvme_admin_directive_send),	\
+-		nvme_admin_opcode_name(nvme_admin_directive_recv),	\
+-		nvme_admin_opcode_name(nvme_admin_dbbuf),		\
+-		nvme_admin_opcode_name(nvme_admin_format_nvm),		\
+-		nvme_admin_opcode_name(nvme_admin_security_send),	\
+-		nvme_admin_opcode_name(nvme_admin_security_recv),	\
+-		nvme_admin_opcode_name(nvme_admin_sanitize_nvm))
+-
+-#define nvme_opcode_name(opcode)	{ opcode, #opcode }
+-#define show_nvm_opcode_name(val)				\
+-	__print_symbolic(val,					\
+-		nvme_opcode_name(nvme_cmd_flush),		\
+-		nvme_opcode_name(nvme_cmd_write),		\
+-		nvme_opcode_name(nvme_cmd_read),		\
+-		nvme_opcode_name(nvme_cmd_write_uncor),		\
+-		nvme_opcode_name(nvme_cmd_compare),		\
+-		nvme_opcode_name(nvme_cmd_write_zeroes),	\
+-		nvme_opcode_name(nvme_cmd_dsm),			\
+-		nvme_opcode_name(nvme_cmd_resv_register),	\
+-		nvme_opcode_name(nvme_cmd_resv_report),		\
+-		nvme_opcode_name(nvme_cmd_resv_acquire),	\
+-		nvme_opcode_name(nvme_cmd_resv_release))
+-
+-#define show_opcode_name(qid, opcode)					\
+-	(qid ? show_nvm_opcode_name(opcode) : show_admin_opcode_name(opcode))
+-
+-const char *nvme_trace_parse_admin_cmd(struct trace_seq *p, u8 opcode,
+-		u8 *cdw10);
+-const char *nvme_trace_parse_nvm_cmd(struct trace_seq *p, u8 opcode,
+-		u8 *cdw10);
+-
+-#define parse_nvme_cmd(qid, opcode, cdw10) 			\
+-	(qid ?							\
+-	 nvme_trace_parse_nvm_cmd(p, opcode, cdw10) : 		\
+-	 nvme_trace_parse_admin_cmd(p, opcode, cdw10))
+-
+-const char *nvme_trace_disk_name(struct trace_seq *p, char *name);
+-#define __print_disk_name(name)				\
+-	nvme_trace_disk_name(p, name)
+-
+-#ifndef TRACE_HEADER_MULTI_READ
+-static inline void __assign_disk_name(char *name, struct gendisk *disk)
+-{
+-	if (disk)
+-		memcpy(name, disk->disk_name, DISK_NAME_LEN);
+-	else
+-		memset(name, 0, DISK_NAME_LEN);
+-}
+-#endif
 +#include "trace_common.h"
-+
-+TRACE_EVENT(nvme_sq,
-+	    TP_PROTO(void *rq_disk, int qid, int sq_head, int sq_tail),
-+	    TP_ARGS(rq_disk, qid, sq_head, sq_tail),
-+	    TP_STRUCT__entry(
-+		 __array(char, disk, DISK_NAME_LEN)
-+		 __field(int, qid)
-+		 __field(int, sq_head)
-+		 __field(int, sq_tail)),
-+	    TP_fast_assign(
-+		__entry->qid = qid;
-+		__entry->sq_head = sq_head;
-+		__entry->sq_tail = sq_tail;
-+		__assign_disk_name(__entry->disk, rq_disk);
-+	    ),
-+	    TP_printk("nvme: %s qid=%d head=%d tail=%d",
-+		      __print_disk_name(__entry->disk),
-+		      __entry->qid, __entry->sq_head, __entry->sq_tail)
-+);
-+
-+#endif /* _TRACE_NVME_H */
-+
-+#undef TRACE_INCLUDE_PATH
-+#define TRACE_INCLUDE_PATH .
-+#undef TRACE_INCLUDE_FILE
-+#define TRACE_INCLUDE_FILE trace_pci
-+
-+/* This part must be outside protection */
-+#include <trace/define_trace.h>
+ 
+ TRACE_EVENT(nvme_setup_cmd,
+ 	    TP_PROTO(struct request *req, struct nvme_command *cmd),
+@@ -189,7 +117,7 @@ TRACE_EVENT(nvme_async_event,
+ #undef TRACE_INCLUDE_PATH
+ #define TRACE_INCLUDE_PATH .
+ #undef TRACE_INCLUDE_FILE
+-#define TRACE_INCLUDE_FILE trace
++#define TRACE_INCLUDE_FILE trace_core
+ 
+ /* This part must be outside protection */
+ #include <trace/define_trace.h>
 -- 
 2.17.1
