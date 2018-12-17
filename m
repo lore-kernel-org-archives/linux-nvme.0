@@ -1,45 +1,35 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 17 Dec 2018 12:16:26 +0100
-Subject: [PATCH 1/2] blk-mq: only dispatch to non-defauly queue maps if they
- have queues
-Message-ID: <20181217111627.22635-1-hch@lst.de>
+Date: Mon, 17 Dec 2018 12:16:27 +0100
+Subject: [PATCH 2/2] nvme-pci: don't share queue maps
+In-Reply-To: <20181217111627.22635-1-hch@lst.de>
+References: <20181217111627.22635-1-hch@lst.de>
+Message-ID: <20181217111627.22635-2-hch@lst.de>
 
-We should check if a given queue map actually has queues enabled before
-dispatching to it.  This allows drivers to not initialize optional but
-not used map types, which subsequently will allow fixing problems with
-queue map rebuilds for that case.
+Now that the block layer checks if a queue map has any queues inside
+it there is no more reason to duplicate the maps for the non-default
+types.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- block/blk-mq.h | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ drivers/nvme/host/pci.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/block/blk-mq.h b/block/blk-mq.h
-index b63a0de8a07a..d1ed096723fb 100644
---- a/block/blk-mq.h
-+++ b/block/blk-mq.h
-@@ -105,14 +105,17 @@ static inline struct blk_mq_hw_ctx *blk_mq_map_queue(struct request_queue *q,
- {
- 	enum hctx_type type = HCTX_TYPE_DEFAULT;
- 
--	if (q->tag_set->nr_maps > HCTX_TYPE_POLL &&
--	    ((flags & REQ_HIPRI) && test_bit(QUEUE_FLAG_POLL, &q->queue_flags)))
-+	if ((flags & REQ_HIPRI) &&
-+	    q->tag_set->nr_maps > HCTX_TYPE_POLL && 
-+	    q->tag_set->map[HCTX_TYPE_POLL].nr_queues &&
-+	    test_bit(QUEUE_FLAG_POLL, &q->queue_flags))
- 		type = HCTX_TYPE_POLL;
- 
--	else if (q->tag_set->nr_maps > HCTX_TYPE_READ &&
--		 ((flags & REQ_OP_MASK) == REQ_OP_READ))
-+	else if (((flags & REQ_OP_MASK) == REQ_OP_READ) &&
-+	         q->tag_set->nr_maps > HCTX_TYPE_READ &&
-+		 q->tag_set->map[HCTX_TYPE_READ].nr_queues)
- 		type = HCTX_TYPE_READ;
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index fb9d8270f32c..698b350b38cf 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -496,11 +496,7 @@ static int nvme_pci_map_queues(struct blk_mq_tag_set *set)
+ 		map->nr_queues = dev->io_queues[i];
+ 		if (!map->nr_queues) {
+ 			BUG_ON(i == HCTX_TYPE_DEFAULT);
 -
-+	
- 	return blk_mq_map_queue_type(q, type, cpu);
- }
+-			/* shared set, resuse read set parameters */
+-			map->nr_queues = dev->io_queues[HCTX_TYPE_DEFAULT];
+-			qoff = 0;
+-			offset = queue_irq_offset(dev);
++			continue;
+ 		}
  
+ 		/*
 -- 
 2.19.2
