@@ -1,16 +1,45 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 17 Dec 2018 12:11:46 +0100
-Subject: [PATCH v3 2/2] trace nvme submit queue status
-In-Reply-To: <11554384-e0a9-0bde-97e9-228b29e6b641@suse.de>
-References: <20181217080605.16867-1-yupeng0921@gmail.com>
- <20181217080605.16867-2-yupeng0921@gmail.com>
- <11554384-e0a9-0bde-97e9-228b29e6b641@suse.de>
-Message-ID: <20181217111146.GA6126@lst.de>
+Date: Mon, 17 Dec 2018 12:16:26 +0100
+Subject: [PATCH 1/2] blk-mq: only dispatch to non-defauly queue maps if they
+ have queues
+Message-ID: <20181217111627.22635-1-hch@lst.de>
 
-On Mon, Dec 17, 2018@09:33:24AM +0100, Johannes Thumshirn wrote:
-> Is the addition of a trace_pci.h really needed? Why can't you just put
-> it in trace.h?
+We should check if a given queue map actually has queues enabled before
+dispatching to it.  This allows drivers to not initialize optional but
+not used map types, which subsequently will allow fixing problems with
+queue map rebuilds for that case.
 
-Agreed.  Especially as the concepts actually are generic, so we could
-actually add the trace point to the rdma and fc transports as well
-(not that they would be all that useful, so we probably shouldn't).
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+---
+ block/blk-mq.h | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
+
+diff --git a/block/blk-mq.h b/block/blk-mq.h
+index b63a0de8a07a..d1ed096723fb 100644
+--- a/block/blk-mq.h
++++ b/block/blk-mq.h
+@@ -105,14 +105,17 @@ static inline struct blk_mq_hw_ctx *blk_mq_map_queue(struct request_queue *q,
+ {
+ 	enum hctx_type type = HCTX_TYPE_DEFAULT;
+ 
+-	if (q->tag_set->nr_maps > HCTX_TYPE_POLL &&
+-	    ((flags & REQ_HIPRI) && test_bit(QUEUE_FLAG_POLL, &q->queue_flags)))
++	if ((flags & REQ_HIPRI) &&
++	    q->tag_set->nr_maps > HCTX_TYPE_POLL && 
++	    q->tag_set->map[HCTX_TYPE_POLL].nr_queues &&
++	    test_bit(QUEUE_FLAG_POLL, &q->queue_flags))
+ 		type = HCTX_TYPE_POLL;
+ 
+-	else if (q->tag_set->nr_maps > HCTX_TYPE_READ &&
+-		 ((flags & REQ_OP_MASK) == REQ_OP_READ))
++	else if (((flags & REQ_OP_MASK) == REQ_OP_READ) &&
++	         q->tag_set->nr_maps > HCTX_TYPE_READ &&
++		 q->tag_set->map[HCTX_TYPE_READ].nr_queues)
+ 		type = HCTX_TYPE_READ;
+-
++	
+ 	return blk_mq_map_queue_type(q, type, cpu);
+ }
+ 
+-- 
+2.19.2
