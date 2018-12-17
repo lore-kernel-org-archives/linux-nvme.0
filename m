@@ -1,77 +1,69 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Sun, 16 Dec 2018 17:32:18 +0100
-Subject: [PATCH] nvme-rdma: fix timeout handler
-In-Reply-To: <20181213212917.8900-1-sagi@grimberg.me>
-References: <20181213212917.8900-1-sagi@grimberg.me>
-Message-ID: <20181216163217.GA12814@lst.de>
+From: yupeng0921@gmail.com (yupeng)
+Date: Mon, 17 Dec 2018 00:06:04 -0800
+Subject: [PATCH v3 1/2] share nvme trace event helper functions with other
+ modules
+Message-ID: <20181217080605.16867-1-yupeng0921@gmail.com>
 
-On Thu, Dec 13, 2018@01:29:17PM -0800, Sagi Grimberg wrote:
-> Currently, we have several problems with the timeout
-> handler:
-> 1. If we timeout on the controller establishment flow, we will
-> hang because we don't execute the error recovery (and we shouldn't
-> because the create_ctrl flow needs to fail and cleanup on its own)
-> 2. We might also hang if we get a disconnet on a queue while the
-> controller is already deleting. This racy flow can cause the
-> controller disable/shutdown admin command to hang.
-> 
-> We cannot complete a timed out request from the timeout handler
-> without mutual exclusion from the teardown flow (e.g.
-> nvme_rdma_error_recovery_work). So we serialize it in the
-> timeout handler and stop the queue to guarantee that no
-> one races with us from completing the request.
-> 
-> Reported-by: Jaesoo Lee <jalee at purestorage.com>
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> ---
->  drivers/nvme/host/rdma.c | 33 +++++++++++++++++++++++----------
->  1 file changed, 23 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index 80b3113b45fb..af8f4cedabc1 100644
-> --- a/drivers/nvme/host/rdma.c
-> +++ b/drivers/nvme/host/rdma.c
-> @@ -1080,12 +1080,13 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
->  	nvme_rdma_reconnect_or_remove(ctrl);
->  }
->  
-> -static void nvme_rdma_error_recovery(struct nvme_rdma_ctrl *ctrl)
-> +static int nvme_rdma_error_recovery(struct nvme_rdma_ctrl *ctrl)
->  {
->  	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RESETTING))
-> -		return;
-> +		return -EBUSY;
->  
->  	queue_work(nvme_wq, &ctrl->err_work);
-> +	return 0;
->  }
->  
->  static void nvme_rdma_wr_error(struct ib_cq *cq, struct ib_wc *wc,
-> @@ -1693,18 +1694,30 @@ static enum blk_eh_timer_return
->  nvme_rdma_timeout(struct request *rq, bool reserved)
->  {
->  	struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
-> +	struct nvme_rdma_queue *queue = req->queue;
-> +	struct nvme_rdma_ctrl *ctrl = queue->ctrl;
-> +
-> +	dev_warn(ctrl->ctrl.device, "I/O %d QID %d timeout\n",
-> +		 rq->tag, nvme_rdma_queue_idx(queue));
->  
-> +	if (nvme_rdma_error_recovery(req->queue->ctrl)) {
-> +		union nvme_result res = {};
->  
-> +		nvme_rdma_stop_queue(queue);
-> +		flush_work(&ctrl->err_work);
->  
-> +		/*
-> +		 * now no-one is competing with us, safely check if the
-> +		 * was completed and fail it if not.
-> +		 */
-> +		if (READ_ONCE(rq->state) != MQ_RQ_COMPLETE) {
-> +			nvme_req(rq)->flags |= NVME_REQ_CANCELLED;
-> +			nvme_end_request(rq, NVME_SC_ABORT_REQ, res);
-> +			return BLK_EH_DONE;
-> +		}
+Currently the trace.c/trace.h could only be used by nvme-core. This
+patch moves __assign_disk_name to genhd.h, exports nvme_trace_disk_name to
+other modules. Thus other nvme modules could also trace disk name.
 
-So why did nvme_rdma_error_recovery not complete this request?
-I think that is where our problem is, and we are just papering over it.
+Signed-off-by: yupeng <yupeng0921 at gmail.com>
+---
+ drivers/nvme/host/trace.c |  2 ++
+ drivers/nvme/host/trace.h | 10 ----------
+ include/linux/genhd.h     |  8 ++++++++
+ 3 files changed, 10 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/nvme/host/trace.c b/drivers/nvme/host/trace.c
+index 25b0e310f4a8..99a132a34403 100644
+--- a/drivers/nvme/host/trace.c
++++ b/drivers/nvme/host/trace.c
+@@ -139,3 +139,5 @@ const char *nvme_trace_disk_name(struct trace_seq *p, char *name)
+ 
+ 	return ret;
+ }
++
++EXPORT_SYMBOL_GPL(nvme_trace_disk_name);
+diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
+index 196d5bd56718..23f3fcf04fb6 100644
+--- a/drivers/nvme/host/trace.h
++++ b/drivers/nvme/host/trace.h
+@@ -82,16 +82,6 @@ const char *nvme_trace_disk_name(struct trace_seq *p, char *name);
+ #define __print_disk_name(name)				\
+ 	nvme_trace_disk_name(p, name)
+ 
+-#ifndef TRACE_HEADER_MULTI_READ
+-static inline void __assign_disk_name(char *name, struct gendisk *disk)
+-{
+-	if (disk)
+-		memcpy(name, disk->disk_name, DISK_NAME_LEN);
+-	else
+-		memset(name, 0, DISK_NAME_LEN);
+-}
+-#endif
+-
+ TRACE_EVENT(nvme_setup_cmd,
+ 	    TP_PROTO(struct request *req, struct nvme_command *cmd),
+ 	    TP_ARGS(req, cmd),
+diff --git a/include/linux/genhd.h b/include/linux/genhd.h
+index 70fc838e6773..468ab3143d77 100644
+--- a/include/linux/genhd.h
++++ b/include/linux/genhd.h
+@@ -749,6 +749,14 @@ static inline void blk_integrity_add(struct gendisk *disk) { }
+ static inline void blk_integrity_del(struct gendisk *disk) { }
+ #endif	/* CONFIG_BLK_DEV_INTEGRITY */
+ 
++static inline void __assign_disk_name(char *name, struct gendisk *disk)
++{
++	if (disk)
++		memcpy(name, disk->disk_name, DISK_NAME_LEN);
++	else
++		memset(name, 0, DISK_NAME_LEN);
++}
++
+ #else /* CONFIG_BLOCK */
+ 
+ static inline void printk_all_partitions(void) { }
+-- 
+2.17.1
