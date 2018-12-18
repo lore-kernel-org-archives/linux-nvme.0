@@ -1,39 +1,31 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 18 Dec 2018 18:07:38 +0100
-Subject: [PATCH] nvme-rdma: fix timeout handler
-In-Reply-To: <7b1f148f-a881-2483-1b04-3b2ff5b11449@broadcom.com>
-References: <20181213212917.8900-1-sagi@grimberg.me>
- <20181216163217.GA12814@lst.de>
- <a9c82a82-6841-3e3d-54b1-659c72a062fd@grimberg.me>
- <7b1f148f-a881-2483-1b04-3b2ff5b11449@broadcom.com>
-Message-ID: <20181218170738.GA13748@lst.de>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 18 Dec 2018 10:26:46 -0700
+Subject: [PATCH v4 2/2] trace nvme submit queue status
+In-Reply-To: <20181218045138.4282-2-yupeng0921@gmail.com>
+References: <20181218045138.4282-1-yupeng0921@gmail.com>
+ <20181218045138.4282-2-yupeng0921@gmail.com>
+Message-ID: <20181218172645.GB13768@localhost.localdomain>
 
-On Tue, Dec 18, 2018@08:55:46AM -0800, James Smart wrote:
->
->
-> On 12/17/2018 1:58 PM, Sagi Grimberg wrote:
->>
->>> So why did nvme_rdma_error_recovery not complete this request?
->>> I think that is where our problem is, and we are just papering over it.
->>
->> nvme_rdma_error_recovery in essence, kicks in when the controller is
->> LIVE and only then sees a failure. What it does is teardown the
->> controller and schedule a periodic reconnect work..
->>
->> When we fail the connection establishment, we don't want to do that,
->> but simply fail and let create_ctrl cleanup and fail.
->>
->> Technically, nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RESETTING) is
->> failing because we are not LIVE, but rather CONNECTING (as we are still
->> in the create_ctrl time).
->
-> which is why I believe the transports need at least a routine that runs 
-> down the queues, terminates anything pending (error recovery may be an io 
-> timeout), and marks the queues down - regardless of the state of the 
-> controller.? That run down will terminate the connection admin commands 
-> that may be in error, allowing the fail path Sagi points out to kick in. 
-> This same path needs to occur at the start of the reset and delete as well.
+On Mon, Dec 17, 2018@08:51:38PM -0800, yupeng wrote:
+> +TRACE_EVENT(nvme_sq,
+> +	TP_PROTO(void *rq_disk, int qid, int sq_head, int sq_tail),
+> +	TP_ARGS(rq_disk, qid, sq_head, sq_tail),
+> +	TP_STRUCT__entry(
+> +		__array(char, disk, DISK_NAME_LEN)
+> +		__field(int, qid)
+> +		__field(int, sq_head)
+> +		__field(int, sq_tail)
+> +	),
+> +	TP_fast_assign(
+> +		__assign_disk_name(__entry->disk, rq_disk);
+> +		__entry->qid = qid;
+> +		__entry->sq_head = sq_head;
+> +		__entry->sq_tail = sq_tail;
+> +	),
+> +	TP_printk("nvme: %s qid=%d head=%d tail=%d",
+> +		__print_disk_name(__entry->disk),
 
-That was my impression as well.  Or in fact just allow a transition
-from connecting to reset (or a special connect terminate state that
-is very similar except for not recovering)
+No need for a space after the %s. __print_disk_name already appends a
+space if there's a disk name, and we don't want the extra space if there
+isn't one. Also, every other nvme trace has a ',' after each entry. Not
+a big deal, just minor format consistency.
