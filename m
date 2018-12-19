@@ -1,65 +1,33 @@
-From: yupeng0921@gmail.com (peng yu)
-Date: Tue, 18 Dec 2018 17:19:00 -0800
-Subject: [PATCH v4 2/2] trace nvme submit queue status
-In-Reply-To: <20181218174750.GA14416@lst.de>
-References: <20181218045138.4282-1-yupeng0921@gmail.com>
- <20181218045138.4282-2-yupeng0921@gmail.com>
- <20181218172645.GB13768@localhost.localdomain> <20181218174750.GA14416@lst.de>
-Message-ID: <CAG3TDc3QarHcz_ez=GYYzqDp8VwMHL=nUTvur+5XN+m5-T57sA@mail.gmail.com>
+From: martin.petersen@oracle.com (Martin K. Petersen)
+Date: Tue, 18 Dec 2018 22:34:02 -0500
+Subject: [PATCH] nvme-core: add support for Write-Zeroes command
+In-Reply-To: <20181218034203.22256-1-chaitanya.kulkarni@wdc.com> (Chaitanya
+ Kulkarni's message of "Mon, 17 Dec 2018 22:42:03 -0500")
+References: <20181218034203.22256-1-chaitanya.kulkarni@wdc.com>
+Message-ID: <yq1r2eei40l.fsf@oracle.com>
 
-On Tue, Dec 18, 2018@9:47 AM hch@lst.de <hch@lst.de> wrote:
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 2477bd906904..5a0bf6a24d50 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -1004,8 +1004,7 @@ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq, u16 idx)
->         }
->
->         req = blk_mq_tag_to_rq(*nvmeq->tags, cqe->command_id);
-> -       trace_nvme_sq(req->rq_disk, nvmeq->qid, le16_to_cpu(cqe->sq_head),
-> -                       nvmeq->sq_tail);
-> +       trace_nvme_sq(req, cqe->sq_head, nvmeq->sq_tail);
->         nvme_end_request(req, cqe->status, cqe->result);
->  }
->
-> diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
-> index cf666709bc50..3564120aa7b3 100644
-> --- a/drivers/nvme/host/trace.h
-> +++ b/drivers/nvme/host/trace.h
-> @@ -185,22 +185,24 @@ TRACE_EVENT(nvme_async_event,
->  #undef aer_name
->
->  TRACE_EVENT(nvme_sq,
-> -       TP_PROTO(void *rq_disk, int qid, int sq_head, int sq_tail),
-> -       TP_ARGS(rq_disk, qid, sq_head, sq_tail),
-> +       TP_PROTO(struct request *req, __le16 sq_head, int sq_tail),
-> +       TP_ARGS(req, sq_head, sq_tail),
->         TP_STRUCT__entry(
-> +               __field(int, ctrl_id)
->                 __array(char, disk, DISK_NAME_LEN)
->                 __field(int, qid)
-> -               __field(int, sq_head)
-> -               __field(int, sq_tail)
-> +               __field(u16, sq_head)
-> +               __field(u16, sq_tail)
->         ),
->         TP_fast_assign(
-> -               __assign_disk_name(__entry->disk, rq_disk);
-> -               __entry->qid = qid;
-> -               __entry->sq_head = sq_head;
-> +               __entry->ctrl_id = nvme_req(req)->ctrl->instance;
-> +               __assign_disk_name(__entry->disk, req->rq_disk);
-> +               __entry->qid = nvme_req_qid(req);
-> +               __entry->sq_head = le16_to_cpu(sq_head);
->                 __entry->sq_tail = sq_tail;
->         ),
-> -       TP_printk("nvme: %s qid=%d head=%d tail=%d",
-> -               __print_disk_name(__entry->disk),
-> +       TP_printk("nvme%d: %sqid=%d, head=%u, tail=%u",
-> +               __entry->ctrl_id, __print_disk_name(__entry->disk),
->                 __entry->qid, __entry->sq_head, __entry->sq_tail
->         )
->  );
 
-I think this change is nice. Will you submit this change or are you
-suggesting me to do it?
+Chaitanya,
+
+> Allow write zeroes operations (REQ_OP_WRITE_ZEROES) on the block
+> device, if the device supports an optional command bit set for write
+> zeroes. Add support to setup write zeroes command. Set maximum
+> possible write zeroes sectors in one write zeroes command according to
+> nvme write zeroes command definition.
+>
+> This patch was posted as a part of block-write-zeroes support
+> implementation (https://patchwork.kernel.org/patch/9454859/), but did
+> not make into mainline kernel as it got reverted due to failure on the
+> Linus's machine.
+>
+> In this patch in order to be more cautious, we use NVMe controller's
+> maximum hardware sector size which is calculated based on the
+> controller's MDTS (Maximum Data Transfer Size) field to calculate the
+> maximum sectors for the write zeroes request.
+
+Looks good to me.
+
+Reviewed-by: Martin K. Petersen <martin.petersen at oracle.com>
+
+-- 
+Martin K. Petersen	Oracle Linux Engineering
