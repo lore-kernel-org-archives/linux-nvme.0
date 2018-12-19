@@ -1,53 +1,65 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Tue, 18 Dec 2018 17:13:35 -0800
-Subject: [PATCH nvme-cli] nvme_fc auto-connect scripts
-In-Reply-To: <e0ebf02b-faaa-799c-7374-daf183a7866b@suse.de>
-References: <20181116080024.12078-1-hare@suse.de>
- <df49114f-99e9-cca0-c99e-2df237c910c2@grimberg.me>
- <e0ebf02b-faaa-799c-7374-daf183a7866b@suse.de>
-Message-ID: <055e8c7d-546a-affa-2006-60b97ab838c2@broadcom.com>
+From: yupeng0921@gmail.com (peng yu)
+Date: Tue, 18 Dec 2018 17:19:00 -0800
+Subject: [PATCH v4 2/2] trace nvme submit queue status
+In-Reply-To: <20181218174750.GA14416@lst.de>
+References: <20181218045138.4282-1-yupeng0921@gmail.com>
+ <20181218045138.4282-2-yupeng0921@gmail.com>
+ <20181218172645.GB13768@localhost.localdomain> <20181218174750.GA14416@lst.de>
+Message-ID: <CAG3TDc3QarHcz_ez=GYYzqDp8VwMHL=nUTvur+5XN+m5-T57sA@mail.gmail.com>
 
-where do we sit with this ?
+On Tue, Dec 18, 2018@9:47 AM hch@lst.de <hch@lst.de> wrote:
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 2477bd906904..5a0bf6a24d50 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -1004,8 +1004,7 @@ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq, u16 idx)
+>         }
+>
+>         req = blk_mq_tag_to_rq(*nvmeq->tags, cqe->command_id);
+> -       trace_nvme_sq(req->rq_disk, nvmeq->qid, le16_to_cpu(cqe->sq_head),
+> -                       nvmeq->sq_tail);
+> +       trace_nvme_sq(req, cqe->sq_head, nvmeq->sq_tail);
+>         nvme_end_request(req, cqe->status, cqe->result);
+>  }
+>
+> diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
+> index cf666709bc50..3564120aa7b3 100644
+> --- a/drivers/nvme/host/trace.h
+> +++ b/drivers/nvme/host/trace.h
+> @@ -185,22 +185,24 @@ TRACE_EVENT(nvme_async_event,
+>  #undef aer_name
+>
+>  TRACE_EVENT(nvme_sq,
+> -       TP_PROTO(void *rq_disk, int qid, int sq_head, int sq_tail),
+> -       TP_ARGS(rq_disk, qid, sq_head, sq_tail),
+> +       TP_PROTO(struct request *req, __le16 sq_head, int sq_tail),
+> +       TP_ARGS(req, sq_head, sq_tail),
+>         TP_STRUCT__entry(
+> +               __field(int, ctrl_id)
+>                 __array(char, disk, DISK_NAME_LEN)
+>                 __field(int, qid)
+> -               __field(int, sq_head)
+> -               __field(int, sq_tail)
+> +               __field(u16, sq_head)
+> +               __field(u16, sq_tail)
+>         ),
+>         TP_fast_assign(
+> -               __assign_disk_name(__entry->disk, rq_disk);
+> -               __entry->qid = qid;
+> -               __entry->sq_head = sq_head;
+> +               __entry->ctrl_id = nvme_req(req)->ctrl->instance;
+> +               __assign_disk_name(__entry->disk, req->rq_disk);
+> +               __entry->qid = nvme_req_qid(req);
+> +               __entry->sq_head = le16_to_cpu(sq_head);
+>                 __entry->sq_tail = sq_tail;
+>         ),
+> -       TP_printk("nvme: %s qid=%d head=%d tail=%d",
+> -               __print_disk_name(__entry->disk),
+> +       TP_printk("nvme%d: %sqid=%d, head=%u, tail=%u",
+> +               __entry->ctrl_id, __print_disk_name(__entry->disk),
+>                 __entry->qid, __entry->sq_head, __entry->sq_tail
+>         )
+>  );
 
--- james
-
-
-On 11/20/2018 8:05 AM, Hannes Reinecke wrote:
-> On 11/19/18 11:53 PM, Sagi Grimberg wrote:
->>
->>> From: James Smart <jsmart2021 at gmail.com>
->>>
->>> Sagi recently posted a "one-shot" call to nvme-connect via a systemd
->>> script. FC has no problems operating with it assuming all the required
->>> connect fields are present (host_traddr required).
->>
->>
->> I think that this is a good approach. Can we add a preparatory patch
->> that will allow nvme-cli to accept nil/none arguments? This way
->> we can have the kernel shoot consistent udev events where parameters
->> can stay don't-care and we can have the same rule...
->>
->> If nvme-cli can accept a command in the form:
->> nvme connect-all --traddr=<a> --host-traddr=<b> --trsvcid=none
->>
-> Good point, ans something which I had been thinking about, too.
-> But really it only makes sense if these scripts are supposed to work 
-> on different fabrics.
->
->> I think we can consolidate a bit more (it will be a different device
->> because for IP stuff the device will be the controller char device).
->>
->> Perhaps we should change the name 70-nvmefc-autoconnect.rules to
->> 70-nvmf-autoconnect.rules that will contain rules fc and IP in the
->> same rule file...
->>
-> Of course we can make it more general.
->
-> It was just that buy-in from other subsystems into doing autoconnect 
-> was rather reluctant.
->
-> I'll be resending the patches.
->
-> Cheers,
->
-> Hannes
+I think this change is nice. Will you submit this change or are you
+suggesting me to do it?
