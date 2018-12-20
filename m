@@ -1,25 +1,44 @@
-From: hare@suse.com (Hannes Reinecke)
-Date: Wed, 19 Dec 2018 16:09:45 +0100
-Subject: [PATCH nvme-cli] nvme_fc auto-connect scripts
-In-Reply-To: <055e8c7d-546a-affa-2006-60b97ab838c2@broadcom.com>
-References: <20181116080024.12078-1-hare@suse.de>
- <df49114f-99e9-cca0-c99e-2df237c910c2@grimberg.me>
- <e0ebf02b-faaa-799c-7374-daf183a7866b@suse.de>
- <055e8c7d-546a-affa-2006-60b97ab838c2@broadcom.com>
-Message-ID: <18fd8e7f-c44a-1b79-60e5-5dc946e2c5da@suse.com>
+From: lina.lulina@huawei.com (Lulina (A))
+Date: Thu, 20 Dec 2018 07:07:51 +0000
+Subject: [PATCH] nvme-pci: fix dbbuf_sq_db point to freed memory
+Message-ID: <E5D59058E6941147BD3ACF9CB4AA49E3B3572D68@DGGEMA505-MBX.china.huawei.com>
 
-On 12/19/18 2:13 AM, James Smart wrote:
-> where do we sit with this ?
-> 
-I'll be working on updating nvme-cli to accept 'none' parameters, and 
-then I'll update the patch to be transport-agnostic.
+The case is that nvme device support NVME_CTRL_OACS_DBBUF_SUPP, and
+return failed when the driver sent nvme_admin_dbbuf. The nvmeq->dbbuf_sq_db
+point to freed memory, as nvme_dbbuf_set is called behind nvme_dbbuf_init.
 
-Cheers,
+Change-Id: Ief2a5877cb008d3c29cf99053f80fecc9b8db1db
+Signed-off-by: lulina <lina.lulina at huawei.com>
 
-Hannes
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index da39729..2e11980 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -240,16 +240,25 @@ static int nvme_dbbuf_dma_alloc(struct nvme_dev *dev)
+ static void nvme_dbbuf_dma_free(struct nvme_dev *dev)
+ {
+ 	unsigned int mem_size = nvme_dbbuf_size(dev->db_stride);
++	unsigned int i;
+ 
+ 	if (dev->dbbuf_dbs) {
+ 		dma_free_coherent(dev->dev, mem_size,
+ 				  dev->dbbuf_dbs, dev->dbbuf_dbs_dma_addr);
+ 		dev->dbbuf_dbs = NULL;
++		for (i = dev->ctrl.queue_count - 1; i > 0; i--) {
++			dev->queues[i]->dbbuf_sq_db = NULL;
++			dev->queues[i]->dbbuf_cq_db = NULL;
++		}
+ 	}
+ 	if (dev->dbbuf_eis) {
+ 		dma_free_coherent(dev->dev, mem_size,
+ 				  dev->dbbuf_eis, dev->dbbuf_eis_dma_addr);
+ 		dev->dbbuf_eis = NULL;
++		for (i = dev->ctrl.queue_count - 1; i > 0; i--) {
++			dev->queues[i]->dbbuf_sq_ei = NULL;
++			dev->queues[i]->dbbuf_cq_ei = NULL;
++		}
+ 	}
+ }
+ 
 -- 
-Dr. Hannes Reinecke		               zSeries & Storage
-hare at suse.com			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+1.8.3.1
