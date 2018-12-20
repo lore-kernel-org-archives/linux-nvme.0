@@ -1,95 +1,27 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 20 Dec 2018 13:42:06 -0800
+Date: Thu, 20 Dec 2018 13:58:17 -0800
 Subject: [PATCH] nvme-rdma: fix timeout handler
-In-Reply-To: <20181218170738.GA13748@lst.de>
+In-Reply-To: <b29d0862-7743-97c3-89b0-6a2aecb346d4@broadcom.com>
 References: <20181213212917.8900-1-sagi@grimberg.me>
  <20181216163217.GA12814@lst.de>
  <a9c82a82-6841-3e3d-54b1-659c72a062fd@grimberg.me>
  <7b1f148f-a881-2483-1b04-3b2ff5b11449@broadcom.com>
  <20181218170738.GA13748@lst.de>
-Message-ID: <95b2a55f-3f5f-14a3-abab-56124f7761b1@grimberg.me>
+ <b29d0862-7743-97c3-89b0-6a2aecb346d4@broadcom.com>
+Message-ID: <2c5c19c1-fa18-2af3-46af-c0230f59c030@grimberg.me>
 
 
->> which is why I believe the transports need at least a routine that runs
->> down the queues, terminates anything pending (error recovery may be an io
->> timeout), and marks the queues down - regardless of the state of the
->> controller.? That run down will terminate the connection admin commands
->> that may be in error, allowing the fail path Sagi points out to kick in.
->> This same path needs to occur at the start of the reset and delete as well.
+>> That was my impression as well.? Or in fact just allow a transition
+>> from connecting to reset (or a special connect terminate state that
+>> is very similar except for not recovering)
 > 
-> That was my impression as well.  Or in fact just allow a transition
-> from connecting to reset (or a special connect terminate state that
-> is very similar except for not recovering)
+> :)? I had proposed that originally, but it was rejected.? I still think 
+> that state transition is valid, but the pci guys disagreed.
+> 
+> I don't think it needs a new state.?? I think a transport callback that 
+> can be called from the common layers is sufficient.? rdma already has it 
+> in nvme_rdma_teardown_io_queues() and nvme_rdma_teardown_admin_queue(). 
+> And fc has it in __nvme_fc_terminate_io().
 
-I don't think this is a good idea. Introducing a different state for
-connect failure is a bit cumbersome for the state machine and not
-trivial to detect from the .timeout handler.
-
-Moreover, its not the only case where we have an issue. In RDMA (and
-TCP) at least, we have also the issue that Jaesoo pointed out.
-
-The scenario goes as follows:
-1. the host triggers a delete sequence
-2. host disconnect I/O queues
-3. host issues prop_set (nvme_shutdown_ctrl)
-4. target disconnects the admin queue // race with (3)
-5. (3) hangs because no one can complete the admin commands
-it comes after we pass step (3).
-
-So the flows are slightly less trivial.
-
-Moreover, the behavior proposed is not any different than
-what we do in pci which disables the device (and terminates
-IO) directly from the timeout handler:
---
-         /*
-          * Shutdown immediately if controller times out while starting. The
-          * reset work will see the pci device disabled when it gets the 
-forced
-          * cancellation error. All outstanding requests are completed on
-          * shutdown, so we return BLK_EH_DONE.
-          */
-         switch (dev->ctrl.state) {
-         case NVME_CTRL_CONNECTING:
-         case NVME_CTRL_RESETTING:
-                 dev_warn_ratelimited(dev->ctrl.device,
-                          "I/O %d QID %d timeout, disable controller\n",
-                          req->tag, nvmeq->qid);
-                 nvme_dev_disable(dev, false);
-                 nvme_req(req)->flags |= NVME_REQ_CANCELLED;
-                 return BLK_EH_DONE;
-         default:
-                 break;
-         }
---
-
-nvme_dev_disable eventually calls blk_mq_tagset_busy_iter() on all
-inflight requests, so it effectively does the same thing.
-
-Would you prefer if we do the below instead (which match pci exactly)?
---
-static enum blk_eh_timer_return
-nvme_rdma_timeout(struct request *rq, bool reserved)
-{
-         struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
-         struct nvme_rdma_queue *queue = req->queue;
-         struct nvme_rdma_ctrl *ctrl = queue->ctrl;
-
-         dev_warn(ctrl->ctrl.device, "I/O %d QID %d timeout\n",
-                  rq->tag, nvme_rdma_queue_idx(queue));
-
-         if (nvme_rdma_error_recovery(ctrl)) {
-                 /*
-                  * Shutdown immediately if controller times out
-                  * while starting. All outstanding requests are
-                  * completed on shutdown, so we return BLK_EH_DONE.
-                  */
-                 flush_work(&ctrl->err_work);
-                 nvme_rdma_stop_queue(queue);
-                 nvme_rdma_shutdown_ctrl(queue->ctrl, false);
-                 return BLK_EH_DONE;
-         }
-
-         return BLK_EH_RESET_TIMER;
-}
---
+I'm not entirely clear where this callout would be invoked from? Note
+that pci shares this common flow.
