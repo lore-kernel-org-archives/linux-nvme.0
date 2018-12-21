@@ -1,56 +1,217 @@
-From: shan.hai@oracle.com (Shan Hai)
-Date: Fri, 21 Dec 2018 14:04:12 +0800
-Subject: [PATCH 1/2] nvme-pci: add module param for io queue number
-Message-ID: <1545372253-28025-1-git-send-email-shan.hai@oracle.com>
+From: hare@suse.de (Hannes Reinecke)
+Date: Fri, 21 Dec 2018 15:13:30 +0100
+Subject: [PATCHv2] nvme-multipath: round-robin I/O policy
+Message-ID: <20181221141330.96599-1-hare@suse.de>
 
-The num_possible_cpus() number of io queues by default would cause
-irq vector shortage problem on a large system when hotplugging cpus,
-add a module parameter to set number of io queues according to the
-system configuration to fix the issue.
+Implement a simple round-robin I/O policy for multipathing.
+Path selection is done in two rounds, first iterating across all
+optimized paths, and, if that doesn't return any valid paths,
+then iterate over all optimized and non-optimized paths.
+If no paths are found we're using the existing algorithm.
+This patch also implements a sysfs attribute 'iopolicy' to switch
+between the current, NUMA-aware I/O policy and the 'round-robin'
+I/O policy.
+The original NUMA-aware I/O policy is kept as a default.
 
-Signed-off-by: Shan Hai <shan.hai at oracle.com>
+Signed-off-by: Hannes Reinecke <hare at suse.com>
 ---
- drivers/nvme/host/pci.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ drivers/nvme/host/core.c      |   6 +++
+ drivers/nvme/host/multipath.c | 100 +++++++++++++++++++++++++++++++++++++++++-
+ drivers/nvme/host/nvme.h      |  12 +++++
+ 3 files changed, 117 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index c33bb20..0d60451 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -64,6 +64,16 @@ MODULE_PARM_DESC(sgl_threshold,
- 		"Use SGLs when average request segment size is larger or equal to "
- 		"this size. Use 0 to disable SGLs.");
- 
-+static int io_queue_number_set(const char *val, const struct kernel_param *kp);
-+static const struct kernel_param_ops io_queue_number_ops = {
-+	.set = io_queue_number_set,
-+	.get = param_get_uint,
-+};
-+
-+static unsigned int io_queue_number = UINT_MAX;
-+module_param_cb(io_queue_number, &io_queue_number_ops, &io_queue_number, 0644);
-+MODULE_PARM_DESC(io_queue_number, "set io queue number, should >= 2");
-+
- static int io_queue_depth_set(const char *val, const struct kernel_param *kp);
- static const struct kernel_param_ops io_queue_depth_ops = {
- 	.set = io_queue_depth_set,
-@@ -123,6 +133,17 @@ struct nvme_dev {
- 	void **host_mem_desc_bufs;
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 08f2c92602f4..7603aaa8217e 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2275,6 +2275,9 @@ static struct attribute *nvme_subsys_attrs[] = {
+ 	&subsys_attr_serial.attr,
+ 	&subsys_attr_firmware_rev.attr,
+ 	&subsys_attr_subsysnqn.attr,
++#ifdef CONFIG_NVME_MULTIPATH
++	&subsys_attr_iopolicy.attr,
++#endif
+ 	NULL,
  };
  
-+static int io_queue_number_set(const char *val, const struct kernel_param *kp)
+@@ -2327,6 +2330,9 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+ 	memcpy(subsys->firmware_rev, id->fr, sizeof(subsys->firmware_rev));
+ 	subsys->vendor_id = le16_to_cpu(id->vid);
+ 	subsys->cmic = id->cmic;
++#ifdef CONFIG_NVME_MULTIPATH
++	subsys->iopolicy = NVME_IOPOLICY_NUMA;
++#endif
+ 
+ 	subsys->dev.class = nvme_subsys_class;
+ 	subsys->dev.release = nvme_release_subsystem;
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 183ec17ba067..69cccdaea62e 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -141,7 +141,10 @@ static struct nvme_ns *__nvme_find_path(struct nvme_ns_head *head, int node)
+ 		    test_bit(NVME_NS_ANA_PENDING, &ns->flags))
+ 			continue;
+ 
+-		distance = node_distance(node, ns->ctrl->numa_node);
++		if (READ_ONCE(head->subsys->iopolicy) == NVME_IOPOLICY_NUMA)
++			distance = node_distance(node, ns->ctrl->numa_node);
++		else
++			distance = LOCAL_DISTANCE;
+ 
+ 		switch (ns->ana_state) {
+ 		case NVME_ANA_OPTIMIZED:
+@@ -168,6 +171,54 @@ static struct nvme_ns *__nvme_find_path(struct nvme_ns_head *head, int node)
+ 	return found;
+ }
+ 
++static struct nvme_ns *__nvme_rr_next_path(struct nvme_ns_head *head, int node,
++					   struct nvme_ns *old)
 +{
-+	unsigned int n = 0, ret;
++	struct nvme_ns *ns, *found = NULL;
++	bool try_nonoptimized = false;
 +
-+	ret = kstrtouint(val, 10, &n);
-+	if (ret != 0 || n < 2)
-+		return -EINVAL;
++	if (!old)
++		return NULL;
++retry:
++	ns = old;
++	do {
++		ns = list_next_or_null_rcu(&head->list, &ns->siblings,
++					   struct nvme_ns, siblings);
++		if (!ns) {
++			ns = list_first_or_null_rcu(&head->list, struct nvme_ns,
++						    siblings);
++			if (!ns)
++				return NULL;
 +
-+	return param_set_uint(val, kp);
++			if (ns == old)
++				/*
++				 * The list consists of just one entry.
++				 * Sorry for the noise :-)
++				 */
++				return old;
++		}
++		if (ns->disk && ns->ctrl->state == NVME_CTRL_LIVE) {
++			if (ns->ana_state == NVME_ANA_OPTIMIZED) {
++				found = ns;
++				break;
++			}
++			if (try_nonoptimized &&
++			    ns->ana_state == NVME_ANA_NONOPTIMIZED) {
++				found = ns;
++				break;
++			}
++		}
++	} while (ns != old);
++
++	if (found)
++		rcu_assign_pointer(head->current_path[node], found);
++	else if (!try_nonoptimized) {
++		try_nonoptimized = true;
++		goto retry;
++	}
++	return found;
 +}
 +
- static int io_queue_depth_set(const char *val, const struct kernel_param *kp)
+ static inline bool nvme_path_is_optimized(struct nvme_ns *ns)
  {
- 	int n = 0, ret;
+ 	return ns->ctrl->state == NVME_CTRL_LIVE &&
+@@ -180,6 +231,8 @@ inline struct nvme_ns *nvme_find_path(struct nvme_ns_head *head)
+ 	struct nvme_ns *ns;
+ 
+ 	ns = srcu_dereference(head->current_path[node], &head->srcu);
++	if (READ_ONCE(head->subsys->iopolicy) == NVME_IOPOLICY_RR)
++		ns = __nvme_rr_next_path(head, node, ns);
+ 	if (unlikely(!ns || !nvme_path_is_optimized(ns)))
+ 		ns = __nvme_find_path(head, node);
+ 	return ns;
+@@ -471,6 +524,51 @@ void nvme_mpath_stop(struct nvme_ctrl *ctrl)
+ 	cancel_work_sync(&ctrl->ana_work);
+ }
+ 
++#define SUBSYS_ATTR_RW(_name, _mode, _show, _store)  \
++	struct device_attribute subsys_attr_##_name =	\
++		__ATTR(_name, _mode, _show, _store)
++
++static const char *nvme_iopolicy_names[] = {
++	[NVME_IOPOLICY_UNKNOWN] = "unknown",
++	[NVME_IOPOLICY_NUMA] = "numa",
++	[NVME_IOPOLICY_RR] = "round-robin",
++};
++
++static ssize_t nvme_subsys_iopolicy_show(struct device *dev,
++		struct device_attribute *attr, char *buf)
++{
++	struct nvme_subsystem *subsys =
++		container_of(dev, struct nvme_subsystem, dev);
++	int iopolicy = NVME_IOPOLICY_UNKNOWN;
++
++	if (iopolicy < ARRAY_SIZE(nvme_iopolicy_names))
++		iopolicy = READ_ONCE(subsys->iopolicy);
++	return sprintf(buf, "%s\n", nvme_iopolicy_names[iopolicy]);
++}
++
++static ssize_t nvme_subsys_iopolicy_store(struct device *dev,
++		struct device_attribute *attr, const char *buf, size_t count)
++{
++	enum nvme_iopolicy iopolicy = NVME_IOPOLICY_UNKNOWN;
++	struct nvme_subsystem *subsys =
++		container_of(dev, struct nvme_subsystem, dev);
++
++	if (!strncmp(buf, nvme_iopolicy_names[NVME_IOPOLICY_NUMA],
++		     strlen(nvme_iopolicy_names[NVME_IOPOLICY_NUMA])))
++		iopolicy = NVME_IOPOLICY_NUMA;
++	else if (!strncmp(buf, nvme_iopolicy_names[NVME_IOPOLICY_RR],
++		     strlen(nvme_iopolicy_names[NVME_IOPOLICY_RR])))
++		iopolicy = NVME_IOPOLICY_RR;
++
++	if (iopolicy == NVME_IOPOLICY_UNKNOWN)
++		return -EINVAL;
++
++	WRITE_ONCE(subsys->iopolicy, iopolicy);
++	return count;
++}
++SUBSYS_ATTR_RW(iopolicy, S_IRUGO | S_IWUSR,
++		      nvme_subsys_iopolicy_show, nvme_subsys_iopolicy_store);
++
+ static ssize_t ana_grpid_show(struct device *dev, struct device_attribute *attr,
+ 		char *buf)
+ {
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 2b36ac922596..e24b51a608de 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -246,6 +246,14 @@ struct nvme_ctrl {
+ 	unsigned long discard_page_busy;
+ };
+ 
++#ifdef CONFIG_NVME_MULTIPATH
++enum nvme_iopolicy {
++	NVME_IOPOLICY_UNKNOWN,
++	NVME_IOPOLICY_NUMA,
++	NVME_IOPOLICY_RR,
++};
++#endif
++
+ struct nvme_subsystem {
+ 	int			instance;
+ 	struct device		dev;
+@@ -265,6 +273,9 @@ struct nvme_subsystem {
+ 	u8			cmic;
+ 	u16			vendor_id;
+ 	struct ida		ns_ida;
++#ifdef CONFIG_NVME_MULTIPATH
++	enum nvme_iopolicy	iopolicy;
++#endif
+ };
+ 
+ /*
+@@ -486,6 +497,7 @@ static inline void nvme_mpath_check_last_path(struct nvme_ns *ns)
+ 
+ extern struct device_attribute dev_attr_ana_grpid;
+ extern struct device_attribute dev_attr_ana_state;
++extern struct device_attribute subsys_attr_iopolicy;
+ 
+ #else
+ static inline bool nvme_ctrl_use_ana(struct nvme_ctrl *ctrl)
 -- 
-2.7.4
+2.16.4
