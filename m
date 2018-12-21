@@ -1,61 +1,43 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Thu, 20 Dec 2018 15:31:27 -0800
-Subject: [PATCH] nvme-fc: flush err and connect work in .stop_ctrl
-In-Reply-To: <20181220190420.23515-1-sagi@grimberg.me>
-References: <20181220190420.23515-1-sagi@grimberg.me>
-Message-ID: <643654d7-2863-74f5-63d8-41aac14291d1@broadcom.com>
+From: lina.lulina@huawei.com (Lulina (A))
+Date: Fri, 21 Dec 2018 01:07:25 +0000
+Subject: [PATCH v2] nvme-pci: fix dbbuf_sq_db point to freed memory
+Message-ID: <E5D59058E6941147BD3ACF9CB4AA49E3B3572EC2@DGGEMA505-MBX.china.huawei.com>
 
+The case is that nvme device support NVME_CTRL_OACS_DBBUF_SUPP, and
+return failed when the driver sent nvme_admin_dbbuf. The nvmeq->dbbuf_sq_db
+point to freed memory, as nvme_dbbuf_set is called after nvme_dbbuf_init.
 
+Signed-off-by: lulina <lina.lulina at huawei.com>
 
-On 12/20/2018 11:04 AM, Sagi Grimberg wrote:
-> Controller op .stop_ctrl was designed to let the driver
-> quiesce any pending works that may be active before starting
-> the controller teardown (delete_ctrl).
->
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> ---
->   drivers/nvme/host/fc.c | 10 +++++++++-
->   1 file changed, 9 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> index 89accc76d71c..bf2ddc6850af 100644
-> --- a/drivers/nvme/host/fc.c
-> +++ b/drivers/nvme/host/fc.c
-> @@ -2802,12 +2802,19 @@ nvme_fc_delete_association(struct nvme_fc_ctrl *ctrl)
->   }
->   
->   static void
-> -nvme_fc_delete_ctrl(struct nvme_ctrl *nctrl)
-> +nvme_fc_stop_ctrl(struct nvme_ctrl *nctrl)
->   {
->   	struct nvme_fc_ctrl *ctrl = to_fc_ctrl(nctrl);
->   
->   	cancel_work_sync(&ctrl->err_work);
->   	cancel_delayed_work_sync(&ctrl->connect_work);
-> +}
-> +
-> +static void
-> +nvme_fc_delete_ctrl(struct nvme_ctrl *nctrl)
-> +{
-> +	struct nvme_fc_ctrl *ctrl = to_fc_ctrl(nctrl);
-> +
->   	/*
->   	 * kill the association on the link side.  this will block
->   	 * waiting for io to terminate
-> @@ -2925,6 +2932,7 @@ static const struct nvme_ctrl_ops nvme_fc_ctrl_ops = {
->   	.free_ctrl		= nvme_fc_nvme_ctrl_freed,
->   	.submit_async_event	= nvme_fc_submit_async_event,
->   	.delete_ctrl		= nvme_fc_delete_ctrl,
-> +	.stop_ctrl		= nvme_fc_stop_ctrl,
->   	.get_address		= nvmf_get_address,
->   };
->   
-
-Hmm... I don't remember it being described that way when it was added 
-and when I looked at it then, I had no need for the entrypoint. if all 
-it does is cancel err_work and connect_work, I'm still wondering what it 
-really does/achieves. Killing them off seems weird.
-
-I'll take a closer look at where things sit now.
-
--- james
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index c33bb20..a477905 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -251,16 +251,25 @@ static int nvme_dbbuf_dma_alloc(struct nvme_dev *dev)
+ static void nvme_dbbuf_dma_free(struct nvme_dev *dev)
+ {
+ 	unsigned int mem_size = nvme_dbbuf_size(dev->db_stride);
++	unsigned int i;
+ 
+ 	if (dev->dbbuf_dbs) {
+ 		dma_free_coherent(dev->dev, mem_size,
+ 				  dev->dbbuf_dbs, dev->dbbuf_dbs_dma_addr);
+ 		dev->dbbuf_dbs = NULL;
++		for (i = dev->ctrl.queue_count - 1; i > 0; i--) {
++			dev->queues[i].dbbuf_sq_db = NULL;
++			dev->queues[i].dbbuf_cq_db = NULL;
++		}
+ 	}
+ 	if (dev->dbbuf_eis) {
+ 		dma_free_coherent(dev->dev, mem_size,
+ 				  dev->dbbuf_eis, dev->dbbuf_eis_dma_addr);
+ 		dev->dbbuf_eis = NULL;
++		for (i = dev->ctrl.queue_count - 1; i > 0; i--) {
++			dev->queues[i].dbbuf_sq_ei = NULL;
++			dev->queues[i].dbbuf_cq_ei = NULL;
++		}
+ 	}
+ }
+ 
+-- 
+1.8.3.1
