@@ -1,43 +1,22 @@
-From: lina.lulina@huawei.com (Lulina (A))
-Date: Fri, 21 Dec 2018 01:07:25 +0000
-Subject: [PATCH v2] nvme-pci: fix dbbuf_sq_db point to freed memory
-Message-ID: <E5D59058E6941147BD3ACF9CB4AA49E3B3572EC2@DGGEMA505-MBX.china.huawei.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 20 Dec 2018 18:14:41 -0800
+Subject: [PATCH] nvme-fc: flush err and connect work in .stop_ctrl
+In-Reply-To: <643654d7-2863-74f5-63d8-41aac14291d1@broadcom.com>
+References: <20181220190420.23515-1-sagi@grimberg.me>
+ <643654d7-2863-74f5-63d8-41aac14291d1@broadcom.com>
+Message-ID: <86e7b4a6-be6e-a5c4-e490-6afa257f22c9@grimberg.me>
 
-The case is that nvme device support NVME_CTRL_OACS_DBBUF_SUPP, and
-return failed when the driver sent nvme_admin_dbbuf. The nvmeq->dbbuf_sq_db
-point to freed memory, as nvme_dbbuf_set is called after nvme_dbbuf_init.
 
-Signed-off-by: lulina <lina.lulina at huawei.com>
+> Hmm... I don't remember it being described that way when it was added 
+> and when I looked at it then, I had no need for the entrypoint. if all 
+> it does is cancel err_work and connect_work, I'm still wondering what it 
+> really does/achieves. Killing them off seems weird.
+> 
+> I'll take a closer look at where things sit now.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index c33bb20..a477905 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -251,16 +251,25 @@ static int nvme_dbbuf_dma_alloc(struct nvme_dev *dev)
- static void nvme_dbbuf_dma_free(struct nvme_dev *dev)
- {
- 	unsigned int mem_size = nvme_dbbuf_size(dev->db_stride);
-+	unsigned int i;
- 
- 	if (dev->dbbuf_dbs) {
- 		dma_free_coherent(dev->dev, mem_size,
- 				  dev->dbbuf_dbs, dev->dbbuf_dbs_dma_addr);
- 		dev->dbbuf_dbs = NULL;
-+		for (i = dev->ctrl.queue_count - 1; i > 0; i--) {
-+			dev->queues[i].dbbuf_sq_db = NULL;
-+			dev->queues[i].dbbuf_cq_db = NULL;
-+		}
- 	}
- 	if (dev->dbbuf_eis) {
- 		dma_free_coherent(dev->dev, mem_size,
- 				  dev->dbbuf_eis, dev->dbbuf_eis_dma_addr);
- 		dev->dbbuf_eis = NULL;
-+		for (i = dev->ctrl.queue_count - 1; i > 0; i--) {
-+			dev->queues[i].dbbuf_sq_ei = NULL;
-+			dev->queues[i].dbbuf_cq_ei = NULL;
-+		}
- 	}
- }
- 
--- 
-1.8.3.1
+I'm fine with killing those as well.
+
+In fact, if we move err_work and connect_work to nvme_ctrl
+we can simply have nvme_stop_ctrl flush them... However Christoph
+asked for a more generic use of these members/routines for that
+to happen...
