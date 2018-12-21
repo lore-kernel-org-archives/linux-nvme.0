@@ -1,61 +1,56 @@
 From: shan.hai@oracle.com (Shan Hai)
-Date: Fri, 21 Dec 2018 14:04:13 +0800
-Subject: [PATCH 2/2] nvme-pci: take the io_queue_number into account when
- setting number of io queues
-In-Reply-To: <1545372253-28025-1-git-send-email-shan.hai@oracle.com>
-References: <1545372253-28025-1-git-send-email-shan.hai@oracle.com>
-Message-ID: <1545372253-28025-2-git-send-email-shan.hai@oracle.com>
+Date: Fri, 21 Dec 2018 14:04:12 +0800
+Subject: [PATCH 1/2] nvme-pci: add module param for io queue number
+Message-ID: <1545372253-28025-1-git-send-email-shan.hai@oracle.com>
 
-Add a wrapper around num_possible_cpus() to take the new added module
-parameter account when setting number of io queues.
+The num_possible_cpus() number of io queues by default would cause
+irq vector shortage problem on a large system when hotplugging cpus,
+add a module parameter to set number of io queues according to the
+system configuration to fix the issue.
 
 Signed-off-by: Shan Hai <shan.hai at oracle.com>
 ---
- drivers/nvme/host/pci.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ drivers/nvme/host/pci.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 0d60451..e359e90 100644
+index c33bb20..0d60451 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -219,6 +219,11 @@ struct nvme_iod {
- 	struct scatterlist inline_sg[0];
+@@ -64,6 +64,16 @@ MODULE_PARM_DESC(sgl_threshold,
+ 		"Use SGLs when average request segment size is larger or equal to "
+ 		"this size. Use 0 to disable SGLs.");
+ 
++static int io_queue_number_set(const char *val, const struct kernel_param *kp);
++static const struct kernel_param_ops io_queue_number_ops = {
++	.set = io_queue_number_set,
++	.get = param_get_uint,
++};
++
++static unsigned int io_queue_number = UINT_MAX;
++module_param_cb(io_queue_number, &io_queue_number_ops, &io_queue_number, 0644);
++MODULE_PARM_DESC(io_queue_number, "set io queue number, should >= 2");
++
+ static int io_queue_depth_set(const char *val, const struct kernel_param *kp);
+ static const struct kernel_param_ops io_queue_depth_ops = {
+ 	.set = io_queue_depth_set,
+@@ -123,6 +133,17 @@ struct nvme_dev {
+ 	void **host_mem_desc_bufs;
  };
  
-+static inline unsigned int nvme_io_queue_number(void)
++static int io_queue_number_set(const char *val, const struct kernel_param *kp)
 +{
-+	return min_t(unsigned int, io_queue_number, num_possible_cpus());
++	unsigned int n = 0, ret;
++
++	ret = kstrtouint(val, 10, &n);
++	if (ret != 0 || n < 2)
++		return -EINVAL;
++
++	return param_set_uint(val, kp);
 +}
 +
- /*
-  * Check we didin't inadvertently grow the command struct
-  */
-@@ -241,7 +246,7 @@ static inline void _nvme_check_size(void)
- 
- static inline unsigned int nvme_dbbuf_size(u32 stride)
+ static int io_queue_depth_set(const char *val, const struct kernel_param *kp)
  {
--	return ((num_possible_cpus() + 1) * 8 * stride);
-+	return ((nvme_io_queue_number() + 1) * 8 * stride);
- }
- 
- static int nvme_dbbuf_dma_alloc(struct nvme_dev *dev)
-@@ -1923,7 +1928,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 		.pre_vectors = 1
- 	};
- 
--	nr_io_queues = num_possible_cpus();
-+	nr_io_queues = nvme_io_queue_number();
- 	result = nvme_set_queue_count(&dev->ctrl, &nr_io_queues);
- 	if (result < 0)
- 		return result;
-@@ -2512,7 +2517,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	if (!dev)
- 		return -ENOMEM;
- 
--	dev->queues = kcalloc_node(num_possible_cpus() + 1,
-+	dev->queues = kcalloc_node(nvme_io_queue_number() + 1,
- 			sizeof(struct nvme_queue), GFP_KERNEL, node);
- 	if (!dev->queues)
- 		goto free;
+ 	int n = 0, ret;
 -- 
 2.7.4
