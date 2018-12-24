@@ -1,46 +1,50 @@
-From: shan.hai@oracle.com (Shan Hai)
-Date: Mon, 24 Dec 2018 09:10:41 +0800
+From: tom.leiming@gmail.com (Ming Lei)
+Date: Mon, 24 Dec 2018 09:47:33 +0800
 Subject: [PATCH 1/2] nvme-pci: add module param for io queue number
-In-Reply-To: <677bfb90-c328-c707-a042-156f17cb426f@acm.org>
+In-Reply-To: <aa86c9e2-ccb1-7156-6903-52c5e539d36c@oracle.com>
 References: <1545372253-28025-1-git-send-email-shan.hai@oracle.com>
- <677bfb90-c328-c707-a042-156f17cb426f@acm.org>
-Message-ID: <19ee67dd-c805-f174-94af-bca3aa498677@oracle.com>
+ <CACVXFVMTxwM5EDZbrcVi=Dhy0Q=DN_yL77gTohY7AtKOpFb+uA@mail.gmail.com>
+ <aa86c9e2-ccb1-7156-6903-52c5e539d36c@oracle.com>
+Message-ID: <CACVXFVMKBO1U6TuhSrnKbPKKaY=xBfCn45Z_5wpNA5+e2bC5DA@mail.gmail.com>
 
-Hi Bart,
-
-On 2018/12/21 ??11:02, Bart Van Assche wrote:
-> On 12/20/18 10:04 PM, Shan Hai wrote:
->> The num_possible_cpus() number of io queues by default would cause
->> irq vector shortage problem on a large system when hotplugging cpus,
->> add a module parameter to set number of io queues according to the
->> system configuration to fix the issue.
+On Mon, Dec 24, 2018@9:02 AM Shan Hai <shan.hai@oracle.com> wrote:
 >
-> Is it possible to achieve this without introducing a new configuration 
-> knob? I think it will be much more convenient for users of large 
-> systems that they don't have to discover a knob like this one first in 
-> order to make the NVMe driver work on their systems.
+> Hi Minglei,
 >
-
-The problem occurs when offlining CPUs aggressively on a system with 
-large number of cores,
-
-for instance offlining 368? out of 384 total cores, the failure of 
-hotplug is caused by device irq migration
-
-on cpu hotplugging, the situation becomes worse when there are multiple 
-NVME devices are available
-
-on the system.
-
-
-I didn't find a simpler way to achieve this except the solution provided 
-in this patchset.
-
-
-Thanks
-
-Shan Hai
-
-> Thanks,
+> On 2018/12/23 ??8:38, Ming Lei wrote:
+> > Hi Shanhai,
+> >
+> > On Fri, Dec 21, 2018@2:05 PM Shan Hai <shan.hai@oracle.com> wrote:
+> >> The num_possible_cpus() number of io queues by default would cause
+> >> irq vector shortage problem on a large system when hotplugging cpus,
+> >> add a module parameter to set number of io queues according to the
+> >> system configuration to fix the issue.
+> > Yeah, the default nr_io_queues is num_possible_cpus(), which can be a bit
+> > big on some systems which supports small number of irq vectors.
+> >
+> > But nvme_setup_irqs() may decrease nr_io_queues and try to allocate
+> > again until it succeeds.
+> >
+> > Could you share us what the actual issue is?
 >
-> Bart.
+>
+> On an 8-way NUMA with total 384 CPUs system installed with multiple NVME
+> storage devices the CPU
+>
+> offline operation will fail when the online CPU numbers drop to a
+> certain value, the failure is caused by
+>
+> cpu interrupt vector exhaustion because the irqs of the NVME have to be
+> migrated to the online CPUs.
+
+I can understand there is issue when the whole system has very limited
+irq vectors,
+then some NVMe may consume too many irq vectors, and the remained NVMe
+may not get any irq vectors left. Is this your case?
+
+But I don't understand ' the irqs of the NVME have to be  migrated to
+the online CPUs.',
+in theory one IRQ vector is enough to drive NVMe, so could you explain it a bit?
+
+Thanks,
+Ming Lei
