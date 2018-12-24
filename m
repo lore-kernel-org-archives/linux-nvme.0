@@ -1,26 +1,61 @@
-From: jianchao.w.wang@oracle.com (Jianchao Wang)
-Date: Mon, 24 Dec 2018 11:15:53 +0800
-Subject: [PATCH] nvme-pci: fix the wrong setting of nr_maps
-Message-ID: <1545621353-1443-1-git-send-email-jianchao.w.wang@oracle.com>
+From: shan.hai@oracle.com (Shan Hai)
+Date: Mon, 24 Dec 2018 12:12:19 +0800
+Subject: [PATCH v2 2/2] nvme-pci: take the io_queue_number into account when
+ setting number of io queues
+In-Reply-To: <1545624739-9848-1-git-send-email-shan.hai@oracle.com>
+References: <1545624739-9848-1-git-send-email-shan.hai@oracle.com>
+Message-ID: <1545624739-9848-2-git-send-email-shan.hai@oracle.com>
 
-We only set the nr_maps to 3 if poll queues are supported.
+Add a wrapper around num_possible_cpus() to take the new added module
+parameter account when setting number of io queues.
 
-Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
+Signed-off-by: Shan Hai <shan.hai at oracle.com>
 ---
- drivers/nvme/host/pci.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/nvme/host/pci.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 5a0bf6a..cc65fa8 100644
+index 0d60451..e359e90 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -2294,7 +2294,6 @@ static int nvme_dev_add(struct nvme_dev *dev)
- 		dev->tagset.nr_maps = 2; /* default + read */
- 		if (dev->io_queues[HCTX_TYPE_POLL])
- 			dev->tagset.nr_maps++;
--		dev->tagset.nr_maps = HCTX_MAX_TYPES;
- 		dev->tagset.timeout = NVME_IO_TIMEOUT;
- 		dev->tagset.numa_node = dev_to_node(dev->dev);
- 		dev->tagset.queue_depth =
+@@ -219,6 +219,11 @@ struct nvme_iod {
+ 	struct scatterlist inline_sg[0];
+ };
+ 
++static inline unsigned int nvme_io_queue_number(void)
++{
++	return min_t(unsigned int, io_queue_number, num_possible_cpus());
++}
++
+ /*
+  * Check we didin't inadvertently grow the command struct
+  */
+@@ -241,7 +246,7 @@ static inline void _nvme_check_size(void)
+ 
+ static inline unsigned int nvme_dbbuf_size(u32 stride)
+ {
+-	return ((num_possible_cpus() + 1) * 8 * stride);
++	return ((nvme_io_queue_number() + 1) * 8 * stride);
+ }
+ 
+ static int nvme_dbbuf_dma_alloc(struct nvme_dev *dev)
+@@ -1923,7 +1928,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 		.pre_vectors = 1
+ 	};
+ 
+-	nr_io_queues = num_possible_cpus();
++	nr_io_queues = nvme_io_queue_number();
+ 	result = nvme_set_queue_count(&dev->ctrl, &nr_io_queues);
+ 	if (result < 0)
+ 		return result;
+@@ -2512,7 +2517,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	if (!dev)
+ 		return -ENOMEM;
+ 
+-	dev->queues = kcalloc_node(num_possible_cpus() + 1,
++	dev->queues = kcalloc_node(nvme_io_queue_number() + 1,
+ 			sizeof(struct nvme_queue), GFP_KERNEL, node);
+ 	if (!dev->queues)
+ 		goto free;
 -- 
 2.7.4
