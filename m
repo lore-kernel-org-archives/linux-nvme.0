@@ -1,99 +1,49 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Sat, 29 Dec 2018 11:26:49 +0800
-Subject: [PATCH V2 2/3] nvme pci: fix nvme_setup_irqs()
-In-Reply-To: <20181229032650.27256-1-ming.lei@redhat.com>
-References: <20181229032650.27256-1-ming.lei@redhat.com>
-Message-ID: <20181229032650.27256-3-ming.lei@redhat.com>
+From: liviu@dudau.co.uk (Liviu Dudau)
+Date: Sat, 29 Dec 2018 17:23:43 +0000
+Subject: [PATCH] nvme: pci: Use the same attributes when freeing
+ host_mem_desc_bufs.
+Message-ID: <20181229172343.27300-1-liviu@dudau.co.uk>
 
-When -ENOSPC is returned from pci_alloc_irq_vectors_affinity(),
-we still try to allocate multiple irq vectors again, so irq queues
-covers the admin queue acturally. But we don't consider that, then
-number of the allocated irq vector may be same with sum of
-io_queues[HCTX_TYPE_DEFAULT] and io_queues[HCTX_TYPE_READ], this way
-is wrong, and finally breaks nvme_pci_map_queues(), and triggeres
-warning from pci_irq_get_affinity().
+When using HMB the PCIe host driver allocates host_mem_desc_bufs using
+dma_alloc_attrs() but frees them using dma_free_coherent(). Use the
+correct dma_free_attrs() function to free the buffers.
 
-Irq queues should cover admin queues, this patch makes this
-point explicitely in nvme_calc_io_queues().
+Found out while doing some code inspection to figure out broken
+NVMe support in linux-next-20181224. Without this change I'm getting
+a kernel crash due to an invalid VM area being freed.
 
-Fixes: 6451fe73fa0f ("nvme: fix irq vs io_queue calculations")
-Cc: Keith Busch <keith.busch at intel.com>
-Cc: Jens Axboe <axboe at fb.com>
-Signed-off-by: Ming Lei <ming.lei at redhat.com>
+Signed-off-by: Liviu Dudau <liviu at dudau.co.uk>
 ---
- drivers/nvme/host/pci.c | 21 +++++++++++++--------
- 1 file changed, 13 insertions(+), 8 deletions(-)
+ drivers/nvme/host/pci.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 5a0bf6a24d50..584ea7a57122 100644
+index c33bb201b8846..0f45868e8af98 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -2028,14 +2028,18 @@ static int nvme_setup_host_mem(struct nvme_dev *dev)
- 	return ret;
- }
+@@ -1748,8 +1748,9 @@ static void nvme_free_host_mem(struct nvme_dev *dev)
+ 		struct nvme_host_mem_buf_desc *desc = &dev->host_mem_descs[i];
+ 		size_t size = le32_to_cpu(desc->size) * dev->ctrl.page_size;
  
-+/* irq_queues covers admin queue */
- static void nvme_calc_io_queues(struct nvme_dev *dev, unsigned int irq_queues)
- {
- 	unsigned int this_w_queues = write_queues;
- 
-+	WARN_ON(!irq_queues);
-+
- 	/*
--	 * Setup read/write queue split
-+	 * Setup read/write queue split, assign admin queue one independent
-+	 * irq vector if irq_queues is > 1.
- 	 */
--	if (irq_queues == 1) {
-+	if (irq_queues <= 2) {
- 		dev->io_queues[HCTX_TYPE_DEFAULT] = 1;
- 		dev->io_queues[HCTX_TYPE_READ] = 0;
- 		return;
-@@ -2043,21 +2047,21 @@ static void nvme_calc_io_queues(struct nvme_dev *dev, unsigned int irq_queues)
- 
- 	/*
- 	 * If 'write_queues' is set, ensure it leaves room for at least
--	 * one read queue
-+	 * one read queue and one admin queue
- 	 */
- 	if (this_w_queues >= irq_queues)
--		this_w_queues = irq_queues - 1;
-+		this_w_queues = irq_queues - 2;
- 
- 	/*
- 	 * If 'write_queues' is set to zero, reads and writes will share
- 	 * a queue set.
- 	 */
- 	if (!this_w_queues) {
--		dev->io_queues[HCTX_TYPE_DEFAULT] = irq_queues;
-+		dev->io_queues[HCTX_TYPE_DEFAULT] = irq_queues - 1;
- 		dev->io_queues[HCTX_TYPE_READ] = 0;
- 	} else {
- 		dev->io_queues[HCTX_TYPE_DEFAULT] = this_w_queues;
--		dev->io_queues[HCTX_TYPE_READ] = irq_queues - this_w_queues;
-+		dev->io_queues[HCTX_TYPE_READ] = irq_queues - this_w_queues - 1;
+-		dma_free_coherent(dev->dev, size, dev->host_mem_desc_bufs[i],
+-				le64_to_cpu(desc->addr));
++		dma_free_attrs(dev->dev, size, dev->host_mem_desc_bufs[i],
++			       le64_to_cpu(desc->addr),
++			       DMA_ATTR_NO_KERNEL_MAPPING | DMA_ATTR_NO_WARN);
  	}
- }
  
-@@ -2082,7 +2086,7 @@ static int nvme_setup_irqs(struct nvme_dev *dev, unsigned int nr_io_queues)
- 		this_p_queues = nr_io_queues - 1;
- 		irq_queues = 1;
- 	} else {
--		irq_queues = nr_io_queues - this_p_queues;
-+		irq_queues = nr_io_queues - this_p_queues + 1;
+ 	kfree(dev->host_mem_desc_bufs);
+@@ -1815,8 +1816,9 @@ static int __nvme_alloc_host_mem(struct nvme_dev *dev, u64 preferred,
+ 	while (--i >= 0) {
+ 		size_t size = le32_to_cpu(descs[i].size) * dev->ctrl.page_size;
+ 
+-		dma_free_coherent(dev->dev, size, bufs[i],
+-				le64_to_cpu(descs[i].addr));
++		dma_free_attrs(dev->dev, size, bufs[i],
++			       le64_to_cpu(descs[i].addr),
++			       DMA_ATTR_NO_KERNEL_MAPPING | DMA_ATTR_NO_WARN);
  	}
- 	dev->io_queues[HCTX_TYPE_POLL] = this_p_queues;
  
-@@ -2102,8 +2106,9 @@ static int nvme_setup_irqs(struct nvme_dev *dev, unsigned int nr_io_queues)
- 		 * If we got a failure and we're down to asking for just
- 		 * 1 + 1 queues, just ask for a single vector. We'll share
- 		 * that between the single IO queue and the admin queue.
-+		 * Otherwise, we assign one independent vector to admin queue.
- 		 */
--		if (result >= 0 && irq_queues > 1)
-+		if (irq_queues > 1)
- 			irq_queues = irq_sets[0] + irq_sets[1] + 1;
- 
- 		result = pci_alloc_irq_vectors_affinity(pdev, irq_queues,
+ 	kfree(bufs);
 -- 
-2.9.5
+2.20.1
