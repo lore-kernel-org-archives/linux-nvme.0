@@ -1,77 +1,56 @@
-From: bjorn.helgaas@gmail.com (Bjorn Helgaas)
-Date: Mon, 31 Dec 2018 15:24:55 -0600
-Subject: [PATCH V2 3/3] nvme pci: introduce module parameter of
- 'default_queues'
-In-Reply-To: <20181229032650.27256-4-ming.lei@redhat.com>
-References: <20181229032650.27256-1-ming.lei@redhat.com>
- <20181229032650.27256-4-ming.lei@redhat.com>
-Message-ID: <CABhMZUVU-XcvBC9OjNw9=4gsmspy+Bc4urkb5fSo-7JeDO9m=Q@mail.gmail.com>
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Mon, 31 Dec 2018 15:51:47 -0600
+Subject: [PATCH 2/2] nvme pci: try to allocate multiple irq vectors again
+ in case of -EINVAL
+In-Reply-To: <20181227130834.GA22967@lst.de>
+References: <20181226103755.2101-1-ming.lei@redhat.com>
+ <20181226103755.2101-3-ming.lei@redhat.com>
+ <20181226182027.GA5866@lst.de> <20181227082136.GA14423@ming.t460p>
+ <20181227130834.GA22967@lst.de>
+Message-ID: <20181231215147.GH159477@google.com>
 
-On Fri, Dec 28, 2018@9:27 PM Ming Lei <ming.lei@redhat.com> wrote:
->
-> On big system with lots of CPU cores, it is easy to consume up irq
-> vectors by assigning defaut queue with num_possible_cpus() irq vectors.
-> Meantime it is often not necessary to allocate so many vectors for
-> reaching NVMe's top performance under that situation.
+On Thu, Dec 27, 2018@02:08:34PM +0100, Christoph Hellwig wrote:
+> On Thu, Dec 27, 2018@04:21:38PM +0800, Ming Lei wrote:
+> > On Wed, Dec 26, 2018@07:20:27PM +0100, Christoph Hellwig wrote:
+> > > On Wed, Dec 26, 2018@06:37:55PM +0800, Ming Lei wrote:
+> > > > It is observed on QEMU that pci_alloc_irq_vectors_affinity() may
+> > > > returns -EINVAL when the requested number is too big(such as 64).
+> > > 
+> > > Which is not how this API is supposed to work and documented to work.
+> > > 
+> > > We need to fix pci_alloc_irq_vectors_affinity to not return a spurious
+> > > error and just return the allocated number of vectors instead of
+> > > hacking around that in drivers.
+> > 
+> > Yeah, you are right.
+> > 
+> > The issue is that QEMU nvme-pci is MSIX-capable only, and hasn't MSI
+> > capability.
+> > 
+> > __pci_enable_msix_range() actually returns -ENOSPC, but __pci_enable_msi_range()
+> > returns -EINVAL because dev->msi_cap is zero.
+> > 
+> > Maybe we need the following fix?
+> 
+> Should it matter?  We still get a negative vecs back, and still fall
+> back to the next option.  
 
-s/defaut/default/
+I'm not sure how it matters either, since
+pci_alloc_irq_vectors_affinity() will fail either way.  It *would* be
+nice to return the correct error in case the caller uses it to emit a
+message.
 
-> This patch introduces module parameter of 'default_queues' to try
-> to address this issue reported by Shan Hai.
+But if the caller wants to use -ENOSPC to reduce @min_vecs and try
+again, that sounds like an incorrect use of the interface -- the
+caller should have just used the smaller @min_vecs the first time
+around.
 
-Is there a URL to this report by Shan?
+> Unless ther are no irqs available at all
+> for the selected types pci_alloc_irq_vectors_affinity should never
+> return an error.
 
-Is there some way you can figure this out automatically instead of
-forcing the user to use a module parameter?
+I don't quite understand this last sentence.  If @min_vecs == 5 and
+the device only supports 4 MSI-X and 4 MSI vectors, the function
+comment says we should fail with -ENOSPC.
 
-If not, can you provide some guidance in the changelog for how a user
-is supposed to figure out when it's needed and what the value should
-be?  If you add the parameter, I assume that will eventually have to
-be mentioned in a release note, and it would be nice to have something
-to start from.
-
-> Reported-by: Shan Hai <shan.hai at oracle.com>
-> Cc: Shan Hai <shan.hai at oracle.com>
-> Cc: Keith Busch <keith.busch at intel.com>
-> Cc: Jens Axboe <axboe at fb.com>
-> Signed-off-by: Ming Lei <ming.lei at redhat.com>
-> ---
->  drivers/nvme/host/pci.c | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 584ea7a57122..17a261e7f941 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -81,6 +81,12 @@ static const struct kernel_param_ops queue_count_ops = {
->         .get = param_get_int,
->  };
->
-> +static int default_queues;
-> +module_param_cb(default_queues, &queue_count_ops, &default_queues, 0644);
-> +MODULE_PARM_DESC(default_queues,
-> +       "Number of queues to use DEFAULT queue type. If not set, "
-> +       "num_possible_cpus() will be used.");
-> +
->  static int write_queues;
->  module_param_cb(write_queues, &queue_count_ops, &write_queues, 0644);
->  MODULE_PARM_DESC(write_queues,
-> @@ -254,7 +260,9 @@ static inline void _nvme_check_size(void)
->
->  static unsigned int max_io_queues(void)
->  {
-> -       return num_possible_cpus() + write_queues + poll_queues;
-> +       int def_io_queues = default_queues ?: num_possible_cpus();
-> +
-> +       return def_io_queues + write_queues + poll_queues;
->  }
->
->  static unsigned int max_queue_count(void)
-> --
-> 2.9.5
->
->
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+Bjorn
