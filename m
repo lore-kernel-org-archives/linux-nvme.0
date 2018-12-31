@@ -1,56 +1,110 @@
 From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Mon, 31 Dec 2018 15:51:47 -0600
-Subject: [PATCH 2/2] nvme pci: try to allocate multiple irq vectors again
- in case of -EINVAL
-In-Reply-To: <20181227130834.GA22967@lst.de>
-References: <20181226103755.2101-1-ming.lei@redhat.com>
- <20181226103755.2101-3-ming.lei@redhat.com>
- <20181226182027.GA5866@lst.de> <20181227082136.GA14423@ming.t460p>
- <20181227130834.GA22967@lst.de>
-Message-ID: <20181231215147.GH159477@google.com>
+Date: Mon, 31 Dec 2018 16:00:59 -0600
+Subject: [PATCH V2 1/3] PCI/MSI: preference to returning -ENOSPC from
+ pci_alloc_irq_vectors_affinity
+In-Reply-To: <20181229032650.27256-2-ming.lei@redhat.com>
+References: <20181229032650.27256-1-ming.lei@redhat.com>
+ <20181229032650.27256-2-ming.lei@redhat.com>
+Message-ID: <20181231220059.GI159477@google.com>
 
-On Thu, Dec 27, 2018@02:08:34PM +0100, Christoph Hellwig wrote:
-> On Thu, Dec 27, 2018@04:21:38PM +0800, Ming Lei wrote:
-> > On Wed, Dec 26, 2018@07:20:27PM +0100, Christoph Hellwig wrote:
-> > > On Wed, Dec 26, 2018@06:37:55PM +0800, Ming Lei wrote:
-> > > > It is observed on QEMU that pci_alloc_irq_vectors_affinity() may
-> > > > returns -EINVAL when the requested number is too big(such as 64).
-> > > 
-> > > Which is not how this API is supposed to work and documented to work.
-> > > 
-> > > We need to fix pci_alloc_irq_vectors_affinity to not return a spurious
-> > > error and just return the allocated number of vectors instead of
-> > > hacking around that in drivers.
-> > 
-> > Yeah, you are right.
-> > 
-> > The issue is that QEMU nvme-pci is MSIX-capable only, and hasn't MSI
-> > capability.
-> > 
-> > __pci_enable_msix_range() actually returns -ENOSPC, but __pci_enable_msi_range()
-> > returns -EINVAL because dev->msi_cap is zero.
-> > 
-> > Maybe we need the following fix?
+On Sat, Dec 29, 2018@11:26:48AM +0800, Ming Lei wrote:
+> The API of pci_alloc_irq_vectors_affinity() requires to return -ENOSPC
+> if leass than @min_vecs interrupt vectors are available for @dev.
+
+s/leass/fewer/
+
+> However, this way may be changed by falling back to
+> __pci_enable_msi_range(), for example, if the device isn't capable of
+> MSI, __pci_enable_msi_range() will return -EINVAL, and finally it is
+> returned to users of pci_alloc_irq_vectors_affinity() even though
+> there are quite MSIX vectors available. This way violates the interface.
+
+I *think* the above means:
+
+  If a device supports MSI-X but not MSI and a caller requests
+  @min_vecs that can't be satisfied by MSI-X, we previously returned
+  -EINVAL (from the failed attempt to enable MSI), not -ENOSPC.
+
+and I agree that this doesn't match the documented API.
+
+> Users of pci_alloc_irq_vectors_affinity() may try to reduce irq
+> vectors and allocate vectors again in case that -ENOSPC is returned, such
+> as NVMe, so we need to respect the current interface and give preference to
+> -ENOSPC.
+
+I thought the whole point of the (min_vecs, max_vecs) tuple was to
+avoid this sort of "reduce and try again" iteration in the callers.
+
+> Cc: Jens Axboe <axboe at fb.com>,
+> Cc: Keith Busch <keith.busch at intel.com>,
+> Cc: linux-pci at vger.kernel.org,
+> Cc: Bjorn Helgaas <bhelgaas at google.com>,
+> Signed-off-by: Ming Lei <ming.lei at redhat.com>
+> ---
+>  drivers/pci/msi.c | 20 +++++++++++---------
+>  1 file changed, 11 insertions(+), 9 deletions(-)
 > 
-> Should it matter?  We still get a negative vecs back, and still fall
-> back to the next option.  
+> diff --git a/drivers/pci/msi.c b/drivers/pci/msi.c
+> index 7a1c8a09efa5..91b4f03fee91 100644
+> --- a/drivers/pci/msi.c
+> +++ b/drivers/pci/msi.c
+> @@ -1168,7 +1168,8 @@ int pci_alloc_irq_vectors_affinity(struct pci_dev *dev, unsigned int min_vecs,
+>  				   const struct irq_affinity *affd)
+>  {
+>  	static const struct irq_affinity msi_default_affd;
+> -	int vecs = -ENOSPC;
+> +	int msix_vecs = -ENOSPC;
+> +	int msi_vecs = -ENOSPC;
+>  
+>  	if (flags & PCI_IRQ_AFFINITY) {
+>  		if (!affd)
+> @@ -1179,16 +1180,17 @@ int pci_alloc_irq_vectors_affinity(struct pci_dev *dev, unsigned int min_vecs,
+>  	}
+>  
+>  	if (flags & PCI_IRQ_MSIX) {
+> -		vecs = __pci_enable_msix_range(dev, NULL, min_vecs, max_vecs,
+> -				affd);
+> -		if (vecs > 0)
+> -			return vecs;
+> +		msix_vecs = __pci_enable_msix_range(dev, NULL, min_vecs,
+> +						    max_vecs, affd);
+> +		if (msix_vecs > 0)
+> +			return msix_vecs;
+>  	}
+>  
+>  	if (flags & PCI_IRQ_MSI) {
+> -		vecs = __pci_enable_msi_range(dev, min_vecs, max_vecs, affd);
+> -		if (vecs > 0)
+> -			return vecs;
+> +		msi_vecs = __pci_enable_msi_range(dev, min_vecs, max_vecs,
+> +						  affd);
+> +		if (msi_vecs > 0)
+> +			return msi_vecs;
+>  	}
+>  
+>  	/* use legacy irq if allowed */
+> @@ -1199,7 +1201,7 @@ int pci_alloc_irq_vectors_affinity(struct pci_dev *dev, unsigned int min_vecs,
+>  		}
+>  	}
+>  
+> -	return vecs;
+> +	return msix_vecs == -ENOSPC ? msix_vecs : msi_vecs;
 
-I'm not sure how it matters either, since
-pci_alloc_irq_vectors_affinity() will fail either way.  It *would* be
-nice to return the correct error in case the caller uses it to emit a
-message.
+If you know you want to return -ENOSPC, just return that, not a
+variable that happens to contain it, i.e.,
 
-But if the caller wants to use -ENOSPC to reduce @min_vecs and try
-again, that sounds like an incorrect use of the interface -- the
-caller should have just used the smaller @min_vecs the first time
-around.
+  if (msix_vecs == -ENOSPC)
+    return -ENOSPC;
+  return msi_vecs;
 
-> Unless ther are no irqs available at all
-> for the selected types pci_alloc_irq_vectors_affinity should never
-> return an error.
-
-I don't quite understand this last sentence.  If @min_vecs == 5 and
-the device only supports 4 MSI-X and 4 MSI vectors, the function
-comment says we should fail with -ENOSPC.
-
-Bjorn
+>  }
+>  EXPORT_SYMBOL(pci_alloc_irq_vectors_affinity);
+>  
+> -- 
+> 2.9.5
+> 
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
