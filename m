@@ -1,100 +1,33 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 1 Jan 2019 00:49:51 -0800
-Subject: [PATCH] nvme-rdma: fix timeout handler
-In-Reply-To: <95b2a55f-3f5f-14a3-abab-56124f7761b1@grimberg.me>
-References: <20181213212917.8900-1-sagi@grimberg.me>
- <20181216163217.GA12814@lst.de>
- <a9c82a82-6841-3e3d-54b1-659c72a062fd@grimberg.me>
- <7b1f148f-a881-2483-1b04-3b2ff5b11449@broadcom.com>
- <20181218170738.GA13748@lst.de>
- <95b2a55f-3f5f-14a3-abab-56124f7761b1@grimberg.me>
-Message-ID: <f64bf73a-756b-a944-b9d7-c296a2530594@grimberg.me>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Tue,  1 Jan 2019 15:37:18 +0200
+Subject: [PATCH 1/1] nvme-pci: check that sqid match in nvme cqe
+Message-ID: <1546349838-5126-1-git-send-email-maxg@mellanox.com>
 
-Ping?
+This patch protects against faulty drives (e.g: a drive might send
+the completion on a wrong msix).
 
->>> which is why I believe the transports need at least a routine that runs
->>> down the queues, terminates anything pending (error recovery may be 
->>> an io
->>> timeout), and marks the queues down - regardless of the state of the
->>> controller.? That run down will terminate the connection admin commands
->>> that may be in error, allowing the fail path Sagi points out to kick in.
->>> This same path needs to occur at the start of the reset and delete as 
->>> well.
->>
->> That was my impression as well.? Or in fact just allow a transition
->> from connecting to reset (or a special connect terminate state that
->> is very similar except for not recovering)
-> 
-> I don't think this is a good idea. Introducing a different state for
-> connect failure is a bit cumbersome for the state machine and not
-> trivial to detect from the .timeout handler.
-> 
-> Moreover, its not the only case where we have an issue. In RDMA (and
-> TCP) at least, we have also the issue that Jaesoo pointed out.
-> 
-> The scenario goes as follows:
-> 1. the host triggers a delete sequence
-> 2. host disconnect I/O queues
-> 3. host issues prop_set (nvme_shutdown_ctrl)
-> 4. target disconnects the admin queue // race with (3)
-> 5. (3) hangs because no one can complete the admin commands
-> it comes after we pass step (3).
-> 
-> So the flows are slightly less trivial.
-> 
-> Moreover, the behavior proposed is not any different than
-> what we do in pci which disables the device (and terminates
-> IO) directly from the timeout handler:
-> -- 
->  ??????? /*
->  ???????? * Shutdown immediately if controller times out while starting. 
-> The
->  ???????? * reset work will see the pci device disabled when it gets the 
-> forced
->  ???????? * cancellation error. All outstanding requests are completed on
->  ???????? * shutdown, so we return BLK_EH_DONE.
->  ???????? */
->  ??????? switch (dev->ctrl.state) {
->  ??????? case NVME_CTRL_CONNECTING:
->  ??????? case NVME_CTRL_RESETTING:
->  ??????????????? dev_warn_ratelimited(dev->ctrl.device,
->  ???????????????????????? "I/O %d QID %d timeout, disable controller\n",
->  ???????????????????????? req->tag, nvmeq->qid);
->  ??????????????? nvme_dev_disable(dev, false);
->  ??????????????? nvme_req(req)->flags |= NVME_REQ_CANCELLED;
->  ??????????????? return BLK_EH_DONE;
->  ??????? default:
->  ??????????????? break;
->  ??????? }
-> -- 
-> 
-> nvme_dev_disable eventually calls blk_mq_tagset_busy_iter() on all
-> inflight requests, so it effectively does the same thing.
-> 
-> Would you prefer if we do the below instead (which match pci exactly)?
-> -- 
-> static enum blk_eh_timer_return
-> nvme_rdma_timeout(struct request *rq, bool reserved)
-> {
->  ??????? struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
->  ??????? struct nvme_rdma_queue *queue = req->queue;
->  ??????? struct nvme_rdma_ctrl *ctrl = queue->ctrl;
-> 
->  ??????? dev_warn(ctrl->ctrl.device, "I/O %d QID %d timeout\n",
->  ???????????????? rq->tag, nvme_rdma_queue_idx(queue));
-> 
->  ??????? if (nvme_rdma_error_recovery(ctrl)) {
->  ??????????????? /*
->  ???????????????? * Shutdown immediately if controller times out
->  ???????????????? * while starting. All outstanding requests are
->  ???????????????? * completed on shutdown, so we return BLK_EH_DONE.
->  ???????????????? */
->  ??????????????? flush_work(&ctrl->err_work);
->  ??????????????? nvme_rdma_stop_queue(queue);
->  ??????????????? nvme_rdma_shutdown_ctrl(queue->ctrl, false);
->  ??????????????? return BLK_EH_DONE;
->  ??????? }
-> 
->  ??????? return BLK_EH_RESET_TIMER;
-> }
-> -- 
+Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ drivers/nvme/host/pci.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 5a0bf6a..ab7ff34 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -983,6 +983,13 @@ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq, u16 idx)
+ 	volatile struct nvme_completion *cqe = &nvmeq->cqes[idx];
+ 	struct request *req;
+ 
++	if (unlikely(le16_to_cpu(cqe->sq_id) != nvmeq->qid)) {
++		dev_warn(nvmeq->dev->ctrl.device,
++			 "got completion on sqid %d instead of sqid %d\n",
++			 nvmeq->qid, le16_to_cpu(cqe->sq_id));
++		return;
++	}
++
+ 	if (unlikely(cqe->command_id >= nvmeq->q_depth)) {
+ 		dev_warn(nvmeq->dev->ctrl.device,
+ 			"invalid id %d completed on queue %d\n",
+-- 
+1.8.3.1
