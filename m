@@ -1,116 +1,100 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue,  1 Jan 2019 00:19:30 -0800
-Subject: [PATCH] nvme: remove .stop_ctrl callout
-Message-ID: <20190101081930.29589-1-sagi@grimberg.me>
+Date: Tue, 1 Jan 2019 00:49:51 -0800
+Subject: [PATCH] nvme-rdma: fix timeout handler
+In-Reply-To: <95b2a55f-3f5f-14a3-abab-56124f7761b1@grimberg.me>
+References: <20181213212917.8900-1-sagi@grimberg.me>
+ <20181216163217.GA12814@lst.de>
+ <a9c82a82-6841-3e3d-54b1-659c72a062fd@grimberg.me>
+ <7b1f148f-a881-2483-1b04-3b2ff5b11449@broadcom.com>
+ <20181218170738.GA13748@lst.de>
+ <95b2a55f-3f5f-14a3-abab-56124f7761b1@grimberg.me>
+Message-ID: <f64bf73a-756b-a944-b9d7-c296a2530594@grimberg.me>
 
-It is used now just to flush error recovery and
-reconnect works in rdma and tcp. These can simply
-move to the corresponding teardown routines.
+Ping?
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/host/core.c |  2 --
- drivers/nvme/host/nvme.h |  1 -
- drivers/nvme/host/rdma.c | 12 +++---------
- drivers/nvme/host/tcp.c  | 10 +++-------
- 4 files changed, 6 insertions(+), 19 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 5181c6f9dae5..935592f74f06 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3599,8 +3599,6 @@ void nvme_stop_ctrl(struct nvme_ctrl *ctrl)
- 	nvme_stop_keep_alive(ctrl);
- 	flush_work(&ctrl->async_event_work);
- 	cancel_work_sync(&ctrl->fw_act_work);
--	if (ctrl->ops->stop_ctrl)
--		ctrl->ops->stop_ctrl(ctrl);
- }
- EXPORT_SYMBOL_GPL(nvme_stop_ctrl);
- 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 970a6385a5b0..d062f7ede538 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -359,7 +359,6 @@ struct nvme_ctrl_ops {
- 	void (*submit_async_event)(struct nvme_ctrl *ctrl);
- 	void (*delete_ctrl)(struct nvme_ctrl *ctrl);
- 	int (*get_address)(struct nvme_ctrl *ctrl, char *buf, int size);
--	void (*stop_ctrl)(struct nvme_ctrl *ctrl);
- };
- 
- #ifdef CONFIG_FAULT_INJECTION_DEBUG_FS
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 0a2fd2949ad7..e63f36c09c9a 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -928,14 +928,6 @@ static void nvme_rdma_teardown_io_queues(struct nvme_rdma_ctrl *ctrl,
- 	}
- }
- 
--static void nvme_rdma_stop_ctrl(struct nvme_ctrl *nctrl)
--{
--	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(nctrl);
--
--	cancel_work_sync(&ctrl->err_work);
--	cancel_delayed_work_sync(&ctrl->reconnect_work);
--}
--
- static void nvme_rdma_free_ctrl(struct nvme_ctrl *nctrl)
- {
- 	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(nctrl);
-@@ -1832,6 +1824,9 @@ static const struct blk_mq_ops nvme_rdma_admin_mq_ops = {
- 
- static void nvme_rdma_shutdown_ctrl(struct nvme_rdma_ctrl *ctrl, bool shutdown)
- {
-+	cancel_work_sync(&ctrl->err_work);
-+	cancel_delayed_work_sync(&ctrl->reconnect_work);
-+
- 	nvme_rdma_teardown_io_queues(ctrl, shutdown);
- 	if (shutdown)
- 		nvme_shutdown_ctrl(&ctrl->ctrl);
-@@ -1880,7 +1875,6 @@ static const struct nvme_ctrl_ops nvme_rdma_ctrl_ops = {
- 	.submit_async_event	= nvme_rdma_submit_async_event,
- 	.delete_ctrl		= nvme_rdma_delete_ctrl,
- 	.get_address		= nvmf_get_address,
--	.stop_ctrl		= nvme_rdma_stop_ctrl,
- };
- 
- /*
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index de174912445e..b9183c47dc89 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1826,6 +1826,9 @@ static void nvme_tcp_error_recovery_work(struct work_struct *work)
- 
- static void nvme_tcp_teardown_ctrl(struct nvme_ctrl *ctrl, bool shutdown)
- {
-+	cancel_work_sync(&to_tcp_ctrl(ctrl)->err_work);
-+	cancel_delayed_work_sync(&to_tcp_ctrl(ctrl)->connect_work);
-+
- 	nvme_tcp_teardown_io_queues(ctrl, shutdown);
- 	if (shutdown)
- 		nvme_shutdown_ctrl(ctrl);
-@@ -1863,12 +1866,6 @@ static void nvme_reset_ctrl_work(struct work_struct *work)
- 	nvme_tcp_reconnect_or_remove(ctrl);
- }
- 
--static void nvme_tcp_stop_ctrl(struct nvme_ctrl *ctrl)
--{
--	cancel_work_sync(&to_tcp_ctrl(ctrl)->err_work);
--	cancel_delayed_work_sync(&to_tcp_ctrl(ctrl)->connect_work);
--}
--
- static void nvme_tcp_free_ctrl(struct nvme_ctrl *nctrl)
- {
- 	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
-@@ -2116,7 +2113,6 @@ static const struct nvme_ctrl_ops nvme_tcp_ctrl_ops = {
- 	.submit_async_event	= nvme_tcp_submit_async_event,
- 	.delete_ctrl		= nvme_tcp_delete_ctrl,
- 	.get_address		= nvmf_get_address,
--	.stop_ctrl		= nvme_tcp_stop_ctrl,
- };
- 
- static bool
--- 
-2.17.1
+>>> which is why I believe the transports need at least a routine that runs
+>>> down the queues, terminates anything pending (error recovery may be 
+>>> an io
+>>> timeout), and marks the queues down - regardless of the state of the
+>>> controller.? That run down will terminate the connection admin commands
+>>> that may be in error, allowing the fail path Sagi points out to kick in.
+>>> This same path needs to occur at the start of the reset and delete as 
+>>> well.
+>>
+>> That was my impression as well.? Or in fact just allow a transition
+>> from connecting to reset (or a special connect terminate state that
+>> is very similar except for not recovering)
+> 
+> I don't think this is a good idea. Introducing a different state for
+> connect failure is a bit cumbersome for the state machine and not
+> trivial to detect from the .timeout handler.
+> 
+> Moreover, its not the only case where we have an issue. In RDMA (and
+> TCP) at least, we have also the issue that Jaesoo pointed out.
+> 
+> The scenario goes as follows:
+> 1. the host triggers a delete sequence
+> 2. host disconnect I/O queues
+> 3. host issues prop_set (nvme_shutdown_ctrl)
+> 4. target disconnects the admin queue // race with (3)
+> 5. (3) hangs because no one can complete the admin commands
+> it comes after we pass step (3).
+> 
+> So the flows are slightly less trivial.
+> 
+> Moreover, the behavior proposed is not any different than
+> what we do in pci which disables the device (and terminates
+> IO) directly from the timeout handler:
+> -- 
+>  ??????? /*
+>  ???????? * Shutdown immediately if controller times out while starting. 
+> The
+>  ???????? * reset work will see the pci device disabled when it gets the 
+> forced
+>  ???????? * cancellation error. All outstanding requests are completed on
+>  ???????? * shutdown, so we return BLK_EH_DONE.
+>  ???????? */
+>  ??????? switch (dev->ctrl.state) {
+>  ??????? case NVME_CTRL_CONNECTING:
+>  ??????? case NVME_CTRL_RESETTING:
+>  ??????????????? dev_warn_ratelimited(dev->ctrl.device,
+>  ???????????????????????? "I/O %d QID %d timeout, disable controller\n",
+>  ???????????????????????? req->tag, nvmeq->qid);
+>  ??????????????? nvme_dev_disable(dev, false);
+>  ??????????????? nvme_req(req)->flags |= NVME_REQ_CANCELLED;
+>  ??????????????? return BLK_EH_DONE;
+>  ??????? default:
+>  ??????????????? break;
+>  ??????? }
+> -- 
+> 
+> nvme_dev_disable eventually calls blk_mq_tagset_busy_iter() on all
+> inflight requests, so it effectively does the same thing.
+> 
+> Would you prefer if we do the below instead (which match pci exactly)?
+> -- 
+> static enum blk_eh_timer_return
+> nvme_rdma_timeout(struct request *rq, bool reserved)
+> {
+>  ??????? struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
+>  ??????? struct nvme_rdma_queue *queue = req->queue;
+>  ??????? struct nvme_rdma_ctrl *ctrl = queue->ctrl;
+> 
+>  ??????? dev_warn(ctrl->ctrl.device, "I/O %d QID %d timeout\n",
+>  ???????????????? rq->tag, nvme_rdma_queue_idx(queue));
+> 
+>  ??????? if (nvme_rdma_error_recovery(ctrl)) {
+>  ??????????????? /*
+>  ???????????????? * Shutdown immediately if controller times out
+>  ???????????????? * while starting. All outstanding requests are
+>  ???????????????? * completed on shutdown, so we return BLK_EH_DONE.
+>  ???????????????? */
+>  ??????????????? flush_work(&ctrl->err_work);
+>  ??????????????? nvme_rdma_stop_queue(queue);
+>  ??????????????? nvme_rdma_shutdown_ctrl(queue->ctrl, false);
+>  ??????????????? return BLK_EH_DONE;
+>  ??????? }
+> 
+>  ??????? return BLK_EH_RESET_TIMER;
+> }
+> -- 
