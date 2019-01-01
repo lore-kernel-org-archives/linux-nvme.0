@@ -1,112 +1,59 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Tue, 1 Jan 2019 13:24:59 +0800
-Subject: [PATCH V2 1/3] PCI/MSI: preference to returning -ENOSPC from
- pci_alloc_irq_vectors_affinity
-In-Reply-To: <20181231220059.GI159477@google.com>
+Date: Tue, 1 Jan 2019 13:47:36 +0800
+Subject: [PATCH V2 3/3] nvme pci: introduce module parameter of
+ 'default_queues'
+In-Reply-To: <CABhMZUVU-XcvBC9OjNw9=4gsmspy+Bc4urkb5fSo-7JeDO9m=Q@mail.gmail.com>
 References: <20181229032650.27256-1-ming.lei@redhat.com>
- <20181229032650.27256-2-ming.lei@redhat.com>
- <20181231220059.GI159477@google.com>
-Message-ID: <20190101052458.GA17588@ming.t460p>
+ <20181229032650.27256-4-ming.lei@redhat.com>
+ <CABhMZUVU-XcvBC9OjNw9=4gsmspy+Bc4urkb5fSo-7JeDO9m=Q@mail.gmail.com>
+Message-ID: <20190101054735.GB17588@ming.t460p>
 
-On Mon, Dec 31, 2018@04:00:59PM -0600, Bjorn Helgaas wrote:
-> On Sat, Dec 29, 2018@11:26:48AM +0800, Ming Lei wrote:
-> > The API of pci_alloc_irq_vectors_affinity() requires to return -ENOSPC
-> > if leass than @min_vecs interrupt vectors are available for @dev.
+On Mon, Dec 31, 2018@03:24:55PM -0600, Bjorn Helgaas wrote:
+> On Fri, Dec 28, 2018@9:27 PM Ming Lei <ming.lei@redhat.com> wrote:
+> >
+> > On big system with lots of CPU cores, it is easy to consume up irq
+> > vectors by assigning defaut queue with num_possible_cpus() irq vectors.
+> > Meantime it is often not necessary to allocate so many vectors for
+> > reaching NVMe's top performance under that situation.
 > 
-> s/leass/fewer/
+> s/defaut/default/
 > 
-> > However, this way may be changed by falling back to
-> > __pci_enable_msi_range(), for example, if the device isn't capable of
-> > MSI, __pci_enable_msi_range() will return -EINVAL, and finally it is
-> > returned to users of pci_alloc_irq_vectors_affinity() even though
-> > there are quite MSIX vectors available. This way violates the interface.
+> > This patch introduces module parameter of 'default_queues' to try
+> > to address this issue reported by Shan Hai.
 > 
-> I *think* the above means:
-> 
->   If a device supports MSI-X but not MSI and a caller requests
->   @min_vecs that can't be satisfied by MSI-X, we previously returned
->   -EINVAL (from the failed attempt to enable MSI), not -ENOSPC.
-> 
-> and I agree that this doesn't match the documented API.
+> Is there a URL to this report by Shan?
 
-OK, will use the above comment log.
+http://lists.infradead.org/pipermail/linux-nvme/2018-December/021863.html
+http://lists.infradead.org/pipermail/linux-nvme/2018-December/021862.html
+
+http://lists.infradead.org/pipermail/linux-nvme/2018-December/021872.html
 
 > 
-> > Users of pci_alloc_irq_vectors_affinity() may try to reduce irq
-> > vectors and allocate vectors again in case that -ENOSPC is returned, such
-> > as NVMe, so we need to respect the current interface and give preference to
-> > -ENOSPC.
-> 
-> I thought the whole point of the (min_vecs, max_vecs) tuple was to
-> avoid this sort of "reduce and try again" iteration in the callers.
+> Is there some way you can figure this out automatically instead of
+> forcing the user to use a module parameter?
 
-As Keith replied, in case of NVMe, we have to keep min_vecs same with
-max_vecs.
+Not yet, otherwise, I won't post this patch out.
 
 > 
-> > Cc: Jens Axboe <axboe at fb.com>,
-> > Cc: Keith Busch <keith.busch at intel.com>,
-> > Cc: linux-pci at vger.kernel.org,
-> > Cc: Bjorn Helgaas <bhelgaas at google.com>,
-> > Signed-off-by: Ming Lei <ming.lei at redhat.com>
-> > ---
-> >  drivers/pci/msi.c | 20 +++++++++++---------
-> >  1 file changed, 11 insertions(+), 9 deletions(-)
-> > 
-> > diff --git a/drivers/pci/msi.c b/drivers/pci/msi.c
-> > index 7a1c8a09efa5..91b4f03fee91 100644
-> > --- a/drivers/pci/msi.c
-> > +++ b/drivers/pci/msi.c
-> > @@ -1168,7 +1168,8 @@ int pci_alloc_irq_vectors_affinity(struct pci_dev *dev, unsigned int min_vecs,
-> >  				   const struct irq_affinity *affd)
-> >  {
-> >  	static const struct irq_affinity msi_default_affd;
-> > -	int vecs = -ENOSPC;
-> > +	int msix_vecs = -ENOSPC;
-> > +	int msi_vecs = -ENOSPC;
-> >  
-> >  	if (flags & PCI_IRQ_AFFINITY) {
-> >  		if (!affd)
-> > @@ -1179,16 +1180,17 @@ int pci_alloc_irq_vectors_affinity(struct pci_dev *dev, unsigned int min_vecs,
-> >  	}
-> >  
-> >  	if (flags & PCI_IRQ_MSIX) {
-> > -		vecs = __pci_enable_msix_range(dev, NULL, min_vecs, max_vecs,
-> > -				affd);
-> > -		if (vecs > 0)
-> > -			return vecs;
-> > +		msix_vecs = __pci_enable_msix_range(dev, NULL, min_vecs,
-> > +						    max_vecs, affd);
-> > +		if (msix_vecs > 0)
-> > +			return msix_vecs;
-> >  	}
-> >  
-> >  	if (flags & PCI_IRQ_MSI) {
-> > -		vecs = __pci_enable_msi_range(dev, min_vecs, max_vecs, affd);
-> > -		if (vecs > 0)
-> > -			return vecs;
-> > +		msi_vecs = __pci_enable_msi_range(dev, min_vecs, max_vecs,
-> > +						  affd);
-> > +		if (msi_vecs > 0)
-> > +			return msi_vecs;
-> >  	}
-> >  
-> >  	/* use legacy irq if allowed */
-> > @@ -1199,7 +1201,7 @@ int pci_alloc_irq_vectors_affinity(struct pci_dev *dev, unsigned int min_vecs,
-> >  		}
-> >  	}
-> >  
-> > -	return vecs;
-> > +	return msix_vecs == -ENOSPC ? msix_vecs : msi_vecs;
-> 
-> If you know you want to return -ENOSPC, just return that, not a
-> variable that happens to contain it, i.e.,
-> 
->   if (msix_vecs == -ENOSPC)
->     return -ENOSPC;
->   return msi_vecs;
+> If not, can you provide some guidance in the changelog for how a user
+> is supposed to figure out when it's needed and what the value should
+> be?  If you add the parameter, I assume that will eventually have to
+> be mentioned in a release note, and it would be nice to have something
+> to start from.
 
-OK.
+Ok, that is a good suggestion, how about documenting it via the
+following words:
+
+Number of IRQ vectors is system-wide resource, and usually it is big enough
+for each device. However, we allocate num_possible_cpus() + 1 irq vectors for
+each NVMe PCI controller. In case that system has lots of CPU cores, or there
+are more than one NVMe controller, IRQ vectors can be consumed up
+easily by NVMe. When this issue is triggered, please try to pass smaller
+default queues via the module parameter of 'default_queues', usually
+it have to be >= number of NUMA nodes, meantime it needs be big enough
+to reach NVMe's top performance, which is often less than num_possible_cpus()
++ 1.
+
 
 Thanks,
 Ming
