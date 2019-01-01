@@ -1,28 +1,116 @@
-From: Austin.Bolen@dell.com (Austin.Bolen@dell.com)
-Date: Fri, 1 Mar 2019 01:52:02 +0000
-Subject: [PATCH] nvme-pci: Prevent mmio reads if pci channel offline
-References: <20190225155501.GI10237@localhost.localdomain>
- <b35ebf928ed743cca6649a191c76957b@ausx13mps321.AMER.DELL.COM>
- <CAHk-=wgRdATtsBzo-LDkWn_sW-PJvq95SahZcsTxxDMPzLWxKA@mail.gmail.com>
- <940d608e1a044a54abcb9d65923951f3@ausx13mps317.AMER.DELL.COM>
- <f6704855445b44639f023a48f3003309@AUSX13MPC131.AMER.DELL.COM>
- <443262761d0e41fbb46a46dab28759c2@AUSX13MPC131.AMER.DELL.COM>
- <20190228141655.GA18319@infradead.org>
- <883e2fad8f6e4791bfee2ec08992da39@AUSX13MPC131.AMER.DELL.COM>
- <20190228232020.GB22003@localhost.localdomain>
- <680f55f95e7547bdaffddce49772a5b7@AUSX13MPC131.AMER.DELL.COM>
- <20190301003026.GA22712@localhost.localdomain>
-Message-ID: <06eb10e5a7324bb5ac537fd57e015d73@AUSX13MPC131.AMER.DELL.COM>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue,  1 Jan 2019 00:19:30 -0800
+Subject: [PATCH] nvme: remove .stop_ctrl callout
+Message-ID: <20190101081930.29589-1-sagi@grimberg.me>
 
-On 2/28/2019 6:30 PM, Keith Busch wrote:
-> 
-> For single port drives, yes, but that wouldn't work so well for multi-port
-> devices connected to different busses, maybe even across multiple hosts.
-> The equivalent of an FLR across all ports should have been sufficient,
-> IMO.
-> 
+It is used now just to flush error recovery and
+reconnect works in rdma and tcp. These can simply
+move to the corresponding teardown routines.
 
-In that case I'd argue that it really is a surprise down to the other 
-host and escalating as such is appropriate.  Agree that something like 
-FLR that reset everything in the subsystem but kept link up may have 
-been sufficient.
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/host/core.c |  2 --
+ drivers/nvme/host/nvme.h |  1 -
+ drivers/nvme/host/rdma.c | 12 +++---------
+ drivers/nvme/host/tcp.c  | 10 +++-------
+ 4 files changed, 6 insertions(+), 19 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 5181c6f9dae5..935592f74f06 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3599,8 +3599,6 @@ void nvme_stop_ctrl(struct nvme_ctrl *ctrl)
+ 	nvme_stop_keep_alive(ctrl);
+ 	flush_work(&ctrl->async_event_work);
+ 	cancel_work_sync(&ctrl->fw_act_work);
+-	if (ctrl->ops->stop_ctrl)
+-		ctrl->ops->stop_ctrl(ctrl);
+ }
+ EXPORT_SYMBOL_GPL(nvme_stop_ctrl);
+ 
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 970a6385a5b0..d062f7ede538 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -359,7 +359,6 @@ struct nvme_ctrl_ops {
+ 	void (*submit_async_event)(struct nvme_ctrl *ctrl);
+ 	void (*delete_ctrl)(struct nvme_ctrl *ctrl);
+ 	int (*get_address)(struct nvme_ctrl *ctrl, char *buf, int size);
+-	void (*stop_ctrl)(struct nvme_ctrl *ctrl);
+ };
+ 
+ #ifdef CONFIG_FAULT_INJECTION_DEBUG_FS
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 0a2fd2949ad7..e63f36c09c9a 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -928,14 +928,6 @@ static void nvme_rdma_teardown_io_queues(struct nvme_rdma_ctrl *ctrl,
+ 	}
+ }
+ 
+-static void nvme_rdma_stop_ctrl(struct nvme_ctrl *nctrl)
+-{
+-	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(nctrl);
+-
+-	cancel_work_sync(&ctrl->err_work);
+-	cancel_delayed_work_sync(&ctrl->reconnect_work);
+-}
+-
+ static void nvme_rdma_free_ctrl(struct nvme_ctrl *nctrl)
+ {
+ 	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(nctrl);
+@@ -1832,6 +1824,9 @@ static const struct blk_mq_ops nvme_rdma_admin_mq_ops = {
+ 
+ static void nvme_rdma_shutdown_ctrl(struct nvme_rdma_ctrl *ctrl, bool shutdown)
+ {
++	cancel_work_sync(&ctrl->err_work);
++	cancel_delayed_work_sync(&ctrl->reconnect_work);
++
+ 	nvme_rdma_teardown_io_queues(ctrl, shutdown);
+ 	if (shutdown)
+ 		nvme_shutdown_ctrl(&ctrl->ctrl);
+@@ -1880,7 +1875,6 @@ static const struct nvme_ctrl_ops nvme_rdma_ctrl_ops = {
+ 	.submit_async_event	= nvme_rdma_submit_async_event,
+ 	.delete_ctrl		= nvme_rdma_delete_ctrl,
+ 	.get_address		= nvmf_get_address,
+-	.stop_ctrl		= nvme_rdma_stop_ctrl,
+ };
+ 
+ /*
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index de174912445e..b9183c47dc89 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1826,6 +1826,9 @@ static void nvme_tcp_error_recovery_work(struct work_struct *work)
+ 
+ static void nvme_tcp_teardown_ctrl(struct nvme_ctrl *ctrl, bool shutdown)
+ {
++	cancel_work_sync(&to_tcp_ctrl(ctrl)->err_work);
++	cancel_delayed_work_sync(&to_tcp_ctrl(ctrl)->connect_work);
++
+ 	nvme_tcp_teardown_io_queues(ctrl, shutdown);
+ 	if (shutdown)
+ 		nvme_shutdown_ctrl(ctrl);
+@@ -1863,12 +1866,6 @@ static void nvme_reset_ctrl_work(struct work_struct *work)
+ 	nvme_tcp_reconnect_or_remove(ctrl);
+ }
+ 
+-static void nvme_tcp_stop_ctrl(struct nvme_ctrl *ctrl)
+-{
+-	cancel_work_sync(&to_tcp_ctrl(ctrl)->err_work);
+-	cancel_delayed_work_sync(&to_tcp_ctrl(ctrl)->connect_work);
+-}
+-
+ static void nvme_tcp_free_ctrl(struct nvme_ctrl *nctrl)
+ {
+ 	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
+@@ -2116,7 +2113,6 @@ static const struct nvme_ctrl_ops nvme_tcp_ctrl_ops = {
+ 	.submit_async_event	= nvme_tcp_submit_async_event,
+ 	.delete_ctrl		= nvme_tcp_delete_ctrl,
+ 	.get_address		= nvmf_get_address,
+-	.stop_ctrl		= nvme_tcp_stop_ctrl,
+ };
+ 
+ static bool
+-- 
+2.17.1
