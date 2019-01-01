@@ -1,59 +1,56 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Tue, 1 Jan 2019 13:47:36 +0800
-Subject: [PATCH V2 3/3] nvme pci: introduce module parameter of
- 'default_queues'
-In-Reply-To: <CABhMZUVU-XcvBC9OjNw9=4gsmspy+Bc4urkb5fSo-7JeDO9m=Q@mail.gmail.com>
-References: <20181229032650.27256-1-ming.lei@redhat.com>
- <20181229032650.27256-4-ming.lei@redhat.com>
- <CABhMZUVU-XcvBC9OjNw9=4gsmspy+Bc4urkb5fSo-7JeDO9m=Q@mail.gmail.com>
-Message-ID: <20190101054735.GB17588@ming.t460p>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 31 Dec 2018 23:58:30 -0800
+Subject: [PATCH 2/2] nvme-tcp: don't ask if controller is fabrics
+In-Reply-To: <20190101075830.27560-1-sagi@grimberg.me>
+References: <20190101075830.27560-1-sagi@grimberg.me>
+Message-ID: <20190101075830.27560-3-sagi@grimberg.me>
 
-On Mon, Dec 31, 2018@03:24:55PM -0600, Bjorn Helgaas wrote:
-> On Fri, Dec 28, 2018@9:27 PM Ming Lei <ming.lei@redhat.com> wrote:
-> >
-> > On big system with lots of CPU cores, it is easy to consume up irq
-> > vectors by assigning defaut queue with num_possible_cpus() irq vectors.
-> > Meantime it is often not necessary to allocate so many vectors for
-> > reaching NVMe's top performance under that situation.
-> 
-> s/defaut/default/
-> 
-> > This patch introduces module parameter of 'default_queues' to try
-> > to address this issue reported by Shan Hai.
-> 
-> Is there a URL to this report by Shan?
+For sure we are a fabric driver.
 
-http://lists.infradead.org/pipermail/linux-nvme/2018-December/021863.html
-http://lists.infradead.org/pipermail/linux-nvme/2018-December/021862.html
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/host/tcp.c | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
-http://lists.infradead.org/pipermail/linux-nvme/2018-December/021872.html
-
-> 
-> Is there some way you can figure this out automatically instead of
-> forcing the user to use a module parameter?
-
-Not yet, otherwise, I won't post this patch out.
-
-> 
-> If not, can you provide some guidance in the changelog for how a user
-> is supposed to figure out when it's needed and what the value should
-> be?  If you add the parameter, I assume that will eventually have to
-> be mentioned in a release note, and it would be nice to have something
-> to start from.
-
-Ok, that is a good suggestion, how about documenting it via the
-following words:
-
-Number of IRQ vectors is system-wide resource, and usually it is big enough
-for each device. However, we allocate num_possible_cpus() + 1 irq vectors for
-each NVMe PCI controller. In case that system has lots of CPU cores, or there
-are more than one NVMe controller, IRQ vectors can be consumed up
-easily by NVMe. When this issue is triggered, please try to pass smaller
-default queues via the module parameter of 'default_queues', usually
-it have to be >= number of NUMA nodes, meantime it needs be big enough
-to reach NVMe's top performance, which is often less than num_possible_cpus()
-+ 1.
-
-
-Thanks,
-Ming
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index a9f1469509af..a2b80e9cd060 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1565,8 +1565,7 @@ static void nvme_tcp_destroy_io_queues(struct nvme_ctrl *ctrl, bool remove)
+ {
+ 	nvme_tcp_stop_io_queues(ctrl);
+ 	if (remove) {
+-		if (ctrl->ops->flags & NVME_F_FABRICS)
+-			blk_cleanup_queue(ctrl->connect_q);
++		blk_cleanup_queue(ctrl->connect_q);
+ 		blk_mq_free_tag_set(ctrl->tagset);
+ 	}
+ 	nvme_tcp_free_io_queues(ctrl);
+@@ -1587,12 +1586,10 @@ static int nvme_tcp_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
+ 			goto out_free_io_queues;
+ 		}
+ 
+-		if (ctrl->ops->flags & NVME_F_FABRICS) {
+-			ctrl->connect_q = blk_mq_init_queue(ctrl->tagset);
+-			if (IS_ERR(ctrl->connect_q)) {
+-				ret = PTR_ERR(ctrl->connect_q);
+-				goto out_free_tag_set;
+-			}
++		ctrl->connect_q = blk_mq_init_queue(ctrl->tagset);
++		if (IS_ERR(ctrl->connect_q)) {
++			ret = PTR_ERR(ctrl->connect_q);
++			goto out_free_tag_set;
+ 		}
+ 	} else {
+ 		blk_mq_update_nr_hw_queues(ctrl->tagset,
+@@ -1606,7 +1603,7 @@ static int nvme_tcp_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
+ 	return 0;
+ 
+ out_cleanup_connect_q:
+-	if (new && (ctrl->ops->flags & NVME_F_FABRICS))
++	if (new)
+ 		blk_cleanup_queue(ctrl->connect_q);
+ out_free_tag_set:
+ 	if (new)
+-- 
+2.17.1
