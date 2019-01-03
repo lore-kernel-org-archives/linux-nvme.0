@@ -1,74 +1,63 @@
-From: rajur@chelsio.com (Raju Rangoju)
-Date: Thu,  3 Jan 2019 23:05:31 +0530
-Subject: [PATCH v3] nvmet-rdma: fix null dereference under heavy load
-Message-ID: <20190103173531.7987-1-rajur@chelsio.com>
+From: sashal@kernel.org (Sasha Levin)
+Date: Thu, 03 Jan 2019 18:14:43 +0000
+Subject: [PATCH v2] nvmet-rdma: fix null dereference under heavy load
+In-Reply-To: <20190103103336.6343-1-rajur@chelsio.com>
+References: <20190103103336.6343-1-rajur@chelsio.com>
+Message-ID: <20190103181444.5705F2073D@mail.kernel.org>
 
-Under heavy load if we don't have any pre-allocated rsps left, we
-dynamically allocate a rsp, but we are not actually allocating memory
-for nvme_completion (rsp->req.rsp). In such a case, accessing pointer
-fields (req->rsp->status) in nvmet_req_init() will result in crash.
+Hi,
 
-To fix this, allocate the memory for nvme_completion by calling
-nvmet_rdma_alloc_rsp()
+[This is an automated email]
 
-Fixes: 8407879c("nvmet-rdma:fix possible bogus dereference under heavy load")
+This commit has been processed because it contains a "Fixes:" tag,
+fixing commit: .
 
-Cc: <stable at vger.kernel.org>
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
-Signed-off-by: Raju Rangoju <rajur at chelsio.com>
+The bot has tested the following trees: v4.20.0, v4.19.13, v4.14.91, v4.9.148, v4.4.169, v3.18.131, 
+
+v4.20.0: Failed to apply! Possible dependencies:
+    ad1f824948e4 ("nvmet-rdma: Add unlikely for response allocated check")
+
+v4.19.13: Failed to apply! Possible dependencies:
+    ad1f824948e4 ("nvmet-rdma: Add unlikely for response allocated check")
+
+v4.14.91: Failed to apply! Possible dependencies:
+    ad1f824948e4 ("nvmet-rdma: Add unlikely for response allocated check")
+
+v4.9.148: Failed to apply! Possible dependencies:
+    ad1f824948e4 ("nvmet-rdma: Add unlikely for response allocated check")
+
+v4.4.169: Failed to apply! Possible dependencies:
+    3a85a5de29ea ("nvme-loop: add a NVMe loopback host driver")
+    748ff8408f8e ("nvmet-rdma: Fix missing dma sync to nvme data structures")
+    8407879c4e0d ("nvmet-rdma: fix possible bogus dereference under heavy load")
+    8d61413db604 ("nvmet-rdma: Fix a possible uninitialized variable dereference")
+    8f000cac6e7a ("nvmet-rdma: add a NVMe over Fabrics RDMA target driver")
+    a07b4970f464 ("nvmet: add a generic NVMe target")
+    ad1f824948e4 ("nvmet-rdma: Add unlikely for response allocated check")
+
+v3.18.131: Failed to apply! Possible dependencies:
+    062261be4e39 ("nvme: Replace rcu_assign_pointer() with RCU_INIT_POINTER()")
+    1d0906246095 ("NVMe: Mismatched host/device page size support")
+    302c6727e5eb ("NVMe: Fix filesystem sync deadlock on removal")
+    57dacad5f228 ("nvme: move to a new drivers/nvme/host directory")
+    5905535610fc ("NVMe: Correctly handle IOCTL_SUBMIT_IO when cpus > online queues")
+    5940c8578fe7 ("NVMe: Clear QUEUE_FLAG_STACKABLE")
+    6fccf9383b28 ("NVMe: Async event request")
+    7963e521811e ("NVMe: Passthrough IOCTL for IO commands")
+    7be50e93fbc2 ("NVMe: Fix nvmeq waitqueue entry initialization")
+    8f000cac6e7a ("nvmet-rdma: add a NVMe over Fabrics RDMA target driver")
+    9dbbfab7d541 ("NVMe: Do not over allocate for discard requests")
+    a07b4970f464 ("nvmet: add a generic NVMe target")
+    a4aea5623d4a ("NVMe: Convert to blk-mq")
+    a96d4f5c2da6 ("NVMe: Reference count pci device")
+    aee4b9bd4505 ("nvmem: Add to MAINTAINERS for nvmem framework")
+    b4ff9c8ddb6f ("NVMe: Translate NVMe status to errno")
+    dece45855a8b ("NFC: nxp-nci: Add support for NXP NCI chips")
+    f435c2825b4c ("NVMe: Call nvme_free_queue directly")
+
+
+How should we proceed with this patch?
 
 --
-Changes from v2:
-- Dropped the unneeded initialization of ret variable
-
-Changes from v1:
-- Moved integer to 'if' block
-- Used 'unlikely' in datapath flow condition
----
- drivers/nvme/target/rdma.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index a8d23eb80192..a884e3a0e8af 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -139,6 +139,10 @@ static void nvmet_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc);
- static void nvmet_rdma_read_data_done(struct ib_cq *cq, struct ib_wc *wc);
- static void nvmet_rdma_qp_event(struct ib_event *event, void *priv);
- static void nvmet_rdma_queue_disconnect(struct nvmet_rdma_queue *queue);
-+static void nvmet_rdma_free_rsp(struct nvmet_rdma_device *ndev,
-+				struct nvmet_rdma_rsp *r);
-+static int nvmet_rdma_alloc_rsp(struct nvmet_rdma_device *ndev,
-+				struct nvmet_rdma_rsp *r);
- 
- static const struct nvmet_fabrics_ops nvmet_rdma_ops;
- 
-@@ -182,9 +186,17 @@ nvmet_rdma_get_rsp(struct nvmet_rdma_queue *queue)
- 	spin_unlock_irqrestore(&queue->rsps_lock, flags);
- 
- 	if (unlikely(!rsp)) {
--		rsp = kmalloc(sizeof(*rsp), GFP_KERNEL);
-+		int ret;
-+
-+		rsp = kzalloc(sizeof(*rsp), GFP_KERNEL);
- 		if (unlikely(!rsp))
- 			return NULL;
-+		ret = nvmet_rdma_alloc_rsp(queue->dev, rsp);
-+		if (unlikely(ret)) {
-+			kfree(rsp);
-+			return NULL;
-+		}
-+
- 		rsp->allocated = true;
- 	}
- 
-@@ -197,6 +209,7 @@ nvmet_rdma_put_rsp(struct nvmet_rdma_rsp *rsp)
- 	unsigned long flags;
- 
- 	if (unlikely(rsp->allocated)) {
-+		nvmet_rdma_free_rsp(rsp->queue->dev, rsp);
- 		kfree(rsp);
- 		return;
- 	}
--- 
-2.12.0
+Thanks,
+Sasha
