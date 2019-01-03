@@ -1,103 +1,122 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu,  3 Jan 2019 14:09:52 -0700
-Subject: [PATCH 2/4] nvme-pci: Distribute io queue types after creation
-In-Reply-To: <20190103210954.11129-1-keith.busch@intel.com>
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Thu, 3 Jan 2019 15:39:01 -0600
+Subject: [PATCH 3/4] pci/irq: Handle vector reduce and retry
+In-Reply-To: <20190103210954.11129-3-keith.busch@intel.com>
 References: <20190103210954.11129-1-keith.busch@intel.com>
-Message-ID: <20190103210954.11129-2-keith.busch@intel.com>
+ <20190103210954.11129-3-keith.busch@intel.com>
+Message-ID: <20190103213900.GB168876@google.com>
 
-The dev->io_queues types were set based on the results of the nvme set
-feature "number of queues" and the IRQ allocation. This does not mean
-that we're going to actually successfully allocate and create those IO
-queues. A failure there will cause blk-mq to have NULL hctx's because
-the map's nr_hw_queues accounts for more queues than were actually
-created.
+Hi Keith,
 
-Adjust the io_queue types after we've created them when we've less than
-originally desired.
+Thanks a lot for jumping on this.
 
-Fixes: 3b6592f70ad7b ("nvme: utilize two queue maps, one for reads and one for writes")
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/pci.c | 46 ++++++++++++++++++++++++++++++++++++++++------
- 1 file changed, 40 insertions(+), 6 deletions(-)
+I know I'm a broken record.  Please run "git log --oneline
+drivers/pci/msi.c" and make your subject match.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 98332d0a80f0..1481bb6d9c42 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1733,6 +1733,30 @@ static int nvme_pci_configure_admin_queue(struct nvme_dev *dev)
- 	return result;
- }
- 
-+static void nvme_distribute_queues(struct nvme_dev *dev, unsigned int io_queues)
-+{
-+	unsigned int irq_queues, this_p_queues = dev->io_queues[HCTX_TYPE_POLL],
-+		     this_w_queues = dev->io_queues[HCTX_TYPE_DEFAULT];
-+
-+	if (!io_queues) {
-+		dev->io_queues[HCTX_TYPE_POLL] = 0;
-+		dev->io_queues[HCTX_TYPE_DEFAULT] = 0;
-+		dev->io_queues[HCTX_TYPE_READ] = 0;
-+		return;
-+	}
-+
-+	if (this_p_queues >= io_queues)
-+		this_p_queues = io_queues - 1;
-+	irq_queues = io_queues - this_p_queues;
-+
-+	if (this_w_queues > irq_queues)
-+		this_w_queues = irq_queues;
-+
-+	dev->io_queues[HCTX_TYPE_POLL] = this_p_queues;
-+	dev->io_queues[HCTX_TYPE_DEFAULT] = this_w_queues;
-+	dev->io_queues[HCTX_TYPE_READ] = irq_queues - this_w_queues;
-+}
-+
- static int nvme_create_io_queues(struct nvme_dev *dev)
- {
- 	unsigned i, max, rw_queues;
-@@ -1761,6 +1785,13 @@ static int nvme_create_io_queues(struct nvme_dev *dev)
- 			break;
- 	}
- 
-+	/*
-+	 * If we've created less than expected io queues, redistribute the
-+	 * dev->io_queues[] types accordingly.
-+	 */
-+	if (dev->online_queues - 1 != dev->max_qid)
-+		nvme_distribute_queues(dev, dev->online_queues - 1);
-+
- 	/*
- 	 * Ignore failing Create SQ/CQ commands, we can continue with less
- 	 * than the desired amount of queues, and even a controller without
-@@ -2185,11 +2216,6 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 	result = max(result - 1, 1);
- 	dev->max_qid = result + dev->io_queues[HCTX_TYPE_POLL];
- 
--	dev_info(dev->ctrl.device, "%d/%d/%d default/read/poll queues\n",
--					dev->io_queues[HCTX_TYPE_DEFAULT],
--					dev->io_queues[HCTX_TYPE_READ],
--					dev->io_queues[HCTX_TYPE_POLL]);
--
- 	/*
- 	 * Should investigate if there's a performance win from allocating
- 	 * more queues than interrupt vectors; it might allow the submission
-@@ -2203,7 +2229,15 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 		return result;
- 	}
- 	set_bit(NVMEQ_ENABLED, &adminq->flags);
--	return nvme_create_io_queues(dev);
-+	result = nvme_create_io_queues(dev);
-+
-+	if (!result)
-+		dev_info(dev->ctrl.device, "%d/%d/%d default/read/poll queues\n",
-+					dev->io_queues[HCTX_TYPE_DEFAULT],
-+					dev->io_queues[HCTX_TYPE_READ],
-+					dev->io_queues[HCTX_TYPE_POLL]);
-+	return result;
-+
- }
- 
- static void nvme_del_queue_end(struct request *req, blk_status_t error)
--- 
-2.14.4
+On Thu, Jan 03, 2019@02:09:53PM -0700, Keith Busch wrote:
+> Adding the nr_sets forced the driver to handle reducing the vector count
+> on allocation failures because the set distributino counts are driver
+> specific. The change to this API is very different to use than before,
+> and introduced new error corner cases that weren't being handled. It
+> is also less efficient since the driver doesn't actually know what a
+> proper vector count it should use since it only sees the error code and
+> can only reduce by one instead of going straight to a possible vector
+> count like PCI is able to do.
+> 
+> Provide a driver specific callback for managed irq set creation so that
+> PCI can take a min and max vectors as before to handle the reduce and
+> retry logic.
+
+s/distributino/distribution/
+s/irq/IRQ/
+
+Can you also add some explanation to Documentation/PCI/MSI-HOWTO.txt
+about the concept of "sets" and how to use
+nr_sets/sets/recalc_sets/priv?
+
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> ---
+>  drivers/pci/msi.c         | 20 ++++++--------------
+>  include/linux/interrupt.h |  4 ++++
+>  2 files changed, 10 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/pci/msi.c b/drivers/pci/msi.c
+> index 7a1c8a09efa5..b93ac49be18d 100644
+> --- a/drivers/pci/msi.c
+> +++ b/drivers/pci/msi.c
+> @@ -1035,13 +1035,6 @@ static int __pci_enable_msi_range(struct pci_dev *dev, int minvec, int maxvec,
+>  	if (maxvec < minvec)
+>  		return -ERANGE;
+>  
+> -	/*
+> -	 * If the caller is passing in sets, we can't support a range of
+> -	 * vectors. The caller needs to handle that.
+> -	 */
+> -	if (affd && affd->nr_sets && minvec != maxvec)
+> -		return -EINVAL;
+> -
+>  	if (WARN_ON_ONCE(dev->msi_enabled))
+>  		return -EINVAL;
+>  
+> @@ -1061,6 +1054,9 @@ static int __pci_enable_msi_range(struct pci_dev *dev, int minvec, int maxvec,
+>  				return -ENOSPC;
+>  		}
+>  
+> +		if (nvec != maxvec && affd && affd->recalc_sets)
+> +			affd->recalc_sets((struct irq_affinity *)affd, nvec);
+> +
+>  		rc = msi_capability_init(dev, nvec, affd);
+>  		if (rc == 0)
+>  			return nvec;
+> @@ -1093,13 +1089,6 @@ static int __pci_enable_msix_range(struct pci_dev *dev,
+>  	if (maxvec < minvec)
+>  		return -ERANGE;
+>  
+> -	/*
+> -	 * If the caller is passing in sets, we can't support a range of
+> -	 * supported vectors. The caller needs to handle that.
+> -	 */
+> -	if (affd && affd->nr_sets && minvec != maxvec)
+> -		return -EINVAL;
+> -
+>  	if (WARN_ON_ONCE(dev->msix_enabled))
+>  		return -EINVAL;
+>  
+> @@ -1110,6 +1099,9 @@ static int __pci_enable_msix_range(struct pci_dev *dev,
+>  				return -ENOSPC;
+>  		}
+>  
+> +		if (nvec != maxvec && affd && affd->recalc_sets)
+> +			affd->recalc_sets((struct irq_affinity *)affd, nvec);
+> +
+>  		rc = __pci_enable_msix(dev, entries, nvec, affd);
+>  		if (rc == 0)
+>  			return nvec;
+> diff --git a/include/linux/interrupt.h b/include/linux/interrupt.h
+> index c672f34235e7..326c9bd05f62 100644
+> --- a/include/linux/interrupt.h
+> +++ b/include/linux/interrupt.h
+> @@ -249,12 +249,16 @@ struct irq_affinity_notify {
+>   *			the MSI(-X) vector space
+>   * @nr_sets:		Length of passed in *sets array
+>   * @sets:		Number of affinitized sets
+> + * @recalc_sets:	Recalculate sets original requested allocation failed
+
+This sentence is missing something and doesn't parse quite right.
+"if"?  Is "original" superfluous?
+
+> + * @priv:		Driver private data
+>   */
+>  struct irq_affinity {
+>  	int	pre_vectors;
+>  	int	post_vectors;
+>  	int	nr_sets;
+>  	int	*sets;
+> +	void	(*recalc_sets)(struct irq_affinity *, unsigned int);
+> +	void	*priv;
+>  };
+>  
+>  /**
+> -- 
+> 2.14.4
+> 
