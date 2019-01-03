@@ -1,146 +1,103 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu,  3 Jan 2019 14:09:54 -0700
-Subject: [PATCH 4/4] nvme-pci: Use PCI to handle IRQ reduce and retry
+Date: Thu,  3 Jan 2019 14:09:52 -0700
+Subject: [PATCH 2/4] nvme-pci: Distribute io queue types after creation
 In-Reply-To: <20190103210954.11129-1-keith.busch@intel.com>
 References: <20190103210954.11129-1-keith.busch@intel.com>
-Message-ID: <20190103210954.11129-4-keith.busch@intel.com>
+Message-ID: <20190103210954.11129-2-keith.busch@intel.com>
 
-Restore the previous error handling for vector allocation to the PCI core.
+The dev->io_queues types were set based on the results of the nvme set
+feature "number of queues" and the IRQ allocation. This does not mean
+that we're going to actually successfully allocate and create those IO
+queues. A failure there will cause blk-mq to have NULL hctx's because
+the map's nr_hw_queues accounts for more queues than were actually
+created.
 
+Adjust the io_queue types after we've created them when we've less than
+originally desired.
+
+Fixes: 3b6592f70ad7b ("nvme: utilize two queue maps, one for reads and one for writes")
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/pci.c | 77 ++++++++++++++-----------------------------------
- 1 file changed, 21 insertions(+), 56 deletions(-)
+ drivers/nvme/host/pci.c | 46 ++++++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 40 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 1481bb6d9c42..f3ef09a8e8f9 100644
+index 98332d0a80f0..1481bb6d9c42 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -2059,37 +2059,43 @@ static int nvme_setup_host_mem(struct nvme_dev *dev)
- 	return ret;
+@@ -1733,6 +1733,30 @@ static int nvme_pci_configure_admin_queue(struct nvme_dev *dev)
+ 	return result;
  }
  
--static void nvme_calc_io_queues(struct nvme_dev *dev, unsigned int irq_queues)
-+static void nvme_calc_io_queues(struct irq_affinity *affd, unsigned int nvecs)
++static void nvme_distribute_queues(struct nvme_dev *dev, unsigned int io_queues)
++{
++	unsigned int irq_queues, this_p_queues = dev->io_queues[HCTX_TYPE_POLL],
++		     this_w_queues = dev->io_queues[HCTX_TYPE_DEFAULT];
++
++	if (!io_queues) {
++		dev->io_queues[HCTX_TYPE_POLL] = 0;
++		dev->io_queues[HCTX_TYPE_DEFAULT] = 0;
++		dev->io_queues[HCTX_TYPE_READ] = 0;
++		return;
++	}
++
++	if (this_p_queues >= io_queues)
++		this_p_queues = io_queues - 1;
++	irq_queues = io_queues - this_p_queues;
++
++	if (this_w_queues > irq_queues)
++		this_w_queues = irq_queues;
++
++	dev->io_queues[HCTX_TYPE_POLL] = this_p_queues;
++	dev->io_queues[HCTX_TYPE_DEFAULT] = this_w_queues;
++	dev->io_queues[HCTX_TYPE_READ] = irq_queues - this_w_queues;
++}
++
+ static int nvme_create_io_queues(struct nvme_dev *dev)
  {
-+	struct nvme_dev *dev = affd->priv;
- 	unsigned int this_w_queues = write_queues;
- 
- 	/*
- 	 * Setup read/write queue split
- 	 */
--	if (irq_queues == 1) {
-+	if (nvecs == 1) {
- 		dev->io_queues[HCTX_TYPE_DEFAULT] = 1;
- 		dev->io_queues[HCTX_TYPE_READ] = 0;
--		return;
-+		goto set_sets;
+ 	unsigned i, max, rw_queues;
+@@ -1761,6 +1785,13 @@ static int nvme_create_io_queues(struct nvme_dev *dev)
+ 			break;
  	}
  
++	/*
++	 * If we've created less than expected io queues, redistribute the
++	 * dev->io_queues[] types accordingly.
++	 */
++	if (dev->online_queues - 1 != dev->max_qid)
++		nvme_distribute_queues(dev, dev->online_queues - 1);
++
  	/*
- 	 * If 'write_queues' is set, ensure it leaves room for at least
- 	 * one read queue
- 	 */
--	if (this_w_queues >= irq_queues)
--		this_w_queues = irq_queues - 1;
-+	if (this_w_queues >= nvecs - 1)
-+		this_w_queues = nvecs - 1;
+ 	 * Ignore failing Create SQ/CQ commands, we can continue with less
+ 	 * than the desired amount of queues, and even a controller without
+@@ -2185,11 +2216,6 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 	result = max(result - 1, 1);
+ 	dev->max_qid = result + dev->io_queues[HCTX_TYPE_POLL];
  
+-	dev_info(dev->ctrl.device, "%d/%d/%d default/read/poll queues\n",
+-					dev->io_queues[HCTX_TYPE_DEFAULT],
+-					dev->io_queues[HCTX_TYPE_READ],
+-					dev->io_queues[HCTX_TYPE_POLL]);
+-
  	/*
- 	 * If 'write_queues' is set to zero, reads and writes will share
- 	 * a queue set.
- 	 */
- 	if (!this_w_queues) {
--		dev->io_queues[HCTX_TYPE_DEFAULT] = irq_queues;
-+		dev->io_queues[HCTX_TYPE_DEFAULT] = nvecs - 1;
- 		dev->io_queues[HCTX_TYPE_READ] = 0;
- 	} else {
- 		dev->io_queues[HCTX_TYPE_DEFAULT] = this_w_queues;
--		dev->io_queues[HCTX_TYPE_READ] = irq_queues - this_w_queues;
-+		dev->io_queues[HCTX_TYPE_READ] = nvecs - this_w_queues - 1;
+ 	 * Should investigate if there's a performance win from allocating
+ 	 * more queues than interrupt vectors; it might allow the submission
+@@ -2203,7 +2229,15 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 		return result;
  	}
-+set_sets:
-+	affd->sets[0] = dev->io_queues[HCTX_TYPE_DEFAULT];
-+	affd->sets[1] = dev->io_queues[HCTX_TYPE_READ];
-+	if (!affd->sets[1])
-+		affd->nr_sets = 1;
+ 	set_bit(NVMEQ_ENABLED, &adminq->flags);
+-	return nvme_create_io_queues(dev);
++	result = nvme_create_io_queues(dev);
++
++	if (!result)
++		dev_info(dev->ctrl.device, "%d/%d/%d default/read/poll queues\n",
++					dev->io_queues[HCTX_TYPE_DEFAULT],
++					dev->io_queues[HCTX_TYPE_READ],
++					dev->io_queues[HCTX_TYPE_POLL]);
++	return result;
++
  }
  
- static int nvme_setup_irqs(struct nvme_dev *dev, unsigned int nr_io_queues)
-@@ -2100,9 +2106,10 @@ static int nvme_setup_irqs(struct nvme_dev *dev, unsigned int nr_io_queues)
- 		.pre_vectors = 1,
- 		.nr_sets = ARRAY_SIZE(irq_sets),
- 		.sets = irq_sets,
-+		.recalc_sets = nvme_calc_io_queues,
-+		.priv = dev,
- 	};
--	int result = 0;
--	unsigned int irq_queues, this_p_queues;
-+	unsigned int nvecs, this_p_queues;
- 
- 	/*
- 	 * Poll queues don't need interrupts, but we need at least one IO
-@@ -2111,56 +2118,14 @@ static int nvme_setup_irqs(struct nvme_dev *dev, unsigned int nr_io_queues)
- 	this_p_queues = poll_queues;
- 	if (this_p_queues >= nr_io_queues) {
- 		this_p_queues = nr_io_queues - 1;
--		irq_queues = 1;
-+		nvecs = 2;
- 	} else {
--		irq_queues = nr_io_queues - this_p_queues;
-+		nvecs = nr_io_queues - this_p_queues + 1;
- 	}
- 	dev->io_queues[HCTX_TYPE_POLL] = this_p_queues;
--
--	/*
--	 * For irq sets, we have to ask for minvec == maxvec. This passes
--	 * any reduction back to us, so we can adjust our queue counts and
--	 * IRQ vector needs.
--	 */
--	do {
--		nvme_calc_io_queues(dev, irq_queues);
--		irq_sets[0] = dev->io_queues[HCTX_TYPE_DEFAULT];
--		irq_sets[1] = dev->io_queues[HCTX_TYPE_READ];
--		if (!irq_sets[1])
--			affd.nr_sets = 1;
--
--		/*
--		 * If we got a failure and we're down to asking for just
--		 * 1 + 1 queues, just ask for a single vector. We'll share
--		 * that between the single IO queue and the admin queue.
--		 */
--		if (result >= 0 && irq_queues > 1)
--			irq_queues = irq_sets[0] + irq_sets[1] + 1;
--
--		result = pci_alloc_irq_vectors_affinity(pdev, irq_queues,
--				irq_queues,
--				PCI_IRQ_ALL_TYPES | PCI_IRQ_AFFINITY, &affd);
--
--		/*
--		 * Need to reduce our vec counts. If we get ENOSPC, the
--		 * platform should support mulitple vecs, we just need
--		 * to decrease our ask. If we get EINVAL, the platform
--		 * likely does not. Back down to ask for just one vector.
--		 */
--		if (result == -ENOSPC) {
--			irq_queues--;
--			if (!irq_queues)
--				return result;
--			continue;
--		} else if (result == -EINVAL) {
--			irq_queues = 1;
--			continue;
--		} else if (result <= 0)
--			return -EIO;
--		break;
--	} while (1);
--
--	return result;
-+	nvme_calc_io_queues(&affd, nvecs);
-+	return pci_alloc_irq_vectors_affinity(pdev, affd.pre_vectors, nvecs,
-+			PCI_IRQ_ALL_TYPES | PCI_IRQ_AFFINITY, &affd);
- }
- 
- static int nvme_setup_io_queues(struct nvme_dev *dev)
+ static void nvme_del_queue_end(struct request *req, blk_status_t error)
 -- 
 2.14.4
