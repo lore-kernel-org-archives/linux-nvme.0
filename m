@@ -1,84 +1,100 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Thu,  3 Jan 2019 09:31:06 +0800
-Subject: [PATCH] PCI/MSI: preference to returning -ENOSPC from
- pci_alloc_irq_vectors_affinity
-Message-ID: <20190103013106.26452-1-ming.lei@redhat.com>
+Date: Thu,  3 Jan 2019 09:34:39 +0800
+Subject: [PATCH] nvme pci: fix nvme_setup_irqs()
+Message-ID: <20190103013439.26700-1-ming.lei@redhat.com>
 
-The API of pci_alloc_irq_vectors_affinity() requires to return -ENOSPC
-if fewer than @min_vecs interrupt vectors are available for @dev.
+When -ENOSPC is returned from pci_alloc_irq_vectors_affinity(),
+we still try to allocate multiple irq vectors again, so irq queues
+covers the admin queue actually. But we don't consider that, then
+number of the allocated irq vector may be same with sum of
+io_queues[HCTX_TYPE_DEFAULT] and io_queues[HCTX_TYPE_READ], this way
+is obviously wrong, and finally breaks nvme_pci_map_queues(), and
+warning from pci_irq_get_affinity() is triggered.
 
-However, if a device supports MSI-X but not MSI and a caller requests
-@min_vecs that can't be satisfied by MSI-X, we previously returned
--EINVAL (from the failed attempt to enable MSI), not -ENOSPC.
+IRQ queues should cover admin queues, this patch makes this
+point explicitely in nvme_calc_io_queues().
 
-Users of pci_alloc_irq_vectors_affinity() may try to reduce irq vectors
-and allocate vectors again in case that -ENOSPC is returned, such as NVMe,
-so we need to respect the current interface and give preference to -ENOSPC.
+We got severl boot failure internal report on aarch64, so please
+consider to fix it in v4.20.
 
-Especially the min/max vecs doesn't work correctly when using the
-irq_affinity nr_sets because rebalancing the set counts is driver specific.
-To get around that, drivers using nr_sets have to set min and max to the same
-value and handle the "reduce and try again".
-
-Cc: Jens Axboe <axboe at fb.com>
+Fixes: 6451fe73fa0f ("nvme: fix irq vs io_queue calculations")
 Cc: Keith Busch <keith.busch at intel.com>
-Cc: linux-nvme at lists.infradead.org
-Cc: Bjorn Helgaas <bhelgaas at google.com>
-Cc: Christoph Hellwig <hch at lst.de>
+Cc: Jens Axboe <axboe at fb.com>
 Signed-off-by: Ming Lei <ming.lei at redhat.com>
 ---
- drivers/pci/msi.c | 22 +++++++++++++---------
- 1 file changed, 13 insertions(+), 9 deletions(-)
+ drivers/nvme/host/pci.c | 21 +++++++++++++--------
+ 1 file changed, 13 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/pci/msi.c b/drivers/pci/msi.c
-index 7a1c8a09efa5..4c0b47867258 100644
---- a/drivers/pci/msi.c
-+++ b/drivers/pci/msi.c
-@@ -1168,7 +1168,8 @@ int pci_alloc_irq_vectors_affinity(struct pci_dev *dev, unsigned int min_vecs,
- 				   const struct irq_affinity *affd)
- {
- 	static const struct irq_affinity msi_default_affd;
--	int vecs = -ENOSPC;
-+	int msix_vecs = -ENOSPC;
-+	int msi_vecs = -ENOSPC;
- 
- 	if (flags & PCI_IRQ_AFFINITY) {
- 		if (!affd)
-@@ -1179,16 +1180,17 @@ int pci_alloc_irq_vectors_affinity(struct pci_dev *dev, unsigned int min_vecs,
- 	}
- 
- 	if (flags & PCI_IRQ_MSIX) {
--		vecs = __pci_enable_msix_range(dev, NULL, min_vecs, max_vecs,
--				affd);
--		if (vecs > 0)
--			return vecs;
-+		msix_vecs = __pci_enable_msix_range(dev, NULL, min_vecs,
-+						    max_vecs, affd);
-+		if (msix_vecs > 0)
-+			return msix_vecs;
- 	}
- 
- 	if (flags & PCI_IRQ_MSI) {
--		vecs = __pci_enable_msi_range(dev, min_vecs, max_vecs, affd);
--		if (vecs > 0)
--			return vecs;
-+		msi_vecs = __pci_enable_msi_range(dev, min_vecs, max_vecs,
-+						  affd);
-+		if (msi_vecs > 0)
-+			return msi_vecs;
- 	}
- 
- 	/* use legacy irq if allowed */
-@@ -1199,7 +1201,9 @@ int pci_alloc_irq_vectors_affinity(struct pci_dev *dev, unsigned int min_vecs,
- 		}
- 	}
- 
--	return vecs;
-+	if (msix_vecs == -ENOSPC)
-+		return -ENOSPC;
-+	return msi_vecs;
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 5a0bf6a24d50..584ea7a57122 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2028,14 +2028,18 @@ static int nvme_setup_host_mem(struct nvme_dev *dev)
+ 	return ret;
  }
- EXPORT_SYMBOL(pci_alloc_irq_vectors_affinity);
  
++/* irq_queues covers admin queue */
+ static void nvme_calc_io_queues(struct nvme_dev *dev, unsigned int irq_queues)
+ {
+ 	unsigned int this_w_queues = write_queues;
+ 
++	WARN_ON(!irq_queues);
++
+ 	/*
+-	 * Setup read/write queue split
++	 * Setup read/write queue split, assign admin queue one independent
++	 * irq vector if irq_queues is > 1.
+ 	 */
+-	if (irq_queues == 1) {
++	if (irq_queues <= 2) {
+ 		dev->io_queues[HCTX_TYPE_DEFAULT] = 1;
+ 		dev->io_queues[HCTX_TYPE_READ] = 0;
+ 		return;
+@@ -2043,21 +2047,21 @@ static void nvme_calc_io_queues(struct nvme_dev *dev, unsigned int irq_queues)
+ 
+ 	/*
+ 	 * If 'write_queues' is set, ensure it leaves room for at least
+-	 * one read queue
++	 * one read queue and one admin queue
+ 	 */
+ 	if (this_w_queues >= irq_queues)
+-		this_w_queues = irq_queues - 1;
++		this_w_queues = irq_queues - 2;
+ 
+ 	/*
+ 	 * If 'write_queues' is set to zero, reads and writes will share
+ 	 * a queue set.
+ 	 */
+ 	if (!this_w_queues) {
+-		dev->io_queues[HCTX_TYPE_DEFAULT] = irq_queues;
++		dev->io_queues[HCTX_TYPE_DEFAULT] = irq_queues - 1;
+ 		dev->io_queues[HCTX_TYPE_READ] = 0;
+ 	} else {
+ 		dev->io_queues[HCTX_TYPE_DEFAULT] = this_w_queues;
+-		dev->io_queues[HCTX_TYPE_READ] = irq_queues - this_w_queues;
++		dev->io_queues[HCTX_TYPE_READ] = irq_queues - this_w_queues - 1;
+ 	}
+ }
+ 
+@@ -2082,7 +2086,7 @@ static int nvme_setup_irqs(struct nvme_dev *dev, unsigned int nr_io_queues)
+ 		this_p_queues = nr_io_queues - 1;
+ 		irq_queues = 1;
+ 	} else {
+-		irq_queues = nr_io_queues - this_p_queues;
++		irq_queues = nr_io_queues - this_p_queues + 1;
+ 	}
+ 	dev->io_queues[HCTX_TYPE_POLL] = this_p_queues;
+ 
+@@ -2102,8 +2106,9 @@ static int nvme_setup_irqs(struct nvme_dev *dev, unsigned int nr_io_queues)
+ 		 * If we got a failure and we're down to asking for just
+ 		 * 1 + 1 queues, just ask for a single vector. We'll share
+ 		 * that between the single IO queue and the admin queue.
++		 * Otherwise, we assign one independent vector to admin queue.
+ 		 */
+-		if (result >= 0 && irq_queues > 1)
++		if (irq_queues > 1)
+ 			irq_queues = irq_sets[0] + irq_sets[1] + 1;
+ 
+ 		result = pci_alloc_irq_vectors_affinity(pdev, irq_queues,
 -- 
 2.9.5
