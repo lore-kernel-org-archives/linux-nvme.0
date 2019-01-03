@@ -1,99 +1,84 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 2 Jan 2019 15:46:39 -0700
-Subject: [PATCH V2 1/3] PCI/MSI: preference to returning -ENOSPC from
+From: ming.lei@redhat.com (Ming Lei)
+Date: Thu,  3 Jan 2019 09:31:06 +0800
+Subject: [PATCH] PCI/MSI: preference to returning -ENOSPC from
  pci_alloc_irq_vectors_affinity
-In-Reply-To: <20190102210202.GC126384@google.com>
-References: <20181229032650.27256-1-ming.lei@redhat.com>
- <20181229032650.27256-2-ming.lei@redhat.com>
- <20181231220059.GI159477@google.com>
- <20190101052458.GA17588@ming.t460p>
- <20190102210202.GC126384@google.com>
-Message-ID: <20190102224637.GA9795@localhost.localdomain>
+Message-ID: <20190103013106.26452-1-ming.lei@redhat.com>
 
-On Wed, Jan 02, 2019@03:02:02PM -0600, Bjorn Helgaas wrote:
-> Keith said:
-> > The min/max vecs doesn't work correctly when using the irq_affinity
-> > nr_sets because rebalancing the set counts is driver specific. To
-> > get around that, drivers using nr_sets have to set min and max to
-> > the same value and handle the "reduce and try again".
-> 
-> Sorry I saw that, but didn't follow it at first.  After a little
-> archaeology, I see that 6da4b3ab9a6e ("genirq/affinity: Add support
-> for allocating interrupt sets") added nr_sets and some validation
-> tests (if affd.nr_sets, min_vecs == max_vecs) for using it in the API.
-> 
-> That's sort of a wart on the API, but I don't know if we should live
-> with it or try to clean it up somehow.
+The API of pci_alloc_irq_vectors_affinity() requires to return -ENOSPC
+if fewer than @min_vecs interrupt vectors are available for @dev.
 
-Yeah, that interface is a bit awkward. I was thinking it would be nice to
-thread a driver callback to PCI for the driver to redistribute the sets
-as needed and let the PCI handle the retries as before. I am testing
-with the following, and seems to work, but I'm getting some unexpected
-warnings from blk-mq when I have nvme use it. Still investigating that,
-but just throwing this out for early feedback.
+However, if a device supports MSI-X but not MSI and a caller requests
+@min_vecs that can't be satisfied by MSI-X, we previously returned
+-EINVAL (from the failed attempt to enable MSI), not -ENOSPC.
 
+Users of pci_alloc_irq_vectors_affinity() may try to reduce irq vectors
+and allocate vectors again in case that -ENOSPC is returned, such as NVMe,
+so we need to respect the current interface and give preference to -ENOSPC.
+
+Especially the min/max vecs doesn't work correctly when using the
+irq_affinity nr_sets because rebalancing the set counts is driver specific.
+To get around that, drivers using nr_sets have to set min and max to the same
+value and handle the "reduce and try again".
+
+Cc: Jens Axboe <axboe at fb.com>
+Cc: Keith Busch <keith.busch at intel.com>
+Cc: linux-nvme at lists.infradead.org
+Cc: Bjorn Helgaas <bhelgaas at google.com>
+Cc: Christoph Hellwig <hch at lst.de>
+Signed-off-by: Ming Lei <ming.lei at redhat.com>
 ---
+ drivers/pci/msi.c | 22 +++++++++++++---------
+ 1 file changed, 13 insertions(+), 9 deletions(-)
+
 diff --git a/drivers/pci/msi.c b/drivers/pci/msi.c
-index 7a1c8a09efa5..e33abb167c19 100644
+index 7a1c8a09efa5..4c0b47867258 100644
 --- a/drivers/pci/msi.c
 +++ b/drivers/pci/msi.c
-@@ -1035,13 +1035,6 @@ static int __pci_enable_msi_range(struct pci_dev *dev, int minvec, int maxvec,
- 	if (maxvec < minvec)
- 		return -ERANGE;
+@@ -1168,7 +1168,8 @@ int pci_alloc_irq_vectors_affinity(struct pci_dev *dev, unsigned int min_vecs,
+ 				   const struct irq_affinity *affd)
+ {
+ 	static const struct irq_affinity msi_default_affd;
+-	int vecs = -ENOSPC;
++	int msix_vecs = -ENOSPC;
++	int msi_vecs = -ENOSPC;
  
--	/*
--	 * If the caller is passing in sets, we can't support a range of
--	 * vectors. The caller needs to handle that.
--	 */
--	if (affd && affd->nr_sets && minvec != maxvec)
--		return -EINVAL;
--
- 	if (WARN_ON_ONCE(dev->msi_enabled))
- 		return -EINVAL;
+ 	if (flags & PCI_IRQ_AFFINITY) {
+ 		if (!affd)
+@@ -1179,16 +1180,17 @@ int pci_alloc_irq_vectors_affinity(struct pci_dev *dev, unsigned int min_vecs,
+ 	}
  
-@@ -1093,13 +1086,6 @@ static int __pci_enable_msix_range(struct pci_dev *dev,
- 	if (maxvec < minvec)
- 		return -ERANGE;
+ 	if (flags & PCI_IRQ_MSIX) {
+-		vecs = __pci_enable_msix_range(dev, NULL, min_vecs, max_vecs,
+-				affd);
+-		if (vecs > 0)
+-			return vecs;
++		msix_vecs = __pci_enable_msix_range(dev, NULL, min_vecs,
++						    max_vecs, affd);
++		if (msix_vecs > 0)
++			return msix_vecs;
+ 	}
  
--	/*
--	 * If the caller is passing in sets, we can't support a range of
--	 * supported vectors. The caller needs to handle that.
--	 */
--	if (affd && affd->nr_sets && minvec != maxvec)
--		return -EINVAL;
--
- 	if (WARN_ON_ONCE(dev->msix_enabled))
- 		return -EINVAL;
+ 	if (flags & PCI_IRQ_MSI) {
+-		vecs = __pci_enable_msi_range(dev, min_vecs, max_vecs, affd);
+-		if (vecs > 0)
+-			return vecs;
++		msi_vecs = __pci_enable_msi_range(dev, min_vecs, max_vecs,
++						  affd);
++		if (msi_vecs > 0)
++			return msi_vecs;
+ 	}
  
-@@ -1110,6 +1096,9 @@ static int __pci_enable_msix_range(struct pci_dev *dev,
- 				return -ENOSPC;
+ 	/* use legacy irq if allowed */
+@@ -1199,7 +1201,9 @@ int pci_alloc_irq_vectors_affinity(struct pci_dev *dev, unsigned int min_vecs,
  		}
+ 	}
  
-+		if (nvec != maxvec && affd && affd->recalc_sets)
-+			affd->recalc_sets(affd, nvec);
-+
- 		rc = __pci_enable_msix(dev, entries, nvec, affd);
- 		if (rc == 0)
- 			return nvec;
-diff --git a/include/linux/interrupt.h b/include/linux/interrupt.h
-index c672f34235e7..326c9bd05f62 100644
---- a/include/linux/interrupt.h
-+++ b/include/linux/interrupt.h
-@@ -249,12 +249,16 @@ struct irq_affinity_notify {
-  *			the MSI(-X) vector space
-  * @nr_sets:		Length of passed in *sets array
-  * @sets:		Number of affinitized sets
-+ * @recalc_sets:	Recalculate sets when requested allocation failed
-+ * @priv:		Driver private data
-  */
- struct irq_affinity {
- 	int	pre_vectors;
- 	int	post_vectors;
- 	int	nr_sets;
- 	int	*sets;
-+	void	(*recalc_sets)(struct irq_affinity *, unsigned int);
-+	void	*priv;
- };
+-	return vecs;
++	if (msix_vecs == -ENOSPC)
++		return -ENOSPC;
++	return msi_vecs;
+ }
+ EXPORT_SYMBOL(pci_alloc_irq_vectors_affinity);
  
- /**
---
+-- 
+2.9.5
