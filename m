@@ -1,63 +1,232 @@
-From: sashal@kernel.org (Sasha Levin)
-Date: Thu, 03 Jan 2019 18:14:43 +0000
-Subject: [PATCH v2] nvmet-rdma: fix null dereference under heavy load
-In-Reply-To: <20190103103336.6343-1-rajur@chelsio.com>
-References: <20190103103336.6343-1-rajur@chelsio.com>
-Message-ID: <20190103181444.5705F2073D@mail.kernel.org>
+From: emilne@redhat.com (Ewan D. Milne)
+Date: Thu, 03 Jan 2019 15:24:26 -0500
+Subject: [PATCHv2] nvme-multipath: round-robin I/O policy
+In-Reply-To: <20181221141330.96599-1-hare@suse.de>
+References: <20181221141330.96599-1-hare@suse.de>
+Message-ID: <4f9a3072c6f3a08000346894fbcf9269ff869241.camel@redhat.com>
 
-Hi,
+On Fri, 2018-12-21@15:13 +0100, Hannes Reinecke wrote:
+> Implement a simple round-robin I/O policy for multipathing.
+> Path selection is done in two rounds, first iterating across all
+> optimized paths, and, if that doesn't return any valid paths,
+> then iterate over all optimized and non-optimized paths.
+> If no paths are found we're using the existing algorithm.
+> This patch also implements a sysfs attribute 'iopolicy' to switch
+> between the current, NUMA-aware I/O policy and the 'round-robin'
+> I/O policy.
+> The original NUMA-aware I/O policy is kept as a default.
+> 
+> Signed-off-by: Hannes Reinecke <hare at suse.com>
 
-[This is an automated email]
+This works fine for me, and resolves the hang I saw in the earlier
+version when all the paths were taken down.  I have one comment about
+the state checking in this version, see below...
 
-This commit has been processed because it contains a "Fixes:" tag,
-fixing commit: .
+> ---
+>  drivers/nvme/host/core.c      |   6 +++
+>  drivers/nvme/host/multipath.c | 100 +++++++++++++++++++++++++++++++++++++++++-
+>  drivers/nvme/host/nvme.h      |  12 +++++
+>  3 files changed, 117 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 08f2c92602f4..7603aaa8217e 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -2275,6 +2275,9 @@ static struct attribute *nvme_subsys_attrs[] = {
+>  	&subsys_attr_serial.attr,
+>  	&subsys_attr_firmware_rev.attr,
+>  	&subsys_attr_subsysnqn.attr,
+> +#ifdef CONFIG_NVME_MULTIPATH
+> +	&subsys_attr_iopolicy.attr,
+> +#endif
+>  	NULL,
+>  };
+>  
+> @@ -2327,6 +2330,9 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+>  	memcpy(subsys->firmware_rev, id->fr, sizeof(subsys->firmware_rev));
+>  	subsys->vendor_id = le16_to_cpu(id->vid);
+>  	subsys->cmic = id->cmic;
+> +#ifdef CONFIG_NVME_MULTIPATH
+> +	subsys->iopolicy = NVME_IOPOLICY_NUMA;
+> +#endif
+>  
+>  	subsys->dev.class = nvme_subsys_class;
+>  	subsys->dev.release = nvme_release_subsystem;
+> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+> index 183ec17ba067..69cccdaea62e 100644
+> --- a/drivers/nvme/host/multipath.c
+> +++ b/drivers/nvme/host/multipath.c
+> @@ -141,7 +141,10 @@ static struct nvme_ns *__nvme_find_path(struct nvme_ns_head *head, int node)
+>  		    test_bit(NVME_NS_ANA_PENDING, &ns->flags))
+>  			continue;
+>  
+> -		distance = node_distance(node, ns->ctrl->numa_node);
+> +		if (READ_ONCE(head->subsys->iopolicy) == NVME_IOPOLICY_NUMA)
+> +			distance = node_distance(node, ns->ctrl->numa_node);
+> +		else
+> +			distance = LOCAL_DISTANCE;
+>  
+>  		switch (ns->ana_state) {
+>  		case NVME_ANA_OPTIMIZED:
+> @@ -168,6 +171,54 @@ static struct nvme_ns *__nvme_find_path(struct nvme_ns_head *head, int node)
+>  	return found;
+>  }
+>  
+> +static struct nvme_ns *__nvme_rr_next_path(struct nvme_ns_head *head, int node,
+> +					   struct nvme_ns *old)
+> +{
+> +	struct nvme_ns *ns, *found = NULL;
+> +	bool try_nonoptimized = false;
+> +
+> +	if (!old)
+> +		return NULL;
+> +retry:
+> +	ns = old;
+> +	do {
+> +		ns = list_next_or_null_rcu(&head->list, &ns->siblings,
+> +					   struct nvme_ns, siblings);
+> +		if (!ns) {
+> +			ns = list_first_or_null_rcu(&head->list, struct nvme_ns,
+> +						    siblings);
+> +			if (!ns)
+> +				return NULL;
+> +
+> +			if (ns == old)
+> +				/*
+> +				 * The list consists of just one entry.
+> +				 * Sorry for the noise :-)
+> +				 */
+> +				return old;
+> +		}
+> +		if (ns->disk && ns->ctrl->state == NVME_CTRL_LIVE) {
 
-The bot has tested the following trees: v4.20.0, v4.19.13, v4.14.91, v4.9.148, v4.4.169, v3.18.131, 
+__nvme_find_path() also checks test_bit(NVME_NS_ANA_PENDING, &ns->flags)
+in addition to the NVME_CTRL_LIVE state check, maybe this would be needed
+here as well?  (i.e. don't select a path that has just received an ANA error
+and has the ana_work queued to get the updated ANA state, and queue if
+necessary until a usable up-to-date path is found?)
 
-v4.20.0: Failed to apply! Possible dependencies:
-    ad1f824948e4 ("nvmet-rdma: Add unlikely for response allocated check")
+-Ewan
 
-v4.19.13: Failed to apply! Possible dependencies:
-    ad1f824948e4 ("nvmet-rdma: Add unlikely for response allocated check")
-
-v4.14.91: Failed to apply! Possible dependencies:
-    ad1f824948e4 ("nvmet-rdma: Add unlikely for response allocated check")
-
-v4.9.148: Failed to apply! Possible dependencies:
-    ad1f824948e4 ("nvmet-rdma: Add unlikely for response allocated check")
-
-v4.4.169: Failed to apply! Possible dependencies:
-    3a85a5de29ea ("nvme-loop: add a NVMe loopback host driver")
-    748ff8408f8e ("nvmet-rdma: Fix missing dma sync to nvme data structures")
-    8407879c4e0d ("nvmet-rdma: fix possible bogus dereference under heavy load")
-    8d61413db604 ("nvmet-rdma: Fix a possible uninitialized variable dereference")
-    8f000cac6e7a ("nvmet-rdma: add a NVMe over Fabrics RDMA target driver")
-    a07b4970f464 ("nvmet: add a generic NVMe target")
-    ad1f824948e4 ("nvmet-rdma: Add unlikely for response allocated check")
-
-v3.18.131: Failed to apply! Possible dependencies:
-    062261be4e39 ("nvme: Replace rcu_assign_pointer() with RCU_INIT_POINTER()")
-    1d0906246095 ("NVMe: Mismatched host/device page size support")
-    302c6727e5eb ("NVMe: Fix filesystem sync deadlock on removal")
-    57dacad5f228 ("nvme: move to a new drivers/nvme/host directory")
-    5905535610fc ("NVMe: Correctly handle IOCTL_SUBMIT_IO when cpus > online queues")
-    5940c8578fe7 ("NVMe: Clear QUEUE_FLAG_STACKABLE")
-    6fccf9383b28 ("NVMe: Async event request")
-    7963e521811e ("NVMe: Passthrough IOCTL for IO commands")
-    7be50e93fbc2 ("NVMe: Fix nvmeq waitqueue entry initialization")
-    8f000cac6e7a ("nvmet-rdma: add a NVMe over Fabrics RDMA target driver")
-    9dbbfab7d541 ("NVMe: Do not over allocate for discard requests")
-    a07b4970f464 ("nvmet: add a generic NVMe target")
-    a4aea5623d4a ("NVMe: Convert to blk-mq")
-    a96d4f5c2da6 ("NVMe: Reference count pci device")
-    aee4b9bd4505 ("nvmem: Add to MAINTAINERS for nvmem framework")
-    b4ff9c8ddb6f ("NVMe: Translate NVMe status to errno")
-    dece45855a8b ("NFC: nxp-nci: Add support for NXP NCI chips")
-    f435c2825b4c ("NVMe: Call nvme_free_queue directly")
-
-
-How should we proceed with this patch?
-
---
-Thanks,
-Sasha
+> +			if (ns->ana_state == NVME_ANA_OPTIMIZED) {
+> +				found = ns;
+> +				break;
+> +			}
+> +			if (try_nonoptimized &&
+> +			    ns->ana_state == NVME_ANA_NONOPTIMIZED) {
+> +				found = ns;
+> +				break;
+> +			}
+> +		}
+> +	} while (ns != old);
+> +
+> +	if (found)
+> +		rcu_assign_pointer(head->current_path[node], found);
+> +	else if (!try_nonoptimized) {
+> +		try_nonoptimized = true;
+> +		goto retry;
+> +	}
+> +	return found;
+> +}
+> +
+>  static inline bool nvme_path_is_optimized(struct nvme_ns *ns)
+>  {
+>  	return ns->ctrl->state == NVME_CTRL_LIVE &&
+> @@ -180,6 +231,8 @@ inline struct nvme_ns *nvme_find_path(struct nvme_ns_head *head)
+>  	struct nvme_ns *ns;
+>  
+>  	ns = srcu_dereference(head->current_path[node], &head->srcu);
+> +	if (READ_ONCE(head->subsys->iopolicy) == NVME_IOPOLICY_RR)
+> +		ns = __nvme_rr_next_path(head, node, ns);
+>  	if (unlikely(!ns || !nvme_path_is_optimized(ns)))
+>  		ns = __nvme_find_path(head, node);
+>  	return ns;
+> @@ -471,6 +524,51 @@ void nvme_mpath_stop(struct nvme_ctrl *ctrl)
+>  	cancel_work_sync(&ctrl->ana_work);
+>  }
+>  
+> +#define SUBSYS_ATTR_RW(_name, _mode, _show, _store)  \
+> +	struct device_attribute subsys_attr_##_name =	\
+> +		__ATTR(_name, _mode, _show, _store)
+> +
+> +static const char *nvme_iopolicy_names[] = {
+> +	[NVME_IOPOLICY_UNKNOWN] = "unknown",
+> +	[NVME_IOPOLICY_NUMA] = "numa",
+> +	[NVME_IOPOLICY_RR] = "round-robin",
+> +};
+> +
+> +static ssize_t nvme_subsys_iopolicy_show(struct device *dev,
+> +		struct device_attribute *attr, char *buf)
+> +{
+> +	struct nvme_subsystem *subsys =
+> +		container_of(dev, struct nvme_subsystem, dev);
+> +	int iopolicy = NVME_IOPOLICY_UNKNOWN;
+> +
+> +	if (iopolicy < ARRAY_SIZE(nvme_iopolicy_names))
+> +		iopolicy = READ_ONCE(subsys->iopolicy);
+> +	return sprintf(buf, "%s\n", nvme_iopolicy_names[iopolicy]);
+> +}
+> +
+> +static ssize_t nvme_subsys_iopolicy_store(struct device *dev,
+> +		struct device_attribute *attr, const char *buf, size_t count)
+> +{
+> +	enum nvme_iopolicy iopolicy = NVME_IOPOLICY_UNKNOWN;
+> +	struct nvme_subsystem *subsys =
+> +		container_of(dev, struct nvme_subsystem, dev);
+> +
+> +	if (!strncmp(buf, nvme_iopolicy_names[NVME_IOPOLICY_NUMA],
+> +		     strlen(nvme_iopolicy_names[NVME_IOPOLICY_NUMA])))
+> +		iopolicy = NVME_IOPOLICY_NUMA;
+> +	else if (!strncmp(buf, nvme_iopolicy_names[NVME_IOPOLICY_RR],
+> +		     strlen(nvme_iopolicy_names[NVME_IOPOLICY_RR])))
+> +		iopolicy = NVME_IOPOLICY_RR;
+> +
+> +	if (iopolicy == NVME_IOPOLICY_UNKNOWN)
+> +		return -EINVAL;
+> +
+> +	WRITE_ONCE(subsys->iopolicy, iopolicy);
+> +	return count;
+> +}
+> +SUBSYS_ATTR_RW(iopolicy, S_IRUGO | S_IWUSR,
+> +		      nvme_subsys_iopolicy_show, nvme_subsys_iopolicy_store);
+> +
+>  static ssize_t ana_grpid_show(struct device *dev, struct device_attribute *attr,
+>  		char *buf)
+>  {
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index 2b36ac922596..e24b51a608de 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -246,6 +246,14 @@ struct nvme_ctrl {
+>  	unsigned long discard_page_busy;
+>  };
+>  
+> +#ifdef CONFIG_NVME_MULTIPATH
+> +enum nvme_iopolicy {
+> +	NVME_IOPOLICY_UNKNOWN,
+> +	NVME_IOPOLICY_NUMA,
+> +	NVME_IOPOLICY_RR,
+> +};
+> +#endif
+> +
+>  struct nvme_subsystem {
+>  	int			instance;
+>  	struct device		dev;
+> @@ -265,6 +273,9 @@ struct nvme_subsystem {
+>  	u8			cmic;
+>  	u16			vendor_id;
+>  	struct ida		ns_ida;
+> +#ifdef CONFIG_NVME_MULTIPATH
+> +	enum nvme_iopolicy	iopolicy;
+> +#endif
+>  };
+>  
+>  /*
+> @@ -486,6 +497,7 @@ static inline void nvme_mpath_check_last_path(struct nvme_ns *ns)
+>  
+>  extern struct device_attribute dev_attr_ana_grpid;
+>  extern struct device_attribute dev_attr_ana_state;
+> +extern struct device_attribute subsys_attr_iopolicy;
+>  
+>  #else
+>  static inline bool nvme_ctrl_use_ana(struct nvme_ctrl *ctrl)
