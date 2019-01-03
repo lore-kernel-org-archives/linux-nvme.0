@@ -1,5 +1,5 @@
 From: shan.hai@oracle.com (Shan Hai)
-Date: Thu, 3 Jan 2019 12:36:42 +0800
+Date: Thu, 3 Jan 2019 12:51:11 +0800
 Subject: [PATCH V2 3/3] nvme pci: introduce module parameter of
  'default_queues'
 In-Reply-To: <20190103033131.GI25044@ming.t460p>
@@ -12,7 +12,7 @@ References: <20181229032650.27256-1-ming.lei@redhat.com>
  <4d8f963e-df7d-b2d9-3bf8-4852dfe6808e@oracle.com>
  <9d1a0052-85c9-9cbd-f824-7812eceb11bf@oracle.com>
  <20190103033131.GI25044@ming.t460p>
-Message-ID: <f275dc74-0c7a-a7eb-3b7e-783254f29922@oracle.com>
+Message-ID: <66278e59-b3ca-a3bc-be00-323c02a355c7@oracle.com>
 
 
 
@@ -147,6 +147,14 @@ On 2019/1/3 ??11:31, Ming Lei wrote:
 > user about this solution when the failure is triggered, as mentioned by
 > Bjorn.
 > 
+
+Yes, the solution is ugly and hard to relate it to the failure in NIC irq
+migration, but in order to make the system work we need this workaround
+sometimes because we could not change the smp affinity of NVMe while not
+hurting the performance of the NICs by limiting its CPU affinities.
+
+Thanks
+Shan Hai
 >>
 >> If all driver's irq affinities are managed by the kernel I guess we will not
 >> be bitten by this bug, but we are not so lucky till today.
@@ -154,21 +162,6 @@ On 2019/1/3 ??11:31, Ming Lei wrote:
 > I am still not sure why changing affinities may introduce extra irq
 > vector allocation.
 > 
-
-Below is a simple math to illustrate the problem:
-
-CPU = 384, NVMe = 6, NIC = 6
-2 * 6 * 384 local irq vectors are assigned to the controllers irqs
-
-offline 364 cpu, 6 * 364 NIC irqs are migrated to 20 remaining online CPUs,
-while the irqs of the NVMe controllers are not, which means extra 6 * 364
-local irq vectors of 20 online CPUs need to be assigned to these migrated
-interrupt handlers.
-
-Probably I should use assign instead of allocate to avoid the misunderstanding.
-
-Thanks
-Shan Hai
 > 
 > Thanks,
 > Ming
