@@ -1,10 +1,39 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 3 Jan 2019 15:13:17 -0800
-Subject: [PATCH v3] nvmet-rdma: fix null dereference under heavy load
-In-Reply-To: <20190103173531.7987-1-rajur@chelsio.com>
-References: <20190103173531.7987-1-rajur@chelsio.com>
-Message-ID: <b5f8ffb7-b912-60d1-95e3-0cb49899b771@grimberg.me>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Fri, 4 Jan 2019 09:46:50 +0800
+Subject: [PATCHv2 1/4] nvme-pci: Set tagset nr_maps just once
+In-Reply-To: <20190103225033.11249-2-keith.busch@intel.com>
+References: <20190103225033.11249-1-keith.busch@intel.com>
+ <20190103225033.11249-2-keith.busch@intel.com>
+Message-ID: <20190104014649.GA31330@ming.t460p>
 
-Wonder how the original fix got a tested-by...
+On Thu, Jan 03, 2019@03:50:30PM -0700, Keith Busch wrote:
+> The driver overwrites the intermediate nr_map assignments to
+> HCTX_MAX_TYPES, so remove those unnecessary temporary settings.
+> 
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> ---
+>  drivers/nvme/host/pci.c | 3 ---
+>  1 file changed, 3 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 5a0bf6a24d50..98332d0a80f0 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -2291,9 +2291,6 @@ static int nvme_dev_add(struct nvme_dev *dev)
+>  	if (!dev->ctrl.tagset) {
+>  		dev->tagset.ops = &nvme_mq_ops;
+>  		dev->tagset.nr_hw_queues = dev->online_queues - 1;
+> -		dev->tagset.nr_maps = 2; /* default + read */
+> -		if (dev->io_queues[HCTX_TYPE_POLL])
+> -			dev->tagset.nr_maps++;
+>  		dev->tagset.nr_maps = HCTX_MAX_TYPES;
+>  		dev->tagset.timeout = NVME_IO_TIMEOUT;
+>  		dev->tagset.numa_node = dev_to_node(dev->dev);
+> -- 
+> 2.14.4
+> 
 
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Reviewed-by: Ming Lei <ming.lei at redhat.com>
+
+Thanks,
+Ming
