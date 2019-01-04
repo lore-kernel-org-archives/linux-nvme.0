@@ -1,37 +1,111 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Fri, 4 Jan 2019 09:46:50 +0800
-Subject: [PATCHv2 1/4] nvme-pci: Set tagset nr_maps just once
-In-Reply-To: <20190103225033.11249-2-keith.busch@intel.com>
+Date: Fri, 4 Jan 2019 10:31:22 +0800
+Subject: [PATCHv2 2/4] nvme-pci: Distribute io queue types after creation
+In-Reply-To: <20190103225033.11249-3-keith.busch@intel.com>
 References: <20190103225033.11249-1-keith.busch@intel.com>
- <20190103225033.11249-2-keith.busch@intel.com>
-Message-ID: <20190104014649.GA31330@ming.t460p>
+ <20190103225033.11249-3-keith.busch@intel.com>
+Message-ID: <20190104023121.GB31330@ming.t460p>
 
-On Thu, Jan 03, 2019@03:50:30PM -0700, Keith Busch wrote:
-> The driver overwrites the intermediate nr_map assignments to
-> HCTX_MAX_TYPES, so remove those unnecessary temporary settings.
+On Thu, Jan 03, 2019@03:50:31PM -0700, Keith Busch wrote:
+> The dev->io_queues types were set based on the results of the nvme set
+> feature "number of queues" and the IRQ allocation. This result does not
+> mean we're going to successfully allocate and create those IO queues,
+> though. A failure there will cause blk-mq to have NULL hctx's because the
+> map's nr_hw_queues accounts for more queues than were actually created.
 > 
+> Adjust the io_queue types after we've created them when we have less than
+> originally desired.
+> 
+> Fixes: 3b6592f70ad7b ("nvme: utilize two queue maps, one for reads and one for writes")
 > Signed-off-by: Keith Busch <keith.busch at intel.com>
 > ---
->  drivers/nvme/host/pci.c | 3 ---
->  1 file changed, 3 deletions(-)
+>  drivers/nvme/host/pci.c | 46 ++++++++++++++++++++++++++++++++++++++++------
+>  1 file changed, 40 insertions(+), 6 deletions(-)
 > 
 > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 5a0bf6a24d50..98332d0a80f0 100644
+> index 98332d0a80f0..1481bb6d9c42 100644
 > --- a/drivers/nvme/host/pci.c
 > +++ b/drivers/nvme/host/pci.c
-> @@ -2291,9 +2291,6 @@ static int nvme_dev_add(struct nvme_dev *dev)
->  	if (!dev->ctrl.tagset) {
->  		dev->tagset.ops = &nvme_mq_ops;
->  		dev->tagset.nr_hw_queues = dev->online_queues - 1;
-> -		dev->tagset.nr_maps = 2; /* default + read */
-> -		if (dev->io_queues[HCTX_TYPE_POLL])
-> -			dev->tagset.nr_maps++;
->  		dev->tagset.nr_maps = HCTX_MAX_TYPES;
->  		dev->tagset.timeout = NVME_IO_TIMEOUT;
->  		dev->tagset.numa_node = dev_to_node(dev->dev);
+> @@ -1733,6 +1733,30 @@ static int nvme_pci_configure_admin_queue(struct nvme_dev *dev)
+>  	return result;
+>  }
+>  
+> +static void nvme_distribute_queues(struct nvme_dev *dev, unsigned int io_queues)
+> +{
+> +	unsigned int irq_queues, this_p_queues = dev->io_queues[HCTX_TYPE_POLL],
+> +		     this_w_queues = dev->io_queues[HCTX_TYPE_DEFAULT];
+> +
+> +	if (!io_queues) {
+> +		dev->io_queues[HCTX_TYPE_POLL] = 0;
+> +		dev->io_queues[HCTX_TYPE_DEFAULT] = 0;
+> +		dev->io_queues[HCTX_TYPE_READ] = 0;
+> +		return;
+> +	}
+> +
+> +	if (this_p_queues >= io_queues)
+> +		this_p_queues = io_queues - 1;
+> +	irq_queues = io_queues - this_p_queues;
+> +
+> +	if (this_w_queues > irq_queues)
+> +		this_w_queues = irq_queues;
+> +
+> +	dev->io_queues[HCTX_TYPE_POLL] = this_p_queues;
+> +	dev->io_queues[HCTX_TYPE_DEFAULT] = this_w_queues;
+> +	dev->io_queues[HCTX_TYPE_READ] = irq_queues - this_w_queues;
+> +}
+> +
+>  static int nvme_create_io_queues(struct nvme_dev *dev)
+>  {
+>  	unsigned i, max, rw_queues;
+> @@ -1761,6 +1785,13 @@ static int nvme_create_io_queues(struct nvme_dev *dev)
+>  			break;
+>  	}
+>  
+> +	/*
+> +	 * If we've created less than expected io queues, redistribute the
+> +	 * dev->io_queues[] types accordingly.
+> +	 */
+> +	if (dev->online_queues - 1 != dev->max_qid)
+> +		nvme_distribute_queues(dev, dev->online_queues - 1);
+> +
+>  	/*
+>  	 * Ignore failing Create SQ/CQ commands, we can continue with less
+>  	 * than the desired amount of queues, and even a controller without
+> @@ -2185,11 +2216,6 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+>  	result = max(result - 1, 1);
+>  	dev->max_qid = result + dev->io_queues[HCTX_TYPE_POLL];
+>  
+> -	dev_info(dev->ctrl.device, "%d/%d/%d default/read/poll queues\n",
+> -					dev->io_queues[HCTX_TYPE_DEFAULT],
+> -					dev->io_queues[HCTX_TYPE_READ],
+> -					dev->io_queues[HCTX_TYPE_POLL]);
+> -
+>  	/*
+>  	 * Should investigate if there's a performance win from allocating
+>  	 * more queues than interrupt vectors; it might allow the submission
+> @@ -2203,7 +2229,15 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+>  		return result;
+>  	}
+>  	set_bit(NVMEQ_ENABLED, &adminq->flags);
+> -	return nvme_create_io_queues(dev);
+> +	result = nvme_create_io_queues(dev);
+> +
+> +	if (!result)
+> +		dev_info(dev->ctrl.device, "%d/%d/%d default/read/poll queues\n",
+> +					dev->io_queues[HCTX_TYPE_DEFAULT],
+> +					dev->io_queues[HCTX_TYPE_READ],
+> +					dev->io_queues[HCTX_TYPE_POLL]);
+> +	return result;
+> +
+>  }
+>  
+>  static void nvme_del_queue_end(struct request *req, blk_status_t error)
 > -- 
 > 2.14.4
 > 
+
+This way should be better given it covers irq allocation failure and
+queue creating/initialization failure.
 
 Reviewed-by: Ming Lei <ming.lei at redhat.com>
 
