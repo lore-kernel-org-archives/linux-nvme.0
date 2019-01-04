@@ -1,26 +1,14 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 4 Jan 2019 08:53:24 -0700
-Subject: [PATCHv2 2/4] nvme-pci: Distribute io queue types after creation
-In-Reply-To: <20190104072106.GA9948@ming.t460p>
-References: <20190103225033.11249-1-keith.busch@intel.com>
- <20190103225033.11249-3-keith.busch@intel.com>
- <20190104023121.GB31330@ming.t460p>
- <20190104072106.GA9948@ming.t460p>
-Message-ID: <20190104155324.GA12342@localhost.localdomain>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Fri, 4 Jan 2019 10:07:10 -0800
+Subject: [PATCH v2] nvme-pci: fix dbbuf_sq_db point to freed memory
+In-Reply-To: <E5D59058E6941147BD3ACF9CB4AA49E3B3572EC2@DGGEMA505-MBX.china.huawei.com>
+References: <E5D59058E6941147BD3ACF9CB4AA49E3B3572EC2@DGGEMA505-MBX.china.huawei.com>
+Message-ID: <20190104180710.GA4642@infradead.org>
 
-On Fri, Jan 04, 2019@03:21:07PM +0800, Ming Lei wrote:
-> Thinking about the patch further: after pci_alloc_irq_vectors_affinity()
-> is returned, queue number for non-polled queues can't be changed at will,
-> because we have to make sure to spread all CPUs on each queue type, and
-> the mapping has been fixed by pci_alloc_irq_vectors_affinity() already.
-> 
-> So looks the approach in this patch may be wrong.
+On Fri, Dec 21, 2018@01:07:25AM +0000, Lulina (A) wrote:
+> The case is that nvme device support NVME_CTRL_OACS_DBBUF_SUPP, and
+> return failed when the driver sent nvme_admin_dbbuf. The nvmeq->dbbuf_sq_db
+> point to freed memory, as nvme_dbbuf_set is called after nvme_dbbuf_init.
 
-That's a bit of a problem, and not a new one. We always had to allocate
-vectors before creating IRQ driven CQ's, but the vector affinity is
-created before we know if the queue-pair can be created. Should the
-queue creation fail, there may be CPUs that don't have a queue.
-
-Does this mean the pci msi API is wrong? It seems like we'd need to
-initially allocate vectors without PCI_IRQ_AFFINITY, then have the
-kernel set affinity only after completing the queue-pair setup.
+But we never use those pointers in that state, do we?  Can you explain
+the problem in a little more detail?
