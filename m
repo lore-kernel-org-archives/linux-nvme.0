@@ -1,138 +1,227 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Fri, 4 Jan 2019 10:45:47 +0800
-Subject: [PATCHv2 3/4] PCI/MSI: Handle vector reduce and retry
-In-Reply-To: <20190103225033.11249-4-keith.busch@intel.com>
-References: <20190103225033.11249-1-keith.busch@intel.com>
- <20190103225033.11249-4-keith.busch@intel.com>
-Message-ID: <20190104024546.GD31330@ming.t460p>
+From: shan.hai@oracle.com (Shan Hai)
+Date: Fri, 4 Jan 2019 10:53:18 +0800
+Subject: [PATCH V2 3/3] nvme pci: introduce module parameter of
+ 'default_queues'
+In-Reply-To: <20190103103455.GB29693@ming.t460p>
+References: <20181229032650.27256-1-ming.lei@redhat.com>
+ <20181229032650.27256-4-ming.lei@redhat.com>
+ <CABhMZUVU-XcvBC9OjNw9=4gsmspy+Bc4urkb5fSo-7JeDO9m=Q@mail.gmail.com>
+ <20190101054735.GB17588@ming.t460p>
+ <CABhMZUXoZkMGd3+54KxXU4nX-h=sbO5SBm-893ZHc3WU6BvN1w@mail.gmail.com>
+ <20190103021237.GA25044@ming.t460p>
+ <4d8f963e-df7d-b2d9-3bf8-4852dfe6808e@oracle.com>
+ <9d1a0052-85c9-9cbd-f824-7812eceb11bf@oracle.com>
+ <20190103033131.GI25044@ming.t460p>
+ <f275dc74-0c7a-a7eb-3b7e-783254f29922@oracle.com>
+ <20190103103455.GB29693@ming.t460p>
+Message-ID: <27d80908-922b-cb19-4661-892d617095c6@oracle.com>
 
-On Thu, Jan 03, 2019@03:50:32PM -0700, Keith Busch wrote:
-> The struct irq_affinity nr_sets forced the driver to handle reducing the
-> vector count on allocation failures because the set distribution counts
-> are driver specific. The change to this API requires very different usage
-> than before, and introduced new error corner cases that weren't being
-> handled. It is also less efficient since the driver doesn't actually
-> know what a proper vector count it should use since it only sees the
-> error code and can only reduce by one instead of going straight to a
-> possible vector count like PCI is able to do.
+
+
+On 2019/1/3 ??6:34, Ming Lei wrote:
+> On Thu, Jan 03, 2019@12:36:42PM +0800, Shan Hai wrote:
+>>
+>>
+>> On 2019/1/3 ??11:31, Ming Lei wrote:
+>>> On Thu, Jan 03, 2019@11:11:07AM +0800, Shan Hai wrote:
+>>>>
+>>>>
+>>>> On 2019/1/3 ??10:52, Shan Hai wrote:
+>>>>>
+>>>>>
+>>>>> On 2019/1/3 ??10:12, Ming Lei wrote:
+>>>>>> On Wed, Jan 02, 2019@02:11:22PM -0600, Bjorn Helgaas wrote:
+>>>>>>> [Sorry about the quote corruption below.  I'm responding with gmail in
+>>>>>>> plain text mode, but seems like it corrupted some of the quoting when
+>>>>>>> saving as a draft]
+>>>>>>>
+>>>>>>> On Mon, Dec 31, 2018@11:47 PM Ming Lei <ming.lei@redhat.com> wrote:
+>>>>>>> &gt;
+>>>>>>> &gt; On Mon, Dec 31, 2018@03:24:55PM -0600, Bjorn Helgaas wrote:
+>>>>>>> &gt; &gt; On Fri, Dec 28, 2018@9:27 PM Ming Lei <ming.lei@redhat.com> wrote:
+>>>>>>> &gt; &gt; &gt;
+>>>>>>> &gt; &gt; &gt; On big system with lots of CPU cores, it is easy to
+>>>>>>> consume up irq
+>>>>>>> &gt; &gt; &gt; vectors by assigning defaut queue with
+>>>>>>> num_possible_cpus() irq vectors.
+>>>>>>> &gt; &gt; &gt; Meantime it is often not necessary to allocate so many
+>>>>>>> vectors for
+>>>>>>> &gt; &gt; &gt; reaching NVMe's top performance under that situation.
+>>>>>>> &gt; &gt;
+>>>>>>> &gt; &gt; s/defaut/default/
+>>>>>>> &gt; &gt;
+>>>>>>> &gt; &gt; &gt; This patch introduces module parameter of 'default_queues' to try
+>>>>>>> &gt; &gt; &gt; to address this issue reported by Shan Hai.
+>>>>>>> &gt; &gt;
+>>>>>>> &gt; &gt; Is there a URL to this report by Shan?
+>>>>>>> &gt;
+>>>>>>> &gt; http://lists.infradead.org/pipermail/linux-nvme/2018-December/021863.html
+>>>>>>> &gt; http://lists.infradead.org/pipermail/linux-nvme/2018-December/021862.html
+>>>>>>> &gt;
+>>>>>>> &gt; http://lists.infradead.org/pipermail/linux-nvme/2018-December/021872.html
+>>>>>>>
+>>>>>>> It'd be good to include this.  I think the first is the interesting
+>>>>>>> one.  It'd be nicer to have an https://lore.kernel.org/... URL, but it
+>>>>>>> doesn't look like lore hosts linux-nvme yet.  (Is anybody working on
+>>>>>>> that?  I have some archives I could contribute, but other folks
+>>>>>>> probably have more.)
+>>>>>>>
+>>>>>>> </ming.lei at redhat.com></ming.lei at redhat.com>
+>>>>>>>>>
+>>>>>>>>> Is there some way you can figure this out automatically instead of
+>>>>>>>>> forcing the user to use a module parameter?
+>>>>>>>>
+>>>>>>>> Not yet, otherwise, I won't post this patch out.
+>>>>>>>>
+>>>>>>>>> If not, can you provide some guidance in the changelog for how a user
+>>>>>>>>> is supposed to figure out when it's needed and what the value should
+>>>>>>>>> be?  If you add the parameter, I assume that will eventually have to
+>>>>>>>>> be mentioned in a release note, and it would be nice to have something
+>>>>>>>>> to start from.
+>>>>>>>>
+>>>>>>>> Ok, that is a good suggestion, how about documenting it via the
+>>>>>>>> following words:
+>>>>>>>>
+>>>>>>>> Number of IRQ vectors is system-wide resource, and usually it is big enough
+>>>>>>>> for each device. However, we allocate num_possible_cpus() + 1 irq vectors for
+>>>>>>>> each NVMe PCI controller. In case that system has lots of CPU cores, or there
+>>>>>>>> are more than one NVMe controller, IRQ vectors can be consumed up
+>>>>>>>> easily by NVMe. When this issue is triggered, please try to pass smaller
+>>>>>>>> default queues via the module parameter of 'default_queues', usually
+>>>>>>>> it have to be >= number of NUMA nodes, meantime it needs be big enough
+>>>>>>>> to reach NVMe's top performance, which is often less than num_possible_cpus()
+>>>>>>>> + 1.
+>>>>>>>
+>>>>>>> You say "when this issue is triggered."  How does the user know when
+>>>>>>> this issue triggered?
+>>>>>>
+>>>>>> Any PCI IRQ vector allocation fails.
+>>>>>>
+>>>>>>>
+>>>>>>> The failure in Shan's email (021863.html) is a pretty ugly hotplug
+>>>>>>> failure and it would take me personally a long time to connect it with
+>>>>>>> an IRQ exhaustion issue and even longer to dig out this module
+>>>>>>> parameter to work around it.  I suppose if we run out of IRQ numbers,
+>>>>>>> NVMe itself might work fine, but some other random driver might be
+>>>>>>> broken?
+>>>>>>
+>>>>>> Yeah, seems that is true in Shan's report.
+>>>>>>
+>>>>>> However, Shan mentioned that the issue is only triggered in case of
+>>>>>> CPU hotplug, especially "The allocation is caused by IRQ migration of
+>>>>>> non-managed interrupts from dying to online CPUs."
+>>>>>>
+>>>>>> I still don't understand why new IRQ vector allocation is involved
+>>>>>> under CPU hotplug since Shan mentioned that no IRQ exhaustion issue
+>>>>>> during booting.
+>>>>>>
+>>>>>
+>>>>> Yes, the bug can be reproduced easily by CPU-hotplug.
+>>>>> We have to separate the PCI IRQ and CPU IRQ vectors first of all. We know that
+>>>>> the MSI-X permits up to 2048 interrupts allocation per device, but the CPU,
+>>>>> X86 as an example, could provide maximum 255 interrupt vectors, and the sad fact
+>>>>> is that these vectors are not all available for peripheral devices.
+>>>>>
+>>>>> So even though the controllers are luxury in PCI IRQ space and have got
+>>>>> thousands of vectors to use but the heavy lifting is done by the precious CPU
+>>>>> irq vectors.
+>>>>>
+>>>>> The CPU-hotplug causes IRQ vectors exhaustion problem because the interrupt
+>>>>> handlers of the controllers will be migrated from dying cpu to the online cpu
+>>>>> as long as the driver's irq affinity is not managed by the kernel, the drivers
+>>>>> smp_affinity of which can be set by procfs interface belong to this class.
+>>>>>
+>>>>> And the irq migration does not do irq free/realloc stuff, so the irqs of a
+>>>>> controller will be migrated to the target CPU cores according to its irq
+>>>>> affinity hint value and will consume a irq vector on the target core.
+>>>>>
+>>>>> If we try to offline 360 cores out of total 384 cores on a NUMA system attached
+>>>>> with 6 NVMe and 6 NICs we are out of luck and observe a kernel panic due to the
+>>>>> failure of I/O.
+>>>>>
+>>>>
+>>>> Put it simply we ran out of CPU irq vectors on CPU-hotplug rather than MSI-X
+>>>> vectors, adding this knob to the NVMe driver is for let it to be a good citizen
+>>>> considering the drivers out there irqs of which are still not managed by the
+>>>> kernel and be migrated between CPU cores on hot-plugging.
+>>>
+>>> Yeah, look we all think this way might address this issue sort of.
+>>>
+>>> But in reality, it can be hard to use this kind of workaround, given
+>>> people may not conclude easily this kind of failure should be addressed
+>>> by reducing 'nvme.default_queues'. At least, we should provide hint to
+>>> user about this solution when the failure is triggered, as mentioned by
+>>> Bjorn.
+>>>
+>>>>
+>>>> If all driver's irq affinities are managed by the kernel I guess we will not
+>>>> be bitten by this bug, but we are not so lucky till today.
+>>>
+>>> I am still not sure why changing affinities may introduce extra irq
+>>> vector allocation.
+>>>
+>>
+>> Below is a simple math to illustrate the problem:
+>>
+>> CPU = 384, NVMe = 6, NIC = 6
+>> 2 * 6 * 384 local irq vectors are assigned to the controllers irqs
+>>
+>> offline 364 cpu, 6 * 364 NIC irqs are migrated to 20 remaining online CPUs,
+>> while the irqs of the NVMe controllers are not, which means extra 6 * 364
+>> local irq vectors of 20 online CPUs need to be assigned to these migrated
+>> interrupt handlers.
 > 
-> Provide a driver specific callback for managed irq set creation so that
-> PCI can take a min and max vectors as before to handle the reduce and
-> retry logic.
+> But 6 * 364 Linux IRQs have been allocated/assigned already before, then why
+> is there IRQ exhaustion?
 > 
-> The usage is not particularly obvious for this new feature, so append
-> documentation for driver usage.
 > 
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
-> ---
->  Documentation/PCI/MSI-HOWTO.txt | 36 +++++++++++++++++++++++++++++++++++-
->  drivers/pci/msi.c               | 20 ++++++--------------
->  include/linux/interrupt.h       |  5 +++++
->  3 files changed, 46 insertions(+), 15 deletions(-)
+
+The irq#1 is bound to the CPU#5
+cat /proc/irq/1/smp_affinity
+20
+
+Kick the irq#1 out of CPU#5
+echo 0 > /sys/devices/system/cpu/cpu5/online
+
+cat trace
+# tracer: function
+#
+#                              _-----=> irqs-off
+#                             / _----=> need-resched
+#                            | / _---=> hardirq/softirq
+#                            || / _--=> preempt-depth
+#                            ||| /     delay
+#           TASK-PID   CPU#  ||||    TIMESTAMP  FUNCTION
+#              | |       |   ||||       |         |
+           <...>-41    [005] d..1   122.220040: irq_matrix_alloc
+<-assign_vector_locked
+           <...>-41    [005] d..1   122.220061: <stack trace>
+ => irq_matrix_alloc
+ => assign_vector_locked
+ => apic_set_affinity
+ => ioapic_set_affinity
+ => irq_do_set_affinity
+ => irq_migrate_all_off_this_cpu
+ => fixup_irqs
+ => cpu_disable_common
+ => native_cpu_disable
+ => take_cpu_down
+ => multi_cpu_stop
+ => cpu_stopper_thread
+ => smpboot_thread_fn
+ => kthread
+ => ret_from_fork
+
+The irq#1 is migrated to the CPU#6 with a new vector assigned
+cat /proc/irq/1/smp_affinity
+40
+
+Probably I misunderstood something, please feel free to correct it if there is
+any.
+
+Thanks
+Shan Hai
+
+> Thanks,
+> Ming
 > 
-> diff --git a/Documentation/PCI/MSI-HOWTO.txt b/Documentation/PCI/MSI-HOWTO.txt
-> index 618e13d5e276..391b1f369138 100644
-> --- a/Documentation/PCI/MSI-HOWTO.txt
-> +++ b/Documentation/PCI/MSI-HOWTO.txt
-> @@ -98,7 +98,41 @@ The flags argument is used to specify which type of interrupt can be used
->  by the device and the driver (PCI_IRQ_LEGACY, PCI_IRQ_MSI, PCI_IRQ_MSIX).
->  A convenient short-hand (PCI_IRQ_ALL_TYPES) is also available to ask for
->  any possible kind of interrupt.  If the PCI_IRQ_AFFINITY flag is set,
-> -pci_alloc_irq_vectors() will spread the interrupts around the available CPUs.
-> +pci_alloc_irq_vectors() will spread the interrupts around the available
-> +CPUs. Vector affinities allocated under the PCI_IRQ_AFFINITY flag are
-> +managed by the kernel, and are not tunable from user space like other
-> +vectors.
-> +
-> +When your driver requires a more complex vector affinity configuration
-> +than a default spread of all vectors, the driver may use the following
-> +function:
-> +
-> +  int pci_alloc_irq_vectors_affinity(struct pci_dev *dev, unsigned int min_vecs,
-> +				   unsigned int max_vecs, unsigned int flags,
-> +				   const struct irq_affinity *affd);
-> +
-> +The 'struct irq_affinity *affd' allows a driver to specify additional
-> +characteristics for how a driver wants the vector management to occur. The
-> +'pre_vectors' and 'post_vectors' fields define how many vectors the driver
-> +wants to not participate in kernel managed affinities, and whether those
-> +special vectors are at the beginning or the end of the vector space.
-> +
-> +It may also be the case that a driver wants multiple sets of fully
-> +affinitized vectors. For example, a single PCI function may provide
-> +different high performance services that want full CPU affinity for each
-> +service independent of other services. In this case, the driver may use
-> +the struct irq_affinity's 'nr_sets' field to specify how many groups of
-> +vectors need to be spread across all the CPUs, and fill in the 'sets'
-> +array to say how many vectors the driver wants in each set.
-> +
-> +When using multiple affinity 'sets', the error handling for vector
-> +reduction and retry becomes more complicated since the PCI core
-> +doesn't know how to redistribute the vector count across the sets. In
-> +order to provide this error handling, the driver must also provide the
-> +'recalc_sets()' callback and set the 'priv' data needed for the driver
-> +specific vector distribution. The driver's callback is responsible to
-> +ensure the sum of the vector counts across its sets matches the new
-> +vector count that PCI can allocate.
->  
->  To get the Linux IRQ numbers passed to request_irq() and free_irq() and the
->  vectors, use the following function:
-> diff --git a/drivers/pci/msi.c b/drivers/pci/msi.c
-> index 7a1c8a09efa5..b93ac49be18d 100644
-> --- a/drivers/pci/msi.c
-> +++ b/drivers/pci/msi.c
-> @@ -1035,13 +1035,6 @@ static int __pci_enable_msi_range(struct pci_dev *dev, int minvec, int maxvec,
->  	if (maxvec < minvec)
->  		return -ERANGE;
->  
-> -	/*
-> -	 * If the caller is passing in sets, we can't support a range of
-> -	 * vectors. The caller needs to handle that.
-> -	 */
-> -	if (affd && affd->nr_sets && minvec != maxvec)
-> -		return -EINVAL;
-> -
->  	if (WARN_ON_ONCE(dev->msi_enabled))
->  		return -EINVAL;
->  
-> @@ -1061,6 +1054,9 @@ static int __pci_enable_msi_range(struct pci_dev *dev, int minvec, int maxvec,
->  				return -ENOSPC;
->  		}
->  
-> +		if (nvec != maxvec && affd && affd->recalc_sets)
-> +			affd->recalc_sets((struct irq_affinity *)affd, nvec);
-> +
-
-->recalc_sets() should have been done after msi_capability_init() makes at least
-'minvec' is available.
-
->  		rc = msi_capability_init(dev, nvec, affd);
->  		if (rc == 0)
->  			return nvec;
-> @@ -1093,13 +1089,6 @@ static int __pci_enable_msix_range(struct pci_dev *dev,
->  	if (maxvec < minvec)
->  		return -ERANGE;
->  
-> -	/*
-> -	 * If the caller is passing in sets, we can't support a range of
-> -	 * supported vectors. The caller needs to handle that.
-> -	 */
-> -	if (affd && affd->nr_sets && minvec != maxvec)
-> -		return -EINVAL;
-> -
->  	if (WARN_ON_ONCE(dev->msix_enabled))
->  		return -EINVAL;
->  
-> @@ -1110,6 +1099,9 @@ static int __pci_enable_msix_range(struct pci_dev *dev,
->  				return -ENOSPC;
->  		}
->  
-> +		if (nvec != maxvec && affd && affd->recalc_sets)
-> +			affd->recalc_sets((struct irq_affinity *)affd, nvec);
-> +
-
-->recalc_sets() should have been done after __pci_enable_msix() makes at least
-'minvec' is available.
-
-Thanks,
-Ming
