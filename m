@@ -1,122 +1,107 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Fri, 4 Jan 2019 15:21:07 +0800
-Subject: [PATCHv2 2/4] nvme-pci: Distribute io queue types after creation
-In-Reply-To: <20190104023121.GB31330@ming.t460p>
-References: <20190103225033.11249-1-keith.busch@intel.com>
- <20190103225033.11249-3-keith.busch@intel.com>
- <20190104023121.GB31330@ming.t460p>
-Message-ID: <20190104072106.GA9948@ming.t460p>
+From: mwilck@suse.de (Martin Wilck)
+Date: Fri, 04 Jan 2019 15:06:23 +0100
+Subject: [PATCHv2] nvme-multipath: round-robin I/O policy
+In-Reply-To: <20181221141330.96599-1-hare@suse.de>
+References: <20181221141330.96599-1-hare@suse.de>
+Message-ID: <833821226d78f0e947b14434c188d64d4838337a.camel@suse.de>
 
-On Fri, Jan 04, 2019@10:31:21AM +0800, Ming Lei wrote:
-> On Thu, Jan 03, 2019@03:50:31PM -0700, Keith Busch wrote:
-> > The dev->io_queues types were set based on the results of the nvme set
-> > feature "number of queues" and the IRQ allocation. This result does not
-> > mean we're going to successfully allocate and create those IO queues,
-> > though. A failure there will cause blk-mq to have NULL hctx's because the
-> > map's nr_hw_queues accounts for more queues than were actually created.
-> > 
-> > Adjust the io_queue types after we've created them when we have less than
-> > originally desired.
-> > 
-> > Fixes: 3b6592f70ad7b ("nvme: utilize two queue maps, one for reads and one for writes")
-> > Signed-off-by: Keith Busch <keith.busch at intel.com>
-> > ---
-> >  drivers/nvme/host/pci.c | 46 ++++++++++++++++++++++++++++++++++++++++------
-> >  1 file changed, 40 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> > index 98332d0a80f0..1481bb6d9c42 100644
-> > --- a/drivers/nvme/host/pci.c
-> > +++ b/drivers/nvme/host/pci.c
-> > @@ -1733,6 +1733,30 @@ static int nvme_pci_configure_admin_queue(struct nvme_dev *dev)
-> >  	return result;
-> >  }
-> >  
-> > +static void nvme_distribute_queues(struct nvme_dev *dev, unsigned int io_queues)
-> > +{
-> > +	unsigned int irq_queues, this_p_queues = dev->io_queues[HCTX_TYPE_POLL],
-> > +		     this_w_queues = dev->io_queues[HCTX_TYPE_DEFAULT];
-> > +
-> > +	if (!io_queues) {
-> > +		dev->io_queues[HCTX_TYPE_POLL] = 0;
-> > +		dev->io_queues[HCTX_TYPE_DEFAULT] = 0;
-> > +		dev->io_queues[HCTX_TYPE_READ] = 0;
-> > +		return;
-> > +	}
-> > +
-> > +	if (this_p_queues >= io_queues)
-> > +		this_p_queues = io_queues - 1;
-> > +	irq_queues = io_queues - this_p_queues;
-> > +
-> > +	if (this_w_queues > irq_queues)
-> > +		this_w_queues = irq_queues;
-> > +
-> > +	dev->io_queues[HCTX_TYPE_POLL] = this_p_queues;
-> > +	dev->io_queues[HCTX_TYPE_DEFAULT] = this_w_queues;
-> > +	dev->io_queues[HCTX_TYPE_READ] = irq_queues - this_w_queues;
-> > +}
-> > +
-> >  static int nvme_create_io_queues(struct nvme_dev *dev)
-> >  {
-> >  	unsigned i, max, rw_queues;
-> > @@ -1761,6 +1785,13 @@ static int nvme_create_io_queues(struct nvme_dev *dev)
-> >  			break;
-> >  	}
-> >  
-> > +	/*
-> > +	 * If we've created less than expected io queues, redistribute the
-> > +	 * dev->io_queues[] types accordingly.
-> > +	 */
-> > +	if (dev->online_queues - 1 != dev->max_qid)
-> > +		nvme_distribute_queues(dev, dev->online_queues - 1);
-> > +
-> >  	/*
-> >  	 * Ignore failing Create SQ/CQ commands, we can continue with less
-> >  	 * than the desired amount of queues, and even a controller without
-> > @@ -2185,11 +2216,6 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
-> >  	result = max(result - 1, 1);
-> >  	dev->max_qid = result + dev->io_queues[HCTX_TYPE_POLL];
-> >  
-> > -	dev_info(dev->ctrl.device, "%d/%d/%d default/read/poll queues\n",
-> > -					dev->io_queues[HCTX_TYPE_DEFAULT],
-> > -					dev->io_queues[HCTX_TYPE_READ],
-> > -					dev->io_queues[HCTX_TYPE_POLL]);
-> > -
-> >  	/*
-> >  	 * Should investigate if there's a performance win from allocating
-> >  	 * more queues than interrupt vectors; it might allow the submission
-> > @@ -2203,7 +2229,15 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
-> >  		return result;
-> >  	}
-> >  	set_bit(NVMEQ_ENABLED, &adminq->flags);
-> > -	return nvme_create_io_queues(dev);
-> > +	result = nvme_create_io_queues(dev);
-> > +
-> > +	if (!result)
-> > +		dev_info(dev->ctrl.device, "%d/%d/%d default/read/poll queues\n",
-> > +					dev->io_queues[HCTX_TYPE_DEFAULT],
-> > +					dev->io_queues[HCTX_TYPE_READ],
-> > +					dev->io_queues[HCTX_TYPE_POLL]);
-> > +	return result;
-> > +
-> >  }
-> >  
-> >  static void nvme_del_queue_end(struct request *req, blk_status_t error)
-> > -- 
-> > 2.14.4
-> > 
+On Fri, 2018-12-21@15:13 +0100, Hannes Reinecke wrote:
+> Implement a simple round-robin I/O policy for multipathing.
+> Path selection is done in two rounds, first iterating across all
+> optimized paths, and, if that doesn't return any valid paths,
+> then iterate over all optimized and non-optimized paths.
+> If no paths are found we're using the existing algorithm.
+> This patch also implements a sysfs attribute 'iopolicy' to switch
+> between the current, NUMA-aware I/O policy and the 'round-robin'
+> I/O policy.
+> The original NUMA-aware I/O policy is kept as a default.
 > 
-> This way should be better given it covers irq allocation failure and
-> queue creating/initialization failure.
-> 
-> Reviewed-by: Ming Lei <ming.lei at redhat.com>
+> Signed-off-by: Hannes Reinecke <hare at suse.com>
+> ---
+>  drivers/nvme/host/core.c      |   6 +++
+>  drivers/nvme/host/multipath.c | 100
+> +++++++++++++++++++++++++++++++++++++++++-
+>  drivers/nvme/host/nvme.h      |  12 +++++
+>  3 files changed, 117 insertions(+), 1 deletion(-)
+>  
+> +static struct nvme_ns *__nvme_rr_next_path(struct nvme_ns_head
+> *head, int node,
+> +					   struct nvme_ns *old)
+> +{
+> +	struct nvme_ns *ns, *found = NULL;
+> +	bool try_nonoptimized = false;
+> +
+> +	if (!old)
+> +		return NULL;
+> +retry:
+> +	ns = old;
+> +	do {
+> +		ns = list_next_or_null_rcu(&head->list, &ns->siblings,
+> +					   struct nvme_ns, siblings);
+> +		if (!ns) {
+> +			ns = list_first_or_null_rcu(&head->list, struct
+> nvme_ns,
+> +						    siblings);
+> +			if (!ns)
+> +				return NULL;
+> +
+> +			if (ns == old)
+> +				/*
+> +				 * The list consists of just one entry.
+> +				 * Sorry for the noise :-)
+> +				 */
+> +				return old;
+> +		}
+> +		if (ns->disk && ns->ctrl->state == NVME_CTRL_LIVE) {
+> +			if (ns->ana_state == NVME_ANA_OPTIMIZED) {
+> +				found = ns;
+> +				break;
+> +			}
+> +			if (try_nonoptimized &&
+> +			    ns->ana_state == NVME_ANA_NONOPTIMIZED) {
+> +				found = ns;
+> +				break;
+> +			}
+> +		}
+> +	} while (ns != old);
+> +
+> +	if (found)
+> +		rcu_assign_pointer(head->current_path[node], found);
+> +	else if (!try_nonoptimized) {
+> +		try_nonoptimized = true;
+> +		goto retry;
+> +	}
+> +	return found;
+> +}
 
-Thinking about the patch further: after pci_alloc_irq_vectors_affinity()
-is returned, queue number for non-polled queues can't be changed at will,
-because we have to make sure to spread all CPUs on each queue type, and
-the mapping has been fixed by pci_alloc_irq_vectors_affinity() already.
+Would it make sense to skip the rcu_assign_pointer call if ns == old?
 
-So looks the approach in this patch may be wrong.
+Also, if no OPTIMIZED paths are found in the first iteration, I'd find
+it cleaner to restrict the search to NONOPTIMIZED paths in the second
+round (rather than looking at both OPTIMIZED and NONOPTIMIZED), similar
+to a pathgroup switch in traditional multipathing. The behavior would
+then come down to a PG switch with "immediate" fallback in multipath-
+tools terms.
 
-Thanks,
-Ming
+> +
+>  static inline bool nvme_path_is_optimized(struct nvme_ns *ns)
+>  {
+>  	return ns->ctrl->state == NVME_CTRL_LIVE &&
+> @@ -180,6 +231,8 @@ inline struct nvme_ns *nvme_find_path(struct
+> nvme_ns_head *head)
+>  	struct nvme_ns *ns;
+>  
+>  	ns = srcu_dereference(head->current_path[node], &head->srcu);
+> +	if (READ_ONCE(head->subsys->iopolicy) == NVME_IOPOLICY_RR)
+> +		ns = __nvme_rr_next_path(head, node, ns);
+>  	if (unlikely(!ns || !nvme_path_is_optimized(ns)))
+>  		ns = __nvme_find_path(head, node);
+>  	return ns;
+
+I don't understand why you call __nvme_find_path() here. If the return
+value of __nvme_rr_next_path() is NULL, you already know that there's
+no usable path; and if its NONOPTIMIZED, you know that there are no
+OPTIMIZED paths that __nvme_find_path() could discover.
+
+Regards,
+Martin
