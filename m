@@ -1,14 +1,21 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 4 Jan 2019 10:07:10 -0800
-Subject: [PATCH v2] nvme-pci: fix dbbuf_sq_db point to freed memory
-In-Reply-To: <E5D59058E6941147BD3ACF9CB4AA49E3B3572EC2@DGGEMA505-MBX.china.huawei.com>
-References: <E5D59058E6941147BD3ACF9CB4AA49E3B3572EC2@DGGEMA505-MBX.china.huawei.com>
-Message-ID: <20190104180710.GA4642@infradead.org>
+Date: Fri, 4 Jan 2019 10:09:58 -0800
+Subject: [PATCH 1/2] nvme-pci: add module param for io queue number
+In-Reply-To: <19ee67dd-c805-f174-94af-bca3aa498677@oracle.com>
+References: <1545372253-28025-1-git-send-email-shan.hai@oracle.com>
+ <677bfb90-c328-c707-a042-156f17cb426f@acm.org>
+ <19ee67dd-c805-f174-94af-bca3aa498677@oracle.com>
+Message-ID: <20190104180958.GB4642@infradead.org>
 
-On Fri, Dec 21, 2018@01:07:25AM +0000, Lulina (A) wrote:
-> The case is that nvme device support NVME_CTRL_OACS_DBBUF_SUPP, and
-> return failed when the driver sent nvme_admin_dbbuf. The nvmeq->dbbuf_sq_db
-> point to freed memory, as nvme_dbbuf_set is called after nvme_dbbuf_init.
+On Mon, Dec 24, 2018@09:10:41AM +0800, Shan Hai wrote:
+> The problem occurs when offlining CPUs aggressively on a system with large
+> number of cores,
+> 
+> for instance offlining 368? out of 384 total cores, the failure of hotplug
+> is caused by device irq migration
+> 
+> on cpu hotplugging, the situation becomes worse when there are multiple NVME
+> devices are available
 
-But we never use those pointers in that state, do we?  Can you explain
-the problem in a little more detail?
+NVMe uses managed interrupts, which should never be migrated.  What
+exact kernel version do you see this on?
