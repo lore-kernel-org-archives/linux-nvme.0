@@ -1,186 +1,182 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri,  4 Jan 2019 15:04:33 -0700
-Subject: [PATCH] nvme/pci: Rerun irq setup on IO queue init errors
-Message-ID: <20190104220433.12835-1-keith.busch@intel.com>
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Fri, 4 Jan 2019 16:35:31 -0600
+Subject: [PATCHv2 3/4] PCI/MSI: Handle vector reduce and retry
+In-Reply-To: <20190103225033.11249-4-keith.busch@intel.com>
+References: <20190103225033.11249-1-keith.busch@intel.com>
+ <20190103225033.11249-4-keith.busch@intel.com>
+Message-ID: <20190104223531.GA223506@google.com>
 
-If the driver is unable to create a subset of IO queues for any reason,
-the read/write and polled queue sets will not match the actual allocated
-hardware contexts. This leaves gaps in the CPU affinity mappings and
-causes the following kernel panic after blk_mq_map_queue_type() returns
-a NULL hctx.
+On Thu, Jan 03, 2019@03:50:32PM -0700, Keith Busch wrote:
+> The struct irq_affinity nr_sets forced the driver to handle reducing the
+> vector count on allocation failures because the set distribution counts
+> are driver specific. The change to this API requires very different usage
+> than before, and introduced new error corner cases that weren't being
+> handled. It is also less efficient since the driver doesn't actually
+> know what a proper vector count it should use since it only sees the
+> error code and can only reduce by one instead of going straight to a
+> possible vector count like PCI is able to do.
+> 
+> Provide a driver specific callback for managed irq set creation so that
+> PCI can take a min and max vectors as before to handle the reduce and
+> retry logic.
+> 
+> The usage is not particularly obvious for this new feature, so append
+> documentation for driver usage.
+> 
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> ---
+>  Documentation/PCI/MSI-HOWTO.txt | 36 +++++++++++++++++++++++++++++++++++-
+>  drivers/pci/msi.c               | 20 ++++++--------------
+>  include/linux/interrupt.h       |  5 +++++
+>  3 files changed, 46 insertions(+), 15 deletions(-)
+> 
+> diff --git a/Documentation/PCI/MSI-HOWTO.txt b/Documentation/PCI/MSI-HOWTO.txt
+> index 618e13d5e276..391b1f369138 100644
+> --- a/Documentation/PCI/MSI-HOWTO.txt
+> +++ b/Documentation/PCI/MSI-HOWTO.txt
+> @@ -98,7 +98,41 @@ The flags argument is used to specify which type of interrupt can be used
+>  by the device and the driver (PCI_IRQ_LEGACY, PCI_IRQ_MSI, PCI_IRQ_MSIX).
+>  A convenient short-hand (PCI_IRQ_ALL_TYPES) is also available to ask for
+>  any possible kind of interrupt.  If the PCI_IRQ_AFFINITY flag is set,
+> -pci_alloc_irq_vectors() will spread the interrupts around the available CPUs.
+> +pci_alloc_irq_vectors() will spread the interrupts around the available
+> +CPUs. Vector affinities allocated under the PCI_IRQ_AFFINITY flag are
+> +managed by the kernel, and are not tunable from user space like other
+> +vectors.
+> +
+> +When your driver requires a more complex vector affinity configuration
+> +than a default spread of all vectors, the driver may use the following
+> +function:
+> +
+> +  int pci_alloc_irq_vectors_affinity(struct pci_dev *dev, unsigned int min_vecs,
+> +				   unsigned int max_vecs, unsigned int flags,
+> +				   const struct irq_affinity *affd);
+> +
+> +The 'struct irq_affinity *affd' allows a driver to specify additional
+> +characteristics for how a driver wants the vector management to occur. The
+> +'pre_vectors' and 'post_vectors' fields define how many vectors the driver
+> +wants to not participate in kernel managed affinities, and whether those
+> +special vectors are at the beginning or the end of the vector space.
 
-  BUG: unable to handle kernel NULL pointer dereference at 0000000000000198
-  #PF error: [normal kernel read fault]
-  PGD 0 P4D 0
-  Oops: 0000 [#1] SMP
-  CPU: 64 PID: 1171 Comm: kworker/u259:1 Not tainted 4.20.0+ #241
-  Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.10.2-2.fc27 04/01/2014
-  Workqueue: nvme-wq nvme_scan_work [nvme_core]
-  RIP: 0010:blk_mq_init_allocated_queue+0x2d9/0x440
-  RSP: 0018:ffffb1bf0abc3cd0 EFLAGS: 00010286
-  RAX: 000000000000001f RBX: ffff8ea744cf0718 RCX: 0000000000000000
-  RDX: 0000000000000002 RSI: 000000000000007c RDI: ffffffff9109a820
-  RBP: ffff8ea7565f7008 R08: 000000000000001f R09: 000000000000003f
-  R10: ffffb1bf0abc3c00 R11: 0000000000000000 R12: 000000000001d008
-  R13: ffff8ea7565f7008 R14: 000000000000003f R15: 0000000000000001
-  FS:  0000000000000000(0000) GS:ffff8ea757200000(0000) knlGS:0000000000000000
-  CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-  CR2: 0000000000000198 CR3: 0000000013058000 CR4: 00000000000006e0
-  DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-  DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-  Call Trace:
-   blk_mq_init_queue+0x35/0x60
-   nvme_validate_ns+0xc6/0x7c0 [nvme_core]
-   ? nvme_identify_ctrl.isra.56+0x7e/0xc0 [nvme_core]
-   nvme_scan_work+0xc8/0x340 [nvme_core]
-   ? __wake_up_common+0x6d/0x120
-   ? try_to_wake_up+0x55/0x410
-   process_one_work+0x1e9/0x3d0
-   worker_thread+0x2d/0x3d0
-   ? process_one_work+0x3d0/0x3d0
-   kthread+0x111/0x130
-   ? kthread_park+0x90/0x90
-   ret_from_fork+0x1f/0x30
-  Modules linked in: nvme nvme_core serio_raw
-  CR2: 0000000000000198
+How are the pre_vectors and post_vectors handled?  Do they get
+assigned to random CPUs?  Current CPU?  Are their assignments tunable
+from user space?
 
-Fix by re-running the interrupt vector setup from scratch using a reduced
-count that may be successful until the created queues matches the irq
-affinity plus polling queue sets.
+> +It may also be the case that a driver wants multiple sets of fully
+> +affinitized vectors. For example, a single PCI function may provide
+> +different high performance services that want full CPU affinity for each
+> +service independent of other services. In this case, the driver may use
+> +the struct irq_affinity's 'nr_sets' field to specify how many groups of
+> +vectors need to be spread across all the CPUs, and fill in the 'sets'
+> +array to say how many vectors the driver wants in each set.
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
-Discussed in previous patch here:
+I think the issue here is IRQ vectors, and "services" and whether
+they're high performance are unnecessary concepts.
 
-  http://lists.infradead.org/pipermail/linux-nvme/2019-January/021956.html
+What does irq_affinity.sets point to?  I guess it's a table of
+integers where the table size is the number of sets and each entry is
+the number of vectors in the set?
 
+So we'd have something like this:
 
- drivers/nvme/host/pci.c | 50 +++++++++++++++++++++++++++++++++++--------------
- 1 file changed, 36 insertions(+), 14 deletions(-)
+  pre_vectors     # vectors [0..pre_vectors) (pre_vectors >= 0)
+  set 0           # vectors [pre_vectors..pre_vectors+set0) (set0 >= 1)
+  set 1           # vectors [pre_vectors+set0..pre_vectors+set0+set1) (set1 >= 1)
+  ...
+  post_vectors    # vectors [pre_vectors+set0..pre_vectors+set0+set1+setN+post_vectors)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 98332d0a80f0..49cdb3a23487 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -95,6 +95,7 @@ struct nvme_dev;
- struct nvme_queue;
- 
- static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown);
-+static bool __nvme_disable_io_queues(struct nvme_dev *dev, u8 opcode);
- 
- /*
-  * Represents an NVM Express device.  Each nvme_dev is a PCI function.
-@@ -1420,6 +1421,14 @@ static int nvme_suspend_queue(struct nvme_queue *nvmeq)
- 	return 0;
- }
- 
-+static void nvme_suspend_io_queues(struct nvme_dev *dev)
-+{
-+	int i;
-+
-+	for (i = dev->ctrl.queue_count - 1; i > 0; i--)
-+		nvme_suspend_queue(&dev->queues[i]);
-+}
-+
- static void nvme_disable_admin_queue(struct nvme_dev *dev, bool shutdown)
- {
- 	struct nvme_queue *nvmeq = &dev->queues[0];
-@@ -2132,6 +2141,12 @@ static int nvme_setup_irqs(struct nvme_dev *dev, unsigned int nr_io_queues)
- 	return result;
- }
- 
-+static void nvme_disable_io_queues(struct nvme_dev *dev)
-+{
-+	if (__nvme_disable_io_queues(dev, nvme_admin_delete_sq))
-+		__nvme_disable_io_queues(dev, nvme_admin_delete_cq);
-+}
-+
- static int nvme_setup_io_queues(struct nvme_dev *dev)
- {
- 	struct nvme_queue *adminq = &dev->queues[0];
-@@ -2168,6 +2183,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 	} while (1);
- 	adminq->q_db = dev->dbs;
- 
-+ retry:
- 	/* Deregister the admin queue's interrupt */
- 	pci_free_irq(pdev, 0, adminq);
- 
-@@ -2185,25 +2201,34 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 	result = max(result - 1, 1);
- 	dev->max_qid = result + dev->io_queues[HCTX_TYPE_POLL];
- 
--	dev_info(dev->ctrl.device, "%d/%d/%d default/read/poll queues\n",
--					dev->io_queues[HCTX_TYPE_DEFAULT],
--					dev->io_queues[HCTX_TYPE_READ],
--					dev->io_queues[HCTX_TYPE_POLL]);
--
- 	/*
- 	 * Should investigate if there's a performance win from allocating
- 	 * more queues than interrupt vectors; it might allow the submission
- 	 * path to scale better, even if the receive path is limited by the
- 	 * number of interrupts.
- 	 */
--
- 	result = queue_request_irq(adminq);
- 	if (result) {
- 		adminq->cq_vector = -1;
- 		return result;
- 	}
- 	set_bit(NVMEQ_ENABLED, &adminq->flags);
--	return nvme_create_io_queues(dev);
-+
-+	result = nvme_create_io_queues(dev);
-+	if (result || dev->online_queues < 2)
-+		return result;
-+
-+	if (dev->online_queues - 1 < dev->max_qid) {
-+		nr_io_queues = dev->online_queues - 1;
-+		nvme_disable_io_queues(dev);
-+		nvme_suspend_io_queues(dev);
-+		goto retry;
-+	}
-+	dev_info(dev->ctrl.device, "%d/%d/%d default/read/poll queues\n",
-+					dev->io_queues[HCTX_TYPE_DEFAULT],
-+					dev->io_queues[HCTX_TYPE_READ],
-+					dev->io_queues[HCTX_TYPE_POLL]);
-+	return 0;
- }
- 
- static void nvme_del_queue_end(struct request *req, blk_status_t error)
-@@ -2248,7 +2273,7 @@ static int nvme_delete_queue(struct nvme_queue *nvmeq, u8 opcode)
- 	return 0;
- }
- 
--static bool nvme_disable_io_queues(struct nvme_dev *dev, u8 opcode)
-+static bool __nvme_disable_io_queues(struct nvme_dev *dev, u8 opcode)
- {
- 	int nr_queues = dev->online_queues - 1, sent = 0;
- 	unsigned long timeout;
-@@ -2407,7 +2432,6 @@ static void nvme_pci_disable(struct nvme_dev *dev)
- 
- static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- {
--	int i;
- 	bool dead = true;
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 
-@@ -2434,13 +2458,11 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 	nvme_stop_queues(&dev->ctrl);
- 
- 	if (!dead && dev->ctrl.queue_count > 0) {
--		if (nvme_disable_io_queues(dev, nvme_admin_delete_sq))
--			nvme_disable_io_queues(dev, nvme_admin_delete_cq);
-+		nvme_disable_io_queues(dev);
- 		nvme_disable_admin_queue(dev, shutdown);
- 	}
--	for (i = dev->ctrl.queue_count - 1; i >= 0; i--)
--		nvme_suspend_queue(&dev->queues[i]);
--
-+	nvme_suspend_io_queues(dev);
-+	nvme_suspend_queue(&dev->queues[0]);
- 	nvme_pci_disable(dev);
- 
- 	blk_mq_tagset_busy_iter(&dev->tagset, nvme_cancel_request, &dev->ctrl);
--- 
-2.14.4
+where the vectors in set0 are spread across all CPUs, those in set1
+are independently spread across all CPUs, etc?
+
+I would guess there may be device-specific restrictions on the mapping
+of of these vectors to sets, so the PCI core probably can't assume the
+sets can be of arbitrary size, contiguous, etc.
+
+> +When using multiple affinity 'sets', the error handling for vector
+> +reduction and retry becomes more complicated since the PCI core
+> +doesn't know how to redistribute the vector count across the sets. In
+> +order to provide this error handling, the driver must also provide the
+> +'recalc_sets()' callback and set the 'priv' data needed for the driver
+> +specific vector distribution. The driver's callback is responsible to
+> +ensure the sum of the vector counts across its sets matches the new
+> +vector count that PCI can allocate.
+>  
+>  To get the Linux IRQ numbers passed to request_irq() and free_irq() and the
+>  vectors, use the following function:
+> diff --git a/drivers/pci/msi.c b/drivers/pci/msi.c
+> index 7a1c8a09efa5..b93ac49be18d 100644
+> --- a/drivers/pci/msi.c
+> +++ b/drivers/pci/msi.c
+> @@ -1035,13 +1035,6 @@ static int __pci_enable_msi_range(struct pci_dev *dev, int minvec, int maxvec,
+>  	if (maxvec < minvec)
+>  		return -ERANGE;
+>  
+> -	/*
+> -	 * If the caller is passing in sets, we can't support a range of
+> -	 * vectors. The caller needs to handle that.
+> -	 */
+> -	if (affd && affd->nr_sets && minvec != maxvec)
+> -		return -EINVAL;
+> -
+>  	if (WARN_ON_ONCE(dev->msi_enabled))
+>  		return -EINVAL;
+>  
+> @@ -1061,6 +1054,9 @@ static int __pci_enable_msi_range(struct pci_dev *dev, int minvec, int maxvec,
+>  				return -ENOSPC;
+>  		}
+>  
+> +		if (nvec != maxvec && affd && affd->recalc_sets)
+> +			affd->recalc_sets((struct irq_affinity *)affd, nvec);
+> +
+>  		rc = msi_capability_init(dev, nvec, affd);
+>  		if (rc == 0)
+>  			return nvec;
+> @@ -1093,13 +1089,6 @@ static int __pci_enable_msix_range(struct pci_dev *dev,
+>  	if (maxvec < minvec)
+>  		return -ERANGE;
+>  
+> -	/*
+> -	 * If the caller is passing in sets, we can't support a range of
+> -	 * supported vectors. The caller needs to handle that.
+> -	 */
+> -	if (affd && affd->nr_sets && minvec != maxvec)
+> -		return -EINVAL;
+> -
+>  	if (WARN_ON_ONCE(dev->msix_enabled))
+>  		return -EINVAL;
+>  
+> @@ -1110,6 +1099,9 @@ static int __pci_enable_msix_range(struct pci_dev *dev,
+>  				return -ENOSPC;
+>  		}
+>  
+> +		if (nvec != maxvec && affd && affd->recalc_sets)
+> +			affd->recalc_sets((struct irq_affinity *)affd, nvec);
+> +
+>  		rc = __pci_enable_msix(dev, entries, nvec, affd);
+>  		if (rc == 0)
+>  			return nvec;
+> diff --git a/include/linux/interrupt.h b/include/linux/interrupt.h
+> index c672f34235e7..01c06829ff43 100644
+> --- a/include/linux/interrupt.h
+> +++ b/include/linux/interrupt.h
+> @@ -249,12 +249,17 @@ struct irq_affinity_notify {
+>   *			the MSI(-X) vector space
+>   * @nr_sets:		Length of passed in *sets array
+>   * @sets:		Number of affinitized sets
+> + * @recalc_sets:	Recalculate sets if the previously requested allocation
+> + *			failed
+> + * @priv:		Driver private data
+>   */
+>  struct irq_affinity {
+>  	int	pre_vectors;
+>  	int	post_vectors;
+>  	int	nr_sets;
+>  	int	*sets;
+> +	void	(*recalc_sets)(struct irq_affinity *, unsigned int);
+> +	void	*priv;
+>  };
+>  
+>  /**
+> -- 
+> 2.14.4
+> 
