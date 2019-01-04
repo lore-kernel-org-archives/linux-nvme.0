@@ -1,43 +1,26 @@
-From: mwilck@suse.de (Martin Wilck)
-Date: Fri, 04 Jan 2019 16:17:31 +0100
-Subject: [PATCHv2] nvme-multipath: round-robin I/O policy
-In-Reply-To: <bb159cba-ce3a-32ca-d79c-3dece6a71fd0@suse.com>
-References: <20181221141330.96599-1-hare@suse.de>
- <833821226d78f0e947b14434c188d64d4838337a.camel@suse.de>
- <bb159cba-ce3a-32ca-d79c-3dece6a71fd0@suse.com>
-Message-ID: <34088d585b47fdb764821b32d5c7bbb168ede900.camel@suse.de>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 4 Jan 2019 08:53:24 -0700
+Subject: [PATCHv2 2/4] nvme-pci: Distribute io queue types after creation
+In-Reply-To: <20190104072106.GA9948@ming.t460p>
+References: <20190103225033.11249-1-keith.busch@intel.com>
+ <20190103225033.11249-3-keith.busch@intel.com>
+ <20190104023121.GB31330@ming.t460p>
+ <20190104072106.GA9948@ming.t460p>
+Message-ID: <20190104155324.GA12342@localhost.localdomain>
 
-On Fri, 2019-01-04@15:24 +0100, Hannes Reinecke wrote:
-> On 1/4/19 3:06 PM, Martin Wilck wrote:
-> > 
-> > Also, if no OPTIMIZED paths are found in the first iteration, I'd
-> > find
-> > it cleaner to restrict the search to NONOPTIMIZED paths in the
-> > second
-> > round (rather than looking at both OPTIMIZED and NONOPTIMIZED),
-> > similar
-> > to a pathgroup switch in traditional multipathing. The behavior
-> > would
-> > then come down to a PG switch with "immediate" fallback in
-> > multipath-
-> > tools terms.
-> > 
-> Concurrency is the key. We're running lockless here, so the path
-> state 
-> might change at any time.
-> Only checking for non-optimized would cause us to miss any paths
-> which 
-> went to 'optimized' in between checks.
+On Fri, Jan 04, 2019@03:21:07PM +0800, Ming Lei wrote:
+> Thinking about the patch further: after pci_alloc_irq_vectors_affinity()
+> is returned, queue number for non-polled queues can't be changed at will,
+> because we have to make sure to spread all CPUs on each queue type, and
+> the mapping has been fixed by pci_alloc_irq_vectors_affinity() already.
+> 
+> So looks the approach in this patch may be wrong.
 
-How likely is that, given the path-search loop is supposed to be very
-fast? Your paths could just as easily change state again before you
-actually come to submit IO to them. If you take this sort of argument
-seriously, you can never be sure about the state of the path you're
-trying to use, no matter how often you check; while in practice, such
-concurrent state changes will occur no more than once in a million I/O
-submissions. Or am I missing something?
+That's a bit of a problem, and not a new one. We always had to allocate
+vectors before creating IRQ driven CQ's, but the vector affinity is
+created before we know if the queue-pair can be created. Should the
+queue creation fail, there may be CPUs that don't have a queue.
 
-Anyway it was just a nit; so fine with me.
-
-Thanks,
-Martin
+Does this mean the pci msi API is wrong? It seems like we'd need to
+initially allocate vectors without PCI_IRQ_AFFINITY, then have the
+kernel set affinity only after completing the queue-pair setup.
