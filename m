@@ -1,109 +1,107 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Mon, 7 Jan 2019 09:31:47 +0800
-Subject: [PATCH] nvme pci: fix nvme_setup_irqs()
-In-Reply-To: <20190103013439.26700-1-ming.lei@redhat.com>
-References: <20190103013439.26700-1-ming.lei@redhat.com>
-Message-ID: <20190107013146.GB23140@ming.t460p>
+From: yaohongbo@huawei.com (Hongbo Yao)
+Date: Mon, 7 Jan 2019 10:22:07 +0800
+Subject: [PATCH] nvme: fix out of bounds access in nvme_cqe_pending
+Message-ID: <1546827727-49635-1-git-send-email-yaohongbo@huawei.com>
 
-On Thu, Jan 03, 2019@09:34:39AM +0800, Ming Lei wrote:
-> When -ENOSPC is returned from pci_alloc_irq_vectors_affinity(),
-> we still try to allocate multiple irq vectors again, so irq queues
-> covers the admin queue actually. But we don't consider that, then
-> number of the allocated irq vector may be same with sum of
-> io_queues[HCTX_TYPE_DEFAULT] and io_queues[HCTX_TYPE_READ], this way
-> is obviously wrong, and finally breaks nvme_pci_map_queues(), and
-> warning from pci_irq_get_affinity() is triggered.
-> 
-> IRQ queues should cover admin queues, this patch makes this
-> point explicitely in nvme_calc_io_queues().
-> 
-> We got severl boot failure internal report on aarch64, so please
-> consider to fix it in v4.20.
-> 
-> Fixes: 6451fe73fa0f ("nvme: fix irq vs io_queue calculations")
-> Cc: Keith Busch <keith.busch at intel.com>
-> Cc: Jens Axboe <axboe at fb.com>
-> Signed-off-by: Ming Lei <ming.lei at redhat.com>
-> ---
->  drivers/nvme/host/pci.c | 21 +++++++++++++--------
->  1 file changed, 13 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 5a0bf6a24d50..584ea7a57122 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -2028,14 +2028,18 @@ static int nvme_setup_host_mem(struct nvme_dev *dev)
->  	return ret;
->  }
->  
-> +/* irq_queues covers admin queue */
->  static void nvme_calc_io_queues(struct nvme_dev *dev, unsigned int irq_queues)
->  {
->  	unsigned int this_w_queues = write_queues;
->  
-> +	WARN_ON(!irq_queues);
-> +
->  	/*
-> -	 * Setup read/write queue split
-> +	 * Setup read/write queue split, assign admin queue one independent
-> +	 * irq vector if irq_queues is > 1.
->  	 */
-> -	if (irq_queues == 1) {
-> +	if (irq_queues <= 2) {
->  		dev->io_queues[HCTX_TYPE_DEFAULT] = 1;
->  		dev->io_queues[HCTX_TYPE_READ] = 0;
->  		return;
-> @@ -2043,21 +2047,21 @@ static void nvme_calc_io_queues(struct nvme_dev *dev, unsigned int irq_queues)
->  
->  	/*
->  	 * If 'write_queues' is set, ensure it leaves room for at least
-> -	 * one read queue
-> +	 * one read queue and one admin queue
->  	 */
->  	if (this_w_queues >= irq_queues)
-> -		this_w_queues = irq_queues - 1;
-> +		this_w_queues = irq_queues - 2;
->  
->  	/*
->  	 * If 'write_queues' is set to zero, reads and writes will share
->  	 * a queue set.
->  	 */
->  	if (!this_w_queues) {
-> -		dev->io_queues[HCTX_TYPE_DEFAULT] = irq_queues;
-> +		dev->io_queues[HCTX_TYPE_DEFAULT] = irq_queues - 1;
->  		dev->io_queues[HCTX_TYPE_READ] = 0;
->  	} else {
->  		dev->io_queues[HCTX_TYPE_DEFAULT] = this_w_queues;
-> -		dev->io_queues[HCTX_TYPE_READ] = irq_queues - this_w_queues;
-> +		dev->io_queues[HCTX_TYPE_READ] = irq_queues - this_w_queues - 1;
->  	}
->  }
->  
-> @@ -2082,7 +2086,7 @@ static int nvme_setup_irqs(struct nvme_dev *dev, unsigned int nr_io_queues)
->  		this_p_queues = nr_io_queues - 1;
->  		irq_queues = 1;
->  	} else {
-> -		irq_queues = nr_io_queues - this_p_queues;
-> +		irq_queues = nr_io_queues - this_p_queues + 1;
->  	}
->  	dev->io_queues[HCTX_TYPE_POLL] = this_p_queues;
->  
-> @@ -2102,8 +2106,9 @@ static int nvme_setup_irqs(struct nvme_dev *dev, unsigned int nr_io_queues)
->  		 * If we got a failure and we're down to asking for just
->  		 * 1 + 1 queues, just ask for a single vector. We'll share
->  		 * that between the single IO queue and the admin queue.
-> +		 * Otherwise, we assign one independent vector to admin queue.
->  		 */
-> -		if (result >= 0 && irq_queues > 1)
-> +		if (irq_queues > 1)
->  			irq_queues = irq_sets[0] + irq_sets[1] + 1;
->  
->  		result = pci_alloc_irq_vectors_affinity(pdev, irq_queues,
-> -- 
-> 2.9.5
-> 
+There is an out of bounds array access in nvme_cqe_peding().
 
-Ping...
+When enable irq_thread for nvme interrupt, there is racing between the
+nvmeq->cq_head updating and reading.
 
-Thanks,
-Ming
+nvmeq->cq_head is updated in nvme_update_cq_head(), if nvmeq->cq_head
+equals nvmeq->q_depth and before its value set to zero, nvme_cqe_pending()
+uses its value as an array index, the index will be out of bounds.
+
+(When enabled nvme.using_thread_interrupts=1 in cmdline, i found this
+abnormal address access).
+
+[  100.299140] Unable to handle kernel paging request at virtual address
+ffff00002416500e
+[  100.307046] Mem abort info:
+[  100.309826]   ESR = 0x96000007
+[  100.312867]   Exception class = DABT (current EL), IL = 32 bits
+[  100.318771]   SET = 0, FnV = 0
+[  100.321811]   EA = 0, S1PTW = 0
+[  100.324938] Data abort info:
+[  100.327805]   ISV = 0, ISS = 0x00000007
+[  100.331626]   CM = 0, WnR = 0
+[  100.334581] swapper pgtable: 4k pages, 48-bit VAs, pgdp =
+00000000a9f05748
+[  100.341441] [ffff00002416500e] pgd=00000a5fffffe803,
+pud=00000a5fffffd803, pmd=0000003f780ac003, pte=0000000000000000
+[  100.352038] Internal error: Oops: 96000007 [#1] PREEMPT SMP
+[  100.357597] Modules linked in: hns_roce_hw_v2(O) hns_roce(O) hns3(O)
+hclge(O) hnae3(O)
+[  100.365505] CPU: 28 PID: 2888 Comm: irq/162-nvme0q7 Tainted: G
+O      4.19.0-g45910de #1
+[  100.374449] Hardware name: Huawei D06/D06, BIOS Hisilicon D06 UEFI
+RC0 - B080 (V8.01) 11/30/2018
+[  100.383218] pstate: 00400089 (nzcv daIf +PAN -UAO)
+[  100.387999] pc : nvme_irq_check+0x10/0x28
+[  100.391995] lr : __handle_irq_event_percpu+0x70/0x2c8
+[  100.397032] sp : ffff000009ac3e60
+[  100.400333] x29: ffff000009ac3e60 x28: ffff803f73690d80
+[  100.405631] x27: ffff805f78494400 x26: ffff0000097d1000
+[  100.410930] x25: ffff000009ac3f04 x24: ffff0000097a2018
+[  100.416228] x23: ffff0000097d1b40 x22: 00000000000000a2
+[  100.421526] x21: 0000000000000000 x20: ffff805f78494438
+[  100.426825] x19: ffff803f70384480 x18: 0000000000000400
+[  100.432123] x17: 0000000000000000 x16: 0000000000000000
+[  100.437421] x15: 0000000000000400 x14: 0000000000000400
+[  100.442719] x13: 0000000000000000 x12: 0000000000000000
+[  100.448018] x11: 0000000000000000 x10: 0000000000000040
+[  100.453317] x9 : ffff0000097effe0 x8 : ffff803f775db908
+[  100.458615] x7 : ffff803f775dba40 x6 : 0000000000000110
+[  100.463913] x5 : ffff803f775db908 x4 : 0000805f7626a000
+[  100.469212] x3 : 0000000000000000 x2 : ffff000024161000
+[  100.474510] x1 : 0000000000000001 x0 : ffff000024165000
+[  100.479809] Process irq/162-nvme0q7 (pid: 2888, stack limit =
+0x000000007f43f8e5)
+[  100.487276] Call trace:
+[  100.489710]  nvme_irq_check+0x10/0x28
+[  100.493358]  handle_irq_event_percpu+0x34/0x88
+[  100.497787]  handle_irq_event+0x48/0x78
+[  100.501610]  handle_fasteoi_irq+0xa8/0x180
+[  100.505692]  generic_handle_irq+0x24/0x38
+[  100.509688]  __handle_domain_irq+0x5c/0xb0
+[  100.513770]  gic_handle_irq+0x7c/0x180
+[  100.517504]  el1_irq+0xb0/0x128
+[  100.520631]  nvme_irq+0x108/0x150
+[  100.523933]  irq_thread_fn+0x28/0x68
+[  100.527494]  irq_thread+0x124/0x1d0
+[  100.530969]  kthread+0x12c/0x130
+[  100.534183]  ret_from_fork+0x10/0x18
+[  100.537745] Code: 7940ec20 f9402422 3941f021 8b001040 (79401c00)
+[  100.543895] ---[ end trace 119829d132a82da5 ]---
+[  100.548499] Kernel panic - not syncing: Fatal exception in interrupt
+[  100.554881] SMP: stopping secondary CPUs
+[  100.575347] Kernel Offset: disabled
+[  100.578822] CPU features: 0x0,22800a38
+[  100.582556] Memory Limit: none
+[  100.585633] ---[ end Kernel panic - not syncing: Fatal exception in
+interrupt ]---
+
+Signed-off-by: Hongbo Yao <yaohongbo at huawei.com>
+---
+ drivers/nvme/host/pci.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index d668682..68375d4 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -908,9 +908,11 @@ static void nvme_complete_cqes(struct nvme_queue *nvmeq, u16 start, u16 end)
+ 
+ static inline void nvme_update_cq_head(struct nvme_queue *nvmeq)
+ {
+-	if (++nvmeq->cq_head == nvmeq->q_depth) {
++	if (nvmeq->cq_head == (nvmeq->q_depth - 1)) {
+ 		nvmeq->cq_head = 0;
+ 		nvmeq->cq_phase = !nvmeq->cq_phase;
++	} else {
++		++nvmeq->cq_head;
+ 	}
+ }
+ 
+-- 
+1.8.3.1
