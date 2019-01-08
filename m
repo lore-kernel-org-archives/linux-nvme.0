@@ -1,47 +1,29 @@
-From: andrew.smirnov@gmail.com (Andrey Smirnov)
-Date: Mon,  7 Jan 2019 19:08:49 -0800
-Subject: [PATCH] nvme-core: don't initlialize ctrl->cntlid twice
-Message-ID: <20190108030849.12870-1-andrew.smirnov@gmail.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon,  7 Jan 2019 23:54:23 -0800
+Subject: [PATCH] nvme-fabrics: unset write/poll queues for discovery
+ controllers
+Message-ID: <20190108075423.3970-1-sagi@grimberg.me>
 
-ctrl->cntlid will already be initialized from id->cntlid for
-non-NVME_F_FABRICS controllers few lines below. For NVME_F_FABRICS
-controllers this field should already be initialized, otherwise the
-check
+Even if user-space sent it to us, it got it wrong so lets
+help by disallowing it.
 
-	if (ctrl->cntlid != le16_to_cpu(id->cntlid))
-
-below will always be a no-op.
-
-Cc: Keith Busch <keith.busch at intel.com>
-Cc: Jens Axboe <axboe at fb.com>
-Cc: Christoph Hellwig <hch at lst.de>
-Cc: Sagi Grimberg <sagi at grimberg.me>
-Cc: linux-nvme at lists.infradead.org
-Cc: linux-kernel at vger.kernel.org
-Signed-off-by: Andrey Smirnov <andrew.smirnov at gmail.com>
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
+ drivers/nvme/host/fabrics.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-I created this patch just from readying NVMe code. Appologies for the
-noise if I misread/misinterpreted things and this assignment is
-actually necessary.
-
-Thanks,
-Andrey Smirnov
-
- drivers/nvme/host/core.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 2e65be8b1387..1ec87b30fad1 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2397,7 +2397,6 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
- 	ctrl->oaes = le32_to_cpu(id->oaes);
- 	atomic_set(&ctrl->abort_limit, id->acl + 1);
- 	ctrl->vwc = id->vwc;
--	ctrl->cntlid = le16_to_cpup(&id->cntlid);
- 	if (id->mdts)
- 		max_hw_sectors = 1 << (id->mdts + page_shift - 9);
- 	else
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index b2ab213f43de..3eb908c50e1a 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -874,6 +874,8 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 	if (opts->discovery_nqn) {
+ 		opts->kato = 0;
+ 		opts->nr_io_queues = 0;
++		opts->nr_write_queues = 0;
++		opts->nr_poll_queues = 0;
+ 		opts->duplicate_connect = true;
+ 	}
+ 	if (ctrl_loss_tmo < 0)
 -- 
-2.20.1
+2.17.1
