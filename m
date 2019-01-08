@@ -1,34 +1,47 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 7 Jan 2019 09:24:06 -0700
-Subject: [PATCH] nvme pci: fix nvme_setup_irqs()
-In-Reply-To: <20190103013439.26700-1-ming.lei@redhat.com>
-References: <20190103013439.26700-1-ming.lei@redhat.com>
-Message-ID: <20190107162406.GB12916@localhost.localdomain>
+From: andrew.smirnov@gmail.com (Andrey Smirnov)
+Date: Mon,  7 Jan 2019 19:08:49 -0800
+Subject: [PATCH] nvme-core: don't initlialize ctrl->cntlid twice
+Message-ID: <20190108030849.12870-1-andrew.smirnov@gmail.com>
 
-On Thu, Jan 03, 2019@09:34:39AM +0800, Ming Lei wrote:
-> When -ENOSPC is returned from pci_alloc_irq_vectors_affinity(),
-> we still try to allocate multiple irq vectors again, so irq queues
-> covers the admin queue actually. But we don't consider that, then
-> number of the allocated irq vector may be same with sum of
-> io_queues[HCTX_TYPE_DEFAULT] and io_queues[HCTX_TYPE_READ], this way
-> is obviously wrong, and finally breaks nvme_pci_map_queues(), and
-> warning from pci_irq_get_affinity() is triggered.
-> 
-> IRQ queues should cover admin queues, this patch makes this
-> point explicitely in nvme_calc_io_queues().
-> 
-> We got severl boot failure internal report on aarch64, so please
-> consider to fix it in v4.20.
+ctrl->cntlid will already be initialized from id->cntlid for
+non-NVME_F_FABRICS controllers few lines below. For NVME_F_FABRICS
+controllers this field should already be initialized, otherwise the
+check
 
-I see what you saying with the inconsistent meaning for irq_queues, though
-4.20 should be fine.
+	if (ctrl->cntlid != le16_to_cpu(id->cntlid))
 
-I hope we can make the irq sets easier to use in the future, but your
-patch looks correct for the current interface.
+below will always be a no-op.
 
-Reviewed-by: Keith Busch <keith.busch at intel.com>
- 
-> Fixes: 6451fe73fa0f ("nvme: fix irq vs io_queue calculations")
-> Cc: Keith Busch <keith.busch at intel.com>
-> Cc: Jens Axboe <axboe at fb.com>
-> Signed-off-by: Ming Lei <ming.lei at redhat.com>
+Cc: Keith Busch <keith.busch at intel.com>
+Cc: Jens Axboe <axboe at fb.com>
+Cc: Christoph Hellwig <hch at lst.de>
+Cc: Sagi Grimberg <sagi at grimberg.me>
+Cc: linux-nvme at lists.infradead.org
+Cc: linux-kernel at vger.kernel.org
+Signed-off-by: Andrey Smirnov <andrew.smirnov at gmail.com>
+---
+
+I created this patch just from readying NVMe code. Appologies for the
+noise if I misread/misinterpreted things and this assignment is
+actually necessary.
+
+Thanks,
+Andrey Smirnov
+
+ drivers/nvme/host/core.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 2e65be8b1387..1ec87b30fad1 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2397,7 +2397,6 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 	ctrl->oaes = le32_to_cpu(id->oaes);
+ 	atomic_set(&ctrl->abort_limit, id->acl + 1);
+ 	ctrl->vwc = id->vwc;
+-	ctrl->cntlid = le16_to_cpup(&id->cntlid);
+ 	if (id->mdts)
+ 		max_hw_sectors = 1 << (id->mdts + page_shift - 9);
+ 	else
+-- 
+2.20.1
