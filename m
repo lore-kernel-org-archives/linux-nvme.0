@@ -1,63 +1,35 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue,  8 Jan 2019 01:09:42 -0800
-Subject: [PATCH] nvme-tcp: fix timeout handler
-Message-ID: <20190108090942.11752-1-sagi@grimberg.me>
+From: hare@suse.de (Hannes Reinecke)
+Date: Tue,  8 Jan 2019 12:46:58 +0100
+Subject: [PATCH] nvme-multipath: zero out ANA log buffer
+Message-ID: <20190108114658.13747-1-hare@suse.de>
 
-Currently, we have several problems with the timeout
-handler:
-1. If we timeout on the controller establishment flow, we will hang
-because we don't execute the error recovery (and we shouldn't because
-the create_ctrl flow needs to fail and cleanup on its own)
-2. We might also hang if we get a disconnet on a queue while the
-controller is already deleting. This racy flow can cause the controller
-disable/shutdown admin command to hang.
+When nvme_init_identify() fails the ANA log buffer is deallocated
+but _not_ set to NULL. This can cause double free oops when this
+controller is deleted without ever being reconnected.
 
-We cannot complete a timed out request from the timeout handler without
-mutual exclusion from the teardown flow (e.g. nvme_rdma_error_recovery_work).
-So we serialize it in the timeout handler and teardown io and admin
-queues to guarantee that no one races with us from completing the
-request.
-
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+Signed-off-by: Hannes Reinecke <hare at suse.com>
 ---
- drivers/nvme/host/tcp.c | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+ drivers/nvme/host/multipath.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 30e23851bc06..3708e63426a6 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1945,20 +1945,23 @@ nvme_tcp_timeout(struct request *rq, bool reserved)
- 	struct nvme_tcp_ctrl *ctrl = req->queue->ctrl;
- 	struct nvme_tcp_cmd_pdu *pdu = req->pdu;
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 183ec17ba067..df4b3a6db51b 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -570,6 +570,7 @@ int nvme_mpath_init(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+ 	return 0;
+ out_free_ana_log_buf:
+ 	kfree(ctrl->ana_log_buf);
++	ctrl->ana_log_buf = NULL;
+ out:
+ 	return error;
+ }
+@@ -577,5 +578,6 @@ int nvme_mpath_init(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+ void nvme_mpath_uninit(struct nvme_ctrl *ctrl)
+ {
+ 	kfree(ctrl->ana_log_buf);
++	ctrl->ana_log_buf = NULL;
+ }
  
--	dev_dbg(ctrl->ctrl.device,
-+	dev_warn(ctrl->ctrl.device,
- 		"queue %d: timeout request %#x type %d\n",
--		nvme_tcp_queue_id(req->queue), rq->tag,
--		pdu->hdr.type);
-+		nvme_tcp_queue_id(req->queue), rq->tag, pdu->hdr.type);
- 
- 	if (ctrl->ctrl.state != NVME_CTRL_LIVE) {
--		union nvme_result res = {};
--
--		nvme_req(rq)->flags |= NVME_REQ_CANCELLED;
--		nvme_end_request(rq, cpu_to_le16(NVME_SC_ABORT_REQ), res);
-+		/*
-+		 * teardown immediately if controller times out while starting
-+		 * or we are already started error recovery. all outstanding
-+		 * requests are completed on shutdown, so we return BLK_EH_DONE.
-+		 */
-+		flush_work(&ctrl->err_work);
-+		nvme_tcp_teardown_io_queues(&ctrl->ctrl, false);
-+		nvme_tcp_teardown_admin_queue(&ctrl->ctrl, false);
- 		return BLK_EH_DONE;
- 	}
- 
--	/* queue error recovery */
-+	dev_warn(ctrl->ctrl.device, "starting error recovery\n");
- 	nvme_tcp_error_recovery(&ctrl->ctrl);
- 
- 	return BLK_EH_RESET_TIMER;
 -- 
-2.17.1
+2.16.4
