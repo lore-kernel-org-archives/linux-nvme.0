@@ -1,34 +1,78 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 8 Jan 2019 08:39:59 -0700
-Subject: [PATCH] nvme-core: don't initlialize ctrl->cntlid twice
-In-Reply-To: <20190108030849.12870-1-andrew.smirnov@gmail.com>
-References: <20190108030849.12870-1-andrew.smirnov@gmail.com>
-Message-ID: <20190108153959.GA18014@localhost.localdomain>
+Date: Tue, 8 Jan 2019 08:43:53 -0700
+Subject: [PATCH v2] nvme-rdma: fix timeout handler
+In-Reply-To: <20190108085734.9681-1-sagi@grimberg.me>
+References: <20190108085734.9681-1-sagi@grimberg.me>
+Message-ID: <20190108154353.GB18014@localhost.localdomain>
 
-On Mon, Jan 07, 2019@07:08:49PM -0800, Andrey Smirnov wrote:
-> ctrl->cntlid will already be initialized from id->cntlid for
-> non-NVME_F_FABRICS controllers few lines below. For NVME_F_FABRICS
-> controllers this field should already be initialized, otherwise the
-> check
+On Tue, Jan 08, 2019@12:57:34AM -0800, Sagi Grimberg wrote:
+> Currently, we have several problems with the timeout
+> handler:
+> 1. If we timeout on the controller establishment flow, we will hang
+> because we don't execute the error recovery (and we shouldn't because
+> the create_ctrl flow needs to fail and cleanup on its own)
+> 2. We might also hang if we get a disconnet on a queue while the
+> controller is already deleting. This racy flow can cause the controller
+> disable/shutdown admin command to hang.
 > 
-> 	if (ctrl->cntlid != le16_to_cpu(id->cntlid))
+> We cannot complete a timed out request from the timeout handler without
+> mutual exclusion from the teardown flow (e.g. nvme_rdma_error_recovery_work).
+> So we serialize it in the timeout handler and teardown io and admin
+> queues to guarantee that no one races with us from completing the
+> request.
 > 
-> below will always be a no-op.
+> Reported-by: Jaesoo Lee <jalee at purestorage.com>
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> ---
+> This is a slightly different version that looks more like pci
+> behavior as we teardown the controller if we are connection
+> or deleting in the timeout handler.
 
-Yeah, this bug defeats the fabrics sanity check. Good catch.
+This looks good to me.
 
 Reviewed-by: Keith Busch <keith.busch at intel.com>
 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 2e65be8b1387..1ec87b30fad1 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -2397,7 +2397,6 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
->  	ctrl->oaes = le32_to_cpu(id->oaes);
->  	atomic_set(&ctrl->abort_limit, id->acl + 1);
->  	ctrl->vwc = id->vwc;
-> -	ctrl->cntlid = le16_to_cpup(&id->cntlid);
->  	if (id->mdts)
->  		max_hw_sectors = 1 << (id->mdts + page_shift - 9);
->  	else
-> -- 
+>  drivers/nvme/host/rdma.c | 26 ++++++++++++++++++--------
+>  1 file changed, 18 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index e63f36c09c9a..079d59c04a0e 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -1681,18 +1681,28 @@ static enum blk_eh_timer_return
+>  nvme_rdma_timeout(struct request *rq, bool reserved)
+>  {
+>  	struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
+> +	struct nvme_rdma_queue *queue = req->queue;
+> +	struct nvme_rdma_ctrl *ctrl = queue->ctrl;
+>  
+> -	dev_warn(req->queue->ctrl->ctrl.device,
+> -		 "I/O %d QID %d timeout, reset controller\n",
+> -		 rq->tag, nvme_rdma_queue_idx(req->queue));
+> +	dev_warn(ctrl->ctrl.device, "I/O %d QID %d timeout\n",
+> +		 rq->tag, nvme_rdma_queue_idx(queue));
+>  
+> -	/* queue error recovery */
+> -	nvme_rdma_error_recovery(req->queue->ctrl);
+> +	if (ctrl->ctrl.state != NVME_CTRL_LIVE) {
+> +		/*
+> +		 * teardown immediately if controller times out while starting
+> +		 * or we are already started error recovery. all outstanding
+> +		 * requests are completed on shutdown, so we return BLK_EH_DONE.
+> +		 */
+> +		flush_work(&ctrl->err_work);
+> +		nvme_rdma_teardown_io_queues(ctrl, false);
+> +		nvme_rdma_teardown_admin_queue(ctrl, false);
+> +		return BLK_EH_DONE;
+> +	}
+>  
+> -	/* fail with DNR on cmd timeout */
+> -	nvme_req(rq)->status = NVME_SC_ABORT_REQ | NVME_SC_DNR;
+> +	dev_warn(ctrl->ctrl.device, "starting error recovery\n");
+> +	nvme_rdma_error_recovery(ctrl);
+>  
+> -	return BLK_EH_DONE;
+> +	return BLK_EH_RESET_TIMER;
+>  }
+>  
+>  static blk_status_t nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
