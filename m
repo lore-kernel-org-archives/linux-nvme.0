@@ -1,31 +1,82 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 8 Jan 2019 10:19:40 -0700
-Subject: NVME_QUIRK_IGNORE_DEV_SUBNQN patch?
-In-Reply-To: <CAP5yZ1hRjj_DVJKzKXtk-Fh5Vkz+aUekkz9RAbRGDCJ0D801Fw@mail.gmail.com>
-References: <CAP5yZ1ikNPCkX74aVcadB8hEP_Vr0VTgBAHZ8JuFmy_+oQrGNQ@mail.gmail.com>
- <CAP5yZ1hRjj_DVJKzKXtk-Fh5Vkz+aUekkz9RAbRGDCJ0D801Fw@mail.gmail.com>
-Message-ID: <20190108171940.GE18014@localhost.localdomain>
+Date: Tue,  8 Jan 2019 10:20:51 -0700
+Subject: [PATCH] nvme: introduce NVME_QUIRK_IGNORE_DEV_SUBNQN
+Message-ID: <20190108172051.18390-1-keith.busch@intel.com>
 
-On Tue, Jan 08, 2019@11:55:03AM -0500, Gabriel Frangakis wrote:
-> Bumping this. I can also try submitting as a patch but as a newcomer
-> didn't think it was appropriate
+From: James Dingwall <james@dingwall.me.uk>
 
-New contributers are certainly welcome.
+If a device provides an NQN it is expected to be globally unique.
+Unfortunately some firmware revisions for Intel 760p/Pro 7600p devices did
+not satisfy this requirement.  In these circumstances if a system has >1
+affected device then only one device is enabled.  If this quirk is enabled
+then the device supplied subnqn is ignored and we fallback to generating
+one as if the field was empty.  In this case we also suppress the version
+check so we don't print a warning when the quirk is enabled.
 
-I think James' patch was fine, but I don't see that it was ever posted
-as a proper patch that could be applied. I'll send one on his behalf
-with a review tag.
+Reviewed-by: Keith Busch <keith.busch at intel.com>
+Signed-off-by: James Dingwall <james at dingwall.me.uk>
+---
+ drivers/nvme/host/core.c | 16 +++++++++-------
+ drivers/nvme/host/nvme.h |  5 +++++
+ drivers/nvme/host/pci.c  |  2 ++
+ 3 files changed, 16 insertions(+), 7 deletions(-)
 
-> On Thu, Jan 3, 2019 at 10:25 AM Gabriel Frangakis
-> <gabe.frangakis@gmail.com> wrote:
-> >
-> > Back in November, there was a discussion about a firmware issue with
-> > Intel NVME drives
-> > (http://lists.infradead.org/pipermail/linux-nvme/2018-November/021366.html).
-> > Intel has issued a firmware update to address this, but there's no
-> > telling when OEMs will pick it up and incorporate it.
-> >
-> > It seemed that a potential fix was created by John Dingwall to ignore
-> > the sub NQN, and I was wondering if there were plans to submit this as
-> > a patch to the kernel. I'm unfamiliar with how that whole process
-> > works, so apologies if I'm out of line.
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index d8a5a6b377fd..56f88aa6c76b 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2175,14 +2175,16 @@ static void nvme_init_subnqn(struct nvme_subsystem *subsys, struct nvme_ctrl *ct
+ 	size_t nqnlen;
+ 	int off;
+ 
+-	nqnlen = strnlen(id->subnqn, NVMF_NQN_SIZE);
+-	if (nqnlen > 0 && nqnlen < NVMF_NQN_SIZE) {
+-		strlcpy(subsys->subnqn, id->subnqn, NVMF_NQN_SIZE);
+-		return;
+-	}
++	if(!(ctrl->quirks & NVME_QUIRK_IGNORE_DEV_SUBNQN)) {
++		nqnlen = strnlen(id->subnqn, NVMF_NQN_SIZE);
++		if (nqnlen > 0 && nqnlen < NVMF_NQN_SIZE) {
++			strlcpy(subsys->subnqn, id->subnqn, NVMF_NQN_SIZE);
++			return;
++		}
+ 
+-	if (ctrl->vs >= NVME_VS(1, 2, 1))
+-		dev_warn(ctrl->device, "missing or invalid SUBNQN field.\n");
++		if (ctrl->vs >= NVME_VS(1, 2, 1))
++			dev_warn(ctrl->device, "missing or invalid SUBNQN field.\n");
++	}
+ 
+ 	/* Generate a "fake" NQN per Figure 254 in NVMe 1.3 + ECN 001 */
+ 	off = snprintf(subsys->subnqn, NVMF_NQN_SIZE,
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 2b36ac922596..ab961bdeea89 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -90,6 +90,11 @@ enum nvme_quirks {
+ 	 * Set MEDIUM priority on SQ creation
+ 	 */
+ 	NVME_QUIRK_MEDIUM_PRIO_SQ		= (1 << 7),
++
++	/*
++	 * Ignore device provided subnqn.
++	 */
++	NVME_QUIRK_IGNORE_DEV_SUBNQN		= (1 << 8),
+ };
+ 
+ /*
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index d138601a63a0..a667e799a105 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2941,6 +2941,8 @@ static const struct pci_device_id nvme_id_table[] = {
+ 	{ PCI_VDEVICE(INTEL, 0xf1a5),	/* Intel 600P/P3100 */
+ 		.driver_data = NVME_QUIRK_NO_DEEPEST_PS |
+ 				NVME_QUIRK_MEDIUM_PRIO_SQ },
++	{ PCI_VDEVICE(INTEL, 0xf1a6),	/* Intel 760p/Pro 7600p */
++		.driver_data = NVME_QUIRK_IGNORE_DEV_SUBNQN, },
+ 	{ PCI_VDEVICE(INTEL, 0x5845),	/* Qemu emulated controller */
+ 		.driver_data = NVME_QUIRK_IDENTIFY_CNS, },
+ 	{ PCI_DEVICE(0x1bb1, 0x0100),   /* Seagate Nytro Flash Storage */
+-- 
+2.14.4
