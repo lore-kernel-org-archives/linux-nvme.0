@@ -1,36 +1,50 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Wed,  9 Jan 2019 09:45:15 +0100
-Subject: [PATCH] nvme-multipath: drop optimization for static ANA group IDs
-Message-ID: <20190109084515.82076-1-hare@suse.de>
+From: dan.carpenter@oracle.com (Dan Carpenter)
+Date: Wed, 9 Jan 2019 13:51:04 +0300
+Subject: [bug report] nvmet-tcp: add NVMe over TCP target driver
+Message-ID: <20190109105103.GB14983@kadam>
 
-Bit 6 in the ANACAP field is used to indicate that the ANA group ID
-doesn't change while the namespace is attached to the controller.
-There is an optimisation in the code to only allocate space
-for the ANA group header, as the namespace list won't change and
-hence would not need to be refreshed.
-However, this optimisation was never carried over to the actual
-workflow, which always assumes that the buffer is large enough
-to hold the ANA header _and_ the namespace list.
-So drop this optimisation and always allocate enough space.
+Hello Sagi Grimberg,
 
-Signed-off-by: Hannes Reinecke <hare at suse.com>
----
- drivers/nvme/host/multipath.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+The patch 872d26a391da: "nvmet-tcp: add NVMe over TCP target driver"
+from Dec 3, 2018, leads to the following static checker warning:
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index df4b3a6db51b..b9fff3b8ed1b 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -545,8 +545,7 @@ int nvme_mpath_init(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
- 	timer_setup(&ctrl->anatt_timer, nvme_anatt_timeout, 0);
- 	ctrl->ana_log_size = sizeof(struct nvme_ana_rsp_hdr) +
- 		ctrl->nanagrpid * sizeof(struct nvme_ana_group_desc);
--	if (!(ctrl->anacap & (1 << 6)))
--		ctrl->ana_log_size += ctrl->max_namespaces * sizeof(__le32);
-+	ctrl->ana_log_size += ctrl->max_namespaces * sizeof(__le32);
- 
- 	if (ctrl->ana_log_size > ctrl->max_hw_sectors << SECTOR_SHIFT) {
- 		dev_err(ctrl->device,
--- 
-2.16.4
+	drivers/nvme/target/tcp.c:1116 nvmet_tcp_try_recv_one()
+	error: uninitialized symbol 'result'.
+
+drivers/nvme/target/tcp.c
+    1090 static int nvmet_tcp_try_recv_one(struct nvmet_tcp_queue *queue)
+    1091 {
+    1092 	int result;
+    1093 
+    1094 	if (unlikely(queue->rcv_state == NVMET_TCP_RECV_ERR))
+    1095 		return 0;
+    1096 
+    1097 	if (queue->rcv_state == NVMET_TCP_RECV_PDU) {
+    1098 		result = nvmet_tcp_try_recv_pdu(queue);
+    1099 		if (result != 0)
+    1100 			goto done_recv;
+    1101 	}
+    1102 
+    1103 	if (queue->rcv_state == NVMET_TCP_RECV_DATA) {
+    1104 		result = nvmet_tcp_try_recv_data(queue);
+    1105 		if (result != 0)
+    1106 			goto done_recv;
+    1107 	}
+    1108 
+    1109 	if (queue->rcv_state == NVMET_TCP_RECV_DDGST) {
+    1110 		result = nvmet_tcp_try_recv_ddgst(queue);
+    1111 		if (result != 0)
+    1112 			goto done_recv;
+    1113 	}
+    1114 <<---- result is uninitialized on this 1114 line.
+    1115 done_recv:
+--> 1116 	if (result < 0) {
+    1117 		if (result == -EAGAIN)
+    1118 			return 0;
+    1119 		return result;
+    1120 	}
+    1121 	return 1;
+    1122 }
+
+regards,
+dan carpenter
