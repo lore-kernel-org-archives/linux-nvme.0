@@ -1,82 +1,36 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue,  8 Jan 2019 10:20:51 -0700
-Subject: [PATCH] nvme: introduce NVME_QUIRK_IGNORE_DEV_SUBNQN
-Message-ID: <20190108172051.18390-1-keith.busch@intel.com>
+From: hare@suse.de (Hannes Reinecke)
+Date: Wed,  9 Jan 2019 09:45:15 +0100
+Subject: [PATCH] nvme-multipath: drop optimization for static ANA group IDs
+Message-ID: <20190109084515.82076-1-hare@suse.de>
 
-From: James Dingwall <james@dingwall.me.uk>
+Bit 6 in the ANACAP field is used to indicate that the ANA group ID
+doesn't change while the namespace is attached to the controller.
+There is an optimisation in the code to only allocate space
+for the ANA group header, as the namespace list won't change and
+hence would not need to be refreshed.
+However, this optimisation was never carried over to the actual
+workflow, which always assumes that the buffer is large enough
+to hold the ANA header _and_ the namespace list.
+So drop this optimisation and always allocate enough space.
 
-If a device provides an NQN it is expected to be globally unique.
-Unfortunately some firmware revisions for Intel 760p/Pro 7600p devices did
-not satisfy this requirement.  In these circumstances if a system has >1
-affected device then only one device is enabled.  If this quirk is enabled
-then the device supplied subnqn is ignored and we fallback to generating
-one as if the field was empty.  In this case we also suppress the version
-check so we don't print a warning when the quirk is enabled.
-
-Reviewed-by: Keith Busch <keith.busch at intel.com>
-Signed-off-by: James Dingwall <james at dingwall.me.uk>
+Signed-off-by: Hannes Reinecke <hare at suse.com>
 ---
- drivers/nvme/host/core.c | 16 +++++++++-------
- drivers/nvme/host/nvme.h |  5 +++++
- drivers/nvme/host/pci.c  |  2 ++
- 3 files changed, 16 insertions(+), 7 deletions(-)
+ drivers/nvme/host/multipath.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index d8a5a6b377fd..56f88aa6c76b 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2175,14 +2175,16 @@ static void nvme_init_subnqn(struct nvme_subsystem *subsys, struct nvme_ctrl *ct
- 	size_t nqnlen;
- 	int off;
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index df4b3a6db51b..b9fff3b8ed1b 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -545,8 +545,7 @@ int nvme_mpath_init(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+ 	timer_setup(&ctrl->anatt_timer, nvme_anatt_timeout, 0);
+ 	ctrl->ana_log_size = sizeof(struct nvme_ana_rsp_hdr) +
+ 		ctrl->nanagrpid * sizeof(struct nvme_ana_group_desc);
+-	if (!(ctrl->anacap & (1 << 6)))
+-		ctrl->ana_log_size += ctrl->max_namespaces * sizeof(__le32);
++	ctrl->ana_log_size += ctrl->max_namespaces * sizeof(__le32);
  
--	nqnlen = strnlen(id->subnqn, NVMF_NQN_SIZE);
--	if (nqnlen > 0 && nqnlen < NVMF_NQN_SIZE) {
--		strlcpy(subsys->subnqn, id->subnqn, NVMF_NQN_SIZE);
--		return;
--	}
-+	if(!(ctrl->quirks & NVME_QUIRK_IGNORE_DEV_SUBNQN)) {
-+		nqnlen = strnlen(id->subnqn, NVMF_NQN_SIZE);
-+		if (nqnlen > 0 && nqnlen < NVMF_NQN_SIZE) {
-+			strlcpy(subsys->subnqn, id->subnqn, NVMF_NQN_SIZE);
-+			return;
-+		}
- 
--	if (ctrl->vs >= NVME_VS(1, 2, 1))
--		dev_warn(ctrl->device, "missing or invalid SUBNQN field.\n");
-+		if (ctrl->vs >= NVME_VS(1, 2, 1))
-+			dev_warn(ctrl->device, "missing or invalid SUBNQN field.\n");
-+	}
- 
- 	/* Generate a "fake" NQN per Figure 254 in NVMe 1.3 + ECN 001 */
- 	off = snprintf(subsys->subnqn, NVMF_NQN_SIZE,
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 2b36ac922596..ab961bdeea89 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -90,6 +90,11 @@ enum nvme_quirks {
- 	 * Set MEDIUM priority on SQ creation
- 	 */
- 	NVME_QUIRK_MEDIUM_PRIO_SQ		= (1 << 7),
-+
-+	/*
-+	 * Ignore device provided subnqn.
-+	 */
-+	NVME_QUIRK_IGNORE_DEV_SUBNQN		= (1 << 8),
- };
- 
- /*
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index d138601a63a0..a667e799a105 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2941,6 +2941,8 @@ static const struct pci_device_id nvme_id_table[] = {
- 	{ PCI_VDEVICE(INTEL, 0xf1a5),	/* Intel 600P/P3100 */
- 		.driver_data = NVME_QUIRK_NO_DEEPEST_PS |
- 				NVME_QUIRK_MEDIUM_PRIO_SQ },
-+	{ PCI_VDEVICE(INTEL, 0xf1a6),	/* Intel 760p/Pro 7600p */
-+		.driver_data = NVME_QUIRK_IGNORE_DEV_SUBNQN, },
- 	{ PCI_VDEVICE(INTEL, 0x5845),	/* Qemu emulated controller */
- 		.driver_data = NVME_QUIRK_IDENTIFY_CNS, },
- 	{ PCI_DEVICE(0x1bb1, 0x0100),   /* Seagate Nytro Flash Storage */
+ 	if (ctrl->ana_log_size > ctrl->max_hw_sectors << SECTOR_SHIFT) {
+ 		dev_err(ctrl->device,
 -- 
-2.14.4
+2.16.4
