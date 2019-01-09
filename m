@@ -1,39 +1,34 @@
 From: joshi.k@samsung.com (Kanchan Joshi)
-Date: Wed, 09 Jan 2019 21:00:57 +0530
-Subject: [PATCH v2 0/4] Write-hint for FS journal
-References: <CGME20190109153328epcas2p4643cbdc7a2182b47893a2bcaa0778e17@epcas2p4.samsung.com>
-Message-ID: <1547047861-7271-1-git-send-email-joshi.k@samsung.com>
+Date: Wed, 09 Jan 2019 21:00:58 +0530
+Subject: [PATCH 1/4] block: Increase count of supported write-hints
+In-Reply-To: <1547047861-7271-1-git-send-email-joshi.k@samsung.com>
+References: <1547047861-7271-1-git-send-email-joshi.k@samsung.com>
+ <CGME20190109153332epcas1p187b419176a8d1d0be4982a275c0b9e86@epcas1p1.samsung.com>
+Message-ID: <1547047861-7271-2-git-send-email-joshi.k@samsung.com>
 
-Towards supporing write-hints/streams for filesystem journal.                   
-                                                                                
-Here is the v1 patch for background -                                           
-https://marc.info/?l=linux-fsdevel&m=154444637519020&w=2                        
-                                                                                
-Changes since v1:                                                               
-- introduce four more hints for in-kernel use, as recommended by Dave chinner   
-  & Jens axboe. This isolates kernel-mode hints from user-mode ones.            
-- remove mount-option to specify write-hint, as recommended by Jan kara &       
-  Dave chinner. Rather, FS always sets write-hint for journal. This gets ignored
-  if device does not support stream.                                            
-- Removed code-redundancy for write_dirty_buffer (Jan kara's review comment)
+This patch bumps up write-hint count to support four new, in-kernel
+hints.
 
+Signed-off-by: Kanchan Joshi <joshi.k at samsung.com>
+---
+ include/linux/blkdev.h | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Kanchan Joshi (4):
-  block: Increase count of supported write-hints
-  fs: introduce four macros for in-kernel hints
-  fs: introduce APIs to enable sending write-hint with buffer-head
-  fs/ext4,jbd2: add support for passing write-hint with journal.
-
- fs/buffer.c                 | 18 ++++++++++++++++--
- fs/ext4/super.c             |  2 ++
- fs/jbd2/commit.c            | 11 +++++++----
- fs/jbd2/journal.c           |  3 ++-
- fs/jbd2/revoke.c            |  3 ++-
- include/linux/blkdev.h      |  5 ++++-
- include/linux/buffer_head.h |  3 +++
- include/linux/fs.h          |  5 +++++
- include/linux/jbd2.h        |  8 ++++++++
- 9 files changed, 49 insertions(+), 9 deletions(-)
-
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 338604d..df07759 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -568,7 +568,10 @@ struct request_queue {
+ 
+ 	struct work_struct	release_work;
+ 
+-#define BLK_MAX_WRITE_HINTS	5
++#define BLK_MAX_USER_WRITE_HINTS	5
++#define BLK_MAX_KERNEL_WRITE_HINTS	4
++#define BLK_MAX_WRITE_HINTS	(BLK_MAX_USER_WRITE_HINTS + \
++				BLK_MAX_KERNEL_WRITE_HINTS)
+ 	u64			write_hints[BLK_MAX_WRITE_HINTS];
+ };
+ 
 -- 
 2.7.4
