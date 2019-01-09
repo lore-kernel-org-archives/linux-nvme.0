@@ -1,33 +1,20 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 9 Jan 2019 19:39:20 +0100
-Subject: [PATCH] nvme: fix out of bounds access in nvme_cqe_pending
-In-Reply-To: <1546827727-49635-1-git-send-email-yaohongbo@huawei.com>
-References: <1546827727-49635-1-git-send-email-yaohongbo@huawei.com>
-Message-ID: <20190109183920.GA22070@lst.de>
+Date: Wed, 9 Jan 2019 19:43:00 +0100
+Subject: [PATCH] nvme-multipath: drop optimization for static ANA group IDs
+In-Reply-To: <20190109084515.82076-1-hare@suse.de>
+References: <20190109084515.82076-1-hare@suse.de>
+Message-ID: <20190109184300.GC22070@lst.de>
 
-On Mon, Jan 07, 2019@10:22:07AM +0800, Hongbo Yao wrote:
-> There is an out of bounds array access in nvme_cqe_peding().
-> 
-> When enable irq_thread for nvme interrupt, there is racing between the
-> nvmeq->cq_head updating and reading.
+On Wed, Jan 09, 2019@09:45:15AM +0100, Hannes Reinecke wrote:
+> Bit 6 in the ANACAP field is used to indicate that the ANA group ID
+> doesn't change while the namespace is attached to the controller.
+> There is an optimisation in the code to only allocate space
+> for the ANA group header, as the namespace list won't change and
+> hence would not need to be refreshed.
+> However, this optimisation was never carried over to the actual
+> workflow, which always assumes that the buffer is large enough
+> to hold the ANA header _and_ the namespace list.
+> So drop this optimisation and always allocate enough space.
 
-Just curious: why did you enable this option?  Do you have a workload
-where it matters?
-
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index d668682..68375d4 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -908,9 +908,11 @@ static void nvme_complete_cqes(struct nvme_queue *nvmeq, u16 start, u16 end)
->  
->  static inline void nvme_update_cq_head(struct nvme_queue *nvmeq)
->  {
-> -	if (++nvmeq->cq_head == nvmeq->q_depth) {
-> +	if (nvmeq->cq_head == (nvmeq->q_depth - 1)) {
->  		nvmeq->cq_head = 0;
->  		nvmeq->cq_phase = !nvmeq->cq_phase;
-> +	} else {
-> +		++nvmeq->cq_head;
-
-No need for the braces above, but otherwise this looks fine.  I'll apply
-it to nvme-4.21.
+Isn't the real bug that we always clear groups_only in nvme_ana_work,
+and we could simply make the conditional instead?
