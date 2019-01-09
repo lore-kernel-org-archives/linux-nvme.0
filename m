@@ -1,34 +1,35 @@
 From: joshi.k@samsung.com (Kanchan Joshi)
-Date: Wed, 09 Jan 2019 21:00:58 +0530
-Subject: [PATCH 1/4] block: Increase count of supported write-hints
+Date: Wed, 09 Jan 2019 21:00:59 +0530
+Subject: [PATCH 2/4] fs: introduce four macros for in-kernel hints
 In-Reply-To: <1547047861-7271-1-git-send-email-joshi.k@samsung.com>
 References: <1547047861-7271-1-git-send-email-joshi.k@samsung.com>
- <CGME20190109153332epcas1p187b419176a8d1d0be4982a275c0b9e86@epcas1p1.samsung.com>
-Message-ID: <1547047861-7271-2-git-send-email-joshi.k@samsung.com>
+ <CGME20190109153336epcas2p29b3275b6c545e483a3f43b92268f08bf@epcas2p2.samsung.com>
+Message-ID: <1547047861-7271-3-git-send-email-joshi.k@samsung.com>
 
-This patch bumps up write-hint count to support four new, in-kernel
-hints.
+Exiting write-hints are exposed to user-mode. There is a possiblity
+of conflict if kernel happens to use those. This patch introduces four
+write-hints for exclusive kernel-mode use.
 
 Signed-off-by: Kanchan Joshi <joshi.k at samsung.com>
 ---
- include/linux/blkdev.h | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ include/linux/fs.h | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 338604d..df07759 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -568,7 +568,10 @@ struct request_queue {
- 
- 	struct work_struct	release_work;
- 
--#define BLK_MAX_WRITE_HINTS	5
-+#define BLK_MAX_USER_WRITE_HINTS	5
-+#define BLK_MAX_KERNEL_WRITE_HINTS	4
-+#define BLK_MAX_WRITE_HINTS	(BLK_MAX_USER_WRITE_HINTS + \
-+				BLK_MAX_KERNEL_WRITE_HINTS)
- 	u64			write_hints[BLK_MAX_WRITE_HINTS];
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index 811c777..e8548eb 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -291,6 +291,11 @@ enum rw_hint {
+ 	WRITE_LIFE_MEDIUM	= RWH_WRITE_LIFE_MEDIUM,
+ 	WRITE_LIFE_LONG		= RWH_WRITE_LIFE_LONG,
+ 	WRITE_LIFE_EXTREME	= RWH_WRITE_LIFE_EXTREME,
++/* below ones are meant for in-kernel use */
++	KERN_WRITE_LIFE_SHORT,
++	KERN_WRITE_LIFE_MEDIUM,
++	KERN_WRITE_LIFE_LONG,
++	KERN_WRITE_LIFE_EXTREME
  };
  
+ #define IOCB_EVENTFD		(1 << 0)
 -- 
 2.7.4
