@@ -1,120 +1,31 @@
-From: joshi.k@samsung.com (Kanchan Joshi)
-Date: Wed, 09 Jan 2019 21:01:01 +0530
-Subject: [PATCH 4/4] fs/ext4,jbd2: add support for passing write-hint with
- journal.
-In-Reply-To: <1547047861-7271-1-git-send-email-joshi.k@samsung.com>
-References: <1547047861-7271-1-git-send-email-joshi.k@samsung.com>
- <CGME20190109153342epcas2p3208f62a4dd876f8e1765b48f8aec2432@epcas2p3.samsung.com>
-Message-ID: <1547047861-7271-5-git-send-email-joshi.k@samsung.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 9 Jan 2019 19:35:21 +0100
+Subject: [PATCH 1/1] nvme-pci: check that sqid match in nvme cqe
+In-Reply-To: <d45e8fe6-5c58-f8f5-5b74-3e261222e089@mellanox.com>
+References: <1546349838-5126-1-git-send-email-maxg@mellanox.com>
+ <20190104181336.GA25593@lst.de>
+ <d45e8fe6-5c58-f8f5-5b74-3e261222e089@mellanox.com>
+Message-ID: <20190109183521.GA21992@lst.de>
 
-For NAND based SSDs, mixing of data with different life-time reduces
-efficiency of internal garbage-collection. During FS operations, series
-of journal updates will follow/precede series of data/meta updates, causing
-intermixing inside SSD. By passing a write-hint with journal, its write
-can be isolated from other data/meta writes, leading to endurance/performance
-benefit on SSD.
+On Sun, Jan 06, 2019@02:21:53PM +0200, Max Gurtovoy wrote:
+> maybe it wasn't a good example but let's say I can change 1 line in QEMU 
+> code (@hw/block/nvme.c) to trigger this issue.
+>
+> if I'll change
+>
+> req->cqe.sq_id = cpu_to_le16(sq->sqid);
+>
+> to be
+>
+> req->cqe.sq_id = 0;
+>
+> we'll always get wrong sq_id except of admin queue commands.
+>
+> This patch tries to protect against HW/FW bugs and we need to decide if 
+> it's in of our driver interest to do so.
+>
+> if not, let's abandon this commit.
 
-This patch introduces "j_writehint" member in JBD2 journal, using which
-Ext4 specifies write-hint (as SHORT) for journal.
-
-Signed-off-by: Kanchan Joshi <joshi.k at samsung.com>
----
- fs/ext4/super.c      |  2 ++
- fs/jbd2/commit.c     | 11 +++++++----
- fs/jbd2/journal.c    |  3 ++-
- fs/jbd2/revoke.c     |  3 ++-
- include/linux/jbd2.h |  8 ++++++++
- 5 files changed, 21 insertions(+), 6 deletions(-)
-
-diff --git a/fs/ext4/super.c b/fs/ext4/super.c
-index d6c142d..3af4049 100644
---- a/fs/ext4/super.c
-+++ b/fs/ext4/super.c
-@@ -4289,6 +4289,8 @@ static int ext4_fill_super(struct super_block *sb, void *data, int silent)
- 
- 	set_task_ioprio(sbi->s_journal->j_task, journal_ioprio);
- 
-+	sbi->s_journal->j_writehint = KERN_WRITE_LIFE_SHORT;
-+
- 	sbi->s_journal->j_commit_callback = ext4_journal_commit_callback;
- 
- no_journal:
-diff --git a/fs/jbd2/commit.c b/fs/jbd2/commit.c
-index 2eb55c3..6da4c28 100644
---- a/fs/jbd2/commit.c
-+++ b/fs/jbd2/commit.c
-@@ -153,10 +153,12 @@ static int journal_submit_commit_record(journal_t *journal,
- 
- 	if (journal->j_flags & JBD2_BARRIER &&
- 	    !jbd2_has_feature_async_commit(journal))
--		ret = submit_bh(REQ_OP_WRITE,
--			REQ_SYNC | REQ_PREFLUSH | REQ_FUA, bh);
-+		ret = submit_bh_write_hint(REQ_OP_WRITE,
-+			REQ_SYNC | REQ_PREFLUSH | REQ_FUA, bh,
-+			journal->j_writehint);
- 	else
--		ret = submit_bh(REQ_OP_WRITE, REQ_SYNC, bh);
-+		ret = submit_bh_write_hint(REQ_OP_WRITE, REQ_SYNC, bh,
-+			journal->j_writehint);
- 
- 	*cbh = bh;
- 	return ret;
-@@ -711,7 +713,8 @@ void jbd2_journal_commit_transaction(journal_t *journal)
- 				clear_buffer_dirty(bh);
- 				set_buffer_uptodate(bh);
- 				bh->b_end_io = journal_end_buffer_io_sync;
--				submit_bh(REQ_OP_WRITE, REQ_SYNC, bh);
-+				submit_bh_write_hint(REQ_OP_WRITE, REQ_SYNC,
-+						bh, journal->j_writehint);
- 			}
- 			cond_resched();
- 			stats.run.rs_blocks_logged += bufs;
-diff --git a/fs/jbd2/journal.c b/fs/jbd2/journal.c
-index 8ef6b6d..804dc2c 100644
---- a/fs/jbd2/journal.c
-+++ b/fs/jbd2/journal.c
-@@ -1384,7 +1384,8 @@ static int jbd2_write_superblock(journal_t *journal, int write_flags)
- 	jbd2_superblock_csum_set(journal, sb);
- 	get_bh(bh);
- 	bh->b_end_io = end_buffer_write_sync;
--	ret = submit_bh(REQ_OP_WRITE, write_flags, bh);
-+	ret = submit_bh_write_hint(REQ_OP_WRITE, write_flags, bh,
-+				journal->j_writehint);
- 	wait_on_buffer(bh);
- 	if (buffer_write_io_error(bh)) {
- 		clear_buffer_write_io_error(bh);
-diff --git a/fs/jbd2/revoke.c b/fs/jbd2/revoke.c
-index a1143e5..376b1d8 100644
---- a/fs/jbd2/revoke.c
-+++ b/fs/jbd2/revoke.c
-@@ -642,7 +642,8 @@ static void flush_descriptor(journal_t *journal,
- 	set_buffer_jwrite(descriptor);
- 	BUFFER_TRACE(descriptor, "write");
- 	set_buffer_dirty(descriptor);
--	write_dirty_buffer(descriptor, REQ_SYNC);
-+	write_dirty_buffer_with_hint(descriptor, REQ_SYNC,
-+				journal->j_writehint);
- }
- #endif
- 
-diff --git a/include/linux/jbd2.h b/include/linux/jbd2.h
-index 0f919d5..918f21e 100644
---- a/include/linux/jbd2.h
-+++ b/include/linux/jbd2.h
-@@ -1139,6 +1139,14 @@ struct journal_s
- 	 */
- 	__u32 j_csum_seed;
- 
-+	/**
-+	 * @j_writehint:
-+	 *
-+	 * write-hint for journal (set by FS).
-+	 */
-+	enum rw_hint	j_writehint;
-+
-+
- #ifdef CONFIG_DEBUG_LOCK_ALLOC
- 	/**
- 	 * @j_trans_commit_map:
--- 
-2.7.4
+Yes, but hardware that gets this wrong will just blow up and timeout
+anyway.  I'm not sure this case is worth adding a special detetion
+in the slow path.
