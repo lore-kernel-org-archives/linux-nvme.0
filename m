@@ -1,50 +1,39 @@
-From: dan.carpenter@oracle.com (Dan Carpenter)
-Date: Wed, 9 Jan 2019 13:51:04 +0300
-Subject: [bug report] nvmet-tcp: add NVMe over TCP target driver
-Message-ID: <20190109105103.GB14983@kadam>
+From: joshi.k@samsung.com (Kanchan Joshi)
+Date: Wed, 09 Jan 2019 21:00:57 +0530
+Subject: [PATCH v2 0/4] Write-hint for FS journal
+References: <CGME20190109153328epcas2p4643cbdc7a2182b47893a2bcaa0778e17@epcas2p4.samsung.com>
+Message-ID: <1547047861-7271-1-git-send-email-joshi.k@samsung.com>
 
-Hello Sagi Grimberg,
+Towards supporing write-hints/streams for filesystem journal.                   
+                                                                                
+Here is the v1 patch for background -                                           
+https://marc.info/?l=linux-fsdevel&m=154444637519020&w=2                        
+                                                                                
+Changes since v1:                                                               
+- introduce four more hints for in-kernel use, as recommended by Dave chinner   
+  & Jens axboe. This isolates kernel-mode hints from user-mode ones.            
+- remove mount-option to specify write-hint, as recommended by Jan kara &       
+  Dave chinner. Rather, FS always sets write-hint for journal. This gets ignored
+  if device does not support stream.                                            
+- Removed code-redundancy for write_dirty_buffer (Jan kara's review comment)
 
-The patch 872d26a391da: "nvmet-tcp: add NVMe over TCP target driver"
-from Dec 3, 2018, leads to the following static checker warning:
 
-	drivers/nvme/target/tcp.c:1116 nvmet_tcp_try_recv_one()
-	error: uninitialized symbol 'result'.
+Kanchan Joshi (4):
+  block: Increase count of supported write-hints
+  fs: introduce four macros for in-kernel hints
+  fs: introduce APIs to enable sending write-hint with buffer-head
+  fs/ext4,jbd2: add support for passing write-hint with journal.
 
-drivers/nvme/target/tcp.c
-    1090 static int nvmet_tcp_try_recv_one(struct nvmet_tcp_queue *queue)
-    1091 {
-    1092 	int result;
-    1093 
-    1094 	if (unlikely(queue->rcv_state == NVMET_TCP_RECV_ERR))
-    1095 		return 0;
-    1096 
-    1097 	if (queue->rcv_state == NVMET_TCP_RECV_PDU) {
-    1098 		result = nvmet_tcp_try_recv_pdu(queue);
-    1099 		if (result != 0)
-    1100 			goto done_recv;
-    1101 	}
-    1102 
-    1103 	if (queue->rcv_state == NVMET_TCP_RECV_DATA) {
-    1104 		result = nvmet_tcp_try_recv_data(queue);
-    1105 		if (result != 0)
-    1106 			goto done_recv;
-    1107 	}
-    1108 
-    1109 	if (queue->rcv_state == NVMET_TCP_RECV_DDGST) {
-    1110 		result = nvmet_tcp_try_recv_ddgst(queue);
-    1111 		if (result != 0)
-    1112 			goto done_recv;
-    1113 	}
-    1114 <<---- result is uninitialized on this 1114 line.
-    1115 done_recv:
---> 1116 	if (result < 0) {
-    1117 		if (result == -EAGAIN)
-    1118 			return 0;
-    1119 		return result;
-    1120 	}
-    1121 	return 1;
-    1122 }
+ fs/buffer.c                 | 18 ++++++++++++++++--
+ fs/ext4/super.c             |  2 ++
+ fs/jbd2/commit.c            | 11 +++++++----
+ fs/jbd2/journal.c           |  3 ++-
+ fs/jbd2/revoke.c            |  3 ++-
+ include/linux/blkdev.h      |  5 ++++-
+ include/linux/buffer_head.h |  3 +++
+ include/linux/fs.h          |  5 +++++
+ include/linux/jbd2.h        |  8 ++++++++
+ 9 files changed, 49 insertions(+), 9 deletions(-)
 
-regards,
-dan carpenter
+-- 
+2.7.4
