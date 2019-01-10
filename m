@@ -1,33 +1,42 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed,  9 Jan 2019 14:56:32 -0800
-Subject: [PATCH] nvmet-tcp: fix uninitialized variable access
-Message-ID: <20190109225632.24160-1-sagi@grimberg.me>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Thu, 10 Jan 2019 08:51:25 +0800
+Subject: [PATCH] nvme pci: fix nvme_setup_irqs()
+In-Reply-To: <20190107162406.GB12916@localhost.localdomain>
+References: <20190103013439.26700-1-ming.lei@redhat.com>
+ <20190107162406.GB12916@localhost.localdomain>
+Message-ID: <20190110005124.GA27711@ming.t460p>
 
-If we end up in nvmet_tcp_try_recv_one with a bogus state
-queue receive state we will access result which is uninitialized.
+On Mon, Jan 07, 2019@09:24:06AM -0700, Keith Busch wrote:
+> On Thu, Jan 03, 2019@09:34:39AM +0800, Ming Lei wrote:
+> > When -ENOSPC is returned from pci_alloc_irq_vectors_affinity(),
+> > we still try to allocate multiple irq vectors again, so irq queues
+> > covers the admin queue actually. But we don't consider that, then
+> > number of the allocated irq vector may be same with sum of
+> > io_queues[HCTX_TYPE_DEFAULT] and io_queues[HCTX_TYPE_READ], this way
+> > is obviously wrong, and finally breaks nvme_pci_map_queues(), and
+> > warning from pci_irq_get_affinity() is triggered.
+> > 
+> > IRQ queues should cover admin queues, this patch makes this
+> > point explicitely in nvme_calc_io_queues().
+> > 
+> > We got severl boot failure internal report on aarch64, so please
+> > consider to fix it in v4.20.
+> 
+> I see what you saying with the inconsistent meaning for irq_queues, though
+> 4.20 should be fine.
+> 
+> I hope we can make the irq sets easier to use in the future, but your
 
-Initialize restult to 0 which will be considered as if no data
-was received by the tcp socket.
+Yeah, I agree the current API isn't easy to use for irq sets, and we
+need to improve this.
 
-Fixes: 872d26a391da ("nvmet-tcp: add NVMe over TCP target driver")
-Reported-by: Dan Carpenter <dan.carpenter at oracle.com>
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/target/tcp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> patch looks correct for the current interface.
+> 
+> Reviewed-by: Keith Busch <keith.busch at intel.com>
 
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 44b37b202e39..ad0df786fe93 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -1089,7 +1089,7 @@ static int nvmet_tcp_try_recv_ddgst(struct nvmet_tcp_queue *queue)
- 
- static int nvmet_tcp_try_recv_one(struct nvmet_tcp_queue *queue)
- {
--	int result;
-+	int result = 0;
- 
- 	if (unlikely(queue->rcv_state == NVMET_TCP_RECV_ERR))
- 		return 0;
--- 
-2.17.1
+Thanks!
+
+Christoph, what do you think of this patch?
+
+Thanks,
+Ming
