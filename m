@@ -1,16 +1,27 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 10 Jan 2019 08:56:26 +0100
-Subject: nvme-cli: tag new version?
-In-Reply-To: <cda3e67e-2e0f-24f4-4dd6-e49167d0b3e3@suse.de>
-References: <cda3e67e-2e0f-24f4-4dd6-e49167d0b3e3@suse.de>
-Message-ID: <20190110075626.GA2331@lst.de>
+From: hare@suse.de (Hannes Reinecke)
+Date: Thu, 10 Jan 2019 09:10:06 +0100
+Subject: [PATCH] nvme-cli: Fixup compilation with user-defined CFLAGS
+Message-ID: <20190110081006.35288-1-hare@suse.de>
 
-On Thu, Jan 10, 2019@08:49:48AM +0100, Hannes Reinecke wrote:
-> Hi Keith,
->
-> wouldn't it be a good time to tag a new version?
-> We've gotten full ANA support and the TCP transport in, so I guess it'll 
-> warrant a new version...
+Calling 'make CFLAGS="-Wall"' breaks compilation as the include
+statement will be overwritten.
 
-Btw, still waiting for an updated nvmetcli ANA patch, a new version
-with that is long overdue as well.
+Signed-off-by: Hannes Reinecke <hare at suse.com>
+---
+ Makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 525616a..4ea19dd 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,5 +1,5 @@
+-CFLAGS ?= -O2 -g -Wall -Werror -I.
+-CFLAGS += -std=gnu99
++CFLAGS ?= -O2 -g -Wall -Werror
++CFLAGS += -I. -std=gnu99
+ CPPFLAGS += -D_GNU_SOURCE -D__CHECK_ENDIAN__
+ LIBUUID = $(shell $(LD) -o /dev/null -luuid >/dev/null 2>&1; echo $$?)
+ NVME = nvme
+-- 
+2.13.7
