@@ -1,32 +1,47 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Thu, 17 Jan 2019 08:42:41 +0100
-Subject: [PATCH] nvme-fc: use pci device as parent for nvme controller
-Message-ID: <20190117074241.40672-1-hare@suse.de>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Thu, 17 Jan 2019 13:59:05 +0100
+Subject: [PATCH blktests 1/2] nvme: enable buffered_io for file-backed
+ namespaces
+Message-ID: <20190117125906.15479-1-jthumshirn@suse.de>
 
-To allow system tools to figure out which pci device provides a
-given NVMe controller this patch moves the nvme controller sysfs
-entry as a child of the PCI device.
+All file-based NVMe over Fabrics tests fail in my test environment as I'm
+running these tests form within an initramfs. It turns out the file backing
+store of the NVMe target defaults to using direct I/O which is not
+available on tmpfs for obvious reasons.
 
-With this tools like dracut can traverse the device hierarchy to figure
-out which modules to include.
+If the backing store of an nvme target is file-based enable the use of
+buffered I/O.
 
-Signed-off-by: Hannes Reinecke <hare at suse.com>
+Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
 ---
- drivers/nvme/host/fc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/nvme/rc | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index feb86b59170e..1ecdec6b8b4a 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -3117,7 +3117,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- 	 * Defer this to the connect path.
- 	 */
+diff --git a/tests/nvme/rc b/tests/nvme/rc
+index eff1dd992460..ec92e41396be 100644
+--- a/tests/nvme/rc
++++ b/tests/nvme/rc
+@@ -48,7 +48,7 @@ _remove_nvmet_port() {
+ _create_nvmet_ns() {
+ 	local nvmet_subsystem="$1"
+ 	local nsid="$2"
+-	local blkdev="$3"
++	local backstore="$3"
+ 	local uuid="00000000-0000-0000-0000-000000000000"
+ 	local subsys_path="${NVMET_CFS}/subsystems/${nvmet_subsystem}"
+ 	local ns_path="${subsys_path}/namespaces/${nsid}"
+@@ -58,8 +58,11 @@ _create_nvmet_ns() {
+ 	fi
  
--	ret = nvme_init_ctrl(&ctrl->ctrl, dev, &nvme_fc_ctrl_ops, 0);
-+	ret = nvme_init_ctrl(&ctrl->ctrl, ctrl->dev, &nvme_fc_ctrl_ops, 0);
- 	if (ret)
- 		goto out_cleanup_admin_q;
+ 	mkdir "${ns_path}"
+-	printf "%s" "${blkdev}" > "${ns_path}/device_path"
++	printf "%s" "${backstore}" > "${ns_path}/device_path"
+ 	printf "%s" "${uuid}" > "${ns_path}/device_uuid"
++	if [[ -f ${backstore} ]]; then
++		printf 1 > "${ns_path}/buffered_io"
++	fi
+ 	printf 1 > "${ns_path}/enable"
+ }
  
 -- 
 2.16.4
