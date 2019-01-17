@@ -1,64 +1,96 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 16 Jan 2019 20:57:21 -0700
-Subject: [PATCH] nvme: fix out-of-bounds access during irq vectors
- allocation
-In-Reply-To: <0a01d310-c949-af4e-edc0-44859fb277c5@kernel.dk>
-References: <1547694610-31879-1-git-send-email-chenhc@lemote.com>
- <0a01d310-c949-af4e-edc0-44859fb277c5@kernel.dk>
-Message-ID: <95eb3f38-0f55-dc99-94a0-d5a2b88c0e4c@kernel.dk>
+From: hare@suse.de (Hannes Reinecke)
+Date: Thu, 17 Jan 2019 08:38:54 +0100
+Subject: [PATCHv2] nvme: handle static ANA groups correctly
+Message-ID: <20190117073854.40462-1-hare@suse.de>
 
-On 1/16/19 8:51 PM, Jens Axboe wrote:
-> On 1/16/19 8:10 PM, Huacai Chen wrote:
->> While reducing irq_queues in the do-while loop in nvme_setup_irqs(),
->> the reduction of irq_sets[] is behind irq_queues. Below is an example.
->>
->> On a 8 cpu platform, with default setting, nvme_setup_irqs() begin with
->> irq_queues = 8 (but when allocating irq vectors it will become 9 due to
->> the admin queue), affd.pre_vectors = 1, affd.nr_sets = 1, affd.sets[0]
->> = 8. If MSI-X resources are not enough, then the do-while loop will
->> reduce irq vectors:
->>
->> The 1st time call pci_alloc_irq_vectors_affinity(),
->> irq_queues = 9, affd.pre_vectors = 1, affd.nr_sets = 1, affd.sets[0] = 8
->> The 2nd time call pci_alloc_irq_vectors_affinity(),
->> irq_queues = 8, affd.pre_vectors = 1, affd.nr_sets = 1, affd.sets[0] = 8
->> The 3rd time call pci_alloc_irq_vectors_affinity(),
->> irq_queues = 7, affd.pre_vectors = 1, affd.nr_sets = 1, affd.sets[0] = 7
->>
->> However, this will cause an out of bounds access in __pci_enable_msix()
->> --> ... --> irq_create_affinity_masks() --> irq_build_affinity_masks().
->>
->> In the 2nd round of reduction, let's pay attention to the calling of
->> irq_build_affinity_masks(affd, curvec, this_vecs, curvec, node_to_cpumask, masks):
->>
->> The number of elements in masks is 8 (depends on nvecs which is equal to
->> irq_queues), curvec is 1 (depends on affd.pre_vectors), then
->> irq_build_affinity_masks() will access 8 elements in masks (depends on
->> this_vecs which is equal to affd.sets[0]), and the last element is out
->> of bounds.
->>
->> So the root cause is affd.sets[] + affd.pre_vectors should not be larger
->> than vectors to be allocated. In this patch we introduce alloc_queues to
->> indicate how many queues to allocate (not reuse irq_queues), and so we
->> can adjust affd.set[] correctly (depends on irq_queues) to avoid out of
->> bounds access.
->>
->> After this patch:
->>
->> The 1st time call pci_alloc_irq_vectors_affinity(),
->> irq_queues = 8, alloc_queues = 9, affd.pre_vectors = 1, affd.nr_sets = 1, affd.sets[0] = 8
->> The 2nd time call pci_alloc_irq_vectors_affinity(),
->> irq_queues = 7, alloc_queues = 8, affd.pre_vectors = 1, affd.nr_sets = 1, affd.sets[0] = 7
->> The 3rd time call pci_alloc_irq_vectors_affinity(),
->> irq_queues = 6, alloc_queues = 7, affd.pre_vectors = 1, affd.nr_sets = 1, affd.sets[0] = 6
-> 
-> We currently have this one queued up:
-> 
-> http://git.kernel.dk/cgit/linux-block/commit/?h=for-linus&id=c45b1fa2433c65e44bdf48f513cb37289f3116b9
-> 
-> can you check if it fixes the issue for you?
+Bit 6 in the ANACAP field signals that the group ID won't change
+while the controller is attached.
+The ANA parsing code tries to optimize for this case by only allocating
+space for the ANA log header, omitting the group descriptors as they
+won't change.
+However, the code for processing the ANA log page always assumes the
+entire log page, and hence gets the parsing wrong if the group
+descriptors are missing.
+This patch updates the parsing code to handle ANA log pages with only
+the headers correctly.
 
-Nevermind, took a closer look, and this looks like a different issue.
+Signed-off-by: Hannes Reinecke <hare at suse.com>
+---
+ drivers/nvme/host/multipath.c | 33 +++++++++++++++++++++++++++++++--
+ 1 file changed, 31 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index df4b3a6db51b..5e54c43a5e42 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -25,6 +25,8 @@ inline bool nvme_ctrl_use_ana(struct nvme_ctrl *ctrl)
+ 	return multipath && ctrl->subsys && (ctrl->subsys->cmic & (1 << 3));
+ }
+ 
++#define nvme_static_ana_grps(ctrl) ((ctrl)->anacap & (1 << 6))
++
+ /*
+  * If multipathing is enabled we need to always use the subsystem instance
+  * number for numbering our devices to avoid conflicts between subsystems that
+@@ -379,6 +381,24 @@ static void nvme_update_ns_ana_state(struct nvme_ana_group_desc *desc,
+ 	mutex_unlock(&ns->head->lock);
+ }
+ 
++static void nvme_update_grp_ana_state(struct nvme_ana_group_desc *desc,
++		struct nvme_ns *ns)
++{
++	enum nvme_ana_state old;
++
++	mutex_lock(&ns->head->lock);
++	if (ns->ana_grpid == le32_to_cpu(desc->grpid)) {
++		old = ns->ana_state;
++		ns->ana_state = desc->state;
++		clear_bit(NVME_NS_ANA_PENDING, &ns->flags);
++
++		if (nvme_state_is_live(ns->ana_state) &&
++		    !nvme_state_is_live(old))
++			nvme_mpath_set_live(ns);
++	}
++	mutex_unlock(&ns->head->lock);
++}
++
+ static int nvme_update_ana_state(struct nvme_ctrl *ctrl,
+ 		struct nvme_ana_group_desc *desc, void *data)
+ {
+@@ -393,8 +413,15 @@ static int nvme_update_ana_state(struct nvme_ctrl *ctrl,
+ 	if (desc->state == NVME_ANA_CHANGE)
+ 		(*nr_change_groups)++;
+ 
+-	if (!nr_nsids)
++	if (!nr_nsids) {
++		if (nvme_static_ana_grps(ctrl)) {
++			down_write(&ctrl->namespaces_rwsem);
++			list_for_each_entry(ns, &ctrl->namespaces, list)
++				nvme_update_grp_ana_state(desc, ns);
++			up_write(&ctrl->namespaces_rwsem);
++		}
+ 		return 0;
++	}
+ 
+ 	down_write(&ctrl->namespaces_rwsem);
+ 	list_for_each_entry(ns, &ctrl->namespaces, list) {
+@@ -415,6 +442,8 @@ static int nvme_read_ana_log(struct nvme_ctrl *ctrl, bool groups_only)
+ 	int error;
+ 
+ 	mutex_lock(&ctrl->ana_lock);
++	if (nvme_static_ana_grps(ctrl))
++		groups_only = true;
+ 	error = nvme_get_log(ctrl, NVME_NSID_ALL, NVME_LOG_ANA,
+ 			groups_only ? NVME_ANA_LOG_RGO : 0,
+ 			ctrl->ana_log_buf, ctrl->ana_log_size, 0);
+@@ -545,7 +574,7 @@ int nvme_mpath_init(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+ 	timer_setup(&ctrl->anatt_timer, nvme_anatt_timeout, 0);
+ 	ctrl->ana_log_size = sizeof(struct nvme_ana_rsp_hdr) +
+ 		ctrl->nanagrpid * sizeof(struct nvme_ana_group_desc);
+-	if (!(ctrl->anacap & (1 << 6)))
++	if (!nvme_static_ana_grps(ctrl))
+ 		ctrl->ana_log_size += ctrl->max_namespaces * sizeof(__le32);
+ 
+ 	if (ctrl->ana_log_size > ctrl->max_hw_sectors << SECTOR_SHIFT) {
 -- 
-Jens Axboe
+2.16.4
