@@ -1,29 +1,31 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 18 Jan 2019 08:17:09 +0100
-Subject: [PATCH blktests 1/2] nvme: enable buffered_io for file-backed
- namespaces
-In-Reply-To: <BYAPR04MB45024AB8410374A9B1AD81A186830@BYAPR04MB4502.namprd04.prod.outlook.com>
-References: <20190117125906.15479-1-jthumshirn@suse.de>
- <BYAPR04MB45024AB8410374A9B1AD81A186830@BYAPR04MB4502.namprd04.prod.outlook.com>
-Message-ID: <20beebf9-f582-08b3-1905-8a246f12268e@suse.de>
+From: rajur@chelsio.com (Raju  Rangoju)
+Date: Fri, 18 Jan 2019 07:37:54 +0000
+Subject: [PATCH v3] nvmet-rdma: fix null dereference under heavy load
+In-Reply-To: <3c2a416a-89c0-d63c-aedf-4f871dc26fc8@opengridcomputing.com>
+References: <20190103173531.7987-1-rajur@chelsio.com>
+ <b5f8ffb7-b912-60d1-95e3-0cb49899b771@grimberg.me>
+ <3c2a416a-89c0-d63c-aedf-4f871dc26fc8@opengridcomputing.com>
+Message-ID: <MWHPR1201MB0080D99508074185EB018406BC9C0@MWHPR1201MB0080.namprd12.prod.outlook.com>
 
-On 18/01/2019 00:46, Chaitanya Kulkarni wrote:
-> This will force the user to run all tests in the buffered_io mode.
-> 
-> What we really need is a config for the nvme category option which user can set and decide
-> whether to run buffered_io or direct_io, you can set by default to the buffered_io mode.
+Hi Christoph,
 
-We could also introduce a check if we can use direct IO on the
-underlying FS, but the only way I can think of from a shell script is
-doing a 'dd of=$TMPDIR/testfile oflag=direct' and then populate the
-result to the helper functions.
+In case you missed, could you please pull this patch ?
 
-Chaitanya, Omar any ideas?
+-Raju
 
--- 
-Johannes Thumshirn                            SUSE Labs Filesystems
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+-----Original Message-----
+From: Steve Wise <swise@opengridcomputing.com> 
+Sent: 07 January 2019 21:29
+To: Sagi Grimberg <sagi at grimberg.me>; Raju Rangoju <rajur at chelsio.com>; linux-nvme at lists.infradead.org
+Cc: maxg at mellanox.com; stable at vger.kernel.org
+Subject: Re: [PATCH v3] nvmet-rdma: fix null dereference under heavy load
+
+
+On 1/3/2019 5:13 PM, Sagi Grimberg wrote:
+> Wonder how the original fix got a tested-by...
+>
+> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+
+That was my bad.? But the testers said they couldn't reproduce the issue, so I assumed that meant it was fixed.? I guess they weren't stressing it enough.
+
+Steve.
