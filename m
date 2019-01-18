@@ -1,70 +1,99 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 18 Jan 2019 08:22:48 -0700
-Subject: [PATCH 1/1] nvme pci: fix the check of the cqe->command_id
-In-Reply-To: <20190118051755.1818-1-m.misono760@gmail.com>
-References: <20190118051755.1818-1-m.misono760@gmail.com>
-Message-ID: <20190118152248.GG31543@localhost.localdomain>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Fri, 18 Jan 2019 09:32:22 -0700
+Subject: LSF/MM 2019: Call for Proposals
+Message-ID: <51b4b263-a0f2-113d-7bdc-f7960b540929@kernel.dk>
 
-On Fri, Jan 18, 2019@05:17:55AM +0000, Masanori Misono wrote:
-> nvme_pci_submit_async_event() sets the command_id as
-> NVME_AQ_BLK_MQ_DEPTH. So only call nvme_complete_async_event()
-> if the cqe->command_is exactly matches the value.
-> 
-> If the cqe->command_id is invalid due to the hardware bug,
-> blk_mq_tag_to_rq() returns NULL. Check that value to prevent NULL
-> pointer dereference. Remove the duplicate check if the command_id
-> is bigger than or equal to the nvmeq->q_depth.
-> 
-> Signed-off-by: Masanori Misono <m.misono760 at gmail.com>
+Hi,
 
-This looks fine, though end result should be the same as before. We're
-just trading one of the bounds checks for a NULL check, and I'm okay
-with that.
+The annual Linux Storage, Filesystem and Memory Management (LSF/MM)
+Summit for 2019 will be held from April 30 - May 2 at the Sheraton
+Puerto Rico Hotel & Casino Lodges in San Juan, Puerto Rico. LSF/MM is an
+invitation-only technical workshop to map out improvements to the Linux
+storage, filesystem and memory management subsystems that will make
+their way into the mainline kernel within the coming years.
 
-Reviewed-by: Keith Busch <keith.busch at intel.com>
+https://events.linuxfoundation.org/events/linux-storage-filesystem-mm-summit-2019/
 
->  drivers/nvme/host/pci.c | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index c33bb201b884..cc6bb7abb752 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -878,13 +878,6 @@ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq, u16 idx)
->  	volatile struct nvme_completion *cqe = &nvmeq->cqes[idx];
->  	struct request *req;
->  
-> -	if (unlikely(cqe->command_id >= nvmeq->q_depth)) {
-> -		dev_warn(nvmeq->dev->ctrl.device,
-> -			"invalid id %d completed on queue %d\n",
-> -			cqe->command_id, le16_to_cpu(cqe->sq_id));
-> -		return;
-> -	}
-> -
->  	/*
->  	 * AEN requests are special as they don't time out and can
->  	 * survive any kind of queue freeze and often don't respond to
-> @@ -892,13 +885,20 @@ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq, u16 idx)
->  	 * for them but rather special case them here.
->  	 */
->  	if (unlikely(nvmeq->qid == 0 &&
-> -			cqe->command_id >= NVME_AQ_BLK_MQ_DEPTH)) {
-> +			cqe->command_id == NVME_AQ_BLK_MQ_DEPTH)) {
->  		nvme_complete_async_event(&nvmeq->dev->ctrl,
->  				cqe->status, &cqe->result);
->  		return;
->  	}
->  
->  	req = blk_mq_tag_to_rq(*nvmeq->tags, cqe->command_id);
-> +	if (unlikely(req == NULL)) {
-> +		dev_warn(nvmeq->dev->ctrl.device,
-> +			"invalid id %d completed on queue %d\n",
-> +			cqe->command_id, le16_to_cpu(cqe->sq_id));
-> +		return;
-> +	}
-> +
->  	nvme_end_request(req, cqe->status, cqe->result);
->  }
->  
-> -- 
-> 2.17.1
+LSF/MM 2019 will be a three day, stand-alone conference with three
+subsystem-specific tracks, cross-track discussions, as well as BoF and
+hacking sessions.
+
+On behalf of the committee I am issuing a call for agenda proposals
+that are suitable for cross-track discussion as well as technical
+subjects for the breakout sessions.
+
+If advance notice is required for visa applications then please point
+that out in your proposal or request to attend, and submit the topic
+as soon as possible.
+
+1) Proposals for agenda topics should be sent before February 15th,
+2019 to:
+
+	lsf-pc at lists.linux-foundation.org
+
+and CC the mailing lists that are relevant for the topic in question:
+
+	FS:	linux-fsdevel at vger.kernel.org
+	MM:	linux-mm at kvack.org
+	Block:	linux-block at vger.kernel.org
+	ATA:	linux-ide at vger.kernel.org
+	SCSI:	linux-scsi at vger.kernel.org
+	NVMe:	linux-nvme at lists.infradead.org
+
+Please tag your proposal with [LSF/MM TOPIC] to make it easier to
+track. In addition, please make sure to start a new thread for each
+topic rather than following up to an existing one. Agenda topics and
+attendees will be selected by the program committee, but the final
+agenda will be formed by consensus of the attendees on the day.
+
+2) Requests to attend the summit for those that are not proposing a
+topic should be sent to:
+
+	lsf-pc at lists.linux-foundation.org
+
+Please summarize what expertise you will bring to the meeting, and
+what you would like to discuss. Please also tag your email with
+[LSF/MM ATTEND] and send it as a new thread so there is less chance of
+it getting lost.
+
+We will try to cap attendance at around 25-30 per track to facilitate
+discussions although the final numbers will depend on the room sizes
+at the venue.
+
+For discussion leaders, slides and visualizations are encouraged to
+outline the subject matter and focus the discussions. Please refrain
+from lengthy presentations and talks; the sessions are supposed to be
+interactive, inclusive discussions.
+
+There will be no recording or audio bridge. However, we expect that
+written minutes will be published as we did in previous years:
+
+2018: https://lwn.net/Articles/lsfmm2018/
+
+2017: https://lwn.net/Articles/lsfmm2017/
+
+2016: https://lwn.net/Articles/lsfmm2016/
+
+2015: https://lwn.net/Articles/lsfmm2015/
+
+2014: http://lwn.net/Articles/LSFMM2014/
+
+2013: http://lwn.net/Articles/548089/
+
+3) If you have feedback on last year's meeting that we can use to
+improve this year's, please also send that to:
+
+	lsf-pc at lists.linux-foundation.org
+
+Thank you on behalf of the program committee:
+
+	Anna Schumaker (Filesystems)
+	Josef Bacik (Filesystems)
+	Martin K. Petersen (Storage)
+	Jens Axboe (Storage)
+	Michal Hocko (MM)
+	Rik van Riel (MM)
+	Johannes Weiner (MM)
+
+-- 
+Jens Axboe
