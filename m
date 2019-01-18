@@ -1,36 +1,61 @@
-From: jalee@purestorage.com (Jaesoo Lee)
-Date: Thu, 17 Jan 2019 18:19:45 -0800
-Subject: [PATCH v2] nvme-rdma: fix timeout handler
-In-Reply-To: <CAJX3CtgkGX_1eUU_x=v+VrUwvEA6ZwOgiPdps_-sPc5+JUFBqg@mail.gmail.com>
-References: <20190108085734.9681-1-sagi@grimberg.me>
- <c5db3853-daf4-49c0-0cab-a2cb3298ed85@grimberg.me>
- <CAJX3CtgkGX_1eUU_x=v+VrUwvEA6ZwOgiPdps_-sPc5+JUFBqg@mail.gmail.com>
-Message-ID: <CAJX3Ctit1Tquhd_g=u-EAJSgEk_g7P+7XoC_sf7LBq+xy7ztpQ@mail.gmail.com>
+From: m.misono760@gmail.com (Masanori Misono)
+Date: Fri, 18 Jan 2019 05:17:55 +0000
+Subject: [PATCH 1/1] nvme pci: fix the check of the cqe->command_id
+Message-ID: <20190118051755.1818-1-m.misono760@gmail.com>
 
-I have tested the code (backported to v4.19.9) and verified it works
-for below two scenarios I had originally reported.
+nvme_pci_submit_async_event() sets the command_id as
+NVME_AQ_BLK_MQ_DEPTH. So only call nvme_complete_async_event()
+if the cqe->command_is exactly matches the value.
 
-* Scenario 1
-1. issued connect nvme-cli command for nvme-rdma target with 500 namespaces
-2. after 3 seconds while the scan process is still going, issued
-disconnect command
+If the cqe->command_id is invalid due to the hardware bug,
+blk_mq_tag_to_rq() returns NULL. Check that value to prevent NULL
+pointer dereference. Remove the duplicate check if the command_id
+is bigger than or equal to the nvmeq->q_depth.
 
-* Scenario 2
-1. connected nvme-rdma target with 4 namespaces
-2. ran IO traffic over the namespaces
-3. changed MTU to 568 for the roce interface at the target
+Signed-off-by: Masanori Misono <m.misono760 at gmail.com>
+---
+ drivers/nvme/host/pci.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-Thanks,
-
-Jaesoo Lee.
-
-
-On Wed, Jan 16, 2019@6:57 PM Jaesoo Lee <jalee@purestorage.com> wrote:
->
-> Sure. I will test and post the results ASAP.
->
->
-> On Wed, Jan 16, 2019, 5:27 PM Sagi Grimberg <sagi@grimberg.me wrote:
->>
->> Jaesoo, can you verify that this patch fixes the issue
->> you were seeing?
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index c33bb201b884..cc6bb7abb752 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -878,13 +878,6 @@ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq, u16 idx)
+ 	volatile struct nvme_completion *cqe = &nvmeq->cqes[idx];
+ 	struct request *req;
+ 
+-	if (unlikely(cqe->command_id >= nvmeq->q_depth)) {
+-		dev_warn(nvmeq->dev->ctrl.device,
+-			"invalid id %d completed on queue %d\n",
+-			cqe->command_id, le16_to_cpu(cqe->sq_id));
+-		return;
+-	}
+-
+ 	/*
+ 	 * AEN requests are special as they don't time out and can
+ 	 * survive any kind of queue freeze and often don't respond to
+@@ -892,13 +885,20 @@ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq, u16 idx)
+ 	 * for them but rather special case them here.
+ 	 */
+ 	if (unlikely(nvmeq->qid == 0 &&
+-			cqe->command_id >= NVME_AQ_BLK_MQ_DEPTH)) {
++			cqe->command_id == NVME_AQ_BLK_MQ_DEPTH)) {
+ 		nvme_complete_async_event(&nvmeq->dev->ctrl,
+ 				cqe->status, &cqe->result);
+ 		return;
+ 	}
+ 
+ 	req = blk_mq_tag_to_rq(*nvmeq->tags, cqe->command_id);
++	if (unlikely(req == NULL)) {
++		dev_warn(nvmeq->dev->ctrl.device,
++			"invalid id %d completed on queue %d\n",
++			cqe->command_id, le16_to_cpu(cqe->sq_id));
++		return;
++	}
++
+ 	nvme_end_request(req, cqe->status, cqe->result);
+ }
+ 
+-- 
+2.17.1
