@@ -1,129 +1,86 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Fri, 18 Jan 2019 00:04:19 +0000
-Subject: [PATCH blktests 2/2] nvme: test resize of a namespace with
- file-backed ns
-In-Reply-To: <20190117125906.15479-2-jthumshirn@suse.de>
-References: <20190117125906.15479-1-jthumshirn@suse.de>,
- <20190117125906.15479-2-jthumshirn@suse.de>
-Message-ID: <BYAPR04MB4502DFB8875F3D6835086C6086830@BYAPR04MB4502.namprd04.prod.outlook.com>
+From: chenhuacai@gmail.com (Huacai Chen)
+Date: Fri, 18 Jan 2019 09:48:51 +0800
+Subject: [PATCH] nvme: fix out-of-bounds access during irq vectors
+ allocation
+In-Reply-To: <250741e0-20f5-8899-f618-53578561ebc9@kernel.dk>
+References: <1547694610-31879-1-git-send-email-chenhc@lemote.com>
+ <0a01d310-c949-af4e-edc0-44859fb277c5@kernel.dk>
+ <95eb3f38-0f55-dc99-94a0-d5a2b88c0e4c@kernel.dk>
+ <20190117152201.GA31543@localhost.localdomain>
+ <250741e0-20f5-8899-f618-53578561ebc9@kernel.dk>
+Message-ID: <CAAhV-H4CFBWacfY9ZWRGntcrSV2U_5ZeyCB3Lg8+M8XwsUfbKg@mail.gmail.com>
 
+On Thu, Jan 17, 2019@11:24 PM Jens Axboe <axboe@kernel.dk> wrote:
+>
+> On 1/17/19 8:22 AM, Keith Busch wrote:
+> > On Wed, Jan 16, 2019@08:57:21PM -0700, Jens Axboe wrote:
+> >> On 1/16/19 8:51 PM, Jens Axboe wrote:
+> >>> On 1/16/19 8:10 PM, Huacai Chen wrote:
+> >>>> While reducing irq_queues in the do-while loop in nvme_setup_irqs(),
+> >>>> the reduction of irq_sets[] is behind irq_queues. Below is an example.
+> >>>>
+> >>>> On a 8 cpu platform, with default setting, nvme_setup_irqs() begin with
+> >>>> irq_queues = 8 (but when allocating irq vectors it will become 9 due to
+> >>>> the admin queue), affd.pre_vectors = 1, affd.nr_sets = 1, affd.sets[0]
+> >>>> = 8. If MSI-X resources are not enough, then the do-while loop will
+> >>>> reduce irq vectors:
+> >>>>
+> >>>> The 1st time call pci_alloc_irq_vectors_affinity(),
+> >>>> irq_queues = 9, affd.pre_vectors = 1, affd.nr_sets = 1, affd.sets[0] = 8
+> >>>> The 2nd time call pci_alloc_irq_vectors_affinity(),
+> >>>> irq_queues = 8, affd.pre_vectors = 1, affd.nr_sets = 1, affd.sets[0] = 8
+> >>>> The 3rd time call pci_alloc_irq_vectors_affinity(),
+> >>>> irq_queues = 7, affd.pre_vectors = 1, affd.nr_sets = 1, affd.sets[0] = 7
+> >>>>
+> >>>> However, this will cause an out of bounds access in __pci_enable_msix()
+> >>>> --> ... --> irq_create_affinity_masks() --> irq_build_affinity_masks().
+> >>>>
+> >>>> In the 2nd round of reduction, let's pay attention to the calling of
+> >>>> irq_build_affinity_masks(affd, curvec, this_vecs, curvec, node_to_cpumask, masks):
+> >>>>
+> >>>> The number of elements in masks is 8 (depends on nvecs which is equal to
+> >>>> irq_queues), curvec is 1 (depends on affd.pre_vectors), then
+> >>>> irq_build_affinity_masks() will access 8 elements in masks (depends on
+> >>>> this_vecs which is equal to affd.sets[0]), and the last element is out
+> >>>> of bounds.
+> >>>>
+> >>>> So the root cause is affd.sets[] + affd.pre_vectors should not be larger
+> >>>> than vectors to be allocated. In this patch we introduce alloc_queues to
+> >>>> indicate how many queues to allocate (not reuse irq_queues), and so we
+> >>>> can adjust affd.set[] correctly (depends on irq_queues) to avoid out of
+> >>>> bounds access.
+> >>>>
+> >>>> After this patch:
+> >>>>
+> >>>> The 1st time call pci_alloc_irq_vectors_affinity(),
+> >>>> irq_queues = 8, alloc_queues = 9, affd.pre_vectors = 1, affd.nr_sets = 1, affd.sets[0] = 8
+> >>>> The 2nd time call pci_alloc_irq_vectors_affinity(),
+> >>>> irq_queues = 7, alloc_queues = 8, affd.pre_vectors = 1, affd.nr_sets = 1, affd.sets[0] = 7
+> >>>> The 3rd time call pci_alloc_irq_vectors_affinity(),
+> >>>> irq_queues = 6, alloc_queues = 7, affd.pre_vectors = 1, affd.nr_sets = 1, affd.sets[0] = 6
+> >>>
+> >>> We currently have this one queued up:
+> >>>
+> >>> http://git.kernel.dk/cgit/linux-block/commit/?h=for-linus&id=c45b1fa2433c65e44bdf48f513cb37289f3116b9
+> >>>
+> >>> can you check if it fixes the issue for you?
+> >>
+> >> Nevermind, took a closer look, and this looks like a different issue.
+> >
+> > The solutions look different, but I think they're both targeting the
+> > same problem, which is the older code had been accounting for vectors
+> > and queues differenting in the first iteration than subsequent ones. I
+> > think Ming's patch will probably fix the issue raised here and worth a
+> > shot at testing it.
+>
+> OK good, then I wasn't completely crazy after all :-)
 
-Thanks for the test, I actually have a patch for this one, if Christoph and Sagi okay with that I can work on it.
-Although, not sure if we want that sort of management code in the target.
+Hi, all
 
+I have tested, both patches have solve the same problem.
 
-From: linux-block-owner@vger.kernel.org <linux-block-owner@vger.kernel.org> on behalf of Johannes Thumshirn <jthumshirn@suse.de>
-Sent: Thursday, January 17, 2019 4:59 AM
-To: Omar Sandoval
-Cc: Linux Block Layer Mailinglist; Linux NVMe Mailinglist; Anthony Iliopoulos; Johannes Thumshirn
-Subject: [PATCH blktests 2/2] nvme: test resize of a namespace with file-backed ns
-? 
- 
-Test resizing of a NVMe namespace by creating a file backed namespace over
-nvme-loop with 1G size, connecting to it and then resizing it to 2G.
-
-Check if /proc/partitions and blkdev --getsz $DEVICE see the updated size.
-
-Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
----
-?tests/nvme/029???? | 67 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
-?tests/nvme/029.out | 10 ++++++++
-?2 files changed, 77 insertions(+)
-?create mode 100755 tests/nvme/029
-?create mode 100644 tests/nvme/029.out
-
-diff --git a/tests/nvme/029 b/tests/nvme/029
-new file mode 100755
-index 000000000000..8c94af039d0f
---- /dev/null
-+++ b/tests/nvme/029
-@@ -0,0 +1,67 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-2.0+
-+# Copyright (c) 2019 Johannes Thumshirn
-+#
-+# Test resize of a namespace with file-backed ns
-+
-+. tests/nvme/rc
-+
-+DESCRIPTION="test resize of a namespace with file-backed ns"
-+QUICK=1
-+
-+requires() {
-+?????? _have_program nvme && _have_modules loop nvme-loop nvmet && \
-+?????????????? _have_configfs
-do we really need loop module here ?
-also missinghave_program blockdev ?
-+}
-+
-+test() {
-+?????? echo "Running ${TEST_NAME}"
-+
-+?????? modprobe nvmet
-+?????? modprobe nvme-loop
-+
-+?????? local port
-+?????? local nvmedev
-+?????? local namespace
-+?????? local file_path="$TMPDIR/img"
-+?????? local subsys_name="blktests-subsystem-1"
-+
-+?????? truncate -s 1G "${file_path}"
-+
-+?????? _create_nvmet_subsystem "${subsys_name}" "${file_path}" \
-+?????????????? "91fdba0d-f87b-4c25-b80f-db7be1418b9e"
-+?????? port="$(_create_nvmet_port "loop")"
-+?????? _add_nvmet_subsys_to_port "${port}" "${subsys_name}"
-+
-+?????? nvme connect -t loop -n "${subsys_name}"
-+
-+?????? nvmedev="$(_find_nvme_loop_dev)"
-+?????? namespace="${nvmedev}n1"
-+?????? cat "/sys/block/${namespace}/uuid"
-+?????? cat "/sys/block/${namespace}/wwid"
-+
-+?????? cat /proc/partitions | grep ${namespace} | awk '{ print $3 }'
-+?????? blockdev --getsz /dev/${namespace}
-+
-+?????? echo "Resizing"
-+?????? truncate -s +1G "${file_path}"
-+?????? printf 0 > ${NVMET_CFS}/subsystems/${subsys_name}/namespaces/1/enable
-+?????? printf 1 > ${NVMET_CFS}/subsystems/${subsys_name}/namespaces/1/enable
-+?????? sleep 1
-+
-+?????? cat /proc/partitions | grep ${namespace} | awk '{ print $3 }'
-+?????? blockdev --getsz /dev/${namespace}
-+
-+?????? nvme disconnect -n "${subsys_name}"
-+
-+?????? _remove_nvmet_subsystem_from_port "${port}" "${subsys_name}"
-+?????? _remove_nvmet_subsystem "${subsys_name}"
-+?????? _remove_nvmet_port "${port}"
-+
-+?????? rm -f "${file_path}"
-+
-+?????? modprobe -r nvme-loop
-+?????? modprobe -r nvmet
-+
-+?????? echo "Test complete"
-+}
-diff --git a/tests/nvme/029.out b/tests/nvme/029.out
-new file mode 100644
-index 000000000000..e9571c7c9300
---- /dev/null
-+++ b/tests/nvme/029.out
-@@ -0,0 +1,10 @@
-+Running nvme/029
-+91fdba0d-f87b-4c25-b80f-db7be1418b9e
-+uuid.91fdba0d-f87b-4c25-b80f-db7be1418b9e
-+1048576
-+2097152
-+Resizing
-+2097152
-+4194304
-+NQN:blktests-subsystem-1 disconnected 1 controller(s)
-+Test complete
--- 
-2.16.4
-
-    
+Huacai
+>
+> --
+> Jens Axboe
+>
