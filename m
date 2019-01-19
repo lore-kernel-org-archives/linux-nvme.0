@@ -1,14 +1,18 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Sat, 19 Jan 2019 05:34:10 -0800
-Subject: [PATCH v3] nvmet-rdma: fix null dereference under heavy load
-In-Reply-To: <20190103173531.7987-1-rajur@chelsio.com>
-References: <20190103173531.7987-1-rajur@chelsio.com>
-Message-ID: <20190119133410.GA6963@infradead.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Sat, 19 Jan 2019 14:36:01 +0100
+Subject: [PATCH v2] nvme-rdma: fix timeout handler
+In-Reply-To: <20190108085734.9681-1-sagi@grimberg.me>
+References: <20190108085734.9681-1-sagi@grimberg.me>
+Message-ID: <20190119133601.GA24763@lst.de>
 
-This looks ok to me:
+> +	if (ctrl->ctrl.state != NVME_CTRL_LIVE) {
+> +		/*
+> +		 * teardown immediately if controller times out while starting
+> +		 * or we are already started error recovery. all outstanding
+> +		 * requests are completed on shutdown, so we return BLK_EH_DONE.
+
+Nitpick: please start sentences with upper case letters.
+
+Otherwise this looks fine:
 
 Reviewed-by: Christoph Hellwig <hch at lst.de>
-
-In the long run I wonder if we should get rid of the ?tatic
-preallocation entirely and just use a free pool to avoid constant
-reallocations..
