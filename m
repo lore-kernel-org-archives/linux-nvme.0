@@ -1,43 +1,20 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Sun, 20 Jan 2019 08:38:59 -0800
-Subject: [PATCH] nvme-fc: use pci device as parent for nvme controller
-In-Reply-To: <20190117074241.40672-1-hare@suse.de>
-References: <20190117074241.40672-1-hare@suse.de>
-Message-ID: <4aa44211-8305-7474-9ff4-2f21e620ee21@broadcom.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 21 Jan 2019 01:10:42 -0800
+Subject: [PATCH v3] nvmet-rdma: fix null dereference under heavy load
+In-Reply-To: <20190119133410.GA6963@infradead.org>
+References: <20190103173531.7987-1-rajur@chelsio.com>
+ <20190119133410.GA6963@infradead.org>
+Message-ID: <ed249f9f-44f8-de1f-ba7e-1179317803d8@grimberg.me>
 
+> This looks ok to me:
+> 
+> Reviewed-by: Christoph Hellwig <hch at lst.de>
 
+Applied to nvme-5.0
 
-On 1/16/2019 11:42 PM, Hannes Reinecke wrote:
-> To allow system tools to figure out which pci device provides a
-> given NVMe controller this patch moves the nvme controller sysfs
-> entry as a child of the PCI device.
->
-> With this tools like dracut can traverse the device hierarchy to figure
-> out which modules to include.
->
-> Signed-off-by: Hannes Reinecke <hare at suse.com>
-> ---
->   drivers/nvme/host/fc.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> index feb86b59170e..1ecdec6b8b4a 100644
-> --- a/drivers/nvme/host/fc.c
-> +++ b/drivers/nvme/host/fc.c
-> @@ -3117,7 +3117,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
->   	 * Defer this to the connect path.
->   	 */
->   
-> -	ret = nvme_init_ctrl(&ctrl->ctrl, dev, &nvme_fc_ctrl_ops, 0);
-> +	ret = nvme_init_ctrl(&ctrl->ctrl, ctrl->dev, &nvme_fc_ctrl_ops, 0);
->   	if (ret)
->   		goto out_cleanup_admin_q;
->   
+> In the long run I wonder if we should get rid of the ?tatic
+> preallocation entirely and just use a free pool to avoid constant
+> reallocations..
 
-So how do you solve this with rdma and tcp ??? I'm not sure I like 
-deviating from them.? Did it pick up the fc-nvme and fabric modules too ?
-
-I think this is one more reason the FC transport needs to be pulled out 
-of scsi and layered under the pci device, then shared by scsi and nvme.
-
--- james
+you mean a kmem_cache? very possible, we can also make the command
+struct to contain the rsp behind it to avoid the extra allocation...
