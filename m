@@ -1,25 +1,18 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Mon, 21 Jan 2019 15:07:09 +0200
-Subject: [PATCH v3] nvmet-rdma: fix null dereference under heavy load
-In-Reply-To: <ed249f9f-44f8-de1f-ba7e-1179317803d8@grimberg.me>
-References: <20190103173531.7987-1-rajur@chelsio.com>
- <20190119133410.GA6963@infradead.org>
- <ed249f9f-44f8-de1f-ba7e-1179317803d8@grimberg.me>
-Message-ID: <fe7da170-9eea-360d-0ab7-84838b6debac@mellanox.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 21 Jan 2019 14:49:52 +0100
+Subject: [PATCHv2] nvme: handle static ANA groups correctly
+In-Reply-To: <01d7d14f-2ff8-737b-af4d-2a6444efc38d@grimberg.me>
+References: <20190117073854.40462-1-hare@suse.de>
+ <01d7d14f-2ff8-737b-af4d-2a6444efc38d@grimberg.me>
+Message-ID: <20190121134952.GA25858@lst.de>
 
+On Mon, Jan 21, 2019@01:15:13AM -0800, Sagi Grimberg wrote:
+> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+>
+> This seems like 5.1 material, anyone thinks this should
+> go into 5.0?
 
-On 1/21/2019 11:10 AM, Sagi Grimberg wrote:
->> This looks ok to me:
->>
->> Reviewed-by: Christoph Hellwig <hch at lst.de>
->
-> Applied to nvme-5.0
->
->> In the long run I wonder if we should get rid of the ?tatic
->> preallocation entirely and just use a free pool to avoid constant
->> reallocations..
->
-> you mean a kmem_cache? very possible, we can also make the command
-> struct to contain the rsp behind it to avoid the extra allocation...
-
-yes, the container idea sounds good..
+Well, we underallocate a buffer without for a certain controller
+feature set.  I think we should merge Hannes' initial patch after
+all which is a trivial two liner, and that seems spot on and safe
+for 5.0.
