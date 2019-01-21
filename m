@@ -1,25 +1,32 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 21 Jan 2019 14:50:25 +0100
-Subject: [PATCH] nvme-multipath: drop optimization for static ANA group IDs
-In-Reply-To: <e0416085-b02f-3578-c3aa-02296b040aef@grimberg.me>
-References: <20190109084515.82076-1-hare@suse.de>
- <20190119131956.GB24374@lst.de>
- <e0416085-b02f-3578-c3aa-02296b040aef@grimberg.me>
-Message-ID: <20190121135025.GB25858@lst.de>
+From: hare@suse.de (Hannes Reinecke)
+Date: Mon, 21 Jan 2019 14:57:31 +0100
+Subject: [PATCH] nvme-fc: use pci device as parent for nvme controller
+In-Reply-To: <20190119130810.GA24374@lst.de>
+References: <20190117074241.40672-1-hare@suse.de>
+ <20190119130810.GA24374@lst.de>
+Message-ID: <2dbe68ee-ae87-f23e-c3f3-fb6035cb21b2@suse.de>
 
-On Mon, Jan 21, 2019@01:23:39AM -0800, Sagi Grimberg wrote:
->
->> Ok, based on the version that actually keeps the optimization I
->> have to say I actually prefer this variant, given that it is a lot
->> less code and special cases.  Sorry for sending you off the wrong track.
+On 1/19/19 2:08 PM, Christoph Hellwig wrote:
+> On Thu, Jan 17, 2019@08:42:41AM +0100, Hannes Reinecke wrote:
+>> To allow system tools to figure out which pci device provides a
+>> given NVMe controller this patch moves the nvme controller sysfs
+>> entry as a child of the PCI device.
 >>
->> Reviewed-by: Christoph Hellwig <hch at lst.de>
->
-> Oh, so this ends up preferred over v2... I don't have any problem
-> with allocating for the worse case here...
->
-> Doesn't look like this is urgent for 5.0 rc, shall we queue it
-> for 5.1?
+>> With this tools like dracut can traverse the device hierarchy to figure
+>> out which modules to include.
+> 
+> Doesn't ->create_ctrl consumer the reference to the passed in device,
+> or in other words you create a leak on the fabrics device here?
+> 
+Hmm. Have to check.
 
-Without it we use unallocate memory if the controller sets bit 6
-in anacap.  So yes, I think it should go into 5.0 and -stable.
+Cheers,
+
+Hannes
+
+-- 
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+HRB 21284 (AG N?rnberg)
