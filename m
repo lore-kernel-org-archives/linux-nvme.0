@@ -1,32 +1,33 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 21 Jan 2019 14:57:31 +0100
-Subject: [PATCH] nvme-fc: use pci device as parent for nvme controller
-In-Reply-To: <20190119130810.GA24374@lst.de>
-References: <20190117074241.40672-1-hare@suse.de>
- <20190119130810.GA24374@lst.de>
-Message-ID: <2dbe68ee-ae87-f23e-c3f3-fb6035cb21b2@suse.de>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Mon, 21 Jan 2019 09:46:02 -0600
+Subject: [PATCH v3] nvmet-rdma: fix null dereference under heavy load
+In-Reply-To: <ed249f9f-44f8-de1f-ba7e-1179317803d8@grimberg.me>
+References: <20190103173531.7987-1-rajur@chelsio.com>
+ <20190119133410.GA6963@infradead.org>
+ <ed249f9f-44f8-de1f-ba7e-1179317803d8@grimberg.me>
+Message-ID: <b44f3efa-8a62-8a54-dfd9-ac36975e3f0f@opengridcomputing.com>
 
-On 1/19/19 2:08 PM, Christoph Hellwig wrote:
-> On Thu, Jan 17, 2019@08:42:41AM +0100, Hannes Reinecke wrote:
->> To allow system tools to figure out which pci device provides a
->> given NVMe controller this patch moves the nvme controller sysfs
->> entry as a child of the PCI device.
+
+On 1/21/2019 3:10 AM, Sagi Grimberg wrote:
+>> This looks ok to me:
 >>
->> With this tools like dracut can traverse the device hierarchy to figure
->> out which modules to include.
-> 
-> Doesn't ->create_ctrl consumer the reference to the passed in device,
-> or in other words you create a leak on the fabrics device here?
-> 
-Hmm. Have to check.
+>> Reviewed-by: Christoph Hellwig <hch at lst.de>
+>
+> Applied to nvme-5.0
+>
+>> In the long run I wonder if we should get rid of the ?tatic
+>> preallocation entirely and just use a free pool to avoid constant
+>> reallocations..
+>
+> you mean a kmem_cache? very possible, we can also make the command
+> struct to contain the rsp behind it to avoid the extra allocation...
 
-Cheers,
 
-Hannes
+Hey guys,
 
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+If every command struct requires a rsp, then it seems simpler to contain
+it in the command struct.
+
+My 2 cents...
+
+Steve.
