@@ -1,109 +1,99 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Fri, 25 Jan 2019 17:53:43 +0800
-Subject: [PATCH 1/5] genirq/affinity: move allocation of 'node_to_cpumask' to
- irq_build_affinity_masks
+Date: Fri, 25 Jan 2019 17:53:44 +0800
+Subject: [PATCH 2/5] genirq/affinity: allow driver to setup managed IRQ's
+ affinity
 In-Reply-To: <20190125095347.17950-1-ming.lei@redhat.com>
 References: <20190125095347.17950-1-ming.lei@redhat.com>
-Message-ID: <20190125095347.17950-2-ming.lei@redhat.com>
+Message-ID: <20190125095347.17950-3-ming.lei@redhat.com>
 
-'node_to_cpumask' is just one temparay variable for irq_build_affinity_masks(),
-so move it into irq_build_affinity_masks().
+This patch introduces callback of .setup_affinity into 'struct
+irq_affinity', so that:
 
-No functioanl change.
+1) allow drivers to customize the affinity for managed IRQ, for
+example, now NVMe has special requirement for read queues & poll
+queues
+
+2) 6da4b3ab9a6e9 ("genirq/affinity: Add support for allocating interrupt sets")
+makes pci_alloc_irq_vectors_affinity() a bit difficult to use for
+allocating interrupt sets: 'max_vecs' is required to same with 'min_vecs'.
+
+With this patch, driver can implement their own .setup_affinity to
+customize the affinity, then the above thing can be solved easily.
 
 Signed-off-by: Ming Lei <ming.lei at redhat.com>
 ---
- kernel/irq/affinity.c | 27 +++++++++++++--------------
- 1 file changed, 13 insertions(+), 14 deletions(-)
+ include/linux/interrupt.h | 26 +++++++++++++++++---------
+ kernel/irq/affinity.c     |  6 ++++++
+ 2 files changed, 23 insertions(+), 9 deletions(-)
 
+diff --git a/include/linux/interrupt.h b/include/linux/interrupt.h
+index c672f34235e7..f6cea778cf50 100644
+--- a/include/linux/interrupt.h
++++ b/include/linux/interrupt.h
+@@ -242,30 +242,38 @@ struct irq_affinity_notify {
+ };
+ 
+ /**
++ * struct irq_affinity_desc - Interrupt affinity descriptor
++ * @mask:	cpumask to hold the affinity assignment
++ */
++struct irq_affinity_desc {
++	struct cpumask	mask;
++	unsigned int	is_managed : 1;
++};
++
++/**
+  * struct irq_affinity - Description for automatic irq affinity assignements
+  * @pre_vectors:	Don't apply affinity to @pre_vectors at beginning of
+  *			the MSI(-X) vector space
+  * @post_vectors:	Don't apply affinity to @post_vectors at end of
+  *			the MSI(-X) vector space
++ * @setup_affinity:	Use driver's method to setup irq vectors affinity,
++ * 			and driver has to handle pre_vectors & post_vectors
++ * 			correctly, set 'is_managed' flag correct too
++ * @priv:		Private data of @setup_affinity
+  * @nr_sets:		Length of passed in *sets array
+  * @sets:		Number of affinitized sets
+  */
+ struct irq_affinity {
+ 	int	pre_vectors;
+ 	int	post_vectors;
++	int	(*setup_affinity)(const struct irq_affinity *,
++				  struct irq_affinity_desc *,
++				  unsigned int);
++	void    *priv;
+ 	int	nr_sets;
+ 	int	*sets;
+ };
+ 
+-/**
+- * struct irq_affinity_desc - Interrupt affinity descriptor
+- * @mask:	cpumask to hold the affinity assignment
+- */
+-struct irq_affinity_desc {
+-	struct cpumask	mask;
+-	unsigned int	is_managed : 1;
+-};
+-
+ #if defined(CONFIG_SMP)
+ 
+ extern cpumask_var_t irq_default_affinity;
 diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
-index 45b68b4ea48b..118b66d64a53 100644
+index 118b66d64a53..7b77cbdf739c 100644
 --- a/kernel/irq/affinity.c
 +++ b/kernel/irq/affinity.c
-@@ -175,18 +175,22 @@ static int __irq_build_affinity_masks(const struct irq_affinity *affd,
-  */
- static int irq_build_affinity_masks(const struct irq_affinity *affd,
- 				    int startvec, int numvecs, int firstvec,
--				    cpumask_var_t *node_to_cpumask,
- 				    struct irq_affinity_desc *masks)
- {
- 	int curvec = startvec, nr_present, nr_others;
- 	int ret = -ENOMEM;
- 	cpumask_var_t nmsk, npresmsk;
-+	cpumask_var_t *node_to_cpumask;
- 
- 	if (!zalloc_cpumask_var(&nmsk, GFP_KERNEL))
- 		return ret;
- 
- 	if (!zalloc_cpumask_var(&npresmsk, GFP_KERNEL))
--		goto fail;
-+		goto fail_nmsk;
-+
-+	node_to_cpumask = alloc_node_to_cpumask();
-+	if (!node_to_cpumask)
-+		goto fail_npresmsk;
- 
- 	ret = 0;
- 	/* Stabilize the cpumasks */
-@@ -217,9 +221,12 @@ static int irq_build_affinity_masks(const struct irq_affinity *affd,
- 	if (nr_present < numvecs)
- 		WARN_ON(nr_present + nr_others < numvecs);
- 
-+	free_node_to_cpumask(node_to_cpumask);
-+
-+ fail_npresmsk:
- 	free_cpumask_var(npresmsk);
- 
-- fail:
-+ fail_nmsk:
- 	free_cpumask_var(nmsk);
- 	return ret;
- }
-@@ -236,7 +243,6 @@ irq_create_affinity_masks(int nvecs, const struct irq_affinity *affd)
- {
- 	int affvecs = nvecs - affd->pre_vectors - affd->post_vectors;
- 	int curvec, usedvecs;
--	cpumask_var_t *node_to_cpumask;
- 	struct irq_affinity_desc *masks = NULL;
- 	int i, nr_sets;
- 
-@@ -247,13 +253,9 @@ irq_create_affinity_masks(int nvecs, const struct irq_affinity *affd)
- 	if (nvecs == affd->pre_vectors + affd->post_vectors)
+@@ -257,6 +257,12 @@ irq_create_affinity_masks(int nvecs, const struct irq_affinity *affd)
+ 	if (!masks)
  		return NULL;
  
--	node_to_cpumask = alloc_node_to_cpumask();
--	if (!node_to_cpumask)
--		return NULL;
--
- 	masks = kcalloc(nvecs, sizeof(*masks), GFP_KERNEL);
- 	if (!masks)
--		goto outnodemsk;
-+		return NULL;
- 
++	if (affd->setup_affinity) {
++		if (affd->setup_affinity(affd, masks, nvecs))
++			return NULL;
++		return masks;
++	}
++
  	/* Fill out vectors at the beginning that don't need affinity */
  	for (curvec = 0; curvec < affd->pre_vectors; curvec++)
-@@ -271,11 +273,10 @@ irq_create_affinity_masks(int nvecs, const struct irq_affinity *affd)
- 		int ret;
- 
- 		ret = irq_build_affinity_masks(affd, curvec, this_vecs,
--						curvec, node_to_cpumask, masks);
-+						curvec, masks);
- 		if (ret) {
- 			kfree(masks);
--			masks = NULL;
--			goto outnodemsk;
-+			return NULL;
- 		}
- 		curvec += this_vecs;
- 		usedvecs += this_vecs;
-@@ -293,8 +294,6 @@ irq_create_affinity_masks(int nvecs, const struct irq_affinity *affd)
- 	for (i = affd->pre_vectors; i < nvecs - affd->post_vectors; i++)
- 		masks[i].is_managed = 1;
- 
--outnodemsk:
--	free_node_to_cpumask(node_to_cpumask);
- 	return masks;
- }
- 
+ 		cpumask_copy(&masks[curvec].mask, irq_default_affinity);
 -- 
 2.9.5
