@@ -1,41 +1,53 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Fri, 25 Jan 2019 17:56:19 +0800
-Subject: [PATCH 0/5] genirq/affinity: introduce .setup_affinity to
- support allocating interrupt sets
-In-Reply-To: <20190125095347.17950-1-ming.lei@redhat.com>
-References: <20190125095347.17950-1-ming.lei@redhat.com>
-Message-ID: <20190125095617.GA17754@ming.t460p>
+From: martinus.gpy@gmail.com (martinus.gpy@gmail.com)
+Date: Fri, 25 Jan 2019 16:42:36 +0530
+Subject: [PATCH] nvme-multipath: relax ANA state check
+Message-ID: <20190125111236.5389-1-marting@netapp.com>
 
-On Fri, Jan 25, 2019@05:53:42PM +0800, Ming Lei wrote:
-> Hi,
-> 
-> The current support for allocating interrupt sets requires that same 'max_vec'
-> and 'min_vec' is passed to pci_alloc_irq_vectors_affinity(), then driver has to
-> try to allocate again and again until it succeeds.
-> 
-> This patch introduces .setup_affinity callback, and we can use it to
-> re-caculate interrupt sets and build affinity for each set after
-> irq vectors are allocated.
-> 
-> Turns out both genirq/affinity and nvme code get simplified a lot.
-> 
-> Please review and comment!
-> 
-> Ming Lei (5):
->   genirq/affinity: move allocation of 'node_to_cpumask' to
->     irq_build_affinity_masks
->   genirq/affinity: allow driver to setup managed IRQ's affinity
->   genirq/affinity: introduce irq_build_affinity()
->   nvme-pci: simplify nvme_setup_irqs() via .setup_affinity callback
->   genirq/affinity: remove support for allocating interrupt sets
-> 
->  drivers/nvme/host/pci.c   |  97 +++++++++++++++++++++--------------------
->  drivers/pci/msi.c         |  14 ------
->  include/linux/interrupt.h |  42 ++++++++++++------
->  kernel/irq/affinity.c     | 108 ++++++++++++++++++++++++----------------------
->  4 files changed, 133 insertions(+), 128 deletions(-)
+From: Martin George <marting@netapp.com>
 
-oops, forget to CC Keith.
+The current nvme multipath code prevents access to a namespace
+through a controller that has transitioned from ANA Optimized
+to Non-Optimized and vice versa. As per the NVMe 1.3 TP4004
+spec, "The change from one asymmetric namespace access state
+to another asymmetric namespace access state is called a
+transition". The emphasis here is on the change itself,
+whatever the change may be. So a change from ANA Optimized to
+Non-Optimized and vice versa, are actually valid transition
+scenarios. In fact, if one were to exit and reenter the same
+state, that too is a change i.e. a change to the same state
+is also a valid transition scenario.
 
-Thanks,
-Ming
+So remove the "old" state check during ANA state update, so
+that transition from ANA Optimized to Non-Optimized and vice
+versa, along with transition to the same state, are all
+permitted.
+
+Signed-off-by: Martin George <marting at netapp.com>
+Signed-off-by: Gargi Srinivas <sring at netapp.com>
+---
+ drivers/nvme/host/multipath.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index b9fff3b8ed1b..23da7beadd62 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -366,15 +366,12 @@ static inline bool nvme_state_is_live(enum nvme_ana_state state)
+ static void nvme_update_ns_ana_state(struct nvme_ana_group_desc *desc,
+ 		struct nvme_ns *ns)
+ {
+-	enum nvme_ana_state old;
+-
+ 	mutex_lock(&ns->head->lock);
+-	old = ns->ana_state;
+ 	ns->ana_grpid = le32_to_cpu(desc->grpid);
+ 	ns->ana_state = desc->state;
+ 	clear_bit(NVME_NS_ANA_PENDING, &ns->flags);
+ 
+-	if (nvme_state_is_live(ns->ana_state) && !nvme_state_is_live(old))
++	if (nvme_state_is_live(ns->ana_state))
+ 		nvme_mpath_set_live(ns);
+ 	mutex_unlock(&ns->head->lock);
+ }
+-- 
+2.17.1
