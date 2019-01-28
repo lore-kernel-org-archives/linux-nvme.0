@@ -1,43 +1,68 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 28 Jan 2019 08:36:07 -0700
-Subject: [PATCH] nvme: Block ns inventory changes during admin
-In-Reply-To: <BYAPR04MB45021C05936FF7EF982D579686940@BYAPR04MB4502.namprd04.prod.outlook.com>
-References: <20190125194819.11476-1-keith.busch@intel.com>
- <OF5147C249.BC64CC03-ON0025838D.007F28EE-8625838D.007F6785@notes.na.collabserv.com>
- <20190125233742.GA11722@localhost.localdomain>
- <BYAPR04MB45021C05936FF7EF982D579686940@BYAPR04MB4502.namprd04.prod.outlook.com>
-Message-ID: <20190128153607.GB15271@localhost.localdomain>
+From: sashal@kernel.org (Sasha Levin)
+Date: Mon, 28 Jan 2019 10:41:24 -0500
+Subject: [PATCH AUTOSEL 4.20 167/304] lightnvm: Fix uninitialized return value
+ in nvm_get_chunk_meta()
+In-Reply-To: <20190128154341.47195-1-sashal@kernel.org>
+References: <20190128154341.47195-1-sashal@kernel.org>
+Message-ID: <20190128154341.47195-167-sashal@kernel.org>
 
-On Sat, Jan 26, 2019@09:55:52AM -0800, Chaitanya Kulkarni wrote:
-> Looks good to me. Just thinking out loud we can only unfreeze the namespace if
-> that is frozen in nvme_unfreeze(ctrl)? We can mark it freeze in the
-> nvme_wait_freeze(). 
+From: Geert Uytterhoeven <geert@linux-m68k.org>
 
-Adding a freeze state to namespaces may work too if there are no callers
-making use of a layer freeze depth.
+[ Upstream commit 55e58c5e78aad9d3246f57e7718cf5ee7adde9e3 ]
+
+With gcc 4.1:
+
+    drivers/lightnvm/core.c: In function ?nvm_get_bb_meta?:
+    drivers/lightnvm/core.c:977: warning: ?ret? may be used uninitialized in this function
+
+and
+
+    drivers/nvme/host/lightnvm.c: In function ?nvme_nvm_get_chk_meta?:
+    drivers/nvme/host/lightnvm.c:580: warning: ?ret? may be used uninitialized in this function
+
+Indeed, if (for the former) the number of channels or LUNs is zero, or
+(for both) the passed number of chunks is zero, ret will be returned
+uninitialized.
+
+Fix this by preinitializing ret to zero.
+
+Fixes: aff3fb18f957de93 ("lightnvm: move bad block and chunk state logic to core")
+Fixes: a294c199455187d1 ("lightnvm: implement get log report chunk helpers")
+Signed-off-by: Geert Uytterhoeven <geert at linux-m68k.org>
+Signed-off-by: Matias Bj?rling <mb at lightnvm.io>
+Signed-off-by: Jens Axboe <axboe at kernel.dk>
+Signed-off-by: Sasha Levin <sashal at kernel.org>
+---
+ drivers/lightnvm/core.c      | 2 +-
+ drivers/nvme/host/lightnvm.c | 3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/lightnvm/core.c b/drivers/lightnvm/core.c
+index efb976a863d2..73ab3cf26868 100644
+--- a/drivers/lightnvm/core.c
++++ b/drivers/lightnvm/core.c
+@@ -974,7 +974,7 @@ static int nvm_get_bb_meta(struct nvm_dev *dev, sector_t slba,
+ 	struct ppa_addr ppa;
+ 	u8 *blks;
+ 	int ch, lun, nr_blks;
+-	int ret;
++	int ret = 0;
  
-> Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-> 
-> ???????????????????????????????????????????????????????????????????????????????
-> From: Linux-nvme <linux-nvme-bounces at lists.infradead.org> on behalf of Keith
-> Busch <keith.busch at intel.com>
-> Sent: Friday, January 25, 2019 3:37:43 PM
-> To: Wen Xiong
-> Cc: Christoph Hellwig; linux-nvme at lists.infradead.org; Sagi Grimberg
-> Subject: Re: [PATCH] nvme: Block ns inventory changes during admin
->  
-> [replying in plain-text for mailing list posterity]
-> On Fri, Jan 25, 2019@05:11:35PM -0600, Wen Xiong wrote:
-> > Hi Keith,
-> >
-> > I have tested the patch and fixed the two hung issues on our system.
-> >
-> > >>Reported-by: Wen Xiong <wenxiong at us.ibm.com>
-> > >>Signed-off-by: Keith Busch <keith.busch at intel.com>
-> >
-> > Tested-by: Wen Xiong<wenxiong at us.ibm.com>
-> >
-> > Thanks,
-> > Wendy
-> 
-> Thank you for confirming this fixes your issue.
+ 	ppa.ppa = slba;
+ 	ppa = dev_to_generic_addr(dev, ppa);
+diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
+index a4f3b263cd6c..d64805dc8efb 100644
+--- a/drivers/nvme/host/lightnvm.c
++++ b/drivers/nvme/host/lightnvm.c
+@@ -577,7 +577,8 @@ static int nvme_nvm_get_chk_meta(struct nvm_dev *ndev,
+ 	struct ppa_addr ppa;
+ 	size_t left = nchks * sizeof(struct nvme_nvm_chk_meta);
+ 	size_t log_pos, offset, len;
+-	int ret, i, max_len;
++	int i, max_len;
++	int ret = 0;
+ 
+ 	/*
+ 	 * limit requests to maximum 256K to avoid issuing arbitrary large
+-- 
+2.19.1
