@@ -1,42 +1,58 @@
-From: martinus.gpy@gmail.com (martinus.gpy@gmail.com)
-Date: Mon, 28 Jan 2019 19:54:46 +0530
-Subject: [PATCH] nvme-multipath: relax ANA state check
-Message-ID: <20190128142446.6732-1-marting@netapp.com>
+From: bvanassche@acm.org (Bart Van Assche)
+Date: Mon, 28 Jan 2019 07:07:48 -0800
+Subject: [LSF/MM TOPIC] Zoned Block Devices
+In-Reply-To: <714fc666-c562-83c2-c1a3-19f1dd47d1d9@wdc.com>
+References: <714fc666-c562-83c2-c1a3-19f1dd47d1d9@wdc.com>
+Message-ID: <4adb1038-246a-530a-5265-1d16d0cd5014@acm.org>
 
-From: Martin George <marting@netapp.com>
+On 1/28/19 4:56 AM, Matias Bjorling wrote:
+> Damien and I would like to propose a couple of topics centering around
+> zoned block devices:
+> 
+> 1) Zoned block devices require that writes to a zone are sequential. If
+> the writes are dispatched to the device out of order, the drive rejects
+> the write with a write failure.
+> 
+> So far it has been the responsibility the deadline I/O scheduler to
+> serialize writes to zones to avoid intra-zone write command reordering.
+> This I/O scheduler based approach has worked so far for HDDs, but we can
+> do better for multi-queue devices. NVMe has support for multiple queues,
+> and one could dedicate a single queue to writes alone. Furthermore, the
+> queue is processed in-order, enabling the host to serialize writes on
+> the queue, instead of issuing them one by one. We like to gather
+> feedback on this approach (new HCTX_TYPE_WRITE).
+> 
+> 2) Adoption of Zone Append in file-systems and user-space applications.
+> 
+> A Zone Append command, together with Zoned Namespaces, is being defined
+> in the NVMe workgroup. The new command allows one to automatically
+> direct writes to a zone write pointer position, similarly to writing to
+> a file open with O_APPEND. With this write append command, the drive
+> returns where data was written in the zone. Providing two benefits:
+> 
+> (A) It moves the fine-grained logical block allocation in file-systems
+> to the device side. A file-system continues to do coarse-grained logical
+> block allocation, but the specific LBAs where data is written and
+> reported from the device. Thus improving file-system performance. The
+> current target is XFS but we would like to hear the feasibility of it
+> being used in other file-systems.
+> 
+> (B) It lets host issue multiple outstanding write I/Os to a zone,
+> without having to maintain I/O order. Thus, improving the performance of
+> the drive, but also reducing the need for zone locking on the host side.
+> 
+> Is there other use-cases for this, and will an interface like this be
+> valuable in the kernel? If the interface is successful, we would expect
+> the interface to move to ATA/SCSI for standardization as well.
 
-Always call nvme_mpath_set_live() when transitioning to a live
-state, where live is defined as ANA Optimized or Non-Optimized,
-irrespective of what the previous asymmetric access state was.
-This removes the restriction of only permitting transitions
-from states that were not considered live.
+Hi Matias,
 
-Signed-off-by: Martin George <marting at netapp.com>
-Signed-off-by: Gargi Srinivas <sring at netapp.com>
----
- drivers/nvme/host/multipath.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+This topic proposal sounds interesting to me, but I think it is 
+incomplete. Shouldn't it also be discussed how user space applications 
+are expected to submit "zone append" writes? Which system call should 
+e.g. fio use to submit this new type of write request? How will the 
+offset at which data has been written be communicated back to user space?
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index b9fff3b8ed1b..23da7beadd62 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -366,15 +366,12 @@ static inline bool nvme_state_is_live(enum nvme_ana_state state)
- static void nvme_update_ns_ana_state(struct nvme_ana_group_desc *desc,
- 		struct nvme_ns *ns)
- {
--	enum nvme_ana_state old;
--
- 	mutex_lock(&ns->head->lock);
--	old = ns->ana_state;
- 	ns->ana_grpid = le32_to_cpu(desc->grpid);
- 	ns->ana_state = desc->state;
- 	clear_bit(NVME_NS_ANA_PENDING, &ns->flags);
- 
--	if (nvme_state_is_live(ns->ana_state) && !nvme_state_is_live(old))
-+	if (nvme_state_is_live(ns->ana_state))
- 		nvme_mpath_set_live(ns);
- 	mutex_unlock(&ns->head->lock);
- }
--- 
-2.17.1
+Thanks,
+
+Bart.
