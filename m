@@ -1,192 +1,178 @@
 From: Dong.Ho@wdc.com (Dong Ho)
-Date: Mon, 28 Jan 2019 23:32:37 +0000
-Subject: [PATCH 1/4] wdc: Add device unit info log extraction
-Message-ID: <1548718347-29874-1-git-send-email-dong.ho@wdc.com>
+Date: Mon, 28 Jan 2019 23:32:39 +0000
+Subject: [PATCH 4/4] wdc: Add drive resize command
+In-Reply-To: <1548718347-29874-1-git-send-email-dong.ho@wdc.com>
+References: <1548718347-29874-1-git-send-email-dong.ho@wdc.com>
+Message-ID: <1548718347-29874-4-git-send-email-dong.ho@wdc.com>
 
 ---
- plugins/wdc/wdc-nvme.c | 127 ++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 125 insertions(+), 2 deletions(-)
+ Documentation/nvme-wdc-drive-resize.txt | 42 +++++++++++++++++++++
+ plugins/wdc/wdc-nvme.c                  | 66 ++++++++++++++++++++++++++++++++-
+ plugins/wdc/wdc-nvme.h                  |  1 +
+ 3 files changed, 108 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/nvme-wdc-drive-resize.txt
 
+diff --git a/Documentation/nvme-wdc-drive-resize.txt b/Documentation/nvme-wdc-drive-resize.txt
+new file mode 100644
+index 0000000..4be0cb2
+--- /dev/null
++++ b/Documentation/nvme-wdc-drive-resize.txt
+@@ -0,0 +1,42 @@
++nvme-wdc-drive-resize(1)
++========================
++
++NAME
++----
++nvme-wdc-drive-resize - Send NVMe WDC Resize Vendor Unique Command,
++return result.
++
++SYNOPSIS
++--------
++[verse]
++'nvme wdc drive-resize' <device> [--size=<sz> | -s <sz>]
++
++DESCRIPTION
++-----------
++For the NVMe device given, sends a Vendor Unique WDC Resize command.
++
++The <device> parameter is mandatory and may be either the NVMe character
++device (ex: /dev/nvme0), or a namespace block device (ex: /dev/nvme0n1).
++
++This will only work on WDC devices supporting this feature.
++Results for any other device are undefined.
++
++On success it returns 0, error code otherwise.
++
++OPTIONS
++-------
++-s <sz>::
++--size=<sz>::
++	The new size (in GB) to resize the drive to.
++
++EXAMPLES
++--------
++* Has the program issue WDC Resize Vendor Unique Command :
+++
++------------
++# nvme wdc drive-resize /dev/nvme0n1 --size=100
++------------
++
++NVME
++----
++Part of the nvme-user suite.
 diff --git a/plugins/wdc/wdc-nvme.c b/plugins/wdc/wdc-nvme.c
-index 88c5c76..c9744a7 100644
+index e678028..3aeb28b 100644
 --- a/plugins/wdc/wdc-nvme.c
 +++ b/plugins/wdc/wdc-nvme.c
-@@ -107,6 +107,10 @@
- #define WDC_NVME_CRASH_DUMP_TYPE		1
- #define WDC_NVME_PFAIL_DUMP_TYPE		2
+@@ -80,6 +80,7 @@
+ #define WDC_DRIVE_CAP_DRIVE_STATUS			0x0000000000000020
+ #define WDC_DRIVE_CAP_CLEAR_ASSERT			0x0000000000000040
+ #define WDC_DRIVE_CAP_CLEAR_PCIE			0x0000000000000080
++#define WDC_DRIVE_CAP_RESIZE			0x0000000000000100
  
-+/* Capture Device Unit Info */
-+#define WDC_NVME_CAP_DUI_HEADER_SIZE  		0x400
-+#define WDC_NVME_CAP_DUI_OPCODE      		0xFA
-+
- /* Crash dump */
- #define WDC_NVME_CRASH_DUMP_SIZE_OPCODE		WDC_NVME_CAP_DIAG_CMD_OPCODE
- #define WDC_NVME_CRASH_DUMP_SIZE_DATA_LEN	WDC_NVME_LOG_SIZE_DATA_LEN
-@@ -384,6 +388,15 @@ struct wdc_e6_log_hdr {
- 	__u8	log_size[4];
- };
+ #define WDC_DRIVE_CAP_DRIVE_ESSENTIALS			0x0000000100000000
+ #define WDC_DRIVE_CAP_DUI_DATA				0x0000000200000000
+@@ -101,6 +102,11 @@
+ #define SN730_GET_EXTEND_LOG_SUBOPCODE			0x00040009
+ #define SN730_LOG_CHUNK_SIZE				0x1000
  
-+/* DUI log header */
-+struct wdc_dui_log_hdr {
-+	__u8    telemetry_hdr[512];
-+	__le16	hdr_version;
-+	__le16	section_count;
-+	__u8	log_size[4];
-+	__u8    log_data[504];
-+};
++/* Drive Resize */
++#define WDC_NVME_DRIVE_RESIZE_OPCODE		0xCC
++#define WDC_NVME_DRIVE_RESIZE_CMD		0x03
++#define WDC_NVME_DRIVE_RESIZE_SUBCMD		0x01
 +
- /* Purge monitor response */
- struct wdc_nvme_purge_monitor_data {
- 	__le16 	rsvd1;
-@@ -863,6 +876,28 @@ static __u32 wdc_dump_length_e6(int fd, __u32 opcode, __u32 cdw10, __u32 cdw12,
- 	return ret;
+ /* Capture Diagnostics */
+ #define WDC_NVME_CAP_DIAG_HEADER_TOC_SIZE	WDC_NVME_LOG_SIZE_DATA_LEN
+ #define WDC_NVME_CAP_DIAG_OPCODE			0xE6
+@@ -413,6 +419,9 @@ static int wdc_drive_status(int argc, char **argv, struct command *command,
+ 		struct plugin *plugin);
+ static int wdc_clear_assert_dump(int argc, char **argv, struct command *command,
+ 		struct plugin *plugin);
++static int wdc_drive_resize(int argc, char **argv,
++		struct command *command, struct plugin *plugin);
++static int wdc_do_drive_resize(int fd, uint64_t new_size);
+ 
+ /* Drive log data size */
+ struct wdc_log_size {
+@@ -701,7 +710,8 @@ static __u64 wdc_get_drive_capabilities(int fd) {
+ 		/* FALLTHRU */
+ 		case WDC_NVME_SN840_DEV_ID:
+ 			capabilities = (WDC_DRIVE_CAP_CAP_DIAG | WDC_DRIVE_CAP_INTERNAL_LOG |
+-					WDC_DRIVE_CAP_DRIVE_STATUS | WDC_DRIVE_CAP_CLEAR_ASSERT);
++					WDC_DRIVE_CAP_DRIVE_STATUS | WDC_DRIVE_CAP_CLEAR_ASSERT |
++					WDC_DRIVE_CAP_RESIZE);
+ 
+ 			/* verify the 0xCA log page is supported */
+ 			if (wdc_nvme_check_supported_log_page(fd, WDC_NVME_GET_DEVICE_INFO_LOG_OPCODE) == true)
+@@ -3520,3 +3530,57 @@ static int wdc_drive_essentials(int argc, char **argv, struct command *command,
+ 
+ 	return wdc_do_drive_essentials(fd, d_ptr, k);
  }
- 
-+static __u32 wdc_dump_dui_data(int fd, __u32 dataLen, __u32 offset, __u8 *dump_data)
++
++static int wdc_do_drive_resize(int fd, uint64_t new_size)
 +{
 +	int ret;
 +	struct nvme_admin_cmd admin_cmd;
 +
 +	memset(&admin_cmd, 0, sizeof (struct nvme_admin_cmd));
-+	admin_cmd.opcode = WDC_NVME_CAP_DUI_OPCODE;
-+	admin_cmd.nsid = 0xFFFFFFFF;
-+	admin_cmd.addr = (__u64)(uintptr_t)dump_data;
-+	admin_cmd.data_len = dataLen;
-+	admin_cmd.cdw10 = ((dataLen >> 2) - 1);
-+	admin_cmd.cdw12 = offset;
++	admin_cmd.opcode = WDC_NVME_DRIVE_RESIZE_OPCODE;
++	admin_cmd.cdw12 = ((WDC_NVME_DRIVE_RESIZE_SUBCMD << WDC_NVME_SUBCMD_SHIFT) |
++			    WDC_NVME_DRIVE_RESIZE_CMD);
++	admin_cmd.cdw13 = new_size;
 +
 +	ret = nvme_submit_passthru(fd, NVME_IOCTL_ADMIN_CMD, &admin_cmd);
-+	if (ret != 0) {
-+		fprintf(stderr, "ERROR : WDC : reading DUI length failed\n");
-+		fprintf(stderr, "NVMe Status:%s(%x)\n", nvme_status_to_string(ret), ret);
-+	}
-+
 +	return ret;
 +}
 +
- static int wdc_do_dump(int fd, __u32 opcode,__u32 data_len,
- 		__u32 cdw12, char *file, __u32 xfer_size)
- {
-@@ -1030,6 +1065,90 @@ static int wdc_do_cap_diag(int fd, char *file, __u32 xfer_size)
- 	return ret;
- }
- 
-+static int wdc_do_cap_dui(int fd, char *file, __u32 xfer_size)
++static int wdc_drive_resize(int argc, char **argv,
++		struct command *command, struct plugin *plugin)
 +{
-+	int ret = 0;
-+	__u32 dui_log_hdr_size = WDC_NVME_CAP_DUI_HEADER_SIZE;
-+	struct wdc_dui_log_hdr *log_hdr;
-+	__u32 cap_dui_length;
-+	__u8 *dump_data;
-+	__u64 buffer_addr;
-+	__u32 curr_data_offset;
-+	__s32 log_size;
-+	int i;
++	const char *desc = "Send a Resize command.";
++	const char *size = "The new size (in GB) to resize the drive to.";
++	int fd;
++	int ret;
++	uint64_t capabilities = 0;
 +
-+	log_hdr = (struct wdc_dui_log_hdr *) malloc(dui_log_hdr_size);
-+	if (log_hdr == NULL) {
-+		fprintf(stderr, "%s: ERROR : malloc : %s\n", __func__, strerror(errno));
-+		return -1;
-+	}
-+	memset(log_hdr, 0, dui_log_hdr_size);
++	struct config {
++		uint64_t size;
++	};
 +
-+	/* get the dui telemetry and log headers  */
-+	ret = wdc_dump_dui_data(fd,
-+						WDC_NVME_CAP_DUI_HEADER_SIZE,
-+						0x00,
-+						(__u8 *)log_hdr);
-+	if (ret != 0) {
-+		free(log_hdr);
-+		fprintf(stderr, "%s: ERROR : WDC : Get DUI headers failed\n", __func__);
-+		fprintf(stderr, "%s: ERROR : WDC : NVMe Status:%s(%x)\n", __func__, nvme_status_to_string(ret), ret);
++	struct config cfg = {
++		.size = 0,
++	};
++	const struct argconfig_commandline_options command_line_options[] = {
++		{"size", 's', "NUM", CFG_POSITIVE, &cfg.size, required_argument, size},
++		{ NULL, '\0', NULL, CFG_NONE, NULL, no_argument, desc },
++	};
 +
-+		return ret;
-+	}
++	fd = parse_and_open(argc, argv, desc, command_line_options, NULL, 0);
++	if (fd < 0)
++		return fd;
 +
-+	cap_dui_length = (log_hdr->log_size[3] << 24 | log_hdr->log_size[2] << 16 |
-+			log_hdr->log_size[1] << 8 | log_hdr->log_size[0]);
-+
-+	if (cap_dui_length == 0) {
-+		fprintf(stderr, "INFO : WDC : Capture Device Unit Info log is empty\n");
++	wdc_check_device(fd);
++	capabilities = wdc_get_drive_capabilities(fd);
++	if ((capabilities & WDC_DRIVE_CAP_RESIZE) == WDC_DRIVE_CAP_RESIZE) {
++		ret = wdc_do_drive_resize(fd, cfg.size);
 +	} else {
-+		if (xfer_size == 0)
-+			xfer_size = cap_dui_length;
-+
-+		dump_data = (__u8 *) malloc(sizeof (__u8) * cap_dui_length);
-+
-+		if (dump_data == NULL) {
-+			fprintf(stderr, "%s: ERROR : malloc : %s\n", __func__, strerror(errno));
-+			return -1;
-+		}
-+		memset(dump_data, 0, sizeof (__u8) * cap_dui_length);
-+
-+		/* copy the telemetry and log headers into the dump_data buffer */
-+		memcpy(dump_data, log_hdr, WDC_NVME_CAP_DUI_HEADER_SIZE);
-+
-+		curr_data_offset = WDC_NVME_CAP_DUI_HEADER_SIZE;
-+		i = 0;
-+
-+		log_size = (cap_dui_length - WDC_NVME_CAP_DUI_HEADER_SIZE);
-+		for(; log_size > 0; log_size -= xfer_size) {
-+			xfer_size = min(xfer_size, log_size);
-+
-+			buffer_addr = (__u64)(uintptr_t)dump_data + (__u64)curr_data_offset;
-+			ret = wdc_dump_dui_data(fd, xfer_size, curr_data_offset, (__u8 *)buffer_addr);
-+			if (ret != 0) {
-+				fprintf(stderr, "%s: ERROR : WDC : Get chunk %d, size = 0x%x, offset = 0x%x, addr = 0x%lx\n",
-+						__func__, i, cap_dui_length, curr_data_offset, (long unsigned int)buffer_addr);
-+				fprintf(stderr, "%s: ERROR : WDC : NVMe Status:%s(%x)\n", __func__, nvme_status_to_string(ret), ret);
-+				break;
-+			}
-+
-+			curr_data_offset += xfer_size;
-+			i++;
-+		}
-+
-+		if (ret == 0) {
-+			fprintf(stderr, "%s:  NVMe Status:%s(%x)\n", __func__, nvme_status_to_string(ret), ret);
-+			fprintf(stderr, "INFO : WDC : Capture Device Unit Info log, length = 0x%x\n", cap_dui_length);
-+
-+			ret = wdc_create_log_file(file, dump_data, cap_dui_length);
-+		}
-+		free(dump_data);
++		fprintf(stderr, "ERROR : WDC: unsupported device for this command\n");
++		ret = -1;
 +	}
-+	free(log_hdr);
++	if (!ret)
++		printf("New size: %lu GB\n", cfg.size);
++	fprintf(stderr, "NVMe Status:%s(%x)\n", nvme_status_to_string(ret), ret);
 +	return ret;
 +}
-+
- static int wdc_cap_diag(int argc, char **argv, struct command *command,
- 		struct plugin *plugin)
- {
-@@ -1072,10 +1191,11 @@ static int wdc_cap_diag(int argc, char **argv, struct command *command,
- 		fprintf(stderr, "ERROR : WDC: failed to generate file name\n");
- 		return -1;
- 	}
-+	if (cfg.file == NULL)
-+		snprintf(f + strlen(f), PATH_MAX, "%s", ".bin");
+diff --git a/plugins/wdc/wdc-nvme.h b/plugins/wdc/wdc-nvme.h
+index 30ac27a..2492eab 100644
+--- a/plugins/wdc/wdc-nvme.h
++++ b/plugins/wdc/wdc-nvme.h
+@@ -21,6 +21,7 @@ PLUGIN(NAME("wdc", "Western Digital vendor specific extensions"),
+ 		ENTRY("drive-essentials", "WDC Drive Essentials", wdc_drive_essentials)
+ 		ENTRY("get-drive-status", "WDC Get Drive Status", wdc_drive_status)
+ 		ENTRY("clear-assert-dump", "WDC Clear Assert Dump", wdc_clear_assert_dump)
++		ENTRY("drive-resize", "WDC Drive Resize", wdc_drive_resize)
+ 	)
+ );
  
- 	capabilities = wdc_get_drive_capabilities(fd);
- 	if ((capabilities & WDC_DRIVE_CAP_CAP_DIAG) == WDC_DRIVE_CAP_CAP_DIAG) {
--		snprintf(f + strlen(f), PATH_MAX, "%s", ".bin");
- 		return wdc_do_cap_diag(fd, f, xfer_size);
- 	} else
- 		fprintf(stderr, "ERROR : WDC: unsupported device for this command\n");
-@@ -1369,12 +1489,15 @@ static int wdc_vs_internal_fw_log(int argc, char **argv, struct command *command
- 			return -1;
- 		}
- 	}
-+	if (cfg.file == NULL)
-+		snprintf(f + strlen(f), PATH_MAX, "%s", ".bin");
- 	fprintf(stderr, "%s: filename = %s\n", __func__, f);
- 
- 	capabilities = wdc_get_drive_capabilities(fd);
- 	if ((capabilities & WDC_DRIVE_CAP_INTERNAL_LOG) == WDC_DRIVE_CAP_INTERNAL_LOG) {
--		snprintf(f + strlen(f), PATH_MAX, "%s", ".bin");
- 		return wdc_do_cap_diag(fd, f, xfer_size);
-+	} else if ((capabilities & WDC_DRIVE_CAP_DUI_DATA) == WDC_DRIVE_CAP_DUI_DATA) {
-+		return wdc_do_cap_dui(fd, f, xfer_size);
- 	} else if ((capabilities & WDC_SN730_CAP_VUC_LOG) == WDC_SN730_CAP_VUC_LOG) {
- 		return wdc_do_sn730_get_and_tar(fd, f);
- 	} else {
 -- 
 2.7.4
