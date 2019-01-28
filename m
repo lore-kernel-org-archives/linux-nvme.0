@@ -1,38 +1,42 @@
-From: Martin.George@netapp.com (George, Martin)
-Date: Mon, 28 Jan 2019 14:01:57 +0000
+From: martinus.gpy@gmail.com (martinus.gpy@gmail.com)
+Date: Mon, 28 Jan 2019 19:54:46 +0530
 Subject: [PATCH] nvme-multipath: relax ANA state check
-In-Reply-To: <20190128074332.GC3287@lst.de>
-References: <20190125111236.5389-1-marting@netapp.com>
- <20190128074332.GC3287@lst.de>
-Message-ID: <a244559921598a647490a6d40368a11a989e7bbe.camel@netapp.com>
+Message-ID: <20190128142446.6732-1-marting@netapp.com>
 
-On Mon, 2019-01-28@08:43 +0100, Christoph Hellwig wrote:
-> 
-> This description does not seem to match the patch:
-> 
-> >  static void nvme_update_ns_ana_state(struct nvme_ana_group_desc
-> > *desc,
-> >               struct nvme_ns *ns)
-> >  {
-> > -     enum nvme_ana_state old;
-> > -
-> >       mutex_lock(&ns->head->lock);
-> > -     old = ns->ana_state;
-> >       ns->ana_grpid = le32_to_cpu(desc->grpid);
-> >       ns->ana_state = desc->state;
-> >       clear_bit(NVME_NS_ANA_PENDING, &ns->flags);
-> > 
-> > -     if (nvme_state_is_live(ns->ana_state) &&
-> > !nvme_state_is_live(old))
-> > +     if (nvme_state_is_live(ns->ana_state))
-> >               nvme_mpath_set_live(ns);
-> 
-> What the patch does is to always call nvme_mpath_set_live when
-> transitioning to a live state, where live is defined as optimized or
-> non-optimized, instead of limiting that call to transitions from
-> states that were not considered live.
+From: Martin George <marting@netapp.com>
 
-Ok. Will modify the description accordingly and resend the patch. Thank
-you.
+Always call nvme_mpath_set_live() when transitioning to a live
+state, where live is defined as ANA Optimized or Non-Optimized,
+irrespective of what the previous asymmetric access state was.
+This removes the restriction of only permitting transitions
+from states that were not considered live.
 
--Martin George
+Signed-off-by: Martin George <marting at netapp.com>
+Signed-off-by: Gargi Srinivas <sring at netapp.com>
+---
+ drivers/nvme/host/multipath.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index b9fff3b8ed1b..23da7beadd62 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -366,15 +366,12 @@ static inline bool nvme_state_is_live(enum nvme_ana_state state)
+ static void nvme_update_ns_ana_state(struct nvme_ana_group_desc *desc,
+ 		struct nvme_ns *ns)
+ {
+-	enum nvme_ana_state old;
+-
+ 	mutex_lock(&ns->head->lock);
+-	old = ns->ana_state;
+ 	ns->ana_grpid = le32_to_cpu(desc->grpid);
+ 	ns->ana_state = desc->state;
+ 	clear_bit(NVME_NS_ANA_PENDING, &ns->flags);
+ 
+-	if (nvme_state_is_live(ns->ana_state) && !nvme_state_is_live(old))
++	if (nvme_state_is_live(ns->ana_state))
+ 		nvme_mpath_set_live(ns);
+ 	mutex_unlock(&ns->head->lock);
+ }
+-- 
+2.17.1
