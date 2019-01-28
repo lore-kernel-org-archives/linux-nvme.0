@@ -1,96 +1,37 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 28 Jan 2019 09:46:07 -0700
-Subject: [PATCHv2] nvme: Block NS list changes while handling command effects
-Message-ID: <20190128164607.15370-1-keith.busch@intel.com>
+From: Martin.George@netapp.com (George, Martin)
+Date: Mon, 28 Jan 2019 17:10:59 +0000
+Subject: [PATCH] nvme-multipath: relax ANA state check
+In-Reply-To: <20190128163036.GB12288@lst.de>
+References: <20190128142446.6732-1-marting@netapp.com>
+ <20190128163036.GB12288@lst.de>
+Message-ID: <c1d3adb38c86382d67750748c5f7efbc1a1542e3.camel@netapp.com>
 
-If a controller supports the NS Change Notification, the namespace
-scan_work is automatically triggered after attaching a new namespace.
+On Mon, 2019-01-28@17:30 +0100, Christoph Hellwig wrote:
+> 
+> On Mon, Jan 28, 2019 at 07:54:46PM +0530, martinus.gpy at gmail.com
+> wrote:
+> > From: Martin George <marting at netapp.com>
+> > 
+> > Always call nvme_mpath_set_live() when transitioning to a live
+> > state, where live is defined as ANA Optimized or Non-Optimized,
+> > irrespective of what the previous asymmetric access state was.
+> > This removes the restriction of only permitting transitions
+> > from states that were not considered live.
+> 
+> This still doesn't make sense.  We never prohibit a transition here.
+> 
+> What kind of problem do you see that triggered this patch?
 
-Occasionally the namespace scan_work may append the new namespace to the
-list before the admin command effects handling is completed. The effects
-handling unfreezes namespaces, but if it unfreezes the newly attached
-namespace, its request_queue freeze depth will be off and we'll hit the
-warning in blk_mq_unfreeze_queue().
+We saw I/O successfully resume on a namespace that transitioned from
+Inaccessible to Optimized on the ANA host. No issues there. But at the
+same time, I/O hung when it transitioned from Optimized to Optimized
+itself.
 
-On the next namespace add, we will fail to freeze that queue due to the
-previous bad accounting and deadlock waiting for frozen.
+After applying the above patch, this problem was resolved and I/O
+successfully resumed for this same state Optimized to Optimized
+transition scenario. In fact with the above patch, it should also
+permit I/O to successfully resume for Optimized to Non-Optimized
+scenarios (& vice versa) as well, all of which are valid transition
+scenarios as per the NVMe 1.3 TP4004 ANA spec.
 
-Fix that by preventing scan work from altering the namespace list while
-command effects handling needs to pair freeze with unfreeze.
-
-Reported-by: Wen Xiong <wenxiong at us.ibm.com>
-Tested-by: Wen Xiong <wenxiong at us.ibm.com>
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
-v1->v2:
-
-  Added received Tested-by.
-
-  Changelog improvements.
-
- drivers/nvme/host/core.c | 8 +++++++-
- drivers/nvme/host/nvme.h | 1 +
- 2 files changed, 8 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 150e49723c15..6a9dd68c0f4f 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1253,6 +1253,7 @@ static u32 nvme_passthru_start(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	 * effects say only one namespace is affected.
- 	 */
- 	if (effects & (NVME_CMD_EFFECTS_LBCC | NVME_CMD_EFFECTS_CSE_MASK)) {
-+		mutex_lock(&ctrl->scan_lock);
- 		nvme_start_freeze(ctrl);
- 		nvme_wait_freeze(ctrl);
- 	}
-@@ -1281,8 +1282,10 @@ static void nvme_passthru_end(struct nvme_ctrl *ctrl, u32 effects)
- 	 */
- 	if (effects & NVME_CMD_EFFECTS_LBCC)
- 		nvme_update_formats(ctrl);
--	if (effects & (NVME_CMD_EFFECTS_LBCC | NVME_CMD_EFFECTS_CSE_MASK))
-+	if (effects & (NVME_CMD_EFFECTS_LBCC | NVME_CMD_EFFECTS_CSE_MASK)) {
- 		nvme_unfreeze(ctrl);
-+		mutex_unlock(&ctrl->scan_lock);
-+	}
- 	if (effects & NVME_CMD_EFFECTS_CCC)
- 		nvme_init_identify(ctrl);
- 	if (effects & (NVME_CMD_EFFECTS_NIC | NVME_CMD_EFFECTS_NCC))
-@@ -3401,6 +3404,7 @@ static void nvme_scan_work(struct work_struct *work)
- 	if (nvme_identify_ctrl(ctrl, &id))
- 		return;
- 
-+	mutex_lock(&ctrl->scan_lock);
- 	nn = le32_to_cpu(id->nn);
- 	if (ctrl->vs >= NVME_VS(1, 1, 0) &&
- 	    !(ctrl->quirks & NVME_QUIRK_IDENTIFY_CNS)) {
-@@ -3409,6 +3413,7 @@ static void nvme_scan_work(struct work_struct *work)
- 	}
- 	nvme_scan_ns_sequential(ctrl, nn);
- out_free_id:
-+	mutex_unlock(&ctrl->scan_lock);
- 	kfree(id);
- 	down_write(&ctrl->namespaces_rwsem);
- 	list_sort(NULL, &ctrl->namespaces, ns_cmp);
-@@ -3652,6 +3657,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 
- 	ctrl->state = NVME_CTRL_NEW;
- 	spin_lock_init(&ctrl->lock);
-+	mutex_init(&ctrl->scan_lock);
- 	INIT_LIST_HEAD(&ctrl->namespaces);
- 	init_rwsem(&ctrl->namespaces_rwsem);
- 	ctrl->dev = dev;
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index ab961bdeea89..c4a1bb41abf0 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -154,6 +154,7 @@ struct nvme_ctrl {
- 	enum nvme_ctrl_state state;
- 	bool identified;
- 	spinlock_t lock;
-+	struct mutex scan_lock;
- 	const struct nvme_ctrl_ops *ops;
- 	struct request_queue *admin_q;
- 	struct request_queue *connect_q;
--- 
-2.14.4
+-Martin George
