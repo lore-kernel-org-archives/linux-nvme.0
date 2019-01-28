@@ -1,23 +1,21 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 25 Jan 2019 16:37:43 -0700
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 28 Jan 2019 08:39:24 +0100
 Subject: [PATCH] nvme: Block ns inventory changes during admin
-In-Reply-To: <OF5147C249.BC64CC03-ON0025838D.007F28EE-8625838D.007F6785@notes.na.collabserv.com>
+In-Reply-To: <20190125194819.11476-1-keith.busch@intel.com>
 References: <20190125194819.11476-1-keith.busch@intel.com>
- <OF5147C249.BC64CC03-ON0025838D.007F28EE-8625838D.007F6785@notes.na.collabserv.com>
-Message-ID: <20190125233742.GA11722@localhost.localdomain>
+Message-ID: <20190128073924.GB3287@lst.de>
 
-[replying in plain-text for mailing list posterity]
-On Fri, Jan 25, 2019@05:11:35PM -0600, Wen Xiong wrote:
-> Hi Keith,
+On Fri, Jan 25, 2019@12:48:19PM -0700, Keith Busch wrote:
+> The driver quiesces IO when the admin command effects say it may alter
+> namespaces.
 > 
-> I have tested the patch and fixed the two hung issues on our system.
+> A device that supports nvme namespace management may trigger a namespace
+> scan automatically. If this changes the namespace inventory by adding
+> more namespace, the driver's unquiesce sequence at the end of sending
+> the admin command may try to unfreeze a queue that isn't frozen,
+> breaking the freeze depth for future use.
 > 
-> >>Reported-by: Wen Xiong <wenxiong at us.ibm.com>
-> >>Signed-off-by: Keith Busch <keith.busch at intel.com>
-> 
-> Tested-by: Wen Xiong<wenxiong at us.ibm.com>
-> 
-> Thanks,
-> Wendy
+> Fix that by preventing scan work from altering the namespace list while
+> we are pairing freeze and unfreeze operations.
 
-Thank you for confirming this fixes your issue.
+Do you have a reference for the bug report?
