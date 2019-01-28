@@ -1,37 +1,71 @@
-From: Martin.George@netapp.com (George, Martin)
-Date: Mon, 28 Jan 2019 17:10:59 +0000
-Subject: [PATCH] nvme-multipath: relax ANA state check
-In-Reply-To: <20190128163036.GB12288@lst.de>
-References: <20190128142446.6732-1-marting@netapp.com>
- <20190128163036.GB12288@lst.de>
-Message-ID: <c1d3adb38c86382d67750748c5f7efbc1a1542e3.camel@netapp.com>
+From: Matias.Bjorling@wdc.com (Matias Bjorling)
+Date: Mon, 28 Jan 2019 18:40:10 +0000
+Subject: [LSF/MM TOPIC] Zoned Block Devices
+In-Reply-To: <4adb1038-246a-530a-5265-1d16d0cd5014@acm.org>
+References: <714fc666-c562-83c2-c1a3-19f1dd47d1d9@wdc.com>
+ <4adb1038-246a-530a-5265-1d16d0cd5014@acm.org>
+Message-ID: <cc9308c4-d480-1135-7656-b7c7d6c921a5@wdc.com>
 
-On Mon, 2019-01-28@17:30 +0100, Christoph Hellwig wrote:
-> 
-> On Mon, Jan 28, 2019 at 07:54:46PM +0530, martinus.gpy at gmail.com
-> wrote:
-> > From: Martin George <marting at netapp.com>
-> > 
-> > Always call nvme_mpath_set_live() when transitioning to a live
-> > state, where live is defined as ANA Optimized or Non-Optimized,
-> > irrespective of what the previous asymmetric access state was.
-> > This removes the restriction of only permitting transitions
-> > from states that were not considered live.
-> 
-> This still doesn't make sense.  We never prohibit a transition here.
-> 
-> What kind of problem do you see that triggered this patch?
+On 1/28/19 4:07 PM, Bart Van Assche wrote:
+> On 1/28/19 4:56 AM, Matias Bjorling wrote:
+>> Damien and I would like to propose a couple of topics centering around
+>> zoned block devices:
+>>
+>> 1) Zoned block devices require that writes to a zone are sequential. If
+>> the writes are dispatched to the device out of order, the drive rejects
+>> the write with a write failure.
+>>
+>> So far it has been the responsibility the deadline I/O scheduler to
+>> serialize writes to zones to avoid intra-zone write command reordering.
+>> This I/O scheduler based approach has worked so far for HDDs, but we can
+>> do better for multi-queue devices. NVMe has support for multiple queues,
+>> and one could dedicate a single queue to writes alone. Furthermore, the
+>> queue is processed in-order, enabling the host to serialize writes on
+>> the queue, instead of issuing them one by one. We like to gather
+>> feedback on this approach (new HCTX_TYPE_WRITE).
+>>
+>> 2) Adoption of Zone Append in file-systems and user-space applications.
+>>
+>> A Zone Append command, together with Zoned Namespaces, is being defined
+>> in the NVMe workgroup. The new command allows one to automatically
+>> direct writes to a zone write pointer position, similarly to writing to
+>> a file open with O_APPEND. With this write append command, the drive
+>> returns where data was written in the zone. Providing two benefits:
+>>
+>> (A) It moves the fine-grained logical block allocation in file-systems
+>> to the device side. A file-system continues to do coarse-grained logical
+>> block allocation, but the specific LBAs where data is written and
+>> reported from the device. Thus improving file-system performance. The
+>> current target is XFS but we would like to hear the feasibility of it
+>> being used in other file-systems.
+>>
+>> (B) It lets host issue multiple outstanding write I/Os to a zone,
+>> without having to maintain I/O order. Thus, improving the performance of
+>> the drive, but also reducing the need for zone locking on the host side.
+>>
+>> Is there other use-cases for this, and will an interface like this be
+>> valuable in the kernel? If the interface is successful, we would expect
+>> the interface to move to ATA/SCSI for standardization as well.
+>
+> Hi Matias,
+>
+> This topic proposal sounds interesting to me, but I think it is 
+> incomplete. Shouldn't it also be discussed how user space applications 
+> are expected to submit "zone append" writes? Which system call should 
+> e.g. fio use to submit this new type of write request? How will the 
+> offset at which data has been written be communicated back to user space?
+>
+> Thanks,
+>
+> Bart.
 
-We saw I/O successfully resume on a namespace that transitioned from
-Inaccessible to Optimized on the ANA host. No issues there. But at the
-same time, I/O hung when it transitioned from Optimized to Optimized
-itself.
+Hi Bart,
 
-After applying the above patch, this problem was resolved and I/O
-successfully resumed for this same state Optimized to Optimized
-transition scenario. In fact with the above patch, it should also
-permit I/O to successfully resume for Optimized to Non-Optimized
-scenarios (& vice versa) as well, all of which are valid transition
-scenarios as per the NVMe 1.3 TP4004 ANA spec.
+That's a good point. Originally, we only looked into support for 
+file-systems due to the complexity of exposing it to user-space (e.g., 
+we do not have an easy way to support psync/libaio workloads). I would 
+love for us to be able to combine this with liburing, such that an LBA 
+can be returned on I/O completion. However, I'm not sure we have enough 
+bits available on the completion entry.
 
--Martin George
+-Matias
