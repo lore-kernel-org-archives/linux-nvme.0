@@ -1,58 +1,26 @@
-From: bvanassche@acm.org (Bart Van Assche)
-Date: Mon, 28 Jan 2019 07:07:48 -0800
-Subject: [LSF/MM TOPIC] Zoned Block Devices
-In-Reply-To: <714fc666-c562-83c2-c1a3-19f1dd47d1d9@wdc.com>
-References: <714fc666-c562-83c2-c1a3-19f1dd47d1d9@wdc.com>
-Message-ID: <4adb1038-246a-530a-5265-1d16d0cd5014@acm.org>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 28 Jan 2019 08:33:45 -0700
+Subject: [PATCH] nvme: Block ns inventory changes during admin
+In-Reply-To: <20190128073924.GB3287@lst.de>
+References: <20190125194819.11476-1-keith.busch@intel.com>
+ <20190128073924.GB3287@lst.de>
+Message-ID: <20190128153344.GA15271@localhost.localdomain>
 
-On 1/28/19 4:56 AM, Matias Bjorling wrote:
-> Damien and I would like to propose a couple of topics centering around
-> zoned block devices:
+On Sun, Jan 27, 2019@11:39:24PM -0800, Christoph Hellwig wrote:
+> On Fri, Jan 25, 2019@12:48:19PM -0700, Keith Busch wrote:
+> > The driver quiesces IO when the admin command effects say it may alter
+> > namespaces.
+> > 
+> > A device that supports nvme namespace management may trigger a namespace
+> > scan automatically. If this changes the namespace inventory by adding
+> > more namespace, the driver's unquiesce sequence at the end of sending
+> > the admin command may try to unfreeze a queue that isn't frozen,
+> > breaking the freeze depth for future use.
+> > 
+> > Fix that by preventing scan work from altering the namespace list while
+> > we are pairing freeze and unfreeze operations.
 > 
-> 1) Zoned block devices require that writes to a zone are sequential. If
-> the writes are dispatched to the device out of order, the drive rejects
-> the write with a write failure.
-> 
-> So far it has been the responsibility the deadline I/O scheduler to
-> serialize writes to zones to avoid intra-zone write command reordering.
-> This I/O scheduler based approach has worked so far for HDDs, but we can
-> do better for multi-queue devices. NVMe has support for multiple queues,
-> and one could dedicate a single queue to writes alone. Furthermore, the
-> queue is processed in-order, enabling the host to serialize writes on
-> the queue, instead of issuing them one by one. We like to gather
-> feedback on this approach (new HCTX_TYPE_WRITE).
-> 
-> 2) Adoption of Zone Append in file-systems and user-space applications.
-> 
-> A Zone Append command, together with Zoned Namespaces, is being defined
-> in the NVMe workgroup. The new command allows one to automatically
-> direct writes to a zone write pointer position, similarly to writing to
-> a file open with O_APPEND. With this write append command, the drive
-> returns where data was written in the zone. Providing two benefits:
-> 
-> (A) It moves the fine-grained logical block allocation in file-systems
-> to the device side. A file-system continues to do coarse-grained logical
-> block allocation, but the specific LBAs where data is written and
-> reported from the device. Thus improving file-system performance. The
-> current target is XFS but we would like to hear the feasibility of it
-> being used in other file-systems.
-> 
-> (B) It lets host issue multiple outstanding write I/Os to a zone,
-> without having to maintain I/O order. Thus, improving the performance of
-> the drive, but also reducing the need for zone locking on the host side.
-> 
-> Is there other use-cases for this, and will an interface like this be
-> valuable in the kernel? If the interface is successful, we would expect
-> the interface to move to ATA/SCSI for standardization as well.
+> Do you have a reference for the bug report?
 
-Hi Matias,
-
-This topic proposal sounds interesting to me, but I think it is 
-incomplete. Shouldn't it also be discussed how user space applications 
-are expected to submit "zone append" writes? Which system call should 
-e.g. fio use to submit this new type of write request? How will the 
-offset at which data has been written be communicated back to user space?
-
-Thanks,
-
-Bart.
+This was reported internally from Wen. If you prefer, we can open a
+public bz sighting and append the kernel logs for a changelog Link:.
