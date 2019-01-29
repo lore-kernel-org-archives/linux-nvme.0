@@ -1,193 +1,69 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 29 Jan 2019 09:21:40 +0100
-Subject: [PATCHv2] nvme-multipath: round-robin I/O policy
-In-Reply-To: <34088d585b47fdb764821b32d5c7bbb168ede900.camel@suse.de>
-References: <20181221141330.96599-1-hare@suse.de>
- <833821226d78f0e947b14434c188d64d4838337a.camel@suse.de>
- <bb159cba-ce3a-32ca-d79c-3dece6a71fd0@suse.com>
- <34088d585b47fdb764821b32d5c7bbb168ede900.camel@suse.de>
-Message-ID: <20190129082140.GA4465@lst.de>
+From: javier@javigon.com (=?utf-8?Q?Javier_Gonz=C3=A1lez?=)
+Date: Tue, 29 Jan 2019 09:25:17 +0100
+Subject: [LSF/MM TOPIC] Zoned Block Devices
+In-Reply-To: <714fc666-c562-83c2-c1a3-19f1dd47d1d9@wdc.com>
+References: <714fc666-c562-83c2-c1a3-19f1dd47d1d9@wdc.com>
+Message-ID: <F88F3B28-4CC8-4B54-AE2F-341936C0C184@javigon.com>
 
-This looks mostly good to me.  I think we can simplify the sysfs
-attribute parsing a bit, though and clean up the path selector
-and use the same patterns as in the normal NUMA one.  Untestested
-incremental patch below:
+> On 28 Jan 2019,@13.56, Matias Bjorling <Matias.Bjorling@wdc.com> wrote:
+> 
+> Hi,
+> 
+> Damien and I would like to propose a couple of topics centering around
+> zoned block devices:
+> 
+> 1) Zoned block devices require that writes to a zone are sequential. If
+> the writes are dispatched to the device out of order, the drive rejects
+> the write with a write failure.
+> 
+> So far it has been the responsibility the deadline I/O scheduler to
+> serialize writes to zones to avoid intra-zone write command reordering.
+> This I/O scheduler based approach has worked so far for HDDs, but we can
+> do better for multi-queue devices. NVMe has support for multiple queues,
+> and one could dedicate a single queue to writes alone. Furthermore, the
+> queue is processed in-order, enabling the host to serialize writes on
+> the queue, instead of issuing them one by one. We like to gather
+> feedback on this approach (new HCTX_TYPE_WRITE).
+> 
+> 2) Adoption of Zone Append in file-systems and user-space applications.
+> 
+> A Zone Append command, together with Zoned Namespaces, is being defined
+> in the NVMe workgroup. The new command allows one to automatically
+> direct writes to a zone write pointer position, similarly to writing to
+> a file open with O_APPEND. With this write append command, the drive
+> returns where data was written in the zone. Providing two benefits:
+> 
+> (A) It moves the fine-grained logical block allocation in file-systems
+> to the device side. A file-system continues to do coarse-grained logical
+> block allocation, but the specific LBAs where data is written and
+> reported from the device. Thus improving file-system performance. The
+> current target is XFS but we would like to hear the feasibility of it
+> being used in other file-systems.
+> 
+> (B) It lets host issue multiple outstanding write I/Os to a zone,
+> without having to maintain I/O order. Thus, improving the performance of
+> the drive, but also reducing the need for zone locking on the host side.
+> 
+> Is there other use-cases for this, and will an interface like this be
+> valuable
+> in the kernel? If the interface is successful, we would expect the
+> interface to move to ATA/SCSI for standardization as well.
+> 
+> Thanks, Matias
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index bfd4f0aa9de1..ed02cc31eb88 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -171,51 +171,48 @@ static struct nvme_ns *__nvme_find_path(struct nvme_ns_head *head, int node)
- 	return found;
- }
- 
--static struct nvme_ns *__nvme_rr_next_path(struct nvme_ns_head *head, int node,
--					   struct nvme_ns *old)
-+static struct nvme_ns *nvme_next_ns(struct nvme_ns_head *head,
-+		struct nvme_ns *ns)
- {
--	struct nvme_ns *ns, *found = NULL;
--	bool try_nonoptimized = false;
-+	ns = list_next_or_null_rcu(&head->list, &ns->siblings, struct nvme_ns,
-+			siblings);
-+	if (ns)
-+		return ns;
-+	return list_first_or_null_rcu(&head->list, struct nvme_ns, siblings);
-+}
- 
--	if (!old)
--		return NULL;
--retry:
--	ns = old;
--	do {
--		ns = list_next_or_null_rcu(&head->list, &ns->siblings,
--					   struct nvme_ns, siblings);
--		if (!ns) {
--			ns = list_first_or_null_rcu(&head->list, struct nvme_ns,
--						    siblings);
--			if (!ns)
--				return NULL;
--
--			if (ns == old)
--				/*
--				 * The list consists of just one entry.
--				 * Sorry for the noise :-)
--				 */
--				return old;
--		}
--		if (ns->disk && ns->ctrl->state == NVME_CTRL_LIVE) {
--			if (ns->ana_state == NVME_ANA_OPTIMIZED) {
--				found = ns;
--				break;
--			}
--			if (try_nonoptimized &&
--			    ns->ana_state == NVME_ANA_NONOPTIMIZED) {
--				found = ns;
--				break;
--			}
--		}
--	} while (ns != old);
-+static struct nvme_ns *nvme_round_robin_path(struct nvme_ns_head *head,
-+		int node, struct nvme_ns *old)
-+{
-+	struct nvme_ns *ns, *found, *fallback = NULL;
- 
--	if (found)
--		rcu_assign_pointer(head->current_path[node], found);
--	else if (!try_nonoptimized) {
--		try_nonoptimized = true;
--		goto retry;
-+	if (list_is_singular(&head->list))
-+		return old;
-+
-+	for (ns = nvme_next_ns(head, old);
-+	     ns != old;
-+	     ns = nvme_next_ns(head, ns)) {
-+		if (ns->ctrl->state != NVME_CTRL_LIVE ||
-+		    test_bit(NVME_NS_ANA_PENDING, &ns->flags))
-+			continue;
-+
-+		switch (ns->ana_state) {
-+		case NVME_ANA_OPTIMIZED:
-+			found = ns;
-+			goto out;
-+		case NVME_ANA_NONOPTIMIZED:
-+			fallback = ns;
-+			break;
-+		default:
-+			break;
-+		}
- 	}
-+
-+	if (!fallback)
-+		return NULL;
-+	found = fallback;
-+out:
-+	rcu_assign_pointer(head->current_path[node], found);
- 	return found;
- }
- 
-@@ -231,8 +228,8 @@ inline struct nvme_ns *nvme_find_path(struct nvme_ns_head *head)
- 	struct nvme_ns *ns;
- 
- 	ns = srcu_dereference(head->current_path[node], &head->srcu);
--	if (READ_ONCE(head->subsys->iopolicy) == NVME_IOPOLICY_RR)
--		ns = __nvme_rr_next_path(head, node, ns);
-+	if (READ_ONCE(head->subsys->iopolicy) == NVME_IOPOLICY_RR && ns)
-+		ns = nvme_round_robin_path(head, node, ns);
- 	if (unlikely(!ns || !nvme_path_is_optimized(ns)))
- 		ns = __nvme_find_path(head, node);
- 	return ns;
-@@ -529,9 +526,8 @@ void nvme_mpath_stop(struct nvme_ctrl *ctrl)
- 		__ATTR(_name, _mode, _show, _store)
- 
- static const char *nvme_iopolicy_names[] = {
--	[NVME_IOPOLICY_UNKNOWN] = "unknown",
--	[NVME_IOPOLICY_NUMA] = "numa",
--	[NVME_IOPOLICY_RR] = "round-robin",
-+	[NVME_IOPOLICY_NUMA]	= "numa",
-+	[NVME_IOPOLICY_RR]	= "round-robin",
- };
- 
- static ssize_t nvme_subsys_iopolicy_show(struct device *dev,
-@@ -539,32 +535,26 @@ static ssize_t nvme_subsys_iopolicy_show(struct device *dev,
- {
- 	struct nvme_subsystem *subsys =
- 		container_of(dev, struct nvme_subsystem, dev);
--	int iopolicy = NVME_IOPOLICY_UNKNOWN;
- 
--	if (iopolicy < ARRAY_SIZE(nvme_iopolicy_names))
--		iopolicy = READ_ONCE(subsys->iopolicy);
--	return sprintf(buf, "%s\n", nvme_iopolicy_names[iopolicy]);
-+	return sprintf(buf, "%s\n",
-+			nvme_iopolicy_names[READ_ONCE(subsys->iopolicy)]);
- }
- 
- static ssize_t nvme_subsys_iopolicy_store(struct device *dev,
- 		struct device_attribute *attr, const char *buf, size_t count)
- {
--	enum nvme_iopolicy iopolicy = NVME_IOPOLICY_UNKNOWN;
- 	struct nvme_subsystem *subsys =
- 		container_of(dev, struct nvme_subsystem, dev);
-+	int i;
- 
--	if (!strncmp(buf, nvme_iopolicy_names[NVME_IOPOLICY_NUMA],
--		     strlen(nvme_iopolicy_names[NVME_IOPOLICY_NUMA])))
--		iopolicy = NVME_IOPOLICY_NUMA;
--	else if (!strncmp(buf, nvme_iopolicy_names[NVME_IOPOLICY_RR],
--		     strlen(nvme_iopolicy_names[NVME_IOPOLICY_RR])))
--		iopolicy = NVME_IOPOLICY_RR;
--
--	if (iopolicy == NVME_IOPOLICY_UNKNOWN)
--		return -EINVAL;
-+	for (i = 0; i < ARRAY_SIZE(nvme_iopolicy_names); i++) {
-+		if (sysfs_streq(buf, nvme_iopolicy_names[i])) {
-+			WRITE_ONCE(subsys->iopolicy, i);
-+			return count;
-+		}
-+	}
- 
--	WRITE_ONCE(subsys->iopolicy, iopolicy);
--	return count;
-+	return -EINVAL;
- }
- SUBSYS_ATTR_RW(iopolicy, S_IRUGO | S_IWUSR,
- 		      nvme_subsys_iopolicy_show, nvme_subsys_iopolicy_store);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 0fb1f9dc6800..36d4b166a155 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -251,13 +251,10 @@ struct nvme_ctrl {
- 	unsigned long discard_page_busy;
- };
- 
--#ifdef CONFIG_NVME_MULTIPATH
- enum nvme_iopolicy {
--	NVME_IOPOLICY_UNKNOWN,
- 	NVME_IOPOLICY_NUMA,
- 	NVME_IOPOLICY_RR,
- };
--#endif
- 
- struct nvme_subsystem {
- 	int			instance;
+This topic is of interest to me as well.
+
+For the append command, I think we also need to discuss the error model
+as writes should be able to fail (e.g., a zone has shrink due to
+previous, hidden, write errors and the host has not updated the zone
+metadata).
+
+Thanks,
+Javier
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 833 bytes
+Desc: Message signed with OpenPGP
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20190129/487a7847/attachment-0001.sig>
