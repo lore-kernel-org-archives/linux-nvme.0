@@ -1,69 +1,46 @@
-From: javier@javigon.com (=?utf-8?Q?Javier_Gonz=C3=A1lez?=)
-Date: Tue, 29 Jan 2019 09:25:17 +0100
-Subject: [LSF/MM TOPIC] Zoned Block Devices
-In-Reply-To: <714fc666-c562-83c2-c1a3-19f1dd47d1d9@wdc.com>
-References: <714fc666-c562-83c2-c1a3-19f1dd47d1d9@wdc.com>
-Message-ID: <F88F3B28-4CC8-4B54-AE2F-341936C0C184@javigon.com>
+From: jack@suse.cz (Jan Kara)
+Date: Tue, 29 Jan 2019 11:07:02 +0100
+Subject: [PATCH v2 0/4] Write-hint for FS journal
+In-Reply-To: <20190128232423.GD15302@localhost.localdomain>
+References: <CGME20190109153328epcas2p4643cbdc7a2182b47893a2bcaa0778e17@epcas2p4.samsung.com>
+ <1547047861-7271-1-git-send-email-joshi.k@samsung.com>
+ <20190125162353.GA11210@localhost.localdomain>
+ <20190128124709.GB27972@quack2.suse.cz>
+ <20190128232423.GD15302@localhost.localdomain>
+Message-ID: <20190129100702.GA29981@quack2.suse.cz>
 
-> On 28 Jan 2019,@13.56, Matias Bjorling <Matias.Bjorling@wdc.com> wrote:
+On Mon 28-01-19 16:24:24, Keith Busch wrote:
+> On Mon, Jan 28, 2019@04:47:09AM -0800, Jan Kara wrote:
+> > On Fri 25-01-19 09:23:53, Keith Busch wrote:
+> > > On Wed, Jan 09, 2019@09:00:57PM +0530, Kanchan Joshi wrote:
+> > > > Towards supporing write-hints/streams for filesystem journal.                   
+> > > >                                                                                 
+> > > > Here is the v1 patch for background -                                           
+> > > > https://marc.info/?l=linux-fsdevel&m=154444637519020&w=2                        
+> > > >                                                                                 
+> > > > Changes since v1:                                                               
+> > > > - introduce four more hints for in-kernel use, as recommended by Dave chinner   
+> > > >   & Jens axboe. This isolates kernel-mode hints from user-mode ones.            
+> > > 
+> > > The nvme driver disables streams if the controller doesn't support
+> > > BLK_MAX_WRITE_HINT number of streams, so this series breaks the feature
+> > > for controllers that only support up to 4.
+> > 
+> > Right. Do you know if there are such controllers? Or are you just afraid
+> > that there could be?
 > 
-> Hi,
-> 
-> Damien and I would like to propose a couple of topics centering around
-> zoned block devices:
-> 
-> 1) Zoned block devices require that writes to a zone are sequential. If
-> the writes are dispatched to the device out of order, the drive rejects
-> the write with a write failure.
-> 
-> So far it has been the responsibility the deadline I/O scheduler to
-> serialize writes to zones to avoid intra-zone write command reordering.
-> This I/O scheduler based approach has worked so far for HDDs, but we can
-> do better for multi-queue devices. NVMe has support for multiple queues,
-> and one could dedicate a single queue to writes alone. Furthermore, the
-> queue is processed in-order, enabling the host to serialize writes on
-> the queue, instead of issuing them one by one. We like to gather
-> feedback on this approach (new HCTX_TYPE_WRITE).
-> 
-> 2) Adoption of Zone Append in file-systems and user-space applications.
-> 
-> A Zone Append command, together with Zoned Namespaces, is being defined
-> in the NVMe workgroup. The new command allows one to automatically
-> direct writes to a zone write pointer position, similarly to writing to
-> a file open with O_APPEND. With this write append command, the drive
-> returns where data was written in the zone. Providing two benefits:
-> 
-> (A) It moves the fine-grained logical block allocation in file-systems
-> to the device side. A file-system continues to do coarse-grained logical
-> block allocation, but the specific LBAs where data is written and
-> reported from the device. Thus improving file-system performance. The
-> current target is XFS but we would like to hear the feasibility of it
-> being used in other file-systems.
-> 
-> (B) It lets host issue multiple outstanding write I/Os to a zone,
-> without having to maintain I/O order. Thus, improving the performance of
-> the drive, but also reducing the need for zone locking on the host side.
-> 
-> Is there other use-cases for this, and will an interface like this be
-> valuable
-> in the kernel? If the interface is successful, we would expect the
-> interface to move to ATA/SCSI for standardization as well.
-> 
-> Thanks, Matias
+> I've asked around, and the concensus I received is all currently support
+> at least 8, but they couldn't say if that would be true for potential
+> lower budget products. Can we implement a reasonable fallback to use
+> what's available?
 
-This topic is of interest to me as well.
+OK, thanks for input. So probably we should just map kernel stream IDs to 0
+if the device doesn't support them. But that probably means we need to
+propagate number of available streams up from NVME into the block layer so
+that this can be handled reasonably seamlessly. Jens, Kanchan?
 
-For the append command, I think we also need to discuss the error model
-as writes should be able to fail (e.g., a zone has shrink due to
-previous, hidden, write errors and the host has not updated the zone
-metadata).
+								Honza
 
-Thanks,
-Javier
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 833 bytes
-Desc: Message signed with OpenPGP
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20190129/487a7847/attachment-0001.sig>
+-- 
+Jan Kara <jack at suse.com>
+SUSE Labs, CR
