@@ -1,18 +1,20 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 30 Jan 2019 18:44:37 +0100
-Subject: [PATCH-for-5.1] nvme: Use discard for quirked write zeroes devices
-In-Reply-To: <20190130173822.19457-1-keith.busch@intel.com>
-References: <20190130173822.19457-1-keith.busch@intel.com>
-Message-ID: <20190130174436.GA7069@lst.de>
+From: mhocko@kernel.org (Michal Hocko)
+Date: Wed, 30 Jan 2019 18:48:47 +0100
+Subject: [LSF/MM TOPIC] memory reclaim with NUMA rebalancing
+Message-ID: <20190130174847.GD18811@dhcp22.suse.cz>
 
-On Wed, Jan 30, 2019@10:38:22AM -0700, Keith Busch wrote:
-> The current devices that set NVME_QUIRK_DEALLOCATE_ZEROES don't support
-> the Write Zeroes NVMe command, but the driver still sets the queue limit
-> that enables REQ_OP_WRITE_ZEROES. Continue using Data Set Management for
-> such quirked controllers instead of the preferred Write Zeroes command.
-> 
-> Cc: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
-
-This looks sensible to me.  We should probably fold this into
-the original patch to avoid bisection issues.
+Hi,
+I would like to propose the following topic for the MM track. Different
+group of people would like to use NVIDMMs as a low cost & slower memory
+which is presented to the system as a NUMA node. We do have a NUMA API
+but it doesn't really fit to "balance the memory between nodes" needs.
+People would like to have hot pages in the regular RAM while cold pages
+might be at lower speed NUMA nodes. We do have NUMA balancing for
+promotion path but there is notIhing for the other direction. Can we
+start considering memory reclaim to move pages to more distant and idle
+NUMA nodes rather than reclaim them? There are certainly details that
+will get quite complicated but I guess it is time to start discussing
+this at least.
+-- 
+Michal Hocko
+SUSE Labs
