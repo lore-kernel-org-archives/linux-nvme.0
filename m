@@ -1,66 +1,101 @@
-From: david@fromorbit.com (Dave Chinner)
-Date: Wed, 30 Jan 2019 11:13:49 +1100
+From: joshi.k@samsung.com (Kanchan Joshi)
+Date: Wed, 30 Jan 2019 19:24:39 +0530
 Subject: [PATCH v2 0/4] Write-hint for FS journal
-In-Reply-To: <20190129100702.GA29981@quack2.suse.cz>
+In-Reply-To: <20190130001349.GT6173@dastard>
 References: <CGME20190109153328epcas2p4643cbdc7a2182b47893a2bcaa0778e17@epcas2p4.samsung.com>
  <1547047861-7271-1-git-send-email-joshi.k@samsung.com>
  <20190125162353.GA11210@localhost.localdomain>
  <20190128124709.GB27972@quack2.suse.cz>
  <20190128232423.GD15302@localhost.localdomain>
- <20190129100702.GA29981@quack2.suse.cz>
-Message-ID: <20190130001349.GT6173@dastard>
+ <20190129100702.GA29981@quack2.suse.cz> <20190130001349.GT6173@dastard>
+Message-ID: <0ab2f0e1-27f2-7ab4-1772-f96c1430ea3b@samsung.com>
 
-On Tue, Jan 29, 2019@11:07:02AM +0100, Jan Kara wrote:
-> On Mon 28-01-19 16:24:24, Keith Busch wrote:
-> > On Mon, Jan 28, 2019@04:47:09AM -0800, Jan Kara wrote:
-> > > On Fri 25-01-19 09:23:53, Keith Busch wrote:
-> > > > On Wed, Jan 09, 2019@09:00:57PM +0530, Kanchan Joshi wrote:
-> > > > > Towards supporing write-hints/streams for filesystem journal.                   
-> > > > >                                                                                 
-> > > > > Here is the v1 patch for background -                                           
-> > > > > https://marc.info/?l=linux-fsdevel&m=154444637519020&w=2                        
-> > > > >                                                                                 
-> > > > > Changes since v1:                                                               
-> > > > > - introduce four more hints for in-kernel use, as recommended by Dave chinner   
-> > > > >   & Jens axboe. This isolates kernel-mode hints from user-mode ones.            
-> > > > 
-> > > > The nvme driver disables streams if the controller doesn't support
-> > > > BLK_MAX_WRITE_HINT number of streams, so this series breaks the feature
-> > > > for controllers that only support up to 4.
-> > > 
-> > > Right. Do you know if there are such controllers? Or are you just afraid
-> > > that there could be?
-> > 
-> > I've asked around, and the concensus I received is all currently support
-> > at least 8, but they couldn't say if that would be true for potential
-> > lower budget products. Can we implement a reasonable fallback to use
-> > what's available?
+
+On Wednesday 30 January 2019 05:43 AM, Dave Chinner wrote:
+> On Tue, Jan 29, 2019@11:07:02AM +0100, Jan Kara wrote:
+>> On Mon 28-01-19 16:24:24, Keith Busch wrote:
+>>> On Mon, Jan 28, 2019@04:47:09AM -0800, Jan Kara wrote:
+>>>> On Fri 25-01-19 09:23:53, Keith Busch wrote:
+>>>>> On Wed, Jan 09, 2019@09:00:57PM +0530, Kanchan Joshi wrote:
+>>>>>> Towards supporing write-hints/streams for filesystem journal.
+>>>>>>                                                                                  
+>>>>>> Here is the v1 patch for background -
+>>>>>> https://marc.info/?l=linux-fsdevel&m=154444637519020&w=2
+>>>>>>                                                                                  
+>>>>>> Changes since v1:
+>>>>>> - introduce four more hints for in-kernel use, as recommended by Dave chinner
+>>>>>>    & Jens axboe. This isolates kernel-mode hints from user-mode ones.
+>>>>>
+>>>>> The nvme driver disables streams if the controller doesn't support
+>>>>> BLK_MAX_WRITE_HINT number of streams, so this series breaks the feature
+>>>>> for controllers that only support up to 4.
+>>>>
+>>>> Right. Do you know if there are such controllers? Or are you just afraid
+>>>> that there could be?
+>>>
+>>> I've asked around, and the concensus I received is all currently support
+>>> at least 8, but they couldn't say if that would be true for potential
+>>> lower budget products. Can we implement a reasonable fallback to use
+>>> what's available?
+>>
+>> OK, thanks for input. So probably we should just map kernel stream IDs to 0
+>> if the device doesn't support them. But that probably means we need to
+>> propagate number of available streams up from NVME into the block layer so
+>> that this can be handled reasonably seamlessly. Jens, Kanchan?
 > 
-> OK, thanks for input. So probably we should just map kernel stream IDs to 0
-> if the device doesn't support them. But that probably means we need to
-> propagate number of available streams up from NVME into the block layer so
-> that this can be handled reasonably seamlessly. Jens, Kanchan?
+> Yeah, that's basically what I said we needed to do when this was
+> last discussed. i.e. that the block layer needed to know how many
+> streams the hardware had and map the 4 "kernel internal" hints
+> appropriately to what he device supports.
+> 
+> e.g. if the device only supports 4 hints, then it needs to map the
+> kernel hints either to zero. If it supports less than 8 streams,
+> then they need otbe mapped into the hints above index 5. If there
+> are N streams, then they need to be mapped to the hints {N-3,N}
+> 
+> And, to top it all off, there needs to be guards so that if we want
+> to grow the userspace hints to more than 4 hints, they don't crash
+> into ranges the kernel is already reserving because of limited
+> device range support.
+> 
+> Nothing is ever simple....
+> 
+Thanks all for feedback.
+user-hints, when they reach to kernel via fcntl path, are sanity-checked 
+(rw_hint_valid function).
+Currently streams are enabled when nvme driver is made to run with 
+"streams =1" option, while stream users always pass some write-hint, 
+without bothering whether streams (and how many of those) are 
+operational or not. This keeps configuration simple for stream users. 
+Second, block layer does not translate write-hint to stream-number, 
+rather it is done inside nvme driver. I suppose I should keep both these 
+properties intact.
+And considering all the suggestions, this is the plan for V3 -
 
-Yeah, that's basically what I said we needed to do when this was
-last discussed. i.e. that the block layer needed to know how many
-streams the hardware had and map the 4 "kernel internal" hints
-appropriately to what he device supports.
+[In block layer]
+1. Introduce one macro "KERN_WRITE_HINT_MIN" which will take the value 
+"user_hint_cnt + 1".
+FS code will use this value (onwards) to define their own streams.
 
-e.g. if the device only supports 4 hints, then it needs to map the
-kernel hints either to zero. If it supports less than 8 streams,
-then they need otbe mapped into the hints above index 5. If there
-are N streams, then they need to be mapped to the hints {N-3,N}
+2. Introduce another macro "BLK_MAX_KERNEL_WRITE_HINTS" which will be 
+set to 4 for now.
 
-And, to top it all off, there needs to be guards so that if we want
-to grow the userspace hints to more than 4 hints, they don't crash
-into ranges the kernel is already reserving because of limited
-device range support.
+[In nvme driver]
+1. Continue working as before if device supports just 4 streams. All 
+these streams are used by user-hints, and kernel-hints are translated to 0.
 
-Nothing is ever simple....
+2. If device supports any more than 4 streams, those will be mapped to 
+serve kernel-hints, starting from KERN_WRITE_HINT_MIN onwards.
+For example, if device has 6 streams, four streams (numbers = 1,2,3,4) 
+will be used to serve user-hints and two streams ( numbers = 65535, 
+65534) will be used to serve first two kernel hints. Other kernel-hints 
+get mapped to 0. OTOH, if device has 10 streams, first four kernel-hints 
+will be mapped to non-zero values (65535 to 65532) and anything else 
+would get turned to 0.
 
-Cheers,
 
-Dave.
--- 
-Dave Chinner
-david at fromorbit.com
+Let me know if this sounds fine?
+
+
+Thanks,
+Kanchan
