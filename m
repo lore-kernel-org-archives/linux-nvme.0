@@ -1,15 +1,52 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 31 Jan 2019 07:55:39 -0700
-Subject: Question about ioctl interface - IO passthru
-In-Reply-To: <CAPrnrPBpcuh2r40Bxzrq=PmDAaemnOvd4Or2nKFCannQ6oGkGg@mail.gmail.com>
-References: <CAPrnrPBpcuh2r40Bxzrq=PmDAaemnOvd4Or2nKFCannQ6oGkGg@mail.gmail.com>
-Message-ID: <20190131145539.GB19637@localhost.localdomain>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Thu, 31 Jan 2019 17:13:30 +0200
+Subject: [PATCH 1/1] nvme: add get-feature to admin cmds tracer
+Message-ID: <1548947610-9330-1-git-send-email-maxg@mellanox.com>
 
-On Thu, Jan 31, 2019@04:09:18PM +0200, Eyal BenDavid wrote:
-> What is the difference from using "nvme_user_io" structure?
-> Is it safe to use this version of IO commands?
+This will print get-feature cmd in more informative way. For example,
+run "nvme get-feature /dev/nvme0 -n 1 -f 0x9 -c 10" will trace:
 
-The passthru structure is good to use for any command. The
-nvme_user_io structure is a legacy feature from very early nvme days
-when read/write/compare were the only IO commands. It didn't extend to
-other IO commands, and deprecating it wouldn't be a bad thing.
+ nvme-3907  [008] ....  1763.635054: nvme_setup_cmd: nvme0: qid=0, cmdid=6, nsid=1, flags=0x0, meta=0x0, cmd=(nvme_admin_get_features fid=0x9 sel=0x0 cdw11=0xa)
+<idle>-0     [001] d.h.  1763.635112: nvme_sq: nvme0: qid=0, head=27, tail=27
+<idle>-0     [008] ..s.  1763.635121: nvme_complete_rq: nvme0: qid=0, cmdid=6, res=10, retries=0, flags=0x2, status=0
+
+Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ drivers/nvme/host/trace.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/drivers/nvme/host/trace.c b/drivers/nvme/host/trace.c
+index 5566dda..caa18bb 100644
+--- a/drivers/nvme/host/trace.c
++++ b/drivers/nvme/host/trace.c
+@@ -58,7 +58,19 @@ static const char *nvme_trace_admin_identify(struct trace_seq *p, u8 *cdw10)
+ 	return ret;
+ }
+ 
++static const char *nvme_trace_admin_get_features(struct trace_seq *p,
++						 u8 *cdw10)
++{
++	const char *ret = trace_seq_buffer_ptr(p);
++	u8 fid = cdw10[0];
++	u8 sel = cdw10[1];
++	u32 cdw11 = get_unaligned_le32(cdw10 + 4);
++
++	trace_seq_printf(p, "fid=0x%x sel=0x%x cdw11=0x%x", fid, sel, cdw11);
++	trace_seq_putc(p, 0);
+ 
++	return ret;
++}
+ 
+ static const char *nvme_trace_read_write(struct trace_seq *p, u8 *cdw10)
+ {
+@@ -109,6 +121,8 @@ const char *nvme_trace_parse_admin_cmd(struct trace_seq *p,
+ 		return nvme_trace_create_cq(p, cdw10);
+ 	case nvme_admin_identify:
+ 		return nvme_trace_admin_identify(p, cdw10);
++	case nvme_admin_get_features:
++		return nvme_trace_admin_get_features(p, cdw10);
+ 	default:
+ 		return nvme_trace_common(p, cdw10);
+ 	}
+-- 
+1.8.3.1
