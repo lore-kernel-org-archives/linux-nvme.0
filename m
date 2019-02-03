@@ -1,58 +1,36 @@
-From: lkp@intel.com (kbuild test robot)
-Date: Sun, 3 Feb 2019 08:17:12 +0800
-Subject: [PATCH] nvme: Enable acceleration feature of A64FX processor
-In-Reply-To: <20190201124615.16107-1-indou.takao@jp.fujitsu.com>
-References: <20190201124615.16107-1-indou.takao@jp.fujitsu.com>
-Message-ID: <201902030842.PIdG3wbw%fengguang.wu@intel.com>
+From: bdeyal@gmail.com (Eyal BenDavid)
+Date: Sun, 3 Feb 2019 17:36:41 +0200
+Subject: "nvme-cli : wrong connection string for /dev/nvme-facrics (FC)"
+Message-ID: <CAPrnrPC_8aM2mc17gU=FvM2TMC+oFvMQGJW4svOBCrZwfC09Yg@mail.gmail.com>
 
-Hi Takao,
+Hi all,
 
-Thank you for the patch! Perhaps something to improve:
+I tried latest nvme-cli with FC and kept getting "invalid argument"
+from nvme-fabrics.
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v5.0-rc4 next-20190201]
-[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
+I added a print of the connection string.
 
-url:    https://github.com/0day-ci/linux/commits/Takao-Indoh/nvme-Enable-acceleration-feature-of-A64FX-processor/20190203-033331
-reproduce:
-        # apt-get install sparse
-        make ARCH=x86_64 allmodconfig
-        make C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__'
+The connection string is probably wrong (or it can't work with older kernels)
 
-All warnings (new ones prefixed by >>):
+The transport arg in the conn string is "...,transport=fibre-channel,..."
 
->> drivers/nvme/host/pci.c:840:19: sparse: warning: invalid assignment: |=
-   drivers/nvme/host/pci.c:840:19: sparse:    left side has type restricted __le64
-   drivers/nvme/host/pci.c:840:19: sparse:    right side has type unsigned long long
->> drivers/nvme/host/pci.c:840:19: sparse: warning: invalid assignment: |=
-   drivers/nvme/host/pci.c:840:19: sparse:    left side has type restricted __le64
-   drivers/nvme/host/pci.c:840:19: sparse:    right side has type unsigned long long
+I think it should be "fc" and not "fibre-channel"
 
-sparse warnings: (new ones prefixed by >>)
+dmesg says: [515366.391531] nvme_fabrics: no handler found for
+transport fibre-channel
 
-   drivers/nvme/host/pci.c:840:19: sparse: warning: invalid assignment: |=
->> drivers/nvme/host/pci.c:840:19: sparse:    left side has type restricted __le64
->> drivers/nvme/host/pci.c:840:19: sparse:    right side has type unsigned long long
-   drivers/nvme/host/pci.c:840:19: sparse: warning: invalid assignment: |=
->> drivers/nvme/host/pci.c:840:19: sparse:    left side has type restricted __le64
->> drivers/nvme/host/pci.c:840:19: sparse:    right side has type unsigned long long
+The commit that removed explicit "transport=fc"  is:
 
-vim +840 drivers/nvme/host/pci.c
+commit 55b4ec12ffe43c5abd78fa5806fd2141b49aa1db
+Author: Sagi Grimberg <sagi at grimberg.me>
+Date:   Tue Nov 20 13:26:06 2018 -0800
 
-   837	
-   838	static inline void nvme_pci_enable_a64fx_relax_bit(struct nvme_sgl_desc *sge)
-   839	{
- > 840		sge->addr |= (1ULL << 56);
-   841	}
-   842	
+    fabrics: use trtype_str when parsing a discovery log entry
 
----
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: .config.gz
-Type: application/gzip
-Size: 67277 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20190203/e8f0916c/attachment-0001.gz>
+    Reduce some code duplication.
+
+    Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+
+
+Thanks
+Eyal
