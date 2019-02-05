@@ -1,22 +1,27 @@
 From: indou.takao@fujitsu.com (Takao Indoh)
-Date: Tue, 5 Feb 2019 21:56:05 +0900
+Date: Tue, 5 Feb 2019 21:56:57 +0900
 Subject: [PATCH] nvme: Enable acceleration feature of A64FX processor
-In-Reply-To: <20190201145414.GA22199@localhost.localdomain>
+In-Reply-To: <20190201155120.GA5180@lst.de>
 References: <20190201124615.16107-1-indou.takao@jp.fujitsu.com>
- <20190201145414.GA22199@localhost.localdomain>
-Message-ID: <20190205124757.GA28465@esprimo>
+ <20190201155120.GA5180@lst.de>
+Message-ID: <20190205125657.GA1663@esprimo>
 
-On Fri, Feb 01, 2019@07:54:14AM -0700, Keith Busch wrote:
+On Fri, Feb 01, 2019@04:51:20PM +0100, Christoph Hellwig wrote:
 > On Fri, Feb 01, 2019@09:46:15PM +0900, Takao Indoh wrote:
 > > From: Takao Indoh <indou.takao at fujitsu.com>
 > > 
 > > Fujitsu A64FX processor has a feature to accelerate data transfer of
 > > internal bus by relaxed ordering. It is enabled when the bit 56 of dma
 > > address is set to 1.
+> > 
+> > This patch introduces this acceleration feature to the NVMe driver to
+> > enhance NVMe device performance.
 > 
-> Wait, what? RO is a standard PCIe TLP attribute. Why would we need this?
+> This has absolutely no business in a PCIe driver, sorry.
+> 
 
-I should have explained this patch more carefully.
+At first let me explain detail of this feature. I wrote the same
+explanation in the reply to Keith, but I write here again just in case.
 
 Standard PCIe devices can use Relaxed Ordering (RO) by setting Attr
 field in the TLP header, however, this mechanism cannot be utilized if
