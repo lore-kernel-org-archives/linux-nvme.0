@@ -1,103 +1,43 @@
-From: jack@suse.cz (Jan Kara)
-Date: Tue, 5 Feb 2019 12:50:48 +0100
-Subject: [PATCH v2 0/4] Write-hint for FS journal
-In-Reply-To: <0ab2f0e1-27f2-7ab4-1772-f96c1430ea3b@samsung.com>
-References: <CGME20190109153328epcas2p4643cbdc7a2182b47893a2bcaa0778e17@epcas2p4.samsung.com>
- <1547047861-7271-1-git-send-email-joshi.k@samsung.com>
- <20190125162353.GA11210@localhost.localdomain>
- <20190128124709.GB27972@quack2.suse.cz>
- <20190128232423.GD15302@localhost.localdomain>
- <20190129100702.GA29981@quack2.suse.cz>
- <20190130001349.GT6173@dastard>
- <0ab2f0e1-27f2-7ab4-1772-f96c1430ea3b@samsung.com>
-Message-ID: <20190205115048.GC3872@quack2.suse.cz>
+From: indou.takao@fujitsu.com (Takao Indoh)
+Date: Tue, 5 Feb 2019 21:56:05 +0900
+Subject: [PATCH] nvme: Enable acceleration feature of A64FX processor
+In-Reply-To: <20190201145414.GA22199@localhost.localdomain>
+References: <20190201124615.16107-1-indou.takao@jp.fujitsu.com>
+ <20190201145414.GA22199@localhost.localdomain>
+Message-ID: <20190205124757.GA28465@esprimo>
 
-On Wed 30-01-19 19:24:39, Kanchan Joshi wrote:
-> 
-> On Wednesday 30 January 2019 05:43 AM, Dave Chinner wrote:
-> > On Tue, Jan 29, 2019@11:07:02AM +0100, Jan Kara wrote:
-> > > On Mon 28-01-19 16:24:24, Keith Busch wrote:
-> > > > On Mon, Jan 28, 2019@04:47:09AM -0800, Jan Kara wrote:
-> > > > > On Fri 25-01-19 09:23:53, Keith Busch wrote:
-> > > > > > On Wed, Jan 09, 2019@09:00:57PM +0530, Kanchan Joshi wrote:
-> > > > > > > Towards supporing write-hints/streams for filesystem journal.
-> > > > > > > Here is the v1 patch for background -
-> > > > > > > https://marc.info/?l=linux-fsdevel&m=154444637519020&w=2
-> > > > > > > Changes since v1:
-> > > > > > > - introduce four more hints for in-kernel use, as recommended by Dave chinner
-> > > > > > >    & Jens axboe. This isolates kernel-mode hints from user-mode ones.
-> > > > > > 
-> > > > > > The nvme driver disables streams if the controller doesn't support
-> > > > > > BLK_MAX_WRITE_HINT number of streams, so this series breaks the feature
-> > > > > > for controllers that only support up to 4.
-> > > > > 
-> > > > > Right. Do you know if there are such controllers? Or are you just afraid
-> > > > > that there could be?
-> > > > 
-> > > > I've asked around, and the concensus I received is all currently support
-> > > > at least 8, but they couldn't say if that would be true for potential
-> > > > lower budget products. Can we implement a reasonable fallback to use
-> > > > what's available?
-> > > 
-> > > OK, thanks for input. So probably we should just map kernel stream IDs to 0
-> > > if the device doesn't support them. But that probably means we need to
-> > > propagate number of available streams up from NVME into the block layer so
-> > > that this can be handled reasonably seamlessly. Jens, Kanchan?
+On Fri, Feb 01, 2019@07:54:14AM -0700, Keith Busch wrote:
+> On Fri, Feb 01, 2019@09:46:15PM +0900, Takao Indoh wrote:
+> > From: Takao Indoh <indou.takao at fujitsu.com>
 > > 
-> > Yeah, that's basically what I said we needed to do when this was
-> > last discussed. i.e. that the block layer needed to know how many
-> > streams the hardware had and map the 4 "kernel internal" hints
-> > appropriately to what he device supports.
-> > 
-> > e.g. if the device only supports 4 hints, then it needs to map the
-> > kernel hints either to zero. If it supports less than 8 streams,
-> > then they need otbe mapped into the hints above index 5. If there
-> > are N streams, then they need to be mapped to the hints {N-3,N}
-> > 
-> > And, to top it all off, there needs to be guards so that if we want
-> > to grow the userspace hints to more than 4 hints, they don't crash
-> > into ranges the kernel is already reserving because of limited
-> > device range support.
-> > 
-> > Nothing is ever simple....
-> > 
-> Thanks all for feedback.
-> user-hints, when they reach to kernel via fcntl path, are sanity-checked
-> (rw_hint_valid function).
-> Currently streams are enabled when nvme driver is made to run with "streams
-> =1" option, while stream users always pass some write-hint, without
-> bothering whether streams (and how many of those) are operational or not.
-> This keeps configuration simple for stream users. Second, block layer does
-> not translate write-hint to stream-number, rather it is done inside nvme
-> driver. I suppose I should keep both these properties intact.
-> And considering all the suggestions, this is the plan for V3 -
+> > Fujitsu A64FX processor has a feature to accelerate data transfer of
+> > internal bus by relaxed ordering. It is enabled when the bit 56 of dma
+> > address is set to 1.
 > 
-> [In block layer]
-> 1. Introduce one macro "KERN_WRITE_HINT_MIN" which will take the value
-> "user_hint_cnt + 1".
-> FS code will use this value (onwards) to define their own streams.
-> 
-> 2. Introduce another macro "BLK_MAX_KERNEL_WRITE_HINTS" which will be set to
-> 4 for now.
-> 
-> [In nvme driver]
-> 1. Continue working as before if device supports just 4 streams. All these
-> streams are used by user-hints, and kernel-hints are translated to 0.
-> 
-> 2. If device supports any more than 4 streams, those will be mapped to serve
-> kernel-hints, starting from KERN_WRITE_HINT_MIN onwards.
-> For example, if device has 6 streams, four streams (numbers = 1,2,3,4) will
-> be used to serve user-hints and two streams ( numbers = 65535, 65534) will
-> be used to serve first two kernel hints. Other kernel-hints get mapped to 0.
-> OTOH, if device has 10 streams, first four kernel-hints will be mapped to
-> non-zero values (65535 to 65532) and anything else would get turned to 0.
+> Wait, what? RO is a standard PCIe TLP attribute. Why would we need this?
 
-Well, I'm not sure if the mapping should happen in the NVME driver. In
-future, there will be potentially more drivers supporting write hints and
-we probably don't want each of them to replicate the mapping behavior. So
-IMO the mapping should rather belong to the block layer...
+I should have explained this patch more carefully.
 
-								Honza
--- 
-Jan Kara <jack at suse.com>
-SUSE Labs, CR
+Standard PCIe devices can use Relaxed Ordering (RO) by setting Attr
+field in the TLP header, however, this mechanism cannot be utilized if
+the device does not support RO feature. Fujitsu A64FX processor has an
+alternate feature to enable RO in its Root Port by setting the bit 56 of
+DMA address. This mechanism enables to utilize RO feature even if the
+device does not support standard PCIe RO.
+
+The data packet with its DMA address bit 56 is set, is transferred from
+the device to the PCI root port with Strong Ordering (SO), and then it
+is transferred with RO to the host memory.
+
+This patch adds new code into NVMe driver to set bit 56 of DMA address
+to utilize this feature. The reason why I do this in NVMe driver is that
+here is an only place where we can traverses a sgl list to update the
+DMA addresses. We can transfer data buffers with RO, but we cannot use
+RO as for writes to the admin completion queue and the I/O completion
+queue from the NVMe controller to the host. These writes need to be done
+with SO to avoid data corruption. This patch scans data buffers queued
+in the sgl list and update their DMA addresses to send data buffers with
+RO.
+
+Thanks,
+Takao Indoh
