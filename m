@@ -1,16 +1,10 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 4 Feb 2019 14:48:30 -0700
-Subject: "nvme-cli : wrong connection string for /dev/nvme-facrics (FC)"
-In-Reply-To: <7b8e7f70-d520-2a64-ba5b-636dc033fe04@broadcom.com>
-References: <CAPrnrPC_8aM2mc17gU=FvM2TMC+oFvMQGJW4svOBCrZwfC09Yg@mail.gmail.com>
- <7b8e7f70-d520-2a64-ba5b-636dc033fe04@broadcom.com>
-Message-ID: <20190204214830.GE22199@localhost.localdomain>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 5 Feb 2019 09:51:22 +0100
+Subject: [PATCH] nvme-pci: Fix rapid add remove sequence
+In-Reply-To: <20190124014611.8643-1-keith.busch@intel.com>
+References: <20190124014611.8643-1-keith.busch@intel.com>
+Message-ID: <20190205085122.GA5792@lst.de>
 
-On Mon, Feb 04, 2019@01:41:04PM -0800, James Smart wrote:
-> Eyal,
-> 
-> Yes, that patch switched things up on FC and made it no longer match the fc
-> transport.
-> I just submitted a patch to correct it.
+Thanks,
 
-And patch is now applied, thanks for the fix.
+applied to nvme-5.0.
