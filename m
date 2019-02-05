@@ -1,22 +1,82 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 5 Feb 2019 17:13:47 +0100
-Subject: [PATCH] nvme: Enable acceleration feature of A64FX processor
-In-Reply-To: <20190205143905.GG22199@localhost.localdomain>
-References: <20190201124615.16107-1-indou.takao@jp.fujitsu.com>
- <20190201145414.GA22199@localhost.localdomain>
- <20190205124757.GA28465@esprimo>
- <20190205143905.GG22199@localhost.localdomain>
-Message-ID: <20190205161347.GA847@lst.de>
+From: jsmart2021@gmail.com (James Smart)
+Date: Tue,  5 Feb 2019 09:39:02 -0800
+Subject: [PATCH] nvmet-fc: Bring Disconnect into compliance with FC-NVME spec
+Message-ID: <20190205173902.17947-1-jsmart2021@gmail.com>
 
-On Tue, Feb 05, 2019@07:39:06AM -0700, Keith Busch wrote:
-> > Standard PCIe devices can use Relaxed Ordering (RO) by setting Attr
-> > field in the TLP header, however, this mechanism cannot be utilized if
-> > the device does not support RO feature. Fujitsu A64FX processor has an
-> > alternate feature to enable RO in its Root Port by setting the bit 56 of
-> > DMA address. This mechanism enables to utilize RO feature even if the
-> > device does not support standard PCIe RO.
-> 
-> I think you're better of just purchasing devices that support the
-> capability per spec rather than with a non-standard work around.
+The FC-NVME spec, when finally approved, modified the disconnect LS
+such that the only scope available is the association.
 
-Agreed, this seems like a pretty gross hack.
+Rework the Disconnect LS processing to be in accordance with the
+change.
+
+Signed-off-by: Nigel Kirkland <nigel.kirkland at broadcom.com>
+Signed-off-by: James Smart <jsmart2021 at gmail.com>
+---
+ drivers/nvme/target/fc.c | 33 ++-------------------------------
+ 1 file changed, 2 insertions(+), 31 deletions(-)
+
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index 9d065850cda4..2f67b315674b 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -1514,10 +1514,8 @@ nvmet_fc_ls_disconnect(struct nvmet_fc_tgtport *tgtport,
+ 			(struct fcnvme_ls_disconnect_rqst *)iod->rqstbuf;
+ 	struct fcnvme_ls_disconnect_acc *acc =
+ 			(struct fcnvme_ls_disconnect_acc *)iod->rspbuf;
+-	struct nvmet_fc_tgt_queue *queue = NULL;
+ 	struct nvmet_fc_tgt_assoc *assoc;
+ 	int ret = 0;
+-	bool del_assoc = false;
+ 
+ 	memset(acc, 0, sizeof(*acc));
+ 
+@@ -1548,18 +1546,7 @@ nvmet_fc_ls_disconnect(struct nvmet_fc_tgtport *tgtport,
+ 		assoc = nvmet_fc_find_target_assoc(tgtport,
+ 				be64_to_cpu(rqst->associd.association_id));
+ 		iod->assoc = assoc;
+-		if (assoc) {
+-			if (rqst->discon_cmd.scope ==
+-					FCNVME_DISCONN_CONNECTION) {
+-				queue = nvmet_fc_find_target_queue(tgtport,
+-						be64_to_cpu(
+-							rqst->discon_cmd.id));
+-				if (!queue) {
+-					nvmet_fc_tgt_a_put(assoc);
+-					ret = VERR_NO_CONN;
+-				}
+-			}
+-		} else
++		if (!assoc)
+ 			ret = VERR_NO_ASSOC;
+ 	}
+ 
+@@ -1587,26 +1574,10 @@ nvmet_fc_ls_disconnect(struct nvmet_fc_tgtport *tgtport,
+ 				sizeof(struct fcnvme_ls_disconnect_acc)),
+ 			FCNVME_LS_DISCONNECT);
+ 
+-
+-	/* are we to delete a Connection ID (queue) */
+-	if (queue) {
+-		int qid = queue->qid;
+-
+-		nvmet_fc_delete_target_queue(queue);
+-
+-		/* release the get taken by find_target_queue */
+-		nvmet_fc_tgt_q_put(queue);
+-
+-		/* tear association down if io queue terminated */
+-		if (!qid)
+-			del_assoc = true;
+-	}
+-
+ 	/* release get taken in nvmet_fc_find_target_assoc */
+ 	nvmet_fc_tgt_a_put(iod->assoc);
+ 
+-	if (del_assoc)
+-		nvmet_fc_delete_target_assoc(iod->assoc);
++	nvmet_fc_delete_target_assoc(iod->assoc);
+ }
+ 
+ 
+-- 
+2.13.7
