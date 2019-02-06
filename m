@@ -1,86 +1,26 @@
-From: emilne@redhat.com (Ewan D. Milne)
-Date: Wed, 06 Feb 2019 08:44:42 -0500
-Subject: [PATCH] nvmet-fc: Bring Disconnect into compliance with FC-NVME
- spec
-In-Reply-To: <20190205173902.17947-1-jsmart2021@gmail.com>
-References: <20190205173902.17947-1-jsmart2021@gmail.com>
-Message-ID: <ff8525a2d7720cc6a684517adaaae96a72364adc.camel@redhat.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 6 Feb 2019 16:38:28 +0100
+Subject: [GIT PULL] nvme fixes for 5.0
+Message-ID: <20190206153828.GA14994@infradead.org>
 
-On Tue, 2019-02-05@09:39 -0800, James Smart wrote:
-> The FC-NVME spec, when finally approved, modified the disconnect LS
-> such that the only scope available is the association.
-> 
-> Rework the Disconnect LS processing to be in accordance with the
-> change.
-> 
-> Signed-off-by: Nigel Kirkland <nigel.kirkland at broadcom.com>
-> Signed-off-by: James Smart <jsmart2021 at gmail.com>
-> ---
->  drivers/nvme/target/fc.c | 33 ++-------------------------------
->  1 file changed, 2 insertions(+), 31 deletions(-)
-> 
-> diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-> index 9d065850cda4..2f67b315674b 100644
-> --- a/drivers/nvme/target/fc.c
-> +++ b/drivers/nvme/target/fc.c
-> @@ -1514,10 +1514,8 @@ nvmet_fc_ls_disconnect(struct nvmet_fc_tgtport *tgtport,
->  			(struct fcnvme_ls_disconnect_rqst *)iod->rqstbuf;
->  	struct fcnvme_ls_disconnect_acc *acc =
->  			(struct fcnvme_ls_disconnect_acc *)iod->rspbuf;
-> -	struct nvmet_fc_tgt_queue *queue = NULL;
->  	struct nvmet_fc_tgt_assoc *assoc;
->  	int ret = 0;
-> -	bool del_assoc = false;
->  
->  	memset(acc, 0, sizeof(*acc));
->  
-> @@ -1548,18 +1546,7 @@ nvmet_fc_ls_disconnect(struct nvmet_fc_tgtport *tgtport,
->  		assoc = nvmet_fc_find_target_assoc(tgtport,
->  				be64_to_cpu(rqst->associd.association_id));
->  		iod->assoc = assoc;
-> -		if (assoc) {
-> -			if (rqst->discon_cmd.scope ==
-> -					FCNVME_DISCONN_CONNECTION) {
-> -				queue = nvmet_fc_find_target_queue(tgtport,
-> -						be64_to_cpu(
-> -							rqst->discon_cmd.id));
-> -				if (!queue) {
-> -					nvmet_fc_tgt_a_put(assoc);
-> -					ret = VERR_NO_CONN;
-> -				}
-> -			}
-> -		} else
-> +		if (!assoc)
->  			ret = VERR_NO_ASSOC;
->  	}
->  
-> @@ -1587,26 +1574,10 @@ nvmet_fc_ls_disconnect(struct nvmet_fc_tgtport *tgtport,
->  				sizeof(struct fcnvme_ls_disconnect_acc)),
->  			FCNVME_LS_DISCONNECT);
->  
-> -
-> -	/* are we to delete a Connection ID (queue) */
-> -	if (queue) {
-> -		int qid = queue->qid;
-> -
-> -		nvmet_fc_delete_target_queue(queue);
-> -
-> -		/* release the get taken by find_target_queue */
-> -		nvmet_fc_tgt_q_put(queue);
-> -
-> -		/* tear association down if io queue terminated */
-> -		if (!qid)
-> -			del_assoc = true;
-> -	}
-> -
->  	/* release get taken in nvmet_fc_find_target_assoc */
->  	nvmet_fc_tgt_a_put(iod->assoc);
->  
-> -	if (del_assoc)
-> -		nvmet_fc_delete_target_assoc(iod->assoc);
-> +	nvmet_fc_delete_target_assoc(iod->assoc);
->  }
->  
->  
+The following changes since commit ec51f8ee1e63498e9f521ec0e5a6d04622bb2c67:
 
-Reviewed-by: Ewan D. Milne <emilne at redhat.com>
+  aio: initialize kiocb private in case any filesystems expect it. (2019-02-06 08:04:22 -0700)
+
+are available in the Git repository at:
+
+  git://git.infradead.org/nvme.git nvme-5.0
+
+for you to fetch changes up to 5c959d73dba6495ec01d04c206ee679d61ccb2b0:
+
+  nvme-pci: fix rapid add remove sequence (2019-02-06 16:35:33 +0100)
+
+----------------------------------------------------------------
+Keith Busch (2):
+      nvme: lock NS list changes while handling command effects
+      nvme-pci: fix rapid add remove sequence
+
+ drivers/nvme/host/core.c |  8 +++++++-
+ drivers/nvme/host/nvme.h |  1 +
+ drivers/nvme/host/pci.c  | 22 ++++++++++++----------
+ 3 files changed, 20 insertions(+), 11 deletions(-)
