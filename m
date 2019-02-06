@@ -1,61 +1,86 @@
 From: emilne@redhat.com (Ewan D. Milne)
-Date: Wed, 06 Feb 2019 08:44:12 -0500
-Subject: [PATCH] nvmet-fc: fix issues with targetport assoc_list list
- walking
-In-Reply-To: <20190205173846.17900-1-jsmart2021@gmail.com>
-References: <20190205173846.17900-1-jsmart2021@gmail.com>
-Message-ID: <0583e57494a8b6db27a64bc9eb2fc11833a11101.camel@redhat.com>
+Date: Wed, 06 Feb 2019 08:44:42 -0500
+Subject: [PATCH] nvmet-fc: Bring Disconnect into compliance with FC-NVME
+ spec
+In-Reply-To: <20190205173902.17947-1-jsmart2021@gmail.com>
+References: <20190205173902.17947-1-jsmart2021@gmail.com>
+Message-ID: <ff8525a2d7720cc6a684517adaaae96a72364adc.camel@redhat.com>
 
-On Tue, 2019-02-05@09:38 -0800, James Smart wrote:
-> There are two changes:
+On Tue, 2019-02-05@09:39 -0800, James Smart wrote:
+> The FC-NVME spec, when finally approved, modified the disconnect LS
+> such that the only scope available is the association.
 > 
-> 1) The logic in the __nvmet_fc_free_assoc() routine is bad. It uses
-> "safe" routines assuming pointers will come back valid. However,
-> the intervening next structure being linked can be removed from the
-> list and the resulting safe pointers are bad, resulting in NULL ptrs
-> being hit.
-> 
-> Correct by scheduling a work element to perform the association
-> delete, which can be done while under lock.
-> 
-> 2) Prior patch that added the work element scheduling left a
-> possible reference on the object if the work element couldn't
-> be scheduled
-> 
-> Correct by doing the put on a failing schedule_work() call.
+> Rework the Disconnect LS processing to be in accordance with the
+> change.
 > 
 > Signed-off-by: Nigel Kirkland <nigel.kirkland at broadcom.com>
 > Signed-off-by: James Smart <jsmart2021 at gmail.com>
 > ---
->  drivers/nvme/target/fc.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
+>  drivers/nvme/target/fc.c | 33 ++-------------------------------
+>  1 file changed, 2 insertions(+), 31 deletions(-)
 > 
 > diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-> index f98f5c5bea26..9d065850cda4 100644
+> index 9d065850cda4..2f67b315674b 100644
 > --- a/drivers/nvme/target/fc.c
 > +++ b/drivers/nvme/target/fc.c
-> @@ -1155,10 +1155,8 @@ __nvmet_fc_free_assocs(struct nvmet_fc_tgtport *tgtport)
->  				&tgtport->assoc_list, a_list) {
->  		if (!nvmet_fc_tgt_a_get(assoc))
->  			continue;
-> -		spin_unlock_irqrestore(&tgtport->lock, flags);
-> -		nvmet_fc_delete_target_assoc(assoc);
-> -		nvmet_fc_tgt_a_put(assoc);
-> -		spin_lock_irqsave(&tgtport->lock, flags);
-> +		if (!schedule_work(&assoc->del_work))
-> +			nvmet_fc_tgt_a_put(assoc);
->  	}
->  	spin_unlock_irqrestore(&tgtport->lock, flags);
->  }
-> @@ -1197,7 +1195,8 @@ nvmet_fc_delete_ctrl(struct nvmet_ctrl *ctrl)
->  		nvmet_fc_tgtport_put(tgtport);
+> @@ -1514,10 +1514,8 @@ nvmet_fc_ls_disconnect(struct nvmet_fc_tgtport *tgtport,
+>  			(struct fcnvme_ls_disconnect_rqst *)iod->rqstbuf;
+>  	struct fcnvme_ls_disconnect_acc *acc =
+>  			(struct fcnvme_ls_disconnect_acc *)iod->rspbuf;
+> -	struct nvmet_fc_tgt_queue *queue = NULL;
+>  	struct nvmet_fc_tgt_assoc *assoc;
+>  	int ret = 0;
+> -	bool del_assoc = false;
 >  
->  		if (found_ctrl) {
-> -			schedule_work(&assoc->del_work);
-> +			if (schedule_work(&assoc->del_work))
-> +				nvmet_fc_tgt_a_put(assoc);
->  			return;
->  		}
+>  	memset(acc, 0, sizeof(*acc));
+>  
+> @@ -1548,18 +1546,7 @@ nvmet_fc_ls_disconnect(struct nvmet_fc_tgtport *tgtport,
+>  		assoc = nvmet_fc_find_target_assoc(tgtport,
+>  				be64_to_cpu(rqst->associd.association_id));
+>  		iod->assoc = assoc;
+> -		if (assoc) {
+> -			if (rqst->discon_cmd.scope ==
+> -					FCNVME_DISCONN_CONNECTION) {
+> -				queue = nvmet_fc_find_target_queue(tgtport,
+> -						be64_to_cpu(
+> -							rqst->discon_cmd.id));
+> -				if (!queue) {
+> -					nvmet_fc_tgt_a_put(assoc);
+> -					ret = VERR_NO_CONN;
+> -				}
+> -			}
+> -		} else
+> +		if (!assoc)
+>  			ret = VERR_NO_ASSOC;
+>  	}
+>  
+> @@ -1587,26 +1574,10 @@ nvmet_fc_ls_disconnect(struct nvmet_fc_tgtport *tgtport,
+>  				sizeof(struct fcnvme_ls_disconnect_acc)),
+>  			FCNVME_LS_DISCONNECT);
+>  
+> -
+> -	/* are we to delete a Connection ID (queue) */
+> -	if (queue) {
+> -		int qid = queue->qid;
+> -
+> -		nvmet_fc_delete_target_queue(queue);
+> -
+> -		/* release the get taken by find_target_queue */
+> -		nvmet_fc_tgt_q_put(queue);
+> -
+> -		/* tear association down if io queue terminated */
+> -		if (!qid)
+> -			del_assoc = true;
+> -	}
+> -
+>  	/* release get taken in nvmet_fc_find_target_assoc */
+>  	nvmet_fc_tgt_a_put(iod->assoc);
+>  
+> -	if (del_assoc)
+> -		nvmet_fc_delete_target_assoc(iod->assoc);
+> +	nvmet_fc_delete_target_assoc(iod->assoc);
+>  }
+>  
 >  
 
 Reviewed-by: Ewan D. Milne <emilne at redhat.com>
