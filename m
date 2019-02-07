@@ -1,85 +1,45 @@
-From: Damien.LeMoal@wdc.com (Damien Le Moal)
-Date: Thu, 7 Feb 2019 05:07:06 +0000
-Subject: [LSF/MM TOPIC] : blktests: status, an expansion plan for the
- storage stack test framework
-References: <BYAPR04MB4502158B1588C8EFF7B4E345866F0@BYAPR04MB4502.namprd04.prod.outlook.com>
- <2ed684c6-38de-1717-5787-31b00c72ba4f@suse.de>
-Message-ID: <BYAPR04MB5816AD0D34E107EA79B69219E7680@BYAPR04MB5816.namprd04.prod.outlook.com>
-
-On 2019/02/06 19:32, Johannes Thumshirn wrote:
-> On 06/02/2019 06:21, Chaitanya Kulkarni wrote:
->> Hi,
->>
->> Since discussion of the storage stack and device driver at the LSFMM 2017
->> (https://lwn.net/Articles/717699/),  Omar Sandoval introduced a new framework
->> "blktests" dedicated for Linux Kernel Block layer testing.
->> (https://lwn.net/Articles/722785/, https://github.com/osandov/blktests).
->>  
->> As Linux Kernel Block layer is central to the various file systems and underlying
->> low-level device drivers it is important to have a centralized testing framework and
->> make sure it grows with the latest block layer changed which are being added based
->> on the different device features from different device types
->> (e.g. NVMe devices with Zoned Namespace support).
->>
->> Since then blktests has grown and became go-to framework where we have integrated
->> different stand-alone test suites like SRP-tests, NVMFTESTS, NVMe Multipath tests,
->> zone block device tests, into one central framework, which has made an overall block layer
->> testing and development much easier than having to configure and execute different
->> test cases for each kernel release for different subsystems such as FS, NVMe,
->> Zone Block devices, etc). 
->>
->> Here is the list of the existing test categories:-
->>
->> ??? block? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?28 Tests
->> ??? loop? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?07 Tests
->> ??? meta? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? 12 Tests
->> ??? nbd? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? 02 Tests
->> ??? nvme? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?28 Tests
->> ??? nvmeof-mp? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? 12 Tests
->> ??? scsi? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? 06 Tests
->> ??? srp? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?13 Tests
->> ??? zbd? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? 05 Tests
->> ---------------------------------------------------------------- 
->>            9 Categories? ? ? ? ? ? ?               ~110 Tests
->>
->> This project has gathered much attention and storage stack community is actively
->> participating and adding new test cases with different categories to the framework. 
->>
->> For storage track, we would like to propose a session dedicated to blktests. It is a great
->> opportunity for the storage developers to gather and have a discussion about:-
->>
->> 1. Current status of the blktests framework.
->> 2. Any new/missing features that we want to add in the blktests.
->> 3. Any new kernel features that could be used to make testing easier?
->> E.g. Implementing new features in the null_blk.c in order to have device
->> independent complete test coverage. (e.g. adding discard command for null_blk or any
->> other specific REQ_OP). Discussion about having any new tracepoint events in the block layer.
->> 4. Any new test cases/categories which are lacking in the blktests framework.
-> 
-> One thing I'd love to see is more hardware/driver specific tests. I'm
-> sure Broadcom, Marvell, Huawei and all the others out there do have test
-> suites for their HBA drivers but not a single one of these tests is
-> publicly available.
-> 
-> We're also lacking tests for things like ioprio, persistent reservation,
-> bcache and so on.
-
-+1 for ioprio discussion. I mentioned my interest in discussing this in my
-invite request. Having it as a topic would be great. Since we are in the middle
-of blktest improvements for zoned devices, I can try to put together a proposal
-as a discussion base.
-
-> 
-> Adding support for collecting gcov information after running a test case
-> would also be awesome (this is missing in xfstests as well).
-> 
-> So I think a session on blktests can help us get the gap closed.
-> 
-> Byte,
-> 	Johannes
-> 
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Thu, 7 Feb 2019 12:28:07 +0200
+Subject: [PATCH 1/1] nvme: add get-feature to admin cmds tracer
+In-Reply-To: <bcbfb9ea-88ff-d8c7-22ba-8f1df7104930@suse.de>
+References: <1548947610-9330-1-git-send-email-maxg@mellanox.com>
+ <20190131161108.GA20811@localhost.localdomain>
+ <63c08f3a-a109-9441-df53-6a65b1db9ab9@mellanox.com>
+ <bcbfb9ea-88ff-d8c7-22ba-8f1df7104930@suse.de>
+Message-ID: <f973dcd6-3455-449d-bf5b-117647d04b12@mellanox.com>
 
 
--- 
-Damien Le Moal
-Western Digital Research
+On 2/4/2019 10:23 AM, Johannes Thumshirn wrote:
+> On 31/01/2019 18:01, Max Gurtovoy wrote:
+>> On 1/31/2019 6:11 PM, Keith Busch wrote:
+>>> On Thu, Jan 31, 2019@05:13:30PM +0200, Max Gurtovoy wrote:
+>>>> +static const char *nvme_trace_admin_get_features(struct trace_seq *p,
+>>>> +???????????????????????? u8 *cdw10)
+>>>> +{
+>>>> +??? const char *ret = trace_seq_buffer_ptr(p);
+>>>> +??? u8 fid = cdw10[0];
+>>>> +??? u8 sel = cdw10[1];
+>> u8 sel = cdw10[1] & 0x7;
+> Yup
+>
+> [...]
+>
+>> Well, I guess that nvme-cli is the only common tool used by the majority
+>> of the community.
+>>
+>> we can add something like "nvme trace-parse <raw-cmd>".
+>>
+>> but this will open a various places to go wrong (and it will happen for
+>> sure).
+>>
+>> Let's see what other guys think..
+> I'm open for both sides, but we're already decoding a bunch of commands
+> in the kernel and so does the SCSI tracing, so I don't see a compelling
+> reason to stop it now.
+
+Yup, I also think we shouldn't throw all cmd decoding from kernel and we 
+can add more decoding incrementally as I did in this commit.
+
+Sagi/Christoph,
+
+what is your standing in this topic ? should I send V2 ?
