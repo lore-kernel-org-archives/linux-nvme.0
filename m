@@ -1,96 +1,26 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 7 Feb 2019 08:35:06 -0700
-Subject: LSF/MM 2019: Call for Proposals (UPDATED!)
-Message-ID: <4f5a15c1-4f9e-acae-5094-2f38c8eebd96@kernel.dk>
+From: sbates@raithlin.com (Stephen  Bates)
+Date: Thu, 7 Feb 2019 17:12:52 +0000
+Subject: [LSF/MM TOPIC] BPF for Block Devices
+Message-ID: <40D2EB06-6BF2-4233-9196-7A26AC43C64E@raithlin.com>
 
-Hi,
+Hi All
 
-This is an important UPDATE to the previous LSF/MM announcement:
+> A BPF track will join the annual LSF/MM Summit this year! Please read the updated description and CFP information below.
 
-https://lore.kernel.org/linux-block/51b4b263-a0f2-113d-7bdc-f7960b540929 at kernel.dk/
+Well if we are adding BPF to LSF/MM I have to submit a request to discuss BPF for block devices please!
 
-A BPF track will join the annual LSF/MM Summit this year! Please read
-the updated description and CFP information below.
+There has been quite a bit of activity around the concept of Computational Storage in the past 12 months. SNIA recently formed a Technical Working Group (TWG) and it is expected that this TWG will be making proposals to standards like NVM Express to add APIs for computation elements that reside on or near block devices.
 
-It will be held from April 30 - May 2 at the Sheraton Puerto Rico Hotel &
-Casino Lodges in San Juan, Puerto Rico.
-LSF/MM is an invitation-only technical workshop to map out improvements to
-the Linux storage, filesystem, memory management, and bpf subsystems that
-will make their way into the mainline kernel within the coming years.
+While some of these Computational Storage accelerators will provide fixed functions (e.g. a RAID, encryption or compression), others will be more flexible. Some of these flexible accelerators will be capable of running BPF code on them (something that certain Linux drivers for SmartNICs support today [1]). I would like to discuss what such a framework could look like for the storage layer and the file-system layer. I'd like to discuss how devices could advertise this capability (a special type of NVMe namespace or SCSI LUN perhaps?) and how the BPF engine could be programmed and then used against block IO. Ideally I'd like to discuss doing this in a vendor-neutral way and develop ideas I can take back to NVMe and the SNIA TWG to help shape how these standard evolve.
 
-https://events.linuxfoundation.org/events/linux-storage-filesystem-mm-summit-2019/
+To provide an example use-case one could consider a BPF capable accelerator being used to perform a filtering function and then using p2pdma to scan data on a number of adjacent NVMe SSDs, filtering said data and then only providing filter-matched LBAs to the host. Many other potential applications apply. 
 
-LSF/MM 2019 will be a three day, stand-alone conference with three
-subsystem-specific tracks, cross-track discussions, as well as BoF and
-hacking sessions.
+Also, I am interested in the "The end of the DAX Experiment" topic proposed by Dan and the " Zoned Block Devices" from Matias and Damien.
 
-On behalf of the committee I am issuing a call for agenda proposals
-that are suitable for cross-track discussion as well as technical
-subjects for the breakout sessions.
+Cheers
+ 
+Stephen
 
-If advance notice is required for visa applications then please point
-that out in your proposal or request to attend, and submit the topic
-as soon as possible.
-
-1) Proposals for agenda topics should be sent before February 22th,
-2019 to:
-
-	lsf-pc at lists.linux-foundation.org
-
-and CC the mailing lists that are relevant for the topic in question:
-
-	FS:	linux-fsdevel at vger.kernel.org
-	MM:	linux-mm at kvack.org
-	Block:	linux-block at vger.kernel.org
-	ATA:	linux-ide at vger.kernel.org
-	SCSI:	linux-scsi at vger.kernel.org
-	NVMe:	linux-nvme at lists.infradead.org
-        BPF:    bpf at vger.kernel.org
-
-Note that we have extended the original deadline by a week, to
-accommodate the late arrival of the BPF track.
-
-Please tag your proposal with [LSF/MM TOPIC] to make it easier to
-track. In addition, please make sure to start a new thread for each
-topic rather than following up to an existing one. Agenda topics and
-attendees will be selected by the program committee, but the final
-agenda will be formed by consensus of the attendees on the day.
-
-2) Requests to attend the summit for those that are not proposing a
-topic should be sent to:
-
-	lsf-pc at lists.linux-foundation.org
-
-Please summarize what expertise you will bring to the meeting, and
-what you would like to discuss. Please also tag your email with
-[LSF/MM ATTEND] and send it as a new thread so there is less chance of
-it getting lost.
-
-We will try to cap attendance at around 25-30 per track to facilitate
-discussions although the final numbers will depend on the room sizes
-at the venue. Note that BPF track will be limited to 10-15 attendees.
-
-For discussion leaders, slides and visualizations are encouraged to
-outline the subject matter and focus the discussions. Please refrain
-from lengthy presentations and talks; the sessions are supposed to be
-interactive, inclusive discussions.
-
-In particular BPF topics are encouraged to be storage, fs, mm, tracing,
-security related or advancing the state of the art of BPF core.
-BPF and networking related topics are recommended to be submitted for
-Linux Plumbers Conference and corresponding Networking and BPF microconf
-later this year.
-
-Thank you on behalf of the program committee:
-
-	Anna Schumaker (Filesystems)
-	Josef Bacik (Filesystems)
-	Martin K. Petersen (Storage)
-	Jens Axboe (Storage)
-	Michal Hocko (MM)
-	Rik van Riel (MM)
-	Johannes Weiner (MM)
-        Alexei Starovoitov (BPF)
-
--- 
-Jens Axboe
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/net/ethernet/netronome/nfp/bpf/offload.c?h=v5.0-rc5
+ 
+    
