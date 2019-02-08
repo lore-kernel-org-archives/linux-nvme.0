@@ -1,168 +1,49 @@
-From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Thu, 7 Feb 2019 16:22:46 -0600
-Subject: [PATCH 5/5] genirq/affinity: remove support for allocating
- interrupt sets
-In-Reply-To: <20190125095347.17950-6-ming.lei@redhat.com>
-References: <20190125095347.17950-1-ming.lei@redhat.com>
- <20190125095347.17950-6-ming.lei@redhat.com>
-Message-ID: <20190207222245.GR7268@google.com>
+From: mb@lightnvm.io (=?UTF-8?Q?Matias_Bj=c3=b8rling?=)
+Date: Fri, 8 Feb 2019 09:31:20 +0100
+Subject: [LSF/MM TOPIC] BPF for Block Devices
+In-Reply-To: <40D2EB06-6BF2-4233-9196-7A26AC43C64E@raithlin.com>
+References: <40D2EB06-6BF2-4233-9196-7A26AC43C64E@raithlin.com>
+Message-ID: <f1f00282-11be-1682-3802-c8bd0e6fec4b@lightnvm.io>
 
-On Fri, Jan 25, 2019@05:53:47PM +0800, Ming Lei wrote:
-> Now allocating interrupt sets can be done via .setup_affinity()
-> easily, so remove the support for allocating interrupt sets.
+On 2/7/19 6:12 PM, Stephen  Bates wrote:
+> Hi All
 > 
-> With this change, we don't need the limit of 'minvec == maxvec'
-> any more in pci_alloc_irq_vectors_affinity().
+>> A BPF track will join the annual LSF/MM Summit this year! Please read the updated description and CFP information below.
 > 
-> Meantime irq_create_affinity_masks() gets simplified a lot.
+> Well if we are adding BPF to LSF/MM I have to submit a request to discuss BPF for block devices please!
 > 
-> Signed-off-by: Ming Lei <ming.lei at redhat.com>
+> There has been quite a bit of activity around the concept of Computational Storage in the past 12 months. SNIA recently formed a Technical Working Group (TWG) and it is expected that this TWG will be making proposals to standards like NVM Express to add APIs for computation elements that reside on or near block devices.
+> 
+> While some of these Computational Storage accelerators will provide fixed functions (e.g. a RAID, encryption or compression), others will be more flexible. Some of these flexible accelerators will be capable of running BPF code on them (something that certain Linux drivers for SmartNICs support today [1]). I would like to discuss what such a framework could look like for the storage layer and the file-system layer. I'd like to discuss how devices could advertise this capability (a special type of NVMe namespace or SCSI LUN perhaps?) and how the BPF engine could be programmed and then used against block IO. Ideally I'd like to discuss doing this in a vendor-neutral way and develop ideas I can take back to NVMe and the SNIA TWG to help shape how these standard evolve.
+> 
+> To provide an example use-case one could consider a BPF capable accelerator being used to perform a filtering function and then using p2pdma to scan data on a number of adjacent NVMe SSDs, filtering said data and then only providing filter-matched LBAs to the host. Many other potential applications apply.
+> 
+> Also, I am interested in the "The end of the DAX Experiment" topic proposed by Dan and the " Zoned Block Devices" from Matias and Damien.
+> 
+> Cheers
+>   
+> Stephen
+> 
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/net/ethernet/netronome/nfp/bpf/offload.c?h=v5.0-rc5
+>   
+>      
+> 
 
-Acked-by: Bjorn Helgaas <bhelgaas at google.com>	# pci/msi.c parts
+If we're going down that road, we can also look at the block I/O path 
+itself.
 
-> ---
->  drivers/pci/msi.c         | 14 -------------
->  include/linux/interrupt.h |  4 ----
->  kernel/irq/affinity.c     | 52 +++++++++++------------------------------------
->  3 files changed, 12 insertions(+), 58 deletions(-)
-> 
-> diff --git a/drivers/pci/msi.c b/drivers/pci/msi.c
-> index 4c0b47867258..331483de1294 100644
-> --- a/drivers/pci/msi.c
-> +++ b/drivers/pci/msi.c
-> @@ -1035,13 +1035,6 @@ static int __pci_enable_msi_range(struct pci_dev *dev, int minvec, int maxvec,
->  	if (maxvec < minvec)
->  		return -ERANGE;
->  
-> -	/*
-> -	 * If the caller is passing in sets, we can't support a range of
-> -	 * vectors. The caller needs to handle that.
-> -	 */
-> -	if (affd && affd->nr_sets && minvec != maxvec)
-> -		return -EINVAL;
-> -
->  	if (WARN_ON_ONCE(dev->msi_enabled))
->  		return -EINVAL;
->  
-> @@ -1093,13 +1086,6 @@ static int __pci_enable_msix_range(struct pci_dev *dev,
->  	if (maxvec < minvec)
->  		return -ERANGE;
->  
-> -	/*
-> -	 * If the caller is passing in sets, we can't support a range of
-> -	 * supported vectors. The caller needs to handle that.
-> -	 */
-> -	if (affd && affd->nr_sets && minvec != maxvec)
-> -		return -EINVAL;
-> -
->  	if (WARN_ON_ONCE(dev->msix_enabled))
->  		return -EINVAL;
->  
-> diff --git a/include/linux/interrupt.h b/include/linux/interrupt.h
-> index b820b07f3b55..a035e165f405 100644
-> --- a/include/linux/interrupt.h
-> +++ b/include/linux/interrupt.h
-> @@ -260,8 +260,6 @@ struct irq_affinity_desc {
->   * 			and driver has to handle pre_vectors & post_vectors
->   * 			correctly, set 'is_managed' flag correct too
->   * @priv:		Private data of @setup_affinity
-> - * @nr_sets:		Length of passed in *sets array
-> - * @sets:		Number of affinitized sets
->   */
->  struct irq_affinity {
->  	int	pre_vectors;
-> @@ -270,8 +268,6 @@ struct irq_affinity {
->  				  struct irq_affinity_desc *,
->  				  unsigned int);
->  	void    *priv;
-> -	int	nr_sets;
-> -	int	*sets;
->  };
->  
->  #if defined(CONFIG_SMP)
-> diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
-> index 524fdcda9f85..e8fea65325d9 100644
-> --- a/kernel/irq/affinity.c
-> +++ b/kernel/irq/affinity.c
-> @@ -269,9 +269,9 @@ struct irq_affinity_desc *
->  irq_create_affinity_masks(int nvecs, const struct irq_affinity *affd)
->  {
->  	int affvecs = nvecs - affd->pre_vectors - affd->post_vectors;
-> -	int curvec, usedvecs;
-> +	int curvec;
->  	struct irq_affinity_desc *masks = NULL;
-> -	int i, nr_sets;
-> +	int i;
->  
->  	/*
->  	 * If there aren't any vectors left after applying the pre/post
-> @@ -293,34 +293,14 @@ irq_create_affinity_masks(int nvecs, const struct irq_affinity *affd)
->  	/* Fill out vectors at the beginning that don't need affinity */
->  	for (curvec = 0; curvec < affd->pre_vectors; curvec++)
->  		cpumask_copy(&masks[curvec].mask, irq_default_affinity);
-> -	/*
-> -	 * Spread on present CPUs starting from affd->pre_vectors. If we
-> -	 * have multiple sets, build each sets affinity mask separately.
-> -	 */
-> -	nr_sets = affd->nr_sets;
-> -	if (!nr_sets)
-> -		nr_sets = 1;
-> -
-> -	for (i = 0, usedvecs = 0; i < nr_sets; i++) {
-> -		int this_vecs = affd->sets ? affd->sets[i] : affvecs;
-> -		int ret;
-> -
-> -		ret = irq_build_affinity_masks(affd, curvec, this_vecs,
-> -						curvec, masks);
-> -		if (ret) {
-> -			kfree(masks);
-> -			return NULL;
-> -		}
-> -		curvec += this_vecs;
-> -		usedvecs += this_vecs;
-> +
-> +	if (irq_build_affinity_masks(affd, curvec, affvecs, curvec, masks)) {
-> +		kfree(masks);
-> +		return NULL;
->  	}
->  
->  	/* Fill out vectors at the end that don't need affinity */
-> -	if (usedvecs >= affvecs)
-> -		curvec = affd->pre_vectors + affvecs;
-> -	else
-> -		curvec = affd->pre_vectors + usedvecs;
-> -	for (; curvec < nvecs; curvec++)
-> +	for (curvec = affd->pre_vectors + affvecs; curvec < nvecs; curvec++)
->  		cpumask_copy(&masks[curvec].mask, irq_default_affinity);
->  
->  	/* Mark the managed interrupts */
-> @@ -340,21 +320,13 @@ int irq_calc_affinity_vectors(int minvec, int maxvec, const struct irq_affinity
->  {
->  	int resv = affd->pre_vectors + affd->post_vectors;
->  	int vecs = maxvec - resv;
-> -	int set_vecs;
-> +	int ret;
->  
->  	if (resv > minvec)
->  		return 0;
->  
-> -	if (affd->nr_sets) {
-> -		int i;
-> -
-> -		for (i = 0, set_vecs = 0;  i < affd->nr_sets; i++)
-> -			set_vecs += affd->sets[i];
-> -	} else {
-> -		get_online_cpus();
-> -		set_vecs = cpumask_weight(cpu_possible_mask);
-> -		put_online_cpus();
-> -	}
-> -
-> -	return resv + min(set_vecs, vecs);
-> +	get_online_cpus();
-> +	ret = min_t(int, cpumask_weight(cpu_possible_mask), vecs) + resv;
-> +	put_online_cpus();
-> +	return ret;
->  }
-> -- 
-> 2.9.5
-> 
+Now that Jens' has shown that io_uring can beat SPDK. Let's take it a 
+step further, and create an API, such that we can bypass the boilerplate 
+checking in kernel block I/O path, and go straight to issuing the I/O in 
+the block layer.
+
+For example, we could provide an API that allows applications to 
+register a fast path through the kernel ? one where checks, such as 
+generic_make_request_checks(), already has been validated.
+
+The user-space application registers a BFP program with the kernel, the 
+kernel prechecks the possible I/O patterns and then green-lights all 
+I/Os that goes through that unit. In that way, the checks only have to 
+be done once, instead of every I/O. This approach could work beautifully 
+with direct io and raw devices, and with a bit more work, we can do more 
+complex use-cases as well.
