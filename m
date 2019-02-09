@@ -1,89 +1,53 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Sat,  9 Feb 2019 13:47:17 -0500
-Subject: [PATCH AUTOSEL 4.20 25/42] nvme: introduce
- NVME_QUIRK_IGNORE_DEV_SUBNQN
-In-Reply-To: <20190209184734.125935-1-sashal@kernel.org>
-References: <20190209184734.125935-1-sashal@kernel.org>
-Message-ID: <20190209184734.125935-25-sashal@kernel.org>
+Date: Sat,  9 Feb 2019 13:48:22 -0500
+Subject: [PATCH AUTOSEL 4.19 14/28] nvme-pci: use the same attributes when
+ freeing host_mem_desc_bufs.
+In-Reply-To: <20190209184840.126418-1-sashal@kernel.org>
+References: <20190209184840.126418-1-sashal@kernel.org>
+Message-ID: <20190209184840.126418-14-sashal@kernel.org>
 
-From: James Dingwall <james@dingwall.me.uk>
+From: Liviu Dudau <liviu@dudau.co.uk>
 
-[ Upstream commit 6299358d198a0635da2dd3c4b3ec37789e811e44 ]
+[ Upstream commit cc667f6d5de023ee131e96bb88e5cddca23272bd ]
 
-If a device provides an NQN it is expected to be globally unique.
-Unfortunately some firmware revisions for Intel 760p/Pro 7600p devices did
-not satisfy this requirement.  In these circumstances if a system has >1
-affected device then only one device is enabled.  If this quirk is enabled
-then the device supplied subnqn is ignored and we fallback to generating
-one as if the field was empty.  In this case we also suppress the version
-check so we don't print a warning when the quirk is enabled.
+When using HMB the PCIe host driver allocates host_mem_desc_bufs using
+dma_alloc_attrs() but frees them using dma_free_coherent(). Use the
+correct dma_free_attrs() function to free the buffers.
 
-Reviewed-by: Keith Busch <keith.busch at intel.com>
-Signed-off-by: James Dingwall <james at dingwall.me.uk>
+Signed-off-by: Liviu Dudau <liviu at dudau.co.uk>
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 Signed-off-by: Sasha Levin <sashal at kernel.org>
 ---
- drivers/nvme/host/core.c | 16 +++++++++-------
- drivers/nvme/host/nvme.h |  5 +++++
- drivers/nvme/host/pci.c  |  2 ++
- 3 files changed, 16 insertions(+), 7 deletions(-)
+ drivers/nvme/host/pci.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 971ca6754959..5f9a5ef93969 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2084,14 +2084,16 @@ static void nvme_init_subnqn(struct nvme_subsystem *subsys, struct nvme_ctrl *ct
- 	size_t nqnlen;
- 	int off;
- 
--	nqnlen = strnlen(id->subnqn, NVMF_NQN_SIZE);
--	if (nqnlen > 0 && nqnlen < NVMF_NQN_SIZE) {
--		strlcpy(subsys->subnqn, id->subnqn, NVMF_NQN_SIZE);
--		return;
--	}
-+	if(!(ctrl->quirks & NVME_QUIRK_IGNORE_DEV_SUBNQN)) {
-+		nqnlen = strnlen(id->subnqn, NVMF_NQN_SIZE);
-+		if (nqnlen > 0 && nqnlen < NVMF_NQN_SIZE) {
-+			strlcpy(subsys->subnqn, id->subnqn, NVMF_NQN_SIZE);
-+			return;
-+		}
- 
--	if (ctrl->vs >= NVME_VS(1, 2, 1))
--		dev_warn(ctrl->device, "missing or invalid SUBNQN field.\n");
-+		if (ctrl->vs >= NVME_VS(1, 2, 1))
-+			dev_warn(ctrl->device, "missing or invalid SUBNQN field.\n");
-+	}
- 
- 	/* Generate a "fake" NQN per Figure 254 in NVMe 1.3 + ECN 001 */
- 	off = snprintf(subsys->subnqn, NVMF_NQN_SIZE,
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 081cbdcce880..6ffa99a10a60 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -90,6 +90,11 @@ enum nvme_quirks {
- 	 * Set MEDIUM priority on SQ creation
- 	 */
- 	NVME_QUIRK_MEDIUM_PRIO_SQ		= (1 << 7),
-+
-+	/*
-+	 * Ignore device provided subnqn.
-+	 */
-+	NVME_QUIRK_IGNORE_DEV_SUBNQN		= (1 << 8),
- };
- 
- /*
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 47597046c14f..c0d01048ce4d 100644
+index d668682f91df..40f76b4f08fc 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -2700,6 +2700,8 @@ static const struct pci_device_id nvme_id_table[] = {
- 	{ PCI_VDEVICE(INTEL, 0xf1a5),	/* Intel 600P/P3100 */
- 		.driver_data = NVME_QUIRK_NO_DEEPEST_PS |
- 				NVME_QUIRK_MEDIUM_PRIO_SQ },
-+	{ PCI_VDEVICE(INTEL, 0xf1a6),	/* Intel 760p/Pro 7600p */
-+		.driver_data = NVME_QUIRK_IGNORE_DEV_SUBNQN, },
- 	{ PCI_VDEVICE(INTEL, 0x5845),	/* Qemu emulated controller */
- 		.driver_data = NVME_QUIRK_IDENTIFY_CNS, },
- 	{ PCI_DEVICE(0x1bb1, 0x0100),   /* Seagate Nytro Flash Storage */
+@@ -1727,8 +1727,9 @@ static void nvme_free_host_mem(struct nvme_dev *dev)
+ 		struct nvme_host_mem_buf_desc *desc = &dev->host_mem_descs[i];
+ 		size_t size = le32_to_cpu(desc->size) * dev->ctrl.page_size;
+ 
+-		dma_free_coherent(dev->dev, size, dev->host_mem_desc_bufs[i],
+-				le64_to_cpu(desc->addr));
++		dma_free_attrs(dev->dev, size, dev->host_mem_desc_bufs[i],
++			       le64_to_cpu(desc->addr),
++			       DMA_ATTR_NO_KERNEL_MAPPING | DMA_ATTR_NO_WARN);
+ 	}
+ 
+ 	kfree(dev->host_mem_desc_bufs);
+@@ -1794,8 +1795,9 @@ static int __nvme_alloc_host_mem(struct nvme_dev *dev, u64 preferred,
+ 	while (--i >= 0) {
+ 		size_t size = le32_to_cpu(descs[i].size) * dev->ctrl.page_size;
+ 
+-		dma_free_coherent(dev->dev, size, bufs[i],
+-				le64_to_cpu(descs[i].addr));
++		dma_free_attrs(dev->dev, size, bufs[i],
++			       le64_to_cpu(descs[i].addr),
++			       DMA_ATTR_NO_KERNEL_MAPPING | DMA_ATTR_NO_WARN);
+ 	}
+ 
+ 	kfree(bufs);
 -- 
 2.19.1
