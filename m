@@ -1,53 +1,48 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Sat,  9 Feb 2019 13:48:22 -0500
-Subject: [PATCH AUTOSEL 4.19 14/28] nvme-pci: use the same attributes when
- freeing host_mem_desc_bufs.
+Date: Sat,  9 Feb 2019 13:48:23 -0500
+Subject: [PATCH AUTOSEL 4.19 15/28] nvme-pci: fix out of bounds access in
+ nvme_cqe_pending
 In-Reply-To: <20190209184840.126418-1-sashal@kernel.org>
 References: <20190209184840.126418-1-sashal@kernel.org>
-Message-ID: <20190209184840.126418-14-sashal@kernel.org>
+Message-ID: <20190209184840.126418-15-sashal@kernel.org>
 
-From: Liviu Dudau <liviu@dudau.co.uk>
+From: Hongbo Yao <yaohongbo@huawei.com>
 
-[ Upstream commit cc667f6d5de023ee131e96bb88e5cddca23272bd ]
+[ Upstream commit dcca1662727220d18fa351097ddff33f95f516c5 ]
 
-When using HMB the PCIe host driver allocates host_mem_desc_bufs using
-dma_alloc_attrs() but frees them using dma_free_coherent(). Use the
-correct dma_free_attrs() function to free the buffers.
+There is an out of bounds array access in nvme_cqe_peding().
 
-Signed-off-by: Liviu Dudau <liviu at dudau.co.uk>
+When enable irq_thread for nvme interrupt, there is racing between the
+nvmeq->cq_head updating and reading.
+
+nvmeq->cq_head is updated in nvme_update_cq_head(), if nvmeq->cq_head
+equals nvmeq->q_depth and before its value set to zero, nvme_cqe_pending()
+uses its value as an array index, the index will be out of bounds.
+
+Signed-off-by: Hongbo Yao <yaohongbo at huawei.com>
+[hch: slight coding style update]
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 Signed-off-by: Sasha Levin <sashal at kernel.org>
 ---
- drivers/nvme/host/pci.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ drivers/nvme/host/pci.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index d668682f91df..40f76b4f08fc 100644
+index 40f76b4f08fc..f46313f441ec 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -1727,8 +1727,9 @@ static void nvme_free_host_mem(struct nvme_dev *dev)
- 		struct nvme_host_mem_buf_desc *desc = &dev->host_mem_descs[i];
- 		size_t size = le32_to_cpu(desc->size) * dev->ctrl.page_size;
+@@ -908,9 +908,11 @@ static void nvme_complete_cqes(struct nvme_queue *nvmeq, u16 start, u16 end)
  
--		dma_free_coherent(dev->dev, size, dev->host_mem_desc_bufs[i],
--				le64_to_cpu(desc->addr));
-+		dma_free_attrs(dev->dev, size, dev->host_mem_desc_bufs[i],
-+			       le64_to_cpu(desc->addr),
-+			       DMA_ATTR_NO_KERNEL_MAPPING | DMA_ATTR_NO_WARN);
+ static inline void nvme_update_cq_head(struct nvme_queue *nvmeq)
+ {
+-	if (++nvmeq->cq_head == nvmeq->q_depth) {
++	if (nvmeq->cq_head == nvmeq->q_depth - 1) {
+ 		nvmeq->cq_head = 0;
+ 		nvmeq->cq_phase = !nvmeq->cq_phase;
++	} else {
++		nvmeq->cq_head++;
  	}
+ }
  
- 	kfree(dev->host_mem_desc_bufs);
-@@ -1794,8 +1795,9 @@ static int __nvme_alloc_host_mem(struct nvme_dev *dev, u64 preferred,
- 	while (--i >= 0) {
- 		size_t size = le32_to_cpu(descs[i].size) * dev->ctrl.page_size;
- 
--		dma_free_coherent(dev->dev, size, bufs[i],
--				le64_to_cpu(descs[i].addr));
-+		dma_free_attrs(dev->dev, size, bufs[i],
-+			       le64_to_cpu(descs[i].addr),
-+			       DMA_ATTR_NO_KERNEL_MAPPING | DMA_ATTR_NO_WARN);
- 	}
- 
- 	kfree(bufs);
 -- 
 2.19.1
