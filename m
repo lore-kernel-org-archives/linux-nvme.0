@@ -1,53 +1,43 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Sat,  9 Feb 2019 13:47:13 -0500
-Subject: [PATCH AUTOSEL 4.20 21/42] nvme-pci: use the same attributes when
- freeing host_mem_desc_bufs.
+Date: Sat,  9 Feb 2019 13:47:15 -0500
+Subject: [PATCH AUTOSEL 4.20 23/42] nvme-multipath: zero out ANA log buffer
 In-Reply-To: <20190209184734.125935-1-sashal@kernel.org>
 References: <20190209184734.125935-1-sashal@kernel.org>
-Message-ID: <20190209184734.125935-21-sashal@kernel.org>
+Message-ID: <20190209184734.125935-23-sashal@kernel.org>
 
-From: Liviu Dudau <liviu@dudau.co.uk>
+From: Hannes Reinecke <hare@suse.de>
 
-[ Upstream commit cc667f6d5de023ee131e96bb88e5cddca23272bd ]
+[ Upstream commit c7055fd15ff46d92eb0dd1c16a4fe010d58224c8 ]
 
-When using HMB the PCIe host driver allocates host_mem_desc_bufs using
-dma_alloc_attrs() but frees them using dma_free_coherent(). Use the
-correct dma_free_attrs() function to free the buffers.
+When nvme_init_identify() fails the ANA log buffer is deallocated
+but _not_ set to NULL. This can cause double free oops when this
+controller is deleted without ever being reconnected.
 
-Signed-off-by: Liviu Dudau <liviu at dudau.co.uk>
+Signed-off-by: Hannes Reinecke <hare at suse.com>
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 Signed-off-by: Sasha Levin <sashal at kernel.org>
 ---
- drivers/nvme/host/pci.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ drivers/nvme/host/multipath.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index c33bb201b884..0f45868e8af9 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1748,8 +1748,9 @@ static void nvme_free_host_mem(struct nvme_dev *dev)
- 		struct nvme_host_mem_buf_desc *desc = &dev->host_mem_descs[i];
- 		size_t size = le32_to_cpu(desc->size) * dev->ctrl.page_size;
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 9901afd804ce..2b1d1f066efa 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -586,6 +586,7 @@ int nvme_mpath_init(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+ 	return 0;
+ out_free_ana_log_buf:
+ 	kfree(ctrl->ana_log_buf);
++	ctrl->ana_log_buf = NULL;
+ out:
+ 	return error;
+ }
+@@ -593,5 +594,6 @@ out:
+ void nvme_mpath_uninit(struct nvme_ctrl *ctrl)
+ {
+ 	kfree(ctrl->ana_log_buf);
++	ctrl->ana_log_buf = NULL;
+ }
  
--		dma_free_coherent(dev->dev, size, dev->host_mem_desc_bufs[i],
--				le64_to_cpu(desc->addr));
-+		dma_free_attrs(dev->dev, size, dev->host_mem_desc_bufs[i],
-+			       le64_to_cpu(desc->addr),
-+			       DMA_ATTR_NO_KERNEL_MAPPING | DMA_ATTR_NO_WARN);
- 	}
- 
- 	kfree(dev->host_mem_desc_bufs);
-@@ -1815,8 +1816,9 @@ out_free_bufs:
- 	while (--i >= 0) {
- 		size_t size = le32_to_cpu(descs[i].size) * dev->ctrl.page_size;
- 
--		dma_free_coherent(dev->dev, size, bufs[i],
--				le64_to_cpu(descs[i].addr));
-+		dma_free_attrs(dev->dev, size, bufs[i],
-+			       le64_to_cpu(descs[i].addr),
-+			       DMA_ATTR_NO_KERNEL_MAPPING | DMA_ATTR_NO_WARN);
- 	}
- 
- 	kfree(bufs);
 -- 
 2.19.1
