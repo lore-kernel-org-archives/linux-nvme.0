@@ -1,38 +1,48 @@
-From: wisha.wa@yandex.com (Wisha Wa)
-Date: Sat, 09 Feb 2019 23:28:50 +0700
-Subject: APST problem on WDC WDS256G1X0C-00ENX0
-Message-ID: <3494641549729730@myt5-9da6df248f4a.qloud-c.yandex.net>
+From: sashal@kernel.org (Sasha Levin)
+Date: Sat,  9 Feb 2019 13:47:14 -0500
+Subject: [PATCH AUTOSEL 4.20 22/42] nvme-pci: fix out of bounds access in
+ nvme_cqe_pending
+In-Reply-To: <20190209184734.125935-1-sashal@kernel.org>
+References: <20190209184734.125935-1-sashal@kernel.org>
+Message-ID: <20190209184734.125935-22-sashal@kernel.org>
 
-Hi all
+From: Hongbo Yao <yaohongbo@huawei.com>
 
-I use WDC WDS256G1X0C-00ENX0 NVMe SSD and noticed that it has problems.
-With APST enabled, the device can run very hot to the point of automatic shutdown.
+[ Upstream commit dcca1662727220d18fa351097ddff33f95f516c5 ]
 
-I tried changing nvme_core.default_ps_max_latency_us to determine the problematic state
+There is an out of bounds array access in nvme_cqe_peding().
 
-ps ? ?0 : mp:8.25W operational enlat:0 exlat:0 rrt:0 rrl:0
-? ? ? ? ?rwt:0 rwl:0 idle_power:0.02W active_power:5.02W
-ps ? ?1 : mp:8.25W operational enlat:0 exlat:0 rrt:1 rrl:1
-? ? ? ? ?rwt:1 rwl:1 idle_power:0.02W active_power:3.02W
-ps ? ?2 : mp:8.25W operational enlat:0 exlat:0 rrt:2 rrl:2
-? ? ? ? ?rwt:2 rwl:2 idle_power:0.02W active_power:3.02W
-ps ? ?3 : mp:0.0500W non-operational enlat:51000 exlat:10000 rrt:0 rrl:0
-? ? ? ? ?rwt:0 rwl:0 idle_power:- active_power:-
-ps ? ?4 : mp:0.0055W non-operational enlat:1000000 exlat:100000 rrt:0 rrl:0
-? ? ? ? ?rwt:0 rwl:0 idle_power:- active_power:-
+When enable irq_thread for nvme interrupt, there is racing between the
+nvmeq->cq_head updating and reading.
 
-default_ps_max_latency_us=0       :APST off: device works fine
-default_ps_max_latency_us=9000    (<ps3 exlat): ps3 and ps4 disabled: device runs very hot.
-default_ps_max_latency_us=90000   (<ps4 exlat): ps4 disabled: device runs very hot at boot, but cools down when idle.
-default_ps_max_latency_us=200000  (>ps4 exlat): all states enabled: device runs very hot at boot, but cools down when idle.
+nvmeq->cq_head is updated in nvme_update_cq_head(), if nvmeq->cq_head
+equals nvmeq->q_depth and before its value set to zero, nvme_cqe_pending()
+uses its value as an array index, the index will be out of bounds.
 
-Is there a way to specifically disable ps1 or ps2?
-If not, should a patch be submitted to add this device to the quirk list?
+Signed-off-by: Hongbo Yao <yaohongbo at huawei.com>
+[hch: slight coding style update]
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+Signed-off-by: Sasha Levin <sashal at kernel.org>
+---
+ drivers/nvme/host/pci.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-device information:
-vid       : 0x15b7
-ssvid     : 0x1b4b
-mn        : WDC WDS256G1X0C-00ENX0                  
-fr        : B35500WD
-
-I am new to this, if this is the wrong place to ask, please point me to the right one.
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 0f45868e8af9..47597046c14f 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -913,9 +913,11 @@ static void nvme_complete_cqes(struct nvme_queue *nvmeq, u16 start, u16 end)
+ 
+ static inline void nvme_update_cq_head(struct nvme_queue *nvmeq)
+ {
+-	if (++nvmeq->cq_head == nvmeq->q_depth) {
++	if (nvmeq->cq_head == nvmeq->q_depth - 1) {
+ 		nvmeq->cq_head = 0;
+ 		nvmeq->cq_phase = !nvmeq->cq_phase;
++	} else {
++		nvmeq->cq_head++;
+ 	}
+ }
+ 
+-- 
+2.19.1
