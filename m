@@ -1,37 +1,53 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Sat,  9 Feb 2019 13:48:25 -0500
-Subject: [PATCH AUTOSEL 4.19 17/28] nvme: pad fake subsys NQN vid and ssvid
- with zeros
-In-Reply-To: <20190209184840.126418-1-sashal@kernel.org>
-References: <20190209184840.126418-1-sashal@kernel.org>
-Message-ID: <20190209184840.126418-17-sashal@kernel.org>
+Date: Sat,  9 Feb 2019 13:49:20 -0500
+Subject: [PATCH AUTOSEL 4.14 09/16] nvme-pci: use the same attributes when
+ freeing host_mem_desc_bufs.
+In-Reply-To: <20190209184927.126791-1-sashal@kernel.org>
+References: <20190209184927.126791-1-sashal@kernel.org>
+Message-ID: <20190209184927.126791-9-sashal@kernel.org>
 
-From: Keith Busch <keith.busch@intel.com>
+From: Liviu Dudau <liviu@dudau.co.uk>
 
-[ Upstream commit 3da584f57133e51aeb84aaefae5e3d69531a1e4f ]
+[ Upstream commit cc667f6d5de023ee131e96bb88e5cddca23272bd ]
 
-We need to preserve the leading zeros in the vid and ssvid when generating
-a unique NQN. Truncating these may lead to naming collisions.
+When using HMB the PCIe host driver allocates host_mem_desc_bufs using
+dma_alloc_attrs() but frees them using dma_free_coherent(). Use the
+correct dma_free_attrs() function to free the buffers.
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
+Signed-off-by: Liviu Dudau <liviu at dudau.co.uk>
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 Signed-off-by: Sasha Levin <sashal at kernel.org>
 ---
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/host/pci.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index e5bddae16ed4..e0d2b7473901 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2095,7 +2095,7 @@ static void nvme_init_subnqn(struct nvme_subsystem *subsys, struct nvme_ctrl *ct
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index afb99876fa9e..06355ca832db 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1624,8 +1624,9 @@ static void nvme_free_host_mem(struct nvme_dev *dev)
+ 		struct nvme_host_mem_buf_desc *desc = &dev->host_mem_descs[i];
+ 		size_t size = le32_to_cpu(desc->size) * dev->ctrl.page_size;
  
- 	/* Generate a "fake" NQN per Figure 254 in NVMe 1.3 + ECN 001 */
- 	off = snprintf(subsys->subnqn, NVMF_NQN_SIZE,
--			"nqn.2014.08.org.nvmexpress:%4x%4x",
-+			"nqn.2014.08.org.nvmexpress:%04x%04x",
- 			le16_to_cpu(id->vid), le16_to_cpu(id->ssvid));
- 	memcpy(subsys->subnqn + off, id->sn, sizeof(id->sn));
- 	off += sizeof(id->sn);
+-		dma_free_coherent(dev->dev, size, dev->host_mem_desc_bufs[i],
+-				le64_to_cpu(desc->addr));
++		dma_free_attrs(dev->dev, size, dev->host_mem_desc_bufs[i],
++			       le64_to_cpu(desc->addr),
++			       DMA_ATTR_NO_KERNEL_MAPPING | DMA_ATTR_NO_WARN);
+ 	}
+ 
+ 	kfree(dev->host_mem_desc_bufs);
+@@ -1691,8 +1692,9 @@ static int __nvme_alloc_host_mem(struct nvme_dev *dev, u64 preferred,
+ 	while (--i >= 0) {
+ 		size_t size = le32_to_cpu(descs[i].size) * dev->ctrl.page_size;
+ 
+-		dma_free_coherent(dev->dev, size, bufs[i],
+-				le64_to_cpu(descs[i].addr));
++		dma_free_attrs(dev->dev, size, bufs[i],
++			       le64_to_cpu(descs[i].addr),
++			       DMA_ATTR_NO_KERNEL_MAPPING | DMA_ATTR_NO_WARN);
+ 	}
+ 
+ 	kfree(bufs);
 -- 
 2.19.1
