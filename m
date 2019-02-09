@@ -1,37 +1,89 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Sat,  9 Feb 2019 13:47:16 -0500
-Subject: [PATCH AUTOSEL 4.20 24/42] nvme: pad fake subsys NQN vid and ssvid
- with zeros
+Date: Sat,  9 Feb 2019 13:47:17 -0500
+Subject: [PATCH AUTOSEL 4.20 25/42] nvme: introduce
+ NVME_QUIRK_IGNORE_DEV_SUBNQN
 In-Reply-To: <20190209184734.125935-1-sashal@kernel.org>
 References: <20190209184734.125935-1-sashal@kernel.org>
-Message-ID: <20190209184734.125935-24-sashal@kernel.org>
+Message-ID: <20190209184734.125935-25-sashal@kernel.org>
 
-From: Keith Busch <keith.busch@intel.com>
+From: James Dingwall <james@dingwall.me.uk>
 
-[ Upstream commit 3da584f57133e51aeb84aaefae5e3d69531a1e4f ]
+[ Upstream commit 6299358d198a0635da2dd3c4b3ec37789e811e44 ]
 
-We need to preserve the leading zeros in the vid and ssvid when generating
-a unique NQN. Truncating these may lead to naming collisions.
+If a device provides an NQN it is expected to be globally unique.
+Unfortunately some firmware revisions for Intel 760p/Pro 7600p devices did
+not satisfy this requirement.  In these circumstances if a system has >1
+affected device then only one device is enabled.  If this quirk is enabled
+then the device supplied subnqn is ignored and we fallback to generating
+one as if the field was empty.  In this case we also suppress the version
+check so we don't print a warning when the quirk is enabled.
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
+Reviewed-by: Keith Busch <keith.busch at intel.com>
+Signed-off-by: James Dingwall <james at dingwall.me.uk>
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 Signed-off-by: Sasha Levin <sashal at kernel.org>
 ---
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 16 +++++++++-------
+ drivers/nvme/host/nvme.h |  5 +++++
+ drivers/nvme/host/pci.c  |  2 ++
+ 3 files changed, 16 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 962012135b62..971ca6754959 100644
+index 971ca6754959..5f9a5ef93969 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -2095,7 +2095,7 @@ static void nvme_init_subnqn(struct nvme_subsystem *subsys, struct nvme_ctrl *ct
+@@ -2084,14 +2084,16 @@ static void nvme_init_subnqn(struct nvme_subsystem *subsys, struct nvme_ctrl *ct
+ 	size_t nqnlen;
+ 	int off;
+ 
+-	nqnlen = strnlen(id->subnqn, NVMF_NQN_SIZE);
+-	if (nqnlen > 0 && nqnlen < NVMF_NQN_SIZE) {
+-		strlcpy(subsys->subnqn, id->subnqn, NVMF_NQN_SIZE);
+-		return;
+-	}
++	if(!(ctrl->quirks & NVME_QUIRK_IGNORE_DEV_SUBNQN)) {
++		nqnlen = strnlen(id->subnqn, NVMF_NQN_SIZE);
++		if (nqnlen > 0 && nqnlen < NVMF_NQN_SIZE) {
++			strlcpy(subsys->subnqn, id->subnqn, NVMF_NQN_SIZE);
++			return;
++		}
+ 
+-	if (ctrl->vs >= NVME_VS(1, 2, 1))
+-		dev_warn(ctrl->device, "missing or invalid SUBNQN field.\n");
++		if (ctrl->vs >= NVME_VS(1, 2, 1))
++			dev_warn(ctrl->device, "missing or invalid SUBNQN field.\n");
++	}
  
  	/* Generate a "fake" NQN per Figure 254 in NVMe 1.3 + ECN 001 */
  	off = snprintf(subsys->subnqn, NVMF_NQN_SIZE,
--			"nqn.2014.08.org.nvmexpress:%4x%4x",
-+			"nqn.2014.08.org.nvmexpress:%04x%04x",
- 			le16_to_cpu(id->vid), le16_to_cpu(id->ssvid));
- 	memcpy(subsys->subnqn + off, id->sn, sizeof(id->sn));
- 	off += sizeof(id->sn);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 081cbdcce880..6ffa99a10a60 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -90,6 +90,11 @@ enum nvme_quirks {
+ 	 * Set MEDIUM priority on SQ creation
+ 	 */
+ 	NVME_QUIRK_MEDIUM_PRIO_SQ		= (1 << 7),
++
++	/*
++	 * Ignore device provided subnqn.
++	 */
++	NVME_QUIRK_IGNORE_DEV_SUBNQN		= (1 << 8),
+ };
+ 
+ /*
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 47597046c14f..c0d01048ce4d 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2700,6 +2700,8 @@ static const struct pci_device_id nvme_id_table[] = {
+ 	{ PCI_VDEVICE(INTEL, 0xf1a5),	/* Intel 600P/P3100 */
+ 		.driver_data = NVME_QUIRK_NO_DEEPEST_PS |
+ 				NVME_QUIRK_MEDIUM_PRIO_SQ },
++	{ PCI_VDEVICE(INTEL, 0xf1a6),	/* Intel 760p/Pro 7600p */
++		.driver_data = NVME_QUIRK_IGNORE_DEV_SUBNQN, },
+ 	{ PCI_VDEVICE(INTEL, 0x5845),	/* Qemu emulated controller */
+ 		.driver_data = NVME_QUIRK_IDENTIFY_CNS, },
+ 	{ PCI_DEVICE(0x1bb1, 0x0100),   /* Seagate Nytro Flash Storage */
 -- 
 2.19.1
