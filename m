@@ -1,47 +1,42 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Sat,  9 Feb 2019 13:48:23 -0500
-Subject: [PATCH AUTOSEL 4.19 15/28] nvme-pci: fix out of bounds access in
- nvme_cqe_pending
+Date: Sat,  9 Feb 2019 13:48:24 -0500
+Subject: [PATCH AUTOSEL 4.19 16/28] nvme-multipath: zero out ANA log buffer
 In-Reply-To: <20190209184840.126418-1-sashal@kernel.org>
 References: <20190209184840.126418-1-sashal@kernel.org>
-Message-ID: <20190209184840.126418-15-sashal@kernel.org>
+Message-ID: <20190209184840.126418-16-sashal@kernel.org>
 
-From: Hongbo Yao <yaohongbo@huawei.com>
+From: Hannes Reinecke <hare@suse.de>
 
-[ Upstream commit dcca1662727220d18fa351097ddff33f95f516c5 ]
+[ Upstream commit c7055fd15ff46d92eb0dd1c16a4fe010d58224c8 ]
 
-There is an out of bounds array access in nvme_cqe_peding().
+When nvme_init_identify() fails the ANA log buffer is deallocated
+but _not_ set to NULL. This can cause double free oops when this
+controller is deleted without ever being reconnected.
 
-When enable irq_thread for nvme interrupt, there is racing between the
-nvmeq->cq_head updating and reading.
-
-nvmeq->cq_head is updated in nvme_update_cq_head(), if nvmeq->cq_head
-equals nvmeq->q_depth and before its value set to zero, nvme_cqe_pending()
-uses its value as an array index, the index will be out of bounds.
-
-Signed-off-by: Hongbo Yao <yaohongbo at huawei.com>
-[hch: slight coding style update]
+Signed-off-by: Hannes Reinecke <hare at suse.com>
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 Signed-off-by: Sasha Levin <sashal at kernel.org>
 ---
- drivers/nvme/host/pci.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/nvme/host/multipath.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 40f76b4f08fc..f46313f441ec 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -908,9 +908,11 @@ static void nvme_complete_cqes(struct nvme_queue *nvmeq, u16 start, u16 end)
- 
- static inline void nvme_update_cq_head(struct nvme_queue *nvmeq)
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index c27af277e14e..815509dbed84 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -556,6 +556,7 @@ int nvme_mpath_init(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+ 	return 0;
+ out_free_ana_log_buf:
+ 	kfree(ctrl->ana_log_buf);
++	ctrl->ana_log_buf = NULL;
+ out:
+ 	return error;
+ }
+@@ -563,5 +564,6 @@ int nvme_mpath_init(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+ void nvme_mpath_uninit(struct nvme_ctrl *ctrl)
  {
--	if (++nvmeq->cq_head == nvmeq->q_depth) {
-+	if (nvmeq->cq_head == nvmeq->q_depth - 1) {
- 		nvmeq->cq_head = 0;
- 		nvmeq->cq_phase = !nvmeq->cq_phase;
-+	} else {
-+		nvmeq->cq_head++;
- 	}
+ 	kfree(ctrl->ana_log_buf);
++	ctrl->ana_log_buf = NULL;
  }
  
 -- 
