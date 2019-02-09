@@ -1,34 +1,38 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 8 Feb 2019 16:39:47 +0100
-Subject: [PATCH 1/1] nvme: add get-feature to admin cmds tracer
-In-Reply-To: <20190208153039.GA32695@localhost.localdomain>
-References: <1548947610-9330-1-git-send-email-maxg@mellanox.com>
- <20190131161108.GA20811@localhost.localdomain>
- <63c08f3a-a109-9441-df53-6a65b1db9ab9@mellanox.com>
- <bcbfb9ea-88ff-d8c7-22ba-8f1df7104930@suse.de>
- <f973dcd6-3455-449d-bf5b-117647d04b12@mellanox.com>
- <20190208084216.GA23155@lst.de>
- <c4db17c4-c9fb-cf79-12ae-e2d3ceab123a@suse.de>
- <20190208153039.GA32695@localhost.localdomain>
-Message-ID: <20190208153947.GC8038@linux-x5ow.site>
+From: wisha.wa@yandex.com (Wisha Wa)
+Date: Sat, 09 Feb 2019 23:28:50 +0700
+Subject: APST problem on WDC WDS256G1X0C-00ENX0
+Message-ID: <3494641549729730@myt5-9da6df248f4a.qloud-c.yandex.net>
 
-On Fri, Feb 08, 2019@08:30:40AM -0700, Keith Busch wrote:
-> That's fine, I certainly won't nak this and am okay to see this staged for
-> the next merge window. I just wanted to confirm preference on maintaining
-> the kernel vs tooling as the spec changes.
+Hi all
 
-Sure and I'm not totally sure doing the decoding in the kernel as is should be
-carved in stone either.
+I use WDC WDS256G1X0C-00ENX0 NVMe SSD and noticed that it has problems.
+With APST enabled, the device can run very hot to the point of automatic shutdown.
 
-I guess we have to revisit this decision some day in the future, possibly due
-to spec changes and so on.
+I tried changing nvme_core.default_ps_max_latency_us to determine the problematic state
 
-Byte,
-	Johannes
--- 
-Johannes Thumshirn                            SUSE Labs Filesystems
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+ps ? ?0 : mp:8.25W operational enlat:0 exlat:0 rrt:0 rrl:0
+? ? ? ? ?rwt:0 rwl:0 idle_power:0.02W active_power:5.02W
+ps ? ?1 : mp:8.25W operational enlat:0 exlat:0 rrt:1 rrl:1
+? ? ? ? ?rwt:1 rwl:1 idle_power:0.02W active_power:3.02W
+ps ? ?2 : mp:8.25W operational enlat:0 exlat:0 rrt:2 rrl:2
+? ? ? ? ?rwt:2 rwl:2 idle_power:0.02W active_power:3.02W
+ps ? ?3 : mp:0.0500W non-operational enlat:51000 exlat:10000 rrt:0 rrl:0
+? ? ? ? ?rwt:0 rwl:0 idle_power:- active_power:-
+ps ? ?4 : mp:0.0055W non-operational enlat:1000000 exlat:100000 rrt:0 rrl:0
+? ? ? ? ?rwt:0 rwl:0 idle_power:- active_power:-
+
+default_ps_max_latency_us=0       :APST off: device works fine
+default_ps_max_latency_us=9000    (<ps3 exlat): ps3 and ps4 disabled: device runs very hot.
+default_ps_max_latency_us=90000   (<ps4 exlat): ps4 disabled: device runs very hot at boot, but cools down when idle.
+default_ps_max_latency_us=200000  (>ps4 exlat): all states enabled: device runs very hot at boot, but cools down when idle.
+
+Is there a way to specifically disable ps1 or ps2?
+If not, should a patch be submitted to add this device to the quirk list?
+
+device information:
+vid       : 0x15b7
+ssvid     : 0x1b4b
+mn        : WDC WDS256G1X0C-00ENX0                  
+fr        : B35500WD
+
+I am new to this, if this is the wrong place to ask, please point me to the right one.
