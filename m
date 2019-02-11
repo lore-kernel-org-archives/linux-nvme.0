@@ -1,49 +1,62 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Mon, 11 Feb 2019 11:58:11 +0800
+Date: Mon, 11 Feb 2019 12:09:12 +0800
 Subject: [PATCH 4/5] nvme-pci: simplify nvme_setup_irqs() via
  .setup_affinity callback
-In-Reply-To: <alpine.DEB.2.21.1902101731370.8784@nanos.tec.linutronix.de>
+In-Reply-To: <alpine.DEB.2.21.1902101815260.8784@nanos.tec.linutronix.de>
 References: <20190125095347.17950-1-ming.lei@redhat.com>
  <20190125095347.17950-5-ming.lei@redhat.com>
- <alpine.DEB.2.21.1902101731370.8784@nanos.tec.linutronix.de>
-Message-ID: <20190211035810.GB8638@ming.t460p>
+ <alpine.DEB.2.21.1902101815260.8784@nanos.tec.linutronix.de>
+Message-ID: <20190211040911.GC8638@ming.t460p>
 
-On Sun, Feb 10, 2019@05:39:20PM +0100, Thomas Gleixner wrote:
+On Sun, Feb 10, 2019@07:49:12PM +0100, Thomas Gleixner wrote:
 > On Fri, 25 Jan 2019, Ming Lei wrote:
+> > +static int nvme_setup_affinity(const struct irq_affinity *affd,
+> > +			       struct irq_affinity_desc *masks,
+> > +			       unsigned int nmasks)
+> > +{
+> > +	struct nvme_dev *dev = affd->priv;
+> > +	int affvecs = nmasks - affd->pre_vectors - affd->post_vectors;
+> > +	int curvec, usedvecs;
+> > +	int i;
+> > +
+> > +	nvme_calc_io_queues(dev, nmasks);
 > 
-> > Use the callback of .setup_affinity() to re-caculate number
-> > of queues, and build irqs affinity with help of irq_build_affinity().
-> > 
-> > Then nvme_setup_irqs() gets simplified a lot.
+> So this is the only NVME specific information. Everything else can be done
+> in generic code. So what you really want is:
 > 
-> I'm pretty sure you can achieve the same by reworking the core code without
-> that callback.
-
-Could you share the idea a bit? As I mentioned, the re-distribution
-needs driver's knowledge.
-
->  
-> > +	/* Fill out vectors at the beginning that don't need affinity */
-> > +	for (curvec = 0; curvec < affd->pre_vectors; curvec++)
-> > +		cpumask_copy(&masks[curvec].mask, cpu_possible_mask);
+> 	struct affd {
+> 		...
+> +		calc_sets(struct affd *, unsigned int nvecs);
+> 		...
+> 	}
 > 
-> cpu_possible_mask is wrong.  Why are you deliberately trying to make this
-> special? There is absolutely no reason to do so.
-
-It is just for avoiding to export 'irq_default_affinity'.
-
+> And sets want to be actually inside of the affinity descriptor structure:
 > 
-> These interrupts are not managed and therefore the initial affinity has to
-> be irq_default_affinity. Setting them to cpu_possible_mask can and probably
-> will evade a well thought out default affinity mask, which was set to
-> isolate a set of cores from general purpose interrupts.
+>         unsigned int num_sets;
+> 	unsigned int set_vectors[MAX_SETS];
 > 
-> This is exactly the thing which happens with driver special stuff and which
-> needs to be avoided. There is nothing special about this NVME setup and
-> yes, I can see why the current core code is a bit tedious to work with, but
-> that does not justify that extra driver magic by any means.
+> We surely can define a sensible maximum of sets for now. If that ever turns
+> out to be insufficient, then struct affd might become to large for the
+> stack, but for now, using e.g. 8, there is no need to do so.
+> 
+> So then the logic in the generic code becomes exactly the same as what you
+> added to nvme_setup_affinity():
+> 
+> 	if (affd->calc_sets) {
+> 		affd->calc_sets(affd, nvecs);
+> 	} else if (!affd->num_sets) {
+> 		affd->num_sets = 1;
+> 		affd->set_vectors[0] = affvecs;
+> 	}
+> 
+> 	for (i = 0; i < affd->num_sets; i++) {
+> 	    ....
+> 	}
+> 
+> See?
 
-OK, thanks for your explanation.
+OK, will do this way in V2, then we can avoid drivers to abuse
+the callback.
 
 Thanks,
 Ming
