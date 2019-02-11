@@ -1,40 +1,75 @@
-From: bvanassche@acm.org (Bart Van Assche)
-Date: Mon, 11 Feb 2019 14:27:19 -0800
-Subject: v5.0-rc2 and NVMeOF
-In-Reply-To: <20190211210808.GS4240@linux.ibm.com>
-References: <1547579226.83374.114.camel@acm.org>
- <6c18d8f8-949f-9502-566a-643d384e9113@grimberg.me>
- <1549905891.19311.5.camel@acm.org> <20190211210808.GS4240@linux.ibm.com>
-Message-ID: <1549924039.19311.26.camel@acm.org>
+From: tglx@linutronix.de (Thomas Gleixner)
+Date: Mon, 11 Feb 2019 23:38:07 +0100 (CET)
+Subject: [PATCH 2/5] genirq/affinity: allow driver to setup managed IRQ's
+ affinity
+In-Reply-To: <20190211143950.GA151039@google.com>
+References: <20190125095347.17950-1-ming.lei@redhat.com>
+ <20190125095347.17950-3-ming.lei@redhat.com>
+ <alpine.DEB.2.21.1902101723400.8784@nanos.tec.linutronix.de>
+ <20190211035358.GA8638@ming.t460p> <20190211143950.GA151039@google.com>
+Message-ID: <alpine.DEB.2.21.1902112322470.1654@nanos.tec.linutronix.de>
 
-On Mon, 2019-02-11@13:08 -0800, Paul E. McKenney wrote:
-> On Mon, Feb 11, 2019@09:24:51AM -0800, Bart Van Assche wrote:
-> > BUG: KASAN: use-after-free in srcu_invoke_callbacks+0x209/0x290
-> > Read of size 8 at addr ffff8881126b6df0 by task kworker/2:94/26747
-> > CPU: 2 PID: 26747 Comm: kworker/2:94 Not tainted 5.0.0-rc5-dbg+ #5
-> > Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.10.2-1 04/01/2014
-> > Workqueue: rcu_gp srcu_invoke_callbacks
-> > Call Trace:
-> >  dump_stack+0x86/0xca
-> >  print_address_description+0x71/0x239
-> >  kasan_report.cold.3+0x1b/0x3e
-> >  __asan_load8+0x54/0x90
-> >  srcu_invoke_callbacks+0x209/0x290
-> >  process_one_work+0x4f1/0xa40
-> >  worker_thread+0x67/0x5b0
-> >  kthread+0x1cf/0x1f0
-> >  ret_from_fork+0x24/0x30
+Ming,
+
+On Mon, 11 Feb 2019, Bjorn Helgaas wrote:
+
+> On Mon, Feb 11, 2019@11:54:00AM +0800, Ming Lei wrote:
+> > On Sun, Feb 10, 2019@05:30:41PM +0100, Thomas Gleixner wrote:
+> > > On Fri, 25 Jan 2019, Ming Lei wrote:
+> > > 
+> > > > This patch introduces callback of .setup_affinity into 'struct
+> > > > irq_affinity', so that:
+> > > 
+> > > Please see Documentation/process/submitting-patches.rst. Search for 'This
+> > > patch' ....
+> > 
+> > Sorry for that, because I am not a native English speaker and it looks a bit
+> > difficult for me to understand the subtle difference.
+
+Sorry I was a bit terse.
+
+> I think Thomas is saying that instead of "This patch introduces
+> callback ...", you could say "Introduce callback of ...".
 > 
-> The usual way that something like this happens is by invoking call_srcu()
-> twice in a row on the same object, similar to double-kfree() but with
-> call_srcu() instead of kfree().  One way to check for this sort of thing
-> is to reproduce in a kernel built with CONFIG_DEBUG_OBJECTS_RCU_HEAD=y.
+> The changelog is *part* of the patch, so the context is obvious and
+> there's no need to include the words "This patch".
+> 
+> I make the same changes to patches I receive.  In fact, I would go
+> even further and say "Add callback .setup_affinity() ..." because "add"
+> means the same as "introduce" but is shorter and simpler.
 
-Thanks Paul for the feedback. You may want to know that this test was run
-against kernel v5.0-rc5 and that that debugging option was enabled in the
-kernel config before I ran this test:
+Thanks for the explanation, Bjorn!
 
-$ grep RCU_HEAD .config     
-CONFIG_DEBUG_OBJECTS_RCU_HEAD=y
+There is another point here. It's not only the 'This patch introduces ...'
+part. It's also good practice to structure the changelog so it provides
+context and reasoning first and then tells what the change is, e.g.:
 
-Bart.
+   The current handling of multiple interrupt sets in the core interrupt
+   affinity logic, requires the driver to do .......  This is necessary
+   because ....
+
+   This handling should be in the core code, but the core implementation
+   has no way to recompute the interrupt sets for a given number of
+   vectors.
+
+   Add an optional callback to struct affd, which lets the driver recompute
+   the interrupt set before the interrupt affinity spreading takes place.
+
+The first paragraph provides context, i.e. the status quo, The second
+paragraph provides reasoning what is missing and the last one tells what's
+done to solve it.
+
+That's pretty much the same for all changelogs, even if you fix a bug. Just
+in the bug case, the second paragraph describes the details of the bug and
+the possible consequences.
+
+You really need to look at the changelog as a stand alone information
+source. That's important when you look at a commit as an outsider or even
+if you look at your own patch 6 month down the road when you already paged
+out all the details.
+
+Hope that clarifies it.
+
+Thanks,
+
+	tglx
