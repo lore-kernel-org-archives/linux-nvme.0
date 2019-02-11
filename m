@@ -1,35 +1,50 @@
-From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Mon, 11 Feb 2019 08:39:50 -0600
-Subject: [PATCH 2/5] genirq/affinity: allow driver to setup managed IRQ's
- affinity
-In-Reply-To: <20190211035358.GA8638@ming.t460p>
-References: <20190125095347.17950-1-ming.lei@redhat.com>
- <20190125095347.17950-3-ming.lei@redhat.com>
- <alpine.DEB.2.21.1902101723400.8784@nanos.tec.linutronix.de>
- <20190211035358.GA8638@ming.t460p>
-Message-ID: <20190211143950.GA151039@google.com>
+From: emilne@redhat.com (Ewan D. Milne)
+Date: Mon, 11 Feb 2019 10:05:02 -0500
+Subject: [PATCH] scsi: lpfc: fix calls to dma_set_mask_and_coherent()
+Message-ID: <20190211150502.9999-1-emilne@redhat.com>
 
-On Mon, Feb 11, 2019@11:54:00AM +0800, Ming Lei wrote:
-> On Sun, Feb 10, 2019@05:30:41PM +0100, Thomas Gleixner wrote:
-> > On Fri, 25 Jan 2019, Ming Lei wrote:
-> > 
-> > > This patch introduces callback of .setup_affinity into 'struct
-> > > irq_affinity', so that:
-> > 
-> > Please see Documentation/process/submitting-patches.rst. Search for 'This
-> > patch' ....
-> 
-> Sorry for that, because I am not a native English speaker and it looks a bit
-> difficult for me to understand the subtle difference.
+The change to use dma_set_mask_and_coherent() incorrectly made a second
+call with the 32 bit DMA mask value when the call with the 64 bit DMA
+mask value succeeded.  This resulted in NVMe/FC connections failing due
+to corrupted data buffers, and various other SCSI/FCP I/O errors.
 
-I think Thomas is saying that instead of "This patch introduces
-callback ...", you could say "Introduce callback of ...".
+Fixes: f30e1bfd6154 ("scsi: lpfc: use dma_set_mask_and_coherent")
+Cc: <stable at vger.kernel.org>
+Suggested-by: Don Dutile <ddutile at redhat.com>
+Signed-off-by: Ewan D. Milne <emilne at redhat.com>
+---
+ drivers/scsi/lpfc/lpfc_init.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-The changelog is *part* of the patch, so the context is obvious and
-there's no need to include the words "This patch".
-
-I make the same changes to patches I receive.  In fact, I would go
-even further and say "Add callback .setup_affinity() ..." because "add"
-means the same as "introduce" but is shorter and simpler.
-
-Bjorn
+diff --git a/drivers/scsi/lpfc/lpfc_init.c b/drivers/scsi/lpfc/lpfc_init.c
+index bede11e..60c178d 100644
+--- a/drivers/scsi/lpfc/lpfc_init.c
++++ b/drivers/scsi/lpfc/lpfc_init.c
+@@ -7367,9 +7367,9 @@ struct lpfc_rpi_hdr *
+ 		return error;
+ 
+ 	/* Set the device DMA mask size */
+-	if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64)) ||
+-	    dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32)))
+-		return error;
++	if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64)) != 0)
++		if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32)) != 0)
++			return error;
+ 
+ 	/* Get the bus address of Bar0 and Bar2 and the number of bytes
+ 	 * required by each mapping.
+@@ -9745,9 +9745,9 @@ struct lpfc_cq_event *
+ 		return error;
+ 
+ 	/* Set the device DMA mask size */
+-	if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64)) ||
+-	    dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32)))
+-		return error;
++	if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64)) != 0)
++		if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32)) != 0)
++			return error;
+ 
+ 	/*
+ 	 * The BARs and register set definitions and offset locations are
+-- 
+1.8.3.1
