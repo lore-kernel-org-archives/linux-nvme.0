@@ -1,91 +1,58 @@
-From: bvanassche@acm.org (Bart Van Assche)
-Date: Mon, 11 Feb 2019 09:24:51 -0800
-Subject: v5.0-rc2 and NVMeOF
-In-Reply-To: <6c18d8f8-949f-9502-566a-643d384e9113@grimberg.me>
-References: <1547579226.83374.114.camel@acm.org>
- <6c18d8f8-949f-9502-566a-643d384e9113@grimberg.me>
-Message-ID: <1549905891.19311.5.camel@acm.org>
+From: james.smart@broadcom.com (James Smart)
+Date: Mon, 11 Feb 2019 11:19:51 -0800
+Subject: [PATCH] scsi: lpfc: fix calls to dma_set_mask_and_coherent()
+In-Reply-To: <20190211150502.9999-1-emilne@redhat.com>
+References: <20190211150502.9999-1-emilne@redhat.com>
+Message-ID: <313fc267-4954-76ef-2102-f15da7ddad36@broadcom.com>
 
-On Wed, 2019-01-16@17:16 -0800, Sagi Grimberg wrote:
-> On 1/15/19 11:07 AM, Bart Van Assche wrote:
-> > Hello,
-> > 
-> > With Linus' kernel v5.0-rc2 the blktests nvmeof-mp tests trigger the
-> > complaint shown below. Is this a known issue?
-> 
-> Seems like ns remove is racing with ns revalidate again..
-> 
-> Wasn't this related to: eb4c2382272a ("srcu: Lock srcu_data structure in 
-> srcu_gp_start()") ?
+On 2/11/2019 7:05 AM, Ewan D. Milne wrote:
+> The change to use dma_set_mask_and_coherent() incorrectly made a second
+> call with the 32 bit DMA mask value when the call with the 64 bit DMA
+> mask value succeeded.  This resulted in NVMe/FC connections failing due
+> to corrupted data buffers, and various other SCSI/FCP I/O errors.
+>
+> Fixes: f30e1bfd6154 ("scsi: lpfc: use dma_set_mask_and_coherent")
+> Cc: <stable at vger.kernel.org>
+> Suggested-by: Don Dutile <ddutile at redhat.com>
+> Signed-off-by: Ewan D. Milne <emilne at redhat.com>
+> ---
+>   drivers/scsi/lpfc/lpfc_init.c | 12 ++++++------
+>   1 file changed, 6 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/scsi/lpfc/lpfc_init.c b/drivers/scsi/lpfc/lpfc_init.c
+> index bede11e..60c178d 100644
+> --- a/drivers/scsi/lpfc/lpfc_init.c
+> +++ b/drivers/scsi/lpfc/lpfc_init.c
+> @@ -7367,9 +7367,9 @@ struct lpfc_rpi_hdr *
+>   		return error;
+>   
+>   	/* Set the device DMA mask size */
+> -	if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64)) ||
+> -	    dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32)))
+> -		return error;
+> +	if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64)) != 0)
+> +		if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32)) != 0)
+> +			return error;
+>   
+>   	/* Get the bus address of Bar0 and Bar2 and the number of bytes
+>   	 * required by each mapping.
+> @@ -9745,9 +9745,9 @@ struct lpfc_cq_event *
+>   		return error;
+>   
+>   	/* Set the device DMA mask size */
+> -	if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64)) ||
+> -	    dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32)))
+> -		return error;
+> +	if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64)) != 0)
+> +		if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32)) != 0)
+> +			return error;
+>   
+>   	/*
+>   	 * The BARs and register set definitions and offset locations are
 
-(+Paul)
+Thanks Ewan.
 
-I'm not sure. Paul, are you perhaps aware of any open issues in the RCU
-infrastructure? If I run the following test:
 
-git clone https://github.com/osandov/blktests.git
-cd blktests
-./check -q nvmeof-mp
+Signed-off-by:? James Smart? <james.smart at broadcom.com>
 
-then the following appears on the console:
-
-BUG: KASAN: use-after-free in srcu_invoke_callbacks+0x209/0x290
-Read of size 8 at addr ffff8881126b6df0 by task kworker/2:94/26747
-CPU: 2 PID: 26747 Comm: kworker/2:94 Not tainted 5.0.0-rc5-dbg+ #5
-Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.10.2-1 04/01/2014
-Workqueue: rcu_gp srcu_invoke_callbacks
-Call Trace:
- dump_stack+0x86/0xca
- print_address_description+0x71/0x239
- kasan_report.cold.3+0x1b/0x3e
- __asan_load8+0x54/0x90
- srcu_invoke_callbacks+0x209/0x290
- process_one_work+0x4f1/0xa40
- worker_thread+0x67/0x5b0
- kthread+0x1cf/0x1f0
- ret_from_fork+0x24/0x30
-
-Allocated by task 955:
- save_stack+0x43/0xd0
- __kasan_kmalloc.constprop.9+0xcb/0xd0
- kasan_kmalloc+0x9/0x10
- kmem_cache_alloc_trace+0x14c/0x340
- nvme_validate_ns+0xada/0x1170
- nvme_scan_work+0x299/0x4c8
- process_one_work+0x4f1/0xa40
- worker_thread+0x67/0x5b0
- kthread+0x1cf/0x1f0
- ret_from_fork+0x24/0x30
-
-Freed by task 55:
- save_stack+0x43/0xd0
- __kasan_slab_free+0x139/0x190
- kasan_slab_free+0xe/0x10
- kfree+0x103/0x320
- nvme_free_ns+0x198/0x1a0
- nvme_ns_remove+0x1c5/0x240
- nvme_remove_namespaces+0x1b3/0x210
- nvme_delete_ctrl_work+0x7d/0xe0
- process_one_work+0x4f1/0xa40
- worker_thread+0x367/0x5b0
- kthread+0x1cf/0x1f0
- ret_from_fork+0x24/0x30
-
-The buggy address belongs to the object at ffff8881126b6c00
- which belongs to the cache kmalloc-1k of size 1024
-The buggy address is located 496 bytes inside of
- 1024-byte region [ffff8881126b6c00, ffff8881126b7000)
-The buggy address belongs to the page:
-page:ffffea000449ac00 count:1 mapcount:0 mapping:ffff88811b002a00 index:0xffff8881126b1f80 compound_mapcount: 0
-flags: 0x2fff000000010200(slab|head)
-raw: 2fff000000010200 ffffea00042bcc08 ffffea000457b808 ffff88811b002a00
-raw: ffff8881126b1f80 00000000001c0011 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-
-Memory state around the buggy address:
- ffff8881126b6c80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff8881126b6d00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->ffff8881126b6d80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                                                             ^
- ffff8881126b6e00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff8881126b6e80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+-- james
