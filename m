@@ -1,50 +1,51 @@
-From: emilne@redhat.com (Ewan D. Milne)
-Date: Mon, 11 Feb 2019 10:05:02 -0500
-Subject: [PATCH] scsi: lpfc: fix calls to dma_set_mask_and_coherent()
-Message-ID: <20190211150502.9999-1-emilne@redhat.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 11 Feb 2019 09:23:50 -0700
+Subject: [PATCH] nvme-pci: Add missing unlock for reset error
+Message-ID: <20190211162350.4662-1-keith.busch@intel.com>
 
-The change to use dma_set_mask_and_coherent() incorrectly made a second
-call with the 32 bit DMA mask value when the call with the 64 bit DMA
-mask value succeeded.  This resulted in NVMe/FC connections failing due
-to corrupted data buffers, and various other SCSI/FCP I/O errors.
+The reset work holds a mutex to prevent races with removal modifying the
+same resources, but was unlocking only on success. Unlock on failure
+too.
 
-Fixes: f30e1bfd6154 ("scsi: lpfc: use dma_set_mask_and_coherent")
-Cc: <stable at vger.kernel.org>
-Suggested-by: Don Dutile <ddutile at redhat.com>
-Signed-off-by: Ewan D. Milne <emilne at redhat.com>
+Fixes: 5c959d73dba64 ("nvme-pci: fix rapid add remove sequence")
+Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/scsi/lpfc/lpfc_init.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+My mistake. :(
 
-diff --git a/drivers/scsi/lpfc/lpfc_init.c b/drivers/scsi/lpfc/lpfc_init.c
-index bede11e..60c178d 100644
---- a/drivers/scsi/lpfc/lpfc_init.c
-+++ b/drivers/scsi/lpfc/lpfc_init.c
-@@ -7367,9 +7367,9 @@ struct lpfc_rpi_hdr *
- 		return error;
+ drivers/nvme/host/pci.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 022ea1ee63f8..7fee665ec45e 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2560,15 +2560,15 @@ static void nvme_reset_work(struct work_struct *work)
+ 	mutex_lock(&dev->shutdown_lock);
+ 	result = nvme_pci_enable(dev);
+ 	if (result)
+-		goto out;
++		goto out_unlock;
  
- 	/* Set the device DMA mask size */
--	if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64)) ||
--	    dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32)))
--		return error;
-+	if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64)) != 0)
-+		if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32)) != 0)
-+			return error;
+ 	result = nvme_pci_configure_admin_queue(dev);
+ 	if (result)
+-		goto out;
++		goto out_unlock;
  
- 	/* Get the bus address of Bar0 and Bar2 and the number of bytes
- 	 * required by each mapping.
-@@ -9745,9 +9745,9 @@ struct lpfc_cq_event *
- 		return error;
- 
- 	/* Set the device DMA mask size */
--	if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64)) ||
--	    dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32)))
--		return error;
-+	if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64)) != 0)
-+		if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32)) != 0)
-+			return error;
+ 	result = nvme_alloc_admin_tags(dev);
+ 	if (result)
+-		goto out;
++		goto out_unlock;
  
  	/*
- 	 * The BARs and register set definitions and offset locations are
+ 	 * Limit the max command size to prevent iod->sg allocations going
+@@ -2651,6 +2651,8 @@ static void nvme_reset_work(struct work_struct *work)
+ 	nvme_start_ctrl(&dev->ctrl);
+ 	return;
+ 
++ out_unlock:
++	mutex_unlock(&dev->shutdown_lock);
+  out:
+ 	nvme_remove_dead_ctrl(dev, result);
+ }
 -- 
-1.8.3.1
+2.14.4
