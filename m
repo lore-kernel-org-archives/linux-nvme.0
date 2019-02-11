@@ -1,48 +1,43 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 11 Feb 2019 09:23:08 +0100
-Subject: [PATCHv2] nvmetcli: ANA configuration support
-In-Reply-To: <88f6608b-df3c-2528-4f9c-1e4610fabf44@suse.com>
-References: <20181108122736.76270-1-hare@suse.de>
- <20181114151417.GA28175@lst.de>
- <88f6608b-df3c-2528-4f9c-1e4610fabf44@suse.com>
-Message-ID: <20190211082308.GA16512@lst.de>
+From: hare@suse.de (Hannes Reinecke)
+Date: Mon, 11 Feb 2019 15:34:23 +0100
+Subject: nvme-cli argument passing for connect-all
+Message-ID: <32dcb074-8d23-db13-9074-d0a8619b8baa@suse.de>
 
-Did you get a chance to look into this or should I spend some time on
-it?
+Hi Keith,
 
-On Wed, Nov 14, 2018@04:23:08PM +0100, Hannes Reinecke wrote:
-> On 11/14/18 4:14 PM, Christoph Hellwig wrote:
->> This fails to restore a config that doesn't have the ANA fields
->> yet (actual config attached):
->>
->> Traceback (most recent call last):
->>    File "./nvmetcli", line 740, in <module>
->>      main()
->>    File "./nvmetcli", line 722, in main
->>      funcs[sys.argv[1]](savefile)
->>    File "./nvmetcli", line 678, in restore
->>      errors = nvme.Root().restore_from_file(from_file)
->>    File "/root/nvmetcli/nvmet/nvme.py", line 382, in restore_from_file
->>      abort_on_error=abort_on_error)
->>    File "/root/nvmetcli/nvmet/nvme.py", line 356, in restore
->>      Subsystem.setup(t, err_func)
->>    File "/root/nvmetcli/nvmet/nvme.py", line 497, in setup
->>      Namespace.setup(s, ns, err_func)
->>    File "/root/nvmetcli/nvmet/nvme.py", line 610, in setup
->>      ns.set_grpid(int(n['ana_grpid']))
->> KeyError: 'ana_grpid'
->>
-> Gnaa. My python skills are crap.
->
-> Will see to have it fixed.
->
-> Cheers,
->
-> Hannes
-> -- 
-> Dr. Hannes Reinecke		               zSeries & Storage
-> hare at suse.com			               +49 911 74053 688
-> SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-> GF: F. Imend?rffer, J. Smithard, D. Upmanyu, G. Norton
-> HRB 21284 (AG N?rnberg)
----end quoted text---
+I've come across a bit of an awkward issue, and I really would like some 
+clarification on how to move forward.
+
+Thing is, for 'connect-all' we have to pass _all_ arguments (for connect 
+_and_ discovery), yet not every argument is valid for both calls.
+Which means if we enable nvme-cli to accept the superset of those 
+arguments one or the other call will fail.
+(Case in point: 'keep-alive-tmo' will return an error for discovery 
+controllers, so we cannot set it when calling 'connect-all').
+
+We now have two ways of solving it:
+
+Either blank the incorrect options from nvme-cli, and ensure that we're 
+only setting the valid options.
+However, when doing so we will have to keep nvme-cli in sync with the 
+kernel, otherwise we'll never be setting this option even if at some 
+later time one of these options becomes valid.
+
+Or we can simply ignore the options from the kernel parser, giving us 
+some more leeway when updating either side.
+(Case in point: the kernel will ignore the 'nr_io_queues' argument for 
+discovery controllers)
+
+Can we please decide on a common policy how to handle invalid arguments?
+Like accept _all_ known arguments for both, discovery _and_ connect, and 
+only return errors for unknown arguments?
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+HRB 21284 (AG N?rnberg)
