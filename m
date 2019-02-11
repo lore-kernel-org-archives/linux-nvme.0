@@ -1,43 +1,35 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 11 Feb 2019 15:34:23 +0100
-Subject: nvme-cli argument passing for connect-all
-Message-ID: <32dcb074-8d23-db13-9074-d0a8619b8baa@suse.de>
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Mon, 11 Feb 2019 08:39:50 -0600
+Subject: [PATCH 2/5] genirq/affinity: allow driver to setup managed IRQ's
+ affinity
+In-Reply-To: <20190211035358.GA8638@ming.t460p>
+References: <20190125095347.17950-1-ming.lei@redhat.com>
+ <20190125095347.17950-3-ming.lei@redhat.com>
+ <alpine.DEB.2.21.1902101723400.8784@nanos.tec.linutronix.de>
+ <20190211035358.GA8638@ming.t460p>
+Message-ID: <20190211143950.GA151039@google.com>
 
-Hi Keith,
+On Mon, Feb 11, 2019@11:54:00AM +0800, Ming Lei wrote:
+> On Sun, Feb 10, 2019@05:30:41PM +0100, Thomas Gleixner wrote:
+> > On Fri, 25 Jan 2019, Ming Lei wrote:
+> > 
+> > > This patch introduces callback of .setup_affinity into 'struct
+> > > irq_affinity', so that:
+> > 
+> > Please see Documentation/process/submitting-patches.rst. Search for 'This
+> > patch' ....
+> 
+> Sorry for that, because I am not a native English speaker and it looks a bit
+> difficult for me to understand the subtle difference.
 
-I've come across a bit of an awkward issue, and I really would like some 
-clarification on how to move forward.
+I think Thomas is saying that instead of "This patch introduces
+callback ...", you could say "Introduce callback of ...".
 
-Thing is, for 'connect-all' we have to pass _all_ arguments (for connect 
-_and_ discovery), yet not every argument is valid for both calls.
-Which means if we enable nvme-cli to accept the superset of those 
-arguments one or the other call will fail.
-(Case in point: 'keep-alive-tmo' will return an error for discovery 
-controllers, so we cannot set it when calling 'connect-all').
+The changelog is *part* of the patch, so the context is obvious and
+there's no need to include the words "This patch".
 
-We now have two ways of solving it:
+I make the same changes to patches I receive.  In fact, I would go
+even further and say "Add callback .setup_affinity() ..." because "add"
+means the same as "introduce" but is shorter and simpler.
 
-Either blank the incorrect options from nvme-cli, and ensure that we're 
-only setting the valid options.
-However, when doing so we will have to keep nvme-cli in sync with the 
-kernel, otherwise we'll never be setting this option even if at some 
-later time one of these options becomes valid.
-
-Or we can simply ignore the options from the kernel parser, giving us 
-some more leeway when updating either side.
-(Case in point: the kernel will ignore the 'nr_io_queues' argument for 
-discovery controllers)
-
-Can we please decide on a common policy how to handle invalid arguments?
-Like accept _all_ known arguments for both, discovery _and_ connect, and 
-only return errors for unknown arguments?
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+Bjorn
