@@ -1,58 +1,51 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Mon, 11 Feb 2019 11:19:51 -0800
-Subject: [PATCH] scsi: lpfc: fix calls to dma_set_mask_and_coherent()
-In-Reply-To: <20190211150502.9999-1-emilne@redhat.com>
-References: <20190211150502.9999-1-emilne@redhat.com>
-Message-ID: <313fc267-4954-76ef-2102-f15da7ddad36@broadcom.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 11 Feb 2019 13:06:23 -0700
+Subject: nvme-cli argument passing for connect-all
+In-Reply-To: <32dcb074-8d23-db13-9074-d0a8619b8baa@suse.de>
+References: <32dcb074-8d23-db13-9074-d0a8619b8baa@suse.de>
+Message-ID: <20190211200623.GE4525@localhost.localdomain>
 
-On 2/11/2019 7:05 AM, Ewan D. Milne wrote:
-> The change to use dma_set_mask_and_coherent() incorrectly made a second
-> call with the 32 bit DMA mask value when the call with the 64 bit DMA
-> mask value succeeded.  This resulted in NVMe/FC connections failing due
-> to corrupted data buffers, and various other SCSI/FCP I/O errors.
->
-> Fixes: f30e1bfd6154 ("scsi: lpfc: use dma_set_mask_and_coherent")
-> Cc: <stable at vger.kernel.org>
-> Suggested-by: Don Dutile <ddutile at redhat.com>
-> Signed-off-by: Ewan D. Milne <emilne at redhat.com>
-> ---
->   drivers/scsi/lpfc/lpfc_init.c | 12 ++++++------
->   1 file changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/scsi/lpfc/lpfc_init.c b/drivers/scsi/lpfc/lpfc_init.c
-> index bede11e..60c178d 100644
-> --- a/drivers/scsi/lpfc/lpfc_init.c
-> +++ b/drivers/scsi/lpfc/lpfc_init.c
-> @@ -7367,9 +7367,9 @@ struct lpfc_rpi_hdr *
->   		return error;
->   
->   	/* Set the device DMA mask size */
-> -	if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64)) ||
-> -	    dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32)))
-> -		return error;
-> +	if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64)) != 0)
-> +		if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32)) != 0)
-> +			return error;
->   
->   	/* Get the bus address of Bar0 and Bar2 and the number of bytes
->   	 * required by each mapping.
-> @@ -9745,9 +9745,9 @@ struct lpfc_cq_event *
->   		return error;
->   
->   	/* Set the device DMA mask size */
-> -	if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64)) ||
-> -	    dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32)))
-> -		return error;
-> +	if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64)) != 0)
-> +		if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32)) != 0)
-> +			return error;
->   
->   	/*
->   	 * The BARs and register set definitions and offset locations are
+On Mon, Feb 11, 2019@03:34:23PM +0100, Hannes Reinecke wrote:
+> Hi Keith,
+> 
+> I've come across a bit of an awkward issue, and I really would like some
+> clarification on how to move forward.
+> 
+> Thing is, for 'connect-all' we have to pass _all_ arguments (for connect
+> _and_ discovery), yet not every argument is valid for both calls.
+> Which means if we enable nvme-cli to accept the superset of those arguments
+> one or the other call will fail.
+> (Case in point: 'keep-alive-tmo' will return an error for discovery
+> controllers, so we cannot set it when calling 'connect-all').
+> 
+> We now have two ways of solving it:
+> 
+> Either blank the incorrect options from nvme-cli, and ensure that we're only
+> setting the valid options.
+> However, when doing so we will have to keep nvme-cli in sync with the
+> kernel, otherwise we'll never be setting this option even if at some later
+> time one of these options becomes valid.
+> 
+> Or we can simply ignore the options from the kernel parser, giving us some
+> more leeway when updating either side.
+> (Case in point: the kernel will ignore the 'nr_io_queues' argument for
+> discovery controllers)
+> 
+> Can we please decide on a common policy how to handle invalid arguments?
+> Like accept _all_ known arguments for both, discovery _and_ connect, and
+> only return errors for unknown arguments?
+> 
+> Cheers,
+> 
+> Hannes
 
-Thanks Ewan.
+Hi Hannes,
 
+IMO, I think we should make the kernel handle this and ignore entries that
+don't apply. The discovery controller seems to be the special case here,
+and we don't even handle it consistently. For example, a discovery_nqn
+will ignore nr_io_queues parms, but will consider KATA an error. Why
+the difference there?
 
-Signed-off-by:? James Smart? <james.smart at broadcom.com>
-
--- james
+Thanks,
+Keith
