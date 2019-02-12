@@ -1,46 +1,45 @@
-From: emilne@redhat.com (Ewan D. Milne)
-Date: Tue, 12 Feb 2019 10:37:45 -0500
-Subject: [PATCH] scsi: lpfc: fix calls to dma_set_mask_and_coherent()
-In-Reply-To: <20190212080627.GC10547@infradead.org>
-References: <20190211150502.9999-1-emilne@redhat.com>
- <20190212080627.GC10547@infradead.org>
-Message-ID: <9572ae3b0131ad1c74d6a775f819437e3d4f1795.camel@redhat.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 12 Feb 2019 08:49:23 -0700
+Subject: [PATCH V2 3/4] nvme-pci: avoid irq allocation retrying via
+ .calc_sets
+In-Reply-To: <20190212130439.14501-4-ming.lei@redhat.com>
+References: <20190212130439.14501-1-ming.lei@redhat.com>
+ <20190212130439.14501-4-ming.lei@redhat.com>
+Message-ID: <20190212154922.GA6176@localhost.localdomain>
 
-On Tue, 2019-02-12@00:06 -0800, Christoph Hellwig wrote:
-> On Mon, Feb 11, 2019@10:05:02AM -0500, Ewan D. Milne wrote:
-> > The change to use dma_set_mask_and_coherent() incorrectly made a second
-> > call with the 32 bit DMA mask value when the call with the 64 bit DMA
-> > mask value succeeded.  This resulted in NVMe/FC connections failing due
-> > to corrupted data buffers, and various other SCSI/FCP I/O errors.
+On Tue, Feb 12, 2019@05:04:38AM -0800, Ming Lei wrote:
+> Currently pre-caculate each set vectors, and this way requires same
+> 'max_vecs' and 'min_vecs' passed to pci_alloc_irq_vectors_affinity(),
+> then nvme_setup_irqs() has to retry in case of allocation failure.
 > 
-> Ooops, sorry.
+> This usage & interface is a bit awkward because the retry should have
+> been avoided by providing one reasonable 'min_vecs'.
 > 
-> >  	/* Set the device DMA mask size */
-> > -	if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64)) ||
-> > -	    dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32)))
-> > -		return error;
-> > +	if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64)) != 0)
-> > +		if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32)) != 0)
+> Implement the callback of .calc_sets, so that pci_alloc_irq_vectors_affinity()
+> can calculate each set's vector after IRQ vectors is allocated and
+> before spread IRQ, then NVMe's retry in case of irq allocation failure
+> can be removed.
 > 
-> But this still looks obsfuctating, why not:
-> 
-> 	error = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
-> 	if (error)
-> 		error = dma_set_mask_and_coherent(&pdev->dev,
-> 				DMA_BIT_MASK(32)));
-> 	if (error)
-> 		return error;
+> Signed-off-by: Ming Lei <ming.lei at redhat.com>
 
-I agree that making the flow of control explicit would be good, but...
+Thanks, Ming, this whole series looks like a great improvement for
+drivers using irq sets.
 
-It looks like this would introduce a different problem.  "error" is set to
--ENODEV earlier in the two functions so that the various error paths will return
-that value.  If it is overwritten with a successful result from the call to
-dma_set_mask_and_coherent() but a later call to e.g. ioremap() fails, the
-functions will incorrectly return a value indicating that they have succeeded.
+Minor nit below. Otherwise you may add my review for the whole series
+if you spin a v3 for the other minor comments.
 
-It also appears as if the patches to hptiop, hisi_sas and bfa need to be fixed up.
-I don't have a test environment for these, although I might be able to modify the
-test environment for bfa.  Martin/James, what about the others?
+Reviewed-by: Keith Busch <keith.busch at intel.com>
 
--Ewan
+> +static void nvme_calc_irq_sets(struct irq_affinity *affd, int nvecs)
+> +{
+> +	struct nvme_dev *dev = affd->priv;
+> +
+> +	nvme_calc_io_queues(dev, nvecs);
+> +
+> +	affd->set_vectors[HCTX_TYPE_DEFAULT] = dev->io_queues[HCTX_TYPE_DEFAULT];
+> +	affd->set_vectors[HCTX_TYPE_READ] = dev->io_queues[HCTX_TYPE_READ];
+> +	affd->nr_sets = HCTX_TYPE_POLL;
+> +}
+
+The value of HCTX_TYPE_POLL happens to be 2, but that seems more of a
+coincidence right now. Can we hard code 2 just in case the value changes?
