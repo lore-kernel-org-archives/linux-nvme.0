@@ -1,58 +1,64 @@
-From: paulmck@linux.ibm.com (Paul E. McKenney)
-Date: Mon, 11 Feb 2019 17:24:22 -0800
-Subject: v5.0-rc2 and NVMeOF
-In-Reply-To: <1549924039.19311.26.camel@acm.org>
-References: <1547579226.83374.114.camel@acm.org>
- <6c18d8f8-949f-9502-566a-643d384e9113@grimberg.me>
- <1549905891.19311.5.camel@acm.org>
- <20190211210808.GS4240@linux.ibm.com>
- <1549924039.19311.26.camel@acm.org>
-Message-ID: <20190212012422.GX4240@linux.ibm.com>
+From: hare@suse.de (Hannes Reinecke)
+Date: Tue, 12 Feb 2019 08:06:45 +0100
+Subject: nvme-cli argument passing for connect-all
+In-Reply-To: <20190211200623.GE4525@localhost.localdomain>
+References: <32dcb074-8d23-db13-9074-d0a8619b8baa@suse.de>
+ <20190211200623.GE4525@localhost.localdomain>
+Message-ID: <5a136a3c-f123-5d49-04ab-276c10fbb469@suse.de>
 
-On Mon, Feb 11, 2019@02:27:19PM -0800, Bart Van Assche wrote:
-> On Mon, 2019-02-11@13:08 -0800, Paul E. McKenney wrote:
-> > On Mon, Feb 11, 2019@09:24:51AM -0800, Bart Van Assche wrote:
-> > > BUG: KASAN: use-after-free in srcu_invoke_callbacks+0x209/0x290
-> > > Read of size 8 at addr ffff8881126b6df0 by task kworker/2:94/26747
-> > > CPU: 2 PID: 26747 Comm: kworker/2:94 Not tainted 5.0.0-rc5-dbg+ #5
-> > > Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.10.2-1 04/01/2014
-> > > Workqueue: rcu_gp srcu_invoke_callbacks
-> > > Call Trace:
-> > >  dump_stack+0x86/0xca
-> > >  print_address_description+0x71/0x239
-> > >  kasan_report.cold.3+0x1b/0x3e
-> > >  __asan_load8+0x54/0x90
-> > >  srcu_invoke_callbacks+0x209/0x290
-> > >  process_one_work+0x4f1/0xa40
-> > >  worker_thread+0x67/0x5b0
-> > >  kthread+0x1cf/0x1f0
-> > >  ret_from_fork+0x24/0x30
-> > 
-> > The usual way that something like this happens is by invoking call_srcu()
-> > twice in a row on the same object, similar to double-kfree() but with
-> > call_srcu() instead of kfree().  One way to check for this sort of thing
-> > is to reproduce in a kernel built with CONFIG_DEBUG_OBJECTS_RCU_HEAD=y.
+On 2/11/19 9:06 PM, Keith Busch wrote:
+> On Mon, Feb 11, 2019@03:34:23PM +0100, Hannes Reinecke wrote:
+>> Hi Keith,
+>>
+>> I've come across a bit of an awkward issue, and I really would like some
+>> clarification on how to move forward.
+>>
+>> Thing is, for 'connect-all' we have to pass _all_ arguments (for connect
+>> _and_ discovery), yet not every argument is valid for both calls.
+>> Which means if we enable nvme-cli to accept the superset of those arguments
+>> one or the other call will fail.
+>> (Case in point: 'keep-alive-tmo' will return an error for discovery
+>> controllers, so we cannot set it when calling 'connect-all').
+>>
+>> We now have two ways of solving it:
+>>
+>> Either blank the incorrect options from nvme-cli, and ensure that we're only
+>> setting the valid options.
+>> However, when doing so we will have to keep nvme-cli in sync with the
+>> kernel, otherwise we'll never be setting this option even if at some later
+>> time one of these options becomes valid.
+>>
+>> Or we can simply ignore the options from the kernel parser, giving us some
+>> more leeway when updating either side.
+>> (Case in point: the kernel will ignore the 'nr_io_queues' argument for
+>> discovery controllers)
+>>
+>> Can we please decide on a common policy how to handle invalid arguments?
+>> Like accept _all_ known arguments for both, discovery _and_ connect, and
+>> only return errors for unknown arguments?
+>>
 > 
-> Thanks Paul for the feedback. You may want to know that this test was run
-> against kernel v5.0-rc5 and that that debugging option was enabled in the
-> kernel config before I ran this test:
+> Hi Hannes,
 > 
-> $ grep RCU_HEAD .config     
-> CONFIG_DEBUG_OBJECTS_RCU_HEAD=y
+> IMO, I think we should make the kernel handle this and ignore entries that
+> don't apply. The discovery controller seems to be the special case here,
+> and we don't even handle it consistently. For example, a discovery_nqn
+> will ignore nr_io_queues parms, but will consider KATA an error. Why
+> the difference there?
+> 
+That would be my preference, too.
+It feels so silly to error out entries which would've been ignored 
+anyway. Plus we already had instances where a previously invalid option 
+became optional due to a spec change.
 
-I guess you beat me to it, then.  ;-)
+I'll be sending out a patch.
 
-Could you please send me the usual, including your .config and any details
-about what the workload was?  Was this during runtime or at boot time?
-If at boot time, could you please also send along the dmesg?
+Cheers,
 
-Finally, would you be able to translate the functions/offsets above
-to v5.0-rc5 source line numbers?  Or, failing that, could you please
-provide me a disassembly of srcu_invoke_callbacks()?
-
-And just to double-check, CONFIG_DEBUG_OBJECTS_RCU_HEAD=y was set in
-the KASAN run itself?  The "was enabled in the kernel config before I
-ran this test" could be interpreted in several ways, and I just need to
-make sure I understand what really happened.  ;-)
-
-							Thanx, Paul
+Hannes
+-- 
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+HRB 21284 (AG N?rnberg)
