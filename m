@@ -1,14 +1,15 @@
 From: tglx@linutronix.de (Thomas Gleixner)
-Date: Tue, 12 Feb 2019 14:37:57 +0100 (CET)
-Subject: [PATCH V2 2/4] genirq/affinity: add new callback for caculating
- set vectors
-In-Reply-To: <20190212130439.14501-3-ming.lei@redhat.com>
+Date: Tue, 12 Feb 2019 14:42:04 +0100 (CET)
+Subject: [PATCH V2 0/4] genirq/affinity: add .calc_sets for improving
+ IRQ allocation & spread
+In-Reply-To: <20190212130439.14501-1-ming.lei@redhat.com>
 References: <20190212130439.14501-1-ming.lei@redhat.com>
- <20190212130439.14501-3-ming.lei@redhat.com>
-Message-ID: <alpine.DEB.2.21.1902121435330.3710@nanos.tec.linutronix.de>
+Message-ID: <alpine.DEB.2.21.1902121438310.3710@nanos.tec.linutronix.de>
 
 On Tue, 12 Feb 2019, Ming Lei wrote:
 
+> Hi,
+> 
 > Currently pre-caculated set vectors are provided by driver for
 > allocating & spread vectors. This way only works when drivers passes
 > same 'max_vecs' and 'min_vecs' to pci_alloc_irq_vectors_affinity(),
@@ -25,28 +26,14 @@ On Tue, 12 Feb 2019, Ming Lei wrote:
 > driver can caculate set vectors after IRQ vector is allocated and
 > before spread IRQ vectors. Add 'priv' so that driver may retrieve
 > its private data via the 'struct irq_affinity'.
+> 
+> 
+> V2:
+> 	- add .calc_sets instead of .setup_affinity() which is easy to
+> 	be abused by drivers
 
-Nice changelog!
-
->  	 * Spread on present CPUs starting from affd->pre_vectors. If we
->  	 * have multiple sets, build each sets affinity mask separately.
->  	 */
-> -	nr_sets = affd->nr_sets;
-> -	if (!nr_sets) {
-> +	if (affd->calc_sets) {
-> +		affd->calc_sets(affd, nvecs);
-> +		nr_sets = affd->nr_sets;
-> +	} else if (!affd->nr_sets) {
->  		nr_sets = 1;
->  		affd->set_vectors[0] = affvecs;
-> -	}
-> +	} else
-> +		nr_sets = affd->nr_sets;
-
-Lacks curly brackets.
-
-Aside of that it might make sense to get rid of the local variable, but
-that should be done in patch 1 if at all. No strong opinion though.
+This looks really well done. If you can address the minor nitpicks, then
+this is good to go, unless someone has objections.
 
 Thanks,
 
