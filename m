@@ -1,72 +1,84 @@
-From: paulmck@linux.ibm.com (Paul E. McKenney)
-Date: Tue, 12 Feb 2019 11:15:22 -0800
-Subject: v5.0-rc2 and NVMeOF
-In-Reply-To: <20190212174715.GP4240@linux.ibm.com>
-References: <1547579226.83374.114.camel@acm.org>
- <6c18d8f8-949f-9502-566a-643d384e9113@grimberg.me>
- <1549905891.19311.5.camel@acm.org>
- <20190211210808.GS4240@linux.ibm.com>
- <1549924039.19311.26.camel@acm.org>
- <20190212012422.GX4240@linux.ibm.com>
- <1549990020.19311.40.camel@acm.org>
- <20190212174715.GP4240@linux.ibm.com>
-Message-ID: <20190212191522.GA27391@linux.ibm.com>
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Tue, 12 Feb 2019 17:42:24 -0600
+Subject: [PATCH V2 4/4] genirq/affinity: Document .calc_sets as required
+ in case of multiple sets
+In-Reply-To: <20190212130439.14501-5-ming.lei@redhat.com>
+References: <20190212130439.14501-1-ming.lei@redhat.com>
+ <20190212130439.14501-5-ming.lei@redhat.com>
+Message-ID: <20190212234224.GA96272@google.com>
 
-On Tue, Feb 12, 2019@09:47:15AM -0800, Paul E. McKenney wrote:
-> On Tue, Feb 12, 2019@08:47:00AM -0800, Bart Van Assche wrote:
-
-[ . . . ]
-
-> > Please let me know if you need more information.
+On Tue, Feb 12, 2019@09:04:39PM +0800, Ming Lei wrote:
+> Now NVMe has implemented the .calc_sets callback for caculating each
+> set's vectors.
 > 
-> It looks to me like you need an srcu_barrier(&head->srcu) just before
-> the call to cleanup_srcu_struct_quiesced() in nvme_free_ns_head().
-> Or maybe earlier in the cleanup flow, but most definitely -after- the
-> last invocation of call_srcu().
+> For other cases of multiple irq sets, it isn't a good way to pre-caculate
+> each set's vectors before allocating IRQ vectors because NVMe's same issue
+> exists too.
+
+s/irq/IRQ/ so it's consistent in the paragraph.
+
+> Document .calc_sets as required explicitly for multiple sets.
 > 
-> Does that help?  Or is there a call to srcu_barrier() somewhere that I
-> am blind to?
+> Signed-off-by: Ming Lei <ming.lei at redhat.com>
 
-And please see below for a patch that should allow SRCU to provide
-greatly improved diagnostics for my hypothesized scenario.
+Acked-by: Bjorn Helgaas <bhelgaas at google.com>
 
-							Thanx, Paul
+Note minor comments below.
 
-------------------------------------------------------------------------
+> ---
+>  drivers/pci/msi.c         | 4 ++--
+>  include/linux/interrupt.h | 3 ++-
+>  2 files changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/pci/msi.c b/drivers/pci/msi.c
+> index 4c0b47867258..9f91fa713141 100644
+> --- a/drivers/pci/msi.c
+> +++ b/drivers/pci/msi.c
+> @@ -1039,7 +1039,7 @@ static int __pci_enable_msi_range(struct pci_dev *dev, int minvec, int maxvec,
+>  	 * If the caller is passing in sets, we can't support a range of
+>  	 * vectors. The caller needs to handle that.
 
-commit 266c20cf63cdcecb3856dbc7886529082f0acaf5
-Author: Paul E. McKenney <paulmck at linux.ibm.com>
-Date:   Tue Feb 12 10:44:33 2019 -0800
+Looks like this comment needs to be tweaked, maybe along the lines of:
 
-    srcu: Check for in-flight callbacks in _cleanup_srcu_struct()
-    
-    If someone fails to drain the corresponding SRCU callbacks (for
-    example, by failing to invoke srcu_barrier()) before invoking either
-    cleanup_srcu_struct() or cleanup_srcu_struct_quiesced(), the resulting
-    diagnostic is an ambiguous use-after-free diagnostic, and even then
-    only if you are running something like KASAN.  This commit therefore
-    improves SRCU diagnostics by adding checks for in-flight callbacks at
-    _cleanup_srcu_struct() time.
-    
-    Note that these diagnostics can still be defeated, for example, by
-    invoking call_srcu() concurrently with cleanup_srcu_struct().  Which is
-    a really bad idea, but sometimes all too easy to do.  But even then,
-    these diagnostics have at least some probability of catching the problem.
-    
-    Reported-by: Sagi Grimberg <sagi at grimberg.me>
-    Reported-by: Bart Van Assche <bvanassche at acm.org>
-    Signed-off-by: Paul E. McKenney <paulmck at linux.ibm.com>
+  If the caller requests multiple sets of IRQs where each set requires
+  different affinity, it must also supply a ->calc_sets() callback to
+  compute the affinity cpumask for each set.
 
-diff --git a/kernel/rcu/srcutree.c b/kernel/rcu/srcutree.c
-index a60b8ba9e1ac..4f30f3ecabc1 100644
---- a/kernel/rcu/srcutree.c
-+++ b/kernel/rcu/srcutree.c
-@@ -387,6 +387,8 @@ void _cleanup_srcu_struct(struct srcu_struct *ssp, bool quiesced)
- 			del_timer_sync(&sdp->delay_work);
- 			flush_work(&sdp->work);
- 		}
-+		if (WARN_ON(rcu_segcblist_n_cbs(&sdp->srcu_cblist)))
-+			return; /* Forgot srcu_barrier(), so just leak it! */
- 	}
- 	if (WARN_ON(rcu_seq_state(READ_ONCE(ssp->srcu_gp_seq)) != SRCU_STATE_IDLE) ||
- 	    WARN_ON(srcu_readers_active(ssp))) {
+(I'm not 100% clear on how calc_sets() works, so I might not have
+described this exactly right.)
+
+>  	 */
+> -	if (affd && affd->nr_sets && minvec != maxvec)
+> +	if (affd && affd->nr_sets > 1 && !affd->calc_sets)
+>  		return -EINVAL;
+>  
+>  	if (WARN_ON_ONCE(dev->msi_enabled))
+> @@ -1097,7 +1097,7 @@ static int __pci_enable_msix_range(struct pci_dev *dev,
+>  	 * If the caller is passing in sets, we can't support a range of
+>  	 * supported vectors. The caller needs to handle that.
+
+Similar comment update here?
+
+>  	 */
+> -	if (affd && affd->nr_sets && minvec != maxvec)
+> +	if (affd && affd->nr_sets > 1 && !affd->calc_sets)
+>  		return -EINVAL;
+>  
+>  	if (WARN_ON_ONCE(dev->msix_enabled))
+> diff --git a/include/linux/interrupt.h b/include/linux/interrupt.h
+> index 7a27f6ba1f2f..a053f7fb0ff1 100644
+> --- a/include/linux/interrupt.h
+> +++ b/include/linux/interrupt.h
+> @@ -269,7 +269,8 @@ struct irq_affinity_notify {
+>   *			the MSI(-X) vector space
+>   * @nr_sets:		Length of passed in *sets array
+>   * @set_vectors:	Number of affinitized sets
+> - * @calc_sets:		Callback for caculating set vectors
+> + * @calc_sets:		Callback for caculating set vectors, required for
+> + * 			multiple irq sets.
+>   * @priv:		Private data of @calc_sets
+>   */
+>  struct irq_affinity {
+> -- 
+> 2.9.5
+> 
