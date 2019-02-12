@@ -1,40 +1,46 @@
-From: tglx@linutronix.de (Thomas Gleixner)
-Date: Tue, 12 Feb 2019 14:42:04 +0100 (CET)
-Subject: [PATCH V2 0/4] genirq/affinity: add .calc_sets for improving
- IRQ allocation & spread
-In-Reply-To: <20190212130439.14501-1-ming.lei@redhat.com>
-References: <20190212130439.14501-1-ming.lei@redhat.com>
-Message-ID: <alpine.DEB.2.21.1902121438310.3710@nanos.tec.linutronix.de>
+From: emilne@redhat.com (Ewan D. Milne)
+Date: Tue, 12 Feb 2019 10:37:45 -0500
+Subject: [PATCH] scsi: lpfc: fix calls to dma_set_mask_and_coherent()
+In-Reply-To: <20190212080627.GC10547@infradead.org>
+References: <20190211150502.9999-1-emilne@redhat.com>
+ <20190212080627.GC10547@infradead.org>
+Message-ID: <9572ae3b0131ad1c74d6a775f819437e3d4f1795.camel@redhat.com>
 
-On Tue, 12 Feb 2019, Ming Lei wrote:
+On Tue, 2019-02-12@00:06 -0800, Christoph Hellwig wrote:
+> On Mon, Feb 11, 2019@10:05:02AM -0500, Ewan D. Milne wrote:
+> > The change to use dma_set_mask_and_coherent() incorrectly made a second
+> > call with the 32 bit DMA mask value when the call with the 64 bit DMA
+> > mask value succeeded.  This resulted in NVMe/FC connections failing due
+> > to corrupted data buffers, and various other SCSI/FCP I/O errors.
+> 
+> Ooops, sorry.
+> 
+> >  	/* Set the device DMA mask size */
+> > -	if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64)) ||
+> > -	    dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32)))
+> > -		return error;
+> > +	if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64)) != 0)
+> > +		if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32)) != 0)
+> 
+> But this still looks obsfuctating, why not:
+> 
+> 	error = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
+> 	if (error)
+> 		error = dma_set_mask_and_coherent(&pdev->dev,
+> 				DMA_BIT_MASK(32)));
+> 	if (error)
+> 		return error;
 
-> Hi,
-> 
-> Currently pre-caculated set vectors are provided by driver for
-> allocating & spread vectors. This way only works when drivers passes
-> same 'max_vecs' and 'min_vecs' to pci_alloc_irq_vectors_affinity(),
-> also requires driver to retry the allocating & spread.
-> 
-> As Bjorn and Keith mentioned, the current usage & interface for irq sets
-> is a bit awkward because the retrying should have been avoided by providing
-> one resonable 'min_vecs'. However, if 'min_vecs' isn't same with
-> 'max_vecs', number of the allocated vectors is unknown before calling
-> pci_alloc_irq_vectors_affinity(), then each set's vectors can't be
-> pre-caculated.
-> 
-> Add a new callback of .calc_sets into 'struct irq_affinity' so that
-> driver can caculate set vectors after IRQ vector is allocated and
-> before spread IRQ vectors. Add 'priv' so that driver may retrieve
-> its private data via the 'struct irq_affinity'.
-> 
-> 
-> V2:
-> 	- add .calc_sets instead of .setup_affinity() which is easy to
-> 	be abused by drivers
+I agree that making the flow of control explicit would be good, but...
 
-This looks really well done. If you can address the minor nitpicks, then
-this is good to go, unless someone has objections.
+It looks like this would introduce a different problem.  "error" is set to
+-ENODEV earlier in the two functions so that the various error paths will return
+that value.  If it is overwritten with a successful result from the call to
+dma_set_mask_and_coherent() but a later call to e.g. ioremap() fails, the
+functions will incorrectly return a value indicating that they have succeeded.
 
-Thanks,
+It also appears as if the patches to hptiop, hisi_sas and bfa need to be fixed up.
+I don't have a test environment for these, although I might be able to modify the
+test environment for bfa.  Martin/James, what about the others?
 
-	tglx
+-Ewan
