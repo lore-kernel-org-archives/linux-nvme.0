@@ -1,19 +1,30 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 12 Feb 2019 09:00:03 +0100
-Subject: [PATCH] nvme-pci: Add missing unlock for reset error
-In-Reply-To: <20190211162350.4662-1-keith.busch@intel.com>
-References: <20190211162350.4662-1-keith.busch@intel.com>
-Message-ID: <20190212080003.GH16301@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Tue, 12 Feb 2019 00:06:27 -0800
+Subject: [PATCH] scsi: lpfc: fix calls to dma_set_mask_and_coherent()
+In-Reply-To: <20190211150502.9999-1-emilne@redhat.com>
+References: <20190211150502.9999-1-emilne@redhat.com>
+Message-ID: <20190212080627.GC10547@infradead.org>
 
-On Mon, Feb 11, 2019@09:23:50AM -0700, Keith Busch wrote:
-> The reset work holds a mutex to prevent races with removal modifying the
-> same resources, but was unlocking only on success. Unlock on failure
-> too.
-> 
-> Fixes: 5c959d73dba64 ("nvme-pci: fix rapid add remove sequence")
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
-> ---
-> My mistake. :(
+On Mon, Feb 11, 2019@10:05:02AM -0500, Ewan D. Milne wrote:
+> The change to use dma_set_mask_and_coherent() incorrectly made a second
+> call with the 32 bit DMA mask value when the call with the 64 bit DMA
+> mask value succeeded.  This resulted in NVMe/FC connections failing due
+> to corrupted data buffers, and various other SCSI/FCP I/O errors.
 
-Looks sensible to me.  Unless I hear complaints I'll merge it later
-today.
+Ooops, sorry.
+
+>  	/* Set the device DMA mask size */
+> -	if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64)) ||
+> -	    dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32)))
+> -		return error;
+> +	if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64)) != 0)
+> +		if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32)) != 0)
+
+But this still looks obsfuctating, why not:
+
+	error = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
+	if (error)
+		error = dma_set_mask_and_coherent(&pdev->dev,
+				DMA_BIT_MASK(32)));
+	if (error)
+		return error;
