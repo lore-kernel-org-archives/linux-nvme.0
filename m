@@ -1,45 +1,35 @@
-From: paulmck@linux.ibm.com (Paul E. McKenney)
-Date: Wed, 13 Feb 2019 10:48:39 -0800
-Subject: v5.0-rc2 and NVMeOF
-In-Reply-To: <1550082964.19311.66.camel@acm.org>
-References: <1549924039.19311.26.camel@acm.org>
- <20190212012422.GX4240@linux.ibm.com>
- <1549990020.19311.40.camel@acm.org>
- <20190212174715.GP4240@linux.ibm.com>
- <20190212191522.GA27391@linux.ibm.com>
- <1550018699.19311.45.camel@acm.org>
- <20190213011023.GX4240@linux.ibm.com>
- <20190213151917.GA3311@linux.ibm.com>
- <20190213152413.GA4468@linux.ibm.com>
- <1550082964.19311.66.camel@acm.org>
-Message-ID: <20190213184839.GD4240@linux.ibm.com>
+From: emilne@redhat.com (Ewan D. Milne)
+Date: Wed, 13 Feb 2019 13:51:35 -0500
+Subject: [PATCH] scsi: lpfc: fix calls to dma_set_mask_and_coherent()
+In-Reply-To: <20190212183452.GA25206@infradead.org>
+References: <20190211150502.9999-1-emilne@redhat.com>
+ <20190212080627.GC10547@infradead.org>
+ <9572ae3b0131ad1c74d6a775f819437e3d4f1795.camel@redhat.com>
+ <20190212183452.GA25206@infradead.org>
+Message-ID: <b6c893813618e954e726e5182ec36e8d6ee170b4.camel@redhat.com>
 
-On Wed, Feb 13, 2019@10:36:04AM -0800, Bart Van Assche wrote:
-> On Wed, 2019-02-13@07:24 -0800, Paul E. McKenney wrote:
-> > On Wed, Feb 13, 2019@07:19:17AM -0800, Paul E. McKenney wrote:
-> > > After sleeping on this...
-> > > 
-> > > You are getting the KASAN warning at the same place each time?
-> > >
-> > > This would force me to hypothesize that you are invoking
-> > > srcu_struct_cleanup_quiesced() from a workqueue spawned from
-> > > an SRCU callback.  Is that the case?
+On Tue, 2019-02-12@10:34 -0800, Christoph Hellwig wrote:
+> On Tue, Feb 12, 2019@10:37:45AM -0500, Ewan D. Milne wrote:
 > > 
-> > You could get the same effect by doing an synchronize_srcu() within
-> > a workqueue handler, come to think of it.
+> > It looks like this would introduce a different problem.  "error" is set to
+> > -ENODEV earlier in the two functions so that the various error paths will return
+> > that value.  If it is overwritten with a successful result from the call to
+> > dma_set_mask_and_coherent() but a later call to e.g. ioremap() fails, the
+> > functions will incorrectly return a value indicating that they have succeeded.
+> > 
+> > It also appears as if the patches to hptiop, hisi_sas and bfa need to be fixed up.
+> > I don't have a test environment for these, although I might be able to modify the
+> > test environment for bfa.  Martin/James, what about the others?
 > 
-> Hi Paul,
-> 
-> The KASAN warning indeed occurs at the same place each time.
-> 
-> Have you noticed that there are no call_srcu() calls at all in the NVMe
-> code? Since I'm not an RCU expert: what causes the SRCU code to invoke
-> srcu_invoke_callbacks() if call_srcu() is not used?
+> I don't have a test environment for them either, and I doubt many
+> people have.  If you don't feel comfortable I can send a fix for
+> them.
 
-I think I figured this out and am documenting it.  The trick is that
-synchronize_srcu() internally does a call_srcu(), or close enough, anyway.
+[ removed cc: stable ]
 
-The reason you are using srcu_struct_cleanup_quiesced() is to avoid
-workqueue deadlocks?
+Thanks, I have the patches written but Hannes has posted already.
+I prefer to test before posting but in this case testing one driver with
+a similar pattern is better than not having a fix available, I think.
+As long as it gets enough review.
 
-							Thanx, Paul
+-Ewan
