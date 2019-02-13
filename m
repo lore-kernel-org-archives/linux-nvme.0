@@ -1,106 +1,253 @@
-From: Mario.Limonciello@dell.com (Mario.Limonciello@dell.com)
-Date: Wed, 13 Feb 2019 21:56:38 +0000
-Subject: KXG60ZNV256G not recognized
-In-Reply-To: <20190213212253.GA8027@localhost.localdomain>
-References: <05361ecc-7a7d-1a31-1c72-dac670badc24@suse.de>
- <e64c744b-8db6-ab66-af92-6ba9a347dc2e@uni-siegen.de>
- <402e84e1-160f-d335-4054-710b73fbbb4c@suse.de>
- <553537fc-3320-751d-8532-9735cdf1336a@uni-siegen.de>
- <20190213180050.GA26226@infradead.org>
- <267176a4277b45d6b7b8a7eddf1f8123@ausx13mpc120.AMER.DELL.COM>
- <20190213181838.GA7852@localhost.localdomain>
- <e970bfdcf6fb403ebdd395cc87bde80a@ausx13mpc120.AMER.DELL.COM>
- <20190213190012.GA8898@infradead.org>
- <4bd15523d31948328c2c50693a08bd2c@ausx13mpc120.AMER.DELL.COM>
- <20190213212253.GA8027@localhost.localdomain>
-Message-ID: <4eb55f6c57c74db497a3dc1fe830e993@ausx13mpc120.AMER.DELL.COM>
+From: paulmck@linux.ibm.com (Paul E. McKenney)
+Date: Wed, 13 Feb 2019 14:09:23 -0800
+Subject: v5.0-rc2 and NVMeOF
+In-Reply-To: <1550091612.31902.48.camel@acm.org>
+References: <1550018699.19311.45.camel@acm.org>
+ <20190213011023.GX4240@linux.ibm.com>
+ <20190213151917.GA3311@linux.ibm.com>
+ <20190213152413.GA4468@linux.ibm.com>
+ <1550082964.19311.66.camel@acm.org>
+ <20190213184839.GD4240@linux.ibm.com>
+ <1550085136.19311.78.camel@acm.org>
+ <20190213193013.GG4240@linux.ibm.com>
+ <20190213195205.GA13650@linux.ibm.com>
+ <1550091612.31902.48.camel@acm.org>
+Message-ID: <20190213220923.GK4240@linux.ibm.com>
 
-> On Wed, Feb 13, 2019@08:37:37PM +0000, Mario.Limonciello@dell.com wrote:
-> > > What we really need is Intel stopping to do amazingly stupid things like
-> > > this.  Hiding PCIe devices from their drivers is anti-competitive
-> > > behavior from a company controlling much of the PC market.
-> >
-> > My take on this is that the way this thing works and the things it does makes a lot
-> more
-> > sense in the Windows kernel driver model than it does for Linux.  I've heard there
-> are
-> > quantifiable tangible benefits to using this technology on Windows.
+On Wed, Feb 13, 2019@01:00:12PM -0800, Bart Van Assche wrote:
+> On Wed, 2019-02-13@11:52 -0800, Paul E. McKenney wrote:
+> > On Wed, Feb 13, 2019@11:30:13AM -0800, Paul E. McKenney wrote:
+> > > On Wed, Feb 13, 2019@11:12:16AM -0800, Bart Van Assche wrote:
+> > > > commit 4317228ad9b86f094d70c951f9210a8a9b2816be
+> > > > Author: Nitzan Carmi <nitzanc at mellanox.com>
+> > > > Date:   Mon Apr 9 17:50:26 2018 +0300
+> > > > 
+> > > >     nvme: Avoid flush dependency in delete controller flow
+> > > >      
+> > > >     The nvme_delete_ctrl() function queues a work item on a MEM_RECLAIM
+> > > >     queue (nvme_delete_wq), which eventually calls cleanup_srcu_struct(),
+> > > >     which in turn flushes a delayed work from an !MEM_RECLAIM queue. This
+> > > >     is unsafe as we might trigger deadlocks under severe memory pressure.
+> > 
+> > Except that RCU's workqueues have since been set up as WQ_MEM_RECLAIM.
+> > 
+> > So could you please try switching back to cleanup_srcu_struct()?
 > 
-> To the best of my knowledge, the hardware mode is working around a
-> software limitation that doesn't apply to Linux.
+> (just back from lunch)
 > 
-> > Given its been around now for at least 4 generations of Intel silicon (maybe more
-> if
-> > I'm miscounting), I really don't think its going to away from the PC market any
-> time soon.
+> Hi Paul,
 > 
-> That might depend on if said software overcomes those limitations, but I'm
-> out of the loop to know if that's going to change any time soon, if ever.
-> 
-> > As such, I don't think that disdaining the technology will get Intel to change it.
-> > So I'm hoping we can constructively come up with something that works in the
-> confines
-> > of its existence to make it a better experience at least.
-> 
-> I assumed Chritoph's comment was directed toward said software that runs
-> on the majority of the client PC market, leaving hardware vendors to
-> think up "creative" work-arounds to its quirks to the detriment of other
-> software environments. :(
-> 
-> > At least on Dell I could offer a way to accomplish this with SMM today with a
-> small kernel
-> > patch, but it will require a reboot to be effective.
-> 
-> Pre-boot settings like you already have are preferable, right? Otherwise
-> it's a little more difficult to use the NVMe as your boot drive.
+> That change is sufficient to get rid of the KASAN use-after-free complaint.
+> Do you want to submit a patch or do you expect me to do that? If I have to
+> prepare a patch I think it will take a significant effort to come up with a
+> good patch description.
 
-The SMM thing I mentioned would basically just be modifying those pre-boot settings
-so the next boot it could DTRT for Linux.
+How about the following untested patch?  (Starting tests now.)
 
-It's definitely just a band-aid to the problem.
+								Thanx, Paul
 
-> 
-> > It's not pretty, but maybe it's an improvement?  At least on Dell systems the
-> > distro installers could probe that sysfs node and warn people/fix it across a
-> reboot cycle.
-> >
-> > If the relevant Intel PCH registers that are affected were documented, I would
-> think something
-> > similar could be done by kernel PCH initialization code,  but the PCH might need
-> to be reset after
-> > writing them.  That could make the BIOS setting effectively ignored on Linux.
-> > Keith, what do you think on this?
-> 
-> I think the recommended Linux implementation would treat this like a host
-> bridge and expose the PCI device to the OS without changing any hardware
-> settings.
+------------------------------------------------------------------------
 
-When the patch series was submitted by Dan the last time (Fall 2016) the
-conversation stalled with:
+commit 65f1b53aeb25a9bddabd08e37bb4c7246320f993
+Author: Paul E. McKenney <paulmck at linux.ibm.com>
+Date:   Wed Feb 13 13:54:37 2019 -0800
 
->Let's get some coherent text on how this device even operates out
->first and then we can decide if and how we can support it.
+    srcu: Remove cleanup_srcu_struct_quiesced()
+    
+    The cleanup_srcu_struct_quiesced() function was added because NVME
+    used WQ_MEM_RECLAIM workqueues and SRCU did not, which meant that
+    NVME workqueues waiting on SRCU workqueues could result in deadlocks
+    during low-memory conditions.  However, SRCU now also has WQ_MEM_RECLAIM
+    workqueues, so there is no longer a potential for deadlock.  Furthermore,
+    it turns out to be extremely hard to use cleanup_srcu_struct_quiesced()
+    correctly due to the fact that SRCU callback invocation accesses the
+    srcu_struct structure's per-CPU data area just after callbacks are
+    invoked.  Therefore, the usual practice of using srcu_barrier() to wait
+    for callbacks to be invoked before invoking cleanup_srcu_struct_quiesced()
+    fails because SRCU's callback-invocation workqueue handler might be
+    delayed, which can result in cleanup_srcu_struct_quiesced() being invoked
+    (and thus freeing the per-CPU data) before the SRCU's callback-invocation
+    workqueue handler is finished using that per-CPU data.  Nor is this a
+    theoretical problem: KASAN emitted use-after-free warnings because of
+    this problem on actual runs.
+    
+    In short, NVME can now safely invoke cleanup_srcu_struct(), which
+    avoids the use-after-free scenario.  And cleanup_srcu_struct_quiesced()
+    is quite difficult to use safely.  This commit therefore removes
+    cleanup_srcu_struct_quiesced(), switching its sole user back to
+    cleanup_srcu_struct().  This effectively reverts the following pair
+    of commits:
+    
+    f7194ac32ca2 ("srcu: Add cleanup_srcu_struct_quiesced()")
+    4317228ad9b8 ("nvme: Avoid flush dependency in delete controller flow")
+    
+    Reported-by: Bart Van Assche <bvanassche at acm.org>
+    Signed-off-by: Paul E. McKenney <paulmck at linux.ibm.com>
 
-Christoph - are you looking for a whitepaper explaining this beyond the ACHI BAR
-remapping documentation that was shared?
-http://www.intel.com/content/www/us/en/chipsets/100-series-chipset-datasheet-vol-2.html
-
-I think if we can have start with a list of actionable things needed for another
-go at this and an acceptable design architecture before this thing is revisited again
-to have a chance at solving it.  Are you amenable to a host bridge?
-
-> Whatever answer we, in the Linux kernel community, come up with,
->leaving storage inaccessible is not an acceptable answer.
-
-The thing that lives in the kernel now (aecec8b60422118b52e3347430ba9382e57d6d76)
-really does a disservice to people trying to use Linux today:
->	dev_warn(&pdev->dev, "Found %d remapped NVMe devices.\n", count);
->	dev_warn(&pdev->dev, "Switch your BIOS from RAID to AHCI mode to use them.\n");
-
-> 
-> But as far as I know, the Intel group that owns this mode has not reached
-> out to the Linux enabling with hardware specs that we can make public.
-> The OEMS are probably in a better position to compel this to change than
-> I am.
-
-You mean the PCH registers associated with this stuff?
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 150e49723c15..72ca25c8cc41 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -391,7 +391,7 @@ static void nvme_free_ns_head(struct kref *ref)
+ 	nvme_mpath_remove_disk(head);
+ 	ida_simple_remove(&head->subsys->ns_ida, head->instance);
+ 	list_del_init(&head->entry);
+-	cleanup_srcu_struct_quiesced(&head->srcu);
++	cleanup_srcu_struct(&head->srcu);
+ 	nvme_put_subsystem(head->subsys);
+ 	kfree(head);
+ }
+diff --git a/include/linux/srcu.h b/include/linux/srcu.h
+index c495b2d51569..e432cc92c73d 100644
+--- a/include/linux/srcu.h
++++ b/include/linux/srcu.h
+@@ -56,45 +56,11 @@ struct srcu_struct { };
+ 
+ void call_srcu(struct srcu_struct *ssp, struct rcu_head *head,
+ 		void (*func)(struct rcu_head *head));
+-void _cleanup_srcu_struct(struct srcu_struct *ssp, bool quiesced);
++void cleanup_srcu_struct(struct srcu_struct *ssp);
+ int __srcu_read_lock(struct srcu_struct *ssp) __acquires(ssp);
+ void __srcu_read_unlock(struct srcu_struct *ssp, int idx) __releases(ssp);
+ void synchronize_srcu(struct srcu_struct *ssp);
+ 
+-/**
+- * cleanup_srcu_struct - deconstruct a sleep-RCU structure
+- * @ssp: structure to clean up.
+- *
+- * Must invoke this after you are finished using a given srcu_struct that
+- * was initialized via init_srcu_struct(), else you leak memory.
+- */
+-static inline void cleanup_srcu_struct(struct srcu_struct *ssp)
+-{
+-	_cleanup_srcu_struct(ssp, false);
+-}
+-
+-/**
+- * cleanup_srcu_struct_quiesced - deconstruct a quiesced sleep-RCU structure
+- * @ssp: structure to clean up.
+- *
+- * Must invoke this after you are finished using a given srcu_struct that
+- * was initialized via init_srcu_struct(), else you leak memory.  Also,
+- * all grace-period processing must have completed.
+- *
+- * "Completed" means that the last synchronize_srcu() and
+- * synchronize_srcu_expedited() calls must have returned before the call
+- * to cleanup_srcu_struct_quiesced().  It also means that the callback
+- * from the last call_srcu() must have been invoked before the call to
+- * cleanup_srcu_struct_quiesced(), but you can use srcu_barrier() to help
+- * with this last.  Violating these rules will get you a WARN_ON() splat
+- * (with high probability, anyway), and will also cause the srcu_struct
+- * to be leaked.
+- */
+-static inline void cleanup_srcu_struct_quiesced(struct srcu_struct *ssp)
+-{
+-	_cleanup_srcu_struct(ssp, true);
+-}
+-
+ #ifdef CONFIG_DEBUG_LOCK_ALLOC
+ 
+ /**
+diff --git a/kernel/rcu/rcutorture.c b/kernel/rcu/rcutorture.c
+index f14d1b18a74f..d2b226110835 100644
+--- a/kernel/rcu/rcutorture.c
++++ b/kernel/rcu/rcutorture.c
+@@ -592,12 +592,7 @@ static void srcu_torture_init(void)
+ 
+ static void srcu_torture_cleanup(void)
+ {
+-	static DEFINE_TORTURE_RANDOM(rand);
+-
+-	if (torture_random(&rand) & 0x800)
+-		cleanup_srcu_struct(&srcu_ctld);
+-	else
+-		cleanup_srcu_struct_quiesced(&srcu_ctld);
++	cleanup_srcu_struct(&srcu_ctld);
+ 	srcu_ctlp = &srcu_ctl; /* In case of a later rcutorture run. */
+ }
+ 
+diff --git a/kernel/rcu/srcutiny.c b/kernel/rcu/srcutiny.c
+index 5d4a39a6505a..44d6606b8325 100644
+--- a/kernel/rcu/srcutiny.c
++++ b/kernel/rcu/srcutiny.c
+@@ -76,19 +76,16 @@ EXPORT_SYMBOL_GPL(init_srcu_struct);
+  * Must invoke this after you are finished using a given srcu_struct that
+  * was initialized via init_srcu_struct(), else you leak memory.
+  */
+-void _cleanup_srcu_struct(struct srcu_struct *ssp, bool quiesced)
++void cleanup_srcu_struct(struct srcu_struct *ssp)
+ {
+ 	WARN_ON(ssp->srcu_lock_nesting[0] || ssp->srcu_lock_nesting[1]);
+-	if (quiesced)
+-		WARN_ON(work_pending(&ssp->srcu_work));
+-	else
+-		flush_work(&ssp->srcu_work);
++	flush_work(&ssp->srcu_work);
+ 	WARN_ON(ssp->srcu_gp_running);
+ 	WARN_ON(ssp->srcu_gp_waiting);
+ 	WARN_ON(ssp->srcu_cb_head);
+ 	WARN_ON(&ssp->srcu_cb_head != ssp->srcu_cb_tail);
+ }
+-EXPORT_SYMBOL_GPL(_cleanup_srcu_struct);
++EXPORT_SYMBOL_GPL(cleanup_srcu_struct);
+ 
+ /*
+  * Removes the count for the old reader from the appropriate element of
+diff --git a/kernel/rcu/srcutree.c b/kernel/rcu/srcutree.c
+index 4f30f3ecabc1..9b761e546de8 100644
+--- a/kernel/rcu/srcutree.c
++++ b/kernel/rcu/srcutree.c
+@@ -360,8 +360,14 @@ static unsigned long srcu_get_delay(struct srcu_struct *ssp)
+ 	return SRCU_INTERVAL;
+ }
+ 
+-/* Helper for cleanup_srcu_struct() and cleanup_srcu_struct_quiesced(). */
+-void _cleanup_srcu_struct(struct srcu_struct *ssp, bool quiesced)
++/**
++ * cleanup_srcu_struct - deconstruct a sleep-RCU structure
++ * @ssp: structure to clean up.
++ *
++ * Must invoke this after you are finished using a given srcu_struct that
++ * was initialized via init_srcu_struct(), else you leak memory.
++ */
++void cleanup_srcu_struct(struct srcu_struct *ssp)
+ {
+ 	int cpu;
+ 
+@@ -369,24 +375,12 @@ void _cleanup_srcu_struct(struct srcu_struct *ssp, bool quiesced)
+ 		return; /* Just leak it! */
+ 	if (WARN_ON(srcu_readers_active(ssp)))
+ 		return; /* Just leak it! */
+-	if (quiesced) {
+-		if (WARN_ON(delayed_work_pending(&ssp->work)))
+-			return; /* Just leak it! */
+-	} else {
+-		flush_delayed_work(&ssp->work);
+-	}
++	flush_delayed_work(&ssp->work);
+ 	for_each_possible_cpu(cpu) {
+ 		struct srcu_data *sdp = per_cpu_ptr(ssp->sda, cpu);
+ 
+-		if (quiesced) {
+-			if (WARN_ON(timer_pending(&sdp->delay_work)))
+-				return; /* Just leak it! */
+-			if (WARN_ON(work_pending(&sdp->work)))
+-				return; /* Just leak it! */
+-		} else {
+-			del_timer_sync(&sdp->delay_work);
+-			flush_work(&sdp->work);
+-		}
++		del_timer_sync(&sdp->delay_work);
++		flush_work(&sdp->work);
+ 		if (WARN_ON(rcu_segcblist_n_cbs(&sdp->srcu_cblist)))
+ 			return; /* Forgot srcu_barrier(), so just leak it! */
+ 	}
+@@ -399,7 +393,7 @@ void _cleanup_srcu_struct(struct srcu_struct *ssp, bool quiesced)
+ 	free_percpu(ssp->sda);
+ 	ssp->sda = NULL;
+ }
+-EXPORT_SYMBOL_GPL(_cleanup_srcu_struct);
++EXPORT_SYMBOL_GPL(cleanup_srcu_struct);
+ 
+ /*
+  * Counts the new reader in the appropriate per-CPU element of the
