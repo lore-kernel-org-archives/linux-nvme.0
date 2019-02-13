@@ -1,56 +1,108 @@
-From: Mario.Limonciello@dell.com (Mario.Limonciello@dell.com)
-Date: Wed, 13 Feb 2019 20:37:37 +0000
-Subject: KXG60ZNV256G not recognized
-In-Reply-To: <20190213190012.GA8898@infradead.org>
-References: <c60ce637-b50c-2ead-d4fb-6cac3d812e74@uni-siegen.de>
- <1a626bba-4e02-426b-182e-2e863c6a5f77@uni-siegen.de>
- <05361ecc-7a7d-1a31-1c72-dac670badc24@suse.de>
- <e64c744b-8db6-ab66-af92-6ba9a347dc2e@uni-siegen.de>
- <402e84e1-160f-d335-4054-710b73fbbb4c@suse.de>
- <553537fc-3320-751d-8532-9735cdf1336a@uni-siegen.de>
- <20190213180050.GA26226@infradead.org>
- <267176a4277b45d6b7b8a7eddf1f8123@ausx13mpc120.AMER.DELL.COM>
- <20190213181838.GA7852@localhost.localdomain>
- <e970bfdcf6fb403ebdd395cc87bde80a@ausx13mpc120.AMER.DELL.COM>
- <20190213190012.GA8898@infradead.org>
-Message-ID: <4bd15523d31948328c2c50693a08bd2c@ausx13mpc120.AMER.DELL.COM>
+From: tglx@linutronix.de (Thomas Gleixner)
+Date: Wed, 13 Feb 2019 21:56:36 +0100 (CET)
+Subject: [PATCH V3 1/5] genirq/affinity: don't mark 'affd' as const
+In-Reply-To: <20190213150407.GB96272@google.com>
+References: <20190213105041.13537-1-ming.lei@redhat.com>
+ <20190213105041.13537-2-ming.lei@redhat.com>
+ <20190213150407.GB96272@google.com>
+Message-ID: <alpine.DEB.2.21.1902132112590.1659@nanos.tec.linutronix.de>
 
-> What we really need is Intel stopping to do amazingly stupid things like
-> this.  Hiding PCIe devices from their drivers is anti-competitive
-> behavior from a company controlling much of the PC market.
+On Wed, 13 Feb 2019, Bjorn Helgaas wrote:
+
+> On Wed, Feb 13, 2019@06:50:37PM +0800, Ming Lei wrote:
+> > Currently all parameters in 'affd' are read-only, so 'affd' is marked
+> > as const in both pci_alloc_irq_vectors_affinity() and irq_create_affinity_masks().
 > 
+> s/all parameters in 'affd'/the contents of '*affd'/
+> 
+> > We have to ask driver to re-caculate set vectors after the whole IRQ
+> > vectors are allocated later, and the result needs to be stored in 'affd'.
+> > Also both the two interfaces are core APIs, which should be trusted.
+> 
+> s/re-caculate/recalculate/
+> s/stored in 'affd'/stored in '*affd'/
+> s/both the two/both/
+> 
+> This is a little confusing because you're talking about both "IRQ
+> vectors" and these other "set vectors", which I think are different
+> things.  I assume the "set vectors" are cpumasks showing the affinity
+> of the IRQ vectors with some CPUs?
 
-My take on this is that the way this thing works and the things it does makes a lot more
-sense in the Windows kernel driver model than it does for Linux.  I've heard there are
-quantifiable tangible benefits to using this technology on Windows.
+I think we should drop the whole vector wording completely.
 
-Given its been around now for at least 4 generations of Intel silicon (maybe more if
-I'm miscounting), I really don't think its going to away from the PC market any time soon.
+The driver does not care about vectors, it only cares about a block of
+interrupt numbers. These numbers are kernel managed and the interrupts just
+happen to have a CPU vector assigned at some point. Depending on the CPU
+architecture the underlying mechanism might not even be named vector.
 
-As such, I don't think that disdaining the technology will get Intel to change it.
-So I'm hoping we can constructively come up with something that works in the confines
-of its existence to make it a better experience at least.
+> AFAICT, *this* patch doesn't add anything that writes to *affd.  I
+> think the removal of "const" should be in the same patch that makes
+> the removal necessary.
 
-> And at the very least we need a way to disable this behavior from the
-> OS.
+So this should be:
 
-At least on Dell I could offer a way to accomplish this with SMM today with a small kernel
-patch, but it will require a reboot to be effective.
+   The interrupt affinity spreading mechanism supports to spread out
+   affinities for one or more interrupt sets. A interrupt set contains one
+   or more interrupts. Each set is mapped to a specific functionality of a
+   device, e.g. general I/O queues and read I/O queus of multiqueue block
+   devices.
 
-An idea of how it could look:
-# cat /sys/platform/devices/dell-laptop/current-sata-mode
-ahci [raid] needs-reboot
-# echo ahci > /sys/platform/devices/dell-laptop/current-sata-mode
-# cat /sys/platform/devices/dell-laptop/current-sata-mode
-ahci raid [needs-reboot]
-(reboot)
-# cat /sys/platform/devices/dell-laptop/current-sata-mode
-[ahci] raid needs-reboot
+   The number of interrupts per set is defined by the driver. It depends on
+   the total number of available interrupts for the device, which is
+   determined by the PCI capabilites and the availability of underlying CPU
+   resources, and the number of queues which the device provides and the
+   driver wants to instantiate.
 
-It's not pretty, but maybe it's an improvement?  At least on Dell systems the
-distro installers could probe that sysfs node and warn people/fix it across a reboot cycle.
+   The driver passes initial configuration for the interrupt allocation via
+   a pointer to struct affinity_desc.
 
-If the relevant Intel PCH registers that are affected were documented, I would think something
-similar could be done by kernel PCH initialization code,  but the PCH might need to be reset after
-writing them.  That could make the BIOS setting effectively ignored on Linux.
-Keith, what do you think on this?
+   Right now the allocation mechanism is complex as it requires to have a
+   loop in the driver to determine the maximum number of interrupts which
+   are provided by the PCI capabilities and the underlying CPU resources.
+   This loop would have to be replicated in every driver which wants to
+   utilize this mechanism. That's unwanted code duplication and error
+   prone.
+
+   In order to move this into generic facilities it is required to have a
+   mechanism, which allows the recalculation of the interrupt sets and
+   their size, in the core code. As the core code does not have any
+   knowledge about the underlying device, a driver specific callback will
+   be added to struct affinity_desc, which will be invoked by the core
+   code. The callback will get the number of available interupts as an
+   argument, so the driver can calculate the corresponding number and size
+   of interrupt sets.
+
+   To support this, two modifications for the handling of struct
+   affinity_desc are required:
+
+   1) The (optional) interrupt sets size information is contained in a
+      separate array of integers and struct affinity_desc contains a
+      pointer to it.
+
+      This is cumbersome and as the maximum number of interrupt sets is
+      small, there is no reason to have separate storage. Moving the size
+      array into struct affinity_desc avoids indirections makes the code
+      simpler.
+
+   2) At the moment the struct affinity_desc pointer which is handed in from
+      the driver and passed through to several core functions is marked
+      'const'.
+
+      With the upcoming callback to recalculate the number and size of
+      interrupt sets, it's necessary to remove the 'const'
+      qualifier. Otherwise the callback would not be able to update the
+      data.
+
+   Move the set size array into struct affinity_desc as a first preparatory
+   step. The removal of the 'const' qualifier will be done when adding the
+   callback.
+
+IOW, The first patch moves the set array into the struct itself.
+
+The second patch introduces the callback and removes the 'const'
+qualifier. I wouldn't mind to have the same changelog duplicated (+/- the
+last two paragraphs which need some update of course).
+
+Thanks,
+
+	tglx
