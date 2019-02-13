@@ -1,22 +1,80 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 13 Feb 2019 11:00:12 -0800
-Subject: KXG60ZNV256G not recognized
-In-Reply-To: <e970bfdcf6fb403ebdd395cc87bde80a@ausx13mpc120.AMER.DELL.COM>
-References: <c60ce637-b50c-2ead-d4fb-6cac3d812e74@uni-siegen.de>
- <1a626bba-4e02-426b-182e-2e863c6a5f77@uni-siegen.de>
- <05361ecc-7a7d-1a31-1c72-dac670badc24@suse.de>
- <e64c744b-8db6-ab66-af92-6ba9a347dc2e@uni-siegen.de>
- <402e84e1-160f-d335-4054-710b73fbbb4c@suse.de>
- <553537fc-3320-751d-8532-9735cdf1336a@uni-siegen.de>
- <20190213180050.GA26226@infradead.org>
- <267176a4277b45d6b7b8a7eddf1f8123@ausx13mpc120.AMER.DELL.COM>
- <20190213181838.GA7852@localhost.localdomain>
- <e970bfdcf6fb403ebdd395cc87bde80a@ausx13mpc120.AMER.DELL.COM>
-Message-ID: <20190213190012.GA8898@infradead.org>
+From: bvanassche@acm.org (Bart Van Assche)
+Date: Wed, 13 Feb 2019 11:12:16 -0800
+Subject: v5.0-rc2 and NVMeOF
+In-Reply-To: <20190213184839.GD4240@linux.ibm.com>
+References: <1549924039.19311.26.camel@acm.org>
+ <20190212012422.GX4240@linux.ibm.com> <1549990020.19311.40.camel@acm.org>
+ <20190212174715.GP4240@linux.ibm.com>
+ <20190212191522.GA27391@linux.ibm.com> <1550018699.19311.45.camel@acm.org>
+ <20190213011023.GX4240@linux.ibm.com> <20190213151917.GA3311@linux.ibm.com>
+ <20190213152413.GA4468@linux.ibm.com> <1550082964.19311.66.camel@acm.org>
+ <20190213184839.GD4240@linux.ibm.com>
+Message-ID: <1550085136.19311.78.camel@acm.org>
 
-What we really need is Intel stopping to do amazingly stupid things like
-this.  Hiding PCIe devices from their drivers is anti-competitive
-behavior from a company controlling much of the PC market.
+On Wed, 2019-02-13@10:48 -0800, Paul E. McKenney wrote:
+> On Wed, Feb 13, 2019@10:36:04AM -0800, Bart Van Assche wrote:
+> > On Wed, 2019-02-13@07:24 -0800, Paul E. McKenney wrote:
+> > > On Wed, Feb 13, 2019@07:19:17AM -0800, Paul E. McKenney wrote:
+> > > > After sleeping on this...
+> > > > 
+> > > > You are getting the KASAN warning at the same place each time?
+> > > > 
+> > > > This would force me to hypothesize that you are invoking
+> > > > srcu_struct_cleanup_quiesced() from a workqueue spawned from
+> > > > an SRCU callback.  Is that the case?
+> > > 
+> > > You could get the same effect by doing an synchronize_srcu() within
+> > > a workqueue handler, come to think of it.
+> > 
+> > Hi Paul,
+> > 
+> > The KASAN warning indeed occurs at the same place each time.
+> > 
+> > Have you noticed that there are no call_srcu() calls at all in the NVMe
+> > code? Since I'm not an RCU expert: what causes the SRCU code to invoke
+> > srcu_invoke_callbacks() if call_srcu() is not used?
+> 
+> I think I figured this out and am documenting it.  The trick is that
+> synchronize_srcu() internally does a call_srcu(), or close enough, anyway.
+> 
+> The reason you are using srcu_struct_cleanup_quiesced() is to avoid
+> workqueue deadlocks?
 
-And at the very least we need a way to disable this behavior from the
-OS.
+Hi Paul,
+
+This patch introduced the srcu_struct_cleanup_quiesced() call:
+
+commit 4317228ad9b86f094d70c951f9210a8a9b2816be
+Author: Nitzan Carmi <nitzanc at mellanox.com>
+Date:   Mon Apr 9 17:50:26 2018 +0300
+
+    nvme: Avoid flush dependency in delete controller flow
+     
+    The nvme_delete_ctrl() function queues a work item on a MEM_RECLAIM
+    queue (nvme_delete_wq), which eventually calls cleanup_srcu_struct(),
+    which in turn flushes a delayed work from an !MEM_RECLAIM queue. This
+    is unsafe as we might trigger deadlocks under severe memory pressure.
+     
+    Since we don't ever invoke call_srcu(), it is safe to use the shiny new
+    _quiesced() version of srcu cleanup, thus avoiding that flush dependency.
+    This commit makes that change.
+     
+    Signed-off-by: Nitzan Carmi <nitzanc at mellanox.com>
+    Signed-off-by: Paul E. McKenney <paulmck at linux.vnet.ibm.com>
+    Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+    Tested-by: Nicholas Piggin <npiggin at gmail.com>
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 9df4f71e58ca..c3cea8a29843 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -349,7 +349,7 @@ static void nvme_free_ns_head(struct kref *ref)
+        nvme_mpath_remove_disk(head);
+        ida_simple_remove(&head->subsys->ns_ida, head->instance);
+        list_del_init(&head->entry);
+-       cleanup_srcu_struct(&head->srcu);
++       cleanup_srcu_struct_quiesced(&head->srcu);
+        kfree(head);
+ }
+
+Bart.
