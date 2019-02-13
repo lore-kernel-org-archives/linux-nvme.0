@@ -1,43 +1,56 @@
-From: osandov@osandov.com (Omar Sandoval)
-Date: Wed, 13 Feb 2019 11:56:58 -0800
-Subject: [LSF/MM TOPIC] : blktests: status, an expansion plan for the
- storage stack test framework
-In-Reply-To: <1550084044.19311.73.camel@acm.org>
-References: <BYAPR04MB4502158B1588C8EFF7B4E345866F0@BYAPR04MB4502.namprd04.prod.outlook.com>
- <1550081474.19311.62.camel@acm.org> <20190213184331.GA9819@vader>
- <1550084044.19311.73.camel@acm.org>
-Message-ID: <20190213195658.GB9819@vader>
+From: Mario.Limonciello@dell.com (Mario.Limonciello@dell.com)
+Date: Wed, 13 Feb 2019 20:37:37 +0000
+Subject: KXG60ZNV256G not recognized
+In-Reply-To: <20190213190012.GA8898@infradead.org>
+References: <c60ce637-b50c-2ead-d4fb-6cac3d812e74@uni-siegen.de>
+ <1a626bba-4e02-426b-182e-2e863c6a5f77@uni-siegen.de>
+ <05361ecc-7a7d-1a31-1c72-dac670badc24@suse.de>
+ <e64c744b-8db6-ab66-af92-6ba9a347dc2e@uni-siegen.de>
+ <402e84e1-160f-d335-4054-710b73fbbb4c@suse.de>
+ <553537fc-3320-751d-8532-9735cdf1336a@uni-siegen.de>
+ <20190213180050.GA26226@infradead.org>
+ <267176a4277b45d6b7b8a7eddf1f8123@ausx13mpc120.AMER.DELL.COM>
+ <20190213181838.GA7852@localhost.localdomain>
+ <e970bfdcf6fb403ebdd395cc87bde80a@ausx13mpc120.AMER.DELL.COM>
+ <20190213190012.GA8898@infradead.org>
+Message-ID: <4bd15523d31948328c2c50693a08bd2c@ausx13mpc120.AMER.DELL.COM>
 
-On Wed, Feb 13, 2019@10:54:04AM -0800, Bart Van Assche wrote:
-> On Wed, 2019-02-13@10:43 -0800, Omar Sandoval wrote:
-> > On Wed, Feb 13, 2019@10:11:14AM -0800, Bart Van Assche wrote:
-> > > - Is it acceptable that patches get accepted in the blktests repository that
-> > >   break the continuous integration tests? If so, why do we even have continuous
-> > >   integration tests? See also "[PATCH] Unbreak the continuous integration build"
-> > >   (https://marc.info/?l=linux-block&m=154990323618159).
-> > 
-> > To be honest, I've never used travis, so I don't even know where to find
-> > the results. https://travis-ci.org/osandov/blktests doesn't point to
-> > anything. Can we add a build status badge to the README like other
-> > projects have?
+> What we really need is Intel stopping to do amazingly stupid things like
+> this.  Hiding PCIe devices from their drivers is anti-competitive
+> behavior from a company controlling much of the PC market.
 > 
-> Hi Omar,
-> 
-> What is a build status badge?
 
-I just added it, see
-https://github.com/osandov/blktests/commit/a61aa7fcce0bad9094b0e7646f3a8299c30afa6a
+My take on this is that the way this thing works and the things it does makes a lot more
+sense in the Windows kernel driver model than it does for Linux.  I've heard there are
+quantifiable tangible benefits to using this technology on Windows.
 
-Anyway, enabling Travis CI is easy:
-> * Navigate to https://travis-ci.org/ and click on "Sign in with github".
-> * In the left column, click on "+" (Add New Repository).
-> * For the blktests repository, enable continuous integration. This will cause a
->   continuous integration test to be started after every git push and also every
->   time a pull request is submitted. The rdma-core project uses Travis CI not only
->   to compile-test pull requests but also to verify whether new code in pull
->   requests passes building with sparse. This is useful for the rdma-core project
->   since a lot of endianness conversions happen in that code and sparse can
->   verify whether these conversions have been annotated correctly. See also
->   https://github.com/linux-rdma/rdma-core.
+Given its been around now for at least 4 generations of Intel silicon (maybe more if
+I'm miscounting), I really don't think its going to away from the PC market any time soon.
 
-Thanks, I got it set up now.
+As such, I don't think that disdaining the technology will get Intel to change it.
+So I'm hoping we can constructively come up with something that works in the confines
+of its existence to make it a better experience at least.
+
+> And at the very least we need a way to disable this behavior from the
+> OS.
+
+At least on Dell I could offer a way to accomplish this with SMM today with a small kernel
+patch, but it will require a reboot to be effective.
+
+An idea of how it could look:
+# cat /sys/platform/devices/dell-laptop/current-sata-mode
+ahci [raid] needs-reboot
+# echo ahci > /sys/platform/devices/dell-laptop/current-sata-mode
+# cat /sys/platform/devices/dell-laptop/current-sata-mode
+ahci raid [needs-reboot]
+(reboot)
+# cat /sys/platform/devices/dell-laptop/current-sata-mode
+[ahci] raid needs-reboot
+
+It's not pretty, but maybe it's an improvement?  At least on Dell systems the
+distro installers could probe that sysfs node and warn people/fix it across a reboot cycle.
+
+If the relevant Intel PCH registers that are affected were documented, I would think something
+similar could be done by kernel PCH initialization code,  but the PCH might need to be reset after
+writing them.  That could make the BIOS setting effectively ignored on Linux.
+Keith, what do you think on this?
