@@ -1,5 +1,5 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 13 Feb 2019 08:25:05 -0700
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 13 Feb 2019 10:00:50 -0800
 Subject: KXG60ZNV256G not recognized
 In-Reply-To: <553537fc-3320-751d-8532-9735cdf1336a@uni-siegen.de>
 References: <19873dbf-4c19-5cab-d5fb-c63f6cb72101@uni-siegen.de>
@@ -12,13 +12,44 @@ References: <19873dbf-4c19-5cab-d5fb-c63f6cb72101@uni-siegen.de>
  <e64c744b-8db6-ab66-af92-6ba9a347dc2e@uni-siegen.de>
  <402e84e1-160f-d335-4054-710b73fbbb4c@suse.de>
  <553537fc-3320-751d-8532-9735cdf1336a@uni-siegen.de>
-Message-ID: <20190213152504.GA7620@localhost.localdomain>
+Message-ID: <20190213180050.GA26226@infradead.org>
+
+Mario,
+
+any idea how to turn off the Intel anti-competitive fake RAID mode
+for NVMe for the Dell Presision 7730?
 
 On Wed, Feb 13, 2019@03:29:53PM +0100, Gerd Pokorra wrote:
 > Hello Johannes,
 > 
 > it is a Dell Presision 7730.
-
-
-I'm not familiar with this product, but if it's like others, the 'AHCI'
-'SATA Operation' mode is the one you'd want to select, not 'Disabled'.
+> 
+> -- Gerd
+> 
+> 
+> Am 13.02.2019 um 15:04 schrieb Johannes Thumshirn:
+> > On 13/02/2019 14:58, Gerd Pokorra wrote:
+> > > Hello Johannes,
+> > > 
+> > > after setting it to 'Disabled' I see no hard disks of the laptop any
+> > > more with linux and an existing Windows installation is wrecked.
+> > > 
+> > > Setting the BIOS to the 'Factory Defaults' bring the Windows
+> > > Installation back. It will be hard to install an Linux on this Laptop.
+> > Yes this is exactly what I expected TBH.
+> > 
+> > There's not really a lot we can do about without any specs for the AHCI
+> > remapped NVMe thingy.
+> > 
+> > Lenovo used to have an different BIOS built for Linux on the Yoga series
+> > some years ago if I remember correctly.
+> > 
+> > Byte,
+> > 	Johannes
+> 
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
+---end quoted text---
