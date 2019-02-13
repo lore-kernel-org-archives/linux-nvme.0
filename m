@@ -1,34 +1,27 @@
-From: bvanassche@acm.org (Bart Van Assche)
-Date: Wed, 13 Feb 2019 12:56:51 -0800
-Subject: [LSF/MM TOPIC] : blktests: status, an expansion plan for the
- storage stack test framework
-In-Reply-To: <20190213195658.GB9819@vader>
-References: <BYAPR04MB4502158B1588C8EFF7B4E345866F0@BYAPR04MB4502.namprd04.prod.outlook.com>
- <1550081474.19311.62.camel@acm.org> <20190213184331.GA9819@vader>
- <1550084044.19311.73.camel@acm.org> <20190213195658.GB9819@vader>
-Message-ID: <1550091411.31902.45.camel@acm.org>
+From: tglx@linutronix.de (Thomas Gleixner)
+Date: Wed, 13 Feb 2019 21:58:56 +0100 (CET)
+Subject: [PATCH V3 3/5] genirq/affinity: add new callback for caculating
+ set vectors
+In-Reply-To: <20190213151149.GD96272@google.com>
+References: <20190213105041.13537-1-ming.lei@redhat.com>
+ <20190213105041.13537-4-ming.lei@redhat.com>
+ <20190213151149.GD96272@google.com>
+Message-ID: <alpine.DEB.2.21.1902132157060.1659@nanos.tec.linutronix.de>
 
-On Wed, 2019-02-13@11:56 -0800, Omar Sandoval wrote:
-> On Wed, Feb 13, 2019@10:54:04AM -0800, Bart Van Assche wrote:
-> > What is a build status badge?
+On Wed, 13 Feb 2019, Bjorn Helgaas wrote:
+> > Add a new callback of .calc_sets into 'struct irq_affinity' so that
+> > driver can caculate set vectors after IRQ vector is allocated and
+> > before spread IRQ vectors. Add 'priv' so that driver may retrieve
+> > its private data via the 'struct irq_affinity'.
 > 
-> I just added it, see
-> https://github.com/osandov/blktests/commit/a61aa7fcce0bad9094b0e7646f3a8299c30afa6a
+> s/caculate/calculate/
 > 
-> Anyway, enabling Travis CI is easy:
-> > * Navigate to https://travis-ci.org/ and click on "Sign in with github".
-> > * In the left column, click on "+" (Add New Repository).
-> > * For the blktests repository, enable continuous integration. This will cause a
-> >   continuous integration test to be started after every git push and also every
-> >   time a pull request is submitted. The rdma-core project uses Travis CI not only
-> >   to compile-test pull requests but also to verify whether new code in pull
-> >   requests passes building with sparse. This is useful for the rdma-core project
-> >   since a lot of endianness conversions happen in that code and sparse can
-> >   verify whether these conversions have been annotated correctly. See also
-> >   https://github.com/linux-rdma/rdma-core.
-> 
-> Thanks, I got it set up now.
+> I *think* "set vectors" here has something to do with an affinity
+> cpumask?  "Set vectors" doesn't seem like quite the right terminology.
 
-Thanks!
+See previous mail. Let's stay with 'interrupt sets' and get rid of the
+vector naming completely.
 
-Bart.
+Thanks,
+
+	tglx
