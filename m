@@ -1,76 +1,81 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Wed, 13 Feb 2019 18:50:41 +0800
-Subject: [PATCH V3 5/5] genirq/affinity: Document .calc_sets as required in
- case of multiple sets
+Date: Wed, 13 Feb 2019 18:50:39 +0800
+Subject: [PATCH V3 3/5] genirq/affinity: add new callback for caculating set
+ vectors
 In-Reply-To: <20190213105041.13537-1-ming.lei@redhat.com>
 References: <20190213105041.13537-1-ming.lei@redhat.com>
-Message-ID: <20190213105041.13537-6-ming.lei@redhat.com>
+Message-ID: <20190213105041.13537-4-ming.lei@redhat.com>
 
-Now NVMe has implemented the .calc_sets callback for caculating each
-set's vectors.
+Currently pre-caculated set vectors are provided by driver for
+allocating & spread vectors. This way only works when drivers passes
+same 'max_vecs' and 'min_vecs' to pci_alloc_irq_vectors_affinity(),
+also requires driver to retry the allocating & spread.
 
-For other cases of multiple IRQ sets, pre-caculating each set's vectors
-before allocating IRQ vectors can't work because the whole vectors
-number is unknow at that time.
+As Bjorn and Keith mentioned, the current usage & interface for irq sets
+is a bit awkward because the retrying should have been avoided by providing
+one resonable 'min_vecs'. However, if 'min_vecs' isn't same with
+'max_vecs', number of the allocated vectors is unknown before calling
+pci_alloc_irq_vectors_affinity(), then each set's vectors can't be
+pre-caculated.
 
-So document .calc_sets as required explicitly for multiple sets.
+Add a new callback of .calc_sets into 'struct irq_affinity' so that
+driver can caculate set vectors after IRQ vector is allocated and
+before spread IRQ vectors. Add 'priv' so that driver may retrieve
+its private data via the 'struct irq_affinity'.
 
-Acked-by: Bjorn Helgaas <bhelgaas at google.com>
+Suggested-by: Thomas Gleixner <tglx at linutronix.de>
 Signed-off-by: Ming Lei <ming.lei at redhat.com>
 ---
- drivers/pci/msi.c         | 16 ++++++++++------
- include/linux/interrupt.h |  3 ++-
- 2 files changed, 12 insertions(+), 7 deletions(-)
+ include/linux/interrupt.h | 4 ++++
+ kernel/irq/affinity.c     | 8 ++++++--
+ 2 files changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/pci/msi.c b/drivers/pci/msi.c
-index 96978459e2a0..199d708b4099 100644
---- a/drivers/pci/msi.c
-+++ b/drivers/pci/msi.c
-@@ -1036,10 +1036,12 @@ static int __pci_enable_msi_range(struct pci_dev *dev, int minvec, int maxvec,
- 		return -ERANGE;
- 
- 	/*
--	 * If the caller is passing in sets, we can't support a range of
--	 * vectors. The caller needs to handle that.
-+	 * If the caller requests multiple sets of IRQs where each set
-+	 * requires different affinity, it must also supply a ->calc_sets()
-+	 * callback to compute vectors for each set after whole vectors are
-+	 * allocated.
- 	 */
--	if (affd && affd->nr_sets && minvec != maxvec)
-+	if (affd && affd->nr_sets > 1 && !affd->calc_sets)
- 		return -EINVAL;
- 
- 	if (WARN_ON_ONCE(dev->msi_enabled))
-@@ -1094,10 +1096,12 @@ static int __pci_enable_msix_range(struct pci_dev *dev,
- 		return -ERANGE;
- 
- 	/*
--	 * If the caller is passing in sets, we can't support a range of
--	 * supported vectors. The caller needs to handle that.
-+	 * If the caller requests multiple sets of IRQs where each set
-+	 * requires different affinity, it must also supply a ->calc_sets()
-+	 * callback to compute vectors for each set after whole vectors are
-+	 * allocated.
- 	 */
--	if (affd && affd->nr_sets && minvec != maxvec)
-+	if (affd && affd->nr_sets > 1 && !affd->calc_sets)
- 		return -EINVAL;
- 
- 	if (WARN_ON_ONCE(dev->msix_enabled))
 diff --git a/include/linux/interrupt.h b/include/linux/interrupt.h
-index 7a27f6ba1f2f..a053f7fb0ff1 100644
+index a20150627a32..7a27f6ba1f2f 100644
 --- a/include/linux/interrupt.h
 +++ b/include/linux/interrupt.h
-@@ -269,7 +269,8 @@ struct irq_affinity_notify {
+@@ -269,12 +269,16 @@ struct irq_affinity_notify {
   *			the MSI(-X) vector space
   * @nr_sets:		Length of passed in *sets array
   * @set_vectors:	Number of affinitized sets
-- * @calc_sets:		Callback for caculating set vectors
-+ * @calc_sets:		Callback for caculating set vectors, required for
-+ * 			multiple irq sets.
-  * @priv:		Private data of @calc_sets
++ * @calc_sets:		Callback for caculating set vectors
++ * @priv:		Private data of @calc_sets
   */
  struct irq_affinity {
+ 	int	pre_vectors;
+ 	int	post_vectors;
+ 	int	nr_sets;
+ 	int	set_vectors[IRQ_MAX_SETS];
++	void	(*calc_sets)(struct irq_affinity *, int nvecs);
++	void	*priv;
+ };
+ 
+ /**
+diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
+index b868b9d3df7f..2341b1f005fa 100644
+--- a/kernel/irq/affinity.c
++++ b/kernel/irq/affinity.c
+@@ -267,7 +267,9 @@ irq_create_affinity_masks(int nvecs, struct irq_affinity *affd)
+ 	 * Spread on present CPUs starting from affd->pre_vectors. If we
+ 	 * have multiple sets, build each sets affinity mask separately.
+ 	 */
+-	if (!affd->nr_sets) {
++	if (affd->calc_sets) {
++		affd->calc_sets(affd, nvecs);
++	} else if (!affd->nr_sets) {
+ 		affd->nr_sets = 1;
+ 		affd->set_vectors[0] = affvecs;
+ 	}
+@@ -316,7 +318,9 @@ int irq_calc_affinity_vectors(int minvec, int maxvec, const struct irq_affinity
+ 	if (resv > minvec)
+ 		return 0;
+ 
+-	if (affd->nr_sets) {
++	if (affd->calc_sets) {
++		set_vecs = vecs;
++	} else if (affd->nr_sets) {
+ 		int i;
+ 
+ 		for (i = 0, set_vecs = 0;  i < affd->nr_sets; i++)
 -- 
 2.9.5
