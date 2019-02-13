@@ -1,27 +1,37 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 13 Feb 2019 11:18:39 -0700
-Subject: KXG60ZNV256G not recognized
-In-Reply-To: <267176a4277b45d6b7b8a7eddf1f8123@ausx13mpc120.AMER.DELL.COM>
-References: <8bc60c39-9c07-f9cd-497c-b6dc9a836403@uni-siegen.de>
- <ef3bbe97-8d3b-89bc-4149-60673b1da388@suse.de>
- <c60ce637-b50c-2ead-d4fb-6cac3d812e74@uni-siegen.de>
- <1a626bba-4e02-426b-182e-2e863c6a5f77@uni-siegen.de>
- <05361ecc-7a7d-1a31-1c72-dac670badc24@suse.de>
- <e64c744b-8db6-ab66-af92-6ba9a347dc2e@uni-siegen.de>
- <402e84e1-160f-d335-4054-710b73fbbb4c@suse.de>
- <553537fc-3320-751d-8532-9735cdf1336a@uni-siegen.de>
- <20190213180050.GA26226@infradead.org>
- <267176a4277b45d6b7b8a7eddf1f8123@ausx13mpc120.AMER.DELL.COM>
-Message-ID: <20190213181838.GA7852@localhost.localdomain>
+From: bvanassche@acm.org (Bart Van Assche)
+Date: Wed, 13 Feb 2019 10:36:04 -0800
+Subject: v5.0-rc2 and NVMeOF
+In-Reply-To: <20190213152413.GA4468@linux.ibm.com>
+References: <1549905891.19311.5.camel@acm.org>
+ <20190211210808.GS4240@linux.ibm.com> <1549924039.19311.26.camel@acm.org>
+ <20190212012422.GX4240@linux.ibm.com> <1549990020.19311.40.camel@acm.org>
+ <20190212174715.GP4240@linux.ibm.com>
+ <20190212191522.GA27391@linux.ibm.com> <1550018699.19311.45.camel@acm.org>
+ <20190213011023.GX4240@linux.ibm.com> <20190213151917.GA3311@linux.ibm.com>
+ <20190213152413.GA4468@linux.ibm.com>
+Message-ID: <1550082964.19311.66.camel@acm.org>
 
-On Wed, Feb 13, 2019@06:04:39PM +0000, Mario.Limonciello@dell.com wrote:
+On Wed, 2019-02-13@07:24 -0800, Paul E. McKenney wrote:
+> On Wed, Feb 13, 2019@07:19:17AM -0800, Paul E. McKenney wrote:
+> > After sleeping on this...
+> > 
+> > You are getting the KASAN warning at the same place each time?
+> >
+> > This would force me to hypothesize that you are invoking
+> > srcu_struct_cleanup_quiesced() from a workqueue spawned from
+> > an SRCU callback.  Is that the case?
 > 
-> If you go into BIOS setup and choose SATA mode change from 
-> "RAID ON" to "AHCI".
-> 
-> I know it's an NVME disk, and you're changing SATA mode, but it adjusts
-> relevant settings on the PCH whether you were using a SATA disk or NVME.
+> You could get the same effect by doing an synchronize_srcu() within
+> a workqueue handler, come to think of it.
 
-Right, "RAID" mode has the PCH compbine multiple devices into one. AHCI
-mode doesn't capture other devices behind the SATA controller, so the
-NVMe device is visible.
+Hi Paul,
+
+The KASAN warning indeed occurs at the same place each time.
+
+Have you noticed that there are no call_srcu() calls at all in the NVMe
+code? Since I'm not an RCU expert: what causes the SRCU code to invoke
+srcu_invoke_callbacks() if call_srcu() is not used?
+
+Thanks,
+
+Bart.
