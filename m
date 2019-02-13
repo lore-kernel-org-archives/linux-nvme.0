@@ -1,65 +1,79 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 13 Feb 2019 14:22:53 -0700
-Subject: KXG60ZNV256G not recognized
-In-Reply-To: <4bd15523d31948328c2c50693a08bd2c@ausx13mpc120.AMER.DELL.COM>
-References: <05361ecc-7a7d-1a31-1c72-dac670badc24@suse.de>
- <e64c744b-8db6-ab66-af92-6ba9a347dc2e@uni-siegen.de>
- <402e84e1-160f-d335-4054-710b73fbbb4c@suse.de>
- <553537fc-3320-751d-8532-9735cdf1336a@uni-siegen.de>
- <20190213180050.GA26226@infradead.org>
- <267176a4277b45d6b7b8a7eddf1f8123@ausx13mpc120.AMER.DELL.COM>
- <20190213181838.GA7852@localhost.localdomain>
- <e970bfdcf6fb403ebdd395cc87bde80a@ausx13mpc120.AMER.DELL.COM>
- <20190213190012.GA8898@infradead.org>
- <4bd15523d31948328c2c50693a08bd2c@ausx13mpc120.AMER.DELL.COM>
-Message-ID: <20190213212253.GA8027@localhost.localdomain>
+From: tglx@linutronix.de (Thomas Gleixner)
+Date: Wed, 13 Feb 2019 22:26:45 +0100 (CET)
+Subject: [PATCH V3 4/5] nvme-pci: avoid irq allocation retrying via
+ .calc_sets
+In-Reply-To: <20190213151339.GE96272@google.com>
+References: <20190213105041.13537-1-ming.lei@redhat.com>
+ <20190213105041.13537-5-ming.lei@redhat.com>
+ <20190213151339.GE96272@google.com>
+Message-ID: <alpine.DEB.2.21.1902132159230.1659@nanos.tec.linutronix.de>
 
-On Wed, Feb 13, 2019@08:37:37PM +0000, Mario.Limonciello@dell.com wrote:
-> > What we really need is Intel stopping to do amazingly stupid things like
-> > this.  Hiding PCIe devices from their drivers is anti-competitive
-> > behavior from a company controlling much of the PC market.
+On Wed, 13 Feb 2019, Bjorn Helgaas wrote:
+
+> On Wed, Feb 13, 2019@06:50:40PM +0800, Ming Lei wrote:
+> > Currently pre-caculate each set vectors, and this way requires same
+> > 'max_vecs' and 'min_vecs' passed to pci_alloc_irq_vectors_affinity(),
+> > then nvme_setup_irqs() has to retry in case of allocation failure.
 > 
-> My take on this is that the way this thing works and the things it does makes a lot more
-> sense in the Windows kernel driver model than it does for Linux.  I've heard there are
-> quantifiable tangible benefits to using this technology on Windows.
-
-To the best of my knowledge, the hardware mode is working around a
-software limitation that doesn't apply to Linux.
- 
-> Given its been around now for at least 4 generations of Intel silicon (maybe more if
-> I'm miscounting), I really don't think its going to away from the PC market any time soon.
-
-That might depend on if said software overcomes those limitations, but I'm
-out of the loop to know if that's going to change any time soon, if ever.
-
-> As such, I don't think that disdaining the technology will get Intel to change it.
-> So I'm hoping we can constructively come up with something that works in the confines
-> of its existence to make it a better experience at least.
-
-I assumed Chritoph's comment was directed toward said software that runs
-on the majority of the client PC market, leaving hardware vendors to
-think up "creative" work-arounds to its quirks to the detriment of other
-software environments. :(
-
-> At least on Dell I could offer a way to accomplish this with SMM today with a small kernel
-> patch, but it will require a reboot to be effective.
-
-Pre-boot settings like you already have are preferable, right? Otherwise
-it's a little more difficult to use the NVMe as your boot drive.
-
-> It's not pretty, but maybe it's an improvement?  At least on Dell systems the
-> distro installers could probe that sysfs node and warn people/fix it across a reboot cycle.
+> s/pre-caculate/precalculate/
+> My usual "set vectors" question as on other patches.
 > 
-> If the relevant Intel PCH registers that are affected were documented, I would think something
-> similar could be done by kernel PCH initialization code,  but the PCH might need to be reset after
-> writing them.  That could make the BIOS setting effectively ignored on Linux.
-> Keith, what do you think on this?
+> > This usage & interface is a bit awkward because the retry should have
+> > been avoided by providing one reasonable 'min_vecs'.
+> > 
+> > Implement the callback of .calc_sets, so that pci_alloc_irq_vectors_affinity()
+> > can calculate each set's vector after IRQ vectors is allocated and
+> > before spread IRQ, then NVMe's retry in case of irq allocation failure
+> > can be removed.
+> 
+> s/irq/IRQ/
 
-I think the recommended Linux implementation would treat this like a host
-bridge and expose the PCI device to the OS without changing any hardware
-settings.
+Let me rephrase that thing as well
 
-But as far as I know, the Intel group that owns this mode has not reached
-out to the Linux enabling with hardware specs that we can make public.
-The OEMS are probably in a better position to compel this to change than
-I am.
+  Subject: nvme-pci: Simplify interrupt allocation
+
+  The NVME PCI driver contains a tedious mechanism for interrupt
+  allocation, which is necessary to adjust the number and size of interrupt
+  sets to the maximum available number of interrupts which depends on the
+  underlying PCI capabilities and the available CPU resources.
+
+  It works around the former short comings of the PCI and core interrupt
+  allocation mechanims in combination with interrupt sets.
+
+  The PCI interrupt allocation function allows to provide a maximum and a
+  minimum number of interrupts to be allocated and tries to allocate as
+  many as possible. This worked without driver interaction as long as there
+  was only a single set of interrupts to handle.
+
+  With the addition of support for multiple interrupt sets in the generic
+  affinity spreading logic, which is invoked from the PCI interrupt
+  allocation, the adaptive loop in the PCI interrupt allocation did not
+  work for multiple interrupt sets. The reason is that depending on the
+  total number of interrupts which the PCI allocation adaptive loop tries
+  to allocate in each step, the number and the size of the interrupt sets
+  need to be adapted as well. Due to the way the interrupt sets support was
+  implemented there was no way for the PCI interrupt allocation code or the
+  core affinity spreading mechanism to invoke a driver specific function
+  for adapting the interrupt sets configuration.
+
+  As a consequence the driver had to implement another adaptive loop around
+  the PCI interrupt allocation function and calling that with maximum and
+  minimum interrupts set to the same value. This ensured that the
+  allocation either succeeded or immediately failed without any attempt to
+  adjust the number of interrupts in the PCI code.
+
+  The core code now allows drivers to provide a callback to recalculate the
+  number and the size of interrupt sets during PCI interrupt allocation,
+  which in turn allows the PCI interrupt allocation function to be called
+  in the same way as with a single set of interrupts. The PCI code handles
+  the adaptive loop and the interrupt affinity spreading mechanism invokes
+  the driver callback to adapt the interrupt set configuration to the
+  current loop value. This replaces the adaptive loop in the driver
+  completely.
+
+  Implement the NVME specific callback which adjusts the interrupt sets
+  configuration and remove the adaptive allocation loop.
+
+Thanks,
+
+	tglx
