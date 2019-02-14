@@ -1,67 +1,66 @@
-From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Thu, 14 Feb 2019 14:14:41 -0600
-Subject: [PATCH V4 2/4] genirq/affinity: add new callback for caculating
- interrupt sets size
-In-Reply-To: <20190214122347.17372-3-ming.lei@redhat.com>
-References: <20190214122347.17372-1-ming.lei@redhat.com>
- <20190214122347.17372-3-ming.lei@redhat.com>
-Message-ID: <20190214201441.GM96272@google.com>
+From: elliott@hpe.com (Elliott, Robert (Persistent Memory))
+Date: Thu, 14 Feb 2019 20:44:48 +0000
+Subject: [PATCH] nvme: Enable acceleration feature of A64FX processor
+In-Reply-To: <20190205143905.GG22199@localhost.localdomain>
+References: <20190201124615.16107-1-indou.takao@jp.fujitsu.com>
+ <20190201145414.GA22199@localhost.localdomain>
+ <20190205124757.GA28465@esprimo>
+ <20190205143905.GG22199@localhost.localdomain>
+Message-ID: <AT5PR8401MB1169E9738C0A4754D0190F2FAB670@AT5PR8401MB1169.NAMPRD84.PROD.OUTLOOK.COM>
 
-On Thu, Feb 14, 2019@08:23:45PM +0800, Ming Lei wrote:
-> The interrupt affinity spreading mechanism supports to spread out
-> affinities for one or more interrupt sets. A interrupt set contains one
-> or more interrupts. Each set is mapped to a specific functionality of a
-> device, e.g. general I/O queues and read I/O queus of multiqueue block
-> devices.
-> 
-> The number of interrupts per set is defined by the driver. It depends on
-> the total number of available interrupts for the device, which is
-> determined by the PCI capabilites and the availability of underlying CPU
-> resources, and the number of queues which the device provides and the
-> driver wants to instantiate.
-> 
-> The driver passes initial configuration for the interrupt allocation via
-> a pointer to struct affinity_desc.
-> 
-> Right now the allocation mechanism is complex as it requires to have a
-> loop in the driver to determine the maximum number of interrupts which
-> are provided by the PCI capabilities and the underlying CPU resources.
-> This loop would have to be replicated in every driver which wants to
-> utilize this mechanism. That's unwanted code duplication and error
-> prone.
-> 
-> In order to move this into generic facilities it is required to have a
-> mechanism, which allows the recalculation of the interrupt sets and
-> their size, in the core code. As the core code does not have any
-> knowledge about the underlying device, a driver specific callback will
-> be added to struct affinity_desc, which will be invoked by the core
-> code. The callback will get the number of available interupts as an
-> argument, so the driver can calculate the corresponding number and size
-> of interrupt sets.
-> 
-> To support this, two modifications for the handling of struct
-> affinity_desc are required:
-> 
-> 1) The (optional) interrupt sets size information is contained in a
->    separate array of integers and struct affinity_desc contains a
->    pointer to it.
-> 
->    This is cumbersome and as the maximum number of interrupt sets is
->    small, there is no reason to have separate storage. Moving the size
->    array into struct affinity_desc avoids indirections makes the code
->    simpler.
-> 
-> 2) At the moment the struct affinity_desc pointer which is handed in from
->    the driver and passed through to several core functions is marked
->    'const'.
-> 
-> This patch adds callback to recalculate the number and size of interrupt sets,
-> also removes the 'const' qualifier for 'affd'.
-> 
-> Reviewed-by: Jens Axboe <axboe at kernel.dk>
-> Signed-off-by: Ming Lei <ming.lei at redhat.com>
 
-I know you have something to work out in the affinity.c part of this, but
-I'm fine with the PCI part, so:
 
-Acked-by: Bjorn Helgaas <bhelgaas at google.com>
+> -----Original Message-----
+> From: Linux-nvme [mailto:linux-nvme-bounces at lists.infradead.org] On Behalf Of Keith Busch
+> Sent: Tuesday, February 5, 2019 8:39 AM
+> To: Takao Indoh <indou.takao at fujitsu.com>
+> Cc: Takao Indoh <indou.takao at jp.fujitsu.com>; sagi at grimberg.me; linux-kernel at vger.kernel.org; linux-
+> nvme at lists.infradead.org; axboe at fb.com; hch at lst.de
+> Subject: Re: [PATCH] nvme: Enable acceleration feature of A64FX processor
+> 
+> On Tue, Feb 05, 2019@09:56:05PM +0900, Takao Indoh wrote:
+> > On Fri, Feb 01, 2019@07:54:14AM -0700, Keith Busch wrote:
+> > > On Fri, Feb 01, 2019@09:46:15PM +0900, Takao Indoh wrote:
+> > > > From: Takao Indoh <indou.takao at fujitsu.com>
+> > > >
+> > > > Fujitsu A64FX processor has a feature to accelerate data transfer of
+> > > > internal bus by relaxed ordering. It is enabled when the bit 56 of dma
+> > > > address is set to 1.
+> > >
+> > > Wait, what? RO is a standard PCIe TLP attribute. Why would we need this?
+> >
+> > I should have explained this patch more carefully.
+> >
+> > Standard PCIe devices can use Relaxed Ordering (RO) by setting Attr
+> > field in the TLP header, however, this mechanism cannot be utilized if
+> > the device does not support RO feature. Fujitsu A64FX processor has an
+> > alternate feature to enable RO in its Root Port by setting the bit 56 of
+> > DMA address. This mechanism enables to utilize RO feature even if the
+> > device does not support standard PCIe RO.
+> 
+> I think you're better of just purchasing devices that support the
+> capability per spec rather than with a non-standard work around.
+> 
+
+The PCIe and NVMe specifications dosn't standardize a way to tell the device
+when to use RO, which leads to system workarounds like this.
+
+The Enable Relaxed Ordering bit defined by PCIe tells the device when it
+cannot use RO, but doesn't advise when it should or shall use RO.
+
+For SCSI Express (SOP+PQI), we were going to allow specifying these
+on a per-command basis:
+* TLP attributes (No Snoop, Relaxed Ordering, ID-based Ordering)
+* TLP processing hints (Processing Hints and Steering Tags)
+
+to be used by the data transfers for the command. In some systems, one
+setting per queue or per device might suffice. Transactions to the
+queues and doorbells require stronger ordering.
+
+For this workaround:
+* making an extra pass through the SGL to set the address bit is 
+inefficient; it should be done as the SGL is created.
+* why doesn't it support PRP Lists?
+* how does this interact with an iommu, if there is one? Must the 
+address with bit 56 also be granted permission, or is that
+stripped off before any iommu comparisons?
