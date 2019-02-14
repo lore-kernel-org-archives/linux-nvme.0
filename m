@@ -1,33 +1,49 @@
 From: bvanassche@acm.org (Bart Van Assche)
-Date: Thu, 14 Feb 2019 14:50:51 -0800
-Subject: [PATCH 0/6] NVMe patches for kernel v5.1
-Message-ID: <20190214225057.195397-1-bvanassche@acm.org>
+Date: Thu, 14 Feb 2019 14:50:56 -0800
+Subject: [PATCH 5/6] nvme: Introduce a helper function for controller deletion
+In-Reply-To: <20190214225057.195397-1-bvanassche@acm.org>
+References: <20190214225057.195397-1-bvanassche@acm.org>
+Message-ID: <20190214225057.195397-6-bvanassche@acm.org>
 
-Hi Christoph,
+This patch does not change any functionality but makes the next patch
+in this series easier to read.
 
-The patches in this series are what I came up with after having analyzed the
-output of gcc W=1, sparse, smatch and blktests. Please consider these patches
-for kernel v5.1.
+Signed-off-by: Bart Van Assche <bvanassche at acm.org>
+---
+ drivers/nvme/host/core.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-Thanks,
-
-Bart.
-
-Bart Van Assche (6):
-  nvmet: Fix indentation
-  nvme-fabrics: Document the poll function argument
-  nvme-pci: Check kstrtoint() return value in queue_count_set()
-  nvme: Unexport nvme_delete_ctrl_sync()
-  nvme: Introduce a helper function for controller deletion
-  nvme: Avoid that deleting a controller triggers a circular locking
-    complaint
-
- drivers/nvme/host/core.c        | 21 +++++++++++++--------
- drivers/nvme/host/fabrics.c     |  1 +
- drivers/nvme/host/nvme.h        |  1 -
- drivers/nvme/host/pci.c         |  2 ++
- drivers/nvme/target/discovery.c |  2 +-
- 5 files changed, 17 insertions(+), 10 deletions(-)
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 17356c51901e..c99905bcf1e2 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -151,11 +151,8 @@ int nvme_reset_ctrl_sync(struct nvme_ctrl *ctrl)
+ }
+ EXPORT_SYMBOL_GPL(nvme_reset_ctrl_sync);
+ 
+-static void nvme_delete_ctrl_work(struct work_struct *work)
++static void nvme_do_delete_ctrl(struct nvme_ctrl *ctrl)
+ {
+-	struct nvme_ctrl *ctrl =
+-		container_of(work, struct nvme_ctrl, delete_work);
+-
+ 	dev_info(ctrl->device,
+ 		 "Removing ctrl: NQN \"%s\"\n", ctrl->opts->subsysnqn);
+ 
+@@ -167,6 +164,14 @@ static void nvme_delete_ctrl_work(struct work_struct *work)
+ 	nvme_put_ctrl(ctrl);
+ }
+ 
++static void nvme_delete_ctrl_work(struct work_struct *work)
++{
++	struct nvme_ctrl *ctrl =
++		container_of(work, struct nvme_ctrl, delete_work);
++
++	nvme_do_delete_ctrl(ctrl);
++}
++
+ int nvme_delete_ctrl(struct nvme_ctrl *ctrl)
+ {
+ 	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_DELETING))
 -- 
 2.21.0.rc0.258.g878e2cd30e-goog
