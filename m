@@ -1,135 +1,33 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Fri, 15 Feb 2019 06:41:37 +0800
-Subject: [patch V5 4/8] nvme-pci: Simplify interrupt allocation
-In-Reply-To: <20190214211759.699390983@linutronix.de>
-References: <20190214204755.819014197@linutronix.de>
- <20190214211759.699390983@linutronix.de>
-Message-ID: <20190214224136.GA18764@ming.t460p>
+From: bvanassche@acm.org (Bart Van Assche)
+Date: Thu, 14 Feb 2019 14:50:51 -0800
+Subject: [PATCH 0/6] NVMe patches for kernel v5.1
+Message-ID: <20190214225057.195397-1-bvanassche@acm.org>
 
-On Thu, Feb 14, 2019@09:47:59PM +0100, Thomas Gleixner wrote:
-> From: Ming Lei <ming.lei at redhat.com>
-> 
-> The NVME PCI driver contains a tedious mechanism for interrupt
-> allocation, which is necessary to adjust the number and size of interrupt
-> sets to the maximum available number of interrupts which depends on the
-> underlying PCI capabilities and the available CPU resources.
-> 
-> It works around the former short comings of the PCI and core interrupt
-> allocation mechanims in combination with interrupt sets.
-> 
-> The PCI interrupt allocation function allows to provide a maximum and a
-> minimum number of interrupts to be allocated and tries to allocate as
-> many as possible. This worked without driver interaction as long as there
-> was only a single set of interrupts to handle.
-> 
-> With the addition of support for multiple interrupt sets in the generic
-> affinity spreading logic, which is invoked from the PCI interrupt
-> allocation, the adaptive loop in the PCI interrupt allocation did not
-> work for multiple interrupt sets. The reason is that depending on the
-> total number of interrupts which the PCI allocation adaptive loop tries
-> to allocate in each step, the number and the size of the interrupt sets
-> need to be adapted as well. Due to the way the interrupt sets support was
-> implemented there was no way for the PCI interrupt allocation code or the
-> core affinity spreading mechanism to invoke a driver specific function
-> for adapting the interrupt sets configuration.
-> 
-> As a consequence the driver had to implement another adaptive loop around
-> the PCI interrupt allocation function and calling that with maximum and
-> minimum interrupts set to the same value. This ensured that the
-> allocation either succeeded or immediately failed without any attempt to
-> adjust the number of interrupts in the PCI code.
-> 
-> The core code now allows drivers to provide a callback to recalculate the
-> number and the size of interrupt sets during PCI interrupt allocation,
-> which in turn allows the PCI interrupt allocation function to be called
-> in the same way as with a single set of interrupts. The PCI code handles
-> the adaptive loop and the interrupt affinity spreading mechanism invokes
-> the driver callback to adapt the interrupt set configuration to the
-> current loop value. This replaces the adaptive loop in the driver
-> completely.
-> 
-> Implement the NVME specific callback which adjusts the interrupt sets
-> configuration and remove the adaptive allocation loop.
-> 
-> [ tglx: Simplify the callback further and restore the dropped adjustment of
->   	number of sets ]
-> 
-> Signed-off-by: Ming Lei <ming.lei at redhat.com>
-> Signed-off-by: Thomas Gleixner <tglx at linutronix.de>
-> 
-> ---
->  drivers/nvme/host/pci.c |  108 ++++++++++++------------------------------------
->  1 file changed, 28 insertions(+), 80 deletions(-)
-> 
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -2041,41 +2041,32 @@ static int nvme_setup_host_mem(struct nv
->  	return ret;
->  }
->  
-> -/* irq_queues covers admin queue */
-> -static void nvme_calc_io_queues(struct nvme_dev *dev, unsigned int irq_queues)
-> +/*
-> + * nirqs is the number of interrupts available for write and read
-> + * queues. The core already reserved an interrupt for the admin queue.
-> + */
-> +static void nvme_calc_irq_sets(struct irq_affinity *affd, unsigned int nrirqs)
->  {
-> -	unsigned int this_w_queues = write_queues;
-> -
-> -	WARN_ON(!irq_queues);
-> -
-> -	/*
-> -	 * Setup read/write queue split, assign admin queue one independent
-> -	 * irq vector if irq_queues is > 1.
-> -	 */
-> -	if (irq_queues <= 2) {
-> -		dev->io_queues[HCTX_TYPE_DEFAULT] = 1;
-> -		dev->io_queues[HCTX_TYPE_READ] = 0;
-> -		return;
-> -	}
-> +	struct nvme_dev *dev = affd->priv;
-> +	unsigned int nr_read_queues;
->  
->  	/*
-> -	 * If 'write_queues' is set, ensure it leaves room for at least
-> -	 * one read queue and one admin queue
-> -	 */
-> -	if (this_w_queues >= irq_queues)
-> -		this_w_queues = irq_queues - 2;
-> -
-> -	/*
-> -	 * If 'write_queues' is set to zero, reads and writes will share
-> -	 * a queue set.
-> -	 */
-> -	if (!this_w_queues) {
-> -		dev->io_queues[HCTX_TYPE_DEFAULT] = irq_queues - 1;
-> -		dev->io_queues[HCTX_TYPE_READ] = 0;
-> -	} else {
-> -		dev->io_queues[HCTX_TYPE_DEFAULT] = this_w_queues;
-> -		dev->io_queues[HCTX_TYPE_READ] = irq_queues - this_w_queues - 1;
-> -	}
-> +	 * If only one interrupt is available, combine write and read
-> +	 * queues. If 'write_queues' is set, ensure it leaves room for at
-> +	 * least one read queue.
-> +	 */
-> +	if (nrirqs == 1)
-> +		nr_read_queues = 0;
-> +	else if (write_queues >= nrirqs)
-> +		nr_read_queues = nrirqs - 1;
-> +	else
-> +		nr_read_queues = nrirqs - write_queues;
-> +
-> +	dev->io_queues[HCTX_TYPE_DEFAULT] = nrirqs - nr_read_queues;
-> +	affd->set_size[HCTX_TYPE_DEFAULT] = nrirqs - nr_read_queues;
-> +	dev->io_queues[HCTX_TYPE_READ] = nr_read_queues;
-> +	affd->set_size[HCTX_TYPE_READ] = nr_read_queues;
-> +	affd->nr_sets = nr_read_queues ? 2 : 1;
->  }
+Hi Christoph,
 
-.calc_sets is called only if more than .pre_vectors is available,
-then dev->io_queues[HCTX_TYPE_DEFAULT] may not be set in case of
-(nvecs == affd->pre_vectors + affd->post_vectors).
+The patches in this series are what I came up with after having analyzed the
+output of gcc W=1, sparse, smatch and blktests. Please consider these patches
+for kernel v5.1.
 
 Thanks,
-Ming
+
+Bart.
+
+Bart Van Assche (6):
+  nvmet: Fix indentation
+  nvme-fabrics: Document the poll function argument
+  nvme-pci: Check kstrtoint() return value in queue_count_set()
+  nvme: Unexport nvme_delete_ctrl_sync()
+  nvme: Introduce a helper function for controller deletion
+  nvme: Avoid that deleting a controller triggers a circular locking
+    complaint
+
+ drivers/nvme/host/core.c        | 21 +++++++++++++--------
+ drivers/nvme/host/fabrics.c     |  1 +
+ drivers/nvme/host/nvme.h        |  1 -
+ drivers/nvme/host/pci.c         |  2 ++
+ drivers/nvme/target/discovery.c |  2 +-
+ 5 files changed, 17 insertions(+), 10 deletions(-)
+
+-- 
+2.21.0.rc0.258.g878e2cd30e-goog
