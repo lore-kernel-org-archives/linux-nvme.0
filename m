@@ -1,63 +1,42 @@
-From: paulmck@linux.ibm.com (Paul E. McKenney)
-Date: Wed, 13 Feb 2019 17:02:10 -0800
-Subject: v5.0-rc2 and NVMeOF
-In-Reply-To: <1550103713.31902.57.camel@acm.org>
-References: <20190213151917.GA3311@linux.ibm.com>
- <20190213152413.GA4468@linux.ibm.com>
- <1550082964.19311.66.camel@acm.org>
- <20190213184839.GD4240@linux.ibm.com>
- <1550085136.19311.78.camel@acm.org>
- <20190213193013.GG4240@linux.ibm.com>
- <20190213195205.GA13650@linux.ibm.com>
- <1550091612.31902.48.camel@acm.org>
- <20190213220923.GK4240@linux.ibm.com>
- <1550103713.31902.57.camel@acm.org>
-Message-ID: <20190214010210.GM4240@linux.ibm.com>
+From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Thu, 14 Feb 2019 07:26:33 +0000
+Subject: [LSF/MM TOPIC] : blktests: status, an expansion plan for the
+ storage stack test framework
+References: <BYAPR04MB4502158B1588C8EFF7B4E345866F0@BYAPR04MB4502.namprd04.prod.outlook.com>
+ <1550081474.19311.62.camel@acm.org>
+Message-ID: <BYAPR04MB45027D66C9CB3B8606C891F686670@BYAPR04MB4502.namprd04.prod.outlook.com>
 
-On Wed, Feb 13, 2019@04:21:53PM -0800, Bart Van Assche wrote:
-> On Wed, 2019-02-13@14:09 -0800, Paul E. McKenney wrote:
-> > commit 65f1b53aeb25a9bddabd08e37bb4c7246320f993
-> > Author: Paul E. McKenney <paulmck at linux.ibm.com>
-> > Date:   Wed Feb 13 13:54:37 2019 -0800
-> > 
-> >     srcu: Remove cleanup_srcu_struct_quiesced()
-> >     
-> >     The cleanup_srcu_struct_quiesced() function was added because NVME
-> >     used WQ_MEM_RECLAIM workqueues and SRCU did not, which meant that
-> >     NVME workqueues waiting on SRCU workqueues could result in deadlocks
-> >     during low-memory conditions.  However, SRCU now also has WQ_MEM_RECLAIM
-> >     workqueues, so there is no longer a potential for deadlock.  Furthermore,
-> >     it turns out to be extremely hard to use cleanup_srcu_struct_quiesced()
-> >     correctly due to the fact that SRCU callback invocation accesses the
-> >     srcu_struct structure's per-CPU data area just after callbacks are
-> >     invoked.  Therefore, the usual practice of using srcu_barrier() to wait
-> >     for callbacks to be invoked before invoking cleanup_srcu_struct_quiesced()
-> >     fails because SRCU's callback-invocation workqueue handler might be
-> >     delayed, which can result in cleanup_srcu_struct_quiesced() being invoked
-> >     (and thus freeing the per-CPU data) before the SRCU's callback-invocation
-> >     workqueue handler is finished using that per-CPU data.  Nor is this a
-> >     theoretical problem: KASAN emitted use-after-free warnings because of
-> >     this problem on actual runs.
-> >     
-> >     In short, NVME can now safely invoke cleanup_srcu_struct(), which
-> >     avoids the use-after-free scenario.  And cleanup_srcu_struct_quiesced()
-> >     is quite difficult to use safely.  This commit therefore removes
-> >     cleanup_srcu_struct_quiesced(), switching its sole user back to
-> >     cleanup_srcu_struct().  This effectively reverts the following pair
-> >     of commits:
-> >     
-> >     f7194ac32ca2 ("srcu: Add cleanup_srcu_struct_quiesced()")
-> >     4317228ad9b8 ("nvme: Avoid flush dependency in delete controller flow")
-> >     
-> >     Reported-by: Bart Van Assche <bvanassche at acm.org>
-> >     Signed-off-by: Paul E. McKenney <paulmck at linux.ibm.com>
-> > 
-> > [ ... ]
+On 2/13/19 10:11 AM, Bart Van Assche wrote:
+> On Wed, 2019-02-06@05:21 +0000, Chaitanya Kulkarni wrote:
+>> For storage track, we would like to propose a session dedicated to blktests. It is a great
+>> opportunity for the storage developers to gather and have a discussion about:-
+>>
+>> 1. Current status of the blktests framework.
+>> 2. Any new/missing features that we want to add in the blktests.
+>> 3. Any new kernel features that could be used to make testing easier?
+>> E.g. Implementing new features in the null_blk.c in order to have device
+>> independent complete test coverage. (e.g. adding discard command for null_blk or any
+>> other specific REQ_OP). Discussion about having any new tracepoint events in the block layer.
+>> 4. Any new test cases/categories which are lacking in the blktests framework.
 > 
-> Reviewed-by: Bart Van Assche <bvanassche at acm.org>
+> Hi Chaitanya,
+> 
+> Thanks for having proposed this topic. I'd like to add a fifth item to the
+> agenda, namely blktests maintainership. The following could e.g. be discussed:
+> - How many maintainers should the blktests project have? A single maintainer
+>    or also one or more co-maintainers?
+> - Is it acceptable that patches get accepted in the blktests repository that
+>    break the continuous integration tests? If so, why do we even have continuous
+>    integration tests? See also "[PATCH] Unbreak the continuous integration build"
+>    (https://marc.info/?l=linux-block&m=154990323618159).
+> - How long should it take before a blktests maintainer provides feedback on
+>    blktests patches and pull requests? Is it considered acceptable that it takes
+>    more than four weeks to process a pull request that is in perfect shape? See
+>    e.g. https://github.com/osandov/blktests/pull/44.
+> 
+> Bart.
+> 
 
-Applied thank you!
-
-Looking forward to hearing the results of testing as well!
-
-							Thanx, Paul
+Thanks Bart for the suggestions, it will be great to have these topics 
+for the overall discussion, it can help us to have a concrete plan 
+moving forward.
