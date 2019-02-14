@@ -1,28 +1,27 @@
-From: mhocko@kernel.org (Michal Hocko)
-Date: Thu, 14 Feb 2019 15:08:22 +0100
-Subject: [Lsf-pc] LSF/MM 2019: Call for Proposals (UPDATED!)
-In-Reply-To: <4f5a15c1-4f9e-acae-5094-2f38c8eebd96@kernel.dk>
-References: <4f5a15c1-4f9e-acae-5094-2f38c8eebd96@kernel.dk>
-Message-ID: <20190214140822.GA7251@dhcp22.suse.cz>
+From: tglx@linutronix.de (Thomas Gleixner)
+Date: Thu, 14 Feb 2019 15:50:35 +0100 (CET)
+Subject: [PATCH V4 2/4] genirq/affinity: add new callback for caculating
+ interrupt sets size
+In-Reply-To: <20190214122347.17372-3-ming.lei@redhat.com>
+References: <20190214122347.17372-1-ming.lei@redhat.com>
+ <20190214122347.17372-3-ming.lei@redhat.com>
+Message-ID: <alpine.DEB.2.21.1902141547320.1561@nanos.tec.linutronix.de>
 
-On Thu 07-02-19 08:35:06, Jens Axboe wrote:
-[...]
-> 2) Requests to attend the summit for those that are not proposing a
-> topic should be sent to:
-> 
-> 	lsf-pc at lists.linux-foundation.org
-> 
-> Please summarize what expertise you will bring to the meeting, and
-> what you would like to discuss. Please also tag your email with
-> [LSF/MM ATTEND] and send it as a new thread so there is less chance of
-> it getting lost.
+On Thu, 14 Feb 2019, Ming Lei wrote:
+> +	if (affd->calc_sets) {
+> +		affd->calc_sets(affd, nvecs);
+> +	} else if (!affd->nr_sets) {
+> +		affd->nr_sets = 1;
+> +		affd->set_size[0] = affvecs;
 
-Just a reminder. Please do not forget to send the ATTEND request and
-make it clear which track you would like to participate in the most.
-It is quite common that people only send topic proposals without and
-expclicit ATTEND request or they do not mention the track.
+Hrmpf. I suggested that to you to get rid of the nr_sets local variable,
+but that's actually broken. The reason is that on the first invocation from
+the pci code, which is with maxvecs usually, the size is stored and if that
+allocation failed, the subsequent invocation with maxvecs - 1 will not
+update set_size[0] because affd->nr_sets == 1.
 
-Thanks!
--- 
-Michal Hocko
-SUSE Labs
+/me scratches head and stares at the code some more...
+
+Thanks,
+
+	tglx
