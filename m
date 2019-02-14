@@ -1,66 +1,58 @@
-From: elliott@hpe.com (Elliott, Robert (Persistent Memory))
-Date: Thu, 14 Feb 2019 20:44:48 +0000
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 14 Feb 2019 14:17:15 -0700
 Subject: [PATCH] nvme: Enable acceleration feature of A64FX processor
-In-Reply-To: <20190205143905.GG22199@localhost.localdomain>
+In-Reply-To: <AT5PR8401MB1169E9738C0A4754D0190F2FAB670@AT5PR8401MB1169.NAMPRD84.PROD.OUTLOOK.COM>
 References: <20190201124615.16107-1-indou.takao@jp.fujitsu.com>
  <20190201145414.GA22199@localhost.localdomain>
  <20190205124757.GA28465@esprimo>
  <20190205143905.GG22199@localhost.localdomain>
-Message-ID: <AT5PR8401MB1169E9738C0A4754D0190F2FAB670@AT5PR8401MB1169.NAMPRD84.PROD.OUTLOOK.COM>
+ <AT5PR8401MB1169E9738C0A4754D0190F2FAB670@AT5PR8401MB1169.NAMPRD84.PROD.OUTLOOK.COM>
+Message-ID: <20190214211715.GA9613@localhost.localdomain>
 
-
-
-> -----Original Message-----
-> From: Linux-nvme [mailto:linux-nvme-bounces at lists.infradead.org] On Behalf Of Keith Busch
-> Sent: Tuesday, February 5, 2019 8:39 AM
-> To: Takao Indoh <indou.takao at fujitsu.com>
-> Cc: Takao Indoh <indou.takao at jp.fujitsu.com>; sagi at grimberg.me; linux-kernel at vger.kernel.org; linux-
-> nvme at lists.infradead.org; axboe at fb.com; hch at lst.de
-> Subject: Re: [PATCH] nvme: Enable acceleration feature of A64FX processor
+On Thu, Feb 14, 2019@12:44:48PM -0800, Elliott, Robert (Persistent Memory) wrote:
 > 
-> On Tue, Feb 05, 2019@09:56:05PM +0900, Takao Indoh wrote:
-> > On Fri, Feb 01, 2019@07:54:14AM -0700, Keith Busch wrote:
-> > > On Fri, Feb 01, 2019@09:46:15PM +0900, Takao Indoh wrote:
-> > > > From: Takao Indoh <indou.takao at fujitsu.com>
-> > > >
-> > > > Fujitsu A64FX processor has a feature to accelerate data transfer of
-> > > > internal bus by relaxed ordering. It is enabled when the bit 56 of dma
-> > > > address is set to 1.
-> > >
-> > > Wait, what? RO is a standard PCIe TLP attribute. Why would we need this?
-> >
-> > I should have explained this patch more carefully.
-> >
-> > Standard PCIe devices can use Relaxed Ordering (RO) by setting Attr
-> > field in the TLP header, however, this mechanism cannot be utilized if
-> > the device does not support RO feature. Fujitsu A64FX processor has an
-> > alternate feature to enable RO in its Root Port by setting the bit 56 of
-> > DMA address. This mechanism enables to utilize RO feature even if the
-> > device does not support standard PCIe RO.
+> The PCIe and NVMe specifications dosn't standardize a way to tell the device
+> when to use RO, which leads to system workarounds like this.
 > 
-> I think you're better of just purchasing devices that support the
-> capability per spec rather than with a non-standard work around.
+> The Enable Relaxed Ordering bit defined by PCIe tells the device when it
+> cannot use RO, but doesn't advise when it should or shall use RO.
+
+In general, it is always safe to use RO for any memory writes that have
+no order dependency on other RO writes. It's impossible for the PCIe spec
+to standardize what packets may or may not have a such a dependency:
+that is specific to the higher protocol of device, so RO behavior has
+to be out of scope for PCI spec. It only says to don't use it when it
+isn't safe to do so, like for MSI.
+
+For NVMe, there is no order dependency on PRP/SGL data since it is
+perfectly valid for the controller to transfer these out-of-order
+already. Letting the memory controller re-order them would also have to
+be spec compliant.
+
+The host is not allowed to assume the data is there until it observes
+the CQE for that command, so the CQE is the only NVMe protocol dev->host
+transfer that has a strict order depenency and not valid for RO (you
+risk data corruption if you do this wrong).
+
+The NVMe spec does't spell this out, but some controller implementations
+do this today anyway. If it is really that confusing to hardware vendors,
+though, I don't think it'd be harmful to propose an ECN to clarify
+appropriate RO usage, and also a plus if it would get more vendors to
+take notice of this optimization.
+ 
+> For SCSI Express (SOP+PQI), we were going to allow specifying these
+> on a per-command basis:
+> * TLP attributes (No Snoop, Relaxed Ordering, ID-based Ordering)
+> * TLP processing hints (Processing Hints and Steering Tags)
+>
+> to be used by the data transfers for the command. In some systems, one
+> setting per queue or per device might suffice. Transactions to the
+> queues and doorbells require stronger ordering.
 > 
-
-The PCIe and NVMe specifications dosn't standardize a way to tell the device
-when to use RO, which leads to system workarounds like this.
-
-The Enable Relaxed Ordering bit defined by PCIe tells the device when it
-cannot use RO, but doesn't advise when it should or shall use RO.
-
-For SCSI Express (SOP+PQI), we were going to allow specifying these
-on a per-command basis:
-* TLP attributes (No Snoop, Relaxed Ordering, ID-based Ordering)
-* TLP processing hints (Processing Hints and Steering Tags)
-
-to be used by the data transfers for the command. In some systems, one
-setting per queue or per device might suffice. Transactions to the
-queues and doorbells require stronger ordering.
-
-For this workaround:
-* making an extra pass through the SGL to set the address bit is 
-inefficient; it should be done as the SGL is created.
-* why doesn't it support PRP Lists?
-* how does this interact with an iommu, if there is one? Must the 
-address with bit 56 also be granted permission, or is that
-stripped off before any iommu comparisons?
+> For this workaround:
+> * making an extra pass through the SGL to set the address bit is
+> inefficient; it should be done as the SGL is created.
+> * why doesn't it support PRP Lists?
+> * how does this interact with an iommu, if there is one? Must the
+> address with bit 56 also be granted permission, or is that
+> stripped off before any iommu comparisons?
