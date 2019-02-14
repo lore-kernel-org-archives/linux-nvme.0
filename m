@@ -1,9 +1,8 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 14 Feb 2019 00:30:47 -0800
+Date: Thu, 14 Feb 2019 00:33:23 -0800
 Subject: KXG60ZNV256G not recognized
-In-Reply-To: <20190213212253.GA8027@localhost.localdomain>
-References: <e64c744b-8db6-ab66-af92-6ba9a347dc2e@uni-siegen.de>
- <402e84e1-160f-d335-4054-710b73fbbb4c@suse.de>
+In-Reply-To: <4eb55f6c57c74db497a3dc1fe830e993@ausx13mpc120.AMER.DELL.COM>
+References: <402e84e1-160f-d335-4054-710b73fbbb4c@suse.de>
  <553537fc-3320-751d-8532-9735cdf1336a@uni-siegen.de>
  <20190213180050.GA26226@infradead.org>
  <267176a4277b45d6b7b8a7eddf1f8123@ausx13mpc120.AMER.DELL.COM>
@@ -12,42 +11,45 @@ References: <e64c744b-8db6-ab66-af92-6ba9a347dc2e@uni-siegen.de>
  <20190213190012.GA8898@infradead.org>
  <4bd15523d31948328c2c50693a08bd2c@ausx13mpc120.AMER.DELL.COM>
  <20190213212253.GA8027@localhost.localdomain>
-Message-ID: <20190214083047.GA24653@infradead.org>
+ <4eb55f6c57c74db497a3dc1fe830e993@ausx13mpc120.AMER.DELL.COM>
+Message-ID: <20190214083323.GB24653@infradead.org>
 
-On Wed, Feb 13, 2019@02:22:53PM -0700, Keith Busch wrote:
-> To the best of my knowledge, the hardware mode is working around a
-> software limitation that doesn't apply to Linux.
-
-More correctly it works around a business model limitation that allows
-Intel to sell an "integrated" fake raid driver.  Even more importantly
-it works around that business model limitation in a completely gross
-way, unlike the vmd solution to the same problem in another intel
-division, which at least allows to recover from that workaround.
-
-> > As such, I don't think that disdaining the technology will get Intel to change it.
-> > So I'm hoping we can constructively come up with something that works in the confines
-> > of its existence to make it a better experience at least.
+On Wed, Feb 13, 2019@09:56:38PM +0000, Mario.Limonciello@dell.com wrote:
+> > Pre-boot settings like you already have are preferable, right? Otherwise
+> > it's a little more difficult to use the NVMe as your boot drive.
 > 
-> I assumed Chritoph's comment was directed toward said software that runs
-> on the majority of the client PC market, leaving hardware vendors to
-> think up "creative" work-arounds to its quirks to the detriment of other
-> software environments. :(
+> The SMM thing I mentioned would basically just be modifying those pre-boot settings
+> so the next boot it could DTRT for Linux.
+> 
+> It's definitely just a band-aid to the problem.
 
-It affects everyone but Intel, that is vendors of non-Intel NVMe SSDs
-that have no control on what windows driver is used for their devices,
-and it includes any OS that does not have an Intel driver that knows
-how to deal with the magic intel AHCI device, which is entirely Intel
-private.
+So it is a one time setting?  If it was permanent it might at least
+be useful for a little tool in the installer to offer that choice.
+But either way it doesn't help to make the broken intel platforms to
+just work.
 
-Even with the patches from Dan we can't properly use the NVMe device:
+> Christoph - are you looking for a whitepaper explaining this beyond the ACHI BAR
+> remapping documentation that was shared?
+> http://www.intel.com/content/www/us/en/chipsets/100-series-chipset-datasheet-vol-2.html
+> 
+> I think if we can have start with a list of actionable things needed for another
+> go at this and an acceptable design architecture before this thing is revisited again
+> to have a chance at solving it.  Are you amenable to a host bridge?
 
- - there is no support for MSI/MSI-X and thus no support for per-queue
-   interrupts, thus severly limiting performance
- - there is no support for PCI ID based quirks, which we require
-   to support various devices properly
- - there is no way to make SR-IOV work
- - there is no way to make PCI-level FLRs work, or to unbind the
-   device in case of a fatal failure
+See the last mail for the functionality that is currently broken and
+which needs to work.  Preferably without changes in the NVMe driver
+itself, as that is not the place to work around intentionally buggy
+platforms.
 
-All in all Intel is using their domniance of the CPU and shipset
-business to harm various other parties.
+> 
+> > Whatever answer we, in the Linux kernel community, come up with,
+> >leaving storage inaccessible is not an acceptable answer.
+> 
+> The thing that lives in the kernel now (aecec8b60422118b52e3347430ba9382e57d6d76)
+> really does a disservice to people trying to use Linux today:
+> >	dev_warn(&pdev->dev, "Found %d remapped NVMe devices.\n", count);
+> >	dev_warn(&pdev->dev, "Switch your BIOS from RAID to AHCI mode to use them.\n");
+> 
+
+Yes, we really need to ammend this message to tell people to complain
+to Intel and their platform vendor for fucking up things this badly.
