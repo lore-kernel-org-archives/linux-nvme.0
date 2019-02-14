@@ -1,68 +1,54 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Thu, 14 Feb 2019 23:05:23 +0000
-Subject: [PATCH 4/6] nvme: Unexport nvme_delete_ctrl_sync()
-In-Reply-To: <20190214225057.195397-5-bvanassche@acm.org>
-References: <20190214225057.195397-1-bvanassche@acm.org>,
- <20190214225057.195397-5-bvanassche@acm.org>
-Message-ID: <BYAPR04MB4502B9139AE38BA3ED458ACB86670@BYAPR04MB4502.namprd04.prod.outlook.com>
+From: tglx@linutronix.de (Thomas Gleixner)
+Date: Fri, 15 Feb 2019 00:55:53 +0100 (CET)
+Subject: [patch V5 4/8] nvme-pci: Simplify interrupt allocation
+In-Reply-To: <20190214224136.GA18764@ming.t460p>
+References: <20190214204755.819014197@linutronix.de>
+ <20190214211759.699390983@linutronix.de> <20190214224136.GA18764@ming.t460p>
+Message-ID: <alpine.DEB.2.21.1902150053160.1646@nanos.tec.linutronix.de>
 
-Looks good.
+On Fri, 15 Feb 2019, Ming Lei wrote:
+> > +	 * If only one interrupt is available, combine write and read
+> > +	 * queues. If 'write_queues' is set, ensure it leaves room for at
+> > +	 * least one read queue.
+> > +	 */
+> > +	if (nrirqs == 1)
+> > +		nr_read_queues = 0;
+> > +	else if (write_queues >= nrirqs)
+> > +		nr_read_queues = nrirqs - 1;
+> > +	else
+> > +		nr_read_queues = nrirqs - write_queues;
+> > +
+> > +	dev->io_queues[HCTX_TYPE_DEFAULT] = nrirqs - nr_read_queues;
+> > +	affd->set_size[HCTX_TYPE_DEFAULT] = nrirqs - nr_read_queues;
+> > +	dev->io_queues[HCTX_TYPE_READ] = nr_read_queues;
+> > +	affd->set_size[HCTX_TYPE_READ] = nr_read_queues;
+> > +	affd->nr_sets = nr_read_queues ? 2 : 1;
+> >  }
+> 
+> .calc_sets is called only if more than .pre_vectors is available,
+> then dev->io_queues[HCTX_TYPE_DEFAULT] may not be set in case of
+> (nvecs == affd->pre_vectors + affd->post_vectors).
 
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+Hmm, good catch. The delta patch below should fix that, but I have to go
+through all the possible cases in pci_alloc_irq_vectors_affinity() once
+more with brain awake.
 
-From: Linux-nvme <linux-nvme-bounces@lists.infradead.org> on behalf of Bart Van Assche <bvanassche@acm.org>
-Sent: Thursday, February 14, 2019 2:50 PM
-To: Christoph Hellwig
-Cc: Keith Busch; Sagi Grimberg; linux-nvme at lists.infradead.org; Bart Van Assche
-Subject: [PATCH 4/6] nvme: Unexport nvme_delete_ctrl_sync()
-?
-Since nvme_delete_ctrl_sync() is not called from any other kernel module,
-unexport it.
+Thanks,
 
-Signed-off-by: Bart Van Assche <bvanassche at acm.org>
----
-?drivers/nvme/host/core.c | 3 +--
-?drivers/nvme/host/nvme.h | 1 -
-?2 files changed, 1 insertion(+), 3 deletions(-)
+	tglx
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index c365f0aa9433..17356c51901e 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -177,7 +177,7 @@ int nvme_delete_ctrl(struct nvme_ctrl *ctrl)
-?}
-?EXPORT_SYMBOL_GPL(nvme_delete_ctrl);
-?
--int nvme_delete_ctrl_sync(struct nvme_ctrl *ctrl)
-+static int nvme_delete_ctrl_sync(struct nvme_ctrl *ctrl)
-?{
-???????? int ret = 0;
-?
-@@ -192,7 +192,6 @@ int nvme_delete_ctrl_sync(struct nvme_ctrl *ctrl)
-???????? nvme_put_ctrl(ctrl);
-???????? return ret;
-?}
--EXPORT_SYMBOL_GPL(nvme_delete_ctrl_sync);
-?
-?static inline bool nvme_ns_has_pi(struct nvme_ns *ns)
-?{
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index a0cc733c753e..d0c113a1388b 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -457,7 +457,6 @@ void nvme_stop_keep_alive(struct nvme_ctrl *ctrl);
-?int nvme_reset_ctrl(struct nvme_ctrl *ctrl);
-?int nvme_reset_ctrl_sync(struct nvme_ctrl *ctrl);
-?int nvme_delete_ctrl(struct nvme_ctrl *ctrl);
--int nvme_delete_ctrl_sync(struct nvme_ctrl *ctrl);
-?
-?int nvme_get_log(struct nvme_ctrl *ctrl, u32 nsid, u8 log_page, u8 lsp,
-???????????????? void *log, size_t size, u64 offset);
--- 
-2.21.0.rc0.258.g878e2cd30e-goog
+8<---------------------
 
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme at lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2092,6 +2092,10 @@ static int nvme_setup_irqs(struct nvme_d
+ 	}
+ 	dev->io_queues[HCTX_TYPE_POLL] = this_p_queues;
+ 
++	/* Initialize for the single interrupt case */
++	dev->io_queues[HCTX_TYPE_DEFAULT] = 1;
++	dev->io_queues[HCTX_TYPE_READ] = 0;
++
+ 	return pci_alloc_irq_vectors_affinity(pdev, 1, irq_queues,
+ 			      PCI_IRQ_ALL_TYPES | PCI_IRQ_AFFINITY, &affd);
+ }
