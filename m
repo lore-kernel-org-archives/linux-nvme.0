@@ -1,30 +1,30 @@
 From: bvanassche@acm.org (Bart Van Assche)
-Date: Thu, 14 Feb 2019 14:50:53 -0800
-Subject: [PATCH 2/6] nvme-fabrics: Document the poll function argument
+Date: Thu, 14 Feb 2019 14:50:52 -0800
+Subject: [PATCH 1/6] nvmet: Fix indentation
 In-Reply-To: <20190214225057.195397-1-bvanassche@acm.org>
 References: <20190214225057.195397-1-bvanassche@acm.org>
-Message-ID: <20190214225057.195397-3-bvanassche@acm.org>
+Message-ID: <20190214225057.195397-2-bvanassche@acm.org>
 
-This patch avoids that the kernel-doc tool reports a warning when
-building with W=1.
+This patch avoids that smatch complains about inconsistent indentation.
 
-Fixes: 26c682274e0a ("nvme-fabrics: allow nvmf_connect_io_queue to poll") # v5.0-rc1
+Fixes: a07b4970f464 ("nvmet: add a generic NVMe target") # v4.10
 Signed-off-by: Bart Van Assche <bvanassche at acm.org>
 ---
- drivers/nvme/host/fabrics.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/nvme/target/discovery.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 3eb908c50e1a..70c09abcfcbf 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -430,6 +430,7 @@ EXPORT_SYMBOL_GPL(nvmf_connect_admin_queue);
-  * @qid:	NVMe I/O queue number for the new I/O connection between
-  *		host and target (note qid == 0 is illegal as this is
-  *		the Admin queue, per NVMe standard).
-+ * @poll:	Whether or not to poll for the completion of the connect cmd.
-  *
-  * This function issues a fabrics-protocol connection
-  * of a NVMe I/O queue (via NVMe Fabrics "Connect" command)
+diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
+index d2cb71a0b419..a34cf4986a49 100644
+--- a/drivers/nvme/target/discovery.c
++++ b/drivers/nvme/target/discovery.c
+@@ -331,7 +331,7 @@ u16 nvmet_parse_discovery_cmd(struct nvmet_req *req)
+ 			       cmd->get_log_page.lid);
+ 			req->error_loc =
+ 				offsetof(struct nvme_get_log_page_command, lid);
+-		return NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
++			return NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
+ 		}
+ 	case nvme_admin_identify:
+ 		req->data_len = NVME_IDENTIFY_DATA_SIZE;
 -- 
 2.21.0.rc0.258.g878e2cd30e-goog
