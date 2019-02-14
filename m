@@ -1,58 +1,174 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 14 Feb 2019 14:17:15 -0700
-Subject: [PATCH] nvme: Enable acceleration feature of A64FX processor
-In-Reply-To: <AT5PR8401MB1169E9738C0A4754D0190F2FAB670@AT5PR8401MB1169.NAMPRD84.PROD.OUTLOOK.COM>
-References: <20190201124615.16107-1-indou.takao@jp.fujitsu.com>
- <20190201145414.GA22199@localhost.localdomain>
- <20190205124757.GA28465@esprimo>
- <20190205143905.GG22199@localhost.localdomain>
- <AT5PR8401MB1169E9738C0A4754D0190F2FAB670@AT5PR8401MB1169.NAMPRD84.PROD.OUTLOOK.COM>
-Message-ID: <20190214211715.GA9613@localhost.localdomain>
+From: tglx@linutronix.de (Thomas Gleixner)
+Date: Thu, 14 Feb 2019 21:47:57 +0100
+Subject: [patch V5 2/8] genirq/affinity: Store interrupt sets size in struct
+ irq_affinity
+References: <20190214204755.819014197@linutronix.de>
+Message-ID: <20190214211759.507891465@linutronix.de>
 
-On Thu, Feb 14, 2019@12:44:48PM -0800, Elliott, Robert (Persistent Memory) wrote:
-> 
-> The PCIe and NVMe specifications dosn't standardize a way to tell the device
-> when to use RO, which leads to system workarounds like this.
-> 
-> The Enable Relaxed Ordering bit defined by PCIe tells the device when it
-> cannot use RO, but doesn't advise when it should or shall use RO.
+From: Ming Lei <ming.lei@redhat.com>
 
-In general, it is always safe to use RO for any memory writes that have
-no order dependency on other RO writes. It's impossible for the PCIe spec
-to standardize what packets may or may not have a such a dependency:
-that is specific to the higher protocol of device, so RO behavior has
-to be out of scope for PCI spec. It only says to don't use it when it
-isn't safe to do so, like for MSI.
+The interrupt affinity spreading mechanism supports to spread out
+affinities for one or more interrupt sets. A interrupt set contains one
+or more interrupts. Each set is mapped to a specific functionality of a
+device, e.g. general I/O queues and read I/O queus of multiqueue block
+devices.
 
-For NVMe, there is no order dependency on PRP/SGL data since it is
-perfectly valid for the controller to transfer these out-of-order
-already. Letting the memory controller re-order them would also have to
-be spec compliant.
+The number of interrupts per set is defined by the driver. It depends on
+the total number of available interrupts for the device, which is
+determined by the PCI capabilites and the availability of underlying CPU
+resources, and the number of queues which the device provides and the
+driver wants to instantiate.
 
-The host is not allowed to assume the data is there until it observes
-the CQE for that command, so the CQE is the only NVMe protocol dev->host
-transfer that has a strict order depenency and not valid for RO (you
-risk data corruption if you do this wrong).
+The driver passes initial configuration for the interrupt allocation via
+a pointer to struct irq_affinity.
 
-The NVMe spec does't spell this out, but some controller implementations
-do this today anyway. If it is really that confusing to hardware vendors,
-though, I don't think it'd be harmful to propose an ECN to clarify
-appropriate RO usage, and also a plus if it would get more vendors to
-take notice of this optimization.
+Right now the allocation mechanism is complex as it requires to have a
+loop in the driver to determine the maximum number of interrupts which
+are provided by the PCI capabilities and the underlying CPU resources.
+This loop would have to be replicated in every driver which wants to
+utilize this mechanism. That's unwanted code duplication and error
+prone.
+
+In order to move this into generic facilities it is required to have a
+mechanism, which allows the recalculation of the interrupt sets and
+their size, in the core code. As the core code does not have any
+knowledge about the underlying device, a driver specific callback will
+be added to struct affinity_desc, which will be invoked by the core
+code. The callback will get the number of available interupts as an
+argument, so the driver can calculate the corresponding number and size
+of interrupt sets.
+
+To support this, two modifications for the handling of struct irq_affinity
+are required:
+
+1) The (optional) interrupt sets size information is contained in a
+   separate array of integers and struct irq_affinity contains a
+   pointer to it.
+
+   This is cumbersome and as the maximum number of interrupt sets is small,
+   there is no reason to have separate storage. Moving the size array into
+   struct affinity_desc avoids indirections and makes the code simpler.
+
+2) At the moment the struct irq_affinity pointer which is handed in from
+   the driver and passed through to several core functions is marked
+   'const'.
+
+   With the upcoming callback to recalculate the number and size of
+   interrupt sets, it's necessary to remove the 'const'
+   qualifier. Otherwise the callback would not be able to update the data.
+
+Implement #1 and store the interrupt sets size in 'struct irq_affinity'.
+
+No functional change.
+
+[ tglx: Fixed the memcpy() size so it won't copy beyond the size of the
+  	source. Fixed the kernel doc comments for struct irq_affinity and
+  	de-'This patch'-ed the changelog ]
+
+Signed-off-by: Ming Lei <ming.lei at redhat.com>
+Signed-off-by: Thomas Gleixner <tglx at linutronix.de>
+
+---
+ drivers/nvme/host/pci.c   |    7 +++----
+ include/linux/interrupt.h |    9 ++++++---
+ kernel/irq/affinity.c     |   16 ++++++++++++----
+ 3 files changed, 21 insertions(+), 11 deletions(-)
+
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2081,12 +2081,11 @@ static void nvme_calc_io_queues(struct n
+ static int nvme_setup_irqs(struct nvme_dev *dev, unsigned int nr_io_queues)
+ {
+ 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+-	int irq_sets[2];
+ 	struct irq_affinity affd = {
+-		.pre_vectors = 1,
+-		.nr_sets = ARRAY_SIZE(irq_sets),
+-		.sets = irq_sets,
++		.pre_vectors	= 1,
++		.nr_sets	= 2,
+ 	};
++	unsigned int *irq_sets = affd.set_size;
+ 	int result = 0;
+ 	unsigned int irq_queues, this_p_queues;
  
-> For SCSI Express (SOP+PQI), we were going to allow specifying these
-> on a per-command basis:
-> * TLP attributes (No Snoop, Relaxed Ordering, ID-based Ordering)
-> * TLP processing hints (Processing Hints and Steering Tags)
->
-> to be used by the data transfers for the command. In some systems, one
-> setting per queue or per device might suffice. Transactions to the
-> queues and doorbells require stronger ordering.
-> 
-> For this workaround:
-> * making an extra pass through the SGL to set the address bit is
-> inefficient; it should be done as the SGL is created.
-> * why doesn't it support PRP Lists?
-> * how does this interact with an iommu, if there is one? Must the
-> address with bit 56 also be granted permission, or is that
-> stripped off before any iommu comparisons?
+--- a/include/linux/interrupt.h
++++ b/include/linux/interrupt.h
+@@ -241,20 +241,23 @@ struct irq_affinity_notify {
+ 	void (*release)(struct kref *ref);
+ };
+ 
++#define	IRQ_AFFINITY_MAX_SETS  4
++
+ /**
+  * struct irq_affinity - Description for automatic irq affinity assignements
+  * @pre_vectors:	Don't apply affinity to @pre_vectors at beginning of
+  *			the MSI(-X) vector space
+  * @post_vectors:	Don't apply affinity to @post_vectors at end of
+  *			the MSI(-X) vector space
+- * @nr_sets:		Length of passed in *sets array
+- * @sets:		Number of affinitized sets
++ * @nr_sets:		The number of interrupt sets for which affinity
++ *			spreading is required
++ * @set_size:		Array holding the size of each interrupt set
+  */
+ struct irq_affinity {
+ 	unsigned int	pre_vectors;
+ 	unsigned int	post_vectors;
+ 	unsigned int	nr_sets;
+-	unsigned int	*sets;
++	unsigned int	set_size[IRQ_AFFINITY_MAX_SETS];
+ };
+ 
+ /**
+--- a/kernel/irq/affinity.c
++++ b/kernel/irq/affinity.c
+@@ -238,9 +238,10 @@ static int irq_build_affinity_masks(cons
+  * Returns the irq_affinity_desc pointer or NULL if allocation failed.
+  */
+ struct irq_affinity_desc *
+-irq_create_affinity_masks(unsigned int nvecs, const struct irq_affinity *affd)
++irq_create_affinity_masks(unsigned int nvecs, struct irq_affinity *affd)
+ {
+ 	unsigned int affvecs, curvec, usedvecs, nr_sets, i;
++	unsigned int set_size[IRQ_AFFINITY_MAX_SETS];
+ 	struct irq_affinity_desc *masks = NULL;
+ 
+ 	/*
+@@ -250,6 +251,9 @@ irq_create_affinity_masks(unsigned int n
+ 	if (nvecs == affd->pre_vectors + affd->post_vectors)
+ 		return NULL;
+ 
++	if (WARN_ON_ONCE(affd->nr_sets > IRQ_AFFINITY_MAX_SETS))
++		return NULL;
++
+ 	masks = kcalloc(nvecs, sizeof(*masks), GFP_KERNEL);
+ 	if (!masks)
+ 		return NULL;
+@@ -263,11 +267,15 @@ irq_create_affinity_masks(unsigned int n
+ 	 */
+ 	affvecs = nvecs - affd->pre_vectors - affd->post_vectors;
+ 	nr_sets = affd->nr_sets;
+-	if (!nr_sets)
++	if (!nr_sets) {
+ 		nr_sets = 1;
++		set_size[0] = affvecs;
++	} else {
++		memcpy(set_size, affd->set_size, nr_sets * sizeof(unsigned int));
++	}
+ 
+ 	for (i = 0, usedvecs = 0; i < nr_sets; i++) {
+-		unsigned int this_vecs = affd->sets ? affd->sets[i] : affvecs;
++		unsigned int this_vecs = set_size[i];
+ 		int ret;
+ 
+ 		ret = irq_build_affinity_masks(affd, curvec, this_vecs,
+@@ -314,7 +322,7 @@ unsigned int irq_calc_affinity_vectors(u
+ 		unsigned int i;
+ 
+ 		for (i = 0, set_vecs = 0;  i < affd->nr_sets; i++)
+-			set_vecs += affd->sets[i];
++			set_vecs += affd->set_size[i];
+ 	} else {
+ 		get_online_cpus();
+ 		set_vecs = cpumask_weight(cpu_possible_mask);
