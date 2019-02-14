@@ -1,74 +1,66 @@
-From: tglx@linutronix.de (Thomas Gleixner)
-Date: Thu, 14 Feb 2019 09:50:13 +0100 (CET)
-Subject: [PATCH V3 1/5] genirq/affinity: don't mark 'affd' as const
-In-Reply-To: <20190213223711.GC8027@localhost.localdomain>
-References: <20190213105041.13537-1-ming.lei@redhat.com>
- <20190213105041.13537-2-ming.lei@redhat.com>
- <20190213150407.GB96272@google.com>
- <alpine.DEB.2.21.1902132112590.1659@nanos.tec.linutronix.de>
- <20190213213149.GB8027@localhost.localdomain>
- <alpine.DEB.2.21.1902132232560.1659@nanos.tec.linutronix.de>
- <20190213223711.GC8027@localhost.localdomain>
-Message-ID: <alpine.DEB.2.21.1902140949280.1659@nanos.tec.linutronix.de>
+From: pokorra@uni-siegen.de (Gerd Pokorra)
+Date: Thu, 14 Feb 2019 12:41:51 +0100
+Subject: KXG60ZNV256G not recognized
+In-Reply-To: <20190214083323.GB24653@infradead.org>
+References: <402e84e1-160f-d335-4054-710b73fbbb4c@suse.de>
+ <553537fc-3320-751d-8532-9735cdf1336a@uni-siegen.de>
+ <20190213180050.GA26226@infradead.org>
+ <267176a4277b45d6b7b8a7eddf1f8123@ausx13mpc120.AMER.DELL.COM>
+ <20190213181838.GA7852@localhost.localdomain>
+ <e970bfdcf6fb403ebdd395cc87bde80a@ausx13mpc120.AMER.DELL.COM>
+ <20190213190012.GA8898@infradead.org>
+ <4bd15523d31948328c2c50693a08bd2c@ausx13mpc120.AMER.DELL.COM>
+ <20190213212253.GA8027@localhost.localdomain>
+ <4eb55f6c57c74db497a3dc1fe830e993@ausx13mpc120.AMER.DELL.COM>
+ <20190214083323.GB24653@infradead.org>
+Message-ID: <80f1bc15-51b7-d901-5191-1f99eed324d9@uni-siegen.de>
 
-On Wed, 13 Feb 2019, Keith Busch wrote:
+Hello,
 
-Cc+ Huacai Chen
+in the BIOS I set 'System Configuration' -> 'SATA Operation' from
 
-> On Wed, Feb 13, 2019@10:41:55PM +0100, Thomas Gleixner wrote:
-> > Btw, while I have your attention. There popped up an issue recently related
-> > to that affinity logic.
-> > 
-> > The current implementation fails when:
-> > 
-> >         /*
-> >          * If there aren't any vectors left after applying the pre/post
-> >          * vectors don't bother with assigning affinity.
-> > 	 */
-> > 	if (nvecs == affd->pre_vectors + affd->post_vectors)
-> >     		return NULL;
-> > 
-> > Now the discussion arised, that in that case the affinity sets are not
-> > allocated and filled in for the pre/post vectors, but somehow the
-> > underlying device still works and later on triggers the warning in the
-> > blk-mq code because the MSI entries do not have affinity information
-> > attached.
-> >
-> > Sure, we could make that work, but there are several issues:
-> > 
-> >     1) irq_create_affinity_masks() has another reason to return NULL:
-> >        memory allocation fails.
-> > 
-> >     2) Does it make sense at all.
-> > 
-> > Right now the PCI allocator ignores the NULL return and proceeds without
-> > setting any affinities. As a consequence nothing is managed and everything
-> > happens to work.
-> > 
-> > But that happens to work is more by chance than by design and the warning
-> > is bogus if this is an expected mode of operation.
-> > 
-> > We should address these points in some way.
-> 
-> Ah, yes, that's a mistake in the nvme driver. It is assuming IO queues are
-> always on managed interrupts, but that's not true if when only 1 vector
-> could be allocated. This should be an appropriate fix to the warning:
+ ? 'RAID On' to 'AHCI'.
 
-Looks correct. Chen, can you please test that?
+After that I installed Windows new. Then I installed Ubuntu 18.04.1 
+Sever. The installation works fine. I get the Dual-Boot menu and was 
+able to create a partition for Linux on the NVMe SSD. This is what the 
+owner of the laptop requested me to do for him.
 
-> ---
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 022ea1ee63f8..f2ccebe1c926 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -506,7 +506,7 @@ static int nvme_pci_map_queues(struct blk_mq_tag_set *set)
->  		 * affinity), so use the regular blk-mq cpu mapping
->  		 */
->  		map->queue_offset = qoff;
-> -		if (i != HCTX_TYPE_POLL)
-> +		if (i != HCTX_TYPE_POLL && dev->num_vecs > 1)
->  			blk_mq_pci_map_queues(map, to_pci_dev(dev->dev), offset);
->  		else
->  			blk_mq_map_queues(map);
-> --
-> 
+Thank you for your great support!!!
+
+-- Gerd
+
+
+Am 14.02.2019 um 09:33 schrieb Christoph Hellwig:
+> On Wed, Feb 13, 2019 at 09:56:38PM +0000, Mario.Limonciello at dell.com wrote:I
+>>> Pre-boot settings like you already have are preferable, right? Otherwise
+>>> it's a little more difficult to use the NVMe as your boot drive.
+>> The SMM thing I mentioned would basically just be modifying those pre-boot settings
+>> so the next boot it could DTRT for Linux.
+>>
+>> It's definitely just a band-aid to the problem.
+> So it is a one time setting?  If it was permanent it might at least
+> be useful for a little tool in the installer to offer that choice.
+> But either way it doesn't help to make the broken intel platforms to
+> just work.
+>
+>> Christoph - are you looking for a whitepaper explaining this beyond the ACHI BAR
+>> remapping documentation that was shared?
+>> http://www.intel.com/content/www/us/en/chipsets/100-series-chipset-datasheet-vol-2.html
+>>
+>> I think if we can have start with a list of actionable things needed for another
+>> go at this and an acceptable design architecture before this thing is revisited again
+>> to have a chance at solving it.  Are you amenable to a host bridge?
+> See the last mail for the functionality that is currently broken and
+> which needs to work.  Preferably without changes in the NVMe driver
+> itself, as that is not the place to work around intentionally buggy
+> platforms.
+>
+>>> Whatever answer we, in the Linux kernel community, come up with,
+>>> leaving storage inaccessible is not an acceptable answer.
+>> The thing that lives in the kernel now (aecec8b60422118b52e3347430ba9382e57d6d76)
+>> really does a disservice to people trying to use Linux today:
+>>> 	dev_warn(&pdev->dev, "Found %d remapped NVMe devices.\n", count);
+>>> 	dev_warn(&pdev->dev, "Switch your BIOS from RAID to AHCI mode to use them.\n");
+> Yes, we really need to ammend this message to tell people to complain
+> to Intel and their platform vendor for fucking up things this badly.
