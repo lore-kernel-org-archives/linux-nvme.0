@@ -1,88 +1,34 @@
-From: lduncan@suse.com (Lee Duncan)
-Date: Fri, 15 Feb 2019 14:14:06 -0800
-Subject: [LSF/MM TOPIC] : blktests: status, an expansion plan for the
- storage stack test framework
-In-Reply-To: <2ed684c6-38de-1717-5787-31b00c72ba4f@suse.de>
-References: <BYAPR04MB4502158B1588C8EFF7B4E345866F0@BYAPR04MB4502.namprd04.prod.outlook.com>
- <2ed684c6-38de-1717-5787-31b00c72ba4f@suse.de>
-Message-ID: <a163a2c6-07f4-206e-d251-9af08adf9f21@suse.com>
+From: felipe@nutanix.com (Felipe Franciosi)
+Date: Fri, 15 Feb 2019 22:14:35 +0000
+Subject: [LSF/MM TOPIC] NVMe Performance: Userspace vs Kernel
+In-Reply-To: <20190215214714.GA11307@localhost.localdomain>
+References: <DAB8A2DA-37D3-4CBE-8AD7-356E3CE8B0D3@nutanix.com>
+ <20190215214714.GA11307@localhost.localdomain>
+Message-ID: <694B95F6-290C-4065-B6D6-38B4858C71B8@nutanix.com>
 
-On 2/6/19 2:32 AM, Johannes Thumshirn wrote:
-> On 06/02/2019 06:21, Chaitanya Kulkarni wrote:
->> Hi,
->>
->> Since discussion of the storage stack and device driver at the LSFMM 2017
->> (https://lwn.net/Articles/717699/),  Omar Sandoval introduced a new framework
->> "blktests" dedicated for Linux Kernel Block layer testing.
->> (https://lwn.net/Articles/722785/, https://github.com/osandov/blktests).
->>  
->> As Linux Kernel Block layer is central to the various file systems and underlying
->> low-level device drivers it is important to have a centralized testing framework and
->> make sure it grows with the latest block layer changed which are being added based
->> on the different device features from different device types
->> (e.g. NVMe devices with Zoned Namespace support).
->>
->> Since then blktests has grown and became go-to framework where we have integrated
->> different stand-alone test suites like SRP-tests, NVMFTESTS, NVMe Multipath tests,
->> zone block device tests, into one central framework, which has made an overall block layer
->> testing and development much easier than having to configure and execute different
->> test cases for each kernel release for different subsystems such as FS, NVMe,
->> Zone Block devices, etc). 
->>
->> Here is the list of the existing test categories:-
->>
->> ??? block? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?28 Tests
->> ??? loop? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?07 Tests
->> ??? meta? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? 12 Tests
->> ??? nbd? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? 02 Tests
->> ??? nvme? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?28 Tests
->> ??? nvmeof-mp? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? 12 Tests
->> ??? scsi? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? 06 Tests
->> ??? srp? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?13 Tests
->> ??? zbd? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? 05 Tests
->> ---------------------------------------------------------------- 
->>            9 Categories? ? ? ? ? ? ?               ~110 Tests
->>
->> This project has gathered much attention and storage stack community is actively
->> participating and adding new test cases with different categories to the framework. 
->>
->> For storage track, we would like to propose a session dedicated to blktests. It is a great
->> opportunity for the storage developers to gather and have a discussion about:-
->>
->> 1. Current status of the blktests framework.
->> 2. Any new/missing features that we want to add in the blktests.
->> 3. Any new kernel features that could be used to make testing easier?
->> E.g. Implementing new features in the null_blk.c in order to have device
->> independent complete test coverage. (e.g. adding discard command for null_blk or any
->> other specific REQ_OP). Discussion about having any new tracepoint events in the block layer.
->> 4. Any new test cases/categories which are lacking in the blktests framework.
+Hi Keith,
+
+> On Feb 15, 2019,@9:47 PM, Keith Busch <keith.busch@intel.com> wrote:
 > 
-> One thing I'd love to see is more hardware/driver specific tests. I'm
-> sure Broadcom, Marvell, Huawei and all the others out there do have test
-> suites for their HBA drivers but not a single one of these tests is
-> publicly available.
+> On Fri, Feb 15, 2019@09:19:02PM +0000, Felipe Franciosi wrote:
+>> Over the last year or two, I have done extensive experimentation comparing applications using libaio to those using SDPK. 
+> 
+> Try the io_uring interface instead. Its queued up in the linux-block
+> for-next tree.
 
-I said this same thing 3 (?) years ago, but then I was told to go out
-and solve it. :) Dealing with multiple manufactures could be a full-time
-job.
+I just read about that based on the other response from Bart. Thanks for pointing it out.
 
 > 
-> We're also lacking tests for things like ioprio, persistent reservation,
-> bcache and so on.
+>> For hypervisors, where storage devices can be exclusively accessed with userspace drivers (given the device can be dedicated to a single process), using SPDK has proven to be significantly faster and more efficient.
+> 
+> It doesn't work so well for file based or multi-device backing
+> storage. But if you are sequestering an entire controller over to a VM,
+> direct-assign/device-passthrough is usually also an option and that
+> ought to be even faster.
 
-I have a test suite for persistent reservations, but would love help in
-adding it to this test suite.
+The advantage is to dedicate a controller to "the hypervisor" (ie. one userspace process responsible for mediating access between multiple VMs). Some VMs may choose to use userspace drivers, too. Others can use traditional kernel datapaths. The average overhead we have measured from virtual machines in this setup is neglectable.
 
-> 
-> Adding support for collecting gcov information after running a test case
-> would also be awesome (this is missing in xfstests as well).
-> 
-> So I think a session on blktests can help us get the gap closed.
-> 
-> Byte,
-> 	Johannes
-> 
+I did not experience problems with multiple devices, but surely careful thought is required for the data format.
 
-I also would love to attend such a session.
--- 
-Lee Duncan
+Cheers,
+Felipe
