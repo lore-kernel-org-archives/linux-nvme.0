@@ -1,34 +1,106 @@
-From: felipe@nutanix.com (Felipe Franciosi)
-Date: Fri, 15 Feb 2019 22:14:35 +0000
-Subject: [LSF/MM TOPIC] NVMe Performance: Userspace vs Kernel
-In-Reply-To: <20190215214714.GA11307@localhost.localdomain>
-References: <DAB8A2DA-37D3-4CBE-8AD7-356E3CE8B0D3@nutanix.com>
- <20190215214714.GA11307@localhost.localdomain>
-Message-ID: <694B95F6-290C-4065-B6D6-38B4858C71B8@nutanix.com>
+From: tglx@linutronix.de (Thomas Gleixner)
+Date: Sat, 16 Feb 2019 00:00:29 +0100 (CET)
+Subject: [patch V5 4/8] nvme-pci: Simplify interrupt allocation
+In-Reply-To: <alpine.DEB.2.21.1902150053160.1646@nanos.tec.linutronix.de>
+References: <20190214204755.819014197@linutronix.de>
+ <20190214211759.699390983@linutronix.de> <20190214224136.GA18764@ming.t460p>
+ <alpine.DEB.2.21.1902150053160.1646@nanos.tec.linutronix.de>
+Message-ID: <alpine.DEB.2.21.1902152242120.1683@nanos.tec.linutronix.de>
 
-Hi Keith,
+On Fri, 15 Feb 2019, Thomas Gleixner wrote:
 
-> On Feb 15, 2019,@9:47 PM, Keith Busch <keith.busch@intel.com> wrote:
+> On Fri, 15 Feb 2019, Ming Lei wrote:
+> > > +	 * If only one interrupt is available, combine write and read
+> > > +	 * queues. If 'write_queues' is set, ensure it leaves room for at
+> > > +	 * least one read queue.
+> > > +	 */
+> > > +	if (nrirqs == 1)
+> > > +		nr_read_queues = 0;
+> > > +	else if (write_queues >= nrirqs)
+> > > +		nr_read_queues = nrirqs - 1;
+> > > +	else
+> > > +		nr_read_queues = nrirqs - write_queues;
+> > > +
+> > > +	dev->io_queues[HCTX_TYPE_DEFAULT] = nrirqs - nr_read_queues;
+> > > +	affd->set_size[HCTX_TYPE_DEFAULT] = nrirqs - nr_read_queues;
+> > > +	dev->io_queues[HCTX_TYPE_READ] = nr_read_queues;
+> > > +	affd->set_size[HCTX_TYPE_READ] = nr_read_queues;
+> > > +	affd->nr_sets = nr_read_queues ? 2 : 1;
+> > >  }
+> > 
+> > .calc_sets is called only if more than .pre_vectors is available,
+> > then dev->io_queues[HCTX_TYPE_DEFAULT] may not be set in case of
+> > (nvecs == affd->pre_vectors + affd->post_vectors).
 > 
-> On Fri, Feb 15, 2019@09:19:02PM +0000, Felipe Franciosi wrote:
->> Over the last year or two, I have done extensive experimentation comparing applications using libaio to those using SDPK. 
-> 
-> Try the io_uring interface instead. Its queued up in the linux-block
-> for-next tree.
+> Hmm, good catch. The delta patch below should fix that, but I have to go
+> through all the possible cases in pci_alloc_irq_vectors_affinity() once
+> more with brain awake.
 
-I just read about that based on the other response from Bart. Thanks for pointing it out.
+The existing logic in the driver is somewhat strange. If there is only a
+single interrupt available, i.e. no separation of admin and I/O queue, then
+dev->io_queues[HCTX_TYPE_DEFAULT] is still set to 1.
 
-> 
->> For hypervisors, where storage devices can be exclusively accessed with userspace drivers (given the device can be dedicated to a single process), using SPDK has proven to be significantly faster and more efficient.
-> 
-> It doesn't work so well for file based or multi-device backing
-> storage. But if you are sequestering an entire controller over to a VM,
-> direct-assign/device-passthrough is usually also an option and that
-> ought to be even faster.
+Now with the callback scheme (independent of my changes) that breaks in
+various ways:
 
-The advantage is to dedicate a controller to "the hypervisor" (ie. one userspace process responsible for mediating access between multiple VMs). Some VMs may choose to use userspace drivers, too. Others can use traditional kernel datapaths. The average overhead we have measured from virtual machines in this setup is neglectable.
+  1) irq_create_affinity_masks() bails out early:
 
-I did not experience problems with multiple devices, but surely careful thought is required for the data format.
+	if (nvecs == affd->pre_vectors + affd->post_vectors)
+		return NULL;
 
-Cheers,
-Felipe
+     So the callback won't be invoked and the last content of
+     dev->io_queues is preserved. By chance this might end up with
+
+	dev->io_queues[HCTX_TYPE_DEFAULT] = 1;
+	dev->io_queues[HCTX_TYPE_READ] = 0;
+
+    but that does not happen by design.
+
+
+ 2) pci_alloc_irq_vectors_affinity() has the following flow:
+
+    __pci_enable_msix_range()
+      for (...) {
+            __pci_enable_msix()
+      }
+
+    If that fails because MSIX is not supported, then the affinity
+    spreading code has not been called yet and neither the callback.
+    Now it goes on and tries MSI, which is the same as the above.
+
+    When that fails because MSI is not supported, same situation as above
+    and the code tries to allocate the legacy interrupt.
+
+    Now with the initial initialization that case is covered, but not the
+    following error case:
+
+      Assume MSIX is enabled, but __pci_enable_msix() fails with -ENOMEM
+      after having called irq_create_affinity_masks() and subsequently the
+      callback with maxvecs.
+
+      Then pci_alloc_irq_vectors_affinity() will try MSI and fail _BEFORE_
+      the callback is invoked.
+
+      The next step is to install the leagcy interrupt, but that does not
+      invoke the affinity code and neither the callback.
+
+      At the end dev->io_queues[*] are still initialized with the failed
+      attempt of enabling MSIX based on maxvecs.
+
+      Result: inconsistent state ...
+
+I have an idea how to fix that, but that's again a task for brain being
+awake. Will take care of that tomorrow morning.
+
+Thanks,
+
+	tglx
+
+
+    
+
+
+ 
+
+
+    
