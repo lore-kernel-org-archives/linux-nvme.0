@@ -1,54 +1,78 @@
-From: tglx@linutronix.de (Thomas Gleixner)
-Date: Fri, 15 Feb 2019 00:55:53 +0100 (CET)
-Subject: [patch V5 4/8] nvme-pci: Simplify interrupt allocation
-In-Reply-To: <20190214224136.GA18764@ming.t460p>
-References: <20190214204755.819014197@linutronix.de>
- <20190214211759.699390983@linutronix.de> <20190214224136.GA18764@ming.t460p>
-Message-ID: <alpine.DEB.2.21.1902150053160.1646@nanos.tec.linutronix.de>
+From: sashal@kernel.org (Sasha Levin)
+Date: Thu, 14 Feb 2019 21:08:38 -0500
+Subject: [PATCH AUTOSEL 4.20 60/77] nvme-rdma: fix timeout handler
+In-Reply-To: <20190215020855.176727-1-sashal@kernel.org>
+References: <20190215020855.176727-1-sashal@kernel.org>
+Message-ID: <20190215020855.176727-60-sashal@kernel.org>
 
-On Fri, 15 Feb 2019, Ming Lei wrote:
-> > +	 * If only one interrupt is available, combine write and read
-> > +	 * queues. If 'write_queues' is set, ensure it leaves room for at
-> > +	 * least one read queue.
-> > +	 */
-> > +	if (nrirqs == 1)
-> > +		nr_read_queues = 0;
-> > +	else if (write_queues >= nrirqs)
-> > +		nr_read_queues = nrirqs - 1;
-> > +	else
-> > +		nr_read_queues = nrirqs - write_queues;
-> > +
-> > +	dev->io_queues[HCTX_TYPE_DEFAULT] = nrirqs - nr_read_queues;
-> > +	affd->set_size[HCTX_TYPE_DEFAULT] = nrirqs - nr_read_queues;
-> > +	dev->io_queues[HCTX_TYPE_READ] = nr_read_queues;
-> > +	affd->set_size[HCTX_TYPE_READ] = nr_read_queues;
-> > +	affd->nr_sets = nr_read_queues ? 2 : 1;
-> >  }
-> 
-> .calc_sets is called only if more than .pre_vectors is available,
-> then dev->io_queues[HCTX_TYPE_DEFAULT] may not be set in case of
-> (nvecs == affd->pre_vectors + affd->post_vectors).
+From: Sagi Grimberg <sagi@grimberg.me>
 
-Hmm, good catch. The delta patch below should fix that, but I have to go
-through all the possible cases in pci_alloc_irq_vectors_affinity() once
-more with brain awake.
+[ Upstream commit 4c174e6366746ae8d49f9cc409f728eebb7a9ac9 ]
 
-Thanks,
+Currently, we have several problems with the timeout
+handler:
+1. If we timeout on the controller establishment flow, we will hang
+because we don't execute the error recovery (and we shouldn't because
+the create_ctrl flow needs to fail and cleanup on its own)
+2. We might also hang if we get a disconnet on a queue while the
+controller is already deleting. This racy flow can cause the controller
+disable/shutdown admin command to hang.
 
-	tglx
+We cannot complete a timed out request from the timeout handler without
+mutual exclusion from the teardown flow (e.g. nvme_rdma_error_recovery_work).
+So we serialize it in the timeout handler and teardown io and admin
+queues to guarantee that no one races with us from completing the
+request.
 
-8<---------------------
+Reported-by: Jaesoo Lee <jalee at purestorage.com>
+Reviewed-by: Christoph Hellwig <hch at lst.de>
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+Signed-off-by: Jens Axboe <axboe at kernel.dk>
+Signed-off-by: Sasha Levin <sashal at kernel.org>
+---
+ drivers/nvme/host/rdma.c | 26 ++++++++++++++++++--------
+ 1 file changed, 18 insertions(+), 8 deletions(-)
 
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2092,6 +2092,10 @@ static int nvme_setup_irqs(struct nvme_d
- 	}
- 	dev->io_queues[HCTX_TYPE_POLL] = this_p_queues;
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index ab6ec7295bf9..6e24b20304b5 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1679,18 +1679,28 @@ static enum blk_eh_timer_return
+ nvme_rdma_timeout(struct request *rq, bool reserved)
+ {
+ 	struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
++	struct nvme_rdma_queue *queue = req->queue;
++	struct nvme_rdma_ctrl *ctrl = queue->ctrl;
  
-+	/* Initialize for the single interrupt case */
-+	dev->io_queues[HCTX_TYPE_DEFAULT] = 1;
-+	dev->io_queues[HCTX_TYPE_READ] = 0;
-+
- 	return pci_alloc_irq_vectors_affinity(pdev, 1, irq_queues,
- 			      PCI_IRQ_ALL_TYPES | PCI_IRQ_AFFINITY, &affd);
+-	dev_warn(req->queue->ctrl->ctrl.device,
+-		 "I/O %d QID %d timeout, reset controller\n",
+-		 rq->tag, nvme_rdma_queue_idx(req->queue));
++	dev_warn(ctrl->ctrl.device, "I/O %d QID %d timeout\n",
++		 rq->tag, nvme_rdma_queue_idx(queue));
+ 
+-	/* queue error recovery */
+-	nvme_rdma_error_recovery(req->queue->ctrl);
++	if (ctrl->ctrl.state != NVME_CTRL_LIVE) {
++		/*
++		 * Teardown immediately if controller times out while starting
++		 * or we are already started error recovery. all outstanding
++		 * requests are completed on shutdown, so we return BLK_EH_DONE.
++		 */
++		flush_work(&ctrl->err_work);
++		nvme_rdma_teardown_io_queues(ctrl, false);
++		nvme_rdma_teardown_admin_queue(ctrl, false);
++		return BLK_EH_DONE;
++	}
+ 
+-	/* fail with DNR on cmd timeout */
+-	nvme_req(rq)->status = NVME_SC_ABORT_REQ | NVME_SC_DNR;
++	dev_warn(ctrl->ctrl.device, "starting error recovery\n");
++	nvme_rdma_error_recovery(ctrl);
+ 
+-	return BLK_EH_DONE;
++	return BLK_EH_RESET_TIMER;
  }
+ 
+ static blk_status_t nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
+-- 
+2.19.1
