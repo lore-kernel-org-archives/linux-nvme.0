@@ -1,106 +1,54 @@
-From: tglx@linutronix.de (Thomas Gleixner)
-Date: Sat, 16 Feb 2019 00:00:29 +0100 (CET)
-Subject: [patch V5 4/8] nvme-pci: Simplify interrupt allocation
-In-Reply-To: <alpine.DEB.2.21.1902150053160.1646@nanos.tec.linutronix.de>
-References: <20190214204755.819014197@linutronix.de>
- <20190214211759.699390983@linutronix.de> <20190214224136.GA18764@ming.t460p>
- <alpine.DEB.2.21.1902150053160.1646@nanos.tec.linutronix.de>
-Message-ID: <alpine.DEB.2.21.1902152242120.1683@nanos.tec.linutronix.de>
+From: bvanassche@acm.org (Bart Van Assche)
+Date: Fri, 15 Feb 2019 17:01:41 -0800
+Subject: [LSF/MM TOPIC] NVMe Performance: Userspace vs Kernel
+In-Reply-To: <11A6C7D0-A26D-410F-8EE3-9AF524DF2050@nutanix.com>
+References: <DAB8A2DA-37D3-4CBE-8AD7-356E3CE8B0D3@nutanix.com>
+ <1550266894.31902.104.camel@acm.org>
+ <11A6C7D0-A26D-410F-8EE3-9AF524DF2050@nutanix.com>
+Message-ID: <1550278901.31902.109.camel@acm.org>
 
-On Fri, 15 Feb 2019, Thomas Gleixner wrote:
-
-> On Fri, 15 Feb 2019, Ming Lei wrote:
-> > > +	 * If only one interrupt is available, combine write and read
-> > > +	 * queues. If 'write_queues' is set, ensure it leaves room for at
-> > > +	 * least one read queue.
-> > > +	 */
-> > > +	if (nrirqs == 1)
-> > > +		nr_read_queues = 0;
-> > > +	else if (write_queues >= nrirqs)
-> > > +		nr_read_queues = nrirqs - 1;
-> > > +	else
-> > > +		nr_read_queues = nrirqs - write_queues;
-> > > +
-> > > +	dev->io_queues[HCTX_TYPE_DEFAULT] = nrirqs - nr_read_queues;
-> > > +	affd->set_size[HCTX_TYPE_DEFAULT] = nrirqs - nr_read_queues;
-> > > +	dev->io_queues[HCTX_TYPE_READ] = nr_read_queues;
-> > > +	affd->set_size[HCTX_TYPE_READ] = nr_read_queues;
-> > > +	affd->nr_sets = nr_read_queues ? 2 : 1;
-> > >  }
+On Sat, 2019-02-16@00:53 +0000, Felipe Franciosi wrote:
+> On Feb 15, 2019,@9:41 PM, Bart Van Assche <bvanassche@acm.org> wrote:
+> > On Fri, 2019-02-15@21:19 +-0000, Felipe Franciosi wrote:
+> > > Hi All,
+> > > 
+> > > I'd like to attend LSF/MM this year and discuss the kernel performance when accessing NVMe devices, specifically (but not limited to) Intel Optane Memory (which boasts very low latency and high
+> > > iops/throughput per NVMe controller).
+> > > 
+> > > Over the last year or two, I have done extensive experimentation comparing applications using libaio to those using SDPK. For hypervisors, where storage devices can be exclusively accessed with
+> > > userspace drivers (given the device can be dedicated to a single process), using SPDK has proven to be significantly faster and more efficient. That remains true even in the latest versions of
+> > > the
+> > > kernel.
+> > > 
+> > > I have presented work focusing on hypervisors in several conferences during this time. Although I appreciate the LSF/MM is more discussion-oriented, I am linking a couple of these presentations
+> > > for
+> > > reference:
+> > > 
+> > > Flash Memory Summit 2018
+> > > https://urldefense.proofpoint.com/v2/url?u=https-3A__www.flashmemorysummit.com_English_Collaterals_Proceedings_2018_20180808-5FSOFT-2D202-2D1-5FFranciosi.pdf&d=DwICgQ&c=s883GpUCOChKOHiocYtGcg&r=
+> > > CCrJKVC5zGot8PrnI-iYe00MdX4pgdQfMRigp14Ptmk&m=gpN7ZCCTDgrYuN3cZ0TceD2QUDAUeJEnwR0A-OUNju4&s=adckJANXPcBu177wFlVmO4pB3jPFZOdggibVfmLERr8&e=
+> > > 
+> > > Linux Piter 2018
+> > > https://urldefense.proofpoint.com/v2/url?u=https-3A__linuxpiter.com_system_attachments_files_000_001_558_original_20181103-5F-2D-5FAHV-5Fand-5FSPDK.pdf&d=DwICgQ&c=s883GpUCOChKOHiocYtGcg&r=CCrJKV
+> > > C5zGot8PrnI-iYe00MdX4pgdQfMRigp14Ptmk&m=gpN7ZCCTDgrYuN3cZ0TceD2QUDAUeJEnwR0A-OUNju4&s=TdfWF887BHpEvwQ__kNNTFNe1uaKoIjDZ-gW4qr6UxE&e=
+> > > 
+> > > For LSF/MM, instead of focusing on hypervisors, I would like to discuss what can be done to achieve better efficiency and performance when using the kernel. My data include detailed results
+> > > considering various scenarios like different NUMA configurations, IRQ affinity and polling modes.
+> >  
+> > Hi Felipe,
 > > 
-> > .calc_sets is called only if more than .pre_vectors is available,
-> > then dev->io_queues[HCTX_TYPE_DEFAULT] may not be set in case of
-> > (nvecs == affd->pre_vectors + affd->post_vectors).
+> > It seems like you missed the performance comparison between SPDK and io_uring
+> > Jens posted recently?
 > 
-> Hmm, good catch. The delta patch below should fix that, but I have to go
-> through all the possible cases in pci_alloc_irq_vectors_affinity() once
-> more with brain awake.
+> I configured 5.0-rc6 and had a look at the io_uring code. Finally worked out how to use FIO's t/io_uring to submit IO and poll completions without system calls. My _initial_ numbers still show SPDK
+> being faster and more efficient.
+> 
+> Searching the lists, I found a few mentions that Jens published a comparison stating otherwise, but I can't find it. Could you please give me some pointers?
 
-The existing logic in the driver is somewhat strange. If there is only a
-single interrupt available, i.e. no separation of admin and I/O queue, then
-dev->io_queues[HCTX_TYPE_DEFAULT] is still set to 1.
+Hi Felipe,
 
-Now with the callback scheme (independent of my changes) that breaks in
-various ways:
+This is probably what you are looking for:
 
-  1) irq_create_affinity_masks() bails out early:
+https://lore.kernel.org/linux-block/20190116175003.17880-1-axboe at kernel.dk/
 
-	if (nvecs == affd->pre_vectors + affd->post_vectors)
-		return NULL;
-
-     So the callback won't be invoked and the last content of
-     dev->io_queues is preserved. By chance this might end up with
-
-	dev->io_queues[HCTX_TYPE_DEFAULT] = 1;
-	dev->io_queues[HCTX_TYPE_READ] = 0;
-
-    but that does not happen by design.
-
-
- 2) pci_alloc_irq_vectors_affinity() has the following flow:
-
-    __pci_enable_msix_range()
-      for (...) {
-            __pci_enable_msix()
-      }
-
-    If that fails because MSIX is not supported, then the affinity
-    spreading code has not been called yet and neither the callback.
-    Now it goes on and tries MSI, which is the same as the above.
-
-    When that fails because MSI is not supported, same situation as above
-    and the code tries to allocate the legacy interrupt.
-
-    Now with the initial initialization that case is covered, but not the
-    following error case:
-
-      Assume MSIX is enabled, but __pci_enable_msix() fails with -ENOMEM
-      after having called irq_create_affinity_masks() and subsequently the
-      callback with maxvecs.
-
-      Then pci_alloc_irq_vectors_affinity() will try MSI and fail _BEFORE_
-      the callback is invoked.
-
-      The next step is to install the leagcy interrupt, but that does not
-      invoke the affinity code and neither the callback.
-
-      At the end dev->io_queues[*] are still initialized with the failed
-      attempt of enabling MSIX based on maxvecs.
-
-      Result: inconsistent state ...
-
-I have an idea how to fix that, but that's again a task for brain being
-awake. Will take care of that tomorrow morning.
-
-Thanks,
-
-	tglx
-
-
-    
-
-
- 
-
-
-    
+Bart.
