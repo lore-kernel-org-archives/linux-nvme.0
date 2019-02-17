@@ -1,62 +1,59 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Sun, 17 Feb 2019 21:39:00 +0800
-Subject: [patch v6 5/7] genirq/affinity: Remove the leftovers of the
- original set support
-In-Reply-To: <20190216172228.689834224@linutronix.de>
+Date: Sun, 17 Feb 2019 21:39:43 +0800
+Subject: [patch v6 6/7] PCI/MSI: Remove obsolete sanity checks for
+ multiple interrupt sets
+In-Reply-To: <20190216172228.778630549@linutronix.de>
 References: <20190216171306.403545970@linutronix.de>
- <20190216172228.689834224@linutronix.de>
-Message-ID: <20190217133859.GF7296@ming.t460p>
+ <20190216172228.778630549@linutronix.de>
+Message-ID: <20190217133942.GG7296@ming.t460p>
 
-On Sat, Feb 16, 2019@06:13:11PM +0100, Thomas Gleixner wrote:
-> Now that the NVME driver is converted over to the calc_set() callback, the
-> workarounds of the original set support can be removed.
+On Sat, Feb 16, 2019@06:13:12PM +0100, Thomas Gleixner wrote:
+> Multiple interrupt sets for affinity spreading are now handled in the core
+> code and the number of sets and their size is recalculated via a driver
+> supplied callback.
+> 
+> That avoids the requirement to invoke pci_alloc_irq_vectors_affinity() with
+> the arguments minvecs and maxvecs set to the same value and the callsite
+> handling the ENOSPC situation.
+> 
+> Remove the now obsolete sanity checks and the related comments.
 > 
 > Signed-off-by: Thomas Gleixner <tglx at linutronix.de>
-> ---
->  kernel/irq/affinity.c |   20 ++++----------------
->  1 file changed, 4 insertions(+), 16 deletions(-)
 > 
-> Index: b/kernel/irq/affinity.c
-> ===================================================================
-> --- a/kernel/irq/affinity.c
-> +++ b/kernel/irq/affinity.c
-> @@ -264,20 +264,13 @@ irq_create_affinity_masks(unsigned int n
->  
->  	/*
->  	 * Simple invocations do not provide a calc_sets() callback. Install
-> -	 * the generic one. The check for affd->nr_sets is a temporary
-> -	 * workaround and will be removed after the NVME driver is converted
-> -	 * over.
-> +	 * the generic one.
->  	 */
-> -	if (!affd->nr_sets && !affd->calc_sets)
-> +	if (!affd->calc_sets)
->  		affd->calc_sets = default_calc_sets;
+> ---
+>  drivers/pci/msi.c |   14 --------------
+>  1 file changed, 14 deletions(-)
+> 
+> --- a/drivers/pci/msi.c
+> +++ b/drivers/pci/msi.c
+> @@ -1035,13 +1035,6 @@ static int __pci_enable_msi_range(struct
+>  	if (maxvec < minvec)
+>  		return -ERANGE;
 >  
 > -	/*
-> -	 * If the device driver provided a calc_sets() callback let it
-> -	 * recalculate the number of sets and their size. The check will go
-> -	 * away once the NVME driver is converted over.
+> -	 * If the caller is passing in sets, we can't support a range of
+> -	 * vectors. The caller needs to handle that.
 > -	 */
-> -	if (affd->calc_sets)
-> -		affd->calc_sets(affd, affvecs);
-> +	/* Recalculate the sets */
-> +	affd->calc_sets(affd, affvecs);
->  
->  	if (WARN_ON_ONCE(affd->nr_sets > IRQ_AFFINITY_MAX_SETS))
->  		return NULL;
-> @@ -344,11 +337,6 @@ unsigned int irq_calc_affinity_vectors(u
->  
->  	if (affd->calc_sets) {
->  		set_vecs = maxvec - resv;
-> -	} else if (affd->nr_sets) {
-> -		unsigned int i;
+> -	if (affd && affd->nr_sets && minvec != maxvec)
+> -		return -EINVAL;
 > -
-> -		for (i = 0, set_vecs = 0;  i < affd->nr_sets; i++)
-> -			set_vecs += affd->set_size[i];
->  	} else {
->  		get_online_cpus();
->  		set_vecs = cpumask_weight(cpu_possible_mask);
+>  	if (WARN_ON_ONCE(dev->msi_enabled))
+>  		return -EINVAL;
+>  
+> @@ -1093,13 +1086,6 @@ static int __pci_enable_msix_range(struc
+>  	if (maxvec < minvec)
+>  		return -ERANGE;
+>  
+> -	/*
+> -	 * If the caller is passing in sets, we can't support a range of
+> -	 * supported vectors. The caller needs to handle that.
+> -	 */
+> -	if (affd && affd->nr_sets && minvec != maxvec)
+> -		return -EINVAL;
+> -
+>  	if (WARN_ON_ONCE(dev->msix_enabled))
+>  		return -EINVAL;
+>  
 > 
 > 
 
