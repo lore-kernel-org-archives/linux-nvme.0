@@ -1,69 +1,43 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Mon, 18 Feb 2019 10:49:23 +0800
+From: tglx@linutronix.de (Thomas Gleixner)
+Date: Mon, 18 Feb 2019 08:25:49 +0100 (CET)
 Subject: [patch v6 7/7] genirq/affinity: Add support for non-managed
  affinity sets
-In-Reply-To: <alpine.DEB.2.21.1902172010060.1683@nanos.tec.linutronix.de>
+In-Reply-To: <20190218024922.GA27779@ming.t460p>
 References: <20190216171306.403545970@linutronix.de>
- <20190216172228.869750763@linutronix.de>
- <20190217134522.GH7296@ming.t460p>
+ <20190216172228.869750763@linutronix.de> <20190217134522.GH7296@ming.t460p>
  <alpine.DEB.2.21.1902172010060.1683@nanos.tec.linutronix.de>
-Message-ID: <20190218024922.GA27779@ming.t460p>
+ <20190218024922.GA27779@ming.t460p>
+Message-ID: <alpine.DEB.2.21.1902180824070.1683@nanos.tec.linutronix.de>
 
-Hi Thomas,
+Ming,
 
-On Sun, Feb 17, 2019@08:17:05PM +0100, Thomas Gleixner wrote:
-> On Sun, 17 Feb 2019, Ming Lei wrote:
-> > On Sat, Feb 16, 2019@06:13:13PM +0100, Thomas Gleixner wrote:
-> > > Some drivers need an extra set of interrupts which should not be marked
-> > > managed, but should get initial interrupt spreading.
-> > 
-> > Could you share the drivers and their use case?
+On Mon, 18 Feb 2019, Ming Lei wrote:
+> On Sun, Feb 17, 2019@08:17:05PM +0100, Thomas Gleixner wrote:
+> > I don't see how that would break blk-mq. The unmanaged set is not used by
+> > the blk-mq stuff, that's some driver internal voodoo. So blk-mq still gets
+> > a perfectly spread and managed interrupt set for the queues.
 > 
-> You were Cc'ed on that old discussion:
+> >From the discussion above, the use case is for megaraid_sas. And one of the
+> two interrupt sets(managed and non-managed) will be chosen according to
+> workloads runtime.
 > 
->  https://lkml.kernel.org/r/300d6fef733ca76ced581f8c6304bac6 at mail.gmail.com
-
-Thanks for providing the link.
-
+> Each interrupt set actually defines one blk-mq queue mapping, and the
+> queue mapping needs to respect the rule I mentioned now. However,
+> non-managed affinity can be changed to any way anytime by user-space.
 > 
-> > > For both interrupt sets the interrupts are properly spread out, but the
-> > > second set is not marked managed.
-> > 
-> > Given drivers only care the managed vs non-managed interrupt numbers,
-> > just wondering why this case can't be covered by .pre_vectors &
-> > .post_vectors?
+> Recently HPSA tried to add one module parameter to use non-managed
+> IRQ[1].
 > 
-> Well, yes, but post/pre are not subject to spreading and I really don't
-> want to go there.
+> Also NVMe RDMA uses non-managed interrupts, and at least one CPU hotplug
+> issue is never fixed yet[2]. 
 > 
-> > Also this kind of usage may break blk-mq easily, in which the following
-> > rule needs to be respected:
-> > 
-> > 1) all CPUs are required to spread among each interrupt set
-> > 
-> > 2) no any CPU is shared between two IRQs in same set.
-> 
-> I don't see how that would break blk-mq. The unmanaged set is not used by
-> the blk-mq stuff, that's some driver internal voodoo. So blk-mq still gets
-> a perfectly spread and managed interrupt set for the queues.
+> [1] https://marc.info/?t=154387665200001&r=1&w=2
+> [2] https://www.spinics.net/lists/linux-block/msg24140.html
 
->From the discussion above, the use case is for megaraid_sas. And one of the
-two interrupt sets(managed and non-managed) will be chosen according to
-workloads runtime.
+Interesting. I misread the description which megasas folks provided
+then. I'll drop that patch and get the other lot merged. Thanks for your
+work and help with that!
 
-Each interrupt set actually defines one blk-mq queue mapping, and the
-queue mapping needs to respect the rule I mentioned now. However,
-non-managed affinity can be changed to any way anytime by user-space.
+Thanks,
 
-Recently HPSA tried to add one module parameter to use non-managed
-IRQ[1].
-
-Also NVMe RDMA uses non-managed interrupts, and at least one CPU hotplug
-issue is never fixed yet[2]. 
-
-[1] https://marc.info/?t=154387665200001&r=1&w=2
-[2] https://www.spinics.net/lists/linux-block/msg24140.html
-
-
-thanks,
-Ming
+	tglx
