@@ -1,43 +1,63 @@
-From: tglx@linutronix.de (Thomas Gleixner)
-Date: Mon, 18 Feb 2019 08:25:49 +0100 (CET)
-Subject: [patch v6 7/7] genirq/affinity: Add support for non-managed
- affinity sets
-In-Reply-To: <20190218024922.GA27779@ming.t460p>
+From: marc.zyngier@arm.com (Marc Zyngier)
+Date: Mon, 18 Feb 2019 08:43:26 +0000
+Subject: [patch v6 0/7] genirq/affinity: Overhaul the multiple interrupt
+ sets support
+In-Reply-To: <20190216171306.403545970@linutronix.de>
 References: <20190216171306.403545970@linutronix.de>
- <20190216172228.869750763@linutronix.de> <20190217134522.GH7296@ming.t460p>
- <alpine.DEB.2.21.1902172010060.1683@nanos.tec.linutronix.de>
- <20190218024922.GA27779@ming.t460p>
-Message-ID: <alpine.DEB.2.21.1902180824070.1683@nanos.tec.linutronix.de>
+Message-ID: <20190218084326.40e544e2@why.wild-wind.fr.eu.org>
 
-Ming,
+On Sat, 16 Feb 2019 18:13:06 +0100
+Thomas Gleixner <tglx@linutronix.de> wrote:
 
-On Mon, 18 Feb 2019, Ming Lei wrote:
-> On Sun, Feb 17, 2019@08:17:05PM +0100, Thomas Gleixner wrote:
-> > I don't see how that would break blk-mq. The unmanaged set is not used by
-> > the blk-mq stuff, that's some driver internal voodoo. So blk-mq still gets
-> > a perfectly spread and managed interrupt set for the queues.
+> This is the final update to the series with a few corner cases fixes
+> vs. V5 which can be found here:
 > 
-> >From the discussion above, the use case is for megaraid_sas. And one of the
-> two interrupt sets(managed and non-managed) will be chosen according to
-> workloads runtime.
+>    https://lkml.kernel.org/r/20190214204755.819014197 at linutronix.de
 > 
-> Each interrupt set actually defines one blk-mq queue mapping, and the
-> queue mapping needs to respect the rule I mentioned now. However,
-> non-managed affinity can be changed to any way anytime by user-space.
+> The series applies against:
 > 
-> Recently HPSA tried to add one module parameter to use non-managed
-> IRQ[1].
+>    git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git master
 > 
-> Also NVMe RDMA uses non-managed interrupts, and at least one CPU hotplug
-> issue is never fixed yet[2]. 
+> and is also available from:
 > 
-> [1] https://marc.info/?t=154387665200001&r=1&w=2
-> [2] https://www.spinics.net/lists/linux-block/msg24140.html
+>    git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git WIP.irq
+> 
+> Changes vs. V5:
+> 
+>   - Change the invocation for the driver callback so it is invoked even
+>     when there are no interrupts left to spread out. That ensures that the
+>     driver can adjust to the situation (in case of NVME a single interrupt)
+> 
+>   - Make sure the callback is invoked in the legacy irq fallback case so
+>     the driver is not in a stale state from a failed MSI[X} allocation
+>     attempt.
+> 
+>   - Fix the adjustment logic in the NVME driver as pointed out by Ming and
+>     Marc, plus another corner case I found during testing.
+> 
+>   - Simplify the unmanaged set support
+> 
+> Thanks,
+> 
+> 	tglx
+> 
+> 8<-------------
+>  drivers/nvme/host/pci.c         |  117 +++++++++++++---------------------------
+>  drivers/pci/msi.c               |   39 +++++--------
+>  drivers/scsi/be2iscsi/be_main.c |    2 
+>  include/linux/interrupt.h       |   35 ++++++++---
+>  include/linux/pci.h             |    4 -
+>  kernel/irq/affinity.c           |  116 ++++++++++++++++++++++++---------------
+>  6 files changed, 153 insertions(+), 160 deletions(-)
+> 
+> 
 
-Interesting. I misread the description which megasas folks provided
-then. I'll drop that patch and get the other lot merged. Thanks for your
-work and help with that!
+For the series (with or without patch 7), feel free to add my
+
+Acked-by: Marc Zyngier <marc.zyngier at arm.com>
 
 Thanks,
 
-	tglx
+	M.
+-- 
+Without deviation from the norm, progress is not possible.
