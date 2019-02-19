@@ -1,16 +1,9 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 19 Feb 2019 11:40:22 -0800
-Subject: conver the nvme code to SPDX identifiers
-In-Reply-To: <20190219152244.17441-1-hch@lst.de>
-References: <20190219152244.17441-1-hch@lst.de>
-Message-ID: <f5615fcd-cc09-8c9a-0377-dba35000ee7d@grimberg.me>
-
-
-> Hi all,
-> 
-> this series converts all NVMe driver source files to SPDX identifiers,
-> and also fixes up a few existing ones.
-
-For the series,
+Date: Tue, 19 Feb 2019 11:42:10 -0800
+Subject: [PATCH 1/2] nvme: return error from nvme_alloc_ns()
+In-Reply-To: <20190219121358.57975-2-hare@suse.de>
+References: <20190219121358.57975-1-hare@suse.de>
+ <20190219121358.57975-2-hare@suse.de>
+Message-ID: <3650be3f-8b87-139e-33bb-9f765b506352@grimberg.me>
 
 Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
