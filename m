@@ -1,32 +1,23 @@
-From: tglx@linutronix.de (Thomas Gleixner)
-Date: Tue, 19 Feb 2019 07:19:43 +0100 (CET)
-Subject: [PATCH V3 1/5] genirq/affinity: don't mark 'affd' as const
-In-Reply-To: <tencent_6C5D1EC74B826B1E2F22293C@qq.com>
-References: <20190213105041.13537-1-ming.lei@redhat.com>
- <20190213105041.13537-2-ming.lei@redhat.com>
- <20190213150407.GB96272@google.com>
- <alpine.DEB.2.21.1902132112590.1659@nanos.tec.linutronix.de>
- <20190213213149.GB8027@localhost.localdomain>
- <alpine.DEB.2.21.1902132232560.1659@nanos.tec.linutronix.de>
- <20190213223711.GC8027@localhost.localdomain>
- <alpine.DEB.2.21.1902140949280.1659@nanos.tec.linutronix.de>
- <tencent_6460D33741AF25B57E7BE493@qq.com>
- <alpine.DEB.2.21.1902141430190.1561@nanos.tec.linutronix.de>
- <tencent_6C5D1EC74B826B1E2F22293C@qq.com>
-Message-ID: <alpine.DEB.2.21.1902190718160.1644@nanos.tec.linutronix.de>
+From: hare@suse.de (Hannes Reinecke)
+Date: Tue, 19 Feb 2019 13:13:56 +0100
+Subject: [PATCH 0/2] nvme: fixup crash in device_add_disk()
+Message-ID: <20190219121358.57975-1-hare@suse.de>
 
-On Tue, 19 Feb 2019, ??? wrote:
-> 
-> I've tested, this patch can fix the nvme problem, but it can't be applied
-> to 4.19 because of different context. And, I still think my original solution
-> (genirq/affinity: Assign default affinity to pre/post vectors) is correct.
-> There may be similar problems except nvme.
+Hi all,
 
-As I explained you in great length, it is not correct because it's just
-papering over the underlying problem.
+during testing we've ran into an issue where the system would crash
+in device_add_disk(); analysis showed that there is a race condition
+in nvme_validate_ns() if called simultaneously for the same controller.
+This patchset tries to fix it up.
 
-Please stop advertising semantically broken duct tape solutions.
+As usual, comments and reviews are appreciated.
 
-Thanks,
+Hannes Reinecke (2):
+  nvme: return error from nvme_alloc_ns()
+  nvme: protect against race condition in nvme_validate_ns()
 
-	tglx
+ drivers/nvme/host/core.c | 51 ++++++++++++++++++++++++++++++++++++------------
+ 1 file changed, 38 insertions(+), 13 deletions(-)
+
+-- 
+2.16.4
