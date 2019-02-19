@@ -1,16 +1,16 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 19 Feb 2019 10:58:10 -0800
-Subject: [PATCH 6/6] nvme: Avoid that deleting a controller triggers a
- circular locking complaint
-In-Reply-To: <20190219165501.GC16341@localhost.localdomain>
-References: <20190214225057.195397-1-bvanassche@acm.org>
- <20190214225057.195397-7-bvanassche@acm.org> <20190219151655.GB4121@lst.de>
- <20190219165501.GC16341@localhost.localdomain>
-Message-ID: <bb4294ce-274c-1da2-2270-2849ca1952e2@grimberg.me>
+Date: Tue, 19 Feb 2019 11:40:22 -0800
+Subject: conver the nvme code to SPDX identifiers
+In-Reply-To: <20190219152244.17441-1-hch@lst.de>
+References: <20190219152244.17441-1-hch@lst.de>
+Message-ID: <f5615fcd-cc09-8c9a-0377-dba35000ee7d@grimberg.me>
 
 
-> This looks correct. I had to double check 'ret' was initilized to 0
-> outside what the diff is showing, so maybe it'd be more obvious if
-> nvme_do_delete_ctrl() was in an 'else' condition.
+> Hi all,
+> 
+> this series converts all NVMe driver source files to SPDX identifiers,
+> and also fixes up a few existing ones.
 
-Agreed.
+For the series,
+
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
