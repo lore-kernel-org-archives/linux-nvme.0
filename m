@@ -1,72 +1,131 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 19 Feb 2019 13:13:58 +0100
-Subject: [PATCH 2/2] nvme: protect against race condition in nvme_validate_ns()
-In-Reply-To: <20190219121358.57975-1-hare@suse.de>
-References: <20190219121358.57975-1-hare@suse.de>
-Message-ID: <20190219121358.57975-3-hare@suse.de>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 19 Feb 2019 16:16:55 +0100
+Subject: [PATCH 6/6] nvme: Avoid that deleting a controller triggers a
+ circular locking complaint
+In-Reply-To: <20190214225057.195397-7-bvanassche@acm.org>
+References: <20190214225057.195397-1-bvanassche@acm.org>
+ <20190214225057.195397-7-bvanassche@acm.org>
+Message-ID: <20190219151655.GB4121@lst.de>
 
-When subsystems are rapidly reconfigured (or sending out several AENs)
-we might end up in a situation where several instances of nvme_scan_work()
-are running. Each of which might be trying to register the same nsid,
-so nvme_find_get_ns() in nvme_validate_ns() will return 0 for both,
-resulting in a crash in nvme_alloc_ns() as both are registering a
-gendisk with the same name.
+Keith, Sagi,
 
-Signed-off-by: Hannes Reinecke <hare at suse.com>
----
- drivers/nvme/host/core.c | 20 +++++++++++++++++---
- 1 file changed, 17 insertions(+), 3 deletions(-)
+can you look over this as you two have been most involved with the state
+machine lately?
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 9c6f6a4db60a..7cf710e8d98d 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3216,7 +3216,7 @@ static int nvme_setup_streams_ns(struct nvme_ctrl *ctrl, struct nvme_ns *ns)
- 
- static int nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- {
--	struct nvme_ns *ns;
-+	struct nvme_ns *ns, *tmp;
- 	struct gendisk *disk;
- 	struct nvme_id_ns *id;
- 	char disk_name[DISK_NAME_LEN];
-@@ -3286,6 +3286,15 @@ static int nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 	}
- 
- 	down_write(&ctrl->namespaces_rwsem);
-+	list_for_each_entry(tmp, &ctrl->namespaces, list) {
-+		if (nsid == tmp->head->ns_id) {
-+			up_write(&ctrl->namespaces_rwsem);
-+			dev_warn(ctrl->device,
-+				 "Duplicate ns %d, rescanning", nsid);
-+			ret = -EAGAIN;
-+			goto out_put_disk;
-+		}
-+	}
- 	list_add_tail(&ns->list, &ctrl->namespaces);
- 	up_write(&ctrl->namespaces_rwsem);
- 
-@@ -3343,14 +3352,19 @@ static void nvme_ns_remove(struct nvme_ns *ns)
- static void nvme_validate_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- {
- 	struct nvme_ns *ns;
-+	int ret;
- 
-+rescan:
- 	ns = nvme_find_get_ns(ctrl, nsid);
- 	if (ns) {
- 		if (ns->disk && revalidate_disk(ns->disk))
- 			nvme_ns_remove(ns);
- 		nvme_put_ns(ns);
--	} else
--		nvme_alloc_ns(ctrl, nsid);
-+	} else {
-+		ret = nvme_alloc_ns(ctrl, nsid);
-+		if (ret == -EAGAIN)
-+			goto rescan;
-+	}
- }
- 
- static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
--- 
-2.16.4
+On Thu, Feb 14, 2019@02:50:57PM -0800, Bart Van Assche wrote:
+> Rework nvme_delete_ctrl_sync() such that it does not have to wait for
+> queued work. This patch avoids that test nvme/008 triggers the following
+> complaint:
+> 
+> WARNING: possible circular locking dependency detected
+> 5.0.0-rc6-dbg+ #10 Not tainted
+> ------------------------------------------------------
+> nvme/7918 is trying to acquire lock:
+> 000000009a1a7b69 ((work_completion)(&ctrl->delete_work)){+.+.}, at: __flush_work+0x379/0x410
+> 
+> but task is already holding lock:
+> 00000000ef5a45b4 (kn->count#389){++++}, at: kernfs_remove_self+0x196/0x210
+> 
+> which lock already depends on the new lock.
+> 
+> the existing dependency chain (in reverse order) is:
+> 
+> -> #1 (kn->count#389){++++}:
+>        lock_acquire+0xc5/0x1e0
+>        __kernfs_remove+0x42a/0x4a0
+>        kernfs_remove_by_name_ns+0x45/0x90
+>        remove_files.isra.1+0x3a/0x90
+>        sysfs_remove_group+0x5c/0xc0
+>        sysfs_remove_groups+0x39/0x60
+>        device_remove_attrs+0x68/0xb0
+>        device_del+0x24d/0x570
+>        cdev_device_del+0x1a/0x50
+>        nvme_delete_ctrl_work+0xbd/0xe0
+>        process_one_work+0x4f1/0xa40
+>        worker_thread+0x67/0x5b0
+>        kthread+0x1cf/0x1f0
+>        ret_from_fork+0x24/0x30
+> 
+> -> #0 ((work_completion)(&ctrl->delete_work)){+.+.}:
+>        __lock_acquire+0x1323/0x17b0
+>        lock_acquire+0xc5/0x1e0
+>        __flush_work+0x399/0x410
+>        flush_work+0x10/0x20
+>        nvme_delete_ctrl_sync+0x65/0x70
+>        nvme_sysfs_delete+0x4f/0x60
+>        dev_attr_store+0x3e/0x50
+>        sysfs_kf_write+0x87/0xa0
+>        kernfs_fop_write+0x186/0x240
+>        __vfs_write+0xd7/0x430
+>        vfs_write+0xfa/0x260
+>        ksys_write+0xab/0x130
+>        __x64_sys_write+0x43/0x50
+>        do_syscall_64+0x71/0x210
+>        entry_SYSCALL_64_after_hwframe+0x49/0xbe
+> 
+> other info that might help us debug this:
+> 
+>  Possible unsafe locking scenario:
+> 
+>        CPU0                    CPU1
+>        ----                    ----
+>   lock(kn->count#389);
+>                                lock((work_completion)(&ctrl->delete_work));
+>                                lock(kn->count#389);
+>   lock((work_completion)(&ctrl->delete_work));
+> 
+>  *** DEADLOCK ***
+> 
+> 3 locks held by nvme/7918:
+>  #0: 00000000e2223b44 (sb_writers#6){.+.+}, at: vfs_write+0x1eb/0x260
+>  #1: 000000003404976f (&of->mutex){+.+.}, at: kernfs_fop_write+0x128/0x240
+>  #2: 00000000ef5a45b4 (kn->count#389){++++}, at: kernfs_remove_self+0x196/0x210
+> 
+> stack backtrace:
+> CPU: 4 PID: 7918 Comm: nvme Not tainted 5.0.0-rc6-dbg+ #10
+> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.10.2-1 04/01/2014
+> Call Trace:
+>  dump_stack+0x86/0xca
+>  print_circular_bug.isra.36.cold.54+0x173/0x1d5
+>  check_prev_add.constprop.45+0x996/0x1110
+>  __lock_acquire+0x1323/0x17b0
+>  lock_acquire+0xc5/0x1e0
+>  __flush_work+0x399/0x410
+>  flush_work+0x10/0x20
+>  nvme_delete_ctrl_sync+0x65/0x70
+>  nvme_sysfs_delete+0x4f/0x60
+>  dev_attr_store+0x3e/0x50
+>  sysfs_kf_write+0x87/0xa0
+>  kernfs_fop_write+0x186/0x240
+>  __vfs_write+0xd7/0x430
+>  vfs_write+0xfa/0x260
+>  ksys_write+0xab/0x130
+>  __x64_sys_write+0x43/0x50
+>  do_syscall_64+0x71/0x210
+>  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+> 
+> Signed-off-by: Bart Van Assche <bvanassche at acm.org>
+> ---
+>  drivers/nvme/host/core.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index c99905bcf1e2..b35d6849dc81 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -191,9 +191,10 @@ static int nvme_delete_ctrl_sync(struct nvme_ctrl *ctrl)
+>  	 * can free the controller.
+>  	 */
+>  	nvme_get_ctrl(ctrl);
+> -	ret = nvme_delete_ctrl(ctrl);
+> +	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_DELETING))
+> +		ret = -EBUSY;
+>  	if (!ret)
+> -		flush_work(&ctrl->delete_work);
+> +		nvme_do_delete_ctrl(ctrl);
+>  	nvme_put_ctrl(ctrl);
+>  	return ret;
+>  }
+> -- 
+> 2.21.0.rc0.258.g878e2cd30e-goog
+---end quoted text---
