@@ -1,11 +1,10 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 20 Feb 2019 15:20:03 +0100
-Subject: [PATCH 6/6] nvme: Avoid that deleting a controller triggers a
- circular locking complaint
-In-Reply-To: <20190214225057.195397-7-bvanassche@acm.org>
-References: <20190214225057.195397-1-bvanassche@acm.org>
- <20190214225057.195397-7-bvanassche@acm.org>
-Message-ID: <20190220142003.GA27064@lst.de>
+Date: Wed, 20 Feb 2019 15:21:34 +0100
+Subject: [PATCH 1/2] nvme: return error from nvme_alloc_ns()
+In-Reply-To: <20190219121358.57975-2-hare@suse.de>
+References: <20190219121358.57975-1-hare@suse.de>
+ <20190219121358.57975-2-hare@suse.de>
+Message-ID: <20190220142134.GB27087@lst.de>
 
 Thanks,
 
