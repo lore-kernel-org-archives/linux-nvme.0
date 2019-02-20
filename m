@@ -1,40 +1,70 @@
-From: willy@infradead.org (Matthew Wilcox)
-Date: Wed, 20 Feb 2019 09:19:05 -0800
-Subject: Read-only Mapping of Program Text using Large THP Pages
-In-Reply-To: <20190220163921.GA4451@localhost.localdomain>
-References: <379F21DD-006F-4E33-9BD5-F81F9BA75C10@oracle.com>
- <20190220134454.GF12668@bombadil.infradead.org>
- <07B3B085-C844-4A13-96B1-3DB0F1AF26F5@oracle.com>
- <20190220144345.GG12668@bombadil.infradead.org>
- <20190220163921.GA4451@localhost.localdomain>
-Message-ID: <20190220171905.GJ12668@bombadil.infradead.org>
+From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Wed, 20 Feb 2019 18:16:27 +0000
+Subject: Regression: NVMe: kernel BUG at lib/sg_pool.c:103!
+References: <20190220031122.GA17298@ming.t460p> <20190220141701.GA26537@lst.de>
+Message-ID: <SN6PR04MB45276D80E3181896ABF39D1E867D0@SN6PR04MB4527.namprd04.prod.outlook.com>
 
-On Wed, Feb 20, 2019@09:39:22AM -0700, Keith Busch wrote:
-> On Wed, Feb 20, 2019@06:43:46AM -0800, Matthew Wilcox wrote:
-> > What NVMe doesn't have is a way for the host to tell the controller
-> > "Here's a 2MB sized I/O; bytes 40960 to 45056 are most important to
-> > me; please give me a completion event once those bytes are valid and
-> > then another completion event once the entire I/O is finished".
-> > 
-> > I have no idea if hardware designers would be interested in adding that
-> > kind of complexity, but this is why we also have I/O people at the same
-> > meeting, so we can get these kinds of whole-stack discussions going.
-> 
-> We have two unused PRP bits, so I guess there's room to define something
-> like a "me first" flag. I am skeptical we'd get committee approval for
-> that or partial completion events, though.
-> 
-> I think the host should just split the more important part of the transfer
-> into a separate command. The only hardware support we have to prioritize
-> that command ahead of others is with weighted priority queues, but we're
-> missing driver support for that at the moment.
+On 02/20/2019 06:17 AM, Christoph Hellwig wrote:
+> We shouldn't be allocating a scatterlist for a command that doesn't
+> have a payload.
+>
+> The blk_rq_payload_bytes check in nvme_rdma_map_data is supposed to
+> prevent that.
+>
+> Chaitanya, can you try to debug why this is not working?  I'm on
+> vacation and don't have much time right now unfortunately.
+>
 
-Yes, on reflection, NVMe is probably an example where we'd want to send
-three commands (one for the critical page, one for the part before and one
-for the part after); it has low per-command overhead so it should be fine.
 
-Thinking about William's example of a 1GB page, with a x4 link running
-at 8Gbps, a 1GB transfer would take approximately a quarter of a second.
-If we do end up wanting to support 1GB pages, I think we'll want that
-low-priority queue support ... and to qualify drives which actually have
-the ability to handle multiple commands in parallel.
+Hi Ming,
+
+Can you please test following patch on your system ?
+
+
+
+ From 79e178a53a9f101d1f5f6a4923298bb1ffe936ef Mon Sep 17 00:00:00 2001
+From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Date: Wed, 20 Feb 2019 09:16:58 -0800
+Subject: [PATCH] nvme-rdma: use nr_phys_segments when map rq to sgl
+
+Use blk_rq_nr_phys_segments() instead of blk_rq_payload_bytes() to check
+if a command contains data to be mapped.  This fixes the case where
+a struct request contains LBAs, but it has no payload, such as
+Write Zeroes support.
+
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+---
+  drivers/nvme/host/rdma.c | 4 ++--
+  1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index ac365366c2ec..c6a489049fd5 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1150,7 +1150,7 @@ static void nvme_rdma_unmap_data(struct 
+nvme_rdma_queue *queue,
+  	struct nvme_rdma_device *dev = queue->device;
+  	struct ib_device *ibdev = dev->dev;
+
+-	if (!blk_rq_payload_bytes(rq))
++	if (!blk_rq_nr_phys_segments(rq))
+  		return;
+
+  	if (req->mr) {
+@@ -1273,7 +1273,7 @@ static int nvme_rdma_map_data(struct 
+nvme_rdma_queue *queue,
+
+  	c->common.flags |= NVME_CMD_SGL_METABUF;
+
+-	if (!blk_rq_payload_bytes(rq))
++	if (!blk_rq_nr_phys_segments(rq))
+  		return nvme_rdma_set_sg_null(c);
+
+  	req->sg_table.sgl = req->first_sgl;
+-- 
+2.17.0
+
+
+Also can you please share all the QEMU config/setup information that
+you have used to run the tests ? I want to add this test to the blktests 
+with QEMU platform.
