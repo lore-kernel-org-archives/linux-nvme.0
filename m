@@ -1,94 +1,42 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Thu, 21 Feb 2019 02:21:02 +0000
-Subject: Regression: NVMe: kernel BUG at lib/sg_pool.c:103!
-References: <20190220031122.GA17298@ming.t460p> <20190220141701.GA26537@lst.de>
- <SN6PR04MB45276D80E3181896ABF39D1E867D0@SN6PR04MB4527.namprd04.prod.outlook.com>
- <CACVXFVMkxPJsAKkJ0uopFPCpFiZDxA2qH11Yt8AsuKHEmVqGxA@mail.gmail.com>
-Message-ID: <SN6PR04MB4527C5175E583F989545226B867E0@SN6PR04MB4527.namprd04.prod.outlook.com>
+From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Wed, 20 Feb 2019 20:13:35 -0800
+Subject: [COMPILE TEST ONLY PATCH 2/2] nvme-fc: use nr_phys_segments when map
+ rq to sgl
+In-Reply-To: <20190221041335.22806-1-chaitanya.kulkarni@wdc.com>
+References: <20190221041335.22806-1-chaitanya.kulkarni@wdc.com>
+Message-ID: <20190221041335.22806-3-chaitanya.kulkarni@wdc.com>
 
-On 02/20/2019 06:16 PM, Ming Lei wrote:
-> On Thu, Feb 21, 2019 at 2:16 AM Chaitanya Kulkarni
-> <Chaitanya.Kulkarni@wdc.com> wrote:
->>
->> On 02/20/2019 06:17 AM, Christoph Hellwig wrote:
->>> We shouldn't be allocating a scatterlist for a command that doesn't
->>> have a payload.
->>>
->>> The blk_rq_payload_bytes check in nvme_rdma_map_data is supposed to
->>> prevent that.
->>>
->>> Chaitanya, can you try to debug why this is not working?  I'm on
->>> vacation and don't have much time right now unfortunately.
->>>
->>
->>
->> Hi Ming,
->>
->> Can you please test following patch on your system ?
->
-> With this patch, the test can pass.
->
-> [root at ktest-04 blktests]# ./check nvmeof-mp/002
-> nvmeof-mp/002 (File I/O on top of multipath concurrently with logout
-> and login (mq)) [passed]
->      runtime  75.478s  ...  54.317s
->
->>
->>
->>
->>   From 79e178a53a9f101d1f5f6a4923298bb1ffe936ef Mon Sep 17 00:00:00 2001
->> From: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
->> Date: Wed, 20 Feb 2019 09:16:58 -0800
->> Subject: [PATCH] nvme-rdma: use nr_phys_segments when map rq to sgl
->>
->> Use blk_rq_nr_phys_segments() instead of blk_rq_payload_bytes() to check
->> if a command contains data to be mapped.  This fixes the case where
->> a struct request contains LBAs, but it has no payload, such as
->> Write Zeroes support.
->>
->> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
->> ---
->>    drivers/nvme/host/rdma.c | 4 ++--
->>    1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
->> index ac365366c2ec..c6a489049fd5 100644
->> --- a/drivers/nvme/host/rdma.c
->> +++ b/drivers/nvme/host/rdma.c
->> @@ -1150,7 +1150,7 @@ static void nvme_rdma_unmap_data(struct
->> nvme_rdma_queue *queue,
->>          struct nvme_rdma_device *dev = queue->device;
->>          struct ib_device *ibdev = dev->dev;
->>
->> -       if (!blk_rq_payload_bytes(rq))
->> +       if (!blk_rq_nr_phys_segments(rq))
->>                  return;
->>
->>          if (req->mr) {
->> @@ -1273,7 +1273,7 @@ static int nvme_rdma_map_data(struct
->> nvme_rdma_queue *queue,
->>
->>          c->common.flags |= NVME_CMD_SGL_METABUF;
->>
->> -       if (!blk_rq_payload_bytes(rq))
->> +       if (!blk_rq_nr_phys_segments(rq))
->>                  return nvme_rdma_set_sg_null(c);
->>
->>          req->sg_table.sgl = req->first_sgl;
->> --
->> 2.17.0
->>
->>
->> Also can you please share all the QEMU config/setup information that
->> you have used to run the tests ? I want to add this test to the blktests
->> with QEMU platform.
->
-> Just enable the required kernel config options and install
-> device-mapper-multipath,
-> then run './check nvmeof-mp/002', it will be started.
->
-> Thanks,
-> Ming Lei
->
+Use blk_rq_nr_phys_segments() instead of blk_rq_payload_bytes() to check
+if a command contains data to be mapped.  This fixes the case where
+a struct request contains LBAs, but it has no payload, such as
+Write Zeroes support.
 
-Thanks Ming for testing, I'll send an official patch to the mailing list.
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+---
+ drivers/nvme/host/fc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 89accc76d71c..fdfaf5e914aa 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -2119,7 +2119,7 @@ nvme_fc_map_data(struct nvme_fc_ctrl *ctrl, struct request *rq,
+ 
+ 	freq->sg_cnt = 0;
+ 
+-	if (!blk_rq_payload_bytes(rq))
++	if (!blk_rq_nr_phys_segments(req))
+ 		return 0;
+ 
+ 	freq->sg_table.sgl = freq->first_sgl;
+@@ -2316,7 +2316,7 @@ nvme_fc_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	if (ret)
+ 		return ret;
+ 
+-	data_len = blk_rq_payload_bytes(rq);
++	data_len = blk_rq_nr_phys_segments(rq);
+ 	if (data_len)
+ 		io_dir = ((rq_data_dir(rq) == WRITE) ?
+ 					NVMEFC_FCP_WRITE : NVMEFC_FCP_READ);
+-- 
+2.17.0
