@@ -1,78 +1,103 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 21 Feb 2019 08:49:19 -0700
-Subject: [GIT PULL] nvme updates for 5.1
-Message-ID: <20190221154919.GA19128@infradead.org>
+From: osmithde@cisco.com (Oliver Smith-Denny)
+Date: Thu, 21 Feb 2019 09:35:52 -0800
+Subject: [PATCH] nvmet-fc: Bring Disconnect into compliance with FC-NVME
+ spec
+In-Reply-To: <20190220221454.GA31450@osmithde-lnx.cisco.com>
+References: <20190205173902.17947-1-jsmart2021@gmail.com>
+ <20190220221454.GA31450@osmithde-lnx.cisco.com>
+Message-ID: <b835a7b0-2c7b-5271-a715-5b35253721af@cisco.com>
 
-The following changes since commit 49b1f22b567ba1d7d8174950be4398a69d0effb7:
+On Tue, Feb 05, 2019@09:39:02AM -0800, James Smart wrote:
+ > The FC-NVME spec, when finally approved, modified the disconnect LS
+ > such that the only scope available is the association.
 
-  block: avoid to READ fields of null bio (2019-02-19 09:19:06 -0700)
+(Sorry, resent, my CC's got messed up on first attempt and
+somehow I lost the mailing list...having issues with my mail
+client, trying another.)
 
-are available in the Git repository at:
+Should something along the lines below also be added with this patch?
+(Caveat, untested, I just checked that no one else is using these).
+ From my version of the FC-NVMe spec (maybe there is a newer one,
+I'm not sure), it looks like not only is the scope field not
+present in the Disconnect descriptor, but the association id
+is also no longer stored in the Disconnect descriptor and there
+are 5 words of reserved fields.
 
-  git://git.infradead.org/nvme.git nvme-5.1
+How does this look? Please let me know if I am missing something!
+Thanks,
+Oliver
 
-for you to fetch changes up to 34e08191b146a363d72be1a488d55ecdc01a5c7d:
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 89accc7..8f5285f 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -1458,8 +1458,6 @@ enum {
+          discon_rqst->discon_cmd.desc_len =
+                          fcnvme_lsdesc_len(
+                                  sizeof(struct fcnvme_lsdesc_disconn_cmd));
+-       discon_rqst->discon_cmd.scope = FCNVME_DISCONN_ASSOCIATION;
+-       discon_rqst->discon_cmd.id = cpu_to_be64(ctrl->association_id);
 
-  nvme-rdma: use nr_phys_segments when map rq to sgl (2019-02-21 06:39:20 -0700)
+          lsreq->rqstaddr = discon_rqst;
+          lsreq->rqstlen = sizeof(*discon_rqst);
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index f98f5c5..7a7b3bc 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -1292,13 +1292,12 @@ enum {
+          VERR_DISCONN_RQST_LEN   = 19,
+          VERR_DISCONN_CMD        = 20,
+          VERR_DISCONN_CMD_LEN    = 21,
+-       VERR_DISCONN_SCOPE      = 22,
+-       VERR_RS_LEN             = 23,
+-       VERR_RS_RQST_LEN        = 24,
+-       VERR_RS_CMD             = 25,
+-       VERR_RS_CMD_LEN         = 26,
+-       VERR_RS_RCTL            = 27,
+-       VERR_RS_RO              = 28,
++       VERR_RS_LEN             = 22,
++       VERR_RS_RQST_LEN        = 23,
++       VERR_RS_CMD             = 24,
++       VERR_RS_CMD_LEN         = 25,
++       VERR_RS_RCTL            = 26,
++       VERR_RS_RO              = 27,
+   };
 
-----------------------------------------------------------------
-Bart Van Assche (6):
-      nvmet: fix indentation
-      nvme-fabrics: document the poll function argument
-      nvme-pci: check kstrtoint() return value in queue_count_set()
-      nvme: unexport nvme_delete_ctrl_sync()
-      nvme: introduce a helper function for controller deletion
-      nvme: avoid that deleting a controller triggers a circular locking complaint
+   static char *validation_errors[] = {
+@@ -1541,9 +1540,6 @@ enum {
+                          fcnvme_lsdesc_len(
+                                  sizeof(struct fcnvme_lsdesc_disconn_cmd)))
+                  ret = VERR_DISCONN_CMD_LEN;
+-       else if ((rqst->discon_cmd.scope != FCNVME_DISCONN_ASSOCIATION) &&
+-                       (rqst->discon_cmd.scope != 
+FCNVME_DISCONN_CONNECTION))
+-               ret = VERR_DISCONN_SCOPE;
+          else {
+                  /* match an active association */
+                  assoc = nvmet_fc_find_target_assoc(tgtport,
+diff --git a/include/linux/nvme-fc.h b/include/linux/nvme-fc.h
+index 36cca93..580e7b57 100644
+--- a/include/linux/nvme-fc.h
++++ b/include/linux/nvme-fc.h
+@@ -221,21 +221,11 @@ struct fcnvme_lsdesc_cr_conn_cmd {
+          __be32  rsvd52;
+   };
 
-Chaitanya Kulkarni (1):
-      nvme-rdma: use nr_phys_segments when map rq to sgl
-
-Christoph Hellwig (13):
-      nvme_ioctl.h: remove duplicate GPL boilerplate
-      nvme-tcp.h: fix SPDX header
-      nvme-fabrics: convert to SPDX identifiers
-      nvme-fc: convert to SPDX identifiers
-      nvme-rdma: convert to SPDX identifiers
-      nvme-lightnvm: convert to SPDX identifiers
-      nvme-pci: convert to SPDX identifiers
-      nvme: convert to SPDX identifiers
-      nvmet-fc: convert to SPDX identifiers
-      nvmet-fcloop: convert to SPDX identifiers
-      nvme-loop: convert to SPDX identifiers
-      nvmet-rdma: convert to SPDX identifiers
-      nvmet: convert to SPDX identifiers
-
-Hannes Reinecke (2):
-      nvme-multipath: round-robin I/O policy
-      nvme: return error from nvme_alloc_ns()
-
- drivers/nvme/host/core.c          | 68 ++++++++++++++++-----------
- drivers/nvme/host/fabrics.c       | 11 +----
- drivers/nvme/host/fabrics.h       | 10 +---
- drivers/nvme/host/fault_inject.c  |  2 +-
- drivers/nvme/host/fc.c            | 14 +-----
- drivers/nvme/host/lightnvm.c      | 16 +------
- drivers/nvme/host/multipath.c     | 96 +++++++++++++++++++++++++++++++++++----
- drivers/nvme/host/nvme.h          | 20 ++++----
- drivers/nvme/host/pci.c           | 12 ++---
- drivers/nvme/host/rdma.c          | 14 ++----
- drivers/nvme/host/trace.c         | 10 +---
- drivers/nvme/host/trace.h         | 10 +---
- drivers/nvme/target/admin-cmd.c   | 10 +---
- drivers/nvme/target/configfs.c    | 10 +---
- drivers/nvme/target/core.c        | 10 +---
- drivers/nvme/target/discovery.c   | 12 +----
- drivers/nvme/target/fabrics-cmd.c | 10 +---
- drivers/nvme/target/fc.c          | 14 +-----
- drivers/nvme/target/fcloop.c      | 13 +-----
- drivers/nvme/target/io-cmd-bdev.c | 10 +---
- drivers/nvme/target/loop.c        | 10 +---
- drivers/nvme/target/nvmet.h       | 10 +---
- drivers/nvme/target/rdma.c        | 10 +---
- include/linux/nvme-fc-driver.h    | 10 +---
- include/linux/nvme-fc.h           | 14 +-----
- include/linux/nvme-rdma.h         | 10 +---
- include/linux/nvme-tcp.h          |  2 +-
- include/linux/nvme.h              | 10 +---
- include/uapi/linux/nvme_ioctl.h   |  9 ----
- 29 files changed, 168 insertions(+), 289 deletions(-)
+-/* Disconnect Scope Values */
+-enum {
+-       FCNVME_DISCONN_ASSOCIATION      = 0,
+-       FCNVME_DISCONN_CONNECTION       = 1,
+-};
+-
+   /* FCNVME_LSDESC_DISCONN_CMD */
+   struct fcnvme_lsdesc_disconn_cmd {
+          __be32  desc_tag;               /* FCNVME_LSDESC_xxx */
+          __be32  desc_len;
+-       u8      rsvd8[3];
+-       /* note: scope is really a 1 bit field */
+-       u8      scope;                  /* FCNVME_DISCONN_xxx */
+-       __be32  rsvd12;
+-       __be64  id;
++       u8      rsvd8[16];
+   };
+   /* FCNVME_LSDESC_CONN_ID */
