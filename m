@@ -1,10 +1,9 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Wed, 20 Feb 2019 20:13:35 -0800
-Subject: [COMPILE TEST ONLY PATCH 2/2] nvme-fc: use nr_phys_segments when map
- rq to sgl
+Date: Wed, 20 Feb 2019 20:13:34 -0800
+Subject: [PATCH 1/2] nvme-rdma: use nr_phys_segments when map rq to sgl
 In-Reply-To: <20190221041335.22806-1-chaitanya.kulkarni@wdc.com>
 References: <20190221041335.22806-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20190221041335.22806-3-chaitanya.kulkarni@wdc.com>
+Message-ID: <20190221041335.22806-2-chaitanya.kulkarni@wdc.com>
 
 Use blk_rq_nr_phys_segments() instead of blk_rq_payload_bytes() to check
 if a command contains data to be mapped.  This fixes the case where
@@ -13,30 +12,30 @@ Write Zeroes support.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- drivers/nvme/host/fc.c | 4 ++--
+ drivers/nvme/host/rdma.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 89accc76d71c..fdfaf5e914aa 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2119,7 +2119,7 @@ nvme_fc_map_data(struct nvme_fc_ctrl *ctrl, struct request *rq,
- 
- 	freq->sg_cnt = 0;
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index ac365366c2ec..c6a489049fd5 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1150,7 +1150,7 @@ static void nvme_rdma_unmap_data(struct nvme_rdma_queue *queue,
+ 	struct nvme_rdma_device *dev = queue->device;
+ 	struct ib_device *ibdev = dev->dev;
  
 -	if (!blk_rq_payload_bytes(rq))
-+	if (!blk_rq_nr_phys_segments(req))
- 		return 0;
++	if (!blk_rq_nr_phys_segments(rq))
+ 		return;
  
- 	freq->sg_table.sgl = freq->first_sgl;
-@@ -2316,7 +2316,7 @@ nvme_fc_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	if (ret)
- 		return ret;
+ 	if (req->mr) {
+@@ -1273,7 +1273,7 @@ static int nvme_rdma_map_data(struct nvme_rdma_queue *queue,
  
--	data_len = blk_rq_payload_bytes(rq);
-+	data_len = blk_rq_nr_phys_segments(rq);
- 	if (data_len)
- 		io_dir = ((rq_data_dir(rq) == WRITE) ?
- 					NVMEFC_FCP_WRITE : NVMEFC_FCP_READ);
+ 	c->common.flags |= NVME_CMD_SGL_METABUF;
+ 
+-	if (!blk_rq_payload_bytes(rq))
++	if (!blk_rq_nr_phys_segments(rq))
+ 		return nvme_rdma_set_sg_null(c);
+ 
+ 	req->sg_table.sgl = req->first_sgl;
 -- 
 2.17.0
