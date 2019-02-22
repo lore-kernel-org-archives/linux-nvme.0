@@ -1,25 +1,26 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 22 Feb 2019 10:07:15 -0700
-Subject: [PATCH] nvme: Enable acceleration feature of A64FX processor
-In-Reply-To: <20190220094610.GB3559@esprimo>
-References: <20190201124615.16107-1-indou.takao@jp.fujitsu.com>
- <20190201145414.GA22199@localhost.localdomain>
- <20190205124757.GA28465@esprimo>
- <20190205143905.GG22199@localhost.localdomain>
- <AT5PR8401MB1169E9738C0A4754D0190F2FAB670@AT5PR8401MB1169.NAMPRD84.PROD.OUTLOOK.COM>
- <20190220094610.GB3559@esprimo>
-Message-ID: <20190222170715.GA10237@localhost.localdomain>
+From: torvalds@linux-foundation.org (Linus Torvalds)
+Date: Fri, 22 Feb 2019 13:28:42 -0800
+Subject: [PATCH] nvme-pci: Prevent mmio reads if pci channel offline
+In-Reply-To: <20190222010502.2434-1-jonathan.derrick@intel.com>
+References: <20190222010502.2434-1-jonathan.derrick@intel.com>
+Message-ID: <CAHk-=wjmjHyovjtzaq=HSegEpiO2SXWaYfJ6qsJrZhXg_YSx5g@mail.gmail.com>
 
-On Wed, Feb 20, 2019@06:46:11PM +0900, Takao Indoh wrote:
-> On Thu, Feb 14, 2019@08:44:48PM +0000, Elliott, Robert (Persistent Memory) wrote:
-> > * how does this interact with an iommu, if there is one? Must the 
-> > address with bit 56 also be granted permission, or is that
-> > stripped off before any iommu comparisons?
-> 
-> The latter. A bit 56 is cleared in Root Port before pass it to iommu.
+On Thu, Feb 21, 2019@5:07 PM Jon Derrick <jonathan.derrick@intel.com> wrote:
+>
+> Some platforms don't seem to easily tolerate non-posted mmio reads on
+> lost (hot removed) devices. This has been noted in previous
+> modifications to other layers where an mmio read to a lost device could
+> cause an undesired firmware intervention [1][2].
 
-What if the intendend destination is a peer and never hits the root port?
+This is broken, and whatever platform that requires this is broken.
 
-Really, though, PCI device vendors need to just use the existing
-capability as intended and not have arch specific work-arounds. I'm sure
-nvme can't be the only device class you'd want this behavior.
+This has absolutely nothing to do with nvme, and should not be handled
+by a driver.
+
+The platform code should be fixed.
+
+What broken platform is this, and why is it causing problems?
+
+None of this wishy-washy "some platforms". Name them, and let's get them fixed.
+
+                 Linus
