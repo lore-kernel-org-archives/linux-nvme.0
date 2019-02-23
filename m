@@ -1,56 +1,29 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri, 22 Feb 2019 18:30:39 -0800
-Subject: [PATCH nvme-cli 2/2] spec,
- make: Add discovery.conf to the package files list
-In-Reply-To: <20190223023039.20105-1-sagi@grimberg.me>
-References: <20190223023039.20105-1-sagi@grimberg.me>
-Message-ID: <20190223023039.20105-2-sagi@grimberg.me>
+Date: Fri, 22 Feb 2019 18:31:12 -0800
+Subject: [PATCH 0/3 rfc] Support discovery log change events
+Message-ID: <20190223023117.20517-1-sagi@grimberg.me>
 
-Lets add it as part of the package with a little documentation.
+We want to be able to support discovery log change events automatically
+without user intervention.
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- Makefile              | 3 +++
- etc/discovery.conf.in | 4 ++++
- nvme.spec.in          | 1 +
- 3 files changed, 8 insertions(+)
- create mode 100644 etc/discovery.conf.in
+The definition of discovery log change events applies on "persistent" long
+lived controllers, so first we need to have discovery controllers to stay
+for a long time and accept kato value.
 
-diff --git a/Makefile b/Makefile
-index 0e2459143a45..303f13f256c0 100644
---- a/Makefile
-+++ b/Makefile
-@@ -102,6 +102,9 @@ install-etc:
- 	$(INSTALL) -d $(DESTDIR)$(SYSCONFDIR)/nvme
- 	touch $(DESTDIR)$(SYSCONFDIR)/nvme/hostnqn
- 	touch $(DESTDIR)$(SYSCONFDIR)/nvme/hostid
-+	if [ ! -f $(DESTDIR)$(SBINDIR)/nvme/discovery.conf ]; then \
-+		$(INSTALL) -m 644 -T ./etc/discovery.conf.in $(DESTDIR)$(SYSCONFDIR)/nvme/discovery.conf; \
-+	fi
- 
- install-spec: install-bin install-man install-bash-completion install-zsh-completion install-etc
- install: install-spec install-hostparams
-diff --git a/etc/discovery.conf.in b/etc/discovery.conf.in
-new file mode 100644
-index 000000000000..14e0d9c3dcbf
---- /dev/null
-+++ b/etc/discovery.conf.in
-@@ -0,0 +1,4 @@
-+# Used for extracting default parameters for discovery
-+#
-+# Example:
-+# --transport=<trtype> --traddr=<traddr> --trsvcid=<trsvcid> --host-traddr=<host-traddr>
-diff --git a/nvme.spec.in b/nvme.spec.in
-index 147b64a530f8..6934f8fd605b 100644
---- a/nvme.spec.in
-+++ b/nvme.spec.in
-@@ -34,6 +34,7 @@ make install-spec DESTDIR=%{buildroot} PREFIX=/usr
- %dir %{_sysconfdir}/nvme
- %{_sysconfdir}/nvme/hostnqn
- %{_sysconfdir}/nvme/hostid
-+%{_sysconfdir}/nvme/discovery.conf
- 
- %clean
- rm -rf $RPM_BUILD_ROOT
+Then when we do happen to get a discovery log change event on the persistent
+discovery controller, we simply fire a udev event to user-space to re-query
+the discovery log page and connect to new subsystems in the fabric.
+
+Review and feedback is welcome.
+
+Sagi Grimberg (3):
+  nvme-fabrics: allow discovery subsystems accept a kato
+  nvme: enable aen also for discovery controllers
+  nvme: fire discovery log page change events to userspace
+
+ drivers/nvme/host/core.c    | 37 ++++++++++++++++++++++++++++++++++---
+ drivers/nvme/host/fabrics.c | 12 ++----------
+ 2 files changed, 36 insertions(+), 13 deletions(-)
+
 -- 
 2.17.1
