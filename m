@@ -1,33 +1,103 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 22 Feb 2019 14:59:38 -0700
-Subject: [PATCH] nvme-pci: Prevent mmio reads if pci channel offline
-In-Reply-To: <CAHk-=wjmjHyovjtzaq=HSegEpiO2SXWaYfJ6qsJrZhXg_YSx5g@mail.gmail.com>
-References: <20190222010502.2434-1-jonathan.derrick@intel.com>
- <CAHk-=wjmjHyovjtzaq=HSegEpiO2SXWaYfJ6qsJrZhXg_YSx5g@mail.gmail.com>
-Message-ID: <20190222215938.GG10237@localhost.localdomain>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Fri, 22 Feb 2019 18:30:38 -0800
+Subject: [PATCH nvme-cli 1/2] spec,
+ Makefile: add /etc/nvme files to package files
+Message-ID: <20190223023039.20105-1-sagi@grimberg.me>
 
-On Fri, Feb 22, 2019@01:28:42PM -0800, Linus Torvalds wrote:
-> On Thu, Feb 21, 2019@5:07 PM Jon Derrick <jonathan.derrick@intel.com> wrote:
-> >
-> > Some platforms don't seem to easily tolerate non-posted mmio reads on
-> > lost (hot removed) devices. This has been noted in previous
-> > modifications to other layers where an mmio read to a lost device could
-> > cause an undesired firmware intervention [1][2].
-> 
-> This is broken, and whatever platform that requires this is broken.
-> 
-> This has absolutely nothing to do with nvme, and should not be handled
-> by a driver.
-> 
-> The platform code should be fixed.
+This way it can automatically be removed upon uninstallation
+and we don't need %preun target. Also, this will also allow
+to get these files on manual installation from sources.
 
-This is, of course, the correct answer. We just find platform firmware
-uncooperative, so we see these attempts to avoid them.
+Make sure that we don't call install-hostparams when building
+the rpm as we need to do it at the installation time.
 
-I really don't like this driver piecemeal approach if we're going to
-quirk around these platforms, though. I'd rather see the invalidated
-address ranges remapped to a fault handler fixup exception once and be
-done with it.
+Also, don't settle on the "file exists" check, use the '-s'
+to check that it is not empty as well.
 
-Or we can say you don't get to use this feature if you bought that
-hardware.
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ Makefile     | 16 +++++++++++++++-
+ nvme.spec.in | 25 +++++++++----------------
+ 2 files changed, 24 insertions(+), 17 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 3a4e2239254f..0e2459143a45 100644
+--- a/Makefile
++++ b/Makefile
+@@ -90,7 +90,21 @@ install-zsh-completion:
+ 	$(INSTALL) -d $(DESTDIR)$(PREFIX)/share/zsh/site-functions
+ 	$(INSTALL) -m 644 -T ./completions/_nvme $(DESTDIR)$(PREFIX)/share/zsh/site-functions/_nvme
+ 
+-install: install-bin install-man install-bash-completion install-zsh-completion
++install-hostparams:
++	if [ ! -s $(DESTDIR)$(SYSCONFDIR)/nvme/hostnqn ]; then \
++		echo `$(DESTDIR)$(SBINDIR)/nvme gen-hostnqn` > $(DESTDIR)$(SYSCONFDIR)/nvme/hostnqn; \
++	fi
++	if [ ! -s $(DESTDIR)$(SYSCONFDIR)/nvme/hostid ]; then \
++		uuidgen > $(DESTDIR)$(SYSCONFDIR)/nvme/hostid; \
++	fi
++
++install-etc:
++	$(INSTALL) -d $(DESTDIR)$(SYSCONFDIR)/nvme
++	touch $(DESTDIR)$(SYSCONFDIR)/nvme/hostnqn
++	touch $(DESTDIR)$(SYSCONFDIR)/nvme/hostid
++
++install-spec: install-bin install-man install-bash-completion install-zsh-completion install-etc
++install: install-spec install-hostparams
+ 
+ nvme.spec: nvme.spec.in NVME-VERSION-FILE
+ 	sed -e 's/@@VERSION@@/$(NVME_VERSION)/g' < $< > $@+
+diff --git a/nvme.spec.in b/nvme.spec.in
+index c16d0ec0645b..147b64a530f8 100644
+--- a/nvme.spec.in
++++ b/nvme.spec.in
+@@ -22,7 +22,7 @@ make
+ 
+ %install
+ rm -rf $RPM_BUILD_ROOT
+-make install DESTDIR=%{buildroot} PREFIX=/usr
++make install-spec DESTDIR=%{buildroot} PREFIX=/usr
+ 
+ %files
+ %defattr(-,root,root)
+@@ -31,30 +31,23 @@ make install DESTDIR=%{buildroot} PREFIX=/usr
+ %{_mandir}/man1/nvme*.1*
+ %{_datadir}/bash-completion/completions/nvme
+ %{_datadir}/zsh/site-functions/_nvme
++%dir %{_sysconfdir}/nvme
++%{_sysconfdir}/nvme/hostnqn
++%{_sysconfdir}/nvme/hostid
+ 
+ %clean
+ rm -rf $RPM_BUILD_ROOT
+ 
+ %post
+-if [ $1 = 1 ]; then # 1 : This package is being installed for the first time
+-	if [ ! -f /etc/nvme/hostnqn ]; then
+-		install -D /dev/null /etc/nvme/hostnqn
+-		echo $(nvme gen-hostnqn) > /etc/nvme/hostnqn
++if [ $1 -eq 1 ]; then # 1 : This package is being installed for the first time
++	if [ ! -s %{_sysconfdir}/nvme/hostnqn ]; then
++		echo $(nvme gen-hostnqn) > %{_sysconfdir}/nvme/hostnqn
+         fi
+-        if [ ! -f /etc/nvme/hostid ]; then
+-                uuidgen > /etc/nvme/hostid
++        if [ ! -s %{_sysconfdir}/nvme/hostid ]; then
++                uuidgen > %{_sysconfdir}/nvme/hostid
+         fi
+ fi
+ 
+-%preun
+-if [ "$1" = "remove" ]; then
+-	if [ -d /etc/nvme ]; then
+-		rm -f /etc/nvme/hostnqn
+-		if [ ! -n "`ls -A /etc/nvme`" ]; then
+-			rm -rf /etc/nvme
+-		fi
+-	fi
+-fi
+ %changelog
+ * Mon Oct 15 2018 Eyal Ben-David <eyalbe at il.ibm.com> - 1.6.81.g899a-2
+ - bash-completion check
+-- 
+2.17.1
