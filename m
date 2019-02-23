@@ -1,91 +1,68 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri, 22 Feb 2019 18:32:54 -0800
-Subject: [PATCH nvme-cli rfc 3/6] fabrics: allow user to retrieve discovery
- log from existing discovery controller
+Date: Fri, 22 Feb 2019 18:32:55 -0800
+Subject: [PATCH nvme-cli rfc 4/6] fabrics: add --quiet option
 In-Reply-To: <20190223023257.21227-1-sagi@grimberg.me>
 References: <20190223023257.21227-1-sagi@grimberg.me>
-Message-ID: <20190223023257.21227-4-sagi@grimberg.me>
+Message-ID: <20190223023257.21227-5-sagi@grimberg.me>
 
-Simply allow discover to receive the discovery device node name.
-Also centralize extraction of controller instance from the controller
-name to a common helper.
+Now we are going to have discovery log change events, so
+instead of trying to figure out which NVM subsystem ports
+are already connected, we let the driver do that and
+only suppress the failure messages.
+
+This option will be used by the discovery log change corresponding
+udev rule.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- fabrics.c | 32 ++++++++++++++++++++++----------
- 1 file changed, 22 insertions(+), 10 deletions(-)
+ fabrics.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
 diff --git a/fabrics.c b/fabrics.c
-index b9c5378b8034..702f928cd8ed 100644
+index 702f928cd8ed..f08fe3f9a0be 100644
 --- a/fabrics.c
 +++ b/fabrics.c
-@@ -189,6 +189,19 @@ static const char *cms_str(__u8 cm)
+@@ -66,6 +66,7 @@ static struct config {
+ 	int  hdr_digest;
+ 	int  data_digest;
+ 	bool persistent;
++	bool quiet;
+ } cfg = { NULL };
  
- static int do_discover(char *argstr, bool connect);
+ #define BUF_SIZE		4096
+@@ -216,9 +217,11 @@ static int add_ctrl(const char *argstr)
+ 		goto out;
+ 	}
  
-+static int ctrl_instance(char *device)
-+{
-+	int ret, instance;
+-	if (write(fd, argstr, len) != len) {
+-		fprintf(stderr, "Failed to write to %s: %s\n",
+-			 PATH_NVME_FABRICS, strerror(errno));
++	ret = write(fd, argstr, len);
++	if (ret != len) {
++		if (errno != EALREADY || !cfg.quiet)
++			fprintf(stderr, "Failed to write to %s: %s\n",
++				 PATH_NVME_FABRICS, strerror(errno));
+ 		ret = -errno;
+ 		goto out_close;
+ 	}
+@@ -840,6 +843,10 @@ static int connect_ctrls(struct nvmf_disc_rsp_page_hdr *log, int numrec)
+ 		/* already connected print message	*/
+ 		if (instance == -EALREADY) {
+ 			const char *traddr = log->entries[i].traddr;
 +
-+	device = basename(device);
-+	ret = sscanf(device, "nvme%d", &instance);
-+	if (ret < 0)
-+		return ret;
-+	if (!ret)
-+		return -1;
-+	return instance;
-+}
++			if (cfg.quiet)
++				continue;
 +
- static int add_ctrl(const char *argstr)
- {
- 	substring_t args[MAX_OPT_ARGS];
-@@ -848,7 +861,10 @@ static int do_discover(char *argstr, bool connect)
- 	char *dev_name;
- 	int instance, numrec = 0, ret;
- 
--	instance = add_ctrl(argstr);
-+	if (!cfg.device)
-+		instance = add_ctrl(argstr);
-+	else
-+		instance = ctrl_instance(cfg.device);
- 	if (instance < 0)
- 		return instance;
- 
-@@ -856,7 +872,7 @@ static int do_discover(char *argstr, bool connect)
- 		return errno;
- 	ret = nvmf_get_log_page_discovery(dev_name, &log, &numrec);
- 	free(dev_name);
--	if (!cfg.persistent)
-+	if (!cfg.device && !cfg.persistent)
- 		remove_ctrl(instance);
- 
- 	switch (ret) {
-@@ -969,6 +985,7 @@ int discover(const char *desc, int argc, char **argv, bool connect)
- 		{"hostnqn",     'q', "LIST", CFG_STRING, &cfg.hostnqn,     required_argument, "user-defined hostnqn (if default not used)" },
- 		{"hostid",      'I', "LIST", CFG_STRING, &cfg.hostid,      required_argument, "user-defined hostid (if default not used)"},
- 		{"raw",         'r', "LIST", CFG_STRING, &cfg.raw,         required_argument, "raw output file" },
-+		{"device",      'd', "LIST", CFG_STRING, &cfg.device, required_argument, "use existing discovery contoller device" },
- 		{"keep-alive-tmo",  'k', "LIST", CFG_INT, &cfg.keep_alive_tmo,  required_argument, "keep alive timeout period in seconds" },
- 		{"reconnect-delay", 'c', "LIST", CFG_INT, &cfg.reconnect_delay, required_argument, "reconnect timeout period in seconds" },
- 		{"ctrl-loss-tmo",   'l', "LIST", CFG_INT, &cfg.ctrl_loss_tmo,   required_argument, "controller loss timeout period in seconds" },
-@@ -1124,15 +1141,10 @@ static int disconnect_by_nqn(char *nqn)
- static int disconnect_by_device(char *device)
- {
- 	int instance;
--	int ret;
--
--	device = basename(device);
--	ret = sscanf(device, "nvme%d", &instance);
--	if (ret < 0)
--		return ret;
--	if (!ret)
--		return -1;
- 
-+	instance = ctrl_instance(device);
-+	if (instance < 0)
-+		return instance;
- 	return remove_ctrl(instance);
- }
+ 			fprintf(stderr,
+ 				"traddr=%.*s is already connected\n",
+ 				space_strip_len(NVMF_TRADDR_SIZE, traddr),
+@@ -996,6 +1003,7 @@ int discover(const char *desc, int argc, char **argv, bool connect)
+ 		{"nr-poll-queues",  'P', "LIST", CFG_INT, &cfg.nr_poll_queues,    required_argument, "number of poll queues to use (default 0)" },
+ 		{"queue-size",      'Q', "LIST", CFG_INT, &cfg.queue_size,      required_argument, "number of io queue elements to use (default 128)" },
+ 		{"persistent",  'p', "LIST", CFG_NONE, &cfg.persistent,  no_argument, "persistent discovery connection" },
++		{"quiet",       'Q', "LIST", CFG_NONE, &cfg.quiet,  no_argument, "suppress already connected errors" },
+ 		{NULL},
+ 	};
  
 -- 
 2.17.1
