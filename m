@@ -1,68 +1,129 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri, 22 Feb 2019 18:32:55 -0800
-Subject: [PATCH nvme-cli rfc 4/6] fabrics: add --quiet option
+Date: Fri, 22 Feb 2019 18:32:56 -0800
+Subject: [PATCH nvme-cli rfc 5/6] fabrics: systemd and udev support for
+ automatic discovery log changes
 In-Reply-To: <20190223023257.21227-1-sagi@grimberg.me>
 References: <20190223023257.21227-1-sagi@grimberg.me>
-Message-ID: <20190223023257.21227-5-sagi@grimberg.me>
+Message-ID: <20190223023257.21227-6-sagi@grimberg.me>
 
-Now we are going to have discovery log change events, so
-instead of trying to figure out which NVM subsystem ports
-are already connected, we let the driver do that and
-only suppress the failure messages.
+Now that a fabrics controller can report discovery log change events,
+we add a udev rule to act on a discovery log change event by running
+nvme connect-all to an already established discovery controller instance.
 
-This option will be used by the discovery log change corresponding
-udev rule.
+The kernel will generate a udev event with parameters:
+NVME_EVENT: currently only discovery events.
+NVME_TRTYPE: the discovery controller transport type.
+NVME_INSTANCE: the discovery controller instance id.
+NVME_TRADDR: the discovery controller transport address.
+NVME_TRSVCID: the discovery controller transport service-id.
+NVME_HOST_TRADDR: the discovery controller host transport address.
+
+udev simply feeds them as-is to nvme connect-all.
+
+Install scripts as part of nvme-cli and apply them in post installation.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- fabrics.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+ Makefile                       | 10 +++++++++-
+ nvme.spec.in                   |  6 ++++++
+ systemd/nvmf-connect at .service  | 15 +++++++++++++++
+ udev/70-nvmf-autoconnect.rules |  7 +++++++
+ 4 files changed, 37 insertions(+), 1 deletion(-)
+ create mode 100644 systemd/nvmf-connect at .service
+ create mode 100644 udev/70-nvmf-autoconnect.rules
 
-diff --git a/fabrics.c b/fabrics.c
-index 702f928cd8ed..f08fe3f9a0be 100644
---- a/fabrics.c
-+++ b/fabrics.c
-@@ -66,6 +66,7 @@ static struct config {
- 	int  hdr_digest;
- 	int  data_digest;
- 	bool persistent;
-+	bool quiet;
- } cfg = { NULL };
+diff --git a/Makefile b/Makefile
+index 303f13f256c0..86ff968691a6 100644
+--- a/Makefile
++++ b/Makefile
+@@ -8,6 +8,8 @@ DESTDIR =
+ PREFIX ?= /usr/local
+ SYSCONFDIR = /etc
+ SBINDIR = $(PREFIX)/sbin
++SYSTEMDDIR = /usr/lib/systemd
++UDEVDIR = /lib/udev
+ LIB_DEPENDS =
  
- #define BUF_SIZE		4096
-@@ -216,9 +217,11 @@ static int add_ctrl(const char *argstr)
- 		goto out;
- 	}
+ ifeq ($(LIBUUID),0)
+@@ -75,6 +77,12 @@ clean:
+ clobber: clean
+ 	$(MAKE) -C Documentation clobber
  
--	if (write(fd, argstr, len) != len) {
--		fprintf(stderr, "Failed to write to %s: %s\n",
--			 PATH_NVME_FABRICS, strerror(errno));
-+	ret = write(fd, argstr, len);
-+	if (ret != len) {
-+		if (errno != EALREADY || !cfg.quiet)
-+			fprintf(stderr, "Failed to write to %s: %s\n",
-+				 PATH_NVME_FABRICS, strerror(errno));
- 		ret = -errno;
- 		goto out_close;
- 	}
-@@ -840,6 +843,10 @@ static int connect_ctrls(struct nvmf_disc_rsp_page_hdr *log, int numrec)
- 		/* already connected print message	*/
- 		if (instance == -EALREADY) {
- 			const char *traddr = log->entries[i].traddr;
++install-udev:
++	$(INSTALL) -d $(DESTDIR)$(SYSTEMDDIR)/system
++	$(INSTALL) -m 644 ./systemd/*.service $(DESTDIR)$(SYSTEMDDIR)/system
++	$(INSTALL) -d $(DESTDIR)$(UDEVDIR)/rules.d
++	$(INSTALL) -m 644 ./udev/*.rules $(DESTDIR)$(UDEVDIR)/rules.d
 +
-+			if (cfg.quiet)
-+				continue;
-+
- 			fprintf(stderr,
- 				"traddr=%.*s is already connected\n",
- 				space_strip_len(NVMF_TRADDR_SIZE, traddr),
-@@ -996,6 +1003,7 @@ int discover(const char *desc, int argc, char **argv, bool connect)
- 		{"nr-poll-queues",  'P', "LIST", CFG_INT, &cfg.nr_poll_queues,    required_argument, "number of poll queues to use (default 0)" },
- 		{"queue-size",      'Q', "LIST", CFG_INT, &cfg.queue_size,      required_argument, "number of io queue elements to use (default 128)" },
- 		{"persistent",  'p', "LIST", CFG_NONE, &cfg.persistent,  no_argument, "persistent discovery connection" },
-+		{"quiet",       'Q', "LIST", CFG_NONE, &cfg.quiet,  no_argument, "suppress already connected errors" },
- 		{NULL},
- 	};
+ install-man:
+ 	$(MAKE) -C Documentation install-no-build
  
+@@ -106,7 +114,7 @@ install-etc:
+ 		$(INSTALL) -m 644 -T ./etc/discovery.conf.in $(DESTDIR)$(SYSCONFDIR)/nvme/discovery.conf; \
+ 	fi
+ 
+-install-spec: install-bin install-man install-bash-completion install-zsh-completion install-etc
++install-spec: install-bin install-man install-bash-completion install-zsh-completion install-etc install-udev
+ install: install-spec install-hostparams
+ 
+ nvme.spec: nvme.spec.in NVME-VERSION-FILE
+diff --git a/nvme.spec.in b/nvme.spec.in
+index 6934f8fd605b..7b5b664e63d9 100644
+--- a/nvme.spec.in
++++ b/nvme.spec.in
+@@ -35,6 +35,8 @@ make install-spec DESTDIR=%{buildroot} PREFIX=/usr
+ %{_sysconfdir}/nvme/hostnqn
+ %{_sysconfdir}/nvme/hostid
+ %{_sysconfdir}/nvme/discovery.conf
++/usr/lib/udev/rules.d/70-nvmf-autoconnect.rules
++/usr/lib/systemd/system/nvmf-connect at .service
+ 
+ %clean
+ rm -rf $RPM_BUILD_ROOT
+@@ -47,6 +49,10 @@ if [ $1 -eq 1 ]; then # 1 : This package is being installed for the first time
+         if [ ! -s %{_sysconfdir}/nvme/hostid ]; then
+                 uuidgen > %{_sysconfdir}/nvme/hostid
+         fi
++
++	# apply udev and systemd changes that we did
++	udevadm control --reload-rules && udevadm trigger
++	systemctl daemon-reload
+ fi
+ 
+ %changelog
+diff --git a/systemd/nvmf-connect at .service b/systemd/nvmf-connect at .service
+new file mode 100644
+index 000000000000..694b27822f61
+--- /dev/null
++++ b/systemd/nvmf-connect at .service
+@@ -0,0 +1,15 @@
++#
++# Unit file used by 70-nvmf-autoconnect.rules.
++#
++
++[Unit]
++Description=NVMf automatic scan upon discovery log change events
++After=syslog.target
++
++[Service]
++Type=oneshot
++Environment="CONNECT_ARGS=%i"
++ExecStart=/bin/sh -c "nvme connect-all `/bin/echo -e $CONNECT_ARGS`"
++
++[Install]
++WantedBy=default.target
+diff --git a/udev/70-nvmf-autoconnect.rules b/udev/70-nvmf-autoconnect.rules
+new file mode 100644
+index 000000000000..a149036c3833
+--- /dev/null
++++ b/udev/70-nvmf-autoconnect.rules
+@@ -0,0 +1,7 @@
++#
++# nvmf: udev event to automatically scan (via discovery controller)
++#   new nvme subsystem ports and auto-connect to the subsystems they report.
++#
++
++SUBSYSTEM=="nvme", ACTION=="change", ENV{NVME_EVENT}=="discovery",\
++  RUN+="/bin/systemctl --no-block start nvmf-connect at --device=nvme$env{NVME_INSTANCE}\t--transport=$env{NVME_TRTYPE}\t--traddr=$env{NVME_TRADDR}\t--trsvcid=$env{NVME_TRSVCID}\t--host-traddr=$env{NVME_HOST_TRADDR}.service"
 -- 
 2.17.1
