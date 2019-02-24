@@ -1,51 +1,60 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Sun, 24 Feb 2019 18:14:04 +0100
-Subject: [PATCH 2/3 rfc] nvme: enable aen also for discovery controllers
-In-Reply-To: <20190223023117.20517-3-sagi@grimberg.me>
+Date: Sun, 24 Feb 2019 18:16:18 +0100
+Subject: [PATCH 3/3 rfc] nvme: fire discovery log page change events to
+ userspace
+In-Reply-To: <20190223023117.20517-4-sagi@grimberg.me>
 References: <20190223023117.20517-1-sagi@grimberg.me>
- <20190223023117.20517-3-sagi@grimberg.me>
-Message-ID: <b6127cbf-bfac-8df8-2253-a6bd798da5f1@suse.de>
+ <20190223023117.20517-4-sagi@grimberg.me>
+Message-ID: <d65021ac-b9ef-fa99-0a89-379f4583c646@suse.de>
 
 On 2/23/19 3:31 AM, Sagi Grimberg wrote:
-> If the controller supports discovery log page change events,
-> we want to enable it on the host side as well.
+> Provide userspace with nvme discovery controller device instance,
+> controller traddr and trsvcid. We'd expect userspace to handle
+> this event by issuing a discovery + connect.
 > 
 > Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 > ---
->   drivers/nvme/host/core.c | 9 +++++++--
->   1 file changed, 7 insertions(+), 2 deletions(-)
+>   drivers/nvme/host/core.c | 28 +++++++++++++++++++++++++++-
+>   1 file changed, 27 insertions(+), 1 deletion(-)
 > 
 > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 9ec88253ebcd..348af75583e5 100644
+> index 348af75583e5..d29ff9b910d9 100644
 > --- a/drivers/nvme/host/core.c
 > +++ b/drivers/nvme/host/core.c
-> @@ -1178,6 +1178,8 @@ static void nvme_enable_aen(struct nvme_ctrl *ctrl)
->   	if (!supported_aens)
->   		return;
+> @@ -1168,7 +1168,8 @@ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count)
+>   EXPORT_SYMBOL_GPL(nvme_set_queue_count);
 >   
-> +	queue_work(nvme_wq, &ctrl->async_event_work);
-> +
->   	status = nvme_set_features(ctrl, NVME_FEAT_ASYNC_EVENT, supported_aens,
->   			NULL, 0, &result);
->   	if (status)
-> @@ -3662,10 +3664,13 @@ void nvme_start_ctrl(struct nvme_ctrl *ctrl)
->   	if (ctrl->kato)
->   		nvme_start_keep_alive(ctrl);
+>   #define NVME_AEN_SUPPORTED \
+> -	(NVME_AEN_CFG_NS_ATTR | NVME_AEN_CFG_FW_ACT | NVME_AEN_CFG_ANA_CHANGE)
+> +	(NVME_AEN_CFG_NS_ATTR | NVME_AEN_CFG_FW_ACT | NVME_AEN_CFG_ANA_CHANGE | \
+> +	 NVME_AEN_CFG_DISC_CHANGE)
 >   
-> +	if (ctrl->queue_count > 1 ||
-> +	    (ctrl->ops->flags & NVME_F_FABRICS &&
-> +	     ctrl->opts->discovery_nqn))
-> +		nvme_enable_aen(ctrl);
-> +
->   	if (ctrl->queue_count > 1) {
->   		nvme_queue_scan(ctrl);
-> -		nvme_enable_aen(ctrl);
-> -		queue_work(nvme_wq, &ctrl->async_event_work);
->   		nvme_start_queues(ctrl);
->   	}
+>   static void nvme_enable_aen(struct nvme_ctrl *ctrl)
+>   {
+> @@ -3527,6 +3528,28 @@ static void nvme_aen_uevent(struct nvme_ctrl *ctrl)
+>   	kfree(envp[0]);
 >   }
-> 
-Reviewed-by: Hannes Reinecke <hare at suse.com>
+>   
+> +static void nvme_disc_aen_uevent(struct nvme_ctrl *ctrl)
+> +{
+> +	struct nvmf_ctrl_options *opts = ctrl->opts;
+> +	char *envp[16];
+> +	int i, envloc = 0;
+> +
+> +	envp[envloc++] = kasprintf(GFP_KERNEL, "NVME_EVENT=discovery");
+> +	envp[envloc++] = kasprintf(GFP_KERNEL, "NVME_INSTANCE=%d", ctrl->instance);
+> +	envp[envloc++] = kasprintf(GFP_KERNEL, "NVME_TRTYPE=%s", opts->transport);
+> +	envp[envloc++] = kasprintf(GFP_KERNEL, "NVME_TRADDR=%s", opts->traddr);
+> +	envp[envloc++] = kasprintf(GFP_KERNEL, "NVME_TRSVCID=%s", opts->trsvcid);
+> +	envp[envloc++] = kasprintf(GFP_KERNEL, "NVME_HOST_TRADDR=%s",
+> +			opts->host_traddr ?: "none");
+> +	envp[envloc] = NULL;
+> +
+trsvcid is also optional, so we should be using
+
+opts->trsvcid ?: "none"
+
+here, too.
 
 Cheers,
 
