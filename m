@@ -1,60 +1,89 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Sun, 24 Feb 2019 18:16:18 +0100
-Subject: [PATCH 3/3 rfc] nvme: fire discovery log page change events to
- userspace
-In-Reply-To: <20190223023117.20517-4-sagi@grimberg.me>
-References: <20190223023117.20517-1-sagi@grimberg.me>
- <20190223023117.20517-4-sagi@grimberg.me>
-Message-ID: <d65021ac-b9ef-fa99-0a89-379f4583c646@suse.de>
+Date: Sun, 24 Feb 2019 18:17:01 +0100
+Subject: [PATCH nvme-cli rfc 0/6] Support discovery log change events
+In-Reply-To: <20190223023257.21227-1-sagi@grimberg.me>
+References: <20190223023257.21227-1-sagi@grimberg.me>
+Message-ID: <d4012891-8bc7-00cf-ab96-7828270d25af@suse.de>
 
-On 2/23/19 3:31 AM, Sagi Grimberg wrote:
-> Provide userspace with nvme discovery controller device instance,
-> controller traddr and trsvcid. We'd expect userspace to handle
-> this event by issuing a discovery + connect.
+On 2/23/19 3:32 AM, Sagi Grimberg wrote:
+> This series corresponds to the nvme-core discovery uevent notification
+> for discovery log changes.
 > 
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> ---
->   drivers/nvme/host/core.c | 28 +++++++++++++++++++++++++++-
->   1 file changed, 27 insertions(+), 1 deletion(-)
+> The motivation is that whenever we get a discovery log change event from
+> a discovery controller, we want to query the discovery log page again
+> and connect to the new controllers in the fabric.
 > 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 348af75583e5..d29ff9b910d9 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -1168,7 +1168,8 @@ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count)
->   EXPORT_SYMBOL_GPL(nvme_set_queue_count);
->   
->   #define NVME_AEN_SUPPORTED \
-> -	(NVME_AEN_CFG_NS_ATTR | NVME_AEN_CFG_FW_ACT | NVME_AEN_CFG_ANA_CHANGE)
-> +	(NVME_AEN_CFG_NS_ATTR | NVME_AEN_CFG_FW_ACT | NVME_AEN_CFG_ANA_CHANGE | \
-> +	 NVME_AEN_CFG_DISC_CHANGE)
->   
->   static void nvme_enable_aen(struct nvme_ctrl *ctrl)
->   {
-> @@ -3527,6 +3528,28 @@ static void nvme_aen_uevent(struct nvme_ctrl *ctrl)
->   	kfree(envp[0]);
->   }
->   
-> +static void nvme_disc_aen_uevent(struct nvme_ctrl *ctrl)
-> +{
-> +	struct nvmf_ctrl_options *opts = ctrl->opts;
-> +	char *envp[16];
-> +	int i, envloc = 0;
-> +
-> +	envp[envloc++] = kasprintf(GFP_KERNEL, "NVME_EVENT=discovery");
-> +	envp[envloc++] = kasprintf(GFP_KERNEL, "NVME_INSTANCE=%d", ctrl->instance);
-> +	envp[envloc++] = kasprintf(GFP_KERNEL, "NVME_TRTYPE=%s", opts->transport);
-> +	envp[envloc++] = kasprintf(GFP_KERNEL, "NVME_TRADDR=%s", opts->traddr);
-> +	envp[envloc++] = kasprintf(GFP_KERNEL, "NVME_TRSVCID=%s", opts->trsvcid);
-> +	envp[envloc++] = kasprintf(GFP_KERNEL, "NVME_HOST_TRADDR=%s",
-> +			opts->host_traddr ?: "none");
-> +	envp[envloc] = NULL;
-> +
-trsvcid is also optional, so we should be using
+> To support this we have a couple of steps:
+> 1. establish a "persistent" discovery controller
+> 2. allow discovery over an existing "persisent" discovery controller device
+>     node
+> 3. allow users to pass "none" to nvme-cli for arguments that they don't
+>     care about (this will be useful when we have udev rule that catches events
+>     and simply feed them to nvme-cli without checking any parameters or building
+>     a commandline arg string).
+> 4. add udev+systemd scripting to make this all automatic.
+> 
+> Review and feedback is welcome.
+> 
+> Hannes Reinecke (1):
+>    fc: add autoconnect systemd service and udev rule for fc discovery log
+>      changes
+> 
+> Sagi Grimberg (5):
+>    fabrics: ignore arguments that pass in "none"
+>    fabrics: support persistent connections to a discovery controller
+>    fabrics: allow user to retrieve discovery log from existing discovery
+>      controller
+>    fabrics: add --quiet option
+>    fabrics: systemd and udev support for automatic discovery log changes
+> 
+>   Makefile                                | 10 +++-
+>   fabrics.c                               | 62 ++++++++++++++++++-------
+>   fabrics.h                               |  2 +
+>   nvme.spec.in                            |  7 +++
+>   systemd/nvmefc-boot-connections.service |  9 aw++++
+>   systemd/nvmf-connect at .service           | 15 ++++++
+>   udev/70-nvmf-autoconnect.rules          | 11 +++++
+>   7 files changed, 98 insertions(+), 18 deletions(-)
+>   create mode 100644 systemd/nvmefc-boot-connections.service
+>   create mode 100644 systemd/nvmf-connect at .service
+>   create mode 100644 udev/70-nvmf-autoconnect.rules
+> 
+Hmm.
 
-opts->trsvcid ?: "none"
+Last time I've posted the autoconnect scripts you said you'd rather have 
+them updated to be useful for generic discovery events.
+So what happened to that?
+As it stands (and as posted here) these scripts are pretty much 
+independent on the remaining series as they react to the existent FC 
+NVMe uevents.
 
-here, too.
+And the one thing which I patently dislike about those scripts is this 
+utterly weird interface.
+Problem here is that abstract systemd services (ie those ending with an 
+'@' sign) can pass exactly _one_ argument, namely that one following the 
+'@' sign.
+But for nvme we need to pass in several arguments, one for each 
+command-line parameter.
+
+The way it's solved nowadays is to insert a 'tab' character (\t) between 
+each argument, use the combined string as parameter to the systemd 
+service, and call 'echo' to split the parameters again.
+Shudder.
+
+What I really want to do here is to add a '--dry-run' option to 
+nvme-cli, which then would instruct nvme-cli to _not_ write the final 
+string to the ioctl interface but rather to stdout.
+This string will not contain any spaces, and have each argument (minus 
+any leading dashes) concatenated by commas.
+So it should be possible to use this string as argument for the systemd 
+service.
+Then we only need to complementary call --argstr to accept this string 
+for nvme-cli, re-parse it into the internal structure, and continue with 
+the operation.
+
+I do have some patches, but still need to polish them off (and possibly 
+test them :-) before sending.
 
 Cheers,
 
