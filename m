@@ -1,58 +1,45 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 24 Feb 2019 14:33:12 -0800
-Subject: [PATCH nvme-cli rfc 0/6] Support discovery log change events
-In-Reply-To: <d4012891-8bc7-00cf-ab96-7828270d25af@suse.de>
-References: <20190223023257.21227-1-sagi@grimberg.me>
- <d4012891-8bc7-00cf-ab96-7828270d25af@suse.de>
-Message-ID: <e7423c76-6425-4020-2074-b977fc87866f@grimberg.me>
+From: torvalds@linux-foundation.org (Linus Torvalds)
+Date: Sun, 24 Feb 2019 14:42:35 -0800
+Subject: [PATCH] nvme-pci: Prevent mmio reads if pci channel offline
+In-Reply-To: <2b7d8f45d11c47e69f56ad1bc3324dd1@ausx13mps321.AMER.DELL.COM>
+References: <20190222010502.2434-1-jonathan.derrick@intel.com>
+ <CAHk-=wjmjHyovjtzaq=HSegEpiO2SXWaYfJ6qsJrZhXg_YSx5g@mail.gmail.com>
+ <2b7d8f45d11c47e69f56ad1bc3324dd1@ausx13mps321.AMER.DELL.COM>
+Message-ID: <CAHk-=wg_e5M0b5aJJf8V_UYaqX12YYA9MEg=gHNp6ALE5fK23w@mail.gmail.com>
 
+On Sun, Feb 24, 2019@12:37 PM <Alex_Gagniuc@dellteam.com> wrote:
+>
+> Dell r740xd to name one. r640 is even worse -- they probably didn't give
+> me one because I'd have too much stuff to complain about.
+>
+> On the above machines, firmware-first (FFS) tries to guess when there's
+> a SURPRISE!!! removal of a PCIe card and supress any errors reported to
+> the OS. When the OS keeps firing IO over the dead link, FFS doesn't know
+> if it can safely supress the error. It reports is via NMI, and
+> drivers/acpi/apei/ghes.c panics whenever that happens.
 
-> Hmm.
-> 
-> Last time I've posted the autoconnect scripts you said you'd rather have 
-> them updated to be useful for generic discovery events.
-> So what happened to that?
+Can we just fix that ghes driver?
 
-I would like to have a single event, but the one difference is that
-the discovery log page events come on a discovery controller and in
-the fc case we don't have such a controller (the NVME_INSTANCE env).
+It's not useful to panic just for random reasons. I realize that some
+of the RAS people have the mindset that "hey, I don't know what's
+wrong, so I'd better kill the machine than continue", but that's
+bogus.
 
-If we can resolve this difference we can unite and have a single udev
-handler for both...
+What happens if we just fix that part?
 
-> As it stands (and as posted here) these scripts are pretty much 
-> independent on the remaining series as they react to the existent FC 
-> NVMe uevents.
+> As I see it, there's a more fundamental problem. As long as we accept
+> platforms where firmware does some things first (FFS), we have much less
+> control over what happens. The best we can do is wishy-washy fixes like
+> this one.
 
-Well at least the nvmf-connect at .service is shared...
+Oh, I agree that platforms with random firmware things are horrid. But
+we've been able to handle them just fine before, without making every
+single possible hotplug pci driver have nasty problems and
+workarounds.
 
-> And the one thing which I patently dislike about those scripts is this 
-> utterly weird interface.
-> Problem here is that abstract systemd services (ie those ending with an 
-> '@' sign) can pass exactly _one_ argument, namely that one following the 
-> '@' sign.
-> But for nvme we need to pass in several arguments, one for each 
-> command-line parameter.
-> 
-> The way it's solved nowadays is to insert a 'tab' character (\t) between 
-> each argument, use the combined string as parameter to the systemd 
-> service, and call 'echo' to split the parameters again.
-> Shudder.
+I suspect we'd be much better off having the ghes driver just not panic.
 
-Can't say I like it either...
+What is the actual ghes error? Is it the "unknown, just panic" case,
+or something else?
 
-> What I really want to do here is to add a '--dry-run' option to 
-> nvme-cli, which then would instruct nvme-cli to _not_ write the final 
-> string to the ioctl interface but rather to stdout.
-> This string will not contain any spaces, and have each argument (minus 
-> any leading dashes) concatenated by commas.
-> So it should be possible to use this string as argument for the systemd 
-> service.
-> Then we only need to complementary call --argstr to accept this string 
-> for nvme-cli, re-parse it into the internal structure, and continue with 
-> the operation.
-> 
-> I do have some patches, but still need to polish them off (and possibly 
-> test them :-) before sending.
-
-Not sure if that is any better, but lets see patches...
+               Linus
