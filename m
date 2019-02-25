@@ -1,16 +1,38 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 25 Feb 2019 10:44:31 +0100
-Subject: [PATCH v2 1/1] nvme: add get-feature to admin cmds tracer
-In-Reply-To: <1551018551-30441-1-git-send-email-maxg@mellanox.com>
-References: <1551018551-30441-1-git-send-email-maxg@mellanox.com>
-Message-ID: <85f31612-ddcd-a74b-7f8e-9f99f19ab540@suse.de>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Mon, 25 Feb 2019 13:00:04 +0200
+Subject: [PATCH 1/1] nvme: avoid double dereference to convert le to cpu
+Message-ID: <1551092404-16456-1-git-send-email-maxg@mellanox.com>
 
-Looks good,
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+Use le16_to_cpu instead of le16_to_cpup and le64_to_cpu instead of
+le64_to_cpup. This will also align the code to nvme-core driver
+convention.
+
+Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ drivers/nvme/host/core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 6a9dd68..2323375 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1548,7 +1548,7 @@ static bool nvme_ns_ids_equal(struct nvme_ns_ids *a, struct nvme_ns_ids *b)
+ static void nvme_update_disk_info(struct gendisk *disk,
+ 		struct nvme_ns *ns, struct nvme_id_ns *id)
+ {
+-	sector_t capacity = le64_to_cpup(&id->nsze) << (ns->lba_shift - 9);
++	sector_t capacity = le64_to_cpu(id->nsze) << (ns->lba_shift - 9);
+ 	unsigned short bs = 1 << ns->lba_shift;
+ 
+ 	blk_mq_freeze_queue(disk->queue);
+@@ -2501,7 +2501,7 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 	ctrl->crdt[2] = le16_to_cpu(id->crdt3);
+ 
+ 	ctrl->oacs = le16_to_cpu(id->oacs);
+-	ctrl->oncs = le16_to_cpup(&id->oncs);
++	ctrl->oncs = le16_to_cpu(id->oncs);
+ 	ctrl->oaes = le32_to_cpu(id->oaes);
+ 	atomic_set(&ctrl->abort_limit, id->acl + 1);
+ 	ctrl->vwc = id->vwc;
 -- 
-Johannes Thumshirn                            SUSE Labs Filesystems
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+1.8.3.1
