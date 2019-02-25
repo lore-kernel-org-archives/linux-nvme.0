@@ -1,20 +1,34 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 25 Feb 2019 13:18:10 -0800
-Subject: [PATCH] nvmet: disable direct I/O when unavailable
-In-Reply-To: <6c3fa30a-d516-a453-a001-1014202ff9ce@suse.de>
-References: <20190221182234.22345-1-jthumshirn@suse.de>
- <SN6PR04MB4527A810D247541AA7C4A512867F0@SN6PR04MB4527.namprd04.prod.outlook.com>
- <6c3fa30a-d516-a453-a001-1014202ff9ce@suse.de>
-Message-ID: <71982410-d373-a659-0c0f-8aadf06d1d96@grimberg.me>
+Date: Mon, 25 Feb 2019 13:24:48 -0800
+Subject: [PATCH 2/3 rfc] nvme: enable aen also for discovery controllers
+In-Reply-To: <5873c894-ab14-b012-a0be-6fb80a41b24a@mellanox.com>
+References: <20190223023117.20517-1-sagi@grimberg.me>
+ <20190223023117.20517-3-sagi@grimberg.me>
+ <5873c894-ab14-b012-a0be-6fb80a41b24a@mellanox.com>
+Message-ID: <345747f6-9b12-de58-107b-93004afbfc80@grimberg.me>
 
 
-> Frankly, we have a ton of testing related special cases in the kernel.
+>> @@ -3662,10 +3664,13 @@ void nvme_start_ctrl(struct nvme_ctrl *ctrl)
+>> ????? if (ctrl->kato)
+>> ????????? nvme_start_keep_alive(ctrl);
+>> +??? if (ctrl->queue_count > 1 ||
+>> +??????? (ctrl->ops->flags & NVME_F_FABRICS &&
+>> +???????? ctrl->opts->discovery_nqn))
+>> +??????? nvme_enable_aen(ctrl);
+>> +
 > 
-> This one is a) simple and small, only 10 LoC, b) far away from the fast
-> path or any other place where it could have any impact on legitimate
-> users and c) it prints an informal message showing you what happened.
-> 
-> Sorry but this is a https://xkcd.com/386/ moment.
+> why queue_count > 1 is a condition to enable AEN ?
 
-How about we just fail it with a proper error message and let the
-user set buffered_io instead of trying to get smart here...
+I just pulled the below code up, but it seems you are right
+regardless of this patch. The AER should be independent of
+having I/O queues.
+
+> Sounds more like an admin related action...
+> 
+>> ????? if (ctrl->queue_count > 1) {
+>> ????????? nvme_queue_scan(ctrl);
+>> -??????? nvme_enable_aen(ctrl);
+>> -??????? queue_work(nvme_wq, &ctrl->async_event_work);
+>> ????????? nvme_start_queues(ctrl);
+>> ????? }
+>> ? }
