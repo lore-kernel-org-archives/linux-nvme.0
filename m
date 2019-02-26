@@ -1,55 +1,50 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 26 Feb 2019 14:55:50 -0800
-Subject: [PATCH] multipath: set discard and norot queue flags on the multipath
- stacking device
-Message-ID: <20190226225550.30378-1-sagi@grimberg.me>
+From: bvanassche@acm.org (Bart Van Assche)
+Date: Tue, 26 Feb 2019 15:48:07 -0800
+Subject: v5.0-rc2 and NVMeOF
+In-Reply-To: <20190226192043.GW4072@linux.ibm.com>
+References: <20190213193013.GG4240@linux.ibm.com>
+ <20190213195205.GA13650@linux.ibm.com> <1550091612.31902.48.camel@acm.org>
+ <20190213220923.GK4240@linux.ibm.com> <1550103713.31902.57.camel@acm.org>
+ <20190214010210.GM4240@linux.ibm.com>
+ <20190226173520.GA21832@linux.ibm.com> <1551203224.31902.173.camel@acm.org>
+ <20190226181211.GU4072@linux.ibm.com> <1551206403.31902.179.camel@acm.org>
+ <20190226192043.GW4072@linux.ibm.com>
+Message-ID: <1551224887.31902.190.camel@acm.org>
 
-If the underlying device supports discard we set it and clear it otherwise.
-Without this blkdiscard doesn't work on a multipath device node.
+On Tue, 2019-02-26@11:20 -0800, Paul E. McKenney wrote:
+> On Tue, Feb 26, 2019@10:40:03AM -0800, Bart Van Assche wrote:
+> > On Tue, 2019-02-26@10:12 -0800, Paul E. McKenney wrote:
+> > > But if you want me to try to push this into v5.1, I need you to very
+> > > explicitly tell me that you want me to do this.  Sorry to be picky, but
+> > > my normal process cut off contributions to v5.0 more than a month ago,
+> > > and my usual position is that a backport to -stable covers almost all
+> > > use cases and reduces risk to those using mainline.  Yes, RCU patches
+> > > do start off under a considerable cloud of suspicion.  Which is one of
+> > > the reasons that RCU works at all.  ;-)
+> > > 
+> > > So again, if you need me to try to push this into v5.1, I do need an
+> > > explicit request from you.
+> > 
+> > Hi Paul,
+> > 
+> > If this patch will only be sent to Linus during the v5.2 merge window, will
+> > a "Cc: stable # v..." tag be added to this patch that causes this patch to
+> > be applied to kernel versions before v5.2 on which it is safe to apply this
+> > patch?
+> 
+> I would prefer that, especially if you let me know which versions that
+> are important to you.  ;-)
 
-Also while we're at it, unconditionally set non rotational queue flag to
-make schedulers do the right thing.
+Hi Paul,
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/host/core.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+Is this the commit that introduced WQ_MEM_RECLAIM queues for SRCU?
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index d29ff9b910d9..7321da21f8c9 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1561,9 +1561,13 @@ static inline void nvme_config_write_zeroes(struct nvme_ns *ns)
- 	blk_queue_max_write_zeroes_sectors(ns->queue, max_sectors);
- }
- 
--static inline void nvme_ns_config_oncs(struct nvme_ns *ns)
-+static inline void nvme_ns_config_oncs(struct gendisk *disk, struct nvme_ns *ns)
- {
- 	nvme_config_discard(ns);
-+	if (blk_queue_discard(ns->queue))
-+		blk_queue_flag_set(QUEUE_FLAG_DISCARD, disk->queue);
-+	else
-+		blk_queue_flag_clear(QUEUE_FLAG_DISCARD, disk->queue);
- 	nvme_config_write_zeroes(ns);
- }
- 
-@@ -1612,6 +1616,7 @@ static void nvme_update_disk_info(struct gendisk *disk,
- 	blk_queue_logical_block_size(disk->queue, bs);
- 	blk_queue_physical_block_size(disk->queue, bs);
- 	blk_queue_io_min(disk->queue, bs);
-+	blk_queue_flag_set(QUEUE_FLAG_NONROT, disk->queue);
- 
- 	if (ns->ms && !ns->ext &&
- 	    (ns->ctrl->ops->flags & NVME_F_METADATA_SUPPORTED))
-@@ -1620,7 +1625,7 @@ static void nvme_update_disk_info(struct gendisk *disk,
- 		capacity = 0;
- 
- 	set_capacity(disk, capacity);
--	nvme_ns_config_oncs(ns);
-+	nvme_ns_config_oncs(disk, ns);
- 
- 	if (id->nsattr & (1 << 0))
- 		set_disk_ro(disk, true);
--- 
-2.17.1
+ad7c946b35ad ("rcu: Create RCU-specific workqueues with rescuers") # v4.17
+
+Since the commit earlier in this e-mail thread reverts changes introduced in
+kernel v4.18 I propose to request the stable tree maintainers to backport
+this patch to the v4.18 and later stable kernel trees.
+
+Thanks,
+
+Bart.
