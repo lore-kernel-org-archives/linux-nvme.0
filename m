@@ -1,40 +1,58 @@
-From: paulmck@linux.ibm.com (Paul E. McKenney)
-Date: Tue, 26 Feb 2019 11:20:43 -0800
-Subject: v5.0-rc2 and NVMeOF
-In-Reply-To: <1551206403.31902.179.camel@acm.org>
-References: <20190213193013.GG4240@linux.ibm.com>
- <20190213195205.GA13650@linux.ibm.com>
- <1550091612.31902.48.camel@acm.org>
- <20190213220923.GK4240@linux.ibm.com>
- <1550103713.31902.57.camel@acm.org>
- <20190214010210.GM4240@linux.ibm.com>
- <20190226173520.GA21832@linux.ibm.com>
- <1551203224.31902.173.camel@acm.org>
- <20190226181211.GU4072@linux.ibm.com>
- <1551206403.31902.179.camel@acm.org>
-Message-ID: <20190226192043.GW4072@linux.ibm.com>
+From: james.smart@broadcom.com (James Smart)
+Date: Tue, 26 Feb 2019 11:58:30 -0800
+Subject: [PATCH 2/2] nvme-fc: use nr_phys_segments when map rq to sgl
+In-Reply-To: <20190221041335.22806-3-chaitanya.kulkarni@wdc.com>
+References: <20190221041335.22806-1-chaitanya.kulkarni@wdc.com>
+ <20190221041335.22806-3-chaitanya.kulkarni@wdc.com>
+Message-ID: <7c31f86e-5ee3-e270-67dd-0659886019a9@broadcom.com>
 
-On Tue, Feb 26, 2019@10:40:03AM -0800, Bart Van Assche wrote:
-> On Tue, 2019-02-26@10:12 -0800, Paul E. McKenney wrote:
-> > But if you want me to try to push this into v5.1, I need you to very
-> > explicitly tell me that you want me to do this.  Sorry to be picky, but
-> > my normal process cut off contributions to v5.0 more than a month ago,
-> > and my usual position is that a backport to -stable covers almost all
-> > use cases and reduces risk to those using mainline.  Yes, RCU patches
-> > do start off under a considerable cloud of suspicion.  Which is one of
-> > the reasons that RCU works at all.  ;-)
-> > 
-> > So again, if you need me to try to push this into v5.1, I do need an
-> > explicit request from you.
-> 
-> Hi Paul,
-> 
-> If this patch will only be sent to Linus during the v5.2 merge window, will
-> a "Cc: stable # v..." tag be added to this patch that causes this patch to
-> be applied to kernel versions before v5.2 on which it is safe to apply this
-> patch?
+On 2/20/2019 8:13 PM, Chaitanya Kulkarni wrote:
+> Use blk_rq_nr_phys_segments() instead of blk_rq_payload_bytes() to check
+> if a command contains data to be mapped.  This fixes the case where
+> a struct request contains LBAs, but it has no payload, such as
+> Write Zeroes support.
+>
+> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+> ---
+>   drivers/nvme/host/fc.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> index 89accc76d71c..fdfaf5e914aa 100644
+> --- a/drivers/nvme/host/fc.c
+> +++ b/drivers/nvme/host/fc.c
+> @@ -2119,7 +2119,7 @@ nvme_fc_map_data(struct nvme_fc_ctrl *ctrl, struct request *rq,
+>   
+>   	freq->sg_cnt = 0;
+>   
+> -	if (!blk_rq_payload_bytes(rq))
+> +	if (!blk_rq_nr_phys_segments(req))
 
-I would prefer that, especially if you let me know which versions that
-are important to you.  ;-)
+This is broken - needs to be "rq" not "req". Not sure how it passed a 
+compile test.
 
-							Thanx, Paul
+>   		return 0;
+>   
+>   	freq->sg_table.sgl = freq->first_sgl;
+> @@ -2316,7 +2316,7 @@ nvme_fc_queue_rq(struct blk_mq_hw_ctx *hctx,
+>   	if (ret)
+>   		return ret;
+>   
+> -	data_len = blk_rq_payload_bytes(rq);
+> +	data_len = (rq);
+>   	if (data_len)
+>   		io_dir = ((rq_data_dir(rq) == WRITE) ?
+>   					NVMEFC_FCP_WRITE : NVMEFC_FCP_READ);
+
+This is also broken as data_len is used elsewhere to specify the size of 
+the payload (data outside of sqe) that is to be transferred. So although 
+it was ok for the local check, you switched things that cared about a 
+real length from a bytecount to a segment count. Needless to say it 
+killed things.
+
+So what does blk_rq_payload_bytes(rq) on a Write Zeros command returns 
+?? Why isn't returning 0 valid for Write Zeros ?
+
+Can you describe what the issue is that prompted this change.
+
+-- james
