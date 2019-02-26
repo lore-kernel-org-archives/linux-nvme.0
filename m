@@ -1,61 +1,41 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Tue, 26 Feb 2019 13:53:45 -0800
-Subject: [PATCH] nvmet-fc: Bring Disconnect into compliance with FC-NVME
- spec
-In-Reply-To: <7721fbe9-cb21-5197-2c9d-f6786e082696@cisco.com>
-References: <20190205173902.17947-1-jsmart2021@gmail.com>
- <20190220221454.GA31450@osmithde-lnx.cisco.com>
- <2fc8ae0b-2773-87e1-a319-55e251b3f7d7@gmail.com>
- <2cd0c5e9-845a-2122-e2a1-7ef3f96ce33f@cisco.com>
- <7721fbe9-cb21-5197-2c9d-f6786e082696@cisco.com>
-Message-ID: <9da8e308-aa16-25bb-3bf0-e3cef3e28ab8@broadcom.com>
+From: Alex_Gagniuc@Dellteam.com (Alex_Gagniuc@Dellteam.com)
+Date: Tue, 26 Feb 2019 22:37:26 +0000
+Subject: [PATCH] nvme-pci: Prevent mmio reads if pci channel offline
+References: <20190222010502.2434-1-jonathan.derrick@intel.com>
+ <CAHk-=wjmjHyovjtzaq=HSegEpiO2SXWaYfJ6qsJrZhXg_YSx5g@mail.gmail.com>
+ <2b7d8f45d11c47e69f56ad1bc3324dd1@ausx13mps321.AMER.DELL.COM>
+ <CAHk-=wg_e5M0b5aJJf8V_UYaqX12YYA9MEg=gHNp6ALE5fK23w@mail.gmail.com>
+ <cbe2ed1562a64609be6538f5816ec1b6@ausx13mps321.AMER.DELL.COM>
+ <20190225155501.GI10237@localhost.localdomain>
+Message-ID: <b35ebf928ed743cca6649a191c76957b@ausx13mps321.AMER.DELL.COM>
 
-On 2/21/2019 3:16 PM, Oliver Smith-Denny wrote:
-> On 02/21/2019 10:45 AM, Oliver Smith-Denny wrote:> I have been testing 
-> with these changes and have been getting one
->> warning (kernel/workqueue.c:3028) when the discovery controller gets
->> NVMe_Disconnect. I also have been trying some error injection (not
->> sending the occasional response from the target LLDD for write data)
->> and getting blocked tasks for > 120 seconds, with the following call
->> trace (this is after getting NVMe_Disconnect for the data controller):
->>
->> INFO: task kworker/27:2:35310 blocked for more than 120 seconds.
->> Tainted: G??????? W? O????? 5.0.0-rc7-next-20190220+ #1
->> ??kworker/27:2??? D??? 0 35310????? 2 0x80000080
->> Workqueue: events nvmet_fc_handle_ls_rqst_work [nvmet_fc]
->> Call Trace:
->> __schedule+0x2ab/0x880
->> ? complete+0x4d/0x60
->> schedule+0x36/0x70
->> schedule_timeout+0x1dc/0x300
->> complete+0x4d/0x60
->> nvmet_destroy_namespace+0x20/0x20 [nvmet]
->> wait_for_completion+0x121/0x180
->> wake_up_q+0x80/0x80
->> nvmet_sq_destroy+0x4f/0xf0 [nvmet]
->> nvmet_fc_delete_target_assoc+0x2fd/0x3f0 [nvmet_fc]
->> nvmet_fc_handle_ls_rqst_work+0x6ad/0xa40 [nvmet_fc]
->> process_one_work+0x179/0x3a0
->> worker_thread+0x4f/0x3e0
->> kthread+0x105/0x140
->> ? max_active_store+0x80/0x80
->> ? kthread_bind+0x20/0x20
->> ret_from_fork+0x35/0x40
->
-> I tried running the vanilla 5.0-rc7 kernel and I did not see
-> either the warning or the blocked tasked (but that makes sense because 
-> the vanilla kernel doesn't delete controllers with the current logic 
-> on NVME_Disconnect).
->
-> I then readded your patch to the kernel and I see both the warning and 
-> blocked task.
+On 2/25/19 9:55 AM, Keith Busch wrote:
+> On Sun, Feb 24, 2019@03:27:09PM -0800, Alex_Gagniuc@Dellteam.com wrote:
+>> [   57.680494] {1}[Hardware Error]: Hardware error from APEI Generic  Hardware Error Source: 1
+>> [   57.680495] {1}[Hardware Error]: event severity: fatal
+>> [   57.680496] {1}[Hardware Error]:  Error 0, type: fatal
+>> [   57.680496] {1}[Hardware Error]:   section_type: PCIe error
+>> [   57.680497] {1}[Hardware Error]:   port_type: 6, downstream switch port
+>> [   57.680498] {1}[Hardware Error]:   version: 3.0
+>> [   57.680498] {1}[Hardware Error]:   command: 0x0407, status: 0x0010
+>> [   57.680499] {1}[Hardware Error]:   device_id: 0000:3c:07.0
+>> [   57.680499] {1}[Hardware Error]:   slot: 1
+>> [   57.680500] {1}[Hardware Error]:   secondary_bus: 0x40
+>> [   57.680500] {1}[Hardware Error]:   vendor_id: 0x10b5, device_id: 0x9733
+>> [   57.680501] {1}[Hardware Error]:   class_code: 000406
+>> [   57.680502] {1}[Hardware Error]:   bridge: secondary_status: 0x0000, > control: 0x0003
+> 
+> This is a reaction to a ERR_FATAL message, right? What happens if we
+> ignore firmware first and override control of the AER masking with a
+> set to the Unsupported Request Error Mask in the root and downstream
+> ports? You can do a quick test like this for the above's hardware:
+> 
+>    # setpci -s 3c:07.0 ECAP_AER+8.l=100000:100000
+> 
+> You'd probably have to do the same command to the root port BDf, and any
+> other switches you have them in the hierarchy.
 
-Oliver,
+Then nobody gets the (error) message. You can go a bit further and try 
+'pcie_ports=native". Again, nobody gets the memo. ):
 
-I took at look at the two patches, and the one had missed at ! check on 
-scheduling the work. Thus it resulted in an extra put being done, thus 
-it would be released too soon.
-
-Try with this v2 patch and let me know.
-
--- james
+Alex
