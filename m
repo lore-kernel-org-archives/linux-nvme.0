@@ -1,41 +1,55 @@
-From: Alex_Gagniuc@Dellteam.com (Alex_Gagniuc@Dellteam.com)
-Date: Tue, 26 Feb 2019 22:37:26 +0000
-Subject: [PATCH] nvme-pci: Prevent mmio reads if pci channel offline
-References: <20190222010502.2434-1-jonathan.derrick@intel.com>
- <CAHk-=wjmjHyovjtzaq=HSegEpiO2SXWaYfJ6qsJrZhXg_YSx5g@mail.gmail.com>
- <2b7d8f45d11c47e69f56ad1bc3324dd1@ausx13mps321.AMER.DELL.COM>
- <CAHk-=wg_e5M0b5aJJf8V_UYaqX12YYA9MEg=gHNp6ALE5fK23w@mail.gmail.com>
- <cbe2ed1562a64609be6538f5816ec1b6@ausx13mps321.AMER.DELL.COM>
- <20190225155501.GI10237@localhost.localdomain>
-Message-ID: <b35ebf928ed743cca6649a191c76957b@ausx13mps321.AMER.DELL.COM>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 26 Feb 2019 14:55:50 -0800
+Subject: [PATCH] multipath: set discard and norot queue flags on the multipath
+ stacking device
+Message-ID: <20190226225550.30378-1-sagi@grimberg.me>
 
-On 2/25/19 9:55 AM, Keith Busch wrote:
-> On Sun, Feb 24, 2019@03:27:09PM -0800, Alex_Gagniuc@Dellteam.com wrote:
->> [   57.680494] {1}[Hardware Error]: Hardware error from APEI Generic  Hardware Error Source: 1
->> [   57.680495] {1}[Hardware Error]: event severity: fatal
->> [   57.680496] {1}[Hardware Error]:  Error 0, type: fatal
->> [   57.680496] {1}[Hardware Error]:   section_type: PCIe error
->> [   57.680497] {1}[Hardware Error]:   port_type: 6, downstream switch port
->> [   57.680498] {1}[Hardware Error]:   version: 3.0
->> [   57.680498] {1}[Hardware Error]:   command: 0x0407, status: 0x0010
->> [   57.680499] {1}[Hardware Error]:   device_id: 0000:3c:07.0
->> [   57.680499] {1}[Hardware Error]:   slot: 1
->> [   57.680500] {1}[Hardware Error]:   secondary_bus: 0x40
->> [   57.680500] {1}[Hardware Error]:   vendor_id: 0x10b5, device_id: 0x9733
->> [   57.680501] {1}[Hardware Error]:   class_code: 000406
->> [   57.680502] {1}[Hardware Error]:   bridge: secondary_status: 0x0000, > control: 0x0003
-> 
-> This is a reaction to a ERR_FATAL message, right? What happens if we
-> ignore firmware first and override control of the AER masking with a
-> set to the Unsupported Request Error Mask in the root and downstream
-> ports? You can do a quick test like this for the above's hardware:
-> 
->    # setpci -s 3c:07.0 ECAP_AER+8.l=100000:100000
-> 
-> You'd probably have to do the same command to the root port BDf, and any
-> other switches you have them in the hierarchy.
+If the underlying device supports discard we set it and clear it otherwise.
+Without this blkdiscard doesn't work on a multipath device node.
 
-Then nobody gets the (error) message. You can go a bit further and try 
-'pcie_ports=native". Again, nobody gets the memo. ):
+Also while we're at it, unconditionally set non rotational queue flag to
+make schedulers do the right thing.
 
-Alex
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/host/core.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index d29ff9b910d9..7321da21f8c9 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1561,9 +1561,13 @@ static inline void nvme_config_write_zeroes(struct nvme_ns *ns)
+ 	blk_queue_max_write_zeroes_sectors(ns->queue, max_sectors);
+ }
+ 
+-static inline void nvme_ns_config_oncs(struct nvme_ns *ns)
++static inline void nvme_ns_config_oncs(struct gendisk *disk, struct nvme_ns *ns)
+ {
+ 	nvme_config_discard(ns);
++	if (blk_queue_discard(ns->queue))
++		blk_queue_flag_set(QUEUE_FLAG_DISCARD, disk->queue);
++	else
++		blk_queue_flag_clear(QUEUE_FLAG_DISCARD, disk->queue);
+ 	nvme_config_write_zeroes(ns);
+ }
+ 
+@@ -1612,6 +1616,7 @@ static void nvme_update_disk_info(struct gendisk *disk,
+ 	blk_queue_logical_block_size(disk->queue, bs);
+ 	blk_queue_physical_block_size(disk->queue, bs);
+ 	blk_queue_io_min(disk->queue, bs);
++	blk_queue_flag_set(QUEUE_FLAG_NONROT, disk->queue);
+ 
+ 	if (ns->ms && !ns->ext &&
+ 	    (ns->ctrl->ops->flags & NVME_F_METADATA_SUPPORTED))
+@@ -1620,7 +1625,7 @@ static void nvme_update_disk_info(struct gendisk *disk,
+ 		capacity = 0;
+ 
+ 	set_capacity(disk, capacity);
+-	nvme_ns_config_oncs(ns);
++	nvme_ns_config_oncs(disk, ns);
+ 
+ 	if (id->nsattr & (1 << 0))
+ 		set_disk_ro(disk, true);
+-- 
+2.17.1
