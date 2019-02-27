@@ -1,61 +1,78 @@
-From: bvanassche@acm.org (Bart Van Assche)
-Date: Wed, 27 Feb 2019 08:25:50 -0800
-Subject: v5.0-rc2 and NVMeOF
-In-Reply-To: <20190227160411.GD4072@linux.ibm.com>
-References: <1550091612.31902.48.camel@acm.org>
- <20190213220923.GK4240@linux.ibm.com> <1550103713.31902.57.camel@acm.org>
- <20190214010210.GM4240@linux.ibm.com>
- <20190226173520.GA21832@linux.ibm.com> <1551203224.31902.173.camel@acm.org>
- <20190226181211.GU4072@linux.ibm.com> <1551206403.31902.179.camel@acm.org>
- <20190226192043.GW4072@linux.ibm.com> <1551224887.31902.190.camel@acm.org>
- <20190227160411.GD4072@linux.ibm.com>
-Message-ID: <1551284750.31902.196.camel@acm.org>
+From: Alex_Gagniuc@Dellteam.com (Alex_Gagniuc@Dellteam.com)
+Date: Wed, 27 Feb 2019 16:42:05 +0000
+Subject: [PATCH] nvme-pci: Prevent mmio reads if pci channel offline
+References: <20190222010502.2434-1-jonathan.derrick@intel.com>
+ <CAHk-=wjmjHyovjtzaq=HSegEpiO2SXWaYfJ6qsJrZhXg_YSx5g@mail.gmail.com>
+ <2b7d8f45d11c47e69f56ad1bc3324dd1@ausx13mps321.AMER.DELL.COM>
+ <CAHk-=wg_e5M0b5aJJf8V_UYaqX12YYA9MEg=gHNp6ALE5fK23w@mail.gmail.com>
+ <cbe2ed1562a64609be6538f5816ec1b6@ausx13mps321.AMER.DELL.COM>
+ <20190225155501.GI10237@localhost.localdomain>
+ <b35ebf928ed743cca6649a191c76957b@ausx13mps321.AMER.DELL.COM>
+ <CAHk-=wgRdATtsBzo-LDkWn_sW-PJvq95SahZcsTxxDMPzLWxKA@mail.gmail.com>
+Message-ID: <940d608e1a044a54abcb9d65923951f3@ausx13mps317.AMER.DELL.COM>
 
-On Wed, 2019-02-27@08:04 -0800, Paul E. McKenney wrote:
-> On Tue, Feb 26, 2019@03:48:07PM -0800, Bart Van Assche wrote:
-> > On Tue, 2019-02-26@11:20 -0800, Paul E. McKenney wrote:
-> > > On Tue, Feb 26, 2019@10:40:03AM -0800, Bart Van Assche wrote:
-> > > > On Tue, 2019-02-26@10:12 -0800, Paul E. McKenney wrote:
-> > > > > But if you want me to try to push this into v5.1, I need you to very
-> > > > > explicitly tell me that you want me to do this.  Sorry to be picky, but
-> > > > > my normal process cut off contributions to v5.0 more than a month ago,
-> > > > > and my usual position is that a backport to -stable covers almost all
-> > > > > use cases and reduces risk to those using mainline.  Yes, RCU patches
-> > > > > do start off under a considerable cloud of suspicion.  Which is one of
-> > > > > the reasons that RCU works at all.  ;-)
-> > > > > 
-> > > > > So again, if you need me to try to push this into v5.1, I do need an
-> > > > > explicit request from you.
-> > > > 
-> > > > Hi Paul,
-> > > > 
-> > > > If this patch will only be sent to Linus during the v5.2 merge window, will
-> > > > a "Cc: stable # v..." tag be added to this patch that causes this patch to
-> > > > be applied to kernel versions before v5.2 on which it is safe to apply this
-> > > > patch?
-> > > 
-> > > I would prefer that, especially if you let me know which versions that
-> > > are important to you.  ;-)
-> > 
-> > Hi Paul,
-> > 
-> > Is this the commit that introduced WQ_MEM_RECLAIM queues for SRCU?
-> > 
-> > ad7c946b35ad ("rcu: Create RCU-specific workqueues with rescuers") # v4.17
-> > 
-> > Since the commit earlier in this e-mail thread reverts changes introduced in
-> > kernel v4.18 I propose to request the stable tree maintainers to backport
-> > this patch to the v4.18 and later stable kernel trees.
+On 2/26/19 7:02 PM, Linus Torvalds wrote:
+> On Tue, Feb 26, 2019@2:37 PM <Alex_Gagniuc@dellteam.com> wrote:
+>>
+>> Then nobody gets the (error) message. You can go a bit further and try
+>> 'pcie_ports=native". Again, nobody gets the memo. ):
 > 
-> That is the one!  Hmmm...  Looks like these have to be backported by hand.
-> Or am I just confused this morning?
+> So? The error was bogus to begin with. Why would we care?
 
-Hi Paul,
+Of course nobody cares about that. We care about actual errors that we 
+now know we won't be notified of. Imagine if we didn't get the memo that 
+a piece of data is corrupt, and imagine the reaction of RAS folk.
 
-In my e-mail I was referring to sending only commit c0bd8bc59c77 ("srcu: Remove
-cleanup_srcu_struct_quiesced()") to the stable kernel tree maintainers. Are you
-perhaps referring to another commit?
+And I know the counter to that is a panic() is much more likely to cause 
+data corruption, and we're trading one piece of crap for an even 
+stinkier one. Whatever we end up doing, we have to do better than 
+silence errors and pretend nothing happened.
 
-Thanks,
 
-Bart.
+> Yes, yes, PCI bridges have the ability to return errors in accesses to
+> non-existent devices. But that was always bogus, and is never useful.
+> The whole "you get an interrupt or NMI on a bad access" is simply a
+> horribly broken model. It's not useful.
+> 
+> We already have long depended on hotplug drivers noticing the "oh, I'm
+> getting all-ff returns, the device may be gone". It's usually trivial,
+> and works a whole lot better.
+
+And that's been working great, hasn't it? I think you're thinking 
+strictly about hotplug. There are other situations where things are all 
+F'd, but the hardware isn't sending all F's. (example: ECRC errors)
+
+
+> It's not an error. Trying to force it to be an NMI or SCI or machine
+> check is bogus. It causes horrendous pain, because asynchronous
+> reporting doesn't work reliably anyway, and *synchronous* reporting is
+> impossible to sanely handle without crazy problems.
+> 
+> So the only sane model for hotplug devices is "IO still works, and
+> returns all ones". Maybe with an async one-time and *recoverable*
+> machine check or other reporting the access after the fact.
+
+Exactly!!! A notification (not calling it an 'error') that something 
+unusual has happened is good. Treating these things like errors is so 
+obvious, even a caveman wouldn't do it.
+In a world with FFS, we don't always get to have that model. Oh, FFS!
+
+
+> Anything else is simply broken. It would be broken even if firmware
+> wasn't involved, but obviously firmware people tend to often make a
+> bad situation even worse.
+
+Linus, be nice to firmware people. I've met a few, and I can vouch that 
+they're very kind and nice. They're also very scared, especially when OS 
+people want to ask them a few questions.
+
+I think FFS should get out of the way when OS advertises it's capable of 
+handling XYZ. There are some good arguments why this hasn't happened, 
+but I won't get into details. I do think it's unlikely that machines 
+will be moving back to an OS-controlled model.
+
+And Linus, keep in mind, when these machines were developed, OSes 
+couldn't handle recovery properly. None of this was ever an issue. It's 
+our fault that we've changed the OS after the machines are on the market.
+
+Alex
