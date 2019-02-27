@@ -1,63 +1,72 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Wed, 27 Feb 2019 10:16:40 -0800
-Subject: [PATCH] nvme-fc: use nr_phys_segments to determine existence of sgl
-Message-ID: <20190227181640.3501-1-jsmart2021@gmail.com>
+From: paulmck@linux.ibm.com (Paul E. McKenney)
+Date: Wed, 27 Feb 2019 10:22:29 -0800
+Subject: v5.0-rc2 and NVMeOF
+In-Reply-To: <1551284750.31902.196.camel@acm.org>
+References: <1550103713.31902.57.camel@acm.org>
+ <20190214010210.GM4240@linux.ibm.com>
+ <20190226173520.GA21832@linux.ibm.com>
+ <1551203224.31902.173.camel@acm.org>
+ <20190226181211.GU4072@linux.ibm.com>
+ <1551206403.31902.179.camel@acm.org>
+ <20190226192043.GW4072@linux.ibm.com>
+ <1551224887.31902.190.camel@acm.org>
+ <20190227160411.GD4072@linux.ibm.com>
+ <1551284750.31902.196.camel@acm.org>
+Message-ID: <20190227182229.GH4072@linux.ibm.com>
 
-For some nvme command, when issued by the nvme core layer, there
-is an internal buffer which can cause blk_rq_payload_bytes() to
-return a non-zero value yet there is no actual/real command payload
-and sg list.  An example is the WRITE ZEROES command.
+On Wed, Feb 27, 2019@08:25:50AM -0800, Bart Van Assche wrote:
+> On Wed, 2019-02-27@08:04 -0800, Paul E. McKenney wrote:
+> > On Tue, Feb 26, 2019@03:48:07PM -0800, Bart Van Assche wrote:
+> > > On Tue, 2019-02-26@11:20 -0800, Paul E. McKenney wrote:
+> > > > On Tue, Feb 26, 2019@10:40:03AM -0800, Bart Van Assche wrote:
+> > > > > On Tue, 2019-02-26@10:12 -0800, Paul E. McKenney wrote:
+> > > > > > But if you want me to try to push this into v5.1, I need you to very
+> > > > > > explicitly tell me that you want me to do this.  Sorry to be picky, but
+> > > > > > my normal process cut off contributions to v5.0 more than a month ago,
+> > > > > > and my usual position is that a backport to -stable covers almost all
+> > > > > > use cases and reduces risk to those using mainline.  Yes, RCU patches
+> > > > > > do start off under a considerable cloud of suspicion.  Which is one of
+> > > > > > the reasons that RCU works at all.  ;-)
+> > > > > > 
+> > > > > > So again, if you need me to try to push this into v5.1, I do need an
+> > > > > > explicit request from you.
+> > > > > 
+> > > > > Hi Paul,
+> > > > > 
+> > > > > If this patch will only be sent to Linus during the v5.2 merge window, will
+> > > > > a "Cc: stable # v..." tag be added to this patch that causes this patch to
+> > > > > be applied to kernel versions before v5.2 on which it is safe to apply this
+> > > > > patch?
+> > > > 
+> > > > I would prefer that, especially if you let me know which versions that
+> > > > are important to you.  ;-)
+> > > 
+> > > Hi Paul,
+> > > 
+> > > Is this the commit that introduced WQ_MEM_RECLAIM queues for SRCU?
+> > > 
+> > > ad7c946b35ad ("rcu: Create RCU-specific workqueues with rescuers") # v4.17
+> > > 
+> > > Since the commit earlier in this e-mail thread reverts changes introduced in
+> > > kernel v4.18 I propose to request the stable tree maintainers to backport
+> > > this patch to the v4.18 and later stable kernel trees.
+> > 
+> > That is the one!  Hmmm...  Looks like these have to be backported by hand.
+> > Or am I just confused this morning?
+> 
+> Hi Paul,
+> 
+> In my e-mail I was referring to sending only commit c0bd8bc59c77 ("srcu: Remove
+> cleanup_srcu_struct_quiesced()") to the stable kernel tree maintainers. Are you
+> perhaps referring to another commit?
 
-To address this, when making choices on whether to dma map an sgl,
-use blk_rq_nr_phys_segments() instead of blk_rq_payload_bytes().
-When there is a sgl, blk_rq_payload_bytes() will return the amount
-of data to be transferred by the sgl.
+Hello, Bart,
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-Signed-off-by: James Smart <jsmart2021 at gmail.com>
----
- drivers/nvme/host/fc.c | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
+I am not having much luck automatically applying either of those two
+commits.  Perhaps pilot error.  Does it work for you?
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index b29b12498a1a..ba8f2a9cbdaf 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2107,7 +2107,7 @@ nvme_fc_map_data(struct nvme_fc_ctrl *ctrl, struct request *rq,
- 
- 	freq->sg_cnt = 0;
- 
--	if (!blk_rq_payload_bytes(rq))
-+	if (!blk_rq_nr_phys_segments(rq))
- 		return 0;
- 
- 	freq->sg_table.sgl = freq->first_sgl;
-@@ -2304,12 +2304,23 @@ nvme_fc_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	if (ret)
- 		return ret;
- 
--	data_len = blk_rq_payload_bytes(rq);
--	if (data_len)
-+	/*
-+	 * nvme core doesn't quite treat the rq opaquely. Commands such
-+	 * as WRITE ZEROES will return a non-zero rq payload_bytes yet
-+	 * there is no actual payload to be transferred.
-+	 * To get it right, key data transmission on there being 1 or
-+	 * more physical segments in the sg list. If there is no
-+	 * physical segments, there is no payload.
-+	 */
-+	if (blk_rq_nr_phys_segments(rq)) {
-+		data_len = blk_rq_payload_bytes(rq);
- 		io_dir = ((rq_data_dir(rq) == WRITE) ?
- 					NVMEFC_FCP_WRITE : NVMEFC_FCP_READ);
--	else
-+	} else {
-+		data_len = 0;
- 		io_dir = NVMEFC_FCP_NODATA;
-+	}
-+
- 
- 	return nvme_fc_start_fcp_op(ctrl, queue, op, data_len, io_dir);
- }
--- 
-2.13.7
+Ah, I back-ported that patch for you, didn't I?  If so would you be willing
+to take care of sending it to -stable once c0bd8bc59c77 ("srcu: Remove
+cleanup_srcu_struct_quiesced()") hits mainline?
+
+							Thanx, Paul
