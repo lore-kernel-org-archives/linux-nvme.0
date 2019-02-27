@@ -1,72 +1,40 @@
-From: paulmck@linux.ibm.com (Paul E. McKenney)
-Date: Wed, 27 Feb 2019 10:22:29 -0800
-Subject: v5.0-rc2 and NVMeOF
-In-Reply-To: <1551284750.31902.196.camel@acm.org>
-References: <1550103713.31902.57.camel@acm.org>
- <20190214010210.GM4240@linux.ibm.com>
- <20190226173520.GA21832@linux.ibm.com>
- <1551203224.31902.173.camel@acm.org>
- <20190226181211.GU4072@linux.ibm.com>
- <1551206403.31902.179.camel@acm.org>
- <20190226192043.GW4072@linux.ibm.com>
- <1551224887.31902.190.camel@acm.org>
- <20190227160411.GD4072@linux.ibm.com>
- <1551284750.31902.196.camel@acm.org>
-Message-ID: <20190227182229.GH4072@linux.ibm.com>
+From: Austin.Bolen@dell.com (Austin.Bolen@dell.com)
+Date: Wed, 27 Feb 2019 20:04:35 +0000
+Subject: [PATCH] nvme-pci: Prevent mmio reads if pci channel offline
+References: <20190222010502.2434-1-jonathan.derrick@intel.com>
+ <CAHk-=wjmjHyovjtzaq=HSegEpiO2SXWaYfJ6qsJrZhXg_YSx5g@mail.gmail.com>
+ <2b7d8f45d11c47e69f56ad1bc3324dd1@ausx13mps321.AMER.DELL.COM>
+ <CAHk-=wg_e5M0b5aJJf8V_UYaqX12YYA9MEg=gHNp6ALE5fK23w@mail.gmail.com>
+ <cbe2ed1562a64609be6538f5816ec1b6@ausx13mps321.AMER.DELL.COM>
+ <20190225155501.GI10237@localhost.localdomain>
+ <b35ebf928ed743cca6649a191c76957b@ausx13mps321.AMER.DELL.COM>
+ <CAHk-=wgRdATtsBzo-LDkWn_sW-PJvq95SahZcsTxxDMPzLWxKA@mail.gmail.com>
+ <940d608e1a044a54abcb9d65923951f3@ausx13mps317.AMER.DELL.COM>
+ <f6704855445b44639f023a48f3003309@AUSX13MPC131.AMER.DELL.COM>
+Message-ID: <443262761d0e41fbb46a46dab28759c2@AUSX13MPC131.AMER.DELL.COM>
 
-On Wed, Feb 27, 2019@08:25:50AM -0800, Bart Van Assche wrote:
-> On Wed, 2019-02-27@08:04 -0800, Paul E. McKenney wrote:
-> > On Tue, Feb 26, 2019@03:48:07PM -0800, Bart Van Assche wrote:
-> > > On Tue, 2019-02-26@11:20 -0800, Paul E. McKenney wrote:
-> > > > On Tue, Feb 26, 2019@10:40:03AM -0800, Bart Van Assche wrote:
-> > > > > On Tue, 2019-02-26@10:12 -0800, Paul E. McKenney wrote:
-> > > > > > But if you want me to try to push this into v5.1, I need you to very
-> > > > > > explicitly tell me that you want me to do this.  Sorry to be picky, but
-> > > > > > my normal process cut off contributions to v5.0 more than a month ago,
-> > > > > > and my usual position is that a backport to -stable covers almost all
-> > > > > > use cases and reduces risk to those using mainline.  Yes, RCU patches
-> > > > > > do start off under a considerable cloud of suspicion.  Which is one of
-> > > > > > the reasons that RCU works at all.  ;-)
-> > > > > > 
-> > > > > > So again, if you need me to try to push this into v5.1, I do need an
-> > > > > > explicit request from you.
-> > > > > 
-> > > > > Hi Paul,
-> > > > > 
-> > > > > If this patch will only be sent to Linus during the v5.2 merge window, will
-> > > > > a "Cc: stable # v..." tag be added to this patch that causes this patch to
-> > > > > be applied to kernel versions before v5.2 on which it is safe to apply this
-> > > > > patch?
-> > > > 
-> > > > I would prefer that, especially if you let me know which versions that
-> > > > are important to you.  ;-)
-> > > 
-> > > Hi Paul,
-> > > 
-> > > Is this the commit that introduced WQ_MEM_RECLAIM queues for SRCU?
-> > > 
-> > > ad7c946b35ad ("rcu: Create RCU-specific workqueues with rescuers") # v4.17
-> > > 
-> > > Since the commit earlier in this e-mail thread reverts changes introduced in
-> > > kernel v4.18 I propose to request the stable tree maintainers to backport
-> > > this patch to the v4.18 and later stable kernel trees.
-> > 
-> > That is the one!  Hmmm...  Looks like these have to be backported by hand.
-> > Or am I just confused this morning?
+On 2/27/2019 11:56 AM, Bolen, Austin wrote:
 > 
-> Hi Paul,
+> BTW, this patch in particular is complaining about an error for a
+> removed device.  The Dell servers referenced in this chain will check if
+> the device is removed and if so it will suppress the error so I don't
+> think they are susceptible to this particular issue and I agree it is
+> broken if they do.  If that is the case we can and will fix it in firmware.
 > 
-> In my e-mail I was referring to sending only commit c0bd8bc59c77 ("srcu: Remove
-> cleanup_srcu_struct_quiesced()") to the stable kernel tree maintainers. Are you
-> perhaps referring to another commit?
 
-Hello, Bart,
+Confirmed this issue does not apply to the referenced Dell servers so I 
+don't not have a stake in how this should be handled for those systems. 
+It may be they just don't support surprise removal.  I know in our case 
+all the Linux distributions we qualify (RHEL, SLES, Ubuntu Server) have 
+told us they do not support surprise removal.  So I'm guessing that any 
+issues found with surprise removal could potentially fall under the 
+category of "unsupported".
 
-I am not having much luck automatically applying either of those two
-commits.  Perhaps pilot error.  Does it work for you?
+Still though, the larger issue of recovering from other types of PCIe 
+errors that are not due to device removal is still important.  I would 
+expect many system from many platform makers to not be able to recover 
+PCIe errors in general and hopefully the new DPC CER model will help 
+address this and provide added protection for cases like above as well.
 
-Ah, I back-ported that patch for you, didn't I?  If so would you be willing
-to take care of sending it to -stable once c0bd8bc59c77 ("srcu: Remove
-cleanup_srcu_struct_quiesced()") hits mainline?
-
-							Thanx, Paul
+Thanks,
+Austin
