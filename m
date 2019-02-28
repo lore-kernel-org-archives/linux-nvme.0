@@ -1,65 +1,69 @@
-From: osmithde@cisco.com (Oliver Smith-Denny)
-Date: Thu, 28 Feb 2019 14:47:22 -0800
-Subject: [PATCH] nvmet-fc: Bring Disconnect into compliance with FC-NVME
- spec
-In-Reply-To: <0137994b-8bd7-dd98-14c1-ce6ddb63b5e5@cisco.com>
-References: <20190205173902.17947-1-jsmart2021@gmail.com>
- <20190220221454.GA31450@osmithde-lnx.cisco.com>
- <2fc8ae0b-2773-87e1-a319-55e251b3f7d7@gmail.com>
- <2cd0c5e9-845a-2122-e2a1-7ef3f96ce33f@cisco.com>
- <7721fbe9-cb21-5197-2c9d-f6786e082696@cisco.com>
- <9da8e308-aa16-25bb-3bf0-e3cef3e28ab8@broadcom.com>
- <0137994b-8bd7-dd98-14c1-ce6ddb63b5e5@cisco.com>
-Message-ID: <16e564a6-e08e-7564-4fb4-d3ea67fae53f@cisco.com>
+From: Austin.Bolen@dell.com (Austin.Bolen@dell.com)
+Date: Thu, 28 Feb 2019 23:10:11 +0000
+Subject: [PATCH] nvme-pci: Prevent mmio reads if pci channel offline
+References: <CAHk-=wjmjHyovjtzaq=HSegEpiO2SXWaYfJ6qsJrZhXg_YSx5g@mail.gmail.com>
+ <2b7d8f45d11c47e69f56ad1bc3324dd1@ausx13mps321.AMER.DELL.COM>
+ <CAHk-=wg_e5M0b5aJJf8V_UYaqX12YYA9MEg=gHNp6ALE5fK23w@mail.gmail.com>
+ <cbe2ed1562a64609be6538f5816ec1b6@ausx13mps321.AMER.DELL.COM>
+ <20190225155501.GI10237@localhost.localdomain>
+ <b35ebf928ed743cca6649a191c76957b@ausx13mps321.AMER.DELL.COM>
+ <CAHk-=wgRdATtsBzo-LDkWn_sW-PJvq95SahZcsTxxDMPzLWxKA@mail.gmail.com>
+ <940d608e1a044a54abcb9d65923951f3@ausx13mps317.AMER.DELL.COM>
+ <f6704855445b44639f023a48f3003309@AUSX13MPC131.AMER.DELL.COM>
+ <443262761d0e41fbb46a46dab28759c2@AUSX13MPC131.AMER.DELL.COM>
+ <20190228141655.GA18319@infradead.org>
+Message-ID: <883e2fad8f6e4791bfee2ec08992da39@AUSX13MPC131.AMER.DELL.COM>
 
-On 02/27/2019 12:25 PM, Oliver Smith-Denny wrote:
-> When I ran normal traffic (no dropping of write responses), I still saw
-> the warning (see below) happen when the discovery controller got
-> deleted. I took the host offline to trigger a keep alive failure
-> in the controller, which successfully deleted the data controller.
+On 2/28/2019 8:17 AM, Christoph Hellwig wrote:
 > 
-> WARNING: CPU: 30 PID: 403 at kernel/workqueue.c:3028 
-> __flush_work.isra.31+0x1a2/0x1b0
-> Workqueue: events nvmet_fc_handle_ls_rqst_work [nvmet_fc]
-> RIP: 0010:__flush_work.isra.31+0x1a2/0x1b0
-> Code: fb 66 0f 1f 44 00 00 31 c0 eb aa 4c 89 e7 c6 07 00 0f 1f 40 00 fb 
-> 66 0f 1f 44 00 00 31 c0 eb 95 e8 63 01 fe ff 0f 0b 90 eb 8b <0f> 0b 31 
-> c0 eb 85 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 55 48 89
-> RSP: 0018:ffffc90008edbbe8 EFLAGS: 00010246
-> RAX: 0000000000000000 RBX: ffff888bf150c148 RCX: 0000000000000000
-> RDX: 0000000000000001 RSI: 0000000000000000 RDI: ffff888bf150c148
-> RBP: ffffc90008edbc58 R08: 0000000000002a15 R09: 0000000000002a15
-> R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
-> R13: 0000000000000000 R14: ffffc90008edbc88 R15: ffff888c07b90000
-> FS:? 0000000000000000(0000) GS:ffff888c10c00000(0000) 
-> knlGS:0000000000000000
-> CS:? 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 00007fd491f52140 CR3: 000000000220e004 CR4: 00000000007606e0
-> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 000000000000400
-> PKRU: 55555554
-> Call Trace:
-> ? del_timer+0x59/0x80
-> __cancel_work_timer+0x10e/0x190
-> cancel_work_sync+0x10/0x20
-> nvmet_ctrl_free+0x112/0x1b0 [nvmet]
-> nvmet_sq_destroy+0xdb/0x140 [nvmet]
-> nvmet_fc_delete_target_assoc+0x2f2/0x370 [nvmet_fc]
-> nvmet_fc_handle_ls_rqst_work+0x6b8/0xa20 [nvmet_fc]
-> process_one_work+0x179/0x3a0
-> worker_thread+0x4f/0x3e0
-> kthread+0x105/0x140
-> ? max_active_store+0x80/0x80
-> ? kthread_bind+0x20/0x20
-> ret_from_fork+0x35/0x40
-> ---[ end trace 5d3c8b3548a4fb95 ]---
+> [EXTERNAL EMAIL]
+> 
+> On Wed, Feb 27, 2019@08:04:35PM +0000, Austin.Bolen@dell.com wrote:
+>> Confirmed this issue does not apply to the referenced Dell servers so I
+>> don't not have a stake in how this should be handled for those systems.
+>> It may be they just don't support surprise removal.  I know in our case
+>> all the Linux distributions we qualify (RHEL, SLES, Ubuntu Server) have
+>> told us they do not support surprise removal.  So I'm guessing that any
+>> issues found with surprise removal could potentially fall under the
+>> category of "unsupported".
+>>
+>> Still though, the larger issue of recovering from other types of PCIe
+>> errors that are not due to device removal is still important.  I would
+>> expect many system from many platform makers to not be able to recover
+>> PCIe errors in general and hopefully the new DPC CER model will help
+>> address this and provide added protection for cases like above as well.
+> 
+> FYI, a related issue I saw about a year two ago with Dell servers was
+> with a dual ported NVMe add-in (non U.2) card, is that once you did
+> a subsystem reset, which would cause both controller to retrain the link
+> you'd run into Firmware First error handling issue that would instantly
+> crash the system.  I don't really have the hardware anymore, but the
+> end result was that I think the affected product ended up shipping
+> with subsystem resets only enabled for the U.2 form factor.
+> 
 
-The hung task looks like it was an issue in the LLDD, I fixed
-that issue (giving the wrong struct nvmefc_tgt_fcp_req to
-nvmet_fc_rcv_fcp_abort) and now the call trace for the hung
-task now longer shows up. However, I do still see the warning
-above in workqueue.c when the discovery controller gets
-deleted from NVMe_Disconnect.
+Yes, that's another good one.  For add-in cards, they are not 
+hot-pluggable and so the platform will not set the Hot-Plug Surprise bit 
+in the port above them.  So when the surprise link down happens the 
+platform will generate a fatal error.  For U.2, the Hot-Plug Surprise 
+bit is set on these platforms which suppresses the fatal error.  It's ok 
+to suppress in this case since OS will get notified via hot-plug 
+interrupt.  In the case of the add-in card there is no hot-plug 
+interrupt and so the platform has no idea if the OS will handle the 
+surprise link down or not so platform has to err on the side of caution. 
+  This is another case where the new containment error recovery model 
+will help by allowing platform to know if OS can recover from this error 
+or not.
 
-Thanks,
-Oliver
+Even if the system sets the Hot-Plug Surprise bit, the system can still 
+crater if OS does an NSSR and then some sort of MMIO is generated to the 
+downed port.  Platforms that suppress errors for removed devices will 
+still escalate this error as fatal since the device is still present. 
+But again the error containment model should protect this case as well.
+
+I'd also note that in PCIe, things that intentionally take the link down 
+like SBR or Link Disable suppress surprise down error reporting.  But 
+NSSR doesn't have this requirement to suppress surprise down reporting. 
+I think that's a gap on the part of the NVMe spec.
+
+-Austin
