@@ -1,18 +1,29 @@
-From: kbusch@kernel.org (Keith Busch)
-Date: Thu, 28 Feb 2019 08:16:43 -0700
-Subject: [PATCH AUTOSEL 4.19 59/64] nvme-pci: fix rapid add remove sequence
-In-Reply-To: <20190228151105.11277-59-sashal@kernel.org>
-References: <20190228151105.11277-1-sashal@kernel.org>
- <20190228151105.11277-59-sashal@kernel.org>
-Message-ID: <20190228151642.GA21796@localhost.localdomain>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 28 Feb 2019 08:38:51 -0700
+Subject: [PATCH] nvme: Don't warn on block content change effects
+Message-ID: <20190228153851.21825-1-keith.busch@intel.com>
 
-On Thu, Feb 28, 2019@10:11:00AM -0500, Sasha Levin wrote:
-> From: Keith Busch <keith.busch at intel.com>
-> 
-> [ Upstream commit 5c959d73dba6495ec01d04c206ee679d61ccb2b0 ]
+A write or flush IO passthrough command is expected to change the
+logical block content, so don't warn on these as no additional handling
+is necessary.
 
-This patch was broken, so please make sure to include the one that
-fixes this:
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  Upstream commit 4726bcf30fad37cc555cd9dcd6c73f2b2668c879
-  ("nvme-pci: add missing unlock for reset error")
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 07bf2bff3a76..e1d3e9c41d84 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1250,7 +1250,7 @@ static u32 nvme_passthru_start(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 	if (ns) {
+ 		if (ctrl->effects)
+ 			effects = le32_to_cpu(ctrl->effects->iocs[opcode]);
+-		if (effects & ~NVME_CMD_EFFECTS_CSUPP)
++		if (effects & ~(NVME_CMD_EFFECTS_CSUPP|NVME_CMD_EFFECTS_LBCC))
+ 			dev_warn(ctrl->device,
+ 				 "IO command:%02x has unhandled effects:%08x\n",
+ 				 opcode, effects);
+-- 
+2.14.4
