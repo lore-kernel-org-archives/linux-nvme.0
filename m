@@ -1,38 +1,100 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 28 Feb 2019 06:16:55 -0800
-Subject: [PATCH] nvme-pci: Prevent mmio reads if pci channel offline
-In-Reply-To: <443262761d0e41fbb46a46dab28759c2@AUSX13MPC131.AMER.DELL.COM>
-References: <CAHk-=wjmjHyovjtzaq=HSegEpiO2SXWaYfJ6qsJrZhXg_YSx5g@mail.gmail.com>
- <2b7d8f45d11c47e69f56ad1bc3324dd1@ausx13mps321.AMER.DELL.COM>
- <CAHk-=wg_e5M0b5aJJf8V_UYaqX12YYA9MEg=gHNp6ALE5fK23w@mail.gmail.com>
- <cbe2ed1562a64609be6538f5816ec1b6@ausx13mps321.AMER.DELL.COM>
- <20190225155501.GI10237@localhost.localdomain>
- <b35ebf928ed743cca6649a191c76957b@ausx13mps321.AMER.DELL.COM>
- <CAHk-=wgRdATtsBzo-LDkWn_sW-PJvq95SahZcsTxxDMPzLWxKA@mail.gmail.com>
- <940d608e1a044a54abcb9d65923951f3@ausx13mps317.AMER.DELL.COM>
- <f6704855445b44639f023a48f3003309@AUSX13MPC131.AMER.DELL.COM>
- <443262761d0e41fbb46a46dab28759c2@AUSX13MPC131.AMER.DELL.COM>
-Message-ID: <20190228141655.GA18319@infradead.org>
+From: sashal@kernel.org (Sasha Levin)
+Date: Thu, 28 Feb 2019 10:08:07 -0500
+Subject: [PATCH AUTOSEL 4.20 75/81] nvme: lock NS list changes while handling
+ command effects
+In-Reply-To: <20190228150813.10256-1-sashal@kernel.org>
+References: <20190228150813.10256-1-sashal@kernel.org>
+Message-ID: <20190228150813.10256-75-sashal@kernel.org>
 
-On Wed, Feb 27, 2019@08:04:35PM +0000, Austin.Bolen@dell.com wrote:
-> Confirmed this issue does not apply to the referenced Dell servers so I 
-> don't not have a stake in how this should be handled for those systems. 
-> It may be they just don't support surprise removal.  I know in our case 
-> all the Linux distributions we qualify (RHEL, SLES, Ubuntu Server) have 
-> told us they do not support surprise removal.  So I'm guessing that any 
-> issues found with surprise removal could potentially fall under the 
-> category of "unsupported".
-> 
-> Still though, the larger issue of recovering from other types of PCIe 
-> errors that are not due to device removal is still important.  I would 
-> expect many system from many platform makers to not be able to recover 
-> PCIe errors in general and hopefully the new DPC CER model will help 
-> address this and provide added protection for cases like above as well.
+From: Keith Busch <keith.busch@intel.com>
 
-FYI, a related issue I saw about a year two ago with Dell servers was
-with a dual ported NVMe add-in (non U.2) card, is that once you did
-a subsystem reset, which would cause both controller to retrain the link
-you'd run into Firmware First error handling issue that would instantly
-crash the system.  I don't really have the hardware anymore, but the
-end result was that I think the affected product ended up shipping
-with subsystem resets only enabled for the U.2 form factor.
+[ Upstream commit e7ad43c3eda6a1690c4c3c341f95dc1c6898da83 ]
+
+If a controller supports the NS Change Notification, the namespace
+scan_work is automatically triggered after attaching a new namespace.
+
+Occasionally the namespace scan_work may append the new namespace to the
+list before the admin command effects handling is completed. The effects
+handling unfreezes namespaces, but if it unfreezes the newly attached
+namespace, its request_queue freeze depth will be off and we'll hit the
+warning in blk_mq_unfreeze_queue().
+
+On the next namespace add, we will fail to freeze that queue due to the
+previous bad accounting and deadlock waiting for frozen.
+
+Fix that by preventing scan work from altering the namespace list while
+command effects handling needs to pair freeze with unfreeze.
+
+Reported-by: Wen Xiong <wenxiong at us.ibm.com>
+Tested-by: Wen Xiong <wenxiong at us.ibm.com>
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+Signed-off-by: Sasha Levin <sashal at kernel.org>
+---
+ drivers/nvme/host/core.c | 8 +++++++-
+ drivers/nvme/host/nvme.h | 1 +
+ 2 files changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 5f9a5ef939696..21d7b646c73df 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1182,6 +1182,7 @@ static u32 nvme_passthru_start(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 	 * effects say only one namespace is affected.
+ 	 */
+ 	if (effects & (NVME_CMD_EFFECTS_LBCC | NVME_CMD_EFFECTS_CSE_MASK)) {
++		mutex_lock(&ctrl->scan_lock);
+ 		nvme_start_freeze(ctrl);
+ 		nvme_wait_freeze(ctrl);
+ 	}
+@@ -1210,8 +1211,10 @@ static void nvme_passthru_end(struct nvme_ctrl *ctrl, u32 effects)
+ 	 */
+ 	if (effects & NVME_CMD_EFFECTS_LBCC)
+ 		nvme_update_formats(ctrl);
+-	if (effects & (NVME_CMD_EFFECTS_LBCC | NVME_CMD_EFFECTS_CSE_MASK))
++	if (effects & (NVME_CMD_EFFECTS_LBCC | NVME_CMD_EFFECTS_CSE_MASK)) {
+ 		nvme_unfreeze(ctrl);
++		mutex_unlock(&ctrl->scan_lock);
++	}
+ 	if (effects & NVME_CMD_EFFECTS_CCC)
+ 		nvme_init_identify(ctrl);
+ 	if (effects & (NVME_CMD_EFFECTS_NIC | NVME_CMD_EFFECTS_NCC))
+@@ -3300,6 +3303,7 @@ static void nvme_scan_work(struct work_struct *work)
+ 	if (nvme_identify_ctrl(ctrl, &id))
+ 		return;
+ 
++	mutex_lock(&ctrl->scan_lock);
+ 	nn = le32_to_cpu(id->nn);
+ 	if (ctrl->vs >= NVME_VS(1, 1, 0) &&
+ 	    !(ctrl->quirks & NVME_QUIRK_IDENTIFY_CNS)) {
+@@ -3308,6 +3312,7 @@ static void nvme_scan_work(struct work_struct *work)
+ 	}
+ 	nvme_scan_ns_sequential(ctrl, nn);
+ out_free_id:
++	mutex_unlock(&ctrl->scan_lock);
+ 	kfree(id);
+ 	down_write(&ctrl->namespaces_rwsem);
+ 	list_sort(NULL, &ctrl->namespaces, ns_cmp);
+@@ -3550,6 +3555,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 
+ 	ctrl->state = NVME_CTRL_NEW;
+ 	spin_lock_init(&ctrl->lock);
++	mutex_init(&ctrl->scan_lock);
+ 	INIT_LIST_HEAD(&ctrl->namespaces);
+ 	init_rwsem(&ctrl->namespaces_rwsem);
+ 	ctrl->dev = dev;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 6ffa99a10a60b..5274881f91417 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -153,6 +153,7 @@ struct nvme_ctrl {
+ 	enum nvme_ctrl_state state;
+ 	bool identified;
+ 	spinlock_t lock;
++	struct mutex scan_lock;
+ 	const struct nvme_ctrl_ops *ops;
+ 	struct request_queue *admin_q;
+ 	struct request_queue *connect_q;
+-- 
+2.19.1
