@@ -1,77 +1,46 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Sun,  3 Mar 2019 17:57:47 -0800
-Subject: [PATCH] nvme-fc: reject reconnect if io queue count is reduced to zero
-Message-ID: <20190304015747.31917-1-jsmart2021@gmail.com>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Mon, 4 Mar 2019 11:21:18 +0200
+Subject: [Suspected-Phishing][PATCH 1/1] nvme-cli: enforce memory buffer
+ for Host Identifier
+In-Reply-To: <1551004255-13562-1-git-send-email-maxg@mellanox.com>
+References: <1551004255-13562-1-git-send-email-maxg@mellanox.com>
+Message-ID: <d8bfd186-ba43-06e3-6471-c5b1afed60d2@mellanox.com>
 
-If:
-- A successful connect has occurred with an io queue count greater
-  than zero and namespaces detected and running.
-= An error or something occurs which causes a termination of
-  the prior association and then starts a reconnect,
-- The reconnect then creates a new controller, but for whatever
-  reason, nvme_set_queue_count() results in io queue count set
-  to zero. This will skip io queue and tag set changes.
-- But... the controller will transition to live, calling
-  nvme_start_ctrl, which calls nvme_start_queues(), which then
-  releases ios into the transport which then sends them to the
-  driver.
+Keith/Johannes,
 
-  As there are no queues, things eventually hit the driver looking
-  for a handle, which was cleared when the original controller was
-  reset, and it can't proceed. Worst case, things progress, but
-  everything fails.
+can you have a look on this please ?
 
-In the failing scenario, the nvme_set_features(NVME_FEAT_NUM_QUEUES)
-command actually failed with a NVME_SC_INTERNAL error. For some
-reason, although nvme_set_queue_count() saw the error and set io
-queue count to zero, it doesn't return a failure status to the
-transport, which allows the transport to continue using the controller.
-
-Fix the problem by simply rejecting the new association if at least 1
-io queue can't be created. The association reject will fail the
-reconnect attempt and fall into the reconnect retry policy.
-
-Signed-off-by: James Smart <jsmart2021 at gmail.com>
----
- drivers/nvme/host/fc.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
-
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 865dc0637dbe..d7716b9c26ee 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2475,6 +2475,7 @@ static int
- nvme_fc_recreate_io_queues(struct nvme_fc_ctrl *ctrl)
- {
- 	struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
-+	u32 prior_ioq_cnt = ctrl->ctrl.queue_count - 1;
- 	unsigned int nr_io_queues;
- 	int ret;
- 
-@@ -2487,6 +2488,13 @@ nvme_fc_recreate_io_queues(struct nvme_fc_ctrl *ctrl)
- 		return ret;
- 	}
- 
-+	if (!nr_io_queues && prior_ioq_cnt) {
-+		dev_info(ctrl->ctrl.device,
-+			"Fail Reconnect: At least 1 io queue "
-+			"required (was %d)\n", prior_ioq_cnt);
-+		return -ENOSPC;
-+	}
-+
- 	ctrl->ctrl.queue_count = nr_io_queues + 1;
- 	/* check for io queues existing */
- 	if (ctrl->ctrl.queue_count == 1)
-@@ -2500,6 +2508,10 @@ nvme_fc_recreate_io_queues(struct nvme_fc_ctrl *ctrl)
- 	if (ret)
- 		goto out_delete_hw_queues;
- 
-+	if (prior_ioq_cnt != nr_io_queues)
-+		dev_info(ctrl->ctrl.device,
-+			"reconnect: revising io queue count from %d to %d\n",
-+			prior_ioq_cnt, nr_io_queues);
- 	blk_mq_update_nr_hw_queues(&ctrl->tag_set, nr_io_queues);
- 
- 	return 0;
--- 
-2.13.7
+On 2/24/2019 12:30 PM, Max Gurtovoy wrote:
+> According to the NVMe spec, the NVMe Set Features command for Host
+> Identifier (fid=0x81) must use memory buffer for its attributes.
+> Enforce that and set the correct data length (16 for extended Host
+> Identifier, 8 for non-extended). The data for the Host Identifier
+> can be taken from a data file or from the stdin (same as before):
+> 1. stdin example:
+>   - echo "host1234" | nvme set-feature /dev/nvme2n1 --feature-id=0x81 --value=0
+> 2. data file example:
+>   - echo "host5555" > /tmp/hostid.data
+>   - nvme set-feature /dev/nvme2n1 --feature-id=0x81 --value=0 --data=/tmp/hostid.data
+>
+> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+> ---
+>   nvme.c | 6 ++++++
+>   1 file changed, 6 insertions(+)
+>
+> diff --git a/nvme.c b/nvme.c
+> index 8aac2ef..7897510 100644
+> --- a/nvme.c
+> +++ b/nvme.c
+> @@ -3279,6 +3279,12 @@ static int set_feature(int argc, char **argv, struct command *cmd, struct plugin
+>   	}
+>   	if (cfg.feature_id == NVME_FEAT_LBA_RANGE)
+>   		cfg.data_len = 4096;
+> +	if (cfg.feature_id == NVME_FEAT_HOST_ID) {
+> +		cfg.data_len = 8;
+> +		/* check for Extended Host Identifier */
+> +		if (cfg.value & 0x1)
+> +			cfg.data_len = 16;
+> +	}
+>   	if (cfg.data_len) {
+>   		if (posix_memalign(&buf, getpagesize(), cfg.data_len)) {
+>   			fprintf(stderr, "can not allocate feature payload\n");
