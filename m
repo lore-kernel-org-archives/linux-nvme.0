@@ -1,57 +1,31 @@
-From: jsamli@microsoft.com (Jeremiah Samli)
-Date: Tue, 5 Mar 2019 03:44:01 +0000
-Subject: [Suspected-Phishing][PATCH 1/1] nvme-cli: enforce memory buffer
- for Host Identifier
-In-Reply-To: <d8bfd186-ba43-06e3-6471-c5b1afed60d2@mellanox.com>
-References: <1551004255-13562-1-git-send-email-maxg@mellanox.com>
- <d8bfd186-ba43-06e3-6471-c5b1afed60d2@mellanox.com>
-Message-ID: <MW2PR2101MB092232E55EF05F2BD1396296D1720@MW2PR2101MB0922.namprd21.prod.outlook.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue,  5 Mar 2019 01:55:48 -0800
+Subject: [PATCH] nvmet-file: clamp-down file namespace lba_shift
+Message-ID: <20190305095548.14934-1-sagi@grimberg.me>
 
-+ Sarika who has been working with Keith on this.
+When the backing file is a tempfile for example, the inode i_blkbits
+can be 1M in size which causes problems for hosts to support as the
+disk block size.
 
------Original Message-----
-From: Max Gurtovoy <maxg@mellanox.com> 
-Sent: Monday, March 4, 2019 1:21 AM
-To: linux-nvme at lists.infradead.org; keith.busch at intel.com; hch at lst.de; sagi at grimberg.me; Johannes Thumshirn <jthumshirn at suse.de>
-Cc: Aviad Yehezkel <aviadye at mellanox.com>; oren at mellanox.com; Boris Pinzur <bpinzur at mellanox.com>; Omri Kahalon <omrik at mellanox.com>
-Subject: Re: [Suspected-Phishing][PATCH 1/1] nvme-cli: enforce memory buffer for Host Identifier
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+This issue was observed in I/O errors in the log running test nvme/009.
 
-Keith/Johannes,
+ drivers/nvme/target/io-cmd-file.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-can you have a look on this please ?
-
-On 2/24/2019 12:30 PM, Max Gurtovoy wrote:
-> According to the NVMe spec, the NVMe Set Features command for Host 
-> Identifier (fid=0x81) must use memory buffer for its attributes.
-> Enforce that and set the correct data length (16 for extended Host 
-> Identifier, 8 for non-extended). The data for the Host Identifier can 
-> be taken from a data file or from the stdin (same as before):
-> 1. stdin example:
->   - echo "host1234" | nvme set-feature /dev/nvme2n1 --feature-id=0x81 
-> --value=0 2. data file example:
->   - echo "host5555" > /tmp/hostid.data
->   - nvme set-feature /dev/nvme2n1 --feature-id=0x81 --value=0 
-> --data=/tmp/hostid.data
->
-> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
-> ---
->   nvme.c | 6 ++++++
->   1 file changed, 6 insertions(+)
->
-> diff --git a/nvme.c b/nvme.c
-> index 8aac2ef..7897510 100644
-> --- a/nvme.c
-> +++ b/nvme.c
-> @@ -3279,6 +3279,12 @@ static int set_feature(int argc, char **argv, struct command *cmd, struct plugin
->   	}
->   	if (cfg.feature_id == NVME_FEAT_LBA_RANGE)
->   		cfg.data_len = 4096;
-> +	if (cfg.feature_id == NVME_FEAT_HOST_ID) {
-> +		cfg.data_len = 8;
-> +		/* check for Extended Host Identifier */
-> +		if (cfg.value & 0x1)
-> +			cfg.data_len = 16;
-> +	}
->   	if (cfg.data_len) {
->   		if (posix_memalign(&buf, getpagesize(), cfg.data_len)) {
->   			fprintf(stderr, "can not allocate feature payload\n");
+diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
+index 517522305e5c..5008826cbd6a 100644
+--- a/drivers/nvme/target/io-cmd-file.c
++++ b/drivers/nvme/target/io-cmd-file.c
+@@ -49,7 +49,7 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
+ 		goto err;
+ 
+ 	ns->size = stat.size;
+-	ns->blksize_shift = file_inode(ns->file)->i_blkbits;
++	ns->blksize_shift = min_t(u8, file_inode(ns->file)->i_blkbits, PAGE_SHIFT);
+ 
+ 	ns->bvec_cache = kmem_cache_create("nvmet-bvec",
+ 			NVMET_MAX_MPOOL_BVEC * sizeof(struct bio_vec),
+-- 
+2.17.1
