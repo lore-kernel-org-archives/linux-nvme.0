@@ -1,48 +1,57 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 4 Mar 2019 13:33:13 +0100
-Subject: [PATCH] nvme-fc: fix numa_node when dev is null
-In-Reply-To: <20190301211933.26297-1-jsmart2021@gmail.com>
-References: <20190301211933.26297-1-jsmart2021@gmail.com>
-Message-ID: <669d787c-b538-eddc-6309-ef68aaaca0d1@suse.de>
+From: jsamli@microsoft.com (Jeremiah Samli)
+Date: Tue, 5 Mar 2019 03:44:01 +0000
+Subject: [Suspected-Phishing][PATCH 1/1] nvme-cli: enforce memory buffer
+ for Host Identifier
+In-Reply-To: <d8bfd186-ba43-06e3-6471-c5b1afed60d2@mellanox.com>
+References: <1551004255-13562-1-git-send-email-maxg@mellanox.com>
+ <d8bfd186-ba43-06e3-6471-c5b1afed60d2@mellanox.com>
+Message-ID: <MW2PR2101MB092232E55EF05F2BD1396296D1720@MW2PR2101MB0922.namprd21.prod.outlook.com>
 
-On 3/1/19 10:19 PM, James Smart wrote:
-> A recent change added a numa_node field to the nvme controller
-> and has the transport assign the node using dev_to_node().
-> However, fcloop registers with a NULL device struct, so the
-> dev_to_node() call oops.
-> 
-> Revise the assignment to assign no node when device struct is null.
-> 
-> Fixes: 	103e515efa89b  ("nvme: add a numa_node field to struct nvme_ctrl")
-> Reported-by: Mike Snitzer <snitzer at redhat.com>
-> Signed-off-by: James Smart <jsmart2021 at gmail.com>
++ Sarika who has been working with Keith on this.
+
+-----Original Message-----
+From: Max Gurtovoy <maxg@mellanox.com> 
+Sent: Monday, March 4, 2019 1:21 AM
+To: linux-nvme at lists.infradead.org; keith.busch at intel.com; hch at lst.de; sagi at grimberg.me; Johannes Thumshirn <jthumshirn at suse.de>
+Cc: Aviad Yehezkel <aviadye at mellanox.com>; oren at mellanox.com; Boris Pinzur <bpinzur at mellanox.com>; Omri Kahalon <omrik at mellanox.com>
+Subject: Re: [Suspected-Phishing][PATCH 1/1] nvme-cli: enforce memory buffer for Host Identifier
+
+Keith/Johannes,
+
+can you have a look on this please ?
+
+On 2/24/2019 12:30 PM, Max Gurtovoy wrote:
+> According to the NVMe spec, the NVMe Set Features command for Host 
+> Identifier (fid=0x81) must use memory buffer for its attributes.
+> Enforce that and set the correct data length (16 for extended Host 
+> Identifier, 8 for non-extended). The data for the Host Identifier can 
+> be taken from a data file or from the stdin (same as before):
+> 1. stdin example:
+>   - echo "host1234" | nvme set-feature /dev/nvme2n1 --feature-id=0x81 
+> --value=0 2. data file example:
+>   - echo "host5555" > /tmp/hostid.data
+>   - nvme set-feature /dev/nvme2n1 --feature-id=0x81 --value=0 
+> --data=/tmp/hostid.data
+>
+> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
 > ---
->   drivers/nvme/host/fc.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> index ba8f2a9cbdaf..865dc0637dbe 100644
-> --- a/drivers/nvme/host/fc.c
-> +++ b/drivers/nvme/host/fc.c
-> @@ -3017,7 +3017,8 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
->   
->   	ctrl->ctrl.opts = opts;
->   	ctrl->ctrl.nr_reconnects = 0;
-> -	ctrl->ctrl.numa_node = dev_to_node(lport->dev);
-> +	ctrl->ctrl.numa_node = (lport->dev) ?
-> +				dev_to_node(lport->dev) : NUMA_NO_NODE;
->   	INIT_LIST_HEAD(&ctrl->ctrl_list);
->   	ctrl->lport = lport;
->   	ctrl->rport = rport;
-> 
-Reviewed-by: Hannes Reinecke <hare at suse.com>
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+>   nvme.c | 6 ++++++
+>   1 file changed, 6 insertions(+)
+>
+> diff --git a/nvme.c b/nvme.c
+> index 8aac2ef..7897510 100644
+> --- a/nvme.c
+> +++ b/nvme.c
+> @@ -3279,6 +3279,12 @@ static int set_feature(int argc, char **argv, struct command *cmd, struct plugin
+>   	}
+>   	if (cfg.feature_id == NVME_FEAT_LBA_RANGE)
+>   		cfg.data_len = 4096;
+> +	if (cfg.feature_id == NVME_FEAT_HOST_ID) {
+> +		cfg.data_len = 8;
+> +		/* check for Extended Host Identifier */
+> +		if (cfg.value & 0x1)
+> +			cfg.data_len = 16;
+> +	}
+>   	if (cfg.data_len) {
+>   		if (posix_memalign(&buf, getpagesize(), cfg.data_len)) {
+>   			fprintf(stderr, "can not allocate feature payload\n");
