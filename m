@@ -1,21 +1,34 @@
-From: bvanassche@acm.org (Bart Van Assche)
-Date: Wed, 06 Mar 2019 08:15:21 -0800
-Subject: [RFC/PATCH net-next 0/9] net/dim: Support for multiple
- implementations
-In-Reply-To: <20190306084832.57753-1-talgi@mellanox.com>
-References: <20190306084832.57753-1-talgi@mellanox.com>
-Message-ID: <1551888921.9796.2.camel@acm.org>
+From: Jeff.Lien@wdc.com (Jeffrey Lien)
+Date: Wed, 6 Mar 2019 17:01:49 +0000
+Subject: [PATCH] [NVMe-CLI] WDC plugin Change vs-internal-log Command to Save
+ Partial E6 Log Data.
+Message-ID: <1551891698-16525-1-git-send-email-jeff.lien@wdc.com>
 
-On Wed, 2019-03-06@10:48 +0200, Tal Gilboa wrote:
-> net_dim.h lib exposes an implementation of the DIM algorithm for dynamically-tuned interrupt
-> moderation for networking interfaces.
-> 
-> We need the same behavior for any block CQ. The main motivation is two benefit from maximized
-> completion rate and reduced interrupt overhead that DIM may provide.
+Signed-off-by: Jeff Lien <jeff.lien at wdc.com>
+---
+ plugins/wdc/wdc-nvme.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-What is a "block CQ"? How does net_dim compare to lib/irq_poll? Which approach
-results in the best performance and lowest latency?
-
-Thanks,
-
-Bart.
+diff --git a/plugins/wdc/wdc-nvme.c b/plugins/wdc/wdc-nvme.c
+index 6a2dac8..1bdbb77 100644
+--- a/plugins/wdc/wdc-nvme.c
++++ b/plugins/wdc/wdc-nvme.c
+@@ -1185,8 +1185,14 @@ static int wdc_do_dump_e6(int fd, __u32 opcode,__u32 data_len,
+ 
+ 	if (ret == 0) {
+ 		fprintf(stderr, "%s:  NVMe Status:%s(%x)\n", __func__, nvme_status_to_string(ret), ret);
+-		ret = wdc_create_log_file(file, dump_data, data_len);
+-	}
++	} else {
++		fprintf(stderr, "%s:  FAILURE: NVMe Status:%s(%x)\n", __func__, nvme_status_to_string(ret), ret);
++		fprintf(stderr, "%s:  Partial data may have been captured\n", __func__);
++		snprintf(file + strlen(file), PATH_MAX, "%s", "-PARTIAL");
++ 	}
++
++	ret = wdc_create_log_file(file, dump_data, data_len);
++
+ 	free(dump_data);
+ 	return ret;
+ }
+-- 
+1.8.3.1
