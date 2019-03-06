@@ -1,245 +1,28 @@
-From: talgi@mellanox.com (Tal Gilboa)
-Date: Wed,  6 Mar 2019 10:48:31 +0200
-Subject: [RFC/PATCH net-next 8/9] linux/dim: Implement blk_dim.h
-In-Reply-To: <20190306084832.57753-1-talgi@mellanox.com>
-References: <20190306084832.57753-1-talgi@mellanox.com>
-Message-ID: <20190306084832.57753-9-talgi@mellanox.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed,  6 Mar 2019 01:42:31 -0800
+Subject: [PATCH nvme-cli] nvme: print I/O error to stderr
+Message-ID: <20190306094231.9197-1-sagi@grimberg.me>
 
-From: Yamin Friedman <yaminf@mellanox.com>
+something like blktests might rely on this to output to
+stderr.
 
-blk_dim implements a different algorithm than net_dim that is optimized for nvmf
-storage applications.
-The algorithm optimizes for number of completions and ratio between completions
-and events.
-It also has a feature for fast reduction of moderation level when the traffic
-changes in such a way as to no longer require high moderation in order to avoid
-long latencies.
-
-blk_dim.h will be called from the ib_core module.
-
-Signed-off-by: Yamin Friedman <yaminf at mellanox.com>
-Signed-off-by: Tal Gilboa <talgi at mellanox.com>
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- MAINTAINERS             |   1 +
- include/linux/blk_dim.h |  56 ++++++++++++++++++++
- lib/dim/Makefile        |   7 ++-
- lib/dim/blk_dim.c       | 114 ++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 177 insertions(+), 1 deletion(-)
- create mode 100644 include/linux/blk_dim.h
- create mode 100644 lib/dim/blk_dim.c
+ nvme.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 6ae949be8b83..2860a3316be5 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -5337,6 +5337,7 @@ DYNAMIC INTERRUPT MODERATION
- M:	Tal Gilboa <talgi at mellanox.com>
- S:	Maintained
- F:	include/linux/net_dim.h
-+F:	include/linux/blk_dim.h
- F:	include/linux/dim.h
- F:	lib/dim/
- 
-diff --git a/include/linux/blk_dim.h b/include/linux/blk_dim.h
-new file mode 100644
-index 000000000000..a044f62ec8fe
---- /dev/null
-+++ b/include/linux/blk_dim.h
-@@ -0,0 +1,56 @@
-+/*
-+ * Copyright (c) 2016, Mellanox Technologies. All rights reserved.
-+ *
-+ * This software is available to you under a choice of one of two
-+ * licenses.  You may choose to be licensed under the terms of the GNU
-+ * General Public License (GPL) Version 2, available from the file
-+ * COPYING in the main directory of this source tree, or the
-+ * OpenIB.org BSD license below:
-+ *
-+ *     Redistribution and use in source and binary forms, with or
-+ *     without modification, are permitted provided that the following
-+ *     conditions are met:
-+ *
-+ *      - Redistributions of source code must retain the above
-+ *        copyright notice, this list of conditions and the following
-+ *        disclaimer.
-+ *
-+ *      - Redistributions in binary form must reproduce the above
-+ *        copyright notice, this list of conditions and the following
-+ *        disclaimer in the documentation and/or other materials
-+ *        provided with the distribution.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
-+ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
-+ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-+ * SOFTWARE.
-+ */
-+
-+#ifndef BLK_DIM_H
-+#define BLK_DIM_H
-+
-+#include <linux/module.h>
-+#include <linux/dim.h>
-+
-+#define BLK_DIM_PARAMS_NUM_PROFILES 8
-+#define BLK_DIM_START_PROFILE 0
-+
-+static const struct dim_cq_moder
-+blk_dim_prof[BLK_DIM_PARAMS_NUM_PROFILES] = {
-+	{1,   0, 1,  0},
-+	{2,   0, 2,  0},
-+	{4,   0, 4,  0},
-+	{16,  0, 4,  0},
-+	{32,  0, 4,  0},
-+	{32,  0, 16, 0},
-+	{256, 0, 16, 0},
-+	{256, 0, 32, 0},
-+};
-+
-+void blk_dim(struct dim *dim, struct dim_sample end_sample);
-+
-+#endif /* BLK_DIM_H */
-diff --git a/lib/dim/Makefile b/lib/dim/Makefile
-index 160afe288df0..2b3c57318dbb 100644
---- a/lib/dim/Makefile
-+++ b/lib/dim/Makefile
-@@ -2,8 +2,13 @@
- # DIM Dynamic Interrupt Moderation library
- #
- 
--obj-$(CONFIG_DIMLIB) = net_dim.o
-+obj-$(CONFIG_DIMLIB) += net_dim.o
-+obj-$(CONFIG_DIMLIB) += blk_dim.o
- 
- net_dim-y = \
- 	dim.o		\
- 	net_dim.o
-+
-+blk_dim-y = \
-+	dim.o		\
-+	blk_dim.o
-diff --git a/lib/dim/blk_dim.c b/lib/dim/blk_dim.c
-new file mode 100644
-index 000000000000..49107c169b56
---- /dev/null
-+++ b/lib/dim/blk_dim.c
-@@ -0,0 +1,114 @@
-+#include <linux/blk_dim.h>
-+
-+static inline int blk_dim_step(struct dim *dim)
-+{
-+	switch (dim->tune_state) {
-+	case DIM_PARKING_ON_TOP:
-+	case DIM_PARKING_TIRED:
-+		break;
-+	case DIM_GOING_RIGHT:
-+		if (dim->profile_ix == (BLK_DIM_PARAMS_NUM_PROFILES - 1))
-+			return DIM_ON_EDGE;
-+		dim->profile_ix++;
-+		dim->steps_right++;
-+		break;
-+	case DIM_GOING_LEFT:
-+		if (dim->profile_ix == 0)
-+			return DIM_ON_EDGE;
-+		dim->profile_ix--;
-+		dim->steps_left++;
-+		break;
-+	}
-+
-+	return DIM_STEPPED;
-+}
-+
-+static inline int blk_dim_stats_compare(struct dim_stats *curr, struct dim_stats *prev)
-+{
-+	/* first stat */
-+	if (!prev->cpms)
-+		return DIM_STATS_SAME;
-+
-+	if (IS_SIGNIFICANT_DIFF(curr->cpms, prev->cpms))
-+		return (curr->cpms > prev->cpms) ? DIM_STATS_BETTER :
-+						DIM_STATS_WORSE;
-+
-+	if (IS_SIGNIFICANT_DIFF(curr->cpe_ratio, prev->cpe_ratio))
-+		return (curr->cpe_ratio > prev->cpe_ratio) ? DIM_STATS_BETTER :
-+						DIM_STATS_WORSE;
-+
-+	return DIM_STATS_SAME;
-+}
-+
-+static inline bool blk_dim_decision(struct dim_stats *curr_stats, struct dim *dim)
-+{
-+	int prev_ix = dim->profile_ix;
-+	int stats_res;
-+	int step_res;
-+
-+	switch (dim->tune_state) {
-+	case DIM_PARKING_ON_TOP:
-+		break;
-+	case DIM_PARKING_TIRED:
-+		break;
-+
-+	case DIM_GOING_RIGHT:
-+	case DIM_GOING_LEFT:
-+		stats_res = blk_dim_stats_compare(curr_stats, &dim->prev_stats);
-+
-+		switch (stats_res) {
-+		case DIM_STATS_SAME:
-+			if (curr_stats->cpe_ratio <= 50*prev_ix)
-+				dim->profile_ix = 0;
-+			break;
-+		case DIM_STATS_WORSE:
-+			dim_turn(dim);
-+		default:
-+		case DIM_STATS_BETTER:
-+			/* fall through */
-+			step_res = blk_dim_step(dim);
-+			if (step_res == DIM_ON_EDGE)
-+				dim_turn(dim);
-+			break;
-+		}
-+		break;
-+	}
-+
-+	dim->prev_stats = *curr_stats;
-+
-+	return dim->profile_ix != prev_ix;
-+}
-+
-+void blk_dim(struct dim *dim, struct dim_sample end_sample)
-+{
-+	struct dim_stats curr_stats;
-+	u16 nevents;
-+
-+	switch (dim->state) {
-+	case DIM_MEASURE_IN_PROGRESS:
-+		nevents = end_sample.event_ctr - dim->start_sample.event_ctr;
-+		if (nevents < DIM_NEVENTS) {
-+			dim_create_sample(end_sample.event_ctr, end_sample.pkt_ctr,
-+				end_sample.byte_ctr, end_sample.comp_ctr, &dim->measuring_sample);
-+			break;
-+		}
-+		dim_calc_stats(&dim->start_sample, &end_sample,
-+				   &curr_stats);
-+		if (blk_dim_decision(&curr_stats, dim)) {
-+			dim->state = DIM_APPLY_NEW_PROFILE;
-+			schedule_work(&dim->work);
-+			break;
-+		}
-+		/* fall through */
-+	case DIM_START_MEASURE:
-+		dim->state = DIM_MEASURE_IN_PROGRESS;
-+		dim_create_sample(end_sample.event_ctr, end_sample.pkt_ctr, end_sample.byte_ctr,
-+				end_sample.comp_ctr, &dim->start_sample);
-+		dim_create_sample(end_sample.event_ctr, end_sample.pkt_ctr, end_sample.byte_ctr,
-+				end_sample.comp_ctr, &dim->measuring_sample);
-+		break;
-+	case DIM_APPLY_NEW_PROFILE:
-+		break;
-+	}
-+}
-+EXPORT_SYMBOL(blk_dim);
+diff --git a/nvme.c b/nvme.c
+index 8aac2ef1f673..e88d19940df5 100644
+--- a/nvme.c
++++ b/nvme.c
+@@ -4413,7 +4413,7 @@ static int submit_io(int opcode, char *command, const char *desc,
+ 	if (err < 0)
+ 		perror("submit-io");
+ 	else if (err)
+-		printf("%s:%s(%04x)\n", command, nvme_status_to_string(err), err);
++		fprintf(stderr, "%s:%s(%04x)\n", command, nvme_status_to_string(err), err);
+ 	else {
+ 		if (!(opcode & 1) && write(dfd, (void *)buffer, cfg.data_size) < 0) {
+ 			fprintf(stderr, "write: %s: failed to write buffer to output file\n",
 -- 
-2.19.1
+2.17.1
