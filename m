@@ -1,69 +1,49 @@
 From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Wed, 6 Mar 2019 20:31:21 +0000
-Subject: [PATCH 2/2 blktests] nvme: test out-of-range I/O access
-References: <20190306094643.10262-1-sagi@grimberg.me>
- <20190306094643.10262-2-sagi@grimberg.me>
- <SN6PR04MB452756E3DF3765A66DE3120086730@SN6PR04MB4527.namprd04.prod.outlook.com>
- <0d3d4384-7f75-cac4-ff8a-5ca4b8f879d2@grimberg.me>
-Message-ID: <SN6PR04MB45276238286089534AEA3D0C86730@SN6PR04MB4527.namprd04.prod.outlook.com>
+Date: Wed, 6 Mar 2019 20:38:21 +0000
+Subject: [PATCH] nvmet-file: clamp-down file namespace lba_shift
+References: <20190305095548.14934-1-sagi@grimberg.me>
+ <SN6PR04MB4527C36DBCE293BDA6A7508786730@SN6PR04MB4527.namprd04.prod.outlook.com>
+ <2a38f63f-2349-e852-e24e-a046a64bc923@grimberg.me>
+Message-ID: <SN6PR04MB4527804E0DF20A373E42BC2986730@SN6PR04MB4527.namprd04.prod.outlook.com>
 
-On 3/6/19 12:28 PM, Sagi Grimberg wrote:
+On 3/6/19 12:19 PM, Sagi Grimberg wrote:
 > 
->>> +DESCRIPTION="unit test NVMe-oF out of range access"
->> it will be great if you can specify above back-end type (bdev/file)
+>>> When the backing file is a tempfile for example, the inode i_blkbits
+>>> can be 1M in size which causes problems for hosts to support as the
+>>> disk block size.
+>>>
+>>> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+>>> ---
+>>> This issue was observed in I/O errors in the log running test nvme/009.
+>>>
+>> We are not doing any I/O in nvme/009 explicitly using dd/fio, is this
+>> due to internal commands we send as a part of connect and disconnect ?
+>> Or test number is different ?
 > 
-> OK
+> The former.
 > 
->>> +QUICK=1
->>> +
->>> +requires() {
->>> +	_have_program nvme && _have_modules nvme-loop && _have_modules loop && \
->>> +		_have_configfs
->>
->> need to check for the blockdev.
+> Also, I just now hit a divide by zero BUG when running test 009 with
+> multipath enabled.
 > 
-> Other tests use blockdev and don't check for it..
+> Quick look shows that this is coming from blk_queue_stack_limits for the
+> ns_head.
+> 
+> Looks like nvme_update_disk_info() is reading a bs=0:
+> --
+>           unsigned short bs = 1 << ns->lba_shift;
+> --
+> 
+> bs is 16 bits and lba_shift is 20
+> (coming directly from the tempfile file_inode(ns->file)->i_blkbits)
+> 
+> So this fixes that one as well. Regardless, I think bs should be
+> unsigned int?
 
-Yes, while looking at the code, I've also observed we don't check for 
-the truncate as well. At least for the NVMe I'll send a patch-series to 
-fix that for all the other tests.
+Yes.
+
 > 
->>> +}
->>> +
->>> +test() {
->>> +	echo "Running ${TEST_NAME}"
->>> +
->>> +	modprobe nvmet
->>> +	modprobe nvme-loop
->>> +
->>> +	local port
->>> +	local nvmedev
->>> +	local file_path="$TMPDIR/img"
->>> +	local subsys_name="blktests-subsystem-1"
->>> +
->>> +	truncate -s 1G "${file_path}"
->>> +
->>> +	_create_nvmet_subsystem "${subsys_name}" "${file_path}" \
->>> +		 "91fdba0d-f87b-4c25-b80f-db7be1418b9e"
->>> +	port="$(_create_nvmet_port "loop")"
->>> +	_add_nvmet_subsys_to_port "${port}" "${subsys_name}"
->>> +
->>> +	nvme connect -t loop -n "${subsys_name}"
->>> +
->>> +	nvmedev="$(_find_nvme_loop_dev)"
->>> +	cat "/sys/block/${nvmedev}n1/uuid"
->>> +	cat "/sys/block/${nvmedev}n1/wwid"
->>> +
->>> +	sectors=$(blockdev --getsz /dev/${nvmedev}n1)
->>> +	bs=$(blockdev --getbsz /dev/${nvmedev}n1)
->>> +
->>> +	nvme read "/dev/${nvmedev}n1" -s $sectors -c 0 -z $bs
->>> +	if [[ ! $? ]]; then
->>> +		echo "Sucessfully read out of device lba range"
->> Can we prefix this message with error as we should get an error for
->> out of range ?
->>
->> Also s/Sucessfully/Successfully/.
-> 
-> Will do.
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
 > 
