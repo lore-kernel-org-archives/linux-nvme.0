@@ -1,184 +1,296 @@
 From: talgi@mellanox.com (Tal Gilboa)
-Date: Wed,  6 Mar 2019 10:48:30 +0200
-Subject: [RFC/PATCH net-next 7/9] linux/dim: Add completions count to
- dim_sample
+Date: Wed,  6 Mar 2019 10:48:32 +0200
+Subject: [RFC/PATCH net-next 9/9] drivers/infiniband: Use blk_dim in
+ infiniband driver
 In-Reply-To: <20190306084832.57753-1-talgi@mellanox.com>
 References: <20190306084832.57753-1-talgi@mellanox.com>
-Message-ID: <20190306084832.57753-8-talgi@mellanox.com>
+Message-ID: <20190306084832.57753-10-talgi@mellanox.com>
 
 From: Yamin Friedman <yaminf@mellanox.com>
 
-Added a measurement of completions per/msec to allow for completion based dim
-algorithms.
+Added the interface in the infiniband driver that applies the blk_dim adaptive
+moderation.
+
+Performance improvment (ConnectX-5 100GbE, x86) running FIO benchmark over NVMf
+between two equal end-hosts across a Mellanox switch:
+Running long tests that switch between periods of high bandwidth high latency
+and low bandwidth low latency, using the blk_dim algorithm there is a much
+shorter wait before the moderation is reduced and thus tail latency is reduced.
+There is a 200% reduction on tail latency when switching from high bandwidth to
+low bandwidth traffic without degredation of other flow parameters.
+
+The blk_dim algorithm was designed to measure the effectiveness of moderation
+on the flow in a general way and thus should be appropriate for all RDMA storage
+protocols.
 
 Signed-off-by: Yamin Friedman <yaminf at mellanox.com>
 Signed-off-by: Tal Gilboa <talgi at mellanox.com>
 ---
- drivers/net/ethernet/broadcom/bcmsysport.c        |  2 +-
- drivers/net/ethernet/broadcom/bnxt/bnxt.c         |  1 +
- drivers/net/ethernet/broadcom/genet/bcmgenet.c    |  2 +-
- drivers/net/ethernet/mellanox/mlx5/core/en_txrx.c |  4 ++--
- include/linux/dim.h                               |  7 ++++++-
- lib/dim/dim.c                                     | 11 ++++++++++-
- lib/dim/net_dim.c                                 |  2 +-
- 7 files changed, 22 insertions(+), 7 deletions(-)
+ drivers/infiniband/core/cq.c    | 75 ++++++++++++++++++++++++++++++---
+ drivers/infiniband/hw/mlx4/qp.c |  2 +-
+ drivers/infiniband/hw/mlx5/qp.c |  2 +-
+ include/linux/irq_poll.h        |  7 +++
+ include/rdma/ib_verbs.h         | 11 ++++-
+ lib/irq_poll.c                  | 13 +++++-
+ 6 files changed, 100 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/net/ethernet/broadcom/bcmsysport.c b/drivers/net/ethernet/broadcom/bcmsysport.c
-index 840b3bf1ae3e..df38c8fd373f 100644
---- a/drivers/net/ethernet/broadcom/bcmsysport.c
-+++ b/drivers/net/ethernet/broadcom/bcmsysport.c
-@@ -1035,7 +1035,7 @@ static int bcm_sysport_poll(struct napi_struct *napi, int budget)
+diff --git a/drivers/infiniband/core/cq.c b/drivers/infiniband/core/cq.c
+index d61e5e1427c2..065b54978dae 100644
+--- a/drivers/infiniband/core/cq.c
++++ b/drivers/infiniband/core/cq.c
+@@ -14,6 +14,7 @@
+ #include <linux/err.h>
+ #include <linux/slab.h>
+ #include <rdma/ib_verbs.h>
++#include <linux/blk_dim.h>
  
- 	if (priv->dim.use_dim) {
- 		dim_create_sample(priv->dim.event_ctr, priv->dim.packets,
--				  priv->dim.bytes, &dim_sample);
-+				  priv->dim.bytes, 0, &dim_sample);
- 		net_dim(&priv->dim.dim, dim_sample);
- 	}
+ /* # of WCs to poll for with a single call to ib_poll_cq */
+ #define IB_POLL_BATCH			16
+@@ -26,6 +27,51 @@
+ #define IB_POLL_FLAGS \
+ 	(IB_CQ_NEXT_COMP | IB_CQ_REPORT_MISSED_EVENTS)
  
-diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.c b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-index 131ab07aad83..516703ac0009 100644
---- a/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-+++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-@@ -2110,6 +2110,7 @@ static int bnxt_poll(struct napi_struct *napi, int budget)
- 		dim_create_sample(cpr->event_ctr,
- 				  cpr->rx_packets,
- 				  cpr->rx_bytes,
-+				  0,
- 				  &dim_sample);
- 		net_dim(&cpr->dim, dim_sample);
- 	}
-diff --git a/drivers/net/ethernet/broadcom/genet/bcmgenet.c b/drivers/net/ethernet/broadcom/genet/bcmgenet.c
-index 68d96e333c6d..aca82ef12d28 100644
---- a/drivers/net/ethernet/broadcom/genet/bcmgenet.c
-+++ b/drivers/net/ethernet/broadcom/genet/bcmgenet.c
-@@ -1910,7 +1910,7 @@ static int bcmgenet_rx_poll(struct napi_struct *napi, int budget)
- 
- 	if (ring->dim.use_dim) {
- 		dim_create_sample(ring->dim.event_ctr, ring->dim.packets,
--				  ring->dim.bytes, &dim_sample);
-+				  ring->dim.bytes, 0, &dim_sample);
- 		net_dim(&ring->dim.dim, dim_sample);
- 	}
- 
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_txrx.c b/drivers/net/ethernet/mellanox/mlx5/core/en_txrx.c
-index 432474754d77..76fc57762083 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en_txrx.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en_txrx.c
-@@ -53,7 +53,7 @@ static void mlx5e_handle_tx_dim(struct mlx5e_txqsq *sq)
- 	if (unlikely(!test_bit(MLX5E_SQ_STATE_AM, &sq->state)))
- 		return;
- 
--	dim_create_sample(sq->cq.event_ctr, stats->packets, stats->bytes, &dim_sample);
-+	dim_create_sample(sq->cq.event_ctr, stats->packets, stats->bytes, 0, &dim_sample);
- 	net_dim(&sq->dim, dim_sample);
- }
- 
-@@ -65,7 +65,7 @@ static void mlx5e_handle_rx_dim(struct mlx5e_rq *rq)
- 	if (unlikely(!test_bit(MLX5E_RQ_STATE_AM, &rq->state)))
- 		return;
- 
--	dim_create_sample(rq->cq.event_ctr, stats->packets, stats->bytes, &dim_sample);
-+	dim_create_sample(rq->cq.event_ctr, stats->packets, stats->bytes, 0, &dim_sample);
- 	net_dim(&rq->dim, dim_sample);
- }
- 
-diff --git a/include/linux/dim.h b/include/linux/dim.h
-index 88a74cd83d95..39b621dc8e3e 100644
---- a/include/linux/dim.h
-+++ b/include/linux/dim.h
-@@ -45,6 +45,7 @@
- struct dim_cq_moder {
- 	u16 usec;
- 	u16 pkts;
-+	u16 comps;
- 	u8 cq_period_mode;
- };
- 
-@@ -53,18 +54,22 @@ struct dim_sample {
- 	u32     pkt_ctr;
- 	u32     byte_ctr;
- 	u16     event_ctr;
-+	u32     comp_ctr;
- };
- 
- struct dim_stats {
- 	int ppms; /* packets per msec */
- 	int bpms; /* bytes per msec */
- 	int epms; /* events per msec */
-+	int cpms; /* completions per msec */
-+	int cpe_ratio; /* ratio of completions to events */
- };
- 
- struct dim { /* Dynamic Interrupt Moderation */
- 	u8                                      state;
- 	struct dim_stats                        prev_stats;
- 	struct dim_sample                       start_sample;
-+	struct dim_sample                       measuring_sample;
- 	struct work_struct                      work;
- 	u8                                      profile_ix;
- 	u8                                      mode;
-@@ -113,7 +118,7 @@ void dim_park_on_top(struct dim *dim);
- 
- void dim_park_tired(struct dim *dim);
- 
--void dim_create_sample(u16 event_ctr, u64 packets, u64 bytes, struct dim_sample *s);
-+void dim_create_sample(u16 event_ctr, u64 packets, u64 bytes, u64 comps, struct dim_sample *s);
- 
- void dim_calc_stats(struct dim_sample *start, struct dim_sample *end,
- 		    struct dim_stats *curr_stats);
-diff --git a/lib/dim/dim.c b/lib/dim/dim.c
-index 93e1ddd701b0..b7283f1cb000 100644
---- a/lib/dim/dim.c
-+++ b/lib/dim/dim.c
-@@ -54,12 +54,13 @@ void dim_park_tired(struct dim *dim)
- }
- EXPORT_SYMBOL(dim_park_tired);
- 
--void dim_create_sample(u16 event_ctr, u64 packets, u64 bytes, struct dim_sample *s)
-+void dim_create_sample(u16 event_ctr, u64 packets, u64 bytes, u64 comps, struct dim_sample *s)
- {
- 	s->time	     = ktime_get();
- 	s->pkt_ctr   = packets;
- 	s->byte_ctr  = bytes;
- 	s->event_ctr = event_ctr;
-+	s->comp_ctr  = comps;
- }
- EXPORT_SYMBOL(dim_create_sample);
- 
-@@ -71,6 +72,8 @@ void dim_calc_stats(struct dim_sample *start, struct dim_sample *end,
- 	u32 npkts = BIT_GAP(BITS_PER_TYPE(u32), end->pkt_ctr, start->pkt_ctr);
- 	u32 nbytes = BIT_GAP(BITS_PER_TYPE(u32), end->byte_ctr,
- 			     start->byte_ctr);
-+	u32 ncomps = BIT_GAP(BITS_PER_TYPE(u32), end->comp_ctr,
-+			     start->comp_ctr);
- 
- 	if (!delta_us)
- 		return;
-@@ -79,5 +82,11 @@ void dim_calc_stats(struct dim_sample *start, struct dim_sample *end,
- 	curr_stats->bpms = DIV_ROUND_UP(nbytes * USEC_PER_MSEC, delta_us);
- 	curr_stats->epms = DIV_ROUND_UP(DIM_NEVENTS * USEC_PER_MSEC,
- 					delta_us);
-+	curr_stats->cpms = DIV_ROUND_UP(ncomps * USEC_PER_MSEC, delta_us);
-+	if (curr_stats->epms != 0)
-+		curr_stats->cpe_ratio = (curr_stats->cpms * 100) / curr_stats->epms;
-+	else
-+		curr_stats->cpe_ratio = 0;
++static bool use_am = true;
++module_param(use_am, bool, 0444);
++MODULE_PARM_DESC(use_am, "Use cq adaptive moderation");
 +
++static int ib_cq_dim_modify_cq(struct ib_cq *cq, unsigned short level)
++{
++	u16 usec = blk_dim_prof[level].usec;
++	u16 comps = blk_dim_prof[level].comps;
++
++	return cq->device->modify_cq(cq, comps, usec);
++}
++
++static void update_cq_moderation(struct dim *dim, struct ib_cq *cq)
++{
++	dim->state = DIM_START_MEASURE;
++
++	ib_cq_dim_modify_cq(cq, dim->profile_ix);
++}
++
++static void ib_cq_blk_dim_workqueue_work(struct work_struct *w)
++{
++	struct dim *dim = container_of(w, struct dim, work);
++	struct ib_cq *cq = container_of(dim, struct ib_cq, workqueue_poll.dim);
++
++	update_cq_moderation(dim, cq);
++}
++
++static void ib_cq_blk_dim_irqpoll_work(struct work_struct *w)
++{
++	struct dim *dim = container_of(w, struct dim, work);
++	struct irq_poll *iop = container_of(dim, struct irq_poll, dim);
++	struct ib_cq *cq = container_of(iop, struct ib_cq, iop);
++
++	update_cq_moderation(dim, cq);
++}
++
++void blk_dim_init(struct dim *dim, work_func_t func)
++{
++	memset(dim, 0, sizeof(*dim));
++	dim->state = DIM_START_MEASURE;
++	dim->tune_state = DIM_GOING_RIGHT;
++	dim->profile_ix = BLK_DIM_START_PROFILE;
++	INIT_WORK(&dim->work, func);
++}
++
+ static int __ib_process_cq(struct ib_cq *cq, int budget, struct ib_wc *wcs,
+ 			   int batch)
+ {
+@@ -105,19 +151,28 @@ static void ib_cq_completion_softirq(struct ib_cq *cq, void *private)
+ 
+ static void ib_cq_poll_work(struct work_struct *work)
+ {
+-	struct ib_cq *cq = container_of(work, struct ib_cq, work);
++	struct ib_cq *cq = container_of(work, struct ib_cq, workqueue_poll.work);
+ 	int completed;
++	struct dim_sample e_sample;
++	struct dim_sample *m_sample = &cq->workqueue_poll.dim.measuring_sample;
+ 
+ 	completed = __ib_process_cq(cq, IB_POLL_BUDGET_WORKQUEUE, cq->wc,
+ 				    IB_POLL_BATCH);
++
++	if (cq->workqueue_poll.dim_used)
++		dim_create_sample(m_sample->event_ctr + 1, m_sample->pkt_ctr, m_sample->byte_ctr,
++							m_sample->comp_ctr + completed, &e_sample);
++
+ 	if (completed >= IB_POLL_BUDGET_WORKQUEUE ||
+ 	    ib_req_notify_cq(cq, IB_POLL_FLAGS) > 0)
+-		queue_work(cq->comp_wq, &cq->work);
++		queue_work(cq->comp_wq, &cq->workqueue_poll.work);
++	else if (cq->workqueue_poll.dim_used)
++		blk_dim(&cq->workqueue_poll.dim, e_sample);
  }
- EXPORT_SYMBOL(dim_calc_stats);
-diff --git a/lib/dim/net_dim.c b/lib/dim/net_dim.c
-index cf95cd20cf02..10605b77bbc5 100644
---- a/lib/dim/net_dim.c
-+++ b/lib/dim/net_dim.c
-@@ -183,7 +183,7 @@ void net_dim(struct dim *dim, struct dim_sample end_sample)
- 		/* fall through */
- 	case DIM_START_MEASURE:
- 		dim_create_sample(end_sample.event_ctr, end_sample.pkt_ctr,
--				  end_sample.byte_ctr, &dim->start_sample);
-+				  end_sample.byte_ctr, 0, &dim->start_sample);
- 		dim->state = DIM_MEASURE_IN_PROGRESS;
+ 
+ static void ib_cq_completion_workqueue(struct ib_cq *cq, void *private)
+ {
+-	queue_work(cq->comp_wq, &cq->work);
++	queue_work(cq->comp_wq, &cq->workqueue_poll.work);
+ }
+ 
+ /**
+@@ -172,12 +227,20 @@ struct ib_cq *__ib_alloc_cq(struct ib_device *dev, void *private,
+ 		cq->comp_handler = ib_cq_completion_softirq;
+ 
+ 		irq_poll_init(&cq->iop, IB_POLL_BUDGET_IRQ, ib_poll_handler);
++		if (cq->device->modify_cq && use_am) {
++			blk_dim_init(&cq->iop.dim, ib_cq_blk_dim_irqpoll_work);
++			cq->iop.dim_used = true;
++		}
+ 		ib_req_notify_cq(cq, IB_CQ_NEXT_COMP);
  		break;
- 	case DIM_APPLY_NEW_PROFILE:
+ 	case IB_POLL_WORKQUEUE:
+ 	case IB_POLL_UNBOUND_WORKQUEUE:
+ 		cq->comp_handler = ib_cq_completion_workqueue;
+-		INIT_WORK(&cq->work, ib_cq_poll_work);
++		INIT_WORK(&cq->workqueue_poll.work, ib_cq_poll_work);
++		if (cq->device->modify_cq && use_am) {
++			blk_dim_init(&cq->workqueue_poll.dim, ib_cq_blk_dim_workqueue_work);
++			cq->workqueue_poll.dim_used = true;
++		}
+ 		ib_req_notify_cq(cq, IB_CQ_NEXT_COMP);
+ 		cq->comp_wq = (cq->poll_ctx == IB_POLL_WORKQUEUE) ?
+ 				ib_comp_wq : ib_comp_unbound_wq;
+@@ -217,7 +280,9 @@ void ib_free_cq(struct ib_cq *cq)
+ 		break;
+ 	case IB_POLL_WORKQUEUE:
+ 	case IB_POLL_UNBOUND_WORKQUEUE:
+-		cancel_work_sync(&cq->work);
++		cancel_work_sync(&cq->workqueue_poll.work);
++		if (cq->workqueue_poll.dim_used)
++			flush_work(&cq->iop.dim.work);
+ 		break;
+ 	default:
+ 		WARN_ON_ONCE(1);
+diff --git a/drivers/infiniband/hw/mlx4/qp.c b/drivers/infiniband/hw/mlx4/qp.c
+index 971e9a9ebdaf..f3e5dbe4689a 100644
+--- a/drivers/infiniband/hw/mlx4/qp.c
++++ b/drivers/infiniband/hw/mlx4/qp.c
+@@ -4365,7 +4365,7 @@ static void handle_drain_completion(struct ib_cq *cq,
+ 				irq_poll_enable(&cq->iop);
+ 				break;
+ 			case IB_POLL_WORKQUEUE:
+-				cancel_work_sync(&cq->work);
++				cancel_work_sync(&cq->workqueue_poll.work);
+ 				break;
+ 			default:
+ 				WARN_ON_ONCE(1);
+diff --git a/drivers/infiniband/hw/mlx5/qp.c b/drivers/infiniband/hw/mlx5/qp.c
+index dd2ae640bc84..4b65147010cc 100644
+--- a/drivers/infiniband/hw/mlx5/qp.c
++++ b/drivers/infiniband/hw/mlx5/qp.c
+@@ -6102,7 +6102,7 @@ static void handle_drain_completion(struct ib_cq *cq,
+ 				irq_poll_enable(&cq->iop);
+ 				break;
+ 			case IB_POLL_WORKQUEUE:
+-				cancel_work_sync(&cq->work);
++				cancel_work_sync(&cq->workqueue_poll.work);
+ 				break;
+ 			default:
+ 				WARN_ON_ONCE(1);
+diff --git a/include/linux/irq_poll.h b/include/linux/irq_poll.h
+index 16aaeccb65cb..ede1a390159b 100644
+--- a/include/linux/irq_poll.h
++++ b/include/linux/irq_poll.h
+@@ -2,14 +2,21 @@
+ #ifndef IRQ_POLL_H
+ #define IRQ_POLL_H
+ 
++#include <linux/blk_dim.h>
++
+ struct irq_poll;
+ typedef int (irq_poll_fn)(struct irq_poll *, int);
++typedef int (irq_poll_dim_fn)(struct irq_poll *);
+ 
+ struct irq_poll {
+ 	struct list_head list;
+ 	unsigned long state;
+ 	int weight;
+ 	irq_poll_fn *poll;
++
++	bool dim_used;
++	struct dim dim;
++	irq_poll_dim_fn *dimfn;
+ };
+ 
+ enum {
+diff --git a/include/rdma/ib_verbs.h b/include/rdma/ib_verbs.h
+index a3ceed3a040a..d8060c3cee06 100644
+--- a/include/rdma/ib_verbs.h
++++ b/include/rdma/ib_verbs.h
+@@ -1584,6 +1584,13 @@ enum ib_poll_context {
+ 	IB_POLL_UNBOUND_WORKQUEUE, /* poll from unbound workqueue */
+ };
+ 
++struct ib_cq_workqueue_poll {
++	struct dim              dim;
++	struct work_struct      work;
++	bool                    dim_used;
++};
++
++
+ struct ib_cq {
+ 	struct ib_device       *device;
+ 	struct ib_uobject      *uobject;
+@@ -1595,8 +1602,8 @@ struct ib_cq {
+ 	enum ib_poll_context	poll_ctx;
+ 	struct ib_wc		*wc;
+ 	union {
+-		struct irq_poll		iop;
+-		struct work_struct	work;
++		struct irq_poll			iop;
++		struct ib_cq_workqueue_poll	workqueue_poll;
+ 	};
+ 	struct workqueue_struct *comp_wq;
+ 	/*
+diff --git a/lib/irq_poll.c b/lib/irq_poll.c
+index 86a709954f5a..2b5e41f0e583 100644
+--- a/lib/irq_poll.c
++++ b/lib/irq_poll.c
+@@ -53,6 +53,8 @@ static void __irq_poll_complete(struct irq_poll *iop)
+ 	list_del(&iop->list);
+ 	smp_mb__before_atomic();
+ 	clear_bit_unlock(IRQ_POLL_F_SCHED, &iop->state);
++	if (iop->dim_used)
++		blk_dim(&iop->dim, iop->dim.measuring_sample);
+ }
+ 
+ /**
+@@ -86,6 +88,7 @@ static void __latent_entropy irq_poll_softirq(struct softirq_action *h)
+ 	while (!list_empty(list)) {
+ 		struct irq_poll *iop;
+ 		int work, weight;
++		struct dim_sample *m_sample;
+ 
+ 		/*
+ 		 * If softirq window is exhausted then punt.
+@@ -104,10 +107,16 @@ static void __latent_entropy irq_poll_softirq(struct softirq_action *h)
+ 		 */
+ 		iop = list_entry(list->next, struct irq_poll, list);
+ 
++		m_sample = &iop->dim.measuring_sample;
+ 		weight = iop->weight;
+ 		work = 0;
+-		if (test_bit(IRQ_POLL_F_SCHED, &iop->state))
++		if (test_bit(IRQ_POLL_F_SCHED, &iop->state)) {
+ 			work = iop->poll(iop, weight);
++			if (iop->dim_used)
++				dim_create_sample(m_sample->event_ctr + 1, m_sample->pkt_ctr,
++					m_sample->byte_ctr, m_sample->comp_ctr + work,
++						&iop->dim.measuring_sample);
++		}
+ 
+ 		budget -= work;
+ 
+@@ -144,6 +153,8 @@ static void __latent_entropy irq_poll_softirq(struct softirq_action *h)
+  **/
+ void irq_poll_disable(struct irq_poll *iop)
+ {
++	if (iop->dim_used)
++		flush_work(&iop->dim.work);
+ 	set_bit(IRQ_POLL_F_DISABLE, &iop->state);
+ 	while (test_and_set_bit(IRQ_POLL_F_SCHED, &iop->state))
+ 		msleep(1);
 -- 
 2.19.1
