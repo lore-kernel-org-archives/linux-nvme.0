@@ -1,9 +1,8 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 6 Mar 2019 02:01:58 -0800
-Subject: [PATCH] nvme-fc: reject reconnect if io queue count is reduced to
- zero
-In-Reply-To: <20190304015747.31917-1-jsmart2021@gmail.com>
-References: <20190304015747.31917-1-jsmart2021@gmail.com>
-Message-ID: <82eb08ab-1bff-7e67-4eda-53407019afa3@grimberg.me>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 6 Mar 2019 08:12:52 -0700
+Subject: [PATCH nvme-cli] nvme: print I/O error to stderr
+In-Reply-To: <20190306094231.9197-1-sagi@grimberg.me>
+References: <20190306094231.9197-1-sagi@grimberg.me>
+Message-ID: <20190306151251.GA562@localhost.localdomain>
 
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Applied, thank you.
