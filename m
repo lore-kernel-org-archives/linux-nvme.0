@@ -1,353 +1,184 @@
 From: talgi@mellanox.com (Tal Gilboa)
-Date: Wed,  6 Mar 2019 10:48:25 +0200
-Subject: [RFC/PATCH net-next 2/9] linux/dim: Remove "net" prefix from internal
- DIM members
+Date: Wed,  6 Mar 2019 10:48:30 +0200
+Subject: [RFC/PATCH net-next 7/9] linux/dim: Add completions count to
+ dim_sample
 In-Reply-To: <20190306084832.57753-1-talgi@mellanox.com>
 References: <20190306084832.57753-1-talgi@mellanox.com>
-Message-ID: <20190306084832.57753-3-talgi@mellanox.com>
+Message-ID: <20190306084832.57753-8-talgi@mellanox.com>
 
-Only renaming functions and structs which aren't used by an external code.
+From: Yamin Friedman <yaminf@mellanox.com>
 
+Added a measurement of completions per/msec to allow for completion based dim
+algorithms.
+
+Signed-off-by: Yamin Friedman <yaminf at mellanox.com>
 Signed-off-by: Tal Gilboa <talgi at mellanox.com>
 ---
- include/linux/dim.h     | 86 ++++++++++++++++++++---------------------
- include/linux/net_dim.h | 86 ++++++++++++++++++++---------------------
- 2 files changed, 86 insertions(+), 86 deletions(-)
+ drivers/net/ethernet/broadcom/bcmsysport.c        |  2 +-
+ drivers/net/ethernet/broadcom/bnxt/bnxt.c         |  1 +
+ drivers/net/ethernet/broadcom/genet/bcmgenet.c    |  2 +-
+ drivers/net/ethernet/mellanox/mlx5/core/en_txrx.c |  4 ++--
+ include/linux/dim.h                               |  7 ++++++-
+ lib/dim/dim.c                                     | 11 ++++++++++-
+ lib/dim/net_dim.c                                 |  2 +-
+ 7 files changed, 22 insertions(+), 7 deletions(-)
 
+diff --git a/drivers/net/ethernet/broadcom/bcmsysport.c b/drivers/net/ethernet/broadcom/bcmsysport.c
+index 840b3bf1ae3e..df38c8fd373f 100644
+--- a/drivers/net/ethernet/broadcom/bcmsysport.c
++++ b/drivers/net/ethernet/broadcom/bcmsysport.c
+@@ -1035,7 +1035,7 @@ static int bcm_sysport_poll(struct napi_struct *napi, int budget)
+ 
+ 	if (priv->dim.use_dim) {
+ 		dim_create_sample(priv->dim.event_ctr, priv->dim.packets,
+-				  priv->dim.bytes, &dim_sample);
++				  priv->dim.bytes, 0, &dim_sample);
+ 		net_dim(&priv->dim.dim, dim_sample);
+ 	}
+ 
+diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.c b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
+index 131ab07aad83..516703ac0009 100644
+--- a/drivers/net/ethernet/broadcom/bnxt/bnxt.c
++++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
+@@ -2110,6 +2110,7 @@ static int bnxt_poll(struct napi_struct *napi, int budget)
+ 		dim_create_sample(cpr->event_ctr,
+ 				  cpr->rx_packets,
+ 				  cpr->rx_bytes,
++				  0,
+ 				  &dim_sample);
+ 		net_dim(&cpr->dim, dim_sample);
+ 	}
+diff --git a/drivers/net/ethernet/broadcom/genet/bcmgenet.c b/drivers/net/ethernet/broadcom/genet/bcmgenet.c
+index 68d96e333c6d..aca82ef12d28 100644
+--- a/drivers/net/ethernet/broadcom/genet/bcmgenet.c
++++ b/drivers/net/ethernet/broadcom/genet/bcmgenet.c
+@@ -1910,7 +1910,7 @@ static int bcmgenet_rx_poll(struct napi_struct *napi, int budget)
+ 
+ 	if (ring->dim.use_dim) {
+ 		dim_create_sample(ring->dim.event_ctr, ring->dim.packets,
+-				  ring->dim.bytes, &dim_sample);
++				  ring->dim.bytes, 0, &dim_sample);
+ 		net_dim(&ring->dim.dim, dim_sample);
+ 	}
+ 
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_txrx.c b/drivers/net/ethernet/mellanox/mlx5/core/en_txrx.c
+index 432474754d77..76fc57762083 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/en_txrx.c
++++ b/drivers/net/ethernet/mellanox/mlx5/core/en_txrx.c
+@@ -53,7 +53,7 @@ static void mlx5e_handle_tx_dim(struct mlx5e_txqsq *sq)
+ 	if (unlikely(!test_bit(MLX5E_SQ_STATE_AM, &sq->state)))
+ 		return;
+ 
+-	dim_create_sample(sq->cq.event_ctr, stats->packets, stats->bytes, &dim_sample);
++	dim_create_sample(sq->cq.event_ctr, stats->packets, stats->bytes, 0, &dim_sample);
+ 	net_dim(&sq->dim, dim_sample);
+ }
+ 
+@@ -65,7 +65,7 @@ static void mlx5e_handle_rx_dim(struct mlx5e_rq *rq)
+ 	if (unlikely(!test_bit(MLX5E_RQ_STATE_AM, &rq->state)))
+ 		return;
+ 
+-	dim_create_sample(rq->cq.event_ctr, stats->packets, stats->bytes, &dim_sample);
++	dim_create_sample(rq->cq.event_ctr, stats->packets, stats->bytes, 0, &dim_sample);
+ 	net_dim(&rq->dim, dim_sample);
+ }
+ 
 diff --git a/include/linux/dim.h b/include/linux/dim.h
-index c745c5d457ff..16ef59524b69 100644
+index 88a74cd83d95..39b621dc8e3e 100644
 --- a/include/linux/dim.h
 +++ b/include/linux/dim.h
-@@ -36,7 +36,7 @@
- 
- #include <linux/module.h>
- 
--#define NET_DIM_NEVENTS 64
-+#define DIM_NEVENTS 64
- #define IS_SIGNIFICANT_DIFF(val, ref) \
- 	(((100UL * abs((val) - (ref))) / (ref)) > 10) /* more than 10% difference */
- #define BIT_GAP(bits, end, start) ((((end) - (start)) + BIT_ULL(bits)) & (BIT_ULL(bits) - 1))
-@@ -55,7 +55,7 @@ struct net_dim_sample {
- 	u16     event_ctr;
+@@ -45,6 +45,7 @@
+ struct dim_cq_moder {
+ 	u16 usec;
+ 	u16 pkts;
++	u16 comps;
+ 	u8 cq_period_mode;
  };
  
--struct net_dim_stats {
-+struct dim_stats {
+@@ -53,18 +54,22 @@ struct dim_sample {
+ 	u32     pkt_ctr;
+ 	u32     byte_ctr;
+ 	u16     event_ctr;
++	u32     comp_ctr;
+ };
+ 
+ struct dim_stats {
  	int ppms; /* packets per msec */
  	int bpms; /* bytes per msec */
  	int epms; /* events per msec */
-@@ -63,7 +63,7 @@ struct net_dim_stats {
++	int cpms; /* completions per msec */
++	int cpe_ratio; /* ratio of completions to events */
+ };
  
- struct net_dim { /* Dynamic Interrupt Moderation */
+ struct dim { /* Dynamic Interrupt Moderation */
  	u8                                      state;
--	struct net_dim_stats                    prev_stats;
-+	struct dim_stats                        prev_stats;
- 	struct net_dim_sample                   start_sample;
+ 	struct dim_stats                        prev_stats;
+ 	struct dim_sample                       start_sample;
++	struct dim_sample                       measuring_sample;
  	struct work_struct                      work;
  	u8                                      profile_ix;
-@@ -87,67 +87,67 @@ enum {
- };
+ 	u8                                      mode;
+@@ -113,7 +118,7 @@ void dim_park_on_top(struct dim *dim);
  
- enum {
--	NET_DIM_PARKING_ON_TOP,
--	NET_DIM_PARKING_TIRED,
--	NET_DIM_GOING_RIGHT,
--	NET_DIM_GOING_LEFT,
-+	DIM_PARKING_ON_TOP,
-+	DIM_PARKING_TIRED,
-+	DIM_GOING_RIGHT,
-+	DIM_GOING_LEFT,
- };
+ void dim_park_tired(struct dim *dim);
  
- enum {
--	NET_DIM_STATS_WORSE,
--	NET_DIM_STATS_SAME,
--	NET_DIM_STATS_BETTER,
-+	DIM_STATS_WORSE,
-+	DIM_STATS_SAME,
-+	DIM_STATS_BETTER,
- };
+-void dim_create_sample(u16 event_ctr, u64 packets, u64 bytes, struct dim_sample *s);
++void dim_create_sample(u16 event_ctr, u64 packets, u64 bytes, u64 comps, struct dim_sample *s);
  
- enum {
--	NET_DIM_STEPPED,
--	NET_DIM_TOO_TIRED,
--	NET_DIM_ON_EDGE,
-+	DIM_STEPPED,
-+	DIM_TOO_TIRED,
-+	DIM_ON_EDGE,
- };
- 
--static inline bool net_dim_on_top(struct net_dim *net_dim)
-+static inline bool dim_on_top(struct net_dim *dim)
- {
--	switch (net_dim->tune_state) {
--	case NET_DIM_PARKING_ON_TOP:
--	case NET_DIM_PARKING_TIRED:
-+	switch (dim->tune_state) {
-+	case DIM_PARKING_ON_TOP:
-+	case DIM_PARKING_TIRED:
- 		return true;
--	case NET_DIM_GOING_RIGHT:
--		return (net_dim->steps_left > 1) && (net_dim->steps_right == 1);
--	default: /* NET_DIM_GOING_LEFT */
--		return (net_dim->steps_right > 1) && (net_dim->steps_left == 1);
-+	case DIM_GOING_RIGHT:
-+		return (dim->steps_left > 1) && (dim->steps_right == 1);
-+	default: /* DIM_GOING_LEFT */
-+		return (dim->steps_right > 1) && (dim->steps_left == 1);
- 	}
+ void dim_calc_stats(struct dim_sample *start, struct dim_sample *end,
+ 		    struct dim_stats *curr_stats);
+diff --git a/lib/dim/dim.c b/lib/dim/dim.c
+index 93e1ddd701b0..b7283f1cb000 100644
+--- a/lib/dim/dim.c
++++ b/lib/dim/dim.c
+@@ -54,12 +54,13 @@ void dim_park_tired(struct dim *dim)
  }
+ EXPORT_SYMBOL(dim_park_tired);
  
--static inline void net_dim_turn(struct net_dim *net_dim)
-+static inline void dim_turn(struct net_dim *dim)
+-void dim_create_sample(u16 event_ctr, u64 packets, u64 bytes, struct dim_sample *s)
++void dim_create_sample(u16 event_ctr, u64 packets, u64 bytes, u64 comps, struct dim_sample *s)
  {
--	switch (net_dim->tune_state) {
--	case NET_DIM_PARKING_ON_TOP:
--	case NET_DIM_PARKING_TIRED:
-+	switch (dim->tune_state) {
-+	case DIM_PARKING_ON_TOP:
-+	case DIM_PARKING_TIRED:
- 		break;
--	case NET_DIM_GOING_RIGHT:
--		net_dim->tune_state = NET_DIM_GOING_LEFT;
--		net_dim->steps_left = 0;
-+	case DIM_GOING_RIGHT:
-+		dim->tune_state = DIM_GOING_LEFT;
-+		dim->steps_left = 0;
- 		break;
--	case NET_DIM_GOING_LEFT:
--		net_dim->tune_state = NET_DIM_GOING_RIGHT;
--		net_dim->steps_right = 0;
-+	case DIM_GOING_LEFT:
-+		dim->tune_state = DIM_GOING_RIGHT;
-+		dim->steps_right = 0;
- 		break;
- 	}
- }
- 
--static inline void net_dim_park_on_top(struct net_dim *net_dim)
-+static inline void dim_park_on_top(struct net_dim *dim)
- {
--	net_dim->steps_right  = 0;
--	net_dim->steps_left   = 0;
--	net_dim->tired        = 0;
--	net_dim->tune_state   = NET_DIM_PARKING_ON_TOP;
-+	dim->steps_right  = 0;
-+	dim->steps_left   = 0;
-+	dim->tired        = 0;
-+	dim->tune_state   = DIM_PARKING_ON_TOP;
- }
- 
--static inline void net_dim_park_tired(struct net_dim *net_dim)
-+static inline void dim_park_tired(struct net_dim *dim)
- {
--	net_dim->steps_right  = 0;
--	net_dim->steps_left   = 0;
--	net_dim->tune_state   = NET_DIM_PARKING_TIRED;
-+	dim->steps_right  = 0;
-+	dim->steps_left   = 0;
-+	dim->tune_state   = DIM_PARKING_TIRED;
- }
- 
- static inline void net_dim_sample(u16 event_ctr,
-@@ -161,9 +161,9 @@ static inline void net_dim_sample(u16 event_ctr,
+ 	s->time	     = ktime_get();
+ 	s->pkt_ctr   = packets;
+ 	s->byte_ctr  = bytes;
  	s->event_ctr = event_ctr;
++	s->comp_ctr  = comps;
  }
+ EXPORT_SYMBOL(dim_create_sample);
  
--static inline void net_dim_calc_stats(struct net_dim_sample *start,
-+static inline void dim_calc_stats(struct net_dim_sample *start,
- 				  struct net_dim_sample *end,
--				  struct net_dim_stats *curr_stats)
-+				  struct dim_stats *curr_stats)
- {
- 	/* u32 holds up to 71 minutes, should be enough */
- 	u32 delta_us = ktime_us_delta(end->time, start->time);
-@@ -176,7 +176,7 @@ static inline void net_dim_calc_stats(struct net_dim_sample *start,
+@@ -71,6 +72,8 @@ void dim_calc_stats(struct dim_sample *start, struct dim_sample *end,
+ 	u32 npkts = BIT_GAP(BITS_PER_TYPE(u32), end->pkt_ctr, start->pkt_ctr);
+ 	u32 nbytes = BIT_GAP(BITS_PER_TYPE(u32), end->byte_ctr,
+ 			     start->byte_ctr);
++	u32 ncomps = BIT_GAP(BITS_PER_TYPE(u32), end->comp_ctr,
++			     start->comp_ctr);
  
- 	curr_stats->ppms = DIV_ROUND_UP(npkts * USEC_PER_MSEC, delta_us);
+ 	if (!delta_us)
+ 		return;
+@@ -79,5 +82,11 @@ void dim_calc_stats(struct dim_sample *start, struct dim_sample *end,
  	curr_stats->bpms = DIV_ROUND_UP(nbytes * USEC_PER_MSEC, delta_us);
--	curr_stats->epms = DIV_ROUND_UP(NET_DIM_NEVENTS * USEC_PER_MSEC,
-+	curr_stats->epms = DIV_ROUND_UP(DIM_NEVENTS * USEC_PER_MSEC,
+ 	curr_stats->epms = DIV_ROUND_UP(DIM_NEVENTS * USEC_PER_MSEC,
  					delta_us);
++	curr_stats->cpms = DIV_ROUND_UP(ncomps * USEC_PER_MSEC, delta_us);
++	if (curr_stats->epms != 0)
++		curr_stats->cpe_ratio = (curr_stats->cpms * 100) / curr_stats->epms;
++	else
++		curr_stats->cpe_ratio = 0;
++
  }
- 
-diff --git a/include/linux/net_dim.h b/include/linux/net_dim.h
-index 373cda74b167..1ce0899b5f30 100644
---- a/include/linux/net_dim.h
-+++ b/include/linux/net_dim.h
-@@ -128,67 +128,67 @@ net_dim_get_def_tx_moderation(u8 cq_period_mode)
- static inline int net_dim_step(struct net_dim *dim)
- {
- 	if (dim->tired == (NET_DIM_PARAMS_NUM_PROFILES * 2))
--		return NET_DIM_TOO_TIRED;
-+		return DIM_TOO_TIRED;
- 
- 	switch (dim->tune_state) {
--	case NET_DIM_PARKING_ON_TOP:
--	case NET_DIM_PARKING_TIRED:
-+	case DIM_PARKING_ON_TOP:
-+	case DIM_PARKING_TIRED:
+ EXPORT_SYMBOL(dim_calc_stats);
+diff --git a/lib/dim/net_dim.c b/lib/dim/net_dim.c
+index cf95cd20cf02..10605b77bbc5 100644
+--- a/lib/dim/net_dim.c
++++ b/lib/dim/net_dim.c
+@@ -183,7 +183,7 @@ void net_dim(struct dim *dim, struct dim_sample end_sample)
+ 		/* fall through */
+ 	case DIM_START_MEASURE:
+ 		dim_create_sample(end_sample.event_ctr, end_sample.pkt_ctr,
+-				  end_sample.byte_ctr, &dim->start_sample);
++				  end_sample.byte_ctr, 0, &dim->start_sample);
+ 		dim->state = DIM_MEASURE_IN_PROGRESS;
  		break;
--	case NET_DIM_GOING_RIGHT:
-+	case DIM_GOING_RIGHT:
- 		if (dim->profile_ix == (NET_DIM_PARAMS_NUM_PROFILES - 1))
--			return NET_DIM_ON_EDGE;
-+			return DIM_ON_EDGE;
- 		dim->profile_ix++;
- 		dim->steps_right++;
- 		break;
--	case NET_DIM_GOING_LEFT:
-+	case DIM_GOING_LEFT:
- 		if (dim->profile_ix == 0)
--			return NET_DIM_ON_EDGE;
-+			return DIM_ON_EDGE;
- 		dim->profile_ix--;
- 		dim->steps_left++;
- 		break;
- 	}
- 
- 	dim->tired++;
--	return NET_DIM_STEPPED;
-+	return DIM_STEPPED;
- }
- 
- static inline void net_dim_exit_parking(struct net_dim *dim)
- {
--	dim->tune_state = dim->profile_ix ? NET_DIM_GOING_LEFT :
--					  NET_DIM_GOING_RIGHT;
-+	dim->tune_state = dim->profile_ix ? DIM_GOING_LEFT :
-+					  DIM_GOING_RIGHT;
- 	net_dim_step(dim);
- }
- 
--static inline int net_dim_stats_compare(struct net_dim_stats *curr,
--					struct net_dim_stats *prev)
-+static inline int net_dim_stats_compare(struct dim_stats *curr,
-+					struct dim_stats *prev)
- {
- 	if (!prev->bpms)
--		return curr->bpms ? NET_DIM_STATS_BETTER :
--				    NET_DIM_STATS_SAME;
-+		return curr->bpms ? DIM_STATS_BETTER :
-+				    DIM_STATS_SAME;
- 
- 	if (IS_SIGNIFICANT_DIFF(curr->bpms, prev->bpms))
--		return (curr->bpms > prev->bpms) ? NET_DIM_STATS_BETTER :
--						   NET_DIM_STATS_WORSE;
-+		return (curr->bpms > prev->bpms) ? DIM_STATS_BETTER :
-+						   DIM_STATS_WORSE;
- 
- 	if (!prev->ppms)
--		return curr->ppms ? NET_DIM_STATS_BETTER :
--				    NET_DIM_STATS_SAME;
-+		return curr->ppms ? DIM_STATS_BETTER :
-+				    DIM_STATS_SAME;
- 
- 	if (IS_SIGNIFICANT_DIFF(curr->ppms, prev->ppms))
--		return (curr->ppms > prev->ppms) ? NET_DIM_STATS_BETTER :
--						   NET_DIM_STATS_WORSE;
-+		return (curr->ppms > prev->ppms) ? DIM_STATS_BETTER :
-+						   DIM_STATS_WORSE;
- 
- 	if (!prev->epms)
--		return NET_DIM_STATS_SAME;
-+		return DIM_STATS_SAME;
- 
- 	if (IS_SIGNIFICANT_DIFF(curr->epms, prev->epms))
--		return (curr->epms < prev->epms) ? NET_DIM_STATS_BETTER :
--						   NET_DIM_STATS_WORSE;
-+		return (curr->epms < prev->epms) ? DIM_STATS_BETTER :
-+						   DIM_STATS_WORSE;
- 
--	return NET_DIM_STATS_SAME;
-+	return DIM_STATS_SAME;
- }
- 
--static inline bool net_dim_decision(struct net_dim_stats *curr_stats,
-+static inline bool net_dim_decision(struct dim_stats *curr_stats,
- 				    struct net_dim *dim)
- {
- 	int prev_state = dim->tune_state;
-@@ -197,44 +197,44 @@ static inline bool net_dim_decision(struct net_dim_stats *curr_stats,
- 	int step_res;
- 
- 	switch (dim->tune_state) {
--	case NET_DIM_PARKING_ON_TOP:
-+	case DIM_PARKING_ON_TOP:
- 		stats_res = net_dim_stats_compare(curr_stats, &dim->prev_stats);
--		if (stats_res != NET_DIM_STATS_SAME)
-+		if (stats_res != DIM_STATS_SAME)
- 			net_dim_exit_parking(dim);
- 		break;
- 
--	case NET_DIM_PARKING_TIRED:
-+	case DIM_PARKING_TIRED:
- 		dim->tired--;
- 		if (!dim->tired)
- 			net_dim_exit_parking(dim);
- 		break;
- 
--	case NET_DIM_GOING_RIGHT:
--	case NET_DIM_GOING_LEFT:
-+	case DIM_GOING_RIGHT:
-+	case DIM_GOING_LEFT:
- 		stats_res = net_dim_stats_compare(curr_stats, &dim->prev_stats);
--		if (stats_res != NET_DIM_STATS_BETTER)
--			net_dim_turn(dim);
-+		if (stats_res != DIM_STATS_BETTER)
-+			dim_turn(dim);
- 
--		if (net_dim_on_top(dim)) {
--			net_dim_park_on_top(dim);
-+		if (dim_on_top(dim)) {
-+			dim_park_on_top(dim);
- 			break;
- 		}
- 
- 		step_res = net_dim_step(dim);
- 		switch (step_res) {
--		case NET_DIM_ON_EDGE:
--			net_dim_park_on_top(dim);
-+		case DIM_ON_EDGE:
-+			dim_park_on_top(dim);
- 			break;
--		case NET_DIM_TOO_TIRED:
--			net_dim_park_tired(dim);
-+		case DIM_TOO_TIRED:
-+			dim_park_tired(dim);
- 			break;
- 		}
- 
- 		break;
- 	}
- 
--	if ((prev_state      != NET_DIM_PARKING_ON_TOP) ||
--	    (dim->tune_state != NET_DIM_PARKING_ON_TOP))
-+	if ((prev_state      != DIM_PARKING_ON_TOP) ||
-+	    (dim->tune_state != DIM_PARKING_ON_TOP))
- 		dim->prev_stats = *curr_stats;
- 
- 	return dim->profile_ix != prev_ix;
-@@ -243,7 +243,7 @@ static inline bool net_dim_decision(struct net_dim_stats *curr_stats,
- static inline void net_dim(struct net_dim *dim,
- 			   struct net_dim_sample end_sample)
- {
--	struct net_dim_stats curr_stats;
-+	struct dim_stats curr_stats;
- 	u16 nevents;
- 
- 	switch (dim->state) {
-@@ -251,9 +251,9 @@ static inline void net_dim(struct net_dim *dim,
- 		nevents = BIT_GAP(BITS_PER_TYPE(u16),
- 				  end_sample.event_ctr,
- 				  dim->start_sample.event_ctr);
--		if (nevents < NET_DIM_NEVENTS)
-+		if (nevents < DIM_NEVENTS)
- 			break;
--		net_dim_calc_stats(&dim->start_sample, &end_sample,
-+		dim_calc_stats(&dim->start_sample, &end_sample,
- 				   &curr_stats);
- 		if (net_dim_decision(&curr_stats, dim)) {
- 			dim->state = NET_DIM_APPLY_NEW_PROFILE;
+ 	case DIM_APPLY_NEW_PROFILE:
 -- 
 2.19.1
