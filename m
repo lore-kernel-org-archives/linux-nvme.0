@@ -1,70 +1,100 @@
-From: sarika.k.mehta@intel.com (Mehta, Sarika K)
-Date: Tue, 5 Mar 2019 18:29:31 +0000
-Subject: [Suspected-Phishing][PATCH 1/1] nvme-cli: enforce memory buffer
- for Host Identifier
-In-Reply-To: <MW2PR2101MB092232E55EF05F2BD1396296D1720@MW2PR2101MB0922.namprd21.prod.outlook.com>
-References: <1551004255-13562-1-git-send-email-maxg@mellanox.com>
- <d8bfd186-ba43-06e3-6471-c5b1afed60d2@mellanox.com>
- <MW2PR2101MB092232E55EF05F2BD1396296D1720@MW2PR2101MB0922.namprd21.prod.outlook.com>
-Message-ID: <C8DE2563C5E3BF4785BDFAC2C64400FEDE19346F@ORSMSX113.amr.corp.intel.com>
+From: talgi@mellanox.com (Tal Gilboa)
+Date: Wed,  6 Mar 2019 10:48:23 +0200
+Subject: [RFC/PATCH net-next 0/9] net/dim: Support for multiple implementations
+Message-ID: <20190306084832.57753-1-talgi@mellanox.com>
 
-Thanks Jeremiah. Moving you to BCC.
+net_dim.h lib exposes an implementation of the DIM algorithm for dynamically-tuned interrupt
+moderation for networking interfaces.
 
-Thanks,
-S?rik?
+We need the same behavior for any block CQ. The main motivation is two benefit from maximized
+completion rate and reduced interrupt overhead that DIM may provide.
 
------Original Message-----
-From: Jeremiah Samli [mailto:jsamli@microsoft.com] 
-Sent: Monday, March 04, 2019 7:44 PM
-To: Max Gurtovoy <maxg at mellanox.com>; linux-nvme at lists.infradead.org; Busch, Keith <keith.busch at intel.com>; hch at lst.de; sagi at grimberg.me; Johannes Thumshirn <jthumshirn at suse.de>; Mehta, Sarika K <sarika.k.mehta at intel.com>
-Cc: Aviad Yehezkel <aviadye at mellanox.com>; oren at mellanox.com; Boris Pinzur <bpinzur at mellanox.com>; Omri Kahalon <omrik at mellanox.com>
-Subject: RE: [Suspected-Phishing][PATCH 1/1] nvme-cli: enforce memory buffer for Host Identifier
+Current DIM implementation prioritizes reducing interrupt overhead over latency. Also, in
+order to reduce DIM's own overhead, the algorithm might take take some time to identify it
+needs to change profiles. For these reasons we got to the understanding that a slightly
+modified algorithm is needed. Early tests with current implementation show it doesn't react
+fast and sharply enough in order to satisfy the block CQ needs.
 
-+ Sarika who has been working with Keith on this.
+I would like to suggest an implementation for block DIM. The idea is to expose the new
+functionality without the risk of breaking Net DIM behavior for netdev. Below are main
+similarities and differences between the two implementations and general guidelines for the
+suggested solution.
 
------Original Message-----
-From: Max Gurtovoy <maxg@mellanox.com>
-Sent: Monday, March 4, 2019 1:21 AM
-To: linux-nvme at lists.infradead.org; keith.busch at intel.com; hch at lst.de; sagi at grimberg.me; Johannes Thumshirn <jthumshirn at suse.de>
-Cc: Aviad Yehezkel <aviadye at mellanox.com>; oren at mellanox.com; Boris Pinzur <bpinzur at mellanox.com>; Omri Kahalon <omrik at mellanox.com>
-Subject: Re: [Suspected-Phishing][PATCH 1/1] nvme-cli: enforce memory buffer for Host Identifier
+Performance tests over ConnectX-5 100GbE NIC show a 200% improvement on tail latency when
+switching from high load traffic to low load traffic.
 
-Keith/Johannes,
+Common logic, main DIM procedure:
+- Calculate current stats from a given sample
+- Compare current stats vs. previous iteration stats
+- Make a decision -> choose a new profile
 
-can you have a look on this please ?
+Differences:
+- Different parameters for moving between profiles
+- Different moderation values and number of profiles
+- Different sampled data
 
-On 2/24/2019 12:30 PM, Max Gurtovoy wrote:
-> According to the NVMe spec, the NVMe Set Features command for Host 
-> Identifier (fid=0x81) must use memory buffer for its attributes.
-> Enforce that and set the correct data length (16 for extended Host 
-> Identifier, 8 for non-extended). The data for the Host Identifier can 
-> be taken from a data file or from the stdin (same as before):
-> 1. stdin example:
->   - echo "host1234" | nvme set-feature /dev/nvme2n1 --feature-id=0x81
-> --value=0 2. data file example:
->   - echo "host5555" > /tmp/hostid.data
->   - nvme set-feature /dev/nvme2n1 --feature-id=0x81 --value=0 
-> --data=/tmp/hostid.data
->
-> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
-> ---
->   nvme.c | 6 ++++++
->   1 file changed, 6 insertions(+)
->
-> diff --git a/nvme.c b/nvme.c
-> index 8aac2ef..7897510 100644
-> --- a/nvme.c
-> +++ b/nvme.c
-> @@ -3279,6 +3279,12 @@ static int set_feature(int argc, char **argv, struct command *cmd, struct plugin
->   	}
->   	if (cfg.feature_id == NVME_FEAT_LBA_RANGE)
->   		cfg.data_len = 4096;
-> +	if (cfg.feature_id == NVME_FEAT_HOST_ID) {
-> +		cfg.data_len = 8;
-> +		/* check for Extended Host Identifier */
-> +		if (cfg.value & 0x1)
-> +			cfg.data_len = 16;
-> +	}
->   	if (cfg.data_len) {
->   		if (posix_memalign(&buf, getpagesize(), cfg.data_len)) {
->   			fprintf(stderr, "can not allocate feature payload\n");
+Suggested solution:
+- Common logic will be declared in include/linux/dim.h and implemented in lib/dim/dim.c
+- Net DIM (existing) logic will be declared in include/linux/net_dim.h and implemented in
+  lib/dim/net_dim.c, which will use the common logic from dim.h
+- Block DIM logic will be declared in /include/linux/block_dim.h and implemented in
+  lib/dim/blk_dim.c.
+  This new implementation will expose modified versions of profiles, dim_step() and dim_decision()
+
+Pros for this solution are:
+- Zero impact on existing net_dim implementation and usage
+- Relatively more code reuse (compared to two separate solutions)
+- Readiness for future implementations
+
+Tal Gilboa (6):
+  linux/dim: Move logic to dim.h
+  linux/dim: Remove "net" prefix from internal DIM members
+  linux/dim: Rename externally exposed macros
+  linux/dim: Rename net_dim_sample() to net_dim_create_sample()
+  linux/dim: Rename externally used net_dim members
+  linux/dim: Move implementation to .c files
+
+Yamin Friedman (3):
+  linux/dim: Add completions count to dim_sample
+  linux/dim: Implement blk_dim.h
+  drivers/infiniband: Use blk_dim in infiniband driver
+
+ MAINTAINERS                                   |   3 +
+ drivers/infiniband/core/cq.c                  |  75 +++-
+ drivers/infiniband/hw/mlx4/qp.c               |   2 +-
+ drivers/infiniband/hw/mlx5/qp.c               |   2 +-
+ drivers/net/ethernet/broadcom/bcmsysport.c    |  20 +-
+ drivers/net/ethernet/broadcom/bcmsysport.h    |   2 +-
+ drivers/net/ethernet/broadcom/bnxt/bnxt.c     |  13 +-
+ drivers/net/ethernet/broadcom/bnxt/bnxt.h     |   2 +-
+ .../net/ethernet/broadcom/bnxt/bnxt_debugfs.c |   4 +-
+ drivers/net/ethernet/broadcom/bnxt/bnxt_dim.c |   7 +-
+ .../net/ethernet/broadcom/genet/bcmgenet.c    |  18 +-
+ .../net/ethernet/broadcom/genet/bcmgenet.h    |   2 +-
+ drivers/net/ethernet/mellanox/mlx5/core/en.h  |   8 +-
+ .../net/ethernet/mellanox/mlx5/core/en_dim.c  |  12 +-
+ .../ethernet/mellanox/mlx5/core/en_ethtool.c  |   4 +-
+ .../net/ethernet/mellanox/mlx5/core/en_main.c |  22 +-
+ .../net/ethernet/mellanox/mlx5/core/en_txrx.c |  10 +-
+ include/linux/blk_dim.h                       |  56 +++
+ include/linux/dim.h                           | 126 +++++++
+ include/linux/irq_poll.h                      |   7 +
+ include/linux/net_dim.h                       | 338 +-----------------
+ include/rdma/ib_verbs.h                       |  11 +-
+ lib/Kconfig                                   |   7 +
+ lib/Makefile                                  |   1 +
+ lib/dim/Makefile                              |  14 +
+ lib/dim/blk_dim.c                             | 114 ++++++
+ lib/dim/dim.c                                 |  92 +++++
+ lib/dim/net_dim.c                             | 193 ++++++++++
+ lib/irq_poll.c                                |  13 +-
+ 29 files changed, 778 insertions(+), 400 deletions(-)
+ create mode 100644 include/linux/blk_dim.h
+ create mode 100644 include/linux/dim.h
+ create mode 100644 lib/dim/Makefile
+ create mode 100644 lib/dim/blk_dim.c
+ create mode 100644 lib/dim/dim.c
+ create mode 100644 lib/dim/net_dim.c
+
+-- 
+2.19.1
