@@ -1,28 +1,42 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed,  6 Mar 2019 01:42:31 -0800
-Subject: [PATCH nvme-cli] nvme: print I/O error to stderr
-Message-ID: <20190306094231.9197-1-sagi@grimberg.me>
+Date: Wed,  6 Mar 2019 01:46:42 -0800
+Subject: [PATCH 1/2 blktests] nvme: add udevadm settle before disconnecting
+Message-ID: <20190306094643.10262-1-sagi@grimberg.me>
 
-something like blktests might rely on this to output to
-stderr.
+otherwise we can see some I/O failures as udev didn't get enough time
+to do its thing.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- nvme.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/nvme/008 | 2 ++
+ tests/nvme/009 | 2 ++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/nvme.c b/nvme.c
-index 8aac2ef1f673..e88d19940df5 100644
---- a/nvme.c
-+++ b/nvme.c
-@@ -4413,7 +4413,7 @@ static int submit_io(int opcode, char *command, const char *desc,
- 	if (err < 0)
- 		perror("submit-io");
- 	else if (err)
--		printf("%s:%s(%04x)\n", command, nvme_status_to_string(err), err);
-+		fprintf(stderr, "%s:%s(%04x)\n", command, nvme_status_to_string(err), err);
- 	else {
- 		if (!(opcode & 1) && write(dfd, (void *)buffer, cfg.data_size) < 0) {
- 			fprintf(stderr, "write: %s: failed to write buffer to output file\n",
+diff --git a/tests/nvme/008 b/tests/nvme/008
+index d73ec7d6d97a..04ff0bda42e3 100755
+--- a/tests/nvme/008
++++ b/tests/nvme/008
+@@ -41,6 +41,8 @@ test() {
+ 	cat "/sys/block/${nvmedev}n1/uuid"
+ 	cat "/sys/block/${nvmedev}n1/wwid"
+ 
++	udevadm settle
++
+ 	nvme disconnect -n "${subsys_name}"
+ 
+ 	_remove_nvmet_subsystem_from_port "${port}" "${subsys_name}"
+diff --git a/tests/nvme/009 b/tests/nvme/009
+index a46168123c56..81e61f99aba5 100755
+--- a/tests/nvme/009
++++ b/tests/nvme/009
+@@ -37,6 +37,8 @@ test() {
+ 	cat "/sys/block/${nvmedev}n1/uuid"
+ 	cat "/sys/block/${nvmedev}n1/wwid"
+ 
++	udevadm settle
++
+ 	nvme disconnect -n "${subsys_name}"
+ 
+ 	_remove_nvmet_subsystem_from_port "${port}" "${subsys_name}"
 -- 
 2.17.1
