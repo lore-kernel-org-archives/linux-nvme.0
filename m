@@ -1,71 +1,45 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 6 Mar 2019 17:56:27 -0800
-Subject: [RFC/PATCH net-next 0/9] net/dim: Support for multiple
- implementations
-In-Reply-To: <1551888921.9796.2.camel@acm.org>
-References: <20190306084832.57753-1-talgi@mellanox.com>
- <1551888921.9796.2.camel@acm.org>
-Message-ID: <392082ba-9aeb-6c5e-53a0-7bb53ce101fa@grimberg.me>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Thu, 7 Mar 2019 08:45:03 +0100
+Subject: [PATCH 2/2 blktests] nvme: test out-of-range I/O access
+In-Reply-To: <SN6PR04MB45276238286089534AEA3D0C86730@SN6PR04MB4527.namprd04.prod.outlook.com>
+References: <20190306094643.10262-1-sagi@grimberg.me>
+ <20190306094643.10262-2-sagi@grimberg.me>
+ <SN6PR04MB452756E3DF3765A66DE3120086730@SN6PR04MB4527.namprd04.prod.outlook.com>
+ <0d3d4384-7f75-cac4-ff8a-5ca4b8f879d2@grimberg.me>
+ <SN6PR04MB45276238286089534AEA3D0C86730@SN6PR04MB4527.namprd04.prod.outlook.com>
+Message-ID: <9d2e3b5b-1b9a-456c-9f0d-a04d7f5492ec@suse.de>
 
-
->> net_dim.h lib exposes an implementation of the DIM algorithm for dynamically-tuned interrupt
->> moderation for networking interfaces.
+On 06/03/2019 21:31, Chaitanya Kulkarni wrote:
+> On 3/6/19 12:28 PM, Sagi Grimberg wrote:
 >>
->> We need the same behavior for any block CQ. The main motivation is two benefit from maximized
->> completion rate and reduced interrupt overhead that DIM may provide.
+>>>> +DESCRIPTION="unit test NVMe-oF out of range access"
+>>> it will be great if you can specify above back-end type (bdev/file)
+>>
+>> OK
+>>
+>>>> +QUICK=1
+>>>> +
+>>>> +requires() {
+>>>> +	_have_program nvme && _have_modules nvme-loop && _have_modules loop && \
+>>>> +		_have_configfs
+>>>
+>>> need to check for the blockdev.
+>>
+>> Other tests use blockdev and don't check for it..
 > 
-> What is a "block CQ"?
+> Yes, while looking at the code, I've also observed we don't check for 
+> the truncate as well. At least for the NVMe I'll send a patch-series to 
+> fix that for all the other tests.
 
-There is no such thing... Also, this has no difference
-if a block/file/whatever is using the rdma cq.
 
-The naming should really be something like rdma_dim as it accounts
-for completions and not bytes/packets.
+Truncate is in coreutils and IIRC util-linux and coreutils are the olny
+dependency blktests has, so this should be ok.
 
-> How does net_dim compare to lib/irq_poll?
 
-Its orthogonal, its basically adaptive interrupt moderation for
-RDMA devices. Its sort of below the irq_poll code. It basically
-configures interrupt moderation based on stats collected by
-the rdma driver.
-
-> Which approach results in the best performance and lowest latency?
-
-I guess it depends on what is the test case. This approach tries to
-apply some time or completion count limit to when the HW should fire
-an interrupt based on the load in an adaptive fashion.
-
-The scheme is to try and detect what are the load characteristics and
-come up with a moderation parameters that fit. For high interrupt rate
-(usually seen with small size high queue-depth workloads) it configures
-the device to aggregate some more before firing an interrupt - so less
-interrupts, better efficiency per interrupt (finds more completions).
-For low interrupt rate (low queue depth) the load is probably low to
-moderate and aggregating before firing an interrupt is just added
-latency for no benefit. So the algorithm tries to transition between a
-number of pre-defined levels according to the load it samples.
-
-This has been widely used by the network drivers for the past decade.
-
-Now, this algorithm while trying to adjust itself by learning the load,
-also adds entropy to the overall system performance and latency.
-So this is not a trivial trade-off for any workload.
-
-I took a stab at this once (came up with something very similar),
-and while for large queue-depth workloads I got up to 2x IOPs as the
-algorithm chose aggressive moderation parameters which improved the
-efficiency a lot, but when the workload varied the algorithm wasn't very
-successful detecting the load and the step direction (I used a variation
-of the same basic algorithm from mlx5 driver that net_dim is based on).
-
-Also, QD=1 resulted in higher latency as the algorithm was dangling
-between the two lowest levels. So I guess this needs to undergo a
-thorough performance evaluation for steady and varying workloads before
-we can consider this.
-
-Overall, I think its a great idea to add that to the rdma subsystem
-but we cannot make it the default and especially without being able
-to turn it off. So this needs to be opt in with a sysctl option.
-
-Moreover, not every device support cq moderation so you need to check
-the device capabilities before you apply any of this.
+-- 
+Johannes Thumshirn                            SUSE Labs Filesystems
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
