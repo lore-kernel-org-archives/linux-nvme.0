@@ -1,7 +1,9 @@
 From: marek.vasut@gmail.com (marek.vasut@gmail.com)
-Date: Thu,  7 Mar 2019 01:04:39 +0100
-Subject: [PATCH 1/2] [RFC] ata: ahci: Respect bus DMA constraints
-Message-ID: <20190307000440.8708-1-marek.vasut@gmail.com>
+Date: Thu,  7 Mar 2019 01:04:40 +0100
+Subject: [PATCH 2/2] [RFC] nvme-pci: Respect bus DMA constraints
+In-Reply-To: <20190307000440.8708-1-marek.vasut@gmail.com>
+References: <20190307000440.8708-1-marek.vasut@gmail.com>
+Message-ID: <20190307000440.8708-2-marek.vasut@gmail.com>
 
 From: Marek Vasut <marek.vasut+renesas@gmail.com>
 
@@ -29,26 +31,22 @@ Cc: linux-renesas-soc at vger.kernel.org
 To: linux-ide at vger.kernel.org
 To: linux-nvme at lists.infradead.org
 ---
- drivers/ata/ahci.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/nvme/host/pci.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/ata/ahci.c b/drivers/ata/ahci.c
-index 021ce46e2e57..2acce056dd8c 100644
---- a/drivers/ata/ahci.c
-+++ b/drivers/ata/ahci.c
-@@ -926,6 +926,13 @@ static int ahci_configure_dma_masks(struct pci_dev *pdev, int using_dac)
- 	if (pdev->dma_mask && pdev->dma_mask < DMA_BIT_MASK(32))
- 		return 0;
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 92bad1c810ac..8ec873fb86b1 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2323,7 +2323,8 @@ static int nvme_pci_enable(struct nvme_dev *dev)
  
-+	/*
-+	 * The upstream device could have applied DMA constraints already,
-+	 * respect those and do not change the DMA masks.
-+	 */
-+	if (pdev->dev.dma_mask && pdev->dev.coherent_dma_mask)
-+		return 0;
-+
- 	if (using_dac &&
- 	    !dma_set_mask(&pdev->dev, DMA_BIT_MASK(64))) {
- 		rc = dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(64));
+ 	pci_set_master(pdev);
+ 
+-	if (dma_set_mask_and_coherent(dev->dev, DMA_BIT_MASK(64)) &&
++	if (!dev->dev->coherent_dma_mask &&
++	    dma_set_mask_and_coherent(dev->dev, DMA_BIT_MASK(64)) &&
+ 	    dma_set_mask_and_coherent(dev->dev, DMA_BIT_MASK(32)))
+ 		goto disable;
+ 
 -- 
 2.20.1
