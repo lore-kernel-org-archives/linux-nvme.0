@@ -1,28 +1,54 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed,  6 Mar 2019 15:03:44 -0700
-Subject: [PATCH] nvme/trace: Fix cdw10 buffer overrun
-Message-ID: <20190306220344.1733-1-keith.busch@intel.com>
+From: marek.vasut@gmail.com (marek.vasut@gmail.com)
+Date: Thu,  7 Mar 2019 01:04:39 +0100
+Subject: [PATCH 1/2] [RFC] ata: ahci: Respect bus DMA constraints
+Message-ID: <20190307000440.8708-1-marek.vasut@gmail.com>
 
-The field is defined to be a 24 byte array, we don't need to multiply
-the sizeof() that field by the number of dwords it covers.
+From: Marek Vasut <marek.vasut+renesas@gmail.com>
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
+Since commit 6c2fb2ea7636 ("of/device: Set bus DMA mask as appropriate"),
+the upstream bus can constraint device DMA range. Respect that constraint
+and do not change the device DMA masks if they were already set.
+
+This is applicable e.g. on systems where the PCIe controller cannot expose
+the full address space range. Such a system may have a 64bit CPU with DRAM
+mapped both below and above the 32bit address space, yet the PCIe devices
+can not perform DMA directly to/from the DRAM range above the 32bit limit.
+Hence, for such setup to work, all the buffers must exist below the 32bit
+limit.
+
+Signed-off-by: Marek Vasut <marek.vasut+renesas at gmail.com>
+Cc: Christoph Hellwig <hch at lst.de>
+Cc: Geert Uytterhoeven <geert+renesas at glider.be>
+Cc: Jens Axboe <axboe at fb.com>
+Cc: Jens Axboe <axboe at kernel.dk>
+Cc: Keith Busch <keith.busch at intel.com>
+Cc: Robin Murphy <robin.murphy at arm.com>
+Cc: Sagi Grimberg <sagi at grimberg.me>
+Cc: Wolfram Sang <wsa+renesas at sang-engineering.com>
+Cc: linux-renesas-soc at vger.kernel.org
+To: linux-ide at vger.kernel.org
+To: linux-nvme at lists.infradead.org
 ---
- drivers/nvme/host/trace.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/ata/ahci.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
-index 244d7c177e5a..97d3c77365b8 100644
---- a/drivers/nvme/host/trace.h
-+++ b/drivers/nvme/host/trace.h
-@@ -108,7 +108,7 @@ TRACE_EVENT(nvme_setup_cmd,
- 		__entry->metadata = le64_to_cpu(cmd->common.metadata);
- 		__assign_disk_name(__entry->disk, req->rq_disk);
- 		memcpy(__entry->cdw10, &cmd->common.cdw10,
--			6 * sizeof(__entry->cdw10));
-+			sizeof(__entry->cdw10));
- 	    ),
- 	    TP_printk("nvme%d: %sqid=%d, cmdid=%u, nsid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
- 		      __entry->ctrl_id, __print_disk_name(__entry->disk),
+diff --git a/drivers/ata/ahci.c b/drivers/ata/ahci.c
+index 021ce46e2e57..2acce056dd8c 100644
+--- a/drivers/ata/ahci.c
++++ b/drivers/ata/ahci.c
+@@ -926,6 +926,13 @@ static int ahci_configure_dma_masks(struct pci_dev *pdev, int using_dac)
+ 	if (pdev->dma_mask && pdev->dma_mask < DMA_BIT_MASK(32))
+ 		return 0;
+ 
++	/*
++	 * The upstream device could have applied DMA constraints already,
++	 * respect those and do not change the DMA masks.
++	 */
++	if (pdev->dev.dma_mask && pdev->dev.coherent_dma_mask)
++		return 0;
++
+ 	if (using_dac &&
+ 	    !dma_set_mask(&pdev->dev, DMA_BIT_MASK(64))) {
+ 		rc = dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(64));
 -- 
-2.14.4
+2.20.1
