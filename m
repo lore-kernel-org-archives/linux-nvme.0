@@ -1,45 +1,68 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 7 Mar 2019 08:45:03 +0100
-Subject: [PATCH 2/2 blktests] nvme: test out-of-range I/O access
-In-Reply-To: <SN6PR04MB45276238286089534AEA3D0C86730@SN6PR04MB4527.namprd04.prod.outlook.com>
-References: <20190306094643.10262-1-sagi@grimberg.me>
- <20190306094643.10262-2-sagi@grimberg.me>
- <SN6PR04MB452756E3DF3765A66DE3120086730@SN6PR04MB4527.namprd04.prod.outlook.com>
- <0d3d4384-7f75-cac4-ff8a-5ca4b8f879d2@grimberg.me>
- <SN6PR04MB45276238286089534AEA3D0C86730@SN6PR04MB4527.namprd04.prod.outlook.com>
-Message-ID: <9d2e3b5b-1b9a-456c-9f0d-a04d7f5492ec@suse.de>
+From: robin.murphy@arm.com (Robin Murphy)
+Date: Thu, 7 Mar 2019 09:32:20 +0000
+Subject: [PATCH 1/2] [RFC] ata: ahci: Respect bus DMA constraints
+In-Reply-To: <20190307000440.8708-1-marek.vasut@gmail.com>
+References: <20190307000440.8708-1-marek.vasut@gmail.com>
+Message-ID: <7c051bbd-7835-9cab-30b2-0acde1364781@arm.com>
 
-On 06/03/2019 21:31, Chaitanya Kulkarni wrote:
-> On 3/6/19 12:28 PM, Sagi Grimberg wrote:
->>
->>>> +DESCRIPTION="unit test NVMe-oF out of range access"
->>> it will be great if you can specify above back-end type (bdev/file)
->>
->> OK
->>
->>>> +QUICK=1
->>>> +
->>>> +requires() {
->>>> +	_have_program nvme && _have_modules nvme-loop && _have_modules loop && \
->>>> +		_have_configfs
->>>
->>> need to check for the blockdev.
->>
->> Other tests use blockdev and don't check for it..
+On 2019-03-07 12:04 am, marek.vasut@gmail.com wrote:
+> From: Marek Vasut <marek.vasut+renesas at gmail.com>
 > 
-> Yes, while looking at the code, I've also observed we don't check for 
-> the truncate as well. At least for the NVMe I'll send a patch-series to 
-> fix that for all the other tests.
+> Since commit 6c2fb2ea7636 ("of/device: Set bus DMA mask as appropriate"),
+> the upstream bus can constraint device DMA range. Respect that constraint
+> and do not change the device DMA masks if they were already set.
+> 
+> This is applicable e.g. on systems where the PCIe controller cannot expose
+> the full address space range. Such a system may have a 64bit CPU with DRAM
+> mapped both below and above the 32bit address space, yet the PCIe devices
+> can not perform DMA directly to/from the DRAM range above the 32bit limit.
+> Hence, for such setup to work, all the buffers must exist below the 32bit
+> limit.
+> 
+> Signed-off-by: Marek Vasut <marek.vasut+renesas at gmail.com>
+> Cc: Christoph Hellwig <hch at lst.de>
+> Cc: Geert Uytterhoeven <geert+renesas at glider.be>
+> Cc: Jens Axboe <axboe at fb.com>
+> Cc: Jens Axboe <axboe at kernel.dk>
+> Cc: Keith Busch <keith.busch at intel.com>
+> Cc: Robin Murphy <robin.murphy at arm.com>
+> Cc: Sagi Grimberg <sagi at grimberg.me>
+> Cc: Wolfram Sang <wsa+renesas at sang-engineering.com>
+> Cc: linux-renesas-soc at vger.kernel.org
+> To: linux-ide at vger.kernel.org
+> To: linux-nvme at lists.infradead.org
+> ---
+>   drivers/ata/ahci.c | 7 +++++++
+>   1 file changed, 7 insertions(+)
+> 
+> diff --git a/drivers/ata/ahci.c b/drivers/ata/ahci.c
+> index 021ce46e2e57..2acce056dd8c 100644
+> --- a/drivers/ata/ahci.c
+> +++ b/drivers/ata/ahci.c
+> @@ -926,6 +926,13 @@ static int ahci_configure_dma_masks(struct pci_dev *pdev, int using_dac)
+>   	if (pdev->dma_mask && pdev->dma_mask < DMA_BIT_MASK(32))
+>   		return 0;
+>   
+> +	/*
+> +	 * The upstream device could have applied DMA constraints already,
+> +	 * respect those and do not change the DMA masks.
+> +	 */
+> +	if (pdev->dev.dma_mask && pdev->dev.coherent_dma_mask)
+> +		return 0;
 
+At least for DT platforms, the device masks are always going to be set 
+to some initial value, which will most commonly just be the 32-bit 
+default - that should not prevent the driver from setting wider masks if 
+that's what the device really supports (in fact there are some patches 
+queued in which we're now starting to formalise that properly).
 
-Truncate is in coreutils and IIRC util-linux and coreutils are the olny
-dependency blktests has, so this should be ok.
+Are you seeing a problem with a DMA API backend failing to respect 
+bus_dma_mask?
 
+Robin.
 
--- 
-Johannes Thumshirn                            SUSE Labs Filesystems
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+> +
+>   	if (using_dac &&
+>   	    !dma_set_mask(&pdev->dev, DMA_BIT_MASK(64))) {
+>   		rc = dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(64));
+> 
