@@ -1,41 +1,37 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 8 Mar 2019 11:15:51 -0700
-Subject: [PATCH 1/5] blk-mq: Export reading mq request state
-In-Reply-To: <1552068443.45180.24.camel@acm.org>
+From: bvanassche@acm.org (Bart Van Assche)
+Date: Fri, 08 Mar 2019 10:15:27 -0800
+Subject: [PATCH 4/5] nvme: Fail dead namespace's entered requests
+In-Reply-To: <20190308174006.5032-4-keith.busch@intel.com>
 References: <20190308174006.5032-1-keith.busch@intel.com>
- <1552068443.45180.24.camel@acm.org>
-Message-ID: <20190308181551.GB5214@localhost.localdomain>
+ <20190308174006.5032-4-keith.busch@intel.com>
+Message-ID: <1552068927.45180.30.camel@acm.org>
 
-On Fri, Mar 08, 2019@10:07:23AM -0800, Bart Van Assche wrote:
-> On Fri, 2019-03-08@10:40 -0700, Keith Busch wrote:
-> > Drivers may need to know the state of their requets.
+On Fri, 2019-03-08@10:40 -0700, Keith Busch wrote:
+> End the entered requests on a quieced queue directly rather than flush
+> them through the low level driver's queue_rq().
 > 
-> Hi Keith,
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> ---
+>  drivers/nvme/host/core.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
 > 
-> What makes you think that drivers should be able to check the state of their
-> requests? Please elaborate.
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index cc5d9a83d5af..7095406bb293 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -94,6 +94,13 @@ static void nvme_put_subsystem(struct nvme_subsystem *subsys);
+>  static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
+>  					   unsigned nsid);
+>  
+> +static bool nvme_fail_request(struct blk_mq_hw_ctx *hctx, struct request *req,
+> +			      void *data, bool reserved)
+> +{
+> +	blk_mq_end_request(req, BLK_STS_IOERR);
+> +	return true;
+> +}
 
-Patches 4 and 5 in this series.
- 
-> > diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-> > index faed9d9eb84c..db113aee48bb 100644
-> > --- a/include/linux/blkdev.h
-> > +++ b/include/linux/blkdev.h
-> > @@ -241,6 +241,15 @@ struct request {
-> >  	struct request *next_rq;
-> >  };
-> >  
-> > +/**
-> > + * blk_mq_rq_state() - read the current MQ_RQ_* state of a request
-> > + * @rq: target request.
-> > + */
-> > +static inline enum mq_rq_state blk_mq_rq_state(struct request *rq)
-> > +{
-> > +	return READ_ONCE(rq->state);
-> > +}
-> 
-> Please also explain how drivers can use this function without triggering a
-> race condition with the code that modifies rq->state.
+Calling blk_mq_end_request() from outside the .queue_rq() or .complete()
+callback functions is wrong. Did you perhaps want to call
+blk_mq_complete_request()?
 
-Either queisced or within a timeout handler that already locks the
-request lifetime.
+Bart.
