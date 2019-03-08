@@ -1,30 +1,73 @@
-From: marek.vasut@gmail.com (Marek Vasut)
-Date: Sat, 9 Mar 2019 00:23:15 +0100
-Subject: [PATCH 1/2] [RFC] ata: ahci: Respect bus DMA constraints
-In-Reply-To: <20190308071810.GA11959@lst.de>
-References: <20190307000440.8708-1-marek.vasut@gmail.com>
- <7c051bbd-7835-9cab-30b2-0acde1364781@arm.com>
- <356f3ee8-407f-f865-e5cc-333695d4f857@gmail.com>
- <79e44e90-b16a-5315-e02f-101a2ebbb6a0@arm.com>
- <a8b5b75f-2660-e216-033a-77808e2afb76@gmail.com>
- <20190308071810.GA11959@lst.de>
-Message-ID: <a6b34982-9100-0e60-c3eb-6ed8fcbe9e93@gmail.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Fri,  8 Mar 2019 15:41:21 -0800
+Subject: [PATCH 2/2] nvmet-tcp: implement C2HData SUCCESS optimization
+In-Reply-To: <20190308234121.1347-1-sagi@grimberg.me>
+References: <20190308234121.1347-1-sagi@grimberg.me>
+Message-ID: <20190308234121.1347-3-sagi@grimberg.me>
 
-On 3/8/19 8:18 AM, Christoph Hellwig wrote:
-> On Thu, Mar 07, 2019@12:14:06PM +0100, Marek Vasut wrote:
->>> Right, but whoever *interprets* the device masks after the driver has
->>> overridden them should be taking the (smaller) bus mask into account as
->>> well, so the question is where is *that* not being done correctly?
->>
->> Do you have a hint where I should look for that ?
-> 
-> If this a 32-bit ARM platform it might the complete lack of support
-> for bus_dma_mask in arch/arm/mm/dma-mapping.c..
+TP 8000 says that the use of the SUCCESS flag depends on weather the
+controller support disabling sq_head pointer updates. Given that we
+support it by default, makes sense that we go the extra mile to actually
+use the SUCCESS flag.
 
-It's an ARM 64bit platform, just the PCIe controller is limited to 32bit
-address range, so the devices on the PCIe bus cannot read the host's
-DRAM above the 32bit limit.
+When we create the C2HData PDU header, we check if sqhd_disabled is set
+on our queue, if so, we set the SUCCESS flag in the PDU header and
+skip sending a completion response capsule.
 
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/target/tcp.c | 24 +++++++++++++++++++++---
+ 1 file changed, 21 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index ad0df786fe93..0a941abf56ec 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -371,7 +371,8 @@ static void nvmet_setup_c2h_data_pdu(struct nvmet_tcp_cmd *cmd)
+ 	cmd->state = NVMET_TCP_SEND_DATA_PDU;
+ 
+ 	pdu->hdr.type = nvme_tcp_c2h_data;
+-	pdu->hdr.flags = NVME_TCP_F_DATA_LAST;
++	pdu->hdr.flags = NVME_TCP_F_DATA_LAST | (queue->nvme_sq.sqhd_disabled ?
++						NVME_TCP_F_DATA_SUCCESS : 0);
+ 	pdu->hdr.hlen = sizeof(*pdu);
+ 	pdu->hdr.pdo = pdu->hdr.hlen + hdgst;
+ 	pdu->hdr.plen =
+@@ -542,8 +543,19 @@ static int nvmet_try_send_data(struct nvmet_tcp_cmd *cmd)
+ 		cmd->state = NVMET_TCP_SEND_DDGST;
+ 		cmd->offset = 0;
+ 	} else {
+-		nvmet_setup_response_pdu(cmd);
++		if (queue->nvme_sq.sqhd_disabled) {
++			cmd->queue->snd_cmd = NULL;
++			nvmet_tcp_put_cmd(cmd);
++		} else {
++			nvmet_setup_response_pdu(cmd);
++		}
+ 	}
++
++	if (queue->nvme_sq.sqhd_disabled) {
++		kfree(cmd->iov);
++		sgl_free(cmd->req.sg);
++	}
++
+ 	return 1;
+ 
+ }
+@@ -619,7 +631,13 @@ static int nvmet_try_send_ddgst(struct nvmet_tcp_cmd *cmd)
+ 		return ret;
+ 
+ 	cmd->offset += ret;
+-	nvmet_setup_response_pdu(cmd);
++
++	if (queue->nvme_sq.sqhd_disabled) {
++		cmd->queue->snd_cmd = NULL;
++		nvmet_tcp_put_cmd(cmd);
++	} else {
++		nvmet_setup_response_pdu(cmd);
++	}
+ 	return 1;
+ }
+ 
 -- 
-Best regards,
-Marek Vasut
+2.17.1
