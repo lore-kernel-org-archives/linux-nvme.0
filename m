@@ -1,61 +1,26 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 8 Mar 2019 15:06:41 -0700
-Subject: [PATCH 4/5] nvme: Fail dead namespace's entered requests
-In-Reply-To: <1552082046.45180.91.camel@acm.org>
-References: <20190308174006.5032-1-keith.busch@intel.com>
- <20190308174006.5032-4-keith.busch@intel.com>
- <1552068927.45180.30.camel@acm.org>
- <20190308181905.GA5232@localhost.localdomain>
- <1552082046.45180.91.camel@acm.org>
-Message-ID: <20190308220640.GA5629@localhost.localdomain>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Fri, 8 Mar 2019 15:04:15 -0800
+Subject: nvme-tcp: SUCCESS Flag in C2HData PDU
+In-Reply-To: <5e7839a9-f3ba-31b5-29cf-cb9662e06991@cisco.com>
+References: <005ac848-0c71-8852-ff60-7e91418f83cc@oracle.com>
+ <5db9fdb7-bbbe-f805-94b6-fa5c2f31e9a8@grimberg.me>
+ <cad669f2-028c-a4fe-0b9d-cd7ad479b6fb@oracle.com>
+ <5e7839a9-f3ba-31b5-29cf-cb9662e06991@cisco.com>
+Message-ID: <92a0c822-bb8c-5bd5-e9c9-f76471c3de3b@grimberg.me>
 
-On Fri, Mar 08, 2019@01:54:06PM -0800, Bart Van Assche wrote:
-> On Fri, 2019-03-08@11:19 -0700, Keith Busch wrote:
-> > On Fri, Mar 08, 2019@10:15:27AM -0800, Bart Van Assche wrote:
-> > > On Fri, 2019-03-08@10:40 -0700, Keith Busch wrote:
-> > > > End the entered requests on a quieced queue directly rather than flush
-> > > > them through the low level driver's queue_rq().
-> > > > 
-> > > > Signed-off-by: Keith Busch <keith.busch at intel.com>
-> > > > ---
-> > > >  drivers/nvme/host/core.c | 10 ++++++++--
-> > > >  1 file changed, 8 insertions(+), 2 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> > > > index cc5d9a83d5af..7095406bb293 100644
-> > > > --- a/drivers/nvme/host/core.c
-> > > > +++ b/drivers/nvme/host/core.c
-> > > > @@ -94,6 +94,13 @@ static void nvme_put_subsystem(struct nvme_subsystem *subsys);
-> > > >  static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
-> > > >  					   unsigned nsid);
-> > > >  
-> > > > +static bool nvme_fail_request(struct blk_mq_hw_ctx *hctx, struct request *req,
-> > > > +			      void *data, bool reserved)
-> > > > +{
-> > > > +	blk_mq_end_request(req, BLK_STS_IOERR);
-> > > > +	return true;
-> > > > +}
-> > > 
-> > > Calling blk_mq_end_request() from outside the .queue_rq() or .complete()
-> > > callback functions is wrong. Did you perhaps want to call
-> > > blk_mq_complete_request()?
-> > 
-> > This callback can only see requests in MQ_RQ_IDLE state, and
-> > bkl_mq_end_request() is the correct way to end those that never entered
-> > a driver's queue_rq().
-> 
-> Hi Keith,
-> 
-> What guarantees that nvme_fail_request() only sees requests in the idle state?
-> From block/blk-mq-tag.c:
-> 
-> /**
->  * blk_mq_queue_tag_busy_iter - iterate over all requests with a driver tag
->  * [ ... ]
->  */
+Hi Oliver,
 
-It's the driver's responsibility to ensure the queue is quiesced before
-requesting the iteration. When we call it through nvme_kill_queues(),
-the queues were already quiesced before calling that. The only other
-place it's called is on a frozen queue, so it's actually a no-op there
-since there no requests once frozen.
+> Sagi - is the following patch in the right direction? If it is,
+> I will write some controller code to test it and send an actual
+> patch email. I just wanted to get your feedback before continuing
+> down this path. Do we need to submit an actual CQE to the NVMe
+> layer, or does just the nvme_end_request suffice? My understanding
+> is the below patch handles both the case of data digest and not
+> data digest, but please let me know if I am missing something. So far
+> this patch is untested, but it does compile on the nvme-5.1 branch.
+
+The below is in the right direction indeed, its actually pretty similar
+to what I did, but your version seems slightly more elegant.
+
+Thanks for looking at it, I have it implemented on both the host and the
+controller, would be great to have a tester for it?
