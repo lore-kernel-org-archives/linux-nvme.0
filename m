@@ -1,29 +1,29 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 8 Mar 2019 14:14:32 -0700
+From: bvanassche@acm.org (Bart Van Assche)
+Date: Fri, 08 Mar 2019 13:25:16 -0800
 Subject: [PATCH 1/5] blk-mq: Export reading mq request state
-In-Reply-To: <1552078030.45180.88.camel@acm.org>
+In-Reply-To: <20190308211431.GA5438@localhost.localdomain>
 References: <20190308174006.5032-1-keith.busch@intel.com>
  <1552068443.45180.24.camel@acm.org>
  <20190308181551.GB5214@localhost.localdomain>
  <1552070537.45180.38.camel@acm.org>
  <20190308191954.GC5232@localhost.localdomain>
  <1552078030.45180.88.camel@acm.org>
-Message-ID: <20190308211431.GA5438@localhost.localdomain>
+ <20190308211431.GA5438@localhost.localdomain>
+Message-ID: <1552080316.138960.11.camel@acm.org>
 
-On Fri, Mar 08, 2019@12:47:10PM -0800, Bart Van Assche wrote:
-> Thanks for the clarification. Are you aware of any mechanism in the NVMe spec
-> that causes all outstanding requests to fail? With RDMA this is easy - all
-> one has to do is to change the queue pair state into IB_QPS_ERR. See also
-> ib_drain_qp() in the RDMA core.
+On Fri, 2019-03-08@14:14 -0700, Keith Busch wrote:
+> On Fri, Mar 08, 2019@12:47:10PM -0800, Bart Van Assche wrote:
+> > If no such mechanism has been defined in the NVMe spec: have you considered
+> > to cancel all outstanding requests instead of calling blk_mq_end_request() for
+> > all outstanding requests?
+> 
+> Isn't this cancelling requests? Is there an existing block interface
+> that accomplishes this?
 
-Well, we can't always rely on hardware to provide completions. The
-driver must be able to make forward progress if the device decides to
-stop responding, or maybe it was disconnected, asserts, or experiences
-an unsafe shutdown/powerloss.
+Hi Keith,
 
-> If no such mechanism has been defined in the NVMe spec: have you considered
-> to cancel all outstanding requests instead of calling blk_mq_end_request() for
-> all outstanding requests?
+Sorry if I was unclear. With "canceling outstanding requests" I was referring to
+the NVMe abort command. I think aborting outstanding requests has the advantage
+that no new explicit call to blk_mq_end_request() call has to be added.
 
-Isn't this cancelling requests? Is there an existing block interface
-that accomplishes this?
+Bart.
