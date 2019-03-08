@@ -1,37 +1,18 @@
 From: bvanassche@acm.org (Bart Van Assche)
-Date: Fri, 08 Mar 2019 10:07:23 -0800
-Subject: [PATCH 1/5] blk-mq: Export reading mq request state
-In-Reply-To: <20190308174006.5032-1-keith.busch@intel.com>
+Date: Fri, 08 Mar 2019 10:08:47 -0800
+Subject: [PATCH 2/5] blk-mq: Export iterating queue requests
+In-Reply-To: <20190308174006.5032-2-keith.busch@intel.com>
 References: <20190308174006.5032-1-keith.busch@intel.com>
-Message-ID: <1552068443.45180.24.camel@acm.org>
+ <20190308174006.5032-2-keith.busch@intel.com>
+Message-ID: <1552068527.45180.25.camel@acm.org>
 
 On Fri, 2019-03-08@10:40 -0700, Keith Busch wrote:
-> Drivers may need to know the state of their requets.
+> A driver may need to iterate a particular queue's tagged request rather
+> than the whole tagset.
 
-Hi Keith,
-
-What makes you think that drivers should be able to check the state of their
-requests? Please elaborate.
-
-> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-> index faed9d9eb84c..db113aee48bb 100644
-> --- a/include/linux/blkdev.h
-> +++ b/include/linux/blkdev.h
-> @@ -241,6 +241,15 @@ struct request {
->  	struct request *next_rq;
->  };
->  
-> +/**
-> + * blk_mq_rq_state() - read the current MQ_RQ_* state of a request
-> + * @rq: target request.
-> + */
-> +static inline enum mq_rq_state blk_mq_rq_state(struct request *rq)
-> +{
-> +	return READ_ONCE(rq->state);
-> +}
-
-Please also explain how drivers can use this function without triggering a
-race condition with the code that modifies rq->state.
+Since iterating over requests triggers race conditions with request execution
+please explain what use case(s) you have in mind and what your plan is to handle
+such race conditions.
 
 Thanks,
 
