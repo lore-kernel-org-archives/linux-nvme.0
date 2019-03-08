@@ -1,57 +1,61 @@
-From: bvanassche@acm.org (Bart Van Assche)
-Date: Fri, 08 Mar 2019 13:54:06 -0800
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 8 Mar 2019 15:06:41 -0700
 Subject: [PATCH 4/5] nvme: Fail dead namespace's entered requests
-In-Reply-To: <20190308181905.GA5232@localhost.localdomain>
+In-Reply-To: <1552082046.45180.91.camel@acm.org>
 References: <20190308174006.5032-1-keith.busch@intel.com>
  <20190308174006.5032-4-keith.busch@intel.com>
  <1552068927.45180.30.camel@acm.org>
  <20190308181905.GA5232@localhost.localdomain>
-Message-ID: <1552082046.45180.91.camel@acm.org>
+ <1552082046.45180.91.camel@acm.org>
+Message-ID: <20190308220640.GA5629@localhost.localdomain>
 
-On Fri, 2019-03-08@11:19 -0700, Keith Busch wrote:
-> On Fri, Mar 08, 2019@10:15:27AM -0800, Bart Van Assche wrote:
-> > On Fri, 2019-03-08@10:40 -0700, Keith Busch wrote:
-> > > End the entered requests on a quieced queue directly rather than flush
-> > > them through the low level driver's queue_rq().
+On Fri, Mar 08, 2019@01:54:06PM -0800, Bart Van Assche wrote:
+> On Fri, 2019-03-08@11:19 -0700, Keith Busch wrote:
+> > On Fri, Mar 08, 2019@10:15:27AM -0800, Bart Van Assche wrote:
+> > > On Fri, 2019-03-08@10:40 -0700, Keith Busch wrote:
+> > > > End the entered requests on a quieced queue directly rather than flush
+> > > > them through the low level driver's queue_rq().
+> > > > 
+> > > > Signed-off-by: Keith Busch <keith.busch at intel.com>
+> > > > ---
+> > > >  drivers/nvme/host/core.c | 10 ++++++++--
+> > > >  1 file changed, 8 insertions(+), 2 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> > > > index cc5d9a83d5af..7095406bb293 100644
+> > > > --- a/drivers/nvme/host/core.c
+> > > > +++ b/drivers/nvme/host/core.c
+> > > > @@ -94,6 +94,13 @@ static void nvme_put_subsystem(struct nvme_subsystem *subsys);
+> > > >  static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
+> > > >  					   unsigned nsid);
+> > > >  
+> > > > +static bool nvme_fail_request(struct blk_mq_hw_ctx *hctx, struct request *req,
+> > > > +			      void *data, bool reserved)
+> > > > +{
+> > > > +	blk_mq_end_request(req, BLK_STS_IOERR);
+> > > > +	return true;
+> > > > +}
 > > > 
-> > > Signed-off-by: Keith Busch <keith.busch at intel.com>
-> > > ---
-> > >  drivers/nvme/host/core.c | 10 ++++++++--
-> > >  1 file changed, 8 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> > > index cc5d9a83d5af..7095406bb293 100644
-> > > --- a/drivers/nvme/host/core.c
-> > > +++ b/drivers/nvme/host/core.c
-> > > @@ -94,6 +94,13 @@ static void nvme_put_subsystem(struct nvme_subsystem *subsys);
-> > >  static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
-> > >  					   unsigned nsid);
-> > >  
-> > > +static bool nvme_fail_request(struct blk_mq_hw_ctx *hctx, struct request *req,
-> > > +			      void *data, bool reserved)
-> > > +{
-> > > +	blk_mq_end_request(req, BLK_STS_IOERR);
-> > > +	return true;
-> > > +}
+> > > Calling blk_mq_end_request() from outside the .queue_rq() or .complete()
+> > > callback functions is wrong. Did you perhaps want to call
+> > > blk_mq_complete_request()?
 > > 
-> > Calling blk_mq_end_request() from outside the .queue_rq() or .complete()
-> > callback functions is wrong. Did you perhaps want to call
-> > blk_mq_complete_request()?
+> > This callback can only see requests in MQ_RQ_IDLE state, and
+> > bkl_mq_end_request() is the correct way to end those that never entered
+> > a driver's queue_rq().
 > 
-> This callback can only see requests in MQ_RQ_IDLE state, and
-> bkl_mq_end_request() is the correct way to end those that never entered
-> a driver's queue_rq().
+> Hi Keith,
+> 
+> What guarantees that nvme_fail_request() only sees requests in the idle state?
+> From block/blk-mq-tag.c:
+> 
+> /**
+>  * blk_mq_queue_tag_busy_iter - iterate over all requests with a driver tag
+>  * [ ... ]
+>  */
 
-Hi Keith,
-
-What guarantees that nvme_fail_request() only sees requests in the idle state?
->From block/blk-mq-tag.c:
-
-/**
- * blk_mq_queue_tag_busy_iter - iterate over all requests with a driver tag
- * [ ... ]
- */
-
-Thanks,
-
-Bart.
+It's the driver's responsibility to ensure the queue is quiesced before
+requesting the iteration. When we call it through nvme_kill_queues(),
+the queues were already quiesced before calling that. The only other
+place it's called is on a frozen queue, so it's actually a no-op there
+since there no requests once frozen.
