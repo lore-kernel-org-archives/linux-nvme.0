@@ -1,15 +1,19 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 8 Mar 2019 14:30:50 +0100
-Subject: [PATCH] nvmet-file: clamp-down file namespace lba_shift
-In-Reply-To: <20190305095548.14934-1-sagi@grimberg.me>
-References: <20190305095548.14934-1-sagi@grimberg.me>
-Message-ID: <20190308133050.GD18218@lst.de>
+Date: Fri, 8 Mar 2019 14:41:50 +0100
+Subject: [PATCH] multipath: set discard and norot queue flags on the
+ multipath stacking device
+In-Reply-To: <20190226225550.30378-1-sagi@grimberg.me>
+References: <20190226225550.30378-1-sagi@grimberg.me>
+Message-ID: <20190308134150.GA18554@lst.de>
 
-> -	ns->blksize_shift = file_inode(ns->file)->i_blkbits;
-> +	ns->blksize_shift = min_t(u8, file_inode(ns->file)->i_blkbits, PAGE_SHIFT);
+On Tue, Feb 26, 2019@02:55:50PM -0800, Sagi Grimberg wrote:
+> If the underlying device supports discard we set it and clear it otherwise.
+> Without this blkdiscard doesn't work on a multipath device node.
+> 
+> Also while we're at it, unconditionally set non rotational queue flag to
+> make schedulers do the right thing.
 
-I think we want to limit to 4k as the universally acceptable upper
-bound.  Also this should not use u8 for the case but probably an
-unsigned int.
+QUEUE_FLAG_NONROT is already set by nvme_mpath_alloc_disk.
 
-Last but not least this introduced a > 80 char line.
+For discard don't we also need to the limits?  Also what about
+Write Zeroes?
