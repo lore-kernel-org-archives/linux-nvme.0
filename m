@@ -1,34 +1,30 @@
-From: osmithde@cisco.com (Oliver Smith-Denny)
-Date: Fri, 8 Mar 2019 15:09:47 -0800
-Subject: nvme-tcp: SUCCESS Flag in C2HData PDU
-In-Reply-To: <92a0c822-bb8c-5bd5-e9c9-f76471c3de3b@grimberg.me>
-References: <005ac848-0c71-8852-ff60-7e91418f83cc@oracle.com>
- <5db9fdb7-bbbe-f805-94b6-fa5c2f31e9a8@grimberg.me>
- <cad669f2-028c-a4fe-0b9d-cd7ad479b6fb@oracle.com>
- <5e7839a9-f3ba-31b5-29cf-cb9662e06991@cisco.com>
- <92a0c822-bb8c-5bd5-e9c9-f76471c3de3b@grimberg.me>
-Message-ID: <aee2c902-c89d-a037-d5e4-1476f3a52231@cisco.com>
+From: marek.vasut@gmail.com (Marek Vasut)
+Date: Sat, 9 Mar 2019 00:23:15 +0100
+Subject: [PATCH 1/2] [RFC] ata: ahci: Respect bus DMA constraints
+In-Reply-To: <20190308071810.GA11959@lst.de>
+References: <20190307000440.8708-1-marek.vasut@gmail.com>
+ <7c051bbd-7835-9cab-30b2-0acde1364781@arm.com>
+ <356f3ee8-407f-f865-e5cc-333695d4f857@gmail.com>
+ <79e44e90-b16a-5315-e02f-101a2ebbb6a0@arm.com>
+ <a8b5b75f-2660-e216-033a-77808e2afb76@gmail.com>
+ <20190308071810.GA11959@lst.de>
+Message-ID: <a6b34982-9100-0e60-c3eb-6ed8fcbe9e93@gmail.com>
 
-On 03/08/2019 03:04 PM, Sagi Grimberg wrote:
-> Hi Oliver,
+On 3/8/19 8:18 AM, Christoph Hellwig wrote:
+> On Thu, Mar 07, 2019@12:14:06PM +0100, Marek Vasut wrote:
+>>> Right, but whoever *interprets* the device masks after the driver has
+>>> overridden them should be taking the (smaller) bus mask into account as
+>>> well, so the question is where is *that* not being done correctly?
+>>
+>> Do you have a hint where I should look for that ?
 > 
->> Sagi - is the following patch in the right direction? If it is,
->> I will write some controller code to test it and send an actual
->> patch email. I just wanted to get your feedback before continuing
->> down this path. Do we need to submit an actual CQE to the NVMe
->> layer, or does just the nvme_end_request suffice? My understanding
->> is the below patch handles both the case of data digest and not
->> data digest, but please let me know if I am missing something. So far
->> this patch is untested, but it does compile on the nvme-5.1 branch.
-> 
-> The below is in the right direction indeed, its actually pretty similar
-> to what I did, but your version seems slightly more elegant.
+> If this a 32-bit ARM platform it might the complete lack of support
+> for bus_dma_mask in arch/arm/mm/dma-mapping.c..
 
-Whew, thanks. Glad it looked okay (:
+It's an ARM 64bit platform, just the PCIe controller is limited to 32bit
+address range, so the devices on the PCIe bus cannot read the host's
+DRAM above the 32bit limit.
 
-> Thanks for looking at it, I have it implemented on both the host and the
-> controller, would be great to have a tester for it?
-
-
-Sure, I'm happy to test out your implementation! You haven't sent a 
-patch for it yet, have you? If so I missed it...
+-- 
+Best regards,
+Marek Vasut
