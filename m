@@ -1,78 +1,67 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Fri, 8 Mar 2019 11:15:35 -0800
-Subject: [PATCH] nvmet-fc: use zero-sized array and struct_size() in
- kzalloc()
-In-Reply-To: <20190223185108.GA6706@embeddedor>
-References: <20190223185108.GA6706@embeddedor>
-Message-ID: <b383ade6-f8fe-eb81-4d9c-a822e573390d@broadcom.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 8 Mar 2019 12:19:54 -0700
+Subject: [PATCH 1/5] blk-mq: Export reading mq request state
+In-Reply-To: <1552070537.45180.38.camel@acm.org>
+References: <20190308174006.5032-1-keith.busch@intel.com>
+ <1552068443.45180.24.camel@acm.org>
+ <20190308181551.GB5214@localhost.localdomain>
+ <1552070537.45180.38.camel@acm.org>
+Message-ID: <20190308191954.GC5232@localhost.localdomain>
 
-On 2/23/2019 10:51 AM, Gustavo A. R. Silva wrote:
-> Update the code to use a zero-sized array instead of a pointer in
-> structure nvmet_fc_tgt_queue and use struct_size() in kzalloc().
->
-> Notice that one of the more common cases of allocation size calculations
-> is finding the size of a structure that has a zero-sized array at the end,
-> along with memory for some number of elements for that array. For example:
->
-> struct foo {
-> 	int stuff;
-> 	struct boo entry[];
-> };
->
-> instance = kzalloc(sizeof(struct foo) + sizeof(struct boo) * count, GFP_KERNEL);
->
-> Instead of leaving these open-coded and prone to type mistakes, we can now
-> use the new struct_size() helper:
->
-> instance = kzalloc(struct_size(instance, entry, count), GFP_KERNEL);
->
-> This code was detected with the help of Coccinelle.
->
-> Signed-off-by: Gustavo A. R. Silva <gustavo at embeddedor.com>
-> ---
->   drivers/nvme/target/fc.c | 7 ++-----
->   1 file changed, 2 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-> index 1e9654f04c60..23baec38f97e 100644
-> --- a/drivers/nvme/target/fc.c
-> +++ b/drivers/nvme/target/fc.c
-> @@ -128,12 +128,12 @@ struct nvmet_fc_tgt_queue {
->   	struct nvmet_cq			nvme_cq;
->   	struct nvmet_sq			nvme_sq;
->   	struct nvmet_fc_tgt_assoc	*assoc;
-> -	struct nvmet_fc_fcp_iod		*fod;		/* array of fcp_iods */
->   	struct list_head		fod_list;
->   	struct list_head		pending_cmd_list;
->   	struct list_head		avail_defer_list;
->   	struct workqueue_struct		*work_q;
->   	struct kref			ref;
-> +	struct nvmet_fc_fcp_iod		fod[];		/* array of fcp_iods */
->   } __aligned(sizeof(unsigned long long));
->   
->   struct nvmet_fc_tgt_assoc {
-> @@ -588,9 +588,7 @@ nvmet_fc_alloc_target_queue(struct nvmet_fc_tgt_assoc *assoc,
->   	if (qid > NVMET_NR_QUEUES)
->   		return NULL;
->   
-> -	queue = kzalloc((sizeof(*queue) +
-> -				(sizeof(struct nvmet_fc_fcp_iod) * sqsize)),
-> -				GFP_KERNEL);
-> +	queue = kzalloc(struct_size(queue, fod, sqsize), GFP_KERNEL);
->   	if (!queue)
->   		return NULL;
->   
-> @@ -603,7 +601,6 @@ nvmet_fc_alloc_target_queue(struct nvmet_fc_tgt_assoc *assoc,
->   	if (!queue->work_q)
->   		goto out_a_put;
->   
-> -	queue->fod = (struct nvmet_fc_fcp_iod *)&queue[1];
->   	queue->qid = qid;
->   	queue->sqsize = sqsize;
->   	queue->assoc = assoc;
+On Fri, Mar 08, 2019@10:42:17AM -0800, Bart Van Assche wrote:
+> On Fri, 2019-03-08@11:15 -0700, Keith Busch wrote:
+> > On Fri, Mar 08, 2019@10:07:23AM -0800, Bart Van Assche wrote:
+> > > On Fri, 2019-03-08@10:40 -0700, Keith Busch wrote:
+> > > > Drivers may need to know the state of their requets.
+> > > 
+> > > Hi Keith,
+> > > 
+> > > What makes you think that drivers should be able to check the state of their
+> > > requests? Please elaborate.
+> > 
+> > Patches 4 and 5 in this series.
+> >  
+> > > > diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+> > > > index faed9d9eb84c..db113aee48bb 100644
+> > > > --- a/include/linux/blkdev.h
+> > > > +++ b/include/linux/blkdev.h
+> > > > @@ -241,6 +241,15 @@ struct request {
+> > > >  	struct request *next_rq;
+> > > >  };
+> > > >  
+> > > > +/**
+> > > > + * blk_mq_rq_state() - read the current MQ_RQ_* state of a request
+> > > > + * @rq: target request.
+> > > > + */
+> > > > +static inline enum mq_rq_state blk_mq_rq_state(struct request *rq)
+> > > > +{
+> > > > +	return READ_ONCE(rq->state);
+> > > > +}
+> > > 
+> > > Please also explain how drivers can use this function without triggering a
+> > > race condition with the code that modifies rq->state.
+> > 
+> > Either queisced or within a timeout handler that already locks the
+> > request lifetime.
+> 
+> Hi Keith,
+> 
+> For future patch series submissions please include a cover letter. The two patch
+> series that you posted today don't have a cover letter so I can only guess what
+> the purpose of these two patch series is. Is the purpose of this patch series
+> perhaps to speed up error handling? If so, why did you choose the approach of
+> iterating over outstanding requests and telling the block layer to terminate
+> these requests? 
 
-Reviewed-by:? James Smart <james.smart at broadcom.com>
+Okay, good point. Will do.
 
-I guess this is a better style.
+> I think that the NVMe spec provides a more elegant mechanism,
+> namely deleting the I/O submission queues. According to what I read in the
+> 1.3c spec deleting an I/O submission queue forces an NVMe controller to post a 
+> completion for every outstanding request. See also section 5.6 in the NVMe
+> 1.3c spec.
 
--- james
+That's actually not what it says. The controller may or may not post a
+completion entry with a delete SQ command. The first behavior is defined
+in the spec as "explicit" and the second as "implicit". For implicit,
+we have to iterate inflight tags.
