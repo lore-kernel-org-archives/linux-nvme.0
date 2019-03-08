@@ -1,31 +1,34 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Fri,  8 Mar 2019 10:43:12 -0700
-Subject: [PATCH 7/8] nvme/pci: Remove volatile from cqe
+Date: Fri,  8 Mar 2019 10:43:13 -0700
+Subject: [PATCH 8/8] nvme/pci: Remove unused nvme_iod member
 In-Reply-To: <20190308174313.5134-1-keith.busch@intel.com>
 References: <20190308174313.5134-1-keith.busch@intel.com>
-Message-ID: <20190308174313.5134-7-keith.busch@intel.com>
-
-The cqe isn't volatile once we confirm the phase bit. Remove the volatile
-keyword and let the compiler optimize out an unnecessary additional read
-to the command id.
+Message-ID: <20190308174313.5134-8-keith.busch@intel.com>
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/host/pci.c | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 3481f3e3d6a1..9108a2ceb2c5 100644
+index 9108a2ceb2c5..2d50630e0ba9 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -956,7 +956,7 @@ static inline void nvme_ring_cq_doorbell(struct nvme_queue *nvmeq)
+@@ -218,7 +218,6 @@ struct nvme_iod {
+ 	int aborted;
+ 	int npages;		/* In the PRP list. 0 means small pool in use */
+ 	int nents;		/* Used in scatterlist */
+-	int length;		/* Of data, in bytes */
+ 	dma_addr_t first_dma;
+ 	struct scatterlist meta_sg; /* metadata requires single contiguous buffer */
+ 	struct scatterlist *sg;
+@@ -591,7 +590,6 @@ static blk_status_t nvme_init_iod(struct request *rq, struct nvme_dev *dev)
+ 	iod->aborted = 0;
+ 	iod->npages = -1;
+ 	iod->nents = 0;
+-	iod->length = size;
  
- static inline void nvme_handle_cqe(struct nvme_queue *nvmeq, u16 idx)
- {
--	volatile struct nvme_completion *cqe = &nvmeq->cqes[idx];
-+	struct nvme_completion *cqe = (struct nvme_completion *)&nvmeq->cqes[idx];
- 	struct request *req;
- 
- 	if (unlikely(cqe->command_id >= nvmeq->q_depth)) {
+ 	return BLK_STS_OK;
+ }
 -- 
 2.14.4
