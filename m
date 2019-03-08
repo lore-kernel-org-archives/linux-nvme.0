@@ -1,58 +1,80 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Fri,  8 Mar 2019 10:43:11 -0700
-Subject: [PATCH 6/8] nvme/pci: Remove q_dmadev from nvme_queue
+Date: Fri,  8 Mar 2019 10:43:10 -0700
+Subject: [PATCH 5/8] nvme/pci: Remove last_sq_tail
 In-Reply-To: <20190308174313.5134-1-keith.busch@intel.com>
 References: <20190308174313.5134-1-keith.busch@intel.com>
-Message-ID: <20190308174313.5134-6-keith.busch@intel.com>
+Message-ID: <20190308174313.5134-5-keith.busch@intel.com>
 
-We don't need to save the dma device as it's not used in the hot path
-and hasn't in a long time. Shrink the struct nvme_queue removing this
-unnecessary member.
+We don't allocate enough tags to wrap the submission queue ring. Remove
+the checks for this condition and shrink struct nvme_queue.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/pci.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ drivers/nvme/host/pci.c | 20 ++++----------------
+ 1 file changed, 4 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 06db19b45d2b..3481f3e3d6a1 100644
+index 62f29ab93f5a..06db19b45d2b 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -177,7 +177,6 @@ static inline struct nvme_dev *to_nvme_dev(struct nvme_ctrl *ctrl)
-  * commands and one for I/O commands).
+@@ -191,7 +191,6 @@ struct nvme_queue {
+ 	u16 q_depth;
+ 	u16 cq_vector;
+ 	u16 sq_tail;
+-	u16 last_sq_tail;
+ 	u16 cq_head;
+ 	u16 qid;
+ 	u8 cq_phase;
+@@ -514,21 +513,11 @@ static int nvme_pci_map_queues(struct blk_mq_tag_set *set)
+ /*
+  * Write sq tail if we are asked to, or if the next command would wrap.
   */
- struct nvme_queue {
--	struct device *q_dmadev;
- 	struct nvme_dev *dev;
- 	spinlock_t sq_lock;
- 	struct nvme_command *sq_cmds;
-@@ -1336,16 +1335,16 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
- 
- static void nvme_free_queue(struct nvme_queue *nvmeq)
+-static inline void nvme_write_sq_db(struct nvme_queue *nvmeq, bool write_sq)
++static inline void nvme_write_sq_db(struct nvme_queue *nvmeq)
  {
--	dma_free_coherent(nvmeq->q_dmadev, CQ_SIZE(nvmeq->q_depth),
-+	dma_free_coherent(nvmeq->dev->dev, CQ_SIZE(nvmeq->q_depth),
- 				(void *)nvmeq->cqes, nvmeq->cq_dma_addr);
- 	if (!nvmeq->sq_cmds)
- 		return;
- 
- 	if (test_and_clear_bit(NVMEQ_SQ_CMB, &nvmeq->flags)) {
--		pci_free_p2pmem(to_pci_dev(nvmeq->q_dmadev),
-+		pci_free_p2pmem(to_pci_dev(nvmeq->dev->dev),
- 				nvmeq->sq_cmds, SQ_SIZE(nvmeq->q_depth));
- 	} else {
--		dma_free_coherent(nvmeq->q_dmadev, SQ_SIZE(nvmeq->q_depth),
-+		dma_free_coherent(nvmeq->dev->dev, SQ_SIZE(nvmeq->q_depth),
- 				nvmeq->sq_cmds, nvmeq->sq_dma_addr);
- 	}
+-	if (!write_sq) {
+-		u16 next_tail = nvmeq->sq_tail + 1;
+-
+-		if (next_tail == nvmeq->q_depth)
+-			next_tail = 0;
+-		if (next_tail != nvmeq->last_sq_tail)
+-			return;
+-	}
+-
+ 	if (nvme_dbbuf_update_and_check_event(nvmeq->sq_tail,
+ 			nvmeq->dbbuf_sq_db, nvmeq->dbbuf_sq_ei))
+ 		writel(nvmeq->sq_tail, nvmeq->q_db);
+-	nvmeq->last_sq_tail = nvmeq->sq_tail;
  }
-@@ -1457,7 +1456,6 @@ static int nvme_alloc_queue(struct nvme_dev *dev, int qid, int depth)
- 	if (nvme_alloc_sq_cmds(dev, nvmeq, qid, depth))
- 		goto free_cqdma;
  
--	nvmeq->q_dmadev = dev->dev;
- 	nvmeq->dev = dev;
- 	spin_lock_init(&nvmeq->sq_lock);
- 	spin_lock_init(&nvmeq->cq_poll_lock);
+ /**
+@@ -544,7 +533,8 @@ static void nvme_submit_cmd(struct nvme_queue *nvmeq, struct nvme_command *cmd,
+ 	memcpy(&nvmeq->sq_cmds[nvmeq->sq_tail], cmd, sizeof(*cmd));
+ 	if (++nvmeq->sq_tail == nvmeq->q_depth)
+ 		nvmeq->sq_tail = 0;
+-	nvme_write_sq_db(nvmeq, write_sq);
++	if (write_sq)
++		nvme_write_sq_db(nvmeq);
+ 	spin_unlock(&nvmeq->sq_lock);
+ }
+ 
+@@ -553,8 +543,7 @@ static void nvme_commit_rqs(struct blk_mq_hw_ctx *hctx)
+ 	struct nvme_queue *nvmeq = hctx->driver_data;
+ 
+ 	spin_lock(&nvmeq->sq_lock);
+-	if (nvmeq->sq_tail != nvmeq->last_sq_tail)
+-		nvme_write_sq_db(nvmeq, true);
++	nvme_write_sq_db(nvmeq);
+ 	spin_unlock(&nvmeq->sq_lock);
+ }
+ 
+@@ -1507,7 +1496,6 @@ static void nvme_init_queue(struct nvme_queue *nvmeq, u16 qid)
+ 	struct nvme_dev *dev = nvmeq->dev;
+ 
+ 	nvmeq->sq_tail = 0;
+-	nvmeq->last_sq_tail = 0;
+ 	nvmeq->cq_head = 0;
+ 	nvmeq->cq_phase = 1;
+ 	nvmeq->q_db = &dev->dbs[qid * 2 * dev->db_stride];
 -- 
 2.14.4
