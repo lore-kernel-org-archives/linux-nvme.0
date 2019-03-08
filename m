@@ -1,34 +1,38 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri,  8 Mar 2019 10:43:13 -0700
-Subject: [PATCH 8/8] nvme/pci: Remove unused nvme_iod member
-In-Reply-To: <20190308174313.5134-1-keith.busch@intel.com>
-References: <20190308174313.5134-1-keith.busch@intel.com>
-Message-ID: <20190308174313.5134-8-keith.busch@intel.com>
+From: bvanassche@acm.org (Bart Van Assche)
+Date: Fri, 08 Mar 2019 10:07:23 -0800
+Subject: [PATCH 1/5] blk-mq: Export reading mq request state
+In-Reply-To: <20190308174006.5032-1-keith.busch@intel.com>
+References: <20190308174006.5032-1-keith.busch@intel.com>
+Message-ID: <1552068443.45180.24.camel@acm.org>
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/pci.c | 2 --
- 1 file changed, 2 deletions(-)
+On Fri, 2019-03-08@10:40 -0700, Keith Busch wrote:
+> Drivers may need to know the state of their requets.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 9108a2ceb2c5..2d50630e0ba9 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -218,7 +218,6 @@ struct nvme_iod {
- 	int aborted;
- 	int npages;		/* In the PRP list. 0 means small pool in use */
- 	int nents;		/* Used in scatterlist */
--	int length;		/* Of data, in bytes */
- 	dma_addr_t first_dma;
- 	struct scatterlist meta_sg; /* metadata requires single contiguous buffer */
- 	struct scatterlist *sg;
-@@ -591,7 +590,6 @@ static blk_status_t nvme_init_iod(struct request *rq, struct nvme_dev *dev)
- 	iod->aborted = 0;
- 	iod->npages = -1;
- 	iod->nents = 0;
--	iod->length = size;
- 
- 	return BLK_STS_OK;
- }
--- 
-2.14.4
+Hi Keith,
+
+What makes you think that drivers should be able to check the state of their
+requests? Please elaborate.
+
+> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+> index faed9d9eb84c..db113aee48bb 100644
+> --- a/include/linux/blkdev.h
+> +++ b/include/linux/blkdev.h
+> @@ -241,6 +241,15 @@ struct request {
+>  	struct request *next_rq;
+>  };
+>  
+> +/**
+> + * blk_mq_rq_state() - read the current MQ_RQ_* state of a request
+> + * @rq: target request.
+> + */
+> +static inline enum mq_rq_state blk_mq_rq_state(struct request *rq)
+> +{
+> +	return READ_ONCE(rq->state);
+> +}
+
+Please also explain how drivers can use this function without triggering a
+race condition with the code that modifies rq->state.
+
+Thanks,
+
+Bart.
