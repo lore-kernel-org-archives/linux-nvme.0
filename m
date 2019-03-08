@@ -1,55 +1,57 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Fri,  8 Mar 2019 10:40:02 -0700
-Subject: [PATCH 1/5] blk-mq: Export reading mq request state
-Message-ID: <20190308174006.5032-1-keith.busch@intel.com>
+Date: Fri,  8 Mar 2019 10:40:03 -0700
+Subject: [PATCH 2/5] blk-mq: Export iterating queue requests
+In-Reply-To: <20190308174006.5032-1-keith.busch@intel.com>
+References: <20190308174006.5032-1-keith.busch@intel.com>
+Message-ID: <20190308174006.5032-2-keith.busch@intel.com>
 
-Drivers may need to know the state of their requets.
+A driver may need to iterate a particular queue's tagged request rather
+than the whole tagset.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- block/blk-mq.h         | 9 ---------
- include/linux/blkdev.h | 9 +++++++++
- 2 files changed, 9 insertions(+), 9 deletions(-)
+ block/blk-mq-tag.c     | 1 +
+ block/blk-mq-tag.h     | 2 --
+ include/linux/blk-mq.h | 2 ++
+ 3 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/block/blk-mq.h b/block/blk-mq.h
-index c11353a3749d..99ab7e472e62 100644
---- a/block/blk-mq.h
-+++ b/block/blk-mq.h
-@@ -128,15 +128,6 @@ extern void blk_mq_hctx_kobj_init(struct blk_mq_hw_ctx *hctx);
+diff --git a/block/blk-mq-tag.c b/block/blk-mq-tag.c
+index a4931fc7be8a..a4ba91b332b0 100644
+--- a/block/blk-mq-tag.c
++++ b/block/blk-mq-tag.c
+@@ -407,6 +407,7 @@ void blk_mq_queue_tag_busy_iter(struct request_queue *q, busy_iter_fn *fn,
+ 	}
+ 	blk_queue_exit(q);
+ }
++EXPORT_SYMBOL(blk_mq_queue_tag_busy_iter);
  
- void blk_mq_release(struct request_queue *q);
+ static int bt_alloc(struct sbitmap_queue *bt, unsigned int depth,
+ 		    bool round_robin, int node)
+diff --git a/block/blk-mq-tag.h b/block/blk-mq-tag.h
+index 61deab0b5a5a..5af7ff94b400 100644
+--- a/block/blk-mq-tag.h
++++ b/block/blk-mq-tag.h
+@@ -33,8 +33,6 @@ extern int blk_mq_tag_update_depth(struct blk_mq_hw_ctx *hctx,
+ 					struct blk_mq_tags **tags,
+ 					unsigned int depth, bool can_grow);
+ extern void blk_mq_tag_wakeup_all(struct blk_mq_tags *tags, bool);
+-void blk_mq_queue_tag_busy_iter(struct request_queue *q, busy_iter_fn *fn,
+-		void *priv);
  
--/**
-- * blk_mq_rq_state() - read the current MQ_RQ_* state of a request
-- * @rq: target request.
-- */
--static inline enum mq_rq_state blk_mq_rq_state(struct request *rq)
--{
--	return READ_ONCE(rq->state);
--}
--
- static inline struct blk_mq_ctx *__blk_mq_get_ctx(struct request_queue *q,
- 					   unsigned int cpu)
- {
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index faed9d9eb84c..db113aee48bb 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -241,6 +241,15 @@ struct request {
- 	struct request *next_rq;
- };
- 
-+/**
-+ * blk_mq_rq_state() - read the current MQ_RQ_* state of a request
-+ * @rq: target request.
-+ */
-+static inline enum mq_rq_state blk_mq_rq_state(struct request *rq)
-+{
-+	return READ_ONCE(rq->state);
-+}
-+
- static inline bool blk_op_is_scsi(unsigned int op)
- {
- 	return op == REQ_OP_SCSI_IN || op == REQ_OP_SCSI_OUT;
+ static inline struct sbq_wait_state *bt_wait_ptr(struct sbitmap_queue *bt,
+ 						 struct blk_mq_hw_ctx *hctx)
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index b0c814bcc7e3..a64b3fdce0b0 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -321,6 +321,8 @@ bool blk_mq_run_hw_queue(struct blk_mq_hw_ctx *hctx, bool async);
+ void blk_mq_run_hw_queues(struct request_queue *q, bool async);
+ void blk_mq_tagset_busy_iter(struct blk_mq_tag_set *tagset,
+ 		busy_tag_iter_fn *fn, void *priv);
++void blk_mq_queue_tag_busy_iter(struct request_queue *q, busy_iter_fn *fn,
++		void *priv);
+ void blk_mq_freeze_queue(struct request_queue *q);
+ void blk_mq_unfreeze_queue(struct request_queue *q);
+ void blk_freeze_queue_start(struct request_queue *q);
 -- 
 2.14.4
