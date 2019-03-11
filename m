@@ -1,13 +1,24 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 11 Mar 2019 19:33:45 +0100
-Subject: [PATCH 8/8] nvme/pci: Remove unused nvme_iod member
-In-Reply-To: <20190308174313.5134-8-keith.busch@intel.com>
-References: <20190308174313.5134-1-keith.busch@intel.com>
- <20190308174313.5134-8-keith.busch@intel.com>
-Message-ID: <20190311183345.GH11448@lst.de>
+Date: Mon, 11 Mar 2019 19:40:31 +0100
+Subject: [PATCH 5/5] nvme/pci: Remove queue IO flushing hack
+In-Reply-To: <20190308174006.5032-5-keith.busch@intel.com>
+References: <20190308174006.5032-1-keith.busch@intel.com>
+ <20190308174006.5032-5-keith.busch@intel.com>
+Message-ID: <20190311184031.GA11707@lst.de>
 
-Looks good.  So good that I have my own version of it:
+>From a quick look the code seems reasonably sensible here,
+but any chance we could have this in common code?
 
-http://git.infradead.org/users/hch/block.git/commitdiff/26cabe40a2225d3f9b78da0082f150036b150e03
+> +static bool nvme_fail_queue_request(struct request *req, void *data, bool reserved)
+> +{
+> +	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+> +	struct nvme_queue *nvmeq = iod->nvmeq;
+> +
+> +	if (!test_bit(NVMEQ_ENABLED, &nvmeq->flags))
+> +		blk_mq_end_request(req, BLK_STS_IOERR);
+> +	return true;
+> +}
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+The only thing not purely block layer here is the enabled flag.
+So if we had a per-hctx enabled flag we could lift this out of nvme,
+and hopefully start reusing it in other drivers.
