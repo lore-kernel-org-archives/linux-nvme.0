@@ -1,67 +1,51 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Mon, 11 Mar 2019 11:10:26 -0700
-Subject: general protection fault in skb_put
-In-Reply-To: <CACT4Y+aT_oeWK5UWy9N76noDEfPTC8q2d8vd+KugE2UXgxpJcQ@mail.gmail.com>
-References: <000000000000032b7f0583d16e0e@google.com>
- <b17bcabf-5f2c-083a-91a9-6d99f5111a3f@broadcom.com>
- <CACT4Y+aT_oeWK5UWy9N76noDEfPTC8q2d8vd+KugE2UXgxpJcQ@mail.gmail.com>
-Message-ID: <a68b264c-d573-87ef-13fb-883c6b0a710c@gmail.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 11 Mar 2019 19:25:01 +0100
+Subject: [PATCH 1/8] nvme/pci: Use a flag for polled queues
+In-Reply-To: <20190308174313.5134-1-keith.busch@intel.com>
+References: <20190308174313.5134-1-keith.busch@intel.com>
+Message-ID: <20190311182501.GA11448@lst.de>
 
-On 3/11/2019 9:40 AM, Dmitry Vyukov wrote:
-> On Mon, Mar 11, 2019 at 5:20 PM 'James Smart' via syzkaller-bugs
-> <syzkaller-bugs@googlegroups.com> wrote:
->>
->> On 3/11/2019 6:20 AM, syzbot wrote:
->>> syzbot has bisected this bug to:
->>>
->>> commit 97faec531460c949d7120672b8c77e2f41f8d6d7
->>> Author: James Smart <jsmart2021 at gmail.com>
->>> Date:   Thu Sep 13 23:17:38 2018 +0000
->>>
->>>      nvme_fc: add 'nvme_discovery' sysfs attribute to fc transport device
->>>
->>> bisection log:
->>> https://syzkaller.appspot.com/x/bisect.txt?x=121f55db200000
->>> start commit:   97faec53 nvme_fc: add 'nvme_discovery' sysfs attribute
->>> to ..
->>> git tree:       linux-next
->>> final crash: https://syzkaller.appspot.com/x/report.txt?x=111f55db200000
->>> console output: https://syzkaller.appspot.com/x/log.txt?x=161f55db200000
->>> kernel config: https://syzkaller.appspot.com/x/.config?x=59aefae07c771af6
->>> dashboard link:
->>> https://syzkaller.appspot.com/bug?extid=65788f9af9d54844389e
->>> userspace arch: amd64
->>> syz repro: https://syzkaller.appspot.com/x/repro.syz?x=178e0798c00000
->>> C reproducer: https://syzkaller.appspot.com/x/repro.c?x=11b4f0b0c00000
->>>
->>> Reported-by: syzbot+65788f9af9d54844389e at syzkaller.appspotmail.com
->>> Fixes: 97faec53 ("nvme_fc: add 'nvme_discovery' sysfs attribute to fc
->>> transport device")
->>
->> can someone contact me as to what this thing is doing and how to
->> interpret all the logs.  nvme_fc isn't remotely in any of the logs and
->> doesn't use skb's unless the underlying udev_uevents are using them.
+On Fri, Mar 08, 2019@10:43:06AM -0700, Keith Busch wrote:
+> A negative value for the cq_vector used to mean the queue is either
+> disabled or a polled queue. However, we have a queue enabled flag,
+> so the cq_vector had been serving double duty.
 > 
-> Hi James,
-> 
-> What exactly is unclear/needs interpretation? syzbot did what is
-> commonly known as kernel/git bisection process. This is a new feature
-> so there can be some rough edges. Hopefully we can improve the
-> representation together.
-> 
-> Thanks
-> 
-Everything is unclear. You're telling me that an error occurred and that 
-you reduced it to the git submit where the error starts appearing.
+> Don't overload the meaning of cq_vector. Use a flag specific to the
+> polled queues instead.
 
-Usually there would be something in the base crash, which I'm looking at 
-in https://syzkaller.appspot.com/x/report.txt?x=111f55db200000 which 
-would point back at something in the patch or related to it. There are 
-no relationships.  I can't quite figure out what the base test actually 
-did that generated the failure to see if there's any possible relationship.
+Looks good,
 
-Everything in the base crash stacktrace points to an issue in the 
-bluetooth uart driver doing all the logging - not the patch called out. 
-So this looks like a failure of your infrastructure.
+a few nitpicks below:
 
--- james
+> -	nvmeq->cq_vector = -1;
+> +	if (!test_and_clear_bit(NVMEQ_POLLED, &nvmeq->flags))
+> +		pci_free_irq(to_pci_dev(nvmeq->dev->dev), nvmeq->cq_vector, nvmeq);
+>  	return 0;
+
+This creates an > 80 char line.
+
+But given that the nvme_suspend_queue return value is always ignored
+you could throw in a prep patch to remove the return value and just
+do an early return for the poll case here.
+
+> @@ -1552,7 +1547,7 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid, bool polled)
+>  	if (!polled)
+>  		vector = dev->num_vecs == 1 ? 0 : qid;
+>  	else
+> -		vector = -1;
+> +		set_bit(NVMEQ_POLLED, &nvmeq->flags);
+
+Between the inversion and the ? : this looks pretty obsfucated.
+Can we untangle this to:
+
+	if (polled)
+		set_bit(NVMEQ_POLLED, &nvmeq->flags);
+	else if (dev->num_vecs == 1)
+		vector = 0;
+	else
+		vector = qid;
+
+Or we might just kill the polled argument and the local vector variable
+entirely, set the NVMEQ_POLLED flag in nvme_create_io_queues and
+calculate the vector inside adapter_alloc_cq, which would also lose the
+vector argument.
