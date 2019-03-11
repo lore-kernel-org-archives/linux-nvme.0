@@ -1,73 +1,28 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Mon, 11 Mar 2019 18:16:19 +0800
-Subject: NVMe: Regression: write zeros corrupts ext4 file system
-In-Reply-To: <08f3d0f9-c10c-ef72-72f5-62670388763b@oracle.com>
-References: <20190311022441.GA16849@ming.t460p>
- <08f3d0f9-c10c-ef72-72f5-62670388763b@oracle.com>
-Message-ID: <20190311101618.GA26229@ming.t460p>
+From: syzbot+65788f9af9d54844389e@syzkaller.appspotmail.com (syzbot)
+Date: Mon, 11 Mar 2019 06:20:00 -0700
+Subject: general protection fault in skb_put
+In-Reply-To: <000000000000b9e68e0581142f19@google.com>
+Message-ID: <000000000000032b7f0583d16e0e@google.com>
 
-On Mon, Mar 11, 2019@03:54:16PM +0800, Dongli Zhang wrote:
-> 
-> 
-> On 3/11/19 10:24 AM, Ming Lei wrote:
-> > Hi,
-> > 
-> > It is observed that ext4 is corrupted easily by running some workloads
-> > on QEMU NVMe, such as:
-> 
-> I cannot reproduce with most recent up-to-date mainline kernel on below qemu
-> versions:
-> 
-> - qemu-2.10.2
-> - qemu-3.0.0
+syzbot has bisected this bug to:
 
-The qemu in my test is from Fedora 27, and it isn't built by me, and
-'qemu-system-x86_64 -version' shows that:
+commit 97faec531460c949d7120672b8c77e2f41f8d6d7
+Author: James Smart <jsmart2021 at gmail.com>
+Date:   Thu Sep 13 23:17:38 2018 +0000
 
-	QEMU emulator version 2.10.2(qemu-2.10.2-1.fc27)
+     nvme_fc: add 'nvme_discovery' sysfs attribute to fc transport device
 
-My test VM is actually cloned from the official Fedora 27 Cloud image[1],
-then run 'dnf update' before starting the test.
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=121f55db200000
+start commit:   97faec53 nvme_fc: add 'nvme_discovery' sysfs attribute to ..
+git tree:       linux-next
+final crash:    https://syzkaller.appspot.com/x/report.txt?x=111f55db200000
+console output: https://syzkaller.appspot.com/x/log.txt?x=161f55db200000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=59aefae07c771af6
+dashboard link: https://syzkaller.appspot.com/bug?extid=65788f9af9d54844389e
+userspace arch: amd64
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=178e0798c00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11b4f0b0c00000
 
-[1] https://download.fedoraproject.org/pub/fedora/linux/releases/27/CloudImages/x86_64/images/Fedora-Cloud-Base-27-1.6.x86_64.qcow2
-
-> 
-> > 
-> > 1) mkfs.ext4 /dev/nvme0n1
-> > 
-> > 2) mount /dev/nvme0n1 /mnt
-> > 
-> > 3) cd /mnt; git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-> > 
-> > 4) then the following error message may show up:
-> > 
-> > [ 1642.271816] EXT4-fs error (device nvme0n1): ext4_mb_generate_buddy:747: group 0, block bitmap and bg descriptor inconsistent: 32768 vs 23513 free clusters
-> > 
-> > Or fsck.ext4 will complain after running 'umount /mnt'
-> > 
-> > The issue disappears by reverting 6e02318eaea53eaafe6 ("nvme: add support for the
-> > Write Zeroes command").
-> 
-> As above commit is for Write Zeros command, I instrument and add printf at the
-> beginning of nvme_write_zeros() for qemu-2.10.2.
-> 
-> nvme_write_zeros() are only called for 47 times during "mount /dev/nvme0n1 /mnt".
-> 
-> 
-> During "git clone" from torvalds' linux.git, there is no call of nvme_write_zeros().
-> 
-> Perhaps there is some special configuration required to trigger the
-> nvme_write_zeros() on purpose during "git clone" to involve the
-> nvme_cmd_write_zeroes on kernel side?
-
-It can be triggered by random write workloads after mkfs & mount on the
-nvme.
-
-> 
-> My test nvme image is only about 5GB.
-
-Mine is 8GB.
-
-
-Thanks,
-Ming
+Reported-by: syzbot+65788f9af9d54844389e at syzkaller.appspotmail.com
+Fixes: 97faec53 ("nvme_fc: add 'nvme_discovery' sysfs attribute to fc  
+transport device")
