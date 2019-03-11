@@ -1,31 +1,36 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 11 Mar 2019 15:02:26 -0700
-Subject: [PATCH v4 2/3] nvme: put ns_head ref if namespace fails allocation
+Date: Mon, 11 Mar 2019 15:02:27 -0700
+Subject: [PATCH v4 3/3] nvmet-file: clamp-down file namespace lba_shift
 In-Reply-To: <20190311220227.23656-1-sagi@grimberg.me>
 References: <20190311220227.23656-1-sagi@grimberg.me>
-Message-ID: <20190311220227.23656-3-sagi@grimberg.me>
+Message-ID: <20190311220227.23656-4-sagi@grimberg.me>
 
-In case nvme_alloc_ns fails after we initialize ns_head but before we
-add the ns to the controller namespaces list we need to explicitly put
-the ns_head reference because when we teardown the controller we
-won't find it, causing us to leak a dangling subsystem eventually.
+When the backing file is a tempfile for example, the inode i_blkbits
+can be 1M in size which causes problems for hosts to support as the
+disk block size.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/core.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/nvme/target/io-cmd-file.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index e08979094eb5..4530243ef706 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3314,6 +3314,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 	mutex_lock(&ctrl->subsys->lock);
- 	list_del_rcu(&ns->siblings);
- 	mutex_unlock(&ctrl->subsys->lock);
-+	nvme_put_ns_head(ns->head);
-  out_free_id:
- 	kfree(id);
-  out_free_queue:
+diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
+index 517522305e5c..d52fe965a5d5 100644
+--- a/drivers/nvme/target/io-cmd-file.c
++++ b/drivers/nvme/target/io-cmd-file.c
+@@ -49,7 +49,12 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
+ 		goto err;
+ 
+ 	ns->size = stat.size;
+-	ns->blksize_shift = file_inode(ns->file)->i_blkbits;
++	/*
++	 * inode i_blkbits can be greater than the universally accepted upper
++	 * bound so make sure we export we export a sane namespace lba_shift.
++	 */
++	ns->blksize_shift = min_t(u8,
++			file_inode(ns->file)->i_blkbits, PAGE_SHIFT);
+ 
+ 	ns->bvec_cache = kmem_cache_create("nvmet-bvec",
+ 			NVMET_MAX_MPOOL_BVEC * sizeof(struct bio_vec),
 -- 
 2.17.1
