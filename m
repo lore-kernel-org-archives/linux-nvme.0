@@ -1,19 +1,14 @@
-From: osandov@osandov.com (Omar Sandoval)
-Date: Mon, 11 Mar 2019 15:59:47 -0700
-Subject: [PATCH v2] nvme: test out-of-range I/O access (file backend)
-In-Reply-To: <763669e2-7a87-6876-feae-49e82c5d4c8f@grimberg.me>
-References: <20190311221855.27375-1-sagi@grimberg.me>
- <20190311224904.GE1315@vader>
- <763669e2-7a87-6876-feae-49e82c5d4c8f@grimberg.me>
-Message-ID: <20190311225947.GF1315@vader>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 11 Mar 2019 16:31:43 -0700
+Subject: [PATCH 1/8] nvme/pci: Use a flag for polled queues
+In-Reply-To: <20190308174313.5134-1-keith.busch@intel.com>
+References: <20190308174313.5134-1-keith.busch@intel.com>
+Message-ID: <cc6a1197-38a4-8d8f-e9b4-f2e5829c1827@grimberg.me>
 
-On Mon, Mar 11, 2019@03:58:02PM -0700, Sagi Grimberg wrote:
-> 
-> > Ah, so this fails for me because I have nvme-cli 1.7 which is missing
-> > your 9c891c139894 ("nvmet: check fileio lba range access boundaries").
-> > How about we just look at the exit code of nvme read instead of relying
-> > on that output?
-> 
-> Fine by me, you can fold it in..
+This ended up in my spam folder
 
-Done and pushed.
+(hope its not a hint to the review ;))
+
+Looks good,
+
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
