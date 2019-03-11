@@ -1,32 +1,16 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Mon, 11 Mar 2019 10:24:42 +0800
-Subject: NVMe: Regression: write zeros corrupts ext4 file system
-Message-ID: <20190311022441.GA16849@ming.t460p>
+From: jianchao.w.wang@oracle.com (jianchao.wang)
+Date: Mon, 11 Mar 2019 11:58:21 +0800
+Subject: [PATCH 4/5] nvme: Fail dead namespace's entered requests
+In-Reply-To: <20190308174006.5032-4-keith.busch@intel.com>
+References: <20190308174006.5032-1-keith.busch@intel.com>
+ <20190308174006.5032-4-keith.busch@intel.com>
+Message-ID: <671edb24-d3a7-988e-c1e5-3ba140da5451@oracle.com>
 
-Hi,
+Hi Keith
 
-It is observed that ext4 is corrupted easily by running some workloads
-on QEMU NVMe, such as:
+How about introducing a per hctx queue_rq callback, then install a
+separate .queue_rq callback for the dead hctx. Then we just need to
+start and complete the request there.
 
-1) mkfs.ext4 /dev/nvme0n1
-
-2) mount /dev/nvme0n1 /mnt
-
-3) cd /mnt; git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-
-4) then the following error message may show up:
-
-[ 1642.271816] EXT4-fs error (device nvme0n1): ext4_mb_generate_buddy:747: group 0, block bitmap and bg descriptor inconsistent: 32768 vs 23513 free clusters
-
-Or fsck.ext4 will complain after running 'umount /mnt'
-
-The issue disappears by reverting 6e02318eaea53eaafe6 ("nvme: add support for the
-Write Zeroes command").
-
-QEMU version:
-
-QEMU emulator version 2.10.2(qemu-2.10.2-1.fc27)
-Copyright (c) 2003-2017 Fabrice Bellard and the QEMU Project developers
-
-Thanks,
-Ming
+Thanks
+Jianchao
