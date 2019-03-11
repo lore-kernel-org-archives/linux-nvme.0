@@ -1,35 +1,45 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 11 Mar 2019 15:02:24 -0700
-Subject: [PATCH v4 0/3] Couple of fixes detected with blktests
-Message-ID: <20190311220227.23656-1-sagi@grimberg.me>
+Date: Mon, 11 Mar 2019 15:02:25 -0700
+Subject: [PATCH v4 1/3] nvme: set 0 capacity if namespace block size exceeds
+ PAGE_SIZE
+In-Reply-To: <20190311220227.23656-1-sagi@grimberg.me>
+References: <20190311220227.23656-1-sagi@grimberg.me>
+Message-ID: <20190311220227.23656-2-sagi@grimberg.me>
 
-nvme test 009 discovered a few issues with and without multipathing.
+If our target exposed a namespace with a block size that is greater
+than PAGE_SIZE, set 0 capacity on the namespace as we do not support it.
 
-1. if a namespace has a larger block size than PAGE_SIZE we either panic
-   on a divide by zero with multipathing, or we see I/O errors without it.
-   - fix nvmet to always export block size that is leq PAGE_SIZE
-   - fix the core to set 0 capacity on such a namespace
+This issue encountered when the nvmet namespace was backed by a tempfile.
 
-2. if a namespace allocation fails after nvme_init_ns_head we leak
-   subsystems due to a missing ns_head ref put
-   - fix it by putting the ns_head reference on nvme_alloc_ns error flow
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/host/core.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-Changes from v3:
-- don't have the host fail if ns allocation lba_shift exceeds PAGE_SHIFT,
-  instead set 0 capacity
-
-Changes from v2:
-- add comment to nvmet file ns lba_shift clamping
-- add host side protection against such a namespace
-
-Sagi Grimberg (3):
-  nvme: set 0 capacity if namespace block size exceeds PAGE_SIZE
-  nvme: put ns_head ref if namespace fails allocation
-  nvmet-file: clamp-down file namespace lba_shift
-
- drivers/nvme/host/core.c          | 8 +++++++-
- drivers/nvme/target/io-cmd-file.c | 7 ++++++-
- 2 files changed, 13 insertions(+), 2 deletions(-)
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 7321da21f8c9..e08979094eb5 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1610,6 +1610,10 @@ static void nvme_update_disk_info(struct gendisk *disk,
+ 	sector_t capacity = le64_to_cpup(&id->nsze) << (ns->lba_shift - 9);
+ 	unsigned short bs = 1 << ns->lba_shift;
+ 
++	if (ns->lba_shift > PAGE_SHIFT) {
++		/* unsupported block size, set capacity to 0 later */
++		bs = (1 << 9);
++	}
+ 	blk_mq_freeze_queue(disk->queue);
+ 	blk_integrity_unregister(disk);
+ 
+@@ -1621,7 +1625,8 @@ static void nvme_update_disk_info(struct gendisk *disk,
+ 	if (ns->ms && !ns->ext &&
+ 	    (ns->ctrl->ops->flags & NVME_F_METADATA_SUPPORTED))
+ 		nvme_init_integrity(disk, ns->ms, ns->pi_type);
+-	if (ns->ms && !nvme_ns_has_pi(ns) && !blk_get_integrity(disk))
++	if ((ns->ms && !nvme_ns_has_pi(ns) && !blk_get_integrity(disk)) ||
++	    ns->lba_shift > PAGE_SHIFT)
+ 		capacity = 0;
+ 
+ 	set_capacity(disk, capacity);
 -- 
 2.17.1
