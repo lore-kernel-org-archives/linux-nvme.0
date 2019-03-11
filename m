@@ -1,24 +1,35 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 11 Mar 2019 19:40:31 +0100
-Subject: [PATCH 5/5] nvme/pci: Remove queue IO flushing hack
-In-Reply-To: <20190308174006.5032-5-keith.busch@intel.com>
-References: <20190308174006.5032-1-keith.busch@intel.com>
- <20190308174006.5032-5-keith.busch@intel.com>
-Message-ID: <20190311184031.GA11707@lst.de>
+From: kbusch@kernel.org (Keith Busch)
+Date: Mon, 11 Mar 2019 13:21:52 -0600
+Subject: [PATCH 5/8] nvme/pci: Remove last_sq_tail
+In-Reply-To: <20190311183131.GE11448@lst.de>
+References: <20190308174313.5134-1-keith.busch@intel.com>
+ <20190308174313.5134-5-keith.busch@intel.com>
+ <20190311183131.GE11448@lst.de>
+Message-ID: <20190311192152.GD10411@localhost.localdomain>
 
->From a quick look the code seems reasonably sensible here,
-but any chance we could have this in common code?
+On Mon, Mar 11, 2019@07:31:31PM +0100, Christoph Hellwig wrote:
+> On Fri, Mar 08, 2019@10:43:10AM -0700, Keith Busch wrote:
+> > We don't allocate enough tags to wrap the submission queue ring. Remove
+> > the checks for this condition and shrink struct nvme_queue.
+> 
+> Hmm, I don't see how this is related to wrapping, more about avoiding
+> SQ doorbell writes until we actually commit the current batch of I/O.
+> 
+> It originated from:
+> 
+> ommit 04f3eafda6e05adc56afed4d3ae6e24aaa429058
+> Author: Jens Axboe <axboe at kernel.dk>
+> Date:   Thu Nov 29 10:02:29 2018 -0700
+> 
+>     nvme: implement mq_ops->commit_rqs() hook
 
-> +static bool nvme_fail_queue_request(struct request *req, void *data, bool reserved)
-> +{
-> +	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
-> +	struct nvme_queue *nvmeq = iod->nvmeq;
-> +
-> +	if (!test_bit(NVMEQ_ENABLED, &nvmeq->flags))
-> +		blk_mq_end_request(req, BLK_STS_IOERR);
-> +	return true;
-> +}
+Right, the batched doorblell writes is the commit, and this comment
+explains the wrap detection requirement that it brought with it:
 
-The only thing not purely block layer here is the enabled flag.
-So if we had a per-hctx enabled flag we could lift this out of nvme,
-and hopefully start reusing it in other drivers.
+  "Write sq tail if we are asked to, or if the next command would wrap."
+
+Batched DB writes would need this if we could wrap, and the wrap detection
+has to compare the previously wrtten sq tail the next entry. We just don't
+have enough tags to do that, so it's not necessary to check.
+
+I should have changed that comment in this patch, though.
