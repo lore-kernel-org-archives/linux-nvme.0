@@ -1,27 +1,36 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 11 Mar 2019 14:16:05 -0700
-Subject: [PATCH v3 0/3] Couple of fixes detected with blktests
-Message-ID: <20190311211608.16628-1-sagi@grimberg.me>
+Date: Mon, 11 Mar 2019 14:16:08 -0700
+Subject: [PATCH v3 3/3] nvmet-file: clamp-down file namespace lba_shift
+In-Reply-To: <20190311211608.16628-1-sagi@grimberg.me>
+References: <20190311211608.16628-1-sagi@grimberg.me>
+Message-ID: <20190311211608.16628-4-sagi@grimberg.me>
 
-nvme test 009 discovered a few issues with and without multipathing.
+When the backing file is a tempfile for example, the inode i_blkbits
+can be 1M in size which causes problems for hosts to support as the
+disk block size.
 
-1. if a namespace has a larger block size than PAGE_SIZE we either panic
-   on a divide by zero with multipathing, or we see I/O errors without it.
-   - fix nvmet to always export block size that is leq PAGE_SIZE
-   - fix the core to fail ns allocation if it sees it
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/target/io-cmd-file.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-2. if a namespace allocation fails after nvme_init_ns_head we leak
-   subsystems due to a missing ns_head ref put
-   - fix it by putting the ns_head reference on nvme_alloc_ns error flow
-
-Sagi Grimberg (3):
-  nvme: fail namespace revalidate if block size exceeds PAGE_SIZE
-  nvme: put ns_head ref if namespace fails allocation
-  nvmet-file: clamp-down file namespace lba_shift
-
- drivers/nvme/host/core.c          | 19 +++++++++++++++----
- drivers/nvme/target/io-cmd-file.c |  7 ++++++-
- 2 files changed, 21 insertions(+), 5 deletions(-)
-
+diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
+index 517522305e5c..d52fe965a5d5 100644
+--- a/drivers/nvme/target/io-cmd-file.c
++++ b/drivers/nvme/target/io-cmd-file.c
+@@ -49,7 +49,12 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
+ 		goto err;
+ 
+ 	ns->size = stat.size;
+-	ns->blksize_shift = file_inode(ns->file)->i_blkbits;
++	/*
++	 * inode i_blkbits can be greater than the universally accepted upper
++	 * bound so make sure we export we export a sane namespace lba_shift.
++	 */
++	ns->blksize_shift = min_t(u8,
++			file_inode(ns->file)->i_blkbits, PAGE_SHIFT);
+ 
+ 	ns->bvec_cache = kmem_cache_create("nvmet-bvec",
+ 			NVMET_MAX_MPOOL_BVEC * sizeof(struct bio_vec),
 -- 
 2.17.1
