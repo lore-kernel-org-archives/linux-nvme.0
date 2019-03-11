@@ -1,42 +1,26 @@
-From: osandov@osandov.com (Omar Sandoval)
-Date: Mon, 11 Mar 2019 15:21:27 -0700
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 11 Mar 2019 15:28:29 -0700
 Subject: [PATCH 2/2 blktests] nvme: test out-of-range I/O access
-In-Reply-To: <cdf619bc-1fbc-9244-907d-61fcba752730@grimberg.me>
+In-Reply-To: <20190311222127.GD1315@vader>
 References: <20190306094643.10262-1-sagi@grimberg.me>
- <20190306094643.10262-2-sagi@grimberg.me>
- <20190311203523.GA1315@vader>
+ <20190306094643.10262-2-sagi@grimberg.me> <20190311203523.GA1315@vader>
  <cdf619bc-1fbc-9244-907d-61fcba752730@grimberg.me>
-Message-ID: <20190311222127.GD1315@vader>
+ <20190311222127.GD1315@vader>
+Message-ID: <c529a4bb-df72-6a54-9da8-fb4a221bfabf@grimberg.me>
 
-On Mon, Mar 11, 2019@03:14:27PM -0700, Sagi Grimberg wrote:
-> 
-> > > Test that we correctly fail an out-of-range access
-> > > with a proper NVMe status code.
-> > > 
-> > > Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> > > ---
-> > >   tests/nvme/018     | 58 ++++++++++++++++++++++++++++++++++++++++++++++
-> > >   tests/nvme/018.out |  6 +++++
-> > >   2 files changed, 64 insertions(+)
-> > >   create mode 100755 tests/nvme/018
-> > >   create mode 100755 tests/nvme/018.out
-> > > 
-> > > diff --git a/tests/nvme/018 b/tests/nvme/018
-> > > new file mode 100755
-> > > index 000000000000..939573263c87
-> > > --- /dev/null
-> > > +++ b/tests/nvme/018
-> > > @@ -0,0 +1,58 @@
-> > > +#!/bin/bash
-> > > +# SPDX-License-Identifier: GPL-3.0+
-> > > +# Copyright (C) 2018 Sagi Grimberg
-> > > +#
-> > > +# Test NVMe out of range access.
-> > 
-> > Is this a test for a specific kernel commit? It fails on 5.0.
-> 
-> It failed when nvmet file backend was introduced but fixed in one
-> of the -rc cycles. Thought it'd be worth keeping the test though...
 
-Do you know which patch fixed it, so I can add a reference to it in the
-test?
+> Do you know which patch fixed it, so I can add a reference to it in the
+> test?
+
+commit 9c891c139894ce2ec0ca585a00e0bec5e6b4ccab
+Author: Sagi Grimberg <sagi at grimberg.me>
+Date:   Wed Jul 11 16:13:04 2018 +0300
+
+     nvmet: check fileio lba range access boundaries
+
+     Fail out-of-bounds with a proper status code.
+
+     Fixes: d5eff33ee6f8 ("nvmet: add simple file backed ns support")
+     Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+     Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+     Signed-off-by: Christoph Hellwig <hch at lst.de>
