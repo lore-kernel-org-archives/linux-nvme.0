@@ -1,18 +1,13 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 11 Mar 2019 19:33:24 +0100
-Subject: [PATCH 7/8] nvme/pci: Remove volatile from cqe
-In-Reply-To: <20190308174313.5134-7-keith.busch@intel.com>
+Date: Mon, 11 Mar 2019 19:33:45 +0100
+Subject: [PATCH 8/8] nvme/pci: Remove unused nvme_iod member
+In-Reply-To: <20190308174313.5134-8-keith.busch@intel.com>
 References: <20190308174313.5134-1-keith.busch@intel.com>
- <20190308174313.5134-7-keith.busch@intel.com>
-Message-ID: <20190311183324.GG11448@lst.de>
+ <20190308174313.5134-8-keith.busch@intel.com>
+Message-ID: <20190311183345.GH11448@lst.de>
 
-On Fri, Mar 08, 2019@10:43:12AM -0700, Keith Busch wrote:
-> The cqe isn't volatile once we confirm the phase bit. Remove the volatile
-> keyword and let the compiler optimize out an unnecessary additional read
-> to the command id.
+Looks good.  So good that I have my own version of it:
 
-Hmm.  I've never been happy about how we used volatile to start with,
-but I'm not sure more casts sort out this problem.
+http://git.infradead.org/users/hch/block.git/commitdiff/26cabe40a2225d3f9b78da0082f150036b150e03
 
-Wouldn't the right fix be to drop the volatile entirely and force
-a strong barrier before first reading the phase bit?
+Reviewed-by: Christoph Hellwig <hch at lst.de>
