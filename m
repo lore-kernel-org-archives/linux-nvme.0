@@ -1,32 +1,35 @@
-From: kbusch@kernel.org (Keith Busch)
-Date: Mon, 11 Mar 2019 15:21:37 -0600
-Subject: [PATCH v3 1/3] nvme: fail namespace revalidate if block size
- exceeds PAGE_SIZE
-In-Reply-To: <20190311211608.16628-2-sagi@grimberg.me>
-References: <20190311211608.16628-1-sagi@grimberg.me>
- <20190311211608.16628-2-sagi@grimberg.me>
-Message-ID: <20190311212136.GA11299@localhost.localdomain>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 11 Mar 2019 15:02:24 -0700
+Subject: [PATCH v4 0/3] Couple of fixes detected with blktests
+Message-ID: <20190311220227.23656-1-sagi@grimberg.me>
 
-On Mon, Mar 11, 2019@02:16:06PM -0700, Sagi Grimberg wrote:
-> -static void __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
-> +static int __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
->  {
->  	struct nvme_ns *ns = disk->private_data;
->  
-> @@ -1644,8 +1644,13 @@ static void __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
->  	 * block layer can use before failing read/write for 0 capacity.
->  	 */
->  	ns->lba_shift = id->lbaf[id->flbas & NVME_NS_FLBAS_LBA_MASK].ds;
-> -	if (ns->lba_shift == 0)
-> +	if (ns->lba_shift > 12) {
-> +		dev_err(ns->ctrl->device, "ns lba_shift %d not supported\n",
-> +				ns->lba_shift);
-> +		return -ENOTSUPP;
-> +	} else if (ns->lba_shift == 0) {
->  		ns->lba_shift = 9;
-> +	}
+nvme test 009 discovered a few issues with and without multipathing.
 
-Instead of deleting the namespace, can we make this a 0-capacity block
-device like we do with extended metadata formats? That will fence it off
-from generic read/write where this would cause a problem, and I'd like
-to use these namespaces in passthrough mode for product testing purposes.
+1. if a namespace has a larger block size than PAGE_SIZE we either panic
+   on a divide by zero with multipathing, or we see I/O errors without it.
+   - fix nvmet to always export block size that is leq PAGE_SIZE
+   - fix the core to set 0 capacity on such a namespace
+
+2. if a namespace allocation fails after nvme_init_ns_head we leak
+   subsystems due to a missing ns_head ref put
+   - fix it by putting the ns_head reference on nvme_alloc_ns error flow
+
+Changes from v3:
+- don't have the host fail if ns allocation lba_shift exceeds PAGE_SHIFT,
+  instead set 0 capacity
+
+Changes from v2:
+- add comment to nvmet file ns lba_shift clamping
+- add host side protection against such a namespace
+
+Sagi Grimberg (3):
+  nvme: set 0 capacity if namespace block size exceeds PAGE_SIZE
+  nvme: put ns_head ref if namespace fails allocation
+  nvmet-file: clamp-down file namespace lba_shift
+
+ drivers/nvme/host/core.c          | 8 +++++++-
+ drivers/nvme/target/io-cmd-file.c | 7 ++++++-
+ 2 files changed, 13 insertions(+), 2 deletions(-)
+
+-- 
+2.17.1
