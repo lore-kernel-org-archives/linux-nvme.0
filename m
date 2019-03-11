@@ -1,26 +1,33 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 11 Mar 2019 15:28:29 -0700
-Subject: [PATCH 2/2 blktests] nvme: test out-of-range I/O access
-In-Reply-To: <20190311222127.GD1315@vader>
-References: <20190306094643.10262-1-sagi@grimberg.me>
- <20190306094643.10262-2-sagi@grimberg.me> <20190311203523.GA1315@vader>
- <cdf619bc-1fbc-9244-907d-61fcba752730@grimberg.me>
- <20190311222127.GD1315@vader>
-Message-ID: <c529a4bb-df72-6a54-9da8-fb4a221bfabf@grimberg.me>
+From: bvanassche@acm.org (Bart Van Assche)
+Date: Mon, 11 Mar 2019 15:43:46 -0700
+Subject: v5.1-rc1: New NVMe warning triggered by nvme_delete_ctrl_work()
+Message-ID: <1552344226.45180.104.camel@acm.org>
 
+Hello,
 
-> Do you know which patch fixed it, so I can add a reference to it in the
-> test?
+If I run the nvme tests from blktests against Linus' current master then
+the following warning appears:
 
-commit 9c891c139894ce2ec0ca585a00e0bec5e6b4ccab
-Author: Sagi Grimberg <sagi at grimberg.me>
-Date:   Wed Jul 11 16:13:04 2018 +0300
+WARNING: CPU: 5 PID: 98 at kernel/workqueue.c:3030 __flush_work+0x423/0x430
+CPU: 5 PID: 98 Comm: kworker/u12:2 Not tainted 5.0.0-dbg+ #1
+Workqueue: nvme-delete-wq nvme_delete_ctrl_work
+RIP: 0010:__flush_work+0x423/0x430
+Call Trace:
+ __cancel_work_timer+0x200/0x2b0
+ cancel_work_sync+0x10/0x20
+ nvmet_ctrl_free+0x217/0x330 [nvmet]
+ nvmet_sq_destroy+0xc1/0x290 [nvmet]
+ nvme_loop_destroy_admin_queue+0x29/0x50 [nvme_loop]
+ nvme_loop_shutdown_ctrl+0xb2/0xd0 [nvme_loop]
+ nvme_loop_delete_ctrl_host+0x15/0x20 [nvme_loop]
+ nvme_do_delete_ctrl+0x97/0xcd
+ nvme_delete_ctrl_work+0x15/0x17
+ process_one_work+0x4f1/0xa40
+ worker_thread+0x67/0x5b0
+ kthread+0x1cf/0x1f0
+ ret_from_fork+0x24/0x30
 
-     nvmet: check fileio lba range access boundaries
+I think this is a result of commit 4d43d395fed1 ("workqueue: Try to
+catch flush_work() without INIT_WORK()").
 
-     Fail out-of-bounds with a proper status code.
-
-     Fixes: d5eff33ee6f8 ("nvmet: add simple file backed ns support")
-     Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-     Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-     Signed-off-by: Christoph Hellwig <hch at lst.de>
+Bart.
