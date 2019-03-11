@@ -1,40 +1,18 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 11 Mar 2019 09:11:53 -0600
-Subject: [PATCH] nvme: fix write zeroes offset and count
-Message-ID: <20190311151153.10516-1-keith.busch@intel.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 11 Mar 2019 16:23:31 +0100
+Subject: NVMe: Regression: write zeros corrupts ext4 file system
+In-Reply-To: <20190311145457.GA10411@localhost.localdomain>
+References: <20190311022441.GA16849@ming.t460p>
+ <20190311145457.GA10411@localhost.localdomain>
+Message-ID: <20190311152331.GA9000@lst.de>
 
-The implementation used blocks units rather than the expected bytes.
+On Mon, Mar 11, 2019@08:54:59AM -0600, Keith Busch wrote:
+> In QEMU, blk_aio_pwrite_zeroes() takes bytes, but the nvme controller
+> thought it was blocks. Oops, that went by unnoticed till now!
+> 
+> We should fix QEMU (patch below). Question is, should we quirk driver 
+> for older versions too?
 
-Fixes: c03e7ef12a9 ("nvme: Implement Write Zeroes")
-Reported-by: Ming Lei <ming.lei at redhat.com>
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- hw/block/nvme.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 7c8c63e8f5..e8fe8f1ddd 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -324,8 +324,8 @@ static uint16_t nvme_write_zeros(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
-     const uint8_t data_shift = ns->id_ns.lbaf[lba_index].ds;
-     uint64_t slba = le64_to_cpu(rw->slba);
-     uint32_t nlb  = le16_to_cpu(rw->nlb) + 1;
--    uint64_t aio_slba = slba << (data_shift - BDRV_SECTOR_BITS);
--    uint32_t aio_nlb = nlb << (data_shift - BDRV_SECTOR_BITS);
-+    uint64_t offset = slba << data_shift;
-+    uint32_t count = nlb << data_shift;
- 
-     if (unlikely(slba + nlb > ns->id_ns.nsze)) {
-         trace_nvme_err_invalid_lba_range(slba, nlb, ns->id_ns.nsze);
-@@ -335,7 +335,7 @@ static uint16_t nvme_write_zeros(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
-     req->has_sg = false;
-     block_acct_start(blk_get_stats(n->conf.blk), &req->acct, 0,
-                      BLOCK_ACCT_WRITE);
--    req->aiocb = blk_aio_pwrite_zeroes(n->conf.blk, aio_slba, aio_nlb,
-+    req->aiocb = blk_aio_pwrite_zeroes(n->conf.blk, offset, count,
-                                         BDRV_REQ_MAY_UNMAP, nvme_rw_cb, req);
-     return NVME_NO_COMPLETE;
- }
--- 
-2.14.4
+I think we should.  We are actually still quirking all qemu controllers
+for broken Identify behavior, at some point we'll have to make them
+version specific..
