@@ -1,79 +1,27 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 11 Mar 2019 14:16:06 -0700
-Subject: [PATCH v3 1/3] nvme: fail namespace revalidate if block size exceeds
- PAGE_SIZE
-In-Reply-To: <20190311211608.16628-1-sagi@grimberg.me>
-References: <20190311211608.16628-1-sagi@grimberg.me>
-Message-ID: <20190311211608.16628-2-sagi@grimberg.me>
+Date: Mon, 11 Mar 2019 14:16:05 -0700
+Subject: [PATCH v3 0/3] Couple of fixes detected with blktests
+Message-ID: <20190311211608.16628-1-sagi@grimberg.me>
 
-If our target exposed a namespace with a block size that is greater
-than PAGE_SIZE, fail it as we do not support it.
+nvme test 009 discovered a few issues with and without multipathing.
 
-This issue encountered when the nvmet namespace was backed by a
-tempfile.
+1. if a namespace has a larger block size than PAGE_SIZE we either panic
+   on a divide by zero with multipathing, or we see I/O errors without it.
+   - fix nvmet to always export block size that is leq PAGE_SIZE
+   - fix the core to fail ns allocation if it sees it
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/host/core.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
+2. if a namespace allocation fails after nvme_init_ns_head we leak
+   subsystems due to a missing ns_head ref put
+   - fix it by putting the ns_head reference on nvme_alloc_ns error flow
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 7321da21f8c9..751e14468c0e 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1635,7 +1635,7 @@ static void nvme_update_disk_info(struct gendisk *disk,
- 	blk_mq_unfreeze_queue(disk->queue);
- }
- 
--static void __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
-+static int __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
- {
- 	struct nvme_ns *ns = disk->private_data;
- 
-@@ -1644,8 +1644,13 @@ static void __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
- 	 * block layer can use before failing read/write for 0 capacity.
- 	 */
- 	ns->lba_shift = id->lbaf[id->flbas & NVME_NS_FLBAS_LBA_MASK].ds;
--	if (ns->lba_shift == 0)
-+	if (ns->lba_shift > 12) {
-+		dev_err(ns->ctrl->device, "ns lba_shift %d not supported\n",
-+				ns->lba_shift);
-+		return -ENOTSUPP;
-+	} else if (ns->lba_shift == 0) {
- 		ns->lba_shift = 9;
-+	}
- 	ns->noiob = le16_to_cpu(id->noiob);
- 	ns->ms = le16_to_cpu(id->lbaf[id->flbas & NVME_NS_FLBAS_LBA_MASK].ms);
- 	ns->ext = ns->ms && (id->flbas & NVME_NS_FLBAS_META_EXT);
-@@ -1664,6 +1669,7 @@ static void __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
- 		blk_queue_stack_limits(ns->head->disk->queue, ns->queue);
- 	}
- #endif
-+	return 0;
- }
- 
- static int nvme_revalidate_disk(struct gendisk *disk)
-@@ -1688,7 +1694,10 @@ static int nvme_revalidate_disk(struct gendisk *disk)
- 		goto out;
- 	}
- 
--	__nvme_revalidate_disk(disk, id);
-+	ret = __nvme_revalidate_disk(disk, id);
-+	if (ret)
-+		goto out;
-+
- 	nvme_report_ns_ids(ctrl, ns->head->ns_id, id, &ids);
- 	if (!nvme_ns_ids_equal(&ns->head->ids, &ids)) {
- 		dev_err(ctrl->device,
-@@ -3281,7 +3290,8 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 	memcpy(disk->disk_name, disk_name, DISK_NAME_LEN);
- 	ns->disk = disk;
- 
--	__nvme_revalidate_disk(disk, id);
-+	if (__nvme_revalidate_disk(disk, id))
-+		goto out_put_disk;
- 
- 	if ((ctrl->quirks & NVME_QUIRK_LIGHTNVM) && id->vs[0] == 0x1) {
- 		if (nvme_nvm_register(ns, disk_name, node)) {
+Sagi Grimberg (3):
+  nvme: fail namespace revalidate if block size exceeds PAGE_SIZE
+  nvme: put ns_head ref if namespace fails allocation
+  nvmet-file: clamp-down file namespace lba_shift
+
+ drivers/nvme/host/core.c          | 19 +++++++++++++++----
+ drivers/nvme/target/io-cmd-file.c |  7 ++++++-
+ 2 files changed, 21 insertions(+), 5 deletions(-)
+
 -- 
 2.17.1
