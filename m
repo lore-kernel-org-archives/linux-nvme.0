@@ -1,20 +1,51 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 11 Mar 2019 16:06:27 -0600
-Subject: [PATCH v4 1/3] nvme: set 0 capacity if namespace block size
- exceeds PAGE_SIZE
-In-Reply-To: <20190311220227.23656-2-sagi@grimberg.me>
-References: <20190311220227.23656-1-sagi@grimberg.me>
- <20190311220227.23656-2-sagi@grimberg.me>
-Message-ID: <20190311220627.GB11409@localhost.localdomain>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 11 Mar 2019 15:11:57 -0700
+Subject: [PATCH] nvmet: protect discovery change log event
+Message-ID: <20190311221157.25266-1-sagi@grimberg.me>
 
-On Mon, Mar 11, 2019@03:02:25PM -0700, Sagi Grimberg wrote:
-> If our target exposed a namespace with a block size that is greater
-> than PAGE_SIZE, set 0 capacity on the namespace as we do not support it.
-> 
-> This issue encountered when the nvmet namespace was backed by a tempfile.
-> 
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+When we iterate on the discovery subsystem controllers
+we need to protect against concurrent mutations to it.
 
-I responded to the v3 with the review by mistake. :)
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/target/discovery.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Reviewed-by: Keith Busch <keith.busch at intel.com>
+diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
+index a34cf4986a49..dd6e8248e643 100644
+--- a/drivers/nvme/target/discovery.c
++++ b/drivers/nvme/target/discovery.c
+@@ -38,14 +38,15 @@ void nvmet_port_disc_changed(struct nvmet_port *port,
+ {
+ 	struct nvmet_ctrl *ctrl;
+ 
++	mutex_lock(&nvmet_disc_subsys->lock);
+ 	nvmet_genctr++;
+-
+ 	list_for_each_entry(ctrl, &nvmet_disc_subsys->ctrls, subsys_entry) {
+ 		if (subsys && !nvmet_host_allowed(subsys, ctrl->hostnqn))
+ 			continue;
+ 
+ 		__nvmet_disc_changed(port, ctrl);
+ 	}
++	mutex_unlock(&nvmet_disc_subsys->lock);
+ }
+ 
+ static void __nvmet_subsys_disc_changed(struct nvmet_port *port,
+@@ -54,12 +55,14 @@ static void __nvmet_subsys_disc_changed(struct nvmet_port *port,
+ {
+ 	struct nvmet_ctrl *ctrl;
+ 
++	mutex_lock(&nvmet_disc_subsys->lock);
+ 	list_for_each_entry(ctrl, &nvmet_disc_subsys->ctrls, subsys_entry) {
+ 		if (host && strcmp(nvmet_host_name(host), ctrl->hostnqn))
+ 			continue;
+ 
+ 		__nvmet_disc_changed(port, ctrl);
+ 	}
++	mutex_unlock(&nvmet_disc_subsys->lock);
+ }
+ 
+ void nvmet_subsys_disc_changed(struct nvmet_subsys *subsys,
+-- 
+2.17.1
