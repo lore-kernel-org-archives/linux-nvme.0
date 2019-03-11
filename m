@@ -1,33 +1,48 @@
 From: osandov@osandov.com (Omar Sandoval)
-Date: Mon, 11 Mar 2019 13:35:23 -0700
-Subject: [PATCH 2/2 blktests] nvme: test out-of-range I/O access
-In-Reply-To: <20190306094643.10262-2-sagi@grimberg.me>
+Date: Mon, 11 Mar 2019 13:36:43 -0700
+Subject: [PATCH 1/2 blktests] nvme: add udevadm settle before disconnecting
+In-Reply-To: <20190306094643.10262-1-sagi@grimberg.me>
 References: <20190306094643.10262-1-sagi@grimberg.me>
- <20190306094643.10262-2-sagi@grimberg.me>
-Message-ID: <20190311203523.GA1315@vader>
+Message-ID: <20190311203643.GB1315@vader>
 
-On Wed, Mar 06, 2019@01:46:43AM -0800, Sagi Grimberg wrote:
-> Test that we correctly fail an out-of-range access
-> with a proper NVMe status code.
-> 
+On Wed, Mar 06, 2019@01:46:42AM -0800, Sagi Grimberg wrote:
+> otherwise we can see some I/O failures as udev didn't get enough time
+> to do its thing.
+
+Thanks, applied this one. I'll wait for your response on patch 2.
+
 > Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 > ---
->  tests/nvme/018     | 58 ++++++++++++++++++++++++++++++++++++++++++++++
->  tests/nvme/018.out |  6 +++++
->  2 files changed, 64 insertions(+)
->  create mode 100755 tests/nvme/018
->  create mode 100755 tests/nvme/018.out
+>  tests/nvme/008 | 2 ++
+>  tests/nvme/009 | 2 ++
+>  2 files changed, 4 insertions(+)
 > 
-> diff --git a/tests/nvme/018 b/tests/nvme/018
-> new file mode 100755
-> index 000000000000..939573263c87
-> --- /dev/null
-> +++ b/tests/nvme/018
-> @@ -0,0 +1,58 @@
-> +#!/bin/bash
-> +# SPDX-License-Identifier: GPL-3.0+
-> +# Copyright (C) 2018 Sagi Grimberg
-> +#
-> +# Test NVMe out of range access.
-
-Is this a test for a specific kernel commit? It fails on 5.0.
+> diff --git a/tests/nvme/008 b/tests/nvme/008
+> index d73ec7d6d97a..04ff0bda42e3 100755
+> --- a/tests/nvme/008
+> +++ b/tests/nvme/008
+> @@ -41,6 +41,8 @@ test() {
+>  	cat "/sys/block/${nvmedev}n1/uuid"
+>  	cat "/sys/block/${nvmedev}n1/wwid"
+>  
+> +	udevadm settle
+> +
+>  	nvme disconnect -n "${subsys_name}"
+>  
+>  	_remove_nvmet_subsystem_from_port "${port}" "${subsys_name}"
+> diff --git a/tests/nvme/009 b/tests/nvme/009
+> index a46168123c56..81e61f99aba5 100755
+> --- a/tests/nvme/009
+> +++ b/tests/nvme/009
+> @@ -37,6 +37,8 @@ test() {
+>  	cat "/sys/block/${nvmedev}n1/uuid"
+>  	cat "/sys/block/${nvmedev}n1/wwid"
+>  
+> +	udevadm settle
+> +
+>  	nvme disconnect -n "${subsys_name}"
+>  
+>  	_remove_nvmet_subsystem_from_port "${port}" "${subsys_name}"
+> -- 
+> 2.17.1
+> 
