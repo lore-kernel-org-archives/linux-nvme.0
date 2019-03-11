@@ -1,48 +1,31 @@
-From: osandov@osandov.com (Omar Sandoval)
-Date: Mon, 11 Mar 2019 13:36:43 -0700
-Subject: [PATCH 1/2 blktests] nvme: add udevadm settle before disconnecting
-In-Reply-To: <20190306094643.10262-1-sagi@grimberg.me>
-References: <20190306094643.10262-1-sagi@grimberg.me>
-Message-ID: <20190311203643.GB1315@vader>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 11 Mar 2019 14:16:07 -0700
+Subject: [PATCH v3 2/3] nvme: put ns_head ref if namespace fails allocation
+In-Reply-To: <20190311211608.16628-1-sagi@grimberg.me>
+References: <20190311211608.16628-1-sagi@grimberg.me>
+Message-ID: <20190311211608.16628-3-sagi@grimberg.me>
 
-On Wed, Mar 06, 2019@01:46:42AM -0800, Sagi Grimberg wrote:
-> otherwise we can see some I/O failures as udev didn't get enough time
-> to do its thing.
+In case nvme_alloc_ns fails after we initialize ns_head but before we
+add the ns to the controller namespaces list we need to explicitly put
+the ns_head reference because when we teardown the controller we
+won't find it, causing us to leak a dangling subsystem eventually.
 
-Thanks, applied this one. I'll wait for your response on patch 2.
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/host/core.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> ---
->  tests/nvme/008 | 2 ++
->  tests/nvme/009 | 2 ++
->  2 files changed, 4 insertions(+)
-> 
-> diff --git a/tests/nvme/008 b/tests/nvme/008
-> index d73ec7d6d97a..04ff0bda42e3 100755
-> --- a/tests/nvme/008
-> +++ b/tests/nvme/008
-> @@ -41,6 +41,8 @@ test() {
->  	cat "/sys/block/${nvmedev}n1/uuid"
->  	cat "/sys/block/${nvmedev}n1/wwid"
->  
-> +	udevadm settle
-> +
->  	nvme disconnect -n "${subsys_name}"
->  
->  	_remove_nvmet_subsystem_from_port "${port}" "${subsys_name}"
-> diff --git a/tests/nvme/009 b/tests/nvme/009
-> index a46168123c56..81e61f99aba5 100755
-> --- a/tests/nvme/009
-> +++ b/tests/nvme/009
-> @@ -37,6 +37,8 @@ test() {
->  	cat "/sys/block/${nvmedev}n1/uuid"
->  	cat "/sys/block/${nvmedev}n1/wwid"
->  
-> +	udevadm settle
-> +
->  	nvme disconnect -n "${subsys_name}"
->  
->  	_remove_nvmet_subsystem_from_port "${port}" "${subsys_name}"
-> -- 
-> 2.17.1
-> 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 751e14468c0e..5707ad6d987a 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3319,6 +3319,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 	mutex_lock(&ctrl->subsys->lock);
+ 	list_del_rcu(&ns->siblings);
+ 	mutex_unlock(&ctrl->subsys->lock);
++	nvme_put_ns_head(ns->head);
+  out_free_id:
+ 	kfree(id);
+  out_free_queue:
+-- 
+2.17.1
