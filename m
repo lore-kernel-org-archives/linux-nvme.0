@@ -1,39 +1,22 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 11 Mar 2019 19:28:25 +0100
-Subject: [PATCH 4/8] nvme/pci: Remove last_cq_seen
-In-Reply-To: <20190308174313.5134-4-keith.busch@intel.com>
+Date: Mon, 11 Mar 2019 19:31:31 +0100
+Subject: [PATCH 5/8] nvme/pci: Remove last_sq_tail
+In-Reply-To: <20190308174313.5134-5-keith.busch@intel.com>
 References: <20190308174313.5134-1-keith.busch@intel.com>
- <20190308174313.5134-4-keith.busch@intel.com>
-Message-ID: <20190311182825.GD11448@lst.de>
+ <20190308174313.5134-5-keith.busch@intel.com>
+Message-ID: <20190311183131.GE11448@lst.de>
 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 45db4a39795e..62f29ab93f5a 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -193,7 +193,6 @@ struct nvme_queue {
->  	u16 sq_tail;
->  	u16 last_sq_tail;
->  	u16 cq_head;
-> -	u16 last_cq_head;
->  	u16 qid;
->  	u8 cq_phase;
->  	unsigned long flags;
-> @@ -1044,10 +1043,7 @@ static irqreturn_t nvme_irq(int irq, void *data)
->  	 * the irq handler, even if that was on another CPU.
->  	 */
->  	rmb();
-> -	if (nvmeq->cq_head != nvmeq->last_cq_head)
-> -		ret = IRQ_HANDLED;
->  	nvme_process_cq(nvmeq, &start, &end);
-> -	nvmeq->last_cq_head = nvmeq->cq_head;
->  	wmb();
->  
->  	if (start != end) {
+On Fri, Mar 08, 2019@10:43:10AM -0700, Keith Busch wrote:
+> We don't allocate enough tags to wrap the submission queue ring. Remove
+> the checks for this condition and shrink struct nvme_queue.
 
-This looks good, but we can also kill the ret variable now, and
-simplify the tail a bit to:
+Hmm, I don't see how this is related to wrapping, more about avoiding
+SQ doorbell writes until we actually commit the current batch of I/O.
 
-	if (start == end)
-		return IRQ_NONE;
-	nvme_complete_cqes(nvmeq, start, end);
-	return IRQ_HANDLED;
+It originated from:
+
+ommit 04f3eafda6e05adc56afed4d3ae6e24aaa429058
+Author: Jens Axboe <axboe at kernel.dk>
+Date:   Thu Nov 29 10:02:29 2018 -0700
+
+    nvme: implement mq_ops->commit_rqs() hook
