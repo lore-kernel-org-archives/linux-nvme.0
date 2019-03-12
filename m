@@ -1,65 +1,40 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Wed, 13 Mar 2019 11:02:34 +0200
-Subject: [PATCH 1/2] nvmet: ignore EOPNOTSUPP for discard
-In-Reply-To: <20190312170635.25470-1-hch@lst.de>
-References: <20190312170635.25470-1-hch@lst.de>
-Message-ID: <1af75a27-65a7-212c-c537-0090e4833889@mellanox.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 12 Mar 2019 14:07:38 -0700
+Subject: [PATCH v4 3/3] nvmet-file: clamp-down file namespace lba_shift
+In-Reply-To: <20190312143345.GB1149@lst.de>
+References: <20190311220227.23656-1-sagi@grimberg.me>
+ <20190311220227.23656-4-sagi@grimberg.me> <20190312143345.GB1149@lst.de>
+Message-ID: <a220e95a-32f8-65b4-1591-44408b2d8fa2@grimberg.me>
 
 
-On 3/12/2019 7:06 PM, Christoph Hellwig wrote:
-> NVMe DSM is a pure hint, so if the underlying device / file system
-> does not support discard-like operations we should not fail the
-> operation but rather return success.
->
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> Reviewed by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>.
-> ---
->   drivers/nvme/target/io-cmd-bdev.c | 7 ++++---
->   drivers/nvme/target/io-cmd-file.c | 2 +-
->   2 files changed, 5 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
-> index 71dfedbadc26..df7e00de0dcd 100644
-> --- a/drivers/nvme/target/io-cmd-bdev.c
-> +++ b/drivers/nvme/target/io-cmd-bdev.c
-> @@ -194,11 +194,12 @@ static u16 nvmet_bdev_discard_range(struct nvmet_req *req,
->   			le64_to_cpu(range->slba) << (ns->blksize_shift - 9),
->   			le32_to_cpu(range->nlb) << (ns->blksize_shift - 9),
->   			GFP_KERNEL, 0, bio);
-> -
-> -	if (ret)
-> +	if (ret && ret != -EOPNOTSUPP) {
->   		req->error_slba = le64_to_cpu(range->slba);
-> +		return blk_to_nvme_status(req, errno_to_blk_status(ret));
-> +	}
+>> When the backing file is a tempfile for example, the inode i_blkbits
+>> can be 1M in size which causes problems for hosts to support as the
+>> disk block size.
+>>
+>> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+>> ---
+>>   drivers/nvme/target/io-cmd-file.c | 7 ++++++-
+>>   1 file changed, 6 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
+>> index 517522305e5c..d52fe965a5d5 100644
+>> --- a/drivers/nvme/target/io-cmd-file.c
+>> +++ b/drivers/nvme/target/io-cmd-file.c
+>> @@ -49,7 +49,12 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
+>>   		goto err;
+>>   
+>>   	ns->size = stat.size;
+>> -	ns->blksize_shift = file_inode(ns->file)->i_blkbits;
+>> +	/*
+>> +	 * inode i_blkbits can be greater than the universally accepted upper
+>> +	 * bound so make sure we export we export a sane namespace lba_shift.
+>> +	 */
+>> +	ns->blksize_shift = min_t(u8,
+>> +			file_inode(ns->file)->i_blkbits, PAGE_SHIFT);
+> 
+> I still wonder why we clamp this down to PAGE SIZE rather than 4k.
+> 
+> Everything larger than 4k has a huge chance of not working with most
+> remote hosts, even if our target system has a larger page size.
 
-this was fixed in the past by IsraelR commit and somehow got broken in 
-commit 3b031d15995f3e4c (nvmet: add error log support for bdev backend)
-
-can you please add a "fixes" clause to the commit message ?
-
-
-
->   
-> -	return blk_to_nvme_status(req, errno_to_blk_status(ret));
-> +	return 0;
-
-maybe we can return NVME_SC_SUCCESS (not really a must)
-
-
->   }
->   
->   static void nvmet_bdev_execute_discard(struct nvmet_req *req)
-> diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
-> index 517522305e5c..3e43212d3c1c 100644
-> --- a/drivers/nvme/target/io-cmd-file.c
-> +++ b/drivers/nvme/target/io-cmd-file.c
-> @@ -297,7 +297,7 @@ static void nvmet_file_execute_discard(struct nvmet_req *req)
->   		}
->   
->   		ret = vfs_fallocate(req->ns->file, mode, offset, len);
-> -		if (ret) {
-> +		if (ret && ret != -EOPNOTSUPP) {
->   			req->error_slba = le64_to_cpu(range.slba);
->   			status = errno_to_nvme_status(req, ret);
->   			break;
+loop does the same thing, didn't ever hear complaints on that..
