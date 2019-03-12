@@ -1,58 +1,31 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 12 Mar 2019 00:41:34 -0700
-Subject: [PATCH v2] multipath: set discard and norot queue flags on the
- multipath stacking device
-Message-ID: <20190312074134.22566-1-sagi@grimberg.me>
+From: yuyufen@huawei.com (Yufen Yu)
+Date: Tue, 12 Mar 2019 22:21:05 +0800
+Subject: [PATCH] nvme: update comment to make the code easier to read
+Message-ID: <20190312142105.44612-1-yuyufen@huawei.com>
 
-If the underlying device supports discard we set it and clear it otherwise.
-Without this blkdiscard doesn't work on a multipath device node.
+After commit a686ed75c0fb ("nvme: introduce a helper function for
+controller deletion), nvme_delete_ctrl_sync no longer use flush_work.
+Update comment, accordingly.
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+Signed-off-by: Yufen Yu <yuyufen at huawei.com>
 ---
-Changes from v1:
-- removed the nonrot queue setting from the mpath device
-
-Christoph,
-I lost reply and only saw it while searching for something else
-in the archives.
-
-So to your question,
-"For discard don't we also need to the limits?  Also what about
-Write Zeroes?"
-
-blk_queue_stack_limits takes care of the discard and write_zeros
-limits, we just need to set the queue flag.
-
- drivers/nvme/host/core.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/nvme/host/core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index d29ff9b910d9..40fcd80ec09f 100644
+index 35a497e2959d..7c95122bf14d 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1561,9 +1561,13 @@ static inline void nvme_config_write_zeroes(struct nvme_ns *ns)
- 	blk_queue_max_write_zeroes_sectors(ns->queue, max_sectors);
- }
+@@ -179,8 +179,8 @@ static int nvme_delete_ctrl_sync(struct nvme_ctrl *ctrl)
+ 	int ret = 0;
  
--static inline void nvme_ns_config_oncs(struct nvme_ns *ns)
-+static inline void nvme_ns_config_oncs(struct gendisk *disk, struct nvme_ns *ns)
- {
- 	nvme_config_discard(ns);
-+	if (blk_queue_discard(ns->queue))
-+		blk_queue_flag_set(QUEUE_FLAG_DISCARD, disk->queue);
-+	else
-+		blk_queue_flag_clear(QUEUE_FLAG_DISCARD, disk->queue);
- 	nvme_config_write_zeroes(ns);
- }
- 
-@@ -1620,7 +1624,7 @@ static void nvme_update_disk_info(struct gendisk *disk,
- 		capacity = 0;
- 
- 	set_capacity(disk, capacity);
--	nvme_ns_config_oncs(ns);
-+	nvme_ns_config_oncs(disk, ns);
- 
- 	if (id->nsattr & (1 << 0))
- 		set_disk_ro(disk, true);
+ 	/*
+-	 * Keep a reference until the work is flushed since ->delete_ctrl
+-	 * can free the controller.
++	 * Keep a reference until nvme_do_delete_ctrl() complete,
++	 * since ->delete_ctrl can free the controller.
+ 	 */
+ 	nvme_get_ctrl(ctrl);
+ 	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_DELETING))
 -- 
-2.17.1
+2.16.2.dirty
