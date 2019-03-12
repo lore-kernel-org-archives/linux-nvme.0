@@ -1,12 +1,17 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 12 Mar 2019 16:35:53 +0100
-Subject: [PATCH v4 1/3] nvme: set 0 capacity if namespace block size
- exceeds PAGE_SIZE
-In-Reply-To: <20190312143231.GA1149@lst.de>
-References: <20190311220227.23656-1-sagi@grimberg.me>
- <20190311220227.23656-2-sagi@grimberg.me> <20190312143231.GA1149@lst.de>
-Message-ID: <20190312153553.GA2252@lst.de>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 12 Mar 2019 09:43:28 -0600
+Subject: [PATCH] nvme: disable Write Zeroes for qemu controllers
+In-Reply-To: <20190312151256.22986-1-hch@lst.de>
+References: <20190312151256.22986-1-hch@lst.de>
+Message-ID: <20190312154328.GB12657@localhost.localdomain>
 
-And while we are at it - Dave Chinner has been actively working on
-blocksize > PAGE_SIZE support for XFS.  So we might be able to use
-"too large" sectors sizes very soon.
+On Tue, Mar 12, 2019@04:12:56PM +0100, Christoph Hellwig wrote:
+> Qemu started out with a broken implementation of Write Zeroes written
+> by yours truly.  Disable Write Zeroes on qemu for now, eventually
+> we need to go back and make all the qemu quirks version specific,
+> but that is left for another time.
+> 
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+
+
+Reviewed-by: Keith Busch <keith.busch at intel.com>
