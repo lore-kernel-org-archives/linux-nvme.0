@@ -1,17 +1,18 @@
-From: kbusch@kernel.org (Keith Busch)
-Date: Tue, 12 Mar 2019 09:59:56 -0600
-Subject: [PATCH 3/3] nvme: add proper write zeroes setup for the
- multipath device
-In-Reply-To: <20190312152453.9550-4-hch@lst.de>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Tue, 12 Mar 2019 18:08:06 +0200
+Subject: fix discard and write zeroes configureation for multipath devices
+In-Reply-To: <20190312152453.9550-1-hch@lst.de>
 References: <20190312152453.9550-1-hch@lst.de>
- <20190312152453.9550-4-hch@lst.de>
-Message-ID: <20190312155955.GC12696@localhost.localdomain>
+Message-ID: <3fd10a1c-a877-51cd-2e6e-005f6e787789@mellanox.com>
 
-On Tue, Mar 12, 2019@04:24:53PM +0100, Christoph Hellwig wrote:
-> Add a gendisk argument to nvme_config_write_zeroes so that the call to
-> nvme_update_disk_info for the multipath device node updates the
-> proper request_queue.
 
-Looks good.
+On 3/12/2019 5:24 PM, Christoph Hellwig wrote:
+> Hi all,
+>
+> this series is based on earlier patches from Sagi and fixes up
+> nvme_update_disk_info so that we properly configure discard and
+> write zeroes for the multipath device node.
 
-Reviewed-by: Keith Busch <keith.busch at intel.com>
+all this series looks good,
+
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
