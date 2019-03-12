@@ -1,16 +1,13 @@
-From: osmithde@cisco.com (Oliver Smith-Denny)
-Date: Tue, 12 Mar 2019 09:58:34 -0700
-Subject: [PATCH 0/2] support nvme-tcp SUCCESS flag optimization
-In-Reply-To: <e81c9223-7521-98d3-7372-a6e975a476d0@grimberg.me>
-References: <20190308234121.1347-1-sagi@grimberg.me>
- <e81c9223-7521-98d3-7372-a6e975a476d0@grimberg.me>
-Message-ID: <b9db7187-c804-9fd0-5fb7-421a6585c5fd@cisco.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 12 Mar 2019 18:00:55 +0100
+Subject: [PATCH] nvmet: ignore EOPNOTSUPP for discard
+In-Reply-To: <SN6PR04MB45274EEAD33D2D744B69EF5386490@SN6PR04MB4527.namprd04.prod.outlook.com>
+References: <20190312153005.19373-1-hch@lst.de>
+ <SN6PR04MB45274EEAD33D2D744B69EF5386490@SN6PR04MB4527.namprd04.prod.outlook.com>
+Message-ID: <20190312170055.GA3257@lst.de>
 
-On 03/11/2019 06:54 PM, Sagi Grimberg wrote:
-> Steve, Oliver, Did you get a chance to test this out?
-
-Hi Sagi, sorry I was on vacation for a few days. I am planning on 
-testing this patch out right now and I will let you know how it goes!
-
-Thanks,
-Oliver
+Btw, one bit missing in the description is that it also converts
+directly from the errno to the nvme status code for io-cmd-bdev.c,
+but I guess that should really be a separate patch.  I'll resend
+it as two patches with the reviewed-by tags added, if any of you
+wants to revoke their reviews, let me know.
