@@ -1,28 +1,38 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 11 Mar 2019 18:54:20 -0700
-Subject: [PATCH 0/2] support nvme-tcp SUCCESS flag optimization
-In-Reply-To: <20190308234121.1347-1-sagi@grimberg.me>
-References: <20190308234121.1347-1-sagi@grimberg.me>
-Message-ID: <e81c9223-7521-98d3-7372-a6e975a476d0@grimberg.me>
+From: bvanassche@acm.org (Bart Van Assche)
+Date: Mon, 11 Mar 2019 21:09:23 -0700
+Subject: [PATCH] nvme-loop: init nvmet_ctrl fatal_err_work when allocate
+In-Reply-To: <20190311141130.65368-1-yuyufen@huawei.com>
+References: <20190311141130.65368-1-yuyufen@huawei.com>
+Message-ID: <c1d88caa-a4af-3c5b-d0b0-a9f6834682b9@acm.org>
 
-Steve, Oliver, Did you get a chance to test this out?
+On 3/11/19 7:11 AM, Yufen Yu wrote:
+> After commit 4d43d395fe (workqueue: Try to catch flush_work() without
+> INIT_WORK()), it can cause warning when delete nvme-loop device, trace
+> like:
+> 
+> [   76.601272] Call Trace:
+> [   76.601646]  ? del_timer+0x72/0xa0
+> [   76.602156]  __cancel_work_timer+0x1ae/0x270
+> [   76.602791]  cancel_work_sync+0x14/0x20
+> [   76.603407]  nvmet_ctrl_free+0x1b7/0x2f0 [nvmet]
+> [   76.604091]  ? free_percpu+0x168/0x300
+> [   76.604652]  nvmet_sq_destroy+0x106/0x240 [nvmet]
+> [   76.605346]  nvme_loop_destroy_admin_queue+0x30/0x60 [nvme_loop]
+> [   76.606220]  nvme_loop_shutdown_ctrl+0xc3/0xf0 [nvme_loop]
+> [   76.607026]  nvme_loop_delete_ctrl_host+0x19/0x30 [nvme_loop]
+> [   76.607871]  nvme_do_delete_ctrl+0x75/0xb0
+> [   76.608477]  nvme_sysfs_delete+0x7d/0xc0
+> [   76.609057]  dev_attr_store+0x24/0x40
+> [   76.609603]  sysfs_kf_write+0x4c/0x60
+> [   76.610144]  kernfs_fop_write+0x19a/0x260
+> [   76.610742]  __vfs_write+0x1c/0x60
+> [   76.611246]  vfs_write+0xfa/0x280
+> [   76.611739]  ksys_write+0x6e/0x120
+> [   76.612238]  __x64_sys_write+0x1e/0x30
+> [   76.612787]  do_syscall_64+0xbf/0x3a0
+> [   76.613329]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+> 
+> We fix it by moving fatal_err_work init to nvmet_alloc_ctrl(), which may
+> more reasonable.
 
-> The SUCCESS flag is a bit that exists in the C2HData PDU header and
-> allows a controller to indicate that the command completed successfully
-> from the controller perspective, and by setting it, the controller omits
-> a subsequent completion response capsule PDU.
-> 
-> Its optional usage in the spec, but the host definitly needs to support
-> it given that the controller is allowed to set it anytime.
-> 
-> Thanks to Steve Blightman and Oliver Smith-Denny for raising my attention
-> on this.
-> 
-> Sagi Grimberg (2):
->    nvme-tcp: support C2HData with SUCCESS flag
->    nvmet-tcp: implement C2HData SUCCESS optimization
-> 
->   drivers/nvme/host/tcp.c   | 32 ++++++++++++++++++++++++++++----
->   drivers/nvme/target/tcp.c | 24 +++++++++++++++++++++---
->   2 files changed, 49 insertions(+), 7 deletions(-)
-> 
+Reviewed-by: Bart Van Assche <bvanassche at acm.org>
