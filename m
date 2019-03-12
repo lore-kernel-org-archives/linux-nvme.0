@@ -1,11 +1,17 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Tue, 12 Mar 2019 08:01:59 -0700
-Subject: [PATCH] nvme-fc: reject reconnect if io queue count is reduced
- to zero
-In-Reply-To: <20190304015747.31917-1-jsmart2021@gmail.com>
-References: <20190304015747.31917-1-jsmart2021@gmail.com>
-Message-ID: <20190312150159.GC8394@infradead.org>
+From: kwolf@redhat.com (Kevin Wolf)
+Date: Tue, 12 Mar 2019 16:05:17 +0100
+Subject: [PATCH] nvme: fix write zeroes offset and count
+In-Reply-To: <20190311151153.10516-1-keith.busch@intel.com>
+References: <20190311151153.10516-1-keith.busch@intel.com>
+Message-ID: <20190312150517.GH4791@linux.fritz.box>
 
-Thanks,
+Am 11.03.2019 um 16:11 hat Keith Busch geschrieben:
+> The implementation used blocks units rather than the expected bytes.
+> 
+> Fixes: c03e7ef12a9 ("nvme: Implement Write Zeroes")
+> Reported-by: Ming Lei <ming.lei at redhat.com>
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
 
-applied to nvme-5.1.
+Thanks, applied to the block branch.
+
+Kevin
