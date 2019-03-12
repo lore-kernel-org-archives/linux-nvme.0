@@ -1,11 +1,11 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 12 Mar 2019 20:33:59 +0100
-Subject: [PATCH] nvmet-fc: use zero-sized array and struct_size() in
- kzalloc()
-In-Reply-To: <20190223185108.GA6706@embeddedor>
-References: <20190223185108.GA6706@embeddedor>
-Message-ID: <20190312193359.GA5623@lst.de>
+Date: Tue, 12 Mar 2019 20:34:26 +0100
+Subject: [PATCH 1/2] nvme-tcp: support C2HData with SUCCESS flag
+In-Reply-To: <20190308234121.1347-2-sagi@grimberg.me>
+References: <20190308234121.1347-1-sagi@grimberg.me>
+ <20190308234121.1347-2-sagi@grimberg.me>
+Message-ID: <20190312193426.GA5638@lst.de>
 
 Thanks,
 
-applied to nvme-5.2.
+applied to nvme-5.1.
