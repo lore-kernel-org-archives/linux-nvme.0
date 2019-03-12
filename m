@@ -1,38 +1,51 @@
-From: bvanassche@acm.org (Bart Van Assche)
-Date: Mon, 11 Mar 2019 21:09:23 -0700
-Subject: [PATCH] nvme-loop: init nvmet_ctrl fatal_err_work when allocate
-In-Reply-To: <20190311141130.65368-1-yuyufen@huawei.com>
-References: <20190311141130.65368-1-yuyufen@huawei.com>
-Message-ID: <c1d88caa-a4af-3c5b-d0b0-a9f6834682b9@acm.org>
+From: sgruszka@redhat.com (Stanislaw Gruszka)
+Date: Tue, 12 Mar 2019 08:08:33 +0100
+Subject: [PATCH] iommu/amd: fix sg->dma_address for sg->offset bigger
+ than PAGE_SIZE
+In-Reply-To: <e0630ae9d9bee73d8a1ce3499ea9f77900e9cdfa.camel@linux.intel.com>
+References: <20190226112407.GB2989@redhat.com>
+ <20190228090411.GA24938@redhat.com>
+ <20190228104223.GA2749@redhat.com>
+ <20190228121948.GD6072@redhat.com>
+ <20190228134029.GC1594@8bytes.org>
+ <20190304071037.GA2787@redhat.com>
+ <CAKxU2N-k-9DCYBv6W3CohL963dr3AeY3VHyt8FrUuo=BfacDsw@mail.gmail.com>
+ <20190311084319.GA3310@redhat.com>
+ <20190311090314.GB3310@redhat.com>
+ <e0630ae9d9bee73d8a1ce3499ea9f77900e9cdfa.camel@linux.intel.com>
+Message-ID: <20190312070832.GA2483@redhat.com>
 
-On 3/11/19 7:11 AM, Yufen Yu wrote:
-> After commit 4d43d395fe (workqueue: Try to catch flush_work() without
-> INIT_WORK()), it can cause warning when delete nvme-loop device, trace
-> like:
+On Mon, Mar 11, 2019@08:47:44AM -0700, Alexander Duyck wrote:
+> >  drivers/iommu/amd_iommu.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/iommu/amd_iommu.c b/drivers/iommu/amd_iommu.c
+> > index 6b0760dafb3e..949621f33624 100644
+> > --- a/drivers/iommu/amd_iommu.c
+> > +++ b/drivers/iommu/amd_iommu.c
+> > @@ -2604,7 +2604,7 @@ static int map_sg(struct device *dev, struct scatterlist *sglist,
+> >  
+> >  	/* Everything is mapped - write the right values into s->dma_address */
+> >  	for_each_sg(sglist, s, nelems, i) {
+> > -		s->dma_address += address + s->offset;
+> > +		s->dma_address += address + (s->offset & ~PAGE_MASK);
+> >  		s->dma_length   = s->length;
+> >  	}
+> >  
 > 
-> [   76.601272] Call Trace:
-> [   76.601646]  ? del_timer+0x72/0xa0
-> [   76.602156]  __cancel_work_timer+0x1ae/0x270
-> [   76.602791]  cancel_work_sync+0x14/0x20
-> [   76.603407]  nvmet_ctrl_free+0x1b7/0x2f0 [nvmet]
-> [   76.604091]  ? free_percpu+0x168/0x300
-> [   76.604652]  nvmet_sq_destroy+0x106/0x240 [nvmet]
-> [   76.605346]  nvme_loop_destroy_admin_queue+0x30/0x60 [nvme_loop]
-> [   76.606220]  nvme_loop_shutdown_ctrl+0xc3/0xf0 [nvme_loop]
-> [   76.607026]  nvme_loop_delete_ctrl_host+0x19/0x30 [nvme_loop]
-> [   76.607871]  nvme_do_delete_ctrl+0x75/0xb0
-> [   76.608477]  nvme_sysfs_delete+0x7d/0xc0
-> [   76.609057]  dev_attr_store+0x24/0x40
-> [   76.609603]  sysfs_kf_write+0x4c/0x60
-> [   76.610144]  kernfs_fop_write+0x19a/0x260
-> [   76.610742]  __vfs_write+0x1c/0x60
-> [   76.611246]  vfs_write+0xfa/0x280
-> [   76.611739]  ksys_write+0x6e/0x120
-> [   76.612238]  __x64_sys_write+0x1e/0x30
-> [   76.612787]  do_syscall_64+0xbf/0x3a0
-> [   76.613329]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> 
-> We fix it by moving fatal_err_work init to nvmet_alloc_ctrl(), which may
-> more reasonable.
+> You should add a comment calling out that this is needed because the
+> sg_phys(s) call above this is masked with PAGE_MASK. Then this makes
+> much more sense. Otherwise I would have assumed you needed either the
+> full offset or none.
 
-Reviewed-by: Bart Van Assche <bvanassche at acm.org>
+Would something like this 
+
+/*
+ * Everything is mapped - write the right values into s->dma_address. 
+ * Take into account s->offset can be bigger than page size and sg_phys(s)
+ * address has to be aligned to page granularity.
+ */
+
+be appropriate ?
+
+Stanislaw
