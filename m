@@ -1,38 +1,58 @@
-From: sgruszka@redhat.com (Stanislaw Gruszka)
-Date: Tue, 12 Mar 2019 08:13:14 +0100
-Subject: MT76x2U crashes XHCI driver on AMD Ryzen system
-In-Reply-To: <20190311084319.GA3310@redhat.com>
-References: <20190226103450.GA2989@redhat.com>
- <20190226104413.GH20740@8bytes.org>
- <20190226112407.GB2989@redhat.com>
- <20190228090411.GA24938@redhat.com>
- <20190228104223.GA2749@redhat.com>
- <20190228121948.GD6072@redhat.com>
- <20190228134029.GC1594@8bytes.org>
- <20190304071037.GA2787@redhat.com>
- <CAKxU2N-k-9DCYBv6W3CohL963dr3AeY3VHyt8FrUuo=BfacDsw@mail.gmail.com>
- <20190311084319.GA3310@redhat.com>
-Message-ID: <20190312071314.GB2483@redhat.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 12 Mar 2019 00:41:34 -0700
+Subject: [PATCH v2] multipath: set discard and norot queue flags on the
+ multipath stacking device
+Message-ID: <20190312074134.22566-1-sagi@grimberg.me>
 
-On Mon, Mar 11, 2019@09:43:19AM +0100, Stanislaw Gruszka wrote:
-> > > However after fixing that mt76usb still did not work. To make things
-> > > work we had to change rx frag size from 2048 to PAGE_SIZE and change
-> > > virt_to_head_page() to virt_to_page() when setting SG's.
-> >
-> > > I think I understand why first change was needed. If we do 2 separate
-> > > dma maps of 2 different buffers in single page i.e (PAGE + off=0
-> > > and PAGE + off=2048) it causes problem. So either map_sg() return
-> > > error which mt76usb does not handle correctly or there is issue
-> > > in AMD IOMMU because two dma maps use the same page.
-> 
-> Any comment on that? Is fine or not to do 2 or more dma mappings
-> within the same single page on AMD IOMMU? If not, is there any
-> mechanism for drivers to find out about this limitation to prevent
-> to prepare wrong SG buffers?
+If the underlying device supports discard we set it and clear it otherwise.
+Without this blkdiscard doesn't work on a multipath device node.
 
-FTR: it was confirmed by Jan (bug reporter) the 2 or more dma mappings
-within single page works with AMD IOMMU. Most likely it was needed
-previously to workaround this sg->offset problem until proper fix to
-AMD IOMMU was applied.
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+Changes from v1:
+- removed the nonrot queue setting from the mpath device
 
-Stanislaw 
+Christoph,
+I lost reply and only saw it while searching for something else
+in the archives.
+
+So to your question,
+"For discard don't we also need to the limits?  Also what about
+Write Zeroes?"
+
+blk_queue_stack_limits takes care of the discard and write_zeros
+limits, we just need to set the queue flag.
+
+ drivers/nvme/host/core.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index d29ff9b910d9..40fcd80ec09f 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1561,9 +1561,13 @@ static inline void nvme_config_write_zeroes(struct nvme_ns *ns)
+ 	blk_queue_max_write_zeroes_sectors(ns->queue, max_sectors);
+ }
+ 
+-static inline void nvme_ns_config_oncs(struct nvme_ns *ns)
++static inline void nvme_ns_config_oncs(struct gendisk *disk, struct nvme_ns *ns)
+ {
+ 	nvme_config_discard(ns);
++	if (blk_queue_discard(ns->queue))
++		blk_queue_flag_set(QUEUE_FLAG_DISCARD, disk->queue);
++	else
++		blk_queue_flag_clear(QUEUE_FLAG_DISCARD, disk->queue);
+ 	nvme_config_write_zeroes(ns);
+ }
+ 
+@@ -1620,7 +1624,7 @@ static void nvme_update_disk_info(struct gendisk *disk,
+ 		capacity = 0;
+ 
+ 	set_capacity(disk, capacity);
+-	nvme_ns_config_oncs(ns);
++	nvme_ns_config_oncs(disk, ns);
+ 
+ 	if (id->nsattr & (1 << 0))
+ 		set_disk_ro(disk, true);
+-- 
+2.17.1
