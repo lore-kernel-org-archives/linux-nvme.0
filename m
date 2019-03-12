@@ -1,10 +1,17 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 12 Mar 2019 15:47:28 +0100
-Subject: [PATCH] nvme: update comment to make the code easier to read
-In-Reply-To: <20190312142105.44612-1-yuyufen@huawei.com>
-References: <20190312142105.44612-1-yuyufen@huawei.com>
-Message-ID: <20190312144728.GC1654@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Tue, 12 Mar 2019 07:48:06 -0700
+Subject: [PATCH] nvme: fix write zeroes offset and count
+In-Reply-To: <20190311151153.10516-1-keith.busch@intel.com>
+References: <20190311151153.10516-1-keith.busch@intel.com>
+Message-ID: <20190312144806.GA10240@infradead.org>
 
-Thanks,
+On Mon, Mar 11, 2019@09:11:53AM -0600, Keith Busch wrote:
+> The implementation used blocks units rather than the expected bytes.
 
-applied to nvme-5.1.
+Thank,
+
+looks good:
+
+Reviewed-by: Christoph Hellwig <hch at lst.de>
+
+And sorry for causing this mess.
