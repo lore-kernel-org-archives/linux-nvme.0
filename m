@@ -1,9 +1,10 @@
 From: sgruszka@redhat.com (Stanislaw Gruszka)
-Date: Tue, 12 Mar 2019 08:08:33 +0100
-Subject: [PATCH] iommu/amd: fix sg->dma_address for sg->offset bigger
- than PAGE_SIZE
-In-Reply-To: <e0630ae9d9bee73d8a1ce3499ea9f77900e9cdfa.camel@linux.intel.com>
-References: <20190226112407.GB2989@redhat.com>
+Date: Tue, 12 Mar 2019 08:13:14 +0100
+Subject: MT76x2U crashes XHCI driver on AMD Ryzen system
+In-Reply-To: <20190311084319.GA3310@redhat.com>
+References: <20190226103450.GA2989@redhat.com>
+ <20190226104413.GH20740@8bytes.org>
+ <20190226112407.GB2989@redhat.com>
  <20190228090411.GA24938@redhat.com>
  <20190228104223.GA2749@redhat.com>
  <20190228121948.GD6072@redhat.com>
@@ -11,41 +12,27 @@ References: <20190226112407.GB2989@redhat.com>
  <20190304071037.GA2787@redhat.com>
  <CAKxU2N-k-9DCYBv6W3CohL963dr3AeY3VHyt8FrUuo=BfacDsw@mail.gmail.com>
  <20190311084319.GA3310@redhat.com>
- <20190311090314.GB3310@redhat.com>
- <e0630ae9d9bee73d8a1ce3499ea9f77900e9cdfa.camel@linux.intel.com>
-Message-ID: <20190312070832.GA2483@redhat.com>
+Message-ID: <20190312071314.GB2483@redhat.com>
 
-On Mon, Mar 11, 2019@08:47:44AM -0700, Alexander Duyck wrote:
-> >  drivers/iommu/amd_iommu.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/iommu/amd_iommu.c b/drivers/iommu/amd_iommu.c
-> > index 6b0760dafb3e..949621f33624 100644
-> > --- a/drivers/iommu/amd_iommu.c
-> > +++ b/drivers/iommu/amd_iommu.c
-> > @@ -2604,7 +2604,7 @@ static int map_sg(struct device *dev, struct scatterlist *sglist,
-> >  
-> >  	/* Everything is mapped - write the right values into s->dma_address */
-> >  	for_each_sg(sglist, s, nelems, i) {
-> > -		s->dma_address += address + s->offset;
-> > +		s->dma_address += address + (s->offset & ~PAGE_MASK);
-> >  		s->dma_length   = s->length;
-> >  	}
-> >  
+On Mon, Mar 11, 2019@09:43:19AM +0100, Stanislaw Gruszka wrote:
+> > > However after fixing that mt76usb still did not work. To make things
+> > > work we had to change rx frag size from 2048 to PAGE_SIZE and change
+> > > virt_to_head_page() to virt_to_page() when setting SG's.
+> >
+> > > I think I understand why first change was needed. If we do 2 separate
+> > > dma maps of 2 different buffers in single page i.e (PAGE + off=0
+> > > and PAGE + off=2048) it causes problem. So either map_sg() return
+> > > error which mt76usb does not handle correctly or there is issue
+> > > in AMD IOMMU because two dma maps use the same page.
 > 
-> You should add a comment calling out that this is needed because the
-> sg_phys(s) call above this is masked with PAGE_MASK. Then this makes
-> much more sense. Otherwise I would have assumed you needed either the
-> full offset or none.
+> Any comment on that? Is fine or not to do 2 or more dma mappings
+> within the same single page on AMD IOMMU? If not, is there any
+> mechanism for drivers to find out about this limitation to prevent
+> to prepare wrong SG buffers?
 
-Would something like this 
+FTR: it was confirmed by Jan (bug reporter) the 2 or more dma mappings
+within single page works with AMD IOMMU. Most likely it was needed
+previously to workaround this sg->offset problem until proper fix to
+AMD IOMMU was applied.
 
-/*
- * Everything is mapped - write the right values into s->dma_address. 
- * Take into account s->offset can be bigger than page size and sg_phys(s)
- * address has to be aligned to page granularity.
- */
-
-be appropriate ?
-
-Stanislaw
+Stanislaw 
