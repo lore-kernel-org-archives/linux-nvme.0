@@ -1,63 +1,69 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 12 Mar 2019 16:12:56 +0100
-Subject: [PATCH] nvme: disable Write Zeroes for qemu controllers
-Message-ID: <20190312151256.22986-1-hch@lst.de>
+From: alexander.h.duyck@linux.intel.com (Alexander Duyck)
+Date: Tue, 12 Mar 2019 08:18:16 -0700
+Subject: [PATCH] iommu/amd: fix sg->dma_address for sg->offset bigger
+ than PAGE_SIZE
+In-Reply-To: <20190312070832.GA2483@redhat.com>
+References: <20190226112407.GB2989@redhat.com>
+ <20190228090411.GA24938@redhat.com> <20190228104223.GA2749@redhat.com>
+ <20190228121948.GD6072@redhat.com> <20190228134029.GC1594@8bytes.org>
+ <20190304071037.GA2787@redhat.com>
+ <CAKxU2N-k-9DCYBv6W3CohL963dr3AeY3VHyt8FrUuo=BfacDsw@mail.gmail.com>
+ <20190311084319.GA3310@redhat.com> <20190311090314.GB3310@redhat.com>
+ <e0630ae9d9bee73d8a1ce3499ea9f77900e9cdfa.camel@linux.intel.com>
+ <20190312070832.GA2483@redhat.com>
+Message-ID: <67c062b183fbd5651a9aa990e677d31673ff7580.camel@linux.intel.com>
 
-Qemu started out with a broken implementation of Write Zeroes written
-by yours truly.  Disable Write Zeroes on qemu for now, eventually
-we need to go back and make all the qemu quirks version specific,
-but that is left for another time.
+On Tue, 2019-03-12@08:08 +0100, Stanislaw Gruszka wrote:
+> On Mon, Mar 11, 2019@08:47:44AM -0700, Alexander Duyck wrote:
+> > >  drivers/iommu/amd_iommu.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/iommu/amd_iommu.c b/drivers/iommu/amd_iommu.c
+> > > index 6b0760dafb3e..949621f33624 100644
+> > > --- a/drivers/iommu/amd_iommu.c
+> > > +++ b/drivers/iommu/amd_iommu.c
+> > > @@ -2604,7 +2604,7 @@ static int map_sg(struct device *dev, struct scatterlist *sglist,
+> > >  
+> > >  	/* Everything is mapped - write the right values into s->dma_address */
+> > >  	for_each_sg(sglist, s, nelems, i) {
+> > > -		s->dma_address += address + s->offset;
+> > > +		s->dma_address += address + (s->offset & ~PAGE_MASK);
+> > >  		s->dma_length   = s->length;
+> > >  	}
+> > >  
+> > 
+> > You should add a comment calling out that this is needed because the
+> > sg_phys(s) call above this is masked with PAGE_MASK. Then this makes
+> > much more sense. Otherwise I would have assumed you needed either the
+> > full offset or none.
+> 
+> Would something like this 
+> 
+> /*
+>  * Everything is mapped - write the right values into s->dma_address. 
+>  * Take into account s->offset can be bigger than page size and sg_phys(s)
+>  * address has to be aligned to page granularity.
+>  */
+> 
+> be appropriate ?
+> 
+> Stanislaw
+> 
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
- drivers/nvme/host/core.c | 3 ++-
- drivers/nvme/host/nvme.h | 5 +++++
- drivers/nvme/host/pci.c  | 3 ++-
- 3 files changed, 9 insertions(+), 2 deletions(-)
+No, that isn't a good description. If you take a look at the code a few
+lines up you find:
+	phys_addr = (sg_phys(s) & PAGE_MASK) + (j << PAGE_SHIFT);
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 17ebc4055ac8..15ab73e5c9fc 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1531,7 +1531,8 @@ static void nvme_config_write_zeroes(struct gendisk *disk, struct nvme_ns *ns)
- 	u32 max_sectors;
- 	unsigned short bs = 1 << ns->lba_shift;
- 
--	if (!(ns->ctrl->oncs & NVME_CTRL_ONCS_WRITE_ZEROES))
-+	if (!(ns->ctrl->oncs & NVME_CTRL_ONCS_WRITE_ZEROES) ||
-+	    (ns->ctrl->quirks & NVME_QUIRK_DISABLE_WRITE_ZEROES))
- 		return;
- 	/*
- 	 * Even though NVMe spec explicitly states that MDTS is not
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index b91f1838bbd5..527d64545023 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -87,6 +87,11 @@ enum nvme_quirks {
- 	 * Ignore device provided subnqn.
- 	 */
- 	NVME_QUIRK_IGNORE_DEV_SUBNQN		= (1 << 8),
-+
-+	/*
-+	 * Broken Write Zeroes.
-+	 */
-+	NVME_QUIRK_DISABLE_WRITE_ZEROES		= (1 << 9),
- };
- 
- /*
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index f54718b63637..3a2377888a46 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2975,7 +2975,8 @@ static const struct pci_device_id nvme_id_table[] = {
- 	{ PCI_VDEVICE(INTEL, 0xf1a6),	/* Intel 760p/Pro 7600p */
- 		.driver_data = NVME_QUIRK_IGNORE_DEV_SUBNQN, },
- 	{ PCI_VDEVICE(INTEL, 0x5845),	/* Qemu emulated controller */
--		.driver_data = NVME_QUIRK_IDENTIFY_CNS, },
-+		.driver_data = NVME_QUIRK_IDENTIFY_CNS |
-+				NVME_QUIRK_DISABLE_WRITE_ZEROES, },
- 	{ PCI_DEVICE(0x1bb1, 0x0100),   /* Seagate Nytro Flash Storage */
- 		.driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY, },
- 	{ PCI_DEVICE(0x1c58, 0x0003),	/* HGST adapter */
--- 
-2.20.1
+Now if I am not mistaken the whole reason why you are having to make
+the change here is because the application of PAGE_MASK in this line.
+Basically what sg_phys() will do is take the address of the page,
+convert it to a physical address and add the offset. However what the
+mask is doing is limiting how much of that offset can be added. As a
+result you have to add the remainder that was masked out. So maybe a
+better comment would be something like:
+
+/*
+ * Add in the remaining piece of the scatter-gather offset that was 
+ * masked out when we were determining the physical address via
+ * (sg_phys(s) & PAGE_MASK) earlier.
+ */
