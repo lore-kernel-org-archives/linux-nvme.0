@@ -1,62 +1,54 @@
 From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Tue, 12 Mar 2019 17:43:15 +0000
-Subject: [PATCH 2/2] nvmet: avoid double errno conversions
+Date: Tue, 12 Mar 2019 17:44:03 +0000
+Subject: [PATCH 1/2] nvmet: ignore EOPNOTSUPP for discard
 References: <20190312170635.25470-1-hch@lst.de>
- <20190312170635.25470-2-hch@lst.de>
-Message-ID: <SN6PR04MB452737D37564A68D14048A7C86490@SN6PR04MB4527.namprd04.prod.outlook.com>
+Message-ID: <SN6PR04MB452794984A8FDCB1DCC5C0A486490@SN6PR04MB4527.namprd04.prod.outlook.com>
 
-Looks good.
-
-
-
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>.
+We can keep the original reviewed-by.
 
 On 3/12/19 10:07 AM, Christoph Hellwig wrote:
-> Use errno_to_nvme_status to convert from a negative errno to a
-> nvme status field instead of going through a blk_status_t.
-> 
-> Also remove the pointless status variable in
-> nvmet_bdev_execute_write_zeroes.
+> NVMe DSM is a pure hint, so if the underlying device / file system
+> does not support discard-like operations we should not fail the
+> operation but rather return success.
 > 
 > Signed-off-by: Christoph Hellwig <hch at lst.de>
+> Reviewed by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>.
 > ---
->   drivers/nvme/target/io-cmd-bdev.c | 6 ++----
->   1 file changed, 2 insertions(+), 4 deletions(-)
+>   drivers/nvme/target/io-cmd-bdev.c | 7 ++++---
+>   drivers/nvme/target/io-cmd-file.c | 2 +-
+>   2 files changed, 5 insertions(+), 4 deletions(-)
 > 
 > diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
-> index df7e00de0dcd..f27d7bc5233f 100644
+> index 71dfedbadc26..df7e00de0dcd 100644
 > --- a/drivers/nvme/target/io-cmd-bdev.c
 > +++ b/drivers/nvme/target/io-cmd-bdev.c
-> @@ -196,7 +196,7 @@ static u16 nvmet_bdev_discard_range(struct nvmet_req *req,
+> @@ -194,11 +194,12 @@ static u16 nvmet_bdev_discard_range(struct nvmet_req *req,
+>   			le64_to_cpu(range->slba) << (ns->blksize_shift - 9),
+>   			le32_to_cpu(range->nlb) << (ns->blksize_shift - 9),
 >   			GFP_KERNEL, 0, bio);
->   	if (ret && ret != -EOPNOTSUPP) {
+> -
+> -	if (ret)
+> +	if (ret && ret != -EOPNOTSUPP) {
 >   		req->error_slba = le64_to_cpu(range->slba);
-> -		return blk_to_nvme_status(req, errno_to_blk_status(ret));
-> +		return errno_to_nvme_status(req, ret);
->   	}
+> +		return blk_to_nvme_status(req, errno_to_blk_status(ret));
+> +	}
 >   
->   	return 0;
-> @@ -253,7 +253,6 @@ static void nvmet_bdev_execute_write_zeroes(struct nvmet_req *req)
->   {
->   	struct nvme_write_zeroes_cmd *write_zeroes = &req->cmd->write_zeroes;
->   	struct bio *bio = NULL;
-> -	u16 status = NVME_SC_SUCCESS;
->   	sector_t sector;
->   	sector_t nr_sector;
->   	int ret;
-> @@ -265,13 +264,12 @@ static void nvmet_bdev_execute_write_zeroes(struct nvmet_req *req)
->   
->   	ret = __blkdev_issue_zeroout(req->ns->bdev, sector, nr_sector,
->   			GFP_KERNEL, &bio, 0);
-> -	status = blk_to_nvme_status(req, errno_to_blk_status(ret));
->   	if (bio) {
->   		bio->bi_private = req;
->   		bio->bi_end_io = nvmet_bio_done;
->   		submit_bio(bio);
->   	} else {
-> -		nvmet_req_complete(req, status);
-> +		nvmet_req_complete(req, errno_to_nvme_status(req, ret));
->   	}
+> -	return blk_to_nvme_status(req, errno_to_blk_status(ret));
+> +	return 0;
 >   }
 >   
+>   static void nvmet_bdev_execute_discard(struct nvmet_req *req)
+> diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
+> index 517522305e5c..3e43212d3c1c 100644
+> --- a/drivers/nvme/target/io-cmd-file.c
+> +++ b/drivers/nvme/target/io-cmd-file.c
+> @@ -297,7 +297,7 @@ static void nvmet_file_execute_discard(struct nvmet_req *req)
+>   		}
+>   
+>   		ret = vfs_fallocate(req->ns->file, mode, offset, len);
+> -		if (ret) {
+> +		if (ret && ret != -EOPNOTSUPP) {
+>   			req->error_slba = le64_to_cpu(range.slba);
+>   			status = errno_to_nvme_status(req, ret);
+>   			break;
 > 
