@@ -1,53 +1,55 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 13 Mar 2019 18:55:08 +0100
-Subject: [PATCH 15/17] nvme: add proper write zeroes setup for the multipath
- device
+Date: Wed, 13 Mar 2019 18:55:09 +0100
+Subject: [PATCH 16/17] nvmet: ignore EOPNOTSUPP for discard
 In-Reply-To: <20190313175510.20725-1-hch@lst.de>
 References: <20190313175510.20725-1-hch@lst.de>
-Message-ID: <20190313175510.20725-16-hch@lst.de>
+Message-ID: <20190313175510.20725-17-hch@lst.de>
 
-Add a gendisk argument to nvme_config_write_zeroes so that the call to
-nvme_update_disk_info for the multipath device node updates the
-proper request_queue.
+NVMe DSM is a pure hint, so if the underlying device / file system
+does not support discard-like operations we should not fail the
+operation but rather return success.
 
+Fixes: 3b031d15995f ("nvmet: add error log support for bdev backend")
 Signed-off-by: Christoph Hellwig <hch at lst.de>
-Reviewed-by: Keith Busch <keith.busch at intel.com>
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+Reviewed by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 Tested-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/core.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/nvme/target/io-cmd-bdev.c | 8 ++++----
+ drivers/nvme/target/io-cmd-file.c | 2 +-
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 6a57ece7d76b..470601980794 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1526,7 +1526,7 @@ static void nvme_config_discard(struct gendisk *disk, struct nvme_ns *ns)
- 		blk_queue_max_write_zeroes_sectors(queue, UINT_MAX);
+diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+index 71dfedbadc26..a065dbfc43b1 100644
+--- a/drivers/nvme/target/io-cmd-bdev.c
++++ b/drivers/nvme/target/io-cmd-bdev.c
+@@ -194,11 +194,11 @@ static u16 nvmet_bdev_discard_range(struct nvmet_req *req,
+ 			le64_to_cpu(range->slba) << (ns->blksize_shift - 9),
+ 			le32_to_cpu(range->nlb) << (ns->blksize_shift - 9),
+ 			GFP_KERNEL, 0, bio);
+-
+-	if (ret)
++	if (ret && ret != -EOPNOTSUPP) {
+ 		req->error_slba = le64_to_cpu(range->slba);
+-
+-	return blk_to_nvme_status(req, errno_to_blk_status(ret));
++		return blk_to_nvme_status(req, errno_to_blk_status(ret));
++	}
++	return NVME_SC_SUCCESS;
  }
  
--static inline void nvme_config_write_zeroes(struct nvme_ns *ns)
-+static void nvme_config_write_zeroes(struct gendisk *disk, struct nvme_ns *ns)
- {
- 	u32 max_sectors;
- 	unsigned short bs = 1 << ns->lba_shift;
-@@ -1549,7 +1549,7 @@ static inline void nvme_config_write_zeroes(struct nvme_ns *ns)
- 	else
- 		max_sectors = ((u32)(ns->ctrl->max_hw_sectors + 1) * bs) >> 9;
+ static void nvmet_bdev_execute_discard(struct nvmet_req *req)
+diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
+index 517522305e5c..3e43212d3c1c 100644
+--- a/drivers/nvme/target/io-cmd-file.c
++++ b/drivers/nvme/target/io-cmd-file.c
+@@ -297,7 +297,7 @@ static void nvmet_file_execute_discard(struct nvmet_req *req)
+ 		}
  
--	blk_queue_max_write_zeroes_sectors(ns->queue, max_sectors);
-+	blk_queue_max_write_zeroes_sectors(disk->queue, max_sectors);
- }
- 
- static void nvme_report_ns_ids(struct nvme_ctrl *ctrl, unsigned int nsid,
-@@ -1607,7 +1607,7 @@ static void nvme_update_disk_info(struct gendisk *disk,
- 	set_capacity(disk, capacity);
- 
- 	nvme_config_discard(disk, ns);
--	nvme_config_write_zeroes(ns);
-+	nvme_config_write_zeroes(disk, ns);
- 
- 	if (id->nsattr & (1 << 0))
- 		set_disk_ro(disk, true);
+ 		ret = vfs_fallocate(req->ns->file, mode, offset, len);
+-		if (ret) {
++		if (ret && ret != -EOPNOTSUPP) {
+ 			req->error_slba = le64_to_cpu(range.slba);
+ 			status = errno_to_nvme_status(req, ret);
+ 			break;
 -- 
 2.20.1
