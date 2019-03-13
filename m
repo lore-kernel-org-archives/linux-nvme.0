@@ -1,83 +1,62 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 13 Mar 2019 18:55:02 +0100
-Subject: [PATCH 09/17] nvme-fc: reject reconnect if io queue count is reduced
- to zero
+Date: Wed, 13 Mar 2019 18:55:03 +0100
+Subject: [PATCH 10/17] nvmet-fc: fix issues with targetport assoc_list list
+ walking
 In-Reply-To: <20190313175510.20725-1-hch@lst.de>
 References: <20190313175510.20725-1-hch@lst.de>
-Message-ID: <20190313175510.20725-10-hch@lst.de>
+Message-ID: <20190313175510.20725-11-hch@lst.de>
 
 From: James Smart <jsmart2021@gmail.com>
 
-If:
+There are two changes:
 
- - A successful connect has occurred with an io queue count greater than
-   zero and namespaces detected and running.
- - An error or something occurs which causes a termination of the prior
-   association and then starts a reconnect,
- - The reconnect then creates a new controller, but for whatever reason,
-   nvme_set_queue_count() results in io queue count set to zero.  This
-   will skip io queue and tag set changes.
- - But... the controller will transition to live, calling
-   nvme_start_ctrl, which calls nvme_start_queues(), which then releases
-   I/Os into the transport which then sends them to the driver.
+1) The logic in the __nvmet_fc_free_assoc() routine is bad. It uses
+"safe" routines assuming pointers will come back valid.  However, the
+intervening next structure being linked can be removed from the list and
+the resulting safe pointers are bad, resulting in NULL ptrs being hit.
 
-As there are no queues, things eventually hit the driver looking for a
-handle, which was cleared when the original controller was reset, and it
-can't proceed. Worst case, things progress, but everything fails.
+Correct by scheduling a work element to perform the association delete,
+which can be done while under lock.
 
-In the failing scenario, the nvme_set_features(NVME_FEAT_NUM_QUEUES)
-command actually failed with a NVME_SC_INTERNAL error.  For some reason,
-although nvme_set_queue_count() saw the error and set io queue count to
-zero, it doesn't return a failure status to the transport, which allows
-the transport to continue using the controller.
+2) Prior patch that added the work element scheduling left a possible
+reference on the object if the work element couldn't be scheduled.
 
-Fix the problem by simply rejecting the new association if at least 1
-I/O queue can't be created. The association reject will fail the
-reconnect attempt and fall into the reconnect retry policy.
+Correct by doing the put on a failing schedule_work() call.
 
+Signed-off-by: Nigel Kirkland <nigel.kirkland at broadcom.com>
 Signed-off-by: James Smart <jsmart2021 at gmail.com>
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Reviewed-by: Ewan D. Milne <emilne at redhat.com>
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/fc.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/nvme/target/fc.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 23f6bad19274..f3b9d91ba0df 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2475,6 +2475,7 @@ static int
- nvme_fc_recreate_io_queues(struct nvme_fc_ctrl *ctrl)
- {
- 	struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
-+	u32 prior_ioq_cnt = ctrl->ctrl.queue_count - 1;
- 	unsigned int nr_io_queues;
- 	int ret;
- 
-@@ -2487,6 +2488,13 @@ nvme_fc_recreate_io_queues(struct nvme_fc_ctrl *ctrl)
- 		return ret;
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index 1e9654f04c60..8d34aa573d5b 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -1143,10 +1143,8 @@ __nvmet_fc_free_assocs(struct nvmet_fc_tgtport *tgtport)
+ 				&tgtport->assoc_list, a_list) {
+ 		if (!nvmet_fc_tgt_a_get(assoc))
+ 			continue;
+-		spin_unlock_irqrestore(&tgtport->lock, flags);
+-		nvmet_fc_delete_target_assoc(assoc);
+-		nvmet_fc_tgt_a_put(assoc);
+-		spin_lock_irqsave(&tgtport->lock, flags);
++		if (!schedule_work(&assoc->del_work))
++			nvmet_fc_tgt_a_put(assoc);
  	}
+ 	spin_unlock_irqrestore(&tgtport->lock, flags);
+ }
+@@ -1185,7 +1183,8 @@ nvmet_fc_delete_ctrl(struct nvmet_ctrl *ctrl)
+ 		nvmet_fc_tgtport_put(tgtport);
  
-+	if (!nr_io_queues && prior_ioq_cnt) {
-+		dev_info(ctrl->ctrl.device,
-+			"Fail Reconnect: At least 1 io queue "
-+			"required (was %d)\n", prior_ioq_cnt);
-+		return -ENOSPC;
-+	}
-+
- 	ctrl->ctrl.queue_count = nr_io_queues + 1;
- 	/* check for io queues existing */
- 	if (ctrl->ctrl.queue_count == 1)
-@@ -2500,6 +2508,10 @@ nvme_fc_recreate_io_queues(struct nvme_fc_ctrl *ctrl)
- 	if (ret)
- 		goto out_delete_hw_queues;
+ 		if (found_ctrl) {
+-			schedule_work(&assoc->del_work);
++			if (schedule_work(&assoc->del_work))
++				nvmet_fc_tgt_a_put(assoc);
+ 			return;
+ 		}
  
-+	if (prior_ioq_cnt != nr_io_queues)
-+		dev_info(ctrl->ctrl.device,
-+			"reconnect: revising io queue count from %d to %d\n",
-+			prior_ioq_cnt, nr_io_queues);
- 	blk_mq_update_nr_hw_queues(&ctrl->tag_set, nr_io_queues);
- 
- 	return 0;
 -- 
 2.20.1
