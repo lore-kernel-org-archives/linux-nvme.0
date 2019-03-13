@@ -1,16 +1,16 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 13 Mar 2019 18:55:07 +0100
-Subject: [PATCH 14/17] nvme: add proper discard setup for the multipath device
+Date: Wed, 13 Mar 2019 18:55:08 +0100
+Subject: [PATCH 15/17] nvme: add proper write zeroes setup for the multipath
+ device
 In-Reply-To: <20190313175510.20725-1-hch@lst.de>
 References: <20190313175510.20725-1-hch@lst.de>
-Message-ID: <20190313175510.20725-15-hch@lst.de>
+Message-ID: <20190313175510.20725-16-hch@lst.de>
 
-Add a gendisk argument to nvme_config_discard so that the call to
+Add a gendisk argument to nvme_config_write_zeroes so that the call to
 nvme_update_disk_info for the multipath device node updates the
 proper request_queue.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
-Reported-by: Sagi Grimberg <sagi at grimberg.me>
 Reviewed-by: Keith Busch <keith.busch at intel.com>
 Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
 Tested-by: Sagi Grimberg <sagi at grimberg.me>
@@ -19,30 +19,35 @@ Tested-by: Sagi Grimberg <sagi at grimberg.me>
  1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 26ae805fc958..6a57ece7d76b 100644
+index 6a57ece7d76b..470601980794 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1495,10 +1495,10 @@ static void nvme_set_chunk_size(struct nvme_ns *ns)
- 	blk_queue_chunk_sectors(ns->queue, rounddown_pow_of_two(chunk_size));
+@@ -1526,7 +1526,7 @@ static void nvme_config_discard(struct gendisk *disk, struct nvme_ns *ns)
+ 		blk_queue_max_write_zeroes_sectors(queue, UINT_MAX);
  }
  
--static void nvme_config_discard(struct nvme_ns *ns)
-+static void nvme_config_discard(struct gendisk *disk, struct nvme_ns *ns)
+-static inline void nvme_config_write_zeroes(struct nvme_ns *ns)
++static void nvme_config_write_zeroes(struct gendisk *disk, struct nvme_ns *ns)
  {
- 	struct nvme_ctrl *ctrl = ns->ctrl;
--	struct request_queue *queue = ns->queue;
-+	struct request_queue *queue = disk->queue;
- 	u32 size = queue_logical_block_size(queue);
+ 	u32 max_sectors;
+ 	unsigned short bs = 1 << ns->lba_shift;
+@@ -1549,7 +1549,7 @@ static inline void nvme_config_write_zeroes(struct nvme_ns *ns)
+ 	else
+ 		max_sectors = ((u32)(ns->ctrl->max_hw_sectors + 1) * bs) >> 9;
  
- 	if (!(ctrl->oncs & NVME_CTRL_ONCS_DSM)) {
-@@ -1606,7 +1606,7 @@ static void nvme_update_disk_info(struct gendisk *disk,
+-	blk_queue_max_write_zeroes_sectors(ns->queue, max_sectors);
++	blk_queue_max_write_zeroes_sectors(disk->queue, max_sectors);
+ }
  
+ static void nvme_report_ns_ids(struct nvme_ctrl *ctrl, unsigned int nsid,
+@@ -1607,7 +1607,7 @@ static void nvme_update_disk_info(struct gendisk *disk,
  	set_capacity(disk, capacity);
  
--	nvme_config_discard(ns);
-+	nvme_config_discard(disk, ns);
- 	nvme_config_write_zeroes(ns);
+ 	nvme_config_discard(disk, ns);
+-	nvme_config_write_zeroes(ns);
++	nvme_config_write_zeroes(disk, ns);
  
  	if (id->nsattr & (1 << 0))
+ 		set_disk_ro(disk, true);
 -- 
 2.20.1
