@@ -1,46 +1,83 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 13 Mar 2019 18:55:01 +0100
-Subject: [PATCH 08/17] nvme-fc: fix numa_node when dev is null
+Date: Wed, 13 Mar 2019 18:55:02 +0100
+Subject: [PATCH 09/17] nvme-fc: reject reconnect if io queue count is reduced
+ to zero
 In-Reply-To: <20190313175510.20725-1-hch@lst.de>
 References: <20190313175510.20725-1-hch@lst.de>
-Message-ID: <20190313175510.20725-9-hch@lst.de>
+Message-ID: <20190313175510.20725-10-hch@lst.de>
 
 From: James Smart <jsmart2021@gmail.com>
 
-A recent change added a numa_node field to the nvme controller
-and has the transport assign the node using dev_to_node().
-However, fcloop registers with a NULL device struct, so the
-dev_to_node() call oops.
+If:
 
-Revise the assignment to assign no node when device struct is null.
+ - A successful connect has occurred with an io queue count greater than
+   zero and namespaces detected and running.
+ - An error or something occurs which causes a termination of the prior
+   association and then starts a reconnect,
+ - The reconnect then creates a new controller, but for whatever reason,
+   nvme_set_queue_count() results in io queue count set to zero.  This
+   will skip io queue and tag set changes.
+ - But... the controller will transition to live, calling
+   nvme_start_ctrl, which calls nvme_start_queues(), which then releases
+   I/Os into the transport which then sends them to the driver.
 
-Fixes: 103e515efa89b ("nvme: add a numa_node field to struct nvme_ctrl")
-Reported-by: Mike Snitzer <snitzer at redhat.com>
+As there are no queues, things eventually hit the driver looking for a
+handle, which was cleared when the original controller was reset, and it
+can't proceed. Worst case, things progress, but everything fails.
+
+In the failing scenario, the nvme_set_features(NVME_FEAT_NUM_QUEUES)
+command actually failed with a NVME_SC_INTERNAL error.  For some reason,
+although nvme_set_queue_count() saw the error and set io queue count to
+zero, it doesn't return a failure status to the transport, which allows
+the transport to continue using the controller.
+
+Fix the problem by simply rejecting the new association if at least 1
+I/O queue can't be created. The association reject will fail the
+reconnect attempt and fall into the reconnect retry policy.
+
 Signed-off-by: James Smart <jsmart2021 at gmail.com>
 Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
-Reviewed-by: Hannes Reinecke <hare at suse.com>
-Reviewed-by: Mike Snitzer <snitzer at redhat.com>
-[hch: small coding style fixup]
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/fc.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/nvme/host/fc.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
 diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index ba8f2a9cbdaf..23f6bad19274 100644
+index 23f6bad19274..f3b9d91ba0df 100644
 --- a/drivers/nvme/host/fc.c
 +++ b/drivers/nvme/host/fc.c
-@@ -3017,7 +3017,10 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+@@ -2475,6 +2475,7 @@ static int
+ nvme_fc_recreate_io_queues(struct nvme_fc_ctrl *ctrl)
+ {
+ 	struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
++	u32 prior_ioq_cnt = ctrl->ctrl.queue_count - 1;
+ 	unsigned int nr_io_queues;
+ 	int ret;
  
- 	ctrl->ctrl.opts = opts;
- 	ctrl->ctrl.nr_reconnects = 0;
--	ctrl->ctrl.numa_node = dev_to_node(lport->dev);
-+	if (lport->dev)
-+		ctrl->ctrl.numa_node = dev_to_node(lport->dev);
-+	else
-+		ctrl->ctrl.numa_node = NUMA_NO_NODE;
- 	INIT_LIST_HEAD(&ctrl->ctrl_list);
- 	ctrl->lport = lport;
- 	ctrl->rport = rport;
+@@ -2487,6 +2488,13 @@ nvme_fc_recreate_io_queues(struct nvme_fc_ctrl *ctrl)
+ 		return ret;
+ 	}
+ 
++	if (!nr_io_queues && prior_ioq_cnt) {
++		dev_info(ctrl->ctrl.device,
++			"Fail Reconnect: At least 1 io queue "
++			"required (was %d)\n", prior_ioq_cnt);
++		return -ENOSPC;
++	}
++
+ 	ctrl->ctrl.queue_count = nr_io_queues + 1;
+ 	/* check for io queues existing */
+ 	if (ctrl->ctrl.queue_count == 1)
+@@ -2500,6 +2508,10 @@ nvme_fc_recreate_io_queues(struct nvme_fc_ctrl *ctrl)
+ 	if (ret)
+ 		goto out_delete_hw_queues;
+ 
++	if (prior_ioq_cnt != nr_io_queues)
++		dev_info(ctrl->ctrl.device,
++			"reconnect: revising io queue count from %d to %d\n",
++			prior_ioq_cnt, nr_io_queues);
+ 	blk_mq_update_nr_hw_queues(&ctrl->tag_set, nr_io_queues);
+ 
+ 	return 0;
 -- 
 2.20.1
