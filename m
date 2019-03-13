@@ -1,34 +1,36 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 13 Mar 2019 18:54:57 +0100
-Subject: [PATCH 04/17] nvme: put ns_head ref if namespace fails allocation
+Date: Wed, 13 Mar 2019 18:54:58 +0100
+Subject: [PATCH 05/17] nvme: update comment to make the code easier to read
 In-Reply-To: <20190313175510.20725-1-hch@lst.de>
 References: <20190313175510.20725-1-hch@lst.de>
-Message-ID: <20190313175510.20725-5-hch@lst.de>
+Message-ID: <20190313175510.20725-6-hch@lst.de>
 
-From: Sagi Grimberg <sagi@grimberg.me>
+From: Yufen Yu <yuyufen@huawei.com>
 
-In case nvme_alloc_ns fails after we initialize ns_head but before we
-add the ns to the controller namespaces list we need to explicitly put
-the ns_head reference because when we teardown the controller we
-won't find it, causing us to leak a dangling subsystem eventually.
+After commit a686ed75c0fb ("nvme: introduce a helper function for
+controller deletion), nvme_delete_ctrl_sync no longer use flush_work.
+Update comment, accordingly.
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+Signed-off-by: Yufen Yu <yuyufen at huawei.com>
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/core.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/nvme/host/core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index dc1641247b17..d57a84f45ed0 100644
+index d57a84f45ed0..b92fab434066 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -3304,6 +3304,7 @@ static int nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 	mutex_lock(&ctrl->subsys->lock);
- 	list_del_rcu(&ns->siblings);
- 	mutex_unlock(&ctrl->subsys->lock);
-+	nvme_put_ns_head(ns->head);
-  out_free_id:
- 	kfree(id);
-  out_free_queue:
+@@ -179,8 +179,8 @@ static int nvme_delete_ctrl_sync(struct nvme_ctrl *ctrl)
+ 	int ret = 0;
+ 
+ 	/*
+-	 * Keep a reference until the work is flushed since ->delete_ctrl
+-	 * can free the controller.
++	 * Keep a reference until nvme_do_delete_ctrl() complete,
++	 * since ->delete_ctrl can free the controller.
+ 	 */
+ 	nvme_get_ctrl(ctrl);
+ 	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_DELETING))
 -- 
 2.20.1
