@@ -1,19 +1,72 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 12 Mar 2019 14:15:26 -0700
-Subject: [PATCH v4 1/3] nvme: set 0 capacity if namespace block size
- exceeds PAGE_SIZE
-In-Reply-To: <20190312143231.GA1149@lst.de>
-References: <20190311220227.23656-1-sagi@grimberg.me>
- <20190311220227.23656-2-sagi@grimberg.me> <20190312143231.GA1149@lst.de>
-Message-ID: <8a80ce70-0b98-6c82-a47c-f312a41d2d2a@grimberg.me>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Wed, 13 Mar 2019 09:46:47 +0800
+Subject: [PATCH] nvme: disable Write Zeroes for qemu controllers
+In-Reply-To: <20190312151256.22986-1-hch@lst.de>
+References: <20190312151256.22986-1-hch@lst.de>
+Message-ID: <20190313014646.GB10726@ming.t460p>
 
-
-> I like the idea behind this, but it looks rather convoluted.  I think
-> for the unusable namespace case we should warn and have a common label
-> that just sets the capacity, not touching anything else.
+On Tue, Mar 12, 2019@04:12:56PM +0100, Christoph Hellwig wrote:
+> Qemu started out with a broken implementation of Write Zeroes written
+> by yours truly.  Disable Write Zeroes on qemu for now, eventually
+> we need to go back and make all the qemu quirks version specific,
+> but that is left for another time.
 > 
-> Does something like this work for you?
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> ---
+>  drivers/nvme/host/core.c | 3 ++-
+>  drivers/nvme/host/nvme.h | 5 +++++
+>  drivers/nvme/host/pci.c  | 3 ++-
+>  3 files changed, 9 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 17ebc4055ac8..15ab73e5c9fc 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -1531,7 +1531,8 @@ static void nvme_config_write_zeroes(struct gendisk *disk, struct nvme_ns *ns)
+>  	u32 max_sectors;
+>  	unsigned short bs = 1 << ns->lba_shift;
+>  
+> -	if (!(ns->ctrl->oncs & NVME_CTRL_ONCS_WRITE_ZEROES))
+> +	if (!(ns->ctrl->oncs & NVME_CTRL_ONCS_WRITE_ZEROES) ||
+> +	    (ns->ctrl->quirks & NVME_QUIRK_DISABLE_WRITE_ZEROES))
+>  		return;
+>  	/*
+>  	 * Even though NVMe spec explicitly states that MDTS is not
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index b91f1838bbd5..527d64545023 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -87,6 +87,11 @@ enum nvme_quirks {
+>  	 * Ignore device provided subnqn.
+>  	 */
+>  	NVME_QUIRK_IGNORE_DEV_SUBNQN		= (1 << 8),
+> +
+> +	/*
+> +	 * Broken Write Zeroes.
+> +	 */
+> +	NVME_QUIRK_DISABLE_WRITE_ZEROES		= (1 << 9),
+>  };
+>  
+>  /*
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index f54718b63637..3a2377888a46 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -2975,7 +2975,8 @@ static const struct pci_device_id nvme_id_table[] = {
+>  	{ PCI_VDEVICE(INTEL, 0xf1a6),	/* Intel 760p/Pro 7600p */
+>  		.driver_data = NVME_QUIRK_IGNORE_DEV_SUBNQN, },
+>  	{ PCI_VDEVICE(INTEL, 0x5845),	/* Qemu emulated controller */
+> -		.driver_data = NVME_QUIRK_IDENTIFY_CNS, },
+> +		.driver_data = NVME_QUIRK_IDENTIFY_CNS |
+> +				NVME_QUIRK_DISABLE_WRITE_ZEROES, },
+>  	{ PCI_DEVICE(0x1bb1, 0x0100),   /* Seagate Nytro Flash Storage */
+>  		.driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY, },
+>  	{ PCI_DEVICE(0x1c58, 0x0003),	/* HGST adapter */
+> -- 
+> 2.20.1
+> 
 
-No, this is what I had done originally, but we need to always have the
-queue set to a decent block size, otherwise blk_queue_stack_limits()
-panics on div by 0..
+Tested-by: Ming Lei <ming.lei at redhat.com>
+
+-- 
+Ming
