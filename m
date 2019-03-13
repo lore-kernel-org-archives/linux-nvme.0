@@ -1,19 +1,21 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Wed, 13 Mar 2019 18:03:21 +0000
-Subject: Problem in git pull with  git.infradead.org.
-Message-ID: <SN6PR04MB452744EDF08AA67E77BBE6A0864A0@SN6PR04MB4527.namprd04.prod.outlook.com>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Wed, 13 Mar 2019 12:06:16 -0600
+Subject: [PATCHBOMB] nvme fixes for 5.1
+In-Reply-To: <20190313175510.20725-1-hch@lst.de>
+References: <20190313175510.20725-1-hch@lst.de>
+Message-ID: <ea9bce39-20aa-d8ba-4f0c-8fbd05839d0f@kernel.dk>
 
-Hi guys,
+On 3/13/19 11:54 AM, Christoph Hellwig wrote:
+> Hi Jens,
+> 
+> git.infradead.org seems to have some hickups at the moment, so
+> this bunch of nvme fixes will come in form of a patchbomb instead.
+> 
+> Most important is quirking Write Zeroes on qemu, as the implementation
+> there is buggy and could lead to ext4 data corruption.  Except for
+> that we have various other fixes all over the place.
 
-I'm having problem in the pulling the latest changes from the linux-nvme
-repo.
+Applied, thanks.
 
-
-fatal: unable to connect to git.infradead.org:
-git.infradead.org[0: 198.137.202.133]: errno=Connection refused
-git.infradead.org[1: 2607:7c80:54:e::133]: errno=Network is unreachable
-
-Any of you have seen this issue since last few hours today ?
-
--Regards,
-Chaitanya
+-- 
+Jens Axboe
