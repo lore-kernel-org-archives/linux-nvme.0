@@ -1,42 +1,39 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 14 Mar 2019 14:41:35 -0700
-Subject: [PATCH nvme-cli rfc 0/6] Support discovery log change events
-In-Reply-To: <3b524b54-8f13-24f5-4367-34a4d02c59b3@broadcom.com>
-References: <20190223023257.21227-1-sagi@grimberg.me>
- <d4012891-8bc7-00cf-ab96-7828270d25af@suse.de>
- <e7423c76-6425-4020-2074-b977fc87866f@grimberg.me>
- <d1742744-1109-e7e8-3586-fca6556c803b@broadcom.com>
- <d7bbfc2a-92ea-315d-bbd6-cd3847449f7b@grimberg.me>
- <3b524b54-8f13-24f5-4367-34a4d02c59b3@broadcom.com>
-Message-ID: <acf63882-59b5-614d-bbf9-00ae9a9a454f@grimberg.me>
+Date: Thu, 14 Mar 2019 14:43:47 -0700
+Subject: [PATCH 07/17] nvme-fc: use nr_phys_segments to determine
+ existence of sgl
+In-Reply-To: <a488077e-d68e-a388-4d45-5b966f01f96e@mellanox.com>
+References: <20190313175510.20725-1-hch@lst.de>
+ <20190313175510.20725-8-hch@lst.de>
+ <a488077e-d68e-a388-4d45-5b966f01f96e@mellanox.com>
+Message-ID: <543489d1-a08f-e293-2212-57156e7ba407@grimberg.me>
 
 
->>> We shouldn't unite them. They are very different things.? One is an 
->>> event that says I found a discovery controller go probe it, while the 
->>> other is a discovery controller saying I have a discovery log entry 
->>> go connect to it.?? My position is we should have both.
+>> From: James Smart <jsmart2021 at gmail.com>
 >>
->> Well I agree with you, but these the question is would userspace do
->> something different for each? As of now it doesn't.
+>> For some nvme command, when issued by the nvme core layer, there
+>> is an internal buffer which can cause blk_rq_payload_bytes() to
+>> return a non-zero value yet there is no actual/real command payload
+>> and sg list.? An example is the WRITE ZEROES command.
+>>
+>> To address this, when making choices on whether to dma map an sgl,
+>> use blk_rq_nr_phys_segments() instead of blk_rq_payload_bytes().
+>> When there is a sgl, blk_rq_payload_bytes() will return the amount
+>> of data to be transferred by the sgl.
+>>
+>> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+>> Signed-off-by: James Smart <jsmart2021 at gmail.com>
+>> Signed-off-by: Christoph Hellwig <hch at lst.de>
 > 
-> I would think it would do something different. What we don't do well 
-> currently is specify per-connection parameters - when automated. That's 
-> where I see the difference.
 > 
-> I would think parameters for the discovery controller should be separate 
-> from parameters for? storage controllers. So the scripts could use two 
-> different config files to look up defaults or per-connect values.
+> I guess we'll need it for all transport.
 > 
-> For example, the discovery controller probe request can look at a 
-> discovery_connect.cfg, obtain defaults or a tr-addr-based match for say 
-> ctrl-loss-timeout, whether to be long-lived, and if long-lived what the 
-> keep-alive-tmo should be.
-> 
-> While the connect request can look at storage_connect.cfg, use the 
-> tr-addr-values and nqn to determine if it should not be connected to 
-> (default is yes), and if connecting, defaults or any tuning based on nqn 
-> or tr-addr-values to use for the connect.
+> I saw that pci is covered, RDMA isn't.
 
-I do have a plan to add something like params.cfg that nvme connect
-would assemble for the connect string, but isn't that orthogonal
-to the the action taken for both events?
+RDMA patch is already in AFAIR...
+
+> Also IMO tcp should be fixed (didn't dive into it yet, just high level 
+> check for blk_rq_payload_bytes).
+
+tcp already looks into RQF_SPECIAL_PAYLOAD so the issue does not apply 
+to it.
