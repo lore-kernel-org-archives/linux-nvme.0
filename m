@@ -1,39 +1,52 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 14 Mar 2019 14:43:47 -0700
-Subject: [PATCH 07/17] nvme-fc: use nr_phys_segments to determine
- existence of sgl
-In-Reply-To: <a488077e-d68e-a388-4d45-5b966f01f96e@mellanox.com>
-References: <20190313175510.20725-1-hch@lst.de>
- <20190313175510.20725-8-hch@lst.de>
- <a488077e-d68e-a388-4d45-5b966f01f96e@mellanox.com>
-Message-ID: <543489d1-a08f-e293-2212-57156e7ba407@grimberg.me>
+Date: Thu, 14 Mar 2019 14:53:08 -0700
+Subject: [RFC/PATCH net-next 0/9] net/dim: Support for multiple
+ implementations
+In-Reply-To: <010bc92c-55c1-c5bd-82a5-975aa7f7c735@mellanox.com>
+References: <20190306084832.57753-1-talgi@mellanox.com>
+ <1551888921.9796.2.camel@acm.org>
+ <392082ba-9aeb-6c5e-53a0-7bb53ce101fa@grimberg.me>
+ <010bc92c-55c1-c5bd-82a5-975aa7f7c735@mellanox.com>
+Message-ID: <1271ff04-c1c2-fe9d-c7e8-4898c690d242@grimberg.me>
 
 
->> From: James Smart <jsmart2021 at gmail.com>
+>>> What is a "block CQ"?
 >>
->> For some nvme command, when issued by the nvme core layer, there
->> is an internal buffer which can cause blk_rq_payload_bytes() to
->> return a non-zero value yet there is no actual/real command payload
->> and sg list.? An example is the WRITE ZEROES command.
+>> There is no such thing... Also, this has no difference
+>> if a block/file/whatever is using the rdma cq.
 >>
->> To address this, when making choices on whether to dma map an sgl,
->> use blk_rq_nr_phys_segments() instead of blk_rq_payload_bytes().
->> When there is a sgl, blk_rq_payload_bytes() will return the amount
->> of data to be transferred by the sgl.
->>
->> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
->> Signed-off-by: James Smart <jsmart2021 at gmail.com>
->> Signed-off-by: Christoph Hellwig <hch at lst.de>
+>> The naming should really be something like rdma_dim as it accounts
+>> for completions and not bytes/packets.
 > 
+> Sagi,
 > 
-> I guess we'll need it for all transport.
+> I think that in the future we could use it in nvme since there is an 
+> option to set the interrupt coalescing in NVMe spec.
 > 
-> I saw that pci is covered, RDMA isn't.
+> This might improve performance for NVMe driver.
 
-RDMA patch is already in AFAIR...
+That would require changing the spec to make moderation config per-queue
+and not controller-wide. This does not apply specifically to block so
+naming it with blk does not make sense.
 
-> Also IMO tcp should be fixed (didn't dive into it yet, just high level 
-> check for blk_rq_payload_bytes).
+>> Overall, I think its a great idea to add that to the rdma subsystem
+>> but we cannot make it the default and especially without being able
+>> to turn it off. So this needs to be opt in with a sysctl option.
+> 
+> We can add flag in create_cq command that will 
+> try_coalescing_is_possible instead of module parameter of course.
+> 
+> Storage ULPs can set it to True.
 
-tcp already looks into RQF_SPECIAL_PAYLOAD so the issue does not apply 
-to it.
+The point is that it can't be universally on.
+
+> Also in the internal review Yamin added a table that summarize all the 
+> testing that were done using NVMeoF (I guess it somehow didn't get to 
+> this RFC).
+> 
+> I guess we can do the same for iSER to get more confidence and then set 
+> both to create modifiable cq (if HCA supports, of course).
+> 
+> Agreed ?
+
+Sure.
