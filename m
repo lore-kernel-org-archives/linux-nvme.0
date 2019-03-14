@@ -1,40 +1,36 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 13 Mar 2019 17:00:21 -0700
-Subject: [PATCH nvme-cli rfc 0/6] Support discovery log change events
-In-Reply-To: <d1742744-1109-e7e8-3586-fca6556c803b@broadcom.com>
-References: <20190223023257.21227-1-sagi@grimberg.me>
- <d4012891-8bc7-00cf-ab96-7828270d25af@suse.de>
- <e7423c76-6425-4020-2074-b977fc87866f@grimberg.me>
- <d1742744-1109-e7e8-3586-fca6556c803b@broadcom.com>
-Message-ID: <d7bbfc2a-92ea-315d-bbd6-cd3847449f7b@grimberg.me>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Thu, 14 Mar 2019 11:57:55 +0200
+Subject: [PATCH 07/17] nvme-fc: use nr_phys_segments to determine
+ existence of sgl
+In-Reply-To: <20190313175510.20725-8-hch@lst.de>
+References: <20190313175510.20725-1-hch@lst.de>
+ <20190313175510.20725-8-hch@lst.de>
+Message-ID: <a488077e-d68e-a388-4d45-5b966f01f96e@mellanox.com>
 
 
->>> Hmm.
->>>
->>> Last time I've posted the autoconnect scripts you said you'd rather 
->>> have them updated to be useful for generic discovery events.
->>> So what happened to that?
->>
->> I would like to have a single event, but the one difference is that
->> the discovery log page events come on a discovery controller and in
->> the fc case we don't have such a controller (the NVME_INSTANCE env).
->>
->> If we can resolve this difference we can unite and have a single udev
->> handler for both...
-> 
-> We shouldn't unite them. They are very different things.? One is an 
-> event that says I found a discovery controller go probe it, while the 
-> other is a discovery controller saying I have a discovery log entry go 
-> connect to it.?? My position is we should have both.
+On 3/13/2019 7:55 PM, Christoph Hellwig wrote:
+> From: James Smart <jsmart2021 at gmail.com>
+>
+> For some nvme command, when issued by the nvme core layer, there
+> is an internal buffer which can cause blk_rq_payload_bytes() to
+> return a non-zero value yet there is no actual/real command payload
+> and sg list.  An example is the WRITE ZEROES command.
+>
+> To address this, when making choices on whether to dma map an sgl,
+> use blk_rq_nr_phys_segments() instead of blk_rq_payload_bytes().
+> When there is a sgl, blk_rq_payload_bytes() will return the amount
+> of data to be transferred by the sgl.
+>
+> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+> Signed-off-by: James Smart <jsmart2021 at gmail.com>
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
 
-Well I agree with you, but these the question is would userspace do
-something different for each? As of now it doesn't.
 
->>> I do have some patches, but still need to polish them off (and 
->>> possibly test them :-) before sending.
->>
->> Not sure if that is any better, but lets see patches...
-> 
-> any updates on these ?
+I guess we'll need it for all transport.
 
-Good question...
+I saw that pci is covered, RDMA isn't.
+
+Also IMO tcp should be fixed (didn't dive into it yet, just high level 
+check for blk_rq_payload_bytes).
+
+may we should have a core function for it to reduce code duplication.
