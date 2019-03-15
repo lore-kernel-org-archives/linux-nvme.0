@@ -1,136 +1,20 @@
-From: jianchao.w.wang@oracle.com (Jianchao Wang)
-Date: Fri, 15 Mar 2019 16:57:44 +0800
-Subject: [PATCH 8/8] blk-mq: remove blk_mq_tagset_busy_iter
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 15 Mar 2019 10:20:20 +0100
+Subject: [PATCH 0/8]: blk-mq: use static_rqs to iterate busy tags
 In-Reply-To: <1552640264-26101-1-git-send-email-jianchao.w.wang@oracle.com>
 References: <1552640264-26101-1-git-send-email-jianchao.w.wang@oracle.com>
-Message-ID: <1552640264-26101-9-git-send-email-jianchao.w.wang@oracle.com>
+Message-ID: <20190315092020.GA2405@lst.de>
 
-As nobody uses blk_mq_tagset_busy_iter, remove it.
+On Fri, Mar 15, 2019@04:57:36PM +0800, Jianchao Wang wrote:
+> Hi Jens
+> 
+> As we know, there is a risk of accesing stale requests when iterate
+> in-flight requests with tags->rqs[] and this has been talked in following
+> thread,
+> [1] https://marc.info/?l=linux-scsi&m=154511693912752&w=2
+> [2] https://marc.info/?l=linux-block&m=154526189023236&w=2
 
-Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
----
- block/blk-mq-tag.c     | 95 --------------------------------------------------
- include/linux/blk-mq.h |  2 --
- 2 files changed, 97 deletions(-)
-
-diff --git a/block/blk-mq-tag.c b/block/blk-mq-tag.c
-index cdec2cd..b5a14ce 100644
---- a/block/blk-mq-tag.c
-+++ b/block/blk-mq-tag.c
-@@ -279,101 +279,6 @@ static void bt_for_each(struct blk_mq_hw_ctx *hctx, struct sbitmap_queue *bt,
- 	sbitmap_for_each_set(&bt->sb, bt_iter, &iter_data);
- }
- 
--struct bt_tags_iter_data {
--	struct blk_mq_tags *tags;
--	busy_tag_iter_fn *fn;
--	void *data;
--	bool reserved;
--};
--
--static bool bt_tags_iter(struct sbitmap *bitmap, unsigned int bitnr, void *data)
--{
--	struct bt_tags_iter_data *iter_data = data;
--	struct blk_mq_tags *tags = iter_data->tags;
--	bool reserved = iter_data->reserved;
--	struct request *rq;
--
--	if (!reserved)
--		bitnr += tags->nr_reserved_tags;
--
--	/*
--	 * We can hit rq == NULL here, because the tagging functions
--	 * test and set the bit before assining ->rqs[].
--	 */
--	rq = tags->rqs[bitnr];
--	if (rq && blk_mq_request_started(rq))
--		return iter_data->fn(rq, iter_data->data, reserved);
--
--	return true;
--}
--
--/**
-- * bt_tags_for_each - iterate over the requests in a tag map
-- * @tags:	Tag map to iterate over.
-- * @bt:		sbitmap to examine. This is either the breserved_tags member
-- *		or the bitmap_tags member of struct blk_mq_tags.
-- * @fn:		Pointer to the function that will be called for each started
-- *		request. @fn will be called as follows: @fn(rq, @data,
-- *		@reserved) where rq is a pointer to a request. Return true
-- *		to continue iterating tags, false to stop.
-- * @data:	Will be passed as second argument to @fn.
-- * @reserved:	Indicates whether @bt is the breserved_tags member or the
-- *		bitmap_tags member of struct blk_mq_tags.
-- */
--static void bt_tags_for_each(struct blk_mq_tags *tags, struct sbitmap_queue *bt,
--			     busy_tag_iter_fn *fn, void *data, bool reserved)
--{
--	struct bt_tags_iter_data iter_data = {
--		.tags = tags,
--		.fn = fn,
--		.data = data,
--		.reserved = reserved,
--	};
--
--	if (tags->rqs)
--		sbitmap_for_each_set(&bt->sb, bt_tags_iter, &iter_data);
--}
--
--/**
-- * blk_mq_all_tag_busy_iter - iterate over all started requests in a tag map
-- * @tags:	Tag map to iterate over.
-- * @fn:		Pointer to the function that will be called for each started
-- *		request. @fn will be called as follows: @fn(rq, @priv,
-- *		reserved) where rq is a pointer to a request. 'reserved'
-- *		indicates whether or not @rq is a reserved request. Return
-- *		true to continue iterating tags, false to stop.
-- * @priv:	Will be passed as second argument to @fn.
-- */
--static void blk_mq_all_tag_busy_iter(struct blk_mq_tags *tags,
--		busy_tag_iter_fn *fn, void *priv)
--{
--	if (tags->nr_reserved_tags)
--		bt_tags_for_each(tags, &tags->breserved_tags, fn, priv, true);
--	bt_tags_for_each(tags, &tags->bitmap_tags, fn, priv, false);
--}
--
--/**
-- * blk_mq_tagset_busy_iter - iterate over all started requests in a tag set
-- * @tagset:	Tag set to iterate over.
-- * @fn:		Pointer to the function that will be called for each started
-- *		request. @fn will be called as follows: @fn(rq, @priv,
-- *		reserved) where rq is a pointer to a request. 'reserved'
-- *		indicates whether or not @rq is a reserved request. Return
-- *		true to continue iterating tags, false to stop.
-- * @priv:	Will be passed as second argument to @fn.
-- */
--void blk_mq_tagset_busy_iter(struct blk_mq_tag_set *tagset,
--		busy_tag_iter_fn *fn, void *priv)
--{
--	int i;
--
--	for (i = 0; i < tagset->nr_hw_queues; i++) {
--		if (tagset->tags && tagset->tags[i])
--			blk_mq_all_tag_busy_iter(tagset->tags[i], fn, priv);
--	}
--}
--EXPORT_SYMBOL(blk_mq_tagset_busy_iter);
--
- /**
-  * blk_mq_queue_tag_busy_iter - iterate over all busy tags
-  * @q:		Request queue to examine.
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index d6beeb5..3a048db 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -319,8 +319,6 @@ void blk_mq_unquiesce_queue(struct request_queue *q);
- void blk_mq_delay_run_hw_queue(struct blk_mq_hw_ctx *hctx, unsigned long msecs);
- bool blk_mq_run_hw_queue(struct blk_mq_hw_ctx *hctx, bool async);
- void blk_mq_run_hw_queues(struct request_queue *q, bool async);
--void blk_mq_tagset_busy_iter(struct blk_mq_tag_set *tagset,
--		busy_tag_iter_fn *fn, void *priv);
- void blk_mq_queue_tag_busy_iter(struct request_queue *q, busy_iter_fn *fn,
- 		void *priv, bool inflight);
- void blk_mq_freeze_queue(struct request_queue *q);
--- 
-2.7.4
+I'd rather take one step back and figure out why we are iterating
+the busy requests.  There really shouldn't be any reason why a driver
+is even doings that (vs some error handling helpers in the core
+block code that can properly synchronize).
