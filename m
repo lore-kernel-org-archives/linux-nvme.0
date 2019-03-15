@@ -1,101 +1,56 @@
-From: kbusch@kernel.org (Keith Busch)
-Date: Fri, 15 Mar 2019 10:16:08 -0600
-Subject: [PATCH 2/8] blk-mq: change the method of iterating busy tags of
- a request_queue
-In-Reply-To: <1552640264-26101-3-git-send-email-jianchao.w.wang@oracle.com>
+From: bvanassche@acm.org (Bart Van Assche)
+Date: Fri, 15 Mar 2019 09:19:04 -0700
+Subject: [PATCH 0/8]: blk-mq: use static_rqs to iterate busy tags
+In-Reply-To: <a36be8bd-bb9c-745e-cfdb-018cf0a96d42@oracle.com>
 References: <1552640264-26101-1-git-send-email-jianchao.w.wang@oracle.com>
- <1552640264-26101-3-git-send-email-jianchao.w.wang@oracle.com>
-Message-ID: <20190315161608.GB15153@localhost.localdomain>
+ <20190315092020.GA2405@lst.de>
+ <a36be8bd-bb9c-745e-cfdb-018cf0a96d42@oracle.com>
+Message-ID: <1552666744.45180.135.camel@acm.org>
 
-On Fri, Mar 15, 2019@01:57:38AM -0700, Jianchao Wang wrote:
-> tags->rqs[] will not been cleaned when free driver tag and there
-> is a window between get driver tag and write tags->rqs[], so we
-> may see stale rq in tags->rqs[] which may have been freed, as
-> following case,
-> blk_mq_get_request         blk_mq_queue_tag_busy_iter
->   -> blk_mq_get_tag
+On Fri, 2019-03-15@17:44 +0800, jianchao.wang wrote:
+> On 3/15/19 5:20 PM, Christoph Hellwig wrote:
+> > On Fri, Mar 15, 2019@04:57:36PM +0800, Jianchao Wang wrote:
+> > > Hi Jens
+> > > 
+> > > As we know, there is a risk of accesing stale requests when iterate
+> > > in-flight requests with tags->rqs[] and this has been talked in following
+> > > thread,
+> > > [1] https://urldefense.proofpoint.com/v2/url?u=https-3A__marc.info_-3Fl-3Dlinux-2Dscsi-26m-3D154511693912752-26w-3D2&d=DwICAg&c=RoP1YumCXCgaWHvlZYR8PZh8Bv7qIrMUB65eapI_JnE&r=7WdAxUBeiTUTCy8v-7zX
+> > > yr4qk7sx26ATvfo6QSTvZyQ&m=CydqJPTf4FUrfs7ipUc2chm2jGuNuDVn_onIetKEehM&s=ZQ7RfO6-737-t5kQv7SFlXMhIdpwn_AxJI93d6c-nj0&e=
+> > > [2] https://urldefense.proofpoint.com/v2/url?u=https-3A__marc.info_-3Fl-3Dlinux-2Dblock-26m-3D154526189023236-26w-3D2&d=DwICAg&c=RoP1YumCXCgaWHvlZYR8PZh8Bv7qIrMUB65eapI_JnE&r=7WdAxUBeiTUTCy8v-7z
+> > > Xyr4qk7sx26ATvfo6QSTvZyQ&m=CydqJPTf4FUrfs7ipUc2chm2jGuNuDVn_onIetKEehM&s=EBV1M5p4mE8jZ5ZD1ecU5kMbJ9EtbpVJoc7Tqolrsc8&e=
+> > 
+> > I'd rather take one step back and figure out why we are iterating
+> > the busy requests.  There really shouldn't be any reason why a driver
+> > is even doings that (vs some error handling helpers in the core
+> > block code that can properly synchronize).
+> > 
+> 
+> A typical scene is blk_mq_in_flight,
+>                           
+> blk_mq_get_request         blk_mq_in_flight
+>   -> blk_mq_get_tag        -> blk_mq_queue_tag_busy_iter
 >                              -> bt_for_each
 >                                -> bt_iter
 >                                  -> rq = taags->rqs[]
->                                  -> rq->q
+>                                  -> rq->q       //---> get a stale request
 >   -> blk_mq_rq_ctx_init
->     -> data->hctx->tags->rqs[rq->tag] = rq;
+>     -> data->hctx->tags->rqs[rq->tag] = rq
 > 
-> To fix this, the blk_mq_queue_tag_busy_iter is changed in this
-> patch to use tags->static_rqs[] instead of tags->rqs[]. We have
-> to identify whether there is a io scheduler attached to decide
-> to use hctx->tags or hctx->sched_tags. And we will try to get a
-> non-zero q_usage_counter before that, so it is safe to access
-> them. Add 'inflight' parameter to determine to iterate in-flight
-> requests or just busy tags. A correction here is that
-> part_in_flight should count the busy tags instead of rqs that
-> have got driver tags.
+> This stale request maybe something that has been freed due to io scheduler
+> is detached or a q using a shared tagset is gone.
 > 
-> Moreover, get rid of the 'hctx' parameter in iter function as
-> we could get it from rq->mq_hctx and export this interface for
-> drivers.
+> And also the blk_mq_timeout_work could use it to pick up the expired request.
+> The driver would also use it to requeue the in-flight requests when the device is dead.
 > 
-> Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
-> ---
->  block/blk-mq-tag.c     | 76 +++++++++++++++++++++++++++++++++-----------------
->  block/blk-mq-tag.h     |  2 --
->  block/blk-mq.c         | 31 ++++++++------------
->  include/linux/blk-mq.h |  5 ++--
->  4 files changed, 64 insertions(+), 50 deletions(-)
-> 
-> diff --git a/block/blk-mq-tag.c b/block/blk-mq-tag.c
-> index b792537..cdec2cd 100644
-> --- a/block/blk-mq-tag.c
-> +++ b/block/blk-mq-tag.c
-> @@ -216,26 +216,38 @@ struct bt_iter_data {
->  	busy_iter_fn *fn;
->  	void *data;
->  	bool reserved;
-> +	bool inflight;
->  };
->  
->  static bool bt_iter(struct sbitmap *bitmap, unsigned int bitnr, void *data)
->  {
->  	struct bt_iter_data *iter_data = data;
->  	struct blk_mq_hw_ctx *hctx = iter_data->hctx;
-> -	struct blk_mq_tags *tags = hctx->tags;
->  	bool reserved = iter_data->reserved;
-> +	struct blk_mq_tags *tags;
->  	struct request *rq;
->  
-> +	tags =  hctx->sched_tags ? hctx->sched_tags : hctx->tags;
-> +
->  	if (!reserved)
->  		bitnr += tags->nr_reserved_tags;
-> -	rq = tags->rqs[bitnr];
-> +	/*
-> +	 * Because tags->rqs[] will not been cleaned when free driver tag
-> +	 * and there is a window between get driver tag and write tags->rqs[],
-> +	 * so we may see stale rq in tags->rqs[] which may have been freed.
-> +	 * Using static_rqs[] is safer.
-> +	 */
-> +	rq = tags->static_rqs[bitnr];
->  
->  	/*
-> -	 * We can hit rq == NULL here, because the tagging functions
-> -	 * test and set the bit before assigning ->rqs[].
-> +	 * There is a small window between get tag and blk_mq_rq_ctx_init,
-> +	 * so rq->q and rq->mq_hctx maybe different.
->  	 */
-> -	if (rq && rq->q == hctx->queue)
-> -		return iter_data->fn(hctx, rq, iter_data->data, reserved);
-> +	if (rq && rq->q == hctx->queue &&
-> +	    rq->mq_hctx == hctx &&
-> +	    (!iter_data->inflight ||
-> +	     blk_mq_rq_state(rq) == MQ_RQ_IN_FLIGHT))
-> +		return iter_data->fn(rq, iter_data->data, reserved);
+> Compared with adding more synchronization, using static_rqs[] directly maybe simpler :)
 
-There is still a window where the check may succeed, but the request is
-being assigned to a completely different request_queue. The callback
-then operates on a request it doesn't own.
+Hi Jianchao,
 
-Tag iteration from a driver can be safe only if the driver initiates a
-freeze and quiesced all queues sharing the same tagset first. The nvme
-driver does that, but I think there may need to be an additional grace
-period to wait for the allocation's queue_enter to call queue_exit to
-ensure the request is initialized through blk_mq_rq_ctx_init().
+Although I appreciate your work: I agree with Christoph that we should avoid races
+like this rather than modifying the block layer to make sure that such races are
+handled safely.
+
+Thanks,
+
+Bart.
