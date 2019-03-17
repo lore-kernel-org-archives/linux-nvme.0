@@ -1,77 +1,61 @@
-From: marek.vasut@gmail.com (Marek Vasut)
-Date: Sun, 17 Mar 2019 00:04:48 +0100
-Subject: [PATCH 1/2] [RFC] ata: ahci: Respect bus DMA constraints
-In-Reply-To: <3b665597-a616-70fc-8cd0-dfde236fe669@gmail.com>
-References: <20190307000440.8708-1-marek.vasut@gmail.com>
- <7c051bbd-7835-9cab-30b2-0acde1364781@arm.com>
- <356f3ee8-407f-f865-e5cc-333695d4f857@gmail.com>
- <79e44e90-b16a-5315-e02f-101a2ebbb6a0@arm.com>
- <a8b5b75f-2660-e216-033a-77808e2afb76@gmail.com>
- <20190308071810.GA11959@lst.de>
- <a6b34982-9100-0e60-c3eb-6ed8fcbe9e93@gmail.com>
- <20190313183056.GB4926@lst.de>
- <3b665597-a616-70fc-8cd0-dfde236fe669@gmail.com>
-Message-ID: <e2322e9d-46a1-c588-85ea-f56e3846996d@gmail.com>
+From: tom.leiming@gmail.com (Ming Lei)
+Date: Sun, 17 Mar 2019 14:14:06 +0800
+Subject: [PATCH 1/8] blk-mq: get rid of the synchronize_rcu in
+ __blk_mq_update_nr_hw_queues
+In-Reply-To: <1552640264-26101-2-git-send-email-jianchao.w.wang@oracle.com>
+References: <1552640264-26101-1-git-send-email-jianchao.w.wang@oracle.com>
+ <1552640264-26101-2-git-send-email-jianchao.w.wang@oracle.com>
+Message-ID: <CACVXFVOa25+NWdb1RG0sWuLYyoZeYTcUupNryABfQfEvO7FiUA@mail.gmail.com>
 
-On 3/16/19 10:25 PM, Marek Vasut wrote:
-> On 3/13/19 7:30 PM, Christoph Hellwig wrote:
->> On Sat, Mar 09, 2019@12:23:15AM +0100, Marek Vasut wrote:
->>> On 3/8/19 8:18 AM, Christoph Hellwig wrote:
->>>> On Thu, Mar 07, 2019@12:14:06PM +0100, Marek Vasut wrote:
->>>>>> Right, but whoever *interprets* the device masks after the driver has
->>>>>> overridden them should be taking the (smaller) bus mask into account as
->>>>>> well, so the question is where is *that* not being done correctly?
->>>>>
->>>>> Do you have a hint where I should look for that ?
->>>>
->>>> If this a 32-bit ARM platform it might the complete lack of support
->>>> for bus_dma_mask in arch/arm/mm/dma-mapping.c..
->>>
->>> It's an ARM 64bit platform, just the PCIe controller is limited to 32bit
->>> address range, so the devices on the PCIe bus cannot read the host's
->>> DRAM above the 32bit limit.
->>
->> arm64 should take the mask into account both for the swiotlb and
->> iommu case.  What are the exact symptoms you see?
-> 
-> With the nvme, the device is recognized, but cannot be used.
-> It boils down to PCI BAR access being possible, since that's all below
-> the 32bit boundary, but when the device tries to do any sort of DMA,
-> that transfer returns nonsense data.
-> 
-> But when I call dma_set_mask_and_coherent(dev->dev, DMA_BIT_MASK(32) in
-> the affected driver (thus far I tried this nvme, xhci-pci and ahci-pci
-> drivers), it all starts to work fine.
-> 
-> Could it be that the driver overwrites the (coherent_)dma_mask and
-> that's why the swiotlb/iommu code cannot take this into account ?
-> 
->> Does it involve
->> swiotlb not kicking in, or iommu issues?
-> 
-> How can I check ? I added printks into arch/arm64/mm/dma-mapping.c and
-> drivers/iommu/dma-iommu.c , but I suspect I need to look elsewhere.
+On Fri, Mar 15, 2019 at 5:07 PM Jianchao Wang
+<jianchao.w.wang@oracle.com> wrote:
+>
+> In commit 530ca2c (blk-mq: Allow blocking queue tag iter callbacks),
+> we try to get a non-zero q_usage_counter to avoid access hctxs that
+> being modified. So the synchronize_rcu is useless and should be
+> removed.
+>
+> Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
+> ---
+>  block/blk-mq-tag.c | 4 +---
+>  block/blk-mq.c     | 4 ----
+>  2 files changed, 1 insertion(+), 7 deletions(-)
+>
+> diff --git a/block/blk-mq-tag.c b/block/blk-mq-tag.c
+> index 2089c6c..b792537 100644
+> --- a/block/blk-mq-tag.c
+> +++ b/block/blk-mq-tag.c
+> @@ -384,9 +384,7 @@ void blk_mq_queue_tag_busy_iter(struct request_queue *q, busy_iter_fn *fn,
+>         /*
+>          * __blk_mq_update_nr_hw_queues() updates nr_hw_queues and queue_hw_ctx
+>          * while the queue is frozen. So we can use q_usage_counter to avoid
+> -        * racing with it. __blk_mq_update_nr_hw_queues() uses
+> -        * synchronize_rcu() to ensure this function left the critical section
+> -        * below.
+> +        * racing with it.
+>          */
+>         if (!percpu_ref_tryget(&q->q_usage_counter))
+>                 return;
+> diff --git a/block/blk-mq.c b/block/blk-mq.c
+> index 9437a5e..07584a9 100644
+> --- a/block/blk-mq.c
+> +++ b/block/blk-mq.c
+> @@ -3208,10 +3208,6 @@ static void __blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set,
+>         list_for_each_entry(q, &set->tag_list, tag_set_list)
+>                 blk_mq_freeze_queue(q);
+>         /*
+> -        * Sync with blk_mq_queue_tag_busy_iter.
+> -        */
+> -       synchronize_rcu();
+> -       /*
+>          * Switch IO scheduler to 'none', cleaning up the data associated
+>          * with the previous scheduler. We will switch back once we are done
+>          * updating the new sw to hw queue mappings.
+> --
+> 2.7.4
+>
 
-Digging further ...
+Reviewed-by: Ming Lei <ming.lei at redhat.com>
 
-drivers/nvme/host/pci.c nvme_map_data() calls dma_map_sg_attrs() and the
-resulting sglist contains entry with >32bit PA. This is because
-dma_map_sg_attrs() calls dma_direct_map_sg(), which in turn calls
-dma_direct_map_sg(), then dma_direct_map_page() and that's where it goes
-weird.
-
-dma_direct_map_page() does a dma_direct_possible() check before
-triggering swiotlb_map(). The check succeeds, so the later isn't executed.
-
-dma_direct_possible() calls dma_capable() with dev->dma_mask =
-DMA_BIT_MASK(64) and dev->dma_bus_mask = 0, so
-min_not_zero(*dev->dma_mask, dev->bus_dma_mask) returns DMA_BIT_MASK(64).
-
-Surely enough, if I hack dma_direct_possible() to return 0,
-swiotlb_map() kicks in and the nvme driver starts working fine.
-
-I presume the question here is, why is dev->bus_dma_mask = 0 ?
-
--- 
-Best regards,
-Marek Vasut
+Thanks,
+Ming Lei
