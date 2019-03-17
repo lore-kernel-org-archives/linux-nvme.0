@@ -1,7 +1,7 @@
 From: geert@linux-m68k.org (Geert Uytterhoeven)
-Date: Sun, 17 Mar 2019 11:24:22 +0100
+Date: Sun, 17 Mar 2019 11:29:47 +0100
 Subject: [PATCH 1/2] [RFC] ata: ahci: Respect bus DMA constraints
-In-Reply-To: <3b665597-a616-70fc-8cd0-dfde236fe669@gmail.com>
+In-Reply-To: <e2322e9d-46a1-c588-85ea-f56e3846996d@gmail.com>
 References: <20190307000440.8708-1-marek.vasut@gmail.com>
  <7c051bbd-7835-9cab-30b2-0acde1364781@arm.com>
  <356f3ee8-407f-f865-e5cc-333695d4f857@gmail.com>
@@ -11,51 +11,84 @@ References: <20190307000440.8708-1-marek.vasut@gmail.com>
  <a6b34982-9100-0e60-c3eb-6ed8fcbe9e93@gmail.com>
  <20190313183056.GB4926@lst.de>
  <3b665597-a616-70fc-8cd0-dfde236fe669@gmail.com>
-Message-ID: <CAMuHMdU5S8UGctWR8+4sFqgQxrkoH71_ZzZ2ENFhrPc+svfGLA@mail.gmail.com>
+ <e2322e9d-46a1-c588-85ea-f56e3846996d@gmail.com>
+Message-ID: <CAMuHMdWiBh0JMKhXPpZh_PqvUGELN9PbgbZttTgKuzXZ3da5DA@mail.gmail.com>
 
 Hi Marek,
 
-On Sat, Mar 16, 2019@10:26 PM Marek Vasut <marek.vasut@gmail.com> wrote:
-> On 3/13/19 7:30 PM, Christoph Hellwig wrote:
-> > On Sat, Mar 09, 2019@12:23:15AM +0100, Marek Vasut wrote:
-> >> On 3/8/19 8:18 AM, Christoph Hellwig wrote:
-> >>> On Thu, Mar 07, 2019@12:14:06PM +0100, Marek Vasut wrote:
-> >>>>> Right, but whoever *interprets* the device masks after the driver has
-> >>>>> overridden them should be taking the (smaller) bus mask into account as
-> >>>>> well, so the question is where is *that* not being done correctly?
+On Sun, Mar 17, 2019@12:04 AM Marek Vasut <marek.vasut@gmail.com> wrote:
+> On 3/16/19 10:25 PM, Marek Vasut wrote:
+> > On 3/13/19 7:30 PM, Christoph Hellwig wrote:
+> >> On Sat, Mar 09, 2019@12:23:15AM +0100, Marek Vasut wrote:
+> >>> On 3/8/19 8:18 AM, Christoph Hellwig wrote:
+> >>>> On Thu, Mar 07, 2019@12:14:06PM +0100, Marek Vasut wrote:
+> >>>>>> Right, but whoever *interprets* the device masks after the driver has
+> >>>>>> overridden them should be taking the (smaller) bus mask into account as
+> >>>>>> well, so the question is where is *that* not being done correctly?
+> >>>>>
+> >>>>> Do you have a hint where I should look for that ?
 > >>>>
-> >>>> Do you have a hint where I should look for that ?
+> >>>> If this a 32-bit ARM platform it might the complete lack of support
+> >>>> for bus_dma_mask in arch/arm/mm/dma-mapping.c..
 > >>>
-> >>> If this a 32-bit ARM platform it might the complete lack of support
-> >>> for bus_dma_mask in arch/arm/mm/dma-mapping.c..
+> >>> It's an ARM 64bit platform, just the PCIe controller is limited to 32bit
+> >>> address range, so the devices on the PCIe bus cannot read the host's
+> >>> DRAM above the 32bit limit.
 > >>
-> >> It's an ARM 64bit platform, just the PCIe controller is limited to 32bit
-> >> address range, so the devices on the PCIe bus cannot read the host's
-> >> DRAM above the 32bit limit.
+> >> arm64 should take the mask into account both for the swiotlb and
+> >> iommu case.  What are the exact symptoms you see?
 > >
-> > arm64 should take the mask into account both for the swiotlb and
-> > iommu case.  What are the exact symptoms you see?
+> > With the nvme, the device is recognized, but cannot be used.
+> > It boils down to PCI BAR access being possible, since that's all below
+> > the 32bit boundary, but when the device tries to do any sort of DMA,
+> > that transfer returns nonsense data.
+> >
+> > But when I call dma_set_mask_and_coherent(dev->dev, DMA_BIT_MASK(32) in
+> > the affected driver (thus far I tried this nvme, xhci-pci and ahci-pci
+> > drivers), it all starts to work fine.
+> >
+> > Could it be that the driver overwrites the (coherent_)dma_mask and
+> > that's why the swiotlb/iommu code cannot take this into account ?
+> >
+> >> Does it involve
+> >> swiotlb not kicking in, or iommu issues?
+> >
+> > How can I check ? I added printks into arch/arm64/mm/dma-mapping.c and
+> > drivers/iommu/dma-iommu.c , but I suspect I need to look elsewhere.
 >
-> With the nvme, the device is recognized, but cannot be used.
-> It boils down to PCI BAR access being possible, since that's all below
-> the 32bit boundary, but when the device tries to do any sort of DMA,
-> that transfer returns nonsense data.
+> Digging further ...
 >
-> But when I call dma_set_mask_and_coherent(dev->dev, DMA_BIT_MASK(32) in
-> the affected driver (thus far I tried this nvme, xhci-pci and ahci-pci
-> drivers), it all starts to work fine.
+> drivers/nvme/host/pci.c nvme_map_data() calls dma_map_sg_attrs() and the
+> resulting sglist contains entry with >32bit PA. This is because
+> dma_map_sg_attrs() calls dma_direct_map_sg(), which in turn calls
+> dma_direct_map_sg(), then dma_direct_map_page() and that's where it goes
+> weird.
 >
-> Could it be that the driver overwrites the (coherent_)dma_mask and
-> that's why the swiotlb/iommu code cannot take this into account ?
+> dma_direct_map_page() does a dma_direct_possible() check before
+> triggering swiotlb_map(). The check succeeds, so the later isn't executed.
 >
-> > Does it involve
-> > swiotlb not kicking in, or iommu issues?
+> dma_direct_possible() calls dma_capable() with dev->dma_mask =
+> DMA_BIT_MASK(64) and dev->dma_bus_mask = 0, so
+> min_not_zero(*dev->dma_mask, dev->bus_dma_mask) returns DMA_BIT_MASK(64).
 >
-> How can I check ? I added printks into arch/arm64/mm/dma-mapping.c and
-> drivers/iommu/dma-iommu.c , but I suspect I need to look elsewhere.
+> Surely enough, if I hack dma_direct_possible() to return 0,
+> swiotlb_map() kicks in and the nvme driver starts working fine.
+>
+> I presume the question here is, why is dev->bus_dma_mask = 0 ?
 
-So far the IOMMU is disabled in upstream, as no devices are whitelisted
-in drivers/iommu/ipmmu-vmsa.c.
+Because that's the default, and almost no code overrides that?
+
+$ git grep "\<bus_dma_mask ="
+arch/mips/pci/fixup-sb1250.c:           dev->dev.bus_dma_mask =
+DMA_BIT_MASK(32);
+arch/x86/kernel/pci-dma.c:      pdev->dev.bus_dma_mask = DMA_BIT_MASK(32);
+drivers/acpi/arm64/iort.c:              dev->bus_dma_mask = mask;
+drivers/of/device.c:            dev->bus_dma_mask = mask;
+
+dev is the nvme PCI device, I assume? So you can ignore the last match.
+
+The first two seem to be related to platforms that cannot do >32 bit DMA
+on PCI. So that's a hint on how to fix this...
 
 Gr{oetje,eeting}s,
 
