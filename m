@@ -1,117 +1,69 @@
-From: tom.leiming@gmail.com (Ming Lei)
-Date: Sun, 17 Mar 2019 14:50:27 +0800
-Subject: [PATCH 2/8] blk-mq: change the method of iterating busy tags of a
- request_queue
-In-Reply-To: <20190315161608.GB15153@localhost.localdomain>
-References: <1552640264-26101-1-git-send-email-jianchao.w.wang@oracle.com>
- <1552640264-26101-3-git-send-email-jianchao.w.wang@oracle.com>
- <20190315161608.GB15153@localhost.localdomain>
-Message-ID: <CACVXFVM=r-jS_GnkAuARiiXLr3bQeWV5Gix3+F03B5oYbmdULw@mail.gmail.com>
+From: geert@linux-m68k.org (Geert Uytterhoeven)
+Date: Sun, 17 Mar 2019 11:24:22 +0100
+Subject: [PATCH 1/2] [RFC] ata: ahci: Respect bus DMA constraints
+In-Reply-To: <3b665597-a616-70fc-8cd0-dfde236fe669@gmail.com>
+References: <20190307000440.8708-1-marek.vasut@gmail.com>
+ <7c051bbd-7835-9cab-30b2-0acde1364781@arm.com>
+ <356f3ee8-407f-f865-e5cc-333695d4f857@gmail.com>
+ <79e44e90-b16a-5315-e02f-101a2ebbb6a0@arm.com>
+ <a8b5b75f-2660-e216-033a-77808e2afb76@gmail.com>
+ <20190308071810.GA11959@lst.de>
+ <a6b34982-9100-0e60-c3eb-6ed8fcbe9e93@gmail.com>
+ <20190313183056.GB4926@lst.de>
+ <3b665597-a616-70fc-8cd0-dfde236fe669@gmail.com>
+Message-ID: <CAMuHMdU5S8UGctWR8+4sFqgQxrkoH71_ZzZ2ENFhrPc+svfGLA@mail.gmail.com>
 
-On Sat, Mar 16, 2019@12:15 AM Keith Busch <kbusch@kernel.org> wrote:
+Hi Marek,
+
+On Sat, Mar 16, 2019@10:26 PM Marek Vasut <marek.vasut@gmail.com> wrote:
+> On 3/13/19 7:30 PM, Christoph Hellwig wrote:
+> > On Sat, Mar 09, 2019@12:23:15AM +0100, Marek Vasut wrote:
+> >> On 3/8/19 8:18 AM, Christoph Hellwig wrote:
+> >>> On Thu, Mar 07, 2019@12:14:06PM +0100, Marek Vasut wrote:
+> >>>>> Right, but whoever *interprets* the device masks after the driver has
+> >>>>> overridden them should be taking the (smaller) bus mask into account as
+> >>>>> well, so the question is where is *that* not being done correctly?
+> >>>>
+> >>>> Do you have a hint where I should look for that ?
+> >>>
+> >>> If this a 32-bit ARM platform it might the complete lack of support
+> >>> for bus_dma_mask in arch/arm/mm/dma-mapping.c..
+> >>
+> >> It's an ARM 64bit platform, just the PCIe controller is limited to 32bit
+> >> address range, so the devices on the PCIe bus cannot read the host's
+> >> DRAM above the 32bit limit.
+> >
+> > arm64 should take the mask into account both for the swiotlb and
+> > iommu case.  What are the exact symptoms you see?
 >
-> On Fri, Mar 15, 2019@01:57:38AM -0700, Jianchao Wang wrote:
-> > tags->rqs[] will not been cleaned when free driver tag and there
-> > is a window between get driver tag and write tags->rqs[], so we
-> > may see stale rq in tags->rqs[] which may have been freed, as
-> > following case,
-> > blk_mq_get_request         blk_mq_queue_tag_busy_iter
-> >   -> blk_mq_get_tag
-> >                              -> bt_for_each
-> >                                -> bt_iter
-> >                                  -> rq = taags->rqs[]
-> >                                  -> rq->q
-> >   -> blk_mq_rq_ctx_init
-> >     -> data->hctx->tags->rqs[rq->tag] = rq;
-> >
-> > To fix this, the blk_mq_queue_tag_busy_iter is changed in this
-> > patch to use tags->static_rqs[] instead of tags->rqs[]. We have
-> > to identify whether there is a io scheduler attached to decide
-> > to use hctx->tags or hctx->sched_tags. And we will try to get a
-> > non-zero q_usage_counter before that, so it is safe to access
-> > them. Add 'inflight' parameter to determine to iterate in-flight
-> > requests or just busy tags. A correction here is that
-> > part_in_flight should count the busy tags instead of rqs that
-> > have got driver tags.
-> >
-> > Moreover, get rid of the 'hctx' parameter in iter function as
-> > we could get it from rq->mq_hctx and export this interface for
-> > drivers.
-> >
-> > Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
-> > ---
-> >  block/blk-mq-tag.c     | 76 +++++++++++++++++++++++++++++++++-----------------
-> >  block/blk-mq-tag.h     |  2 --
-> >  block/blk-mq.c         | 31 ++++++++------------
-> >  include/linux/blk-mq.h |  5 ++--
-> >  4 files changed, 64 insertions(+), 50 deletions(-)
-> >
-> > diff --git a/block/blk-mq-tag.c b/block/blk-mq-tag.c
-> > index b792537..cdec2cd 100644
-> > --- a/block/blk-mq-tag.c
-> > +++ b/block/blk-mq-tag.c
-> > @@ -216,26 +216,38 @@ struct bt_iter_data {
-> >       busy_iter_fn *fn;
-> >       void *data;
-> >       bool reserved;
-> > +     bool inflight;
-> >  };
-> >
-> >  static bool bt_iter(struct sbitmap *bitmap, unsigned int bitnr, void *data)
-> >  {
-> >       struct bt_iter_data *iter_data = data;
-> >       struct blk_mq_hw_ctx *hctx = iter_data->hctx;
-> > -     struct blk_mq_tags *tags = hctx->tags;
-> >       bool reserved = iter_data->reserved;
-> > +     struct blk_mq_tags *tags;
-> >       struct request *rq;
-> >
-> > +     tags =  hctx->sched_tags ? hctx->sched_tags : hctx->tags;
-> > +
-> >       if (!reserved)
-> >               bitnr += tags->nr_reserved_tags;
-> > -     rq = tags->rqs[bitnr];
-> > +     /*
-> > +      * Because tags->rqs[] will not been cleaned when free driver tag
-> > +      * and there is a window between get driver tag and write tags->rqs[],
-> > +      * so we may see stale rq in tags->rqs[] which may have been freed.
-> > +      * Using static_rqs[] is safer.
-> > +      */
-> > +     rq = tags->static_rqs[bitnr];
-> >
-> >       /*
-> > -      * We can hit rq == NULL here, because the tagging functions
-> > -      * test and set the bit before assigning ->rqs[].
-> > +      * There is a small window between get tag and blk_mq_rq_ctx_init,
-> > +      * so rq->q and rq->mq_hctx maybe different.
-> >        */
-> > -     if (rq && rq->q == hctx->queue)
-> > -             return iter_data->fn(hctx, rq, iter_data->data, reserved);
-> > +     if (rq && rq->q == hctx->queue &&
-> > +         rq->mq_hctx == hctx &&
-> > +         (!iter_data->inflight ||
-> > +          blk_mq_rq_state(rq) == MQ_RQ_IN_FLIGHT))
-> > +             return iter_data->fn(rq, iter_data->data, reserved);
+> With the nvme, the device is recognized, but cannot be used.
+> It boils down to PCI BAR access being possible, since that's all below
+> the 32bit boundary, but when the device tries to do any sort of DMA,
+> that transfer returns nonsense data.
 >
-> There is still a window where the check may succeed, but the request is
-> being assigned to a completely different request_queue. The callback
-> then operates on a request it doesn't own.
-
-The situation above is only related with 'none' io scheduler.
-
-However, this patch doesn't change behavior for none given .rq[tag] is same with
-.static_rq[tag], so I guess your concern may not be related with this patch.
-
+> But when I call dma_set_mask_and_coherent(dev->dev, DMA_BIT_MASK(32) in
+> the affected driver (thus far I tried this nvme, xhci-pci and ahci-pci
+> drivers), it all starts to work fine.
 >
-> Tag iteration from a driver can be safe only if the driver initiates a
-> freeze and quiesced all queues sharing the same tagset first. The nvme
-> driver does that, but I think there may need to be an additional grace
-> period to wait for the allocation's queue_enter to call queue_exit to
-> ensure the request is initialized through blk_mq_rq_ctx_init().
+> Could it be that the driver overwrites the (coherent_)dma_mask and
+> that's why the swiotlb/iommu code cannot take this into account ?
+>
+> > Does it involve
+> > swiotlb not kicking in, or iommu issues?
+>
+> How can I check ? I added printks into arch/arm64/mm/dma-mapping.c and
+> drivers/iommu/dma-iommu.c , but I suspect I need to look elsewhere.
 
-blk_mq_queue_tag_busy_iter() is used by blk-mq core code only for
-io accounting or timeout on the specified request_queue, and NVMe's
-uses are actually over the whole driver tags.
+So far the IOMMU is disabled in upstream, as no devices are whitelisted
+in drivers/iommu/ipmmu-vmsa.c.
 
-Thanks,
-Ming Lei
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert at linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
