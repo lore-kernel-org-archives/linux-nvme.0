@@ -1,61 +1,117 @@
 From: tom.leiming@gmail.com (Ming Lei)
-Date: Sun, 17 Mar 2019 14:14:06 +0800
-Subject: [PATCH 1/8] blk-mq: get rid of the synchronize_rcu in
- __blk_mq_update_nr_hw_queues
-In-Reply-To: <1552640264-26101-2-git-send-email-jianchao.w.wang@oracle.com>
+Date: Sun, 17 Mar 2019 14:50:27 +0800
+Subject: [PATCH 2/8] blk-mq: change the method of iterating busy tags of a
+ request_queue
+In-Reply-To: <20190315161608.GB15153@localhost.localdomain>
 References: <1552640264-26101-1-git-send-email-jianchao.w.wang@oracle.com>
- <1552640264-26101-2-git-send-email-jianchao.w.wang@oracle.com>
-Message-ID: <CACVXFVOa25+NWdb1RG0sWuLYyoZeYTcUupNryABfQfEvO7FiUA@mail.gmail.com>
+ <1552640264-26101-3-git-send-email-jianchao.w.wang@oracle.com>
+ <20190315161608.GB15153@localhost.localdomain>
+Message-ID: <CACVXFVM=r-jS_GnkAuARiiXLr3bQeWV5Gix3+F03B5oYbmdULw@mail.gmail.com>
 
-On Fri, Mar 15, 2019 at 5:07 PM Jianchao Wang
-<jianchao.w.wang@oracle.com> wrote:
+On Sat, Mar 16, 2019@12:15 AM Keith Busch <kbusch@kernel.org> wrote:
 >
-> In commit 530ca2c (blk-mq: Allow blocking queue tag iter callbacks),
-> we try to get a non-zero q_usage_counter to avoid access hctxs that
-> being modified. So the synchronize_rcu is useless and should be
-> removed.
+> On Fri, Mar 15, 2019@01:57:38AM -0700, Jianchao Wang wrote:
+> > tags->rqs[] will not been cleaned when free driver tag and there
+> > is a window between get driver tag and write tags->rqs[], so we
+> > may see stale rq in tags->rqs[] which may have been freed, as
+> > following case,
+> > blk_mq_get_request         blk_mq_queue_tag_busy_iter
+> >   -> blk_mq_get_tag
+> >                              -> bt_for_each
+> >                                -> bt_iter
+> >                                  -> rq = taags->rqs[]
+> >                                  -> rq->q
+> >   -> blk_mq_rq_ctx_init
+> >     -> data->hctx->tags->rqs[rq->tag] = rq;
+> >
+> > To fix this, the blk_mq_queue_tag_busy_iter is changed in this
+> > patch to use tags->static_rqs[] instead of tags->rqs[]. We have
+> > to identify whether there is a io scheduler attached to decide
+> > to use hctx->tags or hctx->sched_tags. And we will try to get a
+> > non-zero q_usage_counter before that, so it is safe to access
+> > them. Add 'inflight' parameter to determine to iterate in-flight
+> > requests or just busy tags. A correction here is that
+> > part_in_flight should count the busy tags instead of rqs that
+> > have got driver tags.
+> >
+> > Moreover, get rid of the 'hctx' parameter in iter function as
+> > we could get it from rq->mq_hctx and export this interface for
+> > drivers.
+> >
+> > Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
+> > ---
+> >  block/blk-mq-tag.c     | 76 +++++++++++++++++++++++++++++++++-----------------
+> >  block/blk-mq-tag.h     |  2 --
+> >  block/blk-mq.c         | 31 ++++++++------------
+> >  include/linux/blk-mq.h |  5 ++--
+> >  4 files changed, 64 insertions(+), 50 deletions(-)
+> >
+> > diff --git a/block/blk-mq-tag.c b/block/blk-mq-tag.c
+> > index b792537..cdec2cd 100644
+> > --- a/block/blk-mq-tag.c
+> > +++ b/block/blk-mq-tag.c
+> > @@ -216,26 +216,38 @@ struct bt_iter_data {
+> >       busy_iter_fn *fn;
+> >       void *data;
+> >       bool reserved;
+> > +     bool inflight;
+> >  };
+> >
+> >  static bool bt_iter(struct sbitmap *bitmap, unsigned int bitnr, void *data)
+> >  {
+> >       struct bt_iter_data *iter_data = data;
+> >       struct blk_mq_hw_ctx *hctx = iter_data->hctx;
+> > -     struct blk_mq_tags *tags = hctx->tags;
+> >       bool reserved = iter_data->reserved;
+> > +     struct blk_mq_tags *tags;
+> >       struct request *rq;
+> >
+> > +     tags =  hctx->sched_tags ? hctx->sched_tags : hctx->tags;
+> > +
+> >       if (!reserved)
+> >               bitnr += tags->nr_reserved_tags;
+> > -     rq = tags->rqs[bitnr];
+> > +     /*
+> > +      * Because tags->rqs[] will not been cleaned when free driver tag
+> > +      * and there is a window between get driver tag and write tags->rqs[],
+> > +      * so we may see stale rq in tags->rqs[] which may have been freed.
+> > +      * Using static_rqs[] is safer.
+> > +      */
+> > +     rq = tags->static_rqs[bitnr];
+> >
+> >       /*
+> > -      * We can hit rq == NULL here, because the tagging functions
+> > -      * test and set the bit before assigning ->rqs[].
+> > +      * There is a small window between get tag and blk_mq_rq_ctx_init,
+> > +      * so rq->q and rq->mq_hctx maybe different.
+> >        */
+> > -     if (rq && rq->q == hctx->queue)
+> > -             return iter_data->fn(hctx, rq, iter_data->data, reserved);
+> > +     if (rq && rq->q == hctx->queue &&
+> > +         rq->mq_hctx == hctx &&
+> > +         (!iter_data->inflight ||
+> > +          blk_mq_rq_state(rq) == MQ_RQ_IN_FLIGHT))
+> > +             return iter_data->fn(rq, iter_data->data, reserved);
 >
-> Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
-> ---
->  block/blk-mq-tag.c | 4 +---
->  block/blk-mq.c     | 4 ----
->  2 files changed, 1 insertion(+), 7 deletions(-)
->
-> diff --git a/block/blk-mq-tag.c b/block/blk-mq-tag.c
-> index 2089c6c..b792537 100644
-> --- a/block/blk-mq-tag.c
-> +++ b/block/blk-mq-tag.c
-> @@ -384,9 +384,7 @@ void blk_mq_queue_tag_busy_iter(struct request_queue *q, busy_iter_fn *fn,
->         /*
->          * __blk_mq_update_nr_hw_queues() updates nr_hw_queues and queue_hw_ctx
->          * while the queue is frozen. So we can use q_usage_counter to avoid
-> -        * racing with it. __blk_mq_update_nr_hw_queues() uses
-> -        * synchronize_rcu() to ensure this function left the critical section
-> -        * below.
-> +        * racing with it.
->          */
->         if (!percpu_ref_tryget(&q->q_usage_counter))
->                 return;
-> diff --git a/block/blk-mq.c b/block/blk-mq.c
-> index 9437a5e..07584a9 100644
-> --- a/block/blk-mq.c
-> +++ b/block/blk-mq.c
-> @@ -3208,10 +3208,6 @@ static void __blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set,
->         list_for_each_entry(q, &set->tag_list, tag_set_list)
->                 blk_mq_freeze_queue(q);
->         /*
-> -        * Sync with blk_mq_queue_tag_busy_iter.
-> -        */
-> -       synchronize_rcu();
-> -       /*
->          * Switch IO scheduler to 'none', cleaning up the data associated
->          * with the previous scheduler. We will switch back once we are done
->          * updating the new sw to hw queue mappings.
-> --
-> 2.7.4
->
+> There is still a window where the check may succeed, but the request is
+> being assigned to a completely different request_queue. The callback
+> then operates on a request it doesn't own.
 
-Reviewed-by: Ming Lei <ming.lei at redhat.com>
+The situation above is only related with 'none' io scheduler.
+
+However, this patch doesn't change behavior for none given .rq[tag] is same with
+.static_rq[tag], so I guess your concern may not be related with this patch.
+
+>
+> Tag iteration from a driver can be safe only if the driver initiates a
+> freeze and quiesced all queues sharing the same tagset first. The nvme
+> driver does that, but I think there may need to be an additional grace
+> period to wait for the allocation's queue_enter to call queue_exit to
+> ensure the request is initialized through blk_mq_rq_ctx_init().
+
+blk_mq_queue_tag_busy_iter() is used by blk-mq core code only for
+io accounting or timeout on the specified request_queue, and NVMe's
+uses are actually over the whole driver tags.
 
 Thanks,
 Ming Lei
