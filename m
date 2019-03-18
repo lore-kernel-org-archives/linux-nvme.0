@@ -1,36 +1,34 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Mon, 18 Mar 2019 11:29:50 +0800
-Subject: [PATCH 2/2] nvme: cancel request synchronously
-In-Reply-To: <20190318032950.17770-1-ming.lei@redhat.com>
+From: bvanassche@acm.org (Bart Van Assche)
+Date: Sun, 17 Mar 2019 21:09:09 -0700
+Subject: [PATCH 1/2] blk-mq: introduce blk_mq_complete_request_sync()
+In-Reply-To: <20190318032950.17770-2-ming.lei@redhat.com>
 References: <20190318032950.17770-1-ming.lei@redhat.com>
-Message-ID: <20190318032950.17770-3-ming.lei@redhat.com>
+ <20190318032950.17770-2-ming.lei@redhat.com>
+Message-ID: <f708ee0c-dfa4-0bca-f996-8d834471f1fd@acm.org>
 
-nvme_cancel_request() is used in error handler, and it is always
-reliable to cancel request synchronously, and avoids possible race
-in which request may be completed after real hw queue is destroyed.
+On 3/17/19 8:29 PM, Ming Lei wrote:
+> In NVMe's error handler, follows the typical steps for tearing down
+> hardware:
+> 
+> 1) stop blk_mq hw queues
+> 2) stop the real hw queues
+> 3) cancel in-flight requests via
+> 	blk_mq_tagset_busy_iter(tags, cancel_request, ...)
+> cancel_request():
+> 	mark the request as abort
+> 	blk_mq_complete_request(req);
+> 4) destroy real hw queues
+> 
+> However, there may be race between #3 and #4, because blk_mq_complete_request()
+> actually completes the request asynchronously.
+> 
+> This patch introduces blk_mq_complete_request_sync() for fixing the
+> above race.
 
-One issue is reported by our customer on NVMe RDMA, in which freed ib
-queue pair may be used in nvme_rdma_complete_rq().
+Other block drivers wait until outstanding requests have completed by 
+calling blk_cleanup_queue() before hardware queues are destroyed. Why 
+can't the NVMe driver follow that approach?
 
-Cc: Christoph Hellwig <hch at lst.de>
-Cc: linux-nvme at lists.infradead.org
-Signed-off-by: Ming Lei <ming.lei at redhat.com>
----
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks,
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 470601980794..2c43e12b70af 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -288,7 +288,7 @@ bool nvme_cancel_request(struct request *req, void *data, bool reserved)
- 				"Cancelling I/O %d", req->tag);
- 
- 	nvme_req(req)->status = NVME_SC_ABORT_REQ;
--	blk_mq_complete_request(req);
-+	blk_mq_complete_request_sync(req);
- 	return true;
- }
- EXPORT_SYMBOL_GPL(nvme_cancel_request);
--- 
-2.9.5
+Bart.
