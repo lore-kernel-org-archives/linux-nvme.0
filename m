@@ -1,22 +1,48 @@
-From: bvanassche@acm.org (Bart Van Assche)
-Date: Mon, 18 Mar 2019 10:28:05 -0700
-Subject: [PATCH 0/8]: blk-mq: use static_rqs to iterate busy tags
-In-Reply-To: <1552640264-26101-1-git-send-email-jianchao.w.wang@oracle.com>
-References: <1552640264-26101-1-git-send-email-jianchao.w.wang@oracle.com>
-Message-ID: <1552930085.152266.36.camel@acm.org>
+From: james.smart@broadcom.com (James Smart)
+Date: Mon, 18 Mar 2019 10:30:57 -0700
+Subject: [PATCH 1/2] blk-mq: introduce blk_mq_complete_request_sync()
+In-Reply-To: <f708ee0c-dfa4-0bca-f996-8d834471f1fd@acm.org>
+References: <20190318032950.17770-1-ming.lei@redhat.com>
+ <20190318032950.17770-2-ming.lei@redhat.com>
+ <f708ee0c-dfa4-0bca-f996-8d834471f1fd@acm.org>
+Message-ID: <c6a28972-d33f-6d65-2123-19875db0c07f@broadcom.com>
 
-On Fri, 2019-03-15@16:57 +0800, Jianchao Wang wrote:
-> [2] https://marc.info/?l=linux-block&m=154526189023236&w=2
 
-Hi Jianchao,
+On 3/17/2019 9:09 PM, Bart Van Assche wrote:
+> On 3/17/19 8:29 PM, Ming Lei wrote:
+>> In NVMe's error handler, follows the typical steps for tearing down
+>> hardware:
+>>
+>> 1) stop blk_mq hw queues
+>> 2) stop the real hw queues
+>> 3) cancel in-flight requests via
+>> ????blk_mq_tagset_busy_iter(tags, cancel_request, ...)
+>> cancel_request():
+>> ????mark the request as abort
+>> ????blk_mq_complete_request(req);
+>> 4) destroy real hw queues
+>>
+>> However, there may be race between #3 and #4, because 
+>> blk_mq_complete_request()
+>> actually completes the request asynchronously.
+>>
+>> This patch introduces blk_mq_complete_request_sync() for fixing the
+>> above race.
+>
+> Other block drivers wait until outstanding requests have completed by 
+> calling blk_cleanup_queue() before hardware queues are destroyed. Why 
+> can't the NVMe driver follow that approach?
+>
 
-That is a reference to the "BUG: KASAN: use-after-free in bt_iter" issue.
-I think that issue can be fixed in another way than modifying all code that
-iterates over tags, namely by adding an rcu_read_lock() / rcu_read_unlock()
-pair in bt_for_each() and bt_tags_for_each() and by changing the calls in
-blk_mq_free_rqs() and blk_free_flush_queue() that free the data structures
-used by the tag iteration functions into kfree_rcu() or call_rcu() calls.
+speaking for the fabrics, not necessarily pci:
 
-Thanks,
+The intent of this looping, which happens immediately following an error 
+being detected, is to cause the termination of the outstanding requests. 
+Otherwise, the only recourse is to wait for the ios to finish, which 
+they may never do, or have their upper-level timeout expire to cause 
+their termination - thus a very long delay. ? And one of the commands, 
+on the admin queue - a different tag set but handled the same, doesn't 
+have a timeout (the Async Event Reporting command) so it wouldn't 
+necessarily clear without this looping.
 
-Bart.
+-- james
