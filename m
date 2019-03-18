@@ -1,24 +1,48 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 18 Mar 2019 14:34:00 -0700
-Subject: [RFC/PATCH net-next 0/9] net/dim: Support for multiple
- implementations
-In-Reply-To: <89a41878-c88b-c0a2-64ef-4409b907ece6@mellanox.com>
-References: <20190306084832.57753-1-talgi@mellanox.com>
- <1551888921.9796.2.camel@acm.org>
- <392082ba-9aeb-6c5e-53a0-7bb53ce101fa@grimberg.me>
- <010bc92c-55c1-c5bd-82a5-975aa7f7c735@mellanox.com>
- <50b3659d-fd88-85b0-755e-49565fbe98c2@mellanox.com>
- <89a41878-c88b-c0a2-64ef-4409b907ece6@mellanox.com>
-Message-ID: <4c7b78ff-e906-8e67-c3ad-495b858ce82c@grimberg.me>
+Date: Mon, 18 Mar 2019 14:43:49 -0700
+Subject: =?UTF-8?Q?Re=3a_=e3=80=90Question_for_nvme-rdma_calltrace=e3=80=91?=
+In-Reply-To: <20190318142418.GB23430@localhost.localdomain>
+References: <0546F6C37BCE5843B1A9A6517ACC82B625C01FB5@dggema523-mbx.china.huawei.com>
+ <20190318142418.GB23430@localhost.localdomain>
+Message-ID: <a76f7d78-ff89-df23-629e-7a8478afe502@grimberg.me>
 
+Hi Guys,
 
-> As we discussed, let's check with RDMA maintainers if it's better to 
-> extend alloc_cq API or create alloc_cq_dim API function.
+> Replying in plain text so the mailing list can accept it, and CC'ing Sagi.
 > 
-> Sagi/Christoph,
-> 
-> how about adding a module param per ULP ? as we use register_always 
-> today, create a use_dimm module param for iSER/NVMe-RDMA ?
+> Before looking deep into this, do you experience the same NULL dereference
+> on an unmodified kernel? The below indicates you've changed something.
 
-I would say that its better (and simpler) to do a global sysctl knob for
-it. No need for a per-ULP param for a starting point.
+There was a regression in the area that was fixed lately with:
+--
+commit b1064d3e337b4d0b67d641b5f771187d8f1f027d
+Author: Sagi Grimberg <sagi at grimberg.me>
+Date:   Fri Jan 18 16:43:24 2019 -0800
+
+     nvme-rdma: rework queue maps handling
+
+     If the device supports less queues than provided (if the device has 
+less
+     completion vectors), we might hit a bug due to the fact that we ignore
+     that in nvme_rdma_map_queues (we override the maps nr_queues with user
+     opts).
+
+     Instead, keep track of how many default/read/poll queues we actually
+     allocated (rather than asked by the user) and use that to assign our
+     queue mappings.
+
+     Fixes: b65bb777ef22 (" nvme-rdma: support separate queue maps for 
+read and write")
+     Reported-by: Saleem, Shiraz <shiraz.saleem at intel.com>
+     Reviewed-by: Christoph Hellwig <hch at lst.de>
+     Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+     Signed-off-by: Jens Axboe <axboe at kernel.dk>
+--
+
+Is this applied in your nvme-rdma driver?
+
+Note that its the first time I'm hearing of someone testing the huawei
+device, so its not impossible that we can have an issue.
+
+Also, how many completion vectors are available in the device under
+test vs. the number of cores in the system?
