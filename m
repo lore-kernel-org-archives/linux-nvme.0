@@ -1,57 +1,40 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Tue, 19 Mar 2019 00:06:48 +0800
-Subject: [PATCH 1/2] blk-mq: introduce blk_mq_complete_request_sync()
-In-Reply-To: <1552924164.152266.21.camel@acm.org>
-References: <20190318032950.17770-1-ming.lei@redhat.com>
- <20190318032950.17770-2-ming.lei@redhat.com>
- <f708ee0c-dfa4-0bca-f996-8d834471f1fd@acm.org>
- <20190318073826.GA29746@ming.t460p>
- <1552921495.152266.8.camel@acm.org>
- <20190318151618.GA20371@ming.t460p>
- <1552924164.152266.21.camel@acm.org>
-Message-ID: <20190318160646.GC20371@ming.t460p>
+From: bvanassche@acm.org (Bart Van Assche)
+Date: Mon, 18 Mar 2019 10:16:24 -0700
+Subject: [PATCH 5/8] nbd: use blk_mq_queue_tag_busy_iter
+In-Reply-To: <1552640264-26101-6-git-send-email-jianchao.w.wang@oracle.com>
+References: <1552640264-26101-1-git-send-email-jianchao.w.wang@oracle.com>
+ <1552640264-26101-6-git-send-email-jianchao.w.wang@oracle.com>
+Message-ID: <1552929384.152266.27.camel@acm.org>
 
-On Mon, Mar 18, 2019@08:49:24AM -0700, Bart Van Assche wrote:
-> On Mon, 2019-03-18@23:16 +0800, Ming Lei wrote:
-> > I am not familiar with SRP, could you explain what SRP initiator driver
-> > will do when the controller is in bad state? Especially about dealing with
-> > in-flight IO requests under this situation.
+On Fri, 2019-03-15@16:57 +0800, Jianchao Wang wrote:
+> blk_mq_tagset_busy_iter is not safe that it could get stale request
+> in tags->rqs[]. Use blk_mq_queue_tag_busy_iter here.
 > 
-> Hi Ming,
+> Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
+> ---
+>  drivers/block/nbd.c | 2 +
+>  1 file changed, 1 insertion(), 1 deletion(-)
 > 
-> Just like the NVMeOF initiator driver, the SRP initiator driver uses an
-> RDMA RC connection for all of its communication over the network. If
-> communication between initiator and target fails the target driver will
-> close the connection or one of the work requests that was posted by the
-> initiator driver will complete with an error status (wc->status !=
-> IB_WC_SUCCESS). In the latter case the function srp_handle_qp_err() will
-> try to reestablish the connection between initiator and target after a
-> certain delay:
-> 
-> 	if (delay > 0)
-> 		queue_delayed_work(system_long_wq, &rport->reconnect_work,
-> 				   1UL * delay * HZ);
-> 
-> SCSI timeouts may kick the SCSI error handler. That results in calls of
-> the srp_reset_device() and/or srp_reset_host() functions. srp_reset_host()
-> terminates all outstanding requests after having disconnected the RDMA RC
-> connection.
+> diff --git a/drivers/block/nbd.c b/drivers/block/nbd.c
+> index 7c9a949..9e7e828 100644
+> --- a/drivers/block/nbd.c
+> +++ b/drivers/block/nbd.c
+> @@ -747,7 +747,7 @@ static bool nbd_clear_req(struct request *req, void *data, bool reserved)
+>  static void nbd_clear_que(struct nbd_device *nbd)
+>  {
+>         blk_mq_quiesce_queue(nbd->disk->queue);
+> -       blk_mq_tagset_busy_iter(&nbd->tag_set, nbd_clear_req, NULL);
+> +       blk_mq_queue_tag_busy_iter(nbd->disk->queue, nbd_clear_req, NULL, true);
+>         blk_mq_unquiesce_queue(nbd->disk->queue);
+>         dev_dbg(disk_to_dev(nbd->disk), "queue cleared\n");
+>  }
 
-Looks the approach of NVMe's error handler is basically similar with
-above.
+Hi Jianchao,
 
-And NVMe just uses 'blk_mq_tagset_busy_iter(nvme_cancel_request)' to abort
-in-flight requests, and I guess SCSI FC may use driver's approach to do that.
-
-> Disconnecting the RC connection first guarantees that there
-> are no concurrent request completion calls from the regular completion
-> path and from the error handler.
-
-Looks no concurrent request completion guarantee requires driver's
-specific implementation.
-
-However, this patch provides one simple approach for NVMe, then no
-driver specific sync mechanism is needed.
+The nbd driver calls nbd_clear_que() after having called sock_shutdown(). So
+what makes you think that it's not safe to call blk_mq_tagset_busy_iter()
+from nbd_clear_que()?
 
 Thanks,
-Ming
+
+Bart.
