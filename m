@@ -1,177 +1,118 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Mon, 18 Mar 2019 13:08:28 +0200
-Subject: [RFC/PATCH net-next 0/9] net/dim: Support for multiple
- implementations
-In-Reply-To: <50b3659d-fd88-85b0-755e-49565fbe98c2@mellanox.com>
-References: <20190306084832.57753-1-talgi@mellanox.com>
- <1551888921.9796.2.camel@acm.org>
- <392082ba-9aeb-6c5e-53a0-7bb53ce101fa@grimberg.me>
- <010bc92c-55c1-c5bd-82a5-975aa7f7c735@mellanox.com>
- <50b3659d-fd88-85b0-755e-49565fbe98c2@mellanox.com>
-Message-ID: <89a41878-c88b-c0a2-64ef-4409b907ece6@mellanox.com>
+From: robin.murphy@arm.com (Robin Murphy)
+Date: Mon, 18 Mar 2019 13:14:28 +0000
+Subject: [PATCH 1/2] [RFC] ata: ahci: Respect bus DMA constraints
+In-Reply-To: <6eb8eb87-f4c0-a1be-7585-cdc10f620899@gmail.com>
+References: <20190307000440.8708-1-marek.vasut@gmail.com>
+ <7c051bbd-7835-9cab-30b2-0acde1364781@arm.com>
+ <356f3ee8-407f-f865-e5cc-333695d4f857@gmail.com>
+ <79e44e90-b16a-5315-e02f-101a2ebbb6a0@arm.com>
+ <a8b5b75f-2660-e216-033a-77808e2afb76@gmail.com>
+ <20190308071810.GA11959@lst.de>
+ <a6b34982-9100-0e60-c3eb-6ed8fcbe9e93@gmail.com>
+ <20190313183056.GB4926@lst.de>
+ <3b665597-a616-70fc-8cd0-dfde236fe669@gmail.com>
+ <e2322e9d-46a1-c588-85ea-f56e3846996d@gmail.com>
+ <CAMuHMdWiBh0JMKhXPpZh_PqvUGELN9PbgbZttTgKuzXZ3da5DA@mail.gmail.com>
+ <6eb8eb87-f4c0-a1be-7585-cdc10f620899@gmail.com>
+Message-ID: <5fdb1775-5e44-ad25-62c9-52c247660062@arm.com>
 
-
-On 3/18/2019 11:24 AM, Yamin Friedman wrote:
-> On 3/14/2019 1:45 PM, Max Gurtovoy wrote:
->> On 3/7/2019 3:56 AM, Sagi Grimberg wrote:
->>>>> net_dim.h lib exposes an implementation of the DIM algorithm for
->>>>> dynamically-tuned interrupt
->>>>> moderation for networking interfaces.
+On 17/03/2019 23:36, Marek Vasut wrote:
+> On 3/17/19 11:29 AM, Geert Uytterhoeven wrote:
+>> Hi Marek,
+> 
+> Hi,
+> 
+>> On Sun, Mar 17, 2019@12:04 AM Marek Vasut <marek.vasut@gmail.com> wrote:
+>>> On 3/16/19 10:25 PM, Marek Vasut wrote:
+>>>> On 3/13/19 7:30 PM, Christoph Hellwig wrote:
+>>>>> On Sat, Mar 09, 2019@12:23:15AM +0100, Marek Vasut wrote:
+>>>>>> On 3/8/19 8:18 AM, Christoph Hellwig wrote:
+>>>>>>> On Thu, Mar 07, 2019@12:14:06PM +0100, Marek Vasut wrote:
+>>>>>>>>> Right, but whoever *interprets* the device masks after the driver has
+>>>>>>>>> overridden them should be taking the (smaller) bus mask into account as
+>>>>>>>>> well, so the question is where is *that* not being done correctly?
+>>>>>>>>
+>>>>>>>> Do you have a hint where I should look for that ?
+>>>>>>>
+>>>>>>> If this a 32-bit ARM platform it might the complete lack of support
+>>>>>>> for bus_dma_mask in arch/arm/mm/dma-mapping.c..
+>>>>>>
+>>>>>> It's an ARM 64bit platform, just the PCIe controller is limited to 32bit
+>>>>>> address range, so the devices on the PCIe bus cannot read the host's
+>>>>>> DRAM above the 32bit limit.
 >>>>>
->>>>> We need the same behavior for any block CQ. The main motivation is
->>>>> two benefit from maximized
->>>>> completion rate and reduced interrupt overhead that DIM may provide.
->>>> What is a "block CQ"?
->>> There is no such thing... Also, this has no difference
->>> if a block/file/whatever is using the rdma cq.
+>>>>> arm64 should take the mask into account both for the swiotlb and
+>>>>> iommu case.  What are the exact symptoms you see?
+>>>>
+>>>> With the nvme, the device is recognized, but cannot be used.
+>>>> It boils down to PCI BAR access being possible, since that's all below
+>>>> the 32bit boundary, but when the device tries to do any sort of DMA,
+>>>> that transfer returns nonsense data.
+>>>>
+>>>> But when I call dma_set_mask_and_coherent(dev->dev, DMA_BIT_MASK(32) in
+>>>> the affected driver (thus far I tried this nvme, xhci-pci and ahci-pci
+>>>> drivers), it all starts to work fine.
+>>>>
+>>>> Could it be that the driver overwrites the (coherent_)dma_mask and
+>>>> that's why the swiotlb/iommu code cannot take this into account ?
+>>>>
+>>>>> Does it involve
+>>>>> swiotlb not kicking in, or iommu issues?
+>>>>
+>>>> How can I check ? I added printks into arch/arm64/mm/dma-mapping.c and
+>>>> drivers/iommu/dma-iommu.c , but I suspect I need to look elsewhere.
 >>>
->>> The naming should really be something like rdma_dim as it accounts
->>> for completions and not bytes/packets.
->> Sagi,
->>
->> I think that in the future we could use it in nvme since there is an
->> option to set the interrupt coalescing in NVMe spec.
->>
->> This might improve performance for NVMe driver.
->>
->> We already see some bottlenecks in performance (maybe driver ones)
->> while developing the NVMe SNAP feature in Bluefield (NVMe emulation
->> using Smart NIC).
->>
->> We're trying to get 2.5-2.7 MIOPs OOB from 1 controller and it's not
->> trivial for today's driver.
->>
->> So let's take this into consideration when we set the naming.
->>
->>
-> I agree that blk is not the most successful name, we were trying to find
-> something that would work for general storage applications. I think
-> rdma_dim would work as it is completion based but then when we want to
-> use it for nvme it will probably require code duplication.
-
-agreed for rdma_dim.
-
-Yamin/Idan,
-
-let's discuss internally regarding Sagi's proposal for 
-moderation/coalescing per NVMe queue (and not per controller).
-
-maybe need to update specification.
-
-
->
+>>> Digging further ...
 >>>
->>>> How does net_dim compare to lib/irq_poll?
->>> Its orthogonal, its basically adaptive interrupt moderation for
->>> RDMA devices. Its sort of below the irq_poll code. It basically
->>> configures interrupt moderation based on stats collected by
->>> the rdma driver.
+>>> drivers/nvme/host/pci.c nvme_map_data() calls dma_map_sg_attrs() and the
+>>> resulting sglist contains entry with >32bit PA. This is because
+>>> dma_map_sg_attrs() calls dma_direct_map_sg(), which in turn calls
+>>> dma_direct_map_sg(), then dma_direct_map_page() and that's where it goes
+>>> weird.
 >>>
->>>> Which approach results in the best performance and lowest latency?
->>> I guess it depends on what is the test case. This approach tries to
->>> apply some time or completion count limit to when the HW should fire
->>> an interrupt based on the load in an adaptive fashion.
+>>> dma_direct_map_page() does a dma_direct_possible() check before
+>>> triggering swiotlb_map(). The check succeeds, so the later isn't executed.
 >>>
->>> The scheme is to try and detect what are the load characteristics and
->>> come up with a moderation parameters that fit. For high interrupt rate
->>> (usually seen with small size high queue-depth workloads) it configures
->>> the device to aggregate some more before firing an interrupt - so less
->>> interrupts, better efficiency per interrupt (finds more completions).
->>> For low interrupt rate (low queue depth) the load is probably low to
->>> moderate and aggregating before firing an interrupt is just added
->>> latency for no benefit. So the algorithm tries to transition between a
->>> number of pre-defined levels according to the load it samples.
+>>> dma_direct_possible() calls dma_capable() with dev->dma_mask =
+>>> DMA_BIT_MASK(64) and dev->dma_bus_mask = 0, so
+>>> min_not_zero(*dev->dma_mask, dev->bus_dma_mask) returns DMA_BIT_MASK(64).
 >>>
->>> This has been widely used by the network drivers for the past decade.
+>>> Surely enough, if I hack dma_direct_possible() to return 0,
+>>> swiotlb_map() kicks in and the nvme driver starts working fine.
 >>>
->>> Now, this algorithm while trying to adjust itself by learning the load,
->>> also adds entropy to the overall system performance and latency.
->>> So this is not a trivial trade-off for any workload.
->>>
->>> I took a stab at this once (came up with something very similar),
->>> and while for large queue-depth workloads I got up to 2x IOPs as the
->>> algorithm chose aggressive moderation parameters which improved the
->>> efficiency a lot, but when the workload varied the algorithm wasn't very
->>> successful detecting the load and the step direction (I used a variation
->>> of the same basic algorithm from mlx5 driver that net_dim is based on).
->>>
->>> Also, QD=1 resulted in higher latency as the algorithm was dangling
->>> between the two lowest levels. So I guess this needs to undergo a
->>> thorough performance evaluation for steady and varying workloads before
->>> we can consider this.
->>>
->>> Overall, I think its a great idea to add that to the rdma subsystem
->>> but we cannot make it the default and especially without being able
->>> to turn it off. So this needs to be opt in with a sysctl option.
->> We can add flag in create_cq command that will
->> try_coalescing_is_possible instead of module parameter of course.
+>>> I presume the question here is, why is dev->bus_dma_mask = 0 ?
 >>
->> Storage ULPs can set it to True.
->>
->> Also in the internal review Yamin added a table that summarize all the
->> testing that were done using NVMeoF (I guess it somehow didn't get to
->> this RFC).
->>
->> I guess we can do the same for iSER to get more confidence and then
->> set both to create modifiable cq (if HCA supports, of course).
->>
->> Agreed ?
->>
-> I think that adding a flag in create_cq will be less clean as it will
-> require more work for anyone writing applications that should not have
-> to consider this feature.
+>> Because that's the default, and almost no code overrides that?
+> 
+> But shouldn't drivers/of/device.c set that for the PCIe controller ?
 
+Urgh, I really should have spotted the significance of "NVMe", but 
+somehow it failed to click :(
 
-As we discussed, let's check with RDMA maintainers if it's better to 
-extend alloc_cq API or create alloc_cq_dim API function.
+Of course the existing code works fine for everything *except* PCI 
+devices on DT-based systems... That's because of_dma_get_range() has 
+never been made to work correctly with the trick we play of passing the 
+host bridge of_node through of_dma_configure(). I've got at least 2 or 3 
+half-finished attempts at improving that, but they keep getting 
+sidetracked into trying to clean up the various new of_dma_configure() 
+hacks I find in drivers and/or falling down the rabbit-hole of starting 
+to redesign the whole dma_pfn_offset machinery entirely. Let me dig one 
+up and try to constrain it to solve just this most common "one single 
+limited range" condition for the sake of making actual progress...
 
-Sagi/Christoph,
+Robin.
 
-how about adding a module param per ULP ? as we use register_always 
-today, create a use_dimm module param for iSER/NVMe-RDMA ?
-
->
-> Based on the results I saw during testing I would set it to work by
-> default as I could not find a use case where it significantly reduces
-> performance and in many cases it is a large improvement. It should be
-> more of an opt out situation.
->
-> Performance improvement (ConnectX-5 100GbE, x86) running FIO benchmark over
->   ??? NVMf between two equal end-hosts with 56 cores across a Mellanox switch
->   ??? using null_blk device:
->
->   ??? IO READS before:
->   ??? blk size | BW????? | IOPS | 99th percentile latency
->   ??? 512B???? | 3.2GiB? | 6.6M | 1549? usec
->   ??? 4k?????? | 7.2GiB? | 1.8M | 7177? usec
->   ??? 64k????? | 10.7GiB | 176k | 82314 usec
->
->   ??? IO READS after:
->   ??? blk size | BW????? | IOPS | 99th percentile latency
->   ??? 512B???? | 4.2GiB? | 8.6M | 1729?? usec
->   ??? 4k?????? | 10.5GiB | 2.7M | 5669?? usec
->   ??? 64k????? | 10.7GiB | 176k | 102000 usec
->
->   ??? IO WRITES before:
->   ??? blk size | BW????? | IOPS | 99th percentile latency
->   ??? 512B???? | 3GiB??? | 6.2M | 2573? usec
->   ??? 4k?????? | 7.2GiB? | 1.8M | 5342? usec
->   ??? 64k????? | 10.7GiB | 176k | 62129 usec
->
->   ??? IO WRITES after:
->   ??? blk size | BW????? | IOPS? | 99th percentile latency
->   ??? 512B???? | 4.2GiB? | 8.6M? | 938?? usec
->   ??? 4k?????? | 10.2GiB | 2.68M | 2769? usec
->   ??? 64k????? | 10.6GiB | 173k? | 87557 usec
->
-> It doesn't really make a difference to me how the option is implemented
-> but I think it makes more sense to have it dealt with by us such as in a
-> module parameter and not something like a flag that has a larger radius
-> of effect.
->
->>>
->>> Moreover, not every device support cq moderation so you need to check
->>> the device capabilities before you apply any of this.
->> for sure.
+>> $ git grep "\<bus_dma_mask ="
+>> arch/mips/pci/fixup-sb1250.c:           dev->dev.bus_dma_mask =
+>> DMA_BIT_MASK(32);
+>> arch/x86/kernel/pci-dma.c:      pdev->dev.bus_dma_mask = DMA_BIT_MASK(32);
+>> drivers/acpi/arm64/iort.c:              dev->bus_dma_mask = mask;
+>> drivers/of/device.c:            dev->bus_dma_mask = mask;
 >>
+>> dev is the nvme PCI device, I assume? So you can ignore the last match.
 >>
+>> The first two seem to be related to platforms that cannot do >32 bit DMA
+>> on PCI. So that's a hint on how to fix this...
+> 
+> That doesn't feel right, it's not a platform limitation, but a PCIe IP
+> limitation, so this fix should live somewhere in drivers/ I think ? >
