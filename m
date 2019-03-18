@@ -1,38 +1,63 @@
 From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Mon, 18 Mar 2019 09:49:33 +0800
-Subject: [PATCH 2/8] blk-mq: change the method of iterating busy tags of a
- request_queue
-In-Reply-To: <20190315161608.GB15153@localhost.localdomain>
+Date: Mon, 18 Mar 2019 10:47:57 +0800
+Subject: [PATCH 0/8]: blk-mq: use static_rqs to iterate busy tags
+In-Reply-To: <1552666744.45180.135.camel@acm.org>
 References: <1552640264-26101-1-git-send-email-jianchao.w.wang@oracle.com>
- <1552640264-26101-3-git-send-email-jianchao.w.wang@oracle.com>
- <20190315161608.GB15153@localhost.localdomain>
-Message-ID: <e17f86f0-98ca-5c79-0d9b-43c628b72413@oracle.com>
+ <20190315092020.GA2405@lst.de>
+ <a36be8bd-bb9c-745e-cfdb-018cf0a96d42@oracle.com>
+ <1552666744.45180.135.camel@acm.org>
+Message-ID: <8cff92a3-2f25-18a7-265f-9bff7d8cc3fc@oracle.com>
 
-Hi Keith
+Hi Bart
 
-On 3/16/19 12:16 AM, Keith Busch wrote:
-> There is still a window where the check may succeed, but the request is
-> being assigned to a completely different request_queue. The callback
-> then operates on a request it doesn't own.
+On 3/16/19 12:19 AM, Bart Van Assche wrote:
+>> This stale request maybe something that has been freed due to io scheduler
+>> is detached or a q using a shared tagset is gone.
+>>
+>> And also the blk_mq_timeout_work could use it to pick up the expired request.
+>> The driver would also use it to requeue the in-flight requests when the device is dead.
+>>
+>> Compared with adding more synchronization, using static_rqs[] directly maybe simpler :)
+> Hi Jianchao,
 > 
-> Tag iteration from a driver can be safe only if the driver initiates a
-> freeze and quiesced all queues sharing the same tagset first. The nvme
-> driver does that, but I think there may need to be an additional grace
-> period to wait for the allocation's queue_enter to call queue_exit to
-> ensure the request is initialized through blk_mq_rq_ctx_init().
+> Although I appreciate your work: I agree with Christoph that we should avoid races
+> like this rather than modifying the block layer to make sure that such races are
+> handled safely.
 
-This patch is to avoid the use-after-free case in the comment.
-The helper interface is used in following cases,
-1. in flight request account
-   this case should not require so much accuracy
+The root cause here is that there is window between set tag sbitmap and set tags->rqs[]
+, and we don't clear the tags->rqs[] in free tags path. So when we iterate the busy
+tags, we could see stale requests in tags->rqs[] and this stale requests maybe freed.
 
-2. timeout check
-   a extra reference will be held there to avoid the request recycle
+Looks like it is difficult to close the window above, so we used to try to clear the
+tags->rqs[] in two ways,
 
-3. if it is used by driver, it should be enough that quiesce the request_queue
-   the driver usually wants to handle the in-flight ones, quiesce request_queue
-   could ensure all of tasks quit the hctx_lock and no one issue request any
-   more.
+1. clear the tags->rqs[] in the request free path
+Jens doesn't like it
+https://marc.info/?l=linux-block&m=154515671524877&w=2
+"
+It's an extra store, and it's a store to an area that's then now shared
+between issue and completion. Those are never a good idea. Besides, it's
+the kind of issue you solve in the SLOW path, not in the fast path. Since
+that's doable, it would be silly to do it for every IO.
+"
+
+2. clear the associated slots in tags->tags[] when blk_mq_free_rqs
+https://marc.info/?l=linux-block&m=154534605914798&w=2
+
++	rcu_read_lock();
+ 	sbitmap_for_each_set(&bt->sb, bt_iter, &iter_data);
++	rcu_read_unlock();
+
+The busy_iter_fn could sleep
+blk_mq_check_expired
+  -> blk_mq_rq_timed_out
+    -> q->mq_ops->timeout
+       nvme_timeout
+         -> nvme_dev_disable
+            -> mutex_lock dev->shutdown_lock
+
+Since it is not so flexible to fix on tags->rqs[], why not try to use tags->static_rqs[] ?
+Then we wound never care about the stable requests any more.
 
 Thanks
 Jianchao
