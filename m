@@ -1,40 +1,33 @@
 From: kbusch@kernel.org (Keith Busch)
-Date: Tue, 19 Mar 2019 09:22:13 -0600
-Subject: your mail
-In-Reply-To: <20190319144116.400-1-mlevitsk@redhat.com>
-References: <20190319144116.400-1-mlevitsk@redhat.com>
-Message-ID: <20190319152212.GC24176@localhost.localdomain>
+Date: Tue, 19 Mar 2019 09:25:34 -0600
+Subject: [PATCH 0/8]: blk-mq: use static_rqs to iterate busy tags
+In-Reply-To: <1553008222.152266.43.camel@acm.org>
+References: <1552640264-26101-1-git-send-email-jianchao.w.wang@oracle.com>
+ <1552930085.152266.36.camel@acm.org>
+ <3cd58454-eda3-de9a-0eed-b6a7edbce28f@oracle.com>
+ <1553008222.152266.43.camel@acm.org>
+Message-ID: <20190319152533.GD24176@localhost.localdomain>
 
-On Tue, Mar 19, 2019@04:41:07PM +0200, Maxim Levitsky wrote:
->   -> Share the NVMe device between host and guest. 
->      Even in fully virtualized configurations,
->      some partitions of nvme device could be used by guests as block devices 
->      while others passed through with nvme-mdev to achieve balance between
->      all features of full IO stack emulation and performance.
->   
->   -> NVME-MDEV is a bit faster due to the fact that in-kernel driver 
->      can send interrupts to the guest directly without a context 
->      switch that can be expensive due to meltdown mitigation.
+On Tue, Mar 19, 2019@08:10:22AM -0700, Bart Van Assche wrote:
+> On Tue, 2019-03-19@09:25 +0800, jianchao.wang wrote:
+> > Do you mean this patch from Jens ?
+> > https://marc.info/?l=linux-block&m=154534605914798&w=2
+> > 
+> > +	rcu_read_lock();
+> >  	sbitmap_for_each_set(&bt->sb, bt_iter, &iter_data);
+> > +	rcu_read_unlock();
+> > 
+> > The busy_iter_fn could sleep for nvme
+> > blk_mq_check_expired
+> >   -> blk_mq_rq_timed_out
+> >     -> q->mq_ops->timeout
+> >        nvme_timeout
+> >          -> nvme_dev_disable
+> >             -> mutex_lock dev->shutdown_lock
 > 
->   -> Is able to utilize interrupts to get reasonable performance. 
->      This is only implemented
->      as a proof of concept and not included in the patches, 
->      but interrupt driven mode shows reasonable performance
->      
->   -> This is a framework that later can be used to support NVMe devices 
->      with more of the IO virtualization built-in 
->      (IOMMU with PASID support coupled with device that supports it)
+> Hi Jianchao,
+> 
+> I think that's an additional reason to rewrite NVMe error handling ...
 
-Would be very interested to see the PASID support. You wouldn't even
-need to mediate the IO doorbells or translations if assigning entire
-namespaces, and should be much faster than the shadow doorbells.
-
-I think you should send 6/9 "nvme/pci: init shadow doorbell after each
-reset" separately for immediate inclusion.
-
-I like the idea in principle, but it will take me a little time to get
-through reviewing your implementation. I would have guessed we could
-have leveraged something from the existing nvme/target for the mediating
-controller register access and admin commands. Maybe even start with
-implementing an nvme passthrough namespace target type (we currently
-have block and file).
+Nonesense. Block timeout handling runs in a work queue precicesly so
+handlers can actually do useful work in line with the notification.
