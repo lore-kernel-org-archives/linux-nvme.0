@@ -1,42 +1,49 @@
-From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Tue, 19 Mar 2019 09:25:04 +0800
-Subject: [PATCH 0/8]: blk-mq: use static_rqs to iterate busy tags
-In-Reply-To: <1552930085.152266.36.camel@acm.org>
-References: <1552640264-26101-1-git-send-email-jianchao.w.wang@oracle.com>
- <1552930085.152266.36.camel@acm.org>
-Message-ID: <3cd58454-eda3-de9a-0eed-b6a7edbce28f@oracle.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Tue, 19 Mar 2019 09:31:43 +0800
+Subject: [PATCH 1/2] blk-mq: introduce blk_mq_complete_request_sync()
+In-Reply-To: <4563485a-02c6-0bfe-d9ec-49adbd44671c@broadcom.com>
+References: <20190318032950.17770-1-ming.lei@redhat.com>
+ <20190318032950.17770-2-ming.lei@redhat.com>
+ <4563485a-02c6-0bfe-d9ec-49adbd44671c@broadcom.com>
+Message-ID: <20190319013142.GB22459@ming.t460p>
 
-Hi Bart
-
-Thanks for your kindly and detailed comment on this.
-
-On 3/19/19 1:28 AM, Bart Van Assche wrote:
-> On Fri, 2019-03-15@16:57 +0800, Jianchao Wang wrote:
->> [2] https://urldefense.proofpoint.com/v2/url?u=https-3A__marc.info_-3Fl-3Dlinux-2Dblock-26m-3D154526189023236-26w-3D2&d=DwICAg&c=RoP1YumCXCgaWHvlZYR8PZh8Bv7qIrMUB65eapI_JnE&r=7WdAxUBeiTUTCy8v-7zXyr4qk7sx26ATvfo6QSTvZyQ&m=_8Zz6iRpso8g7WlZ-WB50qqNkI2X2GRfySSBWyFKuI4&s=ZVNqSClQ_47hVGJpSrF5rbTh3X32cAlY-GFF2BPkGx0&e=
+On Mon, Mar 18, 2019@10:37:08AM -0700, James Smart wrote:
 > 
-> Hi Jianchao,
 > 
-> That is a reference to the "BUG: KASAN: use-after-free in bt_iter" issue.
-> I think that issue can be fixed in another way than modifying all code that
-> iterates over tags, namely by adding an rcu_read_lock() / rcu_read_unlock()
-> pair in bt_for_each() and bt_tags_for_each() and by changing the calls in
-> blk_mq_free_rqs() and blk_free_flush_queue() that free the data structures
-> used by the tag iteration functions into kfree_rcu() or call_rcu() calls.
+> On 3/17/2019 8:29 PM, Ming Lei wrote:
+> > In NVMe's error handler, follows the typical steps for tearing down
+> > hardware:
+> > 
+> > 1) stop blk_mq hw queues
+> > 2) stop the real hw queues
+> > 3) cancel in-flight requests via
+> > 	blk_mq_tagset_busy_iter(tags, cancel_request, ...)
+> > cancel_request():
+> > 	mark the request as abort
+> > 	blk_mq_complete_request(req);
+> > 4) destroy real hw queues
+> > 
+> > However, there may be race between #3 and #4, because blk_mq_complete_request()
+> > actually completes the request asynchronously.
+> > 
+> > This patch introduces blk_mq_complete_request_sync() for fixing the
+> > above race.
+> > 
+> 
+> This won't help FC at all. Inherently, the "completion" has to be
+> asynchronous as line traffic may be required.
+> 
+> e.g. FC doesn't use nvme_complete_request() in the iterator routine.
+> 
 
-Do you mean this patch from Jens ?
-https://marc.info/?l=linux-block&m=154534605914798&w=2
+Looks FC has done the sync already, see nvme_fc_delete_association():
 
-+	rcu_read_lock();
- 	sbitmap_for_each_set(&bt->sb, bt_iter, &iter_data);
-+	rcu_read_unlock();
+		...
+        /* wait for all io that had to be aborted */
+        spin_lock_irq(&ctrl->lock);
+        wait_event_lock_irq(ctrl->ioabort_wait, ctrl->iocnt == 0, ctrl->lock);
+        ctrl->flags &= ~FCCTRL_TERMIO;
+        spin_unlock_irq(&ctrl->lock);
 
-The busy_iter_fn could sleep for nvme
-blk_mq_check_expired
-  -> blk_mq_rq_timed_out
-    -> q->mq_ops->timeout
-       nvme_timeout
-         -> nvme_dev_disable
-            -> mutex_lock dev->shutdown_lock
-
-Thanks
-Jianchao
+Thanks,
+Ming
