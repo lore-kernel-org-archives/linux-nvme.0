@@ -1,51 +1,53 @@
-From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Tue, 19 Mar 2019 10:04:23 +0800
-Subject: [PATCH 5/8] nbd: use blk_mq_queue_tag_busy_iter
-In-Reply-To: <1552929384.152266.27.camel@acm.org>
-References: <1552640264-26101-1-git-send-email-jianchao.w.wang@oracle.com>
- <1552640264-26101-6-git-send-email-jianchao.w.wang@oracle.com>
- <1552929384.152266.27.camel@acm.org>
-Message-ID: <6447c549-d531-58a7-57f7-00480ec2d128@oracle.com>
+From: james.smart@broadcom.com (James Smart)
+Date: Mon, 18 Mar 2019 20:37:35 -0700
+Subject: [PATCH 1/2] blk-mq: introduce blk_mq_complete_request_sync()
+In-Reply-To: <20190319010601.GA22459@ming.t460p>
+References: <20190318032950.17770-1-ming.lei@redhat.com>
+ <20190318032950.17770-2-ming.lei@redhat.com>
+ <4563485a-02c6-0bfe-d9ec-49adbd44671c@broadcom.com>
+ <20190319010601.GA22459@ming.t460p>
+Message-ID: <606d3477-e7ed-d876-f132-11627a77a760@broadcom.com>
 
-Hi Bart
 
-Thanks for your comment on this.
 
-On 3/19/19 1:16 AM, Bart Van Assche wrote:
-> On Fri, 2019-03-15@16:57 +0800, Jianchao Wang wrote:
->> blk_mq_tagset_busy_iter is not safe that it could get stale request
->> in tags->rqs[]. Use blk_mq_queue_tag_busy_iter here.
+On 3/18/2019 6:06 PM, Ming Lei wrote:
+> On Mon, Mar 18, 2019@10:37:08AM -0700, James Smart wrote:
 >>
->> Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
->> ---
->>  drivers/block/nbd.c | 2 +
->>  1 file changed, 1 insertion(), 1 deletion(-)
+>> On 3/17/2019 8:29 PM, Ming Lei wrote:
+>>> In NVMe's error handler, follows the typical steps for tearing down
+>>> hardware:
+>>>
+>>> 1) stop blk_mq hw queues
+>>> 2) stop the real hw queues
+>>> 3) cancel in-flight requests via
+>>> 	blk_mq_tagset_busy_iter(tags, cancel_request, ...)
+>>> cancel_request():
+>>> 	mark the request as abort
+>>> 	blk_mq_complete_request(req);
+>>> 4) destroy real hw queues
+>>>
+>>> However, there may be race between #3 and #4, because blk_mq_complete_request()
+>>> actually completes the request asynchronously.
+>>>
+>>> This patch introduces blk_mq_complete_request_sync() for fixing the
+>>> above race.
+>>>
+>> This won't help FC at all. Inherently, the "completion" has to be
+>> asynchronous as line traffic may be required.
 >>
->> diff --git a/drivers/block/nbd.c b/drivers/block/nbd.c
->> index 7c9a949..9e7e828 100644
->> --- a/drivers/block/nbd.c
->> +++ b/drivers/block/nbd.c
->> @@ -747,7 +747,7 @@ static bool nbd_clear_req(struct request *req, void *data, bool reserved)
->>  static void nbd_clear_que(struct nbd_device *nbd)
->>  {
->>         blk_mq_quiesce_queue(nbd->disk->queue);
->> -       blk_mq_tagset_busy_iter(&nbd->tag_set, nbd_clear_req, NULL);
->> +       blk_mq_queue_tag_busy_iter(nbd->disk->queue, nbd_clear_req, NULL, true);
->>         blk_mq_unquiesce_queue(nbd->disk->queue);
->>         dev_dbg(disk_to_dev(nbd->disk), "queue cleared\n");
->>  }
-> 
-> Hi Jianchao,
-> 
-> The nbd driver calls nbd_clear_que() after having called sock_shutdown(). So
-> what makes you think that it's not safe to call blk_mq_tagset_busy_iter()
-> from nbd_clear_que()?
-> 
+>> e.g. FC doesn't use nvme_complete_request() in the iterator routine.
+> Yeah, I saw the FC code, it is supposed to address the asynchronous
+> completion of blk_mq_complete_request() in error handler.
+>
+> Also I think it is always the correct thing to abort requests
+> synchronously in error handler, isn't it?
+>
 
-The request_queue is not frozen, so there still could be someone enters and get
-request. If no io scheduler attached, the driver tag could be allocated and 
-tags->rqs[] would be set. During this, blk_mq_tagset_busy_iter could get some stale
-requests in tags->rqs[] which maybe freed due to switching io scheduler to none.
+not sure I fully follow you, but if you're asking shouldn't it always be 
+synchronous - why would that be the case ?? I really don't want a 
+blocking thread that could block for several seconds on a single io to 
+complete.? The controller has changed state and the queues frozen which 
+should have been sufficient - but bottom-end io can still complete at 
+any time.
 
-Thanks
-Jianchao
+-- james
