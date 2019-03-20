@@ -1,41 +1,102 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 20 Mar 2019 11:52:52 -0700
-Subject: [PATCH 2/8] blk-mq: change the method of iterating busy tags of a
- request_queue
-In-Reply-To: <1552640264-26101-3-git-send-email-jianchao.w.wang@oracle.com>
-References: <1552640264-26101-1-git-send-email-jianchao.w.wang@oracle.com>
- <1552640264-26101-3-git-send-email-jianchao.w.wang@oracle.com>
-Message-ID: <bf563d09-c243-5bf5-ab3e-0fa2bd583edd@grimberg.me>
+From: mlevitsk@redhat.com (Maxim Levitsky)
+Date: Wed, 20 Mar 2019 21:08:37 +0200
+Subject: No subject
+In-Reply-To: <488768D7-1396-4DD1-A648-C86E5CF7DB2F@nutanix.com>
+References: <20190319144116.400-1-mlevitsk@redhat.com>
+ <488768D7-1396-4DD1-A648-C86E5CF7DB2F@nutanix.com>
+Message-ID: <42f444d22363bc747f4ad75e9f0c27b40a810631.camel@redhat.com>
 
-
-
-On 3/15/19 1:57 AM, Jianchao Wang wrote:
-> tags->rqs[] will not been cleaned when free driver tag and there
-> is a window between get driver tag and write tags->rqs[], so we
-> may see stale rq in tags->rqs[] which may have been freed, as
-> following case,
-> blk_mq_get_request         blk_mq_queue_tag_busy_iter
->    -> blk_mq_get_tag
->                               -> bt_for_each
->                                 -> bt_iter
->                                   -> rq = taags->rqs[]
->                                   -> rq->q
->    -> blk_mq_rq_ctx_init
->      -> data->hctx->tags->rqs[rq->tag] = rq;
+On Wed, 2019-03-20@11:03 +0000, Felipe Franciosi wrote:
+> > On Mar 19, 2019,@2:41 PM, Maxim Levitsky <mlevitsk@redhat.com> wrote:
+> > 
+> > Date: Tue, 19 Mar 2019 14:45:45 +0200
+> > Subject: [PATCH 0/9] RFC: NVME VFIO mediated device
+> > 
+> > Hi everyone!
+> > 
+> > In this patch series, I would like to introduce my take on the problem of
+> > doing 
+> > as fast as possible virtualization of storage with emphasis on low latency.
+> > 
+> > In this patch series I implemented a kernel vfio based, mediated device
+> > that 
+> > allows the user to pass through a partition and/or whole namespace to a
+> > guest.
 > 
-> To fix this, the blk_mq_queue_tag_busy_iter is changed in this
-> patch to use tags->static_rqs[] instead of tags->rqs[]. We have
-> to identify whether there is a io scheduler attached to decide
-> to use hctx->tags or hctx->sched_tags. And we will try to get a
-> non-zero q_usage_counter before that, so it is safe to access
-> them. Add 'inflight' parameter to determine to iterate in-flight
-> requests or just busy tags. A correction here is that
-> part_in_flight should count the busy tags instead of rqs that
-> have got driver tags.
+> Hey Maxim!
+> 
+> I'm really excited to see this series, as it aligns to some extent with what
+> we discussed in last year's KVM Forum VFIO BoF.
+> 
+> There's no arguing that we need a better story to efficiently virtualise NVMe
+> devices. So far, for Qemu-based VMs, Changpeng's vhost-user-nvme is the best
+> attempt at that. However, I seem to recall there was some pushback from qemu-
+> devel in the sense that they would rather see investment in virtio-blk. I'm
+> not sure what's the latest on that work and what are the next steps.
+I agree with that. All my benchmarks were agains his vhost-user-nvme driver, and
+I am able to get pretty much the same througput and latency.
 
-IMO, instead of this parameter, add a wrapper like
-blk_mq_queue_tag_inflight_iter() or keep the parameter out until
-we actually have a user that calls it for busy and not inflight.
+The ssd I tested on died just recently (Murphy law), not due to bug in my driver
+but some internal fault (even though most of my tests were reads, plus
+occassional 'nvme format's.
+We are in process of buying an replacement.
 
-Other than that, I think that iterating over static_rqs is a good
-solution to the problem described.
+> 
+> The pushback drove the discussion towards pursuing an mdev approach, which is
+> why I'm excited to see your patches.
+> 
+> What I'm thinking is that passing through namespaces or partitions is very
+> restrictive. It leaves no room to implement more elaborate virtualisation
+> stacks like replicating data across multiple devices (local or remote),
+> storage migration, software-managed thin provisioning, encryption,
+> deduplication, compression, etc. In summary, anything that requires software
+> intervention in the datapath. (Worth noting: vhost-user-nvme allows all of
+> that to be easily done in SPDK's bdev layer.)
+
+Hi Felipe!
+
+I guess that my driver is not geared toward more complicated use cases like you
+mentioned, but instead it is focused to get as fast as possible performance for
+the common case.
+
+One thing that I can do which would solve several of the above problems is to
+accept an map betwent virtual and real logical blocks, pretty much in exactly
+the same way as EPT does it.
+Then userspace can map any portions of the device anywhere, while still keeping
+the dataplane in the kernel, and having minimal overhead.
+
+On top of that, note that the direction of IO virtualization is to do dataplane
+in hardware, which will probably give you even worse partition granuality /
+features but will be the fastest option aviable,
+like for instance SR-IOV which alrady exists and just allows to split by
+namespaces without any more fine grained control.
+
+Think of nvme-mdev as a very low level driver, which currntly uses polling, but
+eventually will use PASID based IOMMU to provide the guest with raw PCI device.
+The userspace / qemu can build on top of that with varios software layers.
+
+On top of that I am thinking to solve the problem of migration in Qemu, by
+creating a 'vfio-nvme' driver which would bind vfio to bind to device exposed by
+the kernel, and would pass through all the doorbells and queues to the guest,
+while intercepting the admin queue. Such driver I think can be made to support
+migration while beeing able to run on top both SR-IOV device, my vfio-nvme abit
+with double admin queue emulation (its a bit ugly but won't affect performance
+at all) and on top of even regular NVME device vfio assigned to guest.
+
+
+Best regards,
+	Maxim Levitsky
+
+> 
+> These complicated stacks should probably not be implemented in the kernel,
+> though. So I'm wondering whether we could talk about mechanisms to allow
+> efficient and performant userspace datapath intervention  in your approach or
+> pursue a mechanism to completely offload the device emulation to userspace
+> (and align with what SPDK has to offer).
+> 
+> Thoughts welcome!
+> Felipe
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
