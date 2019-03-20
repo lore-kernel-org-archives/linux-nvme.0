@@ -1,19 +1,40 @@
-From: fam@euphon.net (Fam Zheng)
-Date: Wed, 20 Mar 2019 10:54:15 +0800
-Subject: [PATCH 4/9] nvme/pci: use the NVME_CTRL_SUSPENDED state
-In-Reply-To: <20190319144116.400-5-mlevitsk@redhat.com>
-References: <20190319144116.400-1-mlevitsk@redhat.com>
- <20190319144116.400-5-mlevitsk@redhat.com>
-Message-ID: <20190320025415.bli42qmifuu5gxdm@deb>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Wed, 20 Mar 2019 11:17:36 +0200
+Subject: [RFC/PATCH net-next 0/9] net/dim: Support for multiple
+ implementations
+In-Reply-To: <4c7b78ff-e906-8e67-c3ad-495b858ce82c@grimberg.me>
+References: <20190306084832.57753-1-talgi@mellanox.com>
+ <1551888921.9796.2.camel@acm.org>
+ <392082ba-9aeb-6c5e-53a0-7bb53ce101fa@grimberg.me>
+ <010bc92c-55c1-c5bd-82a5-975aa7f7c735@mellanox.com>
+ <50b3659d-fd88-85b0-755e-49565fbe98c2@mellanox.com>
+ <89a41878-c88b-c0a2-64ef-4409b907ece6@mellanox.com>
+ <4c7b78ff-e906-8e67-c3ad-495b858ce82c@grimberg.me>
+Message-ID: <226b674a-8ccb-864a-6153-be38ebcc3133@mellanox.com>
 
-On Tue, 03/19 16:41, Maxim Levitsky wrote:
-> When enteriing low power state, the nvme
 
-Typo: "entering".
+On 3/18/2019 11:34 PM, Sagi Grimberg wrote:
+>
+>> As we discussed, let's check with RDMA maintainers if it's better to 
+>> extend alloc_cq API or create alloc_cq_dim API function.
+>>
+>> Sagi/Christoph,
+>>
+>> how about adding a module param per ULP ? as we use register_always 
+>> today, create a use_dimm module param for iSER/NVMe-RDMA ?
+>
+> I would say that its better (and simpler) to do a global sysctl knob for
+> it. No need for a per-ULP param for a starting point.
 
-> driver will now inform the core with the NVME_CTRL_SUSPENDED state
-> which will allow mdev driver to act on this information
+for sure it's simpler, but in this case all should agree that in case we 
+run more than 1 ULP in a server, all of them will have the same 
+configuration (no QoS).
 
-[snip]
+are you suggesting something like:
 
-Fam
+/proc/sys/rdma/mlx5_0/dim
+
+Jason/Leon/Doug,
+
+thoughts about the best way to configure this feature from your 
+perspective ?
