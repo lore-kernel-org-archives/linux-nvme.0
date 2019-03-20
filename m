@@ -1,32 +1,16 @@
-From: mlevitsk@redhat.com (Maxim Levitsky)
-Date: Wed, 20 Mar 2019 18:48:17 +0200
-Subject: [PATCH 0/9] RFC: NVME VFIO mediated device
-In-Reply-To: <1553094528.65329.29.camel@acm.org>
+From: kbusch@kernel.org (Keith Busch)
+Date: Wed, 20 Mar 2019 11:03:22 -0600
+Subject: your mail
+In-Reply-To: <5a56e110b062de9d448c51cf0774c5e614133873.camel@redhat.com>
 References: <20190319144116.400-1-mlevitsk@redhat.com>
- <1553094528.65329.29.camel@acm.org>
-Message-ID: <e0491452300bca37a716499b6ecd4e9f1c2f8c99.camel@redhat.com>
+ <20190319152212.GC24176@localhost.localdomain>
+ <5a56e110b062de9d448c51cf0774c5e614133873.camel@redhat.com>
+Message-ID: <20190320170321.GA27462@localhost.localdomain>
 
-On Wed, 2019-03-20@08:08 -0700, Bart Van Assche wrote:
-> On Tue, 2019-03-19@16:41 +0200, Maxim Levitsky wrote:
-> > * Polling kernel thread is used. The polling is stopped after a 
-> > predefined timeout (1/2 sec by default).
-> > Support for all interrupt driven mode is planned, and it shows promising
-> > results.
-> 
-> Which cgroup will the CPU cycles used for polling be attributed to? Can the
-> polling code be moved into user space such that it becomes easy to identify
-> which process needs most CPU cycles for polling and such that the polling
-> CPU cycles are attributed to the proper cgroup?
+On Wed, Mar 20, 2019@06:30:29PM +0200, Maxim Levitsky wrote:
+> Or instead I can use the block backend, 
+> (but note that currently the block back-end doesn't support polling which is
+> critical for the performance).
 
-
-Currently there is a single IO thread per each virtual controller instance.
-I would prefer to keep all the driver in the kernel, but I think I can make it
-cgroup aware, in a simiar way this is done in vhost-net, and vhost-scsi.
-
-Best regards,
-	Maxim Levitsky
-
-
-> Thanks,
-> 
-> Bart.
+Oh, I think you can do polling through there. For reference, fs/io_uring.c
+has a pretty good implementation that aligns with how you could use it.
