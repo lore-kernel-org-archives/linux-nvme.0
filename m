@@ -1,60 +1,70 @@
 From: mlevitsk@redhat.com (Maxim Levitsky)
-Date: Wed, 20 Mar 2019 18:42:02 +0200
-Subject: [PATCH 0/9] RFC: NVME VFIO mediated device
-In-Reply-To: <1553095686.65329.36.camel@acm.org>
+Date: Wed, 20 Mar 2019 18:44:59 +0200
+Subject: your mail
+In-Reply-To: <SN6PR04MB4527810F605C8ADE388E958286400@SN6PR04MB4527.namprd04.prod.outlook.com>
 References: <20190319144116.400-1-mlevitsk@redhat.com>
- <1553095686.65329.36.camel@acm.org>
-Message-ID: <8994f43d26ebf6040b9d5d5e3866ee81abcf1a1c.camel@redhat.com>
+ <20190319152212.GC24176@localhost.localdomain>
+ <SN6PR04MB4527810F605C8ADE388E958286400@SN6PR04MB4527.namprd04.prod.outlook.com>
+Message-ID: <964d501e1141b2e58665b89dd82a8b65d8db2b53.camel@redhat.com>
 
-On Wed, 2019-03-20@08:28 -0700, Bart Van Assche wrote:
-> On Tue, 2019-03-19@16:41 +0200, Maxim Levitsky wrote:
-> > *  All guest memory is mapped into the physical nvme device 
-> >    but not 1:1 as vfio-pci would do this.
-> >    This allows very efficient DMA.
-> >    To support this, patch 2 adds ability for a mdev device to listen on 
-> >    guest's memory map events. 
-> >    Any such memory is immediately pinned and then DMA mapped.
-> >    (Support for fabric drivers where this is not possible exits too,
-> >     in which case the fabric driver will do its own DMA mapping)
+On Tue, 2019-03-19@23:49 +0000, Chaitanya Kulkarni wrote:
+> Hi Keith,
+> On 03/19/2019 08:21 AM, Keith Busch wrote:
+> > On Tue, Mar 19, 2019@04:41:07PM +0200, Maxim Levitsky wrote:
+> > >    -> Share the NVMe device between host and guest.
+> > >       Even in fully virtualized configurations,
+> > >       some partitions of nvme device could be used by guests as block
+> > > devices
+> > >       while others passed through with nvme-mdev to achieve balance
+> > > between
+> > >       all features of full IO stack emulation and performance.
+> > > 
+> > >    -> NVME-MDEV is a bit faster due to the fact that in-kernel driver
+> > >       can send interrupts to the guest directly without a context
+> > >       switch that can be expensive due to meltdown mitigation.
+> > > 
+> > >    -> Is able to utilize interrupts to get reasonable performance.
+> > >       This is only implemented
+> > >       as a proof of concept and not included in the patches,
+> > >       but interrupt driven mode shows reasonable performance
+> > > 
+> > >    -> This is a framework that later can be used to support NVMe devices
+> > >       with more of the IO virtualization built-in
+> > >       (IOMMU with PASID support coupled with device that supports it)
+> > 
+> > Would be very interested to see the PASID support. You wouldn't even
+> > need to mediate the IO doorbells or translations if assigning entire
+> > namespaces, and should be much faster than the shadow doorbells.
+> > 
+> > I think you should send 6/9 "nvme/pci: init shadow doorbell after each
+> > reset" separately for immediate inclusion.
+> > 
+> > I like the idea in principle, but it will take me a little time to get
+> > through reviewing your implementation. I would have guessed we could
+> > have leveraged something from the existing nvme/target for the mediating
+> > controller register access and admin commands. Maybe even start with
+> > implementing an nvme passthrough namespace target type (we currently
+> > have block and file).
 > 
-> Does this mean that all guest memory is pinned all the time? If so, are you
-> sure that's acceptable?
-I think so. The VFIO pci passthrough also pins all the guest memory.
-SPDK also does this (pins and dma maps) all the guest memory.
-
-I agree that this is not an ideal solution but this is a fastest and simplest
-solution possible.
-
+> I have the code for the NVMeOf target passthru-ctrl, I think we can use 
+> that as it is if you are looking for the passthru for NVMeOF.
 > 
-> Additionally, what is the performance overhead of the IOMMU notifier added
-> by patch 8/9? How often was that notifier called per second in your tests
-> and how much time was spent per call in the notifier callbacks?
+> I'll post patch-series based on the latest code base soon.
 
-To be honest I haven't optimized my IOMMU notifier at all, so when it is called,
-it stops the IO thread, does its work and then restarts it which is very slow.
-
-Fortunelly it is not called at all during normal operation as VFIO dma map/unmap
-events are really rare and happen only on guest boot.
-
-The same is even true for nested guests, as nested guest startup causes a wave
-of map unmap events while shadow IOMMU updates, but then it just uses these
-mapping without changing them.
-
-The only case when performance is really bad is when you boot a guest with
-iommu=on intel_iommu=on and then use the nvme driver there. In this case, the
-driver in the guest does itself IOMMU maps/unmaps (on the virtual IOMMU) and for
-each such event my VFIO map/unmap callback is called.
-
-This can be optimized though to be much better using also some kind of queued
-invalidation in my driver. iommu=pt meanwhile in the guest solves that issue.
+I am very intersing in this code. 
+Could you explain how your NVMeOF target passthrough works? 
+Which components of the NVME stack does it involve?
 
 Best regards,
 	Maxim Levitsky
 
+> > 
+> > _______________________________________________
+> > Linux-nvme mailing list
+> > Linux-nvme at lists.infradead.org
+> > http://lists.infradead.org/mailman/listinfo/linux-nvme
+> > 
 > 
-> Thanks,
-> 
-> Bart.
 > 
 > _______________________________________________
 > Linux-nvme mailing list
