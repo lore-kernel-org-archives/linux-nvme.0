@@ -1,28 +1,23 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 20 Mar 2019 11:34:27 -0700
-Subject: [RFC/PATCH net-next 0/9] net/dim: Support for multiple
- implementations
-In-Reply-To: <20190320111058.GU4823@mtr-leonro.mtl.com>
-References: <20190306084832.57753-1-talgi@mellanox.com>
- <1551888921.9796.2.camel@acm.org>
- <392082ba-9aeb-6c5e-53a0-7bb53ce101fa@grimberg.me>
- <010bc92c-55c1-c5bd-82a5-975aa7f7c735@mellanox.com>
- <50b3659d-fd88-85b0-755e-49565fbe98c2@mellanox.com>
- <89a41878-c88b-c0a2-64ef-4409b907ece6@mellanox.com>
- <4c7b78ff-e906-8e67-c3ad-495b858ce82c@grimberg.me>
- <226b674a-8ccb-864a-6153-be38ebcc3133@mellanox.com>
- <20190320111058.GU4823@mtr-leonro.mtl.com>
-Message-ID: <6599b66b-04d8-13e0-905a-9ab3862b30f5@grimberg.me>
+Date: Wed, 20 Mar 2019 11:38:30 -0700
+Subject: [PATCH 0/8]: blk-mq: use static_rqs to iterate busy tags
+In-Reply-To: <20190319152533.GD24176@localhost.localdomain>
+References: <1552640264-26101-1-git-send-email-jianchao.w.wang@oracle.com>
+ <1552930085.152266.36.camel@acm.org>
+ <3cd58454-eda3-de9a-0eed-b6a7edbce28f@oracle.com>
+ <1553008222.152266.43.camel@acm.org>
+ <20190319152533.GD24176@localhost.localdomain>
+Message-ID: <5879cad9-9d47-4690-0f85-00835346029b@grimberg.me>
 
 
-> It doesn't sound reasonable that we have per-ULP feature (DIM is
-> per-ULP) to be configured globally. Especially given the fact that
-> users can find themselves running different workloads with different
-> requirements on the same system.
+>> Hi Jianchao,
+>>
+>> I think that's an additional reason to rewrite NVMe error handling ...
 > 
-> Currently each ULP has some sort of tool to configure itself and I think
-> that once ULP is converted to use DIM, it should have on/off knob in the
-> tool used by their users.
+> Nonesense. Block timeout handling runs in a work queue precicesly so
+> handlers can actually do useful work in line with the notification.
 
-Its not any different than socket options that can have a global sysctl
-knob that can be overridden by individual socket consumers.
+I have to agree with Keith on this one, there is absolutely no reason to
+force this constraint on the error handler. If we want to teardown stuff
+to guarantee that we can free the request safely we may very well need
+to block on queue flushing.
