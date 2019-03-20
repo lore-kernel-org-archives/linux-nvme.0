@@ -1,84 +1,68 @@
-From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Wed, 20 Mar 2019 15:52:33 -0500
+From: torvalds@linux-foundation.org (Linus Torvalds)
+Date: Wed, 20 Mar 2019 14:44:31 -0700
 Subject: [PATCH v3] PCI/MSI: Don't touch MSI bits when the PCI device is
  disconnected
-In-Reply-To: <20190222194808.15962-1-mr.nuke.me@gmail.com>
+In-Reply-To: <20190320205233.GE251185@google.com>
 References: <20190222194808.15962-1-mr.nuke.me@gmail.com>
-Message-ID: <20190320205233.GE251185@google.com>
+ <20190320205233.GE251185@google.com>
+Message-ID: <CAHk-=wjDY1C+E0gUHmb6O3THwoTNpm=-qthDRcW+sG2RB430Mw@mail.gmail.com>
 
-[+cc Jon, Jens, Christoph, Sagi, Linus, linux-nvme from related discussion]
-[+cc Greg, Oliver, who responded to v2 of this patch]
+On Wed, Mar 20, 2019@1:52 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
+>
+> AFAICT, the consensus there was that it would be better to find some
+> sort of platform solution instead of dealing with it in individual
+> drivers.  The PCI core isn't really a driver, but I think the same
+> argument applies to it: if we had a better way to recover from readl()
+> errors, that way would work equally well in nvme-pci and the PCI core.
 
-On Fri, Feb 22, 2019@01:48:06PM -0600, Alexandru Gagniuc wrote:
-> A SURPRISE removal of a hotplug PCIe device, caused by a Link Down
-> event will execute an orderly removal of the driver, which normally
-> includes releasing the IRQs with pci_free_irq(_vectors):
-> 
->  * SURPRISE removal event causes Link Down
->  * pciehp_disable_slot()
->  * pci_device_remove()
->  * driver->remove()
->  * pci_free_irq(_vectors)()
->  * irq_chip->irq_mask()
->  * pci_msi_mask_irq()
-> 
-> Eventually, msi_set_mask_bit() will attempt to do MMIO over the dead
-> link, usually resulting in an Unsupported Request error. This can
-> confuse the firmware on FFS machines, and lead to a system crash.
-> 
-> Since the channel will have been marked "pci_channel_io_perm_failure"
-> by the hotplug thread, we know we should avoid sending blind IO to a
-> dead link.
-> When the device is disconnected, bail out of MSI teardown.
-> 
-> If device removal and Link Down are independent events, there exists a
-> race condition when the Link Down event occurs right after the
-> pci_dev_is_disconnected() check. This is outside the scope of this patch.
-> 
-> Signed-off-by: Alexandru Gagniuc <mr.nuke.me at gmail.com>
+I think that patches with the pattern "if (disconnected) don't do IO"
+are fundamentally broken and we should look for alternatives in all
+cases.
 
-I had actually applied this to pci/msi with the intent of merging it
-for v5.1, but by coincidence I noticed [1], where Jon was basically
-solving another piece of the same problem, this time in nvme-pci.
+They are fundamentally broken because they are racy: if it's an actual
+sudden disconnect in the middle of IO, there's no guarantee that we'll
+even be notified in time.
 
-AFAICT, the consensus there was that it would be better to find some
-sort of platform solution instead of dealing with it in individual
-drivers.  The PCI core isn't really a driver, but I think the same
-argument applies to it: if we had a better way to recover from readl()
-errors, that way would work equally well in nvme-pci and the PCI core.
+They are fundamentally broken because they add new magic special cases
+that very few people will ever test, and the people who do test them
+tend to do so with old irrelevant kernels.
 
-It sounds like the problem has two parts: the PCI core part and the
-individual driver part.  Solving only the first (eg, with this patch)
-isn't enough by itself, and solving the second via some platform
-solution would also solve the first.  If that's the case, I don't
-think it's worth applying this one, but please correct me if I'm
-wrong.
+Finally, they are fundamentally broken because they always end up
+being just special cases. One or two special case accesses in a
+driver, or perhaps all accesses of a particular type in just _one_
+special driver.
 
-Bjorn
+Yes, yes, I realize that people want error reporting, and that
+hot-removal can cause various error conditions (perhaps just parity
+errors for the IO, but also perhaps other random errors caused by
+firmware perhaps doing special HW setup).
 
-[1] https://lore.kernel.org/lkml/20190222010502.2434-1-jonathan.derrick at intel.com/T/#u
+But the "you get a fatal interrupt, so avoid the IO" kind of model is
+completely broken, and needs to just be fixed differently. See above
+why it's so completely broken.
 
-> ---
-> Changes since v2:
->  * Updated commit message
-> 
->  drivers/pci/msi.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/pci/msi.c b/drivers/pci/msi.c
-> index 4c0b47867258..6b6541ab264f 100644
-> --- a/drivers/pci/msi.c
-> +++ b/drivers/pci/msi.c
-> @@ -227,6 +227,9 @@ static void msi_set_mask_bit(struct irq_data *data, u32 flag)
->  {
->  	struct msi_desc *desc = irq_data_get_msi_desc(data);
->  
-> +	if (pci_dev_is_disconnected(msi_desc_to_pci_dev(desc)))
-> +		return;
-> +
->  	if (desc->msi_attrib.is_msix) {
->  		msix_mask_irq(desc, flag);
->  		readl(desc->mask_base);		/* Flush write to device */
-> -- 
-> 2.19.2
-> 
+So if the hw is set up to send some kinf of synchronous interrupt or
+machine check that cannot sanely be handled (perhaps because it will
+just repeat forever), we should try to just disable said thing.
+
+PCIe allows for just polling for errors on the bridges, afaik. It's
+been years since I looked at it, and maybe I'm wrong. And I bet there
+are various "platform-specific value add" registers etc that may need
+tweaking outside of any standard spec for PCIe error reporting. But
+let's do that in a platform driver, to set up the platform to not do
+the silly "I'm just going to die if I see an error" thing.
+
+It's way better to have a model where you poll each bridge once a
+minute (or one an hour) and let people know "guys, your hardware
+reports errors", than make random crappy changes to random drivers
+because the hardware was set up to die on said errors.
+
+And if some MIS person wants the "hardware will die" setting, then
+they can damn well have that, and then it's not out problem, but it
+also means that we don't start changing random drivers for that insane
+setting. It's dead, Jim, and it was the users choice.
+
+Notice how in neither case does it make sense to try to do some "if
+(disconnected) dont_do_io()" model for the drivers.
+
+                  Linus
