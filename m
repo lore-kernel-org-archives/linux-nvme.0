@@ -1,35 +1,27 @@
-From: alex.williamson@redhat.com (Alex Williamson)
-Date: Wed, 20 Mar 2019 11:03:25 -0600
-Subject: [PATCH 0/9] RFC: NVME VFIO mediated device
-In-Reply-To: <8994f43d26ebf6040b9d5d5e3866ee81abcf1a1c.camel@redhat.com>
+From: mlevitsk@redhat.com (Maxim Levitsky)
+Date: Wed, 20 Mar 2019 19:33:05 +0200
+Subject: your mail
+In-Reply-To: <20190320170321.GA27462@localhost.localdomain>
 References: <20190319144116.400-1-mlevitsk@redhat.com>
- <1553095686.65329.36.camel@acm.org>
- <8994f43d26ebf6040b9d5d5e3866ee81abcf1a1c.camel@redhat.com>
-Message-ID: <20190320110325.465c1dff@x1.home>
+ <20190319152212.GC24176@localhost.localdomain>
+ <5a56e110b062de9d448c51cf0774c5e614133873.camel@redhat.com>
+ <20190320170321.GA27462@localhost.localdomain>
+Message-ID: <80d6ac26870b52d4df95dacb067a9c6f181b1581.camel@redhat.com>
 
-On Wed, 20 Mar 2019 18:42:02 +0200
-Maxim Levitsky <mlevitsk@redhat.com> wrote:
-
-> On Wed, 2019-03-20@08:28 -0700, Bart Van Assche wrote:
-> > On Tue, 2019-03-19 at 16:41 +0200, Maxim Levitsky wrote:  
-> > > *  All guest memory is mapped into the physical nvme device 
-> > >    but not 1:1 as vfio-pci would do this.
-> > >    This allows very efficient DMA.
-> > >    To support this, patch 2 adds ability for a mdev device to listen on 
-> > >    guest's memory map events. 
-> > >    Any such memory is immediately pinned and then DMA mapped.
-> > >    (Support for fabric drivers where this is not possible exits too,
-> > >     in which case the fabric driver will do its own DMA mapping)  
-> > 
-> > Does this mean that all guest memory is pinned all the time? If so, are you
-> > sure that's acceptable?  
-> I think so. The VFIO pci passthrough also pins all the guest memory.
-> SPDK also does this (pins and dma maps) all the guest memory.
+On Wed, 2019-03-20@11:03 -0600, Keith Busch wrote:
+> On Wed, Mar 20, 2019@06:30:29PM +0200, Maxim Levitsky wrote:
+> > Or instead I can use the block backend, 
+> > (but note that currently the block back-end doesn't support polling which is
+> > critical for the performance).
 > 
-> I agree that this is not an ideal solution but this is a fastest and simplest
-> solution possible.
+> Oh, I think you can do polling through there. For reference, fs/io_uring.c
+> has a pretty good implementation that aligns with how you could use it.
 
-FWIW, the pinned memory request up through the vfio iommu driver count
-against the user's locked memory limits, if that's the concern.  Thanks,
 
-Alex
+That is exactly my thought. The polling recently got lot of improvements in the
+block layer, which migh make this feasable.
+
+I will give it a try.
+
+Best regards,
+	Maxim Levitsky
