@@ -1,109 +1,132 @@
-From: oohall@gmail.com (Oliver)
-Date: Thu, 21 Mar 2019 15:57:37 +1100
-Subject: [PATCH v3] PCI/MSI: Don't touch MSI bits when the PCI device is
- disconnected
-In-Reply-To: <156dec38-438d-1ce9-64fa-af95d37c14bd@gmail.com>
-References: <20190222194808.15962-1-mr.nuke.me@gmail.com>
- <20190320205233.GE251185@google.com>
- <CAHk-=wjDY1C+E0gUHmb6O3THwoTNpm=-qthDRcW+sG2RB430Mw@mail.gmail.com>
- <156dec38-438d-1ce9-64fa-af95d37c14bd@gmail.com>
-Message-ID: <CAOSf1CHpoO-1zbT75A+DtHZ5nE3xdaMYDr9kVRpJY=EuJHk9EQ@mail.gmail.com>
+From: yaminf@mellanox.com (Yamin Friedman)
+Date: Thu, 21 Mar 2019 05:53:01 +0000
+Subject: [RFC/PATCH net-next 0/9] net/dim: Support for multiple
+ implementations
+In-Reply-To: <78352f3a-7788-e4c3-8d53-7c0b7a63921b@grimberg.me>
+References: <20190306084832.57753-1-talgi@mellanox.com>
+ <1551888921.9796.2.camel@acm.org>
+ <392082ba-9aeb-6c5e-53a0-7bb53ce101fa@grimberg.me>
+ <010bc92c-55c1-c5bd-82a5-975aa7f7c735@mellanox.com>
+ <50b3659d-fd88-85b0-755e-49565fbe98c2@mellanox.com>
+ <78352f3a-7788-e4c3-8d53-7c0b7a63921b@grimberg.me>
+Message-ID: <9c10b248-cfbf-f02b-4fcf-1b325f6a7912@mellanox.com>
 
-On Thu, Mar 21, 2019@12:27 PM Alex G <mr.nuke.me@gmail.com> wrote:
+
+On 3/18/2019 11:32 PM, Sagi Grimberg wrote:
 >
-> On 3/20/19 4:44 PM, Linus Torvalds wrote:
-> > On Wed, Mar 20, 2019@1:52 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
-> >>
-> >> AFAICT, the consensus there was that it would be better to find some
-> >> sort of platform solution instead of dealing with it in individual
-> >> drivers.  The PCI core isn't really a driver, but I think the same
-> >> argument applies to it: if we had a better way to recover from readl()
-> >> errors, that way would work equally well in nvme-pci and the PCI core.
-> >
-> > I think that patches with the pattern "if (disconnected) don't do IO"
-> > are fundamentally broken and we should look for alternatives in all
-> > cases.
-> >
-> > They are fundamentally broken because they are racy: if it's an actual
-> > sudden disconnect in the middle of IO, there's no guarantee that we'll
-> > even be notified in time.
-> >
-> > They are fundamentally broken because they add new magic special cases
-> > that very few people will ever test, and the people who do test them
-> > tend to do so with old irrelevant kernels.
-> >
-> > Finally, they are fundamentally broken because they always end up
-> > being just special cases. One or two special case accesses in a
-> > driver, or perhaps all accesses of a particular type in just _one_
-> > special driver.
-> >
-> > Yes, yes, I realize that people want error reporting, and that
-> > hot-removal can cause various error conditions (perhaps just parity
-> > errors for the IO, but also perhaps other random errors caused by
-> > firmware perhaps doing special HW setup).
-> >
-> > But the "you get a fatal interrupt, so avoid the IO" kind of model is
-> > completely broken, and needs to just be fixed differently. See above
-> > why it's so completely broken.
-> >
-> > So if the hw is set up to send some kinf of synchronous interrupt or
-> > machine check that cannot sanely be handled (perhaps because it will
-> > just repeat forever), we should try to just disable said thing.
-> >
-> > PCIe allows for just polling for errors on the bridges, afaik. It's
-> > been years since I looked at it, and maybe I'm wrong. And I bet there
-> > are various "platform-specific value add" registers etc that may need
-> > tweaking outside of any standard spec for PCIe error reporting. But
-> > let's do that in a platform driver, to set up the platform to not do
-> > the silly "I'm just going to die if I see an error" thing.
-> >
-> > It's way better to have a model where you poll each bridge once a
-> > minute (or one an hour) and let people know "guys, your hardware
-> > reports errors", than make random crappy changes to random drivers
-> > because the hardware was set up to die on said errors.
-> >
-> > And if some MIS person wants the "hardware will die" setting, then
-> > they can damn well have that, and then it's not out problem, but it
-> > also means that we don't start changing random drivers for that insane
-> > setting. It's dead, Jim, and it was the users choice.
-> >
-> > Notice how in neither case does it make sense to try to do some "if
-> > (disconnected) dont_do_io()" model for the drivers.
+>> I agree that blk is not the most successful name, we were trying to find
+>> something that would work for general storage applications. I think
+>> rdma_dim would work as it is completion based but then when we want to
+>> use it for nvme it will probably require code duplication.
 >
-> I disagree with the idea of doing something you know can cause an error
-> to propagate. That being said, in this particular case we have come to
-> rely a little too much on the if (disconnected) model.
-
-My main gripe with the if (disconnected) model is that it's only
-really good for inactive devices. If a device is being used then odds
-are the driver will do an MMIO before the pci core has had a chance to
-mark the device as broken so you crash anyway.
-
-> You mentioned in the other thread that fixing the GHES driver will pay
-> much higher dividends. I'm working on reviving a couple of changes to do
-> just that. Some industry folk were very concerned about the "don't
-> panic()" approach, and I want to make sure I fairly present their
-> arguments in the cover letter.
+> Lets worry about reuse NVMe when it is actually applicable.
 >
-> I'm hoping one day we'll have the ability to use page tables to prevent
-> the situations that we're trying to fix today in less than ideal ways.
-> Although there are other places in msi.c that use if (disconnected), I'm
-> okay with dropping this change -- provided we come up with an equivalent
-> fix.
+>>> Also in the internal review Yamin added a table that summarize all the
+>>> testing that were done using NVMeoF (I guess it somehow didn't get to
+>>> this RFC).
+>>>
+>>> I guess we can do the same for iSER to get more confidence and then
+>>> set both to create modifiable cq (if HCA supports, of course).
+>>>
+>>> Agreed ?
+>>>
+>> I think that adding a flag in create_cq will be less clean as it will
+>> require more work for anyone writing applications that should not have
+>> to consider this feature.
+>>
+>> Based on the results I saw during testing I would set it to work by
+>> default as I could not find a use case where it significantly reduces
+>> performance and in many cases it is a large improvement. It should be
+>> more of an opt out situation.
+>
+> By detailed performance results I meant:
+> 1. Full latency histogram for QD=1 both for single queue and multi-queue
+> (including max, 99.99% and 99.999% percentiles)
+> 2. latency vs. IOPs graph/table for both single queue and multi-queue
+> 3. At least some measurement/analysis of how well the algorithm is
+> ?? adapting to workload change dynamically and how quickly.
+> 4. Test also with real NVMe devices.
+>
+> Also, we need to separate the host side moderation and the target
+> side moderation to understand if/how they effect each other.
+>
+> Its very easy to show that for high stress workloads you can get an
+> improvement as obviously there is a clear win for interrupt moderation,
+> however, if this was the only metric that is interesting, we wouldn't
+> need it to be adaptive.
+>
+> As I said before, this adds entropy to the equation which in certain use
+> cases can make more harm than good, and we need to quantify where is the
+> impact and understand how important they are compared to the extremely
+> niche use-case of a single host pushing 2M-8M IOPs.
 
-What's the idea there? Scan the ioremap space for mappings over the
-device BARs and swap them with a normal memory page?
 
-> But even if FFS doesn't crash, do we really want to lose hundreds of
-> milliseconds to SMM --on all cores-- when all it takes is a couple of
-> cycles to check a flag?
+I ran extensive tests between two hosts using FIO and NVMeoF with and 
+without DIM on each side separately and together. I am attaching the 
+results of the tests. The main point I would like to make is that when 
+used on both sides especially we see improvements across the board in 
+both IOPS and latency.
 
-Using pci_dev_is_disconnected() to opportunistically avoid waiting for
-MMIO timeouts is fair enough IMO, even if it's a bit ugly. It would
-help your case if you did some measurements to show the improvement
-and look for other cases it might help. It might also be a good idea
-to document when it is appropriate to use pci_is_dev_disconnected() so
-we aren't stuck having the same argument again and again, but that's
-probably a job for Bjorn though.
+>
+>> Performance improvement (ConnectX-5 100GbE, x86) running FIO 
+>> benchmark over
+>> ? ??? NVMf between two equal end-hosts with 56 cores across a 
+>> Mellanox switch
+>> ? ??? using null_blk device:
+>>
+>> ? ??? IO READS before:
+>> ? ??? blk size | BW????? | IOPS | 99th percentile latency
+>> ? ??? 512B???? | 3.2GiB? | 6.6M | 1549? usec
+>> ? ??? 4k?????? | 7.2GiB? | 1.8M | 7177? usec
+>> ? ??? 64k????? | 10.7GiB | 176k | 82314 usec
+>
+> I've seen this before, why are we not getting 100Gb/s for 4k with CX5?
+> I recall we used to get it with CX4.
 
-Oliver
+It depends on the host server and whether or not it causes backpressure 
+on the PCI because of the amount of interrupts.
+
+>
+>> ? ??? IO READS after:
+>> ? ??? blk size | BW????? | IOPS | 99th percentile latency
+>> ? ??? 512B???? | 4.2GiB? | 8.6M | 1729?? usec
+>> ? ??? 4k?????? | 10.5GiB | 2.7M | 5669?? usec
+>> ? ??? 64k????? | 10.7GiB | 176k | 102000 usec
+>>
+>> ? ??? IO WRITES before:
+>> ? ??? blk size | BW????? | IOPS | 99th percentile latency
+>> ? ??? 512B???? | 3GiB??? | 6.2M | 2573? usec
+>> ? ??? 4k?????? | 7.2GiB? | 1.8M | 5342? usec
+>> ? ??? 64k????? | 10.7GiB | 176k | 62129 usec
+>>
+>> ? ??? IO WRITES after:
+>> ? ??? blk size | BW????? | IOPS? | 99th percentile latency
+>> ? ??? 512B???? | 4.2GiB? | 8.6M? | 938?? usec
+>> ? ??? 4k?????? | 10.2GiB | 2.68M | 2769? usec
+>> ? ??? 64k????? | 10.6GiB | 173k? | 87557 usec
+>
+> The fact that the 64k 99% latency is substantially higher (20+
+> milliseconds) without any BW benefit, while its not a very interesting
+> measurement, gives me an indication that a more detailed analysis needs
+> to be made here to understand where are the trade-offs.
+>
+>> It doesn't really make a difference to me how the option is implemented
+>> but I think it makes more sense to have it dealt with by us such as in a
+>> module parameter and not something like a flag that has a larger radius
+>> of effect.
+>
+> I was suggesting a sysctl global parameter for global behavior and of
+> someone wants to override it it can add a CQ flag (which follows the
+> common net params exactly).
+-------------- next part --------------
+An embedded and charset-unspecified text was scrubbed...
+Name: comp_DIM_to_no_DIM.txt
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20190321/11839723/attachment-0003.txt>
+-------------- next part --------------
+An embedded and charset-unspecified text was scrubbed...
+Name: comp_initiator_DIM_to_no_DIM.txt
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20190321/11839723/attachment-0004.txt>
+-------------- next part --------------
+An embedded and charset-unspecified text was scrubbed...
+Name: comp_target_DIM_to_no_DIM.txt
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20190321/11839723/attachment-0005.txt>
