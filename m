@@ -1,77 +1,109 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Thu, 21 Mar 2019 10:32:36 +0800
-Subject: [PATCH 1/2] blk-mq: introduce blk_mq_complete_request_sync()
-In-Reply-To: <95da080a-7fb4-33a9-1dc3-4452c565c83a@grimberg.me>
-References: <20190318032950.17770-1-ming.lei@redhat.com>
- <20190318032950.17770-2-ming.lei@redhat.com>
- <f708ee0c-dfa4-0bca-f996-8d834471f1fd@acm.org>
- <20190318073826.GA29746@ming.t460p>
- <1552921495.152266.8.camel@acm.org>
- <20190318151618.GA20371@ming.t460p>
- <1552924164.152266.21.camel@acm.org>
- <448615db-64e2-cbe7-c09e-19b2d86a720a@grimberg.me>
- <20190321013908.GA15115@ming.t460p>
- <95da080a-7fb4-33a9-1dc3-4452c565c83a@grimberg.me>
-Message-ID: <20190321023235.GB15115@ming.t460p>
+From: oohall@gmail.com (Oliver)
+Date: Thu, 21 Mar 2019 15:57:37 +1100
+Subject: [PATCH v3] PCI/MSI: Don't touch MSI bits when the PCI device is
+ disconnected
+In-Reply-To: <156dec38-438d-1ce9-64fa-af95d37c14bd@gmail.com>
+References: <20190222194808.15962-1-mr.nuke.me@gmail.com>
+ <20190320205233.GE251185@google.com>
+ <CAHk-=wjDY1C+E0gUHmb6O3THwoTNpm=-qthDRcW+sG2RB430Mw@mail.gmail.com>
+ <156dec38-438d-1ce9-64fa-af95d37c14bd@gmail.com>
+Message-ID: <CAOSf1CHpoO-1zbT75A+DtHZ5nE3xdaMYDr9kVRpJY=EuJHk9EQ@mail.gmail.com>
 
-On Wed, Mar 20, 2019@07:04:09PM -0700, Sagi Grimberg wrote:
-> 
-> > > Hi Bart,
-> > > 
-> > > If I understand the race correctly, its not between the requests
-> > > completion and the queue pairs removal nor the timeout handler
-> > > necessarily, but rather it is between the async requests completion and
-> > > the tagset deallocation.
-> > > 
-> > > Think of surprise removal (or disconnect) during I/O, drivers
-> > > usually stop/quiesce/freeze the queues, terminate/abort inflight
-> > > I/Os and then teardown the hw queues and the tagset.
-> > > 
-> > > IIRC, the same race holds for srp if this happens during I/O:
-> > > 1. srp_rport_delete() -> srp_remove_target() -> srp_stop_rport_timers() ->
-> > > __rport_fail_io_fast()
-> > > 
-> > > 2. complete all I/Os (async remotely via smp)
-> > > 
-> > > Then continue..
-> > > 
-> > > 3. scsi_host_put() -> scsi_host_dev_release() -> scsi_mq_destroy_tags()
-> > > 
-> > > What is preventing (3) from happening before (2) if its async? I would
-> > > think that scsi drivers need the exact same thing...
-> > 
-> > blk_cleanup_queue() will do that, but it can't be used in device recovery
-> > obviously.
-> 
-> But in device recovery we never free the tagset... I might be missing
-> the race here then...
+On Thu, Mar 21, 2019@12:27 PM Alex G <mr.nuke.me@gmail.com> wrote:
+>
+> On 3/20/19 4:44 PM, Linus Torvalds wrote:
+> > On Wed, Mar 20, 2019@1:52 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
+> >>
+> >> AFAICT, the consensus there was that it would be better to find some
+> >> sort of platform solution instead of dealing with it in individual
+> >> drivers.  The PCI core isn't really a driver, but I think the same
+> >> argument applies to it: if we had a better way to recover from readl()
+> >> errors, that way would work equally well in nvme-pci and the PCI core.
+> >
+> > I think that patches with the pattern "if (disconnected) don't do IO"
+> > are fundamentally broken and we should look for alternatives in all
+> > cases.
+> >
+> > They are fundamentally broken because they are racy: if it's an actual
+> > sudden disconnect in the middle of IO, there's no guarantee that we'll
+> > even be notified in time.
+> >
+> > They are fundamentally broken because they add new magic special cases
+> > that very few people will ever test, and the people who do test them
+> > tend to do so with old irrelevant kernels.
+> >
+> > Finally, they are fundamentally broken because they always end up
+> > being just special cases. One or two special case accesses in a
+> > driver, or perhaps all accesses of a particular type in just _one_
+> > special driver.
+> >
+> > Yes, yes, I realize that people want error reporting, and that
+> > hot-removal can cause various error conditions (perhaps just parity
+> > errors for the IO, but also perhaps other random errors caused by
+> > firmware perhaps doing special HW setup).
+> >
+> > But the "you get a fatal interrupt, so avoid the IO" kind of model is
+> > completely broken, and needs to just be fixed differently. See above
+> > why it's so completely broken.
+> >
+> > So if the hw is set up to send some kinf of synchronous interrupt or
+> > machine check that cannot sanely be handled (perhaps because it will
+> > just repeat forever), we should try to just disable said thing.
+> >
+> > PCIe allows for just polling for errors on the bridges, afaik. It's
+> > been years since I looked at it, and maybe I'm wrong. And I bet there
+> > are various "platform-specific value add" registers etc that may need
+> > tweaking outside of any standard spec for PCIe error reporting. But
+> > let's do that in a platform driver, to set up the platform to not do
+> > the silly "I'm just going to die if I see an error" thing.
+> >
+> > It's way better to have a model where you poll each bridge once a
+> > minute (or one an hour) and let people know "guys, your hardware
+> > reports errors", than make random crappy changes to random drivers
+> > because the hardware was set up to die on said errors.
+> >
+> > And if some MIS person wants the "hardware will die" setting, then
+> > they can damn well have that, and then it's not out problem, but it
+> > also means that we don't start changing random drivers for that insane
+> > setting. It's dead, Jim, and it was the users choice.
+> >
+> > Notice how in neither case does it make sense to try to do some "if
+> > (disconnected) dont_do_io()" model for the drivers.
+>
+> I disagree with the idea of doing something you know can cause an error
+> to propagate. That being said, in this particular case we have come to
+> rely a little too much on the if (disconnected) model.
 
-For example,
+My main gripe with the if (disconnected) model is that it's only
+really good for inactive devices. If a device is being used then odds
+are the driver will do an MMIO before the pci core has had a chance to
+mark the device as broken so you crash anyway.
 
-nvme_rdma_complete_rq
-	->nvme_rdma_unmap_data
-		->ib_mr_pool_put
+> You mentioned in the other thread that fixing the GHES driver will pay
+> much higher dividends. I'm working on reviving a couple of changes to do
+> just that. Some industry folk were very concerned about the "don't
+> panic()" approach, and I want to make sure I fairly present their
+> arguments in the cover letter.
+>
+> I'm hoping one day we'll have the ability to use page tables to prevent
+> the situations that we're trying to fix today in less than ideal ways.
+> Although there are other places in msi.c that use if (disconnected), I'm
+> okay with dropping this change -- provided we come up with an equivalent
+> fix.
 
-But the ib queue pair may has been destroyed by nvme_rdma_destroy_io_queues()
-before request's remote completion.
+What's the idea there? Scan the ioremap space for mappings over the
+device BARs and swap them with a normal memory page?
 
-nvme_rdma_teardown_io_queues:
-        nvme_stop_queues(&ctrl->ctrl);
-        nvme_rdma_stop_io_queues(ctrl);
-        blk_mq_tagset_busy_iter(&ctrl->tag_set, nvme_cancel_request,
-                        &ctrl->ctrl);
-        if (remove)
-                nvme_start_queues(&ctrl->ctrl);
-        nvme_rdma_destroy_io_queues(ctrl, remove);
+> But even if FFS doesn't crash, do we really want to lose hundreds of
+> milliseconds to SMM --on all cores-- when all it takes is a couple of
+> cycles to check a flag?
 
+Using pci_dev_is_disconnected() to opportunistically avoid waiting for
+MMIO timeouts is fair enough IMO, even if it's a bit ugly. It would
+help your case if you did some measurements to show the improvement
+and look for other cases it might help. It might also be a good idea
+to document when it is appropriate to use pci_is_dev_disconnected() so
+we aren't stuck having the same argument again and again, but that's
+probably a job for Bjorn though.
 
-> 
-> > BTW, blk_mq_complete_request_sync() is a bit misleading, maybe
-> > blk_mq_complete_request_locally() is better.
-> 
-> Not really...
-
-Naming is always the hard part...
-
-Thanks,
-Ming
+Oliver
