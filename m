@@ -1,53 +1,90 @@
-From: oulijun@huawei.com (oulijun)
-Date: Thu, 21 Mar 2019 09:04:14 +0800
-Subject: =?UTF-8?Q?Re:_=e3=80=90Question_for_nvme-rdma_calltrace=e3=80=91?=
-In-Reply-To: <a76f7d78-ff89-df23-629e-7a8478afe502@grimberg.me>
-References: <0546F6C37BCE5843B1A9A6517ACC82B625C01FB5@dggema523-mbx.china.huawei.com>
- <20190318142418.GB23430@localhost.localdomain>
- <a76f7d78-ff89-df23-629e-7a8478afe502@grimberg.me>
-Message-ID: <6af54cd0-ae48-4145-0065-d0cf90bc4f79@huawei.com>
+From: mr.nuke.me@gmail.com (Alex G)
+Date: Wed, 20 Mar 2019 20:27:11 -0500
+Subject: [PATCH v3] PCI/MSI: Don't touch MSI bits when the PCI device is
+ disconnected
+In-Reply-To: <CAHk-=wjDY1C+E0gUHmb6O3THwoTNpm=-qthDRcW+sG2RB430Mw@mail.gmail.com>
+References: <20190222194808.15962-1-mr.nuke.me@gmail.com>
+ <20190320205233.GE251185@google.com>
+ <CAHk-=wjDY1C+E0gUHmb6O3THwoTNpm=-qthDRcW+sG2RB430Mw@mail.gmail.com>
+Message-ID: <156dec38-438d-1ce9-64fa-af95d37c14bd@gmail.com>
 
-? 2019/3/19 5:43, Sagi Grimberg ??:
-> Hi Guys,
->
->> Replying in plain text so the mailing list can accept it, and CC'ing Sagi.
+On 3/20/19 4:44 PM, Linus Torvalds wrote:
+> On Wed, Mar 20, 2019@1:52 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
 >>
->> Before looking deep into this, do you experience the same NULL dereference
->> on an unmodified kernel? The below indicates you've changed something.
->
-> There was a regression in the area that was fixed lately with:
-> -- 
-> commit b1064d3e337b4d0b67d641b5f771187d8f1f027d
-> Author: Sagi Grimberg <sagi at grimberg.me>
-> Date:   Fri Jan 18 16:43:24 2019 -0800
->
->     nvme-rdma: rework queue maps handling
->
->     If the device supports less queues than provided (if the device has less
->     completion vectors), we might hit a bug due to the fact that we ignore
->     that in nvme_rdma_map_queues (we override the maps nr_queues with user
->     opts).
->
->     Instead, keep track of how many default/read/poll queues we actually
->     allocated (rather than asked by the user) and use that to assign our
->     queue mappings.
->
->     Fixes: b65bb777ef22 (" nvme-rdma: support separate queue maps for read and write")
->     Reported-by: Saleem, Shiraz <shiraz.saleem at intel.com>
->     Reviewed-by: Christoph Hellwig <hch at lst.de>
->     Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
->     Signed-off-by: Jens Axboe <axboe at kernel.dk>
-> -- 
->
-> Is this applied in your nvme-rdma driver?
->
-No.
-> Note that its the first time I'm hearing of someone testing the huawei
-> device, so its not impossible that we can have an issue.
->
-> Also, how many completion vectors are available in the device under
-> test vs. the number of cores in the system?
->
-Thanks. It can resolved it after applied.
-> .
->
+>> AFAICT, the consensus there was that it would be better to find some
+>> sort of platform solution instead of dealing with it in individual
+>> drivers.  The PCI core isn't really a driver, but I think the same
+>> argument applies to it: if we had a better way to recover from readl()
+>> errors, that way would work equally well in nvme-pci and the PCI core.
+> 
+> I think that patches with the pattern "if (disconnected) don't do IO"
+> are fundamentally broken and we should look for alternatives in all
+> cases.
+> 
+> They are fundamentally broken because they are racy: if it's an actual
+> sudden disconnect in the middle of IO, there's no guarantee that we'll
+> even be notified in time.
+> 
+> They are fundamentally broken because they add new magic special cases
+> that very few people will ever test, and the people who do test them
+> tend to do so with old irrelevant kernels.
+> 
+> Finally, they are fundamentally broken because they always end up
+> being just special cases. One or two special case accesses in a
+> driver, or perhaps all accesses of a particular type in just _one_
+> special driver.
+> 
+> Yes, yes, I realize that people want error reporting, and that
+> hot-removal can cause various error conditions (perhaps just parity
+> errors for the IO, but also perhaps other random errors caused by
+> firmware perhaps doing special HW setup).
+> 
+> But the "you get a fatal interrupt, so avoid the IO" kind of model is
+> completely broken, and needs to just be fixed differently. See above
+> why it's so completely broken.
+> 
+> So if the hw is set up to send some kinf of synchronous interrupt or
+> machine check that cannot sanely be handled (perhaps because it will
+> just repeat forever), we should try to just disable said thing.
+> 
+> PCIe allows for just polling for errors on the bridges, afaik. It's
+> been years since I looked at it, and maybe I'm wrong. And I bet there
+> are various "platform-specific value add" registers etc that may need
+> tweaking outside of any standard spec for PCIe error reporting. But
+> let's do that in a platform driver, to set up the platform to not do
+> the silly "I'm just going to die if I see an error" thing.
+> 
+> It's way better to have a model where you poll each bridge once a
+> minute (or one an hour) and let people know "guys, your hardware
+> reports errors", than make random crappy changes to random drivers
+> because the hardware was set up to die on said errors.
+> 
+> And if some MIS person wants the "hardware will die" setting, then
+> they can damn well have that, and then it's not out problem, but it
+> also means that we don't start changing random drivers for that insane
+> setting. It's dead, Jim, and it was the users choice.
+> 
+> Notice how in neither case does it make sense to try to do some "if
+> (disconnected) dont_do_io()" model for the drivers.
+
+I disagree with the idea of doing something you know can cause an error 
+to propagate. That being said, in this particular case we have come to 
+rely a little too much on the if (disconnected) model.
+
+You mentioned in the other thread that fixing the GHES driver will pay 
+much higher dividends. I'm working on reviving a couple of changes to do 
+just that. Some industry folk were very concerned about the "don't 
+panic()" approach, and I want to make sure I fairly present their 
+arguments in the cover letter.
+
+I'm hoping one day we'll have the ability to use page tables to prevent 
+the situations that we're trying to fix today in less than ideal ways. 
+Although there are other places in msi.c that use if (disconnected), I'm 
+okay with dropping this change -- provided we come up with an equivalent 
+fix.
+
+But even if FFS doesn't crash, do we really want to lose hundreds of 
+milliseconds to SMM --on all cores-- when all it takes is a couple of 
+cycles to check a flag?
+
+Alex
