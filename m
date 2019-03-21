@@ -1,68 +1,57 @@
-From: torvalds@linux-foundation.org (Linus Torvalds)
-Date: Wed, 20 Mar 2019 14:44:31 -0700
-Subject: [PATCH v3] PCI/MSI: Don't touch MSI bits when the PCI device is
- disconnected
-In-Reply-To: <20190320205233.GE251185@google.com>
-References: <20190222194808.15962-1-mr.nuke.me@gmail.com>
- <20190320205233.GE251185@google.com>
-Message-ID: <CAHk-=wjDY1C+E0gUHmb6O3THwoTNpm=-qthDRcW+sG2RB430Mw@mail.gmail.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 20 Mar 2019 17:47:01 -0700
+Subject: [PATCH 1/2] blk-mq: introduce blk_mq_complete_request_sync()
+In-Reply-To: <1552924164.152266.21.camel@acm.org>
+References: <20190318032950.17770-1-ming.lei@redhat.com>
+ <20190318032950.17770-2-ming.lei@redhat.com>
+ <f708ee0c-dfa4-0bca-f996-8d834471f1fd@acm.org>
+ <20190318073826.GA29746@ming.t460p> <1552921495.152266.8.camel@acm.org>
+ <20190318151618.GA20371@ming.t460p> <1552924164.152266.21.camel@acm.org>
+Message-ID: <448615db-64e2-cbe7-c09e-19b2d86a720a@grimberg.me>
 
-On Wed, Mar 20, 2019@1:52 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
->
-> AFAICT, the consensus there was that it would be better to find some
-> sort of platform solution instead of dealing with it in individual
-> drivers.  The PCI core isn't really a driver, but I think the same
-> argument applies to it: if we had a better way to recover from readl()
-> errors, that way would work equally well in nvme-pci and the PCI core.
 
-I think that patches with the pattern "if (disconnected) don't do IO"
-are fundamentally broken and we should look for alternatives in all
-cases.
+> Hi Ming,
+> 
+> Just like the NVMeOF initiator driver, the SRP initiator driver uses an
+> RDMA RC connection for all of its communication over the network. If
+> communication between initiator and target fails the target driver will
+> close the connection or one of the work requests that was posted by the
+> initiator driver will complete with an error status (wc->status !=
+> IB_WC_SUCCESS). In the latter case the function srp_handle_qp_err() will
+> try to reestablish the connection between initiator and target after a
+> certain delay:
+> 
+> 	if (delay > 0)
+> 		queue_delayed_work(system_long_wq, &rport->reconnect_work,
+> 				   1UL * delay * HZ);
+> 
+> SCSI timeouts may kick the SCSI error handler. That results in calls of
+> the srp_reset_device() and/or srp_reset_host() functions. srp_reset_host()
+> terminates all outstanding requests after having disconnected the RDMA RC
+> connection. Disconnecting the RC connection first guarantees that there
+> are no concurrent request completion calls from the regular completion
+> path and from the error handler.
 
-They are fundamentally broken because they are racy: if it's an actual
-sudden disconnect in the middle of IO, there's no guarantee that we'll
-even be notified in time.
+Hi Bart,
 
-They are fundamentally broken because they add new magic special cases
-that very few people will ever test, and the people who do test them
-tend to do so with old irrelevant kernels.
+If I understand the race correctly, its not between the requests
+completion and the queue pairs removal nor the timeout handler
+necessarily, but rather it is between the async requests completion and
+the tagset deallocation.
 
-Finally, they are fundamentally broken because they always end up
-being just special cases. One or two special case accesses in a
-driver, or perhaps all accesses of a particular type in just _one_
-special driver.
+Think of surprise removal (or disconnect) during I/O, drivers
+usually stop/quiesce/freeze the queues, terminate/abort inflight
+I/Os and then teardown the hw queues and the tagset.
 
-Yes, yes, I realize that people want error reporting, and that
-hot-removal can cause various error conditions (perhaps just parity
-errors for the IO, but also perhaps other random errors caused by
-firmware perhaps doing special HW setup).
+IIRC, the same race holds for srp if this happens during I/O:
+1. srp_rport_delete() -> srp_remove_target() -> srp_stop_rport_timers() 
+-> __rport_fail_io_fast()
 
-But the "you get a fatal interrupt, so avoid the IO" kind of model is
-completely broken, and needs to just be fixed differently. See above
-why it's so completely broken.
+2. complete all I/Os (async remotely via smp)
 
-So if the hw is set up to send some kinf of synchronous interrupt or
-machine check that cannot sanely be handled (perhaps because it will
-just repeat forever), we should try to just disable said thing.
+Then continue..
 
-PCIe allows for just polling for errors on the bridges, afaik. It's
-been years since I looked at it, and maybe I'm wrong. And I bet there
-are various "platform-specific value add" registers etc that may need
-tweaking outside of any standard spec for PCIe error reporting. But
-let's do that in a platform driver, to set up the platform to not do
-the silly "I'm just going to die if I see an error" thing.
+3. scsi_host_put() -> scsi_host_dev_release() -> scsi_mq_destroy_tags()
 
-It's way better to have a model where you poll each bridge once a
-minute (or one an hour) and let people know "guys, your hardware
-reports errors", than make random crappy changes to random drivers
-because the hardware was set up to die on said errors.
-
-And if some MIS person wants the "hardware will die" setting, then
-they can damn well have that, and then it's not out problem, but it
-also means that we don't start changing random drivers for that insane
-setting. It's dead, Jim, and it was the users choice.
-
-Notice how in neither case does it make sense to try to do some "if
-(disconnected) dont_do_io()" model for the drivers.
-
-                  Linus
+What is preventing (3) from happening before (2) if its async? I would
+think that scsi drivers need the exact same thing...
