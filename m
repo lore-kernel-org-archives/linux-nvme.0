@@ -1,109 +1,98 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 21 Mar 2019 16:10:34 -0700
-Subject: [PATCH 12/15] nvme-pci: remove the inline scatterlist optimization
+Date: Thu, 21 Mar 2019 16:10:35 -0700
+Subject: [PATCH 13/15] nvme-pci: optimize mapping of small single segment
+ requests
 In-Reply-To: <20190321231037.25104-1-hch@lst.de>
 References: <20190321231037.25104-1-hch@lst.de>
-Message-ID: <20190321231037.25104-13-hch@lst.de>
+Message-ID: <20190321231037.25104-14-hch@lst.de>
 
-We'll have a better way to optimize for small I/O that doesn't
-require it soon, so remove the existing inline_sg case to make that
-optimization easier to implement.
+If a request is single segment and fits into one or two PRP entries we
+do not have to create a scatterlist for it, but can just map the bio_vec
+directly.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/pci.c | 38 ++++++--------------------------------
- 1 file changed, 6 insertions(+), 32 deletions(-)
+ drivers/nvme/host/pci.c | 45 ++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 40 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index cf29d079ad5b..c6047935e825 100644
+index c6047935e825..47fc4d653961 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -223,7 +223,6 @@ struct nvme_iod {
+@@ -221,6 +221,7 @@ struct nvme_iod {
+ 	int npages;		/* In the PRP list. 0 means small pool in use */
+ 	int nents;		/* Used in scatterlist */
  	dma_addr_t first_dma;
++	unsigned int dma_len;	/* length of single DMA segment mapping */
  	dma_addr_t meta_dma;
  	struct scatterlist *sg;
--	struct scatterlist inline_sg[0];
  };
+@@ -576,13 +577,18 @@ static void nvme_unmap_data(struct nvme_dev *dev, struct request *req)
+ 	dma_addr_t dma_addr = iod->first_dma, next_dma_addr;
+ 	int i;
  
- /*
-@@ -370,12 +369,6 @@ static bool nvme_dbbuf_update_and_check_event(u16 value, u32 *dbbuf_db,
- 	return true;
- }
- 
--/*
-- * Max size of iod being embedded in the request payload
-- */
--#define NVME_INT_PAGES		2
--#define NVME_INT_BYTES(dev)	(NVME_INT_PAGES * (dev)->ctrl.page_size)
+-	if (iod->nents) {
+-		/* P2PDMA requests do not need to be unmapped */
+-		if (!is_pci_p2pdma_page(sg_page(iod->sg)))
+-			dma_unmap_sg(dev->dev, iod->sg, iod->nents, dma_dir);
 -
- /*
-  * Will slightly overestimate the number of pages needed.  This is OK
-  * as it only leads to a small amount of wasted memory for the lifetime of
-@@ -410,15 +403,6 @@ static unsigned int nvme_pci_iod_alloc_size(struct nvme_dev *dev,
- 	return alloc_size + sizeof(struct scatterlist) * nseg;
- }
- 
--static unsigned int nvme_pci_cmd_size(struct nvme_dev *dev, bool use_sgl)
--{
--	unsigned int alloc_size = nvme_pci_iod_alloc_size(dev,
--				    NVME_INT_BYTES(dev), NVME_INT_PAGES,
--				    use_sgl);
--
--	return sizeof(struct nvme_iod) + alloc_size;
--}
--
- static int nvme_admin_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
- 				unsigned int hctx_idx)
- {
-@@ -621,8 +605,7 @@ static void nvme_unmap_data(struct nvme_dev *dev, struct request *req)
- 		dma_addr = next_dma_addr;
++	if (iod->dma_len) {
++		dma_unmap_page(dev->dev, dma_addr, iod->dma_len, dma_dir);
++		return;
  	}
  
--	if (iod->sg != iod->inline_sg)
--		mempool_free(iod->sg, dev->iod_mempool);
-+	mempool_free(iod->sg, dev->iod_mempool);
++	WARN_ON_ONCE(!iod->nents);
++
++	/* P2PDMA requests do not need to be unmapped */
++	if (!is_pci_p2pdma_page(sg_page(iod->sg)))
++		dma_unmap_sg(dev->dev, iod->sg, iod->nents, rq_dma_dir(req));
++
++
+ 	if (iod->npages == 0)
+ 		dma_pool_free(dev->prp_small_pool, nvme_pci_iod_list(req)[0],
+ 			dma_addr);
+@@ -795,6 +801,24 @@ static blk_status_t nvme_pci_setup_sgls(struct nvme_dev *dev,
+ 	return BLK_STS_OK;
  }
  
- static void nvme_print_sgl(struct scatterlist *sgl, int nents)
-@@ -822,14 +805,9 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
++static blk_status_t nvme_setup_prp_simple(struct nvme_dev *dev,
++		struct request *req, struct nvme_rw_command *cmnd,
++		struct bio_vec *bv)
++{
++	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
++	unsigned int first_prp_len = dev->ctrl.page_size - bv->bv_offset;
++
++	iod->first_dma = dma_map_bvec(dev->dev, bv, rq_dma_dir(req), 0);
++	if (dma_mapping_error(dev->dev, iod->first_dma))
++		return BLK_STS_RESOURCE;
++	iod->dma_len = bv->bv_len;
++
++	cmnd->dptr.prp1 = cpu_to_le64(iod->first_dma);
++	if (bv->bv_len > first_prp_len)
++		cmnd->dptr.prp2 = cpu_to_le64(iod->first_dma + first_prp_len);
++	return 0;
++}
++
+ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
+ 		struct nvme_command *cmnd)
+ {
+@@ -805,6 +829,17 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
  	blk_status_t ret = BLK_STS_IOERR;
  	int nr_mapped;
  
--	if (blk_rq_payload_bytes(req) > NVME_INT_BYTES(dev) ||
--	    blk_rq_nr_phys_segments(req) > NVME_INT_PAGES) {
--		iod->sg = mempool_alloc(dev->iod_mempool, GFP_ATOMIC);
--		if (!iod->sg)
--			return BLK_STS_RESOURCE;
--	} else {
--		iod->sg = iod->inline_sg;
--	}
-+	iod->sg = mempool_alloc(dev->iod_mempool, GFP_ATOMIC);
-+	if (!iod->sg)
-+		return BLK_STS_RESOURCE;
- 
- 	iod->use_sgl = nvme_pci_use_sgls(dev, req);
- 
-@@ -1619,7 +1597,7 @@ static int nvme_alloc_admin_tags(struct nvme_dev *dev)
- 		dev->admin_tagset.queue_depth = NVME_AQ_MQ_TAG_DEPTH;
- 		dev->admin_tagset.timeout = ADMIN_TIMEOUT;
- 		dev->admin_tagset.numa_node = dev_to_node(dev->dev);
--		dev->admin_tagset.cmd_size = nvme_pci_cmd_size(dev, false);
-+		dev->admin_tagset.cmd_size = sizeof(struct nvme_iod);
- 		dev->admin_tagset.flags = BLK_MQ_F_NO_SCHED;
- 		dev->admin_tagset.driver_data = dev;
- 
-@@ -2266,11 +2244,7 @@ static int nvme_dev_add(struct nvme_dev *dev)
- 		dev->tagset.numa_node = dev_to_node(dev->dev);
- 		dev->tagset.queue_depth =
- 				min_t(int, dev->q_depth, BLK_MQ_MAX_DEPTH) - 1;
--		dev->tagset.cmd_size = nvme_pci_cmd_size(dev, false);
--		if ((dev->ctrl.sgls & ((1 << 0) | (1 << 1))) && sgl_threshold) {
--			dev->tagset.cmd_size = max(dev->tagset.cmd_size,
--					nvme_pci_cmd_size(dev, true));
--		}
-+		dev->tagset.cmd_size = sizeof(struct nvme_iod);
- 		dev->tagset.flags = BLK_MQ_F_SHOULD_MERGE;
- 		dev->tagset.driver_data = dev;
- 
++	if (blk_rq_nr_phys_segments(req) == 1) {
++		struct bio_vec bv = req_bvec(req);
++
++		if (!is_pci_p2pdma_page(bv.bv_page)) {
++			if (bv.bv_offset + bv.bv_len <= dev->ctrl.page_size * 2)
++				return nvme_setup_prp_simple(dev, req,
++							     &cmnd->rw, &bv);
++		}
++	}
++
++	iod->dma_len = 0;
+ 	iod->sg = mempool_alloc(dev->iod_mempool, GFP_ATOMIC);
+ 	if (!iod->sg)
+ 		return BLK_STS_RESOURCE;
 -- 
 2.20.1
