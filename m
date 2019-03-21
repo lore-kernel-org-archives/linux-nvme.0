@@ -1,90 +1,61 @@
-From: mr.nuke.me@gmail.com (Alex G)
-Date: Wed, 20 Mar 2019 20:27:11 -0500
-Subject: [PATCH v3] PCI/MSI: Don't touch MSI bits when the PCI device is
- disconnected
-In-Reply-To: <CAHk-=wjDY1C+E0gUHmb6O3THwoTNpm=-qthDRcW+sG2RB430Mw@mail.gmail.com>
-References: <20190222194808.15962-1-mr.nuke.me@gmail.com>
- <20190320205233.GE251185@google.com>
- <CAHk-=wjDY1C+E0gUHmb6O3THwoTNpm=-qthDRcW+sG2RB430Mw@mail.gmail.com>
-Message-ID: <156dec38-438d-1ce9-64fa-af95d37c14bd@gmail.com>
+From: jianchao.w.wang@oracle.com (jianchao.wang)
+Date: Thu, 21 Mar 2019 09:33:58 +0800
+Subject: [PATCH 2/8] blk-mq: change the method of iterating busy tags of a
+ request_queue
+In-Reply-To: <bf563d09-c243-5bf5-ab3e-0fa2bd583edd@grimberg.me>
+References: <1552640264-26101-1-git-send-email-jianchao.w.wang@oracle.com>
+ <1552640264-26101-3-git-send-email-jianchao.w.wang@oracle.com>
+ <bf563d09-c243-5bf5-ab3e-0fa2bd583edd@grimberg.me>
+Message-ID: <a3ee391b-1815-9c15-a8d8-d0d16f930460@oracle.com>
 
-On 3/20/19 4:44 PM, Linus Torvalds wrote:
-> On Wed, Mar 20, 2019@1:52 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
+Hi Sagi
+
+Thanks for your kindly response.
+
+On 3/21/19 2:52 AM, Sagi Grimberg wrote:
+> 
+> 
+> On 3/15/19 1:57 AM, Jianchao Wang wrote:
+>> tags->rqs[] will not been cleaned when free driver tag and there
+>> is a window between get driver tag and write tags->rqs[], so we
+>> may see stale rq in tags->rqs[] which may have been freed, as
+>> following case,
+>> blk_mq_get_request???????? blk_mq_queue_tag_busy_iter
+>> ?? -> blk_mq_get_tag
+>> ????????????????????????????? -> bt_for_each
+>> ??????????????????????????????? -> bt_iter
+>> ????????????????????????????????? -> rq = taags->rqs[]
+>> ????????????????????????????????? -> rq->q
+>> ?? -> blk_mq_rq_ctx_init
+>> ???? -> data->hctx->tags->rqs[rq->tag] = rq;
 >>
->> AFAICT, the consensus there was that it would be better to find some
->> sort of platform solution instead of dealing with it in individual
->> drivers.  The PCI core isn't really a driver, but I think the same
->> argument applies to it: if we had a better way to recover from readl()
->> errors, that way would work equally well in nvme-pci and the PCI core.
+>> To fix this, the blk_mq_queue_tag_busy_iter is changed in this
+>> patch to use tags->static_rqs[] instead of tags->rqs[]. We have
+>> to identify whether there is a io scheduler attached to decide
+>> to use hctx->tags or hctx->sched_tags. And we will try to get a
+>> non-zero q_usage_counter before that, so it is safe to access
+>> them. Add 'inflight' parameter to determine to iterate in-flight
+>> requests or just busy tags. A correction here is that
+>> part_in_flight should count the busy tags instead of rqs that
+>> have got driver tags.
 > 
-> I think that patches with the pattern "if (disconnected) don't do IO"
-> are fundamentally broken and we should look for alternatives in all
-> cases.
-> 
-> They are fundamentally broken because they are racy: if it's an actual
-> sudden disconnect in the middle of IO, there's no guarantee that we'll
-> even be notified in time.
-> 
-> They are fundamentally broken because they add new magic special cases
-> that very few people will ever test, and the people who do test them
-> tend to do so with old irrelevant kernels.
-> 
-> Finally, they are fundamentally broken because they always end up
-> being just special cases. One or two special case accesses in a
-> driver, or perhaps all accesses of a particular type in just _one_
-> special driver.
-> 
-> Yes, yes, I realize that people want error reporting, and that
-> hot-removal can cause various error conditions (perhaps just parity
-> errors for the IO, but also perhaps other random errors caused by
-> firmware perhaps doing special HW setup).
-> 
-> But the "you get a fatal interrupt, so avoid the IO" kind of model is
-> completely broken, and needs to just be fixed differently. See above
-> why it's so completely broken.
-> 
-> So if the hw is set up to send some kinf of synchronous interrupt or
-> machine check that cannot sanely be handled (perhaps because it will
-> just repeat forever), we should try to just disable said thing.
-> 
-> PCIe allows for just polling for errors on the bridges, afaik. It's
-> been years since I looked at it, and maybe I'm wrong. And I bet there
-> are various "platform-specific value add" registers etc that may need
-> tweaking outside of any standard spec for PCIe error reporting. But
-> let's do that in a platform driver, to set up the platform to not do
-> the silly "I'm just going to die if I see an error" thing.
-> 
-> It's way better to have a model where you poll each bridge once a
-> minute (or one an hour) and let people know "guys, your hardware
-> reports errors", than make random crappy changes to random drivers
-> because the hardware was set up to die on said errors.
-> 
-> And if some MIS person wants the "hardware will die" setting, then
-> they can damn well have that, and then it's not out problem, but it
-> also means that we don't start changing random drivers for that insane
-> setting. It's dead, Jim, and it was the users choice.
-> 
-> Notice how in neither case does it make sense to try to do some "if
-> (disconnected) dont_do_io()" model for the drivers.
+> IMO, instead of this parameter, add a wrapper like
+> blk_mq_queue_tag_inflight_iter() or keep the parameter out until
+> we actually have a user that calls it for busy and not inflight.
 
-I disagree with the idea of doing something you know can cause an error 
-to propagate. That being said, in this particular case we have come to 
-rely a little too much on the if (disconnected) model.
+Using a wrapper instead of exporting the parameter to user is indeed better.
+I will change it in next version.
 
-You mentioned in the other thread that fixing the GHES driver will pay 
-much higher dividends. I'm working on reviving a couple of changes to do 
-just that. Some industry folk were very concerned about the "don't 
-panic()" approach, and I want to make sure I fairly present their 
-arguments in the cover letter.
+When the 'inflight' parameter is true, we iterate the inflight requests,
+otherwise, we iterate the all the busy requests no matter they are in-flight
+or not. The latter would be useful for part_in_flight. Currently, we only
+account the requests with driver tags, it is inconsistent for the io-scheduler
+and non-io-scheduler case.
 
-I'm hoping one day we'll have the ability to use page tables to prevent 
-the situations that we're trying to fix today in less than ideal ways. 
-Although there are other places in msi.c that use if (disconnected), I'm 
-okay with dropping this change -- provided we come up with an equivalent 
-fix.
+> 
+> Other than that, I think that iterating over static_rqs is a good
+> solution to the problem described.
+> 
 
-But even if FFS doesn't crash, do we really want to lose hundreds of 
-milliseconds to SMM --on all cores-- when all it takes is a couple of 
-cycles to check a flag?
-
-Alex
+Sincerely
+Jianchao
