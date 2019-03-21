@@ -1,50 +1,31 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 21 Mar 2019 16:10:24 -0700
-Subject: [PATCH 02/15] block: add a rq_integrity_vec helper
+Date: Thu, 21 Mar 2019 16:10:25 -0700
+Subject: [PATCH 03/15] block: add a rq_dma_dir helper
 In-Reply-To: <20190321231037.25104-1-hch@lst.de>
 References: <20190321231037.25104-1-hch@lst.de>
-Message-ID: <20190321231037.25104-3-hch@lst.de>
+Message-ID: <20190321231037.25104-4-hch@lst.de>
 
-This provides a nice little shortcut to get the integrity data for
-drivers like NVMe that only support a single integrity segment.
+In a lot of places we want to know the DMA direction for a given
+struct request.  Add a little helper to make it a littler easier.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- include/linux/blkdev.h | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ include/linux/blkdev.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 255e20313cde..f9a072610d28 100644
+index f9a072610d28..5279104527ad 100644
 --- a/include/linux/blkdev.h
 +++ b/include/linux/blkdev.h
-@@ -1552,6 +1552,16 @@ static inline unsigned int bio_integrity_bytes(struct blk_integrity *bi,
- 	return bio_integrity_intervals(bi, sectors) * bi->tuple_size;
- }
+@@ -638,6 +638,9 @@ static inline bool blk_account_rq(struct request *rq)
  
-+/*
-+ * Return the first bvec that contains integrity data.  In general only
-+ * drivers that are limited to a single integrity segment should use this
-+ * helper.
-+ */
-+static inline struct bio_vec *rq_integrity_vec(struct request *rq)
-+{
-+	return rq->bio->bi_integrity->bip_vec;
-+}
+ #define rq_data_dir(rq)		(op_is_write(req_op(rq)) ? WRITE : READ)
+ 
++#define rq_dma_dir(rq) \
++	(op_is_write(req_op(rq)) ? DMA_TO_DEVICE : DMA_FROM_DEVICE)
 +
- #else /* CONFIG_BLK_DEV_INTEGRITY */
- 
- struct bio;
-@@ -1626,6 +1636,11 @@ static inline unsigned int bio_integrity_bytes(struct blk_integrity *bi,
- 	return 0;
- }
- 
-+static inline struct bio_vec *rq_integrity_vec(struct request *rq)
-+{
-+	return NULL;
-+}
-+
- #endif /* CONFIG_BLK_DEV_INTEGRITY */
- 
- struct block_device_operations {
+ static inline bool queue_is_mq(struct request_queue *q)
+ {
+ 	return q->mq_ops;
 -- 
 2.20.1
