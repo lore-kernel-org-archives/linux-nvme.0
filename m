@@ -1,55 +1,72 @@
 From: mlevitsk@redhat.com (Maxim Levitsky)
-Date: Thu, 21 Mar 2019 19:04:50 +0200
-Subject: No subject
-In-Reply-To: <E217011E-C273-442D-AF99-84D3CD63FE77@nutanix.com>
+Date: Thu, 21 Mar 2019 19:07:38 +0200
+Subject: your mail
+In-Reply-To: <20190321161352.GA21682@stefanha-x1.localdomain>
 References: <20190319144116.400-1-mlevitsk@redhat.com>
- <488768D7-1396-4DD1-A648-C86E5CF7DB2F@nutanix.com>
- <42f444d22363bc747f4ad75e9f0c27b40a810631.camel@redhat.com>
- <20190321161239.GH31434@stefanha-x1.localdomain>
- <20190321162140.GA29342@localhost.localdomain>
- <E217011E-C273-442D-AF99-84D3CD63FE77@nutanix.com>
-Message-ID: <8698ad583b1cfe86afc3d5440be630fc3e8e0680.camel@redhat.com>
+ <20190321161352.GA21682@stefanha-x1.localdomain>
+Message-ID: <a4dc67e66cd126892468011311ff516853754cdb.camel@redhat.com>
 
-On Thu, 2019-03-21@16:41 +0000, Felipe Franciosi wrote:
-> > On Mar 21, 2019,@4:21 PM, Keith Busch <kbusch@kernel.org> wrote:
+On Thu, 2019-03-21@16:13 +0000, Stefan Hajnoczi wrote:
+> On Tue, Mar 19, 2019@04:41:07PM +0200, Maxim Levitsky wrote:
+> > Date: Tue, 19 Mar 2019 14:45:45 +0200
+> > Subject: [PATCH 0/9] RFC: NVME VFIO mediated device
 > > 
-> > On Thu, Mar 21, 2019@04:12:39PM +0000, Stefan Hajnoczi wrote:
-> > > mdev-nvme seems like a duplication of SPDK.  The performance is not
-> > > better and the features are more limited, so why focus on this approach?
-> > > 
-> > > One argument might be that the kernel NVMe subsystem wants to offer this
-> > > functionality and loading the kernel module is more convenient than
-> > > managing SPDK to some users.
-> > > 
-> > > Thoughts?
+> > Hi everyone!
 > > 
-> > Doesn't SPDK bind a controller to a single process? mdev binds to
-> > namespaces (or their partitions), so you could have many mdev's assigned
-> > to many VMs accessing a single controller.
+> > In this patch series, I would like to introduce my take on the problem of
+> > doing 
+> > as fast as possible virtualization of storage with emphasis on low latency.
+> > 
+> > In this patch series I implemented a kernel vfio based, mediated device
+> > that 
+> > allows the user to pass through a partition and/or whole namespace to a
+> > guest.
+> > 
+> > The idea behind this driver is based on paper you can find at
+> > https://www.usenix.org/conference/atc18/presentation/peng,
+> > 
+> > Although note that I stared the development prior to reading this paper, 
+> > independently.
+> > 
+> > In addition to that implementation is not based on code used in the paper
+> > as 
+> > I wasn't being able at that time to make the source available to me.
+> > 
+> > ***Key points about the implementation:***
+> > 
+> > * Polling kernel thread is used. The polling is stopped after a 
+> > predefined timeout (1/2 sec by default).
+> > Support for all interrupt driven mode is planned, and it shows promising
+> > results.
+> > 
+> > * Guest sees a standard NVME device - this allows to run guest with 
+> > unmodified drivers, for example windows guests.
+> > 
+> > * The NVMe device is shared between host and guest.
+> > That means that even a single namespace can be split between host 
+> > and guest based on different partitions.
+> > 
+> > * Simple configuration
+> > 
+> > *** Performance ***
+> > 
+> > Performance was tested on Intel DC P3700, With Xeon E5-2620 v2 
+> > and both latency and throughput is very similar to SPDK.
+> > 
+> > Soon I will test this on a better server and nvme device and provide
+> > more formal performance numbers.
+> > 
+> > Latency numbers:
+> > ~80ms - spdk with fio plugin on the host.
+> > ~84ms - nvme driver on the host
+> > ~87ms - mdev-nvme + nvme driver in the guest
 > 
-> Yes, it binds to a single process which can drive the datapath of multiple
-> virtual controllers for multiple VMs (similar to what you described for mdev).
-> You can therefore efficiently poll multiple VM submission queues (and multiple
-> device completion queues) from a single physical CPU.
-> 
-> The same could be done in the kernel, but the code gets complicated as you add
-> more functionality to it. As this is a direct interface with an untrusted
-> front-end (the guest), it's also arguably safer to do in userspace.
-> 
-> Worth noting: you can eventually have a single physical core polling all sorts
-> of virtual devices (eg. virtual storage or network controllers) very
-> efficiently. And this is quite configurable, too. In the interest of fairness,
-> performance or efficiency, you can choose to dynamically add or remove queues
-> to the poll thread or spawn more threads and redistribute the work.
-> 
-> F.
+> You mentioned the spdk numbers are with vhost-user-nvme.  Have you
+> measured SPDK's vhost-user-blk?
 
-Note though that SPDK doesn't support sharing the device between host and the
-guests, it takes over the nvme device, thus it makes the kernel nvme driver
-unbind from it.
-
-My driver creates a polling thread per guest, but its trivial to add option to
-use the same polling thread for many guests if there need for that.
+I had lot of measuments of vhost-user-blk vs vhost-user-nvme.
+vhost-user-nvme was always a bit faster but only a bit.
+Thus I don't think it makes sense to benchamrk against vhost-user-blk.
 
 Best regards,
 	Maxim Levitsky
