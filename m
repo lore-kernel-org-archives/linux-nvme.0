@@ -1,26 +1,31 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 22 Mar 2019 14:06:43 +0100
-Subject: [PATCH 03/15] block: add a rq_dma_dir helper
-In-Reply-To: <20190321231037.25104-4-hch@lst.de>
-References: <20190321231037.25104-1-hch@lst.de>
- <20190321231037.25104-4-hch@lst.de>
-Message-ID: <80ffa084-e1fb-4c5c-da92-7d9486084cb6@suse.de>
+From: kbusch@kernel.org (Keith Busch)
+Date: Fri, 22 Mar 2019 09:30:25 -0600
+Subject: No subject
+In-Reply-To: <0E8918CB-F679-4A5C-92AD-239E9CEC260C@nutanix.com>
+References: <20190319144116.400-1-mlevitsk@redhat.com>
+ <488768D7-1396-4DD1-A648-C86E5CF7DB2F@nutanix.com>
+ <42f444d22363bc747f4ad75e9f0c27b40a810631.camel@redhat.com>
+ <20190321161239.GH31434@stefanha-x1.localdomain>
+ <20190321162140.GA29342@localhost.localdomain>
+ <E217011E-C273-442D-AF99-84D3CD63FE77@nutanix.com>
+ <8698ad583b1cfe86afc3d5440be630fc3e8e0680.camel@redhat.com>
+ <0E8918CB-F679-4A5C-92AD-239E9CEC260C@nutanix.com>
+Message-ID: <20190322153025.GA31194@localhost.localdomain>
 
-On 22/03/2019 00:10, Christoph Hellwig wrote:
-> In a lot of places we want to know the DMA direction for a given
-> struct request.  Add a little helper to make it a littler easier.
+On Fri, Mar 22, 2019@07:54:50AM +0000, Felipe Franciosi wrote:
+> > 
+> > Note though that SPDK doesn't support sharing the device between host and the
+> > guests, it takes over the nvme device, thus it makes the kernel nvme driver
+> > unbind from it.
+> 
+> That is absolutely true. However, I find it not to be a problem in practice.
+> 
+> Hypervisor products, specially those caring about performance, efficiency and fairness, will dedicate NVMe devices for a particular purpose (eg. vDisk storage, cache, metadata) and will not share these devices for other use cases. That's because these products want to deterministically control the performance aspects of the device, which you just cannot do if you are sharing the device with a subsystem you do not control.
 
-You introuduce the helper here but you're using it in 8/15 for the 1st time.
+I don't know, it sounds like you've traded kernel syscalls for IPC,
+and I don't think one performs better than the other.
 
-Could you convert the possible users to use the new helper in this patch
-as well?
+> For scenarios where the device must be shared and such fine grained control is not required, it looks like using the kernel driver with io_uring offers very good performance with flexibility.
 
-
-
--- 
-Johannes Thumshirn                            SUSE Labs Filesystems
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+NVMe's IO Determinism features provide fine grained control for shared
+devices. It's still uncommon to find hardware supporting that, though.
