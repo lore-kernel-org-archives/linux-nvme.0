@@ -1,52 +1,48 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Fri, 22 Mar 2019 22:14:11 +0100
-Subject: [PATCH] nvme: schedule requeue whenever a LIVE state is entered
-In-Reply-To: <8fa7e09f-3621-f37b-9830-64377ce8cfd6@grimberg.me>
-References: <20190321141033.131308-1-hare@suse.de>
- <da58a1e4-14cd-2587-6350-dccabb6632f1@grimberg.me>
- <0ccee425-93bb-ad04-5b20-f8a792f1aafa@suse.com>
- <8fa7e09f-3621-f37b-9830-64377ce8cfd6@grimberg.me>
-Message-ID: <e03e9ab7-8973-097e-6ffb-60eec0ab47e5@suse.de>
+From: leon@kernel.org (Leon Romanovsky)
+Date: Sun, 24 Mar 2019 11:11:46 +0200
+Subject: [RFC/PATCH net-next 0/9] net/dim: Support for multiple
+ implementations
+In-Reply-To: <6599b66b-04d8-13e0-905a-9ab3862b30f5@grimberg.me>
+References: <20190306084832.57753-1-talgi@mellanox.com>
+ <1551888921.9796.2.camel@acm.org>
+ <392082ba-9aeb-6c5e-53a0-7bb53ce101fa@grimberg.me>
+ <010bc92c-55c1-c5bd-82a5-975aa7f7c735@mellanox.com>
+ <50b3659d-fd88-85b0-755e-49565fbe98c2@mellanox.com>
+ <89a41878-c88b-c0a2-64ef-4409b907ece6@mellanox.com>
+ <4c7b78ff-e906-8e67-c3ad-495b858ce82c@grimberg.me>
+ <226b674a-8ccb-864a-6153-be38ebcc3133@mellanox.com>
+ <20190320111058.GU4823@mtr-leonro.mtl.com>
+ <6599b66b-04d8-13e0-905a-9ab3862b30f5@grimberg.me>
+Message-ID: <20190324091146.GZ4823@mtr-leonro.mtl.com>
 
-On 3/22/19 7:57 PM, Sagi Grimberg wrote:
->>>> When undergoing state transitions I/O might be requeued, hence
->>>> we always have to schedule requeue_work whenever the nvme device
->>>> is live, independent on whether the old state was live or not.
->>>
->>> Any reason why not simply update from live to live?
->>>
->> ?
->>
->> I somewhat fail to parse the answer.
->> Care to elaborate?
-> 
-> -- 
-> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-> index 2839bb70badf..f0716f6ce41f 100644
-> --- a/drivers/nvme/host/multipath.c
-> +++ b/drivers/nvme/host/multipath.c
-> @@ -404,15 +404,12 @@ static inline bool nvme_state_is_live(enum 
-> nvme_ana_state state)
->  ?static void nvme_update_ns_ana_state(struct nvme_ana_group_desc *desc,
->  ??????????????? struct nvme_ns *ns)
->  ?{
-> -?????? enum nvme_ana_state old;
-> -
->  ??????? mutex_lock(&ns->head->lock);
-> -?????? old = ns->ana_state;
->  ??????? ns->ana_grpid = le32_to_cpu(desc->grpid);
->  ??????? ns->ana_state = desc->state;
->  ??????? clear_bit(NVME_NS_ANA_PENDING, &ns->flags);
-> 
-> -?????? if (nvme_state_is_live(ns->ana_state) && !nvme_state_is_live(old))
-> +?????? if (nvme_state_is_live(ns->ana_state))
->  ??????????????? nvme_mpath_set_live(ns);
->  ??????? mutex_unlock(&ns->head->lock);
->  ?}
-> -- 
-That's what we tried initially (cf thread "[PATCH] nvme-multipath: relax 
-ANA state check"), but got rejected by Christoph.
+On Wed, Mar 20, 2019@11:34:27AM -0700, Sagi Grimberg wrote:
+>
+> > It doesn't sound reasonable that we have per-ULP feature (DIM is
+> > per-ULP) to be configured globally. Especially given the fact that
+> > users can find themselves running different workloads with different
+> > requirements on the same system.
+> >
+> > Currently each ULP has some sort of tool to configure itself and I think
+> > that once ULP is converted to use DIM, it should have on/off knob in the
+> > tool used by their users.
+>
+> Its not any different than socket options that can have a global sysctl
+> knob that can be overridden by individual socket consumers.
 
-Cheers,
+Right, but there is a major difference between socket example and
+your proposal.
 
-Hannes
+Combination of socket option with general knob gives you maximum
+versatility in order to disable/enable/configure through program
+or through some sensible default. In your proposal, you will limit
+yourself to some system wide default, without any ability to override
+it specifically for your load.
+
+Thanks
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 801 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20190324/f852d82c/attachment.sig>
