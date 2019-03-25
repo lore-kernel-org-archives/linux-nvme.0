@@ -1,52 +1,77 @@
 From: jianchao.w.wang@oracle.com (Jianchao Wang)
-Date: Mon, 25 Mar 2019 13:38:31 +0800
-Subject: [PATCH V2 1/8] blk-mq: get rid of the synchronize_rcu in
- __blk_mq_update_nr_hw_queues
-In-Reply-To: <1553492318-1810-1-git-send-email-jianchao.w.wang@oracle.com>
-References: <1553492318-1810-1-git-send-email-jianchao.w.wang@oracle.com>
-Message-ID: <1553492318-1810-2-git-send-email-jianchao.w.wang@oracle.com>
+Date: Mon, 25 Mar 2019 13:38:30 +0800
+Subject: [PATCH V2 0/8]: blk-mq: use static_rqs to iterate busy tags
+Message-ID: <1553492318-1810-1-git-send-email-jianchao.w.wang@oracle.com>
 
-In commit 530ca2c (blk-mq: Allow blocking queue tag iter callbacks),
-we try to get a non-zero q_usage_counter to avoid access hctxs that
-being modified. So the synchronize_rcu is useless and should be
-removed.
+As we know, there is a risk of accesing stale requests when iterate
+in-flight requests with tags->rqs[] and this has been talked in following
+thread,
+[1] https://marc.info/?l=linux-scsi&m=154511693912752&w=2
+[2] https://marc.info/?l=linux-block&m=154526189023236&w=2
 
-Reviewed-by: Ming Lei <ming.lei at redhat.com>
-Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
----
- block/blk-mq-tag.c | 4 +---
- block/blk-mq.c     | 4 ----
- 2 files changed, 1 insertion(+), 7 deletions(-)
+A typical sence could be
+blk_mq_get_request         blk_mq_queue_tag_busy_iter
+  -> blk_mq_get_tag
+                             -> bt_for_each
+                               -> bt_iter
+                                 -> rq = taags->rqs[]
+                                 -> rq->q
+  -> blk_mq_rq_ctx_init
+    -> data->hctx->tags->rqs[rq->tag] = rq;
 
-diff --git a/block/blk-mq-tag.c b/block/blk-mq-tag.c
-index a4931fc..5f28002 100644
---- a/block/blk-mq-tag.c
-+++ b/block/blk-mq-tag.c
-@@ -384,9 +384,7 @@ void blk_mq_queue_tag_busy_iter(struct request_queue *q, busy_iter_fn *fn,
- 	/*
- 	 * __blk_mq_update_nr_hw_queues() updates nr_hw_queues and queue_hw_ctx
- 	 * while the queue is frozen. So we can use q_usage_counter to avoid
--	 * racing with it. __blk_mq_update_nr_hw_queues() uses
--	 * synchronize_rcu() to ensure this function left the critical section
--	 * below.
-+	 * racing with it.
- 	 */
- 	if (!percpu_ref_tryget(&q->q_usage_counter))
- 		return;
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index a9c1816..2102d91 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -3211,10 +3211,6 @@ static void __blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set,
- 	list_for_each_entry(q, &set->tag_list, tag_set_list)
- 		blk_mq_freeze_queue(q);
- 	/*
--	 * Sync with blk_mq_queue_tag_busy_iter.
--	 */
--	synchronize_rcu();
--	/*
- 	 * Switch IO scheduler to 'none', cleaning up the data associated
- 	 * with the previous scheduler. We will switch back once we are done
- 	 * updating the new sw to hw queue mappings.
--- 
-2.7.4
+The root cause is that there is a window between set bit on tag sbitmap
+and set tags->rqs[].
+
+This patch would fix this issue by iterating requests with tags->static_rqs[]
+instead of tags->rqs[] which would be changed dynamically. Moreover,
+we will try to get a non-zero q_usage_counter before access hctxs and tags and
+thus could avoid the race with updating nr_hw_queues, switching io scheduler
+and even queue clean up which are all under a frozen and drained queue.
+
+The 1st patch get rid of the useless of synchronize_rcu in __blk_mq_update_nr_hw_queues
+
+The 2nd patch modify the blk_mq_queue_tag_busy_iter to use tags->static_rqs[]
+instead of tags->rqs[] to iterate the busy tags.
+
+The 3rd ~ 7th patch change the blk_mq_tagset_busy_iter to blk_mq_queue_tag_busy_iter
+which is safer
+
+The 8th patch get rid of the blk_mq_tagset_busy_iter.
+
+Change log
+
+V1 -> V2:
+  - Add wrapper to hide "inflight" parameter to user based on Sagi's suggestion.
+  - Other misc changes on comment.
+
+Jianchao Wang (8)
+blk-mq: get rid of the synchronize_rcu in
+ blk-mq: use static_rqs instead of rqs to iterate tags
+ blk-mq: use blk_mq_queue_tag_inflight_iter in debugfs
+ mtip32xx: use blk_mq_queue_tag_inflight_iter
+ nbd: use blk_mq_queue_tag_inflight_iter
+ skd: use blk_mq_queue_tag_inflight_iter
+ nvme: use blk_mq_queue_tag_inflight_iter
+ blk-mq: remove blk_mq_tagset_busy_iter
+
+diff stat
+
+ block/blk-mq-debugfs.c            |   2 +-
+ block/blk-mq-tag.c                | 193 ++++++++++++++------------------------
+ block/blk-mq-tag.h                |   4 +-
+ block/blk-mq.c                    |  31 ++----
+ drivers/block/mtip32xx/mtip32xx.c |   6 +-
+ drivers/block/nbd.c               |   2 +-
+ drivers/block/skd_main.c          |   4 +-
+ drivers/nvme/host/core.c          |  12 +++
+ drivers/nvme/host/fc.c            |  10 +-
+ drivers/nvme/host/nvme.h          |   2 +
+ drivers/nvme/host/pci.c           |   5 +-
+ drivers/nvme/host/rdma.c          |   4 +-
+ drivers/nvme/host/tcp.c           |   5 +-
+ drivers/nvme/target/loop.c        |   4 +-
+ include/linux/blk-mq.h            |   7 +-
+ 15 files changed, 119 insertions(+), 172 deletions(-)
+
+Thanks
+Jianchao
