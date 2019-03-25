@@ -1,64 +1,52 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Mon, 25 Mar 2019 05:40:48 +0000
-Subject: [PATCH 15/15] nvme-pci: tidy up nvme_map_data
-References: <20190321231037.25104-1-hch@lst.de>
- <20190321231037.25104-16-hch@lst.de>
-Message-ID: <SN6PR04MB4527AF84720FCAE7A0478EAB865E0@SN6PR04MB4527.namprd04.prod.outlook.com>
+From: jianchao.w.wang@oracle.com (Jianchao Wang)
+Date: Mon, 25 Mar 2019 13:38:31 +0800
+Subject: [PATCH V2 1/8] blk-mq: get rid of the synchronize_rcu in
+ __blk_mq_update_nr_hw_queues
+In-Reply-To: <1553492318-1810-1-git-send-email-jianchao.w.wang@oracle.com>
+References: <1553492318-1810-1-git-send-email-jianchao.w.wang@oracle.com>
+Message-ID: <1553492318-1810-2-git-send-email-jianchao.w.wang@oracle.com>
 
-On 3/21/19 4:12 PM, Christoph Hellwig wrote:
-> Remove two pointless local variables, remove ret assignment that is
-> never used, move the use_sgl initialization closer to where it is used.
-> 
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> ---
->   drivers/nvme/host/pci.c | 17 +++++------------
->   1 file changed, 5 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 38869f59c296..9ec0704d5f78 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -840,10 +840,7 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
->   		struct nvme_command *cmnd)
->   {
->   	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
-> -	struct request_queue *q = req->q;
-> -	enum dma_data_direction dma_dir = rq_data_dir(req) ?
-> -			DMA_TO_DEVICE : DMA_FROM_DEVICE;
-> -	blk_status_t ret = BLK_STS_IOERR;
-> +	blk_status_t ret = BLK_STS_RESOURCE;
->   	int nr_mapped;
->   
->   	if (blk_rq_nr_phys_segments(req) == 1) {
-> @@ -865,25 +862,21 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
->   	iod->sg = mempool_alloc(dev->iod_mempool, GFP_ATOMIC);
->   	if (!iod->sg)
->   		return BLK_STS_RESOURCE;
-> -
-> -	iod->use_sgl = nvme_pci_use_sgls(dev, req);
-> -
->   	sg_init_table(iod->sg, blk_rq_nr_phys_segments(req));
-> -	iod->nents = blk_rq_map_sg(q, req, iod->sg);
-> +	iod->nents = blk_rq_map_sg(req->q, req, iod->sg);
->   	if (!iod->nents)
->   		goto out;
->   
-> -	ret = BLK_STS_RESOURCE;
-> -
->   	if (is_pci_p2pdma_page(sg_page(iod->sg)))
->   		nr_mapped = pci_p2pdma_map_sg(dev->dev, iod->sg, iod->nents,
-> -					  dma_dir);
-> +					      rq_dma_dir(req));
->   	else
->   		nr_mapped = dma_map_sg_attrs(dev->dev, iod->sg, iod->nents,
-> -					     dma_dir,  DMA_ATTR_NO_WARN);
-> +					     rq_dma_dir(req), DMA_ATTR_NO_WARN);
->   	if (!nr_mapped)
->   		goto out;
->   
-> +	iod->use_sgl = nvme_pci_use_sgls(dev, req);
->   	if (iod->use_sgl)
->   		ret = nvme_pci_setup_sgls(dev, req, &cmnd->rw, nr_mapped);
->   	else
->
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+In commit 530ca2c (blk-mq: Allow blocking queue tag iter callbacks),
+we try to get a non-zero q_usage_counter to avoid access hctxs that
+being modified. So the synchronize_rcu is useless and should be
+removed.
+
+Reviewed-by: Ming Lei <ming.lei at redhat.com>
+Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
+---
+ block/blk-mq-tag.c | 4 +---
+ block/blk-mq.c     | 4 ----
+ 2 files changed, 1 insertion(+), 7 deletions(-)
+
+diff --git a/block/blk-mq-tag.c b/block/blk-mq-tag.c
+index a4931fc..5f28002 100644
+--- a/block/blk-mq-tag.c
++++ b/block/blk-mq-tag.c
+@@ -384,9 +384,7 @@ void blk_mq_queue_tag_busy_iter(struct request_queue *q, busy_iter_fn *fn,
+ 	/*
+ 	 * __blk_mq_update_nr_hw_queues() updates nr_hw_queues and queue_hw_ctx
+ 	 * while the queue is frozen. So we can use q_usage_counter to avoid
+-	 * racing with it. __blk_mq_update_nr_hw_queues() uses
+-	 * synchronize_rcu() to ensure this function left the critical section
+-	 * below.
++	 * racing with it.
+ 	 */
+ 	if (!percpu_ref_tryget(&q->q_usage_counter))
+ 		return;
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index a9c1816..2102d91 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -3211,10 +3211,6 @@ static void __blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set,
+ 	list_for_each_entry(q, &set->tag_list, tag_set_list)
+ 		blk_mq_freeze_queue(q);
+ 	/*
+-	 * Sync with blk_mq_queue_tag_busy_iter.
+-	 */
+-	synchronize_rcu();
+-	/*
+ 	 * Switch IO scheduler to 'none', cleaning up the data associated
+ 	 * with the previous scheduler. We will switch back once we are done
+ 	 * updating the new sw to hw queue mappings.
+-- 
+2.7.4
