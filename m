@@ -1,99 +1,78 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Mon, 25 Mar 2019 05:36:18 +0000
-Subject: [PATCH 13/15] nvme-pci: optimize mapping of small single segment
- requests
-References: <20190321231037.25104-1-hch@lst.de>
- <20190321231037.25104-14-hch@lst.de>
-Message-ID: <SN6PR04MB45278E0897CCD5C2069E745B865E0@SN6PR04MB4527.namprd04.prod.outlook.com>
+From: jianchao.w.wang@oracle.com (Jianchao Wang)
+Date: Mon, 25 Mar 2019 13:28:01 +0800
+Subject: [PATCH V2 0/8]: blk-mq: use static_rqs to iterate busy tags
+Message-ID: <1553491689-1730-1-git-send-email-jianchao.w.wang@oracle.com>
 
-On 3/21/19 4:12 PM, Christoph Hellwig wrote:
-> If a request is single segment and fits into one or two PRP entries we
-> do not have to create a scatterlist for it, but can just map the bio_vec
-> directly.
-> 
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> ---
->   drivers/nvme/host/pci.c | 45 ++++++++++++++++++++++++++++++++++++-----
->   1 file changed, 40 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index c6047935e825..47fc4d653961 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -221,6 +221,7 @@ struct nvme_iod {
->   	int npages;		/* In the PRP list. 0 means small pool in use */
->   	int nents;		/* Used in scatterlist */
->   	dma_addr_t first_dma;
-> +	unsigned int dma_len;	/* length of single DMA segment mapping */
->   	dma_addr_t meta_dma;
->   	struct scatterlist *sg;
->   };
-> @@ -576,13 +577,18 @@ static void nvme_unmap_data(struct nvme_dev *dev, struct request *req)
->   	dma_addr_t dma_addr = iod->first_dma, next_dma_addr;
->   	int i;
->   
-> -	if (iod->nents) {
-> -		/* P2PDMA requests do not need to be unmapped */
-> -		if (!is_pci_p2pdma_page(sg_page(iod->sg)))
-> -			dma_unmap_sg(dev->dev, iod->sg, iod->nents, dma_dir);
-> -
-> +	if (iod->dma_len) {
-> +		dma_unmap_page(dev->dev, dma_addr, iod->dma_len, dma_dir);
-> +		return;
->   	}
->   
-> +	WARN_ON_ONCE(!iod->nents);
-> +
-> +	/* P2PDMA requests do not need to be unmapped */
-> +	if (!is_pci_p2pdma_page(sg_page(iod->sg)))
-> +		dma_unmap_sg(dev->dev, iod->sg, iod->nents, rq_dma_dir(req));
-> +
-> +
->   	if (iod->npages == 0)
->   		dma_pool_free(dev->prp_small_pool, nvme_pci_iod_list(req)[0],
->   			dma_addr);
-> @@ -795,6 +801,24 @@ static blk_status_t nvme_pci_setup_sgls(struct nvme_dev *dev,
->   	return BLK_STS_OK;
->   }
->   
-> +static blk_status_t nvme_setup_prp_simple(struct nvme_dev *dev,
-> +		struct request *req, struct nvme_rw_command *cmnd,
-> +		struct bio_vec *bv)
-> +{
-> +	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
-> +	unsigned int first_prp_len = dev->ctrl.page_size - bv->bv_offset;
-> +
-> +	iod->first_dma = dma_map_bvec(dev->dev, bv, rq_dma_dir(req), 0);
-> +	if (dma_mapping_error(dev->dev, iod->first_dma))
-> +		return BLK_STS_RESOURCE;
-> +	iod->dma_len = bv->bv_len;
-> +
-> +	cmnd->dptr.prp1 = cpu_to_le64(iod->first_dma);
-> +	if (bv->bv_len > first_prp_len)
-> +		cmnd->dptr.prp2 = cpu_to_le64(iod->first_dma + first_prp_len);
-> +	return 0;
-> +}
-> +
->   static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
->   		struct nvme_command *cmnd)
->   {
-> @@ -805,6 +829,17 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
->   	blk_status_t ret = BLK_STS_IOERR;
->   	int nr_mapped;
->   
-> +	if (blk_rq_nr_phys_segments(req) == 1) {
-> +		struct bio_vec bv = req_bvec(req);
-> +
-> +		if (!is_pci_p2pdma_page(bv.bv_page)) {
-> +			if (bv.bv_offset + bv.bv_len <= dev->ctrl.page_size * 2)
-> +				return nvme_setup_prp_simple(dev, req,
-> +							     &cmnd->rw, &bv);
-> +		}
-> +	}
-> +
-> +	iod->dma_len = 0;
->   	iod->sg = mempool_alloc(dev->iod_mempool, GFP_ATOMIC);
->   	if (!iod->sg)
->   		return BLK_STS_RESOURCE;
-> 
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+Hi Jens
+
+As we know, there is a risk of accesing stale requests when iterate
+in-flight requests with tags->rqs[] and this has been talked in following
+thread,
+[1] https://marc.info/?l=linux-scsi&m=154511693912752&w=2
+[2] https://marc.info/?l=linux-block&m=154526189023236&w=2
+
+A typical sence could be
+blk_mq_get_request         blk_mq_queue_tag_busy_iter
+  -> blk_mq_get_tag
+                             -> bt_for_each
+                               -> bt_iter
+                                 -> rq = taags->rqs[]
+                                 -> rq->q
+  -> blk_mq_rq_ctx_init
+    -> data->hctx->tags->rqs[rq->tag] = rq;
+
+The root cause is that there is a window between set bit on tag sbitmap
+and set tags->rqs[].
+
+This patch would fix this issue by iterating requests with tags->static_rqs[]
+instead of tags->rqs[] which would be changed dynamically. Moreover,
+we will try to get a non-zero q_usage_counter before access hctxs and tags and
+thus could avoid the race with updating nr_hw_queues, switching io scheduler
+and even queue clean up which are all under a frozen and drained queue.
+
+The 1st patch get rid of the useless of synchronize_rcu in __blk_mq_update_nr_hw_queues
+
+The 2nd patch modify the blk_mq_queue_tag_busy_iter to use tags->static_rqs[]
+instead of tags->rqs[] to iterate the busy tags.
+
+The 3rd ~ 7th patch change the blk_mq_tagset_busy_iter to blk_mq_queue_tag_busy_iter
+which is safer
+
+The 8th patch get rid of the blk_mq_tagset_busy_iter.
+
+Change log
+
+V1 -> V2:
+ - Add wrapper to hide the 'infligh' parameter to user based on Sagi's suggestion.
+ - Other misc changes on comment.
+
+Jianchao Wang (8)
+blk-mq: get rid of the synchronize_rcu in
+blk-mq: use static_rqs instead of rqs to iterate tags
+blk-mq: use blk_mq_queue_tag_inflight_iter in debugfs
+mtip32xx: use blk_mq_queue_tag_inflight_iter
+nbd: use blk_mq_queue_tag_inflight_iter
+skd: use blk_mq_queue_tag_inflight_iter
+nvme: use blk_mq_queue_tag_inflight_iter
+blk-mq: remove blk_mq_tagset_busy_iter
+
+diff stat
+ block/blk-mq-debugfs.c            |   2 +-
+ block/blk-mq-tag.c                | 193 ++++++++++++++------------------------
+ block/blk-mq-tag.h                |   4 +-
+ block/blk-mq.c                    |  31 ++----
+ drivers/block/mtip32xx/mtip32xx.c |   6 +-
+ drivers/block/nbd.c               |   2 +-
+ drivers/block/skd_main.c          |   4 +-
+ drivers/nvme/host/core.c          |  12 +++
+ drivers/nvme/host/fc.c            |  10 +-
+ drivers/nvme/host/nvme.h          |   2 +
+ drivers/nvme/host/pci.c           |   5 +-
+ drivers/nvme/host/rdma.c          |   4 +-
+ drivers/nvme/host/tcp.c           |   5 +-
+ drivers/nvme/target/loop.c        |   4 +-
+ include/linux/blk-mq.h            |   7 +-
+ 15 files changed, 119 insertions(+), 172 deletions(-)
+
+Thanks
+Jianchao
