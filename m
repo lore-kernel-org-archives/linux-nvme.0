@@ -1,11 +1,74 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 25 Mar 2019 11:55:37 +0100
-Subject: [PATCH 2/2] nvme: target: build bvec from sg directly
-In-Reply-To: <20190325100708.24172-3-ming.lei@redhat.com>
-References: <20190325100708.24172-1-ming.lei@redhat.com>
- <20190325100708.24172-3-ming.lei@redhat.com>
-Message-ID: <20190325105537.GA24973@lst.de>
+From: mb@lightnvm.io (=?UTF-8?Q?Matias_Bj=c3=b8rling?=)
+Date: Mon, 25 Mar 2019 11:56:36 +0100
+Subject: [PATCH] nvme: lightnvm: expose OC devices as zero size to OS
+In-Reply-To: <16807f7f-075b-aa27-72c3-a905772ac36d@intel.com>
+References: <1552570910-11706-1-git-send-email-marcin.dziegielewski@intel.com>
+ <4e43d40a-b253-1493-da38-70a8c062749e@lightnvm.io>
+ <16807f7f-075b-aa27-72c3-a905772ac36d@intel.com>
+Message-ID: <b6ad4793-11a5-2958-f01e-b62774541299@lightnvm.io>
 
-This looks pretty sensible even if we don't end up submitting multi-page
-vecs.  But can you please just send it on top of mainline directly?
-The previos patch just creates pointless churn.
+On 3/18/19 2:32 PM, Marcin Dziegielewski wrote:
+> On 3/14/19 2:56 PM, Matias Bj?rling wrote:
+>> On 3/14/19 6:41 AM, Marcin Dziegielewski wrote:
+>>> Open channel devices are not able to handle traditional
+>>> IO requests addressed by LBA, so following current
+>>> approach to exposing special nvme devices as zero size
+>>> (e.g. with namespace formatted to use metadata) also
+>>> open channel devices should be exposed as zero size
+>>> to OS.
+>>>
+>>> Signed-off-by: Marcin Dziegielewski <marcin.dziegielewski at intel.com>
+>>> ---
+>>> ? drivers/nvme/host/core.c | 3 ++-
+>>> ? 1 file changed, 2 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+>>> index 07bf2bf..52cd5c8 100644
+>>> --- a/drivers/nvme/host/core.c
+>>> +++ b/drivers/nvme/host/core.c
+>>> @@ -1606,7 +1606,8 @@ static void nvme_update_disk_info(struct 
+>>> gendisk *disk,
+>>> ????? if (ns->ms && !ns->ext &&
+>>> ????????? (ns->ctrl->ops->flags & NVME_F_METADATA_SUPPORTED))
+>>> ????????? nvme_init_integrity(disk, ns->ms, ns->pi_type);
+>>> -??? if (ns->ms && !nvme_ns_has_pi(ns) && !blk_get_integrity(disk))
+>>> +??? if ((ns->ms && !nvme_ns_has_pi(ns) && !blk_get_integrity(disk)) ||
+>>> +??????? ns->ndev)
+>>> ????????? capacity = 0;
+>>> ????? set_capacity(disk, capacity);
+>>>
+>>
+>> Marcin,
+>>
+>> The read/write as traditional I/Os feature is supported in OCSSD 2.0. 
+>> For example, one can hook support up through the zone device support 
+>> in the kernel. There is a patch here that enables it here:
+>>
+>> https://github.com/OpenChannelSSD/linux/commit/e79e747601a315784e505d51a9265e82a3e7613c 
+>>
+>>
+>> With that, an OCSSD device can be used as a traditional zoned block 
+>> device, and use the existing infrastructure. Which is really neat.
+>>
+>> It is not upstream, since it depends on some features that we 
+>> introduce with zoned namespaces, but in general, tools can read/write 
+>> from a block device as any other, just honoring the special write 
+>> rules that are for OCSSD/zoned block devices.
+>>
+>> -Matias
+> 
+> Matias,
+> 
+> If zone related changes will be in upstream soon, I agree that this 
+> patch is not needed.
+> 
+> But, I can not agree that tools can use OCSSD device as normal block 
+> device - for example in current implementation I don't see way to send 
+> erase request and of course without it we can not send write. Because of 
+> that, it was my intention to block normal IO to OCSSD device by default.
+> 
+> Marcin
+
+It is implemented the same way as "Zone reset" is implemented in 
+ZAC/ZBC. The kernel converts the trim to a vector erase and issues that 
+instead.
