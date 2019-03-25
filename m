@@ -1,45 +1,56 @@
 From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Mon, 25 Mar 2019 05:07:44 +0000
-Subject: [PATCH 01/15] block: add a req_bvec helper
+Date: Mon, 25 Mar 2019 05:10:20 +0000
+Subject: [PATCH 02/15] block: add a rq_integrity_vec helper
 References: <20190321231037.25104-1-hch@lst.de>
- <20190321231037.25104-2-hch@lst.de>
-Message-ID: <SN6PR04MB4527D352D115DFAB042B18D2865E0@SN6PR04MB4527.namprd04.prod.outlook.com>
+ <20190321231037.25104-3-hch@lst.de>
+Message-ID: <SN6PR04MB4527A9C0E360C5991F9E00A6865E0@SN6PR04MB4527.namprd04.prod.outlook.com>
 
 On 3/21/19 4:11 PM, Christoph Hellwig wrote:
-> Return the currently active bvec segment, potentially spanning multiple
-> pages.
+> This provides a nice little shortcut to get the integrity data for
+> drivers like NVMe that only support a single integrity segment.
 > 
 > Signed-off-by: Christoph Hellwig <hch at lst.de>
 > ---
->   include/linux/blkdev.h | 7 +++++++
->   1 file changed, 7 insertions(+)
+>   include/linux/blkdev.h | 15 +++++++++++++++
+>   1 file changed, 15 insertions(+)
 > 
 > diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-> index 0de92b29f589..255e20313cde 100644
+> index 255e20313cde..f9a072610d28 100644
 > --- a/include/linux/blkdev.h
 > +++ b/include/linux/blkdev.h
-> @@ -929,6 +929,13 @@ static inline unsigned int blk_rq_payload_bytes(struct request *rq)
->   	return blk_rq_bytes(rq);
+> @@ -1552,6 +1552,16 @@ static inline unsigned int bio_integrity_bytes(struct blk_integrity *bi,
+>   	return bio_integrity_intervals(bi, sectors) * bi->tuple_size;
 >   }
 >   
-> +static inline struct bio_vec req_bvec(struct request *rq)
+> +/*
+> + * Return the first bvec that contains integrity data.  In general only
+> + * drivers that are limited to a single integrity segment should use this
+> + * helper.
+> + */
+> +static inline struct bio_vec *rq_integrity_vec(struct request *rq)
 > +{
-> +	if (rq->rq_flags & RQF_SPECIAL_PAYLOAD)
-> +		return rq->special_vec;
-Quick question here mostly for my understanding, do we also have to 
-check here for nr_phys_segments for the operations such as write-zeroes ? OR
-
-this may never get called in write-zeroes context ? OR
-not applicable ?
-
-> +	return mp_bvec_iter_bvec(rq->bio->bi_io_vec, rq->bio->bi_iter);
+Wrt comment, should we add a check here to make sure underlaying driver
+has limited single integrity segment ?
+> +	return rq->bio->bi_integrity->bip_vec;
 > +}
 > +
->   static inline unsigned int blk_queue_get_max_sectors(struct request_queue *q,
->   						     int op)
->   {
+>   #else /* CONFIG_BLK_DEV_INTEGRITY */
+>   
+>   struct bio;
+> @@ -1626,6 +1636,11 @@ static inline unsigned int bio_integrity_bytes(struct blk_integrity *bi,
+>   	return 0;
+>   }
+>   
+> +static inline struct bio_vec *rq_integrity_vec(struct request *rq)
+> +{
+> +	return NULL;
+> +}
+> +
+>   #endif /* CONFIG_BLK_DEV_INTEGRITY */
+>   
+>   struct block_device_operations {
 > 
 
-Otherwise, looks good.
+Otherwise looks good.
 
 Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
