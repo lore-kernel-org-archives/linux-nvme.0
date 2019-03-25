@@ -1,48 +1,45 @@
-From: leon@kernel.org (Leon Romanovsky)
-Date: Sun, 24 Mar 2019 11:11:46 +0200
-Subject: [RFC/PATCH net-next 0/9] net/dim: Support for multiple
- implementations
-In-Reply-To: <6599b66b-04d8-13e0-905a-9ab3862b30f5@grimberg.me>
-References: <20190306084832.57753-1-talgi@mellanox.com>
- <1551888921.9796.2.camel@acm.org>
- <392082ba-9aeb-6c5e-53a0-7bb53ce101fa@grimberg.me>
- <010bc92c-55c1-c5bd-82a5-975aa7f7c735@mellanox.com>
- <50b3659d-fd88-85b0-755e-49565fbe98c2@mellanox.com>
- <89a41878-c88b-c0a2-64ef-4409b907ece6@mellanox.com>
- <4c7b78ff-e906-8e67-c3ad-495b858ce82c@grimberg.me>
- <226b674a-8ccb-864a-6153-be38ebcc3133@mellanox.com>
- <20190320111058.GU4823@mtr-leonro.mtl.com>
- <6599b66b-04d8-13e0-905a-9ab3862b30f5@grimberg.me>
-Message-ID: <20190324091146.GZ4823@mtr-leonro.mtl.com>
+From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Mon, 25 Mar 2019 05:07:44 +0000
+Subject: [PATCH 01/15] block: add a req_bvec helper
+References: <20190321231037.25104-1-hch@lst.de>
+ <20190321231037.25104-2-hch@lst.de>
+Message-ID: <SN6PR04MB4527D352D115DFAB042B18D2865E0@SN6PR04MB4527.namprd04.prod.outlook.com>
 
-On Wed, Mar 20, 2019@11:34:27AM -0700, Sagi Grimberg wrote:
->
-> > It doesn't sound reasonable that we have per-ULP feature (DIM is
-> > per-ULP) to be configured globally. Especially given the fact that
-> > users can find themselves running different workloads with different
-> > requirements on the same system.
-> >
-> > Currently each ULP has some sort of tool to configure itself and I think
-> > that once ULP is converted to use DIM, it should have on/off knob in the
-> > tool used by their users.
->
-> Its not any different than socket options that can have a global sysctl
-> knob that can be overridden by individual socket consumers.
+On 3/21/19 4:11 PM, Christoph Hellwig wrote:
+> Return the currently active bvec segment, potentially spanning multiple
+> pages.
+> 
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> ---
+>   include/linux/blkdev.h | 7 +++++++
+>   1 file changed, 7 insertions(+)
+> 
+> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+> index 0de92b29f589..255e20313cde 100644
+> --- a/include/linux/blkdev.h
+> +++ b/include/linux/blkdev.h
+> @@ -929,6 +929,13 @@ static inline unsigned int blk_rq_payload_bytes(struct request *rq)
+>   	return blk_rq_bytes(rq);
+>   }
+>   
+> +static inline struct bio_vec req_bvec(struct request *rq)
+> +{
+> +	if (rq->rq_flags & RQF_SPECIAL_PAYLOAD)
+> +		return rq->special_vec;
+Quick question here mostly for my understanding, do we also have to 
+check here for nr_phys_segments for the operations such as write-zeroes ? OR
 
-Right, but there is a major difference between socket example and
-your proposal.
+this may never get called in write-zeroes context ? OR
+not applicable ?
 
-Combination of socket option with general knob gives you maximum
-versatility in order to disable/enable/configure through program
-or through some sensible default. In your proposal, you will limit
-yourself to some system wide default, without any ability to override
-it specifically for your load.
+> +	return mp_bvec_iter_bvec(rq->bio->bi_io_vec, rq->bio->bi_iter);
+> +}
+> +
+>   static inline unsigned int blk_queue_get_max_sectors(struct request_queue *q,
+>   						     int op)
+>   {
+> 
 
-Thanks
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 801 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20190324/f852d82c/attachment.sig>
+Otherwise, looks good.
+
+Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
