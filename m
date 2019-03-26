@@ -1,66 +1,119 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Tue, 26 Mar 2019 08:17:23 -0600
-Subject: [PATCH V2 8/8] blk-mq: remove blk_mq_tagset_busy_iter
-In-Reply-To: <15fa9443-776b-bb75-0e20-538609d34eba@suse.de>
-References: <1553492318-1810-1-git-send-email-jianchao.w.wang@oracle.com>
- <1553492318-1810-9-git-send-email-jianchao.w.wang@oracle.com>
- <47fe0e2a-f427-0e3e-e15b-a9e2bffb502f@suse.de>
- <f9d22543-65d1-e473-e3ab-deefa2d6e884@oracle.com>
- <15fa9443-776b-bb75-0e20-538609d34eba@suse.de>
-Message-ID: <5b5442f9-eb31-c7fa-822b-9e7b1a1d188c@kernel.dk>
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Tue, 26 Mar 2019 15:20:55 -0500
+Subject: [PATCH RFC v4 08/21] nvme-pci: Handle movable BARs
+In-Reply-To: <20190311133122.11417-9-s.miroshnichenko@yadro.com>
+References: <20190311133122.11417-1-s.miroshnichenko@yadro.com>
+ <20190311133122.11417-9-s.miroshnichenko@yadro.com>
+Message-ID: <20190326202055.GP24180@google.com>
 
-On 3/25/19 2:25 AM, Hannes Reinecke wrote:
-> On 3/25/19 8:37 AM, jianchao.wang wrote:
->> Hi Hannes
->>
->> On 3/25/19 3:18 PM, Hannes Reinecke wrote:
->>> On 3/25/19 6:38 AM, Jianchao Wang wrote:
->>>> As nobody uses blk_mq_tagset_busy_iter, remove it.
->>>>
->>>> Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
->>>> ---
->>>>    block/blk-mq-tag.c     | 95 --------------------------------------------------
->>>>    include/linux/blk-mq.h |  2 --
->>>>    2 files changed, 97 deletions(-)
->>>>
->>> Please, don't.
->>>
->>> I'm currently implementing reserved commands for SCSI and reworking
->>> the SCSI error handling where I rely on this interface quite
->>> heavily.
->>
->>
->> blk_mq_tagset_busy_iter could access some stale requests which maybe
->> freed due to io scheduler switching, request_queue cleanup (shared
->> tagset) when there is someone submits io and gets driver tag. When io
->> scheduler attached, even quiesce request_queue won't work.
->>
->> If this patchset is accepted, blk_mq_tagset_busy_iter could be
->> replaced with blk_mq_queue_inflight_tag_iter which needs to be
->> invoked by every request_queue that shares the tagset.
->>
-> The point is, at that time I do _not_ have a request queue to work
-> with.
-> 
-> Most SCSI drivers have a host-wide shared tagset, which is used by all
-> request queues on that host.  Iterating over the shared tagset is far
-> more efficient than to traverse over all devices and the attached
-> request queues.
-> 
-> If I had to traverse all request queues I would need to add additional
-> locking to ensure this traversal is race-free, making it a really
-> cumbersome interface to use.
-> 
-> Plus the tagset iter is understood to be used only in cases where I/O
-> is stopped from the upper layers (ie no new I/O will be submitted).
-> So here we only need to protect against I/O being completed, which is
-> not what this patchset is about.
-> 
-> So my objection still stands: Please, don't.
+[+cc Keith, Jens, Christoph, Sagi, linux-nvme, LKML]
 
-We can't just keep an interface that's hard to use correctly just
-because you have something pending for that. Jianchao has good
-suggestions for you on how to proceed.
+On Mon, Mar 11, 2019@04:31:09PM +0300, Sergey Miroshnichenko wrote:
+> Hotplugged devices can affect the existing ones by moving their BARs.
+> PCI subsystem will inform the NVME driver about this by invoking
+> reset_prepare()+reset_done(), then iounmap()+ioremap() must be called.
 
--- 
-Jens Axboe
+Do you mean the PCI core will invoke ->rescan_prepare() and
+->rescan_done() (as opposed to *reset*)?
+
+> Signed-off-by: Sergey Miroshnichenko <s.miroshnichenko at yadro.com>
+> ---
+>  drivers/nvme/host/pci.c | 29 +++++++++++++++++++++++++++--
+>  1 file changed, 27 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 92bad1c810ac..ccea3033a67a 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -106,6 +106,7 @@ struct nvme_dev {
+>  	unsigned int num_vecs;
+>  	int q_depth;
+>  	u32 db_stride;
+> +	resource_size_t current_phys_bar;
+>  	void __iomem *bar;
+>  	unsigned long bar_mapped_size;
+>  	struct work_struct remove_work;
+> @@ -1672,13 +1673,16 @@ static int nvme_remap_bar(struct nvme_dev *dev, unsigned long size)
+>  {
+>  	struct pci_dev *pdev = to_pci_dev(dev->dev);
+>  
+> -	if (size <= dev->bar_mapped_size)
+> +	if (dev->bar &&
+> +	    dev->current_phys_bar == pci_resource_start(pdev, 0) &&
+> +	    size <= dev->bar_mapped_size)
+>  		return 0;
+>  	if (size > pci_resource_len(pdev, 0))
+>  		return -ENOMEM;
+>  	if (dev->bar)
+>  		iounmap(dev->bar);
+> -	dev->bar = ioremap(pci_resource_start(pdev, 0), size);
+> +	dev->current_phys_bar = pci_resource_start(pdev, 0);
+> +	dev->bar = ioremap(dev->current_phys_bar, size);
+
+dev->current_phys_bar is different from pci_resource_start() in the
+case where the PCI core has moved the nvme BAR, but nvme has not yet
+remapped it.
+
+I'm not sure it's worth keeping track of current_phys_bar, as opposed
+to always unmapping and remapping.  Is this a performance path?  I
+think there are advantages to always exercising the same code path,
+regardless of whether the BAR happened to be moved, e.g., if there's a
+bug in the "BAR moved" path, it may be a heisenbug because whether we
+exercise that path depends on the current configuration.
+
+If you do need to cache current_phys_bar, maybe this, so it's a little
+easier to see that you're not changing the ioremap() itself:
+
+  dev->bar = ioremap(pci_resource_start(pdev, 0), size);
+  dev->current_phys_bar = pci_resource_start(pdev, 0);
+
+>  	if (!dev->bar) {
+>  		dev->bar_mapped_size = 0;
+>  		return -ENOMEM;
+> @@ -2504,6 +2508,8 @@ static void nvme_reset_work(struct work_struct *work)
+>  	if (WARN_ON(dev->ctrl.state != NVME_CTRL_RESETTING))
+>  		goto out;
+>  
+> +	nvme_remap_bar(dev, db_bar_size(dev, 0));
+
+How is this change connected to rescan?  This looks reset-related.
+
+>  	/*
+>  	 * If we're called to reset a live controller first shut it down before
+>  	 * moving on.
+> @@ -2910,6 +2916,23 @@ static void nvme_error_resume(struct pci_dev *pdev)
+>  	flush_work(&dev->ctrl.reset_work);
+>  }
+>  
+> +void nvme_rescan_prepare(struct pci_dev *pdev)
+> +{
+> +	struct nvme_dev *dev = pci_get_drvdata(pdev);
+> +
+> +	nvme_dev_disable(dev, false);
+> +	nvme_dev_unmap(dev);
+> +	dev->bar = NULL;
+> +}
+> +
+> +void nvme_rescan_done(struct pci_dev *pdev)
+> +{
+> +	struct nvme_dev *dev = pci_get_drvdata(pdev);
+> +
+> +	nvme_dev_map(dev);
+> +	nvme_reset_ctrl_sync(&dev->ctrl);
+> +}
+> +
+>  static const struct pci_error_handlers nvme_err_handler = {
+>  	.error_detected	= nvme_error_detected,
+>  	.slot_reset	= nvme_slot_reset,
+> @@ -2974,6 +2997,8 @@ static struct pci_driver nvme_driver = {
+>  	},
+>  	.sriov_configure = pci_sriov_configure_simple,
+>  	.err_handler	= &nvme_err_handler,
+> +	.rescan_prepare	= nvme_rescan_prepare,
+> +	.rescan_done	= nvme_rescan_done,
+>  };
+>  
+>  static int __init nvme_init(void)
+> -- 
+> 2.20.1
+> 
