@@ -1,26 +1,27 @@
 From: tom.leiming@gmail.com (Ming Lei)
-Date: Tue, 26 Mar 2019 15:39:14 +0800
-Subject: [PATCH 1/4] nvmet: set loop queue's segment boundary mask as
- PAGE_SIZE - 1
-In-Reply-To: <CACVXFVODbii+X6M6=k41-gBhWzRQ9vpbsmLnzoJT4wkoi5C7gw@mail.gmail.com>
+Date: Tue, 26 Mar 2019 15:50:01 +0800
+Subject: [PATCH 2/4] nvmet: fix computation of io vector number
+In-Reply-To: <20190326073800.GB21617@lst.de>
 References: <20190326031928.9499-1-ming.lei@redhat.com>
- <20190326031928.9499-2-ming.lei@redhat.com>
- <20190326073622.GA21617@lst.de>
- <CACVXFVODbii+X6M6=k41-gBhWzRQ9vpbsmLnzoJT4wkoi5C7gw@mail.gmail.com>
-Message-ID: <CACVXFVOAZd30hszq_AQU7_yAESRUFh9BqP-p+kK2z+6szTPC1Q@mail.gmail.com>
+ <20190326031928.9499-3-ming.lei@redhat.com>
+ <20190326073800.GB21617@lst.de>
+Message-ID: <CACVXFVNTOVcP7N_MCZ+JEUJX09WUH0Ds3yZ_DELrSkAfPEDrpg@mail.gmail.com>
 
-On Tue, Mar 26, 2019@3:37 PM Ming Lei <tom.leiming@gmail.com> wrote:
+On Tue, Mar 26, 2019@3:38 PM Christoph Hellwig <hch@lst.de> wrote:
 >
-> On Tue, Mar 26, 2019@3:36 PM Christoph Hellwig <hch@lst.de> wrote:
-> >
-> > Note that in many cases allocating larger pages in the other targets
-> > would be useful.  Given that you fix the one places where we made a page
-> > size assumption I don't see a great need to limit outselves here.
->
-> block device backed ns still needs this patch.
+> I'd rather see this merged with the last one (and patch 3 dropped as
+> it just gets removed entirely in 4) - that fixes all the issues together
+> and doesn't require your patch 1 as as a workaround first.
 
-Also both the 2nd & 3rd fixes depend on this patch too.
+Patch 1 isn't a workaround, which is needed for stable tree, and
+the other fixes won't work without patch 1.
 
+However, we may revert patch 1 for 5.1 in which multi-page bvec
+is supported.
+
+I am fine to merge the last three in one patch since the backporting
+isn't too hard for me, :-) However I guess our stable guys may prefer to
+simpler fix.
 
 Thanks,
 Ming Lei
