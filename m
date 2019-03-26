@@ -1,47 +1,30 @@
-From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Tue, 26 Mar 2019 11:05:53 +0800
-Subject: [PATCH V2 7/8] nvme: use blk_mq_queue_tag_inflight_iter
-In-Reply-To: <CACVXFVMw9G6n44-knV6oa3FxJ6YzN05ZRajkgUnhLJupnkadOQ@mail.gmail.com>
-References: <1553492318-1810-1-git-send-email-jianchao.w.wang@oracle.com>
- <1553492318-1810-8-git-send-email-jianchao.w.wang@oracle.com>
- <20190325134917.GA4328@localhost.localdomain>
- <70e14e12-2ffc-37db-dd8f-229bc580546e@oracle.com>
- <CACVXFVMw9G6n44-knV6oa3FxJ6YzN05ZRajkgUnhLJupnkadOQ@mail.gmail.com>
-Message-ID: <d749592c-42c8-19a8-0885-5048a2101e5a@oracle.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Tue, 26 Mar 2019 11:19:24 +0800
+Subject: [PATCH 0/4] nvmet: fix file & block device backed ns
+Message-ID: <20190326031928.9499-1-ming.lei@redhat.com>
 
+Hi,
 
+The 1st patch sets loop queue's segment boundary mask as PAGE_SIZE - 1
+because nvme target only accepts single-page sg list.
 
-On 3/26/19 10:41 AM, Ming Lei wrote:
-> On Tue, Mar 26, 2019 at 9:18 AM jianchao.wang
-> <jianchao.w.wang@oracle.com> wrote:
->>
->> Hi Keith
->>
->> On 3/25/19 9:49 PM, Keith Busch wrote:
->>> On Mon, Mar 25, 2019@01:38:37PM +0800, Jianchao Wang wrote:
->>>> blk_mq_tagset_inflight_iter is not safe that it could get stale request
->>>> in tags->rqs[]. Use blk_mq_queue_tag_inflight_iter here. A new helper
->>>> interface nvme_iterate_inflight_rqs is introduced to iterate
->>>> all of the ns under a ctrl.
->>>
->>> Nak, NVMe only iterates tags when new requests can't enter, allocated
->>> requests can't dispatch, and dispatched commands can't complete. So
->>> it is perfectly safe to iterate if the driver takes reasonable steps
->>> beforehand.
->>
->> nvme_dev_disable just quiesce and freeze the request_queue, but not drain the enters.
->> So there still could be someone escapes the queue freeze checking and tries to allocate
->> request.
-> 
-> The rq->state is just IDLE for these allocated request, so there
-> shouldn't be issue
-> in NVMe's case.
+The 2nd & 3rd patches fix computation io vector.
 
-What if there used to be a io scheduler and leave some stale requests of sched tags ?
-Or the nr_hw_queues was decreased and leave the hctx->fq->flush_rq ?
+The last patch builds bvec from sg directly.
 
-The stable request could be some tings freed and used
-by others and the state field happen to be overwritten to non-zero...
+Ming Lei (4):
+  nvmet: set loop queue's segment boundary mask as PAGE_SIZE - 1
+  nvmet: fix computation of io vector number
+  nvmet: fix computation of bvec->bv_len
+  nvmet: build bvec from sg directly
 
-Thanks
-Jianchao
+ drivers/nvme/target/io-cmd-file.c | 20 ++++++++++----------
+ drivers/nvme/target/loop.c        |  3 +++
+ 2 files changed, 13 insertions(+), 10 deletions(-)
+
+Cc: Yi Zhang <yi.zhang at redhat.com>
+Cc: Sagi Grimberg <sagi at grimberg.me>
+Cc: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+
+-- 
+2.9.5
