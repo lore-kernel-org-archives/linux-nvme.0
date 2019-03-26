@@ -1,40 +1,37 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Tue, 26 Mar 2019 10:16:28 +0800
-Subject: [PATCH 1/2] nvme: target: fix nvmet_file_init_bvec()
-In-Reply-To: <a850ff6c-f006-9b1b-5425-19cc6a1693c7@grimberg.me>
-References: <20190325100708.24172-1-ming.lei@redhat.com>
- <20190325100708.24172-2-ming.lei@redhat.com>
- <20190325105231.GA24907@lst.de> <20190326013935.GC30669@ming.t460p>
- <a850ff6c-f006-9b1b-5425-19cc6a1693c7@grimberg.me>
-Message-ID: <20190326021627.GE30669@ming.t460p>
+From: tom.leiming@gmail.com (Ming Lei)
+Date: Tue, 26 Mar 2019 10:41:00 +0800
+Subject: [PATCH V2 7/8] nvme: use blk_mq_queue_tag_inflight_iter
+In-Reply-To: <70e14e12-2ffc-37db-dd8f-229bc580546e@oracle.com>
+References: <1553492318-1810-1-git-send-email-jianchao.w.wang@oracle.com>
+ <1553492318-1810-8-git-send-email-jianchao.w.wang@oracle.com>
+ <20190325134917.GA4328@localhost.localdomain>
+ <70e14e12-2ffc-37db-dd8f-229bc580546e@oracle.com>
+Message-ID: <CACVXFVMw9G6n44-knV6oa3FxJ6YzN05ZRajkgUnhLJupnkadOQ@mail.gmail.com>
 
-On Mon, Mar 25, 2019@07:03:23PM -0700, Sagi Grimberg wrote:
-> 
-> > > The scatterlist in the nvme target is always allocated by the nvmet
-> > > code itself an thus never contains multi-page sg list entries.
-> > 
-> > I am wondering if it is true.
-> > 
-> > Not look at other target code yet, however seems it isn't true for loop,
-> > see the following code in nvme_loop_queue_rq():
-> > 
-> > 	iod->req.sg = iod->sg_table.sgl;
-> > 	iod->req.sg_cnt = blk_rq_map_sg(req->q, req, iod->sg_table.sgl);
-> > 	iod->req.transfer_len = blk_rq_payload_bytes(req);
-> > 
-> > And it has been triggered by nvme/011 in Yi's test.
-> 
-> Yes, loop is an exception in this case.
+On Tue, Mar 26, 2019 at 9:18 AM jianchao.wang
+<jianchao.w.wang@oracle.com> wrote:
+>
+> Hi Keith
+>
+> On 3/25/19 9:49 PM, Keith Busch wrote:
+> > On Mon, Mar 25, 2019@01:38:37PM +0800, Jianchao Wang wrote:
+> >> blk_mq_tagset_inflight_iter is not safe that it could get stale request
+> >> in tags->rqs[]. Use blk_mq_queue_tag_inflight_iter here. A new helper
+> >> interface nvme_iterate_inflight_rqs is introduced to iterate
+> >> all of the ns under a ctrl.
+> >
+> > Nak, NVMe only iterates tags when new requests can't enter, allocated
+> > requests can't dispatch, and dispatched commands can't complete. So
+> > it is perfectly safe to iterate if the driver takes reasonable steps
+> > beforehand.
+>
+> nvme_dev_disable just quiesce and freeze the request_queue, but not drain the enters.
+> So there still could be someone escapes the queue freeze checking and tries to allocate
+> request.
 
-Thanks for the clarification!
-
-Another candidate fix is to set nvmet-loop's queue segment boundary mask
-as PAGE_SIZE - 1.
-
-Also there is the same issue for block device backed target.
-
-If no one objects, I'd like to take the approach of adjusting segment
-boundary mask.
+The rq->state is just IDLE for these allocated request, so there
+shouldn't be issue
+in NVMe's case.
 
 Thanks,
 Ming
