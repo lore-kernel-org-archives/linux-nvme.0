@@ -1,21 +1,23 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 27 Mar 2019 15:19:39 +0100
-Subject: [PATCH 02/15] block: add a rq_integrity_vec helper
-In-Reply-To: <SN6PR04MB4527A9C0E360C5991F9E00A6865E0@SN6PR04MB4527.namprd04.prod.outlook.com>
+Date: Wed, 27 Mar 2019 15:20:49 +0100
+Subject: [PATCH 03/15] block: add a rq_dma_dir helper
+In-Reply-To: <80ffa084-e1fb-4c5c-da92-7d9486084cb6@suse.de>
 References: <20190321231037.25104-1-hch@lst.de>
- <20190321231037.25104-3-hch@lst.de>
- <SN6PR04MB4527A9C0E360C5991F9E00A6865E0@SN6PR04MB4527.namprd04.prod.outlook.com>
-Message-ID: <20190327141939.GB26200@lst.de>
+ <20190321231037.25104-4-hch@lst.de>
+ <80ffa084-e1fb-4c5c-da92-7d9486084cb6@suse.de>
+Message-ID: <20190327142049.GC26200@lst.de>
 
-On Mon, Mar 25, 2019@05:10:20AM +0000, Chaitanya Kulkarni wrote:
-> > +/*
-> > + * Return the first bvec that contains integrity data.  In general only
-> > + * drivers that are limited to a single integrity segment should use this
-> > + * helper.
-> > + */
-> > +static inline struct bio_vec *rq_integrity_vec(struct request *rq)
-> > +{
-> Wrt comment, should we add a check here to make sure underlaying driver
-> has limited single integrity segment ?
+On Fri, Mar 22, 2019@02:06:43PM +0100, Johannes Thumshirn wrote:
+> On 22/03/2019 00:10, Christoph Hellwig wrote:
+> > In a lot of places we want to know the DMA direction for a given
+> > struct request.  Add a little helper to make it a littler easier.
+> 
+> You introuduce the helper here but you're using it in 8/15 for the 1st time.
+> 
+> Could you convert the possible users to use the new helper in this patch
+> as well?
 
-I've added a WARN_ON_ONCE.
+I'd rather not throw that into a nvme series.  Those are easily cleanups
+for later.  Maybe we can even encourage people that would otherwise
+do whitespace cleanups or incorrect refcount_t conversions to take care
+of it :)
