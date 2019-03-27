@@ -1,21 +1,24 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 27 Mar 2019 14:55:23 +0100
-Subject: [PATCH 4/8] nvme/pci: Remove last_cq_seen
-In-Reply-To: <77c90843-54c4-2dd6-c4f1-b0ca1ca1c914@grimberg.me>
+Date: Wed, 27 Mar 2019 14:55:48 +0100
+Subject: [PATCH 7/8] nvme/pci: Remove volatile from cqe
+In-Reply-To: <ad2add1c-efa6-c446-9685-6ea4ce7c2c45@grimberg.me>
 References: <20190308174313.5134-1-keith.busch@intel.com>
- <20190308174313.5134-4-keith.busch@intel.com> <20190311182825.GD11448@lst.de>
- <77c90843-54c4-2dd6-c4f1-b0ca1ca1c914@grimberg.me>
-Message-ID: <20190327135523.GD25849@lst.de>
+ <20190308174313.5134-7-keith.busch@intel.com> <20190311183324.GG11448@lst.de>
+ <ad2add1c-efa6-c446-9685-6ea4ce7c2c45@grimberg.me>
+Message-ID: <20190327135548.GE25849@lst.de>
 
-On Mon, Mar 11, 2019@04:40:03PM -0700, Sagi Grimberg wrote:
->> This looks good, but we can also kill the ret variable now, and
->> simplify the tail a bit to:
->>
->> 	if (start == end)
->> 		return IRQ_NONE;
->> 	nvme_complete_cqes(nvmeq, start, end);
->> 	return IRQ_HANDLED;
+On Mon, Mar 11, 2019@04:56:14PM -0700, Sagi Grimberg wrote:
 >
-> Why not just look at what nvme_process_cq is returning?
+>>> The cqe isn't volatile once we confirm the phase bit. Remove the volatile
+>>> keyword and let the compiler optimize out an unnecessary additional read
+>>> to the command id.
+>>
+>> Hmm.  I've never been happy about how we used volatile to start with,
+>> but I'm not sure more casts sort out this problem.
+>>
+>> Wouldn't the right fix be to drop the volatile entirely and force
+>> a strong barrier before first reading the phase bit?
+>
+> Is there a fundamental difference efficiency-wise?
 
-Yes, that might be even simpler.
+I'm not sure.  The latter is just more our usual Linux style.
