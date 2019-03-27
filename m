@@ -1,91 +1,109 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Wed, 27 Mar 2019 17:07:22 +0800
-Subject: [PATCH] nvmet: fix building bvec from sg list
-Message-ID: <20190327090722.15836-1-ming.lei@redhat.com>
+From: kbusch@kernel.org (Keith Busch)
+Date: Wed, 27 Mar 2019 07:21:21 -0600
+Subject: [PATCH 5/5] nvme/pci: Remove queue IO flushing hack
+In-Reply-To: <20190327083142.GQ20525@lst.de>
+References: <20190308174006.5032-1-keith.busch@intel.com>
+ <20190308174006.5032-5-keith.busch@intel.com>
+ <20190311184031.GA11707@lst.de>
+ <20190311193753.GE10411@localhost.localdomain>
+ <20190327083142.GQ20525@lst.de>
+Message-ID: <20190327132116.GA8419@localhost.localdomain>
 
-There are two mistakes for building bvec from sg list for file
-backed ns:
+On Wed, Mar 27, 2019@01:31:42AM -0700, Christoph Hellwig wrote:
+> > Okay, I may even be able to drop the new block exports if we do request
+> > termination in generic block layer. That's probably the right thing
+> > anyway since that layer is in a better position to check the necessary
+> > conditions that make tag iteration safe. Bart did point out that is
+> > generally not safe for drives to do, so it'd be good to safegaurd against
+> > incorrect usage.
+> 
+> Did you get a chance to look into this?
 
-- use request data length to compute number of io vector, this way
-doesn't consider sg->offset, and the result may be smaller than required
-io vectors
+I haven't had a chance to put it through the proper tests (I no longer
+have a hotplug machine), but this is what I'd written if you can give it
+a quick look:
 
-- bvec->bv_len isn't capped by sg->length
+>From 5afd8e3765eabf859100fda84e646a96683d7751 Mon Sep 17 00:00:00 2001
+From: Keith Busch <keith.busch@intel.com>
+Date: Tue, 12 Mar 2019 13:58:12 -0600
+Subject: [PATCH] blk-mq: Provide request termination API
 
-This patch fixes this issue by building bvec from sg directly, given
-the whole IO stack is ready for multi-page bvec.
+A driver that determined hardware contexts backing its request queue
+is unable to service new commands, it would have to end those commands
+in its IO path. This requires unlikely checks per-IO.
 
-Reported-by: Yi Zhang <yi.zhang at redhat.com>
-Fixes: 3a85a5de29ea ("nvme-loop: add a NVMe loopback host driver")
-Cc: Yi Zhang <yi.zhang at redhat.com>
-Cc: Sagi Grimberg <sagi at grimberg.me>
-Cc: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+Create a new API that terminates all requests directly rather than
+requiring those requests get flushed through the low level driver. This
+is safe only if the current request allocation state is unchanging, so
+driver must have quiesced and initiated a freeze on its queue, and after
+it has reclaimed any in flight requests so that the tag iterator is not
+racing with in flux requests. The new API enforces these conditions in
+order to successfully terminate requests.
 
-(Backporting depends on the stable-only patch of 'nvmet: set loop queue's
-segment boundary mask as PAGE_SIZE - 1')
-Cc: <stable at vger.kernel.org>
-Signed-off-by: Ming Lei <ming.lei at redhat.com>
+Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/target/io-cmd-file.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ block/blk-mq.c         | 36 ++++++++++++++++++++++++++++++++++++
+ include/linux/blk-mq.h |  1 +
+ 2 files changed, 37 insertions(+)
 
-diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
-index 3e43212d3c1c..bc6ebb51b0bf 100644
---- a/drivers/nvme/target/io-cmd-file.c
-+++ b/drivers/nvme/target/io-cmd-file.c
-@@ -75,11 +75,11 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
- 	return ret;
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index a9c181603cbd..ad98c27e2b34 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -952,6 +952,42 @@ static void blk_mq_timeout_work(struct work_struct *work)
+ 	blk_queue_exit(q);
  }
  
--static void nvmet_file_init_bvec(struct bio_vec *bv, struct sg_page_iter *iter)
-+static void nvmet_file_init_bvec(struct bio_vec *bv, struct scatterlist *sg)
- {
--	bv->bv_page = sg_page_iter_page(iter);
--	bv->bv_offset = iter->sg->offset;
--	bv->bv_len = PAGE_SIZE - iter->sg->offset;
-+	bv->bv_page = sg_page(sg);
-+	bv->bv_offset = sg->offset;
-+	bv->bv_len = sg->length;
- }
++static bool blk_mq_terminate_request(struct blk_mq_hw_ctx *hctx,
++		struct request *rq, void *priv, bool reserved)
++{
++	int *hctx_idx = priv;
++
++	if (WARN_ON_ONCE(blk_mq_rq_state(rq) != MQ_RQ_IDLE))
++		return false;
++	if (hctx->queue_num >= *hctx_idx)
++		blk_mq_end_request(rq, BLK_STS_IOERR);
++	return true;
++}
++
++/**
++ * blk_mq_terminate_queued_requests() - end requests with an error queued on
++ *					hardware contexts at and above the
++ *					provided index.
++ * @q: request queue
++ * @hctx_idx: starting hardware context, 0 for all hctx's
++ *
++ * A low level driver should invoke this routine when its hardware contexts are
++ * not capable of handling future requests. The caller must ensure their
++ * request_queue is quiesced, freeze initiated, and all dispatched requests
++ * have been reclaimed so the tag iteration has a static request allocation to
++ * consider.
++ */
++void blk_mq_terminate_queued_requests(struct request_queue *q, int hctx_idx)
++{
++	if (WARN_ON_ONCE(!atomic_read(&q->mq_freeze_depth)))
++		return;
++	if (WARN_ON_ONCE(!blk_queue_quiesced(q)))
++		return;
++	blk_sync_queue(q);
++	blk_mq_queue_tag_busy_iter(q, blk_mq_terminate_request, &hctx_idx);
++}
++EXPORT_SYMBOL(blk_mq_terminate_queued_requests);
++
+ struct flush_busy_ctx_data {
+ 	struct blk_mq_hw_ctx *hctx;
+ 	struct list_head *list;
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index a64b3fdce0b0..d47cd4575abb 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -334,6 +334,7 @@ int blk_mq_map_queues(struct blk_mq_queue_map *qmap);
+ void blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set, int nr_hw_queues);
  
- static ssize_t nvmet_file_submit_bvec(struct nvmet_req *req, loff_t pos,
-@@ -128,14 +128,14 @@ static void nvmet_file_io_done(struct kiocb *iocb, long ret, long ret2)
+ void blk_mq_quiesce_queue_nowait(struct request_queue *q);
++void blk_mq_terminate_queued_requests(struct request_queue *q, int hctx_idx);
  
- static bool nvmet_file_execute_io(struct nvmet_req *req, int ki_flags)
- {
--	ssize_t nr_bvec = DIV_ROUND_UP(req->data_len, PAGE_SIZE);
--	struct sg_page_iter sg_pg_iter;
-+	ssize_t nr_bvec = req->sg_cnt;
- 	unsigned long bv_cnt = 0;
- 	bool is_sync = false;
- 	size_t len = 0, total_len = 0;
- 	ssize_t ret = 0;
- 	loff_t pos;
--
-+	int i;
-+	struct scatterlist *sg;
+ unsigned int blk_mq_rq_cpu(struct request *rq);
  
- 	if (req->f.mpool_alloc && nr_bvec > NVMET_MAX_MPOOL_BVEC)
- 		is_sync = true;
-@@ -147,8 +147,8 @@ static bool nvmet_file_execute_io(struct nvmet_req *req, int ki_flags)
- 	}
- 
- 	memset(&req->f.iocb, 0, sizeof(struct kiocb));
--	for_each_sg_page(req->sg, &sg_pg_iter, req->sg_cnt, 0) {
--		nvmet_file_init_bvec(&req->f.bvec[bv_cnt], &sg_pg_iter);
-+	for_each_sg(req->sg, sg, req->sg_cnt, i) {
-+		nvmet_file_init_bvec(&req->f.bvec[bv_cnt], sg);
- 		len += req->f.bvec[bv_cnt].bv_len;
- 		total_len += req->f.bvec[bv_cnt].bv_len;
- 		bv_cnt++;
-@@ -225,7 +225,7 @@ static void nvmet_file_submit_buffered_io(struct nvmet_req *req)
- 
- static void nvmet_file_execute_rw(struct nvmet_req *req)
- {
--	ssize_t nr_bvec = DIV_ROUND_UP(req->data_len, PAGE_SIZE);
-+	ssize_t nr_bvec = req->sg_cnt;
- 
- 	if (!req->sg_cnt || !nr_bvec) {
- 		nvmet_req_complete(req, 0);
 -- 
-2.9.5
+2.14.4
