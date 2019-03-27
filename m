@@ -1,30 +1,28 @@
-From: tom.leiming@gmail.com (Ming Lei)
-Date: Wed, 27 Mar 2019 16:26:26 +0800
-Subject: [PATCH 1/4] nvmet: set loop queue's segment boundary mask as
- PAGE_SIZE - 1
-In-Reply-To: <20190327081508.GE20525@lst.de>
-References: <20190326031928.9499-1-ming.lei@redhat.com>
- <20190326031928.9499-2-ming.lei@redhat.com>
- <20190326073622.GA21617@lst.de>
- <CACVXFVODbii+X6M6=k41-gBhWzRQ9vpbsmLnzoJT4wkoi5C7gw@mail.gmail.com>
- <20190327081508.GE20525@lst.de>
-Message-ID: <CACVXFVNeSboKKSvYkpTvdVC-Ou-Zun-7ziULcTR3SDM+T_E-ng@mail.gmail.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 27 Mar 2019 09:27:52 +0100
+Subject: [PATCH 1/2] blk-mq: introduce blk_mq_complete_request_sync()
+In-Reply-To: <1bc084aa-e9bb-fc69-2983-5e825065046a@grimberg.me>
+References: <f708ee0c-dfa4-0bca-f996-8d834471f1fd@acm.org>
+ <20190318073826.GA29746@ming.t460p> <1552921495.152266.8.camel@acm.org>
+ <20190318151618.GA20371@ming.t460p> <1552924164.152266.21.camel@acm.org>
+ <448615db-64e2-cbe7-c09e-19b2d86a720a@grimberg.me>
+ <20190321013908.GA15115@ming.t460p>
+ <95da080a-7fb4-33a9-1dc3-4452c565c83a@grimberg.me>
+ <20190321023235.GB15115@ming.t460p>
+ <1bc084aa-e9bb-fc69-2983-5e825065046a@grimberg.me>
+Message-ID: <20190327082752.GN20525@lst.de>
 
-On Wed, Mar 27, 2019@4:15 PM Christoph Hellwig <hch@lst.de> wrote:
+On Thu, Mar 21, 2019@02:40:51PM -0700, Sagi Grimberg wrote:
+>> nvme_rdma_teardown_io_queues:
+>>          nvme_stop_queues(&ctrl->ctrl);
+>>          nvme_rdma_stop_io_queues(ctrl);
+>>          blk_mq_tagset_busy_iter(&ctrl->tag_set, nvme_cancel_request,
+>>                          &ctrl->ctrl);
+>>          if (remove)
+>>                  nvme_start_queues(&ctrl->ctrl);
+>>          nvme_rdma_destroy_io_queues(ctrl, remove);
+>>
 >
-> On Tue, Mar 26, 2019@03:37:36PM +0800, Ming Lei wrote:
-> > On Tue, Mar 26, 2019@3:36 PM Christoph Hellwig <hch@lst.de> wrote:
-> > >
-> > > Note that in many cases allocating larger pages in the other targets
-> > > would be useful.  Given that you fix the one places where we made a page
-> > > size assumption I don't see a great need to limit outselves here.
-> >
-> > block device backed ns still needs this patch.
->
-> Then we need to fix that code as well.  Or even better make bio_add_page
-> handle the larger than page case fine if it really doesn't do that yet.
+> Yea, you're right. I'm fine with this patchset.
 
-Given loop is the only exception, this patch is exactly the fix, right?
-
-Thanks,
-Ming Lei
+Is this an official Reviewed-by?
