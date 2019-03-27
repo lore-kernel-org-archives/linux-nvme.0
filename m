@@ -1,31 +1,42 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 27 Mar 2019 09:09:26 +0100
-Subject: [PATCH 0/3] nvme: fixup race with namespace removal
-Message-ID: <20190327080929.27918-1-hare@suse.de>
+Date: Wed, 27 Mar 2019 09:09:29 +0100
+Subject: [PATCH 3/3] nvme-multipath: test namespace state when selecting a new
+ path
+In-Reply-To: <20190327080929.27918-1-hare@suse.de>
+References: <20190327080929.27918-1-hare@suse.de>
+Message-ID: <20190327080929.27918-4-hare@suse.de>
 
-Hi all,
+When selecting a new path we need to check if the namespace is
+not about to be removed.
 
-nvme namespace scanning might race with controller reset, causing the
-system to crash in myriad ways if nvme_scan_ns_list() decides to remove
-a namespace while resetting is active on another thread.
-The main problem here is that namespace removal is not atomic.
-The namespace mutex needs to be dropped before calling nvme_ns_remove(),
-so if nvme_ns_remove() is called while traversing the list of namespaces
-there always will be a race condition.
+Signed-off-by: Hannes Reinecke <hare at suse.com>
+---
+ drivers/nvme/host/multipath.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-This patchset tries to fix this problem by shortening the race window
-and check for valid namespaces in nvme_start_queue()/nvme_stop_queue().
-
-As usual, comments and reviews are welcome.
-
-Hannes Reinecke (3):
-  nvme: do not quiesce or unquiesce invalid namespaces
-  nvme: shorten race window in nvme_ns_remove()
-  nvme-multipath: test namespace state when selecting a new path
-
- drivers/nvme/host/core.c      | 18 ++++++++++++------
- drivers/nvme/host/multipath.c |  6 ++++--
- 2 files changed, 16 insertions(+), 8 deletions(-)
-
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index f69c9476d663..a87462efc927 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -130,7 +130,8 @@ static struct nvme_ns *__nvme_find_path(struct nvme_ns_head *head, int node)
+ 
+ 	list_for_each_entry_rcu(ns, &head->list, siblings) {
+ 		if (ns->ctrl->state != NVME_CTRL_LIVE ||
+-		    test_bit(NVME_NS_ANA_PENDING, &ns->flags))
++		    test_bit(NVME_NS_ANA_PENDING, &ns->flags) ||
++		    test_bit(NVME_NS_REMOVING, &ns->flags))
+ 			continue;
+ 
+ 		if (READ_ONCE(head->subsys->iopolicy) == NVME_IOPOLICY_NUMA)
+@@ -185,7 +186,8 @@ static struct nvme_ns *nvme_round_robin_path(struct nvme_ns_head *head,
+ 	     ns != old;
+ 	     ns = nvme_next_ns(head, ns)) {
+ 		if (ns->ctrl->state != NVME_CTRL_LIVE ||
+-		    test_bit(NVME_NS_ANA_PENDING, &ns->flags))
++		    test_bit(NVME_NS_ANA_PENDING, &ns->flags) ||
++		    test_bit(NVME_NS_REMOVING, &ns->flags))
+ 			continue;
+ 
+ 		if (ns->ana_state == NVME_ANA_OPTIMIZED) {
 -- 
 2.16.4
