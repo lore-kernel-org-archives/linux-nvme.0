@@ -1,42 +1,42 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 27 Mar 2019 09:52:56 +0100
-Subject: [PATCHv2] nvme-multipath: relax ANA state check
-Message-ID: <20190327085256.28724-1-hare@suse.de>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Wed, 27 Mar 2019 17:02:30 +0800
+Subject: [PATCH stable only] nvmet: set loop queue's segment boundary mask as
+ PAGE_SIZE - 1
+Message-ID: <20190327090230.12671-1-ming.lei@redhat.com>
 
-From: Martin George <marting@netapp.com>
+NVMe target only accepts single-page sg list, either file or block
+device backed target code follows this assumption.
 
-When undergoing state transitions I/O might be requeued, hence
-we should always call nvme_mpath_set_live() to schedule requeue_work
-whenever the nvme device is live, independent on whether the
-old state was live or not.
+However, loop target is one exception, given the sg list is from
+the host queue directly.
 
-Signed-off-by: Martin George <marting at netapp.com>
-Signed-off-by: Gargi Srinivas <sring at netapp.com>
-Signed-off-by: Hannes Reinecke <hare at suse.com>
+This patch sets loop queue's segment boundary mask as PAGE_SIZE - 1
+for following NVMe target assumption.
+
+Reported-by: Yi Zhang <yi.zhang at redhat.com>
+Fixes: 3a85a5de29ea ("nvme-loop: add a NVMe loopback host driver")
+Cc: Yi Zhang <yi.zhang at redhat.com>
+Cc: Sagi Grimberg <sagi at grimberg.me>
+Cc: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+Cc: <stable at vger.kernel.org>
+Signed-off-by: Ming Lei <ming.lei at redhat.com>
 ---
- drivers/nvme/host/multipath.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ drivers/nvme/target/loop.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 2839bb70badf..f0716f6ce41f 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -404,15 +404,12 @@ static inline bool nvme_state_is_live(enum nvme_ana_state state)
- static void nvme_update_ns_ana_state(struct nvme_ana_group_desc *desc,
- 		struct nvme_ns *ns)
- {
--	enum nvme_ana_state old;
--
- 	mutex_lock(&ns->head->lock);
--	old = ns->ana_state;
- 	ns->ana_grpid = le32_to_cpu(desc->grpid);
- 	ns->ana_state = desc->state;
- 	clear_bit(NVME_NS_ANA_PENDING, &ns->flags);
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index b9f623ab01f3..7194f86b9dac 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -549,6 +549,9 @@ static int nvme_loop_create_io_queues(struct nvme_loop_ctrl *ctrl)
+ 	if (ret)
+ 		goto out_cleanup_connect_q;
  
--	if (nvme_state_is_live(ns->ana_state) && !nvme_state_is_live(old))
-+	if (nvme_state_is_live(ns->ana_state))
- 		nvme_mpath_set_live(ns);
- 	mutex_unlock(&ns->head->lock);
- }
++	/* target only accepts single-page sg list */
++	blk_queue_segment_boundary(ctrl->ctrl.connect_q, PAGE_SIZE - 1);
++
+ 	return 0;
+ 
+ out_cleanup_connect_q:
 -- 
-2.16.4
+2.9.5
