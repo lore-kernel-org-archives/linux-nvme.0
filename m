@@ -1,52 +1,31 @@
-From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Wed, 27 Mar 2019 15:18:25 +0800
-Subject: [PATCH V2 7/8] nvme: use blk_mq_queue_tag_inflight_iter
-In-Reply-To: <20190327065156.GC7389@localhost.localdomain>
-References: <20190325134917.GA4328@localhost.localdomain>
- <70e14e12-2ffc-37db-dd8f-229bc580546e@oracle.com>
- <CACVXFVMw9G6n44-knV6oa3FxJ6YzN05ZRajkgUnhLJupnkadOQ@mail.gmail.com>
- <d749592c-42c8-19a8-0885-5048a2101e5a@oracle.com>
- <20190326235726.GC4328@localhost.localdomain>
- <c0d65c3c-bf2e-ff84-caac-e64b30e4e79f@oracle.com>
- <20190327021521.GA7389@localhost.localdomain>
- <1bbe1b5c-3564-55e8-6824-f679b3c5dd3f@oracle.com>
- <20190327023354.GB7389@localhost.localdomain>
- <9f3a574d-d2ea-3fd0-472c-85ad0bae4daf@oracle.com>
- <20190327065156.GC7389@localhost.localdomain>
-Message-ID: <c756aab1-b546-c345-4299-205205ca4cb4@oracle.com>
+From: hare@suse.de (Hannes Reinecke)
+Date: Wed, 27 Mar 2019 09:09:26 +0100
+Subject: [PATCH 0/3] nvme: fixup race with namespace removal
+Message-ID: <20190327080929.27918-1-hare@suse.de>
 
-Hi Keith
+Hi all,
 
-On 3/27/19 2:51 PM, Keith Busch wrote:
-> On Wed, Mar 27, 2019@10:45:33AM +0800, jianchao.wang wrote:
->> 1. a hctx->fq.flush_rq of dead request_queue that shares the same tagset
->>    The whole request_queue is cleaned up and freed, so the hctx->fq.flush is freed back to a slab
->>
->> 2. a removed io scheduler's sched request
->>    The io scheduled is detached and all of the structures are freed, including the pages where sched
->>    requests locates.
->>
->> So the pointers in tags->rqs[] may point to memory that is not used as a blk layer request.
-> 
-> Oh, free as in kfree'd, not blk_mq_free_request. So it's a read-after-
-> free that you're concerned about, not that anyone explicitly changed a
-> request->state.
+nvme namespace scanning might race with controller reset, causing the
+system to crash in myriad ways if nvme_scan_ns_list() decides to remove
+a namespace while resetting is active on another thread.
+The main problem here is that namespace removal is not atomic.
+The namespace mutex needs to be dropped before calling nvme_ns_remove(),
+so if nvme_ns_remove() is called while traversing the list of namespaces
+there always will be a race condition.
 
-Yes ;)
+This patchset tries to fix this problem by shortening the race window
+and check for valid namespaces in nvme_start_queue()/nvme_stop_queue().
 
-> 
-> We at least can't free the flush_queue until the queue is frozen. If the
-> queue is frozen, we've completed the special fq->flush_rq where its end_io
-> replaces tags->rqs[tag] back to the fq->orig_rq from the static_rqs,
-> so nvme's iterator couldn't see the fq->flush_rq address if it's invalid.
-> 
+As usual, comments and reviews are welcome.
 
-This is true for the non io-scheduler case in which the flush_rq would steal the driver tag.
-But for io-scheduler case, flush_rq would acquire a driver tag itself.
+Hannes Reinecke (3):
+  nvme: do not quiesce or unquiesce invalid namespaces
+  nvme: shorten race window in nvme_ns_remove()
+  nvme-multipath: test namespace state when selecting a new path
 
+ drivers/nvme/host/core.c      | 18 ++++++++++++------
+ drivers/nvme/host/multipath.c |  6 ++++--
+ 2 files changed, 16 insertions(+), 8 deletions(-)
 
-> The sched_tags concern, though, appears theoretically possible.
-> 
-
-Thanks
-Jianchao
+-- 
+2.16.4
