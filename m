@@ -1,48 +1,21 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 27 Mar 2019 09:09:28 +0100
-Subject: [PATCH 2/3] nvme: shorten race window in nvme_ns_remove()
-In-Reply-To: <20190327080929.27918-1-hare@suse.de>
-References: <20190327080929.27918-1-hare@suse.de>
-Message-ID: <20190327080929.27918-3-hare@suse.de>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 27 Mar 2019 09:15:08 +0100
+Subject: [PATCH 1/4] nvmet: set loop queue's segment boundary mask as
+ PAGE_SIZE - 1
+In-Reply-To: <CACVXFVODbii+X6M6=k41-gBhWzRQ9vpbsmLnzoJT4wkoi5C7gw@mail.gmail.com>
+References: <20190326031928.9499-1-ming.lei@redhat.com>
+ <20190326031928.9499-2-ming.lei@redhat.com> <20190326073622.GA21617@lst.de>
+ <CACVXFVODbii+X6M6=k41-gBhWzRQ9vpbsmLnzoJT4wkoi5C7gw@mail.gmail.com>
+Message-ID: <20190327081508.GE20525@lst.de>
 
-nvme_ns_remove() sets the 'NVME_NS_REMOVING' bit at first, but
-only removes the namespace from the list at the very end.
-This opens a rether large race window during which other processes
-traversing the namespaces via list_for_each() will access partially
-deleted namespaces, causing unpredictable results.
-This patch shortens the race window by removing the namespace
-from the list as early as possible.
+On Tue, Mar 26, 2019@03:37:36PM +0800, Ming Lei wrote:
+> On Tue, Mar 26, 2019@3:36 PM Christoph Hellwig <hch@lst.de> wrote:
+> >
+> > Note that in many cases allocating larger pages in the other targets
+> > would be useful.  Given that you fix the one places where we made a page
+> > size assumption I don't see a great need to limit outselves here.
+> 
+> block device backed ns still needs this patch.
 
-Signed-off-by: Hannes Reinecke <hare at suse.com>
----
- drivers/nvme/host/core.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index c583735383ca..8c87ef584e6d 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3316,6 +3316,10 @@ static void nvme_ns_remove(struct nvme_ns *ns)
- 	if (test_and_set_bit(NVME_NS_REMOVING, &ns->flags))
- 		return;
- 
-+	down_write(&ns->ctrl->namespaces_rwsem);
-+	list_del_init(&ns->list);
-+	up_write(&ns->ctrl->namespaces_rwsem);
-+
- 	nvme_fault_inject_fini(ns);
- 	if (ns->disk && ns->disk->flags & GENHD_FL_UP) {
- 		del_gendisk(ns->disk);
-@@ -3329,10 +3333,6 @@ static void nvme_ns_remove(struct nvme_ns *ns)
- 	nvme_mpath_clear_current_path(ns);
- 	mutex_unlock(&ns->ctrl->subsys->lock);
- 
--	down_write(&ns->ctrl->namespaces_rwsem);
--	list_del_init(&ns->list);
--	up_write(&ns->ctrl->namespaces_rwsem);
--
- 	synchronize_srcu(&ns->head->srcu);
- 	nvme_mpath_check_last_path(ns);
- 	nvme_put_ns(ns);
--- 
-2.16.4
+Then we need to fix that code as well.  Or even better make bio_add_page
+handle the larger than page case fine if it really doesn't do that yet.
