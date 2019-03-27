@@ -1,22 +1,26 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 27 Mar 2019 09:31:42 +0100
-Subject: [PATCH 5/5] nvme/pci: Remove queue IO flushing hack
-In-Reply-To: <20190311193753.GE10411@localhost.localdomain>
-References: <20190308174006.5032-1-keith.busch@intel.com>
- <20190308174006.5032-5-keith.busch@intel.com> <20190311184031.GA11707@lst.de>
- <20190311193753.GE10411@localhost.localdomain>
-Message-ID: <20190327083142.GQ20525@lst.de>
+Date: Wed, 27 Mar 2019 09:37:24 +0100
+Subject: [PATCH] nvme: schedule requeue whenever a LIVE state is entered
+In-Reply-To: <ec71c2a4-d3e1-36ad-b7bc-0e8e6e394a5d@grimberg.me>
+References: <20190321141033.131308-1-hare@suse.de>
+ <da58a1e4-14cd-2587-6350-dccabb6632f1@grimberg.me>
+ <0ccee425-93bb-ad04-5b20-f8a792f1aafa@suse.com>
+ <8fa7e09f-3621-f37b-9830-64377ce8cfd6@grimberg.me>
+ <e03e9ab7-8973-097e-6ffb-60eec0ab47e5@suse.de>
+ <ec71c2a4-d3e1-36ad-b7bc-0e8e6e394a5d@grimberg.me>
+Message-ID: <20190327083724.GR20525@lst.de>
 
-On Mon, Mar 11, 2019@01:37:53PM -0600, Keith Busch wrote:
-> > The only thing not purely block layer here is the enabled flag.
-> > So if we had a per-hctx enabled flag we could lift this out of nvme,
-> > and hopefully start reusing it in other drivers.
-> 
-> Okay, I may even be able to drop the new block exports if we do request
-> termination in generic block layer. That's probably the right thing
-> anyway since that layer is in a better position to check the necessary
-> conditions that make tag iteration safe. Bart did point out that is
-> generally not safe for drives to do, so it'd be good to safegaurd against
-> incorrect usage.
+On Mon, Mar 25, 2019@08:55:47AM -0700, Sagi Grimberg wrote:
+>
+>> That's what we tried initially (cf thread "[PATCH] nvme-multipath: relax 
+>> ANA state check"), but got rejected by Christoph.
+>
+> IIRC Christoph was asking why was requests being requeued when moving
+> from live -> live, and I think you answered that in your patch
+> description..
 
-Did you get a chance to look into this?
+Exactltly.  Asking to please explain WTF is happening is not rejecting,
+it is asking for more information to actually understand the issue.
+
+So the patch from Georg with a changelog and comment in the code based
+on yours seems like what we need.
