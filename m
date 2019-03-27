@@ -1,32 +1,21 @@
-From: kbusch@kernel.org (Keith Busch)
-Date: Wed, 27 Mar 2019 08:20:45 -0600
-Subject: [PATCH 2/3] nvme: shorten race window in nvme_ns_remove()
-In-Reply-To: <20190327080929.27918-3-hare@suse.de>
-References: <20190327080929.27918-1-hare@suse.de>
- <20190327080929.27918-3-hare@suse.de>
-Message-ID: <20190327142044.GB8448@localhost.localdomain>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 27 Mar 2019 15:19:39 +0100
+Subject: [PATCH 02/15] block: add a rq_integrity_vec helper
+In-Reply-To: <SN6PR04MB4527A9C0E360C5991F9E00A6865E0@SN6PR04MB4527.namprd04.prod.outlook.com>
+References: <20190321231037.25104-1-hch@lst.de>
+ <20190321231037.25104-3-hch@lst.de>
+ <SN6PR04MB4527A9C0E360C5991F9E00A6865E0@SN6PR04MB4527.namprd04.prod.outlook.com>
+Message-ID: <20190327141939.GB26200@lst.de>
 
-On Wed, Mar 27, 2019@01:09:28AM -0700, Hannes Reinecke wrote:
-> @@ -3316,6 +3316,10 @@ static void nvme_ns_remove(struct nvme_ns *ns)
->  	if (test_and_set_bit(NVME_NS_REMOVING, &ns->flags))
->  		return;
->  
-> +	down_write(&ns->ctrl->namespaces_rwsem);
-> +	list_del_init(&ns->list);
-> +	up_write(&ns->ctrl->namespaces_rwsem);
-> +
->  	nvme_fault_inject_fini(ns);
->  	if (ns->disk && ns->disk->flags & GENHD_FL_UP) {
->  		del_gendisk(ns->disk);
+On Mon, Mar 25, 2019@05:10:20AM +0000, Chaitanya Kulkarni wrote:
+> > +/*
+> > + * Return the first bvec that contains integrity data.  In general only
+> > + * drivers that are limited to a single integrity segment should use this
+> > + * helper.
+> > + */
+> > +static inline struct bio_vec *rq_integrity_vec(struct request *rq)
+> > +{
+> Wrt comment, should we add a check here to make sure underlaying driver
+> has limited single integrity segment ?
 
-I think I understand the problem you've described, but I'm a little
-concerned with the early removal. This will call blk_cleanup_queue
-after the namespace is removed from our lists, and that does a blocking
-queue_freeze. If commands happen to be dispatched to that namespace,
-and the controller for some reason stops responding, we may not be able
-to recover during reset when the namespace queue is removed from the
-controller list. That's at least problematic if we have to go with the
-per-queue tag iterators that Jianchao proposed.
-
-I may be wrong, or there might be another way to address this. It's a bit
-late where I'm at the moment, I'll revisit again with fresh eyes tomorrow.
+I've added a WARN_ON_ONCE.
