@@ -1,9 +1,9 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 27 Mar 2019 14:50:03 +0100
-Subject: [PATCHv2] nvme-multipath: relax ANA state check
-In-Reply-To: <20190327085256.28724-1-hare@suse.de>
-References: <20190327085256.28724-1-hare@suse.de>
-Message-ID: <20190327135003.GA25720@lst.de>
+Date: Wed, 27 Mar 2019 14:50:15 +0100
+Subject: [PATCH] nvmet: fix building bvec from sg list
+In-Reply-To: <20190327090722.15836-1-ming.lei@redhat.com>
+References: <20190327090722.15836-1-ming.lei@redhat.com>
+Message-ID: <20190327135015.GB25720@lst.de>
 
 Thanks,
 
