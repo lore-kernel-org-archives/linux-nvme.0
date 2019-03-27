@@ -1,41 +1,42 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Wed, 27 Mar 2019 16:51:14 +0800
-Subject: [PATCH V2 2/2] nvme: cancel request synchronously
-In-Reply-To: <20190327085114.12111-1-ming.lei@redhat.com>
-References: <20190327085114.12111-1-ming.lei@redhat.com>
-Message-ID: <20190327085114.12111-3-ming.lei@redhat.com>
+From: hare@suse.de (Hannes Reinecke)
+Date: Wed, 27 Mar 2019 09:52:56 +0100
+Subject: [PATCHv2] nvme-multipath: relax ANA state check
+Message-ID: <20190327085256.28724-1-hare@suse.de>
 
-nvme_cancel_request() is used in error handler, and it is always
-reliable to cancel request synchronously, and avoids possible race
-in which request may be completed after real hw queue is destroyed.
+From: Martin George <marting@netapp.com>
 
-One issue is reported by our customer on NVMe RDMA, in which freed ib
-queue pair may be used in nvme_rdma_complete_rq().
+When undergoing state transitions I/O might be requeued, hence
+we should always call nvme_mpath_set_live() to schedule requeue_work
+whenever the nvme device is live, independent on whether the
+old state was live or not.
 
-Cc: Keith Busch <kbusch at kernel.org>
-Cc: Sagi Grimberg <sagi at grimberg.me>
-Cc: Bart Van Assche <bvanassche at acm.org>
-Cc: James Smart <james.smart at broadcom.com>
-Cc: Christoph Hellwig <hch at lst.de>
-Cc: linux-nvme at lists.infradead.org
-Reviewed-by: Christoph Hellwig <hch at lst.de>
-Signed-off-by: Ming Lei <ming.lei at redhat.com>
+Signed-off-by: Martin George <marting at netapp.com>
+Signed-off-by: Gargi Srinivas <sring at netapp.com>
+Signed-off-by: Hannes Reinecke <hare at suse.com>
 ---
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/host/multipath.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 470601980794..2c43e12b70af 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -288,7 +288,7 @@ bool nvme_cancel_request(struct request *req, void *data, bool reserved)
- 				"Cancelling I/O %d", req->tag);
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 2839bb70badf..f0716f6ce41f 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -404,15 +404,12 @@ static inline bool nvme_state_is_live(enum nvme_ana_state state)
+ static void nvme_update_ns_ana_state(struct nvme_ana_group_desc *desc,
+ 		struct nvme_ns *ns)
+ {
+-	enum nvme_ana_state old;
+-
+ 	mutex_lock(&ns->head->lock);
+-	old = ns->ana_state;
+ 	ns->ana_grpid = le32_to_cpu(desc->grpid);
+ 	ns->ana_state = desc->state;
+ 	clear_bit(NVME_NS_ANA_PENDING, &ns->flags);
  
- 	nvme_req(req)->status = NVME_SC_ABORT_REQ;
--	blk_mq_complete_request(req);
-+	blk_mq_complete_request_sync(req);
- 	return true;
+-	if (nvme_state_is_live(ns->ana_state) && !nvme_state_is_live(old))
++	if (nvme_state_is_live(ns->ana_state))
+ 		nvme_mpath_set_live(ns);
+ 	mutex_unlock(&ns->head->lock);
  }
- EXPORT_SYMBOL_GPL(nvme_cancel_request);
 -- 
-2.9.5
+2.16.4
