@@ -1,133 +1,154 @@
-From: joshi.k@samsung.com (Kanchan Joshi)
-Date: Fri, 29 Mar 2019 13:23:52 +0530
-Subject: [PATCH v3 7/7] fs/ext4,jbd2: add support for passing write-hint
- with journal
-In-Reply-To: <1553846032-4451-1-git-send-email-joshi.k@samsung.com>
-References: <1553846032-4451-1-git-send-email-joshi.k@samsung.com>
- <CGME20190329075800epcas2p4731f10eabf7d70dc7096117d161b05a3@epcas2p4.samsung.com>
-Message-ID: <1553846032-4451-8-git-send-email-joshi.k@samsung.com>
+From: mheyne@amazon.de (Maximilian Heyne)
+Date: Fri, 29 Mar 2019 09:39:20 +0000
+Subject: [PATCH 1/2] nvme: add per-device io and admin timeouts
+Message-ID: <20190329093921.95710-1-mheyne@amazon.de>
 
-For NAND based SSDs, mixing of data with different life-time reduces
-efficiency of internal garbage-collection. During FS operations, series
-of journal updates will follow/precede series of data/meta updates, causing
-intermixing inside SSD. By passing a write-hint with journal, its write
-can be isolated from other data/meta writes, leading to endurance/performance
-benefit on SSD.
+Some NVMe devices require specific io and admin timeouts that are
+different from the default, for instance local vs. remote storage.
 
-This patch introduces "j_writehint" member in JBD2 journal, using which
-Ext4 specifies write-hint (as SHORT) for journal
+This patch adds per-device admin and io timeouts to the nvme_ctrl
+structure and replaces all usages of the module parameters in the PCI
+NVMe driver with the per-device timeouts.
 
-Signed-off-by: Kanchan Joshi <joshi.k at samsung.com>
+Original-patch-by: Milan Pandurov <milanpa at amazon.com>
+Signed-off-by: Maximilian Heyne <mheyne at amazon.de>
 ---
- fs/ext4/ext4_jbd2.h  |  1 +
- fs/ext4/super.c      |  2 ++
- fs/jbd2/commit.c     | 11 +++++++----
- fs/jbd2/journal.c    |  3 ++-
- fs/jbd2/revoke.c     |  3 ++-
- include/linux/jbd2.h |  8 ++++++++
- 6 files changed, 22 insertions(+), 6 deletions(-)
+ drivers/nvme/host/core.c | 11 +++++++----
+ drivers/nvme/host/nvme.h |  2 ++
+ drivers/nvme/host/pci.c  | 13 +++++++------
+ 3 files changed, 16 insertions(+), 10 deletions(-)
 
-diff --git a/fs/ext4/ext4_jbd2.h b/fs/ext4/ext4_jbd2.h
-index 15b6dd7..b589ca4 100644
---- a/fs/ext4/ext4_jbd2.h
-+++ b/fs/ext4/ext4_jbd2.h
-@@ -16,6 +16,7 @@
- #include <linux/jbd2.h>
- #include "ext4.h"
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 470601980794..d0530bf7a677 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -779,7 +779,7 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+ 	if (IS_ERR(req))
+ 		return PTR_ERR(req);
  
-+#define EXT4_JOURNAL_WRITE_HINT (WRITE_LIFE_KERN_MIN)
- #define EXT4_JOURNAL(inode)	(EXT4_SB((inode)->i_sb)->s_journal)
+-	req->timeout = timeout ? timeout : ADMIN_TIMEOUT;
++	req->timeout = timeout ? timeout : q->rq_timeout;
  
- /* Define the number of blocks we need to account to a transaction to
-diff --git a/fs/ext4/super.c b/fs/ext4/super.c
-index fb12d3c..9c2c73e 100644
---- a/fs/ext4/super.c
-+++ b/fs/ext4/super.c
-@@ -4289,6 +4289,8 @@ static int ext4_fill_super(struct super_block *sb, void *data, int silent)
+ 	if (buffer && bufflen) {
+ 		ret = blk_rq_map_kern(q, req, buffer, bufflen, GFP_KERNEL);
+@@ -862,7 +862,7 @@ static int nvme_submit_user_cmd(struct request_queue *q,
+ 	if (IS_ERR(req))
+ 		return PTR_ERR(req);
  
- 	set_task_ioprio(sbi->s_journal->j_task, journal_ioprio);
+-	req->timeout = timeout ? timeout : ADMIN_TIMEOUT;
++	req->timeout = timeout ? timeout : q->rq_timeout;
+ 	nvme_req(req)->flags |= NVME_REQ_USERCMD;
  
-+	sbi->s_journal->j_writehint = EXT4_JOURNAL_WRITE_HINT;
-+
- 	sbi->s_journal->j_commit_callback = ext4_journal_commit_callback;
+ 	if (ubuffer && bufflen) {
+@@ -1800,7 +1800,8 @@ int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
+ 	cmd.common.cdw11 = cpu_to_le32(len);
  
- no_journal:
-diff --git a/fs/jbd2/commit.c b/fs/jbd2/commit.c
-index 2eb55c3..6da4c28 100644
---- a/fs/jbd2/commit.c
-+++ b/fs/jbd2/commit.c
-@@ -153,10 +153,12 @@ static int journal_submit_commit_record(journal_t *journal,
- 
- 	if (journal->j_flags & JBD2_BARRIER &&
- 	    !jbd2_has_feature_async_commit(journal))
--		ret = submit_bh(REQ_OP_WRITE,
--			REQ_SYNC | REQ_PREFLUSH | REQ_FUA, bh);
-+		ret = submit_bh_write_hint(REQ_OP_WRITE,
-+			REQ_SYNC | REQ_PREFLUSH | REQ_FUA, bh,
-+			journal->j_writehint);
- 	else
--		ret = submit_bh(REQ_OP_WRITE, REQ_SYNC, bh);
-+		ret = submit_bh_write_hint(REQ_OP_WRITE, REQ_SYNC, bh,
-+			journal->j_writehint);
- 
- 	*cbh = bh;
- 	return ret;
-@@ -711,7 +713,8 @@ void jbd2_journal_commit_transaction(journal_t *journal)
- 				clear_buffer_dirty(bh);
- 				set_buffer_uptodate(bh);
- 				bh->b_end_io = journal_end_buffer_io_sync;
--				submit_bh(REQ_OP_WRITE, REQ_SYNC, bh);
-+				submit_bh_write_hint(REQ_OP_WRITE, REQ_SYNC,
-+						bh, journal->j_writehint);
- 			}
- 			cond_resched();
- 			stats.run.rs_blocks_logged += bufs;
-diff --git a/fs/jbd2/journal.c b/fs/jbd2/journal.c
-index 8ef6b6d..804dc2c 100644
---- a/fs/jbd2/journal.c
-+++ b/fs/jbd2/journal.c
-@@ -1384,7 +1384,8 @@ static int jbd2_write_superblock(journal_t *journal, int write_flags)
- 	jbd2_superblock_csum_set(journal, sb);
- 	get_bh(bh);
- 	bh->b_end_io = end_buffer_write_sync;
--	ret = submit_bh(REQ_OP_WRITE, write_flags, bh);
-+	ret = submit_bh_write_hint(REQ_OP_WRITE, write_flags, bh,
-+				journal->j_writehint);
- 	wait_on_buffer(bh);
- 	if (buffer_write_io_error(bh)) {
- 		clear_buffer_write_io_error(bh);
-diff --git a/fs/jbd2/revoke.c b/fs/jbd2/revoke.c
-index a1143e5..376b1d8 100644
---- a/fs/jbd2/revoke.c
-+++ b/fs/jbd2/revoke.c
-@@ -642,7 +642,8 @@ static void flush_descriptor(journal_t *journal,
- 	set_buffer_jwrite(descriptor);
- 	BUFFER_TRACE(descriptor, "write");
- 	set_buffer_dirty(descriptor);
--	write_dirty_buffer(descriptor, REQ_SYNC);
-+	write_dirty_buffer_with_hint(descriptor, REQ_SYNC,
-+				journal->j_writehint);
+ 	return __nvme_submit_sync_cmd(ctrl->admin_q, &cmd, NULL, buffer, len,
+-				      ADMIN_TIMEOUT, NVME_QID_ANY, 1, 0, false);
++				      ctrl->admin_timeout, NVME_QID_ANY, 1, 0,
++				      false);
  }
- #endif
+ EXPORT_SYMBOL_GPL(nvme_sec_submit);
+ #endif /* CONFIG_BLK_SED_OPAL */
+@@ -3575,7 +3576,7 @@ static void nvme_fw_act_work(struct work_struct *work)
+ 				msecs_to_jiffies(ctrl->mtfa * 100);
+ 	else
+ 		fw_act_timeout = jiffies +
+-				msecs_to_jiffies(admin_timeout * 1000);
++		    msecs_to_jiffies((ctrl->admin_timeout / HZ) * 1000);
  
-diff --git a/include/linux/jbd2.h b/include/linux/jbd2.h
-index 0f919d5..918f21e 100644
---- a/include/linux/jbd2.h
-+++ b/include/linux/jbd2.h
-@@ -1139,6 +1139,14 @@ struct journal_s
+ 	nvme_stop_queues(ctrl);
+ 	while (nvme_ctrl_pp_status(ctrl)) {
+@@ -3721,6 +3722,8 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 	ctrl->dev = dev;
+ 	ctrl->ops = ops;
+ 	ctrl->quirks = quirks;
++	ctrl->io_timeout = NVME_IO_TIMEOUT;
++	ctrl->admin_timeout = ADMIN_TIMEOUT;
+ 	INIT_WORK(&ctrl->scan_work, nvme_scan_work);
+ 	INIT_WORK(&ctrl->async_event_work, nvme_async_event_work);
+ 	INIT_WORK(&ctrl->fw_act_work, nvme_fw_act_work);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 527d64545023..1397650edfda 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -201,6 +201,8 @@ struct nvme_ctrl {
+ 	u32 aen_result;
+ 	u32 ctratt;
+ 	unsigned int shutdown_timeout;
++	unsigned int io_timeout;
++	unsigned int admin_timeout;
+ 	unsigned int kato;
+ 	bool subsystem;
+ 	unsigned long quirks;
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index a90cf5d63aac..16d7a00fecf0 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1357,7 +1357,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ 		return BLK_EH_RESET_TIMER;
+ 	}
+ 
+-	abort_req->timeout = ADMIN_TIMEOUT;
++	abort_req->timeout = dev->ctrl.admin_timeout;
+ 	abort_req->end_io_data = NULL;
+ 	blk_execute_rq_nowait(abort_req->q, NULL, abort_req, 0, abort_endio);
+ 
+@@ -1637,7 +1637,7 @@ static int nvme_alloc_admin_tags(struct nvme_dev *dev)
+ 		dev->admin_tagset.nr_hw_queues = 1;
+ 
+ 		dev->admin_tagset.queue_depth = NVME_AQ_MQ_TAG_DEPTH;
+-		dev->admin_tagset.timeout = ADMIN_TIMEOUT;
++		dev->admin_tagset.timeout = dev->ctrl.admin_timeout;
+ 		dev->admin_tagset.numa_node = dev_to_node(dev->dev);
+ 		dev->admin_tagset.cmd_size = nvme_pci_cmd_size(dev, false);
+ 		dev->admin_tagset.flags = BLK_MQ_F_NO_SCHED;
+@@ -2226,7 +2226,7 @@ static int nvme_delete_queue(struct nvme_queue *nvmeq, u8 opcode)
+ 	if (IS_ERR(req))
+ 		return PTR_ERR(req);
+ 
+-	req->timeout = ADMIN_TIMEOUT;
++	req->timeout = nvmeq->dev->ctrl.admin_timeout;
+ 	req->end_io_data = nvmeq;
+ 
+ 	init_completion(&nvmeq->delete_done);
+@@ -2242,7 +2242,7 @@ static bool __nvme_disable_io_queues(struct nvme_dev *dev, u8 opcode)
+ 	unsigned long timeout;
+ 
+  retry:
+-	timeout = ADMIN_TIMEOUT;
++	timeout = dev->ctrl.admin_timeout;
+ 	while (nr_queues > 0) {
+ 		if (nvme_delete_queue(&dev->queues[nr_queues], opcode))
+ 			break;
+@@ -2282,7 +2282,7 @@ static int nvme_dev_add(struct nvme_dev *dev)
+ 		dev->tagset.nr_maps = 2; /* default + read */
+ 		if (dev->io_queues[HCTX_TYPE_POLL])
+ 			dev->tagset.nr_maps++;
+-		dev->tagset.timeout = NVME_IO_TIMEOUT;
++		dev->tagset.timeout = dev->ctrl.io_timeout;
+ 		dev->tagset.numa_node = dev_to_node(dev->dev);
+ 		dev->tagset.queue_depth =
+ 				min_t(int, dev->q_depth, BLK_MQ_MAX_DEPTH) - 1;
+@@ -2417,7 +2417,8 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
  	 */
- 	__u32 j_csum_seed;
+ 	if (!dead) {
+ 		if (shutdown)
+-			nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
++			nvme_wait_freeze_timeout(&dev->ctrl,
++						 dev->ctrl.io_timeout);
+ 	}
  
-+	/**
-+	 * @j_writehint:
-+	 *
-+	 * write-hint for journal (set by FS).
-+	 */
-+	enum rw_hint	j_writehint;
-+
-+
- #ifdef CONFIG_DEBUG_LOCK_ALLOC
- 	/**
- 	 * @j_trans_commit_map:
+ 	nvme_stop_queues(&dev->ctrl);
 -- 
-2.7.4
+2.16.5
+
+
+
+
+Amazon Development Center Germany GmbH
+Krausenstr. 38
+10117 Berlin
+Geschaeftsfuehrer: Christian Schlaeger, Ralf Herbrich
+Ust-ID: DE 289 237 879
+Eingetragen am Amtsgericht Charlottenburg HRB 149173 B
