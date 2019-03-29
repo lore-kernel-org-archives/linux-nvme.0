@@ -1,113 +1,61 @@
-From: tom.leiming@gmail.com (Ming Lei)
-Date: Fri, 29 Mar 2019 08:40:42 +0800
-Subject: [PATCH 2/3] nvme: shorten race window in nvme_ns_remove()
-In-Reply-To: <a58c7004-5b9b-8ece-815e-943a960e8261@suse.com>
-References: <20190327080929.27918-1-hare@suse.de>
- <20190327080929.27918-3-hare@suse.de>
- <20190327142044.GB8448@localhost.localdomain>
- <7c724e84-519e-e0f9-f82d-31a89ec37680@suse.com>
- <9500d83c-c5da-d87c-c5ef-d67e2c9f8898@broadcom.com>
- <7c112deb-e8c3-eeca-7bda-771c793cb9c6@suse.de>
- <7152798b-084b-226a-fc5a-082282e7194d@broadcom.com>
- <a58c7004-5b9b-8ece-815e-943a960e8261@suse.com>
-Message-ID: <CACVXFVM9aGdeGkza=AMsmu5=4+jfUtcLO44h5zpJTxjTx7336Q@mail.gmail.com>
+From: joshi.k@samsung.com (Kanchan Joshi)
+Date: Fri, 29 Mar 2019 13:23:45 +0530
+Subject: [PATCH v3 0/7] Extend write-hint for in-kernel use
+References: <CGME20190329075737epcas1p4f32cad26279c1146982a6c91b3378eab@epcas1p4.samsung.com>
+Message-ID: <1553846032-4451-1-git-send-email-joshi.k@samsung.com>
 
-On Thu, Mar 28, 2019@11:50 PM Hannes Reinecke <hare@suse.com> wrote:
->
-> On 3/28/19 4:05 PM, James Smart wrote:
-> >
-> >
-> > On 3/28/2019 2:27 AM, Hannes Reinecke wrote:
-> >> On 3/27/19 7:50 PM, James Smart wrote:
-> >>> On 3/27/2019 8:12 AM, Hannes Reinecke wrote:
-> >>>> On 3/27/19 3:20 PM, Keith Busch wrote:
-> >>>>> On Wed, Mar 27, 2019@01:09:28AM -0700, Hannes Reinecke wrote:
-> >>>>>> @@ -3316,6 +3316,10 @@ static void nvme_ns_remove(struct nvme_ns *ns)
-> >>>>>>       if (test_and_set_bit(NVME_NS_REMOVING, &ns->flags))
-> >>>>>>           return;
-> >>>>>>   +    down_write(&ns->ctrl->namespaces_rwsem);
-> >>>>>> +    list_del_init(&ns->list);
-> >>>>>> +    up_write(&ns->ctrl->namespaces_rwsem);
-> >>>>>> +
-> >>>>>>       nvme_fault_inject_fini(ns);
-> >>>>>>       if (ns->disk && ns->disk->flags & GENHD_FL_UP) {
-> >>>>>>           del_gendisk(ns->disk);
-> >>>>>
-> >>>>> I think I understand the problem you've described, but I'm a little
-> >>>>> concerned with the early removal. This will call blk_cleanup_queue
-> >>>>> after the namespace is removed from our lists, and that does a
-> >>>>> blocking
-> >>>>> queue_freeze. If commands happen to be dispatched to that namespace,
-> >>>>> and the controller for some reason stops responding, we may not be
-> >>>>> able
-> >>>>> to recover during reset when the namespace queue is removed from the
-> >>>>> controller list. That's at least problematic if we have to go with the
-> >>>>> per-queue tag iterators that Jianchao proposed.
-> >>>>>
-> >>>> Hmm. I sort of see where you coming from.
-> >>>> But I was slightly worried about all the other callers where we iterate
-> >>>> the namespace list; one would need to to a _really_ careful audit
-> >>>> which are safe to traverse even with namespace removal running; some
-> >>>> have to, others must not, and some simply don't care.
-> >>>> Hence this approach to make things easier.
-> >>>
-> >>> I like and agree with Hannes's later points.
-> >>>
-> >>> But, Keiths statements make me nervous. With Hannes's patches, I
-> >>> could easily see the case where the ns->queue was quiesced when
-> >>> ns_remove is called, which I think causes issues with
-> >>> blk_freeze_queue. We would need to have ns_remove, after unlinking,
-> >>> to release the queue. is this right ?
-> >>>
-> >> Hmm. But maybe it's as simple as this:
-> >>
-> >> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> >> index 4e5ad111b68b..67451e5eec31 100644
-> >> --- a/drivers/nvme/host/core.c
-> >> +++ b/drivers/nvme/host/core.c
-> >> @@ -131,6 +131,7 @@ int nvme_reset_ctrl(struct nvme_ctrl *ctrl)
-> >>  {
-> >>         if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
-> >>                 return -EBUSY;
-> >> +       flush_work(&ctrl->scan_work);
-> >>         if (!queue_work(nvme_reset_wq, &ctrl->reset_work))
-> >>                 return -EBUSY;
-> >>
-> >> James? Keith?
-> >>
-> > No...
-> >
-> > As mentioned in the other thread. If the reset processing is held off,
-> > then nothing will kill the io that the scan thread has issued and is
-> > pending on the link. In the best case, you must wait for the command
-> > timeout to occur, which will want to re-invoke the reset path, which
-> > you've noop'd here, so I'm not fully sure it will clean up the io.  And,
-> > as reset hasn't run, the io queues on this controller have yet to be
-> > quiesced so you're going to start seeing filesystem errors.  The other
-> > headache - even if that 1st io is aborted and returned, just because the
-> > 1 scan io errored, it doesn't stop the scan thread. The thread is coded
-> > to keep looping on new namespaces so it'll attempt to send another/many
-> > commands.  Which means the new io's will fall into the pass through the
-> > check_ready routines as they will fall into the path that is only
-> > prevented by the connection state being nil, which would not have been
-> > set because the reset path was held off.   Minimally a new change has to
-> > be put there.   This is not something that can be solved by scheduling
-> > work elements at the transport level. The transport has no idea what
-> > ns's are using its io request queue what states they are in. It's a ns
-> > state issue.
-> >
-> Please do check with my reply to Ming Lei.
-> We should be able to flush scan_work from nvme_stop_ctrl(); FC already
-> stops all I/O before nvme_stop_ctrl() (so any sync I/O will be
-> completed),
+Towards extending write-hints/streams infrastucture so that file-systems
+and other kernel-mode components can use exclusive hints. This patchset also
+modifies Ext4/JBD2 to use new in-kernel, write-hint with journal. 
 
-Not at all, these in-flight IOs are canceled from device queue, and they are
-actually retried and requeued to blk-mq, and will be dispatched again after
-the reset is done.
+Here is the history and changelog -
 
-> and for RDMA we should be able to reshuffle nvme_stop_ctrl()
-> and nvme_rdma_stop_io() to get to the same behaviour.
+Changes since v2:                                                               
+- Introduce API in block layer so that drivers can register stream info. Added 
+new limit in request queue for this purpose.
+- Block layer does the conversion from write-hint to stream-id. 
+- Any write-hint beyond registered limit turn to 0.
+- New macro "WRITE_LIFE_KERN_MIN" can be used as base by kernel mode components.
 
+Changes since v1:                                                               
+- introduce four more hints for in-kernel use, as recommended by Dave chinner   
+  & Jens axboe. This isolates kernel-mode hints from user-mode ones.            
+- remove mount-option to specify write-hint, as recommended by Jan kara &       
+  Dave chinner. Rather, FS always sets write-hint for journal. This gets ignored
+  if device does not support stream.                                            
+- Removed code-redundancy for write_dirty_buffer (Jan kara's review comment) 
 
-Thanks,
-Ming Lei
+V2 patch:
+https://patchwork.kernel.org/cover/10754405/
+V1 patch:
+https://marc.info/?l=linux-fsdevel&m=154444637519020&w=2  
+
+Note: I am sorry about the fact this patchset is against 5.0.0-rc4, rather than 
+against linux-next.
+
+Kanchan Joshi (7):
+  block: extend stream count for in-kernel use
+  block: introduce API to register stream information with block layer
+  block: add write-hint to stream-id conversion
+  nvme: register stream info with block layer
+  fs: introduce APIs to enable sending write-hint with buffer-head
+  fs: introduce write-hint start point for in-kernel hints
+  fs/ext4,jbd2: add support for passing write-hint with journal
+
+ block/blk-core.c            | 20 ++++++++++++++++++++
+ block/blk-settings.c        | 12 ++++++++++++
+ drivers/nvme/host/core.c    | 19 ++++++-------------
+ fs/buffer.c                 | 18 ++++++++++++++++--
+ fs/ext4/ext4_jbd2.h         |  1 +
+ fs/ext4/super.c             |  2 ++
+ fs/jbd2/commit.c            | 11 +++++++----
+ fs/jbd2/journal.c           |  3 ++-
+ fs/jbd2/revoke.c            |  3 ++-
+ include/linux/blkdev.h      |  9 +++++++--
+ include/linux/buffer_head.h |  3 +++
+ include/linux/fs.h          |  2 ++
+ include/linux/jbd2.h        |  8 ++++++++
+ 13 files changed, 88 insertions(+), 23 deletions(-)
+
+-- 
+2.7.4
