@@ -1,61 +1,60 @@
 From: joshi.k@samsung.com (Kanchan Joshi)
-Date: Fri, 29 Mar 2019 13:23:45 +0530
-Subject: [PATCH v3 0/7] Extend write-hint for in-kernel use
-References: <CGME20190329075737epcas1p4f32cad26279c1146982a6c91b3378eab@epcas1p4.samsung.com>
-Message-ID: <1553846032-4451-1-git-send-email-joshi.k@samsung.com>
+Date: Fri, 29 Mar 2019 13:23:46 +0530
+Subject: [PATCH v3 1/7] block: extend stream count for in-kernel use
+In-Reply-To: <1553846032-4451-1-git-send-email-joshi.k@samsung.com>
+References: <1553846032-4451-1-git-send-email-joshi.k@samsung.com>
+ <CGME20190329075743epcas1p12f1d290e65ddf84eb74ed94a5ae6eb74@epcas1p1.samsung.com>
+Message-ID: <1553846032-4451-2-git-send-email-joshi.k@samsung.com>
 
-Towards extending write-hints/streams infrastucture so that file-systems
-and other kernel-mode components can use exclusive hints. This patchset also
-modifies Ext4/JBD2 to use new in-kernel, write-hint with journal. 
+This patch bumps up stream count to suppor in-kernel hints. It also
+adds 'streamid' member in 'request' and declares new API for driver
+to register stream-info with block layer.
 
-Here is the history and changelog -
+Signed-off-by: Kanchan Joshi <joshi.k at samsung.com>
+---
+ include/linux/blkdev.h | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-Changes since v2:                                                               
-- Introduce API in block layer so that drivers can register stream info. Added 
-new limit in request queue for this purpose.
-- Block layer does the conversion from write-hint to stream-id. 
-- Any write-hint beyond registered limit turn to 0.
-- New macro "WRITE_LIFE_KERN_MIN" can be used as base by kernel mode components.
-
-Changes since v1:                                                               
-- introduce four more hints for in-kernel use, as recommended by Dave chinner   
-  & Jens axboe. This isolates kernel-mode hints from user-mode ones.            
-- remove mount-option to specify write-hint, as recommended by Jan kara &       
-  Dave chinner. Rather, FS always sets write-hint for journal. This gets ignored
-  if device does not support stream.                                            
-- Removed code-redundancy for write_dirty_buffer (Jan kara's review comment) 
-
-V2 patch:
-https://patchwork.kernel.org/cover/10754405/
-V1 patch:
-https://marc.info/?l=linux-fsdevel&m=154444637519020&w=2  
-
-Note: I am sorry about the fact this patchset is against 5.0.0-rc4, rather than 
-against linux-next.
-
-Kanchan Joshi (7):
-  block: extend stream count for in-kernel use
-  block: introduce API to register stream information with block layer
-  block: add write-hint to stream-id conversion
-  nvme: register stream info with block layer
-  fs: introduce APIs to enable sending write-hint with buffer-head
-  fs: introduce write-hint start point for in-kernel hints
-  fs/ext4,jbd2: add support for passing write-hint with journal
-
- block/blk-core.c            | 20 ++++++++++++++++++++
- block/blk-settings.c        | 12 ++++++++++++
- drivers/nvme/host/core.c    | 19 ++++++-------------
- fs/buffer.c                 | 18 ++++++++++++++++--
- fs/ext4/ext4_jbd2.h         |  1 +
- fs/ext4/super.c             |  2 ++
- fs/jbd2/commit.c            | 11 +++++++----
- fs/jbd2/journal.c           |  3 ++-
- fs/jbd2/revoke.c            |  3 ++-
- include/linux/blkdev.h      |  9 +++++++--
- include/linux/buffer_head.h |  3 +++
- include/linux/fs.h          |  2 ++
- include/linux/jbd2.h        |  8 ++++++++
- 13 files changed, 88 insertions(+), 23 deletions(-)
-
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 338604d..4088e21 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -214,6 +214,7 @@ struct request {
+ #endif
+ 
+ 	unsigned short write_hint;
++	unsigned short streamid;
+ 	unsigned short ioprio;
+ 
+ 	void *special;		/* opaque pointer available for LLD use */
+@@ -341,6 +342,8 @@ struct queue_limits {
+ 	unsigned char		misaligned;
+ 	unsigned char		discard_misaligned;
+ 	unsigned char		raid_partial_stripes_expensive;
++
++	unsigned short		nr_streams;
+ 	enum blk_zoned_model	zoned;
+ };
+ 
+@@ -567,8 +570,9 @@ struct request_queue {
+ 	size_t			cmd_size;
+ 
+ 	struct work_struct	release_work;
+-
+-#define BLK_MAX_WRITE_HINTS	5
++#define BLK_MAX_USER_HINTS	(WRITE_LIFE_KERN_MIN - 2)
++#define BLK_MAX_KERN_HINTS	4
++#define BLK_MAX_WRITE_HINTS	(1 + BLK_MAX_USER_HINTS + BLK_MAX_KERN_HINTS)
+ 	u64			write_hints[BLK_MAX_WRITE_HINTS];
+ };
+ 
+@@ -1071,6 +1075,7 @@ extern void blk_queue_update_dma_alignment(struct request_queue *, int);
+ extern void blk_queue_rq_timeout(struct request_queue *, unsigned int);
+ extern void blk_queue_flush_queueable(struct request_queue *q, bool queueable);
+ extern void blk_queue_write_cache(struct request_queue *q, bool enabled, bool fua);
++extern void blk_queue_stream_limits(struct request_queue *, unsigned short);
+ 
+ /*
+  * Number of physical segments as sent to the device.
 -- 
 2.7.4
