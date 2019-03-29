@@ -1,63 +1,73 @@
 From: joshi.k@samsung.com (Kanchan Joshi)
-Date: Fri, 29 Mar 2019 13:23:48 +0530
-Subject: [PATCH v3 3/7] block: add write-hint to stream-id conversion
+Date: Fri, 29 Mar 2019 13:23:49 +0530
+Subject: [PATCH v3 4/7] nvme: register stream info with block layer
 In-Reply-To: <1553846032-4451-1-git-send-email-joshi.k@samsung.com>
 References: <1553846032-4451-1-git-send-email-joshi.k@samsung.com>
- <CGME20190329075749epcas2p22b85cbdbb7ccb4f7f3ecf69b84f75dc9@epcas2p2.samsung.com>
-Message-ID: <1553846032-4451-4-git-send-email-joshi.k@samsung.com>
+ <CGME20190329075753epcas1p16ce37362f83ccb8520a782b845dcb905@epcas1p1.samsung.com>
+Message-ID: <1553846032-4451-5-git-send-email-joshi.k@samsung.com>
 
-Earlier this conversion was done by driver (nvme). Current conversion
-is of the form "streamid = write-hint - 1", for both user and kernel
-streams (note that existing infra takes care that user-streams do not
-bump into kernel ones). Conversion takes stream limit (maintained in
-request queue) into account. Write-hints beyond the queue-limit turn
-to 0.
-New field 'streamid' has been added in request. While 'write-hint' field
-continues to exist. It keeps original value passed from upper layer, and
-used during merging checks.
+nvme registes number of streams with block layer, which will use that
+for write-hint to streamid conversion. Registration is done for each
+namespace. Since NVMe spec allow all available streams (within subsystem)
+to be used by all namespaces, no attempt has been made to add reservation
+at namespace level.
 
 Signed-off-by: Kanchan Joshi <joshi.k at samsung.com>
 ---
- block/blk-core.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ drivers/nvme/host/core.c | 19 ++++++-------------
+ 1 file changed, 6 insertions(+), 13 deletions(-)
 
-diff --git a/block/blk-core.c b/block/blk-core.c
-index 3c5f61c..c86daed 100644
---- a/block/blk-core.c
-+++ b/block/blk-core.c
-@@ -727,6 +727,25 @@ bool blk_attempt_plug_merge(struct request_queue *q, struct bio *bio,
- 	return false;
- }
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 150e497..e34386b 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -513,14 +513,7 @@ static int nvme_configure_directives(struct nvme_ctrl *ctrl)
+ 		return ret;
  
-+enum rw_hint blk_write_hint_to_streamid(struct request *req,
-+				        struct bio *bio)
-+{
-+	enum rw_hint streamid, nr_streams;
-+	struct request_queue *q = req->q;
-+	nr_streams = q->limits.nr_streams;
-+
-+	streamid = bio->bi_write_hint;
-+	if (!nr_streams || streamid == WRITE_LIFE_NOT_SET ||
-+	    streamid == WRITE_LIFE_NONE)
-+		streamid = 0;
-+	else {
-+		--streamid;
-+		if(streamid > nr_streams)
-+			streamid = 0;
-+	}
-+	return streamid;
-+}
-+
- void blk_init_request_from_bio(struct request *req, struct bio *bio)
- {
- 	if (bio->bi_opf & REQ_RAHEAD)
-@@ -735,6 +754,7 @@ void blk_init_request_from_bio(struct request *req, struct bio *bio)
- 	req->__sector = bio->bi_iter.bi_sector;
- 	req->ioprio = bio_prio(bio);
- 	req->write_hint = bio->bi_write_hint;
-+	req->streamid = blk_write_hint_to_streamid(req, bio);
- 	blk_rq_bio_prep(req->q, req, bio);
+ 	ctrl->nssa = le16_to_cpu(s.nssa);
+-	if (ctrl->nssa < BLK_MAX_WRITE_HINTS - 1) {
+-		dev_info(ctrl->device, "too few streams (%u) available\n",
+-					ctrl->nssa);
+-		nvme_disable_streams(ctrl);
+-		return 0;
+-	}
+-
+-	ctrl->nr_streams = min_t(unsigned, ctrl->nssa, BLK_MAX_WRITE_HINTS - 1);
++	ctrl->nr_streams = ctrl->nssa;
+ 	dev_info(ctrl->device, "Using %u streams\n", ctrl->nr_streams);
+ 	return 0;
  }
- EXPORT_SYMBOL_GPL(blk_init_request_from_bio);
+@@ -533,12 +526,9 @@ static void nvme_assign_write_stream(struct nvme_ctrl *ctrl,
+ 				     struct request *req, u16 *control,
+ 				     u32 *dsmgmt)
+ {
+-	enum rw_hint streamid = req->write_hint;
++	enum rw_hint streamid = req->streamid;
+ 
+-	if (streamid == WRITE_LIFE_NOT_SET || streamid == WRITE_LIFE_NONE)
+-		streamid = 0;
+-	else {
+-		streamid--;
++	if (streamid != 0) {
+ 		if (WARN_ON_ONCE(streamid > ctrl->nr_streams))
+ 			return;
+ 
+@@ -3138,6 +3128,7 @@ static int nvme_setup_streams_ns(struct nvme_ctrl *ctrl, struct nvme_ns *ns)
+ {
+ 	struct streams_directive_params s;
+ 	int ret;
++	u16 nr_streams;
+ 
+ 	if (!ctrl->nr_streams)
+ 		return 0;
+@@ -3149,6 +3140,8 @@ static int nvme_setup_streams_ns(struct nvme_ctrl *ctrl, struct nvme_ns *ns)
+ 	ns->sws = le32_to_cpu(s.sws);
+ 	ns->sgs = le16_to_cpu(s.sgs);
+ 
++	nr_streams = min_t(unsigned, ctrl->nr_streams, BLK_MAX_WRITE_HINTS - 1);
++	blk_queue_stream_limits(ns->queue, nr_streams);
+ 	if (ns->sws) {
+ 		unsigned int bs = 1 << ns->lba_shift;
+ 
 -- 
 2.7.4
