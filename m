@@ -1,145 +1,182 @@
 From: mheyne@amazon.de (Maximilian Heyne)
-Date: Fri, 29 Mar 2019 09:39:20 +0000
-Subject: [PATCH 1/2] nvme: add per-device io and admin timeouts
-Message-ID: <20190329093921.95710-1-mheyne@amazon.de>
+Date: Fri, 29 Mar 2019 09:39:21 +0000
+Subject: [PATCH 2/2] nvme: add sysfs controls for io and admin timeouts
+In-Reply-To: <20190329093921.95710-1-mheyne@amazon.de>
+References: <20190329093921.95710-1-mheyne@amazon.de>
+Message-ID: <20190329093921.95710-2-mheyne@amazon.de>
 
-Some NVMe devices require specific io and admin timeouts that are
-different from the default, for instance local vs. remote storage.
-
-This patch adds per-device admin and io timeouts to the nvme_ctrl
-structure and replaces all usages of the module parameters in the PCI
-NVMe driver with the per-device timeouts.
+Add two sysfs files for reading and updating the admin and io timeouts
+of individual NVMe devices. For this, two new nvme_ctrl_ops were added
+to update the respective timeouts. This patch implements these ops for
+the pci nvme driver. Therefore, only the timeouts for PCI NVMe devices
+can be updated.
 
 Original-patch-by: Milan Pandurov <milanpa at amazon.com>
 Signed-off-by: Maximilian Heyne <mheyne at amazon.de>
 ---
- drivers/nvme/host/core.c | 11 +++++++----
+ drivers/nvme/host/core.c | 74 ++++++++++++++++++++++++++++++++++++++++++++++++
  drivers/nvme/host/nvme.h |  2 ++
- drivers/nvme/host/pci.c  | 13 +++++++------
- 3 files changed, 16 insertions(+), 10 deletions(-)
+ drivers/nvme/host/pci.c  | 28 ++++++++++++++++++
+ 3 files changed, 104 insertions(+)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 470601980794..d0530bf7a677 100644
+index d0530bf7a677..f77201c508fa 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -779,7 +779,7 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- 	if (IS_ERR(req))
- 		return PTR_ERR(req);
- 
--	req->timeout = timeout ? timeout : ADMIN_TIMEOUT;
-+	req->timeout = timeout ? timeout : q->rq_timeout;
- 
- 	if (buffer && bufflen) {
- 		ret = blk_rq_map_kern(q, req, buffer, bufflen, GFP_KERNEL);
-@@ -862,7 +862,7 @@ static int nvme_submit_user_cmd(struct request_queue *q,
- 	if (IS_ERR(req))
- 		return PTR_ERR(req);
- 
--	req->timeout = timeout ? timeout : ADMIN_TIMEOUT;
-+	req->timeout = timeout ? timeout : q->rq_timeout;
- 	nvme_req(req)->flags |= NVME_REQ_USERCMD;
- 
- 	if (ubuffer && bufflen) {
-@@ -1800,7 +1800,8 @@ int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
- 	cmd.common.cdw11 = cpu_to_le32(len);
- 
- 	return __nvme_submit_sync_cmd(ctrl->admin_q, &cmd, NULL, buffer, len,
--				      ADMIN_TIMEOUT, NVME_QID_ANY, 1, 0, false);
-+				      ctrl->admin_timeout, NVME_QID_ANY, 1, 0,
-+				      false);
+@@ -2768,6 +2768,74 @@ static ssize_t nvme_sysfs_rescan(struct device *dev,
  }
- EXPORT_SYMBOL_GPL(nvme_sec_submit);
- #endif /* CONFIG_BLK_SED_OPAL */
-@@ -3575,7 +3576,7 @@ static void nvme_fw_act_work(struct work_struct *work)
- 				msecs_to_jiffies(ctrl->mtfa * 100);
- 	else
- 		fw_act_timeout = jiffies +
--				msecs_to_jiffies(admin_timeout * 1000);
-+		    msecs_to_jiffies((ctrl->admin_timeout / HZ) * 1000);
+ static DEVICE_ATTR(rescan_controller, S_IWUSR, NULL, nvme_sysfs_rescan);
  
- 	nvme_stop_queues(ctrl);
- 	while (nvme_ctrl_pp_status(ctrl)) {
-@@ -3721,6 +3722,8 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	ctrl->dev = dev;
- 	ctrl->ops = ops;
- 	ctrl->quirks = quirks;
-+	ctrl->io_timeout = NVME_IO_TIMEOUT;
-+	ctrl->admin_timeout = ADMIN_TIMEOUT;
- 	INIT_WORK(&ctrl->scan_work, nvme_scan_work);
- 	INIT_WORK(&ctrl->async_event_work, nvme_async_event_work);
- 	INIT_WORK(&ctrl->fw_act_work, nvme_fw_act_work);
++static ssize_t io_timeout_show(struct device *dev,
++	struct device_attribute *attr, char *buf)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++
++	return scnprintf(buf, PAGE_SIZE, "%u\n", ctrl->io_timeout/HZ);
++}
++
++static ssize_t io_timeout_store(struct device *dev,
++	struct device_attribute *attr, const char *buf,
++	size_t count)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++	unsigned int timeout;
++	int ret;
++
++	ret = kstrtouint(buf, 10u, &timeout);
++	if (ret == -EINVAL) {
++		dev_warn(ctrl->dev, "Error parsing timeout value.\n");
++		return ret;
++	}
++	if (ret == -ERANGE || timeout == 0 || timeout > UINT_MAX/HZ) {
++		dev_warn(ctrl->dev,
++			"Timeout value out of range (0 < timeout <= %u).\n",
++			UINT_MAX/HZ);
++		return -ERANGE;
++	}
++	ret = ctrl->ops->set_io_timeout(ctrl, timeout * HZ);
++	if (ret < 0)
++		return ret;
++	return count;
++}
++static DEVICE_ATTR_RW(io_timeout);
++
++static ssize_t admin_timeout_show(struct device *dev,
++	struct device_attribute *attr, char *buf)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++
++	return scnprintf(buf, PAGE_SIZE, "%u\n", ctrl->admin_timeout/HZ);
++}
++
++static ssize_t admin_timeout_store(struct device *dev,
++	struct device_attribute *attr,
++	const char *buf, size_t count)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++	unsigned int timeout;
++	int ret;
++
++	ret = kstrtouint(buf, 10u, &timeout);
++	if (ret == -EINVAL) {
++		dev_warn(ctrl->dev, "Error parsing timeout value.\n");
++		return ret;
++	}
++	if (ret == -ERANGE || timeout == 0 || timeout > UINT_MAX/HZ) {
++		dev_warn(ctrl->dev,
++			"Timeout value out of range (0 < timeout <= %u).\n",
++			UINT_MAX/HZ);
++		return -ERANGE;
++	}
++	ret = ctrl->ops->set_admin_timeout(ctrl, timeout * HZ);
++	if (ret < 0)
++		return ret;
++	return count;
++}
++static DEVICE_ATTR_RW(admin_timeout);
++
+ static inline struct nvme_ns_head *dev_to_ns_head(struct device *dev)
+ {
+ 	struct gendisk *disk = dev_to_disk(dev);
+@@ -3008,6 +3076,8 @@ static struct attribute *nvme_dev_attrs[] = {
+ 	&dev_attr_address.attr,
+ 	&dev_attr_state.attr,
+ 	&dev_attr_numa_node.attr,
++	&dev_attr_io_timeout.attr,
++	&dev_attr_admin_timeout.attr,
+ 	NULL
+ };
+ 
+@@ -3021,6 +3091,10 @@ static umode_t nvme_dev_attrs_are_visible(struct kobject *kobj,
+ 		return 0;
+ 	if (a == &dev_attr_address.attr && !ctrl->ops->get_address)
+ 		return 0;
++	if (a == &dev_attr_io_timeout.attr && !ctrl->ops->set_io_timeout)
++		return 0;
++	if (a == &dev_attr_admin_timeout.attr && !ctrl->ops->set_admin_timeout)
++		return 0;
+ 
+ 	return a->mode;
+ }
 diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 527d64545023..1397650edfda 100644
+index 1397650edfda..4dc13c5990bd 100644
 --- a/drivers/nvme/host/nvme.h
 +++ b/drivers/nvme/host/nvme.h
-@@ -201,6 +201,8 @@ struct nvme_ctrl {
- 	u32 aen_result;
- 	u32 ctratt;
- 	unsigned int shutdown_timeout;
-+	unsigned int io_timeout;
-+	unsigned int admin_timeout;
- 	unsigned int kato;
- 	bool subsystem;
- 	unsigned long quirks;
+@@ -367,6 +367,8 @@ struct nvme_ctrl_ops {
+ 	int (*reg_read32)(struct nvme_ctrl *ctrl, u32 off, u32 *val);
+ 	int (*reg_write32)(struct nvme_ctrl *ctrl, u32 off, u32 val);
+ 	int (*reg_read64)(struct nvme_ctrl *ctrl, u32 off, u64 *val);
++	int (*set_io_timeout)(struct nvme_ctrl *ctrl, unsigned int timeout);
++	int (*set_admin_timeout)(struct nvme_ctrl *ctrl, unsigned int timeout);
+ 	void (*free_ctrl)(struct nvme_ctrl *ctrl);
+ 	void (*submit_async_event)(struct nvme_ctrl *ctrl);
+ 	void (*delete_ctrl)(struct nvme_ctrl *ctrl);
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index a90cf5d63aac..16d7a00fecf0 100644
+index 16d7a00fecf0..6932895c3519 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -1357,7 +1357,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
- 		return BLK_EH_RESET_TIMER;
- 	}
+@@ -2647,6 +2647,32 @@ static int nvme_pci_get_address(struct nvme_ctrl *ctrl, char *buf, int size)
+ 	return snprintf(buf, size, "%s", dev_name(&pdev->dev));
+ }
  
--	abort_req->timeout = ADMIN_TIMEOUT;
-+	abort_req->timeout = dev->ctrl.admin_timeout;
- 	abort_req->end_io_data = NULL;
- 	blk_execute_rq_nowait(abort_req->q, NULL, abort_req, 0, abort_endio);
- 
-@@ -1637,7 +1637,7 @@ static int nvme_alloc_admin_tags(struct nvme_dev *dev)
- 		dev->admin_tagset.nr_hw_queues = 1;
- 
- 		dev->admin_tagset.queue_depth = NVME_AQ_MQ_TAG_DEPTH;
--		dev->admin_tagset.timeout = ADMIN_TIMEOUT;
-+		dev->admin_tagset.timeout = dev->ctrl.admin_timeout;
- 		dev->admin_tagset.numa_node = dev_to_node(dev->dev);
- 		dev->admin_tagset.cmd_size = nvme_pci_cmd_size(dev, false);
- 		dev->admin_tagset.flags = BLK_MQ_F_NO_SCHED;
-@@ -2226,7 +2226,7 @@ static int nvme_delete_queue(struct nvme_queue *nvmeq, u8 opcode)
- 	if (IS_ERR(req))
- 		return PTR_ERR(req);
- 
--	req->timeout = ADMIN_TIMEOUT;
-+	req->timeout = nvmeq->dev->ctrl.admin_timeout;
- 	req->end_io_data = nvmeq;
- 
- 	init_completion(&nvmeq->delete_done);
-@@ -2242,7 +2242,7 @@ static bool __nvme_disable_io_queues(struct nvme_dev *dev, u8 opcode)
- 	unsigned long timeout;
- 
-  retry:
--	timeout = ADMIN_TIMEOUT;
-+	timeout = dev->ctrl.admin_timeout;
- 	while (nr_queues > 0) {
- 		if (nvme_delete_queue(&dev->queues[nr_queues], opcode))
- 			break;
-@@ -2282,7 +2282,7 @@ static int nvme_dev_add(struct nvme_dev *dev)
- 		dev->tagset.nr_maps = 2; /* default + read */
- 		if (dev->io_queues[HCTX_TYPE_POLL])
- 			dev->tagset.nr_maps++;
--		dev->tagset.timeout = NVME_IO_TIMEOUT;
-+		dev->tagset.timeout = dev->ctrl.io_timeout;
- 		dev->tagset.numa_node = dev_to_node(dev->dev);
- 		dev->tagset.queue_depth =
- 				min_t(int, dev->q_depth, BLK_MQ_MAX_DEPTH) - 1;
-@@ -2417,7 +2417,8 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 	 */
- 	if (!dead) {
- 		if (shutdown)
--			nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
-+			nvme_wait_freeze_timeout(&dev->ctrl,
-+						 dev->ctrl.io_timeout);
- 	}
- 
- 	nvme_stop_queues(&dev->ctrl);
++static int nvme_pci_set_io_timeout(struct nvme_ctrl *ctrl, unsigned int timeout)
++{
++	struct nvme_dev *dev = to_nvme_dev(ctrl);
++	struct nvme_ns *ns;
++
++	ctrl->io_timeout = timeout;
++	dev->tagset.timeout = timeout;
++	down_write(&ctrl->namespaces_rwsem);
++	list_for_each_entry(ns, &ctrl->namespaces, list) {
++		blk_queue_rq_timeout(ns->queue, timeout);
++	}
++	up_write(&ctrl->namespaces_rwsem);
++	return 0;
++}
++
++static int nvme_pci_set_admin_timeout(struct nvme_ctrl *ctrl,
++	unsigned int timeout)
++{
++	struct nvme_dev *dev = to_nvme_dev(ctrl);
++
++	ctrl->admin_timeout = timeout;
++	dev->admin_tagset.timeout = timeout;
++	blk_queue_rq_timeout(ctrl->admin_q, timeout);
++	return 0;
++}
++
+ static const struct nvme_ctrl_ops nvme_pci_ctrl_ops = {
+ 	.name			= "pcie",
+ 	.module			= THIS_MODULE,
+@@ -2655,6 +2681,8 @@ static const struct nvme_ctrl_ops nvme_pci_ctrl_ops = {
+ 	.reg_read32		= nvme_pci_reg_read32,
+ 	.reg_write32		= nvme_pci_reg_write32,
+ 	.reg_read64		= nvme_pci_reg_read64,
++	.set_io_timeout		= nvme_pci_set_io_timeout,
++	.set_admin_timeout	= nvme_pci_set_admin_timeout,
+ 	.free_ctrl		= nvme_pci_free_ctrl,
+ 	.submit_async_event	= nvme_pci_submit_async_event,
+ 	.get_address		= nvme_pci_get_address,
 -- 
 2.16.5
 
