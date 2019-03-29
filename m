@@ -1,36 +1,49 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Fri, 29 Mar 2019 11:23:18 +0100
-Subject: [PATCH] nvme-multipath: avoid crash on invalid subsystem cntlid
- enumeration
-In-Reply-To: <20190329100244.GA28689@lst.de>
-References: <20190329095754.109653-1-hare@suse.de>
- <20190329100244.GA28689@lst.de>
-Message-ID: <edde200c-dc35-8e40-6406-ce72f8aafe17@suse.de>
+From: dwmw2@infradead.org (David Woodhouse)
+Date: Fri, 29 Mar 2019 10:29:25 +0000
+Subject: [PATCH 1/2] nvme: add per-device io and admin timeouts
+In-Reply-To: <20190329094440.GA27315@lst.de>
+References: <20190329093921.95710-1-mheyne@amazon.de>
+ <20190329094440.GA27315@lst.de>
+Message-ID: <b6fd1c99f0a718033ee44ba8ff233dacd7247f15.camel@infradead.org>
 
-On 3/29/19 11:02 AM, Christoph Hellwig wrote:
-> On Fri, Mar 29, 2019@10:57:54AM +0100, Hannes Reinecke wrote:
->> The controller ID is supposed to be unique for each subsystem;
->> however, if it _isn't_ we will crash when calling device_add_disk()
->> for the namespaces.
->> While this surely is an error on the subsystem side we really shouldn't
->> crash. So simply use the 'instance' number when generating the disk
->> name to avoid this issue.
+On Fri, 2019-03-29@10:44 +0100, Christoph Hellwig wrote:
+> On Fri, Mar 29, 2019@09:39:20AM +0000, Maximilian Heyne wrote:
+> > Some NVMe devices require specific io and admin timeouts that are
+> > different from the default, for instance local vs. remote storage.
+> > 
+> > This patch adds per-device admin and io timeouts to the nvme_ctrl
+> > structure and replaces all usages of the module parameters in the PCI
+> > NVMe driver with the per-device timeouts.
 > 
-> I agree that we should not crash in that, but I'd rather print an
-> error message and reject using that controller with the duplicate
-> controller id than hacking around the issue.
+> I'm not all against a per-controller override, but if you controllers
+> really _require_ a different timeout this is not the way to go.
 > 
-As it so happens, I have a patch for that, too, but thought this one an 
-easier solution :-)
+> Please talk to the nvme technical working group about exposing a
+> default timeout in the controller as that is the only way to make
+> these things work out of box.
 
-Will be sending that patch, then.
 
-Cheers,
+Yeah, that's a good idea and would work well on top of these patches
+when it eventually gets through the process.
 
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N?rnberg)
+In the meantime, people running Linux in certain environments are
+having to hack their kernel to change the default timeout. Being able
+to do it through sysfs is much saner.
+
+Max, we should probably also implement this for at least the TCP back
+end, which is going to want it for much the same reasons we do, and it
+really does want to be tunable by the user there (and should probably
+remain so in the general case even when we do improve the spec).
+
+
+Note that this isn't strictly "required" but if your transport has a
+SLA which permits outages of a certain period of time (for example
+however long it takes a switch to restart), then having the NVMe
+timeout exceed that value is kind of nice.
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: smime.p7s
+Type: application/x-pkcs7-signature
+Size: 5174 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20190329/9aaa884f/attachment.bin>
