@@ -1,52 +1,77 @@
-From: sashal@kernel.org (Sasha Levin)
-Date: Fri, 29 Mar 2019 14:17:05 +0000
-Subject: [PATCH] nvmet: fix building bvec from sg list
-In-Reply-To: <20190327090722.15836-1-ming.lei@redhat.com>
-References: <20190327090722.15836-1-ming.lei@redhat.com>
-Message-ID: <20190329141705.EF6CD2184C@mail.kernel.org>
-
-Hi,
-
-[This is an automated email]
-
-This commit has been processed because it contains a "Fixes:" tag,
-fixing commit: 3a85a5de29ea nvme-loop: add a NVMe loopback host driver.
-
-The bot has tested the following trees: v5.0.5, v4.19.32, v4.14.109, v4.9.166.
-
-v5.0.5: Build OK!
-v4.19.32: Failed to apply! Possible dependencies:
-    50a909db36f2 ("nvmet: use IOCB_NOWAIT for file-ns buffered I/O")
-
-v4.14.109: Failed to apply! Possible dependencies:
-    1b72b71facce ("nvmet: fix file discard return status")
-    50a909db36f2 ("nvmet: use IOCB_NOWAIT for file-ns buffered I/O")
-    543c09c89fdc ("nvmet: Fix nvmet_execute_write_zeroes sector count")
-    55eb942eda2c ("nvmet: add buffered I/O support for file backed ns")
-    618cff4285dc ("nvmet: remove duplicate NULL initialization for req->ns")
-    7756f72ccd43 ("nvmet: Change return code of discard command if not supported")
-    9c891c139894 ("nvmet: check fileio lba range access boundaries")
-    d5eff33ee6f8 ("nvmet: add simple file backed ns support")
-    e454d122e228 ("nvmet: kill nvmet_inline_bio_init")
-    e929f06d9eaa ("nvmet: constify struct nvmet_fabrics_ops")
-    ea435e1b9392 ("block: add a poll_fn callback to struct request_queue")
-
-v4.9.166: Failed to apply! Possible dependencies:
-    297e3d854784 ("blk-throttle: make throtl_slice tunable")
-    4151dd9a58c6 ("nvmet: Fixed avoided printing nvmet: twice in error logs.")
-    4e4cbee93d56 ("block: switch bios to blk_status_t")
-    778f067c185c ("nvme: add semicolon in nvme_command setting")
-    87760e5eef35 ("block: hook up writeback throttling")
-    986994a27587 ("nvme: Use CNS as 8-bit field and avoid endianness conversion")
-    9e234eeafbe1 ("blk-throttle: add a simple idle detection")
-    cf43e6be865a ("block: add scalable completion tracking of requests")
-    d5eff33ee6f8 ("nvmet: add simple file backed ns support")
-    e806402130c9 ("block: split out request-only flags into a new namespace")
-    fbbaf700e7b1 ("block: trace completion of all bios.")
+From: kenneth.heitke@intel.com (Heitke, Kenneth)
+Date: Fri, 29 Mar 2019 10:58:25 -0600
+Subject: [PATCH v3 4/7] nvme: register stream info with block layer
+In-Reply-To: <1553846032-4451-5-git-send-email-joshi.k@samsung.com>
+References: <1553846032-4451-1-git-send-email-joshi.k@samsung.com>
+ <CGME20190329075753epcas1p16ce37362f83ccb8520a782b845dcb905@epcas1p1.samsung.com>
+ <1553846032-4451-5-git-send-email-joshi.k@samsung.com>
+Message-ID: <87e172d4-dcc2-d0db-9bd1-b76afc7a9d01@intel.com>
 
 
-How should we proceed with this patch?
+On 3/29/2019 1:53 AM, Kanchan Joshi wrote:
+> nvme registes number of streams with block layer, which will use that
 
---
-Thanks,
-Sasha
+s/registes/registers/ ??
+
+> for write-hint to streamid conversion. Registration is done for each
+> namespace. Since NVMe spec allow all available streams (within subsystem)
+> to be used by all namespaces, no attempt has been made to add reservation
+> at namespace level.
+>
+> Signed-off-by: Kanchan Joshi <joshi.k at samsung.com>
+> ---
+>   drivers/nvme/host/core.c | 19 ++++++-------------
+>   1 file changed, 6 insertions(+), 13 deletions(-)
+>
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 150e497..e34386b 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -513,14 +513,7 @@ static int nvme_configure_directives(struct nvme_ctrl *ctrl)
+>   		return ret;
+>   
+>   	ctrl->nssa = le16_to_cpu(s.nssa);
+> -	if (ctrl->nssa < BLK_MAX_WRITE_HINTS - 1) {
+> -		dev_info(ctrl->device, "too few streams (%u) available\n",
+> -					ctrl->nssa);
+> -		nvme_disable_streams(ctrl);
+> -		return 0;
+> -	}
+> -
+> -	ctrl->nr_streams = min_t(unsigned, ctrl->nssa, BLK_MAX_WRITE_HINTS - 1);
+> +	ctrl->nr_streams = ctrl->nssa;
+>   	dev_info(ctrl->device, "Using %u streams\n", ctrl->nr_streams);
+>   	return 0;
+>   }
+> @@ -533,12 +526,9 @@ static void nvme_assign_write_stream(struct nvme_ctrl *ctrl,
+>   				     struct request *req, u16 *control,
+>   				     u32 *dsmgmt)
+>   {
+> -	enum rw_hint streamid = req->write_hint;
+> +	enum rw_hint streamid = req->streamid;
+>   
+> -	if (streamid == WRITE_LIFE_NOT_SET || streamid == WRITE_LIFE_NONE)
+> -		streamid = 0;
+> -	else {
+> -		streamid--;
+> +	if (streamid != 0) {
+>   		if (WARN_ON_ONCE(streamid > ctrl->nr_streams))
+>   			return;
+>   
+> @@ -3138,6 +3128,7 @@ static int nvme_setup_streams_ns(struct nvme_ctrl *ctrl, struct nvme_ns *ns)
+>   {
+>   	struct streams_directive_params s;
+>   	int ret;
+> +	u16 nr_streams;
+>   
+>   	if (!ctrl->nr_streams)
+>   		return 0;
+> @@ -3149,6 +3140,8 @@ static int nvme_setup_streams_ns(struct nvme_ctrl *ctrl, struct nvme_ns *ns)
+>   	ns->sws = le32_to_cpu(s.sws);
+>   	ns->sgs = le16_to_cpu(s.sgs);
+>   
+> +	nr_streams = min_t(unsigned, ctrl->nr_streams, BLK_MAX_WRITE_HINTS - 1);
+> +	blk_queue_stream_limits(ns->queue, nr_streams);
+>   	if (ns->sws) {
+>   		unsigned int bs = 1 << ns->lba_shift;
+>   
