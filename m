@@ -1,21 +1,33 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 29 Mar 2019 10:44:40 +0100
-Subject: [PATCH 1/2] nvme: add per-device io and admin timeouts
-In-Reply-To: <20190329093921.95710-1-mheyne@amazon.de>
-References: <20190329093921.95710-1-mheyne@amazon.de>
-Message-ID: <20190329094440.GA27315@lst.de>
+From: hare@suse.de (Hannes Reinecke)
+Date: Fri, 29 Mar 2019 10:57:54 +0100
+Subject: [PATCH] nvme-multipath: avoid crash on invalid subsystem cntlid
+ enumeration
+Message-ID: <20190329095754.109653-1-hare@suse.de>
 
-On Fri, Mar 29, 2019@09:39:20AM +0000, Maximilian Heyne wrote:
-> Some NVMe devices require specific io and admin timeouts that are
-> different from the default, for instance local vs. remote storage.
-> 
-> This patch adds per-device admin and io timeouts to the nvme_ctrl
-> structure and replaces all usages of the module parameters in the PCI
-> NVMe driver with the per-device timeouts.
+The controller ID is supposed to be unique for each subsystem;
+however, if it _isn't_ we will crash when calling device_add_disk()
+for the namespaces.
+While this surely is an error on the subsystem side we really shouldn't
+crash. So simply use the 'instance' number when generating the disk
+name to avoid this issue.
 
-I'm not all against a per-controller override, but if you controllers
-really _require_ a different timeout this is not the way to go.
+Signed-off-by: Hannes Reinecke <hare at suse.com>
+---
+ drivers/nvme/host/multipath.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Please talk to the nvme technical working group about exposing a
-default timeout in the controller as that is the only way to make
-these things work out of box.
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index f0716f6ce41f..2551264ef2b5 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -31,7 +31,7 @@ void nvme_set_disk_name(char *disk_name, struct nvme_ns *ns,
+ 		sprintf(disk_name, "nvme%dn%d", ctrl->instance, ns->head->instance);
+ 	} else if (ns->head->disk) {
+ 		sprintf(disk_name, "nvme%dc%dn%d", ctrl->subsys->instance,
+-				ctrl->cntlid, ns->head->instance);
++				ctrl->instance, ns->head->instance);
+ 		*flags = GENHD_FL_HIDDEN;
+ 	} else {
+ 		sprintf(disk_name, "nvme%dn%d", ctrl->subsys->instance,
+-- 
+2.16.4
