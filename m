@@ -1,79 +1,75 @@
-From: sashal@kernel.org (Sasha Levin)
-Date: Fri, 29 Mar 2019 21:30:01 -0400
-Subject: [PATCH AUTOSEL 4.14 18/37] nvme-pci: fix conflicting p2p resource adds
-In-Reply-To: <20190330013020.379-1-sashal@kernel.org>
-References: <20190330013020.379-1-sashal@kernel.org>
-Message-ID: <20190330013020.379-18-sashal@kernel.org>
+From: adilger@dilger.ca (Andreas Dilger)
+Date: Sat, 30 Mar 2019 11:48:38 -0600
+Subject: [PATCH v3 1/7] block: extend stream count for in-kernel use
+In-Reply-To: <1553846032-4451-2-git-send-email-joshi.k@samsung.com>
+References: <1553846032-4451-1-git-send-email-joshi.k@samsung.com>
+ <CGME20190329075743epcas1p12f1d290e65ddf84eb74ed94a5ae6eb74@epcas1p1.samsung.com>
+ <1553846032-4451-2-git-send-email-joshi.k@samsung.com>
+Message-ID: <FCE37AF6-FAD4-4968-B5DE-64399A8D5C9A@dilger.ca>
 
-From: Keith Busch <keith.busch@intel.com>
+On Mar 29, 2019,@1:53 AM, Kanchan Joshi <joshi.k@samsung.com> wrote:
+> 
+> This patch bumps up stream count to suppor in-kernel hints. It also
+> adds 'streamid' member in 'request' and declares new API for driver
+> to register stream-info with block layer.
+> 
+> Signed-off-by: Kanchan Joshi <joshi.k at samsung.com>
+> ---
+> include/linux/blkdev.h | 9 +++++++--
+> 1 file changed, 7 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+> index 338604d..4088e21 100644
+> --- a/include/linux/blkdev.h
+> +++ b/include/linux/blkdev.h
+> @@ -214,6 +214,7 @@ struct request {
+> #endif
+> 
+> 	unsigned short write_hint;
+> +	unsigned short streamid;
+> 	unsigned short ioprio;
+> 
+> 	void *special;		/* opaque pointer available for LLD use */
+> @@ -341,6 +342,8 @@ struct queue_limits {
+> 	unsigned char		misaligned;
+> 	unsigned char		discard_misaligned;
+> 	unsigned char		raid_partial_stripes_expensive;
+> +
+> +	unsigned short		nr_streams;
+> 	enum blk_zoned_model	zoned;
+> };
+> 
+> @@ -567,8 +570,9 @@ struct request_queue {
+> 	size_t			cmd_size;
+> 
+> 	struct work_struct	release_work;
+> -
+> -#define BLK_MAX_WRITE_HINTS	5
+> +#define BLK_MAX_USER_HINTS	(WRITE_LIFE_KERN_MIN - 2)
+> +#define BLK_MAX_KERN_HINTS	4
+> +#define BLK_MAX_WRITE_HINTS	(1 + BLK_MAX_USER_HINTS + BLK_MAX_KERN_HINTS)
+> 	u64			write_hints[BLK_MAX_WRITE_HINTS];
+> };
+> 
+> @@ -1071,6 +1075,7 @@ extern void blk_queue_update_dma_alignment(struct request_queue *, int);
+> extern void blk_queue_rq_timeout(struct request_queue *, unsigned int);
+> extern void blk_queue_flush_queueable(struct request_queue *q, bool queueable);
+> extern void blk_queue_write_cache(struct request_queue *q, bool enabled, bool fua);
+> +extern void blk_queue_stream_limits(struct request_queue *, unsigned short);
 
-[ Upstream commit 9fe5c59ff6a1e5e26a39b75489a1420e7eaaf0b1 ]
+This declaration should be in the 2/7 patch where the function is added.
 
-The nvme pci driver had been adding its CMB resource to the P2P DMA
-subsystem everytime on on a controller reset. This results in the
-following warning:
 
-    ------------[ cut here ]------------
-    nvme 0000:00:03.0: Conflicting mapping in same section
-    WARNING: CPU: 7 PID: 81 at kernel/memremap.c:155 devm_memremap_pages+0xa6/0x380
-    ...
-    Call Trace:
-     pci_p2pdma_add_resource+0x153/0x370
-     nvme_reset_work+0x28c/0x17b1 [nvme]
-     ? add_timer+0x107/0x1e0
-     ? dequeue_entity+0x81/0x660
-     ? dequeue_entity+0x3b0/0x660
-     ? pick_next_task_fair+0xaf/0x610
-     ? __switch_to+0xbc/0x410
-     process_one_work+0x1cf/0x350
-     worker_thread+0x215/0x3d0
-     ? process_one_work+0x350/0x350
-     kthread+0x107/0x120
-     ? kthread_park+0x80/0x80
-     ret_from_fork+0x1f/0x30
-    ---[ end trace f7ea76ac6ee72727 ]---
-    nvme nvme0: failed to register the CMB
+Cheers, Andreas
 
-This patch fixes this by registering the CMB with P2P only once.
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
-Reviewed-by: Logan Gunthorpe <logang at deltatee.com>
-Signed-off-by: Christoph Hellwig <hch at lst.de>
-Signed-off-by: Jens Axboe <axboe at kernel.dk>
-Signed-off-by: Sasha Levin <sashal at kernel.org>
----
- drivers/nvme/host/pci.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 06355ca832db..ae03a5b70324 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1546,6 +1546,9 @@ static void __iomem *nvme_map_cmb(struct nvme_dev *dev)
- 	void __iomem *cmb;
- 	int bar;
- 
-+	if (dev->cmb_size)
-+		return;
-+
- 	dev->cmbsz = readl(dev->bar + NVME_REG_CMBSZ);
- 	if (!(NVME_CMB_SZ(dev->cmbsz)))
- 		return NULL;
-@@ -2034,7 +2037,6 @@ static void nvme_pci_disable(struct nvme_dev *dev)
- {
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 
--	nvme_release_cmb(dev);
- 	pci_free_irq_vectors(pdev);
- 
- 	if (pci_is_enabled(pdev)) {
-@@ -2434,6 +2436,7 @@ static void nvme_remove(struct pci_dev *pdev)
- 	nvme_stop_ctrl(&dev->ctrl);
- 	nvme_remove_namespaces(&dev->ctrl);
- 	nvme_dev_disable(dev, true);
-+	nvme_release_cmb(dev);
- 	nvme_free_host_mem(dev);
- 	nvme_dev_remove_admin(dev);
- 	nvme_free_queues(dev, 0);
--- 
-2.19.1
+
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 873 bytes
+Desc: Message signed with OpenPGP
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20190330/29188d0d/attachment.sig>
