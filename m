@@ -1,9 +1,9 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Fri, 29 Mar 2019 21:28:21 -0400
-Subject: [PATCH AUTOSEL 4.19 28/57] nvme-pci: fix conflicting p2p resource adds
-In-Reply-To: <20190330012854.32212-1-sashal@kernel.org>
-References: <20190330012854.32212-1-sashal@kernel.org>
-Message-ID: <20190330012854.32212-28-sashal@kernel.org>
+Date: Fri, 29 Mar 2019 21:30:01 -0400
+Subject: [PATCH AUTOSEL 4.14 18/37] nvme-pci: fix conflicting p2p resource adds
+In-Reply-To: <20190330013020.379-1-sashal@kernel.org>
+References: <20190330013020.379-1-sashal@kernel.org>
+Message-ID: <20190330013020.379-18-sashal@kernel.org>
 
 From: Keith Busch <keith.busch@intel.com>
 
@@ -46,20 +46,20 @@ Signed-off-by: Sasha Levin <sashal at kernel.org>
  1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 7b9ef8e734e7..dca87cb485e9 100644
+index 06355ca832db..ae03a5b70324 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -1649,6 +1649,9 @@ static void nvme_map_cmb(struct nvme_dev *dev)
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+@@ -1546,6 +1546,9 @@ static void __iomem *nvme_map_cmb(struct nvme_dev *dev)
+ 	void __iomem *cmb;
  	int bar;
  
 +	if (dev->cmb_size)
 +		return;
 +
  	dev->cmbsz = readl(dev->bar + NVME_REG_CMBSZ);
- 	if (!dev->cmbsz)
- 		return;
-@@ -2133,7 +2136,6 @@ static void nvme_pci_disable(struct nvme_dev *dev)
+ 	if (!(NVME_CMB_SZ(dev->cmbsz)))
+ 		return NULL;
+@@ -2034,7 +2037,6 @@ static void nvme_pci_disable(struct nvme_dev *dev)
  {
  	struct pci_dev *pdev = to_pci_dev(dev->dev);
  
@@ -67,7 +67,7 @@ index 7b9ef8e734e7..dca87cb485e9 100644
  	pci_free_irq_vectors(pdev);
  
  	if (pci_is_enabled(pdev)) {
-@@ -2585,6 +2587,7 @@ static void nvme_remove(struct pci_dev *pdev)
+@@ -2434,6 +2436,7 @@ static void nvme_remove(struct pci_dev *pdev)
  	nvme_stop_ctrl(&dev->ctrl);
  	nvme_remove_namespaces(&dev->ctrl);
  	nvme_dev_disable(dev, true);
