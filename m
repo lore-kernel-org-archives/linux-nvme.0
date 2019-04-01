@@ -1,73 +1,70 @@
 From: david@fromorbit.com (Dave Chinner)
-Date: Mon, 1 Apr 2019 16:02:55 +1100
-Subject: [PATCH v3 1/7] block: extend stream count for in-kernel use
-In-Reply-To: <1553846032-4451-2-git-send-email-joshi.k@samsung.com>
+Date: Mon, 1 Apr 2019 16:08:21 +1100
+Subject: [PATCH v3 3/7] block: add write-hint to stream-id conversion
+In-Reply-To: <1553846032-4451-4-git-send-email-joshi.k@samsung.com>
 References: <1553846032-4451-1-git-send-email-joshi.k@samsung.com>
- <CGME20190329075743epcas1p12f1d290e65ddf84eb74ed94a5ae6eb74@epcas1p1.samsung.com>
- <1553846032-4451-2-git-send-email-joshi.k@samsung.com>
-Message-ID: <20190401050255.GP23020@dastard>
+ <CGME20190329075749epcas2p22b85cbdbb7ccb4f7f3ecf69b84f75dc9@epcas2p2.samsung.com>
+ <1553846032-4451-4-git-send-email-joshi.k@samsung.com>
+Message-ID: <20190401050821.GQ23020@dastard>
 
-On Fri, Mar 29, 2019@01:23:46PM +0530, Kanchan Joshi wrote:
-> This patch bumps up stream count to suppor in-kernel hints. It also
-> adds 'streamid' member in 'request' and declares new API for driver
-> to register stream-info with block layer.
+On Fri, Mar 29, 2019@01:23:48PM +0530, Kanchan Joshi wrote:
+> Earlier this conversion was done by driver (nvme). Current conversion
+> is of the form "streamid = write-hint - 1", for both user and kernel
+> streams (note that existing infra takes care that user-streams do not
+> bump into kernel ones).
+
+Unless we add new user streams, then all the kernel streams change
+ID. I'll deal with this in more detail in a later patch.
+
+> Conversion takes stream limit (maintained in
+> request queue) into account. Write-hints beyond the queue-limit turn
+> to 0.
+> New field 'streamid' has been added in request. While 'write-hint' field
+> continues to exist. It keeps original value passed from upper layer, and
+> used during merging checks.
 > 
 > Signed-off-by: Kanchan Joshi <joshi.k at samsung.com>
 > ---
->  include/linux/blkdev.h | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
+>  block/blk-core.c | 20 ++++++++++++++++++++
+>  1 file changed, 20 insertions(+)
 > 
-> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-> index 338604d..4088e21 100644
-> --- a/include/linux/blkdev.h
-> +++ b/include/linux/blkdev.h
-> @@ -214,6 +214,7 @@ struct request {
->  #endif
+> diff --git a/block/blk-core.c b/block/blk-core.c
+> index 3c5f61c..c86daed 100644
+> --- a/block/blk-core.c
+> +++ b/block/blk-core.c
+> @@ -727,6 +727,25 @@ bool blk_attempt_plug_merge(struct request_queue *q, struct bio *bio,
+>  	return false;
+>  }
 >  
->  	unsigned short write_hint;
-> +	unsigned short streamid;
->  	unsigned short ioprio;
->  
->  	void *special;		/* opaque pointer available for LLD use */
-> @@ -341,6 +342,8 @@ struct queue_limits {
->  	unsigned char		misaligned;
->  	unsigned char		discard_misaligned;
->  	unsigned char		raid_partial_stripes_expensive;
+> +enum rw_hint blk_write_hint_to_streamid(struct request *req,
+> +				        struct bio *bio)
+> +{
+> +	enum rw_hint streamid, nr_streams;
+> +	struct request_queue *q = req->q;
+> +	nr_streams = q->limits.nr_streams;
 > +
-> +	unsigned short		nr_streams;
->  	enum blk_zoned_model	zoned;
->  };
->  
-> @@ -567,8 +570,9 @@ struct request_queue {
->  	size_t			cmd_size;
->  
->  	struct work_struct	release_work;
-> -
-> -#define BLK_MAX_WRITE_HINTS	5
-> +#define BLK_MAX_USER_HINTS	(WRITE_LIFE_KERN_MIN - 2)
+> +	streamid = bio->bi_write_hint;
+> +	if (!nr_streams || streamid == WRITE_LIFE_NOT_SET ||
+> +	    streamid == WRITE_LIFE_NONE)
+> +		streamid = 0;
+> +	else {
+> +		--streamid;
 
-WRITE_LIFE_KERN_MIN is undefined.
+What's this magic thing do?
 
--Dave.
+> +		if(streamid > nr_streams)
+> +			streamid = 0;
 
-> +#define BLK_MAX_KERN_HINTS	4
-> +#define BLK_MAX_WRITE_HINTS	(1 + BLK_MAX_USER_HINTS + BLK_MAX_KERN_HINTS)
->  	u64			write_hints[BLK_MAX_WRITE_HINTS];
->  };
->  
-> @@ -1071,6 +1075,7 @@ extern void blk_queue_update_dma_alignment(struct request_queue *, int);
->  extern void blk_queue_rq_timeout(struct request_queue *, unsigned int);
->  extern void blk_queue_flush_queueable(struct request_queue *q, bool queueable);
->  extern void blk_queue_write_cache(struct request_queue *q, bool enabled, bool fua);
-> +extern void blk_queue_stream_limits(struct request_queue *, unsigned short);
->  
->  /*
->   * Number of physical segments as sent to the device.
-> -- 
-> 2.7.4
-> 
-> 
+So, basically, we'll compress all the kernel hints down to "no hint"
+if there are more user streams than the device supports?
 
+Surely we should be reserving a stream for the kernel hints separate
+from the user and "none" streams when we have limited device streams
+available...
+
+Cheers,
+
+Dave.
 -- 
 Dave Chinner
 david at fromorbit.com
