@@ -1,43 +1,73 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Sun, 31 Mar 2019 21:10:37 -0600
-Subject: [PATCH 1/2] nvmet: make MDTS value configurable
-In-Reply-To: <9abfa47a-3374-a1a0-8370-1096d02743d0@suse.com>
-References: <20190329120404.55637-1-hare@suse.de>
- <20190329120404.55637-2-hare@suse.de>
- <3bfa0c56-91d1-a722-df92-1ed4744f04ad@mellanox.com>
- <9abfa47a-3374-a1a0-8370-1096d02743d0@suse.com>
-Message-ID: <20190401031036.GB11565@localhost.localdomain>
+From: david@fromorbit.com (Dave Chinner)
+Date: Mon, 1 Apr 2019 16:02:55 +1100
+Subject: [PATCH v3 1/7] block: extend stream count for in-kernel use
+In-Reply-To: <1553846032-4451-2-git-send-email-joshi.k@samsung.com>
+References: <1553846032-4451-1-git-send-email-joshi.k@samsung.com>
+ <CGME20190329075743epcas1p12f1d290e65ddf84eb74ed94a5ae6eb74@epcas1p1.samsung.com>
+ <1553846032-4451-2-git-send-email-joshi.k@samsung.com>
+Message-ID: <20190401050255.GP23020@dastard>
 
-On Sun, Mar 31, 2019@07:02:40PM -0700, Hannes Reinecke wrote:
-> > I think it's more of a ctrl/nvmet_port configuration than a subsystem.
-> > 
-> > For example if you have 2 HCAs, one is super strong and can transfer 
-> > upto 8MB and the second is old model and can transfer upto 64KiB.
-> > 
-> > do
-> > 
-> > id->mdts = ctrl->ops->port_mdts(req->port);
-> > 
-> > and inside the implementation you can do
-> > 
-> > min_not_zero(max_port_hca_cap_in_mdts_units, mdts_configfs_val);
-> > 
-> > and it will fix the comment that is written above (we're not really 
-> > unlimited).
-> > 
-> > this way we're using the low level device characteristics and also cover 
-> > the bio split test.
-> > 
-> > thoughts ?
-> > 
-> > 
-> Yeah, true, it should be a port configuration.
+On Fri, Mar 29, 2019@01:23:46PM +0530, Kanchan Joshi wrote:
+> This patch bumps up stream count to suppor in-kernel hints. It also
+> adds 'streamid' member in 'request' and declares new API for driver
+> to register stream-info with block layer.
 > 
-> I'll be updating the patch.
+> Signed-off-by: Kanchan Joshi <joshi.k at samsung.com>
+> ---
+>  include/linux/blkdev.h | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+> index 338604d..4088e21 100644
+> --- a/include/linux/blkdev.h
+> +++ b/include/linux/blkdev.h
+> @@ -214,6 +214,7 @@ struct request {
+>  #endif
+>  
+>  	unsigned short write_hint;
+> +	unsigned short streamid;
+>  	unsigned short ioprio;
+>  
+>  	void *special;		/* opaque pointer available for LLD use */
+> @@ -341,6 +342,8 @@ struct queue_limits {
+>  	unsigned char		misaligned;
+>  	unsigned char		discard_misaligned;
+>  	unsigned char		raid_partial_stripes_expensive;
+> +
+> +	unsigned short		nr_streams;
+>  	enum blk_zoned_model	zoned;
+>  };
+>  
+> @@ -567,8 +570,9 @@ struct request_queue {
+>  	size_t			cmd_size;
+>  
+>  	struct work_struct	release_work;
+> -
+> -#define BLK_MAX_WRITE_HINTS	5
+> +#define BLK_MAX_USER_HINTS	(WRITE_LIFE_KERN_MIN - 2)
 
-Wouldn't this indicate MDTS should be driven from hardware constraints
-rather than user tunable knobs? I don't think we should have user
-parameters if their only purpose is to test how host drivers react
-to them. It's okay if they've a functional purpose, but there are so
-many adjustable nvme parameters, this is a bit of a slippery slope if we
-want to turn the nvme target driver into a host driver test vehicle.
+WRITE_LIFE_KERN_MIN is undefined.
+
+-Dave.
+
+> +#define BLK_MAX_KERN_HINTS	4
+> +#define BLK_MAX_WRITE_HINTS	(1 + BLK_MAX_USER_HINTS + BLK_MAX_KERN_HINTS)
+>  	u64			write_hints[BLK_MAX_WRITE_HINTS];
+>  };
+>  
+> @@ -1071,6 +1075,7 @@ extern void blk_queue_update_dma_alignment(struct request_queue *, int);
+>  extern void blk_queue_rq_timeout(struct request_queue *, unsigned int);
+>  extern void blk_queue_flush_queueable(struct request_queue *q, bool queueable);
+>  extern void blk_queue_write_cache(struct request_queue *q, bool enabled, bool fua);
+> +extern void blk_queue_stream_limits(struct request_queue *, unsigned short);
+>  
+>  /*
+>   * Number of physical segments as sent to the device.
+> -- 
+> 2.7.4
+> 
+> 
+
+-- 
+Dave Chinner
+david at fromorbit.com
