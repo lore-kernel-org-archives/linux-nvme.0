@@ -1,50 +1,46 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 1 Apr 2019 13:50:13 +0200
-Subject: [PATCH] nvme-multipath: avoid crash on invalid subsystem cntlid
- enumeration
-In-Reply-To: <20190401051732.GC16792@localhost.localdomain>
-References: <20190329095754.109653-1-hare@suse.de>
- <20190329100244.GA28689@lst.de>
- <edde200c-dc35-8e40-6406-ce72f8aafe17@suse.de>
- <20190401051732.GC16792@localhost.localdomain>
-Message-ID: <d50e5b7e-9ccb-3f9f-1ab0-2324298e0a52@suse.de>
+From: gregkh@linuxfoundation.org (Greg KH)
+Date: Mon, 1 Apr 2019 15:55:09 +0200
+Subject: [PATCH stable only] nvmet: set loop queue's segment boundary
+ mask as PAGE_SIZE - 1
+In-Reply-To: <20190328005505.GB19708@ming.t460p>
+References: <20190327090230.12671-1-ming.lei@redhat.com>
+ <20190327161658.GL25262@sasha-vm>
+ <20190328005505.GB19708@ming.t460p>
+Message-ID: <20190401135509.GC23581@kroah.com>
 
-On 4/1/19 7:17 AM, Keith Busch wrote:
-> On Fri, Mar 29, 2019@03:23:18AM -0700, Hannes Reinecke wrote:
->> On 3/29/19 11:02 AM, Christoph Hellwig wrote:
->>> On Fri, Mar 29, 2019@10:57:54AM +0100, Hannes Reinecke wrote:
->>>> The controller ID is supposed to be unique for each subsystem;
->>>> however, if it _isn't_ we will crash when calling device_add_disk()
->>>> for the namespaces.
->>>> While this surely is an error on the subsystem side we really shouldn't
->>>> crash. So simply use the 'instance' number when generating the disk
->>>> name to avoid this issue.
->>>
->>> I agree that we should not crash in that, but I'd rather print an
->>> error message and reject using that controller with the duplicate
->>> controller id than hacking around the issue.
->>>
->> As it so happens, I have a patch for that, too, but thought this one an
->> easier solution :-)
->>
->> Will be sending that patch, then.
+On Thu, Mar 28, 2019@08:55:06AM +0800, Ming Lei wrote:
+> On Wed, Mar 27, 2019@12:16:58PM -0400, Sasha Levin wrote:
+> > On Wed, Mar 27, 2019@05:02:30PM +0800, Ming Lei wrote:
+> > > NVMe target only accepts single-page sg list, either file or block
+> > > device backed target code follows this assumption.
+> > > 
+> > > However, loop target is one exception, given the sg list is from
+> > > the host queue directly.
+> > > 
+> > > This patch sets loop queue's segment boundary mask as PAGE_SIZE - 1
+> > > for following NVMe target assumption.
+> > > 
+> > > Reported-by: Yi Zhang <yi.zhang at redhat.com>
+> > > Fixes: 3a85a5de29ea ("nvme-loop: add a NVMe loopback host driver")
+> > > Cc: Yi Zhang <yi.zhang at redhat.com>
+> > > Cc: Sagi Grimberg <sagi at grimberg.me>
+> > > Cc: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+> > > Cc: <stable at vger.kernel.org>
+> > > Signed-off-by: Ming Lei <ming.lei at redhat.com>
+> > 
+> > Could you provide some background as to why this is -stable only in the
+> > commit message?
 > 
-> We might want to use this patch anyway. It is possible some process
-> reference count is preventing the final release when we want to remove
-> a controller, and a subsequent discover, even if the cntlid is unqiue,
-> would create a duplicate disk name.
+> Multi-page bvec has been merged to linus tree already, so the following
+> patch simply can fix the current issue without needing to limit the segment
+> size for nvme-loop:
 > 
-I don't mind which patch is taken.
-But crashing on misbehaving targets is never a good idea.
+> http://lists.infradead.org/pipermail/linux-nvme/2019-March/023105.html
 
-Do I need to send the other patch?
+Can you resend the patch with this needed information in it?  Also, I
+don't understand what you are referring to with that url, why can't we
+just use that patch?
 
-Cheers,
+thanks,
 
-Hannes
--- 
-Dr. Hannes Reinecke            Teamlead Storage & Networking
-hare at suse.de                              +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N?rnberg)
+greg k-h
