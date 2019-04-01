@@ -1,73 +1,33 @@
-From: david@fromorbit.com (Dave Chinner)
-Date: Mon, 1 Apr 2019 16:12:39 +1100
-Subject: [PATCH v3 6/7] fs: introduce write-hint start point for
- in-kernel hints
-In-Reply-To: <1553846032-4451-7-git-send-email-joshi.k@samsung.com>
-References: <1553846032-4451-1-git-send-email-joshi.k@samsung.com>
- <CGME20190329075758epcas1p335511dcb10bb5592ea72409a1d01e752@epcas1p3.samsung.com>
- <1553846032-4451-7-git-send-email-joshi.k@samsung.com>
-Message-ID: <20190401051239.GP26298@dastard>
+From: kbusch@kernel.org (Keith Busch)
+Date: Sun, 31 Mar 2019 23:17:32 -0600
+Subject: [PATCH] nvme-multipath: avoid crash on invalid subsystem cntlid
+ enumeration
+In-Reply-To: <edde200c-dc35-8e40-6406-ce72f8aafe17@suse.de>
+References: <20190329095754.109653-1-hare@suse.de>
+ <20190329100244.GA28689@lst.de>
+ <edde200c-dc35-8e40-6406-ce72f8aafe17@suse.de>
+Message-ID: <20190401051732.GC16792@localhost.localdomain>
 
-On Fri, Mar 29, 2019@01:23:51PM +0530, Kanchan Joshi wrote:
-> kernel-mode components can define own write-hints using
-> "WRITE_LIFE_KERN_MIN" as base.
+On Fri, Mar 29, 2019@03:23:18AM -0700, Hannes Reinecke wrote:
+> On 3/29/19 11:02 AM, Christoph Hellwig wrote:
+> > On Fri, Mar 29, 2019@10:57:54AM +0100, Hannes Reinecke wrote:
+> >> The controller ID is supposed to be unique for each subsystem;
+> >> however, if it _isn't_ we will crash when calling device_add_disk()
+> >> for the namespaces.
+> >> While this surely is an error on the subsystem side we really shouldn't
+> >> crash. So simply use the 'instance' number when generating the disk
+> >> name to avoid this issue.
+> > 
+> > I agree that we should not crash in that, but I'd rather print an
+> > error message and reject using that controller with the duplicate
+> > controller id than hacking around the issue.
+> > 
+> As it so happens, I have a patch for that, too, but thought this one an 
+> easier solution :-)
 > 
-> Signed-off-by: Kanchan Joshi <joshi.k at samsung.com>
-> ---
->  include/linux/fs.h | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/include/linux/fs.h b/include/linux/fs.h
-> index 29d8e2c..6a2673e 100644
-> --- a/include/linux/fs.h
-> +++ b/include/linux/fs.h
-> @@ -291,6 +291,8 @@ enum rw_hint {
->  	WRITE_LIFE_MEDIUM	= RWH_WRITE_LIFE_MEDIUM,
->  	WRITE_LIFE_LONG		= RWH_WRITE_LIFE_LONG,
->  	WRITE_LIFE_EXTREME	= RWH_WRITE_LIFE_EXTREME,
-> +/* Kernel should use write-hint starting from this */
-> +	WRITE_LIFE_KERN_MIN,
+> Will be sending that patch, then.
 
-Which means that when a new userspace hint is defined, all the
-kernel hints change numbers and, AIUI, that changes how the kernel
-hints are mapped to the underlying device.
-
-The kernel hints need to be mapped to the highest supported number a
-work down, while userspace starts at the lowest and works up. The
-"kernel to device stream id" needs to translate the kernel hints
-down to the upper range of the device hints.
-
-I think the mapping range the code uses should be:
-
-    HINT		Type			device
-     0			USER 0			  0
-     1			USER 1			  1
-     ......
-     n			USER MAX		  n
-
-     {n,65535-m}	UNUSED			{n,dev_max-m}
-
-     65535 - m		KERN_MIN,		dev_max - m
-     ......
-     65532		KERN 3			dev_max - 3
-     65533		KERN 2			dev_max - 2
-     65534		KERN 1			dev_max - 1
-     65535		KERN 0			dev_max
-
-i.e. if you look at the mapping as a signed short, >= 0 are user
-hints, < 0 are kernel hints. This provides an obvious, simple way
-to map the kernel hints to the upper range of the device hint
-range. It also provides a simple way to compress both user and
-kernel hints into a limited device hint range - kernel always uses
-the top device hint, user is limited to the rest of the range....
-
-This means the ranges don't overlap or change at either the
-code or the device level as we add more user and kernel hint
-channels in the future.
-
-Cheers,
-
-Dave.
--- 
-Dave Chinner
-david at fromorbit.com
+We might want to use this patch anyway. It is possible some process
+reference count is preventing the final release when we want to remove
+a controller, and a subsequent discover, even if the cntlid is unqiue,
+would create a duplicate disk name.
