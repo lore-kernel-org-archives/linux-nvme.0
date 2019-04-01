@@ -1,64 +1,49 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 1 Apr 2019 13:48:30 +0200
-Subject: [PATCH 1/2] nvmet: make MDTS value configurable
-In-Reply-To: <20190401031036.GB11565@localhost.localdomain>
-References: <20190329120404.55637-1-hare@suse.de>
- <20190329120404.55637-2-hare@suse.de>
- <3bfa0c56-91d1-a722-df92-1ed4744f04ad@mellanox.com>
- <9abfa47a-3374-a1a0-8370-1096d02743d0@suse.com>
- <20190401031036.GB11565@localhost.localdomain>
-Message-ID: <c42e4c4e-51bb-b255-b242-e68594bc160a@suse.de>
+Date: Mon, 1 Apr 2019 13:50:13 +0200
+Subject: [PATCH] nvme-multipath: avoid crash on invalid subsystem cntlid
+ enumeration
+In-Reply-To: <20190401051732.GC16792@localhost.localdomain>
+References: <20190329095754.109653-1-hare@suse.de>
+ <20190329100244.GA28689@lst.de>
+ <edde200c-dc35-8e40-6406-ce72f8aafe17@suse.de>
+ <20190401051732.GC16792@localhost.localdomain>
+Message-ID: <d50e5b7e-9ccb-3f9f-1ab0-2324298e0a52@suse.de>
 
-On 4/1/19 5:10 AM, Keith Busch wrote:
-> On Sun, Mar 31, 2019@07:02:40PM -0700, Hannes Reinecke wrote:
->>> I think it's more of a ctrl/nvmet_port configuration than a subsystem.
+On 4/1/19 7:17 AM, Keith Busch wrote:
+> On Fri, Mar 29, 2019@03:23:18AM -0700, Hannes Reinecke wrote:
+>> On 3/29/19 11:02 AM, Christoph Hellwig wrote:
+>>> On Fri, Mar 29, 2019@10:57:54AM +0100, Hannes Reinecke wrote:
+>>>> The controller ID is supposed to be unique for each subsystem;
+>>>> however, if it _isn't_ we will crash when calling device_add_disk()
+>>>> for the namespaces.
+>>>> While this surely is an error on the subsystem side we really shouldn't
+>>>> crash. So simply use the 'instance' number when generating the disk
+>>>> name to avoid this issue.
 >>>
->>> For example if you have 2 HCAs, one is super strong and can transfer
->>> upto 8MB and the second is old model and can transfer upto 64KiB.
+>>> I agree that we should not crash in that, but I'd rather print an
+>>> error message and reject using that controller with the duplicate
+>>> controller id than hacking around the issue.
 >>>
->>> do
->>>
->>> id->mdts = ctrl->ops->port_mdts(req->port);
->>>
->>> and inside the implementation you can do
->>>
->>> min_not_zero(max_port_hca_cap_in_mdts_units, mdts_configfs_val);
->>>
->>> and it will fix the comment that is written above (we're not really
->>> unlimited).
->>>
->>> this way we're using the low level device characteristics and also cover
->>> the bio split test.
->>>
->>> thoughts ?
->>>
->>>
->> Yeah, true, it should be a port configuration.
+>> As it so happens, I have a patch for that, too, but thought this one an
+>> easier solution :-)
 >>
->> I'll be updating the patch.
+>> Will be sending that patch, then.
 > 
-> Wouldn't this indicate MDTS should be driven from hardware constraints
-> rather than user tunable knobs? I don't think we should have user
-> parameters if their only purpose is to test how host drivers react
-> to them. It's okay if they've a functional purpose, but there are so
-> many adjustable nvme parameters, this is a bit of a slippery slope if we
-> want to turn the nvme target driver into a host driver test vehicle.
+> We might want to use this patch anyway. It is possible some process
+> reference count is preventing the final release when we want to remove
+> a controller, and a subsequent discover, even if the cntlid is unqiue,
+> would create a duplicate disk name.
 > 
-I would love to indicate hardware constraints to nvme target; there's a 
-similar problem I'm facing in that the hardware is using only a limited 
-set of queues, but I cannot express this with nvme target.
-However, in the absense of such an interface having a manual 
-configuration allows us to at least _map_ onto the hardware capabilities.
+I don't mind which patch is taken.
+But crashing on misbehaving targets is never a good idea.
 
-But I don't really buy the 'too many parameters' objection.
-What _is_ the point of the software target if we cannot tweak it to test 
-out certain corner cases in the spec?
+Do I need to send the other patch?
 
 Cheers,
 
 Hannes
 -- 
-r. Hannes Reinecke            Teamlead Storage & Networking
+Dr. Hannes Reinecke            Teamlead Storage & Networking
 hare at suse.de                              +49 911 74053 688
 SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
 GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
