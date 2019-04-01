@@ -1,46 +1,26 @@
-From: gregkh@linuxfoundation.org (Greg KH)
-Date: Mon, 1 Apr 2019 15:55:09 +0200
-Subject: [PATCH stable only] nvmet: set loop queue's segment boundary
- mask as PAGE_SIZE - 1
-In-Reply-To: <20190328005505.GB19708@ming.t460p>
-References: <20190327090230.12671-1-ming.lei@redhat.com>
- <20190327161658.GL25262@sasha-vm>
- <20190328005505.GB19708@ming.t460p>
-Message-ID: <20190401135509.GC23581@kroah.com>
+From: martinus.gpy@gmail.com (martinus.gpy@gmail.com)
+Date: Mon,  1 Apr 2019 22:09:55 +0530
+Subject: [PATCH 0/2] nvme-cli: update NetApp plugin for ONTAP devices
+Message-ID: <20190401163957.2899-1-marting@netapp.com>
 
-On Thu, Mar 28, 2019@08:55:06AM +0800, Ming Lei wrote:
-> On Wed, Mar 27, 2019@12:16:58PM -0400, Sasha Levin wrote:
-> > On Wed, Mar 27, 2019@05:02:30PM +0800, Ming Lei wrote:
-> > > NVMe target only accepts single-page sg list, either file or block
-> > > device backed target code follows this assumption.
-> > > 
-> > > However, loop target is one exception, given the sg list is from
-> > > the host queue directly.
-> > > 
-> > > This patch sets loop queue's segment boundary mask as PAGE_SIZE - 1
-> > > for following NVMe target assumption.
-> > > 
-> > > Reported-by: Yi Zhang <yi.zhang at redhat.com>
-> > > Fixes: 3a85a5de29ea ("nvme-loop: add a NVMe loopback host driver")
-> > > Cc: Yi Zhang <yi.zhang at redhat.com>
-> > > Cc: Sagi Grimberg <sagi at grimberg.me>
-> > > Cc: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-> > > Cc: <stable at vger.kernel.org>
-> > > Signed-off-by: Ming Lei <ming.lei at redhat.com>
-> > 
-> > Could you provide some background as to why this is -stable only in the
-> > commit message?
-> 
-> Multi-page bvec has been merged to linus tree already, so the following
-> patch simply can fix the current issue without needing to limit the segment
-> size for nvme-loop:
-> 
-> http://lists.infradead.org/pipermail/linux-nvme/2019-March/023105.html
+From: Martin George <marting@netapp.com>
 
-Can you resend the patch with this needed information in it?  Also, I
-don't understand what you are referring to with that url, why can't we
-just use that patch?
+These patches update the current NetApp plugin to handle
+NetApp ONTAP devices.
 
-thanks,
+Martin George (2):
+  nvme-cli: add netapp ontapdevices command
+  nvme-cli: add netapp ontapdevices man page
 
-greg k-h
+ Documentation/nvme-netapp-ontapdevices.1    |  74 ++
+ Documentation/nvme-netapp-ontapdevices.html | 814 ++++++++++++++++++++
+ Documentation/nvme-netapp-ontapdevices.txt  |  35 +
+ plugins/netapp/netapp-nvme.c                | 342 ++++++++
+ plugins/netapp/netapp-nvme.h                |   1 +
+ 5 files changed, 1266 insertions(+)
+ create mode 100644 Documentation/nvme-netapp-ontapdevices.1
+ create mode 100644 Documentation/nvme-netapp-ontapdevices.html
+ create mode 100644 Documentation/nvme-netapp-ontapdevices.txt
+
+-- 
+2.17.1
