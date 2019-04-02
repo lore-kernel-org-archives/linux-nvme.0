@@ -1,46 +1,35 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Tue,  2 Apr 2019 09:56:10 +0800
-Subject: [RESEND PATCH stable only] nvmet: set loop queue's segment boundary
- mask as PAGE_SIZE - 1
-Message-ID: <20190402015610.26320-1-ming.lei@redhat.com>
+From: kbusch@kernel.org (Keith Busch)
+Date: Tue, 2 Apr 2019 02:55:40 -0600
+Subject: [PATCH] nvme-multipath: avoid crash on invalid subsystem cntlid
+ enumeration
+In-Reply-To: <d50e5b7e-9ccb-3f9f-1ab0-2324298e0a52@suse.de>
+References: <20190329095754.109653-1-hare@suse.de>
+ <20190329100244.GA28689@lst.de>
+ <edde200c-dc35-8e40-6406-ce72f8aafe17@suse.de>
+ <20190401051732.GC16792@localhost.localdomain>
+ <d50e5b7e-9ccb-3f9f-1ab0-2324298e0a52@suse.de>
+Message-ID: <20190402085540.GE16792@localhost.localdomain>
 
-NVMe target only accepts single-page sg list, either file or block
-device backed target code follows this assumption.
+On Mon, Apr 01, 2019@04:50:13AM -0700, Hannes Reinecke wrote:
+> On 4/1/19 7:17 AM, Keith Busch wrote:
+> > We might want to use this patch anyway. It is possible some process
+> > reference count is preventing the final release when we want to remove
+> > a controller, and a subsequent discover, even if the cntlid is unqiue,
+> > would create a duplicate disk name.
+> > 
+> I don't mind which patch is taken.
+> But crashing on misbehaving targets is never a good idea.
 
-However, loop target is one exception, given the sg list is from
-the host queue directly.
-
-This patch sets loop queue's segment boundary mask as PAGE_SIZE - 1
-for following NVMe target assumption.
-
-Multi-page bvec has been merged to v5.1-rc1, so commit 02db99548d36
-("nvmet: fix building bvec from sg list") can fix the current issue
-simply without needing to limit the segment size for nvme-loop.
-
-Reported-by: Yi Zhang <yi.zhang at redhat.com>
-Fixes: 3a85a5de29ea ("nvme-loop: add a NVMe loopback host driver")
-Cc: Yi Zhang <yi.zhang at redhat.com>
-Cc: Sagi Grimberg <sagi at grimberg.me>
-Cc: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-Cc: <stable at vger.kernel.org>
-Signed-off-by: Ming Lei <ming.lei at redhat.com>
----
- drivers/nvme/target/loop.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index b9f623ab01f3..7194f86b9dac 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -549,6 +549,9 @@ static int nvme_loop_create_io_queues(struct nvme_loop_ctrl *ctrl)
- 	if (ret)
- 		goto out_cleanup_connect_q;
+I 100% agree. :)
  
-+	/* target only accepts single-page sg list */
-+	blk_queue_segment_boundary(ctrl->ctrl.connect_q, PAGE_SIZE - 1);
-+
- 	return 0;
- 
- out_cleanup_connect_q:
--- 
-2.9.5
+> Do I need to send the other patch?
+
+Can we do both? I like the warning when an invalid subsystem is detected,
+but your original patch fixes the unique gendisk name, so I'd vote
+to keep that good code, but justify it with a slightly different
+changelog. Something along the following:
+
+  A process holding an open reference to a removed disk prevents it
+  from completing deletion, so its name continues to exist. A subsequent
+  gendisk creation may have the same cntlid which risks collision when
+  using that for the name. Use the unique ctrl->instance instead.
