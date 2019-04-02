@@ -1,30 +1,38 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue,  2 Apr 2019 14:51:54 +0300
-Subject: [PATCH 1/1] nvmet: add safety check for subsystem lock during
- nvmet_ns_changed
-Message-ID: <1554205914-2203-1-git-send-email-maxg@mellanox.com>
+Date: Tue,  2 Apr 2019 14:52:47 +0300
+Subject: [PATCH 1/1] nvmet: never fail double namespace enablement
+Message-ID: <1554205967-2380-1-git-send-email-maxg@mellanox.com>
 
-we need to make sure that subsystem lock is taken during ctrl's list
-traversing. nvmet_ns_changed function is not static and can be used from
-various callers simultaneously.
+In case we create N namespaces while N < NVMET_MAX_NAMESPACES, we can
+perform "echo 1 > <nsid>/enable" as much as we want. In case N ==
+NVMET_MAX_NAMESPACES we fail. Make sure we have the same flow for any N.
 
 Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
 ---
- drivers/nvme/target/core.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/nvme/target/core.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index b3e765a..d42de97 100644
+index d42de97..4d8dd29 100644
 --- a/drivers/nvme/target/core.c
 +++ b/drivers/nvme/target/core.c
-@@ -214,6 +214,8 @@ void nvmet_ns_changed(struct nvmet_subsys *subsys, u32 nsid)
- {
- 	struct nvmet_ctrl *ctrl;
+@@ -496,13 +496,14 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
+ 	int ret;
  
-+	lockdep_assert_held(&subsys->lock);
+ 	mutex_lock(&subsys->lock);
+-	ret = -EMFILE;
+-	if (subsys->nr_namespaces == NVMET_MAX_NAMESPACES)
+-		goto out_unlock;
+ 	ret = 0;
+ 	if (ns->enabled)
+ 		goto out_unlock;
+ 
++	ret = -EMFILE;
++	if (subsys->nr_namespaces == NVMET_MAX_NAMESPACES)
++		goto out_unlock;
 +
- 	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
- 		nvmet_add_to_changed_ns_log(ctrl, cpu_to_le32(nsid));
- 		if (nvmet_aen_bit_disabled(ctrl, NVME_AEN_BIT_NS_ATTR))
+ 	ret = nvmet_bdev_ns_enable(ns);
+ 	if (ret == -ENOTBLK)
+ 		ret = nvmet_file_ns_enable(ns);
 -- 
 1.8.3.1
