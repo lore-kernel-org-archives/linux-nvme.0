@@ -1,36 +1,30 @@
-From: jack@suse.cz (Jan Kara)
-Date: Tue, 2 Apr 2019 11:20:44 +0200
-Subject: [PATCH v3 3/7] block: add write-hint to stream-id conversion
-In-Reply-To: <20190401050821.GQ23020@dastard>
-References: <1553846032-4451-1-git-send-email-joshi.k@samsung.com>
- <CGME20190329075749epcas2p22b85cbdbb7ccb4f7f3ecf69b84f75dc9@epcas2p2.samsung.com>
- <1553846032-4451-4-git-send-email-joshi.k@samsung.com>
- <20190401050821.GQ23020@dastard>
-Message-ID: <20190402092044.GE12133@quack2.suse.cz>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Tue,  2 Apr 2019 14:51:54 +0300
+Subject: [PATCH 1/1] nvmet: add safety check for subsystem lock during
+ nvmet_ns_changed
+Message-ID: <1554205914-2203-1-git-send-email-maxg@mellanox.com>
 
-On Mon 01-04-19 16:08:21, Dave Chinner wrote:
-> On Fri, Mar 29, 2019@01:23:48PM +0530, Kanchan Joshi wrote:
-> > +		if(streamid > nr_streams)
-> > +			streamid = 0;
-> 
-> So, basically, we'll compress all the kernel hints down to "no hint"
-> if there are more user streams than the device supports?
-> 
-> Surely we should be reserving a stream for the kernel hints separate
-> from the user and "none" streams when we have limited device streams
-> available...
+we need to make sure that subsystem lock is taken during ctrl's list
+traversing. nvmet_ns_changed function is not static and can be used from
+various callers simultaneously.
 
-The question is what to do in a situation when the device has exactly as
-many hints as we currently offer to userspace. Because currently either the
-device has enough hints for all userspace hint values or we disable the
-feature altogether. If we always mandated some hints are available for the
-kernel, we'd have to regress some fuctionality currently available to
-userspace. So I think that the option that the kernel won't get any hints
-is the least painful solution. Later when people would like to extend hints
-available to userspace, we could make sure kernel's batch of hints has
-priority over these "extended userspace hints". 
+Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ drivers/nvme/target/core.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-								Honza
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index b3e765a..d42de97 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -214,6 +214,8 @@ void nvmet_ns_changed(struct nvmet_subsys *subsys, u32 nsid)
+ {
+ 	struct nvmet_ctrl *ctrl;
+ 
++	lockdep_assert_held(&subsys->lock);
++
+ 	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
+ 		nvmet_add_to_changed_ns_log(ctrl, cpu_to_le32(nsid));
+ 		if (nvmet_aen_bit_disabled(ctrl, NVME_AEN_BIT_NS_ATTR))
 -- 
-Jan Kara <jack at suse.com>
-SUSE Labs, CR
+1.8.3.1
