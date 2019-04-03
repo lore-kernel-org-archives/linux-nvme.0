@@ -1,54 +1,33 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Thu,  4 Apr 2019 00:41:58 +0200
-Subject: [PATCH 2/2] nvme: validate cntlid during controller initialisation
+Date: Thu,  4 Apr 2019 00:41:57 +0200
+Subject: [PATCH 1/2] nvme-multipath: avoid crash on invalid subsystem cntlid
+ enumeration
 In-Reply-To: <20190403224158.58106-1-hare@suse.de>
 References: <20190403224158.58106-1-hare@suse.de>
-Message-ID: <20190403224158.58106-3-hare@suse.de>
+Message-ID: <20190403224158.58106-2-hare@suse.de>
 
-From: Hannes Reinecke <hare@suse.com>
-
-The CNTLID value is required to be unique, and we do rely on this
-for correct operation. So reject any controller for which a non-unique
-CNTLID has been detected.
+A process holding an open reference to a removed disk prevents it
+from completing deletion, so its name continues to exist. A subsequent
+gendisk creation may have the same cntlid which risks collision when
+using that for the name. Use the unique ctrl->instance instead.
 
 Signed-off-by: Hannes Reinecke <hare at suse.com>
 ---
- drivers/nvme/host/core.c | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+ drivers/nvme/host/multipath.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index b5939112b9b6..23000a368e1f 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2485,6 +2485,7 @@ static int nvme_get_effects_log(struct nvme_ctrl *ctrl)
- int nvme_init_identify(struct nvme_ctrl *ctrl)
- {
- 	struct nvme_id_ctrl *id;
-+	struct nvme_ctrl *tmp;
- 	u64 cap;
- 	int ret, page_shift;
- 	u32 max_hw_sectors;
-@@ -2624,7 +2625,20 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
- 		ctrl->hmmaxd = le16_to_cpu(id->hmmaxd);
- 	}
- 
--	ret = nvme_mpath_init(ctrl, id);
-+	ret = 0;
-+	mutex_lock(&ctrl->subsys->lock);
-+	list_for_each_entry(tmp, &ctrl->subsys->ctrls, subsys_entry) {
-+		if (tmp->cntlid == ctrl->cntlid) {
-+			dev_err(ctrl->device, "Duplicate cntlid %u, rejecting\n",
-+				ctrl->cntlid);
-+			ret = -EINVAL;
-+			break;
-+		}
-+	}
-+	mutex_unlock(&ctrl->subsys->lock);
-+
-+	if (ret == 0)
-+		ret = nvme_mpath_init(ctrl, id);
- 	kfree(id);
- 
- 	if (ret < 0)
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index f0716f6ce41f..2551264ef2b5 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -31,7 +31,7 @@ void nvme_set_disk_name(char *disk_name, struct nvme_ns *ns,
+ 		sprintf(disk_name, "nvme%dn%d", ctrl->instance, ns->head->instance);
+ 	} else if (ns->head->disk) {
+ 		sprintf(disk_name, "nvme%dc%dn%d", ctrl->subsys->instance,
+-				ctrl->cntlid, ns->head->instance);
++				ctrl->instance, ns->head->instance);
+ 		*flags = GENHD_FL_HIDDEN;
+ 	} else {
+ 		sprintf(disk_name, "nvme%dn%d", ctrl->subsys->instance,
 -- 
 2.16.4
