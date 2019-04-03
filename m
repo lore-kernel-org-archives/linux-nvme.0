@@ -1,18 +1,19 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 3 Apr 2019 20:11:36 +0200
-Subject: [PATCH 2/2] nvmet: make CNTLID range configurable
-In-Reply-To: <20190329120404.55637-3-hare@suse.de>
-References: <20190329120404.55637-1-hare@suse.de>
- <20190329120404.55637-3-hare@suse.de>
-Message-ID: <20190403181136.GF28682@lst.de>
+From: Steve.Schremmer@netapp.com (Schremmer, Steven)
+Date: Wed, 3 Apr 2019 19:15:35 +0000
+Subject: [PATCH 1/2] nvme-cli: add netapp ontapdevices command
+In-Reply-To: <20190401163957.2899-2-marting@netapp.com>
+References: <20190401163957.2899-1-marting@netapp.com>
+ <20190401163957.2899-2-marting@netapp.com>
+Message-ID: <BN8PR06MB579392526A3828D249424FAF8C570@BN8PR06MB5793.namprd06.prod.outlook.com>
 
-On Fri, Mar 29, 2019@01:04:04PM +0100, Hannes Reinecke wrote:
-> When trying to run in a clustered environment we need to keep the
-> controller ID values unique. So this patch add to additional config
-> attributes 'cntlid_min' and 'cntlid_max' to only allow specific ranges
-> for the controller ID.
+> From: Martin George <marting at netapp.com>
+> 
+> Add a new ontapdevices command to the NetApp plugin for
+> NetApp ONTAP devices.
+> 
+> Signed-off-by: Martin George <marting at netapp.com>
+> Reviewed-by: Steve Schremmer <sschremm at netapp.com>
+> ---
 
-Err, can you explain the use case a little better?  This sounds like
-running two different nvmet instances and preting they are a single
-subsystem.  Which sounds pretty dangerous without additional
-communication layers.
+If it matters for the Reviewed-by, I'm actually subscribed to the mailing list
+using steven.schremmer at netapp.com I believe.
