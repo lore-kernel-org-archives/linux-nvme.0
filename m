@@ -1,58 +1,29 @@
-From: joshi.k@samsung.com (kanchan)
-Date: Wed, 3 Apr 2019 19:12:00 +0530
-Subject: [PATCH v3 7/7] fs/ext4,jbd2: add support for passing write-hint
- with journal
-In-Reply-To: <yq14l7fokx0.fsf@oracle.com>
-References: <1553846032-4451-1-git-send-email-joshi.k@samsung.com>
- <CGME20190329075800epcas2p4731f10eabf7d70dc7096117d161b05a3@epcas2p4.samsung.com>
- <1553846032-4451-8-git-send-email-joshi.k@samsung.com>
- <yq14l7fokx0.fsf@oracle.com>
-Message-ID: <11cd01d4ea23$1bb6b260$53241720$@samsung.com>
+From: greg@kroah.com (Greg KH)
+Date: Wed, 3 Apr 2019 16:04:27 +0200
+Subject: [RESEND PATCH stable only] nvmet: set loop queue's segment
+ boundary mask as PAGE_SIZE - 1
+In-Reply-To: <20190402015610.26320-1-ming.lei@redhat.com>
+References: <20190402015610.26320-1-ming.lei@redhat.com>
+Message-ID: <20190403140427.GD8633@kroah.com>
 
-Hi Martin,
+On Tue, Apr 02, 2019@09:56:10AM +0800, Ming Lei wrote:
+> NVMe target only accepts single-page sg list, either file or block
+> device backed target code follows this assumption.
+> 
+> However, loop target is one exception, given the sg list is from
+> the host queue directly.
+> 
+> This patch sets loop queue's segment boundary mask as PAGE_SIZE - 1
+> for following NVMe target assumption.
+> 
+> Multi-page bvec has been merged to v5.1-rc1, so commit 02db99548d36
+> ("nvmet: fix building bvec from sg list") can fix the current issue
+> simply without needing to limit the segment size for nvme-loop.
 
-> Why not just introduce REQ_JOURNAL and let the device driver decide how to
-turn that into something appropriate for the device?
+I don't understand, 02db99548d36 does not work for older kernels, so
+because of that, you need/want this patch to be applied?  If so, what
+specific kernel versions do you want this to go to?
 
-It began with that kind of thought/goal i.e.  introduce something just for
-FS journal. But it seems to have evolved for good. 
-Current approach extends write-hint infra so that whole thing becomes
-extensible for other kind of use-cases (than FS journal) as well. 	
-Also in this approach, driver will do little, while block-layer will do
-majority of the work.
+thanks,
 
-> That's what I'll need for SCSI. Existing SCSI streams are not a good fit.
-
-Do you see that it's difficult for SCSI to use write-hint infrastructure for
-streams? 
-
-
-  
------Original Message-----
-From: Martin K. Petersen [mailto:martin.petersen@oracle.com] 
-Sent: Wednesday, April 03, 2019 8:28 AM
-To: Kanchan Joshi <joshi.k at samsung.com>
-Cc: linux-kernel at vger.kernel.org; linux-block at vger.kernel.org;
-linux-nvme at lists.infradead.org; linux-fsdevel at vger.kernel.org;
-linux-ext4 at vger.kernel.org; axboe at fb.com; prakash.v at samsung.com;
-anshul at samsung.com; joshiiitr at gmail.com
-Subject: Re: [PATCH v3 7/7] fs/ext4,jbd2: add support for passing write-hint
-with journal
-
-
-Kanchan,
-
-> For NAND based SSDs, mixing of data with different life-time reduces 
-> efficiency of internal garbage-collection. During FS operations, 
-> series of journal updates will follow/precede series of data/meta 
-> updates, causing intermixing inside SSD. By passing a write-hint with 
-> journal, its write can be isolated from other data/meta writes, 
-> leading to endurance/performance benefit on SSD.
-
-Why not just introduce REQ_JOURNAL and let the device driver decide how to
-turn that into something appropriate for the device?
-
-That's what I'll need for SCSI. Existing SCSI streams are not a good fit.
-
--- 
-Martin K. Petersen	Oracle Linux Engineering
+greg k-h
