@@ -1,33 +1,74 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Thu,  4 Apr 2019 00:41:57 +0200
-Subject: [PATCH 1/2] nvme-multipath: avoid crash on invalid subsystem cntlid
- enumeration
-In-Reply-To: <20190403224158.58106-1-hare@suse.de>
-References: <20190403224158.58106-1-hare@suse.de>
-Message-ID: <20190403224158.58106-2-hare@suse.de>
+From: kenneth.heitke@intel.com (Heitke, Kenneth)
+Date: Wed, 3 Apr 2019 17:03:25 -0600
+Subject: nvme cli format question
+Message-ID: <754e9409-0255-220f-c4c2-18fe55dd4df3@intel.com>
 
-A process holding an open reference to a removed disk prevents it
-from completing deletion, so its name continues to exist. A subsequent
-gendisk creation may have the same cntlid which risks collision when
-using that for the name. Use the unique ctrl->instance instead.
 
-Signed-off-by: Hannes Reinecke <hare at suse.com>
----
- drivers/nvme/host/multipath.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+What is the expected behavior when calling 'format' on a NVMe character
+device? I see two problems with the code below.
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index f0716f6ce41f..2551264ef2b5 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -31,7 +31,7 @@ void nvme_set_disk_name(char *disk_name, struct nvme_ns *ns,
- 		sprintf(disk_name, "nvme%dn%d", ctrl->instance, ns->head->instance);
- 	} else if (ns->head->disk) {
- 		sprintf(disk_name, "nvme%dc%dn%d", ctrl->subsys->instance,
--				ctrl->cntlid, ns->head->instance);
-+				ctrl->instance, ns->head->instance);
- 		*flags = GENHD_FL_HIDDEN;
- 	} else {
- 		sprintf(disk_name, "nvme%dn%d", ctrl->subsys->instance,
--- 
-2.16.4
+1) If no namespace Id is specified and the device is not a block device,
+then nvme_identify_ns() is never called and the 'ns' variable used in
+the 'if (cfg.bs)' case is  uninitialized.
+
+2) If the namespace_id is specified or determined from the block device,
+then the 'cfg.bs' check is redundant (and done twice).
+
+         if (cfg.namespace_id != NVME_NSID_ALL) {
+                 err = nvme_identify_ns(fd, cfg.namespace_id, 0, &ns);
+                 if (err) {
+                         if (err < 0)
+                                 perror("identify-namespace");
+                         else
+                                 fprintf(stderr,
+                                         "NVME Admin command 
+error:%s(%x)\n",
+                                         nvme_status_to_string(err), err);
+                         return err;
+                 }
+                 prev_lbaf = ns.flbas & 0xf;
+
+                 if (cfg.bs) {
+                         for (i = 0; i < 16; ++i) {
+                                 if ((1ULL << ns.lbaf[i].ds) == cfg.bs &&
+                                     ns.lbaf[i].ms == 0) {
+                                         cfg.lbaf = i;
+                                         break;
+                                 }
+                         }
+                         if (cfg.lbaf == 0xff) {
+                                 fprintf(stderr,
+                                         "LBAF corresponding to block 
+size %"PRIu64"(LBAF %u) not found\n",
+                                         (uint64_t)cfg.bs, lbads);
+                                 fprintf(stderr,
+                                         "Please correct block size, or 
+specify LBAF directly\n");
+                                 return EINVAL;
+                         }
+                 }
+         }
+         if (cfg.bs) {
+                 __u64 bs = cfg.bs;
+                 bs = bs >> 1;
+                 while (bs) {
+                         ++lbads;
+                         bs = bs >> 1;
+                 }
+                 for (i=0; i<16; ++i) {
+                         if (ns.lbaf[i].ds == lbads && ns.lbaf[i].ms == 0) {
+                                 cfg.lbaf = i;
+                                 break;
+                         }
+                 }
+                         if (cfg.lbaf == 0xff) {
+                                 fprintf(stderr,
+                                         "LBAF corresponding to block 
+size %"PRIu64" (LBAF %u) not found\n",
+                                         (uint64_t)cfg.bs, lbads);
+                                 fprintf(stderr,
+                                         "Please correct block size, or 
+specify LBAF directly\n");
+                                 return EINVAL;
+                         }
+         }
