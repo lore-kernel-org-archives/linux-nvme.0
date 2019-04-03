@@ -1,90 +1,77 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Thu,  4 Apr 2019 01:06:54 +0200
-Subject: [PATCHv2] nvmet: make MDTS value configurable
-Message-ID: <20190403230654.109698-1-hare@suse.de>
+Date: Thu,  4 Apr 2019 01:12:21 +0200
+Subject: [PATCHv2 RFC] nvme: use nvme_set_queue_dying() during namespace
+ rescanning
+Message-ID: <20190403231221.127008-1-hare@suse.de>
 
-Some drivers and/or use-cases might need to set a smaller MDTS
-value, so add a per-port attribute to modify the MDTS value.
+From: Hannes Reinecke <hare@suse.com>
+
+There is a race condition between namespace rescanning and controller
+reset; during controller reset all namespaces are quiesed vie
+nams_stop_ctrl(), and after reset all namespaces are unquiesced
+again.
+When namespace scanning was active by the time controller reset was
+triggered the rescan code will call nvme_ns_remove(), which then will
+cause a kernel crash in nvme_start_ctrl() as it'll trip over
+uninitialized namespaces.
+
+This patch calls nvme_set_queue_dying() during namespace rescan,
+which will already unquiesce the queue. Hence we can skip all namespaces
+with the 'DEAD' flag during unquiesce in nvme_start_ctrl() and eliminate
+this issue.
 
 Signed-off-by: Hannes Reinecke <hare at suse.com>
 ---
- drivers/nvme/target/admin-cmd.c |  3 +--
- drivers/nvme/target/configfs.c  | 29 +++++++++++++++++++++++++++++
- drivers/nvme/target/nvmet.h     |  1 +
- 3 files changed, 31 insertions(+), 2 deletions(-)
+ drivers/nvme/host/core.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 76250181fee0..d33e0fd248cd 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -311,8 +311,7 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
- 	/* we support multiple ports, multiples hosts and ANA: */
- 	id->cmic = (1 << 0) | (1 << 1) | (1 << 3);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 23000a368e1f..21aa5c516d2a 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3359,7 +3359,7 @@ static void nvme_validate_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 	ns = nvme_find_get_ns(ctrl, nsid);
+ 	if (ns) {
+ 		if (ns->disk && revalidate_disk(ns->disk))
+-			nvme_ns_remove(ns);
++			nvme_set_queue_dying(ns);
+ 		nvme_put_ns(ns);
+ 	} else
+ 		nvme_alloc_ns(ctrl, nsid);
+@@ -3409,7 +3409,7 @@ static int nvme_scan_ns_list(struct nvme_ctrl *ctrl, unsigned nn)
+ 			while (++prev < nsid) {
+ 				ns = nvme_find_get_ns(ctrl, prev);
+ 				if (ns) {
+-					nvme_ns_remove(ns);
++					nvme_set_queue_dying(ns);
+ 					nvme_put_ns(ns);
+ 				}
+ 			}
+@@ -3871,8 +3871,11 @@ void nvme_stop_queues(struct nvme_ctrl *ctrl)
+ 	struct nvme_ns *ns;
  
--	/* no limit on data transfer sizes for now */
--	id->mdts = 0;
-+	id->mdts = req->port->mdts;
- 	id->cntlid = cpu_to_le16(ctrl->cntlid);
- 	id->ver = cpu_to_le32(ctrl->subsys->ver);
+ 	down_read(&ctrl->namespaces_rwsem);
+-	list_for_each_entry(ns, &ctrl->namespaces, list)
++	list_for_each_entry(ns, &ctrl->namespaces, list) {
++		if (test_bit(NVME_NS_DEAD, &ns->flags))
++			continue;
+ 		blk_mq_quiesce_queue(ns->queue);
++	}
+ 	up_read(&ctrl->namespaces_rwsem);
+ }
+ EXPORT_SYMBOL_GPL(nvme_stop_queues);
+@@ -3882,8 +3885,11 @@ void nvme_start_queues(struct nvme_ctrl *ctrl)
+ 	struct nvme_ns *ns;
  
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index adb79545cdd7..a70b5e452ac3 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -299,6 +299,34 @@ static ssize_t nvmet_addr_trtype_store(struct config_item *item,
- 
- CONFIGFS_ATTR(nvmet_, addr_trtype);
- 
-+static ssize_t nvmet_addr_mdts_show(struct config_item *item,
-+					   char *page)
-+{
-+	struct nvmet_port *port = to_nvmet_port(item);
-+
-+	return snprintf(page, PAGE_SIZE, "%u\n", port->mdts);
-+}
-+
-+static ssize_t nvmet_addr_mdts_store(struct config_item *item,
-+					    const char *page, size_t count)
-+{
-+	struct nvmet_port *port = to_nvmet_port(item);
-+	unsigned int mdts;
-+	int ret;
-+
-+	ret = kstrtou32(page, 0, &mdts);
-+	if (ret)
-+		return ret;
-+	if (mdts > 0xFF)
-+		return -EINVAL;
-+	down_write(&nvmet_config_sem);
-+	port->mdts = mdts;
-+	up_write(&nvmet_config_sem);
-+
-+	return count;
-+}
-+CONFIGFS_ATTR(nvmet_, addr_mdts);
-+
- /*
-  * Namespace structures & file operation functions below
-  */
-@@ -1157,6 +1185,7 @@ static struct configfs_attribute *nvmet_port_attrs[] = {
- 	&nvmet_attr_addr_traddr,
- 	&nvmet_attr_addr_trsvcid,
- 	&nvmet_attr_addr_trtype,
-+	&nvmet_attr_addr_mdts,
- 	&nvmet_attr_param_inline_data_size,
- 	NULL,
- };
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 51e49efd7849..fdd3d3e6e759 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -139,6 +139,7 @@ struct nvmet_port {
- 	enum nvme_ana_state		*ana_state;
- 	void				*priv;
- 	bool				enabled;
-+	u8				mdts;
- 	int				inline_data_size;
- };
- 
+ 	down_read(&ctrl->namespaces_rwsem);
+-	list_for_each_entry(ns, &ctrl->namespaces, list)
++	list_for_each_entry(ns, &ctrl->namespaces, list) {
++		if (test_bit(NVME_NS_DEAD, &ns->flags))
++			continue;
+ 		blk_mq_unquiesce_queue(ns->queue);
++	}
+ 	up_read(&ctrl->namespaces_rwsem);
+ }
+ EXPORT_SYMBOL_GPL(nvme_start_queues);
 -- 
 2.16.4
