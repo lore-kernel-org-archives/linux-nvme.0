@@ -1,35 +1,35 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Thu, 4 Apr 2019 00:22:27 +0800
-Subject: [RESEND PATCH stable only] nvmet: set loop queue's segment
- boundary mask as PAGE_SIZE - 1
-In-Reply-To: <20190403140427.GD8633@kroah.com>
-References: <20190402015610.26320-1-ming.lei@redhat.com>
- <20190403140427.GD8633@kroah.com>
-Message-ID: <20190403162226.GA22741@ming.t460p>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 3 Apr 2019 20:09:58 +0200
+Subject: [PATCH] nvme-multipath: avoid crash on invalid subsystem
+ cntlid enumeration
+In-Reply-To: <20190402085540.GE16792@localhost.localdomain>
+References: <20190329095754.109653-1-hare@suse.de>
+ <20190329100244.GA28689@lst.de>
+ <edde200c-dc35-8e40-6406-ce72f8aafe17@suse.de>
+ <20190401051732.GC16792@localhost.localdomain>
+ <d50e5b7e-9ccb-3f9f-1ab0-2324298e0a52@suse.de>
+ <20190402085540.GE16792@localhost.localdomain>
+Message-ID: <20190403180958.GE28682@lst.de>
 
-On Wed, Apr 03, 2019@04:04:27PM +0200, Greg KH wrote:
-> On Tue, Apr 02, 2019@09:56:10AM +0800, Ming Lei wrote:
-> > NVMe target only accepts single-page sg list, either file or block
-> > device backed target code follows this assumption.
-> > 
-> > However, loop target is one exception, given the sg list is from
-> > the host queue directly.
-> > 
-> > This patch sets loop queue's segment boundary mask as PAGE_SIZE - 1
-> > for following NVMe target assumption.
-> > 
-> > Multi-page bvec has been merged to v5.1-rc1, so commit 02db99548d36
-> > ("nvmet: fix building bvec from sg list") can fix the current issue
-> > simply without needing to limit the segment size for nvme-loop.
+On Tue, Apr 02, 2019@02:55:40AM -0600, Keith Busch wrote:
+> On Mon, Apr 01, 2019@04:50:13AM -0700, Hannes Reinecke wrote:
+> > On 4/1/19 7:17 AM, Keith Busch wrote:
+> > > We might want to use this patch anyway. It is possible some process
+> > > reference count is preventing the final release when we want to remove
+> > > a controller, and a subsequent discover, even if the cntlid is unqiue,
+> > > would create a duplicate disk name.
+> > > 
+> > I don't mind which patch is taken.
+> > But crashing on misbehaving targets is never a good idea.
 > 
-> I don't understand, 02db99548d36 does not work for older kernels, so
-> because of that, you need/want this patch to be applied?  If so, what
-> specific kernel versions do you want this to go to?
+> I 100% agree. :)
+>  
+> > Do I need to send the other patch?
+> 
+> Can we do both? I like the warning when an invalid subsystem is detected,
+> but your original patch fixes the unique gendisk name, so I'd vote
+> to keep that good code, but justify it with a slightly different
+> changelog. Something along the following:
 
-Old kernel needs both this patch and 02db99548d36, and you should see
-the description in 02db99548d36 commit log too.
-
-This patch should be needed since nvme-loop is introduced.
-
-Thanks,
-Ming
+Yes, let's do both.  Hannes, please resend a series with this patch
+with the updated changelog and the duplicate cntlid check one.
