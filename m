@@ -1,13 +1,11 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 4 Apr 2019 07:27:20 +0200
-Subject: [PATCHv2] nvmet: make MDTS value configurable
-In-Reply-To: <20190403230654.109698-1-hare@suse.de>
-References: <20190403230654.109698-1-hare@suse.de>
-Message-ID: <20190404052720.GB7497@lst.de>
+Date: Thu, 4 Apr 2019 08:14:09 +0200
+Subject: [PATCH 1/1] nvmet: add safety check for subsystem lock during
+ nvmet_ns_changed
+In-Reply-To: <1554205914-2203-1-git-send-email-maxg@mellanox.com>
+References: <1554205914-2203-1-git-send-email-maxg@mellanox.com>
+Message-ID: <20190404061409.GA8220@lst.de>
 
-On Thu, Apr 04, 2019@01:06:54AM +0200, Hannes Reinecke wrote:
-> Some drivers and/or use-cases might need to set a smaller MDTS
-> value, so add a per-port attribute to modify the MDTS value.
+Thanks,
 
-If the drivers need it they need to communicate that value up the
-stack.  We should not require user inputs to make things work.
+applied to nvme-5.2.
