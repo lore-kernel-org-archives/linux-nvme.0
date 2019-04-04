@@ -1,30 +1,20 @@
-From: bvanassche@acm.org (Bart Van Assche)
-Date: Thu, 04 Apr 2019 08:43:45 -0700
-Subject: [PATCH] nvmet-rdma: Suppress a lockdep complaint
-In-Reply-To: <20190403230402.119428-1-bvanassche@acm.org>
-References: <20190403230402.119428-1-bvanassche@acm.org>
-Message-ID: <1554392625.118779.243.camel@acm.org>
+From: kbusch@kernel.org (Keith Busch)
+Date: Thu, 4 Apr 2019 09:45:59 -0600
+Subject: nvme cli format question
+In-Reply-To: <754e9409-0255-220f-c4c2-18fe55dd4df3@intel.com>
+References: <754e9409-0255-220f-c4c2-18fe55dd4df3@intel.com>
+Message-ID: <20190404154559.GI16792@localhost.localdomain>
 
-On Wed, 2019-04-03@16:04 -0700, Bart Van Assche wrote:
-> Although the code that waits for controllers that are being teared down
-> in nvmet_rdma_queue_connect() is fine, lockdep complains about that code.
-> Lockdep complains because all release_work instances are assigned the
-> same static lockdep key. Avoid that lockdep complains by using dynamic
-> lockdep keys instead of static lockdep keys. See also the following
-> commits:
-> * 87915adc3f0a ("workqueue: re-add lockdep dependencies for flushing").
-> * 777dc82395de ("nvmet-rdma: occasionally flush ongoing controller teardown").
-> * 108c14858b9e ("locking/lockdep: Add support for dynamic keys").
+On Wed, Apr 03, 2019@04:03:25PM -0700, Heitke, Kenneth wrote:
 > 
-> This patch avoids that lockdep reports the following:
+> What is the expected behavior when calling 'format' on a NVMe character
+> device? I see two problems with the code below.
 > 
-> ======================================================
-> WARNING: possible circular locking dependency detected
-> 4.19.0-dbg #1 Not tainted
-> ------------------------------------------------------
-> kworker/u12:0/7 is trying to acquire lock:
+> 1) If no namespace Id is specified and the device is not a block device,
+> then nvme_identify_ns() is never called and the 'ns' variable used in
+> the 'if (cfg.bs)' case is  uninitialized.
+> 
+> 2) If the namespace_id is specified or determined from the block device,
+> then the 'cfg.bs' check is redundant (and done twice).
 
-Please drop this patch - it is not sufficient to suppress the lockdep complaint.
-I will see whether I can come up with a better solution.
-
-Bart.
+Right, not needed. Code yanked.
