@@ -1,43 +1,27 @@
-From: tglx@linutronix.de (Thomas Gleixner)
-Date: Fri, 5 Apr 2019 13:35:41 +0200 (CEST)
-Subject: A kernel warning when entering suspend
-In-Reply-To: <20190404225014.GB31281@ming.t460p>
-References: <AM6PR06MB50637026B0E7D87341BF47A3A1500@AM6PR06MB5063.eurprd06.prod.outlook.com>
- <20190404085524.GA24927@ming.t460p>
- <dbc75de4-aefc-b7da-e86a-91da37f463cf@oracle.com>
- <alpine.DEB.2.21.1904041812350.1802@nanos.tec.linutronix.de>
- <20190404221948.GB30656@ming.t460p>
- <20190404222955.GA25081@localhost.localdomain>
- <20190404225014.GB31281@ming.t460p>
-Message-ID: <alpine.DEB.2.21.1904051331270.1802@nanos.tec.linutronix.de>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Fri, 5 Apr 2019 09:10:00 -0600
+Subject: [GIT PULL] early nvme updates for 5.2
+In-Reply-To: <20190405062043.GA26688@infradead.org>
+References: <20190405062043.GA26688@infradead.org>
+Message-ID: <96592ce3-88d6-ac9a-1f10-6175ccae89b7@kernel.dk>
 
-On Fri, 5 Apr 2019, Ming Lei wrote:
-> On Thu, Apr 04, 2019@04:29:56PM -0600, Keith Busch wrote:
-> > On Fri, Apr 05, 2019@06:19:50AM +0800, Ming Lei wrote:
-> > > Also in current blk-mq implementation, one irq may become shutdown
-> > > because of CPU hotplug even though when there is in-flight request
-> > > on the queue served by the irq. Then we depend on timeout handler to
-> > > cover this case, and this irq may be enabled in the timeout handler too,
-> > > please see nvme_poll_irqdisable().
-> > 
-> > Right, but when the last CPU mapped to an hctx is taken offline, we really
-> > ought to have blk-mq wait for that hctx to reap all outstanding requests
-> > before letting the notifier continue with offlining that CPU. We just
-> > don't have the infrastructure to freeze an individual hctx yet.
+On 4/5/19 12:20 AM, Christoph Hellwig wrote:
+> Hi Jens,
 > 
-> Looks this issue isn't unique for storage device, anyone knows how other
-> device drivers deal with this situation? For example, one network packet is
-> submitted to NIC controller and not got completed, then the interrupt
-> may become down because of CPU hotplug.
+> below is the first batch of nvme updates for 5.2.  This includes the
+> performance improvements for single segment I/O on PCIe, which introduce
+> new block helpers, so it might be a good idea to get them in early.
+> 
+>  - various performance optimizations in the PCIe code (Keith and me)
+>  - new block helpers to support the above (me)
+>  - nvmet error conversion cleanup (me)
+>  - nvmet-fc variable sized array cleanup (Gustavo)
+>  - passthrough ioctl error printk cleanup (Kenneth)
+>  - small nvmet fixes (Max)
+>  - endianess conversion cleanup (Max)
+>  - nvmet-tcp faspath completion optimization (Sagi)
 
-If the interrupt is managed yes.
+Pulled, thanks.
 
-That was the constraint of managed interrupts from the very beginning:
-
-  The driver/subsystem has to quiesce the interrupt line and the associated
-  queue _before_ it gets shutdown in CPU unplug and not fiddle with it
-  until it's restarted by the core when the CPU is plugged in again.
-
-Thanks,
-
-	tglx
+-- 
+Jens Axboe
