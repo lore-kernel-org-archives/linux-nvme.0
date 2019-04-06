@@ -1,56 +1,89 @@
-From: fin4478@hotmail.com (fin4478 fin4478)
-Date: Sat, 6 Apr 2019 16:12:12 +0000
-Subject: A kernel warning when entering suspend
-In-Reply-To: <5088f9f9-678d-4e67-daf0-c8f9629baeea@oracle.com>
-References: <AM6PR06MB50637026B0E7D87341BF47A3A1500@AM6PR06MB5063.eurprd06.prod.outlook.com>
- <20190404085524.GA24927@ming.t460p>
- <dbc75de4-aefc-b7da-e86a-91da37f463cf@oracle.com>
- <alpine.DEB.2.21.1904041812350.1802@nanos.tec.linutronix.de>
- <20190404221948.GB30656@ming.t460p>
- <a72ed150-8210-2dad-fa14-423ae5fd4589@oracle.com>
- <5088f9f9-678d-4e67-daf0-c8f9629baeea@oracle.com>
-Message-ID: <AM6PR06MB50635FC76FFD74DA6C423182A1520@AM6PR06MB5063.eurprd06.prod.outlook.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Sun, 7 Apr 2019 05:27:10 +0800
+Subject: [PATCH] blk-mq: Wait for for hctx requests on CPU unplug
+In-Reply-To: <CAOSXXT7V3E2j_Ut=hJ2X3QcdLwuWGRFtgzTs4iTe+RDMeHg8nA@mail.gmail.com>
+References: <20190405215920.27085-1-keith.busch@intel.com>
+ <226503cd-53ac-902c-7944-b2748407b1d3@kernel.dk>
+ <20190405223719.GC25081@localhost.localdomain>
+ <d4a4b6c0-3ea8-f748-85b0-6b39c5023a6f@kernel.dk>
+ <CAOSXXT7V3E2j_Ut=hJ2X3QcdLwuWGRFtgzTs4iTe+RDMeHg8nA@mail.gmail.com>
+Message-ID: <20190406212709.GA29871@ming.t460p>
 
-On Sat, 6 Apr 2019 23:31:51 +0800
-Dongli Zhang <dongli.zhang@oracle.com> wrote:
-
-
-> I am not able to reproduce anymore with below patch:
+On Fri, Apr 05, 2019@05:36:32PM -0600, Keith Busch wrote:
+> On Fri, Apr 5, 2019@5:04 PM Jens Axboe <axboe@kernel.dk> wrote:
+> > Looking at current peak testing, I've got around 1.2% in queue enter
+> > and exit. It's definitely not free, hence my question. Probably safe
+> > to assume that we'll double that cycle counter, per IO.
 > 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index a90cf5d..90f6e80 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -1083,6 +1083,9 @@ static int nvme_poll_irqdisable(struct
-> nvme_queue *nvmeq, unsigned int tag)
->         u16 start, end;
->         int found;
-> 
-> +       if (!nvme_cqe_pending(nvmeq))
-> +               return 0;
-> +
->         /*
->          * For a poll queue we need to protect against the polling
-> thread
->          * using the CQ lock.  For normal interrupt driven threads we
-> have
-> 
-> Dongli Zhang
+> Okay, that's not negligible at all. I don't know of a faster reference
+> than the percpu_ref, but that much overhead would have to rule out
+> having a per hctx counter.
 
-Confirming. This bug is fixed with this patch.
-[   48.690299] PM: suspend entry (deep)
-[   48.690300] PM: Syncing filesystems ... done.
-[   48.691215] Freezing user space processes ... (elapsed 0.000
-seconds) done. [   48.692025] OOM killer disabled.
-[   48.692025] Freezing remaining freezable tasks ... (elapsed 0.000
-seconds) done. [   48.693033] printk: Suspending console(s) (use
-no_console_suspend to debug) [   48.693569] r8169 0000:07:00.0 enp7s0:
-Link is Down [   48.693586] serial 00:03: disabled
-[   48.702049] sd 5:0:0:0: [sda] Synchronizing SCSI cache
-[   48.702076] sd 5:0:0:0: [sda] Stopping disk
-[   49.049134] ACPI: Preparing to enter system sleep state S3
-[   49.353355] PM: Saving platform NVS memory
-[   49.353362] Disabling non-boot CPUs ...
-[   49.354764] smpboot: CPU 1 is now offline
+Or not using any refcount in fast path, how about the following one?
 
-Thank You.
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 3ff3d7b49969..6fe334e12236 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -2199,6 +2199,23 @@ int blk_mq_alloc_rqs(struct blk_mq_tag_set *set, struct blk_mq_tags *tags,
+ 	return -ENOMEM;
+ }
+ 
++static void blk_mq_wait_hctx_become_idle(struct blk_mq_hw_ctx *hctx,
++		int dead_cpu)
++{
++	unsigned long msecs_left = 1000 * 10;
++
++	while (msecs_left > 0) {
++		if (blk_mq_hctx_idle(hctx))
++			break;
++		msleep(5);
++		msecs_left -= 5;
++	}
++
++	if (msecs_left > 0)
++		printk(KERN_WARNING "requests not completed from "
++			"CPU %d\n", dead_cpu);
++}
++
+ /*
+  * 'cpu' is going away. splice any existing rq_list entries from this
+  * software queue to the hw queue dispatch list, and ensure that it
+@@ -2230,6 +2247,14 @@ static int blk_mq_hctx_notify_dead(unsigned int cpu, struct hlist_node *node)
+ 	spin_unlock(&hctx->lock);
+ 
+ 	blk_mq_run_hw_queue(hctx, true);
++
++	/*
++	 * Interrupt for this queue will be shutdown, so wait until all
++	 * requests from this hctx is done or timeout.
++	 */
++	if (cpumask_first_and(hctx->cpumask, cpu_online_mask) >= nr_cpu_ids)
++		blk_mq_wait_hctx_become_idle(hctx, cpu);
++
+ 	return 0;
+ }
+ 
+diff --git a/block/blk-mq.h b/block/blk-mq.h
+index d704fc7766f4..935cf8519bf2 100644
+--- a/block/blk-mq.h
++++ b/block/blk-mq.h
+@@ -240,4 +240,15 @@ static inline void blk_mq_clear_mq_map(struct blk_mq_queue_map *qmap)
+ 		qmap->mq_map[cpu] = 0;
+ }
+ 
++static inline bool blk_mq_hctx_idle(struct blk_mq_hw_ctx *hctx)
++{
++	struct blk_mq_tags *tags = hctx->sched_tags ?: hctx->tags;
++
++	if (!tags)
++		return true;
++
++	return !sbitmap_any_bit_set(&tags->bitmap_tags.sb) &&
++                       !sbitmap_any_bit_set(&tags->bitmap_tags.sb);
++}
++
+ #endif
+
+Thanks,
+Ming
