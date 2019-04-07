@@ -1,89 +1,86 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Sun, 7 Apr 2019 05:27:10 +0800
-Subject: [PATCH] blk-mq: Wait for for hctx requests on CPU unplug
-In-Reply-To: <CAOSXXT7V3E2j_Ut=hJ2X3QcdLwuWGRFtgzTs4iTe+RDMeHg8nA@mail.gmail.com>
-References: <20190405215920.27085-1-keith.busch@intel.com>
- <226503cd-53ac-902c-7944-b2748407b1d3@kernel.dk>
- <20190405223719.GC25081@localhost.localdomain>
- <d4a4b6c0-3ea8-f748-85b0-6b39c5023a6f@kernel.dk>
- <CAOSXXT7V3E2j_Ut=hJ2X3QcdLwuWGRFtgzTs4iTe+RDMeHg8nA@mail.gmail.com>
-Message-ID: <20190406212709.GA29871@ming.t460p>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Sun,  7 Apr 2019 15:28:06 +0900
+Subject: [PATCH] nvmet: Return a specified error it subsys_alloc fails
+Message-ID: <20190407062806.14596-1-minwoo.im.dev@gmail.com>
 
-On Fri, Apr 05, 2019@05:36:32PM -0600, Keith Busch wrote:
-> On Fri, Apr 5, 2019@5:04 PM Jens Axboe <axboe@kernel.dk> wrote:
-> > Looking at current peak testing, I've got around 1.2% in queue enter
-> > and exit. It's definitely not free, hence my question. Probably safe
-> > to assume that we'll double that cycle counter, per IO.
-> 
-> Okay, that's not negligible at all. I don't know of a faster reference
-> than the percpu_ref, but that much overhead would have to rule out
-> having a per hctx counter.
+nvmet_subsys_alloc() returns its pointer or NULL if it fails.  We can
+see three different steps in this function:
+  1. memory allocation
+  2. argument check
+  3. memory allocation for string
 
-Or not using any refcount in fast path, how about the following one?
+But now the callers of this function do not seem to handle case 2 by
+returning -ENOMEM only even if it fails with an invalid parameter.
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 3ff3d7b49969..6fe334e12236 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -2199,6 +2199,23 @@ int blk_mq_alloc_rqs(struct blk_mq_tag_set *set, struct blk_mq_tags *tags,
- 	return -ENOMEM;
- }
+This patch specifies error codes so that caller can pass it to its own
+caller.
+
+Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
+---
+ drivers/nvme/target/configfs.c  | 4 ++--
+ drivers/nvme/target/core.c      | 6 +++---
+ drivers/nvme/target/discovery.c | 4 ++--
+ 3 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index adb79545cdd7..08dd5af357f7 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -898,8 +898,8 @@ static struct config_group *nvmet_subsys_make(struct config_group *group,
+ 	}
  
-+static void blk_mq_wait_hctx_become_idle(struct blk_mq_hw_ctx *hctx,
-+		int dead_cpu)
-+{
-+	unsigned long msecs_left = 1000 * 10;
-+
-+	while (msecs_left > 0) {
-+		if (blk_mq_hctx_idle(hctx))
-+			break;
-+		msleep(5);
-+		msecs_left -= 5;
-+	}
-+
-+	if (msecs_left > 0)
-+		printk(KERN_WARNING "requests not completed from "
-+			"CPU %d\n", dead_cpu);
-+}
-+
- /*
-  * 'cpu' is going away. splice any existing rq_list entries from this
-  * software queue to the hw queue dispatch list, and ensure that it
-@@ -2230,6 +2247,14 @@ static int blk_mq_hctx_notify_dead(unsigned int cpu, struct hlist_node *node)
- 	spin_unlock(&hctx->lock);
+ 	subsys = nvmet_subsys_alloc(name, NVME_NQN_NVME);
+-	if (!subsys)
+-		return ERR_PTR(-ENOMEM);
++	if (IS_ERR(subsys))
++		return ERR_CAST(subsys);
  
- 	blk_mq_run_hw_queue(hctx, true);
-+
-+	/*
-+	 * Interrupt for this queue will be shutdown, so wait until all
-+	 * requests from this hctx is done or timeout.
-+	 */
-+	if (cpumask_first_and(hctx->cpumask, cpu_online_mask) >= nr_cpu_ids)
-+		blk_mq_wait_hctx_become_idle(hctx, cpu);
-+
+ 	config_group_init_type_name(&subsys->group, name, &nvmet_subsys_type);
+ 
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 4d8dd29479c0..4285870ad01e 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -1367,7 +1367,7 @@ struct nvmet_subsys *nvmet_subsys_alloc(const char *subsysnqn,
+ 
+ 	subsys = kzalloc(sizeof(*subsys), GFP_KERNEL);
+ 	if (!subsys)
+-		return NULL;
++		return ERR_PTR(-ENOMEM);
+ 
+ 	subsys->ver = NVME_VS(1, 3, 0); /* NVMe 1.3.0 */
+ 	/* generate a random serial number as our controllers are ephemeral: */
+@@ -1383,14 +1383,14 @@ struct nvmet_subsys *nvmet_subsys_alloc(const char *subsysnqn,
+ 	default:
+ 		pr_err("%s: Unknown Subsystem type - %d\n", __func__, type);
+ 		kfree(subsys);
+-		return NULL;
++		return ERR_PTR(-EINVAL);
+ 	}
+ 	subsys->type = type;
+ 	subsys->subsysnqn = kstrndup(subsysnqn, NVMF_NQN_SIZE,
+ 			GFP_KERNEL);
+ 	if (!subsys->subsysnqn) {
+ 		kfree(subsys);
+-		return NULL;
++		return ERR_PTR(-ENOMEM);
+ 	}
+ 
+ 	kref_init(&subsys->ref);
+diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
+index c872b47a88f3..aa2406b2e434 100644
+--- a/drivers/nvme/target/discovery.c
++++ b/drivers/nvme/target/discovery.c
+@@ -350,8 +350,8 @@ int __init nvmet_init_discovery(void)
+ {
+ 	nvmet_disc_subsys =
+ 		nvmet_subsys_alloc(NVME_DISC_SUBSYS_NAME, NVME_NQN_DISC);
+-	if (!nvmet_disc_subsys)
+-		return -ENOMEM;
++	if (IS_ERR(nvmet_disc_subsys))
++		return PTR_ERR(nvmet_disc_subsys);
  	return 0;
  }
  
-diff --git a/block/blk-mq.h b/block/blk-mq.h
-index d704fc7766f4..935cf8519bf2 100644
---- a/block/blk-mq.h
-+++ b/block/blk-mq.h
-@@ -240,4 +240,15 @@ static inline void blk_mq_clear_mq_map(struct blk_mq_queue_map *qmap)
- 		qmap->mq_map[cpu] = 0;
- }
- 
-+static inline bool blk_mq_hctx_idle(struct blk_mq_hw_ctx *hctx)
-+{
-+	struct blk_mq_tags *tags = hctx->sched_tags ?: hctx->tags;
-+
-+	if (!tags)
-+		return true;
-+
-+	return !sbitmap_any_bit_set(&tags->bitmap_tags.sb) &&
-+                       !sbitmap_any_bit_set(&tags->bitmap_tags.sb);
-+}
-+
- #endif
-
-Thanks,
-Ming
+-- 
+2.17.1
