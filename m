@@ -1,86 +1,23 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Sun,  7 Apr 2019 15:28:06 +0900
-Subject: [PATCH] nvmet: Return a specified error it subsys_alloc fails
-Message-ID: <20190407062806.14596-1-minwoo.im.dev@gmail.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Sun, 7 Apr 2019 00:51:23 -0700
+Subject: [PATCH] blk-mq: Wait for for hctx requests on CPU unplug
+In-Reply-To: <CAOSXXT7V3E2j_Ut=hJ2X3QcdLwuWGRFtgzTs4iTe+RDMeHg8nA@mail.gmail.com>
+References: <20190405215920.27085-1-keith.busch@intel.com>
+ <226503cd-53ac-902c-7944-b2748407b1d3@kernel.dk>
+ <20190405223719.GC25081@localhost.localdomain>
+ <d4a4b6c0-3ea8-f748-85b0-6b39c5023a6f@kernel.dk>
+ <CAOSXXT7V3E2j_Ut=hJ2X3QcdLwuWGRFtgzTs4iTe+RDMeHg8nA@mail.gmail.com>
+Message-ID: <20190407075123.GA22003@infradead.org>
 
-nvmet_subsys_alloc() returns its pointer or NULL if it fails.  We can
-see three different steps in this function:
-  1. memory allocation
-  2. argument check
-  3. memory allocation for string
+On Fri, Apr 05, 2019@05:36:32PM -0600, Keith Busch wrote:
+> On Fri, Apr 5, 2019@5:04 PM Jens Axboe <axboe@kernel.dk> wrote:
+> > Looking at current peak testing, I've got around 1.2% in queue enter
+> > and exit. It's definitely not free, hence my question. Probably safe
+> > to assume that we'll double that cycle counter, per IO.
+> 
+> Okay, that's not negligible at all. I don't know of a faster reference
+> than the percpu_ref, but that much overhead would have to rule out
+> having a per hctx counter.
 
-But now the callers of this function do not seem to handle case 2 by
-returning -ENOMEM only even if it fails with an invalid parameter.
-
-This patch specifies error codes so that caller can pass it to its own
-caller.
-
-Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
----
- drivers/nvme/target/configfs.c  | 4 ++--
- drivers/nvme/target/core.c      | 6 +++---
- drivers/nvme/target/discovery.c | 4 ++--
- 3 files changed, 7 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index adb79545cdd7..08dd5af357f7 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -898,8 +898,8 @@ static struct config_group *nvmet_subsys_make(struct config_group *group,
- 	}
- 
- 	subsys = nvmet_subsys_alloc(name, NVME_NQN_NVME);
--	if (!subsys)
--		return ERR_PTR(-ENOMEM);
-+	if (IS_ERR(subsys))
-+		return ERR_CAST(subsys);
- 
- 	config_group_init_type_name(&subsys->group, name, &nvmet_subsys_type);
- 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 4d8dd29479c0..4285870ad01e 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -1367,7 +1367,7 @@ struct nvmet_subsys *nvmet_subsys_alloc(const char *subsysnqn,
- 
- 	subsys = kzalloc(sizeof(*subsys), GFP_KERNEL);
- 	if (!subsys)
--		return NULL;
-+		return ERR_PTR(-ENOMEM);
- 
- 	subsys->ver = NVME_VS(1, 3, 0); /* NVMe 1.3.0 */
- 	/* generate a random serial number as our controllers are ephemeral: */
-@@ -1383,14 +1383,14 @@ struct nvmet_subsys *nvmet_subsys_alloc(const char *subsysnqn,
- 	default:
- 		pr_err("%s: Unknown Subsystem type - %d\n", __func__, type);
- 		kfree(subsys);
--		return NULL;
-+		return ERR_PTR(-EINVAL);
- 	}
- 	subsys->type = type;
- 	subsys->subsysnqn = kstrndup(subsysnqn, NVMF_NQN_SIZE,
- 			GFP_KERNEL);
- 	if (!subsys->subsysnqn) {
- 		kfree(subsys);
--		return NULL;
-+		return ERR_PTR(-ENOMEM);
- 	}
- 
- 	kref_init(&subsys->ref);
-diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
-index c872b47a88f3..aa2406b2e434 100644
---- a/drivers/nvme/target/discovery.c
-+++ b/drivers/nvme/target/discovery.c
-@@ -350,8 +350,8 @@ int __init nvmet_init_discovery(void)
- {
- 	nvmet_disc_subsys =
- 		nvmet_subsys_alloc(NVME_DISC_SUBSYS_NAME, NVME_NQN_DISC);
--	if (!nvmet_disc_subsys)
--		return -ENOMEM;
-+	if (IS_ERR(nvmet_disc_subsys))
-+		return PTR_ERR(nvmet_disc_subsys);
- 	return 0;
- }
- 
--- 
-2.17.1
+Can we just replace queue_enter/exit with the per-hctx reference
+entirely?
