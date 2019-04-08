@@ -1,174 +1,62 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Mon, 8 Apr 2019 17:49:28 +0800
-Subject: [PATCH] blk-mq: Wait for for hctx requests on CPU unplug
-In-Reply-To: <4a57f581-954d-b314-fd1d-6dd30640e0f5@oracle.com>
-References: <20190405215920.27085-1-keith.busch@intel.com>
- <226503cd-53ac-902c-7944-b2748407b1d3@kernel.dk>
- <20190405223719.GC25081@localhost.localdomain>
- <d4a4b6c0-3ea8-f748-85b0-6b39c5023a6f@kernel.dk>
- <CAOSXXT7V3E2j_Ut=hJ2X3QcdLwuWGRFtgzTs4iTe+RDMeHg8nA@mail.gmail.com>
- <20190406212709.GA29871@ming.t460p>
- <4a57f581-954d-b314-fd1d-6dd30640e0f5@oracle.com>
-Message-ID: <20190408094927.GB19589@ming.t460p>
+From: mlevitsk@redhat.com (Maxim Levitsky)
+Date: Mon, 08 Apr 2019 13:04:03 +0300
+Subject: your mail
+In-Reply-To: <20190319152212.GC24176@localhost.localdomain>
+References: <20190319144116.400-1-mlevitsk@redhat.com>
+ <20190319152212.GC24176@localhost.localdomain>
+Message-ID: <4a3d473c8f671d59c57ec26ff5ec0879ad38bf9a.camel@redhat.com>
 
-On Sun, Apr 07, 2019@09:55:20PM +0800, Dongli Zhang wrote:
-> Hi Keith and Ming,
-> 
-> On 04/07/2019 05:27 AM, Ming Lei wrote:
-> > On Fri, Apr 05, 2019@05:36:32PM -0600, Keith Busch wrote:
-> >> On Fri, Apr 5, 2019@5:04 PM Jens Axboe <axboe@kernel.dk> wrote:
-> >>> Looking at current peak testing, I've got around 1.2% in queue enter
-> >>> and exit. It's definitely not free, hence my question. Probably safe
-> >>> to assume that we'll double that cycle counter, per IO.
-> >>
-> >> Okay, that's not negligible at all. I don't know of a faster reference
-> >> than the percpu_ref, but that much overhead would have to rule out
-> >> having a per hctx counter.
+On Tue, 2019-03-19@09:22 -0600, Keith Busch wrote:
+> On Tue, Mar 19, 2019@04:41:07PM +0200, Maxim Levitsky wrote:
+> >   -> Share the NVMe device between host and guest. 
+> >      Even in fully virtualized configurations,
+> >      some partitions of nvme device could be used by guests as block
+> > devices 
+> >      while others passed through with nvme-mdev to achieve balance between
+> >      all features of full IO stack emulation and performance.
+> >   
+> >   -> NVME-MDEV is a bit faster due to the fact that in-kernel driver 
+> >      can send interrupts to the guest directly without a context 
+> >      switch that can be expensive due to meltdown mitigation.
 > > 
-> > Or not using any refcount in fast path, how about the following one?
-> > 
-> > diff --git a/block/blk-mq.c b/block/blk-mq.c
-> > index 3ff3d7b49969..6fe334e12236 100644
-> > --- a/block/blk-mq.c
-> > +++ b/block/blk-mq.c
-> > @@ -2199,6 +2199,23 @@ int blk_mq_alloc_rqs(struct blk_mq_tag_set *set, struct blk_mq_tags *tags,
-> >  	return -ENOMEM;
-> >  }
-> >  
-> > +static void blk_mq_wait_hctx_become_idle(struct blk_mq_hw_ctx *hctx,
-> > +		int dead_cpu)
-> > +{
-> > +	unsigned long msecs_left = 1000 * 10;
-> > +
-> > +	while (msecs_left > 0) {
-> > +		if (blk_mq_hctx_idle(hctx))
-> > +			break;
-> > +		msleep(5);
-> > +		msecs_left -= 5;
-> > +	}
-> > +
-> > +	if (msecs_left > 0)
-> > +		printk(KERN_WARNING "requests not completed from "
-> > +			"CPU %d\n", dead_cpu);
-> > +}
-> > +
-> >  /*
-> >   * 'cpu' is going away. splice any existing rq_list entries from this
-> >   * software queue to the hw queue dispatch list, and ensure that it
-> > @@ -2230,6 +2247,14 @@ static int blk_mq_hctx_notify_dead(unsigned int cpu, struct hlist_node *node)
-> >  	spin_unlock(&hctx->lock);
-> >  
+> >   -> Is able to utilize interrupts to get reasonable performance. 
+> >      This is only implemented
+> >      as a proof of concept and not included in the patches, 
+> >      but interrupt driven mode shows reasonable performance
+> >      
+> >   -> This is a framework that later can be used to support NVMe devices 
+> >      with more of the IO virtualization built-in 
+> >      (IOMMU with PASID support coupled with device that supports it)
 > 
-> While debugging the blk_mq_hctx_notify_dead(), I found that
-> blk_mq_hctx_notify_dead() is called once for each hctx for the cpu to offline.
+> Would be very interested to see the PASID support. You wouldn't even
+> need to mediate the IO doorbells or translations if assigning entire
+> namespaces, and should be much faster than the shadow doorbells.
 > 
-> As shown below between linux 2216 and line 2217, ctx might not be mapped to
-> hctx. Why would we flush ctx->rq_lists[type] to hctx->dispatch?
+> I think you should send 6/9 "nvme/pci: init shadow doorbell after each
+> reset" separately for immediate inclusion.
 > 
-> 2207 static int blk_mq_hctx_notify_dead(unsigned int cpu, struct hlist_node *node)
-> 2208 {
-> 2209         struct blk_mq_hw_ctx *hctx;
-> 2210         struct blk_mq_ctx *ctx;
-> 2211         LIST_HEAD(tmp);
-> 2212         enum hctx_type type;
-> 2213
-> 2214         hctx = hlist_entry_safe(node, struct blk_mq_hw_ctx, cpuhp_dead);
-> 2215         ctx = __blk_mq_get_ctx(hctx->queue, cpu);
-> 2216         type = hctx->type;
-> 
-> ===>>>>> ctx might not be mappped to hctx, that is,
-> cpumask_test_cpu(cpu, hctx->cpumask) = false
-> 
-> 2217
-> 2218         spin_lock(&ctx->lock);
-> 2219         if (!list_empty(&ctx->rq_lists[type])) {
-> 2220                 list_splice_init(&ctx->rq_lists[type], &tmp);
-> 2221                 blk_mq_hctx_clear_pending(hctx, ctx);
-> 2222         }
-> 2223         spin_unlock(&ctx->lock);
-> 2224
-> 2225         if (list_empty(&tmp))
-> 2226                 return 0;
-> 2227
-> 2228         spin_lock(&hctx->lock);
-> 2229         list_splice_tail_init(&tmp, &hctx->dispatch);
-> 2230         spin_unlock(&hctx->lock);
-> 2231
-> 2232         blk_mq_run_hw_queue(hctx, true);
-> 2233         return 0;
-> 2234 }
-> 
-> 
-> For example, on a VM (with nvme) of 4 cpu, to offline cpu 2 out of the
-> 4 cpu (0-3), blk_mq_hctx_notify_dead() is called once for each io queue
-> hctx:
-> 
-> 1st: blk_mq_ctx->cpu = 2 for blk_mq_hw_ctx->queue_num = 3
-> 2nd: blk_mq_ctx->cpu = 2 for blk_mq_hw_ctx->queue_num = 2
-> 3rd: blk_mq_ctx->cpu = 2 for blk_mq_hw_ctx->queue_num = 1
-> 4th: blk_mq_ctx->cpu = 2 for blk_mq_hw_ctx->queue_num = 0
-> 
-> Although blk_mq_ctx->cpu = 2 is only mapped to blk_mq_hw_ctx->queue_num = 2
-> in this case, its ctx->rq_lists[type] will however be moved to
-> blk_mq_hw_ctx->queue_num = 3 during the 1st call of
-> blk_mq_hctx_notify_dead().
-> 
-> 
-> Is this expected or a bug?
-> 
-> If it is a bug, would the below help?
-> 
-> [PATCH 1/1] blk-mq: do not splice ctx->rq_lists[type] to hctx->dispatch if ctx
-> is not mapped to hctx
-> 
-> When a cpu is offline, blk_mq_hctx_notify_dead() is called once for each
-> hctx for the offline cpu.
-> 
-> While blk_mq_hctx_notify_dead() is used to splice all ctx->rq_lists[type]
-> to hctx->dispatch, it never checks whether the ctx is already mapped to the
-> hctx.
-> 
-> For example, on a VM (with nvme) of 4 cpu, to offline cpu 2 out of the
-> 4 cpu (0-3), blk_mq_hctx_notify_dead() is called once for each io queue
-> hctx:
-> 
-> 1st: blk_mq_ctx->cpu = 2 for blk_mq_hw_ctx->queue_num = 3
-> 2nd: blk_mq_ctx->cpu = 2 for blk_mq_hw_ctx->queue_num = 2
-> 3rd: blk_mq_ctx->cpu = 2 for blk_mq_hw_ctx->queue_num = 1
-> 4th: blk_mq_ctx->cpu = 2 for blk_mq_hw_ctx->queue_num = 0
-> 
-> Although blk_mq_ctx->cpu = 2 is only mapped to blk_mq_hw_ctx->queue_num = 2
-> in this case, its ctx->rq_lists[type] will however be moved to
-> blk_mq_hw_ctx->queue_num = 3 during the 1st call of
-> blk_mq_hctx_notify_dead().
-> 
-> This patch would return and go ahead to next call of
-> blk_mq_hctx_notify_dead() if ctx is not mapped to hctx.
-> 
-> Signed-off-by: Dongli Zhang <dongli.zhang at oracle.com>
-> ---
->  block/blk-mq.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/block/blk-mq.c b/block/blk-mq.c
-> index 3ff3d7b..b8ef489 100644
-> --- a/block/blk-mq.c
-> +++ b/block/blk-mq.c
-> @@ -2212,6 +2212,10 @@ static int blk_mq_hctx_notify_dead(unsigned int cpu,
-> struct hlist_node *node)
->  	enum hctx_type type;
-> 
->  	hctx = hlist_entry_safe(node, struct blk_mq_hw_ctx, cpuhp_dead);
-> +
-> +	if (!cpumask_test_cpu(cpu, hctx->cpumask))
-> +		return 0;
-> +
->  	ctx = __blk_mq_get_ctx(hctx->queue, cpu);
->  	type = hctx->type;
+> I like the idea in principle, but it will take me a little time to get
+> through reviewing your implementation. I would have guessed we could
+> have leveraged something from the existing nvme/target for the mediating
+> controller register access and admin commands. Maybe even start with
+> implementing an nvme passthrough namespace target type (we currently
+> have block and file).
 
-Looks correct:
 
-Reviewed-by: Ming Lei <ming.lei at redhat.com>
+Hi!
 
-Thanks,
-Ming
+Sorry to bother you, but any update?
+
+I was somewhat sick for the last week, now finally back in shape to continue
+working on this and other tasks I have.
+
+I am studing now the nvme target code and the io_uring to evaluate the
+difficultiy of using something similiar to talk to the block device instead of /
+in addtion to the  direct connection I implemented.
+
+I would be glad to hear more feedback on this project.
+
+I will also soon post the few fixes separately as you suggested.
+
+Best regards,
+    Maxim Levitskky
