@@ -1,49 +1,86 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Mon, 8 Apr 2019 19:59:58 +0300
-Subject: [PATCH 1/2] nvmet-rdma: remove p2p_client initialization from
- fast-path
-In-Reply-To: <fdc2f41f-dfe7-b790-8ab5-deb875e6a5c2@deltatee.com>
-References: <1554737999-26459-1-git-send-email-maxg@mellanox.com>
- <6fc5a921-6440-5375-7e21-a000ae98b07d@deltatee.com>
- <d2227a0e-e2a2-e6a1-8f83-c2470bd96371@mellanox.com>
- <fdc2f41f-dfe7-b790-8ab5-deb875e6a5c2@deltatee.com>
-Message-ID: <cc049213-82cd-6340-b732-e8c4c116c0b2@mellanox.com>
+From: jsmart2021@gmail.com (James Smart)
+Date: Mon,  8 Apr 2019 11:15:19 -0700
+Subject: [PATCH] nvme-fc: correct csn initialization and increments on error
+Message-ID: <20190408181519.14086-1-jsmart2021@gmail.com>
 
+This patch fixes a long-standing bug that initialized the FC-NVME
+cmnd iu CSN value to 1. Early FC-NVME specs had the connection starting
+with CSN=1. By the time the spec reached approval, the language had
+changed to state a connection should start with CSN=0.  This patch
+corrects the initialization value for FC-NVME connections.
 
-On 4/8/2019 7:35 PM, Logan Gunthorpe wrote:
->
-> On 2019-04-08 10:26 a.m., Max Gurtovoy wrote:
->> On 4/8/2019 7:04 PM, Logan Gunthorpe wrote:
->>> On 2019-04-08 9:39 a.m., Max Gurtovoy wrote:
->>>> Initialize it during command allocation.
->>> It would be nice to hear some justification for this change in the
->>> commit message, but the change itself appears to be fine to me:
->> well, it's written in the subject and it's pretty small change so there
->> is not much to say about it.
->>
->> Just set this ptr once instead of every IO.
-> But is this just an optimization-without-measuring from code review? Or
-> did I actually cause a measurable performance regression? What actually
-> prompted the change?
+Additionally, in reviewing the transport, the CSN value is assigned to
+the new IU early in the start routine. It's possible that a later dma
+map request may fail, causing the command to never be sent to the
+controller.  Change the location of the assignment so that it is
+immediately prior to calling the lldd. Add a comment block to explain
+the impacts if the lldd were to additionally fail sending the command.
 
-The first one :)
+Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
+Signed-off-by: James Smart <jsmart2021 at gmail.com>
+---
+ drivers/nvme/host/fc.c | 23 +++++++++++++++++++----
+ 1 file changed, 19 insertions(+), 4 deletions(-)
 
-I don't think that one assignment can cause a regression but I also 
-think the we shouldn't do redundant operations on the fast path.
-
-These can accumulate in the future..
-
-
->
-> Just to be clear: I'm fine with the change and am happy it's being done;
-> I'd just prefer to see more detail in the commit message.
-
-I guess it's possible.
-
-Lets get a review for the second patch and I'll send V2.
-
-
->
-> Thanks,
->
-> Logan
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index f3b9d91ba0df..1f30984b2d31 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -1845,7 +1845,7 @@ nvme_fc_init_queue(struct nvme_fc_ctrl *ctrl, int idx)
+ 	memset(queue, 0, sizeof(*queue));
+ 	queue->ctrl = ctrl;
+ 	queue->qnum = idx;
+-	atomic_set(&queue->csn, 1);
++	atomic_set(&queue->csn, 0);
+ 	queue->dev = ctrl->dev;
+ 
+ 	if (idx > 0)
+@@ -1887,7 +1887,7 @@ nvme_fc_free_queue(struct nvme_fc_queue *queue)
+ 	 */
+ 
+ 	queue->connection_id = 0;
+-	atomic_set(&queue->csn, 1);
++	atomic_set(&queue->csn, 0);
+ }
+ 
+ static void
+@@ -2198,8 +2198,6 @@ nvme_fc_start_fcp_op(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
+ 
+ 	/* format the FC-NVME CMD IU and fcp_req */
+ 	cmdiu->connection_id = cpu_to_be64(queue->connection_id);
+-	csn = atomic_inc_return(&queue->csn);
+-	cmdiu->csn = cpu_to_be32(csn);
+ 	cmdiu->data_len = cpu_to_be32(data_len);
+ 	switch (io_dir) {
+ 	case NVMEFC_FCP_WRITE:
+@@ -2257,11 +2255,28 @@ nvme_fc_start_fcp_op(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
+ 	if (!(op->flags & FCOP_FLAGS_AEN))
+ 		blk_mq_start_request(op->rq);
+ 
++	csn = atomic_inc_return(&queue->csn);
++	cmdiu->csn = cpu_to_be32(csn);
++
+ 	ret = ctrl->lport->ops->fcp_io(&ctrl->lport->localport,
+ 					&ctrl->rport->remoteport,
+ 					queue->lldd_handle, &op->fcp_req);
+ 
+ 	if (ret) {
++		/*
++		 * If the lld fails to send the command is there an issue
++		 * with the csn value ?  If the command that fails is the
++		 * Connect, no - as the connection won't be live. If it's
++		 * a command post-connect, it's possible a gap in csn may
++		 * be created. Does this matter? As linux initiators don't
++		 * send fused commands, no. The gap would exist, but as
++		 * there's nothing that depends on csn order to be delivered
++		 * on the target side, it shouldn't hurt. It would be
++		 * difficult for a target to even detect the csn gap as
++		 * it has no idea when the cmd with the csn was supposed
++		 * to arrive.
++		 */
++
+ 		opstate = atomic_xchg(&op->state, FCPOP_STATE_COMPLETE);
+ 		__nvme_fc_fcpop_chk_teardowns(ctrl, op, opstate);
+ 
+-- 
+2.13.7
