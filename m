@@ -1,62 +1,64 @@
-From: mlevitsk@redhat.com (Maxim Levitsky)
-Date: Mon, 08 Apr 2019 13:04:03 +0300
-Subject: your mail
-In-Reply-To: <20190319152212.GC24176@localhost.localdomain>
-References: <20190319144116.400-1-mlevitsk@redhat.com>
- <20190319152212.GC24176@localhost.localdomain>
-Message-ID: <4a3d473c8f671d59c57ec26ff5ec0879ad38bf9a.camel@redhat.com>
-
-On Tue, 2019-03-19@09:22 -0600, Keith Busch wrote:
-> On Tue, Mar 19, 2019@04:41:07PM +0200, Maxim Levitsky wrote:
-> >   -> Share the NVMe device between host and guest. 
-> >      Even in fully virtualized configurations,
-> >      some partitions of nvme device could be used by guests as block
-> > devices 
-> >      while others passed through with nvme-mdev to achieve balance between
-> >      all features of full IO stack emulation and performance.
-> >   
-> >   -> NVME-MDEV is a bit faster due to the fact that in-kernel driver 
-> >      can send interrupts to the guest directly without a context 
-> >      switch that can be expensive due to meltdown mitigation.
-> > 
-> >   -> Is able to utilize interrupts to get reasonable performance. 
-> >      This is only implemented
-> >      as a proof of concept and not included in the patches, 
-> >      but interrupt driven mode shows reasonable performance
-> >      
-> >   -> This is a framework that later can be used to support NVMe devices 
-> >      with more of the IO virtualization built-in 
-> >      (IOMMU with PASID support coupled with device that supports it)
-> 
-> Would be very interested to see the PASID support. You wouldn't even
-> need to mediate the IO doorbells or translations if assigning entire
-> namespaces, and should be much faster than the shadow doorbells.
-> 
-> I think you should send 6/9 "nvme/pci: init shadow doorbell after each
-> reset" separately for immediate inclusion.
-> 
-> I like the idea in principle, but it will take me a little time to get
-> through reviewing your implementation. I would have guessed we could
-> have leveraged something from the existing nvme/target for the mediating
-> controller register access and admin commands. Maybe even start with
-> implementing an nvme passthrough namespace target type (we currently
-> have block and file).
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Mon, 8 Apr 2019 13:42:57 +0300
+Subject: [PATCHv2] nvmet: make MDTS value configurable
+In-Reply-To: <20190408061644.GA26437@lst.de>
+References: <20190403230654.109698-1-hare@suse.de>
+ <20190404052720.GB7497@lst.de>
+ <90391425-546f-61ad-ca9e-890e0246bf3c@mellanox.com>
+ <20190408061644.GA26437@lst.de>
+Message-ID: <fb0baf79-abbe-55be-c621-abf4d80355d9@mellanox.com>
 
 
-Hi!
+On 4/8/2019 9:16 AM, Christoph Hellwig wrote:
+> On Sun, Apr 07, 2019@03:51:53PM +0300, Max Gurtovoy wrote:
+>> On 4/4/2019 8:27 AM, Christoph Hellwig wrote:
+>>> On Thu, Apr 04, 2019@01:06:54AM +0200, Hannes Reinecke wrote:
+>>>> Some drivers and/or use-cases might need to set a smaller MDTS
+>>>> value, so add a per-port attribute to modify the MDTS value.
+>>> If the drivers need it they need to communicate that value up the
+>>> stack.  We should not require user inputs to make things work.
+>> I suggested to add ops function.
+>>
+>> Something like (pseudo code):
+>>
+>>
+>> static u8 nvmet_rdma_port_mdts(struct nvmet_port *nport)
+>> {
+>>  ??????? struct nvmet_rdma_port *port = nport->priv;
+>>  ??????? struct rdma_cm_id *cm_id = port->cm_id;
+>>
+>>  ??????? /* we assume ctrl page_size is 4K */
+>>  ??????? return ilog2(cm_id->device->attrs.max_io_sz / SZ_4K);
+>> }
+>>
+>>
+>> but after digging the code, there is still work to be done in order to do
+>> it...
+> The general idea sounds fine to me.  Can you look into it?
 
-Sorry to bother you, but any update?
+Yes, from what I saw we don't limit the max_io_size in the target since 
+we're using the rw-API.
 
-I was somewhat sick for the last week, now finally back in shape to continue
-working on this and other tasks I have.
+In case 1 rdma ctx is not enough (MR page list for example) we use more 
+ctx's in the rw-API. I think we have a bug there since we don't check 
+that nr_ops is not to big for transaction.
 
-I am studing now the nvme target code and the io_uring to evaluate the
-difficultiy of using something similiar to talk to the block device instead of /
-in addtion to the  direct connection I implemented.
+So probably we need to add some limit int nvmet/RDMA for that as 
+NFS/RDMA does (let's agree on some value/module_param/tunable).
 
-I would be glad to hear more feedback on this project.
+Or we can say that the limit is (if we force MRs for example):
 
-I will also soon post the few fixes separately as you suggested.
+rdma_rw_fr_page_list_len(device) * device_page_size * 
+max_mrs_per_transaction.
 
-Best regards,
-    Maxim Levitskky
+We also need to calculate mr_pool_size and max_rdma_ctxs more carefully IMO.
+
+So let's agree on the approach and then implement a solution (Sagi, can 
+you comments on that too please ?)
+
+
+Nevertheless, While digging into it I saw some improvements we can do to 
+rw-API, so I'm preparing few patches (add static allocations option 
+instead of allocations in fast-path).
+
+-Max.
