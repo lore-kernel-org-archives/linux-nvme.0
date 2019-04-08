@@ -1,81 +1,45 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 8 Apr 2019 12:50:12 +0200
-Subject: [PATCHv2] nvmet: make MDTS value configurable
-In-Reply-To: <fb0baf79-abbe-55be-c621-abf4d80355d9@mellanox.com>
-References: <20190403230654.109698-1-hare@suse.de>
- <20190404052720.GB7497@lst.de>
- <90391425-546f-61ad-ca9e-890e0246bf3c@mellanox.com>
- <20190408061644.GA26437@lst.de>
- <fb0baf79-abbe-55be-c621-abf4d80355d9@mellanox.com>
-Message-ID: <5038d63d-2545-791b-3b3e-54ec6d046da0@suse.de>
+From: william.kucharski@oracle.com (William Kucharski)
+Date: Mon, 8 Apr 2019 05:36:46 -0600
+Subject: Read-only Mapping of Program Text using Large THP Pages
+In-Reply-To: <20190220171905.GJ12668@bombadil.infradead.org>
+References: <379F21DD-006F-4E33-9BD5-F81F9BA75C10@oracle.com>
+ <20190220134454.GF12668@bombadil.infradead.org>
+ <07B3B085-C844-4A13-96B1-3DB0F1AF26F5@oracle.com>
+ <20190220144345.GG12668@bombadil.infradead.org>
+ <20190220163921.GA4451@localhost.localdomain>
+ <20190220171905.GJ12668@bombadil.infradead.org>
+Message-ID: <B53C9F2D-966C-4DFD-8151-0A7255ACA9AD@oracle.com>
 
-On 4/8/19 12:42 PM, Max Gurtovoy wrote:
-> 
-> On 4/8/2019 9:16 AM, Christoph Hellwig wrote:
->> On Sun, Apr 07, 2019@03:51:53PM +0300, Max Gurtovoy wrote:
->>> On 4/4/2019 8:27 AM, Christoph Hellwig wrote:
->>>> On Thu, Apr 04, 2019@01:06:54AM +0200, Hannes Reinecke wrote:
->>>>> Some drivers and/or use-cases might need to set a smaller MDTS
->>>>> value, so add a per-port attribute to modify the MDTS value.
->>>> If the drivers need it they need to communicate that value up the
->>>> stack.? We should not require user inputs to make things work.
->>> I suggested to add ops function.
->>>
->>> Something like (pseudo code):
->>>
->>>
->>> static u8 nvmet_rdma_port_mdts(struct nvmet_port *nport)
->>> {
->>> ???????? struct nvmet_rdma_port *port = nport->priv;
->>> ???????? struct rdma_cm_id *cm_id = port->cm_id;
->>>
->>> ???????? /* we assume ctrl page_size is 4K */
->>> ???????? return ilog2(cm_id->device->attrs.max_io_sz / SZ_4K);
->>> }
->>>
->>>
->>> but after digging the code, there is still work to be done in order 
->>> to do
->>> it...
->> The general idea sounds fine to me.? Can you look into it?
-> 
-> Yes, from what I saw we don't limit the max_io_size in the target since 
-> we're using the rw-API.
-> 
-> In case 1 rdma ctx is not enough (MR page list for example) we use more 
-> ctx's in the rw-API. I think we have a bug there since we don't check 
-> that nr_ops is not to big for transaction.
-> 
-> So probably we need to add some limit int nvmet/RDMA for that as 
-> NFS/RDMA does (let's agree on some value/module_param/tunable).
-> 
-> Or we can say that the limit is (if we force MRs for example):
-> 
-> rdma_rw_fr_page_list_len(device) * device_page_size * 
-> max_mrs_per_transaction.
-> 
-> We also need to calculate mr_pool_size and max_rdma_ctxs more carefully 
-> IMO.
-> 
-> So let's agree on the approach and then implement a solution (Sagi, can 
-> you comments on that too please ?)
-> 
-> 
-> Nevertheless, While digging into it I saw some improvements we can do to 
-> rw-API, so I'm preparing few patches (add static allocations option 
-> instead of allocations in fast-path).
-> 
-In general I'm in favour of having a 'port_ops' template, too.
-That would allow me to pass the correct count for the number of hardware 
-queues, too; ATM we're using the default for nvmet, yet FC-NVMe driver 
-do set their own count internally already.
 
-Cheers,
 
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N?rnberg)
+> On Feb 20, 2019,@10:19 AM, Matthew Wilcox <willy@infradead.org> wrote:
+> 
+> Yes, on reflection, NVMe is probably an example where we'd want to send
+> three commands (one for the critical page, one for the part before and one
+> for the part after); it has low per-command overhead so it should be fine.
+> 
+> Thinking about William's example of a 1GB page, with a x4 link running
+> at 8Gbps, a 1GB transfer would take approximately a quarter of a second.
+> If we do end up wanting to support 1GB pages, I think we'll want that
+> low-priority queue support ... and to qualify drives which actually have
+> the ability to handle multiple commands in parallel.
+
+I just got my denial for LSF/MM, so I was hopeful someone who will
+be attending can talk to the filesystem folks in an effort to determine what
+the best approach may be going forward for filling a PMD sized page to satisfy
+a page fault.
+
+The two obvious solutions are to either read the full content of the PMD
+sized page before the fault can be satisfied, or as Matthew suggested
+perhaps satisfy the fault temporarily with a single PAGESIZE page and use a
+readahead to populate the other 511 pages. The next page fault would then
+be satisfied by replacing the PAGESIZE page already mapped with a mapping for
+the full PMD page. 
+
+The latter approach seems like it could be a performance win at the sake of some
+complexity. However, with the advent of faster storage arrays and more SSD, let
+alone NVMe, just reading the full contents of a PMD sized page may ultimately be
+the cleanest way to go as slow physical media becomes less of a concern in the
+future.
+
+Thanks in advance to anyone who wants to take this issue up.
