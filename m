@@ -1,39 +1,22 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 8 Apr 2019 10:37:58 +0200
-Subject: FC-NVMe csn initialisation
-Message-ID: <7f105083-7e74-7191-d321-acdeafa25f88@suse.de>
+From: Martin.George@netapp.com (George, Martin)
+Date: Mon, 8 Apr 2019 08:53:29 +0000
+Subject: [PATCH 0/2] nvme-cli: update NetApp plugin for ONTAP devices
+In-Reply-To: <20190404191738.GB24499@localhost.localdomain>
+References: <20190401163957.2899-1-marting@netapp.com>
+ <20190404191738.GB24499@localhost.localdomain>
+Message-ID: <161922a2cd06a85647539124ad1d05c9265cd9c7.camel@netapp.com>
 
-Hi James,
+On Thu, 2019-04-04@13:17 -0600, Keith Busch wrote:
+> > From: Martin George <marting at netapp.com>
+> > 
+> > These patches update the current NetApp plugin to handle
+> > NetApp ONTAP devices.
+> 
+> Applied, thank you!
 
-checking the FC-NVMe spec it states:
+Keith,
 
-a) the CSN shall be equal to zero for the first NVMe_CMND IU for each 
-NVMeoFC connection and shall be incremented by one for each subsequent 
-command on the NVMeoFC connection;
+I don't see these patches in github. Could you please confirm that it
+got applied?
 
-yet we have:
-
-static void
-nvme_fc_init_queue(struct nvme_fc_ctrl *ctrl, int idx)
-{
-	struct nvme_fc_queue *queue;
-
-	queue = &ctrl->queues[idx];
-	memset(queue, 0, sizeof(*queue));
-	queue->ctrl = ctrl;
-	queue->qnum = idx;
-	atomic_set(&queue->csn, 1);
-	queue->dev = ctrl->dev;
-
-Is this by design?
-Or a simple bug?
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N?rnberg)
+-Martin
