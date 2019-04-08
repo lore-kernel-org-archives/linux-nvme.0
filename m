@@ -1,22 +1,38 @@
-From: Martin.George@netapp.com (George, Martin)
-Date: Mon, 8 Apr 2019 08:53:29 +0000
-Subject: [PATCH 0/2] nvme-cli: update NetApp plugin for ONTAP devices
-In-Reply-To: <20190404191738.GB24499@localhost.localdomain>
-References: <20190401163957.2899-1-marting@netapp.com>
- <20190404191738.GB24499@localhost.localdomain>
-Message-ID: <161922a2cd06a85647539124ad1d05c9265cd9c7.camel@netapp.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Mon,  8 Apr 2019 17:40:45 +0800
+Subject: [PATCH V3 0/2] blk-mq/nvme: cancel request synchronously
+Message-ID: <20190408094047.29150-1-ming.lei@redhat.com>
 
-On Thu, 2019-04-04@13:17 -0600, Keith Busch wrote:
-> > From: Martin George <marting at netapp.com>
-> > 
-> > These patches update the current NetApp plugin to handle
-> > NetApp ONTAP devices.
-> 
-> Applied, thank you!
+Hi,
 
-Keith,
+This patchset introduces blk_mq_complete_request_sync() for canceling
+request synchronously in error handler context, then one race between
+completing request remotely and destroying contoller/queues can be fixed.
 
-I don't see these patches in github. Could you please confirm that it
-got applied?
 
--Martin
+V3:
+	- avoid extra cost to blk_mq_complete_request
+
+V2:
+	- export via EXPORT_SYMBOL_GPL
+	- minor commit log change
+
+
+Ming Lei (2):
+  blk-mq: introduce blk_mq_complete_request_sync()
+  nvme: cancel request synchronously
+
+ block/blk-mq.c           | 11 +++++++++++
+ drivers/nvme/host/core.c |  2 +-
+ include/linux/blk-mq.h   |  1 +
+ 3 files changed, 13 insertions(+), 1 deletion(-)
+
+Cc: Keith Busch <kbusch at kernel.org>
+Cc: Sagi Grimberg <sagi at grimberg.me>
+Cc: Bart Van Assche <bvanassche at acm.org>
+Cc: James Smart <james.smart at broadcom.com>
+Cc: Christoph Hellwig <hch at lst.de>
+Cc: linux-nvme at lists.infradead.org
+
+-- 
+2.9.5
