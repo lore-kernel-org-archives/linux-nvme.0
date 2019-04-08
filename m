@@ -1,45 +1,14 @@
-From: william.kucharski@oracle.com (William Kucharski)
-Date: Mon, 8 Apr 2019 05:36:46 -0600
-Subject: Read-only Mapping of Program Text using Large THP Pages
-In-Reply-To: <20190220171905.GJ12668@bombadil.infradead.org>
-References: <379F21DD-006F-4E33-9BD5-F81F9BA75C10@oracle.com>
- <20190220134454.GF12668@bombadil.infradead.org>
- <07B3B085-C844-4A13-96B1-3DB0F1AF26F5@oracle.com>
- <20190220144345.GG12668@bombadil.infradead.org>
- <20190220163921.GA4451@localhost.localdomain>
- <20190220171905.GJ12668@bombadil.infradead.org>
-Message-ID: <B53C9F2D-966C-4DFD-8151-0A7255ACA9AD@oracle.com>
+From: kbusch@kernel.org (Keith Busch)
+Date: Mon, 8 Apr 2019 09:06:26 -0600
+Subject: [PATCH 0/2] nvme-cli: update NetApp plugin for ONTAP devices
+In-Reply-To: <161922a2cd06a85647539124ad1d05c9265cd9c7.camel@netapp.com>
+References: <20190401163957.2899-1-marting@netapp.com>
+ <20190404191738.GB24499@localhost.localdomain>
+ <161922a2cd06a85647539124ad1d05c9265cd9c7.camel@netapp.com>
+Message-ID: <20190408150626.GA32498@localhost.localdomain>
 
+On Mon, Apr 08, 2019@01:53:29AM -0700, George, Martin wrote:
+> I don't see these patches in github. Could you please confirm that it
+> got applied?
 
-
-> On Feb 20, 2019,@10:19 AM, Matthew Wilcox <willy@infradead.org> wrote:
-> 
-> Yes, on reflection, NVMe is probably an example where we'd want to send
-> three commands (one for the critical page, one for the part before and one
-> for the part after); it has low per-command overhead so it should be fine.
-> 
-> Thinking about William's example of a 1GB page, with a x4 link running
-> at 8Gbps, a 1GB transfer would take approximately a quarter of a second.
-> If we do end up wanting to support 1GB pages, I think we'll want that
-> low-priority queue support ... and to qualify drives which actually have
-> the ability to handle multiple commands in parallel.
-
-I just got my denial for LSF/MM, so I was hopeful someone who will
-be attending can talk to the filesystem folks in an effort to determine what
-the best approach may be going forward for filling a PMD sized page to satisfy
-a page fault.
-
-The two obvious solutions are to either read the full content of the PMD
-sized page before the fault can be satisfied, or as Matthew suggested
-perhaps satisfy the fault temporarily with a single PAGESIZE page and use a
-readahead to populate the other 511 pages. The next page fault would then
-be satisfied by replacing the PAGESIZE page already mapped with a mapping for
-the full PMD page. 
-
-The latter approach seems like it could be a performance win at the sake of some
-complexity. However, with the advent of faster storage arrays and more SSD, let
-alone NVMe, just reading the full contents of a PMD sized page may ultimately be
-the cleanest way to go as slow physical media becomes less of a concern in the
-future.
-
-Thanks in advance to anyone who wants to take this issue up.
+Ah, the previous push failed. Should be good now.
