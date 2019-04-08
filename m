@@ -1,41 +1,44 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Tue,  9 Apr 2019 06:31:22 +0800
-Subject: [PATCH V4 2/2] nvme: cancel request synchronously
-In-Reply-To: <20190408223122.29844-1-ming.lei@redhat.com>
-References: <20190408223122.29844-1-ming.lei@redhat.com>
-Message-ID: <20190408223122.29844-3-ming.lei@redhat.com>
+From: james.smart@broadcom.com (James Smart)
+Date: Mon, 8 Apr 2019 15:51:08 -0700
+Subject: [PATCH] nvmet: Fix discover log page when offsets are used
+In-Reply-To: <dc9a802a-6a5c-f5b3-83e3-a1662f36f718@broadcom.com>
+References: <20190408192932.563-1-keith.busch@intel.com>
+ <dc9a802a-6a5c-f5b3-83e3-a1662f36f718@broadcom.com>
+Message-ID: <fa4f9ad9-3dd6-0781-0fa9-379a03b20aa4@broadcom.com>
 
-nvme_cancel_request() is used in error handler, and it is always
-reliable to cancel request synchronously, and avoids possible race
-in which request may be completed after real hw queue is destroyed.
 
-One issue is reported by our customer on NVMe RDMA, in which freed ib
-queue pair may be used in nvme_rdma_complete_rq().
 
-Cc: Keith Busch <kbusch at kernel.org>
-Cc: Sagi Grimberg <sagi at grimberg.me>
-Cc: Bart Van Assche <bvanassche at acm.org>
-Cc: James Smart <james.smart at broadcom.com>
-Cc: Christoph Hellwig <hch at lst.de>
-Cc: linux-nvme at lists.infradead.org
-Reviewed-by: Christoph Hellwig <hch at lst.de>
-Signed-off-by: Ming Lei <ming.lei at redhat.com>
----
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 4/8/2019 2:57 PM, James Smart wrote:
+>
+>
+> On 4/8/2019 12:29 PM, Keith Busch wrote:
+>> The nvme target hadn't been taking the Get Log Page offset parameter
+>> into consideration, and so has been returning corrupting logs pages when
+>> offsets are used. Since many tools, including nvme-cli, split the log
+>> request to 4k, we've been breaking discovery log responses when more
+>> than 3 subsystems exist.
+>>
+>> Fix the log page by internally generating the entire discovery log page
+>> and copying only the requested bytes into the user buffer.
+>>
+>> Cc: Hannes Reinecke <hare at suse.de>
+>> Signed-off-by: Keith Busch <keith.busch at intel.com>
+>> ---
+>> ? drivers/nvme/target/admin-cmd.c | 10 +++++++
+>> ? drivers/nvme/target/discovery.c | 63 
+>> +++++++++++++++++++++++++----------------
+>> ? drivers/nvme/target/nvmet.h???? |? 1 +
+>> ? 3 files changed, 50 insertions(+), 24 deletions(-)
+>>
+>>
+>
+> Reviewed-by:? James Smart? <james.smart at broadcom.com>
+>
+> Looks good.
+>
+> -- james
+>
+>
+ ?excepting the locking issue :)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 470601980794..2c43e12b70af 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -288,7 +288,7 @@ bool nvme_cancel_request(struct request *req, void *data, bool reserved)
- 				"Cancelling I/O %d", req->tag);
- 
- 	nvme_req(req)->status = NVME_SC_ABORT_REQ;
--	blk_mq_complete_request(req);
-+	blk_mq_complete_request_sync(req);
- 	return true;
- }
- EXPORT_SYMBOL_GPL(nvme_cancel_request);
--- 
-2.9.5
+-- james
