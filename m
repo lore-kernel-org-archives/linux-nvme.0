@@ -1,86 +1,361 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Mon,  8 Apr 2019 11:15:19 -0700
-Subject: [PATCH] nvme-fc: correct csn initialization and increments on error
-Message-ID: <20190408181519.14086-1-jsmart2021@gmail.com>
+From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Mon, 8 Apr 2019 19:04:48 +0000
+Subject: [PATCH 2/2] nvmet: rename nvme_completion instances from rsp to
+ cqe
+In-Reply-To: <1554737999-26459-2-git-send-email-maxg@mellanox.com>
+References: <1554737999-26459-1-git-send-email-maxg@mellanox.com>
+ <1554737999-26459-2-git-send-email-maxg@mellanox.com>
+Message-ID: <F601B164-5E45-4A7A-B5E6-33AE48A8272D@wdc.com>
 
-This patch fixes a long-standing bug that initialized the FC-NVME
-cmnd iu CSN value to 1. Early FC-NVME specs had the connection starting
-with CSN=1. By the time the spec reached approval, the language had
-changed to state a connection should start with CSN=0.  This patch
-corrects the initialization value for FC-NVME connections.
+Looks good.
 
-Additionally, in reviewing the transport, the CSN value is assigned to
-the new IU early in the start routine. It's possible that a later dma
-map request may fail, causing the command to never be sent to the
-controller.  Change the location of the assignment so that it is
-immediately prior to calling the lldd. Add a comment block to explain
-the impacts if the lldd were to additionally fail sending the command.
+Reviewed-by : Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 
-Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
-Signed-off-by: James Smart <jsmart2021 at gmail.com>
----
- drivers/nvme/host/fc.c | 23 +++++++++++++++++++----
- 1 file changed, 19 insertions(+), 4 deletions(-)
+?On 4/8/19, 8:41 AM, "Linux-nvme on behalf of Max Gurtovoy" <linux-nvme-bounces@lists.infradead.org on behalf of maxg@mellanox.com> wrote:
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index f3b9d91ba0df..1f30984b2d31 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -1845,7 +1845,7 @@ nvme_fc_init_queue(struct nvme_fc_ctrl *ctrl, int idx)
- 	memset(queue, 0, sizeof(*queue));
- 	queue->ctrl = ctrl;
- 	queue->qnum = idx;
--	atomic_set(&queue->csn, 1);
-+	atomic_set(&queue->csn, 0);
- 	queue->dev = ctrl->dev;
- 
- 	if (idx > 0)
-@@ -1887,7 +1887,7 @@ nvme_fc_free_queue(struct nvme_fc_queue *queue)
- 	 */
- 
- 	queue->connection_id = 0;
--	atomic_set(&queue->csn, 1);
-+	atomic_set(&queue->csn, 0);
- }
- 
- static void
-@@ -2198,8 +2198,6 @@ nvme_fc_start_fcp_op(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
- 
- 	/* format the FC-NVME CMD IU and fcp_req */
- 	cmdiu->connection_id = cpu_to_be64(queue->connection_id);
--	csn = atomic_inc_return(&queue->csn);
--	cmdiu->csn = cpu_to_be32(csn);
- 	cmdiu->data_len = cpu_to_be32(data_len);
- 	switch (io_dir) {
- 	case NVMEFC_FCP_WRITE:
-@@ -2257,11 +2255,28 @@ nvme_fc_start_fcp_op(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
- 	if (!(op->flags & FCOP_FLAGS_AEN))
- 		blk_mq_start_request(op->rq);
- 
-+	csn = atomic_inc_return(&queue->csn);
-+	cmdiu->csn = cpu_to_be32(csn);
-+
- 	ret = ctrl->lport->ops->fcp_io(&ctrl->lport->localport,
- 					&ctrl->rport->remoteport,
- 					queue->lldd_handle, &op->fcp_req);
- 
- 	if (ret) {
-+		/*
-+		 * If the lld fails to send the command is there an issue
-+		 * with the csn value ?  If the command that fails is the
-+		 * Connect, no - as the connection won't be live. If it's
-+		 * a command post-connect, it's possible a gap in csn may
-+		 * be created. Does this matter? As linux initiators don't
-+		 * send fused commands, no. The gap would exist, but as
-+		 * there's nothing that depends on csn order to be delivered
-+		 * on the target side, it shouldn't hurt. It would be
-+		 * difficult for a target to even detect the csn gap as
-+		 * it has no idea when the cmd with the csn was supposed
-+		 * to arrive.
-+		 */
-+
- 		opstate = atomic_xchg(&op->state, FCPOP_STATE_COMPLETE);
- 		__nvme_fc_fcpop_chk_teardowns(ctrl, op, opstate);
- 
--- 
-2.13.7
+    Use NVMe namings for improving code readability.
+    
+    Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+    ---
+     drivers/nvme/target/core.c        | 22 +++++++++++-----------
+     drivers/nvme/target/fabrics-cmd.c | 16 ++++++++--------
+     drivers/nvme/target/fc.c          |  2 +-
+     drivers/nvme/target/loop.c        |  6 +++---
+     drivers/nvme/target/nvmet.h       |  4 ++--
+     drivers/nvme/target/rdma.c        | 18 +++++++++---------
+     drivers/nvme/target/tcp.c         |  8 ++++----
+     7 files changed, 38 insertions(+), 38 deletions(-)
+    
+    diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+    index b3e765a..6feef3f 100644
+    --- a/drivers/nvme/target/core.c
+    +++ b/drivers/nvme/target/core.c
+    @@ -644,7 +644,7 @@ static void nvmet_update_sq_head(struct nvmet_req *req)
+     		} while (cmpxchg(&req->sq->sqhd, old_sqhd, new_sqhd) !=
+     					old_sqhd);
+     	}
+    -	req->rsp->sq_head = cpu_to_le16(req->sq->sqhd & 0x0000FFFF);
+    +	req->cqe->sq_head = cpu_to_le16(req->sq->sqhd & 0x0000FFFF);
+     }
+     
+     static void nvmet_set_error(struct nvmet_req *req, u16 status)
+    @@ -653,7 +653,7 @@ static void nvmet_set_error(struct nvmet_req *req, u16 status)
+     	struct nvme_error_slot *new_error_slot;
+     	unsigned long flags;
+     
+    -	req->rsp->status = cpu_to_le16(status << 1);
+    +	req->cqe->status = cpu_to_le16(status << 1);
+     
+     	if (!ctrl || req->error_loc == NVMET_NO_ERROR_LOC)
+     		return;
+    @@ -673,15 +673,15 @@ static void nvmet_set_error(struct nvmet_req *req, u16 status)
+     	spin_unlock_irqrestore(&ctrl->error_lock, flags);
+     
+     	/* set the more bit for this request */
+    -	req->rsp->status |= cpu_to_le16(1 << 14);
+    +	req->cqe->status |= cpu_to_le16(1 << 14);
+     }
+     
+     static void __nvmet_req_complete(struct nvmet_req *req, u16 status)
+     {
+     	if (!req->sq->sqhd_disabled)
+     		nvmet_update_sq_head(req);
+    -	req->rsp->sq_id = cpu_to_le16(req->sq->qid);
+    -	req->rsp->command_id = req->cmd->common.command_id;
+    +	req->cqe->sq_id = cpu_to_le16(req->sq->qid);
+    +	req->cqe->command_id = req->cmd->common.command_id;
+     
+     	if (unlikely(status))
+     		nvmet_set_error(req, status);
+    @@ -838,8 +838,8 @@ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
+     	req->sg = NULL;
+     	req->sg_cnt = 0;
+     	req->transfer_len = 0;
+    -	req->rsp->status = 0;
+    -	req->rsp->sq_head = 0;
+    +	req->cqe->status = 0;
+    +	req->cqe->sq_head = 0;
+     	req->ns = NULL;
+     	req->error_loc = NVMET_NO_ERROR_LOC;
+     	req->error_slba = 0;
+    @@ -1066,7 +1066,7 @@ u16 nvmet_ctrl_find_get(const char *subsysnqn, const char *hostnqn, u16 cntlid,
+     	if (!subsys) {
+     		pr_warn("connect request for invalid subsystem %s!\n",
+     			subsysnqn);
+    -		req->rsp->result.u32 = IPO_IATTR_CONNECT_DATA(subsysnqn);
+    +		req->cqe->result.u32 = IPO_IATTR_CONNECT_DATA(subsysnqn);
+     		return NVME_SC_CONNECT_INVALID_PARAM | NVME_SC_DNR;
+     	}
+     
+    @@ -1087,7 +1087,7 @@ u16 nvmet_ctrl_find_get(const char *subsysnqn, const char *hostnqn, u16 cntlid,
+     
+     	pr_warn("could not find controller %d for subsys %s / host %s\n",
+     		cntlid, subsysnqn, hostnqn);
+    -	req->rsp->result.u32 = IPO_IATTR_CONNECT_DATA(cntlid);
+    +	req->cqe->result.u32 = IPO_IATTR_CONNECT_DATA(cntlid);
+     	status = NVME_SC_CONNECT_INVALID_PARAM | NVME_SC_DNR;
+     
+     out:
+    @@ -1185,7 +1185,7 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
+     	if (!subsys) {
+     		pr_warn("connect request for invalid subsystem %s!\n",
+     			subsysnqn);
+    -		req->rsp->result.u32 = IPO_IATTR_CONNECT_DATA(subsysnqn);
+    +		req->cqe->result.u32 = IPO_IATTR_CONNECT_DATA(subsysnqn);
+     		goto out;
+     	}
+     
+    @@ -1194,7 +1194,7 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
+     	if (!nvmet_host_allowed(subsys, hostnqn)) {
+     		pr_info("connect by host %s for subsystem %s not allowed\n",
+     			hostnqn, subsysnqn);
+    -		req->rsp->result.u32 = IPO_IATTR_CONNECT_DATA(hostnqn);
+    +		req->cqe->result.u32 = IPO_IATTR_CONNECT_DATA(hostnqn);
+     		up_read(&nvmet_config_sem);
+     		status = NVME_SC_CONNECT_INVALID_HOST | NVME_SC_DNR;
+     		goto out_put_subsystem;
+    diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-cmd.c
+    index 3a76ebc..3b9f79a 100644
+    --- a/drivers/nvme/target/fabrics-cmd.c
+    +++ b/drivers/nvme/target/fabrics-cmd.c
+    @@ -72,7 +72,7 @@ static void nvmet_execute_prop_get(struct nvmet_req *req)
+     			offsetof(struct nvmf_property_get_command, attrib);
+     	}
+     
+    -	req->rsp->result.u64 = cpu_to_le64(val);
+    +	req->cqe->result.u64 = cpu_to_le64(val);
+     	nvmet_req_complete(req, status);
+     }
+     
+    @@ -124,7 +124,7 @@ static u16 nvmet_install_queue(struct nvmet_ctrl *ctrl, struct nvmet_req *req)
+     
+     	if (c->cattr & NVME_CONNECT_DISABLE_SQFLOW) {
+     		req->sq->sqhd_disabled = true;
+    -		req->rsp->sq_head = cpu_to_le16(0xffff);
+    +		req->cqe->sq_head = cpu_to_le16(0xffff);
+     	}
+     
+     	if (ctrl->ops->install_queue) {
+    @@ -158,7 +158,7 @@ static void nvmet_execute_admin_connect(struct nvmet_req *req)
+     		goto out;
+     
+     	/* zero out initial completion result, assign values as needed */
+    -	req->rsp->result.u32 = 0;
+    +	req->cqe->result.u32 = 0;
+     
+     	if (c->recfmt != 0) {
+     		pr_warn("invalid connect version (%d).\n",
+    @@ -172,7 +172,7 @@ static void nvmet_execute_admin_connect(struct nvmet_req *req)
+     		pr_warn("connect attempt for invalid controller ID %#x\n",
+     			d->cntlid);
+     		status = NVME_SC_CONNECT_INVALID_PARAM | NVME_SC_DNR;
+    -		req->rsp->result.u32 = IPO_IATTR_CONNECT_DATA(cntlid);
+    +		req->cqe->result.u32 = IPO_IATTR_CONNECT_DATA(cntlid);
+     		goto out;
+     	}
+     
+    @@ -195,7 +195,7 @@ static void nvmet_execute_admin_connect(struct nvmet_req *req)
+     
+     	pr_info("creating controller %d for subsystem %s for NQN %s.\n",
+     		ctrl->cntlid, ctrl->subsys->subsysnqn, ctrl->hostnqn);
+    -	req->rsp->result.u16 = cpu_to_le16(ctrl->cntlid);
+    +	req->cqe->result.u16 = cpu_to_le16(ctrl->cntlid);
+     
+     out:
+     	kfree(d);
+    @@ -222,7 +222,7 @@ static void nvmet_execute_io_connect(struct nvmet_req *req)
+     		goto out;
+     
+     	/* zero out initial completion result, assign values as needed */
+    -	req->rsp->result.u32 = 0;
+    +	req->cqe->result.u32 = 0;
+     
+     	if (c->recfmt != 0) {
+     		pr_warn("invalid connect version (%d).\n",
+    @@ -240,14 +240,14 @@ static void nvmet_execute_io_connect(struct nvmet_req *req)
+     	if (unlikely(qid > ctrl->subsys->max_qid)) {
+     		pr_warn("invalid queue id (%d)\n", qid);
+     		status = NVME_SC_CONNECT_INVALID_PARAM | NVME_SC_DNR;
+    -		req->rsp->result.u32 = IPO_IATTR_CONNECT_SQE(qid);
+    +		req->cqe->result.u32 = IPO_IATTR_CONNECT_SQE(qid);
+     		goto out_ctrl_put;
+     	}
+     
+     	status = nvmet_install_queue(ctrl, req);
+     	if (status) {
+     		/* pass back cntlid that had the issue of installing queue */
+    -		req->rsp->result.u16 = cpu_to_le16(ctrl->cntlid);
+    +		req->cqe->result.u16 = cpu_to_le16(ctrl->cntlid);
+     		goto out_ctrl_put;
+     	}
+     
+    diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+    index 98b7b1f..6733673 100644
+    --- a/drivers/nvme/target/fc.c
+    +++ b/drivers/nvme/target/fc.c
+    @@ -2187,7 +2187,7 @@ enum {
+     	}
+     
+     	fod->req.cmd = &fod->cmdiubuf.sqe;
+    -	fod->req.rsp = &fod->rspiubuf.cqe;
+    +	fod->req.cqe = &fod->rspiubuf.cqe;
+     	fod->req.port = tgtport->pe->port;
+     
+     	/* clear any response payload */
+    diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+    index b9f623a..a3ae491 100644
+    --- a/drivers/nvme/target/loop.c
+    +++ b/drivers/nvme/target/loop.c
+    @@ -18,7 +18,7 @@
+     struct nvme_loop_iod {
+     	struct nvme_request	nvme_req;
+     	struct nvme_command	cmd;
+    -	struct nvme_completion	rsp;
+    +	struct nvme_completion	cqe;
+     	struct nvmet_req	req;
+     	struct nvme_loop_queue	*queue;
+     	struct work_struct	work;
+    @@ -94,7 +94,7 @@ static void nvme_loop_queue_response(struct nvmet_req *req)
+     {
+     	struct nvme_loop_queue *queue =
+     		container_of(req->sq, struct nvme_loop_queue, nvme_sq);
+    -	struct nvme_completion *cqe = req->rsp;
+    +	struct nvme_completion *cqe = req->cqe;
+     
+     	/*
+     	 * AEN requests are special as they don't time out and can
+    @@ -207,7 +207,7 @@ static int nvme_loop_init_iod(struct nvme_loop_ctrl *ctrl,
+     		struct nvme_loop_iod *iod, unsigned int queue_idx)
+     {
+     	iod->req.cmd = &iod->cmd;
+    -	iod->req.rsp = &iod->rsp;
+    +	iod->req.cqe = &iod->cqe;
+     	iod->queue = &ctrl->queues[queue_idx];
+     	INIT_WORK(&iod->work, nvme_loop_execute_work);
+     	return 0;
+    diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+    index 51e49ef..53d5a44 100644
+    --- a/drivers/nvme/target/nvmet.h
+    +++ b/drivers/nvme/target/nvmet.h
+    @@ -284,7 +284,7 @@ struct nvmet_fabrics_ops {
+     
+     struct nvmet_req {
+     	struct nvme_command	*cmd;
+    -	struct nvme_completion	*rsp;
+    +	struct nvme_completion	*cqe;
+     	struct nvmet_sq		*sq;
+     	struct nvmet_cq		*cq;
+     	struct nvmet_ns		*ns;
+    @@ -322,7 +322,7 @@ struct nvmet_req {
+     
+     static inline void nvmet_set_result(struct nvmet_req *req, u32 result)
+     {
+    -	req->rsp->result.u32 = cpu_to_le32(result);
+    +	req->cqe->result.u32 = cpu_to_le32(result);
+     }
+     
+     /*
+    diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+    index b727521..36d906a 100644
+    --- a/drivers/nvme/target/rdma.c
+    +++ b/drivers/nvme/target/rdma.c
+    @@ -160,7 +160,7 @@ static inline bool nvmet_rdma_need_data_out(struct nvmet_rdma_rsp *rsp)
+     {
+     	return !nvme_is_write(rsp->req.cmd) &&
+     		rsp->req.transfer_len &&
+    -		!rsp->req.rsp->status &&
+    +		!rsp->req.cqe->status &&
+     		!(rsp->flags & NVMET_RDMA_REQ_INLINE_DATA);
+     }
+     
+    @@ -364,17 +364,17 @@ static int nvmet_rdma_alloc_rsp(struct nvmet_rdma_device *ndev,
+     		struct nvmet_rdma_rsp *r)
+     {
+     	/* NVMe CQE / RDMA SEND */
+    -	r->req.rsp = kmalloc(sizeof(*r->req.rsp), GFP_KERNEL);
+    -	if (!r->req.rsp)
+    +	r->req.cqe = kmalloc(sizeof(*r->req.cqe), GFP_KERNEL);
+    +	if (!r->req.cqe)
+     		goto out;
+     
+    -	r->send_sge.addr = ib_dma_map_single(ndev->device, r->req.rsp,
+    -			sizeof(*r->req.rsp), DMA_TO_DEVICE);
+    +	r->send_sge.addr = ib_dma_map_single(ndev->device, r->req.cqe,
+    +			sizeof(*r->req.cqe), DMA_TO_DEVICE);
+     	if (ib_dma_mapping_error(ndev->device, r->send_sge.addr))
+     		goto out_free_rsp;
+     
+     	r->req.p2p_client = &ndev->device->dev;
+    -	r->send_sge.length = sizeof(*r->req.rsp);
+    +	r->send_sge.length = sizeof(*r->req.cqe);
+     	r->send_sge.lkey = ndev->pd->local_dma_lkey;
+     
+     	r->send_cqe.done = nvmet_rdma_send_done;
+    @@ -389,7 +389,7 @@ static int nvmet_rdma_alloc_rsp(struct nvmet_rdma_device *ndev,
+     	return 0;
+     
+     out_free_rsp:
+    -	kfree(r->req.rsp);
+    +	kfree(r->req.cqe);
+     out:
+     	return -ENOMEM;
+     }
+    @@ -398,8 +398,8 @@ static void nvmet_rdma_free_rsp(struct nvmet_rdma_device *ndev,
+     		struct nvmet_rdma_rsp *r)
+     {
+     	ib_dma_unmap_single(ndev->device, r->send_sge.addr,
+    -				sizeof(*r->req.rsp), DMA_TO_DEVICE);
+    -	kfree(r->req.rsp);
+    +				sizeof(*r->req.cqe), DMA_TO_DEVICE);
+    +	kfree(r->req.cqe);
+     }
+     
+     static int
+    diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+    index ad0df78..0d7df13 100644
+    --- a/drivers/nvme/target/tcp.c
+    +++ b/drivers/nvme/target/tcp.c
+    @@ -161,14 +161,14 @@ static inline bool nvmet_tcp_has_data_in(struct nvmet_tcp_cmd *cmd)
+     
+     static inline bool nvmet_tcp_need_data_in(struct nvmet_tcp_cmd *cmd)
+     {
+    -	return nvmet_tcp_has_data_in(cmd) && !cmd->req.rsp->status;
+    +	return nvmet_tcp_has_data_in(cmd) && !cmd->req.cqe->status;
+     }
+     
+     static inline bool nvmet_tcp_need_data_out(struct nvmet_tcp_cmd *cmd)
+     {
+     	return !nvme_is_write(cmd->req.cmd) &&
+     		cmd->req.transfer_len > 0 &&
+    -		!cmd->req.rsp->status;
+    +		!cmd->req.cqe->status;
+     }
+     
+     static inline bool nvmet_tcp_has_inline_data(struct nvmet_tcp_cmd *cmd)
+    @@ -377,7 +377,7 @@ static void nvmet_setup_c2h_data_pdu(struct nvmet_tcp_cmd *cmd)
+     	pdu->hdr.plen =
+     		cpu_to_le32(pdu->hdr.hlen + hdgst +
+     				cmd->req.transfer_len + ddgst);
+    -	pdu->command_id = cmd->req.rsp->command_id;
+    +	pdu->command_id = cmd->req.cqe->command_id;
+     	pdu->data_length = cpu_to_le32(cmd->req.transfer_len);
+     	pdu->data_offset = cpu_to_le32(cmd->wbytes_done);
+     
+    @@ -1206,7 +1206,7 @@ static int nvmet_tcp_alloc_cmd(struct nvmet_tcp_queue *queue,
+     			sizeof(*c->rsp_pdu) + hdgst, GFP_KERNEL | __GFP_ZERO);
+     	if (!c->rsp_pdu)
+     		goto out_free_cmd;
+    -	c->req.rsp = &c->rsp_pdu->cqe;
+    +	c->req.cqe = &c->rsp_pdu->cqe;
+     
+     	c->data_pdu = page_frag_alloc(&queue->pf_cache,
+     			sizeof(*c->data_pdu) + hdgst, GFP_KERNEL | __GFP_ZERO);
+    -- 
+    1.8.3.1
+    
+    
+    _______________________________________________
+    Linux-nvme mailing list
+    Linux-nvme at lists.infradead.org
+    http://lists.infradead.org/mailman/listinfo/linux-nvme
+    
