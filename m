@@ -1,48 +1,64 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Mon, 8 Apr 2019 10:04:28 -0600
-Subject: [PATCH 1/2] nvmet-rdma: remove p2p_client initialization from
- fast-path
-In-Reply-To: <1554737999-26459-1-git-send-email-maxg@mellanox.com>
-References: <1554737999-26459-1-git-send-email-maxg@mellanox.com>
-Message-ID: <6fc5a921-6440-5375-7e21-a000ae98b07d@deltatee.com>
+From: kbusch@kernel.org (Keith Busch)
+Date: Mon, 8 Apr 2019 10:15:05 -0600
+Subject: [PATCH V3 1/2] blk-mq: introduce blk_mq_complete_request_sync()
+In-Reply-To: <20190408094047.29150-2-ming.lei@redhat.com>
+References: <20190408094047.29150-1-ming.lei@redhat.com>
+ <20190408094047.29150-2-ming.lei@redhat.com>
+Message-ID: <20190408161505.GA32613@localhost.localdomain>
 
-
-
-On 2019-04-08 9:39 a.m., Max Gurtovoy wrote:
-> Initialize it during command allocation.
-
-
-It would be nice to hear some justification for this change in the
-commit message, but the change itself appears to be fine to me:
-
-Reviewed-by: Logan Gunthorpe <logang at deltatee.com>
-
-> Cc: Logan Gunthorpe <logang at deltatee.com>
-> Cc: Stephen Bates <sbates at raithlin.com>
-> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+On Mon, Apr 08, 2019@05:40:46PM +0800, Ming Lei wrote:
+> In NVMe's error handler, follows the typical steps of tearing down
+> hardware for recovering controller:
+> 
+> 1) stop blk_mq hw queues
+> 2) stop the real hw queues
+> 3) cancel in-flight requests via
+> 	blk_mq_tagset_busy_iter(tags, cancel_request, ...)
+> cancel_request():
+> 	mark the request as abort
+> 	blk_mq_complete_request(req);
+> 4) destroy real hw queues
+> 
+> However, there may be race between #3 and #4, because blk_mq_complete_request()
+> may run q->mq_ops->complete(rq) remotelly and asynchronously, and
+> ->complete(rq) may be run after #4.
+> 
+> This patch introduces blk_mq_complete_request_sync() for fixing the
+> above race.
+> 
+> Cc: Keith Busch <kbusch at kernel.org>
+> Cc: Sagi Grimberg <sagi at grimberg.me>
+> Cc: Bart Van Assche <bvanassche at acm.org>
+> Cc: James Smart <james.smart at broadcom.com>
+> Cc: Christoph Hellwig <hch at lst.de>
+> Cc: linux-nvme at lists.infradead.org
+> Signed-off-by: Ming Lei <ming.lei at redhat.com>
 > ---
->  drivers/nvme/target/rdma.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+>  block/blk-mq.c         | 11 +++++++++++
+>  include/linux/blk-mq.h |  1 +
+>  2 files changed, 12 insertions(+)
 > 
-> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-> index ef893ad..b727521 100644
-> --- a/drivers/nvme/target/rdma.c
-> +++ b/drivers/nvme/target/rdma.c
-> @@ -373,6 +373,7 @@ static int nvmet_rdma_alloc_rsp(struct nvmet_rdma_device *ndev,
->  	if (ib_dma_mapping_error(ndev->device, r->send_sge.addr))
->  		goto out_free_rsp;
+> diff --git a/block/blk-mq.c b/block/blk-mq.c
+> index a9354835cf51..d8d89f3514ac 100644
+> --- a/block/blk-mq.c
+> +++ b/block/blk-mq.c
+> @@ -654,6 +654,17 @@ bool blk_mq_complete_request(struct request *rq)
+>  }
+>  EXPORT_SYMBOL(blk_mq_complete_request);
 >  
-> +	r->req.p2p_client = &ndev->device->dev;
->  	r->send_sge.length = sizeof(*r->req.rsp);
->  	r->send_sge.lkey = ndev->pd->local_dma_lkey;
->  
-> @@ -763,8 +764,6 @@ static void nvmet_rdma_handle_command(struct nvmet_rdma_queue *queue,
->  		cmd->send_sge.addr, cmd->send_sge.length,
->  		DMA_TO_DEVICE);
->  
-> -	cmd->req.p2p_client = &queue->dev->device->dev;
-> -
->  	if (!nvmet_req_init(&cmd->req, &queue->nvme_cq,
->  			&queue->nvme_sq, &nvmet_rdma_ops))
->  		return;
-> 
+> +bool blk_mq_complete_request_sync(struct request *rq)
+> +{
+> +	if (unlikely(blk_should_fake_timeout(rq->q)))
+> +		return false;
+> +
+> +	WRITE_ONCE(rq->state, MQ_RQ_COMPLETE);
+> +	rq->q->mq_ops->complete(rq);
+> +	return true;
+> +}
+> +EXPORT_SYMBOL_GPL(blk_mq_complete_request_sync);
+
+Could we possibly drop the fake timeout in this path? We're using this
+in error handling that is past pretending completing requests didn't
+happen.
+
+Otherwise this all looks good to me.
