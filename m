@@ -1,11 +1,9 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 9 Apr 2019 12:10:44 +0200
-Subject: [PATCH 2/2] nvmet: rename nvme_completion instances from rsp
- to cqe
-In-Reply-To: <1554737999-26459-2-git-send-email-maxg@mellanox.com>
-References: <1554737999-26459-1-git-send-email-maxg@mellanox.com>
- <1554737999-26459-2-git-send-email-maxg@mellanox.com>
-Message-ID: <20190409101044.GC7526@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Tue, 9 Apr 2019 03:16:06 -0700
+Subject: [PATCH] nvme-fc: correct csn initialization and increments on
+ error
+In-Reply-To: <20190408181519.14086-1-jsmart2021@gmail.com>
+References: <20190408181519.14086-1-jsmart2021@gmail.com>
+Message-ID: <20190409101606.GA32087@infradead.org>
 
-Applied to nvme-5.2.  I hope this isn't going to create a lot of
-conflicts..
+Thanks, applied to nvme-5.1 with some trivial cleanups.
