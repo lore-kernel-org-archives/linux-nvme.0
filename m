@@ -1,197 +1,92 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Tue, 9 Apr 2019 02:33:04 +0000
-Subject: [PATCHv2] nvmet: Fix discover log page when offsets are used
-References: <20190408194652.641-1-keith.busch@intel.com>
-Message-ID: <SN6PR04MB45279B323BEE059E7FE46BD1862D0@SN6PR04MB4527.namprd04.prod.outlook.com>
+From: hare@suse.de (Hannes Reinecke)
+Date: Tue, 9 Apr 2019 08:08:39 +0200
+Subject: FC-NVMe csn initialisation
+In-Reply-To: <e1d5b88f-218c-e556-6053-93a6c3aeda8b@broadcom.com>
+References: <7f105083-7e74-7191-d321-acdeafa25f88@suse.de>
+ <210FF865-6562-4404-A47D-E38EDD5D9B00@netapp.com>
+ <e1d5b88f-218c-e556-6053-93a6c3aeda8b@broadcom.com>
+Message-ID: <fa84d071-4c61-6082-f92e-4c018e9ff0ff@suse.de>
 
-Thanks for the patch Keith. May we should add a test in blktests for this.
+On 4/8/19 6:37 PM, James Smart wrote:
+> 
+> 
+> On 4/8/2019 8:45 AM, Meneghini, John wrote:
+>>> a) the CSN shall be equal to zero for the first NVMe_CMND IU for each
+>>> ??? NVMeoFC connection and shall be incremented by one for each 
+>>> subsequent
+>>> ??? command on the NVMeoFC connection;
+>> I'm not sure it matters if the csn starts at 0. As long as the csn is 
+>> incremented with every FC_CMD_IU that's put on the wire, I think we're 
+>> good.
+>>
+>> However, I do think I see a bug were nvme_fc_start_fcp_op() increments 
+>> the queue->csn counter and then never puts the cmdiu on the transport 
+>> queue.
+>>
+>> This can happen when nvme_fc_map_data() returns an error.
+>>
+>> /John
+>>
+>> static blk_status_t
+>> nvme_fc_start_fcp_op(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue 
+>> *queue,
+>> ???????? struct nvme_fc_fcp_op *op, u32 data_len,
+>> ???????? enum nvmefc_fcp_datadir io_dir)
+>> {
+>> ???????? struct nvme_fc_cmd_iu *cmdiu = &op->cmd_iu;
+>> ???????? struct nvme_command *sqe = &cmdiu->sqe;
+>> ???????? u32 csn;
+>> ???????? int ret, opstate;
+>> ??? ...
+>> ???????? /* format the FC-NVME CMD IU and fcp_req */
+>> ???????? cmdiu->connection_id = cpu_to_be64(queue->connection_id);
+>> ???????? csn = atomic_inc_return(&queue->csn);
+>> ???????? cmdiu->csn = cpu_to_be32(csn);
+>> ?? ...
+>> ???????? if (!(op->flags & FCOP_FLAGS_AEN)) {
+>> ???????????????? ret = nvme_fc_map_data(ctrl, op->rq, op);
+>> ???????????????? if (ret < 0) {
+>> ???????????????????????? nvme_cleanup_cmd(op->rq);
+>> ???????????????????????? nvme_fc_ctrl_put(ctrl);
+>> ???????????????????????? if (ret == -ENOMEM || ret == -EAGAIN)
+>> ???????????????????????????????? return BLK_STS_RESOURCE;
+>> ???????????????????????? return BLK_STS_IOERR;
+>> ???????????????? }
+>> ???????? }
+>> ??? ...
+>> ???????? ret = ctrl->lport->ops->fcp_io(&ctrl->lport->localport,
+>> ???????????????????????????????????????? &ctrl->rport->remoteport,
+>> ???????????????????????????????????????? queue->lldd_handle, 
+>> &op->fcp_req);
+>>
+>>
+> 
+> Good question. I believe a simple bug from a long time ago. The target 
+> side, for the most part, doesn't care about what the csn is until a 
+> fused io comes, then it would has to use the csn to pair them up.? As 
+> linux never sends fuse ios, csn is effectively irrelevant when used with 
+> linux.? If one were to be "spec compliant" yes, the target could choose 
+> to validate the connect cmd had cmdiu=0. But for any other command on 
+> the connection, order isn't dictated so there's no way to guess what the 
+> csn should be.
+> 
+> And I do agree with John. I'll send a patchup shortly.
+> 
+Well, the _actual_ background of this question was that I'd been 
+thinking if one could use csn to implement SQ flow control; after all, 
+csn is pretty similar to the SQ Head pointer, albeit with a different 
+modulo. If the spec would allow us to wrap-around csn at any arbitrary 
+fixed number we wouldn't need to implement a separate SQ head pointer at 
+all :-)
+Sadly, FC-NVMe is pretty adamant that we should be wrapping around at 
+UINT_MAX...
 
-Please see my in-line comments.
+Cheers,
 
-On 4/8/19 12:45 PM, Keith Busch wrote:
-> The nvme target hadn't been taking the Get Log Page offset parameter
-> into consideration, and so has been returning corrupted logs pages when
-> offsets are used. Since many tools, including nvme-cli, split the log
-> request to 4k, we've been breaking discovery log responses when more
-> than 3 subsystems exist.
-> 
-> Fix the log page by internally generating the entire discovery log page
-> and copying only the requested bytes into the user buffer.
-> 
-> Cc: Hannes Reinecke <hare at suse.de>
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
-> ---
-> v1 -> v2:
-> 
->    Fixed releasing nvmet_config_sem read lock
-> 
->    Fixed commit log spelling error
-> 
->    Return invalid field if offset is not dword aligned. This is spec
->    optional, but it's either check these bits or mask them off. I just
->    chose the former.
-> 
->   drivers/nvme/target/admin-cmd.c | 10 ++++++
->   drivers/nvme/target/discovery.c | 68 ++++++++++++++++++++++++++---------------
->   drivers/nvme/target/nvmet.h     |  1 +
->   3 files changed, 55 insertions(+), 24 deletions(-)
-> 
-> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-> index 76250181fee0..e7f3f6e71853 100644
-> --- a/drivers/nvme/target/admin-cmd.c
-> +++ b/drivers/nvme/target/admin-cmd.c
-> @@ -24,6 +24,16 @@ u32 nvmet_get_log_page_len(struct nvme_command *cmd)
->   	return len;
->   }
->   
-> +u64 nvmet_get_log_page_offset(struct nvme_command *cmd)
-> +{
-> +	u64 offset = le32_to_cpu(cmd->get_log_page.lpou);
-> +
-> +	offset <<= 32;
-> +	offset += le32_to_cpu(cmd->get_log_page.lpol);
-> +
-> +	return offset;
-> +}
-> +
-Can we please mark above function inline ?
-
->   static void nvmet_execute_get_log_page_noop(struct nvmet_req *req)
->   {
->   	nvmet_req_complete(req, nvmet_zero_sgl(req, 0, req->data_len));
-> diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
-> index c872b47a88f3..0f1f32aa279b 100644
-> --- a/drivers/nvme/target/discovery.c
-> +++ b/drivers/nvme/target/discovery.c
-> @@ -131,54 +131,75 @@ static void nvmet_set_disc_traddr(struct nvmet_req *req, struct nvmet_port *port
->   		memcpy(traddr, port->disc_addr.traddr, NVMF_TRADDR_SIZE);
->   }
->   
-> +static size_t discovery_log_entries(struct nvmet_req *req)
-> +{
-> +	struct nvmet_ctrl *ctrl = req->sq->ctrl;
-> +	struct nvmet_subsys_link *p;
-> +	struct nvmet_port *r;
-> +	u32 entries = 0;
-> +
-> +	list_for_each_entry(p, &req->port->subsystems, entry) {
-> +		if (!nvmet_host_allowed(p->subsys, ctrl->hostnqn))
-> +			continue;
-> +		entries++;
-> +	}
-> +	list_for_each_entry(r, &req->port->referrals, entry)
-> +		entries++;
-> +	return entries;
-> +}
-> +
-Return value of the above function has different data type than the 
-variable that we are returning. May we should use the same return
-data type and the variable data type to avoid warnings from
-static analysis tools.
-
->   static void nvmet_execute_get_disc_log_page(struct nvmet_req *req)
->   {
->   	const int entry_size = sizeof(struct nvmf_disc_rsp_page_entry);
->   	struct nvmet_ctrl *ctrl = req->sq->ctrl;
->   	struct nvmf_disc_rsp_page_hdr *hdr;
-> +	u64 offset = nvmet_get_log_page_offset(req->cmd);
->   	size_t data_len = nvmet_get_log_page_len(req->cmd);
-> -	size_t alloc_len = max(data_len, sizeof(*hdr));
-> -	int residual_len = data_len - sizeof(*hdr);
-> +	size_t alloc_len;
->   	struct nvmet_subsys_link *p;
->   	struct nvmet_port *r;
->   	u32 numrec = 0;
->   	u16 status = 0;
-> +	void *buffer;
-> +
-> +	if (offset & 0x3) {
-> +		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
-> +		goto out;
-> +	}
-May be as a comment here with 0x3 to make code more readable?
-
->   
->   	/*
->   	 * Make sure we're passing at least a buffer of response header size.
->   	 * If host provided data len is less than the header size, only the
->   	 * number of bytes requested by host will be sent to host.
->   	 */
-> -	hdr = kzalloc(alloc_len, GFP_KERNEL);
-> -	if (!hdr) {
-> +	down_read(&nvmet_config_sem);
-> +	alloc_len = sizeof(*hdr) + entry_size * discovery_log_entries(req);
-> +	buffer = kzalloc(alloc_len, GFP_KERNEL);
-> +	if (!buffer) {
-> +		up_read(&nvmet_config_sem);
->   		status = NVME_SC_INTERNAL;
->   		goto out;
->   	}
->   
-> -	down_read(&nvmet_config_sem);
-> +	hdr = buffer;
->   	list_for_each_entry(p, &req->port->subsystems, entry) {
-> +		char traddr[NVMF_TRADDR_SIZE];
-> +
->   		if (!nvmet_host_allowed(p->subsys, ctrl->hostnqn))
->   			continue;
-> -		if (residual_len >= entry_size) {
-> -			char traddr[NVMF_TRADDR_SIZE];
-> -
-> -			nvmet_set_disc_traddr(req, req->port, traddr);
-> -			nvmet_format_discovery_entry(hdr, req->port,
-> -					p->subsys->subsysnqn, traddr,
-> -					NVME_NQN_NVME, numrec);
-> -			residual_len -= entry_size;
-> -		}
-> +
-> +		nvmet_set_disc_traddr(req, req->port, traddr);
-> +		nvmet_format_discovery_entry(hdr, req->port,
-> +				p->subsys->subsysnqn, traddr,
-> +				NVME_NQN_NVME, numrec);
->   		numrec++;
->   	}
->   
->   	list_for_each_entry(r, &req->port->referrals, entry) {
-> -		if (residual_len >= entry_size) {
-> -			nvmet_format_discovery_entry(hdr, r,
-> -					NVME_DISC_SUBSYS_NAME,
-> -					r->disc_addr.traddr,
-> -					NVME_NQN_DISC, numrec);
-> -			residual_len -= entry_size;
-> -		}
-> +		nvmet_format_discovery_entry(hdr, r,
-> +				NVME_DISC_SUBSYS_NAME,
-> +				r->disc_addr.traddr,
-> +				NVME_NQN_DISC, numrec);
->   		numrec++;
->   	}
->   
-> @@ -187,11 +208,10 @@ static void nvmet_execute_get_disc_log_page(struct nvmet_req *req)
->   	hdr->recfmt = cpu_to_le16(0);
->   
->   	nvmet_clear_aen_bit(req, NVME_AEN_BIT_DISC_CHANGE);
-> -
-any reason we are getting rid of above extra line ?
->   	up_read(&nvmet_config_sem);
->   
-> -	status = nvmet_copy_to_sgl(req, 0, hdr, data_len);
-> -	kfree(hdr);
-> +	status = nvmet_copy_to_sgl(req, 0, buffer + offset, data_len);
-> +	kfree(buffer);
->   out:
->   	nvmet_req_complete(req, status);
->   }
-> diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-> index 51e49efd7849..1653d19b187f 100644
-> --- a/drivers/nvme/target/nvmet.h
-> +++ b/drivers/nvme/target/nvmet.h
-> @@ -428,6 +428,7 @@ u16 nvmet_copy_from_sgl(struct nvmet_req *req, off_t off, void *buf,
->   u16 nvmet_zero_sgl(struct nvmet_req *req, off_t off, size_t len);
->   
->   u32 nvmet_get_log_page_len(struct nvme_command *cmd);
-> +u64 nvmet_get_log_page_offset(struct nvme_command *cmd);
->   
->   extern struct list_head *nvmet_ports;
->   void nvmet_port_disc_changed(struct nvmet_port *port,
-> 
+Hannes
+-- 
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
+HRB 21284 (AG N?rnberg)
