@@ -1,39 +1,200 @@
-From: bvanassche@acm.org (Bart Van Assche)
-Date: Tue, 09 Apr 2019 08:19:30 -0700
-Subject: [PATCHv2] nvmet: Fix discover log page when offsets are used
-In-Reply-To: <20190409145517.GB1005@localhost.localdomain>
-References: <20190408194652.641-1-keith.busch@intel.com>
- <20190409095401.GD6827@lst.de>
- <20190409145517.GB1005@localhost.localdomain>
-Message-ID: <1554823170.161891.8.camel@acm.org>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue,  9 Apr 2019 10:03:59 -0600
+Subject: [PATCHv3] nvmet: Fix discover log page when offsets are used
+Message-ID: <20190409160359.2683-1-keith.busch@intel.com>
 
-On Tue, 2019-04-09@08:55 -0600, Keith Busch wrote:
-> On Tue, Apr 09, 2019@02:54:01AM -0700, Christoph Hellwig wrote:
-> > > +u64 nvmet_get_log_page_offset(struct nvme_command *cmd)
-> > > +{
-> > > +	u64 offset = le32_to_cpu(cmd->get_log_page.lpou);
-> > > +
-> > > +	offset <<= 32;
-> > > +	offset += le32_to_cpu(cmd->get_log_page.lpol);
-> > > +
-> > > +	return offset;
-> > 
-> > Maybe just a pet peeve of fine, but can we avoid the pointless local
-> > variable?  Why not:
-> > 
-> > 	return le32_to_cpu(cmd->get_log_page.lpol) |
-> > 		(((u64)le32_to_cpu(cmd->get_log_page.lpou)) << 32);
-> 
-> Sure thing.
->  
-> > That being said I don't get why we don't simply replace lpol and lpou
-> > with a single __le64 to start with to simplify things further.
-> 
-> It is on a natrual 8 byte alignment, so I guess we could make it an
-> __le64. The split just aligns to the spec.
+The nvme target hadn't been taking the Get Log Page offset parameter
+into consideration, and so has been returning corrupted log pages when
+offsets are used. Since many tools, including nvme-cli, split the log
+request to 4k, we've been breaking discovery log responses when more
+than 3 subsystems exist.
 
-How about introducing a union such that the names from the spec can be
-retained and at the same time nvmet_get_log_page_offset() can read a
-single __le64 variable?
+Fix the returned data by internally generating the entire discovery
+log page and copying only the requested bytes into the user buffer. The
+command log page offset type has been modified to a native __le64 to
+make it easier to extract the value from a command.
 
-Bart.
+Cc: Hannes Reinecke <hare at suse.de>
+Reviewed-by: James Smart <james.smart at broadcom.com>
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+v2 -> v3:
+
+  Make entry counting return the consistent type (Chaitanya) 
+
+  Comment on dword aligned offset (Chaitanya) 
+
+  Simplified obtaining the offset by using a native le64 type
+  (Christoph, Bart)
+
+  Updated change log
+
+ drivers/nvme/target/admin-cmd.c |  5 +++
+ drivers/nvme/target/discovery.c | 68 +++++++++++++++++++++++++++--------------
+ drivers/nvme/target/nvmet.h     |  1 +
+ include/linux/nvme.h            |  9 ++++--
+ 4 files changed, 58 insertions(+), 25 deletions(-)
+
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 76250181fee0..9f72d515fc4b 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -24,6 +24,11 @@ u32 nvmet_get_log_page_len(struct nvme_command *cmd)
+ 	return len;
+ }
+ 
++u64 nvmet_get_log_page_offset(struct nvme_command *cmd)
++{
++	return le64_to_cpu(cmd->get_log_page.lpo);
++}
++
+ static void nvmet_execute_get_log_page_noop(struct nvmet_req *req)
+ {
+ 	nvmet_req_complete(req, nvmet_zero_sgl(req, 0, req->data_len));
+diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
+index c872b47a88f3..33ed95e72d6b 100644
+--- a/drivers/nvme/target/discovery.c
++++ b/drivers/nvme/target/discovery.c
+@@ -131,54 +131,76 @@ static void nvmet_set_disc_traddr(struct nvmet_req *req, struct nvmet_port *port
+ 		memcpy(traddr, port->disc_addr.traddr, NVMF_TRADDR_SIZE);
+ }
+ 
++static size_t discovery_log_entries(struct nvmet_req *req)
++{
++	struct nvmet_ctrl *ctrl = req->sq->ctrl;
++	struct nvmet_subsys_link *p;
++	struct nvmet_port *r;
++	size_t entries = 0;
++
++	list_for_each_entry(p, &req->port->subsystems, entry) {
++		if (!nvmet_host_allowed(p->subsys, ctrl->hostnqn))
++			continue;
++		entries++;
++	}
++	list_for_each_entry(r, &req->port->referrals, entry)
++		entries++;
++	return entries;
++}
++
+ static void nvmet_execute_get_disc_log_page(struct nvmet_req *req)
+ {
+ 	const int entry_size = sizeof(struct nvmf_disc_rsp_page_entry);
+ 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
+ 	struct nvmf_disc_rsp_page_hdr *hdr;
++	u64 offset = nvmet_get_log_page_offset(req->cmd);
+ 	size_t data_len = nvmet_get_log_page_len(req->cmd);
+-	size_t alloc_len = max(data_len, sizeof(*hdr));
+-	int residual_len = data_len - sizeof(*hdr);
++	size_t alloc_len;
+ 	struct nvmet_subsys_link *p;
+ 	struct nvmet_port *r;
+ 	u32 numrec = 0;
+ 	u16 status = 0;
++	void *buffer;
++
++	/* Spec requires dword aligned offsets */
++	if (offset & 0x3) {
++		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
++		goto out;
++	}
+ 
+ 	/*
+ 	 * Make sure we're passing at least a buffer of response header size.
+ 	 * If host provided data len is less than the header size, only the
+ 	 * number of bytes requested by host will be sent to host.
+ 	 */
+-	hdr = kzalloc(alloc_len, GFP_KERNEL);
+-	if (!hdr) {
++	down_read(&nvmet_config_sem);
++	alloc_len = sizeof(*hdr) + entry_size * discovery_log_entries(req);
++	buffer = kzalloc(alloc_len, GFP_KERNEL);
++	if (!buffer) {
++		up_read(&nvmet_config_sem);
+ 		status = NVME_SC_INTERNAL;
+ 		goto out;
+ 	}
+ 
+-	down_read(&nvmet_config_sem);
++	hdr = buffer;
+ 	list_for_each_entry(p, &req->port->subsystems, entry) {
++		char traddr[NVMF_TRADDR_SIZE];
++
+ 		if (!nvmet_host_allowed(p->subsys, ctrl->hostnqn))
+ 			continue;
+-		if (residual_len >= entry_size) {
+-			char traddr[NVMF_TRADDR_SIZE];
+-
+-			nvmet_set_disc_traddr(req, req->port, traddr);
+-			nvmet_format_discovery_entry(hdr, req->port,
+-					p->subsys->subsysnqn, traddr,
+-					NVME_NQN_NVME, numrec);
+-			residual_len -= entry_size;
+-		}
++
++		nvmet_set_disc_traddr(req, req->port, traddr);
++		nvmet_format_discovery_entry(hdr, req->port,
++				p->subsys->subsysnqn, traddr,
++				NVME_NQN_NVME, numrec);
+ 		numrec++;
+ 	}
+ 
+ 	list_for_each_entry(r, &req->port->referrals, entry) {
+-		if (residual_len >= entry_size) {
+-			nvmet_format_discovery_entry(hdr, r,
+-					NVME_DISC_SUBSYS_NAME,
+-					r->disc_addr.traddr,
+-					NVME_NQN_DISC, numrec);
+-			residual_len -= entry_size;
+-		}
++		nvmet_format_discovery_entry(hdr, r,
++				NVME_DISC_SUBSYS_NAME,
++				r->disc_addr.traddr,
++				NVME_NQN_DISC, numrec);
+ 		numrec++;
+ 	}
+ 
+@@ -190,8 +212,8 @@ static void nvmet_execute_get_disc_log_page(struct nvmet_req *req)
+ 
+ 	up_read(&nvmet_config_sem);
+ 
+-	status = nvmet_copy_to_sgl(req, 0, hdr, data_len);
+-	kfree(hdr);
++	status = nvmet_copy_to_sgl(req, 0, buffer + offset, data_len);
++	kfree(buffer);
+ out:
+ 	nvmet_req_complete(req, status);
+ }
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 51e49efd7849..1653d19b187f 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -428,6 +428,7 @@ u16 nvmet_copy_from_sgl(struct nvmet_req *req, off_t off, void *buf,
+ u16 nvmet_zero_sgl(struct nvmet_req *req, off_t off, size_t len);
+ 
+ u32 nvmet_get_log_page_len(struct nvme_command *cmd);
++u64 nvmet_get_log_page_offset(struct nvme_command *cmd);
+ 
+ extern struct list_head *nvmet_ports;
+ void nvmet_port_disc_changed(struct nvmet_port *port,
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index baa49e6a23cc..c40720cb59ac 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -967,8 +967,13 @@ struct nvme_get_log_page_command {
+ 	__le16			numdl;
+ 	__le16			numdu;
+ 	__u16			rsvd11;
+-	__le32			lpol;
+-	__le32			lpou;
++	union {
++		struct {
++			__le32 lpol;
++			__le32 lpou;
++		};
++		__le64 lpo;
++	};
+ 	__u32			rsvd14[2];
+ };
+ 
+-- 
+2.14.4
