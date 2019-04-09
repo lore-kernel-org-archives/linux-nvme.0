@@ -1,91 +1,197 @@
 From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Tue, 9 Apr 2019 02:22:19 +0000
-Subject: [PATCH] nvmet: Return a specified error it subsys_alloc fails
-References: <20190407062806.14596-1-minwoo.im.dev@gmail.com>
-Message-ID: <SN6PR04MB4527FE299C3DFD93305D767C862D0@SN6PR04MB4527.namprd04.prod.outlook.com>
+Date: Tue, 9 Apr 2019 02:33:04 +0000
+Subject: [PATCHv2] nvmet: Fix discover log page when offsets are used
+References: <20190408194652.641-1-keith.busch@intel.com>
+Message-ID: <SN6PR04MB45279B323BEE059E7FE46BD1862D0@SN6PR04MB4527.namprd04.prod.outlook.com>
 
-Looks good.
+Thanks for the patch Keith. May we should add a test in blktests for this.
 
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>.
+Please see my in-line comments.
 
-On 4/6/19 11:28 PM, Minwoo Im wrote:
-> nvmet_subsys_alloc() returns its pointer or NULL if it fails.  We can
-> see three different steps in this function:
->    1. memory allocation
->    2. argument check
->    3. memory allocation for string
+On 4/8/19 12:45 PM, Keith Busch wrote:
+> The nvme target hadn't been taking the Get Log Page offset parameter
+> into consideration, and so has been returning corrupted logs pages when
+> offsets are used. Since many tools, including nvme-cli, split the log
+> request to 4k, we've been breaking discovery log responses when more
+> than 3 subsystems exist.
 > 
-> But now the callers of this function do not seem to handle case 2 by
-> returning -ENOMEM only even if it fails with an invalid parameter.
+> Fix the log page by internally generating the entire discovery log page
+> and copying only the requested bytes into the user buffer.
 > 
-> This patch specifies error codes so that caller can pass it to its own
-> caller.
-> 
-> Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
+> Cc: Hannes Reinecke <hare at suse.de>
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
 > ---
->   drivers/nvme/target/configfs.c  | 4 ++--
->   drivers/nvme/target/core.c      | 6 +++---
->   drivers/nvme/target/discovery.c | 4 ++--
->   3 files changed, 7 insertions(+), 7 deletions(-)
+> v1 -> v2:
 > 
-> diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-> index adb79545cdd7..08dd5af357f7 100644
-> --- a/drivers/nvme/target/configfs.c
-> +++ b/drivers/nvme/target/configfs.c
-> @@ -898,8 +898,8 @@ static struct config_group *nvmet_subsys_make(struct config_group *group,
->   	}
->   
->   	subsys = nvmet_subsys_alloc(name, NVME_NQN_NVME);
-> -	if (!subsys)
-> -		return ERR_PTR(-ENOMEM);
-> +	if (IS_ERR(subsys))
-> +		return ERR_CAST(subsys);
->   
->   	config_group_init_type_name(&subsys->group, name, &nvmet_subsys_type);
->   
-> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-> index 4d8dd29479c0..4285870ad01e 100644
-> --- a/drivers/nvme/target/core.c
-> +++ b/drivers/nvme/target/core.c
-> @@ -1367,7 +1367,7 @@ struct nvmet_subsys *nvmet_subsys_alloc(const char *subsysnqn,
->   
->   	subsys = kzalloc(sizeof(*subsys), GFP_KERNEL);
->   	if (!subsys)
-> -		return NULL;
-> +		return ERR_PTR(-ENOMEM);
->   
->   	subsys->ver = NVME_VS(1, 3, 0); /* NVMe 1.3.0 */
->   	/* generate a random serial number as our controllers are ephemeral: */
-> @@ -1383,14 +1383,14 @@ struct nvmet_subsys *nvmet_subsys_alloc(const char *subsysnqn,
->   	default:
->   		pr_err("%s: Unknown Subsystem type - %d\n", __func__, type);
->   		kfree(subsys);
-> -		return NULL;
-> +		return ERR_PTR(-EINVAL);
->   	}
->   	subsys->type = type;
->   	subsys->subsysnqn = kstrndup(subsysnqn, NVMF_NQN_SIZE,
->   			GFP_KERNEL);
->   	if (!subsys->subsysnqn) {
->   		kfree(subsys);
-> -		return NULL;
-> +		return ERR_PTR(-ENOMEM);
->   	}
->   
->   	kref_init(&subsys->ref);
-> diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
-> index c872b47a88f3..aa2406b2e434 100644
-> --- a/drivers/nvme/target/discovery.c
-> +++ b/drivers/nvme/target/discovery.c
-> @@ -350,8 +350,8 @@ int __init nvmet_init_discovery(void)
->   {
->   	nvmet_disc_subsys =
->   		nvmet_subsys_alloc(NVME_DISC_SUBSYS_NAME, NVME_NQN_DISC);
-> -	if (!nvmet_disc_subsys)
-> -		return -ENOMEM;
-> +	if (IS_ERR(nvmet_disc_subsys))
-> +		return PTR_ERR(nvmet_disc_subsys);
->   	return 0;
+>    Fixed releasing nvmet_config_sem read lock
+> 
+>    Fixed commit log spelling error
+> 
+>    Return invalid field if offset is not dword aligned. This is spec
+>    optional, but it's either check these bits or mask them off. I just
+>    chose the former.
+> 
+>   drivers/nvme/target/admin-cmd.c | 10 ++++++
+>   drivers/nvme/target/discovery.c | 68 ++++++++++++++++++++++++++---------------
+>   drivers/nvme/target/nvmet.h     |  1 +
+>   3 files changed, 55 insertions(+), 24 deletions(-)
+> 
+> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+> index 76250181fee0..e7f3f6e71853 100644
+> --- a/drivers/nvme/target/admin-cmd.c
+> +++ b/drivers/nvme/target/admin-cmd.c
+> @@ -24,6 +24,16 @@ u32 nvmet_get_log_page_len(struct nvme_command *cmd)
+>   	return len;
 >   }
 >   
+> +u64 nvmet_get_log_page_offset(struct nvme_command *cmd)
+> +{
+> +	u64 offset = le32_to_cpu(cmd->get_log_page.lpou);
+> +
+> +	offset <<= 32;
+> +	offset += le32_to_cpu(cmd->get_log_page.lpol);
+> +
+> +	return offset;
+> +}
+> +
+Can we please mark above function inline ?
+
+>   static void nvmet_execute_get_log_page_noop(struct nvmet_req *req)
+>   {
+>   	nvmet_req_complete(req, nvmet_zero_sgl(req, 0, req->data_len));
+> diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
+> index c872b47a88f3..0f1f32aa279b 100644
+> --- a/drivers/nvme/target/discovery.c
+> +++ b/drivers/nvme/target/discovery.c
+> @@ -131,54 +131,75 @@ static void nvmet_set_disc_traddr(struct nvmet_req *req, struct nvmet_port *port
+>   		memcpy(traddr, port->disc_addr.traddr, NVMF_TRADDR_SIZE);
+>   }
+>   
+> +static size_t discovery_log_entries(struct nvmet_req *req)
+> +{
+> +	struct nvmet_ctrl *ctrl = req->sq->ctrl;
+> +	struct nvmet_subsys_link *p;
+> +	struct nvmet_port *r;
+> +	u32 entries = 0;
+> +
+> +	list_for_each_entry(p, &req->port->subsystems, entry) {
+> +		if (!nvmet_host_allowed(p->subsys, ctrl->hostnqn))
+> +			continue;
+> +		entries++;
+> +	}
+> +	list_for_each_entry(r, &req->port->referrals, entry)
+> +		entries++;
+> +	return entries;
+> +}
+> +
+Return value of the above function has different data type than the 
+variable that we are returning. May we should use the same return
+data type and the variable data type to avoid warnings from
+static analysis tools.
+
+>   static void nvmet_execute_get_disc_log_page(struct nvmet_req *req)
+>   {
+>   	const int entry_size = sizeof(struct nvmf_disc_rsp_page_entry);
+>   	struct nvmet_ctrl *ctrl = req->sq->ctrl;
+>   	struct nvmf_disc_rsp_page_hdr *hdr;
+> +	u64 offset = nvmet_get_log_page_offset(req->cmd);
+>   	size_t data_len = nvmet_get_log_page_len(req->cmd);
+> -	size_t alloc_len = max(data_len, sizeof(*hdr));
+> -	int residual_len = data_len - sizeof(*hdr);
+> +	size_t alloc_len;
+>   	struct nvmet_subsys_link *p;
+>   	struct nvmet_port *r;
+>   	u32 numrec = 0;
+>   	u16 status = 0;
+> +	void *buffer;
+> +
+> +	if (offset & 0x3) {
+> +		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
+> +		goto out;
+> +	}
+May be as a comment here with 0x3 to make code more readable?
+
+>   
+>   	/*
+>   	 * Make sure we're passing at least a buffer of response header size.
+>   	 * If host provided data len is less than the header size, only the
+>   	 * number of bytes requested by host will be sent to host.
+>   	 */
+> -	hdr = kzalloc(alloc_len, GFP_KERNEL);
+> -	if (!hdr) {
+> +	down_read(&nvmet_config_sem);
+> +	alloc_len = sizeof(*hdr) + entry_size * discovery_log_entries(req);
+> +	buffer = kzalloc(alloc_len, GFP_KERNEL);
+> +	if (!buffer) {
+> +		up_read(&nvmet_config_sem);
+>   		status = NVME_SC_INTERNAL;
+>   		goto out;
+>   	}
+>   
+> -	down_read(&nvmet_config_sem);
+> +	hdr = buffer;
+>   	list_for_each_entry(p, &req->port->subsystems, entry) {
+> +		char traddr[NVMF_TRADDR_SIZE];
+> +
+>   		if (!nvmet_host_allowed(p->subsys, ctrl->hostnqn))
+>   			continue;
+> -		if (residual_len >= entry_size) {
+> -			char traddr[NVMF_TRADDR_SIZE];
+> -
+> -			nvmet_set_disc_traddr(req, req->port, traddr);
+> -			nvmet_format_discovery_entry(hdr, req->port,
+> -					p->subsys->subsysnqn, traddr,
+> -					NVME_NQN_NVME, numrec);
+> -			residual_len -= entry_size;
+> -		}
+> +
+> +		nvmet_set_disc_traddr(req, req->port, traddr);
+> +		nvmet_format_discovery_entry(hdr, req->port,
+> +				p->subsys->subsysnqn, traddr,
+> +				NVME_NQN_NVME, numrec);
+>   		numrec++;
+>   	}
+>   
+>   	list_for_each_entry(r, &req->port->referrals, entry) {
+> -		if (residual_len >= entry_size) {
+> -			nvmet_format_discovery_entry(hdr, r,
+> -					NVME_DISC_SUBSYS_NAME,
+> -					r->disc_addr.traddr,
+> -					NVME_NQN_DISC, numrec);
+> -			residual_len -= entry_size;
+> -		}
+> +		nvmet_format_discovery_entry(hdr, r,
+> +				NVME_DISC_SUBSYS_NAME,
+> +				r->disc_addr.traddr,
+> +				NVME_NQN_DISC, numrec);
+>   		numrec++;
+>   	}
+>   
+> @@ -187,11 +208,10 @@ static void nvmet_execute_get_disc_log_page(struct nvmet_req *req)
+>   	hdr->recfmt = cpu_to_le16(0);
+>   
+>   	nvmet_clear_aen_bit(req, NVME_AEN_BIT_DISC_CHANGE);
+> -
+any reason we are getting rid of above extra line ?
+>   	up_read(&nvmet_config_sem);
+>   
+> -	status = nvmet_copy_to_sgl(req, 0, hdr, data_len);
+> -	kfree(hdr);
+> +	status = nvmet_copy_to_sgl(req, 0, buffer + offset, data_len);
+> +	kfree(buffer);
+>   out:
+>   	nvmet_req_complete(req, status);
+>   }
+> diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+> index 51e49efd7849..1653d19b187f 100644
+> --- a/drivers/nvme/target/nvmet.h
+> +++ b/drivers/nvme/target/nvmet.h
+> @@ -428,6 +428,7 @@ u16 nvmet_copy_from_sgl(struct nvmet_req *req, off_t off, void *buf,
+>   u16 nvmet_zero_sgl(struct nvmet_req *req, off_t off, size_t len);
+>   
+>   u32 nvmet_get_log_page_len(struct nvme_command *cmd);
+> +u64 nvmet_get_log_page_offset(struct nvme_command *cmd);
+>   
+>   extern struct list_head *nvmet_ports;
+>   void nvmet_port_disc_changed(struct nvmet_port *port,
 > 
