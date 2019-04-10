@@ -1,35 +1,21 @@
-From: kenneth.heitke@intel.com (Heitke, Kenneth)
-Date: Wed, 10 Apr 2019 10:54:03 -0600
-Subject: [PATCH RFC 1/6] nvme: add new flags NVME_ADMIN_QID for nvme admin
- queue
-In-Reply-To: <20190410080035.82529-2-yuyufen@huawei.com>
+From: kbusch@kernel.org (Keith Busch)
+Date: Wed, 10 Apr 2019 11:12:16 -0600
+Subject: [PATCH RFC 0/6] nvme: introduce a new flag NVME_ADMIN_QID
+In-Reply-To: <20190410080035.82529-1-yuyufen@huawei.com>
 References: <20190410080035.82529-1-yuyufen@huawei.com>
- <20190410080035.82529-2-yuyufen@huawei.com>
-Message-ID: <c0926a32-1c15-3f3b-f795-67c7161a2c10@intel.com>
+Message-ID: <20190410171215.GD3714@localhost.localdomain>
 
-
-
-On 4/10/2019 2:00 AM, Yufen Yu wrote:
-> Signed-off-by: Yufen Yu <yuyufen at huawei.com>
-> ---
->   include/linux/nvme.h | 3 +++
->   1 file changed, 3 insertions(+)
+On Wed, Apr 10, 2019@01:00:29AM -0700, Yufen Yu wrote:
+> Hi, all
 > 
-> diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-> index baa49e6a23cc..9f09c0b764ca 100644
-> --- a/include/linux/nvme.h
-> +++ b/include/linux/nvme.h
-> @@ -24,6 +24,9 @@
->   
->   #define NVME_RDMA_IP_PORT	4420
->   
-> +/* nvme admin queue qid */
-> +#define NVME_ADMIN_QID 	0
-
-There is a space before the tab. You should remove the space.
-
-> +
->   #define NVME_NSID_ALL		0xffffffff
->   
->   enum nvme_subsys_type {
+> This patchset introduces a new flag NVME_ADMIN_QID for admin queue.
+> Now that, all drivers in host or target are use index '0' as admin
+> queues. Thus, we can use a flag NVME_ADMIN_QID instead of using '0',
+> which can make code more easy to read and understand.
 > 
+> This patchset is RFC, and it just use NVME_ADMIN_QID for drivers in
+> nvme host. I am not sure whether this patchset actually make sense. 
+> Any suggestion is welcome and thanks in advance.
+
+IMO, this makes it harder to read anything that's using the 0 index in a
+loop.
