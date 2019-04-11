@@ -1,7 +1,7 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Fri, 12 Apr 2019 00:51:24 +0900
+Date: Fri, 12 Apr 2019 00:52:37 +0900
 Subject: [PATCH 0/2] nvme: pci: Fix queue_count parameter
-Message-ID: <20190411155126.948-1-minwoo.im.dev@gmail.com>
+Message-ID: <20190411155239.1094-1-minwoo.im.dev@gmail.com>
 
 The first patch will make it return an error if given value is larger
 than number of possible cpus.  It has not been doing anything about it.
@@ -9,6 +9,9 @@ than number of possible cpus.  It has not been doing anything about it.
 The second patch is just a nit for clean-up of local variable.  It does
 not need to be initialized in this scope because kstrtoint() will return
 an error if it fails without referring local variable after it.
+
+It has been reported:
+	http://lists.infradead.org/pipermail/linux-nvme/2019-April/023333.html
 
 Minwoo Im (2):
   nvme: pci: Return -EINVAL if given nr_queue larger than nr_cpu
