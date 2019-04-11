@@ -1,16 +1,13 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Fri, 12 Apr 2019 00:52:38 +0900
-Subject: [PATCH 1/2] nvme: pci: Return -EINVAL if given nr_queue larger than
- nr_cpu
+Date: Fri, 12 Apr 2019 00:52:39 +0900
+Subject: [PATCH 2/2] nvme: pci: Do not initialize local_var
 In-Reply-To: <20190411155239.1094-1-minwoo.im.dev@gmail.com>
 References: <20190411155239.1094-1-minwoo.im.dev@gmail.com>
-Message-ID: <20190411155239.1094-2-minwoo.im.dev@gmail.com>
+Message-ID: <20190411155239.1094-3-minwoo.im.dev@gmail.com>
 
-"write_queues" and "poll_queues" can be configured by module parameters
-with callback queue_count_set().
-
-This function shall return a error if given number of queue is larger
-than nr_possible_cpus due to blk-mq.
+Variable "n" will be assigned once kstrtoint() succeeds, otherwise it
+will not be referred because kstrtoint() will return an error which
+means go out from this function.
 
 Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
 ---
@@ -18,17 +15,17 @@ Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index a90cf5d63aac..1a7f44924e0f 100644
+index 1a7f44924e0f..db894d4a37b6 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -152,7 +152,7 @@ static int queue_count_set(const char *val, const struct kernel_param *kp)
- 	if (ret)
- 		return ret;
- 	if (n > num_possible_cpus())
--		n = num_possible_cpus();
-+		return -EINVAL;
+@@ -146,7 +146,7 @@ static int io_queue_depth_set(const char *val, const struct kernel_param *kp)
  
- 	return param_set_int(val, kp);
- }
+ static int queue_count_set(const char *val, const struct kernel_param *kp)
+ {
+-	int n = 0, ret;
++	int n, ret;
+ 
+ 	ret = kstrtoint(val, 10, &n);
+ 	if (ret)
 -- 
 2.17.1
