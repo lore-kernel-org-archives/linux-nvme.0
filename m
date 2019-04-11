@@ -1,24 +1,34 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Fri, 12 Apr 2019 00:52:37 +0900
-Subject: [PATCH 0/2] nvme: pci: Fix queue_count parameter
-Message-ID: <20190411155239.1094-1-minwoo.im.dev@gmail.com>
+Date: Fri, 12 Apr 2019 00:52:38 +0900
+Subject: [PATCH 1/2] nvme: pci: Return -EINVAL if given nr_queue larger than
+ nr_cpu
+In-Reply-To: <20190411155239.1094-1-minwoo.im.dev@gmail.com>
+References: <20190411155239.1094-1-minwoo.im.dev@gmail.com>
+Message-ID: <20190411155239.1094-2-minwoo.im.dev@gmail.com>
 
-The first patch will make it return an error if given value is larger
-than number of possible cpus.  It has not been doing anything about it.
+"write_queues" and "poll_queues" can be configured by module parameters
+with callback queue_count_set().
 
-The second patch is just a nit for clean-up of local variable.  It does
-not need to be initialized in this scope because kstrtoint() will return
-an error if it fails without referring local variable after it.
+This function shall return a error if given number of queue is larger
+than nr_possible_cpus due to blk-mq.
 
-It has been reported:
-	http://lists.infradead.org/pipermail/linux-nvme/2019-April/023333.html
+Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
+---
+ drivers/nvme/host/pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Minwoo Im (2):
-  nvme: pci: Return -EINVAL if given nr_queue larger than nr_cpu
-  nvme: pci: Do not initialize local_var
-
- drivers/nvme/host/pci.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index a90cf5d63aac..1a7f44924e0f 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -152,7 +152,7 @@ static int queue_count_set(const char *val, const struct kernel_param *kp)
+ 	if (ret)
+ 		return ret;
+ 	if (n > num_possible_cpus())
+-		n = num_possible_cpus();
++		return -EINVAL;
+ 
+ 	return param_set_int(val, kp);
+ }
 -- 
 2.17.1
