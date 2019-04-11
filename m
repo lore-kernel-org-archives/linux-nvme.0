@@ -1,51 +1,86 @@
-From: minwoo.im@samsung.com (Minwoo Im)
-Date: Thu, 11 Apr 2019 20:21:55 +0900
-Subject: [PATCH v2] nvme-cli: fix typo, removing the duplicate 'are'
-In-Reply-To: <20190411092316.5479-1-sschricker@suse.de>
-References: <20190411092316.5479-1-sschricker@suse.de>
- <CGME20190411092619epcas5p1a46c545239ce6f387137cf97ae02600a@epcms2p4>
-Message-ID: <20190411112155epcms2p4864c8230eac00d6047b424268d46bee9@epcms2p4>
+From: yuyufen@huawei.com (Yufen Yu)
+Date: Thu, 11 Apr 2019 21:32:27 +0800
+Subject: [PATCH RFC] nvme: fix race condition between remove and scan_work
+Message-ID: <20190411133227.28435-1-yuyufen@huawei.com>
 
-> -----Original Message-----
-> From: Linux-nvme [mailto:linux-nvme-bounces at lists.infradead.org] On Behalf
-> Of Simon Schricker
-> Sent: Thursday, April 11, 2019 6:23 PM
-> To: linux-nvme at lists.infradead.org
-> Cc: keith.busch at intel.com; sschricker at suse.de; hch at lst.de;
-> sagi at grimberg.me
-> Subject: [PATCH v2] nvme-cli: fix typo, removing the duplicate 'are'
-> 
-> Signed-off-by: Simon Schricker <sschricker at suse.de>
-> ---
->  Documentation/nvme-netapp-ontapdevices.txt | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/nvme-netapp-ontapdevices.txt
-> b/Documentation/nvme-netapp-ontapdevices.txt
-> index 8eaa73f..c292758 100644
-> --- a/Documentation/nvme-netapp-ontapdevices.txt
-> +++ b/Documentation/nvme-netapp-ontapdevices.txt
-> @@ -13,7 +13,7 @@ SYNOPSIS
->  DESCRIPTION
->  -----------
->  Display information about ONTAP devices on the host. The ONTAP devices
-> are
-> -are identified using the Identify Controller data.
-> +identified using the Identify Controller data.
+There is a race condition between nvme_remove and nvme_scan_work, as
+following:
 
-We can regenerate documents sooner or later for .html and .1.
-For this patch, Looks good.
+sysfs_kr_wirte
+nvme_remove            nvme_queue_scan            timeout_worker
+                       queue scan_work
 
-Reviewed-by: Minwoo Im <minwoo.im at samsung.com>
+		       nvme_scan_work
 
-> 
->  OPTIONS
->  -------
-> --
-> 2.16.4
-> 
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+set NVME_CTRL_DELETING
+flush_work(&ctrl->scan_work)
+wait_for_completion scan_work
+
+                       nvme_scan_ns_list
+		        nvme_validate_ns
+			 nvme_submit_sync_cmd(admin_q)
+                          IO timeout
+                                                  nvme_timeout
+						   nvme_dev_disable
+						    nvme_suspend_queue(admin_q)
+							blk_mq_quiesce_queue
+
+                                                   nvme_reset_ctrl
+						    return -EBUSY
+
+                        nvme_scan_ns_sequential
+			 nvme_submit_sync_cmd(admin_q)
+                          IO cannnot issue, as admin_q suspend
+                         wait_for_completion_io_timeout
+
+nvme_remove() wait for nvme_scan_work() finish, and scan_work wait for
+io complete. When a previous IO issued in scan_work has timeout,
+nvme_timeout() will suspend admin queue and make the queue in quiesce state.
+
+Since nvme controller state is 'NVME_CTRL_DELETING', nvme_reset_ctrl()
+can not start reset work to recovery admin queue. Then, the next io request
+issued to admin_q will be stalled in blk-mq 'ctx' queue forever.
+As a result, both of remove and scan_work threads are stuck!
+
+We fix this problem by adding manual recovery admin queue after
+nvme_reset_ctrl return -EBUSY. Since ctrl.admin_q has been flags
+'NVMEQ_ENABLED', all requests issused will return as io error.
+
+Cc: Keith Busch <kbusch at kernel.org>
+Cc: Sagi Grimberg <sagi at grimberg.me>
+Cc: James Smart <james.smart at broadcom.com>
+Cc: Bart Van Assche <bvanassche at acm.org>
+Signed-off-by: Yufen Yu <yuyufen at huawei.com>
+---
+ drivers/nvme/host/pci.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index a90cf5d63aac..77807515d0e3 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1272,6 +1272,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ 	struct request *abort_req;
+ 	struct nvme_command cmd;
+ 	u32 csts = readl(dev->bar + NVME_REG_CSTS);
++	int error = 0;
+ 
+ 	/* If PCI error recovery process is happening, we cannot reset or
+ 	 * the recovery mechanism will surely fail.
+@@ -1329,7 +1330,13 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ 			 "I/O %d QID %d timeout, reset controller\n",
+ 			 req->tag, nvmeq->qid);
+ 		nvme_dev_disable(dev, false);
+-		nvme_reset_ctrl(&dev->ctrl);
++		/*
++		 * If reset ctrl fail, we need to drain all requests in ctx
++		 * and elevator, avoiding io stuck forever.
++		 */
++		error = nvme_reset_ctrl(&dev->ctrl);
++		if (error)
++			blk_mq_unquiesce_queue(dev->ctrl.admin_q);
+ 
+ 		nvme_req(req)->flags |= NVME_REQ_CANCELLED;
+ 		return BLK_EH_DONE;
+-- 
+2.16.2.dirty
