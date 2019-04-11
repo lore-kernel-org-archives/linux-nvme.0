@@ -1,27 +1,32 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Fri, 12 Apr 2019 00:54:05 +0900
-Subject: [PATCH 0/2] nvme: pci: Fix queue_count parameter
-In-Reply-To: <20190411155126.948-1-minwoo.im.dev@gmail.com>
-References: <20190411155126.948-1-minwoo.im.dev@gmail.com>
-Message-ID: <044ab6ef-ac11-6070-8661-b27cb32982ba@gmail.com>
+Date: Fri, 12 Apr 2019 01:02:31 +0900
+Subject: Potential bug in queue_count_set
+In-Reply-To: <d945096a-14d8-6d9f-187f-39501dfdb600@gmail.com>
+References: <b62dde65-1abf-1391-9de6-9bcdf6a7fa07@gmail.com>
+ <d945096a-14d8-6d9f-187f-39501dfdb600@gmail.com>
+Message-ID: <b0d01a14-f80c-30f2-b190-d0bbe8eb6005@gmail.com>
 
-On 4/12/19 12:51 AM, Minwoo Im wrote:
-> The first patch will make it return an error if given value is larger
-> than number of possible cpus.  It has not been doing anything about it.
-> 
-> The second patch is just a nit for clean-up of local variable.  It does
-> not need to be initialized in this scope because kstrtoint() will return
-> an error if it fails without referring local variable after it.
-> 
-> Minwoo Im (2):
->    nvme: pci: Return -EINVAL if given nr_queue larger than nr_cpu
->    nvme: pci: Do not initialize local_var
-> 
->   drivers/nvme/host/pci.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
 
-Please ignore this cover letter because it does not have any URL from
-where it has been reported.
+>>
+>> It looks like lines 154, 155 don't achieve anything as `n` is not being
+>> used afterwards. Sorry if this is already known or a non-issue, just
+>> wanted to let you guys know.
+>>
+> 
+> It looks like module parameter "write_queues" is set to the actual given
+> value (val) without considering reduced number of queues in case given
+> value is greater than nr_cpus.
+> 
+> I think that might need sprintf() or something like this to make the
+> actual value reduced in that case.
+
+
+Sorry, the "val" is const so that we cannot go through it with sprintf().
+My bad.  This function might return an error if invalid number is given.
+
+Sorry for the confusion.
+
+Have posted patches for it.
+   http://lists.infradead.org/pipermail/linux-nvme/2019-April/023369.html
 
 Thanks,
