@@ -1,54 +1,29 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Thu, 11 Apr 2019 22:54:11 +0000
-Subject: [PATCH 2/2] nvme: pci: Make sure command struct size fixed
-References: <20190411151832.26481-1-minwoo.im.dev@gmail.com>
- <20190411151832.26481-3-minwoo.im.dev@gmail.com>
-Message-ID: <SN6PR04MB452756EC40F44F0D939D42CA862F0@SN6PR04MB4527.namprd04.prod.outlook.com>
+From: emilne@redhat.com (Ewan D. Milne)
+Date: Fri, 12 Apr 2019 10:30:35 -0400
+Subject: [PATCH] nvme,scsi: display FC-NVMe port roles
+In-Reply-To: <20190410141619.146391-1-hare@suse.de>
+References: <20190410141619.146391-1-hare@suse.de>
+Message-ID: <04d92ced07c6a8e95432bafa1be73529aff00efb.camel@redhat.com>
 
-Looks good,
-
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-
-On 4/11/19 8:19 AM, Minwoo Im wrote:
-> All the NVMe command has 64bytes fixed size so that it has been assured
-> with BUILD_BUG_ON().  The remaining command structures in linux/nvme.h
-> also need to be checked here.
+On Wed, 2019-04-10@16:16 +0200, Hannes Reinecke wrote:
+> Currently the FC-NVMe driver is leverating the SCSI FC transport
+> class to access the remote ports. Which means that all FC-NVMe
+> remote ports will be visible to the fc transport layer, but due
+> to missing definitions the port roles will always be 'unknown'.
+> This patch adds the missing definitions to the fc transport class
+> to that the port roles are correctly displayed.
 > 
-> Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
+> Signed-off-by: Hannes Reinecke <hare at suse.com>
 > ---
->   drivers/nvme/host/pci.c | 7 +++++++
->   1 file changed, 7 insertions(+)
+>  drivers/nvme/host/fc.c           |  2 +-
+>  drivers/scsi/lpfc/lpfc_hbadisc.c | 10 ++++++++--
+>  drivers/scsi/qla2xxx/qla_def.h   |  5 ++++-
+>  drivers/scsi/qla2xxx/qla_init.c  | 15 +++++++++++----
+>  drivers/scsi/qla2xxx/qla_mbx.c   |  8 +++++++-
+>  drivers/scsi/scsi_transport_fc.c |  3 +++
+>  include/linux/nvme-fc-driver.h   |  6 ------
+>  include/scsi/scsi_transport_fc.h |  3 +++
+>  8 files changed, 37 insertions(+), 15 deletions(-)
 > 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index c1eecde6b853..fd43d1a7bd16 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -231,19 +231,26 @@ struct nvme_iod {
->    */
->   static inline void _nvme_check_size(void)
->   {
-> +	BUILD_BUG_ON(sizeof(struct nvme_common_command) != 64);
->   	BUILD_BUG_ON(sizeof(struct nvme_rw_command) != 64);
-> +	BUILD_BUG_ON(sizeof(struct nvme_identify) != 64);
->   	BUILD_BUG_ON(sizeof(struct nvme_create_cq) != 64);
->   	BUILD_BUG_ON(sizeof(struct nvme_create_sq) != 64);
->   	BUILD_BUG_ON(sizeof(struct nvme_delete_queue) != 64);
->   	BUILD_BUG_ON(sizeof(struct nvme_features) != 64);
-> +	BUILD_BUG_ON(sizeof(struct nvme_download_firmware) != 64);
->   	BUILD_BUG_ON(sizeof(struct nvme_format_cmd) != 64);
-> +	BUILD_BUG_ON(sizeof(struct nvme_dsm_cmd) != 64);
-> +	BUILD_BUG_ON(sizeof(struct nvme_write_zeroes_cmd) != 64);
->   	BUILD_BUG_ON(sizeof(struct nvme_abort_cmd) != 64);
-> +	BUILD_BUG_ON(sizeof(struct nvme_get_log_page_command) != 64);
->   	BUILD_BUG_ON(sizeof(struct nvme_command) != 64);
->   	BUILD_BUG_ON(sizeof(struct nvme_id_ctrl) != NVME_IDENTIFY_DATA_SIZE);
->   	BUILD_BUG_ON(sizeof(struct nvme_id_ns) != NVME_IDENTIFY_DATA_SIZE);
->   	BUILD_BUG_ON(sizeof(struct nvme_lba_range_type) != 64);
->   	BUILD_BUG_ON(sizeof(struct nvme_smart_log) != 512);
->   	BUILD_BUG_ON(sizeof(struct nvme_dbbuf) != 64);
-> +	BUILD_BUG_ON(sizeof(struct nvme_directive_cmd) != 64);
->   }
->   
 
->   static unsigned int max_io_queues(void)
-> 
+Reviewed-by: Ewan D. Milne <emilne at redhat.com>
