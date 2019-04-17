@@ -1,25 +1,83 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 17 Apr 2019 11:57:50 -0600
-Subject: [PATCH v4 4/7] block: introduce write-hint to stream-id conversion
-In-Reply-To: <1555523406-2380-5-git-send-email-joshi.k@samsung.com>
-References: <1555523406-2380-1-git-send-email-joshi.k@samsung.com>
- <CGME20190417175358epcas1p41a0a4e349dfe0a70bdcc244161c71604@epcas1p4.samsung.com>
- <1555523406-2380-5-git-send-email-joshi.k@samsung.com>
-Message-ID: <6850a3ad-805f-4232-1bc7-f3249e1fba96@kernel.dk>
+From: edmund.f.nadolski@gmail.com (Edmund Nadolski (Microsoft))
+Date: Wed, 17 Apr 2019 14:30:18 -0700
+Subject: [PATCH] nvme: determine the number of IO queues
+In-Reply-To: <1555510379-20199-1-git-send-email-aaron.ma@canonical.com>
+References: <1555510379-20199-1-git-send-email-aaron.ma@canonical.com>
+Message-ID: <08ac5733-596b-598d-c821-f1aa2dc32650@gmail.com>
 
-On 4/17/19 11:50 AM, Kanchan Joshi wrote:
-> This patch moves write-hint-to-stream-id conversion in block-layer.
-> Earlier this was done by driver (nvme). Current conversion is of the
-> form "streamid = write-hint - 1", for both user and kernel streams.
-> Conversion takes stream limit (maintained in request queue) into
-> account. Write-hints beyond the exposed limit turn to 0.
-> A new field 'streamid' has been added in request. While 'write-hint'
-> field continues to exist. It keeps original value passed from upper
-> layer, and used during merging checks.
+On 4/17/19 7:12 AM, Aaron Ma wrote:
+> Some controllers support limited IO queues, when over set
+> the number, it will return invalid field error.
+> Then NVME will be removed by driver.
+> 
+> Find the max number of IO queues that controller supports.
+> When it still got invalid result, set 1 IO queue at least to
+> bring NVME online.
+> 
+> Signed-off-by: Aaron Ma <aaron.ma at canonical.com>
+> ---
+>   drivers/nvme/host/core.c | 29 ++++++++++++++++++-----------
+>   1 file changed, 18 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 2c43e12b70af..fb7f05c310c8 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -1134,14 +1134,24 @@ static int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword
+>   
+>   int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count)
+>   {
+> -	u32 q_count = (*count - 1) | ((*count - 1) << 16);
+> +	u32 q_count;
+>   	u32 result;
+> -	int status, nr_io_queues;
+> -
+> -	status = nvme_set_features(ctrl, NVME_FEAT_NUM_QUEUES, q_count, NULL, 0,
+> -			&result);
+> -	if (status < 0)
+> -		return status;
+> +	int status = -1;
+> +	int nr_io_queues;
+> +	int try_count;
+> +
+> +	for (try_count = *count; try_count > 0; try_count--) {
+> +		q_count = (try_count - 1) | ((try_count - 1) << 16);
 
-Why not just use the bio write hint? We already disallow merging of
-dissimilar write hints, so req->bio->bi_write_hint is known to be
-identical with the rest of the bio's in that chain.
+A macro here might help readability.
 
--- 
-Jens Axboe
+> +		status = nvme_set_features(ctrl, NVME_FEAT_NUM_QUEUES,
+> +				q_count, NULL, 0, &result);
+> +		if (status < 0)
+> +			return status;
+> +		else if (status == 0) {
+
+else following return is not needed.
+
+
+> +			nr_io_queues = min(result & 0xffff, result >> 16) + 1;
+
+Likewise, a macro as above.
+
+
+Ed
+
+> +			*count = min(try_count, nr_io_queues);
+> +			break;
+> +		}
+> +	}
+>   
+>   	/*
+>   	 * Degraded controllers might return an error when setting the queue
+> @@ -1150,10 +1160,7 @@ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count)
+>   	 */
+>   	if (status > 0) {
+>   		dev_err(ctrl->device, "Could not set queue count (%d)\n", status);
+> -		*count = 0;
+> -	} else {
+> -		nr_io_queues = min(result & 0xffff, result >> 16) + 1;
+> -		*count = min(*count, nr_io_queues);
+> +		*count = 1;
+>   	}
+>   
+>   	return 0;
+> 
