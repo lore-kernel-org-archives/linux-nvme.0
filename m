@@ -1,83 +1,26 @@
-From: edmund.f.nadolski@gmail.com (Edmund Nadolski (Microsoft))
-Date: Wed, 17 Apr 2019 14:30:18 -0700
-Subject: [PATCH] nvme: determine the number of IO queues
-In-Reply-To: <1555510379-20199-1-git-send-email-aaron.ma@canonical.com>
-References: <1555510379-20199-1-git-send-email-aaron.ma@canonical.com>
-Message-ID: <08ac5733-596b-598d-c821-f1aa2dc32650@gmail.com>
+From: kbusch@kernel.org (Keith Busch)
+Date: Wed, 17 Apr 2019 16:46:18 -0600
+Subject: [PATCH] nvme-cli: Increase size of ONTAP namespace path variable
+In-Reply-To: <20190416132740.18045-1-sschricker@suse.de>
+References: <20190416132740.18045-1-sschricker@suse.de>
+Message-ID: <20190417224618.GA6632@localhost.localdomain>
 
-On 4/17/19 7:12 AM, Aaron Ma wrote:
-> Some controllers support limited IO queues, when over set
-> the number, it will return invalid field error.
-> Then NVME will be removed by driver.
+On Tue, Apr 16, 2019@06:27:40AM -0700, Simon Schricker wrote:
+> nspath's size is ONTAP_NS_PATHLEN and is written to by:
 > 
-> Find the max number of IO queues that controller supports.
-> When it still got invalid result, set 1 IO queue at least to
-> bring NVME online.
+> snprintf(nspath, ONTAP_NS_PATHLEN, "%s%s%s%s", ontap_vol,
+>                         vol_name, "/", ns_name);
 > 
-> Signed-off-by: Aaron Ma <aaron.ma at canonical.com>
-> ---
->   drivers/nvme/host/core.c | 29 ++++++++++++++++++-----------
->   1 file changed, 18 insertions(+), 11 deletions(-)
+> Required bytes:
 > 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 2c43e12b70af..fb7f05c310c8 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -1134,14 +1134,24 @@ static int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword
->   
->   int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count)
->   {
-> -	u32 q_count = (*count - 1) | ((*count - 1) << 16);
-> +	u32 q_count;
->   	u32 result;
-> -	int status, nr_io_queues;
-> -
-> -	status = nvme_set_features(ctrl, NVME_FEAT_NUM_QUEUES, q_count, NULL, 0,
-> -			&result);
-> -	if (status < 0)
-> -		return status;
-> +	int status = -1;
-> +	int nr_io_queues;
-> +	int try_count;
-> +
-> +	for (try_count = *count; try_count > 0; try_count--) {
-> +		q_count = (try_count - 1) | ((try_count - 1) << 16);
-
-A macro here might help readability.
-
-> +		status = nvme_set_features(ctrl, NVME_FEAT_NUM_QUEUES,
-> +				q_count, NULL, 0, &result);
-> +		if (status < 0)
-> +			return status;
-> +		else if (status == 0) {
-
-else following return is not needed.
-
-
-> +			nr_io_queues = min(result & 0xffff, result >> 16) + 1;
-
-Likewise, a macro as above.
-
-
-Ed
-
-> +			*count = min(try_count, nr_io_queues);
-> +			break;
-> +		}
-> +	}
->   
->   	/*
->   	 * Degraded controllers might return an error when setting the queue
-> @@ -1150,10 +1160,7 @@ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count)
->   	 */
->   	if (status > 0) {
->   		dev_err(ctrl->device, "Could not set queue count (%d)\n", status);
-> -		*count = 0;
-> -	} else {
-> -		nr_io_queues = min(result & 0xffff, result >> 16) + 1;
-> -		*count = min(*count, nr_io_queues);
-> +		*count = 1;
->   	}
->   
->   	return 0;
+> - ontap_vol is a constant char pointer, set to "/vol/", so 5 bytes
+> - vol_name's size is ONTAP_LABEL_LEN, which is 260, deducting the
+>   null-byte for termination makes 259 required bytes
+> - "/" is 1 byte
+> - ns_name's size is also ONTAP_LABEL_LEN, which is 260, deducting
+>   the null-byte for termination makes 259 required bytes
+> - the final null-byte: 1
 > 
+> That makes in total 5 + 259 + 1 + 259 + 1 = 525 required bytes
+
+Applied, thanks.
