@@ -1,63 +1,84 @@
 From: joshi.k@samsung.com (Kanchan Joshi)
-Date: Wed, 17 Apr 2019 23:20:02 +0530
-Subject: [PATCH v4 3/7] block: introduce API to register stream information
- with block-layer
+Date: Wed, 17 Apr 2019 23:20:04 +0530
+Subject: [PATCH v4 5/7] nvme: register stream info with block layer
 In-Reply-To: <1555523406-2380-1-git-send-email-joshi.k@samsung.com>
 References: <1555523406-2380-1-git-send-email-joshi.k@samsung.com>
- <CGME20190417175355epcas2p182a8626924a911310f7584d564d0a1ec@epcas2p1.samsung.com>
-Message-ID: <1555523406-2380-4-git-send-email-joshi.k@samsung.com>
+ <CGME20190417175400epcas2p2b166bfaef69f5a02e856743be76199f3@epcas2p2.samsung.com>
+Message-ID: <1555523406-2380-6-git-send-email-joshi.k@samsung.com>
 
-This introduces stream limit (count of streams supported by underlying
-driver) in request-queue.
+Make nvme driver register number of streams with block layer. Block
+layer will use that for write-hint to stream-id conversion. Registration
+is done for each namespace. Since NVMe spec allow all available
+streams (within subsystem) to be used by all namespaces, no attempt
+has been made to add reservation at namespace level.
 
 Signed-off-by: Kanchan Joshi <joshi.k at samsung.com>
 ---
- block/blk-settings.c   | 12 ++++++++++++
- include/linux/blkdev.h |  2 ++
- 2 files changed, 14 insertions(+)
+ drivers/nvme/host/core.c | 23 ++++++-----------------
+ 1 file changed, 6 insertions(+), 17 deletions(-)
 
-diff --git a/block/blk-settings.c b/block/blk-settings.c
-index 6375afa..6023229 100644
---- a/block/blk-settings.c
-+++ b/block/blk-settings.c
-@@ -231,6 +231,18 @@ void blk_queue_max_discard_sectors(struct request_queue *q,
- EXPORT_SYMBOL(blk_queue_max_discard_sectors);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 2c43e12..81b86fa 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -464,10 +464,6 @@ static int nvme_toggle_streams(struct nvme_ctrl *ctrl, bool enable)
+ 	return nvme_submit_sync_cmd(ctrl->admin_q, &c, NULL, 0);
+ }
  
- /**
-+ * blk_queue_stream_limits - set stream parameters
-+ * @q:  the request queue for the device
-+ * @nr_streams: number of streams supported by device
-+ **/
-+void blk_queue_stream_limits(struct request_queue *q,
-+		unsigned short nr_streams)
-+{
-+	q->limits.nr_streams = nr_streams;
-+}
-+EXPORT_SYMBOL(blk_queue_stream_limits);
-+
-+/**
-  * blk_queue_max_write_same_sectors - set max sectors for a single write same
-  * @q:  the request queue for the device
-  * @max_write_same_sectors: maximum number of sectors to write per command
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index f200aed..eb6eb60 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -340,6 +340,7 @@ struct queue_limits {
- 	unsigned char		discard_misaligned;
- 	unsigned char		raid_partial_stripes_expensive;
- 	enum blk_zoned_model	zoned;
-+	unsigned short		nr_streams;
- };
+-static int nvme_disable_streams(struct nvme_ctrl *ctrl)
+-{
+-	return nvme_toggle_streams(ctrl, false);
+-}
  
- #ifdef CONFIG_BLK_DEV_ZONED
-@@ -1065,6 +1066,7 @@ extern void blk_queue_dma_alignment(struct request_queue *, int);
- extern void blk_queue_update_dma_alignment(struct request_queue *, int);
- extern void blk_queue_rq_timeout(struct request_queue *, unsigned int);
- extern void blk_queue_write_cache(struct request_queue *q, bool enabled, bool fua);
-+extern void blk_queue_stream_limits(struct request_queue *q, unsigned short);
+ static int nvme_enable_streams(struct nvme_ctrl *ctrl)
+ {
+@@ -510,14 +506,7 @@ static int nvme_configure_directives(struct nvme_ctrl *ctrl)
+ 		return ret;
  
- /*
-  * Number of physical segments as sent to the device.
+ 	ctrl->nssa = le16_to_cpu(s.nssa);
+-	if (ctrl->nssa < BLK_MAX_WRITE_HINTS - 1) {
+-		dev_info(ctrl->device, "too few streams (%u) available\n",
+-					ctrl->nssa);
+-		nvme_disable_streams(ctrl);
+-		return 0;
+-	}
+-
+-	ctrl->nr_streams = min_t(unsigned, ctrl->nssa, BLK_MAX_WRITE_HINTS - 1);
++	ctrl->nr_streams = ctrl->nssa;
+ 	dev_info(ctrl->device, "Using %u streams\n", ctrl->nr_streams);
+ 	return 0;
+ }
+@@ -530,12 +519,9 @@ static void nvme_assign_write_stream(struct nvme_ctrl *ctrl,
+ 				     struct request *req, u16 *control,
+ 				     u32 *dsmgmt)
+ {
+-	enum rw_hint streamid = req->write_hint;
++	enum rw_hint streamid = req->streamid;
+ 
+-	if (streamid == WRITE_LIFE_NOT_SET || streamid == WRITE_LIFE_NONE)
+-		streamid = 0;
+-	else {
+-		streamid--;
++	if (streamid != 0) {
+ 		if (WARN_ON_ONCE(streamid > ctrl->nr_streams))
+ 			return;
+ 
+@@ -3189,6 +3175,7 @@ static int nvme_setup_streams_ns(struct nvme_ctrl *ctrl, struct nvme_ns *ns)
+ {
+ 	struct streams_directive_params s;
+ 	int ret;
++	u16 nr_streams;
+ 
+ 	if (!ctrl->nr_streams)
+ 		return 0;
+@@ -3200,6 +3187,8 @@ static int nvme_setup_streams_ns(struct nvme_ctrl *ctrl, struct nvme_ns *ns)
+ 	ns->sws = le32_to_cpu(s.sws);
+ 	ns->sgs = le16_to_cpu(s.sgs);
+ 
++	nr_streams = min_t(unsigned, ctrl->nr_streams, BLK_MAX_WRITE_HINTS - 1);
++	blk_queue_stream_limits(ns->queue, nr_streams);
+ 	if (ns->sws) {
+ 		unsigned int bs = 1 << ns->lba_shift;
+ 
 -- 
 2.7.4
