@@ -1,123 +1,173 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Wed, 17 Apr 2019 20:49:55 +0800
-Subject: [PATCHv2 RFC] nvme: use nvme_set_queue_dying() during namespace
- rescanning
-In-Reply-To: <134febbf-8c41-8483-7e67-c6d3f3c622af@suse.de>
-References: <20190403231221.127008-1-hare@suse.de>
- <20190413082954.GD9108@ming.t460p>
- <134febbf-8c41-8483-7e67-c6d3f3c622af@suse.de>
-Message-ID: <20190417124954.GA5007@ming.t460p>
+Date: Wed, 17 Apr 2019 20:59:44 +0800
+Subject: [PATCH V6 6/9] blk-mq: always free hctx after request queue is
+ freed
+In-Reply-To: <63c09210-c20e-6b4a-56fa-b9eac2807cc1@suse.de>
+References: <20190417034410.31957-1-ming.lei@redhat.com>
+ <20190417034410.31957-7-ming.lei@redhat.com>
+ <63c09210-c20e-6b4a-56fa-b9eac2807cc1@suse.de>
+Message-ID: <20190417125943.GB5007@ming.t460p>
 
-On Wed, Apr 17, 2019@01:32:57PM +0200, Hannes Reinecke wrote:
-> On 4/13/19 10:29 AM, Ming Lei wrote:
-> [ .. ]
-> > Another candidate is to hold ns's refcount and switch to remove
-> > the ns from 'ctrl->namespaces' in nvme_free_ns() via the following
-> > patch[1]. Together with patch "blk-mq: free hw queue's resource in
-> > hctx's release handler" in the following link:
+On Wed, Apr 17, 2019@02:08:59PM +0200, Hannes Reinecke wrote:
+> On 4/17/19 5:44 AM, Ming Lei wrote:
+> > In normal queue cleanup path, hctx is released after request queue
+> > is freed, see blk_mq_release().
 > > 
-> > https://lore.kernel.org/linux-block/20190413071829.GB9108 at ming.t460p/T/#m41c04517a37cbc1b4c61357f8cb52cd3cbf31f1b
+> > However, in __blk_mq_update_nr_hw_queues(), hctx may be freed because
+> > of hw queues shrinking. This way is easy to cause use-after-free,
+> > because: one implicit rule is that it is safe to call almost all block
+> > layer APIs if the request queue is alive; and one hctx may be retrieved
+> > by one API, then the hctx can be freed by blk_mq_update_nr_hw_queues();
+> > finally use-after-free is triggered.
 > > 
-> > [1] fix race between nvme scan and reset
+> > Fixes this issue by always freeing hctx after releasing request queue.
+> > If some hctxs are removed in blk_mq_update_nr_hw_queues(), introduce
+> > a per-queue list to hold them, then try to resuse these hctxs if numa
+> > node is matched.
 > > 
-> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> > index ddb943395118..12507b223584 100644
-> > --- a/drivers/nvme/host/core.c
-> > +++ b/drivers/nvme/host/core.c
-> > @@ -402,6 +402,10 @@ static void nvme_free_ns(struct kref *kref)
-> >   {
-> >   	struct nvme_ns *ns = container_of(kref, struct nvme_ns, kref);
-> > +	down_write(&ns->ctrl->namespaces_rwsem);
-> > +	list_del_init(&ns->list);
-> > +	up_write(&ns->ctrl->namespaces_rwsem);
+> > Cc: Dongli Zhang <dongli.zhang at oracle.com>
+> > Cc: James Smart <james.smart at broadcom.com>
+> > Cc: Bart Van Assche <bart.vanassche at wdc.com>
+> > Cc: linux-scsi at vger.kernel.org,
+> > Cc: Martin K . Petersen <martin.petersen at oracle.com>,
+> > Cc: Christoph Hellwig <hch at lst.de>,
+> > Cc: James E . J . Bottomley <jejb at linux.vnet.ibm.com>,
+> > Cc: jianchao wang <jianchao.w.wang at oracle.com>
+> > Signed-off-by: Ming Lei <ming.lei at redhat.com>
+> > ---
+> >   block/blk-mq.c         | 40 +++++++++++++++++++++++++++-------------
+> >   include/linux/blk-mq.h |  2 ++
+> >   include/linux/blkdev.h |  7 +++++++
+> >   3 files changed, 36 insertions(+), 13 deletions(-)
+> > 
+> > diff --git a/block/blk-mq.c b/block/blk-mq.c
+> > index eeebba6ec0f7..2ca4395f794d 100644
+> > --- a/block/blk-mq.c
+> > +++ b/block/blk-mq.c
+> > @@ -2274,6 +2274,10 @@ static void blk_mq_exit_hctx(struct request_queue *q,
+> >   		set->ops->exit_hctx(hctx, hctx_idx);
+> >   	blk_mq_remove_cpuhp(hctx);
 > > +
-> >   	if (ns->ndev)
-> >   		nvme_nvm_unregister(ns);
-> > @@ -3166,6 +3170,29 @@ static int ns_cmp(void *priv, struct list_head *a, struct list_head *b)
-> >   	return nsa->head->ns_id - nsb->head->ns_id;
+> > +	spin_lock(&q->dead_hctx_lock);
+> > +	list_add(&hctx->hctx_list, &q->dead_hctx_list);
+> > +	spin_unlock(&q->dead_hctx_lock);
 > >   }
-> > +void nvme_get_all_ns(struct nvme_ctrl *ctrl)
-> > +{
-> > +	struct nvme_ns *ns;
-> > +
-> > +	down_read(&ctrl->namespaces_rwsem);
-> > +	list_for_each_entry(ns, &ctrl->namespaces, list)
-> > +		if (kref_get_unless_zero(&ns->kref))
-> > +			continue;
-> > +	up_read(&ctrl->namespaces_rwsem);
-> > +}
-> > +EXPORT_SYMBOL_GPL(nvme_get_all_ns);
-> > +
-> > +void nvme_put_all_ns(struct nvme_ctrl *ctrl)
-> > +{
-> > +	struct nvme_ns *ns;
-> > +
-> > +	down_read(&ctrl->namespaces_rwsem);
-> > +	list_for_each_entry(ns, &ctrl->namespaces, list)
-> > +		nvme_put_ns(ns);
-> > +	up_read(&ctrl->namespaces_rwsem);
-> > +}
-> > +EXPORT_SYMBOL_GPL(nvme_put_all_ns);
-> > +
-> >   static struct nvme_ns *nvme_find_get_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+> >   static void blk_mq_exit_hw_queues(struct request_queue *q,
+> > @@ -2675,15 +2679,13 @@ static int blk_mq_alloc_ctxs(struct request_queue *q)
+> >    */
+> >   void blk_mq_release(struct request_queue *q)
 > >   {
-> >   	struct nvme_ns *ns, *ret = NULL;
-> > @@ -3329,10 +3356,6 @@ static void nvme_ns_remove(struct nvme_ns *ns)
-> >   	nvme_mpath_clear_current_path(ns);
-> >   	mutex_unlock(&ns->ctrl->subsys->lock);
-> > -	down_write(&ns->ctrl->namespaces_rwsem);
-> > -	list_del_init(&ns->list);
-> > -	up_write(&ns->ctrl->namespaces_rwsem);
+> > -	struct blk_mq_hw_ctx *hctx;
+> > -	unsigned int i;
+> > +	struct blk_mq_hw_ctx *hctx, *next;
+> >   	cancel_delayed_work_sync(&q->requeue_work);
+> > -	/* hctx kobj stays in hctx */
+> > -	queue_for_each_hw_ctx(q, hctx, i) {
+> > -		if (!hctx)
+> > -			continue;
+> > +	/* all hctx are in .dead_hctx_list now */
+> > +	list_for_each_entry_safe(hctx, next, &q->dead_hctx_list, hctx_list) {
+> > +		list_del_init(&hctx->hctx_list);
+> >   		kobject_put(&hctx->kobj);
+> >   	}
+> > @@ -2750,9 +2752,22 @@ static struct blk_mq_hw_ctx *blk_mq_alloc_and_init_hctx(
+> >   		struct blk_mq_tag_set *set, struct request_queue *q,
+> >   		int hctx_idx, int node)
+> >   {
+> > -	struct blk_mq_hw_ctx *hctx;
+> > +	struct blk_mq_hw_ctx *hctx = NULL, *tmp;
+> > +
+> > +	/* reuse dead hctx first */
+> > +	spin_lock(&q->dead_hctx_lock);
+> > +	list_for_each_entry(tmp, &q->dead_hctx_list, hctx_list) {
+> > +		if (tmp->numa_node == node) {
+> > +			hctx = tmp;
+> > +			break;
+> > +		}
+> > +	}
+> > +	if (hctx)
+> > +		list_del_init(&hctx->hctx_list);
+> > +	spin_unlock(&q->dead_hctx_lock);
+> > -	hctx = blk_mq_alloc_hctx(q, set, hctx_idx, node);
+> > +	if (!hctx)
+> > +		hctx = blk_mq_alloc_hctx(q, set, hctx_idx, node);
+> >   	if (!hctx)
+> >   		goto fail;
+> > @@ -2790,10 +2805,8 @@ static void blk_mq_realloc_hw_ctxs(struct blk_mq_tag_set *set,
+> >   		hctx = blk_mq_alloc_and_init_hctx(set, q, i, node);
+> >   		if (hctx) {
+> > -			if (hctxs[i]) {
+> > +			if (hctxs[i])
+> >   				blk_mq_exit_hctx(q, set, hctxs[i], i);
+> > -				kobject_put(&hctxs[i]->kobj);
+> > -			}
+> >   			hctxs[i] = hctx;
+> >   		} else {
+> >   			if (hctxs[i])
+> > @@ -2824,9 +2837,7 @@ static void blk_mq_realloc_hw_ctxs(struct blk_mq_tag_set *set,
+> >   			if (hctx->tags)
+> >   				blk_mq_free_map_and_requests(set, j);
+> >   			blk_mq_exit_hctx(q, set, hctx, j);
+> > -			kobject_put(&hctx->kobj);
+> >   			hctxs[j] = NULL;
 > > -
-> >   	synchronize_srcu(&ns->head->srcu);
-> >   	nvme_mpath_check_last_path(ns);
-> >   	nvme_put_ns(ns);
-> > diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> > index 527d64545023..f8f2a012c3ba 100644
-> > --- a/drivers/nvme/host/nvme.h
-> > +++ b/drivers/nvme/host/nvme.h
-> > @@ -430,6 +430,9 @@ void nvme_stop_ctrl(struct nvme_ctrl *ctrl);
-> >   void nvme_put_ctrl(struct nvme_ctrl *ctrl);
-> >   int nvme_init_identify(struct nvme_ctrl *ctrl);
-> > +void nvme_get_all_ns(struct nvme_ctrl *ctrl);
-> > +void nvme_put_all_ns(struct nvme_ctrl *ctrl);
+> >   		}
+> >   	}
+> >   	mutex_unlock(&q->sysfs_lock);
+> > @@ -2869,6 +2880,9 @@ struct request_queue *blk_mq_init_allocated_queue(struct blk_mq_tag_set *set,
+> >   	if (!q->queue_hw_ctx)
+> >   		goto err_sys_init;
+> > +	INIT_LIST_HEAD(&q->dead_hctx_list);
+> > +	spin_lock_init(&q->dead_hctx_lock);
 > > +
-> >   void nvme_remove_namespaces(struct nvme_ctrl *ctrl);
-> >   int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
-> > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> > index c1eecde6b853..0d4fea14ccdc 100644
-> > --- a/drivers/nvme/host/pci.c
-> > +++ b/drivers/nvme/host/pci.c
-> > @@ -2496,6 +2496,8 @@ static void nvme_reset_work(struct work_struct *work)
-> >   	int result = -ENODEV;
-> >   	enum nvme_ctrl_state new_state = NVME_CTRL_LIVE;
-> > +	nvme_get_all_ns(&dev->ctrl);
+> >   	blk_mq_realloc_hw_ctxs(set, q);
+> >   	if (!q->nr_hw_queues)
+> >   		goto err_hctxs;
+> > diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+> > index db29928de467..15d1aa53d96c 100644
+> > --- a/include/linux/blk-mq.h
+> > +++ b/include/linux/blk-mq.h
+> > @@ -70,6 +70,8 @@ struct blk_mq_hw_ctx {
+> >   	struct dentry		*sched_debugfs_dir;
+> >   #endif
+> > +	struct list_head	hctx_list;
 > > +
-> >   	if (WARN_ON(dev->ctrl.state != NVME_CTRL_RESETTING))
-> >   		goto out;
-> > @@ -2603,6 +2605,7 @@ static void nvme_reset_work(struct work_struct *work)
-> >    out_unlock:
-> >   	mutex_unlock(&dev->shutdown_lock);
-> >    out:
-> > +	nvme_put_all_ns(&dev->ctrl);
-> >   	nvme_remove_dead_ctrl(dev, result);
-> >   }
+> >   	/* Must be the last member - see also blk_mq_hw_ctx_size(). */
+> >   	struct srcu_struct	srcu[0];
+> >   };
+> > diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+> > index 4b85dc066264..1325f941f0be 100644
+> > --- a/include/linux/blkdev.h
+> > +++ b/include/linux/blkdev.h
+> > @@ -535,6 +535,13 @@ struct request_queue {
+> >   	struct mutex		sysfs_lock;
+> > +	/*
+> > +	 * for reusing dead hctx instance in case of updating
+> > +	 * nr_hw_queues
+> > +	 */
+> > +	struct list_head	dead_hctx_list;
+> > +	spinlock_t		dead_hctx_lock;
+> > +
+> >   	atomic_t		mq_freeze_depth;
+> >   #if defined(CONFIG_BLK_DEV_BSG)
+> > 
 > Hmm.
-> Might; I'll have to check.
+> I don't particularly like this approach.
+> The much saner approach would be to avoid having I/O in-flight in the first
+> place by setting the queue to something else than live, no?
 
-The patch actually isn't correct, especially in case that new ns is
-added during resetting.
+There isn't any in-flight IO since blk_mq_freeze_queue() is returned
+from __blk_mq_update_nr_hw_queues().
 
-> The entire condition under which this particular error is triggered is very
-> convoluted, and this issue isn't the only one contributing to it.
-> Will be posting my findings once I have confirmation.
+However, there can be reference to hctx in other code paths via
+arbitrary block layer APIs.
 
-I have posted the queue freeing patch V6, which should cover this issue,
-especially by the following two:
+Quiesce can't avoid the use-after-free too given RCU read lock may
+not be held in lots of reference to hctx, such as queue_for_each_hw_ctx().
 
-https://lore.kernel.org/linux-block/ec6aed0d-a6dc-f829-46f4-10140c7c37df at suse.de/T/#u
-https://lore.kernel.org/linux-block/bc4b8607-9fe7-aece-97f7-9d7d1c2c4e0b at suse.de/T/#u
+So this patch might be the simplest approach to fix this issue, IMO.
 
+However, I am open to any solution for this issue.
 
 Thanks,
 Ming
