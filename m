@@ -1,101 +1,123 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 17 Apr 2019 14:10:15 +0200
-Subject: [PATCH V6 9/9] nvme: hold request queue's refcount in ns's whole
- lifetime
-In-Reply-To: <20190417034410.31957-10-ming.lei@redhat.com>
-References: <20190417034410.31957-1-ming.lei@redhat.com>
- <20190417034410.31957-10-ming.lei@redhat.com>
-Message-ID: <bc4b8607-9fe7-aece-97f7-9d7d1c2c4e0b@suse.de>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Wed, 17 Apr 2019 20:49:55 +0800
+Subject: [PATCHv2 RFC] nvme: use nvme_set_queue_dying() during namespace
+ rescanning
+In-Reply-To: <134febbf-8c41-8483-7e67-c6d3f3c622af@suse.de>
+References: <20190403231221.127008-1-hare@suse.de>
+ <20190413082954.GD9108@ming.t460p>
+ <134febbf-8c41-8483-7e67-c6d3f3c622af@suse.de>
+Message-ID: <20190417124954.GA5007@ming.t460p>
 
-On 4/17/19 5:44 AM, Ming Lei wrote:
-> Hennes reported the following kernel oops:
-> 
->      There is a race condition between namespace rescanning and
->      controller reset; during controller reset all namespaces are
->      quiesed vie nams_stop_ctrl(), and after reset all namespaces
->      are unquiesced again.
->      When namespace scanning was active by the time controller reset
->      was triggered the rescan code will call nvme_ns_remove(), which
->      then will cause a kernel crash in nvme_start_ctrl() as it'll trip
->      over uninitialized namespaces.
-> 
-> Patch "blk-mq: free hw queue's resource in hctx's release handler"
-> should make this issue quite difficult to trigger. However it can't
-> kill the issue completely becasue pre-condition of that patch is to
-> hold request queue's refcount before calling block layer API, and
-> there is still a small window between blk_cleanup_queue() and removing
-> the ns from the controller namspace list in nvme_ns_remove().
-> 
-> Hold request queue's refcount until the ns is freed, then the above race
-> can be avoided completely. Given the 'namespaces_rwsem' is always held
-> to retrieve ns for starting/stopping request queue, this lock can prevent
-> namespaces from being freed.
-> 
-> Cc: Dongli Zhang <dongli.zhang at oracle.com>
-> Cc: James Smart <james.smart at broadcom.com>
-> Cc: Bart Van Assche <bart.vanassche at wdc.com>
-> Cc: linux-scsi at vger.kernel.org,
-> Cc: Martin K . Petersen <martin.petersen at oracle.com>,
-> Cc: Christoph Hellwig <hch at lst.de>,
-> Cc: James E . J . Bottomley <jejb at linux.vnet.ibm.com>,
-> Cc: jianchao wang <jianchao.w.wang at oracle.com>
-> Reported-by: Hannes Reinecke <hare at suse.com>
-> Signed-off-by: Ming Lei <ming.lei at redhat.com>
-> ---
->   drivers/nvme/host/core.c | 10 +++++++++-
->   1 file changed, 9 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 248ff3b48041..82cda6602ca7 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -406,6 +406,7 @@ static void nvme_free_ns(struct kref *kref)
->   		nvme_nvm_unregister(ns);
->   
->   	put_disk(ns->disk);
-> +	blk_put_queue(ns->queue);
->   	nvme_put_ns_head(ns->head);
->   	nvme_put_ctrl(ns->ctrl);
->   	kfree(ns);
-> @@ -3229,6 +3230,11 @@ static int nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
->   		goto out_free_ns;
->   	}
->   
-> +	if (!blk_get_queue(ns->queue)) {
-> +		ret = -ENXIO;
-> +		goto out_free_queue;
-> +	}
-> +
->   	blk_queue_flag_set(QUEUE_FLAG_NONROT, ns->queue);
->   	if (ctrl->ops->flags & NVME_F_PCI_P2PDMA)
->   		blk_queue_flag_set(QUEUE_FLAG_PCI_P2PDMA, ns->queue);
-> @@ -3245,7 +3251,7 @@ static int nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
->   	id = nvme_identify_ns(ctrl, nsid);
->   	if (!id) {
->   		ret = -EIO;
-> -		goto out_free_queue;
-> +		goto out_put_queue;
->   	}
->   
->   	if (id->ncap == 0) {
-> @@ -3304,6 +3310,8 @@ static int nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
->   	nvme_put_ns_head(ns->head);
->    out_free_id:
->   	kfree(id);
-> + out_put_queue:
-> +	blk_put_queue(ns->queue);
->    out_free_queue:
->   	blk_cleanup_queue(ns->queue);
->    out_free_ns:
-> 
-Reviewed-by: Hannes Reinecke <hare at suse.com>
+On Wed, Apr 17, 2019@01:32:57PM +0200, Hannes Reinecke wrote:
+> On 4/13/19 10:29 AM, Ming Lei wrote:
+> [ .. ]
+> > Another candidate is to hold ns's refcount and switch to remove
+> > the ns from 'ctrl->namespaces' in nvme_free_ns() via the following
+> > patch[1]. Together with patch "blk-mq: free hw queue's resource in
+> > hctx's release handler" in the following link:
+> > 
+> > https://lore.kernel.org/linux-block/20190413071829.GB9108 at ming.t460p/T/#m41c04517a37cbc1b4c61357f8cb52cd3cbf31f1b
+> > 
+> > [1] fix race between nvme scan and reset
+> > 
+> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> > index ddb943395118..12507b223584 100644
+> > --- a/drivers/nvme/host/core.c
+> > +++ b/drivers/nvme/host/core.c
+> > @@ -402,6 +402,10 @@ static void nvme_free_ns(struct kref *kref)
+> >   {
+> >   	struct nvme_ns *ns = container_of(kref, struct nvme_ns, kref);
+> > +	down_write(&ns->ctrl->namespaces_rwsem);
+> > +	list_del_init(&ns->list);
+> > +	up_write(&ns->ctrl->namespaces_rwsem);
+> > +
+> >   	if (ns->ndev)
+> >   		nvme_nvm_unregister(ns);
+> > @@ -3166,6 +3170,29 @@ static int ns_cmp(void *priv, struct list_head *a, struct list_head *b)
+> >   	return nsa->head->ns_id - nsb->head->ns_id;
+> >   }
+> > +void nvme_get_all_ns(struct nvme_ctrl *ctrl)
+> > +{
+> > +	struct nvme_ns *ns;
+> > +
+> > +	down_read(&ctrl->namespaces_rwsem);
+> > +	list_for_each_entry(ns, &ctrl->namespaces, list)
+> > +		if (kref_get_unless_zero(&ns->kref))
+> > +			continue;
+> > +	up_read(&ctrl->namespaces_rwsem);
+> > +}
+> > +EXPORT_SYMBOL_GPL(nvme_get_all_ns);
+> > +
+> > +void nvme_put_all_ns(struct nvme_ctrl *ctrl)
+> > +{
+> > +	struct nvme_ns *ns;
+> > +
+> > +	down_read(&ctrl->namespaces_rwsem);
+> > +	list_for_each_entry(ns, &ctrl->namespaces, list)
+> > +		nvme_put_ns(ns);
+> > +	up_read(&ctrl->namespaces_rwsem);
+> > +}
+> > +EXPORT_SYMBOL_GPL(nvme_put_all_ns);
+> > +
+> >   static struct nvme_ns *nvme_find_get_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+> >   {
+> >   	struct nvme_ns *ns, *ret = NULL;
+> > @@ -3329,10 +3356,6 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+> >   	nvme_mpath_clear_current_path(ns);
+> >   	mutex_unlock(&ns->ctrl->subsys->lock);
+> > -	down_write(&ns->ctrl->namespaces_rwsem);
+> > -	list_del_init(&ns->list);
+> > -	up_write(&ns->ctrl->namespaces_rwsem);
+> > -
+> >   	synchronize_srcu(&ns->head->srcu);
+> >   	nvme_mpath_check_last_path(ns);
+> >   	nvme_put_ns(ns);
+> > diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> > index 527d64545023..f8f2a012c3ba 100644
+> > --- a/drivers/nvme/host/nvme.h
+> > +++ b/drivers/nvme/host/nvme.h
+> > @@ -430,6 +430,9 @@ void nvme_stop_ctrl(struct nvme_ctrl *ctrl);
+> >   void nvme_put_ctrl(struct nvme_ctrl *ctrl);
+> >   int nvme_init_identify(struct nvme_ctrl *ctrl);
+> > +void nvme_get_all_ns(struct nvme_ctrl *ctrl);
+> > +void nvme_put_all_ns(struct nvme_ctrl *ctrl);
+> > +
+> >   void nvme_remove_namespaces(struct nvme_ctrl *ctrl);
+> >   int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
+> > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> > index c1eecde6b853..0d4fea14ccdc 100644
+> > --- a/drivers/nvme/host/pci.c
+> > +++ b/drivers/nvme/host/pci.c
+> > @@ -2496,6 +2496,8 @@ static void nvme_reset_work(struct work_struct *work)
+> >   	int result = -ENODEV;
+> >   	enum nvme_ctrl_state new_state = NVME_CTRL_LIVE;
+> > +	nvme_get_all_ns(&dev->ctrl);
+> > +
+> >   	if (WARN_ON(dev->ctrl.state != NVME_CTRL_RESETTING))
+> >   		goto out;
+> > @@ -2603,6 +2605,7 @@ static void nvme_reset_work(struct work_struct *work)
+> >    out_unlock:
+> >   	mutex_unlock(&dev->shutdown_lock);
+> >    out:
+> > +	nvme_put_all_ns(&dev->ctrl);
+> >   	nvme_remove_dead_ctrl(dev, result);
+> >   }
+> Hmm.
+> Might; I'll have to check.
 
-Cheers,
+The patch actually isn't correct, especially in case that new ns is
+added during resetting.
 
-Hannes
--- 
-Dr. Hannes Reinecke            Teamlead Storage & Networking
-hare at suse.de                              +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N?rnberg)
+> The entire condition under which this particular error is triggered is very
+> convoluted, and this issue isn't the only one contributing to it.
+> Will be posting my findings once I have confirmation.
+
+I have posted the queue freeing patch V6, which should cover this issue,
+especially by the following two:
+
+https://lore.kernel.org/linux-block/ec6aed0d-a6dc-f829-46f4-10140c7c37df at suse.de/T/#u
+https://lore.kernel.org/linux-block/bc4b8607-9fe7-aece-97f7-9d7d1c2c4e0b at suse.de/T/#u
+
+
+Thanks,
+Ming
