@@ -1,21 +1,40 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 17 Apr 2019 14:00:25 +0200
-Subject: [PATCH V6 2/9] blk-mq: move cancel of requeue_work into
- blk_mq_release
-In-Reply-To: <20190417034410.31957-3-ming.lei@redhat.com>
+Date: Wed, 17 Apr 2019 14:02:55 +0200
+Subject: [PATCH V6 3/9] blk-mq: free hw queue's resource in hctx's release
+ handler
+In-Reply-To: <20190417034410.31957-4-ming.lei@redhat.com>
 References: <20190417034410.31957-1-ming.lei@redhat.com>
- <20190417034410.31957-3-ming.lei@redhat.com>
-Message-ID: <12f1c64b-c9ad-bc2f-1557-d71d182ca0fd@suse.de>
+ <20190417034410.31957-4-ming.lei@redhat.com>
+Message-ID: <ec6aed0d-a6dc-f829-46f4-10140c7c37df@suse.de>
 
 On 4/17/19 5:44 AM, Ming Lei wrote:
-> With holding queue's kobject refcount, it is safe for driver
-> to schedule requeue. However, blk_mq_kick_requeue_list() may
-> be called after blk_sync_queue() is done because of concurrent
-> requeue activities, then requeue work may not be completed when
-> freeing queue, and kernel oops is triggered.
+> Once blk_cleanup_queue() returns, tags shouldn't be used any more,
+> because blk_mq_free_tag_set() may be called. Commit 45a9c9d909b2
+> ("blk-mq: Fix a use-after-free") fixes this issue exactly.
 > 
-> So moving the cancel of requeue_work into blk_mq_release() for
-> avoiding race between requeue and freeing queue.
+> However, that commit introduces another issue. Before 45a9c9d909b2,
+> we are allowed to run queue during cleaning up queue if the queue's
+> kobj refcount is held. After that commit, queue can't be run during
+> queue cleaning up, otherwise oops can be triggered easily because
+> some fields of hctx are freed by blk_mq_free_queue() in blk_cleanup_queue().
+> 
+> We have invented ways for addressing this kind of issue before, such as:
+> 
+> 	8dc765d438f1 ("SCSI: fix queue cleanup race before queue initialization is done")
+> 	c2856ae2f315 ("blk-mq: quiesce queue before freeing queue")
+> 
+> But still can't cover all cases, recently James reports another such
+> kind of issue:
+> 
+> 	https://marc.info/?l=linux-scsi&m=155389088124782&w=2
+> 
+> This issue can be quite hard to address by previous way, given
+> scsi_run_queue() may run requeues for other LUNs.
+> 
+> Fixes the above issue by freeing hctx's resources in its release handler, and this
+> way is safe becasue tags isn't needed for freeing such hctx resource.
+> 
+> This approach follows typical design pattern wrt. kobject's release handler.
 > 
 > Cc: Dongli Zhang <dongli.zhang at oracle.com>
 > Cc: James Smart <james.smart at broadcom.com>
@@ -25,13 +44,16 @@ On 4/17/19 5:44 AM, Ming Lei wrote:
 > Cc: Christoph Hellwig <hch at lst.de>,
 > Cc: James E . J . Bottomley <jejb at linux.vnet.ibm.com>,
 > Cc: jianchao wang <jianchao.w.wang at oracle.com>
-> Reviewed-by: Bart Van Assche <bvanassche at acm.org>
-> Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+> Reported-by: James Smart <james.smart at broadcom.com>
+> Fixes: 45a9c9d909b2 ("blk-mq: Fix a use-after-free")
+> Cc: stable at vger.kernel.org
 > Signed-off-by: Ming Lei <ming.lei at redhat.com>
 > ---
->   block/blk-core.c | 1 -
->   block/blk-mq.c   | 2 ++
->   2 files changed, 2 insertions(+), 1 deletion(-)
+>   block/blk-core.c     | 2 +-
+>   block/blk-mq-sysfs.c | 6 ++++++
+>   block/blk-mq.c       | 8 ++------
+>   block/blk-mq.h       | 2 +-
+>   4 files changed, 10 insertions(+), 8 deletions(-)
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
