@@ -1,119 +1,39 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 17 Apr 2019 13:32:57 +0200
-Subject: [PATCHv2 RFC] nvme: use nvme_set_queue_dying() during namespace
- rescanning
-In-Reply-To: <20190413082954.GD9108@ming.t460p>
-References: <20190403231221.127008-1-hare@suse.de>
- <20190413082954.GD9108@ming.t460p>
-Message-ID: <134febbf-8c41-8483-7e67-c6d3f3c622af@suse.de>
+Date: Wed, 17 Apr 2019 14:00:25 +0200
+Subject: [PATCH V6 2/9] blk-mq: move cancel of requeue_work into
+ blk_mq_release
+In-Reply-To: <20190417034410.31957-3-ming.lei@redhat.com>
+References: <20190417034410.31957-1-ming.lei@redhat.com>
+ <20190417034410.31957-3-ming.lei@redhat.com>
+Message-ID: <12f1c64b-c9ad-bc2f-1557-d71d182ca0fd@suse.de>
 
-On 4/13/19 10:29 AM, Ming Lei wrote:
-[ .. ]
-> Another candidate is to hold ns's refcount and switch to remove
-> the ns from 'ctrl->namespaces' in nvme_free_ns() via the following
-> patch[1]. Together with patch "blk-mq: free hw queue's resource in
-> hctx's release handler" in the following link:
+On 4/17/19 5:44 AM, Ming Lei wrote:
+> With holding queue's kobject refcount, it is safe for driver
+> to schedule requeue. However, blk_mq_kick_requeue_list() may
+> be called after blk_sync_queue() is done because of concurrent
+> requeue activities, then requeue work may not be completed when
+> freeing queue, and kernel oops is triggered.
 > 
-> https://lore.kernel.org/linux-block/20190413071829.GB9108 at ming.t460p/T/#m41c04517a37cbc1b4c61357f8cb52cd3cbf31f1b
+> So moving the cancel of requeue_work into blk_mq_release() for
+> avoiding race between requeue and freeing queue.
 > 
-> [1] fix race between nvme scan and reset
+> Cc: Dongli Zhang <dongli.zhang at oracle.com>
+> Cc: James Smart <james.smart at broadcom.com>
+> Cc: Bart Van Assche <bart.vanassche at wdc.com>
+> Cc: linux-scsi at vger.kernel.org,
+> Cc: Martin K . Petersen <martin.petersen at oracle.com>,
+> Cc: Christoph Hellwig <hch at lst.de>,
+> Cc: James E . J . Bottomley <jejb at linux.vnet.ibm.com>,
+> Cc: jianchao wang <jianchao.w.wang at oracle.com>
+> Reviewed-by: Bart Van Assche <bvanassche at acm.org>
+> Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+> Signed-off-by: Ming Lei <ming.lei at redhat.com>
+> ---
+>   block/blk-core.c | 1 -
+>   block/blk-mq.c   | 2 ++
+>   2 files changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index ddb943395118..12507b223584 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -402,6 +402,10 @@ static void nvme_free_ns(struct kref *kref)
->   {
->   	struct nvme_ns *ns = container_of(kref, struct nvme_ns, kref);
->   
-> +	down_write(&ns->ctrl->namespaces_rwsem);
-> +	list_del_init(&ns->list);
-> +	up_write(&ns->ctrl->namespaces_rwsem);
-> +
->   	if (ns->ndev)
->   		nvme_nvm_unregister(ns);
->   
-> @@ -3166,6 +3170,29 @@ static int ns_cmp(void *priv, struct list_head *a, struct list_head *b)
->   	return nsa->head->ns_id - nsb->head->ns_id;
->   }
->   
-> +void nvme_get_all_ns(struct nvme_ctrl *ctrl)
-> +{
-> +	struct nvme_ns *ns;
-> +
-> +	down_read(&ctrl->namespaces_rwsem);
-> +	list_for_each_entry(ns, &ctrl->namespaces, list)
-> +		if (kref_get_unless_zero(&ns->kref))
-> +			continue;
-> +	up_read(&ctrl->namespaces_rwsem);
-> +}
-> +EXPORT_SYMBOL_GPL(nvme_get_all_ns);
-> +
-> +void nvme_put_all_ns(struct nvme_ctrl *ctrl)
-> +{
-> +	struct nvme_ns *ns;
-> +
-> +	down_read(&ctrl->namespaces_rwsem);
-> +	list_for_each_entry(ns, &ctrl->namespaces, list)
-> +		nvme_put_ns(ns);
-> +	up_read(&ctrl->namespaces_rwsem);
-> +}
-> +EXPORT_SYMBOL_GPL(nvme_put_all_ns);
-> +
->   static struct nvme_ns *nvme_find_get_ns(struct nvme_ctrl *ctrl, unsigned nsid)
->   {
->   	struct nvme_ns *ns, *ret = NULL;
-> @@ -3329,10 +3356,6 @@ static void nvme_ns_remove(struct nvme_ns *ns)
->   	nvme_mpath_clear_current_path(ns);
->   	mutex_unlock(&ns->ctrl->subsys->lock);
->   
-> -	down_write(&ns->ctrl->namespaces_rwsem);
-> -	list_del_init(&ns->list);
-> -	up_write(&ns->ctrl->namespaces_rwsem);
-> -
->   	synchronize_srcu(&ns->head->srcu);
->   	nvme_mpath_check_last_path(ns);
->   	nvme_put_ns(ns);
-> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> index 527d64545023..f8f2a012c3ba 100644
-> --- a/drivers/nvme/host/nvme.h
-> +++ b/drivers/nvme/host/nvme.h
-> @@ -430,6 +430,9 @@ void nvme_stop_ctrl(struct nvme_ctrl *ctrl);
->   void nvme_put_ctrl(struct nvme_ctrl *ctrl);
->   int nvme_init_identify(struct nvme_ctrl *ctrl);
->   
-> +void nvme_get_all_ns(struct nvme_ctrl *ctrl);
-> +void nvme_put_all_ns(struct nvme_ctrl *ctrl);
-> +
->   void nvme_remove_namespaces(struct nvme_ctrl *ctrl);
->   
->   int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index c1eecde6b853..0d4fea14ccdc 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -2496,6 +2496,8 @@ static void nvme_reset_work(struct work_struct *work)
->   	int result = -ENODEV;
->   	enum nvme_ctrl_state new_state = NVME_CTRL_LIVE;
->   
-> +	nvme_get_all_ns(&dev->ctrl);
-> +
->   	if (WARN_ON(dev->ctrl.state != NVME_CTRL_RESETTING))
->   		goto out;
->   
-> @@ -2603,6 +2605,7 @@ static void nvme_reset_work(struct work_struct *work)
->    out_unlock:
->   	mutex_unlock(&dev->shutdown_lock);
->    out:
-> +	nvme_put_all_ns(&dev->ctrl);
->   	nvme_remove_dead_ctrl(dev, result);
->   }
->   
-Hmm.
-Might; I'll have to check.
-The entire condition under which this particular error is triggered is 
-very convoluted, and this issue isn't the only one contributing to it.
-Will be posting my findings once I have confirmation.
+Reviewed-by: Hannes Reinecke <hare at suse.com>
 
 Cheers,
 
