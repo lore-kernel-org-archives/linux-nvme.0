@@ -1,33 +1,18 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Wed, 17 Apr 2019 11:44:10 +0800
-Subject: [PATCH V6 9/9] nvme: hold request queue's refcount in ns's whole
- lifetime
+Date: Wed, 17 Apr 2019 11:44:08 +0800
+Subject: [PATCH V6 7/9] blk-mq: move cancel of hctx->run_work into
+ blk_mq_hw_sysfs_release
 In-Reply-To: <20190417034410.31957-1-ming.lei@redhat.com>
 References: <20190417034410.31957-1-ming.lei@redhat.com>
-Message-ID: <20190417034410.31957-10-ming.lei@redhat.com>
+Message-ID: <20190417034410.31957-8-ming.lei@redhat.com>
 
-Hennes reported the following kernel oops:
+hctx is always released after requeue is freed.
 
-    There is a race condition between namespace rescanning and
-    controller reset; during controller reset all namespaces are
-    quiesed vie nams_stop_ctrl(), and after reset all namespaces
-    are unquiesced again.
-    When namespace scanning was active by the time controller reset
-    was triggered the rescan code will call nvme_ns_remove(), which
-    then will cause a kernel crash in nvme_start_ctrl() as it'll trip
-    over uninitialized namespaces.
+With holding queue's kobject refcount, it is safe for driver to run queue,
+so one run queue might be scheduled after blk_sync_queue() is done.
 
-Patch "blk-mq: free hw queue's resource in hctx's release handler"
-should make this issue quite difficult to trigger. However it can't
-kill the issue completely becasue pre-condition of that patch is to
-hold request queue's refcount before calling block layer API, and
-there is still a small window between blk_cleanup_queue() and removing
-the ns from the controller namspace list in nvme_ns_remove().
-
-Hold request queue's refcount until the ns is freed, then the above race
-can be avoided completely. Given the 'namespaces_rwsem' is always held
-to retrieve ns for starting/stopping request queue, this lock can prevent
-namespaces from being freed.
+So moving the cancel of hctx->run_work into blk_mq_hw_sysfs_release()
+for avoiding run released queue.
 
 Cc: Dongli Zhang <dongli.zhang at oracle.com>
 Cc: James Smart <james.smart at broadcom.com>
@@ -37,53 +22,45 @@ Cc: Martin K . Petersen <martin.petersen at oracle.com>,
 Cc: Christoph Hellwig <hch at lst.de>,
 Cc: James E . J . Bottomley <jejb at linux.vnet.ibm.com>,
 Cc: jianchao wang <jianchao.w.wang at oracle.com>
-Reported-by: Hannes Reinecke <hare at suse.com>
+Reviewed-by: Bart Van Assche <bvanassche at acm.org>
+Reviewed-by: Hannes Reinecke <hare at suse.com>
 Signed-off-by: Ming Lei <ming.lei at redhat.com>
 ---
- drivers/nvme/host/core.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ block/blk-core.c     | 8 --------
+ block/blk-mq-sysfs.c | 2 ++
+ 2 files changed, 2 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 248ff3b48041..82cda6602ca7 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -406,6 +406,7 @@ static void nvme_free_ns(struct kref *kref)
- 		nvme_nvm_unregister(ns);
+diff --git a/block/blk-core.c b/block/blk-core.c
+index 2dd94b3e9ece..f5b5f21ae4fd 100644
+--- a/block/blk-core.c
++++ b/block/blk-core.c
+@@ -232,14 +232,6 @@ void blk_sync_queue(struct request_queue *q)
+ {
+ 	del_timer_sync(&q->timeout);
+ 	cancel_work_sync(&q->timeout_work);
+-
+-	if (queue_is_mq(q)) {
+-		struct blk_mq_hw_ctx *hctx;
+-		int i;
+-
+-		queue_for_each_hw_ctx(q, hctx, i)
+-			cancel_delayed_work_sync(&hctx->run_work);
+-	}
+ }
+ EXPORT_SYMBOL(blk_sync_queue);
  
- 	put_disk(ns->disk);
-+	blk_put_queue(ns->queue);
- 	nvme_put_ns_head(ns->head);
- 	nvme_put_ctrl(ns->ctrl);
- 	kfree(ns);
-@@ -3229,6 +3230,11 @@ static int nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 		goto out_free_ns;
- 	}
+diff --git a/block/blk-mq-sysfs.c b/block/blk-mq-sysfs.c
+index 4040e62c3737..25c0d0a6a556 100644
+--- a/block/blk-mq-sysfs.c
++++ b/block/blk-mq-sysfs.c
+@@ -35,6 +35,8 @@ static void blk_mq_hw_sysfs_release(struct kobject *kobj)
+ 	struct blk_mq_hw_ctx *hctx = container_of(kobj, struct blk_mq_hw_ctx,
+ 						  kobj);
  
-+	if (!blk_get_queue(ns->queue)) {
-+		ret = -ENXIO;
-+		goto out_free_queue;
-+	}
++	cancel_delayed_work_sync(&hctx->run_work);
 +
- 	blk_queue_flag_set(QUEUE_FLAG_NONROT, ns->queue);
- 	if (ctrl->ops->flags & NVME_F_PCI_P2PDMA)
- 		blk_queue_flag_set(QUEUE_FLAG_PCI_P2PDMA, ns->queue);
-@@ -3245,7 +3251,7 @@ static int nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 	id = nvme_identify_ns(ctrl, nsid);
- 	if (!id) {
- 		ret = -EIO;
--		goto out_free_queue;
-+		goto out_put_queue;
- 	}
- 
- 	if (id->ncap == 0) {
-@@ -3304,6 +3310,8 @@ static int nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 	nvme_put_ns_head(ns->head);
-  out_free_id:
- 	kfree(id);
-+ out_put_queue:
-+	blk_put_queue(ns->queue);
-  out_free_queue:
- 	blk_cleanup_queue(ns->queue);
-  out_free_ns:
+ 	if (hctx->flags & BLK_MQ_F_BLOCKING)
+ 		cleanup_srcu_struct(hctx->srcu);
+ 	blk_free_flush_queue(hctx->fq);
 -- 
 2.9.5
