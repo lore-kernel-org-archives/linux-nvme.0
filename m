@@ -1,31 +1,27 @@
-From: aaron.ma@canonical.com (Aaron Ma)
-Date: Thu, 18 Apr 2019 22:21:03 +0800
-Subject: [PATCH] nvme: determine the number of IO queues
-In-Reply-To: <20190418134820.GA7589@localhost.localdomain>
-References: <1555510379-20199-1-git-send-email-aaron.ma@canonical.com>
- <a2f0a97e14b884dc1183db9cbdd6f4b520000ce3.camel@redhat.com>
- <096935354b16662eb481aeda1f48001ba489463c.camel@redhat.com>
- <e79703d5-3502-6519-a497-71b2b2a8768f@canonical.com>
- <20190418134820.GA7589@localhost.localdomain>
-Message-ID: <ddabda2a-b30d-77cc-7b2e-05a6b599cae7@canonical.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Thu, 18 Apr 2019 22:34:30 +0800
+Subject: [PATCH] block: use static bio_set for bio_split() calls
+In-Reply-To: <20190418140632.60606-1-hare@suse.de>
+References: <20190418140632.60606-1-hare@suse.de>
+Message-ID: <20190418143429.GA19175@ming.t460p>
 
+Hi Hannes,
 
+On Thu, Apr 18, 2019@04:06:32PM +0200, Hannes Reinecke wrote:
+> When calling blk_queue_split() it will be using the per-queue
+> bioset to allocate the split bio from. However, blk_steal_bios()
+> might move the bio to another queue, _and_ the original queue
+> might be removed completely (nvme is especially prone to do so).
 
-On 4/18/19 9:48 PM, Keith Busch wrote:
-> It does change the default behavior. If I have a degraded controller that
-> can't do IO in a machine with 1000's of CPUs, I have to iterate this
-> non-standard behavior 1000's of times before the drive is servicable
-> again. We currenlty figure that out in just a single try.
-> 
-> At least the quirks document *why* the driver is doing non-standard
-> behavior. We do the IO queue quirks for Macbooks, for example.
-> 
-> But why don't you file a bug report with the device vendor instead? Surely
-> a firmware fix provides the best possible outcome, and would make this
-> device work not only in all versions of Linux, but also every standard
-> compliant driver for any OS.
+Could you explain a bit how the original queue is removed in case
+that blk_steal_bios() is involved?
 
-I will do it, no v2 for now.
+> That leaves the bvecs of the split bio with a missing / destroyed
+> mempool, and a really fun crash in bio_endio().
+
+per-queue bioset is used originally for avoiding deadlock, are you
+sure the static bioset is safe?
+
 
 Thanks,
-Aaron
+Ming
