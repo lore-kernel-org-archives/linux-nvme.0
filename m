@@ -1,104 +1,104 @@
-From: aaron.ma@canonical.com (Aaron Ma)
-Date: Thu, 18 Apr 2019 14:24:58 +0800
+From: mlevitsk@redhat.com (Maxim Levitsky)
+Date: Thu, 18 Apr 2019 10:25:41 +0300
 Subject: [PATCH] nvme: determine the number of IO queues
-In-Reply-To: <08ac5733-596b-598d-c821-f1aa2dc32650@gmail.com>
+In-Reply-To: <e79703d5-3502-6519-a497-71b2b2a8768f@canonical.com>
 References: <1555510379-20199-1-git-send-email-aaron.ma@canonical.com>
- <08ac5733-596b-598d-c821-f1aa2dc32650@gmail.com>
-Message-ID: <2024829f-4b8f-7f83-d861-da009cd75edb@canonical.com>
+ <a2f0a97e14b884dc1183db9cbdd6f4b520000ce3.camel@redhat.com>
+ <096935354b16662eb481aeda1f48001ba489463c.camel@redhat.com>
+ <e79703d5-3502-6519-a497-71b2b2a8768f@canonical.com>
+Message-ID: <25e684a4d347181aa6b6dc1e41d1794203bbae03.camel@redhat.com>
 
-On 4/18/19 5:30 AM, Edmund Nadolski (Microsoft) wrote:
-> On 4/17/19 7:12 AM, Aaron Ma wrote:
->> Some controllers support limited IO queues, when over set
->> the number, it will return invalid field error.
->> Then NVME will be removed by driver.
->>
->> Find the max number of IO queues that controller supports.
->> When it still got invalid result, set 1 IO queue at least to
->> bring NVME online.
->>
->> Signed-off-by: Aaron Ma <aaron.ma at canonical.com>
->> ---
->> ? drivers/nvme/host/core.c | 29 ++++++++++++++++++-----------
->> ? 1 file changed, 18 insertions(+), 11 deletions(-)
->>
->> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->> index 2c43e12b70af..fb7f05c310c8 100644
->> --- a/drivers/nvme/host/core.c
->> +++ b/drivers/nvme/host/core.c
->> @@ -1134,14 +1134,24 @@ static int nvme_set_features(struct nvme_ctrl
->> *dev, unsigned fid, unsigned dword
->> ? ? int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count)
->> ? {
->> -??? u32 q_count = (*count - 1) | ((*count - 1) << 16);
->> +??? u32 q_count;
->> ????? u32 result;
->> -??? int status, nr_io_queues;
->> -
->> -??? status = nvme_set_features(ctrl, NVME_FEAT_NUM_QUEUES, q_count,
->> NULL, 0,
->> -??????????? &result);
->> -??? if (status < 0)
->> -??????? return status;
->> +??? int status = -1;
->> +??? int nr_io_queues;
->> +??? int try_count;
->> +
->> +??? for (try_count = *count; try_count > 0; try_count--) {
->> +??????? q_count = (try_count - 1) | ((try_count - 1) << 16);
+On Thu, 2019-04-18@14:21 +0800, Aaron Ma wrote:
+> On 4/18/19 1:33 AM, Maxim Levitsky wrote:
+> > On Wed, 2019-04-17@20:32 +0300, Maxim Levitsky wrote:
+> > > On Wed, 2019-04-17@22:12 +0800, Aaron Ma wrote:
+> > > > Some controllers support limited IO queues, when over set
+> > > > the number, it will return invalid field error.
+> > > > Then NVME will be removed by driver.
+> > > > 
+> > > > Find the max number of IO queues that controller supports.
+> > > > When it still got invalid result, set 1 IO queue at least to
+> > > > bring NVME online.
+> > > 
+> > > To be honest a spec compliant device should not need this.
+> > > The spec states:
+> > > 
+> > > "Number of I/O Completion Queues Requested (NCQR): Indicates the number of
+> > > I/O
+> > > Completion
+> > > Queues requested by software. This number does not include the Admin
+> > > Completion
+> > > Queue. A
+> > > minimum of one queue shall be requested, reflecting that the minimum
+> > > support
+> > > is
+> > > for one I/O
+> > > Completion Queue. This is a 0?s based value. The maximum value that may be
+> > > specified is 65,534
+> > > (i.e., 65,535 I/O Completion Queues). If the value specified is 65,535,
+> > > the
+> > > controller should return
+> > > an error of Invalid Field in Command."
+> > > 
+> > > 
+> > > This implies that you can ask for any value and the controller must not
+> > > respond
+> > > with an error, but rather indicate how many queues it supports.
+> > > 
+> > > Maybe its better to add a quirk for the broken device, which needs this?
 > 
-> A macro here might help readability.
-
-Will add in V2.
-
+> Adding quirk only makes the code more complicated.
+> This patch doesn't change the default behavior.
+> Only handle the NVME error code.
 > 
->> +??????? status = nvme_set_features(ctrl, NVME_FEAT_NUM_QUEUES,
->> +??????????????? q_count, NULL, 0, &result);
->> +??????? if (status < 0)
->> +??????????? return status;
->> +??????? else if (status == 0) {
-> 
-> else following return is not needed.
+> Yes the IO queues number is 0's based, but driver would return error and
+> remove the nvme device as dead.
 
- *      0: successful read
- *      > 0: NVMe error status code
- *      < 0: Linux errno error code
+No, no, the spec says that no matter what the number queues you ask for, unless
+it is 65,535, the controller should not fail with an error, but rather indicate
+in the return value (in the completion entry) the actual number of queues it
+allocated which can be larger or smaller that what you asked for.
 
-3 conditions should be taken care.
-status > 0 will be handled after loop.
+If controller returns an error, that means its firmware has a bug, which is not
+something unusual but usually those cases are handled with a quirk rather than
+with general code change.
 
-else is needed.
+But anyway that is just my opinion, as someone who studied and implemented
+(hopefully mostly correctly) the spec very recently (I am the author of nvme-
+mdev device).
 
-> 
-> 
->> +??????????? nr_io_queues = min(result & 0xffff, result >> 16) + 1;
-> 
-> Likewise, a macro as above.
+It doesn't really matter to me if this is implemented this or another way as
+long as it doesn't break things.
 
-Will add in V2.
+Best regards,
+	Maxim Levitsky
+
+
 
 > 
+> So set it as 1 at least the NVME can be probed properly.
 > 
-> Ed
+> Regards,
+> Aaron
 > 
->> +??????????? *count = min(try_count, nr_io_queues);
->> +??????????? break;
->> +??????? }
->> +??? }
->> ? ????? /*
->> ?????? * Degraded controllers might return an error when setting the
->> queue
->> @@ -1150,10 +1160,7 @@ int nvme_set_queue_count(struct nvme_ctrl
->> *ctrl, int *count)
->> ?????? */
->> ????? if (status > 0) {
->> ????????? dev_err(ctrl->device, "Could not set queue count (%d)\n",
->> status);
->> -??????? *count = 0;
->> -??? } else {
->> -??????? nr_io_queues = min(result & 0xffff, result >> 16) + 1;
->> -??????? *count = min(*count, nr_io_queues);
->> +??????? *count = 1;
->> ????? }
->> ? ????? return 0;
->>
-> 
+> > I forgot to add the relevant paragraph:
+> > 
+> > "Note: The value allocated may be smaller or larger than the number of
+> > queues
+> > requested, often in virtualized
+> > implementations. The controller may not have as many queues to allocate as
+> > are
+> > requested. Alternatively,
+> > the controller may have an allocation unit of queues (e.g. power of two) and
+> > may
+> > supply more queues to
+> > host software to satisfy its allocation unit."
+
+
+
+
+> > 
+> > 
+> > Best regards,
+> > 	Maxim Levitsky
+> > 
