@@ -1,30 +1,77 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Thu, 18 Apr 2019 22:58:35 +0900
-Subject: [PATCH] nvme: determine the number of IO queues
-In-Reply-To: <38bc8924-e553-70d7-c91d-b6c864379b43@canonical.com>
-References: <1555510379-20199-1-git-send-email-aaron.ma@canonical.com>
- <a2f0a97e14b884dc1183db9cbdd6f4b520000ce3.camel@redhat.com>
- <096935354b16662eb481aeda1f48001ba489463c.camel@redhat.com>
- <e79703d5-3502-6519-a497-71b2b2a8768f@canonical.com>
- <99ab1942-9c38-695d-03dc-ea6eecb31217@gmail.com>
- <130f490e-e173-750d-994e-c00f7c0da080@canonical.com>
- <fbc19fb1-5e2e-ff39-5295-f38195fb8d7c@gmail.com>
- <38bc8924-e553-70d7-c91d-b6c864379b43@canonical.com>
-Message-ID: <ffd4d3a7-3cfc-b69d-6045-12fdb6622f8d@gmail.com>
+From: jack@suse.cz (Jan Kara)
+Date: Thu, 18 Apr 2019 16:06:03 +0200
+Subject: [PATCH v4 4/7] block: introduce write-hint to stream-id conversion
+In-Reply-To: <1555523406-2380-5-git-send-email-joshi.k@samsung.com>
+References: <1555523406-2380-1-git-send-email-joshi.k@samsung.com>
+ <CGME20190417175358epcas1p41a0a4e349dfe0a70bdcc244161c71604@epcas1p4.samsung.com>
+ <1555523406-2380-5-git-send-email-joshi.k@samsung.com>
+Message-ID: <20190418140603.GL28541@quack2.suse.cz>
 
-On 4/18/19 10:38 PM, Aaron Ma wrote:
+On Wed 17-04-19 23:20:03, Kanchan Joshi wrote:
+> This patch moves write-hint-to-stream-id conversion in block-layer.
+> Earlier this was done by driver (nvme). Current conversion is of the
+> form "streamid = write-hint - 1", for both user and kernel streams.
+> Conversion takes stream limit (maintained in request queue) into
+> account. Write-hints beyond the exposed limit turn to 0.
+> A new field 'streamid' has been added in request. While 'write-hint'
+> field continues to exist. It keeps original value passed from upper
+> layer, and used during merging checks.
 > 
+> Signed-off-by: Kanchan Joshi <joshi.k at samsung.com>
+> ---
+>  block/blk-core.c       | 20 ++++++++++++++++++++
+>  include/linux/blkdev.h |  1 +
+>  2 files changed, 21 insertions(+)
 > 
-> On 4/18/19 9:33 PM, Minwoo Im wrote:
->> If the controller returns error for that command, how can we assure that
->> the controller would support a single I/O queue ?
-> 
-> Make sense, I will keep *count = 0 in V2.
+> diff --git a/block/blk-core.c b/block/blk-core.c
+> index a55389b..712e6b7 100644
+> --- a/block/blk-core.c
+> +++ b/block/blk-core.c
+> @@ -730,6 +730,25 @@ bool blk_attempt_plug_merge(struct request_queue *q, struct bio *bio,
+>  	return false;
+>  }
+>  
+> +enum rw_hint blk_write_hint_to_streamid(struct request *req,
+> +				        struct bio *bio)
+> +{
+> +	enum rw_hint streamid, nr_streams;
+> +	struct request_queue *q = req->q;
+> +	nr_streams = q->limits.nr_streams;
+> +
+> +	streamid = bio->bi_write_hint;
+> +	if (!nr_streams || streamid == WRITE_LIFE_NOT_SET ||
+> +	    streamid == WRITE_LIFE_NONE)
+> +		streamid = 0;
+> +	else {
+> +		--streamid;
+> +		if(streamid > nr_streams)
+> +			streamid = 0;
+> +	}
+> +	return streamid;
+> +}
+> +
 
-IMHO, If you would like to set *count to 0, then what's gonna be V2?
-I guess if some device is failed, we can make it as a quirk.
+Someone told me that stream ids are potentially persistent on the storage
+so it isn't great to change the id for the same thing e.g. if we add
+another user hint. So maybe we should allocate kernel hints from top as
+Dave Chinner suggested? I.e., something like the following mapping function:
 
-> 
-> Thanks,
-> Aaron
-> 
+	if (streamid <= BLK_MAX_USER_HINTS) {
+		streamid--;
+		if (streamid > nr_streams)
+			streamid = 0;
+	} else {
+		/* Kernel hints get allocated from top */
+		streamid -= WRITE_LIFE_KERN_MIN;
+		if (streamid > nr_streams - BLK_MAX_USER_HINTS)
+			streamid = 0;
+		else
+			streamid = nr_streams - streamid - 1;
+	}
+
+what do you think?
+
+								Honza
+-- 
+Jan Kara <jack at suse.com>
+SUSE Labs, CR
