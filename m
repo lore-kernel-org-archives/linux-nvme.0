@@ -1,57 +1,96 @@
-From: edmund.f.nadolski@gmail.com (Edmund Nadolski (Microsoft))
-Date: Thu, 18 Apr 2019 11:26:26 -0700
-Subject: [PATCH] block: use static bio_set for bio_split() calls
-In-Reply-To: <28f8343f-3159-9ca2-f98f-a37ecce31fd5@suse.de>
-References: <20190418140632.60606-1-hare@suse.de>
- <20190418143429.GA19175@ming.t460p>
- <28f8343f-3159-9ca2-f98f-a37ecce31fd5@suse.de>
-Message-ID: <532b6027-3bc9-def3-0fd8-2b6f32c4463b@gmail.com>
+From: adilger@dilger.ca (Andreas Dilger)
+Date: Thu, 18 Apr 2019 12:58:14 -0600
+Subject: [PATCH v4 4/7] block: introduce write-hint to stream-id conversion
+In-Reply-To: <20190418140603.GL28541@quack2.suse.cz>
+References: <1555523406-2380-1-git-send-email-joshi.k@samsung.com>
+ <CGME20190417175358epcas1p41a0a4e349dfe0a70bdcc244161c71604@epcas1p4.samsung.com>
+ <1555523406-2380-5-git-send-email-joshi.k@samsung.com>
+ <20190418140603.GL28541@quack2.suse.cz>
+Message-ID: <9BD0C782-5967-4DCB-9D01-E5BCC73E653C@dilger.ca>
 
-On 4/18/19 8:02 AM, Hannes Reinecke wrote:
-> On 4/18/19 4:34 PM, Ming Lei wrote:
->> Hi Hannes,
->> 
->> On Thu, Apr 18, 2019@04:06:32PM +0200, Hannes Reinecke wrote:
->>> When calling blk_queue_split() it will be using the per-queue
->>> bioset to allocate the split bio from. However, blk_steal_bios()
->>> might move the bio to another queue, _and_ the original queue
->>> might be removed completely (nvme is especially prone to do so).
->> 
->> Could you explain a bit how the original queue is removed in case
->> that blk_steal_bios() is involved?
->> 
-> It's not blk_steal_bios() which removes the queue. What happens is:
+On Apr 18, 2019,@8:06 AM, Jan Kara <jack@suse.cz> wrote:
 > 
-> - bio returns with error
-> - blk_steal_bios() moves bio over to a different queue
-> - nvme_reset_ctrl() is called
-> - Error detection finds that the original device is gone
-> - nvme calls nvme_remove_ns()
-> - nvme_remove_ns() removes the original request queue alongside the
-> bio_set from which the bvecs have been allocated from.
-> - 'stolen' bio is completed
-> - 'stolen' bio calls bio_endio()
-> - bio_endio() calls mempool_free() on the bvecs, referencing the mempool
-> from the original queue
-> - crash
+> On Wed 17-04-19 23:20:03, Kanchan Joshi wrote:
+>> This patch moves write-hint-to-stream-id conversion in block-layer.
+>> Earlier this was done by driver (nvme). Current conversion is of the
+>> form "streamid = write-hint - 1", for both user and kernel streams.
+>> Conversion takes stream limit (maintained in request queue) into
+>> account. Write-hints beyond the exposed limit turn to 0.
+>> A new field 'streamid' has been added in request. While 'write-hint'
+>> field continues to exist. It keeps original value passed from upper
+>> layer, and used during merging checks.
+>> 
+>> Signed-off-by: Kanchan Joshi <joshi.k at samsung.com>
+>> ---
+>> block/blk-core.c       | 20 ++++++++++++++++++++
+>> include/linux/blkdev.h |  1 +
+>> 2 files changed, 21 insertions(+)
+>> 
+>> diff --git a/block/blk-core.c b/block/blk-core.c
+>> index a55389b..712e6b7 100644
+>> --- a/block/blk-core.c
+>> +++ b/block/blk-core.c
+>> @@ -730,6 +730,25 @@ bool blk_attempt_plug_merge(struct request_queue *q, struct bio *bio,
+>> 	return false;
+>> }
+>> 
+>> +enum rw_hint blk_write_hint_to_streamid(struct request *req,
+>> +				        struct bio *bio)
+>> +{
+>> +	enum rw_hint streamid, nr_streams;
+>> +	struct request_queue *q = req->q;
+>> +	nr_streams = q->limits.nr_streams;
+>> +
+>> +	streamid = bio->bi_write_hint;
+>> +	if (!nr_streams || streamid == WRITE_LIFE_NOT_SET ||
+>> +	    streamid == WRITE_LIFE_NONE)
+>> +		streamid = 0;
+>> +	else {
+>> +		--streamid;
+>> +		if(streamid > nr_streams)
+>> +			streamid = 0;
+>> +	}
+>> +	return streamid;
+>> +}
+>> +
 > 
->>> That leaves the bvecs of the split bio with a missing / destroyed
->>> mempool, and a really fun crash in bio_endio().
->> 
->> per-queue bioset is used originally for avoiding deadlock, are you
->> sure the static bioset is safe?
->> 
-> If that turns out be be an issue we could be having a per 'ns_head'
-> bio_set for allocating the split bio from.
-> But the main point is that we cannot use the bioset from the request
-> queue as the queue (and the bioset) might be removed during the lifetime
-> of the bio.
+> Someone told me that stream ids are potentially persistent on the storage
+> so it isn't great to change the id for the same thing e.g. if we add
+> another user hint. So maybe we should allocate kernel hints from top as
+> Dave Chinner suggested? I.e., something like the following mapping function:
+> 
+> 	if (streamid <= BLK_MAX_USER_HINTS) {
+> 		streamid--;
+> 		if (streamid > nr_streams)
+> 			streamid = 0;
+> 	} else {
+> 		/* Kernel hints get allocated from top */
+> 		streamid -= WRITE_LIFE_KERN_MIN;
+> 		if (streamid > nr_streams - BLK_MAX_USER_HINTS)
+> 			streamid = 0;
+> 		else
+> 			streamid = nr_streams - streamid - 1;
+> 	}
+> 
+> what do you think?
 
-Does this mean that as-is, this is safe because nvme (currently) is the 
-only consumer of blk_steal_bios()?
+Dave has expressed this sentiment several times, and I agree.  We don't
+want the filesystem hint values/mapping to change over time, or it will
+conflict with data that was written with the previous hints (e.g. if
+data was written with a "short lifetime" hint suddenly changes to be
+grouped with a "long lifetime" hint).  This is easily avoided with some
+simple changes now, but harder to fix after this patch has landed.
 
-(Sorry if this is a lame question, I'm in the process of learning this 
-code.)
+Cheers, Andreas
 
-TIA,
-Ed
+
+
+
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 873 bytes
+Desc: Message signed with OpenPGP
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20190418/64c55e28/attachment-0001.sig>
