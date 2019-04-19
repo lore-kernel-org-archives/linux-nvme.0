@@ -1,96 +1,89 @@
-From: adilger@dilger.ca (Andreas Dilger)
-Date: Thu, 18 Apr 2019 12:58:14 -0600
-Subject: [PATCH v4 4/7] block: introduce write-hint to stream-id conversion
-In-Reply-To: <20190418140603.GL28541@quack2.suse.cz>
-References: <1555523406-2380-1-git-send-email-joshi.k@samsung.com>
- <CGME20190417175358epcas1p41a0a4e349dfe0a70bdcc244161c71604@epcas1p4.samsung.com>
- <1555523406-2380-5-git-send-email-joshi.k@samsung.com>
- <20190418140603.GL28541@quack2.suse.cz>
-Message-ID: <9BD0C782-5967-4DCB-9D01-E5BCC73E653C@dilger.ca>
+From: yuyufen@huawei.com (yuyufen)
+Date: Fri, 19 Apr 2019 20:28:31 +0800
+Subject: [PATCH RFC] nvme: fix race condition between remove and scan_work
+In-Reply-To: <20190411133227.28435-1-yuyufen@huawei.com>
+References: <20190411133227.28435-1-yuyufen@huawei.com>
+Message-ID: <31b1265e-ee5f-d8e1-d69b-68209cf04d5b@huawei.com>
 
-On Apr 18, 2019,@8:06 AM, Jan Kara <jack@suse.cz> wrote:
-> 
-> On Wed 17-04-19 23:20:03, Kanchan Joshi wrote:
->> This patch moves write-hint-to-stream-id conversion in block-layer.
->> Earlier this was done by driver (nvme). Current conversion is of the
->> form "streamid = write-hint - 1", for both user and kernel streams.
->> Conversion takes stream limit (maintained in request queue) into
->> account. Write-hints beyond the exposed limit turn to 0.
->> A new field 'streamid' has been added in request. While 'write-hint'
->> field continues to exist. It keeps original value passed from upper
->> layer, and used during merging checks.
->> 
->> Signed-off-by: Kanchan Joshi <joshi.k at samsung.com>
->> ---
->> block/blk-core.c       | 20 ++++++++++++++++++++
->> include/linux/blkdev.h |  1 +
->> 2 files changed, 21 insertions(+)
->> 
->> diff --git a/block/blk-core.c b/block/blk-core.c
->> index a55389b..712e6b7 100644
->> --- a/block/blk-core.c
->> +++ b/block/blk-core.c
->> @@ -730,6 +730,25 @@ bool blk_attempt_plug_merge(struct request_queue *q, struct bio *bio,
->> 	return false;
->> }
->> 
->> +enum rw_hint blk_write_hint_to_streamid(struct request *req,
->> +				        struct bio *bio)
->> +{
->> +	enum rw_hint streamid, nr_streams;
->> +	struct request_queue *q = req->q;
->> +	nr_streams = q->limits.nr_streams;
->> +
->> +	streamid = bio->bi_write_hint;
->> +	if (!nr_streams || streamid == WRITE_LIFE_NOT_SET ||
->> +	    streamid == WRITE_LIFE_NONE)
->> +		streamid = 0;
->> +	else {
->> +		--streamid;
->> +		if(streamid > nr_streams)
->> +			streamid = 0;
->> +	}
->> +	return streamid;
->> +}
->> +
-> 
-> Someone told me that stream ids are potentially persistent on the storage
-> so it isn't great to change the id for the same thing e.g. if we add
-> another user hint. So maybe we should allocate kernel hints from top as
-> Dave Chinner suggested? I.e., something like the following mapping function:
-> 
-> 	if (streamid <= BLK_MAX_USER_HINTS) {
-> 		streamid--;
-> 		if (streamid > nr_streams)
-> 			streamid = 0;
-> 	} else {
-> 		/* Kernel hints get allocated from top */
-> 		streamid -= WRITE_LIFE_KERN_MIN;
-> 		if (streamid > nr_streams - BLK_MAX_USER_HINTS)
-> 			streamid = 0;
-> 		else
-> 			streamid = nr_streams - streamid - 1;
-> 	}
-> 
-> what do you think?
-
-Dave has expressed this sentiment several times, and I agree.  We don't
-want the filesystem hint values/mapping to change over time, or it will
-conflict with data that was written with the previous hints (e.g. if
-data was written with a "short lifetime" hint suddenly changes to be
-grouped with a "long lifetime" hint).  This is easily avoided with some
-simple changes now, but harder to fix after this patch has landed.
-
-Cheers, Andreas
+ping ?
 
 
-
-
-
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 873 bytes
-Desc: Message signed with OpenPGP
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20190418/64c55e28/attachment-0001.sig>
+On 2019/4/11 21:32, Yufen Yu wrote:
+> There is a race condition between nvme_remove and nvme_scan_work, as
+> following:
+>
+> sysfs_kr_wirte
+> nvme_remove            nvme_queue_scan            timeout_worker
+>                         queue scan_work
+>
+>                         nvme_scan_work
+>
+> set NVME_CTRL_DELETING
+> flush_work(&ctrl->scan_work)
+> wait_for_completion scan_work
+>
+>                         nvme_scan_ns_list
+>                          nvme_validate_ns
+>                           nvme_submit_sync_cmd(admin_q)
+>                            IO timeout
+>                                                    nvme_timeout
+>                                                     nvme_dev_disable
+>                                                      nvme_suspend_queue(admin_q)
+>                                                       blk_mq_quiesce_queue
+>
+>                                                     nvme_reset_ctrl
+>                                                      return -EBUSY
+>                         nvme_scan_ns_sequential
+>                           nvme_submit_sync_cmd(admin_q)
+>                            IO cannnot issue, as admin_q suspend
+>                           wait_for_completion_io_timeout
+>
+> nvme_remove() wait for nvme_scan_work() finish, and scan_work wait for
+> io complete. When a previous IO issued in scan_work has timeout,
+> nvme_timeout() will suspend admin queue and make the queue in quiesce state.
+>
+> Since nvme controller state is 'NVME_CTRL_DELETING', nvme_reset_ctrl()
+> can not start reset work to recovery admin queue. Then, the next io request
+> issued to admin_q will be stalled in blk-mq 'ctx' queue forever.
+> As a result, both of remove and scan_work threads are stuck!
+>
+> We fix this problem by adding manual recovery admin queue after
+> nvme_reset_ctrl return -EBUSY. Since ctrl.admin_q has been flags
+> 'NVMEQ_ENABLED', all requests issused will return as io error.
+>
+> Cc: Keith Busch <kbusch at kernel.org>
+> Cc: Sagi Grimberg <sagi at grimberg.me>
+> Cc: James Smart <james.smart at broadcom.com>
+> Cc: Bart Van Assche <bvanassche at acm.org>
+> Signed-off-by: Yufen Yu <yuyufen at huawei.com>
+> ---
+>   drivers/nvme/host/pci.c | 9 ++++++++-
+>   1 file changed, 8 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index a90cf5d63aac..77807515d0e3 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -1272,6 +1272,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+>   	struct request *abort_req;
+>   	struct nvme_command cmd;
+>   	u32 csts = readl(dev->bar + NVME_REG_CSTS);
+> +	int error = 0;
+>   
+>   	/* If PCI error recovery process is happening, we cannot reset or
+>   	 * the recovery mechanism will surely fail.
+> @@ -1329,7 +1330,13 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+>   			 "I/O %d QID %d timeout, reset controller\n",
+>   			 req->tag, nvmeq->qid);
+>   		nvme_dev_disable(dev, false);
+> -		nvme_reset_ctrl(&dev->ctrl);
+> +		/*
+> +		 * If reset ctrl fail, we need to drain all requests in ctx
+> +		 * and elevator, avoiding io stuck forever.
+> +		 */
+> +		error = nvme_reset_ctrl(&dev->ctrl);
+> +		if (error)
+> +			blk_mq_unquiesce_queue(dev->ctrl.admin_q);
+>   
+>   		nvme_req(req)->flags |= NVME_REQ_CANCELLED;
+>   		return BLK_EH_DONE;
