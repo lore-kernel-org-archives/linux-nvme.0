@@ -1,93 +1,46 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Mon, 22 Apr 2019 15:41:56 -0400
-Subject: [PATCH AUTOSEL 5.0 89/98] nvmet: fix building bvec from sg list
+Date: Mon, 22 Apr 2019 15:41:57 -0400
+Subject: [PATCH AUTOSEL 5.0 90/98] nvmet: fix error flow during ns enable
 In-Reply-To: <20190422194205.10404-1-sashal@kernel.org>
 References: <20190422194205.10404-1-sashal@kernel.org>
-Message-ID: <20190422194205.10404-89-sashal@kernel.org>
+Message-ID: <20190422194205.10404-90-sashal@kernel.org>
 
-From: Ming Lei <ming.lei@redhat.com>
+From: Max Gurtovoy <maxg@mellanox.com>
 
-[ Upstream commit 02db99548d3608a625cf481cff2bb7b626829b3f ]
+[ Upstream commit a536b49785759bf99465fdf6e248d34322123fcd ]
 
-There are two mistakes for building bvec from sg list for file
-backed ns:
+In case we fail to enable p2pmem on the current namespace, disable the
+backing store device before exiting.
 
-- use request data length to compute number of io vector, this way
-doesn't consider sg->offset, and the result may be smaller than required
-io vectors
-
-- bvec->bv_len isn't capped by sg->length
-
-This patch fixes this issue by building bvec from sg directly, given
-the whole IO stack is ready for multi-page bvec.
-
-Reported-by: Yi Zhang <yi.zhang at redhat.com>
-Fixes: 3a85a5de29ea ("nvme-loop: add a NVMe loopback host driver")
-
-Signed-off-by: Ming Lei <ming.lei at redhat.com>
+Cc: Stephen Bates <sbates at raithlin.com>
+Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 Signed-off-by: Sasha Levin (Microsoft) <sashal at kernel.org>
 ---
- drivers/nvme/target/io-cmd-file.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ drivers/nvme/target/core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
-index 517522305e5c..9a0fa3943ca7 100644
---- a/drivers/nvme/target/io-cmd-file.c
-+++ b/drivers/nvme/target/io-cmd-file.c
-@@ -75,11 +75,11 @@ err:
- 	return ret;
- }
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 02c63c463222..7bad21a2283f 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -517,7 +517,7 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
  
--static void nvmet_file_init_bvec(struct bio_vec *bv, struct sg_page_iter *iter)
-+static void nvmet_file_init_bvec(struct bio_vec *bv, struct scatterlist *sg)
- {
--	bv->bv_page = sg_page_iter_page(iter);
--	bv->bv_offset = iter->sg->offset;
--	bv->bv_len = PAGE_SIZE - iter->sg->offset;
-+	bv->bv_page = sg_page(sg);
-+	bv->bv_offset = sg->offset;
-+	bv->bv_len = sg->length;
- }
+ 	ret = nvmet_p2pmem_ns_enable(ns);
+ 	if (ret)
+-		goto out_unlock;
++		goto out_dev_disable;
  
- static ssize_t nvmet_file_submit_bvec(struct nvmet_req *req, loff_t pos,
-@@ -128,14 +128,14 @@ static void nvmet_file_io_done(struct kiocb *iocb, long ret, long ret2)
- 
- static bool nvmet_file_execute_io(struct nvmet_req *req, int ki_flags)
- {
--	ssize_t nr_bvec = DIV_ROUND_UP(req->data_len, PAGE_SIZE);
--	struct sg_page_iter sg_pg_iter;
-+	ssize_t nr_bvec = req->sg_cnt;
- 	unsigned long bv_cnt = 0;
- 	bool is_sync = false;
- 	size_t len = 0, total_len = 0;
- 	ssize_t ret = 0;
- 	loff_t pos;
+ 	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry)
+ 		nvmet_p2pmem_ns_add_p2p(ctrl, ns);
+@@ -558,7 +558,7 @@ out_unlock:
+ out_dev_put:
+ 	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry)
+ 		pci_dev_put(radix_tree_delete(&ctrl->p2p_ns_map, ns->nsid));
 -
-+	int i;
-+	struct scatterlist *sg;
- 
- 	if (req->f.mpool_alloc && nr_bvec > NVMET_MAX_MPOOL_BVEC)
- 		is_sync = true;
-@@ -147,8 +147,8 @@ static bool nvmet_file_execute_io(struct nvmet_req *req, int ki_flags)
- 	}
- 
- 	memset(&req->f.iocb, 0, sizeof(struct kiocb));
--	for_each_sg_page(req->sg, &sg_pg_iter, req->sg_cnt, 0) {
--		nvmet_file_init_bvec(&req->f.bvec[bv_cnt], &sg_pg_iter);
-+	for_each_sg(req->sg, sg, req->sg_cnt, i) {
-+		nvmet_file_init_bvec(&req->f.bvec[bv_cnt], sg);
- 		len += req->f.bvec[bv_cnt].bv_len;
- 		total_len += req->f.bvec[bv_cnt].bv_len;
- 		bv_cnt++;
-@@ -225,7 +225,7 @@ static void nvmet_file_submit_buffered_io(struct nvmet_req *req)
- 
- static void nvmet_file_execute_rw(struct nvmet_req *req)
- {
--	ssize_t nr_bvec = DIV_ROUND_UP(req->data_len, PAGE_SIZE);
-+	ssize_t nr_bvec = req->sg_cnt;
- 
- 	if (!req->sg_cnt || !nr_bvec) {
- 		nvmet_req_complete(req, 0);
++out_dev_disable:
+ 	nvmet_ns_dev_disable(ns);
+ 	goto out_unlock;
+ }
 -- 
 2.19.1
