@@ -1,25 +1,48 @@
-From: kbusch@kernel.org (Keith Busch)
-Date: Mon, 22 Apr 2019 08:57:46 -0600
-Subject: [PATCH] nvmet: loop: kill timeout handler
-In-Reply-To: <20190415015146.22580-1-ming.lei@redhat.com>
-References: <20190415015146.22580-1-ming.lei@redhat.com>
-Message-ID: <20190422145746.GA13273@localhost.localdomain>
+From: sashal@kernel.org (Sasha Levin)
+Date: Mon, 22 Apr 2019 15:41:55 -0400
+Subject: [PATCH AUTOSEL 5.0 88/98] nvme-multipath: relax ANA state check
+In-Reply-To: <20190422194205.10404-1-sashal@kernel.org>
+References: <20190422194205.10404-1-sashal@kernel.org>
+Message-ID: <20190422194205.10404-88-sashal@kernel.org>
 
-On Sun, Apr 14, 2019@06:51:46PM -0700, Ming Lei wrote:
-> Firstly it doesn't make sense to handle timeout for loop: 1) for admin
-> queue, the request is always completed in code path of queuing IO. 2)
-> for normal IO request, the timeout on these IOs have been handled by
-> underlying queue already.
-> 
-> Secondly nvme-loop's timeout handler is simply broken, and easy to
-> cause issue: 1) no any sync/protection between timeout and normal
-> completion, and now it is driver's responsibility to deal with
-> that; 2) bad reset implementation, blk_mq_update_nr_hw_queues()
-> is called after all NSs's queue is stopped(quiesced), and easy
-> to trigger deadlock.
-> 
-> So kill the timeout handler.
+From: Martin George <marting@netapp.com>
 
-Makes sense to me, looks good.
+[ Upstream commit cc2278c413c3a06a93c23ee8722e4dd3d621de12 ]
 
-Reviewd-by: Keith Busch <keith.busch at intel.com>
+When undergoing state transitions I/O might be requeued, hence
+we should always call nvme_mpath_set_live() to schedule requeue_work
+whenever the nvme device is live, independent on whether the
+old state was live or not.
+
+Signed-off-by: Martin George <marting at netapp.com>
+Signed-off-by: Gargi Srinivas <sring at netapp.com>
+Signed-off-by: Hannes Reinecke <hare at suse.com>
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+Signed-off-by: Sasha Levin (Microsoft) <sashal at kernel.org>
+---
+ drivers/nvme/host/multipath.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index b9fff3b8ed1b..23da7beadd62 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -366,15 +366,12 @@ static inline bool nvme_state_is_live(enum nvme_ana_state state)
+ static void nvme_update_ns_ana_state(struct nvme_ana_group_desc *desc,
+ 		struct nvme_ns *ns)
+ {
+-	enum nvme_ana_state old;
+-
+ 	mutex_lock(&ns->head->lock);
+-	old = ns->ana_state;
+ 	ns->ana_grpid = le32_to_cpu(desc->grpid);
+ 	ns->ana_state = desc->state;
+ 	clear_bit(NVME_NS_ANA_PENDING, &ns->flags);
+ 
+-	if (nvme_state_is_live(ns->ana_state) && !nvme_state_is_live(old))
++	if (nvme_state_is_live(ns->ana_state))
+ 		nvme_mpath_set_live(ns);
+ 	mutex_unlock(&ns->head->lock);
+ }
+-- 
+2.19.1
