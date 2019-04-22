@@ -1,46 +1,48 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Mon, 22 Apr 2019 15:41:57 -0400
-Subject: [PATCH AUTOSEL 5.0 90/98] nvmet: fix error flow during ns enable
-In-Reply-To: <20190422194205.10404-1-sashal@kernel.org>
-References: <20190422194205.10404-1-sashal@kernel.org>
-Message-ID: <20190422194205.10404-90-sashal@kernel.org>
+Date: Mon, 22 Apr 2019 15:45:10 -0400
+Subject: [PATCH AUTOSEL 4.19 62/68] nvme-multipath: relax ANA state check
+In-Reply-To: <20190422194516.11634-1-sashal@kernel.org>
+References: <20190422194516.11634-1-sashal@kernel.org>
+Message-ID: <20190422194516.11634-62-sashal@kernel.org>
 
-From: Max Gurtovoy <maxg@mellanox.com>
+From: Martin George <marting@netapp.com>
 
-[ Upstream commit a536b49785759bf99465fdf6e248d34322123fcd ]
+[ Upstream commit cc2278c413c3a06a93c23ee8722e4dd3d621de12 ]
 
-In case we fail to enable p2pmem on the current namespace, disable the
-backing store device before exiting.
+When undergoing state transitions I/O might be requeued, hence
+we should always call nvme_mpath_set_live() to schedule requeue_work
+whenever the nvme device is live, independent on whether the
+old state was live or not.
 
-Cc: Stephen Bates <sbates at raithlin.com>
-Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+Signed-off-by: Martin George <marting at netapp.com>
+Signed-off-by: Gargi Srinivas <sring at netapp.com>
+Signed-off-by: Hannes Reinecke <hare at suse.com>
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 Signed-off-by: Sasha Levin (Microsoft) <sashal at kernel.org>
 ---
- drivers/nvme/target/core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/nvme/host/multipath.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 02c63c463222..7bad21a2283f 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -517,7 +517,7 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
- 
- 	ret = nvmet_p2pmem_ns_enable(ns);
- 	if (ret)
--		goto out_unlock;
-+		goto out_dev_disable;
- 
- 	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry)
- 		nvmet_p2pmem_ns_add_p2p(ctrl, ns);
-@@ -558,7 +558,7 @@ out_unlock:
- out_dev_put:
- 	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry)
- 		pci_dev_put(radix_tree_delete(&ctrl->p2p_ns_map, ns->nsid));
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index da8f5ad30c71..260248fbb8fe 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -349,15 +349,12 @@ static inline bool nvme_state_is_live(enum nvme_ana_state state)
+ static void nvme_update_ns_ana_state(struct nvme_ana_group_desc *desc,
+ 		struct nvme_ns *ns)
+ {
+-	enum nvme_ana_state old;
 -
-+out_dev_disable:
- 	nvmet_ns_dev_disable(ns);
- 	goto out_unlock;
+ 	mutex_lock(&ns->head->lock);
+-	old = ns->ana_state;
+ 	ns->ana_grpid = le32_to_cpu(desc->grpid);
+ 	ns->ana_state = desc->state;
+ 	clear_bit(NVME_NS_ANA_PENDING, &ns->flags);
+ 
+-	if (nvme_state_is_live(ns->ana_state) && !nvme_state_is_live(old))
++	if (nvme_state_is_live(ns->ana_state))
+ 		nvme_mpath_set_live(ns);
+ 	mutex_unlock(&ns->head->lock);
  }
 -- 
 2.19.1
