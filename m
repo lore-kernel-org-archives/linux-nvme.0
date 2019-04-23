@@ -1,74 +1,95 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 23 Apr 2019 14:29:51 +0200
-Subject: [PATCH 5/5] blk-mq: free q->queue_hw_ctx in blk_mq_exit_queue()
+Date: Tue, 23 Apr 2019 14:29:47 +0200
+Subject: [PATCH 1/5] blk-mq: rename 'dead_hctx_XX' to 'unused_hctx_XX'
 In-Reply-To: <20190423122951.134531-1-hare@suse.de>
 References: <20190423122951.134531-1-hare@suse.de>
-Message-ID: <20190423122951.134531-6-hare@suse.de>
+Message-ID: <20190423122951.134531-2-hare@suse.de>
 
-blk_mq_exit_queue() already frees up all hardware contexts, so it should
-be freeing up the holding array, too.
-
-Signed-off-by: Hannes Reinecke <hare at suse.com.
+Signed-off-by: Hannes Reinecke <hare at suse.com>
 ---
- block/blk-mq.c | 11 +++++++++--
- block/blk-mq.h |  2 +-
- 2 files changed, 10 insertions(+), 3 deletions(-)
+ block/blk-mq.c         | 22 +++++++++++-----------
+ include/linux/blkdev.h |  6 +++---
+ 2 files changed, 14 insertions(+), 14 deletions(-)
 
 diff --git a/block/blk-mq.c b/block/blk-mq.c
-index f620462dc4d1..ae873d333f5f 100644
+index 93e30c14f1e8..6f016d0cc69b 100644
 --- a/block/blk-mq.c
 +++ b/block/blk-mq.c
-@@ -462,7 +462,8 @@ struct request *blk_mq_alloc_request_hctx(struct request_queue *q,
- 	 * Check if the hardware context is actually mapped to anything.
- 	 * If not tell the caller that it should skip this queue.
- 	 */
--	alloc_data.hctx = q->queue_hw_ctx[hctx_idx];
-+	if (q->queue_hw_ctx)
-+		alloc_data.hctx = q->queue_hw_ctx[hctx_idx];
- 	if (!blk_mq_hw_queue_mapped(alloc_data.hctx)) {
- 		blk_queue_exit(q);
- 		return ERR_PTR(-EXDEV);
-@@ -2673,7 +2674,8 @@ void blk_mq_release(struct request_queue *q)
+@@ -2261,9 +2261,9 @@ static void blk_mq_exit_hctx(struct request_queue *q,
+ 
+ 	blk_mq_remove_cpuhp(hctx);
+ 
+-	spin_lock(&q->dead_hctx_lock);
+-	list_add(&hctx->hctx_list, &q->dead_hctx_list);
+-	spin_unlock(&q->dead_hctx_lock);
++	spin_lock(&q->unused_hctx_lock);
++	list_add(&hctx->hctx_list, &q->unused_hctx_list);
++	spin_unlock(&q->unused_hctx_lock);
+ }
+ 
+ static void blk_mq_exit_hw_queues(struct request_queue *q,
+@@ -2669,8 +2669,8 @@ void blk_mq_release(struct request_queue *q)
+ 
+ 	cancel_delayed_work_sync(&q->requeue_work);
+ 
+-	/* all hctx are in .dead_hctx_list now */
+-	list_for_each_entry_safe(hctx, next, &q->dead_hctx_list, hctx_list) {
++	/* all hctx are in .unused_hctx_list now */
++	list_for_each_entry_safe(hctx, next, &q->unused_hctx_list, hctx_list) {
+ 		list_del_init(&hctx->hctx_list);
  		kobject_put(&hctx->kobj);
  	}
- 
--	kfree(q->queue_hw_ctx);
-+	/* Ensure that blk_mq_exit_queue() has been called */
-+	WARN_ON(q->queue_hw_ctx);
- 
- 	/*
- 	 * release .mq_kobj and sw queue's kobject now because
-@@ -2930,6 +2932,8 @@ void blk_mq_exit_queue(struct request_queue *q)
- 
- 	blk_mq_del_queue_tag_set(q);
- 	blk_mq_exit_hw_queues(q, set);
-+	kfree(q->queue_hw_ctx);
-+	q->queue_hw_ctx = NULL;
- }
- 
- static int __blk_mq_alloc_rq_maps(struct blk_mq_tag_set *set)
-@@ -3477,6 +3481,9 @@ int blk_poll(struct request_queue *q, blk_qc_t cookie, bool spin)
- 	if (current->plug)
- 		blk_flush_plug_list(current->plug, false);
- 
-+	if (!q->queue_hw_ctx)
-+		return 0;
-+
- 	hctx = q->queue_hw_ctx[blk_qc_t_to_queue_num(cookie)];
- 
- 	/*
-diff --git a/block/blk-mq.h b/block/blk-mq.h
-index c421e3a16e36..14589b9fca84 100644
---- a/block/blk-mq.h
-+++ b/block/blk-mq.h
-@@ -188,7 +188,7 @@ static inline bool blk_mq_hctx_stopped(struct blk_mq_hw_ctx *hctx)
- 
- static inline bool blk_mq_hw_queue_mapped(struct blk_mq_hw_ctx *hctx)
+@@ -2740,9 +2740,9 @@ static struct blk_mq_hw_ctx *blk_mq_alloc_and_init_hctx(
  {
--	return hctx->nr_ctx && hctx->tags;
-+	return hctx && hctx->nr_ctx && hctx->tags;
- }
+ 	struct blk_mq_hw_ctx *hctx = NULL, *tmp;
  
- unsigned int blk_mq_in_flight(struct request_queue *q, struct hd_struct *part);
+-	/* reuse dead hctx first */
+-	spin_lock(&q->dead_hctx_lock);
+-	list_for_each_entry(tmp, &q->dead_hctx_list, hctx_list) {
++	/* reuse hctx first */
++	spin_lock(&q->unused_hctx_lock);
++	list_for_each_entry(tmp, &q->unused_hctx_list, hctx_list) {
+ 		if (tmp->numa_node == node) {
+ 			hctx = tmp;
+ 			break;
+@@ -2750,7 +2750,7 @@ static struct blk_mq_hw_ctx *blk_mq_alloc_and_init_hctx(
+ 	}
+ 	if (hctx)
+ 		list_del_init(&hctx->hctx_list);
+-	spin_unlock(&q->dead_hctx_lock);
++	spin_unlock(&q->unused_hctx_lock);
+ 
+ 	if (!hctx)
+ 		hctx = blk_mq_alloc_hctx(q, set, hctx_idx, node);
+@@ -2866,8 +2866,8 @@ struct request_queue *blk_mq_init_allocated_queue(struct blk_mq_tag_set *set,
+ 	if (!q->queue_hw_ctx)
+ 		goto err_sys_init;
+ 
+-	INIT_LIST_HEAD(&q->dead_hctx_list);
+-	spin_lock_init(&q->dead_hctx_lock);
++	INIT_LIST_HEAD(&q->unused_hctx_list);
++	spin_lock_init(&q->unused_hctx_lock);
+ 
+ 	blk_mq_realloc_hw_ctxs(set, q);
+ 	if (!q->nr_hw_queues)
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 1325f941f0be..39e8cd1f0cd4 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -536,11 +536,11 @@ struct request_queue {
+ 	struct mutex		sysfs_lock;
+ 
+ 	/*
+-	 * for reusing dead hctx instance in case of updating
++	 * for reusing hctx instances in case of updating
+ 	 * nr_hw_queues
+ 	 */
+-	struct list_head	dead_hctx_list;
+-	spinlock_t		dead_hctx_lock;
++	struct list_head	unused_hctx_list;
++	spinlock_t		unused_hctx_lock;
+ 
+ 	atomic_t		mq_freeze_depth;
+ 
 -- 
 2.16.4
