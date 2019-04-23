@@ -1,29 +1,39 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 23 Apr 2019 14:29:46 +0200
-Subject: [PATCH 0/5] blk-mq: fixes for Ming Leis V6 patchset
-Message-ID: <20190423122951.134531-1-hare@suse.de>
+Date: Tue, 23 Apr 2019 14:29:48 +0200
+Subject: [PATCH 2/5] blk-mq: drop 'hctx_idx' argument from blk_mq_alloc_hctx()
+In-Reply-To: <20190423122951.134531-1-hare@suse.de>
+References: <20190423122951.134531-1-hare@suse.de>
+Message-ID: <20190423122951.134531-3-hare@suse.de>
 
-Hi Ming,
+Unused.
 
-to clarify my comments to your patch to introduce dead_hctx_list here's
-a small patchset to address my concerns.
-If you agree it would possibly be best to fold it into your patchset.
+Signed-off-by: Hannes Reinecke <hare at suse.com>
+---
+ block/blk-mq.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-Patches are relative to the 'nvme-5.2' branch of the nvme git repository
-plus the 'V6' iteration of Mings patchset
-'blk-mq: fix races related with freeing queue'.
-
-Hannes Reinecke (5):
-  blk-mq: rename 'dead_hctx_XX' to 'unused_hctx_XX'
-  blk-mq: drop 'hctx_idx' argument from blk_mq_alloc_hctx()
-  blk-mq: remove 'nr_queue' argument in blk_mq_exit_hw_queues()
-  blk-mq: Set hctx pointer to NULL in blk_mq_exit_hw_queues()
-  blk-mq: free q->queue_hw_ctx in blk_mq_exit_queue()
-
- block/blk-mq.c         | 45 +++++++++++++++++++++++++--------------------
- block/blk-mq.h         |  2 +-
- include/linux/blkdev.h |  6 +++---
- 3 files changed, 29 insertions(+), 24 deletions(-)
-
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 6f016d0cc69b..d16672bfa97d 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -2324,8 +2324,7 @@ static int blk_mq_init_hctx(struct request_queue *q,
+ 
+ static struct blk_mq_hw_ctx *
+ blk_mq_alloc_hctx(struct request_queue *q,
+-		  struct blk_mq_tag_set *set,
+-		  unsigned hctx_idx, int node)
++		  struct blk_mq_tag_set *set, int node)
+ {
+ 	struct blk_mq_hw_ctx *hctx;
+ 
+@@ -2753,7 +2752,7 @@ static struct blk_mq_hw_ctx *blk_mq_alloc_and_init_hctx(
+ 	spin_unlock(&q->unused_hctx_lock);
+ 
+ 	if (!hctx)
+-		hctx = blk_mq_alloc_hctx(q, set, hctx_idx, node);
++		hctx = blk_mq_alloc_hctx(q, set, node);
+ 	if (!hctx)
+ 		goto fail;
+ 
 -- 
 2.16.4
