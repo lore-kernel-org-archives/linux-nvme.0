@@ -1,17 +1,35 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 24 Apr 2019 09:31:23 -0700
-Subject: [PATCH 1/2] nvme: pci: Return -EINVAL if given nr_queue larger
- than nr_cpu
-In-Reply-To: <20190411155239.1094-2-minwoo.im.dev@gmail.com>
+Date: Wed, 24 Apr 2019 09:32:36 -0700
+Subject: [PATCH 2/2] nvme: pci: Do not initialize local_var
+In-Reply-To: <20190411155239.1094-3-minwoo.im.dev@gmail.com>
 References: <20190411155239.1094-1-minwoo.im.dev@gmail.com>
- <20190411155239.1094-2-minwoo.im.dev@gmail.com>
-Message-ID: <f01517db-74ba-477f-49fe-88aaf0b8ab89@grimberg.me>
+ <20190411155239.1094-3-minwoo.im.dev@gmail.com>
+Message-ID: <fb880f9a-57f6-2916-374d-7e0ccadab3d8@grimberg.me>
 
+> Variable "n" will be assigned once kstrtoint() succeeds, otherwise it
+> will not be referred because kstrtoint() will return an error which
+> means go out from this function.
 
-> "write_queues" and "poll_queues" can be configured by module parameters
-> with callback queue_count_set().
+Makes sense, but did you verify that static checkers don't complain on
+this?
+
 > 
-> This function shall return a error if given number of queue is larger
-> than nr_possible_cpus due to blk-mq.
-
-Why?
+> Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
+> ---
+>   drivers/nvme/host/pci.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 1a7f44924e0f..db894d4a37b6 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -146,7 +146,7 @@ static int io_queue_depth_set(const char *val, const struct kernel_param *kp)
+>   
+>   static int queue_count_set(const char *val, const struct kernel_param *kp)
+>   {
+> -	int n = 0, ret;
+> +	int n, ret;
+>   
+>   	ret = kstrtoint(val, 10, &n);
+>   	if (ret)
+> 
