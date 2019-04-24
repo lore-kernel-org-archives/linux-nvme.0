@@ -1,77 +1,25 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 24 Apr 2019 09:23:10 -0700
-Subject: [PATCH RFC] nvme: fix race condition between remove and scan_work
-In-Reply-To: <20190411133227.28435-1-yuyufen@huawei.com>
-References: <20190411133227.28435-1-yuyufen@huawei.com>
-Message-ID: <a9d6bf42-e01a-4e56-acc7-5d87ac9179f9@grimberg.me>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 24 Apr 2019 18:27:46 +0200
+Subject: [PATCH V7 9/9] nvme: hold request queue's refcount in ns's
+ whole lifetime
+In-Reply-To: <20190424110221.17435-10-ming.lei@redhat.com>
+References: <20190424110221.17435-1-ming.lei@redhat.com>
+ <20190424110221.17435-10-ming.lei@redhat.com>
+Message-ID: <20190424162746.GE23854@lst.de>
 
+On Wed, Apr 24, 2019@07:02:21PM +0800, Ming Lei wrote:
+> Hennes reported the following kernel oops:
 
+Hannes?
 
-On 4/11/19 6:32 AM, Yufen Yu wrote:
-> There is a race condition between nvme_remove and nvme_scan_work, as
-> following:
-> 
-> sysfs_kr_wirte
-> nvme_remove            nvme_queue_scan            timeout_worker
->                         queue scan_work
-> 
-> 		       nvme_scan_work
-> 
-> set NVME_CTRL_DELETING
-> flush_work(&ctrl->scan_work)
-> wait_for_completion scan_work
-> 
->                         nvme_scan_ns_list
-> 		        nvme_validate_ns
-> 			 nvme_submit_sync_cmd(admin_q)
->                            IO timeout
->                                                    nvme_timeout
-> 						   nvme_dev_disable
-> 						    nvme_suspend_queue(admin_q)
-> 							blk_mq_quiesce_queue
-> 
->                                                     nvme_reset_ctrl
-> 						    return -EBUSY
-> 
->                          nvme_scan_ns_sequential
-> 			 nvme_submit_sync_cmd(admin_q)
->                            IO cannnot issue, as admin_q suspend
->                           wait_for_completion_io_timeout
-> 
+> +	if (!blk_get_queue(ns->queue)) {
+> +		ret = -ENXIO;
+> +		goto out_free_queue;
+> +	}
 
-Should we still attempt nvme_scan_ns_sequential() if nvme_scan_ns_list()
-failed?
+If we always need to hold a reference, shouldn't blk_mq_init_queue
+return with that reference held (and yes, that means changes to
+every driver, but it seems like we need to audit all of them anyway..)
 
-I still think that I/Os cannot hang forever when issued concurrently
-with controller removal...
-
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index a90cf5d63aac..77807515d0e3 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -1272,6 +1272,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
->   	struct request *abort_req;
->   	struct nvme_command cmd;
->   	u32 csts = readl(dev->bar + NVME_REG_CSTS);
-> +	int error = 0;
-
-This can move to the usage scope right?
-
->   
->   	/* If PCI error recovery process is happening, we cannot reset or
->   	 * the recovery mechanism will surely fail.
-> @@ -1329,7 +1330,13 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
->   			 "I/O %d QID %d timeout, reset controller\n",
->   			 req->tag, nvmeq->qid);
->   		nvme_dev_disable(dev, false);
-> -		nvme_reset_ctrl(&dev->ctrl);
-> +		/*
-> +		 * If reset ctrl fail, we need to drain all requests in ctx
-> +		 * and elevator, avoiding io stuck forever.
-> +		 */
-> +		error = nvme_reset_ctrl(&dev->ctrl);
-> +		if (error)
-> +			blk_mq_unquiesce_queue(dev->ctrl.admin_q);
-
-Is it just DELETING state that is acceptable here? or can we meet other
-states that fail transition to RESETTING (CONNECTING/DEAD)?
+It seems like the queue lifetimes are a bit of a mess, and I'm not sure
+if this just papers over the problem.
