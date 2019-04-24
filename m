@@ -1,41 +1,104 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 24 Apr 2019 13:58:56 -0700
-Subject: [PATCH v2 0/2] Adding per-controller timeout support to nvme
-In-Reply-To: <983e5d039dce9de1d32c71d28fd59bbc01c3fee5.camel@infradead.org>
-References: <20190403123506.122904-1-mheyne@amazon.de>
- <fb33a464-af65-abec-5ff1-15925e7669a4@grimberg.me>
- <20190424200706.GB15412@localhost.localdomain>
- <983e5d039dce9de1d32c71d28fd59bbc01c3fee5.camel@infradead.org>
-Message-ID: <db034829-7140-1374-0132-7d27240b8b3b@grimberg.me>
+Date: Wed, 24 Apr 2019 14:49:41 -0700
+Subject: [PATCH 1/2] spec, Makefile: add /etc/nvme files to package files
+Message-ID: <20190424214942.11288-1-sagi@grimberg.me>
 
+This way it can automatically be removed upon uninstallation
+and we don't need %preun target. Also, this will also allow
+to get these files on manual installation from sources.
 
->>>> As different nvme controllers are connect via different fabrics, some require
->>>> different timeout settings than others. This series implements per-controller
->>>> timeouts in the nvme subsystem which can be set via sysfs.
->>>
->>> How much of a real issue is this?
->>>
->>> block io_timeout defaults to 30 seconds which are considered a universal
->>> eternity for pretty much any nvme fabric. Moreover, io_timeout is
->>> mutable already on a per-namespace level.
->>>
->>> This leaves the admin_timeout which goes beyond this to 60 seconds...
->>>
->>> Can you describe what exactly are you trying to solve?
->>
->> I think they must have an nvme target that is backed by slow media
->> (i.e. non-SSD). If that's the case, I think it may be a better option
->> if the target advertises relatively shallow queue depths and/or lower
->> MDTS that better aligns to the backing storage capabilies.
-> 
-> It isn't that the media is slow; the max timeout is based on the SLA
-> for certain classes of "fabric" outages. Linux copes *really* badly
-> with I/O errors, and if we can make the timeout last long enough to
-> cover the switch restart worst case, then users are a lot happier.
+Also, don't settle on the "file exists" check, use the '-s'
+to check that it is not empty as well.
 
-Well, what is usually done to handle fabric outages is having multiple
-paths to the storage device, not sure if that is applicable for you or
-not...
+Lastly, in order to have hostnqn and hostid updated upon pkg
+install, we have install-spec target that would omit hostnqn and
+hostid files, and let the rpm %post do it (otherwise we
+use the normal install target).
 
-What do you mean by "Linux copes *really* badly with I/O errors"? What
-can be done better?
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ Makefile     | 16 +++++++++++++++-
+ nvme.spec.in | 25 +++++++++----------------
+ 2 files changed, 24 insertions(+), 17 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 25c65ab09d67..02299c45734f 100644
+--- a/Makefile
++++ b/Makefile
+@@ -90,7 +90,21 @@ install-zsh-completion:
+ 	$(INSTALL) -d $(DESTDIR)$(PREFIX)/share/zsh/site-functions
+ 	$(INSTALL) -m 644 -T ./completions/_nvme $(DESTDIR)$(PREFIX)/share/zsh/site-functions/_nvme
+ 
+-install: install-bin install-man install-bash-completion install-zsh-completion
++install-hostparams:
++	if [ ! -s $(DESTDIR)$(SYSCONFDIR)/nvme/hostnqn ]; then \
++		echo `$(DESTDIR)$(SBINDIR)/nvme gen-hostnqn` > $(DESTDIR)$(SYSCONFDIR)/nvme/hostnqn; \
++	fi
++	if [ ! -s $(DESTDIR)$(SYSCONFDIR)/nvme/hostid ]; then \
++		uuidgen > $(DESTDIR)$(SYSCONFDIR)/nvme/hostid; \
++	fi
++
++install-etc:
++	$(INSTALL) -d $(DESTDIR)$(SYSCONFDIR)/nvme
++	touch $(DESTDIR)$(SYSCONFDIR)/nvme/hostnqn
++	touch $(DESTDIR)$(SYSCONFDIR)/nvme/hostid
++
++install-spec: install-bin install-man install-bash-completion install-zsh-completion install-etc
++install: install-spec install-hostparams
+ 
+ nvme.spec: nvme.spec.in NVME-VERSION-FILE
+ 	sed -e 's/@@VERSION@@/$(NVME_VERSION)/g' < $< > $@+
+diff --git a/nvme.spec.in b/nvme.spec.in
+index c16d0ec0645b..147b64a530f8 100644
+--- a/nvme.spec.in
++++ b/nvme.spec.in
+@@ -22,7 +22,7 @@ make
+ 
+ %install
+ rm -rf $RPM_BUILD_ROOT
+-make install DESTDIR=%{buildroot} PREFIX=/usr
++make install-spec DESTDIR=%{buildroot} PREFIX=/usr
+ 
+ %files
+ %defattr(-,root,root)
+@@ -31,30 +31,23 @@ make install DESTDIR=%{buildroot} PREFIX=/usr
+ %{_mandir}/man1/nvme*.1*
+ %{_datadir}/bash-completion/completions/nvme
+ %{_datadir}/zsh/site-functions/_nvme
++%dir %{_sysconfdir}/nvme
++%{_sysconfdir}/nvme/hostnqn
++%{_sysconfdir}/nvme/hostid
+ 
+ %clean
+ rm -rf $RPM_BUILD_ROOT
+ 
+ %post
+-if [ $1 = 1 ]; then # 1 : This package is being installed for the first time
+-	if [ ! -f /etc/nvme/hostnqn ]; then
+-		install -D /dev/null /etc/nvme/hostnqn
+-		echo $(nvme gen-hostnqn) > /etc/nvme/hostnqn
++if [ $1 -eq 1 ]; then # 1 : This package is being installed for the first time
++	if [ ! -s %{_sysconfdir}/nvme/hostnqn ]; then
++		echo $(nvme gen-hostnqn) > %{_sysconfdir}/nvme/hostnqn
+         fi
+-        if [ ! -f /etc/nvme/hostid ]; then
+-                uuidgen > /etc/nvme/hostid
++        if [ ! -s %{_sysconfdir}/nvme/hostid ]; then
++                uuidgen > %{_sysconfdir}/nvme/hostid
+         fi
+ fi
+ 
+-%preun
+-if [ "$1" = "remove" ]; then
+-	if [ -d /etc/nvme ]; then
+-		rm -f /etc/nvme/hostnqn
+-		if [ ! -n "`ls -A /etc/nvme`" ]; then
+-			rm -rf /etc/nvme
+-		fi
+-	fi
+-fi
+ %changelog
+ * Mon Oct 15 2018 Eyal Ben-David <eyalbe at il.ibm.com> - 1.6.81.g899a-2
+ - bash-completion check
+-- 
+2.17.1
