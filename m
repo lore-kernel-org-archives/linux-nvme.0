@@ -1,41 +1,21 @@
-From: greg@kroah.com (Greg KH)
-Date: Wed, 24 Apr 2019 18:48:13 +0200
-Subject: [RESEND PATCH stable only] nvmet: set loop queue's segment
- boundary mask as PAGE_SIZE - 1
-In-Reply-To: <20190403162226.GA22741@ming.t460p>
-References: <20190402015610.26320-1-ming.lei@redhat.com>
- <20190403140427.GD8633@kroah.com>
- <20190403162226.GA22741@ming.t460p>
-Message-ID: <20190424164813.GD21916@kroah.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 24 Apr 2019 09:55:16 -0700
+Subject: [PATCH v2 0/2] Adding per-controller timeout support to nvme
+In-Reply-To: <20190403123506.122904-1-mheyne@amazon.de>
+References: <20190403123506.122904-1-mheyne@amazon.de>
+Message-ID: <fb33a464-af65-abec-5ff1-15925e7669a4@grimberg.me>
 
-On Thu, Apr 04, 2019@12:22:27AM +0800, Ming Lei wrote:
-> On Wed, Apr 03, 2019@04:04:27PM +0200, Greg KH wrote:
-> > On Tue, Apr 02, 2019@09:56:10AM +0800, Ming Lei wrote:
-> > > NVMe target only accepts single-page sg list, either file or block
-> > > device backed target code follows this assumption.
-> > > 
-> > > However, loop target is one exception, given the sg list is from
-> > > the host queue directly.
-> > > 
-> > > This patch sets loop queue's segment boundary mask as PAGE_SIZE - 1
-> > > for following NVMe target assumption.
-> > > 
-> > > Multi-page bvec has been merged to v5.1-rc1, so commit 02db99548d36
-> > > ("nvmet: fix building bvec from sg list") can fix the current issue
-> > > simply without needing to limit the segment size for nvme-loop.
-> > 
-> > I don't understand, 02db99548d36 does not work for older kernels, so
-> > because of that, you need/want this patch to be applied?  If so, what
-> > specific kernel versions do you want this to go to?
-> 
-> Old kernel needs both this patch and 02db99548d36, and you should see
-> the description in 02db99548d36 commit log too.
-> 
-> This patch should be needed since nvme-loop is introduced.
 
-I'm sorry, I still do not understand.  Please resend the patches that
-you wish to have applied, with the proper git commit ids, and let us
-know what trees they should be applied to.  I can not parse the above
-text, sorry.
+> As different nvme controllers are connect via different fabrics, some require
+> different timeout settings than others. This series implements per-controller
+> timeouts in the nvme subsystem which can be set via sysfs.
 
-greg k-h
+How much of a real issue is this?
+
+block io_timeout defaults to 30 seconds which are considered a universal
+eternity for pretty much any nvme fabric. Moreover, io_timeout is
+mutable already on a per-namespace level.
+
+This leaves the admin_timeout which goes beyond this to 60 seconds...
+
+Can you describe what exactly are you trying to solve?
