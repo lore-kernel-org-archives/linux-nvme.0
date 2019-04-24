@@ -1,41 +1,18 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Wed, 24 Apr 2019 19:02:13 +0800
-Subject: [PATCH V7 1/9] blk-mq: grab .q_usage_counter when queuing request
- from plug code path
+Date: Wed, 24 Apr 2019 19:02:14 +0800
+Subject: [PATCH V7 2/9] blk-mq: move cancel of requeue_work into blk_mq_release
 In-Reply-To: <20190424110221.17435-1-ming.lei@redhat.com>
 References: <20190424110221.17435-1-ming.lei@redhat.com>
-Message-ID: <20190424110221.17435-2-ming.lei@redhat.com>
+Message-ID: <20190424110221.17435-3-ming.lei@redhat.com>
 
-Just like aio/io_uring, we need to grab 2 refcount for queuing one
-request, one is for submission, another is for completion.
+With holding queue's kobject refcount, it is safe for driver
+to schedule requeue. However, blk_mq_kick_requeue_list() may
+be called after blk_sync_queue() is done because of concurrent
+requeue activities, then requeue work may not be completed when
+freeing queue, and kernel oops is triggered.
 
-If the request isn't queued from plug code path, the refcount grabbed
-in generic_make_request() serves for submission. In theroy, this
-refcount should have been released after the sumission(async run queue)
-is done. blk_freeze_queue() works with blk_sync_queue() together
-for avoiding race between cleanup queue and IO submission, given async
-run queue activities are canceled because hctx->run_work is scheduled with
-the refcount held, so it is fine to not hold the refcount when
-running the run queue work function for dispatch IO.
-
-However, if request is staggered into plug list, and finally queued
-from plug code path, the refcount in submission side is actually missed.
-And we may start to run queue after queue is removed because the queue's
-kobject refcount isn't guaranteed to be grabbed in flushing plug list
-context, then kernel oops is triggered, see the following race:
-
-blk_mq_flush_plug_list():
-        blk_mq_sched_insert_requests()
-                insert requests to sw queue or scheduler queue
-                blk_mq_run_hw_queue
-
-Because of concurrent run queue, all requests inserted above may be
-completed before calling the above blk_mq_run_hw_queue. Then queue can
-be freed during the above blk_mq_run_hw_queue().
-
-Fixes the issue by grab .q_usage_counter before calling
-blk_mq_sched_insert_requests() in blk_mq_flush_plug_list(). This way is
-safe because the queue is absolutely alive before inserting request.
+So moving the cancel of requeue_work into blk_mq_release() for
+avoiding race between requeue and freeing queue.
 
 Cc: Dongli Zhang <dongli.zhang at oracle.com>
 Cc: James Smart <james.smart at broadcom.com>
@@ -50,37 +27,34 @@ Reviewed-by: Hannes Reinecke <hare at suse.com>
 Tested-by: James Smart <james.smart at broadcom.com>
 Signed-off-by: Ming Lei <ming.lei at redhat.com>
 ---
- block/blk-mq.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ block/blk-core.c | 1 -
+ block/blk-mq.c   | 2 ++
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
+diff --git a/block/blk-core.c b/block/blk-core.c
+index a55389ba8779..93dc588fabe2 100644
+--- a/block/blk-core.c
++++ b/block/blk-core.c
+@@ -237,7 +237,6 @@ void blk_sync_queue(struct request_queue *q)
+ 		struct blk_mq_hw_ctx *hctx;
+ 		int i;
+ 
+-		cancel_delayed_work_sync(&q->requeue_work);
+ 		queue_for_each_hw_ctx(q, hctx, i)
+ 			cancel_delayed_work_sync(&hctx->run_work);
+ 	}
 diff --git a/block/blk-mq.c b/block/blk-mq.c
-index fc60ed7e940e..9df43ef4b541 100644
+index 9df43ef4b541..3e321048b259 100644
 --- a/block/blk-mq.c
 +++ b/block/blk-mq.c
-@@ -1736,9 +1736,12 @@ void blk_mq_flush_plug_list(struct blk_plug *plug, bool from_schedule)
- 		if (rq->mq_hctx != this_hctx || rq->mq_ctx != this_ctx) {
- 			if (this_hctx) {
- 				trace_block_unplug(this_q, depth, !from_schedule);
-+
-+				percpu_ref_get(&this_q->q_usage_counter);
- 				blk_mq_sched_insert_requests(this_hctx, this_ctx,
- 								&rq_list,
- 								from_schedule);
-+				percpu_ref_put(&this_q->q_usage_counter);
- 			}
+@@ -2640,6 +2640,8 @@ void blk_mq_release(struct request_queue *q)
+ 	struct blk_mq_hw_ctx *hctx;
+ 	unsigned int i;
  
- 			this_q = rq->q;
-@@ -1757,8 +1760,11 @@ void blk_mq_flush_plug_list(struct blk_plug *plug, bool from_schedule)
- 	 */
- 	if (this_hctx) {
- 		trace_block_unplug(this_q, depth, !from_schedule);
++	cancel_delayed_work_sync(&q->requeue_work);
 +
-+		percpu_ref_get(&this_q->q_usage_counter);
- 		blk_mq_sched_insert_requests(this_hctx, this_ctx, &rq_list,
- 						from_schedule);
-+		percpu_ref_put(&this_q->q_usage_counter);
- 	}
- }
- 
+ 	/* hctx kobj stays in hctx */
+ 	queue_for_each_hw_ctx(q, hctx, i) {
+ 		if (!hctx)
 -- 
 2.9.5
