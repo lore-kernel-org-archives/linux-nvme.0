@@ -1,21 +1,50 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 24 Apr 2019 09:55:16 -0700
-Subject: [PATCH v2 0/2] Adding per-controller timeout support to nvme
-In-Reply-To: <20190403123506.122904-1-mheyne@amazon.de>
-References: <20190403123506.122904-1-mheyne@amazon.de>
-Message-ID: <fb33a464-af65-abec-5ff1-15925e7669a4@grimberg.me>
+Date: Wed, 24 Apr 2019 10:05:37 -0700
+Subject: [PATCHv2] nvmet: make MDTS value configurable
+In-Reply-To: <fb0baf79-abbe-55be-c621-abf4d80355d9@mellanox.com>
+References: <20190403230654.109698-1-hare@suse.de>
+ <20190404052720.GB7497@lst.de>
+ <90391425-546f-61ad-ca9e-890e0246bf3c@mellanox.com>
+ <20190408061644.GA26437@lst.de>
+ <fb0baf79-abbe-55be-c621-abf4d80355d9@mellanox.com>
+Message-ID: <6e30cf78-ed72-4acc-2733-86f258750558@grimberg.me>
 
 
-> As different nvme controllers are connect via different fabrics, some require
-> different timeout settings than others. This series implements per-controller
-> timeouts in the nvme subsystem which can be set via sysfs.
+> Yes, from what I saw we don't limit the max_io_size in the target since 
+> we're using the rw-API.
+> 
+> In case 1 rdma ctx is not enough (MR page list for example) we use more 
+> ctx's in the rw-API. I think we have a bug there since we don't check 
+> that nr_ops is not to big for transaction.
 
-How much of a real issue is this?
+What do you mean too big?
 
-block io_timeout defaults to 30 seconds which are considered a universal
-eternity for pretty much any nvme fabric. Moreover, io_timeout is
-mutable already on a per-namespace level.
+> So probably we need to add some limit int nvmet/RDMA for that as 
+> NFS/RDMA does (let's agree on some value/module_param/tunable).
+> 
+> Or we can say that the limit is (if we force MRs for example):
+> 
+> rdma_rw_fr_page_list_len(device) * device_page_size * 
+> max_mrs_per_transaction.
 
-This leaves the admin_timeout which goes beyond this to 60 seconds...
+if at all it should probably be:
+rdma_rw_fr_page_list_len(device) * device_page_size * 
+attr->cap.max_rdma_ctxs
 
-Can you describe what exactly are you trying to solve?
+> We also need to calculate mr_pool_size and max_rdma_ctxs more carefully 
+> IMO.
+> 
+> So let's agree on the approach and then implement a solution (Sagi, can 
+> you comments on that too please ?)
+
+I don't think we want a modparam for something this low-level...
+
+we reserve a qp space and mr pool, we should limit MDTS based on that
+alone.
+
+> Nevertheless, While digging into it I saw some improvements we can do to 
+> rw-API, so I'm preparing few patches (add static allocations option 
+> instead of allocations in fast-path).
+
+Note that I still don't understand what is the original issue Hannes
+was trying to resolve...
