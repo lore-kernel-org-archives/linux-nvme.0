@@ -1,20 +1,28 @@
-From: bvanassche@acm.org (Bart Van Assche)
-Date: Wed, 24 Apr 2019 12:49:11 -0700
-Subject: [PATCH] block: use static bio_set for bio_split() calls
-In-Reply-To: <20190418140632.60606-1-hare@suse.de>
-References: <20190418140632.60606-1-hare@suse.de>
-Message-ID: <1556135351.161891.138.camel@acm.org>
+From: kbusch@kernel.org (Keith Busch)
+Date: Wed, 24 Apr 2019 14:07:06 -0600
+Subject: [PATCH v2 0/2] Adding per-controller timeout support to nvme
+In-Reply-To: <fb33a464-af65-abec-5ff1-15925e7669a4@grimberg.me>
+References: <20190403123506.122904-1-mheyne@amazon.de>
+ <fb33a464-af65-abec-5ff1-15925e7669a4@grimberg.me>
+Message-ID: <20190424200706.GB15412@localhost.localdomain>
 
-On Thu, 2019-04-18@16:06 +0200, Hannes Reinecke wrote:
-> +static int __init blk_bio_split_init(void)
-> +{
-> +       return bioset_init(&bio_split_bio_set, BIO_POOL_SIZE, 0,
-> +                          BIOSET_NEED_BVECS);
-> +}
+On Wed, Apr 24, 2019@09:55:16AM -0700, Sagi Grimberg wrote:
+> 
+> > As different nvme controllers are connect via different fabrics, some require
+> > different timeout settings than others. This series implements per-controller
+> > timeouts in the nvme subsystem which can be set via sysfs.
+> 
+> How much of a real issue is this?
+> 
+> block io_timeout defaults to 30 seconds which are considered a universal
+> eternity for pretty much any nvme fabric. Moreover, io_timeout is
+> mutable already on a per-namespace level.
+> 
+> This leaves the admin_timeout which goes beyond this to 60 seconds...
+> 
+> Can you describe what exactly are you trying to solve?
 
-The slab allocator uses __init for some of its initialization. Can it happen
-that blk_bio_split_init() is called before slab initialization has finished?
-
-Otherwise this patch looks fine to me.
-
-Bart.
+I think they must have an nvme target that is backed by slow media
+(i.e. non-SSD). If that's the case, I think it may be a better option
+if the target advertises relatively shallow queue depths and/or lower
+MDTS that better aligns to the backing storage capabilies.
