@@ -1,103 +1,66 @@
-From: hare@suse.com (Hannes Reinecke)
-Date: Wed, 24 Apr 2019 13:15:15 +0200
-Subject: [PATCH V7 6/9] blk-mq: always free hctx after request queue is
- freed
-In-Reply-To: <20190424110221.17435-7-ming.lei@redhat.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Wed, 24 Apr 2019 19:02:19 +0800
+Subject: [PATCH V7 7/9] blk-mq: move cancel of hctx->run_work into
+ blk_mq_hw_sysfs_release
+In-Reply-To: <20190424110221.17435-1-ming.lei@redhat.com>
 References: <20190424110221.17435-1-ming.lei@redhat.com>
- <20190424110221.17435-7-ming.lei@redhat.com>
-Message-ID: <eb76b2b7-dc20-f600-357f-610827188b86@suse.com>
+Message-ID: <20190424110221.17435-8-ming.lei@redhat.com>
 
-On 4/24/19 1:02 PM, Ming Lei wrote:
-> In normal queue cleanup path, hctx is released after request queue
-> is freed, see blk_mq_release().
-> 
-> However, in __blk_mq_update_nr_hw_queues(), hctx may be freed because
-> of hw queues shrinking. This way is easy to cause use-after-free,
-> because: one implicit rule is that it is safe to call almost all block
-> layer APIs if the request queue is alive; and one hctx may be retrieved
-> by one API, then the hctx can be freed by blk_mq_update_nr_hw_queues();
-> finally use-after-free is triggered.
-> 
-> Fixes this issue by always freeing hctx after releasing request queue.
-> If some hctxs are removed in blk_mq_update_nr_hw_queues(), introduce
-> a per-queue list to hold them, then try to resuse these hctxs if numa
-> node is matched.
-> 
-> Cc: Dongli Zhang <dongli.zhang at oracle.com>
-> Cc: James Smart <james.smart at broadcom.com>
-> Cc: Bart Van Assche <bart.vanassche at wdc.com>
-> Cc: linux-scsi at vger.kernel.org,
-> Cc: Martin K . Petersen <martin.petersen at oracle.com>,
-> Cc: Christoph Hellwig <hch at lst.de>,
-> Cc: James E . J . Bottomley <jejb at linux.vnet.ibm.com>,
-> Tested-by: James Smart <james.smart at broadcom.com>
-> Signed-off-by: Ming Lei <ming.lei at redhat.com>
-> ---
->   block/blk-mq.c         | 46 +++++++++++++++++++++++++++++++++-------------
->   include/linux/blk-mq.h |  2 ++
->   include/linux/blkdev.h |  7 +++++++
->   3 files changed, 42 insertions(+), 13 deletions(-)
-> 
-> diff --git a/block/blk-mq.c b/block/blk-mq.c
-> index 1eceeb26ae7d..b9d711d12cae 100644
-> --- a/block/blk-mq.c
-> +++ b/block/blk-mq.c
-> @@ -2274,6 +2274,10 @@ static void blk_mq_exit_hctx(struct request_queue *q,
->   		set->ops->exit_hctx(hctx, hctx_idx);
->   
->   	blk_mq_remove_cpuhp(hctx);
-> +
-> +	spin_lock(&q->unused_hctx_lock);
-> +	list_add(&hctx->hctx_list, &q->unused_hctx_list);
-> +	spin_unlock(&q->unused_hctx_lock);
->   }
->   
->   static void blk_mq_exit_hw_queues(struct request_queue *q,
-> @@ -2362,6 +2366,8 @@ blk_mq_alloc_hctx(struct request_queue *q,
->   	hctx->queue = q;
->   	hctx->flags = set->flags & ~BLK_MQ_F_TAG_SHARED;
->   
-> +	INIT_LIST_HEAD(&hctx->hctx_list);
-> +
->   	/*
->   	 * Allocate space for all possible cpus to avoid allocation at
->   	 * runtime
-> @@ -2675,15 +2681,17 @@ static int blk_mq_alloc_ctxs(struct request_queue *q)
->    */
->   void blk_mq_release(struct request_queue *q)
->   {
-> -	struct blk_mq_hw_ctx *hctx;
-> -	unsigned int i;
-> +	struct blk_mq_hw_ctx *hctx, *next;
-> +	int i;
->   
->   	cancel_delayed_work_sync(&q->requeue_work);
->   
-> -	/* hctx kobj stays in hctx */
-> -	queue_for_each_hw_ctx(q, hctx, i) {
-> -		if (!hctx)
-> -			continue;
-> +	queue_for_each_hw_ctx(q, hctx, i)
-> +		WARN_ON_ONCE(hctx && list_empty(&hctx->hctx_list));
-> +
-> +	/* all hctx are in .unused_hctx_list now */
-> +	list_for_each_entry_safe(hctx, next, &q->unused_hctx_list, hctx_list) {
-> +		list_del_init(&hctx->hctx_list);
->   		kobject_put(&hctx->kobj);
->   	}
->   
-I would consider it a bug if the hctx is still assigned to 
-->queue_hw_ctx at this point.
-But that's a minor issue.
+hctx is always released after requeue is freed.
 
+With holding queue's kobject refcount, it is safe for driver to run queue,
+so one run queue might be scheduled after blk_sync_queue() is done.
+
+So moving the cancel of hctx->run_work into blk_mq_hw_sysfs_release()
+for avoiding run released queue.
+
+Cc: Dongli Zhang <dongli.zhang at oracle.com>
+Cc: James Smart <james.smart at broadcom.com>
+Cc: Bart Van Assche <bart.vanassche at wdc.com>
+Cc: linux-scsi at vger.kernel.org,
+Cc: Martin K . Petersen <martin.petersen at oracle.com>,
+Cc: Christoph Hellwig <hch at lst.de>,
+Cc: James E . J . Bottomley <jejb at linux.vnet.ibm.com>,
+Reviewed-by: Bart Van Assche <bvanassche at acm.org>
 Reviewed-by: Hannes Reinecke <hare at suse.com>
+Tested-by: James Smart <james.smart at broadcom.com>
+Signed-off-by: Ming Lei <ming.lei at redhat.com>
+---
+ block/blk-core.c     | 8 --------
+ block/blk-mq-sysfs.c | 2 ++
+ 2 files changed, 2 insertions(+), 8 deletions(-)
 
-Cheers,
-
-Hannes
+diff --git a/block/blk-core.c b/block/blk-core.c
+index 2dd94b3e9ece..f5b5f21ae4fd 100644
+--- a/block/blk-core.c
++++ b/block/blk-core.c
+@@ -232,14 +232,6 @@ void blk_sync_queue(struct request_queue *q)
+ {
+ 	del_timer_sync(&q->timeout);
+ 	cancel_work_sync(&q->timeout_work);
+-
+-	if (queue_is_mq(q)) {
+-		struct blk_mq_hw_ctx *hctx;
+-		int i;
+-
+-		queue_for_each_hw_ctx(q, hctx, i)
+-			cancel_delayed_work_sync(&hctx->run_work);
+-	}
+ }
+ EXPORT_SYMBOL(blk_sync_queue);
+ 
+diff --git a/block/blk-mq-sysfs.c b/block/blk-mq-sysfs.c
+index 4040e62c3737..25c0d0a6a556 100644
+--- a/block/blk-mq-sysfs.c
++++ b/block/blk-mq-sysfs.c
+@@ -35,6 +35,8 @@ static void blk_mq_hw_sysfs_release(struct kobject *kobj)
+ 	struct blk_mq_hw_ctx *hctx = container_of(kobj, struct blk_mq_hw_ctx,
+ 						  kobj);
+ 
++	cancel_delayed_work_sync(&hctx->run_work);
++
+ 	if (hctx->flags & BLK_MQ_F_BLOCKING)
+ 		cleanup_srcu_struct(hctx->srcu);
+ 	blk_free_flush_queue(hctx->fq);
 -- 
-Dr. Hannes Reinecke		               zSeries & Storage
-hare at suse.com			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+2.9.5
