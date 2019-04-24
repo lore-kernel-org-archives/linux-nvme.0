@@ -1,55 +1,27 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 24 Apr 2019 14:49:42 -0700
-Subject: [PATCH 2/2] spec, make: Add discovery.conf to the package files list
-In-Reply-To: <20190424214942.11288-1-sagi@grimberg.me>
-References: <20190424214942.11288-1-sagi@grimberg.me>
-Message-ID: <20190424214942.11288-2-sagi@grimberg.me>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Thu, 25 Apr 2019 06:14:23 +0800
+Subject: [PATCH] block: use static bio_set for bio_split() calls
+In-Reply-To: <98d8549a-2663-b404-e38a-6f55dfb575bf@grimberg.me>
+References: <20190418140632.60606-1-hare@suse.de>
+ <20190418143429.GA19175@ming.t460p>
+ <98d8549a-2663-b404-e38a-6f55dfb575bf@grimberg.me>
+Message-ID: <20190424221422.GA21351@ming.t460p>
 
-Lets add it as part of the package with a little documentation.
+On Wed, Apr 24, 2019@10:20:46AM -0700, Sagi Grimberg wrote:
+> 
+> > per-queue bioset is used originally for avoiding deadlock, are you
+> > sure the static bioset is safe?
+> 
+> Can you explain this? I didn't find any indication of that in the change
+> log history...
+> 
+> Originally introduced by Kent:
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- Makefile              | 3 +++
- etc/discovery.conf.in | 4 ++++
- nvme.spec.in          | 1 +
- 3 files changed, 8 insertions(+)
- create mode 100644 etc/discovery.conf.in
+bio split can be run from stacking drivers, for example, MD over NVMe,
+if the global reserved mempool is consumed by MD bio splitting, then
+no any progress can be made when splitting on bio submitted to NVMe.
 
-diff --git a/Makefile b/Makefile
-index 02299c45734f..4bfbebbd156a 100644
---- a/Makefile
-+++ b/Makefile
-@@ -102,6 +102,9 @@ install-etc:
- 	$(INSTALL) -d $(DESTDIR)$(SYSCONFDIR)/nvme
- 	touch $(DESTDIR)$(SYSCONFDIR)/nvme/hostnqn
- 	touch $(DESTDIR)$(SYSCONFDIR)/nvme/hostid
-+	if [ ! -f $(DESTDIR)$(SBINDIR)/nvme/discovery.conf ]; then \
-+		$(INSTALL) -m 644 -T ./etc/discovery.conf.in $(DESTDIR)$(SYSCONFDIR)/nvme/discovery.conf; \
-+	fi
- 
- install-spec: install-bin install-man install-bash-completion install-zsh-completion install-etc
- install: install-spec install-hostparams
-diff --git a/etc/discovery.conf.in b/etc/discovery.conf.in
-new file mode 100644
-index 000000000000..14e0d9c3dcbf
---- /dev/null
-+++ b/etc/discovery.conf.in
-@@ -0,0 +1,4 @@
-+# Used for extracting default parameters for discovery
-+#
-+# Example:
-+# --transport=<trtype> --traddr=<traddr> --trsvcid=<trsvcid> --host-traddr=<host-traddr>
-diff --git a/nvme.spec.in b/nvme.spec.in
-index 147b64a530f8..6934f8fd605b 100644
---- a/nvme.spec.in
-+++ b/nvme.spec.in
-@@ -34,6 +34,7 @@ make install-spec DESTDIR=%{buildroot} PREFIX=/usr
- %dir %{_sysconfdir}/nvme
- %{_sysconfdir}/nvme/hostnqn
- %{_sysconfdir}/nvme/hostid
-+%{_sysconfdir}/nvme/discovery.conf
- 
- %clean
- rm -rf $RPM_BUILD_ROOT
--- 
-2.17.1
+Kent may have more details...
+
+Thanks,
+Ming
