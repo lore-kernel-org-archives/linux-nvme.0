@@ -1,86 +1,77 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 24 Apr 2019 18:22:23 +0200
-Subject: [PATCH V7 4/9] blk-mq: move all hctx alloction &
- initialization into __blk_mq_alloc_and_init_hctx
-In-Reply-To: <20190424110221.17435-5-ming.lei@redhat.com>
-References: <20190424110221.17435-1-ming.lei@redhat.com>
- <20190424110221.17435-5-ming.lei@redhat.com>
-Message-ID: <20190424162223.GD23854@lst.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 24 Apr 2019 09:23:10 -0700
+Subject: [PATCH RFC] nvme: fix race condition between remove and scan_work
+In-Reply-To: <20190411133227.28435-1-yuyufen@huawei.com>
+References: <20190411133227.28435-1-yuyufen@huawei.com>
+Message-ID: <a9d6bf42-e01a-4e56-acc7-5d87ac9179f9@grimberg.me>
 
-On Wed, Apr 24, 2019@07:02:16PM +0800, Ming Lei wrote:
-> Move all hctx related allocation and initialization into
-> __blk_mq_alloc_and_init_hctx, and prepare for splitting blk_mq_alloc_and_init_hctx
-> into real two functions, one is for allocate everything, and another is for
-> initializing everyting.
+
+
+On 4/11/19 6:32 AM, Yufen Yu wrote:
+> There is a race condition between nvme_remove and nvme_scan_work, as
+> following:
 > 
-> Cc: Dongli Zhang <dongli.zhang at oracle.com>
-> Cc: James Smart <james.smart at broadcom.com>
-> Cc: Bart Van Assche <bart.vanassche at wdc.com>
-> Cc: linux-scsi at vger.kernel.org,
-> Cc: Martin K . Petersen <martin.petersen at oracle.com>,
-> Cc: Christoph Hellwig <hch at lst.de>,
-> Cc: James E . J . Bottomley <jejb at linux.vnet.ibm.com>,
-> Reviewed-by: Hannes Reinecke <hare at suse.com>
-> Tested-by: James Smart <james.smart at broadcom.com>
-> Signed-off-by: Ming Lei <ming.lei at redhat.com>
-> ---
->  block/blk-mq.c | 93 +++++++++++++++++++++++++++-------------------------------
->  1 file changed, 44 insertions(+), 49 deletions(-)
+> sysfs_kr_wirte
+> nvme_remove            nvme_queue_scan            timeout_worker
+>                         queue scan_work
 > 
-> diff --git a/block/blk-mq.c b/block/blk-mq.c
-> index 862eb41f24f8..fea25363488d 100644
-> --- a/block/blk-mq.c
-> +++ b/block/blk-mq.c
-> @@ -2290,15 +2290,45 @@ static void blk_mq_exit_hw_queues(struct request_queue *q,
->  	}
->  }
->  
-> -static int blk_mq_init_hctx(struct request_queue *q,
-> -		struct blk_mq_tag_set *set,
-> -		struct blk_mq_hw_ctx *hctx, unsigned hctx_idx)
-> +static int blk_mq_hw_ctx_size(struct blk_mq_tag_set *tag_set)
->  {
-> -	int node;
-> +	int hw_ctx_size = sizeof(struct blk_mq_hw_ctx);
-> +
-> +	BUILD_BUG_ON(ALIGN(offsetof(struct blk_mq_hw_ctx, srcu),
-> +			   __alignof__(struct blk_mq_hw_ctx)) !=
-> +		     sizeof(struct blk_mq_hw_ctx));
-> +
-> +	if (tag_set->flags & BLK_MQ_F_BLOCKING)
-> +		hw_ctx_size += sizeof(struct srcu_struct);
-> +
-> +	return hw_ctx_size;
-> +}
-> +
-> +static struct blk_mq_hw_ctx *
-> +__blk_mq_alloc_and_init_hctx(struct request_queue *q,
-> +			     struct blk_mq_tag_set *set,
-> +			     unsigned hctx_idx, int node)
-> +{
-> +	struct blk_mq_hw_ctx *hctx;
-> +
-> +	hctx = kzalloc_node(blk_mq_hw_ctx_size(set),
-> +			GFP_NOIO | __GFP_NOWARN | __GFP_NORETRY,
-> +			node);
-> +	if (!hctx)
-> +		goto fail_alloc_hctx;
-> +
-> +	if (!zalloc_cpumask_var_node(&hctx->cpumask,
-> +				GFP_NOIO | __GFP_NOWARN | __GFP_NORETRY,
+> 		       nvme_scan_work
+> 
+> set NVME_CTRL_DELETING
+> flush_work(&ctrl->scan_work)
+> wait_for_completion scan_work
+> 
+>                         nvme_scan_ns_list
+> 		        nvme_validate_ns
+> 			 nvme_submit_sync_cmd(admin_q)
+>                            IO timeout
+>                                                    nvme_timeout
+> 						   nvme_dev_disable
+> 						    nvme_suspend_queue(admin_q)
+> 							blk_mq_quiesce_queue
+> 
+>                                                     nvme_reset_ctrl
+> 						    return -EBUSY
+> 
+>                          nvme_scan_ns_sequential
+> 			 nvme_submit_sync_cmd(admin_q)
+>                            IO cannnot issue, as admin_q suspend
+>                           wait_for_completion_io_timeout
+> 
 
-Maybe throw in a
+Should we still attempt nvme_scan_ns_sequential() if nvme_scan_ns_list()
+failed?
 
-	const gfp_t gfp = GFP_NOIO | __GFP_NOWARN | __GFP_NORETRY;
+I still think that I/Os cannot hang forever when issued concurrently
+with controller removal...
 
-as the first line to shorten these two a bit..
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index a90cf5d63aac..77807515d0e3 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -1272,6 +1272,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+>   	struct request *abort_req;
+>   	struct nvme_command cmd;
+>   	u32 csts = readl(dev->bar + NVME_REG_CSTS);
+> +	int error = 0;
 
->  static struct blk_mq_hw_ctx *blk_mq_alloc_and_init_hctx(
->  		struct blk_mq_tag_set *set, struct request_queue *q,
->  		int hctx_idx, int node)
->  {
-> +	return __blk_mq_alloc_and_init_hctx(q, set, hctx_idx, node);
->  }
+This can move to the usage scope right?
 
-I really don't the point of this wrapper.  If we need it later
-we should introduce it there.
+>   
+>   	/* If PCI error recovery process is happening, we cannot reset or
+>   	 * the recovery mechanism will surely fail.
+> @@ -1329,7 +1330,13 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+>   			 "I/O %d QID %d timeout, reset controller\n",
+>   			 req->tag, nvmeq->qid);
+>   		nvme_dev_disable(dev, false);
+> -		nvme_reset_ctrl(&dev->ctrl);
+> +		/*
+> +		 * If reset ctrl fail, we need to drain all requests in ctx
+> +		 * and elevator, avoiding io stuck forever.
+> +		 */
+> +		error = nvme_reset_ctrl(&dev->ctrl);
+> +		if (error)
+> +			blk_mq_unquiesce_queue(dev->ctrl.admin_q);
+
+Is it just DELETING state that is acceptable here? or can we meet other
+states that fail transition to RESETTING (CONNECTING/DEAD)?
