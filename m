@@ -1,24 +1,19 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Wed, 24 Apr 2019 19:02:18 +0800
-Subject: [PATCH V7 6/9] blk-mq: always free hctx after request queue is freed
+Date: Wed, 24 Apr 2019 19:02:20 +0800
+Subject: [PATCH V7 8/9] block: don't drain in-progress dispatch in
+ blk_cleanup_queue()
 In-Reply-To: <20190424110221.17435-1-ming.lei@redhat.com>
 References: <20190424110221.17435-1-ming.lei@redhat.com>
-Message-ID: <20190424110221.17435-7-ming.lei@redhat.com>
+Message-ID: <20190424110221.17435-9-ming.lei@redhat.com>
 
-In normal queue cleanup path, hctx is released after request queue
-is freed, see blk_mq_release().
+Now freeing hw queue resource is moved to hctx's release handler,
+we don't need to worry about the race between blk_cleanup_queue and
+run queue any more.
 
-However, in __blk_mq_update_nr_hw_queues(), hctx may be freed because
-of hw queues shrinking. This way is easy to cause use-after-free,
-because: one implicit rule is that it is safe to call almost all block
-layer APIs if the request queue is alive; and one hctx may be retrieved
-by one API, then the hctx can be freed by blk_mq_update_nr_hw_queues();
-finally use-after-free is triggered.
+So don't drain in-progress dispatch in blk_cleanup_queue().
 
-Fixes this issue by always freeing hctx after releasing request queue.
-If some hctxs are removed in blk_mq_update_nr_hw_queues(), introduce
-a per-queue list to hold them, then try to resuse these hctxs if numa
-node is matched.
+This is basically revert of c2856ae2f315 ("blk-mq: quiesce queue before
+freeing queue").
 
 Cc: Dongli Zhang <dongli.zhang at oracle.com>
 Cc: James Smart <james.smart at broadcom.com>
@@ -27,149 +22,36 @@ Cc: linux-scsi at vger.kernel.org,
 Cc: Martin K . Petersen <martin.petersen at oracle.com>,
 Cc: Christoph Hellwig <hch at lst.de>,
 Cc: James E . J . Bottomley <jejb at linux.vnet.ibm.com>,
+Reviewed-by: Bart Van Assche <bvanassche at acm.org>
+Reviewed-by: Hannes Reinecke <hare at suse.com>
 Tested-by: James Smart <james.smart at broadcom.com>
 Signed-off-by: Ming Lei <ming.lei at redhat.com>
 ---
- block/blk-mq.c         | 46 +++++++++++++++++++++++++++++++++-------------
- include/linux/blk-mq.h |  2 ++
- include/linux/blkdev.h |  7 +++++++
- 3 files changed, 42 insertions(+), 13 deletions(-)
+ block/blk-core.c | 12 ------------
+ 1 file changed, 12 deletions(-)
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 1eceeb26ae7d..b9d711d12cae 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -2274,6 +2274,10 @@ static void blk_mq_exit_hctx(struct request_queue *q,
- 		set->ops->exit_hctx(hctx, hctx_idx);
+diff --git a/block/blk-core.c b/block/blk-core.c
+index f5b5f21ae4fd..e24cfcefdc19 100644
+--- a/block/blk-core.c
++++ b/block/blk-core.c
+@@ -338,18 +338,6 @@ void blk_cleanup_queue(struct request_queue *q)
  
- 	blk_mq_remove_cpuhp(hctx);
-+
-+	spin_lock(&q->unused_hctx_lock);
-+	list_add(&hctx->hctx_list, &q->unused_hctx_list);
-+	spin_unlock(&q->unused_hctx_lock);
- }
+ 	blk_queue_flag_set(QUEUE_FLAG_DEAD, q);
  
- static void blk_mq_exit_hw_queues(struct request_queue *q,
-@@ -2362,6 +2366,8 @@ blk_mq_alloc_hctx(struct request_queue *q,
- 	hctx->queue = q;
- 	hctx->flags = set->flags & ~BLK_MQ_F_TAG_SHARED;
- 
-+	INIT_LIST_HEAD(&hctx->hctx_list);
-+
- 	/*
- 	 * Allocate space for all possible cpus to avoid allocation at
- 	 * runtime
-@@ -2675,15 +2681,17 @@ static int blk_mq_alloc_ctxs(struct request_queue *q)
-  */
- void blk_mq_release(struct request_queue *q)
- {
--	struct blk_mq_hw_ctx *hctx;
--	unsigned int i;
-+	struct blk_mq_hw_ctx *hctx, *next;
-+	int i;
- 
- 	cancel_delayed_work_sync(&q->requeue_work);
- 
--	/* hctx kobj stays in hctx */
--	queue_for_each_hw_ctx(q, hctx, i) {
--		if (!hctx)
--			continue;
-+	queue_for_each_hw_ctx(q, hctx, i)
-+		WARN_ON_ONCE(hctx && list_empty(&hctx->hctx_list));
-+
-+	/* all hctx are in .unused_hctx_list now */
-+	list_for_each_entry_safe(hctx, next, &q->unused_hctx_list, hctx_list) {
-+		list_del_init(&hctx->hctx_list);
- 		kobject_put(&hctx->kobj);
- 	}
- 
-@@ -2750,9 +2758,22 @@ static struct blk_mq_hw_ctx *blk_mq_alloc_and_init_hctx(
- 		struct blk_mq_tag_set *set, struct request_queue *q,
- 		int hctx_idx, int node)
- {
--	struct blk_mq_hw_ctx *hctx;
-+	struct blk_mq_hw_ctx *hctx = NULL, *tmp;
- 
--	hctx = blk_mq_alloc_hctx(q, set, hctx_idx, node);
-+	/* reuse dead hctx first */
-+	spin_lock(&q->unused_hctx_lock);
-+	list_for_each_entry(tmp, &q->unused_hctx_list, hctx_list) {
-+		if (tmp->numa_node == node) {
-+			hctx = tmp;
-+			break;
-+		}
-+	}
-+	if (hctx)
-+		list_del_init(&hctx->hctx_list);
-+	spin_unlock(&q->unused_hctx_lock);
-+
-+	if (!hctx)
-+		hctx = blk_mq_alloc_hctx(q, set, hctx_idx, node);
- 	if (!hctx)
- 		goto fail;
- 
-@@ -2790,10 +2811,8 @@ static void blk_mq_realloc_hw_ctxs(struct blk_mq_tag_set *set,
- 
- 		hctx = blk_mq_alloc_and_init_hctx(set, q, i, node);
- 		if (hctx) {
--			if (hctxs[i]) {
-+			if (hctxs[i])
- 				blk_mq_exit_hctx(q, set, hctxs[i], i);
--				kobject_put(&hctxs[i]->kobj);
--			}
- 			hctxs[i] = hctx;
- 		} else {
- 			if (hctxs[i])
-@@ -2824,9 +2843,7 @@ static void blk_mq_realloc_hw_ctxs(struct blk_mq_tag_set *set,
- 			if (hctx->tags)
- 				blk_mq_free_map_and_requests(set, j);
- 			blk_mq_exit_hctx(q, set, hctx, j);
--			kobject_put(&hctx->kobj);
- 			hctxs[j] = NULL;
+-	/*
+-	 * make sure all in-progress dispatch are completed because
+-	 * blk_freeze_queue() can only complete all requests, and
+-	 * dispatch may still be in-progress since we dispatch requests
+-	 * from more than one contexts.
+-	 *
+-	 * We rely on driver to deal with the race in case that queue
+-	 * initialization isn't done.
+-	 */
+-	if (queue_is_mq(q) && blk_queue_init_done(q))
+-		blk_mq_quiesce_queue(q);
 -
- 		}
- 	}
- 	mutex_unlock(&q->sysfs_lock);
-@@ -2869,6 +2886,9 @@ struct request_queue *blk_mq_init_allocated_queue(struct blk_mq_tag_set *set,
- 	if (!q->queue_hw_ctx)
- 		goto err_sys_init;
+ 	/* for synchronous bio-based driver finish in-flight integrity i/o */
+ 	blk_flush_integrity();
  
-+	INIT_LIST_HEAD(&q->unused_hctx_list);
-+	spin_lock_init(&q->unused_hctx_lock);
-+
- 	blk_mq_realloc_hw_ctxs(set, q);
- 	if (!q->nr_hw_queues)
- 		goto err_hctxs;
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index db29928de467..15d1aa53d96c 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -70,6 +70,8 @@ struct blk_mq_hw_ctx {
- 	struct dentry		*sched_debugfs_dir;
- #endif
- 
-+	struct list_head	hctx_list;
-+
- 	/* Must be the last member - see also blk_mq_hw_ctx_size(). */
- 	struct srcu_struct	srcu[0];
- };
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 99aa98f60b9e..d7bad4ae8bc8 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -535,6 +535,13 @@ struct request_queue {
- 
- 	struct mutex		sysfs_lock;
- 
-+	/*
-+	 * for reusing dead hctx instance in case of updating
-+	 * nr_hw_queues
-+	 */
-+	struct list_head	unused_hctx_list;
-+	spinlock_t		unused_hctx_lock;
-+
- 	atomic_t		mq_freeze_depth;
- 
- #if defined(CONFIG_BLK_DEV_BSG)
 -- 
 2.9.5
