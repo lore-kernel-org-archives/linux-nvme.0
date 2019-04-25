@@ -1,80 +1,32 @@
 From: joshi.k@samsung.com (Kanchan Joshi)
-Date: Thu, 25 Apr 2019 16:49:55 +0530
-Subject: [PATCH v5 0/7] Extend write-hint framework, and add write-hint for
- Ext4 journal
-References: <CGME20190425112347epcas2p1f7be48b8f0d2203252b8c9dd510c1b61@epcas2p1.samsung.com>
-Message-ID: <1556191202-3245-1-git-send-email-joshi.k@samsung.com>
+Date: Thu, 25 Apr 2019 16:49:56 +0530
+Subject: [PATCH v5 1/7] fs: introduce write-hint start point for in-kernel
+ hints
+In-Reply-To: <1556191202-3245-1-git-send-email-joshi.k@samsung.com>
+References: <1556191202-3245-1-git-send-email-joshi.k@samsung.com>
+ <CGME20190425112351epcas2p209fdb12872bdcdcb11afd7b6e196b85e@epcas2p2.samsung.com>
+Message-ID: <1556191202-3245-2-git-send-email-joshi.k@samsung.com>
 
-V5 series, towards extending write-hint/streams infrastructure for
-kernel-components, and adding support for sending write-hint with Ext4/JBD2 journal.
+Introduce "WRITE_LIFE_KERN_MIN". Kernel mode components can define own
+write-hints using this as base.
 
-Here is the history/changelog -
+Signed-off-by: Kanchan Joshi <joshi.k at samsung.com>
+---
+ include/linux/fs.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Changes since v4:
-- Removed write-hint field from request. bi_write_hint in bio is used for
-  merging checks now.
-- Modified write-hint-to-stream conversion logic. Now, kernel hints are mapped
-  to upper range of stream-ids, while user-hints continue to remain mapped to
-  lower range of stream-ids.
-
-Changes since v3:
-- Correction in grouping related changes into patches
-- Rectification in commit text at places
-
-Changes since v2:
-- Introduce API in block layer so that drivers can register stream info. Added
-  new limit in request queue for this purpose.
-- Block layer does the conversion from write-hint to stream-id.
-- Stream feature is not disabled anymore if device reports less streams than
-  a particular number (which was set as 4 earlier).
-- Any write-hint beyond reported stream-count turn to 0.
-- New macro "WRITE_LIFE_KERN_MIN" can be used as base by kernel mode components.
-
-Changes since v1:
-- introduce four more hints for in-kernel use, as recommended by Dave chinner
-  & Jens axboe. This isolates kernel-mode hints from user-mode ones.
-- remove mount-option to specify write-hint, as recommended by Jan kara &
-  Dave chinner. Rather, FS always sets write-hint for journal. This gets ignored
-  if device does not support stream.
-- Removed code-redundancy for write_dirty_buffer (Jan kara's review comment)
-
-V4 patch:
-https://lkml.org/lkml/2019/4/17/870
-
-V3 patch:
-https://marc.info/?l=linux-block&m=155384631909082&w=2
-
-V2 patch:
-https://patchwork.kernel.org/cover/10754405/
-
-V1 patch:
-https://marc.info/?l=linux-fsdevel&m=154444637519020&w=2
-
-
-Kanchan Joshi (7):
-  fs: introduce write-hint start point for in-kernel hints
-  block: increase stream count for in-kernel use
-  block: introduce API to register stream information with block-layer
-  block: introduce write-hint to stream-id conversion
-  nvme: register stream info with block layer
-  fs: introduce APIs to enable passing write-hint with buffer-head
-  fs/ext4,jbd2: add support for sending write-hint with journal
-
- block/blk-core.c            | 29 ++++++++++++++++++++++++++++-
- block/blk-merge.c           |  4 ++--
- block/blk-settings.c        | 12 ++++++++++++
- drivers/nvme/host/core.c    | 23 ++++++-----------------
- fs/buffer.c                 | 18 ++++++++++++++++--
- fs/ext4/ext4_jbd2.h         |  1 +
- fs/ext4/super.c             |  2 ++
- fs/jbd2/commit.c            | 11 +++++++----
- fs/jbd2/journal.c           |  3 ++-
- fs/jbd2/revoke.c            |  3 ++-
- include/linux/blkdev.h      |  8 ++++++--
- include/linux/buffer_head.h |  3 +++
- include/linux/fs.h          |  2 ++
- include/linux/jbd2.h        |  8 ++++++++
- 14 files changed, 97 insertions(+), 30 deletions(-)
-
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index dd28e76..ee27eb4 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -299,6 +299,8 @@ enum rw_hint {
+ 	WRITE_LIFE_MEDIUM	= RWH_WRITE_LIFE_MEDIUM,
+ 	WRITE_LIFE_LONG		= RWH_WRITE_LIFE_LONG,
+ 	WRITE_LIFE_EXTREME	= RWH_WRITE_LIFE_EXTREME,
++/* Kernel should use write-hint starting from this */
++	WRITE_LIFE_KERN_MIN,
+ };
+ 
+ #define IOCB_EVENTFD		(1 << 0)
 -- 
 2.7.4
