@@ -1,31 +1,80 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Thu, 25 Apr 2019 15:35:43 +0800
-Subject: [PATCH V7 1/9] blk-mq: grab .q_usage_counter when queuing
- request from plug code path
-In-Reply-To: <20190425053234.GA7166@lst.de>
-References: <20190424110221.17435-1-ming.lei@redhat.com>
- <20190424110221.17435-2-ming.lei@redhat.com>
- <20190424161834.GA23854@lst.de> <20190425005332.GB22636@ming.t460p>
- <20190425053234.GA7166@lst.de>
-Message-ID: <20190425073542.GA28630@ming.t460p>
+From: joshi.k@samsung.com (Kanchan Joshi)
+Date: Thu, 25 Apr 2019 16:49:55 +0530
+Subject: [PATCH v5 0/7] Extend write-hint framework, and add write-hint for
+ Ext4 journal
+References: <CGME20190425112347epcas2p1f7be48b8f0d2203252b8c9dd510c1b61@epcas2p1.samsung.com>
+Message-ID: <1556191202-3245-1-git-send-email-joshi.k@samsung.com>
 
-On Thu, Apr 25, 2019@07:32:34AM +0200, Christoph Hellwig wrote:
-> On Thu, Apr 25, 2019@08:53:34AM +0800, Ming Lei wrote:
-> > It isn't in other callers of blk_mq_sched_insert_requests(), it is just
-> > needed in some corner case like flush plug context.
-> > 
-> > For other callers of blk_mq_sched_insert_requests(), it is guaranteed
-> > that request queue's ref is held.
-> 
-> In both Linus' tree and Jens' for-5.2 tree I only see these two
-> callers of blk_mq_sched_insert_requests.  What am I missing?
+V5 series, towards extending write-hint/streams infrastructure for
+kernel-components, and adding support for sending write-hint with Ext4/JBD2 journal.
 
-OK, what I meant is that the issue is flush plug context specific.
-And I didn't notice that this function is only called by
-blk_mq_flush_plug_list().
+Here is the history/changelog -
 
-Then it is fine to move the percpu_ref_get()/percpu_ref_put() into
-the function, better with comment on this issue.
+Changes since v4:
+- Removed write-hint field from request. bi_write_hint in bio is used for
+  merging checks now.
+- Modified write-hint-to-stream conversion logic. Now, kernel hints are mapped
+  to upper range of stream-ids, while user-hints continue to remain mapped to
+  lower range of stream-ids.
 
-Thanks, 
-Ming
+Changes since v3:
+- Correction in grouping related changes into patches
+- Rectification in commit text at places
+
+Changes since v2:
+- Introduce API in block layer so that drivers can register stream info. Added
+  new limit in request queue for this purpose.
+- Block layer does the conversion from write-hint to stream-id.
+- Stream feature is not disabled anymore if device reports less streams than
+  a particular number (which was set as 4 earlier).
+- Any write-hint beyond reported stream-count turn to 0.
+- New macro "WRITE_LIFE_KERN_MIN" can be used as base by kernel mode components.
+
+Changes since v1:
+- introduce four more hints for in-kernel use, as recommended by Dave chinner
+  & Jens axboe. This isolates kernel-mode hints from user-mode ones.
+- remove mount-option to specify write-hint, as recommended by Jan kara &
+  Dave chinner. Rather, FS always sets write-hint for journal. This gets ignored
+  if device does not support stream.
+- Removed code-redundancy for write_dirty_buffer (Jan kara's review comment)
+
+V4 patch:
+https://lkml.org/lkml/2019/4/17/870
+
+V3 patch:
+https://marc.info/?l=linux-block&m=155384631909082&w=2
+
+V2 patch:
+https://patchwork.kernel.org/cover/10754405/
+
+V1 patch:
+https://marc.info/?l=linux-fsdevel&m=154444637519020&w=2
+
+
+Kanchan Joshi (7):
+  fs: introduce write-hint start point for in-kernel hints
+  block: increase stream count for in-kernel use
+  block: introduce API to register stream information with block-layer
+  block: introduce write-hint to stream-id conversion
+  nvme: register stream info with block layer
+  fs: introduce APIs to enable passing write-hint with buffer-head
+  fs/ext4,jbd2: add support for sending write-hint with journal
+
+ block/blk-core.c            | 29 ++++++++++++++++++++++++++++-
+ block/blk-merge.c           |  4 ++--
+ block/blk-settings.c        | 12 ++++++++++++
+ drivers/nvme/host/core.c    | 23 ++++++-----------------
+ fs/buffer.c                 | 18 ++++++++++++++++--
+ fs/ext4/ext4_jbd2.h         |  1 +
+ fs/ext4/super.c             |  2 ++
+ fs/jbd2/commit.c            | 11 +++++++----
+ fs/jbd2/journal.c           |  3 ++-
+ fs/jbd2/revoke.c            |  3 ++-
+ include/linux/blkdev.h      |  8 ++++++--
+ include/linux/buffer_head.h |  3 +++
+ include/linux/fs.h          |  2 ++
+ include/linux/jbd2.h        |  8 ++++++++
+ 14 files changed, 97 insertions(+), 30 deletions(-)
+
+-- 
+2.7.4
