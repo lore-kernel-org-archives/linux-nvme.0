@@ -1,43 +1,44 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Thu, 25 Apr 2019 00:57:49 +0000
-Subject: [PATCH v2] nvmet-file: clamp-down file namespace lba_shift
-References: <20190424184323.17935-1-sagi@grimberg.me>
-Message-ID: <SN6PR04MB45271BA998E8462DB28E3A20863D0@SN6PR04MB4527.namprd04.prod.outlook.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Thu, 25 Apr 2019 09:00:31 +0800
+Subject: [PATCH V7 9/9] nvme: hold request queue's refcount in ns's whole
+ lifetime
+In-Reply-To: <20190424162746.GE23854@lst.de>
+References: <20190424110221.17435-1-ming.lei@redhat.com>
+ <20190424110221.17435-10-ming.lei@redhat.com>
+ <20190424162746.GE23854@lst.de>
+Message-ID: <20190425010030.GD22636@ming.t460p>
 
-Looks good from the duplicate "we export".
+On Wed, Apr 24, 2019@06:27:46PM +0200, Christoph Hellwig wrote:
+> On Wed, Apr 24, 2019@07:02:21PM +0800, Ming Lei wrote:
+> > Hennes reported the following kernel oops:
+> 
+> Hannes?
+> 
+> > +	if (!blk_get_queue(ns->queue)) {
+> > +		ret = -ENXIO;
+> > +		goto out_free_queue;
+> > +	}
+> 
+> If we always need to hold a reference, shouldn't blk_mq_init_queue
+> return with that reference held (and yes, that means changes to
+> every driver, but it seems like we need to audit all of them anyway..)
 
-Reviewed-by:- Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+The issue is driver(NVMe) specific, the race window is just between
+between blk_cleanup_queue() and removing the ns from the controller namspace
+list in nvme_ns_remove()
 
-On 04/24/2019 11:43 AM, Sagi Grimberg wrote:
-> When the backing file is a tempfile for example, the inode i_blkbits
-> can be 1M in size which causes problems for hosts to support as the
-> disk block size. Instead, expose the minimum between i_blkbits and
-> 12 (4K sector size).
->
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> ---
-> Changes from v1:
-> - expose block size 4096 instead of PAGE_SIZE
->
->   drivers/nvme/target/io-cmd-file.c | 7 ++++++-
->   1 file changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
-> index bc6ebb51b0bf..66013d8ad94b 100644
-> --- a/drivers/nvme/target/io-cmd-file.c
-> +++ b/drivers/nvme/target/io-cmd-file.c
-> @@ -49,7 +49,12 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
->   		goto err;
->
->   	ns->size = stat.size;
-> -	ns->blksize_shift = file_inode(ns->file)->i_blkbits;
-> +	/*
-> +	 * inode i_blkbits can be greater than the universally accepted upper
-> +	 * bound so make sure we export we export a sane namespace lba_shift.
-> +	 */
-> +	ns->blksize_shift = min_t(u8,
-> +			file_inode(ns->file)->i_blkbits, 12);
->
->   	ns->bvec_cache = kmem_cache_create("nvmet-bvec",
->   			NVMET_MAX_MPOOL_BVEC * sizeof(struct bio_vec),
->
+blk_mq_init_queue() does hold one refcount, and its counter-part is
+blk_cleanup_queue().
+
+It is simply ugly to ask blk_mq_init_queue() to grab a refcnt for driver,
+then who is the counter-part for releasing the extra refcount?
+
+> 
+> It seems like the queue lifetimes are a bit of a mess, and I'm not sure
+> if this just papers over the problem.
+
+Could you explain a bit what the mess is?
+
+
+Thanks,
+Ming
