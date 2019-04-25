@@ -1,34 +1,88 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Thu, 25 Apr 2019 08:06:00 +0200
-Subject: [PATCH] block: use static bio_set for bio_split() calls
-In-Reply-To: <1556135351.161891.138.camel@acm.org>
-References: <20190418140632.60606-1-hare@suse.de>
- <1556135351.161891.138.camel@acm.org>
-Message-ID: <3ff02420-8063-490a-271d-b7032c9d3b42@suse.de>
+From: minwoo.im@samsung.com (Minwoo Im)
+Date: Thu, 25 Apr 2019 15:36:08 +0900
+Subject: [PATCH 1/3] drivers: nvme: target: core: fix build break
+In-Reply-To: <1556102081-11820-2-git-send-email-info@metux.net>
+References: <1556102081-11820-2-git-send-email-info@metux.net>
+ <1556102081-11820-1-git-send-email-info@metux.net>
+ <CGME20190424103521epcas3p44a7fc17a216b5696a6feefc781136699@epcms2p8>
+Message-ID: <20190425063608epcms2p8bfc5a3322e7faf20caea6bb96ca32cc6@epcms2p8>
 
-On 4/24/19 9:49 PM, Bart Van Assche wrote:
-> On Thu, 2019-04-18@16:06 +0200, Hannes Reinecke wrote:
->> +static int __init blk_bio_split_init(void)
->> +{
->> +       return bioset_init(&bio_split_bio_set, BIO_POOL_SIZE, 0,
->> +                          BIOSET_NEED_BVECS);
->> +}
-> 
-> The slab allocator uses __init for some of its initialization. Can it happen
-> that blk_bio_split_init() is called before slab initialization has finished?
-> 
-> Otherwise this patch looks fine to me.
-> 
-Most unlikely.
-We have another static bioset (fs_bio_set in block/bio.c) which is 
-initialised in the same manner.
+This looks good to me. 
 
-Cheers,
+Reviewed-by: Minwoo Im <minwoo.im at samsung.com>
 
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N?rnberg)
+> -----Original Message-----
+> From: Linux-nvme [mailto:linux-nvme-bounces at lists.infradead.org] On Behalf
+> Of Enrico Weigelt, metux IT consult
+> Sent: Wednesday, April 24, 2019 7:35 PM
+> To: linux-kernel at vger.kernel.org
+> Cc: axboe at kernel.dk; linux-ide at vger.kernel.org; linux-
+> nvme at lists.infradead.org
+> Subject: [PATCH 1/3] drivers: nvme: target: core: fix build break
+> 
+> Build breaks:
+> 
+>     drivers/nvme/target/core.c: In function 'nvmet_req_alloc_sgl':
+>     drivers/nvme/target/core.c:939:12: error: implicit declaration of \
+> function 'sgl_alloc'; did you mean 'bio_alloc'? \
+> [-Werror=implicit-function-declaration]
+>       req->sg = sgl_alloc(req->transfer_len, GFP_KERNEL, &req->sg_cnt);
+>                 ^~~~~~~~~
+>                 bio_alloc
+>     drivers/nvme/target/core.c:939:10: warning: assignment makes pointer \
+> from integer without a cast [-Wint-conversion]
+>       req->sg = sgl_alloc(req->transfer_len, GFP_KERNEL, &req->sg_cnt);
+>               ^
+>     drivers/nvme/target/core.c: In function 'nvmet_req_free_sgl':
+>     drivers/nvme/target/core.c:952:3: error: implicit declaration of \
+> function 'sgl_free'; did you mean 'ida_free'? [-Werror=implicit-function-
+> declaration]
+>        sgl_free(req->sg);
+>        ^~~~~~~~
+>        ida_free
+> 
+> Cause:
+> 
+>     1. missing include to <linux/scatterlist.h>
+>     2. SGL_ALLOC needs to be enabled
+> 
+> Therefore adding the missing include, as well as Kconfig dependency.
+> 
+> Signed-off-by: Enrico Weigelt, metux IT consult <info at metux.net>
+> ---
+>  drivers/nvme/target/Kconfig | 1 +
+>  drivers/nvme/target/core.c  | 1 +
+>  2 files changed, 2 insertions(+)
+> 
+> diff --git a/drivers/nvme/target/Kconfig b/drivers/nvme/target/Kconfig
+> index d94f25c..3ef0a4e 100644
+> --- a/drivers/nvme/target/Kconfig
+> +++ b/drivers/nvme/target/Kconfig
+> @@ -3,6 +3,7 @@ config NVME_TARGET
+>  	tristate "NVMe Target support"
+>  	depends on BLOCK
+>  	depends on CONFIGFS_FS
+> +	select SGL_ALLOC
+>  	help
+>  	  This enabled target side support for the NVMe protocol, that is
+>  	  it allows the Linux kernel to implement NVMe subsystems and
+> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+> index b3e765a..08851f5 100644
+> --- a/drivers/nvme/target/core.c
+> +++ b/drivers/nvme/target/core.c
+> @@ -8,6 +8,7 @@
+>  #include <linux/random.h>
+>  #include <linux/rculist.h>
+>  #include <linux/pci-p2pdma.h>
+> +#include <linux/scatterlist.h>
+> 
+>  #include "nvmet.h"
+> 
+> --
+> 1.9.1
+> 
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
