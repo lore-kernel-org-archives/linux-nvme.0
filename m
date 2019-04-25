@@ -1,71 +1,79 @@
 From: joshi.k@samsung.com (Kanchan Joshi)
-Date: Thu, 25 Apr 2019 16:50:00 +0530
-Subject: [PATCH v5 5/7] nvme: register stream info with block layer
+Date: Thu, 25 Apr 2019 16:50:01 +0530
+Subject: [PATCH v5 6/7] fs: introduce APIs to enable passing write-hint with
+ buffer-head
 In-Reply-To: <1556191202-3245-1-git-send-email-joshi.k@samsung.com>
 References: <1556191202-3245-1-git-send-email-joshi.k@samsung.com>
- <CGME20190425112403epcas1p13006198cda351a08c8403c2b85c9f102@epcas1p1.samsung.com>
-Message-ID: <1556191202-3245-6-git-send-email-joshi.k@samsung.com>
+ <CGME20190425112406epcas1p4a54b2c5d15ae42a53ff3c206cf7a7892@epcas1p4.samsung.com>
+Message-ID: <1556191202-3245-7-git-send-email-joshi.k@samsung.com>
 
-Make nvme driver register number of streams with block layer. Block
-layer will use that for write-hint to stream-id conversion. Registration
-is done for each namespace. Since NVMe spec allow all available
-streams (within subsystem) to be used by all namespaces, no attempt
-has been made to add reservation at namespace level.
-Also driver no longer disables stream feature if device reported less
-than 4 streams. Any write-hint beyond exported number of streams will
-be mapped to 0 by block layer.
+submit_bh and write_dirty_buffer do not take write-hint as parameter.
+This introduces variants which do, and pass write-hint to lower layer.
+
 Signed-off-by: Kanchan Joshi <joshi.k at samsung.com>
 ---
- drivers/nvme/host/core.c | 16 ++++------------
- 1 file changed, 4 insertions(+), 12 deletions(-)
+ fs/buffer.c                 | 18 ++++++++++++++++--
+ include/linux/buffer_head.h |  3 +++
+ 2 files changed, 19 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index f3000d9..81b86fa 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -464,10 +464,6 @@ static int nvme_toggle_streams(struct nvme_ctrl *ctrl, bool enable)
- 	return nvme_submit_sync_cmd(ctrl->admin_q, &c, NULL, 0);
+diff --git a/fs/buffer.c b/fs/buffer.c
+index ce35760..dc1ea59 100644
+--- a/fs/buffer.c
++++ b/fs/buffer.c
+@@ -3105,6 +3105,13 @@ int submit_bh(int op, int op_flags, struct buffer_head *bh)
  }
+ EXPORT_SYMBOL(submit_bh);
  
--static int nvme_disable_streams(struct nvme_ctrl *ctrl)
--{
--	return nvme_toggle_streams(ctrl, false);
--}
++int submit_bh_write_hint(int op, int op_flags, struct buffer_head *bh,
++			 enum rw_hint hint)
++{
++	return submit_bh_wbc(op, op_flags, bh, hint, NULL);
++}
++EXPORT_SYMBOL(submit_bh_write_hint);
++
+ /**
+  * ll_rw_block: low-level access to block devices (DEPRECATED)
+  * @op: whether to %READ or %WRITE
+@@ -3162,6 +3169,13 @@ EXPORT_SYMBOL(ll_rw_block);
  
- static int nvme_enable_streams(struct nvme_ctrl *ctrl)
+ void write_dirty_buffer(struct buffer_head *bh, int op_flags)
  {
-@@ -510,14 +506,7 @@ static int nvme_configure_directives(struct nvme_ctrl *ctrl)
- 		return ret;
- 
- 	ctrl->nssa = le16_to_cpu(s.nssa);
--	if (ctrl->nssa < BLK_MAX_WRITE_HINTS - 1) {
--		dev_info(ctrl->device, "too few streams (%u) available\n",
--					ctrl->nssa);
--		nvme_disable_streams(ctrl);
--		return 0;
--	}
--
--	ctrl->nr_streams = min_t(unsigned, ctrl->nssa, BLK_MAX_WRITE_HINTS - 1);
-+	ctrl->nr_streams = ctrl->nssa;
- 	dev_info(ctrl->device, "Using %u streams\n", ctrl->nr_streams);
- 	return 0;
++	write_dirty_buffer_with_hint(bh, op_flags, 0);
++}
++EXPORT_SYMBOL(write_dirty_buffer);
++
++void write_dirty_buffer_with_hint(struct buffer_head *bh, int op_flags,
++				   enum rw_hint hint)
++{
+ 	lock_buffer(bh);
+ 	if (!test_clear_buffer_dirty(bh)) {
+ 		unlock_buffer(bh);
+@@ -3169,9 +3183,9 @@ void write_dirty_buffer(struct buffer_head *bh, int op_flags)
+ 	}
+ 	bh->b_end_io = end_buffer_write_sync;
+ 	get_bh(bh);
+-	submit_bh(REQ_OP_WRITE, op_flags, bh);
++	submit_bh_wbc(REQ_OP_WRITE, op_flags, bh, hint, NULL);
  }
-@@ -3186,6 +3175,7 @@ static int nvme_setup_streams_ns(struct nvme_ctrl *ctrl, struct nvme_ns *ns)
- {
- 	struct streams_directive_params s;
- 	int ret;
-+	u16 nr_streams;
+-EXPORT_SYMBOL(write_dirty_buffer);
++EXPORT_SYMBOL(write_dirty_buffer_with_hint);
  
- 	if (!ctrl->nr_streams)
- 		return 0;
-@@ -3197,6 +3187,8 @@ static int nvme_setup_streams_ns(struct nvme_ctrl *ctrl, struct nvme_ns *ns)
- 	ns->sws = le32_to_cpu(s.sws);
- 	ns->sgs = le16_to_cpu(s.sgs);
- 
-+	nr_streams = min_t(unsigned, ctrl->nr_streams, BLK_MAX_WRITE_HINTS - 1);
-+	blk_queue_stream_limits(ns->queue, nr_streams);
- 	if (ns->sws) {
- 		unsigned int bs = 1 << ns->lba_shift;
- 
+ /*
+  * For a data-integrity writeout, we need to wait upon any in-progress I/O
+diff --git a/include/linux/buffer_head.h b/include/linux/buffer_head.h
+index 7b73ef7..3d682ac 100644
+--- a/include/linux/buffer_head.h
++++ b/include/linux/buffer_head.h
+@@ -200,7 +200,10 @@ void ll_rw_block(int, int, int, struct buffer_head * bh[]);
+ int sync_dirty_buffer(struct buffer_head *bh);
+ int __sync_dirty_buffer(struct buffer_head *bh, int op_flags);
+ void write_dirty_buffer(struct buffer_head *bh, int op_flags);
++void write_dirty_buffer_with_hint(struct buffer_head *bh, int op_flags,
++				   enum rw_hint hint);
+ int submit_bh(int, int, struct buffer_head *);
++int submit_bh_write_hint(int, int, struct buffer_head *, enum rw_hint hint);
+ void write_boundary_block(struct block_device *bdev,
+ 			sector_t bblock, unsigned blocksize);
+ int bh_uptodate_or_lock(struct buffer_head *bh);
 -- 
 2.7.4
