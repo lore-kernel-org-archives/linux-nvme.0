@@ -1,63 +1,49 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Thu, 25 Apr 2019 16:29:19 +0200
-Subject: [PATCHv2] nvmet: make MDTS value configurable
-In-Reply-To: <6e30cf78-ed72-4acc-2733-86f258750558@grimberg.me>
-References: <20190403230654.109698-1-hare@suse.de>
- <20190404052720.GB7497@lst.de>
- <90391425-546f-61ad-ca9e-890e0246bf3c@mellanox.com>
- <20190408061644.GA26437@lst.de>
- <fb0baf79-abbe-55be-c621-abf4d80355d9@mellanox.com>
- <6e30cf78-ed72-4acc-2733-86f258750558@grimberg.me>
-Message-ID: <bde7c290-c068-c352-7cf5-420fd2d02e91@suse.de>
+Date: Thu, 25 Apr 2019 16:32:42 +0200
+Subject: [PATCH] block: use static bio_set for bio_split() calls
+In-Reply-To: <20190425004106.GA22683@ming.t460p>
+References: <20190418140632.60606-1-hare@suse.de>
+ <20190418143429.GA19175@ming.t460p>
+ <98d8549a-2663-b404-e38a-6f55dfb575bf@grimberg.me>
+ <20190424221422.GA21351@ming.t460p> <20190425004106.GA22683@ming.t460p>
+Message-ID: <c6a54cea-f2ce-3344-efb1-ba8f20bf9509@suse.de>
 
-On 4/24/19 7:05 PM, Sagi Grimberg wrote:
-> 
->> Yes, from what I saw we don't limit the max_io_size in the target 
->> since we're using the rw-API.
+On 4/25/19 2:41 AM, Ming Lei wrote:
+> On Thu, Apr 25, 2019@06:14:22AM +0800, Ming Lei wrote:
+>> On Wed, Apr 24, 2019@10:20:46AM -0700, Sagi Grimberg wrote:
+>>>
+>>>> per-queue bioset is used originally for avoiding deadlock, are you
+>>>> sure the static bioset is safe?
+>>>
+>>> Can you explain this? I didn't find any indication of that in the change
+>>> log history...
+>>>
+>>> Originally introduced by Kent:
 >>
->> In case 1 rdma ctx is not enough (MR page list for example) we use 
->> more ctx's in the rw-API. I think we have a bug there since we don't 
->> check that nr_ops is not to big for transaction.
-> 
-> What do you mean too big?
-> 
->> So probably we need to add some limit int nvmet/RDMA for that as 
->> NFS/RDMA does (let's agree on some value/module_param/tunable).
+>> bio split can be run from stacking drivers, for example, MD over NVMe,
+>> if the global reserved mempool is consumed by MD bio splitting, then
+>> no any progress can be made when splitting on bio submitted to NVMe.
 >>
->> Or we can say that the limit is (if we force MRs for example):
->>
->> rdma_rw_fr_page_list_len(device) * device_page_size * 
->> max_mrs_per_transaction.
+>> Kent may have more details...
 > 
-> if at all it should probably be:
-> rdma_rw_fr_page_list_len(device) * device_page_size * 
-> attr->cap.max_rdma_ctxs
+> I guess it might be fine to use one shared global bio_set for all
+> lowest underlying queues, could be all queues except for loop, dm, md
+> , drbd, bcache, ...
 > 
->> We also need to calculate mr_pool_size and max_rdma_ctxs more 
->> carefully IMO.
->>
->> So let's agree on the approach and then implement a solution (Sagi, 
->> can you comments on that too please ?)
-> 
-> I don't think we want a modparam for something this low-level...
-> 
-> we reserve a qp space and mr pool, we should limit MDTS based on that
-> alone.
-> 
->> Nevertheless, While digging into it I saw some improvements we can do 
->> to rw-API, so I'm preparing few patches (add static allocations option 
->> instead of allocations in fast-path).
-> 
-> Note that I still don't understand what is the original issue Hannes
-> was trying to resolve...
+But wasn't the overall idea of stacking drivers that we propagate the 
+queue limits up to the uppermost drivers, so that we have to do a split 
+only at the upper layers?
+Furthermore, it's not every bio which needs to be split, only those 
+which straddle some device limitations.
+The only ones not being able to propagate the queue limits is MD, and 
+that is already using a private bio_set here.
 
-We've had quite some issues around bio splitting on NVMe (cf Ming Leis 
-patchset 'blk-mq: fix races related to freeing queue' and my patch 
-'block: use separate bio set for splitting').
-These issue only materialized when using a smaller MDTS value (eg 64k), 
-so the idea to have a proper blktest reproducer.
-Which would require us to be able to set a different MDTS value in the 
-first place.
+I've worked on a patchset to provide a separate bio set for each of the 
+stacking drivers, but the interface I've been able to come up with is 
+not very nice, and I really doubt it's worth it.
+
+So I'd advocate to test with this patch first, and only provide 
+individual biosets once we find it's an issue.
 
 Cheers,
 
