@@ -1,39 +1,43 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Thu, 25 Apr 2019 09:57:00 +0900
-Subject: [PATCH 1/2] nvme: pci: Return -EINVAL if given nr_queue larger
- than nr_cpu
-In-Reply-To: <f01517db-74ba-477f-49fe-88aaf0b8ab89@grimberg.me>
-References: <20190411155239.1094-1-minwoo.im.dev@gmail.com>
- <20190411155239.1094-2-minwoo.im.dev@gmail.com>
- <f01517db-74ba-477f-49fe-88aaf0b8ab89@grimberg.me>
-Message-ID: <6e1be82f-2fac-519a-8582-ee66387c6d3e@gmail.com>
+From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Thu, 25 Apr 2019 00:57:49 +0000
+Subject: [PATCH v2] nvmet-file: clamp-down file namespace lba_shift
+References: <20190424184323.17935-1-sagi@grimberg.me>
+Message-ID: <SN6PR04MB45271BA998E8462DB28E3A20863D0@SN6PR04MB4527.namprd04.prod.outlook.com>
 
+Looks good from the duplicate "we export".
 
- >>>> "write_queues" and "poll_queues" can be configured by module 
-parameters
- >>>> with callback queue_count_set().
- >>>>
- >>>> This function shall return a error if given number of queue is larger
- >>>> than nr_possible_cpus due to blk-mq.
- >>>
- >>> Why?
- >>
- >> I think I missed to write the details about what you asked for.  The
- >> reason is that
- >> now the variable n seems to be assigned without being used after all.
- >>
- >> I'm not sure whether it needs to return error or go through with
- >> reduced value for
- >> queue_cnt which is not greater than num_possible_cpus().
- >>
- >> If you would let me know what's going to be better for this, that
- >> would be great.
- >
- > I think its consistent with the rest of the fabric implementations..
+Reviewed-by:- Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 
-Hi Sagi,
-
-Do you mean that it needs to be reduced if value which is greater than 
-num_possible_cpus() is given instead returning an error ?
-
-Thanks,
+On 04/24/2019 11:43 AM, Sagi Grimberg wrote:
+> When the backing file is a tempfile for example, the inode i_blkbits
+> can be 1M in size which causes problems for hosts to support as the
+> disk block size. Instead, expose the minimum between i_blkbits and
+> 12 (4K sector size).
+>
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> ---
+> Changes from v1:
+> - expose block size 4096 instead of PAGE_SIZE
+>
+>   drivers/nvme/target/io-cmd-file.c | 7 ++++++-
+>   1 file changed, 6 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
+> index bc6ebb51b0bf..66013d8ad94b 100644
+> --- a/drivers/nvme/target/io-cmd-file.c
+> +++ b/drivers/nvme/target/io-cmd-file.c
+> @@ -49,7 +49,12 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
+>   		goto err;
+>
+>   	ns->size = stat.size;
+> -	ns->blksize_shift = file_inode(ns->file)->i_blkbits;
+> +	/*
+> +	 * inode i_blkbits can be greater than the universally accepted upper
+> +	 * bound so make sure we export we export a sane namespace lba_shift.
+> +	 */
+> +	ns->blksize_shift = min_t(u8,
+> +			file_inode(ns->file)->i_blkbits, 12);
+>
+>   	ns->bvec_cache = kmem_cache_create("nvmet-bvec",
+>   			NVMET_MAX_MPOOL_BVEC * sizeof(struct bio_vec),
+>
