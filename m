@@ -1,132 +1,70 @@
-From: joshi.k@samsung.com (Kanchan Joshi)
-Date: Thu, 25 Apr 2019 16:50:02 +0530
-Subject: [PATCH v5 7/7] fs/ext4,jbd2: add support for sending write-hint
- with journal
-In-Reply-To: <1556191202-3245-1-git-send-email-joshi.k@samsung.com>
-References: <1556191202-3245-1-git-send-email-joshi.k@samsung.com>
- <CGME20190425112408epcas2p2ddba9fdf175645dd2647da191eac5e1c@epcas2p2.samsung.com>
-Message-ID: <1556191202-3245-8-git-send-email-joshi.k@samsung.com>
+From: hare@suse.de (Hannes Reinecke)
+Date: Thu, 25 Apr 2019 16:29:19 +0200
+Subject: [PATCHv2] nvmet: make MDTS value configurable
+In-Reply-To: <6e30cf78-ed72-4acc-2733-86f258750558@grimberg.me>
+References: <20190403230654.109698-1-hare@suse.de>
+ <20190404052720.GB7497@lst.de>
+ <90391425-546f-61ad-ca9e-890e0246bf3c@mellanox.com>
+ <20190408061644.GA26437@lst.de>
+ <fb0baf79-abbe-55be-c621-abf4d80355d9@mellanox.com>
+ <6e30cf78-ed72-4acc-2733-86f258750558@grimberg.me>
+Message-ID: <bde7c290-c068-c352-7cf5-420fd2d02e91@suse.de>
 
-For NAND based SSDs, mixing of data with different life-time reduces
-efficiency of internal garbage-collection. During FS operations,
-series of journal updates will follow/precede series of data/meta
-updates, causing intermixing inside SSD. By passing a write-hint with
-journal, its write can be isolated from other data/meta writes, leading
-to endurance/performance benefit on SSD.
-This patch introduces "j_writehint" member in JBD2 journal, using which
-Ext4 specifies write-hint for journal.
+On 4/24/19 7:05 PM, Sagi Grimberg wrote:
+> 
+>> Yes, from what I saw we don't limit the max_io_size in the target 
+>> since we're using the rw-API.
+>>
+>> In case 1 rdma ctx is not enough (MR page list for example) we use 
+>> more ctx's in the rw-API. I think we have a bug there since we don't 
+>> check that nr_ops is not to big for transaction.
+> 
+> What do you mean too big?
+> 
+>> So probably we need to add some limit int nvmet/RDMA for that as 
+>> NFS/RDMA does (let's agree on some value/module_param/tunable).
+>>
+>> Or we can say that the limit is (if we force MRs for example):
+>>
+>> rdma_rw_fr_page_list_len(device) * device_page_size * 
+>> max_mrs_per_transaction.
+> 
+> if at all it should probably be:
+> rdma_rw_fr_page_list_len(device) * device_page_size * 
+> attr->cap.max_rdma_ctxs
+> 
+>> We also need to calculate mr_pool_size and max_rdma_ctxs more 
+>> carefully IMO.
+>>
+>> So let's agree on the approach and then implement a solution (Sagi, 
+>> can you comments on that too please ?)
+> 
+> I don't think we want a modparam for something this low-level...
+> 
+> we reserve a qp space and mr pool, we should limit MDTS based on that
+> alone.
+> 
+>> Nevertheless, While digging into it I saw some improvements we can do 
+>> to rw-API, so I'm preparing few patches (add static allocations option 
+>> instead of allocations in fast-path).
+> 
+> Note that I still don't understand what is the original issue Hannes
+> was trying to resolve...
 
-Signed-off-by: Kanchan Joshi <joshi.k at samsung.com>
----
- fs/ext4/ext4_jbd2.h  |  1 +
- fs/ext4/super.c      |  2 ++
- fs/jbd2/commit.c     | 11 +++++++----
- fs/jbd2/journal.c    |  3 ++-
- fs/jbd2/revoke.c     |  3 ++-
- include/linux/jbd2.h |  8 ++++++++
- 6 files changed, 22 insertions(+), 6 deletions(-)
+We've had quite some issues around bio splitting on NVMe (cf Ming Leis 
+patchset 'blk-mq: fix races related to freeing queue' and my patch 
+'block: use separate bio set for splitting').
+These issue only materialized when using a smaller MDTS value (eg 64k), 
+so the idea to have a proper blktest reproducer.
+Which would require us to be able to set a different MDTS value in the 
+first place.
 
-diff --git a/fs/ext4/ext4_jbd2.h b/fs/ext4/ext4_jbd2.h
-index 75a5309..ade47b2 100644
---- a/fs/ext4/ext4_jbd2.h
-+++ b/fs/ext4/ext4_jbd2.h
-@@ -16,6 +16,7 @@
- #include <linux/jbd2.h>
- #include "ext4.h"
- 
-+#define EXT4_JOURNAL_WRITE_HINT (WRITE_LIFE_KERN_MIN)
- #define EXT4_JOURNAL(inode)	(EXT4_SB((inode)->i_sb)->s_journal)
- 
- /* Define the number of blocks we need to account to a transaction to
-diff --git a/fs/ext4/super.c b/fs/ext4/super.c
-index 6ed4eb8..238c0b5 100644
---- a/fs/ext4/super.c
-+++ b/fs/ext4/super.c
-@@ -4298,6 +4298,8 @@ static int ext4_fill_super(struct super_block *sb, void *data, int silent)
- 
- 	set_task_ioprio(sbi->s_journal->j_task, journal_ioprio);
- 
-+	sbi->s_journal->j_writehint = EXT4_JOURNAL_WRITE_HINT;
-+
- 	sbi->s_journal->j_commit_callback = ext4_journal_commit_callback;
- 
- no_journal:
-diff --git a/fs/jbd2/commit.c b/fs/jbd2/commit.c
-index efd0ce9..be3a0b9 100644
---- a/fs/jbd2/commit.c
-+++ b/fs/jbd2/commit.c
-@@ -153,10 +153,12 @@ static int journal_submit_commit_record(journal_t *journal,
- 
- 	if (journal->j_flags & JBD2_BARRIER &&
- 	    !jbd2_has_feature_async_commit(journal))
--		ret = submit_bh(REQ_OP_WRITE,
--			REQ_SYNC | REQ_PREFLUSH | REQ_FUA, bh);
-+		ret = submit_bh_write_hint(REQ_OP_WRITE,
-+			REQ_SYNC | REQ_PREFLUSH | REQ_FUA, bh,
-+			journal->j_writehint);
- 	else
--		ret = submit_bh(REQ_OP_WRITE, REQ_SYNC, bh);
-+		ret = submit_bh_write_hint(REQ_OP_WRITE, REQ_SYNC, bh,
-+			journal->j_writehint);
- 
- 	*cbh = bh;
- 	return ret;
-@@ -713,7 +715,8 @@ void jbd2_journal_commit_transaction(journal_t *journal)
- 				clear_buffer_dirty(bh);
- 				set_buffer_uptodate(bh);
- 				bh->b_end_io = journal_end_buffer_io_sync;
--				submit_bh(REQ_OP_WRITE, REQ_SYNC, bh);
-+				submit_bh_write_hint(REQ_OP_WRITE, REQ_SYNC,
-+						bh, journal->j_writehint);
- 			}
- 			cond_resched();
- 			stats.run.rs_blocks_logged += bufs;
-diff --git a/fs/jbd2/journal.c b/fs/jbd2/journal.c
-index 382c030..6dc7c9a 100644
---- a/fs/jbd2/journal.c
-+++ b/fs/jbd2/journal.c
-@@ -1372,7 +1372,8 @@ static int jbd2_write_superblock(journal_t *journal, int write_flags)
- 		sb->s_checksum = jbd2_superblock_csum(journal, sb);
- 	get_bh(bh);
- 	bh->b_end_io = end_buffer_write_sync;
--	ret = submit_bh(REQ_OP_WRITE, write_flags, bh);
-+	ret = submit_bh_write_hint(REQ_OP_WRITE, write_flags, bh,
-+				   journal->j_writehint);
- 	wait_on_buffer(bh);
- 	if (buffer_write_io_error(bh)) {
- 		clear_buffer_write_io_error(bh);
-diff --git a/fs/jbd2/revoke.c b/fs/jbd2/revoke.c
-index a1143e5..376b1d8 100644
---- a/fs/jbd2/revoke.c
-+++ b/fs/jbd2/revoke.c
-@@ -642,7 +642,8 @@ static void flush_descriptor(journal_t *journal,
- 	set_buffer_jwrite(descriptor);
- 	BUFFER_TRACE(descriptor, "write");
- 	set_buffer_dirty(descriptor);
--	write_dirty_buffer(descriptor, REQ_SYNC);
-+	write_dirty_buffer_with_hint(descriptor, REQ_SYNC,
-+				journal->j_writehint);
- }
- #endif
- 
-diff --git a/include/linux/jbd2.h b/include/linux/jbd2.h
-index 0f919d5..918f21e 100644
---- a/include/linux/jbd2.h
-+++ b/include/linux/jbd2.h
-@@ -1139,6 +1139,14 @@ struct journal_s
- 	 */
- 	__u32 j_csum_seed;
- 
-+	/**
-+	 * @j_writehint:
-+	 *
-+	 * write-hint for journal (set by FS).
-+	 */
-+	enum rw_hint	j_writehint;
-+
-+
- #ifdef CONFIG_DEBUG_LOCK_ALLOC
- 	/**
- 	 * @j_trans_commit_map:
+Cheers,
+
+Hannes
 -- 
-2.7.4
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
+HRB 21284 (AG N?rnberg)
