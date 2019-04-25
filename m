@@ -1,60 +1,45 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 25 Apr 2019 12:10:41 -0700
-Subject: [PATCH nvme-cli rfc 0/6] Support discovery log change events
-In-Reply-To: <44f637f2-0c0d-cef4-05b3-c5e67ec907bb@grimberg.me>
-References: <20190223023257.21227-1-sagi@grimberg.me>
- <d4012891-8bc7-00cf-ab96-7828270d25af@suse.de>
- <e7423c76-6425-4020-2074-b977fc87866f@grimberg.me>
- <d1742744-1109-e7e8-3586-fca6556c803b@broadcom.com>
- <d7bbfc2a-92ea-315d-bbd6-cd3847449f7b@grimberg.me>
- <3b524b54-8f13-24f5-4367-34a4d02c59b3@broadcom.com>
- <5c64286b-3fbf-9dfe-ef8a-3f72e630f11d@broadcom.com>
- <a4f8ca74-7777-9e80-3209-ef9ce27ad2d8@suse.de>
- <44f637f2-0c0d-cef4-05b3-c5e67ec907bb@grimberg.me>
-Message-ID: <f0e112f7-0db5-4928-0859-8b3b6b797432@grimberg.me>
+From: minwoo.im@samsung.com (Minwoo Im)
+Date: Fri, 26 Apr 2019 08:32:43 +0900
+Subject: [PATCH 0/2] nvme: Check size of command structures
+In-Reply-To: <1556206735.161891.146.camel@acm.org>
+References: <1556206735.161891.146.camel@acm.org>
+ <20190411151832.26481-1-minwoo.im.dev@gmail.com>
+ <20190425144408.GA17039@lst.de>
+ <CGME20190425153912epcas3p3315474cec2b50b074022566cd3fed14d@epcms2p7>
+Message-ID: <20190425233243epcms2p7d18d61cb381488a2baf671b0297ab70d@epcms2p7>
 
 
->> I do have some quite fundamental problem with discovery log change 
->> events:
->> - The initial discovery is still unsolved, ie we have to know the 
->> transport address before we can even get to those events
-> 
-> I understand your concern, but its completely irrelevant to this.
-> This is a building block to automate the entire sequence, but
-> the fact that we don't have it all automated doesn't mean we should
-> not support discovery log change AENs.
-> 
-> For root discovery automation, we can talk about bringing a tpar
-> with a prototype.
-> 
->> - More crucially, we don't get these events when we to the first 
->> connection, requiring us to have the initial call to 'connect-all' on 
->> a separate way.
-> 
-> Again, this is initial root discovery, which is irrelevant to discovery
-> log change events.
-> 
->> - We don't have any indication if a new subsystem has been created; 
->> once a subsystem a new subsystem on another port is created it's 
->> anyones guess if that'll show up on the particular discovery controller
-> 
-> What? the event is on the port level, every port/subsystem softlink will
-> trigger a discovery log change event. Its not anyones guess, its pretty
-> deterministic given that you have discovery controller connected to the
-> port.
-> 
->> Especially the second point is most vexing; we could get around this 
->> by requiring the discovery controller to send AENs on the initial connect
->> (well, actually as soon as the AENs are enabled), but I guess that'll 
->> require a change to the spec ...
-> 
-> Why? with a script to auto-connect or root discovery automation this is 
-> no longer an issue (not sure how much this is an issue right now).
 
-Reviving this (again).
+> -----Original Message-----
+> From: Linux-nvme [mailto:linux-nvme-bounces at lists.infradead.org] On
+> Behalf Of Bart Van Assche
+> Sent: Friday, April 26, 2019 12:39 AM
+> To: Christoph Hellwig; Minwoo Im
+> Cc: Keith Busch; Jens Axboe; Sagi Grimberg; linux-nvme at lists.infradead.org
+> Subject: Re: [PATCH 0/2] nvme: Check size of command structures
+> 
+> On Thu, 2019-04-25@16:44 +0200, Christoph Hellwig wrote:
+> > I'm not sure we are going a little too crazy with all these
+> > BUILD_BUG_ONs.  It would be a lot easier if we could just throw
+> > the assert into the struct defintion somehow, but that would need
+> > compiler magic..
+> 
+> How about something like the following just after each structure definition?
+> 
+> static inline void nvmf_common_command_size_check(void)
+> {
+>         BUILD_BUG_ON(sizeof(struct nvmf_common_command) != 64);
+> }
 
-Hannes, did you have a chance to look at this? Unless there are other
-alternatives I suggest we go with this approach.
+Agree with that we don't have to BUILD_BUG_ON() in .c level.  If it's in header,
+that would be better than as it is now. 
+But, I'm concerning that if we do that, per one structure will have a one static
+inline function to check the size of it which might make code too long. ;)
 
-We should be able to support discovery log change events automatically
-at some point...
+> 
+> Bart.
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
