@@ -1,85 +1,98 @@
 From: minwoo.im@samsung.com (Minwoo Im)
-Date: Thu, 25 Apr 2019 15:36:08 +0900
-Subject: [PATCH 1/3] drivers: nvme: target: core: fix build break
-In-Reply-To: <1556102081-11820-2-git-send-email-info@metux.net>
-References: <1556102081-11820-2-git-send-email-info@metux.net>
- <1556102081-11820-1-git-send-email-info@metux.net>
- <CGME20190424103521epcas3p44a7fc17a216b5696a6feefc781136699@epcms2p8>
-Message-ID: <20190425063608epcms2p8bfc5a3322e7faf20caea6bb96ca32cc6@epcms2p8>
+Date: Thu, 25 Apr 2019 15:51:16 +0900
+Subject: [PATCH 4/4] nvme-tcp: rename function to have nvme_tcp prefix
+In-Reply-To: <20190424185319.18942-5-sagi@grimberg.me>
+References: <20190424185319.18942-5-sagi@grimberg.me>
+ <20190424185319.18942-1-sagi@grimberg.me>
+ <CGME20190424185359epcas4p1408cfaf1978df3ab0b156d1658902b78@epcms2p3>
+Message-ID: <20190425065116epcms2p3af9e81e73904c4405fbb01ad6d053560@epcms2p3>
 
-This looks good to me. 
+It looks good to me.
 
 Reviewed-by: Minwoo Im <minwoo.im at samsung.com>
 
 > -----Original Message-----
 > From: Linux-nvme [mailto:linux-nvme-bounces at lists.infradead.org] On Behalf
-> Of Enrico Weigelt, metux IT consult
-> Sent: Wednesday, April 24, 2019 7:35 PM
-> To: linux-kernel at vger.kernel.org
-> Cc: axboe at kernel.dk; linux-ide at vger.kernel.org; linux-
-> nvme at lists.infradead.org
-> Subject: [PATCH 1/3] drivers: nvme: target: core: fix build break
+> Of Sagi Grimberg
+> Sent: Thursday, April 25, 2019 3:53 AM
+> To: Christoph Hellwig; Keith Busch
+> Cc: linux-nvme at lists.infradead.org
+> Subject: [PATCH 4/4] nvme-tcp: rename function to have nvme_tcp prefix
 > 
-> Build breaks:
+> usually nvme_ prefix is for core functions.
+> While we're cleaning up, remove redundant empty lines
 > 
->     drivers/nvme/target/core.c: In function 'nvmet_req_alloc_sgl':
->     drivers/nvme/target/core.c:939:12: error: implicit declaration of \
-> function 'sgl_alloc'; did you mean 'bio_alloc'? \
-> [-Werror=implicit-function-declaration]
->       req->sg = sgl_alloc(req->transfer_len, GFP_KERNEL, &req->sg_cnt);
->                 ^~~~~~~~~
->                 bio_alloc
->     drivers/nvme/target/core.c:939:10: warning: assignment makes pointer \
-> from integer without a cast [-Wint-conversion]
->       req->sg = sgl_alloc(req->transfer_len, GFP_KERNEL, &req->sg_cnt);
->               ^
->     drivers/nvme/target/core.c: In function 'nvmet_req_free_sgl':
->     drivers/nvme/target/core.c:952:3: error: implicit declaration of \
-> function 'sgl_free'; did you mean 'ida_free'? [-Werror=implicit-function-
-> declaration]
->        sgl_free(req->sg);
->        ^~~~~~~~
->        ida_free
-> 
-> Cause:
-> 
->     1. missing include to <linux/scatterlist.h>
->     2. SGL_ALLOC needs to be enabled
-> 
-> Therefore adding the missing include, as well as Kconfig dependency.
-> 
-> Signed-off-by: Enrico Weigelt, metux IT consult <info at metux.net>
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 > ---
->  drivers/nvme/target/Kconfig | 1 +
->  drivers/nvme/target/core.c  | 1 +
->  2 files changed, 2 insertions(+)
+>  drivers/nvme/host/tcp.c | 10 ++++------
+>  1 file changed, 4 insertions(+), 6 deletions(-)
 > 
-> diff --git a/drivers/nvme/target/Kconfig b/drivers/nvme/target/Kconfig
-> index d94f25c..3ef0a4e 100644
-> --- a/drivers/nvme/target/Kconfig
-> +++ b/drivers/nvme/target/Kconfig
-> @@ -3,6 +3,7 @@ config NVME_TARGET
->  	tristate "NVMe Target support"
->  	depends on BLOCK
->  	depends on CONFIGFS_FS
-> +	select SGL_ALLOC
->  	help
->  	  This enabled target side support for the NVMe protocol, that is
->  	  it allows the Linux kernel to implement NVMe subsystems and
-> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-> index b3e765a..08851f5 100644
-> --- a/drivers/nvme/target/core.c
-> +++ b/drivers/nvme/target/core.c
-> @@ -8,6 +8,7 @@
->  #include <linux/random.h>
->  #include <linux/rculist.h>
->  #include <linux/pci-p2pdma.h>
-> +#include <linux/scatterlist.h>
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index 7201fbeb4a8f..1a5217c85158 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -476,7 +476,6 @@ static int nvme_tcp_handle_c2h_data(struct
+> nvme_tcp_queue *queue,
+>  	}
 > 
->  #include "nvmet.h"
+>  	return 0;
+> -
+>  }
+> 
+>  static int nvme_tcp_handle_comp(struct nvme_tcp_queue *queue,
+> @@ -637,7 +636,6 @@ static inline void nvme_tcp_end_request(struct request
+> *rq, u16 status)
+>  	nvme_end_request(rq, cpu_to_le16(status << 1), res);
+>  }
+> 
+> -
+>  static int nvme_tcp_recv_data(struct nvme_tcp_queue *queue, struct
+> sk_buff *skb,
+>  			      unsigned int *offset, size_t *len)
+>  {
+> @@ -1543,7 +1541,7 @@ static int nvme_tcp_alloc_admin_queue(struct
+> nvme_ctrl *ctrl)
+>  	return ret;
+>  }
+> 
+> -static int nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
+> +static int __nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
+>  {
+>  	int i, ret;
+> 
+> @@ -1574,7 +1572,7 @@ static unsigned int nvme_tcp_nr_io_queues(struct
+> nvme_ctrl *ctrl)
+>  	return nr_io_queues;
+>  }
+> 
+> -static int nvme_alloc_io_queues(struct nvme_ctrl *ctrl)
+> +static int nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
+>  {
+>  	unsigned int nr_io_queues;
+>  	int ret;
+> @@ -1591,7 +1589,7 @@ static int nvme_alloc_io_queues(struct nvme_ctrl
+> *ctrl)
+>  	dev_info(ctrl->device,
+>  		"creating %d I/O queues.\n", nr_io_queues);
+> 
+> -	return nvme_tcp_alloc_io_queues(ctrl);
+> +	return __nvme_tcp_alloc_io_queues(ctrl);
+>  }
+> 
+>  static void nvme_tcp_destroy_io_queues(struct nvme_ctrl *ctrl, bool
+> remove)
+> @@ -1608,7 +1606,7 @@ static int nvme_tcp_configure_io_queues(struct
+> nvme_ctrl *ctrl, bool new)
+>  {
+>  	int ret;
+> 
+> -	ret = nvme_alloc_io_queues(ctrl);
+> +	ret = nvme_tcp_alloc_io_queues(ctrl);
+>  	if (ret)
+>  		return ret;
 > 
 > --
-> 1.9.1
+> 2.17.1
 > 
 > 
 > _______________________________________________
