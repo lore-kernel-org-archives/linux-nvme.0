@@ -1,56 +1,35 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Thu, 25 Apr 2019 16:32:42 +0200
-Subject: [PATCH] block: use static bio_set for bio_split() calls
-In-Reply-To: <20190425004106.GA22683@ming.t460p>
-References: <20190418140632.60606-1-hare@suse.de>
- <20190418143429.GA19175@ming.t460p>
- <98d8549a-2663-b404-e38a-6f55dfb575bf@grimberg.me>
- <20190424221422.GA21351@ming.t460p> <20190425004106.GA22683@ming.t460p>
-Message-ID: <c6a54cea-f2ce-3344-efb1-ba8f20bf9509@suse.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Thu, 25 Apr 2019 07:39:02 -0700
+Subject: [PATCH] nvme: determine the number of IO queues
+In-Reply-To: <ddabda2a-b30d-77cc-7b2e-05a6b599cae7@canonical.com>
+References: <1555510379-20199-1-git-send-email-aaron.ma@canonical.com>
+ <a2f0a97e14b884dc1183db9cbdd6f4b520000ce3.camel@redhat.com>
+ <096935354b16662eb481aeda1f48001ba489463c.camel@redhat.com>
+ <e79703d5-3502-6519-a497-71b2b2a8768f@canonical.com>
+ <20190418134820.GA7589@localhost.localdomain>
+ <ddabda2a-b30d-77cc-7b2e-05a6b599cae7@canonical.com>
+Message-ID: <20190425143902.GA30715@infradead.org>
 
-On 4/25/19 2:41 AM, Ming Lei wrote:
-> On Thu, Apr 25, 2019@06:14:22AM +0800, Ming Lei wrote:
->> On Wed, Apr 24, 2019@10:20:46AM -0700, Sagi Grimberg wrote:
->>>
->>>> per-queue bioset is used originally for avoiding deadlock, are you
->>>> sure the static bioset is safe?
->>>
->>> Can you explain this? I didn't find any indication of that in the change
->>> log history...
->>>
->>> Originally introduced by Kent:
->>
->> bio split can be run from stacking drivers, for example, MD over NVMe,
->> if the global reserved mempool is consumed by MD bio splitting, then
->> no any progress can be made when splitting on bio submitted to NVMe.
->>
->> Kent may have more details...
+On Thu, Apr 18, 2019@10:21:03PM +0800, Aaron Ma wrote:
 > 
-> I guess it might be fine to use one shared global bio_set for all
-> lowest underlying queues, could be all queues except for loop, dm, md
-> , drbd, bcache, ...
 > 
-But wasn't the overall idea of stacking drivers that we propagate the 
-queue limits up to the uppermost drivers, so that we have to do a split 
-only at the upper layers?
-Furthermore, it's not every bio which needs to be split, only those 
-which straddle some device limitations.
-The only ones not being able to propagate the queue limits is MD, and 
-that is already using a private bio_set here.
+> On 4/18/19 9:48 PM, Keith Busch wrote:
+> > It does change the default behavior. If I have a degraded controller that
+> > can't do IO in a machine with 1000's of CPUs, I have to iterate this
+> > non-standard behavior 1000's of times before the drive is servicable
+> > again. We currenlty figure that out in just a single try.
+> > 
+> > At least the quirks document *why* the driver is doing non-standard
+> > behavior. We do the IO queue quirks for Macbooks, for example.
+> > 
+> > But why don't you file a bug report with the device vendor instead? Surely
+> > a firmware fix provides the best possible outcome, and would make this
+> > device work not only in all versions of Linux, but also every standard
+> > compliant driver for any OS.
+> 
+> I will do it, no v2 for now.
 
-I've worked on a patchset to provide a separate bio set for each of the 
-stacking drivers, but the interface I've been able to come up with is 
-not very nice, and I really doubt it's worth it.
-
-So I'd advocate to test with this patch first, and only provide 
-individual biosets once we find it's an issue.
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N?rnberg)
+Honestly, unless this is a device shiping in a max market consumer
+product already I don't think we should work around this crap at all,
+given that this device has obviously never been tested at all.  It
+really needs a firmware fix instead of a host workaround.
