@@ -1,94 +1,39 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Thu, 25 Apr 2019 08:55:43 +0800
-Subject: [PATCH V7 4/9] blk-mq: move all hctx alloction & initialization
- into __blk_mq_alloc_and_init_hctx
-In-Reply-To: <20190424162223.GD23854@lst.de>
-References: <20190424110221.17435-1-ming.lei@redhat.com>
- <20190424110221.17435-5-ming.lei@redhat.com>
- <20190424162223.GD23854@lst.de>
-Message-ID: <20190425005542.GC22636@ming.t460p>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Thu, 25 Apr 2019 09:57:00 +0900
+Subject: [PATCH 1/2] nvme: pci: Return -EINVAL if given nr_queue larger
+ than nr_cpu
+In-Reply-To: <f01517db-74ba-477f-49fe-88aaf0b8ab89@grimberg.me>
+References: <20190411155239.1094-1-minwoo.im.dev@gmail.com>
+ <20190411155239.1094-2-minwoo.im.dev@gmail.com>
+ <f01517db-74ba-477f-49fe-88aaf0b8ab89@grimberg.me>
+Message-ID: <6e1be82f-2fac-519a-8582-ee66387c6d3e@gmail.com>
 
-On Wed, Apr 24, 2019@06:22:23PM +0200, Christoph Hellwig wrote:
-> On Wed, Apr 24, 2019@07:02:16PM +0800, Ming Lei wrote:
-> > Move all hctx related allocation and initialization into
-> > __blk_mq_alloc_and_init_hctx, and prepare for splitting blk_mq_alloc_and_init_hctx
-> > into real two functions, one is for allocate everything, and another is for
-> > initializing everyting.
-> > 
-> > Cc: Dongli Zhang <dongli.zhang at oracle.com>
-> > Cc: James Smart <james.smart at broadcom.com>
-> > Cc: Bart Van Assche <bart.vanassche at wdc.com>
-> > Cc: linux-scsi at vger.kernel.org,
-> > Cc: Martin K . Petersen <martin.petersen at oracle.com>,
-> > Cc: Christoph Hellwig <hch at lst.de>,
-> > Cc: James E . J . Bottomley <jejb at linux.vnet.ibm.com>,
-> > Reviewed-by: Hannes Reinecke <hare at suse.com>
-> > Tested-by: James Smart <james.smart at broadcom.com>
-> > Signed-off-by: Ming Lei <ming.lei at redhat.com>
-> > ---
-> >  block/blk-mq.c | 93 +++++++++++++++++++++++++++-------------------------------
-> >  1 file changed, 44 insertions(+), 49 deletions(-)
-> > 
-> > diff --git a/block/blk-mq.c b/block/blk-mq.c
-> > index 862eb41f24f8..fea25363488d 100644
-> > --- a/block/blk-mq.c
-> > +++ b/block/blk-mq.c
-> > @@ -2290,15 +2290,45 @@ static void blk_mq_exit_hw_queues(struct request_queue *q,
-> >  	}
-> >  }
-> >  
-> > -static int blk_mq_init_hctx(struct request_queue *q,
-> > -		struct blk_mq_tag_set *set,
-> > -		struct blk_mq_hw_ctx *hctx, unsigned hctx_idx)
-> > +static int blk_mq_hw_ctx_size(struct blk_mq_tag_set *tag_set)
-> >  {
-> > -	int node;
-> > +	int hw_ctx_size = sizeof(struct blk_mq_hw_ctx);
-> > +
-> > +	BUILD_BUG_ON(ALIGN(offsetof(struct blk_mq_hw_ctx, srcu),
-> > +			   __alignof__(struct blk_mq_hw_ctx)) !=
-> > +		     sizeof(struct blk_mq_hw_ctx));
-> > +
-> > +	if (tag_set->flags & BLK_MQ_F_BLOCKING)
-> > +		hw_ctx_size += sizeof(struct srcu_struct);
-> > +
-> > +	return hw_ctx_size;
-> > +}
-> > +
-> > +static struct blk_mq_hw_ctx *
-> > +__blk_mq_alloc_and_init_hctx(struct request_queue *q,
-> > +			     struct blk_mq_tag_set *set,
-> > +			     unsigned hctx_idx, int node)
-> > +{
-> > +	struct blk_mq_hw_ctx *hctx;
-> > +
-> > +	hctx = kzalloc_node(blk_mq_hw_ctx_size(set),
-> > +			GFP_NOIO | __GFP_NOWARN | __GFP_NORETRY,
-> > +			node);
-> > +	if (!hctx)
-> > +		goto fail_alloc_hctx;
-> > +
-> > +	if (!zalloc_cpumask_var_node(&hctx->cpumask,
-> > +				GFP_NOIO | __GFP_NOWARN | __GFP_NORETRY,
-> 
-> Maybe throw in a
-> 
-> 	const gfp_t gfp = GFP_NOIO | __GFP_NOWARN | __GFP_NORETRY;
-> 
-> as the first line to shorten these two a bit..
-> 
-> >  static struct blk_mq_hw_ctx *blk_mq_alloc_and_init_hctx(
-> >  		struct blk_mq_tag_set *set, struct request_queue *q,
-> >  		int hctx_idx, int node)
-> >  {
-> > +	return __blk_mq_alloc_and_init_hctx(q, set, hctx_idx, node);
-> >  }
-> 
-> I really don't the point of this wrapper.  If we need it later
-> we should introduce it there.
 
-It prepares for the following patch, otherwise the whole patch may
-become difficult to review.
+ >>>> "write_queues" and "poll_queues" can be configured by module 
+parameters
+ >>>> with callback queue_count_set().
+ >>>>
+ >>>> This function shall return a error if given number of queue is larger
+ >>>> than nr_possible_cpus due to blk-mq.
+ >>>
+ >>> Why?
+ >>
+ >> I think I missed to write the details about what you asked for.  The
+ >> reason is that
+ >> now the variable n seems to be assigned without being used after all.
+ >>
+ >> I'm not sure whether it needs to return error or go through with
+ >> reduced value for
+ >> queue_cnt which is not greater than num_possible_cpus().
+ >>
+ >> If you would let me know what's going to be better for this, that
+ >> would be great.
+ >
+ > I think its consistent with the rest of the fabric implementations..
 
-thanks,
-Ming
+Hi Sagi,
+
+Do you mean that it needs to be reduced if value which is greater than 
+num_possible_cpus() is given instead returning an error ?
+
+Thanks,
