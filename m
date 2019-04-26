@@ -1,40 +1,60 @@
-From: bvanassche@acm.org (Bart Van Assche)
-Date: Fri, 26 Apr 2019 10:04:23 -0700
-Subject: [PATCH V7 9/9] nvme: hold request queue's refcount in ns's
- whole lifetime
-In-Reply-To: <20190426151114.GB20438@lst.de>
-References: <20190424110221.17435-1-ming.lei@redhat.com>
- <20190424110221.17435-10-ming.lei@redhat.com>
- <20190424162746.GE23854@lst.de> <20190425010030.GD22636@ming.t460p>
- <20190426151114.GB20438@lst.de>
-Message-ID: <1556298263.161891.152.camel@acm.org>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Fri, 26 Apr 2019 12:10:41 -0700
+Subject: [PATCH nvme-cli rfc 0/6] Support discovery log change events
+In-Reply-To: <f4594084-4f2a-33ca-77b4-d7075bbb12af@broadcom.com>
+References: <20190223023257.21227-1-sagi@grimberg.me>
+ <d4012891-8bc7-00cf-ab96-7828270d25af@suse.de>
+ <e7423c76-6425-4020-2074-b977fc87866f@grimberg.me>
+ <d1742744-1109-e7e8-3586-fca6556c803b@broadcom.com>
+ <d7bbfc2a-92ea-315d-bbd6-cd3847449f7b@grimberg.me>
+ <3b524b54-8f13-24f5-4367-34a4d02c59b3@broadcom.com>
+ <5c64286b-3fbf-9dfe-ef8a-3f72e630f11d@broadcom.com>
+ <a4f8ca74-7777-9e80-3209-ef9ce27ad2d8@suse.de>
+ <44f637f2-0c0d-cef4-05b3-c5e67ec907bb@grimberg.me>
+ <f0e112f7-0db5-4928-0859-8b3b6b797432@grimberg.me>
+ <9d0e3080-baa7-6f55-2548-097523bb3a83@suse.de>
+ <03163041-9b14-3662-edb8-1d69f20f681f@grimberg.me>
+ <f4594084-4f2a-33ca-77b4-d7075bbb12af@broadcom.com>
+Message-ID: <2a08f760-0aeb-d788-3210-72ec9d6eb9bc@grimberg.me>
 
-On Fri, 2019-04-26@17:11 +0200, Christoph Hellwig wrote:
-> On Thu, Apr 25, 2019@09:00:31AM +0800, Ming Lei wrote:
-> > The issue is driver(NVMe) specific, the race window is just between
-> > between blk_cleanup_queue() and removing the ns from the controller namspace
-> > list in nvme_ns_remove()
+
+>> Now, I'm suggesting to support discovery change log events by allowing
+>> the user to setup a persistent discovery controller and have the kernel
+>> fire to userspace discovery change log events over that controller.
+>>
+>> Any comments/feedback/alternatives on _this_?
 > 
-> And I wouldn't be surprised if others have the same issue.
-> 
-> > 
-> > blk_mq_init_queue() does hold one refcount, and its counter-part is
-> > blk_cleanup_queue().
-> > 
-> > It is simply ugly to ask blk_mq_init_queue() to grab a refcnt for driver,
-> > then who is the counter-part for releasing the extra refcount?
-> 
-> Well, the problem is exactly that blk_cleanup_queue drops the reference.
-> If move the blk_put_queue() call from the end of it to the callers the
-> callers can keep the reference as long as they need them, and we wouldn't
-> need an extra reference.
+> I think it's fine, and we should be able to merge possibly what the AEN 
+> event looks like and the FC event.? The Events are pretty much the same 
+> between FC and the AEN -> go perform a connect-all against the indicated 
+> discovery controller.?? What is different is how do you identify the 
+> discovery controller, and if you are re-using an an existing controller, 
+> how would that connect-all occur if it doesn't create a new discovery 
+> controller instance.? For how to identify the discovery controller, it 
+> could be: a) by full discovery-log-based-address fields? (not all must 
+> be present; e.g. FC);? b) by /dev/nvme? name of the persistent discovery 
+> controller (e.g. the AEN); or c) a derivation of the /dev/nvme? name 
+> (aka (b)) by using (a) to see if a persistent controller exists at that 
+> location.
+> Am I getting a little off base ?
 
-Hi Christoph,
+Not at all,
 
-There are more than hundred callers of blk_cleanup_queue() so that change
-would cause a lot of churn. Since blk_get_queue() and blk_put_queue() are
-available, how inserting a pair of calls to these functions where necessary?
+Given that FC does not need a persistent discovery controller to get the
+event, its fine that it will create a temporary discovery controller.
+Given that FC and IP do different things, we can separate them. But what
+I wanted to understand, is if I export a second subsystem on the same
+FC port, will it generate an FC event?
 
-Thanks,
+The only thing we need to make sure works is when FC also has a
+persistent discovery controller and it will see both FC events and
+nvme discovery log change events (not sure its a valid use-case at all
+though). I don't see how that could break because if I understand
+correctly it will see two events and worst case will fail to connect
+duplicate controller quietly which is fine I guess...
 
-Bart.
+
+> I agree - we don't need to address is how does one initially create the 
+> persistent discovery controller.
+
+Exactly, we can worry about that afterwards, once we have a TP in place.
