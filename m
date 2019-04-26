@@ -1,7 +1,7 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri, 26 Apr 2019 08:46:41 -0700
+From: james.smart@broadcom.com (James Smart)
+Date: Fri, 26 Apr 2019 09:17:40 -0700
 Subject: [PATCH nvme-cli rfc 0/6] Support discovery log change events
-In-Reply-To: <9d0e3080-baa7-6f55-2548-097523bb3a83@suse.de>
+In-Reply-To: <03163041-9b14-3662-edb8-1d69f20f681f@grimberg.me>
 References: <20190223023257.21227-1-sagi@grimberg.me>
  <d4012891-8bc7-00cf-ab96-7828270d25af@suse.de>
  <e7423c76-6425-4020-2074-b977fc87866f@grimberg.me>
@@ -13,45 +13,67 @@ References: <20190223023257.21227-1-sagi@grimberg.me>
  <44f637f2-0c0d-cef4-05b3-c5e67ec907bb@grimberg.me>
  <f0e112f7-0db5-4928-0859-8b3b6b797432@grimberg.me>
  <9d0e3080-baa7-6f55-2548-097523bb3a83@suse.de>
-Message-ID: <03163041-9b14-3662-edb8-1d69f20f681f@grimberg.me>
+ <03163041-9b14-3662-edb8-1d69f20f681f@grimberg.me>
+Message-ID: <f4594084-4f2a-33ca-77b4-d7075bbb12af@broadcom.com>
 
 
->> Reviving this (again).
+On 4/26/2019 8:46 AM, Sagi Grimberg wrote:
+>
+>>> Reviving this (again).
+>>>
+>>> Hannes, did you have a chance to look at this? Unless there are other
+>>> alternatives I suggest we go with this approach.
+>>>
+>>> We should be able to support discovery log change events automatically
+>>> at some point...
 >>
->> Hannes, did you have a chance to look at this? Unless there are other
->> alternatives I suggest we go with this approach.
->>
->> We should be able to support discovery log change events automatically
->> at some point...
-> 
-> Yes, I did.
-> And had several discussions with the involved parties (Hello, James :-).
-> Consensus was that for FC we don't really need discovery AENs, as the 
-> transport has knowledge about the fabric and the attached ports, and 
-> will generate events on any topology change already.
-> For RDMA and TCP, OTOH, we don't know the topology, and to be able to 
-> discovery we will know the fabric ports in advance.
-> So there automatic discovery is a real win, and arguably necessary if a 
-> connection needs to be re-established after a fabric outage.
+>> Yes, I did.
+>> And had several discussions with the involved parties (Hello, James :-).
+>> Consensus was that for FC we don't really need discovery AENs, as the 
+>> transport has knowledge about the fabric and the attached ports, and 
+>> will generate events on any topology change already.
+>> For RDMA and TCP, OTOH, we don't know the topology, and to be able to 
+>> discovery we will know the fabric ports in advance.
+>> So there automatic discovery is a real win, and arguably necessary if 
+>> a connection needs to be re-established after a fabric outage.
+>
+> Again, this is a different thing Hannes, please stop mixing stuff.
+> I'm not arguing with you that we want automatically discover the fabric,
+> but discovery change log events and root discovery are different things
+> and only one of them is up for discussion here.
+>
+>> Implementation-wise I'm not thoroughly happy with the MDNS approach, 
+>> as this requires quite a bit of additional infrastructure which needs 
+>> to be present on both sides.
+>> And my worry is that during failover scenarios we might not be able 
+>> to run these services at all (seeing that the root-fs is blocked).
+>> But if that is acceptable (read: if booting from those NVMe devices 
+>> is not required) then I guess we could go that way.
+> I'm going to ignore stuff about root discovery here (nothing personal,
+> its just not the subject here), we can talk about it in a separate
+> thread.
+>
+> Now, I'm suggesting to support discovery change log events by allowing
+> the user to setup a persistent discovery controller and have the kernel
+> fire to userspace discovery change log events over that controller.
+>
+> Any comments/feedback/alternatives on _this_?
 
-Again, this is a different thing Hannes, please stop mixing stuff.
-I'm not arguing with you that we want automatically discover the fabric,
-but discovery change log events and root discovery are different things
-and only one of them is up for discussion here.
+I think it's fine, and we should be able to merge possibly what the AEN 
+event looks like and the FC event.? The Events are pretty much the same 
+between FC and the AEN -> go perform a connect-all against the indicated 
+discovery controller.?? What is different is how do you identify the 
+discovery controller, and if you are re-using an an existing controller, 
+how would that connect-all occur if it doesn't create a new discovery 
+controller instance.? For how to identify the discovery controller, it 
+could be: a) by full discovery-log-based-address fields? (not all must 
+be present; e.g. FC);? b) by /dev/nvme? name of the persistent discovery 
+controller (e.g. the AEN); or c) a derivation of the /dev/nvme? name 
+(aka (b)) by using (a) to see if a persistent controller exists at that 
+location.
+Am I getting a little off base ?
 
-> Implementation-wise I'm not thoroughly happy with the MDNS approach, as 
-> this requires quite a bit of additional infrastructure which needs to be 
-> present on both sides.
-> And my worry is that during failover scenarios we might not be able to 
-> run these services at all (seeing that the root-fs is blocked).
-> But if that is acceptable (read: if booting from those NVMe devices is 
-> not required) then I guess we could go that way.
-I'm going to ignore stuff about root discovery here (nothing personal,
-its just not the subject here), we can talk about it in a separate
-thread.
+I agree - we don't need to address is how does one initially create the 
+persistent discovery controller.
 
-Now, I'm suggesting to support discovery change log events by allowing
-the user to setup a persistent discovery controller and have the kernel
-fire to userspace discovery change log events over that controller.
-
-Any comments/feedback/alternatives on _this_?
+-- james
