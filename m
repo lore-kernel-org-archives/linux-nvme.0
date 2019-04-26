@@ -1,77 +1,48 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Fri, 26 Apr 2019 13:14:12 -0700
-Subject: [PATCH nvme-cli rfc 0/6] Support discovery log change events
-In-Reply-To: <2a08f760-0aeb-d788-3210-72ec9d6eb9bc@grimberg.me>
-References: <20190223023257.21227-1-sagi@grimberg.me>
- <d4012891-8bc7-00cf-ab96-7828270d25af@suse.de>
- <e7423c76-6425-4020-2074-b977fc87866f@grimberg.me>
- <d1742744-1109-e7e8-3586-fca6556c803b@broadcom.com>
- <d7bbfc2a-92ea-315d-bbd6-cd3847449f7b@grimberg.me>
- <3b524b54-8f13-24f5-4367-34a4d02c59b3@broadcom.com>
- <5c64286b-3fbf-9dfe-ef8a-3f72e630f11d@broadcom.com>
- <a4f8ca74-7777-9e80-3209-ef9ce27ad2d8@suse.de>
- <44f637f2-0c0d-cef4-05b3-c5e67ec907bb@grimberg.me>
- <f0e112f7-0db5-4928-0859-8b3b6b797432@grimberg.me>
- <9d0e3080-baa7-6f55-2548-097523bb3a83@suse.de>
- <03163041-9b14-3662-edb8-1d69f20f681f@grimberg.me>
- <f4594084-4f2a-33ca-77b4-d7075bbb12af@broadcom.com>
- <2a08f760-0aeb-d788-3210-72ec9d6eb9bc@grimberg.me>
-Message-ID: <3b7117cf-db69-01a3-d286-a2f98f3e8f5b@broadcom.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Sat, 27 Apr 2019 06:45:43 +0800
+Subject: [PATCH V7 9/9] nvme: hold request queue's refcount in ns's whole
+ lifetime
+In-Reply-To: <20190426151114.GB20438@lst.de>
+References: <20190424110221.17435-1-ming.lei@redhat.com>
+ <20190424110221.17435-10-ming.lei@redhat.com>
+ <20190424162746.GE23854@lst.de> <20190425010030.GD22636@ming.t460p>
+ <20190426151114.GB20438@lst.de>
+Message-ID: <20190426224542.GD31470@ming.t460p>
 
-On 4/26/2019 12:10 PM, Sagi Grimberg wrote:
->
->>> Now, I'm suggesting to support discovery change log events by allowing
->>> the user to setup a persistent discovery controller and have the kernel
->>> fire to userspace discovery change log events over that controller.
->>>
->>> Any comments/feedback/alternatives on _this_?
->>
->> I think it's fine, and we should be able to merge possibly what the 
->> AEN event looks like and the FC event.? The Events are pretty much 
->> the same between FC and the AEN -> go perform a connect-all against 
->> the indicated discovery controller.?? What is different is how do you 
->> identify the discovery controller, and if you are re-using an an 
->> existing controller, how would that connect-all occur if it doesn't 
->> create a new discovery controller instance.? For how to identify the 
->> discovery controller, it could be: a) by full 
->> discovery-log-based-address fields? (not all must be present; e.g. 
->> FC);? b) by /dev/nvme? name of the persistent discovery controller 
->> (e.g. the AEN); or c) a derivation of the /dev/nvme? name (aka (b)) 
->> by using (a) to see if a persistent controller exists at that location.
->> Am I getting a little off base ?
->
-> Not at all,
->
-> Given that FC does not need a persistent discovery controller to get the
-> event, its fine that it will create a temporary discovery controller.
-> Given that FC and IP do different things, we can separate them. But what
-> I wanted to understand, is if I export a second subsystem on the same
-> FC port, will it generate an FC event?
+On Fri, Apr 26, 2019@05:11:14PM +0200, Christoph Hellwig wrote:
+> On Thu, Apr 25, 2019@09:00:31AM +0800, Ming Lei wrote:
+> > The issue is driver(NVMe) specific, the race window is just between
+> > between blk_cleanup_queue() and removing the ns from the controller namspace
+> > list in nvme_ns_remove()
+> 
+> And I wouldn't be surprised if others have the same issue.
 
-Well - FC does have an RSCN notification to cause the rescan of the FC 
-port, if the FC port as the NVME Discovery attribute, but Christoph 
-rejected the 3 patches about a year ago. I'll be reposting it. So the 
-answer should eventually be - yes, it will get an FC event if the 
-subsystem list at the FC port changes.
+SCSI hasn't such issue, and loop/null/virtio-blk doesn't too.
+
+> 
+> > 
+> > blk_mq_init_queue() does hold one refcount, and its counter-part is
+> > blk_cleanup_queue().
+> > 
+> > It is simply ugly to ask blk_mq_init_queue() to grab a refcnt for driver,
+> > then who is the counter-part for releasing the extra refcount?
+> 
+> Well, the problem is exactly that blk_cleanup_queue drops the reference.
+> If move the blk_put_queue() call from the end of it to the callers the
+> callers can keep the reference as long as they need them, and we wouldn't
+> need an extra reference.
+
+It depends on driver.
+
+Still no difference between your suggestion and the way in this patch, given
+driver specific change is a must. Even it is more clean to hold the
+queue refocunt by drivers explicitly because we usually do the get/put pair
+in one place, instead that getting refcnt in one subsystem, and doing put in
+another place.
+
+I am going to drop this patch in V8 since my original plan is to fix block
+layer's race in this patchset.
 
 
->
-> The only thing we need to make sure works is when FC also has a
-> persistent discovery controller and it will see both FC events and
-> nvme discovery log change events (not sure its a valid use-case at all
-> though). I don't see how that could break because if I understand
-> correctly it will see two events and worst case will fail to connect
-> duplicate controller quietly which is fine I guess...
-
-it shouldn't hurt/matter.? it can be a valid use case. FC already has 
-the issue that link bounces and manual actions can create the same 
-discovery controller being talked to simultaneously. We allow duplicate 
-discovery controllers to the same <host,host_port,tgt_port,subsystem> - 
-actually I think that "is this a discovery controller" check is in 
-common code around the duplicates code. ?? But duplicate storage 
-controllers to that tuple are by default not allowed, but can be 
-over-ridden. ?? Regardless of it being ok, it should be clean. ? A "-d 
-<devicename>" option (different connect-all tuple argument from the 
-event) would make that pretty clean.
-
--- james
+Thanks,
+Ming
