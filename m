@@ -1,20 +1,40 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Fri, 26 Apr 2019 10:26:17 -0600
-Subject: [GIT PULL] nvme updates for 5.2
-In-Reply-To: <20190426144744.GA28094@infradead.org>
-References: <20190426144744.GA28094@infradead.org>
-Message-ID: <d9cde332-7bd2-46f5-3b6a-b436199f8ad6@kernel.dk>
+From: bvanassche@acm.org (Bart Van Assche)
+Date: Fri, 26 Apr 2019 10:04:23 -0700
+Subject: [PATCH V7 9/9] nvme: hold request queue's refcount in ns's
+ whole lifetime
+In-Reply-To: <20190426151114.GB20438@lst.de>
+References: <20190424110221.17435-1-ming.lei@redhat.com>
+ <20190424110221.17435-10-ming.lei@redhat.com>
+ <20190424162746.GE23854@lst.de> <20190425010030.GD22636@ming.t460p>
+ <20190426151114.GB20438@lst.de>
+Message-ID: <1556298263.161891.152.camel@acm.org>
 
-On 4/26/19 8:47 AM, Christoph Hellwig wrote:
-> The following changes since commit 95f18c9d1310730d075499a75aaf13bcd60405a7:
+On Fri, 2019-04-26@17:11 +0200, Christoph Hellwig wrote:
+> On Thu, Apr 25, 2019@09:00:31AM +0800, Ming Lei wrote:
+> > The issue is driver(NVMe) specific, the race window is just between
+> > between blk_cleanup_queue() and removing the ns from the controller namspace
+> > list in nvme_ns_remove()
 > 
->   bcache: avoid potential memleak of list of journal_replay(s) in the CACHE_SYNC branch of run_cache_set (2019-04-24 10:56:29 -0600)
+> And I wouldn't be surprised if others have the same issue.
 > 
-> are available in the Git repository at:
+> > 
+> > blk_mq_init_queue() does hold one refcount, and its counter-part is
+> > blk_cleanup_queue().
+> > 
+> > It is simply ugly to ask blk_mq_init_queue() to grab a refcnt for driver,
+> > then who is the counter-part for releasing the extra refcount?
 > 
->   git://git.infradead.org/nvme.git nvme-5.2
+> Well, the problem is exactly that blk_cleanup_queue drops the reference.
+> If move the blk_put_queue() call from the end of it to the callers the
+> callers can keep the reference as long as they need them, and we wouldn't
+> need an extra reference.
 
-Pulled, thanks.
+Hi Christoph,
 
--- 
-Jens Axboe
+There are more than hundred callers of blk_cleanup_queue() so that change
+would cause a lot of churn. Since blk_get_queue() and blk_put_queue() are
+available, how inserting a pair of calls to these functions where necessary?
+
+Thanks,
+
+Bart.
