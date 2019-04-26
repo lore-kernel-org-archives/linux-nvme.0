@@ -1,93 +1,56 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Fri, 26 Apr 2019 16:19:04 +0200
-Subject: [PATCH nvme-cli rfc 0/6] Support discovery log change events
-In-Reply-To: <f0e112f7-0db5-4928-0859-8b3b6b797432@grimberg.me>
-References: <20190223023257.21227-1-sagi@grimberg.me>
- <d4012891-8bc7-00cf-ab96-7828270d25af@suse.de>
- <e7423c76-6425-4020-2074-b977fc87866f@grimberg.me>
- <d1742744-1109-e7e8-3586-fca6556c803b@broadcom.com>
- <d7bbfc2a-92ea-315d-bbd6-cd3847449f7b@grimberg.me>
- <3b524b54-8f13-24f5-4367-34a4d02c59b3@broadcom.com>
- <5c64286b-3fbf-9dfe-ef8a-3f72e630f11d@broadcom.com>
- <a4f8ca74-7777-9e80-3209-ef9ce27ad2d8@suse.de>
- <44f637f2-0c0d-cef4-05b3-c5e67ec907bb@grimberg.me>
- <f0e112f7-0db5-4928-0859-8b3b6b797432@grimberg.me>
-Message-ID: <9d0e3080-baa7-6f55-2548-097523bb3a83@suse.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Fri, 26 Apr 2019 16:47:44 +0200
+Subject: [GIT PULL] nvme updates for 5.2
+Message-ID: <20190426144744.GA28094@infradead.org>
 
-On 4/25/19 9:10 PM, Sagi Grimberg wrote:
-> 
->>> I do have some quite fundamental problem with discovery log change 
->>> events:
->>> - The initial discovery is still unsolved, ie we have to know the 
->>> transport address before we can even get to those events
->>
->> I understand your concern, but its completely irrelevant to this.
->> This is a building block to automate the entire sequence, but
->> the fact that we don't have it all automated doesn't mean we should
->> not support discovery log change AENs.
->>
->> For root discovery automation, we can talk about bringing a tpar
->> with a prototype.
->>
->>> - More crucially, we don't get these events when we to the first 
->>> connection, requiring us to have the initial call to 'connect-all' on 
->>> a separate way.
->>
->> Again, this is initial root discovery, which is irrelevant to discovery
->> log change events.
->>
->>> - We don't have any indication if a new subsystem has been created; 
->>> once a subsystem a new subsystem on another port is created it's 
->>> anyones guess if that'll show up on the particular discovery controller
->>
->> What? the event is on the port level, every port/subsystem softlink will
->> trigger a discovery log change event. Its not anyones guess, its pretty
->> deterministic given that you have discovery controller connected to the
->> port.
->>
->>> Especially the second point is most vexing; we could get around this 
->>> by requiring the discovery controller to send AENs on the initial 
->>> connect
->>> (well, actually as soon as the AENs are enabled), but I guess that'll 
->>> require a change to the spec ...
->>
->> Why? with a script to auto-connect or root discovery automation this 
->> is no longer an issue (not sure how much this is an issue right now).
-> 
-> Reviving this (again).
-> 
-> Hannes, did you have a chance to look at this? Unless there are other
-> alternatives I suggest we go with this approach.
-> 
-> We should be able to support discovery log change events automatically
-> at some point...
+The following changes since commit 95f18c9d1310730d075499a75aaf13bcd60405a7:
 
-Yes, I did.
-And had several discussions with the involved parties (Hello, James :-).
-Consensus was that for FC we don't really need discovery AENs, as the 
-transport has knowledge about the fabric and the attached ports, and 
-will generate events on any topology change already.
-For RDMA and TCP, OTOH, we don't know the topology, and to be able to 
-discovery we will know the fabric ports in advance.
-So there automatic discovery is a real win, and arguably necessary if a 
-connection needs to be re-established after a fabric outage.
+  bcache: avoid potential memleak of list of journal_replay(s) in the CACHE_SYNC branch of run_cache_set (2019-04-24 10:56:29 -0600)
 
-Implementation-wise I'm not thoroughly happy with the MDNS approach, as 
-this requires quite a bit of additional infrastructure which needs to be 
-present on both sides.
-And my worry is that during failover scenarios we might not be able to 
-run these services at all (seeing that the root-fs is blocked).
-But if that is acceptable (read: if booting from those NVMe devices is 
-not required) then I guess we could go that way.
+are available in the Git repository at:
 
-At least it's worth a shot, to get things started here.
+  git://git.infradead.org/nvme.git nvme-5.2
 
-Cheers,
+for you to fetch changes up to 01fa017484ad98fccdeaab32db0077c574b6bd6f:
 
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N?rnberg)
+  nvme: set 0 capacity if namespace block size exceeds PAGE_SIZE (2019-04-25 16:51:42 +0200)
+
+----------------------------------------------------------------
+Enrico Weigelt, metux IT consult (1):
+      nvmet: include <linux/scatterlist.h>
+
+Max Gurtovoy (2):
+      nvmet-rdma: remove p2p_client initialization from fast-path
+      nvmet: rename nvme_completion instances from rsp to cqe
+
+Ming Lei (1):
+      nvme-loop: kill timeout handler
+
+Minwoo Im (2):
+      nvmet: return a specified error it subsys_alloc fails
+      nvme-rdma: fix typo in struct comment
+
+Sagi Grimberg (6):
+      nvmet-file: clamp-down file namespace lba_shift
+      nvmet-tcp: don't fail maxr2t greater than 1
+      nvme-tcp: fix a NULL deref when an admin connect times out
+      nvme-rdma: fix a NULL deref when an admin connect times out
+      nvme-tcp: rename function to have nvme_tcp prefix
+      nvme: set 0 capacity if namespace block size exceeds PAGE_SIZE
+
+ drivers/nvme/host/core.c          |  7 ++++++-
+ drivers/nvme/host/rdma.c          | 10 ++++++----
+ drivers/nvme/host/tcp.c           | 18 ++++++++++--------
+ drivers/nvme/target/Kconfig       |  1 +
+ drivers/nvme/target/configfs.c    |  4 ++--
+ drivers/nvme/target/core.c        | 29 +++++++++++++++--------------
+ drivers/nvme/target/discovery.c   |  4 ++--
+ drivers/nvme/target/fabrics-cmd.c | 16 ++++++++--------
+ drivers/nvme/target/fc.c          |  2 +-
+ drivers/nvme/target/io-cmd-file.c |  7 ++++++-
+ drivers/nvme/target/loop.c        | 22 +++-------------------
+ drivers/nvme/target/nvmet.h       |  4 ++--
+ drivers/nvme/target/rdma.c        | 21 ++++++++++-----------
+ drivers/nvme/target/tcp.c         | 14 ++++----------
+ include/linux/nvme-rdma.h         |  2 +-
+ 15 files changed, 77 insertions(+), 84 deletions(-)
