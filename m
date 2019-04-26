@@ -1,7 +1,7 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri, 26 Apr 2019 12:10:41 -0700
+From: james.smart@broadcom.com (James Smart)
+Date: Fri, 26 Apr 2019 13:14:12 -0700
 Subject: [PATCH nvme-cli rfc 0/6] Support discovery log change events
-In-Reply-To: <f4594084-4f2a-33ca-77b4-d7075bbb12af@broadcom.com>
+In-Reply-To: <2a08f760-0aeb-d788-3210-72ec9d6eb9bc@grimberg.me>
 References: <20190223023257.21227-1-sagi@grimberg.me>
  <d4012891-8bc7-00cf-ab96-7828270d25af@suse.de>
  <e7423c76-6425-4020-2074-b977fc87866f@grimberg.me>
@@ -15,46 +15,63 @@ References: <20190223023257.21227-1-sagi@grimberg.me>
  <9d0e3080-baa7-6f55-2548-097523bb3a83@suse.de>
  <03163041-9b14-3662-edb8-1d69f20f681f@grimberg.me>
  <f4594084-4f2a-33ca-77b4-d7075bbb12af@broadcom.com>
-Message-ID: <2a08f760-0aeb-d788-3210-72ec9d6eb9bc@grimberg.me>
+ <2a08f760-0aeb-d788-3210-72ec9d6eb9bc@grimberg.me>
+Message-ID: <3b7117cf-db69-01a3-d286-a2f98f3e8f5b@broadcom.com>
 
-
->> Now, I'm suggesting to support discovery change log events by allowing
->> the user to setup a persistent discovery controller and have the kernel
->> fire to userspace discovery change log events over that controller.
+On 4/26/2019 12:10 PM, Sagi Grimberg wrote:
+>
+>>> Now, I'm suggesting to support discovery change log events by allowing
+>>> the user to setup a persistent discovery controller and have the kernel
+>>> fire to userspace discovery change log events over that controller.
+>>>
+>>> Any comments/feedback/alternatives on _this_?
 >>
->> Any comments/feedback/alternatives on _this_?
-> 
-> I think it's fine, and we should be able to merge possibly what the AEN 
-> event looks like and the FC event.? The Events are pretty much the same 
-> between FC and the AEN -> go perform a connect-all against the indicated 
-> discovery controller.?? What is different is how do you identify the 
-> discovery controller, and if you are re-using an an existing controller, 
-> how would that connect-all occur if it doesn't create a new discovery 
-> controller instance.? For how to identify the discovery controller, it 
-> could be: a) by full discovery-log-based-address fields? (not all must 
-> be present; e.g. FC);? b) by /dev/nvme? name of the persistent discovery 
-> controller (e.g. the AEN); or c) a derivation of the /dev/nvme? name 
-> (aka (b)) by using (a) to see if a persistent controller exists at that 
-> location.
-> Am I getting a little off base ?
+>> I think it's fine, and we should be able to merge possibly what the 
+>> AEN event looks like and the FC event.? The Events are pretty much 
+>> the same between FC and the AEN -> go perform a connect-all against 
+>> the indicated discovery controller.?? What is different is how do you 
+>> identify the discovery controller, and if you are re-using an an 
+>> existing controller, how would that connect-all occur if it doesn't 
+>> create a new discovery controller instance.? For how to identify the 
+>> discovery controller, it could be: a) by full 
+>> discovery-log-based-address fields? (not all must be present; e.g. 
+>> FC);? b) by /dev/nvme? name of the persistent discovery controller 
+>> (e.g. the AEN); or c) a derivation of the /dev/nvme? name (aka (b)) 
+>> by using (a) to see if a persistent controller exists at that location.
+>> Am I getting a little off base ?
+>
+> Not at all,
+>
+> Given that FC does not need a persistent discovery controller to get the
+> event, its fine that it will create a temporary discovery controller.
+> Given that FC and IP do different things, we can separate them. But what
+> I wanted to understand, is if I export a second subsystem on the same
+> FC port, will it generate an FC event?
 
-Not at all,
-
-Given that FC does not need a persistent discovery controller to get the
-event, its fine that it will create a temporary discovery controller.
-Given that FC and IP do different things, we can separate them. But what
-I wanted to understand, is if I export a second subsystem on the same
-FC port, will it generate an FC event?
-
-The only thing we need to make sure works is when FC also has a
-persistent discovery controller and it will see both FC events and
-nvme discovery log change events (not sure its a valid use-case at all
-though). I don't see how that could break because if I understand
-correctly it will see two events and worst case will fail to connect
-duplicate controller quietly which is fine I guess...
+Well - FC does have an RSCN notification to cause the rescan of the FC 
+port, if the FC port as the NVME Discovery attribute, but Christoph 
+rejected the 3 patches about a year ago. I'll be reposting it. So the 
+answer should eventually be - yes, it will get an FC event if the 
+subsystem list at the FC port changes.
 
 
-> I agree - we don't need to address is how does one initially create the 
-> persistent discovery controller.
+>
+> The only thing we need to make sure works is when FC also has a
+> persistent discovery controller and it will see both FC events and
+> nvme discovery log change events (not sure its a valid use-case at all
+> though). I don't see how that could break because if I understand
+> correctly it will see two events and worst case will fail to connect
+> duplicate controller quietly which is fine I guess...
 
-Exactly, we can worry about that afterwards, once we have a TP in place.
+it shouldn't hurt/matter.? it can be a valid use case. FC already has 
+the issue that link bounces and manual actions can create the same 
+discovery controller being talked to simultaneously. We allow duplicate 
+discovery controllers to the same <host,host_port,tgt_port,subsystem> - 
+actually I think that "is this a discovery controller" check is in 
+common code around the duplicates code. ?? But duplicate storage 
+controllers to that tuple are by default not allowed, but can be 
+over-ridden. ?? Regardless of it being ok, it should be clean. ? A "-d 
+<devicename>" option (different connect-all tuple argument from the 
+event) would make that pretty clean.
+
+-- james
