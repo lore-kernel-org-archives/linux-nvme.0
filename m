@@ -1,7 +1,7 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Sat, 27 Apr 2019 12:53:46 +0200
+Date: Sat, 27 Apr 2019 13:05:04 +0200
 Subject: [PATCH nvme-cli rfc 0/6] Support discovery log change events
-In-Reply-To: <03163041-9b14-3662-edb8-1d69f20f681f@grimberg.me>
+In-Reply-To: <2a08f760-0aeb-d788-3210-72ec9d6eb9bc@grimberg.me>
 References: <20190223023257.21227-1-sagi@grimberg.me>
  <d4012891-8bc7-00cf-ab96-7828270d25af@suse.de>
  <e7423c76-6425-4020-2074-b977fc87866f@grimberg.me>
@@ -14,62 +14,64 @@ References: <20190223023257.21227-1-sagi@grimberg.me>
  <f0e112f7-0db5-4928-0859-8b3b6b797432@grimberg.me>
  <9d0e3080-baa7-6f55-2548-097523bb3a83@suse.de>
  <03163041-9b14-3662-edb8-1d69f20f681f@grimberg.me>
-Message-ID: <54116b2c-48a8-a49a-c09d-0f50337e5772@suse.de>
+ <f4594084-4f2a-33ca-77b4-d7075bbb12af@broadcom.com>
+ <2a08f760-0aeb-d788-3210-72ec9d6eb9bc@grimberg.me>
+Message-ID: <4eacae3c-f7cd-d08d-7601-c31faf6a0b36@suse.de>
 
-On 4/26/19 5:46 PM, Sagi Grimberg wrote:
+On 4/26/19 9:10 PM, Sagi Grimberg wrote:
 > 
->>> Reviving this (again).
+>>> Now, I'm suggesting to support discovery change log events by allowing
+>>> the user to setup a persistent discovery controller and have the kernel
+>>> fire to userspace discovery change log events over that controller.
 >>>
->>> Hannes, did you have a chance to look at this? Unless there are other
->>> alternatives I suggest we go with this approach.
->>>
->>> We should be able to support discovery log change events automatically
->>> at some point...
+>>> Any comments/feedback/alternatives on _this_?
 >>
->> Yes, I did.
->> And had several discussions with the involved parties (Hello, James :-).
->> Consensus was that for FC we don't really need discovery AENs, as the 
->> transport has knowledge about the fabric and the attached ports, and 
->> will generate events on any topology change already.
->> For RDMA and TCP, OTOH, we don't know the topology, and to be able to 
->> discovery we will know the fabric ports in advance.
->> So there automatic discovery is a real win, and arguably necessary if 
->> a connection needs to be re-established after a fabric outage.
+>> I think it's fine, and we should be able to merge possibly what the 
+>> AEN event looks like and the FC event.? The Events are pretty much the 
+>> same between FC and the AEN -> go perform a connect-all against the 
+>> indicated discovery controller.?? What is different is how do you 
+>> identify the discovery controller, and if you are re-using an an 
+>> existing controller, how would that connect-all occur if it doesn't 
+>> create a new discovery controller instance.? For how to identify the 
+>> discovery controller, it could be: a) by full 
+>> discovery-log-based-address fields? (not all must be present; e.g. 
+>> FC);? b) by /dev/nvme? name of the persistent discovery controller 
+>> (e.g. the AEN); or c) a derivation of the /dev/nvme? name (aka (b)) by 
+>> using (a) to see if a persistent controller exists at that location.
+>> Am I getting a little off base ?
 > 
-> Again, this is a different thing Hannes, please stop mixing stuff.
-> I'm not arguing with you that we want automatically discover the fabric,
-> but discovery change log events and root discovery are different things
-> and only one of them is up for discussion here.
+> Not at all,
 > 
-OK.
+> Given that FC does not need a persistent discovery controller to get the
+> event, its fine that it will create a temporary discovery controller.
+> Given that FC and IP do different things, we can separate them. But what
+> I wanted to understand, is if I export a second subsystem on the same
+> FC port, will it generate an FC event?
+> 
+Typically not.
+FC uevents are generated on rports coming and going, hence we won't 
+normally see an additional subsystem.
+However, you could tweak the target implementation to relogin, at which 
+point you obviously will be getting an event.
 
->> Implementation-wise I'm not thoroughly happy with the MDNS approach, 
->> as this requires quite a bit of additional infrastructure which needs 
->> to be present on both sides.
->> And my worry is that during failover scenarios we might not be able to 
->> run these services at all (seeing that the root-fs is blocked).
->> But if that is acceptable (read: if booting from those NVMe devices is 
->> not required) then I guess we could go that way.
-> I'm going to ignore stuff about root discovery here (nothing personal,
-> its just not the subject here), we can talk about it in a separate
-> thread.
+> The only thing we need to make sure works is when FC also has a
+> persistent discovery controller and it will see both FC events and
+> nvme discovery log change events (not sure its a valid use-case at all
+> though). I don't see how that could break because if I understand
+> correctly it will see two events and worst case will fail to connect
+> duplicate controller quietly which is fine I guess...
 > 
-> Now, I'm suggesting to support discovery change log events by allowing
-> the user to setup a persistent discovery controller and have the kernel
-> fire to userspace discovery change log events over that controller.
-> 
-> Any comments/feedback/alternatives on _this_?
+If we stick with the current model of forwarding uevents to a systemd 
+service we just need to make sure that both events will start the _same_ 
+systemd service. Then we'd just have a duplicate 'start' call for the 
+same service, which will be bunched together into a single operation by 
+systemd.
 
-Perfectly fine with that.
-I just would like to have the possibility to generate the discovery AEN 
-on the initial connect of a persistent discovery controller (ie treat 
-the initial connect as a discovery log change event).
-If we had the initial event we would be able to have a unified method 
-for handling discovery events; otherwise we'd have to have a separate 
-mechanism for the initial connect (where we need to create the 
-persistent connection _and_ parse the disocvery log) and AENs (where we 
-receive an uevent and kick off a systemd service).
-But it might be that we'd need to update the protocol for that, though.
+And even if we do not manage to do so, we already have duplicate calls 
+to the systemd service eg on link bouncing, so we need to (and already 
+do) handle that one.
+
+So duplicate events is not really a problem; it's just inefficient.
 
 Cheers,
 
