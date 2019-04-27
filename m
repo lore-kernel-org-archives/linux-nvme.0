@@ -1,100 +1,26 @@
-From: sashal@kernel.org (Sasha Levin)
-Date: Fri, 26 Apr 2019 21:40:43 -0400
-Subject: [PATCH AUTOSEL 4.19 46/53] nvme-fc: correct csn initialization and
- increments on error
-In-Reply-To: <20190427014051.7522-1-sashal@kernel.org>
-References: <20190427014051.7522-1-sashal@kernel.org>
-Message-ID: <20190427014051.7522-46-sashal@kernel.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Sat, 27 Apr 2019 07:54:53 +0200
+Subject: [PATCH V7 9/9] nvme: hold request queue's refcount in ns's
+ whole lifetime
+In-Reply-To: <20190426224542.GD31470@ming.t460p>
+References: <20190424110221.17435-1-ming.lei@redhat.com>
+ <20190424110221.17435-10-ming.lei@redhat.com> <20190424162746.GE23854@lst.de>
+ <20190425010030.GD22636@ming.t460p> <20190426151114.GB20438@lst.de>
+ <20190426224542.GD31470@ming.t460p>
+Message-ID: <20190427055453.GA21483@lst.de>
 
-From: James Smart <jsmart2021@gmail.com>
+On Sat, Apr 27, 2019@06:45:43AM +0800, Ming Lei wrote:
+> Still no difference between your suggestion and the way in this patch, given
+> driver specific change is a must. Even it is more clean to hold the
+> queue refocunt by drivers explicitly because we usually do the get/put pair
+> in one place, instead that getting refcnt in one subsystem, and doing put in
+> another place.
+> 
+> I am going to drop this patch in V8 since my original plan is to fix block
+> layer's race in this patchset.
 
-[ Upstream commit 67f471b6ed3b09033c4ac77ea03f92afdb1989fe ]
-
-This patch fixes a long-standing bug that initialized the FC-NVME
-cmnd iu CSN value to 1. Early FC-NVME specs had the connection starting
-with CSN=1. By the time the spec reached approval, the language had
-changed to state a connection should start with CSN=0.  This patch
-corrects the initialization value for FC-NVME connections.
-
-Additionally, in reviewing the transport, the CSN value is assigned to
-the new IU early in the start routine. It's possible that a later dma
-map request may fail, causing the command to never be sent to the
-controller.  Change the location of the assignment so that it is
-immediately prior to calling the lldd. Add a comment block to explain
-the impacts if the lldd were to additionally fail sending the command.
-
-Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
-Signed-off-by: James Smart <jsmart2021 at gmail.com>
-Reviewed-by: Ewan D. Milne <emilne at redhat.com>
-Signed-off-by: Christoph Hellwig <hch at lst.de>
-Signed-off-by: Sasha Levin <sashal at kernel.org>
----
- drivers/nvme/host/fc.c | 20 +++++++++++++++-----
- 1 file changed, 15 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 9375fa705d82..67dec8860bf3 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -1844,7 +1844,7 @@ nvme_fc_init_queue(struct nvme_fc_ctrl *ctrl, int idx)
- 	memset(queue, 0, sizeof(*queue));
- 	queue->ctrl = ctrl;
- 	queue->qnum = idx;
--	atomic_set(&queue->csn, 1);
-+	atomic_set(&queue->csn, 0);
- 	queue->dev = ctrl->dev;
- 
- 	if (idx > 0)
-@@ -1886,7 +1886,7 @@ nvme_fc_free_queue(struct nvme_fc_queue *queue)
- 	 */
- 
- 	queue->connection_id = 0;
--	atomic_set(&queue->csn, 1);
-+	atomic_set(&queue->csn, 0);
- }
- 
- static void
-@@ -2182,7 +2182,6 @@ nvme_fc_start_fcp_op(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
- {
- 	struct nvme_fc_cmd_iu *cmdiu = &op->cmd_iu;
- 	struct nvme_command *sqe = &cmdiu->sqe;
--	u32 csn;
- 	int ret, opstate;
- 
- 	/*
-@@ -2197,8 +2196,6 @@ nvme_fc_start_fcp_op(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
- 
- 	/* format the FC-NVME CMD IU and fcp_req */
- 	cmdiu->connection_id = cpu_to_be64(queue->connection_id);
--	csn = atomic_inc_return(&queue->csn);
--	cmdiu->csn = cpu_to_be32(csn);
- 	cmdiu->data_len = cpu_to_be32(data_len);
- 	switch (io_dir) {
- 	case NVMEFC_FCP_WRITE:
-@@ -2256,11 +2253,24 @@ nvme_fc_start_fcp_op(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
- 	if (!(op->flags & FCOP_FLAGS_AEN))
- 		blk_mq_start_request(op->rq);
- 
-+	cmdiu->csn = cpu_to_be32(atomic_inc_return(&queue->csn));
- 	ret = ctrl->lport->ops->fcp_io(&ctrl->lport->localport,
- 					&ctrl->rport->remoteport,
- 					queue->lldd_handle, &op->fcp_req);
- 
- 	if (ret) {
-+		/*
-+		 * If the lld fails to send the command is there an issue with
-+		 * the csn value?  If the command that fails is the Connect,
-+		 * no - as the connection won't be live.  If it is a command
-+		 * post-connect, it's possible a gap in csn may be created.
-+		 * Does this matter?  As Linux initiators don't send fused
-+		 * commands, no.  The gap would exist, but as there's nothing
-+		 * that depends on csn order to be delivered on the target
-+		 * side, it shouldn't hurt.  It would be difficult for a
-+		 * target to even detect the csn gap as it has no idea when the
-+		 * cmd with the csn was supposed to arrive.
-+		 */
- 		opstate = atomic_xchg(&op->state, FCPOP_STATE_COMPLETE);
- 		__nvme_fc_fcpop_chk_teardowns(ctrl, op, opstate);
- 
--- 
-2.19.1
+Doing the untegistration and final reference drop is just a bad pattern,
+leading to possible bugs.  I'm fine with you just dropping it for now,
+I guess I'll just send a scripted conversion moving the put to the drivers
+to Jens after -rc1 to sort it out.  Probably including a rename
+of blk_cleanup_queue so that everyone notices the difference.
