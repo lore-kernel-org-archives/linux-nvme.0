@@ -1,46 +1,100 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Fri, 26 Apr 2019 21:38:26 -0400
-Subject: [PATCH AUTOSEL 5.0 67/79] nvme: cancel request synchronously
+Date: Fri, 26 Apr 2019 21:38:28 -0400
+Subject: [PATCH AUTOSEL 5.0 69/79] nvme-fc: correct csn initialization and
+ increments on error
 In-Reply-To: <20190427013838.6596-1-sashal@kernel.org>
 References: <20190427013838.6596-1-sashal@kernel.org>
-Message-ID: <20190427013838.6596-67-sashal@kernel.org>
+Message-ID: <20190427013838.6596-69-sashal@kernel.org>
 
-From: Ming Lei <ming.lei@redhat.com>
+From: James Smart <jsmart2021@gmail.com>
 
-[ Upstream commit eb3afb75b57c28599af0dfa03a99579d410749e9 ]
+[ Upstream commit 67f471b6ed3b09033c4ac77ea03f92afdb1989fe ]
 
-nvme_cancel_request() is used in error handler, and it is always
-reliable to cancel request synchronously, and avoids possible race
-in which request may be completed after real hw queue is destroyed.
+This patch fixes a long-standing bug that initialized the FC-NVME
+cmnd iu CSN value to 1. Early FC-NVME specs had the connection starting
+with CSN=1. By the time the spec reached approval, the language had
+changed to state a connection should start with CSN=0.  This patch
+corrects the initialization value for FC-NVME connections.
 
-One issue is reported by our customer on NVMe RDMA, in which freed ib
-queue pair may be used in nvme_rdma_complete_rq().
+Additionally, in reviewing the transport, the CSN value is assigned to
+the new IU early in the start routine. It's possible that a later dma
+map request may fail, causing the command to never be sent to the
+controller.  Change the location of the assignment so that it is
+immediately prior to calling the lldd. Add a comment block to explain
+the impacts if the lldd were to additionally fail sending the command.
 
-Cc: Sagi Grimberg <sagi at grimberg.me>
-Cc: Bart Van Assche <bvanassche at acm.org>
-Cc: James Smart <james.smart at broadcom.com>
-Cc: linux-nvme at lists.infradead.org
-Reviewed-by: Keith Busch <keith.busch at intel.com>
-Reviewed-by: Christoph Hellwig <hch at lst.de>
-Signed-off-by: Ming Lei <ming.lei at redhat.com>
-Signed-off-by: Jens Axboe <axboe at kernel.dk>
+Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
+Signed-off-by: James Smart <jsmart2021 at gmail.com>
+Reviewed-by: Ewan D. Milne <emilne at redhat.com>
+Signed-off-by: Christoph Hellwig <hch at lst.de>
 Signed-off-by: Sasha Levin <sashal at kernel.org>
 ---
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/host/fc.c | 20 +++++++++++++++-----
+ 1 file changed, 15 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 6a9dd68c0f4f..4c4413ad3ceb 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -291,7 +291,7 @@ bool nvme_cancel_request(struct request *req, void *data, bool reserved)
- 				"Cancelling I/O %d", req->tag);
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index c37d5bbd72ab..8625b73d94bf 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -1857,7 +1857,7 @@ nvme_fc_init_queue(struct nvme_fc_ctrl *ctrl, int idx)
+ 	memset(queue, 0, sizeof(*queue));
+ 	queue->ctrl = ctrl;
+ 	queue->qnum = idx;
+-	atomic_set(&queue->csn, 1);
++	atomic_set(&queue->csn, 0);
+ 	queue->dev = ctrl->dev;
  
- 	nvme_req(req)->status = NVME_SC_ABORT_REQ;
--	blk_mq_complete_request(req);
-+	blk_mq_complete_request_sync(req);
- 	return true;
+ 	if (idx > 0)
+@@ -1899,7 +1899,7 @@ nvme_fc_free_queue(struct nvme_fc_queue *queue)
+ 	 */
+ 
+ 	queue->connection_id = 0;
+-	atomic_set(&queue->csn, 1);
++	atomic_set(&queue->csn, 0);
  }
- EXPORT_SYMBOL_GPL(nvme_cancel_request);
+ 
+ static void
+@@ -2195,7 +2195,6 @@ nvme_fc_start_fcp_op(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
+ {
+ 	struct nvme_fc_cmd_iu *cmdiu = &op->cmd_iu;
+ 	struct nvme_command *sqe = &cmdiu->sqe;
+-	u32 csn;
+ 	int ret, opstate;
+ 
+ 	/*
+@@ -2210,8 +2209,6 @@ nvme_fc_start_fcp_op(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
+ 
+ 	/* format the FC-NVME CMD IU and fcp_req */
+ 	cmdiu->connection_id = cpu_to_be64(queue->connection_id);
+-	csn = atomic_inc_return(&queue->csn);
+-	cmdiu->csn = cpu_to_be32(csn);
+ 	cmdiu->data_len = cpu_to_be32(data_len);
+ 	switch (io_dir) {
+ 	case NVMEFC_FCP_WRITE:
+@@ -2269,11 +2266,24 @@ nvme_fc_start_fcp_op(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
+ 	if (!(op->flags & FCOP_FLAGS_AEN))
+ 		blk_mq_start_request(op->rq);
+ 
++	cmdiu->csn = cpu_to_be32(atomic_inc_return(&queue->csn));
+ 	ret = ctrl->lport->ops->fcp_io(&ctrl->lport->localport,
+ 					&ctrl->rport->remoteport,
+ 					queue->lldd_handle, &op->fcp_req);
+ 
+ 	if (ret) {
++		/*
++		 * If the lld fails to send the command is there an issue with
++		 * the csn value?  If the command that fails is the Connect,
++		 * no - as the connection won't be live.  If it is a command
++		 * post-connect, it's possible a gap in csn may be created.
++		 * Does this matter?  As Linux initiators don't send fused
++		 * commands, no.  The gap would exist, but as there's nothing
++		 * that depends on csn order to be delivered on the target
++		 * side, it shouldn't hurt.  It would be difficult for a
++		 * target to even detect the csn gap as it has no idea when the
++		 * cmd with the csn was supposed to arrive.
++		 */
+ 		opstate = atomic_xchg(&op->state, FCPOP_STATE_COMPLETE);
+ 		__nvme_fc_fcpop_chk_teardowns(ctrl, op, opstate);
+ 
 -- 
 2.19.1
