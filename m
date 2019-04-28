@@ -1,42 +1,43 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Sun, 28 Apr 2019 05:05:46 -0700
-Subject: [PATCH 1/2] nvme: improve logging
-In-Reply-To: <20190425024041.17657-2-chaitanya.kulkarni@wdc.com>
+Date: Sun, 28 Apr 2019 05:09:55 -0700
+Subject: [PATCH 2/2] nvme-multipath: improve logging
+In-Reply-To: <20190425024041.17657-3-chaitanya.kulkarni@wdc.com>
 References: <20190425024041.17657-1-chaitanya.kulkarni@wdc.com>
- <20190425024041.17657-2-chaitanya.kulkarni@wdc.com>
-Message-ID: <20190428120546.GB9759@infradead.org>
+ <20190425024041.17657-3-chaitanya.kulkarni@wdc.com>
+Message-ID: <20190428120955.GC9759@infradead.org>
 
-On Wed, Apr 24, 2019@07:40:40PM -0700, Chaitanya Kulkarni wrote:
-> Currently nvme is very reluctant if it comes to logging anything,
-> _unless_ it's an ANA AEN. So this patch tries to remedy this by
-> decreasing the priority for the ANA AEN logging message, and improve
-> the logging when calling nvme_reset_ctrl().
+On Wed, Apr 24, 2019@07:40:41PM -0700, Chaitanya Kulkarni wrote:
+> This patch improves the logging for nvme-multipath code.
 > 
 > Signed-off-by: Hannes Reinecke <hare at suse.com>
 > Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+> ---
+>  drivers/nvme/host/multipath.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+> index f0716f6ce41f..721aa2ea4363 100644
+> --- a/drivers/nvme/host/multipath.c
+> +++ b/drivers/nvme/host/multipath.c
+> @@ -81,6 +81,9 @@ void nvme_failover_req(struct request *req)
+>  		 * Reset the controller for any non-ANA error as we don't know
+>  		 * what caused the error.
+>  		 */
+> +		dev_info(ns->ctrl->device,
+> +			"nvme status 0x%04x, resetting controller\n",
+> +			status);
 
-If this is originally from Hannes it also needs a From: tag in the
-body so that git attribute it to him.
+Do we need something ind?cating this is the multipath driver failing
+over?
 
-Also please add a changelog vs Hannes v1 in the cover letter.
+> -	dev_info(ctrl->device, "ANA group %d: %s.\n",
+> +	if (desc->state < ARRAY_SIZE(nvme_ana_state_names))
+> +		dev_dbg(ctrl->device, "ANA group %d: %s.\n",
+>  			le32_to_cpu(desc->grpid),
+>  			nvme_ana_state_names[desc->state]);
+> +	else
+> +		dev_dbg(ctrl->device, "ANA group %d: unknown.\n",
+> +			le32_to_cpu(desc->grpid));
 
-> +static const char *nvme_ctrl_state_name(struct nvme_ctrl *ctrl)
-> +{
-> +	static const char *const state_name[] = {
-> +		[NVME_CTRL_NEW]		= "new",
-> +		[NVME_CTRL_LIVE]	= "live",
-> +		[NVME_CTRL_ADMIN_ONLY]	= "only-admin",
-> +		[NVME_CTRL_RESETTING]	= "resetting",
-> +		[NVME_CTRL_CONNECTING]	= "connecting",
-> +		[NVME_CTRL_DELETING]	= "deleting",
-> +		[NVME_CTRL_DEAD]	= "dead",
-> +	};
-
-Can we move this array outside the function?  Yes, with the static
-it doesn't really make a difference, but it just feels nicer to me.
-
-> +	const char *state_name = nvme_ctrl_state_name(ctrl);
->  
-> +	return sprintf(buf, "%s\n", state_name);
-
-I don't think we even need the state_name local variable here.
+I don't think we need the unknown case here as nvme_parse_ana_log
+rejects invalid states already.
