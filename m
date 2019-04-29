@@ -1,65 +1,56 @@
-From: bvanassche@acm.org (Bart Van Assche)
-Date: Mon, 29 Apr 2019 16:27:04 -0700
-Subject: [PATCH V2 1/3] nvme: introduce nvme-ctrl state name string array
-In-Reply-To: <SN6PR04MB452783333EA5F5FE1190294886390@SN6PR04MB4527.namprd04.prod.outlook.com>
-References: <20190429032442.5923-1-chaitanya.kulkarni@wdc.com>
- <20190429032442.5923-2-chaitanya.kulkarni@wdc.com>
- <067b8ef5-abea-2bc8-9da5-a39ac3b54a1b@intel.com>
- <SN6PR04MB452783333EA5F5FE1190294886390@SN6PR04MB4527.namprd04.prod.outlook.com>
-Message-ID: <1556580424.161891.170.camel@acm.org>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 29 Apr 2019 16:28:19 -0700
+Subject: [PATCH] nvmet: protect discovery change log event list iteration
+Message-ID: <20190429232819.9844-1-sagi@grimberg.me>
 
-On Mon, 2019-04-29@22:12 +0000, Chaitanya Kulkarni wrote:
-> On 04/29/2019 10:41 AM, Heitke, Kenneth wrote:
-> > 
-> > 
-> > On 4/28/2019 9:24 PM, Chaitanya Kulkarni wrote:
-> > > From: Hannes Reinecke <hare at suse.com>
-> > > 
-> > > This patch intoduces nvme-ctrl state name array which is used inthe the
-> > 
-> > s/intoduces /introduces/
-> > s/inthe/in the/
-> > 
-> > > later patch to improve the logging of the ctrl state.
-> > > 
-> > > Signed-off-by: Hannes Reinecke <hare at suse.com>
-> > > Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-> > > ---
-> > >    drivers/nvme/host/nvme.h | 10 ++++++++++
-> > >    1 file changed, 10 insertions(+)
-> > > 
-> > > diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> > > index 527d64545023..01a36bbafed6 100644
-> > > --- a/drivers/nvme/host/nvme.h
-> > > +++ b/drivers/nvme/host/nvme.h
-> > > @@ -146,6 +146,16 @@ enum nvme_ctrl_state {
-> > >    	NVME_CTRL_DEAD,
-> > >    };
-> > > 
-> > > +static const char *const nvme_ctrl_state_name[] = {
-> > > +	[NVME_CTRL_NEW]         = "new",
-> > > +	[NVME_CTRL_LIVE]        = "live",
-> > > +	[NVME_CTRL_ADMIN_ONLY]  = "only-admin",
-> > > +	[NVME_CTRL_RESETTING]   = "resetting",
-> > > +	[NVME_CTRL_CONNECTING]  = "connecting",
-> > > +	[NVME_CTRL_DELETING]    = "deleting",
-> > > +	[NVME_CTRL_DEAD]        = "dead",
-> > > +};
-> > 
-> > I haven't been paying attention if this was bought up before but won't
-> > this create multiple copies of this data for every source file the
-> > includes the header file?
-> 
-> Yes, we did discuss this.
+When we iterate on the discovery subsystem controllers
+we need to protect against concurrent mutations to it.
 
-Hi Chaitanya,
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+Changes from v1:
+- don't protect nvmet_genctr with subsys lock
+  but throw a lockdep_assert_held on nvmet_config_sem
 
-In an e-mail from Christoph I found the following recommendation with regard
-to the nvme_ctrl_state_name[] array: "Just keep it near the top of multipath.c."
-and you replied "Okay, that works too."
+ drivers/nvme/target/discovery.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Did I perhaps miss something?
-
-Thanks,
-
-Bart.
+diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
+index e8e09266bfa5..5baf269f3f8a 100644
+--- a/drivers/nvme/target/discovery.c
++++ b/drivers/nvme/target/discovery.c
+@@ -30,14 +30,17 @@ void nvmet_port_disc_changed(struct nvmet_port *port,
+ {
+ 	struct nvmet_ctrl *ctrl;
+ 
++	lockdep_assert_held(&nvmet_config_sem);
+ 	nvmet_genctr++;
+ 
++	mutex_lock(&nvmet_disc_subsys->lock);
+ 	list_for_each_entry(ctrl, &nvmet_disc_subsys->ctrls, subsys_entry) {
+ 		if (subsys && !nvmet_host_allowed(subsys, ctrl->hostnqn))
+ 			continue;
+ 
+ 		__nvmet_disc_changed(port, ctrl);
+ 	}
++	mutex_unlock(&nvmet_disc_subsys->lock);
+ }
+ 
+ static void __nvmet_subsys_disc_changed(struct nvmet_port *port,
+@@ -46,12 +49,14 @@ static void __nvmet_subsys_disc_changed(struct nvmet_port *port,
+ {
+ 	struct nvmet_ctrl *ctrl;
+ 
++	mutex_lock(&nvmet_disc_subsys->lock);
+ 	list_for_each_entry(ctrl, &nvmet_disc_subsys->ctrls, subsys_entry) {
+ 		if (host && strcmp(nvmet_host_name(host), ctrl->hostnqn))
+ 			continue;
+ 
+ 		__nvmet_disc_changed(port, ctrl);
+ 	}
++	mutex_unlock(&nvmet_disc_subsys->lock);
+ }
+ 
+ void nvmet_subsys_disc_changed(struct nvmet_subsys *subsys,
+-- 
+2.17.1
