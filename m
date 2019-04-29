@@ -1,30 +1,65 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 29 Apr 2019 16:25:48 -0700
-Subject: [PATCH] nvme-tcp: fix possible null deref on a timed out io queue
- connect
-Message-ID: <20190429232548.9280-1-sagi@grimberg.me>
+From: bvanassche@acm.org (Bart Van Assche)
+Date: Mon, 29 Apr 2019 16:27:04 -0700
+Subject: [PATCH V2 1/3] nvme: introduce nvme-ctrl state name string array
+In-Reply-To: <SN6PR04MB452783333EA5F5FE1190294886390@SN6PR04MB4527.namprd04.prod.outlook.com>
+References: <20190429032442.5923-1-chaitanya.kulkarni@wdc.com>
+ <20190429032442.5923-2-chaitanya.kulkarni@wdc.com>
+ <067b8ef5-abea-2bc8-9da5-a39ac3b54a1b@intel.com>
+ <SN6PR04MB452783333EA5F5FE1190294886390@SN6PR04MB4527.namprd04.prod.outlook.com>
+Message-ID: <1556580424.161891.170.camel@acm.org>
 
-If I/O queue connect times out, we might have freed the queue socket
-already, so check for that on the error path in nvme_tcp_start_queue.
+On Mon, 2019-04-29@22:12 +0000, Chaitanya Kulkarni wrote:
+> On 04/29/2019 10:41 AM, Heitke, Kenneth wrote:
+> > 
+> > 
+> > On 4/28/2019 9:24 PM, Chaitanya Kulkarni wrote:
+> > > From: Hannes Reinecke <hare at suse.com>
+> > > 
+> > > This patch intoduces nvme-ctrl state name array which is used inthe the
+> > 
+> > s/intoduces /introduces/
+> > s/inthe/in the/
+> > 
+> > > later patch to improve the logging of the ctrl state.
+> > > 
+> > > Signed-off-by: Hannes Reinecke <hare at suse.com>
+> > > Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+> > > ---
+> > >    drivers/nvme/host/nvme.h | 10 ++++++++++
+> > >    1 file changed, 10 insertions(+)
+> > > 
+> > > diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> > > index 527d64545023..01a36bbafed6 100644
+> > > --- a/drivers/nvme/host/nvme.h
+> > > +++ b/drivers/nvme/host/nvme.h
+> > > @@ -146,6 +146,16 @@ enum nvme_ctrl_state {
+> > >    	NVME_CTRL_DEAD,
+> > >    };
+> > > 
+> > > +static const char *const nvme_ctrl_state_name[] = {
+> > > +	[NVME_CTRL_NEW]         = "new",
+> > > +	[NVME_CTRL_LIVE]        = "live",
+> > > +	[NVME_CTRL_ADMIN_ONLY]  = "only-admin",
+> > > +	[NVME_CTRL_RESETTING]   = "resetting",
+> > > +	[NVME_CTRL_CONNECTING]  = "connecting",
+> > > +	[NVME_CTRL_DELETING]    = "deleting",
+> > > +	[NVME_CTRL_DEAD]        = "dead",
+> > > +};
+> > 
+> > I haven't been paying attention if this was bought up before but won't
+> > this create multiple copies of this data for every source file the
+> > includes the header file?
+> 
+> Yes, we did discuss this.
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/host/tcp.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Hi Chaitanya,
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 1a5217c85158..e04017f92eaf 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1431,7 +1431,8 @@ static int nvme_tcp_start_queue(struct nvme_ctrl *nctrl, int idx)
- 	if (!ret) {
- 		set_bit(NVME_TCP_Q_LIVE, &ctrl->queues[idx].flags);
- 	} else {
--		__nvme_tcp_stop_queue(&ctrl->queues[idx]);
-+		if (test_bit(NVME_TCP_Q_ALLOCATED, &ctrl->queues[idx].flags))
-+			__nvme_tcp_stop_queue(&ctrl->queues[idx]);
- 		dev_err(nctrl->device,
- 			"failed to connect queue: %d ret=%d\n", idx, ret);
- 	}
--- 
-2.17.1
+In an e-mail from Christoph I found the following recommendation with regard
+to the nvme_ctrl_state_name[] array: "Just keep it near the top of multipath.c."
+and you replied "Okay, that works too."
+
+Did I perhaps miss something?
+
+Thanks,
+
+Bart.
