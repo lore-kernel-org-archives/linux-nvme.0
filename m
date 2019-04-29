@@ -1,27 +1,26 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 29 Apr 2019 16:29:00 -0700
-Subject: [PATCH V2 1/3] nvme: introduce nvme-ctrl state name string array
-In-Reply-To: <1556580424.161891.170.camel@acm.org>
-References: <20190429032442.5923-1-chaitanya.kulkarni@wdc.com>
- <20190429032442.5923-2-chaitanya.kulkarni@wdc.com>
- <067b8ef5-abea-2bc8-9da5-a39ac3b54a1b@intel.com>
- <SN6PR04MB452783333EA5F5FE1190294886390@SN6PR04MB4527.namprd04.prod.outlook.com>
- <1556580424.161891.170.camel@acm.org>
-Message-ID: <091fabba-234c-d3bb-a882-43b599fb0b21@grimberg.me>
+From: minwoo.im@samsung.com (Minwoo Im)
+Date: Tue, 30 Apr 2019 08:32:29 +0900
+Subject: [PATCH 2/2] nvme: add clarifying comments and fix some typos
+In-Reply-To: <20190429173533.10366-3-ednadols@linux.microsoft.com>
+References: <20190429173533.10366-3-ednadols@linux.microsoft.com>
+ <20190429173533.10366-1-ednadols@linux.microsoft.com>
+ <CGME20190429173604epcas3p2e65d79c87ba36e384e6c42a1b1744eae@epcms2p4>
+Message-ID: <20190429233229epcms2p4b40c9013b34c79be70726af1d1877f5c@epcms2p4>
 
+> -----Original Message-----
+> From: Linux-nvme [mailto:linux-nvme-bounces at lists.infradead.org] On
+> Behalf Of Edmund Nadolski
+> Sent: Tuesday, April 30, 2019 2:36 AM
+> To: linux-nvme at lists.infradead.org; ednadols at linux.microsoft.com
+> Subject: [PATCH 2/2] nvme: add clarifying comments and fix some typos
+> 
+> Add comment descriptions for struct fields per NVMe spec.
+> 
+> Signed-off-by: Edmund Nadolski <ednadols at linux.microsoft.com>
 
->>> I haven't been paying attention if this was bought up before but won't
->>> this create multiple copies of this data for every source file the
->>> includes the header file?
->>
->> Yes, we did discuss this.
-> 
-> Hi Chaitanya,
-> 
-> In an e-mail from Christoph I found the following recommendation with regard
-> to the nvme_ctrl_state_name[] array: "Just keep it near the top of multipath.c."
-> and you replied "Okay, that works too."
-> 
-> Did I perhaps miss something?
+IMHO, if you really want to provide description for structure attributes,
+why don't we have all of them instead describing few fields only.
 
-That was my recollection too...
+Also It would be better if typo-related commit is separted from it.
+
+Thanks,
