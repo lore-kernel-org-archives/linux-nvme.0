@@ -1,23 +1,19 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Mon, 29 Apr 2019 15:58:43 +0000
-Subject: [PATCH 1/2] nvme: improve logging
-In-Reply-To: <20190429115027.GA25365@infradead.org>
-References: <20190425024041.17657-1-chaitanya.kulkarni@wdc.com>
- <20190425024041.17657-2-chaitanya.kulkarni@wdc.com>
- <20190428120546.GB9759@infradead.org>
- <SN6PR04MB452781752A97CA874A973C7186380@SN6PR04MB4527.namprd04.prod.outlook.com>
- <20190429115027.GA25365@infradead.org>
-Message-ID: <41639D1A-D6E4-46D3-9070-53E22197E48E@wdc.com>
+From: ednadols@linux.microsoft.com (Edmund Nadolski)
+Date: Mon, 29 Apr 2019 10:35:31 -0700
+Subject: [PATCH 0/2] nvme: some cleanup
+Message-ID: <20190429173533.10366-1-ednadols@linux.microsoft.com>
 
-Okay, that works too.
+This series clarifies the code by adding some macros, comments,
+and fixing a few miscellaneous typos.
 
-?On 4/29/19, 4:50 AM, "Christoph Hellwig" <hch@infradead.org> wrote:
+Edmund Nadolski (2):
+  nvme: nvme_set_queue_count should use descriptive macros
+  nvme: add clarifying comments and fix some typos
 
-    On Sun, Apr 28, 2019@07:32:32PM +0000, Chaitanya Kulkarni wrote:
-    > I've actually suggested that in my review but then it is static 
-    > afterall. I'll move it to header near NVME_CTRL_XXX definitions.
-    > Let me know if you prefer any other place.
-    
-    Just keep it near the top of multipath.c..  But I can fix that up
-    if it is the last remanining issue in the new version.
-    
+ drivers/nvme/host/core.c |  8 ++++++--
+ drivers/nvme/host/nvme.h | 32 ++++++++++++++++----------------
+ drivers/nvme/host/pci.c  |  2 +-
+ 3 files changed, 23 insertions(+), 19 deletions(-)
+
+-- 
+2.20.1
