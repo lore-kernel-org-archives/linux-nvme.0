@@ -1,51 +1,51 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Tue, 30 Apr 2019 21:30:40 +0000
-Subject: [PATCH 2/2] nvme: mark nvme_core_init and nvme_core_exit static
-References: <20190430153833.9011-1-hch@lst.de>
- <20190430153833.9011-2-hch@lst.de>
-Message-ID: <SN6PR04MB4527AC70AF3A55476B74743E863A0@SN6PR04MB4527.namprd04.prod.outlook.com>
+From: james.smart@broadcom.com (James Smart)
+Date: Tue, 30 Apr 2019 14:58:36 -0700
+Subject: [PATCH v2 1/2] nvme: nvme_set_queue_count should use descriptive
+ macros
+In-Reply-To: <20190430200905.28341-2-ednadols@linux.microsoft.com>
+References: <20190430200905.28341-1-ednadols@linux.microsoft.com>
+ <20190430200905.28341-2-ednadols@linux.microsoft.com>
+Message-ID: <62780ff5-7484-2e63-7b5e-3ef6eaf0b1a0@broadcom.com>
 
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-
-On 4/30/19 8:39 AM, Christoph Hellwig wrote:
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
+On 4/30/2019 1:09 PM, Edmund Nadolski wrote:
+> Implement macros to set/get the number of submission and/or completion
+> queues requested by the Set Features command. This replaces the bit
+> masking/shifting code and reflects the field names used in the spec.
+>
+> Signed-off-by: Edmund Nadolski <ednadols at linux.microsoft.com>
 > ---
->   drivers/nvme/host/core.c | 4 ++--
->   drivers/nvme/host/nvme.h | 3 ---
->   2 files changed, 2 insertions(+), 5 deletions(-)
-> 
+>   drivers/nvme/host/core.c | 8 ++++++--
+>   1 file changed, 6 insertions(+), 2 deletions(-)
+>
 > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index e970c5adee28..cd16d98d1f1a 100644
+> index 3dd043aa6d1f..b3804dbdcc30 100644
 > --- a/drivers/nvme/host/core.c
 > +++ b/drivers/nvme/host/core.c
-> @@ -3904,7 +3904,7 @@ static inline void _nvme_check_size(void)
+> @@ -1132,9 +1132,13 @@ static int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword
+>   	return ret;
 >   }
 >   
->   
-> -int __init nvme_core_init(void)
-> +static int __init nvme_core_init(void)
+> +#define SET_NUMQ(nsqr, ncqr)	(((nsqr) - 1) | (((ncqr) - 1) << 16))
+> +#define GET_NSQA(dw)		(((dw) & 0xffff) + 1)
+> +#define GET_NCQA(dw)		(((dw) >> 16) + 1)
+> +
+>   int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count)
 >   {
->   	int result = -ENOMEM;
+> -	u32 q_count = (*count - 1) | ((*count - 1) << 16);
+> +	u32 q_count = SET_NUMQ(*count, *count);
+>   	u32 result;
+>   	int status, nr_io_queues;
 >   
-> @@ -3956,7 +3956,7 @@ int __init nvme_core_init(void)
->   	return result;
->   }
+> @@ -1152,7 +1156,7 @@ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count)
+>   		dev_err(ctrl->device, "Could not set queue count (%d)\n", status);
+>   		*count = 0;
+>   	} else {
+> -		nr_io_queues = min(result & 0xffff, result >> 16) + 1;
+> +		nr_io_queues = min(GET_NSQA(result), GET_NCQA(result));
+>   		*count = min(*count, nr_io_queues);
+>   	}
 >   
-> -void __exit nvme_core_exit(void)
-> +static void __exit nvme_core_exit(void)
->   {
->   	ida_destroy(&nvme_subsystems_ida);
->   	class_destroy(nvme_subsys_class);
-> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> index 527d64545023..5ee75b5ff83f 100644
-> --- a/drivers/nvme/host/nvme.h
-> +++ b/drivers/nvme/host/nvme.h
-> @@ -577,7 +577,4 @@ static inline struct nvme_ns *nvme_get_ns_from_dev(struct device *dev)
->   	return dev_to_disk(dev)->private_data;
->   }
->   
-> -int __init nvme_core_init(void);
-> -void __exit nvme_core_exit(void);
-> -
->   #endif /* _NVME_H */
-> 
+
+I agree with Christoph. I think it actually hurts understanding.
+
+-- james
