@@ -1,68 +1,104 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 30 Apr 2019 08:37:22 +0200
-Subject: [PATCH nvme-cli rfc] fabrics: support default connect/discover
- args
-In-Reply-To: <785558d1-519d-78c1-0a1b-7517f771c1e2@grimberg.me>
-References: <20190429225338.6866-1-sagi@grimberg.me>
- <493df3a7-6d25-9fd1-57ff-addbf37fcf22@suse.de>
- <785558d1-519d-78c1-0a1b-7517f771c1e2@grimberg.me>
-Message-ID: <b4f9b6e4-f0b4-312f-1eeb-4c292a8f9af1@suse.de>
+Date: Tue, 30 Apr 2019 08:43:59 +0200
+Subject: [PATCH nvme-cli] nvme_fc auto-connect scripts
+Message-ID: <20190430064359.24905-1-hare@suse.de>
 
-On 4/30/19 7:54 AM, Sagi Grimberg wrote:
-> 
->> I do like the idea, but not necessarily the naming.
->> Can't we just call it 'default.conf' ?
-> 
-> It's not as self-explanatory, but I'm fine with default.conf...
-> 
->> What about precedence?
->> I would have expected that we should have
->>
->> defargs.conf
->> discovery.conf
->> <cmdline>
->>
->> Is that the case?
-> 
-> Effectively yes, but defargs does not allow transport,traddr,trsvcid,nqn
-> parameters (which don't make sense), and discovery.conf is designed to
-> hold exactly those. So in practice they should not overlap.
-> 
-Uh-oh. I _do_ know of cases where discovery.conf is used for precisely 
-this purpose, ie holding _all_ arguments.
-And in the absense of any other way existing implementations will be 
-using a very similar thing.
+Here's a set of script to enable FC-NVMe autoconnect, based on
+the initial posting from James Smart.
+FC-NVMe already generates an uevent whenever a new FC-NVMe remote
+port is registered, so we can create an udev rule to parse this
+event and start connecting to it.
 
-> Also, we only go to discovery.conf if we did not get a transport+traddr
-> (which are mandatory). So its not exactly the order you mentioned, more
-> like:
-> 
-> defargs.conf
-> <cmdline>
-> if transport+traddr not given
-> discovery.conf
-> 
-How very curious ...
-I would have expected that any command-line args would overwrite any 
-arguments given in the configuration files.
-But given that discovery.conf can contain several lines I can see the 
-problem.
+The problem here is that the 'nvme connect-all' call might be taking
+some time or might even stall altogether, so we cannot call it
+directly from the udev rule. Rather, the udev rule starts a systemd
+service, which then calls 'nvme connect-all' as a 'simple' service.
+With this approach we are insulated from any stalls in udev rules.
+Additionally we can implement a boot service to restart any missed
+connections attempts.
 
-However, to clean things up we should be updating the parser to ignore 
-or even call an error if we find a line in discovery.conf which does not 
-specify transport+traddr.
-Just to avoid confusion.
+To stop autoconnect an additional nvmefc-connect.target has been
+added, which will instruct systemd to cancel all outstanding
+autoconnect services.
 
->> And shouldn't we document that somewhere?
-> Where would be the place to update this?
-manpage?
+Cc: James Smart <james.smart at broadcom.com>
+Signed-off-by: Simon Schricker <sschricker at suse.com>
+Signed-off-by: Hannes Reinecke <hare at suse.com>
+---
+ nvme-fc-autoconnect/70-nvmefc-autoconnect.conf      |  1 +
+ nvme-fc-autoconnect/70-nvmefc-autoconnect.rules     |  8 ++++++++
+ nvme-fc-autoconnect/nvmefc-boot-connections.service |  9 +++++++++
+ nvme-fc-autoconnect/nvmefc-connect.target           |  2 ++
+ nvme-fc-autoconnect/nvmefc-connect at .service         | 13 +++++++++++++
+ 5 files changed, 33 insertions(+)
+ create mode 100644 nvme-fc-autoconnect/70-nvmefc-autoconnect.conf
+ create mode 100644 nvme-fc-autoconnect/70-nvmefc-autoconnect.rules
+ create mode 100644 nvme-fc-autoconnect/nvmefc-boot-connections.service
+ create mode 100644 nvme-fc-autoconnect/nvmefc-connect.target
+ create mode 100644 nvme-fc-autoconnect/nvmefc-connect at .service
 
-Cheers,
-
-Hannes
+diff --git a/nvme-fc-autoconnect/70-nvmefc-autoconnect.conf b/nvme-fc-autoconnect/70-nvmefc-autoconnect.conf
+new file mode 100644
+index 0000000..b92d94f
+--- /dev/null
++++ b/nvme-fc-autoconnect/70-nvmefc-autoconnect.conf
+@@ -0,0 +1 @@
++install_items+="/usr/lib/udev/rules.d/70-nvmefc-autoconnect.rules"
+diff --git a/nvme-fc-autoconnect/70-nvmefc-autoconnect.rules b/nvme-fc-autoconnect/70-nvmefc-autoconnect.rules
+new file mode 100644
+index 0000000..aa4f9bf
+--- /dev/null
++++ b/nvme-fc-autoconnect/70-nvmefc-autoconnect.rules
+@@ -0,0 +1,8 @@
++#
++# nvme_fc: udev event to automatically scan (via discovery controller)
++#   new FC nvme remote ports and auto-connect to the subsystems they report.
++#
++
++ACTION=="change", SUBSYSTEM=="fc", ENV{FC_EVENT}=="nvmediscovery", \
++  ENV{NVMEFC_HOST_TRADDR}=="*",  ENV{NVMEFC_TRADDR}=="*", \
++  RUN+="/usr/bin/systemctl --no-block start nvmefc-connect at --host-traddr=$env{NVMEFC_HOST_TRADDR}\\x20--traddr=$env{NVMEFC_TRADDR}.service"
+diff --git a/nvme-fc-autoconnect/nvmefc-boot-connections.service b/nvme-fc-autoconnect/nvmefc-boot-connections.service
+new file mode 100644
+index 0000000..aa35c15
+--- /dev/null
++++ b/nvme-fc-autoconnect/nvmefc-boot-connections.service
+@@ -0,0 +1,9 @@
++[Unit]
++Description=Auto-connect to subsystems on FC-NVME devices during boot
++
++[Service]
++Type=oneshot
++ExecStart=/bin/sh -c "echo add > /sys/class/fc/fc_udev_device/nvme_discovery"
++
++[Install]
++WantedBy=default.target
+diff --git a/nvme-fc-autoconnect/nvmefc-connect.target b/nvme-fc-autoconnect/nvmefc-connect.target
+new file mode 100644
+index 0000000..953c0b7
+--- /dev/null
++++ b/nvme-fc-autoconnect/nvmefc-connect.target
+@@ -0,0 +1,2 @@
++[Unit]
++Description=All instances of nvme-fc-autoconnect daemon
+diff --git a/nvme-fc-autoconnect/nvmefc-connect at .service b/nvme-fc-autoconnect/nvmefc-connect at .service
+new file mode 100644
+index 0000000..a8ff271
+--- /dev/null
++++ b/nvme-fc-autoconnect/nvmefc-connect at .service
+@@ -0,0 +1,13 @@
++#
++# Unit file used by 70-nvmefc-autoconnect.rules.
++#
++
++[Unit]
++Description=Auto-connect to subsystems on FC-NVME devices
++After=syslog.target
++PartOf=nvmefc-connect.target
++Requires=nvmefc-connect.target
++
++[Service]
++Type=simple
++ExecStart=/bin/sh -c "/usr/sbin/nvme connect-all --transport=fc `/usr/bin/echo -e '%i'`"
 -- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N?rnberg)
+2.16.4
