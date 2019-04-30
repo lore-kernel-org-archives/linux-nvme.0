@@ -1,36 +1,16 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 30 Apr 2019 09:33:41 -0600
-Subject: [PATCH 2/2] nvme/pci: Unquiesce admin queue on shutdown
-In-Reply-To: <20190430153341.25433-1-keith.busch@intel.com>
-References: <20190430153341.25433-1-keith.busch@intel.com>
-Message-ID: <20190430153341.25433-2-keith.busch@intel.com>
+From: kbusch@kernel.org (Keith Busch)
+Date: Tue, 30 Apr 2019 09:51:28 -0600
+Subject: [PATCH 1/2] nvme: move command size checks to the core
+In-Reply-To: <20190430153833.9011-1-hch@lst.de>
+References: <20190430153833.9011-1-hch@lst.de>
+Message-ID: <20190430155127.GA25231@localhost.localdomain>
 
-Just like IO queues, the admin queue also will not be restarted after a
-controller shutdown. Unquiesce this queue so that we do not block
-request dispatch on a permanently disabled controller.
+On Tue, Apr 30, 2019@08:38:32AM -0700, Christoph Hellwig wrote:
+> Most command aren't PCIe specific, so move the size checking for them
+> to core.c
+> 
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
 
-Reported-by: Yufen Yu <yuyufen at huawei.com>
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/pci.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Looks good.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index c5a997727c4f..46e033b0bb79 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2436,8 +2436,11 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 	 * must flush all entered requests to their failed completion to avoid
- 	 * deadlocking blk-mq hot-cpu notifier.
- 	 */
--	if (shutdown)
-+	if (shutdown) {
- 		nvme_start_queues(&dev->ctrl);
-+		if (dev->ctrl.admin_q && !blk_queue_dying(dev->ctrl.admin_q))
-+			blk_mq_unquiesce_queue(dev->ctrl.admin_q);
-+	}
- 	mutex_unlock(&dev->shutdown_lock);
- }
- 
--- 
-2.14.4
+Reviewed-by: Keith Busch <keith.busch at intel.com>
