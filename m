@@ -1,38 +1,103 @@
 From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Tue, 30 Apr 2019 03:18:28 +0000
-Subject: [PATCH V2 1/3] nvme: introduce nvme-ctrl state name string array
-In-Reply-To: <091fabba-234c-d3bb-a882-43b599fb0b21@grimberg.me>
-References: <20190429032442.5923-1-chaitanya.kulkarni@wdc.com>
- <20190429032442.5923-2-chaitanya.kulkarni@wdc.com>
- <067b8ef5-abea-2bc8-9da5-a39ac3b54a1b@intel.com>
- <SN6PR04MB452783333EA5F5FE1190294886390@SN6PR04MB4527.namprd04.prod.outlook.com>
- <1556580424.161891.170.camel@acm.org>
- <091fabba-234c-d3bb-a882-43b599fb0b21@grimberg.me>
-Message-ID: <78EA0B2C-0CD6-4C6E-9853-AFBE6F869E6D@wdc.com>
+Date: Tue, 30 Apr 2019 03:22:25 +0000
+Subject: [PATCH 2/2] nvme: add clarifying comments and fix some typos
+References: <20190429173533.10366-1-ednadols@linux.microsoft.com>
+ <20190429173533.10366-3-ednadols@linux.microsoft.com>
+Message-ID: <SN6PR04MB4527DCC6112D02BA11216C05863A0@SN6PR04MB4527.namprd04.prod.outlook.com>
 
-Seems like I missed it. Let me send the V3 along with other comments from Sagi.
+These fields are taken from the spec, so I don't see the need for
+adding comments as most of the fields are combination of the bits and 
+for that you have to refer to the spec anyways.
 
-?On 4/29/19, 4:29 PM, "Linux-nvme on behalf of Sagi Grimberg" <linux-nvme-bounces@lists.infradead.org on behalf of sagi@grimberg.me> wrote:
-
-    
-    >>> I haven't been paying attention if this was bought up before but won't
-    >>> this create multiple copies of this data for every source file the
-    >>> includes the header file?
-    >>
-    >> Yes, we did discuss this.
-    > 
-    > Hi Chaitanya,
-    > 
-    > In an e-mail from Christoph I found the following recommendation with regard
-    > to the nvme_ctrl_state_name[] array: "Just keep it near the top of multipath.c."
-    > and you replied "Okay, that works too."
-    > 
-    > Did I perhaps miss something?
-    
-    That was my recollection too...
-    
-    _______________________________________________
-    Linux-nvme mailing list
-    Linux-nvme at lists.infradead.org
-    http://lists.infradead.org/mailman/listinfo/linux-nvme
-    
+On 4/29/19 10:36 AM, Edmund Nadolski wrote:
+> Add comment descriptions for struct fields per NVMe spec.
+> 
+> Signed-off-by: Edmund Nadolski <ednadols at linux.microsoft.com>
+> ---
+>   drivers/nvme/host/nvme.h | 32 ++++++++++++++++----------------
+>   drivers/nvme/host/pci.c  |  2 +-
+>   2 files changed, 17 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index 527d64545023..61736d1ef15e 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -177,7 +177,7 @@ struct nvme_ctrl {
+>   	u16 cntlid;
+>   
+>   	u32 ctrl_config;
+> -	u16 mtfa;
+> +	u16 mtfa;		/* maximum time for firmware activation */
+>   	u32 queue_count;
+>   
+>   	u64 cap;
+> @@ -185,23 +185,23 @@ struct nvme_ctrl {
+>   	u32 max_hw_sectors;
+>   	u32 max_segments;
+>   	u16 crdt[3];
+> -	u16 oncs;
+> -	u16 oacs;
+> -	u16 nssa;
+> +	u16 oncs;		/* optional nvm command support */
+> +	u16 oacs;		/* optional admin command support */
+> +	u16 nssa;		/* nvme subsystem streams available */
+>   	u16 nr_streams;
+>   	u32 max_namespaces;
+>   	atomic_t abort_limit;
+> -	u8 vwc;
+> -	u32 vs;
+> -	u32 sgls;
+> -	u16 kas;
+> -	u8 npss;
+> -	u8 apsta;
+> -	u32 oaes;
+> +	u8 vwc;			/* volatile write cache */
+> +	u32 vs;			/* version */
+> +	u32 sgls;		/* scatter gather list support */
+> +	u16 kas;		/* keep alive support */
+> +	u8 npss;		/* number of power states supported */
+> +	u8 apsta;		/* autonomous power state transition */
+> +	u32 oaes;		/* optional asynchronous events supported */
+>   	u32 aen_result;
+> -	u32 ctratt;
+> +	u32 ctratt;		/* controller attribute */
+>   	unsigned int shutdown_timeout;
+> -	unsigned int kato;
+> +	unsigned int kato;	/* keep alive timeout */
+>   	bool subsystem;
+>   	unsigned long quirks;
+>   	struct nvme_id_power_state psd[32];
+> @@ -231,8 +231,8 @@ struct nvme_ctrl {
+>   	bool apst_enabled;
+>   
+>   	/* PCIe only: */
+> -	u32 hmpre;
+> -	u32 hmmin;
+> +	u32 hmpre;	/* host memory buffer preferred size */
+> +	u32 hmmin;	/* host memory buffer minimum size */
+>   	u32 hmminds;
+>   	u16 hmmaxd;
+>   
+> @@ -290,7 +290,7 @@ struct nvme_ns_ids {
+>   /*
+>    * Anchor structure for namespaces.  There is one for each namespace in a
+>    * NVMe subsystem that any of our controllers can see, and the namespace
+> - * structure for each controller is chained of it.  For private namespaces
+> + * structure for each controller is chained off it.  For private namespaces
+>    * there is a 1:1 relation to our namespace structures, that is ->list
+>    * only ever has a single entry for private namespaces.
+>    */
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index c1eecde6b853..368371c5cafc 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -227,7 +227,7 @@ struct nvme_iod {
+>   };
+>   
+>   /*
+> - * Check we didin't inadvertently grow the command struct
+> + * Check we didn't inadvertently grow the command struct
+>    */
+>   static inline void _nvme_check_size(void)
+>   {
+> 
