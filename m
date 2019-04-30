@@ -1,31 +1,32 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 30 Apr 2019 09:40:13 +0200
-Subject: [PATCH nvme-cli] nvme_fc auto-connect scripts
-In-Reply-To: <79a99c17-8f2d-3b44-057a-38c9d9e5c85e@grimberg.me>
-References: <20190430064359.24905-1-hare@suse.de>
- <79a99c17-8f2d-3b44-057a-38c9d9e5c85e@grimberg.me>
-Message-ID: <bc7f1739-0a3a-4b19-fcca-6852d62268d8@suse.de>
+From: hch@lst.de (hch@lst.de)
+Date: Tue, 30 Apr 2019 12:25:49 +0200
+Subject: nvmet: Return PTR_ERR_OR_ZERO in a single line
+In-Reply-To: <20190430081251epcms2p8ca90db5f46bb9211a80822dde4771640@epcms2p8>
+References: <CGME20190430081251epcms2p8ca90db5f46bb9211a80822dde4771640@epcms2p8>
+ <20190430081251epcms2p8ca90db5f46bb9211a80822dde4771640@epcms2p8>
+Message-ID: <20190430102549.GA19450@lst.de>
 
-On 4/30/19 9:15 AM, Sagi Grimberg wrote:
-> Hannes,
+On Tue, Apr 30, 2019@05:12:51PM +0900, Minwoo Im wrote:
+> The previous code is not that bad, but it can be a single line to
+> return the PTR_ERR or ZERO.
 > 
-> I added these to the discovery log change stuff, which
-> makes nvme-fc-autoconnect service a unified service not just for
-> FC. I thought you had a look at the series.
+> Reported-by: kbuild test robot <lkp at intel.com>
+> Signed-off-by: Minwoo Im <minwoo.im at samsung.com>
+> ---
+>  drivers/nvme/target/discovery.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
+> index e8e09266bfa5..e3b20f1cb301 100644
+> --- a/drivers/nvme/target/discovery.c
+> +++ b/drivers/nvme/target/discovery.c
+> @@ -372,9 +372,7 @@ int __init nvmet_init_discovery(void)
+>  {
+>  	nvmet_disc_subsys =
+>  		nvmet_subsys_alloc(NVME_DISC_SUBSYS_NAME, NVME_NQN_DISC);
+> -	if (IS_ERR(nvmet_disc_subsys))
+> -		return PTR_ERR(nvmet_disc_subsys);
+> -	return 0;
+> +	return PTR_ERR_OR_ZERO(nvmet_disc_subsys);
 
-There had been some fixes to it (namely changing it to a 'simple' 
-service instead of 'oneshot', and adding an nvmefc-connect.target to 
-stop all running instances).
-So I've just posted it here for completeness; I've found it rather weird 
-sending a patch to a non-merged patchset.
-Do feel free to include it in your patchset.
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N?rnberg)
+Honestly, I find the old version much more readable..
