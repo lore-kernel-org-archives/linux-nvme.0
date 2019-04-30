@@ -1,18 +1,19 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 30 Apr 2019 07:58:55 -0700
-Subject: [PATCH RFC] nvme: fix race condition between remove and scan_work
-In-Reply-To: <b11cc221-d400-8a23-4f26-5e69381fa173@huawei.com>
-References: <20190411133227.28435-1-yuyufen@huawei.com>
- <a9d6bf42-e01a-4e56-acc7-5d87ac9179f9@grimberg.me>
- <20190424162659.GA15412@localhost.localdomain>
- <55a37c3e-5732-5162-37ff-80151363cbc4@grimberg.me>
- <b11cc221-d400-8a23-4f26-5e69381fa173@huawei.com>
-Message-ID: <99165a73-59e7-150f-0818-4ce010f264b0@grimberg.me>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Tue, 30 Apr 2019 08:23:59 -0700
+Subject: [PATCH 1/2] nvme: nvme_set_queue_count should use descriptive
+ macros
+In-Reply-To: <20190429173533.10366-2-ednadols@linux.microsoft.com>
+References: <20190429173533.10366-1-ednadols@linux.microsoft.com>
+ <20190429173533.10366-2-ednadols@linux.microsoft.com>
+Message-ID: <20190430152359.GA11751@infradead.org>
 
-
->> This looks good Keith, Yufen, does that address your race?
+On Mon, Apr 29, 2019@10:35:32AM -0700, Edmund Nadolski wrote:
+> Implement macros to set/get the number of submission and/or completion
+> queues requested by the Set Features command. This replaces the bit
+> masking/shifting code which is harder to read and more error prone to
+> maintain.
 > 
-> Thanks a lot for your response and suggestion.
-> The follow patch can address our problem.:-)
+> Signed-off-by: Edmund Nadolski <ednadols at linux.microsoft.com>
 
-Keith, care to send a patch?
+I have to say I actually find this much harder to read than the old
+version.
