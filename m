@@ -1,24 +1,19 @@
-From: ednadols@linux.microsoft.com (Edmund Nadolski)
-Date: Mon, 29 Apr 2019 21:46:13 -0700
-Subject: [PATCH 2/2] nvme: add clarifying comments and fix some typos
-In-Reply-To: <ac3905e6-208b-a528-f1ff-189c2f8048f8@grimberg.me>
-References: <20190429173533.10366-1-ednadols@linux.microsoft.com>
- <20190429173533.10366-3-ednadols@linux.microsoft.com>
- <ac3905e6-208b-a528-f1ff-189c2f8048f8@grimberg.me>
-Message-ID: <6a984000-0b1c-d091-6d92-28fa44b9c475@linux.microsoft.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 29 Apr 2019 22:18:23 -0700
+Subject: [PATCH nvme-cli rfc] fabrics: support default connect/discover
+ args
+In-Reply-To: <5c4f7927-7475-34dc-2876-5db2cfb0a259@intel.com>
+References: <20190429225338.6866-1-sagi@grimberg.me>
+ <5c4f7927-7475-34dc-2876-5db2cfb0a259@intel.com>
+Message-ID: <bd5354e8-1655-c873-d8e3-de393e886cd6@grimberg.me>
 
-On 4/29/19 4:23 PM, Sagi Grimberg wrote:
+
+>> +??????? argc = 0;
+>> +??????? argv[argc++] = "dummy";
+>> +??????? while ((ptr = strsep(&args, " =\n")) != NULL)
 > 
->> Add comment descriptions for struct fields per NVMe spec.
-> 
-> Lets split typos from this patch. Not sure that the comments are all
-> that useful, as we usually have a spec/tp at hand...
+> There might be an issue here because args will be updated each time to
+> point to the next position in the string after the current token. When
+> you go to 'free' args, the pointer may no longer be valid.
 
-They could be useful to save a lookup (or when a spec isn't handy). I had
-also thought of doing the nvm_id_ctrl and  nvme_id_ns structs, but I'll hold
-off as it seems folks see this as extraneous.
-
-I will split out the typos out and re-send.
-
-Thanks,
-Ed
+Yea... We need another pointer for that...
