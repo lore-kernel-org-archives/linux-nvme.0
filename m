@@ -1,11 +1,39 @@
-From: kbusch@kernel.org (Keith Busch)
-Date: Tue, 30 Apr 2019 09:52:05 -0600
-Subject: [PATCH 2/2] nvme: mark nvme_core_init and nvme_core_exit static
-In-Reply-To: <20190430153833.9011-2-hch@lst.de>
-References: <20190430153833.9011-1-hch@lst.de>
- <20190430153833.9011-2-hch@lst.de>
-Message-ID: <20190430155205.GB25231@localhost.localdomain>
+From: hare@suse.de (Hannes Reinecke)
+Date: Tue, 30 Apr 2019 18:27:45 +0200
+Subject: [PATCHv2] nvme-multipath: split bios with the ns_head bio_set before
+ submitting
+Message-ID: <20190430162745.39204-1-hare@suse.de>
 
-Good catch.
+If the bio is moved to a different queue via blk_steal_bios() and
+the original queue is destroyed in nvme_remove_ns() we'll be ending
+with a crash in bio_endio() as the mempool for the split bio bvecs
+had already been destroyed.
+So split the bio using the original queue (which will remain during the
+lifetime of the bio) before sending it down to the underlying device.
 
-Reviewed-by: Keith Busch <keith.busch at intel.com>
+Signed-off-by: Hannes Reinecke <hare at suse.com>
+---
+ drivers/nvme/host/multipath.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 2551264ef2b5..e13e960a7139 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -232,6 +232,14 @@ static blk_qc_t nvme_ns_head_make_request(struct request_queue *q,
+ 	blk_qc_t ret = BLK_QC_T_NONE;
+ 	int srcu_idx;
+ 
++	/*
++	 * The namespace might be going away and the bio might
++	 * be moved to a different queue via blk_steal_bios(),
++	 * so we need to use the bio_split pool from the original
++	 * queue to allocate the bvecs from.
++	 */
++	blk_queue_split(q, *bio);
++
+ 	srcu_idx = srcu_read_lock(&head->srcu);
+ 	ns = nvme_find_path(head);
+ 	if (likely(ns)) {
+-- 
+2.16.4
