@@ -1,49 +1,57 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 30 Apr 2019 08:05:45 +0200
-Subject: [nvme-cli 0/9] Update tests for qemu
-Message-ID: <20190430060554.24368-1-hare@suse.de>
+Date: Tue, 30 Apr 2019 08:05:51 +0200
+Subject: [nvme-cli 6/9] tests/nvme_attach_detach_ns_test.py: skip if namespace
+ mgmt is not supported
+In-Reply-To: <20190430060554.24368-1-hare@suse.de>
+References: <20190430060554.24368-1-hare@suse.de>
+Message-ID: <20190430060554.24368-7-hare@suse.de>
 
-Hi all,
+If namespace management is not supported the test will fail, too.
+So check for it prior to executing the test.
 
-here's an update to the nvme-cli test suite, to bring it more in
-line with the spec and to allow it to run under qemu.
-The first part fixes up various tests to check if the functionality
-is implemented before running the test.
-The second part is to make it to run under the quirky qemu NVMe
-emulation, which chose not to implement some mandatory features
-and log pages. But as this is qemu we sure can update the emulation,
-but that won't help us for existing platforms.
-So there really is no good way except for masking it out in the
-tests.
+Signed-off-by: Hannes Reinecke <hare at suse.com>
+---
+ tests/nvme_attach_detach_ns_test.py | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-As usual, comments and reviews are welcome
-
-Hannes Reinecke (9):
-  tests/nvme_writezeros_test.py: check if write zeroes is supported
-  tests/nvme_writeuncor_test.py: check if write uncorrectable is
-    supported
-  tests/nvme_compare_test.py: check if compare is supported
-  tests: ignore log tests for Qemu
-  tests/nvme_text.py: add test for namespace management
-  tests/nvme_attach_detach_ns_test.py: skip if namespace mgmt is not
-    supported
-  tests/nvme_create_max_ns_test.py: skip if namespace mgmt is not
-    supported
-  tests/nvme_get_features_test.py: skip features for Qemu
-  tests/nvme_format_test.py: skip test if namespace management is not
-    supported
-
- tests/nvme_attach_detach_ns_test.py |  13 ++--
- tests/nvme_compare_test.py          |   7 ++-
- tests/nvme_create_max_ns_test.py    |  10 ++-
- tests/nvme_error_log_test.py        |   3 +-
- tests/nvme_format_test.py           |  10 ++-
- tests/nvme_get_features_test.py     |   2 +
- tests/nvme_smart_log_test.py        |   5 +-
- tests/nvme_test.py                  | 119 ++++++++++++++++++++++++++++++++++++
- tests/nvme_writeuncor_test.py       |  11 ++--
- tests/nvme_writezeros_test.py       |  15 ++---
- 10 files changed, 167 insertions(+), 28 deletions(-)
-
+diff --git a/tests/nvme_attach_detach_ns_test.py b/tests/nvme_attach_detach_ns_test.py
+index 92a82dd..2225e2c 100644
+--- a/tests/nvme_attach_detach_ns_test.py
++++ b/tests/nvme_attach_detach_ns_test.py
+@@ -53,18 +53,17 @@ class TestNVMeAttachDetachNSCmd(TestNVMe):
+         self.nsze = 0x1400000
+         self.ncap = 0x1400000
+         self.setup_log_dir(self.__class__.__name__)
+-        self.ctrl_id = self.get_ctrl_id()
+-        self.delete_all_ns()
+-        time.sleep(1)
+ 
+     def __del__(self):
+         """
+         Post Section for TestNVMeAttachDetachNSCmd
+ 
+             - Create primary namespace.
+-            - Atttach it to controller.
++            - Attach it to controller.
+             - Call super class's destructor.
+         """
++        if self.get_oacs_namespace_mgmt() == 0:
++            return
+         assert_equal(self.create_and_validate_ns(self.default_nsid,
+                                                  self.nsze,
+                                                  self.ncap,
+@@ -75,6 +74,12 @@ class TestNVMeAttachDetachNSCmd(TestNVMe):
+ 
+     def test_attach_detach_ns(self):
+         """ Testcase main """
++        if self.get_oacs_namespace_mgmt() == 0:
++            return
++
++        self.ctrl_id = self.get_ctrl_id()
++        self.delete_all_ns()
++        time.sleep(1)
+         err = self.create_and_validate_ns(self.default_nsid,
+                                           self.nsze,
+                                           self.ncap,
 -- 
 2.13.7
