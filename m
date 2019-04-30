@@ -1,39 +1,77 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 29 Apr 2019 22:54:32 -0700
-Subject: [PATCH nvme-cli rfc] fabrics: support default connect/discover
- args
-In-Reply-To: <493df3a7-6d25-9fd1-57ff-addbf37fcf22@suse.de>
-References: <20190429225338.6866-1-sagi@grimberg.me>
- <493df3a7-6d25-9fd1-57ff-addbf37fcf22@suse.de>
-Message-ID: <785558d1-519d-78c1-0a1b-7517f771c1e2@grimberg.me>
+From: hare@suse.de (Hannes Reinecke)
+Date: Tue, 30 Apr 2019 08:05:46 +0200
+Subject: [nvme-cli 1/9] tests/nvme_writezeros_test.py: check if write zeroes
+ is supported
+In-Reply-To: <20190430060554.24368-1-hare@suse.de>
+References: <20190430060554.24368-1-hare@suse.de>
+Message-ID: <20190430060554.24368-2-hare@suse.de>
 
+Before testing the WRITE ZEROS command we should be testing the
+ONCS value of the IDENTIFY CONTROLLER command to figure out if
+the command is supported.
 
-> I do like the idea, but not necessarily the naming.
-> Can't we just call it 'default.conf' ?
+Signed-off-by: Hannes Reinecke <hare at suse.com>
+---
+ tests/nvme_test.py            | 23 +++++++++++++++++++++++
+ tests/nvme_writezeros_test.py | 15 ++++++++-------
+ 2 files changed, 31 insertions(+), 7 deletions(-)
 
-It's not as self-explanatory, but I'm fine with default.conf...
-
-> What about precedence?
-> I would have expected that we should have
-> 
-> defargs.conf
-> discovery.conf
-> <cmdline>
-> 
-> Is that the case?
-
-Effectively yes, but defargs does not allow transport,traddr,trsvcid,nqn
-parameters (which don't make sense), and discovery.conf is designed to
-hold exactly those. So in practice they should not overlap.
-
-Also, we only go to discovery.conf if we did not get a transport+traddr
-(which are mandatory). So its not exactly the order you mentioned, more
-like:
-
-defargs.conf
-<cmdline>
-if transport+traddr not given
-discovery.conf
-
-> And shouldn't we document that somewhere?
-Where would be the place to update this?
+diff --git a/tests/nvme_test.py b/tests/nvme_test.py
+index 80939dc..1c17ba1 100644
+--- a/tests/nvme_test.py
++++ b/tests/nvme_test.py
+@@ -253,6 +253,29 @@ class TestNVMe(object):
+         return int(nvm_format)
+ 
+     @tools.nottest
++    def get_oncs_write_zeroes(self):
++        """ Wrapper for extracting write zeroes command support.
++            - Args:
++                - None
++            - Returns:
++                - true if supported.
++        """
++        pattern = re.compile("^oncs[ ]+: [0-9]", re.IGNORECASE)
++        oncs = 0
++        get_ctrl_id = "nvme id-ctrl " + self.ctrl
++        proc = subprocess.Popen(get_ctrl_id,
++                                shell=True,
++                                stdout=subprocess.PIPE)
++        err = proc.wait()
++        assert_equal(err, 0, "ERROR : reading oncs value failed")
++
++        for line in proc.stdout:
++            if pattern.match(line):
++                oncs = line.split(":")[1].strip()
++                break
++        return int(oncs, 16) & 8
++
++    @tools.nottest
+     def delete_all_ns(self):
+         """ Wrapper for deleting all the namespaces.
+             - Args:
+diff --git a/tests/nvme_writezeros_test.py b/tests/nvme_writezeros_test.py
+index 157fd78..e549f3b 100644
+--- a/tests/nvme_writezeros_test.py
++++ b/tests/nvme_writezeros_test.py
+@@ -93,10 +93,11 @@ class TestNVMeWriteZeros(TestNVMeIO):
+         return 0 if filecmp.cmp(self.zero_file, self.read_file) is True else 1
+ 
+     def test_write_zeros(self):
+-        """ Testcae main """
+-        assert_equal(self.nvme_write(), 0)
+-        assert_equal(self.nvme_read(), 0)
+-        assert_equal(self.validate_write_read(), 0)
+-        assert_equal(self.write_zeroes(), 0)
+-        assert_equal(self.nvme_read(), 0)
+-        assert_equal(self.validate_zeroes(), 0)
++        """ Testcase main """
++        if self.get_oncs_write_zeroes() == 1:
++            assert_equal(self.nvme_write(), 0)
++            assert_equal(self.nvme_read(), 0)
++            assert_equal(self.validate_write_read(), 0)
++            assert_equal(self.write_zeroes(), 0)
++            assert_equal(self.nvme_read(), 0)
++            assert_equal(self.validate_zeroes(), 0)
+-- 
+2.13.7
