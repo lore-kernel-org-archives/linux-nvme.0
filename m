@@ -1,74 +1,66 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 30 Apr 2019 08:05:49 +0200
-Subject: [nvme-cli 4/9] tests: ignore log tests for Qemu
+Date: Tue, 30 Apr 2019 08:05:48 +0200
+Subject: [nvme-cli 3/9] tests/nvme_compare_test.py: check if compare is
+ supported
 In-Reply-To: <20190430060554.24368-1-hare@suse.de>
 References: <20190430060554.24368-1-hare@suse.de>
-Message-ID: <20190430060554.24368-5-hare@suse.de>
+Message-ID: <20190430060554.24368-4-hare@suse.de>
 
-The Qemu NVMe implementation doesn't support the GET LOG command,
-so these tests are expected to fail.
+Before testing the COMPARE command we should be testing the
+ONCS value of the IDENTIFY CONTROLLER command to figure out if
+the command is supported.
 
 Signed-off-by: Hannes Reinecke <hare at suse.com>
 ---
- tests/nvme_error_log_test.py |  3 ++-
- tests/nvme_smart_log_test.py |  5 +++--
- tests/nvme_test.py           | 24 ++++++++++++++++++++++++
- 3 files changed, 29 insertions(+), 3 deletions(-)
+ tests/nvme_compare_test.py |  7 ++++---
+ tests/nvme_test.py         | 24 ++++++++++++++++++++++++
+ 2 files changed, 28 insertions(+), 3 deletions(-)
 
-diff --git a/tests/nvme_error_log_test.py b/tests/nvme_error_log_test.py
-index a6a451d..68a0b1f 100644
---- a/tests/nvme_error_log_test.py
-+++ b/tests/nvme_error_log_test.py
-@@ -60,4 +60,5 @@ class TestNVMeErrorLogCmd(TestNVMe):
+diff --git a/tests/nvme_compare_test.py b/tests/nvme_compare_test.py
+index c919c07..2dd0298 100644
+--- a/tests/nvme_compare_test.py
++++ b/tests/nvme_compare_test.py
+@@ -74,6 +74,7 @@ class TestNVMeCompareCmd(TestNVMeIO):
  
-     def test_get_error_log(self):
+     def test_nvme_compare(self):
          """ Testcase main """
--        assert_equal(self.get_error_log_ctrl(), 0)
-+        if self.is_qemu_controller() == 0:
-+            assert_equal(self.get_error_log_ctrl(), 0)
-diff --git a/tests/nvme_smart_log_test.py b/tests/nvme_smart_log_test.py
-index e1eb6e5..ddfac72 100644
---- a/tests/nvme_smart_log_test.py
-+++ b/tests/nvme_smart_log_test.py
-@@ -82,5 +82,6 @@ class TestNVMeSmartLogCmd(TestNVMe):
- 
-     def test_smart_log(self):
-         """ Testcase main """
--        assert_equal(self.get_smart_log_ctrl(), 0)
--        assert_equal(self.get_smart_log_all_ns(), 0)
-+        if self.is_qemu_controller() == 0:
-+            assert_equal(self.get_smart_log_ctrl(), 0)
-+            assert_equal(self.get_smart_log_all_ns(), 0)
+-        assert_equal(self.nvme_write(), 0)
+-        assert_not_equal(self.nvme_compare(self.compare_file), 0)
+-        assert_equal(self.nvme_compare(self.write_file), 0)
++        if self.get_oncs_compare() == 1:
++            assert_equal(self.nvme_write(), 0)
++            assert_not_equal(self.nvme_compare(self.compare_file), 0)
++            assert_equal(self.nvme_compare(self.write_file), 0)
 diff --git a/tests/nvme_test.py b/tests/nvme_test.py
-index 7fa0734..538d30c 100644
+index 7db277f..7fa0734 100644
 --- a/tests/nvme_test.py
 +++ b/tests/nvme_test.py
-@@ -324,6 +324,30 @@ class TestNVMe(object):
-         return int(oncs, 16) & 1
+@@ -300,6 +300,30 @@ class TestNVMe(object):
+         return int(oncs, 16) & 2
  
      @tools.nottest
-+    def is_qemu_controller(self):
-+        """ Wrapper for checking for Qemu NVMe controller.
++    def get_oncs_compare(self):
++        """ Wrapper for extracting compare command support.
 +            - Args:
 +                - None
 +            - Returns:
 +                - true if supported.
 +        """
-+        pattern = re.compile("^mn[ ]+: [a-z ]", re.IGNORECASE)
-+        model = ""
++        pattern = re.compile("^oncs[ ]+: [0-9]", re.IGNORECASE)
++        oncs = 0
 +        get_ctrl_id = "nvme id-ctrl " + self.ctrl
 +        proc = subprocess.Popen(get_ctrl_id,
 +                                shell=True,
 +                                stdout=subprocess.PIPE)
 +        err = proc.wait()
-+        assert_equal(err, 0, "ERROR : reading controller model value failed")
++        assert_equal(err, 0, "ERROR : reading oncs value failed")
 +
 +        for line in proc.stdout:
 +            if pattern.match(line):
-+                model = line.split(":")[1].strip()
++                oncs = line.split(":")[1].strip()
 +                break
 +
-+        return model in "QEMU NVMe Ctrl"
++        return int(oncs, 16) & 1
 +
 +    @tools.nottest
      def delete_all_ns(self):
