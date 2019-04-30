@@ -1,71 +1,45 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 30 Apr 2019 13:48:01 +0200
-Subject: [PATCH] block: use static bio_set for bio_split() calls
-In-Reply-To: <20190425153627.GA9825@ming.t460p>
-References: <20190418140632.60606-1-hare@suse.de>
- <20190418143429.GA19175@ming.t460p>
- <98d8549a-2663-b404-e38a-6f55dfb575bf@grimberg.me>
- <20190424221422.GA21351@ming.t460p> <20190425004106.GA22683@ming.t460p>
- <c6a54cea-f2ce-3344-efb1-ba8f20bf9509@suse.de>
- <20190425153627.GA9825@ming.t460p>
-Message-ID: <b884020e-ad18-199f-8377-89e3e42ae84c@suse.de>
+From: william.kucharski@oracle.com (William Kucharski)
+Date: Tue, 30 Apr 2019 06:12:04 -0600
+Subject: Read-only Mapping of Program Text using Large THP Pages
+In-Reply-To: <CAPhsuW6uDeXrRU9pd-kPOzjJn3DVdx0O5Lny_hpyQ=Fpbhg4gw@mail.gmail.com>
+References: <379F21DD-006F-4E33-9BD5-F81F9BA75C10@oracle.com>
+ <20190220134454.GF12668@bombadil.infradead.org>
+ <07B3B085-C844-4A13-96B1-3DB0F1AF26F5@oracle.com>
+ <20190220144345.GG12668@bombadil.infradead.org>
+ <20190220163921.GA4451@localhost.localdomain>
+ <20190220171905.GJ12668@bombadil.infradead.org>
+ <B53C9F2D-966C-4DFD-8151-0A7255ACA9AD@oracle.com>
+ <CAPhsuW6uDeXrRU9pd-kPOzjJn3DVdx0O5Lny_hpyQ=Fpbhg4gw@mail.gmail.com>
+Message-ID: <C39B5A6C-2898-44DC-B11B-017908261C09@oracle.com>
 
-On 4/25/19 5:36 PM, Ming Lei wrote:
-> On Thu, Apr 25, 2019@04:32:42PM +0200, Hannes Reinecke wrote:
->> On 4/25/19 2:41 AM, Ming Lei wrote:
->>> On Thu, Apr 25, 2019@06:14:22AM +0800, Ming Lei wrote:
->>>> On Wed, Apr 24, 2019@10:20:46AM -0700, Sagi Grimberg wrote:
->>>>>
->>>>>> per-queue bioset is used originally for avoiding deadlock, are you
->>>>>> sure the static bioset is safe?
->>>>>
->>>>> Can you explain this? I didn't find any indication of that in the change
->>>>> log history...
->>>>>
->>>>> Originally introduced by Kent:
->>>>
->>>> bio split can be run from stacking drivers, for example, MD over NVMe,
->>>> if the global reserved mempool is consumed by MD bio splitting, then
->>>> no any progress can be made when splitting on bio submitted to NVMe.
->>>>
->>>> Kent may have more details...
->>>
->>> I guess it might be fine to use one shared global bio_set for all
->>> lowest underlying queues, could be all queues except for loop, dm, md
->>> , drbd, bcache, ...
->>>
->> But wasn't the overall idea of stacking drivers that we propagate the queue
->> limits up to the uppermost drivers, so that we have to do a split only at
->> the upper layers?
-> 
-> For example, LVM over RAID, the limits of LVM queue is figured out and fixed
-> during creating LVM. However, new device may be added to the RAID. Then the
-> underlying queue's limit may not be propagated to LVM's queue's limit.
-> 
-> And we did discuss the topic of 'block: dm: restack queue_limits'
-> before, looks not see any progress made.
-> 
-> Also loop doesn't consider stack limits at all.
-> 
->> Furthermore, it's not every bio which needs to be split, only those which
->> straddle some device limitations.
->> The only ones not being able to propagate the queue limits is MD, and that
->> is already using a private bio_set here.
-> 
-> If DM and the lowest queue share one same bio_set(mem_pool), it isn't
-> enough for MD to use private bio_set.
-> 
-Ah, right. I've reviewed the patches implementing the per-queue biosets, 
-and indeed we'll need to use them.
-But meanwhile I've found another way of circumventing this issue, so 
-this patch can be dropped.
 
-Cheers,
 
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N?rnberg)
+> On Apr 28, 2019,@2:08 PM, Song Liu <liu.song.a23@gmail.com> wrote:
+> 
+> We will bring this proposal up in THP discussions. Would you like to share more
+> thoughts on pros and cons of the two solutions? Or in other words, do you have
+> strong reasons to dislike either of them?
+
+I think it's a performance issue that needs to be hashed out.
+
+The obvious thing to do is read the whole large page and then map
+it, but depending on the architecture or I/O speed, mapping one
+PAGESIZE page to satisfy the single fault while the large page is
+being read in could potentially be faster. However, as with all
+swags without actual data who can say. You can also bring up the
+question of whether with SSDs and NVME storage if it makes sense
+to worry anymore about how long it would take to read a 2M or even
+1G page in from storage. I like the idea of simply reading the
+entire large page purely for neatness reasons - recovering from an
+error during redhead of a large page seems like it could become
+rather complex.
+
+One other issue is how this will interact with filesystems and how
+and how to tell filesystems I want a large page's worth of data.
+Matthew mentioned that compound_order() can be used to detect the
+page size, so that's one answer, but obviously no such code exists
+as of yet and it would need to be propagated across all file systems.
+
+I really hope the discussions at LSFMM are productive.
+
+-- Bill
