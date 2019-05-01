@@ -1,9 +1,10 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 1 May 2019 15:20:01 +0200
-Subject: [PATCH] nvme-pci: fix psdt field for single segment sgls
-In-Reply-To: <20190430165329.6984-1-klaus@birkelund.eu>
-References: <20190430165329.6984-1-klaus@birkelund.eu>
-Message-ID: <20190501132001.GB1645@lst.de>
+Date: Wed, 1 May 2019 15:20:12 +0200
+Subject: [PATCHv3] nvme-multipath: split bios with the ns_head bio_set
+ before submitting
+In-Reply-To: <20190430165709.106013-1-hare@suse.de>
+References: <20190430165709.106013-1-hare@suse.de>
+Message-ID: <20190501132012.GC1645@lst.de>
 
 Thanks,
 
