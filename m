@@ -1,89 +1,59 @@
 From: james.smart@broadcom.com (James Smart)
-Date: Wed, 1 May 2019 14:31:34 -0700
+Date: Wed, 1 May 2019 14:49:48 -0700
 Subject: [PATCH nvme-cli rfc] fabrics: support default connect/discover
  args
-In-Reply-To: <b9363689-6c3e-da34-8b17-f1f320cfbd70@broadcom.com>
+In-Reply-To: <e060385b-7695-d5b1-d4ca-2357e016219d@grimberg.me>
 References: <20190429225338.6866-1-sagi@grimberg.me>
- <b9363689-6c3e-da34-8b17-f1f320cfbd70@broadcom.com>
-Message-ID: <6ff91824-3772-c2f8-3548-766f91041bf1@broadcom.com>
+ <493df3a7-6d25-9fd1-57ff-addbf37fcf22@suse.de>
+ <785558d1-519d-78c1-0a1b-7517f771c1e2@grimberg.me>
+ <b4f9b6e4-f0b4-312f-1eeb-4c292a8f9af1@suse.de>
+ <e060385b-7695-d5b1-d4ca-2357e016219d@grimberg.me>
+Message-ID: <9614e100-3919-581c-0919-8e263e5633a5@broadcom.com>
 
 
 
-On 5/1/2019 2:23 PM, James Smart wrote:
+On 4/30/2019 12:34 AM, Sagi Grimberg wrote:
 >
+>>> Effectively yes, but defargs does not allow 
+>>> transport,traddr,trsvcid,nqn
+>>> parameters (which don't make sense), and discovery.conf is designed to
+>>> hold exactly those. So in practice they should not overlap.
+>>>
+>> Uh-oh. I _do_ know of cases where discovery.conf is used for 
+>> precisely this purpose, ie holding _all_ arguments.
 >
-> On 4/29/2019 3:53 PM, Sagi Grimberg wrote:
->> Introduce /etc/nvme/defargs.conf where we allow the user to
->> specify connect/discover parameters once and not for every
->> controller. The cli will always ingest the content of this
->> file before parsing cmdline args such that the user can
->> override them.
->>
->> The format is simply writing the arguments into the file as
->> if they were appended to the execution command.
->>
->> Also, properly install this file with some minimal documentation.
->>
->> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
->> ---
->> This was raised before in the past that we don't have some place
->> to store default connect args.
->>
->> For example, when handling automatic discovery change log events
->> this can be a way for the user to set global default arguments.
->>
->> Feedback is welcome.
->>
->> ? Makefile??????????? |? 3 +++
->> ? etc/defargs.conf.in |? 5 ++++
->> ? fabrics.c?????????? | 63 +++++++++++++++++++++++++++++++++++++++++++++
->> ? nvme.spec.in??????? |? 1 +
->> ? 4 files changed, 72 insertions(+)
->> ? create mode 100644 etc/defargs.conf.in
->>
->>
->> diff --git a/etc/defargs.conf.in b/etc/defargs.conf.in
->> new file mode 100644
->> index 000000000000..e91106bf5bbf
->> --- /dev/null
->> +++ b/etc/defargs.conf.in
->> @@ -0,0 +1,5 @@
->> +# Used for extracting default controller connect parameters
->> +#
->> +# Example:
->> +# --keep-alive-tmo=<x> --reconnect-delay=<y> --ctrl-loss-tmo=<z> 
->> --nr-io-queues=<u>
->> +# --queue-size=<v>
->>
+> That's fine.. it was never designed for this purpose though...
 >
-> What I'd like to see is a file? (maybe "connectargs.conf") that has a 
-> syntax more like:
-> <subnqn>? <trtype>? <traddr>? <trsvcid> <host-traddr>? :? <arg list>
+>> And in the absense of any other way existing implementations will be 
+>> using a very similar thing.
 >
-> where the first 5 things, all addressing components for the connect, 
-> can specify a matching policy, and if matched, "arg list" is then 
-> applied. An addressing component could be wildcarded, thus match 
-> anything.
+> Again, this would work.
 >
-> When a connect or connect-all request is made,? the cli would try to 
-> match each line, and if matched, apply the arg list. If an argument 
-> was set prior, it would be overridden. Then, command line args can 
-> override the arg list built up by the match list.
+>>> Also, we only go to discovery.conf if we did not get a transport+traddr
+>>> (which are mandatory). So its not exactly the order you mentioned, more
+>>> like:
+>>>
+>>> defargs.conf
+>>> <cmdline>
+>>> if transport+traddr not given
+>>> discovery.conf
+>>>
+>> How very curious ...
+>> I would have expected that any command-line args would overwrite any 
+>> arguments given in the configuration files.
+>> But given that discovery.conf can contain several lines I can see the 
+>> problem.
 >
-> Thus, for global defaults, the opening line in the file can be?? " * * 
-> * * * --keep-alive-tmo=<x> --reconnect-delay=<y>" and all connection 
-> attempts would receive those args.
->
-> We would probably do some special syntaxes over time:
-> Rather than the long string for a discovery controller have a 
-> shorthand string that means the same.
-> Devise a subnqn syntax that allows a <prefix>* - so that all nqns from 
-> vendor x that has the prefix could be applied, and so on.
->
-> -- james
->
+> Exactly. discovery.conf was simply added such that you can run nvme
+> connect-all without explicitly passing parameters so you can build
+> auto-connect scripts on top of.
 
-I do realize this would make us do a first pass through the cmd line 
-args to get the addressing components.
+with my suggestion it would be:
+ ?? <parse cmdline for connect addressing args>
+ ?? if transport+traddr not given:? pull them from discovery.conf note: 
+if non-addressing args present, remember them
+ ?? parse addressing args vs connectargs.conf? (aka defargs.conf)
+ ? <apply non-addressing args from discovery.conf>
+ ? <apply cmdline non-addressing args>
 
 -- james
