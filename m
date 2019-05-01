@@ -1,131 +1,398 @@
 From: talgi@mellanox.com (Tal Gilboa)
-Date: Wed,  1 May 2019 17:44:34 +0300
-Subject: [PATCH rdma-for-next 4/9] linux/dim: Rename net_dim_sample() to
- net_dim_create_sample()
+Date: Wed,  1 May 2019 17:44:31 +0300
+Subject: [PATCH rdma-for-next 1/9] linux/dim: Move logic to dim.h
 In-Reply-To: <1556721879-35987-1-git-send-email-talgi@mellanox.com>
 References: <1556721879-35987-1-git-send-email-talgi@mellanox.com>
-Message-ID: <1556721879-35987-5-git-send-email-talgi@mellanox.com>
+Message-ID: <1556721879-35987-2-git-send-email-talgi@mellanox.com>
 
-In order to avoid confusion between the function and the similarly
-named struct.
-In preparation for removing the 'net' prefix from dim members.
+In preparation for supporting more implementations of the DIM
+algorithm, I'm moving what would become common logic to a common
+library. Downstream DIM implementations will use the common lib
+for their implementation.
 
 Signed-off-by: Tal Gilboa <talgi at mellanox.com>
 ---
- drivers/net/ethernet/broadcom/bcmsysport.c        | 4 ++--
- drivers/net/ethernet/broadcom/bnxt/bnxt.c         | 8 ++++----
- drivers/net/ethernet/broadcom/genet/bcmgenet.c    | 4 ++--
- drivers/net/ethernet/mellanox/mlx5/core/en_txrx.c | 6 ++----
- include/linux/dim.h                               | 8 ++++----
- include/linux/net_dim.h                           | 4 ++--
- 6 files changed, 16 insertions(+), 18 deletions(-)
+ include/linux/dim.h     | 182 ++++++++++++++++++++++++++++++++++++++++++++++++
+ include/linux/net_dim.h | 148 +--------------------------------------
+ 2 files changed, 184 insertions(+), 146 deletions(-)
+ create mode 100644 include/linux/dim.h
 
-diff --git a/drivers/net/ethernet/broadcom/bcmsysport.c b/drivers/net/ethernet/broadcom/bcmsysport.c
-index 480089f..7a41ec7 100644
---- a/drivers/net/ethernet/broadcom/bcmsysport.c
-+++ b/drivers/net/ethernet/broadcom/bcmsysport.c
-@@ -1028,8 +1028,8 @@ static int bcm_sysport_poll(struct napi_struct *napi, int budget)
- 	}
- 
- 	if (priv->dim.use_dim) {
--		net_dim_sample(priv->dim.event_ctr, priv->dim.packets,
--			       priv->dim.bytes, &dim_sample);
-+		net_dim_create_sample(priv->dim.event_ctr, priv->dim.packets,
-+				      priv->dim.bytes, &dim_sample);
- 		net_dim(&priv->dim.dim, dim_sample);
- 	}
- 
-diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.c b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-index 21db503..1528620 100644
---- a/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-+++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-@@ -2127,10 +2127,10 @@ static int bnxt_poll(struct napi_struct *napi, int budget)
- 	if (bp->flags & BNXT_FLAG_DIM) {
- 		struct net_dim_sample dim_sample;
- 
--		net_dim_sample(cpr->event_ctr,
--			       cpr->rx_packets,
--			       cpr->rx_bytes,
--			       &dim_sample);
-+		net_dim_create_sample(cpr->event_ctr,
-+				      cpr->rx_packets,
-+				      cpr->rx_bytes,
-+				      &dim_sample);
- 		net_dim(&cpr->dim, dim_sample);
- 	}
- 	mmiowb();
-diff --git a/drivers/net/ethernet/broadcom/genet/bcmgenet.c b/drivers/net/ethernet/broadcom/genet/bcmgenet.c
-index eee48da..8ab2d67 100644
---- a/drivers/net/ethernet/broadcom/genet/bcmgenet.c
-+++ b/drivers/net/ethernet/broadcom/genet/bcmgenet.c
-@@ -1909,8 +1909,8 @@ static int bcmgenet_rx_poll(struct napi_struct *napi, int budget)
- 	}
- 
- 	if (ring->dim.use_dim) {
--		net_dim_sample(ring->dim.event_ctr, ring->dim.packets,
--			       ring->dim.bytes, &dim_sample);
-+		net_dim_create_sample(ring->dim.event_ctr, ring->dim.packets,
-+				      ring->dim.bytes, &dim_sample);
- 		net_dim(&ring->dim.dim, dim_sample);
- 	}
- 
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_txrx.c b/drivers/net/ethernet/mellanox/mlx5/core/en_txrx.c
-index b4af5e1..6dd8202 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en_txrx.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en_txrx.c
-@@ -53,8 +53,7 @@ static void mlx5e_handle_tx_dim(struct mlx5e_txqsq *sq)
- 	if (unlikely(!test_bit(MLX5E_SQ_STATE_AM, &sq->state)))
- 		return;
- 
--	net_dim_sample(sq->cq.event_ctr, stats->packets, stats->bytes,
--		       &dim_sample);
-+	net_dim_create_sample(sq->cq.event_ctr, stats->packets, stats->bytes, &dim_sample);
- 	net_dim(&sq->dim, dim_sample);
- }
- 
-@@ -66,8 +65,7 @@ static void mlx5e_handle_rx_dim(struct mlx5e_rq *rq)
- 	if (unlikely(!test_bit(MLX5E_RQ_STATE_AM, &rq->state)))
- 		return;
- 
--	net_dim_sample(rq->cq.event_ctr, stats->packets, stats->bytes,
--		       &dim_sample);
-+	net_dim_create_sample(rq->cq.event_ctr, stats->packets, stats->bytes, &dim_sample);
- 	net_dim(&rq->dim, dim_sample);
- }
- 
 diff --git a/include/linux/dim.h b/include/linux/dim.h
-index 67b80e9..2413021 100644
---- a/include/linux/dim.h
+new file mode 100644
+index 0000000..d06f6e4
+--- /dev/null
 +++ b/include/linux/dim.h
-@@ -149,10 +149,10 @@ static inline void dim_park_tired(struct net_dim *dim)
- 	dim->tune_state   = DIM_PARKING_TIRED;
+@@ -0,0 +1,182 @@
++/*
++ * Copyright (c) 2016, Mellanox Technologies. All rights reserved.
++ * Copyright (c) 2017-2018, Broadcom Limited. All rights reserved.
++ *
++ * This software is available to you under a choice of one of two
++ * licenses.  You may choose to be licensed under the terms of the GNU
++ * General Public License (GPL) Version 2, available from the file
++ * COPYING in the main directory of this source tree, or the
++ * OpenIB.org BSD license below:
++ *
++ *     Redistribution and use in source and binary forms, with or
++ *     without modification, are permitted provided that the following
++ *     conditions are met:
++ *
++ *      - Redistributions of source code must retain the above
++ *        copyright notice, this list of conditions and the following
++ *        disclaimer.
++ *
++ *      - Redistributions in binary form must reproduce the above
++ *        copyright notice, this list of conditions and the following
++ *        disclaimer in the documentation and/or other materials
++ *        provided with the distribution.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
++ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
++ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
++ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
++ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
++ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++ * SOFTWARE.
++ */
++
++#ifndef DIM_H
++#define DIM_H
++
++#include <linux/module.h>
++
++#define NET_DIM_NEVENTS 64
++#define IS_SIGNIFICANT_DIFF(val, ref) \
++	(((100UL * abs((val) - (ref))) / (ref)) > 10) /* more than 10% difference */
++#define BIT_GAP(bits, end, start) ((((end) - (start)) + BIT_ULL(bits)) & (BIT_ULL(bits) - 1))
++
++struct net_dim_cq_moder {
++	u16 usec;
++	u16 pkts;
++	u8 cq_period_mode;
++};
++
++struct net_dim_sample {
++	ktime_t time;
++	u32     pkt_ctr;
++	u32     byte_ctr;
++	u16     event_ctr;
++};
++
++struct net_dim_stats {
++	int ppms; /* packets per msec */
++	int bpms; /* bytes per msec */
++	int epms; /* events per msec */
++};
++
++struct net_dim { /* Dynamic Interrupt Moderation */
++	u8                                      state;
++	struct net_dim_stats                    prev_stats;
++	struct net_dim_sample                   start_sample;
++	struct work_struct                      work;
++	u8                                      profile_ix;
++	u8                                      mode;
++	u8                                      tune_state;
++	u8                                      steps_right;
++	u8                                      steps_left;
++	u8                                      tired;
++};
++
++enum {
++	NET_DIM_CQ_PERIOD_MODE_START_FROM_EQE = 0x0,
++	NET_DIM_CQ_PERIOD_MODE_START_FROM_CQE = 0x1,
++	NET_DIM_CQ_PERIOD_NUM_MODES
++};
++
++enum {
++	NET_DIM_START_MEASURE,
++	NET_DIM_MEASURE_IN_PROGRESS,
++	NET_DIM_APPLY_NEW_PROFILE,
++};
++
++enum {
++	NET_DIM_PARKING_ON_TOP,
++	NET_DIM_PARKING_TIRED,
++	NET_DIM_GOING_RIGHT,
++	NET_DIM_GOING_LEFT,
++};
++
++enum {
++	NET_DIM_STATS_WORSE,
++	NET_DIM_STATS_SAME,
++	NET_DIM_STATS_BETTER,
++};
++
++enum {
++	NET_DIM_STEPPED,
++	NET_DIM_TOO_TIRED,
++	NET_DIM_ON_EDGE,
++};
++
++static inline bool net_dim_on_top(struct net_dim *net_dim)
++{
++	switch (net_dim->tune_state) {
++	case NET_DIM_PARKING_ON_TOP:
++	case NET_DIM_PARKING_TIRED:
++		return true;
++	case NET_DIM_GOING_RIGHT:
++		return (net_dim->steps_left > 1) && (net_dim->steps_right == 1);
++	default: /* NET_DIM_GOING_LEFT */
++		return (net_dim->steps_right > 1) && (net_dim->steps_left == 1);
++	}
++}
++
++static inline void net_dim_turn(struct net_dim *net_dim)
++{
++	switch (net_dim->tune_state) {
++	case NET_DIM_PARKING_ON_TOP:
++	case NET_DIM_PARKING_TIRED:
++		break;
++	case NET_DIM_GOING_RIGHT:
++		net_dim->tune_state = NET_DIM_GOING_LEFT;
++		net_dim->steps_left = 0;
++		break;
++	case NET_DIM_GOING_LEFT:
++		net_dim->tune_state = NET_DIM_GOING_RIGHT;
++		net_dim->steps_right = 0;
++		break;
++	}
++}
++
++static inline void net_dim_park_on_top(struct net_dim *net_dim)
++{
++	net_dim->steps_right  = 0;
++	net_dim->steps_left   = 0;
++	net_dim->tired        = 0;
++	net_dim->tune_state   = NET_DIM_PARKING_ON_TOP;
++}
++
++static inline void net_dim_park_tired(struct net_dim *net_dim)
++{
++	net_dim->steps_right  = 0;
++	net_dim->steps_left   = 0;
++	net_dim->tune_state   = NET_DIM_PARKING_TIRED;
++}
++
++static inline void net_dim_sample(u16 event_ctr,
++				  u64 packets,
++				  u64 bytes,
++				  struct net_dim_sample *s)
++{
++	s->time	     = ktime_get();
++	s->pkt_ctr   = packets;
++	s->byte_ctr  = bytes;
++	s->event_ctr = event_ctr;
++}
++
++static inline void net_dim_calc_stats(struct net_dim_sample *start,
++				      struct net_dim_sample *end,
++				      struct net_dim_stats *curr_stats)
++{
++	/* u32 holds up to 71 minutes, should be enough */
++	u32 delta_us = ktime_us_delta(end->time, start->time);
++	u32 npkts = BIT_GAP(BITS_PER_TYPE(u32), end->pkt_ctr, start->pkt_ctr);
++	u32 nbytes = BIT_GAP(BITS_PER_TYPE(u32), end->byte_ctr,
++			     start->byte_ctr);
++
++	if (!delta_us)
++		return;
++
++	curr_stats->ppms = DIV_ROUND_UP(npkts * USEC_PER_MSEC, delta_us);
++	curr_stats->bpms = DIV_ROUND_UP(nbytes * USEC_PER_MSEC, delta_us);
++	curr_stats->epms = DIV_ROUND_UP(NET_DIM_NEVENTS * USEC_PER_MSEC,
++					delta_us);
++}
++
++#endif /* DIM_H */
+diff --git a/include/linux/net_dim.h b/include/linux/net_dim.h
+index fd45838..373cda7 100644
+--- a/include/linux/net_dim.h
++++ b/include/linux/net_dim.h
+@@ -35,73 +35,10 @@
+ #define NET_DIM_H
+ 
+ #include <linux/module.h>
+-
+-struct net_dim_cq_moder {
+-	u16 usec;
+-	u16 pkts;
+-	u8 cq_period_mode;
+-};
+-
+-struct net_dim_sample {
+-	ktime_t time;
+-	u32     pkt_ctr;
+-	u32     byte_ctr;
+-	u16     event_ctr;
+-};
+-
+-struct net_dim_stats {
+-	int ppms; /* packets per msec */
+-	int bpms; /* bytes per msec */
+-	int epms; /* events per msec */
+-};
+-
+-struct net_dim { /* Adaptive Moderation */
+-	u8                                      state;
+-	struct net_dim_stats                    prev_stats;
+-	struct net_dim_sample                   start_sample;
+-	struct work_struct                      work;
+-	u8                                      profile_ix;
+-	u8                                      mode;
+-	u8                                      tune_state;
+-	u8                                      steps_right;
+-	u8                                      steps_left;
+-	u8                                      tired;
+-};
+-
+-enum {
+-	NET_DIM_CQ_PERIOD_MODE_START_FROM_EQE = 0x0,
+-	NET_DIM_CQ_PERIOD_MODE_START_FROM_CQE = 0x1,
+-	NET_DIM_CQ_PERIOD_NUM_MODES
+-};
+-
+-/* Adaptive moderation logic */
+-enum {
+-	NET_DIM_START_MEASURE,
+-	NET_DIM_MEASURE_IN_PROGRESS,
+-	NET_DIM_APPLY_NEW_PROFILE,
+-};
+-
+-enum {
+-	NET_DIM_PARKING_ON_TOP,
+-	NET_DIM_PARKING_TIRED,
+-	NET_DIM_GOING_RIGHT,
+-	NET_DIM_GOING_LEFT,
+-};
+-
+-enum {
+-	NET_DIM_STATS_WORSE,
+-	NET_DIM_STATS_SAME,
+-	NET_DIM_STATS_BETTER,
+-};
+-
+-enum {
+-	NET_DIM_STEPPED,
+-	NET_DIM_TOO_TIRED,
+-	NET_DIM_ON_EDGE,
+-};
++#include <linux/dim.h>
+ 
+ #define NET_DIM_PARAMS_NUM_PROFILES 5
+-/* Adaptive moderation profiles */
++/* Netdev dynamic interrupt moderation profiles */
+ #define NET_DIM_DEFAULT_RX_CQ_MODERATION_PKTS_FROM_EQE 256
+ #define NET_DIM_DEFAULT_TX_CQ_MODERATION_PKTS_FROM_EQE 128
+ #define NET_DIM_DEF_PROFILE_CQE 1
+@@ -188,36 +125,6 @@ enum {
+ 	return net_dim_get_tx_moderation(cq_period_mode, profile_ix);
+ }
+ 
+-static inline bool net_dim_on_top(struct net_dim *dim)
+-{
+-	switch (dim->tune_state) {
+-	case NET_DIM_PARKING_ON_TOP:
+-	case NET_DIM_PARKING_TIRED:
+-		return true;
+-	case NET_DIM_GOING_RIGHT:
+-		return (dim->steps_left > 1) && (dim->steps_right == 1);
+-	default: /* NET_DIM_GOING_LEFT */
+-		return (dim->steps_right > 1) && (dim->steps_left == 1);
+-	}
+-}
+-
+-static inline void net_dim_turn(struct net_dim *dim)
+-{
+-	switch (dim->tune_state) {
+-	case NET_DIM_PARKING_ON_TOP:
+-	case NET_DIM_PARKING_TIRED:
+-		break;
+-	case NET_DIM_GOING_RIGHT:
+-		dim->tune_state = NET_DIM_GOING_LEFT;
+-		dim->steps_left = 0;
+-		break;
+-	case NET_DIM_GOING_LEFT:
+-		dim->tune_state = NET_DIM_GOING_RIGHT;
+-		dim->steps_right = 0;
+-		break;
+-	}
+-}
+-
+ static inline int net_dim_step(struct net_dim *dim)
+ {
+ 	if (dim->tired == (NET_DIM_PARAMS_NUM_PROFILES * 2))
+@@ -245,21 +152,6 @@ static inline int net_dim_step(struct net_dim *dim)
+ 	return NET_DIM_STEPPED;
+ }
+ 
+-static inline void net_dim_park_on_top(struct net_dim *dim)
+-{
+-	dim->steps_right  = 0;
+-	dim->steps_left   = 0;
+-	dim->tired        = 0;
+-	dim->tune_state   = NET_DIM_PARKING_ON_TOP;
+-}
+-
+-static inline void net_dim_park_tired(struct net_dim *dim)
+-{
+-	dim->steps_right  = 0;
+-	dim->steps_left   = 0;
+-	dim->tune_state   = NET_DIM_PARKING_TIRED;
+-}
+-
+ static inline void net_dim_exit_parking(struct net_dim *dim)
+ {
+ 	dim->tune_state = dim->profile_ix ? NET_DIM_GOING_LEFT :
+@@ -267,9 +159,6 @@ static inline void net_dim_exit_parking(struct net_dim *dim)
+ 	net_dim_step(dim);
+ }
+ 
+-#define IS_SIGNIFICANT_DIFF(val, ref) \
+-	(((100UL * abs((val) - (ref))) / (ref)) > 10) /* more than 10% difference */
+-
+ static inline int net_dim_stats_compare(struct net_dim_stats *curr,
+ 					struct net_dim_stats *prev)
+ {
+@@ -351,39 +240,6 @@ static inline bool net_dim_decision(struct net_dim_stats *curr_stats,
+ 	return dim->profile_ix != prev_ix;
  }
  
 -static inline void net_dim_sample(u16 event_ctr,
 -				  u64 packets,
 -				  u64 bytes,
 -				  struct net_dim_sample *s)
-+static inline void net_dim_create_sample(u16 event_ctr,
-+					 u64 packets,
-+					 u64 bytes,
-+					 struct net_dim_sample *s)
+-{
+-	s->time	     = ktime_get();
+-	s->pkt_ctr   = packets;
+-	s->byte_ctr  = bytes;
+-	s->event_ctr = event_ctr;
+-}
+-
+-#define NET_DIM_NEVENTS 64
+-#define BIT_GAP(bits, end, start) ((((end) - (start)) + BIT_ULL(bits)) & (BIT_ULL(bits) - 1))
+-
+-static inline void net_dim_calc_stats(struct net_dim_sample *start,
+-				      struct net_dim_sample *end,
+-				      struct net_dim_stats *curr_stats)
+-{
+-	/* u32 holds up to 71 minutes, should be enough */
+-	u32 delta_us = ktime_us_delta(end->time, start->time);
+-	u32 npkts = BIT_GAP(BITS_PER_TYPE(u32), end->pkt_ctr, start->pkt_ctr);
+-	u32 nbytes = BIT_GAP(BITS_PER_TYPE(u32), end->byte_ctr,
+-			     start->byte_ctr);
+-
+-	if (!delta_us)
+-		return;
+-
+-	curr_stats->ppms = DIV_ROUND_UP(npkts * USEC_PER_MSEC, delta_us);
+-	curr_stats->bpms = DIV_ROUND_UP(nbytes * USEC_PER_MSEC, delta_us);
+-	curr_stats->epms = DIV_ROUND_UP(NET_DIM_NEVENTS * USEC_PER_MSEC,
+-					delta_us);
+-}
+-
+ static inline void net_dim(struct net_dim *dim,
+ 			   struct net_dim_sample end_sample)
  {
- 	s->time	     = ktime_get();
- 	s->pkt_ctr   = packets;
-diff --git a/include/linux/net_dim.h b/include/linux/net_dim.h
-index d90f96f..93c4e21 100644
---- a/include/linux/net_dim.h
-+++ b/include/linux/net_dim.h
-@@ -260,8 +260,8 @@ static inline void net_dim(struct net_dim *dim,
- 		}
- 		/* fall through */
- 	case DIM_START_MEASURE:
--		net_dim_sample(end_sample.event_ctr, end_sample.pkt_ctr, end_sample.byte_ctr,
--			       &dim->start_sample);
-+		net_dim_create_sample(end_sample.event_ctr, end_sample.pkt_ctr,
-+				      end_sample.byte_ctr, &dim->start_sample);
- 		dim->state = DIM_MEASURE_IN_PROGRESS;
- 		break;
- 	case DIM_APPLY_NEW_PROFILE:
 -- 
 1.8.3.1
