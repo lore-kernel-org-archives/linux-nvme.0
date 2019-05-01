@@ -1,624 +1,399 @@
 From: talgi@mellanox.com (Tal Gilboa)
-Date: Wed,  1 May 2019 17:44:35 +0300
-Subject: [PATCH rdma-for-next 5/9] linux/dim: Rename externally used net_dim
- members
+Date: Wed,  1 May 2019 17:44:39 +0300
+Subject: [PATCH rdma-for-next 9/9] drivers/infiniband: Use rdma_dim in
+ infiniband driver
 In-Reply-To: <1556721879-35987-1-git-send-email-talgi@mellanox.com>
 References: <1556721879-35987-1-git-send-email-talgi@mellanox.com>
-Message-ID: <1556721879-35987-6-git-send-email-talgi@mellanox.com>
+Message-ID: <1556721879-35987-10-git-send-email-talgi@mellanox.com>
 
-Removed 'net' prefix from functions and structs used by external drivers.
+From: Yamin Friedman <yaminf@mellanox.com>
 
+Added the interface in the infiniband driver that applies the rdma_dim
+adaptive moderation. There is now a special function for allocating an
+ib_cq that uses rdma_dim.
+
+Performance improvement (ConnectX-5 100GbE, x86) running FIO benchmark over
+NVMf between two equal end-hosts with 56 cores across a Mellanox switch
+using null_blk device:
+
+READS without DIM:
+blk size | BW       | IOPS | 99th percentile latency  | 99.99th latency
+512B     | 3.8GiB/s | 7.7M | 1401  usec               | 2442  usec
+4k       | 7.0GiB/s | 1.8M | 4817  usec               | 6587  usec
+64k      | 10.7GiB/s| 175k | 9896  usec               | 10028 usec
+
+IO WRITES without DIM:
+blk size | BW       | IOPS | 99th percentile latency  | 99.99th latency
+512B     | 3.6GiB/s | 7.5M | 1434  usec               | 2474  usec
+4k       | 6.3GiB/s | 1.6M | 938   usec               | 1221  usec
+64k      | 10.7GiB/s| 175k | 8979  usec               | 12780 usec
+
+IO READS with DIM:
+blk size | BW       | IOPS | 99th percentile latency  | 99.99th latency
+512B     | 4GiB/s   | 8.2M | 816    usec              | 889   usec
+4k       | 10.1GiB/s| 2.65M| 3359   usec              | 5080  usec
+64k      | 10.7GiB/s| 175k | 9896   usec              | 10028 usec
+
+IO WRITES with DIM:
+blk size | BW       | IOPS  | 99th percentile latency | 99.99th latency
+512B     | 3.9GiB/s | 8.1M  | 799   usec              | 922   usec
+4k       | 9.6GiB/s | 2.5M  | 717   usec              | 1004  usec
+64k      | 10.7GiB/s| 176k  | 8586  usec              | 12256 usec
+
+The rdma_dim algorithm was designed to measure the effectiveness of
+moderation on the flow in a general way and thus should be appropriate
+for all RDMA storage protocols.
+
+Signed-off-by: Yamin Friedman <yaminf at mellanox.com>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
 Signed-off-by: Tal Gilboa <talgi at mellanox.com>
 ---
- drivers/net/ethernet/broadcom/bcmsysport.c         | 16 ++++++------
- drivers/net/ethernet/broadcom/bcmsysport.h         |  2 +-
- drivers/net/ethernet/broadcom/bnxt/bnxt.c          | 10 ++++----
- drivers/net/ethernet/broadcom/bnxt/bnxt.h          |  2 +-
- drivers/net/ethernet/broadcom/bnxt/bnxt_debugfs.c  |  4 +--
- drivers/net/ethernet/broadcom/bnxt/bnxt_dim.c      |  5 ++--
- drivers/net/ethernet/broadcom/genet/bcmgenet.c     | 14 +++++-----
- drivers/net/ethernet/broadcom/genet/bcmgenet.h     |  2 +-
- drivers/net/ethernet/mellanox/mlx5/core/en.h       |  8 +++---
- drivers/net/ethernet/mellanox/mlx5/core/en_dim.c   | 10 ++++----
- .../net/ethernet/mellanox/mlx5/core/en_ethtool.c   |  4 +--
- drivers/net/ethernet/mellanox/mlx5/core/en_main.c  | 12 ++++-----
- drivers/net/ethernet/mellanox/mlx5/core/en_txrx.c  |  8 +++---
- include/linux/dim.h                                | 28 ++++++++++----------
- include/linux/net_dim.h                            | 30 +++++++++++-----------
- 15 files changed, 77 insertions(+), 78 deletions(-)
+ drivers/infiniband/core/cq.c    | 79 +++++++++++++++++++++++++++++++++++++----
+ drivers/infiniband/hw/mlx4/qp.c |  2 +-
+ drivers/infiniband/hw/mlx5/qp.c |  2 +-
+ include/linux/irq_poll.h        |  5 +++
+ include/rdma/ib_verbs.h         | 54 +++++++++++++++++++++++++---
+ lib/irq_poll.c                  | 15 +++++++-
+ 6 files changed, 144 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/net/ethernet/broadcom/bcmsysport.c b/drivers/net/ethernet/broadcom/bcmsysport.c
-index 7a41ec7..b2c5b1a 100644
---- a/drivers/net/ethernet/broadcom/bcmsysport.c
-+++ b/drivers/net/ethernet/broadcom/bcmsysport.c
-@@ -621,7 +621,7 @@ static int bcm_sysport_set_coalesce(struct net_device *dev,
- 				    struct ethtool_coalesce *ec)
+diff --git a/drivers/infiniband/core/cq.c b/drivers/infiniband/core/cq.c
+index a4c8199..6fb3270 100644
+--- a/drivers/infiniband/core/cq.c
++++ b/drivers/infiniband/core/cq.c
+@@ -14,6 +14,7 @@
+ #include <linux/err.h>
+ #include <linux/slab.h>
+ #include <rdma/ib_verbs.h>
++#include <linux/rdma_dim.h>
+ 
+ /* # of WCs to poll for with a single call to ib_poll_cq */
+ #define IB_POLL_BATCH			16
+@@ -26,6 +27,47 @@
+ #define IB_POLL_FLAGS \
+ 	(IB_CQ_NEXT_COMP | IB_CQ_REPORT_MISSED_EVENTS)
+ 
++static int ib_cq_dim_modify_cq(struct ib_cq *cq, unsigned short level)
++{
++	u16 usec = rdma_dim_prof[level].usec;
++	u16 comps = rdma_dim_prof[level].comps;
++
++	return cq->device->ops.modify_cq(cq, comps, usec);
++}
++
++static void update_cq_moderation(struct dim *dim, struct ib_cq *cq)
++{
++	dim->state = DIM_START_MEASURE;
++
++	ib_cq_dim_modify_cq(cq, dim->profile_ix);
++}
++
++static void ib_cq_rdma_dim_workqueue_work(struct work_struct *w)
++{
++	struct dim *dim = container_of(w, struct dim, work);
++	struct ib_cq *cq = container_of(dim, struct ib_cq, workqueue_poll.dim);
++
++	update_cq_moderation(dim, cq);
++}
++
++static void ib_cq_rdma_dim_irqpoll_work(struct work_struct *w)
++{
++	struct dim *dim = container_of(w, struct dim, work);
++	struct irq_poll *iop = container_of(dim, struct irq_poll, dim);
++	struct ib_cq *cq = container_of(iop, struct ib_cq, iop);
++
++	update_cq_moderation(dim, cq);
++}
++
++void rdma_dim_init(struct dim *dim, work_func_t func)
++{
++	memset(dim, 0, sizeof(*dim));
++	dim->state = DIM_START_MEASURE;
++	dim->tune_state = DIM_GOING_RIGHT;
++	dim->profile_ix = RDMA_DIM_START_PROFILE;
++	INIT_WORK(&dim->work, func);
++}
++
+ static int __ib_process_cq(struct ib_cq *cq, int budget, struct ib_wc *wcs,
+ 			   int batch)
  {
- 	struct bcm_sysport_priv *priv = netdev_priv(dev);
--	struct net_dim_cq_moder moder;
-+	struct dim_cq_moder moder;
- 	u32 usecs, pkts;
- 	unsigned int i;
+@@ -105,19 +147,30 @@ static void ib_cq_completion_softirq(struct ib_cq *cq, void *private)
  
-@@ -1004,7 +1004,7 @@ static int bcm_sysport_poll(struct napi_struct *napi, int budget)
+ static void ib_cq_poll_work(struct work_struct *work)
  {
- 	struct bcm_sysport_priv *priv =
- 		container_of(napi, struct bcm_sysport_priv, napi);
--	struct net_dim_sample dim_sample;
-+	struct dim_sample dim_sample;
- 	unsigned int work_done = 0;
+-	struct ib_cq *cq = container_of(work, struct ib_cq, work);
++	struct ib_cq *cq = container_of(work, struct ib_cq,
++					workqueue_poll.work);
+ 	int completed;
++	struct dim_sample e_sample;
++	struct dim_sample *m_sample = &cq->workqueue_poll.dim.measuring_sample;
  
- 	work_done = bcm_sysport_desc_rx(priv, budget);
-@@ -1028,8 +1028,8 @@ static int bcm_sysport_poll(struct napi_struct *napi, int budget)
- 	}
- 
- 	if (priv->dim.use_dim) {
--		net_dim_create_sample(priv->dim.event_ctr, priv->dim.packets,
--				      priv->dim.bytes, &dim_sample);
-+		dim_create_sample(priv->dim.event_ctr, priv->dim.packets,
-+				  priv->dim.bytes, &dim_sample);
- 		net_dim(&priv->dim.dim, dim_sample);
- 	}
- 
-@@ -1099,13 +1099,13 @@ static void bcm_sysport_resume_from_wol(struct bcm_sysport_priv *priv)
- 
- static void bcm_sysport_dim_work(struct work_struct *work)
- {
--	struct net_dim *dim = container_of(work, struct net_dim, work);
-+	struct dim *dim = container_of(work, struct dim, work);
- 	struct bcm_sysport_net_dim *ndim =
- 			container_of(dim, struct bcm_sysport_net_dim, dim);
- 	struct bcm_sysport_priv *priv =
- 			container_of(ndim, struct bcm_sysport_priv, dim);
--	struct net_dim_cq_moder cur_profile =
--			net_dim_get_rx_moderation(dim->mode, dim->profile_ix);
-+	struct dim_cq_moder cur_profile = net_dim_get_rx_moderation(dim->mode,
-+								    dim->profile_ix);
- 
- 	bcm_sysport_set_rx_coalesce(priv, cur_profile.usec, cur_profile.pkts);
- 	dim->state = DIM_START_MEASURE;
-@@ -1469,7 +1469,7 @@ static void bcm_sysport_init_dim(struct bcm_sysport_priv *priv,
- static void bcm_sysport_init_rx_coalesce(struct bcm_sysport_priv *priv)
- {
- 	struct bcm_sysport_net_dim *dim = &priv->dim;
--	struct net_dim_cq_moder moder;
-+	struct dim_cq_moder moder;
- 	u32 usecs, pkts;
- 
- 	usecs = priv->rx_coalesce_usecs;
-diff --git a/drivers/net/ethernet/broadcom/bcmsysport.h b/drivers/net/ethernet/broadcom/bcmsysport.h
-index 0b192fe..a24fdc1 100644
---- a/drivers/net/ethernet/broadcom/bcmsysport.h
-+++ b/drivers/net/ethernet/broadcom/bcmsysport.h
-@@ -711,7 +711,7 @@ struct bcm_sysport_net_dim {
- 	u16			event_ctr;
- 	unsigned long		packets;
- 	unsigned long		bytes;
--	struct net_dim		dim;
-+	struct dim		dim;
- };
- 
- /* Software view of the TX ring */
-diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.c b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-index 1528620..9e62e3f 100644
---- a/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-+++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-@@ -2125,12 +2125,12 @@ static int bnxt_poll(struct napi_struct *napi, int budget)
- 		}
- 	}
- 	if (bp->flags & BNXT_FLAG_DIM) {
--		struct net_dim_sample dim_sample;
-+		struct dim_sample dim_sample;
- 
--		net_dim_create_sample(cpr->event_ctr,
--				      cpr->rx_packets,
--				      cpr->rx_bytes,
--				      &dim_sample);
-+		dim_create_sample(cpr->event_ctr,
-+				  cpr->rx_packets,
-+				  cpr->rx_bytes,
-+				  &dim_sample);
- 		net_dim(&cpr->dim, dim_sample);
- 	}
- 	mmiowb();
-diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.h b/drivers/net/ethernet/broadcom/bnxt/bnxt.h
-index cf81ace..12a53b9 100644
---- a/drivers/net/ethernet/broadcom/bnxt/bnxt.h
-+++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.h
-@@ -809,7 +809,7 @@ struct bnxt_cp_ring_info {
- 	u64			rx_bytes;
- 	u64			event_ctr;
- 
--	struct net_dim		dim;
-+	struct dim		dim;
- 
- 	union {
- 		struct tx_cmp	*cp_desc_ring[MAX_CP_PAGES];
-diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt_debugfs.c b/drivers/net/ethernet/broadcom/bnxt/bnxt_debugfs.c
-index 94e208e..3d1d53f 100644
---- a/drivers/net/ethernet/broadcom/bnxt/bnxt_debugfs.c
-+++ b/drivers/net/ethernet/broadcom/bnxt/bnxt_debugfs.c
-@@ -21,7 +21,7 @@ static ssize_t debugfs_dim_read(struct file *filep,
- 				char __user *buffer,
- 				size_t count, loff_t *ppos)
- {
--	struct net_dim *dim = filep->private_data;
-+	struct dim *dim = filep->private_data;
- 	int len;
- 	char *buf;
- 
-@@ -61,7 +61,7 @@ static ssize_t debugfs_dim_read(struct file *filep,
- 	.read = debugfs_dim_read,
- };
- 
--static struct dentry *debugfs_dim_ring_init(struct net_dim *dim, int ring_idx,
-+static struct dentry *debugfs_dim_ring_init(struct dim *dim, int ring_idx,
- 					    struct dentry *dd)
- {
- 	static char qname[16];
-diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt_dim.c b/drivers/net/ethernet/broadcom/bnxt/bnxt_dim.c
-index 16a4588..11605f9 100644
---- a/drivers/net/ethernet/broadcom/bnxt/bnxt_dim.c
-+++ b/drivers/net/ethernet/broadcom/bnxt/bnxt_dim.c
-@@ -13,15 +13,14 @@
- 
- void bnxt_dim_work(struct work_struct *work)
- {
--	struct net_dim *dim = container_of(work, struct net_dim,
--					   work);
-+	struct dim *dim = container_of(work, struct dim, work);
- 	struct bnxt_cp_ring_info *cpr = container_of(dim,
- 						     struct bnxt_cp_ring_info,
- 						     dim);
- 	struct bnxt_napi *bnapi = container_of(cpr,
- 					       struct bnxt_napi,
- 					       cp_ring);
--	struct net_dim_cq_moder cur_moder =
-+	struct dim_cq_moder cur_moder =
- 		net_dim_get_rx_moderation(dim->mode, dim->profile_ix);
- 
- 	cpr->rx_ring_coal.coal_ticks = cur_moder.usec;
-diff --git a/drivers/net/ethernet/broadcom/genet/bcmgenet.c b/drivers/net/ethernet/broadcom/genet/bcmgenet.c
-index 8ab2d67..68d96e3 100644
---- a/drivers/net/ethernet/broadcom/genet/bcmgenet.c
-+++ b/drivers/net/ethernet/broadcom/genet/bcmgenet.c
-@@ -643,7 +643,7 @@ static void bcmgenet_set_rx_coalesce(struct bcmgenet_rx_ring *ring,
- static void bcmgenet_set_ring_rx_coalesce(struct bcmgenet_rx_ring *ring,
- 					  struct ethtool_coalesce *ec)
- {
--	struct net_dim_cq_moder moder;
-+	struct dim_cq_moder moder;
- 	u32 usecs, pkts;
- 
- 	ring->rx_coalesce_usecs = ec->rx_coalesce_usecs;
-@@ -1898,7 +1898,7 @@ static int bcmgenet_rx_poll(struct napi_struct *napi, int budget)
- {
- 	struct bcmgenet_rx_ring *ring = container_of(napi,
- 			struct bcmgenet_rx_ring, napi);
--	struct net_dim_sample dim_sample;
-+	struct dim_sample dim_sample;
- 	unsigned int work_done;
- 
- 	work_done = bcmgenet_desc_rx(ring, budget);
-@@ -1909,8 +1909,8 @@ static int bcmgenet_rx_poll(struct napi_struct *napi, int budget)
- 	}
- 
- 	if (ring->dim.use_dim) {
--		net_dim_create_sample(ring->dim.event_ctr, ring->dim.packets,
--				      ring->dim.bytes, &dim_sample);
-+		dim_create_sample(ring->dim.event_ctr, ring->dim.packets,
-+				  ring->dim.bytes, &dim_sample);
- 		net_dim(&ring->dim.dim, dim_sample);
- 	}
- 
-@@ -1919,12 +1919,12 @@ static int bcmgenet_rx_poll(struct napi_struct *napi, int budget)
- 
- static void bcmgenet_dim_work(struct work_struct *work)
- {
--	struct net_dim *dim = container_of(work, struct net_dim, work);
-+	struct dim *dim = container_of(work, struct dim, work);
- 	struct bcmgenet_net_dim *ndim =
- 			container_of(dim, struct bcmgenet_net_dim, dim);
- 	struct bcmgenet_rx_ring *ring =
- 			container_of(ndim, struct bcmgenet_rx_ring, dim);
--	struct net_dim_cq_moder cur_profile =
-+	struct dim_cq_moder cur_profile =
- 			net_dim_get_rx_moderation(dim->mode, dim->profile_ix);
- 
- 	bcmgenet_set_rx_coalesce(ring, cur_profile.usec, cur_profile.pkts);
-@@ -2094,7 +2094,7 @@ static void bcmgenet_init_dim(struct bcmgenet_rx_ring *ring,
- static void bcmgenet_init_rx_coalesce(struct bcmgenet_rx_ring *ring)
- {
- 	struct bcmgenet_net_dim *dim = &ring->dim;
--	struct net_dim_cq_moder moder;
-+	struct dim_cq_moder moder;
- 	u32 usecs, pkts;
- 
- 	usecs = ring->rx_coalesce_usecs;
-diff --git a/drivers/net/ethernet/broadcom/genet/bcmgenet.h b/drivers/net/ethernet/broadcom/genet/bcmgenet.h
-index 14b49612a..6e418d9 100644
---- a/drivers/net/ethernet/broadcom/genet/bcmgenet.h
-+++ b/drivers/net/ethernet/broadcom/genet/bcmgenet.h
-@@ -581,7 +581,7 @@ struct bcmgenet_net_dim {
- 	u16		event_ctr;
- 	unsigned long	packets;
- 	unsigned long	bytes;
--	struct net_dim	dim;
-+	struct dim	dim;
- };
- 
- struct bcmgenet_rx_ring {
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en.h b/drivers/net/ethernet/mellanox/mlx5/core/en.h
-index 8ce9b51..e2ffb6c 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en.h
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en.h
-@@ -238,8 +238,8 @@ struct mlx5e_params {
- 	u16 num_channels;
- 	u8  num_tc;
- 	bool rx_cqe_compress_def;
--	struct net_dim_cq_moder rx_cq_moderation;
--	struct net_dim_cq_moder tx_cq_moderation;
-+	struct dim_cq_moder rx_cq_moderation;
-+	struct dim_cq_moder tx_cq_moderation;
- 	bool lro_en;
- 	u32 lro_wqe_sz;
- 	u8  tx_min_inline_mode;
-@@ -356,7 +356,7 @@ struct mlx5e_txqsq {
- 	/* dirtied @completion */
- 	u16                        cc;
- 	u32                        dma_fifo_cc;
--	struct net_dim             dim; /* Adaptive Moderation */
-+	struct dim                 dim; /* Adaptive Moderation */
- 
- 	/* dirtied @xmit */
- 	u16                        pc ____cacheline_aligned_in_smp;
-@@ -590,7 +590,7 @@ struct mlx5e_rq {
- 	int                    ix;
- 	unsigned int           hw_mtu;
- 
--	struct net_dim         dim; /* Dynamic Interrupt Moderation */
-+	struct dim         dim; /* Dynamic Interrupt Moderation */
- 
- 	/* XDP */
- 	struct bpf_prog       *xdp_prog;
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_dim.c b/drivers/net/ethernet/mellanox/mlx5/core/en_dim.c
-index a80303a..ba3c1be 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en_dim.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en_dim.c
-@@ -34,7 +34,7 @@
- #include "en.h"
- 
- static void
--mlx5e_complete_dim_work(struct net_dim *dim, struct net_dim_cq_moder moder,
-+mlx5e_complete_dim_work(struct dim *dim, struct dim_cq_moder moder,
- 			struct mlx5_core_dev *mdev, struct mlx5_core_cq *mcq)
- {
- 	mlx5_core_modify_cq_moderation(mdev, mcq, moder.usec, moder.pkts);
-@@ -43,9 +43,9 @@
- 
- void mlx5e_rx_dim_work(struct work_struct *work)
- {
--	struct net_dim *dim = container_of(work, struct net_dim, work);
-+	struct dim *dim = container_of(work, struct dim, work);
- 	struct mlx5e_rq *rq = container_of(dim, struct mlx5e_rq, dim);
--	struct net_dim_cq_moder cur_moder =
-+	struct dim_cq_moder cur_moder =
- 		net_dim_get_rx_moderation(dim->mode, dim->profile_ix);
- 
- 	mlx5e_complete_dim_work(dim, cur_moder, rq->mdev, &rq->cq.mcq);
-@@ -53,9 +53,9 @@ void mlx5e_rx_dim_work(struct work_struct *work)
- 
- void mlx5e_tx_dim_work(struct work_struct *work)
- {
--	struct net_dim *dim = container_of(work, struct net_dim, work);
-+	struct dim *dim = container_of(work, struct dim, work);
- 	struct mlx5e_txqsq *sq = container_of(dim, struct mlx5e_txqsq, dim);
--	struct net_dim_cq_moder cur_moder =
-+	struct dim_cq_moder cur_moder =
- 		net_dim_get_tx_moderation(dim->mode, dim->profile_ix);
- 
- 	mlx5e_complete_dim_work(dim, cur_moder, sq->cq.mdev, &sq->cq.mcq);
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_ethtool.c b/drivers/net/ethernet/mellanox/mlx5/core/en_ethtool.c
-index 5efce4a..c346b59 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en_ethtool.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en_ethtool.c
-@@ -466,7 +466,7 @@ static int mlx5e_set_channels(struct net_device *dev,
- int mlx5e_ethtool_get_coalesce(struct mlx5e_priv *priv,
- 			       struct ethtool_coalesce *coal)
- {
--	struct net_dim_cq_moder *rx_moder, *tx_moder;
-+	struct dim_cq_moder *rx_moder, *tx_moder;
- 
- 	if (!MLX5_CAP_GEN(priv->mdev, cq_moderation))
- 		return -EOPNOTSUPP;
-@@ -521,7 +521,7 @@ static int mlx5e_get_coalesce(struct net_device *netdev,
- int mlx5e_ethtool_set_coalesce(struct mlx5e_priv *priv,
- 			       struct ethtool_coalesce *coal)
- {
--	struct net_dim_cq_moder *rx_moder, *tx_moder;
-+	struct dim_cq_moder *rx_moder, *tx_moder;
- 	struct mlx5_core_dev *mdev = priv->mdev;
- 	struct mlx5e_channels new_channels = {};
- 	int err = 0;
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_main.c b/drivers/net/ethernet/mellanox/mlx5/core/en_main.c
-index 589ecef..95ed0cb 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en_main.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en_main.c
-@@ -1666,7 +1666,7 @@ static void mlx5e_destroy_cq(struct mlx5e_cq *cq)
+ 	completed = __ib_process_cq(cq, IB_POLL_BUDGET_WORKQUEUE, cq->wc,
+ 				    IB_POLL_BATCH);
++
++	if (cq->workqueue_poll.dim_used)
++		dim_create_sample(m_sample->event_ctr + 1, m_sample->pkt_ctr,
++				  m_sample->byte_ctr,
++				  m_sample->comp_ctr + completed, &e_sample);
++
+ 	if (completed >= IB_POLL_BUDGET_WORKQUEUE ||
+ 	    ib_req_notify_cq(cq, IB_POLL_FLAGS) > 0)
+-		queue_work(cq->comp_wq, &cq->work);
++		queue_work(cq->comp_wq, &cq->workqueue_poll.work);
++	else if (cq->workqueue_poll.dim_used)
++		rdma_dim(&cq->workqueue_poll.dim, &e_sample);
  }
  
- static int mlx5e_open_cq(struct mlx5e_channel *c,
--			 struct net_dim_cq_moder moder,
-+			 struct dim_cq_moder moder,
- 			 struct mlx5e_cq_param *param,
- 			 struct mlx5e_cq *cq)
+ static void ib_cq_completion_workqueue(struct ib_cq *cq, void *private)
  {
-@@ -1871,7 +1871,7 @@ static int mlx5e_open_channel(struct mlx5e_priv *priv, int ix,
- 			      struct mlx5e_channel **cp)
- {
- 	int cpu = cpumask_first(mlx5_comp_irq_get_affinity_mask(priv->mdev, ix));
--	struct net_dim_cq_moder icocq_moder = {0, 0};
-+	struct dim_cq_moder icocq_moder = {0, 0};
- 	struct net_device *netdev = priv->netdev;
- 	struct mlx5e_channel *c;
- 	unsigned int irq;
-@@ -4456,9 +4456,9 @@ static bool slow_pci_heuristic(struct mlx5_core_dev *mdev)
- 		link_speed > MLX5E_SLOW_PCI_RATIO * pci_bw;
+-	queue_work(cq->comp_wq, &cq->work);
++	queue_work(cq->comp_wq, &cq->workqueue_poll.work);
  }
  
--static struct net_dim_cq_moder mlx5e_get_def_tx_moderation(u8 cq_period_mode)
-+static struct dim_cq_moder mlx5e_get_def_tx_moderation(u8 cq_period_mode)
+ /**
+@@ -129,6 +182,7 @@ static void ib_cq_completion_workqueue(struct ib_cq *cq, void *private)
+  * @poll_ctx:		context to poll the CQ from.
+  * @caller:		module owner name.
+  * @udata:		Valid user data or NULL for kernel object
++ * @use_dim:		use dynamic interrupt moderation
+  *
+  * This is the proper interface to allocate a CQ for in-kernel users. A
+  * CQ allocated with this interface will automatically be polled from the
+@@ -138,7 +192,8 @@ static void ib_cq_completion_workqueue(struct ib_cq *cq, void *private)
+ struct ib_cq *__ib_alloc_cq_user(struct ib_device *dev, void *private,
+ 				 int nr_cqe, int comp_vector,
+ 				 enum ib_poll_context poll_ctx,
+-				 const char *caller, struct ib_udata *udata)
++				 const char *caller, struct ib_udata *udata,
++				 bool use_dim)
  {
--	struct net_dim_cq_moder moder;
-+	struct dim_cq_moder moder;
+ 	struct ib_cq_init_attr cq_attr = {
+ 		.cqe		= nr_cqe,
+@@ -174,12 +229,22 @@ struct ib_cq *__ib_alloc_cq_user(struct ib_device *dev, void *private,
+ 		cq->comp_handler = ib_cq_completion_softirq;
  
- 	moder.cq_period_mode = cq_period_mode;
- 	moder.pkts = MLX5E_PARAMS_DEFAULT_TX_CQ_MODERATION_PKTS;
-@@ -4469,9 +4469,9 @@ static struct net_dim_cq_moder mlx5e_get_def_tx_moderation(u8 cq_period_mode)
- 	return moder;
- }
- 
--static struct net_dim_cq_moder mlx5e_get_def_rx_moderation(u8 cq_period_mode)
-+static struct dim_cq_moder mlx5e_get_def_rx_moderation(u8 cq_period_mode)
- {
--	struct net_dim_cq_moder moder;
-+	struct dim_cq_moder moder;
- 
- 	moder.cq_period_mode = cq_period_mode;
- 	moder.pkts = MLX5E_PARAMS_DEFAULT_RX_CQ_MODERATION_PKTS;
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_txrx.c b/drivers/net/ethernet/mellanox/mlx5/core/en_txrx.c
-index 6dd8202..4324747 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en_txrx.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en_txrx.c
-@@ -48,24 +48,24 @@ static inline bool mlx5e_channel_no_affinity_change(struct mlx5e_channel *c)
- static void mlx5e_handle_tx_dim(struct mlx5e_txqsq *sq)
- {
- 	struct mlx5e_sq_stats *stats = sq->stats;
--	struct net_dim_sample dim_sample;
-+	struct dim_sample dim_sample;
- 
- 	if (unlikely(!test_bit(MLX5E_SQ_STATE_AM, &sq->state)))
- 		return;
- 
--	net_dim_create_sample(sq->cq.event_ctr, stats->packets, stats->bytes, &dim_sample);
-+	dim_create_sample(sq->cq.event_ctr, stats->packets, stats->bytes, &dim_sample);
- 	net_dim(&sq->dim, dim_sample);
- }
- 
- static void mlx5e_handle_rx_dim(struct mlx5e_rq *rq)
- {
- 	struct mlx5e_rq_stats *stats = rq->stats;
--	struct net_dim_sample dim_sample;
-+	struct dim_sample dim_sample;
- 
- 	if (unlikely(!test_bit(MLX5E_RQ_STATE_AM, &rq->state)))
- 		return;
- 
--	net_dim_create_sample(rq->cq.event_ctr, stats->packets, stats->bytes, &dim_sample);
-+	dim_create_sample(rq->cq.event_ctr, stats->packets, stats->bytes, &dim_sample);
- 	net_dim(&rq->dim, dim_sample);
- }
- 
-diff --git a/include/linux/dim.h b/include/linux/dim.h
-index 2413021..4fa55eb 100644
---- a/include/linux/dim.h
-+++ b/include/linux/dim.h
-@@ -41,13 +41,13 @@
- 	(((100UL * abs((val) - (ref))) / (ref)) > 10) /* more than 10% difference */
- #define BIT_GAP(bits, end, start) ((((end) - (start)) + BIT_ULL(bits)) & (BIT_ULL(bits) - 1))
- 
--struct net_dim_cq_moder {
-+struct dim_cq_moder {
- 	u16 usec;
- 	u16 pkts;
- 	u8 cq_period_mode;
- };
- 
--struct net_dim_sample {
-+struct dim_sample {
- 	ktime_t time;
- 	u32     pkt_ctr;
- 	u32     byte_ctr;
-@@ -60,10 +60,10 @@ struct dim_stats {
- 	int epms; /* events per msec */
- };
- 
--struct net_dim { /* Dynamic Interrupt Moderation */
-+struct dim { /* Dynamic Interrupt Moderation */
- 	u8                                      state;
- 	struct dim_stats                        prev_stats;
--	struct net_dim_sample                   start_sample;
-+	struct dim_sample                       start_sample;
- 	struct work_struct                      work;
- 	u8                                      profile_ix;
- 	u8                                      mode;
-@@ -104,7 +104,7 @@ enum {
- 	DIM_ON_EDGE,
- };
- 
--static inline bool dim_on_top(struct net_dim *dim)
-+static inline bool dim_on_top(struct dim *dim)
- {
- 	switch (dim->tune_state) {
- 	case DIM_PARKING_ON_TOP:
-@@ -117,7 +117,7 @@ static inline bool dim_on_top(struct net_dim *dim)
- 	}
- }
- 
--static inline void dim_turn(struct net_dim *dim)
-+static inline void dim_turn(struct dim *dim)
- {
- 	switch (dim->tune_state) {
- 	case DIM_PARKING_ON_TOP:
-@@ -134,7 +134,7 @@ static inline void dim_turn(struct net_dim *dim)
- 	}
- }
- 
--static inline void dim_park_on_top(struct net_dim *dim)
-+static inline void dim_park_on_top(struct dim *dim)
- {
- 	dim->steps_right  = 0;
- 	dim->steps_left   = 0;
-@@ -142,17 +142,17 @@ static inline void dim_park_on_top(struct net_dim *dim)
- 	dim->tune_state   = DIM_PARKING_ON_TOP;
- }
- 
--static inline void dim_park_tired(struct net_dim *dim)
-+static inline void dim_park_tired(struct dim *dim)
- {
- 	dim->steps_right  = 0;
- 	dim->steps_left   = 0;
- 	dim->tune_state   = DIM_PARKING_TIRED;
- }
- 
--static inline void net_dim_create_sample(u16 event_ctr,
--					 u64 packets,
--					 u64 bytes,
--					 struct net_dim_sample *s)
-+static inline void dim_create_sample(u16 event_ctr,
-+				     u64 packets,
-+				     u64 bytes,
-+				     struct dim_sample *s)
- {
- 	s->time	     = ktime_get();
- 	s->pkt_ctr   = packets;
-@@ -160,8 +160,8 @@ static inline void net_dim_create_sample(u16 event_ctr,
- 	s->event_ctr = event_ctr;
- }
- 
--static inline void dim_calc_stats(struct net_dim_sample *start,
--				  struct net_dim_sample *end,
-+static inline void dim_calc_stats(struct dim_sample *start,
-+				  struct dim_sample *end,
- 				  struct dim_stats *curr_stats)
- {
- 	/* u32 holds up to 71 minutes, should be enough */
-diff --git a/include/linux/net_dim.h b/include/linux/net_dim.h
-index 93c4e21..1be7592 100644
---- a/include/linux/net_dim.h
-+++ b/include/linux/net_dim.h
-@@ -77,28 +77,28 @@
- 	{64, 32}   \
- }
- 
--static const struct net_dim_cq_moder
-+static const struct dim_cq_moder
- rx_profile[DIM_CQ_PERIOD_NUM_MODES][NET_DIM_PARAMS_NUM_PROFILES] = {
- 	NET_DIM_RX_EQE_PROFILES,
- 	NET_DIM_RX_CQE_PROFILES,
- };
- 
--static const struct net_dim_cq_moder
-+static const struct dim_cq_moder
- tx_profile[DIM_CQ_PERIOD_NUM_MODES][NET_DIM_PARAMS_NUM_PROFILES] = {
- 	NET_DIM_TX_EQE_PROFILES,
- 	NET_DIM_TX_CQE_PROFILES,
- };
- 
--static inline struct net_dim_cq_moder
-+static inline struct dim_cq_moder
- net_dim_get_rx_moderation(u8 cq_period_mode, int ix)
- {
--	struct net_dim_cq_moder cq_moder = rx_profile[cq_period_mode][ix];
-+	struct dim_cq_moder cq_moder = rx_profile[cq_period_mode][ix];
- 
- 	cq_moder.cq_period_mode = cq_period_mode;
- 	return cq_moder;
- }
- 
--static inline struct net_dim_cq_moder
-+static inline struct dim_cq_moder
- net_dim_get_def_rx_moderation(u8 cq_period_mode)
- {
- 	u8 profile_ix = cq_period_mode == DIM_CQ_PERIOD_MODE_START_FROM_CQE ?
-@@ -107,16 +107,16 @@
- 	return net_dim_get_rx_moderation(cq_period_mode, profile_ix);
- }
- 
--static inline struct net_dim_cq_moder
-+static inline struct dim_cq_moder
- net_dim_get_tx_moderation(u8 cq_period_mode, int ix)
- {
--	struct net_dim_cq_moder cq_moder = tx_profile[cq_period_mode][ix];
-+	struct dim_cq_moder cq_moder = tx_profile[cq_period_mode][ix];
- 
- 	cq_moder.cq_period_mode = cq_period_mode;
- 	return cq_moder;
- }
- 
--static inline struct net_dim_cq_moder
-+static inline struct dim_cq_moder
- net_dim_get_def_tx_moderation(u8 cq_period_mode)
- {
- 	u8 profile_ix = cq_period_mode == DIM_CQ_PERIOD_MODE_START_FROM_CQE ?
-@@ -125,7 +125,7 @@
- 	return net_dim_get_tx_moderation(cq_period_mode, profile_ix);
- }
- 
--static inline int net_dim_step(struct net_dim *dim)
-+static inline int net_dim_step(struct dim *dim)
- {
- 	if (dim->tired == (NET_DIM_PARAMS_NUM_PROFILES * 2))
- 		return DIM_TOO_TIRED;
-@@ -152,7 +152,7 @@ static inline int net_dim_step(struct net_dim *dim)
- 	return DIM_STEPPED;
- }
- 
--static inline void net_dim_exit_parking(struct net_dim *dim)
-+static inline void net_dim_exit_parking(struct dim *dim)
- {
- 	dim->tune_state = dim->profile_ix ? DIM_GOING_LEFT :
- 					  DIM_GOING_RIGHT;
-@@ -189,7 +189,7 @@ static inline int net_dim_stats_compare(struct dim_stats *curr,
- }
- 
- static inline bool net_dim_decision(struct dim_stats *curr_stats,
--				    struct net_dim *dim)
-+				    struct dim *dim)
- {
- 	int prev_state = dim->tune_state;
- 	int prev_ix = dim->profile_ix;
-@@ -239,8 +239,8 @@ static inline bool net_dim_decision(struct dim_stats *curr_stats,
- 	return dim->profile_ix != prev_ix;
- }
- 
--static inline void net_dim(struct net_dim *dim,
--			   struct net_dim_sample end_sample)
-+static inline void net_dim(struct dim *dim,
-+			   struct dim_sample end_sample)
- {
- 	struct dim_stats curr_stats;
- 	u16 nevents;
-@@ -260,8 +260,8 @@ static inline void net_dim(struct net_dim *dim,
- 		}
- 		/* fall through */
- 	case DIM_START_MEASURE:
--		net_dim_create_sample(end_sample.event_ctr, end_sample.pkt_ctr,
--				      end_sample.byte_ctr, &dim->start_sample);
-+		dim_create_sample(end_sample.event_ctr, end_sample.pkt_ctr,
-+				  end_sample.byte_ctr, &dim->start_sample);
- 		dim->state = DIM_MEASURE_IN_PROGRESS;
+ 		irq_poll_init(&cq->iop, IB_POLL_BUDGET_IRQ, ib_poll_handler);
++		if (cq->device->ops.modify_cq && use_dim) {
++			rdma_dim_init(&cq->iop.dim,
++				      ib_cq_rdma_dim_irqpoll_work);
++			cq->iop.dim_used = true;
++		}
+ 		ib_req_notify_cq(cq, IB_CQ_NEXT_COMP);
  		break;
- 	case DIM_APPLY_NEW_PROFILE:
+ 	case IB_POLL_WORKQUEUE:
+ 	case IB_POLL_UNBOUND_WORKQUEUE:
+ 		cq->comp_handler = ib_cq_completion_workqueue;
+-		INIT_WORK(&cq->work, ib_cq_poll_work);
++		INIT_WORK(&cq->workqueue_poll.work, ib_cq_poll_work);
++		if (cq->device->ops.modify_cq && use_dim) {
++			rdma_dim_init(&cq->workqueue_poll.dim,
++				      ib_cq_rdma_dim_workqueue_work);
++			cq->workqueue_poll.dim_used = true;
++		}
+ 		ib_req_notify_cq(cq, IB_CQ_NEXT_COMP);
+ 		cq->comp_wq = (cq->poll_ctx == IB_POLL_WORKQUEUE) ?
+ 				ib_comp_wq : ib_comp_unbound_wq;
+@@ -220,7 +285,9 @@ void ib_free_cq_user(struct ib_cq *cq, struct ib_udata *udata)
+ 		break;
+ 	case IB_POLL_WORKQUEUE:
+ 	case IB_POLL_UNBOUND_WORKQUEUE:
+-		cancel_work_sync(&cq->work);
++		cancel_work_sync(&cq->workqueue_poll.work);
++		if (cq->workqueue_poll.dim_used)
++			flush_work(&cq->iop.dim.work);
+ 		break;
+ 	default:
+ 		WARN_ON_ONCE(1);
+diff --git a/drivers/infiniband/hw/mlx4/qp.c b/drivers/infiniband/hw/mlx4/qp.c
+index 364e16b..b9b550b 100644
+--- a/drivers/infiniband/hw/mlx4/qp.c
++++ b/drivers/infiniband/hw/mlx4/qp.c
+@@ -4385,7 +4385,7 @@ static void handle_drain_completion(struct ib_cq *cq,
+ 				irq_poll_enable(&cq->iop);
+ 				break;
+ 			case IB_POLL_WORKQUEUE:
+-				cancel_work_sync(&cq->work);
++				cancel_work_sync(&cq->workqueue_poll.work);
+ 				break;
+ 			default:
+ 				WARN_ON_ONCE(1);
+diff --git a/drivers/infiniband/hw/mlx5/qp.c b/drivers/infiniband/hw/mlx5/qp.c
+index efe1f6f..ccee41a 100644
+--- a/drivers/infiniband/hw/mlx5/qp.c
++++ b/drivers/infiniband/hw/mlx5/qp.c
+@@ -6267,7 +6267,7 @@ static void handle_drain_completion(struct ib_cq *cq,
+ 				irq_poll_enable(&cq->iop);
+ 				break;
+ 			case IB_POLL_WORKQUEUE:
+-				cancel_work_sync(&cq->work);
++				cancel_work_sync(&cq->workqueue_poll.work);
+ 				break;
+ 			default:
+ 				WARN_ON_ONCE(1);
+diff --git a/include/linux/irq_poll.h b/include/linux/irq_poll.h
+index 16aaecc..3601e75 100644
+--- a/include/linux/irq_poll.h
++++ b/include/linux/irq_poll.h
+@@ -2,6 +2,8 @@
+ #ifndef IRQ_POLL_H
+ #define IRQ_POLL_H
+ 
++#include <linux/rdma_dim.h>
++
+ struct irq_poll;
+ typedef int (irq_poll_fn)(struct irq_poll *, int);
+ 
+@@ -10,6 +12,9 @@ struct irq_poll {
+ 	unsigned long state;
+ 	int weight;
+ 	irq_poll_fn *poll;
++
++	bool dim_used;
++	struct dim dim;
+ };
+ 
+ enum {
+diff --git a/include/rdma/ib_verbs.h b/include/rdma/ib_verbs.h
+index 737ef5e..0a92549 100644
+--- a/include/rdma/ib_verbs.h
++++ b/include/rdma/ib_verbs.h
+@@ -1587,6 +1587,12 @@ enum ib_poll_context {
+ 	IB_POLL_UNBOUND_WORKQUEUE, /* poll from unbound workqueue */
+ };
+ 
++struct ib_cq_workqueue_poll {
++	struct dim              dim;
++	struct work_struct      work;
++	bool                    dim_used;
++};
++
+ struct ib_cq {
+ 	struct ib_device       *device;
+ 	struct ib_uobject      *uobject;
+@@ -1598,8 +1604,8 @@ struct ib_cq {
+ 	enum ib_poll_context	poll_ctx;
+ 	struct ib_wc		*wc;
+ 	union {
+-		struct irq_poll		iop;
+-		struct work_struct	work;
++		struct irq_poll			iop;
++		struct ib_cq_workqueue_poll	workqueue_poll;
+ 	};
+ 	struct workqueue_struct *comp_wq;
+ 	/*
+@@ -3628,7 +3634,8 @@ static inline int ib_post_recv(struct ib_qp *qp,
+ struct ib_cq *__ib_alloc_cq_user(struct ib_device *dev, void *private,
+ 				 int nr_cqe, int comp_vector,
+ 				 enum ib_poll_context poll_ctx,
+-				 const char *caller, struct ib_udata *udata);
++				 const char *caller, struct ib_udata *udata,
++				 bool use_dim);
+ 
+ /**
+  * ib_alloc_cq_user: Allocate kernel/user CQ
+@@ -3646,7 +3653,27 @@ static inline struct ib_cq *ib_alloc_cq_user(struct ib_device *dev,
+ 					     struct ib_udata *udata)
+ {
+ 	return __ib_alloc_cq_user(dev, private, nr_cqe, comp_vector, poll_ctx,
+-				  KBUILD_MODNAME, udata);
++				  KBUILD_MODNAME, udata, false);
++}
++
++/**
++ * ib_alloc_cq_user_dim: Allocate kernel/user CQ with dynamic interrupt
++ * moderation
++ * @dev: The IB device
++ * @private: Private data attached to the CQE
++ * @nr_cqe: Number of CQEs in the CQ
++ * @comp_vector: Completion vector used for the IRQs
++ * @poll_ctx: Context used for polling the CQ
++ * @udata: Valid user data or NULL for kernel objects
++ */
++static inline struct ib_cq *ib_alloc_cq_user_dim(struct ib_device *dev,
++						 void *private, int nr_cqe,
++						 int comp_vector,
++						 enum ib_poll_context poll_ctx,
++						 struct ib_udata *udata)
++{
++	return __ib_alloc_cq_user(dev, private, nr_cqe, comp_vector, poll_ctx,
++				  KBUILD_MODNAME, udata, true);
+ }
+ 
+ /**
+@@ -3668,6 +3695,25 @@ static inline struct ib_cq *ib_alloc_cq(struct ib_device *dev, void *private,
+ }
+ 
+ /**
++ * ib_alloc_cq_dim: Allocate kernel CQ with dynamic interrupt moderation
++ * @dev: The IB device
++ * @private: Private data attached to the CQE
++ * @nr_cqe: Number of CQEs in the CQ
++ * @comp_vector: Completion vector used for the IRQs
++ * @poll_ctx: Context used for polling the CQ
++ *
++ * NOTE: for user cq use ib_alloc_cq_user with valid udata!
++ */
++static inline struct ib_cq *ib_alloc_cq_dim(struct ib_device *dev,
++					    void *private, int nr_cqe,
++					    int comp_vector,
++					    enum ib_poll_context poll_ctx)
++{
++	return ib_alloc_cq_user_dim(dev, private, nr_cqe, comp_vector,
++				    poll_ctx, NULL);
++}
++
++/**
+  * ib_free_cq_user - Free kernel/user CQ
+  * @cq: The CQ to free
+  * @udata: Valid user data or NULL for kernel objects
+diff --git a/lib/irq_poll.c b/lib/irq_poll.c
+index 2f17b48..c63bc9b 100644
+--- a/lib/irq_poll.c
++++ b/lib/irq_poll.c
+@@ -50,6 +50,8 @@ void irq_poll_sched(struct irq_poll *iop)
+  **/
+ static void __irq_poll_complete(struct irq_poll *iop)
+ {
++	if (iop->dim_used)
++		rdma_dim(&iop->dim, &iop->dim.measuring_sample);
+ 	list_del(&iop->list);
+ 	smp_mb__before_atomic();
+ 	clear_bit_unlock(IRQ_POLL_F_SCHED, &iop->state);
+@@ -86,6 +88,7 @@ static void __latent_entropy irq_poll_softirq(struct softirq_action *h)
+ 	while (!list_empty(list)) {
+ 		struct irq_poll *iop;
+ 		int work, weight;
++		struct dim_sample *m_sample;
+ 
+ 		/*
+ 		 * If softirq window is exhausted then punt.
+@@ -104,10 +107,18 @@ static void __latent_entropy irq_poll_softirq(struct softirq_action *h)
+ 		 */
+ 		iop = list_entry(list->next, struct irq_poll, list);
+ 
++		m_sample = &iop->dim.measuring_sample;
+ 		weight = iop->weight;
+ 		work = 0;
+-		if (test_bit(IRQ_POLL_F_SCHED, &iop->state))
++		if (test_bit(IRQ_POLL_F_SCHED, &iop->state)) {
+ 			work = iop->poll(iop, weight);
++			if (iop->dim_used)
++				dim_create_sample(m_sample->event_ctr + 1,
++						  m_sample->pkt_ctr,
++						  m_sample->byte_ctr,
++						  m_sample->comp_ctr + work,
++						  &iop->dim.measuring_sample);
++		}
+ 
+ 		budget -= work;
+ 
+@@ -144,6 +155,8 @@ static void __latent_entropy irq_poll_softirq(struct softirq_action *h)
+  **/
+ void irq_poll_disable(struct irq_poll *iop)
+ {
++	if (iop->dim_used)
++		flush_work(&iop->dim.work);
+ 	set_bit(IRQ_POLL_F_DISABLE, &iop->state);
+ 	while (test_and_set_bit(IRQ_POLL_F_SCHED, &iop->state))
+ 		msleep(1);
 -- 
 1.8.3.1
