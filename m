@@ -1,29 +1,31 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 2 May 2019 07:08:51 -0600
-Subject: [PATCH 1/2] nvme/pci: init shadow doorbell after each reset
-In-Reply-To: <20190502113134.20835-2-mlevitsk@redhat.com>
-References: <20190502113134.20835-1-mlevitsk@redhat.com>
- <20190502113134.20835-2-mlevitsk@redhat.com>
-Message-ID: <20190502130851.GA28496@localhost.localdomain>
+From: mlevitsk@redhat.com (Maxim Levitsky)
+Date: Thu, 02 May 2019 17:20:31 +0300
+Subject: [PATCH v2 08/10] nvme/pci: implement the mdev external queue
+ allocation interface
+In-Reply-To: <20190502114801.23116-9-mlevitsk@redhat.com>
+References: <20190502114801.23116-1-mlevitsk@redhat.com>
+ <20190502114801.23116-9-mlevitsk@redhat.com>
+Message-ID: <be56bf51cebb7f373c279adf3e9a46e6df5dfe76.camel@redhat.com>
 
-On Thu, May 02, 2019@02:31:33PM +0300, Maxim Levitsky wrote:
-> @@ -2303,8 +2303,6 @@ static int nvme_dev_add(struct nvme_dev *dev)
->  			return ret;
->  		}
->  		dev->ctrl.tagset = &dev->tagset;
-> -
-> -		nvme_dbbuf_set(dev);
->  	} else {
->  		blk_mq_update_nr_hw_queues(&dev->tagset, dev->online_queues - 1);
->  
-> @@ -2312,6 +2310,7 @@ static int nvme_dev_add(struct nvme_dev *dev)
->  		nvme_free_queues(dev, dev->online_queues);
->  	}
->  
-> +	nvme_dbbuf_set(dev);
->  	return 0;
->  }
+On Thu, 2019-05-02@14:47 +0300, Maxim Levitsky wrote:
+> Note that currently the number of hw queues reserved for mdev,
+> has to be pre determined on module load.
+> 
+> (I used to allocate the queues dynamicaly on demand, but
+> recent changes to allocate polled/read queues made
+> this somewhat difficult, so I dropped this for now)
+> 
+> Signed-off-by: Maxim Levitsky <mlevitsk at redhat.com>
+> ---
+>  drivers/nvme/host/pci.c  | 375 ++++++++++++++++++++++++++++++++++++++-
+>  drivers/nvme/mdev/host.c |  46 ++---
+>  drivers/nvme/mdev/io.c   |  46 +++--
+>  drivers/nvme/mdev/mmio.c |   3 -
+>  4 files changed, 421 insertions(+), 49 deletions(-)
 
-Looks good.
+The changes in drivers/nvme/mdev aren't supposed to be here, this was some code
+moving around to reduce the diff in the generic block layer support code,
+it supposed to go to the main mdev commit.
 
-Reviewed-by: Keith Busch <keith.busch at intel.com>
+Best regards,
+	Maxim Levitsky
