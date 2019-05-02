@@ -1,21 +1,15 @@
 From: akinobu.mita@gmail.com (Akinobu Mita)
-Date: Thu,  2 May 2019 17:59:20 +0900
-Subject: [PATCH 3/4] nvme-pci: add device coredump support
+Date: Thu,  2 May 2019 17:59:21 +0900
+Subject: [PATCH 4/4] nvme-pci: trigger device coredump before resetting
+ controller
 In-Reply-To: <1556787561-5113-1-git-send-email-akinobu.mita@gmail.com>
 References: <1556787561-5113-1-git-send-email-akinobu.mita@gmail.com>
-Message-ID: <1556787561-5113-4-git-send-email-akinobu.mita@gmail.com>
+Message-ID: <1556787561-5113-5-git-send-email-akinobu.mita@gmail.com>
 
-This enables to capture snapshot of controller information via device
-coredump machanism.
+This enables the nvme driver to trigger a device coredump before resetting
+the controller caused by I/O timeout.
 
-The nvme device coredump creates the following coredump files.
-
-- regs: NVMe controller registers, including each I/O queue doorbell
-        registers, in nvme-show-regs style text format.
-
-- sq<qid>: I/O submission queue
-
-- cq<qid>: I/O completion queue
+The device coredump helps diagnose and debug issues.
 
 Cc: Johannes Berg <johannes at sipsolutions.net>
 Cc: Keith Busch <keith.busch at intel.com>
@@ -24,267 +18,140 @@ Cc: Christoph Hellwig <hch at lst.de>
 Cc: Sagi Grimberg <sagi at grimberg.me>
 Signed-off-by: Akinobu Mita <akinobu.mita at gmail.com>
 ---
- drivers/nvme/host/Kconfig |   1 +
- drivers/nvme/host/pci.c   | 221 ++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 222 insertions(+)
+ drivers/nvme/host/pci.c | 31 ++++++++++++++++++-------------
+ 1 file changed, 18 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
-index 0f345e2..c3a06af 100644
---- a/drivers/nvme/host/Kconfig
-+++ b/drivers/nvme/host/Kconfig
-@@ -5,6 +5,7 @@ config BLK_DEV_NVME
- 	tristate "NVM Express block device"
- 	depends on PCI && BLOCK
- 	select NVME_CORE
-+	select WANT_DEV_COREDUMP
- 	---help---
- 	  The NVM Express driver is for solid state drives directly
- 	  connected to the PCI or PCI Express bus.  If you know you
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index a90cf5d..7f3077c 100644
+index 7f3077c..584c2aa 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -9,6 +9,7 @@
- #include <linux/blkdev.h>
- #include <linux/blk-mq.h>
- #include <linux/blk-mq-pci.h>
-+#include <linux/devcoredump.h>
- #include <linux/dmi.h>
- #include <linux/init.h>
- #include <linux/interrupt.h>
-@@ -2867,6 +2868,225 @@ static int nvme_resume(struct device *dev)
+@@ -87,7 +87,7 @@ MODULE_PARM_DESC(poll_queues, "Number of queues to use for polled IO.");
+ struct nvme_dev;
+ struct nvme_queue;
  
- static SIMPLE_DEV_PM_OPS(nvme_dev_pm_ops, nvme_suspend, nvme_resume);
+-static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown);
++static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown, bool dump);
+ static bool __nvme_disable_io_queues(struct nvme_dev *dev, u8 opcode);
  
-+#ifdef CONFIG_DEV_COREDUMP
+ /*
+@@ -1286,7 +1286,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ 	 */
+ 	if (nvme_should_reset(dev, csts)) {
+ 		nvme_warn_reset(dev, csts);
+-		nvme_dev_disable(dev, false);
++		nvme_dev_disable(dev, false, true);
+ 		nvme_reset_ctrl(&dev->ctrl);
+ 		return BLK_EH_DONE;
+ 	}
+@@ -1313,7 +1313,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ 		dev_warn_ratelimited(dev->ctrl.device,
+ 			 "I/O %d QID %d timeout, disable controller\n",
+ 			 req->tag, nvmeq->qid);
+-		nvme_dev_disable(dev, false);
++		nvme_dev_disable(dev, false, true);
+ 		nvme_req(req)->flags |= NVME_REQ_CANCELLED;
+ 		return BLK_EH_DONE;
+ 	default:
+@@ -1329,7 +1329,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ 		dev_warn(dev->ctrl.device,
+ 			 "I/O %d QID %d timeout, reset controller\n",
+ 			 req->tag, nvmeq->qid);
+-		nvme_dev_disable(dev, false);
++		nvme_dev_disable(dev, false, true);
+ 		nvme_reset_ctrl(&dev->ctrl);
+ 
+ 		nvme_req(req)->flags |= NVME_REQ_CANCELLED;
+@@ -2396,7 +2396,9 @@ static void nvme_pci_disable(struct nvme_dev *dev)
+ 	}
+ }
+ 
+-static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
++static void nvme_coredump(struct device *dev);
 +
-+struct nvme_reg {
-+	u32 off;
-+	const char *name;
-+	int bits;
-+};
-+
-+static const struct nvme_reg nvme_regs[] = {
-+	{ NVME_REG_CAP,		"cap",		64 },
-+	{ NVME_REG_VS,		"version",	32 },
-+	{ NVME_REG_INTMS,	"intms",	32 },
-+	{ NVME_REG_INTMC,	"intmc",	32 },
-+	{ NVME_REG_CC,		"cc",		32 },
-+	{ NVME_REG_CSTS,	"csts",		32 },
-+	{ NVME_REG_NSSR,	"nssr",		32 },
-+	{ NVME_REG_AQA,		"aqa",		32 },
-+	{ NVME_REG_ASQ,		"asq",		64 },
-+	{ NVME_REG_ACQ,		"acq",		64 },
-+	{ NVME_REG_CMBLOC,	"cmbloc",	32 },
-+	{ NVME_REG_CMBSZ,	"cmbsz",	32 },
-+};
-+
-+static int nvme_coredump_regs_padding(int num_queues)
-+{
-+	char name[16];
-+	int padding;
-+	int i;
-+
-+	padding = sprintf(name, "sq%dtdbl", num_queues - 1);
-+
-+	for (i = 0; i < ARRAY_SIZE(nvme_regs); i++)
-+		padding = max_t(int, padding, strlen(nvme_regs[i].name));
-+
-+	return padding;
-+}
-+
-+static int nvme_coredump_regs_buf_size(int num_queues, int padding)
-+{
-+	int line_size = padding + strlen(" : ffffffffffffffff\n");
-+	int buf_size;
-+
-+	/* Max print buffer size for controller registers */
-+	buf_size = line_size * ARRAY_SIZE(nvme_regs);
-+
-+	/* Max print buffer size for SQyTDBL and CQxHDBL registers */
-+	buf_size += line_size * num_queues * 2;
-+
-+	return buf_size;
-+}
-+
-+static int nvme_coredump_regs_print(void *buf, int buf_size,
-+				    struct nvme_ctrl *ctrl, int padding)
-+{
-+	struct nvme_dev *dev = to_nvme_dev(ctrl);
-+	int len = 0;
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(nvme_regs); i++) {
-+		const struct nvme_reg *reg = &nvme_regs[i];
-+		u64 val;
-+
-+		if (reg->bits == 32)
-+			val = readl(dev->bar + reg->off);
-+		else
-+			val = readq(dev->bar + reg->off);
-+
-+		len += snprintf(buf + len, buf_size - len, "%-*s : %llx\n",
-+				padding, reg->name, val);
-+	}
-+
-+	for (i = 0; i < ctrl->queue_count; i++) {
-+		struct nvme_queue *nvmeq = &dev->queues[i];
-+		char name[16];
-+
-+		sprintf(name, "sq%dtdbl", i);
-+		len += snprintf(buf + len, buf_size - len, "%-*s : %x\n",
-+				padding, name, readl(nvmeq->q_db));
-+
-+		sprintf(name, "cq%dhdbl", i);
-+		len += snprintf(buf + len, buf_size - len, "%-*s : %x\n",
-+				padding, name,
-+				readl(nvmeq->q_db + dev->db_stride));
-+	}
-+
-+	return len;
-+}
-+
-+static ssize_t nvme_coredump_read(char *buffer, loff_t offset, size_t count,
-+				  void *data, size_t datalen)
-+{
-+	return memory_read_from_buffer(buffer, count, &offset, data, datalen);
-+}
-+
-+static void nvme_coredump_free(void *data)
-+{
-+	kvfree(data);
-+}
-+
-+static int nvme_coredump_regs(struct dev_coredumpm_bulk_data *data,
-+			      struct nvme_ctrl *ctrl)
-+{
-+	int padding = nvme_coredump_regs_padding(ctrl->queue_count);
-+	int buf_size = nvme_coredump_regs_buf_size(ctrl->queue_count, padding);
-+	void *buf;
-+
-+	buf = kvzalloc(buf_size, GFP_KERNEL);
-+	if (!buf)
-+		return -ENOMEM;
-+
-+	data->name = kstrdup("regs", GFP_KERNEL);
-+	if (!data->name) {
-+		kvfree(buf);
-+		return -ENOMEM;
-+	}
-+
-+	data->data = buf;
-+	data->datalen = nvme_coredump_regs_print(buf, buf_size, ctrl, padding);
-+	data->read = nvme_coredump_read;
-+	data->free = nvme_coredump_free;
-+
-+	return 0;
-+}
-+
-+static void *kvmemdup(const void *src, size_t len, gfp_t gfp)
-+{
-+	void *p;
-+
-+	p = kvmalloc(len, gfp);
-+	if (p)
-+		memcpy(p, src, len);
-+
-+	return p;
-+}
-+
-+static int nvme_coredump_queues(struct dev_coredumpm_bulk_data *bulk_data,
-+				struct nvme_ctrl *ctrl)
-+{
-+	int i;
-+
-+	for (i = 0; i < ctrl->queue_count; i++) {
-+		struct dev_coredumpm_bulk_data *data = &bulk_data[2 * i];
-+		struct nvme_queue *nvmeq = &to_nvme_dev(ctrl)->queues[i];
-+
-+		data[0].name = kasprintf(GFP_KERNEL, "sq%d", i);
-+		data[0].data = kvmemdup(nvmeq->sq_cmds,
-+					SQ_SIZE(nvmeq->q_depth), GFP_KERNEL);
-+		data[0].datalen = SQ_SIZE(nvmeq->q_depth);
-+		data[0].read = nvme_coredump_read;
-+		data[0].free = nvme_coredump_free;
-+
-+		data[1].name = kasprintf(GFP_KERNEL, "cq%d", i);
-+		data[1].data = kvmemdup((void *)nvmeq->cqes,
-+					CQ_SIZE(nvmeq->q_depth), GFP_KERNEL);
-+		data[1].datalen = CQ_SIZE(nvmeq->q_depth);
-+		data[1].read = nvme_coredump_read;
-+		data[1].free = nvme_coredump_free;
-+
-+		if (!data[0].name || !data[1].name ||
-+		    !data[0].data || !data[1].data)
-+			goto free;
-+	}
-+
-+	return 0;
-+free:
-+	for (; i >= 0; i--) {
-+		struct dev_coredumpm_bulk_data *data = &bulk_data[2 * i];
-+
-+		kfree(data[0].name);
-+		kfree(data[1].name);
-+		kvfree(data[0].data);
-+		kvfree(data[1].data);
-+	}
-+
-+	return -ENOMEM;
-+}
-+
-+static void nvme_coredump(struct device *dev)
-+{
-+	struct nvme_dev *ndev = dev_get_drvdata(dev);
-+	struct nvme_ctrl *ctrl = &ndev->ctrl;
-+	struct dev_coredumpm_bulk_data *bulk_data;
-+	int ret;
-+	int i;
-+
-+	bulk_data = kcalloc(1 + 2 * ctrl->queue_count, sizeof(*bulk_data),
-+			    GFP_KERNEL);
-+	if (!bulk_data)
-+		return;
-+
-+	ret = nvme_coredump_regs(&bulk_data[0], ctrl);
-+	if (ret)
-+		goto free_bulk_data;
-+
-+	ret = nvme_coredump_queues(&bulk_data[1], ctrl);
-+	if (ret)
-+		goto free_bulk_data;
-+
-+	dev_coredumpm_bulk(dev, THIS_MODULE, GFP_KERNEL, bulk_data,
-+			   1 + 2 * ctrl->queue_count);
-+
-+free_bulk_data:
-+	for (i = 0; i < 1 + 2 * ctrl->queue_count; i++) {
-+		kfree(bulk_data[i].name);
-+		if (ret)
-+			kvfree(bulk_data[i].data);
-+	}
-+
-+	kfree(bulk_data);
-+}
-+
-+#else
-+
-+static void nvme_coredump(struct device *dev)
-+{
-+}
-+
-+#endif /* CONFIG_DEV_COREDUMP */
-+
- static pci_ers_result_t nvme_error_detected(struct pci_dev *pdev,
- 						pci_channel_state_t state)
++static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown, bool dump)
  {
-@@ -2972,6 +3192,7 @@ static struct pci_driver nvme_driver = {
- 	.shutdown	= nvme_shutdown,
- 	.driver		= {
- 		.pm	= &nvme_dev_pm_ops,
-+		.coredump = nvme_coredump,
- 	},
- 	.sriov_configure = pci_sriov_configure_simple,
- 	.err_handler	= &nvme_err_handler,
+ 	bool dead = true;
+ 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+@@ -2421,6 +2423,9 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+ 			nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
+ 	}
+ 
++	if (dump)
++		nvme_coredump(dev->dev);
++
+ 	nvme_stop_queues(&dev->ctrl);
+ 
+ 	if (!dead && dev->ctrl.queue_count > 0) {
+@@ -2488,7 +2493,7 @@ static void nvme_remove_dead_ctrl(struct nvme_dev *dev, int status)
+ 	dev_warn(dev->ctrl.device, "Removing after probe failure status: %d\n", status);
+ 
+ 	nvme_get_ctrl(&dev->ctrl);
+-	nvme_dev_disable(dev, false);
++	nvme_dev_disable(dev, false, false);
+ 	nvme_kill_queues(&dev->ctrl);
+ 	if (!queue_work(nvme_wq, &dev->remove_work))
+ 		nvme_put_ctrl(&dev->ctrl);
+@@ -2510,7 +2515,7 @@ static void nvme_reset_work(struct work_struct *work)
+ 	 * moving on.
+ 	 */
+ 	if (dev->ctrl.ctrl_config & NVME_CC_ENABLE)
+-		nvme_dev_disable(dev, false);
++		nvme_dev_disable(dev, false, false);
+ 
+ 	mutex_lock(&dev->shutdown_lock);
+ 	result = nvme_pci_enable(dev);
+@@ -2799,7 +2804,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ static void nvme_reset_prepare(struct pci_dev *pdev)
+ {
+ 	struct nvme_dev *dev = pci_get_drvdata(pdev);
+-	nvme_dev_disable(dev, false);
++	nvme_dev_disable(dev, false, false);
+ }
+ 
+ static void nvme_reset_done(struct pci_dev *pdev)
+@@ -2811,7 +2816,7 @@ static void nvme_reset_done(struct pci_dev *pdev)
+ static void nvme_shutdown(struct pci_dev *pdev)
+ {
+ 	struct nvme_dev *dev = pci_get_drvdata(pdev);
+-	nvme_dev_disable(dev, true);
++	nvme_dev_disable(dev, true, false);
+ }
+ 
+ /*
+@@ -2828,14 +2833,14 @@ static void nvme_remove(struct pci_dev *pdev)
+ 
+ 	if (!pci_device_is_present(pdev)) {
+ 		nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DEAD);
+-		nvme_dev_disable(dev, true);
++		nvme_dev_disable(dev, true, false);
+ 		nvme_dev_remove_admin(dev);
+ 	}
+ 
+ 	flush_work(&dev->ctrl.reset_work);
+ 	nvme_stop_ctrl(&dev->ctrl);
+ 	nvme_remove_namespaces(&dev->ctrl);
+-	nvme_dev_disable(dev, true);
++	nvme_dev_disable(dev, true, false);
+ 	nvme_release_cmb(dev);
+ 	nvme_free_host_mem(dev);
+ 	nvme_dev_remove_admin(dev);
+@@ -2852,7 +2857,7 @@ static int nvme_suspend(struct device *dev)
+ 	struct pci_dev *pdev = to_pci_dev(dev);
+ 	struct nvme_dev *ndev = pci_get_drvdata(pdev);
+ 
+-	nvme_dev_disable(ndev, true);
++	nvme_dev_disable(ndev, true, false);
+ 	return 0;
+ }
+ 
+@@ -3103,7 +3108,7 @@ static pci_ers_result_t nvme_error_detected(struct pci_dev *pdev,
+ 	case pci_channel_io_frozen:
+ 		dev_warn(dev->ctrl.device,
+ 			"frozen state error detected, reset controller\n");
+-		nvme_dev_disable(dev, false);
++		nvme_dev_disable(dev, false, false);
+ 		return PCI_ERS_RESULT_NEED_RESET;
+ 	case pci_channel_io_perm_failure:
+ 		dev_warn(dev->ctrl.device,
 -- 
 2.7.4
