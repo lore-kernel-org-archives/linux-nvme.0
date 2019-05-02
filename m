@@ -1,21 +1,29 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 2 May 2019 06:57:23 -0600
-Subject: [PATCH 0/4] nvme-pci: support device coredump
-In-Reply-To: <1556787561-5113-1-git-send-email-akinobu.mita@gmail.com>
-References: <1556787561-5113-1-git-send-email-akinobu.mita@gmail.com>
-Message-ID: <20190502125722.GA28470@localhost.localdomain>
+Date: Thu, 2 May 2019 07:08:51 -0600
+Subject: [PATCH 1/2] nvme/pci: init shadow doorbell after each reset
+In-Reply-To: <20190502113134.20835-2-mlevitsk@redhat.com>
+References: <20190502113134.20835-1-mlevitsk@redhat.com>
+ <20190502113134.20835-2-mlevitsk@redhat.com>
+Message-ID: <20190502130851.GA28496@localhost.localdomain>
 
-On Thu, May 02, 2019@05:59:17PM +0900, Akinobu Mita wrote:
-> This enables to capture snapshot of controller information via device
-> coredump machanism, and it helps diagnose and debug issues.
-> 
-> The nvme device coredump is triggered before resetting the controller
-> caused by I/O timeout, and creates the following coredump files.
-> 
-> - regs: NVMe controller registers, including each I/O queue doorbell
->         registers, in nvme-show-regs style text format.
+On Thu, May 02, 2019@02:31:33PM +0300, Maxim Levitsky wrote:
+> @@ -2303,8 +2303,6 @@ static int nvme_dev_add(struct nvme_dev *dev)
+>  			return ret;
+>  		}
+>  		dev->ctrl.tagset = &dev->tagset;
+> -
+> -		nvme_dbbuf_set(dev);
+>  	} else {
+>  		blk_mq_update_nr_hw_queues(&dev->tagset, dev->online_queues - 1);
+>  
+> @@ -2312,6 +2310,7 @@ static int nvme_dev_add(struct nvme_dev *dev)
+>  		nvme_free_queues(dev, dev->online_queues);
+>  	}
+>  
+> +	nvme_dbbuf_set(dev);
+>  	return 0;
+>  }
 
-You're supposed to treat queue doorbells as write-only. Spec says:
+Looks good.
 
-  The host should not read the doorbell registers. If a doorbell register
-  is read, the value returned is vendor specific.
+Reviewed-by: Keith Busch <keith.busch at intel.com>
