@@ -1,35 +1,99 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Fri, 3 May 2019 22:00:54 +0300
-Subject: [PATCH v2 06/10] nvme/core: add mdev interfaces
-In-Reply-To: <20190503122902.GA5081@infradead.org>
-References: <20190502114801.23116-1-mlevitsk@redhat.com>
- <20190502114801.23116-7-mlevitsk@redhat.com>
- <20190503122902.GA5081@infradead.org>
-Message-ID: <d1c0c7ae-1a7d-06e5-d8bb-765a7fd5e41d@mellanox.com>
+Date: Fri, 3 May 2019 22:12:27 +0300
+Subject: [PATCHv3 2/2] nvme: validate cntlid during controller
+ initialisation
+In-Reply-To: <20190503133736.111201-3-hare@suse.de>
+References: <20190503133736.111201-1-hare@suse.de>
+ <20190503133736.111201-3-hare@suse.de>
+Message-ID: <0c574e02-37ce-eb20-2868-a87e9759e708@mellanox.com>
 
 
-On 5/3/2019 3:29 PM, Christoph Hellwig wrote:
-> On Thu, May 02, 2019@02:47:57PM +0300, Maxim Levitsky wrote:
->> If the mdev device driver also sets the
->> NVME_F_MDEV_DMA_SUPPORTED, the mdev core will
->> dma map all the guest memory into the nvme device,
->> so that nvme device driver can use dma addresses as passed
->> from the mdev core driver
-> We really need a proper block layer interface for that so that
-> uring or the nvme target can use pre-mapping as well.
-
-I think we can also find a way to use nvme-mdev for the target offload 
-p2p feature.
-
-Don't see a big difference of taking NVMe queue and namespace/partition 
-to guest OS or to P2P since IO is issued by external entity and pooled 
-outside the pci driver.
-
-thoughts ?
-
-
+On 5/3/2019 4:37 PM, Hannes Reinecke wrote:
+> From: Hannes Reinecke <hare at suse.com>
 >
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+> The CNTLID value is required to be unique, and we do rely on this
+> for correct operation. So reject any controller for which a non-unique
+> CNTLID has been detected.
+>
+> Signed-off-by: Hannes Reinecke <hare at suse.com>
+> ---
+>   drivers/nvme/host/core.c | 32 ++++++++++++++++++++++++++++++--
+>   1 file changed, 30 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index cd16d98d1f1a..dc74f7ba6f4a 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -2358,6 +2358,23 @@ static int nvme_active_ctrls(struct nvme_subsystem *subsys)
+>   	return count;
+>   }
+>   
+> +static bool nvme_duplicate_cntlid(struct nvme_subsystem *subsys,
+> +				  struct nvme_ctrl *ctrl)
+> +{
+> +	struct nvme_ctrl *tmp;
+> +	bool ret = false;
+> +
+> +	list_for_each_entry(tmp, &subsys->ctrls, subsys_entry) {
+> +		if (tmp == ctrl)
+> +			continue;
+> +		if (tmp->cntlid == ctrl->cntlid) {
+> +			ret = true;
+> +			break;
+
+can be done in 1 liner (without local variable ret):
+
+if (tmp != ctrl && tmp->cntlid == ctrl->cntlid)
+
+ ??? return true;
+
+
+return false in the end of the function.
+
+
+Otherwise,
+
+looks good.
+
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+
+
+> +		}
+> +	}
+> +	return ret;
+> +}
+> +
+>   static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+>   {
+>   	struct nvme_subsystem *subsys, *found;
+> @@ -2411,6 +2428,7 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+>   
+>   		__nvme_release_subsystem(subsys);
+>   		subsys = found;
+> +		ret = 0;
+>   	} else {
+>   		ret = device_add(&subsys->dev);
+>   		if (ret) {
+> @@ -2434,10 +2452,20 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+>   	}
+>   
+>   	mutex_lock(&subsys->lock);
+> -	list_add_tail(&ctrl->subsys_entry, &subsys->ctrls);
+> +	if (!nvme_duplicate_cntlid(subsys, ctrl))
+> +		list_add_tail(&ctrl->subsys_entry, &subsys->ctrls);
+> +	else {
+> +		dev_err(ctrl->device,
+> +			"Duplicate cntlid %u, rejecting\n",
+> +			ctrl->cntlid);
+> +		ctrl->subsys = NULL;
+> +		sysfs_remove_link(&subsys->dev.kobj, dev_name(ctrl->device));
+> +		nvme_put_subsystem(subsys);
+> +		ret = -EINVAL;
+> +	}
+>   	mutex_unlock(&subsys->lock);
+>   
+> -	return 0;
+> +	return ret;
+>   
+>   out_unlock:
+>   	mutex_unlock(&nvme_subsystems_lock);
