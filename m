@@ -1,34 +1,33 @@
 From: kbusch@kernel.org (Keith Busch)
-Date: Fri, 3 May 2019 06:09:15 -0600
-Subject: [PATCH v2 08/10] nvme/pci: implement the mdev external queue
- allocation interface
-In-Reply-To: <f1f471e0b734413e6c0f7a8bb1a03041b1d12d6d.camel@redhat.com>
-References: <20190502114801.23116-1-mlevitsk@redhat.com>
- <20190502114801.23116-9-mlevitsk@redhat.com>
- <63a499c3-25be-5c5b-5822-124854945279@intel.com>
- <f1f471e0b734413e6c0f7a8bb1a03041b1d12d6d.camel@redhat.com>
-Message-ID: <20190503120915.GA30013@localhost.localdomain>
+Date: Fri, 3 May 2019 06:12:32 -0600
+Subject: [PATCH 0/4] nvme-pci: support device coredump
+In-Reply-To: <CAC5umygdADGrYeJy=F53Mm4bNPHmo+WY4SD3HFSRqi_cLrz9jw@mail.gmail.com>
+References: <1556787561-5113-1-git-send-email-akinobu.mita@gmail.com>
+ <20190502125722.GA28470@localhost.localdomain>
+ <CAC5umygdADGrYeJy=F53Mm4bNPHmo+WY4SD3HFSRqi_cLrz9jw@mail.gmail.com>
+Message-ID: <20190503121232.GB30013@localhost.localdomain>
 
-On Fri, May 03, 2019@12:20:17AM +0300, Maxim Levitsky wrote:
-> On Thu, 2019-05-02@15:12 -0600, Heitke, Kenneth wrote:
-> > On 5/2/2019 5:47 AM, Maxim Levitsky wrote:
-> > > +static void nvme_ext_queue_free(struct nvme_ctrl *ctrl, u16 qid)
-> > > +{
-> > > +	struct nvme_dev *dev = to_nvme_dev(ctrl);
-> > > +	struct nvme_queue *nvmeq;
-> > > +
-> > > +	mutex_lock(&dev->ext_dev_lock);
-> > > +	nvmeq = &dev->queues[qid];
-> > > +
-> > > +	if (WARN_ON(!test_bit(NVMEQ_EXTERNAL, &nvmeq->flags)))
-> > > +		return;
-> > 
-> > This condition is probably not expected to happen (since its a warning)
-> > but do you need to unlock the ext_dev_lock before returning?
+On Fri, May 03, 2019@12:38:08PM +0900, Akinobu Mita wrote:
+> 2019?5?2?(?) 22:03 Keith Busch <keith.busch at intel.com>:
+> > On Thu, May 02, 2019@05:59:17PM +0900, Akinobu Mita wrote:
+> > > This enables to capture snapshot of controller information via device
+> > > coredump machanism, and it helps diagnose and debug issues.
+> > >
+> > > The nvme device coredump is triggered before resetting the controller
+> > > caused by I/O timeout, and creates the following coredump files.
+> > >
+> > > - regs: NVMe controller registers, including each I/O queue doorbell
+> > >         registers, in nvme-show-regs style text format.
+> >
+> > You're supposed to treat queue doorbells as write-only. Spec says:
+> >
+> >   The host should not read the doorbell registers. If a doorbell register
+> >   is read, the value returned is vendor specific.
 > 
-> This is true, I will fix this. This used to be BUG_ON, but due to checkpatch.pl
-> complains I turned them all to WARN_ON, and missed this.
+> OK.  I'll exclude the doorbell registers from register dump.  It will work
+> out without the information if we have snapshot of the queues.
 
-Gentle reminder to trim your replies to the relevant context. It's
-much easier to read when we don't need to scroll through hundreds of
-unnecessary lines.
+Could you actually explain how the rest is useful? I personally have
+never encountered an issue where knowing these values would have helped:
+every device timeout always needed device specific internal firmware
+logs in my experience.
