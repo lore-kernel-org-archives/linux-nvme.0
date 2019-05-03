@@ -1,17 +1,32 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 3 May 2019 05:29:02 -0700
-Subject: [PATCH v2 06/10] nvme/core: add mdev interfaces
-In-Reply-To: <20190502114801.23116-7-mlevitsk@redhat.com>
-References: <20190502114801.23116-1-mlevitsk@redhat.com>
- <20190502114801.23116-7-mlevitsk@redhat.com>
-Message-ID: <20190503122902.GA5081@infradead.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 3 May 2019 14:30:12 +0200
+Subject: [PATCHv2 2/2] nvme: validate cntlid during controller
+ initialisation
+In-Reply-To: <20190503122642.59317-3-hare@suse.de>
+References: <20190503122642.59317-1-hare@suse.de>
+ <20190503122642.59317-3-hare@suse.de>
+Message-ID: <20190503123012.GA21807@lst.de>
 
-On Thu, May 02, 2019@02:47:57PM +0300, Maxim Levitsky wrote:
-> If the mdev device driver also sets the
-> NVME_F_MDEV_DMA_SUPPORTED, the mdev core will
-> dma map all the guest memory into the nvme device,
-> so that nvme device driver can use dma addresses as passed
-> from the mdev core driver
+On Fri, May 03, 2019@02:26:42PM +0200, Hannes Reinecke wrote:
+> +static bool nvme_duplicate_cntlid(struct nvme_subsystem *subsys,
+> +				  struct nvme_ctrl *ctrl)
+> +{
+> +	struct nvme_ctrl *tmp;
+> +	bool ret = false;
+> +
+> +	mutex_lock(&subsys->lock);
+> +	list_for_each_entry(tmp, &subsys->ctrls, subsys_entry) {
+> +		if (tmp == ctrl)
+> +			continue;
+> +		if (tmp->cntlid == ctrl->cntlid) {
+> +			ret = true;
+> +			break;
+> +		}
+> +	}
+> +	mutex_unlock(&subsys->lock);
+> +	return ret;
+> +}
 
-We really need a proper block layer interface for that so that
-uring or the nvme target can use pre-mapping as well.
+We'll need to do the duplicate check under the same subsys->lock
+critical section as adding the controller to the list, otherwise it
+will be racy.
