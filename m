@@ -1,17 +1,18 @@
 From: kbusch@kernel.org (Keith Busch)
-Date: Fri, 3 May 2019 10:16:38 -0600
-Subject: [PATCHv3 2/2] nvme: validate cntlid during controller
- initialisation
-In-Reply-To: <20190503133736.111201-3-hare@suse.de>
-References: <20190503133736.111201-1-hare@suse.de>
- <20190503133736.111201-3-hare@suse.de>
-Message-ID: <20190503161637.GB30291@localhost.localdomain>
+Date: Fri, 3 May 2019 10:23:47 -0600
+Subject: [PATCH] nvme-fc: trace sq head updates
+In-Reply-To: <20190503141459.111641-1-hare@suse.de>
+References: <20190503141459.111641-1-hare@suse.de>
+Message-ID: <20190503162346.GC30291@localhost.localdomain>
 
-On Fri, May 03, 2019@03:37:36PM +0200, Hannes Reinecke wrote:
-> The CNTLID value is required to be unique, and we do rely on this
-> for correct operation. So reject any controller for which a non-unique
-> CNTLID has been detected.
+On Fri, May 03, 2019@04:14:59PM +0200, Hannes Reinecke wrote:
+> @@ -1675,6 +1678,8 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
+>  	}
+>  
+>  	__nvme_fc_fcpop_chk_teardowns(ctrl, op, opstate);
+> +	trace_nvme_sq(rq, queue->sq_head,
+> +		      queue->sq_tail % ctrl->ctrl.sqsize);
 
-Looks good. 
-
-Reviewed-by: Keith Busch <keith.busch at intel.com>
+Correct me if I'm wrong, but don't you need a +1 on that modulo value?
+It looks like ctrl.sqsize is set to the last valid index rather than
+the actual size.
