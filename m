@@ -1,34 +1,33 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Fri,  3 May 2019 15:37:34 +0200
-Subject: [PATCHv3 0/2] nvme: validate CNTLID
-Message-ID: <20190503133736.111201-1-hare@suse.de>
+Date: Fri,  3 May 2019 15:37:35 +0200
+Subject: [PATCHv3 1/2] nvme-multipath: avoid crash on invalid subsystem cntlid
+ enumeration
+In-Reply-To: <20190503133736.111201-1-hare@suse.de>
+References: <20190503133736.111201-1-hare@suse.de>
+Message-ID: <20190503133736.111201-2-hare@suse.de>
 
-Hi all,
+A process holding an open reference to a removed disk prevents it
+from completing deletion, so its name continues to exist. A subsequent
+gendisk creation may have the same cntlid which risks collision when
+using that for the name. Use the unique ctrl->instance instead.
 
-here are two patches to validate correct CNTLID information.
-A controller might violate the constrain the each CNTLID has to
-be unique within a subsystem, which then would cause the host
-to crash.
-So these patches prevent this situation by validate the CNTLID
-and not use the cntlid as part of the device name.
+Signed-off-by: Hannes Reinecke <hare at suse.com>
+---
+ drivers/nvme/host/multipath.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-As usual, comments and reviews are welcome.
-
-Changes to v1:
-- split cntlid validation into a separate helper and moved to
-  nvme_init_subsystem()
-
-Changes to v2:
-- move nvme_validate_cntlid() into critical section when adding
-  nvme controller to the list as suggested by hch
-
-Hannes Reinecke (2):
-  nvme-multipath: avoid crash on invalid subsystem cntlid enumeration
-  nvme: validate cntlid during controller initialisation
-
- drivers/nvme/host/core.c      | 32 ++++++++++++++++++++++++++++++--
- drivers/nvme/host/multipath.c |  2 +-
- 2 files changed, 31 insertions(+), 3 deletions(-)
-
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 5c9429d41120..499acf07d61a 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -31,7 +31,7 @@ void nvme_set_disk_name(char *disk_name, struct nvme_ns *ns,
+ 		sprintf(disk_name, "nvme%dn%d", ctrl->instance, ns->head->instance);
+ 	} else if (ns->head->disk) {
+ 		sprintf(disk_name, "nvme%dc%dn%d", ctrl->subsys->instance,
+-				ctrl->cntlid, ns->head->instance);
++				ctrl->instance, ns->head->instance);
+ 		*flags = GENHD_FL_HIDDEN;
+ 	} else {
+ 		sprintf(disk_name, "nvme%dn%d", ctrl->subsys->instance,
 -- 
 2.16.4
