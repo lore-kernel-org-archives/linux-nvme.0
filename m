@@ -1,33 +1,79 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Fri,  3 May 2019 15:37:35 +0200
-Subject: [PATCHv3 1/2] nvme-multipath: avoid crash on invalid subsystem cntlid
- enumeration
+Date: Fri,  3 May 2019 15:37:36 +0200
+Subject: [PATCHv3 2/2] nvme: validate cntlid during controller initialisation
 In-Reply-To: <20190503133736.111201-1-hare@suse.de>
 References: <20190503133736.111201-1-hare@suse.de>
-Message-ID: <20190503133736.111201-2-hare@suse.de>
+Message-ID: <20190503133736.111201-3-hare@suse.de>
 
-A process holding an open reference to a removed disk prevents it
-from completing deletion, so its name continues to exist. A subsequent
-gendisk creation may have the same cntlid which risks collision when
-using that for the name. Use the unique ctrl->instance instead.
+From: Hannes Reinecke <hare@suse.com>
+
+The CNTLID value is required to be unique, and we do rely on this
+for correct operation. So reject any controller for which a non-unique
+CNTLID has been detected.
 
 Signed-off-by: Hannes Reinecke <hare at suse.com>
 ---
- drivers/nvme/host/multipath.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 32 ++++++++++++++++++++++++++++++--
+ 1 file changed, 30 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 5c9429d41120..499acf07d61a 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -31,7 +31,7 @@ void nvme_set_disk_name(char *disk_name, struct nvme_ns *ns,
- 		sprintf(disk_name, "nvme%dn%d", ctrl->instance, ns->head->instance);
- 	} else if (ns->head->disk) {
- 		sprintf(disk_name, "nvme%dc%dn%d", ctrl->subsys->instance,
--				ctrl->cntlid, ns->head->instance);
-+				ctrl->instance, ns->head->instance);
- 		*flags = GENHD_FL_HIDDEN;
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index cd16d98d1f1a..dc74f7ba6f4a 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2358,6 +2358,23 @@ static int nvme_active_ctrls(struct nvme_subsystem *subsys)
+ 	return count;
+ }
+ 
++static bool nvme_duplicate_cntlid(struct nvme_subsystem *subsys,
++				  struct nvme_ctrl *ctrl)
++{
++	struct nvme_ctrl *tmp;
++	bool ret = false;
++
++	list_for_each_entry(tmp, &subsys->ctrls, subsys_entry) {
++		if (tmp == ctrl)
++			continue;
++		if (tmp->cntlid == ctrl->cntlid) {
++			ret = true;
++			break;
++		}
++	}
++	return ret;
++}
++
+ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+ {
+ 	struct nvme_subsystem *subsys, *found;
+@@ -2411,6 +2428,7 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+ 
+ 		__nvme_release_subsystem(subsys);
+ 		subsys = found;
++		ret = 0;
  	} else {
- 		sprintf(disk_name, "nvme%dn%d", ctrl->subsys->instance,
+ 		ret = device_add(&subsys->dev);
+ 		if (ret) {
+@@ -2434,10 +2452,20 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+ 	}
+ 
+ 	mutex_lock(&subsys->lock);
+-	list_add_tail(&ctrl->subsys_entry, &subsys->ctrls);
++	if (!nvme_duplicate_cntlid(subsys, ctrl))
++		list_add_tail(&ctrl->subsys_entry, &subsys->ctrls);
++	else {
++		dev_err(ctrl->device,
++			"Duplicate cntlid %u, rejecting\n",
++			ctrl->cntlid);
++		ctrl->subsys = NULL;
++		sysfs_remove_link(&subsys->dev.kobj, dev_name(ctrl->device));
++		nvme_put_subsystem(subsys);
++		ret = -EINVAL;
++	}
+ 	mutex_unlock(&subsys->lock);
+ 
+-	return 0;
++	return ret;
+ 
+ out_unlock:
+ 	mutex_unlock(&nvme_subsystems_lock);
 -- 
 2.16.4
