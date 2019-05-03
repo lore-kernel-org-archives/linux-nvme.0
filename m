@@ -1,94 +1,76 @@
 From: james.smart@broadcom.com (James Smart)
-Date: Fri, 3 May 2019 10:46:43 -0700
-Subject: [PATCH] nvme-fc: use separate work queue to avoid warning
-In-Reply-To: <20190503094352.17923-1-hare@suse.de>
-References: <20190503094352.17923-1-hare@suse.de>
-Message-ID: <456b12ed-f713-951b-feab-49fa663d7f96@broadcom.com>
+Date: Fri, 3 May 2019 10:58:57 -0700
+Subject: [PATCH] nvme-fc: trace sq head updates
+In-Reply-To: <20190503141459.111641-1-hare@suse.de>
+References: <20190503141459.111641-1-hare@suse.de>
+Message-ID: <d72fb9fe-f142-7e29-8de5-72a471cfc43e@broadcom.com>
 
-On 5/3/2019 2:43 AM, Hannes Reinecke wrote:
-> When tearing down a controller the following warning is issued:
+
+
+On 5/3/2019 7:14 AM, Hannes Reinecke wrote:
+> FC-NVMe has some detailed rules if and when SQ head pointer updates
+> should be send, but the spec is a tad unclear about the values.
+> So add tracing to the FC-NVMe driver to track this.
 >
-> WARNING: CPU: 0 PID: 30681 at ../kernel/workqueue.c:2418 check_flush_dependency
->
-> This happens as the err_work workqueue item is scheduled on the
-> system workqueue (which has WQ_MEM_RECLAIM not set), but is flushed
-> from a workqueue which has WQ_MEM_RECLAIM set.
->
-> Fix this by providing an FC-NVMe specific workqueue.
->
-> Fixes: 4cff280a5fcc ("nvme-fc: resolve io failures during connect")
-> Cc: James Smart <james.smart at broadcom.com>
 > Signed-off-by: Hannes Reinecke <hare at suse.com>
 > ---
->   drivers/nvme/host/fc.c | 14 +++++++++++---
->   1 file changed, 11 insertions(+), 3 deletions(-)
+>   drivers/nvme/host/fc.c | 8 +++++++-
+>   1 file changed, 7 insertions(+), 1 deletion(-)
 >
 > diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> index 143c2b81ffc5..a1080fa4b046 100644
+> index 6d8451356eac..755c93a0c664 100644
 > --- a/drivers/nvme/host/fc.c
 > +++ b/drivers/nvme/host/fc.c
-> @@ -204,7 +204,7 @@ static LIST_HEAD(nvme_fc_lport_list);
->   static DEFINE_IDA(nvme_fc_local_port_cnt);
->   static DEFINE_IDA(nvme_fc_ctrl_cnt);
+> @@ -12,6 +12,7 @@
 >   
+>   #include "nvme.h"
+>   #include "fabrics.h"
+> +#include "trace.h"
+>   #include <linux/nvme-fc-driver.h>
+>   #include <linux/nvme-fc.h>
+>   
+> @@ -35,7 +36,8 @@ struct nvme_fc_queue {
+>   	u32			qnum;
+>   	u32			rqcnt;
+>   	u32			seqno;
 > -
-> +static struct workqueue_struct *nvme_fc_wq;
+> +	u16			sq_head;
+> +	u16			sq_tail;
+>   	u64			connection_id;
+>   	atomic_t		csn;
 >   
->   /*
->    * These items are short-term. They will eventually be moved into
-> @@ -2060,7 +2060,7 @@ nvme_fc_error_recovery(struct nvme_fc_ctrl *ctrl, char *errmsg)
->   	 */
->   	if (ctrl->ctrl.state == NVME_CTRL_CONNECTING) {
->   		active = atomic_xchg(&ctrl->err_work_active, 1);
-> -		if (!active && !schedule_work(&ctrl->err_work)) {
-> +		if (!active && !queue_work(nvme_fc_wq, &ctrl->err_work)) {
->   			atomic_set(&ctrl->err_work_active, 0);
->   			WARN_ON(1);
+> @@ -1653,6 +1655,7 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
+>   			status = cpu_to_le16(NVME_SC_INTERNAL << 1);
+>   			goto done;
 >   		}
-> @@ -3406,6 +3406,10 @@ static int __init nvme_fc_init_module(void)
->   {
->   	int ret;
->   
-> +	nvme_fc_wq = alloc_workqueue("nvme_fc_wq", WQ_MEM_RECLAIM, 0);
-> +	if (!nvme_fc_wq)
-> +		return -ENOMEM;
-> +
->   	/*
->   	 * NOTE:
->   	 * It is expected that in the future the kernel will combine
-> @@ -3423,7 +3427,7 @@ static int __init nvme_fc_init_module(void)
->   	ret = class_register(&fc_class);
->   	if (ret) {
->   		pr_err("couldn't register class fc\n");
-> -		return ret;
-> +		goto out_destroy_wq;
+> +		queue->sq_head = cpu_to_le16(cqe->sq_head);
+>   		result = cqe->result;
+>   		status = cqe->status;
+>   		break;
+> @@ -1675,6 +1678,8 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
 >   	}
 >   
+>   	__nvme_fc_fcpop_chk_teardowns(ctrl, op, opstate);
+> +	trace_nvme_sq(rq, queue->sq_head,
+> +		      queue->sq_tail % ctrl->ctrl.sqsize);
+>   	nvme_end_request(rq, status, result);
+>   
+>   check_error:
+> @@ -2215,6 +2220,7 @@ nvme_fc_start_fcp_op(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
+>   	op->fcp_req.rcv_rsplen = 0;
+>   	op->fcp_req.status = NVME_SC_SUCCESS;
+>   	op->fcp_req.sqid = cpu_to_le16(queue->qnum);
+> +	queue->sq_tail++;
+>   
 >   	/*
-> @@ -3447,6 +3451,9 @@ static int __init nvme_fc_init_module(void)
->   	device_destroy(&fc_class, MKDEV(0, 0));
->   out_destroy_class:
->   	class_unregister(&fc_class);
-> +out_destroy_wq:
-> +	destroy_workqueue(nvme_fc_wq);
-> +
->   	return ret;
->   }
->   
-> @@ -3463,6 +3470,7 @@ static void __exit nvme_fc_exit_module(void)
->   
->   	device_destroy(&fc_class, MKDEV(0, 0));
->   	class_unregister(&fc_class);
-> +	destroy_workqueue(nvme_fc_wq);
->   }
->   
->   module_init(nvme_fc_init_module);
+>   	 * validate per fabric rules, set fields mandated by fabric spec
 
-Reviewed-by:?? James Smart <james.smart at broadcom.com>
-
-Looks fine to me.? And we're back to were we were in the beginning. And 
-it also says the other transports are likely to be in the same boat as 
-the effort to move everything over to the system workqueue was a 
-commonization cleanup made to all transports.
+this is fine, but....?? to make this be meaningful/work, you're going to 
+need to queue/serialize the processing of ERSP IU's based on the 
+response sequence number (rsn).? Otherwise, there's no guarantee that 
+sqhd comes back in the proper sequential order.?? And I'd recommend, as 
+there's no other reason for ERSP serialization, that you don't hold up 
+the completion but move the rsn/sqhd values to sideband tracking with 
+the tracking doing the serializing and updating of sqhd.
 
 -- james
