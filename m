@@ -1,68 +1,59 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Fri,  3 May 2019 17:04:52 -0700
-Subject: [PATCH nvme-cli rfc 1/5] fabrics: ignore arguments that pass in "none"
-In-Reply-To: <20190504000456.3888-1-jsmart2021@gmail.com>
-References: <20190504000456.3888-1-jsmart2021@gmail.com>
-Message-ID: <20190504000456.3888-2-jsmart2021@gmail.com>
+Date: Fri,  3 May 2019 17:04:51 -0700
+Subject: [PATCH nvme-cli rfc 0/5] nvmf auto-connect scripts
+Message-ID: <20190504000456.3888-1-jsmart2021@gmail.com>
 
-As we want to support discovery uevents over different
-transports, we want to allow the kernel to provide missing
-information in the form of none and have nvme-cli properly
-ignore it.
+This rfc is a combination of the nvme-fc auto-connect scripts
+posted by Hannes and the RFC from Sagi to allow auto-connect for
+persistent discovery controllers that send AENs. It does not
+contain the code that handles the AEN and generates the event.
 
-One example is the host_traddr. If it is not set (which means
-that the default route determined the host address) we will
-want to do the same for newly discovered controllers.
+The auto-connect scripts are now commonized with the exception
+of the nvme-fc boot connections service.  It's expected that both
+the persistent discovery controllers and nvme-fc can post the same
+udev event. Whenever the discovery aen generates an event, the
+new --device=<name> argument will be used to identify the persistent
+discovery controller. Other connect attributes will be no-op'd by a
+"none" value.  When nvme-fc generates it's events, it will specify
+--device=none and specify the discovery controller addressing
+arguments.  If a persistent discovery controller exists on nvme-fc,
+will do nothing special and AEN's from it will follow the
+--device=<name> syntax.
 
-So allow users to pass 'none' arguments as well.
+The udev event handler supports both the new event to be used
+by discovery controllers. The nvme-fc transport will be migrated
+to issue the new event syntax as well. But the udev script will
+continue to support the older style nvme-fc event info in case
+it's running against an older kernel.
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-Signed-off-by: James Smart <jsmart2021 at gmail.com>
----
-Patch originated from Sagi in an RFC
-Fixed typo in Sagi's patch on cfg.hostid
----
- fabrics.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Feedback is welcome.
 
-diff --git a/fabrics.c b/fabrics.c
-index 511de06..c6ff734 100644
---- a/fabrics.c
-+++ b/fabrics.c
-@@ -565,7 +565,7 @@ add_argument(char **argstr, int *max_len, char *arg_str, char *arg)
- {
- 	int len;
- 
--	if (arg) {
-+	if (arg && strcmp(arg, "none")) {
- 		len = snprintf(*argstr, *max_len, ",%s=%s", arg_str, arg);
- 		if (len < 0)
- 			return -EINVAL;
-@@ -658,14 +658,14 @@ retry:
- 		return -EINVAL;
- 	p += len;
- 
--	if (cfg.hostnqn) {
-+	if (cfg.hostnqn && strcmp(cfg.hostnqn, "none")) {
- 		len = sprintf(p, ",hostnqn=%s", cfg.hostnqn);
- 		if (len < 0)
- 			return -EINVAL;
- 		p += len;
- 	}
- 
--	if (cfg.hostid) {
-+	if (cfg.hostid && strcmp(cfg.hostid, "none")) {
- 		len = sprintf(p, ",hostid=%s", cfg.hostid);
- 		if (len < 0)
- 			return -EINVAL;
-@@ -700,7 +700,7 @@ retry:
- 		p += len;
- 	}
- 
--	if (cfg.host_traddr) {
-+	if (cfg.host_traddr && strcmp(cfg.host_traddr, "none")) {
- 		len = sprintf(p, ",host_traddr=%s", cfg.host_traddr);
- 		if (len < 0)
- 			return -EINVAL;
+
+James Smart (3):
+  fabrics: ignore arguments that pass in "none"
+  fabrics: allow discover to address discovery controller by persistent
+    name
+  nvmf auto-connect scripts
+
+Sagi Grimberg (2):
+  fabrics: support persistent connections to a discovery controller
+  fabrics: add --quiet option
+
+ Makefile                                         | 10 +++-
+ fabrics.c                                        | 70 +++++++++++++++++-------
+ fabrics.h                                        |  2 +
+ nvme.spec.in                                     |  8 +++
+ nvmf-autoconnect/70-nvmf-autoconnect.conf        |  1 +
+ nvmf-autoconnect/70-nvmf-autoconnect.rules       | 18 ++++++
+ nvmf-autoconnect/nvmefc-boot-connections.service |  9 +++
+ nvmf-autoconnect/nvmf-connect.target             |  2 +
+ nvmf-autoconnect/nvmf-connect at .service           | 14 +++++
+ 9 files changed, 114 insertions(+), 20 deletions(-)
+ create mode 100644 nvmf-autoconnect/70-nvmf-autoconnect.conf
+ create mode 100644 nvmf-autoconnect/70-nvmf-autoconnect.rules
+ create mode 100644 nvmf-autoconnect/nvmefc-boot-connections.service
+ create mode 100644 nvmf-autoconnect/nvmf-connect.target
+ create mode 100644 nvmf-autoconnect/nvmf-connect at .service
+
 -- 
 2.13.7
