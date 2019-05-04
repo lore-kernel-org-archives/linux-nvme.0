@@ -1,66 +1,42 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Sat, 4 May 2019 23:20:54 +0900
-Subject: [PATCHv3 2/2] nvme: validate cntlid during controller
- initialisation
-In-Reply-To: <20190503133736.111201-3-hare@suse.de>
-References: <20190503133736.111201-1-hare@suse.de>
- <20190503133736.111201-3-hare@suse.de>
-Message-ID: <1624cd68-f64e-d255-2f6e-5c1436699778@gmail.com>
+From: akinobu.mita@gmail.com (Akinobu Mita)
+Date: Sat, 4 May 2019 23:26:55 +0900
+Subject: [PATCH 3/4] nvme-pci: add device coredump support
+In-Reply-To: <66a5d068-47b1-341f-988f-c890d7f01720@gmail.com>
+References: <1556787561-5113-1-git-send-email-akinobu.mita@gmail.com>
+ <1556787561-5113-4-git-send-email-akinobu.mita@gmail.com>
+ <66a5d068-47b1-341f-988f-c890d7f01720@gmail.com>
+Message-ID: <CAC5umyjsAh7aZ8JEh8=QMXpNwRdnxxfdPBDwmuVKfafG+rT-PA@mail.gmail.com>
 
-Hi Hannes,
+2019?5?4?(?) 19:04 Minwoo Im <minwoo.im.dev at gmail.com>:
+>
+> Hi, Akinobu,
+>
+> Regardless to reply of the cover, few nits here.
+>
+> On 5/2/19 5:59 PM, Akinobu Mita wrote:
+> > +
+> > +static const struct nvme_reg nvme_regs[] = {
+> > +     { NVME_REG_CAP,         "cap",          64 },
+> > +     { NVME_REG_VS,          "version",      32 },
+>
+> Why don't we just go with "vs" instead of full name of it just like
+> the others.
 
-I think this patch looks good. but I have a simple query here.
+I tried to imitate the output of 'nvme show-regs'.
 
-On 5/3/19 10:37 PM, Hannes Reinecke wrote:
-> @@ -2434,10 +2452,20 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
->   	}
->   
->   	mutex_lock(&subsys->lock);
-> -	list_add_tail(&ctrl->subsys_entry, &subsys->ctrls);
-> +	if (!nvme_duplicate_cntlid(subsys, ctrl))
-> +		list_add_tail(&ctrl->subsys_entry, &subsys->ctrls);
-> +	else {
-> +		dev_err(ctrl->device,
-> +			"Duplicate cntlid %u, rejecting\n",
-> +			ctrl->cntlid);
-> +		ctrl->subsys = NULL;
-> +		sysfs_remove_link(&subsys->dev.kobj, dev_name(ctrl->device));
-> +		nvme_put_subsystem(subsys);
+> > +     { NVME_REG_INTMS,       "intms",        32 },
+> > +     { NVME_REG_INTMC,       "intmc",        32 },
+> > +     { NVME_REG_CC,          "cc",           32 },
+> > +     { NVME_REG_CSTS,        "csts",         32 },
+> > +     { NVME_REG_NSSR,        "nssr",         32 },
+> > +     { NVME_REG_AQA,         "aqa",          32 },
+> > +     { NVME_REG_ASQ,         "asq",          64 },
+> > +     { NVME_REG_ACQ,         "acq",          64 },
+> > +     { NVME_REG_CMBLOC,      "cmbloc",       32 },
+> > +     { NVME_REG_CMBSZ,       "cmbsz",        32 },
+>
+> If it's going to support optional registers also, then we can have
+> BP-related things (BPINFO, BPRSEL, BPMBL) here also.
 
-Does it(nvme_put_subsystem()) really need to be here?  I think explicit
-"put" for the subsystem is always good, but right above this code, we
-can see the comment when sysfs link has been failed:
-
-if (sysfs_create_link(&subsys->dev.kobj, &ctrl->device->kobj,
-                 dev_name(ctrl->device))) {
-         dev_err(ctrl->device,
-                 "failed to create sysfs link from subsystem.\n");
-         /* the transport driver will eventually put the subsystem */
-         return -EINVAL;
-}
-
-I'm not pretty sure where the exactly the comment says, but I can see
-the nvme_destroy_subsystem() would be invoked from the transport
-drivers (e.g. pci, rdma, etc)
-
-In case of nvme-pci, nvme_remove_dead_ctrl() will do the "put".  For
-nvme-rdma, nvme_rdma_create_ctrl() will do the "put".
-
-Did you do just explicit "put" for the subsystem OR does it really need
-to be here with any other reason?
-
-I'm just asking why there is a difference between code above it and this
-patch.  If you don't mind, please let me know if I'm wrong here. :)
-
-Thanks,
-
-> +		ret = -EINVAL;
-> +	}
->   	mutex_unlock(&subsys->lock);
->   
-> -	return 0;
-> +	return ret;
->   
->   out_unlock:
->   	mutex_unlock(&nvme_subsystems_lock);
-> 
+I'm going to change the register dump in binary format just like
+'nvme show-regs -o binary' does.  So we'll have registers from 00h to 4Fh.
