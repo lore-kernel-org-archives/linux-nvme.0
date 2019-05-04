@@ -1,82 +1,60 @@
-From: akinobu.mita@gmail.com (Akinobu Mita)
-Date: Sat, 4 May 2019 23:36:44 +0900
-Subject: [PATCH 0/4] nvme-pci: support device coredump
-In-Reply-To: <61bf6f0b-4087-cfb3-1ae6-539f18b5b6ea@gmail.com>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Sat, 4 May 2019 23:38:19 +0900
+Subject: [PATCH 3/4] nvme-pci: add device coredump support
+In-Reply-To: <CAC5umyjsAh7aZ8JEh8=QMXpNwRdnxxfdPBDwmuVKfafG+rT-PA@mail.gmail.com>
 References: <1556787561-5113-1-git-send-email-akinobu.mita@gmail.com>
- <20190502125722.GA28470@localhost.localdomain>
- <CAC5umygdADGrYeJy=F53Mm4bNPHmo+WY4SD3HFSRqi_cLrz9jw@mail.gmail.com>
- <20190503121232.GB30013@localhost.localdomain> <20190503122035.GA21501@lst.de>
- <CAC5umyiGbDNCtzhJioR_2EV6-6xMuZXOMThCizwJEMHi+KqxAw@mail.gmail.com>
- <61bf6f0b-4087-cfb3-1ae6-539f18b5b6ea@gmail.com>
-Message-ID: <CAC5umygP5cQHQk2ytpNbV5yY-tQ1E-FayMugOfg5gTmnpYtnjQ@mail.gmail.com>
+ <1556787561-5113-4-git-send-email-akinobu.mita@gmail.com>
+ <66a5d068-47b1-341f-988f-c890d7f01720@gmail.com>
+ <CAC5umyjsAh7aZ8JEh8=QMXpNwRdnxxfdPBDwmuVKfafG+rT-PA@mail.gmail.com>
+Message-ID: <d0de1c5d-1168-086c-cc16-7d33fd307cd3@gmail.com>
 
-2019?5?4?(?) 18:40 Minwoo Im <minwoo.im.dev at gmail.com>:
->
-> Hi Akinobu,
->
-> On 5/4/19 1:20 PM, Akinobu Mita wrote:
-> > 2019?5?3?(?) 21:20 Christoph Hellwig <hch at lst.de>:
-> >>
-> >> On Fri, May 03, 2019@06:12:32AM -0600, Keith Busch wrote:
-> >>> Could you actually explain how the rest is useful? I personally have
-> >>> never encountered an issue where knowing these values would have helped:
-> >>> every device timeout always needed device specific internal firmware
-> >>> logs in my experience.
-> >
-> > I agree that the device specific internal logs like telemetry are the most
-> > useful.  The memory dump of command queues and completion queues is not
-> > that powerful but helps to know what commands have been submitted before
-> > the controller goes wrong (IOW, it's sometimes not enough to know
-> > which commands are actually failed), and it can be parsed without vendor
-> > specific knowledge.
->
-> I'm not pretty sure I can say that memory dump of queues are useless at all.
->
-> As you mentioned, sometimes it's not enough to know which command has
-> actually been failed because we might want to know what happened before and
-> after the actual failure.
->
-> But, the information of commands handled from device inside would be much
-> more useful to figure out what happened because in case of multiple queues,
-> the arbitration among them could not be represented by this memory dump.
+On 5/4/19 11:26 PM, Akinobu Mita wrote:
+> 2019?5?4?(?) 19:04 Minwoo Im <minwoo.im.dev at gmail.com>:
+>>
+>> Hi, Akinobu,
+>>
+>> Regardless to reply of the cover, few nits here.
+>>
+>> On 5/2/19 5:59 PM, Akinobu Mita wrote:
+>>> +
+>>> +static const struct nvme_reg nvme_regs[] = {
+>>> +     { NVME_REG_CAP,         "cap",          64 },
+>>> +     { NVME_REG_VS,          "version",      32 },
+>>
+>> Why don't we just go with "vs" instead of full name of it just like
+>> the others.
+> 
+> I tried to imitate the output of 'nvme show-regs'.
 
-Correct.
+Okay.
 
-> > If the issue is reproducible, the nvme trace is the most powerful for this
-> > kind of information.  The memory dump of the queues is not that powerful,
-> > but it can always be enabled by default.
->
-> If the memory dump is a key to reproduce some issues, then it will be
-> powerful
-> to hand it to a vendor to solve it.  But I'm afraid of it because the
-> dump might
-> not be able to give relative submitted times among the commands in queues.
+> 
+>>> +     { NVME_REG_INTMS,       "intms",        32 },
+>>> +     { NVME_REG_INTMC,       "intmc",        32 },
+>>> +     { NVME_REG_CC,          "cc",           32 },
+>>> +     { NVME_REG_CSTS,        "csts",         32 },
+>>> +     { NVME_REG_NSSR,        "nssr",         32 },
+>>> +     { NVME_REG_AQA,         "aqa",          32 },
+>>> +     { NVME_REG_ASQ,         "asq",          64 },
+>>> +     { NVME_REG_ACQ,         "acq",          64 },
+>>> +     { NVME_REG_CMBLOC,      "cmbloc",       32 },
+>>> +     { NVME_REG_CMBSZ,       "cmbsz",        32 },
+>>
+>> If it's going to support optional registers also, then we can have
+>> BP-related things (BPINFO, BPRSEL, BPMBL) here also.
+> 
+> I'm going to change the register dump in binary format just like
+> 'nvme show-regs -o binary' does.  So we'll have registers from 00h to 4Fh.
+> 
 
-I agree that only the memory dump of queues don't help much to reproduce
-issues.  However when analyzing the customer-side issues, we would like to
-know whether unusual commands have been issued before crash, especially on
-admin queue.
+Got it.
 
-> >> Yes.  Also not that NVMe now has the 'device initiated telemetry'
-> >> feauture, which is just a wired name for device coredump.  Wiring that
-> >> up so that we can easily provide that data to the device vendor would
-> >> actually be pretty useful.
-> >
-> > This version of nvme coredump captures controller registers and each queue.
-> > So before resetting controller is a suitable time to capture these.
-> > If we'll capture other log pages in this mechanism, the coredump procedure
-> > will be splitted into two phases (before resetting controller and after
-> > resetting as soon as admin queue is available).
->
-> I agree with that it would be nice if we have a information that might not
-> be that powerful rather than nothing.
->
-> But, could we request controller-initiated telemetry log page if
-> supported by
-> the controller to get the internal information at the point of failure
-> like reset?
-> If the dump is generated with the telemetry log page, I think it would
-> be great
-> to be a clue to solve the issue.
+And now I can see those two commands `nvme show-regs` and
+`nvme show-regs -o binary` have different results for the register
+range.  The binary output covers just 0x50 size, but it shows all the
+registers including BP-related things in normal && json format.
 
-OK.  Let me try it in the next version.
+Anyway, I'll prepare a patch for nvme-cli to support binary output
+format to cover BP things also.
+
+Thanks, for your reply.
