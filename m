@@ -1,99 +1,68 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Fri, 3 May 2019 22:12:27 +0300
-Subject: [PATCHv3 2/2] nvme: validate cntlid during controller
- initialisation
-In-Reply-To: <20190503133736.111201-3-hare@suse.de>
-References: <20190503133736.111201-1-hare@suse.de>
- <20190503133736.111201-3-hare@suse.de>
-Message-ID: <0c574e02-37ce-eb20-2868-a87e9759e708@mellanox.com>
+From: jsmart2021@gmail.com (James Smart)
+Date: Fri,  3 May 2019 17:04:52 -0700
+Subject: [PATCH nvme-cli rfc 1/5] fabrics: ignore arguments that pass in "none"
+In-Reply-To: <20190504000456.3888-1-jsmart2021@gmail.com>
+References: <20190504000456.3888-1-jsmart2021@gmail.com>
+Message-ID: <20190504000456.3888-2-jsmart2021@gmail.com>
 
+As we want to support discovery uevents over different
+transports, we want to allow the kernel to provide missing
+information in the form of none and have nvme-cli properly
+ignore it.
 
-On 5/3/2019 4:37 PM, Hannes Reinecke wrote:
-> From: Hannes Reinecke <hare at suse.com>
->
-> The CNTLID value is required to be unique, and we do rely on this
-> for correct operation. So reject any controller for which a non-unique
-> CNTLID has been detected.
->
-> Signed-off-by: Hannes Reinecke <hare at suse.com>
-> ---
->   drivers/nvme/host/core.c | 32 ++++++++++++++++++++++++++++++--
->   1 file changed, 30 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index cd16d98d1f1a..dc74f7ba6f4a 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -2358,6 +2358,23 @@ static int nvme_active_ctrls(struct nvme_subsystem *subsys)
->   	return count;
->   }
->   
-> +static bool nvme_duplicate_cntlid(struct nvme_subsystem *subsys,
-> +				  struct nvme_ctrl *ctrl)
-> +{
-> +	struct nvme_ctrl *tmp;
-> +	bool ret = false;
-> +
-> +	list_for_each_entry(tmp, &subsys->ctrls, subsys_entry) {
-> +		if (tmp == ctrl)
-> +			continue;
-> +		if (tmp->cntlid == ctrl->cntlid) {
-> +			ret = true;
-> +			break;
+One example is the host_traddr. If it is not set (which means
+that the default route determined the host address) we will
+want to do the same for newly discovered controllers.
 
-can be done in 1 liner (without local variable ret):
+So allow users to pass 'none' arguments as well.
 
-if (tmp != ctrl && tmp->cntlid == ctrl->cntlid)
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+Signed-off-by: James Smart <jsmart2021 at gmail.com>
+---
+Patch originated from Sagi in an RFC
+Fixed typo in Sagi's patch on cfg.hostid
+---
+ fabrics.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
- ??? return true;
-
-
-return false in the end of the function.
-
-
-Otherwise,
-
-looks good.
-
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
-
-
-> +		}
-> +	}
-> +	return ret;
-> +}
-> +
->   static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
->   {
->   	struct nvme_subsystem *subsys, *found;
-> @@ -2411,6 +2428,7 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
->   
->   		__nvme_release_subsystem(subsys);
->   		subsys = found;
-> +		ret = 0;
->   	} else {
->   		ret = device_add(&subsys->dev);
->   		if (ret) {
-> @@ -2434,10 +2452,20 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
->   	}
->   
->   	mutex_lock(&subsys->lock);
-> -	list_add_tail(&ctrl->subsys_entry, &subsys->ctrls);
-> +	if (!nvme_duplicate_cntlid(subsys, ctrl))
-> +		list_add_tail(&ctrl->subsys_entry, &subsys->ctrls);
-> +	else {
-> +		dev_err(ctrl->device,
-> +			"Duplicate cntlid %u, rejecting\n",
-> +			ctrl->cntlid);
-> +		ctrl->subsys = NULL;
-> +		sysfs_remove_link(&subsys->dev.kobj, dev_name(ctrl->device));
-> +		nvme_put_subsystem(subsys);
-> +		ret = -EINVAL;
-> +	}
->   	mutex_unlock(&subsys->lock);
->   
-> -	return 0;
-> +	return ret;
->   
->   out_unlock:
->   	mutex_unlock(&nvme_subsystems_lock);
+diff --git a/fabrics.c b/fabrics.c
+index 511de06..c6ff734 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -565,7 +565,7 @@ add_argument(char **argstr, int *max_len, char *arg_str, char *arg)
+ {
+ 	int len;
+ 
+-	if (arg) {
++	if (arg && strcmp(arg, "none")) {
+ 		len = snprintf(*argstr, *max_len, ",%s=%s", arg_str, arg);
+ 		if (len < 0)
+ 			return -EINVAL;
+@@ -658,14 +658,14 @@ retry:
+ 		return -EINVAL;
+ 	p += len;
+ 
+-	if (cfg.hostnqn) {
++	if (cfg.hostnqn && strcmp(cfg.hostnqn, "none")) {
+ 		len = sprintf(p, ",hostnqn=%s", cfg.hostnqn);
+ 		if (len < 0)
+ 			return -EINVAL;
+ 		p += len;
+ 	}
+ 
+-	if (cfg.hostid) {
++	if (cfg.hostid && strcmp(cfg.hostid, "none")) {
+ 		len = sprintf(p, ",hostid=%s", cfg.hostid);
+ 		if (len < 0)
+ 			return -EINVAL;
+@@ -700,7 +700,7 @@ retry:
+ 		p += len;
+ 	}
+ 
+-	if (cfg.host_traddr) {
++	if (cfg.host_traddr && strcmp(cfg.host_traddr, "none")) {
+ 		len = sprintf(p, ",host_traddr=%s", cfg.host_traddr);
+ 		if (len < 0)
+ 			return -EINVAL;
+-- 
+2.13.7
