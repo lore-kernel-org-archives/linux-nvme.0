@@ -1,75 +1,36 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Sat, 4 May 2019 18:40:42 +0900
-Subject: [PATCH 0/4] nvme-pci: support device coredump
-In-Reply-To: <CAC5umyiGbDNCtzhJioR_2EV6-6xMuZXOMThCizwJEMHi+KqxAw@mail.gmail.com>
+Date: Sat, 4 May 2019 19:04:46 +0900
+Subject: [PATCH 3/4] nvme-pci: add device coredump support
+In-Reply-To: <1556787561-5113-4-git-send-email-akinobu.mita@gmail.com>
 References: <1556787561-5113-1-git-send-email-akinobu.mita@gmail.com>
- <20190502125722.GA28470@localhost.localdomain>
- <CAC5umygdADGrYeJy=F53Mm4bNPHmo+WY4SD3HFSRqi_cLrz9jw@mail.gmail.com>
- <20190503121232.GB30013@localhost.localdomain>
- <20190503122035.GA21501@lst.de>
- <CAC5umyiGbDNCtzhJioR_2EV6-6xMuZXOMThCizwJEMHi+KqxAw@mail.gmail.com>
-Message-ID: <61bf6f0b-4087-cfb3-1ae6-539f18b5b6ea@gmail.com>
+ <1556787561-5113-4-git-send-email-akinobu.mita@gmail.com>
+Message-ID: <66a5d068-47b1-341f-988f-c890d7f01720@gmail.com>
 
-Hi Akinobu,
+Hi, Akinobu,
 
-On 5/4/19 1:20 PM, Akinobu Mita wrote:
-> 2019?5?3?(?) 21:20 Christoph Hellwig <hch at lst.de>:
->>
->> On Fri, May 03, 2019@06:12:32AM -0600, Keith Busch wrote:
->>> Could you actually explain how the rest is useful? I personally have
->>> never encountered an issue where knowing these values would have helped:
->>> every device timeout always needed device specific internal firmware
->>> logs in my experience.
-> 
-> I agree that the device specific internal logs like telemetry are the most
-> useful.  The memory dump of command queues and completion queues is not
-> that powerful but helps to know what commands have been submitted before
-> the controller goes wrong (IOW, it's sometimes not enough to know
-> which commands are actually failed), and it can be parsed without vendor
-> specific knowledge.
+Regardless to reply of the cover, few nits here.
 
-I'm not pretty sure I can say that memory dump of queues are useless at all.
+On 5/2/19 5:59 PM, Akinobu Mita wrote:
+> +
+> +static const struct nvme_reg nvme_regs[] = {
+> +	{ NVME_REG_CAP,		"cap",		64 },
+> +	{ NVME_REG_VS,		"version",	32 },
 
-As you mentioned, sometimes it's not enough to know which command has
-actually been failed because we might want to know what happened before and
-after the actual failure.
+Why don't we just go with "vs" instead of full name of it just like
+the others.
 
-But, the information of commands handled from device inside would be much
-more useful to figure out what happened because in case of multiple queues,
-the arbitration among them could not be represented by this memory dump.
+> +	{ NVME_REG_INTMS,	"intms",	32 },
+> +	{ NVME_REG_INTMC,	"intmc",	32 },
+> +	{ NVME_REG_CC,		"cc",		32 },
+> +	{ NVME_REG_CSTS,	"csts",		32 },
+> +	{ NVME_REG_NSSR,	"nssr",		32 },
+> +	{ NVME_REG_AQA,		"aqa",		32 },
+> +	{ NVME_REG_ASQ,		"asq",		64 },
+> +	{ NVME_REG_ACQ,		"acq",		64 },
+> +	{ NVME_REG_CMBLOC,	"cmbloc",	32 },
+> +	{ NVME_REG_CMBSZ,	"cmbsz",	32 },
 
-> 
-> If the issue is reproducible, the nvme trace is the most powerful for this
-> kind of information.  The memory dump of the queues is not that powerful,
-> but it can always be enabled by default.
-
-If the memory dump is a key to reproduce some issues, then it will be 
-powerful
-to hand it to a vendor to solve it.  But I'm afraid of it because the 
-dump might
-not be able to give relative submitted times among the commands in queues.
-
-> 
->> Yes.  Also not that NVMe now has the 'device initiated telemetry'
->> feauture, which is just a wired name for device coredump.  Wiring that
->> up so that we can easily provide that data to the device vendor would
->> actually be pretty useful.
-> 
-> This version of nvme coredump captures controller registers and each queue.
-> So before resetting controller is a suitable time to capture these.
-> If we'll capture other log pages in this mechanism, the coredump procedure
-> will be splitted into two phases (before resetting controller and after
-> resetting as soon as admin queue is available).
-
-I agree with that it would be nice if we have a information that might not
-be that powerful rather than nothing.
-
-But, could we request controller-initiated telemetry log page if 
-supported by
-the controller to get the internal information at the point of failure 
-like reset?
-If the dump is generated with the telemetry log page, I think it would 
-be great
-to be a clue to solve the issue.
+If it's going to support optional registers also, then we can have
+BP-related things (BPINFO, BPRSEL, BPMBL) here also.
 
 Thanks,
