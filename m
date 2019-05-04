@@ -1,44 +1,66 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Sat,  4 May 2019 20:39:23 +0900
-Subject: [PATCH] nvme-pci: Fix queue_count to consider nr_possible_cpu
-Message-ID: <20190504113923.32316-1-minwoo.im.dev@gmail.com>
+Date: Sat, 4 May 2019 23:20:54 +0900
+Subject: [PATCHv3 2/2] nvme: validate cntlid during controller
+ initialisation
+In-Reply-To: <20190503133736.111201-3-hare@suse.de>
+References: <20190503133736.111201-1-hare@suse.de>
+ <20190503133736.111201-3-hare@suse.de>
+Message-ID: <1624cd68-f64e-d255-2f6e-5c1436699778@gmail.com>
 
-The parameter should be set with the updated count 'n' instead of
-'val' itself.  The local variable 'cnt' is sized in 6bytes because nvme
-supports up to 65536 io queues.
+Hi Hannes,
 
-Fixes: 3b6592f70("nvme: utilize two queue maps, one for reads and one
-for writes")
-Cc: Keith Busch <keith.busch at intel.com>
-Cc: Jens Axboe <axboe at fb.com>
-Cc: Christoph Hellwig <hch at lst.de>
-Cc: Sagi Grimberg <sagi at grimberg.me>
-Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
----
- drivers/nvme/host/pci.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+I think this patch looks good. but I have a simple query here.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 3e4fb891a95a..d3be3193d023 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -147,6 +147,7 @@ static int io_queue_depth_set(const char *val, const struct kernel_param *kp)
- static int queue_count_set(const char *val, const struct kernel_param *kp)
- {
- 	int n, ret;
-+	char cnt[6];
- 
- 	ret = kstrtoint(val, 10, &n);
- 	if (ret)
-@@ -154,7 +155,8 @@ static int queue_count_set(const char *val, const struct kernel_param *kp)
- 	if (n > num_possible_cpus())
- 		n = num_possible_cpus();
- 
--	return param_set_int(val, kp);
-+	sprintf(cnt, "%d", n);
-+	return param_set_int(cnt, kp);
- }
- 
- static inline unsigned int sq_idx(unsigned int qid, u32 stride)
--- 
-2.17.1
+On 5/3/19 10:37 PM, Hannes Reinecke wrote:
+> @@ -2434,10 +2452,20 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+>   	}
+>   
+>   	mutex_lock(&subsys->lock);
+> -	list_add_tail(&ctrl->subsys_entry, &subsys->ctrls);
+> +	if (!nvme_duplicate_cntlid(subsys, ctrl))
+> +		list_add_tail(&ctrl->subsys_entry, &subsys->ctrls);
+> +	else {
+> +		dev_err(ctrl->device,
+> +			"Duplicate cntlid %u, rejecting\n",
+> +			ctrl->cntlid);
+> +		ctrl->subsys = NULL;
+> +		sysfs_remove_link(&subsys->dev.kobj, dev_name(ctrl->device));
+> +		nvme_put_subsystem(subsys);
+
+Does it(nvme_put_subsystem()) really need to be here?  I think explicit
+"put" for the subsystem is always good, but right above this code, we
+can see the comment when sysfs link has been failed:
+
+if (sysfs_create_link(&subsys->dev.kobj, &ctrl->device->kobj,
+                 dev_name(ctrl->device))) {
+         dev_err(ctrl->device,
+                 "failed to create sysfs link from subsystem.\n");
+         /* the transport driver will eventually put the subsystem */
+         return -EINVAL;
+}
+
+I'm not pretty sure where the exactly the comment says, but I can see
+the nvme_destroy_subsystem() would be invoked from the transport
+drivers (e.g. pci, rdma, etc)
+
+In case of nvme-pci, nvme_remove_dead_ctrl() will do the "put".  For
+nvme-rdma, nvme_rdma_create_ctrl() will do the "put".
+
+Did you do just explicit "put" for the subsystem OR does it really need
+to be here with any other reason?
+
+I'm just asking why there is a difference between code above it and this
+patch.  If you don't mind, please let me know if I'm wrong here. :)
+
+Thanks,
+
+> +		ret = -EINVAL;
+> +	}
+>   	mutex_unlock(&subsys->lock);
+>   
+> -	return 0;
+> +	return ret;
+>   
+>   out_unlock:
+>   	mutex_unlock(&nvme_subsystems_lock);
+> 
