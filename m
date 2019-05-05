@@ -1,73 +1,29 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Sun, 5 May 2019 09:10:18 +0800
-Subject: [PATCH V4 0/3] scsi: core: avoid big pre-allocation for sg list
-In-Reply-To: <20190428073932.9898-1-ming.lei@redhat.com>
-References: <20190428073932.9898-1-ming.lei@redhat.com>
-Message-ID: <20190505011017.GD655@ming.t460p>
+From: minwoo.im@samsung.com (Minwoo Im)
+Date: Sun, 05 May 2019 13:18:48 +0900
+Subject: [PATCH 1/2] nvme/pci: init shadow doorbell after each reset
+In-Reply-To: <20190502113134.20835-2-mlevitsk@redhat.com>
+References: <20190502113134.20835-2-mlevitsk@redhat.com>
+ <20190502113134.20835-1-mlevitsk@redhat.com>
+ <CGME20190502113150epcas4p2a4a2a783b46411ed0895978811545c73@epcms2p3>
+Message-ID: <20190505041848epcms2p3de08067d150ff7dfb78a80fe4fea5f4d@epcms2p3>
 
-On Sun, Apr 28, 2019@03:39:29PM +0800, Ming Lei wrote:
-> Hi,
+> -----Original Message-----
+> From: Linux-nvme [mailto:linux-nvme-bounces at lists.infradead.org] On
+> Behalf Of Maxim Levitsky
+> Sent: Thursday, May 02, 2019 8:32 PM
+> To: linux-nvme at lists.infradead.org
+> Subject: [PATCH 1/2] nvme/pci: init shadow doorbell after each reset
 > 
-> Since supporting to blk-mq, big pre-allocation for sg list is introduced,
-> this way is very unfriendly wrt. memory consumption.
+> The spec states
+> "The settings are not retained across a Controller Level Reset"
+> Therefore the driver must enable the shadow doorbell,
+> after each reset.
 > 
-> There were Red Hat internal reports that some scsi_debug based tests
-> can't be run any more because of too big pre-allocation.
+> This was caught while testing the nvme driver over
+> upcoming nvme-mdev device
 > 
-> Also lpfc users commplained that 1GB+ ram is pre-allocatd for single
-> HBA.
-> 
-> sg_alloc_table_chained() is improved to support variant size of 1st
-> pre-allocated SGL in the 1st patch as suggested by Christoph.
-> 
-> The other two patches try to address this issue by allocating sg list runtime,
-> meantime pre-allocating one or two inline sg entries for small IO. This
-> ways follows NVMe's approach wrt. sg list allocation.
-> 
-> V4:
-> 	- add parameter to sg_alloc_table_chained()/sg_free_table_chained()
-> 	directly, and update current callers
-> 
-> V3:
-> 	- improve sg_alloc_table_chained() to accept variant size of
-> 	the 1st pre-allocated SGL
-> 	- applies the improved sg API to address the big pre-allocation
-> 	issue
-> 
-> V2:
-> 	- move inline sg table initializetion into one helper
-> 	- introduce new helper for getting inline sg
-> 	- comment log fix
-> 
-> 
-> Ming Lei (3):
->   lib/sg_pool.c: improve APIs for allocating sg pool
->   scsi: core: avoid to pre-allocate big chunk for protection meta data
->   scsi: core: avoid to pre-allocate big chunk for sg list
-> 
->  drivers/nvme/host/fc.c            |  7 ++++---
->  drivers/nvme/host/rdma.c          |  7 ++++---
->  drivers/nvme/target/loop.c        |  4 ++--
->  drivers/scsi/scsi_lib.c           | 31 ++++++++++++++++++++++---------
->  include/linux/scatterlist.h       | 11 +++++++----
->  lib/scatterlist.c                 | 36 +++++++++++++++++++++++-------------
->  lib/sg_pool.c                     | 37 +++++++++++++++++++++++++++----------
->  net/sunrpc/xprtrdma/svc_rdma_rw.c |  5 +++--
->  8 files changed, 92 insertions(+), 46 deletions(-)
-> 
-> Cc: Christoph Hellwig <hch at lst.de>
-> Cc: Bart Van Assche <bvanassche at acm.org>
-> Cc: Ewan D. Milne <emilne at redhat.com>
-> Cc: Hannes Reinecke <hare at suse.com>
-> Cc: Sagi Grimberg <sagi at grimberg.me>
-> Cc: Chuck Lever <chuck.lever at oracle.com>
-> Cc: netdev at vger.kernel.org
-> Cc: linux-nvme at lists.infradead.org
+> Signed-off-by: Maxim Levitsky <mlevitsk at redhat.com>
 
-Hi Martin,
+It looks good to me.
 
-Could you consider to merge this patchset to 5.2 if you are fine?
-
-
-Thanks,
-Ming
+Reviewed-by: Minwoo Im <minwoo.im at samsung.com>
