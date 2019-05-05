@@ -1,36 +1,59 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Mon,  6 May 2019 00:22:01 +0900
-Subject: [PATCH] nvme-trace: Add fabrics command opcode name
-Message-ID: <20190505152201.23830-1-minwoo.im.dev@gmail.com>
+From: akinobu.mita@gmail.com (Akinobu Mita)
+Date: Mon,  6 May 2019 02:55:27 +0900
+Subject: [PATCH] nvme-cli: add missing endianness conversions for telemetry
+ log page
+Message-ID: <1557078927-4101-1-git-send-email-akinobu.mita@gmail.com>
 
-Opcode 0x7F is for fabrics commands.  We can also print it out
-"nvme_fabrics_command" instead of 0x7f in raw.
+Add missing endianness conversions for data area last block fields of
+telemetry log page.
 
-Before this patch:
-  cmd=(0x7f cdw10=00 00 00 00 1f 00 00 00 98 3a 00 00 ......
-
-After this patch:
-  cmd=(nvme_fabrics_command cdw10=00 00 00 00 1f 00 00 00 98 3a 00 00 ....
-
-It would be nicer if trace can show which command in fabrics commands
-are now being excuted, but not for this time.
-
-Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
+Cc: Keith Busch <keith.busch at intel.com>
+Cc: Jens Axboe <axboe at fb.com>
+Cc: Christoph Hellwig <hch at lst.de>
+Cc: Sagi Grimberg <sagi at grimberg.me>
+Signed-off-by: Akinobu Mita <akinobu.mita at gmail.com>
 ---
- drivers/nvme/host/trace.h | 1 +
- 1 file changed, 1 insertion(+)
+ linux/nvme.h | 6 +++---
+ nvme.c       | 6 +++---
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
-index 97d3c77365b8..f91580bf2e2f 100644
---- a/drivers/nvme/host/trace.h
-+++ b/drivers/nvme/host/trace.h
-@@ -37,6 +37,7 @@
- 		nvme_admin_opcode_name(nvme_admin_directive_send),	\
- 		nvme_admin_opcode_name(nvme_admin_directive_recv),	\
- 		nvme_admin_opcode_name(nvme_admin_dbbuf),		\
-+		nvme_admin_opcode_name(nvme_fabrics_command),		\
- 		nvme_admin_opcode_name(nvme_admin_format_nvm),		\
- 		nvme_admin_opcode_name(nvme_admin_security_send),	\
- 		nvme_admin_opcode_name(nvme_admin_security_recv),	\
+diff --git a/linux/nvme.h b/linux/nvme.h
+index a1422a7..f6d7341 100644
+--- a/linux/nvme.h
++++ b/linux/nvme.h
+@@ -433,9 +433,9 @@ struct nvme_telemetry_log_page_hdr {
+ 	__u8    lpi; /* Log page identifier */
+ 	__u8    rsvd[4];
+ 	__u8    iee_oui[3];
+-	__u16   dalb1; /* Data area 1 last block */
+-	__u16   dalb2; /* Data area 2 last block */
+-	__u16   dalb3; /* Data area 3 last block */
++	__le16  dalb1; /* Data area 1 last block */
++	__le16  dalb2; /* Data area 2 last block */
++	__le16  dalb3; /* Data area 3 last block */
+ 	__u8    rsvd1[368]; /* TODO verify */
+ 	__u8    ctrlavail; /* Controller initiated data avail?*/
+ 	__u8    ctrldgn; /* Controller initiated telemetry Data Gen # */
+diff --git a/nvme.c b/nvme.c
+index f4c027b..220fb18 100644
+--- a/nvme.c
++++ b/nvme.c
+@@ -376,13 +376,13 @@ static int get_telemetry_log(int argc, char **argv, struct command *cmd, struct
+ 
+ 	switch (cfg.data_area) {
+ 	case 1:
+-		full_size = (hdr->dalb1 * bs) + offset;
++		full_size = (le16_to_cpu(hdr->dalb1) * bs) + offset;
+ 		break;
+ 	case 2:
+-		full_size = (hdr->dalb2 * bs) + offset;
++		full_size = (le16_to_cpu(hdr->dalb2) * bs) + offset;
+ 		break;
+ 	case 3:
+-		full_size = (hdr->dalb3 * bs) + offset;
++		full_size = (le16_to_cpu(hdr->dalb3) * bs) + offset;
+ 		break;
+ 	default:
+ 		fprintf(stderr, "Invalid data area requested");
 -- 
-2.17.1
+2.7.4
