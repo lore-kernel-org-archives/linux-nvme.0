@@ -1,50 +1,73 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Sat, 4 May 2019 23:46:12 +0900
-Subject: [PATCH 3/4] nvme-pci: add device coredump support
-In-Reply-To: <d0de1c5d-1168-086c-cc16-7d33fd307cd3@gmail.com>
-References: <1556787561-5113-1-git-send-email-akinobu.mita@gmail.com>
- <1556787561-5113-4-git-send-email-akinobu.mita@gmail.com>
- <66a5d068-47b1-341f-988f-c890d7f01720@gmail.com>
- <CAC5umyjsAh7aZ8JEh8=QMXpNwRdnxxfdPBDwmuVKfafG+rT-PA@mail.gmail.com>
- <d0de1c5d-1168-086c-cc16-7d33fd307cd3@gmail.com>
-Message-ID: <13a4ec6d-e586-3879-d883-33bdbf90f294@gmail.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Sun, 5 May 2019 09:10:18 +0800
+Subject: [PATCH V4 0/3] scsi: core: avoid big pre-allocation for sg list
+In-Reply-To: <20190428073932.9898-1-ming.lei@redhat.com>
+References: <20190428073932.9898-1-ming.lei@redhat.com>
+Message-ID: <20190505011017.GD655@ming.t460p>
 
-On 5/4/19 11:38 PM, Minwoo Im wrote:
-> On 5/4/19 11:26 PM, Akinobu Mita wrote:
->> 2019?5?4?(?) 19:04 Minwoo Im <minwoo.im.dev at gmail.com>:
+On Sun, Apr 28, 2019@03:39:29PM +0800, Ming Lei wrote:
+> Hi,
+> 
+> Since supporting to blk-mq, big pre-allocation for sg list is introduced,
+> this way is very unfriendly wrt. memory consumption.
+> 
+> There were Red Hat internal reports that some scsi_debug based tests
+> can't be run any more because of too big pre-allocation.
+> 
+> Also lpfc users commplained that 1GB+ ram is pre-allocatd for single
+> HBA.
+> 
+> sg_alloc_table_chained() is improved to support variant size of 1st
+> pre-allocated SGL in the 1st patch as suggested by Christoph.
+> 
+> The other two patches try to address this issue by allocating sg list runtime,
+> meantime pre-allocating one or two inline sg entries for small IO. This
+> ways follows NVMe's approach wrt. sg list allocation.
+> 
+> V4:
+> 	- add parameter to sg_alloc_table_chained()/sg_free_table_chained()
+> 	directly, and update current callers
+> 
+> V3:
+> 	- improve sg_alloc_table_chained() to accept variant size of
+> 	the 1st pre-allocated SGL
+> 	- applies the improved sg API to address the big pre-allocation
+> 	issue
+> 
+> V2:
+> 	- move inline sg table initializetion into one helper
+> 	- introduce new helper for getting inline sg
+> 	- comment log fix
+> 
+> 
+> Ming Lei (3):
+>   lib/sg_pool.c: improve APIs for allocating sg pool
+>   scsi: core: avoid to pre-allocate big chunk for protection meta data
+>   scsi: core: avoid to pre-allocate big chunk for sg list
+> 
+>  drivers/nvme/host/fc.c            |  7 ++++---
+>  drivers/nvme/host/rdma.c          |  7 ++++---
+>  drivers/nvme/target/loop.c        |  4 ++--
+>  drivers/scsi/scsi_lib.c           | 31 ++++++++++++++++++++++---------
+>  include/linux/scatterlist.h       | 11 +++++++----
+>  lib/scatterlist.c                 | 36 +++++++++++++++++++++++-------------
+>  lib/sg_pool.c                     | 37 +++++++++++++++++++++++++++----------
+>  net/sunrpc/xprtrdma/svc_rdma_rw.c |  5 +++--
+>  8 files changed, 92 insertions(+), 46 deletions(-)
+> 
+> Cc: Christoph Hellwig <hch at lst.de>
+> Cc: Bart Van Assche <bvanassche at acm.org>
+> Cc: Ewan D. Milne <emilne at redhat.com>
+> Cc: Hannes Reinecke <hare at suse.com>
+> Cc: Sagi Grimberg <sagi at grimberg.me>
+> Cc: Chuck Lever <chuck.lever at oracle.com>
+> Cc: netdev at vger.kernel.org
+> Cc: linux-nvme at lists.infradead.org
 
->>>> +???? { NVME_REG_INTMS,?????? "intms",??????? 32 },
->>>> +???? { NVME_REG_INTMC,?????? "intmc",??????? 32 },
->>>> +???? { NVME_REG_CC,????????? "cc",?????????? 32 },
->>>> +???? { NVME_REG_CSTS,??????? "csts",???????? 32 },
->>>> +???? { NVME_REG_NSSR,??????? "nssr",???????? 32 },
->>>> +???? { NVME_REG_AQA,???????? "aqa",????????? 32 },
->>>> +???? { NVME_REG_ASQ,???????? "asq",????????? 64 },
->>>> +???? { NVME_REG_ACQ,???????? "acq",????????? 64 },
->>>> +???? { NVME_REG_CMBLOC,????? "cmbloc",?????? 32 },
->>>> +???? { NVME_REG_CMBSZ,?????? "cmbsz",??????? 32 },
->>>
->>> If it's going to support optional registers also, then we can have
->>> BP-related things (BPINFO, BPRSEL, BPMBL) here also.
->>
->> I'm going to change the register dump in binary format just like
->> 'nvme show-regs -o binary' does.? So we'll have registers from 00h to 
->> 4Fh.
->>
-> 
-> Got it.
-> 
-> And now I can see those two commands `nvme show-regs` and
-> `nvme show-regs -o binary` have different results for the register
-> range.? The binary output covers just 0x50 size, but it shows all the
-> registers including BP-related things in normal && json format.
-> 
-> Anyway, I'll prepare a patch for nvme-cli to support binary output
-> format to cover BP things also.
-> 
-> Thanks, for your reply.
+Hi Martin,
 
-My bad, I misunderstood what you have said above.  Please ignore
-what I mentioned. BP things are located from 40h. to 4Fh.
+Could you consider to merge this patchset to 5.2 if you are fine?
 
-Sorry for making noises here. ;)
+
+Thanks,
+Ming
