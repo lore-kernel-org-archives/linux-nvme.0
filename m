@@ -1,29 +1,41 @@
-From: minwoo.im@samsung.com (Minwoo Im)
-Date: Sun, 05 May 2019 13:18:48 +0900
-Subject: [PATCH 1/2] nvme/pci: init shadow doorbell after each reset
-In-Reply-To: <20190502113134.20835-2-mlevitsk@redhat.com>
-References: <20190502113134.20835-2-mlevitsk@redhat.com>
- <20190502113134.20835-1-mlevitsk@redhat.com>
- <CGME20190502113150epcas4p2a4a2a783b46411ed0895978811545c73@epcms2p3>
-Message-ID: <20190505041848epcms2p3de08067d150ff7dfb78a80fe4fea5f4d@epcms2p3>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Mon,  6 May 2019 00:06:08 +0900
+Subject: [PATCH 0/3] blktests: nvme: Fix pass data of nvmet TCs
+Message-ID: <20190505150611.15776-1-minwoo.im.dev@gmail.com>
 
-> -----Original Message-----
-> From: Linux-nvme [mailto:linux-nvme-bounces at lists.infradead.org] On
-> Behalf Of Maxim Levitsky
-> Sent: Thursday, May 02, 2019 8:32 PM
-> To: linux-nvme at lists.infradead.org
-> Subject: [PATCH 1/2] nvme/pci: init shadow doorbell after each reset
-> 
-> The spec states
-> "The settings are not retained across a Controller Level Reset"
-> Therefore the driver must enable the shadow doorbell,
-> after each reset.
-> 
-> This was caught while testing the nvme driver over
-> upcoming nvme-mdev device
-> 
-> Signed-off-by: Maxim Levitsky <mlevitsk at redhat.com>
+Hi, Omar,
 
-It looks good to me.
+This patchset fixes mismatch between expected pass data and real data
+printed out for nvmet testcases.
 
-Reviewed-by: Minwoo Im <minwoo.im at samsung.com>
+It has been long time to have changes for nvmet and nvme-cli.  The
+following commits can explain why the pass data has to be updated.
+
+About genctr:
+  Commit b662a078 ("nvmet: enable Discovery Controller AENs")
+
+About treq field:
+- nvmet:
+  Commit 9b95d2fb ("nvmet: expose support for fabrics SQ flow control
+                    disable in treq")
+- nvme-cli:
+  Commit 2cf370c3 ("fabrics: support fabrics sq flow control disable")
+
+Please correct me if I'm wrong here. :)
+
+Thanks,
+
+*** BLURB HERE ***
+
+Minwoo Im (3):
+  nvme: 002: fix nvmet pass data with loop
+  nvme: 016: fix nvmet pass data with loop
+  nvme: 017: fix nvmet pass data with loop
+
+ tests/nvme/002.out | 2002 ++++++++++++++++++++++++++--------------------------
+ tests/nvme/016.out |    4 +-
+ tests/nvme/017.out |    4 +-
+ 3 files changed, 1005 insertions(+), 1005 deletions(-)
+
+-- 
+2.7.4
