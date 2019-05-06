@@ -1,29 +1,42 @@
-From: kbusch@kernel.org (Keith Busch)
-Date: Mon, 6 May 2019 10:43:25 -0600
-Subject: [PATCH v2 00/10] RFC: NVME MDEV
-In-Reply-To: <20190506125752.GA5288@lst.de>
-References: <20190502114801.23116-1-mlevitsk@redhat.com>
- <20190503121838.GA21041@lst.de>
- <e8f6981863bdbba89adcba1c430083e68546ac1a.camel@redhat.com>
- <20190506125752.GA5288@lst.de>
-Message-ID: <20190506164325.GB2219@localhost.localdomain>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Tue, 7 May 2019 01:54:09 +0900
+Subject: [PATCH 1/3] nvme: 002: fix nvmet pass data with loop
+In-Reply-To: <SN6PR04MB45272BEB18B3ADD95DCB42AE86300@SN6PR04MB4527.namprd04.prod.outlook.com>
+References: <20190505150611.15776-1-minwoo.im.dev@gmail.com>
+ <20190505150611.15776-2-minwoo.im.dev@gmail.com>
+ <SN6PR04MB45274C423AA7C3CC3DBB5ED586300@SN6PR04MB4527.namprd04.prod.outlook.com>
+ <a66b775f-9a5f-fefc-ae29-c86678e66463@gmail.com>
+ <SN6PR04MB45272BEB18B3ADD95DCB42AE86300@SN6PR04MB4527.namprd04.prod.outlook.com>
+Message-ID: <cfa4d48d-ce13-0ace-cf5c-a3d0d1f4cca7@gmail.com>
 
-On Mon, May 06, 2019@05:57:52AM -0700, Christoph Hellwig wrote:
-> > However, similar to the (1), when the driver will support the devices with
-> > hardware based passthrough, it will have to dedicate a bunch of queues to the
-> > guest, configure them with the appropriate PASID, and then let the guest useA
-> > these queues directly.
+> We need to get rid the string comparison as much as we can e.g.
+> in following output the nvme-cli output should not be compared
+> but the return value itself.
 > 
-> We will not let you abuse the nvme queues for anything else.  We had
-> that discussion with the mellanox offload and it not only unsafe but
-> also adds way to much crap to the core nvme code for corner cases.
+> -Discovery Log Number of Records 1, Generation counter 1
+> +Discovery Log Number of Records 1, Generation counter 2
+> =====Discovery Log Entry 0======
+> trtype: loop
+> adrfam: pci
+> subtype: nvme subsystem
+> -treq: not specified
+> +treq: not specified, sq flow control disable supported
+> portid: X
+> trsvcid:
+> subnqn: blktests-subsystem-1
 > 
-> Or to put it into another way:  unless your paravirt interface requires
-> zero specific changes to the core nvme code it is not acceptable at all.
+> Reason :- we cannot rely on the output as it tends to change
+> with development which triggers fixes in blktests, unless
+> testcase is focused on entirely on examining the output of
+> the tool.
 
-I agree we shouldn't specialize generic queues for this, but I think
-it is worth revisiting driver support for assignable hardware resources
-iff the specification defines it.
+Totally agree with you.  nvme-cli is going to keep updated and output 
+format might be changed which may cause test failure in blktests.
 
-Until then, you can always steer processes to different queues by
-assigning them to different CPUs.
+If Johannes who wrote these tests agrees to not check output result from 
+nvme-cli, I'll get rid of them.
+
+By the way, Checking the return value of a program like nvme-cli might 
+not be enough to figure out what happened because this test looks like 
+wanted to check the output of discover get log page is exactly the same 
+with what it wanted to be in case data size is greater than 4K.
