@@ -1,46 +1,32 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Mon, 6 May 2019 16:25:48 +0000
-Subject: [PATCH 3/3] nvme: 017: fix nvmet pass data with loop
-References: <20190505150611.15776-1-minwoo.im.dev@gmail.com>
- <20190505150611.15776-4-minwoo.im.dev@gmail.com>
-Message-ID: <SN6PR04MB4527A202C575B8DBD2CD1EBA86300@SN6PR04MB4527.namprd04.prod.outlook.com>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Tue, 7 May 2019 01:25:58 +0900
+Subject: [PATCH] nvme-loop: Fix race between completions and shutdown
+In-Reply-To: <20190506155632.GA2219@localhost.localdomain>
+References: <20190506145203.2851-1-minwoo.im.dev@gmail.com>
+ <20190506145327.GA2164@localhost.localdomain>
+ <0db7e312-0ff2-45f2-8ee1-7ad7b6fd3e5a@gmail.com>
+ <20190506151727.GB2164@localhost.localdomain>
+ <1ced3919-af4a-7899-8d49-026b9cc82e2b@gmail.com>
+ <20190506155632.GA2219@localhost.localdomain>
+Message-ID: <bcef79ca-8761-ed06-240b-15c235a7b7f4@gmail.com>
 
-We need to get rid of the string comparison here.
-On 05/05/2019 08:06 AM, Minwoo Im wrote:
-> The following commit has affected the result of genctr and treq field
-> printed:
->
-> genctr would increment two times per a subsystem due to
->    Commit b662a078 ("nvmet: enable Discovery Controller AENs")
->
-> treq field would be printed out to support TP 8005:
->    nvmet driver:
->      Commit 9b95d2fb ("nvmet: expose support for fabrics SQ flow control
->                        disable in treq")
->    nvme-cli:
->      Commit 2cf370c3 ("fabrics: support fabrics sq flow control disable")
->
-> Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
-> ---
->   tests/nvme/017.out | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/tests/nvme/017.out b/tests/nvme/017.out
-> index 4b0877a..d7685f6 100644
-> --- a/tests/nvme/017.out
-> +++ b/tests/nvme/017.out
-> @@ -1,11 +1,11 @@
->   Running nvme/017
->
-> -Discovery Log Number of Records 1, Generation counter 1
-> +Discovery Log Number of Records 1, Generation counter 2
->   =====Discovery Log Entry 0======
->   trtype:  loop
->   adrfam:  pci
->   subtype: nvme subsystem
-> -treq:    not specified
-> +treq:    not specified, sq flow control disable supported
->   portid:  X
->   trsvcid:
->   subnqn:  blktests-subsystem-1
->
+On 5/7/19 12:56 AM, Keith Busch wrote:
+> On Tue, May 07, 2019@12:52:34AM +0900, Minwoo Im wrote:
+>>
+>> I think it's possible to happen in nvme-pci also.  When a CPU is handling a
+>> request completed with nvme_complete_rq(), the controller reset by sysfs can
+>> occur.  In this case, blk_mq_tagset_busy_iter() will iterate over the
+>> requests allocated in nvme_dev_disable().
+>>
+>> Does nvme-pci host driver handle this kind of situation ?
+> 
+> Yes, we have barriers that ensure no other thread can be operating on
+> a completion queue entry at the point we iterate the tagset.
+
+Keith,
+
+I should have looked at nvme-pci first much more deeply.  Thanks for 
+teaching me this.  Now I might be going to prepare a V2 patch with the 
+lock mechanism to avoid this situation.
+
+Thanks,
