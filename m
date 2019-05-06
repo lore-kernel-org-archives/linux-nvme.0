@@ -1,55 +1,41 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Mon, 6 May 2019 17:47:34 +0000
-Subject: [PATCH 1/3] nvme: 002: fix nvmet pass data with loop
-References: <20190505150611.15776-1-minwoo.im.dev@gmail.com>
- <20190505150611.15776-2-minwoo.im.dev@gmail.com>
- <SN6PR04MB45274C423AA7C3CC3DBB5ED586300@SN6PR04MB4527.namprd04.prod.outlook.com>
- <a66b775f-9a5f-fefc-ae29-c86678e66463@gmail.com>
- <SN6PR04MB45272BEB18B3ADD95DCB42AE86300@SN6PR04MB4527.namprd04.prod.outlook.com>
- <cfa4d48d-ce13-0ace-cf5c-a3d0d1f4cca7@gmail.com>
-Message-ID: <SN6PR04MB4527FAD8076A5A5610F6B66786300@SN6PR04MB4527.namprd04.prod.outlook.com>
+From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Mon,  6 May 2019 12:33:20 -0700
+Subject: [PATCH] nvme-core: trace discovery log change AEN
+Message-ID: <20190506193320.30884-1-chaitanya.kulkarni@wdc.com>
 
-On 05/06/2019 09:54 AM, Minwoo Im wrote:
->> We need to get rid the string comparison as much as we can e.g.
->> in following output the nvme-cli output should not be compared
->> but the return value itself.
->>
->> -Discovery Log Number of Records 1, Generation counter 1
->> +Discovery Log Number of Records 1, Generation counter 2
->> =====Discovery Log Entry 0======
->> trtype: loop
->> adrfam: pci
->> subtype: nvme subsystem
->> -treq: not specified
->> +treq: not specified, sq flow control disable supported
->> portid: X
->> trsvcid:
->> subnqn: blktests-subsystem-1
->>
->> Reason :- we cannot rely on the output as it tends to change
->> with development which triggers fixes in blktests, unless
->> testcase is focused on entirely on examining the output of
->> the tool.
->
-> Totally agree with you.  nvme-cli is going to keep updated and output
-> format might be changed which may cause test failure in blktests.
->
-> If Johannes who wrote these tests agrees to not check output result from
-> nvme-cli, I'll get rid of them.
->
-> By the way, Checking the return value of a program like nvme-cli might
-> not be enough to figure out what happened because this test looks like
-> wanted to check the output of discover get log page is exactly the same
-> with what it wanted to be in case data size is greater than 4K.
->
+This patch allows the user to trace discovery log change notification.
 
-I wasn't clear enough.
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+---
+ drivers/nvme/host/core.c  | 3 +++
+ drivers/nvme/host/trace.h | 1 +
+ 2 files changed, 4 insertions(+)
 
-It doesn't check for the return value for now. What needs to happen is :-
-
-1. Get rid of the variable strings which are not part of the discovery
-    log page entries such as Generation counter.
-2. Validate each log page entry content.
-3. Check the return value.
-
-We cannot *only* rely on the nvme-cli return value or on the output.
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index cd16d98d1f1a..32e12ee42785 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3615,6 +3615,9 @@ static void nvme_handle_aen_notice(struct nvme_ctrl *ctrl, u32 result)
+ 		trace_nvme_async_event(ctrl, aer_notice_type);
+ 		queue_work(nvme_wq, &ctrl->fw_act_work);
+ 		break;
++	case NVME_AER_NOTICE_DISC_CHANGED:
++		trace_nvme_async_event(ctrl, aer_notice_type);
++		break;
+ #ifdef CONFIG_NVME_MULTIPATH
+ 	case NVME_AER_NOTICE_ANA:
+ 		trace_nvme_async_event(ctrl, aer_notice_type);
+diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
+index 97d3c77365b8..f2fda5fb01fb 100644
+--- a/drivers/nvme/host/trace.h
++++ b/drivers/nvme/host/trace.h
+@@ -165,6 +165,7 @@ TRACE_EVENT(nvme_async_event,
+ 		__entry->ctrl_id, __entry->result,
+ 		__print_symbolic(__entry->result,
+ 		aer_name(NVME_AER_NOTICE_NS_CHANGED),
++		aer_name(NVME_AER_NOTICE_DISC_CHANGED).
+ 		aer_name(NVME_AER_NOTICE_ANA),
+ 		aer_name(NVME_AER_NOTICE_FW_ACT_STARTING),
+ 		aer_name(NVME_AER_ERROR),
+-- 
+2.17.0
