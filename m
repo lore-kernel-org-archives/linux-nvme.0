@@ -1,46 +1,38 @@
 From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Mon, 6 May 2019 16:26:10 +0000
-Subject: [PATCH 2/3] nvme: 016: fix nvmet pass data with loop
-References: <20190505150611.15776-1-minwoo.im.dev@gmail.com>
- <20190505150611.15776-3-minwoo.im.dev@gmail.com>
-Message-ID: <SN6PR04MB452726B60D050C3A88A7456C86300@SN6PR04MB4527.namprd04.prod.outlook.com>
+Date: Mon, 6 May 2019 16:29:12 +0000
+Subject: [PATCH] nvme-trace: Add fabrics command opcode name
+References: <20190505152201.23830-1-minwoo.im.dev@gmail.com>
+Message-ID: <SN6PR04MB45270E164CBC599246428CE386300@SN6PR04MB4527.namprd04.prod.outlook.com>
 
-We need to get rid of the string comparison here.
-On 05/05/2019 08:06 AM, Minwoo Im wrote:
-> The following commit has affected the result of genctr and treq field
-> printed:
+Please do not mix admin and fabric commands.
+On 05/05/2019 08:22 AM, Minwoo Im wrote:
+> Opcode 0x7F is for fabrics commands.  We can also print it out
+> "nvme_fabrics_command" instead of 0x7f in raw.
 >
-> genctr would increment two times per a subsystem due to
->    Commit b662a078 ("nvmet: enable Discovery Controller AENs")
+> Before this patch:
+>    cmd=(0x7f cdw10=00 00 00 00 1f 00 00 00 98 3a 00 00 ......
 >
-> treq field would be printed out to support TP 8005:
->    nvmet driver:
->      Commit 9b95d2fb ("nvmet: expose support for fabrics SQ flow control
->                        disable in treq")
->    nvme-cli:
->      Commit 2cf370c3 ("fabrics: support fabrics sq flow control disable")
+> After this patch:
+>    cmd=(nvme_fabrics_command cdw10=00 00 00 00 1f 00 00 00 98 3a 00 00 ....
+>
+> It would be nicer if trace can show which command in fabrics commands
+> are now being excuted, but not for this time.
 >
 > Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
 > ---
->   tests/nvme/016.out | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   drivers/nvme/host/trace.h | 1 +
+>   1 file changed, 1 insertion(+)
 >
-> diff --git a/tests/nvme/016.out b/tests/nvme/016.out
-> index 59bd293..8599066 100644
-> --- a/tests/nvme/016.out
-> +++ b/tests/nvme/016.out
-> @@ -1,11 +1,11 @@
->   Running nvme/016
->
-> -Discovery Log Number of Records 1, Generation counter 1
-> +Discovery Log Number of Records 1, Generation counter 2
->   =====Discovery Log Entry 0======
->   trtype:  loop
->   adrfam:  pci
->   subtype: nvme subsystem
-> -treq:    not specified
-> +treq:    not specified, sq flow control disable supported
->   portid:  X
->   trsvcid:
->   subnqn:  blktests-subsystem-1
+> diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
+> index 97d3c77365b8..f91580bf2e2f 100644
+> --- a/drivers/nvme/host/trace.h
+> +++ b/drivers/nvme/host/trace.h
+> @@ -37,6 +37,7 @@
+>   		nvme_admin_opcode_name(nvme_admin_directive_send),	\
+>   		nvme_admin_opcode_name(nvme_admin_directive_recv),	\
+>   		nvme_admin_opcode_name(nvme_admin_dbbuf),		\
+> +		nvme_admin_opcode_name(nvme_fabrics_command),		\
+>   		nvme_admin_opcode_name(nvme_admin_format_nvm),		\
+>   		nvme_admin_opcode_name(nvme_admin_security_send),	\
+>   		nvme_admin_opcode_name(nvme_admin_security_recv),	\
 >
