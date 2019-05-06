@@ -1,119 +1,39 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Mon,  6 May 2019 13:47:55 +0300
-Subject: [PATCH] nvme-rdma: remove redundant reference between ib_device and
- tagset
-Message-ID: <1557139675-2469-1-git-send-email-maxg@mellanox.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 6 May 2019 14:57:52 +0200
+Subject: [PATCH v2 00/10] RFC: NVME MDEV
+In-Reply-To: <e8f6981863bdbba89adcba1c430083e68546ac1a.camel@redhat.com>
+References: <20190502114801.23116-1-mlevitsk@redhat.com>
+ <20190503121838.GA21041@lst.de>
+ <e8f6981863bdbba89adcba1c430083e68546ac1a.camel@redhat.com>
+Message-ID: <20190506125752.GA5288@lst.de>
 
-In the past, before adding f41725bb ("nvme-rdma: Use mr pool") commit,
-we needed a reference on the ib_device as long as the tagset
-was alive, as the MRs in the request structures needed a valid ib_device.
-Now, we allocate/deallocate MR pool per QP and consume on demand.
+On Mon, May 06, 2019@12:04:06PM +0300, Maxim Levitsky wrote:
+> 1. Frontend interface (the interface that faces the guest/userspace/etc):
+> 
+> VFIO/mdev is just way to expose a (partially) software defined PCIe device to a
+> guest.
+> 
+> Vhost on the other hand is an interface that is hardcoded and optimized for
+> virtio. It can be extended to be pci generic, but why to do so if we already
+> have VFIO.
 
-Also remove nvme_rdma_free_tagset function and use blk_mq_free_tag_set
-instead, as it unneeded anymore.
+I wouldn't say vhost is virtio specific.  At least Hanne's vhost-nvme
+doesn't get impacted by that a whole lot.
 
-This commit also fixes a memory leakage and possible segmentation fault.
-When configuring the system with NIC teaming (aka bonding), we use 1
-network interface to create an HA connection to the target side. In case
-one connection breaks down, nvme-rdma driver will get notification from
-rdma-cm layer that underlying address was change and will start error
-recovery process. During this process, we'll reconnect to the target
-via the second interface in the bond without destroying the tagset.
-This will cause a leakage of the initial rdma device (ndev) and miscount
-in the reference count of the new created rdma device (new ndev). In
-the final destruction (or in another error flow), we'll get a warning
-dump from the ib_dealloc_pd that we still have inflight MR's related to
-that pd. This happens becasue of the miscount of the reference tag of
-the rdma device and causing access violation to it's elements (some
-queues are not destroyed yet).
+> 2. Backend interface (the connection to the real nvme device):
+> 
+> Currently the backend interface _doesn't have_ to allocate a dedicated queue and
+> bypass the block layer. It can use the block submit_bio/blk_poll as I
+> demonstrate in the last patch in the series. Its 2x slower though.
+> 
+> However, similar to the (1), when the driver will support the devices with
+> hardware based passthrough, it will have to dedicate a bunch of queues to the
+> guest, configure them with the appropriate PASID, and then let the guest useA
+> these queues directly.
 
-Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
-Signed-off-by: Israel Rukshin <israelr at mellanox.com>
----
- drivers/nvme/host/rdma.c | 34 +++++-----------------------------
- 1 file changed, 5 insertions(+), 29 deletions(-)
+We will not let you abuse the nvme queues for anything else.  We had
+that discussion with the mellanox offload and it not only unsafe but
+also adds way to much crap to the core nvme code for corner cases.
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 794b08e60acc..40a5a98e4aa1 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -697,15 +697,6 @@ static int nvme_rdma_alloc_io_queues(struct nvme_rdma_ctrl *ctrl)
- 	return ret;
- }
- 
--static void nvme_rdma_free_tagset(struct nvme_ctrl *nctrl,
--		struct blk_mq_tag_set *set)
--{
--	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(nctrl);
--
--	blk_mq_free_tag_set(set);
--	nvme_rdma_dev_put(ctrl->device);
--}
--
- static struct blk_mq_tag_set *nvme_rdma_alloc_tagset(struct nvme_ctrl *nctrl,
- 		bool admin)
- {
-@@ -744,24 +735,9 @@ static struct blk_mq_tag_set *nvme_rdma_alloc_tagset(struct nvme_ctrl *nctrl,
- 
- 	ret = blk_mq_alloc_tag_set(set);
- 	if (ret)
--		goto out;
--
--	/*
--	 * We need a reference on the device as long as the tag_set is alive,
--	 * as the MRs in the request structures need a valid ib_device.
--	 */
--	ret = nvme_rdma_dev_get(ctrl->device);
--	if (!ret) {
--		ret = -EINVAL;
--		goto out_free_tagset;
--	}
-+		return ERR_PTR(ret);
- 
- 	return set;
--
--out_free_tagset:
--	blk_mq_free_tag_set(set);
--out:
--	return ERR_PTR(ret);
- }
- 
- static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl,
-@@ -769,7 +745,7 @@ static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl,
- {
- 	if (remove) {
- 		blk_cleanup_queue(ctrl->ctrl.admin_q);
--		nvme_rdma_free_tagset(&ctrl->ctrl, ctrl->ctrl.admin_tagset);
-+		blk_mq_free_tag_set(ctrl->ctrl.admin_tagset);
- 	}
- 	if (ctrl->async_event_sqe.data) {
- 		nvme_rdma_free_qe(ctrl->device->dev, &ctrl->async_event_sqe,
-@@ -847,7 +823,7 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
- 		blk_cleanup_queue(ctrl->ctrl.admin_q);
- out_free_tagset:
- 	if (new)
--		nvme_rdma_free_tagset(&ctrl->ctrl, ctrl->ctrl.admin_tagset);
-+		blk_mq_free_tag_set(ctrl->ctrl.admin_tagset);
- out_free_async_qe:
- 	nvme_rdma_free_qe(ctrl->device->dev, &ctrl->async_event_sqe,
- 		sizeof(struct nvme_command), DMA_TO_DEVICE);
-@@ -862,7 +838,7 @@ static void nvme_rdma_destroy_io_queues(struct nvme_rdma_ctrl *ctrl,
- {
- 	if (remove) {
- 		blk_cleanup_queue(ctrl->ctrl.connect_q);
--		nvme_rdma_free_tagset(&ctrl->ctrl, ctrl->ctrl.tagset);
-+		blk_mq_free_tag_set(ctrl->ctrl.tagset);
- 	}
- 	nvme_rdma_free_io_queues(ctrl);
- }
-@@ -903,7 +879,7 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
- 		blk_cleanup_queue(ctrl->ctrl.connect_q);
- out_free_tag_set:
- 	if (new)
--		nvme_rdma_free_tagset(&ctrl->ctrl, ctrl->ctrl.tagset);
-+		blk_mq_free_tag_set(ctrl->ctrl.tagset);
- out_free_io_queues:
- 	nvme_rdma_free_io_queues(ctrl);
- 	return ret;
--- 
-2.16.3
+Or to put it into another way:  unless your paravirt interface requires
+zero specific changes to the core nvme code it is not acceptable at all.
