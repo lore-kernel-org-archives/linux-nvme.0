@@ -1,41 +1,23 @@
-From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Mon,  6 May 2019 12:33:20 -0700
-Subject: [PATCH] nvme-core: trace discovery log change AEN
-Message-ID: <20190506193320.30884-1-chaitanya.kulkarni@wdc.com>
+From: osandov@osandov.com (Omar Sandoval)
+Date: Mon, 6 May 2019 12:42:39 -0700
+Subject: [PATCH] blktests: Use old variable check for Bash <4.2
+In-Reply-To: <1556908108-16475-1-git-send-email-jonathan.derrick@intel.com>
+References: <1556908108-16475-1-git-send-email-jonathan.derrick@intel.com>
+Message-ID: <20190506194239.GB20450@vader>
 
-This patch allows the user to trace discovery log change notification.
+On Fri, May 03, 2019@12:28:28PM -0600, Jon Derrick wrote:
+> Bash 4.2 and above supports -v variable checks, which returns true for
+> set or null. Instead use an older bashism that is compatible with bash
+> 4.1 and earlier but only returns true if the variable is set non-null.
+> This inherently adds a sanity check in case of null variables.
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
----
- drivers/nvme/host/core.c  | 3 +++
- drivers/nvme/host/trace.h | 1 +
- 2 files changed, 4 insertions(+)
+Bart previous sent a patch for supporting bash 4.1, and according to
+him, there were some further changes required:
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index cd16d98d1f1a..32e12ee42785 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3615,6 +3615,9 @@ static void nvme_handle_aen_notice(struct nvme_ctrl *ctrl, u32 result)
- 		trace_nvme_async_event(ctrl, aer_notice_type);
- 		queue_work(nvme_wq, &ctrl->fw_act_work);
- 		break;
-+	case NVME_AER_NOTICE_DISC_CHANGED:
-+		trace_nvme_async_event(ctrl, aer_notice_type);
-+		break;
- #ifdef CONFIG_NVME_MULTIPATH
- 	case NVME_AER_NOTICE_ANA:
- 		trace_nvme_async_event(ctrl, aer_notice_type);
-diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
-index 97d3c77365b8..f2fda5fb01fb 100644
---- a/drivers/nvme/host/trace.h
-+++ b/drivers/nvme/host/trace.h
-@@ -165,6 +165,7 @@ TRACE_EVENT(nvme_async_event,
- 		__entry->ctrl_id, __entry->result,
- 		__print_symbolic(__entry->result,
- 		aer_name(NVME_AER_NOTICE_NS_CHANGED),
-+		aer_name(NVME_AER_NOTICE_DISC_CHANGED).
- 		aer_name(NVME_AER_NOTICE_ANA),
- 		aer_name(NVME_AER_NOTICE_FW_ACT_STARTING),
- 		aer_name(NVME_AER_ERROR),
--- 
-2.17.0
+https://github.com/osandov/blktests/pull/42
+
+Either Bart's list of missing features was too big, or this patch isn't
+enough to support 4.1. If it's the latter, then this is a no-go, because
+Bart's change was too intrusive to be worth the hassle. If it's the
+former, then this change isn't quite as bad, but I'm still not excited
+about supporting a 10 year old version of Bash.
