@@ -1,51 +1,109 @@
-From: aeasi@marvell.com (Arun Easi)
-Date: Mon, 6 May 2019 15:38:24 -0700
-Subject: [PATCH nvme-cli rfc 0/6] Support discovery log change events
-In-Reply-To: <3b7117cf-db69-01a3-d286-a2f98f3e8f5b@broadcom.com>
-References: <20190223023257.21227-1-sagi@grimberg.me>
- <d4012891-8bc7-00cf-ab96-7828270d25af@suse.de>
- <e7423c76-6425-4020-2074-b977fc87866f@grimberg.me>
- <d1742744-1109-e7e8-3586-fca6556c803b@broadcom.com>
- <d7bbfc2a-92ea-315d-bbd6-cd3847449f7b@grimberg.me>
- <3b524b54-8f13-24f5-4367-34a4d02c59b3@broadcom.com>
- <5c64286b-3fbf-9dfe-ef8a-3f72e630f11d@broadcom.com>
- <a4f8ca74-7777-9e80-3209-ef9ce27ad2d8@suse.de>
- <44f637f2-0c0d-cef4-05b3-c5e67ec907bb@grimberg.me>
- <f0e112f7-0db5-4928-0859-8b3b6b797432@grimberg.me>
- <9d0e3080-baa7-6f55-2548-097523bb3a83@suse.de>
- <03163041-9b14-3662-edb8-1d69f20f681f@grimberg.me>
- <f4594084-4f2a-33ca-77b4-d7075bbb12af@broadcom.com>
- <2a08f760-0aeb-d788-3210-72ec9d6eb9bc@grimberg.me>
- <3b7117cf-db69-01a3-d286-a2f98f3e8f5b@broadcom.com>
-Message-ID: <alpine.LRH.2.21.9999.1905061528390.19585@mvluser05.qlc.com>
+From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Mon, 6 May 2019 22:41:50 +0000
+Subject: [PATCH 1/2] nvme: Introduce nvme_is_fabrics to check fabrics cmd
+References: <20190506194644.11109-1-minwoo.im.dev@gmail.com>
+ <20190506194644.11109-2-minwoo.im.dev@gmail.com>
+Message-ID: <SN6PR04MB452746C95169477C3DD9C8A786300@SN6PR04MB4527.namprd04.prod.outlook.com>
 
-Hi James,
+I'm not sure if we need change right now, reason :-
 
-On Fri, 26 Apr 2019, 1:14pm, James Smart wrote:
+Existing code is pretty straight forward and we are not having
+any complicated logic in the helper function. I'll let the
+maintainers decide this.
 
-> On 4/26/2019 12:10 PM, Sagi Grimberg wrote:
-> >
-> > Given that FC does not need a persistent discovery controller to get the
-> > event, its fine that it will create a temporary discovery controller.
-> > Given that FC and IP do different things, we can separate them. But what
-> > I wanted to understand, is if I export a second subsystem on the same
-> > FC port, will it generate an FC event?
-> 
-> Well - FC does have an RSCN notification to cause the rescan of the FC 
-> port, if the FC port as the NVME Discovery attribute, but Christoph 
-> rejected the 3 patches about a year ago. I'll be reposting it. So the 
-> answer should eventually be - yes, it will get an FC event if the 
-> subsystem list at the FC port changes.
-> 
-
-So, just wondering, for the case of subsystem addition to an existing FC 
-port, is it recommended or mandated in the spec that the target FC port 
-send out a RSCN? The RSCN should be from the target FC port, not the 
-switch, right? I could not find such a reference in the FC-NVME spec 
-version I have (r1.15).
-
-On a related note, from a FC LLDD perspective, then, are they required to 
-invoke nvme_fc_rescan_remoteport() upon RSCN reception?
-
-Regards,
--Arun
+On 05/06/2019 12:47 PM, Minwoo Im wrote:
+> This patch introduce a nvme_is_fabrics() inline function to check
+> whether or not the given command structure is for fabrics.
+>
+> Cc: Keith Busch <keith.busch at intel.com>
+> Cc: Jens Axboe <axboe at fb.com>
+> Cc: Christoph Hellwig <hch at lst.de>
+> Cc: Sagi Grimberg <sagi at grimberg.me>
+> Cc: James Smart <james.smart at broadcom.com>
+> Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
+> ---
+>   drivers/nvme/host/fabrics.c       | 2 +-
+>   drivers/nvme/target/core.c        | 2 +-
+>   drivers/nvme/target/fabrics-cmd.c | 2 +-
+>   drivers/nvme/target/fc.c          | 2 +-
+>   include/linux/nvme.h              | 7 ++++++-
+>   5 files changed, 10 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+> index 592d1e61ef7e..931995f2dbc3 100644
+> --- a/drivers/nvme/host/fabrics.c
+> +++ b/drivers/nvme/host/fabrics.c
+> @@ -578,7 +578,7 @@ bool __nvmf_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
+>   	switch (ctrl->state) {
+>   	case NVME_CTRL_NEW:
+>   	case NVME_CTRL_CONNECTING:
+> -		if (req->cmd->common.opcode == nvme_fabrics_command &&
+> +		if (nvme_is_fabrics(req->cmd) &&
+>   		    req->cmd->fabrics.fctype == nvme_fabrics_type_connect)
+>   			return true;
+>   		break;
+> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+> index 7734a6acff85..da2ea97042af 100644
+> --- a/drivers/nvme/target/core.c
+> +++ b/drivers/nvme/target/core.c
+> @@ -871,7 +871,7 @@ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
+>   		status = nvmet_parse_connect_cmd(req);
+>   	else if (likely(req->sq->qid != 0))
+>   		status = nvmet_parse_io_cmd(req);
+> -	else if (req->cmd->common.opcode == nvme_fabrics_command)
+> +	else if (nvme_is_fabrics(req->cmd))
+>   		status = nvmet_parse_fabrics_cmd(req);
+>   	else if (req->sq->ctrl->subsys->type == NVME_NQN_DISC)
+>   		status = nvmet_parse_discovery_cmd(req);
+> diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-cmd.c
+> index 3b9f79aba98f..d16b55ffe79f 100644
+> --- a/drivers/nvme/target/fabrics-cmd.c
+> +++ b/drivers/nvme/target/fabrics-cmd.c
+> @@ -268,7 +268,7 @@ u16 nvmet_parse_connect_cmd(struct nvmet_req *req)
+>   {
+>   	struct nvme_command *cmd = req->cmd;
+>
+> -	if (cmd->common.opcode != nvme_fabrics_command) {
+> +	if (!nvme_is_fabrics(cmd)) {
+>   		pr_err("invalid command 0x%x on unconnected queue.\n",
+>   			cmd->fabrics.opcode);
+>   		req->error_loc = offsetof(struct nvme_common_command, opcode);
+> diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+> index 508661af0f50..a59c5a013a5c 100644
+> --- a/drivers/nvme/target/fc.c
+> +++ b/drivers/nvme/target/fc.c
+> @@ -1806,7 +1806,7 @@ nvmet_fc_prep_fcp_rsp(struct nvmet_fc_tgtport *tgtport,
+>   	 */
+>   	rspcnt = atomic_inc_return(&fod->queue->zrspcnt);
+>   	if (!(rspcnt % fod->queue->ersp_ratio) ||
+> -	    sqe->opcode == nvme_fabrics_command ||
+> +	    nvme_is_fabrics((struct nvme_command *) sqe) ||
+>   	    xfr_length != fod->req.transfer_len ||
+>   	    (le16_to_cpu(cqe->status) & 0xFFFE) || cqewd[0] || cqewd[1] ||
+>   	    (sqe->flags & (NVME_CMD_FUSE_FIRST | NVME_CMD_FUSE_SECOND)) ||
+> diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+> index c40720cb59ac..ab5e9392b42d 100644
+> --- a/include/linux/nvme.h
+> +++ b/include/linux/nvme.h
+> @@ -1165,6 +1165,11 @@ struct nvme_command {
+>   	};
+>   };
+>
+> +static inline bool nvme_is_fabrics(struct nvme_command *cmd)
+> +{
+> +	return cmd->common.opcode == nvme_fabrics_command;
+> +}
+> +
+>   struct nvme_error_slot {
+>   	__le64		error_count;
+>   	__le16		sqid;
+> @@ -1186,7 +1191,7 @@ static inline bool nvme_is_write(struct nvme_command *cmd)
+>   	 *
+>   	 * Why can't we simply have a Fabrics In and Fabrics out command?
+>   	 */
+> -	if (unlikely(cmd->common.opcode == nvme_fabrics_command))
+> +	if (unlikely(nvme_is_fabrics(cmd)))
+>   		return cmd->fabrics.fctype & 1;
+>   	return cmd->common.opcode & 1;
+>   }
+>
