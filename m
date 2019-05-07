@@ -1,32 +1,21 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 7 May 2019 09:08:03 +0200
-Subject: [PATCH nvme-cli rfc 1/5] fabrics: ignore arguments that pass in
- "none"
-In-Reply-To: <20190504000456.3888-2-jsmart2021@gmail.com>
+Date: Tue, 7 May 2019 09:11:17 +0200
+Subject: [PATCH nvme-cli rfc 2/5] fabrics: support persistent connections
+ to a discovery controller
+In-Reply-To: <20190504000456.3888-3-jsmart2021@gmail.com>
 References: <20190504000456.3888-1-jsmart2021@gmail.com>
- <20190504000456.3888-2-jsmart2021@gmail.com>
-Message-ID: <7269d1a0-f93c-6026-b7b8-76cbebe6174f@suse.de>
+ <20190504000456.3888-3-jsmart2021@gmail.com>
+Message-ID: <7cc06c7a-530d-3807-7f31-f324df733ae8@suse.de>
 
 On 5/4/19 2:04 AM, James Smart wrote:
-> As we want to support discovery uevents over different
-> transports, we want to allow the kernel to provide missing
-> information in the form of none and have nvme-cli properly
-> ignore it.
+> From: Sagi Grimberg <sagi at grimberg.me>
 > 
-> One example is the host_traddr. If it is not set (which means
-> that the default route determined the host address) we will
-> want to do the same for newly discovered controllers.
-> 
-> So allow users to pass 'none' arguments as well.
+> Simply don't destroy the discovery controller after getting the
+> log pages. Note that persistent connection to a discovery subsystem
+> require to pass in a non-zero kato value, so if not provided we
+> simply use a default of 30 seconds kato.
 > 
 > Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> Signed-off-by: James Smart <jsmart2021 at gmail.com>
-> ---
-> Patch originated from Sagi in an RFC
-> Fixed typo in Sagi's patch on cfg.hostid
-> ---
->   fabrics.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
