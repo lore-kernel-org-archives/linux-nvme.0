@@ -1,29 +1,33 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 7 May 2019 21:54:27 +0300
-Subject: [PATCH nvme-cli rfc 4/6] fabrics: add --quiet option
-In-Reply-To: <2437d298-a26d-924f-281e-d20a97cee4c0@broadcom.com>
-References: <20190223023257.21227-1-sagi@grimberg.me>
- <20190223023257.21227-5-sagi@grimberg.me>
- <58b674a5-a40e-c0b1-2b89-2fdc89d8efa0@mellanox.com>
- <2437d298-a26d-924f-281e-d20a97cee4c0@broadcom.com>
-Message-ID: <b540cb48-c248-e81e-0bc5-28b6b8a10cd6@mellanox.com>
+From: james.smart@broadcom.com (James Smart)
+Date: Tue, 7 May 2019 13:26:43 -0700
+Subject: [PATCH nvme-cli rfc 5/5] nvmf auto-connect scripts
+In-Reply-To: <20190504000456.3888-6-jsmart2021@gmail.com>
+References: <20190504000456.3888-1-jsmart2021@gmail.com>
+ <20190504000456.3888-6-jsmart2021@gmail.com>
+Message-ID: <fd4af817-3a90-380b-b485-81b44c12c8e9@broadcom.com>
 
 
-On 5/7/2019 8:12 PM, James Smart wrote:
+> +# Events from persistent discovery controllers or nvme-fc transport events
+> +ACTION=="change", SUBSYSTEM=="nvme", ENV{NVME_EVENT}=="discovery",\
+> +  ENV{NVME_CTLR_NAME}=="*", ENV{NVME_TRTYPE}=="*", ENV{NVME_TRADDR}=="*", \
+> +  ENV{NVME_TRSVCID}=="*", ENV{NVME_HOST_TRADDR}=="*", \
+> +  RUN+="/usr/bin/systemctl --no-block start nvmf-connect at --device=$env{NVME_CTLR_NAME}\t--transport=$env{NVME_TRTYPE}\t--traddr=$env{NVME_TRADDR}\t--trsvcid=$env{NVME_TRSVCID}\t--host-traddr=$env{NVME_HOST_TRADDR}.service"
+> +
+> +# nvme-fc transport generated events (old-style for compatibility)
+> +ACTION=="change", SUBSYSTEM=="fc", ENV{FC_EVENT}=="nvmediscovery", \
+> +  ENV{NVMEFC_HOST_TRADDR}=="*",  ENV{NVMEFC_TRADDR}=="*", \
+> +  RUN+="/usr/bin/systemctl --no-block start nvmf-connect at --device=none\t--transport=fc\t--traddr=$env{NVMEFC_TRADDR}\t--trsvcid=none\t--host-traddr=$env{NVMEFC_HOST_TRADDR}.service"
 >
->
-> On 5/7/2019 2:35 AM, Max Gurtovoy wrote:
->>
->> (and also example can be added to commit message :) )
->>
->
-> wow, all these examples. What fun is that. What's left to the 
-> developer to go figure out ? :)
 
-well I'm thinking about non-developers that can get added value from 
-good examples.
+I assume, that we should be adding --quiet to the above lines.? No need 
+to get it from the event.? Agree ?
 
+And we would not add --persistent.?? Which makes me assume --persistent 
+would be left to manual/scripted calls or possibly pulled in by the 
+"defaults" file we were discussing.??? So, the linux policy is our 
+default discovery controller is non-persistent and requires admin 
+actions to enable the persistent option - as opposed to - looking at 
+IdentifyController:KAS to decide if KATO is supported, and if so, make 
+the connection persistent ?
 
->
-> -- james
->
+-- james
