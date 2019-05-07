@@ -1,75 +1,25 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 7 May 2019 12:35:32 +0300
-Subject: [PATCH nvme-cli rfc 4/6] fabrics: add --quiet option
-In-Reply-To: <20190223023257.21227-5-sagi@grimberg.me>
-References: <20190223023257.21227-1-sagi@grimberg.me>
- <20190223023257.21227-5-sagi@grimberg.me>
-Message-ID: <58b674a5-a40e-c0b1-2b89-2fdc89d8efa0@mellanox.com>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Tue, 7 May 2019 19:23:00 +0900
+Subject: [PATCH 1/3] nvme: 002: fix nvmet pass data with loop
+In-Reply-To: <20190507062034.GA3748@x250>
+References: <20190505150611.15776-1-minwoo.im.dev@gmail.com>
+ <20190505150611.15776-2-minwoo.im.dev@gmail.com>
+ <SN6PR04MB45274C423AA7C3CC3DBB5ED586300@SN6PR04MB4527.namprd04.prod.outlook.com>
+ <a66b775f-9a5f-fefc-ae29-c86678e66463@gmail.com>
+ <SN6PR04MB45272BEB18B3ADD95DCB42AE86300@SN6PR04MB4527.namprd04.prod.outlook.com>
+ <cfa4d48d-ce13-0ace-cf5c-a3d0d1f4cca7@gmail.com> <20190507062034.GA3748@x250>
+Message-ID: <e118dbb7-51a5-d013-8c85-391452846411@gmail.com>
 
+On 5/7/19 3:20 PM, Johannes Thumshirn wrote:
+> On Tue, May 07, 2019@01:54:09AM +0900, Minwoo Im wrote:
+>> If Johannes who wrote these tests agrees to not check output result from
+>> nvme-cli, I'll get rid of them.
+> 
+> Yes agreed. In the beginning I though of validating the nvme-cli output but
+> this would grow more and more filters, which makes it impractical.
+> 
 
-On 2/23/2019 4:32 AM, Sagi Grimberg wrote:
-> Now we are going to have discovery log change events, so
-> instead of trying to figure out which NVM subsystem ports
-> are already connected, we let the driver do that and
-> only suppress the failure messages.
->
-> This option will be used by the discovery log change corresponding
-> udev rule.
->
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> ---
->   fabrics.c | 14 +++++++++++---
->   1 file changed, 11 insertions(+), 3 deletions(-)
->
-> diff --git a/fabrics.c b/fabrics.c
-> index 702f928cd8ed..f08fe3f9a0be 100644
-> --- a/fabrics.c
-> +++ b/fabrics.c
-> @@ -66,6 +66,7 @@ static struct config {
->   	int  hdr_digest;
->   	int  data_digest;
->   	bool persistent;
-> +	bool quiet;
->   } cfg = { NULL };
->   
->   #define BUF_SIZE		4096
-> @@ -216,9 +217,11 @@ static int add_ctrl(const char *argstr)
->   		goto out;
->   	}
->   
-> -	if (write(fd, argstr, len) != len) {
-> -		fprintf(stderr, "Failed to write to %s: %s\n",
-> -			 PATH_NVME_FABRICS, strerror(errno));
-> +	ret = write(fd, argstr, len);
-> +	if (ret != len) {
-> +		if (errno != EALREADY || !cfg.quiet)
-> +			fprintf(stderr, "Failed to write to %s: %s\n",
-> +				 PATH_NVME_FABRICS, strerror(errno));
->   		ret = -errno;
->   		goto out_close;
->   	}
-> @@ -840,6 +843,10 @@ static int connect_ctrls(struct nvmf_disc_rsp_page_hdr *log, int numrec)
->   		/* already connected print message	*/
->   		if (instance == -EALREADY) {
->   			const char *traddr = log->entries[i].traddr;
-> +
-> +			if (cfg.quiet)
-> +				continue;
-> +
+Cool, then I think I can update the pass condition of this testcase in 
+other way.  Once Chaitanya gives his comment on this, I'll prepare it.
 
-maybe if(!cfg.quiet) do a fprintf() instead of continue.
-
-(and also example can be added to commit message :) )
-
-
->   			fprintf(stderr,
->   				"traddr=%.*s is already connected\n",
->   				space_strip_len(NVMF_TRADDR_SIZE, traddr),
-> @@ -996,6 +1003,7 @@ int discover(const char *desc, int argc, char **argv, bool connect)
->   		{"nr-poll-queues",  'P', "LIST", CFG_INT, &cfg.nr_poll_queues,    required_argument, "number of poll queues to use (default 0)" },
->   		{"queue-size",      'Q', "LIST", CFG_INT, &cfg.queue_size,      required_argument, "number of io queue elements to use (default 128)" },
->   		{"persistent",  'p', "LIST", CFG_NONE, &cfg.persistent,  no_argument, "persistent discovery connection" },
-> +		{"quiet",       'Q', "LIST", CFG_NONE, &cfg.quiet,  no_argument, "suppress already connected errors" },
->   		{NULL},
->   	};
->   
+Thanks,
