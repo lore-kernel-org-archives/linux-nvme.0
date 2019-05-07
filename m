@@ -1,67 +1,67 @@
 From: james.smart@broadcom.com (James Smart)
-Date: Tue, 7 May 2019 09:47:31 -0700
-Subject: [PATCH nvme-cli rfc 0/6] Support discovery log change events
-In-Reply-To: <alpine.LRH.2.21.9999.1905061528390.19585@mvluser05.qlc.com>
-References: <20190223023257.21227-1-sagi@grimberg.me>
- <d4012891-8bc7-00cf-ab96-7828270d25af@suse.de>
- <e7423c76-6425-4020-2074-b977fc87866f@grimberg.me>
- <d1742744-1109-e7e8-3586-fca6556c803b@broadcom.com>
- <d7bbfc2a-92ea-315d-bbd6-cd3847449f7b@grimberg.me>
- <3b524b54-8f13-24f5-4367-34a4d02c59b3@broadcom.com>
- <5c64286b-3fbf-9dfe-ef8a-3f72e630f11d@broadcom.com>
- <a4f8ca74-7777-9e80-3209-ef9ce27ad2d8@suse.de>
- <44f637f2-0c0d-cef4-05b3-c5e67ec907bb@grimberg.me>
- <f0e112f7-0db5-4928-0859-8b3b6b797432@grimberg.me>
- <9d0e3080-baa7-6f55-2548-097523bb3a83@suse.de>
- <03163041-9b14-3662-edb8-1d69f20f681f@grimberg.me>
- <f4594084-4f2a-33ca-77b4-d7075bbb12af@broadcom.com>
- <2a08f760-0aeb-d788-3210-72ec9d6eb9bc@grimberg.me>
- <3b7117cf-db69-01a3-d286-a2f98f3e8f5b@broadcom.com>
- <alpine.LRH.2.21.9999.1905061528390.19585@mvluser05.qlc.com>
-Message-ID: <a6c04837-bcf1-0fb6-12c2-0d1f140d6ce9@broadcom.com>
+Date: Tue, 7 May 2019 09:56:44 -0700
+Subject: [PATCH nvme-cli rfc 3/5] fabrics: allow discover to address
+ discovery controller by persistent name
+In-Reply-To: <28e1e9a8-671d-e3ff-6111-7561e0f56fa9@suse.de>
+References: <20190504000456.3888-1-jsmart2021@gmail.com>
+ <20190504000456.3888-4-jsmart2021@gmail.com>
+ <28e1e9a8-671d-e3ff-6111-7561e0f56fa9@suse.de>
+Message-ID: <1154a16f-222e-7a28-96c0-3a22052e2bef@broadcom.com>
 
-
-
-On 5/6/2019 3:38 PM, Arun Easi wrote:
-> Hi James,
->
-> On Fri, 26 Apr 2019, 1:14pm, James Smart wrote:
->
->> On 4/26/2019 12:10 PM, Sagi Grimberg wrote:
->>> Given that FC does not need a persistent discovery controller to get the
->>> event, its fine that it will create a temporary discovery controller.
->>> Given that FC and IP do different things, we can separate them. But what
->>> I wanted to understand, is if I export a second subsystem on the same
->>> FC port, will it generate an FC event?
->> Well - FC does have an RSCN notification to cause the rescan of the FC
->> port, if the FC port as the NVME Discovery attribute, but Christoph
->> rejected the 3 patches about a year ago. I'll be reposting it. So the
->> answer should eventually be - yes, it will get an FC event if the
->> subsystem list at the FC port changes.
+On 5/7/2019 12:13 AM, Hannes Reinecke wrote:
+> On 5/4/19 2:04 AM, James Smart wrote:
+>> To support discovery (connect/connect-all) to operate against a
+>> persistent discovery controller, let the discovery controller to
+>> be specified by its device node name rather than new connection
+>> attributes.
 >>
-> So, just wondering, for the case of subsystem addition to an existing FC
-> port, is it recommended or mandated in the spec that the target FC port
-> send out a RSCN? The RSCN should be from the target FC port, not the
-> switch, right? I could not find such a reference in the FC-NVME spec
-> version I have (r1.15).
+>> Also centralize extraction of controller instance from the controller
+>> name to a common helper.
+>>
+>> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+>> Signed-off-by: James Smart <jsmart2021 at gmail.com>
+>> ---
+>> Patch originated from Sagi in an RFC
+>> fix merge issue
+>> fix contoller->controller
+>> add cfg.device check for "none"
+>> ---
+>> ? fabrics.c | 35 +++++++++++++++++++++++++----------
+>> ? 1 file changed, 25 insertions(+), 10 deletions(-)
+>>
+> Actually, I would rather scan existing controllers, and use the first 
+> one that matches the arguments.
+> With the current design we would have different calling sequences, 
+> depending on whether it's the first call (which create the 
+> controller), or any subsequent call.
+> If we were looking up the existing controller from the arguments we 
+> could be using the same commandline throughout.
 >
-> On a related note, from a FC LLDD perspective, then, are they required to
-> invoke nvme_fc_rescan_remoteport() upon RSCN reception?
->
-> Regards,
-> -Arun
 
-There's no requirement, but there is a recommendation. Should be in 
-section C.? RSCN should be from the FC port, but it can address the 
-fabric and have the fabric deliver it to the recipients.
+Well, this is where we're at odds.? We need to decide if we should 
+create another full controller instance when the event occurs, which is 
+what FC does today (can have multiple running concurrently), or whether 
+we want to reuse the persistent one. I would think implementers of the 
+persistent discovery controller would want you to reuse it and not have 
+to support more concurrent discovery controller instances.? The "reuse" 
+case is why passing the --device arg makes it very straight forward.? We 
+could always have the utility get the addressing info and look at 
+existing controller and decide to use an existing one - I assume we 
+would only select persistent ones in order to avoid delete race 
+conditions, but seems like a lot of work for what the AEN already 
+knows.? I do have a little concern that there's always a window from 
+when the event is posted to when the /dev devicename is opened, which 
+allows for the device name to be terminated and possibly reused for 
+something else, but I guess we're willing to live with this.
 
-you need to be looking at at least r1.19 + ammendment 1.
-
-For the FC LLDD perspective - I had pushed the api into the initiator 
-transport where the driver can invoke the rescan, but it wasn't picked 
-up. I'm about to repost after merging with similar work done with the 
-disovery AEN work on the nvmet side.?? Also, for proper 1.19+ammendment 
-1 support, I will be adding an LS-receive interface to the transport - 
-so that Disconnects and (soon) Disconnect I/O Connections can be passed up.
+And as for "not scanning" when you connect to the persistent discovery 
+controller, and instead acting off of a pseudo-AEN posted to udev - it's 
+I nice premise, but I'm not sure what it buys you. At best, it's a 
+difference in how you connect to the persistent controller - e.g. 
+"--connect" vs "--connect-all". Given all the logic is there and present 
+with connect-all, I don't know why you wouldn't just use it.? We can 
+always decide to post additional AENs in the kernel if needed (and there 
+will always be races of multiple AEN's kicking off multiple rescans 
+concurrently).
 
 -- james
