@@ -1,33 +1,37 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Tue, 7 May 2019 13:26:43 -0700
-Subject: [PATCH nvme-cli rfc 5/5] nvmf auto-connect scripts
-In-Reply-To: <20190504000456.3888-6-jsmart2021@gmail.com>
-References: <20190504000456.3888-1-jsmart2021@gmail.com>
- <20190504000456.3888-6-jsmart2021@gmail.com>
-Message-ID: <fd4af817-3a90-380b-b485-81b44c12c8e9@broadcom.com>
+From: kenneth.heitke@intel.com (Heitke, Kenneth)
+Date: Tue, 7 May 2019 14:31:41 -0600
+Subject: [PATCH v2 6/7] nvme-pci: add device coredump support
+In-Reply-To: <1557248314-4238-7-git-send-email-akinobu.mita@gmail.com>
+References: <1557248314-4238-1-git-send-email-akinobu.mita@gmail.com>
+ <1557248314-4238-7-git-send-email-akinobu.mita@gmail.com>
+Message-ID: <a4ec2c1a-1ff7-52fe-07bd-179613411536@intel.com>
 
 
-> +# Events from persistent discovery controllers or nvme-fc transport events
-> +ACTION=="change", SUBSYSTEM=="nvme", ENV{NVME_EVENT}=="discovery",\
-> +  ENV{NVME_CTLR_NAME}=="*", ENV{NVME_TRTYPE}=="*", ENV{NVME_TRADDR}=="*", \
-> +  ENV{NVME_TRSVCID}=="*", ENV{NVME_HOST_TRADDR}=="*", \
-> +  RUN+="/usr/bin/systemctl --no-block start nvmf-connect at --device=$env{NVME_CTLR_NAME}\t--transport=$env{NVME_TRTYPE}\t--traddr=$env{NVME_TRADDR}\t--trsvcid=$env{NVME_TRSVCID}\t--host-traddr=$env{NVME_HOST_TRADDR}.service"
+
+On 5/7/2019 10:58 AM, Akinobu Mita wrote:
 > +
-> +# nvme-fc transport generated events (old-style for compatibility)
-> +ACTION=="change", SUBSYSTEM=="fc", ENV{FC_EVENT}=="nvmediscovery", \
-> +  ENV{NVMEFC_HOST_TRADDR}=="*",  ENV{NVMEFC_TRADDR}=="*", \
-> +  RUN+="/usr/bin/systemctl --no-block start nvmf-connect at --device=none\t--transport=fc\t--traddr=$env{NVMEFC_TRADDR}\t--trsvcid=none\t--host-traddr=$env{NVMEFC_HOST_TRADDR}.service"
->
+> +static int nvme_get_telemetry_log_blocks(struct nvme_ctrl *ctrl, void *buf,
+> +					 size_t bytes, loff_t offset)
+> +{
+> +	const size_t chunk_size = ctrl->max_hw_sectors * ctrl->page_size;
 
-I assume, that we should be adding --quiet to the above lines.? No need 
-to get it from the event.? Agree ?
+Just curious if chunk_size is correct since page size and block size can
+be different.
 
-And we would not add --persistent.?? Which makes me assume --persistent 
-would be left to manual/scripted calls or possibly pulled in by the 
-"defaults" file we were discussing.??? So, the linux policy is our 
-default discovery controller is non-persistent and requires admin 
-actions to enable the persistent option - as opposed to - looking at 
-IdentifyController:KAS to decide if KATO is supported, and if so, make 
-the connection persistent ?
 
--- james
+> +	loff_t pos = 0;
+> +
+> +	while (pos < bytes) {
+> +		size_t size = min_t(size_t, bytes - pos, chunk_size);
+> +		int ret;
+> +
+> +		ret = nvme_get_log(ctrl, NVME_NSID_ALL, NVME_LOG_TELEMETRY_CTRL,
+> +				   0, buf + pos, size, offset + pos);
+> +		if (ret)
+> +			return ret;
+> +
+> +		pos += size;
+> +	}
+> +
+> +	return 0;
+> +}
