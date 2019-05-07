@@ -1,65 +1,42 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Tue, 7 May 2019 19:43:57 +0900
-Subject: [PATCH V2 2/2] nvme-trace: Add support to trace fabrics command
-In-Reply-To: <SN6PR04MB4527DB454B2CF9170B32464386310@SN6PR04MB4527.namprd04.prod.outlook.com>
-References: <SN6PR04MB4527A10184AEF3DDCC23CB0886300@SN6PR04MB4527.namprd04.prod.outlook.com>
- <20190506194644.11109-1-minwoo.im.dev@gmail.com>
- <20190506194644.11109-3-minwoo.im.dev@gmail.com>
- <CGME20190506223810epcas4p224242aa97518322bcbe2aa11d39d84a3@epcms2p6>
- <20190506225645epcms2p6b5efa570eade06b215b78418a0fbfdcc@epcms2p6>
- <SN6PR04MB4527DB454B2CF9170B32464386310@SN6PR04MB4527.namprd04.prod.outlook.com>
-Message-ID: <7a07f98a-64c2-1f82-a69d-bd3a5412a73d@gmail.com>
+From: gustavo@embeddedor.com (Gustavo A. R. Silva)
+Date: Tue, 7 May 2019 09:23:00 -0500
+Subject: [PATCH] nvme-pci: mark expected switch fall-through
+Message-ID: <20190507142300.GA25717@embeddedor>
 
-> I really like the idea of tracing for NVMeOF. However I think we need to
-> design the tracing code
-> 
-> so that common code for host and target will get share. That is the main
-> reason I want both the
-> 
-> host and target side tracing to be done in the one patch-series. Even if
-> it is taking longer we are
-> 
-> fine with that.
-> 
-> So ideally patch series should look like this :-
-> 
-> 1. NVMe-Core tracing change for fabrics commands and common code
-> preparation patches.
-> 
-> 2. NVMe Host tracing changes.
-> 
-> 3. NVMe Target Tracing changes.
-> 
-> I'm fine with the interchanging order of 2 & 3.
-> 
-> any thoughts ?
+In preparation to enabling -Wimplicit-fallthrough, mark switch
+cases where we are expecting to fall through.
 
-I'm fine if it takes time.  will prepare V3 patch with what you have 
-proposed above.
+This patch fixes the following warning:
 
-Thanks.
+drivers/nvme/host/pci.c: In function ?nvme_timeout?:
+drivers/nvme/host/pci.c:1298:12: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   shutdown = true;
+   ~~~~~~~~~^~~~~~
+drivers/nvme/host/pci.c:1299:2: note: here
+  case NVME_CTRL_CONNECTING:
+  ^~~~
 
-> I'm not sure having additional branches for tracing is a good idea in
-> the kernel
-> 
-> where tracing is disabled, that is objective, if maintainers are okay
-> with that let's
-> 
-> keep it that way.
+Warning level 3 was used: -Wimplicit-fallthrough=3
 
-I don't like conditional branches here neither.  Let me have a time to 
-catch some idea about it.
+This patch is part of the ongoing efforts to enable
+-Wimplicit-fallthrough.
 
-> You are absolutely right. Since it is been used several places now this
-> is good time
-> 
-> to have a preparation patch, and I don't think we should delay it more.
-> 
-> Also for host and target NVMeOF tracing it will be useful if we
-> encounter same
-> 
-> scenario.
+Signed-off-by: Gustavo A. R. Silva <gustavo at embeddedor.com>
+---
+ drivers/nvme/host/pci.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-If other people agree on this, will prepare right away.
-
-Thanks for your kindly review, Chaitanya.
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 3e4fb891a95a..a12f992868c9 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1296,6 +1296,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ 	switch (dev->ctrl.state) {
+ 	case NVME_CTRL_DELETING:
+ 		shutdown = true;
++		/* fall through */
+ 	case NVME_CTRL_CONNECTING:
+ 	case NVME_CTRL_RESETTING:
+ 		dev_warn_ratelimited(dev->ctrl.device,
+-- 
+2.21.0
