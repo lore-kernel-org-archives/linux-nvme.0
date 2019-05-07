@@ -1,86 +1,148 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Tue, 7 May 2019 08:23:45 +0900
-Subject: [PATCH 1/3] nvme: 002: fix nvmet pass data with loop
-In-Reply-To: <SN6PR04MB45273CEE5FE1DDF38677980F86300@SN6PR04MB4527.namprd04.prod.outlook.com>
-References: <20190505150611.15776-1-minwoo.im.dev@gmail.com>
- <20190505150611.15776-2-minwoo.im.dev@gmail.com>
- <SN6PR04MB45274C423AA7C3CC3DBB5ED586300@SN6PR04MB4527.namprd04.prod.outlook.com>
- <a66b775f-9a5f-fefc-ae29-c86678e66463@gmail.com>
- <SN6PR04MB45272BEB18B3ADD95DCB42AE86300@SN6PR04MB4527.namprd04.prod.outlook.com>
- <cfa4d48d-ce13-0ace-cf5c-a3d0d1f4cca7@gmail.com>
- <SN6PR04MB4527FAD8076A5A5610F6B66786300@SN6PR04MB4527.namprd04.prod.outlook.com>
- <c86fe09e-9964-123a-bc17-e9b9e6a80856@gmail.com>
- <SN6PR04MB45273CEE5FE1DDF38677980F86300@SN6PR04MB4527.namprd04.prod.outlook.com>
-Message-ID: <CAA7jztfU+AdUHp5xo8ssjgvXiBFBXJt0PyQTNA8VQU-T-SpKQA@mail.gmail.com>
+From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Tue, 7 May 2019 01:37:50 +0000
+Subject: [PATCH V2 2/2] nvme-trace: Add support to trace fabrics command
+References: <SN6PR04MB4527A10184AEF3DDCC23CB0886300@SN6PR04MB4527.namprd04.prod.outlook.com>
+ <20190506194644.11109-1-minwoo.im.dev@gmail.com>
+ <20190506194644.11109-3-minwoo.im.dev@gmail.com>
+ <CGME20190506223810epcas4p224242aa97518322bcbe2aa11d39d84a3@epcms2p6>
+ <20190506225645epcms2p6b5efa570eade06b215b78418a0fbfdcc@epcms2p6>
+Message-ID: <SN6PR04MB4527DB454B2CF9170B32464386310@SN6PR04MB4527.namprd04.prod.outlook.com>
 
-> >> I wasn't clear enough.
-> >>
-> >> It doesn't check for the return value for now. What needs to happen is :-
-> >>
-> >> 1. Get rid of the variable strings which are not part of the discovery
-> >>       log page entries such as Generation counter.
-> >> 2. Validate each log page entry content.
-> >
-> > Question again here.
-> > Do you mean that log page entry contents validation should be in bash
-> > level instead of *.out comparison?
+On 5/6/19 3:56 PM, Minwoo Im wrote:
+>> This look okay me with some minor comments, but it does not cover the
+>> target side tracing. In fact on the target side we have many components
+>> such as discovery/multipath/port/async events etc.
+> You're right, but this patch is just focused on nvme-host side command
+> tracing.  If host-side patch is accepted, then I think I can prepare the target
+> side tracing also with the experience of it.
 >
-> It has *out level comparison.
+> What do you say?
 
-I'm not sure I have got what you really meant.  Please correct me if I'm wrong
-here ;)
+I really like the idea of tracing for NVMeOF. However I think we need to
+design the tracing code
 
-First of all, removal of variable values in the result of the
-discovery get log page
-looks great to me also.  Maybe those variable values are able to be replaced
-a fixed value like port does (replace port value via sed command to X).
+so that common code for host and target will get share. That is the main
+reason I want both the
 
-But, it also depends on the outout of the nvme-cli, not return value.
-Anyway, let's discuss about it with Keith also because he discussed it with me
-few weeks ago,I think.
+host and target side tracing to be done in the one patch-series. Even if
+it is taking longer we are
 
-> >
-> >> 3. Check the return value.
-> >
-> > nvme-cli is currently returning value like:
-> >     > 0 :   failed with nvme status code (but the actual value may not be
-> > the same with status)
-> >     == 0 : done successfully
-> >     < 0 :   failed with -errno
-> >
-> > But, ( > 0) case may be removed from nvme-cli soon due to [1] discuss.
-> > Anyway, if nvme-cli is going to return 0 for both cases: success, error
-> > with nvme status, then test case is going to be hard to check the error
-> > status by a return value.
->
-> This should not happen as it will break existing scripts which are
-> written on the top the nvme-cli in past few years.
+fine with that.
 
-Agreed.  But, please refer the following comment below ;)
+So ideally patch series should look like this :-
+
+1. NVMe-Core tracing change for fabrics commands and common code
+preparation patches.
+
+2. NVMe Host tracing changes.
+
+3. NVMe Target Tracing changes.
+
+I'm fine with the interchanging order of 2 & 3.
+
+any thoughts ?
 
 >
->    It should be with output string parsing which
-> > would be great if it's going to be commonized.
-> >
-> No, we cannot rely on the output string as this problem is a good example.
+>>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+>>> index cd16d98d1f1a..eeda3ce9afaa 100644
+>>> --- a/drivers/nvme/host/core.c
+>>> +++ b/drivers/nvme/host/core.c
+>>> @@ -733,7 +733,12 @@ blk_status_t nvme_setup_cmd(struct nvme_ns
+>> *ns, struct request *req,
+>>>   	}
+>>>
+>>>   	cmd->common.command_id = req->tag;
+>>> -	trace_nvme_setup_cmd(req, cmd);
+>>> +
+>>> +	if (likely(!nvme_is_fabrics(cmd)))
+>> Do we really need likely here ? Isn't this branch should be guarded by
+>> trace config ? what if trace is not configured ?
+> The reason why I put likely here is that nvme_is_write() in linux/nvme.h
+> is doing the same kind of thing because, I think, it's going to be invoked
+> every simgle time in a performance critical path.
+
+May be this makes sense because they want to improve the performance of the
+
+write commands since write commands are slower than the read commands?
+
+May be this is good questions for maintainers we we would know.
+
 >
-> I'm not sure returning == 0 for error case is a good idea. Checking
-> return value prevents us from writing unstable testcases which are bases
-> on the text output and allow us to modify tools as specification moves
-> forward.
+> It's also be able to be built without trace configuration.  Can I ask why
+> do you concern the configuration of trace? (Actually I have build tested)
 
-Please refer a discussion on https://github.com/linux-nvme/nvme-cli/pull/489
-Keith and I had a discussion about the return value of the program itself.
-The nvme status value is composed of 16 bits value, by the way, the actual
-return value of the program is in 8bits(signed) which means it's not
-able to carry
-the actual nvme status value out of the program.
+I'm not sure having additional branches for tracing is a good idea in
+the kernel
 
-If you have any idea about it, Please let me know.  By the way, I really do
-agree with what you mentioned about the return value.  If it's possible,
-I would like to too :)
+where tracing is disabled, that is objective, if maintainers are okay
+with that let's
+
+keep it that way.
 
 >
-> > [1] https://github.com/linux-nvme/nvme-cli/pull/492
-> >
+>>> +		trace_nvme_setup_cmd(req, cmd);
+>>> +	else
+>>> +		trace_nvme_setup_fabrics_cmd(req, cmd);
+>>> +
+>>>   	return ret;
+>>>   }
+>>>   EXPORT_SYMBOL_GPL(nvme_setup_cmd);
+>>> diff --git a/drivers/nvme/host/trace.c b/drivers/nvme/host/trace.c
+>>> index 5f24ea7a28eb..0e027a49e3a1 100644
+>>> --- a/drivers/nvme/host/trace.c
+>>> +++ b/drivers/nvme/host/trace.c
+>>> @@ -135,6 +135,73 @@ const char *nvme_trace_parse_nvm_cmd(struct
+>> trace_seq *p,
+>>>   	}
+>>>   }
+>>>
+>>> +static const char *nvme_trace_fabrics_property_set(struct trace_seq *p,
+>> u8 *spc)
+>>> +{
+>>> +	const char *ret = trace_seq_buffer_ptr(p);
+>>> +	u8 attrib = spc[0];
+>>> +	u32 ofst = get_unaligned_le32(spc + 4);
+>> please use name "offset" here.
+> I have named these local variables to the same with names on spec.
+>
+>>> +TRACE_EVENT(nvme_setup_fabrics_cmd,
+>>> +	    TP_PROTO(struct request *req, struct nvme_command *cmd),
+>>> +	    TP_ARGS(req, cmd),
+>>> +	    TP_STRUCT__entry(
+>>> +		__field(int, ctrl_id)
+>>> +		__field(u16, cid)
+>>> +		__field(u8, fctype)
+>>> +		__array(u8, spc, 24)
+>> Can you please just declare a macro and replace 24 ? (I think we need to
+>> replace in the nvme_setup_cmd() also, please double check.
+> If we need to replace them to a macro, maybe it needs to be prepared with
+> a new commit to update them.  Anyway, I think size of 24 looks readable.
+> Do we really need to replace them with a macro ?
+
+You are absolutely right. Since it is been used several places now this
+is good time
+
+to have a preparation patch, and I don't think we should delay it more.
+
+Also for host and target NVMeOF tracing it will be useful if we
+encounter same
+
+scenario.
+
+>
+>>> +	    ),
+>>> +	    TP_fast_assign(
+>>> +		__entry->ctrl_id = nvme_req(req)->ctrl->instance;
+>>> +		__entry->cid = cmd->fabrics.command_id;
+>>> +		__entry->fctype = cmd->fabrics.fctype;
+>>> +		memcpy(__entry->spc, &cmd->fabrics.ts,
+>>> +			sizeof(__entry->spc));
+>>> +	    ),
+>>> +	    TP_printk("nvme%d: cmdid=%u, cmd=(%s %s)",
+>> Do we need to differentiate between fabrics and local NVMe ctrl when
+>> reporting ?
+> I think we do.  The former one shows few fields that fabrics SQE does not
+> have.
+>
+> Thank you, Chaitanya.
 >
