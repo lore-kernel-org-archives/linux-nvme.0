@@ -1,46 +1,28 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Wed,  8 May 2019 11:36:32 -0700
-Subject: [PATCH 1/3] nvme: introduce and use RAE bit macro
+Date: Wed,  8 May 2019 11:36:33 -0700
+Subject: [PATCH 2/3] nvme: add sanitize log identifier
 In-Reply-To: <20190508183634.4682-1-chaitanya.kulkarni@wdc.com>
 References: <20190508183634.4682-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20190508183634.4682-2-chaitanya.kulkarni@wdc.com>
+Message-ID: <20190508183634.4682-3-chaitanya.kulkarni@wdc.com>
 
-Introduce a macro instead of hardcoding RAE bit value in several places.
-Also this uses RAE bit macro and removes the open coding in the NVMeOF
-target. This is a preparation patch for filtering out the NVMe user
-commands.
+Introduce sanitize log page identifier which is used in next patch.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- drivers/nvme/target/nvmet.h | 2 +-
- include/linux/nvme.h        | 2 ++
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ include/linux/nvme.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index c25d88fc9dec..47d9f5838828 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -343,7 +343,7 @@ struct nvmet_async_event {
- 
- static inline void nvmet_clear_aen_bit(struct nvmet_req *req, u32 bn)
- {
--	int rae = le32_to_cpu(req->cmd->common.cdw10) & 1 << 15;
-+	int rae = le32_to_cpu(req->cmd->common.cdw10) & NVME_LOG_PAGE_RAE;
- 
- 	if (!rae)
- 		clear_bit(bn, &req->sq->ctrl->aen_masked);
 diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index c40720cb59ac..d439c129d8af 100644
+index d439c129d8af..35381d689936 100644
 --- a/include/linux/nvme.h
 +++ b/include/linux/nvme.h
-@@ -840,6 +840,8 @@ enum {
+@@ -835,6 +835,7 @@ enum {
+ 	NVME_LOG_ANA		= 0x0c,
+ 	NVME_LOG_DISC		= 0x70,
+ 	NVME_LOG_RESERVATION	= 0x80,
++	NVME_LOG_SANITIZE       = 0x81,
+ 	NVME_FWACT_REPL		= (0 << 3),
+ 	NVME_FWACT_REPL_ACTV	= (1 << 3),
  	NVME_FWACT_ACTV		= (2 << 3),
- };
- 
-+#define NVME_LOG_PAGE_RAE	(1 << 15)
-+
- /* NVMe Namespace Write Protect State */
- enum {
- 	NVME_NS_NO_WRITE_PROTECT = 0,
 -- 
 2.17.0
