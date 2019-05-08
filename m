@@ -1,26 +1,20 @@
-From: kbusch@kernel.org (Keith Busch)
-Date: Wed, 8 May 2019 08:28:14 -0600
-Subject: [PATCH, RFC 2/2] nvme: validate cntlid during controller
- initialisation
-In-Reply-To: <20190508075508.28552-2-hch@lst.de>
-References: <20190508075508.28552-1-hch@lst.de>
- <20190508075508.28552-2-hch@lst.de>
-Message-ID: <20190508142814.GB7113@localhost.localdomain>
+From: gustavo@embeddedor.com (Gustavo A. R. Silva)
+Date: Wed, 8 May 2019 09:51:46 -0500
+Subject: [PATCH] nvme-pci: mark expected switch fall-through
+In-Reply-To: <20190508071810.GC21775@lst.de>
+References: <20190507142300.GA25717@embeddedor> <20190508071810.GC21775@lst.de>
+Message-ID: <f5d3b1d9-1242-8c00-c4a1-1bd612e845ba@embeddedor.com>
 
-On Wed, May 08, 2019@09:55:08AM +0200, Christoph Hellwig wrote:
-> +	list_for_each_entry(tmp, &subsys->ctrls, subsys_entry) {
-> +		if (ctrl->state == NVME_CTRL_DELETING ||
-> +		    ctrl->state == NVME_CTRL_DEAD)
-> +			continue;
-> +
-> +		if (tmp->cntlid == ctrl->cntlid) {
-> +			dev_err(ctrl->device,
-> +				"Duplicate cntlid %u, rejecting\n",
-> +				ctrl->cntlid);
 
-Patch looks great, but let's make this print more informative by showing
-tmp's device name too:
 
-			dev_err(ctrl->device,
-				"Duplicate cntlid %u with %s, rejecting\n",
-				ctrl->cntlid, dev_name(tmp->device));
+On 5/8/19 2:18 AM, Christoph Hellwig wrote:
+> Thanks,
+> 
+> applied to nvme-5.2.
+> 
+
+Great. :)
+
+Thanks, Christoph.
+--
+Gustavo
