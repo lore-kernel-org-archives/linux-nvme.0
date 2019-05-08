@@ -1,26 +1,86 @@
-From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Wed,  8 May 2019 11:36:31 -0700
-Subject: [PATCH 0/3] nvme-core: add user command filter 
-Message-ID: <20190508183634.4682-1-chaitanya.kulkarni@wdc.com>
+From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Wed, 8 May 2019 18:51:51 +0000
+Subject: [PATCH, RFC 2/2] nvme: validate cntlid during controller
+ initialisation
+References: <20190508075508.28552-1-hch@lst.de>
+ <20190508075508.28552-2-hch@lst.de>
+Message-ID: <SN6PR04MB45279ACEF3572C4F1F00ADF586320@SN6PR04MB4527.namprd04.prod.outlook.com>
 
-This patch-series adds a filter to allow only certain user commands.                                   
-Right now we use this infrastructure to prevent the user get log page
-commands where RAE bit is cleared. We only allow get log pages to be
-read with RAE == 0 where we issue the uevent to the userspace so that
-user can clear the log pages.
-
-Here we white list the log pages which are only allowed when RAE == 0.
-We also allow Vendor Specific log pages irrespective of the RAE.
-
-Chaitanya Kulkarni (3):
-  nvme: introduce and use RAE bit macro
-  nvme: add sanitize log identifier
-  nvme-core: add filter for user commands
-
- drivers/nvme/host/core.c    | 64 ++++++++++++++++++++++++++++++++++---
- drivers/nvme/target/nvmet.h |  2 +-
- include/linux/nvme.h        |  3 ++
- 3 files changed, 64 insertions(+), 5 deletions(-)
-
--- 
-2.17.0
+On 05/08/2019 12:56 AM, Christoph Hellwig wrote:
+> The CNTLID value is required to be unique, and we do rely on this
+> for correct operation. So reject any controller for which a non-unique
+> CNTLID has been detected.
+>
+> Based on a patch from Hannes Reinecke.
+>
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> ---
+>   drivers/nvme/host/core.c | 41 +++++++++++++++++++++++-----------------
+>   1 file changed, 24 insertions(+), 17 deletions(-)
+>
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 4f4ffcce7416..ce258cbdc642 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -2341,18 +2341,33 @@ static const struct attribute_group *nvme_subsys_attrs_groups[] = {
+>   	NULL,
+>   };
+>
+> -static int nvme_active_ctrls(struct nvme_subsystem *subsys)
+> +static bool nvme_validate_cntlid(struct nvme_subsystem *subsys,
+> +		struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+>   {
+> -	int count = 0;
+> -	struct nvme_ctrl *ctrl;
+> +	struct nvme_ctrl *tmp;
+>
+> -	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
+> -		if (ctrl->state != NVME_CTRL_DELETING &&
+> -		    ctrl->state != NVME_CTRL_DEAD)
+> -			count++;
+> +	list_for_each_entry(tmp, &subsys->ctrls, subsys_entry) {
+> +		if (ctrl->state == NVME_CTRL_DELETING ||
+> +		    ctrl->state == NVME_CTRL_DEAD)
+nvme_change_ctrl_state() is using spinlock to protect the ctrl->state.
+Do we need to protect above check with the spinlock ?
+> +			continue;
+> +
+> +		if (tmp->cntlid == ctrl->cntlid) {
+> +			dev_err(ctrl->device,
+> +				"Duplicate cntlid %u, rejecting\n",
+> +				ctrl->cntlid);
+> +			return false;
+> +		}
+> +
+> +		if ((id->cmic & (1 << 1)) ||
+> +		    (ctrl->opts && ctrl->opts->discovery_nqn))
+> +		    	continue;
+> +
+> +		dev_err(ctrl->device,
+> +			"Subsystem does not support multiple controllers\n");
+> +		return false;
+>   	}
+>
+> -	return count;
+> +	return true;
+>   }
+>
+>   static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+> @@ -2395,15 +2410,7 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+>   		__nvme_release_subsystem(subsys);
+>   		subsys = found;
+>
+> -		/*
+> -		 * Verify that the subsystem actually supports multiple
+> -		 * controllers, else bail out.
+> -		 */
+> -		if (!(ctrl->opts && ctrl->opts->discovery_nqn) &&
+> -		    nvme_active_ctrls(found) && !(id->cmic & (1 << 1))) {
+> -			dev_err(ctrl->device,
+> -				"ignoring ctrl due to duplicate subnqn (%s).\n",
+> -				subsys->subnqn);
+> +		if (!nvme_validate_cntlid(subsys, ctrl, id)) {
+>   			ret = -EINVAL;
+>   			goto out_put_subsystem;
+>   		}
+>
