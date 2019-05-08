@@ -1,22 +1,22 @@
-From: kbusch@kernel.org (Keith Busch)
-Date: Tue, 7 May 2019 15:22:41 -0600
+From: minwoo.im@samsung.com (Minwoo Im)
+Date: Wed, 08 May 2019 09:25:34 +0900
 Subject: [PATCH v2 6/7] nvme-pci: add device coredump support
-In-Reply-To: <a4ec2c1a-1ff7-52fe-07bd-179613411536@intel.com>
-References: <1557248314-4238-1-git-send-email-akinobu.mita@gmail.com>
+In-Reply-To: <20190507170733.GA6783@localhost.localdomain>
+References: <20190507170733.GA6783@localhost.localdomain>
+ <1557248314-4238-1-git-send-email-akinobu.mita@gmail.com>
  <1557248314-4238-7-git-send-email-akinobu.mita@gmail.com>
- <a4ec2c1a-1ff7-52fe-07bd-179613411536@intel.com>
-Message-ID: <20190507212241.GA7113@localhost.localdomain>
+ <CGME20190507171318epcas5p129bb73b39447d62a7d266ed461687488@epcms2p3>
+Message-ID: <20190508002534epcms2p3acacda8460fcfb7f2b978411b74bbbd5@epcms2p3>
 
-On Tue, May 07, 2019@02:31:41PM -0600, Heitke, Kenneth wrote:
-> On 5/7/2019 10:58 AM, Akinobu Mita wrote:
-> > +
-> > +static int nvme_get_telemetry_log_blocks(struct nvme_ctrl *ctrl, void *buf,
-> > +					 size_t bytes, loff_t offset)
-> > +{
-> > +	const size_t chunk_size = ctrl->max_hw_sectors * ctrl->page_size;
-> 
-> Just curious if chunk_size is correct since page size and block size can
-> be different.
+> This is a bit of a mine field. The shutdown_lock is held when reclaiming
+> requests that didn't see a response. If you're holding it here and your
+> telemetry log page times out, we're going to deadlock. And since the
+> controller is probably in a buggered state when you try to retrieve one,
+> I would guess an unrecoverable timeout is the most likely outcome.
 
-They're always different. ctrl->page_size is hard-coded to 4k, while
-sectors are always 512b.
+Akinobu,
+
+I actually agree with Keith's one.  In my experience, there was always internal
+error inside device when timeout occurs in nvme driver which means the
+following command might not be completed due to lack of response from
+device.
