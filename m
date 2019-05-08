@@ -1,105 +1,84 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed,  8 May 2019 09:55:07 +0200
+Date: Wed,  8 May 2019 09:55:08 +0200
 Subject: [PATCH,
- RFC 1/2] nvme: change locking for the per-subsystem controller list
-Message-ID: <20190508075508.28552-1-hch@lst.de>
+ RFC 2/2] nvme: validate cntlid during controller initialisation
+In-Reply-To: <20190508075508.28552-1-hch@lst.de>
+References: <20190508075508.28552-1-hch@lst.de>
+Message-ID: <20190508075508.28552-2-hch@lst.de>
 
-Life becomes a lot simpler if we just use the global
-nvme_subsystems_lock to protect this list.  Given that it is only
-accessed during controller probing and removal that isn't a scalability
-problem either.
+The CNTLID value is required to be unique, and we do rely on this
+for correct operation. So reject any controller for which a non-unique
+CNTLID has been detected.
+
+Based on a patch from Hannes Reinecke.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/core.c | 30 ++++++++++++------------------
- 1 file changed, 12 insertions(+), 18 deletions(-)
+ drivers/nvme/host/core.c | 41 +++++++++++++++++++++++-----------------
+ 1 file changed, 24 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index eebaeadaa800..4f4ffcce7416 100644
+index 4f4ffcce7416..ce258cbdc642 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -2346,13 +2346,11 @@ static int nvme_active_ctrls(struct nvme_subsystem *subsys)
- 	int count = 0;
- 	struct nvme_ctrl *ctrl;
+@@ -2341,18 +2341,33 @@ static const struct attribute_group *nvme_subsys_attrs_groups[] = {
+ 	NULL,
+ };
  
--	mutex_lock(&subsys->lock);
- 	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
- 		if (ctrl->state != NVME_CTRL_DELETING &&
- 		    ctrl->state != NVME_CTRL_DEAD)
- 			count++;
- 	}
--	mutex_unlock(&subsys->lock);
+-static int nvme_active_ctrls(struct nvme_subsystem *subsys)
++static bool nvme_validate_cntlid(struct nvme_subsystem *subsys,
++		struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+ {
+-	int count = 0;
+-	struct nvme_ctrl *ctrl;
++	struct nvme_ctrl *tmp;
  
- 	return count;
- }
-@@ -2394,6 +2392,9 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
- 	mutex_lock(&nvme_subsystems_lock);
- 	found = __nvme_find_get_subsystem(subsys->subnqn);
- 	if (found) {
-+		__nvme_release_subsystem(subsys);
-+		subsys = found;
+-	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
+-		if (ctrl->state != NVME_CTRL_DELETING &&
+-		    ctrl->state != NVME_CTRL_DEAD)
+-			count++;
++	list_for_each_entry(tmp, &subsys->ctrls, subsys_entry) {
++		if (ctrl->state == NVME_CTRL_DELETING ||
++		    ctrl->state == NVME_CTRL_DEAD)
++			continue;
 +
- 		/*
- 		 * Verify that the subsystem actually supports multiple
- 		 * controllers, else bail out.
-@@ -2402,14 +2403,10 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
- 		    nvme_active_ctrls(found) && !(id->cmic & (1 << 1))) {
- 			dev_err(ctrl->device,
- 				"ignoring ctrl due to duplicate subnqn (%s).\n",
--				found->subnqn);
--			nvme_put_subsystem(found);
-+				subsys->subnqn);
++		if (tmp->cntlid == ctrl->cntlid) {
++			dev_err(ctrl->device,
++				"Duplicate cntlid %u, rejecting\n",
++				ctrl->cntlid);
++			return false;
++		}
++
++		if ((id->cmic & (1 << 1)) ||
++		    (ctrl->opts && ctrl->opts->discovery_nqn))
++		    	continue;
++
++		dev_err(ctrl->device,
++			"Subsystem does not support multiple controllers\n");
++		return false;
+ 	}
+ 
+-	return count;
++	return true;
+ }
+ 
+ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+@@ -2395,15 +2410,7 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+ 		__nvme_release_subsystem(subsys);
+ 		subsys = found;
+ 
+-		/*
+-		 * Verify that the subsystem actually supports multiple
+-		 * controllers, else bail out.
+-		 */
+-		if (!(ctrl->opts && ctrl->opts->discovery_nqn) &&
+-		    nvme_active_ctrls(found) && !(id->cmic & (1 << 1))) {
+-			dev_err(ctrl->device,
+-				"ignoring ctrl due to duplicate subnqn (%s).\n",
+-				subsys->subnqn);
++		if (!nvme_validate_cntlid(subsys, ctrl, id)) {
  			ret = -EINVAL;
--			goto out_unlock;
-+			goto out_put_subsystem;
+ 			goto out_put_subsystem;
  		}
--
--		__nvme_release_subsystem(subsys);
--		subsys = found;
- 	} else {
- 		ret = device_add(&subsys->dev);
- 		if (ret) {
-@@ -2421,23 +2418,20 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
- 		list_add_tail(&subsys->entry, &nvme_subsystems);
- 	}
- 
--	ctrl->subsys = subsys;
--	mutex_unlock(&nvme_subsystems_lock);
--
- 	if (sysfs_create_link(&subsys->dev.kobj, &ctrl->device->kobj,
- 			dev_name(ctrl->device))) {
- 		dev_err(ctrl->device,
- 			"failed to create sysfs link from subsystem.\n");
--		/* the transport driver will eventually put the subsystem */
--		return -EINVAL;
-+		goto out_put_subsystem;
- 	}
- 
--	mutex_lock(&subsys->lock);
-+	ctrl->subsys = subsys;
- 	list_add_tail(&ctrl->subsys_entry, &subsys->ctrls);
--	mutex_unlock(&subsys->lock);
--
-+	mutex_unlock(&nvme_subsystems_lock);
- 	return 0;
- 
-+out_put_subsystem:
-+	nvme_put_subsystem(subsys);
- out_unlock:
- 	mutex_unlock(&nvme_subsystems_lock);
- 	put_device(&subsys->dev);
-@@ -3695,10 +3689,10 @@ static void nvme_free_ctrl(struct device *dev)
- 	__free_page(ctrl->discard_page);
- 
- 	if (subsys) {
--		mutex_lock(&subsys->lock);
-+		mutex_lock(&nvme_subsystems_lock);
- 		list_del(&ctrl->subsys_entry);
--		mutex_unlock(&subsys->lock);
- 		sysfs_remove_link(&subsys->dev.kobj, dev_name(ctrl->device));
-+		mutex_unlock(&nvme_subsystems_lock);
- 	}
- 
- 	ctrl->ops->free_ctrl(ctrl);
 -- 
 2.20.1
