@@ -1,46 +1,46 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Wed, 8 May 2019 18:00:45 +0000
-Subject: [PATCH] nvme-core: trace discovery log change AEN
-References: <20190506193320.30884-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <SN6PR04MB45273950C09083AEB955480D86320@SN6PR04MB4527.namprd04.prod.outlook.com>
+From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Wed,  8 May 2019 11:36:32 -0700
+Subject: [PATCH 1/3] nvme: introduce and use RAE bit macro
+In-Reply-To: <20190508183634.4682-1-chaitanya.kulkarni@wdc.com>
+References: <20190508183634.4682-1-chaitanya.kulkarni@wdc.com>
+Message-ID: <20190508183634.4682-2-chaitanya.kulkarni@wdc.com>
 
-Ping, it helps in debugging discovery related events.
+Introduce a macro instead of hardcoding RAE bit value in several places.
+Also this uses RAE bit macro and removes the open coding in the NVMeOF
+target. This is a preparation patch for filtering out the NVMe user
+commands.
 
-Can someone please review this ?
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+---
+ drivers/nvme/target/nvmet.h | 2 +-
+ include/linux/nvme.h        | 2 ++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-On 05/06/2019 12:33 PM, Chaitanya Kulkarni wrote:
-> This patch allows the user to trace discovery log change notification.
->
-> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-> ---
->   drivers/nvme/host/core.c  | 3 +++
->   drivers/nvme/host/trace.h | 1 +
->   2 files changed, 4 insertions(+)
->
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index cd16d98d1f1a..32e12ee42785 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -3615,6 +3615,9 @@ static void nvme_handle_aen_notice(struct nvme_ctrl *ctrl, u32 result)
->   		trace_nvme_async_event(ctrl, aer_notice_type);
->   		queue_work(nvme_wq, &ctrl->fw_act_work);
->   		break;
-> +	case NVME_AER_NOTICE_DISC_CHANGED:
-> +		trace_nvme_async_event(ctrl, aer_notice_type);
-> +		break;
->   #ifdef CONFIG_NVME_MULTIPATH
->   	case NVME_AER_NOTICE_ANA:
->   		trace_nvme_async_event(ctrl, aer_notice_type);
-> diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
-> index 97d3c77365b8..f2fda5fb01fb 100644
-> --- a/drivers/nvme/host/trace.h
-> +++ b/drivers/nvme/host/trace.h
-> @@ -165,6 +165,7 @@ TRACE_EVENT(nvme_async_event,
->   		__entry->ctrl_id, __entry->result,
->   		__print_symbolic(__entry->result,
->   		aer_name(NVME_AER_NOTICE_NS_CHANGED),
-> +		aer_name(NVME_AER_NOTICE_DISC_CHANGED).
->   		aer_name(NVME_AER_NOTICE_ANA),
->   		aer_name(NVME_AER_NOTICE_FW_ACT_STARTING),
->   		aer_name(NVME_AER_ERROR),
->
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index c25d88fc9dec..47d9f5838828 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -343,7 +343,7 @@ struct nvmet_async_event {
+ 
+ static inline void nvmet_clear_aen_bit(struct nvmet_req *req, u32 bn)
+ {
+-	int rae = le32_to_cpu(req->cmd->common.cdw10) & 1 << 15;
++	int rae = le32_to_cpu(req->cmd->common.cdw10) & NVME_LOG_PAGE_RAE;
+ 
+ 	if (!rae)
+ 		clear_bit(bn, &req->sq->ctrl->aen_masked);
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index c40720cb59ac..d439c129d8af 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -840,6 +840,8 @@ enum {
+ 	NVME_FWACT_ACTV		= (2 << 3),
+ };
+ 
++#define NVME_LOG_PAGE_RAE	(1 << 15)
++
+ /* NVMe Namespace Write Protect State */
+ enum {
+ 	NVME_NS_NO_WRITE_PROTECT = 0,
+-- 
+2.17.0
