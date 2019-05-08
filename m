@@ -1,29 +1,36 @@
 From: akinobu.mita@gmail.com (Akinobu Mita)
-Date: Thu, 9 May 2019 00:56:24 +0900
+Date: Thu, 9 May 2019 01:02:21 +0900
 Subject: [PATCH v2 6/7] nvme-pci: add device coredump support
-In-Reply-To: <20190507212241.GA7113@localhost.localdomain>
+In-Reply-To: <20190508002534epcms2p3acacda8460fcfb7f2b978411b74bbbd5@epcms2p3>
 References: <1557248314-4238-1-git-send-email-akinobu.mita@gmail.com>
  <1557248314-4238-7-git-send-email-akinobu.mita@gmail.com>
- <a4ec2c1a-1ff7-52fe-07bd-179613411536@intel.com>
- <20190507212241.GA7113@localhost.localdomain>
-Message-ID: <CAC5umyhkeqD6ndh0OXauibZfz+BTd_EU9X81uebttp9gmxEYhg@mail.gmail.com>
+ <CGME20190507171318epcas5p129bb73b39447d62a7d266ed461687488@epcms2p3>
+ <20190507170733.GA6783@localhost.localdomain>
+ <20190508002534epcms2p3acacda8460fcfb7f2b978411b74bbbd5@epcms2p3>
+Message-ID: <CAC5umyjsC_ECC4c_fS5QhVY1JgfSLx6ecEPVua=0j=K+JaiFpQ@mail.gmail.com>
 
-2019?5?8?(?) 6:28 Keith Busch <kbusch at kernel.org>:
+2019?5?8?(?) 9:25 Minwoo Im <minwoo.im at samsung.com>:
 >
-> On Tue, May 07, 2019@02:31:41PM -0600, Heitke, Kenneth wrote:
-> > On 5/7/2019 10:58 AM, Akinobu Mita wrote:
-> > > +
-> > > +static int nvme_get_telemetry_log_blocks(struct nvme_ctrl *ctrl, void *buf,
-> > > +                                    size_t bytes, loff_t offset)
-> > > +{
-> > > +   const size_t chunk_size = ctrl->max_hw_sectors * ctrl->page_size;
-> >
-> > Just curious if chunk_size is correct since page size and block size can
-> > be different.
+> > This is a bit of a mine field. The shutdown_lock is held when reclaiming
+> > requests that didn't see a response. If you're holding it here and your
+> > telemetry log page times out, we're going to deadlock. And since the
+> > controller is probably in a buggered state when you try to retrieve one,
+> > I would guess an unrecoverable timeout is the most likely outcome.
 >
-> They're always different. ctrl->page_size is hard-coded to 4k, while
-> sectors are always 512b.
+> Akinobu,
+>
+> I actually agree with Keith's one.  In my experience, there was always internal
+> error inside device when timeout occurs in nvme driver which means the
+> following command might not be completed due to lack of response from
+> device.
 
-Oops.  I misunderstood how ctrl->max_hw_sectors is initialized from MDTS.
-Also overflow check was required here for the architectures that use
-"unsigned int" size_t.
+The nvme_coredump() is .coredump() callback of device_driver which is
+called when anything is written to the /sys/devices/.../coredump.
+Providing this callback is optional, but simply removing this manual
+device coredump method is a bit inconvenient.
+
+So instead of directly retrieving the snapshot with the shutdown_lock held
+in this callback, I'll change this to just scheduling the reset work, and
+the actual device coredump will be triggered by the same procedure that is
+implemented in the patch 7/7.  Therefore telemetry log is retrieved only
+when the controller is successfully recovered from the crash.
