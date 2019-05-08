@@ -1,87 +1,70 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Wed, 8 May 2019 12:31:27 -0700
-Subject: [PATCH nvme-cli rfc 3/5] fabrics: allow discover to address
- discovery controller by persistent name
-In-Reply-To: <f51f039e-24f2-d01f-2ae1-9f86c99e00e2@suse.de>
-References: <20190504000456.3888-1-jsmart2021@gmail.com>
- <20190504000456.3888-4-jsmart2021@gmail.com>
- <28e1e9a8-671d-e3ff-6111-7561e0f56fa9@suse.de>
- <1154a16f-222e-7a28-96c0-3a22052e2bef@broadcom.com>
- <f51f039e-24f2-d01f-2ae1-9f86c99e00e2@suse.de>
-Message-ID: <3f84d637-4d04-45e1-ce49-59238c2aaea8@broadcom.com>
+From: Mario.Limonciello@dell.com (Mario.Limonciello@dell.com)
+Date: Wed, 8 May 2019 19:38:50 +0000
+Subject: [PATCH] nvme-pci: Use non-operational power state instead of D3
+ on Suspend-to-Idle
+In-Reply-To: <3CDA9F13-B17C-456F-8CE1-3A63C6E0DC8F@canonical.com>
+References: <20190508185955.11406-1-kai.heng.feng@canonical.com>
+ <20190508191624.GA8365@localhost.localdomain>
+ <3CDA9F13-B17C-456F-8CE1-3A63C6E0DC8F@canonical.com>
+Message-ID: <f8a043b00909418bad6adcdb62d16e6e@AUSX13MPC105.AMER.DELL.COM>
 
+> -----Original Message-----
+> From: Kai-Heng Feng <kai.heng.feng at canonical.com>
+> Sent: Wednesday, May 8, 2019 2:30 PM
+> To: Keith Busch
+> Cc: Keith Busch; axboe at fb.com; hch at lst.de; sagi at grimberg.me; linux-
+> nvme at lists.infradead.org; linux-kernel at vger.kernel.org; Limonciello, Mario
+> Subject: Re: [PATCH] nvme-pci: Use non-operational power state instead of D3 on
+> Suspend-to-Idle
+> 
+> 
+> [EXTERNAL EMAIL]
+> 
+>@03:16, Keith Busch <kbusch@kernel.org> wrote:
+> 
+> > On Thu, May 09, 2019@02:59:55AM +0800, Kai-Heng Feng wrote:
+> >> +static int nvme_do_resume_from_idle(struct pci_dev *pdev)
+> >> +{
+> >> +	struct nvme_dev *ndev = pci_get_drvdata(pdev);
+> >> +	int result;
+> >> +
+> >> +	pdev->dev_flags &= ~PCI_DEV_FLAGS_NO_D3;
+> >> +	ndev->ctrl.suspend_to_idle = false;
+> >> +
+> >> +	result = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_ALL_TYPES);
+> >> +	if (result < 0)
+> >> +		goto out;
+> >> +
+> >> +	result = nvme_pci_configure_admin_queue(ndev);
+> >> +	if (result)
+> >> +		goto out;
+> >> +
+> >> +	result = nvme_alloc_admin_tags(ndev);
+> >> +	if (result)
+> >> +		goto out;
+> >> +
+> >> +	ndev->ctrl.max_hw_sectors = NVME_MAX_KB_SZ << 1;
+> >> +	ndev->ctrl.max_segments = NVME_MAX_SEGS;
+> >> +	mutex_unlock(&ndev->shutdown_lock);
+> >
+> > This lock was never locked.
+> 
+> Yea, will fix this.
+> 
+> >
+> > But I think these special suspend/resume routines are too similar to the
+> > existing ones, they should just incorporate this feature if we need to
+> > do this.
+> 
+> That?s my original direction, but this requires a new bool to
+> nvme_dev_disable(), so it becomes
+> static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown, bool
+> suspend_to_idle)
+> 
+> And it starts to get messy.
+> 
 
-
-On 5/7/2019 11:10 PM, Hannes Reinecke wrote:
-> On 5/7/19 6:56 PM, James Smart wrote:
->>
->> Well, this is where we're at odds.? We need to decide if we should 
->> create another full controller instance when the event occurs, which 
->> is what FC does today (can have multiple running concurrently), or 
->> whether we want to reuse the persistent one. I would think 
->> implementers of the persistent discovery controller would want you to 
->> reuse it and not have to support more concurrent discovery controller 
->> instances.? The "reuse" case is why passing the --device arg makes it 
->> very straight forward.? We could always have the utility get the 
->> addressing info and look at existing controller and decide to use an 
->> existing one - I assume we would only select persistent ones in order 
->> to avoid delete race conditions, but seems like a lot of work for 
->> what the AEN already knows.? I do have a little concern that there's 
->> always a window from when the event is posted to when the /dev 
->> devicename is opened, which
->> allows for the device name to be terminated and possibly reused for 
->> something else, but I guess we're willing to live with this.
->>
-> My concern here is that it'll be quite hard to use the --device argument
-> from within the udev event; the event itself doesn't specify the device,
-> making it really hard to use them in the first place.
-> Precisely due to the race issues you mentioned.
-
-uevent does specify the device (the --device argument). I don't know 
-about hard - simply build up a string with "nvme" + ctrl instance # ? ? 
- ? example: nvme5
-
->
-> But now it becomes a be quirky; we need to have the persistent 
-> connection to get the AENs (ie we do have a device node), but we 
-> cannot use them from the uevent, and have to create a new one.
-
-?? not sure I follow. You seemed to say - we won't attempt to use the 
-existing device and would create a new one.
-
->
-> So this is my issue here: _if_ we have a persistent connection which 
-> generates AENs, we should be using the very same connection to get the 
-> discovery information in the connect-all call.
->
-> Which means we probably have to update the discovery AEN uevents to 
-> include a device name; then the uevent will carry the information, and 
-> the presence of the device in the uevent will tell us whether to use 
-> the persistent connection or not.
->
-
-I thought that's what we said.? We're dealing with a persistent 
-controller that was created at some time that eventually generates an 
-AEN. And the current proposal is for the AEN to generate a udev event 
-that will contain --device=nvme<instance#> (corresponding to the 
-persistent controller) which will do a connect-all.? The cli, seeing the 
-device argument will skip trying to create a controller and instead open 
-the device and then resume normal connect-all scanning/processing.? We 
-are in agreement on this ?
-
-Which leaves:
-a) how does the persistent controller get created in the first place:? 
-which I answer with admin scripting, manual action, or transport event 
-generation.
-and
-b) if performing a connect-all, and a discovery log was read with a 
-discovery controller as a log entry, how should the cli know whether to 
-create the controller as persistent or not:? which I proposed that it be 
-one of the following: a) it doesn't, only manual actions/scripting would 
-set the parameter; b) the new defaults file processing can figure out 
-that it needs to add the argument; or c) we change the default action 
-when connecting to a discovery controller to look at the KAS field to 
-see if kato is supported, and if so, always enable the persistent option 
-(in which case, no --persistent argument is necessary).
-
--- james
+The existing routines have an implied assumption that firmware will come swinging
+with a hammer to control the rails the SSD sits on.
+With S2I everything needs to come from the driver side and it really is a
+different paradigm.
