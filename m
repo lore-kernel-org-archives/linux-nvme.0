@@ -1,117 +1,120 @@
-From: ednadols@linux.microsoft.com (Edmund Nadolski)
-Date: Wed, 8 May 2019 16:37:13 -0700
-Subject: [RFC PATCH] nvme: guard ctrl->state by lock
-In-Reply-To: <20190508214128.20620-1-chaitanya.kulkarni@wdc.com>
-References: <20190508214128.20620-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <57d2800d-adf4-665e-fd8d-a27282188d0b@linux.microsoft.com>
+From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Thu, 9 May 2019 05:13:04 +0000
+Subject: [PATCH, RFC 1/2] nvme: change locking for the per-subsystem
+ controller list
+References: <20190508075508.28552-1-hch@lst.de>
+ <SN6PR04MB452790A4249949BA3C43DB4786320@SN6PR04MB4527.namprd04.prod.outlook.com>
+Message-ID: <SN6PR04MB45271E40F4CB44DD5F3A8B2386330@SN6PR04MB4527.namprd04.prod.outlook.com>
 
-On 5/8/19 2:41 PM, Chaitanya Kulkarni wrote:
-> This patch adds a helper function to check the nvme_ctrl state.
-> This helper function uses controller lock when accessing ctrl->state
-> member which is guarded in the nvme_change_ctrl_state().
+Please ignore my earlier comment, I can see it is already been done.
+
+On 5/8/19 3:42 PM, Chaitanya Kulkarni wrote:
+> On 05/08/2019 12:55 AM, Christoph Hellwig wrote:
+>> Life becomes a lot simpler if we just use the global
+>> nvme_subsystems_lock to protect this list.  Given that it is only
+>> accessed during controller probing and removal that isn't a scalability
+>> problem either.
+>>
+>> Signed-off-by: Christoph Hellwig <hch at lst.de>
+>> ---
+>>    drivers/nvme/host/core.c | 30 ++++++++++++------------------
+>>    1 file changed, 12 insertions(+), 18 deletions(-)
+>>
+>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+>> index eebaeadaa800..4f4ffcce7416 100644
+>> --- a/drivers/nvme/host/core.c
+>> +++ b/drivers/nvme/host/core.c
+>> @@ -2346,13 +2346,11 @@ static int nvme_active_ctrls(struct nvme_subsystem *subsys)
+>>    	int count = 0;
+>>    	struct nvme_ctrl *ctrl;
+>>
+>> -	mutex_lock(&subsys->lock);
+>>    	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
+>>    		if (ctrl->state != NVME_CTRL_DELETING &&
+>>    		    ctrl->state != NVME_CTRL_DEAD)
+>>    			count++;
+>>    	}
+>> -	mutex_unlock(&subsys->lock);
+> Please correct me if I'm wrong.
 > 
-> This RFC is light on the details, if this change is acceptable I'd
-> like to send the detailed tested version.
-
-
-I'm not sure I see that this presents any functional change. Is it your
-intent to ensure that ctrl->state always has a legal value, and can that be
-done by a range check in nvme_change_ctrl_state()?
-
-
-> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-> ---
->   drivers/nvme/host/core.c      | 80 ++++++++++++++++++++++++++++-------
->   drivers/nvme/host/fabrics.c   |  4 +-
->   drivers/nvme/host/fabrics.h   |  8 ++--
->   drivers/nvme/host/multipath.c |  6 +--
->   drivers/nvme/host/nvme.h      |  1 +
->   5 files changed, 74 insertions(+), 25 deletions(-)
+> nvme_free_ctrl() seems to be removing the ctrl from subsys->ctrls which
+> gets added in the nvme_init_subsystem() and it is using subsys->lock.
 > 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index afd303489473..5182ce9fe21b 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -94,6 +94,57 @@ static void nvme_put_subsystem(struct nvme_subsystem *subsys);
->   static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
->   					   unsigned nsid);
->   
-> +inline bool nvme_validate_ctrl_state(enum nvme_ctrl_state s)
-> +{
-> +	int ret;
-
-type bool?
-
-> +
-> +	switch (s) {
-> +	case NVME_CTRL_NEW:
-> +		ret = true;
-> +		break;
-> +	case NVME_CTR_LIVE:
-> +		ret = true;
-> +		break;
-> +	case NVME_CTRL_ADMIN_ONLY:
-> +		ret = true;
-> +		break;
-> +	case NVME_CTRL_RESETTING:
-> +		ret = true;
-> +		break;
-> +	case NVME_CTRL_CONNECTING:
-> +		ret = true;
-> +		break;
-> +	case NVME_CTRL_DELETING:
-> +		ret = true;
-> +		break;
-> +	case NVME_CTRL_DEAD:
-> +		break;
-
-missing ret = assignment.
-
-Also, the above cases could all be flattened, i.e.:
-
-	case NVME_CTRL_NEW:
-	case NVME_CTR_LIVE:
-	case NVME_CTRL_ADMIN_ONLY:
-	case NVME_CTRL_RESETTING:
-	case NVME_CTRL_CONNECTING:
-	case NVME_CTRL_DELETING:
-	case NVME_CTRL_DEAD:
-		ret = true;
-		break;
-	
-
-> +	default:
-> +		ret = false;
-> +	}
-> +	return ret;
-> +}
-> +
-> +bool nvme_check_ctrl_state(struct nvme_ctrl *c, enum nvme_ctrl_state state)
-> +{
-> +	bool ret;
-> +	unsigned long flags;
-> +
-> +	spin_lock_irqsave(&c->lock, flags);
-> +
-> +	if (!nvme_validate_ctrl_state(state)) {
-> +		ret = false;
-> +		goto out_unlock;
-> +	}
-
-Seems simpler just to open code nvme_validate_ctrl_state() here.
-
-Thanks,
-Ed
-
-> +
-> +	ret = c->state == state ? true : false;
-> +
-> +out_unlock:
-> +	spin_unlock_irqrestore(&c->lock, flags);
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(nvme_check_ctrl_state);
-> +
->   static void nvme_set_queue_dying(struct nvme_ns *ns)
->   {
->   	/*
+> In order to make above change work across nvme_init_subsytem() and
+> nvme_free_ctrl() and it is not in the hot path, do we need to use
+> nvme_subsystems_lock in nvme_free_ctrl() also ?
+>>
+>>    	return count;
+>>    }
+>> @@ -2394,6 +2392,9 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+>>    	mutex_lock(&nvme_subsystems_lock);
+>>    	found = __nvme_find_get_subsystem(subsys->subnqn);
+>>    	if (found) {
+>> +		__nvme_release_subsystem(subsys);
+>> +		subsys = found;
+>> +
+>>    		/*
+>>    		 * Verify that the subsystem actually supports multiple
+>>    		 * controllers, else bail out.
+>> @@ -2402,14 +2403,10 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+>>    		    nvme_active_ctrls(found) && !(id->cmic & (1 << 1))) {
+>>    			dev_err(ctrl->device,
+>>    				"ignoring ctrl due to duplicate subnqn (%s).\n",
+>> -				found->subnqn);
+>> -			nvme_put_subsystem(found);
+>> +				subsys->subnqn);
+>>    			ret = -EINVAL;
+>> -			goto out_unlock;
+>> +			goto out_put_subsystem;
+>>    		}
+>> -
+>> -		__nvme_release_subsystem(subsys);
+>> -		subsys = found;
+>>    	} else {
+>>    		ret = device_add(&subsys->dev);
+>>    		if (ret) {
+>> @@ -2421,23 +2418,20 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+>>    		list_add_tail(&subsys->entry, &nvme_subsystems);
+>>    	}
+>>
+>> -	ctrl->subsys = subsys;
+>> -	mutex_unlock(&nvme_subsystems_lock);
+>> -
+>>    	if (sysfs_create_link(&subsys->dev.kobj, &ctrl->device->kobj,
+>>    			dev_name(ctrl->device))) {
+>>    		dev_err(ctrl->device,
+>>    			"failed to create sysfs link from subsystem.\n");
+>> -		/* the transport driver will eventually put the subsystem */
+>> -		return -EINVAL;
+>> +		goto out_put_subsystem;
+>>    	}
+>>
+>> -	mutex_lock(&subsys->lock);
+>> +	ctrl->subsys = subsys;
+>>    	list_add_tail(&ctrl->subsys_entry, &subsys->ctrls);
+>> -	mutex_unlock(&subsys->lock);
+>> -
+>> +	mutex_unlock(&nvme_subsystems_lock);
+>>    	return 0;
+>>
+>> +out_put_subsystem:
+>> +	nvme_put_subsystem(subsys);
+>>    out_unlock:
+>>    	mutex_unlock(&nvme_subsystems_lock);
+>>    	put_device(&subsys->dev);
+>> @@ -3695,10 +3689,10 @@ static void nvme_free_ctrl(struct device *dev)
+>>    	__free_page(ctrl->discard_page);
+>>
+>>    	if (subsys) {
+>> -		mutex_lock(&subsys->lock);
+>> +		mutex_lock(&nvme_subsystems_lock);
+>>    		list_del(&ctrl->subsys_entry);
+>> -		mutex_unlock(&subsys->lock);
+>>    		sysfs_remove_link(&subsys->dev.kobj, dev_name(ctrl->device));
+>> +		mutex_unlock(&nvme_subsystems_lock);
+>>    	}
+>>
+>>    	ctrl->ops->free_ctrl(ctrl);
+>>
+> 
+> 
