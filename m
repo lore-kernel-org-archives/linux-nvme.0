@@ -1,77 +1,21 @@
-From: kai.heng.feng@canonical.com (Kai-Heng Feng)
-Date: Thu, 9 May 2019 19:59:55 +0800
-Subject: [PATCH] nvme-pci: Use non-operational power state instead of D3
- on Suspend-to-Idle
-In-Reply-To: <20190509103142.GA19550@lst.de>
-References: <3CDA9F13-B17C-456F-8CE1-3A63C6E0DC8F@canonical.com>
- <f8a043b00909418bad6adcdb62d16e6e@AUSX13MPC105.AMER.DELL.COM>
- <20190508195159.GA1530@lst.de>
- <b43f2c0078f245398101fa9a40cfc2dc@AUSX13MPC105.AMER.DELL.COM>
- <20190509061237.GA15229@lst.de>
- <064701C3-2BD4-4D93-891D-B7FBB5040FC4@canonical.com>
- <CAJZ5v0ggMwpJt=XWXu4gU51o8y4BpJ4KZ5RKzfk3+v8GGb-QbQ@mail.gmail.com>
- <A4DD2E9F-054E-4D4B-9F77-D69040EBE120@canonical.com>
- <20190509095601.GA19041@lst.de>
- <225CF4F7-C8E1-4C66-B362-97E84596A54E@canonical.com>
- <20190509103142.GA19550@lst.de>
-Message-ID: <AB325926-0D77-4851-8E8A-A10599756BF9@canonical.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 9 May 2019 14:34:06 +0200
+Subject: [PATCH] nvme-pci: fix single segment detection
+In-Reply-To: <20190509112410.GA20711@ming.t460p>
+References: <20190509110409.19647-1-hch@lst.de>
+ <20190509112410.GA20711@ming.t460p>
+Message-ID: <20190509123406.GB21483@lst.de>
 
-at 18:31, Christoph Hellwig <hch@lst.de> wrote:
+On Thu, May 09, 2019@07:24:12PM +0800, Ming Lei wrote:
+> I'd suggest to fix block layer instead of working around the issue here,
+> then any driver may benefit from the fix.
 
-> On Thu, May 09, 2019@06:28:32PM +0800, Kai-Heng Feng wrote:
->> Based on my testing if queues (IRQ) are not disabled, NVMe controller
->> won?t be quiesced.
->> Symptoms can be high power drain or system freeze.
->>
->> I can check with vendors whether this also necessary under Windows.
->
-> System freeze sounds odd.  And we had a patch from a person on the
-> Cc list here that was handed to me through a few indirections that
-> just skipps the suspend entirely for some cases, which seemd to
-> work fine with the controllers in question.
+That is my plan, and I started on it.  But the fix isn't trivial, and
+will probably take a while and be invasive.
 
-That works fine for some devices, but for Toshiba NVMes this said scenario  
-freezes the system, hence the new patch here.
+> Especially checking bio->bi_vcnt is just a hack, and drivers should
+> never use .bi_vcnt.
 
-And for all NVMes I tested this new suspend routine saves even more power  
-than simply skipping suspend.
-
->
->>> Otherwise I think we should use a "no-op" suspend, just leaving the
->>> power management to the device, or a simple setting the device to the
->>> deepest power state for everything else, where everything else is
->>> suspend, or suspend to idle.
->>
->> I am not sure I get your idea. Does this ?no-op? suspend happen in NVMe
->> driver or PM core?
->
-> no-op means we don't want to do anything in nvme.  If that happens
-> by not calling nvme or stubbing out the method for that particular
-> case does not matter.
-
-Ok, but we still need to figure out how to prevent the device device from  
-tradition to D3.
-
->
->>> And of course than we have windows modern standby actually mandating
->>> runtime D3 in some case, and vague handwaving mentions of this being
->>> forced on the platforms, which I'm not entirely sure how they fit
->>> into the above picture.
->>
->> I was told that Windows doesn?t use runtime D3, APST is used exclusively.
->
-> As far as I know the default power management modes in the Microsoft
-> NVMe driver is explicit power management transitions, and in the Intel
-> RST driver that is commonly used it is APST.  But both could still
-> be comined with runtime D3 in theory, I'm just not sure if they are.
->
-> Microsoft has been pushing for aggressive runtime D3 for a while, but
-> I don't know if that includes NVMe devices.
-
-Ok, I?ll check with vendors about this.
-
-Kai-Heng
-
->
->> Kai-Heng
-> ---end quoted text?
+That is why it is explicitly commented as a hack.  But a good enough
+one to still speed up typical 4K I/Os - one a bio has been cloned
+chances are very high we don't care about the fast path any more.
