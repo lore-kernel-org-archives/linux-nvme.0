@@ -1,65 +1,38 @@
-From: rafael@kernel.org (Rafael J. Wysocki)
-Date: Thu, 9 May 2019 23:39:50 +0200
-Subject: [PATCH] nvme-pci: Use non-operational power state instead of D3
- on Suspend-to-Idle
-In-Reply-To: <20190509211608.GC9675@localhost.localdomain>
-References: <064701C3-2BD4-4D93-891D-B7FBB5040FC4@canonical.com>
- <CAJZ5v0ggMwpJt=XWXu4gU51o8y4BpJ4KZ5RKzfk3+v8GGb-QbQ@mail.gmail.com>
- <A4DD2E9F-054E-4D4B-9F77-D69040EBE120@canonical.com>
- <20190509095601.GA19041@lst.de>
- <225CF4F7-C8E1-4C66-B362-97E84596A54E@canonical.com>
- <20190509103142.GA19550@lst.de>
- <AB325926-0D77-4851-8E8A-A10599756BF9@canonical.com>
- <31b7d7959bf94c15a04bab0ced518444@AUSX13MPC101.AMER.DELL.COM>
- <20190509192807.GB9675@localhost.localdomain>
- <CAJZ5v0ivyByegTMzqdvxqRM2kyjcWmg-LktuwpQJETjMCzGJiw@mail.gmail.com>
- <20190509211608.GC9675@localhost.localdomain>
-Message-ID: <CAJZ5v0geQV2Z4SdnisPKgEKJY0kypjgd9bRmwaYvf2pp0Rw4dg@mail.gmail.com>
+From: ednadols@linux.microsoft.com (Edmund Nadolski)
+Date: Thu, 9 May 2019 14:43:04 -0700
+Subject: [PATCH, RFC 1/2] nvme: change locking for the per-subsystem
+ controller list
+In-Reply-To: <20190509061716.GD15229@lst.de>
+References: <20190508075508.28552-1-hch@lst.de>
+ <6b9497da-a1d1-84ed-f59c-ef602297a2aa@linux.microsoft.com>
+ <20190509061716.GD15229@lst.de>
+Message-ID: <dc2d70e6-3607-a4f2-c8a7-a41220ea5085@linux.microsoft.com>
 
-On Thu, May 9, 2019@11:21 PM Keith Busch <kbusch@kernel.org> wrote:
->
-> On Thu, May 09, 2019@10:54:04PM +0200, Rafael J. Wysocki wrote:
-> > On Thu, May 9, 2019@9:33 PM Keith Busch <kbusch@kernel.org> wrote:
-> > >  #include <linux/io-64-nonatomic-lo-hi.h>
-> > > @@ -2851,6 +2852,8 @@ static int nvme_suspend(struct device *dev)
-> > >         struct pci_dev *pdev = to_pci_dev(dev);
-> > >         struct nvme_dev *ndev = pci_get_drvdata(pdev);
-> > >
-> > > +       if (!pm_suspend_via_firmware())
-> > > +               return nvme_set_power(&ndev->ctrl, ndev->ctrl.npss);
-> >
-> > You probably want to call pci_save_state(pdev) in the branch above to
-> > prevent pci_pm_suspend_noirq() from calling pci_prepare_to_sleep()
-> > going forward, so I would write this routine as
-> >
-> > if (pm_suspend_via_firmware()) {
-> >         nvme_dev_disable(ndev, true);
-> >         return 0;
-> > }
-> >
-> > pci_save_state(pdev)
-> > return nvme_set_power(&ndev->ctrl, ndev->ctrl.npss);
->
-> Ah, good point. I'll make sure that's added and will wait to see hear if
-> there's any other feedback.
->
-> I am trying to test the paths by faking out PS capabilities, and have
-> a question on how to force each:
->
-> Running "rtcwake -m freeze ...", that takes the !pm_suspend_via_firmware()
-> path as I expected.
->
-> But trying to test the original path, I thought using "-m mem" would
-> have been a suspend via firmware, but that is still returning false.
->
-> Is that expected?
+On 5/8/19 11:17 PM, Christoph Hellwig wrote:
+> On Wed, May 08, 2019@09:47:42AM -0700, Edmund Nadolski wrote:
+>>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+>>> index eebaeadaa800..4f4ffcce7416 100644
+>>> --- a/drivers/nvme/host/core.c
+>>> +++ b/drivers/nvme/host/core.c
+>>> @@ -2346,13 +2346,11 @@ static int nvme_active_ctrls(struct nvme_subsystem *subsys)
+>>>   	int count = 0;
+>>>   	struct nvme_ctrl *ctrl;
+>>>   -	mutex_lock(&subsys->lock);
+>>>   	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
+>>>   		if (ctrl->state != NVME_CTRL_DELETING &&
+>>>   		    ctrl->state != NVME_CTRL_DEAD)
+>>>   			count++;
+>>>   	}
+>>> -	mutex_unlock(&subsys->lock);
+>>>     	return count;
+>>>   }
+>>
+>> Would lockdep_assert_held(&nvme_subsystems_lock); be beneficial here?
+> 
+> It certainly would not hurt, although it seems a little overkill for
+> a trivial helper with a single caller.
 
-Yes, if s2idle is the default on that platform.  You should be able to
-switch over to S3 by writing "deep" into /sys/power/mem_sleep as long
-as it is supported on that platform at all.
+True, the thought is that it would be indicative that subsys->lock is not
+needed in this context.
 
-> I've only tried this on one platform so far, so might
-> just be this particular one is missing a firmware capability.
-
-You can check that by looking into /sys/power/mem_sleep (if there is
-only "[s2idle]" in there, S3 is not supported).
+Ed
