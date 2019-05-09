@@ -1,20 +1,31 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 9 May 2019 08:16:50 +0200
-Subject: [PATCH, RFC 2/2] nvme: validate cntlid during controller
- initialisation
-In-Reply-To: <SN6PR04MB45279ACEF3572C4F1F00ADF586320@SN6PR04MB4527.namprd04.prod.outlook.com>
+Date: Thu, 9 May 2019 08:17:16 +0200
+Subject: [PATCH, RFC 1/2] nvme: change locking for the per-subsystem
+ controller list
+In-Reply-To: <6b9497da-a1d1-84ed-f59c-ef602297a2aa@linux.microsoft.com>
 References: <20190508075508.28552-1-hch@lst.de>
- <20190508075508.28552-2-hch@lst.de>
- <SN6PR04MB45279ACEF3572C4F1F00ADF586320@SN6PR04MB4527.namprd04.prod.outlook.com>
-Message-ID: <20190509061650.GC15229@lst.de>
+ <6b9497da-a1d1-84ed-f59c-ef602297a2aa@linux.microsoft.com>
+Message-ID: <20190509061716.GD15229@lst.de>
 
-On Wed, May 08, 2019@06:51:51PM +0000, Chaitanya Kulkarni wrote:
-> > +	list_for_each_entry(tmp, &subsys->ctrls, subsys_entry) {
-> > +		if (ctrl->state == NVME_CTRL_DELETING ||
-> > +		    ctrl->state == NVME_CTRL_DEAD)
-> nvme_change_ctrl_state() is using spinlock to protect the ctrl->state.
-> Do we need to protect above check with the spinlock ?
+On Wed, May 08, 2019@09:47:42AM -0700, Edmund Nadolski wrote:
+>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+>> index eebaeadaa800..4f4ffcce7416 100644
+>> --- a/drivers/nvme/host/core.c
+>> +++ b/drivers/nvme/host/core.c
+>> @@ -2346,13 +2346,11 @@ static int nvme_active_ctrls(struct nvme_subsystem *subsys)
+>>   	int count = 0;
+>>   	struct nvme_ctrl *ctrl;
+>>   -	mutex_lock(&subsys->lock);
+>>   	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
+>>   		if (ctrl->state != NVME_CTRL_DELETING &&
+>>   		    ctrl->state != NVME_CTRL_DEAD)
+>>   			count++;
+>>   	}
+>> -	mutex_unlock(&subsys->lock);
+>>     	return count;
+>>   }
+>
+> Would lockdep_assert_held(&nvme_subsystems_lock); be beneficial here?
 
-There isn't really any point in taking a lock for doing a read of
-a single value from a less than register sized field.  As soon as we
-drop the lock the value might change anyway.
+It certainly would not hurt, although it seems a little overkill for
+a trivial helper with a single caller.
