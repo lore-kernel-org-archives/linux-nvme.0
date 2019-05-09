@@ -1,74 +1,70 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 9 May 2019 08:12:37 +0200
-Subject: [PATCH] nvme-pci: Use non-operational power state instead of
- D3 on Suspend-to-Idle
-In-Reply-To: <b43f2c0078f245398101fa9a40cfc2dc@AUSX13MPC105.AMER.DELL.COM>
-References: <20190508185955.11406-1-kai.heng.feng@canonical.com>
- <20190508191624.GA8365@localhost.localdomain>
- <3CDA9F13-B17C-456F-8CE1-3A63C6E0DC8F@canonical.com>
- <f8a043b00909418bad6adcdb62d16e6e@AUSX13MPC105.AMER.DELL.COM>
- <20190508195159.GA1530@lst.de>
- <b43f2c0078f245398101fa9a40cfc2dc@AUSX13MPC105.AMER.DELL.COM>
-Message-ID: <20190509061237.GA15229@lst.de>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Thu, 9 May 2019 15:15:39 +0900
+Subject: [PATCH 1/3] nvme: 002: fix nvmet pass data with loop
+In-Reply-To: <SN6PR04MB4527510BF05DCBF27E0B6D2F86330@SN6PR04MB4527.namprd04.prod.outlook.com>
+References: <20190505150611.15776-1-minwoo.im.dev@gmail.com>
+ <20190505150611.15776-2-minwoo.im.dev@gmail.com>
+ <SN6PR04MB45274C423AA7C3CC3DBB5ED586300@SN6PR04MB4527.namprd04.prod.outlook.com>
+ <a66b775f-9a5f-fefc-ae29-c86678e66463@gmail.com>
+ <SN6PR04MB45272BEB18B3ADD95DCB42AE86300@SN6PR04MB4527.namprd04.prod.outlook.com>
+ <cfa4d48d-ce13-0ace-cf5c-a3d0d1f4cca7@gmail.com>
+ <SN6PR04MB4527FAD8076A5A5610F6B66786300@SN6PR04MB4527.namprd04.prod.outlook.com>
+ <c86fe09e-9964-123a-bc17-e9b9e6a80856@gmail.com>
+ <SN6PR04MB45273CEE5FE1DDF38677980F86300@SN6PR04MB4527.namprd04.prod.outlook.com>
+ <CAA7jztfU+AdUHp5xo8ssjgvXiBFBXJt0PyQTNA8VQU-T-SpKQA@mail.gmail.com>
+ <SN6PR04MB4527510BF05DCBF27E0B6D2F86330@SN6PR04MB4527.namprd04.prod.outlook.com>
+Message-ID: <CAA7jztcSAOTrPkiN+bDW5i7E1E0MA+xhU=6iZ-nEUy1YT2c1AQ@mail.gmail.com>
 
-On Wed, May 08, 2019@08:28:30PM +0000, Mario.Limonciello@dell.com wrote:
-> You might think this would be adding runtime_suspend/runtime_resume
-> callbacks, but those also get called actually at runtime which is not
-> the goal here.  At runtime, these types of disks should rely on APST which
-> should calculate the appropriate latencies around the different power states.
-> 
-> This code path is only applicable in the suspend to idle state, which /does/
-> call suspend/resume functions associated with dev_pm_ops.  There isn't
-> a dedicated function in there for use only in suspend to idle, which is
-> why pm_suspend_via_s2idle() needs to get called.
+> Isn't this unsigned ? as pointed out by Keith ?
+>
+> $ cat a.c
+> int main(void)
+> {
+>         return -1;
+> }
+> $ gcc a.c -o a
+> $ ./a
+> $ echo $?
+> 255
+>
+> May be I'm missing something here ?
 
-The problem is that it also gets called for others paths:
+I meant that the program returns in a signed value, but it's going to be
+parsed in 8bits which is unix style, I think.  Sorry for being unclear.
+That's not enough to hold nvme status value at all.
 
-#ifdef CONFIG_PM_SLEEP
-#define SET_SYSTEM_SLEEP_PM_OPS(suspend_fn, resume_fn) \
-        .suspend = suspend_fn, \
-	.resume = resume_fn, \
-	.freeze = suspend_fn, \
-	.thaw = resume_fn, \
-	.poweroff = suspend_fn, \
-	.restore = resume_fn,
-#else
-else
-#define SET_SYSTEM_SLEEP_PM_OPS(suspend_fn, resume_fn)
-#endif
+> >
+> > If you have any idea about it, Please let me know.  By the way, I really do
+> > agree with what you mentioned about the return value.  If it's possible,
+> > I would like to too :)
+>
+> How about we instead of returning the NVMe Status we map the NVMe Status
+> of the program to the error code and in-turn return that error code ?
+>
+> The above is true only when command is successfully submitted from the
+> program i.e. no errno is set by any library calls and failed in the
+> completion queue entry with NVMe Status != NVME_SC_SUCCESS.
+>
+> For your reference In kernel we already do this detailed mapping where :-
+>
+> 1. Please refer to the drivers/nvme/target/core.c file where we map the
+> errno_to_nvme_status(), the reverse mapping of that function can be done
+> with nvme_status_to_errno(). Of course you will have to add more cases
+> and do in-detail reverse error mapping from NVMe status to errno and
+> return that errno.
+> 2. nvme_error_status() we map NVMe Status to block layer status.
+> 3. blk_status_to_errno() we map the block layer status to the errno.
+>
+> With the help of 1, 2 and 3 you can reverse map the NVMe Status to errno
+> and add that mapper function for nvme-cli which will be consistent with
+> the kernel NVMe status to errno mapping.
+>
+> Now you might find some cases where you cannot map all the status codes
+> to errno and for those default cases you may end up using something like
+> EIO, this is still better way than having to return 0.
 
-#define SIMPLE_DEV_PM_OPS(name, suspend_fn, resume_fn) \
-const struct dev_pm_ops name = { \
-	SET_SYSTEM_SLEEP_PM_OPS(suspend_fn, resume_fn) \
-}
+Got your point. To make this discussion short, I think we need to make it
+in nvme-cli first.  Let me have a discussion on the following link:
+https://github.com/linux-nvme/nvme-cli/pull/492
 
-And at least for poweroff this new code seems completely wrong, even
-for freeze it looks rather borderline.
-
-And more to the points - if these "modern MS standby" systems are
-becoming common, which it looks they are, we need support in the PM core
-for those instead of working around the decisions in low-level drivers.
-
-> SIMPLE_DEV_PM_OPS normally sets the same function for suspend and
-> freeze (hibernate), so to avoid any changes to the hibernate case it seems
-> to me that there needs to be a new nvme_freeze() that calls into the existing
-> nvme_dev_disable for the freeze pm op and nvme_thaw() that calls into the
-> existing nvme_reset_ctrl for the thaw pm op.
-
-At least, yes.
-
-> 
-> > enterprise class NVMe devices
-> > that don't do APST and don't really do different power states at
-> > all in many cases.
-> 
-> Enterprise class NVMe devices that don't do APST - do they typically
-> have a non-zero value for ndev->ctrl.npss?
-> 
-> If not, they wouldn't enter this new codepath even if the server entered into S2I.
-
-No, devices that do set NPSS will have at least some power states
-per definition, although they might not be too useful.  I suspect checking
-APSTA might be safer, but if we don't want to rely on APST we should
-check for a power state supporting the condition that the MS document
-quoted in the original document supports.
+Thanks,
