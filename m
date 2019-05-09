@@ -1,38 +1,49 @@
-From: ednadols@linux.microsoft.com (Edmund Nadolski)
-Date: Thu, 9 May 2019 14:43:04 -0700
-Subject: [PATCH, RFC 1/2] nvme: change locking for the per-subsystem
- controller list
-In-Reply-To: <20190509061716.GD15229@lst.de>
-References: <20190508075508.28552-1-hch@lst.de>
- <6b9497da-a1d1-84ed-f59c-ef602297a2aa@linux.microsoft.com>
- <20190509061716.GD15229@lst.de>
-Message-ID: <dc2d70e6-3607-a4f2-c8a7-a41220ea5085@linux.microsoft.com>
+From: kbusch@kernel.org (Keith Busch)
+Date: Thu, 9 May 2019 15:54:09 -0600
+Subject: [PATCH] nvme-pci: Use non-operational power state instead of D3
+ on Suspend-to-Idle
+In-Reply-To: <7a002851c435481593f8629ec9193e40@AUSX13MPC101.AMER.DELL.COM>
+References: <064701C3-2BD4-4D93-891D-B7FBB5040FC4@canonical.com>
+ <CAJZ5v0ggMwpJt=XWXu4gU51o8y4BpJ4KZ5RKzfk3+v8GGb-QbQ@mail.gmail.com>
+ <A4DD2E9F-054E-4D4B-9F77-D69040EBE120@canonical.com>
+ <20190509095601.GA19041@lst.de>
+ <225CF4F7-C8E1-4C66-B362-97E84596A54E@canonical.com>
+ <20190509103142.GA19550@lst.de>
+ <AB325926-0D77-4851-8E8A-A10599756BF9@canonical.com>
+ <31b7d7959bf94c15a04bab0ced518444@AUSX13MPC101.AMER.DELL.COM>
+ <20190509192807.GB9675@localhost.localdomain>
+ <7a002851c435481593f8629ec9193e40@AUSX13MPC101.AMER.DELL.COM>
+Message-ID: <20190509215409.GD9675@localhost.localdomain>
 
-On 5/8/19 11:17 PM, Christoph Hellwig wrote:
-> On Wed, May 08, 2019@09:47:42AM -0700, Edmund Nadolski wrote:
->>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->>> index eebaeadaa800..4f4ffcce7416 100644
->>> --- a/drivers/nvme/host/core.c
->>> +++ b/drivers/nvme/host/core.c
->>> @@ -2346,13 +2346,11 @@ static int nvme_active_ctrls(struct nvme_subsystem *subsys)
->>>   	int count = 0;
->>>   	struct nvme_ctrl *ctrl;
->>>   -	mutex_lock(&subsys->lock);
->>>   	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
->>>   		if (ctrl->state != NVME_CTRL_DELETING &&
->>>   		    ctrl->state != NVME_CTRL_DEAD)
->>>   			count++;
->>>   	}
->>> -	mutex_unlock(&subsys->lock);
->>>     	return count;
->>>   }
->>
->> Would lockdep_assert_held(&nvme_subsystems_lock); be beneficial here?
+On Thu, May 09, 2019@09:37:58PM +0000, Mario.Limonciello@dell.com wrote:
+> > +int nvme_set_power(struct nvme_ctrl *ctrl, unsigned npss)
+> > +{
+> > +	int ret;
+> > +
+> > +	mutex_lock(&ctrl->scan_lock);
+> > +	nvme_start_freeze(ctrl);
+> > +	nvme_wait_freeze(ctrl);
+> > +	ret = nvme_set_features(ctrl, NVME_FEAT_POWER_MGMT, npss, NULL, 0,
+> > +				NULL);
+> > +	nvme_unfreeze(ctrl);
+> > +	mutex_unlock(&ctrl->scan_lock);
+> > +
+> > +	return ret;
+> > +}
+> > +EXPORT_SYMBOL_GPL(nvme_set_power);
 > 
-> It certainly would not hurt, although it seems a little overkill for
-> a trivial helper with a single caller.
+> I believe without memory barriers at the end disks with HMB this will
+> still kernel panic (Such as Toshiba BG3).
 
-True, the thought is that it would be indicative that subsys->lock is not
-needed in this context.
+Well, the mutex has an implied memory barrier, but your HMB explanation
+doesn't make much sense to me anyway. The "mb()" in this thread's original
+patch is a CPU memory barrier, and the CPU had better not be accessing
+HMB memory. Is there something else going on here?
+ 
+> This still allows D3 which we found at least failed to go into deepest state and blocked
+> platform s0ix for the following SSDs (maybe others):
+> Hynix PC601
+> LiteOn CL1
 
-Ed
+We usually write features to spec first, then quirk non-compliant
+devices after.
