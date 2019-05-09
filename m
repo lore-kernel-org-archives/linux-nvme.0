@@ -1,11 +1,9 @@
-From: Mario.Limonciello@dell.com (Mario.Limonciello@dell.com)
-Date: Thu, 9 May 2019 21:37:58 +0000
+From: rafael@kernel.org (Rafael J. Wysocki)
+Date: Thu, 9 May 2019 23:39:50 +0200
 Subject: [PATCH] nvme-pci: Use non-operational power state instead of D3
  on Suspend-to-Idle
-In-Reply-To: <20190509192807.GB9675@localhost.localdomain>
-References: <b43f2c0078f245398101fa9a40cfc2dc@AUSX13MPC105.AMER.DELL.COM>
- <20190509061237.GA15229@lst.de>
- <064701C3-2BD4-4D93-891D-B7FBB5040FC4@canonical.com>
+In-Reply-To: <20190509211608.GC9675@localhost.localdomain>
+References: <064701C3-2BD4-4D93-891D-B7FBB5040FC4@canonical.com>
  <CAJZ5v0ggMwpJt=XWXu4gU51o8y4BpJ4KZ5RKzfk3+v8GGb-QbQ@mail.gmail.com>
  <A4DD2E9F-054E-4D4B-9F77-D69040EBE120@canonical.com>
  <20190509095601.GA19041@lst.de>
@@ -14,101 +12,54 @@ References: <b43f2c0078f245398101fa9a40cfc2dc@AUSX13MPC105.AMER.DELL.COM>
  <AB325926-0D77-4851-8E8A-A10599756BF9@canonical.com>
  <31b7d7959bf94c15a04bab0ced518444@AUSX13MPC101.AMER.DELL.COM>
  <20190509192807.GB9675@localhost.localdomain>
-Message-ID: <7a002851c435481593f8629ec9193e40@AUSX13MPC101.AMER.DELL.COM>
+ <CAJZ5v0ivyByegTMzqdvxqRM2kyjcWmg-LktuwpQJETjMCzGJiw@mail.gmail.com>
+ <20190509211608.GC9675@localhost.localdomain>
+Message-ID: <CAJZ5v0geQV2Z4SdnisPKgEKJY0kypjgd9bRmwaYvf2pp0Rw4dg@mail.gmail.com>
 
-> On Thu, May 09, 2019@06:57:34PM +0000, Mario.Limonciello@dell.com wrote:
-> > No, current Windows versions don't transition to D3 with inbox NVME driver.
-> > You're correct, it's explicit state transitions even if APST was enabled
-> > (as this patch is currently doing as well).
-> 
-> The proposed patch does too much, and your resume latency will be worse
-> off for doing an unnecessary controller reset.
-> 
-> The following should be all that's needed if the device is spec
-> compliant. The resume part isn't necessary if npss is non-operational, but
-> we're not saving that info, and it shouldn't hurt to be explicit anyway.
-> 
-> I don't have any PS capable devices, so this is just compile tested.
-> 
-> ---
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 6265d9225ec8..ce8b9bc949b9 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -1132,6 +1132,22 @@ static int nvme_set_features(struct nvme_ctrl *dev,
-> unsigned fid, unsigned dword
->  	return ret;
->  }
-> 
-> +int nvme_set_power(struct nvme_ctrl *ctrl, unsigned npss)
-> +{
-> +	int ret;
-> +
-> +	mutex_lock(&ctrl->scan_lock);
-> +	nvme_start_freeze(ctrl);
-> +	nvme_wait_freeze(ctrl);
-> +	ret = nvme_set_features(ctrl, NVME_FEAT_POWER_MGMT, npss, NULL, 0,
-> +				NULL);
-> +	nvme_unfreeze(ctrl);
-> +	mutex_unlock(&ctrl->scan_lock);
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(nvme_set_power);
+On Thu, May 9, 2019@11:21 PM Keith Busch <kbusch@kernel.org> wrote:
+>
+> On Thu, May 09, 2019@10:54:04PM +0200, Rafael J. Wysocki wrote:
+> > On Thu, May 9, 2019@9:33 PM Keith Busch <kbusch@kernel.org> wrote:
+> > >  #include <linux/io-64-nonatomic-lo-hi.h>
+> > > @@ -2851,6 +2852,8 @@ static int nvme_suspend(struct device *dev)
+> > >         struct pci_dev *pdev = to_pci_dev(dev);
+> > >         struct nvme_dev *ndev = pci_get_drvdata(pdev);
+> > >
+> > > +       if (!pm_suspend_via_firmware())
+> > > +               return nvme_set_power(&ndev->ctrl, ndev->ctrl.npss);
+> >
+> > You probably want to call pci_save_state(pdev) in the branch above to
+> > prevent pci_pm_suspend_noirq() from calling pci_prepare_to_sleep()
+> > going forward, so I would write this routine as
+> >
+> > if (pm_suspend_via_firmware()) {
+> >         nvme_dev_disable(ndev, true);
+> >         return 0;
+> > }
+> >
+> > pci_save_state(pdev)
+> > return nvme_set_power(&ndev->ctrl, ndev->ctrl.npss);
+>
+> Ah, good point. I'll make sure that's added and will wait to see hear if
+> there's any other feedback.
+>
+> I am trying to test the paths by faking out PS capabilities, and have
+> a question on how to force each:
+>
+> Running "rtcwake -m freeze ...", that takes the !pm_suspend_via_firmware()
+> path as I expected.
+>
+> But trying to test the original path, I thought using "-m mem" would
+> have been a suspend via firmware, but that is still returning false.
+>
+> Is that expected?
 
-I believe without memory barriers at the end disks with HMB this will
-still kernel panic (Such as Toshiba BG3).
+Yes, if s2idle is the default on that platform.  You should be able to
+switch over to S3 by writing "deep" into /sys/power/mem_sleep as long
+as it is supported on that platform at all.
 
-This still allows D3 which we found at least failed to go into deepest state and blocked
-platform s0ix for the following SSDs (maybe others):
-Hynix PC601
-LiteOn CL1
+> I've only tried this on one platform so far, so might
+> just be this particular one is missing a firmware capability.
 
-> +
->  int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count)
->  {
->  	u32 q_count = (*count - 1) | ((*count - 1) << 16);
-> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> index 527d64545023..f2be6aad9804 100644
-> --- a/drivers/nvme/host/nvme.h
-> +++ b/drivers/nvme/host/nvme.h
-> @@ -459,6 +459,7 @@ int __nvme_submit_sync_cmd(struct request_queue *q,
-> struct nvme_command *cmd,
->  		unsigned timeout, int qid, int at_head,
->  		blk_mq_req_flags_t flags, bool poll);
->  int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count);
-> +int nvme_set_power(struct nvme_ctrl *ctrl, unsigned npss);
->  void nvme_stop_keep_alive(struct nvme_ctrl *ctrl);
->  int nvme_reset_ctrl(struct nvme_ctrl *ctrl);
->  int nvme_reset_ctrl_sync(struct nvme_ctrl *ctrl);
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index a90cf5d63aac..2c4154cb4e79 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -18,6 +18,7 @@
->  #include <linux/mutex.h>
->  #include <linux/once.h>
->  #include <linux/pci.h>
-> +#include <linux/suspend.h>
->  #include <linux/t10-pi.h>
->  #include <linux/types.h>
->  #include <linux/io-64-nonatomic-lo-hi.h>
-> @@ -2851,6 +2852,8 @@ static int nvme_suspend(struct device *dev)
->  	struct pci_dev *pdev = to_pci_dev(dev);
->  	struct nvme_dev *ndev = pci_get_drvdata(pdev);
-> 
-> +	if (!pm_suspend_via_firmware())
-> +		return nvme_set_power(&ndev->ctrl, ndev->ctrl.npss);
->  	nvme_dev_disable(ndev, true);
->  	return 0;
->  }
-> @@ -2860,6 +2863,8 @@ static int nvme_resume(struct device *dev)
->  	struct pci_dev *pdev = to_pci_dev(dev);
->  	struct nvme_dev *ndev = pci_get_drvdata(pdev);
-> 
-> +	if (!pm_suspend_via_firmware())
-> +		return nvme_set_power(&ndev->ctrl, 0);
->  	nvme_reset_ctrl(&ndev->ctrl);
->  	return 0;
->  }
-> --
+You can check that by looking into /sys/power/mem_sleep (if there is
+only "[s2idle]" in there, S3 is not supported).
