@@ -1,31 +1,23 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Thu, 9 May 2019 21:31:23 +0800
-Subject: [PATCH] nvme-pci: fix single segment detection
-In-Reply-To: <20190509123406.GB21483@lst.de>
-References: <20190509110409.19647-1-hch@lst.de>
- <20190509112410.GA20711@ming.t460p> <20190509123406.GB21483@lst.de>
-Message-ID: <20190509133120.GA22059@ming.t460p>
+From: kbusch@kernel.org (Keith Busch)
+Date: Thu, 9 May 2019 07:49:17 -0600
+Subject: [PATCH v2 00/10] RFC: NVME MDEV
+In-Reply-To: <20190509091255.GB15331@stefanha-x1.localdomain>
+References: <20190502114801.23116-1-mlevitsk@redhat.com>
+ <20190503121838.GA21041@lst.de>
+ <e8f6981863bdbba89adcba1c430083e68546ac1a.camel@redhat.com>
+ <20190509091255.GB15331@stefanha-x1.localdomain>
+Message-ID: <20190509134917.GC8365@localhost.localdomain>
 
-On Thu, May 09, 2019@02:34:06PM +0200, Christoph Hellwig wrote:
-> On Thu, May 09, 2019@07:24:12PM +0800, Ming Lei wrote:
-> > I'd suggest to fix block layer instead of working around the issue here,
-> > then any driver may benefit from the fix.
+On Thu, May 09, 2019@02:12:55AM -0700, Stefan Hajnoczi wrote:
+> On Mon, May 06, 2019@12:04:06PM +0300, Maxim Levitsky wrote:
+> > On top of that, it is expected that newer hardware will support the PASID based
+> > device subdivision, which will allow us to _directly_ pass through the
+> > submission queues of the device and _force_ us to use the NVME protocol for the
+> > frontend.
 > 
-> That is my plan, and I started on it.  But the fix isn't trivial, and
-> will probably take a while and be invasive.
-> 
-> > Especially checking bio->bi_vcnt is just a hack, and drivers should
-> > never use .bi_vcnt.
-> 
-> That is why it is explicitly commented as a hack.  But a good enough
-> one to still speed up typical 4K I/Os - one a bio has been cloned
-> chances are very high we don't care about the fast path any more.
+> I don't understand the PASID argument.  The data path will be 100%
+> passthrough and this driver won't be necessary.
 
-NVMe hasn't max segment size limit, so fair enough for typical
-4K IO workload:
-
-Reviewed-by: Ming Lei <ming.lei at redhat.com>
-
-
-Thanks,
-Ming
+We still need a non-passthrough component to handle slow path,
+non-doorbell controller registers and admin queue. That doesn't
+necessarily need to be a kernel driver, though.
