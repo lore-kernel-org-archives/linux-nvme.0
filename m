@@ -1,32 +1,69 @@
-From: stefanha@gmail.com (Stefan Hajnoczi)
-Date: Thu, 9 May 2019 10:12:55 +0100
-Subject: [PATCH v2 00/10] RFC: NVME MDEV
-In-Reply-To: <e8f6981863bdbba89adcba1c430083e68546ac1a.camel@redhat.com>
-References: <20190502114801.23116-1-mlevitsk@redhat.com>
- <20190503121838.GA21041@lst.de>
- <e8f6981863bdbba89adcba1c430083e68546ac1a.camel@redhat.com>
-Message-ID: <20190509091255.GB15331@stefanha-x1.localdomain>
+From: rafael@kernel.org (Rafael J. Wysocki)
+Date: Thu, 9 May 2019 11:19:37 +0200
+Subject: [PATCH] nvme-pci: Use non-operational power state instead of D3
+ on Suspend-to-Idle
+In-Reply-To: <20190509065223.GA15984@lst.de>
+References: <20190508185955.11406-1-kai.heng.feng@canonical.com>
+ <20190508191624.GA8365@localhost.localdomain>
+ <3CDA9F13-B17C-456F-8CE1-3A63C6E0DC8F@canonical.com>
+ <f8a043b00909418bad6adcdb62d16e6e@AUSX13MPC105.AMER.DELL.COM>
+ <20190508195159.GA1530@lst.de>
+ <b43f2c0078f245398101fa9a40cfc2dc@AUSX13MPC105.AMER.DELL.COM>
+ <20190509061237.GA15229@lst.de>
+ <064701C3-2BD4-4D93-891D-B7FBB5040FC4@canonical.com>
+ <20190509065223.GA15984@lst.de>
+Message-ID: <CAJZ5v0h51nMCte4yL76nMWaYrrXDPrOK=CeUpc50=r2Pp_icPw@mail.gmail.com>
 
-On Mon, May 06, 2019@12:04:06PM +0300, Maxim Levitsky wrote:
-> On top of that, it is expected that newer hardware will support the PASID based
-> device subdivision, which will allow us to _directly_ pass through the
-> submission queues of the device and _force_ us to use the NVME protocol for the
-> frontend.
+On Thu, May 9, 2019@8:52 AM Christoph Hellwig <hch@lst.de> wrote:
+>
+> On Thu, May 09, 2019@02:48:59PM +0800, Kai-Heng Feng wrote:
+> > Not really, for hibernation pm_suspend_via_s2idle() evaluates to false so
+> > the old code path will be taken.
+> >
+> >>
+> >> And more to the points - if these "modern MS standby" systems are
+> >> becoming common, which it looks they are, we need support in the PM core
+> >> for those instead of working around the decisions in low-level drivers.
+> >
+> > Rafael, what do you think about this?
+> > Including this patch, there are five drivers that use
+> > pm_suspend_via_{firmware,s2idle}() to differentiate between S2I and S3.
+> > So I think maybe it?s time to introduce a new suspend callback for S2I?
+>
+> We also really need something like that to avoid the PCI_DEV_FLAGS_NO_D3
+> abuse - that flag is a quirk statically set on a device at probe time
+> to prevent any entering of D3 state.
 
-I don't understand the PASID argument.  The data path will be 100%
-passthrough and this driver won't be necessary.
+I agree that PCI_DEV_FLAGS_NO_D3 has to be avoided.
 
-In the meantime there is already SPDK for users who want polling.  This
-driver's main feature is that the host can still access the device at
-the same time as VMs, but I'm not sure that's useful in
-performance-critical use cases and for non-performance use cases this
-driver isn't necessary.
+However, IMO introducing a new set of suspend (and resume) callbacks
+for S2I would not be practical, because
 
-Stefan
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 488 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20190509/b7f22a66/attachment.sig>
+(a) the only difference between S2I and S2R from a driver perspective
+is that it may be expected to do something "special" about setting the
+device power state in the S2I case (the rest of what needs to be done
+during system-wide suspend/resume remains the same in both cases),
+
+(b) the new callbacks would only be really useful for a handful of drivers.
+
+> >> per definition, although they might not be too useful.  I suspect checking
+> >> APSTA might be safer, but if we don't want to rely on APST we should
+> >> check for a power state supporting the condition that the MS document
+> >> quoted in the original document supports.
+> >
+> > If Modern Standby or Connected Standby is not supported by servers, I
+> > don?t think the design documents mean much here.
+> > We probably should check if the platform firmware really supports S2I
+> > instead.
+>
+> That too.  As said this really is a platform decision, and needs to
+> be managed by the platform code through the PM core.
+
+I'm not what you mean by "platform decision" here.
+
+>  Individual drivers like nvme can just implement the behavior, but are the absolute wrong
+> place to make decisions on what kinds of suspend to enter.
+
+Right, the choice of the target system state has already been made
+when their callbacks get invoked (and it has been made by user space,
+not by the platform).
