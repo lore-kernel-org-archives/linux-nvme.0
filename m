@@ -1,31 +1,102 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 9 May 2019 08:17:16 +0200
-Subject: [PATCH, RFC 1/2] nvme: change locking for the per-subsystem
- controller list
-In-Reply-To: <6b9497da-a1d1-84ed-f59c-ef602297a2aa@linux.microsoft.com>
-References: <20190508075508.28552-1-hch@lst.de>
- <6b9497da-a1d1-84ed-f59c-ef602297a2aa@linux.microsoft.com>
-Message-ID: <20190509061716.GD15229@lst.de>
+From: kai.heng.feng@canonical.com (Kai-Heng Feng)
+Date: Thu, 9 May 2019 14:48:59 +0800
+Subject: [PATCH] nvme-pci: Use non-operational power state instead of D3
+ on Suspend-to-Idle
+In-Reply-To: <20190509061237.GA15229@lst.de>
+References: <20190508185955.11406-1-kai.heng.feng@canonical.com>
+ <20190508191624.GA8365@localhost.localdomain>
+ <3CDA9F13-B17C-456F-8CE1-3A63C6E0DC8F@canonical.com>
+ <f8a043b00909418bad6adcdb62d16e6e@AUSX13MPC105.AMER.DELL.COM>
+ <20190508195159.GA1530@lst.de>
+ <b43f2c0078f245398101fa9a40cfc2dc@AUSX13MPC105.AMER.DELL.COM>
+ <20190509061237.GA15229@lst.de>
+Message-ID: <064701C3-2BD4-4D93-891D-B7FBB5040FC4@canonical.com>
 
-On Wed, May 08, 2019@09:47:42AM -0700, Edmund Nadolski wrote:
->> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->> index eebaeadaa800..4f4ffcce7416 100644
->> --- a/drivers/nvme/host/core.c
->> +++ b/drivers/nvme/host/core.c
->> @@ -2346,13 +2346,11 @@ static int nvme_active_ctrls(struct nvme_subsystem *subsys)
->>   	int count = 0;
->>   	struct nvme_ctrl *ctrl;
->>   -	mutex_lock(&subsys->lock);
->>   	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
->>   		if (ctrl->state != NVME_CTRL_DELETING &&
->>   		    ctrl->state != NVME_CTRL_DEAD)
->>   			count++;
->>   	}
->> -	mutex_unlock(&subsys->lock);
->>     	return count;
->>   }
+Cc Rafael and linux-pm
+
+at 14:12, Christoph Hellwig <hch@lst.de> wrote:
+
+> On Wed, May 08, 2019@08:28:30PM +0000, Mario.Limonciello@dell.com wrote:
+>> You might think this would be adding runtime_suspend/runtime_resume
+>> callbacks, but those also get called actually at runtime which is not
+>> the goal here.  At runtime, these types of disks should rely on APST which
+>> should calculate the appropriate latencies around the different power  
+>> states.
+>>
+>> This code path is only applicable in the suspend to idle state, which  
+>> /does/
+>> call suspend/resume functions associated with dev_pm_ops.  There isn't
+>> a dedicated function in there for use only in suspend to idle, which is
+>> why pm_suspend_via_s2idle() needs to get called.
 >
-> Would lockdep_assert_held(&nvme_subsystems_lock); be beneficial here?
+> The problem is that it also gets called for others paths:
+>
+> #ifdef CONFIG_PM_SLEEP
+> #define SET_SYSTEM_SLEEP_PM_OPS(suspend_fn, resume_fn) \
+>         .suspend = suspend_fn, \
+> 	.resume = resume_fn, \
+> 	.freeze = suspend_fn, \
+> 	.thaw = resume_fn, \
+> 	.poweroff = suspend_fn, \
+> 	.restore = resume_fn,
+> #else
+> else
+> #define SET_SYSTEM_SLEEP_PM_OPS(suspend_fn, resume_fn)
+> #endif
+>
+> #define SIMPLE_DEV_PM_OPS(name, suspend_fn, resume_fn) \
+> const struct dev_pm_ops name = { \
+> 	SET_SYSTEM_SLEEP_PM_OPS(suspend_fn, resume_fn) \
+> }
+>
+> And at least for poweroff this new code seems completely wrong, even
+> for freeze it looks rather borderline.
 
-It certainly would not hurt, although it seems a little overkill for
-a trivial helper with a single caller.
+Not really, for hibernation pm_suspend_via_s2idle() evaluates to false so  
+the old code path will be taken.
+
+>
+> And more to the points - if these "modern MS standby" systems are
+> becoming common, which it looks they are, we need support in the PM core
+> for those instead of working around the decisions in low-level drivers.
+
+Rafael, what do you think about this?
+Including this patch, there are five drivers that use  
+pm_suspend_via_{firmware,s2idle}() to differentiate between S2I and S3.
+So I think maybe it?s time to introduce a new suspend callback for S2I?
+
+>
+>> SIMPLE_DEV_PM_OPS normally sets the same function for suspend and
+>> freeze (hibernate), so to avoid any changes to the hibernate case it seems
+>> to me that there needs to be a new nvme_freeze() that calls into the  
+>> existing
+>> nvme_dev_disable for the freeze pm op and nvme_thaw() that calls into the
+>> existing nvme_reset_ctrl for the thaw pm op.
+>
+> At least, yes.
+
+Hibernation should remain the same as stated above.
+
+>
+>>> enterprise class NVMe devices
+>>> that don't do APST and don't really do different power states at
+>>> all in many cases.
+>>
+>> Enterprise class NVMe devices that don't do APST - do they typically
+>> have a non-zero value for ndev->ctrl.npss?
+>>
+>> If not, they wouldn't enter this new codepath even if the server entered  
+>> into S2I.
+>
+> No, devices that do set NPSS will have at least some power states
+> per definition, although they might not be too useful.  I suspect checking
+> APSTA might be safer, but if we don't want to rely on APST we should
+> check for a power state supporting the condition that the MS document
+> quoted in the original document supports.
+
+If Modern Standby or Connected Standby is not supported by servers, I don?t  
+think the design documents mean much here.
+We probably should check if the platform firmware really supports S2I  
+instead.
+
+Kai-Heng
