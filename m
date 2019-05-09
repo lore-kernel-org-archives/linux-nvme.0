@@ -1,60 +1,38 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 9 May 2019 12:31:42 +0200
-Subject: [PATCH] nvme-pci: Use non-operational power state instead of
- D3 on Suspend-to-Idle
-In-Reply-To: <225CF4F7-C8E1-4C66-B362-97E84596A54E@canonical.com>
-References: <3CDA9F13-B17C-456F-8CE1-3A63C6E0DC8F@canonical.com>
- <f8a043b00909418bad6adcdb62d16e6e@AUSX13MPC105.AMER.DELL.COM>
- <20190508195159.GA1530@lst.de>
- <b43f2c0078f245398101fa9a40cfc2dc@AUSX13MPC105.AMER.DELL.COM>
- <20190509061237.GA15229@lst.de>
- <064701C3-2BD4-4D93-891D-B7FBB5040FC4@canonical.com>
- <CAJZ5v0ggMwpJt=XWXu4gU51o8y4BpJ4KZ5RKzfk3+v8GGb-QbQ@mail.gmail.com>
- <A4DD2E9F-054E-4D4B-9F77-D69040EBE120@canonical.com>
- <20190509095601.GA19041@lst.de>
- <225CF4F7-C8E1-4C66-B362-97E84596A54E@canonical.com>
-Message-ID: <20190509103142.GA19550@lst.de>
+Date: Thu,  9 May 2019 13:04:09 +0200
+Subject: [PATCH] nvme-pci: fix single segment detection
+Message-ID: <20190509110409.19647-1-hch@lst.de>
 
-On Thu, May 09, 2019@06:28:32PM +0800, Kai-Heng Feng wrote:
-> Based on my testing if queues (IRQ) are not disabled, NVMe controller 
-> won?t be quiesced.
-> Symptoms can be high power drain or system freeze.
->
-> I can check with vendors whether this also necessary under Windows.
+blk_rq_nr_phys_segments isn't exactly accurate at the request/bio
+level, so work around that fact with a few crude sanity checks.  To
+be fixed for real in the block layer soon.
 
-System freeze sounds odd.  And we had a patch from a person on the
-Cc list here that was handed to me through a few indirections that
-just skipps the suspend entirely for some cases, which seemd to
-work fine with the controllers in question.
+Fixes: 297910571f08 ("nvme-pci: optimize mapping single segment requests using SGLs")
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+---
+ drivers/nvme/host/pci.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
->> Otherwise I think we should use a "no-op" suspend, just leaving the
->> power management to the device, or a simple setting the device to the
->> deepest power state for everything else, where everything else is
->> suspend, or suspend to idle.
->
-> I am not sure I get your idea. Does this ?no-op? suspend happen in NVMe 
-> driver or PM core?
-
-no-op means we don't want to do anything in nvme.  If that happens
-by not calling nvme or stubbing out the method for that particular
-case does not matter.
-
->> And of course than we have windows modern standby actually mandating
->> runtime D3 in some case, and vague handwaving mentions of this being
->> forced on the platforms, which I'm not entirely sure how they fit
->> into the above picture.
->
-> I was told that Windows doesn?t use runtime D3, APST is used exclusively.
-
-As far as I know the default power management modes in the Microsoft
-NVMe driver is explicit power management transitions, and in the Intel
-RST driver that is commonly used it is APST.  But both could still
-be comined with runtime D3 in theory, I'm just not sure if they are.
-
-Microsoft has been pushing for aggressive runtime D3 for a while, but
-I don't know if that includes NVMe devices.
-
->
-> Kai-Heng
->
----end quoted text---
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 2a8708c9ac18..9a4253be2723 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -824,7 +824,15 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
+ 	blk_status_t ret = BLK_STS_RESOURCE;
+ 	int nr_mapped;
+ 
+-	if (blk_rq_nr_phys_segments(req) == 1) {
++	/*
++	 * Crude hack to work around the block layer accounting for the fact
++	 * that the SG mapping can merge multiple physically contigous segments
++	 * in blk_rq_nr_phys_segments() despite the fact that not everyone is
++	 * mapping the request to a scatterlist.  To be fixed for real in the
++	 * block layer eventually..
++	 */
++	if (blk_rq_nr_phys_segments(req) == 1 &&
++	    !req->bio->bi_next && req->bio->bi_vcnt == 1) {
+ 		struct bio_vec bv = req_bvec(req);
+ 
+ 		if (!is_pci_p2pdma_page(bv.bv_page)) {
+-- 
+2.20.1
