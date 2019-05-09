@@ -1,30 +1,18 @@
 From: gregkh@linuxfoundation.org (Greg Kroah-Hartman)
-Date: Thu,  9 May 2019 20:42:22 +0200
-Subject: [PATCH 5.0 65/95] blk-mq: introduce blk_mq_complete_request_sync()
+Date: Thu,  9 May 2019 20:42:23 +0200
+Subject: [PATCH 5.0 66/95] nvme: cancel request synchronously
 In-Reply-To: <20190509181309.180685671@linuxfoundation.org>
 References: <20190509181309.180685671@linuxfoundation.org>
-Message-ID: <20190509181314.017487714@linuxfoundation.org>
+Message-ID: <20190509181314.082604502@linuxfoundation.org>
 
-[ Upstream commit 1b8f21b74c3c9c82fce5a751d7aefb7cc0b8d33d ]
+[ Upstream commit eb3afb75b57c28599af0dfa03a99579d410749e9 ]
 
-In NVMe's error handler, follows the typical steps of tearing down
-hardware for recovering controller:
+nvme_cancel_request() is used in error handler, and it is always
+reliable to cancel request synchronously, and avoids possible race
+in which request may be completed after real hw queue is destroyed.
 
-1) stop blk_mq hw queues
-2) stop the real hw queues
-3) cancel in-flight requests via
-	blk_mq_tagset_busy_iter(tags, cancel_request, ...)
-cancel_request():
-	mark the request as abort
-	blk_mq_complete_request(req);
-4) destroy real hw queues
-
-However, there may be race between #3 and #4, because blk_mq_complete_request()
-may run q->mq_ops->complete(rq) remotelly and asynchronously, and
-->complete(rq) may be run after #4.
-
-This patch introduces blk_mq_complete_request_sync() for fixing the
-above race.
+One issue is reported by our customer on NVMe RDMA, in which freed ib
+queue pair may be used in nvme_rdma_complete_rq().
 
 Cc: Sagi Grimberg <sagi at grimberg.me>
 Cc: Bart Van Assche <bvanassche at acm.org>
@@ -36,39 +24,21 @@ Signed-off-by: Ming Lei <ming.lei at redhat.com>
 Signed-off-by: Jens Axboe <axboe at kernel.dk>
 Signed-off-by: Sasha Levin <sashal at kernel.org>
 ---
- block/blk-mq.c         | 7 +++++++
- include/linux/blk-mq.h | 1 +
- 2 files changed, 8 insertions(+)
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 5a2585d69c817..6930c82ab75fc 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -657,6 +657,13 @@ bool blk_mq_complete_request(struct request *rq)
- }
- EXPORT_SYMBOL(blk_mq_complete_request);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 6a9dd68c0f4fe..4c4413ad3ceb3 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -291,7 +291,7 @@ bool nvme_cancel_request(struct request *req, void *data, bool reserved)
+ 				"Cancelling I/O %d", req->tag);
  
-+void blk_mq_complete_request_sync(struct request *rq)
-+{
-+	WRITE_ONCE(rq->state, MQ_RQ_COMPLETE);
-+	rq->q->mq_ops->complete(rq);
-+}
-+EXPORT_SYMBOL_GPL(blk_mq_complete_request_sync);
-+
- int blk_mq_request_started(struct request *rq)
- {
- 	return blk_mq_rq_state(rq) != MQ_RQ_IDLE;
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 0e030f5f76b66..7e092bdac27f6 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -306,6 +306,7 @@ void blk_mq_add_to_requeue_list(struct request *rq, bool at_head,
- void blk_mq_kick_requeue_list(struct request_queue *q);
- void blk_mq_delay_kick_requeue_list(struct request_queue *q, unsigned long msecs);
- bool blk_mq_complete_request(struct request *rq);
-+void blk_mq_complete_request_sync(struct request *rq);
- bool blk_mq_bio_list_merge(struct request_queue *q, struct list_head *list,
- 			   struct bio *bio);
- bool blk_mq_queue_stopped(struct request_queue *q);
+ 	nvme_req(req)->status = NVME_SC_ABORT_REQ;
+-	blk_mq_complete_request(req);
++	blk_mq_complete_request_sync(req);
+ 	return true;
+ }
+ EXPORT_SYMBOL_GPL(nvme_cancel_request);
 -- 
 2.20.1
