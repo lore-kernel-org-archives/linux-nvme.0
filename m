@@ -1,11 +1,9 @@
-From: kai.heng.feng@canonical.com (Kai Heng Feng)
-Date: Fri, 10 May 2019 23:18:52 +0800
+From: kbusch@kernel.org (Keith Busch)
+Date: Fri, 10 May 2019 09:36:58 -0600
 Subject: [PATCH] nvme-pci: Use non-operational power state instead of D3
  on Suspend-to-Idle
-In-Reply-To: <20190510140209.GG9675@localhost.localdomain>
-References: <20190509095601.GA19041@lst.de>
- <225CF4F7-C8E1-4C66-B362-97E84596A54E@canonical.com>
- <20190509103142.GA19550@lst.de>
+In-Reply-To: <54E4999C-DBE8-4FC1-8E82-17FEDFDA9CA6@canonical.com>
+References: <20190509103142.GA19550@lst.de>
  <AB325926-0D77-4851-8E8A-A10599756BF9@canonical.com>
  <31b7d7959bf94c15a04bab0ced518444@AUSX13MPC101.AMER.DELL.COM>
  <20190509192807.GB9675@localhost.localdomain>
@@ -13,24 +11,81 @@ References: <20190509095601.GA19041@lst.de>
  <20190509215409.GD9675@localhost.localdomain>
  <495d76c66aec41a8bfbbf527820f8eb9@AUSX13MPC101.AMER.DELL.COM>
  <BC5EB1D0-8718-48B3-ACAB-F7E5571D821D@canonical.com>
- <20190510140209.GG9675@localhost.localdomain>
-Message-ID: <D2D197AF-0072-42AC-A844-8D6BC9677949@canonical.com>
+ <CAJZ5v0jAcX-Q2twygKoKvmx2H6tneHWimmH+c2GsYitHK5-knw@mail.gmail.com>
+ <54E4999C-DBE8-4FC1-8E82-17FEDFDA9CA6@canonical.com>
+Message-ID: <20190510153658.GI9675@localhost.localdomain>
 
-
-
-> On May 10, 2019,@10:02 PM, Keith Busch <kbusch@kernel.org> wrote:
+On Fri, May 10, 2019@11:15:05PM +0800, Kai Heng Feng wrote:
+> Sorry, I should mention that I use a slightly modified drivers/nvme/host/pci.c:
 > 
-> On Thu, May 09, 2019@11:05:42PM -0700, Kai-Heng Feng wrote:
->> Yes, that? what I was told by the NVMe vendor, so all I know is to impose a  
->> memory barrier.
->> If mb() shouldn?t be used here, what?s the correct variant to use in this  
->> context?
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 3e4fb891a95a..ece428ce6876 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -18,6 +18,7 @@
+>  #include <linux/mutex.h>
+>  #include <linux/once.h>
+>  #include <linux/pci.h>
+> +#include <linux/suspend.h>
+>  #include <linux/t10-pi.h>
+>  #include <linux/types.h>
+>  #include <linux/io-64-nonatomic-lo-hi.h>
+> @@ -2833,6 +2834,11 @@ static int nvme_suspend(struct device *dev)
+>         struct pci_dev *pdev = to_pci_dev(dev);
+>         struct nvme_dev *ndev = pci_get_drvdata(pdev);
+>  
+> +       if (!pm_suspend_via_firmware()) {
+> +               nvme_set_power(&ndev->ctrl, ndev->ctrl.npss);
+> +               pci_save_state(pdev);
+> +       }
+> +
+>         nvme_dev_disable(ndev, true);
+
+This won't work because you're falling through to nvme_dev_disable after
+setting the power, so the resume side would certainly fail.
+
+This is what you'd want:
+
+       if (!pm_suspend_via_firmware()) {
+               pci_save_state(pdev);
+               return nvme_set_power(&ndev->ctrl, ndev->ctrl.npss);
+       }
+
+>         return 0;
+>  }
+> @@ -2842,6 +2848,10 @@ static int nvme_resume(struct device *dev)
+>         struct pci_dev *pdev = to_pci_dev(dev);
+>         struct nvme_dev *ndev = pci_get_drvdata(pdev);
+>  
+> +       if (!pm_resume_via_firmware()) {
+> +               return nvme_set_power(&ndev->ctrl, 0);
+> +       }
+> +
+>         nvme_reset_ctrl(&ndev->ctrl);
+>         return 0;
+> }
 > 
-> I'm afraid the requirement is still not clear to me. AFAIK, all our
-> barriers routines ensure data is visible either between CPUs, or between
-> CPU and devices. The CPU never accesses HMB memory, so there must be some
-> other reasoning if this barrier is a real requirement for this device.
+> Does pci_save_state() here enough to prevent the device enter to D3?
 
-Sure, I?ll ask vendor what that MemRd is for.
+Yes, saving the state during suspend will prevent pci pm from assuming
+control over this device's power. It's a bit non-intuitive as Christoph
+mentioned, so we'll need to make that clear in the comments. For
+reference, here's the relevant part in pci-driver.c:
 
-Kai-Heng
+---
+static int pci_pm_suspend_noirq(struct device *dev)
+{
+...
+
+	if (!pci_dev->state_saved) {
+		pci_save_state(pci_dev);
+		if (pci_power_manageable(pci_dev))
+			pci_prepare_to_sleep(pci_dev);
+	}
+...
+}
+--
+
+So by saving the state in our suspend callback, pci will skip
+pci_prepare_to_sleep(), which is what's setting your device most likely
+to a D3hot, undermining our nvme power state setting.
