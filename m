@@ -1,74 +1,94 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 10 May 2019 07:30:52 +0200
-Subject: [PATCH] nvme-pci: Use non-operational power state instead of
- D3 on Suspend-to-Idle
-In-Reply-To: <20190509192807.GB9675@localhost.localdomain>
-References: <20190509061237.GA15229@lst.de>
- <064701C3-2BD4-4D93-891D-B7FBB5040FC4@canonical.com>
- <CAJZ5v0ggMwpJt=XWXu4gU51o8y4BpJ4KZ5RKzfk3+v8GGb-QbQ@mail.gmail.com>
- <A4DD2E9F-054E-4D4B-9F77-D69040EBE120@canonical.com>
- <20190509095601.GA19041@lst.de>
- <225CF4F7-C8E1-4C66-B362-97E84596A54E@canonical.com>
- <20190509103142.GA19550@lst.de>
- <AB325926-0D77-4851-8E8A-A10599756BF9@canonical.com>
- <31b7d7959bf94c15a04bab0ced518444@AUSX13MPC101.AMER.DELL.COM>
- <20190509192807.GB9675@localhost.localdomain>
-Message-ID: <20190510053052.GB3654@lst.de>
+From: joshi.k@samsung.com (kanchan)
+Date: Fri, 10 May 2019 11:01:47 +0530
+Subject: [PATCH v5 0/7] Extend write-hint framework, and add write-hint
+ for Ext4 journal
+In-Reply-To: <1556191202-3245-1-git-send-email-joshi.k@samsung.com>
+References: <CGME20190425112347epcas2p1f7be48b8f0d2203252b8c9dd510c1b61@epcas2p1.samsung.com>
+ <1556191202-3245-1-git-send-email-joshi.k@samsung.com>
+Message-ID: <031601d506f1$b2956d80$17c04880$@samsung.com>
 
-> +int nvme_set_power(struct nvme_ctrl *ctrl, unsigned npss)
-> +{
-> +	int ret;
-> +
-> +	mutex_lock(&ctrl->scan_lock);
-> +	nvme_start_freeze(ctrl);
-> +	nvme_wait_freeze(ctrl);
-> +	ret = nvme_set_features(ctrl, NVME_FEAT_POWER_MGMT, npss, NULL, 0,
-> +				NULL);
-> +	nvme_unfreeze(ctrl);
-> +	mutex_unlock(&ctrl->scan_lock);
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(nvme_set_power);
+Hi Jens & other maintainers,
 
-I think we should have this in the PCIe driver, givn that while in
-theory power states are generic in practice they are only applicable
-to PCIe.  To be revisited if history proves me wrong.
+If this patch-set is in fine shape now, can it please be considered for merge in near future?
 
-Also I don't see any reason why we'd need to do the freeze game on
-resume.  Even on suspend it looks a little odd to me, as in theory
-the PM core should have already put the system into a quiescent state.
-But maybe we actually need it there, in which case a comment would
-be helpful.
+Thanks,
 
-> +	if (!pm_suspend_via_firmware())
+-----Original Message-----
+From: Kanchan Joshi [mailto:joshi.k@samsung.com] 
+Sent: Thursday, April 25, 2019 4:50 PM
+To: linux-kernel at vger.kernel.org; linux-block at vger.kernel.org; linux-nvme at lists.infradead.org; linux-fsdevel at vger.kernel.org; linux-ext4 at vger.kernel.org
+Cc: prakash.v at samsung.com; anshul at samsung.com; Kanchan Joshi <joshi.k at samsung.com>
+Subject: [PATCH v5 0/7] Extend write-hint framework, and add write-hint for Ext4 journal
 
-pm_suspend_via_firmware is a weird name and has absolutely zero
-documentation.  So I think we really need a big fat comment with the
-wisdom from this thread here.
+V5 series, towards extending write-hint/streams infrastructure for kernel-components, and adding support for sending write-hint with Ext4/JBD2 journal.
 
-> +		return nvme_set_power(&ndev->ctrl, ndev->ctrl.npss);
+Here is the history/changelog -
 
-I think we need to skip this code path is NPSS is zero, as that
-indicates that the device doesn't actually do power states and fall
-back to the full teardown.
+Changes since v4:
+- Removed write-hint field from request. bi_write_hint in bio is used for
+  merging checks now.
+- Modified write-hint-to-stream conversion logic. Now, kernel hints are mapped
+  to upper range of stream-ids, while user-hints continue to remain mapped to
+  lower range of stream-ids.
 
-Also I can't find anything except for this odd sentences in the spec:
+Changes since v3:
+- Correction in grouping related changes into patches
+- Rectification in commit text at places
 
-  "Hosts that do not dynamically manage power should set the power
-  state to the lowest numbered state that satisfies the PCI Express
-  slot power limit control value.
+Changes since v2:
+- Introduce API in block layer so that drivers can register stream info. Added
+  new limit in request queue for this purpose.
+- Block layer does the conversion from write-hint to stream-id.
+- Stream feature is not disabled anymore if device reports less streams than
+  a particular number (which was set as 4 earlier).
+- Any write-hint beyond reported stream-count turn to 0.
+- New macro "WRITE_LIFE_KERN_MIN" can be used as base by kernel mode components.
 
-that requires the power states to be ordered in any particular way.
-So we probably have to read through the table at probing time and find
-the lowest power state there.
+Changes since v1:
+- introduce four more hints for in-kernel use, as recommended by Dave chinner
+  & Jens axboe. This isolates kernel-mode hints from user-mode ones.
+- remove mount-option to specify write-hint, as recommended by Jan kara &
+  Dave chinner. Rather, FS always sets write-hint for journal. This gets ignored
+  if device does not support stream.
+- Removed code-redundancy for write_dirty_buffer (Jan kara's review comment)
 
-Rafael also brought up the issue of not entering D3, and the somewhat
-non-intuitive to me solution for it, so I'm not commenting on that
-except for asking on a comment on that save_state call.
+V4 patch:
+https://lkml.org/lkml/2019/4/17/870
 
-> +     if (!pm_suspend_via_firmware())
-> +             return nvme_set_power(&ndev->ctrl, 0);
+V3 patch:
+https://marc.info/?l=linux-block&m=155384631909082&w=2
 
-Don't we need to save the previous power state here and restore that?
-For example if someone set a specific state through nvme-cli?
+V2 patch:
+https://patchwork.kernel.org/cover/10754405/
+
+V1 patch:
+https://marc.info/?l=linux-fsdevel&m=154444637519020&w=2
+
+
+Kanchan Joshi (7):
+  fs: introduce write-hint start point for in-kernel hints
+  block: increase stream count for in-kernel use
+  block: introduce API to register stream information with block-layer
+  block: introduce write-hint to stream-id conversion
+  nvme: register stream info with block layer
+  fs: introduce APIs to enable passing write-hint with buffer-head
+  fs/ext4,jbd2: add support for sending write-hint with journal
+
+ block/blk-core.c            | 29 ++++++++++++++++++++++++++++-
+ block/blk-merge.c           |  4 ++--
+ block/blk-settings.c        | 12 ++++++++++++
+ drivers/nvme/host/core.c    | 23 ++++++-----------------
+ fs/buffer.c                 | 18 ++++++++++++++++--
+ fs/ext4/ext4_jbd2.h         |  1 +
+ fs/ext4/super.c             |  2 ++
+ fs/jbd2/commit.c            | 11 +++++++----
+ fs/jbd2/journal.c           |  3 ++-
+ fs/jbd2/revoke.c            |  3 ++-
+ include/linux/blkdev.h      |  8 ++++++--
+ include/linux/buffer_head.h |  3 +++
+ include/linux/fs.h          |  2 ++
+ include/linux/jbd2.h        |  8 ++++++++
+ 14 files changed, 97 insertions(+), 30 deletions(-)
+
+--
+2.7.4
