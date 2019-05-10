@@ -1,8 +1,8 @@
-From: rafael@kernel.org (Rafael J. Wysocki)
-Date: Fri, 10 May 2019 10:23:11 +0200
+From: kbusch@kernel.org (Keith Busch)
+Date: Fri, 10 May 2019 07:51:39 -0600
 Subject: [PATCH] nvme-pci: Use non-operational power state instead of D3
  on Suspend-to-Idle
-In-Reply-To: <BC5EB1D0-8718-48B3-ACAB-F7E5571D821D@canonical.com>
+In-Reply-To: <20190510053052.GB3654@lst.de>
 References: <064701C3-2BD4-4D93-891D-B7FBB5040FC4@canonical.com>
  <CAJZ5v0ggMwpJt=XWXu4gU51o8y4BpJ4KZ5RKzfk3+v8GGb-QbQ@mail.gmail.com>
  <A4DD2E9F-054E-4D4B-9F77-D69040EBE120@canonical.com>
@@ -12,109 +12,34 @@ References: <064701C3-2BD4-4D93-891D-B7FBB5040FC4@canonical.com>
  <AB325926-0D77-4851-8E8A-A10599756BF9@canonical.com>
  <31b7d7959bf94c15a04bab0ced518444@AUSX13MPC101.AMER.DELL.COM>
  <20190509192807.GB9675@localhost.localdomain>
- <7a002851c435481593f8629ec9193e40@AUSX13MPC101.AMER.DELL.COM>
- <20190509215409.GD9675@localhost.localdomain>
- <495d76c66aec41a8bfbbf527820f8eb9@AUSX13MPC101.AMER.DELL.COM>
- <BC5EB1D0-8718-48B3-ACAB-F7E5571D821D@canonical.com>
-Message-ID: <CAJZ5v0jAcX-Q2twygKoKvmx2H6tneHWimmH+c2GsYitHK5-knw@mail.gmail.com>
+ <20190510053052.GB3654@lst.de>
+Message-ID: <20190510135139.GE9675@localhost.localdomain>
 
-On Fri, May 10, 2019 at 8:08 AM Kai-Heng Feng
-<kai.heng.feng@canonical.com> wrote:
->
->@06:19, <Mario.Limonciello@dell.com> <Mario.Limonciello@dell.com> wrote:
->
-> >> -----Original Message-----
-> >> From: Keith Busch <kbusch at kernel.org>
-> >> Sent: Thursday, May 9, 2019 4:54 PM
-> >> To: Limonciello, Mario
-> >> Cc: kai.heng.feng at canonical.com; hch at lst.de; axboe at fb.com;
-> >> sagi at grimberg.me; rafael at kernel.org; linux-pm at vger.kernel.org;
-> >> rafael.j.wysocki at intel.com; linux-kernel at vger.kernel.org; linux-
-> >> nvme at lists.infradead.org; keith.busch at intel.com
-> >> Subject: Re: [PATCH] nvme-pci: Use non-operational power state instead
-> >> of D3 on
-> >> Suspend-to-Idle
-> >>
-> >>
-> >> [EXTERNAL EMAIL]
-> >>
-> >> On Thu, May 09, 2019 at 09:37:58PM +0000, Mario.Limonciello at dell.com
-> >> wrote:
-> >>>> +int nvme_set_power(struct nvme_ctrl *ctrl, unsigned npss)
-> >>>> +{
-> >>>> +  int ret;
-> >>>> +
-> >>>> +  mutex_lock(&ctrl->scan_lock);
-> >>>> +  nvme_start_freeze(ctrl);
-> >>>> +  nvme_wait_freeze(ctrl);
-> >>>> +  ret = nvme_set_features(ctrl, NVME_FEAT_POWER_MGMT, npss, NULL, 0,
-> >>>> +                          NULL);
-> >>>> +  nvme_unfreeze(ctrl);
-> >>>> +  mutex_unlock(&ctrl->scan_lock);
-> >>>> +
-> >>>> +  return ret;
-> >>>> +}
-> >>>> +EXPORT_SYMBOL_GPL(nvme_set_power);
-> >>>
-> >>> I believe without memory barriers at the end disks with HMB this will
-> >>> still kernel panic (Such as Toshiba BG3).
-> >>
-> >> Well, the mutex has an implied memory barrier, but your HMB explanation
-> >> doesn't make much sense to me anyway. The "mb()" in this thread's original
-> >> patch is a CPU memory barrier, and the CPU had better not be accessing
-> >> HMB memory. Is there something else going on here?
-> >
-> > Kai Heng will need to speak up a bit in his time zone as he has this disk
-> > on hand,
-> > but what I recall from our discussion was that DMA operation MemRd after
-> > resume was the source of the hang.
->
-> Yes, that? what I was told by the NVMe vendor, so all I know is to impose a
-> memory barrier.
-> If mb() shouldn?t be used here, what?s the correct variant to use in this
-> context?
->
-> >
-> >>> This still allows D3 which we found at least failed to go into deepest
-> >>> state and
-> >> blocked
-> >>> platform s0ix for the following SSDs (maybe others):
-> >>> Hynix PC601
-> >>> LiteOn CL1
-> >>
-> >> We usually write features to spec first, then quirk non-compliant
-> >> devices after.
-> >
-> > NVME spec doesn't talk about a relationship between SetFeatures w/
-> > NVME_FEAT_POWER_MGMGT and D3 support, nor order of events.
-> >
-> > This is why we opened a dialog with storage vendors, including
-> > contrasting the behavior
-> > of Microsoft Windows inbox NVME driver and Intel's Windows RST driver.
-> >
-> > Those two I mention that come to mind immediately because they were most
-> > recently
-> > tested to fail.  Our discussion with storage vendors overwhelmingly
-> > requested
-> > that we don't use D3 under S2I because their current firmware
-> > architecture won't
-> > support it.
-> >
-> > For example one vendor told us with current implementation that receiving
-> > D3hot
-> > after NVME shutdown will prevent being able to enter L1.2.  D3hot entry
-> > was supported
-> > by an IRQ handler that isn't serviced in NVME shutdown state.
-> >
-> > Another vendor told us that with current implementation it's impossible
-> > to transition
-> > to PS4 (at least via APST) while L1.2 D3hot is active.
->
-> I tested the patch from Keith and it has two issues just as simply skipping
-> nvme_dev_disable():
-> 1) It consumes more power in S2I
-> 2) System freeze after resume
+On Thu, May 09, 2019@10:30:52PM -0700, Christoph Hellwig wrote:
+> Also I don't see any reason why we'd need to do the freeze game on
+> resume.  
 
-Well, the Keith's patch doesn't prevent pci_pm_suspend_noirq() from
-asking for D3 and both of the symptoms above may be consequences of
-that in principle.
+Right, definitely no reason for resume.
+
+> Even on suspend it looks a little odd to me, as in theory
+> the PM core should have already put the system into a quiescent state.
+> But maybe we actually need it there, in which case a comment would
+> be helpful.
+
+I wasn't sure if suspend prevents a kthread or work queue from
+running. For example, if the device sends a namespace notify AEN during
+S2I, does the nvme scan_work run?
+
+Since I wasn't sure, I took a paranoid approach to ensure nothing was
+in flight, but I'd be happy if this is unnecessary.
+
+> > +     if (!pm_suspend_via_firmware())
+> > +             return nvme_set_power(&ndev->ctrl, 0);
+> 
+> Don't we need to save the previous power state here and restore that?
+> For example if someone set a specific state through nvme-cli?
+
+Sure, we can do that. It would have been super if the spec had this
+set feature command's CQE DW0 return the previous power state so we
+could set the new and save the old in a single command, but two commands
+is just a minor inconvenience.
