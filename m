@@ -1,42 +1,53 @@
 From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Sat, 11 May 2019 21:50:12 +0000
-Subject: [PATCH 2/2] nvme-fabrics: Remove unused argument
-References: <20190511134255.6790-1-minwoo.im.dev@gmail.com>
- <20190511134255.6790-3-minwoo.im.dev@gmail.com>
-Message-ID: <SN6PR04MB4527A361940ECE60AFE846E5860D0@SN6PR04MB4527.namprd04.prod.outlook.com>
+Date: Sat, 11 May 2019 21:51:54 +0000
+Subject: [PATCH 1/4] nvme.h: Fix typos in status code values
+References: <20190511193713.29516-1-minwoo.im.dev@gmail.com>
+ <20190511193713.29516-2-minwoo.im.dev@gmail.com>
+Message-ID: <SN6PR04MB4527556B978A62ED5FE57A57860D0@SN6PR04MB4527.namprd04.prod.outlook.com>
 
-Variable "count" use removed by  any commit ?
+Looks good.
 
-Or it is been like that since the introduction of this function ?
+Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 
-On 5/11/19 6:43 AM, Minwoo Im wrote:
-> The variable 'count' is not currently used by nvmf_create_ctrl(), so
-> remove it.
+On 5/11/19 12:37 PM, Minwoo Im wrote:
+> Fix typos in status code value.  linux/nvme.h in kernel project is going
+> to be fixed soon or later.
 >
 > Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
 > ---
->  drivers/nvme/host/fabrics.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  linux/nvme.h | 4 ++--
+>  nvme-print.c | 4 ++--
+>  2 files changed, 4 insertions(+), 4 deletions(-)
 >
-> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-> index 592d1e61ef7e..5838f7cd53ac 100644
-> --- a/drivers/nvme/host/fabrics.c
-> +++ b/drivers/nvme/host/fabrics.c
-> @@ -978,7 +978,7 @@ EXPORT_SYMBOL_GPL(nvmf_free_options);
->  				 NVMF_OPT_DISABLE_SQFLOW)
->  
->  static struct nvme_ctrl *
-> -nvmf_create_ctrl(struct device *dev, const char *buf, size_t count)
-> +nvmf_create_ctrl(struct device *dev, const char *buf)
->  {
->  	struct nvmf_ctrl_options *opts;
->  	struct nvmf_transport_ops *ops;
-> @@ -1073,7 +1073,7 @@ static ssize_t nvmf_dev_write(struct file *file, const char __user *ubuf,
->  		goto out_unlock;
->  	}
->  
-> -	ctrl = nvmf_create_ctrl(nvmf_device, buf, count);
-> +	ctrl = nvmf_create_ctrl(nvmf_device, buf);
->  	if (IS_ERR(ctrl)) {
->  		ret = PTR_ERR(ctrl);
->  		goto out_unlock;
+> diff --git a/linux/nvme.h b/linux/nvme.h
+> index 2c840b9..c99b438 100644
+> --- a/linux/nvme.h
+> +++ b/linux/nvme.h
+> @@ -1365,9 +1365,9 @@ enum {
+>  	NVME_SC_FW_NEEDS_SUBSYS_RESET	= 0x110,
+>  	NVME_SC_FW_NEEDS_RESET		= 0x111,
+>  	NVME_SC_FW_NEEDS_MAX_TIME	= 0x112,
+> -	NVME_SC_FW_ACIVATE_PROHIBITED	= 0x113,
+> +	NVME_SC_FW_ACTIVATE_PROHIBITED	= 0x113,
+>  	NVME_SC_OVERLAPPING_RANGE	= 0x114,
+> -	NVME_SC_NS_INSUFFICENT_CAP	= 0x115,
+> +	NVME_SC_NS_INSUFFICIENT_CAP	= 0x115,
+>  	NVME_SC_NS_ID_UNAVAILABLE	= 0x116,
+>  	NVME_SC_NS_ALREADY_ATTACHED	= 0x118,
+>  	NVME_SC_NS_IS_PRIVATE		= 0x119,
+> diff --git a/nvme-print.c b/nvme-print.c
+> index c038355..0ce88d4 100644
+> --- a/nvme-print.c
+> +++ b/nvme-print.c
+> @@ -1801,9 +1801,9 @@ const char *nvme_status_to_string(__u32 status)
+>  	case NVME_SC_FW_NEEDS_SUBSYS_RESET:	return "FW_NEEDS_SUBSYSTEM_RESET: The firmware commit was successful, however, activation of the firmware image requires an NVM Subsystem";
+>  	case NVME_SC_FW_NEEDS_RESET:		return "FW_NEEDS_RESET: The firmware commit was successful; however, the image specified does not support being activated without a reset";
+>  	case NVME_SC_FW_NEEDS_MAX_TIME:		return "FW_NEEDS_MAX_TIME_VIOLATION: The image specified if activated immediately would exceed the Maximum Time for Firmware Activation (MTFA) value reported in Identify Controller. To activate the firmware, the Firmware Commit command needs to be re-issued and the image activated using a reset";
+> -	case NVME_SC_FW_ACIVATE_PROHIBITED:	return "FW_ACTIVATION_PROHIBITED: The image specified is being prohibited from activation by the controller for vendor specific reasons";
+> +	case NVME_SC_FW_ACTIVATE_PROHIBITED:	return "FW_ACTIVATION_PROHIBITED: The image specified is being prohibited from activation by the controller for vendor specific reasons";
+>  	case NVME_SC_OVERLAPPING_RANGE:		return "OVERLAPPING_RANGE: This error is indicated if the firmware image has overlapping ranges";
+> -	case NVME_SC_NS_INSUFFICENT_CAP:	return "NS_INSUFFICIENT_CAPACITY: Creating the namespace requires more free space than is currently available. The Command Specific Information field of the Error Information Log specifies the total amount of NVM capacity required to create the namespace in bytes";
+> +	case NVME_SC_NS_INSUFFICIENT_CAP:	return "NS_INSUFFICIENT_CAPACITY: Creating the namespace requires more free space than is currently available. The Command Specific Information field of the Error Information Log specifies the total amount of NVM capacity required to create the namespace in bytes";
+>  	case NVME_SC_NS_ID_UNAVAILABLE:		return "NS_ID_UNAVAILABLE: The number of namespaces supported has been exceeded";
+>  	case NVME_SC_NS_ALREADY_ATTACHED:	return "NS_ALREADY_ATTACHED: The controller is already attached to the namespace specified";
+>  	case NVME_SC_NS_IS_PRIVATE:		return "NS_IS_PRIVATE: The namespace is private and is already attached to one controller";
