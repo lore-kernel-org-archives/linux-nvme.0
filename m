@@ -1,19 +1,66 @@
-From: kbusch@kernel.org (Keith Busch)
-Date: Fri, 10 May 2019 15:42:56 -0600
-Subject: [PATCH 0/3] nvme-core: add user command filter
-In-Reply-To: <20190508183634.4682-1-chaitanya.kulkarni@wdc.com>
-References: <20190508183634.4682-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20190510214255.GA11723@localhost.localdomain>
+From: kenneth.heitke@intel.com (Kenneth Heitke)
+Date: Fri, 10 May 2019 18:04:06 -0600
+Subject: [PATCH] nvme: add support for Verify command opcode
+Message-ID: <20190511000406.5458-1-kenneth.heitke@intel.com>
 
-On Wed, May 08, 2019@11:36:31AM -0700, Chaitanya Kulkarni wrote:
-> This patch-series adds a filter to allow only certain user commands.                                   
-> Right now we use this infrastructure to prevent the user get log page
-> commands where RAE bit is cleared. We only allow get log pages to be
-> read with RAE == 0 where we issue the uevent to the userspace so that
-> user can clear the log pages.
-> 
-> Here we white list the log pages which are only allowed when RAE == 0.
-> We also allow Vendor Specific log pages irrespective of the RAE.
+This allows the Verify command to be sent using the
+NVME_IOCTL_SUBMIT_IO ioctl.
 
-I'm generally against the passthrough interface examining commands. It
-is not for the driver to decide what an admin can't send to their devices.
+Signed-off-by: Kenneth Heitke <kenneth.heitke at intel.com>
+---
+ drivers/nvme/host/core.c  | 1 +
+ drivers/nvme/host/trace.c | 1 +
+ drivers/nvme/host/trace.h | 1 +
+ include/linux/nvme.h      | 1 +
+ 4 files changed, 4 insertions(+)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index eebaeadaa800..8bbcae22fd22 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1193,6 +1193,7 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
+ 	switch (io.opcode) {
+ 	case nvme_cmd_write:
+ 	case nvme_cmd_read:
++	case nvme_cmd_verify:
+ 	case nvme_cmd_compare:
+ 		break;
+ 	default:
+diff --git a/drivers/nvme/host/trace.c b/drivers/nvme/host/trace.c
+index 5f24ea7a28eb..07a963f5be96 100644
+--- a/drivers/nvme/host/trace.c
++++ b/drivers/nvme/host/trace.c
+@@ -127,6 +127,7 @@ const char *nvme_trace_parse_nvm_cmd(struct trace_seq *p,
+ 	case nvme_cmd_read:
+ 	case nvme_cmd_write:
+ 	case nvme_cmd_write_zeroes:
++	case nvme_cmd_verify:
+ 		return nvme_trace_read_write(p, cdw10);
+ 	case nvme_cmd_dsm:
+ 		return nvme_trace_dsm(p, cdw10);
+diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
+index 97d3c77365b8..38636062435c 100644
+--- a/drivers/nvme/host/trace.h
++++ b/drivers/nvme/host/trace.h
+@@ -52,6 +52,7 @@
+ 		nvme_opcode_name(nvme_cmd_compare),		\
+ 		nvme_opcode_name(nvme_cmd_write_zeroes),	\
+ 		nvme_opcode_name(nvme_cmd_dsm),			\
++		nvme_opcode_name(nvme_cmd_verify),		\
+ 		nvme_opcode_name(nvme_cmd_resv_register),	\
+ 		nvme_opcode_name(nvme_cmd_resv_report),		\
+ 		nvme_opcode_name(nvme_cmd_resv_acquire),	\
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index c40720cb59ac..73520060bf7c 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -556,6 +556,7 @@ enum nvme_opcode {
+ 	nvme_cmd_compare	= 0x05,
+ 	nvme_cmd_write_zeroes	= 0x08,
+ 	nvme_cmd_dsm		= 0x09,
++	nvme_cmd_verify		= 0x0c,
+ 	nvme_cmd_resv_register	= 0x0d,
+ 	nvme_cmd_resv_report	= 0x0e,
+ 	nvme_cmd_resv_acquire	= 0x11,
+-- 
+2.17.1
