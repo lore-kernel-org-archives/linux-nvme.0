@@ -1,66 +1,173 @@
-From: kenneth.heitke@intel.com (Kenneth Heitke)
-Date: Fri, 10 May 2019 18:04:06 -0600
-Subject: [PATCH] nvme: add support for Verify command opcode
-Message-ID: <20190511000406.5458-1-kenneth.heitke@intel.com>
+From: Mario.Limonciello@dell.com (Mario.Limonciello@dell.com)
+Date: Sat, 11 May 2019 00:52:02 +0000
+Subject: [PATCH] nvme/pci: Use host managed power state for suspend
+In-Reply-To: <20190510212937.11661-1-keith.busch@intel.com>
+References: <20190510212937.11661-1-keith.busch@intel.com>
+Message-ID: <0080aaff18e5445dabca509d4113eca8@AUSX13MPC105.AMER.DELL.COM>
 
-This allows the Verify command to be sent using the
-NVME_IOCTL_SUBMIT_IO ioctl.
+> 
+> Cc: Mario Limonciello <Mario.Limonciello at dell.com>
+> Cc: Kai Heng Feng <kai.heng.feng at canonical.com>
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> ---
+> Disclaimer: I've tested only on emulation faking support for the feature.
 
-Signed-off-by: Kenneth Heitke <kenneth.heitke at intel.com>
----
- drivers/nvme/host/core.c  | 1 +
- drivers/nvme/host/trace.c | 1 +
- drivers/nvme/host/trace.h | 1 +
- include/linux/nvme.h      | 1 +
- 4 files changed, 4 insertions(+)
+Thanks for sharing.  I'll arrange some testing with this with storage partners early 
+next week.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index eebaeadaa800..8bbcae22fd22 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1193,6 +1193,7 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
- 	switch (io.opcode) {
- 	case nvme_cmd_write:
- 	case nvme_cmd_read:
-+	case nvme_cmd_verify:
- 	case nvme_cmd_compare:
- 		break;
- 	default:
-diff --git a/drivers/nvme/host/trace.c b/drivers/nvme/host/trace.c
-index 5f24ea7a28eb..07a963f5be96 100644
---- a/drivers/nvme/host/trace.c
-+++ b/drivers/nvme/host/trace.c
-@@ -127,6 +127,7 @@ const char *nvme_trace_parse_nvm_cmd(struct trace_seq *p,
- 	case nvme_cmd_read:
- 	case nvme_cmd_write:
- 	case nvme_cmd_write_zeroes:
-+	case nvme_cmd_verify:
- 		return nvme_trace_read_write(p, cdw10);
- 	case nvme_cmd_dsm:
- 		return nvme_trace_dsm(p, cdw10);
-diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
-index 97d3c77365b8..38636062435c 100644
---- a/drivers/nvme/host/trace.h
-+++ b/drivers/nvme/host/trace.h
-@@ -52,6 +52,7 @@
- 		nvme_opcode_name(nvme_cmd_compare),		\
- 		nvme_opcode_name(nvme_cmd_write_zeroes),	\
- 		nvme_opcode_name(nvme_cmd_dsm),			\
-+		nvme_opcode_name(nvme_cmd_verify),		\
- 		nvme_opcode_name(nvme_cmd_resv_register),	\
- 		nvme_opcode_name(nvme_cmd_resv_report),		\
- 		nvme_opcode_name(nvme_cmd_resv_acquire),	\
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index c40720cb59ac..73520060bf7c 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -556,6 +556,7 @@ enum nvme_opcode {
- 	nvme_cmd_compare	= 0x05,
- 	nvme_cmd_write_zeroes	= 0x08,
- 	nvme_cmd_dsm		= 0x09,
-+	nvme_cmd_verify		= 0x0c,
- 	nvme_cmd_resv_register	= 0x0d,
- 	nvme_cmd_resv_report	= 0x0e,
- 	nvme_cmd_resv_acquire	= 0x11,
--- 
-2.17.1
+> 
+> General question: different devices potentially have divergent values for power
+> consumption and transition latencies. Would it be useful to allow a user tunable
+> setting to select the desired target power state instead of assuming the lowest
+> one?
+
+Since this action only happens on the way down to suspend to idle I don't think
+there is a lot of value in configuring this to be user tunable which state is used.
+
+If you don't go into the deepest state for NVME, at least on Intel the PCH generally
+won't be able to go into its deepest state either.
+
+> 
+>  drivers/nvme/host/core.c | 27 ++++++++++++++++++++++++
+> drivers/nvme/host/nvme.h |  2 ++  drivers/nvme/host/pci.c  | 53
+> ++++++++++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 82 insertions(+)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c index
+> a6644a2c3ef7..eb3640fd8838 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -1132,6 +1132,33 @@ static int nvme_set_features(struct nvme_ctrl *dev,
+> unsigned fid, unsigned dword
+>  	return ret;
+>  }
+> 
+> +int nvme_set_power(struct nvme_ctrl *ctrl, unsigned ps) {
+> +	return nvme_set_features(ctrl, NVME_FEAT_POWER_MGMT, ps, NULL,
+> 0,
+> +NULL); } EXPORT_SYMBOL_GPL(nvme_set_power);
+> +
+> +int nvme_get_power(struct nvme_ctrl *ctrl, u32 *result) {
+> +	struct nvme_command c;
+> +	union nvme_result res;
+> +	int ret;
+> +
+> +	if (!result)
+> +		return -EINVAL;
+> +
+> +	memset(&c, 0, sizeof(c));
+> +	c.features.opcode = nvme_admin_get_features;
+> +	c.features.fid = cpu_to_le32(NVME_FEAT_POWER_MGMT);
+> +
+> +	ret = __nvme_submit_sync_cmd(ctrl->admin_q, &c, &res,
+> +			NULL, 0, 0, NVME_QID_ANY, 0, 0, false);
+> +	if (ret >= 0)
+> +		*result = le32_to_cpu(res.u32);
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(nvme_get_power);
+> +
+>  int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count)  {
+>  	u32 q_count = (*count - 1) | ((*count - 1) << 16); diff --git
+> a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h index
+> 5ee75b5ff83f..eaa571ac06d2 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -459,6 +459,8 @@ int __nvme_submit_sync_cmd(struct request_queue *q,
+> struct nvme_command *cmd,
+>  		unsigned timeout, int qid, int at_head,
+>  		blk_mq_req_flags_t flags, bool poll);  int
+> nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count);
+> +int nvme_set_power(struct nvme_ctrl *ctrl, unsigned ps); int
+> +nvme_get_power(struct nvme_ctrl *ctrl, u32 *result);
+>  void nvme_stop_keep_alive(struct nvme_ctrl *ctrl);  int nvme_reset_ctrl(struct
+> nvme_ctrl *ctrl);  int nvme_reset_ctrl_sync(struct nvme_ctrl *ctrl); diff --git
+> a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c index
+> 3e4fb891a95a..0d5d91e5b293 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -18,6 +18,7 @@
+>  #include <linux/mutex.h>
+>  #include <linux/once.h>
+>  #include <linux/pci.h>
+> +#include <linux/suspend.h>
+>  #include <linux/t10-pi.h>
+>  #include <linux/types.h>
+>  #include <linux/io-64-nonatomic-lo-hi.h> @@ -116,6 +117,7 @@ struct
+> nvme_dev {
+>  	u32 cmbsz;
+>  	u32 cmbloc;
+>  	struct nvme_ctrl ctrl;
+> +	u32 last_ps;
+> 
+>  	mempool_t *iod_mempool;
+> 
+> @@ -2828,11 +2830,59 @@ static void nvme_remove(struct pci_dev *pdev)  }
+> 
+>  #ifdef CONFIG_PM_SLEEP
+> +static int nvme_deep_state(struct nvme_dev *dev) {
+> +	struct pci_dev *pdev = to_pci_dev(dev->dev);
+> +	int ret;
+> +
+> +	/*
+> +	 * Save the current power state in case a user tool set a power policy
+> +	 * for this device. We'll restore that state on resume.
+> +	 */
+> +	dev->last_ps = 0;
+> +	ret = nvme_get_power(&dev->ctrl, &dev->last_ps);
+> +
+> +	/*
+> +	 * Return the error to halt suspend if the driver either couldn't
+> +	 * submit a command or didn't see a response.
+> +	 */
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = nvme_set_power(&dev->ctrl, dev->ctrl.npss);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	if (!ret) {
+> +		/*
+> +		 * A saved state prevents pci pm from generically controlling
+> +		 * the device's power. We're using protocol specific settings
+> +		 * so we don't want pci interfering.
+> +		 */
+> +		pci_save_state(pdev);
+> +	} else {
+> +		/*
+> +		 * The drive failed the low power request. Fallback to device
+> +		 * shutdown and clear npss to force a controller reset on
+> +		 * resume. The value will be rediscovered during reset.
+> +		 */
+> +		dev->ctrl.npss = 0;
+> +		nvme_dev_disable(dev, true);
+> +	}
+> +	return 0;
+> +}
+> +
+>  static int nvme_suspend(struct device *dev)  {
+>  	struct pci_dev *pdev = to_pci_dev(dev);
+>  	struct nvme_dev *ndev = pci_get_drvdata(pdev);
+> 
+> +	/*
+> +	 * Try to use nvme if the device supports host managed power settings
+> +	 * and platform firmware is not involved.
+> +	 */
+> +	if (!pm_suspend_via_firmware() && ndev->ctrl.npss)
+> +		return nvme_deep_state(ndev);
+>  	nvme_dev_disable(ndev, true);
+>  	return 0;
+>  }
+> @@ -2842,6 +2892,9 @@ static int nvme_resume(struct device *dev)
+>  	struct pci_dev *pdev = to_pci_dev(dev);
+>  	struct nvme_dev *ndev = pci_get_drvdata(pdev);
+> 
+> +	if (!pm_resume_via_firmware() && ndev->ctrl.npss)
+> +		if (nvme_set_power(&ndev->ctrl, ndev->last_ps) == 0)
+> +			return 0;
+>  	nvme_reset_ctrl(&ndev->ctrl);
+>  	return 0;
+>  }
+> --
+> 2.14.4
