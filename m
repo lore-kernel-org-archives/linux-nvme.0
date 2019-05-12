@@ -1,35 +1,60 @@
 From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Sun, 12 May 2019 15:20:59 +0000
-Subject: [PATCH] nvme/pci: Use host managed power state for suspend
-References: <20190510212937.11661-1-keith.busch@intel.com>
- <SN6PR04MB452735778FD952AA838E78C9860E0@SN6PR04MB4527.namprd04.prod.outlook.com>
- <20190512143056.GA7761@minwooim-desktop>
-Message-ID: <SN6PR04MB45276B524D255F667A6BE29E860E0@SN6PR04MB4527.namprd04.prod.outlook.com>
+Date: Sun, 12 May 2019 15:22:43 +0000
+Subject: [PATCH RFC 2/4] nvme-status: Introduce nvme status module to map
+ errno
+References: <20190511193713.29516-1-minwoo.im.dev@gmail.com>
+ <20190511193713.29516-3-minwoo.im.dev@gmail.com>
+ <SN6PR04MB452726893B1EC5E52D347B3F860D0@SN6PR04MB4527.namprd04.prod.outlook.com>
+ <5bcca563-73c9-a588-d656-9b612aedad20@gmail.com>
+Message-ID: <SN6PR04MB45278EE0AE7DC4358D2EAC4D860E0@SN6PR04MB4527.namprd04.prod.outlook.com>
 
-Disregard my comment.
+That works.
 
-On 5/12/19 7:31 AM, Minwoo Im wrote:
->>> +	union nvme_result res;
->>> +	int ret;
->>> +
->>> +	if (!result)
->>> +		return -EINVAL;
->>> +
->>> +	memset(&c, 0, sizeof(c));
->>> +	c.features.opcode = nvme_admin_get_features;
->>> +	c.features.fid = cpu_to_le32(NVME_FEAT_POWER_MGMT);
->>> +
->>> +	ret = __nvme_submit_sync_cmd(ctrl->admin_q, &c, &res,
->>> +			NULL, 0, 0, NVME_QID_ANY, 0, 0, false);
->>> +	if (ret >= 0)
->>> +		*result = le32_to_cpu(res.u32);
->> May be add a check for result here in above if before deref pointer :-
->> 	if (ret >= 0 && result)
+On 5/11/19 3:25 PM, Minwoo Im wrote:
+>>> +	if (sct == NVME_SCT_GENERIC) {
+>>> +		switch (status) {
+>>> +		case NVME_SC_INVALID_OPCODE:
+>>> +		case NVME_SC_INVALID_FIELD:
+>>> +		case NVME_SC_INVALID_NS:
+>>> +		case NVME_SC_SGL_INVALID_LAST:
+>>> +		case NVME_SC_SGL_INVALID_COUNT:
+>>> +		case NVME_SC_SGL_INVALID_DATA:
+>>> +		case NVME_SC_SGL_INVALID_METADATA:
+>>> +		case NVME_SC_SGL_INVALID_TYPE:
+>>> +		case NVME_SC_SGL_INVALID_OFFSET:
+>>> +		case NVME_SC_SGL_INVALID_SUBTYPE:
+>>> +			return EINVAL;
+>>> +		case NVME_SC_CMDID_CONFLICT:
+>>> +			return EADDRINUSE;
+>>> +		case NVME_SC_DATA_XFER_ERROR:
+>>> +		case NVME_SC_INTERNAL:
+>>> +		case NVME_SC_SANITIZE_FAILED:
+>>> +			return EIO;
+>>> +		case NVME_SC_POWER_LOSS:
+>>> +		case NVME_SC_ABORT_REQ:
+>>> +		case NVME_SC_ABORT_QUEUE:
+>>> +		case NVME_SC_FUSED_FAIL:
+>>> +		case NVME_SC_FUSED_MISSING:
+>>> +			return EWOULDBLOCK;
+>>> +		case NVME_SC_CMD_SEQ_ERROR:
+>>> +			return EILSEQ;
+>>> +		case NVME_SC_SANITIZE_IN_PROGRESS:
+>>> +			return EINPROGRESS;
+>>> +		case NVME_SC_NS_WRITE_PROTECTED:
+>>> +		case NVME_SC_NS_NOT_READY:
+>>> +		case NVME_SC_RESERVATION_CONFLICT:
+>>> +			return EACCES;
+>>> +		case NVME_SC_LBA_RANGE:
+>>> +			return EREMOTEIO;
+>>> +		case NVME_SC_CAP_EXCEEDED:
+>>> +			return ENOSPC;
+>>> +		}
+>> Please move above switch to the small helper inline function
 >>
-> 'result' already has been checked in a few lines above.
->
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+>> nvme_status_code_generic().
+> I would like to have it indicating "errno" concept in the function name. 
+>   I'll make them like:
+>    nvme_generic_status_to_errno()
+>    nvme_cmd_specific_status_to_errno()
+>    nvme_fabrics_status_to_errno()
 >
