@@ -1,24 +1,21 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 12 May 2019 08:26:22 -0700
-Subject: [PATCH] nvme-rdma: remove redundant reference between ib_device
- and tagset
-In-Reply-To: <1557139675-2469-1-git-send-email-maxg@mellanox.com>
-References: <1557139675-2469-1-git-send-email-maxg@mellanox.com>
-Message-ID: <c162fcdf-9ae5-93bb-e1f2-5179acef3083@grimberg.me>
+Date: Sun, 12 May 2019 08:49:57 -0700
+Subject: [RFC PATCH] nvme: guard ctrl->state by lock
+In-Reply-To: <20190508214128.20620-1-chaitanya.kulkarni@wdc.com>
+References: <20190508214128.20620-1-chaitanya.kulkarni@wdc.com>
+Message-ID: <38a8743f-76c0-b83c-d362-9794b5d5896f@grimberg.me>
 
-This looks good max.
 
-On 5/6/19 3:47 AM, Max Gurtovoy wrote:
-> In the past, before adding f41725bb ("nvme-rdma: Use mr pool") commit,
-> we needed a reference on the ib_device as long as the tagset
-> was alive, as the MRs in the request structures needed a valid ib_device.
-> Now, we allocate/deallocate MR pool per QP and consume on demand.
+> This patch adds a helper function to check the nvme_ctrl state.
+> This helper function uses controller lock when accessing ctrl->state
+> member which is guarded in the nvme_change_ctrl_state().
 > 
-> Also remove nvme_rdma_free_tagset function and use blk_mq_free_tag_set
-> instead, as it unneeded anymore.
+> This RFC is light on the details, if this change is acceptable I'd
+> like to send the detailed tested version.
 > 
-> This commit also fixes a memory leakage and possible segmentation fault.
-> When configuring the system with NIC teaming (aka bonding)
+As commented, the state read access is not safe by definition as
+the action needs to be atomic with it as well. The code needs to
+be able to handle the fact that its advisory only.
 
-Question, what about sqe dma mappings? don't they need to be remapped as
-well?
+If there is a case that doesn't, then it should protect it specifically
+so fast-path checks are not affected.
