@@ -1,41 +1,51 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Tue, 14 May 2019 02:03:38 +0900
-Subject: [PATCH V2 0/4] nvme-cli: Introduce nvme-status mapping with errno
-Message-ID: <20190513170342.9497-1-minwoo.im.dev@gmail.com>
+Date: Tue, 14 May 2019 02:03:39 +0900
+Subject: [PATCH V2 1/4] nvme.h: Fix typos in status code values
+In-Reply-To: <20190513170342.9497-1-minwoo.im.dev@gmail.com>
+References: <20190513170342.9497-1-minwoo.im.dev@gmail.com>
+Message-ID: <20190513170342.9497-2-minwoo.im.dev@gmail.com>
 
-Hi,
+Fix typos in status code value.  linux/nvme.h in kernel project is going
+to be fixed soon or later.
 
-This patchset introduces nvme-status module to manage mapping
-relationships between nvme error status and errno.  It cannot be
-directly mapped in 1:1, but we can figure out what kind of errors
-happended by the return value of nvme-cli.
+Cc: Keith Busch <keith.busch at intel.com>
+Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
+---
+ linux/nvme.h | 4 ++--
+ nvme-print.c | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-NVMe status fields are 16bits to indicate, but UNIX return value from
-main() will be parsed in 8bits so that we need to do something about
-return value to indicate nvme error status.
-
-Please review.
-Thanks,
-
-Changes to previous C1:
-  - make switch-case inline in nvme-status (Chaitanya)
-
-Minwoo Im (4):
-  nvme.h: Fix typos in status code values
-  nvme-status: Introduce nvme status module to map errno
-  nvme: Return errno mapped for nvme error status
-  fabrics: Return errno mapped for fabrics error status
-
- Makefile      |   3 +-
- fabrics.c     |  24 +++++--
- linux/nvme.h  |  10 ++-
- nvme-print.c  |   4 +-
- nvme-status.c | 147 +++++++++++++++++++++++++++++++++++++++++
- nvme-status.h |  14 ++++
- nvme.c        | 180 ++++++++++++++++++++++++++++++--------------------
- 7 files changed, 303 insertions(+), 79 deletions(-)
- create mode 100644 nvme-status.c
- create mode 100644 nvme-status.h
-
+diff --git a/linux/nvme.h b/linux/nvme.h
+index 2c840b9..c99b438 100644
+--- a/linux/nvme.h
++++ b/linux/nvme.h
+@@ -1365,9 +1365,9 @@ enum {
+ 	NVME_SC_FW_NEEDS_SUBSYS_RESET	= 0x110,
+ 	NVME_SC_FW_NEEDS_RESET		= 0x111,
+ 	NVME_SC_FW_NEEDS_MAX_TIME	= 0x112,
+-	NVME_SC_FW_ACIVATE_PROHIBITED	= 0x113,
++	NVME_SC_FW_ACTIVATE_PROHIBITED	= 0x113,
+ 	NVME_SC_OVERLAPPING_RANGE	= 0x114,
+-	NVME_SC_NS_INSUFFICENT_CAP	= 0x115,
++	NVME_SC_NS_INSUFFICIENT_CAP	= 0x115,
+ 	NVME_SC_NS_ID_UNAVAILABLE	= 0x116,
+ 	NVME_SC_NS_ALREADY_ATTACHED	= 0x118,
+ 	NVME_SC_NS_IS_PRIVATE		= 0x119,
+diff --git a/nvme-print.c b/nvme-print.c
+index c038355..0ce88d4 100644
+--- a/nvme-print.c
++++ b/nvme-print.c
+@@ -1801,9 +1801,9 @@ const char *nvme_status_to_string(__u32 status)
+ 	case NVME_SC_FW_NEEDS_SUBSYS_RESET:	return "FW_NEEDS_SUBSYSTEM_RESET: The firmware commit was successful, however, activation of the firmware image requires an NVM Subsystem";
+ 	case NVME_SC_FW_NEEDS_RESET:		return "FW_NEEDS_RESET: The firmware commit was successful; however, the image specified does not support being activated without a reset";
+ 	case NVME_SC_FW_NEEDS_MAX_TIME:		return "FW_NEEDS_MAX_TIME_VIOLATION: The image specified if activated immediately would exceed the Maximum Time for Firmware Activation (MTFA) value reported in Identify Controller. To activate the firmware, the Firmware Commit command needs to be re-issued and the image activated using a reset";
+-	case NVME_SC_FW_ACIVATE_PROHIBITED:	return "FW_ACTIVATION_PROHIBITED: The image specified is being prohibited from activation by the controller for vendor specific reasons";
++	case NVME_SC_FW_ACTIVATE_PROHIBITED:	return "FW_ACTIVATION_PROHIBITED: The image specified is being prohibited from activation by the controller for vendor specific reasons";
+ 	case NVME_SC_OVERLAPPING_RANGE:		return "OVERLAPPING_RANGE: This error is indicated if the firmware image has overlapping ranges";
+-	case NVME_SC_NS_INSUFFICENT_CAP:	return "NS_INSUFFICIENT_CAPACITY: Creating the namespace requires more free space than is currently available. The Command Specific Information field of the Error Information Log specifies the total amount of NVM capacity required to create the namespace in bytes";
++	case NVME_SC_NS_INSUFFICIENT_CAP:	return "NS_INSUFFICIENT_CAPACITY: Creating the namespace requires more free space than is currently available. The Command Specific Information field of the Error Information Log specifies the total amount of NVM capacity required to create the namespace in bytes";
+ 	case NVME_SC_NS_ID_UNAVAILABLE:		return "NS_ID_UNAVAILABLE: The number of namespaces supported has been exceeded";
+ 	case NVME_SC_NS_ALREADY_ATTACHED:	return "NS_ALREADY_ATTACHED: The controller is already attached to the namespace specified";
+ 	case NVME_SC_NS_IS_PRIVATE:		return "NS_IS_PRIVATE: The namespace is private and is already attached to one controller";
 -- 
 2.21.0
