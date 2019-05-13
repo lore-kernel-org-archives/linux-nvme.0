@@ -1,31 +1,41 @@
-From: kbusch@kernel.org (Keith Busch)
-Date: Mon, 13 May 2019 10:49:33 -0600
-Subject: [PATCH 0/3] nvme-core: add user command filter
-In-Reply-To: <20190513132517.GB2661@infradead.org>
-References: <20190508183634.4682-1-chaitanya.kulkarni@wdc.com>
- <20190510214255.GA11723@localhost.localdomain>
- <20190513132517.GB2661@infradead.org>
-Message-ID: <20190513164933.GC15437@localhost.localdomain>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Tue, 14 May 2019 02:03:38 +0900
+Subject: [PATCH V2 0/4] nvme-cli: Introduce nvme-status mapping with errno
+Message-ID: <20190513170342.9497-1-minwoo.im.dev@gmail.com>
 
-On Mon, May 13, 2019@06:25:17AM -0700, Christoph Hellwig wrote:
-> On Fri, May 10, 2019@03:42:56PM -0600, Keith Busch wrote:
-> > On Wed, May 08, 2019@11:36:31AM -0700, Chaitanya Kulkarni wrote:
-> > > This patch-series adds a filter to allow only certain user commands.                                   
-> > > Right now we use this infrastructure to prevent the user get log page
-> > > commands where RAE bit is cleared. We only allow get log pages to be
-> > > read with RAE == 0 where we issue the uevent to the userspace so that
-> > > user can clear the log pages.
-> > > 
-> > > Here we white list the log pages which are only allowed when RAE == 0.
-> > > We also allow Vendor Specific log pages irrespective of the RAE.
-> > 
-> > I'm generally against the passthrough interface examining commands. It
-> > is not for the driver to decide what an admin can't send to their devices.
-> 
-> Well, the whole AER model is based around log pages clearing the
-> event, so if userspace clears these events we are in pretty deep
-> trouble.  Would you prefer just setting the RAE bit unconditionally
-> for these log pages?
+Hi,
 
-What if user space really wants to clear it? We shouldn't just make that
-capability unreachable to admins.
+This patchset introduces nvme-status module to manage mapping
+relationships between nvme error status and errno.  It cannot be
+directly mapped in 1:1, but we can figure out what kind of errors
+happended by the return value of nvme-cli.
+
+NVMe status fields are 16bits to indicate, but UNIX return value from
+main() will be parsed in 8bits so that we need to do something about
+return value to indicate nvme error status.
+
+Please review.
+Thanks,
+
+Changes to previous C1:
+  - make switch-case inline in nvme-status (Chaitanya)
+
+Minwoo Im (4):
+  nvme.h: Fix typos in status code values
+  nvme-status: Introduce nvme status module to map errno
+  nvme: Return errno mapped for nvme error status
+  fabrics: Return errno mapped for fabrics error status
+
+ Makefile      |   3 +-
+ fabrics.c     |  24 +++++--
+ linux/nvme.h  |  10 ++-
+ nvme-print.c  |   4 +-
+ nvme-status.c | 147 +++++++++++++++++++++++++++++++++++++++++
+ nvme-status.h |  14 ++++
+ nvme.c        | 180 ++++++++++++++++++++++++++++++--------------------
+ 7 files changed, 303 insertions(+), 79 deletions(-)
+ create mode 100644 nvme-status.c
+ create mode 100644 nvme-status.h
+
+-- 
+2.21.0
