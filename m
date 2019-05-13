@@ -1,30 +1,20 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 13 May 2019 08:36:55 +0200
-Subject: [PATCH 2/2] nvme: validate cntlid during controller initialisation
-In-Reply-To: <20190513062510.756-3-hch@lst.de>
-References: <20190513062510.756-1-hch@lst.de> <20190513062510.756-3-hch@lst.de>
-Message-ID: <4890b5c7-6a6d-95eb-f0d8-f29c978fdb81@suse.de>
+From: minwoo.im@samsung.com (Minwoo Im)
+Date: Mon, 13 May 2019 16:41:20 +0900
+Subject: [PATCH v3 6/7] nvme-pci: trigger device coredump on command
+ timeout
+In-Reply-To: <1557676457-4195-7-git-send-email-akinobu.mita@gmail.com>
+References: <1557676457-4195-7-git-send-email-akinobu.mita@gmail.com>
+ <1557676457-4195-1-git-send-email-akinobu.mita@gmail.com>
+ <CGME20190512155533epcas4p110edff15ebf5b2efae32e43f0f10ab59@epcms2p5>
+Message-ID: <20190513074120epcms2p54e3a031668274ac1ebace6c5edc0a3f7@epcms2p5>
 
-On 5/13/19 8:25 AM, Christoph Hellwig wrote:
-> The CNTLID value is required to be unique, and we do rely on this
-> for correct operation. So reject any controller for which a non-unique
-> CNTLID has been detected.
-> 
-> Based on a patch from Hannes Reinecke.
-> 
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> ---
->   drivers/nvme/host/core.c | 41 +++++++++++++++++++++++-----------------
->   1 file changed, 24 insertions(+), 17 deletions(-)
-> 
-Reviewed-by: Hannes Reinecke <hare at suse.com>
+> -static void __maybe_unused nvme_coredump_init(struct nvme_dev *dev);
+> -static void __maybe_unused nvme_coredump_logs(struct nvme_dev *dev);
+> -static void __maybe_unused nvme_coredump_complete(struct nvme_dev
+> *dev);
+> +static void nvme_coredump_init(struct nvme_dev *dev);
+> +static void nvme_coredump_logs(struct nvme_dev *dev);
+> +static void nvme_coredump_complete(struct nvme_dev *dev);
 
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N?rnberg)
+You just have added those three prototypes in previous patch.  Did I miss
+something here?
