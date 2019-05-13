@@ -1,86 +1,32 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Mon, 13 May 2019 15:16:19 +0000
-Subject: [PATCH 2/2] nvme: validate cntlid during controller initialisation
-References: <20190513062510.756-1-hch@lst.de> <20190513062510.756-3-hch@lst.de>
-Message-ID: <SN6PR04MB45270478B09DF4C9516B2280860F0@SN6PR04MB4527.namprd04.prod.outlook.com>
+From: kbusch@kernel.org (Keith Busch)
+Date: Mon, 13 May 2019 09:16:52 -0600
+Subject: [PATCH] nvme/pci: Use host managed power state for suspend
+In-Reply-To: <20190513145708.GA25897@lst.de>
+References: <20190510212937.11661-1-keith.busch@intel.com>
+ <0080aaff18e5445dabca509d4113eca8@AUSX13MPC105.AMER.DELL.COM>
+ <955722d8fc16425dbba0698c4806f8fd@AUSX13MPC105.AMER.DELL.COM>
+ <20190513143754.GE15318@localhost.localdomain>
+ <7ab8274ef1ce46fcae54a50abc76ae4a@AUSX13MPC105.AMER.DELL.COM>
+ <20190513145708.GA25897@lst.de>
+Message-ID: <20190513151652.GB15437@localhost.localdomain>
 
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>.
+On Mon, May 13, 2019@04:57:08PM +0200, Christoph Hellwig wrote:
+> On Mon, May 13, 2019@02:54:49PM +0000, Mario.Limonciello@dell.com wrote:
+> > And NVME spec made it sound to me that while in a low power state it shouldn't
+> > be available if the memory isn't available.
+> > 
+> > NVME spec in 8.9:
+> > 
+> > "Host software should request that the controller release the
+> > assigned ranges prior to a shutdown event, a Runtime D3 event, or any other event
+> > that requires host software to reclaim the assigned ranges."
+> 
+> The last part of the quoted text is the key - if the assigned range
+> is reclaimed, that is the memory is going to be used for something else,
+> we need to release the ranges.  But we do not release the ranges,
+> as we want to keep the memory in use so that we can quickly use it
+> again.
 
-On 05/12/2019 11:26 PM, Christoph Hellwig wrote:
-> The CNTLID value is required to be unique, and we do rely on this
-> for correct operation. So reject any controller for which a non-unique
-> CNTLID has been detected.
->
-> Based on a patch from Hannes Reinecke.
->
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> ---
->   drivers/nvme/host/core.c | 41 +++++++++++++++++++++++-----------------
->   1 file changed, 24 insertions(+), 17 deletions(-)
->
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 70a2bc01e41e..09a1d5ca872f 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -2341,20 +2341,35 @@ static const struct attribute_group *nvme_subsys_attrs_groups[] = {
->   	NULL,
->   };
->
-> -static int nvme_active_ctrls(struct nvme_subsystem *subsys)
-> +static bool nvme_validate_cntlid(struct nvme_subsystem *subsys,
-> +		struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
->   {
-> -	int count = 0;
-> -	struct nvme_ctrl *ctrl;
-> +	struct nvme_ctrl *tmp;
->
->   	lockdep_assert_held(&nvme_subsystems_lock);
->
-> -	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
-> -		if (ctrl->state != NVME_CTRL_DELETING &&
-> -		    ctrl->state != NVME_CTRL_DEAD)
-> -			count++;
-> +	list_for_each_entry(tmp, &subsys->ctrls, subsys_entry) {
-> +		if (ctrl->state == NVME_CTRL_DELETING ||
-> +		    ctrl->state == NVME_CTRL_DEAD)
-> +			continue;
-> +
-> +		if (tmp->cntlid == ctrl->cntlid) {
-> +			dev_err(ctrl->device,
-> +				"Duplicate cntlid %u with %s, rejecting\n",
-> +				ctrl->cntlid, dev_name(tmp->device));
-> +			return false;
-> +		}
-> +
-> +		if ((id->cmic & (1 << 1)) ||
-> +		    (ctrl->opts && ctrl->opts->discovery_nqn))
-> +		    	continue;
-> +
-> +		dev_err(ctrl->device,
-> +			"Subsystem does not support multiple controllers\n");
-> +		return false;
->   	}
->
-> -	return count;
-> +	return true;
->   }
->
->   static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
-> @@ -2397,15 +2412,7 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
->   		__nvme_release_subsystem(subsys);
->   		subsys = found;
->
-> -		/*
-> -		 * Verify that the subsystem actually supports multiple
-> -		 * controllers, else bail out.
-> -		 */
-> -		if (!(ctrl->opts && ctrl->opts->discovery_nqn) &&
-> -		    nvme_active_ctrls(found) && !(id->cmic & (1 << 1))) {
-> -			dev_err(ctrl->device,
-> -				"ignoring ctrl due to duplicate subnqn (%s).\n",
-> -				subsys->subnqn);
-> +		if (!nvme_validate_cntlid(subsys, ctrl, id)) {
->   			ret = -EINVAL;
->   			goto out_put_subsystem;
->   		}
->
+Yes, this. As far as I know, the host memory range is still accessible in
+the idle suspend state. If there are states in which host memory is not
+accessible, a reference explaining the requirement will be most helpful.
