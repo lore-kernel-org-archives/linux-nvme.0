@@ -1,82 +1,73 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Mon, 13 May 2019 15:43:08 -0700
-Subject: [PATCH 1/7] nvmet: add transport discovery change op
+Date: Mon, 13 May 2019 15:43:09 -0700
+Subject: [PATCH 2/7] nvmet_fc: add transport discovery change event callback
+ support
 In-Reply-To: <20190513224314.24169-1-jsmart2021@gmail.com>
 References: <20190513224314.24169-1-jsmart2021@gmail.com>
-Message-ID: <20190513224314.24169-2-jsmart2021@gmail.com>
+Message-ID: <20190513224314.24169-3-jsmart2021@gmail.com>
 
-Some transports, such as FC-NVME, support discovery controller change
-events without the use of a persistent discovery controller. FC receives
-events via RSCN from the FC Fabric Controller or subsystem FC port.
-
-This patch adds a nvmet transport op that is called whenever a
-discovery change event occurs in the nvmet layer.
-
-To facilitate the callback without adding another layer to cross into
-core.c to reference the transport ops, the port structure snapshots
-the transport ops when the port is enabled and clears them when disabled.
+This patch adds support for the nvmet discovery_change transport op.
+In turn, the transport adds it's own LLDD api callback discovery_event
+op to request the LLDD to generate an RSCN for the discovery change.
 
 Signed-off-by: James Smart <jsmart2021 at gmail.com>
 ---
- drivers/nvme/target/core.c      | 2 ++
- drivers/nvme/target/discovery.c | 4 ++++
- drivers/nvme/target/nvmet.h     | 2 ++
- 3 files changed, 8 insertions(+)
+ drivers/nvme/target/fc.c       | 11 +++++++++++
+ include/linux/nvme-fc-driver.h |  6 ++++++
+ 2 files changed, 17 insertions(+)
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 7734a6acff85..43e8c4adc1f4 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -311,6 +311,7 @@ int nvmet_enable_port(struct nvmet_port *port)
- 		port->inline_data_size = 0;
- 
- 	port->enabled = true;
-+	port->tr_ops = ops;
- 	return 0;
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index 508661af0f50..1f252c9a953a 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -2549,6 +2549,16 @@ nvmet_fc_remove_port(struct nvmet_port *port)
+ 	kfree(pe);
  }
  
-@@ -321,6 +322,7 @@ void nvmet_disable_port(struct nvmet_port *port)
- 	lockdep_assert_held(&nvmet_config_sem);
- 
- 	port->enabled = false;
-+	port->tr_ops = NULL;
- 
- 	ops = nvmet_transports[port->disc_addr.trtype];
- 	ops->remove_port(port);
-diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
-index 5baf269f3f8a..8efca26b4776 100644
---- a/drivers/nvme/target/discovery.c
-+++ b/drivers/nvme/target/discovery.c
-@@ -41,6 +41,10 @@ void nvmet_port_disc_changed(struct nvmet_port *port,
- 		__nvmet_disc_changed(port, ctrl);
- 	}
- 	mutex_unlock(&nvmet_disc_subsys->lock);
++static void
++nvmet_fc_discovery_chg(struct nvmet_port *port)
++{
++	struct nvmet_fc_port_entry *pe = port->priv;
++	struct nvmet_fc_tgtport *tgtport = pe->tgtport;
 +
-+	/* If transport can signal change, notify transport */
-+	if (port->tr_ops && port->tr_ops->discovery_chg)
-+		port->tr_ops->discovery_chg(port);
- }
- 
- static void __nvmet_subsys_disc_changed(struct nvmet_port *port,
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index c25d88fc9dec..dc270944bb25 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -140,6 +140,7 @@ struct nvmet_port {
- 	void				*priv;
- 	bool				enabled;
- 	int				inline_data_size;
-+	const struct nvmet_fabrics_ops	*tr_ops;
++	if (tgtport && tgtport->ops->discovery_event)
++		tgtport->ops->discovery_event(&tgtport->fc_target_port);
++}
++
+ static const struct nvmet_fabrics_ops nvmet_fc_tgt_fcp_ops = {
+ 	.owner			= THIS_MODULE,
+ 	.type			= NVMF_TRTYPE_FC,
+@@ -2557,6 +2567,7 @@ static const struct nvmet_fabrics_ops nvmet_fc_tgt_fcp_ops = {
+ 	.remove_port		= nvmet_fc_remove_port,
+ 	.queue_response		= nvmet_fc_fcp_nvme_cmd_done,
+ 	.delete_ctrl		= nvmet_fc_delete_ctrl,
++	.discovery_chg		= nvmet_fc_discovery_chg,
  };
  
- static inline struct nvmet_port *to_nvmet_port(struct config_item *item)
-@@ -277,6 +278,7 @@ struct nvmet_fabrics_ops {
- 	void (*disc_traddr)(struct nvmet_req *req,
- 			struct nvmet_port *port, char *traddr);
- 	u16 (*install_queue)(struct nvmet_sq *nvme_sq);
-+	void (*discovery_chg)(struct nvmet_port *port);
- };
+ static int __init nvmet_fc_init_module(void)
+diff --git a/include/linux/nvme-fc-driver.h b/include/linux/nvme-fc-driver.h
+index 2bb349035431..5bbcb7afef39 100644
+--- a/include/linux/nvme-fc-driver.h
++++ b/include/linux/nvme-fc-driver.h
+@@ -797,6 +797,11 @@ struct nvmet_fc_target_port {
+  *       nvmefc_tgt_fcp_req.
+  *       Entrypoint is Optional.
+  *
++ * @discovery_event:  Called by the transport to generate an RSCN
++ *       change notifications to NVME initiators. The RSCN notifications
++ *       should cause the initiator to rescan the discovery controller
++ *       on the targetport.
++ *
+  * @max_hw_queues:  indicates the maximum number of hw queues the LLDD
+  *       supports for cpu affinitization.
+  *       Value is Mandatory. Must be at least 1.
+@@ -838,6 +843,7 @@ struct nvmet_fc_target_template {
+ 				struct nvmefc_tgt_fcp_req *fcpreq);
+ 	void (*defer_rcv)(struct nvmet_fc_target_port *tgtport,
+ 				struct nvmefc_tgt_fcp_req *fcpreq);
++	void (*discovery_event)(struct nvmet_fc_target_port *tgtport);
  
- #define NVMET_MAX_INLINE_BIOVEC	8
+ 	u32	max_hw_queues;
+ 	u16	max_sgl_segments;
 -- 
 2.13.7
