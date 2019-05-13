@@ -1,21 +1,31 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Mon, 13 May 2019 09:35:24 -0700
-Subject: [PATCH] nvme-core: trace discovery log change AEN
-In-Reply-To: <SN6PR04MB452729CE574409342C30978F860F0@SN6PR04MB4527.namprd04.prod.outlook.com>
-References: <20190506193320.30884-1-chaitanya.kulkarni@wdc.com>
- <20190513132401.GA2661@infradead.org>
- <SN6PR04MB452729CE574409342C30978F860F0@SN6PR04MB4527.namprd04.prod.outlook.com>
-Message-ID: <20190513163524.GA32058@infradead.org>
+From: kbusch@kernel.org (Keith Busch)
+Date: Mon, 13 May 2019 10:49:33 -0600
+Subject: [PATCH 0/3] nvme-core: add user command filter
+In-Reply-To: <20190513132517.GB2661@infradead.org>
+References: <20190508183634.4682-1-chaitanya.kulkarni@wdc.com>
+ <20190510214255.GA11723@localhost.localdomain>
+ <20190513132517.GB2661@infradead.org>
+Message-ID: <20190513164933.GC15437@localhost.localdomain>
 
-On Mon, May 13, 2019@04:32:01PM +0000, Chaitanya Kulkarni wrote:
-> > What about just moving the trace_nvme_async_event call before the
-> > switch statement?
-> >
+On Mon, May 13, 2019@06:25:17AM -0700, Christoph Hellwig wrote:
+> On Fri, May 10, 2019@03:42:56PM -0600, Keith Busch wrote:
+> > On Wed, May 08, 2019@11:36:31AM -0700, Chaitanya Kulkarni wrote:
+> > > This patch-series adds a filter to allow only certain user commands.                                   
+> > > Right now we use this infrastructure to prevent the user get log page
+> > > commands where RAE bit is cleared. We only allow get log pages to be
+> > > read with RAE == 0 where we issue the uevent to the userspace so that
+> > > user can clear the log pages.
+> > > 
+> > > Here we white list the log pages which are only allowed when RAE == 0.
+> > > We also allow Vendor Specific log pages irrespective of the RAE.
+> > 
+> > I'm generally against the passthrough interface examining commands. It
+> > is not for the driver to decide what an admin can't send to their devices.
 > 
-> That is something I avoided since for default case we don't want to 
-> trace but dev_warn.
-> 
-> But seems like we are okay with trace and dev_warn I'll send a V2.
+> Well, the whole AER model is based around log pages clearing the
+> event, so if userspace clears these events we are in pretty deep
+> trouble.  Would you prefer just setting the RAE bit unconditionally
+> for these log pages?
 
-Doing both sounds fine and even desirable, so that we see the
-invalid case in the traces as well as in the dmesg log.
+What if user space really wants to clear it? We shouldn't just make that
+capability unreachable to admins.
