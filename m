@@ -1,46 +1,68 @@
-From: kai.heng.feng@canonical.com (Kai-Heng Feng)
-Date: Tue, 14 May 2019 01:16:22 +0800
-Subject: [PATCH] nvme/pci: Use host managed power state for suspend
-In-Reply-To: <20190513151652.GB15437@localhost.localdomain>
-References: <20190510212937.11661-1-keith.busch@intel.com>
- <0080aaff18e5445dabca509d4113eca8@AUSX13MPC105.AMER.DELL.COM>
- <955722d8fc16425dbba0698c4806f8fd@AUSX13MPC105.AMER.DELL.COM>
- <20190513143754.GE15318@localhost.localdomain>
- <7ab8274ef1ce46fcae54a50abc76ae4a@AUSX13MPC105.AMER.DELL.COM>
- <20190513145708.GA25897@lst.de>
- <20190513151652.GB15437@localhost.localdomain>
-Message-ID: <9AE4A3E7-CDB8-4730-8B4E-43C93FC0C47F@canonical.com>
+From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Mon, 13 May 2019 10:46:05 -0700
+Subject: [PATCH V2] nvme-core: trace all async notice events
+Message-ID: <20190513174605.9017-1-chaitanya.kulkarni@wdc.com>
 
-at 23:16, Keith Busch <kbusch@kernel.org> wrote:
+This patch removes the tracing of the NVMe Async events out of the
+switch so that it can trace all the events including the ones which
+are not handled in the nvme_handle_aen_notice(). The events which
+are not handled in the nvme_handle_aen_notice() such as 
+NVME_AER_NOTICE_DISC_CHANGED corresponding event identifier needs
+to be added in the drivers/nvme/host/trace.h so that it can stringify
+the AER .
 
-> On Mon, May 13, 2019@04:57:08PM +0200, Christoph Hellwig wrote:
->> On Mon, May 13, 2019 at 02:54:49PM +0000, Mario.Limonciello at dell.com  
->> wrote:
->>> And NVME spec made it sound to me that while in a low power state it  
->>> shouldn't
->>> be available if the memory isn't available.
->>>
->>> NVME spec in 8.9:
->>>
->>> "Host software should request that the controller release the
->>> assigned ranges prior to a shutdown event, a Runtime D3 event, or any  
->>> other event
->>> that requires host software to reclaim the assigned ranges."
->>
->> The last part of the quoted text is the key - if the assigned range
->> is reclaimed, that is the memory is going to be used for something else,
->> we need to release the ranges.  But we do not release the ranges,
->> as we want to keep the memory in use so that we can quickly use it
->> again.
->
-> Yes, this. As far as I know, the host memory range is still accessible in
-> the idle suspend state. If there are states in which host memory is not
-> accessible, a reference explaining the requirement will be most helpful.
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+---
+Changes since V1:-
 
-Disabling HMB prior suspend makes my original patch work without memory  
-barrier.
+1. Move trace_nvme_async_event() outside of switch (hch at lst.de)
+2. Change the subject line from. 
+   "nvme-core: trace discovery log change AEN" ->
+    "nvme-core: trace all async notice events".
+3. Add missing notice disc changes identifier in the trace.h.
+---
+ drivers/nvme/host/core.c  | 5 ++---
+ drivers/nvme/host/trace.h | 1 +
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-However, using the same trick on this patch still freezes the system during  
-S2I.
-
-Kai-Heng
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index eebaeadaa800..f22925b5eeca 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3604,19 +3604,18 @@ static void nvme_handle_aen_notice(struct nvme_ctrl *ctrl, u32 result)
+ {
+ 	u32 aer_notice_type = (result & 0xff00) >> 8;
+ 
++	trace_nvme_async_event(ctrl, aer_notice_type);
++
+ 	switch (aer_notice_type) {
+ 	case NVME_AER_NOTICE_NS_CHANGED:
+-		trace_nvme_async_event(ctrl, aer_notice_type);
+ 		set_bit(NVME_AER_NOTICE_NS_CHANGED, &ctrl->events);
+ 		nvme_queue_scan(ctrl);
+ 		break;
+ 	case NVME_AER_NOTICE_FW_ACT_STARTING:
+-		trace_nvme_async_event(ctrl, aer_notice_type);
+ 		queue_work(nvme_wq, &ctrl->fw_act_work);
+ 		break;
+ #ifdef CONFIG_NVME_MULTIPATH
+ 	case NVME_AER_NOTICE_ANA:
+-		trace_nvme_async_event(ctrl, aer_notice_type);
+ 		if (!ctrl->ana_log_buf)
+ 			break;
+ 		queue_work(nvme_wq, &ctrl->ana_work);
+diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
+index 97d3c77365b8..e71502d141ed 100644
+--- a/drivers/nvme/host/trace.h
++++ b/drivers/nvme/host/trace.h
+@@ -167,6 +167,7 @@ TRACE_EVENT(nvme_async_event,
+ 		aer_name(NVME_AER_NOTICE_NS_CHANGED),
+ 		aer_name(NVME_AER_NOTICE_ANA),
+ 		aer_name(NVME_AER_NOTICE_FW_ACT_STARTING),
++		aer_name(NVME_AER_NOTICE_DISC_CHANGED),
+ 		aer_name(NVME_AER_ERROR),
+ 		aer_name(NVME_AER_SMART),
+ 		aer_name(NVME_AER_CSS),
+-- 
+2.17.0
