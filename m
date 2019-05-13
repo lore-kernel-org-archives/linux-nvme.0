@@ -1,73 +1,81 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Mon, 13 May 2019 15:43:09 -0700
-Subject: [PATCH 2/7] nvmet_fc: add transport discovery change event callback
- support
+Date: Mon, 13 May 2019 15:43:10 -0700
+Subject: [PATCH 3/7] nvme-fcloop: Add support for nvmet discovery_event op
 In-Reply-To: <20190513224314.24169-1-jsmart2021@gmail.com>
 References: <20190513224314.24169-1-jsmart2021@gmail.com>
-Message-ID: <20190513224314.24169-3-jsmart2021@gmail.com>
+Message-ID: <20190513224314.24169-4-jsmart2021@gmail.com>
 
-This patch adds support for the nvmet discovery_change transport op.
-In turn, the transport adds it's own LLDD api callback discovery_event
-op to request the LLDD to generate an RSCN for the discovery change.
+Update fcloop to support the discovery_event operation and
+invoke a nvme rescan. In a real fc adapter, this would generate an
+RSCN, which the host would receive and convert into a nvme rescan
+on the remote port specified in the rscn payload.
 
 Signed-off-by: James Smart <jsmart2021 at gmail.com>
 ---
- drivers/nvme/target/fc.c       | 11 +++++++++++
- include/linux/nvme-fc-driver.h |  6 ++++++
- 2 files changed, 17 insertions(+)
+ drivers/nvme/target/fcloop.c | 37 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
 
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index 508661af0f50..1f252c9a953a 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -2549,6 +2549,16 @@ nvmet_fc_remove_port(struct nvmet_port *port)
- 	kfree(pe);
- }
- 
-+static void
-+nvmet_fc_discovery_chg(struct nvmet_port *port)
-+{
-+	struct nvmet_fc_port_entry *pe = port->priv;
-+	struct nvmet_fc_tgtport *tgtport = pe->tgtport;
-+
-+	if (tgtport && tgtport->ops->discovery_event)
-+		tgtport->ops->discovery_event(&tgtport->fc_target_port);
-+}
-+
- static const struct nvmet_fabrics_ops nvmet_fc_tgt_fcp_ops = {
- 	.owner			= THIS_MODULE,
- 	.type			= NVMF_TRTYPE_FC,
-@@ -2557,6 +2567,7 @@ static const struct nvmet_fabrics_ops nvmet_fc_tgt_fcp_ops = {
- 	.remove_port		= nvmet_fc_remove_port,
- 	.queue_response		= nvmet_fc_fcp_nvme_cmd_done,
- 	.delete_ctrl		= nvmet_fc_delete_ctrl,
-+	.discovery_chg		= nvmet_fc_discovery_chg,
+diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
+index 381b5a90c48b..6ddcd090ec07 100644
+--- a/drivers/nvme/target/fcloop.c
++++ b/drivers/nvme/target/fcloop.c
+@@ -231,6 +231,11 @@ struct fcloop_lsreq {
+ 	int				status;
  };
  
- static int __init nvmet_fc_init_module(void)
-diff --git a/include/linux/nvme-fc-driver.h b/include/linux/nvme-fc-driver.h
-index 2bb349035431..5bbcb7afef39 100644
---- a/include/linux/nvme-fc-driver.h
-+++ b/include/linux/nvme-fc-driver.h
-@@ -797,6 +797,11 @@ struct nvmet_fc_target_port {
-  *       nvmefc_tgt_fcp_req.
-  *       Entrypoint is Optional.
-  *
-+ * @discovery_event:  Called by the transport to generate an RSCN
-+ *       change notifications to NVME initiators. The RSCN notifications
-+ *       should cause the initiator to rescan the discovery controller
-+ *       on the targetport.
-+ *
-  * @max_hw_queues:  indicates the maximum number of hw queues the LLDD
-  *       supports for cpu affinitization.
-  *       Value is Mandatory. Must be at least 1.
-@@ -838,6 +843,7 @@ struct nvmet_fc_target_template {
- 				struct nvmefc_tgt_fcp_req *fcpreq);
- 	void (*defer_rcv)(struct nvmet_fc_target_port *tgtport,
- 				struct nvmefc_tgt_fcp_req *fcpreq);
-+	void (*discovery_event)(struct nvmet_fc_target_port *tgtport);
++struct fcloop_rscn {
++	struct fcloop_tport		*tport;
++	struct work_struct		work;
++};
++
+ enum {
+ 	INI_IO_START		= 0,
+ 	INI_IO_ACTIVE		= 1,
+@@ -348,6 +353,37 @@ fcloop_xmt_ls_rsp(struct nvmet_fc_target_port *tport,
+ 	return 0;
+ }
  
- 	u32	max_hw_queues;
- 	u16	max_sgl_segments;
++/*
++ * Simulate reception of RSCN and converting it to a initiator transport
++ * call to rescan a remote port.
++ */
++static void
++fcloop_tgt_rscn_work(struct work_struct *work)
++{
++	struct fcloop_rscn *tgt_rscn =
++		container_of(work, struct fcloop_rscn, work);
++	struct fcloop_tport *tport = tgt_rscn->tport;
++
++	if (tport->remoteport)
++		nvme_fc_rescan_remoteport(tport->remoteport);
++	kfree(tgt_rscn);
++}
++
++void
++fcloop_tgt_discovery_evt(struct nvmet_fc_target_port *tgtport)
++{
++	struct fcloop_rscn *tgt_rscn;
++
++	tgt_rscn = kzalloc(sizeof(*tgt_rscn), GFP_KERNEL);
++	if (!tgt_rscn)
++		return;
++
++	tgt_rscn->tport = tgtport->private;
++	INIT_WORK(&tgt_rscn->work, fcloop_tgt_rscn_work);
++
++	schedule_work(&tgt_rscn->work);
++}
++
+ static void
+ fcloop_tfcp_req_free(struct kref *ref)
+ {
+@@ -839,6 +875,7 @@ static struct nvmet_fc_target_template tgttemplate = {
+ 	.fcp_op			= fcloop_fcp_op,
+ 	.fcp_abort		= fcloop_tgt_fcp_abort,
+ 	.fcp_req_release	= fcloop_fcp_req_release,
++	.discovery_event	= fcloop_tgt_discovery_evt,
+ 	.max_hw_queues		= FCLOOP_HW_QUEUES,
+ 	.max_sgl_segments	= FCLOOP_SGL_SEGS,
+ 	.max_dif_sgl_segments	= FCLOOP_SGL_SEGS,
 -- 
 2.13.7
