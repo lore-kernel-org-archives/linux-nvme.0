@@ -1,114 +1,118 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Mon, 13 May 2019 15:43:13 -0700
-Subject: [PATCH 6/7] lpfc: Add support for translating an RSCN rcv into a
- discovery rescan
+Date: Mon, 13 May 2019 15:43:14 -0700
+Subject: [PATCH 7/7] lpfc: Add sysfs interface to post NVME RSCN
 In-Reply-To: <20190513224314.24169-1-jsmart2021@gmail.com>
 References: <20190513224314.24169-1-jsmart2021@gmail.com>
-Message-ID: <20190513224314.24169-7-jsmart2021@gmail.com>
+Message-ID: <20190513224314.24169-8-jsmart2021@gmail.com>
 
-This patch updates RSCN receive processing to check for the remote
-port being an NVME port, and if so, invoke the nvme_fc callback to
-rescan the remote port.  The rescan will generate a discovery udev
-event.
+To support scenarios which aren't bound to nvmetcli add port scenarios,
+which is currently where the nvmet_fc transport invokes the discovery
+event callbacks, a syfs attribute is added to lpfc which can be written
+to cause an RSCN to be generated for the nport.
 
 Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 Signed-off-by: James Smart <jsmart2021 at gmail.com>
 ---
- drivers/scsi/lpfc/lpfc_crtn.h |  2 ++
- drivers/scsi/lpfc/lpfc_els.c  |  5 +++++
- drivers/scsi/lpfc/lpfc_nvme.c | 44 +++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 51 insertions(+)
+ drivers/scsi/lpfc/lpfc.h      |  1 +
+ drivers/scsi/lpfc/lpfc_attr.c | 60 +++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 61 insertions(+)
 
-diff --git a/drivers/scsi/lpfc/lpfc_crtn.h b/drivers/scsi/lpfc/lpfc_crtn.h
-index 4b8eb9107b85..866374801140 100644
---- a/drivers/scsi/lpfc/lpfc_crtn.h
-+++ b/drivers/scsi/lpfc/lpfc_crtn.h
-@@ -557,6 +557,8 @@ void lpfc_ras_stop_fwlog(struct lpfc_hba *phba);
- int lpfc_check_fwlog_support(struct lpfc_hba *phba);
+diff --git a/drivers/scsi/lpfc/lpfc.h b/drivers/scsi/lpfc/lpfc.h
+index 9246e0212a86..5ef0efb830d2 100644
+--- a/drivers/scsi/lpfc/lpfc.h
++++ b/drivers/scsi/lpfc/lpfc.h
+@@ -820,6 +820,7 @@ struct lpfc_hba {
+ 	uint32_t cfg_use_msi;
+ 	uint32_t cfg_auto_imax;
+ 	uint32_t cfg_fcp_imax;
++	uint32_t cfg_force_rscn;
+ 	uint32_t cfg_cq_poll_threshold;
+ 	uint32_t cfg_cq_max_proc_limit;
+ 	uint32_t cfg_fcp_cpu_map;
+diff --git a/drivers/scsi/lpfc/lpfc_attr.c b/drivers/scsi/lpfc/lpfc_attr.c
+index ce3e541434dc..8b09e82ddfcf 100644
+--- a/drivers/scsi/lpfc/lpfc_attr.c
++++ b/drivers/scsi/lpfc/lpfc_attr.c
+@@ -4912,6 +4912,64 @@ static DEVICE_ATTR(lpfc_req_fw_upgrade, S_IRUGO | S_IWUSR,
+ 		   lpfc_request_firmware_upgrade_store);
  
- /* NVME interfaces. */
-+void lpfc_nvme_rescan_port(struct lpfc_vport *vport,
-+			   struct lpfc_nodelist *ndlp);
- void lpfc_nvme_unregister_port(struct lpfc_vport *vport,
- 			struct lpfc_nodelist *ndlp);
- int lpfc_nvme_register_port(struct lpfc_vport *vport,
-diff --git a/drivers/scsi/lpfc/lpfc_els.c b/drivers/scsi/lpfc/lpfc_els.c
-index c9a40e05edcc..c8b305c1aafb 100644
---- a/drivers/scsi/lpfc/lpfc_els.c
-+++ b/drivers/scsi/lpfc/lpfc_els.c
-@@ -6329,6 +6329,8 @@ lpfc_rscn_recovery_check(struct lpfc_vport *vport)
- 			continue;
- 		}
- 
-+		if (ndlp->nlp_fc4_type & NLP_FC4_NVME)
-+			lpfc_nvme_rescan_port(vport, ndlp);
- 
- 		lpfc_disc_state_machine(vport, ndlp, NULL,
- 					NLP_EVT_DEVICE_RECOVERY);
-@@ -6440,6 +6442,9 @@ lpfc_els_rcv_rscn(struct lpfc_vport *vport, struct lpfc_iocbq *cmdiocb,
- 				 "2024 pt2pt RSCN %08x Data: x%x x%x\n",
- 				 *lp, vport->fc_flag, payload_len);
- 		lpfc_els_rsp_acc(vport, ELS_CMD_ACC, cmdiocb, ndlp, NULL);
-+
-+		if (ndlp->nlp_fc4_type & NLP_FC4_NVME)
-+			lpfc_nvme_rescan_port(vport, ndlp);
- 		return 0;
- 	}
- 
-diff --git a/drivers/scsi/lpfc/lpfc_nvme.c b/drivers/scsi/lpfc/lpfc_nvme.c
-index 1aa00d2c3f74..6f179de44fc7 100644
---- a/drivers/scsi/lpfc/lpfc_nvme.c
-+++ b/drivers/scsi/lpfc/lpfc_nvme.c
-@@ -2399,6 +2399,50 @@ lpfc_nvme_register_port(struct lpfc_vport *vport, struct lpfc_nodelist *ndlp)
- #endif
- }
- 
-+/**
-+ * lpfc_nvme_rescan_port - Check to see if we should rescan this remoteport
+ /**
++ * lpfc_force_rscn_store
 + *
-+ * If the ndlp represents an NVME Target, that we are logged into,
-+ * ping the NVME FC Transport layer to initiate a device rescan
-+ * on this remote NPort.
-+ */
-+void
-+lpfc_nvme_rescan_port(struct lpfc_vport *vport, struct lpfc_nodelist *ndlp)
++ * @dev: class device that is converted into a Scsi_host.
++ * @attr: device attribute, not used.
++ * @buf: unused string
++ * @count: unused variable.
++ *
++ * Description:
++ * Force the switch to send a RSCN to all other NPorts in our zone
++ * If we are direct connect pt2pt, build the RSCN command ourself
++ * and send to the other NPort. Not supported for private loop.
++ *
++ * Returns:
++ * 0      - on success
++ * -EIO   - if command is not sent
++ **/
++static ssize_t
++lpfc_force_rscn_store(struct device *dev, struct device_attribute *attr,
++		      const char *buf, size_t count)
 +{
-+#if (IS_ENABLED(CONFIG_NVME_FC))
-+	struct lpfc_nvme_rport *rport;
-+	struct nvme_fc_remote_port *remoteport;
++	struct Scsi_Host *shost = class_to_shost(dev);
++	struct lpfc_vport *vport = (struct lpfc_vport *)shost->hostdata;
++	int i;
 +
-+	rport = ndlp->nrport;
-+
-+	lpfc_printf_vlog(vport, KERN_INFO, LOG_NVME_DISC,
-+			 "6170 Rescan NPort DID x%06x type x%x "
-+			 "state x%x rport %p\n",
-+			 ndlp->nlp_DID, ndlp->nlp_type, ndlp->nlp_state, rport);
-+	if (!rport)
-+		goto input_err;
-+	remoteport = rport->remoteport;
-+	if (!remoteport)
-+		goto input_err;
-+
-+	/* Only rescan if we are an NVME target in the MAPPED state */
-+	if (remoteport->port_role & FC_PORT_ROLE_NVME_TARGET &&
-+	    ndlp->nlp_state == NLP_STE_MAPPED_NODE) {
-+		nvme_fc_rescan_remoteport(remoteport);
-+
-+		lpfc_printf_vlog(vport, KERN_ERR, LOG_NVME_DISC,
-+				 "6172 NVME rescanned DID x%06x "
-+				 "port_state x%x\n",
-+				 ndlp->nlp_DID, remoteport->port_state);
-+	}
-+	return;
-+input_err:
-+	lpfc_printf_vlog(vport, KERN_ERR, LOG_NVME_DISC,
-+			 "6169 State error: lport %p, rport%p FCID x%06x\n",
-+			 vport->localport, ndlp->rport, ndlp->nlp_DID);
-+#endif
++	i = lpfc_issue_els_rscn(vport, 0);
++	if (i)
++		return -EIO;
++	return strlen(buf);
 +}
 +
- /* lpfc_nvme_unregister_port - unbind the DID and port_role from this rport.
++/*
++ * lpfc_force_rscn: Force an RSCN to be sent to all remote NPorts
++ * connected to  the HBA.
++ *
++ * Value range is any ascii value
++ */
++static int lpfc_force_rscn;
++module_param(lpfc_force_rscn, int, 0644);
++MODULE_PARM_DESC(lpfc_force_rscn,
++		 "Force an RSCN to be sent to all remote NPorts");
++lpfc_param_show(force_rscn)
++
++/**
++ * lpfc_force_rscn_init - Force an RSCN to be sent to all remote NPorts
++ * @phba: lpfc_hba pointer.
++ * @val: unused value.
++ *
++ * Returns:
++ * zero if val saved.
++ **/
++static int
++lpfc_force_rscn_init(struct lpfc_hba *phba, int val)
++{
++	return 0;
++}
++static DEVICE_ATTR_RW(lpfc_force_rscn);
++
++/**
+  * lpfc_fcp_imax_store
   *
-  * There is no notion of Devloss or rport recovery from the current
+  * @dev: class device that is converted into a Scsi_host.
+@@ -5911,6 +5969,7 @@ struct device_attribute *lpfc_hba_attrs[] = {
+ 	&dev_attr_lpfc_nvme_oas,
+ 	&dev_attr_lpfc_nvme_embed_cmd,
+ 	&dev_attr_lpfc_fcp_imax,
++	&dev_attr_lpfc_force_rscn,
+ 	&dev_attr_lpfc_cq_poll_threshold,
+ 	&dev_attr_lpfc_cq_max_proc_limit,
+ 	&dev_attr_lpfc_fcp_cpu_map,
+@@ -6958,6 +7017,7 @@ lpfc_get_cfgparam(struct lpfc_hba *phba)
+ 	lpfc_nvme_oas_init(phba, lpfc_nvme_oas);
+ 	lpfc_nvme_embed_cmd_init(phba, lpfc_nvme_embed_cmd);
+ 	lpfc_fcp_imax_init(phba, lpfc_fcp_imax);
++	lpfc_force_rscn_init(phba, lpfc_force_rscn);
+ 	lpfc_cq_poll_threshold_init(phba, lpfc_cq_poll_threshold);
+ 	lpfc_cq_max_proc_limit_init(phba, lpfc_cq_max_proc_limit);
+ 	lpfc_fcp_cpu_map_init(phba, lpfc_fcp_cpu_map);
 -- 
 2.13.7
