@@ -1,131 +1,46 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Tue, 14 May 2019 02:03:42 +0900
-Subject: [PATCH V2 4/4] fabrics: Return errno mapped for fabrics error status
-In-Reply-To: <20190513170342.9497-1-minwoo.im.dev@gmail.com>
-References: <20190513170342.9497-1-minwoo.im.dev@gmail.com>
-Message-ID: <20190513170342.9497-5-minwoo.im.dev@gmail.com>
+From: kai.heng.feng@canonical.com (Kai-Heng Feng)
+Date: Tue, 14 May 2019 01:16:22 +0800
+Subject: [PATCH] nvme/pci: Use host managed power state for suspend
+In-Reply-To: <20190513151652.GB15437@localhost.localdomain>
+References: <20190510212937.11661-1-keith.busch@intel.com>
+ <0080aaff18e5445dabca509d4113eca8@AUSX13MPC105.AMER.DELL.COM>
+ <955722d8fc16425dbba0698c4806f8fd@AUSX13MPC105.AMER.DELL.COM>
+ <20190513143754.GE15318@localhost.localdomain>
+ <7ab8274ef1ce46fcae54a50abc76ae4a@AUSX13MPC105.AMER.DELL.COM>
+ <20190513145708.GA25897@lst.de>
+ <20190513151652.GB15437@localhost.localdomain>
+Message-ID: <9AE4A3E7-CDB8-4730-8B4E-43C93FC0C47F@canonical.com>
 
-If discover has been failed due to a nvme status, it will be returned to
-main() with mapped value for fabrics get log page command.
+at 23:16, Keith Busch <kbusch@kernel.org> wrote:
 
-Now connect command related status cannot be added in this patch because
-kernel is not currently returning the nvme status, it's instead
-returning -EIO if fails.  errno for connect command can be added once
-kernel is ready to return the proper value for nvme status.
+> On Mon, May 13, 2019@04:57:08PM +0200, Christoph Hellwig wrote:
+>> On Mon, May 13, 2019 at 02:54:49PM +0000, Mario.Limonciello at dell.com  
+>> wrote:
+>>> And NVME spec made it sound to me that while in a low power state it  
+>>> shouldn't
+>>> be available if the memory isn't available.
+>>>
+>>> NVME spec in 8.9:
+>>>
+>>> "Host software should request that the controller release the
+>>> assigned ranges prior to a shutdown event, a Runtime D3 event, or any  
+>>> other event
+>>> that requires host software to reclaim the assigned ranges."
+>>
+>> The last part of the quoted text is the key - if the assigned range
+>> is reclaimed, that is the memory is going to be used for something else,
+>> we need to release the ranges.  But we do not release the ranges,
+>> as we want to keep the memory in use so that we can quickly use it
+>> again.
+>
+> Yes, this. As far as I know, the host memory range is still accessible in
+> the idle suspend state. If there are states in which host memory is not
+> accessible, a reference explaining the requirement will be most helpful.
 
-Cc: Keith Busch <keith.busch at intel.com>
-Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
----
- fabrics.c | 24 ++++++++++++++++++++----
- 1 file changed, 20 insertions(+), 4 deletions(-)
+Disabling HMB prior suspend makes my original patch work without memory  
+barrier.
 
-diff --git a/fabrics.c b/fabrics.c
-index 511de06..ad61b07 100644
---- a/fabrics.c
-+++ b/fabrics.c
-@@ -35,6 +35,7 @@
- 
- #include "parser.h"
- #include "nvme-ioctl.h"
-+#include "nvme-status.h"
- #include "fabrics.h"
- 
- #include "nvme.h"
-@@ -295,7 +296,7 @@ enum {
- };
- 
- static int nvmf_get_log_page_discovery(const char *dev_path,
--		struct nvmf_disc_rsp_page_hdr **logp, int *numrec)
-+		struct nvmf_disc_rsp_page_hdr **logp, int *numrec, int *status)
- {
- 	struct nvmf_disc_rsp_page_hdr *log;
- 	unsigned int hdr_size;
-@@ -328,6 +329,7 @@ static int nvmf_get_log_page_discovery(const char *dev_path,
- 
- 	error = nvme_discovery_log(fd, log, hdr_size);
- 	if (error) {
-+		*status = (error > 0) ? nvme_status_to_errno(error, true) : error;
- 		error = DISC_GET_NUMRECS;
- 		goto out_free_log;
- 	}
-@@ -366,6 +368,8 @@ static int nvmf_get_log_page_discovery(const char *dev_path,
- 		 */
- 		error = nvme_discovery_log(fd, log, log_size);
- 		if (error) {
-+			*status = (error > 0) ?
-+				nvme_status_to_errno(error, true) : error;
- 			error = DISC_GET_LOG;
- 			goto out_free_log;
- 		}
-@@ -379,6 +383,8 @@ static int nvmf_get_log_page_discovery(const char *dev_path,
- 		genctr = le64_to_cpu(log->genctr);
- 		error = nvme_discovery_log(fd, log, hdr_size);
- 		if (error) {
-+			*status = (error > 0) ?
-+				nvme_status_to_errno(error, true) : error;
- 			error = DISC_GET_LOG;
- 			goto out_free_log;
- 		}
-@@ -849,6 +855,7 @@ static int do_discover(char *argstr, bool connect)
- 	struct nvmf_disc_rsp_page_hdr *log = NULL;
- 	char *dev_name;
- 	int instance, numrec = 0, ret, err;
-+	int status = 0;
- 
- 	instance = add_ctrl(argstr);
- 	if (instance < 0)
-@@ -856,7 +863,7 @@ static int do_discover(char *argstr, bool connect)
- 
- 	if (asprintf(&dev_name, "/dev/nvme%d", instance) < 0)
- 		return -errno;
--	ret = nvmf_get_log_page_discovery(dev_name, &log, &numrec);
-+	ret = nvmf_get_log_page_discovery(dev_name, &log, &numrec, &status);
- 	free(dev_name);
- 	err = remove_ctrl(instance);
- 	if (err)
-@@ -874,9 +881,11 @@ static int do_discover(char *argstr, bool connect)
- 	case DISC_GET_NUMRECS:
- 		fprintf(stderr,
- 			"Get number of discovery log entries failed.\n");
-+		ret = status;
- 		break;
- 	case DISC_GET_LOG:
- 		fprintf(stderr, "Get discovery log entries failed.\n");
-+		ret = status;
- 		break;
- 	case DISC_NO_LOG:
- 		fprintf(stdout, "No discovery log entries to fetch.\n");
-@@ -885,6 +894,7 @@ static int do_discover(char *argstr, bool connect)
- 	case DISC_NOT_EQUAL:
- 		fprintf(stderr,
- 		"Numrec values of last two get discovery log page not equal\n");
-+		ret = DISC_OK;
- 		break;
- 	default:
- 		fprintf(stderr, "Get discovery log page failed: %d\n", ret);
-@@ -989,15 +999,21 @@ int discover(const char *desc, int argc, char **argv, bool connect)
- 	cfg.nqn = NVME_DISC_SUBSYS_NAME;
- 
- 	if (!cfg.transport && !cfg.traddr) {
--		return discover_from_conf_file(desc, argstr,
-+		ret = discover_from_conf_file(desc, argstr,
- 				command_line_options, connect);
-+		if (ret > 0)
-+			ret = nvme_status_to_errno(ret, true);
- 	} else {
- 		ret = build_options(argstr, BUF_SIZE);
- 		if (ret)
- 			return ret;
- 
--		return do_discover(argstr, connect);
-+		ret = do_discover(argstr, connect);
-+		if (ret > 0)
-+			ret = nvme_status_to_errno(ret, true);
- 	}
-+
-+	return ret;
- }
- 
- int connect(const char *desc, int argc, char **argv)
--- 
-2.21.0
+However, using the same trick on this patch still freezes the system during  
+S2I.
+
+Kai-Heng
