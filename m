@@ -1,26 +1,82 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Mon, 13 May 2019 06:25:17 -0700
-Subject: [PATCH 0/3] nvme-core: add user command filter
-In-Reply-To: <20190510214255.GA11723@localhost.localdomain>
-References: <20190508183634.4682-1-chaitanya.kulkarni@wdc.com>
- <20190510214255.GA11723@localhost.localdomain>
-Message-ID: <20190513132517.GB2661@infradead.org>
+From: kbusch@kernel.org (Keith Busch)
+Date: Mon, 13 May 2019 07:36:11 -0600
+Subject: [PATCH] nvme/pci: Use host managed power state for suspend
+In-Reply-To: <20190511072258.GB14764@lst.de>
+References: <20190510212937.11661-1-keith.busch@intel.com>
+ <20190511072258.GB14764@lst.de>
+Message-ID: <20190513133611.GA15318@localhost.localdomain>
 
-On Fri, May 10, 2019@03:42:56PM -0600, Keith Busch wrote:
-> On Wed, May 08, 2019@11:36:31AM -0700, Chaitanya Kulkarni wrote:
-> > This patch-series adds a filter to allow only certain user commands.                                   
-> > Right now we use this infrastructure to prevent the user get log page
-> > commands where RAE bit is cleared. We only allow get log pages to be
-> > read with RAE == 0 where we issue the uevent to the userspace so that
-> > user can clear the log pages.
-> > 
-> > Here we white list the log pages which are only allowed when RAE == 0.
-> > We also allow Vendor Specific log pages irrespective of the RAE.
+On Sat, May 11, 2019@12:22:58AM -0700, Christoph Hellwig wrote:
+> A couple nitpicks, mostly leftover from the previous iteration
+> (I didn't see replies to those comments from you, despite seeing
+> a reply to my mail, assuming it didn't get lost):
+
+I thought you just meant the freeze/unfreeze sequence. I removed that
+part entirely, but yes, I can move all of this from the core. I will
+just need to export 'nvme_set_features'
+ 
+> > +int nvme_set_power(struct nvme_ctrl *ctrl, unsigned ps)
+> > +{
+> > +	return nvme_set_features(ctrl, NVME_FEAT_POWER_MGMT, ps, NULL, 0, NULL);
+> > +}
+> > +EXPORT_SYMBOL_GPL(nvme_set_power);
+> > +
+> > +int nvme_get_power(struct nvme_ctrl *ctrl, u32 *result)
+> > +{
+> > +	struct nvme_command c;
+> > +	union nvme_result res;
+> > +	int ret;
+> > +
+> > +	if (!result)
+> > +		return -EINVAL;
+> > +
+> > +	memset(&c, 0, sizeof(c));
+> > +	c.features.opcode = nvme_admin_get_features;
+> > +	c.features.fid = cpu_to_le32(NVME_FEAT_POWER_MGMT);
+> > +
+> > +	ret = __nvme_submit_sync_cmd(ctrl->admin_q, &c, &res,
+> > +			NULL, 0, 0, NVME_QID_ANY, 0, 0, false);
+> > +	if (ret >= 0)
+> > +		*result = le32_to_cpu(res.u32);
+> > +	return ret;
+> > +}
+> > +EXPORT_SYMBOL_GPL(nvme_get_power);
 > 
-> I'm generally against the passthrough interface examining commands. It
-> is not for the driver to decide what an admin can't send to their devices.
+> At this point I'd rather see those in the PCIe driver.  While the
+> power state feature is generic in the spec I don't see it actually
+> being used anytime anywhere else any time soon.
+> 
+> But maybe we can add a nvme_get_features helper ala nvme_set_features
+> in the core to avoid a little boilerplate code for the future?
 
-Well, the whole AER model is based around log pages clearing the
-event, so if userspace clears these events we are in pretty deep
-trouble.  Would you prefer just setting the RAE bit unconditionally
-for these log pages?
+Sounds good.
+ 
+> > +	ret = nvme_set_power(&dev->ctrl, dev->ctrl.npss);
+> > +	if (ret < 0)
+> > +		return ret;
+> 
+> I can't find any wording in the spec that guarantees the highest
+> numerical power state is the deepest.  But maybe I'm just missing
+> something as such an ordering would be really helpful?
+
+I actually only noticed APST made this assumption, and I had to search
+the spec to see where it calls this out. It is in section 8.4:
+
+  Power states are contiguously numbered starting with zero such that
+  each subsequent power state consumes less than or equal to the maximum
+  power consumed in the previous state.
+
+> >  static int nvme_suspend(struct device *dev)
+> >  {
+> >  	struct pci_dev *pdev = to_pci_dev(dev);
+> >  	struct nvme_dev *ndev = pci_get_drvdata(pdev);
+> >  
+> > +	/*
+> > +	 * Try to use nvme if the device supports host managed power settings
+> > +	 * and platform firmware is not involved.
+> > +	 */
+> 
+> This just comments that what, but I think we need a why here as the
+> what is fairly obvious..
+
+Sounds good.
