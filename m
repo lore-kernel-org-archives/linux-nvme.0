@@ -1,12 +1,25 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 13 May 2019 16:02:46 +0200
-Subject: [PATCH v3 5/7] nvme-pci: add device coredump infrastructure
-In-Reply-To: <1557676457-4195-6-git-send-email-akinobu.mita@gmail.com>
-References: <1557676457-4195-1-git-send-email-akinobu.mita@gmail.com>
- <1557676457-4195-6-git-send-email-akinobu.mita@gmail.com>
-Message-ID: <20190513140246.GB24840@lst.de>
+From: Mario.Limonciello@dell.com (Mario.Limonciello@dell.com)
+Date: Mon, 13 May 2019 14:24:41 +0000
+Subject: [PATCH] nvme/pci: Use host managed power state for suspend
+In-Reply-To: <0080aaff18e5445dabca509d4113eca8@AUSX13MPC105.AMER.DELL.COM>
+References: <20190510212937.11661-1-keith.busch@intel.com>
+ <0080aaff18e5445dabca509d4113eca8@AUSX13MPC105.AMER.DELL.COM>
+Message-ID: <955722d8fc16425dbba0698c4806f8fd@AUSX13MPC105.AMER.DELL.COM>
 
-Usage of a scatterlist here is rather bogus as we never use
-it for dma mapping.  Why can't you store the various pages in a
-large bio_vec and then just issue that to the device in one
-get log page command?  (or at least a few if MDTS kicks in?)
+> > Cc: Mario Limonciello <Mario.Limonciello at dell.com>
+> > Cc: Kai Heng Feng <kai.heng.feng at canonical.com>
+> > Signed-off-by: Keith Busch <keith.busch at intel.com>
+> > ---
+> > Disclaimer: I've tested only on emulation faking support for the feature.
+> 
+> Thanks for sharing.  I'll arrange some testing with this with storage partners early
+> next week.
+> 
+
+I've received the result that from one of my partners this patch doesn't work properly
+and the platform doesn't go into a lower power state.  (The patch submitted by KH/me
+did work on said system to get it into a lower power state for them).
+
+This was not a disk with HMB, but with regard to the HMB I believe it needs to be
+removed during s0ix so that there isn't any mistake that SSD thinks it can access HMB
+memory in s0ix.
