@@ -1,13 +1,32 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 13 May 2019 08:26:15 +0200
-Subject: [PATCH] nvme-pci: fix single segment detection
-In-Reply-To: <20190509133120.GA22059@ming.t460p>
-References: <20190509110409.19647-1-hch@lst.de>
- <20190509112410.GA20711@ming.t460p> <20190509123406.GB21483@lst.de>
- <20190509133120.GA22059@ming.t460p>
-Message-ID: <20190513062615.GA18152@lst.de>
+From: hare@suse.de (Hannes Reinecke)
+Date: Mon, 13 May 2019 08:36:33 +0200
+Subject: [PATCH 1/2] nvme: change locking for the per-subsystem controller
+ list
+In-Reply-To: <20190513062510.756-2-hch@lst.de>
+References: <20190513062510.756-1-hch@lst.de> <20190513062510.756-2-hch@lst.de>
+Message-ID: <af4e245b-d1a8-d55a-0090-07981145c690@suse.de>
 
-So actually, after running out ways to make any of my complex block
-layer fix ideas work I have a simple fix for the block layer now.
+On 5/13/19 8:25 AM, Christoph Hellwig wrote:
+> Life becomes a lot simpler if we just use the global
+> nvme_subsystems_lock to protect this list.  Given that it is only
+> accessed during controller probing and removal that isn't a scalability
+> problem either.
+> 
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> ---
+>   drivers/nvme/host/core.c | 32 ++++++++++++++------------------
+>   1 file changed, 14 insertions(+), 18 deletions(-)
+> 
 
-Lets see if is acceptable..
+Reviewed-by: Hannes Reinecke <hare at suse.com>
+
+Cheers,
+
+Hannes
+
+-- 
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
+HRB 21284 (AG N?rnberg)
