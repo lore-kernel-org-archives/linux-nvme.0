@@ -1,72 +1,52 @@
-From: kenneth.heitke@intel.com (Heitke, Kenneth)
-Date: Mon, 13 May 2019 12:25:19 -0600
-Subject: [PATCH 2/2] nvme: validate cntlid during controller initialisation
-In-Reply-To: <20190513062510.756-3-hch@lst.de>
-References: <20190513062510.756-1-hch@lst.de> <20190513062510.756-3-hch@lst.de>
-Message-ID: <e90ee6c7-8742-6f21-26c7-e0f578b419be@intel.com>
+From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Mon, 13 May 2019 20:36:32 +0000
+Subject: [PATCH 0/3] nvme-core: add user command filter
+References: <20190508183634.4682-1-chaitanya.kulkarni@wdc.com>
+ <20190510214255.GA11723@localhost.localdomain>
+ <20190513132517.GB2661@infradead.org>
+ <20190513164933.GC15437@localhost.localdomain>
+Message-ID: <SN6PR04MB4527DBCEE5CD5A54965EA0C4860F0@SN6PR04MB4527.namprd04.prod.outlook.com>
 
+Hi Keith,
+On 5/13/19 9:54 AM, Keith Busch wrote:
+> On Mon, May 13, 2019@06:25:17AM -0700, Christoph Hellwig wrote:
+>> On Fri, May 10, 2019@03:42:56PM -0600, Keith Busch wrote:
+>>> On Wed, May 08, 2019@11:36:31AM -0700, Chaitanya Kulkarni wrote:
+>>>> This patch-series adds a filter to allow only certain user commands.                                   
+>>>> Right now we use this infrastructure to prevent the user get log page
+>>>> commands where RAE bit is cleared. We only allow get log pages to be
+>>>> read with RAE == 0 where we issue the uevent to the userspace so that
+>>>> user can clear the log pages.
+>>>>
+>>>> Here we white list the log pages which are only allowed when RAE == 0.
+>>>> We also allow Vendor Specific log pages irrespective of the RAE.
+>>> I'm generally against the passthrough interface examining commands. It
+>>> is not for the driver to decide what an admin can't send to their devices.
+>> Well, the whole AER model is based around log pages clearing the
+>> event, so if userspace clears these events we are in pretty deep
+>> trouble.  Would you prefer just setting the RAE bit unconditionally
+>> for these log pages?
+> What if user space really wants to clear it? We shouldn't just make that
+> capability unreachable to admins.
+>
 
+I agree that passthru means we should just passthru. But user-pace
+doesn't have the access to take
 
-On 5/13/2019 12:25 AM, Christoph Hellwig wrote:
-> The CNTLID value is required to be unique, and we do rely on this
-> for correct operation. So reject any controller for which a non-unique
-> CNTLID has been detected.
-> 
-> Based on a patch from Hannes Reinecke.
-> 
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> ---
->   drivers/nvme/host/core.c | 41 +++++++++++++++++++++++-----------------
->   1 file changed, 24 insertions(+), 17 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 70a2bc01e41e..09a1d5ca872f 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -2341,20 +2341,35 @@ static const struct attribute_group *nvme_subsys_attrs_groups[] = {
->   	NULL,
->   };
->   
-> -static int nvme_active_ctrls(struct nvme_subsystem *subsys)
-> +static bool nvme_validate_cntlid(struct nvme_subsystem *subsys,
-> +		struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
->   {
-> -	int count = 0;
-> -	struct nvme_ctrl *ctrl;
-> +	struct nvme_ctrl *tmp;
->   
->   	lockdep_assert_held(&nvme_subsystems_lock);
->   
-> -	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
-> -		if (ctrl->state != NVME_CTRL_DELETING &&
-> -		    ctrl->state != NVME_CTRL_DEAD)
-> -			count++;
-> +	list_for_each_entry(tmp, &subsys->ctrls, subsys_entry) {
-> +		if (ctrl->state == NVME_CTRL_DELETING ||
-> +		    ctrl->state == NVME_CTRL_DEAD)
-> +			continue;
-> +
-> +		if (tmp->cntlid == ctrl->cntlid) {
-> +			dev_err(ctrl->device,
-> +				"Duplicate cntlid %u with %s, rejecting\n",
-> +				ctrl->cntlid, dev_name(tmp->device));
-> +			return false;
-> +		}
-> +
-> +		if ((id->cmic & (1 << 1)) ||
-> +		    (ctrl->opts && ctrl->opts->discovery_nqn))
-> +		    	continue;
+corrective action on clearing the AEN.
 
-Replace whitespace with tab
+The cases where Kernel is responsible for reading and clearing out the
+log pages/AENs
 
-> +
-> +		dev_err(ctrl->device,
-> +			"Subsystem does not support multiple controllers\n");
-> +		return false;
->   	}
->   
-> -	return count;
-> +	return true;
->   }
->   
->   static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+if we allow userspace to clear those it will create a problem in the
+kernel code if kernel code
+
+expects the aen bit to be set. This can lead to complex bugs where,
+
+1. Kernel expects the log page and aen to be present.
+
+2. But it is been cleared since userspace read it but did not take the
+corrective action or doesn't have the
+
+    right interface to take corrective action so it depends on a kernel
+(driver) to take the corrective action.
