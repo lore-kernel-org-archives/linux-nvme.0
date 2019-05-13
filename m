@@ -1,31 +1,33 @@
-From: kbusch@kernel.org (Keith Busch)
-Date: Mon, 13 May 2019 08:55:24 -0600
-Subject: [PATCH] nvme/pci: Use host managed power state for suspend
-In-Reply-To: <b12ff66f8c224e4199ff1b90ed6bc393@AUSX13MPC105.AMER.DELL.COM>
-References: <20190510212937.11661-1-keith.busch@intel.com>
- <0080aaff18e5445dabca509d4113eca8@AUSX13MPC105.AMER.DELL.COM>
- <955722d8fc16425dbba0698c4806f8fd@AUSX13MPC105.AMER.DELL.COM>
- <20190513143741.GA25500@lst.de>
- <b12ff66f8c224e4199ff1b90ed6bc393@AUSX13MPC105.AMER.DELL.COM>
-Message-ID: <20190513145522.GA15421@localhost.localdomain>
+From: akinobu.mita@gmail.com (Akinobu Mita)
+Date: Tue, 14 May 2019 00:01:07 +0900
+Subject: [PATCH v3 5/7] nvme-pci: add device coredump infrastructure
+In-Reply-To: <20190513135031.GC15318@localhost.localdomain>
+References: <1557676457-4195-1-git-send-email-akinobu.mita@gmail.com>
+ <1557676457-4195-6-git-send-email-akinobu.mita@gmail.com>
+ <20190513135031.GC15318@localhost.localdomain>
+Message-ID: <CAC5umyhT1MW_d8wjFj2qBaf1+j0b62yP_OzuGUbnV+_tnpkrEw@mail.gmail.com>
 
-On Mon, May 13, 2019@02:43:43PM +0000, Mario.Limonciello@dell.com wrote:
-> > Well, it sounds like your partners device does not work properly in this
-> > case.  There is nothing in the NVMe spec that says queues should be
-> > torn down for deep power states, and that whole idea seems rather
-> > counter productive to low-latency suspend/resume cycles.
-> 
-> Well I've got a thought, quoting the NVME spec:
-> "After a successful completion of a Set Features command for this feature, the controller shall be in the
-> Power State specified. If enabled, autonomous power state transitions continue to occur from the new state."
-> 
-> If APST is enabled on this disk, what is to stop an autonomous  reverse
-> transition from queue activity on the way down?
+2019?5?13?(?) 22:55 Keith Busch <kbusch at kernel.org>:
+>
+> On Sun, May 12, 2019@08:54:15AM -0700, Akinobu Mita wrote:
+> > +static void nvme_coredump_logs(struct nvme_dev *dev)
+> > +{
+> > +     struct dev_coredumpm_bulk_data *bulk_data;
+> > +
+> > +     if (!dev->dumps)
+> > +             return;
+> > +
+> > +     bulk_data = nvme_coredump_alloc(dev, 1);
+> > +     if (!bulk_data)
+> > +             return;
+> > +
+> > +     if (nvme_coredump_telemetry_log(bulk_data, &dev->ctrl))
+> > +             dev->num_dumps--;
+> > +}
+>
+> You'll need this function to return the same 'int' value from
+> nvme_coredump_telemetry_log. A negative value here means that the
+> device didn't produce a response, and that's important to check from
+> the reset work since you'll need to abort the reset if that happens.
 
-Regardless of whether APST is enabled or not, the controller may
-autonomously transition out of a host requested low power state in
-response to host activity. Exiting a low power state should mean some
-other task is actively using the device, and if that's the case, why are
-you trying to enter a low power state in the first place? Alternatively,
-if host activity really is idle, then why is the device autonomously
-leaving the requested state?
+OK.  Make sense.
