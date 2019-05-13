@@ -1,26 +1,31 @@
-From: akinobu.mita@gmail.com (Akinobu Mita)
-Date: Mon, 13 May 2019 23:59:52 +0900
-Subject: [PATCH v3 6/7] nvme-pci: trigger device coredump on command
- timeout
-In-Reply-To: <20190513074120epcms2p54e3a031668274ac1ebace6c5edc0a3f7@epcms2p5>
-References: <1557676457-4195-1-git-send-email-akinobu.mita@gmail.com>
- <CGME20190512155533epcas4p110edff15ebf5b2efae32e43f0f10ab59@epcms2p5>
- <1557676457-4195-7-git-send-email-akinobu.mita@gmail.com>
- <20190513074120epcms2p54e3a031668274ac1ebace6c5edc0a3f7@epcms2p5>
-Message-ID: <CAC5umyjrYddqtQY8LdoXG8S7s7xaAO3oZz7WRDkfnjrkUj2AcQ@mail.gmail.com>
+From: kbusch@kernel.org (Keith Busch)
+Date: Mon, 13 May 2019 08:55:24 -0600
+Subject: [PATCH] nvme/pci: Use host managed power state for suspend
+In-Reply-To: <b12ff66f8c224e4199ff1b90ed6bc393@AUSX13MPC105.AMER.DELL.COM>
+References: <20190510212937.11661-1-keith.busch@intel.com>
+ <0080aaff18e5445dabca509d4113eca8@AUSX13MPC105.AMER.DELL.COM>
+ <955722d8fc16425dbba0698c4806f8fd@AUSX13MPC105.AMER.DELL.COM>
+ <20190513143741.GA25500@lst.de>
+ <b12ff66f8c224e4199ff1b90ed6bc393@AUSX13MPC105.AMER.DELL.COM>
+Message-ID: <20190513145522.GA15421@localhost.localdomain>
 
-2019?5?13?(?) 16:41 Minwoo Im <minwoo.im at samsung.com>:
->
-> > -static void __maybe_unused nvme_coredump_init(struct nvme_dev *dev);
-> > -static void __maybe_unused nvme_coredump_logs(struct nvme_dev *dev);
-> > -static void __maybe_unused nvme_coredump_complete(struct nvme_dev
-> > *dev);
-> > +static void nvme_coredump_init(struct nvme_dev *dev);
-> > +static void nvme_coredump_logs(struct nvme_dev *dev);
-> > +static void nvme_coredump_complete(struct nvme_dev *dev);
->
-> You just have added those three prototypes in previous patch.  Did I miss
-> something here?
+On Mon, May 13, 2019@02:43:43PM +0000, Mario.Limonciello@dell.com wrote:
+> > Well, it sounds like your partners device does not work properly in this
+> > case.  There is nothing in the NVMe spec that says queues should be
+> > torn down for deep power states, and that whole idea seems rather
+> > counter productive to low-latency suspend/resume cycles.
+> 
+> Well I've got a thought, quoting the NVME spec:
+> "After a successful completion of a Set Features command for this feature, the controller shall be in the
+> Power State specified. If enabled, autonomous power state transitions continue to occur from the new state."
+> 
+> If APST is enabled on this disk, what is to stop an autonomous  reverse
+> transition from queue activity on the way down?
 
-These __maybe_unused are needed only in the patch 5/7.
-Because these functions are still unused before applying patch 6/7.
+Regardless of whether APST is enabled or not, the controller may
+autonomously transition out of a host requested low power state in
+response to host activity. Exiting a low power state should mean some
+other task is actively using the device, and if that's the case, why are
+you trying to enter a low power state in the first place? Alternatively,
+if host activity really is idle, then why is the device autonomously
+leaving the requested state?
