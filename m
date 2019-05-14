@@ -1,69 +1,72 @@
 From: akinobu.mita@gmail.com (Akinobu Mita)
-Date: Tue, 14 May 2019 23:04:33 +0900
-Subject: [PATCH v3 4/7] nvme: add basic facility to get telemetry log page
-In-Reply-To: <SN6PR04MB4527A2B52661330D519FD618860F0@SN6PR04MB4527.namprd04.prod.outlook.com>
-References: <1557676457-4195-1-git-send-email-akinobu.mita@gmail.com>
- <1557676457-4195-5-git-send-email-akinobu.mita@gmail.com>
- <SN6PR04MB4527A2B52661330D519FD618860F0@SN6PR04MB4527.namprd04.prod.outlook.com>
-Message-ID: <CAC5umyjjjuj04mkBd3O23Stjs9s56r+F_XTSimrJbnasy5PBcQ@mail.gmail.com>
+Date: Tue, 14 May 2019 23:06:21 +0900
+Subject: [PATCH v3 5/7] nvme-pci: add device coredump infrastructure
+In-Reply-To: <SN6PR04MB4527DFC75838C3236F5D05B2860F0@SN6PR04MB4527.namprd04.prod.outlook.com>
+References: <1557676457-4195-6-git-send-email-akinobu.mita@gmail.com>
+ <1557676457-4195-1-git-send-email-akinobu.mita@gmail.com>
+ <CGME20190512155540epcas4p14c15eb86b08dcd281e9a93a4fc190800@epcms2p1>
+ <20190513074601epcms2p12c0a32730a16be3b69b68e3c9d4d0b92@epcms2p1>
+ <SN6PR04MB4527DFC75838C3236F5D05B2860F0@SN6PR04MB4527.namprd04.prod.outlook.com>
+Message-ID: <CAC5umyh6hdcAnTCDK=7nX8VxFz7LiFY6ttUmcBPXfmXN4r88rw@mail.gmail.com>
 
-2019?5?14?(?) 0:34 Chaitanya Kulkarni <Chaitanya.Kulkarni at wdc.com>:
+2019?5?14?(?) 0:23 Chaitanya Kulkarni <Chaitanya.Kulkarni at wdc.com>:
 >
-> On 05/12/2019 08:55 AM, Akinobu Mita wrote:
-> > This adds the required definisions to get telemetry log page.
-> s/definisions/definitions/
-
-OK.
-
-> > diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-> > index c40720c..8c0b29d 100644
-> > --- a/include/linux/nvme.h
-> > +++ b/include/linux/nvme.h
-> > @@ -294,6 +294,8 @@ enum {
-> >       NVME_CTRL_OACS_DIRECTIVES               = 1 << 5,
-> >       NVME_CTRL_OACS_DBBUF_SUPP               = 1 << 8,
-> >       NVME_CTRL_LPA_CMD_EFFECTS_LOG           = 1 << 1,
-> > +     NVME_CTRL_LPA_EXTENDED_DATA             = 1 << 2,
-> > +     NVME_CTRL_LPA_TELEMETRY_LOG             = 1 << 3,
-> >   };
+> On 05/13/2019 12:46 AM, Minwoo Im wrote:
+> >> +static int nvme_get_telemetry_log_blocks(struct nvme_ctrl *ctrl, void *buf,
+> >> +                                     size_t bytes, loff_t offset)
+> >> +{
+> >> +    loff_t pos = 0;
+> >> +    u32 chunk_size;
+> >> +
+> >> +    if (check_mul_overflow(ctrl->max_hw_sectors, 512u, &chunk_size))
+> >> +            chunk_size = UINT_MAX;
+> >> +
+> >> +    while (pos < bytes) {
+> >> +            size_t size = min_t(size_t, bytes - pos, chunk_size);
+> >> +            int ret;
+> >> +
+> >> +            ret = nvme_get_log(ctrl, NVME_NSID_ALL,
+> >> NVME_LOG_TELEMETRY_CTRL,
+> >> +                               0, buf + pos, size, offset + pos);
+> >> +            if (ret)
+> >> +                    return ret;
+> >> +
+> >> +            pos += size;
+> >> +    }
+> >> +
+> >> +    return 0;
+> >> +}
+> >> +
+> >> +static int nvme_get_telemetry_log(struct nvme_ctrl *ctrl,
+> >> +                              struct sg_table *table, size_t bytes)
+> >> +{
+> >> +    int n = sg_nents(table->sgl);
+> >> +    struct scatterlist *sg;
+> >> +    size_t offset = 0;
+> >> +    int i;
+> >> +
+> A little comment would be nice if you are using sg operations.
+> >> +    for_each_sg(table->sgl, sg, n, i) {
+> >> +            struct page *page = sg_page(sg);
+> >> +            size_t size = min_t(int, bytes - offset, sg->length);
+> >> +            int ret;
+> >> +
+> >> +            ret = nvme_get_telemetry_log_blocks(ctrl,
+> >> page_address(page),
+> >> +                                                size, offset);
+> >> +            if (ret)
+> >> +                    return ret;
+> >> +
+> >> +            offset += size;
+> >> +    }
+> >> +
+> >> +    return 0;
+> >> +}
 > >
-> >   struct nvme_lbaf {
-> > @@ -396,6 +398,20 @@ enum {
-> >       NVME_NIDT_UUID          = 0x03,
-> >   };
-> >
-> > +struct nvme_telemetry_log_page_hdr {
-> > +     __u8    lpi; /* Log page identifier */
-> > +     __u8    rsvd[4];
-> > +     __u8    iee_oui[3];
-> > +     __le16  dalb1; /* Data area 1 last block */
-> > +     __le16  dalb2; /* Data area 2 last block */
-> > +     __le16  dalb3; /* Data area 3 last block */
-> > +     __u8    rsvd1[368];
-> > +     __u8    ctrlavail; /* Controller initiated data avail?*/
-> > +     __u8    ctrldgn; /* Controller initiated telemetry Data Gen # */
-> > +     __u8    rsnident[128];
-> > +     __u8    telemetry_dataarea[0];
-> > +};
-> > +
+> > Can we have those two in nvme-core module instead of being in pci module?
 >
-> nit:- Thanks for adding the comments, can you please align all the above
-> comments like :-
+> Since they are based on the controller they should be moved next to
+> nvme_get_log() in the ${KERN_DIR}/drivers/nvme/host/core.c.
 
-OK.  I'll send a patch for nvme-cli at first.
-
-> +struct nvme_telemetry_log_page_hdr {
-> +       __u8    lpi;            /* Log page identifier */
-> +       __u8    rsvd[4];
-> +       __u8    iee_oui[3];
-> +       __le16  dalb1;          /* Data area 1 last block */
-> +       __le16  dalb2;          /* Data area 2 last block */
-> +       __le16  dalb3;          /* Data area 3 last block */
-> +       __u8    rsvd1[368];
-> +       __u8    ctrlavail;      /* Controller initiated data avail?*/
-> +       __u8    ctrldgn;        /* Controller initiated telemetry Data
-> Gen # */
-> +       __u8    rsnident[128];
-> +       __u8    telemetry_dataarea[0];
-> +};
-> +
+OK.  But these functions will be changed to use bio_vec instead of sg in
+the next version.
