@@ -1,29 +1,22 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 14 May 2019 12:20:03 +0200
-Subject: [PATCH 4/7] lpfc: Add support to generate RSCN events for nport
-In-Reply-To: <20190513224314.24169-5-jsmart2021@gmail.com>
+Date: Tue, 14 May 2019 12:20:31 +0200
+Subject: [PATCH 5/7] lpfc: add nvmet discovery_event op support
+In-Reply-To: <20190513224314.24169-6-jsmart2021@gmail.com>
 References: <20190513224314.24169-1-jsmart2021@gmail.com>
- <20190513224314.24169-5-jsmart2021@gmail.com>
-Message-ID: <e052dd2f-1466-5679-19af-0ca3fedfbd85@suse.de>
+ <20190513224314.24169-6-jsmart2021@gmail.com>
+Message-ID: <640482f3-059a-ab06-fe71-8d0fe4db1ba5@suse.de>
 
 On 5/14/19 12:43 AM, James Smart wrote:
-> This patch adds general RSCN support:
-> - The ability to transmit an RSCN to the port on the other end of
->    the link (regular port if pt2pt, or fabric controller if fabric).
-> - And general recognition of an RSCN ELS when an ELS is received.
+> This patch adds support for the nvmet discovery op. When the callback
+> routine is called, the driver will call the routine to generate an RSCN
+> to the port on the other end of the link.
 > 
 > Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 > Signed-off-by: James Smart <jsmart2021 at gmail.com>
 > ---
->   drivers/scsi/lpfc/lpfc.h         |   1 +
->   drivers/scsi/lpfc/lpfc_crtn.h    |   2 +
->   drivers/scsi/lpfc/lpfc_els.c     | 122 +++++++++++++++++++++++++++++++++++++++
->   drivers/scsi/lpfc/lpfc_hbadisc.c |  35 +++++++++++
->   drivers/scsi/lpfc/lpfc_hw.h      |   2 +
->   drivers/scsi/lpfc/lpfc_sli.c     |   1 +
->   6 files changed, 163 insertions(+)
+>   drivers/scsi/lpfc/lpfc_nvmet.c | 17 +++++++++++++++++
+>   1 file changed, 17 insertions(+)
 > 
-
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
 Cheers,
