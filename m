@@ -1,25 +1,23 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 14 May 2019 12:22:22 +0200
-Subject: [PATCH 6/7] lpfc: Add support for translating an RSCN rcv into a
- discovery rescan
-In-Reply-To: <20190513224314.24169-7-jsmart2021@gmail.com>
+Date: Tue, 14 May 2019 12:22:59 +0200
+Subject: [PATCH 7/7] lpfc: Add sysfs interface to post NVME RSCN
+In-Reply-To: <20190513224314.24169-8-jsmart2021@gmail.com>
 References: <20190513224314.24169-1-jsmart2021@gmail.com>
- <20190513224314.24169-7-jsmart2021@gmail.com>
-Message-ID: <911d2676-c34c-a479-ef23-c2ad08f53e56@suse.de>
+ <20190513224314.24169-8-jsmart2021@gmail.com>
+Message-ID: <aee5b973-fd34-62ac-5f07-de0653229d5f@suse.de>
 
 On 5/14/19 12:43 AM, James Smart wrote:
-> This patch updates RSCN receive processing to check for the remote
-> port being an NVME port, and if so, invoke the nvme_fc callback to
-> rescan the remote port.  The rescan will generate a discovery udev
-> event.
+> To support scenarios which aren't bound to nvmetcli add port scenarios,
+> which is currently where the nvmet_fc transport invokes the discovery
+> event callbacks, a syfs attribute is added to lpfc which can be written
+> to cause an RSCN to be generated for the nport.
 > 
 > Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 > Signed-off-by: James Smart <jsmart2021 at gmail.com>
 > ---
->   drivers/scsi/lpfc/lpfc_crtn.h |  2 ++
->   drivers/scsi/lpfc/lpfc_els.c  |  5 +++++
->   drivers/scsi/lpfc/lpfc_nvme.c | 44 +++++++++++++++++++++++++++++++++++++++++++
->   3 files changed, 51 insertions(+)
+>   drivers/scsi/lpfc/lpfc.h      |  1 +
+>   drivers/scsi/lpfc/lpfc_attr.c | 60 +++++++++++++++++++++++++++++++++++++++++++
+>   2 files changed, 61 insertions(+)
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
