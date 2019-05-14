@@ -1,55 +1,41 @@
-From: rafael@kernel.org (Rafael J. Wysocki)
-Date: Tue, 14 May 2019 10:04:22 +0200
-Subject: [PATCH] nvme/pci: Use host managed power state for suspend
-In-Reply-To: <20190513150458.GA15437@localhost.localdomain>
-References: <20190510212937.11661-1-keith.busch@intel.com>
- <0080aaff18e5445dabca509d4113eca8@AUSX13MPC105.AMER.DELL.COM>
- <955722d8fc16425dbba0698c4806f8fd@AUSX13MPC105.AMER.DELL.COM>
- <20190513143741.GA25500@lst.de>
- <b12ff66f8c224e4199ff1b90ed6bc393@AUSX13MPC105.AMER.DELL.COM>
- <20190513145522.GA15421@localhost.localdomain>
- <d69ff7154191492eaa8f55535a7effa5@AUSX13MPC105.AMER.DELL.COM>
- <20190513150458.GA15437@localhost.localdomain>
-Message-ID: <CAJZ5v0g3cCYK3rAQn09pCr7LMrRr=zQy_ceaEB5AKhVx604YgA@mail.gmail.com>
+From: hare@suse.de (Hannes Reinecke)
+Date: Tue, 14 May 2019 12:12:07 +0200
+Subject: [PATCH 1/7] nvmet: add transport discovery change op
+In-Reply-To: <20190513224314.24169-2-jsmart2021@gmail.com>
+References: <20190513224314.24169-1-jsmart2021@gmail.com>
+ <20190513224314.24169-2-jsmart2021@gmail.com>
+Message-ID: <3ea977e2-0b26-6b8f-63b4-c54fbe801dc2@suse.de>
 
-On Mon, May 13, 2019@5:10 PM Keith Busch <kbusch@kernel.org> wrote:
->
-> On Mon, May 13, 2019@03:05:42PM +0000, Mario.Limonciello@dell.com wrote:
-> > This system power state - suspend to idle is going to freeze threads.
-> > But we're talking a multi threaded kernel.  Can't there be a timing problem going
-> > on then too?  With a disk flush being active in one task and the other task trying
-> > to put the disk into the deepest power state.  If you don't freeze the queues how
-> > can you guarantee that didn't happen?
->
-> But if an active data flush task is running, then we're not idle and
-> shouldn't go to low power.
+On 5/14/19 12:43 AM, James Smart wrote:
+> Some transports, such as FC-NVME, support discovery controller change
+> events without the use of a persistent discovery controller. FC receives
+> events via RSCN from the FC Fabric Controller or subsystem FC port.
+> 
+> This patch adds a nvmet transport op that is called whenever a
+> discovery change event occurs in the nvmet layer.
+> 
+> To facilitate the callback without adding another layer to cross into
+> core.c to reference the transport ops, the port structure snapshots
+> the transport ops when the port is enabled and clears them when disabled.
+> 
+> Signed-off-by: James Smart <jsmart2021 at gmail.com>
+> ---
+>   drivers/nvme/target/core.c      | 2 ++
+>   drivers/nvme/target/discovery.c | 4 ++++
+>   drivers/nvme/target/nvmet.h     | 2 ++
+>   3 files changed, 8 insertions(+)
+> 
+I like the idea, and something like this is in fact required when 
+restarting nvmetcli.
 
-To be entirely precise, system suspend prevents user space from
-running while it is in progress.  It doesn't do that to kernel
-threads, at least not by default, though, so if there is a kernel
-thread flushing the data, it needs to be stopped or suspended somehow
-directly in the system suspend path.  [And yes, system suspend (or
-hibernation) may take place at any time so long as all user space can
-be prevented from running then (by means of the tasks freezer).]
+Reviewed-by: Hannes Reinecke <hare at suse.com>
 
-However, freezing the queues from a driver ->suspend callback doesn't
-help in general and the reason why is hibernation.  Roughly speaking,
-hibernation works in two steps, the first of which creates a snapshot
-image of system memory and the second one writes that image to
-persistent storage.  Devices are resumed between the two steps in
-order to make it possible to do the write, but that would unfreeze the
-queues and let the data flusher run.  If it runs, it may cause the
-memory snapshot image that has just been created to become outdated
-and restoring the system memory contents from that image going forward
-may cause corruption to occur.
+Cheers,
 
-Thus freezing the queues from a driver ->suspend callback should not
-be relied on for correctness if the same callback is used for system
-suspend and hibernation, which is the case here.  If doing that
-prevents the system from crashing, it is critical to find out why IMO,
-as that may very well indicate a broader issue, not necessarily in the
-driver itself.
-
-But note that even if the device turns out to behave oddly, it still
-needs to be handled, unless it may be prevented from shipping to users
-in that shape.  If it ships, users will face the odd behavior anyway.
+Hannes
+-- 
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
+HRB 21284 (AG N?rnberg)
