@@ -1,56 +1,69 @@
-From: kbusch@kernel.org (Keith Busch)
-Date: Tue, 14 May 2019 07:54:34 -0600
-Subject: PROBLEM: call trace triggered in 5.1.1 in
- drivers/nvme/host/pci.c, 5.0.11 ok
-In-Reply-To: <CAC=wYCECcfqoDDMcgVj-4dAEUxNpY62vAEMOD8-eGrZK8wOV-g@mail.gmail.com>
-References: <CAC=wYCGgPQPjUUjQTZh4H7b8WRQFGmbKCBRAq75g1BXjBR0L0Q@mail.gmail.com>
- <20190514052027.GB6294@lst.de>
- <CAC=wYCFhKR5YrAwL1agz=USg3DAkx5BtXAfv64nOfTrwTji40Q@mail.gmail.com>
- <20190514055832.GA6843@lst.de>
- <CAC=wYCECcfqoDDMcgVj-4dAEUxNpY62vAEMOD8-eGrZK8wOV-g@mail.gmail.com>
-Message-ID: <20190514135434.GA19837@localhost.localdomain>
+From: akinobu.mita@gmail.com (Akinobu Mita)
+Date: Tue, 14 May 2019 23:04:33 +0900
+Subject: [PATCH v3 4/7] nvme: add basic facility to get telemetry log page
+In-Reply-To: <SN6PR04MB4527A2B52661330D519FD618860F0@SN6PR04MB4527.namprd04.prod.outlook.com>
+References: <1557676457-4195-1-git-send-email-akinobu.mita@gmail.com>
+ <1557676457-4195-5-git-send-email-akinobu.mita@gmail.com>
+ <SN6PR04MB4527A2B52661330D519FD618860F0@SN6PR04MB4527.namprd04.prod.outlook.com>
+Message-ID: <CAC5umyjjjuj04mkBd3O23Stjs9s56r+F_XTSimrJbnasy5PBcQ@mail.gmail.com>
 
-On Tue, May 14, 2019@04:24:41PM +1000, Adam Carter wrote:
-> Ok i've rebooted into 5.1.1 to get the whole thing - see attached.
-> 
-> IIRC system was not usable without 'iommu=pt'
- 
-> [  143.347543] sg[0] phys_addr:0x00000003d32e4000 offset:0 length:3072 dma_address:0x00000003d32e4000 dma_length:3072
-> [  143.347547] sg[1] phys_addr:0x00000003d32e4c00 offset:3072 length:65536 dma_address:0x00000003d32e4c00 dma_length:65536
-> [  143.347551] ------------[ cut here ]------------
-> [  143.347552] Invalid SGL for payload:68608 nents:2
-> [  143.347585] WARNING: CPU: 2 PID: 1291 at drivers/nvme/host/pci.c:746
-> [  143.347586] Modules linked in: cfg80211 rfkill aesni_intel crypto_simd cryptd glue_helper fam15h_power k10temp alx mdio i2c_piix4 ohci_pci ohci_hcd snd_hda_codec_realtek snd_hda_codec_generic snd_hda_codec_hdmi snd_hda_intel snd_hda_codec snd_hwdep snd_hda_core snd_pcm snd_timer sch_fq_codel vboxpci(O) vboxnetadp(O) vboxnetflt(O) vboxdrv(O)
-> [  143.347599] CPU: 2 PID: 1291 Comm: AioMgr1-N Tainted: G           O    T 5.1.1-gentoo #1
-> [  143.347601] Hardware name: Gigabyte Technology Co., Ltd. To be filled by O.E.M./GA-990FX-GAMING, BIOS NV1 11/03/2015
-> [  143.347603] RIP: 0010:nvme_queue_rq+0xa62/0xad0
-> [  143.347605] Code: 48 c7 c7 d8 86 bf 9a e8 bc 5b d4 ff 41 8b 97 4c 01 00 00 41 f6 47 1e 04 75 59 41 8b 77 24 48 c7 c7 40 3f 38 9a e8 f0 00 92 ff <0f> 0b 41 bc 0a 00 00 00 e9 ed fd ff ff 48 8b 05 5a b3 3f 01 48 85
-> [  143.347606] RSP: 0018:ffffaa9744c8fc10 EFLAGS: 00010282
-> [  143.347607] RAX: 0000000000000000 RBX: 0000000000000002 RCX: 0000000000000006
-> [  143.347608] RDX: 0000000000000007 RSI: 0000000000000086 RDI: ffff8d3f2ea908d0
-> [  143.347609] RBP: 0000000000000000 R08: ffffaa9744c8fac5 R09: 00000000000003d7
-> [  143.347610] R10: ffffaa9744c8fac0 R11: 0000000000000000 R12: 0000000000000002
-> [  143.347611] R13: ffff8d3f2b69eae8 R14: ffff8d3f2b699158 R15: ffff8d3f2aa7de00
-> [  143.347612] FS:  000071daa321e700(0000) GS:ffff8d3f2ea80000(0000) knlGS:0000000000000000
-> [  143.347613] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [  143.347614] CR2: ffffa10cd510f3c0 CR3: 00000003e3d71000 CR4: 00000000000406e0
-> [  143.347616] Call Trace:
-> [  143.347620]  __blk_mq_try_issue_directly+0x12c/0x1d8
-> [  143.347622]  ? blk_mq_request_issue_directly+0x55/0xf0
-> [  143.347624]  ? blk_mq_try_issue_list_directly+0x4c/0xc0
-> [  143.347626]  ? blk_mq_sched_insert_requests+0x64/0x88
-> [  143.347627]  ? blk_mq_flush_plug_list+0x151/0x190
-> [  143.347629]  ? blk_flush_plug_list+0xea/0x110
-> [  143.347631]  ? blk_finish_plug+0x24/0x32
-> [  143.347633]  ? __x64_sys_io_submit+0xf6/0x168
-> [  143.347635]  ? do_syscall_64+0x46/0xd0
-> [  143.347638]  ? entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> [  143.347639] ---[ end trace 7cb8293d6e867b03 ]---
+2019?5?14?(?) 0:34 Chaitanya Kulkarni <Chaitanya.Kulkarni at wdc.com>:
+>
+> On 05/12/2019 08:55 AM, Akinobu Mita wrote:
+> > This adds the required definisions to get telemetry log page.
+> s/definisions/definitions/
 
-[adding Ming, cc linux-block]
+OK.
 
-The two elements are physically contiguous, so these should have been
-merged as a single element and we wouldn't have had a problem. The
-following commit looks suspicious:
+> > diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+> > index c40720c..8c0b29d 100644
+> > --- a/include/linux/nvme.h
+> > +++ b/include/linux/nvme.h
+> > @@ -294,6 +294,8 @@ enum {
+> >       NVME_CTRL_OACS_DIRECTIVES               = 1 << 5,
+> >       NVME_CTRL_OACS_DBBUF_SUPP               = 1 << 8,
+> >       NVME_CTRL_LPA_CMD_EFFECTS_LOG           = 1 << 1,
+> > +     NVME_CTRL_LPA_EXTENDED_DATA             = 1 << 2,
+> > +     NVME_CTRL_LPA_TELEMETRY_LOG             = 1 << 3,
+> >   };
+> >
+> >   struct nvme_lbaf {
+> > @@ -396,6 +398,20 @@ enum {
+> >       NVME_NIDT_UUID          = 0x03,
+> >   };
+> >
+> > +struct nvme_telemetry_log_page_hdr {
+> > +     __u8    lpi; /* Log page identifier */
+> > +     __u8    rsvd[4];
+> > +     __u8    iee_oui[3];
+> > +     __le16  dalb1; /* Data area 1 last block */
+> > +     __le16  dalb2; /* Data area 2 last block */
+> > +     __le16  dalb3; /* Data area 3 last block */
+> > +     __u8    rsvd1[368];
+> > +     __u8    ctrlavail; /* Controller initiated data avail?*/
+> > +     __u8    ctrldgn; /* Controller initiated telemetry Data Gen # */
+> > +     __u8    rsnident[128];
+> > +     __u8    telemetry_dataarea[0];
+> > +};
+> > +
+>
+> nit:- Thanks for adding the comments, can you please align all the above
+> comments like :-
 
-  f6970f83ef795 "block: don't check if adjacent bvecs in one bio can be mergeable" 
+OK.  I'll send a patch for nvme-cli at first.
+
+> +struct nvme_telemetry_log_page_hdr {
+> +       __u8    lpi;            /* Log page identifier */
+> +       __u8    rsvd[4];
+> +       __u8    iee_oui[3];
+> +       __le16  dalb1;          /* Data area 1 last block */
+> +       __le16  dalb2;          /* Data area 2 last block */
+> +       __le16  dalb3;          /* Data area 3 last block */
+> +       __u8    rsvd1[368];
+> +       __u8    ctrlavail;      /* Controller initiated data avail?*/
+> +       __u8    ctrldgn;        /* Controller initiated telemetry Data
+> Gen # */
+> +       __u8    rsnident[128];
+> +       __u8    telemetry_dataarea[0];
+> +};
+> +
