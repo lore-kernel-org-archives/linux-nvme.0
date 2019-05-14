@@ -1,119 +1,70 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Tue, 14 May 2019 14:58:08 -0700
-Subject: [PATCH v2 7/7] lpfc: Add sysfs interface to post NVME RSCN
-In-Reply-To: <20190514215808.10572-1-jsmart2021@gmail.com>
-References: <20190514215808.10572-1-jsmart2021@gmail.com>
-Message-ID: <20190514215808.10572-8-jsmart2021@gmail.com>
+From: kbusch@kernel.org (Keith Busch)
+Date: Tue, 14 May 2019 16:16:09 -0600
+Subject: [PATCH] nvme/pci: Use host managed power state for suspend
+In-Reply-To: <CAJZ5v0g3cCYK3rAQn09pCr7LMrRr=zQy_ceaEB5AKhVx604YgA@mail.gmail.com>
+References: <20190510212937.11661-1-keith.busch@intel.com>
+ <0080aaff18e5445dabca509d4113eca8@AUSX13MPC105.AMER.DELL.COM>
+ <955722d8fc16425dbba0698c4806f8fd@AUSX13MPC105.AMER.DELL.COM>
+ <20190513143741.GA25500@lst.de>
+ <b12ff66f8c224e4199ff1b90ed6bc393@AUSX13MPC105.AMER.DELL.COM>
+ <20190513145522.GA15421@localhost.localdomain>
+ <d69ff7154191492eaa8f55535a7effa5@AUSX13MPC105.AMER.DELL.COM>
+ <20190513150458.GA15437@localhost.localdomain>
+ <CAJZ5v0g3cCYK3rAQn09pCr7LMrRr=zQy_ceaEB5AKhVx604YgA@mail.gmail.com>
+Message-ID: <20190514221609.GC19977@localhost.localdomain>
 
-To support scenarios which aren't bound to nvmetcli add port scenarios,
-which is currently where the nvmet_fc transport invokes the discovery
-event callbacks, a syfs attribute is added to lpfc which can be written
-to cause an RSCN to be generated for the nport.
+On Tue, May 14, 2019@10:04:22AM +0200, Rafael J. Wysocki wrote:
+> On Mon, May 13, 2019@5:10 PM Keith Busch <kbusch@kernel.org> wrote:
+> >
+> > On Mon, May 13, 2019@03:05:42PM +0000, Mario.Limonciello@dell.com wrote:
+> > > This system power state - suspend to idle is going to freeze threads.
+> > > But we're talking a multi threaded kernel.  Can't there be a timing problem going
+> > > on then too?  With a disk flush being active in one task and the other task trying
+> > > to put the disk into the deepest power state.  If you don't freeze the queues how
+> > > can you guarantee that didn't happen?
+> >
+> > But if an active data flush task is running, then we're not idle and
+> > shouldn't go to low power.
+> 
+> To be entirely precise, system suspend prevents user space from
+> running while it is in progress.  It doesn't do that to kernel
+> threads, at least not by default, though, so if there is a kernel
+> thread flushing the data, it needs to be stopped or suspended somehow
+> directly in the system suspend path.  [And yes, system suspend (or
+> hibernation) may take place at any time so long as all user space can
+> be prevented from running then (by means of the tasks freezer).]
+> 
+> However, freezing the queues from a driver ->suspend callback doesn't
+> help in general and the reason why is hibernation.  Roughly speaking,
+> hibernation works in two steps, the first of which creates a snapshot
+> image of system memory and the second one writes that image to
+> persistent storage.  Devices are resumed between the two steps in
+> order to make it possible to do the write, but that would unfreeze the
+> queues and let the data flusher run.  If it runs, it may cause the
+> memory snapshot image that has just been created to become outdated
+> and restoring the system memory contents from that image going forward
+> may cause corruption to occur.
+> 
+> Thus freezing the queues from a driver ->suspend callback should not
+> be relied on for correctness if the same callback is used for system
+> suspend and hibernation, which is the case here.  If doing that
+> prevents the system from crashing, it is critical to find out why IMO,
+> as that may very well indicate a broader issue, not necessarily in the
+> driver itself.
+> 
+> But note that even if the device turns out to behave oddly, it still
+> needs to be handled, unless it may be prevented from shipping to users
+> in that shape.  If it ships, users will face the odd behavior anyway.
 
-Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
-Signed-off-by: James Smart <jsmart2021 at gmail.com>
-Reviewed-by: Hannes Reinecke <hare at suse.com>
----
- drivers/scsi/lpfc/lpfc.h      |  1 +
- drivers/scsi/lpfc/lpfc_attr.c | 60 +++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 61 insertions(+)
+Thanks for all the information. I'll take another shot at this, should
+have it posted tomorrow.
 
-diff --git a/drivers/scsi/lpfc/lpfc.h b/drivers/scsi/lpfc/lpfc.h
-index 9246e0212a86..5ef0efb830d2 100644
---- a/drivers/scsi/lpfc/lpfc.h
-+++ b/drivers/scsi/lpfc/lpfc.h
-@@ -820,6 +820,7 @@ struct lpfc_hba {
- 	uint32_t cfg_use_msi;
- 	uint32_t cfg_auto_imax;
- 	uint32_t cfg_fcp_imax;
-+	uint32_t cfg_force_rscn;
- 	uint32_t cfg_cq_poll_threshold;
- 	uint32_t cfg_cq_max_proc_limit;
- 	uint32_t cfg_fcp_cpu_map;
-diff --git a/drivers/scsi/lpfc/lpfc_attr.c b/drivers/scsi/lpfc/lpfc_attr.c
-index ce3e541434dc..8b09e82ddfcf 100644
---- a/drivers/scsi/lpfc/lpfc_attr.c
-+++ b/drivers/scsi/lpfc/lpfc_attr.c
-@@ -4912,6 +4912,64 @@ static DEVICE_ATTR(lpfc_req_fw_upgrade, S_IRUGO | S_IWUSR,
- 		   lpfc_request_firmware_upgrade_store);
- 
- /**
-+ * lpfc_force_rscn_store
-+ *
-+ * @dev: class device that is converted into a Scsi_host.
-+ * @attr: device attribute, not used.
-+ * @buf: unused string
-+ * @count: unused variable.
-+ *
-+ * Description:
-+ * Force the switch to send a RSCN to all other NPorts in our zone
-+ * If we are direct connect pt2pt, build the RSCN command ourself
-+ * and send to the other NPort. Not supported for private loop.
-+ *
-+ * Returns:
-+ * 0      - on success
-+ * -EIO   - if command is not sent
-+ **/
-+static ssize_t
-+lpfc_force_rscn_store(struct device *dev, struct device_attribute *attr,
-+		      const char *buf, size_t count)
-+{
-+	struct Scsi_Host *shost = class_to_shost(dev);
-+	struct lpfc_vport *vport = (struct lpfc_vport *)shost->hostdata;
-+	int i;
-+
-+	i = lpfc_issue_els_rscn(vport, 0);
-+	if (i)
-+		return -EIO;
-+	return strlen(buf);
-+}
-+
-+/*
-+ * lpfc_force_rscn: Force an RSCN to be sent to all remote NPorts
-+ * connected to  the HBA.
-+ *
-+ * Value range is any ascii value
-+ */
-+static int lpfc_force_rscn;
-+module_param(lpfc_force_rscn, int, 0644);
-+MODULE_PARM_DESC(lpfc_force_rscn,
-+		 "Force an RSCN to be sent to all remote NPorts");
-+lpfc_param_show(force_rscn)
-+
-+/**
-+ * lpfc_force_rscn_init - Force an RSCN to be sent to all remote NPorts
-+ * @phba: lpfc_hba pointer.
-+ * @val: unused value.
-+ *
-+ * Returns:
-+ * zero if val saved.
-+ **/
-+static int
-+lpfc_force_rscn_init(struct lpfc_hba *phba, int val)
-+{
-+	return 0;
-+}
-+static DEVICE_ATTR_RW(lpfc_force_rscn);
-+
-+/**
-  * lpfc_fcp_imax_store
-  *
-  * @dev: class device that is converted into a Scsi_host.
-@@ -5911,6 +5969,7 @@ struct device_attribute *lpfc_hba_attrs[] = {
- 	&dev_attr_lpfc_nvme_oas,
- 	&dev_attr_lpfc_nvme_embed_cmd,
- 	&dev_attr_lpfc_fcp_imax,
-+	&dev_attr_lpfc_force_rscn,
- 	&dev_attr_lpfc_cq_poll_threshold,
- 	&dev_attr_lpfc_cq_max_proc_limit,
- 	&dev_attr_lpfc_fcp_cpu_map,
-@@ -6958,6 +7017,7 @@ lpfc_get_cfgparam(struct lpfc_hba *phba)
- 	lpfc_nvme_oas_init(phba, lpfc_nvme_oas);
- 	lpfc_nvme_embed_cmd_init(phba, lpfc_nvme_embed_cmd);
- 	lpfc_fcp_imax_init(phba, lpfc_fcp_imax);
-+	lpfc_force_rscn_init(phba, lpfc_force_rscn);
- 	lpfc_cq_poll_threshold_init(phba, lpfc_cq_poll_threshold);
- 	lpfc_cq_max_proc_limit_init(phba, lpfc_cq_max_proc_limit);
- 	lpfc_fcp_cpu_map_init(phba, lpfc_fcp_cpu_map);
--- 
-2.13.7
+It's mostly not a problem to ensure enqueued and dispatched requests are
+completed before returning from our suspend callback. I originally had
+that behavior and backed it out when I thought it wasn't necessary. So
+I'll reintroduce that. I'm not sure yet how we may handle kernel tasks
+that are about to read/write pages, but haven't yet enqueued their
+requests.
+
+IO timeouts, shold they occur, have some problems here, so I'll need to
+send prep patches to address a few issues with that.
