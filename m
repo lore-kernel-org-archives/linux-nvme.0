@@ -1,27 +1,55 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 14 May 2019 08:11:41 +0200
+From: rafael@kernel.org (Rafael J. Wysocki)
+Date: Tue, 14 May 2019 10:04:22 +0200
 Subject: [PATCH] nvme/pci: Use host managed power state for suspend
-In-Reply-To: <df020e90e8b54244b37910a2a7965671@AUSX13MPC105.AMER.DELL.COM>
+In-Reply-To: <20190513150458.GA15437@localhost.localdomain>
 References: <20190510212937.11661-1-keith.busch@intel.com>
  <0080aaff18e5445dabca509d4113eca8@AUSX13MPC105.AMER.DELL.COM>
  <955722d8fc16425dbba0698c4806f8fd@AUSX13MPC105.AMER.DELL.COM>
- <20190513143754.GE15318@localhost.localdomain>
- <7ab8274ef1ce46fcae54a50abc76ae4a@AUSX13MPC105.AMER.DELL.COM>
- <20190513145708.GA25897@lst.de>
- <df020e90e8b54244b37910a2a7965671@AUSX13MPC105.AMER.DELL.COM>
-Message-ID: <20190514061141.GA7059@lst.de>
+ <20190513143741.GA25500@lst.de>
+ <b12ff66f8c224e4199ff1b90ed6bc393@AUSX13MPC105.AMER.DELL.COM>
+ <20190513145522.GA15421@localhost.localdomain>
+ <d69ff7154191492eaa8f55535a7effa5@AUSX13MPC105.AMER.DELL.COM>
+ <20190513150458.GA15437@localhost.localdomain>
+Message-ID: <CAJZ5v0g3cCYK3rAQn09pCr7LMrRr=zQy_ceaEB5AKhVx604YgA@mail.gmail.com>
 
-On Mon, May 13, 2019@06:01:39PM +0000, Mario.Limonciello@dell.com wrote:
-> When using HMB the SSD will be writing to some memory mapped region.
-> Writing to
-> that region would use DMA to access host memory, no?
+On Mon, May 13, 2019@5:10 PM Keith Busch <kbusch@kernel.org> wrote:
+>
+> On Mon, May 13, 2019@03:05:42PM +0000, Mario.Limonciello@dell.com wrote:
+> > This system power state - suspend to idle is going to freeze threads.
+> > But we're talking a multi threaded kernel.  Can't there be a timing problem going
+> > on then too?  With a disk flush being active in one task and the other task trying
+> > to put the disk into the deepest power state.  If you don't freeze the queues how
+> > can you guarantee that didn't happen?
+>
+> But if an active data flush task is running, then we're not idle and
+> shouldn't go to low power.
 
-Memory mapped region?  It will use the devices DMA engine to write
-host memory, which we explicitly allowed it.
+To be entirely precise, system suspend prevents user space from
+running while it is in progress.  It doesn't do that to kernel
+threads, at least not by default, though, so if there is a kernel
+thread flushing the data, it needs to be stopped or suspended somehow
+directly in the system suspend path.  [And yes, system suspend (or
+hibernation) may take place at any time so long as all user space can
+be prevented from running then (by means of the tasks freezer).]
 
-> If the DMA controller is not functional writing to that region won't work properly as 
-> it can't access that memory.
+However, freezing the queues from a driver ->suspend callback doesn't
+help in general and the reason why is hibernation.  Roughly speaking,
+hibernation works in two steps, the first of which creates a snapshot
+image of system memory and the second one writes that image to
+persistent storage.  Devices are resumed between the two steps in
+order to make it possible to do the write, but that would unfreeze the
+queues and let the data flusher run.  If it runs, it may cause the
+memory snapshot image that has just been created to become outdated
+and restoring the system memory contents from that image going forward
+may cause corruption to occur.
 
-The DMA controller is in the device.  External DMA controllers are only
-used on very low-end periphals, usually cheap IP blocks like SPI
-controllers or similar.
+Thus freezing the queues from a driver ->suspend callback should not
+be relied on for correctness if the same callback is used for system
+suspend and hibernation, which is the case here.  If doing that
+prevents the system from crashing, it is critical to find out why IMO,
+as that may very well indicate a broader issue, not necessarily in the
+driver itself.
+
+But note that even if the device turns out to behave oddly, it still
+needs to be handled, unless it may be prevented from shipping to users
+in that shape.  If it ships, users will face the odd behavior anyway.
