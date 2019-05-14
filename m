@@ -1,21 +1,25 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 14 May 2019 12:20:31 +0200
-Subject: [PATCH 5/7] lpfc: add nvmet discovery_event op support
-In-Reply-To: <20190513224314.24169-6-jsmart2021@gmail.com>
+Date: Tue, 14 May 2019 12:22:22 +0200
+Subject: [PATCH 6/7] lpfc: Add support for translating an RSCN rcv into a
+ discovery rescan
+In-Reply-To: <20190513224314.24169-7-jsmart2021@gmail.com>
 References: <20190513224314.24169-1-jsmart2021@gmail.com>
- <20190513224314.24169-6-jsmart2021@gmail.com>
-Message-ID: <640482f3-059a-ab06-fe71-8d0fe4db1ba5@suse.de>
+ <20190513224314.24169-7-jsmart2021@gmail.com>
+Message-ID: <911d2676-c34c-a479-ef23-c2ad08f53e56@suse.de>
 
 On 5/14/19 12:43 AM, James Smart wrote:
-> This patch adds support for the nvmet discovery op. When the callback
-> routine is called, the driver will call the routine to generate an RSCN
-> to the port on the other end of the link.
+> This patch updates RSCN receive processing to check for the remote
+> port being an NVME port, and if so, invoke the nvme_fc callback to
+> rescan the remote port.  The rescan will generate a discovery udev
+> event.
 > 
 > Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 > Signed-off-by: James Smart <jsmart2021 at gmail.com>
 > ---
->   drivers/scsi/lpfc/lpfc_nvmet.c | 17 +++++++++++++++++
->   1 file changed, 17 insertions(+)
+>   drivers/scsi/lpfc/lpfc_crtn.h |  2 ++
+>   drivers/scsi/lpfc/lpfc_els.c  |  5 +++++
+>   drivers/scsi/lpfc/lpfc_nvme.c | 44 +++++++++++++++++++++++++++++++++++++++++++
+>   3 files changed, 51 insertions(+)
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
