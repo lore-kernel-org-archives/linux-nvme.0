@@ -1,22 +1,21 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 14 May 2019 12:17:36 +0200
-Subject: [PATCH 2/7] nvmet_fc: add transport discovery change event
- callback support
-In-Reply-To: <20190513224314.24169-3-jsmart2021@gmail.com>
+Date: Tue, 14 May 2019 12:17:55 +0200
+Subject: [PATCH 3/7] nvme-fcloop: Add support for nvmet discovery_event op
+In-Reply-To: <20190513224314.24169-4-jsmart2021@gmail.com>
 References: <20190513224314.24169-1-jsmart2021@gmail.com>
- <20190513224314.24169-3-jsmart2021@gmail.com>
-Message-ID: <63cca277-f3f8-7c86-c9ea-8ea7fdf76671@suse.de>
+ <20190513224314.24169-4-jsmart2021@gmail.com>
+Message-ID: <cdf07591-fbab-d72b-381d-a8e301bf3363@suse.de>
 
 On 5/14/19 12:43 AM, James Smart wrote:
-> This patch adds support for the nvmet discovery_change transport op.
-> In turn, the transport adds it's own LLDD api callback discovery_event
-> op to request the LLDD to generate an RSCN for the discovery change.
+> Update fcloop to support the discovery_event operation and
+> invoke a nvme rescan. In a real fc adapter, this would generate an
+> RSCN, which the host would receive and convert into a nvme rescan
+> on the remote port specified in the rscn payload.
 > 
 > Signed-off-by: James Smart <jsmart2021 at gmail.com>
 > ---
->   drivers/nvme/target/fc.c       | 11 +++++++++++
->   include/linux/nvme-fc-driver.h |  6 ++++++
->   2 files changed, 17 insertions(+)
+>   drivers/nvme/target/fcloop.c | 37 +++++++++++++++++++++++++++++++++++++
+>   1 file changed, 37 insertions(+)
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
