@@ -1,28 +1,51 @@
-From: kbusch@kernel.org (Keith Busch)
-Date: Tue, 14 May 2019 08:23:37 -0600
-Subject: PROBLEM: call trace triggered in 5.1.1 in
- drivers/nvme/host/pci.c, 5.0.11 ok
-In-Reply-To: <20190514141439.GA14213@lst.de>
-References: <CAC=wYCGgPQPjUUjQTZh4H7b8WRQFGmbKCBRAq75g1BXjBR0L0Q@mail.gmail.com>
- <20190514052027.GB6294@lst.de>
- <CAC=wYCFhKR5YrAwL1agz=USg3DAkx5BtXAfv64nOfTrwTji40Q@mail.gmail.com>
- <20190514055832.GA6843@lst.de>
- <CAC=wYCECcfqoDDMcgVj-4dAEUxNpY62vAEMOD8-eGrZK8wOV-g@mail.gmail.com>
- <20190514135434.GA19837@localhost.localdomain>
- <20190514141220.GA25519@ming.t460p> <20190514141439.GA14213@lst.de>
-Message-ID: <20190514142337.GA19881@localhost.localdomain>
+From: akinobu.mita@gmail.com (Akinobu Mita)
+Date: Wed, 15 May 2019 00:14:38 +0900
+Subject: [PATCH] nvme-cli: align comments for struct telemetry_log_page_hdr
+Message-ID: <1557846878-25595-1-git-send-email-akinobu.mita@gmail.com>
 
-On Tue, May 14, 2019@04:14:39PM +0200, Christoph Hellwig wrote:
-> On Tue, May 14, 2019@10:12:22PM +0800, Ming Lei wrote:
-> > The two aren't merged because the default segment size(BLK_MAX_SEGMENT_SIZE) is 64KB,
-> 
-> Yep.
-> 
-> > and the following patch may fix this issue:
-> 
-> Or this one posted yesterday for that matter:
-> 
-> https://marc.info/?l=linux-block&m=155772952511144&w=2
+Align the field member comments for struct telemetry_log_page_hdr.
+This also uses tabs instead of spaces to align field members.
 
-Nice, either one looks good. We could also safely cap it to
-(limits->max_hw_sectors << 9) instead of UINT_MAX.
+Cc: Keith Busch <keith.busch at intel.com>
+Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni at wdc.com>
+Suggested-by: Chaitanya Kulkarni <Chaitanya.Kulkarni at wdc.com>
+Signed-off-by: Akinobu Mita <akinobu.mita at gmail.com>
+---
+ linux/nvme.h | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
+
+diff --git a/linux/nvme.h b/linux/nvme.h
+index 2c840b9..118095a 100644
+--- a/linux/nvme.h
++++ b/linux/nvme.h
+@@ -427,17 +427,17 @@ struct nvme_id_nvmset {
+ };
+ 
+ struct nvme_telemetry_log_page_hdr {
+-	__u8    lpi; /* Log page identifier */
+-	__u8    rsvd[4];
+-	__u8    iee_oui[3];
+-	__le16  dalb1; /* Data area 1 last block */
+-	__le16  dalb2; /* Data area 2 last block */
+-	__le16  dalb3; /* Data area 3 last block */
+-	__u8    rsvd1[368];
+-	__u8    ctrlavail; /* Controller initiated data avail?*/
+-	__u8    ctrldgn; /* Controller initiated telemetry Data Gen # */
+-	__u8    rsnident[128];
+-	__u8    telemetry_dataarea[0];
++	__u8	lpi;		/* Log page identifier */
++	__u8	rsvd[4];
++	__u8	iee_oui[3];
++	__le16	dalb1;		/* Data area 1 last block */
++	__le16	dalb2;		/* Data area 2 last block */
++	__le16	dalb3;		/* Data area 3 last block */
++	__u8	rsvd1[368];
++	__u8	ctrlavail;	/* Controller initiated data avail? */
++	__u8	ctrldgn;	/* Controller initiated telemetry Data Gen # */
++	__u8	rsnident[128];
++	__u8	telemetry_dataarea[0];
+ };
+ 
+ struct nvme_endurance_group_log {
+-- 
+2.7.4
