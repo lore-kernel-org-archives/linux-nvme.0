@@ -1,56 +1,154 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 15 May 2019 10:36:22 -0600
-Subject: [PATCH 3/6] nvme-pci: Unblock reset_work on IO failure
+Date: Wed, 15 May 2019 10:36:25 -0600
+Subject: [PATCHv2 6/6] nvme-pci: Use host managed power state for suspend
 In-Reply-To: <20190515163625.21776-1-keith.busch@intel.com>
 References: <20190515163625.21776-1-keith.busch@intel.com>
-Message-ID: <20190515163625.21776-3-keith.busch@intel.com>
+Message-ID: <20190515163625.21776-6-keith.busch@intel.com>
 
-The reset_work waits in the connecting state for previously queued IO to
-complete before setting the controller to live. If these requests time
-out, we won't be able to restart the controller because the reset_work
-is already running, and any requeued IOs will block reset_work forever.
+The nvme pci driver prepares its devices for power loss during suspend
+by shutting down the controllers. The power setting is deferred to
+pci driver's power management before the platform removes power. The
+suspend-to-idle mode, however, does not remove power.
 
-When connecting, shutdown the controller to flush all entered requests
-to a failed completion if a timeout occurs, and ensure the controller
-can't transition to the live state after we've unblocked it. The driver
-will instead unbind from the controller if we can't complete IO during
-initialization.
+NVMe devices that implement host managed power settings can achieve
+lower power and better transition latencies than using generic PCI power
+settings. Try to use this feature if the platform is not involved with
+the suspend. If successful, restore the previous power state on resume.
 
+Cc: Mario Limonciello <Mario.Limonciello at dell.com>
+Cc: Kai Heng Feng <kai.heng.feng at canonical.com>
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/pci.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+v1 -> v2:
+
+  Split prep patches for the get features
+
+  Ensure queued and dispatch IO completes before attempting to set the low
+  power state. This also required a sync to ensure that nothing timed
+  out or reset the controller while we attempted the intermittent queue freeze.
+
+  Disable HMB if enabled. It is not clear this should be necessary except
+  through empirical reports.
+
+ drivers/nvme/host/pci.c | 80 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 80 insertions(+)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index c72755311ffa..8df176ffcbc1 100644
+index 599065ed6a32..42d5c6369803 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -1257,7 +1257,6 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
- 	struct nvme_dev *dev = nvmeq->dev;
- 	struct request *abort_req;
- 	struct nvme_command cmd;
--	bool shutdown = false;
- 	u32 csts = readl(dev->bar + NVME_REG_CSTS);
+@@ -18,6 +18,7 @@
+ #include <linux/mutex.h>
+ #include <linux/once.h>
+ #include <linux/pci.h>
++#include <linux/suspend.h>
+ #include <linux/t10-pi.h>
+ #include <linux/types.h>
+ #include <linux/io-64-nonatomic-lo-hi.h>
+@@ -116,6 +117,7 @@ struct nvme_dev {
+ 	u32 cmbsz;
+ 	u32 cmbloc;
+ 	struct nvme_ctrl ctrl;
++	u32 last_ps;
  
- 	/* If PCI error recovery process is happening, we cannot reset or
-@@ -1294,14 +1293,14 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
- 	 * shutdown, so we return BLK_EH_DONE.
- 	 */
- 	switch (dev->ctrl.state) {
--	case NVME_CTRL_DELETING:
--		shutdown = true;
--		/* fall through */
- 	case NVME_CTRL_CONNECTING:
-+		nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DELETING);
-+		/* fall through */
-+	case NVME_CTRL_DELETING:
- 		dev_warn_ratelimited(dev->ctrl.device,
- 			 "I/O %d QID %d timeout, disable controller\n",
- 			 req->tag, nvmeq->qid);
--		nvme_dev_disable(dev, shutdown);
+ 	mempool_t *iod_mempool;
+ 
+@@ -2829,11 +2831,87 @@ static void nvme_remove(struct pci_dev *pdev)
+ }
+ 
+ #ifdef CONFIG_PM_SLEEP
++static int nvme_deep_state(struct nvme_dev *dev)
++{
++	struct pci_dev *pdev = to_pci_dev(dev->dev);
++	struct nvme_ctrl *ctrl = &dev->ctrl;
++	int ret = -EBUSY;;
++
++	nvme_start_freeze(ctrl);
++	nvme_wait_freeze(ctrl);
++	nvme_sync_queues(ctrl);
++
++	if (ctrl->state != NVME_CTRL_LIVE &&
++	    ctrl->state != NVME_CTRL_ADMIN_ONLY)
++		goto unfreeze;
++
++	if (dev->host_mem_descs) {
++		ret = nvme_set_host_mem(dev, 0);
++		if (ret < 0)
++			goto unfreeze;
++	}
++
++	dev->last_ps = 0;
++	ret = nvme_get_features(ctrl, NVME_FEAT_POWER_MGMT, 0, NULL, 0,
++				&dev->last_ps);
++	if (ret < 0)
++		goto unfreeze;
++
++	ret = nvme_set_features(ctrl, NVME_FEAT_POWER_MGMT, dev->ctrl.npss,
++				NULL, 0, NULL);
++	if (ret < 0)
++		goto unfreeze;
++
++	if (ret) {
++		/*
++		 * Clearing npss forces a controller reset on resume. The
++		 * correct value will be resdicovered then.
++		 */
++		ctrl->npss = 0;
 +		nvme_dev_disable(dev, true);
- 		nvme_req(req)->flags |= NVME_REQ_CANCELLED;
- 		return BLK_EH_DONE;
- 	case NVME_CTRL_RESETTING:
++		ret = 0;
++		goto unfreeze;
++	}
++
++	/*
++	 * A saved state prevents pci pm from generically controlling the
++	 * device's power. We're using protocol specific settings so we don't
++	 * want pci interfering.
++	 */
++	pci_save_state(pdev);
++unfreeze:
++	nvme_unfreeze(ctrl);
++	return ret;
++}
++
++static int nvme_make_operational(struct nvme_dev *dev)
++{
++	struct nvme_ctrl *ctrl = &dev->ctrl;
++	int ret;
++
++	ret = nvme_set_features(ctrl, NVME_FEAT_POWER_MGMT, dev->last_ps,
++				NULL, 0, NULL);
++	if (ret)
++		goto reset;
++
++	if (dev->host_mem_descs) {
++		ret = nvme_setup_host_mem(dev);
++		if (ret)
++			goto reset;
++	}
++	return 0;
++reset:
++	nvme_reset_ctrl(ctrl);
++	return 0;
++}
++
+ static int nvme_suspend(struct device *dev)
+ {
+ 	struct pci_dev *pdev = to_pci_dev(dev);
+ 	struct nvme_dev *ndev = pci_get_drvdata(pdev);
+ 
++	if (!pm_suspend_via_firmware() && ndev->ctrl.npss)
++		return nvme_deep_state(ndev);
+ 	nvme_dev_disable(ndev, true);
+ 	return 0;
+ }
+@@ -2843,6 +2921,8 @@ static int nvme_resume(struct device *dev)
+ 	struct pci_dev *pdev = to_pci_dev(dev);
+ 	struct nvme_dev *ndev = pci_get_drvdata(pdev);
+ 
++	if (!pm_resume_via_firmware() && ndev->ctrl.npss)
++		return nvme_make_operational(ndev);
+ 	nvme_reset_ctrl(&ndev->ctrl);
+ 	return 0;
+ }
 -- 
 2.14.4
