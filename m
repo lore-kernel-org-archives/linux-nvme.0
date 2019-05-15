@@ -1,38 +1,53 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 15 May 2019 10:36:21 -0600
-Subject: [PATCH 2/6] nvme-pci: Don't disable on timeout in reset state
-In-Reply-To: <20190515163625.21776-1-keith.busch@intel.com>
-References: <20190515163625.21776-1-keith.busch@intel.com>
-Message-ID: <20190515163625.21776-2-keith.busch@intel.com>
+Date: Wed, 15 May 2019 10:36:20 -0600
+Subject: [PATCH 1/6] nvme-pci: Fix controller freeze wait disabling
+Message-ID: <20190515163625.21776-1-keith.busch@intel.com>
 
-The driver doesn't dispatch commands that it needs to wait for in the reset
-state anymore. If a timeout occurs in this state, the reset work is
-already disabling the controller, so just reset the request's timer.
+If a controller disabling didn't start a freeze, like when we disable
+whilst in the connecting state, don't wait for freeze to complete.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/pci.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/nvme/host/pci.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index d4e442160048..c72755311ffa 100644
+index 2a8708c9ac18..d4e442160048 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -1298,13 +1298,14 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
- 		shutdown = true;
- 		/* fall through */
- 	case NVME_CTRL_CONNECTING:
--	case NVME_CTRL_RESETTING:
- 		dev_warn_ratelimited(dev->ctrl.device,
- 			 "I/O %d QID %d timeout, disable controller\n",
- 			 req->tag, nvmeq->qid);
- 		nvme_dev_disable(dev, shutdown);
- 		nvme_req(req)->flags |= NVME_REQ_CANCELLED;
- 		return BLK_EH_DONE;
-+	case NVME_CTRL_RESETTING:
-+		return BLK_EH_RESET_TIMER;
- 	default:
- 		break;
+@@ -2376,7 +2376,7 @@ static void nvme_pci_disable(struct nvme_dev *dev)
+ 
+ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+ {
+-	bool dead = true;
++	bool dead = true, freeze = false;
+ 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+ 
+ 	mutex_lock(&dev->shutdown_lock);
+@@ -2384,8 +2384,10 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+ 		u32 csts = readl(dev->bar + NVME_REG_CSTS);
+ 
+ 		if (dev->ctrl.state == NVME_CTRL_LIVE ||
+-		    dev->ctrl.state == NVME_CTRL_RESETTING)
++		    dev->ctrl.state == NVME_CTRL_RESETTING) {
++			freeze = true;
+ 			nvme_start_freeze(&dev->ctrl);
++		}
+ 		dead = !!((csts & NVME_CSTS_CFS) || !(csts & NVME_CSTS_RDY) ||
+ 			pdev->error_state  != pci_channel_io_normal);
  	}
+@@ -2394,10 +2396,8 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+ 	 * Give the controller a chance to complete all entered requests if
+ 	 * doing a safe shutdown.
+ 	 */
+-	if (!dead) {
+-		if (shutdown)
+-			nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
+-	}
++	if (!dead && shutdown && freeze)
++		nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
+ 
+ 	nvme_stop_queues(&dev->ctrl);
+ 
 -- 
 2.14.4
