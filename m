@@ -1,42 +1,74 @@
-From: Mario.Limonciello@dell.com (Mario.Limonciello@dell.com)
-Date: Wed, 15 May 2019 19:43:16 +0000
-Subject: [PATCHv2 6/6] nvme-pci: Use host managed power state for suspend
-In-Reply-To: <20190515193415.GA22079@localhost.localdomain>
-References: <20190515163625.21776-1-keith.busch@intel.com>
- <20190515163625.21776-6-keith.busch@intel.com>
- <f3d7281f020844828161b2387732cc42@AUSX13MPC105.AMER.DELL.COM>
- <20190515193415.GA22079@localhost.localdomain>
-Message-ID: <67e9643567c94a168c64e791ce41e9ec@AUSX13MPC105.AMER.DELL.COM>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 15 May 2019 15:33:51 -0600
+Subject: [PATCH RFC] nvme: Common subsys and controller instances IDA
+Message-ID: <20190515213351.22190-1-keith.busch@intel.com>
 
-> -----Original Message-----
-> From: Keith Busch <kbusch at kernel.org>
-> Sent: Wednesday, May 15, 2019 2:34 PM
-> To: Limonciello, Mario
-> Cc: keith.busch at intel.com; hch at lst.de; sagi at grimberg.me; linux-
-> nvme at lists.infradead.org; rafael at kernel.org; kai.heng.feng at canonical.com
-> Subject: Re: [PATCHv2 6/6] nvme-pci: Use host managed power state for
-> suspend
-> 
-> 
-> [EXTERNAL EMAIL]
-> 
-> On Wed, May 15, 2019 at 07:33:45PM +0000, Mario.Limonciello at dell.com
-> wrote:
-> > > +static int nvme_deep_state(struct nvme_dev *dev) {
-> > > +	struct pci_dev *pdev = to_pci_dev(dev->dev);
-> > > +	struct nvme_ctrl *ctrl = &dev->ctrl;
-> > > +	int ret = -EBUSY;;
-> >
-> > Looks like a small typographical error with the double ;;
-> 
-> Good eye. I won't respin for that just yet. :)
-> 
-> Just fyi, I accidently didn't explicitly CC you on patches 1-5, and most of those
-> are necessary for patch 6/6 to compile. They whole series is on the mailing list
-> though.
+The controller char device name used to be a subset of all its
+namespace block device names, but that's not true when we name block
+devices for their parent subsystem. It's long been the case that the
+numerals appended to our device handles are simply the first unique
+number available. They do not have any more significance in relations
+to other devices with simpler numeric prefixes.
 
-Yes I noticed this, and at least one of those needs stuff in -next.
-Do you feel this is going to be valuable to test on something earlier via backports
-(such as 4.19 LTS), or do you want to see results directly on -next?
+However, this disconnect has led to some very unfortunate situations
+where people assume the old behavior, and accidently have lost data
+because they issue admin commands to the wrong device. For example,
+I want to format /dev/nvme0n1 and /dev/nvme0n2, so I'll run:
 
-The series pretty much applies to 4.19 after backporting 2d4bcc16481ebc395b2d6220804a1ef2531e5ede
+  # nvme format /dev/nvme0
+
+to hit up all namespaces attached to nvme0. The problem is that nvme0's
+namespaces may not even be those desired namespaces, and now I've lost
+data on devices I wished to preserve.
+
+So here's a solution that no one will like: pull subsystem and controller
+instances from the same IDA so that there won't be any namespace block
+devices with a matching controller handle name. While this does nothing
+to clear up device relationships, this will force the user to think
+really hard about what they're doing and avoid such mistakes.
+
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/core.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index a6644a2c3ef7..1d17732267f0 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -80,7 +80,6 @@ EXPORT_SYMBOL_GPL(nvme_reset_wq);
+ struct workqueue_struct *nvme_delete_wq;
+ EXPORT_SYMBOL_GPL(nvme_delete_wq);
+ 
+-static DEFINE_IDA(nvme_subsystems_ida);
+ static LIST_HEAD(nvme_subsystems);
+ static DEFINE_MUTEX(nvme_subsystems_lock);
+ 
+@@ -2247,7 +2246,7 @@ static void nvme_init_subnqn(struct nvme_subsystem *subsys, struct nvme_ctrl *ct
+ 
+ static void __nvme_release_subsystem(struct nvme_subsystem *subsys)
+ {
+-	ida_simple_remove(&nvme_subsystems_ida, subsys->instance);
++	ida_simple_remove(&nvme_instance_ida, subsys->instance);
+ 	kfree(subsys);
+ }
+ 
+@@ -2366,7 +2365,7 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+ 	subsys = kzalloc(sizeof(*subsys), GFP_KERNEL);
+ 	if (!subsys)
+ 		return -ENOMEM;
+-	ret = ida_simple_get(&nvme_subsystems_ida, 0, 0, GFP_KERNEL);
++	ret = ida_simple_get(&nvme_instance_ida, 0, 0, GFP_KERNEL);
+ 	if (ret < 0) {
+ 		kfree(subsys);
+ 		return ret;
+@@ -3958,7 +3957,6 @@ static int __init nvme_core_init(void)
+ 
+ static void __exit nvme_core_exit(void)
+ {
+-	ida_destroy(&nvme_subsystems_ida);
+ 	class_destroy(nvme_subsys_class);
+ 	class_destroy(nvme_class);
+ 	unregister_chrdev_region(nvme_chr_devt, NVME_MINORS);
+-- 
+2.14.4
