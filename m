@@ -1,80 +1,56 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 15 May 2019 10:36:24 -0600
-Subject: [PATCH 5/6] nvme: Export get and set features
+Date: Wed, 15 May 2019 10:36:22 -0600
+Subject: [PATCH 3/6] nvme-pci: Unblock reset_work on IO failure
 In-Reply-To: <20190515163625.21776-1-keith.busch@intel.com>
 References: <20190515163625.21776-1-keith.busch@intel.com>
-Message-ID: <20190515163625.21776-5-keith.busch@intel.com>
+Message-ID: <20190515163625.21776-3-keith.busch@intel.com>
 
-Future use intends to make use of features, so export these functions. And
-since their implementation is identical except for the opcode, provide
-a new convenience function that implement each.
+The reset_work waits in the connecting state for previously queued IO to
+complete before setting the controller to live. If these requests time
+out, we won't be able to restart the controller because the reset_work
+is already running, and any requeued IOs will block reset_work forever.
+
+When connecting, shutdown the controller to flush all entered requests
+to a failed completion if a timeout occurs, and ensure the controller
+can't transition to the live state after we've unblocked it. The driver
+will instead unbind from the controller if we can't complete IO during
+initialization.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/core.c | 22 +++++++++++++++++++---
- drivers/nvme/host/nvme.h |  4 ++++
- 2 files changed, 23 insertions(+), 3 deletions(-)
+ drivers/nvme/host/pci.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index a116ea037f83..f2411d50e764 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1113,15 +1113,15 @@ static struct nvme_id_ns *nvme_identify_ns(struct nvme_ctrl *ctrl,
- 	return id;
- }
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index c72755311ffa..8df176ffcbc1 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1257,7 +1257,6 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ 	struct nvme_dev *dev = nvmeq->dev;
+ 	struct request *abort_req;
+ 	struct nvme_command cmd;
+-	bool shutdown = false;
+ 	u32 csts = readl(dev->bar + NVME_REG_CSTS);
  
--static int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword11,
--		      void *buffer, size_t buflen, u32 *result)
-+static int nvme_features(struct nvme_ctrl *dev, u8 op, unsigned fid,
-+		unsigned dword11, void *buffer, size_t buflen, u32 *result)
- {
- 	struct nvme_command c;
- 	union nvme_result res;
- 	int ret;
- 
- 	memset(&c, 0, sizeof(c));
--	c.features.opcode = nvme_admin_set_features;
-+	c.features.opcode = op;
- 	c.features.fid = cpu_to_le32(fid);
- 	c.features.dword11 = cpu_to_le32(dword11);
- 
-@@ -1132,6 +1132,22 @@ static int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword
- 	return ret;
- }
- 
-+int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword11,
-+		      void *buffer, size_t buflen, u32 *result)
-+{
-+	return nvme_features(dev, nvme_admin_set_features, fid, dword11, buffer,
-+			     buflen, result);
-+}
-+EXPORT_SYMBOL_GPL(nvme_set_features);
-+
-+int nvme_get_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword11,
-+		      void *buffer, size_t buflen, u32 *result)
-+{
-+	return nvme_features(dev, nvme_admin_get_features, fid, dword11, buffer,
-+			     buflen, result);
-+}
-+EXPORT_SYMBOL_GPL(nvme_get_features);
-+
- int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count)
- {
- 	u32 q_count = (*count - 1) | ((*count - 1) << 16);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 55553d293a98..90aa38c588ed 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -459,6 +459,10 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- 		union nvme_result *result, void *buffer, unsigned bufflen,
- 		unsigned timeout, int qid, int at_head,
- 		blk_mq_req_flags_t flags, bool poll);
-+int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword11,
-+		      void *buffer, size_t buflen, u32 *result);
-+int nvme_get_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword11,
-+		      void *buffer, size_t buflen, u32 *result);
- int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count);
- void nvme_stop_keep_alive(struct nvme_ctrl *ctrl);
- int nvme_reset_ctrl(struct nvme_ctrl *ctrl);
+ 	/* If PCI error recovery process is happening, we cannot reset or
+@@ -1294,14 +1293,14 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ 	 * shutdown, so we return BLK_EH_DONE.
+ 	 */
+ 	switch (dev->ctrl.state) {
+-	case NVME_CTRL_DELETING:
+-		shutdown = true;
+-		/* fall through */
+ 	case NVME_CTRL_CONNECTING:
++		nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DELETING);
++		/* fall through */
++	case NVME_CTRL_DELETING:
+ 		dev_warn_ratelimited(dev->ctrl.device,
+ 			 "I/O %d QID %d timeout, disable controller\n",
+ 			 req->tag, nvmeq->qid);
+-		nvme_dev_disable(dev, shutdown);
++		nvme_dev_disable(dev, true);
+ 		nvme_req(req)->flags |= NVME_REQ_CANCELLED;
+ 		return BLK_EH_DONE;
+ 	case NVME_CTRL_RESETTING:
 -- 
 2.14.4
