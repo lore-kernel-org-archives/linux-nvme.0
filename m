@@ -1,63 +1,71 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Thu, 16 May 2019 09:25:02 -0700
-Subject: [PATCH 3/3] nvme-fc: fail reconnect if state change fails
-In-Reply-To: <20190516083740.95894-4-hare@suse.de>
-References: <20190516083740.95894-1-hare@suse.de>
- <20190516083740.95894-4-hare@suse.de>
-Message-ID: <9f09edd0-bf71-61ed-7bcb-3c9e87d454a5@broadcom.com>
+From: akinobu.mita@gmail.com (Akinobu Mita)
+Date: Fri, 17 May 2019 01:40:28 +0900
+Subject: [PATCH] nvme-cli: add kernel-doc comment for struct
+ telemetry_log_page_hdr
+Message-ID: <1558024828-9356-1-git-send-email-akinobu.mita@gmail.com>
 
+This adds the kernel-doc data structure comment for struct
+telemetry_log_page_hdr.
 
+This also replaces spaces with tabs to align the structure fields.
 
-On 5/16/2019 1:37 AM, Hannes Reinecke wrote:
-> If the final state change to LIVE in nvme_fc_create_association()
-> fails the controller is not operational as no I/O is possible.
-> So we should be returning an error here to reschedule reconnect.
->
-> Signed-off-by: Hannes Reinecke <hare at suse.com>
-> ---
->   drivers/nvme/host/fc.c | 14 ++++++++++----
->   1 file changed, 10 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> index e5c81ba2b7a1..9f9300cbdb62 100644
-> --- a/drivers/nvme/host/fc.c
-> +++ b/drivers/nvme/host/fc.c
-> @@ -2620,7 +2620,6 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
->   {
->   	struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
->   	int ret;
-> -	bool changed;
->   
->   	++ctrl->ctrl.nr_reconnects;
->   
-> @@ -2725,12 +2724,19 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
->   			goto out_term_aen_ops;
->   	}
->   
-> -	changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE);
-> +	if (nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE)) {
-> +		if (ctrl->ctrl.state != NVME_CTRL_DELETING) {
-is this easier to arrange as:
- ??? if (nvme_change_ctrl_state(...) &&
- ???????? ctrl->ctrl.state != NVME_CTRL_DELETING) {
+Cc: Keith Busch <keith.busch at intel.com>
+Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni at wdc.com>
+Cc: Bart Van Assche <bvanassche at acm.org>
+Suggested-by: Bart Van Assche <bvanassche at acm.org>
+Signed-off-by: Akinobu Mita <akinobu.mita at gmail.com>
+---
+ linux/nvme.h | 37 ++++++++++++++++++++++++++-----------
+ 1 file changed, 26 insertions(+), 11 deletions(-)
 
-> +			dev_err(ctrl->ctrl.device,
-> +				"NVME-FC{%d}: error_recovery: Couldn't change "
-> +				"state from %s to LIVE\n", ctrl->cnum,
-> +				nvme_ctrl_state_name(&ctrl->ctrl));
-> +			return -EAGAIN;
-> +		}
-> +	}
->   
->   	ctrl->ctrl.nr_reconnects = 0;
->   
-> -	if (changed)
-> -		nvme_start_ctrl(&ctrl->ctrl);
-> +	nvme_start_ctrl(&ctrl->ctrl);
-
-I don't think you want to eliminate this check - you don't want to call 
-nvme_start_ctrl() if state did transition to DELETING. You want to 
-continue out to release the create thread, but the delete work will be 
-coming along shortly.
-
--- james
+diff --git a/linux/nvme.h b/linux/nvme.h
+index 2c840b9..cac4d19 100644
+--- a/linux/nvme.h
++++ b/linux/nvme.h
+@@ -426,18 +426,33 @@ struct nvme_id_nvmset {
+ 	struct nvme_nvmset_attr_entry	ent[NVME_MAX_NVMSET];
+ };
+ 
++/**
++ * struct nvme_telemetry_log_page_hdr - structure for telemetry log page
++ * @lpi: Log page identifier
++ * @iee_oui: IEEE OUI Identifier
++ * @dalb1: Data area 1 last block
++ * @dalb2: Data area 2 last block
++ * @dalb3: Data area 3 last block
++ * @ctrlavail: Controller initiated data available
++ * @ctrldgn: Controller initiated telemetry Data Generation Number
++ * @rsnident: Reason Identifier
++ * @telemetry_dataarea: Contains telemetry data block
++ *
++ * This structure can be used for both telemetry host-initiated log page
++ * and controller-initiated log page.
++ */
+ struct nvme_telemetry_log_page_hdr {
+-	__u8    lpi; /* Log page identifier */
+-	__u8    rsvd[4];
+-	__u8    iee_oui[3];
+-	__le16  dalb1; /* Data area 1 last block */
+-	__le16  dalb2; /* Data area 2 last block */
+-	__le16  dalb3; /* Data area 3 last block */
+-	__u8    rsvd1[368];
+-	__u8    ctrlavail; /* Controller initiated data avail?*/
+-	__u8    ctrldgn; /* Controller initiated telemetry Data Gen # */
+-	__u8    rsnident[128];
+-	__u8    telemetry_dataarea[0];
++	__u8	lpi;
++	__u8	rsvd[4];
++	__u8	iee_oui[3];
++	__le16	dalb1;
++	__le16	dalb2;
++	__le16	dalb3;
++	__u8	rsvd1[368];
++	__u8	ctrlavail;
++	__u8	ctrldgn;
++	__u8	rsnident[128];
++	__u8	telemetry_dataarea[0];
+ };
+ 
+ struct nvme_endurance_group_log {
+-- 
+2.7.4
