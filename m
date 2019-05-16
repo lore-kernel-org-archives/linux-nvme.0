@@ -1,21 +1,31 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 16 May 2019 16:51:07 +0200
+From: martin.petersen@oracle.com (Martin K. Petersen)
+Date: Thu, 16 May 2019 10:58:43 -0400
 Subject: [PATCH RFC] nvme: Common subsys and controller instances IDA
-In-Reply-To: <20190516144452.GB23372@localhost.localdomain>
+In-Reply-To: <20190516144452.GB23372@localhost.localdomain> (Keith Busch's
+ message of "Thu, 16 May 2019 08:44:52 -0600")
 References: <20190515213351.22190-1-keith.busch@intel.com>
  <20190516064651.GA30234@lst.de>
  <1f0e7049-c926-98e0-3624-0d24eb45cd87@suse.de>
  <20190516144452.GB23372@localhost.localdomain>
-Message-ID: <20190516145107.GA23989@lst.de>
+Message-ID: <yq17eaqbg4c.fsf@oracle.com>
 
-On Thu, May 16, 2019@08:44:52AM -0600, Keith Busch wrote:
-> > /dev/disk/by-id/nvme-subsys-$NQN-ns-$NS
-> 
-> Hm, the current by-id rules use the namespace's nguid or eui if it exists,
-> and serial + nsid if not. We can add susbsys too.
 
-Anything that supports the subsystem NQN must support euid, nguid or
-uuid, so I'm not sure it is worth it.
+Keith,
 
-We still need good human readable names for the character devices,
-though.
+>> to keep in line with the other symlinks in /dev/disk/by-id/ The
+>> controller symlinks don't really fall into this category, though; we
+>> could create a 'nvme' subdirectory (much like MD does), and create
+>> symlinks in there.
+>
+> Cool, I would also like to see persistent char dev names, but I wasn't
+> sure where they'd go. If we can make our own 'nvme' subdirectory,
+> that'd be great.
+
+Should be fine. As long as /dev/disk stays intact.
+
+It would be really nice to have a clear indication of
+subsys/controller/namespace relationships. So much confusion as a result
+of the current approach...
+
+-- 
+Martin K. Petersen	Oracle Linux Engineering
