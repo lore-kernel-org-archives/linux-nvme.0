@@ -1,42 +1,61 @@
-From: akinobu.mita@gmail.com (Akinobu Mita)
-Date: Thu, 16 May 2019 23:30:10 +0900
-Subject: [PATCH 2/2] nvme-pci: support thermal zone
-In-Reply-To: <20190515170320.GA21663@localhost.localdomain>
-References: <1557933437-4693-1-git-send-email-akinobu.mita@gmail.com>
- <1557933437-4693-3-git-send-email-akinobu.mita@gmail.com>
- <20190515170320.GA21663@localhost.localdomain>
-Message-ID: <CAC5umyi97O+-4Dpspx-mouSReJBxqDXvigxw-SzDSa4BeEM9Ng@mail.gmail.com>
+From: kbusch@kernel.org (Keith Busch)
+Date: Thu, 16 May 2019 08:26:58 -0600
+Subject: [PATCHv2 6/6] nvme-pci: Use host managed power state for suspend
+In-Reply-To: <CAJZ5v0iC44O_gLMHnLui+tH+BuHKJzh_WC7PV3JFJwhj041=1A@mail.gmail.com>
+References: <20190515163625.21776-1-keith.busch@intel.com>
+ <20190515163625.21776-6-keith.busch@intel.com>
+ <CAJZ5v0iC44O_gLMHnLui+tH+BuHKJzh_WC7PV3JFJwhj041=1A@mail.gmail.com>
+Message-ID: <20190516142657.GD23333@localhost.localdomain>
 
-2019?5?16?(?) 2:08 Keith Busch <kbusch at kernel.org>:
->
-> On Thu, May 16, 2019@12:17:17AM +0900, Akinobu Mita wrote:
-> > This enables to use thermal zone interfaces for NVMe
-> > temperature sensors.
-> >
-> > Cc: Zhang Rui <rui.zhang at intel.com>
-> > Cc: Eduardo Valentin <edubezval at gmail.com>
-> > Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
-> > Cc: Keith Busch <keith.busch at intel.com>
-> > Cc: Jens Axboe <axboe at fb.com>
-> > Cc: Christoph Hellwig <hch at lst.de>
-> > Cc: Sagi Grimberg <sagi at grimberg.me>
-> > Signed-off-by: Akinobu Mita <akinobu.mita at gmail.com>
-> > ---
-> >  drivers/nvme/host/pci.c | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> >
-> > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> > index fad5395..88a25dc 100644
-> > --- a/drivers/nvme/host/pci.c
-> > +++ b/drivers/nvme/host/pci.c
-> > @@ -2470,6 +2470,7 @@ static void nvme_pci_free_ctrl(struct nvme_ctrl *ctrl)
-> >       if (dev->ctrl.admin_q)
-> >               blk_put_queue(dev->ctrl.admin_q);
-> >       kfree(dev->queues);
-> > +     nvme_thermal_zones_unregister(&dev->ctrl);
->
-> This unregister should probably go in the nvme_remove() rather than in
-> the last reference release.
+On Thu, May 16, 2019@02:29:10AM -0700, Rafael J. Wysocki wrote:
+> This is a bit problematic with respect to hibernation.
+> 
+> Sorry for failing to mention that before, it escaped me somehow.
+> 
+> So the problem is that this will be invoked as the ->restore()
+> callback and it need not be suitable for that depending on whether or
+> not the driver is present in the restore kernel.  [There is another
+> issue related to the fact that the last stage of hibernation doesn't
+> return "true" from pm_suspend_via_firmware(), but that needs to be
+> fixed elsewhere.]  If it is there, it will run nvme_deep_state(ndev),
+> so all should be fine, but if it isn't there, the PCI bus type will
+> apply the default handling to the device and that's to disable it via
+> do_pci_disable_device() it this particular case, as per
+> pci_pm_freeze(), so nvme_make_operational(ndev) should not be called
+> then AFAICS.
+> 
+> IMO it is better to just do the nvme_dev_disable()/nvme_reset_ctrl()
+> things in the hibernation path anyway, so I would rename the existing
+> nvme_suspend/resume() to nvme_simple_suspend/resume() (or similar),
+> respectively, and define new nvme_suspend/resume() to do something
+> like:
+> 
+> return pm_suspend_via_firmware() || !ndev->ctrl.npss ?
+> nvme_simple_suspend(dev) : nvme_deep_state(ndev);
+> 
+> and
+> 
+> return pm_resume_via_firmware() || !ndev->ctrl.npss ?
+> nvme_simple_resume(dev) : nvme_make_operational(ndev);
+> 
+> respectively.
+> 
+> >         nvme_reset_ctrl(&ndev->ctrl);
+> >         return 0;
+> >  }
+> > --
+> 
+> Then, you can populate nvme_dev_pm_ops as follows:
+> 
+> static const struct dev_pm_ops = {
+>     .suspend = nvme_suspend,
+>     .resume = nvme_resume,
+>     .freeze = nvme_simple_suspend,
+>     .thaw = nvme_simple_resume,
+>     .poweroff = nvme_simple_suspend,
+>     .restore = nvme_simple_resume,
+> };
+> 
+> and it should all work.
 
-You are right.  It is too late to unregister and it caused a lot of
-sysfs_remove_link() failures when removing driver.
+Thanks for the pointers, I'll give that idea a shot.
