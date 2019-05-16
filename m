@@ -1,15 +1,26 @@
-From: kbusch@kernel.org (Keith Busch)
-Date: Thu, 16 May 2019 10:45:38 -0600
-Subject: [PATCH] nvme-cli: add kernel-doc comment for struct
- telemetry_log_page_hdr
-In-Reply-To: <1558024828-9356-1-git-send-email-akinobu.mita@gmail.com>
-References: <1558024828-9356-1-git-send-email-akinobu.mita@gmail.com>
-Message-ID: <20190516164538.GE23416@localhost.localdomain>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Fri, 17 May 2019 01:51:38 +0900
+Subject: [PATCH] nvme-cli: remove unused NVME_AER_NOTICE_*
+In-Reply-To: <1558024889-9474-1-git-send-email-akinobu.mita@gmail.com>
+References: <1558024889-9474-1-git-send-email-akinobu.mita@gmail.com>
+Message-ID: <20190516165137.GG24001@minwooim-desktop>
 
-On Fri, May 17, 2019@01:40:28AM +0900, Akinobu Mita wrote:
-> This adds the kernel-doc data structure comment for struct
-> telemetry_log_page_hdr.
-> 
-> This also replaces spaces with tabs to align the structure fields.
+> diff --git a/linux/nvme.h b/linux/nvme.h
+> index cac4d19..13fa52a 100644
+> --- a/linux/nvme.h
+> +++ b/linux/nvme.h
+> @@ -589,9 +589,6 @@ enum {
+>  	NVME_AER_SMART			= 1,
+>  	NVME_AER_CSS			= 6,
+>  	NVME_AER_VS			= 7,
+> -	NVME_AER_NOTICE_NS_CHANGED	= 0x0002,
+> -	NVME_AER_NOTICE_ANA		= 0x0003,
+> -	NVME_AER_NOTICE_FW_ACT_STARTING = 0x0102,
+>  };
 
-Applied, thank you.
+It looks like we can sync-up the header files sooner or later from the
+kernel code to avoid kind of conflicts you mentioned.
+
+Anyway,
+
+Reviewed-by: Minwoo Im <minwoo.im.dev at gmail.com>
