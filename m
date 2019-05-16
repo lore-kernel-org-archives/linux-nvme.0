@@ -1,29 +1,51 @@
-From: kbusch@kernel.org (Keith Busch)
-Date: Thu, 16 May 2019 08:14:36 -0600
-Subject: [PATCH 3/6] nvme-pci: Unblock reset_work on IO failure
-In-Reply-To: <20190516031333.GC16342@ming.t460p>
-References: <20190515163625.21776-1-keith.busch@intel.com>
- <20190515163625.21776-3-keith.busch@intel.com>
- <20190516031333.GC16342@ming.t460p>
-Message-ID: <20190516141435.GB23333@localhost.localdomain>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Thu, 16 May 2019 23:23:38 +0900
+Subject: [PATCH 1/2] nvme: add thermal zone infrastructure
+In-Reply-To: <1557933437-4693-2-git-send-email-akinobu.mita@gmail.com>
+References: <1557933437-4693-1-git-send-email-akinobu.mita@gmail.com>
+ <1557933437-4693-2-git-send-email-akinobu.mita@gmail.com>
+Message-ID: <20190516142337.GD24001@minwooim-desktop>
 
-On Wed, May 15, 2019@08:13:35PM -0700, Ming Lei wrote:
-> On Wed, May 15, 2019@10:36:22AM -0600, Keith Busch wrote:
-> > +		nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DELETING);
-> > +		/* fall through */
-> > +	case NVME_CTRL_DELETING:
-> >  		dev_warn_ratelimited(dev->ctrl.device,
-> >  			 "I/O %d QID %d timeout, disable controller\n",
-> >  			 req->tag, nvmeq->qid);
-> > -		nvme_dev_disable(dev, shutdown);
-> > +		nvme_dev_disable(dev, true);
-> >  		nvme_req(req)->flags |= NVME_REQ_CANCELLED;
-> >  		return BLK_EH_DONE;
-> >  	case NVME_CTRL_RESETTING:
-> 
-> Then the controller is dead, and can't work any more together with data
-> loss. I guess this way is too violent from user view.
+Hi Akinobu,
 
-Indeed, it is a bit harsh; however, it is definitely better than having a
-stuck controller unable to make forward progress. We may be able to do
-better, but I think this patch is a step in the right direction.
+Great feature here, I think.
+
+> -static int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword11,
+> -		      void *buffer, size_t buflen, u32 *result)
+> +static int nvme_features(struct nvme_ctrl *dev, u8 opcode, unsigned int fid,
+> +			 unsigned int dword11, void *buffer, size_t buflen,
+> +			 u32 *result)
+>  {
+>  	struct nvme_command c;
+>  	union nvme_result res;
+>  	int ret;
+>  
+>  	memset(&c, 0, sizeof(c));
+> -	c.features.opcode = nvme_admin_set_features;
+> +	c.features.opcode = opcode;
+>  	c.features.fid = cpu_to_le32(fid);
+>  	c.features.dword11 = cpu_to_le32(dword11);
+>  
+> @@ -1132,6 +1133,22 @@ static int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword
+>  	return ret;
+>  }
+>  
+> +static int nvme_get_features(struct nvme_ctrl *dev, unsigned int fid,
+> +			     unsigned int dword11, void *buffer, size_t buflen,
+> +			     u32 *result)
+> +{
+> +	return nvme_features(dev, nvme_admin_get_features, fid, dword11, buffer,
+> +			     buflen, result);
+> +}
+> +
+> +static int nvme_set_features(struct nvme_ctrl *dev, unsigned int fid,
+> +			     unsigned int dword11, void *buffer, size_t buflen,
+> +			     u32 *result)
+> +{
+> +	return nvme_features(dev, nvme_admin_set_features, fid, dword11, buffer,
+> +			     buflen, result);
+> +}
+> +
+
+I think it's okay to separate this part from this patch. :)
+(I guess I have seen this kind of patch from Keith, though)
