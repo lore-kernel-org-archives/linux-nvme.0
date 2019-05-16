@@ -1,43 +1,62 @@
-From: kbusch@kernel.org (Keith Busch)
-Date: Thu, 16 May 2019 09:11:30 -0600
-Subject: Issue with namespace delete
-In-Reply-To: <f215cfd2-c0ce-34ff-bc8b-4a577a73372e@intel.com>
-References: <f215cfd2-c0ce-34ff-bc8b-4a577a73372e@intel.com>
-Message-ID: <20190516151130.GB23416@localhost.localdomain>
+From: akinobu.mita@gmail.com (Akinobu Mita)
+Date: Fri, 17 May 2019 00:22:51 +0900
+Subject: [PATCH 1/2] nvme: add thermal zone infrastructure
+In-Reply-To: <20190515191518.GA21916@localhost.localdomain>
+References: <1557933437-4693-1-git-send-email-akinobu.mita@gmail.com>
+ <1557933437-4693-2-git-send-email-akinobu.mita@gmail.com>
+ <20190515191518.GA21916@localhost.localdomain>
+Message-ID: <CAC5umyhh7eNHa4D9sndsoB7EgTJZTEL9OTd=a+7x817XvPZ_eQ@mail.gmail.com>
 
-On Wed, May 15, 2019@06:23:53PM -0700, Heitke, Kenneth wrote:
-> I have been doing some namespace testing with Ubuntu 18.04 (kernel 
-> 4.15.0-43-generic). I'm running into an issue with namespace deletes 
-> where the driver seems to hang.
-> 
-> [  363.484013]  synchronize_srcu+0x57/0xdc
-> [  363.484016]  nvme_ns_remove+0xcc/0x180 [nvme_core]
-> [  363.484018]  nvme_remove_invalid_namespaces+0xb1/0xe0 [nvme_core]
-> [  363.484020]  nvme_user_cmd+0x282/0x370 [nvme_core]
-> [  363.484022]  nvme_ioctl+0xd0/0x1d0 [nvme_core]
-> [  363.484024]  blkdev_ioctl+0x3b8/0x980
-> [  363.484025]  block_ioctl+0x3d/0x50
-> [  363.484027]  do_vfs_ioctl+0xa8/0x620
-> [  363.484028]  ? ptrace_notify+0x5b/0x90
-> [  363.484030]  ? syscall_trace_enter+0x7b/0x2c0
-> [  363.484031]  SyS_ioctl+0x7a/0x90
-> [  363.484032]  do_syscall_64+0x73/0x130
-> [  363.484033]  entry_SYSCALL_64_after_hwframe+0x3d/0xa2
-> 
-> I don't understand RCUs very well but I found the following in the 
-> documentation
-> 
-> "Note that it is illegal to call synchronize_srcu from the corresponding 
-> SRCU read-side critical section; doing so will result in deadlock."
-> 
-> I noticed in the driver that when multi-path is enabled, the context for 
-> ioctl calls would be in a read-side critical section 
-> (nvme_get_ns_from_disk) and I believe that the synchronize_srcu() call 
-> is made in the same context.
+2019?5?16?(?) 4:20 Keith Busch <keith.busch at intel.com>:
+>
+> On Thu, May 16, 2019@12:17:16AM +0900, Akinobu Mita wrote:
+> > +int nvme_thermal_zones_register(struct nvme_ctrl *ctrl)
+> > +{
+> > +     struct nvme_smart_log *log;
+> > +     int ret;
+> > +     int i;
+> > +
+> > +     log = kzalloc(sizeof(*log), GFP_KERNEL);
+> > +     if (!log)
+> > +             return -ENOMEM;
+> > +
+> > +     ret = nvme_get_log(ctrl, NVME_NSID_ALL, NVME_LOG_SMART, 0,
+> > +                        log, sizeof(*log), 0);
+> > +     if (ret) {
+> > +             ret = ret > 0 ? -EINVAL : ret;
+> > +             goto free_log;
+> > +     }
+> > +
+> > +     for (i = 0; i < ARRAY_SIZE(ctrl->tzdev); i++) {
+> > +             struct thermal_zone_device *tzdev;
+> > +
+> > +             if (i && !le16_to_cpu(log->temp_sensor[i - 1]))
+> > +                     continue;
+> > +             if (ctrl->tzdev[i])
+> > +                     continue;
+> > +
+> > +             tzdev = nvme_thermal_zone_register(ctrl, i);
+> > +             if (!IS_ERR(tzdev))
+> > +                     ctrl->tzdev[i] = tzdev;
+> > +     }
+> > +
+> > +free_log:
+> > +     kfree(log);
+> > +
+> > +     return ret;
+> > +}
+>
+> Since this routine is intended for use in the device initialization path,
+> the error returns are extra important. We have used < 0 to indicate we
+> need to abandon initialization because we won't be able communicate with
+> the device if we proceed. Since thermal reporting is not mandatory to
+> manage our controllers, out-of-memory or a device that doesn't support
+> SMART should just return 0. We should only halt init if the controller
+> is unresponsive here.
 
-Yeah, you're right.
+Make sense.  I'll change the return type to void, and print warning in
+case of some errors as Minwoo said in other reply.
 
-You may have avoided this if you send the ioctl through the controller
-char dev rather than the namespace block dev handle.
+> In general, I'm okay with this feature.
 
-I'm not sure what the best way to fix this might be right now.
+OK.  I'll prepare the next version.
