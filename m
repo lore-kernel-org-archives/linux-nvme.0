@@ -1,77 +1,32 @@
 From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Thu, 16 May 2019 22:57:08 +0000
-Subject: [PATCH 4/4] nvme: release namespace SRCU protection before
- performing controller ioctls
-References: <20190516185036.17394-1-hch@lst.de>
- <20190516185036.17394-4-hch@lst.de>
-Message-ID: <DM6PR04MB45215AEC51E8B3012AC6CC76860A0@DM6PR04MB4521.namprd04.prod.outlook.com>
+Date: Thu, 16 May 2019 23:02:24 +0000
+Subject: [PATCH 2/2] nvme-cli: remove unnecessary initialize of local var
+References: <20190516172350.11864-1-minwoo.im.dev@gmail.com>
+ <20190516172350.11864-3-minwoo.im.dev@gmail.com>
+Message-ID: <DM6PR04MB4521100AAE335BF495B4B46F860A0@DM6PR04MB4521.namprd04.prod.outlook.com>
 
-Looks good, with couple of small nits.
+Looks good.
 
 Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-
-On 5/16/19 11:51 AM, Christoph Hellwig wrote:
-> Holding the SRCU critical section protecting the namespace list can
-> cause deadlocks when using the per-namespace admin passthrough ioctl to
-> delete as namespace.  Release it earlier when performing per-controller
-> ioctls to avoid that.
+On 5/16/19 10:24 AM, Minwoo Im wrote:
+> This patch does not have any functional changes here.  Just clean-up the
+> unnecessary initialize.
 >
-> Reported-by: Kenneth Heitke <kenneth.heitke at intel.com>
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
 > ---
->  drivers/nvme/host/core.c | 25 ++++++++++++++++++++-----
->  1 file changed, 20 insertions(+), 5 deletions(-)
+>  fabrics.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 27f4e0c4be69..a3102aabd525 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -1394,14 +1394,31 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
->  	if (unlikely(!ns))
->  		return -EWOULDBLOCK;
->  
-> +	/*
-> +	 * Handle ioctls that apply to the controller instead of the namespace
-> +	 * seperately and drop the ns SRCU reference early.  This avoids a
-> +	 * deadlock when deleting namespaces using the passthrough interface.
-> +	 */
-> +	if (cmd == NVME_IOCTL_ADMIN_CMD || is_sed_ioctl(cmd)) {
-> +		struct nvme_ctrl *ctrl = ns->ctrl;
-> +
-> +		nvme_get_ctrl(ns->ctrl);
-
-nit:- just use ctrl instead of ns->ctrl in the above call since we are
-already initializing it.
-
-> +		nvme_put_ns_from_disk(head, srcu_idx);
-> +
-> +		if (cmd == NVME_IOCTL_ADMIN_CMD)
-> +			ret = nvme_user_cmd(ctrl, NULL, argp);
-> +		else
-> +			ret = sed_ioctl(ctrl->opal_dev, cmd, argp);
-> +
-> +		nvme_get_ctrl(ctrl);
-As Keith pointed out nvme_put_ctrl().
-> +		return ret;
-> +	}
-> +
->  	switch (cmd) {
->  	case NVME_IOCTL_ID:
->  		force_successful_syscall_return();
->  		ret = ns->head->ns_id;
->  		break;
-> -	case NVME_IOCTL_ADMIN_CMD:
-> -		ret = nvme_user_cmd(ns->ctrl, NULL, argp);
-> -		break;
->  	case NVME_IOCTL_IO_CMD:
->  		ret = nvme_user_cmd(ns->ctrl, ns, argp);
->  		break;
-> @@ -1411,8 +1428,6 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
->  	default:
->  		if (ns->ndev)
->  			ret = nvme_nvm_ioctl(ns, cmd, arg);
-> -		else if (is_sed_ioctl(cmd))
-> -			ret = sed_ioctl(ns->ctrl->opal_dev, cmd, argp);
->  		else
->  			ret = -ENOTTY;
->  	}
+> diff --git a/fabrics.c b/fabrics.c
+> index 733a24b..573a6ef 100644
+> --- a/fabrics.c
+> +++ b/fabrics.c
+> @@ -1180,7 +1180,7 @@ int disconnect(const char *desc, int argc, char **argv)
+>  int disconnect_all(const char *desc, int argc, char **argv)
+>  {
+>  	struct subsys_list_item *slist;
+> -	int i, j, ret = 0, subcnt = 0;
+> +	int i, j, ret, subcnt = 0;
+>  	const struct argconfig_commandline_options command_line_options[] = {
+>  		{NULL},
+>  	};
