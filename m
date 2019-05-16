@@ -1,65 +1,56 @@
 From: kbusch@kernel.org (Keith Busch)
-Date: Thu, 16 May 2019 08:33:51 -0600
-Subject: [PATCH 2/6] nvme-pci: Don't disable on timeout in reset state
-In-Reply-To: <20190516030708.GB16342@ming.t460p>
-References: <20190515163625.21776-1-keith.busch@intel.com>
- <20190515163625.21776-2-keith.busch@intel.com>
- <20190516030708.GB16342@ming.t460p>
-Message-ID: <20190516143351.GE23333@localhost.localdomain>
+Date: Thu, 16 May 2019 08:40:17 -0600
+Subject: [PATCH RFC] nvme: Common subsys and controller instances IDA
+In-Reply-To: <20190516064651.GA30234@lst.de>
+References: <20190515213351.22190-1-keith.busch@intel.com>
+ <20190516064651.GA30234@lst.de>
+Message-ID: <20190516144017.GA23372@localhost.localdomain>
 
-On Wed, May 15, 2019@08:07:09PM -0700, Ming Lei wrote:
-> On Wed, May 15, 2019@10:36:21AM -0600, Keith Busch wrote:
-> > The driver doesn't dispatch commands that it needs to wait for in the reset
-> > state anymore. If a timeout occurs in this state, the reset work is
-> > already disabling the controller, so just reset the request's timer.
-> > 
-> > Signed-off-by: Keith Busch <keith.busch at intel.com>
-> > ---
-> >  drivers/nvme/host/pci.c | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> > index d4e442160048..c72755311ffa 100644
-> > --- a/drivers/nvme/host/pci.c
-> > +++ b/drivers/nvme/host/pci.c
-> > @@ -1298,13 +1298,14 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
-> >  		shutdown = true;
-> >  		/* fall through */
-> >  	case NVME_CTRL_CONNECTING:
-> > -	case NVME_CTRL_RESETTING:
-> >  		dev_warn_ratelimited(dev->ctrl.device,
-> >  			 "I/O %d QID %d timeout, disable controller\n",
-> >  			 req->tag, nvmeq->qid);
-> >  		nvme_dev_disable(dev, shutdown);
-> >  		nvme_req(req)->flags |= NVME_REQ_CANCELLED;
-> >  		return BLK_EH_DONE;
-> > +	case NVME_CTRL_RESETTING:
-> > +		return BLK_EH_RESET_TIMER;
-> >  	default:
-> >  		break;
-> >  	}
+On Wed, May 15, 2019@11:46:51PM -0700, Christoph Hellwig wrote:
+> On Wed, May 15, 2019@03:33:51PM -0600, Keith Busch wrote:
+> > So here's a solution that no one will like: pull subsystem and controller
+> > instances from the same IDA so that there won't be any namespace block
+> > devices with a matching controller handle name. While this does nothing
+> > to clear up device relationships, this will force the user to think
+> > really hard about what they're doing and avoid such mistakes.
 > 
-> RESET follows controller shutdown(via nvme_dev_disable()), the only
-> possible timeout should be on admin requests staggered between shutdown
-> and changing to NVME_CTRL_CONNECTING, given admin queue isn't frozen.
+> Hmm.  So we'll get:
 > 
-> And the admin queue should be fully workable after it is unquiesced
-> by nvme_alloc_admin_tags(), so if timeout happens after nvme_alloc_admin_tags(),
-> I guess these requests should be handled as in NVME_CTRL_CONNECTING.
-
-Yep, the only timeouts here should be requests that we've already
-reclaimed, or are about to reclaim, via nvme_dev_disable called
-from either another timeout work or directly in the reset_work. And
-nvme_dev_disable handles its timeout, so we don't need timeout work to
-unblock it. Either way, we're never blocked in the RESETTING state.
-
-> Another related problem is about handling timeout in NVME_CTRL_CONNECTING, and
-> the following failure still can be observed:
+> /dev/nvme0
+>  - chardev subsys X ctl 1
 > 
-> [ 1078.775969] nvme nvme0: I/O 20 QID 0 timeout, disable controller
-> [ 1078.791730] nvme nvme0: Identify Controller failed (-4)
-> [ 1078.792538] nvme nvme0: Removing after probe failure status: -5
+> /dev/nvme1n1
+> /dev/nvme1n2
+>  - namespaces for subsys X
+> 
+> /dev/nvme2
+>  - chardev subsys X ctl 2
+> 
+> /dev/nvme3
+>  - chardev subsys Y ctl 1
+> 
+> ...
+> 
+> This should work.  Not sure it really buys us so much, though.
 
-Right, we will fail the controller if it fails to produce a response to
-any initialization commands. It's either that, or try the same thing
-atateain, but I haven't seen much support for doing the latter.
+Right, it's not much. The only thing I want accomplish with this is to remove any excuse for
+sending commands to the wrong handle. We can insist that it's wrong 
+ 
+> Btw, I wonder if we should have udev rules for:
+> 
+> /dev/nvme-subsys-$NQN-ctrl1
+> /dev/nvme-subsys-$NQN-ctrl2
+> /dev/nvme-subsys-$NQN-ns1
+> /dev/nvme-subsys-$NQN-ns2
+> 
+> I have to admit that since udev/systemd moved to github I can't
+> be bother to send them patches, though as it would require signing
+> up for that crappy service.
+
+I can send it on your behalf if you have a rule in mind.
+
+We do already have /dev/disk/by-{path,id,uuid} rules already, if that's
+what you're looking for.
+
+We don't have rules for the chardev though. Those devices are skipped in
+60-persistent-naming.rules.
