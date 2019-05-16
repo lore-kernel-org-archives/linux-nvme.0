@@ -1,43 +1,69 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 16 May 2019 08:46:51 +0200
+From: hare@suse.de (Hannes Reinecke)
+Date: Thu, 16 May 2019 09:03:54 +0200
 Subject: [PATCH RFC] nvme: Common subsys and controller instances IDA
-In-Reply-To: <20190515213351.22190-1-keith.busch@intel.com>
+In-Reply-To: <20190516064651.GA30234@lst.de>
 References: <20190515213351.22190-1-keith.busch@intel.com>
-Message-ID: <20190516064651.GA30234@lst.de>
+ <20190516064651.GA30234@lst.de>
+Message-ID: <1f0e7049-c926-98e0-3624-0d24eb45cd87@suse.de>
 
-On Wed, May 15, 2019@03:33:51PM -0600, Keith Busch wrote:
-> So here's a solution that no one will like: pull subsystem and controller
-> instances from the same IDA so that there won't be any namespace block
-> devices with a matching controller handle name. While this does nothing
-> to clear up device relationships, this will force the user to think
-> really hard about what they're doing and avoid such mistakes.
+On 5/16/19 8:46 AM, Christoph Hellwig wrote:
+> On Wed, May 15, 2019@03:33:51PM -0600, Keith Busch wrote:
+>> So here's a solution that no one will like: pull subsystem and controller
+>> instances from the same IDA so that there won't be any namespace block
+>> devices with a matching controller handle name. While this does nothing
+>> to clear up device relationships, this will force the user to think
+>> really hard about what they're doing and avoid such mistakes.
+> 
+> Hmm.  So we'll get:
+> 
+> /dev/nvme0
+>   - chardev subsys X ctl 1
+> 
+> /dev/nvme1n1
+> /dev/nvme1n2
+>   - namespaces for subsys X
+> 
+> /dev/nvme2
+>   - chardev subsys X ctl 2
+> 
+> /dev/nvme3
+>   - chardev subsys Y ctl 1
+> 
+> ...
+> 
+> This should work.  Not sure it really buys us so much, though.
+> 
+> Btw, I wonder if we should have udev rules for:
+> 
+> /dev/nvme-subsys-$NQN-ctrl1
+> /dev/nvme-subsys-$NQN-ctrl2
+> /dev/nvme-subsys-$NQN-ns1
+> /dev/nvme-subsys-$NQN-ns2
+> 
+> I have to admit that since udev/systemd moved to github I can't
+> be bother to send them patches, though as it would require signing
+> up for that crappy service.
+> 
+That rather calls for persistent device names, no?
 
-Hmm.  So we'll get:
+proposal would be to create symlinks like
 
-/dev/nvme0
- - chardev subsys X ctl 1
+/dev/disk/by-id/nvme-subsys-$NQN-ns-$NS
 
-/dev/nvme1n1
-/dev/nvme1n2
- - namespaces for subsys X
+to keep in line with the other symlinks in /dev/disk/by-id/
+The controller symlinks don't really fall into this category, though;
+we could create a 'nvme' subdirectory (much like MD does), and
+create symlinks in there.
 
-/dev/nvme2
- - chardev subsys X ctl 2
+And yes, I'm happy to draft up udev rules once we've come to a 
+conclusion here.
 
-/dev/nvme3
- - chardev subsys Y ctl 1
+Cheers,
 
-...
-
-This should work.  Not sure it really buys us so much, though.
-
-Btw, I wonder if we should have udev rules for:
-
-/dev/nvme-subsys-$NQN-ctrl1
-/dev/nvme-subsys-$NQN-ctrl2
-/dev/nvme-subsys-$NQN-ns1
-/dev/nvme-subsys-$NQN-ns2
-
-I have to admit that since udev/systemd moved to github I can't
-be bother to send them patches, though as it would require signing
-up for that crappy service.
+Hannes
+-- 
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
+HRB 21284 (AG N?rnberg)
