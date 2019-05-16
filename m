@@ -1,71 +1,21 @@
-From: akinobu.mita@gmail.com (Akinobu Mita)
-Date: Fri, 17 May 2019 01:17:31 +0900
-Subject: [PATCH 1/2] nvme: add thermal zone infrastructure
-In-Reply-To: <20190516143212.GE24001@minwooim-desktop>
-References: <1557933437-4693-1-git-send-email-akinobu.mita@gmail.com>
- <1557933437-4693-2-git-send-email-akinobu.mita@gmail.com>
- <20190516143212.GE24001@minwooim-desktop>
-Message-ID: <CAC5umyjxxWzCgyMOS=Q7BBBJY+n6xD1dg49fQ0W5okPh58Z1Kw@mail.gmail.com>
+From: james.smart@broadcom.com (James Smart)
+Date: Thu, 16 May 2019 09:24:07 -0700
+Subject: [PATCH 1/3] nvme: separate out nvme_ctrl_state_name()
+In-Reply-To: <20190516083740.95894-2-hare@suse.de>
+References: <20190516083740.95894-1-hare@suse.de>
+ <20190516083740.95894-2-hare@suse.de>
+Message-ID: <69728e55-cbc0-6e2a-730b-51bc2e5b7726@broadcom.com>
 
-2019?5?16?(?) 23:32 Minwoo Im <minwoo.im.dev at gmail.com>:
+On 5/16/2019 1:37 AM, Hannes Reinecke wrote:
+> Separate out nvme_ctrl_state_name() to return the controller state
+> as a string.
 >
-> > +     if (sensor < 0 || sensor > 8)
-> > +             return -EINVAL;
+> Signed-off-by: Hannes Reinecke <hare at suse.com>
+> ---
+>   drivers/nvme/host/core.c | 36 +++++++++++++++++++++++-------------
+>   drivers/nvme/host/nvme.h |  1 +
+>   2 files changed, 24 insertions(+), 13 deletions(-)
 >
-> Does we really need to check the negative case here ?  Am I missing
-> something in this context ?  If we really want to check it in this
-> level, can we check the invalid case in the following function?
-
-The negative case should never happen, so it can be just removed.
-
-> > +static struct thermal_zone_device *
-> > +nvme_thermal_zone_register(struct nvme_ctrl *ctrl, int sensor)
-> > +{
-> > +     struct thermal_zone_device *tzdev;
-> > +     char type[THERMAL_NAME_LENGTH];
-> > +     int ret;
-> > +
-> > +     snprintf(type, sizeof(type), "nvme_temp%d", sensor);
 >
-> Before preparing "nvme_temp%d", maybe we can make it sure here. :)
-> What do you say?
 
-The nvme_thermal_zone_register() is only called from
-nvme_thermal_zones_register() which is defined just below, and it's very
-clear that the value of 'sensor' is from 0 to ARRAY_SIZE(ctrl->tzdev) - 1.
-
-> > +int nvme_thermal_zones_register(struct nvme_ctrl *ctrl)
-> > +{
-> > +     struct nvme_smart_log *log;
-> > +     int ret;
-> > +     int i;
-> > +
-> > +     log = kzalloc(sizeof(*log), GFP_KERNEL);
-> > +     if (!log)
-> > +             return -ENOMEM;
-> > +
-> > +     ret = nvme_get_log(ctrl, NVME_NSID_ALL, NVME_LOG_SMART, 0,
-> > +                        log, sizeof(*log), 0);
-> > +     if (ret) {
-> > +             ret = ret > 0 ? -EINVAL : ret;
-> > +             goto free_log;
-> > +     }
-> > +
-> > +     for (i = 0; i < ARRAY_SIZE(ctrl->tzdev); i++) {
-> > +             struct thermal_zone_device *tzdev;
-> > +
-> > +             if (i && !le16_to_cpu(log->temp_sensor[i - 1]))
-> > +                     continue;
-> > +             if (ctrl->tzdev[i])
-> > +                     continue;
-> > +
-> > +             tzdev = nvme_thermal_zone_register(ctrl, i);
-> > +             if (!IS_ERR(tzdev))
-> > +                     ctrl->tzdev[i] = tzdev;
->
-> Quenstion here. Are we okay not to print some warnings here in case
-> of error returned?
-
-I'm going to print warning in case of thermal_zone_device_register() error.
-For sysfs_create_link() error, the warning is printed by the function
-itself.
+Reviewed-by:? James Smart? <james.smart at broadcom.com>
