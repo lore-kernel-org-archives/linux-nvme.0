@@ -1,58 +1,37 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Thu, 16 May 2019 23:32:14 +0900
+From: akinobu.mita@gmail.com (Akinobu Mita)
+Date: Thu, 16 May 2019 23:35:55 +0900
 Subject: [PATCH 1/2] nvme: add thermal zone infrastructure
 In-Reply-To: <1557933437-4693-2-git-send-email-akinobu.mita@gmail.com>
 References: <1557933437-4693-1-git-send-email-akinobu.mita@gmail.com>
  <1557933437-4693-2-git-send-email-akinobu.mita@gmail.com>
-Message-ID: <20190516143212.GE24001@minwooim-desktop>
+Message-ID: <CAC5umygg7BPhyoKsBDPAoafXHmJnqE1gEarafJDRCrdUnw-3aA@mail.gmail.com>
 
-> +	if (sensor < 0 || sensor > 8)
-> +		return -EINVAL;
+2019?5?16?(?) 0:17 Akinobu Mita <akinobu.mita at gmail.com>:
+>
+> The NVMe controller reports up to nine temperature values in the SMART /
+> Health log page (the composite temperature and temperature sensor 1 through
+> temperature sensor 8).
+> The temperature threshold feature (Feature Identifier 04h) configures the
+> asynchronous event request command to complete when the temperature is
+> crossed its correspoinding temperature threshold.
+>
+> This adds infrastructure to provide these temperatures and thresholds via
+> thermal zone devices.
+>
+> The nvme_thermal_zones_register() creates up to nine thermal zone devices
+> for valid temperature sensors including composite temperature.
+>
+> /sys/class/thermal/thermal_zone[0-*]:
+>     |---temp: Temperature
+>     |---trip_point_0_temp: Over temperature threshold
+>     |---trip_point_0_hyst: Under temperature threshold
 
-Does we really need to check the negative case here ?  Am I missing
-something in this context ?  If we really want to check it in this
-level, can we check the invalid case in the following function?
+I misunderstood the under temperature threshold.  It is not hysteresis
+for the upper temperature threshold.  It is used to notify cold temperature
+that the device may not correctly work.
 
-> +static struct thermal_zone_device *
-> +nvme_thermal_zone_register(struct nvme_ctrl *ctrl, int sensor)
-> +{
-> +	struct thermal_zone_device *tzdev;
-> +	char type[THERMAL_NAME_LENGTH];
-> +	int ret;
-> +
-> +	snprintf(type, sizeof(type), "nvme_temp%d", sensor);
+So we should provide another trip point for under temperature threshold,
+but there is no suitable thermal trip type for cold temperature.
 
-Before preparing "nvme_temp%d", maybe we can make it sure here. :)
-What do you say?
-
-> +int nvme_thermal_zones_register(struct nvme_ctrl *ctrl)
-> +{
-> +	struct nvme_smart_log *log;
-> +	int ret;
-> +	int i;
-> +
-> +	log = kzalloc(sizeof(*log), GFP_KERNEL);
-> +	if (!log)
-> +		return -ENOMEM;
-> +
-> +	ret = nvme_get_log(ctrl, NVME_NSID_ALL, NVME_LOG_SMART, 0,
-> +			   log, sizeof(*log), 0);
-> +	if (ret) {
-> +		ret = ret > 0 ? -EINVAL : ret;
-> +		goto free_log;
-> +	}
-> +
-> +	for (i = 0; i < ARRAY_SIZE(ctrl->tzdev); i++) {
-> +		struct thermal_zone_device *tzdev;
-> +
-> +		if (i && !le16_to_cpu(log->temp_sensor[i - 1]))
-> +			continue;
-> +		if (ctrl->tzdev[i])
-> +			continue;
-> +
-> +		tzdev = nvme_thermal_zone_register(ctrl, i);
-> +		if (!IS_ERR(tzdev))
-> +			ctrl->tzdev[i] = tzdev;
-
-Quenstion here. Are we okay not to print some warnings here in case
-of error returned?
+I'm going to remove trip_point_0_hyst and not utilize the under temperature
+threshold.
