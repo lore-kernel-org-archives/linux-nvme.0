@@ -1,25 +1,27 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 16 May 2019 15:13:26 -0600
-Subject: [PATCH] nvme: fix memory leak for power latency tolerance req
-In-Reply-To: <20190516030521.40374-1-yuyufen@huawei.com>
-References: <20190516030521.40374-1-yuyufen@huawei.com>
-Message-ID: <20190516211326.GB23955@localhost.localdomain>
+From: kenneth.heitke@intel.com (Heitke, Kenneth)
+Date: Thu, 16 May 2019 15:22:13 -0600
+Subject: [PATCH 1/2] nvme: add thermal zone infrastructure
+In-Reply-To: <1557933437-4693-2-git-send-email-akinobu.mita@gmail.com>
+References: <1557933437-4693-1-git-send-email-akinobu.mita@gmail.com>
+ <1557933437-4693-2-git-send-email-akinobu.mita@gmail.com>
+Message-ID: <2bf1e2cf-b922-d947-c939-375aba75994d@intel.com>
 
-It's perfectly safe to call dev_pm_qos_hide_latency_tolerance even if we
-never exposed it, so I think you're making this more complicated than
-necessary. Would the following one-liner work for you instead?
 
----
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index f2411d50e764..0899dc5645a9 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3697,6 +3697,7 @@ EXPORT_SYMBOL_GPL(nvme_start_ctrl);
- 
- void nvme_uninit_ctrl(struct nvme_ctrl *ctrl)
- {
-+	dev_pm_qos_hide_latency_tolerance(ctrl->device);
- 	cdev_device_del(&ctrl->cdev, ctrl->device);
- }
- EXPORT_SYMBOL_GPL(nvme_uninit_ctrl);
---
+
+On 5/15/2019 9:17 AM, Akinobu Mita wrote:
+> The NVMe controller reports up to nine temperature values in the SMART /
+> Health log page (the composite temperature and temperature sensor 1 through
+> temperature sensor 8).
+> The temperature threshold feature (Feature Identifier 04h) configures the
+> asynchronous event request command to complete when the temperature is
+> crossed its correspoinding temperature threshold.
+
+s/correspoinding/corresponding/
+
+> +
+> +static void nvme_thermal_init(struct nvme_ctrl *ctrl)
+> +{
+> +	INIT_WORK(&ctrl->thermal_work, nvme_thermal_work);
+> +}
+
+Does this work queue need to be destroyed at some point?
