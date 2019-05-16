@@ -1,84 +1,53 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Thu, 16 May 2019 10:37:38 +0200
-Subject: [PATCH 1/3] nvme: separate out nvme_ctrl_state_name()
+Date: Thu, 16 May 2019 10:37:40 +0200
+Subject: [PATCH 3/3] nvme-fc: fail reconnect if state change fails
 In-Reply-To: <20190516083740.95894-1-hare@suse.de>
 References: <20190516083740.95894-1-hare@suse.de>
-Message-ID: <20190516083740.95894-2-hare@suse.de>
+Message-ID: <20190516083740.95894-4-hare@suse.de>
 
-Separate out nvme_ctrl_state_name() to return the controller state
-as a string.
+If the final state change to LIVE in nvme_fc_create_association()
+fails the controller is not operational as no I/O is possible.
+So we should be returning an error here to reschedule reconnect.
 
 Signed-off-by: Hannes Reinecke <hare at suse.com>
 ---
- drivers/nvme/host/core.c | 36 +++++++++++++++++++++++-------------
- drivers/nvme/host/nvme.h |  1 +
- 2 files changed, 24 insertions(+), 13 deletions(-)
+ drivers/nvme/host/fc.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index c2e4fa694f79..2632276458f5 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -380,6 +380,25 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- }
- EXPORT_SYMBOL_GPL(nvme_change_ctrl_state);
- 
-+static const char *const nvme_ctrl_state_names[] = {
-+	[NVME_CTRL_NEW]		= "new",
-+	[NVME_CTRL_LIVE]	= "live",
-+	[NVME_CTRL_ADMIN_ONLY]	= "only-admin",
-+	[NVME_CTRL_RESETTING]	= "resetting",
-+	[NVME_CTRL_CONNECTING]	= "connecting",
-+	[NVME_CTRL_DELETING]	= "deleting",
-+	[NVME_CTRL_DEAD]	= "dead",
-+};
-+
-+const char *nvme_ctrl_state_name(struct nvme_ctrl *ctrl)
-+{
-+	if ((unsigned)ctrl->state < ARRAY_SIZE(nvme_ctrl_state_names) &&
-+	    nvme_ctrl_state_names[ctrl->state])
-+		return nvme_ctrl_state_names[ctrl->state];
-+	return NULL;
-+}
-+EXPORT_SYMBOL_GPL(nvme_ctrl_state_name);
-+
- static void nvme_free_ns_head(struct kref *ref)
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index e5c81ba2b7a1..9f9300cbdb62 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -2620,7 +2620,6 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
  {
- 	struct nvme_ns_head *head =
-@@ -2989,19 +3008,10 @@ static ssize_t nvme_sysfs_show_state(struct device *dev,
- 				     char *buf)
- {
- 	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
--	static const char *const state_name[] = {
--		[NVME_CTRL_NEW]		= "new",
--		[NVME_CTRL_LIVE]	= "live",
--		[NVME_CTRL_ADMIN_ONLY]	= "only-admin",
--		[NVME_CTRL_RESETTING]	= "resetting",
--		[NVME_CTRL_CONNECTING]	= "connecting",
--		[NVME_CTRL_DELETING]	= "deleting",
--		[NVME_CTRL_DEAD]	= "dead",
--	};
--
--	if ((unsigned)ctrl->state < ARRAY_SIZE(state_name) &&
--	    state_name[ctrl->state])
--		return sprintf(buf, "%s\n", state_name[ctrl->state]);
-+	const char *state_name = nvme_ctrl_state_name(ctrl);
-+
-+	if (state_name)
-+		return sprintf(buf, "%s\n", state_name);
+ 	struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
+ 	int ret;
+-	bool changed;
  
- 	return sprintf(buf, "unknown state\n");
- }
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 5ee75b5ff83f..b3b13e465dc6 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -419,6 +419,7 @@ void nvme_complete_rq(struct request *req);
- bool nvme_cancel_request(struct request *req, void *data, bool reserved);
- bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- 		enum nvme_ctrl_state new_state);
-+const char *nvme_ctrl_state_name(struct nvme_ctrl *ctrl);
- int nvme_disable_ctrl(struct nvme_ctrl *ctrl, u64 cap);
- int nvme_enable_ctrl(struct nvme_ctrl *ctrl, u64 cap);
- int nvme_shutdown_ctrl(struct nvme_ctrl *ctrl);
+ 	++ctrl->ctrl.nr_reconnects;
+ 
+@@ -2725,12 +2724,19 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+ 			goto out_term_aen_ops;
+ 	}
+ 
+-	changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE);
++	if (nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE)) {
++		if (ctrl->ctrl.state != NVME_CTRL_DELETING) {
++			dev_err(ctrl->ctrl.device,
++				"NVME-FC{%d}: error_recovery: Couldn't change "
++				"state from %s to LIVE\n", ctrl->cnum,
++				nvme_ctrl_state_name(&ctrl->ctrl));
++			return -EAGAIN;
++		}
++	}
+ 
+ 	ctrl->ctrl.nr_reconnects = 0;
+ 
+-	if (changed)
+-		nvme_start_ctrl(&ctrl->ctrl);
++	nvme_start_ctrl(&ctrl->ctrl);
+ 
+ 	return 0;	/* Success */
+ 
 -- 
 2.16.4
