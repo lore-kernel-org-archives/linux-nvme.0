@@ -1,25 +1,107 @@
-From: kbusch@kernel.org (Keith Busch)
-Date: Thu, 16 May 2019 09:26:23 -0600
-Subject: [PATCH 1/2] nvme: add thermal zone infrastructure
-In-Reply-To: <CAC5umyhh7eNHa4D9sndsoB7EgTJZTEL9OTd=a+7x817XvPZ_eQ@mail.gmail.com>
-References: <1557933437-4693-1-git-send-email-akinobu.mita@gmail.com>
- <1557933437-4693-2-git-send-email-akinobu.mita@gmail.com>
- <20190515191518.GA21916@localhost.localdomain>
- <CAC5umyhh7eNHa4D9sndsoB7EgTJZTEL9OTd=a+7x817XvPZ_eQ@mail.gmail.com>
-Message-ID: <20190516152622.GC23416@localhost.localdomain>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Thu, 16 May 2019 08:53:56 -0700
+Subject: Issue with namespace delete
+In-Reply-To: <20190516151130.GB23416@localhost.localdomain>
+References: <f215cfd2-c0ce-34ff-bc8b-4a577a73372e@intel.com>
+ <20190516151130.GB23416@localhost.localdomain>
+Message-ID: <20190516155356.GA26104@infradead.org>
 
-On Fri, May 17, 2019@12:22:51AM +0900, Akinobu Mita wrote:
-> > Since this routine is intended for use in the device initialization path,
-> > the error returns are extra important. We have used < 0 to indicate we
-> > need to abandon initialization because we won't be able communicate with
-> > the device if we proceed. Since thermal reporting is not mandatory to
-> > manage our controllers, out-of-memory or a device that doesn't support
-> > SMART should just return 0. We should only halt init if the controller
-> > is unresponsive here.
+On Thu, May 16, 2019@09:11:30AM -0600, Keith Busch wrote:
+> You may have avoided this if you send the ioctl through the controller
+> char dev rather than the namespace block dev handle.
 > 
-> Make sense.  I'll change the return type to void, and print warning in
-> case of some errors as Minwoo said in other reply.
+> I'm not sure what the best way to fix this might be right now.
 
-Oh, still needs to be an 'int' return, but just suppress non-fatal
-errors by returning 0. If the 'nvme_get_log' times out, though, we need
-to return that error since the caller will need to abort initialization.
+We could try something like the changes below, although they are
+completely untested for now and will need to be split up into
+a few patches:
+
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index a6644a2c3ef7..537cbef5bc4a 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1362,9 +1362,14 @@ static struct nvme_ns *nvme_get_ns_from_disk(struct gendisk *disk,
+ {
+ #ifdef CONFIG_NVME_MULTIPATH
+ 	if (disk->fops == &nvme_ns_head_ops) {
++		struct nvme_ns *ns;
++
+ 		*head = disk->private_data;
+ 		*srcu_idx = srcu_read_lock(&(*head)->srcu);
+-		return nvme_find_path(*head);
++		ns = nvme_find_path(*head);
++		if (!ns)
++			srcu_read_unlock(&(*head)->srcu, *srcu_idx);
++		return ns;
+ 	}
+ #endif
+ 	*head = NULL;
+@@ -1384,8 +1389,6 @@ static int nvme_ns_ioctl(struct nvme_ns *ns, unsigned cmd, unsigned long arg)
+ 	case NVME_IOCTL_ID:
+ 		force_successful_syscall_return();
+ 		return ns->head->ns_id;
+-	case NVME_IOCTL_ADMIN_CMD:
+-		return nvme_user_cmd(ns->ctrl, NULL, (void __user *)arg);
+ 	case NVME_IOCTL_IO_CMD:
+ 		return nvme_user_cmd(ns->ctrl, ns, (void __user *)arg);
+ 	case NVME_IOCTL_SUBMIT_IO:
+@@ -1395,9 +1398,6 @@ static int nvme_ns_ioctl(struct nvme_ns *ns, unsigned cmd, unsigned long arg)
+ 		if (ns->ndev)
+ 			return nvme_nvm_ioctl(ns, cmd, arg);
+ #endif
+-		if (is_sed_ioctl(cmd))
+-			return sed_ioctl(ns->ctrl->opal_dev, cmd,
+-					 (void __user *) arg);
+ 		return -ENOTTY;
+ 	}
+ }
+@@ -1405,16 +1405,30 @@ static int nvme_ns_ioctl(struct nvme_ns *ns, unsigned cmd, unsigned long arg)
+ static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
+ 		unsigned int cmd, unsigned long arg)
+ {
++	void __user *argp = (void __user *)arg;
+ 	struct nvme_ns_head *head = NULL;
++	struct nvme_ctrl *ctrl = NULL;
+ 	struct nvme_ns *ns;
+-	int srcu_idx, ret;
++	int srcu_idx, ret = 0;
+ 
+ 	ns = nvme_get_ns_from_disk(bdev->bd_disk, &head, &srcu_idx);
+ 	if (unlikely(!ns))
+-		ret = -EWOULDBLOCK;
++		return -EWOULDBLOCK;
++
++	if (cmd == NVME_IOCTL_ADMIN_CMD || is_sed_ioctl(cmd))
++		ctrl = nvme_get_ctrl(ns->ctrl);
+ 	else
+ 		ret = nvme_ns_ioctl(ns, cmd, arg);
+ 	nvme_put_ns_from_disk(head, srcu_idx);
++
++	if (ctrl) {
++		if (cmd == NVME_IOCTL_ADMIN_CMD)
++			return nvme_user_cmd(ctrl, NULL, argp);
++		if (is_sed_ioctl(cmd))
++			return sed_ioctl(ctrl->opal_dev, cmd, argp);
++		nvme_put_ctrl(ctrl);
++	}
++
+ 	return ret;
+ }
+ 
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 5ee75b5ff83f..86625767da8b 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -405,9 +405,10 @@ static inline void nvme_end_request(struct request *req, __le16 status,
+ 	blk_mq_complete_request(req);
+ }
+ 
+-static inline void nvme_get_ctrl(struct nvme_ctrl *ctrl)
++static inline struct nvme_ctrl *nvme_get_ctrl(struct nvme_ctrl *ctrl)
+ {
+ 	get_device(ctrl->device);
++	return ctrl;
+ }
+ 
+ static inline void nvme_put_ctrl(struct nvme_ctrl *ctrl)
