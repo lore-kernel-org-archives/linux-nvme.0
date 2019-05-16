@@ -1,48 +1,60 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Thu, 16 May 2019 22:55:59 +0900
-Subject: [PATCH 1/3] nvme: separate out nvme_ctrl_state_name()
-In-Reply-To: <20190516083740.95894-2-hare@suse.de>
-References: <20190516083740.95894-1-hare@suse.de>
- <20190516083740.95894-2-hare@suse.de>
-Message-ID: <20190516135558.GC24001@minwooim-desktop>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Thu, 16 May 2019 08:09:30 -0600
+Subject: [GIT PULL] nvme fixes for 5.2
+In-Reply-To: <20190516082541.GA19383@infradead.org>
+References: <20190516082541.GA19383@infradead.org>
+Message-ID: <a2c12d06-acd0-ea82-c63c-a068ec5ae1fe@kernel.dk>
 
-Hi Hannes,
+On 5/16/19 2:25 AM, Christoph Hellwig wrote:
+> The following changes since commit 936b33f7243fa1e54c8f4f2febd3472cc00e66fd:
+> 
+>   brd: add cond_resched to brd_free_pages (2019-05-09 12:51:27 -0600)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.infradead.org/nvme.git nvme-5.2
+> 
+> for you to fetch changes up to 1b1031ca63b2ce1d3b664b35b77ec94e458693e9:
+> 
+>   nvme: validate cntlid during controller initialisation (2019-05-14 17:19:50 +0200)
+> 
+> ----------------------------------------------------------------
+> Chaitanya Kulkarni (1):
+>       nvme: trace all async notice events
+> 
+> Christoph Hellwig (2):
+>       nvme: change locking for the per-subsystem controller list
+>       nvme: validate cntlid during controller initialisation
+> 
+> Gustavo A. R. Silva (1):
+>       nvme-pci: mark expected switch fall-through
+> 
+> Hannes Reinecke (2):
+>       nvme-fc: use separate work queue to avoid warning
+>       nvme-multipath: avoid crash on invalid subsystem cntlid enumeration
+> 
+> Max Gurtovoy (1):
+>       nvme-rdma: remove redundant reference between ib_device and tagset
+> 
+> Maxim Levitsky (2):
+>       nvme-pci: init shadow doorbell after each reset
+>       nvme-pci: add known admin effects to augument admin effects log page
+> 
+> Minwoo Im (2):
+>       nvme-fabrics: remove unused argument
+>       nvme: fix typos in nvme status code values
+> 
+>  drivers/nvme/host/core.c      | 79 ++++++++++++++++++++++---------------------
+>  drivers/nvme/host/fabrics.c   |  4 +--
+>  drivers/nvme/host/fc.c        | 14 ++++++--
+>  drivers/nvme/host/multipath.c |  2 +-
+>  drivers/nvme/host/pci.c       |  4 +--
+>  drivers/nvme/host/rdma.c      | 34 +++----------------
+>  drivers/nvme/host/trace.h     |  1 +
+>  include/linux/nvme.h          |  4 +--
+>  8 files changed, 64 insertions(+), 78 deletions(-)
 
-> +const char *nvme_ctrl_state_name(struct nvme_ctrl *ctrl)
-> +{
-> +	if ((unsigned)ctrl->state < ARRAY_SIZE(nvme_ctrl_state_names) &&
-> +	    nvme_ctrl_state_names[ctrl->state])
-> +		return nvme_ctrl_state_names[ctrl->state];
-> +	return NULL;
+Pulled, thanks.
 
-Perhaps we can return "unknown" here that can make callers do not
-need to consider that if it gives NULL and not return a string there also.
-
-> @@ -2989,19 +3008,10 @@ static ssize_t nvme_sysfs_show_state(struct device *dev,
->  				     char *buf)
->  {
->  	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-> -	static const char *const state_name[] = {
-> -		[NVME_CTRL_NEW]		= "new",
-> -		[NVME_CTRL_LIVE]	= "live",
-> -		[NVME_CTRL_ADMIN_ONLY]	= "only-admin",
-> -		[NVME_CTRL_RESETTING]	= "resetting",
-> -		[NVME_CTRL_CONNECTING]	= "connecting",
-> -		[NVME_CTRL_DELETING]	= "deleting",
-> -		[NVME_CTRL_DEAD]	= "dead",
-> -	};
-> -
-> -	if ((unsigned)ctrl->state < ARRAY_SIZE(state_name) &&
-> -	    state_name[ctrl->state])
-> -		return sprintf(buf, "%s\n", state_name[ctrl->state]);
-> +	const char *state_name = nvme_ctrl_state_name(ctrl);
-> +
-> +	if (state_name)
-> +		return sprintf(buf, "%s\n", state_name);
->  
->  	return sprintf(buf, "unknown state\n");
-
-If so, we can make these three lines to a single one without considering
-the NULL case.
-
-What do you think?
+-- 
+Jens Axboe
