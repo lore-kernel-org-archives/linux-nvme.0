@@ -1,93 +1,57 @@
-From: yuyufen@huawei.com (Yufen Yu)
-Date: Thu, 16 May 2019 11:05:21 +0800
-Subject: [PATCH] nvme: fix memory leak for power latency tolerance req
-Message-ID: <20190516030521.40374-1-yuyufen@huawei.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Thu, 16 May 2019 11:07:09 +0800
+Subject: [PATCH 2/6] nvme-pci: Don't disable on timeout in reset state
+In-Reply-To: <20190515163625.21776-2-keith.busch@intel.com>
+References: <20190515163625.21776-1-keith.busch@intel.com>
+ <20190515163625.21776-2-keith.busch@intel.com>
+Message-ID: <20190516030708.GB16342@ming.t460p>
 
-nvme_init_ctrl() initialize latency tolerance controls and
-kzalloc structdev_pm_qos_request 'req' in nvme_init_ctrl().
-The only way to free the 'req' is nvme_init_identify(), when
-apst is disable and prev_apst is enable.
+On Wed, May 15, 2019@10:36:21AM -0600, Keith Busch wrote:
+> The driver doesn't dispatch commands that it needs to wait for in the reset
+> state anymore. If a timeout occurs in this state, the reset work is
+> already disabling the controller, so just reset the request's timer.
+> 
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> ---
+>  drivers/nvme/host/pci.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index d4e442160048..c72755311ffa 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -1298,13 +1298,14 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+>  		shutdown = true;
+>  		/* fall through */
+>  	case NVME_CTRL_CONNECTING:
+> -	case NVME_CTRL_RESETTING:
+>  		dev_warn_ratelimited(dev->ctrl.device,
+>  			 "I/O %d QID %d timeout, disable controller\n",
+>  			 req->tag, nvmeq->qid);
+>  		nvme_dev_disable(dev, shutdown);
+>  		nvme_req(req)->flags |= NVME_REQ_CANCELLED;
+>  		return BLK_EH_DONE;
+> +	case NVME_CTRL_RESETTING:
+> +		return BLK_EH_RESET_TIMER;
+>  	default:
+>  		break;
+>  	}
 
-But, prev_apst is disable when device probe, and we will
-miss to free it when the device does't support APST.
+RESET follows controller shutdown(via nvme_dev_disable()), the only
+possible timeout should be on admin requests staggered between shutdown
+and changing to NVME_CTRL_CONNECTING, given admin queue isn't frozen.
 
-To fix the problem, we call dev_pm_qos_update_user_latency_tolerance()
-to nvme_init_identify() only when the device actually supports APST.
-And it needs to be hidden when remove nvme ctrl.
+And the admin queue should be fully workable after it is unquiesced
+by nvme_alloc_admin_tags(), so if timeout happens after nvme_alloc_admin_tags(),
+I guess these requests should be handled as in NVME_CTRL_CONNECTING.
 
-Fixes: c5552fde102fc("nvme: Enable autonomous power state transitions")
+Another related problem is about handling timeout in NVME_CTRL_CONNECTING, and
+the following failure still can be observed:
 
-Signed-off-by: Yufen Yu <yuyufen at huawei.com>
----
- drivers/nvme/host/core.c | 34 ++++++++++++++++++++++++----------
- 1 file changed, 24 insertions(+), 10 deletions(-)
+[ 1078.775969] nvme nvme0: I/O 20 QID 0 timeout, disable controller
+[ 1078.791730] nvme nvme0: Identify Controller failed (-4)
+[ 1078.792538] nvme nvme0: Removing after probe failure status: -5
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 15d114787d6a..e10756b7c13f 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2485,6 +2485,21 @@ static int nvme_get_effects_log(struct nvme_ctrl *ctrl)
- 	return ret;
- }
- 
-+static void nvme_expose_latency_tolerance(struct nvme_ctrl *ctrl)
-+{
-+	ctrl->device->power.set_latency_tolerance = nvme_set_latency_tolerance;
-+	dev_pm_qos_update_user_latency_tolerance(ctrl->device,
-+		min(default_ps_max_latency_us, (unsigned long)S32_MAX));
-+
-+	dev_pm_qos_expose_latency_tolerance(ctrl->device);
-+}
-+
-+static void nvme_hide_latency_tolerance(struct nvme_ctrl *ctrl)
-+{
-+	ctrl->device->power.set_latency_tolerance = NULL;
-+	dev_pm_qos_hide_latency_tolerance(ctrl->device);
-+}
-+
- /*
-  * Initialize the cached copies of the Identify data and various controller
-  * register in our nvme_ctrl structure.  This should be called as soon as
-@@ -2643,9 +2658,9 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
- 		return ret;
- 
- 	if (ctrl->apst_enabled && !prev_apst_enabled)
--		dev_pm_qos_expose_latency_tolerance(ctrl->device);
-+		nvme_expose_latency_tolerance(ctrl);
- 	else if (!ctrl->apst_enabled && prev_apst_enabled)
--		dev_pm_qos_hide_latency_tolerance(ctrl->device);
-+		nvme_hide_latency_tolerance(ctrl);
- 
- 	ret = nvme_configure_apst(ctrl);
- 	if (ret < 0)
-@@ -3687,6 +3702,13 @@ EXPORT_SYMBOL_GPL(nvme_start_ctrl);
- 
- void nvme_uninit_ctrl(struct nvme_ctrl *ctrl)
- {
-+	/*
-+	 * If userspace latency tolerance have been exposed,
-+	 * we need to hide it.
-+	 */
-+	if (ctrl->device->power.set_latency_tolerance)
-+		nvme_hide_latency_tolerance(ctrl);
-+
- 	cdev_device_del(&ctrl->cdev, ctrl->device);
- }
- EXPORT_SYMBOL_GPL(nvme_uninit_ctrl);
-@@ -3773,14 +3795,6 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	if (ret)
- 		goto out_free_name;
- 
--	/*
--	 * Initialize latency tolerance controls.  The sysfs files won't
--	 * be visible to userspace unless the device actually supports APST.
--	 */
--	ctrl->device->power.set_latency_tolerance = nvme_set_latency_tolerance;
--	dev_pm_qos_update_user_latency_tolerance(ctrl->device,
--		min(default_ps_max_latency_us, (unsigned long)S32_MAX));
--
- 	return 0;
- out_free_name:
- 	kfree_const(ctrl->device->kobj.name);
--- 
-2.16.2.dirty
+
+Thanks,
+Ming
