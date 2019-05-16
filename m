@@ -1,112 +1,165 @@
-From: kenneth.heitke@intel.com (Heitke, Kenneth)
-Date: Thu, 16 May 2019 11:49:21 -0600
-Subject: Issue with namespace delete
-In-Reply-To: <20190516155356.GA26104@infradead.org>
-References: <f215cfd2-c0ce-34ff-bc8b-4a577a73372e@intel.com>
- <20190516151130.GB23416@localhost.localdomain>
- <20190516155356.GA26104@infradead.org>
-Message-ID: <8745b7bb-e433-a54b-5ecf-b4584038d832@intel.com>
+From: kai.heng.feng@canonical.com (Kai-Heng Feng)
+Date: Fri, 17 May 2019 02:27:30 +0800
+Subject: [PATCHv2 6/6] nvme-pci: Use host managed power state for suspend
+In-Reply-To: <20190516142657.GD23333@localhost.localdomain>
+References: <20190515163625.21776-1-keith.busch@intel.com>
+ <20190515163625.21776-6-keith.busch@intel.com>
+ <CAJZ5v0iC44O_gLMHnLui+tH+BuHKJzh_WC7PV3JFJwhj041=1A@mail.gmail.com>
+ <20190516142657.GD23333@localhost.localdomain>
+Message-ID: <70235CA3-0FBB-4A06-996F-647A0D95C6D0@canonical.com>
 
-Thanks Christoph. With my limited testing, your patch resolves my issue.
+Hi Keith,
 
-On 5/16/2019 9:53 AM, Christoph Hellwig wrote:
-> On Thu, May 16, 2019@09:11:30AM -0600, Keith Busch wrote:
->> You may have avoided this if you send the ioctl through the controller
->> char dev rather than the namespace block dev handle.
+at 22:26, Keith Busch <kbusch@kernel.org> wrote:
+
+> On Thu, May 16, 2019@02:29:10AM -0700, Rafael J. Wysocki wrote:
+>> This is a bit problematic with respect to hibernation.
 >>
->> I'm not sure what the best way to fix this might be right now.
-> 
-> We could try something like the changes below, although they are
-> completely untested for now and will need to be split up into
-> a few patches:
-> 
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index a6644a2c3ef7..537cbef5bc4a 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -1362,9 +1362,14 @@ static struct nvme_ns *nvme_get_ns_from_disk(struct gendisk *disk,
->   {
->   #ifdef CONFIG_NVME_MULTIPATH
->   	if (disk->fops == &nvme_ns_head_ops) {
-> +		struct nvme_ns *ns;
-> +
->   		*head = disk->private_data;
->   		*srcu_idx = srcu_read_lock(&(*head)->srcu);
-> -		return nvme_find_path(*head);
-> +		ns = nvme_find_path(*head);
-> +		if (!ns)
-> +			srcu_read_unlock(&(*head)->srcu, *srcu_idx);
-> +		return ns;
->   	}
->   #endif
->   	*head = NULL;
-> @@ -1384,8 +1389,6 @@ static int nvme_ns_ioctl(struct nvme_ns *ns, unsigned cmd, unsigned long arg)
->   	case NVME_IOCTL_ID:
->   		force_successful_syscall_return();
->   		return ns->head->ns_id;
-> -	case NVME_IOCTL_ADMIN_CMD:
-> -		return nvme_user_cmd(ns->ctrl, NULL, (void __user *)arg);
->   	case NVME_IOCTL_IO_CMD:
->   		return nvme_user_cmd(ns->ctrl, ns, (void __user *)arg);
->   	case NVME_IOCTL_SUBMIT_IO:
-> @@ -1395,9 +1398,6 @@ static int nvme_ns_ioctl(struct nvme_ns *ns, unsigned cmd, unsigned long arg)
->   		if (ns->ndev)
->   			return nvme_nvm_ioctl(ns, cmd, arg);
->   #endif
-> -		if (is_sed_ioctl(cmd))
-> -			return sed_ioctl(ns->ctrl->opal_dev, cmd,
-> -					 (void __user *) arg);
->   		return -ENOTTY;
->   	}
->   }
-> @@ -1405,16 +1405,30 @@ static int nvme_ns_ioctl(struct nvme_ns *ns, unsigned cmd, unsigned long arg)
->   static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
->   		unsigned int cmd, unsigned long arg)
->   {
-> +	void __user *argp = (void __user *)arg;
->   	struct nvme_ns_head *head = NULL;
-> +	struct nvme_ctrl *ctrl = NULL;
->   	struct nvme_ns *ns;
-> -	int srcu_idx, ret;
-> +	int srcu_idx, ret = 0;
->   
->   	ns = nvme_get_ns_from_disk(bdev->bd_disk, &head, &srcu_idx);
->   	if (unlikely(!ns))
-> -		ret = -EWOULDBLOCK;
-> +		return -EWOULDBLOCK;
-> +
-> +	if (cmd == NVME_IOCTL_ADMIN_CMD || is_sed_ioctl(cmd))
-> +		ctrl = nvme_get_ctrl(ns->ctrl);
->   	else
->   		ret = nvme_ns_ioctl(ns, cmd, arg);
->   	nvme_put_ns_from_disk(head, srcu_idx);
-> +
-> +	if (ctrl) {
-> +		if (cmd == NVME_IOCTL_ADMIN_CMD)
-> +			return nvme_user_cmd(ctrl, NULL, argp);
-> +		if (is_sed_ioctl(cmd))
-> +			return sed_ioctl(ctrl->opal_dev, cmd, argp);
-> +		nvme_put_ctrl(ctrl);
-> +	}
-> +
->   	return ret;
->   }
->   
-> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> index 5ee75b5ff83f..86625767da8b 100644
-> --- a/drivers/nvme/host/nvme.h
-> +++ b/drivers/nvme/host/nvme.h
-> @@ -405,9 +405,10 @@ static inline void nvme_end_request(struct request *req, __le16 status,
->   	blk_mq_complete_request(req);
->   }
->   
-> -static inline void nvme_get_ctrl(struct nvme_ctrl *ctrl)
-> +static inline struct nvme_ctrl *nvme_get_ctrl(struct nvme_ctrl *ctrl)
->   {
->   	get_device(ctrl->device);
-> +	return ctrl;
->   }
->   
->   static inline void nvme_put_ctrl(struct nvme_ctrl *ctrl)
-> 
+>> Sorry for failing to mention that before, it escaped me somehow.
+>>
+>> So the problem is that this will be invoked as the ->restore()
+>> callback and it need not be suitable for that depending on whether or
+>> not the driver is present in the restore kernel.  [There is another
+>> issue related to the fact that the last stage of hibernation doesn't
+>> return "true" from pm_suspend_via_firmware(), but that needs to be
+>> fixed elsewhere.]  If it is there, it will run nvme_deep_state(ndev),
+>> so all should be fine, but if it isn't there, the PCI bus type will
+>> apply the default handling to the device and that's to disable it via
+>> do_pci_disable_device() it this particular case, as per
+>> pci_pm_freeze(), so nvme_make_operational(ndev) should not be called
+>> then AFAICS.
+>>
+>> IMO it is better to just do the nvme_dev_disable()/nvme_reset_ctrl()
+>> things in the hibernation path anyway, so I would rename the existing
+>> nvme_suspend/resume() to nvme_simple_suspend/resume() (or similar),
+>> respectively, and define new nvme_suspend/resume() to do something
+>> like:
+>>
+>> return pm_suspend_via_firmware() || !ndev->ctrl.npss ?
+>> nvme_simple_suspend(dev) : nvme_deep_state(ndev);
+>>
+>> and
+>>
+>> return pm_resume_via_firmware() || !ndev->ctrl.npss ?
+>> nvme_simple_resume(dev) : nvme_make_operational(ndev);
+>>
+>> respectively.
+>>
+>>>        nvme_reset_ctrl(&ndev->ctrl);
+>>>         return 0;
+>>>  }
+>>> --
+>>
+>> Then, you can populate nvme_dev_pm_ops as follows:
+>>
+>> static const struct dev_pm_ops = {
+>>     .suspend = nvme_suspend,
+>>     .resume = nvme_resume,
+>>     .freeze = nvme_simple_suspend,
+>>     .thaw = nvme_simple_resume,
+>>     .poweroff = nvme_simple_suspend,
+>>     .restore = nvme_simple_resume,
+>> };
+>>
+>> and it should all work.
+>
+> Thanks for the pointers, I'll give that idea a shot.
+
+Thanks for your work, I?ve tested your patch series on top of nvme-5.2  
+branch. It works well once I apply flag PCI_DEV_FLAGS_NO_D3.
+After some digging I think it?s another bug though:
+
+[   69.883743] PM: suspend entry (s2idle)
+[   69.883746] PM: Syncing filesystems ... done.
+[   69.892848] Freezing user space processes ... (elapsed 0.003 seconds)  
+done.
+[   69.896109] OOM killer disabled.
+[   69.896111] Freezing remaining freezable tasks ... (elapsed 0.001  
+seconds) done.
+[   69.897432] printk: Suspending console(s) (use no_console_suspend to  
+debug)
+[   70.004120] wlp1s0: deauthenticating from d8:8f:76:7c:52:a9 by local  
+choice (Reason: 3=DEAUTH_LEAVING)
+[   70.007475] intel-lpss 0000:00:15.1: power state changed by ACPI to D0
+[   70.114626] intel-lpss 0000:00:15.1: restoring config space at offset  
+0x10 (was 0x4, writing 0x7f801004)
+[   70.216084] e1000e: EEE TX LPI TIMER: 00000011
+[   70.218418] intel-lpss 0000:00:15.0: power state changed by ACPI to D0
+[   70.257955] e1000e 0000:00:1f.6: disabling bus mastering
+[   70.325930] intel-lpss 0000:00:15.0: restoring config space at offset  
+0x10 (was 0x4, writing 0x7f800004)
+[   70.358779] nvme 0000:03:00.0: PCI PM: Suspend power state: D0
+[   70.362587] i801_smbus 0000:00:1f.4: PCI PM: Suspend power state: D0
+[   70.363712] e1000e 0000:00:1f.6: PME# enabled
+[   70.366507] pcieport 0000:00:1d.4: PME# enabled
+[   70.366512] pcieport 0000:00:1d.2: PME# enabled
+[   70.366904] xhci_hcd 0000:00:14.0: PME# enabled
+[   70.377166] snd_hda_intel 0000:00:1f.3: power state changed by ACPI to  
+D3hot
+[   70.377187] snd_hda_intel 0000:00:1f.3: PCI PM: Suspend power state: D3hot
+[   70.385042] pcieport 0000:00:1d.2: PCI PM: Suspend power state: D3hot
+[   70.385364] ath10k_pci 0000:01:00.0: PCI PM: Suspend power state: D3hot
+[   70.385401] mei_me 0000:00:16.0: PCI PM: Suspend power state: D3hot
+[   70.385445] intel_pch_thermal 0000:00:12.0: PCI PM: Suspend power state:  
+D3hot
+[   70.385980] intel-lpss 0000:00:15.1: power state changed by ACPI to D3cold
+[   70.386229] e1000e 0000:00:1f.6: power state changed by ACPI to D3hot
+[   70.386248] e1000e 0000:00:1f.6: PCI PM: Suspend power state: D3hot
+[   70.386328] intel-lpss 0000:00:15.0: power state changed by ACPI to D3cold
+[   70.386441] xhci_hcd 0000:00:14.0: power state changed by ACPI to D3hot
+[   70.386500] xhci_hcd 0000:00:14.0: PCI PM: Suspend power state: D3hot
+[   70.386536] intel-lpss 0000:00:15.1: PCI PM: Suspend power state: D3hot
+[   70.386602] intel-lpss 0000:00:15.0: PCI PM: Suspend power state: D3hot
+[   70.389034] pcieport 0000:00:1d.4: PCI PM: Suspend power state: D3hot
+[   70.390059] xhci_hcd 0000:00:14.0: power state changed by ACPI to D0
+[   70.390407] e1000e 0000:00:1f.6: power state changed by ACPI to D0
+[   70.390420] intel-lpss 0000:00:15.0: power state changed by ACPI to D0
+[   70.390504] intel-lpss 0000:00:15.1: power state changed by ACPI to D0
+[   70.390934] snd_hda_intel 0000:00:1f.3: power state changed by ACPI to D0
+[   70.411038] e1000e 0000:00:1f.6: restoring config space at offset 0x4  
+(was 0x100000, writing 0x100002)
+[   70.412050] pcieport 0000:00:1d.2: restoring config space at offset 0x2c  
+(was 0x0, writing 0x0)
+[   70.412348] pcieport 0000:00:1d.4: restoring config space at offset 0x2c  
+(was 0x0, writing 0x0)
+[   70.412637] pcieport 0000:00:1d.2: restoring config space at offset 0x28  
+(was 0x0, writing 0x0)
+[   70.412866] pcieport 0000:00:1d.4: restoring config space at offset 0x28  
+(was 0x0, writing 0x0)
+[   70.413097] pcieport 0000:00:1d.2: restoring config space at offset 0x24  
+(was 0x1fff1, writing 0x1fff1)
+[   70.413312] pcieport 0000:00:1d.4: restoring config space at offset 0x24  
+(was 0x1fff1, writing 0x1fff1)
+[   70.419876] intel-lpss 0000:00:15.0: restoring config space at offset  
+0x10 (was 0x4, writing 0x7f800004)
+[   70.420094] intel-lpss 0000:00:15.1: restoring config space at offset  
+0x10 (was 0x4, writing 0x7f801004)
+[   70.437001] rtsx_pci 0000:02:00.0: restoring config space at offset 0x4  
+(was 0x100402, writing 0x100406)
+[   70.451991] i801_smbus 0000:00:1f.4: PCI PM: Suspend power state: D0
+[   70.474839] mei_me 0000:00:16.0: PCI PM: Suspend power state: D3hot
+[   70.475511] snd_hda_intel 0000:00:1f.3: power state changed by ACPI to  
+D3hot
+[   70.475523] e1000e 0000:00:1f.6: power state changed by ACPI to D3hot
+[   70.475535] e1000e 0000:00:1f.6: PCI PM: Suspend power state: D3hot
+[   70.475537] snd_hda_intel 0000:00:1f.3: PCI PM: Suspend power state: D3hot
+[   70.475543] i915 0000:00:02.0: PCI PM: Suspend power state: D3hot
+[   70.492594] intel_pch_thermal 0000:00:12.0: PCI PM: Suspend power state:  
+D3hot
+[   70.492960] ath10k_pci 0000:01:00.0: PCI PM: Suspend power state: D3hot
+[   70.493056] pcieport 0000:00:1d.2: PCI PM: Suspend power state: D3hot
+[   70.493192] pcieport 0000:00:1d.0: PME# enabled
+[   70.493358] intel-lpss 0000:00:15.1: power state changed by ACPI to D3cold
+[   70.493650] intel-lpss 0000:00:15.0: power state changed by ACPI to D3cold
+[   70.493747] intel-lpss 0000:00:15.1: PCI PM: Suspend power state: D3hot
+[   70.493862] intel-lpss 0000:00:15.0: PCI PM: Suspend power state: D3hot
+[   70.496908] nvme 0000:03:00.0: PCI PM: Suspend power state: D3hot
+
+pci_pm_suspend_noirq() gets called twice:
+[   70.358779] nvme 0000:03:00.0: PCI PM: Suspend power state: D0
+[   70.496908] nvme 0000:03:00.0: PCI PM: Suspend power state: D3hot
+So it?s still being put to D3.
+
+I?ll check why this bug happens.
+
+Kai-Heng
