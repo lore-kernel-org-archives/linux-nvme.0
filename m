@@ -1,37 +1,65 @@
-From: akinobu.mita@gmail.com (Akinobu Mita)
-Date: Thu, 16 May 2019 23:35:55 +0900
-Subject: [PATCH 1/2] nvme: add thermal zone infrastructure
-In-Reply-To: <1557933437-4693-2-git-send-email-akinobu.mita@gmail.com>
-References: <1557933437-4693-1-git-send-email-akinobu.mita@gmail.com>
- <1557933437-4693-2-git-send-email-akinobu.mita@gmail.com>
-Message-ID: <CAC5umygg7BPhyoKsBDPAoafXHmJnqE1gEarafJDRCrdUnw-3aA@mail.gmail.com>
+From: kbusch@kernel.org (Keith Busch)
+Date: Thu, 16 May 2019 08:33:51 -0600
+Subject: [PATCH 2/6] nvme-pci: Don't disable on timeout in reset state
+In-Reply-To: <20190516030708.GB16342@ming.t460p>
+References: <20190515163625.21776-1-keith.busch@intel.com>
+ <20190515163625.21776-2-keith.busch@intel.com>
+ <20190516030708.GB16342@ming.t460p>
+Message-ID: <20190516143351.GE23333@localhost.localdomain>
 
-2019?5?16?(?) 0:17 Akinobu Mita <akinobu.mita at gmail.com>:
->
-> The NVMe controller reports up to nine temperature values in the SMART /
-> Health log page (the composite temperature and temperature sensor 1 through
-> temperature sensor 8).
-> The temperature threshold feature (Feature Identifier 04h) configures the
-> asynchronous event request command to complete when the temperature is
-> crossed its correspoinding temperature threshold.
->
-> This adds infrastructure to provide these temperatures and thresholds via
-> thermal zone devices.
->
-> The nvme_thermal_zones_register() creates up to nine thermal zone devices
-> for valid temperature sensors including composite temperature.
->
-> /sys/class/thermal/thermal_zone[0-*]:
->     |---temp: Temperature
->     |---trip_point_0_temp: Over temperature threshold
->     |---trip_point_0_hyst: Under temperature threshold
+On Wed, May 15, 2019@08:07:09PM -0700, Ming Lei wrote:
+> On Wed, May 15, 2019@10:36:21AM -0600, Keith Busch wrote:
+> > The driver doesn't dispatch commands that it needs to wait for in the reset
+> > state anymore. If a timeout occurs in this state, the reset work is
+> > already disabling the controller, so just reset the request's timer.
+> > 
+> > Signed-off-by: Keith Busch <keith.busch at intel.com>
+> > ---
+> >  drivers/nvme/host/pci.c | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> > index d4e442160048..c72755311ffa 100644
+> > --- a/drivers/nvme/host/pci.c
+> > +++ b/drivers/nvme/host/pci.c
+> > @@ -1298,13 +1298,14 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+> >  		shutdown = true;
+> >  		/* fall through */
+> >  	case NVME_CTRL_CONNECTING:
+> > -	case NVME_CTRL_RESETTING:
+> >  		dev_warn_ratelimited(dev->ctrl.device,
+> >  			 "I/O %d QID %d timeout, disable controller\n",
+> >  			 req->tag, nvmeq->qid);
+> >  		nvme_dev_disable(dev, shutdown);
+> >  		nvme_req(req)->flags |= NVME_REQ_CANCELLED;
+> >  		return BLK_EH_DONE;
+> > +	case NVME_CTRL_RESETTING:
+> > +		return BLK_EH_RESET_TIMER;
+> >  	default:
+> >  		break;
+> >  	}
+> 
+> RESET follows controller shutdown(via nvme_dev_disable()), the only
+> possible timeout should be on admin requests staggered between shutdown
+> and changing to NVME_CTRL_CONNECTING, given admin queue isn't frozen.
+> 
+> And the admin queue should be fully workable after it is unquiesced
+> by nvme_alloc_admin_tags(), so if timeout happens after nvme_alloc_admin_tags(),
+> I guess these requests should be handled as in NVME_CTRL_CONNECTING.
 
-I misunderstood the under temperature threshold.  It is not hysteresis
-for the upper temperature threshold.  It is used to notify cold temperature
-that the device may not correctly work.
+Yep, the only timeouts here should be requests that we've already
+reclaimed, or are about to reclaim, via nvme_dev_disable called
+from either another timeout work or directly in the reset_work. And
+nvme_dev_disable handles its timeout, so we don't need timeout work to
+unblock it. Either way, we're never blocked in the RESETTING state.
 
-So we should provide another trip point for under temperature threshold,
-but there is no suitable thermal trip type for cold temperature.
+> Another related problem is about handling timeout in NVME_CTRL_CONNECTING, and
+> the following failure still can be observed:
+> 
+> [ 1078.775969] nvme nvme0: I/O 20 QID 0 timeout, disable controller
+> [ 1078.791730] nvme nvme0: Identify Controller failed (-4)
+> [ 1078.792538] nvme nvme0: Removing after probe failure status: -5
 
-I'm going to remove trip_point_0_hyst and not utilize the under temperature
-threshold.
+Right, we will fail the controller if it fails to produce a response to
+any initialization commands. It's either that, or try the same thing
+atateain, but I haven't seen much support for doing the latter.
