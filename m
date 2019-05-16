@@ -1,61 +1,58 @@
-From: kbusch@kernel.org (Keith Busch)
-Date: Thu, 16 May 2019 08:26:58 -0600
-Subject: [PATCHv2 6/6] nvme-pci: Use host managed power state for suspend
-In-Reply-To: <CAJZ5v0iC44O_gLMHnLui+tH+BuHKJzh_WC7PV3JFJwhj041=1A@mail.gmail.com>
-References: <20190515163625.21776-1-keith.busch@intel.com>
- <20190515163625.21776-6-keith.busch@intel.com>
- <CAJZ5v0iC44O_gLMHnLui+tH+BuHKJzh_WC7PV3JFJwhj041=1A@mail.gmail.com>
-Message-ID: <20190516142657.GD23333@localhost.localdomain>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Thu, 16 May 2019 23:32:14 +0900
+Subject: [PATCH 1/2] nvme: add thermal zone infrastructure
+In-Reply-To: <1557933437-4693-2-git-send-email-akinobu.mita@gmail.com>
+References: <1557933437-4693-1-git-send-email-akinobu.mita@gmail.com>
+ <1557933437-4693-2-git-send-email-akinobu.mita@gmail.com>
+Message-ID: <20190516143212.GE24001@minwooim-desktop>
 
-On Thu, May 16, 2019@02:29:10AM -0700, Rafael J. Wysocki wrote:
-> This is a bit problematic with respect to hibernation.
-> 
-> Sorry for failing to mention that before, it escaped me somehow.
-> 
-> So the problem is that this will be invoked as the ->restore()
-> callback and it need not be suitable for that depending on whether or
-> not the driver is present in the restore kernel.  [There is another
-> issue related to the fact that the last stage of hibernation doesn't
-> return "true" from pm_suspend_via_firmware(), but that needs to be
-> fixed elsewhere.]  If it is there, it will run nvme_deep_state(ndev),
-> so all should be fine, but if it isn't there, the PCI bus type will
-> apply the default handling to the device and that's to disable it via
-> do_pci_disable_device() it this particular case, as per
-> pci_pm_freeze(), so nvme_make_operational(ndev) should not be called
-> then AFAICS.
-> 
-> IMO it is better to just do the nvme_dev_disable()/nvme_reset_ctrl()
-> things in the hibernation path anyway, so I would rename the existing
-> nvme_suspend/resume() to nvme_simple_suspend/resume() (or similar),
-> respectively, and define new nvme_suspend/resume() to do something
-> like:
-> 
-> return pm_suspend_via_firmware() || !ndev->ctrl.npss ?
-> nvme_simple_suspend(dev) : nvme_deep_state(ndev);
-> 
-> and
-> 
-> return pm_resume_via_firmware() || !ndev->ctrl.npss ?
-> nvme_simple_resume(dev) : nvme_make_operational(ndev);
-> 
-> respectively.
-> 
-> >         nvme_reset_ctrl(&ndev->ctrl);
-> >         return 0;
-> >  }
-> > --
-> 
-> Then, you can populate nvme_dev_pm_ops as follows:
-> 
-> static const struct dev_pm_ops = {
->     .suspend = nvme_suspend,
->     .resume = nvme_resume,
->     .freeze = nvme_simple_suspend,
->     .thaw = nvme_simple_resume,
->     .poweroff = nvme_simple_suspend,
->     .restore = nvme_simple_resume,
-> };
-> 
-> and it should all work.
+> +	if (sensor < 0 || sensor > 8)
+> +		return -EINVAL;
 
-Thanks for the pointers, I'll give that idea a shot.
+Does we really need to check the negative case here ?  Am I missing
+something in this context ?  If we really want to check it in this
+level, can we check the invalid case in the following function?
+
+> +static struct thermal_zone_device *
+> +nvme_thermal_zone_register(struct nvme_ctrl *ctrl, int sensor)
+> +{
+> +	struct thermal_zone_device *tzdev;
+> +	char type[THERMAL_NAME_LENGTH];
+> +	int ret;
+> +
+> +	snprintf(type, sizeof(type), "nvme_temp%d", sensor);
+
+Before preparing "nvme_temp%d", maybe we can make it sure here. :)
+What do you say?
+
+> +int nvme_thermal_zones_register(struct nvme_ctrl *ctrl)
+> +{
+> +	struct nvme_smart_log *log;
+> +	int ret;
+> +	int i;
+> +
+> +	log = kzalloc(sizeof(*log), GFP_KERNEL);
+> +	if (!log)
+> +		return -ENOMEM;
+> +
+> +	ret = nvme_get_log(ctrl, NVME_NSID_ALL, NVME_LOG_SMART, 0,
+> +			   log, sizeof(*log), 0);
+> +	if (ret) {
+> +		ret = ret > 0 ? -EINVAL : ret;
+> +		goto free_log;
+> +	}
+> +
+> +	for (i = 0; i < ARRAY_SIZE(ctrl->tzdev); i++) {
+> +		struct thermal_zone_device *tzdev;
+> +
+> +		if (i && !le16_to_cpu(log->temp_sensor[i - 1]))
+> +			continue;
+> +		if (ctrl->tzdev[i])
+> +			continue;
+> +
+> +		tzdev = nvme_thermal_zone_register(ctrl, i);
+> +		if (!IS_ERR(tzdev))
+> +			ctrl->tzdev[i] = tzdev;
+
+Quenstion here. Are we okay not to print some warnings here in case
+of error returned?
