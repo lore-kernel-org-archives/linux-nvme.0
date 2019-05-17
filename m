@@ -1,16 +1,52 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 17 May 2019 02:45:45 -0700
-Subject: [PATCH RFC 0/4] nvmet: add support for port based io priority
-In-Reply-To: <20190516032109.13048-1-chaitanya.kulkarni@wdc.com>
-References: <20190516032109.13048-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20190517094545.GA26412@infradead.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 17 May 2019 11:47:33 +0200
+Subject: [PATCH 1/4] nvme: fix srcu locking on error return in
+ nvme_get_ns_from_disk
+Message-ID: <20190517094736.14504-1-hch@lst.de>
 
-On Wed, May 15, 2019@08:21:04PM -0700, Chaitanya Kulkarni wrote:
-> Any feedback is welcome, I'd like to understand if this approach is desirable,
-> if not then what is the right way to use the io priorities on that target side
-> so that NVMeOF target can take advantage of the scheduler infrastructure ?
+If we can't get a namespace don't leak the SRCU lock.  nvme_ioctl was
+working around this, but nvme_pr_command wasn't handling this properly.
+Just do what callers would usually expect.
 
-I don't really see the point.  Why would we treat I/O differently
-depending on which port it came into?  Until NVMe has an actually
-working priority scheme trying to hack support into our infrastructure
-seems rather futile.
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+Reviewed-by: Keith Busch <keith.busch at intel.com>
+Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+---
+ drivers/nvme/host/core.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 7da80f375315..63146060df66 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1361,9 +1361,14 @@ static struct nvme_ns *nvme_get_ns_from_disk(struct gendisk *disk,
+ {
+ #ifdef CONFIG_NVME_MULTIPATH
+ 	if (disk->fops == &nvme_ns_head_ops) {
++		struct nvme_ns *ns;
++
+ 		*head = disk->private_data;
+ 		*srcu_idx = srcu_read_lock(&(*head)->srcu);
+-		return nvme_find_path(*head);
++		ns = nvme_find_path(*head);
++		if (!ns)
++			srcu_read_unlock(&(*head)->srcu, *srcu_idx);
++		return ns;
+ 	}
+ #endif
+ 	*head = NULL;
+@@ -1410,9 +1415,9 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
+ 
+ 	ns = nvme_get_ns_from_disk(bdev->bd_disk, &head, &srcu_idx);
+ 	if (unlikely(!ns))
+-		ret = -EWOULDBLOCK;
+-	else
+-		ret = nvme_ns_ioctl(ns, cmd, arg);
++		return -EWOULDBLOCK;
++
++	ret = nvme_ns_ioctl(ns, cmd, arg);
+ 	nvme_put_ns_from_disk(head, srcu_idx);
+ 	return ret;
+ }
+-- 
+2.20.1
