@@ -1,18 +1,13 @@
-From: kbusch@kernel.org (Keith Busch)
-Date: Fri, 17 May 2019 09:09:25 -0600
-Subject: [PATCH 1/2] nvme: add thermal zone infrastructure
-In-Reply-To: <CAC5umygRTpq3GktaMKBdC8+-ghkJKCzFME+rm+V6vasrOAyOPw@mail.gmail.com>
-References: <1557933437-4693-1-git-send-email-akinobu.mita@gmail.com>
- <1557933437-4693-2-git-send-email-akinobu.mita@gmail.com>
- <2bf1e2cf-b922-d947-c939-375aba75994d@intel.com>
- <CAC5umygRTpq3GktaMKBdC8+-ghkJKCzFME+rm+V6vasrOAyOPw@mail.gmail.com>
-Message-ID: <20190517150924.GA25006@localhost.localdomain>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Sat, 18 May 2019 00:31:16 +0900
+Subject: [PATCH 3/4] nvme: merge nvme_ns_ioctl into nvme_ioctl
+In-Reply-To: <20190517094736.14504-3-hch@lst.de>
+References: <20190517094736.14504-1-hch@lst.de>
+ <20190517094736.14504-3-hch@lst.de>
+Message-ID: <20190517153114.GA28074@minwooim-desktop>
 
-On Sat, May 18, 2019@12:01:57AM +0900, Akinobu Mita wrote:
-> 
-> This is work_struct, not workqueue.  So it can't be destroyed.
-> But I noticed that we should call flush_work for thermal_work at
-> unregistering thermal zone devices.
+It has always been what I really wanted it to be like.
 
-Instead of creating yet-another-work_struct, let's append this event's
-action to the existing async_event_work.
+This looks good to me.
+
+Reviewed-by: Minwoo Im <minwoo.im.dev at gmail.com>
