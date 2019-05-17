@@ -1,34 +1,24 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 17 May 2019 10:13:46 -0600
-Subject: [PATCH] nvme: Fix known effects
-Message-ID: <20190517161346.25102-1-keith.busch@intel.com>
+From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Fri, 17 May 2019 16:28:43 +0000
+Subject: [PATCH RFC 0/4] nvmet: add support for port based io priority
+References: <20190516032109.13048-1-chaitanya.kulkarni@wdc.com>
+ <20190517094545.GA26412@infradead.org>
+Message-ID: <SN6PR04MB4527B78B40C2B1D11355FA9F860B0@SN6PR04MB4527.namprd04.prod.outlook.com>
 
-We're trying to append known effects to the ones reported in the
-controller's log. The original patch accomplished this, but something
-went wrong when patch was merged causing the effects log to override
-the known effects.
+On 5/17/19 2:45 AM, Christoph Hellwig wrote:
+> On Wed, May 15, 2019@08:21:04PM -0700, Chaitanya Kulkarni wrote:
+>> Any feedback is welcome, I'd like to understand if this approach is desirable,
+>> if not then what is the right way to use the io priorities on that target side
+>> so that NVMeOF target can take advantage of the scheduler infrastructure ?
+> I don't really see the point.  Why would we treat I/O differently
+> depending on which port it came into?  Until NVMe has an actually
+> working priority scheme trying to hack support into our infrastructure
+> seems rather futile.
+>
+Okay, thanks for the reply Christoph. Quick question, when you mention
 
-Link: http://lists.infradead.org/pipermail/linux-nvme/2019-May/023710.html
-Cc: Maxim Levitsky <mlevitsk at redhat.com>
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+"Until NVMe has an actually working priority" -> host side support for
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index f2411d50e764..5175451916d1 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1273,9 +1273,9 @@ static u32 nvme_passthru_start(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 		return 0;
- 	}
- 
--	effects |= nvme_known_admin_effects(opcode);
- 	if (ctrl->effects)
- 		effects = le32_to_cpu(ctrl->effects->acs[opcode]);
-+	effects |= nvme_known_admin_effects(opcode);
- 
- 	/*
- 	 * For simplicity, IO to all namespaces is quiesced even if the command
--- 
-2.14.4
+priority based block layer request -> NVMe Request processing with
+
+having weighted round robin priority SQ for NVMe Host  ?
