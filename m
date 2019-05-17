@@ -1,48 +1,40 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Fri, 17 May 2019 16:32:02 +0000
-Subject: [PATCH] nvme: target: use struct_size() in kmalloc()
-References: <1558076615-8576-1-git-send-email-xiaolinkui@kylinos.cn>
-Message-ID: <SN6PR04MB4527D340D48215FE19335A99860B0@SN6PR04MB4527.namprd04.prod.outlook.com>
+From: ednadols@linux.microsoft.com (Edmund Nadolski)
+Date: Fri, 17 May 2019 10:28:37 -0700
+Subject: [PATCH] nvme: Fix known effects
+In-Reply-To: <20190517161346.25102-1-keith.busch@intel.com>
+References: <20190517161346.25102-1-keith.busch@intel.com>
+Message-ID: <793cd908-fa0d-74e6-0a0a-eba0e28bcdb5@linux.microsoft.com>
 
-If maintainers are okay with this then,
-
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-
-On 5/17/19 12:07 AM, xiaolinkui wrote:
-> Use struct_size() to keep code sample.
-> One of the more common cases of allocation size calculations is finding
-> the size of a structure that has a zero-sized array at the end, along
-> with memory for some number of elements for that array. For example:
->
-> struct foo {
->     int stuff;
->     struct boo entry[];
-> };
->
-> instance = kmalloc(sizeof(struct foo) + count * sizeof(struct boo), GFP_KERNEL);
->
-> Instead of leaving these open-coded and prone to type mistakes, we can
-> now use the new struct_size() helper:
->
-> instance = kmalloc(struct_size(instance, entry, count), GFP_KERNEL);
->
-> Signed-off-by: xiaolinkui <xiaolinkui at kylinos.cn>
+On 5/17/19 9:13 AM, Keith Busch wrote:
+> We're trying to append known effects to the ones reported in the
+> controller's log. The original patch accomplished this, but something
+> went wrong when patch was merged causing the effects log to override
+> the known effects.
+> 
+> Link: http://lists.infradead.org/pipermail/linux-nvme/2019-May/023710.html
+> Cc: Maxim Levitsky <mlevitsk at redhat.com>
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
 > ---
->  drivers/nvme/target/admin-cmd.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-> index 9f72d51..6f9f830 100644
-> --- a/drivers/nvme/target/admin-cmd.c
-> +++ b/drivers/nvme/target/admin-cmd.c
-> @@ -248,8 +248,8 @@ static void nvmet_execute_get_log_page_ana(struct nvmet_req *req)
->  	u16 status;
->  
->  	status = NVME_SC_INTERNAL;
-> -	desc = kmalloc(sizeof(struct nvme_ana_group_desc) +
-> -			NVMET_MAX_NAMESPACES * sizeof(__le32), GFP_KERNEL);
-> +	desc = kmalloc(struct_size(desc, nsids, NVMET_MAX_NAMESPACES),
-> +			GFP_KERNEL);
->  	if (!desc)
->  		goto out;
->  
+>   drivers/nvme/host/core.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index f2411d50e764..5175451916d1 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -1273,9 +1273,9 @@ static u32 nvme_passthru_start(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+>   		return 0;
+>   	}
+>   
+> -	effects |= nvme_known_admin_effects(opcode);
+>   	if (ctrl->effects)
+>   		effects = le32_to_cpu(ctrl->effects->acs[opcode]);
+> +	effects |= nvme_known_admin_effects(opcode);
+>   
+>   	/*
+>   	 * For simplicity, IO to all namespaces is quiesced even if the command
+> 
+
+LGTM
+
+Ed
