@@ -1,52 +1,56 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Fri, 17 May 2019 10:31:58 +0800
-Subject: [PATCH 3/6] nvme-pci: Unblock reset_work on IO failure
-In-Reply-To: <20190516141435.GB23333@localhost.localdomain>
-References: <20190515163625.21776-1-keith.busch@intel.com>
- <20190515163625.21776-3-keith.busch@intel.com>
- <20190516031333.GC16342@ming.t460p>
- <20190516141435.GB23333@localhost.localdomain>
-Message-ID: <20190517023156.GB6201@ming.t460p>
+From: joshi.k@samsung.com (kanchan)
+Date: Fri, 17 May 2019 11:01:55 +0530
+Subject: [PATCH v5 0/7] Extend write-hint framework, and add write-hint
+ for Ext4 journal
+In-Reply-To: <20190510170249.GA26907@infradead.org>
+References: <CGME20190425112347epcas2p1f7be48b8f0d2203252b8c9dd510c1b61@epcas2p1.samsung.com>
+ <1556191202-3245-1-git-send-email-joshi.k@samsung.com>
+ <20190510170249.GA26907@infradead.org>
+Message-ID: <00fb01d50c71$dd358e50$97a0aaf0$@samsung.com>
 
-On Thu, May 16, 2019@08:14:36AM -0600, Keith Busch wrote:
-> On Wed, May 15, 2019@08:13:35PM -0700, Ming Lei wrote:
-> > On Wed, May 15, 2019@10:36:22AM -0600, Keith Busch wrote:
-> > > +		nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DELETING);
-> > > +		/* fall through */
-> > > +	case NVME_CTRL_DELETING:
-> > >  		dev_warn_ratelimited(dev->ctrl.device,
-> > >  			 "I/O %d QID %d timeout, disable controller\n",
-> > >  			 req->tag, nvmeq->qid);
-> > > -		nvme_dev_disable(dev, shutdown);
-> > > +		nvme_dev_disable(dev, true);
-> > >  		nvme_req(req)->flags |= NVME_REQ_CANCELLED;
-> > >  		return BLK_EH_DONE;
-> > >  	case NVME_CTRL_RESETTING:
-> > 
-> > Then the controller is dead, and can't work any more together with data
-> > loss. I guess this way is too violent from user view.
-> 
-> Indeed, it is a bit harsh; however, it is definitely better than having a
-> stuck controller unable to make forward progress.
+Hi Christoph, 
 
-The controller may be stuck at the exact time, and in theory any sane
-hardware should be capable of being resetted to its normal state by
-software.
+> Including the one this model causes on at least some SSDs where you now
+statically allocate resources to a stream that is now not globally
+available.  
 
-The current issue is that NVMe driver is stuck when timeout happens
-during reset.
+Sorry but can you please elaborate the issue? I do not get what is being
+statically allocated which was globally available earlier.
+If you are referring to nvme driver,  available streams at subsystem level
+are being reflected for all namespaces. This is same as earlier. 
+There is no attempt to explicitly allocate (using dir-receive) or reserve
+streams for any namespace.  
+Streams will continue to get allocated/released implicitly as and when
+writes (with stream id) arrive.
 
-> We may be able to do
-> better, but I think this patch is a step in the right direction.
+> All for the little log with very short date lifetime that any half decent
+hot/cold partitioning algorithm in the SSD should be able to detect.
 
-Fare enough, this patch at least makes NVMe driver not stuck together
-with cost of data loss and device removal, so
-
-	Reviewed-by: Ming Lei <ming.lei at redhat.com>
-
-And we might have to support timeout during reset in future for making
-NVMe system more reliable, cause timeout handling is the final guard.
-
-
+With streams, hot/cold segregation is happening at the time of placement
+itself, without algorithm; that is a clear win over algorithms which take
+time/computation to be able to do the same.
+And infrastructure update (write-hint-to-stream-id conversion in
+block-layer,  in-kernel hints etc.) seems to be required anyway for streams
+to extend its reach beyond nvme and user-space hints.
+  
 Thanks,
-Ming
+
+-----Original Message-----
+From: Christoph Hellwig [mailto:hch@infradead.org] 
+Sent: Friday, May 10, 2019 10:33 PM
+To: Kanchan Joshi <joshi.k at samsung.com>
+Cc: linux-kernel at vger.kernel.org; linux-block at vger.kernel.org;
+linux-nvme at lists.infradead.org; linux-fsdevel at vger.kernel.org;
+linux-ext4 at vger.kernel.org; prakash.v at samsung.com; anshul at samsung.com
+Subject: Re: [PATCH v5 0/7] Extend write-hint framework, and add write-hint
+for Ext4 journal
+
+I think this fundamentally goes in the wrong direction.  We explicitly
+designed the block layer infrastructure around life time hints and not the
+not fish not flesh streams interface, which causes all kinds of problems.
+
+Including the one this model causes on at least some SSDs where you now
+statically allocate resources to a stream that is now not globally
+available.  All for the little log with very short date lifetime that any
+half decent hot/cold partitioning algorithm in the SSD should be able to
+detect.
