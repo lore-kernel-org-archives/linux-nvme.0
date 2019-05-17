@@ -1,69 +1,40 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 17 May 2019 11:47:36 +0200
-Subject: [PATCH v2 4/4] nvme: release namespace SRCU protection before
- performing controller ioctls
-In-Reply-To: <20190517094736.14504-1-hch@lst.de>
-References: <20190517094736.14504-1-hch@lst.de>
-Message-ID: <20190517094736.14504-4-hch@lst.de>
+From: rafael@kernel.org (Rafael J. Wysocki)
+Date: Fri, 17 May 2019 12:34:19 +0200
+Subject: [PATCHv2 6/6] nvme-pci: Use host managed power state for suspend
+In-Reply-To: <20190517093516.GA17006@lst.de>
+References: <20190516142657.GD23333@localhost.localdomain>
+ <70235CA3-0FBB-4A06-996F-647A0D95C6D0@canonical.com>
+ <64e8e0252a4042b99dd3d0def15b1780@AUSX13MPC105.AMER.DELL.COM>
+ <20190516193822.GA23853@localhost.localdomain>
+ <CAJZ5v0gBQVjy70CbA6CzkkjsGQYGeO6fDjJimvadM5_oq=3qeA@mail.gmail.com>
+ <20190516203950.GB23853@localhost.localdomain>
+ <CAJZ5v0hZSiQuuq2+P+uLd3uE=ruuTW+5DmAdjqcr39=7poUe-g@mail.gmail.com>
+ <CAJZ5v0j0V10BYrME=KU1AJXGDMRUFFHiZEHQnsXhNJGPZKBSUw@mail.gmail.com>
+ <20190517090521.GA15509@lst.de>
+ <CAJZ5v0iL+ERE4Yy5yO8U2no194sRkvqNZHh5HsZXKvvHbxtk+g@mail.gmail.com>
+ <20190517093516.GA17006@lst.de>
+Message-ID: <CAJZ5v0gLqL7GUjwz5F8=9Fc-W2n3FRzbbB2L8udaXgN4Vsd8-Q@mail.gmail.com>
 
-Holding the SRCU critical section protecting the namespace list can
-cause deadlocks when using the per-namespace admin passthrough ioctl to
-delete as namespace.  Release it earlier when performing per-controller
-ioctls to avoid that.
+On Fri, May 17, 2019@11:35 AM Christoph Hellwig <hch@lst.de> wrote:
+>
+> On Fri, May 17, 2019@11:17:52AM +0200, Rafael J. Wysocki wrote:
+> > AFAICS, using DMA while creating a hibernation snapshot image of
+> > memory would not be a good idea, so the host memory buffer should be
+> > disabled during the "freeze" stage or hibernation (and it can be
+> > re-enabled when that stage is complete).
+>
+> Once we'd disable the HMB the harm is done, so no point in re-enabling it.
 
-Reported-by: Kenneth Heitke <kenneth.heitke at intel.com>
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
- drivers/nvme/host/core.c | 25 ++++++++++++++++++++-----
- 1 file changed, 20 insertions(+), 5 deletions(-)
+But after the "freeze" stage the image may need to be written to the
+device, so I guess it would be useful to enable the HMB for that?
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 2d56cca1cded..6af88de83ea7 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1394,14 +1394,31 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
- 	if (unlikely(!ns))
- 		return -EWOULDBLOCK;
- 
-+	/*
-+	 * Handle ioctls that apply to the controller instead of the namespace
-+	 * seperately and drop the ns SRCU reference early.  This avoids a
-+	 * deadlock when deleting namespaces using the passthrough interface.
-+	 */
-+	if (cmd == NVME_IOCTL_ADMIN_CMD || is_sed_ioctl(cmd)) {
-+		struct nvme_ctrl *ctrl = ns->ctrl;
-+
-+		nvme_get_ctrl(ns->ctrl);
-+		nvme_put_ns_from_disk(head, srcu_idx);
-+
-+		if (cmd == NVME_IOCTL_ADMIN_CMD)
-+			ret = nvme_user_cmd(ctrl, NULL, argp);
-+		else
-+			ret = sed_ioctl(ctrl->opal_dev, cmd, argp);
-+
-+		nvme_put_ctrl(ctrl);
-+		return ret;
-+	}
-+
- 	switch (cmd) {
- 	case NVME_IOCTL_ID:
- 		force_successful_syscall_return();
- 		ret = ns->head->ns_id;
- 		break;
--	case NVME_IOCTL_ADMIN_CMD:
--		ret = nvme_user_cmd(ns->ctrl, NULL, argp);
--		break;
- 	case NVME_IOCTL_IO_CMD:
- 		ret = nvme_user_cmd(ns->ctrl, ns, argp);
- 		break;
-@@ -1411,8 +1428,6 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
- 	default:
- 		if (ns->ndev)
- 			ret = nvme_nvm_ioctl(ns, cmd, arg);
--		else if (is_sed_ioctl(cmd))
--			ret = sed_ioctl(ns->ctrl->opal_dev, cmd, argp);
- 		else
- 			ret = -ENOTTY;
- 	}
--- 
-2.20.1
+> What would this mean in terms of ops?  Only disable in freeze_noirq?
+
+It can be disabled in any of the "freeze" callbacks (freeze,
+freeze_late, freeze_irq) where it makes most sense.  I also would
+re-enable it in the complementary "thaw" one, in case the device will
+be used to store the image.
+
+> Or stick to the simple ops and find another helper that indicates we are doing a hibernation?
+
+There are no helpers for that, it needs to be done manually, sort of.
