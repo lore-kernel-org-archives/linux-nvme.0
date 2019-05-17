@@ -1,72 +1,48 @@
 From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Fri, 17 May 2019 16:30:42 +0000
-Subject: [PATCH v2 4/4] nvme: release namespace SRCU protection before
- performing controller ioctls
-References: <20190517094736.14504-1-hch@lst.de>
- <20190517094736.14504-4-hch@lst.de>
-Message-ID: <SN6PR04MB4527A3B33425E8E17B6C720C860B0@SN6PR04MB4527.namprd04.prod.outlook.com>
+Date: Fri, 17 May 2019 16:32:02 +0000
+Subject: [PATCH] nvme: target: use struct_size() in kmalloc()
+References: <1558076615-8576-1-git-send-email-xiaolinkui@kylinos.cn>
+Message-ID: <SN6PR04MB4527D340D48215FE19335A99860B0@SN6PR04MB4527.namprd04.prod.outlook.com>
 
-Looks good.
+If maintainers are okay with this then,
 
 Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 
-On 5/17/19 2:48 AM, Christoph Hellwig wrote:
-> Holding the SRCU critical section protecting the namespace list can
-> cause deadlocks when using the per-namespace admin passthrough ioctl to
-> delete as namespace.  Release it earlier when performing per-controller
-> ioctls to avoid that.
+On 5/17/19 12:07 AM, xiaolinkui wrote:
+> Use struct_size() to keep code sample.
+> One of the more common cases of allocation size calculations is finding
+> the size of a structure that has a zero-sized array at the end, along
+> with memory for some number of elements for that array. For example:
 >
-> Reported-by: Kenneth Heitke <kenneth.heitke at intel.com>
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> struct foo {
+>     int stuff;
+>     struct boo entry[];
+> };
+>
+> instance = kmalloc(sizeof(struct foo) + count * sizeof(struct boo), GFP_KERNEL);
+>
+> Instead of leaving these open-coded and prone to type mistakes, we can
+> now use the new struct_size() helper:
+>
+> instance = kmalloc(struct_size(instance, entry, count), GFP_KERNEL);
+>
+> Signed-off-by: xiaolinkui <xiaolinkui at kylinos.cn>
 > ---
->  drivers/nvme/host/core.c | 25 ++++++++++++++++++++-----
->  1 file changed, 20 insertions(+), 5 deletions(-)
+>  drivers/nvme/target/admin-cmd.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 2d56cca1cded..6af88de83ea7 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -1394,14 +1394,31 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
->  	if (unlikely(!ns))
->  		return -EWOULDBLOCK;
+> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+> index 9f72d51..6f9f830 100644
+> --- a/drivers/nvme/target/admin-cmd.c
+> +++ b/drivers/nvme/target/admin-cmd.c
+> @@ -248,8 +248,8 @@ static void nvmet_execute_get_log_page_ana(struct nvmet_req *req)
+>  	u16 status;
 >  
-> +	/*
-> +	 * Handle ioctls that apply to the controller instead of the namespace
-> +	 * seperately and drop the ns SRCU reference early.  This avoids a
-> +	 * deadlock when deleting namespaces using the passthrough interface.
-> +	 */
-> +	if (cmd == NVME_IOCTL_ADMIN_CMD || is_sed_ioctl(cmd)) {
-> +		struct nvme_ctrl *ctrl = ns->ctrl;
-> +
-> +		nvme_get_ctrl(ns->ctrl);
-> +		nvme_put_ns_from_disk(head, srcu_idx);
-> +
-> +		if (cmd == NVME_IOCTL_ADMIN_CMD)
-> +			ret = nvme_user_cmd(ctrl, NULL, argp);
-> +		else
-> +			ret = sed_ioctl(ctrl->opal_dev, cmd, argp);
-> +
-> +		nvme_put_ctrl(ctrl);
-> +		return ret;
-> +	}
-> +
->  	switch (cmd) {
->  	case NVME_IOCTL_ID:
->  		force_successful_syscall_return();
->  		ret = ns->head->ns_id;
->  		break;
-> -	case NVME_IOCTL_ADMIN_CMD:
-> -		ret = nvme_user_cmd(ns->ctrl, NULL, argp);
-> -		break;
->  	case NVME_IOCTL_IO_CMD:
->  		ret = nvme_user_cmd(ns->ctrl, ns, argp);
->  		break;
-> @@ -1411,8 +1428,6 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
->  	default:
->  		if (ns->ndev)
->  			ret = nvme_nvm_ioctl(ns, cmd, arg);
-> -		else if (is_sed_ioctl(cmd))
-> -			ret = sed_ioctl(ns->ctrl->opal_dev, cmd, argp);
->  		else
->  			ret = -ENOTTY;
->  	}
+>  	status = NVME_SC_INTERNAL;
+> -	desc = kmalloc(sizeof(struct nvme_ana_group_desc) +
+> -			NVMET_MAX_NAMESPACES * sizeof(__le32), GFP_KERNEL);
+> +	desc = kmalloc(struct_size(desc, nsids, NVMET_MAX_NAMESPACES),
+> +			GFP_KERNEL);
+>  	if (!desc)
+>  		goto out;
+>  
