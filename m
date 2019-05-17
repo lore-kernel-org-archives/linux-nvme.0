@@ -1,44 +1,14 @@
-From: xiaolinkui@kylinos.cn (xiaolinkui)
-Date: Fri, 17 May 2019 15:03:35 +0800
-Subject: [PATCH] nvme: target: use struct_size() in kmalloc()
-Message-ID: <1558076615-8576-1-git-send-email-xiaolinkui@kylinos.cn>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Fri, 17 May 2019 16:59:05 +0900
+Subject: [PATCH 1/3] nvme: separate out nvme_ctrl_state_name()
+In-Reply-To: <20190517064254.95561-2-hare@suse.de>
+References: <20190517064254.95561-1-hare@suse.de>
+ <20190517064254.95561-2-hare@suse.de>
+Message-ID: <20190517075904.GA26359@minwooim-desktop>
 
-Use struct_size() to keep code sample.
-One of the more common cases of allocation size calculations is finding
-the size of a structure that has a zero-sized array at the end, along
-with memory for some number of elements for that array. For example:
+Hi Hannes,
 
-struct foo {
-    int stuff;
-    struct boo entry[];
-};
+Thanks for applying my review point on this.
+This looks good to me.
 
-instance = kmalloc(sizeof(struct foo) + count * sizeof(struct boo), GFP_KERNEL);
-
-Instead of leaving these open-coded and prone to type mistakes, we can
-now use the new struct_size() helper:
-
-instance = kmalloc(struct_size(instance, entry, count), GFP_KERNEL);
-
-Signed-off-by: xiaolinkui <xiaolinkui at kylinos.cn>
----
- drivers/nvme/target/admin-cmd.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 9f72d51..6f9f830 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -248,8 +248,8 @@ static void nvmet_execute_get_log_page_ana(struct nvmet_req *req)
- 	u16 status;
- 
- 	status = NVME_SC_INTERNAL;
--	desc = kmalloc(sizeof(struct nvme_ana_group_desc) +
--			NVMET_MAX_NAMESPACES * sizeof(__le32), GFP_KERNEL);
-+	desc = kmalloc(struct_size(desc, nsids, NVMET_MAX_NAMESPACES),
-+			GFP_KERNEL);
- 	if (!desc)
- 		goto out;
- 
--- 
-2.7.4
+Reviewed-by: Minwoo Im <minwoo.im.dev at gmail.com>
