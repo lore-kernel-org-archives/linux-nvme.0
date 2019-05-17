@@ -1,21 +1,36 @@
-From: kbusch@kernel.org (Keith Busch)
-Date: Fri, 17 May 2019 08:41:27 -0600
-Subject: [PATCH v2 4/4] nvme: release namespace SRCU protection before
- performing controller ioctls
-In-Reply-To: <20190517094736.14504-4-hch@lst.de>
-References: <20190517094736.14504-1-hch@lst.de>
- <20190517094736.14504-4-hch@lst.de>
-Message-ID: <20190517144127.GA24925@localhost.localdomain>
+From: akinobu.mita@gmail.com (Akinobu Mita)
+Date: Sat, 18 May 2019 00:01:57 +0900
+Subject: [PATCH 1/2] nvme: add thermal zone infrastructure
+In-Reply-To: <2bf1e2cf-b922-d947-c939-375aba75994d@intel.com>
+References: <1557933437-4693-1-git-send-email-akinobu.mita@gmail.com>
+ <1557933437-4693-2-git-send-email-akinobu.mita@gmail.com>
+ <2bf1e2cf-b922-d947-c939-375aba75994d@intel.com>
+Message-ID: <CAC5umygRTpq3GktaMKBdC8+-ghkJKCzFME+rm+V6vasrOAyOPw@mail.gmail.com>
 
-On Fri, May 17, 2019@11:47:36AM +0200, Christoph Hellwig wrote:
-> Holding the SRCU critical section protecting the namespace list can
-> cause deadlocks when using the per-namespace admin passthrough ioctl to
-> delete as namespace.  Release it earlier when performing per-controller
-> ioctls to avoid that.
-> 
-> Reported-by: Kenneth Heitke <kenneth.heitke at intel.com>
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
+2019?5?17?(?) 6:22 Heitke, Kenneth <kenneth.heitke at intel.com>:
+>
+>
+>
+> On 5/15/2019 9:17 AM, Akinobu Mita wrote:
+> > The NVMe controller reports up to nine temperature values in the SMART /
+> > Health log page (the composite temperature and temperature sensor 1 through
+> > temperature sensor 8).
+> > The temperature threshold feature (Feature Identifier 04h) configures the
+> > asynchronous event request command to complete when the temperature is
+> > crossed its correspoinding temperature threshold.
+>
+> s/correspoinding/corresponding/
 
-This looks fine.
+OK.
 
-Reviewed-by: Keith Busch <keith.busch at intel.com>
+> > +
+> > +static void nvme_thermal_init(struct nvme_ctrl *ctrl)
+> > +{
+> > +     INIT_WORK(&ctrl->thermal_work, nvme_thermal_work);
+> > +}
+>
+> Does this work queue need to be destroyed at some point?
+
+This is work_struct, not workqueue.  So it can't be destroyed.
+But I noticed that we should call flush_work for thermal_work at
+unregistering thermal zone devices.
