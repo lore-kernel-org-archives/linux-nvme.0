@@ -1,40 +1,38 @@
-From: ednadols@linux.microsoft.com (Edmund Nadolski)
-Date: Fri, 17 May 2019 10:28:37 -0700
+From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Fri, 17 May 2019 17:32:35 +0000
 Subject: [PATCH] nvme: Fix known effects
-In-Reply-To: <20190517161346.25102-1-keith.busch@intel.com>
 References: <20190517161346.25102-1-keith.busch@intel.com>
-Message-ID: <793cd908-fa0d-74e6-0a0a-eba0e28bcdb5@linux.microsoft.com>
+Message-ID: <SN6PR04MB4527DDE02A29308B60249AF1860B0@SN6PR04MB4527.namprd04.prod.outlook.com>
 
-On 5/17/19 9:13 AM, Keith Busch wrote:
+Looks good.
+
+Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+
+On 5/17/19 9:19 AM, Keith Busch wrote:
 > We're trying to append known effects to the ones reported in the
 > controller's log. The original patch accomplished this, but something
 > went wrong when patch was merged causing the effects log to override
 > the known effects.
-> 
+>
 > Link: http://lists.infradead.org/pipermail/linux-nvme/2019-May/023710.html
 > Cc: Maxim Levitsky <mlevitsk at redhat.com>
 > Signed-off-by: Keith Busch <keith.busch at intel.com>
 > ---
->   drivers/nvme/host/core.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
+>  drivers/nvme/host/core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
 > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
 > index f2411d50e764..5175451916d1 100644
 > --- a/drivers/nvme/host/core.c
 > +++ b/drivers/nvme/host/core.c
 > @@ -1273,9 +1273,9 @@ static u32 nvme_passthru_start(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
->   		return 0;
->   	}
->   
+>  		return 0;
+>  	}
+>  
 > -	effects |= nvme_known_admin_effects(opcode);
->   	if (ctrl->effects)
->   		effects = le32_to_cpu(ctrl->effects->acs[opcode]);
+>  	if (ctrl->effects)
+>  		effects = le32_to_cpu(ctrl->effects->acs[opcode]);
 > +	effects |= nvme_known_admin_effects(opcode);
->   
->   	/*
->   	 * For simplicity, IO to all namespaces is quiesced even if the command
-> 
-
-LGTM
-
-Ed
+>  
+>  	/*
+>  	 * For simplicity, IO to all namespaces is quiesced even if the command
