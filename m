@@ -1,50 +1,60 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Sat, 18 May 2019 06:50:35 +0800
-Subject: [PATCH] nvme-pci: fix single segment optimization
-Message-ID: <20190517225035.25008-1-ming.lei@redhat.com>
+From: aeasi@marvell.com (Arun Easi)
+Date: Fri, 17 May 2019 17:18:11 -0700
+Subject: [PATCH 3/3] nvme-fc: fail reconnect if state change fails
+In-Reply-To: <20190516083740.95894-4-hare@suse.de>
+References: <20190516083740.95894-1-hare@suse.de>
+ <20190516083740.95894-4-hare@suse.de>
+Message-ID: <alpine.LRH.2.21.9999.1905171715520.19585@mvluser05.qlc.com>
 
-Commit dff824b2aadb ("nvme-pci: optimize mapping of small single segment
-requests") supposes that single request request only includes single
-bvec.
+On Thu, 16 May 2019, 1:37am, Hannes Reinecke wrote:
 
-However, this assumption is wrong, since the single segment may cross
-multiple bios, then there may be multiple bvecs involved in the segment.
+> If the final state change to LIVE in nvme_fc_create_association()
+> fails the controller is not operational as no I/O is possible.
+> So we should be returning an error here to reschedule reconnect.
+> 
+> Signed-off-by: Hannes Reinecke <hare at suse.com>
+> ---
+>  drivers/nvme/host/fc.c | 14 ++++++++++----
+>  1 file changed, 10 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> index e5c81ba2b7a1..9f9300cbdb62 100644
+> --- a/drivers/nvme/host/fc.c
+> +++ b/drivers/nvme/host/fc.c
+> @@ -2620,7 +2620,6 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+>  {
+>  	struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
+>  	int ret;
+> -	bool changed;
+>  
+>  	++ctrl->ctrl.nr_reconnects;
+>  
+> @@ -2725,12 +2724,19 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+>  			goto out_term_aen_ops;
+>  	}
+>  
+> -	changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE);
+> +	if (nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE)) {
 
-Fixes this issue by checking if it is single bio request, if yes, the
-request includes only one bvec, given we don't merge bvecs to one
-segment if they belong to same bio.
+Should not this be !nvme_change_ctrl_state()?
 
-Cc: Sagi Grimberg <sagi at grimberg.me>
-Fixes: dff824b2aadb ("nvme-pci: optimize mapping of small single segment requests")
-Signed-off-by: Ming Lei <ming.lei at redhat.com>
----
-
-Hi Christoph,
-
-This patch is candidate on your patch of 'block: don't decrement
-nr_phys_segments for physically contigous segments', and I suggest to
-take this one because this patch is simpler, and more suitable to serve
-as v5.2 fix. 
-
-And your patchset can aim at 5.3 as cleanup after careful
-test/evaluation on performance effect.
-
- drivers/nvme/host/pci.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 2a8708c9ac18..6a38a760a295 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -824,7 +824,8 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
- 	blk_status_t ret = BLK_STS_RESOURCE;
- 	int nr_mapped;
- 
--	if (blk_rq_nr_phys_segments(req) == 1) {
-+	/* Avoid the optimization if the single segment crosses two bios */
-+	if (blk_rq_nr_phys_segments(req) == 1 && req->bio == req->biotail) {
- 		struct bio_vec bv = req_bvec(req);
- 
- 		if (!is_pci_p2pdma_page(bv.bv_page)) {
--- 
-2.20.1
+Regards,
+-Arun
+> +		if (ctrl->ctrl.state != NVME_CTRL_DELETING) {
+> +			dev_err(ctrl->ctrl.device,
+> +				"NVME-FC{%d}: error_recovery: Couldn't change "
+> +				"state from %s to LIVE\n", ctrl->cnum,
+> +				nvme_ctrl_state_name(&ctrl->ctrl));
+> +			return -EAGAIN;
+> +		}
+> +	}
+>  
+>  	ctrl->ctrl.nr_reconnects = 0;
+>  
+> -	if (changed)
+> -		nvme_start_ctrl(&ctrl->ctrl);
+> +	nvme_start_ctrl(&ctrl->ctrl);
+>  
+>  	return 0;	/* Success */
+>  
+> 
