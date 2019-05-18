@@ -1,32 +1,43 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Sat, 18 May 2019 11:11:10 +0900
-Subject: [PATCH V2 0/4] nvme-cli: Introduce nvme-status mapping with errno
-In-Reply-To: <20190513170342.9497-1-minwoo.im.dev@gmail.com>
-References: <20190513170342.9497-1-minwoo.im.dev@gmail.com>
-Message-ID: <20190518021107.GA31204@minwooim-desktop>
+Date: Sat, 18 May 2019 11:12:03 +0900
+Subject: [PATCH V3 0/5] nvme-trace: Add support for fabrics command
+In-Reply-To: <20190512073413.32050-1-minwoo.im.dev@gmail.com>
+References: <20190512073413.32050-1-minwoo.im.dev@gmail.com>
+Message-ID: <20190518021202.GB31204@minwooim-desktop>
 
-On 19-05-14 02:03:38, Minwoo Im wrote:
+On 19-05-12 16:34:08, Minwoo Im wrote:
 > Hi,
 > 
-> This patchset introduces nvme-status module to manage mapping
-> relationships between nvme error status and errno.  It cannot be
-> directly mapped in 1:1, but we can figure out what kind of errors
-> happended by the return value of nvme-cli.
+> Here's a third patchset to support fabrics command tracing.  The first
+> patch updated host/trace module to a outside of it to provide common
+> interfaces for host and target both.  The second one adds support for
+> tracing fabrics command from host-side.  The third is a trivial clean-up
+> for providing a helper function to figure out given command structure is
+> for fabrics or not.
 > 
-> NVMe status fields are 16bits to indicate, but UNIX return value from
-> main() will be parsed in 8bits so that we need to do something about
-> return value to indicate nvme error status.
+> The fourth and fifth are the major change points of this patchset.  4th
+> patch adds request tracing from the target-side.  5th updated, of course,
+> completion of given request.
 > 
 > Please review.
 > Thanks,
 > 
-> Changes to previous C1:
->   - make switch-case inline in nvme-status (Chaitanya)
+> Changes to V2:
+>   - Provide a common code for both host and target. (Chaitanya)
+>   - Add support for tracing requests in target-side (Chaitanya)
+>   - Make it simple in trace.h without branch out from nvme core module
+>     (Christoph)
 > 
-> Minwoo Im (4):
->   nvme.h: Fix typos in status code values
->   nvme-status: Introduce nvme status module to map errno
->   nvme: Return errno mapped for nvme error status
->   fabrics: Return errno mapped for fabrics error status
+> Changes to V1:
+>   - fabrics commands should also be decoded, not just showing that it's
+>     a fabrics command. (Christoph)
+>   - do not make it within nvme admin commands (Chaitanya)
+> 
+> Minwoo Im (5):
+>   nvme: Make trace common for host and target both
+>   nvme-trace: Support tracing fabrics commands from host-side
+>   nvme: Introduce nvme_is_fabrics to check fabrics cmd
+>   nvme-trace: Add tracing for req_init in trarget
+>   nvme-trace: Add tracing for req_comp in target
 
 Ping :)
