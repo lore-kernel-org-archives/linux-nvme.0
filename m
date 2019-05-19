@@ -1,66 +1,54 @@
-From: akinobu.mita@gmail.com (Akinobu Mita)
-Date: Mon, 20 May 2019 00:06:58 +0900
-Subject: [PATCH v4 7/7] nvme-pci: enable to trigger device coredump by hand
-In-Reply-To: <1558278418-5702-1-git-send-email-akinobu.mita@gmail.com>
-References: <1558278418-5702-1-git-send-email-akinobu.mita@gmail.com>
-Message-ID: <1558278418-5702-8-git-send-email-akinobu.mita@gmail.com>
+From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Sun, 19 May 2019 16:48:12 +0000
+Subject: [PATCH V2 1/4] nvme.h: Fix typos in status code values
+References: <20190513170342.9497-1-minwoo.im.dev@gmail.com>
+ <20190513170342.9497-2-minwoo.im.dev@gmail.com>
+Message-ID: <BYAPR04MB5749A82313D11DC76974C16D86050@BYAPR04MB5749.namprd04.prod.outlook.com>
 
-This provides a way to trigger the nvme device coredump by writing
-anything to /sys/devices/.../coredump attribute.
+Looks good.
 
-Cc: Johannes Berg <johannes at sipsolutions.net>
-Cc: Keith Busch <keith.busch at intel.com>
-Cc: Jens Axboe <axboe at fb.com>
-Cc: Christoph Hellwig <hch at lst.de>
-Cc: Sagi Grimberg <sagi at grimberg.me>
-Cc: Minwoo Im <minwoo.im.dev at gmail.com>
-Cc: Kenneth Heitke <kenneth.heitke at intel.com>
-Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni at wdc.com>
-Signed-off-by: Akinobu Mita <akinobu.mita at gmail.com>
----
-* v4
-- No change since v3
-
- drivers/nvme/host/pci.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 6436e72..04084b9 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -3266,6 +3266,14 @@ static void nvme_coredump_complete(struct nvme_dev *dev)
- 	nvme_coredump_clear(dev);
- }
- 
-+static void nvme_coredump(struct device *dev)
-+{
-+	struct nvme_dev *ndev = dev_get_drvdata(dev);
-+
-+	nvme_dev_disable(ndev, false, true);
-+	nvme_reset_ctrl_sync(&ndev->ctrl);
-+}
-+
- #else
- 
- static void nvme_coredump_init(struct nvme_dev *dev)
-@@ -3281,6 +3289,10 @@ static void nvme_coredump_complete(struct nvme_dev *dev)
- {
- }
- 
-+static void nvme_coredump(struct device *dev)
-+{
-+}
-+
- #endif /* CONFIG_DEV_COREDUMP */
- 
- static pci_ers_result_t nvme_error_detected(struct pci_dev *pdev,
-@@ -3388,6 +3400,7 @@ static struct pci_driver nvme_driver = {
- 	.shutdown	= nvme_shutdown,
- 	.driver		= {
- 		.pm	= &nvme_dev_pm_ops,
-+		.coredump = nvme_coredump,
- 	},
- 	.sriov_configure = pci_sriov_configure_simple,
- 	.err_handler	= &nvme_err_handler,
--- 
-2.7.4
+Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+On 05/13/2019 10:04 AM, Minwoo Im wrote:
+> Fix typos in status code value.  linux/nvme.h in kernel project is going
+> to be fixed soon or later.
+>
+> Cc: Keith Busch <keith.busch at intel.com>
+> Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
+> ---
+>   linux/nvme.h | 4 ++--
+>   nvme-print.c | 4 ++--
+>   2 files changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/linux/nvme.h b/linux/nvme.h
+> index 2c840b9..c99b438 100644
+> --- a/linux/nvme.h
+> +++ b/linux/nvme.h
+> @@ -1365,9 +1365,9 @@ enum {
+>   	NVME_SC_FW_NEEDS_SUBSYS_RESET	= 0x110,
+>   	NVME_SC_FW_NEEDS_RESET		= 0x111,
+>   	NVME_SC_FW_NEEDS_MAX_TIME	= 0x112,
+> -	NVME_SC_FW_ACIVATE_PROHIBITED	= 0x113,
+> +	NVME_SC_FW_ACTIVATE_PROHIBITED	= 0x113,
+>   	NVME_SC_OVERLAPPING_RANGE	= 0x114,
+> -	NVME_SC_NS_INSUFFICENT_CAP	= 0x115,
+> +	NVME_SC_NS_INSUFFICIENT_CAP	= 0x115,
+>   	NVME_SC_NS_ID_UNAVAILABLE	= 0x116,
+>   	NVME_SC_NS_ALREADY_ATTACHED	= 0x118,
+>   	NVME_SC_NS_IS_PRIVATE		= 0x119,
+> diff --git a/nvme-print.c b/nvme-print.c
+> index c038355..0ce88d4 100644
+> --- a/nvme-print.c
+> +++ b/nvme-print.c
+> @@ -1801,9 +1801,9 @@ const char *nvme_status_to_string(__u32 status)
+>   	case NVME_SC_FW_NEEDS_SUBSYS_RESET:	return "FW_NEEDS_SUBSYSTEM_RESET: The firmware commit was successful, however, activation of the firmware image requires an NVM Subsystem";
+>   	case NVME_SC_FW_NEEDS_RESET:		return "FW_NEEDS_RESET: The firmware commit was successful; however, the image specified does not support being activated without a reset";
+>   	case NVME_SC_FW_NEEDS_MAX_TIME:		return "FW_NEEDS_MAX_TIME_VIOLATION: The image specified if activated immediately would exceed the Maximum Time for Firmware Activation (MTFA) value reported in Identify Controller. To activate the firmware, the Firmware Commit command needs to be re-issued and the image activated using a reset";
+> -	case NVME_SC_FW_ACIVATE_PROHIBITED:	return "FW_ACTIVATION_PROHIBITED: The image specified is being prohibited from activation by the controller for vendor specific reasons";
+> +	case NVME_SC_FW_ACTIVATE_PROHIBITED:	return "FW_ACTIVATION_PROHIBITED: The image specified is being prohibited from activation by the controller for vendor specific reasons";
+>   	case NVME_SC_OVERLAPPING_RANGE:		return "OVERLAPPING_RANGE: This error is indicated if the firmware image has overlapping ranges";
+> -	case NVME_SC_NS_INSUFFICENT_CAP:	return "NS_INSUFFICIENT_CAPACITY: Creating the namespace requires more free space than is currently available. The Command Specific Information field of the Error Information Log specifies the total amount of NVM capacity required to create the namespace in bytes";
+> +	case NVME_SC_NS_INSUFFICIENT_CAP:	return "NS_INSUFFICIENT_CAPACITY: Creating the namespace requires more free space than is currently available. The Command Specific Information field of the Error Information Log specifies the total amount of NVM capacity required to create the namespace in bytes";
+>   	case NVME_SC_NS_ID_UNAVAILABLE:		return "NS_ID_UNAVAILABLE: The number of namespaces supported has been exceeded";
+>   	case NVME_SC_NS_ALREADY_ATTACHED:	return "NS_ALREADY_ATTACHED: The controller is already attached to the namespace specified";
+>   	case NVME_SC_NS_IS_PRIVATE:		return "NS_IS_PRIVATE: The namespace is private and is already attached to one controller";
+>
