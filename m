@@ -1,61 +1,84 @@
-From: gustavo@embeddedor.com (Gustavo A. R. Silva)
-Date: Sat, 18 May 2019 10:52:52 -0500
-Subject: [PATCH] nvme: target: use struct_size() in kmalloc()
-In-Reply-To: <1558076615-8576-1-git-send-email-xiaolinkui@kylinos.cn>
-References: <1558076615-8576-1-git-send-email-xiaolinkui@kylinos.cn>
-Message-ID: <b6df7288-9b44-145a-f8be-b2ada6dcd360@embeddedor.com>
+From: akinobu.mita@gmail.com (Akinobu Mita)
+Date: Mon, 20 May 2019 00:06:51 +0900
+Subject: [PATCH v4 0/7] nvme-pci: support device coredump
+Message-ID: <1558278418-5702-1-git-send-email-akinobu.mita@gmail.com>
 
+This enables to collect snapshot of controller information via device
+coredump mechanism.  The nvme device coredump is triggered when command
+timeout occurs, and can also be triggered by writing sysfs attribute.
 
+After finishing the nvme device coredump, the following files are created.
 
-On 5/17/19 2:03 AM, xiaolinkui wrote:
-> Use struct_size() to keep code sample.
+ - regs: NVMe controller registers (00h to 4Fh)
+ - sq<qid>: Submission queue
+ - cq<qid>: Completion queue
+ - telemetry-ctrl-log: Telemetry controller-initiated log (if available)
+ - data: Empty
 
-What do you mean by that?
+The device coredump mechanism currently allows drivers to create only a
+single coredump file, so this also provides a new function that allows
+drivers to create several device coredump files in one crashed device.
 
-> One of the more common cases of allocation size calculations is finding
-> the size of a structure that has a zero-sized array at the end, along
-> with memory for some number of elements for that array. For example:
-> 
-> struct foo {
->     int stuff;
->     struct boo entry[];
-> };
-> 
-> instance = kmalloc(sizeof(struct foo) + count * sizeof(struct boo), GFP_KERNEL);
-> 
-> Instead of leaving these open-coded and prone to type mistakes, we can
-> now use the new struct_size() helper:
-> 
-> instance = kmalloc(struct_size(instance, entry, count), GFP_KERNEL);
-> 
+* v4
+- Add Reviewed-by tags
+- Add nvme_get_telemetry_log() to nvme core module.
+- Copy struct nvme_telemetry_log_page_hdr from the latest nvme-cli
+- Use bio_vec instead of sg_table to store telemetry log page
+- Make nvme_coredump_logs() return error if the device didn't produce
+  a response.
+- Abandon the reset if nvme_coredump_logs() returns error code
 
-How did you find this code?
+* v3
+- Merge 'add telemetry log page definisions' patch and 'add facility to
+  check log page attributes' patch
+- Copy struct nvme_telemetry_log_page_hdr from the latest nvme-cli
+- Add BUILD_BUG_ON for the size of struct nvme_telemetry_log_page_hdr
+- Fix typo s/machanism/mechanism/ in commit log
+- Fix max transfer size calculation for get log page
+- Add function comments
+- Extract 'enable to trigger device coredump by hand' patch
+- Don't try to get telemetry log when admin queue is not available
+- Avoid deadlock in .coredump callback
 
-If you used a tool like Coccinelle, mention it in the changelog text.
+* v2
+- Add Reviewed-by tag.
+- Add patch to fix typo in comment
+- Remove unneeded braces.
+- Allocate device_entry followed by an array of devcd_file elements.
+- Add telemetry log page definisions
+- Add facility to check log page attributes
+- Exclude the doorbell registers from register dump.
+- Save controller registers in a binary format instead of a text format.
+- Create an empty 'data' file in the device coredump.
+- Save telemetry controller-initiated log if available
+- Make coredump procedure into two phases (before resetting controller and
+  after resetting as soon as admin queue is available).
 
-Did you compile it?
+Akinobu Mita (7):
+  devcoredump: use memory_read_from_buffer
+  devcoredump: fix typo in comment
+  devcoredump: allow to create several coredump files in one device
+  nvme: add basic facilities to get telemetry log page
+  nvme-pci: add device coredump infrastructure
+  nvme-pci: trigger device coredump on command timeout
+  nvme-pci: enable to trigger device coredump by hand
 
---
-Gustavo
+ drivers/base/devcoredump.c  | 168 ++++++++++------
+ drivers/nvme/host/Kconfig   |   1 +
+ drivers/nvme/host/core.c    |  59 ++++++
+ drivers/nvme/host/nvme.h    |   3 +
+ drivers/nvme/host/pci.c     | 473 ++++++++++++++++++++++++++++++++++++++++++--
+ include/linux/devcoredump.h |  33 ++++
+ include/linux/nvme.h        |  32 +++
+ 7 files changed, 696 insertions(+), 73 deletions(-)
 
-> Signed-off-by: xiaolinkui <xiaolinkui at kylinos.cn>
-> ---
->  drivers/nvme/target/admin-cmd.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-> index 9f72d51..6f9f830 100644
-> --- a/drivers/nvme/target/admin-cmd.c
-> +++ b/drivers/nvme/target/admin-cmd.c
-> @@ -248,8 +248,8 @@ static void nvmet_execute_get_log_page_ana(struct nvmet_req *req)
->  	u16 status;
->  
->  	status = NVME_SC_INTERNAL;
-> -	desc = kmalloc(sizeof(struct nvme_ana_group_desc) +
-> -			NVMET_MAX_NAMESPACES * sizeof(__le32), GFP_KERNEL);
-> +	desc = kmalloc(struct_size(desc, nsids, NVMET_MAX_NAMESPACES),
-> +			GFP_KERNEL);
->  	if (!desc)
->  		goto out;
->  
-> 
+Cc: Johannes Berg <johannes at sipsolutions.net>
+Cc: Keith Busch <keith.busch at intel.com>
+Cc: Jens Axboe <axboe at fb.com>
+Cc: Christoph Hellwig <hch at lst.de>
+Cc: Sagi Grimberg <sagi at grimberg.me>
+Cc: Minwoo Im <minwoo.im.dev at gmail.com>
+Cc: Kenneth Heitke <kenneth.heitke at intel.com>
+Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni at wdc.com>
+-- 
+2.7.4
