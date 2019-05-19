@@ -1,46 +1,47 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Sun, 19 May 2019 18:00:10 +0000
-Subject: [PATCH V2 3/4] nvme: Return errno mapped for nvme error status
-References: <20190513170342.9497-1-minwoo.im.dev@gmail.com>
- <20190513170342.9497-4-minwoo.im.dev@gmail.com>
- <BYAPR04MB574936E1FDF464243691513286050@BYAPR04MB5749.namprd04.prod.outlook.com>
- <20190519175315.GA10876@minwooim-desktop>
-Message-ID: <BYAPR04MB574905F74B2AC5E18BB39B0C86050@BYAPR04MB5749.namprd04.prod.outlook.com>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Mon, 20 May 2019 03:39:09 +0900
+Subject: [PATCH V3 0/4] nvme-cli: Introduce nvme-status mapping with errno
+Message-ID: <20190519183913.3493-1-minwoo.im.dev@gmail.com>
 
-On 05/19/2019 10:53 AM, Minwoo Im wrote:
->>> @@ -364,6 +367,7 @@ static int get_telemetry_log(int argc, char **argv, struct command *cmd, struct
->>>    		perror("get-telemetry-log");
->>>    	else if (err > 0) {
->>>    		show_nvme_status(err);
->>> +		err = nvme_status_to_errno(err, false);
->>>    		fprintf(stderr, "Failed to acquire telemetry header %d!\n", err);
->>
->> Following line to nvme_status_to_errno() call above assumes that err has
->> a return value from nvme_get_telemetry_log() and we are overwriting it.
->>
->> We need to avoid such scenarios going forward. Also, since each command
->
-> Can you please explain why we need to avoid such overwriting scenario?
+Hi,
 
-Printing NVMe status with err by retaining existing behavior.
+This patchset introduces nvme-status module to manage mapping
+relationships between nvme error status and errno.  It cannot be
+directly mapped in 1:1, but we can figure out what kind of errors
+happended by the return value of nvme-cli.
 
-Since existing code might have assumption of err holding the nvme 
-status. Also since we are changing the return code functionality so
-it shouldn't affect the rest of the code pattern.
+NVMe status fields are 16bits to indicate, but UNIX return value from
+main() will be parsed in 8bits so that we need to do something about
+return value to indicate nvme error status.
 
->
->> assumes that err holds the NVMe status. Instead of having to call
->> nvme_status_errno() along with nvme_show_status() we should call
->> nvme_status_to_errno(err) at the end of the function in the return
->> statement. This approach will not break the assumption that code is
->> having now and less lines of code changes, obviously
->> nvme_status_to_errno() will need some modifications but that
->> is fine, untested patch following  :-
->
-> Makes sense.  If we are going to convert the positive nvme status and
-> negative linux internal errno status to an errno inside of
-> nvme_st4atus_to_errno(), it will much more simpler for this patch.
->
-> Anyway, I will prepare V3 patch by updating the conversion at the end of
-> the each subcommandh handlers.
->
+Please review.
+Thanks,
+
+Changes to previous V2:
+  - do not overwrite the err local variable, instead returning the
+    converted errno mapped directly.
+  - return ECOMM in case of linux internal err which indicates the
+    negative values from in the middle of the subcommand.
+
+Changes to previous V1:
+  - make switch-case inline in nvme-status (Chaitanya)
+
+Minwoo Im (4):
+  nvme.h: Fix typos in status code values
+  nvme-status: Introduce nvme status module to map errno
+  nvme: Return errno mapped for nvme error status
+  fabrics: Return errno mapped for fabrics error status
+
+ Makefile      |   3 +-
+ fabrics.c     |  18 ++++--
+ linux/nvme.h  |  10 +++-
+ nvme-print.c  |   4 +-
+ nvme-status.c | 152 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ nvme-status.h |  14 +++++
+ nvme.c        | 112 +++++++++++++++----------------------
+ 7 files changed, 236 insertions(+), 77 deletions(-)
+ create mode 100644 nvme-status.c
+ create mode 100644 nvme-status.h
+
+-- 
+2.21.0
