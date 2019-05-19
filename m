@@ -1,18 +1,18 @@
 From: akinobu.mita@gmail.com (Akinobu Mita)
-Date: Mon, 20 May 2019 00:06:54 +0900
-Subject: [PATCH v4 3/7] devcoredump: allow to create several coredump files in
- one device
+Date: Mon, 20 May 2019 00:06:55 +0900
+Subject: [PATCH v4 4/7] nvme: add basic facilities to get telemetry log page
 In-Reply-To: <1558278418-5702-1-git-send-email-akinobu.mita@gmail.com>
 References: <1558278418-5702-1-git-send-email-akinobu.mita@gmail.com>
-Message-ID: <1558278418-5702-4-git-send-email-akinobu.mita@gmail.com>
+Message-ID: <1558278418-5702-5-git-send-email-akinobu.mita@gmail.com>
 
-The device coredump mechanism currently allows drivers to create only a
-single coredump file.  If there are several binary blobs to dump, we need
-to define a binary format or conver to text format in order to put them
-into a single coredump file.
+This adds the required facilities to get telemetry log page.  The telemetry
+log page structure and identifier are copied from nvme-cli.
 
-This provides a new function that allows drivers to create several device
-coredump files in one crashed device.
+We need a facility to check log page attributes in order to know the
+controller supports the telemetry log pages and log page offset field for
+the Get Log Page command.  The telemetry data area could be larger than
+maximum data transfer size, so we may need to split into multiple transfers
+with incremental page offset.
 
 Cc: Johannes Berg <johannes at sipsolutions.net>
 Cc: Keith Busch <keith.busch at intel.com>
@@ -25,322 +25,182 @@ Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni at wdc.com>
 Signed-off-by: Akinobu Mita <akinobu.mita at gmail.com>
 ---
 * v4
-- No change since v2
+- Add nvme_get_telemetry_log() to nvme core module.
+- Copy struct nvme_telemetry_log_page_hdr from the latest nvme-cli
 
- drivers/base/devcoredump.c  | 155 ++++++++++++++++++++++++++++++--------------
- include/linux/devcoredump.h |  33 ++++++++++
- 2 files changed, 139 insertions(+), 49 deletions(-)
+ drivers/nvme/host/core.c | 59 ++++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/nvme.h |  3 +++
+ include/linux/nvme.h     | 32 ++++++++++++++++++++++++++
+ 3 files changed, 94 insertions(+)
 
-diff --git a/drivers/base/devcoredump.c b/drivers/base/devcoredump.c
-index e42d0b5..4dd6dba 100644
---- a/drivers/base/devcoredump.c
-+++ b/drivers/base/devcoredump.c
-@@ -25,16 +25,20 @@ static bool devcd_disabled;
- /* if data isn't read by userspace after 5 minutes then delete it */
- #define DEVCD_TIMEOUT	(HZ * 60 * 5)
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 7da80f3..d352145 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2464,6 +2464,7 @@ int nvme_get_log(struct nvme_ctrl *ctrl, u32 nsid, u8 log_page, u8 lsp,
  
--struct devcd_entry {
--	struct device devcd_dev;
--	void *data;
--	size_t datalen;
--	struct module *owner;
-+struct devcd_file {
-+	struct bin_attribute bin_attr;
- 	ssize_t (*read)(char *buffer, loff_t offset, size_t count,
- 			void *data, size_t datalen);
- 	void (*free)(void *data);
-+};
-+
-+struct devcd_entry {
-+	struct device devcd_dev;
-+	struct module *owner;
- 	struct delayed_work del_wk;
- 	struct device *failing_dev;
-+	int num_files;
-+	struct devcd_file files[];
- };
- 
- static struct devcd_entry *dev_to_devcd(struct device *dev)
-@@ -45,8 +49,14 @@ static struct devcd_entry *dev_to_devcd(struct device *dev)
- static void devcd_dev_release(struct device *dev)
- {
- 	struct devcd_entry *devcd = dev_to_devcd(dev);
-+	int i;
-+
-+	for (i = 0; i < devcd->num_files; i++) {
-+		struct devcd_file *file = &devcd->files[i];
-+
-+		file->free(file->bin_attr.private);
-+	}
- 
--	devcd->free(devcd->data);
- 	module_put(devcd->owner);
- 
- 	/*
-@@ -64,9 +74,14 @@ static void devcd_dev_release(struct device *dev)
- static void devcd_del(struct work_struct *wk)
- {
- 	struct devcd_entry *devcd;
-+	int i;
- 
- 	devcd = container_of(wk, struct devcd_entry, del_wk.work);
- 
-+	for (i = 0; i < devcd->num_files; i++)
-+		device_remove_bin_file(&devcd->devcd_dev,
-+				       &devcd->files[i].bin_attr);
-+
- 	device_del(&devcd->devcd_dev);
- 	put_device(&devcd->devcd_dev);
+ 	return nvme_submit_sync_cmd(ctrl->admin_q, &c, log, size);
  }
-@@ -75,10 +90,11 @@ static ssize_t devcd_data_read(struct file *filp, struct kobject *kobj,
- 			       struct bin_attribute *bin_attr,
- 			       char *buffer, loff_t offset, size_t count)
- {
--	struct device *dev = kobj_to_dev(kobj);
--	struct devcd_entry *devcd = dev_to_devcd(dev);
-+	struct devcd_file *file =
-+		container_of(bin_attr, struct devcd_file, bin_attr);
++EXPORT_SYMBOL_GPL(nvme_get_log);
  
--	return devcd->read(buffer, offset, count, devcd->data, devcd->datalen);
-+	return file->read(buffer, offset, count, bin_attr->private,
-+			  bin_attr->size);
+ static int nvme_get_effects_log(struct nvme_ctrl *ctrl)
+ {
+@@ -2484,6 +2485,62 @@ static int nvme_get_effects_log(struct nvme_ctrl *ctrl)
+ 	return ret;
  }
  
- static ssize_t devcd_data_write(struct file *filp, struct kobject *kobj,
-@@ -93,25 +109,6 @@ static ssize_t devcd_data_write(struct file *filp, struct kobject *kobj,
- 	return count;
- }
- 
--static struct bin_attribute devcd_attr_data = {
--	.attr = { .name = "data", .mode = S_IRUSR | S_IWUSR, },
--	.size = 0,
--	.read = devcd_data_read,
--	.write = devcd_data_write,
--};
--
--static struct bin_attribute *devcd_dev_bin_attrs[] = {
--	&devcd_attr_data, NULL,
--};
--
--static const struct attribute_group devcd_dev_group = {
--	.bin_attrs = devcd_dev_bin_attrs,
--};
--
--static const struct attribute_group *devcd_dev_groups[] = {
--	&devcd_dev_group, NULL,
--};
--
- static int devcd_free(struct device *dev, void *data)
- {
- 	struct devcd_entry *devcd = dev_to_devcd(dev);
-@@ -157,7 +154,6 @@ static struct class devcd_class = {
- 	.name		= "devcoredump",
- 	.owner		= THIS_MODULE,
- 	.dev_release	= devcd_dev_release,
--	.dev_groups	= devcd_dev_groups,
- 	.class_groups	= devcd_class_groups,
- };
- 
-@@ -234,30 +230,55 @@ static ssize_t devcd_read_from_sgtable(char *buffer, loff_t offset,
- 				  offset);
- }
- 
-+static struct devcd_entry *devcd_alloc(struct dev_coredumpm_bulk_data *files,
-+				       int num_files, gfp_t gfp)
++static int nvme_get_log_blocks(struct nvme_ctrl *ctrl, u32 nsid, u8 log_page,
++			       u8 lsp, void *buf, size_t bytes, loff_t offset)
 +{
-+	struct devcd_entry *devcd;
-+	int i;
++	loff_t pos = 0;
++	u32 chunk_size;
 +
-+	devcd = kzalloc(struct_size(devcd, files, num_files), gfp);
-+	if (!devcd)
-+		return NULL;
++	if (check_mul_overflow(ctrl->max_hw_sectors, 512u, &chunk_size))
++		chunk_size = UINT_MAX;
 +
-+	devcd->num_files = num_files;
++	while (pos < bytes) {
++		size_t size = min_t(size_t, bytes - pos, chunk_size);
++		int ret;
 +
-+	for (i = 0; i < devcd->num_files; i++) {
-+		struct devcd_file *file = &devcd->files[i];
++		if ((offset + pos) &&
++		    !(ctrl->lpa & NVME_CTRL_LPA_EXTENDED_DATA))
++			return -EINVAL;
 +
-+		sysfs_bin_attr_init(&file->bin_attr);
-+		file->bin_attr.attr.name = files[i].name;
++		ret = nvme_get_log(ctrl, nsid, log_page, lsp, buf + pos, size,
++				   offset + pos);
++		if (ret)
++			return ret;
 +
-+		file->bin_attr.attr.mode = 0600;
-+		file->bin_attr.size = files[i].datalen;
-+		file->bin_attr.private = files[i].data;
-+		file->bin_attr.read = devcd_data_read;
-+		file->bin_attr.write = devcd_data_write;
-+
-+		file->read = files[i].read;
-+		file->free = files[i].free;
++		pos += size;
 +	}
 +
-+	return devcd;
++	return 0;
 +}
 +
- /**
-- * dev_coredumpm - create device coredump with read/free methods
-+ * dev_coredumpm_bulk - create a number of device coredump files
-  * @dev: the struct device for the crashed device
-  * @owner: the module that contains the read/free functions, use %THIS_MODULE
-- * @data: data cookie for the @read/@free functions
-- * @datalen: length of the data
-  * @gfp: allocation flags
-- * @read: function to read from the given buffer
-- * @free: function to free the given buffer
-+ * @files: the configuration of device coredump files
-+ * @num_files: the number of device coredump files to create
-  *
-- * Creates a new device coredump for the given device. If a previous one hasn't
-- * been read yet, the new coredump is discarded. The data lifetime is determined
-- * by the device coredump framework and when it is no longer needed the @free
-- * function will be called to free the data.
-+ * This function allows drivers to create several device coredump files in
-+ * one crashed device.
-  */
--void dev_coredumpm(struct device *dev, struct module *owner,
--		   void *data, size_t datalen, gfp_t gfp,
--		   ssize_t (*read)(char *buffer, loff_t offset, size_t count,
--				   void *data, size_t datalen),
--		   void (*free)(void *data))
-+void dev_coredumpm_bulk(struct device *dev, struct module *owner, gfp_t gfp,
-+			struct dev_coredumpm_bulk_data *files, int num_files)
- {
- 	static atomic_t devcd_count = ATOMIC_INIT(0);
- 	struct devcd_entry *devcd;
- 	struct device *existing;
-+	int i;
- 
- 	if (devcd_disabled)
- 		goto free;
-@@ -272,15 +293,11 @@ void dev_coredumpm(struct device *dev, struct module *owner,
- 	if (!try_module_get(owner))
- 		goto free;
- 
--	devcd = kzalloc(sizeof(*devcd), gfp);
-+	devcd = devcd_alloc(files, num_files, gfp);
- 	if (!devcd)
- 		goto put_module;
- 
- 	devcd->owner = owner;
--	devcd->data = data;
--	devcd->datalen = datalen;
--	devcd->read = read;
--	devcd->free = free;
- 	devcd->failing_dev = get_device(dev);
- 
- 	device_initialize(&devcd->devcd_dev);
-@@ -292,6 +309,12 @@ void dev_coredumpm(struct device *dev, struct module *owner,
- 	if (device_add(&devcd->devcd_dev))
- 		goto put_device;
- 
-+	for (i = 0; i < devcd->num_files; i++) {
-+		if (device_create_bin_file(&devcd->devcd_dev,
-+					   &devcd->files[i].bin_attr))
-+			/* nothing - some files will be missing */;
-+	}
-+
- 	if (sysfs_create_link(&devcd->devcd_dev.kobj, &dev->kobj,
- 			      "failing_device"))
- 		/* nothing - symlink will be missing */;
-@@ -309,7 +332,41 @@ void dev_coredumpm(struct device *dev, struct module *owner,
-  put_module:
- 	module_put(owner);
-  free:
--	free(data);
-+	for (i = 0; i < num_files; i++)
-+		files[i].free(files[i].data);
-+}
-+EXPORT_SYMBOL_GPL(dev_coredumpm_bulk);
-+
-+/**
-+ * dev_coredumpm - create device coredump with read/free methods
-+ * @dev: the struct device for the crashed device
-+ * @owner: the module that contains the read/free functions, use %THIS_MODULE
-+ * @data: data cookie for the @read/@free functions
-+ * @datalen: length of the data
-+ * @gfp: allocation flags
-+ * @read: function to read from the given buffer
-+ * @free: function to free the given buffer
-+ *
-+ * Creates a new device coredump for the given device. If a previous one hasn't
-+ * been read yet, the new coredump is discarded. The data lifetime is determined
-+ * by the device coredump framework and when it is no longer needed the @free
-+ * function will be called to free the data.
-+ */
-+void dev_coredumpm(struct device *dev, struct module *owner,
-+		   void *data, size_t datalen, gfp_t gfp,
-+		   ssize_t (*read)(char *buffer, loff_t offset, size_t count,
-+				   void *data, size_t datalen),
-+		   void (*free)(void *data))
++int nvme_get_telemetry_log(struct nvme_ctrl *ctrl, struct bio_vec *bvecs,
++			   size_t bytes)
 +{
-+	struct dev_coredumpm_bulk_data bulk_data = {
-+		.name = "data",
-+		.data = data,
-+		.datalen = datalen,
-+		.read = read,
-+		.free = free,
++	struct bvec_iter iter = {
++		.bi_size = bytes,
 +	};
++	size_t offset = 0;
 +
-+	dev_coredumpm_bulk(dev, owner, gfp, &bulk_data, 1);
- }
- EXPORT_SYMBOL_GPL(dev_coredumpm);
++	while (iter.bi_size) {
++		struct bio_vec bvec = mp_bvec_iter_bvec(bvecs, iter);
++		size_t size = min(iter.bi_size, bvec.bv_len);
++		void *buf = page_address(bvec.bv_page) + bvec.bv_offset;
++		int ret;
++
++		ret = nvme_get_log_blocks(ctrl, NVME_NSID_ALL,
++					  NVME_LOG_TELEMETRY_CTRL, 0, buf, size,
++					  offset);
++		if (ret)
++			return ret;
++
++		offset += size;
++		bvec_iter_advance(bvecs, &iter, size);
++	}
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(nvme_get_telemetry_log);
++
+ /*
+  * Initialize the cached copies of the Identify data and various controller
+  * register in our nvme_ctrl structure.  This should be called as soon as
+@@ -2587,6 +2644,7 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 	} else
+ 		ctrl->shutdown_timeout = shutdown_timeout;
  
-diff --git a/include/linux/devcoredump.h b/include/linux/devcoredump.h
-index 269521f..9addb6f 100644
---- a/include/linux/devcoredump.h
-+++ b/include/linux/devcoredump.h
-@@ -65,6 +65,26 @@ static inline void _devcd_free_sgtable(struct scatterlist *table)
- 	kfree(delete_iter);
- }
++	ctrl->lpa = id->lpa;
+ 	ctrl->npss = id->npss;
+ 	ctrl->apsta = id->apsta;
+ 	prev_apst_enabled = ctrl->apst_enabled;
+@@ -3899,6 +3957,7 @@ static inline void _nvme_check_size(void)
+ 	BUILD_BUG_ON(sizeof(struct nvme_id_ctrl) != NVME_IDENTIFY_DATA_SIZE);
+ 	BUILD_BUG_ON(sizeof(struct nvme_id_ns) != NVME_IDENTIFY_DATA_SIZE);
+ 	BUILD_BUG_ON(sizeof(struct nvme_lba_range_type) != 64);
++	BUILD_BUG_ON(sizeof(struct nvme_telemetry_log_page_hdr) != 512);
+ 	BUILD_BUG_ON(sizeof(struct nvme_smart_log) != 512);
+ 	BUILD_BUG_ON(sizeof(struct nvme_dbbuf) != 64);
+ 	BUILD_BUG_ON(sizeof(struct nvme_directive_cmd) != 64);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 5ee75b5..56bba7a 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -195,6 +195,7 @@ struct nvme_ctrl {
+ 	u32 vs;
+ 	u32 sgls;
+ 	u16 kas;
++	u8 lpa;
+ 	u8 npss;
+ 	u8 apsta;
+ 	u32 oaes;
+@@ -466,6 +467,8 @@ int nvme_delete_ctrl(struct nvme_ctrl *ctrl);
+ 
+ int nvme_get_log(struct nvme_ctrl *ctrl, u32 nsid, u8 log_page, u8 lsp,
+ 		void *log, size_t size, u64 offset);
++int nvme_get_telemetry_log(struct nvme_ctrl *ctrl, struct bio_vec *bvecs,
++			   size_t bytes);
+ 
+ extern const struct attribute_group *nvme_ns_id_attr_groups[];
+ extern const struct block_device_operations nvme_ns_head_ops;
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 8028ada..658ac75 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -294,6 +294,8 @@ enum {
+ 	NVME_CTRL_OACS_DIRECTIVES		= 1 << 5,
+ 	NVME_CTRL_OACS_DBBUF_SUPP		= 1 << 8,
+ 	NVME_CTRL_LPA_CMD_EFFECTS_LOG		= 1 << 1,
++	NVME_CTRL_LPA_EXTENDED_DATA		= 1 << 2,
++	NVME_CTRL_LPA_TELEMETRY_LOG		= 1 << 3,
+ };
+ 
+ struct nvme_lbaf {
+@@ -396,6 +398,35 @@ enum {
+ 	NVME_NIDT_UUID		= 0x03,
+ };
  
 +/**
-+ * struct dev_coredumpm_bulk_data - Data used for dev_coredumpm_bulk
++ * struct nvme_telemetry_log_page_hdr - structure for telemetry log page
++ * @lpi: Log page identifier
++ * @iee_oui: IEEE OUI Identifier
++ * @dalb1: Data area 1 last block
++ * @dalb2: Data area 2 last block
++ * @dalb3: Data area 3 last block
++ * @ctrlavail: Controller initiated data available
++ * @ctrldgn: Controller initiated telemetry Data Generation Number
++ * @rsnident: Reason Identifier
++ * @telemetry_dataarea: Contains telemetry data block
 + *
-+ * @name: coredump file name
-+ * @data: data cookie for the @read/@free functions
-+ * @datalen: length of the data
-+ * @read: function to read from the given buffer
-+ * @free: function to free the given buffer
-+ *
-+ * An array of this structure is passed as argument to dev_coredumpm_bulk, and
-+ * used to describe each device coredump.
++ * This structure can be used for both telemetry host-initiated log page
++ * and controller-initiated log page.
 + */
-+struct dev_coredumpm_bulk_data {
-+	char *name;
-+	void *data;
-+	size_t datalen;
-+	ssize_t (*read)(char *buffer, loff_t offset, size_t count,
-+			void *data, size_t datalen);
-+	void (*free)(void *data);
++struct nvme_telemetry_log_page_hdr {
++	__u8	lpi;
++	__u8	rsvd[4];
++	__u8	iee_oui[3];
++	__le16	dalb1;
++	__le16	dalb2;
++	__le16	dalb3;
++	__u8	rsvd1[368];
++	__u8	ctrlavail;
++	__u8	ctrldgn;
++	__u8	rsnident[128];
++	__u8	telemetry_dataarea[0];
 +};
- 
- #ifdef CONFIG_DEV_COREDUMP
- void dev_coredumpv(struct device *dev, void *data, size_t datalen,
-@@ -76,6 +96,9 @@ void dev_coredumpm(struct device *dev, struct module *owner,
- 				   void *data, size_t datalen),
- 		   void (*free)(void *data));
- 
-+void dev_coredumpm_bulk(struct device *dev, struct module *owner, gfp_t gfp,
-+			struct dev_coredumpm_bulk_data *files, int num_files);
 +
- void dev_coredumpsg(struct device *dev, struct scatterlist *table,
- 		    size_t datalen, gfp_t gfp);
- #else
-@@ -95,6 +118,16 @@ dev_coredumpm(struct device *dev, struct module *owner,
- 	free(data);
- }
- 
-+static inline
-+void dev_coredumpm_bulk(struct device *dev, struct module *owner, gfp_t gfp,
-+			struct dev_coredumpm_bulk_data *files, int num_files)
-+{
-+	int i;
-+
-+	for (i = 0; i < num_files; i++)
-+		files[i].free(files[i].data);
-+}
-+
- static inline void dev_coredumpsg(struct device *dev, struct scatterlist *table,
- 				  size_t datalen, gfp_t gfp)
- {
+ struct nvme_smart_log {
+ 	__u8			critical_warning;
+ 	__u8			temperature[2];
+@@ -832,6 +863,7 @@ enum {
+ 	NVME_LOG_FW_SLOT	= 0x03,
+ 	NVME_LOG_CHANGED_NS	= 0x04,
+ 	NVME_LOG_CMD_EFFECTS	= 0x05,
++	NVME_LOG_TELEMETRY_CTRL	= 0x08,
+ 	NVME_LOG_ANA		= 0x0c,
+ 	NVME_LOG_DISC		= 0x70,
+ 	NVME_LOG_RESERVATION	= 0x80,
 -- 
 2.7.4
