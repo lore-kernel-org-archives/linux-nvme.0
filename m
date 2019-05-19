@@ -1,41 +1,45 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Mon, 20 May 2019 02:56:03 +0900
-Subject: [PATCH V2 2/4] nvme-status: Introduce nvme status module to map
- errno
-In-Reply-To: <BYAPR04MB5749007DAA9F804D6385FF8F86050@BYAPR04MB5749.namprd04.prod.outlook.com>
-References: <20190513170342.9497-1-minwoo.im.dev@gmail.com>
- <20190513170342.9497-3-minwoo.im.dev@gmail.com>
- <BYAPR04MB5749007DAA9F804D6385FF8F86050@BYAPR04MB5749.namprd04.prod.outlook.com>
-Message-ID: <20190519175602.GB10876@minwooim-desktop>
+From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Sun, 19 May 2019 10:56:42 -0700
+Subject: [PATCH] nvme-cli: close fd before return
+Message-ID: <20190519175642.31815-1-chaitanya.kulkarni@wdc.com>
 
-On 19-05-19 17:42:19, Chaitanya Kulkarni wrote:
-> On 05/13/2019 10:04 AM, Minwoo Im wrote:
-> > Background:
-> >    It's not enough to return the nvme status value in main() because it's
-> > allowed to be in 8bits, but nvme status is indicated in 16bits.  So we
-> > has not been able to figure out what kind of nvme status has been
-> > returned by return value.
-> >
-> >    This patch introduces nvme-status module that manages mapping between
-> > nvme status and errno.  It's not possible to make 1:1 mapping relations,
-> > but we can map it as a groups.
-> >
-> > All the internal errors which has been returned in a negative value will
-> > be returned with ECOMM that indicates communication errors.  In this
-> > case, we can see what happened via stderr.
-> 
-> I didn't understand this as I don't see ECOMM in this patch, also when 
-> you mentioned internal errors are you referring to the  NVME_SC_INTERNAL 
-> ? in that case in this patch NVME_SC_INTERNAL is mapped to the EIO. Can 
-> you please explain ?
+Instead of returning on the erro use existing close_fd label before
+we return in create_ns() and format().
 
-Nice catch, Thanks, really.  I didn't make ECOMM errno included to this
-patchset.  NVME_SC_INTERNAL will be mapped to EIO to make it
-distinguished from ECOMM which indicates the internal linux errno.  All
-the error status from nvme except cases defined in the following
-switch-case will be mapped to EIO.
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+---
+ nvme.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Will make this patch return ECOMM in case of internal linux error which
-will be given in a negative value with the previos commit.
-
-Thanks,
+diff --git a/nvme.c b/nvme.c
+index e0f7552..d6e5b21 100644
+--- a/nvme.c
++++ b/nvme.c
+@@ -1216,7 +1216,7 @@ static int create_ns(int argc, char **argv, struct command *cmd, struct plugin *
+ 				fprintf(stderr, "identify failed\n");
+ 				show_nvme_status(err);
+ 			}
+-			return err;
++			goto close_fd;
+ 		}
+ 		for (i = 0; i < 16; ++i) {
+ 			if ((1 << ns.lbaf[i].ds) == cfg.bs && ns.lbaf[i].ms == 0) {
+@@ -1245,6 +1245,7 @@ static int create_ns(int argc, char **argv, struct command *cmd, struct plugin *
+ 	else
+ 		perror("create namespace");
+ 
++ close_fd:
+ 	close(fd);
+ 
+ 	return err;
+@@ -3198,7 +3199,7 @@ static int format(int argc, char **argv, struct command *cmd, struct plugin *plu
+ 				fprintf(stderr, "identify failed\n");
+ 				show_nvme_status(err);
+ 			}
+-			return err;
++			goto close_fd;
+ 		}
+ 		prev_lbaf = ns.flbas & 0xf;
+ 
+-- 
+2.17.0
