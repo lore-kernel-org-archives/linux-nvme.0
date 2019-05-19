@@ -1,45 +1,46 @@
-From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Sun, 19 May 2019 10:56:42 -0700
-Subject: [PATCH] nvme-cli: close fd before return
-Message-ID: <20190519175642.31815-1-chaitanya.kulkarni@wdc.com>
+From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Sun, 19 May 2019 18:00:10 +0000
+Subject: [PATCH V2 3/4] nvme: Return errno mapped for nvme error status
+References: <20190513170342.9497-1-minwoo.im.dev@gmail.com>
+ <20190513170342.9497-4-minwoo.im.dev@gmail.com>
+ <BYAPR04MB574936E1FDF464243691513286050@BYAPR04MB5749.namprd04.prod.outlook.com>
+ <20190519175315.GA10876@minwooim-desktop>
+Message-ID: <BYAPR04MB574905F74B2AC5E18BB39B0C86050@BYAPR04MB5749.namprd04.prod.outlook.com>
 
-Instead of returning on the erro use existing close_fd label before
-we return in create_ns() and format().
+On 05/19/2019 10:53 AM, Minwoo Im wrote:
+>>> @@ -364,6 +367,7 @@ static int get_telemetry_log(int argc, char **argv, struct command *cmd, struct
+>>>    		perror("get-telemetry-log");
+>>>    	else if (err > 0) {
+>>>    		show_nvme_status(err);
+>>> +		err = nvme_status_to_errno(err, false);
+>>>    		fprintf(stderr, "Failed to acquire telemetry header %d!\n", err);
+>>
+>> Following line to nvme_status_to_errno() call above assumes that err has
+>> a return value from nvme_get_telemetry_log() and we are overwriting it.
+>>
+>> We need to avoid such scenarios going forward. Also, since each command
+>
+> Can you please explain why we need to avoid such overwriting scenario?
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
----
- nvme.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Printing NVMe status with err by retaining existing behavior.
 
-diff --git a/nvme.c b/nvme.c
-index e0f7552..d6e5b21 100644
---- a/nvme.c
-+++ b/nvme.c
-@@ -1216,7 +1216,7 @@ static int create_ns(int argc, char **argv, struct command *cmd, struct plugin *
- 				fprintf(stderr, "identify failed\n");
- 				show_nvme_status(err);
- 			}
--			return err;
-+			goto close_fd;
- 		}
- 		for (i = 0; i < 16; ++i) {
- 			if ((1 << ns.lbaf[i].ds) == cfg.bs && ns.lbaf[i].ms == 0) {
-@@ -1245,6 +1245,7 @@ static int create_ns(int argc, char **argv, struct command *cmd, struct plugin *
- 	else
- 		perror("create namespace");
- 
-+ close_fd:
- 	close(fd);
- 
- 	return err;
-@@ -3198,7 +3199,7 @@ static int format(int argc, char **argv, struct command *cmd, struct plugin *plu
- 				fprintf(stderr, "identify failed\n");
- 				show_nvme_status(err);
- 			}
--			return err;
-+			goto close_fd;
- 		}
- 		prev_lbaf = ns.flbas & 0xf;
- 
--- 
-2.17.0
+Since existing code might have assumption of err holding the nvme 
+status. Also since we are changing the return code functionality so
+it shouldn't affect the rest of the code pattern.
+
+>
+>> assumes that err holds the NVMe status. Instead of having to call
+>> nvme_status_errno() along with nvme_show_status() we should call
+>> nvme_status_to_errno(err) at the end of the function in the return
+>> statement. This approach will not break the assumption that code is
+>> having now and less lines of code changes, obviously
+>> nvme_status_to_errno() will need some modifications but that
+>> is fine, untested patch following  :-
+>
+> Makes sense.  If we are going to convert the positive nvme status and
+> negative linux internal errno status to an errno inside of
+> nvme_st4atus_to_errno(), it will much more simpler for this patch.
+>
+> Anyway, I will prepare V3 patch by updating the conversion at the end of
+> the each subcommandh handlers.
+>
