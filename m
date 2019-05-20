@@ -1,47 +1,57 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Mon, 20 May 2019 18:51:52 +0000
-Subject: [PATCH] nvme: copy MTFA field from identify controller
-References: <20190520174206.29464-1-keith.busch@intel.com>
-Message-ID: <BYAPR04MB5749E41D46DA20B09A2C5BD186060@BYAPR04MB5749.namprd04.prod.outlook.com>
+From: ichavero@chavero.com.mx (=?ISO-8859-1?Q?Iv=E1n?= Chavero)
+Date: Mon, 20 May 2019 17:12:46 -0500
+Subject: nvme drive kernel 5.0 problem
+In-Reply-To: <CACVXFVPXGKQ9UD6P5RsF5j8yry+1LuLrUeb4F6o74=uGK4Ak4Q@mail.gmail.com>
+References: <4a0dda5365f24e7223d1672233d7f1ac64640d31.camel@chavero.com.mx>
+ <CACVXFVPXGKQ9UD6P5RsF5j8yry+1LuLrUeb4F6o74=uGK4Ak4Q@mail.gmail.com>
+Message-ID: <a640a0768d19aedee71a1abad7817a3a71291851.camel@chavero.com.mx>
 
-Indeed we don't set that.
 
-root at mat ~/nvme (nvme-5.2-rc2)# grep -ir mtfa host/*.h
-host/nvme.h:	u16 mtfa;
-root at mat ~/nvme (nvme-5.2-rc2)# grep -ir mtfa host/*.c
-host/core.c:	if (ctrl->mtfa)
-host/core.c:				msecs_to_jiffies(ctrl->mtfa * 100);
-root at mat ~/nvme (nvme-5.2-rc2)#
+> Not see this issue with 5.1 kernel, may be addressed by the following
+> patches:
+> 
+> 4e6b26d23dc1 PCI/MSI: Remove obsolete sanity checks for multiple
+> interrupt sets
+> a6a309edba13 genirq/affinity: Remove the leftovers of the original
+> set support
+> 612b72862b4d nvme-pci: Simplify interrupt allocation
+> c66d4bd110a1 genirq/affinity: Add new callback for (re)calculating
+> interrupt sets
+> 9cfef55bb57e genirq/affinity: Store interrupt sets size in struct
+> irq_affinity
+> 0145c30e896d genirq/affinity: Code consolidation
+> 
+> 
+i've tested with the 5.1.3 Fedora kernel and still got the same
+behaviour.
 
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+I think this might be relevant to solve the problem but i'm not sure:
 
-On 05/20/2019 10:47 AM, Keith Busch wrote:
-> From: Laine Walker-Avina <laine.walker-avina at intel.com>
->
-> We use the controller's reported maximum firmware activation time as our
-> timeout before resetting a controller for a failed activation notice,
-> but this value was never being read so we could only use the default
-> timeout. Copy the Identify Controller MTFA field to the corresponding
-> nvme_ctrl's mtfa field.
->
-> Fixes: b6dccf7fae433 (?nvme: add support for FW activation without reset?).
-> Signed-off-by: Laine Walker-Avina <laine.walker-avina at intel.com>
-> [changelog, fix endian]
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
-> ---
->   drivers/nvme/host/core.c | 1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 7da80f375315..eb3fb561b165 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -2557,6 +2557,7 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
->
->   	ctrl->oacs = le16_to_cpu(id->oacs);
->   	ctrl->oncs = le16_to_cpu(id->oncs);
-> +	ctrl->mtfa = le16_to_cpu(id->mtfa);
->   	ctrl->oaes = le32_to_cpu(id->oaes);
->   	atomic_set(&ctrl->abort_limit, id->acl + 1);
->   	ctrl->vwc = id->vwc;
->
+[    2.394967] Workqueue: nvme-reset-wq nvme_reset_work [nvme]
+
+[    2.394982] Call Trace:
+[    2.394986]  blk_mq_pci_map_queues+0x30/0xc0
+[    2.394990]  nvme_pci_map_queues+0x80/0xb0 [nvme]
+[    2.394993]  blk_mq_alloc_tag_set+0x11c/0x2c0
+[    2.394996]  nvme_reset_work+0xfd6/0x1515 [nvme]
+[    2.395000]  ? __switch_to_asm+0x40/0x70
+[    2.395001]  ? __switch_to_asm+0x34/0x70
+[    2.395003]  ? __switch_to_asm+0x40/0x70
+[    2.395005]  ? __switch_to_asm+0x34/0x70
+[    2.395007]  process_one_work+0x19d/0x380
+[    2.395010]  worker_thread+0x1db/0x3b0
+[    2.395011]  kthread+0xfb/0x130
+[    2.395013]  ? process_one_work+0x380/0x380
+[    2.395014]  ? kthread_park+0x90/0x90
+[    2.395016]  ret_from_fork+0x35/0x40
+[    2.395018] ---[ end trace 3af2b3afa977ff9e ]---
+
+
+I think this is a timing problem because the other partitions don't get
+mounted ro.
+
+What could i do to make this work? I'm stuck in kernel 4.16.11 and i
+would really like to use latest kernel.
+
+Cheers,
+Iv?n
