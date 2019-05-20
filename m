@@ -1,48 +1,46 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 20 May 2019 08:36:22 +0200
-Subject: [PATCH 2/4] nvme-fc: track state change failures during reconnect
+Date: Mon, 20 May 2019 08:36:24 +0200
+Subject: [PATCH 4/4] nvme-fc: align nvme_fc_delete_association() with exit path
 In-Reply-To: <20190520063624.50338-1-hare@suse.de>
 References: <20190520063624.50338-1-hare@suse.de>
-Message-ID: <20190520063624.50338-3-hare@suse.de>
+Message-ID: <20190520063624.50338-5-hare@suse.de>
 
-The nvme-fc driver has several situation under which an expected
-state transition fails, but doesn't print out any messages if
-this happens.
-The patch adds logging for these situations.
+nvme_fc_delete_association() should align with the exit path in
+nvme_fc_create_association() to ensure we are able to handle the
+failure case properly.
 
 Signed-off-by: Hannes Reinecke <hare at suse.com>
-Reviewed-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/nvme/host/fc.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ drivers/nvme/host/fc.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 0c9e036afd09..e5c81ba2b7a1 100644
+index 71b22139e78b..ed9f4affbe10 100644
 --- a/drivers/nvme/host/fc.c
 +++ b/drivers/nvme/host/fc.c
-@@ -2867,8 +2867,12 @@ nvme_fc_reconnect_or_delete(struct nvme_fc_ctrl *ctrl, int status)
- 	unsigned long recon_delay = ctrl->ctrl.opts->reconnect_delay * HZ;
- 	bool recon = true;
+@@ -2836,6 +2836,11 @@ nvme_fc_delete_association(struct nvme_fc_ctrl *ctrl)
+ 	ctrl->flags &= ~FCCTRL_TERMIO;
+ 	spin_unlock_irq(&ctrl->lock);
  
--	if (ctrl->ctrl.state != NVME_CTRL_CONNECTING)
-+	if (ctrl->ctrl.state != NVME_CTRL_CONNECTING) {
-+		dev_info(ctrl->ctrl.device,
-+			 "NVME-FC{%d}: couldn't reconnect in state %s\n",
-+			 ctrl->cnum, nvme_ctrl_state_name(&ctrl->ctrl));
- 		return;
++	if (ctrl->ctrl.tagset) {
++		nvme_fc_delete_hw_io_queues(ctrl);
++		nvme_fc_free_io_queues(ctrl);
 +	}
++
+ 	nvme_fc_term_aen_ops(ctrl);
  
- 	if (portptr->port_state == FC_OBJSTATE_ONLINE)
- 		dev_info(ctrl->ctrl.device,
-@@ -2914,7 +2918,8 @@ __nvme_fc_terminate_io(struct nvme_fc_ctrl *ctrl)
- 	    !nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING))
- 		dev_err(ctrl->ctrl.device,
- 			"NVME-FC{%d}: error_recovery: Couldn't change state "
--			"to CONNECTING\n", ctrl->cnum);
-+			"from %s to CONNECTING\n", ctrl->cnum,
-+			nvme_ctrl_state_name(&ctrl->ctrl));
- }
+ 	/*
+@@ -2847,11 +2852,6 @@ nvme_fc_delete_association(struct nvme_fc_ctrl *ctrl)
+ 	if (ctrl->association_id)
+ 		nvme_fc_xmt_disconnect_assoc(ctrl);
  
- static void
+-	if (ctrl->ctrl.tagset) {
+-		nvme_fc_delete_hw_io_queues(ctrl);
+-		nvme_fc_free_io_queues(ctrl);
+-	}
+-
+ 	__nvme_fc_delete_hw_queue(ctrl, &ctrl->queues[0], 0);
+ 	nvme_fc_free_queue(&ctrl->queues[0]);
+ 
 -- 
 2.16.4
