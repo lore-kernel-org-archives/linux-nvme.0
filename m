@@ -1,46 +1,87 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 20 May 2019 08:36:24 +0200
-Subject: [PATCH 4/4] nvme-fc: align nvme_fc_delete_association() with exit path
+Date: Mon, 20 May 2019 08:36:21 +0200
+Subject: [PATCH 1/4] nvme: separate out nvme_ctrl_state_name()
 In-Reply-To: <20190520063624.50338-1-hare@suse.de>
 References: <20190520063624.50338-1-hare@suse.de>
-Message-ID: <20190520063624.50338-5-hare@suse.de>
+Message-ID: <20190520063624.50338-2-hare@suse.de>
 
-nvme_fc_delete_association() should align with the exit path in
-nvme_fc_create_association() to ensure we are able to handle the
-failure case properly.
+Separate out nvme_ctrl_state_name() to return the controller state
+as a string.
 
 Signed-off-by: Hannes Reinecke <hare at suse.com>
+Reviewed-by: James Smart <james.smart at broadcom.com>
+Reviewed-by: Minwoo Im <minwoo.im.dev at gmail.com>
 ---
- drivers/nvme/host/fc.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/nvme/host/core.c | 37 ++++++++++++++++++++++---------------
+ drivers/nvme/host/nvme.h |  1 +
+ 2 files changed, 23 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 71b22139e78b..ed9f4affbe10 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2836,6 +2836,11 @@ nvme_fc_delete_association(struct nvme_fc_ctrl *ctrl)
- 	ctrl->flags &= ~FCCTRL_TERMIO;
- 	spin_unlock_irq(&ctrl->lock);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index c2e4fa694f79..bd1bc7fcbcde 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -380,6 +380,25 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+ }
+ EXPORT_SYMBOL_GPL(nvme_change_ctrl_state);
  
-+	if (ctrl->ctrl.tagset) {
-+		nvme_fc_delete_hw_io_queues(ctrl);
-+		nvme_fc_free_io_queues(ctrl);
-+	}
++static const char *const nvme_ctrl_state_names[] = {
++	[NVME_CTRL_NEW]		= "new",
++	[NVME_CTRL_LIVE]	= "live",
++	[NVME_CTRL_ADMIN_ONLY]	= "only-admin",
++	[NVME_CTRL_RESETTING]	= "resetting",
++	[NVME_CTRL_CONNECTING]	= "connecting",
++	[NVME_CTRL_DELETING]	= "deleting",
++	[NVME_CTRL_DEAD]	= "dead",
++};
 +
- 	nvme_fc_term_aen_ops(ctrl);
- 
- 	/*
-@@ -2847,11 +2852,6 @@ nvme_fc_delete_association(struct nvme_fc_ctrl *ctrl)
- 	if (ctrl->association_id)
- 		nvme_fc_xmt_disconnect_assoc(ctrl);
- 
--	if (ctrl->ctrl.tagset) {
--		nvme_fc_delete_hw_io_queues(ctrl);
--		nvme_fc_free_io_queues(ctrl);
--	}
++const char *nvme_ctrl_state_name(struct nvme_ctrl *ctrl)
++{
++	if ((unsigned)ctrl->state < ARRAY_SIZE(nvme_ctrl_state_names) &&
++	    nvme_ctrl_state_names[ctrl->state])
++		return nvme_ctrl_state_names[ctrl->state];
++	return "unknown state";
++}
++EXPORT_SYMBOL_GPL(nvme_ctrl_state_name);
++
+ static void nvme_free_ns_head(struct kref *ref)
+ {
+ 	struct nvme_ns_head *head =
+@@ -2989,21 +3008,9 @@ static ssize_t nvme_sysfs_show_state(struct device *dev,
+ 				     char *buf)
+ {
+ 	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+-	static const char *const state_name[] = {
+-		[NVME_CTRL_NEW]		= "new",
+-		[NVME_CTRL_LIVE]	= "live",
+-		[NVME_CTRL_ADMIN_ONLY]	= "only-admin",
+-		[NVME_CTRL_RESETTING]	= "resetting",
+-		[NVME_CTRL_CONNECTING]	= "connecting",
+-		[NVME_CTRL_DELETING]	= "deleting",
+-		[NVME_CTRL_DEAD]	= "dead",
+-	};
 -
- 	__nvme_fc_delete_hw_queue(ctrl, &ctrl->queues[0], 0);
- 	nvme_fc_free_queue(&ctrl->queues[0]);
+-	if ((unsigned)ctrl->state < ARRAY_SIZE(state_name) &&
+-	    state_name[ctrl->state])
+-		return sprintf(buf, "%s\n", state_name[ctrl->state]);
+-
+-	return sprintf(buf, "unknown state\n");
++	const char *state_name = nvme_ctrl_state_name(ctrl);
++
++	return sprintf(buf, "%s\n", state_name);
+ }
  
+ static DEVICE_ATTR(state, S_IRUGO, nvme_sysfs_show_state, NULL);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 5ee75b5ff83f..b3b13e465dc6 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -419,6 +419,7 @@ void nvme_complete_rq(struct request *req);
+ bool nvme_cancel_request(struct request *req, void *data, bool reserved);
+ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+ 		enum nvme_ctrl_state new_state);
++const char *nvme_ctrl_state_name(struct nvme_ctrl *ctrl);
+ int nvme_disable_ctrl(struct nvme_ctrl *ctrl, u64 cap);
+ int nvme_enable_ctrl(struct nvme_ctrl *ctrl, u64 cap);
+ int nvme_shutdown_ctrl(struct nvme_ctrl *ctrl);
 -- 
 2.16.4
