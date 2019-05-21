@@ -1,136 +1,80 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 21 May 2019 16:19:56 +0300
-Subject: [PATCH 1/1] nvme-rdma: Add association between ctrl and transport dev
-Message-ID: <1558444796-5190-1-git-send-email-maxg@mellanox.com>
+From: kbusch@kernel.org (Keith Busch)
+Date: Tue, 21 May 2019 08:20:01 -0600
+Subject: nvme drive kernel 5.0 problem
+In-Reply-To: <a640a0768d19aedee71a1abad7817a3a71291851.camel@chavero.com.mx>
+References: <4a0dda5365f24e7223d1672233d7f1ac64640d31.camel@chavero.com.mx>
+ <CACVXFVPXGKQ9UD6P5RsF5j8yry+1LuLrUeb4F6o74=uGK4Ak4Q@mail.gmail.com>
+ <a640a0768d19aedee71a1abad7817a3a71291851.camel@chavero.com.mx>
+Message-ID: <20190521142000.GA350@localhost.localdomain>
 
-RDMA transport ctrl holds a reference to it's underlaying transport
-device, so we need to make sure that this reference is valid. Use kref
-object to enforce that.
+On Mon, May 20, 2019@05:12:46PM -0500, Iv?n Chavero wrote:
+> > Not see this issue with 5.1 kernel, may be addressed by the following
+> > patches:
+> > 
+> > 4e6b26d23dc1 PCI/MSI: Remove obsolete sanity checks for multiple
+> > interrupt sets
+> > a6a309edba13 genirq/affinity: Remove the leftovers of the original
+> > set support
+> > 612b72862b4d nvme-pci: Simplify interrupt allocation
+> > c66d4bd110a1 genirq/affinity: Add new callback for (re)calculating
+> > interrupt sets
+> > 9cfef55bb57e genirq/affinity: Store interrupt sets size in struct
+> > irq_affinity
+> > 0145c30e896d genirq/affinity: Code consolidation
+> > 
+> > 
+> i've tested with the 5.1.3 Fedora kernel and still got the same
+> behaviour.
+> 
+> I think this might be relevant to solve the problem but i'm not sure:
+> 
+> [    2.394967] Workqueue: nvme-reset-wq nvme_reset_work [nvme]
+> 
+> [    2.394982] Call Trace:
+> [    2.394986]  blk_mq_pci_map_queues+0x30/0xc0
+> [    2.394990]  nvme_pci_map_queues+0x80/0xb0 [nvme]
+> [    2.394993]  blk_mq_alloc_tag_set+0x11c/0x2c0
+> [    2.394996]  nvme_reset_work+0xfd6/0x1515 [nvme]
+> [    2.395000]  ? __switch_to_asm+0x40/0x70
+> [    2.395001]  ? __switch_to_asm+0x34/0x70
+> [    2.395003]  ? __switch_to_asm+0x40/0x70
+> [    2.395005]  ? __switch_to_asm+0x34/0x70
+> [    2.395007]  process_one_work+0x19d/0x380
+> [    2.395010]  worker_thread+0x1db/0x3b0
+> [    2.395011]  kthread+0xfb/0x130
+> [    2.395013]  ? process_one_work+0x380/0x380
+> [    2.395014]  ? kthread_park+0x90/0x90
+> [    2.395016]  ret_from_fork+0x35/0x40
+> [    2.395018] ---[ end trace 3af2b3afa977ff9e ]---
+> 
+> 
+> I think this is a timing problem because the other partitions don't get
+> mounted ro.
+> 
+> What could i do to make this work? I'm stuck in kernel 4.16.11 and i
+> would really like to use latest kernel.
 
-This commit fixes possible segmentation fault that may happen during
-reconnection + device removal flow that was caused by removing the ref
-count between block layer tagsets and the transport device.
+The warning in itself is not necessarily fatal and may not explain why
+the filesystem is having issues. It should just mean that you've only
+a single MSI interrupt vector sharing with the admin queue, so it's an
+unmanagged vector, creating this warning. It should otherwise be usable.
 
-Fixes: 87fd125344d6 ("nvme-rdma: remove redundant reference between ib_device and tagset")
+The following should work around the warning assuming the vector count
+is really what's creating your warning: managed irqs should always have
+an offset, so no offset should mean no pci irq affinity.
 
-Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
 ---
- drivers/nvme/host/rdma.c | 51 ++++++++++++++++++++++++++++++++++++++----------
- 1 file changed, 41 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index f383146..07eddfb 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -354,6 +354,21 @@ static int nvme_rdma_dev_get(struct nvme_rdma_device *dev)
- 	return kref_get_unless_zero(&dev->ref);
- }
- 
-+static void nvme_rdma_ctrl_dev_put(struct nvme_rdma_ctrl *ctrl,
-+				   struct nvme_rdma_device *dev)
-+{
-+	ctrl->device = 	NULL;
-+	kref_put(&dev->ref, nvme_rdma_free_dev);
-+}
-+
-+static void nvme_rdma_ctrl_dev_get(struct nvme_rdma_ctrl *ctrl,
-+				   struct nvme_rdma_device *dev)
-+{
-+	kref_get(&dev->ref);
-+	ctrl->device = dev;
-+}
-+
-+
- static struct nvme_rdma_device *
- nvme_rdma_find_get_device(struct rdma_cm_id *cm_id)
- {
-@@ -743,12 +758,16 @@ static struct blk_mq_tag_set *nvme_rdma_alloc_tagset(struct nvme_ctrl *nctrl,
- static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl,
- 		bool remove)
- {
-+	struct nvme_rdma_device *ndev = ctrl->device;
-+
- 	if (remove) {
- 		blk_cleanup_queue(ctrl->ctrl.admin_q);
- 		blk_mq_free_tag_set(ctrl->ctrl.admin_tagset);
-+		/* ctrl releases refcount on device */
-+		nvme_rdma_ctrl_dev_put(ctrl, ctrl->device);
- 	}
- 	if (ctrl->async_event_sqe.data) {
--		nvme_rdma_free_qe(ctrl->device->dev, &ctrl->async_event_sqe,
-+		nvme_rdma_free_qe(ndev->dev, &ctrl->async_event_sqe,
- 				sizeof(struct nvme_command), DMA_TO_DEVICE);
- 		ctrl->async_event_sqe.data = NULL;
- 	}
-@@ -758,23 +777,26 @@ static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl,
- static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
- 		bool new)
- {
-+	struct ib_device *ibdev;
- 	int error;
- 
- 	error = nvme_rdma_alloc_queue(ctrl, 0, NVME_AQ_DEPTH);
- 	if (error)
- 		return error;
- 
--	ctrl->device = ctrl->queues[0].device;
--	ctrl->ctrl.numa_node = dev_to_node(ctrl->device->dev->dma_device);
-+	ibdev = ctrl->queues[0].device->dev;
-+	ctrl->ctrl.numa_node = dev_to_node(ibdev->dma_device);
-+	ctrl->max_fr_pages = nvme_rdma_get_max_fr_pages(ibdev);
- 
--	ctrl->max_fr_pages = nvme_rdma_get_max_fr_pages(ctrl->device->dev);
--
--	error = nvme_rdma_alloc_qe(ctrl->device->dev, &ctrl->async_event_sqe,
-+	error = nvme_rdma_alloc_qe(ibdev, &ctrl->async_event_sqe,
- 			sizeof(struct nvme_command), DMA_TO_DEVICE);
- 	if (error)
- 		goto out_free_queue;
- 
- 	if (new) {
-+		/* ctrl takes refcount on device */
-+		nvme_rdma_ctrl_dev_get(ctrl, ctrl->queues[0].device);
-+
- 		ctrl->ctrl.admin_tagset = nvme_rdma_alloc_tagset(&ctrl->ctrl, true);
- 		if (IS_ERR(ctrl->ctrl.admin_tagset)) {
- 			error = PTR_ERR(ctrl->ctrl.admin_tagset);
-@@ -786,6 +808,14 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
- 			error = PTR_ERR(ctrl->ctrl.admin_q);
- 			goto out_free_tagset;
- 		}
-+	} else if (ctrl->device != ctrl->queues[0].device) {
-+		/* ctrl releases refcount on old device */
-+		nvme_rdma_ctrl_dev_put(ctrl, ctrl->device);
-+		/*
-+		 * underlaying device might change, ctrl takes refcount on
-+		 * new device.
-+		 */
-+		nvme_rdma_ctrl_dev_get(ctrl, ctrl->queues[0].device);
- 	}
- 
- 	error = nvme_rdma_start_queue(ctrl, 0);
-@@ -825,7 +855,9 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
- 	if (new)
- 		blk_mq_free_tag_set(ctrl->ctrl.admin_tagset);
- out_free_async_qe:
--	nvme_rdma_free_qe(ctrl->device->dev, &ctrl->async_event_sqe,
-+	if (new)
-+		nvme_rdma_ctrl_dev_put(ctrl, ctrl->device);
-+	nvme_rdma_free_qe(ibdev, &ctrl->async_event_sqe,
- 		sizeof(struct nvme_command), DMA_TO_DEVICE);
- 	ctrl->async_event_sqe.data = NULL;
- out_free_queue:
-@@ -2027,9 +2059,8 @@ static void nvme_rdma_remove_one(struct ib_device *ib_device, void *client_data)
- 	/* Delete all controllers using this device */
- 	mutex_lock(&nvme_rdma_ctrl_mutex);
- 	list_for_each_entry(ctrl, &nvme_rdma_ctrl_list, list) {
--		if (ctrl->device->dev != ib_device)
--			continue;
--		nvme_delete_ctrl(&ctrl->ctrl);
-+		if (ctrl->device && ctrl->device->dev == ib_device)
-+			nvme_delete_ctrl(&ctrl->ctrl);
- 	}
- 	mutex_unlock(&nvme_rdma_ctrl_mutex);
- 
--- 
-1.8.3.1
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 2a8708c9ac18..d55e1d92cf59 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -464,7 +464,7 @@ static int nvme_pci_map_queues(struct blk_mq_tag_set *set)
+ 		 * affinity), so use the regular blk-mq cpu mapping
+ 		 */
+ 		map->queue_offset = qoff;
+-		if (i != HCTX_TYPE_POLL)
++		if (i != HCTX_TYPE_POLL && offset)
+ 			blk_mq_pci_map_queues(map, to_pci_dev(dev->dev), offset);
+ 		else
+ 			blk_mq_map_queues(map);
+--
