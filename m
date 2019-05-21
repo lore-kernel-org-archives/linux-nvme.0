@@ -1,40 +1,73 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Tue, 21 May 2019 17:45:42 +0800
-Subject: [PATCH 5.0 66/95] nvme: cancel request synchronously
-In-Reply-To: <d0cd612d-1bce-50ca-1186-de67054b33c1@mellanox.com>
-References: <20190509181309.180685671@linuxfoundation.org>
- <20190509181314.082604502@linuxfoundation.org>
- <d0cd612d-1bce-50ca-1186-de67054b33c1@mellanox.com>
-Message-ID: <20190521094535.GA28632@ming.t460p>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Tue, 21 May 2019 12:54:53 +0300
+Subject: [PATCH RFC] nvme: Common subsys and controller instances IDA
+In-Reply-To: <yq17eaqbg4c.fsf@oracle.com>
+References: <20190515213351.22190-1-keith.busch@intel.com>
+ <20190516064651.GA30234@lst.de>
+ <1f0e7049-c926-98e0-3624-0d24eb45cd87@suse.de>
+ <20190516144452.GB23372@localhost.localdomain> <yq17eaqbg4c.fsf@oracle.com>
+Message-ID: <040beeb5-d328-d5b0-f165-51bbd40f4c23@mellanox.com>
 
-On Tue, May 21, 2019@11:36:26AM +0300, Max Gurtovoy wrote:
-> On 5/9/2019 9:42 PM, Greg Kroah-Hartman wrote:
-> > [ Upstream commit eb3afb75b57c28599af0dfa03a99579d410749e9 ]
-> > 
-> > nvme_cancel_request() is used in error handler, and it is always
-> > reliable to cancel request synchronously, and avoids possible race
-> > in which request may be completed after real hw queue is destroyed.
-> 
-> Ming,
-> 
-> If the completion is async in the block layer, can't a "good" request (not a
-> canceled one..) complete after real HW queue is destroyed ?
+Hi Martin,
 
-In theory, it can't.
+On 5/16/2019 5:58 PM, Martin K. Petersen wrote:
+> Keith,
+>
+>>> to keep in line with the other symlinks in /dev/disk/by-id/ The
+>>> controller symlinks don't really fall into this category, though; we
+>>> could create a 'nvme' subdirectory (much like MD does), and create
+>>> symlinks in there.
+>> Cool, I would also like to see persistent char dev names, but I wasn't
+>> sure where they'd go. If we can make our own 'nvme' subdirectory,
+>> that'd be great.
+> Should be fine. As long as /dev/disk stays intact.
+>
+> It would be really nice to have a clear indication of
+> subsys/controller/namespace relationships. So much confusion as a result
+> of the current approach...
 
-1) in case of error recovery
+you can use the nvme-cli. e.g (2 subsystems with 2 ns each exposed from 
+target side):
 
-It is driver's responsibility to sync normal completion and handling
-error. NVMe PCI calls nvme_dev_disable() to shutdown controller, and
-there won't be good request any more after nvme_dev_disable() returns.
-I am not very familiar with NVMe RDMA code, but nvme_rdma_stop_io_queues()
-is supposed to do that for avoiding race with normal completion. Otherwise,
-it isn't enough by simply canceling in-flight requests.
+Host
 
-2) in case of device removal
-blk_cleanup_queue() drains all in-queue requests, so there can't be
-such issue.
+========
+
+[root at server50 ~]# nvme list-subsys
+nvme-subsys0 - NQN=testsubsystem_0
+\
+ ?+- nvme0 rdma traddr=11.212.140.146 trsvcid=4420
+nvme-subsys1 - NQN=testsubsystem_1
+\
+ ?+- nvme1 rdma traddr=11.212.140.146 trsvcid=4421
 
 
-Thanks,
-Ming
+[root at server50 ~]# nvme list-ns /dev/nvme0
+[?? 0]:0x1
+[?? 1]:0x2
+[root at server50 ~]#
+[root at server50 ~]# nvme list-ns /dev/nvme1
+[?? 0]:0x1
+[?? 1]:0x2
+
+
+maybe we can improve it and print also the namespace during the "nvme 
+list-subsys" command.
+
+something like:
+
+[root at server50 ~]# nvme list-subsys
+nvme-subsys0 - NQN=testsubsystem_0
+\
+ ?+- nvme0 rdma traddr=11.212.140.146 trsvcid=4420
+
+ ?\
+
+ ? +- nvme0n1 SN=cf8bbff661502c51 Model=Linux
+
+ ? +- nvme0n2 SN=cf8bbff661502c51 Model=Linux
+
+
+and we'll get subsys/ctrl/ns relations in 1 cmd.
+
+thoughts ?
