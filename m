@@ -1,62 +1,82 @@
 From: akinobu.mita@gmail.com (Akinobu Mita)
-Date: Wed, 22 May 2019 01:04:05 +0900
-Subject: [PATCH v2 0/4] nvme: add thermal zone devices
-Message-ID: <1558454649-28783-1-git-send-email-akinobu.mita@gmail.com>
+Date: Wed, 22 May 2019 01:04:06 +0900
+Subject: [PATCH v2 1/4] nvme: Export get and set features
+In-Reply-To: <1558454649-28783-1-git-send-email-akinobu.mita@gmail.com>
+References: <1558454649-28783-1-git-send-email-akinobu.mita@gmail.com>
+Message-ID: <1558454649-28783-2-git-send-email-akinobu.mita@gmail.com>
 
-The NVMe controller reports up to nine temperature values in the SMART /
-Health log page (the composite temperature and temperature sensor 1 through
-temperature sensor 8).
-The temperature threshold feature (Feature Identifier 04h) configures the
-asynchronous event request command to complete when the temperature is
-crossed its corresponding temperature threshold.
+From: Keith Busch <keith.busch@intel.com>
 
-This provide these temperatures and thresholds via thermal zone devices.
+Future use intends to make use of features, so export these functions. And
+since their implementation is identical except for the opcode, provide
+a new convenience function that implement each.
 
-* v2
-- s/correspoinding/corresponding/ typo in commit log
-- Borrowed nvme_get_features() from Keith's patch
-- Temperature threshold notification is splitted into another patch
-- Change the data type of 'sensor' to unsigned
-- Add BUILD_BUG_ON for the array size of tzdev member in nvme_ctrl
-- Add WARN_ON_ONCE for paranoid checks
-- Fix off-by-one error in nvme_get_temp
-- Validate 'sensor' where the value is actually used
-- Define and utilize two enums related to the temperature threshold feature
-- Remove hysteresis value for this trip point and don't utilize the under
-  temperature threshold
-- Print error message for thermal_zone_device_register() failure
-- Add function comments for nvme_thermal_zones_{,un}register
-- Suppress non-fatal errors from nvme_thermal_zones_register()
-- Add comment about implemented temperature sensors 
-- Instead of creating a new 'thermal_work', append async smart event's
-  action to the existing async_event_work
-- Add comment for tzdev member in nvme_ctrl
-- Call nvme_thermal_zones_unregister() earlier than the last reference
-  release
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/core.c | 22 +++++++++++++++++++---
+ drivers/nvme/host/nvme.h |  4 ++++
+ 2 files changed, 23 insertions(+), 3 deletions(-)
 
-Akinobu Mita (3):
-  nvme: add thermal zone infrastructure
-  nvme: notify thermal framework when temperature threshold events occur
-  nvme-pci: support thermal zone
-
-Keith Busch (1):
-  nvme: Export get and set features
-
- drivers/nvme/host/core.c | 317 ++++++++++++++++++++++++++++++++++++++++++++++-
- drivers/nvme/host/nvme.h |  31 +++++
- drivers/nvme/host/pci.c  |   5 +
- include/linux/nvme.h     |  12 ++
- 4 files changed, 362 insertions(+), 3 deletions(-)
-
-Cc: Zhang Rui <rui.zhang at intel.com>
-Cc: Eduardo Valentin <edubezval at gmail.com>
-Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
-Cc: Keith Busch <keith.busch at intel.com>
-Cc: Jens Axboe <axboe at fb.com>
-Cc: Christoph Hellwig <hch at lst.de>
-Cc: Sagi Grimberg <sagi at grimberg.me>
-Cc: Minwoo Im <minwoo.im.dev at gmail.com>
-Cc: Kenneth Heitke <kenneth.heitke at intel.com>
-Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni at wdc.com>
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index d352145..c04df80 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1113,15 +1113,15 @@ static struct nvme_id_ns *nvme_identify_ns(struct nvme_ctrl *ctrl,
+ 	return id;
+ }
+ 
+-static int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword11,
+-		      void *buffer, size_t buflen, u32 *result)
++static int nvme_features(struct nvme_ctrl *dev, u8 op, unsigned fid,
++		unsigned dword11, void *buffer, size_t buflen, u32 *result)
+ {
+ 	struct nvme_command c;
+ 	union nvme_result res;
+ 	int ret;
+ 
+ 	memset(&c, 0, sizeof(c));
+-	c.features.opcode = nvme_admin_set_features;
++	c.features.opcode = op;
+ 	c.features.fid = cpu_to_le32(fid);
+ 	c.features.dword11 = cpu_to_le32(dword11);
+ 
+@@ -1132,6 +1132,22 @@ static int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword
+ 	return ret;
+ }
+ 
++int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword11,
++		      void *buffer, size_t buflen, u32 *result)
++{
++	return nvme_features(dev, nvme_admin_set_features, fid, dword11, buffer,
++			     buflen, result);
++}
++EXPORT_SYMBOL_GPL(nvme_set_features);
++
++int nvme_get_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword11,
++		      void *buffer, size_t buflen, u32 *result)
++{
++	return nvme_features(dev, nvme_admin_get_features, fid, dword11, buffer,
++			     buflen, result);
++}
++EXPORT_SYMBOL_GPL(nvme_get_features);
++
+ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count)
+ {
+ 	u32 q_count = (*count - 1) | ((*count - 1) << 16);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 56bba7a..bb673b8 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -459,6 +459,10 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+ 		union nvme_result *result, void *buffer, unsigned bufflen,
+ 		unsigned timeout, int qid, int at_head,
+ 		blk_mq_req_flags_t flags, bool poll);
++int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword11,
++		      void *buffer, size_t buflen, u32 *result);
++int nvme_get_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword11,
++		      void *buffer, size_t buflen, u32 *result);
+ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count);
+ void nvme_stop_keep_alive(struct nvme_ctrl *ctrl);
+ int nvme_reset_ctrl(struct nvme_ctrl *ctrl);
 -- 
 2.7.4
