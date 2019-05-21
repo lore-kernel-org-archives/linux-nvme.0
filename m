@@ -1,68 +1,136 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Tue, 21 May 2019 20:49:09 +0800
-Subject: [PATCH 5.0 66/95] nvme: cancel request synchronously
-In-Reply-To: <23729cbc-3a3f-fe16-be14-71053253c53b@mellanox.com>
-References: <20190509181309.180685671@linuxfoundation.org>
- <20190509181314.082604502@linuxfoundation.org>
- <d0cd612d-1bce-50ca-1186-de67054b33c1@mellanox.com>
- <20190521094535.GA28632@ming.t460p>
- <7a4863ba-ece9-e3fa-8396-21736d54e1fe@mellanox.com>
- <20190521104121.GA31530@ming.t460p>
- <23729cbc-3a3f-fe16-be14-71053253c53b@mellanox.com>
-Message-ID: <20190521124908.GA655@ming.t460p>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Tue, 21 May 2019 16:19:56 +0300
+Subject: [PATCH 1/1] nvme-rdma: Add association between ctrl and transport dev
+Message-ID: <1558444796-5190-1-git-send-email-maxg@mellanox.com>
 
-On Tue, May 21, 2019@02:50:22PM +0300, Max Gurtovoy wrote:
-> 
-> On 5/21/2019 1:41 PM, Ming Lei wrote:
-> > On Tue, May 21, 2019@01:21:39PM +0300, Max Gurtovoy wrote:
-> > > On 5/21/2019 12:45 PM, Ming Lei wrote:
-> > > > On Tue, May 21, 2019@11:36:26AM +0300, Max Gurtovoy wrote:
-> > > > > On 5/9/2019 9:42 PM, Greg Kroah-Hartman wrote:
-> > > > > > [ Upstream commit eb3afb75b57c28599af0dfa03a99579d410749e9 ]
-> > > > > > 
-> > > > > > nvme_cancel_request() is used in error handler, and it is always
-> > > > > > reliable to cancel request synchronously, and avoids possible race
-> > > > > > in which request may be completed after real hw queue is destroyed.
-> > > > > Ming,
-> > > > > 
-> > > > > If the completion is async in the block layer, can't a "good" request (not a
-> > > > > canceled one..) complete after real HW queue is destroyed ?
-> > > > In theory, it can't.
-> > > > 
-> > > > 1) in case of error recovery
-> > > > 
-> > > > It is driver's responsibility to sync normal completion and handling
-> > > > error. NVMe PCI calls nvme_dev_disable() to shutdown controller, and
-> > > > there won't be good request any more after nvme_dev_disable() returns.
-> > > > I am not very familiar with NVMe RDMA code, but nvme_rdma_stop_io_queues()
-> > > > is supposed to do that for avoiding race with normal completion. Otherwise,
-> > > > it isn't enough by simply canceling in-flight requests.
-> > > Indeed nvme_rdma_stop_io_queues will guaranty that we won't get anything
-> > > from the wire/HCA anymore.
-> > > 
-> > > 
-> > > But what happens to IO's that were completed before
-> > > "nvme_rdma_stop_io_queues" in async way:
-> > > 
-> > > 1. nvme_end_request --> blk_mq_complete_request (async)
-> > > 
-> > > 2. error recovery starts (queues are stopped)
-> > > 
-> > > 3. block layer calls ops->complete(rq) on rq from step #1
-> > > 
-> > > if the blk_mq_quiesce_queue + blk_mq_unquiesce_queue don't sync the requests
-> > > from #1, i think it might be problematic..
-> > You are right, we might have to wait until there isn't any in-flight request
-> > which is marked as transient MQ_RQ_COMPLETE before destroying hw queue.
-> 
-> is there an API in the block layer to guaranty that ?
+RDMA transport ctrl holds a reference to it's underlaying transport
+device, so we need to make sure that this reference is valid. Use kref
+object to enforce that.
 
-So far there isn't yet.
+This commit fixes possible segmentation fault that may happen during
+reconnection + device removal flow that was caused by removing the ref
+count between block layer tagsets and the transport device.
 
-And it can be built easily against blk_mq_tagset_busy_iter(), then called
-in delay-spin style for checking if there is any request marked as
-MQ_RQ_COMPLETE.
+Fixes: 87fd125344d6 ("nvme-rdma: remove redundant reference between ib_device and tagset")
 
+Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ drivers/nvme/host/rdma.c | 51 ++++++++++++++++++++++++++++++++++++++----------
+ 1 file changed, 41 insertions(+), 10 deletions(-)
 
-Thanks,
-Ming
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index f383146..07eddfb 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -354,6 +354,21 @@ static int nvme_rdma_dev_get(struct nvme_rdma_device *dev)
+ 	return kref_get_unless_zero(&dev->ref);
+ }
+ 
++static void nvme_rdma_ctrl_dev_put(struct nvme_rdma_ctrl *ctrl,
++				   struct nvme_rdma_device *dev)
++{
++	ctrl->device = 	NULL;
++	kref_put(&dev->ref, nvme_rdma_free_dev);
++}
++
++static void nvme_rdma_ctrl_dev_get(struct nvme_rdma_ctrl *ctrl,
++				   struct nvme_rdma_device *dev)
++{
++	kref_get(&dev->ref);
++	ctrl->device = dev;
++}
++
++
+ static struct nvme_rdma_device *
+ nvme_rdma_find_get_device(struct rdma_cm_id *cm_id)
+ {
+@@ -743,12 +758,16 @@ static struct blk_mq_tag_set *nvme_rdma_alloc_tagset(struct nvme_ctrl *nctrl,
+ static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl,
+ 		bool remove)
+ {
++	struct nvme_rdma_device *ndev = ctrl->device;
++
+ 	if (remove) {
+ 		blk_cleanup_queue(ctrl->ctrl.admin_q);
+ 		blk_mq_free_tag_set(ctrl->ctrl.admin_tagset);
++		/* ctrl releases refcount on device */
++		nvme_rdma_ctrl_dev_put(ctrl, ctrl->device);
+ 	}
+ 	if (ctrl->async_event_sqe.data) {
+-		nvme_rdma_free_qe(ctrl->device->dev, &ctrl->async_event_sqe,
++		nvme_rdma_free_qe(ndev->dev, &ctrl->async_event_sqe,
+ 				sizeof(struct nvme_command), DMA_TO_DEVICE);
+ 		ctrl->async_event_sqe.data = NULL;
+ 	}
+@@ -758,23 +777,26 @@ static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl,
+ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
+ 		bool new)
+ {
++	struct ib_device *ibdev;
+ 	int error;
+ 
+ 	error = nvme_rdma_alloc_queue(ctrl, 0, NVME_AQ_DEPTH);
+ 	if (error)
+ 		return error;
+ 
+-	ctrl->device = ctrl->queues[0].device;
+-	ctrl->ctrl.numa_node = dev_to_node(ctrl->device->dev->dma_device);
++	ibdev = ctrl->queues[0].device->dev;
++	ctrl->ctrl.numa_node = dev_to_node(ibdev->dma_device);
++	ctrl->max_fr_pages = nvme_rdma_get_max_fr_pages(ibdev);
+ 
+-	ctrl->max_fr_pages = nvme_rdma_get_max_fr_pages(ctrl->device->dev);
+-
+-	error = nvme_rdma_alloc_qe(ctrl->device->dev, &ctrl->async_event_sqe,
++	error = nvme_rdma_alloc_qe(ibdev, &ctrl->async_event_sqe,
+ 			sizeof(struct nvme_command), DMA_TO_DEVICE);
+ 	if (error)
+ 		goto out_free_queue;
+ 
+ 	if (new) {
++		/* ctrl takes refcount on device */
++		nvme_rdma_ctrl_dev_get(ctrl, ctrl->queues[0].device);
++
+ 		ctrl->ctrl.admin_tagset = nvme_rdma_alloc_tagset(&ctrl->ctrl, true);
+ 		if (IS_ERR(ctrl->ctrl.admin_tagset)) {
+ 			error = PTR_ERR(ctrl->ctrl.admin_tagset);
+@@ -786,6 +808,14 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
+ 			error = PTR_ERR(ctrl->ctrl.admin_q);
+ 			goto out_free_tagset;
+ 		}
++	} else if (ctrl->device != ctrl->queues[0].device) {
++		/* ctrl releases refcount on old device */
++		nvme_rdma_ctrl_dev_put(ctrl, ctrl->device);
++		/*
++		 * underlaying device might change, ctrl takes refcount on
++		 * new device.
++		 */
++		nvme_rdma_ctrl_dev_get(ctrl, ctrl->queues[0].device);
+ 	}
+ 
+ 	error = nvme_rdma_start_queue(ctrl, 0);
+@@ -825,7 +855,9 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
+ 	if (new)
+ 		blk_mq_free_tag_set(ctrl->ctrl.admin_tagset);
+ out_free_async_qe:
+-	nvme_rdma_free_qe(ctrl->device->dev, &ctrl->async_event_sqe,
++	if (new)
++		nvme_rdma_ctrl_dev_put(ctrl, ctrl->device);
++	nvme_rdma_free_qe(ibdev, &ctrl->async_event_sqe,
+ 		sizeof(struct nvme_command), DMA_TO_DEVICE);
+ 	ctrl->async_event_sqe.data = NULL;
+ out_free_queue:
+@@ -2027,9 +2059,8 @@ static void nvme_rdma_remove_one(struct ib_device *ib_device, void *client_data)
+ 	/* Delete all controllers using this device */
+ 	mutex_lock(&nvme_rdma_ctrl_mutex);
+ 	list_for_each_entry(ctrl, &nvme_rdma_ctrl_list, list) {
+-		if (ctrl->device->dev != ib_device)
+-			continue;
+-		nvme_delete_ctrl(&ctrl->ctrl);
++		if (ctrl->device && ctrl->device->dev == ib_device)
++			nvme_delete_ctrl(&ctrl->ctrl);
+ 	}
+ 	mutex_unlock(&nvme_rdma_ctrl_mutex);
+ 
+-- 
+1.8.3.1
