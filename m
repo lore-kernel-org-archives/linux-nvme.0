@@ -1,34 +1,40 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 21 May 2019 11:49:02 +0300
-Subject: [PATCH] nvmet: get rid of extra line in the tcp code
-In-Reply-To: <20190515161044.25772-1-chaitanya.kulkarni@wdc.com>
-References: <20190515161044.25772-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <47ad211c-526f-a33f-13ff-94f02c17baf4@mellanox.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Tue, 21 May 2019 17:45:42 +0800
+Subject: [PATCH 5.0 66/95] nvme: cancel request synchronously
+In-Reply-To: <d0cd612d-1bce-50ca-1186-de67054b33c1@mellanox.com>
+References: <20190509181309.180685671@linuxfoundation.org>
+ <20190509181314.082604502@linuxfoundation.org>
+ <d0cd612d-1bce-50ca-1186-de67054b33c1@mellanox.com>
+Message-ID: <20190521094535.GA28632@ming.t460p>
+
+On Tue, May 21, 2019@11:36:26AM +0300, Max Gurtovoy wrote:
+> On 5/9/2019 9:42 PM, Greg Kroah-Hartman wrote:
+> > [ Upstream commit eb3afb75b57c28599af0dfa03a99579d410749e9 ]
+> > 
+> > nvme_cancel_request() is used in error handler, and it is always
+> > reliable to cancel request synchronously, and avoids possible race
+> > in which request may be completed after real hw queue is destroyed.
+> 
+> Ming,
+> 
+> If the completion is async in the block layer, can't a "good" request (not a
+> canceled one..) complete after real HW queue is destroyed ?
+
+In theory, it can't.
+
+1) in case of error recovery
+
+It is driver's responsibility to sync normal completion and handling
+error. NVMe PCI calls nvme_dev_disable() to shutdown controller, and
+there won't be good request any more after nvme_dev_disable() returns.
+I am not very familiar with NVMe RDMA code, but nvme_rdma_stop_io_queues()
+is supposed to do that for avoiding race with normal completion. Otherwise,
+it isn't enough by simply canceling in-flight requests.
+
+2) in case of device removal
+blk_cleanup_queue() drains all in-queue requests, so there can't be
+such issue.
 
 
-On 5/15/2019 7:10 PM, Chaitanya Kulkarni wrote:
-> This is a code cleanup patch, it doesn't change any functionality,
-> It removes the extra line at the end of the function.
->
-> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-> ---
->   drivers/nvme/target/tcp.c | 1 -
->   1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-> index 69b83fa0c76c..f019af264081 100644
-> --- a/drivers/nvme/target/tcp.c
-> +++ b/drivers/nvme/target/tcp.c
-> @@ -557,7 +557,6 @@ static int nvmet_try_send_data(struct nvmet_tcp_cmd *cmd)
->   	}
->   
->   	return 1;
-> -
->   }
->   
->   static int nvmet_try_send_response(struct nvmet_tcp_cmd *cmd,
-
-
-Looks good,
-
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+Thanks,
+Ming
