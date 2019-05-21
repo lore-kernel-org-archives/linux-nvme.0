@@ -1,57 +1,48 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Tue, 21 May 2019 09:25:00 -0700
-Subject: [PATCH 4/4] nvme-fc: align nvme_fc_delete_association() with exit
- path
-In-Reply-To: <20190520063624.50338-5-hare@suse.de>
-References: <20190520063624.50338-1-hare@suse.de>
- <20190520063624.50338-5-hare@suse.de>
-Message-ID: <20485830-ae6a-eae1-32f3-940ca2cc1bf3@broadcom.com>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Wed, 22 May 2019 01:36:56 +0900
+Subject: [PATCH V4 0/3] nvme-cli: Introduce nvme-status mapping with errno
+Message-ID: <20190521163659.24577-1-minwoo.im.dev@gmail.com>
 
+Hi,
 
+This patchset introduces nvme-status module to manage mapping
+relationships between nvme error status and errno.  It cannot be
+directly mapped in 1:1, but we can figure out what kind of errors
+happended by the return value of nvme-cli.
 
-On 5/19/2019 11:36 PM, Hannes Reinecke wrote:
-> nvme_fc_delete_association() should align with the exit path in
-> nvme_fc_create_association() to ensure we are able to handle the
-> failure case properly.
->
-> Signed-off-by: Hannes Reinecke <hare at suse.com>
-> ---
->   drivers/nvme/host/fc.c | 10 +++++-----
->   1 file changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> index 71b22139e78b..ed9f4affbe10 100644
-> --- a/drivers/nvme/host/fc.c
-> +++ b/drivers/nvme/host/fc.c
-> @@ -2836,6 +2836,11 @@ nvme_fc_delete_association(struct nvme_fc_ctrl *ctrl)
->   	ctrl->flags &= ~FCCTRL_TERMIO;
->   	spin_unlock_irq(&ctrl->lock);
->   
-> +	if (ctrl->ctrl.tagset) {
-> +		nvme_fc_delete_hw_io_queues(ctrl);
-> +		nvme_fc_free_io_queues(ctrl);
-> +	}
-> +
->   	nvme_fc_term_aen_ops(ctrl);
->   
->   	/*
-> @@ -2847,11 +2852,6 @@ nvme_fc_delete_association(struct nvme_fc_ctrl *ctrl)
->   	if (ctrl->association_id)
->   		nvme_fc_xmt_disconnect_assoc(ctrl);
->   
-> -	if (ctrl->ctrl.tagset) {
-> -		nvme_fc_delete_hw_io_queues(ctrl);
-> -		nvme_fc_free_io_queues(ctrl);
-> -	}
-> -
->   	__nvme_fc_delete_hw_queue(ctrl, &ctrl->queues[0], 0);
->   	nvme_fc_free_queue(&ctrl->queues[0]);
->   
+NVMe status fields are 16bits to indicate, but UNIX return value from
+main() will be parsed in 8bits so that we need to do something about
+return value to indicate nvme error status.
 
-no.? This is removing the underlying queues while blk-mq is still trying 
-to submit to them - causing yet a different set of issues as the driver 
-will have released contexts but the calldowns are still happening. Yet 
-another different set of issues would likely appear.?? no need for this 
-reorg.
+Please review.
+Thanks,
 
--- james
+Changes to previous V3:
+  - Fix to return 0 when given error is 0 which means success. (Chaitanya)
+
+Changes to previous V2:
+  - do not overwrite the err local variable, instead returning the
+    converted errno mapped directly.
+  - return ECOMM in case of linux internal err which indicates the
+    negative values from in the middle of the subcommand.
+
+Changes to previous V1:
+  - make switch-case inline in nvme-status (Chaitanya)
+
+Minwoo Im (3):
+  nvme-status: Introduce nvme status module to map errno
+  nvme: Return errno mapped for nvme error status
+  fabrics: Return errno mapped for fabrics error status
+
+ Makefile      |   3 +-
+ fabrics.c     |  18 ++++--
+ linux/nvme.h  |   6 ++
+ nvme-status.c | 155 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ nvme-status.h |  14 +++++
+ nvme.c        | 108 ++++++++++++++---------------------
+ 6 files changed, 233 insertions(+), 71 deletions(-)
+ create mode 100644 nvme-status.c
+ create mode 100644 nvme-status.h
+
+-- 
+2.21.0
