@@ -1,64 +1,144 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 21 May 2019 11:17:45 -0600
-Subject: [PATCH] nvme-pci: use blk-mq mapping for unmanaged irqs
-Message-ID: <20190521171745.4061-1-keith.busch@intel.com>
+From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Tue, 21 May 2019 17:23:20 +0000
+Subject: [PATCH v2 1/4] nvme: Export get and set features
+References: <1558454649-28783-1-git-send-email-akinobu.mita@gmail.com>
+ <1558454649-28783-2-git-send-email-akinobu.mita@gmail.com>
+Message-ID: <DM6PR04MB57543310310DD72F98E361AD86070@DM6PR04MB5754.namprd04.prod.outlook.com>
 
-If a device is providing a single IRQ vector, the IO queue will share that
-vector with the admin queue with a 0 offset. This is an unmanaged vector,
-so does not have a valid PCI IRQ affinity. Avoid trying to use managed
-affinity in this case and let blk-mq set up the cpu-queue mapping instead.
-Otherwise we'd hit the following warning when the device is using MSI:
+On 5/21/19 9:05 AM, Akinobu Mita wrote:
+> From: Keith Busch <keith.busch at intel.com>
+>
+> Future use intends to make use of features, so export these functions. And
+> since their implementation is identical except for the opcode, provide
+> a new convenience function that implement each.
+>
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> ---
+>  drivers/nvme/host/core.c | 22 +++++++++++++++++++---
+>  drivers/nvme/host/nvme.h |  4 ++++
+>  2 files changed, 23 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index d352145..c04df80 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -1113,15 +1113,15 @@ static struct nvme_id_ns *nvme_identify_ns(struct nvme_ctrl *ctrl,
+>  	return id;
+>  }
+>  
+> -static int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword11,
+> -		      void *buffer, size_t buflen, u32 *result)
+> +static int nvme_features(struct nvme_ctrl *dev, u8 op, unsigned fid,
+> +		unsigned dword11, void *buffer, size_t buflen, u32 *result)
 
- WARNING: CPU: 4 PID: 7 at drivers/pci/msi.c:1272 pci_irq_get_affinity+0x66/0x80
- Modules linked in: nvme nvme_core serio_raw
- CPU: 4 PID: 7 Comm: kworker/u16:0 Tainted: G        W         5.2.0-rc1+ #494
- Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.12.1-0-ga5cab58e9a3f-prebuilt.qemu.org 04/01/2014
- Workqueue: nvme-reset-wq nvme_reset_work [nvme]
- RIP: 0010:pci_irq_get_affinity+0x66/0x80
- Code: 0b 31 c0 c3 83 e2 10 48 c7 c0 b0 83 35 91 74 2a 48 8b 87 d8 03 00 00 48 85 c0 74 0e 48 8b 50 30 48 85 d2 74 05 39 70 14 77 05 <0f> 0b 31 c0 c3 48 63 f6 48 8d 04 76 48 8d 04 c2 f3 c3 48 8b 40 30
- RSP: 0000:ffffb5abc01d3cc8 EFLAGS: 00010246
- RAX: ffff9536786a39c0 RBX: 0000000000000000 RCX: 0000000000000080
- RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffff9536781ed000
- RBP: ffff95367346a008 R08: ffff95367d43f080 R09: ffff953678c07800
- R10: ffff953678164800 R11: 0000000000000000 R12: 0000000000000000
- R13: ffff9536781ed000 R14: 00000000ffffffff R15: ffff95367346a008
- FS:  0000000000000000(0000) GS:ffff95367d400000(0000) knlGS:0000000000000000
- CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
- CR2: 00007fdf814a3ff0 CR3: 000000001a20f000 CR4: 00000000000006e0
- DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
- DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
- Call Trace:
-  blk_mq_pci_map_queues+0x37/0xd0
-  nvme_pci_map_queues+0x80/0xb0 [nvme]
-  blk_mq_alloc_tag_set+0x133/0x2f0
-  nvme_reset_work+0x105d/0x1590 [nvme]
-  process_one_work+0x291/0x530
-  worker_thread+0x218/0x3d0
-  ? process_one_work+0x530/0x530
-  kthread+0x111/0x130
-  ? kthread_park+0x90/0x90
-  ret_from_fork+0x1f/0x30
- ---[ end trace 74587339d93c83c0 ]---
+Your patch is generating warnings, can we please avoid these warnings ?
 
-Fixes: 22b5560195bd6 ("nvme-pci: Separate IO and admin queue IRQ vectors")
-Reported-by: Iv?n Chavero <ichavero at chavero.com.mx>
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+WARNING: Prefer 'unsigned int' to bare use of 'unsigned'
+#28: FILE: drivers/nvme/host/core.c:1116:
++static int nvme_features(struct nvme_ctrl *dev, u8 op, unsigned fid,
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 599065ed6a32..f562154551ce 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -464,7 +464,7 @@ static int nvme_pci_map_queues(struct blk_mq_tag_set *set)
- 		 * affinity), so use the regular blk-mq cpu mapping
- 		 */
- 		map->queue_offset = qoff;
--		if (i != HCTX_TYPE_POLL)
-+		if (i != HCTX_TYPE_POLL && offset)
- 			blk_mq_pci_map_queues(map, to_pci_dev(dev->dev), offset);
- 		else
- 			blk_mq_map_queues(map);
--- 
-2.14.4
+WARNING: Prefer 'unsigned int' to bare use of 'unsigned'
+#29: FILE: drivers/nvme/host/core.c:1117:
++        unsigned dword11, void *buffer, size_t buflen, u32 *result)
+
+WARNING: Prefer 'unsigned int' to bare use of 'unsigned'
+#45: FILE: drivers/nvme/host/core.c:1135:
++int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned
+dword11,
+
+WARNING: Prefer 'unsigned int' to bare use of 'unsigned'
+#45: FILE: drivers/nvme/host/core.c:1135:
++int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned
+dword11,
+
+WARNING: Prefer 'unsigned int' to bare use of 'unsigned'
+#53: FILE: drivers/nvme/host/core.c:1143:
++int nvme_get_features(struct nvme_ctrl *dev, unsigned fid, unsigned
+dword11,
+
+WARNING: Prefer 'unsigned int' to bare use of 'unsigned'
+#53: FILE: drivers/nvme/host/core.c:1143:
++int nvme_get_features(struct nvme_ctrl *dev, unsigned fid, unsigned
+dword11,
+
+WARNING: Prefer 'unsigned int' to bare use of 'unsigned'
+#72: FILE: drivers/nvme/host/nvme.h:462:
++int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned
+dword11,
+
+WARNING: Prefer 'unsigned int' to bare use of 'unsigned'
+#72: FILE: drivers/nvme/host/nvme.h:462:
++int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned
+dword11,
+
+WARNING: Prefer 'unsigned int' to bare use of 'unsigned'
+#74: FILE: drivers/nvme/host/nvme.h:464:
++int nvme_get_features(struct nvme_ctrl *dev, unsigned fid, unsigned
+dword11,
+
+WARNING: Prefer 'unsigned int' to bare use of 'unsigned'
+#74: FILE: drivers/nvme/host/nvme.h:464:
++int nvme_get_features(struct nvme_ctrl *dev, unsigned fid, unsigned
+dword11,
+
+total: 0 errors, 10 warnings, 50 lines checked
+
+NOTE: For some of the reported defects, checkpatch may be able to
+      mechanically convert to the typical style using --fix or
+--fix-inplace.
+
+0001-nvme-fix-memory-leak-for-power-latency-tolerance.patch has style
+problems, please review.
+
+NOTE: If any of the errors are false positives, please report
+      them to the maintainer, see CHECKPATCH in MAINTAINERS.
+
+>  {
+>  	struct nvme_command c;
+>  	union nvme_result res;
+>  	int ret;
+>  
+>  	memset(&c, 0, sizeof(c));
+> -	c.features.opcode = nvme_admin_set_features;
+> +	c.features.opcode = op;
+>  	c.features.fid = cpu_to_le32(fid);
+>  	c.features.dword11 = cpu_to_le32(dword11);
+>  
+> @@ -1132,6 +1132,22 @@ static int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword
+>  	return ret;
+>  }
+>  
+> +int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword11,
+> +		      void *buffer, size_t buflen, u32 *result)
+> +{
+> +	return nvme_features(dev, nvme_admin_set_features, fid, dword11, buffer,
+> +			     buflen, result);
+> +}
+> +EXPORT_SYMBOL_GPL(nvme_set_features);
+> +
+> +int nvme_get_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword11,
+> +		      void *buffer, size_t buflen, u32 *result)
+> +{
+> +	return nvme_features(dev, nvme_admin_get_features, fid, dword11, buffer,
+> +			     buflen, result);
+> +}
+> +EXPORT_SYMBOL_GPL(nvme_get_features);
+> +
+>  int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count)
+>  {
+>  	u32 q_count = (*count - 1) | ((*count - 1) << 16);
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index 56bba7a..bb673b8 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -459,6 +459,10 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+>  		union nvme_result *result, void *buffer, unsigned bufflen,
+>  		unsigned timeout, int qid, int at_head,
+>  		blk_mq_req_flags_t flags, bool poll);
+> +int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword11,
+> +		      void *buffer, size_t buflen, u32 *result);
+> +int nvme_get_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword11,
+> +		      void *buffer, size_t buflen, u32 *result);
+>  int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count);
+>  void nvme_stop_keep_alive(struct nvme_ctrl *ctrl);
+>  int nvme_reset_ctrl(struct nvme_ctrl *ctrl);
