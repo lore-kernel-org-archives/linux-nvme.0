@@ -1,17 +1,20 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 21 May 2019 08:46:07 +0200
-Subject: [PATCH 1/4] nvme: separate out nvme_ctrl_state_name()
-In-Reply-To: <20190520063624.50338-2-hare@suse.de>
+Date: Tue, 21 May 2019 08:47:38 +0200
+Subject: [PATCH 2/4] nvme-fc: track state change failures during reconnect
+In-Reply-To: <20190520063624.50338-3-hare@suse.de>
 References: <20190520063624.50338-1-hare@suse.de>
- <20190520063624.50338-2-hare@suse.de>
-Message-ID: <20190521064607.GB30402@lst.de>
+ <20190520063624.50338-3-hare@suse.de>
+Message-ID: <20190521064738.GC30402@lst.de>
 
-> +const char *nvme_ctrl_state_name(struct nvme_ctrl *ctrl)
-> +{
-> +	if ((unsigned)ctrl->state < ARRAY_SIZE(nvme_ctrl_state_names) &&
+On Mon, May 20, 2019@08:36:22AM +0200, Hannes Reinecke wrote:
+> The nvme-fc driver has several situation under which an expected
+> state transition fails, but doesn't print out any messages if
+> this happens.
+> The patch adds logging for these situations.
+> 
+> Signed-off-by: Hannes Reinecke <hare at suse.com>
+> Reviewed-by: James Smart <james.smart at broadcom.com>
 
-Can we please drop this odd cast, even if it was there in the old code?
-
-Otherwise looks fine:
+Looks good,
 
 Reviewed-by: Christoph Hellwig <hch at lst.de>
