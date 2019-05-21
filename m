@@ -1,48 +1,62 @@
-From: kbusch@kernel.org (Keith Busch)
-Date: Tue, 21 May 2019 08:58:40 -0600
-Subject: [PATCH RFC] nvme: Common subsys and controller instances IDA
-In-Reply-To: <55f15756-0385-f9c4-a916-079a6b12a5c1@mellanox.com>
-References: <20190515213351.22190-1-keith.busch@intel.com>
- <20190516064651.GA30234@lst.de>
- <1f0e7049-c926-98e0-3624-0d24eb45cd87@suse.de>
- <20190516144452.GB23372@localhost.localdomain>
- <yq17eaqbg4c.fsf@oracle.com>
- <040beeb5-d328-d5b0-f165-51bbd40f4c23@mellanox.com>
- <20190521143540.GB1639@localhost.localdomain>
- <55f15756-0385-f9c4-a916-079a6b12a5c1@mellanox.com>
-Message-ID: <20190521145840.GC1639@localhost.localdomain>
+From: akinobu.mita@gmail.com (Akinobu Mita)
+Date: Wed, 22 May 2019 01:04:05 +0900
+Subject: [PATCH v2 0/4] nvme: add thermal zone devices
+Message-ID: <1558454649-28783-1-git-send-email-akinobu.mita@gmail.com>
 
-On Tue, May 21, 2019@05:51:25PM +0300, Max Gurtovoy wrote:
-> 
-> On 5/21/2019 5:35 PM, Keith Busch wrote:
-> > On Tue, May 21, 2019@02:54:53AM -0700, Max Gurtovoy wrote:
-> > > maybe we can improve it and print also the namespace during the "nvme
-> > > list-subsys" command.
-> > > 
-> > > something like:
-> > > 
-> > > [root at server50 ~]# nvme list-subsys
-> > > nvme-subsys0 - NQN=testsubsystem_0
-> > > \
-> > >   ?+- nvme0 rdma traddr=11.212.140.146 trsvcid=4420
-> > >   ?\
-> > >   ? +- nvme0n1 SN=cf8bbff661502c51 Model=Linux
-> > >   ? +- nvme0n2 SN=cf8bbff661502c51 Model=Linux
-> > > 
-> > > 
-> > > and we'll get subsys/ctrl/ns relations in 1 cmd.
-> > > 
-> > > thoughts ?
-> > Yes, this is very useful! I'd like to add this as soon as possible.
-> > Do you have a patch, or is this just an example?  The only change I'd
-> > recommend is remove SN and Model since those are controller properties
-> > rather than from the namespace.
-> 
-> This is just an example but I can prepare something in a couple of days.
-> 
-> Let me know what do you prefer (and which attrs to print there)
+The NVMe controller reports up to nine temperature values in the SMART /
+Health log page (the composite temperature and temperature sensor 1 through
+temperature sensor 8).
+The temperature threshold feature (Feature Identifier 04h) configures the
+asynchronous event request command to complete when the temperature is
+crossed its corresponding temperature threshold.
 
-Let's just get the namespace handles (ex nvme0n1) displaying with each
-of their controllers within a subsystem. Showing just this relationship
-will be immediately helpful. We can can add verbose flags to get more
-details in the future.
+This provide these temperatures and thresholds via thermal zone devices.
+
+* v2
+- s/correspoinding/corresponding/ typo in commit log
+- Borrowed nvme_get_features() from Keith's patch
+- Temperature threshold notification is splitted into another patch
+- Change the data type of 'sensor' to unsigned
+- Add BUILD_BUG_ON for the array size of tzdev member in nvme_ctrl
+- Add WARN_ON_ONCE for paranoid checks
+- Fix off-by-one error in nvme_get_temp
+- Validate 'sensor' where the value is actually used
+- Define and utilize two enums related to the temperature threshold feature
+- Remove hysteresis value for this trip point and don't utilize the under
+  temperature threshold
+- Print error message for thermal_zone_device_register() failure
+- Add function comments for nvme_thermal_zones_{,un}register
+- Suppress non-fatal errors from nvme_thermal_zones_register()
+- Add comment about implemented temperature sensors 
+- Instead of creating a new 'thermal_work', append async smart event's
+  action to the existing async_event_work
+- Add comment for tzdev member in nvme_ctrl
+- Call nvme_thermal_zones_unregister() earlier than the last reference
+  release
+
+Akinobu Mita (3):
+  nvme: add thermal zone infrastructure
+  nvme: notify thermal framework when temperature threshold events occur
+  nvme-pci: support thermal zone
+
+Keith Busch (1):
+  nvme: Export get and set features
+
+ drivers/nvme/host/core.c | 317 ++++++++++++++++++++++++++++++++++++++++++++++-
+ drivers/nvme/host/nvme.h |  31 +++++
+ drivers/nvme/host/pci.c  |   5 +
+ include/linux/nvme.h     |  12 ++
+ 4 files changed, 362 insertions(+), 3 deletions(-)
+
+Cc: Zhang Rui <rui.zhang at intel.com>
+Cc: Eduardo Valentin <edubezval at gmail.com>
+Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
+Cc: Keith Busch <keith.busch at intel.com>
+Cc: Jens Axboe <axboe at fb.com>
+Cc: Christoph Hellwig <hch at lst.de>
+Cc: Sagi Grimberg <sagi at grimberg.me>
+Cc: Minwoo Im <minwoo.im.dev at gmail.com>
+Cc: Kenneth Heitke <kenneth.heitke at intel.com>
+Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni at wdc.com>
+-- 
+2.7.4
