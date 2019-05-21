@@ -1,27 +1,32 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 21 May 2019 11:41:27 +0300
-Subject: [PATCH] nvme: copy MTFA field from identify controller
-In-Reply-To: <20190520174206.29464-1-keith.busch@intel.com>
-References: <20190520174206.29464-1-keith.busch@intel.com>
-Message-ID: <d73a5e9c-df4b-1670-2502-8ca9cbb89f5e@mellanox.com>
+Date: Tue, 21 May 2019 11:49:02 +0300
+Subject: [PATCH] nvmet: get rid of extra line in the tcp code
+In-Reply-To: <20190515161044.25772-1-chaitanya.kulkarni@wdc.com>
+References: <20190515161044.25772-1-chaitanya.kulkarni@wdc.com>
+Message-ID: <47ad211c-526f-a33f-13ff-94f02c17baf4@mellanox.com>
 
 
-On 5/20/2019 8:42 PM, Keith Busch wrote:
-> From: Laine Walker-Avina <laine.walker-avina at intel.com>
+On 5/15/2019 7:10 PM, Chaitanya Kulkarni wrote:
+> This is a code cleanup patch, it doesn't change any functionality,
+> It removes the extra line at the end of the function.
 >
-> We use the controller's reported maximum firmware activation time as our
-> timeout before resetting a controller for a failed activation notice,
-> but this value was never being read so we could only use the default
-> timeout. Copy the Identify Controller MTFA field to the corresponding
-> nvme_ctrl's mtfa field.
->
-> Fixes: b6dccf7fae433 (?nvme: add support for FW activation without reset?).
-> Signed-off-by: Laine Walker-Avina <laine.walker-avina at intel.com>
-> [changelog, fix endian]
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 > ---
->   drivers/nvme/host/core.c | 1 +
->   1 file changed, 1 insertion(+)
+>   drivers/nvme/target/tcp.c | 1 -
+>   1 file changed, 1 deletion(-)
+>
+> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+> index 69b83fa0c76c..f019af264081 100644
+> --- a/drivers/nvme/target/tcp.c
+> +++ b/drivers/nvme/target/tcp.c
+> @@ -557,7 +557,6 @@ static int nvmet_try_send_data(struct nvmet_tcp_cmd *cmd)
+>   	}
+>   
+>   	return 1;
+> -
+>   }
+>   
+>   static int nvmet_try_send_response(struct nvmet_tcp_cmd *cmd,
 
 
 Looks good,
