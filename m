@@ -1,42 +1,71 @@
-From: jack@suse.cz (Jan Kara)
-Date: Wed, 22 May 2019 12:25:30 +0200
-Subject: [PATCH v5 0/7] Extend write-hint framework, and add write-hint
- for Ext4 journal
-In-Reply-To: <20190521082846.GA11024@infradead.org>
-References: <CGME20190425112347epcas2p1f7be48b8f0d2203252b8c9dd510c1b61@epcas2p1.samsung.com>
- <1556191202-3245-1-git-send-email-joshi.k@samsung.com>
- <20190510170249.GA26907@infradead.org>
- <00fb01d50c71$dd358e50$97a0aaf0$@samsung.com>
- <20190520142719.GA15705@infradead.org>
- <20190521082528.GA17709@quack2.suse.cz>
- <20190521082846.GA11024@infradead.org>
-Message-ID: <20190522102530.GK17019@quack2.suse.cz>
+From: hare@suse.de (Hannes Reinecke)
+Date: Wed, 22 May 2019 16:00:59 +0200
+Subject: [PATCH 4/4] nvme-fc: align nvme_fc_delete_association() with exit
+ path
+In-Reply-To: <20485830-ae6a-eae1-32f3-940ca2cc1bf3@broadcom.com>
+References: <20190520063624.50338-1-hare@suse.de>
+ <20190520063624.50338-5-hare@suse.de>
+ <20485830-ae6a-eae1-32f3-940ca2cc1bf3@broadcom.com>
+Message-ID: <6da3909f-cdaa-c6df-81fb-59f71d9f4f30@suse.de>
 
-On Tue 21-05-19 01:28:46, 'Christoph Hellwig' wrote:
-> On Tue, May 21, 2019@10:25:28AM +0200, Jan Kara wrote:
-> > performance benefits for some drives. After all you can just think about it
-> > like RWH_WRITE_LIFE_JOURNAL type of hint available for the kernel...
+On 5/21/19 6:25 PM, James Smart wrote:
 > 
-> Except that it actuallys adds a parallel insfrastructure.  A
-> RWH_WRITE_LIFE_JOURNAL would be much more palatable, but someone needs
-> to explain how that is:
 > 
->  a) different from RWH_WRITE_LIFE_SHORT
+> On 5/19/2019 11:36 PM, Hannes Reinecke wrote:
+>> nvme_fc_delete_association() should align with the exit path in
+>> nvme_fc_create_association() to ensure we are able to handle the
+>> failure case properly.
+>>
+>> Signed-off-by: Hannes Reinecke <hare at suse.com>
+>> ---
+>> ? drivers/nvme/host/fc.c | 10 +++++-----
+>> ? 1 file changed, 5 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+>> index 71b22139e78b..ed9f4affbe10 100644
+>> --- a/drivers/nvme/host/fc.c
+>> +++ b/drivers/nvme/host/fc.c
+>> @@ -2836,6 +2836,11 @@ nvme_fc_delete_association(struct nvme_fc_ctrl 
+>> *ctrl)
+>> ????? ctrl->flags &= ~FCCTRL_TERMIO;
+>> ????? spin_unlock_irq(&ctrl->lock);
+>> +??? if (ctrl->ctrl.tagset) {
+>> +??????? nvme_fc_delete_hw_io_queues(ctrl);
+>> +??????? nvme_fc_free_io_queues(ctrl);
+>> +??? }
+>> +
+>> ????? nvme_fc_term_aen_ops(ctrl);
+>> ????? /*
+>> @@ -2847,11 +2852,6 @@ nvme_fc_delete_association(struct nvme_fc_ctrl 
+>> *ctrl)
+>> ????? if (ctrl->association_id)
+>> ????????? nvme_fc_xmt_disconnect_assoc(ctrl);
+>> -??? if (ctrl->ctrl.tagset) {
+>> -??????? nvme_fc_delete_hw_io_queues(ctrl);
+>> -??????? nvme_fc_free_io_queues(ctrl);
+>> -??? }
+>> -
+>> ????? __nvme_fc_delete_hw_queue(ctrl, &ctrl->queues[0], 0);
+>> ????? nvme_fc_free_queue(&ctrl->queues[0]);
+> 
+> no.? This is removing the underlying queues while blk-mq is still trying 
+> to submit to them - causing yet a different set of issues as the driver 
+> will have released contexts but the calldowns are still happening. Yet 
+> another different set of issues would likely appear.?? no need for this 
+> reorg.
+> 
+Ah. Hmm. Well, I thought by having both paths identical we can ensure 
+that the error path in the first would actually work.
+Now it's quite hard to test, lat alone validate.
 
-The problem I have with this is: What does "short" mean? What if
-userspace's notion of short differs from the kernel notion? Also the
-journal block lifetime is somewhat hard to predict. It depends on the size
-of the journal and metadata load on the filesystem so there's big variance.
-So all we really know is that all journal blocks are the same.
+But if you have objections we can surely drop this patch.
 
->  b) would not apply to a log/journal maintained in userspace that works
->     exactly the same
+Cheers,
 
-Lifetime of userspace journal/log may be significantly different from the
-lifetime of the filesystem journal. So using the same hint for them does
-not look like a great idea?
-
-								Honza
+Hannes
 -- 
-Jan Kara <jack at suse.com>
-SUSE Labs, CR
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
+HRB 21284 (AG N?rnberg)
