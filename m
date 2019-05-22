@@ -1,35 +1,29 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 22 May 2019 16:49:55 -0600
-Subject: [PATCH 9/9] nvme: Retrieve namespaces during list-subsys cmd
-In-Reply-To: <1558543193-24752-10-git-send-email-maxg@mellanox.com>
-References: <1558543193-24752-1-git-send-email-maxg@mellanox.com>
- <1558543193-24752-10-git-send-email-maxg@mellanox.com>
-Message-ID: <20190522224955.GC5857@localhost.localdomain>
+From: kbusch@kernel.org (Keith Busch)
+Date: Wed, 22 May 2019 17:08:10 -0600
+Subject: [PATCHv2 6/6] nvme-pci: Use host managed power state for suspend
+In-Reply-To: <1558542950751.23268@Dell.com>
+References: <CAJZ5v0hZSiQuuq2+P+uLd3uE=ruuTW+5DmAdjqcr39=7poUe-g@mail.gmail.com>
+ <CAJZ5v0j0V10BYrME=KU1AJXGDMRUFFHiZEHQnsXhNJGPZKBSUw@mail.gmail.com>
+ <20190517090521.GA15509@lst.de>
+ <CAJZ5v0iL+ERE4Yy5yO8U2no194sRkvqNZHh5HsZXKvvHbxtk+g@mail.gmail.com>
+ <20190517093516.GA17006@lst.de>
+ <CAJZ5v0gLqL7GUjwz5F8=9Fc-W2n3FRzbbB2L8udaXgN4Vsd8-Q@mail.gmail.com>
+ <D4CDCA72-A3B8-4717-9ED2-A14254C78963@canonical.com>
+ <20190522155253.GA29827@lst.de>
+ <20190522160221.GB5393@localhost.localdomain>
+ <1558542950751.23268@Dell.com>
+Message-ID: <20190522230810.GA14049@localhost.localdomain>
 
-On Wed, May 22, 2019@07:39:53PM +0300, Max Gurtovoy wrote:
-> Add an association between subsystems/ctrls/namespaces using
-> "nvme list-subsys" command. Now this command will show the following:
+On Wed, May 22, 2019@04:35:50PM +0000, Mario.Limonciello@dell.com wrote:
+> >I've a branch here that I'll send to the mailing list after some testing
+> >this afternoon
 > 
-> nvme-subsys4 - NQN=testsubsystem_0
-> \
->  +- nvme4 rdma traddr=12.212.99.85 trsvcid=4420 live
->  \
->   +- nvme4n1
->   +- nvme4n2
->   +- nvme4n3
->  +- nvme5 rdma traddr=12.212.99.85 trsvcid=4420 live
->  \
->   +- nvme5n1
->   +- nvme5n2
->   +- nvme5n3
+>  > https://git.kernel.org/pub/scm/linux/kernel/git/kbusch/linux.git/log/?h=nvme-power
 > 
-> Instead of:
-> ----------------
-> nvme-subsys4 - NQN=testsubsystem_0
-> \
->  +- nvme4 rdma traddr=12.212.99.85 trsvcid=4420
->  +- nvme5 rdma traddr=12.212.99.85 trsvcid=4420
+> Make sure you do your testing with Rafael's patch that keeps the device in D0 across the
+> various suspend steps, I didn't see it obviously on your branch in the last 2 weeks of
+> commits.
 
-This is a terrific start. Your output indicates you are not using
-nvme native multipathing, though. Could you retry this command with
-that enabled (I'll try it tomorrow as well)?
+Well, I may have picked an unlucky rebase point. I can't run the tests,
+but it doesn't look like it has anything to do with the nvme changes. I'll
+go back to my original stable point and try again tomorrow.
