@@ -1,14 +1,27 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 22 May 2019 10:46:48 -0700
-Subject: [PATCH v2 4/4] nvme-pci: support thermal zone
-In-Reply-To: <1558454649-28783-5-git-send-email-akinobu.mita@gmail.com>
-References: <1558454649-28783-1-git-send-email-akinobu.mita@gmail.com>
- <1558454649-28783-5-git-send-email-akinobu.mita@gmail.com>
-Message-ID: <20190522174648.GA26477@infradead.org>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 22 May 2019 11:48:10 -0600
+Subject: [PATCH 0/2] Reset timeout for paused hardware
+Message-ID: <20190522174812.5597-1-keith.busch@intel.com>
 
-Is there any good reason why we need to call this from the PCIe driver
-instead of handling it all in the core?
+Hardware may temporarily stop processing commands that have
+been dispatched to it while activating new firmware. Some target
+implementation's paused state time exceeds the default request expiry,
+so any request dispatched before the driver could quiesce for the
+hardware's paused state will time out, and handling this may interrupt
+the firmware activation.
 
-Sure non-PCIe devices are usually external, but so are some PCIe
-devices, so if we really care about that we need some sort of flag
-anyway.
+This two-part series provides a way for drivers to reset dispatched
+requests' timeout deadline, then uses this new mechanism from the nvme
+driver's fw activation work.
+
+Keith Busch (2):
+  blk-mq: provide way to reset rq timeouts
+  nvme: reset request timeouts during fw activation
+
+ block/blk-mq.c           | 30 ++++++++++++++++++++++++++++++
+ drivers/nvme/host/core.c | 20 ++++++++++++++++++++
+ include/linux/blk-mq.h   |  1 +
+ 3 files changed, 51 insertions(+)
+
+-- 
+2.14.4
