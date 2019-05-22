@@ -1,50 +1,42 @@
-From: kai.heng.feng@canonical.com (Kai Heng Feng)
-Date: Wed, 22 May 2019 14:47:57 +0800
-Subject: [PATCHv2 6/6] nvme-pci: Use host managed power state for suspend
-In-Reply-To: <CAJZ5v0gLqL7GUjwz5F8=9Fc-W2n3FRzbbB2L8udaXgN4Vsd8-Q@mail.gmail.com>
-References: <20190516142657.GD23333@localhost.localdomain>
- <70235CA3-0FBB-4A06-996F-647A0D95C6D0@canonical.com>
- <64e8e0252a4042b99dd3d0def15b1780@AUSX13MPC105.AMER.DELL.COM>
- <20190516193822.GA23853@localhost.localdomain>
- <CAJZ5v0gBQVjy70CbA6CzkkjsGQYGeO6fDjJimvadM5_oq=3qeA@mail.gmail.com>
- <20190516203950.GB23853@localhost.localdomain>
- <CAJZ5v0hZSiQuuq2+P+uLd3uE=ruuTW+5DmAdjqcr39=7poUe-g@mail.gmail.com>
- <CAJZ5v0j0V10BYrME=KU1AJXGDMRUFFHiZEHQnsXhNJGPZKBSUw@mail.gmail.com>
- <20190517090521.GA15509@lst.de>
- <CAJZ5v0iL+ERE4Yy5yO8U2no194sRkvqNZHh5HsZXKvvHbxtk+g@mail.gmail.com>
- <20190517093516.GA17006@lst.de>
- <CAJZ5v0gLqL7GUjwz5F8=9Fc-W2n3FRzbbB2L8udaXgN4Vsd8-Q@mail.gmail.com>
-Message-ID: <D4CDCA72-A3B8-4717-9ED2-A14254C78963@canonical.com>
+From: jack@suse.cz (Jan Kara)
+Date: Wed, 22 May 2019 12:25:30 +0200
+Subject: [PATCH v5 0/7] Extend write-hint framework, and add write-hint
+ for Ext4 journal
+In-Reply-To: <20190521082846.GA11024@infradead.org>
+References: <CGME20190425112347epcas2p1f7be48b8f0d2203252b8c9dd510c1b61@epcas2p1.samsung.com>
+ <1556191202-3245-1-git-send-email-joshi.k@samsung.com>
+ <20190510170249.GA26907@infradead.org>
+ <00fb01d50c71$dd358e50$97a0aaf0$@samsung.com>
+ <20190520142719.GA15705@infradead.org>
+ <20190521082528.GA17709@quack2.suse.cz>
+ <20190521082846.GA11024@infradead.org>
+Message-ID: <20190522102530.GK17019@quack2.suse.cz>
 
-at 6:34 PM, Rafael J. Wysocki <rafael@kernel.org> wrote:
+On Tue 21-05-19 01:28:46, 'Christoph Hellwig' wrote:
+> On Tue, May 21, 2019@10:25:28AM +0200, Jan Kara wrote:
+> > performance benefits for some drives. After all you can just think about it
+> > like RWH_WRITE_LIFE_JOURNAL type of hint available for the kernel...
+> 
+> Except that it actuallys adds a parallel insfrastructure.  A
+> RWH_WRITE_LIFE_JOURNAL would be much more palatable, but someone needs
+> to explain how that is:
+> 
+>  a) different from RWH_WRITE_LIFE_SHORT
 
-> On Fri, May 17, 2019@11:35 AM Christoph Hellwig <hch@lst.de> wrote:
->> On Fri, May 17, 2019@11:17:52AM +0200, Rafael J. Wysocki wrote:
->>> AFAICS, using DMA while creating a hibernation snapshot image of
->>> memory would not be a good idea, so the host memory buffer should be
->>> disabled during the "freeze" stage or hibernation (and it can be
->>> re-enabled when that stage is complete).
->>
->> Once we'd disable the HMB the harm is done, so no point in re-enabling it.
->
-> But after the "freeze" stage the image may need to be written to the
-> device, so I guess it would be useful to enable the HMB for that?
->
->> What would this mean in terms of ops?  Only disable in freeze_noirq?
->
-> It can be disabled in any of the "freeze" callbacks (freeze,
-> freeze_late, freeze_irq) where it makes most sense.  I also would
-> re-enable it in the complementary "thaw" one, in case the device will
-> be used to store the image.
->
->> Or stick to the simple ops and find another helper that indicates we are  
->> doing a hibernation?
->
-> There are no helpers for that, it needs to be done manually, sort of.
+The problem I have with this is: What does "short" mean? What if
+userspace's notion of short differs from the kernel notion? Also the
+journal block lifetime is somewhat hard to predict. It depends on the size
+of the journal and metadata load on the filesystem so there's big variance.
+So all we really know is that all journal blocks are the same.
 
-I've got confirmation from Vendor, disabling HMB isn?t necessary when the  
-host stays at D0, which is what we use in S2I.
-I?ve done some testing and I can confirm S2I suspend/resume can work  
-without disabling HMB.
+>  b) would not apply to a log/journal maintained in userspace that works
+>     exactly the same
 
-Kai-Heng
+Lifetime of userspace journal/log may be significantly different from the
+lifetime of the filesystem journal. So using the same hint for them does
+not look like a great idea?
+
+								Honza
+-- 
+Jan Kara <jack at suse.com>
+SUSE Labs, CR
