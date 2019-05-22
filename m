@@ -1,26 +1,43 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Wed, 22 May 2019 19:39:48 +0300
-Subject: [PATCH 4/9] nvme-print: fix json object memory leak
+Date: Wed, 22 May 2019 19:39:49 +0300
+Subject: [PATCH 5/9] nvme: fix coding style issue
 In-Reply-To: <1558543193-24752-1-git-send-email-maxg@mellanox.com>
 References: <1558543193-24752-1-git-send-email-maxg@mellanox.com>
-Message-ID: <1558543193-24752-5-git-send-email-maxg@mellanox.com>
+Message-ID: <1558543193-24752-6-git-send-email-maxg@mellanox.com>
+
+It's more common to use the following coding style:
+if (condition) {
+   do_that;
+   do_this;
+} else if (condition2) {
+   do_this;
+} else {
+   do_that;
+}
 
 Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
 ---
- nvme-print.c | 1 +
- 1 file changed, 1 insertion(+)
+ nvme.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/nvme-print.c b/nvme-print.c
-index 2c4822e..6f85e73 100644
---- a/nvme-print.c
-+++ b/nvme-print.c
-@@ -2918,6 +2918,7 @@ void json_print_nvme_subsystem_list(struct subsys_list_item *slist, int n)
- 		json_object_add_value_array(root, "Subsystems", subsystems);
- 	json_print_object(root, NULL);
- 	printf("\n");
-+	json_free_object(root);
- }
+diff --git a/nvme.c b/nvme.c
+index 7cf7225..62f01c8 100644
+--- a/nvme.c
++++ b/nvme.c
+@@ -982,11 +982,11 @@ static int list_ns(int argc, char **argv, struct command *cmd, struct plugin *pl
+ 		for (i = 0; i < 1024; i++)
+ 			if (ns_list[i])
+ 				printf("[%4u]:%#x\n", i, le32_to_cpu(ns_list[i]));
+-	}
+-	else if (err > 0)
++	} else if (err > 0) {
+ 		show_nvme_status(err);
+-	else
++	} else {
+ 		perror("id namespace list");
++	}
  
- static void show_registers_cap(struct nvme_bar_cap *cap)
+ 	close(fd);
+ 
 -- 
 1.8.3.1
