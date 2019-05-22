@@ -1,57 +1,24 @@
-From: akinobu.mita@gmail.com (Akinobu Mita)
-Date: Thu, 23 May 2019 00:52:14 +0900
-Subject: [PATCH v2 2/4] nvme: add thermal zone infrastructure
-In-Reply-To: <20190522154448.GA5393@localhost.localdomain>
-References: <1558454649-28783-1-git-send-email-akinobu.mita@gmail.com>
- <1558454649-28783-3-git-send-email-akinobu.mita@gmail.com>
- <20190521161532.GD1639@localhost.localdomain>
- <CAC5umyi4t-r+0WbGjfa=_6ym_n=vcx5855nwL6NxuXH_HhYXkA@mail.gmail.com>
- <20190522154448.GA5393@localhost.localdomain>
-Message-ID: <CAC5umyhhO61hjm4vO++YpL8JgcyT05VfDpTpLZx0fQywvd7_kA@mail.gmail.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 22 May 2019 17:52:53 +0200
+Subject: [PATCHv2 6/6] nvme-pci: Use host managed power state for suspend
+In-Reply-To: <D4CDCA72-A3B8-4717-9ED2-A14254C78963@canonical.com>
+References: <20190516193822.GA23853@localhost.localdomain>
+ <CAJZ5v0gBQVjy70CbA6CzkkjsGQYGeO6fDjJimvadM5_oq=3qeA@mail.gmail.com>
+ <20190516203950.GB23853@localhost.localdomain>
+ <CAJZ5v0hZSiQuuq2+P+uLd3uE=ruuTW+5DmAdjqcr39=7poUe-g@mail.gmail.com>
+ <CAJZ5v0j0V10BYrME=KU1AJXGDMRUFFHiZEHQnsXhNJGPZKBSUw@mail.gmail.com>
+ <20190517090521.GA15509@lst.de>
+ <CAJZ5v0iL+ERE4Yy5yO8U2no194sRkvqNZHh5HsZXKvvHbxtk+g@mail.gmail.com>
+ <20190517093516.GA17006@lst.de>
+ <CAJZ5v0gLqL7GUjwz5F8=9Fc-W2n3FRzbbB2L8udaXgN4Vsd8-Q@mail.gmail.com>
+ <D4CDCA72-A3B8-4717-9ED2-A14254C78963@canonical.com>
+Message-ID: <20190522155253.GA29827@lst.de>
 
-2019?5?23?(?) 0:49 Keith Busch <kbusch at kernel.org>:
->
-> On Thu, May 23, 2019@12:44:04AM +0900, Akinobu Mita wrote:
-> > 2019?5?22?(?) 1:20 Keith Busch <kbusch at kernel.org>:
-> > >
-> > > On Wed, May 22, 2019@01:04:07AM +0900, Akinobu Mita wrote:
-> > > > +int nvme_thermal_zones_register(struct nvme_ctrl *ctrl)
-> > > > +{
-> > > > +     struct nvme_smart_log *log;
-> > > > +     int ret;
-> > > > +     int i;
-> > > > +
-> > > > +     log = kzalloc(sizeof(*log), GFP_KERNEL);
-> > > > +     if (!log)
-> > > > +             return 0; /* non-fatal error */
-> > > > +
-> > > > +     ret = nvme_get_log(ctrl, NVME_NSID_ALL, NVME_LOG_SMART, 0,
-> > > > +                        log, sizeof(*log), 0);
-> > > > +     if (ret) {
-> > > > +             dev_err(ctrl->device, "Failed to get SMART log: %d\n", ret);
-> > > > +             ret = ret > 0 ? -EINVAL : ret;
-> > >
-> > > A ret > 0 means the device provided a response, so don't return a
-> > > negative for that condition, please. That's just going to break
-> > > controllers that don't provide smart data, like qemu.
-> >
-> > After looking at __nvme_submit_sync_cmd(), it returns -EINTR if the device
-> > doesn't respond.  So, should this return a negative only when nvme_get_log()
-> > returns -EINTR?
-> >
-> >         ret = nvme_get_log();
-> >         if (ret) {
-> >                 dev_err(...);
-> >                 if (ret != -EINTR)
-> >                         ret = 0;
-> >                 goto free_log;
-> >         }
->
-> We return a different negative error if we can't allocate a request,
-> like what happens if the controller is dead, like a surprise hot remove.
->
-> There's a simpler way to look at this: if ret >= 0, we may proceed,
-> otherwise we're done with this controller. Don't make it any more
-> complicated than that.
+On Wed, May 22, 2019@02:47:57PM +0800, Kai Heng Feng wrote:
+> I've got confirmation from Vendor, disabling HMB isn?t necessary when the 
+> host stays at D0, which is what we use in S2I.
+> I?ve done some testing and I can confirm S2I suspend/resume can work 
+> without disabling HMB.
 
-OK.  Sounds good.
+Great.  Who is going to cook up a new patch taking all the recent
+findings into account?
