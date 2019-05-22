@@ -1,55 +1,36 @@
-From: sashal@kernel.org (Sasha Levin)
-Date: Wed, 22 May 2019 15:23:29 -0400
-Subject: [PATCH AUTOSEL 4.19 063/244] nvme-rdma: fix a NULL deref when an
- admin connect times out
-In-Reply-To: <20190522192630.24917-1-sashal@kernel.org>
-References: <20190522192630.24917-1-sashal@kernel.org>
-Message-ID: <20190522192630.24917-63-sashal@kernel.org>
+From: kbusch@kernel.org (Keith Busch)
+Date: Wed, 22 May 2019 13:26:57 -0600
+Subject: [RFC PATCH] nvme: Ignore timeouts while a PCIe reset is pending
+In-Reply-To: <20190522003741.26755-1-kenneth.heitke@intel.com>
+References: <20190522003741.26755-1-kenneth.heitke@intel.com>
+Message-ID: <20190522192656.GB5486@localhost.localdomain>
 
-From: Sagi Grimberg <sagi@grimberg.me>
+On Tue, May 21, 2019@06:37:41PM -0600, Kenneth Heitke wrote:
+> If an admin command timeout occurs while a PCIe reset (FLR) is
+> pending, the CSTS bits may not be valid which could result in
+> the controller being removed.
+> 
+> [372337.996566] nvme nvme0: I/O 0 QID 0 timeout, reset controller
+> [372339.984662] nvme 0000:1c:00.0: enabling device (0000 -> 0002)
+> [372339.984951] nvme nvme0: Removing after probe failure status: -19
 
-[ Upstream commit 1007709d7d06fab09bf2d007657575958676282b ]
+The disable reclaims all commands, including the ones it dispatches, so
+it sounds like you're talking about a race between the ones it dispatched
+and its timeout work. If so, we can just make sure commands sent during
+nvme_dev_disable never timeout, which are just the delete queue commands:
 
-If we timeout the admin startup sequence we might not yet have
-an I/O tagset allocated which causes the teardown sequence to crash.
-Make nvme_tcp_teardown_io_queues safe by not iterating inflight tags
-if the tagset wasn't allocated.
-
-Fixes: 4c174e636674 ("nvme-rdma: fix timeout handler")
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-Signed-off-by: Christoph Hellwig <hch at lst.de>
-Signed-off-by: Sasha Levin <sashal at kernel.org>
 ---
- drivers/nvme/host/rdma.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 0939a4e178fb9..e4f167e35353f 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -880,8 +880,9 @@ static void nvme_rdma_teardown_admin_queue(struct nvme_rdma_ctrl *ctrl,
- {
- 	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
- 	nvme_rdma_stop_queue(&ctrl->queues[0]);
--	blk_mq_tagset_busy_iter(&ctrl->admin_tag_set, nvme_cancel_request,
--			&ctrl->ctrl);
-+	if (ctrl->ctrl.admin_tagset)
-+		blk_mq_tagset_busy_iter(ctrl->ctrl.admin_tagset,
-+			nvme_cancel_request, &ctrl->ctrl);
- 	blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
- 	nvme_rdma_destroy_admin_queue(ctrl, remove);
- }
-@@ -892,8 +893,9 @@ static void nvme_rdma_teardown_io_queues(struct nvme_rdma_ctrl *ctrl,
- 	if (ctrl->ctrl.queue_count > 1) {
- 		nvme_stop_queues(&ctrl->ctrl);
- 		nvme_rdma_stop_io_queues(ctrl);
--		blk_mq_tagset_busy_iter(&ctrl->tag_set, nvme_cancel_request,
--				&ctrl->ctrl);
-+		if (ctrl->ctrl.tagset)
-+			blk_mq_tagset_busy_iter(ctrl->ctrl.tagset,
-+				nvme_cancel_request, &ctrl->ctrl);
- 		if (remove)
- 			nvme_start_queues(&ctrl->ctrl);
- 		nvme_rdma_destroy_io_queues(ctrl, remove);
--- 
-2.20.1
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index f562154551ce..4678704c2138 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2210,7 +2210,7 @@ static int nvme_delete_queue(struct nvme_queue *nvmeq, u8 opcode)
+ 	if (IS_ERR(req))
+ 		return PTR_ERR(req);
+ 
+-	req->timeout = ADMIN_TIMEOUT;
++	req->timeout = UINT_MAX;
+ 	req->end_io_data = nvmeq;
+ 
+ 	init_completion(&nvmeq->delete_done);
+--
