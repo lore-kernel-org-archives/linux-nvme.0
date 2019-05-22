@@ -1,71 +1,36 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 22 May 2019 16:00:59 +0200
-Subject: [PATCH 4/4] nvme-fc: align nvme_fc_delete_association() with exit
- path
-In-Reply-To: <20485830-ae6a-eae1-32f3-940ca2cc1bf3@broadcom.com>
-References: <20190520063624.50338-1-hare@suse.de>
- <20190520063624.50338-5-hare@suse.de>
- <20485830-ae6a-eae1-32f3-940ca2cc1bf3@broadcom.com>
-Message-ID: <6da3909f-cdaa-c6df-81fb-59f71d9f4f30@suse.de>
+From: akinobu.mita@gmail.com (Akinobu Mita)
+Date: Thu, 23 May 2019 00:23:38 +0900
+Subject: [PATCH v2 2/4] nvme: add thermal zone infrastructure
+In-Reply-To: <44154394-c0a0-4895-d406-ea357a906cfe@intel.com>
+References: <1558454649-28783-1-git-send-email-akinobu.mita@gmail.com>
+ <1558454649-28783-3-git-send-email-akinobu.mita@gmail.com>
+ <44154394-c0a0-4895-d406-ea357a906cfe@intel.com>
+Message-ID: <CAC5umyghtb58HB08PPZsds5Kf82wr3jq0HPG4861_9JS7KF4gw@mail.gmail.com>
 
-On 5/21/19 6:25 PM, James Smart wrote:
-> 
-> 
-> On 5/19/2019 11:36 PM, Hannes Reinecke wrote:
->> nvme_fc_delete_association() should align with the exit path in
->> nvme_fc_create_association() to ensure we are able to handle the
->> failure case properly.
->>
->> Signed-off-by: Hannes Reinecke <hare at suse.com>
->> ---
->> ? drivers/nvme/host/fc.c | 10 +++++-----
->> ? 1 file changed, 5 insertions(+), 5 deletions(-)
->>
->> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
->> index 71b22139e78b..ed9f4affbe10 100644
->> --- a/drivers/nvme/host/fc.c
->> +++ b/drivers/nvme/host/fc.c
->> @@ -2836,6 +2836,11 @@ nvme_fc_delete_association(struct nvme_fc_ctrl 
->> *ctrl)
->> ????? ctrl->flags &= ~FCCTRL_TERMIO;
->> ????? spin_unlock_irq(&ctrl->lock);
->> +??? if (ctrl->ctrl.tagset) {
->> +??????? nvme_fc_delete_hw_io_queues(ctrl);
->> +??????? nvme_fc_free_io_queues(ctrl);
->> +??? }
->> +
->> ????? nvme_fc_term_aen_ops(ctrl);
->> ????? /*
->> @@ -2847,11 +2852,6 @@ nvme_fc_delete_association(struct nvme_fc_ctrl 
->> *ctrl)
->> ????? if (ctrl->association_id)
->> ????????? nvme_fc_xmt_disconnect_assoc(ctrl);
->> -??? if (ctrl->ctrl.tagset) {
->> -??????? nvme_fc_delete_hw_io_queues(ctrl);
->> -??????? nvme_fc_free_io_queues(ctrl);
->> -??? }
->> -
->> ????? __nvme_fc_delete_hw_queue(ctrl, &ctrl->queues[0], 0);
->> ????? nvme_fc_free_queue(&ctrl->queues[0]);
-> 
-> no.? This is removing the underlying queues while blk-mq is still trying 
-> to submit to them - causing yet a different set of issues as the driver 
-> will have released contexts but the calldowns are still happening. Yet 
-> another different set of issues would likely appear.?? no need for this 
-> reorg.
-> 
-Ah. Hmm. Well, I thought by having both paths identical we can ensure 
-that the error path in the first would actually work.
-Now it's quite hard to test, lat alone validate.
+2019?5?22?(?) 6:05 Heitke, Kenneth <kenneth.heitke at intel.com>:
+>
+>
+>
+> On 5/21/2019 10:04 AM, Akinobu Mita wrote:
+> > +static int nvme_set_over_temp_thresh(struct nvme_ctrl *ctrl,
+> > +                                  unsigned int sensor, int temp)
+> > +{
+> > +     unsigned int threshold = sensor << NVME_TEMP_THRESH_SELECT_SHIFT;
+> > +     int status;
+> > +     int ret;
+> > +
+> > +     if (WARN_ON_ONCE(sensor >= ARRAY_SIZE(ctrl->tzdev)))
+> > +             return -EINVAL;
+> > +
+> > +     if (temp > NVME_TEMP_THRESH_MASK)
+> > +             return -EINVAL;
+> > +
+> > +     threshold |= temp & NVME_TEMP_THRESH_MASK;
+> > +
+> > +     ret = nvme_set_features(ctrl, NVME_FEAT_TEMP_THRESH, threshold, NULL, 0,
+> > +                             &status);
+>
+> I'm not sure about best practices here but since 'status' is unused, you
+> can pass in a NULL pointer. The called function deals with it correctly.
 
-But if you have objections we can surely drop this patch.
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N?rnberg)
+OK.  Make sense.
