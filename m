@@ -1,29 +1,71 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 21 May 2019 16:00:07 -0600
-Subject: nvme drive kernel 5.0 problem
-In-Reply-To: <e027eae2-0c39-8e83-5a09-fda82d4c2a52@chavero.com.mx>
-References: <4a0dda5365f24e7223d1672233d7f1ac64640d31.camel@chavero.com.mx>
- <CACVXFVPXGKQ9UD6P5RsF5j8yry+1LuLrUeb4F6o74=uGK4Ak4Q@mail.gmail.com>
- <a640a0768d19aedee71a1abad7817a3a71291851.camel@chavero.com.mx>
- <20190521142000.GA350@localhost.localdomain>
- <e027eae2-0c39-8e83-5a09-fda82d4c2a52@chavero.com.mx>
-Message-ID: <20190521220007.GB4302@localhost.localdomain>
+From: kenneth.heitke@intel.com (Kenneth Heitke)
+Date: Tue, 21 May 2019 18:37:41 -0600
+Subject: [RFC PATCH] nvme: Ignore timeouts while a PCIe reset is pending
+Message-ID: <20190522003741.26755-1-kenneth.heitke@intel.com>
 
-On Tue, May 21, 2019@04:34:44PM -0500, Iv?n Chavero wrote:
-> I think that the real error is this one:
-> 
-> print_req_error: operation not supported error, dev nvme0n1, sector
-> 386138112 flags 4801
+If an admin command timeout occurs while a PCIe reset (FLR) is
+pending, the CSTS bits may not be valid which could result in
+the controller being removed.
 
-Weird. There are not very many statuses that translate to a "not
-supported" from nvme, and none of them really make sense for a device
-to return only during early boot. Let's see if that error is coming
-from the drive or somewhere else.
+[372337.996566] nvme nvme0: I/O 0 QID 0 timeout, reset controller
+[372339.984662] nvme 0000:1c:00.0: enabling device (0000 -> 0002)
+[372339.984951] nvme nvme0: Removing after probe failure status: -19
 
-Could you append the following kernel parameter:
+Signed-off-by: Kenneth Heitke <kenneth.heitke at intel.com>
+---
+ drivers/nvme/host/pci.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-  trace_event=nvme_setup_cmd,nvme_complete_rq
-
-Then get the output from after the errors?
-
-  cat /sys/kernel/debug/tracing/trace
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 2a8708c9ac18..aa9ea64a8b53 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -118,6 +118,8 @@ struct nvme_dev {
+ 	struct nvme_ctrl ctrl;
+ 
+ 	mempool_t *iod_mempool;
++	unsigned long flags;
++#define NVME_CTRL_PCI_RESET_PENDING	0
+ 
+ 	/* shadow doorbell buffer support: */
+ 	u32 *dbbuf_dbs;
+@@ -1250,6 +1252,11 @@ static void nvme_warn_reset(struct nvme_dev *dev, u32 csts)
+ 			 csts, result);
+ }
+ 
++static bool nvme_pci_reset_pending(const struct nvme_dev *dev)
++{
++	return !!test_bit(NVME_CTRL_PCI_RESET_PENDING, &dev->flags);
++}
++
+ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ {
+ 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+@@ -1267,6 +1274,10 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ 	if (pci_channel_offline(to_pci_dev(dev->dev)))
+ 		return BLK_EH_RESET_TIMER;
+ 
++	/* If a PCIe reset (FLR) is pending, wait for it to complete */
++	if (nvme_pci_reset_pending(dev))
++		return BLK_EH_RESET_TIMER;
++
+ 	/*
+ 	 * Reset immediately if the controller is failed
+ 	 */
+@@ -2780,12 +2791,14 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ static void nvme_reset_prepare(struct pci_dev *pdev)
+ {
+ 	struct nvme_dev *dev = pci_get_drvdata(pdev);
++	set_bit(NVME_CTRL_PCI_RESET_PENDING, &dev->flags);
+ 	nvme_dev_disable(dev, false);
+ }
+ 
+ static void nvme_reset_done(struct pci_dev *pdev)
+ {
+ 	struct nvme_dev *dev = pci_get_drvdata(pdev);
++	clear_bit(NVME_CTRL_PCI_RESET_PENDING, &dev->flags);
+ 	nvme_reset_ctrl_sync(&dev->ctrl);
+ }
+ 
+-- 
+2.17.1
