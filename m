@@ -1,52 +1,55 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Wed, 22 May 2019 15:23:28 -0400
-Subject: [PATCH AUTOSEL 4.19 062/244] nvme: set 0 capacity if namespace block
- size exceeds PAGE_SIZE
+Date: Wed, 22 May 2019 15:23:29 -0400
+Subject: [PATCH AUTOSEL 4.19 063/244] nvme-rdma: fix a NULL deref when an
+ admin connect times out
 In-Reply-To: <20190522192630.24917-1-sashal@kernel.org>
 References: <20190522192630.24917-1-sashal@kernel.org>
-Message-ID: <20190522192630.24917-62-sashal@kernel.org>
+Message-ID: <20190522192630.24917-63-sashal@kernel.org>
 
 From: Sagi Grimberg <sagi@grimberg.me>
 
-[ Upstream commit 01fa017484ad98fccdeaab32db0077c574b6bd6f ]
+[ Upstream commit 1007709d7d06fab09bf2d007657575958676282b ]
 
-If our target exposed a namespace with a block size that is greater
-than PAGE_SIZE, set 0 capacity on the namespace as we do not support it.
+If we timeout the admin startup sequence we might not yet have
+an I/O tagset allocated which causes the teardown sequence to crash.
+Make nvme_tcp_teardown_io_queues safe by not iterating inflight tags
+if the tagset wasn't allocated.
 
-This issue encountered when the nvmet namespace was backed by a tempfile.
-
+Fixes: 4c174e636674 ("nvme-rdma: fix timeout handler")
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-Reviewed-by: Keith Busch <keith.busch at intel.com>
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 Signed-off-by: Sasha Levin <sashal at kernel.org>
 ---
- drivers/nvme/host/core.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/nvme/host/rdma.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 2cdb3032ca0fc..abfb46378cc13 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1480,6 +1480,10 @@ static void nvme_update_disk_info(struct gendisk *disk,
- 	sector_t capacity = le64_to_cpup(&id->nsze) << (ns->lba_shift - 9);
- 	unsigned short bs = 1 << ns->lba_shift;
- 
-+	if (ns->lba_shift > PAGE_SHIFT) {
-+		/* unsupported block size, set capacity to 0 later */
-+		bs = (1 << 9);
-+	}
- 	blk_mq_freeze_queue(disk->queue);
- 	blk_integrity_unregister(disk);
- 
-@@ -1490,7 +1494,8 @@ static void nvme_update_disk_info(struct gendisk *disk,
- 	if (ns->ms && !ns->ext &&
- 	    (ns->ctrl->ops->flags & NVME_F_METADATA_SUPPORTED))
- 		nvme_init_integrity(disk, ns->ms, ns->pi_type);
--	if (ns->ms && !nvme_ns_has_pi(ns) && !blk_get_integrity(disk))
-+	if ((ns->ms && !nvme_ns_has_pi(ns) && !blk_get_integrity(disk)) ||
-+	    ns->lba_shift > PAGE_SHIFT)
- 		capacity = 0;
- 
- 	set_capacity(disk, capacity);
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 0939a4e178fb9..e4f167e35353f 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -880,8 +880,9 @@ static void nvme_rdma_teardown_admin_queue(struct nvme_rdma_ctrl *ctrl,
+ {
+ 	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
+ 	nvme_rdma_stop_queue(&ctrl->queues[0]);
+-	blk_mq_tagset_busy_iter(&ctrl->admin_tag_set, nvme_cancel_request,
+-			&ctrl->ctrl);
++	if (ctrl->ctrl.admin_tagset)
++		blk_mq_tagset_busy_iter(ctrl->ctrl.admin_tagset,
++			nvme_cancel_request, &ctrl->ctrl);
+ 	blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
+ 	nvme_rdma_destroy_admin_queue(ctrl, remove);
+ }
+@@ -892,8 +893,9 @@ static void nvme_rdma_teardown_io_queues(struct nvme_rdma_ctrl *ctrl,
+ 	if (ctrl->ctrl.queue_count > 1) {
+ 		nvme_stop_queues(&ctrl->ctrl);
+ 		nvme_rdma_stop_io_queues(ctrl);
+-		blk_mq_tagset_busy_iter(&ctrl->tag_set, nvme_cancel_request,
+-				&ctrl->ctrl);
++		if (ctrl->ctrl.tagset)
++			blk_mq_tagset_busy_iter(ctrl->ctrl.tagset,
++				nvme_cancel_request, &ctrl->ctrl);
+ 		if (remove)
+ 			nvme_start_queues(&ctrl->ctrl);
+ 		nvme_rdma_destroy_io_queues(ctrl, remove);
 -- 
 2.20.1
