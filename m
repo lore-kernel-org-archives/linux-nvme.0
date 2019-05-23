@@ -1,44 +1,51 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Thu, 23 May 2019 12:00:54 +0300
-Subject: [PATCH 5/9] nvme: fix coding style issue
+Date: Thu, 23 May 2019 12:00:56 +0300
+Subject: [PATCH 7/9] nvme-print: Introduce show_nvme_ctrl helper
 In-Reply-To: <1558602058-29434-1-git-send-email-maxg@mellanox.com>
 References: <1558602058-29434-1-git-send-email-maxg@mellanox.com>
-Message-ID: <1558602058-29434-6-git-send-email-maxg@mellanox.com>
+Message-ID: <1558602058-29434-8-git-send-email-maxg@mellanox.com>
 
-It's more common to use the following coding style:
-if (condition) {
-   do_that;
-   do_this;
-} else if (condition2) {
-   do_this;
-} else {
-   do_that;
-}
+This is a preparation patch for adding namespaces attribute for each
+controller.
 
-Reviewed-by: Minwoo Im <minwoo.im at samsung.com>
 Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
 ---
- nvme.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ nvme-print.c | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
-diff --git a/nvme.c b/nvme.c
-index fd86779..8edf398 100644
---- a/nvme.c
-+++ b/nvme.c
-@@ -985,11 +985,11 @@ static int list_ns(int argc, char **argv, struct command *cmd, struct plugin *pl
- 		for (i = 0; i < 1024; i++)
- 			if (ns_list[i])
- 				printf("[%4u]:%#x\n", i, le32_to_cpu(ns_list[i]));
+diff --git a/nvme-print.c b/nvme-print.c
+index 7316117..7e1f9ea 100644
+--- a/nvme-print.c
++++ b/nvme-print.c
+@@ -2843,6 +2843,13 @@ void json_sanitize_log(struct nvme_sanitize_log_page *sanitize_log, const char *
+ 	json_free_object(root);
+ }
+ 
++static void show_nvme_ctrl(struct ctrl_list_item *item)
++{
++	printf(" +- %s %s %s %s\n", item->name, item->transport, item->address,
++	       item->state);
++}
++
++
+ static void show_nvme_subsystem(struct subsys_list_item *item)
+ {
+ 	int i;
+@@ -2850,13 +2857,8 @@ static void show_nvme_subsystem(struct subsys_list_item *item)
+ 	printf("%s - NQN=%s\n", item->name, item->subsysnqn);
+ 	printf("\\\n");
+ 
+-	for (i = 0; i < item->nctrls; i++) {
+-		printf(" +- %s %s %s %s\n", item->ctrls[i].name,
+-				item->ctrls[i].transport,
+-				item->ctrls[i].address,
+-				item->ctrls[i].state);
 -	}
--	else if (err > 0)
-+	} else if (err > 0) {
- 		show_nvme_status(err);
--	else
-+	} else {
- 		perror("id namespace list");
-+	}
+-
++	for (i = 0; i < item->nctrls; i++)
++		show_nvme_ctrl(&item->ctrls[i]);
+ }
  
- 	close(fd);
- 
+ void show_nvme_subsystem_list(struct subsys_list_item *slist, int n)
 -- 
 1.8.3.1
