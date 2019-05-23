@@ -1,22 +1,45 @@
-From: kbusch@kernel.org (Keith Busch)
-Date: Thu, 23 May 2019 09:42:39 -0600
-Subject: [PATCHv3 1/2] nvme: Export get and set features
-In-Reply-To: <20190523153626.GA21238@lst.de>
-References: <20190523152735.15052-1-keith.busch@intel.com>
- <20190523153626.GA21238@lst.de>
-Message-ID: <20190523154239.GC14943@localhost.localdomain>
+From: aeasi@marvell.com (Arun Easi)
+Date: Thu, 23 May 2019 08:52:29 -0700
+Subject: [EXT] Re: [PATCH 3/4] nvme-fc: fail reconnect if state change
+ fails
+In-Reply-To: <e430d6e0-6f0f-8cc1-aba8-f33faa519267@broadcom.com>
+References: <20190520063624.50338-1-hare@suse.de>
+ <20190520063624.50338-4-hare@suse.de>
+ <alpine.LRH.2.21.9999.1905221035410.9636@mvluser05.qlc.com>
+ <f59abb21-c3e8-1aa3-9246-f4141862aa69@suse.de>
+ <e430d6e0-6f0f-8cc1-aba8-f33faa519267@broadcom.com>
+Message-ID: <alpine.LRH.2.21.9999.1905230850100.9636@mvluser05.qlc.com>
 
-On Thu, May 23, 2019@05:36:26PM +0200, Christoph Hellwig wrote:
-> > Change since v2: Use 'unsigned int' instead of just 'unsiged'
+On Thu, 23 May 2019, 8:46am, James Smart wrote:
+
+> External Email
 > 
-> Those are equivalent in C, why bother changing it?
-
-Just to shut up checkpatch.pl:
-
-  WARNING: Prefer 'unsigned int' to bare use of 'unsigned'
- 
-> > +int nvme_set_features(struct nvme_ctrl *dev, unsigned int fid, unsigned int dword11,
+> ----------------------------------------------------------------------
+> On 5/22/2019 10:33 PM, Hannes Reinecke wrote:
+> > On 5/22/19 7:43 PM, Arun Easi wrote:
+> > > 
+> > > Question: There is a path in nvme_fc_resume_controller() that schedules
+> > > connect_work when controller state is NVME_CTRL_NEW. I am not quite sure
+> > > when this is exercised; but if it does, it conflicts with this
+> > > expectation.
+> > > 
+> > To my understanding, the transition from NEW to LIVE is only valid for
+> > PCI; NVMe-oF implementations should always move to CONNECTING first, ie
+> > they should have a transition NEW -> CONNECTING -> LIVE.
+> > 
+> > Cheers,
+> > 
+> > Hannes
 > 
-> Especially as this now creates lines > 80 characters in various places.
+> I confirm what Hannes says - when the fc transport moved to an asynchronous
+> connect using the reconnect path, as part of controller initial allocation, it
+> moves from NEW to (temporarily) RESETTING to CONNECTING then schedules the
+> reconnect which should go from there to LIVE in the normal path.? That NEW
+> scheduling connect_work, although still present no long occurs. It was from
+> the pre-async connect.
+> 
 
-*facepalm*
+Thanks for the history and clarification. Perhaps that could be added in 
+the next cleanup round.
+
+--Arun
