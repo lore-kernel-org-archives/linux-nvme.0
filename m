@@ -1,12 +1,9 @@
 From: minwoo.im@samsung.com (Minwoo Im)
-Date: Thu, 23 May 2019 13:18:44 +0900
-Subject: [PATCH 3/9] fabrics: Fix memory leak of subsys list
-In-Reply-To: <1558543193-24752-4-git-send-email-maxg@mellanox.com>
-References: <1558543193-24752-4-git-send-email-maxg@mellanox.com>
- <1558543193-24752-1-git-send-email-maxg@mellanox.com>
- <CGME20190522164050epcas4p1a79c71f8c93d3297c3051e8c9b359181@epcms2p8>
-Message-ID: <20190523041844epcms2p855a13b0229e5afeb607e31a28310b883@epcms2p8>
+Date: Thu, 23 May 2019 13:22:43 +0900
+Subject: [PATCH 0/2] nvme-cli: fix disconnect-all for pcie tp
+In-Reply-To: <20190516172350.11864-1-minwoo.im.dev@gmail.com>
+References: <20190516172350.11864-1-minwoo.im.dev@gmail.com>
+ <CGME20190516172415epcas4p4c4e3f6ce4d62a28cf4632f3fa766e861@epcms2p6>
+Message-ID: <20190523042243epcms2p661452370709ce8cfdf38c10a9cf5f637@epcms2p6>
 
-This looks good to me.
-
-Reviewed-by: Minwoo Im <minwoo.im at samsung.com>
+Gentle ping here.
