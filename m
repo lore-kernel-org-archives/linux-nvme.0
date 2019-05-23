@@ -1,58 +1,52 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Thu, 23 May 2019 09:01:21 -0700
-Subject: [PATCH 4/4] nvme-fc: align nvme_fc_delete_association() with exit
- path
-In-Reply-To: <6da3909f-cdaa-c6df-81fb-59f71d9f4f30@suse.de>
-References: <20190520063624.50338-1-hare@suse.de>
- <20190520063624.50338-5-hare@suse.de>
- <20485830-ae6a-eae1-32f3-940ca2cc1bf3@broadcom.com>
- <6da3909f-cdaa-c6df-81fb-59f71d9f4f30@suse.de>
-Message-ID: <678d2403-150e-dcd3-359f-329015c7b588@broadcom.com>
+From: kbusch@kernel.org (Keith Busch)
+Date: Thu, 23 May 2019 10:14:23 -0600
+Subject: [GIT PULL] nvme fixes for 5.2-rc2
+Message-ID: <20190523161423.GD14943@localhost.localdomain>
 
+Mostly fixes we'd like included ahead of the next rc.
 
+The only non-fix is an update to the MAINTAINERS file to point to my
+kernel.org account. This is preferred to receive communication as most
+nvme development/maintenance is on my own time anyway. I will also be
+starting extended vacation after tomorrow, but would like to still keep
+a finger on the nvme pulse.
 
-On 5/22/2019 7:00 AM, Hannes Reinecke wrote:
-> On 5/21/19 6:25 PM, James Smart wrote:
->>
->> ? no.? This is removing the underlying queues while blk-mq is still 
->> trying to submit to them - causing yet a different set of issues as 
->> the driver will have released contexts but the calldowns are still 
->> happening. Yet another different set of issues would likely appear.?? 
->> no need for this reorg.
->>
-> Ah. Hmm. Well, I thought by having both paths identical we can ensure 
-> that the error path in the first would actually work.
-> Now it's quite hard to test, lat alone validate.
->
-> But if you have objections we can surely drop this patch.
+The following changes since commit a6a4b66bd8f41922c543f7a820c66ed59c25995e:
 
-I do believe the failure case that you're adding is different - we 
-haven't called start controller, so although the io queues and their 
-lldd hw queues are live, we haven't done ns scanning and release of 
-their queues to push things to the controller - so there won't be live 
-ios in the lld that could be referencing the hw queues, nor any path 
-that allows pushing of ios to anything other than the admin queue.?? The 
-nvmf_ready checks should filter out normal i/o, especially as our state 
-is not yet LIVE.? So that's the main difference with the generic change 
-in delete association.
+  Merge tag 'for-linus-20190516' of git://git.kernel.dk/linux-block (2019-05-16 19:10:37 -0700)
 
-Well, if we really wanted to test it right - I would either: a) avoid 
-the partial teardowns in the error path for this last state change check 
-and just call the delete association routine; or b) do that, but make 
-the error path always call delete association and delete association 
-knows how to tear down the partially built up association (vs it expects 
-a fully built up one now.
+are available in the Git repository at:
 
-But that seems to be adding quite a bit of work for very little return.? 
-To be honest, the existing code, that doesn't fail out if LIVE can't be 
-transitioned to, isn't bad. There is no re-connect scheduled as it 
-completes successfully. So the association is fully built up. If the 
-state change failed - the only state that could have transitioned from 
-CONNECTING to then fail LIVE is the DELETING state, and its valid to 
-finish out successfully and let the delete path do its thing.
+  git://git.infradead.org/nvme.git nvme-5.2-rc2
 
-My preference is to leave the LIVE transition handling the way it is. 
-But I'm ok if you wanted to add the LIVE-transition patch you proposed, 
-but this patch in delete association isn't needed.
+for you to fetch changes up to cb9e0e5006064a807b5d722c7e3c42f307193792:
 
--- james
+  nvme-pci: use blk-mq mapping for unmanaged irqs (2019-05-22 10:11:36 -0600)
+
+----------------------------------------------------------------
+Christoph Hellwig (4):
+      nvme: fix srcu locking on error return in nvme_get_ns_from_disk
+      nvme: remove the ifdef around nvme_nvm_ioctl
+      nvme: merge nvme_ns_ioctl into nvme_ioctl
+      nvme: release namespace SRCU protection before performing controller ioctls
+
+Keith Busch (7):
+      nvme-pci: Fix controller freeze wait disabling
+      nvme-pci: Don't disable on timeout in reset state
+      nvme-pci: Unblock reset_work on IO failure
+      nvme-pci: Sync queues on reset
+      nvme: Fix known effects
+      nvme: update MAINTAINERS
+      nvme-pci: use blk-mq mapping for unmanaged irqs
+
+Laine Walker-Avina (1):
+      nvme: copy MTFA field from identify controller
+
+Yufen Yu (1):
+      nvme: fix memory leak for power latency tolerance
+
+ MAINTAINERS              |  2 +-
+ drivers/nvme/host/core.c | 89 +++++++++++++++++++++++++++++++++---------------
+ drivers/nvme/host/nvme.h |  1 +
+ drivers/nvme/host/pci.c  | 27 ++++++++-------
+ 4 files changed, 77 insertions(+), 42 deletions(-)
