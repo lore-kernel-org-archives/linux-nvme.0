@@ -1,36 +1,14 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 23 May 2019 17:33:23 +0200
-Subject: [PATCH 1/1] nvme-rdma: Add association between ctrl and
- transport dev
-In-Reply-To: <264c1ab2-a097-3384-381f-2b8c56c4442c@mellanox.com>
-References: <1558444796-5190-1-git-send-email-maxg@mellanox.com>
- <20190523102236.GC15492@lst.de>
- <264c1ab2-a097-3384-381f-2b8c56c4442c@mellanox.com>
-Message-ID: <20190523153323.GA21083@lst.de>
+Date: Thu, 23 May 2019 17:36:26 +0200
+Subject: [PATCHv3 1/2] nvme: Export get and set features
+In-Reply-To: <20190523152735.15052-1-keith.busch@intel.com>
+References: <20190523152735.15052-1-keith.busch@intel.com>
+Message-ID: <20190523153626.GA21238@lst.de>
 
-On Thu, May 23, 2019@02:05:23PM +0300, Max Gurtovoy wrote:
->
-> On 5/23/2019 1:22 PM, Christoph Hellwig wrote:
->>> +static void nvme_rdma_ctrl_dev_put(struct nvme_rdma_ctrl *ctrl,
->>> +				   struct nvme_rdma_device *dev)
->>> +{
->>> +	ctrl->device = 	NULL;
->> double whitespace here.
-> thanks.
->>
->>> +	kref_put(&dev->ref, nvme_rdma_free_dev);
->>> +}
->>> +
->>> +static void nvme_rdma_ctrl_dev_get(struct nvme_rdma_ctrl *ctrl,
->>> +				   struct nvme_rdma_device *dev)
->>> +{
->>> +	kref_get(&dev->ref);
->>> +	ctrl->device = dev;
->> Why aren't these using nvme_rdma_dev_put / nvme_rdma_dev_get?
->
-> Since we change the ctrl->device pointer here.
->
-> Do you prefer doing it without helper ?
+> Change since v2: Use 'unsigned int' instead of just 'unsiged'
 
-We can still use the helper underneath instead of open coding the kref
-calls, right?
+Those are equivalent in C, why bother changing it?
+
+> +int nvme_set_features(struct nvme_ctrl *dev, unsigned int fid, unsigned int dword11,
+
+Especially as this now creates lines > 80 characters in various places.
