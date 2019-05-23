@@ -1,38 +1,26 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 23 May 2019 16:10:54 +0200
-Subject: [PATCH 0/2] Reset timeout for paused hardware
-In-Reply-To: <20190523132304.GB14049@localhost.localdomain>
-References: <20190522174812.5597-1-keith.busch@intel.com>
- <20190523032925.GA10601@ming.t460p>
- <CAOSXXT45jyLrKZ56QOPGWFyajtSvgPQcT+f2nj95n9Eowb44FA@mail.gmail.com>
- <20190523101311.GB15492@lst.de>
- <20190523132304.GB14049@localhost.localdomain>
-Message-ID: <20190523141054.GA19635@lst.de>
+From: akinobu.mita@gmail.com (Akinobu Mita)
+Date: Thu, 23 May 2019 23:21:28 +0900
+Subject: [PATCH v2 4/4] nvme-pci: support thermal zone
+In-Reply-To: <20190522174648.GA26477@infradead.org>
+References: <1558454649-28783-1-git-send-email-akinobu.mita@gmail.com>
+ <1558454649-28783-5-git-send-email-akinobu.mita@gmail.com>
+ <20190522174648.GA26477@infradead.org>
+Message-ID: <CAC5umyhsnk_g5N+k_dMiBenPopGCLHg35+X2Jg+sEPBf2ZLKHA@mail.gmail.com>
 
-On Thu, May 23, 2019@07:23:04AM -0600, Keith Busch wrote:
-> > Figure 49: Asynchronous Event Information - Notice
-> > 
-> > 1h		Firmware Activation Starting: The controller is starting
-> > 		a firmware activation process during which command
-> > 		processing is paused. Host software may use CSTS.PP to
-> > 		determine when command processing has resumed. To clear
-> > 		this event, host software reads the Firmware Slot
-> > 		Information log page.
-> > 
-> > So we are supposed to get an AEN before the device stops processing
-> > commands.
-> 
-> Hm, I read the same section, but conclude differently (and at least some
-> vendors did too). A spec compliant controller activating new firmware
-> without reset would stop processing commands and set CSTS.PP first,
-> then send the AEN. When the host is aware to poll Processing Paused,
-> the controller hasn't been processing new commands for some time.
-> 
-> Could you give some more detail on your interpretation?
+2019?5?23?(?) 2:46 Christoph Hellwig <hch at infradead.org>:
+>
+> Is there any good reason why we need to call this from the PCIe driver
+> instead of handling it all in the core?
 
-What would be the point of the AEN if it wasn't sent at exactly
-the point when the controller stops acceppting command?
+OK. I'll move the thermal zones registration and unregistration into the
+core module.
 
-The wording is of course NVMe-like, but "The controller is starting a.."
-pretty clear implies this is sent at the beginning of the paused
-state, not the end.
+Call nvme_thermal_zones_register() in nvme_init_identify(), and call
+nvme_thermal_zones_unregister() in nvme_stop_ctrl().
+
+> Sure non-PCIe devices are usually external, but so are some PCIe
+> devices, so if we really care about that we need some sort of flag
+> anyway.
+
+I'm going to not use the flag in next version.
+If there is a demand, we'll have 'use_tz' or 'no_tz' flag in nvme_ctrl.
