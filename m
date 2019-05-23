@@ -1,29 +1,69 @@
 From: kbusch@kernel.org (Keith Busch)
-Date: Thu, 23 May 2019 07:34:29 -0600
-Subject: [PATCH 2/2] nvme: reset request timeouts during fw activation
-In-Reply-To: <20190523101953.GA18805@ming.t460p>
-References: <20190522174812.5597-1-keith.busch@intel.com>
- <20190522174812.5597-3-keith.busch@intel.com>
- <20190523101953.GA18805@ming.t460p>
-Message-ID: <20190523133428.GC14049@localhost.localdomain>
+Date: Thu, 23 May 2019 07:39:46 -0600
+Subject: [PATCH 9/9] nvme: Retrieve namespaces during list-subsys cmd
+In-Reply-To: <0c677aa1-aa60-dddd-4a3f-a339545fee63@mellanox.com>
+References: <1558543193-24752-1-git-send-email-maxg@mellanox.com>
+ <1558543193-24752-10-git-send-email-maxg@mellanox.com>
+ <20190522224955.GC5857@localhost.localdomain>
+ <0c677aa1-aa60-dddd-4a3f-a339545fee63@mellanox.com>
+Message-ID: <20190523133946.GE14049@localhost.localdomain>
 
-On Thu, May 23, 2019@03:19:54AM -0700, Ming Lei wrote:
-> On Wed, May 22, 2019@11:48:12AM -0600, Keith Busch wrote:
-> > @@ -3605,6 +3606,11 @@ static void nvme_fw_act_work(struct work_struct *work)
-> >  				msecs_to_jiffies(admin_timeout * 1000);
-> >  
-> >  	nvme_stop_queues(ctrl);
-> > +	nvme_sync_queues(ctrl);
-> > +
-> > +	blk_mq_quiesce_queue(ctrl->admin_q);
-> > +	blk_sync_queue(ctrl->admin_q);
+On Thu, May 23, 2019@01:01:54AM -0700, Max Gurtovoy wrote:
 > 
-> blk_sync_queue() may not halt timeout detection completely since the
-> timeout work may reset timer again.
+> On 5/23/2019 1:49 AM, Keith Busch wrote:
+> > On Wed, May 22, 2019@07:39:53PM +0300, Max Gurtovoy wrote:
+> >> Add an association between subsystems/ctrls/namespaces using
+> >> "nvme list-subsys" command. Now this command will show the following:
+> >>
+> >> nvme-subsys4 - NQN=testsubsystem_0
+> >> \
+> >>   +- nvme4 rdma traddr=12.212.99.85 trsvcid=4420 live
+> >>   \
+> >>    +- nvme4n1
+> >>    +- nvme4n2
+> >>    +- nvme4n3
+> >>   +- nvme5 rdma traddr=12.212.99.85 trsvcid=4420 live
+> >>   \
+> >>    +- nvme5n1
+> >>    +- nvme5n2
+> >>    +- nvme5n3
+> >>
+> >> Instead of:
+> >> ----------------
+> >> nvme-subsys4 - NQN=testsubsystem_0
+> >> \
+> >>   +- nvme4 rdma traddr=12.212.99.85 trsvcid=4420
+> >>   +- nvme5 rdma traddr=12.212.99.85 trsvcid=4420
+> > This is a terrific start. Your output indicates you are not using
+> > nvme native multipathing, though. Could you retry this command with
+> > that enabled (I'll try it tomorrow as well)?
+> 
+> Yup I'll configure the native multipath. But what is expected ?
+> 
+> should we print nvme4c1n1/nvme4c1n2/nvme4c1n3 for nvme4
+> 
+> and nvme4c2n1/nvme4c2n2/nvme4c2n3 for nvme5 ?
+> 
+> if so, I guess the information on the "IO-ble" devices 
+> nvme4n1/nvme4n2/nvme4n3 will not be printed.
+> 
+> something like:
+> 
+> nvme-subsys4 - NQN=testsubsystem_0
+> \
+>  ?+- nvme4 rdma traddr=12.212.99.85 trsvcid=4420 live
+>  ?\
+>  ? +- nvme4c1n1
+>  ? +- nvme4c1n2
+>  ? +- nvme4c1n3
+>  ?+- nvme5 rdma traddr=12.212.99.85 trsvcid=4420 live
+>  ?\
+>  ? +- nvme4c2n1
+>  ? +- nvme4c2n2
+>  ? +- nvme4c2n3
+> 
+> 
+> if this if fine I'll send a V2 with a small fix.
 
-Doh! Didn't hit that in testing, but point taken.
- 
-> Also reset still may come during activating FW, is that a problem?
-
-IO timeout and user initiated resets should be avoided. A state machine
-addition may be useful here.
+I think we'd actually prefer not seeing the hidden block devices, but
+instead use the device name from the "head": nvme4n1, nvme4n2, etc...
