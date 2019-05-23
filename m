@@ -1,41 +1,29 @@
 From: kbusch@kernel.org (Keith Busch)
-Date: Thu, 23 May 2019 07:23:04 -0600
-Subject: [PATCH 0/2] Reset timeout for paused hardware
-In-Reply-To: <20190523101311.GB15492@lst.de>
+Date: Thu, 23 May 2019 07:34:29 -0600
+Subject: [PATCH 2/2] nvme: reset request timeouts during fw activation
+In-Reply-To: <20190523101953.GA18805@ming.t460p>
 References: <20190522174812.5597-1-keith.busch@intel.com>
- <20190523032925.GA10601@ming.t460p>
- <CAOSXXT45jyLrKZ56QOPGWFyajtSvgPQcT+f2nj95n9Eowb44FA@mail.gmail.com>
- <20190523101311.GB15492@lst.de>
-Message-ID: <20190523132304.GB14049@localhost.localdomain>
+ <20190522174812.5597-3-keith.busch@intel.com>
+ <20190523101953.GA18805@ming.t460p>
+Message-ID: <20190523133428.GC14049@localhost.localdomain>
 
-On Thu, May 23, 2019@03:13:11AM -0700, Christoph Hellwig wrote:
-> On Wed, May 22, 2019@09:48:10PM -0600, Keith Busch wrote:
-> > Yeah, that's a good question. A FW update may have been initiated out
-> > of band or from another host entirely. The driver can't count on
-> > preparing for hardware pausing command processing before it's
-> > happened, but we'll always find out asynchronously after it's too late
-> > to freeze.
+On Thu, May 23, 2019@03:19:54AM -0700, Ming Lei wrote:
+> On Wed, May 22, 2019@11:48:12AM -0600, Keith Busch wrote:
+> > @@ -3605,6 +3606,11 @@ static void nvme_fw_act_work(struct work_struct *work)
+> >  				msecs_to_jiffies(admin_timeout * 1000);
+> >  
+> >  	nvme_stop_queues(ctrl);
+> > +	nvme_sync_queues(ctrl);
+> > +
+> > +	blk_mq_quiesce_queue(ctrl->admin_q);
+> > +	blk_sync_queue(ctrl->admin_q);
 > 
-> I don't think that is the case at least for spec compliant devices.
-> 
-> From NVMe 1.3:
-> 
-> Figure 49: Asynchronous Event Information - Notice
-> 
-> 1h		Firmware Activation Starting: The controller is starting
-> 		a firmware activation process during which command
-> 		processing is paused. Host software may use CSTS.PP to
-> 		determine when command processing has resumed. To clear
-> 		this event, host software reads the Firmware Slot
-> 		Information log page.
-> 
-> So we are supposed to get an AEN before the device stops processing
-> commands.
+> blk_sync_queue() may not halt timeout detection completely since the
+> timeout work may reset timer again.
 
-Hm, I read the same section, but conclude differently (and at least some
-vendors did too). A spec compliant controller activating new firmware
-without reset would stop processing commands and set CSTS.PP first,
-then send the AEN. When the host is aware to poll Processing Paused,
-the controller hasn't been processing new commands for some time.
+Doh! Didn't hit that in testing, but point taken.
+ 
+> Also reset still may come during activating FW, is that a problem?
 
-Could you give some more detail on your interpretation?
+IO timeout and user initiated resets should be avoided. A state machine
+addition may be useful here.
