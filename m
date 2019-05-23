@@ -1,38 +1,32 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Thu, 23 May 2019 12:00:49 +0300
-Subject: [PATCH v2 0/9] Add Subsystem/Ctrl/Namespace relations (nvme-cli)
-Message-ID: <1558602058-29434-1-git-send-email-maxg@mellanox.com>
+Date: Thu, 23 May 2019 12:00:51 +0300
+Subject: [PATCH 2/9] nvme: update description for "nvme list" command
+In-Reply-To: <1558602058-29434-1-git-send-email-maxg@mellanox.com>
+References: <1558602058-29434-1-git-send-email-maxg@mellanox.com>
+Message-ID: <1558602058-29434-3-git-send-email-maxg@mellanox.com>
 
-This patchset introduce few small bug fixes for memory leaks, improve
-coding style, improve code readability and mainly focus on the "nvme list-subsys"
-command. This command will show the whole NVM subsystem list (same as "nvme list"
-does for namespaces).
-The patchset ends with adding namespaces entry per each ctrl in the system.
-Actually, at first stage, we'll print only the namespace handle (nvme0n1 for
-example). Later on, we can add more attribute per demand (uuid, nguid, capacity,
-etc...).
+The "nvme list" command doesn't get any device handle as an input
+argument. This operation prints out a basic information for all NVMe
+namespaces in the system.
 
-Changes from v1:
- - Added Reviewed-by sign (thanks Minwoo Im)
- - Added check for invalid nsid (proposed by Minwoo Im)
- - Fixed the output for native NVMe multipath
+Reviewed-by: Minwoo Im <minwoo.im at samsung.com>
+Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ nvme.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Max Gurtovoy (9):
-  nvme: update list-ns nsid option
-  nvme: update description for "nvme list" command
-  fabrics: Fix memory leak of subsys list
-  nvme-print: fix json object memory leak
-  nvme: fix coding style issue
-  nvme: update list-subsys command to show the entire list
-  nvme-print: Introduce show_nvme_ctrl helper
-  nvme-print: Rename "Paths" --> "Ctrls" for json output in list-subsys
-  nvme: Retrieve namespaces during list-subsys cmd
-
- fabrics.c    |   6 +-
- nvme-print.c |  52 +++++++----
- nvme.c       | 281 ++++++++++++++++++++++++-----------------------------------
- nvme.h       |   9 +-
- 4 files changed, 158 insertions(+), 190 deletions(-)
-
+diff --git a/nvme.c b/nvme.c
+index 3c1bcb1..fd86779 100644
+--- a/nvme.c
++++ b/nvme.c
+@@ -1797,7 +1797,7 @@ static int list(int argc, char **argv, struct command *cmd, struct plugin *plugi
+ 	struct list_item *list_items;
+ 	unsigned int list_cnt = 0;
+ 	int fmt, ret, fd, i, n;
+-	const char *desc = "Retrieve basic information for the given device";
++	const char *desc = "Retrieve basic information for all NVMe namespaces";
+ 	struct config {
+ 		char *output_format;
+ 	};
 -- 
 1.8.3.1
