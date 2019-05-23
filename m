@@ -1,54 +1,36 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Fri, 24 May 2019 00:12:32 +0900
-Subject: [PATCH 7/9] nvme-print: Introduce show_nvme_ctrl helper
-In-Reply-To: <1558602058-29434-8-git-send-email-maxg@mellanox.com>
-References: <1558602058-29434-1-git-send-email-maxg@mellanox.com>
- <1558602058-29434-8-git-send-email-maxg@mellanox.com>
-Message-ID: <20190523151230.GB27763@minwooim-desktop>
+From: kbusch@kernel.org (Keith Busch)
+Date: Thu, 23 May 2019 09:27:11 -0600
+Subject: [PATCHv2 6/6] nvme-pci: Use host managed power state for suspend
+In-Reply-To: <20190522230810.GA14049@localhost.localdomain>
+References: <CAJZ5v0j0V10BYrME=KU1AJXGDMRUFFHiZEHQnsXhNJGPZKBSUw@mail.gmail.com>
+ <20190517090521.GA15509@lst.de>
+ <CAJZ5v0iL+ERE4Yy5yO8U2no194sRkvqNZHh5HsZXKvvHbxtk+g@mail.gmail.com>
+ <20190517093516.GA17006@lst.de>
+ <CAJZ5v0gLqL7GUjwz5F8=9Fc-W2n3FRzbbB2L8udaXgN4Vsd8-Q@mail.gmail.com>
+ <D4CDCA72-A3B8-4717-9ED2-A14254C78963@canonical.com>
+ <20190522155253.GA29827@lst.de>
+ <20190522160221.GB5393@localhost.localdomain>
+ <1558542950751.23268@Dell.com>
+ <20190522230810.GA14049@localhost.localdomain>
+Message-ID: <20190523152710.GB14943@localhost.localdomain>
 
-On 19-05-23 12:00:56, Max Gurtovoy wrote:
-> This is a preparation patch for adding namespaces attribute for each
-> controller.
+On Wed, May 22, 2019@04:08:10PM -0700, Keith Busch wrote:
+> On Wed, May 22, 2019@04:35:50PM +0000, Mario.Limonciello@dell.com wrote:
+> > >I've a branch here that I'll send to the mailing list after some testing
+> > >this afternoon
+> > 
+> >  > https://git.kernel.org/pub/scm/linux/kernel/git/kbusch/linux.git/log/?h=nvme-power
+> > 
+> > Make sure you do your testing with Rafael's patch that keeps the device in D0 across the
+> > various suspend steps, I didn't see it obviously on your branch in the last 2 weeks of
+> > commits.
 > 
-> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
-> ---
->  nvme-print.c | 16 +++++++++-------
->  1 file changed, 9 insertions(+), 7 deletions(-)
-> 
-> diff --git a/nvme-print.c b/nvme-print.c
-> index 7316117..7e1f9ea 100644
-> --- a/nvme-print.c
-> +++ b/nvme-print.c
-> @@ -2843,6 +2843,13 @@ void json_sanitize_log(struct nvme_sanitize_log_page *sanitize_log, const char *
->  	json_free_object(root);
->  }
->  
-> +static void show_nvme_ctrl(struct ctrl_list_item *item)
-> +{
-> +	printf(" +- %s %s %s %s\n", item->name, item->transport, item->address,
-> +	       item->state);
-> +}
-> +
-> +
->  static void show_nvme_subsystem(struct subsys_list_item *item)
->  {
->  	int i;
-> @@ -2850,13 +2857,8 @@ static void show_nvme_subsystem(struct subsys_list_item *item)
->  	printf("%s - NQN=%s\n", item->name, item->subsysnqn);
->  	printf("\\\n");
->  
-> -	for (i = 0; i < item->nctrls; i++) {
-> -		printf(" +- %s %s %s %s\n", item->ctrls[i].name,
-> -				item->ctrls[i].transport,
-> -				item->ctrls[i].address,
-> -				item->ctrls[i].state);
-> -	}
-> -
-> +	for (i = 0; i < item->nctrls; i++)
-> +		show_nvme_ctrl(&item->ctrls[i]);
->  }
+> Well, I may have picked an unlucky rebase point. I can't run the tests,
+> but it doesn't look like it has anything to do with the nvme changes. I'll
+> go back to my original stable point and try again tomorrow.
 
+Kernel repo was fine, I just had the wrong kconfig that was intended for my
+minimal vm's.
 
-This looks good to me.
-
-Reviewed-by: Minwoo Im <minwoo.im.dev at gmail.com>
+Tests are successful now (though still only faking deeper NPSS), posting
+new series shortly.
