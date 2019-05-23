@@ -1,35 +1,45 @@
-From: kbusch@kernel.org (Keith Busch)
-Date: Thu, 23 May 2019 15:59:13 -0600
-Subject: [RFC PATCH] nvme: Ignore timeouts while a PCIe reset is pending
-In-Reply-To: <3f191e74-09ed-4356-d467-0ae222018e70@intel.com>
-References: <20190522003741.26755-1-kenneth.heitke@intel.com>
- <20190522192656.GB5486@localhost.localdomain>
- <20190522200918.GC5486@localhost.localdomain>
- <3f191e74-09ed-4356-d467-0ae222018e70@intel.com>
-Message-ID: <20190523215912.GB15192@localhost.localdomain>
+From: kenneth.heitke@intel.com (Kenneth Heitke)
+Date: Thu, 23 May 2019 17:14:29 -0600
+Subject: [PATCH] nvme: Ignore timeouts while PCI config access is blocked
+Message-ID: <20190523231429.21235-1-kenneth.heitke@intel.com>
 
-On Thu, May 23, 2019@03:57:22PM -0600, Heitke, Kenneth wrote:
-> On 5/22/2019 2:09 PM, Keith Busch wrote:
-> > @@ -2782,12 +2783,13 @@ static void nvme_reset_prepare(struct pci_dev *pdev)
-> >   {
-> >   	struct nvme_dev *dev = pci_get_drvdata(pdev);
-> >   	nvme_dev_disable(dev, false);
-> > +	nvme_sync_queues(&dev->ctrl);
-> >   }
-> >   static void nvme_reset_done(struct pci_dev *pdev)
-> >   {
-> >   	struct nvme_dev *dev = pci_get_drvdata(pdev);
-> > -	nvme_reset_ctrl_sync(&dev->ctrl);
-> > +	nvme_reset_ctrl(&dev->ctrl);
-> >   }
-> >   static void nvme_shutdown(struct pci_dev *pdev)
-> > --
-> > 
-> 
-> For my specific case, is the sync_queues and reset_ctrl change needed as
-> well?
+If an admin command timeout occurs while a PCIe reset (FLR) is
+pending, the CSTS bits may not be valid which could result in
+the controller being removed.
 
-I shouldn't have included the sync_queue part.
+Signed-off-by: Kenneth Heitke <kenneth.heitke at intel.com>
+---
+ drivers/nvme/host/pci.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Definitely need the nvme_reset_ctrl change as blk_cfg_access is still
-set here so need to reset asynchronously to unblock new timeouts.
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 2a8708c9ac18..7cd7e6287d5f 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1258,13 +1258,14 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ 	struct request *abort_req;
+ 	struct nvme_command cmd;
+ 	bool shutdown = false;
++	struct pci_dev *pdev = to_pci_dev(dev->dev);
+ 	u32 csts = readl(dev->bar + NVME_REG_CSTS);
+ 
+ 	/* If PCI error recovery process is happening, we cannot reset or
+ 	 * the recovery mechanism will surely fail.
+ 	 */
+ 	mb();
+-	if (pci_channel_offline(to_pci_dev(dev->dev)))
++	if (pci_channel_offline(to_pci_dev(dev->dev)) || pdev->block_cfg_access)
+ 		return BLK_EH_RESET_TIMER;
+ 
+ 	/*
+@@ -2786,7 +2787,7 @@ static void nvme_reset_prepare(struct pci_dev *pdev)
+ static void nvme_reset_done(struct pci_dev *pdev)
+ {
+ 	struct nvme_dev *dev = pci_get_drvdata(pdev);
+-	nvme_reset_ctrl_sync(&dev->ctrl);
++	nvme_reset_ctrl(&dev->ctrl);
+ }
+ 
+ static void nvme_shutdown(struct pci_dev *pdev)
+-- 
+2.17.1
