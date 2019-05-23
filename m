@@ -1,36 +1,80 @@
-From: kbusch@kernel.org (Keith Busch)
-Date: Thu, 23 May 2019 09:27:11 -0600
-Subject: [PATCHv2 6/6] nvme-pci: Use host managed power state for suspend
-In-Reply-To: <20190522230810.GA14049@localhost.localdomain>
-References: <CAJZ5v0j0V10BYrME=KU1AJXGDMRUFFHiZEHQnsXhNJGPZKBSUw@mail.gmail.com>
- <20190517090521.GA15509@lst.de>
- <CAJZ5v0iL+ERE4Yy5yO8U2no194sRkvqNZHh5HsZXKvvHbxtk+g@mail.gmail.com>
- <20190517093516.GA17006@lst.de>
- <CAJZ5v0gLqL7GUjwz5F8=9Fc-W2n3FRzbbB2L8udaXgN4Vsd8-Q@mail.gmail.com>
- <D4CDCA72-A3B8-4717-9ED2-A14254C78963@canonical.com>
- <20190522155253.GA29827@lst.de>
- <20190522160221.GB5393@localhost.localdomain>
- <1558542950751.23268@Dell.com>
- <20190522230810.GA14049@localhost.localdomain>
-Message-ID: <20190523152710.GB14943@localhost.localdomain>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 23 May 2019 09:27:34 -0600
+Subject: [PATCHv3 1/2] nvme: Export get and set features
+Message-ID: <20190523152735.15052-1-keith.busch@intel.com>
 
-On Wed, May 22, 2019@04:08:10PM -0700, Keith Busch wrote:
-> On Wed, May 22, 2019@04:35:50PM +0000, Mario.Limonciello@dell.com wrote:
-> > >I've a branch here that I'll send to the mailing list after some testing
-> > >this afternoon
-> > 
-> >  > https://git.kernel.org/pub/scm/linux/kernel/git/kbusch/linux.git/log/?h=nvme-power
-> > 
-> > Make sure you do your testing with Rafael's patch that keeps the device in D0 across the
-> > various suspend steps, I didn't see it obviously on your branch in the last 2 weeks of
-> > commits.
-> 
-> Well, I may have picked an unlucky rebase point. I can't run the tests,
-> but it doesn't look like it has anything to do with the nvme changes. I'll
-> go back to my original stable point and try again tomorrow.
+Future use intends to make use of both, so export these functions. And
+since their implementation is identical except for the opcode, provide a
+new function that implement both.
 
-Kernel repo was fine, I just had the wrong kconfig that was intended for my
-minimal vm's.
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+Change since v2: Use 'unsigned int' instead of just 'unsiged'
 
-Tests are successful now (though still only faking deeper NPSS), posting
-new series shortly.
+ drivers/nvme/host/core.c | 22 +++++++++++++++++++---
+ drivers/nvme/host/nvme.h |  4 ++++
+ 2 files changed, 23 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index f6879e417386..bf489800bf89 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1113,15 +1113,15 @@ static struct nvme_id_ns *nvme_identify_ns(struct nvme_ctrl *ctrl,
+ 	return id;
+ }
+ 
+-static int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword11,
+-		      void *buffer, size_t buflen, u32 *result)
++static int nvme_features(struct nvme_ctrl *dev, u8 op, unsigned int fid,
++		unsigned int dword11, void *buffer, size_t buflen, u32 *result)
+ {
+ 	struct nvme_command c;
+ 	union nvme_result res;
+ 	int ret;
+ 
+ 	memset(&c, 0, sizeof(c));
+-	c.features.opcode = nvme_admin_set_features;
++	c.features.opcode = op;
+ 	c.features.fid = cpu_to_le32(fid);
+ 	c.features.dword11 = cpu_to_le32(dword11);
+ 
+@@ -1132,6 +1132,22 @@ static int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword
+ 	return ret;
+ }
+ 
++int nvme_set_features(struct nvme_ctrl *dev, unsigned int fid, unsigned int dword11,
++		      void *buffer, size_t buflen, u32 *result)
++{
++	return nvme_features(dev, nvme_admin_set_features, fid, dword11, buffer,
++			     buflen, result);
++}
++EXPORT_SYMBOL_GPL(nvme_set_features);
++
++int nvme_get_features(struct nvme_ctrl *dev, unsigned int fid, unsigned int dword11,
++		      void *buffer, size_t buflen, u32 *result)
++{
++	return nvme_features(dev, nvme_admin_get_features, fid, dword11, buffer,
++			     buflen, result);
++}
++EXPORT_SYMBOL_GPL(nvme_get_features);
++
+ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count)
+ {
+ 	u32 q_count = (*count - 1) | ((*count - 1) << 16);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 55553d293a98..c7f6ce548b66 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -459,6 +459,10 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+ 		union nvme_result *result, void *buffer, unsigned bufflen,
+ 		unsigned timeout, int qid, int at_head,
+ 		blk_mq_req_flags_t flags, bool poll);
++int nvme_set_features(struct nvme_ctrl *dev, unsigned int fid, unsigned int dword11,
++		      void *buffer, size_t buflen, u32 *result);
++int nvme_get_features(struct nvme_ctrl *dev, unsigned int fid, unsigned int dword11,
++		      void *buffer, size_t buflen, u32 *result);
+ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count);
+ void nvme_stop_keep_alive(struct nvme_ctrl *ctrl);
+ int nvme_reset_ctrl(struct nvme_ctrl *ctrl);
+-- 
+2.14.4
