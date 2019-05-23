@@ -1,31 +1,57 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 23 May 2019 12:13:11 +0200
-Subject: [PATCH 0/2] Reset timeout for paused hardware
-In-Reply-To: <CAOSXXT45jyLrKZ56QOPGWFyajtSvgPQcT+f2nj95n9Eowb44FA@mail.gmail.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Thu, 23 May 2019 18:19:54 +0800
+Subject: [PATCH 2/2] nvme: reset request timeouts during fw activation
+In-Reply-To: <20190522174812.5597-3-keith.busch@intel.com>
 References: <20190522174812.5597-1-keith.busch@intel.com>
- <20190523032925.GA10601@ming.t460p>
- <CAOSXXT45jyLrKZ56QOPGWFyajtSvgPQcT+f2nj95n9Eowb44FA@mail.gmail.com>
-Message-ID: <20190523101311.GB15492@lst.de>
+ <20190522174812.5597-3-keith.busch@intel.com>
+Message-ID: <20190523101953.GA18805@ming.t460p>
 
-On Wed, May 22, 2019@09:48:10PM -0600, Keith Busch wrote:
-> Yeah, that's a good question. A FW update may have been initiated out
-> of band or from another host entirely. The driver can't count on
-> preparing for hardware pausing command processing before it's
-> happened, but we'll always find out asynchronously after it's too late
-> to freeze.
+On Wed, May 22, 2019@11:48:12AM -0600, Keith Busch wrote:
+> The nvme controller may pause command processing during firmware
+> activation. The driver will quiesce queues during this time, but commands
+> dispatched prior to the notification will not be processed until the
+> hardware completes this activation.
+> 
+> We do not want those requests to time out while the hardware is in
+> this paused state as we don't expect those commands to complete during
+> this time, and that handling will interfere with the firmware activation
+> process.
+> 
+> In addition to quiescing the queues, halt timeout detection during the
+> paused state and reset the dispatched request deadlines when the hardware
+> exists that state. This action applies to IO and admin queues.
+> 
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> ---
+>  drivers/nvme/host/core.c | 20 ++++++++++++++++++++
+>  1 file changed, 20 insertions(+)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 1b7c2afd84cb..37a9a66ada22 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -89,6 +89,7 @@ static dev_t nvme_chr_devt;
+>  static struct class *nvme_class;
+>  static struct class *nvme_subsys_class;
+>  
+> +static void nvme_reset_queues(struct nvme_ctrl *ctrl);
+>  static int nvme_revalidate_disk(struct gendisk *disk);
+>  static void nvme_put_subsystem(struct nvme_subsystem *subsys);
+>  static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
+> @@ -3605,6 +3606,11 @@ static void nvme_fw_act_work(struct work_struct *work)
+>  				msecs_to_jiffies(admin_timeout * 1000);
+>  
+>  	nvme_stop_queues(ctrl);
+> +	nvme_sync_queues(ctrl);
+> +
+> +	blk_mq_quiesce_queue(ctrl->admin_q);
+> +	blk_sync_queue(ctrl->admin_q);
 
-I don't think that is the case at least for spec compliant devices.
+blk_sync_queue() may not halt timeout detection completely since the
+timeout work may reset timer again.
 
->From NVMe 1.3:
+Also reset still may come during activating FW, is that a problem?
 
-Figure 49: Asynchronous Event Information - Notice
 
-1h		Firmware Activation Starting: The controller is starting
-		a firmware activation process during which command
-		processing is paused. Host software may use CSTS.PP to
-		determine when command processing has resumed. To clear
-		this event, host software reads the Firmware Slot
-		Information log page.
-
-So we are supposed to get an AEN before the device stops processing
-commands.
+Thanks,
+Ming
