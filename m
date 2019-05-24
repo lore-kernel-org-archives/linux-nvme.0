@@ -1,26 +1,19 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 23 May 2019 23:45:28 -0700
-Subject: [RFC PATCH] nvme: Ignore timeouts while a PCIe reset is pending
-In-Reply-To: <20190522200918.GC5486@localhost.localdomain>
-References: <20190522003741.26755-1-kenneth.heitke@intel.com>
- <20190522192656.GB5486@localhost.localdomain>
- <20190522200918.GC5486@localhost.localdomain>
-Message-ID: <e01d7206-dc2c-b3cf-548a-4cb5ffc5bd19@grimberg.me>
+Date: Thu, 23 May 2019 23:46:50 -0700
+Subject: [PATCH 1/4] nvme: separate out nvme_ctrl_state_name()
+In-Reply-To: <20190520063624.50338-2-hare@suse.de>
+References: <20190520063624.50338-1-hare@suse.de>
+ <20190520063624.50338-2-hare@suse.de>
+Message-ID: <58613917-e96b-a325-7de4-75eaf8a2a138@grimberg.me>
 
-Keith,
 
-> I think we should do the above anyway, but it isn't going to help if
-> commands dispatched outside disabling timeout. This should fix that.
-> Note, we never needed to have a sync'ed reset on reset_done(), but
-> this makes it necessary.
+> +const char *nvme_ctrl_state_name(struct nvme_ctrl *ctrl)
+> +{
+> +	if ((unsigned)ctrl->state < ARRAY_SIZE(nvme_ctrl_state_names) &&
+> +	    nvme_ctrl_state_names[ctrl->state])
+> +		return nvme_ctrl_state_names[ctrl->state];
+> +	return "unknown state";
 
-With async reset on reset_done() what guarantees that nvme_dev_disable
-does not run concurrently with another context of nvme_reset_work? both
-mangle with the same queues assuming that they are not running
-concurrently.
+Maybe just "unknown"?
 
-quick archive browse got me to:
-http://lists.infradead.org/pipermail/linux-nvme/2017-December/014599.html
-
-discussion on my patch, but I think that it was a side effect from
-ming's tests..
+Otherwise looks fine..
