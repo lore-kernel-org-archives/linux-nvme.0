@@ -1,179 +1,36 @@
-From: kai.heng.feng@canonical.com (Kai-Heng Feng)
-Date: Fri, 24 May 2019 13:42:30 +0800
-Subject: [PATCHv3 2/2] nvme-pci: Use host managed power state for suspend
-In-Reply-To: <20190523152735.15052-2-keith.busch@intel.com>
-References: <20190523152735.15052-1-keith.busch@intel.com>
- <20190523152735.15052-2-keith.busch@intel.com>
-Message-ID: <966745B5-CA0F-486D-B784-0018302F6DE9@canonical.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 23 May 2019 23:24:29 -0700
+Subject: [PATCH] nvme-rdma: Fix a NULL deref when lesser io queues are
+ allocated.
+In-Reply-To: <20190524044341.GA5129@chelsio.com>
+References: <2936d0e0de627fce13f78fca2ef93960aab0d929.1558534119.git.nirranjan@chelsio.com>
+ <bf05c7f8-7a97-5e67-3476-b92c698a23a9@mellanox.com>
+ <20190523075524.GA15479@chelsio.com>
+ <06d347cc-7df6-c2b3-2edf-88a53db3c12d@mellanox.com>
+ <20190523114157.GA9479@chelsio.com>
+ <033ac067-29b1-30ff-6ad0-5e13510649bd@mellanox.com>
+ <20190524044341.GA5129@chelsio.com>
+Message-ID: <955d9336-50d7-248c-eed8-3b038f6a5a11@grimberg.me>
 
-at 23:27, Keith Busch <keith.busch@intel.com> wrote:
 
-> The nvme pci driver prepares its devices for power loss during suspend
-> by shutting down the controllers. The power setting is deferred to
-> pci driver's power management before the platform removes power. The
-> suspend-to-idle mode, however, does not remove power.
->
-> NVMe devices that implement host managed power settings can achieve
-> lower power and better transition latencies than using generic PCI power
-> settings. Try to use this feature if the platform is not involved with
-> the suspend. If successful, restore the previous power state on resume.
->
-> Cc: Mario Limonciello <Mario.Limonciello at dell.com>
-> Cc: Kai Heng Feng <kai.heng.feng at canonical.com>
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
+>> I'll take deeper look on it next week but please try the new attached patch
+> This new patch holds good for the minimal testing I did, with target allocating
+> lesser queues.
 
-Tested-by: Kai-Heng Feng <kai.heng.feng at canonical.com>
+Hi,
 
-> ---
-> v2 -> v3:
->
->   Removed the HMB handling. We've determined this is not be
->   necessary in a s2i state.
->
->   Splitting PM ops (Rafael)
->
->   Incorporated improvements from Christoph
->
->  drivers/nvme/host/pci.c | 96 +++++++++++++++++++++++++++++++++++++++++++++++--
->  1 file changed, 93 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 599065ed6a32..47da55abb56b 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -18,6 +18,7 @@
->  #include <linux/mutex.h>
->  #include <linux/once.h>
->  #include <linux/pci.h>
-> +#include <linux/suspend.h>
->  #include <linux/t10-pi.h>
->  #include <linux/types.h>
->  #include <linux/io-64-nonatomic-lo-hi.h>
-> @@ -116,6 +117,7 @@ struct nvme_dev {
->  	u32 cmbsz;
->  	u32 cmbloc;
->  	struct nvme_ctrl ctrl;
-> +	u32 last_ps;
->
->  	mempool_t *iod_mempool;
->
-> @@ -2829,16 +2831,94 @@ static void nvme_remove(struct pci_dev *pdev)
->  }
->
->  #ifdef CONFIG_PM_SLEEP
-> +static int nvme_get_power_state(struct nvme_ctrl *ctrl, u32 *ps)
-> +{
-> +	return nvme_get_features(ctrl, NVME_FEAT_POWER_MGMT, 0, NULL, 0, ps);
-> +}
-> +
-> +static int nvme_set_power_state(struct nvme_ctrl *ctrl, u32 ps)
-> +{
-> +	return nvme_set_features(ctrl, NVME_FEAT_POWER_MGMT, ps, NULL, 0, NULL);
-> +}
-> +
-> +static int nvme_resume(struct device *dev)
-> +{
-> +	struct nvme_dev *ndev = pci_get_drvdata(to_pci_dev(dev));
-> +	struct nvme_ctrl *ctrl = &ndev->ctrl;
-> +
-> +	if (pm_resume_via_firmware() || !ctrl->npss ||
-> +	    nvme_set_power_state(ctrl, ndev->last_ps) != 0)
-> +		nvme_reset_ctrl(ctrl);
-> +	return 0;
-> +}
-> +
->  static int nvme_suspend(struct device *dev)
->  {
->  	struct pci_dev *pdev = to_pci_dev(dev);
->  	struct nvme_dev *ndev = pci_get_drvdata(pdev);
-> +	struct nvme_ctrl *ctrl = &ndev->ctrl;
-> +	int ret = -EBUSY;
-> +
-> +	/*
-> +	 * The platform does not remove power for a kernel managed suspend so
-> +	 * use host managed nvme power settings for lowest idle power if
-> +	 * possible. This should have quicker resume latency than a full device
-> +	 * shutdown.  But if the firmware is involved after the suspend or the
-> +	 * device does not support any non-default power states, shut down the
-> +	 * device fully.
-> +	 */
-> +	if (pm_suspend_via_firmware() || !ctrl->npss) {
-> +		nvme_dev_disable(ndev, true);
-> +		return 0;
-> +	}
-> +
-> +	nvme_start_freeze(ctrl);
-> +	nvme_wait_freeze(ctrl);
-> +	nvme_sync_queues(ctrl);
-> +
-> +	if (ctrl->state != NVME_CTRL_LIVE &&
-> +	    ctrl->state != NVME_CTRL_ADMIN_ONLY)
-> +		goto unfreeze;
-> +
-> +	ndev->last_ps = 0;
-> +	ret = nvme_get_power_state(ctrl, &ndev->last_ps);
-> +	if (ret < 0)
-> +		goto unfreeze;
-> +
-> +	ret = nvme_set_power_state(ctrl, ctrl->npss);
-> +	if (ret < 0)
-> +		goto unfreeze;
-> +
-> +	if (ret) {
-> +		/*
-> +		 * Clearing npss forces a controller reset on resume. The
-> +		 * correct value will be resdicovered then.
-> +		 */
-> +		nvme_dev_disable(ndev, true);
-> +		ctrl->npss = 0;
-> +		ret = 0;
-> +		goto unfreeze;
-> +	}
-> +	/*
-> +	 * A saved state prevents pci pm from generically controlling the
-> +	 * device's power. If we're using protocol specific settings, we don't
-> +	 * want pci interfering.
-> +	 */
-> +	pci_save_state(pdev);
-> +unfreeze:
-> +	nvme_unfreeze(ctrl);
-> +	return ret;
-> +}
-> +
-> +static int nvme_simple_suspend(struct device *dev)
-> +{
-> +	struct nvme_dev *ndev = pci_get_drvdata(to_pci_dev(dev));
->
->  	nvme_dev_disable(ndev, true);
->  	return 0;
->  }
->
-> -static int nvme_resume(struct device *dev)
-> +static int nvme_simple_resume(struct device *dev)
->  {
->  	struct pci_dev *pdev = to_pci_dev(dev);
->  	struct nvme_dev *ndev = pci_get_drvdata(pdev);
-> @@ -2846,9 +2926,19 @@ static int nvme_resume(struct device *dev)
->  	nvme_reset_ctrl(&ndev->ctrl);
->  	return 0;
->  }
-> -#endif
->
-> -static SIMPLE_DEV_PM_OPS(nvme_dev_pm_ops, nvme_suspend, nvme_resume);
-> +const struct dev_pm_ops nvme_dev_pm_ops = {
-> +	.suspend	= nvme_suspend,
-> +	.resume		= nvme_resume,
-> +	.freeze		= nvme_simple_suspend,
-> +	.thaw		= nvme_simple_resume,
-> +	.poweroff	= nvme_simple_suspend,
-> +	.restore	= nvme_simple_resume,
-> +};
-> +
-> +#else
-> +#define nvme_dev_pm_ops		NULL
-> +#endif
->
->  static pci_ers_result_t nvme_error_detected(struct pci_dev *pdev,
->  						pci_channel_state_t state)
-> -- 
-> 2.14.4
+Just got to this one (after ramping up on activity post vacation..)
+
+Max, I think that your patch is missing the case where default+read+poll
+queues are higher than controller queue limit but we can still fit
+a queue separation.
+
+For example:
+- requested 10/10/10 (default/read/poll)
+- supported 28
+
+If I read your patch correctly, this will fall-back to shared read/write
+queue maps with no poll queues (10/0/0), while we'd want in this case
+to still have the separation but simply have less poll queues (10/10/8).
+
+I posted an alternative patch for review.
