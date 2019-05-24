@@ -1,36 +1,17 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 23 May 2019 23:24:29 -0700
-Subject: [PATCH] nvme-rdma: Fix a NULL deref when lesser io queues are
- allocated.
-In-Reply-To: <20190524044341.GA5129@chelsio.com>
-References: <2936d0e0de627fce13f78fca2ef93960aab0d929.1558534119.git.nirranjan@chelsio.com>
- <bf05c7f8-7a97-5e67-3476-b92c698a23a9@mellanox.com>
- <20190523075524.GA15479@chelsio.com>
- <06d347cc-7df6-c2b3-2edf-88a53db3c12d@mellanox.com>
- <20190523114157.GA9479@chelsio.com>
- <033ac067-29b1-30ff-6ad0-5e13510649bd@mellanox.com>
- <20190524044341.GA5129@chelsio.com>
-Message-ID: <955d9336-50d7-248c-eed8-3b038f6a5a11@grimberg.me>
+Date: Thu, 23 May 2019 23:35:45 -0700
+Subject: [PATCH] nvme: Ignore timeouts while PCI config access is blocked
+In-Reply-To: <20190523231429.21235-1-kenneth.heitke@intel.com>
+References: <20190523231429.21235-1-kenneth.heitke@intel.com>
+Message-ID: <99e76784-ce68-c053-9fde-d035d77f11d3@grimberg.me>
 
 
->> I'll take deeper look on it next week but please try the new attached patch
-> This new patch holds good for the minimal testing I did, with target allocating
-> lesser queues.
+>   static void nvme_reset_done(struct pci_dev *pdev)
+>   {
+>   	struct nvme_dev *dev = pci_get_drvdata(pdev);
+> -	nvme_reset_ctrl_sync(&dev->ctrl);
+> +	nvme_reset_ctrl(&dev->ctrl);
 
-Hi,
-
-Just got to this one (after ramping up on activity post vacation..)
-
-Max, I think that your patch is missing the case where default+read+poll
-queues are higher than controller queue limit but we can still fit
-a queue separation.
-
-For example:
-- requested 10/10/10 (default/read/poll)
-- supported 28
-
-If I read your patch correctly, this will fall-back to shared read/write
-queue maps with no poll queues (10/0/0), while we'd want in this case
-to still have the separation but simply have less poll queues (10/10/8).
-
-I posted an alternative patch for review.
+This change is not explained in the change log. This opens a window
+for nvme_reset_work to run concurrently from different contexts which
+is not a good idea...
