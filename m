@@ -1,38 +1,59 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Fri, 24 May 2019 16:23:38 +0800
-Subject: [PATCH 5.0 66/95] nvme: cancel request synchronously
-In-Reply-To: <09c806a8-7be8-3552-265b-d651aaf848e8@grimberg.me>
-References: <20190509181309.180685671@linuxfoundation.org>
- <20190509181314.082604502@linuxfoundation.org>
- <d0cd612d-1bce-50ca-1186-de67054b33c1@mellanox.com>
- <20190521094535.GA28632@ming.t460p>
- <7a4863ba-ece9-e3fa-8396-21736d54e1fe@mellanox.com>
- <20190521104121.GA31530@ming.t460p>
- <23729cbc-3a3f-fe16-be14-71053253c53b@mellanox.com>
- <20190521124908.GA655@ming.t460p>
- <09c806a8-7be8-3552-265b-d651aaf848e8@grimberg.me>
-Message-ID: <20190524082336.GA1058@ming.t460p>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Fri, 24 May 2019 15:07:30 +0300
+Subject: [PATCH] nvme-rdma: Fix a NULL deref when lesser io queues are
+ allocated.
+In-Reply-To: <955d9336-50d7-248c-eed8-3b038f6a5a11@grimberg.me>
+References: <2936d0e0de627fce13f78fca2ef93960aab0d929.1558534119.git.nirranjan@chelsio.com>
+ <bf05c7f8-7a97-5e67-3476-b92c698a23a9@mellanox.com>
+ <20190523075524.GA15479@chelsio.com>
+ <06d347cc-7df6-c2b3-2edf-88a53db3c12d@mellanox.com>
+ <20190523114157.GA9479@chelsio.com>
+ <033ac067-29b1-30ff-6ad0-5e13510649bd@mellanox.com>
+ <20190524044341.GA5129@chelsio.com>
+ <955d9336-50d7-248c-eed8-3b038f6a5a11@grimberg.me>
+Message-ID: <0c738420-1c60-e656-d550-f209c40bf422@mellanox.com>
 
-On Fri, May 24, 2019@01:15:42AM -0700, Sagi Grimberg wrote:
-> 
-> > > is there an API in the block layer to guaranty that ?
-> > 
-> > So far there isn't yet.
-> > 
-> > And it can be built easily against blk_mq_tagset_busy_iter(), then called
-> > in delay-spin style for checking if there is any request marked as
-> > MQ_RQ_COMPLETE.
-> 
-> This will probably make blk_mq_complete_request_sync() redundant
-> wouldn't it?
 
-Suppose there is new API to drain completed request: blk_mq_wait_completing_rq(),
-which has to be called before canceling request.
+On 5/24/2019 9:24 AM, Sagi Grimberg wrote:
+>
+>>> I'll take deeper look on it next week but please try the new 
+>>> attached patch
+>> This new patch holds good for the minimal testing I did, with target 
+>> allocating
+>> lesser queues.
+>
+> Hi,
+>
+> Just got to this one (after ramping up on activity post vacation..)
+>
+> Max, I think that your patch is missing the case where default+read+poll
+> queues are higher than controller queue limit but we can still fit
+> a queue separation.
 
-And it can be used to wait the canceled request too, or keep 
-blk_mq_complete_request_sync() for avoiding the wait.
+My patch was just a draft to see if it fixes the NULL deref.
 
-Either way should be fine, IMO.
 
-Thanks,
-Ming
+
+>
+> For example:
+> - requested 10/10/10 (default/read/poll)
+> - supported 28
+>
+> If I read your patch correctly, this will fall-back to shared read/write
+> queue maps with no poll queues (10/0/0), while we'd want in this case
+> to still have the separation but simply have less poll queues (10/10/8).
+>
+it will fallback to shared read/write with 28 queues. same as it was 
+without this feature (actually I think I need to zero 
+"ctrl->io_queues[HCTX_TYPE_READ]" for that to get (28/0/0) instead of 
+(28/28/0).
+
+so the default queues can be read/write queues and also write queues 
+only (in case we have read_queues != 0) ?
+
+I will review this feature again next week...
+
+
+> I posted an alternative patch for review.
+
+I'll review it early next week. I have few comments to add there.
