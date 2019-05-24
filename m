@@ -1,33 +1,46 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 24 May 2019 14:20:35 -0600
-Subject: [PATCH 2/3] nvme: rearm fw notification in admin only state
+Date: Fri, 24 May 2019 14:20:36 -0600
+Subject: [PATCH 3/3] nvme: quiesce admin queue for fw activation
 In-Reply-To: <20190524202036.17265-1-keith.busch@intel.com>
 References: <20190524202036.17265-1-keith.busch@intel.com>
-Message-ID: <20190524202036.17265-3-keith.busch@intel.com>
+Message-ID: <20190524202036.17265-4-keith.busch@intel.com>
 
 From: Keith Busch <kbusch@kernel.org>
 
-Getting the firmware log is an admin command, so admin-only or live
-states are valid to rearm the activation notice.
+The controller's admin queue processing is paused during firmware
+activation, just like IO queues. Quiesce these, and inform the syslog
+this uncommon event is happening.
 
 Signed-off-by: Keith Busch <kbusch at kernel.org>
 ---
- drivers/nvme/host/core.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 1b7c2afd84cb..96dac2292897 100644
+index 96dac2292897..5a6d27823f7f 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -3615,7 +3615,8 @@ static void nvme_fw_act_work(struct work_struct *work)
- 		msleep(100);
- 	}
+@@ -3604,7 +3604,10 @@ static void nvme_fw_act_work(struct work_struct *work)
+ 		fw_act_timeout = jiffies +
+ 				msecs_to_jiffies(admin_timeout * 1000);
  
--	if (ctrl->state != NVME_CTRL_LIVE)
-+	if (ctrl->state != NVME_CTRL_LIVE &&
-+	    ctrl->state != NVME_CTRL_ADMIN_ONLY)
++	dev_info(ctrl->device, "processing paused for fw activation\n");
+ 	nvme_stop_queues(ctrl);
++	blk_mq_quiesce_queue(ctrl->admin_q);
++
+ 	while (nvme_ctrl_pp_status(ctrl)) {
+ 		if (time_after(jiffies, fw_act_timeout)) {
+ 			dev_warn(ctrl->device,
+@@ -3619,7 +3622,10 @@ static void nvme_fw_act_work(struct work_struct *work)
+ 	    ctrl->state != NVME_CTRL_ADMIN_ONLY)
  		return;
  
++	dev_info(ctrl->device, "processing resumed\n");
++	blk_mq_unquiesce_queue(ctrl->admin_q);
  	nvme_start_queues(ctrl);
++
+ 	/* read FW slot information to clear the AER */
+ 	nvme_get_fw_slot_info(ctrl);
+ }
 -- 
 2.14.4
