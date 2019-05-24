@@ -1,40 +1,42 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 23 May 2019 23:51:04 -0700
-Subject: [PATCH 2/4] nvme-fc: track state change failures during reconnect
-In-Reply-To: <20190520063624.50338-3-hare@suse.de>
-References: <20190520063624.50338-1-hare@suse.de>
- <20190520063624.50338-3-hare@suse.de>
-Message-ID: <ddf3f233-263d-288a-aedd-8d1ee3989709@grimberg.me>
+Date: Fri, 24 May 2019 00:05:23 -0700
+Subject: [PATCH 1/1] nvme-rdma: Add association between ctrl and transport
+ dev
+In-Reply-To: <1558444796-5190-1-git-send-email-maxg@mellanox.com>
+References: <1558444796-5190-1-git-send-email-maxg@mellanox.com>
+Message-ID: <da6603ee-4a71-e057-5c88-656455956eba@grimberg.me>
 
 
-> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> index 0c9e036afd09..e5c81ba2b7a1 100644
-> --- a/drivers/nvme/host/fc.c
-> +++ b/drivers/nvme/host/fc.c
-> @@ -2867,8 +2867,12 @@ nvme_fc_reconnect_or_delete(struct nvme_fc_ctrl *ctrl, int status)
->   	unsigned long recon_delay = ctrl->ctrl.opts->reconnect_delay * HZ;
->   	bool recon = true;
+> @@ -758,23 +777,26 @@ static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl,
+>   static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
+>   		bool new)
+>   {
+> +	struct ib_device *ibdev;
+>   	int error;
 >   
-> -	if (ctrl->ctrl.state != NVME_CTRL_CONNECTING)
-> +	if (ctrl->ctrl.state != NVME_CTRL_CONNECTING) {
-> +		dev_info(ctrl->ctrl.device,
-> +			 "NVME-FC{%d}: couldn't reconnect in state %s\n",
-> +			 ctrl->cnum, nvme_ctrl_state_name(&ctrl->ctrl));
-
-Is this always "couldn't"? Is this expected?
-
->   		return;
-> +	}
+>   	error = nvme_rdma_alloc_queue(ctrl, 0, NVME_AQ_DEPTH);
+>   	if (error)
+>   		return error;
 >   
->   	if (portptr->port_state == FC_OBJSTATE_ONLINE)
->   		dev_info(ctrl->ctrl.device,
-> @@ -2914,7 +2918,8 @@ __nvme_fc_terminate_io(struct nvme_fc_ctrl *ctrl)
->   	    !nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING))
->   		dev_err(ctrl->ctrl.device,
->   			"NVME-FC{%d}: error_recovery: Couldn't change state "
-> -			"to CONNECTING\n", ctrl->cnum);
-> +			"from %s to CONNECTING\n", ctrl->cnum,
-> +			nvme_ctrl_state_name(&ctrl->ctrl));
+> -	ctrl->device = ctrl->queues[0].device;
+> -	ctrl->ctrl.numa_node = dev_to_node(ctrl->device->dev->dma_device);
+> +	ibdev = ctrl->queues[0].device->dev;
+> +	ctrl->ctrl.numa_node = dev_to_node(ibdev->dma_device);
+> +	ctrl->max_fr_pages = nvme_rdma_get_max_fr_pages(ibdev);
+>   
+> -	ctrl->max_fr_pages = nvme_rdma_get_max_fr_pages(ctrl->device->dev);
+> -
+> -	error = nvme_rdma_alloc_qe(ctrl->device->dev, &ctrl->async_event_sqe,
+> +	error = nvme_rdma_alloc_qe(ibdev, &ctrl->async_event_sqe,
+>   			sizeof(struct nvme_command), DMA_TO_DEVICE);
+>   	if (error)
+>   		goto out_free_queue;
+>   
+>   	if (new) {
+> +		/* ctrl takes refcount on device */
+> +		nvme_rdma_ctrl_dev_get(ctrl, ctrl->queues[0].device);
+> +
 
-Doesn't this present an unnecessary combination of a lower-case state
-and all-caps CONNECTING?
+Do you actually need the extra reference on the device? why doesn't just
+the set/clear of ctrl->device sufficient? these routines should be
+serialized..
