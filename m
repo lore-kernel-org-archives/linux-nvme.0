@@ -1,13 +1,15 @@
-From: john.p.donnelly@oracle.com (John Donnelly)
-Date: Fri, 24 May 2019 09:16:01 -0500
-Subject: Use of WARN in nvme subssytem. 
-Message-ID: <82D7EABA-733D-4CBF-BCD6-E8EA51C2B220@oracle.com>
+From: kbusch@kernel.org (Keith Busch)
+Date: Fri, 24 May 2019 08:45:33 -0600
+Subject: [PATCH 0/2] nvme-cli: fix disconnect-all for pcie tp
+In-Reply-To: <20190516172350.11864-1-minwoo.im.dev@gmail.com>
+References: <20190516172350.11864-1-minwoo.im.dev@gmail.com>
+Message-ID: <20190524144532.GD15192@localhost.localdomain>
 
-Hi,
+On Thu, May 16, 2019@10:23:48AM -0700, Minwoo Im wrote:
+> The first patch fixes that it tries to delete_controller even it's a
+> controller with PCIe transport type.  If so, the rest of the controller
+> with fabrics type might not be disconnected properly.
+> 
+> The second one is just a trivial clean-up patch.
 
-There is approximately 72 occurrences of WARN*  in the driver/nvme modules in 5.2.rc.  If the system is configured with the option ?panic_on_warn? the system will reboot.  Are all of  these warnings necessary ? I am sure many could  be converted to log entries with more informative content for administrators. 
-
-
-Thanks,
-
-John.
+Thanks, added with Sagi and Chaitanya's reviews.
