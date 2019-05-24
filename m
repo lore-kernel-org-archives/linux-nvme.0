@@ -1,19 +1,25 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri, 24 May 2019 01:08:20 -0700
-Subject: [PATCH RFC 0/4] nvmet: add support for port based io priority
-In-Reply-To: <20190517094545.GA26412@infradead.org>
-References: <20190516032109.13048-1-chaitanya.kulkarni@wdc.com>
- <20190517094545.GA26412@infradead.org>
-Message-ID: <8e9ff434-f682-a2be-bc10-a906f793cc24@grimberg.me>
+Date: Fri, 24 May 2019 01:15:42 -0700
+Subject: [PATCH 5.0 66/95] nvme: cancel request synchronously
+In-Reply-To: <20190521124908.GA655@ming.t460p>
+References: <20190509181309.180685671@linuxfoundation.org>
+ <20190509181314.082604502@linuxfoundation.org>
+ <d0cd612d-1bce-50ca-1186-de67054b33c1@mellanox.com>
+ <20190521094535.GA28632@ming.t460p>
+ <7a4863ba-ece9-e3fa-8396-21736d54e1fe@mellanox.com>
+ <20190521104121.GA31530@ming.t460p>
+ <23729cbc-3a3f-fe16-be14-71053253c53b@mellanox.com>
+ <20190521124908.GA655@ming.t460p>
+Message-ID: <09c806a8-7be8-3552-265b-d651aaf848e8@grimberg.me>
 
 
->> Any feedback is welcome, I'd like to understand if this approach is desirable,
->> if not then what is the right way to use the io priorities on that target side
->> so that NVMeOF target can take advantage of the scheduler infrastructure ?
+>> is there an API in the block layer to guaranty that ?
 > 
-> I don't really see the point.  Why would we treat I/O differently
-> depending on which port it came into?
+> So far there isn't yet.
+> 
+> And it can be built easily against blk_mq_tagset_busy_iter(), then called
+> in delay-spin style for checking if there is any request marked as
+> MQ_RQ_COMPLETE.
 
-Agree this seems somewhat sketchy...
-
-I don't understand what is the usage model at all.
+This will probably make blk_mq_complete_request_sync() redundant
+wouldn't it?
