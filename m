@@ -1,33 +1,54 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri, 24 May 2019 00:35:27 -0700
-Subject: [PATCH v2 0/9] Add Subsystem/Ctrl/Namespace relations (nvme-cli)
-In-Reply-To: <1558602058-29434-1-git-send-email-maxg@mellanox.com>
-References: <1558602058-29434-1-git-send-email-maxg@mellanox.com>
-Message-ID: <285cd2f5-4d17-3bd5-751f-a2255cceaedb@grimberg.me>
+From: hare@suse.de (Hannes Reinecke)
+Date: Fri, 24 May 2019 09:35:39 +0200
+Subject: [PATCH 2/4] nvme-fc: track state change failures during reconnect
+In-Reply-To: <ddf3f233-263d-288a-aedd-8d1ee3989709@grimberg.me>
+References: <20190520063624.50338-1-hare@suse.de>
+ <20190520063624.50338-3-hare@suse.de>
+ <ddf3f233-263d-288a-aedd-8d1ee3989709@grimberg.me>
+Message-ID: <5dcb50ea-28d8-16b0-c7c7-3bc581717cbc@suse.de>
 
+On 5/24/19 8:51 AM, Sagi Grimberg wrote:
+> 
+>> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+>> index 0c9e036afd09..e5c81ba2b7a1 100644
+>> --- a/drivers/nvme/host/fc.c
+>> +++ b/drivers/nvme/host/fc.c
+>> @@ -2867,8 +2867,12 @@ nvme_fc_reconnect_or_delete(struct nvme_fc_ctrl 
+>> *ctrl, int status)
+>> ????? unsigned long recon_delay = ctrl->ctrl.opts->reconnect_delay * HZ;
+>> ????? bool recon = true;
+>> -??? if (ctrl->ctrl.state != NVME_CTRL_CONNECTING)
+>> +??? if (ctrl->ctrl.state != NVME_CTRL_CONNECTING) {
+>> +??????? dev_info(ctrl->ctrl.device,
+>> +???????????? "NVME-FC{%d}: couldn't reconnect in state %s\n",
+>> +???????????? ctrl->cnum, nvme_ctrl_state_name(&ctrl->ctrl));
+> 
+> Is this always "couldn't"? Is this expected?
+> 
+Surely not expected; this is pretty much the error path.
 
-> This patchset introduce few small bug fixes for memory leaks, improve
-> coding style, improve code readability and mainly focus on the "nvme list-subsys"
-> command. This command will show the whole NVM subsystem list (same as "nvme list"
-> does for namespaces).
-> The patchset ends with adding namespaces entry per each ctrl in the system.
-> Actually, at first stage, we'll print only the namespace handle (nvme0n1 for
-> example). Later on, we can add more attribute per demand (uuid, nguid, capacity,
-> etc...).
+>> ????????? return;
+>> +??? }
+>> ????? if (portptr->port_state == FC_OBJSTATE_ONLINE)
+>> ????????? dev_info(ctrl->ctrl.device,
+>> @@ -2914,7 +2918,8 @@ __nvme_fc_terminate_io(struct nvme_fc_ctrl *ctrl)
+>> ????????? !nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING))
+>> ????????? dev_err(ctrl->ctrl.device,
+>> ????????????? "NVME-FC{%d}: error_recovery: Couldn't change state "
+>> -??????????? "to CONNECTING\n", ctrl->cnum);
+>> +??????????? "from %s to CONNECTING\n", ctrl->cnum,
+>> +??????????? nvme_ctrl_state_name(&ctrl->ctrl));
+> 
+> Doesn't this present an unnecessary combination of a lower-case state
+> and all-caps CONNECTING?
+Hmm. Indeed. I'll be using the same notation for the next version.
 
-Can you split patches 1-5 to a separate fixes series? Would be easier to
-review.
+Cheers,
 
-As for the list-subsys, I think that when passing the namespace handle
-it should only output the corresponding namespace from each controller.
-
-list-subsys in my mind should probably stay as is without a namespace
-handle passed because it doesn't give any meaningful information without
-the mpath-namespace to slaves mapping.
-
-Instead, a more effective display would be the mapping of each mpath
-namespace to the corresponding slave namespaces. Perhaps with a new
-command "list-mpath"?
-
-On a side question, what does this information give the user if the
-slave devices don't have a device node?
+Hannes
+-- 
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
+HRB 21284 (AG N?rnberg)
