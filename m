@@ -1,80 +1,57 @@
-From: kbusch@kernel.org (Keith Busch)
-Date: Fri, 24 May 2019 09:44:29 -0600
-Subject: [5.2-rc1 regression]: nvme vs. hibernation
-In-Reply-To: <nycvar.YFH.7.76.1905241706280.1962@cbobk.fhfr.pm>
-References: <nycvar.YFH.7.76.1905241706280.1962@cbobk.fhfr.pm>
-Message-ID: <20190524154429.GE15192@localhost.localdomain>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Fri, 24 May 2019 09:11:23 -0700
+Subject: [PATCH] nvme-rdma: Fix a NULL deref when lesser io queues are
+ allocated.
+In-Reply-To: <0c738420-1c60-e656-d550-f209c40bf422@mellanox.com>
+References: <2936d0e0de627fce13f78fca2ef93960aab0d929.1558534119.git.nirranjan@chelsio.com>
+ <bf05c7f8-7a97-5e67-3476-b92c698a23a9@mellanox.com>
+ <20190523075524.GA15479@chelsio.com>
+ <06d347cc-7df6-c2b3-2edf-88a53db3c12d@mellanox.com>
+ <20190523114157.GA9479@chelsio.com>
+ <033ac067-29b1-30ff-6ad0-5e13510649bd@mellanox.com>
+ <20190524044341.GA5129@chelsio.com>
+ <955d9336-50d7-248c-eed8-3b038f6a5a11@grimberg.me>
+ <0c738420-1c60-e656-d550-f209c40bf422@mellanox.com>
+Message-ID: <0c1b317c-eaf7-a032-6003-caf32f953bdf@grimberg.me>
 
-On Fri, May 24, 2019@05:22:30PM +0200, Jiri Kosina wrote:
-> Hi,
+
+>> Hi,
+>>
+>> Just got to this one (after ramping up on activity post vacation..)
+>>
+>> Max, I think that your patch is missing the case where default+read+poll
+>> queues are higher than controller queue limit but we can still fit
+>> a queue separation.
 > 
-> Something is broken in Linus' tree (4dde821e429) with respec to 
-> hibernation on my thinkpad x270, and it seems to be nvme related.
+> My patch was just a draft to see if it fixes the NULL deref.
+
+Yea, I know..
+
+>> For example:
+>> - requested 10/10/10 (default/read/poll)
+>> - supported 28
+>>
+>> If I read your patch correctly, this will fall-back to shared read/write
+>> queue maps with no poll queues (10/0/0), while we'd want in this case
+>> to still have the separation but simply have less poll queues (10/10/8).
+>>
+> it will fallback to shared read/write with 28 queues. same as it was 
+> without this feature
+
+Oh.. this can leave unused queues (if say we have 10 cpu cores) right?
+
+  (actually I think I need to zero
+> "ctrl->io_queues[HCTX_TYPE_READ]" for that to get (28/0/0) instead of 
+> (28/28/0).
 > 
-> I reliably see the warning below during hibernation, and then sometimes 
-> resume sort of works but the machine misbehaves here and there (seems like 
-> lost IRQs), sometimes it never comes back from the hibernated state.
+> so the default queues can be read/write queues and also write queues 
+> only (in case we have read_queues != 0) ?
 > 
-> I will not have too much have time to look into this over weekend, so I am 
-> sending this out as-is in case anyone has immediate idea. Otherwise I'll 
-> bisect it on monday (I don't even know at the moment what exactly was the 
-> last version that worked reliably, I'll have to figure that out as well 
-> later).
+> I will review this feature again next week...
+> 
+> 
+>> I posted an alternative patch for review.
+> 
+> I'll review it early next week. I have few comments to add there.
 
-I believe the warning call trace was introduced when we converted nvme to
-lock-less completions. On device shutdown, we'll check queues for any
-pending completions, and we temporarily disable the interrupts to make
-sure that queues interrupt handler can't run concurrently.
-
-On hibernation, most CPUs are offline, and the interrupt re-enabling
-is hitting this warning that says the IRQ is not associated with any
-online CPUs.
-
-I'm sure we can find a way to fix this warning, but I'm not sure that
-explains the rest of the symptoms you're describing though.
- 
- 
->  WARNING: CPU: 0 PID: 363 at kernel/irq/chip.c:210 irq_startup+0xff/0x110
->  Modules linked in: bnep ccm af_packet fuse 8021q garp stp mrp llc tun ip6table_mangle ip6table_filter ip6_tables iptable_mangle xt_DSCP xt_tcpudp xt_conntrac
->   snd_hda_core aes_x86_64 glue_helper crypto_simd snd_pcm cryptd e1000e ptp pcspkr joydev pps_core snd_timer i2c_i801 cfg80211 mei_me mei intel_pch_thermal th
->  CPU: 0 PID: 363 Comm: kworker/u8:4 Not tainted 5.1.0-08122-ga2d635decbfa #9
->  Hardware name: LENOVO 20K5S22R00/20K5S22R00, BIOS R0IET38W (1.16 ) 05/31/2017
->  Workqueue: events_unbound async_run_entry_fn
->  RIP: 0010:irq_startup+0xff/0x110
->  Code: f6 4c 89 e7 e8 92 34 00 00 85 c0 75 21 4c 89 e7 31 d2 4c 89 ee e8 e1 cc ff ff 48 89 df e8 89 fe ff ff 41 89 c4 e9 37 ff ff ff <0f> 0b eb b0 0f 0b eb ac 66 0f 1f 84 00 00 
->  44 00 00
->  RSP: 0018:ffffa05100f13bd0 EFLAGS: 00010002
->  RAX: 0000000000000200 RBX: ffff9168e360ec00 RCX: 0000000000000200
->  RDX: 0000000000000200 RSI: ffffffff9f383600 RDI: ffff9168e360ec18
->  RBP: 0000000000000001 R08: 0000000000000000 R09: 0000000000000007
->  R10: 000000007a6a7b55 R11: 0000000000000000 R12: 0000000000000001
->  R13: ffff9168e360ec18 R14: ffff9168e6c97000 R15: ffff9168df76c000
->  FS:  0000000000000000(0000) GS:ffff9168e7280000(0000) knlGS:0000000000000000
->  CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->  CR2: 00007fc942c4bf60 CR3: 00000001f1210002 CR4: 00000000003606e0
->  Call Trace:
->   ? __irq_get_desc_lock+0x4e/0x90
->   enable_irq+0x39/0x70
->   nvme_poll_irqdisable+0x3a3/0x470 [nvme]
->   __nvme_disable_io_queues.isra.42+0x16a/0x1d0 [nvme]
->   nvme_dev_disable+0x17e/0x1e0 [nvme]
->   ? pci_pm_poweroff+0xf0/0xf0
->   nvme_suspend+0x13/0x20 [nvme]
->   pci_pm_freeze+0x52/0xd0
->   dpm_run_callback+0x6b/0x2e0
->   __device_suspend+0x147/0x630
->   ? dpm_show_time+0xe0/0xe0
->   async_suspend+0x1a/0x90
->   async_run_entry_fn+0x39/0x160
->   process_one_work+0x1f0/0x5b0
->   ? process_one_work+0x16a/0x5b0
->   worker_thread+0x4c/0x3f0
->   kthread+0x103/0x140
->   ? process_one_work+0x5b0/0x5b0
->   ? kthread_bind+0x10/0x10
->   ret_from_fork+0x3a/0x50
->  irq event stamp: 381230
->  hardirqs last  enabled at (381229): [<ffffffff9e90910d>] _raw_spin_unlock_irqrestore+0x4d/0x70
->  hardirqs last disabled at (381230): [<ffffffff9e908fa4>] _raw_spin_lock_irqsave+0x24/0x60
->  softirqs last  enabled at (381104): [<ffffffffc0eeb734>] __iwl_mvm_mac_stop+0xa4/0x1a0 [iwlmvm]
->  softirqs last disabled at (381102): [<ffffffffc0eeeda6>] iwl_mvm_async_handlers_purge+0x26/0xa0 [iwlmvm]
+Cool, thanks.
