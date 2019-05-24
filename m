@@ -1,52 +1,59 @@
-From: kbusch@kernel.org (Keith Busch)
-Date: Fri, 24 May 2019 17:30:14 -0600
-Subject: [PATCH RFC] nvme: Common subsys and controller instances IDA
-In-Reply-To: <1825f9cf-fa66-4232-12f9-3e27c73a7395@grimberg.me>
-References: <1f0e7049-c926-98e0-3624-0d24eb45cd87@suse.de>
- <20190516144452.GB23372@localhost.localdomain>
- <yq17eaqbg4c.fsf@oracle.com>
- <040beeb5-d328-d5b0-f165-51bbd40f4c23@mellanox.com>
- <20190521143540.GB1639@localhost.localdomain>
- <ccd37b33-6fa3-8435-9ac4-9c62f4525c1a@grimberg.me>
- <20190524140753.GC15192@localhost.localdomain>
- <fe7bd12e-99ac-e038-f096-7697186051d7@grimberg.me>
- <ae685e0e-8ae2-dca3-844f-fd3147847447@mellanox.com>
- <1825f9cf-fa66-4232-12f9-3e27c73a7395@grimberg.me>
-Message-ID: <20190524233014.GC17343@localhost.localdomain>
+From: dongli.zhang@oracle.com (Dongli Zhang)
+Date: Sat, 25 May 2019 07:58:49 +0800
+Subject: [5.2-rc1 regression]: nvme vs. hibernation
+In-Reply-To: <nycvar.YFH.7.76.1905250023380.1962@cbobk.fhfr.pm>
+References: <nycvar.YFH.7.76.1905241706280.1962@cbobk.fhfr.pm>
+ <20190524154429.GE15192@localhost.localdomain>
+ <nycvar.YFH.7.76.1905250023380.1962@cbobk.fhfr.pm>
+Message-ID: <92a15981-dfdc-0ac9-72ee-920555a3c1a4@oracle.com>
 
-On Fri, May 24, 2019@04:23:36PM -0700, Sagi Grimberg wrote:
+Hi Jiri,
+
+Looks this has been discussed in the past.
+
+http://lists.infradead.org/pipermail/linux-nvme/2019-April/023234.html
+
+I created a fix for a case but not good enough.
+
+http://lists.infradead.org/pipermail/linux-nvme/2019-April/023277.html
+
+Perhaps people would have better solution.
+
+Dongli Zhang
+
+On 05/25/2019 06:27 AM, Jiri Kosina wrote:
+> On Fri, 24 May 2019, Keith Busch wrote:
 > 
-> > Sagi,
-> > 
-> > my original patch showed the namespaces and not the mpath device since I
-> > developed it in non mpath environment.
-> > 
-> > Afterwards, Keith asked me to test it on mpath env and I changed my V1
-> > to show the mpath device (in case of mpath configuration) and "IO-ble"
-> > block device in case of non mpath configuration.
-> > 
-> > I thought that this was Keith intention but afterwards we agreed to
-> > print the "IO-ble" namespace in all the cases (Also Christoph agreed on
-> > that).
+>>> Something is broken in Linus' tree (4dde821e429) with respec to 
+>>> hibernation on my thinkpad x270, and it seems to be nvme related.
+>>>
+>>> I reliably see the warning below during hibernation, and then sometimes 
+>>> resume sort of works but the machine misbehaves here and there (seems like 
+>>> lost IRQs), sometimes it never comes back from the hibernated state.
+>>>
+>>> I will not have too much have time to look into this over weekend, so I am 
+>>> sending this out as-is in case anyone has immediate idea. Otherwise I'll 
+>>> bisect it on monday (I don't even know at the moment what exactly was the 
+>>> last version that worked reliably, I'll have to figure that out as well 
+>>> later).
+>>
+>> I believe the warning call trace was introduced when we converted nvme to
+>> lock-less completions. On device shutdown, we'll check queues for any
+>> pending completions, and we temporarily disable the interrupts to make
+>> sure that queues interrupt handler can't run concurrently.
 > 
-> What's IO-ble?
-
-Just means "not hidden".
- 
-> > So I'll update the patchset to show always the "IO-ble" namespace and
-> > not mpath slaves that a user can't do anything interested with them.
+> Yeah, the completion changes were the primary reason why I brought this up 
+> with all of you guys in CC.
 > 
-> But a namespace in a multipath environment is not associated with a
-> controller. I don;t understand how you can display that without
-> confusing the user even more.
->
-> Unless they are not nested under controllers but under subsystems, that
-> is fine, and aligned with the spec.
-
-The virtual device "head" is associated with a subsystem where its
-device names comes from, but that head has namespace paths, which are
-controllers, and this is just showing that topology.
-
-It would not make sense to nest the block device names under the
-subsystem because the substem may have many paths/controllers, but the
-namespaces are accessible only under a subset of those paths.
+>> On hibernation, most CPUs are offline, and the interrupt re-enabling
+>> is hitting this warning that says the IRQ is not associated with any
+>> online CPUs.
+>>
+>> I'm sure we can find a way to fix this warning, but I'm not sure that
+>> explains the rest of the symptoms you're describing though.
+> 
+> It seems to be more or less reliable enough for bisect. I'll try that on 
+> monday and will let you know.
+> 
+> Thanks,
+> 
