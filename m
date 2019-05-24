@@ -1,35 +1,33 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Fri, 24 May 2019 09:33:44 +0200
-Subject: [PATCH 1/4] nvme: separate out nvme_ctrl_state_name()
-In-Reply-To: <58613917-e96b-a325-7de4-75eaf8a2a138@grimberg.me>
-References: <20190520063624.50338-1-hare@suse.de>
- <20190520063624.50338-2-hare@suse.de>
- <58613917-e96b-a325-7de4-75eaf8a2a138@grimberg.me>
-Message-ID: <b6932c29-9f69-a372-9a31-f0c465fad78f@suse.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Fri, 24 May 2019 00:35:27 -0700
+Subject: [PATCH v2 0/9] Add Subsystem/Ctrl/Namespace relations (nvme-cli)
+In-Reply-To: <1558602058-29434-1-git-send-email-maxg@mellanox.com>
+References: <1558602058-29434-1-git-send-email-maxg@mellanox.com>
+Message-ID: <285cd2f5-4d17-3bd5-751f-a2255cceaedb@grimberg.me>
 
-On 5/24/19 8:46 AM, Sagi Grimberg wrote:
-> 
->> +const char *nvme_ctrl_state_name(struct nvme_ctrl *ctrl)
->> +{
->> +??? if ((unsigned)ctrl->state < ARRAY_SIZE(nvme_ctrl_state_names) &&
->> +??????? nvme_ctrl_state_names[ctrl->state])
->> +??????? return nvme_ctrl_state_names[ctrl->state];
->> +??? return "unknown state";
-> 
-> Maybe just "unknown"?
-> 
-> Otherwise looks fine..
 
-Well, the original code had 'unknown state'.
-So I thought to keep this behaviour.
-But yeah, I like the 'unknown' better, too.
+> This patchset introduce few small bug fixes for memory leaks, improve
+> coding style, improve code readability and mainly focus on the "nvme list-subsys"
+> command. This command will show the whole NVM subsystem list (same as "nvme list"
+> does for namespaces).
+> The patchset ends with adding namespaces entry per each ctrl in the system.
+> Actually, at first stage, we'll print only the namespace handle (nvme0n1 for
+> example). Later on, we can add more attribute per demand (uuid, nguid, capacity,
+> etc...).
 
-Cheers,
+Can you split patches 1-5 to a separate fixes series? Would be easier to
+review.
 
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N?rnberg)
+As for the list-subsys, I think that when passing the namespace handle
+it should only output the corresponding namespace from each controller.
+
+list-subsys in my mind should probably stay as is without a namespace
+handle passed because it doesn't give any meaningful information without
+the mpath-namespace to slaves mapping.
+
+Instead, a more effective display would be the mapping of each mpath
+namespace to the corresponding slave namespaces. Perhaps with a new
+command "list-mpath"?
+
+On a side question, what does this information give the user if the
+slave devices don't have a device node?
