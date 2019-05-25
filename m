@@ -1,42 +1,41 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Sat, 25 May 2019 22:22:47 +0900
-Subject: [PATCH 1/3] nvme-pci: reset timeout when processing is paused
-In-Reply-To: <20190524202036.17265-2-keith.busch@intel.com>
+From: keith.busch@gmail.com (Keith Busch)
+Date: Sat, 25 May 2019 08:07:59 -0600
+Subject: [PATCH 3/3] nvme: quiesce admin queue for fw activation
+In-Reply-To: <20190525131710.GA342@minwooim-desktop>
 References: <20190524202036.17265-1-keith.busch@intel.com>
- <20190524202036.17265-2-keith.busch@intel.com>
-Message-ID: <20190525132245.GB342@minwooim-desktop>
+ <20190524202036.17265-4-keith.busch@intel.com>
+ <20190525131710.GA342@minwooim-desktop>
+Message-ID: <CAOSXXT5QT4q7fbTgs-k50DU87xeidgFoGkJDboY59ypU6ovHzQ@mail.gmail.com>
 
-On 19-05-24 14:20:34, Keith Busch wrote:
-> From: Keith Busch <kbusch at kernel.org>
-> 
-> Do not escalate request timeout handling if the controller has
-> temporary paused command processing. We do not expect requests to
-> complete during this transient state, so just reset the timer.
-> 
-> Signed-off-by: Keith Busch <kbusch at kernel.org>
-> ---
->  drivers/nvme/host/pci.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index f562154551ce..101e20522374 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -1263,7 +1263,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
->  	 * the recovery mechanism will surely fail.
->  	 */
->  	mb();
-> -	if (pci_channel_offline(to_pci_dev(dev->dev)))
-> +	if (pci_channel_offline(to_pci_dev(dev->dev)) || (csts & NVME_CSTS_PP))
->  		return BLK_EH_RESET_TIMER;
+On Sat, May 25, 2019@7:17 AM Minwoo Im <minwoo.im.dev@gmail.com> wrote:
+> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> > index 96dac2292897..5a6d27823f7f 100644
+> > --- a/drivers/nvme/host/core.c
+> > +++ b/drivers/nvme/host/core.c
+> > @@ -3604,7 +3604,10 @@ static void nvme_fw_act_work(struct work_struct *work)
+> >               fw_act_timeout = jiffies +
+> >                               msecs_to_jiffies(admin_timeout * 1000);
+> >
+> > +     dev_info(ctrl->device, "processing paused for fw activation\n");
+> >       nvme_stop_queues(ctrl);
+> > +     blk_mq_quiesce_queue(ctrl->admin_q);
+>
+> Keith,
+>
+> Can we have an warning here to indicate if device firmware has not set
+> the CSTS.PP yet.  In that case, the information message that you have
+> introduced here may be invalid.  It would be great if we check the
+> CSTS.PP first, and then print it out.
+>
+> If it's not necessary to have it, please feel free to let me know.
+> Of course, device has to prepared the processing paused status,
+> though :)
 
-Keith,
+Well, between the fw notice AEN and when the work can finally check
+CSTS.PP, we really have no way of knowing if the controller paused and
+resumed before we observed that controller status, so a warning would
+be a bit much. We're still quiescing, so the print is valid.
 
-Is it okay to check CSTS.PP status without checking CC.EN ?  Can't we
-just do the PP check like:
-
-	if (pci_channel_offline(to_pci_dev(dev->dev)) ||
-			nvme_ctrl_pp_status(&dev->ctrl))
-		return BLK_EH_RESET_TIMER;
-
-What do you think?
+In case the controller did pause processing, and we hit the unusual
+timeout race that does not see CSTS.PP, the new prints make it clear
+that's what happened.
