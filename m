@@ -1,19 +1,12 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Tue, 28 May 2019 02:53:43 +0900
-Subject: [RFC PATCH 2/5] nvme-trace: Support tracing fabrics commands from
- host-side
+Date: Tue, 28 May 2019 02:53:44 +0900
+Subject: [RFC PATCH 3/5] nvme: Introduce nvme_is_fabrics to check fabrics cmd
 In-Reply-To: <20190527175346.29972-1-minwoo.im.dev@gmail.com>
 References: <20190527175346.29972-1-minwoo.im.dev@gmail.com>
-Message-ID: <20190527175346.29972-3-minwoo.im.dev@gmail.com>
+Message-ID: <20190527175346.29972-4-minwoo.im.dev@gmail.com>
 
-This patch adds support for tracing fabrics commands detected from
-host-side.  We can have trace_nvme_setup_cmd for nvme and nvme fabrics
-both even fabrics submission queue entry does not have valid fields in
-where nvme's fields are valid.
-
-This patch modifies existing parse_nvme_cmd to have fctype as an
-argument to support fabrics command which will be ignored in case of
-nvme common case.
+This patch introduce a nvme_is_fabrics() inline function to check
+whether or not the given command structure is for fabrics.
 
 Cc: Keith Busch <keith.busch at intel.com>
 Cc: Jens Axboe <axboe at fb.com>
@@ -22,166 +15,89 @@ Cc: Sagi Grimberg <sagi at grimberg.me>
 Cc: James Smart <james.smart at broadcom.com>
 Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
 ---
- drivers/nvme/trace.c | 67 ++++++++++++++++++++++++++++++++++++++++++++
- drivers/nvme/trace.h | 41 +++++++++++++++++++++------
- 2 files changed, 100 insertions(+), 8 deletions(-)
+ drivers/nvme/host/fabrics.c       | 2 +-
+ drivers/nvme/target/core.c        | 2 +-
+ drivers/nvme/target/fabrics-cmd.c | 2 +-
+ drivers/nvme/target/fc.c          | 2 +-
+ include/linux/nvme.h              | 7 ++++++-
+ 5 files changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/nvme/trace.c b/drivers/nvme/trace.c
-index a2c8186d122d..88dfadb68b92 100644
---- a/drivers/nvme/trace.c
-+++ b/drivers/nvme/trace.c
-@@ -137,6 +137,73 @@ const char *nvme_trace_parse_nvm_cmd(struct trace_seq *p,
- 	}
- }
- 
-+static const char *nvme_trace_fabrics_property_set(struct trace_seq *p, u8 *spc)
-+{
-+	const char *ret = trace_seq_buffer_ptr(p);
-+	u8 attrib = spc[0];
-+	u32 ofst = get_unaligned_le32(spc + 4);
-+	u64 value = get_unaligned_le64(spc + 8);
-+
-+	trace_seq_printf(p, "attrib=%u, ofst=0x%x, value=0x%llx",
-+				attrib, ofst, value);
-+	trace_seq_putc(p, 0);
-+
-+	return ret;
-+}
-+
-+static const char *nvme_trace_fabrics_connect(struct trace_seq *p, u8 *spc)
-+{
-+	const char *ret = trace_seq_buffer_ptr(p);
-+	u16 recfmt = get_unaligned_le16(spc);
-+	u16 qid = get_unaligned_le16(spc + 2);
-+	u16 sqsize = get_unaligned_le16(spc + 4);
-+	u8 cattr = spc[6];
-+	u32 kato = get_unaligned_le32(spc + 8);
-+
-+	trace_seq_printf(p, "recfmt=%u, qid=%u, sqsize=%u, cattr=%u, kato=%u",
-+				recfmt, qid, sqsize, cattr, kato);
-+	trace_seq_putc(p, 0);
-+
-+	return ret;
-+}
-+
-+static const char *nvme_trace_fabrics_property_get(struct trace_seq *p, u8 *spc)
-+{
-+	const char *ret = trace_seq_buffer_ptr(p);
-+	u8 attrib = spc[0];
-+	u32 ofst = get_unaligned_le32(spc + 4);
-+
-+	trace_seq_printf(p, "attrib=%u, ofst=0x%x", attrib, ofst);
-+	trace_seq_putc(p, 0);
-+
-+	return ret;
-+}
-+
-+static const char *nvme_trace_fabrics_common(struct trace_seq *p, u8 *spc)
-+{
-+	const char *ret = trace_seq_buffer_ptr(p);
-+
-+	trace_seq_printf(p, "spcecific=%*ph", 24, spc);
-+	trace_seq_putc(p, 0);
-+
-+	return ret;
-+}
-+
-+const char *nvme_trace_parse_fabrics_cmd(struct trace_seq *p,
-+					 u8 fctype, u8 *spc)
-+{
-+	switch (fctype) {
-+	case nvme_fabrics_type_property_set:
-+		return nvme_trace_fabrics_property_set(p, spc);
-+	case nvme_fabrics_type_connect:
-+		return nvme_trace_fabrics_connect(p, spc);
-+	case nvme_fabrics_type_property_get:
-+		return nvme_trace_fabrics_property_get(p, spc);
-+	default:
-+		return nvme_trace_fabrics_common(p, spc);
-+	}
-+}
-+
- const char *nvme_trace_disk_name(struct trace_seq *p, char *name)
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 5838f7cd53ac..1994d5b42f94 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -578,7 +578,7 @@ bool __nvmf_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
+ 	switch (ctrl->state) {
+ 	case NVME_CTRL_NEW:
+ 	case NVME_CTRL_CONNECTING:
+-		if (req->cmd->common.opcode == nvme_fabrics_command &&
++		if (nvme_is_fabrics(req->cmd) &&
+ 		    req->cmd->fabrics.fctype == nvme_fabrics_type_connect)
+ 			return true;
+ 		break;
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 7734a6acff85..da2ea97042af 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -871,7 +871,7 @@ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
+ 		status = nvmet_parse_connect_cmd(req);
+ 	else if (likely(req->sq->qid != 0))
+ 		status = nvmet_parse_io_cmd(req);
+-	else if (req->cmd->common.opcode == nvme_fabrics_command)
++	else if (nvme_is_fabrics(req->cmd))
+ 		status = nvmet_parse_fabrics_cmd(req);
+ 	else if (req->sq->ctrl->subsys->type == NVME_NQN_DISC)
+ 		status = nvmet_parse_discovery_cmd(req);
+diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-cmd.c
+index 3b9f79aba98f..d16b55ffe79f 100644
+--- a/drivers/nvme/target/fabrics-cmd.c
++++ b/drivers/nvme/target/fabrics-cmd.c
+@@ -268,7 +268,7 @@ u16 nvmet_parse_connect_cmd(struct nvmet_req *req)
  {
- 	const char *ret = trace_seq_buffer_ptr(p);
-diff --git a/drivers/nvme/trace.h b/drivers/nvme/trace.h
-index 2ecd4ff18e99..783bc704514f 100644
---- a/drivers/nvme/trace.h
-+++ b/drivers/nvme/trace.h
-@@ -57,18 +57,39 @@
- 		nvme_opcode_name(nvme_cmd_resv_acquire),	\
- 		nvme_opcode_name(nvme_cmd_resv_release))
+ 	struct nvme_command *cmd = req->cmd;
  
--#define show_opcode_name(qid, opcode)					\
--	(qid ? show_nvm_opcode_name(opcode) : show_admin_opcode_name(opcode))
-+#define nvme_fabrics_type_name(type)	{ type, #type }
-+#define show_fabrics_type_name(type)					\
-+	__print_symbolic(type,						\
-+		nvme_fabrics_type_name(nvme_fabrics_type_property_set),	\
-+		nvme_fabrics_type_name(nvme_fabrics_type_connect),	\
-+		nvme_fabrics_type_name(nvme_fabrics_type_property_get))
+-	if (cmd->common.opcode != nvme_fabrics_command) {
++	if (!nvme_is_fabrics(cmd)) {
+ 		pr_err("invalid command 0x%x on unconnected queue.\n",
+ 			cmd->fabrics.opcode);
+ 		req->error_loc = offsetof(struct nvme_common_command, opcode);
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index 508661af0f50..a59c5a013a5c 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -1806,7 +1806,7 @@ nvmet_fc_prep_fcp_rsp(struct nvmet_fc_tgtport *tgtport,
+ 	 */
+ 	rspcnt = atomic_inc_return(&fod->queue->zrspcnt);
+ 	if (!(rspcnt % fod->queue->ersp_ratio) ||
+-	    sqe->opcode == nvme_fabrics_command ||
++	    nvme_is_fabrics((struct nvme_command *) sqe) ||
+ 	    xfr_length != fod->req.transfer_len ||
+ 	    (le16_to_cpu(cqe->status) & 0xFFFE) || cqewd[0] || cqewd[1] ||
+ 	    (sqe->flags & (NVME_CMD_FUSE_FIRST | NVME_CMD_FUSE_SECOND)) ||
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 8028adacaff3..7080923e78d1 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -1165,6 +1165,11 @@ struct nvme_command {
+ 	};
+ };
+ 
++static inline bool nvme_is_fabrics(struct nvme_command *cmd)
++{
++	return cmd->common.opcode == nvme_fabrics_command;
++}
 +
-+/*
-+ * If not fabrics, fctype will be ignored.
-+ */
-+#define show_opcode_name(qid, opcode, fctype)				\
-+	((opcode != nvme_fabrics_command) ?				\
-+		(qid ?							\
-+			show_nvm_opcode_name(opcode) :			\
-+			show_admin_opcode_name(opcode)) :		\
-+		show_fabrics_type_name(fctype))
- 
- const char *nvme_trace_parse_admin_cmd(struct trace_seq *p, u8 opcode,
- 		u8 *cdw10);
- const char *nvme_trace_parse_nvm_cmd(struct trace_seq *p, u8 opcode,
- 		u8 *cdw10);
-+const char *nvme_trace_parse_fabrics_cmd(struct trace_seq *p,
-+		u8 fctype, u8 *spc);
- 
--#define parse_nvme_cmd(qid, opcode, cdw10) 			\
--	(qid ?							\
--	 nvme_trace_parse_nvm_cmd(p, opcode, cdw10) : 		\
--	 nvme_trace_parse_admin_cmd(p, opcode, cdw10))
-+/*
-+ * If not fabrics, fctype will be ignored.
-+ */
-+#define parse_nvme_cmd(qid, opcode, fctype, cdw10)			\
-+	((opcode != nvme_fabrics_command) ?				\
-+		(qid ?							\
-+			nvme_trace_parse_nvm_cmd(p, opcode, cdw10) : 	\
-+			nvme_trace_parse_admin_cmd(p, opcode, cdw10)) :	\
-+		nvme_trace_parse_fabrics_cmd(p, fctype, cdw10))
- 
- const char *nvme_trace_disk_name(struct trace_seq *p, char *name);
- #define __print_disk_name(name)				\
-@@ -95,6 +116,7 @@ TRACE_EVENT(nvme_setup_cmd,
- 		__field(u8, flags)
- 		__field(u16, cid)
- 		__field(u32, nsid)
-+		__field(u8, fctype)
- 		__field(u64, metadata)
- 		__array(u8, cdw10, 24)
- 	    ),
-@@ -105,6 +127,7 @@ TRACE_EVENT(nvme_setup_cmd,
- 		__entry->flags = cmd->common.flags;
- 		__entry->cid = cmd->common.command_id;
- 		__entry->nsid = le32_to_cpu(cmd->common.nsid);
-+		__entry->fctype = __entry->nsid & 0xff;
- 		__entry->metadata = le64_to_cpu(cmd->common.metadata);
- 		__assign_disk_name(__entry->disk, req->rq_disk);
- 		memcpy(__entry->cdw10, &cmd->common.cdw10,
-@@ -114,8 +137,10 @@ TRACE_EVENT(nvme_setup_cmd,
- 		      __entry->ctrl_id, __print_disk_name(__entry->disk),
- 		      __entry->qid, __entry->cid, __entry->nsid,
- 		      __entry->flags, __entry->metadata,
--		      show_opcode_name(__entry->qid, __entry->opcode),
--		      parse_nvme_cmd(__entry->qid, __entry->opcode, __entry->cdw10))
-+		      show_opcode_name(__entry->qid, __entry->opcode,
-+					__entry->fctype),
-+		      parse_nvme_cmd(__entry->qid, __entry->opcode,
-+					__entry->fctype, __entry->cdw10))
- );
- 
- TRACE_EVENT(nvme_complete_rq,
+ struct nvme_error_slot {
+ 	__le64		error_count;
+ 	__le16		sqid;
+@@ -1186,7 +1191,7 @@ static inline bool nvme_is_write(struct nvme_command *cmd)
+ 	 *
+ 	 * Why can't we simply have a Fabrics In and Fabrics out command?
+ 	 */
+-	if (unlikely(cmd->common.opcode == nvme_fabrics_command))
++	if (unlikely(nvme_is_fabrics(cmd)))
+ 		return cmd->fabrics.fctype & 1;
+ 	return cmd->common.opcode & 1;
+ }
 -- 
 2.21.0
