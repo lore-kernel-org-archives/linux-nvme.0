@@ -1,52 +1,32 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Mon, 27 May 2019 13:01:48 +0300
-Subject: [PATCH 7/9] nvme-print: Introduce show_nvme_ctrl helper
+Date: Mon, 27 May 2019 13:01:49 +0300
+Subject: [PATCH 8/9] nvme-print: Rename "Paths" --> "Ctrls" for json output in
+ list-subsys
 In-Reply-To: <1558951310-31066-1-git-send-email-maxg@mellanox.com>
 References: <1558951310-31066-1-git-send-email-maxg@mellanox.com>
-Message-ID: <1558951310-31066-8-git-send-email-maxg@mellanox.com>
+Message-ID: <1558951310-31066-9-git-send-email-maxg@mellanox.com>
 
-This is a preparation patch for adding namespaces attribute for each
-controller.
-
-Reviewed-by: Minwoo Im <minwoo.im at samsung.com>
 Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
 ---
- nvme-print.c | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+ nvme-print.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/nvme-print.c b/nvme-print.c
-index 7316117..7e1f9ea 100644
+index 7e1f9ea..b3f08cf 100644
 --- a/nvme-print.c
 +++ b/nvme-print.c
-@@ -2843,6 +2843,13 @@ void json_sanitize_log(struct nvme_sanitize_log_page *sanitize_log, const char *
- 	json_free_object(root);
- }
- 
-+static void show_nvme_ctrl(struct ctrl_list_item *item)
-+{
-+	printf(" +- %s %s %s %s\n", item->name, item->transport, item->address,
-+	       item->state);
-+}
-+
-+
- static void show_nvme_subsystem(struct subsys_list_item *item)
- {
- 	int i;
-@@ -2850,13 +2857,8 @@ static void show_nvme_subsystem(struct subsys_list_item *item)
- 	printf("%s - NQN=%s\n", item->name, item->subsysnqn);
- 	printf("\\\n");
- 
--	for (i = 0; i < item->nctrls; i++) {
--		printf(" +- %s %s %s %s\n", item->ctrls[i].name,
--				item->ctrls[i].transport,
--				item->ctrls[i].address,
--				item->ctrls[i].state);
--	}
+@@ -2904,10 +2904,8 @@ void json_print_nvme_subsystem_list(struct subsys_list_item *slist, int n)
+ 					slist[i].ctrls[j].state);
+ 			json_array_add_value_object(paths, path_attrs);
+ 		}
+-		if (j) {
+-			json_object_add_value_array(subsystem_attrs, "Paths", paths);
+-		}
 -
-+	for (i = 0; i < item->nctrls; i++)
-+		show_nvme_ctrl(&item->ctrls[i]);
- }
++		if (j)
++			json_object_add_value_array(subsystem_attrs, "Ctrls", paths);
+ 	}
  
- void show_nvme_subsystem_list(struct subsys_list_item *slist, int n)
+ 	if (i)
 -- 
 1.8.3.1
