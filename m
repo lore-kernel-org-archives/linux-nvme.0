@@ -1,32 +1,44 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Mon, 27 May 2019 13:01:43 +0300
-Subject: [PATCH 2/9] nvme: update description for "nvme list" command
+Date: Mon, 27 May 2019 13:01:46 +0300
+Subject: [PATCH 5/9] nvme: fix coding style issue
 In-Reply-To: <1558951310-31066-1-git-send-email-maxg@mellanox.com>
 References: <1558951310-31066-1-git-send-email-maxg@mellanox.com>
-Message-ID: <1558951310-31066-3-git-send-email-maxg@mellanox.com>
+Message-ID: <1558951310-31066-6-git-send-email-maxg@mellanox.com>
 
-The "nvme list" command doesn't get any device handle as an input
-argument. This operation prints out a basic information for all NVMe
-namespaces in the system.
+It's more common to use the following coding style:
+if (condition) {
+   do_that;
+   do_this;
+} else if (condition2) {
+   do_this;
+} else {
+   do_that;
+}
 
 Reviewed-by: Minwoo Im <minwoo.im at samsung.com>
 Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
 ---
- nvme.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ nvme.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/nvme.c b/nvme.c
-index 9d763f5..3310abd 100644
+index 3310abd..2fd4362 100644
 --- a/nvme.c
 +++ b/nvme.c
-@@ -1801,7 +1801,7 @@ static int list(int argc, char **argv, struct command *cmd, struct plugin *plugi
- 	struct list_item *list_items;
- 	unsigned int list_cnt = 0;
- 	int fmt, ret, fd, i, n;
--	const char *desc = "Retrieve basic information for the given device";
-+	const char *desc = "Retrieve basic information for all NVMe namespaces";
- 	struct config {
- 		char *output_format;
- 	};
+@@ -988,11 +988,11 @@ static int list_ns(int argc, char **argv, struct command *cmd, struct plugin *pl
+ 		for (i = 0; i < 1024; i++)
+ 			if (ns_list[i])
+ 				printf("[%4u]:%#x\n", i, le32_to_cpu(ns_list[i]));
+-	}
+-	else if (err > 0)
++	} else if (err > 0) {
+ 		show_nvme_status(err);
+-	else
++	} else {
+ 		perror("id namespace list");
++	}
+ 
+ close_fd:
+ 	close(fd);
 -- 
 1.8.3.1
