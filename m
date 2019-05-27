@@ -1,38 +1,211 @@
-From: jikos@kernel.org (Jiri Kosina)
-Date: Mon, 27 May 2019 13:15:25 +0200 (CEST)
-Subject: [5.2-rc1 regression]: nvme vs. hibernation
-In-Reply-To: <nycvar.YFH.7.76.1905271126480.1962@cbobk.fhfr.pm>
-References: <nycvar.YFH.7.76.1905241706280.1962@cbobk.fhfr.pm>
- <20190524154429.GE15192@localhost.localdomain>
- <nycvar.YFH.7.76.1905250023380.1962@cbobk.fhfr.pm>
- <92a15981-dfdc-0ac9-72ee-920555a3c1a4@oracle.com>
- <nycvar.YFH.7.76.1905271126480.1962@cbobk.fhfr.pm>
-Message-ID: <nycvar.YFH.7.76.1905271313520.1962@cbobk.fhfr.pm>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Mon, 27 May 2019 18:43:48 +0300
+Subject: [PATCH 1/2] nvme-rdma: fix queue mapping when queue count is
+ limited
+In-Reply-To: <20190524041004.23200-1-sagi@grimberg.me>
+References: <20190524041004.23200-1-sagi@grimberg.me>
+Message-ID: <35bf4975-a67b-8851-09e1-217969c6fb2e@mellanox.com>
 
-On Mon, 27 May 2019, Jiri Kosina wrote:
 
-> > Looks this has been discussed in the past.
-> > 
-> > http://lists.infradead.org/pipermail/linux-nvme/2019-April/023234.html
-> > 
-> > I created a fix for a case but not good enough.
-> > 
-> > http://lists.infradead.org/pipermail/linux-nvme/2019-April/023277.html
-> 
-> That removes the warning, but I still seem to have ~1:1 chance of reboot 
-> (triple fault?) immediately after hibernation image is read from disk. 
-> Seems like that has been going all the way down to 4.19, which seems to be 
-> rock stable. It's a bit hard to bisect, as I am not really 100% sure 
-> whether this is one issue or two intermixed ones, and it doesn't reproduce 
-> completely reliably.
+On 5/24/2019 7:10 AM, Sagi Grimberg wrote:
+> When the controller supports less queues than requested, we
+> should make sure that queue mapping does the right thing and
+> not assume that all queues are available. This fixes a crash
+> when the controller supports less queues than requested.
+>
+> The rules are:
+> 1. if no write/poll queues are requested, we assign the available queues
+>     to the default queue map. The default and read queue maps share the
+>     existing queues.
+> 2. if write queues are requested:
+>    - first make sure that read queue map gets the requested
+>      nr_io_queues count
+>    - then grant the default queue map the minimum between the requested
+>      nr_write_queues and the remaining queues. If there are no available
+>      queues to dedicate to the default queue map, fallback to (1) and
+>      share all the queues in the existing queue map.
+> 3. if poll queues are requested:
+>    - map the remaining queues to the poll queue map.
+>
+> Also, provide a log indication on how we constructed the different
+> queue maps.
+>
+> One side-affect change is that we remove the rdma device number of
+> completion vectors device limitation when setting the queue count.
 
-So far this seems to be independent issue, related to kASLR, I'll look 
-into that separately.
+Why creating more rw queues than completion vectors ?
 
-Still, we should either remove the warning or fix the underlying issue.
+Did you test the performance with this change ?
 
-Thanks,
+> No rdma device uses managed affinity so there is no real reason as
+> we cannot guarantee any vector based queue mapping. This change is
+> squashed here because this patch needs to go to stable kernel and
+> its simpler having it here than having it live on its own without
+> a clear indication why it ended up in stable kenrels.
+>
+> Reported-by: Harris, James R <james.r.harris at intel.com>
+> Cc: <stable at vger.kernel.org> # v5.0+
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> ---
+>   drivers/nvme/host/rdma.c | 94 ++++++++++++++++++++++++----------------
+>   1 file changed, 56 insertions(+), 38 deletions(-)
+>
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index f383146e7d0f..cd7d93727b30 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -640,35 +640,12 @@ static int nvme_rdma_start_io_queues(struct nvme_rdma_ctrl *ctrl)
+>   static int nvme_rdma_alloc_io_queues(struct nvme_rdma_ctrl *ctrl)
+>   {
+>   	struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
+> -	struct ib_device *ibdev = ctrl->device->dev;
+>   	unsigned int nr_io_queues;
+>   	int i, ret;
+>   
+> -	nr_io_queues = min(opts->nr_io_queues, num_online_cpus());
+> -
+> -	/*
+> -	 * we map queues according to the device irq vectors for
+> -	 * optimal locality so we don't need more queues than
+> -	 * completion vectors.
+> -	 */
+> -	nr_io_queues = min_t(unsigned int, nr_io_queues,
+> -				ibdev->num_comp_vectors);
 
--- 
-Jiri Kosina
-SUSE Labs
+I wouldn't do it in this patch as we need to see perf results for this.
+
+> -
+> -	if (opts->nr_write_queues) {
+> -		ctrl->io_queues[HCTX_TYPE_DEFAULT] =
+> -				min(opts->nr_write_queues, nr_io_queues);
+> -		nr_io_queues += ctrl->io_queues[HCTX_TYPE_DEFAULT];
+> -	} else {
+> -		ctrl->io_queues[HCTX_TYPE_DEFAULT] = nr_io_queues;
+> -	}
+> -
+> -	ctrl->io_queues[HCTX_TYPE_READ] = nr_io_queues;
+> -
+> -	if (opts->nr_poll_queues) {
+> -		ctrl->io_queues[HCTX_TYPE_POLL] =
+> -			min(opts->nr_poll_queues, num_online_cpus());
+> -		nr_io_queues += ctrl->io_queues[HCTX_TYPE_POLL];
+> -	}
+> +	nr_io_queues = min(opts->nr_io_queues, num_online_cpus()) +
+> +		min(opts->nr_write_queues, num_online_cpus()) +
+> +		min(opts->nr_poll_queues, num_online_cpus());
+>   
+>   	ret = nvme_set_queue_count(&ctrl->ctrl, &nr_io_queues);
+>   	if (ret)
+> @@ -681,6 +658,34 @@ static int nvme_rdma_alloc_io_queues(struct nvme_rdma_ctrl *ctrl)
+>   	dev_info(ctrl->ctrl.device,
+>   		"creating %d I/O queues.\n", nr_io_queues);
+>   
+> +	if (opts->nr_write_queues && opts->nr_io_queues < nr_io_queues) {
+I would use local variables for write/poll/default queues and not 
+ctrl->opts pointer.
+
+opts->nr_write_queues is not limited to num_online_cpu and can be 1000 
+(and you might steal poll queues).
+
+Maybe we should limit it in nvmf_parse_options ?
+
+> +		/*
+> +		 * separate read/write queues
+> +		 * hand out dedicated default queues only after we have
+> +		 * sufficient read queues.
+> +		 */
+> +		ctrl->io_queues[HCTX_TYPE_READ] = opts->nr_io_queues;
+> +		nr_io_queues -= ctrl->io_queues[HCTX_TYPE_READ];
+> +		ctrl->io_queues[HCTX_TYPE_DEFAULT] =
+> +			min(opts->nr_write_queues, nr_io_queues);
+> +		nr_io_queues -= ctrl->io_queues[HCTX_TYPE_DEFAULT];
+> +	} else {
+> +		/*
+> +		 * shared read/write queues
+> +		 * either no write queues were requested, or we don't have
+> +		 * sufficient queue count to have dedicated default queues.
+> +		 */
+> +		ctrl->io_queues[HCTX_TYPE_DEFAULT] =
+> +			min(opts->nr_io_queues, nr_io_queues);
+> +		nr_io_queues -= ctrl->io_queues[HCTX_TYPE_DEFAULT];
+> +	}
+> +
+> +	if (opts->nr_poll_queues && nr_io_queues) {
+> +		/* map dedicated poll queues only if we have queues left */
+> +		ctrl->io_queues[HCTX_TYPE_POLL] =
+> +			min(opts->nr_poll_queues, nr_io_queues);
+> +	}
+> +
+>   	for (i = 1; i < ctrl->ctrl.queue_count; i++) {
+>   		ret = nvme_rdma_alloc_queue(ctrl, i,
+>   				ctrl->ctrl.sqsize + 1);
+> @@ -1763,17 +1768,24 @@ static void nvme_rdma_complete_rq(struct request *rq)
+>   static int nvme_rdma_map_queues(struct blk_mq_tag_set *set)
+>   {
+>   	struct nvme_rdma_ctrl *ctrl = set->driver_data;
+> +	struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
+>   
+> -	set->map[HCTX_TYPE_DEFAULT].queue_offset = 0;
+> -	set->map[HCTX_TYPE_DEFAULT].nr_queues =
+> -			ctrl->io_queues[HCTX_TYPE_DEFAULT];
+> -	set->map[HCTX_TYPE_READ].nr_queues = ctrl->io_queues[HCTX_TYPE_READ];
+> -	if (ctrl->ctrl.opts->nr_write_queues) {
+> +	if (opts->nr_write_queues && ctrl->io_queues[HCTX_TYPE_READ]) {
+>   		/* separate read/write queues */
+> +		set->map[HCTX_TYPE_DEFAULT].nr_queues =
+> +			ctrl->io_queues[HCTX_TYPE_DEFAULT];
+> +		set->map[HCTX_TYPE_DEFAULT].queue_offset = 0;
+> +		set->map[HCTX_TYPE_READ].nr_queues =
+> +			ctrl->io_queues[HCTX_TYPE_READ];
+>   		set->map[HCTX_TYPE_READ].queue_offset =
+> -				ctrl->io_queues[HCTX_TYPE_DEFAULT];
+> +			ctrl->io_queues[HCTX_TYPE_DEFAULT];
+>   	} else {
+> -		/* mixed read/write queues */
+> +		/* shared read/write queues */
+> +		set->map[HCTX_TYPE_DEFAULT].nr_queues =
+> +			ctrl->io_queues[HCTX_TYPE_DEFAULT];
+> +		set->map[HCTX_TYPE_DEFAULT].queue_offset = 0;
+> +		set->map[HCTX_TYPE_READ].nr_queues =
+> +			ctrl->io_queues[HCTX_TYPE_DEFAULT];
+>   		set->map[HCTX_TYPE_READ].queue_offset = 0;
+
+why we should set the READ map in case of shared queues ?
+
+In that case we should rename TYPE_DEFAULT to TYPE_WRITE..
+
+
+>   	}
+>   	blk_mq_rdma_map_queues(&set->map[HCTX_TYPE_DEFAULT],
+> @@ -1781,16 +1793,22 @@ static int nvme_rdma_map_queues(struct blk_mq_tag_set *set)
+>   	blk_mq_rdma_map_queues(&set->map[HCTX_TYPE_READ],
+>   			ctrl->device->dev, 0);
+>   
+> -	if (ctrl->ctrl.opts->nr_poll_queues) {
+> +	if (opts->nr_poll_queues && ctrl->io_queues[HCTX_TYPE_POLL]) {
+> +		/* map dedicated poll queues only if we have queues left */
+>   		set->map[HCTX_TYPE_POLL].nr_queues =
+>   				ctrl->io_queues[HCTX_TYPE_POLL];
+>   		set->map[HCTX_TYPE_POLL].queue_offset =
+> -				ctrl->io_queues[HCTX_TYPE_DEFAULT];
+> -		if (ctrl->ctrl.opts->nr_write_queues)
+> -			set->map[HCTX_TYPE_POLL].queue_offset +=
+> -				ctrl->io_queues[HCTX_TYPE_READ];
+> +			ctrl->io_queues[HCTX_TYPE_DEFAULT] +
+> +			ctrl->io_queues[HCTX_TYPE_READ];
+
+I would use set->map[TYPE].nr_queues (the real offset).
+
+
+>   		blk_mq_map_queues(&set->map[HCTX_TYPE_POLL]);
+>   	}
+> +
+> +	dev_info(ctrl->ctrl.device,
+> +		"mapped %d/%d/%d default/read/poll queues.\n",
+> +		ctrl->io_queues[HCTX_TYPE_DEFAULT],
+> +		ctrl->io_queues[HCTX_TYPE_READ],
+> +		ctrl->io_queues[HCTX_TYPE_POLL]);
+> +
+>   	return 0;
+>   }
+>   
