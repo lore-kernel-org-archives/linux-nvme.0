@@ -1,14 +1,19 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Tue, 28 May 2019 02:53:42 +0900
-Subject: [RFC PATCH 1/5] nvme: Make trace common for host and target both
+Date: Tue, 28 May 2019 02:53:43 +0900
+Subject: [RFC PATCH 2/5] nvme-trace: Support tracing fabrics commands from
+ host-side
 In-Reply-To: <20190527175346.29972-1-minwoo.im.dev@gmail.com>
 References: <20190527175346.29972-1-minwoo.im.dev@gmail.com>
-Message-ID: <20190527175346.29972-2-minwoo.im.dev@gmail.com>
+Message-ID: <20190527175346.29972-3-minwoo.im.dev@gmail.com>
 
-To support target-side trace, nvme-trace should be commonized for host
-and target both.  Of course, not every single tracepoints are necessary
-by both of them, but we don't need to have more than one trace module
-for host and target.
+This patch adds support for tracing fabrics commands detected from
+host-side.  We can have trace_nvme_setup_cmd for nvme and nvme fabrics
+both even fabrics submission queue entry does not have valid fields in
+where nvme's fields are valid.
+
+This patch modifies existing parse_nvme_cmd to have fctype as an
+argument to support fabrics command which will be ignored in case of
+nvme common case.
 
 Cc: Keith Busch <keith.busch at intel.com>
 Cc: Jens Axboe <axboe at fb.com>
@@ -17,126 +22,166 @@ Cc: Sagi Grimberg <sagi at grimberg.me>
 Cc: James Smart <james.smart at broadcom.com>
 Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
 ---
- MAINTAINERS                     | 2 ++
- drivers/nvme/Makefile           | 3 +++
- drivers/nvme/host/Makefile      | 1 -
- drivers/nvme/host/core.c        | 3 +--
- drivers/nvme/host/pci.c         | 2 +-
- drivers/nvme/{host => }/trace.c | 5 +++++
- drivers/nvme/{host => }/trace.h | 2 +-
- 7 files changed, 13 insertions(+), 5 deletions(-)
- rename drivers/nvme/{host => }/trace.c (95%)
- rename drivers/nvme/{host => }/trace.h (99%)
+ drivers/nvme/trace.c | 67 ++++++++++++++++++++++++++++++++++++++++++++
+ drivers/nvme/trace.h | 41 +++++++++++++++++++++------
+ 2 files changed, 100 insertions(+), 8 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 005902ea1450..9dff173b2e6f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11235,6 +11235,7 @@ L:	linux-nvme at lists.infradead.org
- T:	git://git.infradead.org/nvme.git
- W:	http://git.infradead.org/nvme.git
- S:	Supported
-+F:	drivers/nvme/
- F:	drivers/nvme/host/
- F:	include/linux/nvme.h
- F:	include/uapi/linux/nvme_ioctl.h
-@@ -11256,6 +11257,7 @@ L:	linux-nvme at lists.infradead.org
- T:	git://git.infradead.org/nvme.git
- W:	http://git.infradead.org/nvme.git
- S:	Supported
-+F:	drivers/nvme/
- F:	drivers/nvme/target/
- 
- NVMEM FRAMEWORK
-diff --git a/drivers/nvme/Makefile b/drivers/nvme/Makefile
-index 0096a7fd1431..12f193502d46 100644
---- a/drivers/nvme/Makefile
-+++ b/drivers/nvme/Makefile
-@@ -1,3 +1,6 @@
- 
-+ccflags-y		+= -I$(src)
-+obj-$(CONFIG_TRACING)	+= trace.o
-+
- obj-y		+= host/
- obj-y		+= target/
-diff --git a/drivers/nvme/host/Makefile b/drivers/nvme/host/Makefile
-index 8a4b671c5f0c..46453352bfa0 100644
---- a/drivers/nvme/host/Makefile
-+++ b/drivers/nvme/host/Makefile
-@@ -10,7 +10,6 @@ obj-$(CONFIG_NVME_FC)			+= nvme-fc.o
- obj-$(CONFIG_NVME_TCP)			+= nvme-tcp.o
- 
- nvme-core-y				:= core.o
--nvme-core-$(CONFIG_TRACING)		+= trace.o
- nvme-core-$(CONFIG_NVME_MULTIPATH)	+= multipath.o
- nvme-core-$(CONFIG_NVM)			+= lightnvm.o
- nvme-core-$(CONFIG_FAULT_INJECTION_DEBUG_FS)	+= fault_inject.o
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index e1449c196f20..2af670f98e9d 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -21,8 +21,7 @@
- #include <linux/pm_qos.h>
- #include <asm/unaligned.h>
- 
--#define CREATE_TRACE_POINTS
--#include "trace.h"
-+#include "../trace.h"
- 
- #include "nvme.h"
- #include "fabrics.h"
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 599065ed6a32..5edd3cda577a 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -24,7 +24,7 @@
- #include <linux/sed-opal.h>
- #include <linux/pci-p2pdma.h>
- 
--#include "trace.h"
-+#include "../trace.h"
- #include "nvme.h"
- 
- #define SQ_SIZE(depth)		(depth * sizeof(struct nvme_command))
-diff --git a/drivers/nvme/host/trace.c b/drivers/nvme/trace.c
-similarity index 95%
-rename from drivers/nvme/host/trace.c
-rename to drivers/nvme/trace.c
-index 5f24ea7a28eb..a2c8186d122d 100644
---- a/drivers/nvme/host/trace.c
+diff --git a/drivers/nvme/trace.c b/drivers/nvme/trace.c
+index a2c8186d122d..88dfadb68b92 100644
+--- a/drivers/nvme/trace.c
 +++ b/drivers/nvme/trace.c
-@@ -5,6 +5,8 @@
-  */
- 
- #include <asm/unaligned.h>
-+
-+#define CREATE_TRACE_POINTS
- #include "trace.h"
- 
- static const char *nvme_trace_create_sq(struct trace_seq *p, u8 *cdw10)
-@@ -147,4 +149,7 @@ const char *nvme_trace_disk_name(struct trace_seq *p, char *name)
+@@ -137,6 +137,73 @@ const char *nvme_trace_parse_nvm_cmd(struct trace_seq *p,
+ 	}
  }
- EXPORT_SYMBOL_GPL(nvme_trace_disk_name);
  
-+EXPORT_TRACEPOINT_SYMBOL_GPL(nvme_setup_cmd);
-+EXPORT_TRACEPOINT_SYMBOL_GPL(nvme_complete_rq);
-+EXPORT_TRACEPOINT_SYMBOL_GPL(nvme_async_event);
- EXPORT_TRACEPOINT_SYMBOL_GPL(nvme_sq);
-diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/trace.h
-similarity index 99%
-rename from drivers/nvme/host/trace.h
-rename to drivers/nvme/trace.h
-index e71502d141ed..2ecd4ff18e99 100644
---- a/drivers/nvme/host/trace.h
++static const char *nvme_trace_fabrics_property_set(struct trace_seq *p, u8 *spc)
++{
++	const char *ret = trace_seq_buffer_ptr(p);
++	u8 attrib = spc[0];
++	u32 ofst = get_unaligned_le32(spc + 4);
++	u64 value = get_unaligned_le64(spc + 8);
++
++	trace_seq_printf(p, "attrib=%u, ofst=0x%x, value=0x%llx",
++				attrib, ofst, value);
++	trace_seq_putc(p, 0);
++
++	return ret;
++}
++
++static const char *nvme_trace_fabrics_connect(struct trace_seq *p, u8 *spc)
++{
++	const char *ret = trace_seq_buffer_ptr(p);
++	u16 recfmt = get_unaligned_le16(spc);
++	u16 qid = get_unaligned_le16(spc + 2);
++	u16 sqsize = get_unaligned_le16(spc + 4);
++	u8 cattr = spc[6];
++	u32 kato = get_unaligned_le32(spc + 8);
++
++	trace_seq_printf(p, "recfmt=%u, qid=%u, sqsize=%u, cattr=%u, kato=%u",
++				recfmt, qid, sqsize, cattr, kato);
++	trace_seq_putc(p, 0);
++
++	return ret;
++}
++
++static const char *nvme_trace_fabrics_property_get(struct trace_seq *p, u8 *spc)
++{
++	const char *ret = trace_seq_buffer_ptr(p);
++	u8 attrib = spc[0];
++	u32 ofst = get_unaligned_le32(spc + 4);
++
++	trace_seq_printf(p, "attrib=%u, ofst=0x%x", attrib, ofst);
++	trace_seq_putc(p, 0);
++
++	return ret;
++}
++
++static const char *nvme_trace_fabrics_common(struct trace_seq *p, u8 *spc)
++{
++	const char *ret = trace_seq_buffer_ptr(p);
++
++	trace_seq_printf(p, "spcecific=%*ph", 24, spc);
++	trace_seq_putc(p, 0);
++
++	return ret;
++}
++
++const char *nvme_trace_parse_fabrics_cmd(struct trace_seq *p,
++					 u8 fctype, u8 *spc)
++{
++	switch (fctype) {
++	case nvme_fabrics_type_property_set:
++		return nvme_trace_fabrics_property_set(p, spc);
++	case nvme_fabrics_type_connect:
++		return nvme_trace_fabrics_connect(p, spc);
++	case nvme_fabrics_type_property_get:
++		return nvme_trace_fabrics_property_get(p, spc);
++	default:
++		return nvme_trace_fabrics_common(p, spc);
++	}
++}
++
+ const char *nvme_trace_disk_name(struct trace_seq *p, char *name)
+ {
+ 	const char *ret = trace_seq_buffer_ptr(p);
+diff --git a/drivers/nvme/trace.h b/drivers/nvme/trace.h
+index 2ecd4ff18e99..783bc704514f 100644
+--- a/drivers/nvme/trace.h
 +++ b/drivers/nvme/trace.h
-@@ -14,7 +14,7 @@
- #include <linux/tracepoint.h>
- #include <linux/trace_seq.h>
+@@ -57,18 +57,39 @@
+ 		nvme_opcode_name(nvme_cmd_resv_acquire),	\
+ 		nvme_opcode_name(nvme_cmd_resv_release))
  
--#include "nvme.h"
-+#include "host/nvme.h"
+-#define show_opcode_name(qid, opcode)					\
+-	(qid ? show_nvm_opcode_name(opcode) : show_admin_opcode_name(opcode))
++#define nvme_fabrics_type_name(type)	{ type, #type }
++#define show_fabrics_type_name(type)					\
++	__print_symbolic(type,						\
++		nvme_fabrics_type_name(nvme_fabrics_type_property_set),	\
++		nvme_fabrics_type_name(nvme_fabrics_type_connect),	\
++		nvme_fabrics_type_name(nvme_fabrics_type_property_get))
++
++/*
++ * If not fabrics, fctype will be ignored.
++ */
++#define show_opcode_name(qid, opcode, fctype)				\
++	((opcode != nvme_fabrics_command) ?				\
++		(qid ?							\
++			show_nvm_opcode_name(opcode) :			\
++			show_admin_opcode_name(opcode)) :		\
++		show_fabrics_type_name(fctype))
  
- #define nvme_admin_opcode_name(opcode)	{ opcode, #opcode }
- #define show_admin_opcode_name(val)					\
+ const char *nvme_trace_parse_admin_cmd(struct trace_seq *p, u8 opcode,
+ 		u8 *cdw10);
+ const char *nvme_trace_parse_nvm_cmd(struct trace_seq *p, u8 opcode,
+ 		u8 *cdw10);
++const char *nvme_trace_parse_fabrics_cmd(struct trace_seq *p,
++		u8 fctype, u8 *spc);
+ 
+-#define parse_nvme_cmd(qid, opcode, cdw10) 			\
+-	(qid ?							\
+-	 nvme_trace_parse_nvm_cmd(p, opcode, cdw10) : 		\
+-	 nvme_trace_parse_admin_cmd(p, opcode, cdw10))
++/*
++ * If not fabrics, fctype will be ignored.
++ */
++#define parse_nvme_cmd(qid, opcode, fctype, cdw10)			\
++	((opcode != nvme_fabrics_command) ?				\
++		(qid ?							\
++			nvme_trace_parse_nvm_cmd(p, opcode, cdw10) : 	\
++			nvme_trace_parse_admin_cmd(p, opcode, cdw10)) :	\
++		nvme_trace_parse_fabrics_cmd(p, fctype, cdw10))
+ 
+ const char *nvme_trace_disk_name(struct trace_seq *p, char *name);
+ #define __print_disk_name(name)				\
+@@ -95,6 +116,7 @@ TRACE_EVENT(nvme_setup_cmd,
+ 		__field(u8, flags)
+ 		__field(u16, cid)
+ 		__field(u32, nsid)
++		__field(u8, fctype)
+ 		__field(u64, metadata)
+ 		__array(u8, cdw10, 24)
+ 	    ),
+@@ -105,6 +127,7 @@ TRACE_EVENT(nvme_setup_cmd,
+ 		__entry->flags = cmd->common.flags;
+ 		__entry->cid = cmd->common.command_id;
+ 		__entry->nsid = le32_to_cpu(cmd->common.nsid);
++		__entry->fctype = __entry->nsid & 0xff;
+ 		__entry->metadata = le64_to_cpu(cmd->common.metadata);
+ 		__assign_disk_name(__entry->disk, req->rq_disk);
+ 		memcpy(__entry->cdw10, &cmd->common.cdw10,
+@@ -114,8 +137,10 @@ TRACE_EVENT(nvme_setup_cmd,
+ 		      __entry->ctrl_id, __print_disk_name(__entry->disk),
+ 		      __entry->qid, __entry->cid, __entry->nsid,
+ 		      __entry->flags, __entry->metadata,
+-		      show_opcode_name(__entry->qid, __entry->opcode),
+-		      parse_nvme_cmd(__entry->qid, __entry->opcode, __entry->cdw10))
++		      show_opcode_name(__entry->qid, __entry->opcode,
++					__entry->fctype),
++		      parse_nvme_cmd(__entry->qid, __entry->opcode,
++					__entry->fctype, __entry->cdw10))
+ );
+ 
+ TRACE_EVENT(nvme_complete_rq,
 -- 
 2.21.0
