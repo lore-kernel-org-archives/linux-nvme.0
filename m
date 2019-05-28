@@ -1,48 +1,36 @@
-From: thomas.tai@oracle.com (Thomas Tai)
-Date: Tue, 28 May 2019 13:47:14 -0400
-Subject: [PATCH 0/2] nvme: enable to inject errors into admin commands
-In-Reply-To: <1559063018-3682-1-git-send-email-akinobu.mita@gmail.com>
-References: <1559063018-3682-1-git-send-email-akinobu.mita@gmail.com>
-Message-ID: <8cb23080-b7ab-f773-2d25-e39b36501e3d@oracle.com>
+From: jsmart2021@gmail.com (James Smart)
+Date: Tue, 28 May 2019 11:24:04 -0700
+Subject: [PATCH] nvme-fc: Add message when creating new controller
+Message-ID: <20190528182404.3463-1-jsmart2021@gmail.com>
 
-On 5/28/19 1:03 PM, Akinobu Mita wrote:
-> Currenlty fault injection support for nvme only enables to inject errors
-> into the commands submitted to I/O queues.
-> 
-> This enables to inject errors into the commands submitted to the admin
-> queue.
->      
-> It is useful to test error handling in the controller initialization.
-> 
-> 	# echo 100 > /sys/kernel/debug/nvme0/fault_inject/probability
-> 	# echo 1 > /sys/kernel/debug/nvme0/fault_inject/times
-> 	# echo 10 > /sys/kernel/debug/nvme0/fault_inject/space
-> 	# nvme reset /dev/nvme0
-> 	# dmesg
+When looking at console messages to troubleshoot, there are one
+maybe two messages before creation of the controller is complete.
+However, a lot of io takes place to reach that point. It's unclear
+when things have started.
 
-Hi Akinobu,
-That sounds like a good idea. would you kindly update the document in 
-Documentation/fault-injection/nvme-fault-injection.txt with your example?
+Add a message when the controller is first attempting to be
+connecting to. Thus we know what controller and its NQN is being
+put into place for any subsequent success or failure messages.
 
-Thank you,
-Thomas
+Signed-off-by: James Smart <jsmart2021 at gmail.com>
+---
+ drivers/nvme/host/fc.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-> 	...
-> 	nvme nvme0: Could not set queue count (16385)
-> 	nvme nvme0: IO queues not created
-> 
-> Akinobu Mita (2):
->    nvme: prepare for fault injection into admin commands
->    nvme: enable to inject errors into admin commands
-> 
->   drivers/nvme/host/core.c         |  7 +++++--
->   drivers/nvme/host/fault_inject.c | 33 +++++++++++++++++----------------
->   drivers/nvme/host/nvme.h         | 36 +++++++++++++++++++++---------------
->   3 files changed, 43 insertions(+), 33 deletions(-)
-> 
-> Cc: Thomas Tai <thomas.tai at oracle.com>
-> Cc: Keith Busch <kbusch at kernel.org>
-> Cc: Jens Axboe <axboe at fb.com>
-> Cc: Christoph Hellwig <hch at lst.de>
-> Cc: Sagi Grimberg <sagi at grimberg.me>
-> 
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index c17c887f2148..5c9b69ee2c1f 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -3129,6 +3129,10 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ 
+ 	nvme_get_ctrl(&ctrl->ctrl);
+ 
++	dev_info(ctrl->ctrl.device,
++		"NVME-FC{%d}: creating new ctrl: NQN \"%s\"\n",
++		ctrl->cnum, ctrl->ctrl.opts->subsysnqn);
++
+ 	if (!queue_delayed_work(nvme_wq, &ctrl->connect_work, 0)) {
+ 		nvme_put_ctrl(&ctrl->ctrl);
+ 		dev_err(ctrl->ctrl.device,
+-- 
+2.13.7
