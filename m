@@ -1,39 +1,50 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 28 May 2019 15:46:29 -0700
-Subject: [PATCH 6/9] nvme: update list-subsys command to show the entire
- list
-In-Reply-To: <8a754fd0-6abc-a000-0183-b6832df0f2ba@mellanox.com>
-References: <1558951310-31066-1-git-send-email-maxg@mellanox.com>
- <1558951310-31066-7-git-send-email-maxg@mellanox.com>
- <0004494a-67a0-c010-5de6-fa66dcafff68@grimberg.me>
- <8a754fd0-6abc-a000-0183-b6832df0f2ba@mellanox.com>
-Message-ID: <a3c90a29-07f3-614a-034e-d04bcc21013a@grimberg.me>
+From: aeasi@marvell.com (Arun Easi)
+Date: Tue, 28 May 2019 16:37:51 -0700
+Subject: [PATCH] nvme-fc: Add message when creating new controller
+In-Reply-To: <20190528182404.3463-1-jsmart2021@gmail.com>
+References: <20190528182404.3463-1-jsmart2021@gmail.com>
+Message-ID: <alpine.LRH.2.21.9999.1905281624470.9636@mvluser05.qlc.com>
 
+On Tue, 28 May 2019, 11:24am, James Smart wrote:
 
->>> Make it similar to "nvme list" command. For that, remove the
->>> unnecessary ana_state parsing (was introduced only if specific namespace
->>> handle was given).
->>
->> No, this is useful! You're arbitrarily removing useful information from
->> the display...
->>
->> nak from me on this one...
+> When looking at console messages to troubleshoot, there are one
+> maybe two messages before creation of the controller is complete.
+> However, a lot of io takes place to reach that point. It's unclear
+> when things have started.
 > 
-> I intended to add it to different command (maybe to new "nvme multipath" 
-> command you suggested).
+> Add a message when the controller is first attempting to be
+> connecting to. Thus we know what controller and its NQN is being
+> put into place for any subsequent success or failure messages.
+> 
+> Signed-off-by: James Smart <jsmart2021 at gmail.com>
+> ---
+>  drivers/nvme/host/fc.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> index c17c887f2148..5c9b69ee2c1f 100644
+> --- a/drivers/nvme/host/fc.c
+> +++ b/drivers/nvme/host/fc.c
+> @@ -3129,6 +3129,10 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+>  
+>  	nvme_get_ctrl(&ctrl->ctrl);
+>  
+> +	dev_info(ctrl->ctrl.device,
+> +		"NVME-FC{%d}: creating new ctrl: NQN \"%s\"\n",
+> +		ctrl->cnum, ctrl->ctrl.opts->subsysnqn);
+> +
 
-I think it should be the other way around, we already have an interface
-which is useful, if we add information it should either be exposed via
-an argument or a different command.
+Adding rport+lport information would be helpful. It would be good to have 
+for all messages, but at least one message establishing the relationship 
+would make it easier when looking at logs.
 
-> I don't understand why ANA state is so important attribute for a user 
-> that only asked "nvme list-subsys".
+Just wondering if there is any reason why no FC rport/lport info
+was logged with any of the messages in fc.c?
 
-It gives you the layout of the subsystem with respect to the volume you
-asked for.
+Regards,
+-Arun
 
-> One can always run "nvme ana-log" command to get a full log page (I'll 
-> take a look on it and see if it can be improved per given namespace)
-
-This is the reverse info (controller view), this is the
-subsystem/namespace view.
+>  	if (!queue_delayed_work(nvme_wq, &ctrl->connect_work, 0)) {
+>  		nvme_put_ctrl(&ctrl->ctrl);
+>  		dev_err(ctrl->ctrl.device,
+> 
