@@ -1,30 +1,29 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Wed, 29 May 2019 01:25:41 +0300
-Subject: [PATCH 6/9] nvme: update list-subsys command to show the entire
- list
-In-Reply-To: <0004494a-67a0-c010-5de6-fa66dcafff68@grimberg.me>
-References: <1558951310-31066-1-git-send-email-maxg@mellanox.com>
- <1558951310-31066-7-git-send-email-maxg@mellanox.com>
- <0004494a-67a0-c010-5de6-fa66dcafff68@grimberg.me>
-Message-ID: <8a754fd0-6abc-a000-0183-b6832df0f2ba@mellanox.com>
+From: kenneth.heitke@intel.com (Heitke, Kenneth)
+Date: Tue, 28 May 2019 16:32:45 -0600
+Subject: [PATCH] nvme: Ignore timeouts while PCI config access is blocked
+In-Reply-To: <99e76784-ce68-c053-9fde-d035d77f11d3@grimberg.me>
+References: <20190523231429.21235-1-kenneth.heitke@intel.com>
+ <99e76784-ce68-c053-9fde-d035d77f11d3@grimberg.me>
+Message-ID: <18209f57-0c8a-dfa8-af31-7f33ec3cfc0c@intel.com>
 
 
-On 5/28/2019 10:48 PM, Sagi Grimberg wrote:
->
->> Make it similar to "nvme list" command. For that, remove the
->> unnecessary ana_state parsing (was introduced only if specific namespace
->> handle was given).
->
-> No, this is useful! You're arbitrarily removing useful information from
-> the display...
->
-> nak from me on this one...
 
-I intended to add it to different command (maybe to new "nvme multipath" 
-command you suggested).
+On 5/24/2019 12:35 AM, Sagi Grimberg wrote:
+> 
+>> ? static void nvme_reset_done(struct pci_dev *pdev)
+>> ? {
+>> ????? struct nvme_dev *dev = pci_get_drvdata(pdev);
+>> -??? nvme_reset_ctrl_sync(&dev->ctrl);
+>> +??? nvme_reset_ctrl(&dev->ctrl);
+> 
+> This change is not explained in the change log. This opens a window
+> for nvme_reset_work to run concurrently from different contexts which
+> is not a good idea...
 
-I don't understand why ANA state is so important attribute for a user 
-that only asked "nvme list-subsys".
+I think Keith recommended the asynchronous reset
 
-One can always run "nvme ana-log" command to get a full log page (I'll 
-take a look on it and see if it can be improved per given namespace)
+"Definitely need the nvme_reset_ctrl change as blk_cfg_access is still
+set here so need to reset asynchronously to unblock new timeouts"
+
+Keith, does this still hold true or do I need some other mechanism to 
+avoid the issues that Sagi is concerned about?
