@@ -1,19 +1,40 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Wed, 29 May 2019 00:50:02 +0300
-Subject: [PATCH 1/9] nvme: update list-ns nsid option
-In-Reply-To: <24b16c73-ff69-0861-cad5-3fa619c2a9d8@grimberg.me>
-References: <1558951310-31066-1-git-send-email-maxg@mellanox.com>
- <1558951310-31066-2-git-send-email-maxg@mellanox.com>
- <24b16c73-ff69-0861-cad5-3fa619c2a9d8@grimberg.me>
-Message-ID: <55fa2743-ed66-37bf-974f-f3a9e58b4135@mellanox.com>
+From: james.r.harris@intel.com (Harris, James R)
+Date: Tue, 28 May 2019 21:50:40 +0000
+Subject: [PATCH 2/2] nvme-tcp: fix queue mapping when queue count is
+ limited
+In-Reply-To: <20190524041004.23200-2-sagi@grimberg.me>
+References: <20190524041004.23200-1-sagi@grimberg.me>
+ <20190524041004.23200-2-sagi@grimberg.me>
+Message-ID: <F5720435-0411-4AFF-9263-55879768708B@intel.com>
 
 
-On 5/28/2019 10:54 PM, Sagi Grimberg wrote:
-> Is this v4 btw?
 
+?On 5/23/19, 9:10 PM, "Sagi Grimberg" <sagi@grimberg.me> wrote:
 
-I think it's V3 :)
+    When the controller supports less queues than requested, we
+    should make sure that queue mapping does the right thing and
+    not assume that all queues are available. This fixes a crash
+    when the controller supports less queues than requested.
+    
+    The rules are:
+    1. if no write queues are requested, we assign the available queues
+       to the default queue map. The default and read queue maps share the
+       existing queues.
+    2. if write queues are requested:
+      - first make sure that read queue map gets the requested
+        nr_io_queues count
+      - then grant the default queue map the minimum between the requested
+        nr_write_queues and the remaining queues. If there are no available
+        queues to dedicate to the default queue map, fallback to (1) and
+        share all the queues in the existing queue map.
+    
+    Also, provide a log indication on how we constructed the different
+    queue maps.
+    
+    Reported-by: Harris, James R <james.r.harris at intel.com>
+    Cc: <stable at vger.kernel.org> # v5.0+
+    Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 
-Can you merge patches 1-5 meanwhile or should I send them separately ?
+Thanks Sagi.  This works too.
 
-We can continue discussing regarding the other patches..
+Tested-by: Jim Harris <james.r.harris at intel.com>
