@@ -1,71 +1,41 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 28 May 2019 13:01:07 -0700
-Subject: [RFC PATCH] nvme: allowing transition from NVME_CTRL_NEW to
- NVME_CTRL_DELETING
-In-Reply-To: <20190527040159.3631-1-lizhongfs@gmail.com>
-References: <20190527040159.3631-1-lizhongfs@gmail.com>
-Message-ID: <305425a3-a815-7842-85ec-eb4275d39780@grimberg.me>
+From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Tue, 28 May 2019 21:18:09 +0000
+Subject: [PATCH] nvme-fc: Add message when creating new controller
+References: <20190528182404.3463-1-jsmart2021@gmail.com>
+Message-ID: <BYAPR04MB5749C2F9F987025C2FD6BD5A861E0@BYAPR04MB5749.namprd04.prod.outlook.com>
 
+Looks good.
 
-> It is possible that nvme_remove() being ran concurrently with
-> nvme_reset_work(), with following sequence:
-> 
-> nvme_probe()
->    nvme_init_ctrl()
->      //set to NEW
->    nvme_async_probe()
->                                                        nvme_remove()
->                                                          //can not change to
->                                                          //DELETING from NEW
->      nvme_reset_ctrl_sync()
->          nvme_reset_ctrl()
->            //change from NEW
->            //to RESETTING
->                                                         flush reset_work()
->                                                         //not yet queued
->            queue reset_work
->              nvme_reset_work()
->                ....                                     ....
-> 
-> With the above running concurrently, then it is possible to cause some
-> strange issues, like kernel crash with illegal memory accessing
-> or something like:
-> kernel: pci 0000:00:1f.0: can't enable device: BAR 0
->   [mem 0xc0000000-0xc0003fff] not claimed
-> 
+Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 
-How about making nvme_remove syncing the async probe?
-Something like this:
---
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 2a8708c9ac18..33408ffa4ba3 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -131,6 +131,7 @@ struct nvme_dev {
-         dma_addr_t host_mem_descs_dma;
-         struct nvme_host_mem_buf_desc *host_mem_descs;
-         void **host_mem_desc_bufs;
-+       async_cookie_t async_probe;
-  };
-
-  static int io_queue_depth_set(const char *val, const struct 
-kernel_param *kp)
-@@ -2759,7 +2760,7 @@ static int nvme_probe(struct pci_dev *pdev, const 
-struct pci_device_id *id)
-         dev_info(dev->ctrl.device, "pci function %s\n", 
-dev_name(&pdev->dev));
-
-         nvme_get_ctrl(&dev->ctrl);
--       async_schedule(nvme_async_probe, dev);
-+       dev->async_probe = async_schedule(nvme_async_probe, dev);
-
-         return 0;
-
-@@ -2804,6 +2805,7 @@ static void nvme_remove(struct pci_dev *pdev)
-  {
-         struct nvme_dev *dev = pci_get_drvdata(pdev);
-
-+       async_synchronize_cookie(dev->async_probe);
-         nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DELETING);
-         pci_set_drvdata(pdev, NULL);
---
+On 05/28/2019 11:31 AM, James Smart wrote:
+> When looking at console messages to troubleshoot, there are one
+> maybe two messages before creation of the controller is complete.
+> However, a lot of io takes place to reach that point. It's unclear
+> when things have started.
+>
+> Add a message when the controller is first attempting to be
+> connecting to. Thus we know what controller and its NQN is being
+> put into place for any subsequent success or failure messages.
+>
+> Signed-off-by: James Smart <jsmart2021 at gmail.com>
+> ---
+>   drivers/nvme/host/fc.c | 4 ++++
+>   1 file changed, 4 insertions(+)
+>
+> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> index c17c887f2148..5c9b69ee2c1f 100644
+> --- a/drivers/nvme/host/fc.c
+> +++ b/drivers/nvme/host/fc.c
+> @@ -3129,6 +3129,10 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+>
+>   	nvme_get_ctrl(&ctrl->ctrl);
+>
+> +	dev_info(ctrl->ctrl.device,
+> +		"NVME-FC{%d}: creating new ctrl: NQN \"%s\"\n",
+> +		ctrl->cnum, ctrl->ctrl.opts->subsysnqn);
+> +
+>   	if (!queue_delayed_work(nvme_wq, &ctrl->connect_work, 0)) {
+>   		nvme_put_ctrl(&ctrl->ctrl);
+>   		dev_err(ctrl->ctrl.device,
+>
