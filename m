@@ -1,42 +1,28 @@
-From: jikos@kernel.org (Jiri Kosina)
-Date: Tue, 28 May 2019 21:22:14 +0200 (CEST)
-Subject: "nosmt" breaks resuming from hibernation (was Re: [5.2-rc1
- regression]: nvme vs. hibernation)
-In-Reply-To: <nycvar.YFH.7.76.1905281709130.1962@cbobk.fhfr.pm>
-References: <nycvar.YFH.7.76.1905241706280.1962@cbobk.fhfr.pm>
- <20190524154429.GE15192@localhost.localdomain>
- <nycvar.YFH.7.76.1905250023380.1962@cbobk.fhfr.pm>
- <92a15981-dfdc-0ac9-72ee-920555a3c1a4@oracle.com>
- <nycvar.YFH.7.76.1905271126480.1962@cbobk.fhfr.pm>
- <nycvar.YFH.7.76.1905281709130.1962@cbobk.fhfr.pm>
-Message-ID: <nycvar.YFH.7.76.1905282118070.1962@cbobk.fhfr.pm>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 28 May 2019 12:36:50 -0700
+Subject: [PATCH 1/1] nvme-rdma: Add association between ctrl and transport
+ dev
+In-Reply-To: <77b99fb1-8996-52bf-1e6f-f2fee9216a2e@mellanox.com>
+References: <1558444796-5190-1-git-send-email-maxg@mellanox.com>
+ <da6603ee-4a71-e057-5c88-656455956eba@grimberg.me>
+ <ceb1744a-cc68-9588-bd07-d3060630e857@mellanox.com>
+ <724732d9-2ea2-e349-435b-ae664692b565@grimberg.me>
+ <77b99fb1-8996-52bf-1e6f-f2fee9216a2e@mellanox.com>
+Message-ID: <bfff9f16-6893-2324-9b64-34bd69e5459e@grimberg.me>
 
-On Tue, 28 May 2019, Jiri Kosina wrote:
 
-> [ some x86/PM folks added ]
+>> I'm getting the feeling that we need to map the qe's in queue_rq
+>> and unmap in complete_rq. I don't see any other way around it because
+>> on the bonding use-case we need to wipe out all of the device related
+>> resources because we need to have it teardown and be prepared to get
+>> a different device on the next (re)connect.
 > 
-> I isolated this to 'nosmt' being present in the "outer" (resuming) kernel, 
-> and am still not sure whether this is x86 issue or nvme/PCI/blk-mq issue.
+> Yes, thought using block layer iter but in case it won't hurt 
+> performance I'll do it in queue_rq/complete_rq.
 > 
-> For the newcomers to this thread: on my thinkpad x270, 'nosmt' reliably 
-> breaks resume from hibernation; after the image is read out from disk and 
-> attempt is made to jump to the old kernel, machine reboots.
+> Let me check that...
 
-Thomas figured it out (and this should be really more widespread than just 
-my machine :) ).
+OK,
 
-nosmt forces HT siblings to mwait, but that explodes after %cr3 change 
-during resume, as the mwait target address is all of a sudden not valid 
-anymore for neither of the hyperthreads.
-
-That also explains why I apparently didn't see it that regularly with 
-kaslr disabled.
-
-Nothing to do with nvme, so let's not continue coming up with proper fix 
-in this thread.
-
-Thanks,
-
--- 
-Jiri Kosina
-SUSE Labs
+So lets just do that instead, and not try to get too smart with device
+referencing...
