@@ -1,29 +1,39 @@
-From: kenneth.heitke@intel.com (Heitke, Kenneth)
-Date: Tue, 28 May 2019 16:32:45 -0600
-Subject: [PATCH] nvme: Ignore timeouts while PCI config access is blocked
-In-Reply-To: <99e76784-ce68-c053-9fde-d035d77f11d3@grimberg.me>
-References: <20190523231429.21235-1-kenneth.heitke@intel.com>
- <99e76784-ce68-c053-9fde-d035d77f11d3@grimberg.me>
-Message-ID: <18209f57-0c8a-dfa8-af31-7f33ec3cfc0c@intel.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 28 May 2019 15:46:29 -0700
+Subject: [PATCH 6/9] nvme: update list-subsys command to show the entire
+ list
+In-Reply-To: <8a754fd0-6abc-a000-0183-b6832df0f2ba@mellanox.com>
+References: <1558951310-31066-1-git-send-email-maxg@mellanox.com>
+ <1558951310-31066-7-git-send-email-maxg@mellanox.com>
+ <0004494a-67a0-c010-5de6-fa66dcafff68@grimberg.me>
+ <8a754fd0-6abc-a000-0183-b6832df0f2ba@mellanox.com>
+Message-ID: <a3c90a29-07f3-614a-034e-d04bcc21013a@grimberg.me>
 
 
-
-On 5/24/2019 12:35 AM, Sagi Grimberg wrote:
+>>> Make it similar to "nvme list" command. For that, remove the
+>>> unnecessary ana_state parsing (was introduced only if specific namespace
+>>> handle was given).
+>>
+>> No, this is useful! You're arbitrarily removing useful information from
+>> the display...
+>>
+>> nak from me on this one...
 > 
->> ? static void nvme_reset_done(struct pci_dev *pdev)
->> ? {
->> ????? struct nvme_dev *dev = pci_get_drvdata(pdev);
->> -??? nvme_reset_ctrl_sync(&dev->ctrl);
->> +??? nvme_reset_ctrl(&dev->ctrl);
-> 
-> This change is not explained in the change log. This opens a window
-> for nvme_reset_work to run concurrently from different contexts which
-> is not a good idea...
+> I intended to add it to different command (maybe to new "nvme multipath" 
+> command you suggested).
 
-I think Keith recommended the asynchronous reset
+I think it should be the other way around, we already have an interface
+which is useful, if we add information it should either be exposed via
+an argument or a different command.
 
-"Definitely need the nvme_reset_ctrl change as blk_cfg_access is still
-set here so need to reset asynchronously to unblock new timeouts"
+> I don't understand why ANA state is so important attribute for a user 
+> that only asked "nvme list-subsys".
 
-Keith, does this still hold true or do I need some other mechanism to 
-avoid the issues that Sagi is concerned about?
+It gives you the layout of the subsystem with respect to the volume you
+asked for.
+
+> One can always run "nvme ana-log" command to get a full log page (I'll 
+> take a look on it and see if it can be improved per given namespace)
+
+This is the reverse info (controller view), this is the
+subsystem/namespace view.
