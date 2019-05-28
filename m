@@ -1,57 +1,60 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 28 May 2019 14:50:32 +0300
-Subject: [PATCH 1/1] nvme-rdma: Add association between ctrl and transport
- dev
-In-Reply-To: <724732d9-2ea2-e349-435b-ae664692b565@grimberg.me>
-References: <1558444796-5190-1-git-send-email-maxg@mellanox.com>
- <da6603ee-4a71-e057-5c88-656455956eba@grimberg.me>
- <ceb1744a-cc68-9588-bd07-d3060630e857@mellanox.com>
- <724732d9-2ea2-e349-435b-ae664692b565@grimberg.me>
-Message-ID: <77b99fb1-8996-52bf-1e6f-f2fee9216a2e@mellanox.com>
+From: jikos@kernel.org (Jiri Kosina)
+Date: Tue, 28 May 2019 17:21:56 +0200 (CEST)
+Subject: "nosmt" breaks resuming from hibernation (was Re: [5.2-rc1
+ regression]: nvme vs. hibernation)
+In-Reply-To: <nycvar.YFH.7.76.1905271126480.1962@cbobk.fhfr.pm>
+References: <nycvar.YFH.7.76.1905241706280.1962@cbobk.fhfr.pm>
+ <20190524154429.GE15192@localhost.localdomain>
+ <nycvar.YFH.7.76.1905250023380.1962@cbobk.fhfr.pm>
+ <92a15981-dfdc-0ac9-72ee-920555a3c1a4@oracle.com>
+ <nycvar.YFH.7.76.1905271126480.1962@cbobk.fhfr.pm>
+Message-ID: <nycvar.YFH.7.76.1905281709130.1962@cbobk.fhfr.pm>
 
+On Mon, 27 May 2019, Jiri Kosina wrote:
 
-On 5/25/2019 2:05 AM, Sagi Grimberg wrote:
->
->>> Do you actually need the extra reference on the device? why doesn't 
->>> just
->>> the set/clear of ctrl->device sufficient? these routines should be
->>> serialized..
->>
->> Yes we need this reference since the queues are freed during 
->> reconnection. And without ctrl reference, also the device will be freed.
->
-> The device should be freed shouldn't it? I thought that this was the
-> purpose of the ref removal from the tagset (which is identical to what
-> you are trying to replace). I'm not clear on what this is solving that
-> the prior reference didn't have?
+> > Looks this has been discussed in the past.
+> > 
+> > http://lists.infradead.org/pipermail/linux-nvme/2019-April/023234.html
+> > 
+> > I created a fix for a case but not good enough.
+> > 
+> > http://lists.infradead.org/pipermail/linux-nvme/2019-April/023277.html
+> 
+> That removes the warning, but I still seem to have ~1:1 chance of reboot 
+> (triple fault?) immediately after hibernation image is read from disk. 
 
-Prior reference was per tagset and not per controller.
+[ some x86/PM folks added ]
 
+I isolated this to 'nosmt' being present in the "outer" (resuming) kernel, 
+and am still not sure whether this is x86 issue or nvme/PCI/blk-mq issue.
 
->
->> And when you disconnect during reconnection, the block layer will 
->> call exit_request for each request (but the device is freed) and we 
->> will do the need unmapping from the device..
->>
->> Not so plesent..
->
-> Which again is why we had the tagset reference in the first place. I
-> thought you wanted to remove the device reference altogether because
-> of your bonding use-case..
+For the newcomers to this thread: on my thinkpad x270, 'nosmt' reliably 
+breaks resume from hibernation; after the image is read out from disk and 
+attempt is made to jump to the old kernel, machine reboots.
 
-we remove it in de-configutration state.
+I verified that it succesfully makes it to the point where restore_image() 
+is called from swsusp_arch_resume() (and verified that only BSP is alive 
+at that time), but the old kernel never comes back and triplefault-like 
+reboot happens.
 
+It's sufficient to remove "nosmt" from the *resuming* kernel, and that 
+makes the issue go away (and we resume to the old kernel that has SMT 
+correctly disabled). So it has something to do with enabling & disabling 
+the siblings before we do the CR3 dance and jump to the old kernel.
 
->
-> I'm getting the feeling that we need to map the qe's in queue_rq
-> and unmap in complete_rq. I don't see any other way around it because
-> on the bonding use-case we need to wipe out all of the device related
-> resources because we need to have it teardown and be prepared to get
-> a different device on the next (re)connect.
+I haven't yet been able to isolate this to being (or not being) relevant 
+to the pending nvme CQS warning above.
 
-Yes, thought using block layer iter but in case it won't hurt 
-performance I'll do it in queue_rq/complete_rq.
+Any ideas how to debug this welcome. I haven't been able to reproduce it 
+in a VM, so it's either something specific to that machine in general, or 
+to nvme specifically.
 
-Let me check that...
+Dongli Zhang, could you please try hibernation with "nosmt" on the system 
+where you originally saw the initial pending CQS warning? Are you by any 
+chance seeing the issue as well?
 
--Max.
+Thanks,
+
+-- 
+Jiri Kosina
+SUSE Labs
