@@ -1,46 +1,71 @@
-From: akinobu.mita@gmail.com (Akinobu Mita)
-Date: Wed, 29 May 2019 23:39:29 +0900
-Subject: [PATCH 0/2] nvme: enable to inject errors into admin commands
-In-Reply-To: <8cb23080-b7ab-f773-2d25-e39b36501e3d@oracle.com>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Wed, 29 May 2019 23:46:26 +0900
+Subject: [PATCH 1/2] nvme: prepare for fault injection into admin commands
+In-Reply-To: <1559063018-3682-2-git-send-email-akinobu.mita@gmail.com>
 References: <1559063018-3682-1-git-send-email-akinobu.mita@gmail.com>
- <8cb23080-b7ab-f773-2d25-e39b36501e3d@oracle.com>
-Message-ID: <CAC5umyiqy82saDbTAtR8w99ahe-sH=r1hvt2jMtjnFE9AufqNw@mail.gmail.com>
+ <1559063018-3682-2-git-send-email-akinobu.mita@gmail.com>
+Message-ID: <20190529144624.GA28274@minwooim-desktop>
 
-2019?5?29?(?) 2:47 Thomas Tai <thomas.tai at oracle.com>:
->
-> On 5/28/19 1:03 PM, Akinobu Mita wrote:
-> > Currenlty fault injection support for nvme only enables to inject errors
-> > into the commands submitted to I/O queues.
-> >
-> > This enables to inject errors into the commands submitted to the admin
-> > queue.
-> >
-> > It is useful to test error handling in the controller initialization.
-> >
-> >       # echo 100 > /sys/kernel/debug/nvme0/fault_inject/probability
-> >       # echo 1 > /sys/kernel/debug/nvme0/fault_inject/times
-> >       # echo 10 > /sys/kernel/debug/nvme0/fault_inject/space
-> >       # nvme reset /dev/nvme0
-> >       # dmesg
->
-> Hi Akinobu,
-> That sounds like a good idea. would you kindly update the document in
-> Documentation/fault-injection/nvme-fault-injection.txt with your example?
+On 19-05-29 02:03:37, Akinobu Mita wrote:
+> Currenlty fault injection support for nvme only enables to inject errors
+> into the commands submitted to I/O queues.
+> 
+> In preparation for fault injection into the admin commands, this makes
+> the helper functions independent of struct nvme_ns.
+> 
+> Cc: Thomas Tai <thomas.tai at oracle.com>
+> Cc: Keith Busch <kbusch at kernel.org>
+> Cc: Jens Axboe <axboe at fb.com>
+> Cc: Christoph Hellwig <hch at lst.de>
+> Cc: Sagi Grimberg <sagi at grimberg.me>
+> Signed-off-by: Akinobu Mita <akinobu.mita at gmail.com>
+> ---
+>  drivers/nvme/host/core.c         |  4 ++--
+>  drivers/nvme/host/fault_inject.c | 28 +++++++++++++++-------------
+>  drivers/nvme/host/nvme.h         | 20 ++++++++++++--------
+>  3 files changed, 29 insertions(+), 23 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 26c8b59..9fca8457 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -3698,7 +3698,7 @@ static int nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+>  	device_add_disk(ctrl->device, ns->disk, nvme_ns_id_attr_groups);
+>  
+>  	nvme_mpath_add_disk(ns, id);
+> -	nvme_fault_inject_init(ns);
+> +	nvme_fault_inject_init(&ns->fault_inject, ns->disk->disk_name);
+>  	kfree(id);
+>  
+>  	return 0;
+> @@ -3723,7 +3723,7 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+>  	if (test_and_set_bit(NVME_NS_REMOVING, &ns->flags))
+>  		return;
+>  
+> -	nvme_fault_inject_fini(ns);
+> +	nvme_fault_inject_fini(&ns->fault_inject);
+>  	if (ns->disk && ns->disk->flags & GENHD_FL_UP) {
+>  		del_gendisk(ns->disk);
+>  		blk_cleanup_queue(ns->queue);
+> diff --git a/drivers/nvme/host/fault_inject.c b/drivers/nvme/host/fault_inject.c
+> index 4cfd2c9..e8d8da9 100644
+> --- a/drivers/nvme/host/fault_inject.c
+> +++ b/drivers/nvme/host/fault_inject.c
+> @@ -15,11 +15,10 @@ static DECLARE_FAULT_ATTR(fail_default_attr);
+>  static char *fail_request;
+>  module_param(fail_request, charp, 0000);
+>  
+> -void nvme_fault_inject_init(struct nvme_ns *ns)
+> +void nvme_fault_inject_init(struct nvme_fault_inject *fault_inj,
+> +			    const char *name)
 
-Sure. I'll add the following exmple.
+Hi Akinobu,
 
-Example 3: Inject an error into the 10th admin command
-------------------------------------------------------
+Just a simple proposal here.  Can we have a name for the disk name with:
+	const char *disk_name ?
+I think the name of variable "name" can make some confusions to whom want
+to use this feature at later time :)
 
-echo 100 > /sys/kernel/debug/nvme0/fault_inject/probability
-echo 10 > /sys/kernel/debug/nvme0/fault_inject/space
-echo 1 > /sys/kernel/debug/nvme0/fault_inject/times
-nvme reset /dev/nvme0
+Otherwise, in the perspective of this single patch, looks good to me.
 
-Expected Result:
-
-After NVMe controller reset, the reinitialization may or may not succeed.
-It depends on which admin command is actually forced to fail.
-
-Message from dmesg:
-...
+Reviewed-by: Minwoo Im <minwoo.im.dev at gmail.com>
