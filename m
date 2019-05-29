@@ -1,34 +1,53 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 29 May 2019 15:42:22 -0700
-Subject: [PATCH v2 1/7] nvmet: add transport discovery change op
-In-Reply-To: <72f17092-e068-a13c-9088-59afafcd6157@gmail.com>
-References: <20190514215808.10572-1-jsmart2021@gmail.com>
- <20190514215808.10572-2-jsmart2021@gmail.com>
- <5e71e7be-3ce0-aa3f-4456-7a6d454a3c7d@grimberg.me>
- <72f17092-e068-a13c-9088-59afafcd6157@gmail.com>
-Message-ID: <05fce470-7524-aa9f-355c-bff007b9e91f@grimberg.me>
+From: aeasi@marvell.com (Arun Easi)
+Date: Wed, 29 May 2019 15:48:17 -0700
+Subject: [PATCH v2] nvme-fc: Add message when creating new association
+In-Reply-To: <20190529222526.3672-1-jsmart2021@gmail.com>
+References: <20190529222526.3672-1-jsmart2021@gmail.com>
+Message-ID: <alpine.LRH.2.21.9999.1905291546340.9636@mvluser05.qlc.com>
 
+On Wed, 29 May 2019, 3:25pm, James Smart wrote:
 
->>> diff --git a/drivers/nvme/target/discovery.c 
->>> b/drivers/nvme/target/discovery.c
->>> index 5baf269f3f8a..8efca26b4776 100644
->>> --- a/drivers/nvme/target/discovery.c
->>> +++ b/drivers/nvme/target/discovery.c
->>> @@ -41,6 +41,10 @@ void nvmet_port_disc_changed(struct nvmet_port *port,
->>> ????????? __nvmet_disc_changed(port, ctrl);
->>> ????? }
->>> ????? mutex_unlock(&nvmet_disc_subsys->lock);
->>> +
->>> +??? /* If transport can signal change, notify transport */
->>> +??? if (port->tr_ops && port->tr_ops->discovery_chg)
->>> +??????? port->tr_ops->discovery_chg(port);
->>
->> So you are shooting for both transport and disc aen to happen
->> at the same time?
+> When looking at console messages to troubleshoot, there are one
+> maybe two messages before creation of the controller is complete.
+> However, a lot of io takes place to reach that point. It's unclear
+> when things have started.
 > 
-> they could if the discovery controller is a persistent one.
+> Add a message when the controller is attempting to create a new
+> association. Thus we know what controller, between what host and
+> remote port, and what NQN is being put into place for any
+> subsequent success or failure messages.
+> 
+> Signed-off-by: James Smart <jsmart2021 at gmail.com>
+> 
+> --
+> v2:
+>  Moved message to create association so displayed at initial
+>   creation as well as at each reconnect
+>  Changed message to additionally print host port wwpn and target port
+>   wwpn.
+> ---
+>  drivers/nvme/host/fc.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> index c17c887f2148..bd1be8aa2d65 100644
+> --- a/drivers/nvme/host/fc.c
+> +++ b/drivers/nvme/host/fc.c
+> @@ -2607,6 +2607,12 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+>  	if (nvme_fc_ctlr_active_on_rport(ctrl))
+>  		return -ENOTUNIQ;
+>  
+> +	dev_info(ctrl->ctrl.device,
+> +		"NVME-FC{%d}: create association : host wwpn 0x%016llx "
+> +		" rport wwpn 0x%016llx: NQN \"%s\"\n",
+> +		ctrl->cnum, ctrl->lport->localport.port_name,
+> +		ctrl->rport->remoteport.port_name, ctrl->ctrl.opts->subsysnqn);
+> +
+>  	/*
+>  	 * Create the admin queue
+>  	 */
+> 
 
-That's fine I suppose.
+Looks good. Thanks!
 
-So the series looks pretty reasonable to me. Any feedback from
-the FC folks?
+-- arun
