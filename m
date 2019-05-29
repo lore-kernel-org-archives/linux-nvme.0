@@ -1,38 +1,34 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Wed, 29 May 2019 23:52:10 +0900
-Subject: [PATCH 2/2] nvme: enable to inject errors into admin commands
-In-Reply-To: <1559063018-3682-3-git-send-email-akinobu.mita@gmail.com>
-References: <1559063018-3682-1-git-send-email-akinobu.mita@gmail.com>
- <1559063018-3682-3-git-send-email-akinobu.mita@gmail.com>
-Message-ID: <20190529145209.GB28274@minwooim-desktop>
+From: keith.busch@gmail.com (Keith Busch)
+Date: Wed, 29 May 2019 09:08:33 -0600
+Subject: [PATCH] nvme: Ignore timeouts while PCI config access is blocked
+In-Reply-To: <18209f57-0c8a-dfa8-af31-7f33ec3cfc0c@intel.com>
+References: <20190523231429.21235-1-kenneth.heitke@intel.com>
+ <99e76784-ce68-c053-9fde-d035d77f11d3@grimberg.me>
+ <18209f57-0c8a-dfa8-af31-7f33ec3cfc0c@intel.com>
+Message-ID: <CAOSXXT4FVyyG1gc9hfe8TdH-TDxU=gVCT-0g8tqkgZVUr5eGeA@mail.gmail.com>
 
-On 19-05-29 02:03:38, Akinobu Mita wrote:
-> This enables to inject errors into the commands submitted to the admin
-> queue.
-> 
-> It is useful to test error handling in the controller initialization.
-> 
-> 	# echo 100 > /sys/kernel/debug/nvme0/fault_inject/probability
-> 	# echo 1 > /sys/kernel/debug/nvme0/fault_inject/times
-> 	# echo 10 > /sys/kernel/debug/nvme0/fault_inject/space
-> 	# nvme reset /dev/nvme0
-> 	# dmesg
-> 	...
-> 	nvme nvme0: Could not set queue count (16385)
-> 	nvme nvme0: IO queues not created
-> 
-> Cc: Thomas Tai <thomas.tai at oracle.com>
-> Cc: Keith Busch <kbusch at kernel.org>
-> Cc: Jens Axboe <axboe at fb.com>
-> Cc: Christoph Hellwig <hch at lst.de>
-> Cc: Sagi Grimberg <sagi at grimberg.me>
-> Signed-off-by: Akinobu Mita <akinobu.mita at gmail.com>
-> ---
->  drivers/nvme/host/core.c         |  3 +++
->  drivers/nvme/host/fault_inject.c |  5 ++---
->  drivers/nvme/host/nvme.h         | 20 +++++++++++---------
->  3 files changed, 16 insertions(+), 12 deletions(-)
+On Tue, May 28, 2019, 4:32 PM Heitke, Kenneth <kenneth.heitke@intel.com> wrote:
+> On 5/24/2019 12:35 AM, Sagi Grimberg wrote:
+> >
+> >>   static void nvme_reset_done(struct pci_dev *pdev)
+> >>   {
+> >>       struct nvme_dev *dev = pci_get_drvdata(pdev);
+> >> -    nvme_reset_ctrl_sync(&dev->ctrl);
+> >> +    nvme_reset_ctrl(&dev->ctrl);
+> >
+> > This change is not explained in the change log. This opens a window
+> > for nvme_reset_work to run concurrently from different contexts which
+> > is not a good idea...
+>
+> I think Keith recommended the asynchronous reset
+>
+> "Definitely need the nvme_reset_ctrl change as blk_cfg_access is still
+> set here so need to reset asynchronously to unblock new timeouts"
+>
+> Keith, does this still hold true or do I need some other mechanism to
+> avoid the issues that Sagi is concerned about?
 
-This looks good to me also.
-
-Reviewed-by: Minwoo Im <minwoo.im.dev at gmail.com>
+Can't use the pci's block_cfg_access in timeout if doing synchronous
+resets in reset_done. We wouldn't be able to handle IO timeouts during
+reset using that, so would need to use something else, maybe introduce
+a new flag like your original patch.
