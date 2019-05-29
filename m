@@ -1,148 +1,81 @@
-From: james.r.harris@intel.com (Harris, James R)
-Date: Wed, 29 May 2019 15:55:24 +0000
-Subject: [PATCH v2 2/2] nvme-tcp: fix queue mapping when queue count is
- limited
-In-Reply-To: <20190529054905.16279-2-sagi@grimberg.me>
-References: <20190529054905.16279-1-sagi@grimberg.me>
- <20190529054905.16279-2-sagi@grimberg.me>
-Message-ID: <7DD1C983-28CE-4C59-95CE-4087C5211A39@intel.com>
+From: akinobu.mita@gmail.com (Akinobu Mita)
+Date: Thu, 30 May 2019 01:39:38 +0900
+Subject: [PATCH 1/2] nvme: prepare for fault injection into admin commands
+In-Reply-To: <20190529144624.GA28274@minwooim-desktop>
+References: <1559063018-3682-1-git-send-email-akinobu.mita@gmail.com>
+ <1559063018-3682-2-git-send-email-akinobu.mita@gmail.com>
+ <20190529144624.GA28274@minwooim-desktop>
+Message-ID: <CAC5umyityGQyO+kCZ+LHqxGugKPQGv1tgrTc==x=6EjfgJkOqQ@mail.gmail.com>
 
+2019?5?29?(?) 23:46 Minwoo Im <minwoo.im.dev at gmail.com>:
+>
+> On 19-05-29 02:03:37, Akinobu Mita wrote:
+> > Currenlty fault injection support for nvme only enables to inject errors
+> > into the commands submitted to I/O queues.
+> >
+> > In preparation for fault injection into the admin commands, this makes
+> > the helper functions independent of struct nvme_ns.
+> >
+> > Cc: Thomas Tai <thomas.tai at oracle.com>
+> > Cc: Keith Busch <kbusch at kernel.org>
+> > Cc: Jens Axboe <axboe at fb.com>
+> > Cc: Christoph Hellwig <hch at lst.de>
+> > Cc: Sagi Grimberg <sagi at grimberg.me>
+> > Signed-off-by: Akinobu Mita <akinobu.mita at gmail.com>
+> > ---
+> >  drivers/nvme/host/core.c         |  4 ++--
+> >  drivers/nvme/host/fault_inject.c | 28 +++++++++++++++-------------
+> >  drivers/nvme/host/nvme.h         | 20 ++++++++++++--------
+> >  3 files changed, 29 insertions(+), 23 deletions(-)
+> >
+> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> > index 26c8b59..9fca8457 100644
+> > --- a/drivers/nvme/host/core.c
+> > +++ b/drivers/nvme/host/core.c
+> > @@ -3698,7 +3698,7 @@ static int nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+> >       device_add_disk(ctrl->device, ns->disk, nvme_ns_id_attr_groups);
+> >
+> >       nvme_mpath_add_disk(ns, id);
+> > -     nvme_fault_inject_init(ns);
+> > +     nvme_fault_inject_init(&ns->fault_inject, ns->disk->disk_name);
+> >       kfree(id);
+> >
+> >       return 0;
+> > @@ -3723,7 +3723,7 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+> >       if (test_and_set_bit(NVME_NS_REMOVING, &ns->flags))
+> >               return;
+> >
+> > -     nvme_fault_inject_fini(ns);
+> > +     nvme_fault_inject_fini(&ns->fault_inject);
+> >       if (ns->disk && ns->disk->flags & GENHD_FL_UP) {
+> >               del_gendisk(ns->disk);
+> >               blk_cleanup_queue(ns->queue);
+> > diff --git a/drivers/nvme/host/fault_inject.c b/drivers/nvme/host/fault_inject.c
+> > index 4cfd2c9..e8d8da9 100644
+> > --- a/drivers/nvme/host/fault_inject.c
+> > +++ b/drivers/nvme/host/fault_inject.c
+> > @@ -15,11 +15,10 @@ static DECLARE_FAULT_ATTR(fail_default_attr);
+> >  static char *fail_request;
+> >  module_param(fail_request, charp, 0000);
+> >
+> > -void nvme_fault_inject_init(struct nvme_ns *ns)
+> > +void nvme_fault_inject_init(struct nvme_fault_inject *fault_inj,
+> > +                         const char *name)
+>
+> Hi Akinobu,
+>
+> Just a simple proposal here.  Can we have a name for the disk name with:
+>         const char *disk_name ?
+> I think the name of variable "name" can make some confusions to whom want
+> to use this feature at later time :)
 
+As long as ns->disk->disk_name is passed to this argument, 'disk_name' is
+good.
 
-?On 5/28/19, 10:49 PM, "Sagi Grimberg" <sagi@grimberg.me> wrote:
+However, dev_name(ctrl->device) will be passed to the argument in the patch
+2/2.  It's not 'disk_name' anymore, so I think 'name' or 'dev_name' is
+better than 'disk_name'.
 
-    When the controller supports less queues than requested, we
-    should make sure that queue mapping does the right thing and
-    not assume that all queues are available. This fixes a crash
-    when the controller supports less queues than requested.
-    
-    The rules are:
-    1. if no write queues are requested, we assign the available queues
-       to the default queue map. The default and read queue maps share the
-       existing queues.
-    2. if write queues are requested:
-      - first make sure that read queue map gets the requested
-        nr_io_queues count
-      - then grant the default queue map the minimum between the requested
-        nr_write_queues and the remaining queues. If there are no available
-        queues to dedicate to the default queue map, fallback to (1) and
-        share all the queues in the existing queue map.
-    
-    Also, provide a log indication on how we constructed the different
-    queue maps.
-    
-    Reported-by: Harris, James R <james.r.harris at intel.com>
-    Cc: <stable at vger.kernel.org> # v5.0+
-    Suggested-by: Roy Shterman <roys at lightbitslabs.com>
-    Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-
-v2 looks good.
-
-Tested-by: Jim Harris <james.r.harris at intel.com>
-    ---
-     drivers/nvme/host/tcp.c | 57 ++++++++++++++++++++++++++++++++++++-----
-     1 file changed, 50 insertions(+), 7 deletions(-)
-    
-    diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-    index 2b107a1d152b..08a2501b9357 100644
-    --- a/drivers/nvme/host/tcp.c
-    +++ b/drivers/nvme/host/tcp.c
-    @@ -111,6 +111,7 @@ struct nvme_tcp_ctrl {
-     	struct work_struct	err_work;
-     	struct delayed_work	connect_work;
-     	struct nvme_tcp_request async_req;
-    +	u32			io_queues[HCTX_MAX_TYPES];
-     };
-     
-     static LIST_HEAD(nvme_tcp_ctrl_list);
-    @@ -1564,6 +1565,35 @@ static unsigned int nvme_tcp_nr_io_queues(struct nvme_ctrl *ctrl)
-     	return nr_io_queues;
-     }
-     
-    +static void nvme_tcp_set_io_queues(struct nvme_ctrl *nctrl,
-    +		unsigned int nr_io_queues)
-    +{
-    +	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
-    +	struct nvmf_ctrl_options *opts = nctrl->opts;
-    +
-    +	if (opts->nr_write_queues && opts->nr_io_queues < nr_io_queues) {
-    +		/*
-    +		 * separate read/write queues
-    +		 * hand out dedicated default queues only after we have
-    +		 * sufficient read queues.
-    +		 */
-    +		ctrl->io_queues[HCTX_TYPE_READ] = opts->nr_io_queues;
-    +		nr_io_queues -= ctrl->io_queues[HCTX_TYPE_READ];
-    +		ctrl->io_queues[HCTX_TYPE_DEFAULT] =
-    +			min(opts->nr_write_queues, nr_io_queues);
-    +		nr_io_queues -= ctrl->io_queues[HCTX_TYPE_DEFAULT];
-    +	} else {
-    +		/*
-    +		 * shared read/write queues
-    +		 * either no write queues were requested, or we don't have
-    +		 * sufficient queue count to have dedicated default queues.
-    +		 */
-    +		ctrl->io_queues[HCTX_TYPE_DEFAULT] =
-    +			min(opts->nr_io_queues, nr_io_queues);
-    +		nr_io_queues -= ctrl->io_queues[HCTX_TYPE_DEFAULT];
-    +	}
-    +}
-    +
-     static int nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
-     {
-     	unsigned int nr_io_queues;
-    @@ -1581,6 +1611,8 @@ static int nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
-     	dev_info(ctrl->device,
-     		"creating %d I/O queues.\n", nr_io_queues);
-     
-    +	nvme_tcp_set_io_queues(ctrl, nr_io_queues);
-    +
-     	return __nvme_tcp_alloc_io_queues(ctrl);
-     }
-     
-    @@ -2089,23 +2121,34 @@ static blk_status_t nvme_tcp_queue_rq(struct blk_mq_hw_ctx *hctx,
-     static int nvme_tcp_map_queues(struct blk_mq_tag_set *set)
-     {
-     	struct nvme_tcp_ctrl *ctrl = set->driver_data;
-    +	struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
-     
-    -	set->map[HCTX_TYPE_DEFAULT].queue_offset = 0;
-    -	set->map[HCTX_TYPE_READ].nr_queues = ctrl->ctrl.opts->nr_io_queues;
-    -	if (ctrl->ctrl.opts->nr_write_queues) {
-    +	if (opts->nr_write_queues && ctrl->io_queues[HCTX_TYPE_READ]) {
-     		/* separate read/write queues */
-     		set->map[HCTX_TYPE_DEFAULT].nr_queues =
-    -				ctrl->ctrl.opts->nr_write_queues;
-    +			ctrl->io_queues[HCTX_TYPE_DEFAULT];
-    +		set->map[HCTX_TYPE_DEFAULT].queue_offset = 0;
-    +		set->map[HCTX_TYPE_READ].nr_queues =
-    +			ctrl->io_queues[HCTX_TYPE_READ];
-     		set->map[HCTX_TYPE_READ].queue_offset =
-    -				ctrl->ctrl.opts->nr_write_queues;
-    +			ctrl->io_queues[HCTX_TYPE_DEFAULT];
-     	} else {
-    -		/* mixed read/write queues */
-    +		/* shared read/write queues */
-     		set->map[HCTX_TYPE_DEFAULT].nr_queues =
-    -				ctrl->ctrl.opts->nr_io_queues;
-    +			ctrl->io_queues[HCTX_TYPE_DEFAULT];
-    +		set->map[HCTX_TYPE_DEFAULT].queue_offset = 0;
-    +		set->map[HCTX_TYPE_READ].nr_queues =
-    +			ctrl->io_queues[HCTX_TYPE_DEFAULT];
-     		set->map[HCTX_TYPE_READ].queue_offset = 0;
-     	}
-     	blk_mq_map_queues(&set->map[HCTX_TYPE_DEFAULT]);
-     	blk_mq_map_queues(&set->map[HCTX_TYPE_READ]);
-    +
-    +	dev_info(ctrl->ctrl.device,
-    +		"mapped %d/%d default/read queues.\n",
-    +		ctrl->io_queues[HCTX_TYPE_DEFAULT],
-    +		ctrl->io_queues[HCTX_TYPE_READ]);
-    +
-     	return 0;
-     }
-     
-    -- 
-    2.17.1
-    
-    
+> Otherwise, in the perspective of this single patch, looks good to me.
+>
+> Reviewed-by: Minwoo Im <minwoo.im.dev at gmail.com>
