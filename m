@@ -1,34 +1,96 @@
-From: keith.busch@gmail.com (Keith Busch)
-Date: Wed, 29 May 2019 09:08:33 -0600
-Subject: [PATCH] nvme: Ignore timeouts while PCI config access is blocked
-In-Reply-To: <18209f57-0c8a-dfa8-af31-7f33ec3cfc0c@intel.com>
-References: <20190523231429.21235-1-kenneth.heitke@intel.com>
- <99e76784-ce68-c053-9fde-d035d77f11d3@grimberg.me>
- <18209f57-0c8a-dfa8-af31-7f33ec3cfc0c@intel.com>
-Message-ID: <CAOSXXT4FVyyG1gc9hfe8TdH-TDxU=gVCT-0g8tqkgZVUr5eGeA@mail.gmail.com>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Thu, 30 May 2019 00:15:18 +0900
+Subject: [PATCH v3 2/3] nvme: add thermal zone devices
+In-Reply-To: <1558888143-5121-3-git-send-email-akinobu.mita@gmail.com>
+References: <1558888143-5121-1-git-send-email-akinobu.mita@gmail.com>
+ <1558888143-5121-3-git-send-email-akinobu.mita@gmail.com>
+Message-ID: <20190529151517.GC28274@minwooim-desktop>
 
-On Tue, May 28, 2019, 4:32 PM Heitke, Kenneth <kenneth.heitke@intel.com> wrote:
-> On 5/24/2019 12:35 AM, Sagi Grimberg wrote:
-> >
-> >>   static void nvme_reset_done(struct pci_dev *pdev)
-> >>   {
-> >>       struct nvme_dev *dev = pci_get_drvdata(pdev);
-> >> -    nvme_reset_ctrl_sync(&dev->ctrl);
-> >> +    nvme_reset_ctrl(&dev->ctrl);
-> >
-> > This change is not explained in the change log. This opens a window
-> > for nvme_reset_work to run concurrently from different contexts which
-> > is not a good idea...
->
-> I think Keith recommended the asynchronous reset
->
-> "Definitely need the nvme_reset_ctrl change as blk_cfg_access is still
-> set here so need to reset asynchronously to unblock new timeouts"
->
-> Keith, does this still hold true or do I need some other mechanism to
-> avoid the issues that Sagi is concerned about?
+> +/**
+> + * nvme_thermal_zones_register() - register nvme thermal zone devices
+> + * @ctrl: controller instance
+> + *
+> + * This function creates up to nine thermal zone devices for all implemented
+> + * temperature sensors including the composite temperature.
+> + * Each thermal zone device provides a single trip point temperature that is
+> + * associated with an over temperature threshold.
+> + */
+> +static int nvme_thermal_zones_register(struct nvme_ctrl *ctrl)
+> +{
+> +	struct nvme_smart_log *log;
+> +	int ret;
+> +	int i;
+> +
+> +	log = kzalloc(sizeof(*log), GFP_KERNEL);
+> +	if (!log)
+> +		return 0; /* non-fatal error */
 
-Can't use the pci's block_cfg_access in timeout if doing synchronous
-resets in reset_done. We wouldn't be able to handle IO timeouts during
-reset using that, so would need to use something else, maybe introduce
-a new flag like your original patch.
+Do we need to print something like warning here? If kzalloc() fails, it
+would be good to be distinguished between the nvme failure and internal
+failure like this.
+
+> +
+> +	ret = nvme_get_log(ctrl, NVME_NSID_ALL, NVME_LOG_SMART, 0,
+> +			   log, sizeof(*log), 0);
+> +	if (ret) {
+> +		dev_err(ctrl->device, "Failed to get SMART log: %d\n", ret);
+> +		/* If the device provided a response, then it's non-fatal */
+> +		if (ret > 0)
+> +			ret = 0;
+
+It seems like that nvme_init_identify() is just check the internal error
+which is in negative value now as you have posted.  Why don't we just
+return the value of "ret" itself without updating it to 0 ?
+
+> +		goto free_log;
+> +	}
+> +
+> +	for (i = 0; i < ARRAY_SIZE(ctrl->tzdev); i++) {
+> +		struct thermal_zone_device *tzdev;
+> +		int temp;
+> +
+> +		if (i)
+> +			temp = le16_to_cpu(log->temp_sensor[i - 1]);
+> +		else
+> +			temp = get_unaligned_le16(log->temperature);
+> +
+> +		/*
+> +		 * All implemented temperature sensors report a non-zero value
+> +		 * in temperature sensor fields in the smart log page.
+> +		 */
+> +		if (!temp)
+> +			continue;
+> +		if (ctrl->tzdev[i])
+> +			continue;
+> +
+> +		tzdev = nvme_thermal_zone_register(ctrl, i);
+> +		if (!IS_ERR(tzdev))
+> +			ctrl->tzdev[i] = tzdev;
+> +	}
+> +
+> +free_log:
+> +	kfree(log);
+> +
+> +	return ret;
+> +}
+> +
+> +/**
+> + * nvme_thermal_zones_unregister() - unregister nvme thermal zone devices
+> + * @ctrl: controller instance
+> + *
+> + * This function removes the registered thermal zone devices and symlinks.
+> + */
+> +static void nvme_thermal_zones_unregister(struct nvme_ctrl *ctrl)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(ctrl->tzdev); i++) {
+> +		struct thermal_zone_device *tzdev = ctrl->tzdev[i];
+> +		char name[20];
+
+Simple query here :)
+
+If we are not going to allow the name of link exceed the length of its
+own device name like nvmeX_tempY, then can we THERMAL_NAME_LENGTH macro
+here?  If the name of link is not exactly about the device name itself,
+then it's fine.  What do you think about it ?
