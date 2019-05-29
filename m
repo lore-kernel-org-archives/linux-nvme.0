@@ -1,136 +1,32 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 28 May 2019 22:49:05 -0700
-Subject: [PATCH v2 2/2] nvme-tcp: fix queue mapping when queue count is limited
-In-Reply-To: <20190529054905.16279-1-sagi@grimberg.me>
-References: <20190529054905.16279-1-sagi@grimberg.me>
-Message-ID: <20190529054905.16279-2-sagi@grimberg.me>
+Date: Tue, 28 May 2019 23:22:00 -0700
+Subject: [GIT PULL] nvme fixes for 5.2
+In-Reply-To: <FA7D2A4E-6CEF-467C-8153-F1DBCA624626@oracle.com>
+References: <20190516082541.GA19383@infradead.org>
+ <5175ce5c-1943-a167-52f5-094a3d2dc4a4@Oracle.com>
+ <FA7D2A4E-6CEF-467C-8153-F1DBCA624626@oracle.com>
+Message-ID: <0eb19967-e0bc-ed16-c2a1-39e624e2d7ab@grimberg.me>
 
-When the controller supports less queues than requested, we
-should make sure that queue mapping does the right thing and
-not assume that all queues are available. This fixes a crash
-when the controller supports less queues than requested.
 
-The rules are:
-1. if no write queues are requested, we assign the available queues
-   to the default queue map. The default and read queue maps share the
-   existing queues.
-2. if write queues are requested:
-  - first make sure that read queue map gets the requested
-    nr_io_queues count
-  - then grant the default queue map the minimum between the requested
-    nr_write_queues and the remaining queues. If there are no available
-    queues to dedicate to the default queue map, fallback to (1) and
-    share all the queues in the existing queue map.
+>    It appears to me the caller nvme_free_ctrl()  is using a device name that has been cleared :
+> 
+>      sysfs_remove_link(&subsys->dev.kobj, dev_name(ctrl->device));
+> 
+> 
+> The name passed in is null in kernfs_remove_by_name_ns() :
+> 
+> 
+>   if (!parent) {
+>     WARN(1, KERN_WARNING "kernfs: can not remove '%s', no directory\n",   name);
 
-Also, provide a log indication on how we constructed the different
-queue maps.
+Where do you see this warning in the log?
 
-Reported-by: Harris, James R <james.r.harris at intel.com>
-Cc: <stable at vger.kernel.org> # v5.0+
-Suggested-by: Roy Shterman <roys at lightbitslabs.com>
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/host/tcp.c | 57 ++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 50 insertions(+), 7 deletions(-)
+> I don?t have a actual crash dump to examine though.
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 2b107a1d152b..08a2501b9357 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -111,6 +111,7 @@ struct nvme_tcp_ctrl {
- 	struct work_struct	err_work;
- 	struct delayed_work	connect_work;
- 	struct nvme_tcp_request async_req;
-+	u32			io_queues[HCTX_MAX_TYPES];
- };
- 
- static LIST_HEAD(nvme_tcp_ctrl_list);
-@@ -1564,6 +1565,35 @@ static unsigned int nvme_tcp_nr_io_queues(struct nvme_ctrl *ctrl)
- 	return nr_io_queues;
- }
- 
-+static void nvme_tcp_set_io_queues(struct nvme_ctrl *nctrl,
-+		unsigned int nr_io_queues)
-+{
-+	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
-+	struct nvmf_ctrl_options *opts = nctrl->opts;
-+
-+	if (opts->nr_write_queues && opts->nr_io_queues < nr_io_queues) {
-+		/*
-+		 * separate read/write queues
-+		 * hand out dedicated default queues only after we have
-+		 * sufficient read queues.
-+		 */
-+		ctrl->io_queues[HCTX_TYPE_READ] = opts->nr_io_queues;
-+		nr_io_queues -= ctrl->io_queues[HCTX_TYPE_READ];
-+		ctrl->io_queues[HCTX_TYPE_DEFAULT] =
-+			min(opts->nr_write_queues, nr_io_queues);
-+		nr_io_queues -= ctrl->io_queues[HCTX_TYPE_DEFAULT];
-+	} else {
-+		/*
-+		 * shared read/write queues
-+		 * either no write queues were requested, or we don't have
-+		 * sufficient queue count to have dedicated default queues.
-+		 */
-+		ctrl->io_queues[HCTX_TYPE_DEFAULT] =
-+			min(opts->nr_io_queues, nr_io_queues);
-+		nr_io_queues -= ctrl->io_queues[HCTX_TYPE_DEFAULT];
-+	}
-+}
-+
- static int nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
- {
- 	unsigned int nr_io_queues;
-@@ -1581,6 +1611,8 @@ static int nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
- 	dev_info(ctrl->device,
- 		"creating %d I/O queues.\n", nr_io_queues);
- 
-+	nvme_tcp_set_io_queues(ctrl, nr_io_queues);
-+
- 	return __nvme_tcp_alloc_io_queues(ctrl);
- }
- 
-@@ -2089,23 +2121,34 @@ static blk_status_t nvme_tcp_queue_rq(struct blk_mq_hw_ctx *hctx,
- static int nvme_tcp_map_queues(struct blk_mq_tag_set *set)
- {
- 	struct nvme_tcp_ctrl *ctrl = set->driver_data;
-+	struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
- 
--	set->map[HCTX_TYPE_DEFAULT].queue_offset = 0;
--	set->map[HCTX_TYPE_READ].nr_queues = ctrl->ctrl.opts->nr_io_queues;
--	if (ctrl->ctrl.opts->nr_write_queues) {
-+	if (opts->nr_write_queues && ctrl->io_queues[HCTX_TYPE_READ]) {
- 		/* separate read/write queues */
- 		set->map[HCTX_TYPE_DEFAULT].nr_queues =
--				ctrl->ctrl.opts->nr_write_queues;
-+			ctrl->io_queues[HCTX_TYPE_DEFAULT];
-+		set->map[HCTX_TYPE_DEFAULT].queue_offset = 0;
-+		set->map[HCTX_TYPE_READ].nr_queues =
-+			ctrl->io_queues[HCTX_TYPE_READ];
- 		set->map[HCTX_TYPE_READ].queue_offset =
--				ctrl->ctrl.opts->nr_write_queues;
-+			ctrl->io_queues[HCTX_TYPE_DEFAULT];
- 	} else {
--		/* mixed read/write queues */
-+		/* shared read/write queues */
- 		set->map[HCTX_TYPE_DEFAULT].nr_queues =
--				ctrl->ctrl.opts->nr_io_queues;
-+			ctrl->io_queues[HCTX_TYPE_DEFAULT];
-+		set->map[HCTX_TYPE_DEFAULT].queue_offset = 0;
-+		set->map[HCTX_TYPE_READ].nr_queues =
-+			ctrl->io_queues[HCTX_TYPE_DEFAULT];
- 		set->map[HCTX_TYPE_READ].queue_offset = 0;
- 	}
- 	blk_mq_map_queues(&set->map[HCTX_TYPE_DEFAULT]);
- 	blk_mq_map_queues(&set->map[HCTX_TYPE_READ]);
-+
-+	dev_info(ctrl->ctrl.device,
-+		"mapped %d/%d default/read queues.\n",
-+		ctrl->io_queues[HCTX_TYPE_DEFAULT],
-+		ctrl->io_queues[HCTX_TYPE_READ]);
-+
- 	return 0;
- }
- 
--- 
-2.17.1
+Is this a regression then? or did this not work before the above
+patches?
+
+Would it be possible to get some more of the log?
+
+Also, I see that this is the removal flow, was that intentional
+removal during the reconnect? or did ctrl_loss_tmo expired?
