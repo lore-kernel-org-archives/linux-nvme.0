@@ -1,38 +1,24 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 29 May 2019 13:27:54 -0700
-Subject: [PATCH v2 1/2] nvme-rdma: fix queue mapping when queue count is
- limited
-In-Reply-To: <c5fa88e8-f046-2d3b-7851-afbc1446fcbf@grimberg.me>
-References: <20190529054905.16279-1-sagi@grimberg.me>
- <83c239a0-69bd-9fa4-b7af-4cb01d20cc2c@mellanox.com>
- <c5fa88e8-f046-2d3b-7851-afbc1446fcbf@grimberg.me>
-Message-ID: <bb65e190-527a-e660-3cda-8fc340b57ef7@grimberg.me>
+Date: Wed, 29 May 2019 15:21:28 -0700
+Subject: [PATCH v2 1/7] nvmet: add transport discovery change op
+In-Reply-To: <20190514215808.10572-2-jsmart2021@gmail.com>
+References: <20190514215808.10572-1-jsmart2021@gmail.com>
+ <20190514215808.10572-2-jsmart2021@gmail.com>
+Message-ID: <5e71e7be-3ce0-aa3f-4456-7a6d454a3c7d@grimberg.me>
 
 
->>> @@ -1781,16 +1798,22 @@ static int nvme_rdma_map_queues(struct 
->>> blk_mq_tag_set *set)
->>> ????? blk_mq_rdma_map_queues(&set->map[HCTX_TYPE_READ],
->>> ????????????? ctrl->device->dev, 0);
->>> -??? if (ctrl->ctrl.opts->nr_poll_queues) {
->>> +??? if (opts->nr_poll_queues && ctrl->io_queues[HCTX_TYPE_POLL]) {
->>> +??????? /* map dedicated poll queues only if we have queues left */
->>> ????????? set->map[HCTX_TYPE_POLL].nr_queues =
->>> ????????????????? ctrl->io_queues[HCTX_TYPE_POLL];
->>> ????????? set->map[HCTX_TYPE_POLL].queue_offset =
->>> -??????????????? ctrl->io_queues[HCTX_TYPE_DEFAULT];
->>> -??????? if (ctrl->ctrl.opts->nr_write_queues)
->>> -??????????? set->map[HCTX_TYPE_POLL].queue_offset +=
->>> -??????????????? ctrl->io_queues[HCTX_TYPE_READ];
->>> +??????????? ctrl->io_queues[HCTX_TYPE_DEFAULT] +
->>> +??????????? ctrl->io_queues[HCTX_TYPE_READ];
->>
->> in case of shared queues? ctrl->io_queues[HCTX_TYPE_READ] != 
->> set->map[HCTX_TYPE_READ].nr_queues.
->>
->> Shouldn't we jump over (the queue_offset) the set->map values ?
-> 
-> This is exactly why we shouldn't. In the shared case, we only have
-> HCTX_TYPE_DEFAULT and HCTX_TYPE_READ is zero so this case jumps
-> exactly how much it needs to.
+> diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
+> index 5baf269f3f8a..8efca26b4776 100644
+> --- a/drivers/nvme/target/discovery.c
+> +++ b/drivers/nvme/target/discovery.c
+> @@ -41,6 +41,10 @@ void nvmet_port_disc_changed(struct nvmet_port *port,
+>   		__nvmet_disc_changed(port, ctrl);
+>   	}
+>   	mutex_unlock(&nvmet_disc_subsys->lock);
+> +
+> +	/* If transport can signal change, notify transport */
+> +	if (port->tr_ops && port->tr_ops->discovery_chg)
+> +		port->tr_ops->discovery_chg(port);
 
-btw, I want a review tag from you Max before taking this in.
+So you are shooting for both transport and disc aen to happen
+at the same time?
