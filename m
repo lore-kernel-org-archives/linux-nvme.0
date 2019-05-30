@@ -1,27 +1,32 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Thu, 30 May 2019 12:43:25 +0300
-Subject: [PATCH 4/5] nvme-print: fix json object memory leak
+Date: Thu, 30 May 2019 12:43:23 +0300
+Subject: [PATCH 2/5] nvme: update description for "nvme list" command
 In-Reply-To: <1559209406-713-1-git-send-email-maxg@mellanox.com>
 References: <1559209406-713-1-git-send-email-maxg@mellanox.com>
-Message-ID: <1559209406-713-4-git-send-email-maxg@mellanox.com>
+Message-ID: <1559209406-713-2-git-send-email-maxg@mellanox.com>
+
+The "nvme list" command doesn't get any device handle as an input
+argument. This operation prints out a basic information for all NVMe
+namespaces in the system.
 
 Reviewed-by: Minwoo Im <minwoo.im at samsung.com>
 Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
 ---
- nvme-print.c | 1 +
- 1 file changed, 1 insertion(+)
+ nvme.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/nvme-print.c b/nvme-print.c
-index 2c4822e..6f85e73 100644
---- a/nvme-print.c
-+++ b/nvme-print.c
-@@ -2918,6 +2918,7 @@ void json_print_nvme_subsystem_list(struct subsys_list_item *slist, int n)
- 		json_object_add_value_array(root, "Subsystems", subsystems);
- 	json_print_object(root, NULL);
- 	printf("\n");
-+	json_free_object(root);
- }
- 
- static void show_registers_cap(struct nvme_bar_cap *cap)
+diff --git a/nvme.c b/nvme.c
+index 9d763f5..3310abd 100644
+--- a/nvme.c
++++ b/nvme.c
+@@ -1801,7 +1801,7 @@ static int list(int argc, char **argv, struct command *cmd, struct plugin *plugi
+ 	struct list_item *list_items;
+ 	unsigned int list_cnt = 0;
+ 	int fmt, ret, fd, i, n;
+-	const char *desc = "Retrieve basic information for the given device";
++	const char *desc = "Retrieve basic information for all NVMe namespaces";
+ 	struct config {
+ 		char *output_format;
+ 	};
 -- 
 1.8.3.1
