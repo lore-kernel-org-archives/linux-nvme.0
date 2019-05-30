@@ -1,182 +1,69 @@
-From: rafael@kernel.org (Rafael J. Wysocki)
-Date: Thu, 30 May 2019 11:09:17 +0200
-Subject: [PATCHv3 2/2] nvme-pci: Use host managed power state for suspend
-In-Reply-To: <20190523152735.15052-2-keith.busch@intel.com>
-References: <20190523152735.15052-1-keith.busch@intel.com>
- <20190523152735.15052-2-keith.busch@intel.com>
-Message-ID: <CAJZ5v0j2kJ-ojWdCfdUAe1Rud7i8u72eWqzRBKWYsoPz0unoFw@mail.gmail.com>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Thu, 30 May 2019 12:43:22 +0300
+Subject: [PATCH 1/5] nvme: update list-ns nsid option
+Message-ID: <1559209406-713-1-git-send-email-maxg@mellanox.com>
 
-On Thu, May 23, 2019@5:32 PM Keith Busch <keith.busch@intel.com> wrote:
->
-> The nvme pci driver prepares its devices for power loss during suspend
-> by shutting down the controllers. The power setting is deferred to
-> pci driver's power management before the platform removes power. The
-> suspend-to-idle mode, however, does not remove power.
->
-> NVMe devices that implement host managed power settings can achieve
-> lower power and better transition latencies than using generic PCI power
-> settings. Try to use this feature if the platform is not involved with
-> the suspend. If successful, restore the previous power state on resume.
->
-> Cc: Mario Limonciello <Mario.Limonciello at dell.com>
-> Cc: Kai Heng Feng <kai.heng.feng at canonical.com>
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
+This commit updates the optional nsid argument to define the wanted
+nsid for start, instead of starting from nsid + 1. E.g. in case we've
+wanted to get the list of namespaces starting from 1, before this
+commit, we used the "--namespace-id=0" option. Nsid 0 is not valid in
+NVMe spec, thus change it to start counting from the given nsid.
 
-No concerns from me:
+Reviewed-by: Minwoo Im <minwoo.im at samsung.com>
+Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ nvme.c | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
 
-Reviewed-by: Rafael J. Wysocki <rafael.j.wysocki at intel.com>
-
-> ---
-> v2 -> v3:
->
->   Removed the HMB handling. We've determined this is not be
->   necessary in a s2i state.
->
->   Splitting PM ops (Rafael)
->
->   Incorporated improvements from Christoph
->
->  drivers/nvme/host/pci.c | 96 +++++++++++++++++++++++++++++++++++++++++++++++--
->  1 file changed, 93 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 599065ed6a32..47da55abb56b 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -18,6 +18,7 @@
->  #include <linux/mutex.h>
->  #include <linux/once.h>
->  #include <linux/pci.h>
-> +#include <linux/suspend.h>
->  #include <linux/t10-pi.h>
->  #include <linux/types.h>
->  #include <linux/io-64-nonatomic-lo-hi.h>
-> @@ -116,6 +117,7 @@ struct nvme_dev {
->         u32 cmbsz;
->         u32 cmbloc;
->         struct nvme_ctrl ctrl;
-> +       u32 last_ps;
->
->         mempool_t *iod_mempool;
->
-> @@ -2829,16 +2831,94 @@ static void nvme_remove(struct pci_dev *pdev)
->  }
->
->  #ifdef CONFIG_PM_SLEEP
-> +static int nvme_get_power_state(struct nvme_ctrl *ctrl, u32 *ps)
-> +{
-> +       return nvme_get_features(ctrl, NVME_FEAT_POWER_MGMT, 0, NULL, 0, ps);
-> +}
-> +
-> +static int nvme_set_power_state(struct nvme_ctrl *ctrl, u32 ps)
-> +{
-> +       return nvme_set_features(ctrl, NVME_FEAT_POWER_MGMT, ps, NULL, 0, NULL);
-> +}
-> +
-> +static int nvme_resume(struct device *dev)
-> +{
-> +       struct nvme_dev *ndev = pci_get_drvdata(to_pci_dev(dev));
-> +       struct nvme_ctrl *ctrl = &ndev->ctrl;
-> +
-> +       if (pm_resume_via_firmware() || !ctrl->npss ||
-> +           nvme_set_power_state(ctrl, ndev->last_ps) != 0)
-> +               nvme_reset_ctrl(ctrl);
-> +       return 0;
-> +}
-> +
->  static int nvme_suspend(struct device *dev)
->  {
->         struct pci_dev *pdev = to_pci_dev(dev);
->         struct nvme_dev *ndev = pci_get_drvdata(pdev);
-> +       struct nvme_ctrl *ctrl = &ndev->ctrl;
-> +       int ret = -EBUSY;
-> +
-> +       /*
-> +        * The platform does not remove power for a kernel managed suspend so
-> +        * use host managed nvme power settings for lowest idle power if
-> +        * possible. This should have quicker resume latency than a full device
-> +        * shutdown.  But if the firmware is involved after the suspend or the
-> +        * device does not support any non-default power states, shut down the
-> +        * device fully.
-> +        */
-> +       if (pm_suspend_via_firmware() || !ctrl->npss) {
-> +               nvme_dev_disable(ndev, true);
-> +               return 0;
-> +       }
-> +
-> +       nvme_start_freeze(ctrl);
-> +       nvme_wait_freeze(ctrl);
-> +       nvme_sync_queues(ctrl);
-> +
-> +       if (ctrl->state != NVME_CTRL_LIVE &&
-> +           ctrl->state != NVME_CTRL_ADMIN_ONLY)
-> +               goto unfreeze;
-> +
-> +       ndev->last_ps = 0;
-> +       ret = nvme_get_power_state(ctrl, &ndev->last_ps);
-> +       if (ret < 0)
-> +               goto unfreeze;
-> +
-> +       ret = nvme_set_power_state(ctrl, ctrl->npss);
-> +       if (ret < 0)
-> +               goto unfreeze;
-> +
-> +       if (ret) {
-> +               /*
-> +                * Clearing npss forces a controller reset on resume. The
-> +                * correct value will be resdicovered then.
-> +                */
-> +               nvme_dev_disable(ndev, true);
-> +               ctrl->npss = 0;
-> +               ret = 0;
-> +               goto unfreeze;
-> +       }
-> +       /*
-> +        * A saved state prevents pci pm from generically controlling the
-> +        * device's power. If we're using protocol specific settings, we don't
-> +        * want pci interfering.
-> +        */
-> +       pci_save_state(pdev);
-> +unfreeze:
-> +       nvme_unfreeze(ctrl);
-> +       return ret;
-> +}
-> +
-> +static int nvme_simple_suspend(struct device *dev)
-> +{
-> +       struct nvme_dev *ndev = pci_get_drvdata(to_pci_dev(dev));
->
->         nvme_dev_disable(ndev, true);
->         return 0;
->  }
->
-> -static int nvme_resume(struct device *dev)
-> +static int nvme_simple_resume(struct device *dev)
->  {
->         struct pci_dev *pdev = to_pci_dev(dev);
->         struct nvme_dev *ndev = pci_get_drvdata(pdev);
-> @@ -2846,9 +2926,19 @@ static int nvme_resume(struct device *dev)
->         nvme_reset_ctrl(&ndev->ctrl);
->         return 0;
->  }
-> -#endif
->
-> -static SIMPLE_DEV_PM_OPS(nvme_dev_pm_ops, nvme_suspend, nvme_resume);
-> +const struct dev_pm_ops nvme_dev_pm_ops = {
-> +       .suspend        = nvme_suspend,
-> +       .resume         = nvme_resume,
-> +       .freeze         = nvme_simple_suspend,
-> +       .thaw           = nvme_simple_resume,
-> +       .poweroff       = nvme_simple_suspend,
-> +       .restore        = nvme_simple_resume,
-> +};
-> +
-> +#else
-> +#define nvme_dev_pm_ops                NULL
-> +#endif
->
->  static pci_ers_result_t nvme_error_detected(struct pci_dev *pdev,
->                                                 pci_channel_state_t state)
-> --
-> 2.14.4
->
+diff --git a/nvme.c b/nvme.c
+index 9819fcb..9d763f5 100644
+--- a/nvme.c
++++ b/nvme.c
+@@ -950,9 +950,9 @@ close_fd:
+ 
+ static int list_ns(int argc, char **argv, struct command *cmd, struct plugin *plugin)
+ {
+-	const char *desc = "For the specified device, show the "\
+-		"namespace list in a NVMe subsystem, optionally starting with a given namespace";
+-	const char *namespace_id = "namespace number returned list should to start after";
++	const char *desc = "For the specified controller handle, show the "\
++		"namespace list in the associated NVMe subsystem, optionally starting with a given nsid.";
++	const char *namespace_id = "first nsid returned list should start from";
+ 	const char *all = "show all namespaces in the subsystem, whether attached or inactive";
+ 	int err, i, fd;
+ 	__u32 ns_list[1024];
+@@ -963,7 +963,7 @@ static int list_ns(int argc, char **argv, struct command *cmd, struct plugin *pl
+ 	};
+ 
+ 	struct config cfg = {
+-		.namespace_id = 0,
++		.namespace_id = 1,
+ 	};
+ 
+ 	const struct argconfig_commandline_options command_line_options[] = {
+@@ -976,7 +976,14 @@ static int list_ns(int argc, char **argv, struct command *cmd, struct plugin *pl
+ 	if (fd < 0)
+ 		return fd;
+ 
+-	err = nvme_identify_ns_list(fd, cfg.namespace_id, !!cfg.all, ns_list);
++	if (!cfg.namespace_id) {
++		err = -EINVAL;
++		fprintf(stderr, "invalid nsid parameter\n");
++		goto close_fd;
++	}
++
++	err = nvme_identify_ns_list(fd, cfg.namespace_id - 1, !!cfg.all,
++				    ns_list);
+ 	if (!err) {
+ 		for (i = 0; i < 1024; i++)
+ 			if (ns_list[i])
+@@ -987,6 +994,7 @@ static int list_ns(int argc, char **argv, struct command *cmd, struct plugin *pl
+ 	else
+ 		perror("id namespace list");
+ 
++close_fd:
+ 	close(fd);
+ 
+ 	return err;
+-- 
+1.8.3.1
