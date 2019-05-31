@@ -1,11 +1,15 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri, 31 May 2019 16:32:24 -0700
-Subject: [PATCH 0/3] nvme: Improve processing paused support
-In-Reply-To: <20190524202036.17265-1-keith.busch@intel.com>
-References: <20190524202036.17265-1-keith.busch@intel.com>
-Message-ID: <76f0ba18-fb80-7a96-6f53-d4df1d637da5@grimberg.me>
+Date: Fri, 31 May 2019 16:37:28 -0700
+Subject: [PATCH 0/2] nvme: enable to inject errors into admin commands
+In-Reply-To: <CAC5umyiqy82saDbTAtR8w99ahe-sH=r1hvt2jMtjnFE9AufqNw@mail.gmail.com>
+References: <1559063018-3682-1-git-send-email-akinobu.mita@gmail.com>
+ <8cb23080-b7ab-f773-2d25-e39b36501e3d@oracle.com>
+ <CAC5umyiqy82saDbTAtR8w99ahe-sH=r1hvt2jMtjnFE9AufqNw@mail.gmail.com>
+Message-ID: <db9b5af2-9885-a6b4-ed58-f4639cc96662@grimberg.me>
 
-This looks sensible to me,
+Hi Akinobu,
 
-Minwoo, do you have any concerns or feedback? If not
-can I get your review tag?
+This looks fine to me as well,
+
+Feel free to add to your v2:
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
