@@ -1,25 +1,31 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Sat, 1 Jun 2019 11:45:27 +0900
-Subject: [PATCH 0/3] nvme: Improve processing paused support
-In-Reply-To: <76f0ba18-fb80-7a96-6f53-d4df1d637da5@grimberg.me>
-References: <20190524202036.17265-1-keith.busch@intel.com>
- <76f0ba18-fb80-7a96-6f53-d4df1d637da5@grimberg.me>
-Message-ID: <20190601024525.GB3349@minwooim-desktop>
+Date: Sat,  1 Jun 2019 14:54:28 +0900
+Subject: [PATCH] nvme-cli: update command message for "help"
+Message-ID: <20190601055428.17906-1-minwoo.im.dev@gmail.com>
 
-On 19-05-31 16:32:24, Sagi Grimberg wrote:
-> This looks sensible to me,
-> 
-> Minwoo, do you have any concerns or feedback? If not
-> can I get your review tag?
+The "help" subcommand will show the man page, not the help message which
+is printed out to stdout by --help option.  The previous message might
+make confusions between man page and --help options so that it needs to
+be updated.
 
-Actually this series are looking good to me.  But, I was just
-concerning that if there is better print statement or safe access method
-for CSTS.PP bit in the code.
+Cc: Keith Busch <kbusch at kernel.org>
+Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
+---
+ plugin.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-But, the print message is not that critical so that I can make my review
-on this.  I need to ask Keith about accessing CSTS.PP without seeing
-CC.EN can be valid in some cases, by the way :).
-
-For this series:
-
-Reviewed-by: Minwoo Im <minwoo.im.dev at gmail.com>
+diff --git a/plugin.c b/plugin.c
+index 4750df6..8fd0605 100644
+--- a/plugin.c
++++ b/plugin.c
+@@ -91,7 +91,7 @@ void general_help(struct plugin *plugin)
+ 					plugin->commands[i]->help);
+ 
+ 	printf("  %-*s %s\n", padding, "version", "Shows the program version");
+-	printf("  %-*s %s\n", padding, "help", "Display this help");
++	printf("  %-*s %s\n", padding, "help", "Display the man page");
+ 	printf("\n");
+ 
+ 	if (plugin->name)
+-- 
+2.21.0
