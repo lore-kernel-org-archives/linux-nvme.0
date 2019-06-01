@@ -1,63 +1,25 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Sat, 1 Jun 2019 11:37:54 +0900
-Subject: [RFC PATCH 5/5] nvme-trace: Add tracing for req_comp in target
-In-Reply-To: <b2e1e9f4-a96c-9f72-d787-1cd0a6248aa0@grimberg.me>
-References: <20190527175346.29972-1-minwoo.im.dev@gmail.com>
- <20190527175346.29972-6-minwoo.im.dev@gmail.com>
- <b2e1e9f4-a96c-9f72-d787-1cd0a6248aa0@grimberg.me>
-Message-ID: <20190601023752.GA3349@minwooim-desktop>
+Date: Sat, 1 Jun 2019 11:45:27 +0900
+Subject: [PATCH 0/3] nvme: Improve processing paused support
+In-Reply-To: <76f0ba18-fb80-7a96-6f53-d4df1d637da5@grimberg.me>
+References: <20190524202036.17265-1-keith.busch@intel.com>
+ <76f0ba18-fb80-7a96-6f53-d4df1d637da5@grimberg.me>
+Message-ID: <20190601024525.GB3349@minwooim-desktop>
 
-On 19-05-31 16:29:06, Sagi Grimberg wrote:
+On 19-05-31 16:32:24, Sagi Grimberg wrote:
+> This looks sensible to me,
 > 
-> > @@ -207,20 +208,50 @@ TRACE_EVENT(nvme_complete_rq,
-> >   		__field(u16, status)
-> >   	    ),
-> >   	    TP_fast_assign(
-> > -		__entry->ctrl_id = nvme_req(req)->ctrl->instance;
-> > -		__entry->qid = nvme_req_qid(req);
-> > -		__entry->cid = req->tag;
-> > -		__entry->result = le64_to_cpu(nvme_req(req)->result.u64);
-> > -		__entry->retries = nvme_req(req)->retries;
-> > -		__entry->flags = nvme_req(req)->flags;
-> > -		__entry->status = nvme_req(req)->status;
-> > -		__assign_disk_name(__entry->disk, req->rq_disk);
-> > +		set_trace_type(__entry->type, req);
-> > +		if (__entry->type != NVME_TRACE_TARGET) {
-> > +			struct request *req = (struct request *) req;
-> > +
-> > +			__entry->ctrl_id = nvme_req(req)->ctrl->instance;
-> > +			__entry->qid = nvme_req_qid(req);
-> > +			__entry->cid = req->tag;
-> > +			__entry->result =
-> > +					le64_to_cpu(nvme_req(req)->result.u64);
-> > +			__entry->retries = nvme_req(req)->retries;
-> > +			__entry->flags = nvme_req(req)->flags;
-> > +			__entry->status = nvme_req(req)->status;
-> > +			__assign_disk_name(__entry->disk, req->rq_disk);
-> > +		} else {
-> > +			struct nvmet_ctrl *ctrl = nvmet_req_to_ctrl(req);
-> > +			struct nvmet_cq *cq = ((struct nvmet_req *) req)->cq;
-> > +			struct nvme_completion *cqe =
-> > +					((struct nvmet_req *) req)->cqe;
-> > +			struct nvmet_ns *ns = ((struct nvmet_req *) req)->ns;
-> > +
-> > +			__entry->ctrl_id = ctrl ? ctrl->cntlid : 0;
-> > +			__entry->qid = cq->qid;
-> > +			__entry->cid = cqe->command_id;
-> > +			__entry->result = cqe->result.u64;
-> > +			__entry->flags = 0;
-> > +			__entry->status = cqe->status >> 1;
-> 
-> Why not keep the dnr bit?
+> Minwoo, do you have any concerns or feedback? If not
+> can I get your review tag?
 
-Hi Sagi,
+Actually this series are looking good to me.  But, I was just
+concerning that if there is better print statement or safe access method
+for CSTS.PP bit in the code.
 
-Thanks for your review on this.  It's just for phase tag which might
-not need for us here.  Thanks to your review, I have realized that it
-should be like:
+But, the print message is not that critical so that I can make my review
+on this.  I need to ask Keith about accessing CSTS.PP without seeing
+CC.EN can be valid in some cases, by the way :).
 
-	__entry->status = le16_to_cpu(cqe->status) >> 1;
+For this series:
 
-I will prepare V5 patch series with this.
-
-Thanks,
+Reviewed-by: Minwoo Im <minwoo.im.dev at gmail.com>
