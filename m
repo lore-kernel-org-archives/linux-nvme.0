@@ -1,26 +1,17 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Sat, 1 Jun 2019 11:07:14 +0200
-Subject: [PATCH 1/3] nvme-pci: reset timeout when processing is paused
-In-Reply-To: <20190524202036.17265-2-keith.busch@intel.com>
+Date: Sat, 1 Jun 2019 11:08:09 +0200
+Subject: [PATCH 2/3] nvme: rearm fw notification in admin only state
+In-Reply-To: <20190524202036.17265-3-keith.busch@intel.com>
 References: <20190524202036.17265-1-keith.busch@intel.com>
- <20190524202036.17265-2-keith.busch@intel.com>
-Message-ID: <20190601090714.GG6453@lst.de>
+ <20190524202036.17265-3-keith.busch@intel.com>
+Message-ID: <20190601090809.GH6453@lst.de>
 
-On Fri, May 24, 2019@02:20:34PM -0600, Keith Busch wrote:
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index f562154551ce..101e20522374 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -1263,7 +1263,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
->  	 * the recovery mechanism will surely fail.
->  	 */
->  	mb();
-> -	if (pci_channel_offline(to_pci_dev(dev->dev)))
-> +	if (pci_channel_offline(to_pci_dev(dev->dev)) || (csts & NVME_CSTS_PP))
+On Fri, May 24, 2019@02:20:35PM -0600, Keith Busch wrote:
+> +	if (ctrl->state != NVME_CTRL_LIVE &&
+> +	    ctrl->state != NVME_CTRL_ADMIN_ONLY)
 
-I think we at least need a ratelimited printk when this happens so
-people know they don't get timeouts because of CSTS.PP.
+I think we really
 
-And maybe we need a timeout how long we allow the timeouts to extended
-due to CSTS.PP, otherwise a buggy device that never clears it would
-hold I/O hostage forever.
+ a) need a nvme_ctrl_is_live() helper encapsulating the above
+ b) audit all checks for NVME_CTRL_LIVE if they really need to use
+    this helper instead.
