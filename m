@@ -1,26 +1,39 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 31 Jul 2019 20:45:20 -0600
-Subject: [PATCH V2 0/5] blk-mq: wait until completed req's complete fn is
- run
-In-Reply-To: <7eeb2e89-a056-456a-8be3-6edbda83b7bc@grimberg.me>
-References: <20190724034843.10879-1-ming.lei@redhat.com>
- <20190730004525.GB28708@ming.t460p>
- <7eeb2e89-a056-456a-8be3-6edbda83b7bc@grimberg.me>
-Message-ID: <944c6735-f03e-c055-33d8-fe7f9a760b8a@kernel.dk>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Sat,  1 Jun 2019 16:00:03 +0900
+Subject: [PATCH] nvme-cli: add default value for nsid of write-zeroes
+Message-ID: <20190601070003.20142-1-minwoo.im.dev@gmail.com>
 
-On 7/31/19 7:15 PM, Sagi Grimberg wrote:
-> 
->> Hello Jens, Chritoph and Guys,
->>
->> Ping on this fix.
-> 
-> Given that this is nvme related, we could feed
-> it to jens from the nvme tree.
-> Applying to nvme-5.4 tree for now, if Jens picks
-> it up, we'll drop it.
+-L 3772,3778 is doing the default value check and update the nsid if
+it's not given by the input:
 
-It's on my top of list to review, I'd like to take it through
-the block tree though. I think that makes the most sense.
+	if (!cfg.namespace_id) {
+		cfg.namespace_id = get_nsid(fd);
+		if (cfg.namespace_id == 0) {
+			err = EINVAL;
+			goto close_fd;
+		}
+	}
 
+This patch adds nsid default value to zero for the case user does not
+give the nsid input.
+
+Cc: Keith Busch <kbusch at kernel.org>
+Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
+---
+ nvme.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/nvme.c b/nvme.c
+index 9819fcb..a7a96a1 100644
+--- a/nvme.c
++++ b/nvme.c
+@@ -3731,6 +3731,7 @@ static int write_zeroes(int argc, char **argv, struct command *cmd, struct plugi
+ 
+ 	struct config cfg = {
+ 		.start_block     = 0,
++		.namespace_id    = 0,
+ 		.block_count     = 0,
+ 		.prinfo          = 0,
+ 		.ref_tag         = 0,
 -- 
-Jens Axboe
+2.21.0
