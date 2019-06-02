@@ -1,35 +1,25 @@
 From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Sun, 2 Jun 2019 23:18:26 +0000
-Subject: [PATCH] nvme-cli: update command message for "help"
-References: <20190601055428.17906-1-minwoo.im.dev@gmail.com>
-Message-ID: <BYAPR04MB5749574DBF57DD74F454D15A861B0@BYAPR04MB5749.namprd04.prod.outlook.com>
+Date: Sun, 2 Jun 2019 23:22:21 +0000
+Subject: [PATCH] nvme-cli: add default value for nsid of write-zeroes
+References: <20190601070003.20142-1-minwoo.im.dev@gmail.com>
+ <bfac4b78-937c-42e8-1be1-f9a81ad22ab7@grimberg.me>
+Message-ID: <BYAPR04MB5749A32C48ADD555EF1B6A8C861B0@BYAPR04MB5749.namprd04.prod.outlook.com>
 
-Looks good to me.
-
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-
-On 5/31/19 10:55 PM, Minwoo Im wrote:
-> The "help" subcommand will show the man page, not the help message which
-> is printed out to stdout by --help option.  The previous message might
-> make confusions between man page and --help options so that it needs to
-> be updated.
+On 6/2/19 12:12 AM, Sagi Grimberg wrote:
+>> diff --git a/nvme.c b/nvme.c
+>> index 9819fcb..a7a96a1 100644
+>> --- a/nvme.c
+>> +++ b/nvme.c
+>> @@ -3731,6 +3731,7 @@ static int write_zeroes(int argc, char **argv, struct command *cmd, struct plugi
+>>   
+>>   	struct config cfg = {
+>>   		.start_block     = 0,
+>> +		.namespace_id    = 0,
+> This is implicitly set to 0. You should mention that you add this just
+> for clarification, and its not fixing a bug.
+Is this breaking any testcases or expected behavior ?
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
 >
-> Cc: Keith Busch <kbusch at kernel.org>
-> Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
-> ---
->  plugin.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/plugin.c b/plugin.c
-> index 4750df6..8fd0605 100644
-> --- a/plugin.c
-> +++ b/plugin.c
-> @@ -91,7 +91,7 @@ void general_help(struct plugin *plugin)
->  					plugin->commands[i]->help);
->  
->  	printf("  %-*s %s\n", padding, "version", "Shows the program version");
-> -	printf("  %-*s %s\n", padding, "help", "Display this help");
-> +	printf("  %-*s %s\n", padding, "help", "Display the man page");
->  	printf("\n");
->  
->  	if (plugin->name)
