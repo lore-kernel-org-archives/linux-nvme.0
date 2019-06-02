@@ -1,27 +1,19 @@
 From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Sun, 2 Jun 2019 22:49:16 +0000
-Subject: [PATCH v2 2/3] nvme: enable to inject errors into admin commands
+Date: Sun, 2 Jun 2019 22:49:53 +0000
+Subject: [PATCH v2 3/3] Documentation: nvme: add an example for nvme fault
+ injection
 References: <1559483421-11361-1-git-send-email-akinobu.mita@gmail.com>
- <1559483421-11361-3-git-send-email-akinobu.mita@gmail.com>
-Message-ID: <BYAPR04MB57496C754D504636FDA28E58861B0@BYAPR04MB5749.namprd04.prod.outlook.com>
+ <1559483421-11361-4-git-send-email-akinobu.mita@gmail.com>
+Message-ID: <BYAPR04MB57499DADBDCAB4ED9D60CE2D861B0@BYAPR04MB5749.namprd04.prod.outlook.com>
+
+Thanks for updating the file with nice example, it is really helpful.
 
 Looks good to me.
 
 Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+
 On 6/2/19 6:51 AM, Akinobu Mita wrote:
-> This enables to inject errors into the commands submitted to the admin
-> queue.
->
-> It is useful to test error handling in the controller initialization.
->
-> 	# echo 100 > /sys/kernel/debug/nvme0/fault_inject/probability
-> 	# echo 1 > /sys/kernel/debug/nvme0/fault_inject/times
-> 	# echo 10 > /sys/kernel/debug/nvme0/fault_inject/space
-> 	# nvme reset /dev/nvme0
-> 	# dmesg
-> 	...
-> 	nvme nvme0: Could not set queue count (16385)
-> 	nvme nvme0: IO queues not created
+> This adds an example of how to inject errors into admin commands.
 >
 > Cc: Thomas Tai <thomas.tai at oracle.com>
 > Cc: Keith Busch <kbusch at kernel.org>
@@ -29,102 +21,76 @@ On 6/2/19 6:51 AM, Akinobu Mita wrote:
 > Cc: Christoph Hellwig <hch at lst.de>
 > Cc: Sagi Grimberg <sagi at grimberg.me>
 > Cc: Minwoo Im <minwoo.im.dev at gmail.com>
+> Suggested-by: Thomas Tai <thomas.tai at oracle.com>
 > Signed-off-by: Akinobu Mita <akinobu.mita at gmail.com>
-> Reviewed-by: Minwoo Im <minwoo.im.dev at gmail.com>
-> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 > ---
 > * v2
-> - add Reviewed-by tags
+> - New patch from v2
 >
->  drivers/nvme/host/core.c         |  3 +++
->  drivers/nvme/host/fault_inject.c |  5 ++---
->  drivers/nvme/host/nvme.h         | 20 +++++++++++---------
->  3 files changed, 16 insertions(+), 12 deletions(-)
+>  .../fault-injection/nvme-fault-injection.txt       | 56 ++++++++++++++++++++++
+>  1 file changed, 56 insertions(+)
 >
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 9fca8457..66d8199 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -4093,6 +4093,7 @@ EXPORT_SYMBOL_GPL(nvme_start_ctrl);
->  
->  void nvme_uninit_ctrl(struct nvme_ctrl *ctrl)
->  {
-> +	nvme_fault_inject_fini(&ctrl->fault_inject);
->  	dev_pm_qos_hide_latency_tolerance(ctrl->device);
->  	cdev_device_del(&ctrl->cdev, ctrl->device);
->  }
-> @@ -4188,6 +4189,8 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
->  	dev_pm_qos_update_user_latency_tolerance(ctrl->device,
->  		min(default_ps_max_latency_us, (unsigned long)S32_MAX));
->  
-> +	nvme_fault_inject_init(&ctrl->fault_inject, dev_name(ctrl->device));
+> diff --git a/Documentation/fault-injection/nvme-fault-injection.txt b/Documentation/fault-injection/nvme-fault-injection.txt
+> index 8fbf3bf..efcb339 100644
+> --- a/Documentation/fault-injection/nvme-fault-injection.txt
+> +++ b/Documentation/fault-injection/nvme-fault-injection.txt
+> @@ -114,3 +114,59 @@ R13: ffff88011a3c9680 R14: 0000000000000000 R15: 0000000000000000
+>    cpu_startup_entry+0x6f/0x80
+>    start_secondary+0x187/0x1e0
+>    secondary_startup_64+0xa5/0xb0
 > +
->  	return 0;
->  out_free_name:
->  	kfree_const(ctrl->device->kobj.name);
-> diff --git a/drivers/nvme/host/fault_inject.c b/drivers/nvme/host/fault_inject.c
-> index 18ad983..5868edf 100644
-> --- a/drivers/nvme/host/fault_inject.c
-> +++ b/drivers/nvme/host/fault_inject.c
-> @@ -60,14 +60,13 @@ void nvme_should_fail(struct request *req)
->  	struct nvme_fault_inject *fault_inject = NULL;
->  	u16 status;
->  
-> -	/*
-> -	 * make sure this request is coming from a valid namespace
-> -	 */
->  	if (disk) {
->  		struct nvme_ns *ns = disk->private_data;
->  
->  		if (ns)
->  			fault_inject = &ns->fault_inject;
-> +	} else {
-> +		fault_inject = &nvme_req(req)->ctrl->fault_inject;
->  	}
->  
->  	if (fault_inject && should_fail(&fault_inject->attr, 1)) {
-> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> index c1658ed..e710829 100644
-> --- a/drivers/nvme/host/nvme.h
-> +++ b/drivers/nvme/host/nvme.h
-> @@ -147,6 +147,15 @@ enum nvme_ctrl_state {
->  	NVME_CTRL_DEAD,
->  };
->  
-> +struct nvme_fault_inject {
-> +#ifdef CONFIG_FAULT_INJECTION_DEBUG_FS
-> +	struct fault_attr attr;
-> +	struct dentry *parent;
-> +	bool dont_retry;	/* DNR, do not retry */
-> +	u16 status;		/* status code */
-> +#endif
-> +};
+> +Example 3: Inject an error into the 10th admin command
+> +------------------------------------------------------
 > +
->  struct nvme_ctrl {
->  	bool comp_seen;
->  	enum nvme_ctrl_state state;
-> @@ -257,6 +266,8 @@ struct nvme_ctrl {
->  	 */
->  	struct thermal_zone_device *tzdev[9];
->  #endif
+> +echo 100 > /sys/kernel/debug/nvme0/fault_inject/probability
+> +echo 10 > /sys/kernel/debug/nvme0/fault_inject/space
+> +echo 1 > /sys/kernel/debug/nvme0/fault_inject/times
+> +nvme reset /dev/nvme0
 > +
-> +	struct nvme_fault_inject fault_inject;
->  };
->  
->  enum nvme_iopolicy {
-> @@ -323,15 +334,6 @@ struct nvme_ns_head {
->  #endif
->  };
->  
-> -struct nvme_fault_inject {
-> -#ifdef CONFIG_FAULT_INJECTION_DEBUG_FS
-> -	struct fault_attr attr;
-> -	struct dentry *parent;
-> -	bool dont_retry;	/* DNR, do not retry */
-> -	u16 status;		/* status code */
-> -#endif
-> -};
-> -
->  struct nvme_ns {
->  	struct list_head list;
->  
+> +Expected Result:
+> +
+> +After NVMe controller reset, the reinitialization may or may not succeed.
+> +It depends on which admin command is actually forced to fail.
+> +
+> +Message from dmesg:
+> +
+> +nvme nvme0: resetting controller
+> +FAULT_INJECTION: forcing a failure.
+> +name fault_inject, interval 1, probability 100, space 1, times 1
+> +CPU: 0 PID: 0 Comm: swapper/0 Not tainted 5.2.0-rc2+ #2
+> +Hardware name: MSI MS-7A45/B150M MORTAR ARCTIC (MS-7A45), BIOS 1.50 04/25/2017
+> +Call Trace:
+> + <IRQ>
+> + dump_stack+0x63/0x85
+> + should_fail+0x14a/0x170
+> + nvme_should_fail+0x38/0x80 [nvme_core]
+> + nvme_irq+0x129/0x280 [nvme]
+> + ? blk_mq_end_request+0xb3/0x120
+> + __handle_irq_event_percpu+0x84/0x1a0
+> + handle_irq_event_percpu+0x32/0x80
+> + handle_irq_event+0x3b/0x60
+> + handle_edge_irq+0x7f/0x1a0
+> + handle_irq+0x20/0x30
+> + do_IRQ+0x4e/0xe0
+> + common_interrupt+0xf/0xf
+> + </IRQ>
+> +RIP: 0010:cpuidle_enter_state+0xc5/0x460
+> +Code: ff e8 8f 5f 86 ff 80 7d c7 00 74 17 9c 58 0f 1f 44 00 00 f6 c4 02 0f 85 69 03 00 00 31 ff e8 62 aa 8c ff fb 66 0f 1f 44 00 00 <45> 85 ed 0f 88 37 03 00 00 4c 8b 45 d0 4c 2b 45 b8 48 ba cf f7 53
+> +RSP: 0018:ffffffff88c03dd0 EFLAGS: 00000246 ORIG_RAX: ffffffffffffffdc
+> +RAX: ffff9dac25a2ac80 RBX: ffffffff88d53760 RCX: 000000000000001f
+> +RDX: 0000000000000000 RSI: 000000002d958403 RDI: 0000000000000000
+> +RBP: ffffffff88c03e18 R08: fffffff75e35ffb7 R09: 00000a49a56c0b48
+> +R10: ffffffff88c03da0 R11: 0000000000001b0c R12: ffff9dac25a34d00
+> +R13: 0000000000000006 R14: 0000000000000006 R15: ffffffff88d53760
+> + cpuidle_enter+0x2e/0x40
+> + call_cpuidle+0x23/0x40
+> + do_idle+0x201/0x280
+> + cpu_startup_entry+0x1d/0x20
+> + rest_init+0xaa/0xb0
+> + arch_call_rest_init+0xe/0x1b
+> + start_kernel+0x51c/0x53b
+> + x86_64_start_reservations+0x24/0x26
+> + x86_64_start_kernel+0x74/0x77
+> + secondary_startup_64+0xa4/0xb0
+> +nvme nvme0: Could not set queue count (16385)
+> +nvme nvme0: IO queues not created
