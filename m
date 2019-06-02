@@ -1,51 +1,32 @@
 From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Sun, 2 Jun 2019 22:57:08 +0000
-Subject: [PATCH] nvmet: fix data_len to 0 for bdev-backed write_zeroes
-References: <20190602034339.11246-1-minwoo.im.dev@gmail.com>
-Message-ID: <BYAPR04MB57498FFBBE30504483A61590861B0@BYAPR04MB5749.namprd04.prod.outlook.com>
+Date: Sun, 2 Jun 2019 23:03:52 +0000
+Subject: [PATCH V5 1/6] nvme: Do not return in the middle of the subcommand
+References: <BYAPR04MB5749C9BDCCDA22B5390ED26086020@BYAPR04MB5749.namprd04.prod.outlook.com>
+ <20190523145750.27425-1-minwoo.im.dev@gmail.com>
+ <20190523145750.27425-2-minwoo.im.dev@gmail.com>
+ <CGME20190524013628epcas4p2a5b6451a173e112a13157f193fb29321@epcms2p2>
+ <20190524014037epcms2p26b77433a8c919b847ccb9f8acbb2485a@epcms2p2>
+Message-ID: <BYAPR04MB574964DAEA1B94732AE1E349861B0@BYAPR04MB5749.namprd04.prod.outlook.com>
 
-Thanks for the fix.
+On 5/23/19 6:41 PM, Minwoo Im wrote:
+> Some functions have label with an whitespace, but some don't.   I didn't
+> wanted to involve those kind of clean-up things in this series.  I just made labels
+> with its own function's previuos style, if there's not label, I put an whitespace
+> prior to label.
+>
+> I was thinking that it could be cleaned-up at once later.  Do you really think that
+> those kind of clean-up things are involved in this commit?
 
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+We should at least try and use the default style irrespective of the
+inheriting existing style
 
-On 6/1/19 8:44 PM, Minwoo Im wrote:
-> The WRITE ZEROES command has no data transfer so that we need to
-> initialize the struct (nvmet_req *req)->data_len to 0x0.  While
-> (nvmet_req *req)->transfer_len is initialized in nvmet_req_init(),
-> data_len will be initialized by nowhere which might cause the failure
-> with status code NVME_SC_SGL_INVALID_DATA | NVME_SC_DNR randomly.  It's
-> because nvmet_req_execute() checks like:
+which will trigger more cleanups. Begin said that now the question is
+what is default style ?
+
+I'd just stick to non space labels as that is something been consistent
+with kernel code.
+
 >
-> 	if (unlikely(req->data_len != req->transfer_len)) {
-> 		req->error_loc = offsetof(struct nvme_common_command, dptr);
-> 		nvmet_req_complete(req, NVME_SC_SGL_INVALID_DATA | NVME_SC_DNR);
-> 	} else
-> 		req->execute(req);
+> Thanks for your review.
+> Chaitanya,
 >
-> This patch fixes req->data_len not to be a randomly assigned by
-> initializing it to 0x0 when preparing the command in
-> nvmet_bdev_parse_io_cmd().
->
-> nvmet_file_parse_io_cmd() which is for file-backed I/O has already
-> initialized the data_len field to 0x0, though.
->
-> Cc: Christoph Hellwig <hch at lst.de>
-> Cc: Sagi Grimberg <sagi at grimberg.me>
-> Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni at wdc.com>
-> Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
-> ---
->  drivers/nvme/target/io-cmd-bdev.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
-> index 3efc52f9c309..7a1cf6437a6a 100644
-> --- a/drivers/nvme/target/io-cmd-bdev.c
-> +++ b/drivers/nvme/target/io-cmd-bdev.c
-> @@ -293,6 +293,7 @@ u16 nvmet_bdev_parse_io_cmd(struct nvmet_req *req)
->  		return 0;
->  	case nvme_cmd_write_zeroes:
->  		req->execute = nvmet_bdev_execute_write_zeroes;
-> +		req->data_len = 0;
->  		return 0;
->  	default:
->  		pr_err("unhandled cmd %d on qid %d\n", cmd->common.opcode,
