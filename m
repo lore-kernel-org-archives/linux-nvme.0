@@ -1,8 +1,8 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 2 Jun 2019 00:12:24 -0700
-Subject: [PATCH] nvme-cli: update command message for "help"
-In-Reply-To: <20190601055428.17906-1-minwoo.im.dev@gmail.com>
-References: <20190601055428.17906-1-minwoo.im.dev@gmail.com>
-Message-ID: <f0c97774-f5aa-1749-d4a6-c3465abb9044@grimberg.me>
+Date: Sun, 2 Jun 2019 00:32:43 -0700
+Subject: [PATCH] nvmet: fix data_len to 0 for bdev-backed write_zeroes
+In-Reply-To: <20190602034339.11246-1-minwoo.im.dev@gmail.com>
+References: <20190602034339.11246-1-minwoo.im.dev@gmail.com>
+Message-ID: <69cfebd4-1e32-b86e-b02d-a92566f9d2db@grimberg.me>
 
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Is this a regression? IIRC write-zeros used to work...
