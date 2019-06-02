@@ -1,47 +1,35 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Sun, 2 Jun 2019 16:41:06 +0900
-Subject: [PATCH] nvmet: fix data_len to 0 for bdev-backed write_zeroes
-In-Reply-To: <69cfebd4-1e32-b86e-b02d-a92566f9d2db@grimberg.me>
-References: <20190602034339.11246-1-minwoo.im.dev@gmail.com>
- <69cfebd4-1e32-b86e-b02d-a92566f9d2db@grimberg.me>
-Message-ID: <20190602074103.GA15902@minwooim-desktop>
+From: akinobu.mita@gmail.com (Akinobu Mita)
+Date: Sun, 2 Jun 2019 22:19:08 +0900
+Subject: [PATCH v3 2/3] nvme: add thermal zone devices
+In-Reply-To: <20190601090238.GD6453@lst.de>
+References: <1558888143-5121-1-git-send-email-akinobu.mita@gmail.com>
+ <1558888143-5121-3-git-send-email-akinobu.mita@gmail.com>
+ <20190601090238.GD6453@lst.de>
+Message-ID: <CAC5umyiBmD6-3BNLfG7sNOe9jde8Ct16a9N_Ao3T_1_G1K_DDA@mail.gmail.com>
 
-On 19-06-02 00:32:43, Sagi Grimberg wrote:
-> Is this a regression? IIRC write-zeros used to work...
+2019?6?1?(?) 18:03 Christoph Hellwig <hch at lst.de>:
+>
+> On Mon, May 27, 2019@01:29:02AM +0900, Akinobu Mita wrote:
+> > The NVMe controller reports up to nine temperature values in the SMART /
+> > Health log page (the composite temperature and temperature sensor 1 through
+> > temperature sensor 8).
+> >
+> > This provides these temperatures via thermal zone devices.
+>
+> Can you explain a bit more why we'd do this?  I shows up some sysfs
+> files, but we could easily do that with nvme-cli, too.  Is there some
+> greater benefit of this integration?
 
-Hi Sagi,
+As long as the user space thermal governor is used, there is nothing more
+than that from a functional perspective.  And I suppose that this is used
+with user_space governor (i.e. there is still some work to be able to bind
+actual thermal cooling device).
 
-The following outputs are a looping basic tests with a single command:
-(I think you can find the commands will easily be failed.)
+The main purpose of this is to turn on a fan when overheated without
+polling the device that could prevent the lower power state transitions.
+But as you noted, we could do that with the existing AEN notifications
+through uevent.
 
-root at target:~# nvme list-subsys
-nvme-subsys0 - NQN=nqn.2014.08.org.nvmexpress:80861af4foo
-QEMU NVMe Ctrl
-\
- +- nvme0 pcie 0000:00:04.0 live
- nvme-subsys1 - NQN=test
- \
-  +- nvme1 loop  live
-root at target:~# nvme write-zeroes /dev/nvme1n1
-NVME Write Zeroes Success
-root at target:~# nvme write-zeroes /dev/nvme1n1
-NVME Write Zeroes Success
-root at target:~# nvme write-zeroes /dev/nvme1n1
-NVME Write Zeroes Success
-root at target:~# nvme write-zeroes /dev/nvme1n1
-NVMe status: Unknown(0x600f)
-root at target:~# nvme write-zeroes /dev/nvme1n1
-NVME Write Zeroes Success
-root at target:~#
-
-The write-zeroes command has been requested with SLBA 0 and NLB 0 as a
-default options.  This might happen with status code 0x600f which is
-NVME_SC_SGL_INVALID_DATA | NVME_SC_DNR which happened due to:
-	req->data_len != req->transfer_len
-
-The transfer_len is always 0x0 for write-zeroes, but data-len is never
-initialized in this case.
-
-Please correct me if I'm wrong here.
-
-Thanks,
+So frankly speaking, the benefit of this is providing generic thermal sysfs
+interface and the tools like tmon (linux/tools/thermal/tmon) can show the
+nvme temperatures.
