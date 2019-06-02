@@ -1,96 +1,51 @@
 From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Sun, 2 Jun 2019 22:49:53 +0000
-Subject: [PATCH v2 3/3] Documentation: nvme: add an example for nvme fault
- injection
-References: <1559483421-11361-1-git-send-email-akinobu.mita@gmail.com>
- <1559483421-11361-4-git-send-email-akinobu.mita@gmail.com>
-Message-ID: <BYAPR04MB57499DADBDCAB4ED9D60CE2D861B0@BYAPR04MB5749.namprd04.prod.outlook.com>
+Date: Sun, 2 Jun 2019 22:57:08 +0000
+Subject: [PATCH] nvmet: fix data_len to 0 for bdev-backed write_zeroes
+References: <20190602034339.11246-1-minwoo.im.dev@gmail.com>
+Message-ID: <BYAPR04MB57498FFBBE30504483A61590861B0@BYAPR04MB5749.namprd04.prod.outlook.com>
 
-Thanks for updating the file with nice example, it is really helpful.
-
-Looks good to me.
+Thanks for the fix.
 
 Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 
-On 6/2/19 6:51 AM, Akinobu Mita wrote:
-> This adds an example of how to inject errors into admin commands.
+On 6/1/19 8:44 PM, Minwoo Im wrote:
+> The WRITE ZEROES command has no data transfer so that we need to
+> initialize the struct (nvmet_req *req)->data_len to 0x0.  While
+> (nvmet_req *req)->transfer_len is initialized in nvmet_req_init(),
+> data_len will be initialized by nowhere which might cause the failure
+> with status code NVME_SC_SGL_INVALID_DATA | NVME_SC_DNR randomly.  It's
+> because nvmet_req_execute() checks like:
 >
-> Cc: Thomas Tai <thomas.tai at oracle.com>
-> Cc: Keith Busch <kbusch at kernel.org>
-> Cc: Jens Axboe <axboe at fb.com>
+> 	if (unlikely(req->data_len != req->transfer_len)) {
+> 		req->error_loc = offsetof(struct nvme_common_command, dptr);
+> 		nvmet_req_complete(req, NVME_SC_SGL_INVALID_DATA | NVME_SC_DNR);
+> 	} else
+> 		req->execute(req);
+>
+> This patch fixes req->data_len not to be a randomly assigned by
+> initializing it to 0x0 when preparing the command in
+> nvmet_bdev_parse_io_cmd().
+>
+> nvmet_file_parse_io_cmd() which is for file-backed I/O has already
+> initialized the data_len field to 0x0, though.
+>
 > Cc: Christoph Hellwig <hch at lst.de>
 > Cc: Sagi Grimberg <sagi at grimberg.me>
-> Cc: Minwoo Im <minwoo.im.dev at gmail.com>
-> Suggested-by: Thomas Tai <thomas.tai at oracle.com>
-> Signed-off-by: Akinobu Mita <akinobu.mita at gmail.com>
+> Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni at wdc.com>
+> Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
 > ---
-> * v2
-> - New patch from v2
+>  drivers/nvme/target/io-cmd-bdev.c | 1 +
+>  1 file changed, 1 insertion(+)
 >
->  .../fault-injection/nvme-fault-injection.txt       | 56 ++++++++++++++++++++++
->  1 file changed, 56 insertions(+)
->
-> diff --git a/Documentation/fault-injection/nvme-fault-injection.txt b/Documentation/fault-injection/nvme-fault-injection.txt
-> index 8fbf3bf..efcb339 100644
-> --- a/Documentation/fault-injection/nvme-fault-injection.txt
-> +++ b/Documentation/fault-injection/nvme-fault-injection.txt
-> @@ -114,3 +114,59 @@ R13: ffff88011a3c9680 R14: 0000000000000000 R15: 0000000000000000
->    cpu_startup_entry+0x6f/0x80
->    start_secondary+0x187/0x1e0
->    secondary_startup_64+0xa5/0xb0
-> +
-> +Example 3: Inject an error into the 10th admin command
-> +------------------------------------------------------
-> +
-> +echo 100 > /sys/kernel/debug/nvme0/fault_inject/probability
-> +echo 10 > /sys/kernel/debug/nvme0/fault_inject/space
-> +echo 1 > /sys/kernel/debug/nvme0/fault_inject/times
-> +nvme reset /dev/nvme0
-> +
-> +Expected Result:
-> +
-> +After NVMe controller reset, the reinitialization may or may not succeed.
-> +It depends on which admin command is actually forced to fail.
-> +
-> +Message from dmesg:
-> +
-> +nvme nvme0: resetting controller
-> +FAULT_INJECTION: forcing a failure.
-> +name fault_inject, interval 1, probability 100, space 1, times 1
-> +CPU: 0 PID: 0 Comm: swapper/0 Not tainted 5.2.0-rc2+ #2
-> +Hardware name: MSI MS-7A45/B150M MORTAR ARCTIC (MS-7A45), BIOS 1.50 04/25/2017
-> +Call Trace:
-> + <IRQ>
-> + dump_stack+0x63/0x85
-> + should_fail+0x14a/0x170
-> + nvme_should_fail+0x38/0x80 [nvme_core]
-> + nvme_irq+0x129/0x280 [nvme]
-> + ? blk_mq_end_request+0xb3/0x120
-> + __handle_irq_event_percpu+0x84/0x1a0
-> + handle_irq_event_percpu+0x32/0x80
-> + handle_irq_event+0x3b/0x60
-> + handle_edge_irq+0x7f/0x1a0
-> + handle_irq+0x20/0x30
-> + do_IRQ+0x4e/0xe0
-> + common_interrupt+0xf/0xf
-> + </IRQ>
-> +RIP: 0010:cpuidle_enter_state+0xc5/0x460
-> +Code: ff e8 8f 5f 86 ff 80 7d c7 00 74 17 9c 58 0f 1f 44 00 00 f6 c4 02 0f 85 69 03 00 00 31 ff e8 62 aa 8c ff fb 66 0f 1f 44 00 00 <45> 85 ed 0f 88 37 03 00 00 4c 8b 45 d0 4c 2b 45 b8 48 ba cf f7 53
-> +RSP: 0018:ffffffff88c03dd0 EFLAGS: 00000246 ORIG_RAX: ffffffffffffffdc
-> +RAX: ffff9dac25a2ac80 RBX: ffffffff88d53760 RCX: 000000000000001f
-> +RDX: 0000000000000000 RSI: 000000002d958403 RDI: 0000000000000000
-> +RBP: ffffffff88c03e18 R08: fffffff75e35ffb7 R09: 00000a49a56c0b48
-> +R10: ffffffff88c03da0 R11: 0000000000001b0c R12: ffff9dac25a34d00
-> +R13: 0000000000000006 R14: 0000000000000006 R15: ffffffff88d53760
-> + cpuidle_enter+0x2e/0x40
-> + call_cpuidle+0x23/0x40
-> + do_idle+0x201/0x280
-> + cpu_startup_entry+0x1d/0x20
-> + rest_init+0xaa/0xb0
-> + arch_call_rest_init+0xe/0x1b
-> + start_kernel+0x51c/0x53b
-> + x86_64_start_reservations+0x24/0x26
-> + x86_64_start_kernel+0x74/0x77
-> + secondary_startup_64+0xa4/0xb0
-> +nvme nvme0: Could not set queue count (16385)
-> +nvme nvme0: IO queues not created
+> diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+> index 3efc52f9c309..7a1cf6437a6a 100644
+> --- a/drivers/nvme/target/io-cmd-bdev.c
+> +++ b/drivers/nvme/target/io-cmd-bdev.c
+> @@ -293,6 +293,7 @@ u16 nvmet_bdev_parse_io_cmd(struct nvmet_req *req)
+>  		return 0;
+>  	case nvme_cmd_write_zeroes:
+>  		req->execute = nvmet_bdev_execute_write_zeroes;
+> +		req->data_len = 0;
+>  		return 0;
+>  	default:
+>  		pr_err("unhandled cmd %d on qid %d\n", cmd->common.opcode,
