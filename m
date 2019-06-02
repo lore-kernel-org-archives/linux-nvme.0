@@ -1,24 +1,46 @@
 From: akinobu.mita@gmail.com (Akinobu Mita)
-Date: Sun, 2 Jun 2019 22:46:12 +0900
-Subject: [PATCH v3 3/3] nvme: notify thermal framework when temperature
- threshold events occur
-In-Reply-To: <20190601090353.GE6453@lst.de>
-References: <1558888143-5121-1-git-send-email-akinobu.mita@gmail.com>
- <1558888143-5121-4-git-send-email-akinobu.mita@gmail.com>
- <20190601090353.GE6453@lst.de>
-Message-ID: <CAC5umyg_nDjtLyJM8iNF5f+YdQ6EG+G5ks-uFqu_VFiX2=e=qQ@mail.gmail.com>
+Date: Sun,  2 Jun 2019 22:50:18 +0900
+Subject: [PATCH v2 0/3] nvme: enable to inject errors into admin commands
+Message-ID: <1559483421-11361-1-git-send-email-akinobu.mita@gmail.com>
 
-2019?6?1?(?) 18:04 Christoph Hellwig <hch at lst.de>:
->
-> So before we allowed userspace to get smart AEN notifications through
-> uevent, and would expect userspace to clear the AEN.  I think this
-> could at least potentially break existing userspace by now doing that
-> in kernel space.
+Currenlty fault injection support for nvme only enables to inject errors
+into the commands submitted to I/O queues.
 
-This change unconditionally sets NVME_SMART_CRIT_TEMPERATURE flag in
-nvme_enable_aen(), it could be problematic for existing userspace.
-So it's better to provide a knob to enable/disable the event notification
-and we can utilize get_mode()/set_mode() in the thermal_zone_device_ops.
+This enables to inject errors into the commands submitted to the admin
+queue.
+    
+It is useful to test error handling in the controller initialization.
 
-Other than that, this change doesn't remove ctrl->aen_result, so existing
-userspace still receives NVME_AEN=* uevents.
+	# echo 100 > /sys/kernel/debug/nvme0/fault_inject/probability
+	# echo 1 > /sys/kernel/debug/nvme0/fault_inject/times
+	# echo 10 > /sys/kernel/debug/nvme0/fault_inject/space
+	# nvme reset /dev/nvme0
+	# dmesg
+	...
+	nvme nvme0: Could not set queue count (16385)
+	nvme nvme0: IO queues not created
+
+* v2
+- rename the argument 'name' to 'dev_name'
+- add Reviewed-by tags
+- add documentation for nvme fault injection
+
+Akinobu Mita (3):
+  nvme: prepare for fault injection into admin commands
+  nvme: enable to inject errors into admin commands
+  Documentation: nvme: add an example for nvme fault injection
+
+ .../fault-injection/nvme-fault-injection.txt       | 56 ++++++++++++++++++++++
+ drivers/nvme/host/core.c                           |  7 ++-
+ drivers/nvme/host/fault_inject.c                   | 39 +++++++--------
+ drivers/nvme/host/nvme.h                           | 36 ++++++++------
+ 4 files changed, 102 insertions(+), 36 deletions(-)
+
+Cc: Thomas Tai <thomas.tai at oracle.com>
+Cc: Keith Busch <kbusch at kernel.org>
+Cc: Jens Axboe <axboe at fb.com>
+Cc: Christoph Hellwig <hch at lst.de>
+Cc: Sagi Grimberg <sagi at grimberg.me>
+Cc: Minwoo Im <minwoo.im.dev at gmail.com>
+-- 
+2.7.4
