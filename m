@@ -1,35 +1,24 @@
 From: akinobu.mita@gmail.com (Akinobu Mita)
-Date: Sun, 2 Jun 2019 22:19:08 +0900
-Subject: [PATCH v3 2/3] nvme: add thermal zone devices
-In-Reply-To: <20190601090238.GD6453@lst.de>
+Date: Sun, 2 Jun 2019 22:46:12 +0900
+Subject: [PATCH v3 3/3] nvme: notify thermal framework when temperature
+ threshold events occur
+In-Reply-To: <20190601090353.GE6453@lst.de>
 References: <1558888143-5121-1-git-send-email-akinobu.mita@gmail.com>
- <1558888143-5121-3-git-send-email-akinobu.mita@gmail.com>
- <20190601090238.GD6453@lst.de>
-Message-ID: <CAC5umyiBmD6-3BNLfG7sNOe9jde8Ct16a9N_Ao3T_1_G1K_DDA@mail.gmail.com>
+ <1558888143-5121-4-git-send-email-akinobu.mita@gmail.com>
+ <20190601090353.GE6453@lst.de>
+Message-ID: <CAC5umyg_nDjtLyJM8iNF5f+YdQ6EG+G5ks-uFqu_VFiX2=e=qQ@mail.gmail.com>
 
-2019?6?1?(?) 18:03 Christoph Hellwig <hch at lst.de>:
+2019?6?1?(?) 18:04 Christoph Hellwig <hch at lst.de>:
 >
-> On Mon, May 27, 2019@01:29:02AM +0900, Akinobu Mita wrote:
-> > The NVMe controller reports up to nine temperature values in the SMART /
-> > Health log page (the composite temperature and temperature sensor 1 through
-> > temperature sensor 8).
-> >
-> > This provides these temperatures via thermal zone devices.
->
-> Can you explain a bit more why we'd do this?  I shows up some sysfs
-> files, but we could easily do that with nvme-cli, too.  Is there some
-> greater benefit of this integration?
+> So before we allowed userspace to get smart AEN notifications through
+> uevent, and would expect userspace to clear the AEN.  I think this
+> could at least potentially break existing userspace by now doing that
+> in kernel space.
 
-As long as the user space thermal governor is used, there is nothing more
-than that from a functional perspective.  And I suppose that this is used
-with user_space governor (i.e. there is still some work to be able to bind
-actual thermal cooling device).
+This change unconditionally sets NVME_SMART_CRIT_TEMPERATURE flag in
+nvme_enable_aen(), it could be problematic for existing userspace.
+So it's better to provide a knob to enable/disable the event notification
+and we can utilize get_mode()/set_mode() in the thermal_zone_device_ops.
 
-The main purpose of this is to turn on a fan when overheated without
-polling the device that could prevent the lower power state transitions.
-But as you noted, we could do that with the existing AEN notifications
-through uevent.
-
-So frankly speaking, the benefit of this is providing generic thermal sysfs
-interface and the tools like tmon (linux/tools/thermal/tmon) can show the
-nvme temperatures.
+Other than that, this change doesn't remove ctrl->aen_result, so existing
+userspace still receives NVME_AEN=* uevents.
