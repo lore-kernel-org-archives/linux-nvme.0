@@ -1,80 +1,245 @@
 From: akinobu.mita@gmail.com (Akinobu Mita)
-Date: Tue, 4 Jun 2019 00:03:14 +0900
-Subject: [PATCH v2 2/4] nvme: add thermal zone infrastructure
-In-Reply-To: <20190603021821.GA8354@localhost.localdomain>
-References: <1558454649-28783-1-git-send-email-akinobu.mita@gmail.com>
- <1558454649-28783-3-git-send-email-akinobu.mita@gmail.com>
- <20190524023520.GC1936@localhost.localdomain>
- <CAC5umyhCHJrzSSEy3NF38BhRQ9FSjVr8YfjChN-_3pVR5QwXsA@mail.gmail.com>
- <20190603021821.GA8354@localhost.localdomain>
-Message-ID: <CAC5umygO0mKVJ5R4MhYTz44zVHvjkYSvrtT7=D1Rx2td-koeTQ@mail.gmail.com>
+Date: Tue, 4 Jun 2019 00:20:19 +0900
+Subject: [PATCH v3 2/3] nvme: add thermal zone devices
+In-Reply-To: <20190603023617.GA8567@localhost.localdomain>
+References: <1558888143-5121-3-git-send-email-akinobu.mita@gmail.com>
+ <20190603023617.GA8567@localhost.localdomain>
+Message-ID: <CAC5umyj9V0sTD-ZsK6Q684wPdMpJGs434vDtZDm6a8gwoz3D7Q@mail.gmail.com>
 
-2019?6?3?(?) 11:18 Eduardo Valentin <edubezval at gmail.com>:
-
-> > > Do we have something more meaningful or descriptive here? A more
-> > > interesting type would be a string that could remind of the sensor
-> > > location. Unless nvme_temp0 is enough to understand where this
-> > > temperature is coming from, I would ask to get something more
-> > > descriptive.
-> >
-> > The SMART log page defines composite temperature and temperature sensor 1
-> > through temperature sensor 8.  So I think nvme_temp1 to nvme_temp8 are
-> > descriptive.  And I personally prefer 'nvme_temp0' rather than
-> > 'nvme_composite_temp'.
+2019?6?3?(?) 11:36 Eduardo Valentin <edubezval at gmail.com>:
 >
-> I was leaning towards something even more descriptive. nvme_temp0 means
-> what? Usually we want something more meaningful, Is this a co-processor?
-> Is this a disk? what exactly nvme_temp0 really represents?
-
-It's vendor specific. The NVMe spec only says a controller reports the
-composite temperature and temperature sensor 1 through 8.
-It doesn't define which part of the device (CPUs, DRAM, NAND, or else)
-should implement temperature sensors and how the composite temperature is
-calculated from implemented sensors.
-
-I have three NVMe devices from different vendors.
-
-The device A provides only composite temperature.
-
-The device B provides composite temperature and temperature sensor 1.
-Both temperatures are always same.
-
-The device C provides the composite temperature and temperature sensor 1,
-2, and 5.  For example, the smart log reports
-Composite temperature : 43 C
-Temperature Sensor 1  : 45 C
-Temperature Sensor 2  : 41 C
-Temperature Sensor 5  : 65 C
-
-> > BTW, if we have more than two controllers, we'll have same type names
-> > in the system.  So I'm going to append instance number after 'nvme'.
-> > (e.g. nvme0_temp0).
+> Hey Mita,
+>
+> On Mon, May 27, 2019@01:29:02AM +0900, Akinobu Mita wrote:
+> > The NVMe controller reports up to nine temperature values in the SMART /
+> > Health log page (the composite temperature and temperature sensor 1 through
+> > temperature sensor 8).
 > >
-> > > > +     tzdev = thermal_zone_device_register(type, 1, 1, ctrl, &nvme_tz_ops,
-> > > > +                                          &nvme_tz_params, 0, 0);
-> > >
-> > > Have you considered if there is a use case for using of-thermal here?
+> > This provides these temperatures via thermal zone devices.
 > >
-> > Is it possible to specify the device node properties for the pci devices?
-> > If so, of-thermal zone devices are very useful.
+> > Once the controller is identified, the thermal zone devices are created for
+> > all implemented temperature sensors including the composite temperature.
+> >
+> > /sys/class/thermal/thermal_zone[0-*]:
+> >     |---type: 'nvme<instance>-temp<sensor>'
+> >     |---temp: Temperature
+> >     |---trip_point_0_temp: Over temperature threshold
+> >
+> > The thermal_zone[0-*] contains a 'device' symlink to the corresponding nvme
+> > device.
+> >
+> > On the other hand, the following symlinks to the thermal zone devices are
+> > created in the nvme device sysfs directory.
+> >
+> > - temp0: Composite temperature
+> > - temp1: Temperature sensor 1
+> > ...
+> > - temp8: Temperature sensor 8
 > >
 >
-> Yeah, I guess that would depend on the PCI device node descriptor that
-> the sensor is going to be embedded, not of-thermal. But I would expect
-> that DT has already a good enough DT descriptors for PCI devices, can
-> you check that?
+> These questions on V2 are still unanswered:
+> a. Can we get a more descriptive string into tz->type?
 
-I can find the examples for ath9k and ath10k pcie wireless devices.
-(Documentation/devicetree/bindings/net/wireless/qca,ath9k.txt and
-qcom,ath10k.txt)
+As I said in the other thread, the NVMe spec only says a controller
+reports the composite temperature and temperature sensor 1 through 8.
+What temperature sensor N means is vendor specific.
 
-> > I think normal thermal zone devices and of-thermal zone devices can
-> > co-exist. (i.e. add 'tzdev_of[9]' in nvme_ctrl and the operations are
-> > almost same with the normal one)
+> b. Can these APIs support DT probing too?
+
+OK. I can try, but I don't have arm or arm64 boards with PCIe for
+testing with of-thermal.  So it'll be untested.
+
+> > +static struct thermal_zone_params nvme_tz_params = {
+> > +     .governor_name = "user_space",
 >
-> Right, that is usually the case for drivers that have a real need to
-> support both. Most of the drivers from embedded systems would prefer
-> to keep only DT probing. But if you have a use case to support non-DT
-> probing, yes, your driver would need to support both ways.
+> Also,
+>
+> Was there any particular reason why defaulting to user_space here?
 
-Distro kernels for x86 usually disables CONFIG_OF.  So we need both.
+I only tested with the user_space governor.  There is no cooling device
+to bind with this.
+
+> > +     .no_hwmon = true,
+> > +};
+> > +
+> > +static struct thermal_zone_device *
+> > +nvme_thermal_zone_register(struct nvme_ctrl *ctrl, unsigned int sensor)
+> > +{
+> > +     struct thermal_zone_device *tzdev;
+> > +     char name[THERMAL_NAME_LENGTH];
+> > +     int ret;
+> > +
+> > +     snprintf(name, sizeof(name), "nvme%d_temp%u", ctrl->instance, sensor);
+> > +
+> > +     tzdev = thermal_zone_device_register(name, 1, 1, ctrl, &nvme_tz_ops,
+> > +                                          &nvme_tz_params, 0, 0);
+> > +     if (IS_ERR(tzdev)) {
+> > +             dev_err(ctrl->device,
+> > +                     "Failed to register thermal zone device: %ld\n",
+> > +                     PTR_ERR(tzdev));
+> > +             return tzdev;
+> > +     }
+> > +
+> > +     snprintf(name, sizeof(name), "temp%d", sensor);
+> > +     ret = sysfs_create_link(&ctrl->ctrl_device.kobj, &tzdev->device.kobj,
+> > +                             name);
+> > +     if (ret)
+> > +             goto device_unregister;
+> > +
+> > +     ret = sysfs_create_link(&tzdev->device.kobj,
+> > +                             &ctrl->ctrl_device.kobj, "device");
+> > +     if (ret)
+> > +             goto remove_link;
+> > +
+> > +     return tzdev;
+> > +
+> > +remove_link:
+> > +     sysfs_remove_link(&ctrl->ctrl_device.kobj, name);
+> > +device_unregister:
+> > +     thermal_zone_device_unregister(tzdev);
+> > +
+> > +     return ERR_PTR(ret);
+> > +}
+> > +
+> > +/**
+> > + * nvme_thermal_zones_register() - register nvme thermal zone devices
+> > + * @ctrl: controller instance
+> > + *
+> > + * This function creates up to nine thermal zone devices for all implemented
+> > + * temperature sensors including the composite temperature.
+> > + * Each thermal zone device provides a single trip point temperature that is
+> > + * associated with an over temperature threshold.
+> > + */
+> > +static int nvme_thermal_zones_register(struct nvme_ctrl *ctrl)
+> > +{
+> > +     struct nvme_smart_log *log;
+> > +     int ret;
+> > +     int i;
+> > +
+> > +     log = kzalloc(sizeof(*log), GFP_KERNEL);
+> > +     if (!log)
+> > +             return 0; /* non-fatal error */
+>
+> I am not sure about this API design here. I would leave the error
+> handling and judging if this is fatal or not to the caller.
+> I mean, if I ask to register a nvme thermal zone and I get
+> a 0 as response, I would assume the thermal zone exists from
+> now on, right?
+
+This routine is designed to return error code only when we're unable to
+communicate with the device at all (i.e. nvme_submit_sync_cmd returns a
+negative value).
+
+We don't want to abandon device initialization just due to thermal zone
+failures.  Because thermal zone device isn't mandatory to manage the
+controllers, and the device like qemu doesn't provide smart log (according
+to Keith).
+
+> > +
+> > +     ret = nvme_get_log(ctrl, NVME_NSID_ALL, NVME_LOG_SMART, 0,
+> > +                        log, sizeof(*log), 0);
+> > +     if (ret) {
+> > +             dev_err(ctrl->device, "Failed to get SMART log: %d\n", ret);
+> > +             /* If the device provided a response, then it's non-fatal */
+> > +             if (ret > 0)
+> > +                     ret = 0;
+> > +             goto free_log;
+>
+> Once again, hiding errors is never a strategy that scales..
+>
+> > +     }
+> > +
+> > +     for (i = 0; i < ARRAY_SIZE(ctrl->tzdev); i++) {
+> > +             struct thermal_zone_device *tzdev;
+> > +             int temp;
+> > +
+> > +             if (i)
+> > +                     temp = le16_to_cpu(log->temp_sensor[i - 1]);
+> > +             else
+> > +                     temp = get_unaligned_le16(log->temperature);
+> > +
+> > +             /*
+> > +              * All implemented temperature sensors report a non-zero value
+> > +              * in temperature sensor fields in the smart log page.
+> > +              */
+> > +             if (!temp)
+> > +                     continue;
+> > +             if (ctrl->tzdev[i])
+> > +                     continue;
+> > +
+> > +             tzdev = nvme_thermal_zone_register(ctrl, i);
+> > +             if (!IS_ERR(tzdev))
+> > +                     ctrl->tzdev[i] = tzdev;
+>
+> Here again, I would not hide errors, the API should propagate errors
+> if something goes wrong.
+>
+> > +     }
+> > +
+> > +free_log:
+> > +     kfree(log);
+> > +
+> > +     return ret;
+> > +}
+> > +
+> > +/**
+> > + * nvme_thermal_zones_unregister() - unregister nvme thermal zone devices
+> > + * @ctrl: controller instance
+> > + *
+> > + * This function removes the registered thermal zone devices and symlinks.
+> > + */
+> > +static void nvme_thermal_zones_unregister(struct nvme_ctrl *ctrl)
+> > +{
+> > +     int i;
+> > +
+> > +     for (i = 0; i < ARRAY_SIZE(ctrl->tzdev); i++) {
+> > +             struct thermal_zone_device *tzdev = ctrl->tzdev[i];
+> > +             char name[20];
+> > +
+> > +             if (!tzdev)
+> > +                     continue;
+> > +
+> > +             sysfs_remove_link(&tzdev->device.kobj, "device");
+> > +
+> > +             snprintf(name, sizeof(name), "temp%d", i);
+> > +             sysfs_remove_link(&ctrl->ctrl_device.kobj, name);
+> > +
+> > +             thermal_zone_device_unregister(tzdev);
+> > +
+> > +             ctrl->tzdev[i] = NULL;
+> > +     }
+> > +}
+> > +
+> > +#else
+> > +
+> > +static inline int nvme_thermal_zones_register(struct nvme_ctrl *ctrl)
+> > +{
+> > +     return 0;
+> > +}
+> > +
+> > +static inline void nvme_thermal_zones_unregister(struct nvme_ctrl *ctrl)
+> > +{
+> > +}
+> > +
+> > +#endif /* CONFIG_THERMAL */
+> > +
+> >  struct nvme_core_quirk_entry {
+> >       /*
+> >        * NVMe model and firmware strings are padded with spaces.  For
+> > @@ -2754,6 +3037,10 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+> >       if (ret < 0)
+> >               return ret;
+> >
+> > +     ret = nvme_thermal_zones_register(ctrl);
+> > +     if (ret < 0)
+> > +             return ret;
+>
+>
+> I would definitely keep this code the way it is here in
+> nvme_init_identify(), but if I read this right, your
+> nvme_thermal_zones_register() will never return < 0, and therefore this
+> condition is never met.
+
+The nvme_get_log() can return a negative value.  Only in this case,
+nvme_thermal_zones_register() returns error and abandon the device
+initialization.
