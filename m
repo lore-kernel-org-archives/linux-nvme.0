@@ -1,21 +1,19 @@
 From: minwoo.im@samsung.com (Minwoo Im)
-Date: Mon, 03 Jun 2019 13:27:44 +0900
+Date: Mon, 03 Jun 2019 13:29:09 +0900
 Subject: [PATCH] nvme-cli: add default value for nsid of write-zeroes
-In-Reply-To: <bfac4b78-937c-42e8-1be1-f9a81ad22ab7@grimberg.me>
-References: <bfac4b78-937c-42e8-1be1-f9a81ad22ab7@grimberg.me>
+In-Reply-To: <BYAPR04MB5749A32C48ADD555EF1B6A8C861B0@BYAPR04MB5749.namprd04.prod.outlook.com>
+References: <BYAPR04MB5749A32C48ADD555EF1B6A8C861B0@BYAPR04MB5749.namprd04.prod.outlook.com>
  <20190601070003.20142-1-minwoo.im.dev@gmail.com>
- <CGME20190602071216epcas3p254daea15ecd90e3ddbfa3ac7c530bd1f@epcms2p8>
-Message-ID: <20190603042744epcms2p820c9606f5f6cc97f621d060a8bedc926@epcms2p8>
+ <bfac4b78-937c-42e8-1be1-f9a81ad22ab7@grimberg.me>
+ <CGME20190602232226epcas5p4831fd57de8def05b189bc9bf5c7c5432@epcms2p6>
+Message-ID: <20190603042909epcms2p6a171f91c9d75e5ada95685ad6523cd95@epcms2p6>
 
-> This is implicitly set to 0. You should mention that you add this just
-> for clarification, and its not fixing a bug.
+> Is this breaking any testcases or expected behavior ?
 
-Hi Sagi,
+Hi Chaitanya,
 
-Thanks for pointing it out.  I should have made the commit more in detail.
-As you mentioned, the ommitted field members are implicitly initialized to
-zero by the C99.
+Thanks for your question.  As I replied to Sagi, This patch can be ignored.
+Sorry for making confusions here.  This patch has never caused any
+issues ever.
 
-I think it can be ignored here.
-
-Thanks :)
+Thanks,
