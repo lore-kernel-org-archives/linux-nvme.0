@@ -1,17 +1,29 @@
 From: minwoo.im@samsung.com (Minwoo Im)
-Date: Mon, 03 Jun 2019 13:31:51 +0900
-Subject: [PATCH V5 2/6] fabrics: Do not return in the middle of the
- subcommand
-In-Reply-To: <BYAPR04MB5749D2AD58284C2F5F859527861B0@BYAPR04MB5749.namprd04.prod.outlook.com>
-References: <BYAPR04MB5749D2AD58284C2F5F859527861B0@BYAPR04MB5749.namprd04.prod.outlook.com>
+Date: Mon, 03 Jun 2019 13:34:14 +0900
+Subject: [PATCH V5 1/6] nvme: Do not return in the middle of the subcommand
+In-Reply-To: <BYAPR04MB574964DAEA1B94732AE1E349861B0@BYAPR04MB5749.namprd04.prod.outlook.com>
+References: <BYAPR04MB574964DAEA1B94732AE1E349861B0@BYAPR04MB5749.namprd04.prod.outlook.com>
+ <BYAPR04MB5749C9BDCCDA22B5390ED26086020@BYAPR04MB5749.namprd04.prod.outlook.com>
  <20190523145750.27425-1-minwoo.im.dev@gmail.com>
- <20190523145750.27425-3-minwoo.im.dev@gmail.com>
- <CGME20190602231146epcas3p10cc96137dc9a4d7f6e7cfb78f390d240@epcms2p6>
-Message-ID: <20190603043151epcms2p62ce7d68832b8e8732510aa9ad34f1d7b@epcms2p6>
+ <20190523145750.27425-2-minwoo.im.dev@gmail.com>
+ <20190524014037epcms2p26b77433a8c919b847ccb9f8acbb2485a@epcms2p2>
+ <CGME20190524013628epcas4p2a5b6451a173e112a13157f193fb29321@epcms2p3>
+Message-ID: <20190603043414epcms2p30dfc8251c2d56070d94bb55c1a93a7ec@epcms2p3>
 
-Hi Chaitanya,
+> We should at least try and use the default style irrespective of the
+> inheriting existing style
+> 
+> which will trigger more cleanups. Begin said that now the question is
+> what is default style ?
 
-Thanks for your review.  That sounds absolutely right.
-Will prepare V6	 patches with it.
+Actually, I wanted to ask what the default style is to myself  ;).
+
+> I'd just stick to non space labels as that is something been consistent
+> with kernel code.
+
+I think following kernel code style would be better than what these
+patches are doing here.
+
+Will prepare V6 series with it.
 
 Thanks,
