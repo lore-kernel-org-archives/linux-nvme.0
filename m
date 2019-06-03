@@ -1,19 +1,17 @@
 From: minwoo.im@samsung.com (Minwoo Im)
-Date: Mon, 03 Jun 2019 13:29:09 +0900
-Subject: [PATCH] nvme-cli: add default value for nsid of write-zeroes
-In-Reply-To: <BYAPR04MB5749A32C48ADD555EF1B6A8C861B0@BYAPR04MB5749.namprd04.prod.outlook.com>
-References: <BYAPR04MB5749A32C48ADD555EF1B6A8C861B0@BYAPR04MB5749.namprd04.prod.outlook.com>
- <20190601070003.20142-1-minwoo.im.dev@gmail.com>
- <bfac4b78-937c-42e8-1be1-f9a81ad22ab7@grimberg.me>
- <CGME20190602232226epcas5p4831fd57de8def05b189bc9bf5c7c5432@epcms2p6>
-Message-ID: <20190603042909epcms2p6a171f91c9d75e5ada95685ad6523cd95@epcms2p6>
-
-> Is this breaking any testcases or expected behavior ?
+Date: Mon, 03 Jun 2019 13:31:51 +0900
+Subject: [PATCH V5 2/6] fabrics: Do not return in the middle of the
+ subcommand
+In-Reply-To: <BYAPR04MB5749D2AD58284C2F5F859527861B0@BYAPR04MB5749.namprd04.prod.outlook.com>
+References: <BYAPR04MB5749D2AD58284C2F5F859527861B0@BYAPR04MB5749.namprd04.prod.outlook.com>
+ <20190523145750.27425-1-minwoo.im.dev@gmail.com>
+ <20190523145750.27425-3-minwoo.im.dev@gmail.com>
+ <CGME20190602231146epcas3p10cc96137dc9a4d7f6e7cfb78f390d240@epcms2p6>
+Message-ID: <20190603043151epcms2p62ce7d68832b8e8732510aa9ad34f1d7b@epcms2p6>
 
 Hi Chaitanya,
 
-Thanks for your question.  As I replied to Sagi, This patch can be ignored.
-Sorry for making confusions here.  This patch has never caused any
-issues ever.
+Thanks for your review.  That sounds absolutely right.
+Will prepare V6	 patches with it.
 
 Thanks,
