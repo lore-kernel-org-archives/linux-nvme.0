@@ -1,42 +1,59 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Tue,  4 Jun 2019 19:21:43 -0400
-Subject: [PATCH AUTOSEL 5.1 33/60] nvme: fix memory leak for power latency
- tolerance
-In-Reply-To: <20190604232212.6753-1-sashal@kernel.org>
-References: <20190604232212.6753-1-sashal@kernel.org>
-Message-ID: <20190604232212.6753-33-sashal@kernel.org>
+Date: Tue,  4 Jun 2019 19:23:12 -0400
+Subject: [PATCH AUTOSEL 4.19 17/36] nvme: fix srcu locking on error return in
+ nvme_get_ns_from_disk
+In-Reply-To: <20190604232333.7185-1-sashal@kernel.org>
+References: <20190604232333.7185-1-sashal@kernel.org>
+Message-ID: <20190604232333.7185-17-sashal@kernel.org>
 
-From: Yufen Yu <yuyufen@huawei.com>
+From: Christoph Hellwig <hch@lst.de>
 
-[ Upstream commit 510a405d945bc985abc513fafe45890cac34fafa ]
+[ Upstream commit 100c815cbd56480b3e31518475b04719c363614a ]
 
-Unconditionally hide device pm latency tolerance when uninitializing
-the controller to ensure all qos resources are released so that we're
-not leaking this memory. This is safe to call if none were allocated in
-the first place, or were previously freed.
+If we can't get a namespace don't leak the SRCU lock.  nvme_ioctl was
+working around this, but nvme_pr_command wasn't handling this properly.
+Just do what callers would usually expect.
 
-Fixes: c5552fde102fc("nvme: Enable autonomous power state transitions")
-Suggested-by: Keith Busch <keith.busch at intel.com>
-Tested-by: David Milburn <dmilburn at redhat.com>
-Signed-off-by: Yufen Yu <yuyufen at huawei.com>
-[changelog]
-Signed-off-by: Keith Busch <keith.busch at intel.com>
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+Reviewed-by: Keith Busch <keith.busch at intel.com>
+Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 Signed-off-by: Sasha Levin <sashal at kernel.org>
 ---
- drivers/nvme/host/core.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/nvme/host/core.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 23c90382a515..35d2202ee2fd 100644
+index abfb46378cc1..44d8077fbe95 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -3699,6 +3699,7 @@ EXPORT_SYMBOL_GPL(nvme_start_ctrl);
- 
- void nvme_uninit_ctrl(struct nvme_ctrl *ctrl)
+@@ -1277,9 +1277,14 @@ static struct nvme_ns *nvme_get_ns_from_disk(struct gendisk *disk,
  {
-+	dev_pm_qos_hide_latency_tolerance(ctrl->device);
- 	cdev_device_del(&ctrl->cdev, ctrl->device);
+ #ifdef CONFIG_NVME_MULTIPATH
+ 	if (disk->fops == &nvme_ns_head_ops) {
++		struct nvme_ns *ns;
++
+ 		*head = disk->private_data;
+ 		*srcu_idx = srcu_read_lock(&(*head)->srcu);
+-		return nvme_find_path(*head);
++		ns = nvme_find_path(*head);
++		if (!ns)
++			srcu_read_unlock(&(*head)->srcu, *srcu_idx);
++		return ns;
+ 	}
+ #endif
+ 	*head = NULL;
+@@ -1326,9 +1331,9 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
+ 
+ 	ns = nvme_get_ns_from_disk(bdev->bd_disk, &head, &srcu_idx);
+ 	if (unlikely(!ns))
+-		ret = -EWOULDBLOCK;
+-	else
+-		ret = nvme_ns_ioctl(ns, cmd, arg);
++		return -EWOULDBLOCK;
++
++	ret = nvme_ns_ioctl(ns, cmd, arg);
+ 	nvme_put_ns_from_disk(head, srcu_idx);
+ 	return ret;
  }
- EXPORT_SYMBOL_GPL(nvme_uninit_ctrl);
 -- 
 2.20.1
