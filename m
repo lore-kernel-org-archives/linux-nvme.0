@@ -1,42 +1,40 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Tue,  4 Jun 2019 19:23:16 -0400
-Subject: [PATCH AUTOSEL 4.19 21/36] nvme: fix memory leak for power latency
- tolerance
-In-Reply-To: <20190604232333.7185-1-sashal@kernel.org>
-References: <20190604232333.7185-1-sashal@kernel.org>
-Message-ID: <20190604232333.7185-21-sashal@kernel.org>
+Date: Tue,  4 Jun 2019 19:24:06 -0400
+Subject: [PATCH AUTOSEL 4.14 15/24] nvme: remove the ifdef around
+ nvme_nvm_ioctl
+In-Reply-To: <20190604232416.7479-1-sashal@kernel.org>
+References: <20190604232416.7479-1-sashal@kernel.org>
+Message-ID: <20190604232416.7479-15-sashal@kernel.org>
 
-From: Yufen Yu <yuyufen@huawei.com>
+From: Christoph Hellwig <hch@lst.de>
 
-[ Upstream commit 510a405d945bc985abc513fafe45890cac34fafa ]
+[ Upstream commit 3f98bcc58cd5f1e4668db289dcab771874cc0920 ]
 
-Unconditionally hide device pm latency tolerance when uninitializing
-the controller to ensure all qos resources are released so that we're
-not leaking this memory. This is safe to call if none were allocated in
-the first place, or were previously freed.
+We already have a proper stub if lightnvm is not enabled, so don't bother
+with the ifdef.
 
-Fixes: c5552fde102fc("nvme: Enable autonomous power state transitions")
-Suggested-by: Keith Busch <keith.busch at intel.com>
-Tested-by: David Milburn <dmilburn at redhat.com>
-Signed-off-by: Yufen Yu <yuyufen at huawei.com>
-[changelog]
-Signed-off-by: Keith Busch <keith.busch at intel.com>
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+Reviewed-by: Keith Busch <keith.busch at intel.com>
+Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 Signed-off-by: Sasha Levin <sashal at kernel.org>
 ---
- drivers/nvme/host/core.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/nvme/host/core.c | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 818788275406..a867a139bb35 100644
+index 65f3f1a34b6b..d98ffb1ce629 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -3525,6 +3525,7 @@ EXPORT_SYMBOL_GPL(nvme_start_ctrl);
- 
- void nvme_uninit_ctrl(struct nvme_ctrl *ctrl)
- {
-+	dev_pm_qos_hide_latency_tolerance(ctrl->device);
- 	cdev_device_del(&ctrl->cdev, ctrl->device);
- }
- EXPORT_SYMBOL_GPL(nvme_uninit_ctrl);
+@@ -1042,10 +1042,8 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
+ 	case NVME_IOCTL_SUBMIT_IO:
+ 		return nvme_submit_io(ns, (void __user *)arg);
+ 	default:
+-#ifdef CONFIG_NVM
+ 		if (ns->ndev)
+ 			return nvme_nvm_ioctl(ns, cmd, arg);
+-#endif
+ 		if (is_sed_ioctl(cmd))
+ 			return sed_ioctl(ns->ctrl->opal_dev, cmd,
+ 					 (void __user *) arg);
 -- 
 2.20.1
