@@ -1,92 +1,76 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Tue,  4 Jun 2019 19:23:14 -0400
-Subject: [PATCH AUTOSEL 4.19 19/36] nvme: merge nvme_ns_ioctl into nvme_ioctl
+Date: Tue,  4 Jun 2019 19:23:15 -0400
+Subject: [PATCH AUTOSEL 4.19 20/36] nvme: release namespace SRCU protection
+ before performing controller ioctls
 In-Reply-To: <20190604232333.7185-1-sashal@kernel.org>
 References: <20190604232333.7185-1-sashal@kernel.org>
-Message-ID: <20190604232333.7185-19-sashal@kernel.org>
+Message-ID: <20190604232333.7185-20-sashal@kernel.org>
 
 From: Christoph Hellwig <hch@lst.de>
 
-[ Upstream commit 90ec611adcf20b96d0c2b7166497d53e4301a57f ]
+[ Upstream commit 5fb4aac756acacf260b9ebd88747251effa3a2f2 ]
 
-Merge the two functions to make future changes a little easier.
+Holding the SRCU critical section protecting the namespace list can
+cause deadlocks when using the per-namespace admin passthrough ioctl to
+delete as namespace.  Release it earlier when performing per-controller
+ioctls to avoid that.
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
-Reviewed-by: Keith Busch <keith.busch at intel.com>
+Reported-by: Kenneth Heitke <kenneth.heitke at intel.com>
 Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+Reviewed-by: Keith Busch <keith.busch at intel.com>
+Signed-off-by: Christoph Hellwig <hch at lst.de>
 Signed-off-by: Sasha Levin <sashal at kernel.org>
 ---
- drivers/nvme/host/core.c | 47 ++++++++++++++++++++--------------------
- 1 file changed, 24 insertions(+), 23 deletions(-)
+ drivers/nvme/host/core.c | 25 ++++++++++++++++++++-----
+ 1 file changed, 20 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 1cdfea3c094a..82f5f1d030d4 100644
+index 82f5f1d030d4..818788275406 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1298,32 +1298,11 @@ static void nvme_put_ns_from_disk(struct nvme_ns_head *head, int idx)
- 		srcu_read_unlock(&head->srcu, idx);
- }
- 
--static int nvme_ns_ioctl(struct nvme_ns *ns, unsigned cmd, unsigned long arg)
--{
--	switch (cmd) {
--	case NVME_IOCTL_ID:
--		force_successful_syscall_return();
--		return ns->head->ns_id;
--	case NVME_IOCTL_ADMIN_CMD:
--		return nvme_user_cmd(ns->ctrl, NULL, (void __user *)arg);
--	case NVME_IOCTL_IO_CMD:
--		return nvme_user_cmd(ns->ctrl, ns, (void __user *)arg);
--	case NVME_IOCTL_SUBMIT_IO:
--		return nvme_submit_io(ns, (void __user *)arg);
--	default:
--		if (ns->ndev)
--			return nvme_nvm_ioctl(ns, cmd, arg);
--		if (is_sed_ioctl(cmd))
--			return sed_ioctl(ns->ctrl->opal_dev, cmd,
--					 (void __user *) arg);
--		return -ENOTTY;
--	}
--}
--
- static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
- 		unsigned int cmd, unsigned long arg)
- {
- 	struct nvme_ns_head *head = NULL;
-+	void __user *argp = (void __user *)arg;
- 	struct nvme_ns *ns;
- 	int srcu_idx, ret;
- 
-@@ -1331,7 +1310,29 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
+@@ -1310,14 +1310,31 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
  	if (unlikely(!ns))
  		return -EWOULDBLOCK;
  
--	ret = nvme_ns_ioctl(ns, cmd, arg);
-+	switch (cmd) {
-+	case NVME_IOCTL_ID:
-+		force_successful_syscall_return();
-+		ret = ns->head->ns_id;
-+		break;
-+	case NVME_IOCTL_ADMIN_CMD:
-+		ret = nvme_user_cmd(ns->ctrl, NULL, argp);
-+		break;
-+	case NVME_IOCTL_IO_CMD:
-+		ret = nvme_user_cmd(ns->ctrl, ns, argp);
-+		break;
-+	case NVME_IOCTL_SUBMIT_IO:
-+		ret = nvme_submit_io(ns, argp);
-+		break;
-+	default:
-+		if (ns->ndev)
-+			ret = nvme_nvm_ioctl(ns, cmd, arg);
-+		else if (is_sed_ioctl(cmd))
-+			ret = sed_ioctl(ns->ctrl->opal_dev, cmd, argp);
++	/*
++	 * Handle ioctls that apply to the controller instead of the namespace
++	 * seperately and drop the ns SRCU reference early.  This avoids a
++	 * deadlock when deleting namespaces using the passthrough interface.
++	 */
++	if (cmd == NVME_IOCTL_ADMIN_CMD || is_sed_ioctl(cmd)) {
++		struct nvme_ctrl *ctrl = ns->ctrl;
++
++		nvme_get_ctrl(ns->ctrl);
++		nvme_put_ns_from_disk(head, srcu_idx);
++
++		if (cmd == NVME_IOCTL_ADMIN_CMD)
++			ret = nvme_user_cmd(ctrl, NULL, argp);
 +		else
-+			ret = -ENOTTY;
++			ret = sed_ioctl(ctrl->opal_dev, cmd, argp);
++
++		nvme_put_ctrl(ctrl);
++		return ret;
 +	}
 +
- 	nvme_put_ns_from_disk(head, srcu_idx);
- 	return ret;
- }
+ 	switch (cmd) {
+ 	case NVME_IOCTL_ID:
+ 		force_successful_syscall_return();
+ 		ret = ns->head->ns_id;
+ 		break;
+-	case NVME_IOCTL_ADMIN_CMD:
+-		ret = nvme_user_cmd(ns->ctrl, NULL, argp);
+-		break;
+ 	case NVME_IOCTL_IO_CMD:
+ 		ret = nvme_user_cmd(ns->ctrl, ns, argp);
+ 		break;
+@@ -1327,8 +1344,6 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
+ 	default:
+ 		if (ns->ndev)
+ 			ret = nvme_nvm_ioctl(ns, cmd, arg);
+-		else if (is_sed_ioctl(cmd))
+-			ret = sed_ioctl(ns->ctrl->opal_dev, cmd, argp);
+ 		else
+ 			ret = -ENOTTY;
+ 	}
 -- 
 2.20.1
