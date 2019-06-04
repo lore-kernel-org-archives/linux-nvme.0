@@ -1,47 +1,85 @@
-From: james.r.harris@intel.com (Harris, James R)
-Date: Tue, 4 Jun 2019 19:07:38 +0000
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 4 Jun 2019 21:11:31 +0200
 Subject: [Suspected-Phishing]Re: [PATCH] Revert "nvme-rdma: remove
  redundant reference between ib_device and tagset"
-In-Reply-To: <20190604190501.GB28398@lst.de>
+In-Reply-To: <b4a79dfe-ffc8-0571-9f54-cf5b98c21500@mellanox.com>
 References: <20190603231159.17034-1-sagi@grimberg.me>
  <b98d3c8f-85ee-06f2-b47a-a3e04261c0d1@grimberg.me>
  <F4E18075-01AA-443B-BF43-23A4BA80C10C@intel.com>
  <d2a20c0f-092d-28ca-3365-1fb5df2cb816@mellanox.com>
  <b4a79dfe-ffc8-0571-9f54-cf5b98c21500@mellanox.com>
- <251f83e0-75f1-ef0b-2747-8ae09f038ce8@grimberg.me>
- <cb21c45b-2ffc-107b-172a-d9f653e90402@mellanox.com>
- <288d4db3-ca7e-c60f-b7ac-5a6ff2771235@grimberg.me>
- <20190604190501.GB28398@lst.de>
-Message-ID: <AC876DA0-F1E0-4FFD-A990-87D47A2091C6@intel.com>
+Message-ID: <20190604191131.GC28398@lst.de>
 
+So this basically means we can't keep dma mappings around, which
+is a bit unfortunate.  Can you also write a real changelog explaining
+the reasoning behind it, which isn't quite obvious to me?
 
+Nitpicks below:
 
-?On 6/4/19, 12:05 PM, "Christoph Hellwig" <hch@lst.de> wrote:
+> +static void nvme_rdma_unmap_qe(struct ib_device *ibdev, struct nvme_rdma_qe *qe,
+> +			       size_t capsule_size, enum dma_data_direction dir)
+>  {
+>  	ib_dma_unmap_single(ibdev, qe->dma, capsule_size, dir);
+> +}
+> +
+> +static int nvme_rdma_map_qe(struct ib_device *ibdev, struct nvme_rdma_qe *qe,
+> +			    size_t capsule_size, enum dma_data_direction dir)
+> +{
+> +	qe->dma = ib_dma_map_single(ibdev, qe->data, capsule_size, dir);
+> +	return ib_dma_mapping_error(ibdev, qe->dma);
+> +}
+> +
+> +static void nvme_rdma_free_qe(struct nvme_rdma_qe *qe)
+> +{
+>  	kfree(qe->data);
+>  }
 
-    On Tue, Jun 04, 2019@08:55:56AM -0700, Sagi Grimberg wrote:
-    >
-    >>>> James,
-    >>>>
-    >>>> can you test the attached patch (without the revert) ?
-    >>>
-    >>> Max, I think that its pretty late for this change for 5.2,
-    >>> I'm leaning towards reverting the offending patch for 5.2-rc and
-    >>> getting this into 5.3
-    >>
-    >> are you sure ?
-    >>
-    >> we're only at rc3..
-    >
-    > This is beyond a bug fix, its a behavior change, with possible other
-    > implications. This is really something that is merge window material
-    > I think. I would rather let it sit for nvme-5.3 for a while before
-    > we merge it.
-    >
-    > Christoph, do you have a different preference?
-    
-    The original patch from Max fixed a serious issue, so I'd prefer not
-    to revert it, especially as we are only at rc3.  That assumes we
-    can agree on a fix in the next couple of days.
+All these helpers are pretty pointless now, and we might as well just
+open code them.
 
-I'll test Max's proposed patch this afternoon and report back.
-    
+> +static void nvme_rdma_free_mapped_qe(struct ib_device *ibdev,
+> +				     struct nvme_rdma_qe *qe,
+> +				     size_t capsule_size,
+> +				     enum dma_data_direction dir)
+
+Can you use normal two tabs indents for your new functions?
+
+>  
+>  	ctrl->max_fr_pages = nvme_rdma_get_max_fr_pages(ctrl->device->dev);
+>  
+> -	error = nvme_rdma_alloc_qe(ctrl->device->dev, &ctrl->async_event_sqe,
+> -			sizeof(struct nvme_command), DMA_TO_DEVICE);
+> +	error = nvme_rdma_alloc_mapped_qe(ctrl->device->dev,
+> +					  &ctrl->async_event_sqe,
+> +					  sizeof(struct nvme_command),
+> +					  DMA_TO_DEVICE);
+
+So.. If keeping SQEs mapped is not fine, why is keeping the AEN SQE
+around fine?
+
+> +		if (err == -ENOMEM || err == -EAGAIN)
+> +			ret = BLK_STS_RESOURCE;
+> +		else
+> +			ret = BLK_STS_IOERR;
+> +		goto unmap_qe;
+>  	}
+>  
+>  	sqe->cqe.done = nvme_rdma_send_done;
+> @@ -1735,14 +1781,20 @@ static blk_status_t nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
+>  			req->mr ? &req->reg_wr.wr : NULL);
+>  	if (unlikely(err)) {
+>  		nvme_rdma_unmap_data(queue, rq);
+> -		goto err;
+> +		if (err == -ENOMEM || err == -EAGAIN)
+> +			ret = BLK_STS_RESOURCE;
+> +		else
+> +			ret = BLK_STS_IOERR;
+> +		goto unmap_qe;
+
+It would be nice to keep the status mapping in a single place behind
+the goto label.
+
+> +out:
+> +	return ret;
+
+No real need for the label here, you could just return directly.
