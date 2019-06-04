@@ -1,28 +1,30 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 4 Jun 2019 09:28:53 +0200
-Subject: [PATCH V5 1/5] nvme: Make trace common for host and target both
-In-Reply-To: <20190602014737.GA28933@minwooim-desktop>
-References: <20190601072143.21233-1-minwoo.im.dev@gmail.com>
- <20190601072143.21233-2-minwoo.im.dev@gmail.com>
- <20190601085016.GA6375@lst.de> <20190602014737.GA28933@minwooim-desktop>
-Message-ID: <20190604072853.GG15680@lst.de>
+Date: Tue, 4 Jun 2019 09:31:40 +0200
+Subject: [PATCH v3 2/3] nvme: add thermal zone devices
+In-Reply-To: <CAC5umyiBmD6-3BNLfG7sNOe9jde8Ct16a9N_Ao3T_1_G1K_DDA@mail.gmail.com>
+References: <1558888143-5121-1-git-send-email-akinobu.mita@gmail.com>
+ <1558888143-5121-3-git-send-email-akinobu.mita@gmail.com>
+ <20190601090238.GD6453@lst.de>
+ <CAC5umyiBmD6-3BNLfG7sNOe9jde8Ct16a9N_Ao3T_1_G1K_DDA@mail.gmail.com>
+Message-ID: <20190604073140.GH15680@lst.de>
 
-On Sun, Jun 02, 2019@10:47:38AM +0900, Minwoo Im wrote:
-> > I'd much prefer to have different implementations for host vs target for
-> > now instead of introducing a common library.  Maybe we could revisit
-> > that later if we end up having a lot of shared code.
+On Sun, Jun 02, 2019@10:19:08PM +0900, Akinobu Mita wrote:
+> As long as the user space thermal governor is used, there is nothing more
+> than that from a functional perspective.  And I suppose that this is used
+> with user_space governor (i.e. there is still some work to be able to bind
+> actual thermal cooling device).
 > 
-> As you know, nvmet handles not only nvme fabrics commands, but normal
-> commands in nvmet_req_init() and nvmet_req_complete().  Which means that
-> we already have a lot of shared codes in parsing point of view.
+> The main purpose of this is to turn on a fan when overheated without
+> polling the device that could prevent the lower power state transitions.
+> But as you noted, we could do that with the existing AEN notifications
+> through uevent.
 > 
-> The host/trace.c provides parsing admin commands which can be used by
-> nvmet also.  I guess it's enough to be shared for host and target both.
-> 
-> I hope you can correct me if I missed someting here.
+> So frankly speaking, the benefit of this is providing generic thermal sysfs
+> interface and the tools like tmon (linux/tools/thermal/tmon) can show the
+> nvme temperatures.
 
-I'm not against sharing per se, but I'm really worried about either
-building that code in the core kernel, or even just a new module, as
-that'll waste at least 8k and will cause more cache misses when
-tracing.  So for now my preference would be to just duplicate the code
-at least at the binary level.
+I'm just a little worried about bloating the nvme driver with features
+that look kinda nifty but don't buy us much.  I'd rather keep at least
+the core and PCIe drivers as minimal.  Now the thermal device support
+is pretty small and except for the smart uevents I can't find anything
+actually bad, but I'm not exactly excited either.
