@@ -1,81 +1,114 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Wed,  5 Jun 2019 00:40:28 +0900
-Subject: [PATCH V6 0/6] nvme-cli: Introduce nvme-status mapping with errno
-Message-ID: <20190604154034.23386-1-minwoo.im.dev@gmail.com>
+Date: Wed,  5 Jun 2019 00:40:30 +0900
+Subject: [PATCH V6 2/6] fabrics: Do not return in the middle of the subcommand
+In-Reply-To: <20190604154034.23386-1-minwoo.im.dev@gmail.com>
+References: <20190604154034.23386-1-minwoo.im.dev@gmail.com>
+Message-ID: <20190604154034.23386-3-minwoo.im.dev@gmail.com>
 
-Hi,
+This patch also makes fabrics module to not return the internal error
+status in the middle of the subcommands to support uniformed mapped
+error value which will be introduced in the next patches.
 
-The first three patches have been added in this series to make sure
-the previous ununiformed return type and positions in the subcommands.
-Some commands used to return the negative error values in case of
-internal errors, but some didn't.  Also returning in the middle of the
-subcommands are not proper for the errno-mapping which is introduced
-here.  The first three patches are going to fix them first.
+Cc: Keith Busch <kbusch at kernel.org>
+Cc: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+Cc: Sagi Grimberg <sagi at grimberg.me>
+Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
+---
+ fabrics.c | 31 +++++++++++++++++++------------
+ 1 file changed, 19 insertions(+), 12 deletions(-)
 
-This patchset introduces nvme-status module to manage mapping
-relationships between nvme error status and errno.  It cannot be
-directly mapped in 1:1, but we can figure out what kind of errors
-happended by the return value of nvme-cli.
-
-NVMe status fields are 16bits to indicate, but UNIX return value from
-main() will be parsed in 8bits so that we need to do something about
-return value to indicate nvme error status.
-
-This patch series has been tested with:
-  - nvme pcie device controller/namespaces
-  - nvme loop target with nvme-fabrics
-
-The branch on github can be found at:
-  https://github.com/minwooim/nvme-cli.git for-1.9/return-negative-errno-v6
-
-Please review.
-Thanks,
-
-Changes to previous V5:
-  - The first patch has been updated being without an whitespace in
-    front of new label("ret") in a function.  The other lables added
-    followed the existing style in where it belongs to.
-    The default style would be great to follow the kernel style which
-    is non-space label, as suggested by Chaitanya.
-  - The second patch has been updated to have "out" named label just
-    like the others in that file(fabrics).
-  - No functional changed in this version 6.  Only style change has been
-    applied.
-
-Changes to previous V4:
-  - Add the first three patches before introducing errno mapping module.
-
-Changes to previous V3:
-  - Fix to return 0 when given error is 0 which means success.
-    (Chaitanya)
-
-Changes to previous V2:
-  - do not overwrite the err local variable, instead returning the
-    converted errno mapped directly.
-  - return ECOMM in case of linux internal err which indicates the
-    negative values from in the middle of the subcommand.
-
-Changes to previous V1:
-  - make switch-case inline in nvme-status (Chaitanya)
-
-
-Minwoo Im (6):
-  nvme: Do not return in the middle of the subcommand
-  fabrics: Do not return in the middle of the subcommand
-  nvme: Return negative error value for internal errors
-  nvme-status: Introduce nvme status module to map errno
-  nvme: Return errno mapped for nvme error status
-  fabrics: Return errno mapped for fabrics error status
-
- Makefile      |   3 +-
- fabrics.c     |  46 ++--
- linux/nvme.h  |   6 +
- nvme-status.c | 155 +++++++++++
- nvme-status.h |  14 +
- nvme.c        | 701 ++++++++++++++++++++++++++++++--------------------
- 6 files changed, 622 insertions(+), 303 deletions(-)
- create mode 100644 nvme-status.c
- create mode 100644 nvme-status.h
-
+diff --git a/fabrics.c b/fabrics.c
+index 573a6ef..7be7f59 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -984,20 +984,23 @@ int discover(const char *desc, int argc, char **argv, bool connect)
+ 	ret = argconfig_parse(argc, argv, desc, command_line_options, &cfg,
+ 			sizeof(cfg));
+ 	if (ret)
+-		return ret;
++		goto out;
+ 
+ 	cfg.nqn = NVME_DISC_SUBSYS_NAME;
+ 
+ 	if (!cfg.transport && !cfg.traddr) {
+-		return discover_from_conf_file(desc, argstr,
++		ret = discover_from_conf_file(desc, argstr,
+ 				command_line_options, connect);
+ 	} else {
+ 		ret = build_options(argstr, BUF_SIZE);
+ 		if (ret)
+-			return ret;
++			goto out;
+ 
+-		return do_discover(argstr, connect);
++		ret = do_discover(argstr, connect);
+ 	}
++
++out:
++	return ret;
+ }
+ 
+ int connect(const char *desc, int argc, char **argv)
+@@ -1029,21 +1032,23 @@ int connect(const char *desc, int argc, char **argv)
+ 	ret = argconfig_parse(argc, argv, desc, command_line_options, &cfg,
+ 			sizeof(cfg));
+ 	if (ret)
+-		return ret;
++		goto out;
+ 
+ 	ret = build_options(argstr, BUF_SIZE);
+ 	if (ret)
+-		return ret;
++		goto out;
+ 
+ 	if (!cfg.nqn) {
+ 		fprintf(stderr, "need a -n argument\n");
+-		return -EINVAL;
++		ret = -EINVAL;
++		goto out;
+ 	}
+ 
+ 	instance = add_ctrl(argstr);
+ 	if (instance < 0)
+-		return instance;
+-	return 0;
++		ret = instance;
++out:
++	return ret;
+ }
+ 
+ static int scan_sys_nvme_filter(const struct dirent *d)
+@@ -1148,11 +1153,12 @@ int disconnect(const char *desc, int argc, char **argv)
+ 	ret = argconfig_parse(argc, argv, desc, command_line_options, &cfg,
+ 			sizeof(cfg));
+ 	if (ret)
+-		return ret;
++		goto out;
+ 
+ 	if (!cfg.nqn && !cfg.device) {
+ 		fprintf(stderr, "need a -n or -d argument\n");
+-		return -EINVAL;
++		ret = -EINVAL;
++		goto out;
+ 	}
+ 
+ 	if (cfg.nqn) {
+@@ -1174,6 +1180,7 @@ int disconnect(const char *desc, int argc, char **argv)
+ 				cfg.device);
+ 	}
+ 
++out:
+ 	return ret;
+ }
+ 
+@@ -1188,7 +1195,7 @@ int disconnect_all(const char *desc, int argc, char **argv)
+ 	ret = argconfig_parse(argc, argv, desc, command_line_options, &cfg,
+ 			sizeof(cfg));
+ 	if (ret)
+-		return ret;
++		goto out;
+ 
+ 	slist = get_subsys_list(&subcnt, NULL, NVME_NSID_ALL);
+ 	for (i = 0; i < subcnt; i++) {
 -- 
 2.21.0
