@@ -1,59 +1,40 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Tue,  4 Jun 2019 19:23:12 -0400
-Subject: [PATCH AUTOSEL 4.19 17/36] nvme: fix srcu locking on error return in
- nvme_get_ns_from_disk
+Date: Tue,  4 Jun 2019 19:23:13 -0400
+Subject: [PATCH AUTOSEL 4.19 18/36] nvme: remove the ifdef around
+ nvme_nvm_ioctl
 In-Reply-To: <20190604232333.7185-1-sashal@kernel.org>
 References: <20190604232333.7185-1-sashal@kernel.org>
-Message-ID: <20190604232333.7185-17-sashal@kernel.org>
+Message-ID: <20190604232333.7185-18-sashal@kernel.org>
 
 From: Christoph Hellwig <hch@lst.de>
 
-[ Upstream commit 100c815cbd56480b3e31518475b04719c363614a ]
+[ Upstream commit 3f98bcc58cd5f1e4668db289dcab771874cc0920 ]
 
-If we can't get a namespace don't leak the SRCU lock.  nvme_ioctl was
-working around this, but nvme_pr_command wasn't handling this properly.
-Just do what callers would usually expect.
+We already have a proper stub if lightnvm is not enabled, so don't bother
+with the ifdef.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 Reviewed-by: Keith Busch <keith.busch at intel.com>
 Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 Signed-off-by: Sasha Levin <sashal at kernel.org>
 ---
- drivers/nvme/host/core.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ drivers/nvme/host/core.c | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index abfb46378cc1..44d8077fbe95 100644
+index 44d8077fbe95..1cdfea3c094a 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1277,9 +1277,14 @@ static struct nvme_ns *nvme_get_ns_from_disk(struct gendisk *disk,
- {
- #ifdef CONFIG_NVME_MULTIPATH
- 	if (disk->fops == &nvme_ns_head_ops) {
-+		struct nvme_ns *ns;
-+
- 		*head = disk->private_data;
- 		*srcu_idx = srcu_read_lock(&(*head)->srcu);
--		return nvme_find_path(*head);
-+		ns = nvme_find_path(*head);
-+		if (!ns)
-+			srcu_read_unlock(&(*head)->srcu, *srcu_idx);
-+		return ns;
- 	}
- #endif
- 	*head = NULL;
-@@ -1326,9 +1331,9 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
- 
- 	ns = nvme_get_ns_from_disk(bdev->bd_disk, &head, &srcu_idx);
- 	if (unlikely(!ns))
--		ret = -EWOULDBLOCK;
--	else
--		ret = nvme_ns_ioctl(ns, cmd, arg);
-+		return -EWOULDBLOCK;
-+
-+	ret = nvme_ns_ioctl(ns, cmd, arg);
- 	nvme_put_ns_from_disk(head, srcu_idx);
- 	return ret;
- }
+@@ -1311,10 +1311,8 @@ static int nvme_ns_ioctl(struct nvme_ns *ns, unsigned cmd, unsigned long arg)
+ 	case NVME_IOCTL_SUBMIT_IO:
+ 		return nvme_submit_io(ns, (void __user *)arg);
+ 	default:
+-#ifdef CONFIG_NVM
+ 		if (ns->ndev)
+ 			return nvme_nvm_ioctl(ns, cmd, arg);
+-#endif
+ 		if (is_sed_ioctl(cmd))
+ 			return sed_ioctl(ns->ctrl->opal_dev, cmd,
+ 					 (void __user *) arg);
 -- 
 2.20.1
