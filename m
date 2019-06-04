@@ -1,76 +1,42 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Tue,  4 Jun 2019 19:21:42 -0400
-Subject: [PATCH AUTOSEL 5.1 32/60] nvme: release namespace SRCU protection
- before performing controller ioctls
+Date: Tue,  4 Jun 2019 19:21:43 -0400
+Subject: [PATCH AUTOSEL 5.1 33/60] nvme: fix memory leak for power latency
+ tolerance
 In-Reply-To: <20190604232212.6753-1-sashal@kernel.org>
 References: <20190604232212.6753-1-sashal@kernel.org>
-Message-ID: <20190604232212.6753-32-sashal@kernel.org>
+Message-ID: <20190604232212.6753-33-sashal@kernel.org>
 
-From: Christoph Hellwig <hch@lst.de>
+From: Yufen Yu <yuyufen@huawei.com>
 
-[ Upstream commit 5fb4aac756acacf260b9ebd88747251effa3a2f2 ]
+[ Upstream commit 510a405d945bc985abc513fafe45890cac34fafa ]
 
-Holding the SRCU critical section protecting the namespace list can
-cause deadlocks when using the per-namespace admin passthrough ioctl to
-delete as namespace.  Release it earlier when performing per-controller
-ioctls to avoid that.
+Unconditionally hide device pm latency tolerance when uninitializing
+the controller to ensure all qos resources are released so that we're
+not leaking this memory. This is safe to call if none were allocated in
+the first place, or were previously freed.
 
-Reported-by: Kenneth Heitke <kenneth.heitke at intel.com>
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-Reviewed-by: Keith Busch <keith.busch at intel.com>
-Signed-off-by: Christoph Hellwig <hch at lst.de>
+Fixes: c5552fde102fc("nvme: Enable autonomous power state transitions")
+Suggested-by: Keith Busch <keith.busch at intel.com>
+Tested-by: David Milburn <dmilburn at redhat.com>
+Signed-off-by: Yufen Yu <yuyufen at huawei.com>
+[changelog]
+Signed-off-by: Keith Busch <keith.busch at intel.com>
 Signed-off-by: Sasha Levin <sashal at kernel.org>
 ---
- drivers/nvme/host/core.c | 25 ++++++++++++++++++++-----
- 1 file changed, 20 insertions(+), 5 deletions(-)
+ drivers/nvme/host/core.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 8b77e6a05f4b..23c90382a515 100644
+index 23c90382a515..35d2202ee2fd 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1395,14 +1395,31 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
- 	if (unlikely(!ns))
- 		return -EWOULDBLOCK;
+@@ -3699,6 +3699,7 @@ EXPORT_SYMBOL_GPL(nvme_start_ctrl);
  
-+	/*
-+	 * Handle ioctls that apply to the controller instead of the namespace
-+	 * seperately and drop the ns SRCU reference early.  This avoids a
-+	 * deadlock when deleting namespaces using the passthrough interface.
-+	 */
-+	if (cmd == NVME_IOCTL_ADMIN_CMD || is_sed_ioctl(cmd)) {
-+		struct nvme_ctrl *ctrl = ns->ctrl;
-+
-+		nvme_get_ctrl(ns->ctrl);
-+		nvme_put_ns_from_disk(head, srcu_idx);
-+
-+		if (cmd == NVME_IOCTL_ADMIN_CMD)
-+			ret = nvme_user_cmd(ctrl, NULL, argp);
-+		else
-+			ret = sed_ioctl(ctrl->opal_dev, cmd, argp);
-+
-+		nvme_put_ctrl(ctrl);
-+		return ret;
-+	}
-+
- 	switch (cmd) {
- 	case NVME_IOCTL_ID:
- 		force_successful_syscall_return();
- 		ret = ns->head->ns_id;
- 		break;
--	case NVME_IOCTL_ADMIN_CMD:
--		ret = nvme_user_cmd(ns->ctrl, NULL, argp);
--		break;
- 	case NVME_IOCTL_IO_CMD:
- 		ret = nvme_user_cmd(ns->ctrl, ns, argp);
- 		break;
-@@ -1412,8 +1429,6 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
- 	default:
- 		if (ns->ndev)
- 			ret = nvme_nvm_ioctl(ns, cmd, arg);
--		else if (is_sed_ioctl(cmd))
--			ret = sed_ioctl(ns->ctrl->opal_dev, cmd, argp);
- 		else
- 			ret = -ENOTTY;
- 	}
+ void nvme_uninit_ctrl(struct nvme_ctrl *ctrl)
+ {
++	dev_pm_qos_hide_latency_tolerance(ctrl->device);
+ 	cdev_device_del(&ctrl->cdev, ctrl->device);
+ }
+ EXPORT_SYMBOL_GPL(nvme_uninit_ctrl);
 -- 
 2.20.1
