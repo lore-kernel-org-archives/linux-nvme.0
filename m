@@ -1,20 +1,44 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 4 Jun 2019 09:18:16 +0200
-Subject: [PATCH v2] nvme: Fix u32 overflow in the number of namespace
- list calculation
-In-Reply-To: <CAJX3CtgdrbaPhFPnR13CT9mAQ8yVRyPFMjbFz01gcNz6G=2T_g@mail.gmail.com>
-References: <1559604301-14042-1-git-send-email-jalee@purestorage.com>
- <CAJX3CtgdrbaPhFPnR13CT9mAQ8yVRyPFMjbFz01gcNz6G=2T_g@mail.gmail.com>
-Message-ID: <20190604071816.GA15680@lst.de>
+Date: Tue, 4 Jun 2019 09:23:36 +0200
+Subject: [PATCH v2 2/3] nvme: enable to inject errors into admin commands
+In-Reply-To: <1559483421-11361-3-git-send-email-akinobu.mita@gmail.com>
+References: <1559483421-11361-1-git-send-email-akinobu.mita@gmail.com>
+ <1559483421-11361-3-git-send-email-akinobu.mita@gmail.com>
+Message-ID: <20190604072336.GC15680@lst.de>
 
-On Mon, Jun 03, 2019@04:42:28PM -0700, Jaesoo Lee wrote:
-> The Number of Namespaces (nn) field in the identify controller data structure is
-> defined as u32 and the maximum allowed value in NVMe specification is
-> 0xFFFFFFFEUL. This change fixes the possible overflow of the DIV_ROUND_UP()
-> operation used in nvme_scan_ns_list() by casting the nn to u64.
-> 
-> Signed-off-by: Jaesoo Lee <jalee at purestorage.com>
+>  	struct nvme_fault_inject *fault_inject = NULL;
+>  	u16 status;
+>  
+> -	/*
+> -	 * make sure this request is coming from a valid namespace
+> -	 */
+>  	if (disk) {
+>  		struct nvme_ns *ns = disk->private_data;
+>  
+>  		if (ns)
+>  			fault_inject = &ns->fault_inject;
 
-Looks good,
+
+Not new in this code, but how could ns ever be NULL here?
+
+> @@ -257,6 +266,8 @@ struct nvme_ctrl {
+>  	 */
+>  	struct thermal_zone_device *tzdev[9];
+>  #endif
+
+Looks like this series seem to be based on the thermal zone series.
+
+> -struct nvme_fault_inject {
+> -#ifdef CONFIG_FAULT_INJECTION_DEBUG_FS
+> -	struct fault_attr attr;
+> -	struct dentry *parent;
+> -	bool dont_retry;	/* DNR, do not retry */
+> -	u16 status;		/* status code */
+> -#endif
+
+It would be nicer to already move it up earlier when you change the ifdef
+guared.
+
+Otherwise the whole series looks fine:
 
 Reviewed-by: Christoph Hellwig <hch at lst.de>
