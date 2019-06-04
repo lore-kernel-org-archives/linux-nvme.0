@@ -1,40 +1,50 @@
-From: sashal@kernel.org (Sasha Levin)
-Date: Tue,  4 Jun 2019 19:24:06 -0400
-Subject: [PATCH AUTOSEL 4.14 15/24] nvme: remove the ifdef around
- nvme_nvm_ioctl
-In-Reply-To: <20190604232416.7479-1-sashal@kernel.org>
-References: <20190604232416.7479-1-sashal@kernel.org>
-Message-ID: <20190604232416.7479-15-sashal@kernel.org>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 4 Jun 2019 16:54:20 -0700
+Subject: [Suspected-Phishing]Re: [PATCH] Revert "nvme-rdma: remove
+ redundant reference between ib_device and tagset"
+In-Reply-To: <20190604190501.GB28398@lst.de>
+References: <20190603231159.17034-1-sagi@grimberg.me>
+ <b98d3c8f-85ee-06f2-b47a-a3e04261c0d1@grimberg.me>
+ <F4E18075-01AA-443B-BF43-23A4BA80C10C@intel.com>
+ <d2a20c0f-092d-28ca-3365-1fb5df2cb816@mellanox.com>
+ <b4a79dfe-ffc8-0571-9f54-cf5b98c21500@mellanox.com>
+ <251f83e0-75f1-ef0b-2747-8ae09f038ce8@grimberg.me>
+ <cb21c45b-2ffc-107b-172a-d9f653e90402@mellanox.com>
+ <288d4db3-ca7e-c60f-b7ac-5a6ff2771235@grimberg.me>
+ <20190604190501.GB28398@lst.de>
+Message-ID: <c55d56ea-7d63-10e5-dd97-6112a027c7b8@grimberg.me>
 
-From: Christoph Hellwig <hch@lst.de>
 
-[ Upstream commit 3f98bcc58cd5f1e4668db289dcab771874cc0920 ]
+>>>>> can you test the attached patch (without the revert) ?
+>>>>
+>>>> Max, I think that its pretty late for this change for 5.2,
+>>>> I'm leaning towards reverting the offending patch for 5.2-rc and
+>>>> getting this into 5.3
+>>>
+>>> are you sure ?
+>>>
+>>> we're only at rc3..
+>>
+>> This is beyond a bug fix, its a behavior change, with possible other
+>> implications. This is really something that is merge window material
+>> I think. I would rather let it sit for nvme-5.3 for a while before
+>> we merge it.
+>>
+>> Christoph, do you have a different preference?
+> 
+> The original patch from Max fixed a serious issue, so I'd prefer not
+> to revert it, especially as we are only at rc3.  That assumes we
+> can agree on a fix in the next couple of days.
 
-We already have a proper stub if lightnvm is not enabled, so don't bother
-with the ifdef.
+Its not really a serious issue given that it was broken from day 0, and
+it requires to unload/reset a device that is under a bond to get it
+to trigger (and the issue is not a crash). Not exactly mainstream, and
+it broke something that is basic like disconnecting while reconnect is
+ongoing.
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
-Reviewed-by: Keith Busch <keith.busch at intel.com>
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-Signed-off-by: Sasha Levin <sashal at kernel.org>
----
- drivers/nvme/host/core.c | 2 --
- 1 file changed, 2 deletions(-)
+And, this changes the behavior in terms of dma mappings. I'd expect that
+this goes to the next merge window (which we can push asap) instead of
+rushing it.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 65f3f1a34b6b..d98ffb1ce629 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1042,10 +1042,8 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
- 	case NVME_IOCTL_SUBMIT_IO:
- 		return nvme_submit_io(ns, (void __user *)arg);
- 	default:
--#ifdef CONFIG_NVM
- 		if (ns->ndev)
- 			return nvme_nvm_ioctl(ns, cmd, arg);
--#endif
- 		if (is_sed_ioctl(cmd))
- 			return sed_ioctl(ns->ctrl->opal_dev, cmd,
- 					 (void __user *) arg);
--- 
-2.20.1
+But, if you think that rc3 is early enough that we can rush it, I won't
+argue with you, lets hope we won't miss anything else and fix again..
