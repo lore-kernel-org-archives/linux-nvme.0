@@ -1,85 +1,117 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 5 Jun 2019 10:27:16 -0700
-Subject: [PATCH 1/1] nvme-rdma: use dynamic dma mapping per command
-In-Reply-To: <1559749293-32649-1-git-send-email-maxg@mellanox.com>
-References: <1559749293-32649-1-git-send-email-maxg@mellanox.com>
-Message-ID: <f474d61c-a3e4-1452-99fb-6e7164f05194@grimberg.me>
+From: alex@zadara.com (Alex Lyakas)
+Date: Wed, 5 Jun 2019 21:03:32 +0300
+Subject: NULL pointer dereference in nvmet_rdma_queue_disconnect during bond
+ failover
+Message-ID: <F7E28AA1609E4FC495B5E8D4250E7DEF@alyakaslap>
 
+Greetings NVMe community,
 
+I am running kernel 5.1.6, which is the latest stable kernel.
 
-On 6/5/19 8:41 AM, Max Gurtovoy wrote:
-> Commit 87fd125344d6 ("nvme-rdma: remove redundant reference between
-> ib_device and tagset") caused a kernel panic when disconnecting from an
-> inaccessible controller (disconnect during re-connection).
-> 
-> --
-> nvme nvme0: Removing ctrl: NQN "testnqn1"
-> nvme_rdma: nvme_rdma_exit_request: hctx 0 queue_idx 1
-> BUG: unable to handle kernel paging request at 0000000080000228
-> PGD 0 P4D 0
-> Oops: 0000 [#1] SMP PTI
-> ...
-> Call Trace:
->   blk_mq_exit_hctx+0x5c/0xf0
->   blk_mq_exit_queue+0xd4/0x100
->   blk_cleanup_queue+0x9a/0xc0
->   nvme_rdma_destroy_io_queues+0x52/0x60 [nvme_rdma]
->   nvme_rdma_shutdown_ctrl+0x3e/0x80 [nvme_rdma]
->   nvme_do_delete_ctrl+0x53/0x80 [nvme_core]
->   nvme_sysfs_delete+0x45/0x60 [nvme_core]
->   kernfs_fop_write+0x105/0x180
->   vfs_write+0xad/0x1a0
->   ksys_write+0x5a/0xd0
->   do_syscall_64+0x55/0x110
->   entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> RIP: 0033:0x7fa215417154
-> --
-> 
-> The reason for this crash is accessing an already freed ib_device for
-> performing dma_unmap during exit_request commands. The root cause for
-> that is that during re-connection all the queues are destroyed and
-> re-created (and the ib_device is reference counted by the queues and
-> freed as well) but the tagset stays alive and all the DMA mappings (that
-> we perform in init_request) kept in the request context. The original
-> commit fixed a different bug that was introduced during bonding (aka nic
-> teaming) tests that for some scenarios change the underlying ib_device
-> and caused memory leakage and possible segmentation fault. This commit
-> is a complementry
+I am testing a nvmf kernel target, configured on top of a bond interface, 
+for high availability. The bond interface is created on top of two 
+ConnectX-3 interfaces, which represent two ports of one ConnectX-3 VF (with 
+this hardware a VF is dual-ported, i.e., a single VF yields two network 
+interfaces). The bond is configured in active-backup mode. Exact bonding 
+configuration is given in [1]. The nvmet target configuration doesn't have 
+anything special and is given in [2].
 
-Complementary
+I create a nvmf connection from a different machine to the nvmet target. 
+Then I initiate bond failover, by disconnecting a cable that corresponds to 
+the active bond slave. As a result, I get the following kernel panic:
 
-  commit that also changes the wrong DMA mappings that
-> were saved in the request context
+[  268.036732] mlx4_en: b1s1: Link Down
+[  268.036739] mlx4_en: b0s1: Link Down
+[  268.036771] mlx4_en: b2s1: Link Down
+[  268.138594] bebond: link status definitely down for interface b1s1, 
+disabling it
+[  268.138597] bebond: making interface b1s0 the new active one 53500 ms 
+earlier
+[  268.138671] RDMA CM addr change for ndev bebond used by id 
+0000000019666fc8
+[  268.138673] RDMA CM addr change for ndev bebond used by id 
+000000007a8dd02e
+[  268.138674] RDMA CM addr change for ndev bebond used by id 
+00000000f825cc30
+[  268.138675] RDMA CM addr change for ndev bebond used by id 
+00000000c575ce3d
+[  268.138733] BUG: unable to handle kernel NULL pointer dereference at 
+0000000000000148
+[  268.138764] #PF error: [normal kernel read fault]
+[  268.138782] PGD 0 P4D 0
+[  268.138795] Oops: 0000 [#1] SMP PTI
+[  268.138811] CPU: 1 PID: 869 Comm: kworker/u4:5 Not tainted 
+5.1.6-050106-generic #201905311031
+[  268.138839] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 
+1.10.2-1ubuntu1 04/01/2014
+[  268.138885] Workqueue: rdma_cm cma_ndev_work_handler [rdma_cm]
+[  268.138912] RIP: 0010:nvmet_rdma_queue_disconnect+0x19/0x80 [nvmet_rdma]
+[  268.138937] Code: e8 bc fe ff ff e9 68 ff ff ff 0f 1f 80 00 00 00 00 66 
+66 66 66 90 55 48 89 e5 53 48 89 fb 48 c7 c7 80 10 86 c0 e8 57 1d ff d1 <48> 
+8b 93 48 01 00 00 48 8d 83 48 01 00 00 48 39 d0 74 3a 48 8b 8b
+[  268.139020] RSP: 0018:ffffb28a0111be08 EFLAGS: 00010246
+[  268.139712] RAX: 0000000000000000 RBX: 0000000000000000 RCX: 
+0000000000000000
+[  268.140348] RDX: ffff9cc2a7c15c00 RSI: 000000000000000e RDI: 
+ffffffffc0861080
+[  268.140764] RBP: ffffb28a0111be10 R08: ffff9cc2a7c15c00 R09: 
+000000000000008c
+[  268.141195] R10: 00000000000001ed R11: 0000000000000001 R12: 
+ffff9cc2a7c54aa8
+[  268.141616] R13: ffff9cc2a9b55800 R14: ffff9cc2a7c54a80 R15: 
+0ffff9cc2a78ee60
+[  268.142057] FS:  0000000000000000(0000) GS:ffff9cc2b9b00000(0000) 
+knlGS:0000000000000000
+[  268.142520] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  268.142962] CR2: 0000000000000148 CR3: 00000001afe30004 CR4: 
+00000000000606e0
+[  268.143430] Call Trace:
+[  268.143880]  nvmet_rdma_cm_handler+0x94/0x292 [nvmet_rdma]
+[  268.144343]  cma_ndev_work_handler+0x45/0xb0 [rdma_cm]
+[  268.144792]  process_one_work+0x20f/0x410
+[  268.145246]  worker_thread+0x34/0x400
+[  268.145689]  kthread+0x120/0x140
+[  268.146141]  ? process_one_work+0x410/0x410
+[  268.146595]  ? __kthread_parkme+0x70/0x70
+[  268.147045]  ret_from_fork+0x35/0x40
 
-also making the request sqe dma mappings dynamic with the
-command lifetime (i.e. mapped in .queue_rq and unmapped in .complete).
+This is 100% reproducible.
 
-  and also fixes the above crash of
-> accessing freed ib_device during destruction of the tagset.
-> 
-> Fixes: 87fd125344d6 ("nvme-rdma: remove redundant reference between ib_device and tagset")
-> Suggested-by: Sagi Grimberg <sagi at grimberg.me>
-> Tested-by: Jim Harris <james.r.harris at intel.com>
-> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
-> ---
->   drivers/nvme/host/rdma.c | 76 ++++++++++++++++++++++++++++++------------------
->   1 file changed, 47 insertions(+), 29 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index 0e033b6..88f11c5 100644
-> --- a/drivers/nvme/host/rdma.c
-> +++ b/drivers/nvme/host/rdma.c
-> @@ -167,15 +167,17 @@ static inline size_t nvme_rdma_inline_data_size(struct nvme_rdma_queue *queue)
->   	return queue->cmnd_capsule_len - sizeof(struct nvme_command);
->   }
->   
-> -static void nvme_rdma_free_qe(struct ib_device *ibdev, struct nvme_rdma_qe *qe,
-> -		size_t capsule_size, enum dma_data_direction dir)
-> +static void nvme_rdma_free_mapped_qe(struct ib_device *ibdev,
-> +		struct nvme_rdma_qe *qe, size_t capsule_size,
-> +		enum dma_data_direction dir)
+Thanks,
+Alex.
 
-Given that we directly allocate the sqe in .init_request and not call
-this, is there really a need to change the name of the function?
+[1]
+echo +bebond >/sys/class/net/bonding_masters
+echo "1" > /proc/sys/net/ipv6/conf/bebond/disable_ipv6
+echo "1" > /sys/class/net/bebond/bonding/mode
+echo "100" > /sys/class/net/bebond/bonding/miimon
+echo "1" > /sys/class/net/bebond/bonding/fail_over_mac
+echo "60000" > /sys/class/net/bebond/bonding/updelay
+ifconfig b1s1 down
+echo "+b1s1" > /sys/class/net/bebond/bonding/slaves
+ifconfig b1s0 down
+echo "+b1s0" > /sys/class/net/bebond/bonding/slaves
+echo "b1s1" > /sys/class/net/bebond/bonding/primary
+ip addr add 10.3.3.23/24 dev bebond
 
-It creates a bit of an unnecessary churn in the patch.
+[2]
+mkdir /sys/kernel/config/nvmet/subsystems/volume-55555555
+echo 1 > 
+/sys/kernel/config/nvmet/subsystems/volume-55555555/attr_allow_any_host
+echo 000055555555 > 
+/sys/kernel/config/nvmet/subsystems/volume-55555555/attr_serial
+mkdir /sys/kernel/config/nvmet/subsystems/volume-55555555/namespaces/1
+echo 0977dff3-6885-43b3-a948-000055555555 > 
+/sys/kernel/config/nvmet/subsystems/volume-55555555/namespaces/1/device_uuid
+echo -n /dev/loop0 > 
+/sys/kernel/config/nvmet/subsystems/volume-55555555/namespaces/1/device_path
+echo 1 > 
+/sys/kernel/config/nvmet/subsystems/volume-55555555/namespaces/1/enable
+
+mkdir /sys/kernel/config/nvmet/ports/1
+echo -n "ipv4" > /sys/kernel/config/nvmet/ports/1/addr_adrfam
+echo -n "rdma" > /sys/kernel/config/nvmet/ports/1/addr_trtype
+echo -n  10.3.3.23 > /sys/kernel/config/nvmet/ports/1/addr_traddr
+echo -n 4420 > /sys/kernel/config/nvmet/ports/1/addr_trsvcid
+ln -s /sys/kernel/config/nvmet/subsystems/volume-55555555 
+/sys/kernel/config/nvmet/ports/1/subsystems/
