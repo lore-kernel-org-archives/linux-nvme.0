@@ -1,229 +1,39 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Wed,  5 Jun 2019 18:41:33 +0300
-Subject: [PATCH 1/1] nvme-rdma: use dynamic dma mapping per command
-Message-ID: <1559749293-32649-1-git-send-email-maxg@mellanox.com>
+From: akinobu.mita@gmail.com (Akinobu Mita)
+Date: Thu, 6 Jun 2019 00:42:33 +0900
+Subject: [PATCH v3 2/3] nvme: add thermal zone devices
+In-Reply-To: <20190604073140.GH15680@lst.de>
+References: <1558888143-5121-1-git-send-email-akinobu.mita@gmail.com>
+ <1558888143-5121-3-git-send-email-akinobu.mita@gmail.com>
+ <20190601090238.GD6453@lst.de>
+ <CAC5umyiBmD6-3BNLfG7sNOe9jde8Ct16a9N_Ao3T_1_G1K_DDA@mail.gmail.com>
+ <20190604073140.GH15680@lst.de>
+Message-ID: <CAC5umyiN9TTi5rrYjsk-Gh-6aYLJRYjemm-U5F_BpF_+XMaJ_g@mail.gmail.com>
 
-Commit 87fd125344d6 ("nvme-rdma: remove redundant reference between
-ib_device and tagset") caused a kernel panic when disconnecting from an
-inaccessible controller (disconnect during re-connection).
+2019?6?4?(?) 16:32 Christoph Hellwig <hch at lst.de>:
+>
+> On Sun, Jun 02, 2019@10:19:08PM +0900, Akinobu Mita wrote:
+> > As long as the user space thermal governor is used, there is nothing more
+> > than that from a functional perspective.  And I suppose that this is used
+> > with user_space governor (i.e. there is still some work to be able to bind
+> > actual thermal cooling device).
+> >
+> > The main purpose of this is to turn on a fan when overheated without
+> > polling the device that could prevent the lower power state transitions.
+> > But as you noted, we could do that with the existing AEN notifications
+> > through uevent.
+> >
+> > So frankly speaking, the benefit of this is providing generic thermal sysfs
+> > interface and the tools like tmon (linux/tools/thermal/tmon) can show the
+> > nvme temperatures.
+>
+> I'm just a little worried about bloating the nvme driver with features
+> that look kinda nifty but don't buy us much.  I'd rather keep at least
+> the core and PCIe drivers as minimal.  Now the thermal device support
+> is pretty small and except for the smart uevents I can't find anything
+> actually bad, but I'm not exactly excited either.
 
---
-nvme nvme0: Removing ctrl: NQN "testnqn1"
-nvme_rdma: nvme_rdma_exit_request: hctx 0 queue_idx 1
-BUG: unable to handle kernel paging request at 0000000080000228
-PGD 0 P4D 0
-Oops: 0000 [#1] SMP PTI
-...
-Call Trace:
- blk_mq_exit_hctx+0x5c/0xf0
- blk_mq_exit_queue+0xd4/0x100
- blk_cleanup_queue+0x9a/0xc0
- nvme_rdma_destroy_io_queues+0x52/0x60 [nvme_rdma]
- nvme_rdma_shutdown_ctrl+0x3e/0x80 [nvme_rdma]
- nvme_do_delete_ctrl+0x53/0x80 [nvme_core]
- nvme_sysfs_delete+0x45/0x60 [nvme_core]
- kernfs_fop_write+0x105/0x180
- vfs_write+0xad/0x1a0
- ksys_write+0x5a/0xd0
- do_syscall_64+0x55/0x110
- entry_SYSCALL_64_after_hwframe+0x44/0xa9
-RIP: 0033:0x7fa215417154
---
+I'll add thermal.c file in order to minimize the core driver changes and a
+module parameter to disable the thermal zone support.
 
-The reason for this crash is accessing an already freed ib_device for
-performing dma_unmap during exit_request commands. The root cause for
-that is that during re-connection all the queues are destroyed and
-re-created (and the ib_device is reference counted by the queues and
-freed as well) but the tagset stays alive and all the DMA mappings (that
-we perform in init_request) kept in the request context. The original
-commit fixed a different bug that was introduced during bonding (aka nic
-teaming) tests that for some scenarios change the underlying ib_device
-and caused memory leakage and possible segmentation fault. This commit
-is a complementry commit that also changes the wrong DMA mappings that
-were saved in the request context and also fixes the above crash of
-accessing freed ib_device during destruction of the tagset.
-
-Fixes: 87fd125344d6 ("nvme-rdma: remove redundant reference between ib_device and tagset")
-Suggested-by: Sagi Grimberg <sagi at grimberg.me>
-Tested-by: Jim Harris <james.r.harris at intel.com>
-Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
----
- drivers/nvme/host/rdma.c | 76 ++++++++++++++++++++++++++++++------------------
- 1 file changed, 47 insertions(+), 29 deletions(-)
-
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 0e033b6..88f11c5 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -167,15 +167,17 @@ static inline size_t nvme_rdma_inline_data_size(struct nvme_rdma_queue *queue)
- 	return queue->cmnd_capsule_len - sizeof(struct nvme_command);
- }
- 
--static void nvme_rdma_free_qe(struct ib_device *ibdev, struct nvme_rdma_qe *qe,
--		size_t capsule_size, enum dma_data_direction dir)
-+static void nvme_rdma_free_mapped_qe(struct ib_device *ibdev,
-+		struct nvme_rdma_qe *qe, size_t capsule_size,
-+		enum dma_data_direction dir)
- {
- 	ib_dma_unmap_single(ibdev, qe->dma, capsule_size, dir);
- 	kfree(qe->data);
- }
- 
--static int nvme_rdma_alloc_qe(struct ib_device *ibdev, struct nvme_rdma_qe *qe,
--		size_t capsule_size, enum dma_data_direction dir)
-+static int nvme_rdma_alloc_mapped_qe(struct ib_device *ibdev,
-+		struct nvme_rdma_qe *qe, size_t capsule_size,
-+		enum dma_data_direction dir)
- {
- 	qe->data = kzalloc(capsule_size, GFP_KERNEL);
- 	if (!qe->data)
-@@ -198,7 +200,7 @@ static void nvme_rdma_free_ring(struct ib_device *ibdev,
- 	int i;
- 
- 	for (i = 0; i < ib_queue_size; i++)
--		nvme_rdma_free_qe(ibdev, &ring[i], capsule_size, dir);
-+		nvme_rdma_free_mapped_qe(ibdev, &ring[i], capsule_size, dir);
- 	kfree(ring);
- }
- 
-@@ -214,7 +216,8 @@ static struct nvme_rdma_qe *nvme_rdma_alloc_ring(struct ib_device *ibdev,
- 		return NULL;
- 
- 	for (i = 0; i < ib_queue_size; i++) {
--		if (nvme_rdma_alloc_qe(ibdev, &ring[i], capsule_size, dir))
-+		if (nvme_rdma_alloc_mapped_qe(ibdev, &ring[i], capsule_size,
-+					      dir))
- 			goto out_free_ring;
- 	}
- 
-@@ -274,14 +277,9 @@ static int nvme_rdma_create_qp(struct nvme_rdma_queue *queue, const int factor)
- static void nvme_rdma_exit_request(struct blk_mq_tag_set *set,
- 		struct request *rq, unsigned int hctx_idx)
- {
--	struct nvme_rdma_ctrl *ctrl = set->driver_data;
- 	struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
--	int queue_idx = (set == &ctrl->tag_set) ? hctx_idx + 1 : 0;
--	struct nvme_rdma_queue *queue = &ctrl->queues[queue_idx];
--	struct nvme_rdma_device *dev = queue->device;
- 
--	nvme_rdma_free_qe(dev->dev, &req->sqe, sizeof(struct nvme_command),
--			DMA_TO_DEVICE);
-+	kfree(req->sqe.data);
- }
- 
- static int nvme_rdma_init_request(struct blk_mq_tag_set *set,
-@@ -292,15 +290,11 @@ static int nvme_rdma_init_request(struct blk_mq_tag_set *set,
- 	struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
- 	int queue_idx = (set == &ctrl->tag_set) ? hctx_idx + 1 : 0;
- 	struct nvme_rdma_queue *queue = &ctrl->queues[queue_idx];
--	struct nvme_rdma_device *dev = queue->device;
--	struct ib_device *ibdev = dev->dev;
--	int ret;
- 
- 	nvme_req(rq)->ctrl = &ctrl->ctrl;
--	ret = nvme_rdma_alloc_qe(ibdev, &req->sqe, sizeof(struct nvme_command),
--			DMA_TO_DEVICE);
--	if (ret)
--		return ret;
-+	req->sqe.data = kzalloc(sizeof(struct nvme_command), GFP_KERNEL);
-+	if (!req->sqe.data)
-+		return -ENOMEM;
- 
- 	req->queue = queue;
- 
-@@ -748,8 +742,10 @@ static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl,
- 		blk_mq_free_tag_set(ctrl->ctrl.admin_tagset);
- 	}
- 	if (ctrl->async_event_sqe.data) {
--		nvme_rdma_free_qe(ctrl->device->dev, &ctrl->async_event_sqe,
--				sizeof(struct nvme_command), DMA_TO_DEVICE);
-+		nvme_rdma_free_mapped_qe(ctrl->device->dev,
-+					 &ctrl->async_event_sqe,
-+					 sizeof(struct nvme_command),
-+					 DMA_TO_DEVICE);
- 		ctrl->async_event_sqe.data = NULL;
- 	}
- 	nvme_rdma_free_queue(&ctrl->queues[0]);
-@@ -769,8 +765,10 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
- 
- 	ctrl->max_fr_pages = nvme_rdma_get_max_fr_pages(ctrl->device->dev);
- 
--	error = nvme_rdma_alloc_qe(ctrl->device->dev, &ctrl->async_event_sqe,
--			sizeof(struct nvme_command), DMA_TO_DEVICE);
-+	error = nvme_rdma_alloc_mapped_qe(ctrl->device->dev,
-+					  &ctrl->async_event_sqe,
-+					  sizeof(struct nvme_command),
-+					  DMA_TO_DEVICE);
- 	if (error)
- 		goto out_free_queue;
- 
-@@ -825,8 +823,10 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
- 	if (new)
- 		blk_mq_free_tag_set(ctrl->ctrl.admin_tagset);
- out_free_async_qe:
--	nvme_rdma_free_qe(ctrl->device->dev, &ctrl->async_event_sqe,
--		sizeof(struct nvme_command), DMA_TO_DEVICE);
-+	nvme_rdma_free_mapped_qe(ctrl->device->dev,
-+				 &ctrl->async_event_sqe,
-+				 sizeof(struct nvme_command),
-+				 DMA_TO_DEVICE);
- 	ctrl->async_event_sqe.data = NULL;
- out_free_queue:
- 	nvme_rdma_free_queue(&ctrl->queues[0]);
-@@ -1709,12 +1709,20 @@ static blk_status_t nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
- 		return nvmf_fail_nonready_command(&queue->ctrl->ctrl, rq);
- 
- 	dev = queue->device->dev;
-+
-+	req->sqe.dma = ib_dma_map_single(dev, req->sqe.data,
-+					 sizeof(struct nvme_command),
-+					 DMA_TO_DEVICE);
-+	err = ib_dma_mapping_error(dev, req->sqe.dma);
-+	if (unlikely(err))
-+		return BLK_STS_RESOURCE;
-+
- 	ib_dma_sync_single_for_cpu(dev, sqe->dma,
- 			sizeof(struct nvme_command), DMA_TO_DEVICE);
- 
- 	ret = nvme_setup_cmd(ns, rq, c);
- 	if (ret)
--		return ret;
-+		goto unmap_qe;
- 
- 	blk_mq_start_request(rq);
- 
-@@ -1739,10 +1747,16 @@ static blk_status_t nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	}
- 
- 	return BLK_STS_OK;
-+
- err:
- 	if (err == -ENOMEM || err == -EAGAIN)
--		return BLK_STS_RESOURCE;
--	return BLK_STS_IOERR;
-+		ret = BLK_STS_RESOURCE;
-+	else
-+		ret = BLK_STS_IOERR;
-+unmap_qe:
-+	ib_dma_unmap_single(dev, req->sqe.dma, sizeof(struct nvme_command),
-+			    DMA_TO_DEVICE);
-+	return ret;
- }
- 
- static int nvme_rdma_poll(struct blk_mq_hw_ctx *hctx)
-@@ -1755,8 +1769,12 @@ static int nvme_rdma_poll(struct blk_mq_hw_ctx *hctx)
- static void nvme_rdma_complete_rq(struct request *rq)
- {
- 	struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
-+	struct nvme_rdma_queue *queue = req->queue;
-+	struct ib_device *ibdev = queue->device->dev;
- 
--	nvme_rdma_unmap_data(req->queue, rq);
-+	nvme_rdma_unmap_data(queue, rq);
-+	ib_dma_unmap_single(ibdev, req->sqe.dma, sizeof(struct nvme_command),
-+			    DMA_TO_DEVICE);
- 	nvme_complete_rq(rq);
- }
- 
--- 
-1.8.3.1
+Device tree thermal zone will also be supported. It enables to use thermal
+governor other than user_space governor.
