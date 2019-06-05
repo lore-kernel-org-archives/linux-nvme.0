@@ -1,39 +1,29 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed,  5 Jun 2019 21:08:24 +0200
-Subject: [PATCH 01/13] nvme-pci: don't limit DMA segement size
+Date: Wed,  5 Jun 2019 21:08:25 +0200
+Subject: [PATCH 02/13] rsxx: don't call dma_set_max_seg_size
 In-Reply-To: <20190605190836.32354-1-hch@lst.de>
 References: <20190605190836.32354-1-hch@lst.de>
-Message-ID: <20190605190836.32354-2-hch@lst.de>
+Message-ID: <20190605190836.32354-3-hch@lst.de>
 
-NVMe uses PRPs (or optionally unlimited SGLs) for data transfers and
-has no specific limit for a single DMA segement.  Limiting the size
-will cause problems because the block layer assumes PRP-ish devices
-using a virt boundary mask don't have a segment limit.  And while this
-is true, we also really need to tell the DMA mapping layer about it,
-otherwise dma-debug will trip over it.
+This driver does never uses dma_map_sg, so the setting is rather
+pointless.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
-Reported-by: Sebastian Ott <sebott at linux.ibm.com>
 ---
- drivers/nvme/host/pci.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/block/rsxx/core.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index f562154551ce..524d6bd6d095 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2513,6 +2513,12 @@ static void nvme_reset_work(struct work_struct *work)
- 	 */
- 	dev->ctrl.max_hw_sectors = NVME_MAX_KB_SZ << 1;
- 	dev->ctrl.max_segments = NVME_MAX_SEGS;
-+
-+	/*
-+	 * Don't limit the IOMMU merged segment size.
-+	 */
-+	dma_set_max_seg_size(dev->dev, 0xffffffff);
-+
- 	mutex_unlock(&dev->shutdown_lock);
+diff --git a/drivers/block/rsxx/core.c b/drivers/block/rsxx/core.c
+index de9b2d2f8654..76b73ddf8fd7 100644
+--- a/drivers/block/rsxx/core.c
++++ b/drivers/block/rsxx/core.c
+@@ -767,7 +767,6 @@ static int rsxx_pci_probe(struct pci_dev *dev,
+ 		goto failed_enable;
  
- 	/*
+ 	pci_set_master(dev);
+-	dma_set_max_seg_size(&dev->dev, RSXX_HW_BLK_SIZE);
+ 
+ 	st = dma_set_mask(&dev->dev, DMA_BIT_MASK(64));
+ 	if (st) {
 -- 
 2.20.1
