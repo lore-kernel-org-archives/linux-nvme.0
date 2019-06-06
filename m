@@ -1,19 +1,34 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 6 Jun 2019 08:41:53 +0200
-Subject: [PATCH 10/13] megaraid_sas: set virt_boundary_mask in the scsi
- host
-In-Reply-To: <345c3931-0940-7d59-ebc6-fa1ea56c60ac@suse.de>
-References: <20190605190836.32354-1-hch@lst.de>
- <20190605190836.32354-11-hch@lst.de>
- <345c3931-0940-7d59-ebc6-fa1ea56c60ac@suse.de>
-Message-ID: <20190606064153.GD27033@lst.de>
+Date: Thu, 6 Jun 2019 08:45:37 +0200
+Subject: [PATCH 1/1] nvme-rdma: use dynamic dma mapping per command
+In-Reply-To: <1559749293-32649-1-git-send-email-maxg@mellanox.com>
+References: <1559749293-32649-1-git-send-email-maxg@mellanox.com>
+Message-ID: <20190606064537.GE27033@lst.de>
 
-On Thu, Jun 06, 2019@08:02:07AM +0200, Hannes Reinecke wrote:
-> >  	scsi_change_queue_depth(sdev, device_qd);
-> >  
-> What happened to the NOMERGES queue flag?
+> Fixes: 87fd125344d6 ("nvme-rdma: remove redundant reference between ib_device and tagset")
+> Suggested-by: Sagi Grimberg <sagi at grimberg.me>
+> Tested-by: Jim Harris <james.r.harris at intel.com>
 
-Quote from the patch description:
+Shouldn't this also have a reported-by?
 
-"Also remove the bogus nomerges flag, merges do take the virt_boundary
- into account."
+> -static void nvme_rdma_free_qe(struct ib_device *ibdev, struct nvme_rdma_qe *qe,
+> -		size_t capsule_size, enum dma_data_direction dir)
+> +static void nvme_rdma_free_mapped_qe(struct ib_device *ibdev,
+> +		struct nvme_rdma_qe *qe, size_t capsule_size,
+> +		enum dma_data_direction dir)
+>  {
+>  	ib_dma_unmap_single(ibdev, qe->dma, capsule_size, dir);
+>  	kfree(qe->data);
+>  }
+>  
+> -static int nvme_rdma_alloc_qe(struct ib_device *ibdev, struct nvme_rdma_qe *qe,
+> -		size_t capsule_size, enum dma_data_direction dir)
+> +static int nvme_rdma_alloc_mapped_qe(struct ib_device *ibdev,
+> +		struct nvme_rdma_qe *qe, size_t capsule_size,
+> +		enum dma_data_direction dir)
+
+I agree with Sagi that we probably should drop the renames.
+
+Can you write out the explanation somewhere why the AEN SQE doesn't
+need this treatment?  Especially as that would actually allow moving
+the DMA mapping into nvme_rdma_post_send and clean things up a bit.
