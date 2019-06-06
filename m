@@ -1,44 +1,52 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Thu, 6 Jun 2019 10:31:18 +0300
-Subject: NULL pointer dereference in nvmet_rdma_queue_disconnect during
- bond failover
-In-Reply-To: <90599926-b7ec-8431-a7aa-c44fde08b5c4@grimberg.me>
-References: <F7E28AA1609E4FC495B5E8D4250E7DEF@alyakaslap>
- <90599926-b7ec-8431-a7aa-c44fde08b5c4@grimberg.me>
-Message-ID: <ec4fb8df-98c4-fffc-7581-5245c397d16c@mellanox.com>
+Date: Thu, 6 Jun 2019 10:38:08 +0300
+Subject: [PATCH 1/1] nvme-rdma: use dynamic dma mapping per command
+In-Reply-To: <20190606064537.GE27033@lst.de>
+References: <1559749293-32649-1-git-send-email-maxg@mellanox.com>
+ <20190606064537.GE27033@lst.de>
+Message-ID: <7db16b61-f29a-2fe9-5e58-8f84d208016e@mellanox.com>
 
 
-On 6/6/2019 3:05 AM, Sagi Grimberg wrote:
->
->> Greetings NVMe community,
->>
->> I am running kernel 5.1.6, which is the latest stable kernel.
->>
->> I am testing a nvmf kernel target, configured on top of a bond 
->> interface, for high availability. The bond interface is created on 
->> top of two ConnectX-3 interfaces, which represent two ports of one 
->> ConnectX-3 VF (with this hardware a VF is dual-ported, i.e., a single 
->> VF yields two network interfaces). The bond is configured in 
->> active-backup mode. Exact bonding configuration is given in [1]. The 
->> nvmet target configuration doesn't have anything special and is given 
->> in [2].
->>
->> I create a nvmf connection from a different machine to the nvmet 
->> target. Then I initiate bond failover, by disconnecting a cable that 
->> corresponds to the active bond slave. As a result, I get the 
->> following kernel panic:
->
-> Max sent a fix exactly for this. You can test that it works for you
-> when he sends v2.
->
-> Max, care to CC Alex when you send it?
+On 6/6/2019 9:45 AM, Christoph Hellwig wrote:
+>> Fixes: 87fd125344d6 ("nvme-rdma: remove redundant reference between ib_device and tagset")
+>> Suggested-by: Sagi Grimberg <sagi at grimberg.me>
+>> Tested-by: Jim Harris <james.r.harris at intel.com>
+> Shouldn't this also have a reported-by?
 
-Sure, No problem.
+Yes we can, actually we saw it also in our labs even before Jim did and 
+I sent a different fix before Sagi's dma map/unmap proposal.
+
+I'll add reported-by Jim.
 
 
 >
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> https://eur03.safelinks.protection.outlook.com/?url=http%3A%2F%2Flists.infradead.org%2Fmailman%2Flistinfo%2Flinux-nvme&amp;data=02%7C01%7Cmaxg%40mellanox.com%7C9879366f21df4e7f4ce608d6ea12c41f%7Ca652971c7d2e4d9ba6a4d149256f461b%7C0%7C0%7C636953763648159480&amp;sdata=UtkpvcEM9%2BBBdj68Kx6bobMWkeGSp1Jz3yJXxH8MLgY%3D&amp;reserved=0 
->
+>> -static void nvme_rdma_free_qe(struct ib_device *ibdev, struct nvme_rdma_qe *qe,
+>> -		size_t capsule_size, enum dma_data_direction dir)
+>> +static void nvme_rdma_free_mapped_qe(struct ib_device *ibdev,
+>> +		struct nvme_rdma_qe *qe, size_t capsule_size,
+>> +		enum dma_data_direction dir)
+>>   {
+>>   	ib_dma_unmap_single(ibdev, qe->dma, capsule_size, dir);
+>>   	kfree(qe->data);
+>>   }
+>>   
+>> -static int nvme_rdma_alloc_qe(struct ib_device *ibdev, struct nvme_rdma_qe *qe,
+>> -		size_t capsule_size, enum dma_data_direction dir)
+>> +static int nvme_rdma_alloc_mapped_qe(struct ib_device *ibdev,
+>> +		struct nvme_rdma_qe *qe, size_t capsule_size,
+>> +		enum dma_data_direction dir)
+> I agree with Sagi that we probably should drop the renames.
+
+ok.
+
+
+> Can you write out the explanation somewhere why the AEN SQE doesn't
+> need this treatment?  Especially as that would actually allow moving
+> the DMA mapping into nvme_rdma_post_send and clean things up a bit.
+
+Yes I'll add some comment.
+
+But I'm not sure we would like to move it to post_send and add more 
+if/else on the fast path.
+
+We already added more operations (map/unmap) on the fast path...
