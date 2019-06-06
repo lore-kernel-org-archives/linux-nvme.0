@@ -1,19 +1,10 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 6 Jun 2019 08:51:53 +0200
-Subject: [RFC PATCH V6 3/3] nvmet: introduce target-side trace
-In-Reply-To: <20190606063229.17258-4-minwoo.im.dev@gmail.com>
-References: <20190606063229.17258-1-minwoo.im.dev@gmail.com>
- <20190606063229.17258-4-minwoo.im.dev@gmail.com>
-Message-ID: <20190606065153.GH27033@lst.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 5 Jun 2019 23:58:40 -0700
+Subject: [PATCH] nvme: introduce nvme_is_fabrics to check fabrics cmd
+In-Reply-To: <20190606053014.27240-1-minwoo.im.dev@gmail.com>
+References: <20190606053014.27240-1-minwoo.im.dev@gmail.com>
+Message-ID: <f6f956fd-e65e-c152-f505-555b917b8b26@grimberg.me>
 
-> +#define nvme_admin_opcode_name(opcode)	{ opcode, #opcode }
-> +#define show_admin_opcode_name(val)					\
+Applied to nvme-5.3
 
-All these bits can probably just move to nvme.h, next to the actual
-definitions.
-
-> +		__assign_disk_name(__entry->disk, req->ns ?
-> +					req->ns->bdev->bd_disk : NULL);
-
-Tis looks it will crash badly when using the file backend.  I think we
-need to put a neutral identifier in, e.g. the uuid or something.
+Thanks.
