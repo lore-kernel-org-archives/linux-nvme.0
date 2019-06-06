@@ -1,10 +1,22 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 6 Jun 2019 09:54:16 -0700
-Subject: [PATCH v2 1/1] nvme-rdma: use dynamic dma mapping per command
-In-Reply-To: <1559813256-12370-1-git-send-email-maxg@mellanox.com>
-References: <1559813256-12370-1-git-send-email-maxg@mellanox.com>
-Message-ID: <37e7cf03-489e-9794-e6be-1f400bb372fc@grimberg.me>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Fri, 7 Jun 2019 03:46:20 +0900
+Subject: nvme: build failure report for nvme_sync_queues()
+Message-ID: <20190606184620.GA1676@minwooim-desktop>
 
-Applied to nvme-5.2-rc-next
+Hi all,
 
-Thanks
+I'd have to report a build failure due to the following commit:
+Commit e7ae6d1e7c5f ("nvme-pci: Use host managed power state for suspend")
+
+Message:
+drivers/nvme/host/pci.c:2876:2: error: implicit declaration of function ?nvme_sync_queues?; did you mean ?nvme_stop_queues?? [-Werror=implicit-function-declaration]
+  nvme_sync_queues(ctrl);
+    ^~~~~~~~~~~~~~~~
+
+Is the following patch applied to this branch ?
+  [PATCHv4 1/4] nvme: Sync request queues on reset:
+  http://lists.infradead.org/pipermail/linux-nvme/2018-July/019166.html
+
+If I miss something here, please let mw know.
+
+Thanks,
