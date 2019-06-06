@@ -1,60 +1,76 @@
 From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Thu, 6 Jun 2019 21:40:29 +0000
-Subject: [PATCH 1/2] nvme: Introduce NVMe 1.4 Identify Namespace fields in
- struct nvme_id_ns
+Date: Thu, 6 Jun 2019 21:42:06 +0000
+Subject: [PATCH 2/2] nvme: Set physical block size and optimal I/O size
+ according to NVMe 1.4
 References: <20190606212854.122478-1-bvanassche@acm.org>
- <20190606212854.122478-2-bvanassche@acm.org>
-Message-ID: <BYAPR04MB57491B1A62AB8B917472232486170@BYAPR04MB5749.namprd04.prod.outlook.com>
+ <20190606212854.122478-3-bvanassche@acm.org>
+Message-ID: <BYAPR04MB5749E9F546E6EA5415BEB20686170@BYAPR04MB5749.namprd04.prod.outlook.com>
 
-Looks good.
-
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+Looks good. One quick question though do you actually have a controller
+on which you have tested this feature ?
 
 On 06/06/2019 02:29 PM, Bart Van Assche wrote:
-> Several new fields have been introduced in version 1.4 of the NVMe spec
-> at offsets that were defined as reserved in version 1.3d of the NVMe
-> spec. Update the definition of the nvme_id_ns data structure such that
-> it is in sync with version 1.4 of the NVMe spec.
+>  From the NVMe 1.4 spec:
+>
+> NSFEAT bit 4 if set to 1: indicates that the fields NPWG, NPWA, NPDG, NPDA,
+> and NOWS are defined for this namespace and should be used by the host for
+> I/O optimization;
+> [ ... ]
+> Namespace Preferred Write Granularity (NPWG): This field indicates the
+> smallest recommended write granularity in logical blocks for this namespace.
+> This is a 0's based value. The size indicated should be less than or equal
+> to Maximum Data Transfer Size (MDTS) that is specified in units of minimum
+> memory page size. The value of this field may change if the namespace is
+> reformatted. The size should be a multiple of Namespace Preferred Write
+> Alignment (NPWA). Refer to section 8.25 for how this field is utilized to
+> improve performance and endurance.
+> [ ... ]
+> Each Write, Write Uncorrectable, or Write Zeroes commands should address a
+> multiple of Namespace Preferred Write Granularity (NPWG) (refer to Figure
+> 245) and Stream Write Size (SWS) (refer to Figure 515) logical blocks (as
+> expressed in the NLB field), and the SLBA field of the command should be
+> aligned to Namespace Preferred Write Alignment (NPWA) (refer to Figure 245)
+> for best performance.
 >
 > Cc: Christoph Hellwig <hch at lst.de>
 > Cc: Sagi Grimberg <sagi at grimberg.me>
 > Cc: Hannes Reinecke <hare at suse.com>
 > Signed-off-by: Bart Van Assche <bvanassche at acm.org>
 > ---
->   include/linux/nvme.h | 12 +++++++++---
->   1 file changed, 9 insertions(+), 3 deletions(-)
+>   drivers/nvme/host/core.c | 14 ++++++++++++--
+>   1 file changed, 12 insertions(+), 2 deletions(-)
 >
-> diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-> index 8028adacaff3..2b5072ec4511 100644
-> --- a/include/linux/nvme.h
-> +++ b/include/linux/nvme.h
-> @@ -315,7 +315,7 @@ struct nvme_id_ns {
->   	__u8			nmic;
->   	__u8			rescap;
->   	__u8			fpi;
-> -	__u8			rsvd33;
-> +	__u8			dlfeat;
->   	__le16			nawun;
->   	__le16			nawupf;
->   	__le16			nacwu;
-> @@ -324,11 +324,17 @@ struct nvme_id_ns {
->   	__le16			nabspf;
->   	__le16			noiob;
->   	__u8			nvmcap[16];
-> -	__u8			rsvd64[28];
-> +	__le16			npwg;
-> +	__le16			npwa;
-> +	__le16			npdg;
-> +	__le16			npda;
-> +	__le16			nows;
-> +	__u8			rsvd74[18];
->   	__le32			anagrpid;
->   	__u8			rsvd96[3];
->   	__u8			nsattr;
-> -	__u8			rsvd100[4];
-> +	__le16			nvmsetid;
-> +	__le16			endgid;
->   	__u8			nguid[16];
->   	__u8			eui64[8];
->   	struct nvme_lbaf	lbaf[16];
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 1b7c2afd84cb..c67f2fc8c5c0 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -1608,6 +1608,7 @@ static void nvme_update_disk_info(struct gendisk *disk,
+>   {
+>   	sector_t capacity = le64_to_cpu(id->nsze) << (ns->lba_shift - 9);
+>   	unsigned short bs = 1 << ns->lba_shift;
+> +	uint32_t phys_bs, io_opt;
+>
+>   	if (ns->lba_shift > PAGE_SHIFT) {
+>   		/* unsupported block size, set capacity to 0 later */
+> @@ -1616,9 +1617,18 @@ static void nvme_update_disk_info(struct gendisk *disk,
+>   	blk_mq_freeze_queue(disk->queue);
+>   	blk_integrity_unregister(disk);
+>
+> +	phys_bs = bs;
+> +	io_opt = bs;
+> +	if (id->nsfeat & (1 << 4)) {
+> +		/* NPWG = Namespace Preferred Write Granularity */
+> +		phys_bs *= 1 + le16_to_cpu(id->npwg);
+> +		/* NOWS = Namespace Optimal Write Size */
+> +		io_opt *= 1 + le16_to_cpu(id->nows);
+> +	}
+>   	blk_queue_logical_block_size(disk->queue, bs);
+> -	blk_queue_physical_block_size(disk->queue, bs);
+> -	blk_queue_io_min(disk->queue, bs);
+> +	blk_queue_physical_block_size(disk->queue, phys_bs);
+> +	blk_queue_io_min(disk->queue, phys_bs);
+> +	blk_queue_io_opt(disk->queue, io_opt);
+>
+>   	if (ns->ms && !ns->ext &&
+>   	    (ns->ctrl->ops->flags & NVME_F_METADATA_SUPPORTED))
 >
