@@ -1,15 +1,29 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 6 Jun 2019 10:31:26 +0200
-Subject: [PATCH 1/1] nvme-rdma: use dynamic dma mapping per command
-In-Reply-To: <7db16b61-f29a-2fe9-5e58-8f84d208016e@mellanox.com>
-References: <1559749293-32649-1-git-send-email-maxg@mellanox.com>
- <20190606064537.GE27033@lst.de>
- <7db16b61-f29a-2fe9-5e58-8f84d208016e@mellanox.com>
-Message-ID: <20190606083126.GA28979@lst.de>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Thu, 6 Jun 2019 17:43:41 +0900
+Subject: [RFC PATCH V6 1/3] nvmet: introduce nvmet_req_to_ctrl to get
+ ctrl instance
+In-Reply-To: <20190606064848.GF27033@lst.de>
+References: <20190606063229.17258-1-minwoo.im.dev@gmail.com>
+ <20190606063229.17258-2-minwoo.im.dev@gmail.com>
+ <20190606064848.GF27033@lst.de>
+Message-ID: <20190606084341.GA18020@minwooim-desktop>
 
-On Thu, Jun 06, 2019@10:38:08AM +0300, Max Gurtovoy wrote:
-> But I'm not sure we would like to move it to post_send and add more if/else 
-> on the fast path.
+On 19-06-06 08:48:48, Christoph Hellwig wrote:
+> On Thu, Jun 06, 2019@03:32:27PM +0900, Minwoo Im wrote:
+> > nvme host driver can get the controller instance from
+> > nvme_req(req)->ctrl.  In case of target driver, it needs to get
+> > controller instance from the struct nvmet_req with sq where the request
+> > has been submitted.
+> 
+> Note that normally we can just dereference ->sq just fine, as it only
+> isn't set in the low-level code before accepting the initial connect.
 
-We shouldn't need an if / else if we also map the AEN SQE just like
-the ones for the normal requests.
+That's good point.  I just wanted to have safe-code here, but that would
+be fine.
+
+> Maybe keep this as a helper in trace.h?
+
+That would be better to put tihs function to nvmet.h once it's needed by
+nvmet code later time.
+
+Thanks for your review on this, I'll prepare the V7 series.
