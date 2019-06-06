@@ -1,34 +1,19 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 6 Jun 2019 08:45:37 +0200
-Subject: [PATCH 1/1] nvme-rdma: use dynamic dma mapping per command
-In-Reply-To: <1559749293-32649-1-git-send-email-maxg@mellanox.com>
-References: <1559749293-32649-1-git-send-email-maxg@mellanox.com>
-Message-ID: <20190606064537.GE27033@lst.de>
+Date: Thu, 6 Jun 2019 08:48:48 +0200
+Subject: [RFC PATCH V6 1/3] nvmet: introduce nvmet_req_to_ctrl to get
+ ctrl instance
+In-Reply-To: <20190606063229.17258-2-minwoo.im.dev@gmail.com>
+References: <20190606063229.17258-1-minwoo.im.dev@gmail.com>
+ <20190606063229.17258-2-minwoo.im.dev@gmail.com>
+Message-ID: <20190606064848.GF27033@lst.de>
 
-> Fixes: 87fd125344d6 ("nvme-rdma: remove redundant reference between ib_device and tagset")
-> Suggested-by: Sagi Grimberg <sagi at grimberg.me>
-> Tested-by: Jim Harris <james.r.harris at intel.com>
+On Thu, Jun 06, 2019@03:32:27PM +0900, Minwoo Im wrote:
+> nvme host driver can get the controller instance from
+> nvme_req(req)->ctrl.  In case of target driver, it needs to get
+> controller instance from the struct nvmet_req with sq where the request
+> has been submitted.
 
-Shouldn't this also have a reported-by?
+Note that normally we can just dereference ->sq just fine, as it only
+isn't set in the low-level code before accepting the initial connect.
 
-> -static void nvme_rdma_free_qe(struct ib_device *ibdev, struct nvme_rdma_qe *qe,
-> -		size_t capsule_size, enum dma_data_direction dir)
-> +static void nvme_rdma_free_mapped_qe(struct ib_device *ibdev,
-> +		struct nvme_rdma_qe *qe, size_t capsule_size,
-> +		enum dma_data_direction dir)
->  {
->  	ib_dma_unmap_single(ibdev, qe->dma, capsule_size, dir);
->  	kfree(qe->data);
->  }
->  
-> -static int nvme_rdma_alloc_qe(struct ib_device *ibdev, struct nvme_rdma_qe *qe,
-> -		size_t capsule_size, enum dma_data_direction dir)
-> +static int nvme_rdma_alloc_mapped_qe(struct ib_device *ibdev,
-> +		struct nvme_rdma_qe *qe, size_t capsule_size,
-> +		enum dma_data_direction dir)
-
-I agree with Sagi that we probably should drop the renames.
-
-Can you write out the explanation somewhere why the AEN SQE doesn't
-need this treatment?  Especially as that would actually allow moving
-the DMA mapping into nvme_rdma_post_send and clean things up a bit.
+Maybe keep this as a helper in trace.h?
