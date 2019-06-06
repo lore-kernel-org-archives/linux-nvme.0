@@ -1,32 +1,29 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 5 Jun 2019 16:35:12 -0700
-Subject: [PATCH 08/13] IB/iser: set virt_boundary_mask in the scsi host
-In-Reply-To: <20190605202235.GC3273@ziepe.ca>
-References: <20190605190836.32354-1-hch@lst.de>
- <20190605190836.32354-9-hch@lst.de> <20190605202235.GC3273@ziepe.ca>
-Message-ID: <b3e46295-4257-86ad-6994-f83b736c8f40@grimberg.me>
+Date: Wed, 5 Jun 2019 17:05:52 -0700
+Subject: NULL pointer dereference in nvmet_rdma_queue_disconnect during
+ bond failover
+In-Reply-To: <F7E28AA1609E4FC495B5E8D4250E7DEF@alyakaslap>
+References: <F7E28AA1609E4FC495B5E8D4250E7DEF@alyakaslap>
+Message-ID: <90599926-b7ec-8431-a7aa-c44fde08b5c4@grimberg.me>
 
 
->> This ensures all proper DMA layer handling is taken care of by the
->> SCSI midlayer.
+> Greetings NVMe community,
 > 
-> Maybe not entirely related to this series, but it looks like the SCSI
-> layer is changing the device global dma_set_max_seg_size() - at least
-> in RDMA the dma device is being shared between many users, so we
-> really don't want SCSI to make this value smaller.
+> I am running kernel 5.1.6, which is the latest stable kernel.
 > 
-> Can we do something about this?
+> I am testing a nvmf kernel target, configured on top of a bond 
+> interface, for high availability. The bond interface is created on top 
+> of two ConnectX-3 interfaces, which represent two ports of one 
+> ConnectX-3 VF (with this hardware a VF is dual-ported, i.e., a single VF 
+> yields two network interfaces). The bond is configured in active-backup 
+> mode. Exact bonding configuration is given in [1]. The nvmet target 
+> configuration doesn't have anything special and is given in [2].
+> 
+> I create a nvmf connection from a different machine to the nvmet target. 
+> Then I initiate bond failover, by disconnecting a cable that corresponds 
+> to the active bond slave. As a result, I get the following kernel panic:
 
-srp seems to do the right thing:
-target_host->max_segment_size = ib_dma_max_seg_size(ibdev);
+Max sent a fix exactly for this. You can test that it works for you
+when he sends v2.
 
-But iser does not, which means that scsi limits it to:
-BLK_MAX_SEGMENT_SIZE (64k)
-
-I can send a fix to iser.
-
-> Wondering about other values too, and the interaction with the new
-> combining stuff in umem.c
-
-The only other values AFAICT is the dma_boundary that rdma llds don't
-set...
+Max, care to CC Alex when you send it?
