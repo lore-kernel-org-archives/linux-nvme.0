@@ -1,37 +1,21 @@
 From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Fri, 07 Jun 2019 11:19:47 -0400
-Subject: [PATCH 2/2] nvme: Set physical block size and optimal I/O size
- according to NVMe 1.4
-In-Reply-To: <20190606212854.122478-3-bvanassche@acm.org> (Bart Van Assche's
- message of "Thu, 6 Jun 2019 14:28:54 -0700")
+Date: Fri, 07 Jun 2019 11:21:16 -0400
+Subject: [PATCH 0/2] NVMe 1.4 Identify Namespace Support
+In-Reply-To: <CAOSXXT5vsi4Fp20dj9TrouwNAYfOAMxAsbFZADZQ9pZE8uo3VA@mail.gmail.com>
+ (Keith Busch's message of "Fri, 7 Jun 2019 07:56:21 -0600")
 References: <20190606212854.122478-1-bvanassche@acm.org>
- <20190606212854.122478-3-bvanassche@acm.org>
-Message-ID: <yq1ef45jucs.fsf@oracle.com>
+ <CAOSXXT5vsi4Fp20dj9TrouwNAYfOAMxAsbFZADZQ9pZE8uo3VA@mail.gmail.com>
+Message-ID: <yq1a7etjuab.fsf@oracle.com>
 
 
-Bart,
+Keith,
 
-> +	phys_bs = bs;
-> +	io_opt = bs;
-> +	if (id->nsfeat & (1 << 4)) {
-> +		/* NPWG = Namespace Preferred Write Granularity */
-> +		phys_bs *= 1 + le16_to_cpu(id->npwg);
-> +		/* NOWS = Namespace Optimal Write Size */
-> +		io_opt *= 1 + le16_to_cpu(id->nows);
-> +	}
->  	blk_queue_logical_block_size(disk->queue, bs);
-> -	blk_queue_physical_block_size(disk->queue, bs);
-> -	blk_queue_io_min(disk->queue, bs);
-> +	blk_queue_physical_block_size(disk->queue, phys_bs);
-> +	blk_queue_io_min(disk->queue, phys_bs);
-> +	blk_queue_io_opt(disk->queue, io_opt);
->  
->  	if (ns->ms && !ns->ext &&
->  	    (ns->ctrl->ops->flags & NVME_F_METADATA_SUPPORTED))
+> Series looks good. There doesn't seem to be much in-kernel use for
+> these preferred access attributes unfortunately, but this is a good
+> start.
 
-Also fine. Nice to get these wired up!
-
-Reviewed-by: Martin K. Petersen <martin.petersen at oracle.com>
+Userland makes use of them to ensure partition/MD/DM alignment, pick
+sane values for filesystem layout, etc.
 
 -- 
 Martin K. Petersen	Oracle Linux Engineering
