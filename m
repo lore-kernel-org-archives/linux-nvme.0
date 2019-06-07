@@ -1,25 +1,44 @@
-From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Fri, 07 Jun 2019 13:30:30 -0400
-Subject: properly communicate queue limits to the DMA layer
-In-Reply-To: <f07d0abf-b3eb-f530-37b9-e66454740b3f@kernel.dk> (Jens Axboe's
- message of "Thu, 6 Jun 2019 23:52:35 -0600")
-References: <20190605190836.32354-1-hch@lst.de>
- <591cfa1e-fecb-7d00-c855-3b9eb8eb8a2a@kernel.dk>
- <20190605192405.GA18243@lst.de>
- <f07d0abf-b3eb-f530-37b9-e66454740b3f@kernel.dk>
-Message-ID: <yq1o939i9qh.fsf@oracle.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Fri,  7 Jun 2019 12:54:58 -0700
+Subject: [GIT PULL] nvme fixes for 5.2-rc
+Message-ID: <20190607195458.12866-1-sagi@grimberg.me>
 
+Hey Jens,
 
-Jens,
+Couple of nvme fixes for the next rc round.
+- nvmet write zeros fix from Minwoo
+- nvme-rdma use-after-free fix from Max
+- nvme-core u32 overflow fix from Jaesoo
+- tcp,rdma fixes for limited number of queues from me
 
->> The SCSI bits will need a bit more review, and possibly tweaking
->> fo megaraid and mpt3sas.  But they are really independent of the
->> other patches, so maybe skip them for now and leave them for Martin
->> to deal with.
->
-> I dropped the SCSI bits.
+The following changes since commit cb9e0e5006064a807b5d722c7e3c42f307193792:
 
-I'll monitor and merge them.
+  nvme-pci: use blk-mq mapping for unmanaged irqs (2019-05-22 10:11:36 -0600)
 
--- 
-Martin K. Petersen	Oracle Linux Engineering
+are available in the Git repository at:
+
+  git://git.infradead.org/nvme.git nvme-5.2-rc-next
+
+for you to fetch changes up to 62f99b62e5e3b88d23b6ced4380199e8386965af:
+
+  nvme-rdma: use dynamic dma mapping per command (2019-06-06 09:53:19 -0700)
+
+----------------------------------------------------------------
+Jaesoo Lee (1):
+      nvme: Fix u32 overflow in the number of namespace list calculation
+
+Max Gurtovoy (1):
+      nvme-rdma: use dynamic dma mapping per command
+
+Minwoo Im (1):
+      nvmet: fix data_len to 0 for bdev-backed write_zeroes
+
+Sagi Grimberg (2):
+      nvme-rdma: fix queue mapping when queue count is limited
+      nvme-tcp: fix queue mapping when queue count is limited
+
+ drivers/nvme/host/core.c          |   3 +-
+ drivers/nvme/host/rdma.c          | 152 ++++++++++++++++++++++++--------------
+ drivers/nvme/host/tcp.c           |  57 ++++++++++++--
+ drivers/nvme/target/io-cmd-bdev.c |   1 +
+ 4 files changed, 150 insertions(+), 63 deletions(-)
