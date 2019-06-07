@@ -1,23 +1,22 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 7 Jun 2019 18:42:41 +0200
-Subject: [PATCH 2/2] nvme: Set physical block size and optimal I/O size
- according to NVMe 1.4
-In-Reply-To: <969c0a9c-2e5a-b609-5c3b-411f9f2bf6ca@acm.org>
+Date: Fri, 7 Jun 2019 18:44:19 +0200
+Subject: [PATCH 0/2] NVMe 1.4 Identify Namespace Support
+In-Reply-To: <CAOSXXT55eF5hUqoyyrY1OV1iPs3bKwU6FbmTN6m_-sr2JXQ5dg@mail.gmail.com>
 References: <20190606212854.122478-1-bvanassche@acm.org>
- <20190606212854.122478-3-bvanassche@acm.org>
- <BYAPR04MB5749E9F546E6EA5415BEB20686170@BYAPR04MB5749.namprd04.prod.outlook.com>
- <969c0a9c-2e5a-b609-5c3b-411f9f2bf6ca@acm.org>
-Message-ID: <20190607164241.GB7307@lst.de>
+ <CAOSXXT5vsi4Fp20dj9TrouwNAYfOAMxAsbFZADZQ9pZE8uo3VA@mail.gmail.com>
+ <yq1a7etjuab.fsf@oracle.com>
+ <CAOSXXT55eF5hUqoyyrY1OV1iPs3bKwU6FbmTN6m_-sr2JXQ5dg@mail.gmail.com>
+Message-ID: <20190607164419.GC7307@lst.de>
 
-On Thu, Jun 06, 2019@02:48:24PM -0700, Bart Van Assche wrote:
-> On 6/6/19 2:42 PM, Chaitanya Kulkarni wrote:
->> Looks good. One quick question though do you actually have a controller
->> on which you have tested this feature ?
->
-> Hi Chaitanya,
->
-> From the cover letter of this patch series: "These patches
-> compile correctly but have not been tested in any other way."
+On Fri, Jun 07, 2019@10:26:47AM -0600, Keith Busch wrote:
+> The intention for this feature is to communicate potentially larger
+> physical blocks than page sizes, so I was just hoping for enforcing
+> that access from filesystems. Something like this from xfs
+> 
+>   https://lwn.net/Articles/770975/
+> 
+> would be a nice feature.
 
-You could create something based of our linux I/O limits for the Linux
-nvme target to expose those and test the code.
+No need for new NVMe features for that, you just need a controller
+that exposes a LBA format with a data size larger than 4k, which has
+been perfectly doable since NVMe 1.0.
