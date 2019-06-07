@@ -1,38 +1,23 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 6 Jun 2019 18:19:33 -0700
-Subject: nvme: build failure report for nvme_sync_queues()
-In-Reply-To: <CAOSXXT78U_CmaK_YqQR2D3OKJ5GSy+KtrN6ab4iMQHwn0aROQQ@mail.gmail.com>
-References: <20190606184620.GA1676@minwooim-desktop>
- <20190606192420.GA17774@minwooim-desktop>
- <CAOSXXT78U_CmaK_YqQR2D3OKJ5GSy+KtrN6ab4iMQHwn0aROQQ@mail.gmail.com>
-Message-ID: <2e8830ce-e650-84e9-5cf9-023a5f6ca368@grimberg.me>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Thu, 6 Jun 2019 23:52:35 -0600
+Subject: properly communicate queue limits to the DMA layer
+In-Reply-To: <20190605192405.GA18243@lst.de>
+References: <20190605190836.32354-1-hch@lst.de>
+ <591cfa1e-fecb-7d00-c855-3b9eb8eb8a2a@kernel.dk>
+ <20190605192405.GA18243@lst.de>
+Message-ID: <f07d0abf-b3eb-f530-37b9-e66454740b3f@kernel.dk>
 
-
->>> Hi all,
->>>
->>> I'd have to report a build failure due to the following commit:
->>> Commit e7ae6d1e7c5f ("nvme-pci: Use host managed power state for suspend")
->>>
->>> Message:
->>> drivers/nvme/host/pci.c:2876:2: error: implicit declaration of function ?nvme_sync_queues?; did you mean ?nvme_stop_queues?? [-Werror=implicit-function-declaration]
->>>    nvme_sync_queues(ctrl);
->>>      ^~~~~~~~~~~~~~~~
->>>
->>> Is the following patch applied to this branch ?
->>>    [PATCHv4 1/4] nvme: Sync request queues on reset:
->>>    http://lists.infradead.org/pipermail/linux-nvme/2018-July/019166.html
->>>
->>> If I miss something here, please let mw know.
->>>
->>> Thanks,
->>
->> Sorry I forgot to mention the branch name: nvme-5.3
+On 6/5/19 1:24 PM, Christoph Hellwig wrote:
+> On Wed, Jun 05, 2019@01:17:15PM -0600, Jens Axboe wrote:
+>> Since I'm heading out shortly and since I think this should make
+>> the next -rc, I'll tentatively queue this up.
 > 
-> Looks like the 5.3 branch forked early enough to miss this one from
-> the 5.2-rc2 brach:
-> 
->    http://git.infradead.org/nvme.git/commitdiff/d6135c3a1ec0cddda7b8b8e1b5b4abeeafd98289
+> The SCSI bits will need a bit more review, and possibly tweaking
+> fo megaraid and mpt3sas.  But they are really independent of the
+> other patches, so maybe skip them for now and leave them for Martin
+> to deal with.
 
-rebased nvme-5.3 on nvme-5.2-rc2 (and force-pushed it out)
+I dropped the SCSI bits.
 
-don't see a build error now...
+-- 
+Jens Axboe
