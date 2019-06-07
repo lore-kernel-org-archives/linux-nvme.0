@@ -1,12 +1,13 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 7 Jun 2019 18:53:13 +0200
-Subject: [RFC PATCH V7 6/7] nvme: trace: print result and status in hex
- format
-In-Reply-To: <20190606194512.11020-7-minwoo.im.dev@gmail.com>
+Date: Fri, 7 Jun 2019 18:54:26 +0200
+Subject: [RFC PATCH V7 7/7] nvmet: introduce target-side trace
+In-Reply-To: <20190606194512.11020-8-minwoo.im.dev@gmail.com>
 References: <20190606194512.11020-1-minwoo.im.dev@gmail.com>
- <20190606194512.11020-7-minwoo.im.dev@gmail.com>
-Message-ID: <20190607165313.GI7307@lst.de>
+ <20190606194512.11020-8-minwoo.im.dev@gmail.com>
+Message-ID: <20190607165426.GJ7307@lst.de>
 
-Looks good,
-
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+I'm not a native speaker either, but maybe s/totally/entirely/ in
+various places?  Otherwise this looks good modulo the comments to
+the previous patches.  Also if someone has a better idea how to
+share code without creating a new module or bloating the core
+kernel please speak up now.
