@@ -1,23 +1,36 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 6 Jun 2019 23:52:35 -0600
-Subject: properly communicate queue limits to the DMA layer
-In-Reply-To: <20190605192405.GA18243@lst.de>
-References: <20190605190836.32354-1-hch@lst.de>
- <591cfa1e-fecb-7d00-c855-3b9eb8eb8a2a@kernel.dk>
- <20190605192405.GA18243@lst.de>
-Message-ID: <f07d0abf-b3eb-f530-37b9-e66454740b3f@kernel.dk>
+From: keith.busch@gmail.com (Keith Busch)
+Date: Fri, 7 Jun 2019 07:56:21 -0600
+Subject: [PATCH 0/2] NVMe 1.4 Identify Namespace Support
+In-Reply-To: <20190606212854.122478-1-bvanassche@acm.org>
+References: <20190606212854.122478-1-bvanassche@acm.org>
+Message-ID: <CAOSXXT5vsi4Fp20dj9TrouwNAYfOAMxAsbFZADZQ9pZE8uo3VA@mail.gmail.com>
 
-On 6/5/19 1:24 PM, Christoph Hellwig wrote:
-> On Wed, Jun 05, 2019@01:17:15PM -0600, Jens Axboe wrote:
->> Since I'm heading out shortly and since I think this should make
->> the next -rc, I'll tentatively queue this up.
-> 
-> The SCSI bits will need a bit more review, and possibly tweaking
-> fo megaraid and mpt3sas.  But they are really independent of the
-> other patches, so maybe skip them for now and leave them for Martin
-> to deal with.
+On Thu, Jun 6, 2019@3:29 PM Bart Van Assche <bvanassche@acm.org> wrote:
+> Hi Keith,
+>
+> These two patches are what I came up with after having read the Identify
+> Namespace sections in final draft of version 1.4 of the NVMe. These patches
+> compile correctly but have not been tested in any other way. Please consider
+> these patches for kernel version 5.3.
+>
+> Thanks,
+>
+> Bart.
+>
+> Bart Van Assche (2):
+>   nvme: Introduce NVMe 1.4 Identify Namespace fields in struct
+>     nvme_id_ns
+>   nvme: Set physical block size and optimal I/O size according to NVMe
+>     1.4
+>
+>  drivers/nvme/host/core.c | 14 ++++++++++++--
+>  include/linux/nvme.h     | 12 +++++++++---
+>  2 files changed, 21 insertions(+), 5 deletions(-)
+>
+> --
 
-I dropped the SCSI bits.
+Series looks good. There doesn't seem to be much in-kernel use for
+these preferred access attributes unfortunately, but this is a good
+start.
 
--- 
-Jens Axboe
+Reviewed-by: Keith Busch <kbusch at kernel.org>
