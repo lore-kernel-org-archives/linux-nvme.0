@@ -1,27 +1,26 @@
-From: keith.busch@gmail.com (Keith Busch)
-Date: Fri, 7 Jun 2019 10:26:47 -0600
-Subject: [PATCH 0/2] NVMe 1.4 Identify Namespace Support
-In-Reply-To: <yq1a7etjuab.fsf@oracle.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 7 Jun 2019 18:42:02 +0200
+Subject: [PATCH 2/2] nvme: Set physical block size and optimal I/O size
+ according to NVMe 1.4
+In-Reply-To: <20190606212854.122478-3-bvanassche@acm.org>
 References: <20190606212854.122478-1-bvanassche@acm.org>
- <CAOSXXT5vsi4Fp20dj9TrouwNAYfOAMxAsbFZADZQ9pZE8uo3VA@mail.gmail.com>
- <yq1a7etjuab.fsf@oracle.com>
-Message-ID: <CAOSXXT55eF5hUqoyyrY1OV1iPs3bKwU6FbmTN6m_-sr2JXQ5dg@mail.gmail.com>
+ <20190606212854.122478-3-bvanassche@acm.org>
+Message-ID: <20190607164202.GA7307@lst.de>
 
-On Fri, Jun 7, 2019 at 9:21 AM Martin K. Petersen
-<martin.petersen@oracle.com> wrote:
-> > Series looks good. There doesn't seem to be much in-kernel use for
-> > these preferred access attributes unfortunately, but this is a good
-> > start.
->
-> Userland makes use of them to ensure partition/MD/DM alignment, pick
-> sane values for filesystem layout, etc.
+On Thu, Jun 06, 2019@02:28:54PM -0700, Bart Van Assche wrote:
+> +	phys_bs = bs;
+> +	io_opt = bs;
+> +	if (id->nsfeat & (1 << 4)) {
+> +		/* NPWG = Namespace Preferred Write Granularity */
+> +		phys_bs *= 1 + le16_to_cpu(id->npwg);
+> +		/* NOWS = Namespace Optimal Write Size */
+> +		io_opt *= 1 + le16_to_cpu(id->nows);
+> +	}
+>  	blk_queue_logical_block_size(disk->queue, bs);
+> -	blk_queue_physical_block_size(disk->queue, bs);
+> -	blk_queue_io_min(disk->queue, bs);
+> +	blk_queue_physical_block_size(disk->queue, phys_bs);
 
-Okay, that makes sense.
-
-The intention for this feature is to communicate potentially larger
-physical blocks than page sizes, so I was just hoping for enforcing
-that access from filesystems. Something like this from xfs
-
-  https://lwn.net/Articles/770975/
-
-would be a nice feature.
+Unfortunatly it is not that simple.  Filesystems expect the physical
+block size to be an atomic writable unit.  So this value will have
+to be limited by AWUPF/NAWUPF values.
