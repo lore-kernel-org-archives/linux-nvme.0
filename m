@@ -1,61 +1,49 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Sat, 8 Jun 2019 20:00:20 +0000
-Subject: [PATCH V6 1/6] nvme: Do not return in the middle of the subcommand
-References: <20190604154034.23386-1-minwoo.im.dev@gmail.com>
- <20190604154034.23386-2-minwoo.im.dev@gmail.com>
- <BYAPR04MB57493403FE6895517AC1B39D86110@BYAPR04MB5749.namprd04.prod.outlook.com>
- <20190608194837.GB28228@minwoo-900X5N>
-Message-ID: <BYAPR04MB5749608845450D1A13A68ABE86110@BYAPR04MB5749.namprd04.prod.outlook.com>
+From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Sat,  8 Jun 2019 13:01:02 -0700
+Subject: [PATCH] nvme-pci: set the errno on ctrl state change error
+Message-ID: <20190608200102.7281-1-chaitanya.kulkarni@wdc.com>
 
-Looks good to me.
+This patch removes the confusing assignment of the variable result at
+the time of declaration and sets the value in error cases next to the
+places where the actual error is happening.
 
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+Here we also set the result value to -ENODEV when we fail at the final
+ctrl state transition in nvme_reset_work(). Without this assignment
+result will hold 0 from nvme_setup_io_queue() and on failure 0 will be
+passed to he nvme_remove_dead_ctrl() from final state transition.
 
-On 06/08/2019 12:48 PM, Minwoo Im wrote:
-> On 19-06-08 19:16:08, Chaitanya Kulkarni wrote:
->> Hi Minwoo,
->>
->> Thanks for your patch-series. I'm not sure I understand the comment in
->> the cover-letter, please correct me if I'm wrong.
->
-> Please let me thank you to keep reviewing this :)
->
->>   From cover-letter:-
->>
->> "  - The first patch has been updated being without an whitespace in
->>       front of new label("ret") in a function.  The other lables added
->>       followed the existing style in where it belongs to.
->>       The default style would be great to follow the kernel style which
->>       is non-space label, as suggested by Chaitanya."
->>
->> Which I think you want to keep the labels as default kernel style.
->> without any spaces ?
->>>
->>> + ret:
->>
->> I found spaces like above everywhere in this patch, am I missing something ?
->
-> I'm sorry if It was unclear.  Simply I meant that the default kernel
-> style will be prepared once this series is done because now the labels
-> from this series are following their own functions existing style.
->
-> If It's now following their own functions,  It would be dirty at the
-> commit point of view.
->
-> For example,
->
-> 223  close_fd:
-> 224         close(fd);
-> 225
-> 226 ret:
-> 227         return nvme_status_to_errno(err, false);
->
-> It's not about the clean-up patches so that we just can follow the
-> existing rules of each functions, and once it gets done, I can prepare
-> the clean-up patches for this one.
->
-> I hope you can agree with this, but if not, pleasae feel free to let me
-> know :)
->
-> Thanks,
->
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+---
+ drivers/nvme/host/pci.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 5c051a8470d4..aca5867d2e6a 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2482,11 +2482,13 @@ static void nvme_reset_work(struct work_struct *work)
+ 	struct nvme_dev *dev =
+ 		container_of(work, struct nvme_dev, ctrl.reset_work);
+ 	bool was_suspend = !!(dev->ctrl.ctrl_config & NVME_CC_SHN_NORMAL);
+-	int result = -ENODEV;
++	int result;
+ 	enum nvme_ctrl_state new_state = NVME_CTRL_LIVE;
+ 
+-	if (WARN_ON(dev->ctrl.state != NVME_CTRL_RESETTING))
++	if (WARN_ON(dev->ctrl.state != NVME_CTRL_RESETTING)) {
++		result = -ENODEV;
+ 		goto out;
++	}
+ 
+ 	/*
+ 	 * If we're called to reset a live controller first shut it down before
+@@ -2584,6 +2586,7 @@ static void nvme_reset_work(struct work_struct *work)
+ 	if (!nvme_change_ctrl_state(&dev->ctrl, new_state)) {
+ 		dev_warn(dev->ctrl.device,
+ 			"failed to mark controller state %d\n", new_state);
++		result = -ENODEV;
+ 		goto out;
+ 	}
+ 
+-- 
+2.17.0
