@@ -1,27 +1,19 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Sat, 8 Jun 2019 02:10:44 -0600
-Subject: properly communicate queue limits to the DMA layer
-In-Reply-To: <yq1o939i9qh.fsf@oracle.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Sat, 8 Jun 2019 10:14:00 +0200
+Subject: [PATCH 10/13] megaraid_sas: set virt_boundary_mask in the scsi
+ host
+In-Reply-To: <cd713506efb9579d1f69a719d831c28d@mail.gmail.com>
 References: <20190605190836.32354-1-hch@lst.de>
- <591cfa1e-fecb-7d00-c855-3b9eb8eb8a2a@kernel.dk>
- <20190605192405.GA18243@lst.de>
- <f07d0abf-b3eb-f530-37b9-e66454740b3f@kernel.dk> <yq1o939i9qh.fsf@oracle.com>
-Message-ID: <379c82a1-f61d-7463-791e-57f1cdeaa9db@kernel.dk>
+ <20190605190836.32354-11-hch@lst.de>
+ <cd713506efb9579d1f69a719d831c28d@mail.gmail.com>
+Message-ID: <20190608081400.GA19573@lst.de>
 
-On 6/7/19 11:30 AM, Martin K. Petersen wrote:
-> 
-> Jens,
-> 
->>> The SCSI bits will need a bit more review, and possibly tweaking
->>> fo megaraid and mpt3sas.  But they are really independent of the
->>> other patches, so maybe skip them for now and leave them for Martin
->>> to deal with.
->>
->> I dropped the SCSI bits.
-> 
-> I'll monitor and merge them.
+On Thu, Jun 06, 2019@09:07:27PM +0530, Kashyap Desai wrote:
+> Hi Christoph, Changes for <megaraid_sas> and <mpt3sas> looks good. We want
+> to confirm few sanity before ACK. BTW, what benefit we will see moving
+> virt_boundry setting to SCSI mid layer ? Is it just modular approach OR any
+> functional fix ?
 
-Great, thanks Martin.
-
--- 
-Jens Axboe
+The big difference is that virt_boundary now also changes the
+max_segment_size, and this ensures that this limit is also communicated
+to the DMA mapping layer.
