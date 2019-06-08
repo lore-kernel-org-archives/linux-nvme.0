@@ -1,50 +1,50 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Sat, 8 Jun 2019 20:13:00 +0000
-Subject: [PATCH V6 6/6] fabrics: Return errno mapped for fabrics error
- status
-References: <20190604154034.23386-1-minwoo.im.dev@gmail.com>
- <20190604154034.23386-7-minwoo.im.dev@gmail.com>
- <BYAPR04MB57497DFEEC77ED6D43998ED086110@BYAPR04MB5749.namprd04.prod.outlook.com>
- <20190608200112.GC28228@minwoo-900X5N>
-Message-ID: <BYAPR04MB57495E9DBF68A2BF2FA076C686110@BYAPR04MB5749.namprd04.prod.outlook.com>
+From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Sat,  8 Jun 2019 13:16:32 -0700
+Subject: [PATCH] nvme-pci: code cleanup
+Message-ID: <20190608201632.8244-1-chaitanya.kulkarni@wdc.com>
 
-(+ CC: Sagi).
+This is purely code cleanup patch and doesn't change any functionality.
 
-I'm fine if Sagi is okay with this.
+This patch removes the extra parameter which is added to the
+nvme_remove_dead_ctrl() for only printing purpose. Also the dev_warn()
+line has more than 80 char.
 
-On 06/08/2019 01:01 PM, Minwoo Im wrote:
-> On 19-06-08 19:36:42, Chaitanya Kulkarni wrote:
->>> @@ -874,9 +877,11 @@ static int do_discover(char *argstr, bool connect)
->>>    	case DISC_GET_NUMRECS:
->>>    		fprintf(stderr,
->>>    			"Get number of discovery log entries failed.\n");
->>> +		ret = status;
->>>    		break;
->>>    	case DISC_GET_LOG:
->>>    		fprintf(stderr, "Get discovery log entries failed.\n");
->>> +		ret = status;
->>>    		break;
->>>    	case DISC_NO_LOG:
->>>    		fprintf(stdout, "No discovery log entries to fetch.\n");
->>> @@ -885,6 +890,7 @@ static int do_discover(char *argstr, bool connect)
->>>    	case DISC_NOT_EQUAL:
->>>    		fprintf(stderr,
->>>    		"Numrec values of last two get discovery log page not equal\n");
->>> +		ret = DISC_OK;
->> Can you please explain above assignment ?
->
-> Even it fails due to a mismatch between numrec in the header and the
-> actual nr_entries, the discovery log-page has been done successfully
-> whose status code should be in zero.
->
-> That code is just returning 0 to the caller which does not need to fail
-> due to this reason.  You may ask me why I didn't do like:
-> 	ret = 0;
->
-> That is just following the code right above which is a case for
-> DISC_NO_LOG.
->
-> What do you think about it ?
->
-> Thanks!
->
+We move the print message to the same function where actually error is
+occurring and use this opportunity to fix the 80 char.
+
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+---
+ drivers/nvme/host/pci.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index aca5867d2e6a..cdb41a3aa048 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2466,10 +2466,8 @@ static void nvme_pci_free_ctrl(struct nvme_ctrl *ctrl)
+ 	kfree(dev);
+ }
+ 
+-static void nvme_remove_dead_ctrl(struct nvme_dev *dev, int status)
++static void nvme_remove_dead_ctrl(struct nvme_dev *dev)
+ {
+-	dev_warn(dev->ctrl.device, "Removing after probe failure status: %d\n", status);
+-
+ 	nvme_get_ctrl(&dev->ctrl);
+ 	nvme_dev_disable(dev, false);
+ 	nvme_kill_queues(&dev->ctrl);
+@@ -2596,7 +2594,11 @@ static void nvme_reset_work(struct work_struct *work)
+  out_unlock:
+ 	mutex_unlock(&dev->shutdown_lock);
+  out:
+-	nvme_remove_dead_ctrl(dev, result);
++	if (result)
++		dev_warn(dev->ctrl.device,
++				"Removing after probe failure status: %d\n",
++				result);
++	nvme_remove_dead_ctrl(dev);
+ }
+ 
+ static void nvme_remove_dead_ctrl_work(struct work_struct *work)
+-- 
+2.17.0
