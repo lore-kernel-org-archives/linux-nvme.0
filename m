@@ -1,19 +1,76 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Sat, 8 Jun 2019 10:14:00 +0200
-Subject: [PATCH 10/13] megaraid_sas: set virt_boundary_mask in the scsi
- host
-In-Reply-To: <cd713506efb9579d1f69a719d831c28d@mail.gmail.com>
-References: <20190605190836.32354-1-hch@lst.de>
- <20190605190836.32354-11-hch@lst.de>
- <cd713506efb9579d1f69a719d831c28d@mail.gmail.com>
-Message-ID: <20190608081400.GA19573@lst.de>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Sun,  9 Jun 2019 03:02:16 +0900
+Subject: [PATCH 0/3] nvme-pci: adjust irq max_vector to avoid WARN()
+Message-ID: <20190608180219.17523-1-minwoo.im.dev@gmail.com>
 
-On Thu, Jun 06, 2019@09:07:27PM +0530, Kashyap Desai wrote:
-> Hi Christoph, Changes for <megaraid_sas> and <mpt3sas> looks good. We want
-> to confirm few sanity before ACK. BTW, what benefit we will see moving
-> virt_boundry setting to SCSI mid layer ? Is it just modular approach OR any
-> functional fix ?
+Hi All,
 
-The big difference is that virt_boundary now also changes the
-max_segment_size, and this ensures that this limit is also communicated
-to the DMA mapping layer.
+This patch series is to adjust the max_vector value from the
+nvme_setup_irqs() which provides the max_vector before recalculating the
+irq set_size in nvme_calc_irq_sets().  The third patch is mainly focused
+on avoding the WARN() which might occur in irq_build_affinity_masks()
+[1].
+
+This series has been tested with combination of the following criteria:
+	1) write_queues=0..128
+	1) poll_queues=0..128
+
+Please feel free to let me know if I have thought of something useless
+or feel this patch is useless.
+
+Thanks in advance,
+
+[1] WARN messages when modprobe nvme write_queues=32 poll_queues=0:
+root at target:~/nvme# nproc
+8
+root at target:~/nvme# modprobe nvme write_queues=32 poll_queues=0
+[   17.925326] nvme nvme0: pci function 0000:00:04.0
+[   17.940601] WARNING: CPU: 3 PID: 1030 at kernel/irq/affinity.c:221 irq_create_affinity_masks+0x222/0x330
+[   17.940602] Modules linked in: nvme nvme_core [last unloaded: nvme]
+[   17.940605] CPU: 3 PID: 1030 Comm: kworker/u17:4 Tainted: G        W         5.1.0+ #156
+[   17.940605] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.12.1-0-ga5cab58e9a3f-prebuilt.qemu.org 04/01/2014
+[   17.940608] Workqueue: nvme-reset-wq nvme_reset_work [nvme]
+[   17.940609] RIP: 0010:irq_create_affinity_masks+0x222/0x330
+[   17.940611] Code: 4c 8d 4c 24 28 4c 8d 44 24 30 e8 c9 fa ff ff 89 44 24 18 e8 c0 38 fa ff 8b 44 24 18 44 8b 54 24 1c 5a 44 01 d0 41 39 c4 76 02 <0f> 0b 48 89 df 44 01 e5 e8 f1 ce 10 00 48 8b 34 24 44 89 f0 44 01
+[   17.940611] RSP: 0018:ffffc90002277c50 EFLAGS: 00010216
+[   17.940612] RAX: 0000000000000008 RBX: ffff88807ca48860 RCX: 0000000000000000
+[   17.940612] RDX: ffff88807bc03800 RSI: 0000000000000020 RDI: 0000000000000000
+[   17.940613] RBP: 0000000000000001 R08: ffffc90002277c78 R09: ffffc90002277c70
+[   17.940613] R10: 0000000000000008 R11: 0000000000000001 R12: 0000000000000020
+[   17.940614] R13: 0000000000025d08 R14: 0000000000000001 R15: ffff88807bc03800
+[   17.940614] FS:  0000000000000000(0000) GS:ffff88807db80000(0000) knlGS:0000000000000000
+[   17.940616] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   17.940617] CR2: 00005635e583f790 CR3: 000000000240a000 CR4: 00000000000006e0
+[   17.940617] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[   17.940618] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+[   17.940618] Call Trace:
+[   17.940622]  __pci_enable_msix_range+0x215/0x540
+[   17.940623]  ? kernfs_put+0x117/0x160
+[   17.940625]  pci_alloc_irq_vectors_affinity+0x74/0x110
+[   17.940626]  nvme_reset_work+0xc30/0x1397 [nvme]
+[   17.940628]  ? __switch_to_asm+0x34/0x70
+[   17.940628]  ? __switch_to_asm+0x40/0x70
+[   17.940629]  ? __switch_to_asm+0x34/0x70
+[   17.940630]  ? __switch_to_asm+0x40/0x70
+[   17.940630]  ? __switch_to_asm+0x34/0x70
+[   17.940631]  ? __switch_to_asm+0x40/0x70
+[   17.940632]  ? nvme_irq_check+0x30/0x30 [nvme]
+[   17.940633]  process_one_work+0x20b/0x3e0
+[   17.940634]  worker_thread+0x1f9/0x3d0
+[   17.940635]  ? cancel_delayed_work+0xa0/0xa0
+[   17.940636]  kthread+0x117/0x120
+[   17.940637]  ? kthread_stop+0xf0/0xf0
+[   17.940638]  ret_from_fork+0x3a/0x50
+[   17.940639] ---[ end trace aca8a131361cd42a ]---
+[   17.942124] nvme nvme0: 7/1/0 default/read/poll queues
+
+Minwoo Im (3):
+  nvme-pci: remove unnecessary zero for static var
+  nvme-pci: remove queue_count_ops for write,poll_queues
+  nvme-pci: adjust irq max_vector using num_possible_cpus()
+
+ drivers/nvme/host/pci.c | 31 ++++++++-----------------------
+ 1 file changed, 8 insertions(+), 23 deletions(-)
+
+-- 
+2.21.0
