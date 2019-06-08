@@ -1,17 +1,65 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Sun,  9 Jun 2019 03:02:18 +0900
-Subject: [PATCH 2/3] nvme-pci: remove queue_count_ops for write,poll_queues
+Date: Sun,  9 Jun 2019 03:02:19 +0900
+Subject: [PATCH 3/3] nvme-pci: adjust irq max_vector using num_possible_cpus()
 In-Reply-To: <20190608180219.17523-1-minwoo.im.dev@gmail.com>
 References: <20190608180219.17523-1-minwoo.im.dev@gmail.com>
-Message-ID: <20190608180219.17523-3-minwoo.im.dev@gmail.com>
+Message-ID: <20190608180219.17523-4-minwoo.im.dev@gmail.com>
 
-queue_count_set() seems like that it has been provided to limit the
-number of queue entries for write/poll queues.  But, the
-queue_count_set() has been doing nothing but a parameter check even it
-has num_possible_cpus() which is nop.
+If the "irq_queues" are greater than num_possible_cpus(),
+nvme_calc_irq_sets() can have irq set_size for HCTX_TYPE_DEFAULT greater
+than it can be afforded.
+2039         affd->set_size[HCTX_TYPE_DEFAULT] = nrirqs - nr_read_queues;
 
-This patch removes entire queue_count_ops from the write_queues and
-poll_queues.
+It might cause a WARN() from the irq_build_affinity_masks() like [1]:
+220         if (nr_present < numvecs)
+221                 WARN_ON(nr_present + nr_others < numvecs);
+
+This patch prevents it from the WARN() by adjusting the max_vector value
+from the nvme_setup_irqs().
+
+[1] WARN messages when modprobe nvme write_queues=32 poll_queues=0:
+root at target:~/nvme# nproc
+8
+root at target:~/nvme# modprobe nvme write_queues=32 poll_queues=0
+[   17.925326] nvme nvme0: pci function 0000:00:04.0
+[   17.940601] WARNING: CPU: 3 PID: 1030 at kernel/irq/affinity.c:221 irq_create_affinity_masks+0x222/0x330
+[   17.940602] Modules linked in: nvme nvme_core [last unloaded: nvme]
+[   17.940605] CPU: 3 PID: 1030 Comm: kworker/u17:4 Tainted: G        W         5.1.0+ #156
+[   17.940605] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.12.1-0-ga5cab58e9a3f-prebuilt.qemu.org 04/01/2014
+[   17.940608] Workqueue: nvme-reset-wq nvme_reset_work [nvme]
+[   17.940609] RIP: 0010:irq_create_affinity_masks+0x222/0x330
+[   17.940611] Code: 4c 8d 4c 24 28 4c 8d 44 24 30 e8 c9 fa ff ff 89 44 24 18 e8 c0 38 fa ff 8b 44 24 18 44 8b 54 24 1c 5a 44 01 d0 41 39 c4 76 02 <0f> 0b 48 89 df 44 01 e5 e8 f1 ce 10 00 48 8b 34 24 44 89 f0 44 01
+[   17.940611] RSP: 0018:ffffc90002277c50 EFLAGS: 00010216
+[   17.940612] RAX: 0000000000000008 RBX: ffff88807ca48860 RCX: 0000000000000000
+[   17.940612] RDX: ffff88807bc03800 RSI: 0000000000000020 RDI: 0000000000000000
+[   17.940613] RBP: 0000000000000001 R08: ffffc90002277c78 R09: ffffc90002277c70
+[   17.940613] R10: 0000000000000008 R11: 0000000000000001 R12: 0000000000000020
+[   17.940614] R13: 0000000000025d08 R14: 0000000000000001 R15: ffff88807bc03800
+[   17.940614] FS:  0000000000000000(0000) GS:ffff88807db80000(0000) knlGS:0000000000000000
+[   17.940616] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   17.940617] CR2: 00005635e583f790 CR3: 000000000240a000 CR4: 00000000000006e0
+[   17.940617] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[   17.940618] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+[   17.940618] Call Trace:
+[   17.940622]  __pci_enable_msix_range+0x215/0x540
+[   17.940623]  ? kernfs_put+0x117/0x160
+[   17.940625]  pci_alloc_irq_vectors_affinity+0x74/0x110
+[   17.940626]  nvme_reset_work+0xc30/0x1397 [nvme]
+[   17.940628]  ? __switch_to_asm+0x34/0x70
+[   17.940628]  ? __switch_to_asm+0x40/0x70
+[   17.940629]  ? __switch_to_asm+0x34/0x70
+[   17.940630]  ? __switch_to_asm+0x40/0x70
+[   17.940630]  ? __switch_to_asm+0x34/0x70
+[   17.940631]  ? __switch_to_asm+0x40/0x70
+[   17.940632]  ? nvme_irq_check+0x30/0x30 [nvme]
+[   17.940633]  process_one_work+0x20b/0x3e0
+[   17.940634]  worker_thread+0x1f9/0x3d0
+[   17.940635]  ? cancel_delayed_work+0xa0/0xa0
+[   17.940636]  kthread+0x117/0x120
+[   17.940637]  ? kthread_stop+0xf0/0xf0
+[   17.940638]  ret_from_fork+0x3a/0x50
+[   17.940639] ---[ end trace aca8a131361cd42a ]---
+[   17.942124] nvme nvme0: 7/1/0 default/read/poll queues
 
 Cc: Jens Axboe <axboe at fb.com>
 Cc: Ming Lei <ming.lei at redhat.com>
@@ -20,55 +68,32 @@ Cc: Christoph Hellwig <hch at lst.de>
 Cc: Sagi Grimberg <sagi at grimberg.me>
 Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
 ---
- drivers/nvme/host/pci.c | 23 ++---------------------
- 1 file changed, 2 insertions(+), 21 deletions(-)
+ drivers/nvme/host/pci.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 047785023892..20193b11ab0d 100644
+index 20193b11ab0d..52fe785295cb 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -68,20 +68,14 @@ static int io_queue_depth = 1024;
- module_param_cb(io_queue_depth, &io_queue_depth_ops, &io_queue_depth, 0644);
- MODULE_PARM_DESC(io_queue_depth, "set io queue depth, should >= 2");
+@@ -2051,6 +2051,7 @@ static int nvme_setup_irqs(struct nvme_dev *dev, unsigned int nr_io_queues)
+ 		.priv		= dev,
+ 	};
+ 	unsigned int irq_queues, this_p_queues;
++	unsigned int nr_cpus = num_possible_cpus();
  
--static int queue_count_set(const char *val, const struct kernel_param *kp);
--static const struct kernel_param_ops queue_count_ops = {
--	.set = queue_count_set,
--	.get = param_get_int,
--};
--
- static int write_queues;
--module_param_cb(write_queues, &queue_count_ops, &write_queues, 0644);
-+module_param(write_queues, int, 0644);
- MODULE_PARM_DESC(write_queues,
- 	"Number of queues to use for writes. If not set, reads and writes "
- 	"will share a queue set.");
+ 	/*
+ 	 * Poll queues don't need interrupts, but we need at least one IO
+@@ -2061,7 +2062,10 @@ static int nvme_setup_irqs(struct nvme_dev *dev, unsigned int nr_io_queues)
+ 		this_p_queues = nr_io_queues - 1;
+ 		irq_queues = 1;
+ 	} else {
+-		irq_queues = nr_io_queues - this_p_queues + 1;
++		if (nr_cpus < nr_io_queues - this_p_queues)
++			irq_queues = nr_cpus + 1;
++		else
++			irq_queues = nr_io_queues - this_p_queues + 1;
+ 	}
+ 	dev->io_queues[HCTX_TYPE_POLL] = this_p_queues;
  
- static int poll_queues;
--module_param_cb(poll_queues, &queue_count_ops, &poll_queues, 0644);
-+module_param(poll_queues, int, 0644);
- MODULE_PARM_DESC(poll_queues, "Number of queues to use for polled IO.");
- 
- struct nvme_dev;
-@@ -146,19 +140,6 @@ static int io_queue_depth_set(const char *val, const struct kernel_param *kp)
- 	return param_set_int(val, kp);
- }
- 
--static int queue_count_set(const char *val, const struct kernel_param *kp)
--{
--	int n, ret;
--
--	ret = kstrtoint(val, 10, &n);
--	if (ret)
--		return ret;
--	if (n > num_possible_cpus())
--		n = num_possible_cpus();
--
--	return param_set_int(val, kp);
--}
--
- static inline unsigned int sq_idx(unsigned int qid, u32 stride)
- {
- 	return qid * 2 * stride;
 -- 
 2.21.0
