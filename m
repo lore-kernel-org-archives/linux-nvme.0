@@ -1,49 +1,44 @@
-From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Sat,  8 Jun 2019 13:01:02 -0700
-Subject: [PATCH] nvme-pci: set the errno on ctrl state change error
-Message-ID: <20190608200102.7281-1-chaitanya.kulkarni@wdc.com>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Sun, 9 Jun 2019 05:01:12 +0900
+Subject: [PATCH V6 6/6] fabrics: Return errno mapped for fabrics error
+ status
+In-Reply-To: <BYAPR04MB57497DFEEC77ED6D43998ED086110@BYAPR04MB5749.namprd04.prod.outlook.com>
+References: <20190604154034.23386-1-minwoo.im.dev@gmail.com>
+ <20190604154034.23386-7-minwoo.im.dev@gmail.com>
+ <BYAPR04MB57497DFEEC77ED6D43998ED086110@BYAPR04MB5749.namprd04.prod.outlook.com>
+Message-ID: <20190608200112.GC28228@minwoo-900X5N>
 
-This patch removes the confusing assignment of the variable result at
-the time of declaration and sets the value in error cases next to the
-places where the actual error is happening.
+On 19-06-08 19:36:42, Chaitanya Kulkarni wrote:
+> > @@ -874,9 +877,11 @@ static int do_discover(char *argstr, bool connect)
+> >   	case DISC_GET_NUMRECS:
+> >   		fprintf(stderr,
+> >   			"Get number of discovery log entries failed.\n");
+> > +		ret = status;
+> >   		break;
+> >   	case DISC_GET_LOG:
+> >   		fprintf(stderr, "Get discovery log entries failed.\n");
+> > +		ret = status;
+> >   		break;
+> >   	case DISC_NO_LOG:
+> >   		fprintf(stdout, "No discovery log entries to fetch.\n");
+> > @@ -885,6 +890,7 @@ static int do_discover(char *argstr, bool connect)
+> >   	case DISC_NOT_EQUAL:
+> >   		fprintf(stderr,
+> >   		"Numrec values of last two get discovery log page not equal\n");
+> > +		ret = DISC_OK;
+> Can you please explain above assignment ?
 
-Here we also set the result value to -ENODEV when we fail at the final
-ctrl state transition in nvme_reset_work(). Without this assignment
-result will hold 0 from nvme_setup_io_queue() and on failure 0 will be
-passed to he nvme_remove_dead_ctrl() from final state transition.
+Even it fails due to a mismatch between numrec in the header and the
+actual nr_entries, the discovery log-page has been done successfully
+whose status code should be in zero.
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
----
- drivers/nvme/host/pci.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+That code is just returning 0 to the caller which does not need to fail
+due to this reason.  You may ask me why I didn't do like:
+	ret = 0;
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 5c051a8470d4..aca5867d2e6a 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2482,11 +2482,13 @@ static void nvme_reset_work(struct work_struct *work)
- 	struct nvme_dev *dev =
- 		container_of(work, struct nvme_dev, ctrl.reset_work);
- 	bool was_suspend = !!(dev->ctrl.ctrl_config & NVME_CC_SHN_NORMAL);
--	int result = -ENODEV;
-+	int result;
- 	enum nvme_ctrl_state new_state = NVME_CTRL_LIVE;
- 
--	if (WARN_ON(dev->ctrl.state != NVME_CTRL_RESETTING))
-+	if (WARN_ON(dev->ctrl.state != NVME_CTRL_RESETTING)) {
-+		result = -ENODEV;
- 		goto out;
-+	}
- 
- 	/*
- 	 * If we're called to reset a live controller first shut it down before
-@@ -2584,6 +2586,7 @@ static void nvme_reset_work(struct work_struct *work)
- 	if (!nvme_change_ctrl_state(&dev->ctrl, new_state)) {
- 		dev_warn(dev->ctrl.device,
- 			"failed to mark controller state %d\n", new_state);
-+		result = -ENODEV;
- 		goto out;
- 	}
- 
--- 
-2.17.0
+That is just following the code right above which is a case for
+DISC_NO_LOG.
+
+What do you think about it ?
+
+Thanks!
