@@ -1,119 +1,129 @@
 From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Sat, 8 Jun 2019 19:19:51 +0000
-Subject: [PATCH V6 2/6] fabrics: Do not return in the middle of the
- subcommand
+Date: Sat, 8 Jun 2019 19:36:42 +0000
+Subject: [PATCH V6 6/6] fabrics: Return errno mapped for fabrics error
+ status
 References: <20190604154034.23386-1-minwoo.im.dev@gmail.com>
- <20190604154034.23386-3-minwoo.im.dev@gmail.com>
-Message-ID: <BYAPR04MB5749BE4514905A4231C53C1586110@BYAPR04MB5749.namprd04.prod.outlook.com>
+ <20190604154034.23386-7-minwoo.im.dev@gmail.com>
+Message-ID: <BYAPR04MB57497DFEEC77ED6D43998ED086110@BYAPR04MB5749.namprd04.prod.outlook.com>
 
-Looks good to me.
-
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-
-On 06/04/2019 08:40 AM, Minwoo Im wrote:
-> This patch also makes fabrics module to not return the internal error
-> status in the middle of the subcommands to support uniformed mapped
-> error value which will be introduced in the next patches.
+On 06/04/2019 08:41 AM, Minwoo Im wrote:
+> If discover has been failed due to a nvme status, it will be returned to
+> main() with mapped value for fabrics get log page command.
+>
+> Now connect command related status cannot be added in this patch because
+> kernel is not currently returning the nvme status, it's instead
+> returning -EIO if fails.  errno for connect command can be added once
+> kernel is ready to return the proper value for nvme status.
 >
 > Cc: Keith Busch <kbusch at kernel.org>
-> Cc: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+> Cc: Chaitanya Kulkarni <chaitanya.Kulkarni at wdc.com>
 > Cc: Sagi Grimberg <sagi at grimberg.me>
 > Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
 > ---
->   fabrics.c | 31 +++++++++++++++++++------------
->   1 file changed, 19 insertions(+), 12 deletions(-)
+>   fabrics.c | 19 +++++++++++++------
+>   1 file changed, 13 insertions(+), 6 deletions(-)
 >
 > diff --git a/fabrics.c b/fabrics.c
-> index 573a6ef..7be7f59 100644
+> index 7be7f59..81c2d9d 100644
 > --- a/fabrics.c
 > +++ b/fabrics.c
-> @@ -984,20 +984,23 @@ int discover(const char *desc, int argc, char **argv, bool connect)
->   	ret = argconfig_parse(argc, argv, desc, command_line_options, &cfg,
->   			sizeof(cfg));
->   	if (ret)
-> -		return ret;
-> +		goto out;
+> @@ -35,6 +35,7 @@
 >
->   	cfg.nqn = NVME_DISC_SUBSYS_NAME;
+>   #include "parser.h"
+>   #include "nvme-ioctl.h"
+> +#include "nvme-status.h"
+>   #include "fabrics.h"
 >
->   	if (!cfg.transport && !cfg.traddr) {
-> -		return discover_from_conf_file(desc, argstr,
-> +		ret = discover_from_conf_file(desc, argstr,
->   				command_line_options, connect);
->   	} else {
->   		ret = build_options(argstr, BUF_SIZE);
->   		if (ret)
-> -			return ret;
-> +			goto out;
+>   #include "nvme.h"
+> @@ -295,7 +296,7 @@ enum {
+>   };
 >
-> -		return do_discover(argstr, connect);
-> +		ret = do_discover(argstr, connect);
->   	}
-> +
-> +out:
-> +	return ret;
+>   static int nvmf_get_log_page_discovery(const char *dev_path,
+> -		struct nvmf_disc_rsp_page_hdr **logp, int *numrec)
+> +		struct nvmf_disc_rsp_page_hdr **logp, int *numrec, int *status)
+>   {
+>   	struct nvmf_disc_rsp_page_hdr *log;
+>   	unsigned int hdr_size;
+> @@ -400,6 +401,7 @@ out_free_log:
+>   out_close:
+>   	close(fd);
+>   out:
+> +	*status = nvme_status_to_errno(error, true);
+>   	return error;
 >   }
 >
->   int connect(const char *desc, int argc, char **argv)
-> @@ -1029,21 +1032,23 @@ int connect(const char *desc, int argc, char **argv)
->   	ret = argconfig_parse(argc, argv, desc, command_line_options, &cfg,
->   			sizeof(cfg));
->   	if (ret)
-> -		return ret;
-> +		goto out;
->
->   	ret = build_options(argstr, BUF_SIZE);
->   	if (ret)
-> -		return ret;
-> +		goto out;
->
->   	if (!cfg.nqn) {
->   		fprintf(stderr, "need a -n argument\n");
-> -		return -EINVAL;
-> +		ret = -EINVAL;
-> +		goto out;
->   	}
+> @@ -849,6 +851,7 @@ static int do_discover(char *argstr, bool connect)
+>   	struct nvmf_disc_rsp_page_hdr *log = NULL;
+>   	char *dev_name;
+>   	int instance, numrec = 0, ret, err;
+> +	int status = 0;
 >
 >   	instance = add_ctrl(argstr);
 >   	if (instance < 0)
-> -		return instance;
-> -	return 0;
-> +		ret = instance;
-> +out:
-> +	return ret;
+> @@ -856,7 +859,7 @@ static int do_discover(char *argstr, bool connect)
+>
+>   	if (asprintf(&dev_name, "/dev/nvme%d", instance) < 0)
+>   		return -errno;
+> -	ret = nvmf_get_log_page_discovery(dev_name, &log, &numrec);
+> +	ret = nvmf_get_log_page_discovery(dev_name, &log, &numrec, &status);
+>   	free(dev_name);
+>   	err = remove_ctrl(instance);
+>   	if (err)
+> @@ -874,9 +877,11 @@ static int do_discover(char *argstr, bool connect)
+>   	case DISC_GET_NUMRECS:
+>   		fprintf(stderr,
+>   			"Get number of discovery log entries failed.\n");
+> +		ret = status;
+>   		break;
+>   	case DISC_GET_LOG:
+>   		fprintf(stderr, "Get discovery log entries failed.\n");
+> +		ret = status;
+>   		break;
+>   	case DISC_NO_LOG:
+>   		fprintf(stdout, "No discovery log entries to fetch.\n");
+> @@ -885,6 +890,7 @@ static int do_discover(char *argstr, bool connect)
+>   	case DISC_NOT_EQUAL:
+>   		fprintf(stderr,
+>   		"Numrec values of last two get discovery log page not equal\n");
+> +		ret = DISC_OK;
+Can you please explain above assignment ?
+>   		break;
+>   	default:
+>   		fprintf(stderr, "Get discovery log page failed: %d\n", ret);
+> @@ -1000,7 +1006,7 @@ int discover(const char *desc, int argc, char **argv, bool connect)
+>   	}
+>
+>   out:
+> -	return ret;
+> +	return nvme_status_to_errno(ret, true);
+>   }
+>
+>   int connect(const char *desc, int argc, char **argv)
+> @@ -1047,8 +1053,9 @@ int connect(const char *desc, int argc, char **argv)
+>   	instance = add_ctrl(argstr);
+>   	if (instance < 0)
+>   		ret = instance;
+> +
+>   out:
+> -	return ret;
+> +	return nvme_status_to_errno(ret, true);
 >   }
 >
 >   static int scan_sys_nvme_filter(const struct dirent *d)
-> @@ -1148,11 +1153,12 @@ int disconnect(const char *desc, int argc, char **argv)
->   	ret = argconfig_parse(argc, argv, desc, command_line_options, &cfg,
->   			sizeof(cfg));
->   	if (ret)
-> -		return ret;
-> +		goto out;
->
->   	if (!cfg.nqn && !cfg.device) {
->   		fprintf(stderr, "need a -n or -d argument\n");
-> -		return -EINVAL;
-> +		ret = -EINVAL;
-> +		goto out;
+> @@ -1181,7 +1188,7 @@ int disconnect(const char *desc, int argc, char **argv)
 >   	}
 >
->   	if (cfg.nqn) {
-> @@ -1174,6 +1180,7 @@ int disconnect(const char *desc, int argc, char **argv)
->   				cfg.device);
->   	}
->
-> +out:
->   	return ret;
+>   out:
+> -	return ret;
+> +	return nvme_status_to_errno(ret, true);
 >   }
 >
-> @@ -1188,7 +1195,7 @@ int disconnect_all(const char *desc, int argc, char **argv)
->   	ret = argconfig_parse(argc, argv, desc, command_line_options, &cfg,
->   			sizeof(cfg));
->   	if (ret)
-> -		return ret;
-> +		goto out;
->
->   	slist = get_subsys_list(&subcnt, NULL, NVME_NSID_ALL);
->   	for (i = 0; i < subcnt; i++) {
+>   int disconnect_all(const char *desc, int argc, char **argv)
+> @@ -1212,5 +1219,5 @@ int disconnect_all(const char *desc, int argc, char **argv)
+>   		}
+>   	}
+>   out:
+> -	return ret;
+> +	return nvme_status_to_errno(ret, true);
+>   }
 >
