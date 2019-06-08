@@ -1,25 +1,27 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Sat, 8 Jun 2019 10:57:10 +0900
-Subject: [RFC PATCH V7 2/7] nvme: trace: move opcode symbol print to nvme.h
-In-Reply-To: <20190607164614.GE7307@lst.de>
-References: <20190606194512.11020-1-minwoo.im.dev@gmail.com>
- <20190606194512.11020-3-minwoo.im.dev@gmail.com>
- <20190607164614.GE7307@lst.de>
-Message-ID: <20190608015710.GG1276@minwooim-desktop>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Sat, 8 Jun 2019 02:10:44 -0600
+Subject: properly communicate queue limits to the DMA layer
+In-Reply-To: <yq1o939i9qh.fsf@oracle.com>
+References: <20190605190836.32354-1-hch@lst.de>
+ <591cfa1e-fecb-7d00-c855-3b9eb8eb8a2a@kernel.dk>
+ <20190605192405.GA18243@lst.de>
+ <f07d0abf-b3eb-f530-37b9-e66454740b3f@kernel.dk> <yq1o939i9qh.fsf@oracle.com>
+Message-ID: <379c82a1-f61d-7463-791e-57f1cdeaa9db@kernel.dk>
 
-On 19-06-07 18:46:14, Christoph Hellwig wrote:
-> On Fri, Jun 07, 2019@04:45:07AM +0900, Minwoo Im wrote:
-> > The following patches are going to provide the target-side trace which
-> > might need these kind of macros.  It would be great if it can be shared
-> > between host and target side both.
+On 6/7/19 11:30 AM, Martin K. Petersen wrote:
 > 
-> And maybe for some nvme-cli tracing in the future..
-
-If you mean some of IOCTLs rather than for the commands, than I
-would be happy to go with them after this series.
-
-> Looks good,
+> Jens,
 > 
-> Reviewed-by: Christoph Hellwig <hch at lst.de>
+>>> The SCSI bits will need a bit more review, and possibly tweaking
+>>> fo megaraid and mpt3sas.  But they are really independent of the
+>>> other patches, so maybe skip them for now and leave them for Martin
+>>> to deal with.
+>>
+>> I dropped the SCSI bits.
+> 
+> I'll monitor and merge them.
 
-Thanks for your review, by the way.
+Great, thanks Martin.
+
+-- 
+Jens Axboe
