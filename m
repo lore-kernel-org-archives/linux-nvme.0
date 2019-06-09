@@ -1,15 +1,23 @@
 From: akinobu.mita@gmail.com (Akinobu Mita)
-Date: Sun,  9 Jun 2019 23:17:00 +0900
-Subject: [PATCH v3 1/3] nvme: prepare for fault injection into admin commands
+Date: Sun,  9 Jun 2019 23:17:01 +0900
+Subject: [PATCH v3 2/3] nvme: enable to inject errors into admin commands
 In-Reply-To: <1560089822-11462-1-git-send-email-akinobu.mita@gmail.com>
 References: <1560089822-11462-1-git-send-email-akinobu.mita@gmail.com>
-Message-ID: <1560089822-11462-2-git-send-email-akinobu.mita@gmail.com>
+Message-ID: <1560089822-11462-3-git-send-email-akinobu.mita@gmail.com>
 
-Currenlty fault injection support for nvme only enables to inject errors
-into the commands submitted to I/O queues.
+This enables to inject errors into the commands submitted to the admin
+queue.
 
-In preparation for fault injection into the admin commands, this makes
-the helper functions independent of struct nvme_ns.
+It is useful to test error handling in the controller initialization.
+
+	# echo 100 > /sys/kernel/debug/nvme0/fault_inject/probability
+	# echo 1 > /sys/kernel/debug/nvme0/fault_inject/times
+	# echo 10 > /sys/kernel/debug/nvme0/fault_inject/space
+	# nvme reset /dev/nvme0
+	# dmesg
+	...
+	nvme nvme0: Could not set queue count (16385)
+	nvme nvme0: IO queues not created
 
 Cc: Thomas Tai <thomas.tai at oracle.com>
 Cc: Keith Busch <kbusch at kernel.org>
@@ -26,190 +34,69 @@ Reviewed-by: Christoph Hellwig <hch at lst.de>
 ---
 * v3
 - add Reviewed-by tags
-- WARN_ONCE() if no namespace is tied to the request
+- remove thermal zone series dependency
 
- drivers/nvme/host/core.c         |  4 ++--
- drivers/nvme/host/fault_inject.c | 36 ++++++++++++++++++++----------------
- drivers/nvme/host/nvme.h         | 34 +++++++++++++++++++---------------
- 3 files changed, 41 insertions(+), 33 deletions(-)
+ drivers/nvme/host/core.c         | 3 +++
+ drivers/nvme/host/fault_inject.c | 5 ++---
+ drivers/nvme/host/nvme.h         | 2 ++
+ 3 files changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 1b7c2af..a66e7d8 100644
+index a66e7d8..80960e4 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -3318,7 +3318,7 @@ static int nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 	device_add_disk(ctrl->device, ns->disk, nvme_ns_id_attr_groups);
+@@ -3701,6 +3701,7 @@ EXPORT_SYMBOL_GPL(nvme_start_ctrl);
  
- 	nvme_mpath_add_disk(ns, id);
--	nvme_fault_inject_init(ns);
-+	nvme_fault_inject_init(&ns->fault_inject, ns->disk->disk_name);
- 	kfree(id);
+ void nvme_uninit_ctrl(struct nvme_ctrl *ctrl)
+ {
++	nvme_fault_inject_fini(&ctrl->fault_inject);
+ 	dev_pm_qos_hide_latency_tolerance(ctrl->device);
+ 	cdev_device_del(&ctrl->cdev, ctrl->device);
+ }
+@@ -3796,6 +3797,8 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 	dev_pm_qos_update_user_latency_tolerance(ctrl->device,
+ 		min(default_ps_max_latency_us, (unsigned long)S32_MAX));
  
++	nvme_fault_inject_init(&ctrl->fault_inject, dev_name(ctrl->device));
++
  	return 0;
-@@ -3343,7 +3343,7 @@ static void nvme_ns_remove(struct nvme_ns *ns)
- 	if (test_and_set_bit(NVME_NS_REMOVING, &ns->flags))
- 		return;
- 
--	nvme_fault_inject_fini(ns);
-+	nvme_fault_inject_fini(&ns->fault_inject);
- 	if (ns->disk && ns->disk->flags & GENHD_FL_UP) {
- 		del_gendisk(ns->disk);
- 		blk_cleanup_queue(ns->queue);
+ out_free_name:
+ 	kfree_const(ctrl->device->kobj.name);
 diff --git a/drivers/nvme/host/fault_inject.c b/drivers/nvme/host/fault_inject.c
-index 4cfd2c9..e37b8c2 100644
+index e37b8c2..1352159 100644
 --- a/drivers/nvme/host/fault_inject.c
 +++ b/drivers/nvme/host/fault_inject.c
-@@ -15,11 +15,10 @@ static DECLARE_FAULT_ATTR(fail_default_attr);
- static char *fail_request;
- module_param(fail_request, charp, 0000);
- 
--void nvme_fault_inject_init(struct nvme_ns *ns)
-+void nvme_fault_inject_init(struct nvme_fault_inject *fault_inj,
-+			    const char *dev_name)
- {
- 	struct dentry *dir, *parent;
--	char *name = ns->disk->disk_name;
--	struct nvme_fault_inject *fault_inj = &ns->fault_inject;
- 	struct fault_attr *attr = &fault_inj->attr;
- 
- 	/* set default fault injection attribute */
-@@ -27,20 +26,20 @@ void nvme_fault_inject_init(struct nvme_ns *ns)
- 		setup_fault_attr(&fail_default_attr, fail_request);
- 
- 	/* create debugfs directory and attribute */
--	parent = debugfs_create_dir(name, NULL);
-+	parent = debugfs_create_dir(dev_name, NULL);
- 	if (!parent) {
--		pr_warn("%s: failed to create debugfs directory\n", name);
-+		pr_warn("%s: failed to create debugfs directory\n", dev_name);
- 		return;
- 	}
- 
- 	*attr = fail_default_attr;
- 	dir = fault_create_debugfs_attr("fault_inject", parent, attr);
- 	if (IS_ERR(dir)) {
--		pr_warn("%s: failed to create debugfs attr\n", name);
-+		pr_warn("%s: failed to create debugfs attr\n", dev_name);
- 		debugfs_remove_recursive(parent);
- 		return;
- 	}
--	ns->fault_inject.parent = parent;
-+	fault_inj->parent = parent;
- 
- 	/* create debugfs for status code and dont_retry */
- 	fault_inj->status = NVME_SC_INVALID_OPCODE;
-@@ -49,29 +48,34 @@ void nvme_fault_inject_init(struct nvme_ns *ns)
- 	debugfs_create_bool("dont_retry", 0600, dir, &fault_inj->dont_retry);
- }
- 
--void nvme_fault_inject_fini(struct nvme_ns *ns)
-+void nvme_fault_inject_fini(struct nvme_fault_inject *fault_inject)
- {
- 	/* remove debugfs directories */
--	debugfs_remove_recursive(ns->fault_inject.parent);
-+	debugfs_remove_recursive(fault_inject->parent);
- }
- 
- void nvme_should_fail(struct request *req)
- {
- 	struct gendisk *disk = req->rq_disk;
--	struct nvme_ns *ns = NULL;
-+	struct nvme_fault_inject *fault_inject = NULL;
+@@ -60,9 +60,6 @@ void nvme_should_fail(struct request *req)
+ 	struct nvme_fault_inject *fault_inject = NULL;
  	u16 status;
  
- 	/*
- 	 * make sure this request is coming from a valid namespace
- 	 */
--	if (!disk)
--		return;
-+	if (disk) {
-+		struct nvme_ns *ns = disk->private_data;
-+
-+		if (ns)
-+			fault_inject = &ns->fault_inject;
-+		else
-+			WARN_ONCE(1, "No namespace found for request\n");
-+	}
+-	/*
+-	 * make sure this request is coming from a valid namespace
+-	 */
+ 	if (disk) {
+ 		struct nvme_ns *ns = disk->private_data;
  
--	ns = disk->private_data;
--	if (ns && should_fail(&ns->fault_inject.attr, 1)) {
-+	if (fault_inject && should_fail(&fault_inject->attr, 1)) {
- 		/* inject status code and DNR bit */
--		status = ns->fault_inject.status;
--		if (ns->fault_inject.dont_retry)
-+		status = fault_inject->status;
-+		if (fault_inject->dont_retry)
- 			status |= NVME_SC_DNR;
- 		nvme_req(req)->status =	status;
+@@ -70,6 +67,8 @@ void nvme_should_fail(struct request *req)
+ 			fault_inject = &ns->fault_inject;
+ 		else
+ 			WARN_ONCE(1, "No namespace found for request\n");
++	} else {
++		fault_inject = &nvme_req(req)->ctrl->fault_inject;
  	}
+ 
+ 	if (fault_inject && should_fail(&fault_inject->attr, 1)) {
 diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 55553d2..f00c596 100644
+index f00c596..1b2624c 100644
 --- a/drivers/nvme/host/nvme.h
 +++ b/drivers/nvme/host/nvme.h
-@@ -146,6 +146,15 @@ enum nvme_ctrl_state {
- 	NVME_CTRL_DEAD,
- };
+@@ -256,6 +256,8 @@ struct nvme_ctrl {
  
-+struct nvme_fault_inject {
-+#ifdef CONFIG_FAULT_INJECTION_DEBUG_FS
-+	struct fault_attr attr;
-+	struct dentry *parent;
-+	bool dont_retry;	/* DNR, do not retry */
-+	u16 status;		/* status code */
-+#endif
-+};
+ 	struct page *discard_page;
+ 	unsigned long discard_page_busy;
 +
- struct nvme_ctrl {
- 	bool comp_seen;
- 	enum nvme_ctrl_state state;
-@@ -313,15 +322,6 @@ struct nvme_ns_head {
- #endif
++	struct nvme_fault_inject fault_inject;
  };
  
--#ifdef CONFIG_FAULT_INJECTION_DEBUG_FS
--struct nvme_fault_inject {
--	struct fault_attr attr;
--	struct dentry *parent;
--	bool dont_retry;	/* DNR, do not retry */
--	u16 status;		/* status code */
--};
--#endif
--
- struct nvme_ns {
- 	struct list_head list;
- 
-@@ -349,9 +349,7 @@ struct nvme_ns {
- #define NVME_NS_ANA_PENDING	2
- 	u16 noiob;
- 
--#ifdef CONFIG_FAULT_INJECTION_DEBUG_FS
- 	struct nvme_fault_inject fault_inject;
--#endif
- 
- };
- 
-@@ -372,12 +370,18 @@ struct nvme_ctrl_ops {
- };
- 
- #ifdef CONFIG_FAULT_INJECTION_DEBUG_FS
--void nvme_fault_inject_init(struct nvme_ns *ns);
--void nvme_fault_inject_fini(struct nvme_ns *ns);
-+void nvme_fault_inject_init(struct nvme_fault_inject *fault_inj,
-+			    const char *dev_name);
-+void nvme_fault_inject_fini(struct nvme_fault_inject *fault_inject);
- void nvme_should_fail(struct request *req);
- #else
--static inline void nvme_fault_inject_init(struct nvme_ns *ns) {}
--static inline void nvme_fault_inject_fini(struct nvme_ns *ns) {}
-+static inline void nvme_fault_inject_init(struct nvme_fault_inject *fault_inj,
-+					  const char *dev_name)
-+{
-+}
-+static inline void nvme_fault_inject_fini(struct nvme_fault_inject *fault_inj)
-+{
-+}
- static inline void nvme_should_fail(struct request *req) {}
- #endif
- 
+ enum nvme_iopolicy {
 -- 
 2.7.4
