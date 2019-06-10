@@ -1,19 +1,29 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Mon, 10 Jun 2019 09:51:56 +0800
+From: minwoo.im@samsung.com (Minwoo Im)
+Date: Mon, 10 Jun 2019 11:25:22 +0900
 Subject: [PATCH 2/3] nvme-pci: remove queue_count_ops for write,poll_queues
-In-Reply-To: <20190608180219.17523-3-minwoo.im.dev@gmail.com>
-References: <20190608180219.17523-1-minwoo.im.dev@gmail.com>
+In-Reply-To: <20190610015155.GD26551@ming.t460p>
+References: <20190610015155.GD26551@ming.t460p>
+ <20190608180219.17523-1-minwoo.im.dev@gmail.com>
  <20190608180219.17523-3-minwoo.im.dev@gmail.com>
-Message-ID: <20190610015155.GD26551@ming.t460p>
+ <CGME20190610015241epcas3p2a021735345864364cb7f8c6aded4685d@epcms2p2>
+Message-ID: <20190610022522epcms2p26bc1b339680476ac6d81050045545f44@epcms2p2>
 
-On Sun, Jun 09, 2019@03:02:18AM +0900, Minwoo Im wrote:
-> queue_count_set() seems like that it has been provided to limit the
-> number of queue entries for write/poll queues.  But, the
-> queue_count_set() has been doing nothing but a parameter check even it
-> has num_possible_cpus() which is nop.
+> However, the check is valid, which shouldn't be nop, so could you fix
+> the check instead of removing it?
 
-However, the check is valid, which shouldn't be nop, so could you fix
-the check instead of removing it?
+Hi, Ming.
+
+I don't get what you really mean here.   What do you mean "the check is
+valid"? I don't see any valid checks in queue_count_set(), not just for
+check for the failure by kstrtoint().  I think current code is just checks
+the nr_cpus and do nothing after.
+
+Instead fixing this check inside of this function, I have posted the next
+patch in this series to make sure the number of irqs requested not 
+exceed the num_possible_num().
+
+Could you please have a look the next patch in this series ?
+
+If I missed something here, please let me know.
 
 Thanks,
-Ming
