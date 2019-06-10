@@ -1,15 +1,37 @@
-From: keith.busch@gmail.com (Keith Busch)
-Date: Mon, 10 Jun 2019 10:00:30 -0600
-Subject: [PATCH] PCI: Add Intel remapped NVMe device support
-In-Reply-To: <20190610074456.2761-1-drake@endlessm.com>
-References: <20190610074456.2761-1-drake@endlessm.com>
-Message-ID: <CAOSXXT7OFzHeTxNqZ1sS6giRxhDcrUUnVjURWBiFUc5T_8p=MA@mail.gmail.com>
+From: bvanassche@acm.org (Bart Van Assche)
+Date: Mon, 10 Jun 2019 14:06:09 -0700
+Subject: [PATCH v2 0/3] NVMe 1.4 Identify Namespace Support
+Message-ID: <20190610210612.103952-1-bvanassche@acm.org>
 
-On Mon, Jun 10, 2019@1:45 AM Daniel Drake <drake@endlessm.com> wrote:
-> +       /* We don't support sharing MSI interrupts between these devices */
-> +       nrdev->bus->bus_flags |= PCI_BUS_FLAGS_NO_MSI;
+Hi Christoph,
 
-And this is a problem, isn't it? Since we don't have an option to open
-the MSI implementation in RAID mode, your experience will be much
-better to disable this mode when using Linux as per the current
-recommendation rather than limping along with legacy IRQ.
+This patch series adds support for several of the new parameters introduced
+in the NVMe 1.4 Identify Namespace command. Please consider these patches
+for kernel version 5.3.
+
+Thanks,
+
+Bart.
+
+Changes compared to v1:
+- Added a patch for the NVMe target code that exports these parameters.
+- Limited the physical block size to the value of AWUPF/NAWUPF as appropriate.
+
+Bart Van Assche (3):
+  nvme: Introduce NVMe 1.4 Identify Namespace fields in struct
+    nvme_id_ns
+  nvmet: Export NVMe namespace attributes
+  nvme: Set physical block size and optimal I/O size according to NVMe
+    1.4
+
+ drivers/nvme/host/core.c          | 24 +++++++++++++++--
+ drivers/nvme/host/nvme.h          |  1 +
+ drivers/nvme/target/admin-cmd.c   |  5 ++++
+ drivers/nvme/target/io-cmd-bdev.c | 43 +++++++++++++++++++++++++++++++
+ drivers/nvme/target/io-cmd-file.c | 34 ++++++++++++++++++++++++
+ drivers/nvme/target/nvmet.h       |  2 ++
+ include/linux/nvme.h              | 12 ++++++---
+ 7 files changed, 116 insertions(+), 5 deletions(-)
+
+-- 
+2.22.0.rc3
