@@ -1,63 +1,52 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Mon, 10 Jun 2019 18:26:40 +0900
-Subject: [PATCH V6 6/6] fabrics: Return errno mapped for fabrics error
- status
-In-Reply-To: <BYAPR04MB57495E9DBF68A2BF2FA076C686110@BYAPR04MB5749.namprd04.prod.outlook.com>
-References: <20190604154034.23386-1-minwoo.im.dev@gmail.com>
- <20190604154034.23386-7-minwoo.im.dev@gmail.com>
- <BYAPR04MB57497DFEEC77ED6D43998ED086110@BYAPR04MB5749.namprd04.prod.outlook.com>
- <20190608200112.GC28228@minwoo-900X5N>
- <BYAPR04MB57495E9DBF68A2BF2FA076C686110@BYAPR04MB5749.namprd04.prod.outlook.com>
-Message-ID: <20190610092640.GB1879@minwooim-desktop>
+Date: Mon, 10 Jun 2019 21:49:25 +0900
+Subject: [RFC] mismatch between chardev and blkdev node names
+Message-ID: <20190610124925.GA20319@minwooim-desktop>
 
-On 19-06-08 20:13:00, Chaitanya Kulkarni wrote:
-> (+ CC: Sagi).
-> 
-> I'm fine if Sagi is okay with this.
+Hi, NVMe people.
 
-(Fix typo in the previous mail.)
+I'd like to get some advices for the reported issue from nvme-cli:
+  https://github.com/linux-nvme/nvme-cli/issues/510
 
-Sagi,
+As all you guys know, the controller chardev is created with controller
+instance id which is from ctrl->instance.  (e.g. /dev/nvme0)
+For the namespace blkdev node is set to either instance id or
+subsystem id when ns->head->disk is not there.
 
-Could you please have a look this series?
+This policy can make the blkdev and chardev are pretty different view to
+the users like who faced this issue.
+
+For the following case, the controller and the namespaces are completly
+looking different:
+
+root at target:~# nvme list-subsys                                       
+nvme-subsys0 - NQN=nqn.2014.08.org.nvmexpress:80861af4bar                 QEMU NVMe Ctrl
+\                                                                                       
+ +- nvme1 pcie 0000:00:05.0 live                                                        
+nvme-subsys1 - NQN=nqn.2014.08.org.nvmexpress:80861af4foo                 QEMU NVMe Ctrl
+\                                                                                       
+ +- nvme0 pcie 0000:00:04.0 live                                                        
+nvme-subsys2 - NQN=nqn.2014.08.org.nvmexpress:80861af4zoo                 QEMU NVMe Ctrl
+\                                                                                       
+ +- nvme2 pcie 0000:00:06.0 live                                                        
+
+root at target:~# nvme list                                                                                                   
+Node             SN                   Model                                    Namespace Usage                      Format           FW Rev  
+---------------- -------------------- ---------------------------------------- --------- -------------------------- ---------------- --------
+/dev/nvme0n1     bar                  QEMU NVMe Ctrl                           1         536.87  MB / 536.87  MB    512   B +  0 B   1.0     
+/dev/nvme1n1     foo                  QEMU NVMe Ctrl                           1         536.87  MB / 536.87  MB    512   B +  0 B   1.0     
+/dev/nvme2n1     zoo                  QEMU NVMe Ctrl                           1         536.87  MB / 536.87  MB    512   B +  0 B   1.0     
+
+This example shows that if we want to get the same result for the id-ctrl,
+then we should:
+  # nvme id-ctrl /dev/nvme1
+  # nvme id-ctrl /dev/nvme0n1
+
+Should users with multipath enabled know this situation well and do
+something with perfect understanding this policy because they might be
+administrator for the system?  or should the driver provide the same
+index at least right next to "nvme" for the controller and namespaces?
+
+I hope you guys can give some advices here :)
 
 Thanks,
-
-> 
-> On 06/08/2019 01:01 PM, Minwoo Im wrote:
-> > On 19-06-08 19:36:42, Chaitanya Kulkarni wrote:
-> >>> @@ -874,9 +877,11 @@ static int do_discover(char *argstr, bool connect)
-> >>>    	case DISC_GET_NUMRECS:
-> >>>    		fprintf(stderr,
-> >>>    			"Get number of discovery log entries failed.\n");
-> >>> +		ret = status;
-> >>>    		break;
-> >>>    	case DISC_GET_LOG:
-> >>>    		fprintf(stderr, "Get discovery log entries failed.\n");
-> >>> +		ret = status;
-> >>>    		break;
-> >>>    	case DISC_NO_LOG:
-> >>>    		fprintf(stdout, "No discovery log entries to fetch.\n");
-> >>> @@ -885,6 +890,7 @@ static int do_discover(char *argstr, bool connect)
-> >>>    	case DISC_NOT_EQUAL:
-> >>>    		fprintf(stderr,
-> >>>    		"Numrec values of last two get discovery log page not equal\n");
-> >>> +		ret = DISC_OK;
-> >> Can you please explain above assignment ?
-> >
-> > Even it fails due to a mismatch between numrec in the header and the
-> > actual nr_entries, the discovery log-page has been done successfully
-> > whose status code should be in zero.
-> >
-> > That code is just returning 0 to the caller which does not need to fail
-> > due to this reason.  You may ask me why I didn't do like:
-> > 	ret = 0;
-> >
-> > That is just following the code right above which is a case for
-> > DISC_NO_LOG.
-> >
-> > What do you think about it ?
-> >
-> > Thanks!
-> >
-> 
