@@ -1,5 +1,5 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Mon, 10 Jun 2019 18:17:55 +0900
+Date: Mon, 10 Jun 2019 18:26:40 +0900
 Subject: [PATCH V6 6/6] fabrics: Return errno mapped for fabrics error
  status
 In-Reply-To: <BYAPR04MB57495E9DBF68A2BF2FA076C686110@BYAPR04MB5749.namprd04.prod.outlook.com>
@@ -8,16 +8,18 @@ References: <20190604154034.23386-1-minwoo.im.dev@gmail.com>
  <BYAPR04MB57497DFEEC77ED6D43998ED086110@BYAPR04MB5749.namprd04.prod.outlook.com>
  <20190608200112.GC28228@minwoo-900X5N>
  <BYAPR04MB57495E9DBF68A2BF2FA076C686110@BYAPR04MB5749.namprd04.prod.outlook.com>
-Message-ID: <20190610091755.GA1879@minwooim-desktop>
+Message-ID: <20190610092640.GB1879@minwooim-desktop>
 
 On 19-06-08 20:13:00, Chaitanya Kulkarni wrote:
 > (+ CC: Sagi).
 > 
 > I'm fine if Sagi is okay with this.
 
+(Fix typo in the previous mail.)
+
 Sagi,
 
-Could you please have a look into this seriesfor the fabrics changes?
+Could you please have a look this series?
 
 Thanks,
 
