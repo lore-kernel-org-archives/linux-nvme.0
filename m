@@ -1,66 +1,23 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 10 Jun 2019 14:50:01 -0700
-Subject: [PATCH] nvme: fix possible io failures when removing multipathed ns
-Message-ID: <20190610215001.10079-1-sagi@grimberg.me>
+Date: Mon, 10 Jun 2019 16:56:59 -0700
+Subject: [RFC] mismatch between chardev and blkdev node names
+In-Reply-To: <20190610140650.GA25273@minwooim-desktop>
+References: <20190610124925.GA20319@minwooim-desktop>
+ <CAOSXXT6BJD8tnus6=vWh6dr9owkVSJdQ_f1icG9Kdq7SpF9Pzg@mail.gmail.com>
+ <20190610140650.GA25273@minwooim-desktop>
+Message-ID: <49a9c722-72f4-bce9-b368-ece078e1e03a@grimberg.me>
 
-From: Anton Eidelman <anton@lightbitslabs.com>
 
-When a shared namespace is removed, we call blk_cleanup_queue()
-when the device can still be accessed as the current path and this can
-result in submission to a dying queue. Hence, direct_make_request()
-called by our mpath device may fail (propagating the failure to userspace).
-Instead, we want to failover this I/O to a different path if one exists.
-Thus, before we cleanup the request queue, we make sure that the device is
-cleared from the current path nor it can be selected again as such.
+>> You just need to know this if you're accessing direct namespace
+>> handles, and the controller-namespace relationship is accurately
+>> represented in sysfs for those wanting to view it.
+> 
+> Then the user should exactly know the relationship bettwen the
+> controller and namespaces via the sysfs structures.
 
-Fix this by:
-- clear the ns from the head->list and synchronize rcu to make sure there is
-  no concurrent path search that restores it as the current path
-- clear the mpath current path in order to trigger a subsequent path search
-  and sync srcu to wait for any ongoing request submissions
-- safely continue to namespace removal and blk_cleanup_queue
+Or run:
 
-Signed-off-by: Anton Eidelman <anton at lightbitslabs.com>
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/host/core.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+nvme list-subsys (with or without passing in a namespace device node).
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index b4e69a3fb845..024fb219de17 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3365,6 +3365,14 @@ static void nvme_ns_remove(struct nvme_ns *ns)
- 		return;
- 
- 	nvme_fault_inject_fini(ns);
-+
-+	mutex_lock(&ns->ctrl->subsys->lock);
-+	list_del_rcu(&ns->siblings);
-+	mutex_unlock(&ns->ctrl->subsys->lock);
-+	synchronize_rcu(); /* guarantee not available in head->list */
-+	nvme_mpath_clear_current_path(ns);
-+	synchronize_srcu(&ns->head->srcu); /* wait for concurrent submissions */
-+
- 	if (ns->disk && ns->disk->flags & GENHD_FL_UP) {
- 		del_gendisk(ns->disk);
- 		blk_cleanup_queue(ns->queue);
-@@ -3372,16 +3380,10 @@ static void nvme_ns_remove(struct nvme_ns *ns)
- 			blk_integrity_unregister(ns->disk);
- 	}
- 
--	mutex_lock(&ns->ctrl->subsys->lock);
--	list_del_rcu(&ns->siblings);
--	nvme_mpath_clear_current_path(ns);
--	mutex_unlock(&ns->ctrl->subsys->lock);
--
- 	down_write(&ns->ctrl->namespaces_rwsem);
- 	list_del_init(&ns->list);
- 	up_write(&ns->ctrl->namespaces_rwsem);
- 
--	synchronize_srcu(&ns->head->srcu);
- 	nvme_mpath_check_last_path(ns);
- 	nvme_put_ns(ns);
- }
--- 
-2.17.1
+For example: nvme list-subsys /dev/nvme0n1 will show you exactly which
+controllers it spans and which subsystem it belongs to.
