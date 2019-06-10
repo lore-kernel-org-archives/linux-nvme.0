@@ -1,95 +1,19 @@
-From: akinobu.mita@gmail.com (Akinobu Mita)
-Date: Sun,  9 Jun 2019 23:17:02 +0900
-Subject: [PATCH v3 3/3] Documentation: nvme: add an example for nvme fault
- injection
-In-Reply-To: <1560089822-11462-1-git-send-email-akinobu.mita@gmail.com>
-References: <1560089822-11462-1-git-send-email-akinobu.mita@gmail.com>
-Message-ID: <1560089822-11462-4-git-send-email-akinobu.mita@gmail.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Mon, 10 Jun 2019 09:51:56 +0800
+Subject: [PATCH 2/3] nvme-pci: remove queue_count_ops for write,poll_queues
+In-Reply-To: <20190608180219.17523-3-minwoo.im.dev@gmail.com>
+References: <20190608180219.17523-1-minwoo.im.dev@gmail.com>
+ <20190608180219.17523-3-minwoo.im.dev@gmail.com>
+Message-ID: <20190610015155.GD26551@ming.t460p>
 
-This adds an example of how to inject errors into admin commands.
+On Sun, Jun 09, 2019@03:02:18AM +0900, Minwoo Im wrote:
+> queue_count_set() seems like that it has been provided to limit the
+> number of queue entries for write/poll queues.  But, the
+> queue_count_set() has been doing nothing but a parameter check even it
+> has num_possible_cpus() which is nop.
 
-Cc: Thomas Tai <thomas.tai at oracle.com>
-Cc: Keith Busch <kbusch at kernel.org>
-Cc: Jens Axboe <axboe at fb.com>
-Cc: Christoph Hellwig <hch at lst.de>
-Cc: Sagi Grimberg <sagi at grimberg.me>
-Cc: Minwoo Im <minwoo.im.dev at gmail.com>
-Cc: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-Suggested-by: Thomas Tai <thomas.tai at oracle.com>
-Signed-off-by: Akinobu Mita <akinobu.mita at gmail.com>
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-Reviewed-by: Minwoo Im <minwoo.im at samsung.com>
-Reviewed-by: Christoph Hellwig <hch at lst.de>
----
-* v3
-- add Reviewed-by tags
+However, the check is valid, which shouldn't be nop, so could you fix
+the check instead of removing it?
 
- .../fault-injection/nvme-fault-injection.txt       | 56 ++++++++++++++++++++++
- 1 file changed, 56 insertions(+)
-
-diff --git a/Documentation/fault-injection/nvme-fault-injection.txt b/Documentation/fault-injection/nvme-fault-injection.txt
-index 8fbf3bf..efcb339 100644
---- a/Documentation/fault-injection/nvme-fault-injection.txt
-+++ b/Documentation/fault-injection/nvme-fault-injection.txt
-@@ -114,3 +114,59 @@ R13: ffff88011a3c9680 R14: 0000000000000000 R15: 0000000000000000
-   cpu_startup_entry+0x6f/0x80
-   start_secondary+0x187/0x1e0
-   secondary_startup_64+0xa5/0xb0
-+
-+Example 3: Inject an error into the 10th admin command
-+------------------------------------------------------
-+
-+echo 100 > /sys/kernel/debug/nvme0/fault_inject/probability
-+echo 10 > /sys/kernel/debug/nvme0/fault_inject/space
-+echo 1 > /sys/kernel/debug/nvme0/fault_inject/times
-+nvme reset /dev/nvme0
-+
-+Expected Result:
-+
-+After NVMe controller reset, the reinitialization may or may not succeed.
-+It depends on which admin command is actually forced to fail.
-+
-+Message from dmesg:
-+
-+nvme nvme0: resetting controller
-+FAULT_INJECTION: forcing a failure.
-+name fault_inject, interval 1, probability 100, space 1, times 1
-+CPU: 0 PID: 0 Comm: swapper/0 Not tainted 5.2.0-rc2+ #2
-+Hardware name: MSI MS-7A45/B150M MORTAR ARCTIC (MS-7A45), BIOS 1.50 04/25/2017
-+Call Trace:
-+ <IRQ>
-+ dump_stack+0x63/0x85
-+ should_fail+0x14a/0x170
-+ nvme_should_fail+0x38/0x80 [nvme_core]
-+ nvme_irq+0x129/0x280 [nvme]
-+ ? blk_mq_end_request+0xb3/0x120
-+ __handle_irq_event_percpu+0x84/0x1a0
-+ handle_irq_event_percpu+0x32/0x80
-+ handle_irq_event+0x3b/0x60
-+ handle_edge_irq+0x7f/0x1a0
-+ handle_irq+0x20/0x30
-+ do_IRQ+0x4e/0xe0
-+ common_interrupt+0xf/0xf
-+ </IRQ>
-+RIP: 0010:cpuidle_enter_state+0xc5/0x460
-+Code: ff e8 8f 5f 86 ff 80 7d c7 00 74 17 9c 58 0f 1f 44 00 00 f6 c4 02 0f 85 69 03 00 00 31 ff e8 62 aa 8c ff fb 66 0f 1f 44 00 00 <45> 85 ed 0f 88 37 03 00 00 4c 8b 45 d0 4c 2b 45 b8 48 ba cf f7 53
-+RSP: 0018:ffffffff88c03dd0 EFLAGS: 00000246 ORIG_RAX: ffffffffffffffdc
-+RAX: ffff9dac25a2ac80 RBX: ffffffff88d53760 RCX: 000000000000001f
-+RDX: 0000000000000000 RSI: 000000002d958403 RDI: 0000000000000000
-+RBP: ffffffff88c03e18 R08: fffffff75e35ffb7 R09: 00000a49a56c0b48
-+R10: ffffffff88c03da0 R11: 0000000000001b0c R12: ffff9dac25a34d00
-+R13: 0000000000000006 R14: 0000000000000006 R15: ffffffff88d53760
-+ cpuidle_enter+0x2e/0x40
-+ call_cpuidle+0x23/0x40
-+ do_idle+0x201/0x280
-+ cpu_startup_entry+0x1d/0x20
-+ rest_init+0xaa/0xb0
-+ arch_call_rest_init+0xe/0x1b
-+ start_kernel+0x51c/0x53b
-+ x86_64_start_reservations+0x24/0x26
-+ x86_64_start_kernel+0x74/0x77
-+ secondary_startup_64+0xa4/0xb0
-+nvme nvme0: Could not set queue count (16385)
-+nvme nvme0: IO queues not created
--- 
-2.7.4
+Thanks,
+Ming
