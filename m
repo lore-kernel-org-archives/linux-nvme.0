@@ -1,130 +1,71 @@
-From: drake@endlessm.com (Daniel Drake)
-Date: Tue, 11 Jun 2019 11:25:55 +0800
-Subject: [PATCH] PCI: Add Intel remapped NVMe device support
-In-Reply-To: <20190610211628.GA68572@google.com>
-References: <20190610074456.2761-1-drake@endlessm.com>
- <20190610211628.GA68572@google.com>
-Message-ID: <CAD8Lp47BmOtEgFUDCMyLrDpoPZSxcWmbrXEbh4PXS0FSG8ukLA@mail.gmail.com>
+From: minwoo.im@samsung.com (Minwoo Im)
+Date: Tue, 11 Jun 2019 14:13:09 +0900
+Subject: [PATCH V6 6/6] fabrics: Return errno mapped for fabrics error
+ status
+In-Reply-To: <7710edd4-5277-615c-426f-f9d48da8cb99@grimberg.me>
+References: <7710edd4-5277-615c-426f-f9d48da8cb99@grimberg.me>
+ <20190604154034.23386-1-minwoo.im.dev@gmail.com>
+ <20190604154034.23386-7-minwoo.im.dev@gmail.com>
+ <BYAPR04MB57497DFEEC77ED6D43998ED086110@BYAPR04MB5749.namprd04.prod.outlook.com>
+ <20190608200112.GC28228@minwoo-900X5N>
+ <CGME20190611000218epcas3p3270ae3bfaa97cd686a7006810c453988@epcms2p1>
+Message-ID: <20190611051309epcms2p1e47e656deb584057d428eaec018a363e@epcms2p1>
 
-Hi Bjorn,
+> > On 19-06-08 19:36:42, Chaitanya Kulkarni wrote:
+> >>> @@ -874,9 +877,11 @@ static int do_discover(char *argstr, bool connect)
+> >>>    	case DISC_GET_NUMRECS:
+> >>>    		fprintf(stderr,
+> >>>    			"Get number of discovery log entries failed.\n");
+> >>> +		ret = status;
+> >>>    		break;
+> >>>    	case DISC_GET_LOG:
+> >>>    		fprintf(stderr, "Get discovery log entries failed.\n");
+> >>> +		ret = status;
+> >>>    		break;
+> >>>    	case DISC_NO_LOG:
+> >>>    		fprintf(stdout, "No discovery log entries to fetch.\n");
+> >>> @@ -885,6 +890,7 @@ static int do_discover(char *argstr, bool connect)
+> >>>    	case DISC_NOT_EQUAL:
+> >>>    		fprintf(stderr,
+> >>>    		"Numrec values of last two get discovery log page not
+> equal\n");
+> >>> +		ret = DISC_OK;
+> >> Can you please explain above assignment ?
+> >
+> > Even it fails due to a mismatch between numrec in the header and the
+> > actual nr_entries, the discovery log-page has been done successfully
+> > whose status code should be in zero.
+> >
+> > That code is just returning 0 to the caller which does not need to fail
+> > due to this reason.  You may ask me why I didn't do like:
+> > 	ret = 0;
+> >
+> > That is just following the code right above which is a case for
+> > DISC_NO_LOG.
+> >
+> > What do you think about it ?
+> 
+> Shouldn't we start over in this case?
 
-Thanks for the quick feedback. You raise some good questions that I'll
-be sure to clarify in the next revision. To focus on some of the
-pending details here:
+I can see two functions are calling do_discover() which are:
+  1) case for discover_from_conf_file()
+		err = do_discover(argstr, connect);
+		if (err) {
+			ret = err;
+			continue;
+		}
 
-On Tue, Jun 11, 2019@5:16 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
-> Ugh.  Is there a spec that details what's actually going on here?
+  2) case for discover()
+		return do_discover(argstr, connect);
 
-Unfortunately there isn't a great spec to go on.
-https://www.intel.com/content/dam/www/public/us/en/documents/datasheets/100-series-chipset-datasheet-vol-2.pdf
-has some details on the VS_CAP register (section 14.2.10).
-Beyond that, Intel contributed patches to enable support for these
-devices previously:
-https://marc.info/?l=linux-ide&m=147709610621480&w=2
-and stated that "The patch contents are [the spec]".
-https://marc.info/?l=linux-ide&m=147733119300691&w=2
-Later in the thread it was also stated unequivocally that the
-interrupt is shared & the original NVMe dev config space is
-unavailable.
-I'll add references to these details in the next revision.
+The 1) case might need non-zero values to start over by the user.  For the
+2) case, it needs to be in zero value even it fails with entry count mismatch.
 
-> This driver makes a lot of assumptions about how this works, e.g.,
-> apparently there's an AHCI BAR that covers "hidden devices" plus some
-> other stuff of some magic size, whatever is special about device 0,
-> etc, but I don't see the source of those assumptions.
+I would rather to have negative error value for the DISC_NOT_EQUAL case.
+Sagi, How about :
 
-The AHCI BAR covering hidden devices is sort-of covered in the VS_CAP
-spec so I can at least reference that.
-
-> I'm not really keen on the precedent this sets about pretending things
-> are PCI when they're not.  This seems like a bit of a kludge that
-> might happen to work now but could easily break in the future because
-> it's not based on any spec we can rely on.  Plus it makes future PCI
-> maintenance harder because we have to worry about how these differ
-> from real PCI devices.
->
-> I think this creates a fake PCI host bridge, but not an actual PCIe
-> Root Port, right?  I.e., "lspci" doesn't show a new Root Port device,
-> does it?
->
-> But I suppose "lspci" *does* show new NVMe devices that seem to be
-> PCIe endpoints?  But they probably don't *work* like PCIe endpoints,
-> e.g., we can't control ASPM, can't use AER, etc?
-
-I appreciate your input here as I don't frequently go down to this
-level of detail with PCI. I'm trying to follow the previous
-suggestions from Christoph Hellwig, and further clarification on the
-most appropriate way to do this would be appreciated:
-
-https://marc.info/?l=linux-ide&m=147923593001525&w=2
-"implementing a bridge driver like VMD"
-http://lists.infradead.org/pipermail/linux-nvme/2017-October/013325.html
-"The right way to do this would be to expose a fake PCIe root port
-that both the AHCI and NVMe driver bind to."
-
-I'm not completely clear regarding the difference between a PCI host
-bridge and a PCIe root port, but indeed, after my patch, when running
-lspci, you see:
-
-1. The original RAID controller, now claimed by this new intel-nvme-remap driver
-
-0000:00:17.0 RAID bus controller: Intel Corporation 82801 Mobile SATA
-Controller [RAID mode] (rev 30)
-    Subsystem: ASUSTeK Computer Inc. 82801 Mobile SATA Controller [RAID mode]
-    Flags: bus master, 66MHz, medium devsel, latency 0, IRQ 16
-    Memory at b4390000 (32-bit, non-prefetchable) [size=32K]
-    Memory at b43aa000 (32-bit, non-prefetchable) [size=256]
-    I/O ports at 4090 [size=8]
-    I/O ports at 4080 [size=4]
-    I/O ports at 4060 [size=32]
-    Memory at b4300000 (32-bit, non-prefetchable) [size=512K]
-    Capabilities: [d0] MSI-X: Enable- Count=20 Masked-
-    Capabilities: [70] Power Management version 3
-    Capabilities: [a8] SATA HBA v1.0
-    Kernel driver in use: intel-nvme-remap
-
-2. The RAID controller presented by intel-nvme-remap on a new bus,
-with the cfg space tweaked in a way that it gets probed & accepted by
-the ahci driver:
-
-10000:00:00.0 SATA controller: Intel Corporation 82801 Mobile SATA
-Controller [RAID mode] (rev 30) (prog-if 01 [AHCI 1.0])
-    Subsystem: ASUSTeK Computer Inc. 82801 Mobile SATA Controller [RAID mode]
-    Flags: bus master, 66MHz, medium devsel, latency 0, IRQ 16, NUMA node 0
-    Memory at b4390000 (32-bit, non-prefetchable) [size=32K]
-    Memory at b43aa000 (32-bit, non-prefetchable) [size=256]
-    I/O ports at 4090 [size=8]
-    I/O ports at 4080 [size=4]
-    I/O ports at 4060 [size=32]
-    Memory at b4300000 (32-bit, non-prefetchable) [size=16K]
-    Capabilities: [d0] MSI-X: Enable- Count=20 Masked-
-    Capabilities: [70] Power Management version 3
-    Capabilities: [a8] SATA HBA v1.0
-    Kernel driver in use: ahci
-
-3. The (previously inaccessible) NVMe device as presented on the new
-bus by intel-nvme-remap, probed by the nvme driver
-
-10000:00:01.0 Non-Volatile memory controller: Intel Corporation Device
-0000 (prog-if 02 [NVM Express])
-    Flags: bus master, fast Back2Back, fast devsel, latency 0, IRQ 16,
-NUMA node 0
-    Memory at b430c000 (64-bit, non-prefetchable) [size=16K]
-    Kernel driver in use: nvme
-
-I think Christoph's suggestion does ultimately require us to do some
-PCI pretending in some form, but let me know if there are more
-accepable ways to do this. If you'd like to see this appear more like
-a PCIe root port then I guess I can use pci-bridge-emul.c to do this,
-although having a fake root bridge appear in lspci output feels like
-I'd be doing even more pretending.
-
-Also happy to experiment with alternative approaches if you have any
-suggestions? With the decreasing cost of NVMe SSDs, we're seeing an
-influx of upcoming consumer PC products that will ship with the NVMe
-disk being the only storage device, combined with the BIOS default of
-"RST Optane" mode which will prevent Linux from seeing it at all, so
-I'm really keen to swiftly find a way forward here.
-
-Thanks!
-Daniel
+	case DISC_NOT_EQUAL:
+		ret = -EBADSLT;
+		fprintf(stderr,
+		"Numrec values of last two get discovery log page not equal\n");
+		break;
