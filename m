@@ -1,101 +1,85 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Wed, 12 Jun 2019 21:26:46 +0900
-Subject: [PATCH V6 6/6] fabrics: Return errno mapped for fabrics error
- status
-In-Reply-To: <667f4f9e-9356-44fb-d7fd-14d00b5393ea@grimberg.me>
-References: <7710edd4-5277-615c-426f-f9d48da8cb99@grimberg.me>
- <20190604154034.23386-1-minwoo.im.dev@gmail.com>
- <20190604154034.23386-7-minwoo.im.dev@gmail.com>
- <BYAPR04MB57497DFEEC77ED6D43998ED086110@BYAPR04MB5749.namprd04.prod.outlook.com>
- <20190608200112.GC28228@minwoo-900X5N>
- <CGME20190611000218epcas3p3270ae3bfaa97cd686a7006810c453988@epcms2p1>
- <20190611051309epcms2p1e47e656deb584057d428eaec018a363e@epcms2p1>
- <667f4f9e-9356-44fb-d7fd-14d00b5393ea@grimberg.me>
-Message-ID: <20190612122646.GA32660@minwooim-desktop>
+Date: Wed, 12 Jun 2019 21:45:28 +0900
+Subject: [PATCH V8 0/5] nvme-trace: Add support for fabrics command
+Message-ID: <20190612124533.10299-1-minwoo.im.dev@gmail.com>
 
-On 19-06-11 10:36:32, Sagi Grimberg wrote:
-> 
-> > > Shouldn't we start over in this case?
-> > 
-> > I can see two functions are calling do_discover() which are:
-> >    1) case for discover_from_conf_file()
-> > 		err = do_discover(argstr, connect);
-> > 		if (err) {
-> > 			ret = err;
-> > 			continue;
-> > 		}
-> > 
-> >    2) case for discover()
-> > 		return do_discover(argstr, connect);
-> > 
-> > The 1) case might need non-zero values to start over by the user.  For the
-> > 2) case, it needs to be in zero value even it fails with entry count mismatch.
-> > 
-> > I would rather to have negative error value for the DISC_NOT_EQUAL case.
-> > Sagi, How about :
-> > 
-> > 	case DISC_NOT_EQUAL:
-> > 		ret = -EBADSLT;
-> > 		fprintf(stderr,
-> > 		"Numrec values of last two get discovery log page not equal\n");
-> > 		break;
-> > 
-> 
-> Question, this is a case where the numrec is different but the genctr is
-> the same? I think we need to fail if the genctr is the same, but we need
-> to start over if the genctr is different.
+Hi Christoph, Hi Sagi.
 
-This is the case where you pointed it out.  But we don't know if
-genctr is different or not because we don't have any notifying code
-in nvmf_get_log_page_discovery().  Even genctr is different but the
-retries count is exhausted to max_retries, it does not notify this
-situation to the caller to retry it.
+It's been few days for this series to be reviewed.  Please consider it
+for the nvme-5.3.
 
-Would you mind if the following patch is added to this series?  If not, we
-need to change the design concept which tries to avoid infinite loop that
-had been introduced by Hannes's commit 3cbcd165b47.
+This series introduces not only fabrics commands tracing in nvme host
+side, but also target side tracing features.
 
----
-diff --git a/fabrics.c b/fabrics.c
-index 81c2d9d..8a65bca 100644
---- a/fabrics.c
-+++ b/fabrics.c
-@@ -292,6 +292,7 @@ enum {
-        DISC_NO_LOG,
-        DISC_GET_NUMRECS,
-        DISC_GET_LOG,
-+       DISC_RETRY_EXHAUSTED,
-        DISC_NOT_EQUAL,
- };
- 
-@@ -386,6 +387,16 @@ static int nvmf_get_log_page_discovery(const char *dev_path,
-        } while (genctr != le64_to_cpu(log->genctr) &&
-                 ++retries < max_retries);
- 
-+       /*
-+        * If genctr is still different with the one in the log entry, it
-+        * means the retires have been exhausted to max_retries.  Then it
-+        * should be retried by the caller or the user.
-+        */
-+       if (genctr != le64_to_cpu(log->genctr)) {
-+               error = DISC_RETRY_EXHAUSTED;
-+               goto out_free_log;
-+       }
-+
-        if (*numrec != le32_to_cpu(log->numrec)) {
-                error = DISC_NOT_EQUAL;
-                goto out_free_log;
-@@ -887,6 +898,10 @@ static int do_discover(char *argstr, bool connect)
-                fprintf(stdout, "No discovery log entries to fetch.\n");
-                ret = DISC_OK;
-                break;
-+       case DISC_RETRY_EXHAUSTED:
-+               fprintf(stdout, "Discovery retries exhausted.\n");
-+               ret = -EAGAIN;
-+               break;
-        case DISC_NOT_EQUAL:
-                fprintf(stderr,
-                "Numrec values of last two get discovery log page not equal\n");
+Changes to V7:
+  - http://lists.infradead.org/pipermail/linux-nvme/2019-June/024818.html
+  - Add Reviewed-by: tag from Christoph.
+  - Drop the 3rd commit because command_id is not in __le16.
+  - Drop the 5th commit, we just can print reserved fields out.
+  - Few style changes suggested by Christoph.
+  - Words changes in the comments pointed out by Christoph.
 
+Changes to V6:
+  - Removed the first patch by a suggestion from Christoph.  The helper
+    nvmet_req_to_ctrl() has been moved to the last commit which
+    introduces the target-side tracing.
+  - Symbolic print for the opcodes for admin, nvm, and fabrics have been
+    moved to <linux/nvme.h> to be shared between host and target side.
+    It's just a bunch of macros so that we don't share the actual code
+    as suggested by Christoph.
+  - Print "device_path" when I/O commands come in and out.  The uuid
+    will make the trace line too long so that we just can know the
+    backed device for the request.
+  - From the 2nd patch to 6th patch, they have been added to this series
+    to make sure the host-side trace supports the exactly same thing
+    with the target-side introduced.
 
-If I'm missing something here, please let me know. 
+Changes to V5:
+  - Provide trace code to the target-side instead of a common code
+    shared between host and target to avoid disadvantages something bad
+    for the performance like cache miss.  It has been suggested by
+    Christoph.
+  - Removed the third patch out of this series because that has nothing
+    to do with this series.
+  - Merged the last two commits into a single commit for the review.
+
+Changes to V4:
+  - Add Reviewed-by: tag from Sagi. (Thanks to Sagi)
+  - Consider endianness for cqe->status when assigning the value in
+    trace
+  - Add more descriptions about the variable arguments in events.
+
+Changes to V3:
+  - Remove additional argument from the caller level.
+
+Changes to V2:
+  - Provide a common code for both host and target. (Chaitanya)
+  - Add support for tracing requests in target-side (Chaitanya)
+  - Make it simple in trace.h without branch out from nvme core module
+    (Christoph)
+
+Changes to V1:
+  - fabrics commands should also be decoded, not just showing that it's
+    a fabrics command. (Christoph)
+  - do not make it within nvme admin commands (Chaitanya)
+
+Minwoo Im (5):
+  nvme: trace: do not EXPORT_SYMBOL for a trace function
+  nvme: trace: move opcode symbol print to nvme.h
+  nvme: trace: support for fabrics commands in host-side
+  nvme: trace: print result and status in hex format
+  nvmet: introduce target-side trace
+
+ drivers/nvme/host/trace.c    |  68 +++++++++++-
+ drivers/nvme/host/trace.h    |  66 +++---------
+ drivers/nvme/target/Makefile |   3 +
+ drivers/nvme/target/core.c   |   8 ++
+ drivers/nvme/target/trace.c  | 202 +++++++++++++++++++++++++++++++++++
+ drivers/nvme/target/trace.h  | 141 ++++++++++++++++++++++++
+ include/linux/nvme.h         |  59 ++++++++++
+ 7 files changed, 495 insertions(+), 52 deletions(-)
+ create mode 100644 drivers/nvme/target/trace.c
+ create mode 100644 drivers/nvme/target/trace.h
+
+-- 
+2.21.0
