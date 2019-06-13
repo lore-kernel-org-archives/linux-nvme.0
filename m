@@ -1,153 +1,48 @@
-From: akinobu.mita@gmail.com (Akinobu Mita)
-Date: Fri, 14 Jun 2019 00:20:38 +0900
-Subject: [PATCH v4 3/3] nvme: notify thermal framework when temperature
- threshold events occur
-In-Reply-To: <1560439238-4054-1-git-send-email-akinobu.mita@gmail.com>
-References: <1560439238-4054-1-git-send-email-akinobu.mita@gmail.com>
-Message-ID: <1560439238-4054-4-git-send-email-akinobu.mita@gmail.com>
+From: bvanassche@acm.org (Bart Van Assche)
+Date: Thu, 13 Jun 2019 10:57:18 -0700
+Subject: [PATCH v2 3/3] nvme: Set physical block size and optimal I/O size
+ according to NVMe 1.4
+In-Reply-To: <yq15zpa2que.fsf@oracle.com>
+References: <20190610210612.103952-1-bvanassche@acm.org>
+ <20190610210612.103952-4-bvanassche@acm.org> <yq15zpa2que.fsf@oracle.com>
+Message-ID: <fcd3b41c-38b9-4865-05c0-2f96c9382ea5@acm.org>
 
-The NVMe controller supports the temperature threshold feature (Feature
-Identifier 04h) that enables to configure the asynchronous event request
-command to complete when the temperature is crossed its corresponding
-temperature threshold.
+On 6/12/19 6:53 PM, Martin K. Petersen wrote:
+> 
+> Bart,
+> 
+>> +	nawupf = (1 + ns->ctrl->subsys->awupf) * bs;
+>> +	if (id->nsfeat & (1 << 1))
+>> +		nawupf = (1 + id->nawupf) * bs;
+> 
+> This tripped me up a bit. I would have preferred an else statement and
+> maybe a clarifying comment to make it obvious whether the value comes
+> from the controller or the namespace.
+> 
+> Also, unlike awupf, nawupf is not a 0-based value (0 means "use awupf"
+> and not 1 logical block).
 
-This enables the reporting of asynchronous events from the controller when
-the temperature reached or exceeded a temperature threshold.
-In the case of the temperature threshold conditions, this notifies the
-thermal framework.
+Hi Martin,
 
-The main purpose of this is to turn on a fan when overheated without
-polling the device for the smart log that could prevent the lower power
-state transitions.
+I agree that NAWUPF == 0 means that AWUPF should be used instead. But
+are you sure that NAWUPF is not 0's-based? From version 1.4 of the NVMe
+specification:
 
-Cc: Zhang Rui <rui.zhang at intel.com>
-Cc: Eduardo Valentin <edubezval at gmail.com>
-Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
-Cc: Keith Busch <kbusch at kernel.org>
-Cc: Jens Axboe <axboe at fb.com>
-Cc: Christoph Hellwig <hch at lst.de>
-Cc: Sagi Grimberg <sagi at grimberg.me>
-Cc: Minwoo Im <minwoo.im.dev at gmail.com>
-Cc: Kenneth Heitke <kenneth.heitke at intel.com>
-Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni at wdc.com>
-Signed-off-by: Akinobu Mita <akinobu.mita at gmail.com>
----
-* v4
-- support DT thermal zone device.
-- use bitmap to iterate over implemented sensors
+Namespace Atomic Write Unit Power Fail (NAWUPF): This field indicates
+the namespace specific size of the write operation guaranteed to be
+written atomically to the NVM during a power fail or error condition.
+A value of 0h indicates that the size for this namespace is the same
+size as that reported in the AWUPF field of the Identify Controller data
+structure. All other values specify a size in terms of logical blocks
+using the same encoding as the AWUPF field. Refer to section 6.4.
+[ ... ]
+Atomic Write Unit Power Fail (AWUPF): [ ... ] This field is specified in
+logical blocks and is a 0?s based value. The AWUPF value shall be less
+than or equal to the AWUN value.
 
- drivers/nvme/host/core.c    | 14 ++++++++++++++
- drivers/nvme/host/nvme.h    |  5 +++++
- drivers/nvme/host/thermal.c | 12 ++++++++++++
- include/linux/nvme.h        |  7 +++++++
- 4 files changed, 38 insertions(+)
+Since the spec says that NAWUPF and AWUPF use the same encoding, does
+that mean that NAWUPF is also 0's based?
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 4be339b..44dadbb 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1186,6 +1186,9 @@ static void nvme_enable_aen(struct nvme_ctrl *ctrl)
- 	u32 result, supported_aens = ctrl->oaes & NVME_AEN_SUPPORTED;
- 	int status;
- 
-+	if (IS_ENABLED(CONFIG_THERMAL))
-+		supported_aens |= NVME_SMART_CRIT_TEMPERATURE;
-+
- 	if (!supported_aens)
- 		return;
- 
-@@ -3561,6 +3564,16 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
- }
- EXPORT_SYMBOL_GPL(nvme_remove_namespaces);
- 
-+static void nvme_handle_aen_smart(struct nvme_ctrl *ctrl, u32 result)
-+{
-+	u32 aer_type = result & NVME_AER_TYPE_MASK;
-+	u32 aer_info = (result >> NVME_AER_INFO_SHIFT) & NVME_AER_INFO_MASK;
-+
-+	if (aer_type == NVME_AER_SMART &&
-+	    aer_info == NVME_AER_SMART_TEMP_THRESH)
-+		nvme_thermal_notify_framework(ctrl);
-+}
-+
- static void nvme_aen_uevent(struct nvme_ctrl *ctrl)
- {
- 	char *envp[2] = { NULL, NULL };
-@@ -3582,6 +3595,7 @@ static void nvme_async_event_work(struct work_struct *work)
- 	struct nvme_ctrl *ctrl =
- 		container_of(work, struct nvme_ctrl, async_event_work);
- 
-+	nvme_handle_aen_smart(ctrl, ctrl->aen_result);
- 	nvme_aen_uevent(ctrl);
- 	ctrl->ops->submit_async_event(ctrl);
- }
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index a9c63ea..40325b6 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -605,6 +605,7 @@ static inline struct nvme_ns *nvme_get_ns_from_dev(struct device *dev)
- 
- int nvme_thermal_zones_register(struct nvme_ctrl *ctrl);
- void nvme_thermal_zones_unregister(struct nvme_ctrl *ctrl);
-+void nvme_thermal_notify_framework(struct nvme_ctrl *ctrl);
- 
- #else
- 
-@@ -617,6 +618,10 @@ static inline void nvme_thermal_zones_unregister(struct nvme_ctrl *ctrl)
- {
- }
- 
-+static inline void nvme_thermal_notify_framework(struct nvme_ctrl *ctrl)
-+{
-+}
-+
- #endif /* CONFIG_THERMAL */
- 
- #endif /* _NVME_H */
-diff --git a/drivers/nvme/host/thermal.c b/drivers/nvme/host/thermal.c
-index 18d0e4c..b5e835d 100644
---- a/drivers/nvme/host/thermal.c
-+++ b/drivers/nvme/host/thermal.c
-@@ -309,3 +309,15 @@ void nvme_thermal_zones_unregister(struct nvme_ctrl *ctrl)
- 		__clear_bit(i, ctrl->tz_enabled);
- 	}
- }
-+
-+void nvme_thermal_notify_framework(struct nvme_ctrl *ctrl)
-+{
-+	int i;
-+
-+	for_each_set_bit(i, ctrl->tz_enabled, ARRAY_SIZE(ctrl->tz)) {
-+		if (ctrl->tz[i].dev)
-+			thermal_notify_framework(ctrl->tz[i].dev, 0);
-+		if (ctrl->tz[i].of_dev)
-+			thermal_notify_framework(ctrl->tz[i].of_dev, 0);
-+	}
-+}
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index f29728b..069b962 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -476,6 +476,7 @@ enum {
- };
- 
- enum {
-+	NVME_AER_TYPE_MASK		= 0x7,
- 	NVME_AER_ERROR			= 0,
- 	NVME_AER_SMART			= 1,
- 	NVME_AER_NOTICE			= 2,
-@@ -484,6 +485,12 @@ enum {
- };
- 
- enum {
-+	NVME_AER_INFO_SHIFT		= 8,
-+	NVME_AER_INFO_MASK		= 0xff,
-+	NVME_AER_SMART_TEMP_THRESH	= 0x01,
-+};
-+
-+enum {
- 	NVME_AER_NOTICE_NS_CHANGED	= 0x00,
- 	NVME_AER_NOTICE_FW_ACT_STARTING = 0x01,
- 	NVME_AER_NOTICE_ANA		= 0x03,
--- 
-2.7.4
+Thanks,
+
+Bart.
