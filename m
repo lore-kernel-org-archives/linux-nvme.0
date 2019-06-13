@@ -1,41 +1,13 @@
-From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Wed, 12 Jun 2019 21:53:29 -0400
-Subject: [PATCH v2 3/3] nvme: Set physical block size and optimal I/O size
- according to NVMe 1.4
-In-Reply-To: <20190610210612.103952-4-bvanassche@acm.org> (Bart Van Assche's
- message of "Mon, 10 Jun 2019 14:06:12 -0700")
-References: <20190610210612.103952-1-bvanassche@acm.org>
- <20190610210612.103952-4-bvanassche@acm.org>
-Message-ID: <yq15zpa2que.fsf@oracle.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 13 Jun 2019 10:44:58 +0200
+Subject: [PATCH 10/13] megaraid_sas: set virt_boundary_mask in the scsi
+ host
+In-Reply-To: <cd713506efb9579d1f69a719d831c28d@mail.gmail.com>
+References: <20190605190836.32354-1-hch@lst.de>
+ <20190605190836.32354-11-hch@lst.de>
+ <cd713506efb9579d1f69a719d831c28d@mail.gmail.com>
+Message-ID: <20190613084458.GB13221@lst.de>
 
-
-Bart,
-
-> +	nawupf = (1 + ns->ctrl->subsys->awupf) * bs;
-> +	if (id->nsfeat & (1 << 1))
-> +		nawupf = (1 + id->nawupf) * bs;
-
-This tripped me up a bit. I would have preferred an else statement and
-maybe a clarifying comment to make it obvious whether the value comes
-from the controller or the namespace.
-
-Also, unlike awupf, nawupf is not a 0-based value (0 means "use awupf"
-and not 1 logical block).
-
-And finally, I think it's confusing that you use nawupf for the variable
-name post modification. In terms of naming, I think you'd be better off
-to do s/nawupf/phys_bs/ or atomic_bs. And then rename your existing
-phys_bs variable to io_min to match the existing block layer usage.
-
-So something like:
-
-        /* Use reported namespace write atomicity */
-	if (id->nsfeat & (1 << 1) && id->nawupf != 0)
-           phys_bs = id->nawupf * bs;
-        else /* Fall back to reported controller write atomicity */
-           phys_bs = (1 + ns->ctrl->subsys->awupf) * bs;
-
-[...]
-
--- 
-Martin K. Petersen	Oracle Linux Engineering
+So before I respin this series, can you help with a way to figure out
+for mpt3sas and megaraid if a given controller supports NVMe devices
+at all, so that we don't have to set the virt boundary if not?
