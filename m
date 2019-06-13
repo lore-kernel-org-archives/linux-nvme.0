@@ -1,37 +1,30 @@
-From: kashyap.desai@broadcom.com (Kashyap Desai)
-Date: Fri, 14 Jun 2019 01:34:00 +0530
-Subject: [PATCH 10/13] megaraid_sas: set virt_boundary_mask in the scsi
- host
-In-Reply-To: <20190613084458.GB13221@lst.de>
-References: <20190605190836.32354-1-hch@lst.de>
- <20190605190836.32354-11-hch@lst.de>
- <cd713506efb9579d1f69a719d831c28d@mail.gmail.com>
- <20190613084458.GB13221@lst.de>
-Message-ID: <d411baa1bdd34f1a1289480d13fe1cef@mail.gmail.com>
-
->
-> So before I respin this series, can you help with a way to figure out
-for
-> mpt3sas and megaraid if a given controller supports NVMe devices at all,
-so
-> that we don't have to set the virt boundary if not?
+From: martin.petersen@oracle.com (Martin K. Petersen)
+Date: Thu, 13 Jun 2019 19:57:59 -0400
+Subject: [PATCH v2 3/3] nvme: Set physical block size and optimal I/O size
+ according to NVMe 1.4
+In-Reply-To: <fcd3b41c-38b9-4865-05c0-2f96c9382ea5@acm.org> (Bart Van Assche's
+ message of "Thu, 13 Jun 2019 10:57:18 -0700 (PDT)")
+References: <20190610210612.103952-1-bvanassche@acm.org>
+ <20190610210612.103952-4-bvanassche@acm.org>
+ <yq15zpa2que.fsf@oracle.com>
+ <fcd3b41c-38b9-4865-05c0-2f96c9382ea5@acm.org>
+Message-ID: <yq1blz1rqbc.fsf@oracle.com>
 
 
-In MegaRaid we have below enum -        VENTURA_SERIES and AERO_SERIES
-supports NVME
+Bart,
 
-enum MR_ADAPTER_TYPE {
-        MFI_SERIES = 1,
-        THUNDERBOLT_SERIES = 2,
-        INVADER_SERIES = 3,
-        VENTURA_SERIES = 4,
-        AERO_SERIES = 5,
-};
+> Namespace Atomic Write Unit Power Fail (NAWUPF): This field indicates
+> the namespace specific size of the write operation guaranteed to be
+> written atomically to the NVM during a power fail or error condition.
+> A value of 0h indicates that the size for this namespace is the same
+> size as that reported in the AWUPF field of the Identify Controller data
+> structure. All other values specify a size in terms of logical blocks
+> using the same encoding as the AWUPF field.
 
-In mpt3sas driver we have below method - If IOC FACT reports NVME Device
-support in Protocol Flags, we can consider it as HBA with NVME drive
-support.
+There's some ambiguity there. But I think you're right that the encoding
+statement qualifies it. This means that there is no explicit way of
+expressing a NAWUPF of 1 logical block but that is OK since it is
+implied.
 
-ioc->facts.ProtocolFlags & MPI2_IOCFACTS_PROTOCOL_NVME_DEVICES
-
-Kashyap
+-- 
+Martin K. Petersen	Oracle Linux Engineering
