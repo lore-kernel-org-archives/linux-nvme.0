@@ -1,90 +1,511 @@
 From: akinobu.mita@gmail.com (Akinobu Mita)
-Date: Fri, 14 Jun 2019 00:20:36 +0900
-Subject: [PATCH v4 1/3] nvme: Export get and set features
+Date: Fri, 14 Jun 2019 00:20:37 +0900
+Subject: [PATCH v4 2/3] nvme: add thermal zone devices
 In-Reply-To: <1560439238-4054-1-git-send-email-akinobu.mita@gmail.com>
 References: <1560439238-4054-1-git-send-email-akinobu.mita@gmail.com>
-Message-ID: <1560439238-4054-2-git-send-email-akinobu.mita@gmail.com>
+Message-ID: <1560439238-4054-3-git-send-email-akinobu.mita@gmail.com>
 
-From: Keith Busch <keith.busch@intel.com>
+The NVMe controller reports up to nine temperature values in the SMART /
+Health log page (the composite temperature and temperature sensor 1 through
+temperature sensor 8).
 
-Future use intends to make use of both, so export these functions. And
-since their implementation is identical except for the opcode, provide a
-new function that implement both.
+This provides these temperatures via thermal zone devices.
 
-[akinobu.mita at gmail.com>: fix line over 80 characters]
-Signed-off-by: Keith Busch <keith.busch at intel.com>
+Once the controller is identified, the thermal zone devices are created for
+all implemented temperature sensors including the composite temperature.
+
+/sys/class/thermal/thermal_zone[0-*]:
+    |---type: 'nvme<instance>-temp<sensor>'
+    |---temp: Temperature
+    |---trip_point_0_temp: Over temperature threshold
+
+The thermal_zone[0-*] contains a 'device' symlink to the corresponding nvme
+device.
+
+On the other hand, the following symlinks to the thermal zone devices are
+created in the nvme device sysfs directory.
+
+- temp0: Composite temperature
+- temp1: Temperature sensor 1
+...
+- temp8: Temperature sensor 8
+
+In addition to the standard thermal zone device, this also adds support for
+registering the DT thermal zone device.
+
+Cc: Zhang Rui <rui.zhang at intel.com>
+Cc: Eduardo Valentin <edubezval at gmail.com>
+Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
+Cc: Keith Busch <kbusch at kernel.org>
+Cc: Jens Axboe <axboe at fb.com>
+Cc: Christoph Hellwig <hch at lst.de>
+Cc: Sagi Grimberg <sagi at grimberg.me>
+Cc: Minwoo Im <minwoo.im.dev at gmail.com>
+Cc: Kenneth Heitke <kenneth.heitke at intel.com>
+Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni at wdc.com>
 Signed-off-by: Akinobu Mita <akinobu.mita at gmail.com>
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-Reviewed-by: Minwoo Im <minwoo.im.dev at gmail.com>
 ---
- drivers/nvme/host/core.c | 24 +++++++++++++++++++++---
- drivers/nvme/host/nvme.h |  6 ++++++
- 2 files changed, 27 insertions(+), 3 deletions(-)
+* v4
+- add thermal.c to hold thermal zone related code
+- add 'use_thermal_zone' module parameter
+- add CONFIG_THERMAL_WRITABLE_TRIPS dependency
+- add comment about the return value of nvme_thermal_zones_register()
+- support DT thermal zone device.
+- use bitmap to iterate over implemented sensors
 
+ drivers/nvme/host/Kconfig   |   1 +
+ drivers/nvme/host/Makefile  |   1 +
+ drivers/nvme/host/core.c    |   5 +
+ drivers/nvme/host/nvme.h    |  35 +++++
+ drivers/nvme/host/thermal.c | 311 ++++++++++++++++++++++++++++++++++++++++++++
+ include/linux/nvme.h        |   5 +
+ 6 files changed, 358 insertions(+)
+ create mode 100644 drivers/nvme/host/thermal.c
+
+diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
+index ec43ac9..90429f8 100644
+--- a/drivers/nvme/host/Kconfig
++++ b/drivers/nvme/host/Kconfig
+@@ -1,6 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ config NVME_CORE
+ 	tristate
++	select THERMAL_WRITABLE_TRIPS if THERMAL
+ 
+ config BLK_DEV_NVME
+ 	tristate "NVM Express block device"
+diff --git a/drivers/nvme/host/Makefile b/drivers/nvme/host/Makefile
+index 8a4b671..6018668 100644
+--- a/drivers/nvme/host/Makefile
++++ b/drivers/nvme/host/Makefile
+@@ -14,6 +14,7 @@ nvme-core-$(CONFIG_TRACING)		+= trace.o
+ nvme-core-$(CONFIG_NVME_MULTIPATH)	+= multipath.o
+ nvme-core-$(CONFIG_NVM)			+= lightnvm.o
+ nvme-core-$(CONFIG_FAULT_INJECTION_DEBUG_FS)	+= fault_inject.o
++nvme-core-$(CONFIG_THERMAL)		+= thermal.o
+ 
+ nvme-y					+= pci.o
+ 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 120fb59..7e3c786 100644
+index 7e3c786..4be339b 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1113,15 +1113,15 @@ static struct nvme_id_ns *nvme_identify_ns(struct nvme_ctrl *ctrl,
- 	return id;
- }
+@@ -2696,6 +2696,10 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 	if (ret < 0)
+ 		return ret;
  
--static int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword11,
--		      void *buffer, size_t buflen, u32 *result)
-+static int nvme_features(struct nvme_ctrl *dev, u8 op, unsigned int fid,
-+		unsigned int dword11, void *buffer, size_t buflen, u32 *result)
- {
- 	struct nvme_command c;
- 	union nvme_result res;
- 	int ret;
- 
- 	memset(&c, 0, sizeof(c));
--	c.features.opcode = nvme_admin_set_features;
-+	c.features.opcode = op;
- 	c.features.fid = cpu_to_le32(fid);
- 	c.features.dword11 = cpu_to_le32(dword11);
- 
-@@ -1132,6 +1132,24 @@ static int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword
- 	return ret;
- }
- 
-+int nvme_set_features(struct nvme_ctrl *dev, unsigned int fid,
-+		      unsigned int dword11, void *buffer, size_t buflen,
-+		      u32 *result)
-+{
-+	return nvme_features(dev, nvme_admin_set_features, fid, dword11, buffer,
-+			     buflen, result);
-+}
-+EXPORT_SYMBOL_GPL(nvme_set_features);
++	ret = nvme_thermal_zones_register(ctrl);
++	if (ret)
++		return ret;
 +
-+int nvme_get_features(struct nvme_ctrl *dev, unsigned int fid,
-+		      unsigned int dword11, void *buffer, size_t buflen,
-+		      u32 *result)
-+{
-+	return nvme_features(dev, nvme_admin_get_features, fid, dword11, buffer,
-+			     buflen, result);
-+}
-+EXPORT_SYMBOL_GPL(nvme_get_features);
-+
- int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count)
+ 	ctrl->identified = true;
+ 
+ 	return 0;
+@@ -3699,6 +3703,7 @@ void nvme_stop_ctrl(struct nvme_ctrl *ctrl)
  {
- 	u32 q_count = (*count - 1) | ((*count - 1) << 16);
+ 	nvme_mpath_stop(ctrl);
+ 	nvme_stop_keep_alive(ctrl);
++	nvme_thermal_zones_unregister(ctrl);
+ 	flush_work(&ctrl->async_event_work);
+ 	cancel_work_sync(&ctrl->fw_act_work);
+ }
 diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 55553d2..038b893 100644
+index 038b893..a9c63ea 100644
 --- a/drivers/nvme/host/nvme.h
 +++ b/drivers/nvme/host/nvme.h
-@@ -459,6 +459,12 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- 		union nvme_result *result, void *buffer, unsigned bufflen,
- 		unsigned timeout, int qid, int at_head,
- 		blk_mq_req_flags_t flags, bool poll);
-+int nvme_set_features(struct nvme_ctrl *dev, unsigned int fid,
-+		      unsigned int dword11, void *buffer, size_t buflen,
-+		      u32 *result);
-+int nvme_get_features(struct nvme_ctrl *dev, unsigned int fid,
-+		      unsigned int dword11, void *buffer, size_t buflen,
-+		      u32 *result);
- int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count);
- void nvme_stop_keep_alive(struct nvme_ctrl *ctrl);
- int nvme_reset_ctrl(struct nvme_ctrl *ctrl);
+@@ -15,6 +15,7 @@
+ #include <linux/sed-opal.h>
+ #include <linux/fault-inject.h>
+ #include <linux/rcupdate.h>
++#include <linux/thermal.h>
+ 
+ extern unsigned int nvme_io_timeout;
+ #define NVME_IO_TIMEOUT	(nvme_io_timeout * HZ)
+@@ -146,6 +147,13 @@ enum nvme_ctrl_state {
+ 	NVME_CTRL_DEAD,
+ };
+ 
++struct nvme_tz {
++	struct thermal_zone_params params;
++	struct thermal_zone_device *dev;
++	struct thermal_zone_device *of_dev;
++	unsigned int sensor;
++};
++
+ struct nvme_ctrl {
+ 	bool comp_seen;
+ 	enum nvme_ctrl_state state;
+@@ -247,6 +255,15 @@ struct nvme_ctrl {
+ 
+ 	struct page *discard_page;
+ 	unsigned long discard_page_busy;
++
++#ifdef CONFIG_THERMAL
++	/*
++	 * tz[0]: composite temperature
++	 * tz[1-8]: temperature sensor 1 through 8
++	 */
++	struct nvme_tz tz[9];
++	DECLARE_BITMAP(tz_enabled, 9);
++#endif
+ };
+ 
+ enum nvme_iopolicy {
+@@ -584,4 +601,22 @@ static inline struct nvme_ns *nvme_get_ns_from_dev(struct device *dev)
+ 	return dev_to_disk(dev)->private_data;
+ }
+ 
++#ifdef CONFIG_THERMAL
++
++int nvme_thermal_zones_register(struct nvme_ctrl *ctrl);
++void nvme_thermal_zones_unregister(struct nvme_ctrl *ctrl);
++
++#else
++
++static inline int nvme_thermal_zones_register(struct nvme_ctrl *ctrl)
++{
++	return 0;
++}
++
++static inline void nvme_thermal_zones_unregister(struct nvme_ctrl *ctrl)
++{
++}
++
++#endif /* CONFIG_THERMAL */
++
+ #endif /* _NVME_H */
+diff --git a/drivers/nvme/host/thermal.c b/drivers/nvme/host/thermal.c
+new file mode 100644
+index 0000000..18d0e4c
+--- /dev/null
++++ b/drivers/nvme/host/thermal.c
+@@ -0,0 +1,311 @@
++// SPDX-License-Identifier: GPL-2.0
++
++#include <linux/moduleparam.h>
++#include <asm/unaligned.h>
++
++#include "nvme.h"
++
++static bool use_thermal_zone = true;
++module_param(use_thermal_zone, bool, 0444);
++MODULE_PARM_DESC(use_thermal_zone,
++	"Export nvme temperature via generic thermal interface");
++
++static int nvme_get_temp(struct nvme_ctrl *ctrl, unsigned int sensor, int *temp)
++{
++	struct nvme_smart_log *log;
++	int ret;
++
++	BUILD_BUG_ON(ARRAY_SIZE(log->temp_sensor) + 1 != ARRAY_SIZE(ctrl->tz));
++
++	if (WARN_ON_ONCE(sensor > ARRAY_SIZE(log->temp_sensor)))
++		return -EINVAL;
++
++	log = kzalloc(sizeof(*log), GFP_KERNEL);
++	if (!log)
++		return -ENOMEM;
++
++	ret = nvme_get_log(ctrl, NVME_NSID_ALL, NVME_LOG_SMART, 0, log,
++			   sizeof(*log), 0);
++	if (ret) {
++		ret = ret > 0 ? -EINVAL : ret;
++		goto free_log;
++	}
++
++	if (sensor)
++		*temp = le16_to_cpu(log->temp_sensor[sensor - 1]);
++	else
++		*temp = get_unaligned_le16(log->temperature);
++
++free_log:
++	kfree(log);
++
++	return ret;
++}
++
++#define KELVIN_TO_MILLICELSIUS(t) DECI_KELVIN_TO_MILLICELSIUS((t) * 10)
++#define MILLICELSIUS_TO_KELVIN(t) ((MILLICELSIUS_TO_DECI_KELVIN(t) + 5) / 10)
++
++static int nvme_tz_of_get_temp(void *data, int *temp)
++{
++	struct nvme_tz *tz = data;
++	unsigned int sensor = tz->sensor;
++	struct nvme_ctrl *ctrl = container_of(tz, struct nvme_ctrl, tz[sensor]);
++	int ret;
++
++	ret = nvme_get_temp(ctrl, sensor, temp);
++	if (!ret)
++		*temp = KELVIN_TO_MILLICELSIUS(*temp);
++
++	return ret;
++}
++
++static int nvme_tz_get_temp(struct thermal_zone_device *tzdev, int *temp)
++{
++	return nvme_tz_of_get_temp(tzdev->devdata, temp);
++}
++
++static int nvme_tz_get_trip_type(struct thermal_zone_device *tzdev,
++				 int trip, enum thermal_trip_type *type)
++{
++	*type = THERMAL_TRIP_ACTIVE;
++
++	return 0;
++}
++
++static int nvme_get_over_temp_thresh(struct nvme_ctrl *ctrl,
++				     unsigned int sensor, int *temp)
++{
++	unsigned int threshold = sensor << NVME_TEMP_THRESH_SELECT_SHIFT;
++	int status;
++	int ret;
++
++	if (WARN_ON_ONCE(sensor >= ARRAY_SIZE(ctrl->tz)))
++		return -EINVAL;
++
++	ret = nvme_get_features(ctrl, NVME_FEAT_TEMP_THRESH, threshold, NULL, 0,
++				&status);
++	if (!ret)
++		*temp = status & NVME_TEMP_THRESH_MASK;
++
++	return ret > 0 ? -EINVAL : ret;
++}
++
++static int nvme_set_over_temp_thresh(struct nvme_ctrl *ctrl,
++				     unsigned int sensor, int temp)
++{
++	unsigned int threshold = sensor << NVME_TEMP_THRESH_SELECT_SHIFT;
++	int ret;
++
++	if (WARN_ON_ONCE(sensor >= ARRAY_SIZE(ctrl->tz)))
++		return -EINVAL;
++
++	if (temp > NVME_TEMP_THRESH_MASK)
++		return -EINVAL;
++
++	threshold |= temp & NVME_TEMP_THRESH_MASK;
++
++	ret = nvme_set_features(ctrl, NVME_FEAT_TEMP_THRESH, threshold, NULL, 0,
++				NULL);
++
++	return ret > 0 ? -EINVAL : ret;
++}
++
++static int nvme_tz_get_trip_temp(struct thermal_zone_device *tzdev,
++				 int trip, int *temp)
++{
++	struct nvme_tz *tz = tzdev->devdata;
++	unsigned int sensor = tz->sensor;
++	struct nvme_ctrl *ctrl = container_of(tz, struct nvme_ctrl, tz[sensor]);
++	int ret;
++
++	ret = nvme_get_over_temp_thresh(ctrl, sensor, temp);
++	if (!ret)
++		*temp = KELVIN_TO_MILLICELSIUS(*temp);
++
++	return ret;
++}
++
++static int nvme_tz_of_set_trip_temp(void *data, int trip, int temp)
++{
++	struct nvme_tz *tz = data;
++	unsigned int sensor = tz->sensor;
++	struct nvme_ctrl *ctrl = container_of(tz, struct nvme_ctrl, tz[sensor]);
++
++	temp = MILLICELSIUS_TO_KELVIN(temp);
++
++	return nvme_set_over_temp_thresh(ctrl, sensor, temp);
++}
++
++static int nvme_tz_set_trip_temp(struct thermal_zone_device *tzdev,
++				 int trip, int temp)
++{
++	return nvme_tz_of_set_trip_temp(tzdev->devdata, trip, temp);
++}
++
++static struct thermal_zone_device_ops nvme_tz_ops = {
++	.get_temp = nvme_tz_get_temp,
++	.get_trip_type = nvme_tz_get_trip_type,
++	.get_trip_temp = nvme_tz_get_trip_temp,
++	.set_trip_temp = nvme_tz_set_trip_temp,
++};
++
++static struct thermal_zone_of_device_ops nvme_tz_of_ops = {
++	.get_temp = nvme_tz_of_get_temp,
++	.set_trip_temp = nvme_tz_of_set_trip_temp,
++};
++
++static const struct thermal_zone_params nvme_tz_params = {
++	.governor_name = "user_space",
++	.no_hwmon = true,
++};
++
++static int nvme_thermal_zone_register(struct nvme_ctrl *ctrl,
++				      unsigned int sensor)
++{
++	struct thermal_zone_device *tzdev;
++	struct nvme_tz *tz = &ctrl->tz[sensor];
++	char name[THERMAL_NAME_LENGTH];
++	int ret;
++
++	tz->params = nvme_tz_params;
++	tz->sensor = sensor;
++	snprintf(name, sizeof(name), "nvme%d_temp%u", ctrl->instance, sensor);
++
++	tzdev = thermal_zone_device_register(name, 1, 1, tz, &nvme_tz_ops,
++					     &tz->params, 0, 0);
++	if (IS_ERR(tzdev)) {
++		dev_err(ctrl->device,
++			"Failed to register thermal zone device: %ld\n",
++			PTR_ERR(tzdev));
++		return PTR_ERR(tzdev);
++	}
++
++	tz->dev = tzdev;
++
++	snprintf(name, sizeof(name), "temp%d", sensor);
++	ret = sysfs_create_link(&ctrl->ctrl_device.kobj, &tz->dev->device.kobj,
++				name);
++	if (ret)
++		goto device_unregister;
++
++	ret = sysfs_create_link(&tz->dev->device.kobj,
++				&ctrl->ctrl_device.kobj, "device");
++	if (ret)
++		goto remove_sensor_link;
++
++	tzdev = thermal_zone_of_sensor_register(ctrl->dev, sensor, tz,
++						&nvme_tz_of_ops);
++	if (!IS_ERR(tzdev)) {
++		tz->of_dev = tzdev;
++	} else if (PTR_ERR(tzdev) != -ENODEV) {
++		ret = PTR_ERR(tzdev);
++		dev_err(ctrl->device,
++			"Failed to register thermal zone of sensor: %d\n", ret);
++		goto remove_device_link;
++	}
++
++	return 0;
++
++remove_device_link:
++	sysfs_remove_link(&tz->dev->device.kobj, "device");
++remove_sensor_link:
++	sysfs_remove_link(&ctrl->ctrl_device.kobj, name);
++device_unregister:
++	thermal_zone_device_unregister(tz->dev);
++	tz->dev = NULL;
++
++	return ret;
++}
++
++/**
++ * nvme_thermal_zones_register() - register nvme thermal zone devices
++ * @ctrl: controller instance
++ *
++ * This function creates up to nine thermal zone devices for all implemented
++ * temperature sensors including the composite temperature.
++ * Each thermal zone device provides a single trip point temperature that is
++ * associated with an over temperature threshold.
++ * A negative value is returned when the device doesn't respond to the host
++ * and won't be able to continue initialization.
++ */
++int nvme_thermal_zones_register(struct nvme_ctrl *ctrl)
++{
++	struct nvme_smart_log *log;
++	int ret = 0;
++	int err;
++	int i;
++
++	if (!use_thermal_zone)
++		return 0;
++
++	log = kzalloc(sizeof(*log), GFP_KERNEL);
++	if (!log)
++		return 0;
++
++	err = nvme_get_log(ctrl, NVME_NSID_ALL, NVME_LOG_SMART, 0, log,
++			   sizeof(*log), 0);
++	if (err) {
++		dev_err(ctrl->device, "Failed to get SMART log: %d\n", err);
++		/* If the device provided a response, then it's non-fatal */
++		ret = (err > 0) ? 0 : err;
++		goto out;
++	}
++
++	for_each_clear_bit(i, ctrl->tz_enabled, ARRAY_SIZE(ctrl->tz)) {
++		int temp;
++
++		if (i)
++			temp = le16_to_cpu(log->temp_sensor[i - 1]);
++		else
++			temp = get_unaligned_le16(log->temperature);
++
++		/*
++		 * All implemented temperature sensors report a non-zero value
++		 * in temperature sensor fields in the smart log page.
++		 */
++		if (!temp)
++			continue;
++
++		err = nvme_thermal_zone_register(ctrl, i);
++		if (err)
++			goto out;
++
++		__set_bit(i, ctrl->tz_enabled);
++	}
++out:
++	if (err)
++		nvme_thermal_zones_unregister(ctrl);
++
++	kfree(log);
++
++	return ret;
++}
++
++/**
++ * nvme_thermal_zones_unregister() - unregister nvme thermal zone devices
++ * @ctrl: controller instance
++ *
++ * This function removes the registered thermal zone devices and symlinks.
++ */
++void nvme_thermal_zones_unregister(struct nvme_ctrl *ctrl)
++{
++	int i;
++
++	for_each_set_bit(i, ctrl->tz_enabled, ARRAY_SIZE(ctrl->tz)) {
++		struct nvme_tz *tz = &ctrl->tz[i];
++		char name[20];
++
++		thermal_zone_of_sensor_unregister(ctrl->dev, tz->of_dev);
++		tz->of_dev = NULL;
++
++		sysfs_remove_link(&tz->dev->device.kobj, "device");
++
++		snprintf(name, sizeof(name), "temp%d", i);
++		sysfs_remove_link(&ctrl->ctrl_device.kobj, name);
++
++		thermal_zone_device_unregister(tz->dev);
++		tz->dev = NULL;
++
++		__clear_bit(i, ctrl->tz_enabled);
++	}
++}
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 8028ada..f29728b 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -749,6 +749,11 @@ struct nvme_write_zeroes_cmd {
+ 
+ /* Features */
+ 
++enum {
++	NVME_TEMP_THRESH_MASK		= 0xffff,
++	NVME_TEMP_THRESH_SELECT_SHIFT	= 16,
++};
++
+ struct nvme_feat_auto_pst {
+ 	__le64 entries[32];
+ };
 -- 
 2.7.4
