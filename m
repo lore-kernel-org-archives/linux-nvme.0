@@ -1,48 +1,35 @@
-From: bvanassche@acm.org (Bart Van Assche)
-Date: Thu, 13 Jun 2019 10:57:18 -0700
-Subject: [PATCH v2 3/3] nvme: Set physical block size and optimal I/O size
- according to NVMe 1.4
-In-Reply-To: <yq15zpa2que.fsf@oracle.com>
-References: <20190610210612.103952-1-bvanassche@acm.org>
- <20190610210612.103952-4-bvanassche@acm.org> <yq15zpa2que.fsf@oracle.com>
-Message-ID: <fcd3b41c-38b9-4865-05c0-2f96c9382ea5@acm.org>
+From: kashyap.desai@broadcom.com (Kashyap Desai)
+Date: Fri, 14 Jun 2019 01:28:47 +0530
+Subject: [PATCH 10/13] megaraid_sas: set virt_boundary_mask in the scsi
+ host
+In-Reply-To: <20190608081400.GA19573@lst.de>
+References: <20190605190836.32354-1-hch@lst.de>
+ <20190605190836.32354-11-hch@lst.de>
+ <cd713506efb9579d1f69a719d831c28d@mail.gmail.com>
+ <20190608081400.GA19573@lst.de>
+Message-ID: <98f6557ae91a7cdfe8069fcf7d788c88@mail.gmail.com>
 
-On 6/12/19 6:53 PM, Martin K. Petersen wrote:
-> 
-> Bart,
-> 
->> +	nawupf = (1 + ns->ctrl->subsys->awupf) * bs;
->> +	if (id->nsfeat & (1 << 1))
->> +		nawupf = (1 + id->nawupf) * bs;
-> 
-> This tripped me up a bit. I would have preferred an else statement and
-> maybe a clarifying comment to make it obvious whether the value comes
-> from the controller or the namespace.
-> 
-> Also, unlike awupf, nawupf is not a 0-based value (0 means "use awupf"
-> and not 1 logical block).
+>
+> On Thu, Jun 06, 2019@09:07:27PM +0530, Kashyap Desai wrote:
+> > Hi Christoph, Changes for <megaraid_sas> and <mpt3sas> looks good. We
+> > want to confirm few sanity before ACK. BTW, what benefit we will see
+> > moving virt_boundry setting to SCSI mid layer ? Is it just modular
+> > approach OR any functional fix ?
+>
+> The big difference is that virt_boundary now also changes the
+> max_segment_size, and this ensures that this limit is also communicated
+to
+> the DMA mapping layer.
+Is there any changes in API  blk_queue_virt_boundary? I could not find
+relevant code which account for this. Can you help ?
+Which git repo shall I use for testing ? That way I can confirm, I didn't
+miss relevant changes.
 
-Hi Martin,
+>From your above explanation, it means (after this patch) max segment size
+of the MR controller will be set to 4K.
+Earlier it is possible to receive single SGE of 64K datalength (Since max
+seg size was 64K), but now the same buffer will reach the driver having 16
+SGEs (Each SGE will contain 4K length).
+Right ?
 
-I agree that NAWUPF == 0 means that AWUPF should be used instead. But
-are you sure that NAWUPF is not 0's-based? From version 1.4 of the NVMe
-specification:
-
-Namespace Atomic Write Unit Power Fail (NAWUPF): This field indicates
-the namespace specific size of the write operation guaranteed to be
-written atomically to the NVM during a power fail or error condition.
-A value of 0h indicates that the size for this namespace is the same
-size as that reported in the AWUPF field of the Identify Controller data
-structure. All other values specify a size in terms of logical blocks
-using the same encoding as the AWUPF field. Refer to section 6.4.
-[ ... ]
-Atomic Write Unit Power Fail (AWUPF): [ ... ] This field is specified in
-logical blocks and is a 0?s based value. The AWUPF value shall be less
-than or equal to the AWUN value.
-
-Since the spec says that NAWUPF and AWUPF use the same encoding, does
-that mean that NAWUPF is also 0's based?
-
-Thanks,
-
-Bart.
+Kashyap
