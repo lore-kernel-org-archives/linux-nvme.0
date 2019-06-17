@@ -1,40 +1,59 @@
 From: bvanassche@acm.org (Bart Van Assche)
-Date: Mon, 17 Jun 2019 09:12:19 -0700
-Subject: [PATCH v3 0/3] NVMe 1.4 Identify Namespace Support
-Message-ID: <20190617161222.253849-1-bvanassche@acm.org>
+Date: Mon, 17 Jun 2019 09:12:20 -0700
+Subject: [PATCH v3 1/3] nvme: Introduce NVMe 1.4 Identify Namespace fields in
+ struct nvme_id_ns
+In-Reply-To: <20190617161222.253849-1-bvanassche@acm.org>
+References: <20190617161222.253849-1-bvanassche@acm.org>
+Message-ID: <20190617161222.253849-2-bvanassche@acm.org>
 
-Hi Christoph,
+Several new fields have been introduced in version 1.4 of the NVMe spec
+at offsets that were defined as reserved in version 1.3d of the NVMe
+spec. Update the definition of the nvme_id_ns data structure such that
+it is in sync with version 1.4 of the NVMe spec. This change preserves
+backwards compatibility.
 
-This patch series adds support for several of the new parameters introduced
-in the NVMe 1.4 Identify Namespace command. Please consider these patches
-for kernel version 5.3.
+Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+Reviewed-by: Martin K. Petersen <martin.petersen at oracle.com>
+Reviewed-by: Keith Busch <kbusch at kernel.org>
+Cc: Sagi Grimberg <sagi at grimberg.me>
+Cc: Hannes Reinecke <hare at suse.com>
+Signed-off-by: Bart Van Assche <bvanassche at acm.org>
+---
+ include/linux/nvme.h | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-Thanks,
-
-Bart.
-
-Changes compared to v2:
-- In the initiator, use AWUPF instead NAWUPF if NAWUPF == 0.
-
-Changes compared to v1:
-- Added a patch for the NVMe target code that exports these parameters.
-- Limited the physical block size to the value of AWUPF/NAWUPF as appropriate.
-
-Bart Van Assche (3):
-  nvme: Introduce NVMe 1.4 Identify Namespace fields in struct
-    nvme_id_ns
-  nvmet: Export NVMe namespace attributes
-  nvme: Set physical block size and optimal I/O size according to NVMe
-    1.4
-
- drivers/nvme/host/core.c          | 30 +++++++++++++++++++--
- drivers/nvme/host/nvme.h          |  1 +
- drivers/nvme/target/admin-cmd.c   |  5 ++++
- drivers/nvme/target/io-cmd-bdev.c | 45 +++++++++++++++++++++++++++++++
- drivers/nvme/target/io-cmd-file.c | 37 +++++++++++++++++++++++++
- drivers/nvme/target/nvmet.h       |  2 ++
- include/linux/nvme.h              | 12 ++++++---
- 7 files changed, 127 insertions(+), 5 deletions(-)
-
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 8028adacaff3..2b5072ec4511 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -315,7 +315,7 @@ struct nvme_id_ns {
+ 	__u8			nmic;
+ 	__u8			rescap;
+ 	__u8			fpi;
+-	__u8			rsvd33;
++	__u8			dlfeat;
+ 	__le16			nawun;
+ 	__le16			nawupf;
+ 	__le16			nacwu;
+@@ -324,11 +324,17 @@ struct nvme_id_ns {
+ 	__le16			nabspf;
+ 	__le16			noiob;
+ 	__u8			nvmcap[16];
+-	__u8			rsvd64[28];
++	__le16			npwg;
++	__le16			npwa;
++	__le16			npdg;
++	__le16			npda;
++	__le16			nows;
++	__u8			rsvd74[18];
+ 	__le32			anagrpid;
+ 	__u8			rsvd96[3];
+ 	__u8			nsattr;
+-	__u8			rsvd100[4];
++	__le16			nvmsetid;
++	__le16			endgid;
+ 	__u8			nguid[16];
+ 	__u8			eui64[8];
+ 	struct nvme_lbaf	lbaf[16];
 -- 
 2.22.0.rc3
