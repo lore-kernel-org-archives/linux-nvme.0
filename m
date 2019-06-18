@@ -1,31 +1,18 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 18 Jun 2019 10:41:51 -0700
-Subject: [PATCH 2/2] nvme: flush scan_work when resetting controller
-In-Reply-To: <20190618101025.78840-3-hare@suse.de>
-References: <20190618101025.78840-1-hare@suse.de>
- <20190618101025.78840-3-hare@suse.de>
-Message-ID: <36c093c6-9fea-aa2f-affe-70957e0c5b1b@grimberg.me>
+From: bvanassche@acm.org (Bart Van Assche)
+Date: Tue, 18 Jun 2019 13:34:06 -0700
+Subject: [PATCH v3 0/3] NVMe 1.4 Identify Namespace Support
+In-Reply-To: <aa89ce11-b24b-fdd6-c83f-939124356584@suse.de>
+References: <20190617161222.253849-1-bvanassche@acm.org>
+ <aa89ce11-b24b-fdd6-c83f-939124356584@suse.de>
+Message-ID: <90b2855a-4aa1-b089-2123-7061fa11330d@acm.org>
 
+On 6/18/19 12:52 AM, Hannes Reinecke wrote:
+> Can you send a patch for nvme-cli, too?
 
-> When resetting the controller there is no point whatsoever to
-> have a scan run in parallel;
+Sure. But I do not know what the preferred approach is for contributing 
+to nvme-cli? Should I post a patch on this mailing list or rather send a 
+github pull request?
 
-There is also no point of trying to prevent it.
+Thanks,
 
-> we cannot access the controller and
-> we cannot tell which devices are present and which not.
-> Additionally we'll run a scan after reset anyway.
-> So flush existing scans before reconnecting, ensuring to
-> short-circuit the scan workqueue function if the controller state
-> isn't live to avoid lockups.
-
-What is this fixing? can we get a detailed description?
-
-These ctrl->state conditions sprayed around that are not barriered
-by anything do not prevent any scan to run in parallel with resets.
-
-Also, do note that resets will unquiesce the admin queue right away
-and not when the reset completes (rdma, tcp, fc). The only exception
-is pci that will unquiesce as soon as the reset fails.
-
-So can you please clarify the problem?
+Bart.
