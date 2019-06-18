@@ -1,35 +1,42 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 18 Jun 2019 12:10:23 +0200
-Subject: [PATCH 0/2] nvme: flush rescan worker before resetting
-Message-ID: <20190618101025.78840-1-hare@suse.de>
+Date: Tue, 18 Jun 2019 12:10:24 +0200
+Subject: [PATCH 1/2] nvme: Do not remove namespaces during reset
+In-Reply-To: <20190618101025.78840-1-hare@suse.de>
+References: <20190618101025.78840-1-hare@suse.de>
+Message-ID: <20190618101025.78840-2-hare@suse.de>
 
-Hi all,
+When a controller is resetting or reconnecting there is no way
+how we could establish the validity of any given namespace.
+So do not call nvme_ns_remove() during resetting or reconnecting
+and rely on the call to nvme_scan_queue() after reset to fixup
+things.
 
-There is a race condition between namespace rescanning and controller
-reset; during controller reset all namespaces are quiesed vie
-nams_stop_ctrl(), and after reset all namespaces are unquiesced
-again.
-When namespace scanning was active by the time controller reset was
-triggered the rescan code will call nvme_ns_remove(), which then will
-cause a kernel crash in nvme_start_ctrl() as it'll trip over
-uninitialized namespaces.
+Signed-off-by: Hannes Reinecke <hare at suse.com>
+---
+ drivers/nvme/host/core.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-To fix this two patches are required; the first one will skip the call
-to nvme_ns_remove() if the controller is not live, and the second one
-will flush the rescan worker before resetting to avoid this situation
-from occurring.
-
-As usual, comments and reviews are welcome.
-
-Hannes Reinecke (2):
-  nvme: Do not remove namespaces during reset
-  nvme: flush scan_work when resetting controller
-
- drivers/nvme/host/core.c | 21 +++++++++++++++++++++
- drivers/nvme/host/fc.c   |  1 +
- drivers/nvme/host/rdma.c |  1 +
- drivers/nvme/host/tcp.c  |  1 +
- 4 files changed, 24 insertions(+)
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index ba2079d217da..e872591e5fe7 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3358,6 +3358,17 @@ static int nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 
+ static void nvme_ns_remove(struct nvme_ns *ns)
+ {
++	/*
++	 * We cannot make any assumptions about namespaces during
++	 * reset; in particular we shouldn't attempt to remove them
++	 * as I/O might still be queued to them.
++	 * So ignore this call during reset and rely on the
++	 * rescan after reset to clean up things again.
++	 */
++	if (ns->ctrl->state == NVME_CTRL_RESETTING ||
++	    ns->ctrl->state == NVME_CTRL_CONNECTING)
++		return;
++
+ 	if (test_and_set_bit(NVME_NS_REMOVING, &ns->flags))
+ 		return;
+ 
 -- 
 2.16.4
