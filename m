@@ -1,63 +1,115 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Tue, 18 Jun 2019 22:12:15 +0900
-Subject: [PATCH V7 6/7] fabrics: return error when discovery retry exhausted
+Date: Tue, 18 Jun 2019 22:12:11 +0900
+Subject: [PATCH V7 2/7] fabrics: Do not return in the middle of the subcommand
 In-Reply-To: <20190618131216.3661-1-minwoo.im.dev@gmail.com>
 References: <20190618131216.3661-1-minwoo.im.dev@gmail.com>
-Message-ID: <20190618131216.3661-7-minwoo.im.dev@gmail.com>
+Message-ID: <20190618131216.3661-3-minwoo.im.dev@gmail.com>
 
-If the discovery page is not updated to the latest one over the 10
-times, it's currently returning DISC_OK if the numrec has no problem.
-If so, the caller might think that the discovery has been successfully
-done without any errors even there is.
+This patch also makes fabrics module to not return the internal error
+status in the middle of the subcommands to support uniformed mapped
+error value which will be introduced in the next patches.
 
-This patch makes it return an error -EAGAIN if retry(10 times) has been
-exhausted.
-
+Cc: Keith Busch <kbusch at kernel.org>
+Cc: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 Cc: Sagi Grimberg <sagi at grimberg.me>
 Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
+Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- fabrics.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ fabrics.c | 31 +++++++++++++++++++------------
+ 1 file changed, 19 insertions(+), 12 deletions(-)
 
 diff --git a/fabrics.c b/fabrics.c
-index adedca0..8470d97 100644
+index 9ed4a56..adedca0 100644
 --- a/fabrics.c
 +++ b/fabrics.c
-@@ -291,6 +291,7 @@ enum {
- 	DISC_NO_LOG,
- 	DISC_GET_NUMRECS,
- 	DISC_GET_LOG,
-+	DISC_RETRY_EXHAUSTED,
- 	DISC_NOT_EQUAL,
- };
+@@ -984,20 +984,23 @@ int discover(const char *desc, int argc, char **argv, bool connect)
+ 	ret = argconfig_parse(argc, argv, desc, command_line_options, &cfg,
+ 			sizeof(cfg));
+ 	if (ret)
+-		return ret;
++		goto out;
  
-@@ -385,6 +386,16 @@ static int nvmf_get_log_page_discovery(const char *dev_path,
- 	} while (genctr != le64_to_cpu(log->genctr) &&
- 		 ++retries < max_retries);
+ 	cfg.nqn = NVME_DISC_SUBSYS_NAME;
  
-+	/*
-+	 * If genctr is still different with the one in the log entry, it
-+	 * means the retires have been exhausted to max_retries.  Then it
-+	 * should be retried by the caller or the user.
-+	 */
-+	if (genctr != le64_to_cpu(log->genctr)) {
-+		error = DISC_RETRY_EXHAUSTED;
-+		goto out_free_log;
-+	}
+ 	if (!cfg.transport && !cfg.traddr) {
+-		return discover_from_conf_file(desc, argstr,
++		ret = discover_from_conf_file(desc, argstr,
+ 				command_line_options, connect);
+ 	} else {
+ 		ret = build_options(argstr, BUF_SIZE);
+ 		if (ret)
+-			return ret;
++			goto out;
+ 
+-		return do_discover(argstr, connect);
++		ret = do_discover(argstr, connect);
+ 	}
 +
- 	if (*numrec != le32_to_cpu(log->numrec)) {
- 		error = DISC_NOT_EQUAL;
- 		goto out_free_log;
-@@ -882,6 +893,10 @@ static int do_discover(char *argstr, bool connect)
- 		fprintf(stdout, "No discovery log entries to fetch.\n");
- 		ret = DISC_OK;
- 		break;
-+	case DISC_RETRY_EXHAUSTED:
-+		fprintf(stdout, "Discovery retries exhausted.\n");
-+		ret = -EAGAIN;
-+		break;
- 	case DISC_NOT_EQUAL:
- 		fprintf(stderr,
- 		"Numrec values of last two get discovery log page not equal\n");
++out:
++	return ret;
+ }
+ 
+ int connect(const char *desc, int argc, char **argv)
+@@ -1029,21 +1032,23 @@ int connect(const char *desc, int argc, char **argv)
+ 	ret = argconfig_parse(argc, argv, desc, command_line_options, &cfg,
+ 			sizeof(cfg));
+ 	if (ret)
+-		return ret;
++		goto out;
+ 
+ 	ret = build_options(argstr, BUF_SIZE);
+ 	if (ret)
+-		return ret;
++		goto out;
+ 
+ 	if (!cfg.nqn) {
+ 		fprintf(stderr, "need a -n argument\n");
+-		return -EINVAL;
++		ret = -EINVAL;
++		goto out;
+ 	}
+ 
+ 	instance = add_ctrl(argstr);
+ 	if (instance < 0)
+-		return instance;
+-	return 0;
++		ret = instance;
++out:
++	return ret;
+ }
+ 
+ static int scan_sys_nvme_filter(const struct dirent *d)
+@@ -1148,11 +1153,12 @@ int disconnect(const char *desc, int argc, char **argv)
+ 	ret = argconfig_parse(argc, argv, desc, command_line_options, &cfg,
+ 			sizeof(cfg));
+ 	if (ret)
+-		return ret;
++		goto out;
+ 
+ 	if (!cfg.nqn && !cfg.device) {
+ 		fprintf(stderr, "need a -n or -d argument\n");
+-		return -EINVAL;
++		ret = -EINVAL;
++		goto out;
+ 	}
+ 
+ 	if (cfg.nqn) {
+@@ -1174,6 +1180,7 @@ int disconnect(const char *desc, int argc, char **argv)
+ 				cfg.device);
+ 	}
+ 
++out:
+ 	return ret;
+ }
+ 
+@@ -1188,7 +1195,7 @@ int disconnect_all(const char *desc, int argc, char **argv)
+ 	ret = argconfig_parse(argc, argv, desc, command_line_options, &cfg,
+ 			sizeof(cfg));
+ 	if (ret)
+-		return ret;
++		goto out;
+ 
+ 	slist = get_subsys_list(&subcnt, NULL, NVME_NSID_ALL);
+ 	for (i = 0; i < subcnt; i++) {
 -- 
 2.21.0
