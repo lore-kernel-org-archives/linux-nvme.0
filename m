@@ -1,28 +1,27 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 18 Jun 2019 09:49:38 +0200
-Subject: [PATCH v3 1/3] nvme: Introduce NVMe 1.4 Identify Namespace fields
- in struct nvme_id_ns
-In-Reply-To: <20190617161222.253849-2-bvanassche@acm.org>
+Date: Tue, 18 Jun 2019 09:50:22 +0200
+Subject: [PATCH v3 2/3] nvmet: Export NVMe namespace attributes
+In-Reply-To: <20190617161222.253849-3-bvanassche@acm.org>
 References: <20190617161222.253849-1-bvanassche@acm.org>
- <20190617161222.253849-2-bvanassche@acm.org>
-Message-ID: <19a0ab1b-8f41-ef74-f20e-6d6807638440@suse.de>
+ <20190617161222.253849-3-bvanassche@acm.org>
+Message-ID: <13f7742d-cdd1-a446-ae76-a3cf2cbe4b6a@suse.de>
 
 On 6/17/19 6:12 PM, Bart Van Assche wrote:
-> Several new fields have been introduced in version 1.4 of the NVMe spec
-> at offsets that were defined as reserved in version 1.3d of the NVMe
-> spec. Update the definition of the nvme_id_ns data structure such that
-> it is in sync with version 1.4 of the NVMe spec. This change preserves
-> backwards compatibility.
+> Make the NVMe NAWUN, NAWUPF, NACWU, NPWG, NPWA, NPDG and NOWS attributes
+> available to initator systems.
 > 
-> Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-> Reviewed-by: Martin K. Petersen <martin.petersen at oracle.com>
-> Reviewed-by: Keith Busch <kbusch at kernel.org>
+> Cc: Keith Busch <kbusch at kernel.org>
 > Cc: Sagi Grimberg <sagi at grimberg.me>
+> Cc: Martin K. Petersen <martin.petersen at oracle.com>
 > Cc: Hannes Reinecke <hare at suse.com>
+> Cc: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 > Signed-off-by: Bart Van Assche <bvanassche at acm.org>
 > ---
->  include/linux/nvme.h | 12 +++++++++---
->  1 file changed, 9 insertions(+), 3 deletions(-)
+>  drivers/nvme/target/admin-cmd.c   |  5 ++++
+>  drivers/nvme/target/io-cmd-bdev.c | 45 +++++++++++++++++++++++++++++++
+>  drivers/nvme/target/io-cmd-file.c | 37 +++++++++++++++++++++++++
+>  drivers/nvme/target/nvmet.h       |  2 ++
+>  4 files changed, 89 insertions(+)
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
