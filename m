@@ -1,42 +1,31 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 18 Jun 2019 10:30:46 -0700
-Subject: [PATCH 1/2] nvme: Do not remove namespaces during reset
-In-Reply-To: <20190618101025.78840-2-hare@suse.de>
+Date: Tue, 18 Jun 2019 10:41:51 -0700
+Subject: [PATCH 2/2] nvme: flush scan_work when resetting controller
+In-Reply-To: <20190618101025.78840-3-hare@suse.de>
 References: <20190618101025.78840-1-hare@suse.de>
- <20190618101025.78840-2-hare@suse.de>
-Message-ID: <17c5aaa9-a8eb-f541-f136-9a728e72f428@grimberg.me>
+ <20190618101025.78840-3-hare@suse.de>
+Message-ID: <36c093c6-9fea-aa2f-affe-70957e0c5b1b@grimberg.me>
 
 
-> When a controller is resetting or reconnecting there is no way
-> how we could establish the validity of any given namespace.
-> So do not call nvme_ns_remove() during resetting or reconnecting
-> and rely on the call to nvme_scan_queue() after reset to fixup
-> things.
-> 
-> Signed-off-by: Hannes Reinecke <hare at suse.com>
-> ---
->   drivers/nvme/host/core.c | 11 +++++++++++
->   1 file changed, 11 insertions(+)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index ba2079d217da..e872591e5fe7 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -3358,6 +3358,17 @@ static int nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
->   
->   static void nvme_ns_remove(struct nvme_ns *ns)
->   {
-> +	/*
-> +	 * We cannot make any assumptions about namespaces during
-> +	 * reset; in particular we shouldn't attempt to remove them
-> +	 * as I/O might still be queued to them.
-> +	 * So ignore this call during reset and rely on the
-> +	 * rescan after reset to clean up things again.
-> +	 */
-> +	if (ns->ctrl->state == NVME_CTRL_RESETTING ||
-> +	    ns->ctrl->state == NVME_CTRL_CONNECTING)
-> +		return;
-> +
+> When resetting the controller there is no point whatsoever to
+> have a scan run in parallel;
 
-This is conflicting with the commit log, this condition needs to
-go to the call site.
+There is also no point of trying to prevent it.
+
+> we cannot access the controller and
+> we cannot tell which devices are present and which not.
+> Additionally we'll run a scan after reset anyway.
+> So flush existing scans before reconnecting, ensuring to
+> short-circuit the scan workqueue function if the controller state
+> isn't live to avoid lockups.
+
+What is this fixing? can we get a detailed description?
+
+These ctrl->state conditions sprayed around that are not barriered
+by anything do not prevent any scan to run in parallel with resets.
+
+Also, do note that resets will unquiesce the admin queue right away
+and not when the reset completes (rdma, tcp, fc). The only exception
+is pci that will unquiesce as soon as the reset fails.
+
+So can you please clarify the problem?
