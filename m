@@ -1,103 +1,136 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 18 Jun 2019 12:10:25 +0200
-Subject: [PATCH 2/2] nvme: flush scan_work when resetting controller
-In-Reply-To: <20190618101025.78840-1-hare@suse.de>
-References: <20190618101025.78840-1-hare@suse.de>
-Message-ID: <20190618101025.78840-3-hare@suse.de>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Tue, 18 Jun 2019 22:12:16 +0900
+Subject: [PATCH V7 7/7] fabrics: Return errno mapped for fabrics error status
+In-Reply-To: <20190618131216.3661-1-minwoo.im.dev@gmail.com>
+References: <20190618131216.3661-1-minwoo.im.dev@gmail.com>
+Message-ID: <20190618131216.3661-8-minwoo.im.dev@gmail.com>
 
-When resetting the controller there is no point whatsoever to
-have a scan run in parallel; we cannot access the controller and
-we cannot tell which devices are present and which not.
-Additionally we'll run a scan after reset anyway.
-So flush existing scans before reconnecting, ensuring to
-short-circuit the scan workqueue function if the controller state
-isn't live to avoid lockups.
+If discover has been failed due to a nvme status, it will be returned to
+main() with mapped value for fabrics get log page command.
 
-Signed-off-by: Hannes Reinecke <hare at suse.com>
+Now connect command related status cannot be added in this patch because
+kernel is not currently returning the nvme status, it's instead
+returning -EIO if fails.  errno for connect command can be added once
+kernel is ready to return the proper value for nvme status.
+
+Cc: Keith Busch <kbusch at kernel.org>
+Cc: Chaitanya Kulkarni <chaitanya.Kulkarni at wdc.com>
+Cc: Sagi Grimberg <sagi at grimberg.me>
+Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
 ---
- drivers/nvme/host/core.c | 10 ++++++++++
- drivers/nvme/host/fc.c   |  1 +
- drivers/nvme/host/rdma.c |  1 +
- drivers/nvme/host/tcp.c  |  1 +
- 4 files changed, 13 insertions(+)
+ fabrics.c | 25 +++++++++++++++++--------
+ 1 file changed, 17 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index e872591e5fe7..dc3f1ff12276 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1627,6 +1627,9 @@ static void nvme_update_disk_info(struct gendisk *disk,
- 	sector_t capacity = le64_to_cpu(id->nsze) << (ns->lba_shift - 9);
- 	unsigned short bs = 1 << ns->lba_shift;
+diff --git a/fabrics.c b/fabrics.c
+index 8470d97..c628152 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -35,6 +35,7 @@
  
-+	if (ns->ctrl->state != NVME_CTRL_LIVE)
-+		return;
-+
- 	if (ns->lba_shift > PAGE_SHIFT) {
- 		/* unsupported block size, set capacity to 0 later */
- 		bs = (1 << 9);
-@@ -1702,6 +1705,9 @@ static int nvme_revalidate_disk(struct gendisk *disk)
- 		return -ENODEV;
+ #include "parser.h"
+ #include "nvme-ioctl.h"
++#include "nvme-status.h"
+ #include "fabrics.h"
+ 
+ #include "nvme.h"
+@@ -296,7 +297,7 @@ enum {
+ };
+ 
+ static int nvmf_get_log_page_discovery(const char *dev_path,
+-		struct nvmf_disc_rsp_page_hdr **logp, int *numrec)
++		struct nvmf_disc_rsp_page_hdr **logp, int *numrec, int *status)
+ {
+ 	struct nvmf_disc_rsp_page_hdr *log;
+ 	unsigned int hdr_size;
+@@ -411,6 +412,7 @@ out_free_log:
+ out_close:
+ 	close(fd);
+ out:
++	*status = nvme_status_to_errno(error, true);
+ 	return error;
+ }
+ 
+@@ -860,6 +862,7 @@ static int do_discover(char *argstr, bool connect)
+ 	struct nvmf_disc_rsp_page_hdr *log = NULL;
+ 	char *dev_name;
+ 	int instance, numrec = 0, ret, err;
++	int status = 0;
+ 
+ 	instance = add_ctrl(argstr);
+ 	if (instance < 0)
+@@ -867,7 +870,7 @@ static int do_discover(char *argstr, bool connect)
+ 
+ 	if (asprintf(&dev_name, "/dev/nvme%d", instance) < 0)
+ 		return -errno;
+-	ret = nvmf_get_log_page_discovery(dev_name, &log, &numrec);
++	ret = nvmf_get_log_page_discovery(dev_name, &log, &numrec, &status);
+ 	free(dev_name);
+ 	err = remove_ctrl(instance);
+ 	if (err)
+@@ -885,9 +888,11 @@ static int do_discover(char *argstr, bool connect)
+ 	case DISC_GET_NUMRECS:
+ 		fprintf(stderr,
+ 			"Get number of discovery log entries failed.\n");
++		ret = status;
+ 		break;
+ 	case DISC_GET_LOG:
+ 		fprintf(stderr, "Get discovery log entries failed.\n");
++		ret = status;
+ 		break;
+ 	case DISC_NO_LOG:
+ 		fprintf(stdout, "No discovery log entries to fetch.\n");
+@@ -900,6 +905,7 @@ static int do_discover(char *argstr, bool connect)
+ 	case DISC_NOT_EQUAL:
+ 		fprintf(stderr,
+ 		"Numrec values of last two get discovery log page not equal\n");
++		ret = -EBADSLT;
+ 		break;
+ 	default:
+ 		fprintf(stderr, "Get discovery log page failed: %d\n", ret);
+@@ -1015,7 +1021,7 @@ int discover(const char *desc, int argc, char **argv, bool connect)
  	}
  
-+	if (ctrl->state != NVME_CTRL_LIVE)
-+		return 0;
-+
- 	id = nvme_identify_ns(ctrl, ns->head->ns_id);
- 	if (!id)
- 		return -ENODEV;
-@@ -3437,6 +3443,8 @@ static int nvme_scan_ns_list(struct nvme_ctrl *ctrl, unsigned nn)
- 		return -ENOMEM;
+ out:
+-	return ret;
++	return nvme_status_to_errno(ret, true);
+ }
  
- 	for (i = 0; i < num_lists; i++) {
-+		if (ctrl->state != NVME_CTRL_LIVE)
-+			goto free;
- 		ret = nvme_identify_ns_list(ctrl, prev, ns_list);
- 		if (ret)
- 			goto free;
-@@ -3515,6 +3523,8 @@ static void nvme_scan_work(struct work_struct *work)
- 	if (test_and_clear_bit(NVME_AER_NOTICE_NS_CHANGED, &ctrl->events)) {
- 		dev_info(ctrl->device, "rescanning namespaces.\n");
- 		nvme_clear_changed_ns_log(ctrl);
-+		if (ctrl->state != NVME_CTRL_LIVE)
-+			return;
+ int connect(const char *desc, int argc, char **argv)
+@@ -1062,8 +1068,9 @@ int connect(const char *desc, int argc, char **argv)
+ 	instance = add_ctrl(argstr);
+ 	if (instance < 0)
+ 		ret = instance;
++
+ out:
+-	return ret;
++	return nvme_status_to_errno(ret, true);
+ }
+ 
+ static int scan_sys_nvme_filter(const struct dirent *d)
+@@ -1196,7 +1203,7 @@ int disconnect(const char *desc, int argc, char **argv)
  	}
  
- 	if (nvme_identify_ctrl(ctrl, &id))
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 9b497d785ed7..1c6aa21858b2 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2909,6 +2909,7 @@ nvme_fc_reset_ctrl_work(struct work_struct *work)
+ out:
+-	return ret;
++	return nvme_status_to_errno(ret, true);
+ }
  
- 	__nvme_fc_terminate_io(ctrl);
+ int disconnect_all(const char *desc, int argc, char **argv)
+@@ -1223,10 +1230,12 @@ int disconnect_all(const char *desc, int argc, char **argv)
  
-+	flush_work(&ctrl->ctrl.scan_work);
- 	nvme_stop_ctrl(&ctrl->ctrl);
- 
- 	if (ctrl->rport->remoteport.port_state == FC_OBJSTATE_ONLINE)
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index f383146e7d0f..c00d59a14a2b 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1839,6 +1839,7 @@ static void nvme_rdma_reset_ctrl_work(struct work_struct *work)
- 
- 	nvme_stop_ctrl(&ctrl->ctrl);
- 	nvme_rdma_shutdown_ctrl(ctrl, false);
-+	flush_work(&ctrl->ctrl.scan_work);
- 
- 	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING)) {
- 		/* state change failure should never happen */
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 2b107a1d152b..ee32d9355959 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1872,6 +1872,7 @@ static void nvme_reset_ctrl_work(struct work_struct *work)
- 
- 	nvme_stop_ctrl(ctrl);
- 	nvme_tcp_teardown_ctrl(ctrl, false);
-+	flush_work(&ctrl->scan_work);
- 
- 	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_CONNECTING)) {
- 		/* state change failure is ok if we're in DELETING state */
+ 			ret = disconnect_by_device(ctrl->name);
+ 			if (ret)
+-				goto out;
++				goto free;
+ 		}
+ 	}
+-out:
++
++free:
+ 	free_subsys_list(slist, subcnt);
+-	return ret;
++out:
++	return nvme_status_to_errno(ret, true);
+ }
 -- 
-2.16.4
+2.21.0
