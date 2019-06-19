@@ -1,46 +1,31 @@
 From: bvanassche@acm.org (Bart Van Assche)
-Date: Wed, 19 Jun 2019 10:36:48 -0700
-Subject: [PATCH nvme-cli 00/13] Static checker fixes and NVMe 1.4 support
-Message-ID: <20190619173701.8263-1-bvanassche@acm.org>
+Date: Wed, 19 Jun 2019 10:36:51 -0700
+Subject: [PATCH nvme-cli 03/13] huawei: Declare local functions static
+In-Reply-To: <20190619173701.8263-1-bvanassche@acm.org>
+References: <20190619173701.8263-1-bvanassche@acm.org>
+Message-ID: <20190619173701.8263-4-bvanassche@acm.org>
 
-Hi Keith,
+This patch avoids that sparse complains about missing declarations.
 
-This patch series is what I came up with after having analyzed the output
-of 'sparse' for the nvme-cli source code. This patch series also includes
-two patches that add support for the new NVMe 1.4 Identify Namespace fields.
+Cc: Zou Ming <zouming.zouming at huawei.com>
+Signed-off-by: Bart Van Assche <bvanassche at acm.org>
+---
+ plugins/huawei/huawei-nvme.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Thanks,
-
-Bart.
-
-Bart Van Assche (13):
-  Remove superfluous casts
-  Use NULL instead of 0 where a pointer is expected
-  huawei: Declare local functions static
-  seagate: Declare local functions static
-  virtium: Declare local symbols static
-  lightnvm: Fix an endianness issue
-  virtium: Fix an endianness issue
-  wdc: Fix endianness bugs
-  Avoid using arrays with a variable length
-  nvme-cli: Rework the code for getting and setting NVMf properties
-  nvme-cli: Skip properties that are not supported
-  Introduce NVMe 1.4 Identify Namespace fields in struct nvme_id_ns
-  nvme-cli: Report the NVMe 1.4 NPWG, NPWA, NPDG, NPDA and NOWS fields
-
- fabrics.c                      |   2 +-
- linux/nvme.h                   |   7 +-
- nvme-ioctl.c                   | 126 +++++++++++++++++----------------
- nvme-ioctl.h                   |   2 +-
- nvme-lightnvm.c                |   2 +-
- nvme-models.c                  |   1 +
- nvme-print.c                   |  51 +++++++------
- plugins/huawei/huawei-nvme.c   |   3 +-
- plugins/intel/intel-nvme.c     |  16 ++---
- plugins/seagate/seagate-nvme.c |  58 +++++++--------
- plugins/virtium/virtium-nvme.c |  14 ++--
- plugins/wdc/wdc-nvme.c         |  88 ++++++++++++-----------
- 12 files changed, 200 insertions(+), 170 deletions(-)
-
+diff --git a/plugins/huawei/huawei-nvme.c b/plugins/huawei/huawei-nvme.c
+index b68e05c55aee..3130607a6443 100644
+--- a/plugins/huawei/huawei-nvme.c
++++ b/plugins/huawei/huawei-nvme.c
+@@ -163,7 +163,8 @@ static void format(char *formatter, size_t fmt_sz, char *tofmt, size_t tofmtsz)
+ 	}
+ }
+ 
+-void huawei_json_print_list_items(struct huawei_list_item *list_items, unsigned len)
++static void huawei_json_print_list_items(struct huawei_list_item *list_items,
++					 unsigned len)
+ {
+ 	struct json_object *root;
+ 	struct json_array *devices;
 -- 
 2.22.0.rc3
