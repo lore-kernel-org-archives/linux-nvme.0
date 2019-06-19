@@ -1,34 +1,37 @@
-From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Wed, 19 Jun 2019 08:52:12 -0500
-Subject: [PATCH] PCI: Add Intel remapped NVMe device support
-In-Reply-To: <1f56c881-9005-f8ad-1557-5efd6e0ef535@suse.de>
-References: <20190610074456.2761-1-drake@endlessm.com>
- <CAOSXXT7OFzHeTxNqZ1sS6giRxhDcrUUnVjURWBiFUc5T_8p=MA@mail.gmail.com>
- <CAD8Lp45djPU_Ur8uCO2Y5Sbek_5N9QKkxLXdKNVcvkr6rFPLUQ@mail.gmail.com>
- <CAOSXXT7H6HxY-za66Tr9ybRQyHsTdwwAgk9O2F=xK42MT8HsuA@mail.gmail.com>
- <20190613085402.GC13442@lst.de>
- <CAD8Lp47Vu=w+Lj77_vL05JYV1WMog9WX3FHGE+TseFrhcLoTuA@mail.gmail.com>
- <06c38b3e-603b-5bae-4959-9965ab40db62@suse.de>
- <CAD8Lp44rqGh3nmUOFhwq+SSxpJGuWvLFJ8sKtM0q1GeY0j4v9A@mail.gmail.com>
- <1f56c881-9005-f8ad-1557-5efd6e0ef535@suse.de>
-Message-ID: <20190619135212.GB143205@google.com>
+From: bvanassche@acm.org (Bart Van Assche)
+Date: Wed, 19 Jun 2019 08:44:41 -0700
+Subject: [PATCH v3 2/3] nvmet: Export NVMe namespace attributes
+In-Reply-To: <yq1a7eeusa5.fsf@oracle.com>
+References: <20190617161222.253849-1-bvanassche@acm.org>
+ <20190617161222.253849-3-bvanassche@acm.org> <yq1a7eeusa5.fsf@oracle.com>
+Message-ID: <68786de5-cdd8-c6d8-98a7-8a4310dac789@acm.org>
 
-On Tue, Jun 18, 2019@05:15:52PM +0200, Hannes Reinecke wrote:
-> On 6/18/19 10:06 AM, Daniel Drake wrote:
+On 6/18/19 9:13 PM, Martin K. Petersen wrote:
+> 
+> Bart,
+> 
+>> +	/*
+>> +	 * Physical blocks per logical block, 0's based. Is it possible to
+>> +	 * extract this information from the filesystem properties?
+>> +	 */
+>> +	const __le16 ppl0b = cpu_to_le16(0);
+> 
+> Maybe report the filesystem block size here?
+> 
+> Otherwise OK.
+> 
+> Reviewed-by: Martin K. Petersen <martin.petersen at oracle.com>
 
-> > We can probably also use these registers for MSI support. I
-> > started to experiment, doesn't quite work but I'll keep poking.
-> > The doc suggests there is a single MSI-X vector for the AHCI SATA
-> > device, and AHCI MSI-X Starting Vector (AMXV) has value 0x140 on
-> > this platform. No idea how to interpret that value. From
-> > experimentation, the AHCI SATA disk generates interrupts on vector
-> > 0.
-> > 
-> The 0x140 is probably the offset into the PCI config space where the
-> AHCI MSI-X vector table can be found ...
+Hi Martin,
 
-An MSI-X vector table is in memory space, not config space.  You'd
-have to look at PCI_MSIX_TABLE_BIR to find which BAR maps it, and then
-add PCI_MSIX_TABLE_OFFSET to the BAR value.
+Thanks for the review.
 
-Bjorn
+Are you perhaps referring to the parameter that can be specified as 
+command-line option -b to mkfs? I'm not sure that we should report that 
+size as the physical block size since that parameter can be set to a 
+value that is much larger than the physical block size of the storage 
+medium (in the target system). I'd like to make sure that writes with a 
+size of what is reported as physical block size are atomic because that 
+is what filesystems (at the initiator side) expect.
+
+Bart.
