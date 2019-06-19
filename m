@@ -1,24 +1,21 @@
 From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Wed, 19 Jun 2019 00:13:06 -0400
-Subject: [PATCH v3 2/3] nvmet: Export NVMe namespace attributes
-In-Reply-To: <20190617161222.253849-3-bvanassche@acm.org> (Bart Van Assche's
- message of "Mon, 17 Jun 2019 09:12:21 -0700")
+Date: Wed, 19 Jun 2019 00:17:26 -0400
+Subject: [PATCH v3 3/3] nvme: Set physical block size and optimal I/O size
+ according to NVMe 1.4
+In-Reply-To: <20190617161222.253849-4-bvanassche@acm.org> (Bart Van Assche's
+ message of "Mon, 17 Jun 2019 09:12:22 -0700")
 References: <20190617161222.253849-1-bvanassche@acm.org>
- <20190617161222.253849-3-bvanassche@acm.org>
-Message-ID: <yq1a7eeusa5.fsf@oracle.com>
+ <20190617161222.253849-4-bvanassche@acm.org>
+Message-ID: <yq15zp2us2x.fsf@oracle.com>
 
 
 Bart,
 
-> +	/*
-> +	 * Physical blocks per logical block, 0's based. Is it possible to
-> +	 * extract this information from the filesystem properties?
-> +	 */
-> +	const __le16 ppl0b = cpu_to_le16(0);
+> NSFEAT bit 4 if set to 1: indicates that the fields NPWG, NPWA, NPDG, NPDA,
+> and NOWS are defined for this namespace and should be used by the host for
+> I/O optimization;
 
-Maybe report the filesystem block size here?
-
-Otherwise OK.
+LGTM.
 
 Reviewed-by: Martin K. Petersen <martin.petersen at oracle.com>
 
