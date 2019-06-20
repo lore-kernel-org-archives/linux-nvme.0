@@ -1,216 +1,41 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 20 Jun 2019 10:12:39 -0600
-Subject: [RFC PATCH 27/28] PCI/P2PDMA: Remove struct pages that back P2PDMA
- memory
+Date: Thu, 20 Jun 2019 10:12:16 -0600
+Subject: [RFC PATCH 04/28] block: Never bounce dma-direct bios
 In-Reply-To: <20190620161240.22738-1-logang@deltatee.com>
 References: <20190620161240.22738-1-logang@deltatee.com>
-Message-ID: <20190620161240.22738-28-logang@deltatee.com>
+Message-ID: <20190620161240.22738-5-logang@deltatee.com>
 
-There are no more users of the struct pages that back P2P memory,
-so convert the devm_memremap_pages() call to devm_memremap() to remove
-them.
+It is expected the creator of the dma-direct bio will ensure the
+target device can access the DMA address it's creating bios for.
+It's also not possible to bounce a dma-direct bio seeing the block
+layer doesn't have any way to access the underlying data behind
+the DMA address.
 
-The percpu_ref and completion are retained in struct p2pdma to track
-when there is no memory allocated out of the genpool and it is safe
-to free it.
+Thus, never bounce dma-direct bios.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 ---
- drivers/pci/p2pdma.c | 107 +++++++++++++------------------------------
- 1 file changed, 33 insertions(+), 74 deletions(-)
+ block/bounce.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-index 9b82e13f802c..83d93911f792 100644
---- a/drivers/pci/p2pdma.c
-+++ b/drivers/pci/p2pdma.c
-@@ -22,10 +22,6 @@
- struct pci_p2pdma {
- 	struct gen_pool *pool;
- 	bool p2pmem_published;
--};
--
--struct p2pdma_pagemap {
--	struct dev_pagemap pgmap;
- 	struct percpu_ref ref;
- 	struct completion ref_done;
- };
-@@ -78,29 +74,12 @@ static const struct attribute_group p2pmem_group = {
- 	.name = "p2pmem",
- };
- 
--static struct p2pdma_pagemap *to_p2p_pgmap(struct percpu_ref *ref)
--{
--	return container_of(ref, struct p2pdma_pagemap, ref);
--}
--
- static void pci_p2pdma_percpu_release(struct percpu_ref *ref)
- {
--	struct p2pdma_pagemap *p2p_pgmap = to_p2p_pgmap(ref);
-+	struct pci_p2pdma *p2pdma =
-+		container_of(ref, struct pci_p2pdma, ref);
- 
--	complete(&p2p_pgmap->ref_done);
--}
--
--static void pci_p2pdma_percpu_kill(struct percpu_ref *ref)
--{
--	percpu_ref_kill(ref);
--}
--
--static void pci_p2pdma_percpu_cleanup(struct percpu_ref *ref)
--{
--	struct p2pdma_pagemap *p2p_pgmap = to_p2p_pgmap(ref);
--
--	wait_for_completion(&p2p_pgmap->ref_done);
--	percpu_ref_exit(&p2p_pgmap->ref);
-+	complete(&p2pdma->ref_done);
- }
- 
- static void pci_p2pdma_release(void *data)
-@@ -111,6 +90,10 @@ static void pci_p2pdma_release(void *data)
- 	if (!p2pdma)
+diff --git a/block/bounce.c b/block/bounce.c
+index f8ed677a1bf7..17e020a40cca 100644
+--- a/block/bounce.c
++++ b/block/bounce.c
+@@ -367,6 +367,14 @@ void blk_queue_bounce(struct request_queue *q, struct bio **bio_orig)
+ 	if (!bio_has_data(*bio_orig))
  		return;
  
-+	percpu_ref_kill(&p2pdma->ref);
-+	wait_for_completion(&p2pdma->ref_done);
-+	percpu_ref_exit(&p2pdma->ref);
++	/*
++	 * For DMA direct bios, Upper layers are expected to ensure
++	 * the device in question can access the DMA addresses. So
++	 * it never makes sense to bounce a DMA direct bio.
++	 */
++	if (bio_is_dma_direct(*bio_orig))
++		return;
 +
- 	/* Flush and disable pci_alloc_p2p_mem() */
- 	pdev->p2pdma = NULL;
- 	synchronize_rcu();
-@@ -128,10 +111,17 @@ static int pci_p2pdma_setup(struct pci_dev *pdev)
- 	if (!p2p)
- 		return -ENOMEM;
- 
-+	init_completion(&p2p->ref_done);
-+
- 	p2p->pool = gen_pool_create(PAGE_SHIFT, dev_to_node(&pdev->dev));
- 	if (!p2p->pool)
- 		goto out;
- 
-+	error = percpu_ref_init(&p2p->ref, pci_p2pdma_percpu_release, 0,
-+				GFP_KERNEL);
-+	if (error)
-+		goto out_pool_destroy;
-+
- 	error = devm_add_action_or_reset(&pdev->dev, pci_p2pdma_release, pdev);
- 	if (error)
- 		goto out_pool_destroy;
-@@ -165,8 +155,7 @@ static int pci_p2pdma_setup(struct pci_dev *pdev)
- int pci_p2pdma_add_resource(struct pci_dev *pdev, int bar, size_t size,
- 			    u64 offset)
- {
--	struct p2pdma_pagemap *p2p_pgmap;
--	struct dev_pagemap *pgmap;
-+	struct resource res;
- 	void *addr;
- 	int error;
- 
-@@ -188,50 +177,26 @@ int pci_p2pdma_add_resource(struct pci_dev *pdev, int bar, size_t size,
- 			return error;
- 	}
- 
--	p2p_pgmap = devm_kzalloc(&pdev->dev, sizeof(*p2p_pgmap), GFP_KERNEL);
--	if (!p2p_pgmap)
--		return -ENOMEM;
-+	res.start = pci_resource_start(pdev, bar) + offset;
-+	res.end = res.start + size - 1;
-+	res.flags = pci_resource_flags(pdev, bar);
- 
--	init_completion(&p2p_pgmap->ref_done);
--	error = percpu_ref_init(&p2p_pgmap->ref,
--			pci_p2pdma_percpu_release, 0, GFP_KERNEL);
--	if (error)
--		goto pgmap_free;
--
--	pgmap = &p2p_pgmap->pgmap;
--
--	pgmap->res.start = pci_resource_start(pdev, bar) + offset;
--	pgmap->res.end = pgmap->res.start + size - 1;
--	pgmap->res.flags = pci_resource_flags(pdev, bar);
--	pgmap->ref = &p2p_pgmap->ref;
--	pgmap->type = MEMORY_DEVICE_PCI_P2PDMA;
--	pgmap->pci_p2pdma_bus_offset = pci_bus_address(pdev, bar) -
--		pci_resource_start(pdev, bar);
--	pgmap->kill = pci_p2pdma_percpu_kill;
--	pgmap->cleanup = pci_p2pdma_percpu_cleanup;
--
--	addr = devm_memremap_pages(&pdev->dev, pgmap);
--	if (IS_ERR(addr)) {
--		error = PTR_ERR(addr);
--		goto pgmap_free;
--	}
-+	addr = devm_memremap(&pdev->dev, res.start, size, MEMREMAP_WC);
-+	if (IS_ERR(addr))
-+		return PTR_ERR(addr);
- 
--	error = gen_pool_add_owner(pdev->p2pdma->pool, (unsigned long)addr,
--			pci_bus_address(pdev, bar) + offset,
--			resource_size(&pgmap->res), dev_to_node(&pdev->dev),
--			&p2p_pgmap->ref);
-+	error = gen_pool_add_virt(pdev->p2pdma->pool, (unsigned long)addr,
-+				  pci_bus_address(pdev, bar) + offset, size,
-+				  dev_to_node(&pdev->dev));
- 	if (error)
- 		goto pages_free;
- 
--	pci_info(pdev, "added peer-to-peer DMA memory %pR\n",
--		 &pgmap->res);
-+	pci_info(pdev, "added peer-to-peer DMA memory %pR\n", &res);
- 
- 	return 0;
- 
- pages_free:
--	devm_memunmap_pages(&pdev->dev, pgmap);
--pgmap_free:
--	devm_kfree(&pdev->dev, p2p_pgmap);
-+	devm_memunmap(&pdev->dev, addr);
- 	return error;
- }
- EXPORT_SYMBOL_GPL(pci_p2pdma_add_resource);
-@@ -601,7 +566,6 @@ EXPORT_SYMBOL_GPL(pci_p2pmem_find_many);
- void *pci_alloc_p2pmem(struct pci_dev *pdev, size_t size)
- {
- 	void *ret = NULL;
--	struct percpu_ref *ref;
- 
  	/*
- 	 * Pairs with synchronize_rcu() in pci_p2pdma_release() to
-@@ -612,16 +576,13 @@ void *pci_alloc_p2pmem(struct pci_dev *pdev, size_t size)
- 	if (unlikely(!pdev->p2pdma))
- 		goto out;
- 
--	ret = (void *)gen_pool_alloc_owner(pdev->p2pdma->pool, size,
--			(void **) &ref);
--	if (!ret)
-+	if (unlikely(!percpu_ref_tryget_live(&pdev->p2pdma->ref)))
- 		goto out;
- 
--	if (unlikely(!percpu_ref_tryget_live(ref))) {
--		gen_pool_free(pdev->p2pdma->pool, (unsigned long) ret, size);
--		ret = NULL;
--		goto out;
--	}
-+	ret = (void *)gen_pool_alloc(pdev->p2pdma->pool, size);
-+	if (!ret)
-+		percpu_ref_put(&pdev->p2pdma->ref);
-+
- out:
- 	rcu_read_unlock();
- 	return ret;
-@@ -636,11 +597,9 @@ EXPORT_SYMBOL_GPL(pci_alloc_p2pmem);
-  */
- void pci_free_p2pmem(struct pci_dev *pdev, void *addr, size_t size)
- {
--	struct percpu_ref *ref;
-+	gen_pool_free(pdev->p2pdma->pool, (uintptr_t)addr, size);
- 
--	gen_pool_free_owner(pdev->p2pdma->pool, (uintptr_t)addr, size,
--			(void **) &ref);
--	percpu_ref_put(ref);
-+	percpu_ref_put(&pdev->p2pdma->ref);
- }
- EXPORT_SYMBOL_GPL(pci_free_p2pmem);
- 
+ 	 * for non-isa bounce case, just check if the bounce pfn is equal
+ 	 * to or bigger than the highest pfn in the system -- in that case,
 -- 
 2.20.1
