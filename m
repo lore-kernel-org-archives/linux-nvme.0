@@ -1,91 +1,216 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 20 Jun 2019 10:12:31 -0600
-Subject: [RFC PATCH 19/28] nvme-pci: Support dma-direct bios
+Date: Thu, 20 Jun 2019 10:12:39 -0600
+Subject: [RFC PATCH 27/28] PCI/P2PDMA: Remove struct pages that back P2PDMA
+ memory
 In-Reply-To: <20190620161240.22738-1-logang@deltatee.com>
 References: <20190620161240.22738-1-logang@deltatee.com>
-Message-ID: <20190620161240.22738-20-logang@deltatee.com>
+Message-ID: <20190620161240.22738-28-logang@deltatee.com>
 
-Adding support for dma-direct bios only requires putting a condition
-around the call to dma_map_sg() so it is skipped when the request
-has the REQ_DMA_ADDR flag.
+There are no more users of the struct pages that back P2P memory,
+so convert the devm_memremap_pages() call to devm_memremap() to remove
+them.
 
-We then need to indicate support for the queue in much the same way
-we did with PCI P2PDMA. Seeing this provides the same support as
-PCI P2PDMA those flags will be removed in a subsequent patch.
+The percpu_ref and completion are retained in struct p2pdma to track
+when there is no memory allocated out of the genpool and it is safe
+to free it.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 ---
- drivers/nvme/host/core.c |  2 ++
- drivers/nvme/host/nvme.h |  1 +
- drivers/nvme/host/pci.c  | 10 +++++++---
- 3 files changed, 10 insertions(+), 3 deletions(-)
+ drivers/pci/p2pdma.c | 107 +++++++++++++------------------------------
+ 1 file changed, 33 insertions(+), 74 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 120fb593d1da..8e876417c44b 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3259,6 +3259,8 @@ static int nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 	blk_queue_flag_set(QUEUE_FLAG_NONROT, ns->queue);
- 	if (ctrl->ops->flags & NVME_F_PCI_P2PDMA)
- 		blk_queue_flag_set(QUEUE_FLAG_PCI_P2PDMA, ns->queue);
-+	if (ctrl->ops->flags & NVME_F_DMA_DIRECT)
-+		blk_queue_flag_set(QUEUE_FLAG_DMA_DIRECT, ns->queue);
+diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
+index 9b82e13f802c..83d93911f792 100644
+--- a/drivers/pci/p2pdma.c
++++ b/drivers/pci/p2pdma.c
+@@ -22,10 +22,6 @@
+ struct pci_p2pdma {
+ 	struct gen_pool *pool;
+ 	bool p2pmem_published;
+-};
+-
+-struct p2pdma_pagemap {
+-	struct dev_pagemap pgmap;
+ 	struct percpu_ref ref;
+ 	struct completion ref_done;
+ };
+@@ -78,29 +74,12 @@ static const struct attribute_group p2pmem_group = {
+ 	.name = "p2pmem",
+ };
  
- 	ns->queue->queuedata = ns;
- 	ns->ctrl = ctrl;
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 55553d293a98..f1dddc95c6a8 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -362,6 +362,7 @@ struct nvme_ctrl_ops {
- #define NVME_F_FABRICS			(1 << 0)
- #define NVME_F_METADATA_SUPPORTED	(1 << 1)
- #define NVME_F_PCI_P2PDMA		(1 << 2)
-+#define NVME_F_DMA_DIRECT		(1 << 3)
- 	int (*reg_read32)(struct nvme_ctrl *ctrl, u32 off, u32 *val);
- 	int (*reg_write32)(struct nvme_ctrl *ctrl, u32 off, u32 val);
- 	int (*reg_read64)(struct nvme_ctrl *ctrl, u32 off, u64 *val);
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 524d6bd6d095..5957f3a4f261 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -565,7 +565,8 @@ static void nvme_unmap_data(struct nvme_dev *dev, struct request *req)
- 	WARN_ON_ONCE(!iod->nents);
+-static struct p2pdma_pagemap *to_p2p_pgmap(struct percpu_ref *ref)
+-{
+-	return container_of(ref, struct p2pdma_pagemap, ref);
+-}
+-
+ static void pci_p2pdma_percpu_release(struct percpu_ref *ref)
+ {
+-	struct p2pdma_pagemap *p2p_pgmap = to_p2p_pgmap(ref);
++	struct pci_p2pdma *p2pdma =
++		container_of(ref, struct pci_p2pdma, ref);
  
- 	/* P2PDMA requests do not need to be unmapped */
--	if (!is_pci_p2pdma_page(sg_page(iod->sg)))
-+	if (!is_pci_p2pdma_page(sg_page(iod->sg)) &&
-+	    !blk_rq_is_dma_direct(req))
- 		dma_unmap_sg(dev->dev, iod->sg, iod->nents, rq_dma_dir(req));
+-	complete(&p2p_pgmap->ref_done);
+-}
+-
+-static void pci_p2pdma_percpu_kill(struct percpu_ref *ref)
+-{
+-	percpu_ref_kill(ref);
+-}
+-
+-static void pci_p2pdma_percpu_cleanup(struct percpu_ref *ref)
+-{
+-	struct p2pdma_pagemap *p2p_pgmap = to_p2p_pgmap(ref);
+-
+-	wait_for_completion(&p2p_pgmap->ref_done);
+-	percpu_ref_exit(&p2p_pgmap->ref);
++	complete(&p2pdma->ref_done);
+ }
  
+ static void pci_p2pdma_release(void *data)
+@@ -111,6 +90,10 @@ static void pci_p2pdma_release(void *data)
+ 	if (!p2pdma)
+ 		return;
  
-@@ -824,7 +825,7 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
- 	blk_status_t ret = BLK_STS_RESOURCE;
- 	int nr_mapped;
++	percpu_ref_kill(&p2pdma->ref);
++	wait_for_completion(&p2pdma->ref_done);
++	percpu_ref_exit(&p2pdma->ref);
++
+ 	/* Flush and disable pci_alloc_p2p_mem() */
+ 	pdev->p2pdma = NULL;
+ 	synchronize_rcu();
+@@ -128,10 +111,17 @@ static int pci_p2pdma_setup(struct pci_dev *pdev)
+ 	if (!p2p)
+ 		return -ENOMEM;
  
--	if (blk_rq_nr_phys_segments(req) == 1) {
-+	if (blk_rq_nr_phys_segments(req) == 1 && !blk_rq_is_dma_direct(req)) {
- 		struct bio_vec bv = req_bvec(req);
++	init_completion(&p2p->ref_done);
++
+ 	p2p->pool = gen_pool_create(PAGE_SHIFT, dev_to_node(&pdev->dev));
+ 	if (!p2p->pool)
+ 		goto out;
  
- 		if (!is_pci_p2pdma_page(bv.bv_page)) {
-@@ -851,6 +852,8 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
- 	if (is_pci_p2pdma_page(sg_page(iod->sg)))
- 		nr_mapped = pci_p2pdma_map_sg(dev->dev, iod->sg, iod->nents,
- 					      rq_dma_dir(req));
-+	else if (blk_rq_is_dma_direct(req))
-+		nr_mapped = iod->nents;
- 	else
- 		nr_mapped = dma_map_sg_attrs(dev->dev, iod->sg, iod->nents,
- 					     rq_dma_dir(req), DMA_ATTR_NO_WARN);
-@@ -2639,7 +2642,8 @@ static const struct nvme_ctrl_ops nvme_pci_ctrl_ops = {
- 	.name			= "pcie",
- 	.module			= THIS_MODULE,
- 	.flags			= NVME_F_METADATA_SUPPORTED |
--				  NVME_F_PCI_P2PDMA,
-+				  NVME_F_PCI_P2PDMA |
-+				  NVME_F_DMA_DIRECT,
- 	.reg_read32		= nvme_pci_reg_read32,
- 	.reg_write32		= nvme_pci_reg_write32,
- 	.reg_read64		= nvme_pci_reg_read64,
++	error = percpu_ref_init(&p2p->ref, pci_p2pdma_percpu_release, 0,
++				GFP_KERNEL);
++	if (error)
++		goto out_pool_destroy;
++
+ 	error = devm_add_action_or_reset(&pdev->dev, pci_p2pdma_release, pdev);
+ 	if (error)
+ 		goto out_pool_destroy;
+@@ -165,8 +155,7 @@ static int pci_p2pdma_setup(struct pci_dev *pdev)
+ int pci_p2pdma_add_resource(struct pci_dev *pdev, int bar, size_t size,
+ 			    u64 offset)
+ {
+-	struct p2pdma_pagemap *p2p_pgmap;
+-	struct dev_pagemap *pgmap;
++	struct resource res;
+ 	void *addr;
+ 	int error;
+ 
+@@ -188,50 +177,26 @@ int pci_p2pdma_add_resource(struct pci_dev *pdev, int bar, size_t size,
+ 			return error;
+ 	}
+ 
+-	p2p_pgmap = devm_kzalloc(&pdev->dev, sizeof(*p2p_pgmap), GFP_KERNEL);
+-	if (!p2p_pgmap)
+-		return -ENOMEM;
++	res.start = pci_resource_start(pdev, bar) + offset;
++	res.end = res.start + size - 1;
++	res.flags = pci_resource_flags(pdev, bar);
+ 
+-	init_completion(&p2p_pgmap->ref_done);
+-	error = percpu_ref_init(&p2p_pgmap->ref,
+-			pci_p2pdma_percpu_release, 0, GFP_KERNEL);
+-	if (error)
+-		goto pgmap_free;
+-
+-	pgmap = &p2p_pgmap->pgmap;
+-
+-	pgmap->res.start = pci_resource_start(pdev, bar) + offset;
+-	pgmap->res.end = pgmap->res.start + size - 1;
+-	pgmap->res.flags = pci_resource_flags(pdev, bar);
+-	pgmap->ref = &p2p_pgmap->ref;
+-	pgmap->type = MEMORY_DEVICE_PCI_P2PDMA;
+-	pgmap->pci_p2pdma_bus_offset = pci_bus_address(pdev, bar) -
+-		pci_resource_start(pdev, bar);
+-	pgmap->kill = pci_p2pdma_percpu_kill;
+-	pgmap->cleanup = pci_p2pdma_percpu_cleanup;
+-
+-	addr = devm_memremap_pages(&pdev->dev, pgmap);
+-	if (IS_ERR(addr)) {
+-		error = PTR_ERR(addr);
+-		goto pgmap_free;
+-	}
++	addr = devm_memremap(&pdev->dev, res.start, size, MEMREMAP_WC);
++	if (IS_ERR(addr))
++		return PTR_ERR(addr);
+ 
+-	error = gen_pool_add_owner(pdev->p2pdma->pool, (unsigned long)addr,
+-			pci_bus_address(pdev, bar) + offset,
+-			resource_size(&pgmap->res), dev_to_node(&pdev->dev),
+-			&p2p_pgmap->ref);
++	error = gen_pool_add_virt(pdev->p2pdma->pool, (unsigned long)addr,
++				  pci_bus_address(pdev, bar) + offset, size,
++				  dev_to_node(&pdev->dev));
+ 	if (error)
+ 		goto pages_free;
+ 
+-	pci_info(pdev, "added peer-to-peer DMA memory %pR\n",
+-		 &pgmap->res);
++	pci_info(pdev, "added peer-to-peer DMA memory %pR\n", &res);
+ 
+ 	return 0;
+ 
+ pages_free:
+-	devm_memunmap_pages(&pdev->dev, pgmap);
+-pgmap_free:
+-	devm_kfree(&pdev->dev, p2p_pgmap);
++	devm_memunmap(&pdev->dev, addr);
+ 	return error;
+ }
+ EXPORT_SYMBOL_GPL(pci_p2pdma_add_resource);
+@@ -601,7 +566,6 @@ EXPORT_SYMBOL_GPL(pci_p2pmem_find_many);
+ void *pci_alloc_p2pmem(struct pci_dev *pdev, size_t size)
+ {
+ 	void *ret = NULL;
+-	struct percpu_ref *ref;
+ 
+ 	/*
+ 	 * Pairs with synchronize_rcu() in pci_p2pdma_release() to
+@@ -612,16 +576,13 @@ void *pci_alloc_p2pmem(struct pci_dev *pdev, size_t size)
+ 	if (unlikely(!pdev->p2pdma))
+ 		goto out;
+ 
+-	ret = (void *)gen_pool_alloc_owner(pdev->p2pdma->pool, size,
+-			(void **) &ref);
+-	if (!ret)
++	if (unlikely(!percpu_ref_tryget_live(&pdev->p2pdma->ref)))
+ 		goto out;
+ 
+-	if (unlikely(!percpu_ref_tryget_live(ref))) {
+-		gen_pool_free(pdev->p2pdma->pool, (unsigned long) ret, size);
+-		ret = NULL;
+-		goto out;
+-	}
++	ret = (void *)gen_pool_alloc(pdev->p2pdma->pool, size);
++	if (!ret)
++		percpu_ref_put(&pdev->p2pdma->ref);
++
+ out:
+ 	rcu_read_unlock();
+ 	return ret;
+@@ -636,11 +597,9 @@ EXPORT_SYMBOL_GPL(pci_alloc_p2pmem);
+  */
+ void pci_free_p2pmem(struct pci_dev *pdev, void *addr, size_t size)
+ {
+-	struct percpu_ref *ref;
++	gen_pool_free(pdev->p2pdma->pool, (uintptr_t)addr, size);
+ 
+-	gen_pool_free_owner(pdev->p2pdma->pool, (uintptr_t)addr, size,
+-			(void **) &ref);
+-	percpu_ref_put(ref);
++	percpu_ref_put(&pdev->p2pdma->ref);
+ }
+ EXPORT_SYMBOL_GPL(pci_free_p2pmem);
+ 
 -- 
 2.20.1
