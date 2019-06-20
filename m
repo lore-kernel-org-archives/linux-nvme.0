@@ -1,16 +1,31 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 19 Jun 2019 23:39:15 -0700
-Subject: Use of WARN in nvme subssytem.
-In-Reply-To: <82D7EABA-733D-4CBF-BCD6-E8EA51C2B220@oracle.com>
-References: <82D7EABA-733D-4CBF-BCD6-E8EA51C2B220@oracle.com>
-Message-ID: <20190620063915.GA13586@infradead.org>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 20 Jun 2019 01:02:06 -0700
+Subject: [PATCH] nvmet-rdma: move port tsas initialization to rdma code
+In-Reply-To: <20190620062914.GD20765@lst.de>
+References: <20190619230006.15715-1-sagi@grimberg.me>
+ <20190620062914.GD20765@lst.de>
+Message-ID: <b9fa7da3-8bc3-eaf6-aaf0-0928231ec610@grimberg.me>
 
-On Fri, May 24, 2019@09:16:01AM -0500, John Donnelly wrote:
-> Hi,
+
+>> Also, look at the device transport capability to send
+>> the correct trtype (ib/roce/rocev2/iwarp). Note that if
+>> we are listening on addr_any we still return "not specified"
+>> trtype and the same goes for referrals.
 > 
-> There is approximately 72 occurrences of WARN*  in the driver/nvme modules in 5.2.rc.  If the system is configured with the option ?panic_on_warn? the system will reboot.  Are all of  these warnings necessary ? I am sure many could  be converted to log entries with more informative content for administrators. 
+> I very much disagree with sending the type.  That whole concept
+> has been a horrible layering violation in the spec that we should
+> not support.
 
-Necessary is in the eye of the beholder, but they do have a very valid
-use case to point out should not happen scenarios, which is what WARN*
-is for.  OTOH panic_on_warn is generally bat shit crazy, so you get what
-you ask for.
+Well, I was asked offline why Linux was not providing this information
+and I couldn't find a reason why given that its exposed to the upper
+layer...
+
+I don't necessarily think that this is a layering violation, what
+I can see as a layering issue though is that these helpers require
+port_num, which is cumbersome to extract from the ip address. I guess
+this can lead to misinformation in case of dual port devices where each
+port has a different rdma link/transport (however this is more theoretic
+than practical afaict).
+
+Having said that, its not really a pressing issue, so if there is
+resistance to have it, we can drop the prtype.
