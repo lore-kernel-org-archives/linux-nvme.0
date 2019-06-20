@@ -1,167 +1,63 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 20 Jun 2019 10:12:15 -0600
-Subject: [RFC PATCH 03/28] block: Warn on mis-use of dma-direct bios
+Date: Thu, 20 Jun 2019 10:12:40 -0600
+Subject: [RFC PATCH 28/28] memremap: Remove PCI P2PDMA page memory type
 In-Reply-To: <20190620161240.22738-1-logang@deltatee.com>
 References: <20190620161240.22738-1-logang@deltatee.com>
-Message-ID: <20190620161240.22738-4-logang@deltatee.com>
+Message-ID: <20190620161240.22738-29-logang@deltatee.com>
 
-This is a result of an audit of users of 'bi_io_vec'. A number of
-warnings and blocking conditions are added to ensure dma-direct bios
-are not incorrectly accessing the 'bi_io_vec' when they should access
-the 'bi_dma_vec'. These are largely just protecting against mis-uses
-in future development so depending on taste and public opinion some
-or all of these checks may not be necessary.
-
-A few other issues with dma-direct bios will be tackled in subsequent
-patches.
+There are no more users of MEMORY_DEVICE_PCI_P2PDMA and
+is_pci_p2pdma_page(), so remove them.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 ---
- block/bio.c      | 33 +++++++++++++++++++++++++++++++++
- block/blk-core.c |  3 +++
- 2 files changed, 36 insertions(+)
+ include/linux/memremap.h |  5 -----
+ include/linux/mm.h       | 13 -------------
+ 2 files changed, 18 deletions(-)
 
-diff --git a/block/bio.c b/block/bio.c
-index 683cbb40f051..6998fceddd36 100644
---- a/block/bio.c
-+++ b/block/bio.c
-@@ -525,6 +525,9 @@ void zero_fill_bio_iter(struct bio *bio, struct bvec_iter start)
- 	struct bio_vec bv;
- 	struct bvec_iter iter;
+diff --git a/include/linux/memremap.h b/include/linux/memremap.h
+index 1732dea030b2..2e5d9fcd4d69 100644
+--- a/include/linux/memremap.h
++++ b/include/linux/memremap.h
+@@ -51,16 +51,11 @@ struct vmem_altmap {
+  * wakeup event whenever a page is unpinned and becomes idle. This
+  * wakeup is used to coordinate physical address space management (ex:
+  * fs truncate/hole punch) vs pinned pages (ex: device dma).
+- *
+- * MEMORY_DEVICE_PCI_P2PDMA:
+- * Device memory residing in a PCI BAR intended for use with Peer-to-Peer
+- * transactions.
+  */
+ enum memory_type {
+ 	MEMORY_DEVICE_PRIVATE = 1,
+ 	MEMORY_DEVICE_PUBLIC,
+ 	MEMORY_DEVICE_FS_DAX,
+-	MEMORY_DEVICE_PCI_P2PDMA,
+ };
  
-+	if (WARN_ON_ONCE(bio_is_dma_direct(bio)))
-+		return;
-+
- 	__bio_for_each_segment(bv, bio, iter, start) {
- 		char *data = bvec_kmap_irq(&bv, &flags);
- 		memset(data, 0, bv.bv_len);
-@@ -707,6 +710,8 @@ static int __bio_add_pc_page(struct request_queue *q, struct bio *bio,
- 	 */
- 	if (unlikely(bio_flagged(bio, BIO_CLONED)))
- 		return 0;
-+	if (unlikely(bio_is_dma_direct(bio)))
-+		return 0;
+ /*
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index dd0b5f4e1e45..f5fa9ec440e3 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -966,19 +966,6 @@ static inline bool is_device_public_page(const struct page *page)
+ 		page->pgmap->type == MEMORY_DEVICE_PUBLIC;
+ }
  
- 	if (((bio->bi_iter.bi_size + len) >> 9) > queue_max_hw_sectors(q))
- 		return 0;
-@@ -783,6 +788,8 @@ bool __bio_try_merge_page(struct bio *bio, struct page *page,
+-#ifdef CONFIG_PCI_P2PDMA
+-static inline bool is_pci_p2pdma_page(const struct page *page)
+-{
+-	return is_zone_device_page(page) &&
+-		page->pgmap->type == MEMORY_DEVICE_PCI_P2PDMA;
+-}
+-#else /* CONFIG_PCI_P2PDMA */
+-static inline bool is_pci_p2pdma_page(const struct page *page)
+-{
+-	return false;
+-}
+-#endif /* CONFIG_PCI_P2PDMA */
+-
+ #else /* CONFIG_DEV_PAGEMAP_OPS */
+ static inline void dev_pagemap_get_ops(void)
  {
- 	if (WARN_ON_ONCE(bio_flagged(bio, BIO_CLONED)))
- 		return false;
-+	if (WARN_ON_ONCE(bio_is_dma_direct(bio)))
-+		return false;
- 
- 	if (bio->bi_vcnt > 0) {
- 		struct bio_vec *bv = &bio->bi_io_vec[bio->bi_vcnt - 1];
-@@ -814,6 +821,7 @@ void __bio_add_page(struct bio *bio, struct page *page,
- 
- 	WARN_ON_ONCE(bio_flagged(bio, BIO_CLONED));
- 	WARN_ON_ONCE(bio_full(bio));
-+	WARN_ON_ONCE(bio_is_dma_direct(bio));
- 
- 	bv->bv_page = page;
- 	bv->bv_offset = off;
-@@ -851,6 +859,8 @@ static void bio_get_pages(struct bio *bio)
- 	struct bvec_iter_all iter_all;
- 	struct bio_vec *bvec;
- 
-+	WARN_ON_ONCE(bio_is_dma_direct(bio));
-+
- 	bio_for_each_segment_all(bvec, bio, iter_all)
- 		get_page(bvec->bv_page);
- }
-@@ -956,6 +966,8 @@ int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter)
- 
- 	if (WARN_ON_ONCE(bio->bi_vcnt))
- 		return -EINVAL;
-+	if (WARN_ON_ONCE(bio_is_dma_direct(bio)))
-+		return -EINVAL;
- 
- 	do {
- 		if (is_bvec)
-@@ -1029,6 +1041,9 @@ void bio_copy_data_iter(struct bio *dst, struct bvec_iter *dst_iter,
- 	void *src_p, *dst_p;
- 	unsigned bytes;
- 
-+	if (WARN_ON_ONCE(bio_is_dma_direct(src) || bio_is_dma_direct(dst)))
-+		return;
-+
- 	while (src_iter->bi_size && dst_iter->bi_size) {
- 		src_bv = bio_iter_iovec(src, *src_iter);
- 		dst_bv = bio_iter_iovec(dst, *dst_iter);
-@@ -1143,6 +1158,9 @@ static int bio_copy_from_iter(struct bio *bio, struct iov_iter *iter)
- 	struct bio_vec *bvec;
- 	struct bvec_iter_all iter_all;
- 
-+	if (WARN_ON_ONCE(bio_is_dma_direct(bio)))
-+		return -EINVAL;
-+
- 	bio_for_each_segment_all(bvec, bio, iter_all) {
- 		ssize_t ret;
- 
-@@ -1174,6 +1192,9 @@ static int bio_copy_to_iter(struct bio *bio, struct iov_iter iter)
- 	struct bio_vec *bvec;
- 	struct bvec_iter_all iter_all;
- 
-+	if (WARN_ON_ONCE(bio_is_dma_direct(bio)))
-+		return -EINVAL;
-+
- 	bio_for_each_segment_all(bvec, bio, iter_all) {
- 		ssize_t ret;
- 
-@@ -1197,6 +1218,9 @@ void bio_free_pages(struct bio *bio)
- 	struct bio_vec *bvec;
- 	struct bvec_iter_all iter_all;
- 
-+	if (WARN_ON_ONCE(bio_is_dma_direct(bio)))
-+		return;
-+
- 	bio_for_each_segment_all(bvec, bio, iter_all)
- 		__free_page(bvec->bv_page);
- }
-@@ -1653,6 +1677,9 @@ void bio_set_pages_dirty(struct bio *bio)
- 	struct bio_vec *bvec;
- 	struct bvec_iter_all iter_all;
- 
-+	if (unlikely(bio_is_dma_direct(bio)))
-+		return;
-+
- 	bio_for_each_segment_all(bvec, bio, iter_all) {
- 		if (!PageCompound(bvec->bv_page))
- 			set_page_dirty_lock(bvec->bv_page);
-@@ -1704,6 +1731,9 @@ void bio_check_pages_dirty(struct bio *bio)
- 	unsigned long flags;
- 	struct bvec_iter_all iter_all;
- 
-+	if (unlikely(bio_is_dma_direct(bio)))
-+		return;
-+
- 	bio_for_each_segment_all(bvec, bio, iter_all) {
- 		if (!PageDirty(bvec->bv_page) && !PageCompound(bvec->bv_page))
- 			goto defer;
-@@ -1777,6 +1807,9 @@ void bio_flush_dcache_pages(struct bio *bi)
- 	struct bio_vec bvec;
- 	struct bvec_iter iter;
- 
-+	if (unlikely(bio_is_dma_direct(bi)))
-+		return;
-+
- 	bio_for_each_segment(bvec, bi, iter)
- 		flush_dcache_page(bvec.bv_page);
- }
-diff --git a/block/blk-core.c b/block/blk-core.c
-index 8340f69670d8..ea152d54c7ce 100644
---- a/block/blk-core.c
-+++ b/block/blk-core.c
-@@ -1467,6 +1467,9 @@ void rq_flush_dcache_pages(struct request *rq)
- 	struct req_iterator iter;
- 	struct bio_vec bvec;
- 
-+	if (unlikely(blk_rq_is_dma_direct(rq)))
-+		return;
-+
- 	rq_for_each_segment(bvec, rq, iter)
- 		flush_dcache_page(bvec.bv_page);
- }
 -- 
 2.20.1
