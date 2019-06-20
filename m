@@ -1,107 +1,39 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 20 Jun 2019 10:12:28 -0600
-Subject: [RFC PATCH 16/28] block: Implement mapping dma-direct requests to SGs
- in blk_rq_map_sg()
+Date: Thu, 20 Jun 2019 10:12:36 -0600
+Subject: [RFC PATCH 24/28] block: Remove PCI_P2PDMA queue flag
 In-Reply-To: <20190620161240.22738-1-logang@deltatee.com>
 References: <20190620161240.22738-1-logang@deltatee.com>
-Message-ID: <20190620161240.22738-17-logang@deltatee.com>
+Message-ID: <20190620161240.22738-25-logang@deltatee.com>
 
-blk_rq_map_sg() just needs to move the dma_vec into the dma_address
-of the sgl. Callers will need to ensure not to call dma_map_sg()
-for dma-direct requests.
-
-This will likely get less ugly with Christoph's proposed cleanup
-to the DMA API. It will be much simpler if devices are just
-calling a dma_map_bio() and don't have to worry about dma-direct
-requests.
+This flag has been superseded by the DMA_DIRECT functionality.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 ---
- block/blk-merge.c | 65 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 65 insertions(+)
+ include/linux/blkdev.h | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/block/blk-merge.c b/block/blk-merge.c
-index a7a5453987f9..ccd6c44b9f6e 100644
---- a/block/blk-merge.c
-+++ b/block/blk-merge.c
-@@ -545,6 +545,69 @@ static int __blk_bios_map_sg(struct request_queue *q, struct bio *bio,
- 	return nsegs;
- }
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index a5b856324276..9ea800645cf5 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -615,8 +615,7 @@ struct request_queue {
+ #define QUEUE_FLAG_REGISTERED	22	/* queue has been registered to a disk */
+ #define QUEUE_FLAG_SCSI_PASSTHROUGH 23	/* queue supports SCSI commands */
+ #define QUEUE_FLAG_QUIESCED	24	/* queue has been quiesced */
+-#define QUEUE_FLAG_PCI_P2PDMA	25	/* device supports PCI p2p requests */
+-#define QUEUE_FLAG_DMA_DIRECT	26	/* device supports dma-addr requests */
++#define QUEUE_FLAG_DMA_DIRECT	25	/* device supports dma-addr requests */
  
-+static unsigned blk_dvec_map_sg(struct request_queue *q,
-+		struct dma_vec *dvec, struct scatterlist *sglist,
-+		struct scatterlist **sg)
-+{
-+	unsigned nbytes = dvec->dv_len;
-+	unsigned nsegs = 0, total = 0;
-+
-+	while (nbytes > 0) {
-+		unsigned seg_size;
-+
-+		*sg = blk_next_sg(sg, sglist);
-+
-+		seg_size = get_max_segment_size(q, total);
-+		seg_size = min(nbytes, seg_size);
-+
-+		(*sg)->dma_address = dvec->dv_addr + total;
-+		sg_dma_len(*sg) = seg_size;
-+
-+		total += seg_size;
-+		nbytes -= seg_size;
-+		nsegs++;
-+	}
-+
-+	return nsegs;
-+}
-+
-+static inline void
-+__blk_segment_dma_map_sg(struct request_queue *q, struct dma_vec *dvec,
-+			 struct scatterlist *sglist, struct dma_vec *dvprv,
-+			 struct scatterlist **sg, int *nsegs)
-+{
-+	int nbytes = dvec->dv_len;
-+
-+	if (*sg) {
-+		if ((*sg)->length + nbytes > queue_max_segment_size(q))
-+			goto new_segment;
-+		if (!dmavec_phys_mergeable(q, dvprv, dvec))
-+			goto new_segment;
-+
-+		(*sg)->length += nbytes;
-+	} else {
-+new_segment:
-+		(*nsegs) += blk_dvec_map_sg(q, dvec, sglist, sg);
-+	}
-+	*dvprv = *dvec;
-+}
-+
-+static int __blk_dma_bios_map_sg(struct request_queue *q, struct bio *bio,
-+				 struct scatterlist *sglist,
-+				 struct scatterlist **sg)
-+{
-+	struct dma_vec dvec, dvprv = {};
-+	struct bvec_iter iter;
-+	int nsegs = 0;
-+
-+	for_each_bio(bio)
-+		bio_for_each_dvec(dvec, bio, iter)
-+			__blk_segment_dma_map_sg(q, &dvec, sglist, &dvprv,
-+						 sg, &nsegs);
-+
-+	return nsegs;
-+}
-+
- /*
-  * map a request to scatterlist, return number of sg entries setup. Caller
-  * must make sure sg can hold rq->nr_phys_segments entries
-@@ -559,6 +622,8 @@ int blk_rq_map_sg(struct request_queue *q, struct request *rq,
- 		nsegs = __blk_bvec_map_sg(rq->special_vec, sglist, &sg);
- 	else if (rq->bio && bio_op(rq->bio) == REQ_OP_WRITE_SAME)
- 		nsegs = __blk_bvec_map_sg(bio_iovec(rq->bio), sglist, &sg);
-+	else if (blk_rq_is_dma_direct(rq))
-+		nsegs = __blk_dma_bios_map_sg(q, rq->bio, sglist, &sg);
- 	else if (rq->bio)
- 		nsegs = __blk_bios_map_sg(q, rq->bio, sglist, &sg);
+ #define QUEUE_FLAG_MQ_DEFAULT	((1 << QUEUE_FLAG_IO_STAT) |		\
+ 				 (1 << QUEUE_FLAG_SAME_COMP))
+@@ -641,8 +640,6 @@ bool blk_queue_flag_test_and_set(unsigned int flag, struct request_queue *q);
+ #define blk_queue_dax(q)	test_bit(QUEUE_FLAG_DAX, &(q)->queue_flags)
+ #define blk_queue_scsi_passthrough(q)	\
+ 	test_bit(QUEUE_FLAG_SCSI_PASSTHROUGH, &(q)->queue_flags)
+-#define blk_queue_pci_p2pdma(q)	\
+-	test_bit(QUEUE_FLAG_PCI_P2PDMA, &(q)->queue_flags)
+ #define blk_queue_dma_direct(q)	\
+ 	test_bit(QUEUE_FLAG_DMA_DIRECT, &(q)->queue_flags)
  
 -- 
 2.20.1
