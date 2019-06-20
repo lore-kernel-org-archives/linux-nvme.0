@@ -1,10 +1,9 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 20 Jun 2019 10:56:21 +0200
-Subject: [PATCH] nvme: fix possible io failures when removing
- multipathed ns
-In-Reply-To: <20190610215001.10079-1-sagi@grimberg.me>
-References: <20190610215001.10079-1-sagi@grimberg.me>
-Message-ID: <20190620085621.GD23140@lst.de>
+Date: Thu, 20 Jun 2019 10:57:13 +0200
+Subject: [PATCH v3 0/3] nvme: enable to inject errors into admin commands
+In-Reply-To: <1560089822-11462-1-git-send-email-akinobu.mita@gmail.com>
+References: <1560089822-11462-1-git-send-email-akinobu.mita@gmail.com>
+Message-ID: <20190620085713.GE23140@lst.de>
 
 Thanks,
 
