@@ -1,152 +1,238 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 20 Jun 2019 10:12:14 -0600
-Subject: [RFC PATCH 02/28] block: Add dma_vec structure
+Date: Thu, 20 Jun 2019 10:12:34 -0600
+Subject: [RFC PATCH 22/28] nvmet: Use DMA addresses instead of struct pages
+ for P2P
 In-Reply-To: <20190620161240.22738-1-logang@deltatee.com>
 References: <20190620161240.22738-1-logang@deltatee.com>
-Message-ID: <20190620161240.22738-3-logang@deltatee.com>
+Message-ID: <20190620161240.22738-23-logang@deltatee.com>
 
-The dma_vec structure is similar to the bio_vec structure except
-it only stores DMA addresses instead of the struct page address.
+Start using the dma-direct bios and DMA address RDMA CTX API.
 
-struct bios will be able to make use of dma_vecs with a union and,
-therefore, we need to ensure that struct dma_vec is no larger
-than struct bvec, as they will share the allocated memory.
-
-dma_vecs can make the same use of the bvec_iter structure
-to iterate through the vectors.
-
-This will be used for passing DMA addresses directly through the block
-layer. I expect something like struct dma_vec will also be used in
-Christoph's work to improve the dma_mapping layer and remove sgls.
-At some point, these would use the same structure.
+This removes struct pages from all P2P transactions.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 ---
- include/linux/bio.h       | 12 +++++++++++
- include/linux/blk_types.h |  5 ++++-
- include/linux/bvec.h      | 43 +++++++++++++++++++++++++++++++++++++++
- 3 files changed, 59 insertions(+), 1 deletion(-)
+ drivers/nvme/target/core.c        | 12 +++++----
+ drivers/nvme/target/io-cmd-bdev.c | 32 ++++++++++++++++++++---
+ drivers/nvme/target/nvmet.h       |  5 +++-
+ drivers/nvme/target/rdma.c        | 43 +++++++++++++++++++++++--------
+ 4 files changed, 71 insertions(+), 21 deletions(-)
 
-diff --git a/include/linux/bio.h b/include/linux/bio.h
-index 0f23b5682640..8180309123d7 100644
---- a/include/linux/bio.h
-+++ b/include/linux/bio.h
-@@ -28,6 +28,8 @@
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 7734a6acff85..230e99b63320 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -420,7 +420,7 @@ static int nvmet_p2pmem_ns_enable(struct nvmet_ns *ns)
+ 		return -EINVAL;
+ 	}
  
- #define bio_iter_iovec(bio, iter)				\
- 	bvec_iter_bvec((bio)->bi_io_vec, (iter))
-+#define bio_iter_dma_vec(bio, iter)				\
-+	bvec_iter_dvec((bio)->bi_dma_vec, (iter))
+-	if (!blk_queue_pci_p2pdma(ns->bdev->bd_queue)) {
++	if (!blk_queue_dma_direct(ns->bdev->bd_queue)) {
+ 		pr_err("peer-to-peer DMA is not supported by the driver of %s\n",
+ 		       ns->device_path);
+ 		return -EINVAL;
+@@ -926,9 +926,9 @@ int nvmet_req_alloc_sgl(struct nvmet_req *req)
  
- #define bio_iter_page(bio, iter)				\
- 	bvec_iter_page((bio)->bi_io_vec, (iter))
-@@ -39,6 +41,7 @@
- #define bio_page(bio)		bio_iter_page((bio), (bio)->bi_iter)
- #define bio_offset(bio)		bio_iter_offset((bio), (bio)->bi_iter)
- #define bio_iovec(bio)		bio_iter_iovec((bio), (bio)->bi_iter)
-+#define bio_dma_vec(bio)	bio_iter_dma_vec((bio), (bio)->bi_iter)
- 
- #define bio_multiple_segments(bio)				\
- 	((bio)->bi_iter.bi_size != bio_iovec(bio).bv_len)
-@@ -155,6 +158,15 @@ static inline void bio_advance_iter(struct bio *bio, struct bvec_iter *iter,
- #define bio_for_each_bvec(bvl, bio, iter)			\
- 	__bio_for_each_bvec(bvl, bio, iter, (bio)->bi_iter)
- 
-+#define __bio_for_each_dvec(dvl, bio, iter, start)		\
-+	for (iter = (start);						\
-+	     (iter).bi_size &&						\
-+		((dvl = bvec_iter_dvec((bio)->bi_dma_vec, (iter))), 1); \
-+	     dvec_iter_advance((bio)->bi_dma_vec, &(iter), (dvl).dv_len))
-+
-+#define bio_for_each_dvec(dvl, bio, iter)			\
-+	__bio_for_each_dvec(dvl, bio, iter, (bio)->bi_iter)
-+
- #define bio_iter_last(bvec, iter) ((iter).bi_size == (bvec).bv_len)
- 
- static inline unsigned bio_segments(struct bio *bio)
-diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
-index f3cabfdb6774..7f76ea73b77d 100644
---- a/include/linux/blk_types.h
-+++ b/include/linux/blk_types.h
-@@ -191,7 +191,10 @@ struct bio {
- 
- 	atomic_t		__bi_cnt;	/* pin count */
- 
--	struct bio_vec		*bi_io_vec;	/* the actual vec list */
-+	union {
-+		struct bio_vec	*bi_io_vec;	/* the actual vec list */
-+		struct dma_vec	*bi_dma_vec;	/* for dma direct bios*/
-+	};
- 
- 	struct bio_set		*bi_pool;
- 
-diff --git a/include/linux/bvec.h b/include/linux/bvec.h
-index a032f01e928c..f680e96132ef 100644
---- a/include/linux/bvec.h
-+++ b/include/linux/bvec.h
-@@ -21,6 +21,11 @@ struct bio_vec {
- 	unsigned int	bv_offset;
- };
- 
-+struct dma_vec {
-+	dma_addr_t	dv_addr;
-+	unsigned int	dv_len;
-+};
-+
- struct bvec_iter {
- 	sector_t		bi_sector;	/* device address in 512 byte
- 						   sectors */
-@@ -84,6 +89,18 @@ struct bvec_iter_all {
- 	.bv_offset	= bvec_iter_offset((bvec), (iter)),	\
- })
- 
-+#define bvec_iter_dvec_addr(dvec, iter)	\
-+	(__bvec_iter_bvec((dvec), (iter))->dv_addr + (iter).bi_bvec_done)
-+#define bvec_iter_dvec_len(dvec, iter)	\
-+	min((iter).bi_size,					\
-+	    __bvec_iter_bvec((dvec), (iter))->dv_len - (iter).bi_bvec_done)
-+
-+#define bvec_iter_dvec(dvec, iter)				\
-+((struct dma_vec) {						\
-+	.dv_addr	= bvec_iter_dvec_addr((dvec), (iter)),	\
-+	.dv_len		= bvec_iter_dvec_len((dvec), (iter)),	\
-+})
-+
- static inline bool bvec_iter_advance(const struct bio_vec *bv,
- 		struct bvec_iter *iter, unsigned bytes)
+ 		req->p2p_dev = NULL;
+ 		if (req->sq->qid && p2p_dev) {
+-			req->sg = pci_p2pmem_alloc_sgl(p2p_dev, &req->sg_cnt,
+-						       req->transfer_len);
+-			if (req->sg) {
++			req->p2p_dma_buf = pci_alloc_p2pmem(p2p_dev,
++							    req->transfer_len);
++			if (req->p2p_dma_buf) {
+ 				req->p2p_dev = p2p_dev;
+ 				return 0;
+ 			}
+@@ -951,10 +951,12 @@ EXPORT_SYMBOL_GPL(nvmet_req_alloc_sgl);
+ void nvmet_req_free_sgl(struct nvmet_req *req)
  {
-@@ -110,6 +127,32 @@ static inline bool bvec_iter_advance(const struct bio_vec *bv,
- 	return true;
+ 	if (req->p2p_dev)
+-		pci_p2pmem_free_sgl(req->p2p_dev, req->sg);
++		pci_free_p2pmem(req->p2p_dev, req->p2p_dma_buf,
++				req->transfer_len);
+ 	else
+ 		sgl_free(req->sg);
+ 
++	req->p2p_dev = NULL;
+ 	req->sg = NULL;
+ 	req->sg_cnt = 0;
+ }
+diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+index 061d40b020c7..f5621aeb1d6c 100644
+--- a/drivers/nvme/target/io-cmd-bdev.c
++++ b/drivers/nvme/target/io-cmd-bdev.c
+@@ -6,6 +6,7 @@
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+ #include <linux/blkdev.h>
+ #include <linux/module.h>
++#include <linux/pci-p2pdma.h>
+ #include "nvmet.h"
+ 
+ int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
+@@ -132,6 +133,24 @@ static void nvmet_submit_sg(struct nvmet_req *req, struct bio *bio,
+ 	submit_bio(bio);
  }
  
-+static inline bool dvec_iter_advance(const struct dma_vec *dv,
-+		struct bvec_iter *iter, unsigned bytes)
++static void nvmet_submit_p2p(struct nvmet_req *req, struct bio *bio)
 +{
-+	if (WARN_ONCE(bytes > iter->bi_size,
-+		      "Attempted to advance past end of dvec iter\n")) {
-+		iter->bi_size = 0;
-+		return false;
++	dma_addr_t addr;
++	int ret;
++
++	addr = pci_p2pmem_virt_to_bus(req->p2p_dev, req->p2p_dma_buf);
++
++	ret = bio_add_dma_addr(req->ns->bdev->bd_queue, bio,
++			       addr, req->transfer_len);
++	if (WARN_ON_ONCE(ret != req->transfer_len)) {
++		bio->bi_status = BLK_STS_NOTSUPP;
++		nvmet_bio_done(bio);
++		return;
 +	}
 +
-+	while (bytes) {
-+		const struct dma_vec *cur = dv + iter->bi_idx;
-+		unsigned len = min3(bytes, iter->bi_size,
-+				    cur->dv_len - iter->bi_bvec_done);
-+
-+		bytes -= len;
-+		iter->bi_size -= len;
-+		iter->bi_bvec_done += len;
-+
-+		if (iter->bi_bvec_done == cur->dv_len) {
-+			iter->bi_bvec_done = 0;
-+			iter->bi_idx++;
-+		}
-+	}
-+	return true;
++	submit_bio(bio);
 +}
 +
- #define for_each_bvec(bvl, bio_vec, iter, start)			\
- 	for (iter = (start);						\
- 	     (iter).bi_size &&						\
+ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
+ {
+ 	int sg_cnt = req->sg_cnt;
+@@ -139,7 +158,7 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
+ 	sector_t sector;
+ 	int op, op_flags = 0;
+ 
+-	if (!req->sg_cnt) {
++	if (!req->sg_cnt && !req->p2p_dev) {
+ 		nvmet_req_complete(req, 0);
+ 		return;
+ 	}
+@@ -153,8 +172,10 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
+ 		op = REQ_OP_READ;
+ 	}
+ 
+-	if (is_pci_p2pdma_page(sg_page(req->sg)))
+-		op_flags |= REQ_NOMERGE;
++	if (req->p2p_dev) {
++		op_flags |= REQ_DMA_DIRECT;
++		sg_cnt = 1;
++	}
+ 
+ 	sector = le64_to_cpu(req->cmd->rw.slba);
+ 	sector <<= (req->ns->blksize_shift - 9);
+@@ -171,7 +192,10 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
+ 	bio->bi_end_io = nvmet_bio_done;
+ 	bio_set_op_attrs(bio, op, op_flags);
+ 
+-	nvmet_submit_sg(req, bio, sector);
++	if (req->p2p_dev)
++		nvmet_submit_p2p(req, bio);
++	else
++		nvmet_submit_sg(req, bio, sector);
+ }
+ 
+ static void nvmet_bdev_execute_flush(struct nvmet_req *req)
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index c25d88fc9dec..5714e5b5ef04 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -288,7 +288,10 @@ struct nvmet_req {
+ 	struct nvmet_sq		*sq;
+ 	struct nvmet_cq		*cq;
+ 	struct nvmet_ns		*ns;
+-	struct scatterlist	*sg;
++	union {
++		struct scatterlist	*sg;
++		void			*p2p_dma_buf;
++	};
+ 	struct bio_vec		inline_bvec[NVMET_MAX_INLINE_BIOVEC];
+ 	union {
+ 		struct {
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index 36d906a7f70d..92bfc7207814 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -15,6 +15,7 @@
+ #include <linux/string.h>
+ #include <linux/wait.h>
+ #include <linux/inet.h>
++#include <linux/pci-p2pdma.h>
+ #include <asm/unaligned.h>
+ 
+ #include <rdma/ib_verbs.h>
+@@ -495,6 +496,18 @@ static void nvmet_rdma_process_wr_wait_list(struct nvmet_rdma_queue *queue)
+ 	spin_unlock(&queue->rsp_wr_wait_lock);
+ }
+ 
++static void nvmet_rdma_ctx_destroy(struct nvmet_rdma_rsp *rsp)
++{
++	struct nvmet_rdma_queue *queue = rsp->queue;
++
++	if (rsp->req.p2p_dev)
++		rdma_rw_ctx_dma_destroy(&rsp->rw, queue->cm_id->qp,
++					queue->cm_id->port_num);
++	else
++		rdma_rw_ctx_destroy(&rsp->rw, queue->cm_id->qp,
++				queue->cm_id->port_num, rsp->req.sg,
++				rsp->req.sg_cnt, nvmet_data_dir(&rsp->req));
++}
+ 
+ static void nvmet_rdma_release_rsp(struct nvmet_rdma_rsp *rsp)
+ {
+@@ -502,11 +515,8 @@ static void nvmet_rdma_release_rsp(struct nvmet_rdma_rsp *rsp)
+ 
+ 	atomic_add(1 + rsp->n_rdma, &queue->sq_wr_avail);
+ 
+-	if (rsp->n_rdma) {
+-		rdma_rw_ctx_destroy(&rsp->rw, queue->cm_id->qp,
+-				queue->cm_id->port_num, rsp->req.sg,
+-				rsp->req.sg_cnt, nvmet_data_dir(&rsp->req));
+-	}
++	if (rsp->n_rdma)
++		nvmet_rdma_ctx_destroy(rsp);
+ 
+ 	if (rsp->req.sg != rsp->cmd->inline_sg)
+ 		nvmet_req_free_sgl(&rsp->req);
+@@ -587,9 +597,9 @@ static void nvmet_rdma_read_data_done(struct ib_cq *cq, struct ib_wc *wc)
+ 
+ 	WARN_ON(rsp->n_rdma <= 0);
+ 	atomic_add(rsp->n_rdma, &queue->sq_wr_avail);
+-	rdma_rw_ctx_destroy(&rsp->rw, queue->cm_id->qp,
+-			queue->cm_id->port_num, rsp->req.sg,
+-			rsp->req.sg_cnt, nvmet_data_dir(&rsp->req));
++
++	nvmet_rdma_ctx_destroy(rsp);
++
+ 	rsp->n_rdma = 0;
+ 
+ 	if (unlikely(wc->status != IB_WC_SUCCESS)) {
+@@ -663,6 +673,7 @@ static u16 nvmet_rdma_map_sgl_keyed(struct nvmet_rdma_rsp *rsp,
+ 	struct rdma_cm_id *cm_id = rsp->queue->cm_id;
+ 	u64 addr = le64_to_cpu(sgl->addr);
+ 	u32 key = get_unaligned_le32(sgl->key);
++	dma_addr_t dma_addr;
+ 	int ret;
+ 
+ 	rsp->req.transfer_len = get_unaligned_le24(sgl->length);
+@@ -675,9 +686,19 @@ static u16 nvmet_rdma_map_sgl_keyed(struct nvmet_rdma_rsp *rsp,
+ 	if (ret < 0)
+ 		goto error_out;
+ 
+-	ret = rdma_rw_ctx_init(&rsp->rw, cm_id->qp, cm_id->port_num,
+-			rsp->req.sg, rsp->req.sg_cnt, 0, addr, key,
+-			nvmet_data_dir(&rsp->req));
++	if (rsp->req.p2p_dev) {
++		dma_addr = pci_p2pmem_virt_to_bus(rsp->req.p2p_dev,
++						  rsp->req.p2p_dma_buf);
++
++		ret = rdma_rw_ctx_dma_init(&rsp->rw, cm_id->qp,
++					   cm_id->port_num, dma_addr,
++					   rsp->req.transfer_len, addr, key,
++					   nvmet_data_dir(&rsp->req));
++	} else {
++		ret = rdma_rw_ctx_init(&rsp->rw, cm_id->qp, cm_id->port_num,
++				       rsp->req.sg, rsp->req.sg_cnt, 0, addr,
++				       key, nvmet_data_dir(&rsp->req));
++	}
+ 	if (ret < 0)
+ 		goto error_out;
+ 	rsp->n_rdma += ret;
 -- 
 2.20.1
