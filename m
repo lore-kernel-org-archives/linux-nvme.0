@@ -1,97 +1,168 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 20 Jun 2019 13:34:35 -0600
-Subject: [RFC PATCH 00/28] Removing struct page from P2PDMA
-In-Reply-To: <CAPcyv4ijztOK1FUjLuFing7ps4LOHt=6z=eO=98HHWauHA+yog@mail.gmail.com>
-References: <20190620161240.22738-1-logang@deltatee.com>
- <CAPcyv4ijztOK1FUjLuFing7ps4LOHt=6z=eO=98HHWauHA+yog@mail.gmail.com>
-Message-ID: <91eba9a0-27b4-08b4-7c12-86e24e1bfe85@deltatee.com>
+From: jsmart2021@gmail.com (James Smart)
+Date: Thu, 20 Jun 2019 13:07:00 -0700
+Subject: [PATCH] nvme-fcloop: Fix inconsistent lock state warnings
+Message-ID: <20190620200700.15659-1-jsmart2021@gmail.com>
 
+With extra debug on, inconsistent lock state warnings are being
+called out as the tfcp_req->reqlock is being taken out without
+irq, while some calling sequences have the sequence in a softirq
+state.
 
+Change the lock taking/release to raise/drop irq.
 
-On 2019-06-20 12:45 p.m., Dan Williams wrote:
-> On Thu, Jun 20, 2019@9:13 AM Logan Gunthorpe <logang@deltatee.com> wrote:
->>
->> For eons there has been a debate over whether or not to use
->> struct pages for peer-to-peer DMA transactions. Pro-pagers have
->> argued that struct pages are necessary for interacting with
->> existing code like scatterlists or the bio_vecs. Anti-pagers
->> assert that the tracking of the memory is unecessary and
->> allocating the pages is a waste of memory. Both viewpoints are
->> valid, however developers working on GPUs and RDMA tend to be
->> able to do away with struct pages relatively easily
-> 
-> Presumably because they have historically never tried to be
-> inter-operable with the block layer or drivers outside graphics and
-> RDMA.
+Signed-off-by: James Smart <jsmart2021 at gmail.com>
+---
+ drivers/nvme/target/fcloop.c | 42 +++++++++++++++++++++---------------------
+ 1 file changed, 21 insertions(+), 21 deletions(-)
 
-Yes, but really there are three main sets of users for P2P right now:
-graphics, RDMA and NVMe. And every time a patch set comes from GPU/RDMA
-people they don't bother with struct page. I seem to be the only one
-trying to push P2P with NVMe and it seems to be a losing battle.
-
-> Please spell out the value, it is not immediately obvious to me
-> outside of some memory capacity savings.
-
-There are a few things:
-
-* Have consistency with P2P efforts as most other efforts have been
-avoiding struct page. Nobody else seems to want
-pci_p2pdma_add_resource() or any devm_memremap_pages() call.
-
-* Avoid all arch-specific dependencies for P2P. With struct page the IO
-memory must fit in the linear mapping. This requires some work with
-RISC-V and I remember some complaints from the powerpc people regarding
-this. Certainly not all arches will be able to fit the IO region into
-the linear mapping space.
-
-* Remove a bunch of PCI P2PDMA special case mapping stuff from the block
-layer and RDMA interface (which I've been hearing complaints over).
-
-* Save the struct page memory that is largely unused (as you note).
-
->> Previously, there have been multiple attempts[1][2] to replace
->> struct page usage with pfn_t but this has been unpopular seeing
->> it creates dangerous edge cases where unsuspecting code might
->> run accross pfn_t's they are not ready for.
-> 
-> That's not the conclusion I arrived at because pfn_t is specifically
-> an opaque type precisely to force "unsuspecting" code to throw
-> compiler assertions. Instead pfn_t was dealt its death blow here:
-> 
-> https://lore.kernel.org/lkml/CA+55aFzON9617c2_Amep0ngLq91kfrPiSccdZakxir82iekUiA at mail.gmail.com/
-
-Ok, well yes the special pages are what we've done for P2PDMA today. But
-I don't think Linus's criticism really applies to what's in this RFC.
-For starters, P2PDMA doesn't, and has have never, used struct page to
-look up the reference count. PCI BARs have no relation to the cache so
-there's no need to serialize their access but this can be done
-before/after the DMA addresses are submitted to the block/rdma layer if
-it was required.
-
-In fact, the only thing the struct page is used for in the current
-P2PDMA implementation is a single flag indicating it's special and needs
-to be mapped in a special way.
-> My primary concern with this is that ascribes a level of generality
-> that just isn't there for peer-to-peer dma operations. "Peer"
-> addresses are not "DMA" addresses, and the rules about what can and
-> can't do peer-DMA are not generically known to the block layer.
-
-Correct, but I don't think we should teach the block layer about these
-rules. In the current code, the rules are enforced outside the block
-layer before the bios are submitted and this patch set doesn't change
-that. The driver orchestrating P2P will always have to check the rules
-and derive addresses from them (as appropriate). With the RFC the block
-layer then doesn't have to care and can just handle the DMA addresses
-directly.
-
-> At least with a side object there's a chance to describe / recall those
-> restrictions as these things get passed around the I/O stack, but an
-> undecorated "DMA" address passed through the block layer with no other
-> benefit to any subsystem besides RDMA does not feel like it advances
-> the state of the art.
-> 
-> Again, what are the benefits of plumbing this RDMA special case?
-
-Because I don't think it is an RDMA special case.
-
-Logan
+diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
+index b8c1cc54a0db..e64969d2a7c5 100644
+--- a/drivers/nvme/target/fcloop.c
++++ b/drivers/nvme/target/fcloop.c
+@@ -434,7 +434,7 @@ fcloop_fcp_recv_work(struct work_struct *work)
+ 	int ret = 0;
+ 	bool aborted = false;
+ 
+-	spin_lock(&tfcp_req->reqlock);
++	spin_lock_irq(&tfcp_req->reqlock);
+ 	switch (tfcp_req->inistate) {
+ 	case INI_IO_START:
+ 		tfcp_req->inistate = INI_IO_ACTIVE;
+@@ -443,11 +443,11 @@ fcloop_fcp_recv_work(struct work_struct *work)
+ 		aborted = true;
+ 		break;
+ 	default:
+-		spin_unlock(&tfcp_req->reqlock);
++		spin_unlock_irq(&tfcp_req->reqlock);
+ 		WARN_ON(1);
+ 		return;
+ 	}
+-	spin_unlock(&tfcp_req->reqlock);
++	spin_unlock_irq(&tfcp_req->reqlock);
+ 
+ 	if (unlikely(aborted))
+ 		ret = -ECANCELED;
+@@ -469,7 +469,7 @@ fcloop_fcp_abort_recv_work(struct work_struct *work)
+ 	struct nvmefc_fcp_req *fcpreq;
+ 	bool completed = false;
+ 
+-	spin_lock(&tfcp_req->reqlock);
++	spin_lock_irq(&tfcp_req->reqlock);
+ 	fcpreq = tfcp_req->fcpreq;
+ 	switch (tfcp_req->inistate) {
+ 	case INI_IO_ABORTED:
+@@ -478,11 +478,11 @@ fcloop_fcp_abort_recv_work(struct work_struct *work)
+ 		completed = true;
+ 		break;
+ 	default:
+-		spin_unlock(&tfcp_req->reqlock);
++		spin_unlock_irq(&tfcp_req->reqlock);
+ 		WARN_ON(1);
+ 		return;
+ 	}
+-	spin_unlock(&tfcp_req->reqlock);
++	spin_unlock_irq(&tfcp_req->reqlock);
+ 
+ 	if (unlikely(completed)) {
+ 		/* remove reference taken in original abort downcall */
+@@ -494,9 +494,9 @@ fcloop_fcp_abort_recv_work(struct work_struct *work)
+ 		nvmet_fc_rcv_fcp_abort(tfcp_req->tport->targetport,
+ 					&tfcp_req->tgt_fcp_req);
+ 
+-	spin_lock(&tfcp_req->reqlock);
++	spin_lock_irq(&tfcp_req->reqlock);
+ 	tfcp_req->fcpreq = NULL;
+-	spin_unlock(&tfcp_req->reqlock);
++	spin_unlock_irq(&tfcp_req->reqlock);
+ 
+ 	fcloop_call_host_done(fcpreq, tfcp_req, -ECANCELED);
+ 	/* call_host_done releases reference for abort downcall */
+@@ -513,10 +513,10 @@ fcloop_tgt_fcprqst_done_work(struct work_struct *work)
+ 		container_of(work, struct fcloop_fcpreq, tio_done_work);
+ 	struct nvmefc_fcp_req *fcpreq;
+ 
+-	spin_lock(&tfcp_req->reqlock);
++	spin_lock_irq(&tfcp_req->reqlock);
+ 	fcpreq = tfcp_req->fcpreq;
+ 	tfcp_req->inistate = INI_IO_COMPLETED;
+-	spin_unlock(&tfcp_req->reqlock);
++	spin_unlock_irq(&tfcp_req->reqlock);
+ 
+ 	fcloop_call_host_done(fcpreq, tfcp_req, tfcp_req->status);
+ }
+@@ -621,12 +621,12 @@ fcloop_fcp_op(struct nvmet_fc_target_port *tgtport,
+ 	int fcp_err = 0, active, aborted;
+ 	u8 op = tgt_fcpreq->op;
+ 
+-	spin_lock(&tfcp_req->reqlock);
++	spin_lock_irq(&tfcp_req->reqlock);
+ 	fcpreq = tfcp_req->fcpreq;
+ 	active = tfcp_req->active;
+ 	aborted = tfcp_req->aborted;
+ 	tfcp_req->active = true;
+-	spin_unlock(&tfcp_req->reqlock);
++	spin_unlock_irq(&tfcp_req->reqlock);
+ 
+ 	if (unlikely(active))
+ 		/* illegal - call while i/o active */
+@@ -634,9 +634,9 @@ fcloop_fcp_op(struct nvmet_fc_target_port *tgtport,
+ 
+ 	if (unlikely(aborted)) {
+ 		/* target transport has aborted i/o prior */
+-		spin_lock(&tfcp_req->reqlock);
++		spin_lock_irq(&tfcp_req->reqlock);
+ 		tfcp_req->active = false;
+-		spin_unlock(&tfcp_req->reqlock);
++		spin_unlock_irq(&tfcp_req->reqlock);
+ 		tgt_fcpreq->transferred_length = 0;
+ 		tgt_fcpreq->fcp_error = -ECANCELED;
+ 		tgt_fcpreq->done(tgt_fcpreq);
+@@ -693,9 +693,9 @@ fcloop_fcp_op(struct nvmet_fc_target_port *tgtport,
+ 		break;
+ 	}
+ 
+-	spin_lock(&tfcp_req->reqlock);
++	spin_lock_irq(&tfcp_req->reqlock);
+ 	tfcp_req->active = false;
+-	spin_unlock(&tfcp_req->reqlock);
++	spin_unlock_irq(&tfcp_req->reqlock);
+ 
+ 	tgt_fcpreq->transferred_length = xfrlen;
+ 	tgt_fcpreq->fcp_error = fcp_err;
+@@ -715,9 +715,9 @@ fcloop_tgt_fcp_abort(struct nvmet_fc_target_port *tgtport,
+ 	 * (one doing io, other doing abort) and only kills ops posted
+ 	 * after the abort request
+ 	 */
+-	spin_lock(&tfcp_req->reqlock);
++	spin_lock_irq(&tfcp_req->reqlock);
+ 	tfcp_req->aborted = true;
+-	spin_unlock(&tfcp_req->reqlock);
++	spin_unlock_irq(&tfcp_req->reqlock);
+ 
+ 	tfcp_req->status = NVME_SC_INTERNAL;
+ 
+@@ -765,7 +765,7 @@ fcloop_fcp_abort(struct nvme_fc_local_port *localport,
+ 		return;
+ 
+ 	/* break initiator/target relationship for io */
+-	spin_lock(&tfcp_req->reqlock);
++	spin_lock_irq(&tfcp_req->reqlock);
+ 	switch (tfcp_req->inistate) {
+ 	case INI_IO_START:
+ 	case INI_IO_ACTIVE:
+@@ -775,11 +775,11 @@ fcloop_fcp_abort(struct nvme_fc_local_port *localport,
+ 		abortio = false;
+ 		break;
+ 	default:
+-		spin_unlock(&tfcp_req->reqlock);
++		spin_unlock_irq(&tfcp_req->reqlock);
+ 		WARN_ON(1);
+ 		return;
+ 	}
+-	spin_unlock(&tfcp_req->reqlock);
++	spin_unlock_irq(&tfcp_req->reqlock);
+ 
+ 	if (abortio)
+ 		/* leave the reference while the work item is scheduled */
+-- 
+2.13.7
