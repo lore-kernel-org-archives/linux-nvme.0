@@ -1,162 +1,91 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Thu, 20 Jun 2019 03:19:30 +0000
-Subject: [PATCH v3 2/3] nvmet: Export NVMe namespace attributes
-References: <20190617161222.253849-1-bvanassche@acm.org>
- <20190617161222.253849-3-bvanassche@acm.org>
-Message-ID: <BYAPR04MB57491E682D39461CA263529886E40@BYAPR04MB5749.namprd04.prod.outlook.com>
+From: drake@endlessm.com (Daniel Drake)
+Date: Thu, 20 Jun 2019 13:13:28 +0800
+Subject: [PATCH v2 0/5] Support Intel AHCI remapped NVMe devices
+Message-ID: <20190620051333.2235-1-drake@endlessm.com>
 
-Looks good to me.
+Intel SATA AHCI controllers support a strange mode where NVMe devices
+disappear from the PCI bus, and instead are remapped into AHCI PCI memory
+space.
 
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+Many current and upcoming consumer products ship with the AHCI controller
+in this "RAID" or "Intel RST Premium with Intel Optane System Acceleration"
+mode by default. Without Linux support for this remapped mode,
+the default out-of-the-box experience is that the NVMe storage device
+is inaccessible (which in many cases is the only internal storage device).
 
-On 6/17/19 9:13 AM, Bart Van Assche wrote:
-> Make the NVMe NAWUN, NAWUPF, NACWU, NPWG, NPWA, NPDG and NOWS attributes
-> available to initator systems.
-> 
-> Cc: Keith Busch <kbusch at kernel.org>
-> Cc: Sagi Grimberg <sagi at grimberg.me>
-> Cc: Martin K. Petersen <martin.petersen at oracle.com>
-> Cc: Hannes Reinecke <hare at suse.com>
-> Cc: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-> Signed-off-by: Bart Van Assche <bvanassche at acm.org>
-> ---
->   drivers/nvme/target/admin-cmd.c   |  5 ++++
->   drivers/nvme/target/io-cmd-bdev.c | 45 +++++++++++++++++++++++++++++++
->   drivers/nvme/target/io-cmd-file.c | 37 +++++++++++++++++++++++++
->   drivers/nvme/target/nvmet.h       |  2 ++
->   4 files changed, 89 insertions(+)
-> 
-> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-> index 9f72d515fc4b..2558ed333d29 100644
-> --- a/drivers/nvme/target/admin-cmd.c
-> +++ b/drivers/nvme/target/admin-cmd.c
-> @@ -442,6 +442,11 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
->   		break;
->           }
->   
-> +	if (ns->file)
-> +		nvmet_file_set_limits(ns->file, id);
-> +	else if (ns->bdev)
-> +		nvmet_bdev_set_limits(ns->bdev, id);
-> +
->   	/*
->   	 * We just provide a single LBA format that matches what the
->   	 * underlying device reports.
-> diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
-> index 3efc52f9c309..5fe51e5d2f1b 100644
-> --- a/drivers/nvme/target/io-cmd-bdev.c
-> +++ b/drivers/nvme/target/io-cmd-bdev.c
-> @@ -8,6 +8,51 @@
->   #include <linux/module.h>
->   #include "nvmet.h"
->   
-> +/* Convert a 32-bit number to a 16-bit 0's based number */
-> +static __le16 to0based(u32 a)
-> +{
-> +	return cpu_to_le16(max(1U, min(1U << 16, a)) - 1);
-> +}
-> +
-> +void nvmet_bdev_set_limits(struct block_device *bdev, struct nvme_id_ns *id)
-> +{
-> +	const struct queue_limits *ql = &bdev_get_queue(bdev)->limits;
-> +	/* Number of physical blocks per logical block. */
-> +	const u32 ppl = ql->physical_block_size / ql->logical_block_size;
-> +	/* Physical blocks per logical block, 0's based. */
-> +	const __le16 ppl0b = to0based(ppl);
-> +
-> +	/*
-> +	 * For NVMe 1.2 and later, bit 1 indicates that the fields NAWUN,
-> +	 * NAWUPF, and NACWU are defined for this namespace and should be
-> +	 * used by the host for this namespace instead of the AWUN, AWUPF,
-> +	 * and ACWU fields in the Identify Controller data structure. If
-> +	 * any of these fields are zero that means that the corresponding
-> +	 * field from the identify controller data structure should be used.
-> +	 */
-> +	id->nsfeat |= 1 << 1;
-> +	id->nawun = ppl0b;
-> +	id->nawupf = ppl0b;
-> +	id->nacwu = ppl0b;
-> +
-> +	/*
-> +	 * For NVMe 1.4 and later, bit 4 indicates that the fields NPWG,
-> +	 * NPWA, NPDG, NPDA, and NOWS are defined for this namespace and
-> +	 * should be used by the host for I/O optimization.
-> +	 */
-> +	id->nsfeat |= 1 << 4;
-> +	/* NPWG = Namespace Preferred Write Granularity. 0's based */
-> +	id->npwg = ppl0b;
-> +	/* NPWA = Namespace Preferred Write Alignment. 0's based */
-> +	id->npwa = id->npwg;
-> +	/* NPDG = Namespace Preferred Deallocate Granularity. 0's based */
-> +	id->npdg = to0based(ql->discard_granularity / ql->logical_block_size);
-> +	/* NPDG = Namespace Preferred Deallocate Alignment */
-> +	id->npda = id->npdg;
-> +	/* NOWS = Namespace Optimal Write Size */
-> +	id->nows = to0based(ql->io_opt / ql->logical_block_size);
-> +}
-> +
->   int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
->   {
->   	int ret;
-> diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
-> index 05453f5d1448..268dfc678567 100644
-> --- a/drivers/nvme/target/io-cmd-file.c
-> +++ b/drivers/nvme/target/io-cmd-file.c
-> @@ -13,6 +13,43 @@
->   #define NVMET_MAX_MPOOL_BVEC		16
->   #define NVMET_MIN_MPOOL_OBJ		16
->   
-> +void nvmet_file_set_limits(struct file *file, struct nvme_id_ns *id)
-> +{
-> +	/*
-> +	 * Physical blocks per logical block, 0's based. Is it possible to
-> +	 * extract this information from the filesystem properties?
-> +	 */
-> +	const __le16 ppl0b = cpu_to_le16(0);
-> +
-> +	/*
-> +	 * For NVMe 1.2 and later, bit 1 indicates that the fields NAWUN,
-> +	 * NAWUPF, and NACWU are defined for this namespace and should be
-> +	 * used by the host for this namespace instead of the AWUN, AWUPF,
-> +	 * and ACWU fields in the Identify Controller data structure.
-> +	 */
-> +	id->nsfeat |= 1 << 1;
-> +	id->nawun = ppl0b;
-> +	id->nawupf = ppl0b;
-> +	id->nacwu = ppl0b;
-> +
-> +	/*
-> +	 * For NVMe 1.4 and later, bit 4 indicates that the fields NPWG,
-> +	 * NPWA, NPDG, NPDA, and NOWS are defined for this namespace and
-> +	 * should be used by the host for I/O optimization.
-> +	 */
-> +	id->nsfeat |= 1 << 4;
-> +	/* NPWG = Namespace Preferred Write Granularity. 0's based */
-> +	id->npwg = ppl0b;
-> +	/* NPWA = Namespace Preferred Write Alignment. 0's based */
-> +	id->npwa = id->npwg;
-> +	/* NPDG = Namespace Preferred Deallocate Granularity. 0's based */
-> +	id->npdg = ppl0b;
-> +	/* NPDG = Namespace Preferred Deallocate Alignment */
-> +	id->npda = id->npdg;
-> +	/* NOWS = Namespace Optimal Write Size */
-> +	id->nows = ppl0b;
-> +}
-> +
->   void nvmet_file_ns_disable(struct nvmet_ns *ns)
->   {
->   	if (ns->file) {
-> diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-> index c25d88fc9dec..ed0362544932 100644
-> --- a/drivers/nvme/target/nvmet.h
-> +++ b/drivers/nvme/target/nvmet.h
-> @@ -363,6 +363,8 @@ u16 nvmet_set_feat_async_event(struct nvmet_req *req, u32 mask);
->   void nvmet_execute_async_event(struct nvmet_req *req);
->   
->   u16 nvmet_parse_connect_cmd(struct nvmet_req *req);
-> +void nvmet_bdev_set_limits(struct block_device *bdev, struct nvme_id_ns *id);
-> +void nvmet_file_set_limits(struct file *file, struct nvme_id_ns *id);
->   u16 nvmet_bdev_parse_io_cmd(struct nvmet_req *req);
->   u16 nvmet_file_parse_io_cmd(struct nvmet_req *req);
->   u16 nvmet_parse_admin_cmd(struct nvmet_req *req);
-> 
+In most cases, the SATA configuration can be changed in the BIOS menu to
+"AHCI", resulting in the AHCI & NVMe devices appearing as separate
+devices as you would ordinarily expect. Changing this configuration
+is the recommendation for power users because there are several limitations
+of the remapped mode (now documented in Kconfig help text).
+
+However, it's also important to support the remapped mode given that
+it is an increasingly common product default. We cannot expect ordinary
+users of consumer PCs to find out about this situation and then
+confidently go into the BIOS menu to change options.
+
+This patch set implements support for the remapped mode.
+
+v1 of these patches was originally posted by Dan Williams in 2016.
+https://marc.info/?l=linux-ide&m=147709610621480&w=2
+Since then:
+
+ - Intel stopped developing these patches & hasn't been responding to
+   my emails on this topic.
+
+ - More register documentation appeared in
+   https://www.intel.com/content/dam/www/public/us/en/documents/datasheets/300-series-chipset-pch-datasheet-vol-2.pdf
+
+ - I tried Christoph's suggestion of exposing the devices on a fake PCI bus,
+   hence not requiring NVMe driver changes, but Bjorn Helgaas does not think
+   it's the right approach and instead recommends the approach taken here.
+   https://marc.info/?l=linux-pci&m=156034736822205&w=2
+
+ - More consumer devices have appeared with this setting as the default,
+   and with the decreasing cost of NVMe storage, it appears that a whole
+   bunch more consumer PC products currently in development are going to
+   ship in RAID/remapped mode, with only a single NVMe disk, which Linux
+   will otherwise be unable to access by default.
+
+ - We heard from hardware vendors that this Linux incompatibility is
+   causing them to consider discontinuing Linux support on affected
+   products. Changing the BIOS setting is too much of a logistics
+   challenge.
+
+ - I updated Dan's patches for current kernels. I added docs and references
+   and incorporated the new register info. I incorporated feedback to push
+   the recommendation that the user goes back to AHCI mode via the BIOS
+   setting (in kernel logs and Kconfig help). And made some misc minor
+   changes that I think are sensible.
+
+ - I investigated MSI-X support. Can't quite get it working, but I'm hopeful
+   that we can figure it out and add it later. With these patches shared
+   I'll follow up with more details about that. With the focus on
+   compatibility with default configuration of common consumer products,
+   I'm hoping we could land an initial version without MSI support before
+   tending to those complications.
+
+Dan Williams (2):
+  nvme: rename "pci" operations to "mmio"
+  nvme: move common definitions to pci.h
+
+Daniel Drake (3):
+  ahci: Discover Intel remapped NVMe devices
+  nvme: introduce nvme_dev_ops
+  nvme: Intel AHCI remap support
+
+ drivers/ata/Kconfig                  |  33 ++
+ drivers/ata/ahci.c                   | 173 ++++++++--
+ drivers/ata/ahci.h                   |  14 +
+ drivers/nvme/host/Kconfig            |   3 +
+ drivers/nvme/host/Makefile           |   3 +
+ drivers/nvme/host/intel-ahci-remap.c | 185 ++++++++++
+ drivers/nvme/host/pci.c              | 490 ++++++++++++++-------------
+ drivers/nvme/host/pci.h              | 145 ++++++++
+ include/linux/ahci-remap.h           | 140 +++++++-
+ 9 files changed, 922 insertions(+), 264 deletions(-)
+ create mode 100644 drivers/nvme/host/intel-ahci-remap.c
+ create mode 100644 drivers/nvme/host/pci.h
+
+-- 
+2.20.1
