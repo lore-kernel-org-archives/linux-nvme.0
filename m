@@ -1,9 +1,9 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 20 Jun 2019 10:54:06 +0200
-Subject: [PATCH] nvme-pci: put error value when state change fails
-In-Reply-To: <20190608183520.25926-1-minwoo.im.dev@gmail.com>
-References: <20190608183520.25926-1-minwoo.im.dev@gmail.com>
-Message-ID: <20190620085406.GA23140@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Thu, 20 Jun 2019 01:55:08 -0700
+Subject: [PATCH] nvme-pci: set the errno on ctrl state change error
+In-Reply-To: <20190608200102.7281-1-chaitanya.kulkarni@wdc.com>
+References: <20190608200102.7281-1-chaitanya.kulkarni@wdc.com>
+Message-ID: <20190620085508.GA24540@infradead.org>
 
 Thanks,
 
