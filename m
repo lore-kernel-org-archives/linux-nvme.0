@@ -1,41 +1,38 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 20 Jun 2019 10:12:16 -0600
-Subject: [RFC PATCH 04/28] block: Never bounce dma-direct bios
+Date: Thu, 20 Jun 2019 10:12:19 -0600
+Subject: [RFC PATCH 07/28] block: Use dma_vec length in bio_cur_bytes() for
+ dma-direct bios
 In-Reply-To: <20190620161240.22738-1-logang@deltatee.com>
 References: <20190620161240.22738-1-logang@deltatee.com>
-Message-ID: <20190620161240.22738-5-logang@deltatee.com>
+Message-ID: <20190620161240.22738-8-logang@deltatee.com>
 
-It is expected the creator of the dma-direct bio will ensure the
-target device can access the DMA address it's creating bios for.
-It's also not possible to bounce a dma-direct bio seeing the block
-layer doesn't have any way to access the underlying data behind
-the DMA address.
-
-Thus, never bounce dma-direct bios.
+For dma-direct bios, use the dv_len of the current vector
+seeing the bio_vec's are not valid in such a context.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 ---
- block/bounce.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ include/linux/bio.h | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/block/bounce.c b/block/bounce.c
-index f8ed677a1bf7..17e020a40cca 100644
---- a/block/bounce.c
-+++ b/block/bounce.c
-@@ -367,6 +367,14 @@ void blk_queue_bounce(struct request_queue *q, struct bio **bio_orig)
- 	if (!bio_has_data(*bio_orig))
- 		return;
+diff --git a/include/linux/bio.h b/include/linux/bio.h
+index e212e5958a75..df7973932525 100644
+--- a/include/linux/bio.h
++++ b/include/linux/bio.h
+@@ -91,10 +91,12 @@ static inline bool bio_mergeable(struct bio *bio)
  
-+	/*
-+	 * For DMA direct bios, Upper layers are expected to ensure
-+	 * the device in question can access the DMA addresses. So
-+	 * it never makes sense to bounce a DMA direct bio.
-+	 */
-+	if (bio_is_dma_direct(*bio_orig))
-+		return;
-+
- 	/*
- 	 * for non-isa bounce case, just check if the bounce pfn is equal
- 	 * to or bigger than the highest pfn in the system -- in that case,
+ static inline unsigned int bio_cur_bytes(struct bio *bio)
+ {
+-	if (bio_has_data(bio))
+-		return bio_iovec(bio).bv_len;
+-	else /* dataless requests such as discard */
++	if (!bio_has_data(bio)) /* dataless requests such as discard */
+ 		return bio->bi_iter.bi_size;
++	else if (op_is_dma_direct(bio->bi_opf))
++		return bio_dma_vec(bio).dv_len;
++	else
++		return bio_iovec(bio).bv_len;
+ }
+ 
+ static inline void *bio_data(struct bio *bio)
 -- 
 2.20.1
