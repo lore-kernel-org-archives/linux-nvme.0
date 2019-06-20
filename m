@@ -1,149 +1,200 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 20 Jun 2019 10:12:32 -0600
-Subject: [RFC PATCH 20/28] IB/core: Introduce API for initializing a RW ctx
- from a DMA address
+Date: Thu, 20 Jun 2019 10:12:38 -0600
+Subject: [RFC PATCH 26/28] PCI/P2PDMA: Remove SGL helpers
 In-Reply-To: <20190620161240.22738-1-logang@deltatee.com>
 References: <20190620161240.22738-1-logang@deltatee.com>
-Message-ID: <20190620161240.22738-21-logang@deltatee.com>
+Message-ID: <20190620161240.22738-27-logang@deltatee.com>
 
-Introduce rdma_rw_ctx_dma_init() and rdma_rw_ctx_dma_destroy() which
-peform the same operation as rdma_rw_ctx_init() and
-rdma_rw_ctx_destroy() respectively except they operate on a DMA
-address and length instead of an SGL.
-
-This will be used for struct page-less P2PDMA, but there's also
-been opinions expressed to migrate away from SGLs and struct
-pages in the RDMA APIs and this will likely fit with that
-effort.
+The functions, pci_p2pmem_alloc_sgl(), pci_p2pmem_free_sgl() and
+pci_p2pdma_map_sg() no longer have any callers, so remove them.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 ---
- drivers/infiniband/core/rw.c | 74 ++++++++++++++++++++++++++++++------
- include/rdma/rw.h            |  6 +++
- 2 files changed, 69 insertions(+), 11 deletions(-)
+ Documentation/driver-api/pci/p2pdma.rst |  9 +--
+ drivers/pci/p2pdma.c                    | 95 -------------------------
+ include/linux/pci-p2pdma.h              | 19 -----
+ 3 files changed, 3 insertions(+), 120 deletions(-)
 
-diff --git a/drivers/infiniband/core/rw.c b/drivers/infiniband/core/rw.c
-index 32ca8429eaae..cefa6b930bc8 100644
---- a/drivers/infiniband/core/rw.c
-+++ b/drivers/infiniband/core/rw.c
-@@ -319,6 +319,39 @@ int rdma_rw_ctx_init(struct rdma_rw_ctx *ctx, struct ib_qp *qp, u8 port_num,
- }
- EXPORT_SYMBOL(rdma_rw_ctx_init);
+diff --git a/Documentation/driver-api/pci/p2pdma.rst b/Documentation/driver-api/pci/p2pdma.rst
+index 44deb52beeb4..5b19c420d921 100644
+--- a/Documentation/driver-api/pci/p2pdma.rst
++++ b/Documentation/driver-api/pci/p2pdma.rst
+@@ -84,9 +84,8 @@ Client Drivers
+ --------------
  
-+/**
-+ * rdma_rw_ctx_dma_init - initialize a RDMA READ/WRITE context from a
-+ *	DMA address instead of SGL
-+ * @ctx:	context to initialize
-+ * @qp:		queue pair to operate on
-+ * @port_num:	port num to which the connection is bound
-+ * @addr:	DMA address to READ/WRITE from/to
-+ * @len:	length of memory to operate on
-+ * @remote_addr:remote address to read/write (relative to @rkey)
-+ * @rkey:	remote key to operate on
-+ * @dir:	%DMA_TO_DEVICE for RDMA WRITE, %DMA_FROM_DEVICE for RDMA READ
-+ *
-+ * Returns the number of WQEs that will be needed on the workqueue if
-+ * successful, or a negative error code.
-+ */
-+int rdma_rw_ctx_dma_init(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
-+		u8 port_num, dma_addr_t addr, u32 len, u64 remote_addr,
-+		u32 rkey, enum dma_data_direction dir)
-+{
-+	struct scatterlist sg;
-+
-+	sg_dma_address(&sg) = addr;
-+	sg_dma_len(&sg) = len;
-+
-+	if (rdma_rw_io_needs_mr(qp->device, port_num, dir, 1))
-+		return rdma_rw_init_mr_wrs(ctx, qp, port_num, &sg, 1, 0,
-+					   remote_addr, rkey, dir);
-+	else
-+		return rdma_rw_init_single_wr(ctx, qp, &sg, 0, remote_addr,
-+					      rkey, dir);
-+}
-+EXPORT_SYMBOL(rdma_rw_ctx_dma_init);
-+
- /**
-  * rdma_rw_ctx_signature_init - initialize a RW context with signature offload
-  * @ctx:	context to initialize
-@@ -566,17 +599,7 @@ int rdma_rw_ctx_post(struct rdma_rw_ctx *ctx, struct ib_qp *qp, u8 port_num,
+ A client driver typically only has to conditionally change its DMA map
+-routine to use the mapping function :c:func:`pci_p2pdma_map_sg()` instead
+-of the usual :c:func:`dma_map_sg()` function. Memory mapped in this
+-way does not need to be unmapped.
++routine to use the PCI bus address with :c:func:`pci_p2pmem_virt_to_bus()`
++for the DMA address instead of the usual :c:func:`dma_map_sg()` function.
+ 
+ The client may also, optionally, make use of
+ :c:func:`is_pci_p2pdma_page()` to determine when to use the P2P mapping
+@@ -117,9 +116,7 @@ returned with pci_dev_put().
+ 
+ Once a provider is selected, the orchestrator can then use
+ :c:func:`pci_alloc_p2pmem()` and :c:func:`pci_free_p2pmem()` to
+-allocate P2P memory from the provider. :c:func:`pci_p2pmem_alloc_sgl()`
+-and :c:func:`pci_p2pmem_free_sgl()` are convenience functions for
+-allocating scatter-gather lists with P2P memory.
++allocate P2P memory from the provider.
+ 
+ Struct Page Caveats
+ -------------------
+diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
+index a98126ad9c3a..9b82e13f802c 100644
+--- a/drivers/pci/p2pdma.c
++++ b/drivers/pci/p2pdma.c
+@@ -666,60 +666,6 @@ pci_bus_addr_t pci_p2pmem_virt_to_bus(struct pci_dev *pdev, void *addr)
  }
- EXPORT_SYMBOL(rdma_rw_ctx_post);
+ EXPORT_SYMBOL_GPL(pci_p2pmem_virt_to_bus);
  
 -/**
-- * rdma_rw_ctx_destroy - release all resources allocated by rdma_rw_ctx_init
-- * @ctx:	context to release
-- * @qp:		queue pair to operate on
-- * @port_num:	port num to which the connection is bound
-- * @sg:		scatterlist that was used for the READ/WRITE
-- * @sg_cnt:	number of entries in @sg
-- * @dir:	%DMA_TO_DEVICE for RDMA WRITE, %DMA_FROM_DEVICE for RDMA READ
+- * pci_p2pmem_alloc_sgl - allocate peer-to-peer DMA memory in a scatterlist
+- * @pdev: the device to allocate memory from
+- * @nents: the number of SG entries in the list
+- * @length: number of bytes to allocate
+- *
+- * Return: %NULL on error or &struct scatterlist pointer and @nents on success
 - */
--void rdma_rw_ctx_destroy(struct rdma_rw_ctx *ctx, struct ib_qp *qp, u8 port_num,
--		struct scatterlist *sg, u32 sg_cnt, enum dma_data_direction dir)
-+static void __rdma_rw_ctx_destroy(struct rdma_rw_ctx *ctx, struct ib_qp *qp)
- {
- 	int i;
- 
-@@ -596,6 +619,21 @@ void rdma_rw_ctx_destroy(struct rdma_rw_ctx *ctx, struct ib_qp *qp, u8 port_num,
- 		BUG();
- 		break;
- 	}
-+}
-+
-+/**
-+ * rdma_rw_ctx_destroy - release all resources allocated by rdma_rw_ctx_init
-+ * @ctx:	context to release
-+ * @qp:		queue pair to operate on
-+ * @port_num:	port num to which the connection is bound
-+ * @sg:		scatterlist that was used for the READ/WRITE
-+ * @sg_cnt:	number of entries in @sg
-+ * @dir:	%DMA_TO_DEVICE for RDMA WRITE, %DMA_FROM_DEVICE for RDMA READ
-+ */
-+void rdma_rw_ctx_destroy(struct rdma_rw_ctx *ctx, struct ib_qp *qp, u8 port_num,
-+		struct scatterlist *sg, u32 sg_cnt, enum dma_data_direction dir)
-+{
-+	__rdma_rw_ctx_destroy(ctx, qp);
- 
- 	/* P2PDMA contexts do not need to be unmapped */
- 	if (!is_pci_p2pdma_page(sg_page(sg)))
-@@ -603,6 +641,20 @@ void rdma_rw_ctx_destroy(struct rdma_rw_ctx *ctx, struct ib_qp *qp, u8 port_num,
- }
- EXPORT_SYMBOL(rdma_rw_ctx_destroy);
- 
-+/**
-+ * rdma_rw_ctx_dma_destroy - release all resources allocated by
-+ *	rdma_rw_ctx_dma_init
-+ * @ctx:	context to release
-+ * @qp:		queue pair to operate on
-+ * @port_num:	port num to which the connection is bound
-+ */
-+void rdma_rw_ctx_dma_destroy(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
-+			     u8 port_num)
-+{
-+	__rdma_rw_ctx_destroy(ctx, qp);
-+}
-+EXPORT_SYMBOL(rdma_rw_ctx_dma_destroy);
-+
+-struct scatterlist *pci_p2pmem_alloc_sgl(struct pci_dev *pdev,
+-					 unsigned int *nents, u32 length)
+-{
+-	struct scatterlist *sg;
+-	void *addr;
+-
+-	sg = kzalloc(sizeof(*sg), GFP_KERNEL);
+-	if (!sg)
+-		return NULL;
+-
+-	sg_init_table(sg, 1);
+-
+-	addr = pci_alloc_p2pmem(pdev, length);
+-	if (!addr)
+-		goto out_free_sg;
+-
+-	sg_set_buf(sg, addr, length);
+-	*nents = 1;
+-	return sg;
+-
+-out_free_sg:
+-	kfree(sg);
+-	return NULL;
+-}
+-EXPORT_SYMBOL_GPL(pci_p2pmem_alloc_sgl);
+-
+-/**
+- * pci_p2pmem_free_sgl - free a scatterlist allocated by pci_p2pmem_alloc_sgl()
+- * @pdev: the device to allocate memory from
+- * @sgl: the allocated scatterlist
+- */
+-void pci_p2pmem_free_sgl(struct pci_dev *pdev, struct scatterlist *sgl)
+-{
+-	struct scatterlist *sg;
+-	int count;
+-
+-	for_each_sg(sgl, sg, INT_MAX, count) {
+-		if (!sg)
+-			break;
+-
+-		pci_free_p2pmem(pdev, sg_virt(sg), sg->length);
+-	}
+-	kfree(sgl);
+-}
+-EXPORT_SYMBOL_GPL(pci_p2pmem_free_sgl);
+-
  /**
-  * rdma_rw_ctx_destroy_signature - release all resources allocated by
-  *	rdma_rw_ctx_init_signature
-diff --git a/include/rdma/rw.h b/include/rdma/rw.h
-index 494f79ca3e62..e47f8053af6e 100644
---- a/include/rdma/rw.h
-+++ b/include/rdma/rw.h
-@@ -58,6 +58,12 @@ void rdma_rw_ctx_destroy(struct rdma_rw_ctx *ctx, struct ib_qp *qp, u8 port_num,
- 		struct scatterlist *sg, u32 sg_cnt,
- 		enum dma_data_direction dir);
+  * pci_p2pmem_publish - publish the peer-to-peer DMA memory for use by
+  *	other devices with pci_p2pmem_find()
+@@ -738,47 +684,6 @@ void pci_p2pmem_publish(struct pci_dev *pdev, bool publish)
+ }
+ EXPORT_SYMBOL_GPL(pci_p2pmem_publish);
  
-+int rdma_rw_ctx_dma_init(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
-+		u8 port_num, dma_addr_t addr, u32 len, u64 remote_addr,
-+		u32 rkey, enum dma_data_direction dir);
-+void rdma_rw_ctx_dma_destroy(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
-+			     u8 port_num);
-+
- int rdma_rw_ctx_signature_init(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
- 		u8 port_num, struct scatterlist *sg, u32 sg_cnt,
- 		struct scatterlist *prot_sg, u32 prot_sg_cnt,
+-/**
+- * pci_p2pdma_map_sg - map a PCI peer-to-peer scatterlist for DMA
+- * @dev: device doing the DMA request
+- * @sg: scatter list to map
+- * @nents: elements in the scatterlist
+- * @dir: DMA direction
+- *
+- * Scatterlists mapped with this function should not be unmapped in any way.
+- *
+- * Returns the number of SG entries mapped or 0 on error.
+- */
+-int pci_p2pdma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
+-		      enum dma_data_direction dir)
+-{
+-	struct dev_pagemap *pgmap;
+-	struct scatterlist *s;
+-	phys_addr_t paddr;
+-	int i;
+-
+-	/*
+-	 * p2pdma mappings are not compatible with devices that use
+-	 * dma_virt_ops. If the upper layers do the right thing
+-	 * this should never happen because it will be prevented
+-	 * by the check in pci_p2pdma_add_client()
+-	 */
+-	if (WARN_ON_ONCE(IS_ENABLED(CONFIG_DMA_VIRT_OPS) &&
+-			 dev->dma_ops == &dma_virt_ops))
+-		return 0;
+-
+-	for_each_sg(sg, s, nents, i) {
+-		pgmap = sg_page(s)->pgmap;
+-		paddr = sg_phys(s);
+-
+-		s->dma_address = paddr - pgmap->pci_p2pdma_bus_offset;
+-		sg_dma_len(s) = s->length;
+-	}
+-
+-	return nents;
+-}
+-EXPORT_SYMBOL_GPL(pci_p2pdma_map_sg);
+-
+ /**
+  * pci_p2pdma_enable_store - parse a configfs/sysfs attribute store
+  *		to enable p2pdma
+diff --git a/include/linux/pci-p2pdma.h b/include/linux/pci-p2pdma.h
+index bca9bc3e5be7..4a75a3f43444 100644
+--- a/include/linux/pci-p2pdma.h
++++ b/include/linux/pci-p2pdma.h
+@@ -26,12 +26,7 @@ struct pci_dev *pci_p2pmem_find_many(struct device **clients, int num_clients);
+ void *pci_alloc_p2pmem(struct pci_dev *pdev, size_t size);
+ void pci_free_p2pmem(struct pci_dev *pdev, void *addr, size_t size);
+ pci_bus_addr_t pci_p2pmem_virt_to_bus(struct pci_dev *pdev, void *addr);
+-struct scatterlist *pci_p2pmem_alloc_sgl(struct pci_dev *pdev,
+-					 unsigned int *nents, u32 length);
+-void pci_p2pmem_free_sgl(struct pci_dev *pdev, struct scatterlist *sgl);
+ void pci_p2pmem_publish(struct pci_dev *pdev, bool publish);
+-int pci_p2pdma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
+-		      enum dma_data_direction dir);
+ int pci_p2pdma_enable_store(const char *page, struct pci_dev **p2p_dev,
+ 			    bool *use_p2pdma);
+ ssize_t pci_p2pdma_enable_show(char *page, struct pci_dev *p2p_dev,
+@@ -69,23 +64,9 @@ static inline pci_bus_addr_t pci_p2pmem_virt_to_bus(struct pci_dev *pdev,
+ {
+ 	return 0;
+ }
+-static inline struct scatterlist *pci_p2pmem_alloc_sgl(struct pci_dev *pdev,
+-		unsigned int *nents, u32 length)
+-{
+-	return NULL;
+-}
+-static inline void pci_p2pmem_free_sgl(struct pci_dev *pdev,
+-		struct scatterlist *sgl)
+-{
+-}
+ static inline void pci_p2pmem_publish(struct pci_dev *pdev, bool publish)
+ {
+ }
+-static inline int pci_p2pdma_map_sg(struct device *dev,
+-		struct scatterlist *sg, int nents, enum dma_data_direction dir)
+-{
+-	return 0;
+-}
+ static inline int pci_p2pdma_enable_store(const char *page,
+ 		struct pci_dev **p2p_dev, bool *use_p2pdma)
+ {
 -- 
 2.20.1
