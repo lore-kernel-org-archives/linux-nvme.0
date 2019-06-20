@@ -1,64 +1,65 @@
-From: dan.j.williams@intel.com (Dan Williams)
-Date: Thu, 20 Jun 2019 11:45:38 -0700
+From: jgg@ziepe.ca (Jason Gunthorpe)
+Date: Thu, 20 Jun 2019 16:33:53 -0300
 Subject: [RFC PATCH 00/28] Removing struct page from P2PDMA
-In-Reply-To: <20190620161240.22738-1-logang@deltatee.com>
+In-Reply-To: <CAPcyv4ijztOK1FUjLuFing7ps4LOHt=6z=eO=98HHWauHA+yog@mail.gmail.com>
 References: <20190620161240.22738-1-logang@deltatee.com>
-Message-ID: <CAPcyv4ijztOK1FUjLuFing7ps4LOHt=6z=eO=98HHWauHA+yog@mail.gmail.com>
+ <CAPcyv4ijztOK1FUjLuFing7ps4LOHt=6z=eO=98HHWauHA+yog@mail.gmail.com>
+Message-ID: <20190620193353.GF19891@ziepe.ca>
 
-On Thu, Jun 20, 2019@9:13 AM Logan Gunthorpe <logang@deltatee.com> wrote:
->
-> For eons there has been a debate over whether or not to use
-> struct pages for peer-to-peer DMA transactions. Pro-pagers have
-> argued that struct pages are necessary for interacting with
-> existing code like scatterlists or the bio_vecs. Anti-pagers
-> assert that the tracking of the memory is unecessary and
-> allocating the pages is a waste of memory. Both viewpoints are
-> valid, however developers working on GPUs and RDMA tend to be
-> able to do away with struct pages relatively easily
+On Thu, Jun 20, 2019@11:45:38AM -0700, Dan Williams wrote:
 
-Presumably because they have historically never tried to be
-inter-operable with the block layer or drivers outside graphics and
-RDMA.
+> > Previously, there have been multiple attempts[1][2] to replace
+> > struct page usage with pfn_t but this has been unpopular seeing
+> > it creates dangerous edge cases where unsuspecting code might
+> > run accross pfn_t's they are not ready for.
+> 
+> That's not the conclusion I arrived at because pfn_t is specifically
+> an opaque type precisely to force "unsuspecting" code to throw
+> compiler assertions. Instead pfn_t was dealt its death blow here:
+> 
+> https://lore.kernel.org/lkml/CA+55aFzON9617c2_Amep0ngLq91kfrPiSccdZakxir82iekUiA at mail.gmail.com/
+> 
+> ...and I think that feedback also reads on this proposal.
 
->  compared to
-> those wanting to work with NVMe devices through the block layer.
-> So it would be of great value to be able to universally do P2PDMA
-> transactions without the use of struct pages.
+I read through Linus's remarks and it he seems completely right that
+anything that touches a filesystem needs a struct page, because FS's
+rely heavily on that.
 
-Please spell out the value, it is not immediately obvious to me
-outside of some memory capacity savings.
+It is much less clear to me why a GPU BAR or a NVME CMB that never
+touches a filesystem needs a struct page.. The best reason I've seen
+is that it must have struct page because the block layer heavily
+depends on struct page.
 
-> Previously, there have been multiple attempts[1][2] to replace
-> struct page usage with pfn_t but this has been unpopular seeing
-> it creates dangerous edge cases where unsuspecting code might
-> run accross pfn_t's they are not ready for.
+Since that thread was so DAX/pmem centric (and Linus did say he liked
+the __pfn_t), maybe it is worth checking again, but not for DAX/pmem
+users?
 
-That's not the conclusion I arrived at because pfn_t is specifically
-an opaque type precisely to force "unsuspecting" code to throw
-compiler assertions. Instead pfn_t was dealt its death blow here:
+This P2P is quite distinct from DAX as the struct page* would point to
+non-cacheable weird memory that few struct page users would even be
+able to work with, while I understand DAX use cases focused on CPU
+cache coherent memory, and filesystem involvement.
 
-https://lore.kernel.org/lkml/CA+55aFzON9617c2_Amep0ngLq91kfrPiSccdZakxir82iekUiA at mail.gmail.com/
+> My primary concern with this is that ascribes a level of generality
+> that just isn't there for peer-to-peer dma operations. "Peer"
+> addresses are not "DMA" addresses, and the rules about what can and
+> can't do peer-DMA are not generically known to the block layer.
 
-...and I think that feedback also reads on this proposal.
+?? The P2P infrastructure produces a DMA bus address for the
+initiating device that is is absolutely a DMA address. There is some
+intermediate CPU centric representation, but after mapping it is the
+same as any other DMA bus address.
 
-> Currently, we have P2PDMA using struct pages through the block layer
-> and the dangerous cases are avoided by using a queue flag that
-> indicates support for the special pages.
->
-> This RFC proposes a new solution: allow the block layer to take
-> DMA addresses directly for queues that indicate support. This will
-> provide a more general path for doing P2PDMA-like requests and will
-> allow us to remove the struct pages that back P2PDMA memory thus paving
-> the way to build a more uniform P2PDMA ecosystem.
+The map function can tell if the device pair combination can do p2p or
+not.
 
-My primary concern with this is that ascribes a level of generality
-that just isn't there for peer-to-peer dma operations. "Peer"
-addresses are not "DMA" addresses, and the rules about what can and
-can't do peer-DMA are not generically known to the block layer. At
-least with a side object there's a chance to describe / recall those
-restrictions as these things get passed around the I/O stack, but an
-undecorated "DMA" address passed through the block layer with no other
-benefit to any subsystem besides RDMA does not feel like it advances
-the state of the art.
+> Again, what are the benefits of plumbing this RDMA special case?
 
-Again, what are the benefits of plumbing this RDMA special case?
+It is not just RDMA, this is interesting for GPU and vfio use cases
+too. RDMA is just the most complete in-tree user we have today.
+
+ie GPU people wouuld really like to do read() and have P2P
+transparently happen to on-GPU pages. With GPUs having huge amounts of
+memory loading file data into them is really a performance critical
+thing.
+
+Jason
