@@ -1,7 +1,8 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Thu, 20 Jun 2019 13:07:14 -0700
-Subject: [PATCH] nvme-fcloop: Resole warnings on RCU usage and
-Message-ID: <20190620200714.15709-1-jsmart2021@gmail.com>
+Date: Thu, 20 Jun 2019 13:17:01 -0700
+Subject: [PATCH][Repost] nvme-fcloop: Resolve warnings on RCU usage and sleep
+ warnings
+Message-ID: <20190620201701.16833-1-jsmart2021@gmail.com>
 
 With additional debugging enabled, seeing warnings for suspicious
 RCU usage or Sleeping function called from invalid context.
@@ -13,6 +14,9 @@ was sleeping while holding the RCU lock.
 Convert the allocation to GFP_ATOMIC.
 
 Signed-off-by: James Smart <jsmart2021 at gmail.com>
+
+---
+repost fixing munged title
 ---
  drivers/nvme/target/fcloop.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
