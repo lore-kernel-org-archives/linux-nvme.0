@@ -1,38 +1,82 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 20 Jun 2019 10:12:19 -0600
-Subject: [RFC PATCH 07/28] block: Use dma_vec length in bio_cur_bytes() for
- dma-direct bios
+Date: Thu, 20 Jun 2019 10:12:13 -0600
+Subject: [RFC PATCH 01/28] block: Introduce DMA direct request type
 In-Reply-To: <20190620161240.22738-1-logang@deltatee.com>
 References: <20190620161240.22738-1-logang@deltatee.com>
-Message-ID: <20190620161240.22738-8-logang@deltatee.com>
+Message-ID: <20190620161240.22738-2-logang@deltatee.com>
 
-For dma-direct bios, use the dv_len of the current vector
-seeing the bio_vec's are not valid in such a context.
+A DMA direct request allows passing DMA addresses directly through
+the block layer, instead of struct pages. This allows the calling
+layer to take care of the mapping and unmapping and also creates
+a path to doing peer-to-peer transactions without using struct pages.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 ---
- include/linux/bio.h | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ include/linux/blk_types.h |  9 ++++++++-
+ include/linux/blkdev.h    | 10 ++++++++++
+ 2 files changed, 18 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/bio.h b/include/linux/bio.h
-index e212e5958a75..df7973932525 100644
---- a/include/linux/bio.h
-+++ b/include/linux/bio.h
-@@ -91,10 +91,12 @@ static inline bool bio_mergeable(struct bio *bio)
+diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
+index 95202f80676c..f3cabfdb6774 100644
+--- a/include/linux/blk_types.h
++++ b/include/linux/blk_types.h
+@@ -322,6 +322,7 @@ enum req_flag_bits {
+ 	__REQ_NOUNMAP,		/* do not free blocks when zeroing */
  
- static inline unsigned int bio_cur_bytes(struct bio *bio)
- {
--	if (bio_has_data(bio))
--		return bio_iovec(bio).bv_len;
--	else /* dataless requests such as discard */
-+	if (!bio_has_data(bio)) /* dataless requests such as discard */
- 		return bio->bi_iter.bi_size;
-+	else if (op_is_dma_direct(bio->bi_opf))
-+		return bio_dma_vec(bio).dv_len;
-+	else
-+		return bio_iovec(bio).bv_len;
+ 	__REQ_HIPRI,
++	__REQ_DMA_DIRECT,	/* DMA address direct request */
+ 
+ 	/* for driver use */
+ 	__REQ_DRV,
+@@ -345,6 +346,7 @@ enum req_flag_bits {
+ #define REQ_NOWAIT		(1ULL << __REQ_NOWAIT)
+ #define REQ_NOUNMAP		(1ULL << __REQ_NOUNMAP)
+ #define REQ_HIPRI		(1ULL << __REQ_HIPRI)
++#define REQ_DMA_DIRECT		(1ULL << __REQ_DMA_DIRECT)
+ 
+ #define REQ_DRV			(1ULL << __REQ_DRV)
+ #define REQ_SWAP		(1ULL << __REQ_SWAP)
+@@ -353,7 +355,7 @@ enum req_flag_bits {
+ 	(REQ_FAILFAST_DEV | REQ_FAILFAST_TRANSPORT | REQ_FAILFAST_DRIVER)
+ 
+ #define REQ_NOMERGE_FLAGS \
+-	(REQ_NOMERGE | REQ_PREFLUSH | REQ_FUA)
++	(REQ_NOMERGE | REQ_PREFLUSH | REQ_FUA | REQ_DMA_DIRECT)
+ 
+ enum stat_group {
+ 	STAT_READ,
+@@ -412,6 +414,11 @@ static inline int op_stat_group(unsigned int op)
+ 	return op_is_write(op);
  }
  
- static inline void *bio_data(struct bio *bio)
++static inline int op_is_dma_direct(unsigned int op)
++{
++	return op & REQ_DMA_DIRECT;
++}
++
+ typedef unsigned int blk_qc_t;
+ #define BLK_QC_T_NONE		-1U
+ #define BLK_QC_T_SHIFT		16
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 592669bcc536..ce70d5dded5f 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -271,6 +271,16 @@ static inline bool bio_is_passthrough(struct bio *bio)
+ 	return blk_op_is_scsi(op) || blk_op_is_private(op);
+ }
+ 
++static inline bool bio_is_dma_direct(struct bio *bio)
++{
++	return op_is_dma_direct(bio->bi_opf);
++}
++
++static inline bool blk_rq_is_dma_direct(struct request *rq)
++{
++	return op_is_dma_direct(rq->cmd_flags);
++}
++
+ static inline unsigned short req_get_ioprio(struct request *req)
+ {
+ 	return req->ioprio;
 -- 
 2.20.1
