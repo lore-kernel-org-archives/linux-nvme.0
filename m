@@ -1,31 +1,23 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 20 Jun 2019 01:02:06 -0700
-Subject: [PATCH] nvmet-rdma: move port tsas initialization to rdma code
-In-Reply-To: <20190620062914.GD20765@lst.de>
-References: <20190619230006.15715-1-sagi@grimberg.me>
- <20190620062914.GD20765@lst.de>
-Message-ID: <b9fa7da3-8bc3-eaf6-aaf0-0928231ec610@grimberg.me>
+From: drake@endlessm.com (Daniel Drake)
+Date: Thu, 20 Jun 2019 16:11:26 +0800
+Subject: [PATCH v2 2/5] nvme: rename "pci" operations to "mmio"
+In-Reply-To: <20190620061038.GA20564@lst.de>
+References: <20190620051333.2235-1-drake@endlessm.com>
+ <20190620051333.2235-3-drake@endlessm.com>
+ <20190620061038.GA20564@lst.de>
+Message-ID: <CAD8Lp45ua=L+ixO+du=Njhy+dxjWobWA+V1i+Y2p6faeyt1FBQ@mail.gmail.com>
 
+On Thu, Jun 20, 2019@2:11 PM Christoph Hellwig <hch@lst.de> wrote:
+> The Linux NVMe driver will deal with NVMe as specified plus whatever
+> minor tweaks we'll need for small bugs.  Hiding it behind an AHCI
+> device is completely out of scope and will not be accepted.
 
->> Also, look at the device transport capability to send
->> the correct trtype (ib/roce/rocev2/iwarp). Note that if
->> we are listening on addr_any we still return "not specified"
->> trtype and the same goes for referrals.
-> 
-> I very much disagree with sending the type.  That whole concept
-> has been a horrible layering violation in the spec that we should
-> not support.
+Do you have any new suggestions for alternative ways we can implement
+support for this storage configuration?
 
-Well, I was asked offline why Linux was not providing this information
-and I couldn't find a reason why given that its exposed to the upper
-layer...
+I tried to follow your earlier suggestions regarding faking a PCI bus
+here: (or let me know if you had something different in mind...)
+https://marc.info/?l=linux-pci&m=156015271021614&w=2
+but it looks like that is not going to fly either :(
 
-I don't necessarily think that this is a layering violation, what
-I can see as a layering issue though is that these helpers require
-port_num, which is cumbersome to extract from the ip address. I guess
-this can lead to misinformation in case of dual port devices where each
-port has a different rdma link/transport (however this is more theoretic
-than practical afaict).
-
-Having said that, its not really a pressing issue, so if there is
-resistance to have it, we can drop the prtype.
+Daniel
