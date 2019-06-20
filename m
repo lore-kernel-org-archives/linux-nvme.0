@@ -1,132 +1,89 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 20 Jun 2019 10:12:24 -0600
-Subject: [RFC PATCH 12/28] block: Create helper for bvec_should_split()
+Date: Thu, 20 Jun 2019 10:12:27 -0600
+Subject: [RFC PATCH 15/28] block: Support counting dma-direct bio segments
 In-Reply-To: <20190620161240.22738-1-logang@deltatee.com>
 References: <20190620161240.22738-1-logang@deltatee.com>
-Message-ID: <20190620161240.22738-13-logang@deltatee.com>
+Message-ID: <20190620161240.22738-16-logang@deltatee.com>
 
-In order to support dma-direct bios, blk_bio_segment_split() will
-need to operate on both bio_vecs and dma_vecs. In order to do
-this, the code inside bio_for_each_bvec() is moved into a generic
-helper called bvec_should_split().
+Change __blk_recalc_rq_segments() to loop through dma_vecs when
+appropriate. It calls vec_split_segs() for each dma_vec or bio_vec.
+
+Once this is done the bvec_split_segs() helper is no longer used.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 ---
- block/blk-merge.c | 86 +++++++++++++++++++++++++----------------------
- 1 file changed, 46 insertions(+), 40 deletions(-)
+ block/blk-merge.c | 41 ++++++++++++++++++++++++++++++-----------
+ 1 file changed, 30 insertions(+), 11 deletions(-)
 
 diff --git a/block/blk-merge.c b/block/blk-merge.c
-index 414e61a714bf..d9e89c0ad40d 100644
+index c4c016f994f6..a7a5453987f9 100644
 --- a/block/blk-merge.c
 +++ b/block/blk-merge.c
-@@ -212,6 +212,48 @@ struct blk_segment_split_ctx {
- 	const unsigned max_segs;
- };
+@@ -194,13 +194,6 @@ static bool vec_split_segs(struct request_queue *q, unsigned offset,
+ 	return !!len;
+ }
  
-+static bool bvec_should_split(struct request_queue *q, struct bio_vec *bv,
-+			      struct blk_segment_split_ctx *ctx)
+-static bool bvec_split_segs(struct request_queue *q, struct bio_vec *bv,
+-		unsigned *nsegs, unsigned *sectors, unsigned max_segs)
+-{
+-	return vec_split_segs(q, bv->bv_offset, bv->bv_len, nsegs,
+-			      sectors, max_segs);
+-}
+-
+ struct blk_segment_split_ctx {
+ 	unsigned nsegs;
+ 	unsigned sectors;
+@@ -366,12 +359,36 @@ void blk_queue_split(struct request_queue *q, struct bio **bio)
+ }
+ EXPORT_SYMBOL(blk_queue_split);
+ 
++static unsigned int bio_calc_segs(struct request_queue *q, struct bio *bio)
 +{
-+	/*
-+	 * If the queue doesn't support SG gaps and adding this
-+	 * offset would create a gap, disallow it.
-+	 */
-+	if (ctx->prv_valid && bvec_gap_to_prev(q, &ctx->bvprv, bv->bv_offset))
-+		return true;
++	unsigned int nsegs = 0;
++	struct bvec_iter iter;
++	struct bio_vec bv;
 +
-+	if (ctx->sectors + (bv->bv_len >> 9) > ctx->max_sectors) {
-+		/*
-+		 * Consider this a new segment if we're splitting in
-+		 * the middle of this vector.
-+		 */
-+		if (ctx->nsegs < ctx->max_segs &&
-+		    ctx->sectors < ctx->max_sectors) {
-+			/* split in the middle of bvec */
-+			bv->bv_len = (ctx->max_sectors - ctx->sectors) << 9;
-+			bvec_split_segs(q, bv, &ctx->nsegs,
-+					&ctx->sectors, ctx->max_segs);
-+		}
-+		return true;
-+	}
++	bio_for_each_bvec(bv, bio, iter)
++		vec_split_segs(q, bv.bv_offset, bv.bv_len, &nsegs,
++			       NULL, UINT_MAX);
 +
-+	if (ctx->nsegs == ctx->max_segs)
-+		return true;
-+
-+	ctx->bvprv = *bv;
-+	ctx->prv_valid = true;
-+
-+	if (bv->bv_offset + bv->bv_len <= PAGE_SIZE) {
-+		ctx->nsegs++;
-+		ctx->sectors += bv->bv_len >> 9;
-+	} else if (bvec_split_segs(q, bv, &ctx->nsegs, &ctx->sectors,
-+				   ctx->max_segs)) {
-+		return true;
-+	}
-+
-+	return false;
++	return nsegs;
 +}
 +
- static struct bio *blk_bio_segment_split(struct request_queue *q,
- 					 struct bio *bio,
- 					 struct bio_set *bs,
-@@ -219,7 +261,7 @@ static struct bio *blk_bio_segment_split(struct request_queue *q,
++static unsigned int bio_dma_calc_segs(struct request_queue *q, struct bio *bio)
++{
++	unsigned int nsegs = 0;
++	struct bvec_iter iter;
++	struct dma_vec dv;
++
++	bio_for_each_dvec(dv, bio, iter)
++		vec_split_segs(q, dv.dv_addr, dv.dv_len, &nsegs,
++			       NULL, UINT_MAX);
++
++	return nsegs;
++}
++
+ static unsigned int __blk_recalc_rq_segments(struct request_queue *q,
+ 					     struct bio *bio)
  {
- 	struct bio_vec bv;
- 	struct bvec_iter iter;
--	bool do_split = true;
-+	bool do_split = false;
- 	struct bio *new = NULL;
+ 	unsigned int nr_phys_segs = 0;
+-	struct bvec_iter iter;
+-	struct bio_vec bv;
  
- 	struct blk_segment_split_ctx ctx = {
-@@ -228,47 +270,11 @@ static struct bio *blk_bio_segment_split(struct request_queue *q,
- 	};
- 
- 	bio_for_each_bvec(bv, bio, iter) {
--		/*
--		 * If the queue doesn't support SG gaps and adding this
--		 * offset would create a gap, disallow it.
--		 */
--		if (ctx.prv_valid && bvec_gap_to_prev(q, &ctx.bvprv,
--						      bv.bv_offset))
--			goto split;
--
--		if (ctx.sectors + (bv.bv_len >> 9) > ctx.max_sectors) {
--			/*
--			 * Consider this a new segment if we're splitting in
--			 * the middle of this vector.
--			 */
--			if (ctx.nsegs < ctx.max_segs &&
--			    ctx.sectors < ctx.max_sectors) {
--				/* split in the middle of bvec */
--				bv.bv_len =
--					(ctx.max_sectors - ctx.sectors) << 9;
--				bvec_split_segs(q, &bv, &ctx.nsegs,
--						&ctx.sectors, ctx.max_segs);
--			}
--			goto split;
--		}
--
--		if (ctx.nsegs == ctx.max_segs)
--			goto split;
--
--		ctx.bvprv = bv;
--		ctx.prv_valid = true;
--
--		if (bv.bv_offset + bv.bv_len <= PAGE_SIZE) {
--			ctx.nsegs++;
--			ctx.sectors += bv.bv_len >> 9;
--		} else if (bvec_split_segs(q, &bv, &ctx.nsegs, &ctx.sectors,
--				ctx.max_segs)) {
--			goto split;
--		}
-+		do_split = bvec_should_split(q, &bv, &ctx);
-+		if (do_split)
-+			break;
+ 	if (!bio)
+ 		return 0;
+@@ -386,8 +403,10 @@ static unsigned int __blk_recalc_rq_segments(struct request_queue *q,
  	}
  
--	do_split = false;
--split:
- 	*segs = ctx.nsegs;
+ 	for_each_bio(bio) {
+-		bio_for_each_bvec(bv, bio, iter)
+-			bvec_split_segs(q, &bv, &nr_phys_segs, NULL, UINT_MAX);
++		if (bio_is_dma_direct(bio))
++			nr_phys_segs += bio_calc_segs(q, bio);
++		else
++			nr_phys_segs += bio_dma_calc_segs(q, bio);
+ 	}
  
- 	if (do_split) {
+ 	return nr_phys_segs;
 -- 
 2.20.1
