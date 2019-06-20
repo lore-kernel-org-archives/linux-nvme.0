@@ -1,95 +1,62 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 20 Jun 2019 10:12:25 -0600
-Subject: [RFC PATCH 13/28] block: Generalize bvec_should_split()
+Date: Thu, 20 Jun 2019 10:12:21 -0600
+Subject: [RFC PATCH 09/28] block: Introduce vec_gap_to_prev()
 In-Reply-To: <20190620161240.22738-1-logang@deltatee.com>
 References: <20190620161240.22738-1-logang@deltatee.com>
-Message-ID: <20190620161240.22738-14-logang@deltatee.com>
+Message-ID: <20190620161240.22738-10-logang@deltatee.com>
 
-bvec_should_split() will need to also operate on dma_vecs so
-generalize it to take an offset and length instead of a bio_vec.
+Introduce vec_gap_to_prev() which is a more general
+form of bvec_gap_to_prev().
+
+In order to support splitting dma_vecs we will need to do a similar
+calcualtion using the DMA address and length.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 ---
- block/blk-merge.c | 31 +++++++++++++++++--------------
- 1 file changed, 17 insertions(+), 14 deletions(-)
+ block/blk.h | 21 +++++++++++++++++++--
+ 1 file changed, 19 insertions(+), 2 deletions(-)
 
-diff --git a/block/blk-merge.c b/block/blk-merge.c
-index d9e89c0ad40d..32653fca53ce 100644
---- a/block/blk-merge.c
-+++ b/block/blk-merge.c
-@@ -206,23 +206,25 @@ struct blk_segment_split_ctx {
- 	unsigned sectors;
+diff --git a/block/blk.h b/block/blk.h
+index 4142383eed7a..c5512fefe703 100644
+--- a/block/blk.h
++++ b/block/blk.h
+@@ -98,11 +98,19 @@ static inline bool dmavec_phys_mergeable(struct request_queue *q,
+ 				  vec2->dv_addr, vec2->dv_len);
+ }
  
- 	bool prv_valid;
--	struct bio_vec bvprv;
-+	unsigned prv_offset;
-+	unsigned prv_len;
- 
- 	const unsigned max_sectors;
- 	const unsigned max_segs;
- };
- 
--static bool bvec_should_split(struct request_queue *q, struct bio_vec *bv,
--			      struct blk_segment_split_ctx *ctx)
-+static bool vec_should_split(struct request_queue *q, unsigned offset,
-+			     unsigned len, struct blk_segment_split_ctx *ctx)
++static inline bool __vec_gap_to_prev(struct request_queue *q,
++		unsigned int prv_offset, unsigned int prv_len,
++		unsigned int nxt_offset)
++{
++	return (nxt_offset & queue_virt_boundary(q)) ||
++		((prv_offset + prv_len) & queue_virt_boundary(q));
++}
++
+ static inline bool __bvec_gap_to_prev(struct request_queue *q,
+ 		struct bio_vec *bprv, unsigned int offset)
  {
- 	/*
- 	 * If the queue doesn't support SG gaps and adding this
- 	 * offset would create a gap, disallow it.
- 	 */
--	if (ctx->prv_valid && bvec_gap_to_prev(q, &ctx->bvprv, bv->bv_offset))
-+	if (ctx->prv_valid &&
-+	    vec_gap_to_prev(q, ctx->prv_offset, ctx->prv_len, offset))
- 		return true;
+-	return (offset & queue_virt_boundary(q)) ||
+-		((bprv->bv_offset + bprv->bv_len) & queue_virt_boundary(q));
++	return __vec_gap_to_prev(q, bprv->bv_offset, bprv->bv_len,
++				 offset);
+ }
  
--	if (ctx->sectors + (bv->bv_len >> 9) > ctx->max_sectors) {
-+	if (ctx->sectors + (len >> 9) > ctx->max_sectors) {
- 		/*
- 		 * Consider this a new segment if we're splitting in
- 		 * the middle of this vector.
-@@ -230,9 +232,9 @@ static bool bvec_should_split(struct request_queue *q, struct bio_vec *bv,
- 		if (ctx->nsegs < ctx->max_segs &&
- 		    ctx->sectors < ctx->max_sectors) {
- 			/* split in the middle of bvec */
--			bv->bv_len = (ctx->max_sectors - ctx->sectors) << 9;
--			bvec_split_segs(q, bv, &ctx->nsegs,
--					&ctx->sectors, ctx->max_segs);
-+			len = (ctx->max_sectors - ctx->sectors) << 9;
-+			vec_split_segs(q, offset, len, &ctx->nsegs,
-+				       &ctx->sectors, ctx->max_segs);
- 		}
- 		return true;
- 	}
-@@ -240,14 +242,15 @@ static bool bvec_should_split(struct request_queue *q, struct bio_vec *bv,
- 	if (ctx->nsegs == ctx->max_segs)
- 		return true;
+ /*
+@@ -117,6 +125,15 @@ static inline bool bvec_gap_to_prev(struct request_queue *q,
+ 	return __bvec_gap_to_prev(q, bprv, offset);
+ }
  
--	ctx->bvprv = *bv;
-+	ctx->prv_offset = offset;
-+	ctx->prv_len = len;
- 	ctx->prv_valid = true;
- 
--	if (bv->bv_offset + bv->bv_len <= PAGE_SIZE) {
-+	if (offset + len <= PAGE_SIZE) {
- 		ctx->nsegs++;
--		ctx->sectors += bv->bv_len >> 9;
--	} else if (bvec_split_segs(q, bv, &ctx->nsegs, &ctx->sectors,
--				   ctx->max_segs)) {
-+		ctx->sectors += len >> 9;
-+	} else if (vec_split_segs(q, offset, len, &ctx->nsegs, &ctx->sectors,
-+				  ctx->max_segs)) {
- 		return true;
- 	}
- 
-@@ -270,7 +273,7 @@ static struct bio *blk_bio_segment_split(struct request_queue *q,
- 	};
- 
- 	bio_for_each_bvec(bv, bio, iter) {
--		do_split = bvec_should_split(q, &bv, &ctx);
-+		do_split = vec_should_split(q, bv.bv_offset, bv.bv_len, &ctx);
- 		if (do_split)
- 			break;
- 	}
++static inline bool vec_gap_to_prev(struct request_queue *q,
++		unsigned int prv_offset, unsigned int prv_len,
++		unsigned int nxt_offset)
++{
++	if (!queue_virt_boundary(q))
++		return false;
++	return __vec_gap_to_prev(q, prv_offset, prv_len, nxt_offset);
++}
++
+ #ifdef CONFIG_BLK_DEV_INTEGRITY
+ void blk_flush_integrity(void);
+ bool __bio_integrity_endio(struct bio *);
 -- 
 2.20.1
