@@ -1,21 +1,41 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Thu, 20 Jun 2019 23:22:18 +0900
-Subject: [PATCH V7 0/7] nvme-cli: Introduce nvme-status mapping with errno
-In-Reply-To: <20190618131216.3661-1-minwoo.im.dev@gmail.com>
-References: <20190618131216.3661-1-minwoo.im.dev@gmail.com>
-Message-ID: <20190620142218.GC12032@minwooim-desktop>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Thu, 20 Jun 2019 10:12:29 -0600
+Subject: [RFC PATCH 17/28] block: Introduce queue flag to indicate support for
+ dma-direct bios
+In-Reply-To: <20190620161240.22738-1-logang@deltatee.com>
+References: <20190620161240.22738-1-logang@deltatee.com>
+Message-ID: <20190620161240.22738-18-logang@deltatee.com>
 
-On 19-06-18 22:12:09, Minwoo Im wrote:
-> Hi Keith,
-> 
-> Now it's v7 patchset for the nvme-status mapping with errno.  Chaitanya
-> has reviewed for the first five patches, and Sagi has suggested to
-> return an error for a case that numrec is different.  The 6th and 7th
-> patch will make what Sagi's said.
+Queues will need to advertise support to accept dma-direct requests.
 
-Hi Keith,
+The existing PCI P2P support which will be replaced by this and thus
+the P2P flag will be dropped in a subsequent patch.
 
-I will put this series to the Github PR for your convenience.
+Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
+---
+ include/linux/blkdev.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Thanks in advance,
-(Also thanks to Sagi and Chaitanya for the reviews :))
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index ce70d5dded5f..a5b856324276 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -616,6 +616,7 @@ struct request_queue {
+ #define QUEUE_FLAG_SCSI_PASSTHROUGH 23	/* queue supports SCSI commands */
+ #define QUEUE_FLAG_QUIESCED	24	/* queue has been quiesced */
+ #define QUEUE_FLAG_PCI_P2PDMA	25	/* device supports PCI p2p requests */
++#define QUEUE_FLAG_DMA_DIRECT	26	/* device supports dma-addr requests */
+ 
+ #define QUEUE_FLAG_MQ_DEFAULT	((1 << QUEUE_FLAG_IO_STAT) |		\
+ 				 (1 << QUEUE_FLAG_SAME_COMP))
+@@ -642,6 +643,8 @@ bool blk_queue_flag_test_and_set(unsigned int flag, struct request_queue *q);
+ 	test_bit(QUEUE_FLAG_SCSI_PASSTHROUGH, &(q)->queue_flags)
+ #define blk_queue_pci_p2pdma(q)	\
+ 	test_bit(QUEUE_FLAG_PCI_P2PDMA, &(q)->queue_flags)
++#define blk_queue_dma_direct(q)	\
++	test_bit(QUEUE_FLAG_DMA_DIRECT, &(q)->queue_flags)
+ 
+ #define blk_noretry_request(rq) \
+ 	((rq)->cmd_flags & (REQ_FAILFAST_DEV|REQ_FAILFAST_TRANSPORT| \
+-- 
+2.20.1
