@@ -1,33 +1,162 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Thu, 20 Jun 2019 09:36:51 +0800
-Subject: [PATCH 2/2] nvme: flush scan_work when resetting controller
-In-Reply-To: <20190618101025.78840-3-hare@suse.de>
-References: <20190618101025.78840-1-hare@suse.de>
- <20190618101025.78840-3-hare@suse.de>
-Message-ID: <20190620013650.GB31179@ming.t460p>
+From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Thu, 20 Jun 2019 03:19:30 +0000
+Subject: [PATCH v3 2/3] nvmet: Export NVMe namespace attributes
+References: <20190617161222.253849-1-bvanassche@acm.org>
+ <20190617161222.253849-3-bvanassche@acm.org>
+Message-ID: <BYAPR04MB57491E682D39461CA263529886E40@BYAPR04MB5749.namprd04.prod.outlook.com>
 
-On Tue, Jun 18, 2019@12:10:25PM +0200, Hannes Reinecke wrote:
-> When resetting the controller there is no point whatsoever to
-> have a scan run in parallel; we cannot access the controller and
+Looks good to me.
 
-scan won't be run in parallel, because .scan_work is embedded in
-'struct nvme_ctrl' which is per-HBA.
+Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 
-> we cannot tell which devices are present and which not.
-> Additionally we'll run a scan after reset anyway.
-> So flush existing scans before reconnecting, ensuring to
-> short-circuit the scan workqueue function if the controller state
-> isn't live to avoid lockups.
-
-This way may cause dead-lock.
-
-1) nvme_revalidate_disk() might freeze queue in flush context, however
-any in-flight requests won't be completed until reset is done, so
-deadlock may be caused by flushing scans in reset context.
-
-2) sync IO may be involved in revalidate_disk() which is called in
-scan context, so deadlock is caused for same reason with 1).
-
-
-Thanks,
-Ming
+On 6/17/19 9:13 AM, Bart Van Assche wrote:
+> Make the NVMe NAWUN, NAWUPF, NACWU, NPWG, NPWA, NPDG and NOWS attributes
+> available to initator systems.
+> 
+> Cc: Keith Busch <kbusch at kernel.org>
+> Cc: Sagi Grimberg <sagi at grimberg.me>
+> Cc: Martin K. Petersen <martin.petersen at oracle.com>
+> Cc: Hannes Reinecke <hare at suse.com>
+> Cc: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+> Signed-off-by: Bart Van Assche <bvanassche at acm.org>
+> ---
+>   drivers/nvme/target/admin-cmd.c   |  5 ++++
+>   drivers/nvme/target/io-cmd-bdev.c | 45 +++++++++++++++++++++++++++++++
+>   drivers/nvme/target/io-cmd-file.c | 37 +++++++++++++++++++++++++
+>   drivers/nvme/target/nvmet.h       |  2 ++
+>   4 files changed, 89 insertions(+)
+> 
+> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+> index 9f72d515fc4b..2558ed333d29 100644
+> --- a/drivers/nvme/target/admin-cmd.c
+> +++ b/drivers/nvme/target/admin-cmd.c
+> @@ -442,6 +442,11 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
+>   		break;
+>           }
+>   
+> +	if (ns->file)
+> +		nvmet_file_set_limits(ns->file, id);
+> +	else if (ns->bdev)
+> +		nvmet_bdev_set_limits(ns->bdev, id);
+> +
+>   	/*
+>   	 * We just provide a single LBA format that matches what the
+>   	 * underlying device reports.
+> diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+> index 3efc52f9c309..5fe51e5d2f1b 100644
+> --- a/drivers/nvme/target/io-cmd-bdev.c
+> +++ b/drivers/nvme/target/io-cmd-bdev.c
+> @@ -8,6 +8,51 @@
+>   #include <linux/module.h>
+>   #include "nvmet.h"
+>   
+> +/* Convert a 32-bit number to a 16-bit 0's based number */
+> +static __le16 to0based(u32 a)
+> +{
+> +	return cpu_to_le16(max(1U, min(1U << 16, a)) - 1);
+> +}
+> +
+> +void nvmet_bdev_set_limits(struct block_device *bdev, struct nvme_id_ns *id)
+> +{
+> +	const struct queue_limits *ql = &bdev_get_queue(bdev)->limits;
+> +	/* Number of physical blocks per logical block. */
+> +	const u32 ppl = ql->physical_block_size / ql->logical_block_size;
+> +	/* Physical blocks per logical block, 0's based. */
+> +	const __le16 ppl0b = to0based(ppl);
+> +
+> +	/*
+> +	 * For NVMe 1.2 and later, bit 1 indicates that the fields NAWUN,
+> +	 * NAWUPF, and NACWU are defined for this namespace and should be
+> +	 * used by the host for this namespace instead of the AWUN, AWUPF,
+> +	 * and ACWU fields in the Identify Controller data structure. If
+> +	 * any of these fields are zero that means that the corresponding
+> +	 * field from the identify controller data structure should be used.
+> +	 */
+> +	id->nsfeat |= 1 << 1;
+> +	id->nawun = ppl0b;
+> +	id->nawupf = ppl0b;
+> +	id->nacwu = ppl0b;
+> +
+> +	/*
+> +	 * For NVMe 1.4 and later, bit 4 indicates that the fields NPWG,
+> +	 * NPWA, NPDG, NPDA, and NOWS are defined for this namespace and
+> +	 * should be used by the host for I/O optimization.
+> +	 */
+> +	id->nsfeat |= 1 << 4;
+> +	/* NPWG = Namespace Preferred Write Granularity. 0's based */
+> +	id->npwg = ppl0b;
+> +	/* NPWA = Namespace Preferred Write Alignment. 0's based */
+> +	id->npwa = id->npwg;
+> +	/* NPDG = Namespace Preferred Deallocate Granularity. 0's based */
+> +	id->npdg = to0based(ql->discard_granularity / ql->logical_block_size);
+> +	/* NPDG = Namespace Preferred Deallocate Alignment */
+> +	id->npda = id->npdg;
+> +	/* NOWS = Namespace Optimal Write Size */
+> +	id->nows = to0based(ql->io_opt / ql->logical_block_size);
+> +}
+> +
+>   int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
+>   {
+>   	int ret;
+> diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
+> index 05453f5d1448..268dfc678567 100644
+> --- a/drivers/nvme/target/io-cmd-file.c
+> +++ b/drivers/nvme/target/io-cmd-file.c
+> @@ -13,6 +13,43 @@
+>   #define NVMET_MAX_MPOOL_BVEC		16
+>   #define NVMET_MIN_MPOOL_OBJ		16
+>   
+> +void nvmet_file_set_limits(struct file *file, struct nvme_id_ns *id)
+> +{
+> +	/*
+> +	 * Physical blocks per logical block, 0's based. Is it possible to
+> +	 * extract this information from the filesystem properties?
+> +	 */
+> +	const __le16 ppl0b = cpu_to_le16(0);
+> +
+> +	/*
+> +	 * For NVMe 1.2 and later, bit 1 indicates that the fields NAWUN,
+> +	 * NAWUPF, and NACWU are defined for this namespace and should be
+> +	 * used by the host for this namespace instead of the AWUN, AWUPF,
+> +	 * and ACWU fields in the Identify Controller data structure.
+> +	 */
+> +	id->nsfeat |= 1 << 1;
+> +	id->nawun = ppl0b;
+> +	id->nawupf = ppl0b;
+> +	id->nacwu = ppl0b;
+> +
+> +	/*
+> +	 * For NVMe 1.4 and later, bit 4 indicates that the fields NPWG,
+> +	 * NPWA, NPDG, NPDA, and NOWS are defined for this namespace and
+> +	 * should be used by the host for I/O optimization.
+> +	 */
+> +	id->nsfeat |= 1 << 4;
+> +	/* NPWG = Namespace Preferred Write Granularity. 0's based */
+> +	id->npwg = ppl0b;
+> +	/* NPWA = Namespace Preferred Write Alignment. 0's based */
+> +	id->npwa = id->npwg;
+> +	/* NPDG = Namespace Preferred Deallocate Granularity. 0's based */
+> +	id->npdg = ppl0b;
+> +	/* NPDG = Namespace Preferred Deallocate Alignment */
+> +	id->npda = id->npdg;
+> +	/* NOWS = Namespace Optimal Write Size */
+> +	id->nows = ppl0b;
+> +}
+> +
+>   void nvmet_file_ns_disable(struct nvmet_ns *ns)
+>   {
+>   	if (ns->file) {
+> diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+> index c25d88fc9dec..ed0362544932 100644
+> --- a/drivers/nvme/target/nvmet.h
+> +++ b/drivers/nvme/target/nvmet.h
+> @@ -363,6 +363,8 @@ u16 nvmet_set_feat_async_event(struct nvmet_req *req, u32 mask);
+>   void nvmet_execute_async_event(struct nvmet_req *req);
+>   
+>   u16 nvmet_parse_connect_cmd(struct nvmet_req *req);
+> +void nvmet_bdev_set_limits(struct block_device *bdev, struct nvme_id_ns *id);
+> +void nvmet_file_set_limits(struct file *file, struct nvme_id_ns *id);
+>   u16 nvmet_bdev_parse_io_cmd(struct nvmet_req *req);
+>   u16 nvmet_file_parse_io_cmd(struct nvmet_req *req);
+>   u16 nvmet_parse_admin_cmd(struct nvmet_req *req);
+> 
