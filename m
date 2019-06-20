@@ -1,82 +1,67 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 20 Jun 2019 10:12:13 -0600
-Subject: [RFC PATCH 01/28] block: Introduce DMA direct request type
+Date: Thu, 20 Jun 2019 10:12:20 -0600
+Subject: [RFC PATCH 08/28] block: Introduce dmavec_phys_mergeable()
 In-Reply-To: <20190620161240.22738-1-logang@deltatee.com>
 References: <20190620161240.22738-1-logang@deltatee.com>
-Message-ID: <20190620161240.22738-2-logang@deltatee.com>
+Message-ID: <20190620161240.22738-9-logang@deltatee.com>
 
-A DMA direct request allows passing DMA addresses directly through
-the block layer, instead of struct pages. This allows the calling
-layer to take care of the mapping and unmapping and also creates
-a path to doing peer-to-peer transactions without using struct pages.
+Introduce a new helper which is an analog of biovec_phys_mergeable()
+for dma-direct vectors.
+
+This also provides a common helper vec_phys_mergeable() for use in
+code that's general to both bio_vecs and dma_vecs.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 ---
- include/linux/blk_types.h |  9 ++++++++-
- include/linux/blkdev.h    | 10 ++++++++++
- 2 files changed, 18 insertions(+), 1 deletion(-)
+ block/blk.h | 28 ++++++++++++++++++++++------
+ 1 file changed, 22 insertions(+), 6 deletions(-)
 
-diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
-index 95202f80676c..f3cabfdb6774 100644
---- a/include/linux/blk_types.h
-+++ b/include/linux/blk_types.h
-@@ -322,6 +322,7 @@ enum req_flag_bits {
- 	__REQ_NOUNMAP,		/* do not free blocks when zeroing */
- 
- 	__REQ_HIPRI,
-+	__REQ_DMA_DIRECT,	/* DMA address direct request */
- 
- 	/* for driver use */
- 	__REQ_DRV,
-@@ -345,6 +346,7 @@ enum req_flag_bits {
- #define REQ_NOWAIT		(1ULL << __REQ_NOWAIT)
- #define REQ_NOUNMAP		(1ULL << __REQ_NOUNMAP)
- #define REQ_HIPRI		(1ULL << __REQ_HIPRI)
-+#define REQ_DMA_DIRECT		(1ULL << __REQ_DMA_DIRECT)
- 
- #define REQ_DRV			(1ULL << __REQ_DRV)
- #define REQ_SWAP		(1ULL << __REQ_SWAP)
-@@ -353,7 +355,7 @@ enum req_flag_bits {
- 	(REQ_FAILFAST_DEV | REQ_FAILFAST_TRANSPORT | REQ_FAILFAST_DRIVER)
- 
- #define REQ_NOMERGE_FLAGS \
--	(REQ_NOMERGE | REQ_PREFLUSH | REQ_FUA)
-+	(REQ_NOMERGE | REQ_PREFLUSH | REQ_FUA | REQ_DMA_DIRECT)
- 
- enum stat_group {
- 	STAT_READ,
-@@ -412,6 +414,11 @@ static inline int op_stat_group(unsigned int op)
- 	return op_is_write(op);
+diff --git a/block/blk.h b/block/blk.h
+index 7814aa207153..4142383eed7a 100644
+--- a/block/blk.h
++++ b/block/blk.h
+@@ -66,20 +66,36 @@ static inline void blk_queue_enter_live(struct request_queue *q)
+ 	percpu_ref_get(&q->q_usage_counter);
  }
  
-+static inline int op_is_dma_direct(unsigned int op)
++static inline bool vec_phys_mergeable(struct request_queue *q,
++				      unsigned long addr1, unsigned int len1,
++				      unsigned long addr2, unsigned int len2)
 +{
-+	return op & REQ_DMA_DIRECT;
++	unsigned long mask = queue_segment_boundary(q);
++
++	if (addr1 + len1 != addr2)
++		return false;
++	if ((addr1 | mask) != ((addr2 + len2 - 1) | mask))
++		return false;
++	return true;
 +}
 +
- typedef unsigned int blk_qc_t;
- #define BLK_QC_T_NONE		-1U
- #define BLK_QC_T_SHIFT		16
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 592669bcc536..ce70d5dded5f 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -271,6 +271,16 @@ static inline bool bio_is_passthrough(struct bio *bio)
- 	return blk_op_is_scsi(op) || blk_op_is_private(op);
- }
- 
-+static inline bool bio_is_dma_direct(struct bio *bio)
-+{
-+	return op_is_dma_direct(bio->bi_opf);
-+}
-+
-+static inline bool blk_rq_is_dma_direct(struct request *rq)
-+{
-+	return op_is_dma_direct(rq->cmd_flags);
-+}
-+
- static inline unsigned short req_get_ioprio(struct request *req)
+ static inline bool biovec_phys_mergeable(struct request_queue *q,
+ 		struct bio_vec *vec1, struct bio_vec *vec2)
  {
- 	return req->ioprio;
+-	unsigned long mask = queue_segment_boundary(q);
+ 	phys_addr_t addr1 = page_to_phys(vec1->bv_page) + vec1->bv_offset;
+ 	phys_addr_t addr2 = page_to_phys(vec2->bv_page) + vec2->bv_offset;
+ 
+-	if (addr1 + vec1->bv_len != addr2)
+-		return false;
+ 	if (xen_domain() && !xen_biovec_phys_mergeable(vec1, vec2->bv_page))
+ 		return false;
+-	if ((addr1 | mask) != ((addr2 + vec2->bv_len - 1) | mask))
+-		return false;
+-	return true;
++
++	return vec_phys_mergeable(q, addr1, vec1->bv_len, addr2, vec2->bv_len);
++}
++
++static inline bool dmavec_phys_mergeable(struct request_queue *q,
++		struct dma_vec *vec1, struct dma_vec *vec2)
++{
++	return vec_phys_mergeable(q, vec1->dv_addr, vec1->dv_len,
++				  vec2->dv_addr, vec2->dv_len);
+ }
+ 
+ static inline bool __bvec_gap_to_prev(struct request_queue *q,
 -- 
 2.20.1
