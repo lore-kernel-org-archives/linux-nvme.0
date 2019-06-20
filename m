@@ -1,54 +1,96 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 20 Jun 2019 10:12:37 -0600
-Subject: [RFC PATCH 25/28] IB/core: Remove P2PDMA mapping support in
- rdma_rw_ctx
+Date: Thu, 20 Jun 2019 10:12:33 -0600
+Subject: [RFC PATCH 21/28] nvmet: Split nvmet_bdev_execute_rw() into a helper
+ function
 In-Reply-To: <20190620161240.22738-1-logang@deltatee.com>
 References: <20190620161240.22738-1-logang@deltatee.com>
-Message-ID: <20190620161240.22738-26-logang@deltatee.com>
+Message-ID: <20190620161240.22738-22-logang@deltatee.com>
 
-There are no longer any users submitting P2PDMA struct pages to
-rdma_rw_ctx. So it can be removed.
+Move the mapping of the SG and submission of the bio
+into a static helper function to reduce the complexity.
+
+This will be useful in the next patch which submits dma-direct bios
+for P2P requests.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 ---
- drivers/infiniband/core/rw.c | 11 ++---------
- 1 file changed, 2 insertions(+), 9 deletions(-)
+ drivers/nvme/target/io-cmd-bdev.c | 52 ++++++++++++++++++-------------
+ 1 file changed, 31 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/infiniband/core/rw.c b/drivers/infiniband/core/rw.c
-index cefa6b930bc8..350b9b730ddc 100644
---- a/drivers/infiniband/core/rw.c
-+++ b/drivers/infiniband/core/rw.c
-@@ -4,7 +4,6 @@
-  */
- #include <linux/moduleparam.h>
- #include <linux/slab.h>
--#include <linux/pci-p2pdma.h>
- #include <rdma/mr_pool.h>
- #include <rdma/rw.h>
- 
-@@ -271,11 +270,7 @@ int rdma_rw_ctx_init(struct rdma_rw_ctx *ctx, struct ib_qp *qp, u8 port_num,
- 	struct ib_device *dev = qp->pd->device;
- 	int ret;
- 
--	if (is_pci_p2pdma_page(sg_page(sg)))
--		ret = pci_p2pdma_map_sg(dev->dma_device, sg, sg_cnt, dir);
--	else
--		ret = ib_dma_map_sg(dev, sg, sg_cnt, dir);
--
-+	ret = ib_dma_map_sg(dev, sg, sg_cnt, dir);
- 	if (!ret)
- 		return -ENOMEM;
- 	sg_cnt = ret;
-@@ -635,9 +630,7 @@ void rdma_rw_ctx_destroy(struct rdma_rw_ctx *ctx, struct ib_qp *qp, u8 port_num,
- {
- 	__rdma_rw_ctx_destroy(ctx, qp);
- 
--	/* P2PDMA contexts do not need to be unmapped */
--	if (!is_pci_p2pdma_page(sg_page(sg)))
--		ib_dma_unmap_sg(qp->pd->device, sg, sg_cnt, dir);
-+	ib_dma_unmap_sg(qp->pd->device, sg, sg_cnt, dir);
+diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+index 7a1cf6437a6a..061d40b020c7 100644
+--- a/drivers/nvme/target/io-cmd-bdev.c
++++ b/drivers/nvme/target/io-cmd-bdev.c
+@@ -103,13 +103,41 @@ static void nvmet_bio_done(struct bio *bio)
+ 		bio_put(bio);
  }
- EXPORT_SYMBOL(rdma_rw_ctx_destroy);
  
++static void nvmet_submit_sg(struct nvmet_req *req, struct bio *bio,
++			    sector_t sector)
++{
++	int sg_cnt = req->sg_cnt;
++	struct scatterlist *sg;
++	int i;
++
++	for_each_sg(req->sg, sg, req->sg_cnt, i) {
++		while (bio_add_page(bio, sg_page(sg), sg->length, sg->offset)
++				!= sg->length) {
++			struct bio *prev = bio;
++
++			bio = bio_alloc(GFP_KERNEL,
++					min(sg_cnt, BIO_MAX_PAGES));
++			bio_set_dev(bio, req->ns->bdev);
++			bio->bi_iter.bi_sector = sector;
++			bio->bi_opf = prev->bi_opf;
++
++			bio_chain(bio, prev);
++			submit_bio(prev);
++		}
++
++		sector += sg->length >> 9;
++		sg_cnt--;
++	}
++
++	submit_bio(bio);
++}
++
+ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
+ {
+ 	int sg_cnt = req->sg_cnt;
+ 	struct bio *bio;
+-	struct scatterlist *sg;
+ 	sector_t sector;
+-	int op, op_flags = 0, i;
++	int op, op_flags = 0;
+ 
+ 	if (!req->sg_cnt) {
+ 		nvmet_req_complete(req, 0);
+@@ -143,25 +171,7 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
+ 	bio->bi_end_io = nvmet_bio_done;
+ 	bio_set_op_attrs(bio, op, op_flags);
+ 
+-	for_each_sg(req->sg, sg, req->sg_cnt, i) {
+-		while (bio_add_page(bio, sg_page(sg), sg->length, sg->offset)
+-				!= sg->length) {
+-			struct bio *prev = bio;
+-
+-			bio = bio_alloc(GFP_KERNEL, min(sg_cnt, BIO_MAX_PAGES));
+-			bio_set_dev(bio, req->ns->bdev);
+-			bio->bi_iter.bi_sector = sector;
+-			bio_set_op_attrs(bio, op, op_flags);
+-
+-			bio_chain(bio, prev);
+-			submit_bio(prev);
+-		}
+-
+-		sector += sg->length >> 9;
+-		sg_cnt--;
+-	}
+-
+-	submit_bio(bio);
++	nvmet_submit_sg(req, bio, sector);
+ }
+ 
+ static void nvmet_bdev_execute_flush(struct nvmet_req *req)
 -- 
 2.20.1
