@@ -1,98 +1,111 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 20 Jun 2019 10:12:30 -0600
-Subject: [RFC PATCH 18/28] block: Introduce bio_add_dma_addr()
-In-Reply-To: <20190620161240.22738-1-logang@deltatee.com>
-References: <20190620161240.22738-1-logang@deltatee.com>
-Message-ID: <20190620161240.22738-19-logang@deltatee.com>
+Date: Thu, 20 Jun 2019 10:12:12 -0600
+Subject: [RFC PATCH 00/28] Removing struct page from P2PDMA
+Message-ID: <20190620161240.22738-1-logang@deltatee.com>
 
-bio_add_dma_addr() is analagous to bio_add_page() except it
-adds a dma address to a dma-direct bio instead of a struct page.
+For eons there has been a debate over whether or not to use
+struct pages for peer-to-peer DMA transactions. Pro-pagers have
+argued that struct pages are necessary for interacting with
+existing code like scatterlists or the bio_vecs. Anti-pagers
+assert that the tracking of the memory is unecessary and
+allocating the pages is a waste of memory. Both viewpoints are
+valid, however developers working on GPUs and RDMA tend to be
+able to do away with struct pages relatively easily compared to
+those wanting to work with NVMe devices through the block layer.
+So it would be of great value to be able to universally do P2PDMA
+transactions without the use of struct pages.
 
-It also checks to ensure that the queue supports dma address bios and
-that we are not mixing dma addresses and struct pages.
+Previously, there have been multiple attempts[1][2] to replace
+struct page usage with pfn_t but this has been unpopular seeing
+it creates dangerous edge cases where unsuspecting code might
+run accross pfn_t's they are not ready for.
 
-Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
----
- block/bio.c         | 38 ++++++++++++++++++++++++++++++++++++++
- include/linux/bio.h | 10 ++++++++++
- 2 files changed, 48 insertions(+)
+Currently, we have P2PDMA using struct pages through the block layer
+and the dangerous cases are avoided by using a queue flag that
+indicates support for the special pages.
 
-diff --git a/block/bio.c b/block/bio.c
-index 6998fceddd36..02ae72e3ccfa 100644
---- a/block/bio.c
-+++ b/block/bio.c
-@@ -874,6 +874,44 @@ static void bio_release_pages(struct bio *bio)
- 		put_page(bvec->bv_page);
- }
- 
-+/**
-+ *	bio_add_dma_addr - attempt to add a dma address to a bio
-+ *	@q: the target queue
-+ *	@bio: destination bio
-+ *	@dma_addr: dma address to add
-+ *	@len: vec entry length
-+ *
-+ *	Attempt to add a dma address to the dma_vec maplist. This can
-+ *	fail for a number of reasons, such as the bio being full or
-+ *	target block device limitations. The target request queue must
-+ *	support dma-only bios and bios can not mix pages and dma_addresses.
-+ */
-+int bio_add_dma_addr(struct request_queue *q, struct bio *bio,
-+		     dma_addr_t dma_addr, unsigned int len)
-+{
-+	struct dma_vec *dv = &bio->bi_dma_vec[bio->bi_vcnt];
-+
-+	if (!blk_queue_dma_direct(q))
-+		return -EINVAL;
-+
-+	if (!bio_is_dma_direct(bio))
-+		return -EINVAL;
-+
-+	if (bio_dma_full(bio))
-+		return 0;
-+
-+	WARN_ON_ONCE(bio_flagged(bio, BIO_CLONED));
-+
-+	dv->dv_addr = dma_addr;
-+	dv->dv_len = len;
-+
-+	bio->bi_iter.bi_size += len;
-+	bio->bi_vcnt++;
-+
-+	return len;
-+}
-+EXPORT_SYMBOL_GPL(bio_add_dma_addr);
-+
- static int __bio_iov_bvec_add_pages(struct bio *bio, struct iov_iter *iter)
- {
- 	const struct bio_vec *bv = iter->bvec;
-diff --git a/include/linux/bio.h b/include/linux/bio.h
-index df7973932525..d775f381ae00 100644
---- a/include/linux/bio.h
-+++ b/include/linux/bio.h
-@@ -112,6 +112,13 @@ static inline bool bio_full(struct bio *bio)
- 	return bio->bi_vcnt >= bio->bi_max_vecs;
- }
- 
-+static inline bool bio_dma_full(struct bio *bio)
-+{
-+	size_t vec_size = bio->bi_max_vecs * sizeof(struct bio_vec);
-+
-+	return bio->bi_vcnt >= (vec_size / sizeof(struct dma_vec));
-+}
-+
- static inline bool bio_next_segment(const struct bio *bio,
- 				    struct bvec_iter_all *iter)
- {
-@@ -438,6 +445,9 @@ void bio_chain(struct bio *, struct bio *);
- extern int bio_add_page(struct bio *, struct page *, unsigned int,unsigned int);
- extern int bio_add_pc_page(struct request_queue *, struct bio *, struct page *,
- 			   unsigned int, unsigned int);
-+extern int bio_add_dma_addr(struct request_queue *q, struct bio *bio,
-+			    dma_addr_t dma_addr, unsigned int len);
-+
- bool __bio_try_merge_page(struct bio *bio, struct page *page,
- 		unsigned int len, unsigned int off, bool same_page);
- void __bio_add_page(struct bio *bio, struct page *page,
--- 
+This RFC proposes a new solution: allow the block layer to take
+DMA addresses directly for queues that indicate support. This will
+provide a more general path for doing P2PDMA-like requests and will
+allow us to remove the struct pages that back P2PDMA memory thus paving
+the way to build a more uniform P2PDMA ecosystem.
+
+This is a fairly long patch set but most of the patches are quite
+small. Patches 1 through 18 introduce the concept of a dma_vec that
+is similar to a bio_vec (except it takes dma_addr_t's instead of pages
+and offsets) as well as a special dma-direct bio/request. Most of these
+patches just prevent the new type of bio from being mis-used and
+also support splitting and mapping them in the same way that struct
+page bios can be operated on. Patches 19 through 22 modify the existing
+P2PDMA support in nvme-pci, ib-core and nvmet to use DMA addresses
+directly. Patches 23 through 25 remove the P2PDMA specific
+code from the block layer and ib-core. Finally, patches 26 through 28
+remove the struct pages from the PCI P2PDMA code.
+
+This RFC is based on v5.2-rc5 and a git branch is available here:
+
+https://github.com/sbates130272/linux-p2pmem.git dma_direct_rfc1
+
+[1] https://lwn.net/Articles/647404/
+[2] https://lore.kernel.org/lkml/1495662147-18277-1-git-send-email-logang at deltatee.com/
+
+--
+
+Logan Gunthorpe (28):
+  block: Introduce DMA direct request type
+  block: Add dma_vec structure
+  block: Warn on mis-use of dma-direct bios
+  block: Never bounce dma-direct bios
+  block: Skip dma-direct bios in bio_integrity_prep()
+  block: Support dma-direct bios in bio_advance_iter()
+  block: Use dma_vec length in bio_cur_bytes() for dma-direct bios
+  block: Introduce dmavec_phys_mergeable()
+  block: Introduce vec_gap_to_prev()
+  block: Create generic vec_split_segs() from bvec_split_segs()
+  block: Create blk_segment_split_ctx
+  block: Create helper for bvec_should_split()
+  block: Generalize bvec_should_split()
+  block: Support splitting dma-direct bios
+  block: Support counting dma-direct bio segments
+  block: Implement mapping dma-direct requests to SGs in blk_rq_map_sg()
+  block: Introduce queue flag to indicate support for dma-direct bios
+  block: Introduce bio_add_dma_addr()
+  nvme-pci: Support dma-direct bios
+  IB/core: Introduce API for initializing a RW ctx from a DMA address
+  nvmet: Split nvmet_bdev_execute_rw() into a helper function
+  nvmet: Use DMA addresses instead of struct pages for P2P
+  nvme-pci: Remove support for PCI_P2PDMA requests
+  block: Remove PCI_P2PDMA queue flag
+  IB/core: Remove P2PDMA mapping support in rdma_rw_ctx
+  PCI/P2PDMA: Remove SGL helpers
+  PCI/P2PDMA: Remove struct pages that back P2PDMA memory
+  memremap: Remove PCI P2PDMA page memory type
+
+ Documentation/driver-api/pci/p2pdma.rst |   9 +-
+ block/bio-integrity.c                   |   4 +
+ block/bio.c                             |  71 +++++++
+ block/blk-core.c                        |   3 +
+ block/blk-merge.c                       | 256 ++++++++++++++++++------
+ block/blk.h                             |  49 ++++-
+ block/bounce.c                          |   8 +
+ drivers/infiniband/core/rw.c            |  85 ++++++--
+ drivers/nvme/host/core.c                |   4 +-
+ drivers/nvme/host/nvme.h                |   2 +-
+ drivers/nvme/host/pci.c                 |  29 ++-
+ drivers/nvme/target/core.c              |  12 +-
+ drivers/nvme/target/io-cmd-bdev.c       |  82 +++++---
+ drivers/nvme/target/nvmet.h             |   5 +-
+ drivers/nvme/target/rdma.c              |  43 +++-
+ drivers/pci/p2pdma.c                    | 202 +++----------------
+ include/linux/bio.h                     |  32 ++-
+ include/linux/blk_types.h               |  14 +-
+ include/linux/blkdev.h                  |  16 +-
+ include/linux/bvec.h                    |  43 ++++
+ include/linux/memremap.h                |   5 -
+ include/linux/mm.h                      |  13 --
+ include/linux/pci-p2pdma.h              |  19 --
+ include/rdma/rw.h                       |   6 +
+ 24 files changed, 648 insertions(+), 364 deletions(-)
+
+--
 2.20.1
