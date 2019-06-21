@@ -1,5 +1,5 @@
 From: james.smart@broadcom.com (James Smart)
-Date: Fri, 21 Jun 2019 10:23:01 -0700
+Date: Fri, 21 Jun 2019 10:23:09 -0700
 Subject: [PATCH 2/2] nvme: flush scan_work when resetting controller
 In-Reply-To: <5ec67ad6-a61a-b28f-9676-864a5f04bbad@suse.de>
 References: <20190618101025.78840-1-hare@suse.de>
@@ -7,7 +7,7 @@ References: <20190618101025.78840-1-hare@suse.de>
  <3dbb8dc0-2491-6226-8715-b0f5b7f6a73a@suse.de>
  <20190621065851.GA22145@ming.t460p>
  <5ec67ad6-a61a-b28f-9676-864a5f04bbad@suse.de>
-Message-ID: <980bebd2-8b56-21f9-f518-61c16f3374c5@broadcom.com>
+Message-ID: <3ad2ba8d-980b-e154-a181-b58c5f6d5fdb@broadcom.com>
 
 
 >> Your check can't help wrt. the deadlock, for example:
