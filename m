@@ -1,24 +1,29 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 20 Jun 2019 17:42:50 -0600
-Subject: [RFC PATCH 00/28] Removing struct page from P2PDMA
-In-Reply-To: <CAPcyv4gPOXaL3qks6RMufu==O9RV2m_-7bBmJqKOFYTf4v_jXQ@mail.gmail.com>
-References: <20190620161240.22738-1-logang@deltatee.com>
- <CAPcyv4ijztOK1FUjLuFing7ps4LOHt=6z=eO=98HHWauHA+yog@mail.gmail.com>
- <91eba9a0-27b4-08b4-7c12-86e24e1bfe85@deltatee.com>
- <CAPcyv4gPOXaL3qks6RMufu==O9RV2m_-7bBmJqKOFYTf4v_jXQ@mail.gmail.com>
-Message-ID: <3379917c-0ebc-0019-a71c-12248f4668ee@deltatee.com>
+From: martin.petersen@oracle.com (Martin K. Petersen)
+Date: Thu, 20 Jun 2019 21:56:11 -0400
+Subject: [PATCH v3 2/3] nvmet: Export NVMe namespace attributes
+In-Reply-To: <68786de5-cdd8-c6d8-98a7-8a4310dac789@acm.org> (Bart Van Assche's
+ message of "Wed, 19 Jun 2019 08:44:41 -0700")
+References: <20190617161222.253849-1-bvanassche@acm.org>
+ <20190617161222.253849-3-bvanassche@acm.org>
+ <yq1a7eeusa5.fsf@oracle.com>
+ <68786de5-cdd8-c6d8-98a7-8a4310dac789@acm.org>
+Message-ID: <yq1blyrpupw.fsf@oracle.com>
 
 
+Bart,
 
-On 2019-06-20 5:40 p.m., Dan Williams wrote:
-> This seems to be the most salient point. I was missing the fact that
-> this replaces custom hacks and "special" pages with an explicit "just
-> pass this pre-mapped address down the stack". It's functionality that
-> might plausibly be used outside of p2p, as long as the driver can
-> assert that it never needs to touch the data with the cpu before
-> handing it off to a dma-engine.
+> Are you perhaps referring to the parameter that can be specified as
+> command-line option -b to mkfs? I'm not sure that we should report
+> that size as the physical block size since that parameter can be set
+> to a value that is much larger than the physical block size of the
+> storage medium (in the target system).
 
-Yup, that's a good way to put it. If I resend this patchset, I'll
-include wording like yours in the cover letter.
+An admin can create all sorts of weird configurations by twiddling
+options. But trying to match the physical block size is one of the
+heuristics for mkfs.
 
-Logan
+Also, I haven't actually looked at the code, but what happens with the
+buffered I/O backend?
+
+-- 
+Martin K. Petersen	Oracle Linux Engineering
