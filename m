@@ -1,31 +1,45 @@
-From: bvanassche@acm.org (Bart Van Assche)
-Date: Mon, 24 Jun 2019 16:51:39 -0700
-Subject: [PATCH v3 2/3] nvmet: Export NVMe namespace attributes
-In-Reply-To: <yq136jyo927.fsf@oracle.com>
-References: <20190617161222.253849-1-bvanassche@acm.org>
- <20190617161222.253849-3-bvanassche@acm.org> <yq1a7eeusa5.fsf@oracle.com>
- <68786de5-cdd8-c6d8-98a7-8a4310dac789@acm.org> <yq1blyrpupw.fsf@oracle.com>
- <7e51e415-16af-2fc5-42e9-ebd0e6f94c0e@acm.org> <yq136jyo927.fsf@oracle.com>
-Message-ID: <062c6877-62e3-a37b-d2b2-ea35aadae912@acm.org>
+From: alan.mikhak@sifive.com (Alan Mikhak)
+Date: Mon, 24 Jun 2019 16:57:22 -0700
+Subject: [PATCH] nvme-pci: Avoid leak if pci_p2pmem_virt_to_bus() returns null
+Message-ID: <1561420642-21186-1-git-send-email-alan.mikhak@sifive.com>
 
-On 6/24/19 4:30 PM, Martin K. Petersen wrote:
-> 
-> Hi Bart,
-> 
->> As you must have noticed the patch at the start of this thread touches
->> both the bdev and the file backends. So I'm not sure what your
->> question is about?
-> 
-> I was contemplating what the observed I/O atomicity would be for the
-> initiator side when the target file backend is using buffered I/O.
+Modify nvme_alloc_sq_cmds() to call pci_free_p2pmem()
+to free the memory it allocated using pci_alloc_p2pmem()
+in case pci_p2pmem_virt_to_bus() returns null.
 
-Hi Martin,
+Make sure not to call pci_free_p2pmem() if pci_alloc_p2pmem()
+returned null which can happen if CONFIG_PCI_P2PDMA is not
+configured.
 
-My understanding is that after a completion has been reported for an 
-atomic NVMe write that the written data must survive a power cycle. As 
-you probably know all single logical block NVMe writes are atomic since 
-the AWUPF field is 0's based. So I don't think that it is possible to 
-implement a backend that uses buffered I/O in such a way that the 
-backend is NVMe compliant without using an uninterruptible power supply.
+Signed-off-by: Alan Mikhak <alan.mikhak at sifive.com>
+---
+ drivers/nvme/host/pci.c | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-Bart.
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 524d6bd6d095..5dfa067f6506 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1456,11 +1456,15 @@ static int nvme_alloc_sq_cmds(struct nvme_dev *dev, struct nvme_queue *nvmeq,
+ 
+ 	if (qid && dev->cmb_use_sqes && (dev->cmbsz & NVME_CMBSZ_SQS)) {
+ 		nvmeq->sq_cmds = pci_alloc_p2pmem(pdev, SQ_SIZE(depth));
+-		nvmeq->sq_dma_addr = pci_p2pmem_virt_to_bus(pdev,
+-						nvmeq->sq_cmds);
+-		if (nvmeq->sq_dma_addr) {
+-			set_bit(NVMEQ_SQ_CMB, &nvmeq->flags);
+-			return 0; 
++		if (nvmeq->sq_cmds) {
++			nvmeq->sq_dma_addr = pci_p2pmem_virt_to_bus(pdev,
++							nvmeq->sq_cmds);
++			if (nvmeq->sq_dma_addr) {
++				set_bit(NVMEQ_SQ_CMB, &nvmeq->flags);
++				return 0;
++			}
++
++			pci_free_p2pmem(pdev, nvmeq->sq_cmds, SQ_SIZE(depth));
+ 		}
+ 	}
+ 
+-- 
+2.7.4
