@@ -1,36 +1,120 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Sun, 23 Jun 2019 20:57:35 +0900
-Subject: [RFC] mismatch between chardev and blkdev node names
-In-Reply-To: <20190623115425.GB26212@minwooim-desktop>
-References: <49a9c722-72f4-bce9-b368-ece078e1e03a@grimberg.me>
- <20190610124925.GA20319@minwooim-desktop>
- <CAOSXXT6BJD8tnus6=vWh6dr9owkVSJdQ_f1icG9Kdq7SpF9Pzg@mail.gmail.com>
- <20190610140650.GA25273@minwooim-desktop>
- <CGME20190610235716epcas4p2715a468530e87b74c60543e8077a0481@epcms2p4>
- <20190611051448epcms2p4637f4b9209d0b9292e0db2b3be1dcced@epcms2p4>
- <C98BA6B1D6A342DAA10DA3CA561EA768@alyakaslap>
- <20190623115425.GB26212@minwooim-desktop>
-Message-ID: <20190623115735.GC26212@minwooim-desktop>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Mon, 24 Jun 2019 11:29:46 +0800
+Subject: [PATCH 2/2] nvme: flush scan_work when resetting controller
+In-Reply-To: <5ec67ad6-a61a-b28f-9676-864a5f04bbad@suse.de>
+References: <20190618101025.78840-1-hare@suse.de>
+ <20190618101025.78840-3-hare@suse.de>
+ <20190620013650.GB31179@ming.t460p>
+ <3dbb8dc0-2491-6226-8715-b0f5b7f6a73a@suse.de>
+ <20190621065851.GA22145@ming.t460p>
+ <5ec67ad6-a61a-b28f-9676-864a5f04bbad@suse.de>
+Message-ID: <20190624032945.GA6563@ming.t460p>
 
-On 19-06-23 20:54:25, Minwoo Im wrote:
-> On 19-06-23 11:13:54, Alex Lyakas wrote:
-> > Hello,
+On Fri, Jun 21, 2019@09:59:02AM +0200, Hannes Reinecke wrote:
+> On 6/21/19 8:58 AM, Ming Lei wrote:
+> > On Fri, Jun 21, 2019@08:14:45AM +0200, Hannes Reinecke wrote:
+> >> On 6/20/19 3:36 AM, Ming Lei wrote:
+> >>> On Tue, Jun 18, 2019@12:10:25PM +0200, Hannes Reinecke wrote:
+> >>>> When resetting the controller there is no point whatsoever to
+> >>>> have a scan run in parallel; we cannot access the controller and
+> >>>
+> >>> scan won't be run in parallel, because .scan_work is embedded in
+> >>> 'struct nvme_ctrl' which is per-HBA.
+> >>>
+> >> Wrong. We do.
+> >> Not sure why having it embedded in the controller structure might
+> >> prevent this from happening; both reset and scan are embedded, but
+> >> running on different queues:
 > > 
-> > if we look at the UDEV DEVPATH propertys of a particular nvme block device,
-> > for example:
+> > I mean the scan_work function itself is run exclusively, but yes, it can be 
+> > run when resetting is in-progress.
 > > 
-> > DEVPATH=/devices/virtual/nvme-fabrics/ctl/nvmeX/nvmeYnZ
+> >>
+> >> void nvme_queue_scan(struct nvme_ctrl *ctrl)
+> >> {
+> >> 	/*
+> >> 	 * Only new queue scan work when admin and IO queues are both alive
+> >> 	 */
+> >> 	if (ctrl->state == NVME_CTRL_LIVE)
+> >> 		queue_work(nvme_wq, &ctrl->scan_work);
+> >> }
+> >> EXPORT_SYMBOL_GPL(nvme_queue_scan);
+> >>
+> >> int nvme_reset_ctrl(struct nvme_ctrl *ctrl)
+> >> {
+> >> 	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
+> >> 		return -EBUSY;
+> >> 	if (!queue_work(nvme_reset_wq, &ctrl->reset_work))
+> >> 		return -EBUSY;
+> >> 	return 0;
+> >> }
+> >> EXPORT_SYMBOL_GPL(nvme_reset_ctrl);
+> >>
+> >> So there's nothing stopping them to run in parallel.
+> >>
+> >>>> we cannot tell which devices are present and which not.
+> >>>> Additionally we'll run a scan after reset anyway.
+> >>>> So flush existing scans before reconnecting, ensuring to
+> >>>> short-circuit the scan workqueue function if the controller state
+> >>>> isn't live to avoid lockups.
+> >>>
+> >>> This way may cause dead-lock.
+> >>>
+> >>> 1) nvme_revalidate_disk() might freeze queue in flush context, however
+> >>> any in-flight requests won't be completed until reset is done, so
+> >>> deadlock may be caused by flushing scans in reset context.
+> >>>
+> >> Which is why I'm checking the controller state; I've observed the
+> >> deadlock plenty of times before introducing the controller state check.
 > > 
-> > Would it be correct to say that "nvmeX" is the controller instance for this
-> > particular block device (or one of the instances)?
+> > Your check can't help wrt. the deadlock, for example:
+> > 
+> > 1) in scan work context:
+> > 
+> > - blk_mq_freeze_queue() is being started after passing the controller
+> >   state check
+> > 
+> > 2) timeout & reset is triggered in another context at the exact same time:
+> > 
+> > - all in-flight IOs won't be freed until disable controller & reset is done.
+> > 
+> > - now flush_work() in reset context can't move on, because
+> >   blk_mq_freeze_queue() in scan context can't make progress.
+> > 
+> There might be a difference between RDMA and FC implementations; for FC
+> we terminate all outstanding I/Os from the HW side, so each I/O will be
+> returned with an aborted status.
+> Which for all tests I (and NetApp :-) did was enough to get
+> 'blk_mq_freeze_queue()' unstuck and the flush_work to complete.
+> We _did_ observed, however, that the state checks are absolutely
+> critical to this, otherwise we indeed ended up with a stuck flush_work().
+
+I have explained that the check can't fix the issue completely, and it is
+like a workround.
+
 > 
-> Yes, for the above path, The corresponding blkdev of the nvmeX subsystem
-> is nvmeYnZ.  We just need to be aware if the MULTIPATH is enabled or
+> >>
+> >>> 2) sync IO may be involved in revalidate_disk() which is called in
+> >>> scan context, so deadlock is caused for same reason with 1).
+> >>>
+> >> I/O during revalidate_disk() is protected by the state check, too, so we
+> >> won't be issuing any I/O during resetting.
+> >>
+> >> To be precise: any I/O in flight when reset is triggered will be
+> >> terminated, and any subsequent I/O is short-circuited by the state check.
+> > 
+> > No, any I/O in flight before resetting is just terminated from hardware,
+> > but still in blk-mq sw or scheduler queue, so either sync IO or queue
+> > freezing won't make progress.
+> > 
+> > Please see nvme_complete_rq(), all these IO will be retried usually.
+> > 
+> For the multipath case the request will be requeued via
+> blk_steal_bios(), and the original request will be completed.
 
-I mean if subsystem has multiple namespaces, then nvmeYnZ is one of
-them.
+The sync IO during scan is actually waiting for bio completion, not request.
 
-> not.  If so, the X will be a subsystem instance which can be checked by
-> nvme list-subsys.  If not, the X is the controller instance name.
-> 
-> Thanks,
+So there is still the issue in case of multipath.
+
+Thanks,
+Ming
