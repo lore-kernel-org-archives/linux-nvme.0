@@ -1,45 +1,53 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Mon, 24 Jun 2019 12:28:33 -0600
-Subject: [RFC PATCH 00/28] Removing struct page from P2PDMA
-In-Reply-To: <20190624181632.GC8268@ziepe.ca>
-References: <20190620161240.22738-1-logang@deltatee.com>
- <CAPcyv4ijztOK1FUjLuFing7ps4LOHt=6z=eO=98HHWauHA+yog@mail.gmail.com>
- <20190620193353.GF19891@ziepe.ca> <20190624073126.GB3954@lst.de>
- <20190624134641.GA8268@ziepe.ca> <20190624135024.GA11248@lst.de>
- <20190624135550.GB8268@ziepe.ca>
- <7210ba39-c923-79ca-57bb-7cf9afe21d54@deltatee.com>
- <20190624181632.GC8268@ziepe.ca>
-Message-ID: <bbd81ef9-b4f7-3ba7-7f93-85f602495e19@deltatee.com>
+From: alex@zadara.com (Alex Lyakas)
+Date: Mon, 24 Jun 2019 21:35:24 +0300
+Subject: [RFC] mismatch between chardev and blkdev node names
+In-Reply-To: <20190623115735.GC26212@minwooim-desktop>
+References: <49a9c722-72f4-bce9-b368-ece078e1e03a@grimberg.me>
+ <20190610124925.GA20319@minwooim-desktop>
+ <CAOSXXT6BJD8tnus6=vWh6dr9owkVSJdQ_f1icG9Kdq7SpF9Pzg@mail.gmail.com>
+ <20190610140650.GA25273@minwooim-desktop>
+ <CGME20190610235716epcas4p2715a468530e87b74c60543e8077a0481@epcms2p4>
+ <20190611051448epcms2p4637f4b9209d0b9292e0db2b3be1dcced@epcms2p4>
+ <C98BA6B1D6A342DAA10DA3CA561EA768@alyakaslap>
+ <20190623115425.GB26212@minwooim-desktop>
+ <20190623115735.GC26212@minwooim-desktop>
+Message-ID: <71727394A2834938B4CC9C104EA6B650@alyakaslap>
+
+Minwoo Im,
+
+Thanks for the explanation.
+
+Alex.
 
 
+-----Original Message----- 
+From: Minwoo Im
+Sent: Sunday, June 23, 2019 2:57 PM
+To: Alex Lyakas
+Cc: Sagi Grimberg ; Keith Busch ; Minwoo Im ; linux-nvme ; Minwoo Im
+Subject: Re: [RFC] mismatch between chardev and blkdev node names
 
-On 2019-06-24 12:16 p.m., Jason Gunthorpe wrote:
-> On Mon, Jun 24, 2019@10:53:38AM -0600, Logan Gunthorpe wrote:
->>> It is only a very narrow case where you can take shortcuts with
->>> dma_addr_t, and I don't think shortcuts like are are appropriate for
->>> the mainline kernel..
->>
->> I don't think it's that narrow and it opens up a lot of avenues for
->> system design that people are wanting to go. If your high speed data
->> path can avoid the root complex and CPU, you can design a system which a
->> much smaller CPU and fewer lanes directed at the CPU.
-> 
-> I mean the shortcut that something generates dma_addr_t for Device A
-> and then passes it to Device B - that is too hacky for mainline.
+On 19-06-23 20:54:25, Minwoo Im wrote:
+> On 19-06-23 11:13:54, Alex Lyakas wrote:
+> > Hello,
+> >
+> > if we look at the UDEV DEVPATH propertys of a particular nvme block 
+> > device,
+> > for example:
+> >
+> > DEVPATH=/devices/virtual/nvme-fabrics/ctl/nvmeX/nvmeYnZ
+> >
+> > Would it be correct to say that "nvmeX" is the controller instance for 
+> > this
+> > particular block device (or one of the instances)?
+>
+> Yes, for the above path, The corresponding blkdev of the nvmeX subsystem
+> is nvmeYnZ.  We just need to be aware if the MULTIPATH is enabled or
 
-Oh, that's not a shortcut. It's completely invalid and not likely to
-work in any case. If you're mapping something you have to pass the
-device that the dma_addr_t is being programmed into.
+I mean if subsystem has multiple namespaces, then nvmeYnZ is one of
+them.
 
-> Sounded like this series does generate the dma_addr for the correct
-> device..
-
-This series doesn't generate any DMA addresses with dma_map(). The
-current p2pdma code ensures everything is behind the same root port and
-only uses the pci bus address. This is valid and correct, but yes it's
-something to expand upon.
-
-I'll be doing some work shortly to add transactions that go through the
-IOMMU and calls dma_map_* when appropriate.
-
-Logan
+> not.  If so, the X will be a subsystem instance which can be checked by
+> nvme list-subsys.  If not, the X is the controller instance name.
+>
+> Thanks, 
