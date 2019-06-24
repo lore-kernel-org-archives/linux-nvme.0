@@ -1,53 +1,88 @@
-From: alex@zadara.com (Alex Lyakas)
-Date: Mon, 24 Jun 2019 21:35:24 +0300
-Subject: [RFC] mismatch between chardev and blkdev node names
-In-Reply-To: <20190623115735.GC26212@minwooim-desktop>
-References: <49a9c722-72f4-bce9-b368-ece078e1e03a@grimberg.me>
- <20190610124925.GA20319@minwooim-desktop>
- <CAOSXXT6BJD8tnus6=vWh6dr9owkVSJdQ_f1icG9Kdq7SpF9Pzg@mail.gmail.com>
- <20190610140650.GA25273@minwooim-desktop>
- <CGME20190610235716epcas4p2715a468530e87b74c60543e8077a0481@epcms2p4>
- <20190611051448epcms2p4637f4b9209d0b9292e0db2b3be1dcced@epcms2p4>
- <C98BA6B1D6A342DAA10DA3CA561EA768@alyakaslap>
- <20190623115425.GB26212@minwooim-desktop>
- <20190623115735.GC26212@minwooim-desktop>
-Message-ID: <71727394A2834938B4CC9C104EA6B650@alyakaslap>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Tue, 25 Jun 2019 03:46:32 +0900
+Subject: [PATCH nvme-cli 01/13] Remove superfluous casts
+In-Reply-To: <4fbac30a-51f0-95a7-7146-28805103f6a8@acm.org>
+References: <20190619173701.8263-1-bvanassche@acm.org>
+ <20190619173701.8263-2-bvanassche@acm.org>
+ <87tvcfnw05.fsf@solarflare.com>
+ <4fbac30a-51f0-95a7-7146-28805103f6a8@acm.org>
+Message-ID: <20190624184632.GA6526@minwooim-desktop>
 
-Minwoo Im,
+On 19-06-24 06:55:21, Bart Van Assche wrote:
+> On 6/24/19 3:00 AM, Mikhail Skorzhinskii wrote:
+> > I'm not completely sure that anyone interesting in fixing this, but this
+> > change breaks compilation on anything with glibc v2.24 or lower. This is
+> > due to long lasting bug #16458[1] which was fixed 2 years ago and landed
+> > in glibc v2.25.
+> > 
+> > I noticed it due to compiling it in rhel7\centos7 which is using glibc
+> > v2.17.
+> 
+> How about restoring RHEL 7 compatibility with the (untested) patch below?
 
-Thanks for the explanation.
+Bart,
 
-Alex.
+It works for me.
 
-
------Original Message----- 
-From: Minwoo Im
-Sent: Sunday, June 23, 2019 2:57 PM
-To: Alex Lyakas
-Cc: Sagi Grimberg ; Keith Busch ; Minwoo Im ; linux-nvme ; Minwoo Im
-Subject: Re: [RFC] mismatch between chardev and blkdev node names
-
-On 19-06-23 20:54:25, Minwoo Im wrote:
-> On 19-06-23 11:13:54, Alex Lyakas wrote:
-> > Hello,
-> >
-> > if we look at the UDEV DEVPATH propertys of a particular nvme block 
-> > device,
-> > for example:
-> >
-> > DEVPATH=/devices/virtual/nvme-fabrics/ctl/nvmeX/nvmeYnZ
-> >
-> > Would it be correct to say that "nvmeX" is the controller instance for 
-> > this
-> > particular block device (or one of the instances)?
->
-> Yes, for the above path, The corresponding blkdev of the nvmeX subsystem
-> is nvmeYnZ.  We just need to be aware if the MULTIPATH is enabled or
-
-I mean if subsystem has multiple namespaces, then nvmeYnZ is one of
-them.
-
-> not.  If so, the X will be a subsystem instance which can be checked by
-> nvme list-subsys.  If not, the X is the controller instance name.
->
-> Thanks, 
+> 
+> Thanks,
+> 
+> Bart.
+> 
+> diff --git a/nvme.h b/nvme.h
+> index a149005a0425..ecac52d4d172 100644
+> --- a/nvme.h
+> +++ b/nvme.h
+> @@ -119,19 +119,31 @@ struct nvme_bar_cap {
+>  #define __force
+>  #endif
+> 
+> -#define cpu_to_le16(x) \
+> -	((__force __le16)htole16(x))
+> -#define cpu_to_le32(x) \
+> -	((__force __le32)htole32(x))
+> -#define cpu_to_le64(x) \
+> -	((__force __le64)htole64(x))
+> -
+> -#define le16_to_cpu(x) \
+> -	le16toh((__force __u16)(x))
+> -#define le32_to_cpu(x) \
+> -	le32toh((__force __u32)(x))
+> -#define le64_to_cpu(x) \
+> -	le64toh((__force __u64)(x))
+> +static inline __le16 cpu_to_le16(uint16_t x)
+> +{
+> +	return ((__force __le16)htole16(x));
+> +}
+> +static inline __le32 cpu_to_le32(uint32_t x)
+> +{
+> +	return ((__force __le32)htole32(x));
+> +}
+> +static inline __le64 cpu_to_le64(uint64_t x)
+> +{
+> +	return ((__force __le64)htole64(x));
+> +}
+> +
+> +static inline uint16_t le16_to_cpu(__le16 x)
+> +{
+> +	return le16toh((__force __u16)x);
+> +}
+> +static inline uint32_t le32_to_cpu(__le32 x)
+> +{
+> +	return le32toh((__force __u32)x);
+> +}
+> +static inline uint64_t le64_to_cpu(__le64 x)
+> +{
+> +	return le64toh((__force __u64)x);
+> +}
+> 
+>  #define MAX_LIST_ITEMS 256
+>  struct list_item {
+> -- 
+> 2.21.0
+> 
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
