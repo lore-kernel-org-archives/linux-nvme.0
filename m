@@ -1,201 +1,24 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 24 Jun 2019 08:13:39 +0200
-Subject: [PATCH 2/2] nvme: flush scan_work when resetting controller
-In-Reply-To: <68599577-450a-ade1-451c-f310e5094317@grimberg.me>
-References: <20190618101025.78840-1-hare@suse.de>
- <20190618101025.78840-3-hare@suse.de>
- <36c093c6-9fea-aa2f-affe-70957e0c5b1b@grimberg.me>
- <681a1c11-7d11-6e28-bc64-b14bef22c144@suse.com>
- <fe550375-fc5d-ff19-c303-6671b8713df6@grimberg.me>
- <d64a5902-139e-4119-ec75-3394e0b129f9@suse.de>
- <d84bf42f-c9fe-6af4-58cc-14195ddff931@grimberg.me>
- <68599577-450a-ade1-451c-f310e5094317@grimberg.me>
-Message-ID: <66f3dd84-77cd-fc45-025c-4082cf3df7ec@suse.de>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 24 Jun 2019 08:16:17 +0200
+Subject: [PATCH v2 2/5] nvme: rename "pci" operations to "mmio"
+In-Reply-To: <CAD8Lp45ua=L+ixO+du=Njhy+dxjWobWA+V1i+Y2p6faeyt1FBQ@mail.gmail.com>
+References: <20190620051333.2235-1-drake@endlessm.com>
+ <20190620051333.2235-3-drake@endlessm.com> <20190620061038.GA20564@lst.de>
+ <CAD8Lp45ua=L+ixO+du=Njhy+dxjWobWA+V1i+Y2p6faeyt1FBQ@mail.gmail.com>
+Message-ID: <20190624061617.GA2848@lst.de>
 
-On 6/21/19 6:26 PM, Sagi Grimberg wrote:
-> Ping?
+On Thu, Jun 20, 2019@04:11:26PM +0800, Daniel Drake wrote:
+> On Thu, Jun 20, 2019@2:11 PM Christoph Hellwig <hch@lst.de> wrote:
+> > The Linux NVMe driver will deal with NVMe as specified plus whatever
+> > minor tweaks we'll need for small bugs.  Hiding it behind an AHCI
+> > device is completely out of scope and will not be accepted.
 > 
-> Hannes did you get to look into my questions?
-> 
-> On 6/19/19 1:04 PM, Sagi Grimberg wrote:
->>
->>>>>>> When resetting the controller there is no point whatsoever to
->>>>>>> have a scan run in parallel;
->>>>>>
->>>>>> There is also no point of trying to prevent it.
->>>>>>
->>>>> Oh, I don't mind having a scan running in parallel once reset is
->>>>> underway; that will be properly short-circuited anyway.
->>>>> What I object to is having scanning and resetting _starting_ at the
->>>>> same
->>>>> time, as then we incur all sorts of race conditions.
->>>>
->>>> But your patch does not inherently protect against it, these state
->>>> conditions sprinkled can easily race the reset.
->>>>
->>> The reasoning is:
->>> - (a) I/O is started from the scan thread
->>> - (b) reset triggers
->>> - (b) reset abort I/O
->>> - (a) I/O returns with an error
->>> - (a) checks the state and skips remaining I/O
->>>
->>>> Note that I do agree with patch #1, but I don't understand how patch
->>>> #2 is fixing the problem other than narrowing the window at best.
->>>>
->>> Only if the state is not propagated to the scan thread.
->>> My reasoning is that the thread will have a context switch (as it's
->>> doing I/O), and hence the state change will be propagated.
->>
->> Still not guaranteed.
->>
->>
->>>> Not sure what you mean by stall, are you referring to the case that
->>>> it takes a long time to reconnect?
->>>>
->>> The stall is here (to stick with the above example):
->>> - (a) scan thread issues I/O
->>> - (b) reset triggers
->>> - (b) reset aborts all I/O
->>> - (a) I/O returns with an error
->>> - (a) scan thread issues next I/O
->>> - (b) flushes scan thread
->>
->> But resets do not flush the scan thread (before your patch). That
->> is what I'm failing to understand. the scan work is only flushed
->> in nvme_remove_namespaces().
->>
->>> - (a) I/O is held by the core as the controller is in reset
->>> - (b) flush hangs
->>>
->>>> The solution is to make sure we drain the inflight I/O, not half-way
->>>> trying to prevent them from happening.
->>>>
->>> See above. Ths problem is that we're draining I/O only once, but the
->>> scan thread is issuing _several_ I/O, of which only _one_ will be
->>> aborted.
->>
->> But with your patch #1 it will bail if it failed and the state was
->> propagated.
->>
->>>>> Problem here is that I/O will be held during reset, and
->>>>> resubmitted once reset is finished.
->>>>>
->>>>> The transport drivers work around this problem to terminate any I/O
->>>>> prior to resetting the controller,
->>>>
->>>> Its not a work around.
->>>>
->>> See above. Not a workaound, but not sufficient to let the scan thread
->>> making progress, either.
->>>
->>>>> but this will only cover I/O which
->>>>> had been pending _before_ reset was called.
->>>>> Any I/O being started after that will still be held, and we would
->>>>> live-lock trying to flush the scan thread.
->>>>
->>>> But resets do not flush the scan thread (before you restored it).
->>>>
->>> Yes. But the scan thread will tear down namespaces when running in
->>> parallel with resets, and then we're running into a race condition.
->>
->> But where is the "hang" you are referring to which flushes the scan
->> thread?
->>
->>>> But again, I want to understand after patch #1 is applied, what are the
->>>> symptoms and why patch #2 is solving them.
->>
->> Can we take a step back here? I think we are mixing two different issues
->> here. in your trace you refer to a use-after-free panic when this
->> patch is trying to solve a "hang" condition.
->>
->> Can we understand what is the phenomenon after patch #1 is applied?
->>
->>>>> static void nvme_validate_ns(struct nvme_ctrl *ctrl, unsigned nsid)
->>>>> {
->>>>> ????struct nvme_ns *ns;
->>>>>
->>>>> ????ns = nvme_find_get_ns(ctrl, nsid);
->>>>> ????if (ns) {
->>>>> ??????? if (ns->disk && revalidate_disk(ns->disk))
->>>>> ??????????? nvme_ns_remove(ns);
->>>>> ??????? nvme_put_ns(ns);
->>>>> ????} else
->>>>> ??????? nvme_alloc_ns(ctrl, nsid);
->>>>> }
->>>>>
->>>>
->>>> Which is what patch #1 is for right?
->>>>
->>> That's what I thought initially, too, but it turned out to be not
->>> sufficient.
->>
->> Not sufficient because it hangs? or panics?
->>
-It hangs, and we're seeing a warning:
+> Do you have any new suggestions for alternative ways we can implement
+> support for this storage configuration?
 
-kernel: [67088.344034] WARNING: CPU: 4 PID: 25020 at
-../lib/percpu-refcount.c:334 percpu_ref_kill_and_confirm+0x7a/0xa0
-[ .. ]
-kernel: [67088.344106] Call Trace:
-kernel: [67088.344112]  blk_freeze_queue_start+0x2a/0x40
-kernel: [67088.344114]  blk_freeze_queue+0xe/0x40
-kernel: [67088.344118]  nvme_update_disk_info+0x36/0x260 [nvme_core]
-kernel: [67088.344122]  __nvme_revalidate_disk+0xca/0xf0 [nvme_core]
-kernel: [67088.344125]  nvme_revalidate_disk+0xa6/0x120 [nvme_core]
-kernel: [67088.344127]  ? blk_mq_get_tag+0xa3/0x220
-kernel: [67088.344130]  revalidate_disk+0x23/0xc0
-kernel: [67088.344133]  nvme_validate_ns+0x43/0x830 [nvme_core]
-kernel: [67088.344137]  ? wake_up_q+0x70/0x70
-kernel: [67088.344139]  ? blk_mq_free_request+0x12a/0x160
-kernel: [67088.344142]  ? __nvme_submit_sync_cmd+0x73/0xe0 [nvme_core]
-kernel: [67088.344145]  nvme_scan_work+0x2b3/0x350 [nvme_core]
-kernel: [67088.344149]  process_one_work+0x1da/0x400
+IFF we want to support it it has to be done at the PCIe layer.  But
+even that will require actual documentation and support from Intel.
 
->From which I've inferred that we're still running a scan in parallel to
-reset, and that the scan thread is calling 'blk_freeze_queue()' on a
-queue which is already torn down.
-
->>>> We can have an incremental patch that moves the ns removal from
->>>> ctrl->namespaces also before.
->>>>
->>> Again, I'm not sure if that's sufficient.
->>
->> [...]
->>
->>> Ultimately, it's the imbalance in nvme_ns_remove() which is causing
->>> this crash.
->>> nvme_ns_remove() will call blk_cleanup_queue() _before_ removing the
->>> namespace from the list.
->>
->> This is what I suggest as an incremental change to the patch I
->> referenced. blk_cleanup_queue() is called after the ns is removed
->> from the list.
->>
->>> which means that any call to nvme_stop_queues() or
->>> nvme_start_queues() happening between blk_cleanup_queue() and
->>> list_del() will be hitting this issue.
->>
->> This is the use-after-free again right?
->>
->>> And without an explicit flush of the scan thread we cannot avoid this.
->>> Leaving us with the choice of either rebalance nvme_ns_remove()
->>> (which is what the patchset from Ming Lei tried to do) or we flush
->>> the scan thread, which is what I have been doing.
->>
->> You may be right, I just need a little help getting there as so far I'm
->> not convinced that there is no other way. I'm also not 100% clear
->> on what is the phenomenon after patch #1 is applied, is it a crash or
->> a hang?
-
-See above. The system hangs with a warning.
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N?rnberg)
+If Intel still believes this scheme is their magic secret to control
+the NVMe market and give themselves and unfair advantage over their
+competitors there is not much we can do.
