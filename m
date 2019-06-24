@@ -1,74 +1,28 @@
-From: bvanassche@acm.org (Bart Van Assche)
-Date: Mon, 24 Jun 2019 06:55:21 -0700
-Subject: [PATCH nvme-cli 01/13] Remove superfluous casts
-In-Reply-To: <87tvcfnw05.fsf@solarflare.com>
-References: <20190619173701.8263-1-bvanassche@acm.org>
- <20190619173701.8263-2-bvanassche@acm.org> <87tvcfnw05.fsf@solarflare.com>
-Message-ID: <4fbac30a-51f0-95a7-7146-28805103f6a8@acm.org>
+From: jgg@ziepe.ca (Jason Gunthorpe)
+Date: Mon, 24 Jun 2019 10:55:50 -0300
+Subject: [RFC PATCH 00/28] Removing struct page from P2PDMA
+In-Reply-To: <20190624135024.GA11248@lst.de>
+References: <20190620161240.22738-1-logang@deltatee.com>
+ <CAPcyv4ijztOK1FUjLuFing7ps4LOHt=6z=eO=98HHWauHA+yog@mail.gmail.com>
+ <20190620193353.GF19891@ziepe.ca> <20190624073126.GB3954@lst.de>
+ <20190624134641.GA8268@ziepe.ca> <20190624135024.GA11248@lst.de>
+Message-ID: <20190624135550.GB8268@ziepe.ca>
 
-On 6/24/19 3:00 AM, Mikhail Skorzhinskii wrote:
-> I'm not completely sure that anyone interesting in fixing this, but this
-> change breaks compilation on anything with glibc v2.24 or lower. This is
-> due to long lasting bug #16458[1] which was fixed 2 years ago and landed
-> in glibc v2.25.
+On Mon, Jun 24, 2019@03:50:24PM +0200, Christoph Hellwig wrote:
+> On Mon, Jun 24, 2019@10:46:41AM -0300, Jason Gunthorpe wrote:
+> > BTW, it is not just offset right? It is possible that the IOMMU can
+> > generate unique dma_addr_t values for each device?? Simple offset is
+> > just something we saw in certain embedded cases, IIRC.
 > 
-> I noticed it due to compiling it in rhel7\centos7 which is using glibc
-> v2.17.
+> Yes, it could.  If we are trying to do P2P between two devices on
+> different root ports and with the IOMMU enabled we'll generate
+> a new bus address for the BAR on the other side dynamically everytime
+> we map.
 
-How about restoring RHEL 7 compatibility with the (untested) patch below?
+Even with the same root port if ACS is turned on could behave like this.
 
-Thanks,
+It is only a very narrow case where you can take shortcuts with
+dma_addr_t, and I don't think shortcuts like are are appropriate for
+the mainline kernel..
 
-Bart.
-
-diff --git a/nvme.h b/nvme.h
-index a149005a0425..ecac52d4d172 100644
---- a/nvme.h
-+++ b/nvme.h
-@@ -119,19 +119,31 @@ struct nvme_bar_cap {
-  #define __force
-  #endif
-
--#define cpu_to_le16(x) \
--	((__force __le16)htole16(x))
--#define cpu_to_le32(x) \
--	((__force __le32)htole32(x))
--#define cpu_to_le64(x) \
--	((__force __le64)htole64(x))
--
--#define le16_to_cpu(x) \
--	le16toh((__force __u16)(x))
--#define le32_to_cpu(x) \
--	le32toh((__force __u32)(x))
--#define le64_to_cpu(x) \
--	le64toh((__force __u64)(x))
-+static inline __le16 cpu_to_le16(uint16_t x)
-+{
-+	return ((__force __le16)htole16(x));
-+}
-+static inline __le32 cpu_to_le32(uint32_t x)
-+{
-+	return ((__force __le32)htole32(x));
-+}
-+static inline __le64 cpu_to_le64(uint64_t x)
-+{
-+	return ((__force __le64)htole64(x));
-+}
-+
-+static inline uint16_t le16_to_cpu(__le16 x)
-+{
-+	return le16toh((__force __u16)x);
-+}
-+static inline uint32_t le32_to_cpu(__le32 x)
-+{
-+	return le32toh((__force __u32)x);
-+}
-+static inline uint64_t le64_to_cpu(__le64 x)
-+{
-+	return le64toh((__force __u64)x);
-+}
-
-  #define MAX_LIST_ITEMS 256
-  struct list_item {
--- 
-2.21.0
+Jason
