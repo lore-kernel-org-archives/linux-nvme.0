@@ -1,122 +1,50 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Tue, 25 Jun 2019 05:12:56 +0900
-Subject: [PATCH v3 2/5] nvme: add get_ams for nvme_ctrl_ops
-In-Reply-To: <2c916063e19cc3f33376d7bb0fb8a5ff10ea42db.1561385989.git.zhangweiping@didiglobal.com>
+Date: Tue, 25 Jun 2019 05:21:10 +0900
+Subject: [PATCH v3 5/5] nvme: add support weighted round robin queue
+In-Reply-To: <6e3b0f511a291dd0ce570a6cc5393e10d4509d0e.1561385989.git.zhangweiping@didiglobal.com>
 References: <cover.1561385989.git.zhangweiping@didiglobal.com>
- <2c916063e19cc3f33376d7bb0fb8a5ff10ea42db.1561385989.git.zhangweiping@didiglobal.com>
-Message-ID: <20190624201256.GC6526@minwooim-desktop>
+ <6e3b0f511a291dd0ce570a6cc5393e10d4509d0e.1561385989.git.zhangweiping@didiglobal.com>
+Message-ID: <20190624202110.GD6526@minwooim-desktop>
 
-On 19-06-24 22:29:05, Weiping Zhang wrote:
-> The get_ams() will return the AMS(Arbitration Mechanism Selected)
-> from the driver.
-> 
-> Signed-off-by: Weiping Zhang <zhangweiping at didiglobal.com>
-
-Hello, Weiping.
-
-Sorry, but I don't really get what your point is here.  Could you please
-elaborate this patch a little bit more?  The commit description just
-says a function would just return the AMS from nowhere..
-
-> ---
->  drivers/nvme/host/core.c | 9 ++++++++-
->  drivers/nvme/host/nvme.h | 1 +
->  drivers/nvme/host/pci.c  | 6 ++++++
->  include/linux/nvme.h     | 1 +
->  4 files changed, 16 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index b2dd4e391f5c..4cb781e73123 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -1943,6 +1943,7 @@ int nvme_enable_ctrl(struct nvme_ctrl *ctrl, u64 cap)
->  	 */
->  	unsigned dev_page_min = NVME_CAP_MPSMIN(cap) + 12, page_shift = 12;
->  	int ret;
-> +	u32 ams = NVME_CC_AMS_RR;
+> @@ -2627,7 +2752,30 @@ static int nvme_pci_get_address(struct nvme_ctrl *ctrl, char *buf, int size)
 >  
->  	if (page_shift < dev_page_min) {
->  		dev_err(ctrl->device,
-> @@ -1951,11 +1952,17 @@ int nvme_enable_ctrl(struct nvme_ctrl *ctrl, u64 cap)
->  		return -ENODEV;
->  	}
->  
-> +	/* get Arbitration Mechanism Selected */
-> +	if (ctrl->ops->get_ams) {
+>  static void nvme_pci_get_ams(struct nvme_ctrl *ctrl, u32 *ams)
+>  {
+> -	*ams = NVME_CC_AMS_RR;
+> +	/* if deivce doesn't support WRR, force reset wrr queues to 0 */
+> +	if (!NVME_CAP_AMS_WRRU(ctrl->cap)) {
+> +		wrr_low_queues = 0;
+> +		wrr_medium_queues = 0;
+> +		wrr_high_queues = 0;
+> +		wrr_urgent_queues = 0;
 
-I just wonder if this check will be valid because this patch just
-register the function nvme_pci_get_ams() without any conditions.
+Could we avoid this kind of reset variables in get_XXX() function?  I
+guess it would be great if it just tries to get some value which is
+mainly focused to do.
 
-> +		ctrl->ops->get_ams(ctrl, &ams);
-> +		ams &= NVME_CC_AMS_MASK;
+> +
+> +		*ams = NVME_CC_AMS_RR;
+> +		ctrl->wrr_enabled = false;
+> +		return;
 > +	}
 > +
->  	ctrl->page_size = 1 << page_shift;
->  
->  	ctrl->ctrl_config = NVME_CC_CSS_NVM;
->  	ctrl->ctrl_config |= (page_shift - 12) << NVME_CC_MPS_SHIFT;
-> -	ctrl->ctrl_config |= NVME_CC_AMS_RR | NVME_CC_SHN_NONE;
-> +	ctrl->ctrl_config |= ams | NVME_CC_SHN_NONE;
->  	ctrl->ctrl_config |= NVME_CC_IOSQES | NVME_CC_IOCQES;
->  	ctrl->ctrl_config |= NVME_CC_ENABLE;
->  
-> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> index ea45d7d393ad..9c7e9217f78b 100644
-> --- a/drivers/nvme/host/nvme.h
-> +++ b/drivers/nvme/host/nvme.h
-> @@ -369,6 +369,7 @@ struct nvme_ctrl_ops {
->  	void (*submit_async_event)(struct nvme_ctrl *ctrl);
->  	void (*delete_ctrl)(struct nvme_ctrl *ctrl);
->  	int (*get_address)(struct nvme_ctrl *ctrl, char *buf, int size);
-> +	void (*get_ams)(struct nvme_ctrl *ctrl, u32 *ams);
+> +	/*
+> +	 * if device support WRR, check wrr queue count, all wrr queues are
+> +	 * 0, don't enable device's WRR.
+> +	 */
+> +	if ((wrr_low_queues + wrr_medium_queues + wrr_high_queues +
+> +				wrr_urgent_queues) > 0) {
+> +		*ams = NVME_CC_AMS_WRRU;
+> +		ctrl->wrr_enabled = true;
+> +	} else {
+> +		*ams = NVME_CC_AMS_RR;
+> +		ctrl->wrr_enabled = false;
 
-Can we just have a return value for the AMS value?
+These two line can be merged into above condition:
 
->  };
->  
->  #ifdef CONFIG_FAULT_INJECTION_DEBUG_FS
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 189352081994..5d84241f0214 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -2627,6 +2627,11 @@ static int nvme_pci_get_address(struct nvme_ctrl *ctrl, char *buf, int size)
->  	return snprintf(buf, size, "%s", dev_name(&pdev->dev));
->  }
->  
-> +static void nvme_pci_get_ams(struct nvme_ctrl *ctrl, u32 *ams)
-> +{
-> +	*ams = NVME_CC_AMS_RR;
-> +}
-> +
->  static const struct nvme_ctrl_ops nvme_pci_ctrl_ops = {
->  	.name			= "pcie",
->  	.module			= THIS_MODULE,
-> @@ -2638,6 +2643,7 @@ static const struct nvme_ctrl_ops nvme_pci_ctrl_ops = {
->  	.free_ctrl		= nvme_pci_free_ctrl,
->  	.submit_async_event	= nvme_pci_submit_async_event,
->  	.get_address		= nvme_pci_get_address,
-> +	.get_ams		= nvme_pci_get_ams,
-
-Question: Do we really need this being added to nvme_ctrl_ops?
-
-Also If 5th patch will make this function much more than this, then it
-would be great if you describe this kind of situation in description :)
-
->  };
->  
->  static int nvme_dev_map(struct nvme_dev *dev)
-> diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-> index da5f696aec00..8f71451fc2fa 100644
-> --- a/include/linux/nvme.h
-> +++ b/include/linux/nvme.h
-> @@ -156,6 +156,7 @@ enum {
->  	NVME_CC_AMS_RR		= 0 << NVME_CC_AMS_SHIFT,
->  	NVME_CC_AMS_WRRU	= 1 << NVME_CC_AMS_SHIFT,
->  	NVME_CC_AMS_VS		= 7 << NVME_CC_AMS_SHIFT,
-> +	NVME_CC_AMS_MASK	= 7 << NVME_CC_AMS_SHIFT,
->  	NVME_CC_SHN_NONE	= 0 << NVME_CC_SHN_SHIFT,
->  	NVME_CC_SHN_NORMAL	= 1 << NVME_CC_SHN_SHIFT,
->  	NVME_CC_SHN_ABRUPT	= 2 << NVME_CC_SHN_SHIFT,
-> -- 
-> 2.14.1
-> 
+	if (!NVME_CAP_AMS_WRRU(ctrl->cap) ||
+		wrr_low_queues + wrr_medium_queues + wrr_high_queues +
+			wrr_urgent_queues <= 0) {
+		*ams = NVME_CC_AMS_RR;
+		ctrl->wrr_enabled = false;
+	}
