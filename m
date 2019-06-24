@@ -1,73 +1,75 @@
 From: bvanassche@acm.org (Bart Van Assche)
-Date: Mon, 24 Jun 2019 13:05:19 -0700
-Subject: [PATCH nvme-cli 1/3] nvme-cli: Restore support for older gcc versions
+Date: Mon, 24 Jun 2019 13:05:20 -0700
+Subject: [PATCH nvme-cli 2/3] nvme-cli: Restore RHEL 7 compatibility
 In-Reply-To: <20190624200521.28191-1-bvanassche@acm.org>
 References: <20190624200521.28191-1-bvanassche@acm.org>
-Message-ID: <20190624200521.28191-2-bvanassche@acm.org>
+Message-ID: <20190624200521.28191-3-bvanassche@acm.org>
 
-Older versions of gcc do not support initializing another than the first
-member of a union in an initializer. Rewrite some code such that support
-for older gcc versions is restored.
+With glibc version 2.24 and before the endianness conversion macros
+return a value with an incorrect type. Avoid that this causes the
+nvme-cli build to fail on e.g. RHEL 7. A side effect of this patch
+is that it allows sparse to verify the type of the endianness
+conversion functions.
 
-Fixes: 301e263c34e8 ("nvme-cli: Rework the code for getting and setting NVMf properties")
+See also https://sourceware.org/bugzilla/show_bug.cgi?id=16458
+
+Cc: Mikhail Skorzhinskii <mskorzhinskiy at solarflare.com>
+Cc: Minwoo Im <minwoo.im.dev at gmail.com>
+Reported-by: Mikhail Skorzhinskii <mskorzhinskiy at solarflare.com>
+Fixes: e68409e447b2 ("Remove superfluous casts")
 Signed-off-by: Bart Van Assche <bvanassche at acm.org>
 ---
- nvme-ioctl.c | 30 +++++++++++++++---------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+ nvme.h | 38 +++++++++++++++++++++++++-------------
+ 1 file changed, 25 insertions(+), 13 deletions(-)
 
-diff --git a/nvme-ioctl.c b/nvme-ioctl.c
-index 57fae22e1e37..524502bf4bed 100644
---- a/nvme-ioctl.c
-+++ b/nvme-ioctl.c
-@@ -576,16 +576,16 @@ static void nvme_to_passthru_cmd(struct nvme_passthru_cmd *pcmd,
- int nvme_get_property(int fd, int offset, uint64_t *value)
- {
- 	struct nvme_passthru_cmd pcmd;
--	struct nvme_command gcmd = {
--		.prop_get = {
--			.opcode	= nvme_fabrics_command,
--			.fctype	= nvme_fabrics_type_property_get,
--			.offset	= cpu_to_le32(offset),
--			.attrib = is_64bit_reg(offset),
--		}
-+	struct nvmf_property_get_command pg = {
-+		.opcode	= nvme_fabrics_command,
-+		.fctype	= nvme_fabrics_type_property_get,
-+		.offset	= cpu_to_le32(offset),
-+		.attrib = is_64bit_reg(offset),
- 	};
-+	struct nvme_command gcmd;
- 	int err;
+diff --git a/nvme.h b/nvme.h
+index a149005a0425..f059db864128 100644
+--- a/nvme.h
++++ b/nvme.h
+@@ -119,19 +119,31 @@ struct nvme_bar_cap {
+ #define __force
+ #endif
  
-+	gcmd.prop_get = pg;
- 	nvme_to_passthru_cmd(&pcmd, &gcmd);
- 	err = nvme_submit_admin_passthru(fd, &pcmd);
- 	if (!err) {
-@@ -635,17 +635,17 @@ int nvme_get_properties(int fd, void **pbar)
+-#define cpu_to_le16(x) \
+-	((__force __le16)htole16(x))
+-#define cpu_to_le32(x) \
+-	((__force __le32)htole32(x))
+-#define cpu_to_le64(x) \
+-	((__force __le64)htole64(x))
+-
+-#define le16_to_cpu(x) \
+-	le16toh((__force __u16)(x))
+-#define le32_to_cpu(x) \
+-	le32toh((__force __u32)(x))
+-#define le64_to_cpu(x) \
+-	le64toh((__force __u64)(x))
++static inline __le16 cpu_to_le16(uint16_t x)
++{
++	return (__force __le16)htole16(x);
++}
++static inline __le32 cpu_to_le32(uint32_t x)
++{
++	return (__force __le32)htole32(x);
++}
++static inline __le64 cpu_to_le64(uint64_t x)
++{
++	return (__force __le64)htole64(x);
++}
++
++static inline uint16_t le16_to_cpu(__le16 x)
++{
++	return le16toh((__force __u16)x);
++}
++static inline uint32_t le32_to_cpu(__le32 x)
++{
++	return le32toh((__force __u32)x);
++}
++static inline uint64_t le64_to_cpu(__le64 x)
++{
++	return le64toh((__force __u64)x);
++}
  
- int nvme_set_property(int fd, int offset, uint64_t value)
- {
--	struct nvme_command scmd = {
--		.prop_set = {
--			.opcode	= nvme_fabrics_command,
--			.fctype	= nvme_fabrics_type_property_set,
--			.offset	= cpu_to_le32(offset),
--			.value = cpu_to_le64(value),
--			.attrib = is_64bit_reg(offset),
--		}
-+	struct nvmf_property_set_command ps = {
-+		.opcode	= nvme_fabrics_command,
-+		.fctype	= nvme_fabrics_type_property_set,
-+		.offset	= cpu_to_le32(offset),
-+		.value = cpu_to_le64(value),
-+		.attrib = is_64bit_reg(offset),
- 	};
-+	struct nvme_command scmd;
- 	struct nvme_passthru_cmd pcmd;
- 
-+	scmd.prop_set = ps;
- 	nvme_to_passthru_cmd(&pcmd, &scmd);
- 	return nvme_submit_admin_passthru(fd, &pcmd);
- }
+ #define MAX_LIST_ITEMS 256
+ struct list_item {
 -- 
 2.22.0.410.gd8fdbe21b5-goog
