@@ -1,19 +1,70 @@
-From: mskorzhinskiy@solarflare.com (Mikhail Skorzhinskii)
-Date: Mon, 24 Jun 2019 22:51:45 +0200
-Subject: [PATCH nvme-cli 01/13] Remove superfluous casts
-In-Reply-To: <4fbac30a-51f0-95a7-7146-28805103f6a8@acm.org>
-References: <20190619173701.8263-1-bvanassche@acm.org>
- <20190619173701.8263-2-bvanassche@acm.org> <87tvcfnw05.fsf@solarflare.com>
- <4fbac30a-51f0-95a7-7146-28805103f6a8@acm.org>
-Message-ID: <87sgryogf2.fsf@solarflare.com>
+From: emilne@redhat.com (Ewan D. Milne)
+Date: Mon, 24 Jun 2019 18:12:40 -0400
+Subject: [PATCH v2] nvme-fc: clean up error messages
+Message-ID: <20190624221240.25268-1-emilne@redhat.com>
 
-Bart Van Assche <bvanassche at acm.org> writes:
- > How about restoring RHEL 7 compatibility with the (untested) patch
- > below?
+Some of the error messages are inconsistent, and one of them is wrong
+(i.e. "queue_size 128 > ctrl maxcmd 32, reducing to queue_size").
+Make them more clear and distinguishable for log analysis.
 
-It is now tested and it works fine: both compilation on rhel7/non-rhel
-and some basic functionality testing.
+Signed-off-by: Ewan D. Milne <emilne at redhat.com>
+---
+ drivers/nvme/host/fc.c | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
-Thank you.
-
-Mikhail Skorzhinskii
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 9b497d785ed7..ab162c57ddc2 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -1259,7 +1259,7 @@ nvme_fc_connect_admin_queue(struct nvme_fc_ctrl *ctrl,
+ 	if (fcret) {
+ 		ret = -EBADF;
+ 		dev_err(ctrl->dev,
+-			"q %d connect failed: %s\n",
++			"queue %d connect admin queue failed: %s\n",
+ 			queue->qnum, validation_errors[fcret]);
+ 	} else {
+ 		ctrl->association_id =
+@@ -1358,7 +1358,7 @@ nvme_fc_connect_queue(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
+ 	if (fcret) {
+ 		ret = -EBADF;
+ 		dev_err(ctrl->dev,
+-			"q %d connect failed: %s\n",
++			"queue %d connect queue failed: %s\n",
+ 			queue->qnum, validation_errors[fcret]);
+ 	} else {
+ 		queue->connection_id =
+@@ -1371,7 +1371,7 @@ nvme_fc_connect_queue(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
+ out_no_memory:
+ 	if (ret)
+ 		dev_err(ctrl->dev,
+-			"queue %d connect command failed (%d).\n",
++			"queue %d connect queue failed (%d).\n",
+ 			queue->qnum, ret);
+ 	return ret;
+ }
+@@ -2678,16 +2678,18 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+ 		/* warn if maxcmd is lower than queue_size */
+ 		dev_warn(ctrl->ctrl.device,
+ 			"queue_size %zu > ctrl maxcmd %u, reducing "
+-			"to queue_size\n",
+-			opts->queue_size, ctrl->ctrl.maxcmd);
++			"queue_size to %u\n",
++			opts->queue_size, ctrl->ctrl.maxcmd, ctrl->ctrl.maxcmd);
+ 		opts->queue_size = ctrl->ctrl.maxcmd;
+ 	}
+ 
+ 	if (opts->queue_size > ctrl->ctrl.sqsize + 1) {
+ 		/* warn if sqsize is lower than queue_size */
+ 		dev_warn(ctrl->ctrl.device,
+-			"queue_size %zu > ctrl sqsize %u, clamping down\n",
+-			opts->queue_size, ctrl->ctrl.sqsize + 1);
++			"queue_size %zu > ctrl sqsize %u, reducing "
++			"queue_size to %u\n",
++			opts->queue_size, ctrl->ctrl.sqsize + 1,
++			ctrl->ctrl.sqsize + 1);
+ 		opts->queue_size = ctrl->ctrl.sqsize + 1;
+ 	}
+ 
+-- 
+2.18.1
