@@ -1,50 +1,29 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Mon, 24 Jun 2019 10:10:16 -0600
-Subject: [RFC PATCH 00/28] Removing struct page from P2PDMA
-In-Reply-To: <20190624134641.GA8268@ziepe.ca>
-References: <20190620161240.22738-1-logang@deltatee.com>
- <CAPcyv4ijztOK1FUjLuFing7ps4LOHt=6z=eO=98HHWauHA+yog@mail.gmail.com>
- <20190620193353.GF19891@ziepe.ca> <20190624073126.GB3954@lst.de>
- <20190624134641.GA8268@ziepe.ca>
-Message-ID: <1041d2c6-f22c-81f2-c141-fb821b35c0c1@deltatee.com>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Mon, 24 Jun 2019 10:11:26 -0600
+Subject: [GIT PULL] nvme updates for 5.3
+In-Reply-To: <20190624061241.GA31634@infradead.org>
+References: <20190624061241.GA31634@infradead.org>
+Message-ID: <00f87f06-99f3-b28d-eef8-d6bb8afe2f72@kernel.dk>
 
-
-
-On 2019-06-24 7:46 a.m., Jason Gunthorpe wrote:
-> On Mon, Jun 24, 2019@09:31:26AM +0200, Christoph Hellwig wrote:
->> On Thu, Jun 20, 2019@04:33:53PM -0300, Jason Gunthorpe wrote:
->>>> My primary concern with this is that ascribes a level of generality
->>>> that just isn't there for peer-to-peer dma operations. "Peer"
->>>> addresses are not "DMA" addresses, and the rules about what can and
->>>> can't do peer-DMA are not generically known to the block layer.
->>>
->>> ?? The P2P infrastructure produces a DMA bus address for the
->>> initiating device that is is absolutely a DMA address. There is some
->>> intermediate CPU centric representation, but after mapping it is the
->>> same as any other DMA bus address.
->>>
->>> The map function can tell if the device pair combination can do p2p or
->>> not.
->>
->> At the PCIe level there is no such thing as a DMA address, it all
->> is bus address with MMIO and DMA in the same address space (without
->> that P2P would have not chance of actually working obviously).  But
->> that bus address space is different per "bus" (which would be an
->> root port in PCIe), and we need to be careful about that.
+On 6/24/19 12:12 AM, Christoph Hellwig wrote:
+> A large chunk of NVMe updates for 5.3.  Highlights:
 > 
-> Sure, that is how dma_addr_t is supposed to work - it is always a
-> device specific value that can be used only by the device that it was
-> created for, and different devices could have different dma_addr_t
-> values for the same memory. 
+>   - improved PCIe suspent support (Keith Busch)
+>   - error injection support for the admin queue (Akinobu Mita)
+>   - Fibre Channel discovery improvements (James Smart)
+>   - tracing improvements including nvmetc tracing support (Minwoo Im)
+>   - misc fixes and cleanups (Anton Eidelman, Minwoo Im, Chaitanya Kulkarni)
 > 
-> So when Logan goes and puts dma_addr_t into the block stack he must
-> also invert things so that the DMA map happens at the start of the
-> process to create the right dma_addr_t early.
+> 
+> The following changes since commit 474a280036e8d319ef852f1dec59bedf4eda0107:
+> 
+>    cgroup: export css_next_descendant_pre for bfq (2019-06-21 02:48:34 -0600)
+> 
+> are available in the Git repository at:
+> 
+>    git://git.infradead.org/nvme.git nvme-5.3
 
-Yes, that's correct. The intent was to invert it so the dma_map could
-happen at the start of the process so that P2PDMA code could be called
-with all the information it needs to make it's decision on how to map;
-without having to hook into the mapping process of every driver that
-wants to participate.
+Pulled, thanks.
 
-Logan
+-- 
+Jens Axboe
