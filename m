@@ -1,70 +1,25 @@
-From: emilne@redhat.com (Ewan D. Milne)
-Date: Mon, 24 Jun 2019 18:12:40 -0400
-Subject: [PATCH v2] nvme-fc: clean up error messages
-Message-ID: <20190624221240.25268-1-emilne@redhat.com>
+From: martin.petersen@oracle.com (Martin K. Petersen)
+Date: Mon, 24 Jun 2019 19:30:40 -0400
+Subject: [PATCH v3 2/3] nvmet: Export NVMe namespace attributes
+In-Reply-To: <7e51e415-16af-2fc5-42e9-ebd0e6f94c0e@acm.org> (Bart Van Assche's
+ message of "Fri, 21 Jun 2019 08:19:04 -0700")
+References: <20190617161222.253849-1-bvanassche@acm.org>
+ <20190617161222.253849-3-bvanassche@acm.org>
+ <yq1a7eeusa5.fsf@oracle.com>
+ <68786de5-cdd8-c6d8-98a7-8a4310dac789@acm.org>
+ <yq1blyrpupw.fsf@oracle.com>
+ <7e51e415-16af-2fc5-42e9-ebd0e6f94c0e@acm.org>
+Message-ID: <yq136jyo927.fsf@oracle.com>
 
-Some of the error messages are inconsistent, and one of them is wrong
-(i.e. "queue_size 128 > ctrl maxcmd 32, reducing to queue_size").
-Make them more clear and distinguishable for log analysis.
 
-Signed-off-by: Ewan D. Milne <emilne at redhat.com>
----
- drivers/nvme/host/fc.c | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+Hi Bart,
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 9b497d785ed7..ab162c57ddc2 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -1259,7 +1259,7 @@ nvme_fc_connect_admin_queue(struct nvme_fc_ctrl *ctrl,
- 	if (fcret) {
- 		ret = -EBADF;
- 		dev_err(ctrl->dev,
--			"q %d connect failed: %s\n",
-+			"queue %d connect admin queue failed: %s\n",
- 			queue->qnum, validation_errors[fcret]);
- 	} else {
- 		ctrl->association_id =
-@@ -1358,7 +1358,7 @@ nvme_fc_connect_queue(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
- 	if (fcret) {
- 		ret = -EBADF;
- 		dev_err(ctrl->dev,
--			"q %d connect failed: %s\n",
-+			"queue %d connect queue failed: %s\n",
- 			queue->qnum, validation_errors[fcret]);
- 	} else {
- 		queue->connection_id =
-@@ -1371,7 +1371,7 @@ nvme_fc_connect_queue(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
- out_no_memory:
- 	if (ret)
- 		dev_err(ctrl->dev,
--			"queue %d connect command failed (%d).\n",
-+			"queue %d connect queue failed (%d).\n",
- 			queue->qnum, ret);
- 	return ret;
- }
-@@ -2678,16 +2678,18 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
- 		/* warn if maxcmd is lower than queue_size */
- 		dev_warn(ctrl->ctrl.device,
- 			"queue_size %zu > ctrl maxcmd %u, reducing "
--			"to queue_size\n",
--			opts->queue_size, ctrl->ctrl.maxcmd);
-+			"queue_size to %u\n",
-+			opts->queue_size, ctrl->ctrl.maxcmd, ctrl->ctrl.maxcmd);
- 		opts->queue_size = ctrl->ctrl.maxcmd;
- 	}
- 
- 	if (opts->queue_size > ctrl->ctrl.sqsize + 1) {
- 		/* warn if sqsize is lower than queue_size */
- 		dev_warn(ctrl->ctrl.device,
--			"queue_size %zu > ctrl sqsize %u, clamping down\n",
--			opts->queue_size, ctrl->ctrl.sqsize + 1);
-+			"queue_size %zu > ctrl sqsize %u, reducing "
-+			"queue_size to %u\n",
-+			opts->queue_size, ctrl->ctrl.sqsize + 1,
-+			ctrl->ctrl.sqsize + 1);
- 		opts->queue_size = ctrl->ctrl.sqsize + 1;
- 	}
- 
+> As you must have noticed the patch at the start of this thread touches
+> both the bdev and the file backends. So I'm not sure what your
+> question is about?
+
+I was contemplating what the observed I/O atomicity would be for the
+initiator side when the target file backend is using buffered I/O.
+
 -- 
-2.18.1
+Martin K. Petersen	Oracle Linux Engineering
