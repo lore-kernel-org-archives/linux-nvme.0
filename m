@@ -1,45 +1,33 @@
-From: alan.mikhak@sifive.com (Alan Mikhak)
-Date: Mon, 24 Jun 2019 16:57:22 -0700
-Subject: [PATCH] nvme-pci: Avoid leak if pci_p2pmem_virt_to_bus() returns null
-Message-ID: <1561420642-21186-1-git-send-email-alan.mikhak@sifive.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Tue, 25 Jun 2019 10:14:12 +0800
+Subject: [PATCH v3 4/5] genirq/affinity: allow driver's discontigous
+ affinity set
+In-Reply-To: <alpine.DEB.2.21.1906241740320.32342@nanos.tec.linutronix.de>
+References: <cover.1561385989.git.zhangweiping@didiglobal.com>
+ <1ead341c6d603cf138aed62e31091f257cb19981.1561385989.git.zhangweiping@didiglobal.com>
+ <alpine.DEB.2.21.1906241740320.32342@nanos.tec.linutronix.de>
+Message-ID: <20190625021411.GD23777@ming.t460p>
 
-Modify nvme_alloc_sq_cmds() to call pci_free_p2pmem()
-to free the memory it allocated using pci_alloc_p2pmem()
-in case pci_p2pmem_virt_to_bus() returns null.
+Hi Thomas,
 
-Make sure not to call pci_free_p2pmem() if pci_alloc_p2pmem()
-returned null which can happen if CONFIG_PCI_P2PDMA is not
-configured.
+On Mon, Jun 24, 2019@05:42:39PM +0200, Thomas Gleixner wrote:
+> On Mon, 24 Jun 2019, Weiping Zhang wrote:
+> 
+> > The driver may implement multiple affinity set, and some of
+> > are empty, for this case we just skip them.
+> 
+> Why? What's the point of creating empty sets? Just because is not a real
+> good justification.
 
-Signed-off-by: Alan Mikhak <alan.mikhak at sifive.com>
----
- drivers/nvme/host/pci.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+Patch 5 will add 4 new sets for supporting NVMe's weighted round robin
+arbitration. It can be a headache to manage so many irq sets(now the total
+sets can become 6) dynamically since size of anyone in the new 4 sets can
+be zero, so each particular set is assigned one static index for avoiding
+the management trouble, then empty set will be seen by
+irq_create_affinity_masks().
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 524d6bd6d095..5dfa067f6506 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1456,11 +1456,15 @@ static int nvme_alloc_sq_cmds(struct nvme_dev *dev, struct nvme_queue *nvmeq,
- 
- 	if (qid && dev->cmb_use_sqes && (dev->cmbsz & NVME_CMBSZ_SQS)) {
- 		nvmeq->sq_cmds = pci_alloc_p2pmem(pdev, SQ_SIZE(depth));
--		nvmeq->sq_dma_addr = pci_p2pmem_virt_to_bus(pdev,
--						nvmeq->sq_cmds);
--		if (nvmeq->sq_dma_addr) {
--			set_bit(NVMEQ_SQ_CMB, &nvmeq->flags);
--			return 0; 
-+		if (nvmeq->sq_cmds) {
-+			nvmeq->sq_dma_addr = pci_p2pmem_virt_to_bus(pdev,
-+							nvmeq->sq_cmds);
-+			if (nvmeq->sq_dma_addr) {
-+				set_bit(NVMEQ_SQ_CMB, &nvmeq->flags);
-+				return 0;
-+			}
-+
-+			pci_free_p2pmem(pdev, nvmeq->sq_cmds, SQ_SIZE(depth));
- 		}
- 	}
- 
--- 
-2.7.4
+So looks skipping the empty set makes sense because the API will become
+easier to use than before.
+
+Thanks,
+Ming
