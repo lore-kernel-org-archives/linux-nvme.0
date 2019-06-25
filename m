@@ -1,61 +1,53 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 25 Jun 2019 19:01:15 +0200
-Subject: [RFC PATCH 00/28] Removing struct page from P2PDMA
-In-Reply-To: <f0f002bf-2b94-cd18-d18f-5d0b08311495@deltatee.com>
-References: <20190620161240.22738-1-logang@deltatee.com>
- <20190624072752.GA3954@lst.de>
- <558a27ba-e7c9-9d94-cad0-377b8ee374a6@deltatee.com>
- <20190625072008.GB30350@lst.de>
- <f0f002bf-2b94-cd18-d18f-5d0b08311495@deltatee.com>
-Message-ID: <20190625170115.GA9746@lst.de>
+From: kenneth.heitke@intel.com (Heitke, Kenneth)
+Date: Tue, 25 Jun 2019 11:10:21 -0600
+Subject: [PATCH] nvme-pci: Avoid leak if pci_p2pmem_virt_to_bus() returns
+ null
+In-Reply-To: <1561420642-21186-1-git-send-email-alan.mikhak@sifive.com>
+References: <1561420642-21186-1-git-send-email-alan.mikhak@sifive.com>
+Message-ID: <39cc44bb-28b8-0daf-b059-b78791c77eb1@intel.com>
 
-On Tue, Jun 25, 2019@09:57:52AM -0600, Logan Gunthorpe wrote:
-> > You assume all addressing is done by the PCI bus address.  If a device
-> > is addressing its own BAR there is no reason to use the PCI bus address,
-> > as it might have much more intelligent schemes (usually bar + offset).
+
+
+On 6/24/2019 5:57 PM, Alan Mikhak wrote:
+> Modify nvme_alloc_sq_cmds() to call pci_free_p2pmem()
+> to free the memory it allocated using pci_alloc_p2pmem()
+> in case pci_p2pmem_virt_to_bus() returns null.
 > 
-> Yes, that will be a bit tricky regardless of what we do.
-
-At least right now it isn't at all.  I've implemented support for
-a draft NVMe proposal for that, and it basically boils down to this
-in the p2p path:
-
-	addr = sg_phys(sg);
-
-	if (page->pgmap->dev == ctrl->dev && HAS_RELATIVE_ADDRESSING)
-		addr -= ctrl->cmb_start_addr;
-
-		// set magic flag in the SGL
-	} else {
-		addr -= pgmap->pci_p2pdma_bus_offset;
-	}
-
-without the pagemap it would require a range compare instead, which
-isn't all that hard either.
-
-> >>> Also duplicating the whole block I/O stack, including hooks all over
-> >>> the fast path is pretty much a no-go.
-> >>
-> >> There was very little duplicate code in the patch set. (Really just the
-> >> mapping code). There are a few hooks, but in practice not that many if
-> >> we ignore the WARN_ONs. We might be able to work to reduce this further.
-> >> The main hooks are: when we skip bouncing, when we skip integrity prep,
-> >> when we split, and when we map. And the patchset drops the PCI_P2PDMA
-> >> hook when we map. So we're talking about maybe three or four extra ifs
-> >> that would likely normally be fast due to the branch predictor.
-> > 
-> > And all of those add code to the block layer fast path.
+> Make sure not to call pci_free_p2pmem() if pci_alloc_p2pmem()
+> returned null which can happen if CONFIG_PCI_P2PDMA is not
+> configured.
 > 
-> If we can't add any ifs to the block layer, there's really nothing we
-> can do.
+> Signed-off-by: Alan Mikhak <alan.mikhak at sifive.com>
+> ---
+>   drivers/nvme/host/pci.c | 14 +++++++++-----
+>   1 file changed, 9 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 524d6bd6d095..5dfa067f6506 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -1456,11 +1456,15 @@ static int nvme_alloc_sq_cmds(struct nvme_dev *dev, struct nvme_queue *nvmeq,
+>   
+>   	if (qid && dev->cmb_use_sqes && (dev->cmbsz & NVME_CMBSZ_SQS)) {
+>   		nvmeq->sq_cmds = pci_alloc_p2pmem(pdev, SQ_SIZE(depth));
+> -		nvmeq->sq_dma_addr = pci_p2pmem_virt_to_bus(pdev,
+> -						nvmeq->sq_cmds);
+> -		if (nvmeq->sq_dma_addr) {
+> -			set_bit(NVMEQ_SQ_CMB, &nvmeq->flags);
+> -			return 0;
+> +		if (nvmeq->sq_cmds) {
+> +			nvmeq->sq_dma_addr = pci_p2pmem_virt_to_bus(pdev,
+> +							nvmeq->sq_cmds);
+> +			if (nvmeq->sq_dma_addr) {
+> +				set_bit(NVMEQ_SQ_CMB, &nvmeq->flags);
+> +				return 0;
+> +			}
+> +
+> +			pci_free_p2pmem(pdev, nvmeq->sq_cmds, SQ_SIZE(depth));
 
-That is not what I said.  Of course we can.  But we rather have a
-really good reason.  And adding a parallel I/O path violating the
-highlevel model is not one.
+Should the pointer be set to NULL here, just in case?
 
-> So then we're committed to using struct page for P2P?
-
-Only until we have a significantly better soltution.  And I think
-using physical address in some form instead of pages is that,
-adding a parallel path with dma_addr_t is not, it actually is worse
-than the current code in many respects.
+>   		}
+>   	}
+>   
+> 
