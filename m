@@ -1,157 +1,48 @@
-From: akinobu.mita@gmail.com (Akinobu Mita)
-Date: Wed, 26 Jun 2019 00:14:32 +0900
-Subject: [PATCH v4 3/3] nvme: notify thermal framework when temperature
- threshold events occur
-In-Reply-To: <1561473887.19713.6.camel@intel.com>
-References: <1560439238-4054-1-git-send-email-akinobu.mita@gmail.com>
- <1560439238-4054-4-git-send-email-akinobu.mita@gmail.com>
- <1561473887.19713.6.camel@intel.com>
-Message-ID: <CAC5umyj6tyCH9GM4bPE30JYoKN57HCvjdM89h8eyAcZWspCm6A@mail.gmail.com>
+From: bvanassche@acm.org (Bart Van Assche)
+Date: Tue, 25 Jun 2019 08:18:28 -0700
+Subject: [PATCH] nvmet-rdma: Suppress a lockdep complaint
+In-Reply-To: <1035014818.27150671.1561441925414.JavaMail.zimbra@kalray.eu>
+References: <20190403230402.119428-1-bvanassche@acm.org>
+ <1554392625.118779.243.camel@acm.org>
+ <1035014818.27150671.1561441925414.JavaMail.zimbra@kalray.eu>
+Message-ID: <7d28ee3d-0326-6d31-1cc6-13acc48e0d4d@acm.org>
 
-2019?6?25?(?) 23:44 Zhang Rui <rui.zhang at intel.com>:
->
-> On ?, 2019-06-14@00:20 +0900, Akinobu Mita wrote:
-> > The NVMe controller supports the temperature threshold feature
-> > (Feature
-> > Identifier 04h) that enables to configure the asynchronous event
-> > request
-> > command to complete when the temperature is crossed its corresponding
-> > temperature threshold.
-> >
-> > This enables the reporting of asynchronous events from the controller
-> > when
-> > the temperature reached or exceeded a temperature threshold.
-> > In the case of the temperature threshold conditions, this notifies
-> > the
-> > thermal framework.
-> >
-> > The main purpose of this is to turn on a fan when overheated without
-> > polling the device for the smart log that could prevent the lower
-> > power
-> > state transitions.
-> >
-> > Cc: Zhang Rui <rui.zhang at intel.com>
-> > Cc: Eduardo Valentin <edubezval at gmail.com>
-> > Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
-> > Cc: Keith Busch <kbusch at kernel.org>
-> > Cc: Jens Axboe <axboe at fb.com>
-> > Cc: Christoph Hellwig <hch at lst.de>
-> > Cc: Sagi Grimberg <sagi at grimberg.me>
-> > Cc: Minwoo Im <minwoo.im.dev at gmail.com>
-> > Cc: Kenneth Heitke <kenneth.heitke at intel.com>
-> > Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni at wdc.com>
-> > Signed-off-by: Akinobu Mita <akinobu.mita at gmail.com>
-> > ---
-> > * v4
-> > - support DT thermal zone device.
-> > - use bitmap to iterate over implemented sensors
-> >
-> >  drivers/nvme/host/core.c    | 14 ++++++++++++++
-> >  drivers/nvme/host/nvme.h    |  5 +++++
-> >  drivers/nvme/host/thermal.c | 12 ++++++++++++
-> >  include/linux/nvme.h        |  7 +++++++
-> >  4 files changed, 38 insertions(+)
-> >
-> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> > index 4be339b..44dadbb 100644
-> > --- a/drivers/nvme/host/core.c
-> > +++ b/drivers/nvme/host/core.c
-> > @@ -1186,6 +1186,9 @@ static void nvme_enable_aen(struct nvme_ctrl
-> > *ctrl)
-> >       u32 result, supported_aens = ctrl->oaes &
-> > NVME_AEN_SUPPORTED;
-> >       int status;
-> >
-> > +     if (IS_ENABLED(CONFIG_THERMAL))
-> > +             supported_aens |= NVME_SMART_CRIT_TEMPERATURE;
-> > +
-> >       if (!supported_aens)
-> >               return;
-> >
-> > @@ -3561,6 +3564,16 @@ void nvme_remove_namespaces(struct nvme_ctrl
-> > *ctrl)
-> >  }
-> >  EXPORT_SYMBOL_GPL(nvme_remove_namespaces);
-> >
-> > +static void nvme_handle_aen_smart(struct nvme_ctrl *ctrl, u32
-> > result)
-> > +{
-> > +     u32 aer_type = result & NVME_AER_TYPE_MASK;
-> > +     u32 aer_info = (result >> NVME_AER_INFO_SHIFT) &
-> > NVME_AER_INFO_MASK;
-> > +
-> > +     if (aer_type == NVME_AER_SMART &&
-> > +         aer_info == NVME_AER_SMART_TEMP_THRESH)
-> > +             nvme_thermal_notify_framework(ctrl);
-> > +}
-> > +
-> >  static void nvme_aen_uevent(struct nvme_ctrl *ctrl)
-> >  {
-> >       char *envp[2] = { NULL, NULL };
-> > @@ -3582,6 +3595,7 @@ static void nvme_async_event_work(struct
-> > work_struct *work)
-> >       struct nvme_ctrl *ctrl =
-> >               container_of(work, struct nvme_ctrl,
-> > async_event_work);
-> >
-> > +     nvme_handle_aen_smart(ctrl, ctrl->aen_result);
-> >       nvme_aen_uevent(ctrl);
-> >       ctrl->ops->submit_async_event(ctrl);
-> >  }
-> > diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> > index a9c63ea..40325b6 100644
-> > --- a/drivers/nvme/host/nvme.h
-> > +++ b/drivers/nvme/host/nvme.h
-> > @@ -605,6 +605,7 @@ static inline struct nvme_ns
-> > *nvme_get_ns_from_dev(struct device *dev)
-> >
-> >  int nvme_thermal_zones_register(struct nvme_ctrl *ctrl);
-> >  void nvme_thermal_zones_unregister(struct nvme_ctrl *ctrl);
-> > +void nvme_thermal_notify_framework(struct nvme_ctrl *ctrl);
-> >
-> >  #else
-> >
-> > @@ -617,6 +618,10 @@ static inline void
-> > nvme_thermal_zones_unregister(struct nvme_ctrl *ctrl)
-> >  {
-> >  }
-> >
-> > +static inline void nvme_thermal_notify_framework(struct nvme_ctrl
-> > *ctrl)
-> > +{
-> > +}
-> > +
-> >  #endif /* CONFIG_THERMAL */
-> >
-> >  #endif /* _NVME_H */
-> > diff --git a/drivers/nvme/host/thermal.c
-> > b/drivers/nvme/host/thermal.c
-> > index 18d0e4c..b5e835d 100644
-> > --- a/drivers/nvme/host/thermal.c
-> > +++ b/drivers/nvme/host/thermal.c
-> > @@ -309,3 +309,15 @@ void nvme_thermal_zones_unregister(struct
-> > nvme_ctrl *ctrl)
-> >               __clear_bit(i, ctrl->tz_enabled);
-> >       }
-> >  }
-> > +
-> > +void nvme_thermal_notify_framework(struct nvme_ctrl *ctrl)
-> > +{
-> > +     int i;
-> > +
-> > +     for_each_set_bit(i, ctrl->tz_enabled, ARRAY_SIZE(ctrl->tz))
-> > {
-> > +             if (ctrl->tz[i].dev)
-> > +                     thermal_notify_framework(ctrl->tz[i].dev,
-> > 0);
->
-> I'd prefer to use thermal_zone_device_update() here to notify the
-> thermal framework.
-> thermal_notify_framework() will be removed sometime later.
+On 6/24/19 10:52 PM, Marta Rybczynska wrote:
+> ----- On 4 Apr, 2019,@17:43, Bart Van Assche bvanassche@acm.org wrote:
+>> On Wed, 2019-04-03@16:04 -0700, Bart Van Assche wrote:
+>>> Although the code that waits for controllers that are being teared down
+>>> in nvmet_rdma_queue_connect() is fine, lockdep complains about that code.
+>>> Lockdep complains because all release_work instances are assigned the
+>>> same static lockdep key. Avoid that lockdep complains by using dynamic
+>>> lockdep keys instead of static lockdep keys. See also the following
+>>> commits:
+>>> * 87915adc3f0a ("workqueue: re-add lockdep dependencies for flushing").
+>>> * 777dc82395de ("nvmet-rdma: occasionally flush ongoing controller teardown").
+>>> * 108c14858b9e ("locking/lockdep: Add support for dynamic keys").
+>>>
+>>> This patch avoids that lockdep reports the following:
+>>>
+>>> ======================================================
+>>> WARNING: possible circular locking dependency detected
+>>> 4.19.0-dbg #1 Not tainted
+>>> ------------------------------------------------------
+>>> kworker/u12:0/7 is trying to acquire lock:
+>>
+>> Please drop this patch - it is not sufficient to suppress the lockdep complaint.
+>> I will see whether I can come up with a better solution.
+>>
+> 
+> Have you had time to work on this one further? We're seeing the same issue.
 
-You are right.
+Hi Marta,
 
-I got my ROCKPro64 board and just started testing with pwm-fan cooling
-device.  And then I also noticed that using thermal_notify_framework()
-is insufficient when polling-delay is zero (i.e. interrupt driven thermal
-zone).
+I'm running all NVMe tests on my setup with the attached patch applied.
+
+Bart.
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: 0001-nvmet-rdma-Rework-DoS-attack-mitigation.patch
+Type: text/x-patch
+Size: 6984 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20190625/87f6f945/attachment.bin>
