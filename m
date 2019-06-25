@@ -1,37 +1,73 @@
-From: mrybczyn@kalray.eu (Marta Rybczynska)
-Date: Tue, 25 Jun 2019 07:52:05 +0200 (CEST)
-Subject: [PATCH] nvmet-rdma: Suppress a lockdep complaint
-In-Reply-To: <1554392625.118779.243.camel@acm.org>
-References: <20190403230402.119428-1-bvanassche@acm.org>
- <1554392625.118779.243.camel@acm.org>
-Message-ID: <1035014818.27150671.1561441925414.JavaMail.zimbra@kalray.eu>
+From: hare@suse.de (Hannes Reinecke)
+Date: Tue, 25 Jun 2019 08:07:18 +0200
+Subject: [PATCH 2/2] nvme: flush scan_work when resetting controller
+In-Reply-To: <2a6168f3-37f6-1acf-2e89-48a3b9cac8e1@grimberg.me>
+References: <20190618101025.78840-1-hare@suse.de>
+ <20190618101025.78840-3-hare@suse.de>
+ <36c093c6-9fea-aa2f-affe-70957e0c5b1b@grimberg.me>
+ <681a1c11-7d11-6e28-bc64-b14bef22c144@suse.com>
+ <fe550375-fc5d-ff19-c303-6671b8713df6@grimberg.me>
+ <d64a5902-139e-4119-ec75-3394e0b129f9@suse.de>
+ <d84bf42f-c9fe-6af4-58cc-14195ddff931@grimberg.me>
+ <68599577-450a-ade1-451c-f310e5094317@grimberg.me>
+ <66f3dd84-77cd-fc45-025c-4082cf3df7ec@suse.de>
+ <2a6168f3-37f6-1acf-2e89-48a3b9cac8e1@grimberg.me>
+Message-ID: <ff13e243-da8f-f04c-d31b-f7c46d3a4375@suse.de>
 
------ On 4 Apr, 2019,@17:43, Bart Van Assche bvanassche@acm.org wrote:
-> On Wed, 2019-04-03@16:04 -0700, Bart Van Assche wrote:
->> Although the code that waits for controllers that are being teared down
->> in nvmet_rdma_queue_connect() is fine, lockdep complains about that code.
->> Lockdep complains because all release_work instances are assigned the
->> same static lockdep key. Avoid that lockdep complains by using dynamic
->> lockdep keys instead of static lockdep keys. See also the following
->> commits:
->> * 87915adc3f0a ("workqueue: re-add lockdep dependencies for flushing").
->> * 777dc82395de ("nvmet-rdma: occasionally flush ongoing controller teardown").
->> * 108c14858b9e ("locking/lockdep: Add support for dynamic keys").
->> 
->> This patch avoids that lockdep reports the following:
->> 
->> ======================================================
->> WARNING: possible circular locking dependency detected
->> 4.19.0-dbg #1 Not tainted
->> ------------------------------------------------------
->> kworker/u12:0/7 is trying to acquire lock:
+On 6/24/19 8:08 PM, Sagi Grimberg wrote:
 > 
-> Please drop this patch - it is not sufficient to suppress the lockdep complaint.
-> I will see whether I can come up with a better solution.
+>>>>> That's what I thought initially, too, but it turned out to be not
+>>>>> sufficient.
+>>>>
+>>>> Not sufficient because it hangs? or panics?
+>>>>
+>> It hangs, and we're seeing a warning:
+>>
+>> kernel: [67088.344034] WARNING: CPU: 4 PID: 25020 at
+>> ../lib/percpu-refcount.c:334 percpu_ref_kill_and_confirm+0x7a/0xa0
+>> [ .. ]
+>> kernel: [67088.344106] Call Trace:
+>> kernel: [67088.344112]? blk_freeze_queue_start+0x2a/0x40
+>> kernel: [67088.344114]? blk_freeze_queue+0xe/0x40
+>> kernel: [67088.344118]? nvme_update_disk_info+0x36/0x260 [nvme_core]
+>> kernel: [67088.344122]? __nvme_revalidate_disk+0xca/0xf0 [nvme_core]
+>> kernel: [67088.344125]? nvme_revalidate_disk+0xa6/0x120 [nvme_core]
+>> kernel: [67088.344127]? ? blk_mq_get_tag+0xa3/0x220
+>> kernel: [67088.344130]? revalidate_disk+0x23/0xc0
+>> kernel: [67088.344133]? nvme_validate_ns+0x43/0x830 [nvme_core]
+>> kernel: [67088.344137]? ? wake_up_q+0x70/0x70
+>> kernel: [67088.344139]? ? blk_mq_free_request+0x12a/0x160
+>> kernel: [67088.344142]? ? __nvme_submit_sync_cmd+0x73/0xe0 [nvme_core]
+>> kernel: [67088.344145]? nvme_scan_work+0x2b3/0x350 [nvme_core]
+>> kernel: [67088.344149]? process_one_work+0x1da/0x400
+>>
+>> ?From which I've inferred that we're still running a scan in parallel to
+>> reset, and that the scan thread is calling 'blk_freeze_queue()' on a
+>> queue which is already torn down.
 > 
+> 
+> Where is the scan triggered from? there is no scan call from the reset
+> path.
+> 
+It's triggered from AEN, being received around the same time when reset
+triggers.
+There's actually a change that the AEN handling itself triggered the
+reset, but I haven't be able to decipher that from the crash dump.
 
-Bart,
-Have you had time to work on this one further? We're seeing the same issue.
+> Is there a namespace removal or something else that triggers AEN
+> to make this happen?
+> 
+> What exactly is the scenario?
 
-Thanks,
-Marta
+The scenario is multiple storage failover on NetApp OnTAP while I/O is
+running.
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
+HRB 21284 (AG N?rnberg)
