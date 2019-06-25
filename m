@@ -1,41 +1,53 @@
-From: tglx@linutronix.de (Thomas Gleixner)
-Date: Tue, 25 Jun 2019 08:13:44 +0200 (CEST)
-Subject: [PATCH v3 4/5] genirq/affinity: allow driver's discontigous
- affinity set
-In-Reply-To: <20190625021411.GD23777@ming.t460p>
-References: <cover.1561385989.git.zhangweiping@didiglobal.com>
- <1ead341c6d603cf138aed62e31091f257cb19981.1561385989.git.zhangweiping@didiglobal.com>
- <alpine.DEB.2.21.1906241740320.32342@nanos.tec.linutronix.de>
- <20190625021411.GD23777@ming.t460p>
-Message-ID: <alpine.DEB.2.21.1906250811150.32342@nanos.tec.linutronix.de>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 25 Jun 2019 09:08:35 +0200
+Subject: [PATCH] nvme-pci: Avoid leak if pci_p2pmem_virt_to_bus()
+ returns null
+In-Reply-To: <1561420642-21186-1-git-send-email-alan.mikhak@sifive.com>
+References: <1561420642-21186-1-git-send-email-alan.mikhak@sifive.com>
+Message-ID: <20190625070835.GC30123@lst.de>
 
-MIng,
-
-On Tue, 25 Jun 2019, Ming Lei wrote:
-> On Mon, Jun 24, 2019@05:42:39PM +0200, Thomas Gleixner wrote:
-> > On Mon, 24 Jun 2019, Weiping Zhang wrote:
-> > 
-> > > The driver may implement multiple affinity set, and some of
-> > > are empty, for this case we just skip them.
-> > 
-> > Why? What's the point of creating empty sets? Just because is not a real
-> > good justification.
+On Mon, Jun 24, 2019@04:57:22PM -0700, Alan Mikhak wrote:
+> Modify nvme_alloc_sq_cmds() to call pci_free_p2pmem()
+> to free the memory it allocated using pci_alloc_p2pmem()
+> in case pci_p2pmem_virt_to_bus() returns null.
 > 
-> Patch 5 will add 4 new sets for supporting NVMe's weighted round robin
-> arbitration. It can be a headache to manage so many irq sets(now the total
-> sets can become 6) dynamically since size of anyone in the new 4 sets can
-> be zero, so each particular set is assigned one static index for avoiding
-> the management trouble, then empty set will be seen by
-> irq_create_affinity_masks().
+> Make sure not to call pci_free_p2pmem() if pci_alloc_p2pmem()
+> returned null which can happen if CONFIG_PCI_P2PDMA is not
+> configured.
+
+Can you 
+
 > 
-> So looks skipping the empty set makes sense because the API will become
-> easier to use than before.
+> Signed-off-by: Alan Mikhak <alan.mikhak at sifive.com>
+> ---
+>  drivers/nvme/host/pci.c | 14 +++++++++-----
+>  1 file changed, 9 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 524d6bd6d095..5dfa067f6506 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -1456,11 +1456,15 @@ static int nvme_alloc_sq_cmds(struct nvme_dev *dev, struct nvme_queue *nvmeq,
+>  
+>  	if (qid && dev->cmb_use_sqes && (dev->cmbsz & NVME_CMBSZ_SQS)) {
+>  		nvmeq->sq_cmds = pci_alloc_p2pmem(pdev, SQ_SIZE(depth));
+> -		nvmeq->sq_dma_addr = pci_p2pmem_virt_to_bus(pdev,
+> -						nvmeq->sq_cmds);
+> -		if (nvmeq->sq_dma_addr) {
+> -			set_bit(NVMEQ_SQ_CMB, &nvmeq->flags);
+> -			return 0; 
+> +		if (nvmeq->sq_cmds) {
+> +			nvmeq->sq_dma_addr = pci_p2pmem_virt_to_bus(pdev,
+> +							nvmeq->sq_cmds);
+> +			if (nvmeq->sq_dma_addr) {
+> +				set_bit(NVMEQ_SQ_CMB, &nvmeq->flags);
+> +				return 0;
+> +			}
+> +
+> +			pci_free_p2pmem(pdev, nvmeq->sq_cmds, SQ_SIZE(depth));
 
-That makes sense, but at least some of that information wants to be in the
-change log and not some uninformative description of what the patch does.
-
-I was not Cc'ed on the rest of the patches so I had exactly zero context.
-
-Thanks,
-
-	tglx
+pci_p2pmem_virt_to_bus should only fail when
+pci_p2pmem_virt_to_bus failed.  That being said I think doing the
+error check on pci_alloc_p2pmem instead of relying on 
+pci_p2pmem_virt_to_bus "passing through" the error seems odd, I'd
+rather check the pci_alloc_p2pmem return value directly.
