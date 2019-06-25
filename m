@@ -1,86 +1,61 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Tue, 25 Jun 2019 09:37:47 -0700
-Subject: [PATCH v2] nvme-fc: clean up error messages
-In-Reply-To: <20190624221240.25268-1-emilne@redhat.com>
-References: <20190624221240.25268-1-emilne@redhat.com>
-Message-ID: <14240398-683c-1d1c-f6e8-8fa8692270c2@broadcom.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 25 Jun 2019 19:01:15 +0200
+Subject: [RFC PATCH 00/28] Removing struct page from P2PDMA
+In-Reply-To: <f0f002bf-2b94-cd18-d18f-5d0b08311495@deltatee.com>
+References: <20190620161240.22738-1-logang@deltatee.com>
+ <20190624072752.GA3954@lst.de>
+ <558a27ba-e7c9-9d94-cad0-377b8ee374a6@deltatee.com>
+ <20190625072008.GB30350@lst.de>
+ <f0f002bf-2b94-cd18-d18f-5d0b08311495@deltatee.com>
+Message-ID: <20190625170115.GA9746@lst.de>
 
+On Tue, Jun 25, 2019@09:57:52AM -0600, Logan Gunthorpe wrote:
+> > You assume all addressing is done by the PCI bus address.  If a device
+> > is addressing its own BAR there is no reason to use the PCI bus address,
+> > as it might have much more intelligent schemes (usually bar + offset).
+> 
+> Yes, that will be a bit tricky regardless of what we do.
 
+At least right now it isn't at all.  I've implemented support for
+a draft NVMe proposal for that, and it basically boils down to this
+in the p2p path:
 
-On 6/24/2019 3:12 PM, Ewan D. Milne wrote:
-> Some of the error messages are inconsistent, and one of them is wrong
-> (i.e. "queue_size 128 > ctrl maxcmd 32, reducing to queue_size").
-> Make them more clear and distinguishable for log analysis.
->
-> Signed-off-by: Ewan D. Milne <emilne at redhat.com>
-> ---
->   drivers/nvme/host/fc.c | 16 +++++++++-------
->   1 file changed, 9 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> index 9b497d785ed7..ab162c57ddc2 100644
-> --- a/drivers/nvme/host/fc.c
-> +++ b/drivers/nvme/host/fc.c
-> @@ -1259,7 +1259,7 @@ nvme_fc_connect_admin_queue(struct nvme_fc_ctrl *ctrl,
->   	if (fcret) {
->   		ret = -EBADF;
->   		dev_err(ctrl->dev,
-> -			"q %d connect failed: %s\n",
-> +			"queue %d connect admin queue failed: %s\n",
->   			queue->qnum, validation_errors[fcret]);
->   	} else {
->   		ctrl->association_id =
+	addr = sg_phys(sg);
 
-Since we're changing them...
+	if (page->pgmap->dev == ctrl->dev && HAS_RELATIVE_ADDRESSING)
+		addr -= ctrl->cmb_start_addr;
 
-how about "queue %d Create Association LS failed: %s"
+		// set magic flag in the SGL
+	} else {
+		addr -= pgmap->pci_p2pdma_bus_offset;
+	}
 
-> @@ -1358,7 +1358,7 @@ nvme_fc_connect_queue(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
->   	if (fcret) {
->   		ret = -EBADF;
->   		dev_err(ctrl->dev,
-> -			"q %d connect failed: %s\n",
-> +			"queue %d connect queue failed: %s\n",
+without the pagemap it would require a range compare instead, which
+isn't all that hard either.
 
-how about "queue %d Create Connection LS failed: %s"
+> >>> Also duplicating the whole block I/O stack, including hooks all over
+> >>> the fast path is pretty much a no-go.
+> >>
+> >> There was very little duplicate code in the patch set. (Really just the
+> >> mapping code). There are a few hooks, but in practice not that many if
+> >> we ignore the WARN_ONs. We might be able to work to reduce this further.
+> >> The main hooks are: when we skip bouncing, when we skip integrity prep,
+> >> when we split, and when we map. And the patchset drops the PCI_P2PDMA
+> >> hook when we map. So we're talking about maybe three or four extra ifs
+> >> that would likely normally be fast due to the branch predictor.
+> > 
+> > And all of those add code to the block layer fast path.
+> 
+> If we can't add any ifs to the block layer, there's really nothing we
+> can do.
 
->   			queue->qnum, validation_errors[fcret]);
->   	} else {
->   		queue->connection_id =
-> @@ -1371,7 +1371,7 @@ nvme_fc_connect_queue(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
->   out_no_memory:
->   	if (ret)
->   		dev_err(ctrl->dev,
-> -			"queue %d connect command failed (%d).\n",
-> +			"queue %d connect queue failed (%d).\n",
->   			queue->qnum, ret);
->   	return ret;
->   }
-> @@ -2678,16 +2678,18 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
->   		/* warn if maxcmd is lower than queue_size */
->   		dev_warn(ctrl->ctrl.device,
->   			"queue_size %zu > ctrl maxcmd %u, reducing "
-> -			"to queue_size\n",
-> -			opts->queue_size, ctrl->ctrl.maxcmd);
-> +			"queue_size to %u\n",
-> +			opts->queue_size, ctrl->ctrl.maxcmd, ctrl->ctrl.maxcmd);
->   		opts->queue_size = ctrl->ctrl.maxcmd;
->   	}
->   
->   	if (opts->queue_size > ctrl->ctrl.sqsize + 1) {
->   		/* warn if sqsize is lower than queue_size */
->   		dev_warn(ctrl->ctrl.device,
-> -			"queue_size %zu > ctrl sqsize %u, clamping down\n",
-> -			opts->queue_size, ctrl->ctrl.sqsize + 1);
-> +			"queue_size %zu > ctrl sqsize %u, reducing "
-> +			"queue_size to %u\n",
-> +			opts->queue_size, ctrl->ctrl.sqsize + 1,
-> +			ctrl->ctrl.sqsize + 1);
->   		opts->queue_size = ctrl->ctrl.sqsize + 1;
->   	}
->   
+That is not what I said.  Of course we can.  But we rather have a
+really good reason.  And adding a parallel I/O path violating the
+highlevel model is not one.
 
-Given these last two came from a template in the rdma transport - you 
-may want to consider using the same wording in all the transports.
+> So then we're committed to using struct page for P2P?
 
--- james
+Only until we have a significantly better soltution.  And I think
+using physical address in some form instead of pages is that,
+adding a parallel path with dma_addr_t is not, it actually is worse
+than the current code in many respects.
