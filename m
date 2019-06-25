@@ -1,55 +1,55 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Tue, 25 Jun 2019 09:57:52 -0600
-Subject: [RFC PATCH 00/28] Removing struct page from P2PDMA
-In-Reply-To: <20190625072008.GB30350@lst.de>
-References: <20190620161240.22738-1-logang@deltatee.com>
- <20190624072752.GA3954@lst.de>
- <558a27ba-e7c9-9d94-cad0-377b8ee374a6@deltatee.com>
- <20190625072008.GB30350@lst.de>
-Message-ID: <f0f002bf-2b94-cd18-d18f-5d0b08311495@deltatee.com>
+From: jsmart2021@gmail.com (James Smart)
+Date: Tue, 25 Jun 2019 09:06:04 -0700
+Subject: [PATCH] nvme-fc: fix module unloads while lports still pending
+Message-ID: <20190625160604.3905-1-jsmart2021@gmail.com>
 
+Current code allows the module to be unloaded even if there are
+pending data structures, such as localports and controllers on
+the localports, that have yet to hit their reference counting
+to remove them.
 
+Fix by taking a reference out on the module upon the first localport
+registered, and which is cleared when the last localport is removed.
 
-On 2019-06-25 1:20 a.m., Christoph Hellwig wrote:
-> On Mon, Jun 24, 2019@10:07:56AM -0600, Logan Gunthorpe wrote:
->>> For one passing a dma_addr_t through the block layer is a layering
->>> violation, and one that I think will also bite us in practice.
->>> The host physical to PCIe bus address mapping can have offsets, and
->>> those offsets absolutely can be different for differnet root ports.
->>> So with your caller generated dma_addr_t everything works fine with
->>> a switched setup as the one you are probably testing on, but on a
->>> sufficiently complicated setup with multiple root ports it can break.
->>
->> I don't follow this argument. Yes, I understand PCI Bus offsets and yes
->> I understand that they only apply beyond the bus they're working with.
->> But this isn't *that* complicated and it should be the responsibility of
->> the P2PDMA code to sort out and provide a dma_addr_t for. The dma_addr_t
->> that's passed through the block layer could be a bus address or it could
->> be the result of a dma_map_* request (if the transaction is found to go
->> through an RC) depending on the requirements of the devices being used.
-> 
-> You assume all addressing is done by the PCI bus address.  If a device
-> is addressing its own BAR there is no reason to use the PCI bus address,
-> as it might have much more intelligent schemes (usually bar + offset).
+Signed-off-by: James Smart <jsmart2021 at gmail.com>
+---
+ drivers/nvme/host/fc.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-Yes, that will be a bit tricky regardless of what we do.
-
->>> Also duplicating the whole block I/O stack, including hooks all over
->>> the fast path is pretty much a no-go.
->>
->> There was very little duplicate code in the patch set. (Really just the
->> mapping code). There are a few hooks, but in practice not that many if
->> we ignore the WARN_ONs. We might be able to work to reduce this further.
->> The main hooks are: when we skip bouncing, when we skip integrity prep,
->> when we split, and when we map. And the patchset drops the PCI_P2PDMA
->> hook when we map. So we're talking about maybe three or four extra ifs
->> that would likely normally be fast due to the branch predictor.
-> 
-> And all of those add code to the block layer fast path.
-
-If we can't add any ifs to the block layer, there's really nothing we
-can do.
-
-So then we're committed to using struct page for P2P?
-
-Logan
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index b7662e237eb9..bd80e2c475da 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -229,6 +229,8 @@ nvme_fc_free_lport(struct kref *ref)
+ 	/* remove from transport list */
+ 	spin_lock_irqsave(&nvme_fc_lock, flags);
+ 	list_del(&lport->port_list);
++	if (list_empty(&nvme_fc_lport_list))
++		module_put(THIS_MODULE);
+ 	spin_unlock_irqrestore(&nvme_fc_lock, flags);
+ 
+ 	ida_simple_remove(&nvme_fc_local_port_cnt, lport->localport.port_num);
+@@ -398,6 +400,11 @@ nvme_fc_register_localport(struct nvme_fc_port_info *pinfo,
+ 	newrec->localport.port_num = idx;
+ 
+ 	spin_lock_irqsave(&nvme_fc_lock, flags);
++	if (list_empty(&nvme_fc_lport_list) && !try_module_get(THIS_MODULE)) {
++		spin_unlock_irqrestore(&nvme_fc_lock, flags);
++		ret = -ENODEV;
++		goto out_dev_put;
++	}
+ 	list_add_tail(&newrec->port_list, &nvme_fc_lport_list);
+ 	spin_unlock_irqrestore(&nvme_fc_lock, flags);
+ 
+@@ -407,6 +414,9 @@ nvme_fc_register_localport(struct nvme_fc_port_info *pinfo,
+ 	*portptr = &newrec->localport;
+ 	return 0;
+ 
++out_dev_put:
++	if (dev)
++		put_device(dev);
+ out_ida_put:
+ 	ida_simple_remove(&nvme_fc_local_port_cnt, idx);
+ out_fail_kfree:
+-- 
+2.13.7
