@@ -1,15 +1,18 @@
 From: alan.mikhak@sifive.com (Alan Mikhak)
-Date: Tue, 25 Jun 2019 10:27:08 -0700
+Date: Tue, 25 Jun 2019 10:37:40 -0700
 Subject: [PATCH] nvme-pci: Avoid leak if pci_p2pmem_virt_to_bus() returns
  null
-In-Reply-To: <20190625070835.GC30123@lst.de>
+In-Reply-To: <39cc44bb-28b8-0daf-b059-b78791c77eb1@intel.com>
 References: <1561420642-21186-1-git-send-email-alan.mikhak@sifive.com>
- <20190625070835.GC30123@lst.de>
-Message-ID: <CABEDWGymQopo4nPZnnTGXNH5GajUsccCCtQS6cmmhVa+HbFc2w@mail.gmail.com>
+ <39cc44bb-28b8-0daf-b059-b78791c77eb1@intel.com>
+Message-ID: <CABEDWGy1X_HfmnMF05VKzMW7pNMaY+EMRFkTFPmc7Y0evoWZqQ@mail.gmail.com>
 
-On Tue, Jun 25, 2019@12:09 AM Christoph Hellwig <hch@lst.de> wrote:
+On Tue, Jun 25, 2019 at 10:10 AM Heitke, Kenneth
+<kenneth.heitke@intel.com> wrote:
 >
-> On Mon, Jun 24, 2019@04:57:22PM -0700, Alan Mikhak wrote:
+>
+>
+> On 6/24/2019 5:57 PM, Alan Mikhak wrote:
 > > Modify nvme_alloc_sq_cmds() to call pci_free_p2pmem()
 > > to free the memory it allocated using pci_alloc_p2pmem()
 > > in case pci_p2pmem_virt_to_bus() returns null.
@@ -17,18 +20,11 @@ On Tue, Jun 25, 2019@12:09 AM Christoph Hellwig <hch@lst.de> wrote:
 > > Make sure not to call pci_free_p2pmem() if pci_alloc_p2pmem()
 > > returned null which can happen if CONFIG_PCI_P2PDMA is not
 > > configured.
->
-> Can you
->
-
-I mean this patch makes sure not to call pci_free_p2pmem() if nothing
-was allocated by pci_alloc_p2pmem().
-
 > >
 > > Signed-off-by: Alan Mikhak <alan.mikhak at sifive.com>
 > > ---
-> >  drivers/nvme/host/pci.c | 14 +++++++++-----
-> >  1 file changed, 9 insertions(+), 5 deletions(-)
+> >   drivers/nvme/host/pci.c | 14 +++++++++-----
+> >   1 file changed, 9 insertions(+), 5 deletions(-)
 > >
 > > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
 > > index 524d6bd6d095..5dfa067f6506 100644
@@ -53,17 +49,19 @@ was allocated by pci_alloc_p2pmem().
 > > +
 > > +                     pci_free_p2pmem(pdev, nvmeq->sq_cmds, SQ_SIZE(depth));
 >
-> pci_p2pmem_virt_to_bus should only fail when
-> pci_p2pmem_virt_to_bus failed.  That being said I think doing the
-> error check on pci_alloc_p2pmem instead of relying on
-> pci_p2pmem_virt_to_bus "passing through" the error seems odd, I'd
-> rather check the pci_alloc_p2pmem return value directly.
+> Should the pointer be set to NULL here, just in case?
 
-Thanks Christoph. I could see the existing code should not leak but only after
-inspecting pci_p2pmem_virt_to_bus() and gen_pool_virt_to_phys(). I wondered
-what if these functions changed and broke the relation but that seems unlikely.
-Checking the return value directly may require less from the reader,
-if that's a good
-outcome.
+Thanks Kenneth. The pointer gets immediately reassigned by the return
+value of the
+code that follows. There is no intervening reference to it between the calls to
+pci_free_p2pmem() and dma_alloc_coherent(). It should be safe without
+setting it to NULL.
 
-Alan
+        nvmeq->sq_cmds = dma_alloc_coherent(dev->dev, nvmeq->cq_size,
+                                &nvmeq->sq_dma_addr, GFP_KERNEL);
+
+>
+> >               }
+> >       }
+> >
+> >
