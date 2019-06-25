@@ -1,55 +1,86 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Tue, 25 Jun 2019 09:06:04 -0700
-Subject: [PATCH] nvme-fc: fix module unloads while lports still pending
-Message-ID: <20190625160604.3905-1-jsmart2021@gmail.com>
+From: james.smart@broadcom.com (James Smart)
+Date: Tue, 25 Jun 2019 09:37:47 -0700
+Subject: [PATCH v2] nvme-fc: clean up error messages
+In-Reply-To: <20190624221240.25268-1-emilne@redhat.com>
+References: <20190624221240.25268-1-emilne@redhat.com>
+Message-ID: <14240398-683c-1d1c-f6e8-8fa8692270c2@broadcom.com>
 
-Current code allows the module to be unloaded even if there are
-pending data structures, such as localports and controllers on
-the localports, that have yet to hit their reference counting
-to remove them.
 
-Fix by taking a reference out on the module upon the first localport
-registered, and which is cleared when the last localport is removed.
 
-Signed-off-by: James Smart <jsmart2021 at gmail.com>
----
- drivers/nvme/host/fc.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+On 6/24/2019 3:12 PM, Ewan D. Milne wrote:
+> Some of the error messages are inconsistent, and one of them is wrong
+> (i.e. "queue_size 128 > ctrl maxcmd 32, reducing to queue_size").
+> Make them more clear and distinguishable for log analysis.
+>
+> Signed-off-by: Ewan D. Milne <emilne at redhat.com>
+> ---
+>   drivers/nvme/host/fc.c | 16 +++++++++-------
+>   1 file changed, 9 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> index 9b497d785ed7..ab162c57ddc2 100644
+> --- a/drivers/nvme/host/fc.c
+> +++ b/drivers/nvme/host/fc.c
+> @@ -1259,7 +1259,7 @@ nvme_fc_connect_admin_queue(struct nvme_fc_ctrl *ctrl,
+>   	if (fcret) {
+>   		ret = -EBADF;
+>   		dev_err(ctrl->dev,
+> -			"q %d connect failed: %s\n",
+> +			"queue %d connect admin queue failed: %s\n",
+>   			queue->qnum, validation_errors[fcret]);
+>   	} else {
+>   		ctrl->association_id =
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index b7662e237eb9..bd80e2c475da 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -229,6 +229,8 @@ nvme_fc_free_lport(struct kref *ref)
- 	/* remove from transport list */
- 	spin_lock_irqsave(&nvme_fc_lock, flags);
- 	list_del(&lport->port_list);
-+	if (list_empty(&nvme_fc_lport_list))
-+		module_put(THIS_MODULE);
- 	spin_unlock_irqrestore(&nvme_fc_lock, flags);
- 
- 	ida_simple_remove(&nvme_fc_local_port_cnt, lport->localport.port_num);
-@@ -398,6 +400,11 @@ nvme_fc_register_localport(struct nvme_fc_port_info *pinfo,
- 	newrec->localport.port_num = idx;
- 
- 	spin_lock_irqsave(&nvme_fc_lock, flags);
-+	if (list_empty(&nvme_fc_lport_list) && !try_module_get(THIS_MODULE)) {
-+		spin_unlock_irqrestore(&nvme_fc_lock, flags);
-+		ret = -ENODEV;
-+		goto out_dev_put;
-+	}
- 	list_add_tail(&newrec->port_list, &nvme_fc_lport_list);
- 	spin_unlock_irqrestore(&nvme_fc_lock, flags);
- 
-@@ -407,6 +414,9 @@ nvme_fc_register_localport(struct nvme_fc_port_info *pinfo,
- 	*portptr = &newrec->localport;
- 	return 0;
- 
-+out_dev_put:
-+	if (dev)
-+		put_device(dev);
- out_ida_put:
- 	ida_simple_remove(&nvme_fc_local_port_cnt, idx);
- out_fail_kfree:
--- 
-2.13.7
+Since we're changing them...
+
+how about "queue %d Create Association LS failed: %s"
+
+> @@ -1358,7 +1358,7 @@ nvme_fc_connect_queue(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
+>   	if (fcret) {
+>   		ret = -EBADF;
+>   		dev_err(ctrl->dev,
+> -			"q %d connect failed: %s\n",
+> +			"queue %d connect queue failed: %s\n",
+
+how about "queue %d Create Connection LS failed: %s"
+
+>   			queue->qnum, validation_errors[fcret]);
+>   	} else {
+>   		queue->connection_id =
+> @@ -1371,7 +1371,7 @@ nvme_fc_connect_queue(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
+>   out_no_memory:
+>   	if (ret)
+>   		dev_err(ctrl->dev,
+> -			"queue %d connect command failed (%d).\n",
+> +			"queue %d connect queue failed (%d).\n",
+>   			queue->qnum, ret);
+>   	return ret;
+>   }
+> @@ -2678,16 +2678,18 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+>   		/* warn if maxcmd is lower than queue_size */
+>   		dev_warn(ctrl->ctrl.device,
+>   			"queue_size %zu > ctrl maxcmd %u, reducing "
+> -			"to queue_size\n",
+> -			opts->queue_size, ctrl->ctrl.maxcmd);
+> +			"queue_size to %u\n",
+> +			opts->queue_size, ctrl->ctrl.maxcmd, ctrl->ctrl.maxcmd);
+>   		opts->queue_size = ctrl->ctrl.maxcmd;
+>   	}
+>   
+>   	if (opts->queue_size > ctrl->ctrl.sqsize + 1) {
+>   		/* warn if sqsize is lower than queue_size */
+>   		dev_warn(ctrl->ctrl.device,
+> -			"queue_size %zu > ctrl sqsize %u, clamping down\n",
+> -			opts->queue_size, ctrl->ctrl.sqsize + 1);
+> +			"queue_size %zu > ctrl sqsize %u, reducing "
+> +			"queue_size to %u\n",
+> +			opts->queue_size, ctrl->ctrl.sqsize + 1,
+> +			ctrl->ctrl.sqsize + 1);
+>   		opts->queue_size = ctrl->ctrl.sqsize + 1;
+>   	}
+>   
+
+Given these last two came from a template in the rdma transport - you 
+may want to consider using the same wording in all the transports.
+
+-- james
