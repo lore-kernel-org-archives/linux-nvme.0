@@ -1,49 +1,55 @@
-From: mrybczyn@kalray.eu (Marta Rybczynska)
-Date: Tue, 25 Jun 2019 17:45:02 +0200 (CEST)
-Subject: [PATCH] nvmet-rdma: Suppress a lockdep complaint
-In-Reply-To: <7d28ee3d-0326-6d31-1cc6-13acc48e0d4d@acm.org>
-References: <20190403230402.119428-1-bvanassche@acm.org>
- <1554392625.118779.243.camel@acm.org>
- <1035014818.27150671.1561441925414.JavaMail.zimbra@kalray.eu>
- <7d28ee3d-0326-6d31-1cc6-13acc48e0d4d@acm.org>
-Message-ID: <1492173308.27223699.1561477502288.JavaMail.zimbra@kalray.eu>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Tue, 25 Jun 2019 09:57:52 -0600
+Subject: [RFC PATCH 00/28] Removing struct page from P2PDMA
+In-Reply-To: <20190625072008.GB30350@lst.de>
+References: <20190620161240.22738-1-logang@deltatee.com>
+ <20190624072752.GA3954@lst.de>
+ <558a27ba-e7c9-9d94-cad0-377b8ee374a6@deltatee.com>
+ <20190625072008.GB30350@lst.de>
+Message-ID: <f0f002bf-2b94-cd18-d18f-5d0b08311495@deltatee.com>
 
------ On 25 Jun, 2019,@17:18, Bart Van Assche bvanassche@acm.org wrote:
 
-> On 6/24/19 10:52 PM, Marta Rybczynska wrote:
->> ----- On 4 Apr, 2019,@17:43, Bart Van Assche bvanassche@acm.org wrote:
->>> On Wed, 2019-04-03@16:04 -0700, Bart Van Assche wrote:
->>>> Although the code that waits for controllers that are being teared down
->>>> in nvmet_rdma_queue_connect() is fine, lockdep complains about that code.
->>>> Lockdep complains because all release_work instances are assigned the
->>>> same static lockdep key. Avoid that lockdep complains by using dynamic
->>>> lockdep keys instead of static lockdep keys. See also the following
->>>> commits:
->>>> * 87915adc3f0a ("workqueue: re-add lockdep dependencies for flushing").
->>>> * 777dc82395de ("nvmet-rdma: occasionally flush ongoing controller teardown").
->>>> * 108c14858b9e ("locking/lockdep: Add support for dynamic keys").
->>>>
->>>> This patch avoids that lockdep reports the following:
->>>>
->>>> ======================================================
->>>> WARNING: possible circular locking dependency detected
->>>> 4.19.0-dbg #1 Not tainted
->>>> ------------------------------------------------------
->>>> kworker/u12:0/7 is trying to acquire lock:
->>>
->>> Please drop this patch - it is not sufficient to suppress the lockdep complaint.
->>> I will see whether I can come up with a better solution.
->>>
->> 
->> Have you had time to work on this one further? We're seeing the same issue.
+
+On 2019-06-25 1:20 a.m., Christoph Hellwig wrote:
+> On Mon, Jun 24, 2019@10:07:56AM -0600, Logan Gunthorpe wrote:
+>>> For one passing a dma_addr_t through the block layer is a layering
+>>> violation, and one that I think will also bite us in practice.
+>>> The host physical to PCIe bus address mapping can have offsets, and
+>>> those offsets absolutely can be different for differnet root ports.
+>>> So with your caller generated dma_addr_t everything works fine with
+>>> a switched setup as the one you are probably testing on, but on a
+>>> sufficiently complicated setup with multiple root ports it can break.
+>>
+>> I don't follow this argument. Yes, I understand PCI Bus offsets and yes
+>> I understand that they only apply beyond the bus they're working with.
+>> But this isn't *that* complicated and it should be the responsibility of
+>> the P2PDMA code to sort out and provide a dma_addr_t for. The dma_addr_t
+>> that's passed through the block layer could be a bus address or it could
+>> be the result of a dma_map_* request (if the transaction is found to go
+>> through an RC) depending on the requirements of the devices being used.
 > 
-> Hi Marta,
-> 
-> I'm running all NVMe tests on my setup with the attached patch applied.
-> 
-> Bart.
+> You assume all addressing is done by the PCI bus address.  If a device
+> is addressing its own BAR there is no reason to use the PCI bus address,
+> as it might have much more intelligent schemes (usually bar + offset).
 
-Thanks Bart! We're going to test it out in our setup and I let you know what
-the result is.
+Yes, that will be a bit tricky regardless of what we do.
 
-Marta
+>>> Also duplicating the whole block I/O stack, including hooks all over
+>>> the fast path is pretty much a no-go.
+>>
+>> There was very little duplicate code in the patch set. (Really just the
+>> mapping code). There are a few hooks, but in practice not that many if
+>> we ignore the WARN_ONs. We might be able to work to reduce this further.
+>> The main hooks are: when we skip bouncing, when we skip integrity prep,
+>> when we split, and when we map. And the patchset drops the PCI_P2PDMA
+>> hook when we map. So we're talking about maybe three or four extra ifs
+>> that would likely normally be fast due to the branch predictor.
+> 
+> And all of those add code to the block layer fast path.
+
+If we can't add any ifs to the block layer, there's really nothing we
+can do.
+
+So then we're committed to using struct page for P2P?
+
+Logan
