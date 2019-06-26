@@ -1,36 +1,48 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Thu, 27 Jun 2019 05:23:11 +0900
-Subject: [PATCH -next] nvme-pci: Make nvme_dev_pm_ops static
-In-Reply-To: <20190626020902.38240-1-yuehaibing@huawei.com>
-References: <20190626020902.38240-1-yuehaibing@huawei.com>
-Message-ID: <20190626202311.GB4934@minwooim-desktop>
+Date: Thu, 27 Jun 2019 05:27:06 +0900
+Subject: [PATCH v3 3/5] nvme-pci: rename module parameter write_queues to
+ read_queues
+In-Reply-To: <CAA70yB5arvfaUsktN-cvd0yHpRi+FwFjL4r5_jTRWM8+rBVdnA@mail.gmail.com>
+References: <cover.1561385989.git.zhangweiping@didiglobal.com>
+ <d61b1b9a31c3d2fae9ece26bcd5f4504b25f059f.1561385989.git.zhangweiping@didiglobal.com>
+ <20190624200445.GB6526@minwooim-desktop>
+ <CAA70yB5arvfaUsktN-cvd0yHpRi+FwFjL4r5_jTRWM8+rBVdnA@mail.gmail.com>
+Message-ID: <20190626202706.GC4934@minwooim-desktop>
 
-On 19-06-26 10:09:02, YueHaibing wrote:
-> Fix sparse warning:
+On 19-06-25 22:48:57, Weiping Zhang wrote:
+> Minwoo Im <minwoo.im.dev at gmail.com> ?2019?6?25??? ??6:00???
+> >
+> > On 19-06-24 22:29:19, Weiping Zhang wrote:
+> > > Now nvme support three type hardware queues, read, poll and default,
+> > > this patch rename write_queues to read_queues to set the number of
+> > > read queues more explicitly. This patch alos is prepared for nvme
+> > > support WRR(weighted round robin) that we can get the number of
+> > > each queue type easily.
+> > >
+> > > Signed-off-by: Weiping Zhang <zhangweiping at didiglobal.com>
+> >
+> > Hello, Weiping.
+> >
+> > Thanks for making this patch as a separated one.  Actually I'd like to
+> > hear about if the origin purpose of this param can be changed or not.
+> >
+> > I can see a log from Jens when it gets added her:
+> >   Commit 3b6592f70ad7("nvme: utilize two queue maps, one for reads and
+> >                        one for writes")
+> >   It says:
+> >   """
+> >   NVMe does round-robin between queues by default, which means that
+> >   sharing a queue map for both reads and writes can be problematic
+> >   in terms of read servicing. It's much easier to flood the queue
+> >   with writes and reduce the read servicing.
+> >   """
+> >
+> > So, I'd like to hear what other people think about this patch :)
+> >
 > 
-> drivers/nvme/host/pci.c:2926:25: warning:
->  symbol 'nvme_dev_pm_ops' was not declared. Should it be static?
-> 
-> Reported-by: Hulk Robot <hulkci at huawei.com>
-> Signed-off-by: YueHaibing <yuehaibing at huawei.com>
-> ---
->  drivers/nvme/host/pci.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 1893520..f500133 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -2923,7 +2923,7 @@ static int nvme_simple_resume(struct device *dev)
->  	return 0;
->  }
->  
-> -const struct dev_pm_ops nvme_dev_pm_ops = {
-> +static const struct dev_pm_ops nvme_dev_pm_ops = {
->  	.suspend	= nvme_suspend,
->  	.resume		= nvme_resume,
->  	.freeze		= nvme_simple_suspend,
+> This patch does not change its original behavior, if we set read_queue
+> greater than 0, the read and write request will use different tagset map,
+> so they will use different hardware queue.
 
-IMHO, it should be in static.
-
-Reviewed-by: Minwoo Im <minwoo.im.dev at gmail.com>
+Yes, that's why I want to hear some comments for this change from other
+people.  I'm not against this change, though.
