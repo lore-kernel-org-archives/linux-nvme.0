@@ -1,113 +1,66 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 26 Jun 2019 07:34:13 +0200
-Subject: [PATCH 2/2] nvme: flush scan_work when resetting controller
-In-Reply-To: <960997d6-9ce3-5730-00e6-5b2639502eaa@grimberg.me>
-References: <20190618101025.78840-1-hare@suse.de>
- <20190618101025.78840-3-hare@suse.de>
- <36c093c6-9fea-aa2f-affe-70957e0c5b1b@grimberg.me>
- <681a1c11-7d11-6e28-bc64-b14bef22c144@suse.com>
- <fe550375-fc5d-ff19-c303-6671b8713df6@grimberg.me>
- <d64a5902-139e-4119-ec75-3394e0b129f9@suse.de>
- <d84bf42f-c9fe-6af4-58cc-14195ddff931@grimberg.me>
- <68599577-450a-ade1-451c-f310e5094317@grimberg.me>
- <66f3dd84-77cd-fc45-025c-4082cf3df7ec@suse.de>
- <2a6168f3-37f6-1acf-2e89-48a3b9cac8e1@grimberg.me>
- <ff13e243-da8f-f04c-d31b-f7c46d3a4375@suse.de>
- <960997d6-9ce3-5730-00e6-5b2639502eaa@grimberg.me>
-Message-ID: <04a61807-ed2c-c91a-6eeb-c3df864fedc4@suse.de>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 26 Jun 2019 08:57:08 +0200
+Subject: [RFC PATCH 00/28] Removing struct page from P2PDMA
+In-Reply-To: <41235a05-8ed1-e69a-e7cd-48cae7d8a676@deltatee.com>
+References: <20190620161240.22738-1-logang@deltatee.com>
+ <20190624072752.GA3954@lst.de>
+ <558a27ba-e7c9-9d94-cad0-377b8ee374a6@deltatee.com>
+ <20190625072008.GB30350@lst.de>
+ <f0f002bf-2b94-cd18-d18f-5d0b08311495@deltatee.com>
+ <20190625170115.GA9746@lst.de>
+ <41235a05-8ed1-e69a-e7cd-48cae7d8a676@deltatee.com>
+Message-ID: <20190626065708.GB24531@lst.de>
 
-On 6/25/19 11:50 PM, Sagi Grimberg wrote:
+On Tue, Jun 25, 2019@01:54:21PM -0600, Logan Gunthorpe wrote:
+> Well whether it's dma_addr_t, phys_addr_t, pfn_t the result isn't all
+> that different. You still need roughly the same 'if' hooks for any
+> backed memory that isn't in the linear mapping and you can't get a
+> kernel mapping for directly.
 > 
->>>>>>> That's what I thought initially, too, but it turned out to be not
->>>>>>> sufficient.
->>>>>>
->>>>>> Not sufficient because it hangs? or panics?
->>>>>>
->>>> It hangs, and we're seeing a warning:
->>>>
->>>> kernel: [67088.344034] WARNING: CPU: 4 PID: 25020 at
->>>> ../lib/percpu-refcount.c:334 percpu_ref_kill_and_confirm+0x7a/0xa0
->>>> [ .. ]
->>>> kernel: [67088.344106] Call Trace:
->>>> kernel: [67088.344112]? blk_freeze_queue_start+0x2a/0x40
->>>> kernel: [67088.344114]? blk_freeze_queue+0xe/0x40
->>>> kernel: [67088.344118]? nvme_update_disk_info+0x36/0x260 [nvme_core]
->>>> kernel: [67088.344122]? __nvme_revalidate_disk+0xca/0xf0 [nvme_core]
->>>> kernel: [67088.344125]? nvme_revalidate_disk+0xa6/0x120 [nvme_core]
->>>> kernel: [67088.344127]? ? blk_mq_get_tag+0xa3/0x220
->>>> kernel: [67088.344130]? revalidate_disk+0x23/0xc0
->>>> kernel: [67088.344133]? nvme_validate_ns+0x43/0x830 [nvme_core]
->>>> kernel: [67088.344137]? ? wake_up_q+0x70/0x70
->>>> kernel: [67088.344139]? ? blk_mq_free_request+0x12a/0x160
->>>> kernel: [67088.344142]? ? __nvme_submit_sync_cmd+0x73/0xe0 [nvme_core]
->>>> kernel: [67088.344145]? nvme_scan_work+0x2b3/0x350 [nvme_core]
->>>> kernel: [67088.344149]? process_one_work+0x1da/0x400
->>>>
->>>> ??From which I've inferred that we're still running a scan in 
->>>> parallel to
->>>> reset, and that the scan thread is calling 'blk_freeze_queue()' on a
->>>> queue which is already torn down.
->>>
->>>
->>> Where is the scan triggered from? there is no scan call from the reset
->>> path.
->>>
->> It's triggered from AEN, being received around the same time when reset
->> triggers.
->> There's actually a change that the AEN handling itself triggered the
->> reset, but I haven't be able to decipher that from the crash dump.
->>
->>> Is there a namespace removal or something else that triggers AEN
->>> to make this happen?
->>>
->>> What exactly is the scenario?
->>
->> The scenario is multiple storage failover on NetApp OnTAP while I/O is
->> running.
-> 
-> Hannes,
-> 
-> I'm still not convinced that the transports need to flush the scan work
-> on resets.
-> 
-> Does the below help as an alternative:
-> -- 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 024fb219de17..074bcb1e797a 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -1665,6 +1665,10 @@ static void __nvme_revalidate_disk(struct gendisk 
-> *disk, struct nvme_id_ns *id)
->  ?{
->  ??????? struct nvme_ns *ns = disk->private_data;
-> 
-> +?????? /* if ns is removing we cannot mangle with the request queue */
-> +?????? if (test_bit(NVME_NS_REMOVING, &ns->flags))
-> +?????????????? return;
-> +
->  ??????? /*
->  ???????? * If identify namespace failed, use default 512 byte block 
-> size so
->  ???????? * block layer can use before failing read/write for 0 capacity.
-> -- 
+> It wouldn't be too hard to do a similar patch set that uses something
+> like phys_addr_t instead and have a request and queue flag for support
+> of non-mappable memory. But you'll end up with very similar 'if' hooks
+> and we'd have to clean up all bio-using drivers that access the struct
+> pages directly.
 
-Hmm. Not sure if that is sufficient, though.
-We do issue several I/O in the course of nvme_revalidate_disk(), and as 
-we're running fully asynchronous here the disk might be removed at any 
-given time. Cf the above stack trace; we're getting an error for the 
-_second_ I/O (nvme_identify_ns is issuing I/O, too, but went through 
-without errors).
-So if we were to go that route we'd need to protect each and every I/O 
-with that test.
-Which then would be similar to my patch, only the 'resetting' state 
-check replaced by the 'removing' check.
+We'll need to clean that mess up anyway, and I've been chugging
+along doing some of that.  A lot still assume no highmem, so we need
+to convert them over to something that kmaps anyway.  If we get
+the abstraction right that will actually help converting over to
+a better reprsentation.
 
-Cheers,
+> Though, we'd also still have the problem of how to recognize when the
+> address points to P2PDMA and needs to be translated to the bus offset.
+> The map-first inversion was what helped here because the driver
+> submitting the requests had all the information. Though it could be
+> another request flag and indicating non-mappable memory could be a flag
+> group like REQ_NOMERGE_FLAGS -- REQ_NOMAP_FLAGS.
 
-Hanne
--- 
-Dr. Hannes Reinecke            Teamlead Storage & Networking
-hare at suse.de                              +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N?rnberg)
+The assumes the request all has the same memory, which is a simplifing
+assuption.  My idea was that if had our new bio_vec like this:
+
+struct bio_vec {
+	phys_addr_t		paddr; // 64-bit on 64-bit systems
+	unsigned long		len;
+};
+
+we have a hole behind len where we could store flag.  Preferably
+optionally based on a P2P or other magic memory types config
+option so that 32-bit systems with 32-bit phys_addr_t actually
+benefit from the smaller and better packing structure.
+
+> If you think any of the above ideas sound workable I'd be happy to try
+> to code up another prototype.
+
+?t sounds workable.  To some of the first steps are cleanups independent
+of how the bio_vec is eventually going to look like.  That is making
+the DMA-API internals work on the phys_addr_t, which also unifies the
+map_resource implementation with map_page.  I plan to do that relatively
+soon.  The next is sorting out access to bios data by virtual address.
+All these need nice kmapping helper that avoid too much open coding.
+I was going to look into that next, mostly to kill the block layer
+bounce buffering code.  Similar things will also be needed at the
+scatterlist level I think.  After that we need to more audits of
+how bv_page is still used.  something like a bv_phys() helper that
+does "page_to_phys(bv->bv_page) + bv->bv_offset" might come in handy
+for example.
