@@ -1,39 +1,47 @@
-From: wolfgang@rohdewald.de (Wolfgang Rohdewald)
-Date: Wed, 26 Jun 2019 22:18:01 +0200
-Subject: [nvme] Invalid SGL for payload:91648 nents:3
-In-Reply-To: <20190626012654.GA23698@ming.t460p>
-References: <92778741dff3723fc94cd75df3043adc9c8bf21a.camel@rohdewald.de>
- <20190625091704.GA30606@ming.t460p>
- <CAOSXXT5PgPJqouD0G7qJjar5tmy-9z+wWdFMqpD2K1=5vQZ+HA@mail.gmail.com>
- <20190625094532.GA11214@ming.t460p> <20190625095013.GA1353@lst.de>
- <336692273232ee2441e30e7e2a1c542201854010.camel@rohdewald.de>
- <20190625132900.GA22428@ming.t460p>
- <6e23e6656188778c22e4aef04b6572c247103972.camel@rohdewald.de>
- <20190626012654.GA23698@ming.t460p>
-Message-ID: <701ee07140bda40badba5e188c32fe9fe971ead9.camel@rohdewald.de>
+From: jgg@ziepe.ca (Jason Gunthorpe)
+Date: Wed, 26 Jun 2019 17:21:08 -0300
+Subject: [RFC PATCH 00/28] Removing struct page from P2PDMA
+In-Reply-To: <c15d5997-9ba4-f7db-0e7a-a69e75df316c@deltatee.com>
+References: <20190620161240.22738-1-logang@deltatee.com>
+ <20190624072752.GA3954@lst.de>
+ <558a27ba-e7c9-9d94-cad0-377b8ee374a6@deltatee.com>
+ <20190625072008.GB30350@lst.de>
+ <f0f002bf-2b94-cd18-d18f-5d0b08311495@deltatee.com>
+ <20190625170115.GA9746@lst.de>
+ <41235a05-8ed1-e69a-e7cd-48cae7d8a676@deltatee.com>
+ <20190626065708.GB24531@lst.de>
+ <c15d5997-9ba4-f7db-0e7a-a69e75df316c@deltatee.com>
+Message-ID: <20190626202107.GA5850@ziepe.ca>
 
-On Mi, 2019-06-26@09:26 +0800, Ming Lei wrote:
-> And the following patch should fix the 5.1 issue too:
+On Wed, Jun 26, 2019@12:31:08PM -0600, Logan Gunthorpe wrote:
+> > we have a hole behind len where we could store flag.  Preferably
+> > optionally based on a P2P or other magic memory types config
+> > option so that 32-bit systems with 32-bit phys_addr_t actually
+> > benefit from the smaller and better packing structure.
 > 
-> diff --git a/block/blk-merge.c b/block/blk-merge.c
-> index 1c9d4f0f96ea..ff69b7dd2179 100644
-> --- a/block/blk-merge.c
-> +++ b/block/blk-merge.c
-> @@ -60,7 +60,8 @@ static inline bool bio_will_gap(struct request_queue *q,
->          */
->         bio_get_last_bvec(prev, &pb);
->         bio_get_first_bvec(next, &nb);
-> -       if (bios_segs_mergeable(q, prev, &pb, &nb))
-> +       if (bios_segs_mergeable(q, prev, &pb, &nb) && prev->bi_seg_back_size +
-> +                       next->bi_seg_front_size < queue_max_segment_size(q))
->                 return false;
->         return __bvec_gap_to_prev(q, &pb, nb.bv_offset);
->  }
+> That seems sensible. The one thing that's unclear though is how to get
+> the PCI Bus address when appropriate. Can we pass that in instead of the
+> phys_addr with an appropriate flag? Or will we need to pass the actual
+> physical address and then, at the map step, the driver has to some how
+> lookup the PCI device to figure out the bus offset?
 
-So far, this works for me with 5.1.15. Before, the bug would trigger within 
-seconds after starting windows 10 update in virtualbox 6.0.6, now it does not.
+I agree with CH, if we go down this path it is a layering violation
+for the thing injecting bio's into the block stack to know what struct
+device they egress&dma map on just to be able to do the dma_map up
+front.
 
--- 
-mit freundlichen Gr?ssen
+So we must be able to go from this new phys_addr_t&flags to some BAR
+information during dma_map.
 
-Wolfgang Rohdewald
+For instance we could use a small hash table of the upper phys addr
+bits, or an interval tree, to do the lookup.
+
+The bar info would give the exporting struct device and any other info
+we need to make the iommu mapping.
+
+This phys_addr_t seems like a good approach to me as it avoids the
+struct page overheads and will lets us provide copy from/to bio
+primitives that could work on BAR memory. I think we can surely use
+this approach in RDMA as well.
+
+Jason
