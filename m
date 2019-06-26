@@ -1,52 +1,65 @@
 From: aeasi@marvell.com (Arun Easi)
-Date: Wed, 26 Jun 2019 17:02:43 -0700
-Subject: [EXT] Re: [PATCH] nvme-fc: fix module unloads while lports still
- pending
-In-Reply-To: <ddcc1865-4494-9cfe-d371-9995c19ae1c4@gmail.com>
+Date: Wed, 26 Jun 2019 15:20:14 -0700
+Subject: [PATCH] nvme-fc: fix module unloads while lports still pending
+In-Reply-To: <20190625160604.3905-1-jsmart2021@gmail.com>
 References: <20190625160604.3905-1-jsmart2021@gmail.com>
- <alpine.LRH.2.21.9999.1906261516150.7630@mvluser05.qlc.com>
- <ddcc1865-4494-9cfe-d371-9995c19ae1c4@gmail.com>
-Message-ID: <alpine.LRH.2.21.9999.1906261638450.7630@mvluser05.qlc.com>
+Message-ID: <alpine.LRH.2.21.9999.1906261516150.7630@mvluser05.qlc.com>
 
-On Wed, 26 Jun 2019, 4:00pm, James Smart wrote:
+On Tue, 25 Jun 2019, 9:06am, James Smart wrote:
 
-> External Email
+> Current code allows the module to be unloaded even if there are
+> pending data structures, such as localports and controllers on
+> the localports, that have yet to hit their reference counting
+> to remove them.
 > 
-> ----------------------------------------------------------------------
-> On 6/26/2019 3:20 PM, Arun Easi wrote:
-> > Changes look ok.
-> > 
-> > Did you hit this during testing? Wondering because LLD would have unloaded
-> > prior to nvme_fc, so no lport/rport should remain if LLD behaves well.
-> > 
-> > -Arun
-> > 
+> Fix by taking a reference out on the module upon the first localport
+> registered, and which is cleared when the last localport is removed.
 > 
-> It's been a longstanding annoyance - usually tied with test cases that used
-> modprobe -r.   Issue is the drivers would call the targetport unregister
-> calls, which would release the targetport once all the outstanding ios were
-> cancelled to the lldd and the link-side association terminated, but the
-> controllers are in a reconnecting and not yet torn down.
-
-Did you mean a "nvme_reset_ctrl/nvme_delete_ctrl" is in progress?
-
-> From the drivers point of view, they are unlinked. Thus it was 
-> intended the driver could unregister/unload/reload/reregister and if 
-> possible reconnect - allowing the nvme device to never be deleted. Given 
-> the lack of module reference, when the driver module left, so did the 
-> transport module, even with the live data structures.
+> Signed-off-by: James Smart <jsmart2021 at gmail.com>
+> ---
+>  drivers/nvme/host/fc.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> index b7662e237eb9..bd80e2c475da 100644
+> --- a/drivers/nvme/host/fc.c
+> +++ b/drivers/nvme/host/fc.c
+> @@ -229,6 +229,8 @@ nvme_fc_free_lport(struct kref *ref)
+>  	/* remove from transport list */
+>  	spin_lock_irqsave(&nvme_fc_lock, flags);
+>  	list_del(&lport->port_list);
+> +	if (list_empty(&nvme_fc_lport_list))
+> +		module_put(THIS_MODULE);
+>  	spin_unlock_irqrestore(&nvme_fc_lock, flags);
+>  
+>  	ida_simple_remove(&nvme_fc_local_port_cnt, lport->localport.port_num);
+> @@ -398,6 +400,11 @@ nvme_fc_register_localport(struct nvme_fc_port_info *pinfo,
+>  	newrec->localport.port_num = idx;
+>  
+>  	spin_lock_irqsave(&nvme_fc_lock, flags);
+> +	if (list_empty(&nvme_fc_lport_list) && !try_module_get(THIS_MODULE)) {
+> +		spin_unlock_irqrestore(&nvme_fc_lock, flags);
+> +		ret = -ENODEV;
+> +		goto out_dev_put;
+> +	}
+>  	list_add_tail(&newrec->port_list, &nvme_fc_lport_list);
+>  	spin_unlock_irqrestore(&nvme_fc_lock, flags);
+>  
+> @@ -407,6 +414,9 @@ nvme_fc_register_localport(struct nvme_fc_port_info *pinfo,
+>  	*portptr = &newrec->localport;
+>  	return 0;
+>  
+> +out_dev_put:
+> +	if (dev)
+> +		put_device(dev);
+>  out_ida_put:
+>  	ida_simple_remove(&nvme_fc_local_port_cnt, idx);
+>  out_fail_kfree:
 > 
 
-Thanks for the explanation. This reminds me of a similar issue we hit. The 
-fix under consideration was to wait in nvme_fc module exit to quiesce 
-rport/lport before proceeding.
+Changes look ok.
 
-Anyway, with the fix above, I am wondering, if nvme_fc is active for a 
-brief time just after the unload of LLD, the unload of nvme_fc would fail 
-(saying in use), wouldn't it? If so, in addition to the above fix, a 
-quiesce (flush) of such threads during module exit would give "modprobe 
--r" a better chance to unload both modules.
-
-Thoughts?
+Did you hit this during testing? Wondering because LLD would have unloaded 
+prior to nvme_fc, so no lport/rport should remain if LLD behaves well.
 
 -Arun
