@@ -1,47 +1,33 @@
-From: jgg@ziepe.ca (Jason Gunthorpe)
-Date: Wed, 26 Jun 2019 17:21:08 -0300
-Subject: [RFC PATCH 00/28] Removing struct page from P2PDMA
-In-Reply-To: <c15d5997-9ba4-f7db-0e7a-a69e75df316c@deltatee.com>
-References: <20190620161240.22738-1-logang@deltatee.com>
- <20190624072752.GA3954@lst.de>
- <558a27ba-e7c9-9d94-cad0-377b8ee374a6@deltatee.com>
- <20190625072008.GB30350@lst.de>
- <f0f002bf-2b94-cd18-d18f-5d0b08311495@deltatee.com>
- <20190625170115.GA9746@lst.de>
- <41235a05-8ed1-e69a-e7cd-48cae7d8a676@deltatee.com>
- <20190626065708.GB24531@lst.de>
- <c15d5997-9ba4-f7db-0e7a-a69e75df316c@deltatee.com>
-Message-ID: <20190626202107.GA5850@ziepe.ca>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 26 Jun 2019 13:22:52 -0700
+Subject: [PATCH 2/2] nvme: flush scan_work when resetting controller
+In-Reply-To: <04a61807-ed2c-c91a-6eeb-c3df864fedc4@suse.de>
+References: <20190618101025.78840-1-hare@suse.de>
+ <20190618101025.78840-3-hare@suse.de>
+ <36c093c6-9fea-aa2f-affe-70957e0c5b1b@grimberg.me>
+ <681a1c11-7d11-6e28-bc64-b14bef22c144@suse.com>
+ <fe550375-fc5d-ff19-c303-6671b8713df6@grimberg.me>
+ <d64a5902-139e-4119-ec75-3394e0b129f9@suse.de>
+ <d84bf42f-c9fe-6af4-58cc-14195ddff931@grimberg.me>
+ <68599577-450a-ade1-451c-f310e5094317@grimberg.me>
+ <66f3dd84-77cd-fc45-025c-4082cf3df7ec@suse.de>
+ <2a6168f3-37f6-1acf-2e89-48a3b9cac8e1@grimberg.me>
+ <ff13e243-da8f-f04c-d31b-f7c46d3a4375@suse.de>
+ <960997d6-9ce3-5730-00e6-5b2639502eaa@grimberg.me>
+ <04a61807-ed2c-c91a-6eeb-c3df864fedc4@suse.de>
+Message-ID: <c73a67c6-719a-78a8-98b0-5679d08a115f@grimberg.me>
 
-On Wed, Jun 26, 2019@12:31:08PM -0600, Logan Gunthorpe wrote:
-> > we have a hole behind len where we could store flag.  Preferably
-> > optionally based on a P2P or other magic memory types config
-> > option so that 32-bit systems with 32-bit phys_addr_t actually
-> > benefit from the smaller and better packing structure.
-> 
-> That seems sensible. The one thing that's unclear though is how to get
-> the PCI Bus address when appropriate. Can we pass that in instead of the
-> phys_addr with an appropriate flag? Or will we need to pass the actual
-> physical address and then, at the map step, the driver has to some how
-> lookup the PCI device to figure out the bus offset?
 
-I agree with CH, if we go down this path it is a layering violation
-for the thing injecting bio's into the block stack to know what struct
-device they egress&dma map on just to be able to do the dma_map up
-front.
+> Hmm. Not sure if that is sufficient, though.
+> We do issue several I/O in the course of nvme_revalidate_disk(), and as 
+> we're running fully asynchronous here the disk might be removed at any 
+> given time. Cf the above stack trace; we're getting an error for the 
+> _second_ I/O (nvme_identify_ns is issuing I/O, too, but went through 
+> without errors).
 
-So we must be able to go from this new phys_addr_t&flags to some BAR
-information during dma_map.
+Its not protecting against the I/O, but rather against queue freeze.
 
-For instance we could use a small hash table of the upper phys addr
-bits, or an interval tree, to do the lookup.
+> So if we were to go that route we'd need to protect each and every I/O 
+> with that test.
 
-The bar info would give the exporting struct device and any other info
-we need to make the iommu mapping.
-
-This phys_addr_t seems like a good approach to me as it avoids the
-struct page overheads and will lets us provide copy from/to bio
-primitives that could work on BAR memory. I think we can surely use
-this approach in RDMA as well.
-
-Jason
+Why?
