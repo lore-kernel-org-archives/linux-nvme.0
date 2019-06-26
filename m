@@ -1,48 +1,48 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Thu, 27 Jun 2019 05:27:06 +0900
-Subject: [PATCH v3 3/5] nvme-pci: rename module parameter write_queues to
- read_queues
-In-Reply-To: <CAA70yB5arvfaUsktN-cvd0yHpRi+FwFjL4r5_jTRWM8+rBVdnA@mail.gmail.com>
-References: <cover.1561385989.git.zhangweiping@didiglobal.com>
- <d61b1b9a31c3d2fae9ece26bcd5f4504b25f059f.1561385989.git.zhangweiping@didiglobal.com>
- <20190624200445.GB6526@minwooim-desktop>
- <CAA70yB5arvfaUsktN-cvd0yHpRi+FwFjL4r5_jTRWM8+rBVdnA@mail.gmail.com>
-Message-ID: <20190626202706.GC4934@minwooim-desktop>
+From: dan.j.williams@intel.com (Dan Williams)
+Date: Wed, 26 Jun 2019 13:39:01 -0700
+Subject: [RFC PATCH 00/28] Removing struct page from P2PDMA
+In-Reply-To: <20190626202107.GA5850@ziepe.ca>
+References: <20190620161240.22738-1-logang@deltatee.com>
+ <20190624072752.GA3954@lst.de>
+ <558a27ba-e7c9-9d94-cad0-377b8ee374a6@deltatee.com>
+ <20190625072008.GB30350@lst.de>
+ <f0f002bf-2b94-cd18-d18f-5d0b08311495@deltatee.com>
+ <20190625170115.GA9746@lst.de>
+ <41235a05-8ed1-e69a-e7cd-48cae7d8a676@deltatee.com>
+ <20190626065708.GB24531@lst.de>
+ <c15d5997-9ba4-f7db-0e7a-a69e75df316c@deltatee.com>
+ <20190626202107.GA5850@ziepe.ca>
+Message-ID: <CAPcyv4hCNoMeFyOE588=kuNUXaPS-rzaXnF2cN2TFejso1SGRw@mail.gmail.com>
 
-On 19-06-25 22:48:57, Weiping Zhang wrote:
-> Minwoo Im <minwoo.im.dev at gmail.com> ?2019?6?25??? ??6:00???
+On Wed, Jun 26, 2019@1:21 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+>
+> On Wed, Jun 26, 2019@12:31:08PM -0600, Logan Gunthorpe wrote:
+> > > we have a hole behind len where we could store flag.  Preferably
+> > > optionally based on a P2P or other magic memory types config
+> > > option so that 32-bit systems with 32-bit phys_addr_t actually
+> > > benefit from the smaller and better packing structure.
 > >
-> > On 19-06-24 22:29:19, Weiping Zhang wrote:
-> > > Now nvme support three type hardware queues, read, poll and default,
-> > > this patch rename write_queues to read_queues to set the number of
-> > > read queues more explicitly. This patch alos is prepared for nvme
-> > > support WRR(weighted round robin) that we can get the number of
-> > > each queue type easily.
-> > >
-> > > Signed-off-by: Weiping Zhang <zhangweiping at didiglobal.com>
-> >
-> > Hello, Weiping.
-> >
-> > Thanks for making this patch as a separated one.  Actually I'd like to
-> > hear about if the origin purpose of this param can be changed or not.
-> >
-> > I can see a log from Jens when it gets added her:
-> >   Commit 3b6592f70ad7("nvme: utilize two queue maps, one for reads and
-> >                        one for writes")
-> >   It says:
-> >   """
-> >   NVMe does round-robin between queues by default, which means that
-> >   sharing a queue map for both reads and writes can be problematic
-> >   in terms of read servicing. It's much easier to flood the queue
-> >   with writes and reduce the read servicing.
-> >   """
-> >
-> > So, I'd like to hear what other people think about this patch :)
-> >
-> 
-> This patch does not change its original behavior, if we set read_queue
-> greater than 0, the read and write request will use different tagset map,
-> so they will use different hardware queue.
+> > That seems sensible. The one thing that's unclear though is how to get
+> > the PCI Bus address when appropriate. Can we pass that in instead of the
+> > phys_addr with an appropriate flag? Or will we need to pass the actual
+> > physical address and then, at the map step, the driver has to some how
+> > lookup the PCI device to figure out the bus offset?
+>
+> I agree with CH, if we go down this path it is a layering violation
+> for the thing injecting bio's into the block stack to know what struct
+> device they egress&dma map on just to be able to do the dma_map up
+> front.
+>
+> So we must be able to go from this new phys_addr_t&flags to some BAR
+> information during dma_map.
+>
+> For instance we could use a small hash table of the upper phys addr
+> bits, or an interval tree, to do the lookup.
 
-Yes, that's why I want to hear some comments for this change from other
-people.  I'm not against this change, though.
+Hmm, that sounds like dev_pagemap without the pages.
+
+There's already no requirement that dev_pagemap point to real /
+present pages (DEVICE_PRIVATE) seems a straightforward extension to
+use it for helping coordinate phys_addr_t in 'struct bio'. Then
+Logan's future plans to let userspace coordinate p2p operations could
+build on PTE_DEVMAP.
