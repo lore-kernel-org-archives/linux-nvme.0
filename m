@@ -1,52 +1,66 @@
-From: jgg@ziepe.ca (Jason Gunthorpe)
-Date: Thu, 27 Jun 2019 03:32:23 -0300
-Subject: [RFC PATCH 00/28] Removing struct page from P2PDMA
-In-Reply-To: <c25d3333-dcd5-3313-089b-7fbbd6fbd876@deltatee.com>
-References: <20190625072008.GB30350@lst.de>
- <f0f002bf-2b94-cd18-d18f-5d0b08311495@deltatee.com>
- <20190625170115.GA9746@lst.de>
- <41235a05-8ed1-e69a-e7cd-48cae7d8a676@deltatee.com>
- <20190626065708.GB24531@lst.de>
- <c15d5997-9ba4-f7db-0e7a-a69e75df316c@deltatee.com>
- <20190626202107.GA5850@ziepe.ca>
- <8a0a08c3-a537-bff6-0852-a5f337a70688@deltatee.com>
- <20190626210018.GB6392@ziepe.ca>
- <c25d3333-dcd5-3313-089b-7fbbd6fbd876@deltatee.com>
-Message-ID: <20190627063223.GA7736@ziepe.ca>
+From: jsmart2021@gmail.com (James Smart)
+Date: Wed, 26 Jun 2019 17:34:22 -0700
+Subject: [EXT] Re: [PATCH] nvme-fc: fix module unloads while lports still
+ pending
+In-Reply-To: <alpine.LRH.2.21.9999.1906261638450.7630@mvluser05.qlc.com>
+References: <20190625160604.3905-1-jsmart2021@gmail.com>
+ <alpine.LRH.2.21.9999.1906261516150.7630@mvluser05.qlc.com>
+ <ddcc1865-4494-9cfe-d371-9995c19ae1c4@gmail.com>
+ <alpine.LRH.2.21.9999.1906261638450.7630@mvluser05.qlc.com>
+Message-ID: <5ff51235-ec57-5657-9879-3f218b3b6c0a@gmail.com>
 
-On Wed, Jun 26, 2019@03:18:07PM -0600, Logan Gunthorpe wrote:
-> > I don't think we should make drives do that. What if it got CMB memory
-> > on some other device?
+On 6/26/2019 5:02 PM, Arun Easi wrote:
+> On Wed, 26 Jun 2019, 4:00pm, James Smart wrote:
 > 
-> Huh? A driver submitting P2P requests finds appropriate memory to use
-> based on the DMA device that will be doing the mapping. It *has* to. It
-> doesn't necessarily have control over which P2P provider it might find
-> (ie. it may get CMB memory from a random NVMe device), but it easily
-> knows the NVMe device it got the CMB memory for. Look at the existing
-> code in the nvme target.
-
-No, this all thinking about things from the CMB perspective. With CMB
-you don't care about the BAR location because it is just a temporary
-buffer. That is a unique use model.
-
-Every other case has data residing in BAR memory that can really only
-reside in that one place (ie on a GPU/FPGA DRAM or something). When an IO
-against that is run it should succeed, even if that means bounce
-buffering the IO - as the user has really asked for this transfer to
-happen.
-
-We certainly don't get to generally pick where the data resides before
-starting the IO, that luxury is only for CMB.
-
-> > I think with some simple caching this will become negligible for cases
-> > you care about
+>> External Email
+>>
+>> ----------------------------------------------------------------------
+>> On 6/26/2019 3:20 PM, Arun Easi wrote:
+>>> Changes look ok.
+>>>
+>>> Did you hit this during testing? Wondering because LLD would have unloaded
+>>> prior to nvme_fc, so no lport/rport should remain if LLD behaves well.
+>>>
+>>> -Arun
+>>>
+>>
+>> It's been a longstanding annoyance - usually tied with test cases that used
+>> modprobe -r.   Issue is the drivers would call the targetport unregister
+>> calls, which would release the targetport once all the outstanding ios were
+>> cancelled to the lldd and the link-side association terminated, but the
+>> controllers are in a reconnecting and not yet torn down.
 > 
-> Well *maybe* it will be negligible performance wise, but it's also a lot
-> more complicated, code wise. Tree lookups will always be a lot more
-> expensive than just checking a flag.
+> Did you mean a "nvme_reset_ctrl/nvme_delete_ctrl" is in progress?
 
-Interval trees are pretty simple API wise, and if we only populate
-them with P2P providers you probably find the tree depth is negligible
-in current systems with one or two P2P providers.
+no.  The delete won't happen till the reconnect timer expires.
 
-Jason
+> 
+>>  From the drivers point of view, they are unlinked. Thus it was
+>> intended the driver could unregister/unload/reload/reregister and if
+>> possible reconnect - allowing the nvme device to never be deleted. Given
+>> the lack of module reference, when the driver module left, so did the
+>> transport module, even with the live data structures.
+>>
+> 
+> Thanks for the explanation. This reminds me of a similar issue we hit. The
+> fix under consideration was to wait in nvme_fc module exit to quiesce
+> rport/lport before proceeding.
+> 
+> Anyway, with the fix above, I am wondering, if nvme_fc is active for a
+> brief time just after the unload of LLD, the unload of nvme_fc would fail
+> (saying in use), wouldn't it? If so, in addition to the above fix, a
+> quiesce (flush) of such threads during module exit would give "modprobe
+> -r" a better chance to unload both modules.
+> 
+> Thoughts?
+> 
+> -Arun
+
+True, the driver would unload but not the transport, but that's intended 
+as we're trying to allow the driver to reload and not delete the nvme 
+device in the system. If the device deletes, as there may be real 
+consumers of it, they will die if not multipathed. A prime example is 
+installing a new driver with a bug fix.  I'm far more interested in that 
+behavior than making modprobe -r remove the most modules possible.
+
+-- james
