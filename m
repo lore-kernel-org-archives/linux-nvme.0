@@ -1,65 +1,28 @@
-From: aeasi@marvell.com (Arun Easi)
-Date: Wed, 26 Jun 2019 15:20:14 -0700
-Subject: [PATCH] nvme-fc: fix module unloads while lports still pending
-In-Reply-To: <20190625160604.3905-1-jsmart2021@gmail.com>
-References: <20190625160604.3905-1-jsmart2021@gmail.com>
-Message-ID: <alpine.LRH.2.21.9999.1906261516150.7630@mvluser05.qlc.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 27 Jun 2019 11:01:54 +0200
+Subject: [RFC PATCH 00/28] Removing struct page from P2PDMA
+In-Reply-To: <c15d5997-9ba4-f7db-0e7a-a69e75df316c@deltatee.com>
+References: <20190620161240.22738-1-logang@deltatee.com>
+ <20190624072752.GA3954@lst.de>
+ <558a27ba-e7c9-9d94-cad0-377b8ee374a6@deltatee.com>
+ <20190625072008.GB30350@lst.de>
+ <f0f002bf-2b94-cd18-d18f-5d0b08311495@deltatee.com>
+ <20190625170115.GA9746@lst.de>
+ <41235a05-8ed1-e69a-e7cd-48cae7d8a676@deltatee.com>
+ <20190626065708.GB24531@lst.de>
+ <c15d5997-9ba4-f7db-0e7a-a69e75df316c@deltatee.com>
+Message-ID: <20190627090154.GA11548@lst.de>
 
-On Tue, 25 Jun 2019, 9:06am, James Smart wrote:
-
-> Current code allows the module to be unloaded even if there are
-> pending data structures, such as localports and controllers on
-> the localports, that have yet to hit their reference counting
-> to remove them.
+On Wed, Jun 26, 2019@12:31:08PM -0600, Logan Gunthorpe wrote:
+> > we have a hole behind len where we could store flag.  Preferably
+> > optionally based on a P2P or other magic memory types config
+> > option so that 32-bit systems with 32-bit phys_addr_t actually
+> > benefit from the smaller and better packing structure.
 > 
-> Fix by taking a reference out on the module upon the first localport
-> registered, and which is cleared when the last localport is removed.
-> 
-> Signed-off-by: James Smart <jsmart2021 at gmail.com>
-> ---
->  drivers/nvme/host/fc.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
-> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> index b7662e237eb9..bd80e2c475da 100644
-> --- a/drivers/nvme/host/fc.c
-> +++ b/drivers/nvme/host/fc.c
-> @@ -229,6 +229,8 @@ nvme_fc_free_lport(struct kref *ref)
->  	/* remove from transport list */
->  	spin_lock_irqsave(&nvme_fc_lock, flags);
->  	list_del(&lport->port_list);
-> +	if (list_empty(&nvme_fc_lport_list))
-> +		module_put(THIS_MODULE);
->  	spin_unlock_irqrestore(&nvme_fc_lock, flags);
->  
->  	ida_simple_remove(&nvme_fc_local_port_cnt, lport->localport.port_num);
-> @@ -398,6 +400,11 @@ nvme_fc_register_localport(struct nvme_fc_port_info *pinfo,
->  	newrec->localport.port_num = idx;
->  
->  	spin_lock_irqsave(&nvme_fc_lock, flags);
-> +	if (list_empty(&nvme_fc_lport_list) && !try_module_get(THIS_MODULE)) {
-> +		spin_unlock_irqrestore(&nvme_fc_lock, flags);
-> +		ret = -ENODEV;
-> +		goto out_dev_put;
-> +	}
->  	list_add_tail(&newrec->port_list, &nvme_fc_lport_list);
->  	spin_unlock_irqrestore(&nvme_fc_lock, flags);
->  
-> @@ -407,6 +414,9 @@ nvme_fc_register_localport(struct nvme_fc_port_info *pinfo,
->  	*portptr = &newrec->localport;
->  	return 0;
->  
-> +out_dev_put:
-> +	if (dev)
-> +		put_device(dev);
->  out_ida_put:
->  	ida_simple_remove(&nvme_fc_local_port_cnt, idx);
->  out_fail_kfree:
-> 
+> That seems sensible. The one thing that's unclear though is how to get
+> the PCI Bus address when appropriate. Can we pass that in instead of the
+> phys_addr with an appropriate flag? Or will we need to pass the actual
+> physical address and then, at the map step, the driver has to some how
+> lookup the PCI device to figure out the bus offset?
 
-Changes look ok.
-
-Did you hit this during testing? Wondering because LLD would have unloaded 
-prior to nvme_fc, so no lport/rport should remain if LLD behaves well.
-
--Arun
+Yes, I think we'll need a lookup mechanism of some kind.
