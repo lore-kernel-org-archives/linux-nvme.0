@@ -1,46 +1,15 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 27 Jun 2019 11:08:43 +0200
-Subject: [RFC PATCH 00/28] Removing struct page from P2PDMA
-In-Reply-To: <8a0a08c3-a537-bff6-0852-a5f337a70688@deltatee.com>
-References: <20190624072752.GA3954@lst.de>
- <558a27ba-e7c9-9d94-cad0-377b8ee374a6@deltatee.com>
- <20190625072008.GB30350@lst.de>
- <f0f002bf-2b94-cd18-d18f-5d0b08311495@deltatee.com>
- <20190625170115.GA9746@lst.de>
- <41235a05-8ed1-e69a-e7cd-48cae7d8a676@deltatee.com>
- <20190626065708.GB24531@lst.de>
- <c15d5997-9ba4-f7db-0e7a-a69e75df316c@deltatee.com>
- <20190626202107.GA5850@ziepe.ca>
- <8a0a08c3-a537-bff6-0852-a5f337a70688@deltatee.com>
-Message-ID: <20190627090843.GB11548@lst.de>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Thu, 27 Jun 2019 19:37:19 +0900
+Subject: [PATCH v3 5/5] nvme: add support weighted round robin queue
+In-Reply-To: <6e3b0f511a291dd0ce570a6cc5393e10d4509d0e.1561385989.git.zhangweiping@didiglobal.com>
+References: <cover.1561385989.git.zhangweiping@didiglobal.com>
+ <6e3b0f511a291dd0ce570a6cc5393e10d4509d0e.1561385989.git.zhangweiping@didiglobal.com>
+Message-ID: <20190627103719.GC4421@minwooim-desktop>
 
-On Wed, Jun 26, 2019@02:45:38PM -0600, Logan Gunthorpe wrote:
-> > The bar info would give the exporting struct device and any other info
-> > we need to make the iommu mapping.
-> 
-> Well, the IOMMU mapping is the normal thing the mapping driver will
-> always do. We'd really just need the submitting driver to, when
-> appropriate, inform the mapping driver that this is a pci bus address
-> and not to call dma_map_xxx(). Then, for special mappings for the CMB
-> like Christoph is talking about, it's simply a matter of doing a range
-> compare on the PCI Bus address and converting the bus address to a BAR
-> and offset.
+Hi, Maintainers
 
-Well, range compare on the physical address.  We have a few different
-options here:
+Would you guys please give some thoughts about this patch?  I like this
+feature WRR addition to the driver so I really want to hear something
+from you guys.
 
- (a) a range is normal RAM, DMA mapping works as usual
- (b) a range is another devices BAR, in which case we need to do a
-     map_resource equivalent (which really just means don't bother with
-     cache flush on non-coherent architectures) and apply any needed
-     offset, fixed or iommu based
- (c) a range points to a BAR on the acting device. In which case we
-     don't need to DMA map at all, because no dma is happening but just an
-     internal transfer.  And depending on the device that might also require
-     a different addressing mode
-
-I guess it might make sense to just have a block layer flag that (b) or
-(c) might be contained in a bio.  Then we always look up the data
-structure, but can still fall back to (a) if nothing was found.  That
-even allows free mixing and matching of memory types, at least as long
-as they are contained to separate bio_vec segments.
+Thanks,
