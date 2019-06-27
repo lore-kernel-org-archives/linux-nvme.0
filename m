@@ -1,109 +1,56 @@
-From: bvanassche@acm.org (Bart Van Assche)
-Date: Thu, 27 Jun 2019 07:32:15 -0700
-Subject: [PATCH v4 3/3] nvme: Set physical block size and optimal I/O size
- according to NVMe 1.4
-In-Reply-To: <20190627143215.27443-1-bvanassche@acm.org>
-References: <20190627143215.27443-1-bvanassche@acm.org>
-Message-ID: <20190627143215.27443-4-bvanassche@acm.org>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Thu, 27 Jun 2019 10:09:41 -0600
+Subject: [RFC PATCH 00/28] Removing struct page from P2PDMA
+In-Reply-To: <20190627063223.GA7736@ziepe.ca>
+References: <20190625072008.GB30350@lst.de>
+ <f0f002bf-2b94-cd18-d18f-5d0b08311495@deltatee.com>
+ <20190625170115.GA9746@lst.de>
+ <41235a05-8ed1-e69a-e7cd-48cae7d8a676@deltatee.com>
+ <20190626065708.GB24531@lst.de>
+ <c15d5997-9ba4-f7db-0e7a-a69e75df316c@deltatee.com>
+ <20190626202107.GA5850@ziepe.ca>
+ <8a0a08c3-a537-bff6-0852-a5f337a70688@deltatee.com>
+ <20190626210018.GB6392@ziepe.ca>
+ <c25d3333-dcd5-3313-089b-7fbbd6fbd876@deltatee.com>
+ <20190627063223.GA7736@ziepe.ca>
+Message-ID: <6afe4027-26c8-df4e-65ce-49df07dec54d@deltatee.com>
 
->From the NVMe 1.4 spec:
 
-NSFEAT bit 4 if set to 1: indicates that the fields NPWG, NPWA, NPDG, NPDA,
-and NOWS are defined for this namespace and should be used by the host for
-I/O optimization;
-[ ... ]
-Namespace Preferred Write Granularity (NPWG): This field indicates the
-smallest recommended write granularity in logical blocks for this namespace.
-This is a 0's based value. The size indicated should be less than or equal
-to Maximum Data Transfer Size (MDTS) that is specified in units of minimum
-memory page size. The value of this field may change if the namespace is
-reformatted. The size should be a multiple of Namespace Preferred Write
-Alignment (NPWA). Refer to section 8.25 for how this field is utilized to
-improve performance and endurance.
-[ ... ]
-Each Write, Write Uncorrectable, or Write Zeroes commands should address a
-multiple of Namespace Preferred Write Granularity (NPWG) (refer to Figure
-245) and Stream Write Size (SWS) (refer to Figure 515) logical blocks (as
-expressed in the NLB field), and the SLBA field of the command should be
-aligned to Namespace Preferred Write Alignment (NPWA) (refer to Figure 245)
-for best performance.
 
-Cc: Keith Busch <kbusch at kernel.org>
-Cc: Sagi Grimberg <sagi at grimberg.me>
-Cc: Hannes Reinecke <hare at suse.com>
-Signed-off-by: Bart Van Assche <bvanassche at acm.org>
----
- drivers/nvme/host/core.c | 30 ++++++++++++++++++++++++++++--
- drivers/nvme/host/nvme.h |  1 +
- 2 files changed, 29 insertions(+), 2 deletions(-)
+On 2019-06-27 12:32 a.m., Jason Gunthorpe wrote:
+> On Wed, Jun 26, 2019@03:18:07PM -0600, Logan Gunthorpe wrote:
+>>> I don't think we should make drives do that. What if it got CMB memory
+>>> on some other device?
+>>
+>> Huh? A driver submitting P2P requests finds appropriate memory to use
+>> based on the DMA device that will be doing the mapping. It *has* to. It
+>> doesn't necessarily have control over which P2P provider it might find
+>> (ie. it may get CMB memory from a random NVMe device), but it easily
+>> knows the NVMe device it got the CMB memory for. Look at the existing
+>> code in the nvme target.
+> 
+> No, this all thinking about things from the CMB perspective. With CMB
+> you don't care about the BAR location because it is just a temporary
+> buffer. That is a unique use model.
+> 
+> Every other case has data residing in BAR memory that can really only
+> reside in that one place (ie on a GPU/FPGA DRAM or something). When an IO
+> against that is run it should succeed, even if that means bounce
+> buffering the IO - as the user has really asked for this transfer to
+> happen.
+> 
+> We certainly don't get to generally pick where the data resides before
+> starting the IO, that luxury is only for CMB.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index b2dd4e391f5c..366492253c4e 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1626,6 +1626,7 @@ static void nvme_update_disk_info(struct gendisk *disk,
- {
- 	sector_t capacity = le64_to_cpu(id->nsze) << (ns->lba_shift - 9);
- 	unsigned short bs = 1 << ns->lba_shift;
-+	u32 atomic_bs, phys_bs, io_opt;
- 
- 	if (ns->lba_shift > PAGE_SHIFT) {
- 		/* unsupported block size, set capacity to 0 later */
-@@ -1634,9 +1635,33 @@ static void nvme_update_disk_info(struct gendisk *disk,
- 	blk_mq_freeze_queue(disk->queue);
- 	blk_integrity_unregister(disk);
- 
-+	/*
-+	 * Bit 1 indicates whether NAWUPF is defined for this namespace
-+	 * and whether it should be used instead of AWUPF. If NAWUPF == 0
-+	 * then AWUPF must be used instead.
-+	 */
-+	if (id->nsfeat & (1 << 1) && id->nawupf)
-+		atomic_bs = (1 + id->nawupf) * bs;
-+	else
-+		atomic_bs = (1 + ns->ctrl->subsys->awupf) * bs;
-+	phys_bs = bs;
-+	io_opt = bs;
-+	if (id->nsfeat & (1 << 4)) {
-+		/* NPWG = Namespace Preferred Write Granularity */
-+		phys_bs *= 1 + le16_to_cpu(id->npwg);
-+		/* NOWS = Namespace Optimal Write Size */
-+		io_opt *= 1 + le16_to_cpu(id->nows);
-+	}
-+
- 	blk_queue_logical_block_size(disk->queue, bs);
--	blk_queue_physical_block_size(disk->queue, bs);
--	blk_queue_io_min(disk->queue, bs);
-+	/*
-+	 * Linux filesystems assume writing a single physical block is
-+	 * an atomic operation. Hence limit the physical block size to the
-+	 * value of the Atomic Write Unit Power Fail parameter.
-+	 */
-+	blk_queue_physical_block_size(disk->queue, min(phys_bs, atomic_bs));
-+	blk_queue_io_min(disk->queue, phys_bs);
-+	blk_queue_io_opt(disk->queue, io_opt);
- 
- 	if (ns->ms && !ns->ext &&
- 	    (ns->ctrl->ops->flags & NVME_F_METADATA_SUPPORTED))
-@@ -2433,6 +2458,7 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
- 	memcpy(subsys->firmware_rev, id->fr, sizeof(subsys->firmware_rev));
- 	subsys->vendor_id = le16_to_cpu(id->vid);
- 	subsys->cmic = id->cmic;
-+	subsys->awupf = le16_to_cpu(id->awupf);
- #ifdef CONFIG_NVME_MULTIPATH
- 	subsys->iopolicy = NVME_IOPOLICY_NUMA;
- #endif
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index ea45d7d393ad..716a876119c8 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -283,6 +283,7 @@ struct nvme_subsystem {
- 	char			firmware_rev[8];
- 	u8			cmic;
- 	u16			vendor_id;
-+	u16			awupf;	/* 0's based awupf value. */
- 	struct ida		ns_ida;
- #ifdef CONFIG_NVME_MULTIPATH
- 	enum nvme_iopolicy	iopolicy;
--- 
-2.21.0
+I disagree. If we we're going to implement a "bounce" we'd probably want
+to do it in two DMA requests. So the GPU/FPGA driver would first decide
+whether it can do it P2P directly and, if it can't, would want to submit
+a DMA request copy the data to host memory and then submit an IO
+normally to the data's final destination.
+
+I think it would be a larger layering violation to have the NVMe driver
+(for example) memcpy data off a GPU's bar during a dma_map step to
+support this bouncing. And it's even crazier to expect a DMA transfer to
+be setup in the map step.
+
+Logan
