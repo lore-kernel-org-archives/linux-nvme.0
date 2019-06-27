@@ -1,19 +1,50 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 27 Jun 2019 13:03:42 +0200
-Subject: [PATCH v3 5/5] nvme: add support weighted round robin queue
-In-Reply-To: <20190627103719.GC4421@minwooim-desktop>
-References: <cover.1561385989.git.zhangweiping@didiglobal.com>
- <6e3b0f511a291dd0ce570a6cc5393e10d4509d0e.1561385989.git.zhangweiping@didiglobal.com>
- <20190627103719.GC4421@minwooim-desktop>
-Message-ID: <20190627110342.GA13612@lst.de>
+From: bvanassche@acm.org (Bart Van Assche)
+Date: Thu, 27 Jun 2019 07:32:12 -0700
+Subject: [PATCH v4 0/3] NVMe 1.4 Identify Namespace Support
+Message-ID: <20190627143215.27443-1-bvanassche@acm.org>
 
-On Thu, Jun 27, 2019@07:37:19PM +0900, Minwoo Im wrote:
-> Hi, Maintainers
-> 
-> Would you guys please give some thoughts about this patch?  I like this
-> feature WRR addition to the driver so I really want to hear something
-> from you guys.
+Hi Christoph,
 
-We are at the end of the merge window with tons of things to sort out.
-A giant feature series with a lot of impact is not at the top of the
-priority list right now.
+This patch series adds support for several of the new parameters introduced
+in the NVMe 1.4 Identify Namespace command. Please consider these patches
+for kernel version 5.3.
+
+Thanks,
+
+Bart.
+
+Changes compared to v3:
+- In the file backend code, do not set any of the namespace atomic properties.
+
+Changes compared to v2:
+- In the initiator, use AWUPF instead NAWUPF if NAWUPF == 0.
+
+Changes compared to v1:
+- Added a patch for the NVMe target code that exports these parameters.
+- Limited the physical block size to the value of AWUPF/NAWUPF as appropriate.
+
+Bart Van Assche (3):
+  nvme: Introduce NVMe 1.4 Identify Namespace fields in struct
+    nvme_id_ns
+  nvmet: Export NVMe namespace attributes
+  nvme: Set physical block size and optimal I/O size according to NVMe
+    1.4
+
+Bart Van Assche (3):
+  nvme: Introduce NVMe 1.4 Identify Namespace fields in struct
+    nvme_id_ns
+  nvmet: Export NVMe namespace attributes
+  nvme: Set physical block size and optimal I/O size according to NVMe
+    1.4
+
+ drivers/nvme/host/core.c          | 30 +++++++++++++++++++--
+ drivers/nvme/host/nvme.h          |  1 +
+ drivers/nvme/target/admin-cmd.c   |  5 ++++
+ drivers/nvme/target/io-cmd-bdev.c | 45 +++++++++++++++++++++++++++++++
+ drivers/nvme/target/io-cmd-file.c | 12 +++++++++
+ drivers/nvme/target/nvmet.h       |  2 ++
+ include/linux/nvme.h              | 12 ++++++---
+ 7 files changed, 102 insertions(+), 5 deletions(-)
+
+-- 
+2.21.0
