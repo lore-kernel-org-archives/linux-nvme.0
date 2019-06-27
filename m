@@ -1,82 +1,34 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Wed, 26 Jun 2019 15:18:07 -0600
-Subject: [RFC PATCH 00/28] Removing struct page from P2PDMA
-In-Reply-To: <20190626210018.GB6392@ziepe.ca>
-References: <20190624072752.GA3954@lst.de>
- <558a27ba-e7c9-9d94-cad0-377b8ee374a6@deltatee.com>
- <20190625072008.GB30350@lst.de>
- <f0f002bf-2b94-cd18-d18f-5d0b08311495@deltatee.com>
- <20190625170115.GA9746@lst.de>
- <41235a05-8ed1-e69a-e7cd-48cae7d8a676@deltatee.com>
- <20190626065708.GB24531@lst.de>
- <c15d5997-9ba4-f7db-0e7a-a69e75df316c@deltatee.com>
- <20190626202107.GA5850@ziepe.ca>
- <8a0a08c3-a537-bff6-0852-a5f337a70688@deltatee.com>
- <20190626210018.GB6392@ziepe.ca>
-Message-ID: <c25d3333-dcd5-3313-089b-7fbbd6fbd876@deltatee.com>
+From: jsmart2021@gmail.com (James Smart)
+Date: Wed, 26 Jun 2019 17:49:45 -0700
+Subject: [EXT] Re: [PATCH] nvme-fc: fix module unloads while lports still
+ pending
+In-Reply-To: <alpine.LRH.2.21.9999.1906261725120.7630@mvluser05.qlc.com>
+References: <20190625160604.3905-1-jsmart2021@gmail.com>
+ <alpine.LRH.2.21.9999.1906261516150.7630@mvluser05.qlc.com>
+ <ddcc1865-4494-9cfe-d371-9995c19ae1c4@gmail.com>
+ <alpine.LRH.2.21.9999.1906261638450.7630@mvluser05.qlc.com>
+ <alpine.LRH.2.21.9999.1906261725120.7630@mvluser05.qlc.com>
+Message-ID: <1011783c-e0c0-4dba-824e-821bf5b4955f@gmail.com>
 
-
-
-On 2019-06-26 3:00 p.m., Jason Gunthorpe wrote:
-> On Wed, Jun 26, 2019@02:45:38PM -0600, Logan Gunthorpe wrote:
->>
->>
->> On 2019-06-26 2:21 p.m., Jason Gunthorpe wrote:
->>> On Wed, Jun 26, 2019@12:31:08PM -0600, Logan Gunthorpe wrote:
->>>>> we have a hole behind len where we could store flag.  Preferably
->>>>> optionally based on a P2P or other magic memory types config
->>>>> option so that 32-bit systems with 32-bit phys_addr_t actually
->>>>> benefit from the smaller and better packing structure.
->>>>
->>>> That seems sensible. The one thing that's unclear though is how to get
->>>> the PCI Bus address when appropriate. Can we pass that in instead of the
->>>> phys_addr with an appropriate flag? Or will we need to pass the actual
->>>> physical address and then, at the map step, the driver has to some how
->>>> lookup the PCI device to figure out the bus offset?
->>>
->>> I agree with CH, if we go down this path it is a layering violation
->>> for the thing injecting bio's into the block stack to know what struct
->>> device they egress&dma map on just to be able to do the dma_map up
->>> front.
->>
->> Not sure I agree with this statement. The p2pdma code already *must*
->> know and access the pci_dev of the dma device ahead of when it submits
->> the IO to know if it's valid to allocate and use P2P memory at all.
+On 6/26/2019 5:28 PM, Arun Easi wrote:
+> Attaching the patch I was referring earlier. Maybe the infinite loop in
+> exit could be changed to a time bound one.
 > 
-> I don't think we should make drives do that. What if it got CMB memory
-> on some other device?
-
-Huh? A driver submitting P2P requests finds appropriate memory to use
-based on the DMA device that will be doing the mapping. It *has* to. It
-doesn't necessarily have control over which P2P provider it might find
-(ie. it may get CMB memory from a random NVMe device), but it easily
-knows the NVMe device it got the CMB memory for. Look at the existing
-code in the nvme target.
-
->>> For instance we could use a small hash table of the upper phys addr
->>> bits, or an interval tree, to do the lookup.
->>
->> Yes, if we're going to take a hard stance on this. But using an interval
->> tree (or similar) is a lot more work for the CPU to figure out these
->> mappings that may not be strictly necessary if we could just pass better
->> information down from the submitting driver to the mapping driver.
+> -Arun
 > 
-> Right, this is coming down to an optimization argument. I think there
-> are very few cases (Basically yours) where the caller will know this
-> info, so we need to support the other cases anyhow.
 
-I disagree. I think it has to be a common pattern. A driver doing a P2P
-transaction *must* find some device to obtain memory from (or it may be
-itself)  and check if it is compatible with the device that's going to
-be mapping the memory or vice versa. So no matter what we do, a driver
-submitting P2P requests must have access to both the PCI device that's
-going to be mapping the memory and the device that's providing the memory.
+Interesting. I still prefer the stronger referencing while anything is 
+outstanding as I think it's really ugly to get into __exit at all when 
+things haven't cleaned up, and once in __exit, there's no going back.
+Also concerned with:
+- hopefully module load checking prevents loading of another lldd
+   while in this state. Ugly for that thing if its rejected and the
+   load has to be retried.
+- I don't like the long delays (could be a minute plus) for unload 
+command while it waits - anyone stuck in the wait will be asking 
+questions as to why
+- Exiting after a time delay isn't great as it's just as bad as the 
+existing code that left with things not cleaned up. I was hoping to 
+correct that.
 
-> I think with some simple caching this will become negligible for cases
-> you care about
-
-Well *maybe* it will be negligible performance wise, but it's also a lot
-more complicated, code wise. Tree lookups will always be a lot more
-expensive than just checking a flag.
-
-Logan
+-- james
