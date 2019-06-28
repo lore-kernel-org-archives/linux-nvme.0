@@ -1,26 +1,39 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 28 Jun 2019 09:00:38 +0200
-Subject: [PATCH v4 1/3] nvme: Introduce NVMe 1.4 Identify Namespace
- fields in struct nvme_id_ns
-In-Reply-To: <20190627143215.27443-2-bvanassche@acm.org>
+Date: Fri, 28 Jun 2019 09:02:43 +0200
+Subject: [PATCH v4 2/3] nvmet: Export NVMe namespace attributes
+In-Reply-To: <20190627143215.27443-3-bvanassche@acm.org>
 References: <20190627143215.27443-1-bvanassche@acm.org>
- <20190627143215.27443-2-bvanassche@acm.org>
-Message-ID: <20190628070038.GA28268@lst.de>
+ <20190627143215.27443-3-bvanassche@acm.org>
+Message-ID: <20190628070243.GB28268@lst.de>
 
-On Thu, Jun 27, 2019@07:32:13AM -0700, Bart Van Assche wrote:
-> Several new fields have been introduced in version 1.4 of the NVMe spec
-> at offsets that were defined as reserved in version 1.3d of the NVMe
-> spec. Update the definition of the nvme_id_ns data structure such that
-> it is in sync with version 1.4 of the NVMe spec. This change preserves
-> backwards compatibility.
-> 
-> Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-> Reviewed-by: Martin K. Petersen <martin.petersen at oracle.com>
-> Reviewed-by: Keith Busch <kbusch at kernel.org>
-> Cc: Sagi Grimberg <sagi at grimberg.me>
-> Cc: Hannes Reinecke <hare at suse.com>
-> Signed-off-by: Bart Van Assche <bvanassche at acm.org>
+On Thu, Jun 27, 2019@07:32:14AM -0700, Bart Van Assche wrote:
+> +/* Convert a 32-bit number to a 16-bit 0's based number */
+> +static __le16 to0based(u32 a)
+> +{
+> +	return cpu_to_le16(max(1U, min(1U << 16, a)) - 1);
+> +}
 
-Looks good:
+Maybe lift this to drivers/nvme/target/nvmet.h as an inline as it
+might be generally useful for more thing in the future?
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+> +	/*
+> +	 * For NVMe 1.4 and later, bit 4 indicates that the fields NPWG,
+
+I'd drop the NVMe 1.4 as it is a bit pointless.  Also in NVMe you
+can generally implement the TPs on older compliance levels (which is in
+fact what we do here anyway).
+
+> +void nvmet_file_set_limits(struct file *file, struct nvme_id_ns *id)
+> +{
+> +	/*
+> +	 * Since the file backend uses buffered I/O and since the NVMe spec
+> +	 * does not allow to report that atomic commands are not supported by
+> +	 * a namespace, do not set any of the namespace specific atomic
+> +	 * properties. This will cause the initiator to rely on the atomic
+> +	 * properties reported by the controller. To do: discuss whether or
+> +	 * not the file backend should use direct I/O instead of buffered I/O.
+> +	 */
+> +}
+
+This function doesn't seem overly helpful to me.  Can we just skip
+that whole function and the comment?
