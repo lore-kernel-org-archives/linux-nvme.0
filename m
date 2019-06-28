@@ -1,60 +1,80 @@
-From: bvanassche@acm.org (Bart Van Assche)
-Date: Fri, 28 Jun 2019 09:53:29 -0700
-Subject: [PATCH v5 1/3] nvme: Introduce NVMe 1.4 Identify Namespace fields in
- struct nvme_id_ns
-In-Reply-To: <20190628165331.163919-1-bvanassche@acm.org>
-References: <20190628165331.163919-1-bvanassche@acm.org>
-Message-ID: <20190628165331.163919-2-bvanassche@acm.org>
+From: jgg@ziepe.ca (Jason Gunthorpe)
+Date: Fri, 28 Jun 2019 14:29:26 -0300
+Subject: [RFC PATCH 00/28] Removing struct page from P2PDMA
+In-Reply-To: <8022a2a4-4069-d256-11da-e6d9b2ffbf60@deltatee.com>
+References: <20190626202107.GA5850@ziepe.ca>
+ <8a0a08c3-a537-bff6-0852-a5f337a70688@deltatee.com>
+ <20190626210018.GB6392@ziepe.ca>
+ <c25d3333-dcd5-3313-089b-7fbbd6fbd876@deltatee.com>
+ <20190627063223.GA7736@ziepe.ca>
+ <6afe4027-26c8-df4e-65ce-49df07dec54d@deltatee.com>
+ <20190627163504.GB9568@ziepe.ca>
+ <4894142c-3233-a3bb-f9a3-4a4985136e9b@deltatee.com>
+ <20190628045705.GD3705@ziepe.ca>
+ <8022a2a4-4069-d256-11da-e6d9b2ffbf60@deltatee.com>
+Message-ID: <20190628172926.GA3877@ziepe.ca>
 
-Several new fields have been introduced in version 1.4 of the NVMe spec
-at offsets that were defined as reserved in version 1.3d of the NVMe
-spec. Update the definition of the nvme_id_ns data structure such that
-it is in sync with version 1.4 of the NVMe spec. This change preserves
-backwards compatibility.
+On Fri, Jun 28, 2019@10:22:06AM -0600, Logan Gunthorpe wrote:
 
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-Reviewed-by: Martin K. Petersen <martin.petersen at oracle.com>
-Reviewed-by: Keith Busch <kbusch at kernel.org>
-Reviewed-by: Christoph Hellwig <hch at lst.de>
-Cc: Sagi Grimberg <sagi at grimberg.me>
-Cc: Hannes Reinecke <hare at suse.com>
-Signed-off-by: Bart Van Assche <bvanassche at acm.org>
----
- include/linux/nvme.h | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+> > Why not?  If we have a 'bar info' structure that could have data
+> > transfer op callbacks, infact, I think we might already have similar
+> > callbacks for migrating to/from DEVICE_PRIVATE memory with DMA..
+> 
+> Well it could, in theory be done, but It just seems wrong to setup and
+> wait for more DMA requests while we are in mid-progress setting up
+> another DMA request. Especially when the block layer has historically
+> had issues with stack sizes. It's also possible you might have multiple
+> bio_vec's that have to each do a migration and with a hook here they'd
+> have to be done serially.
 
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index d98b2d8baf4e..01aa6a6c241d 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -315,7 +315,7 @@ struct nvme_id_ns {
- 	__u8			nmic;
- 	__u8			rescap;
- 	__u8			fpi;
--	__u8			rsvd33;
-+	__u8			dlfeat;
- 	__le16			nawun;
- 	__le16			nawupf;
- 	__le16			nacwu;
-@@ -324,11 +324,17 @@ struct nvme_id_ns {
- 	__le16			nabspf;
- 	__le16			noiob;
- 	__u8			nvmcap[16];
--	__u8			rsvd64[28];
-+	__le16			npwg;
-+	__le16			npwa;
-+	__le16			npdg;
-+	__le16			npda;
-+	__le16			nows;
-+	__u8			rsvd74[18];
- 	__le32			anagrpid;
- 	__u8			rsvd96[3];
- 	__u8			nsattr;
--	__u8			rsvd100[4];
-+	__le16			nvmsetid;
-+	__le16			endgid;
- 	__u8			nguid[16];
- 	__u8			eui64[8];
- 	struct nvme_lbaf	lbaf[16];
--- 
-2.22.0.410.gd8fdbe21b5-goog
+*shrug* this is just standard bounce buffering stuff...
+ 
+> > I think the best reason to prefer a uniform phys_addr_t is that it
+> > does give us the option to copy the data to/from CPU memory. That
+> > option goes away as soon as the bio sometimes provides a dma_addr_t.
+> 
+> Not really. phys_addr_t alone doesn't give us a way to copy data. You
+> need a lookup table on that address and a couple of hooks.
+
+Yes, I'm not sure how you envision using phys_addr_t without a
+lookup.. At the end of the day we must get the src and target 'struct
+device' in the dma_map area (at the minimum to compute the offset to
+translate phys_addr_t to dma_addr_t) and the only way to do that from
+phys_addr_t is via lookup??
+
+> > At least for RDMA, we do have some cases (like siw/rxe, hfi) where
+> > they sometimes need to do that copy. I suspect the block stack is
+> > similar, in the general case.
+> 
+> But the whole point of the use cases I'm trying to serve is to avoid the
+> root complex. 
+
+Well, I think this is sort of a seperate issue. Generically I think
+the dma layer should continue to work largely transparently, and if I
+feed in BAR memory that can't be P2P'd it should bounce, just like
+all the other DMA limitations it already supports. That is pretty much
+its whole purpose in life.
+
+The issue of having the caller optimize what it sends is kind of
+separate - yes you definately still need the egress DMA device to
+drive CMB buffer selection, and DEVICE_PRIVATE also needs it to decide
+if it should migrate or not.
+
+What I see as the question is how to layout the BIO. 
+
+If we agree the bio should only have phys_addr_t then we need some
+'bar info' (ie at least the offset) in the dma map and some 'bar info'
+(ie the DMA device) during the bio construciton.
+
+What you are trying to do is optimize the passing of that 'bar info'
+with a limited number of bits in the BIO.
+
+A single flag means an interval tree, 4-8 bits could build a probably
+O(1) hash lookup, 64 bits could store a pointer, etc.
+
+If we can spare 4-8 bits in the bio then I suggest a 'perfect hash
+table'. Assign each registered P2P 'bar info' a small 4 bit id and
+hash on that. It should be fast enough to not worry about the double
+lookup.
+
+Jason
