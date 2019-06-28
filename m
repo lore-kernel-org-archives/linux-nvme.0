@@ -1,124 +1,63 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Fri, 28 Jun 2019 16:16:21 -0700
+From: bvanassche@acm.org (Bart Van Assche)
+Date: Fri, 28 Jun 2019 16:26:19 -0700
 Subject: [PATCH v2] nvme-fc: fix module unloads while lports still pending
-Message-ID: <20190628231621.15867-1-jsmart2021@gmail.com>
+In-Reply-To: <20190628231621.15867-1-jsmart2021@gmail.com>
+References: <20190628231621.15867-1-jsmart2021@gmail.com>
+Message-ID: <b07da70f-770c-db0d-bf4e-7997c890c67b@acm.org>
 
-Current code allows the module to be unloaded even if there are
-pending data structures, such as localports and controllers on
-the localports, that have yet to hit their reference counting
-to remove them.
+On 6/28/19 4:16 PM, James Smart wrote:
+> @@ -237,6 +242,7 @@ nvme_fc_free_lport(struct kref *ref)
+>   	put_device(lport->dev);
+>   
+>   	kfree(lport);
+> +
+>   }
 
-Fix by having exit entrypoint explicitly delete every controller,
-which in turn will remove references on the remoteports and localports
-causing them to be deleted as well. The exit entrypoint, after
-initiating the deletes, will wait for the last localport to be deleted
-before continuing.
+Spurious whitespace?
 
-Signed-off-by: James Smart <jsmart2021 at gmail.com>
+> +static void
+> +nvme_fc_cleanup_for_unload(void)
+> +{
+> +	struct nvme_fc_lport *lport;
+> +	struct nvme_fc_rport *rport;
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&nvme_fc_lock, flags);
+> +	list_for_each_entry(lport, &nvme_fc_lport_list, port_list) {
+> +		list_for_each_entry(rport, &lport->endp_list, endp_list) {
+> +			nvme_fc_delete_controllers(rport);
+> +		}
+> +	}
+> +	spin_unlock_irqrestore(&nvme_fc_lock, flags);
+> +
+> +	pr_info("%s: waiting for ctlr deletes\n", __func__);
+> +	wait_for_completion(&nvme_fc_unload_proceed);
+> +	pr_info("%s: ctrl deletes complete\n", __func__);
+> +}
+> +
+>   static void __exit nvme_fc_exit_module(void)
+>   {
+> -	/* sanity check - all lports should be removed */
+> +	unsigned long flags;
+> +	bool need_cleanup = false;
+> +
+> +	spin_lock_irqsave(&nvme_fc_lock, flags);
+> +	nvme_fc_waiting_to_unload = true;
+> +	init_completion(&nvme_fc_unload_proceed);
+>   	if (!list_empty(&nvme_fc_lport_list))
+> -		pr_warn("%s: localport list not empty\n", __func__);
+> +		need_cleanup = true;
+> +	spin_unlock_irqrestore(&nvme_fc_lock, flags);
+> +	if (need_cleanup)
+> +		nvme_fc_cleanup_for_unload();
 
----
-V2: replaced self-module references with code that actually deletes
-  the outstanding structures.
----
- drivers/nvme/host/fc.c | 55 ++++++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 53 insertions(+), 2 deletions(-)
+Can the nvme_fc_lport_list list become empty after nvme_fc_exit_module() 
+has unlocked nvme_fc_lock and before nvme_fc_cleanup_for_unload() is 
+called? If so, shouldn't nvme_fc_cleanup_for_unload() be called 
+unconditionally and shouldn't the 
+wait_for_completion(&nvme_fc_unload_proceed) call depend on whether or 
+not nvme_fc_cleanup_for_unload() has deleted any controllers?
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 9b497d785ed7..75a81d6c9fa6 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -204,6 +204,9 @@ static DEFINE_IDA(nvme_fc_ctrl_cnt);
- 
- static struct workqueue_struct *nvme_fc_wq;
- 
-+static bool nvme_fc_waiting_to_unload;
-+struct completion nvme_fc_unload_proceed;
-+
- /*
-  * These items are short-term. They will eventually be moved into
-  * a generic FC class. See comments in module init.
-@@ -229,6 +232,8 @@ nvme_fc_free_lport(struct kref *ref)
- 	/* remove from transport list */
- 	spin_lock_irqsave(&nvme_fc_lock, flags);
- 	list_del(&lport->port_list);
-+	if (nvme_fc_waiting_to_unload && list_empty(&nvme_fc_lport_list))
-+		complete(&nvme_fc_unload_proceed);
- 	spin_unlock_irqrestore(&nvme_fc_lock, flags);
- 
- 	ida_simple_remove(&nvme_fc_local_port_cnt, lport->localport.port_num);
-@@ -237,6 +242,7 @@ nvme_fc_free_lport(struct kref *ref)
- 	put_device(lport->dev);
- 
- 	kfree(lport);
-+
- }
- 
- static void
-@@ -3444,6 +3450,8 @@ static int __init nvme_fc_init_module(void)
- 	if (ret)
- 		goto out_destroy_device;
- 
-+	nvme_fc_waiting_to_unload = false;
-+
- 	return 0;
- 
- out_destroy_device:
-@@ -3456,11 +3464,54 @@ static int __init nvme_fc_init_module(void)
- 	return ret;
- }
- 
-+static void
-+nvme_fc_delete_controllers(struct nvme_fc_rport *rport)
-+{
-+	struct nvme_fc_ctrl *ctrl;
-+
-+	spin_lock(&rport->lock);
-+	list_for_each_entry(ctrl, &rport->ctrl_list, ctrl_list) {
-+		dev_warn(ctrl->ctrl.device,
-+			"NVME-FC{%d}: transport unloading: deleting ctrl\n",
-+			ctrl->cnum);
-+		nvme_delete_ctrl(&ctrl->ctrl);
-+	}
-+	spin_unlock(&rport->lock);
-+}
-+
-+static void
-+nvme_fc_cleanup_for_unload(void)
-+{
-+	struct nvme_fc_lport *lport;
-+	struct nvme_fc_rport *rport;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&nvme_fc_lock, flags);
-+	list_for_each_entry(lport, &nvme_fc_lport_list, port_list) {
-+		list_for_each_entry(rport, &lport->endp_list, endp_list) {
-+			nvme_fc_delete_controllers(rport);
-+		}
-+	}
-+	spin_unlock_irqrestore(&nvme_fc_lock, flags);
-+
-+	pr_info("%s: waiting for ctlr deletes\n", __func__);
-+	wait_for_completion(&nvme_fc_unload_proceed);
-+	pr_info("%s: ctrl deletes complete\n", __func__);
-+}
-+
- static void __exit nvme_fc_exit_module(void)
- {
--	/* sanity check - all lports should be removed */
-+	unsigned long flags;
-+	bool need_cleanup = false;
-+
-+	spin_lock_irqsave(&nvme_fc_lock, flags);
-+	nvme_fc_waiting_to_unload = true;
-+	init_completion(&nvme_fc_unload_proceed);
- 	if (!list_empty(&nvme_fc_lport_list))
--		pr_warn("%s: localport list not empty\n", __func__);
-+		need_cleanup = true;
-+	spin_unlock_irqrestore(&nvme_fc_lock, flags);
-+	if (need_cleanup)
-+		nvme_fc_cleanup_for_unload();
- 
- 	nvmf_unregister_transport(&nvme_fc_transport);
- 
--- 
-2.13.7
+Thanks,
+
+Bart.
