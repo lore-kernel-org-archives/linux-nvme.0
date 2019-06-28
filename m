@@ -1,19 +1,23 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 28 Jun 2019 09:23:10 +0200
-Subject: [PATCH v2 2/5] nvme: rename "pci" operations to "mmio"
-In-Reply-To: <CAD8Lp464B0dOd+ayF_AK4DRzHEpiaSbUOXjVJ5bq5zMXq=BBKQ@mail.gmail.com>
-References: <20190620051333.2235-1-drake@endlessm.com>
- <20190620051333.2235-3-drake@endlessm.com> <20190620061038.GA20564@lst.de>
- <CAD8Lp45ua=L+ixO+du=Njhy+dxjWobWA+V1i+Y2p6faeyt1FBQ@mail.gmail.com>
- <20190624061617.GA2848@lst.de>
- <CAD8Lp464B0dOd+ayF_AK4DRzHEpiaSbUOXjVJ5bq5zMXq=BBKQ@mail.gmail.com>
-Message-ID: <20190628072310.GA28896@lst.de>
+From: hch@infradead.org ('Christoph Hellwig')
+Date: Fri, 28 Jun 2019 00:25:18 -0700
+Subject: [PATCH v5 0/7] Extend write-hint framework, and add write-hint
+ for Ext4 journal
+In-Reply-To: <00f301d52c1d$58f1e820$0ad5b860$@samsung.com>
+References: <CGME20190425112347epcas2p1f7be48b8f0d2203252b8c9dd510c1b61@epcas2p1.samsung.com>
+ <1556191202-3245-1-git-send-email-joshi.k@samsung.com>
+ <20190510170249.GA26907@infradead.org>
+ <00fb01d50c71$dd358e50$97a0aaf0$@samsung.com>
+ <20190520142719.GA15705@infradead.org>
+ <20190521082528.GA17709@quack2.suse.cz>
+ <20190521082846.GA11024@infradead.org>
+ <20190522102530.GK17019@quack2.suse.cz>
+ <00f301d52c1d$58f1e820$0ad5b860$@samsung.com>
+Message-ID: <20190628072518.GA25577@infradead.org>
 
-On Tue, Jun 25, 2019@11:51:28AM +0800, Daniel Drake wrote:
-> Bearing in mind that we've already been told that the NVMe device
-> config space is inaccessible, and the new docs show exactly how the
-> BIOS enforces such inaccessibility during early boot, the remaining
-> points you mentioned recently were:
+On Wed, Jun 26, 2019@06:17:29PM +0530, kanchan wrote:
+> Christoph, 
+> May I know if you have thoughts about what Jan mentioned below? 
 
-If we can't access the config space we unfortunately can't support
-this scheme at all, as it invalidates all our quirks handling.
+As said I fundamentally disagree with exposting the streams mess at
+the block layer.  I have no problem with setting a hint on the journal,
+but I do object to exposting the streams mess even more.
