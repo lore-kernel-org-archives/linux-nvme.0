@@ -1,32 +1,30 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 28 Jun 2019 00:16:34 -0700
-Subject: [PATCH] nvme-fc: fix module unloads while lports still pending
-In-Reply-To: <20190625160604.3905-1-jsmart2021@gmail.com>
-References: <20190625160604.3905-1-jsmart2021@gmail.com>
-Message-ID: <20190628071634.GA16108@infradead.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 28 Jun 2019 09:18:37 +0200
+Subject: [PATCH] nvme-pci: don't fall back to a 32-bit DMA mask
+Message-ID: <20190628071837.7087-1-hch@lst.de>
 
-On Tue, Jun 25, 2019@09:06:04AM -0700, James Smart wrote:
-> Current code allows the module to be unloaded even if there are
-> pending data structures, such as localports and controllers on
-> the localports, that have yet to hit their reference counting
-> to remove them.
-> 
-> Fix by taking a reference out on the module upon the first localport
-> registered, and which is cleared when the last localport is removed.
+Since Linux 5.0 drivers can safely set the largest DMA mask supported
+by the device, and don't need fallbacks to work around the dma mapping
+implementations.
 
-This looks broken.  Module unload needs to take everything down
-properly, and if needed wait on reference counts to be dropped.  We
-don't do that by incrementing the refcount in the module, as that
-actually prevents removals.
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+---
+ drivers/nvme/host/pci.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-> +	if (list_empty(&nvme_fc_lport_list) && !try_module_get(THIS_MODULE)) {
-> +		spin_unlock_irqrestore(&nvme_fc_lock, flags);
-> +		ret = -ENODEV;
-> +		goto out_dev_put;
-> +	}
-
-And try_module_get(THIS_MODULE) is a classic anti-pattern.  If you know
-you already have a reference you must use __module_get().  If you don't
-know if there is another held reference using try_module_get on
-THIS_MODULE also is unsafe - there is a reason why we always call it
-from another module, usually on a struct module in an ops vector.
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index f50013369cc5..49c1fc9907a6 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2289,8 +2289,7 @@ static int nvme_pci_enable(struct nvme_dev *dev)
+ 
+ 	pci_set_master(pdev);
+ 
+-	if (dma_set_mask_and_coherent(dev->dev, DMA_BIT_MASK(64)) &&
+-	    dma_set_mask_and_coherent(dev->dev, DMA_BIT_MASK(32)))
++	if (dma_set_mask_and_coherent(dev->dev, DMA_BIT_MASK(64)))
+ 		goto disable;
+ 
+ 	if (readl(dev->bar + NVME_REG_CSTS) == -1) {
+-- 
+2.20.1
