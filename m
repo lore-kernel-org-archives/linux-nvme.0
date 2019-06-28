@@ -1,113 +1,112 @@
 From: bvanassche@acm.org (Bart Van Assche)
-Date: Fri, 28 Jun 2019 09:53:31 -0700
-Subject: [PATCH v5 3/3] nvme: Set physical block size and optimal I/O size
- according to NVMe 1.4
+Date: Fri, 28 Jun 2019 09:53:30 -0700
+Subject: [PATCH v5 2/3] nvmet: Export NVMe namespace attributes
 In-Reply-To: <20190628165331.163919-1-bvanassche@acm.org>
 References: <20190628165331.163919-1-bvanassche@acm.org>
-Message-ID: <20190628165331.163919-4-bvanassche@acm.org>
+Message-ID: <20190628165331.163919-3-bvanassche@acm.org>
 
->From the NVMe 1.4 spec:
-
-NSFEAT bit 4 if set to 1: indicates that the fields NPWG, NPWA, NPDG, NPDA,
-and NOWS are defined for this namespace and should be used by the host for
-I/O optimization;
-[ ... ]
-Namespace Preferred Write Granularity (NPWG): This field indicates the
-smallest recommended write granularity in logical blocks for this namespace.
-This is a 0's based value. The size indicated should be less than or equal
-to Maximum Data Transfer Size (MDTS) that is specified in units of minimum
-memory page size. The value of this field may change if the namespace is
-reformatted. The size should be a multiple of Namespace Preferred Write
-Alignment (NPWA). Refer to section 8.25 for how this field is utilized to
-improve performance and endurance.
-[ ... ]
-Each Write, Write Uncorrectable, or Write Zeroes commands should address a
-multiple of Namespace Preferred Write Granularity (NPWG) (refer to Figure
-245) and Stream Write Size (SWS) (refer to Figure 515) logical blocks (as
-expressed in the NLB field), and the SLBA field of the command should be
-aligned to Namespace Preferred Write Alignment (NPWA) (refer to Figure 245)
-for best performance.
+Make the NVMe NAWUN, NAWUPF, NACWU, NPWG, NPWA, NPDG and NOWS attributes
+available to initator systems for the block backend.
 
 Cc: Keith Busch <kbusch at kernel.org>
 Cc: Sagi Grimberg <sagi at grimberg.me>
+Cc: Martin K. Petersen <martin.petersen at oracle.com>
 Cc: Hannes Reinecke <hare at suse.com>
+Cc: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 Signed-off-by: Bart Van Assche <bvanassche at acm.org>
 ---
- drivers/nvme/host/core.c | 34 ++++++++++++++++++++++++++++++++--
- drivers/nvme/host/nvme.h |  1 +
- 2 files changed, 33 insertions(+), 2 deletions(-)
+ drivers/nvme/target/admin-cmd.c   |  3 +++
+ drivers/nvme/target/io-cmd-bdev.c | 39 +++++++++++++++++++++++++++++++
+ drivers/nvme/target/nvmet.h       |  8 +++++++
+ 3 files changed, 50 insertions(+)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 35373091fbf4..dac23aaedc7b 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1631,6 +1631,7 @@ static void nvme_update_disk_info(struct gendisk *disk,
- {
- 	sector_t capacity = le64_to_cpu(id->nsze) << (ns->lba_shift - 9);
- 	unsigned short bs = 1 << ns->lba_shift;
-+	u32 atomic_bs, phys_bs, io_opt;
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 9f72d515fc4b..4dc12ea52f23 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -442,6 +442,9 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
+ 		break;
+         }
  
- 	if (ns->lba_shift > PAGE_SHIFT) {
- 		/* unsupported block size, set capacity to 0 later */
-@@ -1639,9 +1640,37 @@ static void nvme_update_disk_info(struct gendisk *disk,
- 	blk_mq_freeze_queue(disk->queue);
- 	blk_integrity_unregister(disk);
- 
-+	if (id->nabo == 0) {
-+		/*
-+		 * Bit 1 indicates whether NAWUPF is defined for this namespace
-+		 * and whether it should be used instead of AWUPF. If NAWUPF ==
-+		 * 0 then AWUPF must be used instead.
-+		 */
-+		if (id->nsfeat & (1 << 1) && id->nawupf)
-+			atomic_bs = (1 + le16_to_cpu(id->nawupf)) * bs;
-+		else
-+			atomic_bs = (1 + ns->ctrl->subsys->awupf) * bs;
-+	} else {
-+		atomic_bs = bs;
-+	}
-+	phys_bs = bs;
-+	io_opt = bs;
-+	if (id->nsfeat & (1 << 4)) {
-+		/* NPWG = Namespace Preferred Write Granularity */
-+		phys_bs *= 1 + le16_to_cpu(id->npwg);
-+		/* NOWS = Namespace Optimal Write Size */
-+		io_opt *= 1 + le16_to_cpu(id->nows);
-+	}
++	if (ns->bdev)
++		nvmet_bdev_set_limits(ns->bdev, id);
 +
- 	blk_queue_logical_block_size(disk->queue, bs);
--	blk_queue_physical_block_size(disk->queue, bs);
--	blk_queue_io_min(disk->queue, bs);
-+	/*
-+	 * Linux filesystems assume writing a single physical block is
-+	 * an atomic operation. Hence limit the physical block size to the
-+	 * value of the Atomic Write Unit Power Fail parameter.
-+	 */
-+	blk_queue_physical_block_size(disk->queue, min(phys_bs, atomic_bs));
-+	blk_queue_io_min(disk->queue, phys_bs);
-+	blk_queue_io_opt(disk->queue, io_opt);
+ 	/*
+ 	 * We just provide a single LBA format that matches what the
+ 	 * underlying device reports.
+diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+index 7a1cf6437a6a..de0bff70ebb6 100644
+--- a/drivers/nvme/target/io-cmd-bdev.c
++++ b/drivers/nvme/target/io-cmd-bdev.c
+@@ -8,6 +8,45 @@
+ #include <linux/module.h>
+ #include "nvmet.h"
  
- 	if (ns->ms && !ns->ext &&
- 	    (ns->ctrl->ops->flags & NVME_F_METADATA_SUPPORTED))
-@@ -2438,6 +2467,7 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
- 	memcpy(subsys->firmware_rev, id->fr, sizeof(subsys->firmware_rev));
- 	subsys->vendor_id = le16_to_cpu(id->vid);
- 	subsys->cmic = id->cmic;
-+	subsys->awupf = le16_to_cpu(id->awupf);
- #ifdef CONFIG_NVME_MULTIPATH
- 	subsys->iopolicy = NVME_IOPOLICY_NUMA;
- #endif
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index ea45d7d393ad..716a876119c8 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -283,6 +283,7 @@ struct nvme_subsystem {
- 	char			firmware_rev[8];
- 	u8			cmic;
- 	u16			vendor_id;
-+	u16			awupf;	/* 0's based awupf value. */
- 	struct ida		ns_ida;
- #ifdef CONFIG_NVME_MULTIPATH
- 	enum nvme_iopolicy	iopolicy;
++void nvmet_bdev_set_limits(struct block_device *bdev, struct nvme_id_ns *id)
++{
++	const struct queue_limits *ql = &bdev_get_queue(bdev)->limits;
++	/* Number of physical blocks per logical block. */
++	const u32 ppl = ql->physical_block_size / ql->logical_block_size;
++	/* Physical blocks per logical block, 0's based. */
++	const __le16 ppl0b = to0based(ppl);
++
++	/*
++	 * For NVMe 1.2 and later, bit 1 indicates that the fields NAWUN,
++	 * NAWUPF, and NACWU are defined for this namespace and should be
++	 * used by the host for this namespace instead of the AWUN, AWUPF,
++	 * and ACWU fields in the Identify Controller data structure. If
++	 * any of these fields are zero that means that the corresponding
++	 * field from the identify controller data structure should be used.
++	 */
++	id->nsfeat |= 1 << 1;
++	id->nawun = ppl0b;
++	id->nawupf = ppl0b;
++	id->nacwu = ppl0b;
++
++	/*
++	 * Bit 4 indicates that the fields NPWG, NPWA, NPDG, NPDA, and
++	 * NOWS are defined for this namespace and should be used by
++	 * the host for I/O optimization.
++	 */
++	id->nsfeat |= 1 << 4;
++	/* NPWG = Namespace Preferred Write Granularity. 0's based */
++	id->npwg = ppl0b;
++	/* NPWA = Namespace Preferred Write Alignment. 0's based */
++	id->npwa = id->npwg;
++	/* NPDG = Namespace Preferred Deallocate Granularity. 0's based */
++	id->npdg = to0based(ql->discard_granularity / ql->logical_block_size);
++	/* NPDG = Namespace Preferred Deallocate Alignment */
++	id->npda = id->npdg;
++	/* NOWS = Namespace Optimal Write Size */
++	id->nows = to0based(ql->io_opt / ql->logical_block_size);
++}
++
+ int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
+ {
+ 	int ret;
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index dc270944bb25..6ee66c610739 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -365,6 +365,7 @@ u16 nvmet_set_feat_async_event(struct nvmet_req *req, u32 mask);
+ void nvmet_execute_async_event(struct nvmet_req *req);
+ 
+ u16 nvmet_parse_connect_cmd(struct nvmet_req *req);
++void nvmet_bdev_set_limits(struct block_device *bdev, struct nvme_id_ns *id);
+ u16 nvmet_bdev_parse_io_cmd(struct nvmet_req *req);
+ u16 nvmet_file_parse_io_cmd(struct nvmet_req *req);
+ u16 nvmet_parse_admin_cmd(struct nvmet_req *req);
+@@ -492,4 +493,11 @@ static inline u32 nvmet_rw_len(struct nvmet_req *req)
+ }
+ 
+ u16 errno_to_nvme_status(struct nvmet_req *req, int errno);
++
++/* Convert a 32-bit number to a 16-bit 0's based number */
++static inline __le16 to0based(u32 a)
++{
++	return cpu_to_le16(max(1U, min(1U << 16, a)) - 1);
++}
++
+ #endif /* _NVMET_H */
 -- 
 2.22.0.410.gd8fdbe21b5-goog
