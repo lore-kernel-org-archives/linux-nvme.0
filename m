@@ -1,9 +1,10 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 28 Jun 2019 09:09:09 +0200
-Subject: [PATCH -next] nvme-pci: Make nvme_dev_pm_ops static
-In-Reply-To: <20190626020902.38240-1-yuehaibing@huawei.com>
-References: <20190626020902.38240-1-yuehaibing@huawei.com>
-Message-ID: <20190628070909.GD28268@lst.de>
+Date: Fri, 28 Jun 2019 09:11:00 +0200
+Subject: [PATCH][next] nvme-trace: fix spelling mistake "spcecific" ->
+ "specific"
+In-Reply-To: <20190626124323.5925-1-colin.king@canonical.com>
+References: <20190626124323.5925-1-colin.king@canonical.com>
+Message-ID: <20190628071100.GE28268@lst.de>
 
 Thanks,
 
