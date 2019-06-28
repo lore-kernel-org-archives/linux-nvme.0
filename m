@@ -1,78 +1,47 @@
-From: jgg@ziepe.ca (Jason Gunthorpe)
-Date: Fri, 28 Jun 2019 01:57:05 -0300
-Subject: [RFC PATCH 00/28] Removing struct page from P2PDMA
-In-Reply-To: <4894142c-3233-a3bb-f9a3-4a4985136e9b@deltatee.com>
-References: <20190626065708.GB24531@lst.de>
- <c15d5997-9ba4-f7db-0e7a-a69e75df316c@deltatee.com>
- <20190626202107.GA5850@ziepe.ca>
- <8a0a08c3-a537-bff6-0852-a5f337a70688@deltatee.com>
- <20190626210018.GB6392@ziepe.ca>
- <c25d3333-dcd5-3313-089b-7fbbd6fbd876@deltatee.com>
- <20190627063223.GA7736@ziepe.ca>
- <6afe4027-26c8-df4e-65ce-49df07dec54d@deltatee.com>
- <20190627163504.GB9568@ziepe.ca>
- <4894142c-3233-a3bb-f9a3-4a4985136e9b@deltatee.com>
-Message-ID: <20190628045705.GD3705@ziepe.ca>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Fri, 28 Jun 2019 08:23:10 +0200
+Subject: [ANNOUNCE] Alpine Linux Persistence and Storage Summit
+Message-ID: <20190628062310.GD2014@infradead.org>
 
-On Thu, Jun 27, 2019@10:49:43AM -0600, Logan Gunthorpe wrote:
+We proudly announce the second Alpine Linux Persistence and Storage
+Summit (ALPSS), which will be held October 1st to October 4th 2019 at
+the Lizumerhuette [1][2] in Austria .
 
-> > I don't think a GPU/FPGA driver will be involved, this would enter the
-> > block layer through the O_DIRECT path or something generic.. This the
-> > general flow I was suggesting to Dan earlier
-> 
-> I would say the O_DIRECT path has to somehow call into the driver
-> backing the VMA to get an address to appropriate memory (in some way
-> vaguely similar to how we were discussing at LSF/MM)
+The goal of this conference is to discuss the hot topics in Linux storage
+and file systems, such as persistent memory, NVMe, Zoned Block Device,
+and PCIe peer to peer transfers in a cool and relaxed setting with
+spectacular views in the Austrian alps.
 
-Maybe, maybe no. For something like VFIO the PTE already has the
-correct phys_addr_t and we don't need to do anything..
+We plan to have a small selection of short and to the point talks with
+lots of room for discussion in small groups, as well as ample downtime
+to enjoy the surrounding.
 
-For DEVICE_PRIVATE we need to get the phys_addr_t out - presumably
-through a new pagemap op?
+Attendance is free except for the accommodation and food at the lodge [3],
+but the number of seats is strictly limited.  If you are interested in
+attending please reserve a seat by mailing your favorite topic(s) to:
 
-> If P2P can't be done at that point, then the provider driver would
-> do the copy to system memory, in the most appropriate way, and
-> return regular pages for O_DIRECT to submit to the block device.
+	alpss-pc at lists.infradead.org
 
-That only makes sense for the migratable DEVICE_PRIVATE case, it
-doesn't help the VFIO-like case, there you'd need to bounce buffer.
+If you are interested in giving a short and crisp talk please also send
+an abstract to the same address.
 
-> >> I think it would be a larger layering violation to have the NVMe driver
-> >> (for example) memcpy data off a GPU's bar during a dma_map step to
-> >> support this bouncing. And it's even crazier to expect a DMA transfer to
-> >> be setup in the map step.
-> > 
-> > Why? Don't we already expect the DMA mapper to handle bouncing for
-> > lots of cases, how is this case different? This is the best place to
-> > place it to make it shared.
-> 
-> This is different because it's special memory where the DMA mapper
-> can't possibly know the best way to transfer the data.
+Note: The Lizumerhuette is an Alpine Society lodge in a high alpine
+environment.  A hike of approximately 2 hours is required to the lodge,
+and no other accommodations are available within walking distance.
 
-Why not?  If we have a 'bar info' structure that could have data
-transfer op callbacks, infact, I think we might already have similar
-callbacks for migrating to/from DEVICE_PRIVATE memory with DMA..
+More details will eventually be available on our website:
 
-> One could argue that the hook to the GPU/FPGA driver could be in the
-> mapping step but then we'd have to do lookups based on an address --
-> where as the VMA could more easily have a hook back to whatever driver
-> exported it.
+        http://www.alpss.at/
 
-The trouble with a VMA hook is that it is only really avaiable when
-working with the VA, and it is not actually available during GUP, you
-have to have a GUP-like thing such as hmm_range_snapshot that is
-specifically VMA based. And it is certainly not available during dma_map.
+Thank you on behalf of the program committee:
 
-When working with VMA's/etc it seems there are some good reasons to
-drive things off of the PTE content (either via struct page & pgmap or
-via phys_addr_t & barmap)
+    Stephen Bates
+    Sagi Grimberg
+    Christoph Hellwig
+    Johannes Thumshirn
+    Richard Weinberger
 
-I think the best reason to prefer a uniform phys_addr_t is that it
-does give us the option to copy the data to/from CPU memory. That
-option goes away as soon as the bio sometimes provides a dma_addr_t.
-
-At least for RDMA, we do have some cases (like siw/rxe, hfi) where
-they sometimes need to do that copy. I suspect the block stack is
-similar, in the general case.
-
-Jason
+[1] http://www.tyrol.com/things-to-do/sports/hiking/refuge-huts/a-lizumer-hut
+[2] https://www.glungezer.at/l-i-z-u-m-e-r-h-%C3%BC-t-t-e/
+[3] approx. EUR 40-60 per person and night, depending on the room
+    category
