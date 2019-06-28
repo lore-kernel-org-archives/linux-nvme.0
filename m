@@ -1,23 +1,80 @@
-From: hch@infradead.org ('Christoph Hellwig')
-Date: Fri, 28 Jun 2019 00:25:18 -0700
-Subject: [PATCH v5 0/7] Extend write-hint framework, and add write-hint
- for Ext4 journal
-In-Reply-To: <00f301d52c1d$58f1e820$0ad5b860$@samsung.com>
-References: <CGME20190425112347epcas2p1f7be48b8f0d2203252b8c9dd510c1b61@epcas2p1.samsung.com>
- <1556191202-3245-1-git-send-email-joshi.k@samsung.com>
- <20190510170249.GA26907@infradead.org>
- <00fb01d50c71$dd358e50$97a0aaf0$@samsung.com>
- <20190520142719.GA15705@infradead.org>
- <20190521082528.GA17709@quack2.suse.cz>
- <20190521082846.GA11024@infradead.org>
- <20190522102530.GK17019@quack2.suse.cz>
- <00f301d52c1d$58f1e820$0ad5b860$@samsung.com>
-Message-ID: <20190628072518.GA25577@infradead.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 28 Jun 2019 15:38:37 +0200
+Subject: [RFC PATCH 00/28] Removing struct page from P2PDMA
+In-Reply-To: <e63d0259-e17f-effe-b76d-43dbfda8ae3a@deltatee.com>
+References: <20190625170115.GA9746@lst.de>
+ <41235a05-8ed1-e69a-e7cd-48cae7d8a676@deltatee.com>
+ <20190626065708.GB24531@lst.de>
+ <c15d5997-9ba4-f7db-0e7a-a69e75df316c@deltatee.com>
+ <20190626202107.GA5850@ziepe.ca>
+ <8a0a08c3-a537-bff6-0852-a5f337a70688@deltatee.com>
+ <20190627090843.GB11548@lst.de>
+ <89889319-e778-7772-ab36-dc55b59826be@deltatee.com>
+ <20190627170027.GE10652@lst.de>
+ <e63d0259-e17f-effe-b76d-43dbfda8ae3a@deltatee.com>
+Message-ID: <20190628133837.GA3801@lst.de>
 
-On Wed, Jun 26, 2019@06:17:29PM +0530, kanchan wrote:
-> Christoph, 
-> May I know if you have thoughts about what Jan mentioned below? 
+On Thu, Jun 27, 2019@12:00:35PM -0600, Logan Gunthorpe wrote:
+> > It is not.  (c) is fundamentally very different as it is not actually
+> > an operation that ever goes out to the wire at all, and which is why the
+> > actual physical address on the wire does not matter at all.
+> > Some interfaces like NVMe have designed it in a way that it the commands
+> > used to do this internal transfer look like (b2), but that is just their
+> > (IMHO very questionable) interface design choice, that produces a whole
+> > chain of problems.
+> 
+> >From the mapping device's driver's perspective yes, but from the
+> perspective of a submitting driver they would be the same.
 
-As said I fundamentally disagree with exposting the streams mess at
-the block layer.  I have no problem with setting a hint on the journal,
-but I do object to exposting the streams mess even more.
+With your dma_addr_t scheme it won't be the same, as you'd need
+a magic way to generate the internal addressing and stuff it into
+the dma_addr_t.  With a phys_addr_t based scheme they should basically
+be all the same.
+
+> Yes, you did suggest them. But what I'm trying to suggest is we don't
+> *necessarily* need the lookup. For demonstration purposes only, a
+> submitting driver could very roughly potentially do:
+> 
+> struct bio_vec vec;
+> dist = pci_p2pdma_dist(provider_pdev, mapping_pdev);
+> if (dist < 0) {
+>      /* use regular memory */
+>      vec.bv_addr = virt_to_phys(kmalloc(...));
+>      vec.bv_flags = 0;
+> } else if (dist & PCI_P2PDMA_THRU_HOST_BRIDGE) {
+>      vec.bv_addr = pci_p2pmem_alloc_phys(provider_pdev, ...);
+>      vec.bv_flags = BVEC_MAP_RESOURCE;
+> } else {
+>      vec.bv_addr = pci_p2pmem_alloc_bus_addr(provider_pdev, ...);
+>      vec.bv_flags = BVEC_MAP_BUS_ADDR;
+> }
+
+That doesn't look too bad, except..
+
+> -- And a mapping driver would roughly just do:
+> 
+> dma_addr_t dma_addr;
+> if (vec.bv_flags & BVEC_MAP_BUS_ADDR) {
+>      if (pci_bus_addr_in_bar(mapping_pdev, vec.bv_addr, &bar, &off))  {
+>           /* case (c) */
+>           /* program the DMA engine with bar and off */
+
+Why bother with that here if we could also let the caller handle
+that? pci_p2pdma_dist() should be able to trivially find that out
+based on provider_dev == mapping_dev.
+
+> The real difficulty here is that you'd really want all the above handled
+> by a dma_map_bvec() so it can combine every vector hitting the IOMMU
+> into a single continuous IOVA -- but it's hard to fit case (c) into that
+> equation. So it might be that a dma_map_bvec() handles cases (a), (b1)
+> and (b2) and the mapping driver has to then check each resulting DMA
+> vector for pci_bus_addr_in_bar() while it is programming the DMA engine
+> to deal with case (c).
+
+I'd do it the other way around.  pci_p2pdma_dist is used to find
+the p2p type.  The p2p type is stuff into the bio_vec, and we then:
+
+ (1) manually check for case (c) in driver for drivers that want to
+     treat it different from (b)
+ (2) we then have a dma mapping wrapper that checks the p2p type
+     and does the right thing for the rest.
