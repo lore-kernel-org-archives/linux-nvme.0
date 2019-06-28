@@ -1,112 +1,60 @@
 From: bvanassche@acm.org (Bart Van Assche)
-Date: Fri, 28 Jun 2019 09:53:30 -0700
-Subject: [PATCH v5 2/3] nvmet: Export NVMe namespace attributes
+Date: Fri, 28 Jun 2019 09:53:29 -0700
+Subject: [PATCH v5 1/3] nvme: Introduce NVMe 1.4 Identify Namespace fields in
+ struct nvme_id_ns
 In-Reply-To: <20190628165331.163919-1-bvanassche@acm.org>
 References: <20190628165331.163919-1-bvanassche@acm.org>
-Message-ID: <20190628165331.163919-3-bvanassche@acm.org>
+Message-ID: <20190628165331.163919-2-bvanassche@acm.org>
 
-Make the NVMe NAWUN, NAWUPF, NACWU, NPWG, NPWA, NPDG and NOWS attributes
-available to initator systems for the block backend.
+Several new fields have been introduced in version 1.4 of the NVMe spec
+at offsets that were defined as reserved in version 1.3d of the NVMe
+spec. Update the definition of the nvme_id_ns data structure such that
+it is in sync with version 1.4 of the NVMe spec. This change preserves
+backwards compatibility.
 
-Cc: Keith Busch <kbusch at kernel.org>
+Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+Reviewed-by: Martin K. Petersen <martin.petersen at oracle.com>
+Reviewed-by: Keith Busch <kbusch at kernel.org>
+Reviewed-by: Christoph Hellwig <hch at lst.de>
 Cc: Sagi Grimberg <sagi at grimberg.me>
-Cc: Martin K. Petersen <martin.petersen at oracle.com>
 Cc: Hannes Reinecke <hare at suse.com>
-Cc: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 Signed-off-by: Bart Van Assche <bvanassche at acm.org>
 ---
- drivers/nvme/target/admin-cmd.c   |  3 +++
- drivers/nvme/target/io-cmd-bdev.c | 39 +++++++++++++++++++++++++++++++
- drivers/nvme/target/nvmet.h       |  8 +++++++
- 3 files changed, 50 insertions(+)
+ include/linux/nvme.h | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 9f72d515fc4b..4dc12ea52f23 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -442,6 +442,9 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
- 		break;
-         }
- 
-+	if (ns->bdev)
-+		nvmet_bdev_set_limits(ns->bdev, id);
-+
- 	/*
- 	 * We just provide a single LBA format that matches what the
- 	 * underlying device reports.
-diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
-index 7a1cf6437a6a..de0bff70ebb6 100644
---- a/drivers/nvme/target/io-cmd-bdev.c
-+++ b/drivers/nvme/target/io-cmd-bdev.c
-@@ -8,6 +8,45 @@
- #include <linux/module.h>
- #include "nvmet.h"
- 
-+void nvmet_bdev_set_limits(struct block_device *bdev, struct nvme_id_ns *id)
-+{
-+	const struct queue_limits *ql = &bdev_get_queue(bdev)->limits;
-+	/* Number of physical blocks per logical block. */
-+	const u32 ppl = ql->physical_block_size / ql->logical_block_size;
-+	/* Physical blocks per logical block, 0's based. */
-+	const __le16 ppl0b = to0based(ppl);
-+
-+	/*
-+	 * For NVMe 1.2 and later, bit 1 indicates that the fields NAWUN,
-+	 * NAWUPF, and NACWU are defined for this namespace and should be
-+	 * used by the host for this namespace instead of the AWUN, AWUPF,
-+	 * and ACWU fields in the Identify Controller data structure. If
-+	 * any of these fields are zero that means that the corresponding
-+	 * field from the identify controller data structure should be used.
-+	 */
-+	id->nsfeat |= 1 << 1;
-+	id->nawun = ppl0b;
-+	id->nawupf = ppl0b;
-+	id->nacwu = ppl0b;
-+
-+	/*
-+	 * Bit 4 indicates that the fields NPWG, NPWA, NPDG, NPDA, and
-+	 * NOWS are defined for this namespace and should be used by
-+	 * the host for I/O optimization.
-+	 */
-+	id->nsfeat |= 1 << 4;
-+	/* NPWG = Namespace Preferred Write Granularity. 0's based */
-+	id->npwg = ppl0b;
-+	/* NPWA = Namespace Preferred Write Alignment. 0's based */
-+	id->npwa = id->npwg;
-+	/* NPDG = Namespace Preferred Deallocate Granularity. 0's based */
-+	id->npdg = to0based(ql->discard_granularity / ql->logical_block_size);
-+	/* NPDG = Namespace Preferred Deallocate Alignment */
-+	id->npda = id->npdg;
-+	/* NOWS = Namespace Optimal Write Size */
-+	id->nows = to0based(ql->io_opt / ql->logical_block_size);
-+}
-+
- int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
- {
- 	int ret;
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index dc270944bb25..6ee66c610739 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -365,6 +365,7 @@ u16 nvmet_set_feat_async_event(struct nvmet_req *req, u32 mask);
- void nvmet_execute_async_event(struct nvmet_req *req);
- 
- u16 nvmet_parse_connect_cmd(struct nvmet_req *req);
-+void nvmet_bdev_set_limits(struct block_device *bdev, struct nvme_id_ns *id);
- u16 nvmet_bdev_parse_io_cmd(struct nvmet_req *req);
- u16 nvmet_file_parse_io_cmd(struct nvmet_req *req);
- u16 nvmet_parse_admin_cmd(struct nvmet_req *req);
-@@ -492,4 +493,11 @@ static inline u32 nvmet_rw_len(struct nvmet_req *req)
- }
- 
- u16 errno_to_nvme_status(struct nvmet_req *req, int errno);
-+
-+/* Convert a 32-bit number to a 16-bit 0's based number */
-+static inline __le16 to0based(u32 a)
-+{
-+	return cpu_to_le16(max(1U, min(1U << 16, a)) - 1);
-+}
-+
- #endif /* _NVMET_H */
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index d98b2d8baf4e..01aa6a6c241d 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -315,7 +315,7 @@ struct nvme_id_ns {
+ 	__u8			nmic;
+ 	__u8			rescap;
+ 	__u8			fpi;
+-	__u8			rsvd33;
++	__u8			dlfeat;
+ 	__le16			nawun;
+ 	__le16			nawupf;
+ 	__le16			nacwu;
+@@ -324,11 +324,17 @@ struct nvme_id_ns {
+ 	__le16			nabspf;
+ 	__le16			noiob;
+ 	__u8			nvmcap[16];
+-	__u8			rsvd64[28];
++	__le16			npwg;
++	__le16			npwa;
++	__le16			npdg;
++	__le16			npda;
++	__le16			nows;
++	__u8			rsvd74[18];
+ 	__le32			anagrpid;
+ 	__u8			rsvd96[3];
+ 	__u8			nsattr;
+-	__u8			rsvd100[4];
++	__le16			nvmsetid;
++	__le16			endgid;
+ 	__u8			nguid[16];
+ 	__u8			eui64[8];
+ 	struct nvme_lbaf	lbaf[16];
 -- 
 2.22.0.410.gd8fdbe21b5-goog
