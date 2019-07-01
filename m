@@ -1,39 +1,51 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 31 Jan 2019 14:05:49 -0700
-Subject: [PATCH] nvme-pci: Fix rapid add remove sequence
-In-Reply-To: <a3b0f71e-0694-36eb-4eff-2a20d51a6d5d@grimberg.me>
-References: <20190124014611.8643-1-keith.busch@intel.com>
- <a3b0f71e-0694-36eb-4eff-2a20d51a6d5d@grimberg.me>
-Message-ID: <20190131210548.GA21082@localhost.localdomain>
+From: fsteiner-mail1@bio.ifi.lmu.de (Frank Steiner)
+Date: Mon, 1 Jul 2019 11:04:15 +0200
+Subject: disk-activity trigger not working for nvme disk
+Message-ID: <79f17609-5b3d-0d29-1642-c9ce30beb7f9@bio.ifi.lmu.de>
 
-On Thu, Jan 31, 2019@12:54:03PM -0800, Sagi Grimberg wrote:
-> 
-> > A surprise removal may fail to tear down request queues if it is racing
-> > with the initial asynchronous probe. If that happens, the remove path
-> > won't see the queue resources to tear down, and the controller reset
-> > path may create a new request queue on a removed device, but will not
-> > be able to make forward progress, deadlocking the pci removal.
-> 
-> Doesn't pci removal flush the reset work before making forward
-> progress? Perhaps what is needed that it will flush it earlier instead
-> of serializing with the shutdown lock?
+Hi,
 
-Removal does flush reset work, but doesn't help this particular
-issue. It's pretty timing sensitive to trigger.
+I hope this is the right place to ask, people on the ibm-acpi-devel
+list sent me here :-)
 
-Before flushing reset on an surprise removal, we do an ungraceful device
-teardown first in order to unblock any IO that reset work is waiting on.
+It's about the disk-activity trigger for the led kernel subsystem.
+We are trying to turn e.g. the num lock led into a hard disk activity
+indicator by
 
-In this case that Alex discovered, though, the surprise removal happens
-just before the nvme driver has set up the admin and io tagsets, so
-removal doesn't find any tagsets to kill, and proceeds with flushing
-the reset work.
+echo disk-activity > /sys/class/leds/input0::numlock/trigger
 
-The reset work, though, just allocated brand new tagsets right after
-that, so it looks like they are good to use, so dispatches an admin
-command to a device that's gone.
+This works fine on all our older thinkpad models with SATA hard disks
+and works also on our PCs with SSD disks (SATA as well as NVME), but
+it fails on our newer thinkpads, i.e. T570 and T580, with NVME SSDs.
 
-You might expect the nvme_timeout() work to trigger 60 seconds later,
-but we can't use that when the pci device is not in a normal channel
-state. I wouldn't want to wait 60 seconds either, so the removal task
-needs to handle get things unblocked.
+The LED just stays off all the time no matter what we do with the hard
+disk. As all other triggers do work, people on the ibm-acpi-devel list
+supposed it might be an issue in the nvme driver (and not the thinkpad_acpi
+module).
+
+If that could be possible, is there any information I can provide
+for my laptop to help figure out the reason for the non-working trigger?
+
+As far as I can see the controller is this:
+40:00.0 Non-Volatile memory controller: Samsung Electronics Co Ltd Device a808
+
+and "nvme list" shows that:
+
+Node             SN                   Model                                    Namespace Usage                      Format           FW Rev
+---------------- -------------------- ---------------------------------------- --------- -------------------------- ---------------- --------
+/dev/nvme0n1     S3TPNX0M234146       SAMSUNG MZVLB1T0HALR-000L7               1         808,83  GB /   1,02  TB    512   B +  0 B   5L2QEXA7
+
+
+If this is not related to the nvme driver, do you have any idea where else
+I might ask?
+
+Thanks a lot!
+
+cu,
+Frank
+-- 
+Dipl.-Inform. Frank Steiner   Web:  http://www.bio.ifi.lmu.de/~steiner/
+Lehrstuhl f. Bioinformatik    Mail: http://www.bio.ifi.lmu.de/~steiner/m/
+LMU, Amalienstr. 17           Phone: +49 89 2180-4049
+80333 Muenchen, Germany       Fax:   +49 89 2180-99-4049
+* Rekursion kann man erst verstehen, wenn man Rekursion verstanden hat. *
