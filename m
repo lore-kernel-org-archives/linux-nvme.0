@@ -1,16 +1,24 @@
 From: akinobu.mita@gmail.com (Akinobu Mita)
-Date: Mon,  1 Jul 2019 23:12:33 +0900
-Subject: [PATCH v5 3/4] nvme: support DT thermal zone device
+Date: Mon,  1 Jul 2019 23:12:34 +0900
+Subject: [PATCH v5 4/4] nvme: notify thermal framework when temperature
+ threshold events occur
 In-Reply-To: <1561990354-4084-1-git-send-email-akinobu.mita@gmail.com>
 References: <1561990354-4084-1-git-send-email-akinobu.mita@gmail.com>
-Message-ID: <1561990354-4084-4-git-send-email-akinobu.mita@gmail.com>
+Message-ID: <1561990354-4084-5-git-send-email-akinobu.mita@gmail.com>
 
-In addition to the standard thermal zone device, this adds support for
-registering the DT thermal zone device.
+The NVMe controller supports the temperature threshold feature (Feature
+Identifier 04h) that enables to configure the asynchronous event request
+command to complete when the temperature is crossed its corresponding
+temperature threshold.
 
-If there is a device tree thermal zone node with the nvme temperature
-sensor, the standard thermal zone device is not created.
-Because we don't need two thermal zone devices for the same sensor.
+This enables the reporting of asynchronous events from the controller when
+the temperature reached or exceeded a temperature threshold.
+In the case of the temperature threshold conditions, this notifies the
+thermal framework.
+
+The main purpose of this is to turn on a fan when overheated without
+polling the device for the smart log that could prevent the lower power
+state transitions.
 
 Cc: Rob Herring <robh at kernel.org>
 Cc: Zhang Rui <rui.zhang at intel.com>
@@ -26,87 +34,122 @@ Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni at wdc.com>
 Signed-off-by: Akinobu Mita <akinobu.mita at gmail.com>
 ---
 * v5
-- split the DT thermal zone support into separate patch
-- don't register both standard and DT thermal zone
+- use thermal_zone_device_update() instead of thermal_notify_framework()
 
- drivers/nvme/host/nvme.h    |  1 +
- drivers/nvme/host/thermal.c | 38 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 39 insertions(+)
+ drivers/nvme/host/core.c    | 14 ++++++++++++++
+ drivers/nvme/host/nvme.h    |  5 +++++
+ drivers/nvme/host/thermal.c | 14 ++++++++++++++
+ include/linux/nvme.h        |  7 +++++++
+ 4 files changed, 40 insertions(+)
 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 1d84685..80403c3 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1186,6 +1186,9 @@ static void nvme_enable_aen(struct nvme_ctrl *ctrl)
+ 	u32 result, supported_aens = ctrl->oaes & NVME_AEN_SUPPORTED;
+ 	int status;
+ 
++	if (IS_ENABLED(CONFIG_THERMAL))
++		supported_aens |= NVME_SMART_CRIT_TEMPERATURE;
++
+ 	if (!supported_aens)
+ 		return;
+ 
+@@ -3561,6 +3564,16 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
+ }
+ EXPORT_SYMBOL_GPL(nvme_remove_namespaces);
+ 
++static void nvme_handle_aen_smart(struct nvme_ctrl *ctrl, u32 result)
++{
++	u32 aer_type = result & NVME_AER_TYPE_MASK;
++	u32 aer_info = (result >> NVME_AER_INFO_SHIFT) & NVME_AER_INFO_MASK;
++
++	if (aer_type == NVME_AER_SMART &&
++	    aer_info == NVME_AER_SMART_TEMP_THRESH)
++		nvme_thermal_zones_update(ctrl);
++}
++
+ static void nvme_aen_uevent(struct nvme_ctrl *ctrl)
+ {
+ 	char *envp[2] = { NULL, NULL };
+@@ -3582,6 +3595,7 @@ static void nvme_async_event_work(struct work_struct *work)
+ 	struct nvme_ctrl *ctrl =
+ 		container_of(work, struct nvme_ctrl, async_event_work);
+ 
++	nvme_handle_aen_smart(ctrl, ctrl->aen_result);
+ 	nvme_aen_uevent(ctrl);
+ 	ctrl->ops->submit_async_event(ctrl);
+ }
 diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 49dd59ec..d501567 100644
+index d501567..f29bc77 100644
 --- a/drivers/nvme/host/nvme.h
 +++ b/drivers/nvme/host/nvme.h
-@@ -159,6 +159,7 @@ struct nvme_fault_inject {
- struct nvme_tz {
- 	struct thermal_zone_params params;
- 	struct thermal_zone_device *dev;
-+	struct thermal_zone_device *of_dev;
- 	unsigned int sensor;
- };
+@@ -611,6 +611,7 @@ static inline struct nvme_ns *nvme_get_ns_from_dev(struct device *dev)
  
+ int nvme_thermal_zones_register(struct nvme_ctrl *ctrl);
+ void nvme_thermal_zones_unregister(struct nvme_ctrl *ctrl);
++void nvme_thermal_zones_update(struct nvme_ctrl *ctrl);
+ 
+ #else
+ 
+@@ -623,6 +624,10 @@ static inline void nvme_thermal_zones_unregister(struct nvme_ctrl *ctrl)
+ {
+ }
+ 
++static inline void nvme_thermal_zones_update(struct nvme_ctrl *ctrl)
++{
++}
++
+ #endif /* CONFIG_THERMAL */
+ 
+ #endif /* _NVME_H */
 diff --git a/drivers/nvme/host/thermal.c b/drivers/nvme/host/thermal.c
-index c3608f6..431aeb4 100644
+index 431aeb4..9dcc1dc 100644
 --- a/drivers/nvme/host/thermal.c
 +++ b/drivers/nvme/host/thermal.c
-@@ -150,6 +150,11 @@ static struct thermal_zone_device_ops nvme_tz_ops = {
- 	.set_trip_temp = nvme_tz_set_trip_temp,
- };
- 
-+static struct thermal_zone_of_device_ops nvme_tz_of_ops = {
-+	.get_temp = nvme_tz_of_get_temp,
-+	.set_trip_temp = nvme_tz_of_set_trip_temp,
-+};
-+
- static const struct thermal_zone_params nvme_tz_params = {
- 	.governor_name = "user_space",
- 	.no_hwmon = true,
-@@ -164,6 +169,36 @@ static int nvme_thermal_zone_register(struct nvme_ctrl *ctrl,
- 	int ret;
- 
- 	tz->sensor = sensor;
-+
-+	tzdev = thermal_zone_of_sensor_register(ctrl->dev, sensor, tz,
-+						&nvme_tz_of_ops);
-+	if (!IS_ERR(tzdev)) {
-+		int trip_temp;
-+
-+		ret = tzdev->ops->get_trip_temp(tzdev, 0, &trip_temp);
-+		if (ret) {
-+			dev_err(ctrl->device,
-+				"Failed to get trip temp: %d\n", ret);
-+			return ret;
-+		}
-+
-+		ret = tzdev->ops->set_trip_temp(tzdev, 0, trip_temp);
-+		if (ret) {
-+			dev_err(ctrl->device,
-+				"Failed to set trip temp: %d\n", ret);
-+			return ret;
-+		}
-+
-+		tz->of_dev = tzdev;
-+
-+		return 0;
-+	}
-+
-+	if (PTR_ERR(tzdev) != -ENODEV)
-+		dev_warn(ctrl->device,
-+			 "Failed to register thermal zone of sensor %d: %ld\n",
-+			 sensor, PTR_ERR(tzdev));
-+
- 	tz->params = nvme_tz_params;
- 	snprintf(name, sizeof(name), "nvme%d_temp%u", ctrl->instance, sensor);
- 
-@@ -286,6 +321,9 @@ void nvme_thermal_zones_unregister(struct nvme_ctrl *ctrl)
- 			tz->dev = NULL;
- 		}
- 
-+		thermal_zone_of_sensor_unregister(ctrl->dev, tz->of_dev);
-+		tz->of_dev = NULL;
-+
+@@ -327,3 +327,17 @@ void nvme_thermal_zones_unregister(struct nvme_ctrl *ctrl)
  		__clear_bit(i, ctrl->tz_enabled);
  	}
  }
++
++void nvme_thermal_zones_update(struct nvme_ctrl *ctrl)
++{
++	int i;
++
++	for_each_set_bit(i, ctrl->tz_enabled, ARRAY_SIZE(ctrl->tz)) {
++		if (ctrl->tz[i].dev)
++			thermal_zone_device_update(ctrl->tz[i].dev,
++						   THERMAL_EVENT_UNSPECIFIED);
++		if (ctrl->tz[i].of_dev)
++			thermal_zone_device_update(ctrl->tz[i].of_dev,
++						   THERMAL_EVENT_UNSPECIFIED);
++	}
++}
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index f29728b..069b962 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -476,6 +476,7 @@ enum {
+ };
+ 
+ enum {
++	NVME_AER_TYPE_MASK		= 0x7,
+ 	NVME_AER_ERROR			= 0,
+ 	NVME_AER_SMART			= 1,
+ 	NVME_AER_NOTICE			= 2,
+@@ -484,6 +485,12 @@ enum {
+ };
+ 
+ enum {
++	NVME_AER_INFO_SHIFT		= 8,
++	NVME_AER_INFO_MASK		= 0xff,
++	NVME_AER_SMART_TEMP_THRESH	= 0x01,
++};
++
++enum {
+ 	NVME_AER_NOTICE_NS_CHANGED	= 0x00,
+ 	NVME_AER_NOTICE_FW_ACT_STARTING = 0x01,
+ 	NVME_AER_NOTICE_ANA		= 0x03,
 -- 
 2.7.4
