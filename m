@@ -1,71 +1,58 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 3 Jul 2019 10:33:31 -0700
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Wed, 3 Jul 2019 12:13:13 -0600
 Subject: [PATCH 0/2] Fix use-after-free bug when ports are removed
-In-Reply-To: <20190703170136.21515-1-logang@deltatee.com>
+In-Reply-To: <e88bed6b-c487-e224-1434-ba9912495a33@grimberg.me>
 References: <20190703170136.21515-1-logang@deltatee.com>
-Message-ID: <e88bed6b-c487-e224-1434-ba9912495a33@grimberg.me>
+ <e88bed6b-c487-e224-1434-ba9912495a33@grimberg.me>
+Message-ID: <c072210c-1f44-2803-4781-15ff6f72a07a@deltatee.com>
 
-> Hey,
 
-Hey Logan,
 
-> NVME target ports can be removed while there are still active
-> controllers. Largely this is fine, except some admin commands
-> can access the req->port (for example, id-ctrl uses the port's
-> inline date size as part of it's response). This was found
-> while testing with KASAN.
+On 2019-07-03 11:33 a.m., Sagi Grimberg wrote:
+>> NVME target ports can be removed while there are still active
+>> controllers. Largely this is fine, except some admin commands
+>> can access the req->port (for example, id-ctrl uses the port's
+>> inline date size as part of it's response). This was found
+>> while testing with KASAN.
+>>
+>> Two patches follow which disconnect active controllers when the
+>> ports are removed for loop and rdma. I'm not sure if fc has the
+>> same issue and have no way to test this.
+>>
+>> Alternatively, we could add reference counting to the struct port,
+>> but I think this is a more involved change and could be done later
+>> after we fix the bug quickly.
 > 
-> Two patches follow which disconnect active controllers when the
-> ports are removed for loop and rdma. I'm not sure if fc has the
-> same issue and have no way to test this.
+> I don't think that when removing a port the expectation is that
+> all associated controllers remain intact (although they can, which
+> was why we did not remove them), so I think its fine to change that
+> if it causes issues.
 > 
-> Alternatively, we could add reference counting to the struct port,
-> but I think this is a more involved change and could be done later
-> after we fix the bug quickly.
+> Can we handle this in the core instead (also so we'd be consistent
+> across transports)?
 
-I don't think that when removing a port the expectation is that
-all associated controllers remain intact (although they can, which
-was why we did not remove them), so I think its fine to change that
-if it causes issues.
+Yes, that would be much better if we can sort out some other issues below...
 
-Can we handle this in the core instead (also so we'd be consistent
-across transports)?
+> How about this untested patch instead?
 
-How about this untested patch instead?
---
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 0587707b1a25..12b58e568810 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -277,6 +277,21 @@ void nvmet_unregister_transport(const struct 
-nvmet_fabrics_ops *ops)
-  }
-  EXPORT_SYMBOL_GPL(nvmet_unregister_transport);
+I've found a couple of problems with the patch:
 
-+void nvmet_port_del_ctrls(struct nvmet_port *port)
-+{
-+       struct nvmet_subsys_link *l;
-+       struct nvmet_ctrl *ctrl;
-+
-+       list_for_each_entry(l, &port->subsystems, entry) {
-+               mutex_lock(&l->subsys->lock);
-+               list_for_each_entry(ctrl, &l->subsys->ctrls, subsys_entry) {
-+                       if (ctrl->port == port)
-+                               ctrl->ops->delete_ctrl(ctrl);
-+               }
-+               mutex_unlock(&l->subsys->lock);
-+       }
-+}
-+
-  int nvmet_enable_port(struct nvmet_port *port)
-  {
-         const struct nvmet_fabrics_ops *ops;
-@@ -321,6 +336,8 @@ void nvmet_disable_port(struct nvmet_port *port)
+1) port->subsystems will always be empty before nvmet_disable_port() is
+called. We'd have to restructure things a little perhaps so that when a
+subsystem is removed from a port, all the active controllers for that
+subsys/port combo would be removed.
 
-         lockdep_assert_held(&nvmet_config_sem);
+2) loop needs to call flush_workqueue(nvme_delete_wq) somewhere,
+otherwise there's a small window after the port disappears while
+commands can still be submitted. We can actually still hit the bug with
+a tight loop.
 
-+       nvmet_port_del_ctrls(port);
-+
-         port->enabled = false;
-         port->tr_ops = NULL;
---
+Maybe there's other cleanup that could be done to solve this: it does
+seem like all three transports need to keep their own lists of open
+controllers and loops through them to delete them. In theory, that could
+be made common so there's common code to manage the list per transport
+which would remove some boiler plate code. If we want to go this route
+though, I'd suggest using my patches as is for now and doing the cleanup
+in the next cycle.
+
+Logan
