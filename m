@@ -1,39 +1,74 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Wed,  3 Jul 2019 17:03:02 -0600
-Subject: [PATCH v2 0/2] Fix use-after-free bug when ports are removed
-Message-ID: <20190703230304.22905-1-logang@deltatee.com>
+Date: Wed,  3 Jul 2019 17:03:03 -0600
+Subject: [PATCH v2 1/2] nvmet: Fix use-after-free bug when a port is removed
+In-Reply-To: <20190703230304.22905-1-logang@deltatee.com>
+References: <20190703230304.22905-1-logang@deltatee.com>
+Message-ID: <20190703230304.22905-2-logang@deltatee.com>
 
-Hey,
+When a port is removed through configfs, any connected controllers
+are still active and can still send commands. This causes a
+use-after-free bug which is detected by KASAN for any admin command
+that dereferences req->port (like in nvmet_execute_identify_ctrl).
 
-This is the second attempt at fixing this.
+To fix this, disconnect all active controllers when a subsystem is
+removed from a port. This ensures there are no active controllers
+when the port is eventually removed.
 
-Per Sagi's feedback on the first attempt, I've found an approach
-that disconnects active controllers when the subsys is removed from
-the port (Patch 1). Patch 2 fixes a race that still exists in the
-loop transport which requires us to flush the nvme_delete_wq before
-freeing the port to prevent the use-after-free bug.
-
-Logan
-
---
-
-NVME target ports can be removed while there are still active
-controllers. Largely this is fine, except some admin commands
-can access the req->port (for example, id-ctrl uses the port's
-inline date size as part of it's response). This was found
-while testing with KASAN.
-
---
-
-Logan Gunthorpe (2):
-  nvmet: Fix use-after-free bug when a port is removed
-  nvmet-loop: Flush nvme_delete_wq when removing the port
-
+Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
+---
  drivers/nvme/target/configfs.c |  1 +
  drivers/nvme/target/core.c     | 12 ++++++++++++
- drivers/nvme/target/loop.c     |  8 ++++++++
  drivers/nvme/target/nvmet.h    |  3 +++
- 4 files changed, 24 insertions(+)
+ 3 files changed, 16 insertions(+)
 
---
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index 08dd5af357f7..3854363118cc 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -673,6 +673,7 @@ static void nvmet_port_subsys_drop_link(struct config_item *parent,
+ 
+ found:
+ 	list_del(&p->entry);
++	nvmet_port_del_ctrls(port, subsys);
+ 	nvmet_port_disc_changed(port, subsys);
+ 
+ 	if (list_empty(&port->subsystems))
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 7734a6acff85..e4db9a441168 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -277,6 +277,18 @@ void nvmet_unregister_transport(const struct nvmet_fabrics_ops *ops)
+ }
+ EXPORT_SYMBOL_GPL(nvmet_unregister_transport);
+ 
++void nvmet_port_del_ctrls(struct nvmet_port *port, struct nvmet_subsys *subsys)
++{
++	struct nvmet_ctrl *ctrl;
++
++	mutex_lock(&subsys->lock);
++	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
++		if (ctrl->port == port)
++			ctrl->ops->delete_ctrl(ctrl);
++	}
++	mutex_unlock(&subsys->lock);
++}
++
+ int nvmet_enable_port(struct nvmet_port *port)
+ {
+ 	const struct nvmet_fabrics_ops *ops;
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index c25d88fc9dec..b6b0d483e0c5 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -415,6 +415,9 @@ void nvmet_port_send_ana_event(struct nvmet_port *port);
+ int nvmet_register_transport(const struct nvmet_fabrics_ops *ops);
+ void nvmet_unregister_transport(const struct nvmet_fabrics_ops *ops);
+ 
++void nvmet_port_del_ctrls(struct nvmet_port *port,
++			  struct nvmet_subsys *subsys);
++
+ int nvmet_enable_port(struct nvmet_port *port);
+ void nvmet_disable_port(struct nvmet_port *port);
+ 
+-- 
 2.20.1
