@@ -1,9 +1,44 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 3 Jul 2019 15:42:49 -0700
-Subject: [PATCH] nvme-pci: limit max_hw_sectors based on the DMA max
- mapping size
-In-Reply-To: <20190703172700.16556-1-hch@lst.de>
-References: <20190703172700.16556-1-hch@lst.de>
-Message-ID: <b634dbab-d67a-8e50-0d84-9619e797cc76@grimberg.me>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Wed,  3 Jul 2019 17:03:04 -0600
+Subject: [PATCH v2 2/2] nvmet-loop: Flush nvme_delete_wq when removing the port
+In-Reply-To: <20190703230304.22905-1-logang@deltatee.com>
+References: <20190703230304.22905-1-logang@deltatee.com>
+Message-ID: <20190703230304.22905-3-logang@deltatee.com>
 
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+After calling nvme_loop_delete_ctrl(), the controllers will not
+yet be deleted because nvme_delete_ctrl() only schedules work
+to do the delete.
+
+This means a race can occur if a port is removed but there
+are still active controllers trying to access that memory.
+
+To fix this, flush the nvme_delete_wq before returning from
+nvme_loop_remove_port() so that any controllers that might
+be in the process of being deleted won't access a freed port.
+
+Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
+---
+ drivers/nvme/target/loop.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index 9e211ad6bdd3..da9cd07461fb 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -654,6 +654,14 @@ static void nvme_loop_remove_port(struct nvmet_port *port)
+ 	mutex_lock(&nvme_loop_ports_mutex);
+ 	list_del_init(&port->entry);
+ 	mutex_unlock(&nvme_loop_ports_mutex);
++
++	/*
++	 * Ensure any ctrls that are in the process of being
++	 * deleted are in fact deleted before we return
++	 * and free the port. This is to prevent active
++	 * ctrls from using a port after it's freed.
++	 */
++	flush_workqueue(nvme_delete_wq);
+ }
+ 
+ static const struct nvmet_fabrics_ops nvme_loop_ops = {
+-- 
+2.20.1
