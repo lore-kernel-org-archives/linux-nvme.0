@@ -1,35 +1,71 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed,  3 Jul 2019 10:27:00 -0700
-Subject: [PATCH] nvme-pci: limit max_hw_sectors based on the DMA max mapping
- size
-Message-ID: <20190703172700.16556-1-hch@lst.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 3 Jul 2019 10:33:31 -0700
+Subject: [PATCH 0/2] Fix use-after-free bug when ports are removed
+In-Reply-To: <20190703170136.21515-1-logang@deltatee.com>
+References: <20190703170136.21515-1-logang@deltatee.com>
+Message-ID: <e88bed6b-c487-e224-1434-ba9912495a33@grimberg.me>
 
-When running a NVMe device that is attached to a addressing
-challenged PCIe root port that requires bounce buffering, our
-request sizes can easily overflow the swiotlb bounce buffer
-size.  Limit the maximum I/O size to the limit exposed by
-the DMA mapping subsystem.
+> Hey,
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
-Reported-by: Atish Patra <Atish.Patra at wdc.com>
-Tested-by: Atish Patra <Atish.Patra at wdc.com>
----
- drivers/nvme/host/pci.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Hey Logan,
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 49c1fc9907a6..a214c7b08763 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2497,7 +2497,8 @@ static void nvme_reset_work(struct work_struct *work)
- 	 * Limit the max command size to prevent iod->sg allocations going
- 	 * over a single page.
- 	 */
--	dev->ctrl.max_hw_sectors = NVME_MAX_KB_SZ << 1;
-+	dev->ctrl.max_hw_sectors = min_t(u32,
-+		NVME_MAX_KB_SZ << 1, dma_max_mapping_size(dev->dev) >> 9);
- 	dev->ctrl.max_segments = NVME_MAX_SEGS;
- 
- 	/*
--- 
-2.20.1
+> NVME target ports can be removed while there are still active
+> controllers. Largely this is fine, except some admin commands
+> can access the req->port (for example, id-ctrl uses the port's
+> inline date size as part of it's response). This was found
+> while testing with KASAN.
+> 
+> Two patches follow which disconnect active controllers when the
+> ports are removed for loop and rdma. I'm not sure if fc has the
+> same issue and have no way to test this.
+> 
+> Alternatively, we could add reference counting to the struct port,
+> but I think this is a more involved change and could be done later
+> after we fix the bug quickly.
+
+I don't think that when removing a port the expectation is that
+all associated controllers remain intact (although they can, which
+was why we did not remove them), so I think its fine to change that
+if it causes issues.
+
+Can we handle this in the core instead (also so we'd be consistent
+across transports)?
+
+How about this untested patch instead?
+--
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 0587707b1a25..12b58e568810 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -277,6 +277,21 @@ void nvmet_unregister_transport(const struct 
+nvmet_fabrics_ops *ops)
+  }
+  EXPORT_SYMBOL_GPL(nvmet_unregister_transport);
+
++void nvmet_port_del_ctrls(struct nvmet_port *port)
++{
++       struct nvmet_subsys_link *l;
++       struct nvmet_ctrl *ctrl;
++
++       list_for_each_entry(l, &port->subsystems, entry) {
++               mutex_lock(&l->subsys->lock);
++               list_for_each_entry(ctrl, &l->subsys->ctrls, subsys_entry) {
++                       if (ctrl->port == port)
++                               ctrl->ops->delete_ctrl(ctrl);
++               }
++               mutex_unlock(&l->subsys->lock);
++       }
++}
++
+  int nvmet_enable_port(struct nvmet_port *port)
+  {
+         const struct nvmet_fabrics_ops *ops;
+@@ -321,6 +336,8 @@ void nvmet_disable_port(struct nvmet_port *port)
+
+         lockdep_assert_held(&nvmet_config_sem);
+
++       nvmet_port_del_ctrls(port);
++
+         port->enabled = false;
+         port->tr_ops = NULL;
+--
