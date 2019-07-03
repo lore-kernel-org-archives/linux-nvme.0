@@ -1,52 +1,190 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 3 Jul 2019 13:33:56 -0700
-Subject: [PATCH 2/2] nvme-multipath: do not select namespaces which are
- about to be removed
-In-Reply-To: <20190703132133.GA8948@lst.de>
-References: <20190703131232.58595-1-hare@suse.de>
- <20190703131232.58595-3-hare@suse.de> <20190703132133.GA8948@lst.de>
-Message-ID: <c355b6ef-12b9-6a57-f091-a459e937f2ec@grimberg.me>
+Date: Wed,  3 Jul 2019 14:08:04 -0700
+Subject: [PATCH rfc] nvme-tcp: support simple polling
+Message-ID: <20190703210804.23137-1-sagi@grimberg.me>
 
+Simple polling support via socket busy_poll interface.
+Although we do not shutdown interrupts but simply hammer
+the socket poll, we can sometimes find completions faster
+than the normal interrupt driven RX path.
 
->> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
->> index c8cc82639327..1f6105a5c596 100644
->> --- a/drivers/nvme/host/multipath.c
->> +++ b/drivers/nvme/host/multipath.c
->> @@ -130,7 +130,8 @@ static struct nvme_ns *__nvme_find_path(struct nvme_ns_head *head, int node)
->>   
->>   	list_for_each_entry_rcu(ns, &head->list, siblings) {
->>   		if (ns->ctrl->state != NVME_CTRL_LIVE ||
->> -		    test_bit(NVME_NS_ANA_PENDING, &ns->flags))
->> +		    test_bit(NVME_NS_ANA_PENDING, &ns->flags) ||
->> +		    test_bit(NVME_NS_REMOVING, &ns->flags))
->>   			continue;
->>   
->>   		if (READ_ONCE(head->subsys->iopolicy) == NVME_IOPOLICY_NUMA)
->> @@ -180,7 +181,8 @@ static struct nvme_ns *nvme_round_robin_path(struct nvme_ns_head *head,
->>   
->>   	if (list_is_singular(&head->list)) {
->>   		if (old->ctrl->state != NVME_CTRL_LIVE ||
->> -		    test_bit(NVME_NS_ANA_PENDING, &old->flags))
->> +		    test_bit(NVME_NS_ANA_PENDING, &old->flags)||
->> +		    test_bit(NVME_NS_REMOVING, &old->flags))
->>   			return NULL;
->>   		return old;
->>   	}
->> @@ -189,7 +191,8 @@ static struct nvme_ns *nvme_round_robin_path(struct nvme_ns_head *head,
->>   	     ns != old;
->>   	     ns = nvme_next_ns(head, ns)) {
->>   		if (ns->ctrl->state != NVME_CTRL_LIVE ||
->> -		    test_bit(NVME_NS_ANA_PENDING, &ns->flags))
->> +		    test_bit(NVME_NS_ANA_PENDING, &ns->flags) ||
->> +		    test_bit(NVME_NS_REMOVING, &ns->flags))
->>   			continue;
-> 
-> I think we clearly need a patch before the two patches in your
-> series that factors this check into a little helper with a
-> descriptive name.  Also doesn't nvme_path_is_optimized also need
-> to have these checks while we are at it?
+We add per queue nr_cqe counter that resets every time
+RX path is invoked such that .poll callback can return it
+to stay consistent with the semantics.
 
-I definitely agree here.
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+There is quite a bit more to do in this direction such as
+asking the net device to allocate polling rings and steer our
+polling queues to them, but that would require some infrastructure
+work in the networking stack.
 
-BTW, while we're on this, do we need the flags check to be
-atomic? or can we micro-optimize with a simple flag arithmetic?
+With this alone, even while still absorbing the net device interrupts
+I'm seeing around 10%-20% latency improvement while sacrificing lots
+of cpu cycles for it.
+
+ drivers/nvme/host/tcp.c | 51 ++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 45 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 08a2501b9357..a4275bc932c3 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -13,6 +13,7 @@
+ #include <net/tcp.h>
+ #include <linux/blk-mq.h>
+ #include <crypto/hash.h>
++#include <net/busy_poll.h>
+ 
+ #include "nvme.h"
+ #include "fabrics.h"
+@@ -72,6 +73,7 @@ struct nvme_tcp_queue {
+ 	int			pdu_offset;
+ 	size_t			data_remaining;
+ 	size_t			ddgst_remaining;
++	unsigned int		nr_cqe;
+ 
+ 	/* send state */
+ 	struct nvme_tcp_request *request;
+@@ -438,6 +440,7 @@ static int nvme_tcp_process_nvme_cqe(struct nvme_tcp_queue *queue,
+ 	}
+ 
+ 	nvme_end_request(rq, cqe->status, cqe->result);
++	queue->nr_cqe++;
+ 
+ 	return 0;
+ }
+@@ -701,8 +704,10 @@ static int nvme_tcp_recv_data(struct nvme_tcp_queue *queue, struct sk_buff *skb,
+ 			nvme_tcp_ddgst_final(queue->rcv_hash, &queue->exp_ddgst);
+ 			queue->ddgst_remaining = NVME_TCP_DIGEST_LENGTH;
+ 		} else {
+-			if (pdu->hdr.flags & NVME_TCP_F_DATA_SUCCESS)
++			if (pdu->hdr.flags & NVME_TCP_F_DATA_SUCCESS) {
+ 				nvme_tcp_end_request(rq, NVME_SC_SUCCESS);
++				queue->nr_cqe++;
++			}
+ 			nvme_tcp_init_recv_ctx(queue);
+ 		}
+ 	}
+@@ -742,6 +747,7 @@ static int nvme_tcp_recv_ddgst(struct nvme_tcp_queue *queue,
+ 						pdu->command_id);
+ 
+ 		nvme_tcp_end_request(rq, NVME_SC_SUCCESS);
++		queue->nr_cqe++;
+ 	}
+ 
+ 	nvme_tcp_init_recv_ctx(queue);
+@@ -1023,6 +1029,7 @@ static int nvme_tcp_try_recv(struct nvme_tcp_queue *queue)
+ 	rd_desc.arg.data = queue;
+ 	rd_desc.count = 1;
+ 	lock_sock(sk);
++	queue->nr_cqe = 0;
+ 	consumed = tcp_read_sock(sk, &rd_desc, nvme_tcp_recv_skb);
+ 	release_sock(sk);
+ 	return consumed;
+@@ -1364,6 +1371,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
+ 	queue->sock->sk->sk_data_ready = nvme_tcp_data_ready;
+ 	queue->sock->sk->sk_state_change = nvme_tcp_state_change;
+ 	queue->sock->sk->sk_write_space = nvme_tcp_write_space;
++	queue->sock->sk->sk_ll_usec = 1;
+ 	write_unlock_bh(&queue->sock->sk->sk_callback_lock);
+ 
+ 	return 0;
+@@ -1462,7 +1470,7 @@ static struct blk_mq_tag_set *nvme_tcp_alloc_tagset(struct nvme_ctrl *nctrl,
+ 		set->driver_data = ctrl;
+ 		set->nr_hw_queues = nctrl->queue_count - 1;
+ 		set->timeout = NVME_IO_TIMEOUT;
+-		set->nr_maps = 2 /* default + read */;
++		set->nr_maps = nctrl->opts->nr_poll_queues ? HCTX_MAX_TYPES : 2;
+ 	}
+ 
+ 	ret = blk_mq_alloc_tag_set(set);
+@@ -1561,6 +1569,7 @@ static unsigned int nvme_tcp_nr_io_queues(struct nvme_ctrl *ctrl)
+ 
+ 	nr_io_queues = min(ctrl->opts->nr_io_queues, num_online_cpus());
+ 	nr_io_queues += min(ctrl->opts->nr_write_queues, num_online_cpus());
++	nr_io_queues += min(ctrl->opts->nr_poll_queues, num_online_cpus());
+ 
+ 	return nr_io_queues;
+ }
+@@ -1592,6 +1601,12 @@ static void nvme_tcp_set_io_queues(struct nvme_ctrl *nctrl,
+ 			min(opts->nr_io_queues, nr_io_queues);
+ 		nr_io_queues -= ctrl->io_queues[HCTX_TYPE_DEFAULT];
+ 	}
++
++	if (opts->nr_poll_queues && nr_io_queues) {
++		/* map dedicated poll queues only if we have queues left */
++		ctrl->io_queues[HCTX_TYPE_POLL] =
++			min(opts->nr_poll_queues, nr_io_queues);
++	}
+ }
+ 
+ static int nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
+@@ -2144,14 +2159,36 @@ static int nvme_tcp_map_queues(struct blk_mq_tag_set *set)
+ 	blk_mq_map_queues(&set->map[HCTX_TYPE_DEFAULT]);
+ 	blk_mq_map_queues(&set->map[HCTX_TYPE_READ]);
+ 
++	if (opts->nr_poll_queues && ctrl->io_queues[HCTX_TYPE_POLL]) {
++		/* map dedicated poll queues only if we have queues left */
++		set->map[HCTX_TYPE_POLL].nr_queues =
++				ctrl->io_queues[HCTX_TYPE_POLL];
++		set->map[HCTX_TYPE_POLL].queue_offset =
++			ctrl->io_queues[HCTX_TYPE_DEFAULT] +
++			ctrl->io_queues[HCTX_TYPE_READ];
++		blk_mq_map_queues(&set->map[HCTX_TYPE_POLL]);
++	}
++
+ 	dev_info(ctrl->ctrl.device,
+-		"mapped %d/%d default/read queues.\n",
++		"mapped %d/%d/%d default/read/poll queues.\n",
+ 		ctrl->io_queues[HCTX_TYPE_DEFAULT],
+-		ctrl->io_queues[HCTX_TYPE_READ]);
++		ctrl->io_queues[HCTX_TYPE_READ],
++		ctrl->io_queues[HCTX_TYPE_POLL]);
+ 
+ 	return 0;
+ }
+ 
++static int nvme_tcp_poll(struct blk_mq_hw_ctx *hctx)
++{
++	struct nvme_tcp_queue *queue = hctx->driver_data;
++	struct sock *sk = queue->sock->sk;
++
++	if (sk_can_busy_loop(sk) && skb_queue_empty(&sk->sk_receive_queue))
++		sk_busy_loop(sk, true);
++	nvme_tcp_try_recv(queue);
++	return queue->nr_cqe;
++}
++
+ static struct blk_mq_ops nvme_tcp_mq_ops = {
+ 	.queue_rq	= nvme_tcp_queue_rq,
+ 	.complete	= nvme_complete_rq,
+@@ -2160,6 +2197,7 @@ static struct blk_mq_ops nvme_tcp_mq_ops = {
+ 	.init_hctx	= nvme_tcp_init_hctx,
+ 	.timeout	= nvme_tcp_timeout,
+ 	.map_queues	= nvme_tcp_map_queues,
++	.poll		= nvme_tcp_poll,
+ };
+ 
+ static struct blk_mq_ops nvme_tcp_admin_mq_ops = {
+@@ -2213,7 +2251,8 @@ static struct nvme_ctrl *nvme_tcp_create_ctrl(struct device *dev,
+ 
+ 	INIT_LIST_HEAD(&ctrl->list);
+ 	ctrl->ctrl.opts = opts;
+-	ctrl->ctrl.queue_count = opts->nr_io_queues + opts->nr_write_queues + 1;
++	ctrl->ctrl.queue_count = opts->nr_io_queues + opts->nr_write_queues +
++				opts->nr_poll_queues + 1;
+ 	ctrl->ctrl.sqsize = opts->queue_size - 1;
+ 	ctrl->ctrl.kato = opts->kato;
+ 
+@@ -2307,7 +2346,7 @@ static struct nvmf_transport_ops nvme_tcp_transport = {
+ 	.allowed_opts	= NVMF_OPT_TRSVCID | NVMF_OPT_RECONNECT_DELAY |
+ 			  NVMF_OPT_HOST_TRADDR | NVMF_OPT_CTRL_LOSS_TMO |
+ 			  NVMF_OPT_HDR_DIGEST | NVMF_OPT_DATA_DIGEST |
+-			  NVMF_OPT_NR_WRITE_QUEUES,
++			  NVMF_OPT_NR_WRITE_QUEUES | NVMF_OPT_NR_POLL_QUEUES,
+ 	.create_ctrl	= nvme_tcp_create_ctrl,
+ };
+ 
+-- 
+2.17.1
