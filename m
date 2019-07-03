@@ -1,44 +1,39 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Wed,  3 Jul 2019 17:03:04 -0600
-Subject: [PATCH v2 2/2] nvmet-loop: Flush nvme_delete_wq when removing the port
-In-Reply-To: <20190703230304.22905-1-logang@deltatee.com>
-References: <20190703230304.22905-1-logang@deltatee.com>
-Message-ID: <20190703230304.22905-3-logang@deltatee.com>
+Date: Wed,  3 Jul 2019 17:03:02 -0600
+Subject: [PATCH v2 0/2] Fix use-after-free bug when ports are removed
+Message-ID: <20190703230304.22905-1-logang@deltatee.com>
 
-After calling nvme_loop_delete_ctrl(), the controllers will not
-yet be deleted because nvme_delete_ctrl() only schedules work
-to do the delete.
+Hey,
 
-This means a race can occur if a port is removed but there
-are still active controllers trying to access that memory.
+This is the second attempt at fixing this.
 
-To fix this, flush the nvme_delete_wq before returning from
-nvme_loop_remove_port() so that any controllers that might
-be in the process of being deleted won't access a freed port.
+Per Sagi's feedback on the first attempt, I've found an approach
+that disconnects active controllers when the subsys is removed from
+the port (Patch 1). Patch 2 fixes a race that still exists in the
+loop transport which requires us to flush the nvme_delete_wq before
+freeing the port to prevent the use-after-free bug.
 
-Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
----
- drivers/nvme/target/loop.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Logan
 
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index 9e211ad6bdd3..da9cd07461fb 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -654,6 +654,14 @@ static void nvme_loop_remove_port(struct nvmet_port *port)
- 	mutex_lock(&nvme_loop_ports_mutex);
- 	list_del_init(&port->entry);
- 	mutex_unlock(&nvme_loop_ports_mutex);
-+
-+	/*
-+	 * Ensure any ctrls that are in the process of being
-+	 * deleted are in fact deleted before we return
-+	 * and free the port. This is to prevent active
-+	 * ctrls from using a port after it's freed.
-+	 */
-+	flush_workqueue(nvme_delete_wq);
- }
- 
- static const struct nvmet_fabrics_ops nvme_loop_ops = {
--- 
+--
+
+NVME target ports can be removed while there are still active
+controllers. Largely this is fine, except some admin commands
+can access the req->port (for example, id-ctrl uses the port's
+inline date size as part of it's response). This was found
+while testing with KASAN.
+
+--
+
+Logan Gunthorpe (2):
+  nvmet: Fix use-after-free bug when a port is removed
+  nvmet-loop: Flush nvme_delete_wq when removing the port
+
+ drivers/nvme/target/configfs.c |  1 +
+ drivers/nvme/target/core.c     | 12 ++++++++++++
+ drivers/nvme/target/loop.c     |  8 ++++++++
+ drivers/nvme/target/nvmet.h    |  3 +++
+ 4 files changed, 24 insertions(+)
+
+--
 2.20.1
