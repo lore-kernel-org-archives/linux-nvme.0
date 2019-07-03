@@ -1,47 +1,52 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 3 Jul 2019 15:21:33 +0200
-Subject: [PATCH 2/2] nvme-multipath: do not select namespaces which are
- about to be removed
-In-Reply-To: <20190703131232.58595-3-hare@suse.de>
-References: <20190703131232.58595-1-hare@suse.de>
- <20190703131232.58595-3-hare@suse.de>
-Message-ID: <20190703132133.GA8948@lst.de>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Wed,  3 Jul 2019 11:01:36 -0600
+Subject: [PATCH 2/2] nvmet-rdma: Fix use-after-free bug when a port is removed
+In-Reply-To: <20190703170136.21515-1-logang@deltatee.com>
+References: <20190703170136.21515-1-logang@deltatee.com>
+Message-ID: <20190703170136.21515-3-logang@deltatee.com>
 
-On Wed, Jul 03, 2019@03:12:32PM +0200, Hannes Reinecke wrote:
-> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-> index c8cc82639327..1f6105a5c596 100644
-> --- a/drivers/nvme/host/multipath.c
-> +++ b/drivers/nvme/host/multipath.c
-> @@ -130,7 +130,8 @@ static struct nvme_ns *__nvme_find_path(struct nvme_ns_head *head, int node)
->  
->  	list_for_each_entry_rcu(ns, &head->list, siblings) {
->  		if (ns->ctrl->state != NVME_CTRL_LIVE ||
-> -		    test_bit(NVME_NS_ANA_PENDING, &ns->flags))
-> +		    test_bit(NVME_NS_ANA_PENDING, &ns->flags) ||
-> +		    test_bit(NVME_NS_REMOVING, &ns->flags))
->  			continue;
->  
->  		if (READ_ONCE(head->subsys->iopolicy) == NVME_IOPOLICY_NUMA)
-> @@ -180,7 +181,8 @@ static struct nvme_ns *nvme_round_robin_path(struct nvme_ns_head *head,
->  
->  	if (list_is_singular(&head->list)) {
->  		if (old->ctrl->state != NVME_CTRL_LIVE ||
-> -		    test_bit(NVME_NS_ANA_PENDING, &old->flags))
-> +		    test_bit(NVME_NS_ANA_PENDING, &old->flags)||
-> +		    test_bit(NVME_NS_REMOVING, &old->flags))
->  			return NULL;
->  		return old;
->  	}
-> @@ -189,7 +191,8 @@ static struct nvme_ns *nvme_round_robin_path(struct nvme_ns_head *head,
->  	     ns != old;
->  	     ns = nvme_next_ns(head, ns)) {
->  		if (ns->ctrl->state != NVME_CTRL_LIVE ||
-> -		    test_bit(NVME_NS_ANA_PENDING, &ns->flags))
-> +		    test_bit(NVME_NS_ANA_PENDING, &ns->flags) ||
-> +		    test_bit(NVME_NS_REMOVING, &ns->flags))
->  			continue;
+When a port is removed through configfs, any connected controllers
+are still active and can still send commands. This causes a
+use-after-free bug which is detected by KASAN for any admin command
+that dereferences req->port (like in nvmet_execute_identify_ctrl).
 
-I think we clearly need a patch before the two patches in your
-series that factors this check into a little helper with a
-descriptive name.  Also doesn't nvme_path_is_optimized also need
-to have these checks while we are at it?
+To fix this, disconnect all active queues that use the same port
+in nvme_rdma_remove_port().
+
+Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
+---
+ drivers/nvme/target/rdma.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index 36d906a7f70d..6db9f9586ca7 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -1580,9 +1580,25 @@ static int nvmet_rdma_add_port(struct nvmet_port *port)
+ static void nvmet_rdma_remove_port(struct nvmet_port *port)
+ {
+ 	struct rdma_cm_id *cm_id = xchg(&port->priv, NULL);
++	struct nvmet_rdma_queue *queue;
+ 
+ 	if (cm_id)
+ 		rdma_destroy_id(cm_id);
++
++restart:
++	mutex_lock(&nvmet_rdma_queue_mutex);
++
++	list_for_each_entry(queue, &nvmet_rdma_queue_list, queue_list) {
++		if (queue->port == port) {
++			list_del_init(&queue->queue_list);
++			mutex_unlock(&nvmet_rdma_queue_mutex);
++
++			__nvmet_rdma_queue_disconnect(queue);
++			goto restart;
++		}
++	}
++
++	mutex_unlock(&nvmet_rdma_queue_mutex);
+ }
+ 
+ static void nvmet_rdma_disc_port_addr(struct nvmet_req *req,
+-- 
+2.20.1
