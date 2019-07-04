@@ -1,57 +1,35 @@
 From: mskorzhinskiy@solarflare.com (Mikhail Skorzhinskii)
-Date: Thu, 4 Jul 2019 09:59:18 +0200
-Subject: [PATCH v2 1/2] nvme-tcp: set the STABLE_WRITES flag when data digests
- are enabled
-In-Reply-To: <cover.1562586804.git.mskorzhinskiy@solarflare.com>
-References: <cover.1562586804.git.mskorzhinskiy@solarflare.com>
-Message-ID: <c34300a7199db40be3cfe0ac729ffabe77fb8a1d.1562586804.git.mskorzhinskiy@solarflare.com>
+Date: Thu, 4 Jul 2019 10:01:48 +0200
+Subject: [PATCH] nvmet: print a hint while rejecting NSID 0 or 0xffffffff
+Message-ID: <c3a8458b54fcd189f7a441eb959274937faf8568.1562586068.git.mskorzhinskiy@solarflare.com>
 
-There was a few false alarms sighted on target side about wrong data
-digest while performing high throughput load to XFS filesystem shared
-through NVMoF TCP.
+Adding this hint for the sake of convenience.
 
-This flag tells the rest of the kernel to ensure that the data buffer does
-not change while the write is in flight. It incurs a performance penalty,
-so only enable it when it is actually needed, i.e. when we are calculating
-data digests.
-
-Although even with this change in place, ext2 users can steel experience
-false positives, as ext2 is not respecting this flag. This may be apply to
-vfat as well.
+It was spotted that a few times people spent some time before understanding
+what is exactly wrong in configuration process. This should save a few time
+in such situations, especially for people who is not very confident with
+NVMe requirements.
 
 Signed-off-by: Mikhail Skorzhinskii <mskorzhinskiy at solarflare.com>
-Signed-off-by: Mike Playle <mplayle at solarflare.com>
-
 ---
+ drivers/nvme/target/configfs.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-https://lwn.net/Articles/528031/
-https://www.redhat.com/archives/dm-devel/2015-May/msg00158.html
----
- drivers/nvme/host/core.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 5417110cbf1b..f4340dc1d399 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -11,6 +11,7 @@
- #include <linux/hdreg.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
-+#include <linux/backing-dev.h>
- #include <linux/list_sort.h>
- #include <linux/slab.h>
- #include <linux/types.h>
-@@ -3304,6 +3305,10 @@ static int nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 		goto out_free_ns;
- 	}
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index 08dd5af357f7..cd52b9f15376 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -588,8 +588,10 @@ static struct config_group *nvmet_ns_make(struct config_group *group,
+ 		goto out;
  
-+	if (ctrl->opts->data_digest)
-+		ns->queue->backing_dev_info->capabilities
-+			|= BDI_CAP_STABLE_WRITES;
-+
- 	blk_queue_flag_set(QUEUE_FLAG_NONROT, ns->queue);
- 	if (ctrl->ops->flags & NVME_F_PCI_P2PDMA)
- 		blk_queue_flag_set(QUEUE_FLAG_PCI_P2PDMA, ns->queue);
+ 	ret = -EINVAL;
+-	if (nsid == 0 || nsid == NVME_NSID_ALL)
++	if (nsid == 0 || nsid == NVME_NSID_ALL) {
++		pr_err("invalid nsid %#x", nsid);
+ 		goto out;
++	}
+ 
+ 	ret = -ENOMEM;
+ 	ns = nvmet_ns_alloc(subsys, nsid);
 -- 
 2.16.4
