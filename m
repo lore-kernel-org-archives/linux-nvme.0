@@ -1,26 +1,34 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Thu,  4 Jul 2019 08:10:45 +0200
-Subject: [PATCHv2 0/2] nvme-multipath: path selection fixes
-Message-ID: <20190704061047.94976-1-hare@suse.de>
+Date: Thu,  4 Jul 2019 08:10:47 +0200
+Subject: [PATCH 2/2] nvme-multipath: do not select namespaces which are about
+ to be removed
+In-Reply-To: <20190704061047.94976-1-hare@suse.de>
+References: <20190704061047.94976-1-hare@suse.de>
+Message-ID: <20190704061047.94976-3-hare@suse.de>
 
-Hi all,
+nvme_ns_remove() will first set the NVME_NS_REMOVING flag before removing
+it from the list at the very last step.
+So to avoid selecting a namespace in nvme_find_path() which is about to be
+removed check the NVME_NS_REMOVING flag, too, when selecting a new path.
 
-during analysing a mysterious failure due to blk_queue_split() (again)
-I've found that the multipath path selection might return invalid
-namespaces under certain circumstances.
-This patchset fixes those scenarios.
+Signed-off-by: Hannes Reinecke <hare at suse.com>
+---
+ drivers/nvme/host/multipath.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-As usual, reviews and comments are welcome.
-
-Changes to v1:
-- Use common helper nvme_path_is_disabled()
-
-Hannes Reinecke (2):
-  nvme-multipath: check singular list in vme_round_robin_path()
-  nvme-multipath: do not select namespaces which are about to be removed
-
- drivers/nvme/host/multipath.c | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
-
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 9b6dc11fa559..a9a927677970 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -126,7 +126,8 @@ void nvme_mpath_clear_current_path(struct nvme_ns *ns)
+ static bool nvme_path_is_disabled(struct nvme_ns *ns)
+ {
+ 	return ns->ctrl->state != NVME_CTRL_LIVE ||
+-		test_bit(NVME_NS_ANA_PENDING, &ns->flags);
++		test_bit(NVME_NS_ANA_PENDING, &ns->flags) ||
++		test_bit(NVME_NS_REMOVING, &ns->flags);
+ }
+ 
+ static struct nvme_ns *__nvme_find_path(struct nvme_ns_head *head, int node)
 -- 
 2.16.4
