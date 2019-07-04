@@ -1,29 +1,57 @@
 From: mskorzhinskiy@solarflare.com (Mikhail Skorzhinskii)
-Date: Mon, 8 Jul 2019 13:53:24 +0200
-Subject: [PATCH v2 0/2] Miscellaneous changes for nvme-tcp v2
-Message-ID: <cover.1562586804.git.mskorzhinskiy@solarflare.com>
+Date: Thu, 4 Jul 2019 09:59:18 +0200
+Subject: [PATCH v2 1/2] nvme-tcp: set the STABLE_WRITES flag when data digests
+ are enabled
+In-Reply-To: <cover.1562586804.git.mskorzhinskiy@solarflare.com>
+References: <cover.1562586804.git.mskorzhinskiy@solarflare.com>
+Message-ID: <c34300a7199db40be3cfe0ac729ffabe77fb8a1d.1562586804.git.mskorzhinskiy@solarflare.com>
 
-A few unrelated changes for NVMoF subsystem, that was found during testing
-of NVMoF TCP.
+There was a few false alarms sighted on target side about wrong data
+digest while performing high throughput load to XFS filesystem shared
+through NVMoF TCP.
 
-patch 2: found during extensive testing on various filesystems
-patch 3: found during testing on debug kernels with VM_DEBUG enabled
+This flag tells the rest of the kernel to ensure that the data buffer does
+not change while the write is in flight. It incurs a performance penalty,
+so only enable it when it is actually needed, i.e. when we are calculating
+data digests.
 
-v2
-  - Moved hint patch as separate patch;
-  - Fix commit description in stable writes patch;
-  - Simplify check for SLAB check;
-  - Remove unnecessary replacments of sendpage calls;
+Although even with this change in place, ext2 users can steel experience
+false positives, as ext2 is not respecting this flag. This may be apply to
+vfat as well.
 
-Mike Playle (1):
-  nvme-tcp: set the STABLE_WRITES flag when data digests are enabled
+Signed-off-by: Mikhail Skorzhinskii <mskorzhinskiy at solarflare.com>
+Signed-off-by: Mike Playle <mplayle at solarflare.com>
 
-Mikhail Skorzhinskii (1):
-  nvme-tcp: don't use sendpage for SLAB pages
+---
 
+https://lwn.net/Articles/528031/
+https://www.redhat.com/archives/dm-devel/2015-May/msg00158.html
+---
  drivers/nvme/host/core.c | 5 +++++
- drivers/nvme/host/tcp.c  | 7 ++++++-
- 2 files changed, 11 insertions(+), 1 deletion(-)
+ 1 file changed, 5 insertions(+)
 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 5417110cbf1b..f4340dc1d399 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -11,6 +11,7 @@
+ #include <linux/hdreg.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
++#include <linux/backing-dev.h>
+ #include <linux/list_sort.h>
+ #include <linux/slab.h>
+ #include <linux/types.h>
+@@ -3304,6 +3305,10 @@ static int nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 		goto out_free_ns;
+ 	}
+ 
++	if (ctrl->opts->data_digest)
++		ns->queue->backing_dev_info->capabilities
++			|= BDI_CAP_STABLE_WRITES;
++
+ 	blk_queue_flag_set(QUEUE_FLAG_NONROT, ns->queue);
+ 	if (ctrl->ops->flags & NVME_F_PCI_P2PDMA)
+ 		blk_queue_flag_set(QUEUE_FLAG_PCI_P2PDMA, ns->queue);
 -- 
 2.16.4
