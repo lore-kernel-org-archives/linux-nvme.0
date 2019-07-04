@@ -1,31 +1,57 @@
 From: mskorzhinskiy@solarflare.com (Mikhail Skorzhinskii)
-Date: Thu, 4 Jul 2019 12:03:25 +0200
-Subject: [PATCH 0/3] Miscellaneous changes for nvme-tcp
-Message-ID: <cover.1562234605.git.mskorzhinskiy@solarflare.com>
+Date: Thu, 4 Jul 2019 09:59:18 +0200
+Subject: [PATCH 2/3] nvme-tcp: set the STABLE_WRITES flag when data digests
+ are enabled
+In-Reply-To: <cover.1562234605.git.mskorzhinskiy@solarflare.com>
+References: <cover.1562234605.git.mskorzhinskiy@solarflare.com>
+Message-ID: <468b110203ae91cdea1bbe84176332472bf206fb.1562234605.git.mskorzhinskiy@solarflare.com>
 
-A few unrelated changes for NVMoF subsystem, that was found during testing
-of NVMoF TCP.
+There was a few false alarms sighted on target side about wrong data digest
+while performing high throughput load to XFS filesystem shared through
+NVMoF TCP.
 
-I didn't add any special comments inside the code regarding reasons why
-that was done, as I assume people who interested in this will take a look
-into the git blame\git log. Of cource, I can add this comments into the
-code and resend, if it is prefferable.
+This flag tells[1] the rest of the kernel to ensure that the data buffer
+does not change while the write is in flight. It incurs a performance
+penalty, so only enable it when it is actually needed, i.e. when we are
+calculating data digests.
 
-patch 1: just a hint message
-patch 2: found during extensive testing on various filesystems
-patch 3: found during testing on debug kernels with VM_DEBUG enabled
+Although even with this change in place[2], ext2 users can steel experience
+false positives, as ext2 is not respecting this flag. This may be apply to
+vfat as well.
 
-Mike Playle (1):
-  nvme-tcp: set the STABLE_WRITES flag when data digests are enabled
+References:
 
-Mikhail Skorzhinskii (2):
-  nvmet: print a hint while rejecting NSID 0 or 0xffffffff
-  nvme-tcp: replace sendpage calls with sendmsg calls for SLAB chunks
+[1] https://lwn.net/Articles/528031/
+[2] https://www.redhat.com/archives/dm-devel/2015-May/msg00158.html
 
- drivers/nvme/host/core.c       |  5 +++++
- drivers/nvme/host/tcp.c        | 40 ++++++++++++++++++++++++++++++++++------
- drivers/nvme/target/configfs.c |  4 +++-
- 3 files changed, 42 insertions(+), 7 deletions(-)
+Signed-off-by: Mikhail Skorzhinskii <mskorzhinskiy at solarflare.com>
+Signed-off-by: Mike Playle <mplayle at solarflare.com>
+---
+ drivers/nvme/host/core.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 5417110cbf1b..f4340dc1d399 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -11,6 +11,7 @@
+ #include <linux/hdreg.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
++#include <linux/backing-dev.h>
+ #include <linux/list_sort.h>
+ #include <linux/slab.h>
+ #include <linux/types.h>
+@@ -3304,6 +3305,10 @@ static int nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 		goto out_free_ns;
+ 	}
+ 
++	if (ctrl->opts->data_digest)
++		ns->queue->backing_dev_info->capabilities
++			|= BDI_CAP_STABLE_WRITES;
++
+ 	blk_queue_flag_set(QUEUE_FLAG_NONROT, ns->queue);
+ 	if (ctrl->ops->flags & NVME_F_PCI_P2PDMA)
+ 		blk_queue_flag_set(QUEUE_FLAG_PCI_P2PDMA, ns->queue);
 -- 
 2.16.4
