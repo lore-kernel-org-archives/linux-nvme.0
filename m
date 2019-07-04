@@ -1,64 +1,74 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Thu,  4 Jul 2019 08:10:46 +0200
-Subject: [PATCH 1/2] nvme-multipath: check singular list in
- vme_round_robin_path()
-In-Reply-To: <20190704061047.94976-1-hare@suse.de>
-References: <20190704061047.94976-1-hare@suse.de>
-Message-ID: <20190704061047.94976-2-hare@suse.de>
+From: tomwu@mellanox.com (Tom Wu)
+Date: Thu,  4 Jul 2019 10:19:54 +0000
+Subject: [PATCH] nvme: add delete completion and submission queue to admin
+ cmds tracer
+Message-ID: <1562235594-7847-1-git-send-email-tomwu@mellanox.com>
 
-When we have a singular list in nvme_round_robin_path() we still
-need to check its validity.
+The trace log for 'delete I/O submission queue' and 'delete I/O
+completion queue' command will look like as below:
 
-Signed-off-by: Hannes Reinecke <hare at suse.com>
+kworker/u49:1-3438  [003] ....  6693.070865: nvme_setup_cmd: nvme0: qid=0, cmdid=11, nsid=0, flags=0x0, meta=0x0, cmd=(nvme_admin_delete_sq sqid=1)
+kworker/u49:1-3438  [003] ....  6693.071171: nvme_setup_cmd: nvme0: qid=0, cmdid=8, nsid=0, flags=0x0, meta=0x0, cmd=(nvme_admin_delete_cq cqid=24)
+
+Signed-off-by: Tom Wu <tomwu at mellanox.com>
+Reviewed-by: Israel Rukshin <israelr at mellanox.com>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
 ---
- drivers/nvme/host/multipath.c | 17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
+ drivers/nvme/host/trace.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 499acf07d61a..9b6dc11fa559 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -123,14 +123,19 @@ void nvme_mpath_clear_current_path(struct nvme_ns *ns)
- 	}
- }
+diff --git a/drivers/nvme/host/trace.c b/drivers/nvme/host/trace.c
+index 5f24ea7..a19978f 100644
+--- a/drivers/nvme/host/trace.c
++++ b/drivers/nvme/host/trace.c
+@@ -7,6 +7,17 @@
+ #include <asm/unaligned.h>
+ #include "trace.h"
  
-+static bool nvme_path_is_disabled(struct nvme_ns *ns)
++static const char *nvme_trace_delete_sq(struct trace_seq *p, u8 *cdw10)
 +{
-+	return ns->ctrl->state != NVME_CTRL_LIVE ||
-+		test_bit(NVME_NS_ANA_PENDING, &ns->flags);
++	const char *ret = trace_seq_buffer_ptr(p);
++	u16 sqid = get_unaligned_le16(cdw10);
++
++	trace_seq_printf(p, "sqid=%u", sqid);
++	trace_seq_putc(p, 0);
++
++	return ret;
 +}
 +
- static struct nvme_ns *__nvme_find_path(struct nvme_ns_head *head, int node)
+ static const char *nvme_trace_create_sq(struct trace_seq *p, u8 *cdw10)
  {
- 	int found_distance = INT_MAX, fallback_distance = INT_MAX, distance;
- 	struct nvme_ns *found = NULL, *fallback = NULL, *ns;
+ 	const char *ret = trace_seq_buffer_ptr(p);
+@@ -23,6 +34,17 @@ static const char *nvme_trace_create_sq(struct trace_seq *p, u8 *cdw10)
+ 	return ret;
+ }
  
- 	list_for_each_entry_rcu(ns, &head->list, siblings) {
--		if (ns->ctrl->state != NVME_CTRL_LIVE ||
--		    test_bit(NVME_NS_ANA_PENDING, &ns->flags))
-+		if (nvme_path_is_disabled(ns))
- 			continue;
- 
- 		if (READ_ONCE(head->subsys->iopolicy) == NVME_IOPOLICY_NUMA)
-@@ -178,14 +183,16 @@ static struct nvme_ns *nvme_round_robin_path(struct nvme_ns_head *head,
++static const char *nvme_trace_delete_cq(struct trace_seq *p, u8 *cdw10)
++{
++	const char *ret = trace_seq_buffer_ptr(p);
++	u16 cqid = get_unaligned_le16(cdw10);
++
++	trace_seq_printf(p, "cqid=%u", cqid);
++	trace_seq_putc(p, 0);
++
++	return ret;
++}
++
+ static const char *nvme_trace_create_cq(struct trace_seq *p, u8 *cdw10)
  {
- 	struct nvme_ns *ns, *found, *fallback = NULL;
- 
--	if (list_is_singular(&head->list))
-+	if (list_is_singular(&head->list)) {
-+		if (nvme_path_is_disabled(old))
-+			return NULL;
- 		return old;
-+	}
- 
- 	for (ns = nvme_next_ns(head, old);
- 	     ns != old;
- 	     ns = nvme_next_ns(head, ns)) {
--		if (ns->ctrl->state != NVME_CTRL_LIVE ||
--		    test_bit(NVME_NS_ANA_PENDING, &ns->flags))
-+		if (nvme_path_is_disabled(ns))
- 			continue;
- 
- 		if (ns->ana_state == NVME_ANA_OPTIMIZED) {
+ 	const char *ret = trace_seq_buffer_ptr(p);
+@@ -107,8 +129,12 @@ const char *nvme_trace_parse_admin_cmd(struct trace_seq *p,
+ 				       u8 opcode, u8 *cdw10)
+ {
+ 	switch (opcode) {
++	case nvme_admin_delete_sq:
++		return nvme_trace_delete_sq(p, cdw10);
+ 	case nvme_admin_create_sq:
+ 		return nvme_trace_create_sq(p, cdw10);
++	case nvme_admin_delete_cq:
++		return nvme_trace_delete_cq(p, cdw10);
+ 	case nvme_admin_create_cq:
+ 		return nvme_trace_create_cq(p, cdw10);
+ 	case nvme_admin_identify:
 -- 
-2.16.4
+1.8.4.3
