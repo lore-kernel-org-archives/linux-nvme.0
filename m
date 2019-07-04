@@ -1,37 +1,31 @@
 From: mskorzhinskiy@solarflare.com (Mikhail Skorzhinskii)
-Date: Thu, 4 Jul 2019 10:01:48 +0200
-Subject: [PATCH 1/3] nvmet: print a hint while rejecting NSID 0 or 0xffffffff
-In-Reply-To: <cover.1562234605.git.mskorzhinskiy@solarflare.com>
-References: <cover.1562234605.git.mskorzhinskiy@solarflare.com>
-Message-ID: <8a62f718d2b1b77c548be8009dbcfc9a3f75f7cf.1562234605.git.mskorzhinskiy@solarflare.com>
+Date: Thu, 4 Jul 2019 12:03:25 +0200
+Subject: [PATCH 0/3] Miscellaneous changes for nvme-tcp
+Message-ID: <cover.1562234605.git.mskorzhinskiy@solarflare.com>
 
-Adding this hint for the sake of convenience.
+A few unrelated changes for NVMoF subsystem, that was found during testing
+of NVMoF TCP.
 
-It was spotted that a few times people spent some time before understanding
-what is exactly wrong in configuration process. This should save a few time
-in such situations, especially for people who is not very confident with
-NVMe requirements.
+I didn't add any special comments inside the code regarding reasons why
+that was done, as I assume people who interested in this will take a look
+into the git blame\git log. Of cource, I can add this comments into the
+code and resend, if it is prefferable.
 
-Signed-off-by: Mikhail Skorzhinskii <mskorzhinskiy at solarflare.com>
----
- drivers/nvme/target/configfs.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+patch 1: just a hint message
+patch 2: found during extensive testing on various filesystems
+patch 3: found during testing on debug kernels with VM_DEBUG enabled
 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index 08dd5af357f7..c91cad4f7927 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -588,8 +588,10 @@ static struct config_group *nvmet_ns_make(struct config_group *group,
- 		goto out;
- 
- 	ret = -EINVAL;
--	if (nsid == 0 || nsid == NVME_NSID_ALL)
-+	if (nsid == 0 || nsid == NVME_NSID_ALL) {
-+		pr_err("NSIDs 0 and 0xffffffff are invalid NSIDs\n");
- 		goto out;
-+	}
- 
- 	ret = -ENOMEM;
- 	ns = nvmet_ns_alloc(subsys, nsid);
+Mike Playle (1):
+  nvme-tcp: set the STABLE_WRITES flag when data digests are enabled
+
+Mikhail Skorzhinskii (2):
+  nvmet: print a hint while rejecting NSID 0 or 0xffffffff
+  nvme-tcp: replace sendpage calls with sendmsg calls for SLAB chunks
+
+ drivers/nvme/host/core.c       |  5 +++++
+ drivers/nvme/host/tcp.c        | 40 ++++++++++++++++++++++++++++++++++------
+ drivers/nvme/target/configfs.c |  4 +++-
+ 3 files changed, 42 insertions(+), 7 deletions(-)
+
 -- 
 2.16.4
