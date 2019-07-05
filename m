@@ -1,22 +1,50 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Fri, 5 Jul 2019 17:09:26 +0900
-Subject: [PATCH] nvme: add delete completion and submission queue to
- admin cmds tracer
-In-Reply-To: <1562235594-7847-1-git-send-email-tomwu@mellanox.com>
-References: <1562235594-7847-1-git-send-email-tomwu@mellanox.com>
-Message-ID: <20190705080926.GA13653@minwoo-desktop>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Fri, 5 Jul 2019 15:20:30 +0300
+Subject: [PATCH v2 2/2] nvmet-loop: Flush nvme_delete_wq when removing the
+ port
+In-Reply-To: <20190703230304.22905-3-logang@deltatee.com>
+References: <20190703230304.22905-1-logang@deltatee.com>
+ <20190703230304.22905-3-logang@deltatee.com>
+Message-ID: <bbbfdcda-5acc-a02c-565a-929180ab6c0c@mellanox.com>
 
-On 19-07-04 10:19:54, Tom Wu wrote:
-> The trace log for 'delete I/O submission queue' and 'delete I/O
-> completion queue' command will look like as below:
-> 
-> kworker/u49:1-3438  [003] ....  6693.070865: nvme_setup_cmd: nvme0: qid=0, cmdid=11, nsid=0, flags=0x0, meta=0x0, cmd=(nvme_admin_delete_sq sqid=1)
-> kworker/u49:1-3438  [003] ....  6693.071171: nvme_setup_cmd: nvme0: qid=0, cmdid=8, nsid=0, flags=0x0, meta=0x0, cmd=(nvme_admin_delete_cq cqid=24)
-> 
-> Signed-off-by: Tom Wu <tomwu at mellanox.com>
-> Reviewed-by: Israel Rukshin <israelr at mellanox.com>
-> Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
 
-This looks good to me.
+On 7/4/2019 2:03 AM, Logan Gunthorpe wrote:
+> After calling nvme_loop_delete_ctrl(), the controllers will not
+> yet be deleted because nvme_delete_ctrl() only schedules work
+> to do the delete.
+>
+> This means a race can occur if a port is removed but there
+> are still active controllers trying to access that memory.
+>
+> To fix this, flush the nvme_delete_wq before returning from
+> nvme_loop_remove_port() so that any controllers that might
+> be in the process of being deleted won't access a freed port.
+>
+> Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
+> ---
+>   drivers/nvme/target/loop.c | 8 ++++++++
+>   1 file changed, 8 insertions(+)
+>
+> diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+> index 9e211ad6bdd3..da9cd07461fb 100644
+> --- a/drivers/nvme/target/loop.c
+> +++ b/drivers/nvme/target/loop.c
+> @@ -654,6 +654,14 @@ static void nvme_loop_remove_port(struct nvmet_port *port)
+>   	mutex_lock(&nvme_loop_ports_mutex);
+>   	list_del_init(&port->entry);
+>   	mutex_unlock(&nvme_loop_ports_mutex);
+> +
+> +	/*
+> +	 * Ensure any ctrls that are in the process of being
+> +	 * deleted are in fact deleted before we return
+> +	 * and free the port. This is to prevent active
+> +	 * ctrls from using a port after it's freed.
+> +	 */
+> +	flush_workqueue(nvme_delete_wq);
+>   }
+>   
+>   static const struct nvmet_fabrics_ops nvme_loop_ops = {
 
-Reviewed-by: Minwoo Im <minwoo.im.dev at gmail.com>
+Looks good:
+
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
