@@ -1,52 +1,46 @@
 From: alan.mikhak@sifive.com (Alan Mikhak)
-Date: Mon,  8 Jul 2019 10:05:11 -0700
-Subject: [PATCH v2] nvme-pci: Check for null on pci_alloc_p2pmem()
-Message-ID: <1562605511-6564-1-git-send-email-alan.mikhak@sifive.com>
+Date: Mon,  8 Jul 2019 10:24:12 -0700
+Subject: [PATCH] nvme-pci: No IRQ map for read if no read queue allocated
+Message-ID: <1562606652-7618-1-git-send-email-alan.mikhak@sifive.com>
 
 From: Alan Mikhak <alan.mikhak@sifive.com>
 
-Modify nvme_alloc_sq_cmds() to call pci_free_p2pmem()
-to free the memory it allocated using pci_alloc_p2pmem()
-in case pci_p2pmem_virt_to_bus() returns null.
+nvme_dev_add() assumes a read queue is always allocated.
+That may not be the case on single-interrupt systems for
+which pci_assign_irq() would report runtime IRQ mapping
+not provided by arch.
 
-Makes sure not to call pci_free_p2pmem() if pci_alloc_p2pmem()
-returned null which can happen if CONFIG_PCI_P2PDMA is not
-configured.
+This patch makes sure nvme_dev_add() only requests an
+IRQ mapping for read queues if at least one read queue
+is being allocted.
 
-Current implementation is not expected to leak since
-pci_p2pmem_virt_to_bus() is expected to fail only if
-pci_alloc_p2pmem() returns null. However, checking
-the return value of pci_alloc_p2pmem() is more explicit.
+nvme_pci_map_queues() will later on ignore the unnecessary
+mapping request should nvme_dev_add() request such an IRQ
+mapping even though no read queues are being allocated.
+However, nvme_dev_add() can avoid making the request by
+checking the number of read queues without assuming. This
+would bring it more in line with nvme_setup_irqs() and
+nvme_calc_irq_sets().
 
 Signed-off-by: Alan Mikhak <alan.mikhak at sifive.com>
 ---
- drivers/nvme/host/pci.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ drivers/nvme/host/pci.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 524d6bd6d095..5dfa067f6506 100644
+index 524d6bd6d095..86262ebe6fff 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -1456,11 +1456,15 @@ static int nvme_alloc_sq_cmds(struct nvme_dev *dev, struct nvme_queue *nvmeq,
- 
- 	if (qid && dev->cmb_use_sqes && (dev->cmbsz & NVME_CMBSZ_SQS)) {
- 		nvmeq->sq_cmds = pci_alloc_p2pmem(pdev, SQ_SIZE(depth));
--		nvmeq->sq_dma_addr = pci_p2pmem_virt_to_bus(pdev,
--						nvmeq->sq_cmds);
--		if (nvmeq->sq_dma_addr) {
--			set_bit(NVMEQ_SQ_CMB, &nvmeq->flags);
--			return 0; 
-+		if (nvmeq->sq_cmds) {
-+			nvmeq->sq_dma_addr = pci_p2pmem_virt_to_bus(pdev,
-+							nvmeq->sq_cmds);
-+			if (nvmeq->sq_dma_addr) {
-+				set_bit(NVMEQ_SQ_CMB, &nvmeq->flags);
-+				return 0;
-+			}
-+
-+			pci_free_p2pmem(pdev, nvmeq->sq_cmds, SQ_SIZE(depth));
- 		}
- 	}
- 
+@@ -2263,7 +2263,9 @@ static int nvme_dev_add(struct nvme_dev *dev)
+ 	if (!dev->ctrl.tagset) {
+ 		dev->tagset.ops = &nvme_mq_ops;
+ 		dev->tagset.nr_hw_queues = dev->online_queues - 1;
+-		dev->tagset.nr_maps = 2; /* default + read */
++		dev->tagset.nr_maps = 1; /* default */
++		if (dev->io_queues[HCTX_TYPE_READ])
++			dev->tagset.nr_maps++;
+ 		if (dev->io_queues[HCTX_TYPE_POLL])
+ 			dev->tagset.nr_maps++;
+ 		dev->tagset.timeout = NVME_IO_TIMEOUT;
 -- 
 2.7.4
