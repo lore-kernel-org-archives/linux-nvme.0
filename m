@@ -1,83 +1,29 @@
 From: mskorzhinskiy@solarflare.com (Mikhail Skorzhinskii)
-Date: Mon, 8 Jul 2019 12:15:19 +0200
-Subject: [PATCH 3/3] nvme-tcp: replace sendpage calls with sendmsg calls
- for SLAB chunks
-In-Reply-To: <28d0887b-692e-0b33-7530-673006340431@grimberg.me>
-References: <cover.1562234605.git.mskorzhinskiy@solarflare.com>
- <cdce4bc7cedc11a80c01e457a4b18933b73017e2.1562234605.git.mskorzhinskiy@solarflare.com>
- <28d0887b-692e-0b33-7530-673006340431@grimberg.me>
-Message-ID: <87zhlovnm0.fsf@solarflare.com>
+Date: Mon, 8 Jul 2019 13:53:24 +0200
+Subject: [PATCH v2 0/2] Miscellaneous changes for nvme-tcp v2
+Message-ID: <cover.1562586804.git.mskorzhinskiy@solarflare.com>
 
+A few unrelated changes for NVMoF subsystem, that was found during testing
+of NVMoF TCP.
 
-Sagi Grimberg <sagi at grimberg.me> writes:
- > > According to commit a10674bf2406 ("tcp: detecting the misuse of .sendpage
- > > for Slab objects") and previous discussion[1][2], tcp_sendpage should not
- > > be used for pages that is managed by SLAB, as SLAB is not taking page
- > > reference counters into consideration.
- > >
- > > This change prevents sendpage calls for payload sending too, although this
- > > is true only for admin commands, so actual data transfer performance
- > > should be untouched.
- > >
- > > [1] https://www.spinics.net/lists/netdev/msg553616.html
- > > [2] https://www.spinics.net/lists/netdev/msg553285.html
- >
- > Well, the lifetime here is guaranteed to be the same for the buffers
- > in question.
- >
- > Was any issue seen in action?
+patch 2: found during extensive testing on various filesystems
+patch 3: found during testing on debug kernels with VM_DEBUG enabled
 
-No.
+v2
+  - Moved hint patch as separate patch;
+  - Fix commit description in stable writes patch;
+  - Simplify check for SLAB check;
+  - Remove unnecessary replacments of sendpage calls;
 
-And if you go through the threads related to this warning, original bug
-only observed when sender and receiver happens to be one physical
-machine. Making this patch a bit overreaction to the warning, of course.
+Mike Playle (1):
+  nvme-tcp: set the STABLE_WRITES flag when data digests are enabled
 
-I was thinking about disabling this check inside tcp code for our caller
-then, but I didn't come up with anything clever, so instead I patch
-NVMoF TCP.
+Mikhail Skorzhinskii (1):
+  nvme-tcp: don't use sendpage for SLAB pages
 
- > > @@ -860,7 +878,7 @@ static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
- > >   		else
- > >   			flags |= MSG_MORE;
- > >   -		ret = kernel_sendpage(queue->sock, page, offset, len,
- > > flags);
- > > +		ret = nvme_tcp_sendpage(req, page, offset, len, flags);
- >
- > Please just do this instead:
- > --
- > 	/* can't zcopy slab pages */
- > 	if (unlikely(PageSlab(page))
- > 		sock_no_sendpage()
- > 	else
- > 		kernel_sendpage()
- > --
+ drivers/nvme/host/core.c | 5 +++++
+ drivers/nvme/host/tcp.c  | 7 ++++++-
+ 2 files changed, 11 insertions(+), 1 deletion(-)
 
-Will fix.
-
- > > +static inline int nvme_tcp_try_send_pdu(struct nvme_tcp_request *req,
- > > +					int len, int flags)
- > > +{
- > > +	struct nvme_tcp_queue *queue = req->queue;
- > > +	struct msghdr msg = { .msg_flags = flags };
- > > +	struct kvec iov = {
- > > +			   .iov_base = req->pdu + req->offset,
- > > +			   .iov_len = len,
- > > +	};
- > > +
- > > +	return kernel_sendmsg(queue->sock, &msg, &iov, 1, iov.iov_len);
- > > +}
- > > +
- > >   static int nvme_tcp_try_send_cmd_pdu(struct nvme_tcp_request *req)
- > >   {
- > >   	struct nvme_tcp_queue *queue = req->queue;
- > > @@ -898,8 +929,7 @@ static int nvme_tcp_try_send_cmd_pdu(struct nvme_tcp_request *req)
- > >   	if (queue->hdr_digest && !req->offset)
- > >   		nvme_tcp_hdgst(queue->snd_hash, pdu, sizeof(*pdu));
- > >   -	ret = kernel_sendpage(queue->sock, virt_to_page(pdu),
- > > -			offset_in_page(pdu) + req->offset, len,  flags);
- > > +	ret = nvme_tcp_try_send_pdu(req, len, flags);
- >
- > This is unneeded given that pdus are page fragments, NOT slab pages.
-
-Will fix.
+-- 
+2.16.4
