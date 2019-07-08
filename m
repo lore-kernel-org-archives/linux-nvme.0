@@ -1,37 +1,61 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 8 Jul 2019 02:59:09 -0700
-Subject: [PATCH 1/3] nvmet: print a hint while rejecting NSID 0 or
- 0xffffffff
-In-Reply-To: <8a62f718d2b1b77c548be8009dbcfc9a3f75f7cf.1562234605.git.mskorzhinskiy@solarflare.com>
+Date: Mon, 8 Jul 2019 03:03:37 -0700
+Subject: [PATCH 2/3] nvme-tcp: set the STABLE_WRITES flag when data
+ digests are enabled
+In-Reply-To: <468b110203ae91cdea1bbe84176332472bf206fb.1562234605.git.mskorzhinskiy@solarflare.com>
 References: <cover.1562234605.git.mskorzhinskiy@solarflare.com>
- <8a62f718d2b1b77c548be8009dbcfc9a3f75f7cf.1562234605.git.mskorzhinskiy@solarflare.com>
-Message-ID: <fd654531-d950-8afb-41e0-997c96b1d636@grimberg.me>
+ <468b110203ae91cdea1bbe84176332472bf206fb.1562234605.git.mskorzhinskiy@solarflare.com>
+Message-ID: <126aeb2d-6015-855a-9b7a-27c02ba37186@grimberg.me>
 
-Please send it as a separate patch not related to the other two...
 
-> Adding this hint for the sake of convenience.
+> There was a few false alarms sighted on target side about wrong data digest
+> while performing high throughput load to XFS filesystem shared through
+> NVMoF TCP.
 > 
-> It was spotted that a few times people spent some time before understanding
-> what is exactly wrong in configuration process. This should save a few time
-> in such situations, especially for people who is not very confident with
-> NVMe requirements.
+> This flag tells[1] the rest of the kernel to ensure that the data buffer
+> does not change while the write is in flight. It incurs a performance
+> penalty, so only enable it when it is actually needed, i.e. when we are
+> calculating data digests.
+> 
+> Although even with this change in place[2], ext2 users can steel experience
+> false positives, as ext2 is not respecting this flag. This may be apply to
+> vfat as well.
+> 
+> References:
+> 
+> [1] https://lwn.net/Articles/528031/
+> [2] https://www.redhat.com/archives/dm-devel/2015-May/msg00158.html
+
+Better not to reference a url in the commit message. You can move
+this to under the '---' separator (and don't reference to it, summarize
+the explanation instead).
+
 > 
 > Signed-off-by: Mikhail Skorzhinskii <mskorzhinskiy at solarflare.com>
+> Signed-off-by: Mike Playle <mplayle at solarflare.com>
 > ---
->   drivers/nvme/target/configfs.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
+>   drivers/nvme/host/core.c | 5 +++++
+>   1 file changed, 5 insertions(+)
 > 
-> diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-> index 08dd5af357f7..c91cad4f7927 100644
-> --- a/drivers/nvme/target/configfs.c
-> +++ b/drivers/nvme/target/configfs.c
-> @@ -588,8 +588,10 @@ static struct config_group *nvmet_ns_make(struct config_group *group,
->   		goto out;
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 5417110cbf1b..f4340dc1d399 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -11,6 +11,7 @@
+>   #include <linux/hdreg.h>
+>   #include <linux/kernel.h>
+>   #include <linux/module.h>
+> +#include <linux/backing-dev.h>
+>   #include <linux/list_sort.h>
+>   #include <linux/slab.h>
+>   #include <linux/types.h>
+> @@ -3304,6 +3305,10 @@ static int nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+>   		goto out_free_ns;
+>   	}
 >   
->   	ret = -EINVAL;
-> -	if (nsid == 0 || nsid == NVME_NSID_ALL)
-> +	if (nsid == 0 || nsid == NVME_NSID_ALL) {
-> +		pr_err("NSIDs 0 and 0xffffffff are invalid NSIDs\n");
+> +	if (ctrl->opts->data_digest)
+> +		ns->queue->backing_dev_info->capabilities
+> +			|= BDI_CAP_STABLE_WRITES;
+> +
 
-Why not?
-		pr_err("invalid nsid %#x", nsid);
+This looks correct, other than the change log.
