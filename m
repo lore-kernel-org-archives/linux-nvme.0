@@ -1,10 +1,10 @@
 From: kenneth.heitke@intel.com (Heitke, Kenneth)
-Date: Mon, 8 Jul 2019 11:56:05 -0600
+Date: Mon, 8 Jul 2019 12:00:02 -0600
 Subject: [PATCH] nvmet: print a hint while rejecting NSID 0 or 0xffffffff
 In-Reply-To: <8bfa9035-ad7c-bdd2-a480-b8d26c597767@acm.org>
 References: <c3a8458b54fcd189f7a441eb959274937faf8568.1562586068.git.mskorzhinskiy@solarflare.com>
  <8bfa9035-ad7c-bdd2-a480-b8d26c597767@acm.org>
-Message-ID: <0e01bd67-8f1f-4b6c-0643-b3801ca0e6fd@intel.com>
+Message-ID: <30b4d27a-e195-87f5-e10a-7873d5ed9e5d@intel.com>
 
 
 
@@ -46,12 +46,12 @@ On 7/8/2019 9:09 AM, Bart Van Assche wrote:
 > above message makes me wonder whether enough context information is 
 > provided to allow users to figure out unambiguously which code reported 
 > the error message? Have you considered to include the function name in 
-> the error message?
+> the error message
 
-It would also be nice to see a device or namespace name, if available.
+It looks like 'pr_fmt' is set in this file so the module name will at 
+least be identified.
 
 
-> 
 > Thanks,
 > 
 > Bart.
