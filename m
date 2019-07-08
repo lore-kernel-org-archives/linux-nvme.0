@@ -1,68 +1,37 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 8 Jul 2019 02:57:19 -0700
-Subject: [PATCH 3/3] nvme-tcp: replace sendpage calls with sendmsg calls
- for SLAB chunks
-In-Reply-To: <cdce4bc7cedc11a80c01e457a4b18933b73017e2.1562234605.git.mskorzhinskiy@solarflare.com>
+Date: Mon, 8 Jul 2019 02:59:09 -0700
+Subject: [PATCH 1/3] nvmet: print a hint while rejecting NSID 0 or
+ 0xffffffff
+In-Reply-To: <8a62f718d2b1b77c548be8009dbcfc9a3f75f7cf.1562234605.git.mskorzhinskiy@solarflare.com>
 References: <cover.1562234605.git.mskorzhinskiy@solarflare.com>
- <cdce4bc7cedc11a80c01e457a4b18933b73017e2.1562234605.git.mskorzhinskiy@solarflare.com>
-Message-ID: <28d0887b-692e-0b33-7530-673006340431@grimberg.me>
+ <8a62f718d2b1b77c548be8009dbcfc9a3f75f7cf.1562234605.git.mskorzhinskiy@solarflare.com>
+Message-ID: <fd654531-d950-8afb-41e0-997c96b1d636@grimberg.me>
 
+Please send it as a separate patch not related to the other two...
 
-> According to commit a10674bf2406 ("tcp: detecting the misuse of .sendpage
-> for Slab objects") and previous discussion[1][2], tcp_sendpage should not
-> be used for pages that is managed by SLAB, as SLAB is not taking page
-> reference counters into consideration.
+> Adding this hint for the sake of convenience.
 > 
-> This change prevents sendpage calls for payload sending too, although this
-> is true only for admin commands, so actual data transfer performance
-> should be untouched.
+> It was spotted that a few times people spent some time before understanding
+> what is exactly wrong in configuration process. This should save a few time
+> in such situations, especially for people who is not very confident with
+> NVMe requirements.
 > 
-> [1] https://www.spinics.net/lists/netdev/msg553616.html
-> [2] https://www.spinics.net/lists/netdev/msg553285.html
-
-Well, the lifetime here is guaranteed to be the same for the buffers
-in question.
-
-Was any issue seen in action?
-
-> @@ -860,7 +878,7 @@ static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
->   		else
->   			flags |= MSG_MORE;
+> Signed-off-by: Mikhail Skorzhinskii <mskorzhinskiy at solarflare.com>
+> ---
+>   drivers/nvme/target/configfs.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+> index 08dd5af357f7..c91cad4f7927 100644
+> --- a/drivers/nvme/target/configfs.c
+> +++ b/drivers/nvme/target/configfs.c
+> @@ -588,8 +588,10 @@ static struct config_group *nvmet_ns_make(struct config_group *group,
+>   		goto out;
 >   
-> -		ret = kernel_sendpage(queue->sock, page, offset, len, flags);
-> +		ret = nvme_tcp_sendpage(req, page, offset, len, flags);
+>   	ret = -EINVAL;
+> -	if (nsid == 0 || nsid == NVME_NSID_ALL)
+> +	if (nsid == 0 || nsid == NVME_NSID_ALL) {
+> +		pr_err("NSIDs 0 and 0xffffffff are invalid NSIDs\n");
 
-Please just do this instead:
---
-	/* can't zcopy slab pages */
-	if (unlikely(PageSlab(page))
-		sock_no_sendpage()
-	else
-		kernel_sendpage()
---
-
-> +static inline int nvme_tcp_try_send_pdu(struct nvme_tcp_request *req,
-> +					int len, int flags)
-> +{
-> +	struct nvme_tcp_queue *queue = req->queue;
-> +	struct msghdr msg = { .msg_flags = flags };
-> +	struct kvec iov = {
-> +			   .iov_base = req->pdu + req->offset,
-> +			   .iov_len = len,
-> +	};
-> +
-> +	return kernel_sendmsg(queue->sock, &msg, &iov, 1, iov.iov_len);
-> +}
-> +
->   static int nvme_tcp_try_send_cmd_pdu(struct nvme_tcp_request *req)
->   {
->   	struct nvme_tcp_queue *queue = req->queue;
-> @@ -898,8 +929,7 @@ static int nvme_tcp_try_send_cmd_pdu(struct nvme_tcp_request *req)
->   	if (queue->hdr_digest && !req->offset)
->   		nvme_tcp_hdgst(queue->snd_hash, pdu, sizeof(*pdu));
->   
-> -	ret = kernel_sendpage(queue->sock, virt_to_page(pdu),
-> -			offset_in_page(pdu) + req->offset, len,  flags);
-> +	ret = nvme_tcp_try_send_pdu(req, len, flags);
-
-This is unneeded given that pdus are page fragments, NOT slab pages.
+Why not?
+		pr_err("invalid nsid %#x", nsid);
