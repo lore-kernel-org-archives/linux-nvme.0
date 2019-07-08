@@ -1,61 +1,83 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 8 Jul 2019 03:03:37 -0700
-Subject: [PATCH 2/3] nvme-tcp: set the STABLE_WRITES flag when data
- digests are enabled
-In-Reply-To: <468b110203ae91cdea1bbe84176332472bf206fb.1562234605.git.mskorzhinskiy@solarflare.com>
+From: mskorzhinskiy@solarflare.com (Mikhail Skorzhinskii)
+Date: Mon, 8 Jul 2019 12:15:19 +0200
+Subject: [PATCH 3/3] nvme-tcp: replace sendpage calls with sendmsg calls
+ for SLAB chunks
+In-Reply-To: <28d0887b-692e-0b33-7530-673006340431@grimberg.me>
 References: <cover.1562234605.git.mskorzhinskiy@solarflare.com>
- <468b110203ae91cdea1bbe84176332472bf206fb.1562234605.git.mskorzhinskiy@solarflare.com>
-Message-ID: <126aeb2d-6015-855a-9b7a-27c02ba37186@grimberg.me>
+ <cdce4bc7cedc11a80c01e457a4b18933b73017e2.1562234605.git.mskorzhinskiy@solarflare.com>
+ <28d0887b-692e-0b33-7530-673006340431@grimberg.me>
+Message-ID: <87zhlovnm0.fsf@solarflare.com>
 
 
-> There was a few false alarms sighted on target side about wrong data digest
-> while performing high throughput load to XFS filesystem shared through
-> NVMoF TCP.
-> 
-> This flag tells[1] the rest of the kernel to ensure that the data buffer
-> does not change while the write is in flight. It incurs a performance
-> penalty, so only enable it when it is actually needed, i.e. when we are
-> calculating data digests.
-> 
-> Although even with this change in place[2], ext2 users can steel experience
-> false positives, as ext2 is not respecting this flag. This may be apply to
-> vfat as well.
-> 
-> References:
-> 
-> [1] https://lwn.net/Articles/528031/
-> [2] https://www.redhat.com/archives/dm-devel/2015-May/msg00158.html
+Sagi Grimberg <sagi at grimberg.me> writes:
+ > > According to commit a10674bf2406 ("tcp: detecting the misuse of .sendpage
+ > > for Slab objects") and previous discussion[1][2], tcp_sendpage should not
+ > > be used for pages that is managed by SLAB, as SLAB is not taking page
+ > > reference counters into consideration.
+ > >
+ > > This change prevents sendpage calls for payload sending too, although this
+ > > is true only for admin commands, so actual data transfer performance
+ > > should be untouched.
+ > >
+ > > [1] https://www.spinics.net/lists/netdev/msg553616.html
+ > > [2] https://www.spinics.net/lists/netdev/msg553285.html
+ >
+ > Well, the lifetime here is guaranteed to be the same for the buffers
+ > in question.
+ >
+ > Was any issue seen in action?
 
-Better not to reference a url in the commit message. You can move
-this to under the '---' separator (and don't reference to it, summarize
-the explanation instead).
+No.
 
-> 
-> Signed-off-by: Mikhail Skorzhinskii <mskorzhinskiy at solarflare.com>
-> Signed-off-by: Mike Playle <mplayle at solarflare.com>
-> ---
->   drivers/nvme/host/core.c | 5 +++++
->   1 file changed, 5 insertions(+)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 5417110cbf1b..f4340dc1d399 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -11,6 +11,7 @@
->   #include <linux/hdreg.h>
->   #include <linux/kernel.h>
->   #include <linux/module.h>
-> +#include <linux/backing-dev.h>
->   #include <linux/list_sort.h>
->   #include <linux/slab.h>
->   #include <linux/types.h>
-> @@ -3304,6 +3305,10 @@ static int nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
->   		goto out_free_ns;
->   	}
->   
-> +	if (ctrl->opts->data_digest)
-> +		ns->queue->backing_dev_info->capabilities
-> +			|= BDI_CAP_STABLE_WRITES;
-> +
+And if you go through the threads related to this warning, original bug
+only observed when sender and receiver happens to be one physical
+machine. Making this patch a bit overreaction to the warning, of course.
 
-This looks correct, other than the change log.
+I was thinking about disabling this check inside tcp code for our caller
+then, but I didn't come up with anything clever, so instead I patch
+NVMoF TCP.
+
+ > > @@ -860,7 +878,7 @@ static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
+ > >   		else
+ > >   			flags |= MSG_MORE;
+ > >   -		ret = kernel_sendpage(queue->sock, page, offset, len,
+ > > flags);
+ > > +		ret = nvme_tcp_sendpage(req, page, offset, len, flags);
+ >
+ > Please just do this instead:
+ > --
+ > 	/* can't zcopy slab pages */
+ > 	if (unlikely(PageSlab(page))
+ > 		sock_no_sendpage()
+ > 	else
+ > 		kernel_sendpage()
+ > --
+
+Will fix.
+
+ > > +static inline int nvme_tcp_try_send_pdu(struct nvme_tcp_request *req,
+ > > +					int len, int flags)
+ > > +{
+ > > +	struct nvme_tcp_queue *queue = req->queue;
+ > > +	struct msghdr msg = { .msg_flags = flags };
+ > > +	struct kvec iov = {
+ > > +			   .iov_base = req->pdu + req->offset,
+ > > +			   .iov_len = len,
+ > > +	};
+ > > +
+ > > +	return kernel_sendmsg(queue->sock, &msg, &iov, 1, iov.iov_len);
+ > > +}
+ > > +
+ > >   static int nvme_tcp_try_send_cmd_pdu(struct nvme_tcp_request *req)
+ > >   {
+ > >   	struct nvme_tcp_queue *queue = req->queue;
+ > > @@ -898,8 +929,7 @@ static int nvme_tcp_try_send_cmd_pdu(struct nvme_tcp_request *req)
+ > >   	if (queue->hdr_digest && !req->offset)
+ > >   		nvme_tcp_hdgst(queue->snd_hash, pdu, sizeof(*pdu));
+ > >   -	ret = kernel_sendpage(queue->sock, virt_to_page(pdu),
+ > > -			offset_in_page(pdu) + req->offset, len,  flags);
+ > > +	ret = nvme_tcp_try_send_pdu(req, len, flags);
+ >
+ > This is unneeded given that pdus are page fragments, NOT slab pages.
+
+Will fix.
