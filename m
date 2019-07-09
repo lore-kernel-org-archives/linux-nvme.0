@@ -1,10 +1,9 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 9 Jul 2019 23:34:53 +0200
-Subject: [PATCH] nvme: add delete completion and submission queue to
- admin cmds tracer
-In-Reply-To: <1562235594-7847-1-git-send-email-tomwu@mellanox.com>
-References: <1562235594-7847-1-git-send-email-tomwu@mellanox.com>
-Message-ID: <20190709213453.GA9815@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Tue, 9 Jul 2019 14:39:19 -0700
+Subject: [PATCH v3] nvme-fc: fix module unloads while lports still pending
+In-Reply-To: <20190629002608.3419-1-jsmart2021@gmail.com>
+References: <20190629002608.3419-1-jsmart2021@gmail.com>
+Message-ID: <20190709213919.GA17673@infradead.org>
 
 Thanks,
 
