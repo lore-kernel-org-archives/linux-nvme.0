@@ -1,10 +1,9 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 9 Jul 2019 09:35:50 -0700
-Subject: [PATCH v2 1/2] nvme-tcp: set the STABLE_WRITES flag when data
- digests are enabled
-In-Reply-To: <c34300a7199db40be3cfe0ac729ffabe77fb8a1d.1562586804.git.mskorzhinskiy@solarflare.com>
+Date: Tue, 9 Jul 2019 09:37:33 -0700
+Subject: [PATCH v2 2/2] nvme-tcp: don't use sendpage for SLAB pages
+In-Reply-To: <3206ec8102d4dae933f4638652e84349dcc50ee4.1562586804.git.mskorzhinskiy@solarflare.com>
 References: <cover.1562586804.git.mskorzhinskiy@solarflare.com>
- <c34300a7199db40be3cfe0ac729ffabe77fb8a1d.1562586804.git.mskorzhinskiy@solarflare.com>
-Message-ID: <6184050b-6f8c-cfe3-d751-a59ae71cc172@grimberg.me>
+ <3206ec8102d4dae933f4638652e84349dcc50ee4.1562586804.git.mskorzhinskiy@solarflare.com>
+Message-ID: <2b2b9f09-5a02-68c8-722d-5e361ce292ed@grimberg.me>
 
 Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
