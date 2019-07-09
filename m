@@ -1,58 +1,27 @@
-From: jonathan.derrick@intel.com (Derrick, Jonathan)
-Date: Mon, 8 Jul 2019 18:35:29 +0000
-Subject: Should hot removed devices close open namespace bd references?
-Message-ID: <d7027ad47e28339f13eb2d7f1bff4c7749da1160.camel@intel.com>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Wed, 10 Jul 2019 00:47:43 +0900
+Subject: [PATCH] nvmet: print a hint while rejecting NSID 0 or 0xffffffff
+In-Reply-To: <8bfa9035-ad7c-bdd2-a480-b8d26c597767@acm.org>
+References: <c3a8458b54fcd189f7a441eb959274937faf8568.1562586068.git.mskorzhinskiy@solarflare.com>
+ <8bfa9035-ad7c-bdd2-a480-b8d26c597767@acm.org>
+Message-ID: <20190709154743.GA16207@minwoo-desktop>
 
-Hello,
+On 19-07-08 08:09:38, Bart Van Assche wrote:
+> If Linux users want to figure out which code reported an error message they
+> sometimes run grep over the Linux kernel source code. Seeing the above
+> message makes me wonder whether enough context information is provided to
+> allow users to figure out unambiguously which code reported the error
+> message? Have you considered to include the function name in the error
+> message?
 
-5.2 shows a strange regression where if a namespace handle is open and
-the device is hot removed, then hot inserted, the new controller
-instance fails to enumerate.
+Bart,
 
-Previous kernels back to the multipathing introduction would simply add
-the new namespace to the previous controller's subsystem id, so you
-would end up with something like:
-/dev/nvme2
-/dev/nvme0n2
-Because the subsystem namespace instance is 2 upon enumeration as the
-previous handle hadn't been released through the block layer.
+I can see some pr_err() with __func__ being printed out in other drivers,
+but I just wonder if error messages with the function name itself have
+been a tradition for the linux kernel project.
 
-With 5.2, I instead see:
-[  247.767504] nvme nvme2: pci function 10000:01:00.0
-[  247.772642] nvme 10000:01:00.0: enabling device (0000 -> 0002)
-[  247.778671] pcieport 10000:00:02.0: can't derive routing for PCI INT
-A
-[  247.785411] nvme 10000:01:00.0: PCI INT A: no GSI
-[  247.899879] nvme nvme2: Duplicate cntlid 0 with nvme0, rejecting
-[  247.906086] nvme nvme2: Removing after probe failure status: -22
+Is there somewhere to find out these kind of standard or something?  Or
+If you don't mind, can I ask your advices based on your experience on
+kernel?
 
-
-Here's a test program:
-#define _GNU_SOURCE
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-
-int main(int argc, char *argv[])
-{
-        int fd;
-
-        fd = open("/dev/nvme0n1", O_DIRECT);
-
-        for (;;)
-                ;
-}
-
-
-
-Run this and in parallel, remove the link from the upstream port:
-setpci -s <BDF> CAP_EXP+10.w=10:10
-And add it back:
-setpci -s <BDF> CAP_EXP+10.w=0:10
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: smime.p7s
-Type: application/x-pkcs7-signature
-Size: 3278 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20190708/00327404/attachment.bin>
+Thanks,
