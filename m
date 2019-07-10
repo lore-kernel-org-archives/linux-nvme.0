@@ -1,99 +1,82 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Wed, 10 Jul 2019 16:27:36 -0700
-Subject: [PATCH rfc 2/6] nvme-cli: support persistent connections to a
- discovery controller
+Date: Wed, 10 Jul 2019 16:27:39 -0700
+Subject: [PATCH rfc 5/6] nvme-cli: add --quiet option
 In-Reply-To: <20190710232740.26734-1-jsmart2021@gmail.com>
 References: <20190710232740.26734-1-jsmart2021@gmail.com>
-Message-ID: <20190710232740.26734-3-jsmart2021@gmail.com>
+Message-ID: <20190710232740.26734-6-jsmart2021@gmail.com>
 
 From: Sagi Grimberg <sagi@grimberg.me>
 
-Simply don't destroy the discovery controller after getting the
-log pages. Note that persistent connection to a discovery subsystem
-require to pass in a non-zero kato value, so if not provided we
-simply use a default of 30 seconds kato.
+Now we are going to have discovery log change events, so
+instead of trying to figure out which NVM subsystem ports
+are already connected, we let the driver do that and
+only suppress the failure messages.
 
 Example:
-  nvme connect-all ... --persistent
+  nvme connect-all ... --quiet
+
+This option will be used by the discovery log change corresponding
+udev rule.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 Reviewed-by: James Smart <jsmart2021 at gmail.com>
 Reviewed-by: Hannes Reinecke <hare at suse.com>
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
-
 ---
-resolved merge error
----
- fabrics.c | 15 ++++++++++++---
- fabrics.h |  2 ++
- 2 files changed, 14 insertions(+), 3 deletions(-)
+ fabrics.c | 21 ++++++++++++++-------
+ 1 file changed, 14 insertions(+), 7 deletions(-)
 
 diff --git a/fabrics.c b/fabrics.c
-index cc91d00..c4bbe2c 100644
+index 73c3a49..86802b4 100644
 --- a/fabrics.c
 +++ b/fabrics.c
-@@ -65,6 +65,7 @@ static struct config {
- 	int  disable_sqflow;
+@@ -66,6 +66,7 @@ static struct config {
  	int  hdr_digest;
  	int  data_digest;
-+	bool persistent;
+ 	bool persistent;
++	bool quiet;
  } cfg = { NULL };
  
  #define BUF_SIZE		4096
-@@ -858,9 +859,11 @@ static int do_discover(char *argstr, bool connect)
- 		return -errno;
- 	ret = nvmf_get_log_page_discovery(dev_name, &log, &numrec);
- 	free(dev_name);
--	err = remove_ctrl(instance);
--	if (err)
--		return err;
-+	if (!cfg.persistent) {
-+		err = remove_ctrl(instance);
-+		if (err)
-+			return err;
-+	}
+@@ -216,9 +217,11 @@ static int add_ctrl(const char *argstr)
+ 		goto out;
+ 	}
  
- 	switch (ret) {
- 	case DISC_OK:
-@@ -936,6 +939,9 @@ static int discover_from_conf_file(const char *desc, char *argstr,
- 		if (err)
- 			continue;
- 
-+		if (cfg.persistent && !cfg.keep_alive_tmo)
-+			cfg.keep_alive_tmo = NVMF_DEF_DISC_TMO;
+-	if (write(fd, argstr, len) != len) {
+-		fprintf(stderr, "Failed to write to %s: %s\n",
+-			 PATH_NVME_FABRICS, strerror(errno));
++	ret = write(fd, argstr, len);
++	if (ret != len) {
++		if (errno != EALREADY || !cfg.quiet)
++			fprintf(stderr, "Failed to write to %s: %s\n",
++				 PATH_NVME_FABRICS, strerror(errno));
+ 		ret = -errno;
+ 		goto out_close;
+ 	}
+@@ -840,10 +843,13 @@ static int connect_ctrls(struct nvmf_disc_rsp_page_hdr *log, int numrec)
+ 		/* already connected print message	*/
+ 		if (instance == -EALREADY) {
+ 			const char *traddr = log->entries[i].traddr;
+-			fprintf(stderr,
+-				"traddr=%.*s is already connected\n",
+-				space_strip_len(NVMF_TRADDR_SIZE, traddr),
+-				traddr);
 +
- 		err = build_options(argstr, BUF_SIZE);
- 		if (err) {
- 			ret = err;
-@@ -978,6 +984,7 @@ int discover(const char *desc, int argc, char **argv, bool connect)
- 		{"nr-write-queues", 'W', "LIST", CFG_INT, &cfg.nr_write_queues,    required_argument, "number of write queues to use (default 0)" },
++			if (!cfg.quiet)
++				fprintf(stderr,
++					"traddr=%.*s is already connected\n",
++					space_strip_len(NVMF_TRADDR_SIZE,
++							traddr),
++					traddr);
+ 			continue;
+ 		}
+ 
+@@ -1040,6 +1046,7 @@ int discover(const char *desc, int argc, char **argv, bool connect)
  		{"nr-poll-queues",  'P', "LIST", CFG_INT, &cfg.nr_poll_queues,    required_argument, "number of poll queues to use (default 0)" },
  		{"queue-size",      'Q', "LIST", CFG_INT, &cfg.queue_size,      required_argument, "number of io queue elements to use (default 128)" },
-+		{"persistent",  'p', "LIST", CFG_NONE, &cfg.persistent,  no_argument, "persistent discovery connection" },
+ 		{"persistent",  'p', "LIST", CFG_NONE, &cfg.persistent,  no_argument, "persistent discovery connection" },
++		{"quiet",       'Q', "LIST", CFG_NONE, &cfg.quiet,  no_argument, "suppress already connected errors" },
  		{NULL},
  	};
  
-@@ -992,6 +999,8 @@ int discover(const char *desc, int argc, char **argv, bool connect)
- 		return discover_from_conf_file(desc, argstr,
- 				command_line_options, connect);
- 	} else {
-+		if (cfg.persistent && !cfg.keep_alive_tmo)
-+			cfg.keep_alive_tmo = NVMF_DEF_DISC_TMO;
- 		ret = build_options(argstr, BUF_SIZE);
- 		if (ret)
- 			return ret;
-diff --git a/fabrics.h b/fabrics.h
-index 988f3ef..7c1664b 100644
---- a/fabrics.h
-+++ b/fabrics.h
-@@ -1,6 +1,8 @@
- #ifndef _DISCOVER_H
- #define _DISCOVER_H
- 
-+#define NVMF_DEF_DISC_TMO	30
-+
- extern int discover(const char *desc, int argc, char **argv, bool connect);
- extern int connect(const char *desc, int argc, char **argv);
- extern int disconnect(const char *desc, int argc, char **argv);
 -- 
 2.13.7
