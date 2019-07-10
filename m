@@ -1,26 +1,37 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Tue, 9 Jul 2019 17:07:47 -0600
-Subject: [PATCH rfc] nvme-tcp: support simple polling
-In-Reply-To: <20190709212717.GA9636@lst.de>
-References: <20190703210804.23137-1-sagi@grimberg.me>
- <20190709202201.GB8405@lst.de>
- <70b60d78-1a77-ddb0-3414-e0c26d657e4f@grimberg.me>
- <20190709212717.GA9636@lst.de>
-Message-ID: <e7e4ec9a-b644-58a3-77b0-7828d73831ca@kernel.dk>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 9 Jul 2019 19:13:36 -0700
+Subject: Should hot removed devices close open namespace bd references?
+In-Reply-To: <4eddc7d98f49abf4255c31fbe4412ce9e3877c06.camel@intel.com>
+References: <d7027ad47e28339f13eb2d7f1bff4c7749da1160.camel@intel.com>
+ <32a2e339-b948-43fe-72a3-77eb2e626c63@grimberg.me>
+ <4eddc7d98f49abf4255c31fbe4412ce9e3877c06.camel@intel.com>
+Message-ID: <ed33a95f-1202-a5aa-c0ec-c91a8810a082@grimberg.me>
 
-On 7/9/19 3:27 PM, Christoph Hellwig wrote:
-> On Tue, Jul 09, 2019@02:26:04PM -0700, Sagi Grimberg wrote:
->>> Looks good enough to me, especially now that we need to explicitly opt
->>> into polling queues.
->>
->> Cool, so unless we have any objections, lets let it sit in 5.3?
+
+>> Its the controller that is not released (as the open ns handle holds
+>> a reference to it). But what is the old controller state? the code
+>> is supposed to allow this check if the old controller is in
+>> DELETING/DEAD.
+> The state is 6 (DEAD). I added some sysfs code to show the controller
+> state:
 > 
-> Well, the 5.3 merge window is over, I'm not sure how happy Jens would
-> be about this new feature.
 
-I'm most likely doing a later pull this merge window, so if it's
-important and not super involved, we can probably sneak it in without
-too much fuss.
+I think I understand the problem, can you try with:
+--
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index e28717d11f9a..04d5ce1a42c1 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2419,8 +2419,8 @@ static bool nvme_validate_cntlid(struct 
+nvme_subsystem *subsys,
+         lockdep_assert_held(&nvme_subsystems_lock);
 
--- 
-Jens Axboe
+         list_for_each_entry(tmp, &subsys->ctrls, subsys_entry) {
+-               if (ctrl->state == NVME_CTRL_DELETING ||
+-                   ctrl->state == NVME_CTRL_DEAD)
++               if (tmp->state == NVME_CTRL_DELETING ||
++                   tmp->state == NVME_CTRL_DEAD)
+                         continue;
+
+                 if (tmp->cntlid == ctrl->cntlid) {
+--
