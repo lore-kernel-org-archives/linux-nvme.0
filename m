@@ -1,29 +1,41 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 9 Jul 2019 19:15:07 -0700
-Subject: [PATCH rfc] nvme-tcp: support simple polling
-In-Reply-To: <e7e4ec9a-b644-58a3-77b0-7828d73831ca@kernel.dk>
-References: <20190703210804.23137-1-sagi@grimberg.me>
- <20190709202201.GB8405@lst.de>
- <70b60d78-1a77-ddb0-3414-e0c26d657e4f@grimberg.me>
- <20190709212717.GA9636@lst.de>
- <e7e4ec9a-b644-58a3-77b0-7828d73831ca@kernel.dk>
-Message-ID: <4e8ec90b-b2d9-685f-6b39-1113688dce5c@grimberg.me>
+From: mrybczyn@kalray.eu (Marta Rybczynska)
+Date: Wed, 10 Jul 2019 07:26:46 +0200 (CEST)
+Subject: [PATCH v2] nvme: fix multipath crash when ANA desactivated
+In-Reply-To: <20190709212904.GB9636@lst.de>
+References: <1575872828.30576006.1562335512322.JavaMail.zimbra@kalray.eu>
+ <989987da-6711-0abc-785c-6574b3bb768c@mellanox.com>
+ <20190709212904.GB9636@lst.de>
+Message-ID: <516302383.30860772.1562736406606.JavaMail.zimbra@kalray.eu>
 
 
->> On Tue, Jul 09, 2019@02:26:04PM -0700, Sagi Grimberg wrote:
->>>> Looks good enough to me, especially now that we need to explicitly opt
->>>> into polling queues.
->>>
->>> Cool, so unless we have any objections, lets let it sit in 5.3?
+
+----- On 9 Jul, 2019,@23:29, Christoph Hellwig hch@lst.de wrote:
+
+> On Sat, Jul 06, 2019@01:06:44PM +0300, Max Gurtovoy wrote:
+>>> +	/* check if multipath is enabled and we have the capability */
+>>> +	if (!multipath)
+>>> +		return 0;
+>>> +	if (!ctrl->subsys || ((ctrl->subsys->cmic & (1 << 3)) != 0))
 >>
->> Well, the 5.3 merge window is over, I'm not sure how happy Jens would
->> be about this new feature.
+>> shouldn't it be:
+>>
+>> if (!ctrl->subsys || ((ctrl->subsys->cmic & (1 << 3)) == 0))
+>>
+>> or
+>>
+>> if (!ctrl->subsys || !(ctrl->subsys->cmic & (1 << 3)))
+>>
+>>
+>> Otherwise, you don't really do any initialization and return 0 in case you have
+>> the capability, right ?
 > 
-> I'm most likely doing a later pull this merge window, so if it's
-> important and not super involved, we can probably sneak it in without
-> too much fuss.
+> Yes.  FYI, my idea how to fix this would be something like:
 
-Its not very important, but also not involved... We can safely defer it
-to 5.4.
+Thanks both, error when changing the condition on my side. I submit the next
+version very soon.
 
-Thanks Jens.
+Christoph, why would you like to put the use_ana function in the header?
+It isn't used anywhere else outside of that file.
+
+Regards,
+Marta
