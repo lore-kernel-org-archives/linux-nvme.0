@@ -1,116 +1,73 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Wed, 10 Jul 2019 16:27:37 -0700
-Subject: [PATCH rfc 3/6] nvme-cli: allow discover to address discovery
- controller by persistent name
+Date: Wed, 10 Jul 2019 16:27:35 -0700
+Subject: [PATCH rfc 1/6] nvme-cli: ignore arguments that pass in "none"
 In-Reply-To: <20190710232740.26734-1-jsmart2021@gmail.com>
 References: <20190710232740.26734-1-jsmart2021@gmail.com>
-Message-ID: <20190710232740.26734-4-jsmart2021@gmail.com>
+Message-ID: <20190710232740.26734-2-jsmart2021@gmail.com>
 
-To support discovery (connect/connect-all) to operate against a
-persistent discovery controller, let the discovery controller to
-be specified by its device node name rather than new connection
-attributes.
+As we want to support discovery uevents over different
+transports, we want to allow the kernel to provide missing
+information in the form of none and have nvme-cli properly
+ignore it.
+
+One example is the host_traddr. If it is not set (which means
+that the default route determined the host address) we will
+want to do the same for newly discovered controllers.
+
+So allow users to pass 'none' arguments as well.
 
 Example:
-  nvme connect-all ... --device=nvme5
-
-Also centralize extraction of controller instance from the controller
-name to a common helper.
+  nvme connect-all ... --hostnqn=none --hostid=none --host_traddr=none
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 Signed-off-by: James Smart <jsmart2021 at gmail.com>
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+Reviewed-by: Hannes Reinecke <hare at suse.com>
 
 ---
 Patch originated from Sagi in an RFC
-fix merge issue
-fix contoller->controller
-add cfg.device check for "none"
+Fixed typo in Sagi's patch on cfg.hostid
 ---
- fabrics.c | 35 +++++++++++++++++++++++++----------
- 1 file changed, 25 insertions(+), 10 deletions(-)
+ fabrics.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/fabrics.c b/fabrics.c
-index c4bbe2c..1c5ca9a 100644
+index 573a6ef..cc91d00 100644
 --- a/fabrics.c
 +++ b/fabrics.c
-@@ -189,6 +189,19 @@ static const char *cms_str(__u8 cm)
- 
- static int do_discover(char *argstr, bool connect);
- 
-+static int ctrl_instance(char *device)
-+{
-+	int ret, instance;
-+
-+	device = basename(device);
-+	ret = sscanf(device, "nvme%d", &instance);
-+	if (ret < 0)
-+		return ret;
-+	if (!ret)
-+		return -1;
-+	return instance;
-+}
-+
- static int add_ctrl(const char *argstr)
+@@ -565,7 +565,7 @@ add_argument(char **argstr, int *max_len, char *arg_str, char *arg)
  {
- 	substring_t args[MAX_OPT_ARGS];
-@@ -851,7 +864,10 @@ static int do_discover(char *argstr, bool connect)
- 	char *dev_name;
- 	int instance, numrec = 0, ret, err;
+ 	int len;
  
--	instance = add_ctrl(argstr);
-+	if (!cfg.device)
-+		instance = add_ctrl(argstr);
-+	else
-+		instance = ctrl_instance(cfg.device);
- 	if (instance < 0)
- 		return instance;
+-	if (arg) {
++	if (arg && strcmp(arg, "none")) {
+ 		len = snprintf(*argstr, *max_len, ",%s=%s", arg_str, arg);
+ 		if (len < 0)
+ 			return -EINVAL;
+@@ -658,14 +658,14 @@ retry:
+ 		return -EINVAL;
+ 	p += len;
  
-@@ -859,7 +875,7 @@ static int do_discover(char *argstr, bool connect)
- 		return -errno;
- 	ret = nvmf_get_log_page_discovery(dev_name, &log, &numrec);
- 	free(dev_name);
--	if (!cfg.persistent) {
-+	if (!cfg.device && !cfg.persistent) {
- 		err = remove_ctrl(instance);
- 		if (err)
- 			return err;
-@@ -975,6 +991,7 @@ int discover(const char *desc, int argc, char **argv, bool connect)
- 		{"hostnqn",     'q', "LIST", CFG_STRING, &cfg.hostnqn,     required_argument, "user-defined hostnqn (if default not used)" },
- 		{"hostid",      'I', "LIST", CFG_STRING, &cfg.hostid,      required_argument, "user-defined hostid (if default not used)"},
- 		{"raw",         'r', "LIST", CFG_STRING, &cfg.raw,         required_argument, "raw output file" },
-+		{"device",      'd', "LIST", CFG_STRING, &cfg.device, required_argument, "use existing discovery controller device" },
- 		{"keep-alive-tmo",  'k', "LIST", CFG_INT, &cfg.keep_alive_tmo,  required_argument, "keep alive timeout period in seconds" },
- 		{"reconnect-delay", 'c', "LIST", CFG_INT, &cfg.reconnect_delay, required_argument, "reconnect timeout period in seconds" },
- 		{"ctrl-loss-tmo",   'l', "LIST", CFG_INT, &cfg.ctrl_loss_tmo,   required_argument, "controller loss timeout period in seconds" },
-@@ -993,6 +1010,9 @@ int discover(const char *desc, int argc, char **argv, bool connect)
- 	if (ret)
- 		return ret;
+-	if (cfg.hostnqn) {
++	if (cfg.hostnqn && strcmp(cfg.hostnqn, "none")) {
+ 		len = sprintf(p, ",hostnqn=%s", cfg.hostnqn);
+ 		if (len < 0)
+ 			return -EINVAL;
+ 		p += len;
+ 	}
  
-+	if (cfg.device && !strcmp(cfg.device, "none"))
-+		cfg.device = NULL;
-+
- 	cfg.nqn = NVME_DISC_SUBSYS_NAME;
+-	if (cfg.hostid) {
++	if (cfg.hostid && strcmp(cfg.hostid, "none")) {
+ 		len = sprintf(p, ",hostid=%s", cfg.hostid);
+ 		if (len < 0)
+ 			return -EINVAL;
+@@ -700,7 +700,7 @@ retry:
+ 		p += len;
+ 	}
  
- 	if (!cfg.transport && !cfg.traddr) {
-@@ -1130,15 +1150,10 @@ static int disconnect_by_nqn(char *nqn)
- static int disconnect_by_device(char *device)
- {
- 	int instance;
--	int ret;
--
--	device = basename(device);
--	ret = sscanf(device, "nvme%d", &instance);
--	if (ret < 0)
--		return ret;
--	if (!ret)
--		return -1;
- 
-+	instance = ctrl_instance(device);
-+	if (instance < 0)
-+		return instance;
- 	return remove_ctrl(instance);
- }
- 
+-	if (cfg.host_traddr) {
++	if (cfg.host_traddr && strcmp(cfg.host_traddr, "none")) {
+ 		len = sprintf(p, ",host_traddr=%s", cfg.host_traddr);
+ 		if (len < 0)
+ 			return -EINVAL;
 -- 
 2.13.7
