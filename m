@@ -1,26 +1,35 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 11 Jul 2019 08:13:15 -0600
-Subject: [GIT PULL] nvme updates for 5.3
-In-Reply-To: <20190711112031.GA5031@infradead.org>
-References: <20190711112031.GA5031@infradead.org>
-Message-ID: <33e106b8-aa93-89bc-ea78-5571e8c11272@kernel.dk>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Fri, 12 Jul 2019 00:13:38 +0900
+Subject: [PATCH] nvme: tcp: depends on CRYPTO_HASH2 for nvme-tcp
+Message-ID: <20190711151338.16810-1-minwoo.im.dev@gmail.com>
 
-On 7/11/19 5:20 AM, Christoph Hellwig wrote:
-> 
-> Lof of fixes all over the place, and two very minor features that
-> were in the nvme tree by the end of the merge window, but hadn't made
-> it out to Jens yet.
-> 
-> 
-> The following changes since commit c9b3007feca018d3f7061f5d5a14cb00766ffe9b:
-> 
->    blk-iolatency: fix STS_AGAIN handling (2019-07-05 15:14:00 -0600)
-> 
-> are available in the Git repository at:
-> 
->    git://git.infradead.org/nvme.git nvme-5.3
+The tcp host module is now taking those APIs from crypto ahash:
+	(1) crypto_ahash_final()
+	(2) crypto_ahash_digest()
+	(3) crypto_alloc_ahash()
 
-Pulled, thanks.
+nvme-tcp should depends on CRYPTO_HASH2.
 
+Cc: Christoph Hellwig <hch at lst.de>
+Cc: Keith Busch <kbusch at kernel.org>
+Cc: Sagi Grimberg <sagi at grimberg.me>
+Cc: Jens Axboe <axboe at fb.com>
+Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
+---
+ drivers/nvme/host/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
+index ec43ac9199e2..711d3ea5143f 100644
+--- a/drivers/nvme/host/Kconfig
++++ b/drivers/nvme/host/Kconfig
+@@ -63,6 +63,7 @@ config NVME_TCP
+ 	tristate "NVM Express over Fabrics TCP host driver"
+ 	depends on INET
+ 	depends on BLK_DEV_NVME
++	depends on CRYPTO_HASH2
+ 	select NVME_FABRICS
+ 	help
+ 	  This provides support for the NVMe over Fabrics protocol using
 -- 
-Jens Axboe
+2.17.1
