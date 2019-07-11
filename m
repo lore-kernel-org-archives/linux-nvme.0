@@ -1,90 +1,22 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Thu, 11 Jul 2019 09:16:37 -0700
-Subject: [PATCH rfc 3/6] nvme-cli: allow discover to address discovery
- controller by persistent name
-In-Reply-To: <20190711124116.GC8398@minwoo-desktop>
+Date: Thu, 11 Jul 2019 09:18:17 -0700
+Subject: [PATCH rfc 6/6] nvme-cli: nvmf auto-connect scripts
+In-Reply-To: <d9197c71-2386-ba52-088e-183dad4a662a@grimberg.me>
 References: <20190710232740.26734-1-jsmart2021@gmail.com>
- <20190710232740.26734-4-jsmart2021@gmail.com>
- <20190711124116.GC8398@minwoo-desktop>
-Message-ID: <39f7417d-dd5c-8c81-a4d5-7b8a313deaab@gmail.com>
+ <20190710232740.26734-7-jsmart2021@gmail.com>
+ <d9197c71-2386-ba52-088e-183dad4a662a@grimberg.me>
+Message-ID: <d62f4fa3-b923-389e-56e8-5de4130ffe17@gmail.com>
 
-On 7/11/2019 5:41 AM, Minwoo Im wrote:
-> On 19-07-10 16:27:37, James Smart wrote:
->> To support discovery (connect/connect-all) to operate against a
->> persistent discovery controller, let the discovery controller to
->> be specified by its device node name rather than new connection
->> attributes.
->>
->> Example:
->>    nvme connect-all ... --device=nvme5
->>
->> Also centralize extraction of controller instance from the controller
->> name to a common helper.
->>
->> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
->> Signed-off-by: James Smart <jsmart2021 at gmail.com>
->> Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+On 7/10/2019 5:42 PM, Sagi Grimberg wrote:
 > 
-> Hi Sagi and James,
+>> +??? $(INSTALL) -d $(DESTDIR)$(DRACUTDIR)/dracut.conf.d
+>> +??? $(INSTALL) -m 644 ./nvmf-autoconnect/*.conf 
+>> $(DESTDIR)$(DRACUTDIR)/dracut.conf.d
 > 
-> I think it might be too late review on this, but please have a look my
-> comments below :)
+> Where is this file?
 
-well,  it was posted as an RFC, so....
-
-
-> 
->> +static int ctrl_instance(char *device)
->> +{
->> +	int ret, instance;
->> +
->> +	device = basename(device);
->> +	ret = sscanf(device, "nvme%d", &instance);
->> +	if (ret < 0)
->> +		return ret;
-> 
-> It's just nitpick, but could we just do like:
-> 
-> 	ret = sscanf(device, "nvme%d", &instance);
-> 	if (ret < 0)
-> 		return -errno;
-
-I would think that what sscanf might report as a problem may not be 
-something understandable for someone using the cli. I'd like to replace
-this with something like -EINVAL for an invalid argument rather than 
-ret/-errorno.
-
-
-> 
->> +	if (!ret)
->> +		return -1;
-> 
-> Same here.  Can we please do:
-> 
-> 	if (!ret)
-> 		return -EINVAL;
-
-yep
-
-
-> 
-> 
-> These two things are not from this commit, but if you don't like it to
-> be involved in this scope of the commit, I think I can make it later, if
-> you don't mind.
-> 
->> +	return instance;
->> +}
-> 
-> I have a doubt here.  In case of multipath, if this function is given an
-> argument like "nvme0n1", Is "0" really an instance of that controller?
-> I think it could be an instance of the subsystem.  If so, can we just
-> prevent the argstr as a namespace node?
-> 
-> Please correct me if I'm wrong here.
-
-it should never be given an argument with the n? suffix. We're dealing 
-with controllers only. And multipath won't confuse that.  Perhaps we 
-should verify it ends at the controller name.
+?? it's not a new file   it's installing 70-nvmf-autoconnect.conf into 
+the dracut directories so that dracut will install the udev files in the 
+ramdisk.
 
 -- james
