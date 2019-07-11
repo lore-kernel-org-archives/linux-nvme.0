@@ -1,114 +1,84 @@
-From: parav@mellanox.com (Parav Pandit)
-Date: Thu, 11 Jul 2019 16:18:45 +0000
-Subject: regression: nvme rdma with bnxt_re0 broken
-In-Reply-To: <AM0PR05MB48664657022ECA8526E3C967D1F30@AM0PR05MB4866.eurprd05.prod.outlook.com>
-References: <1310083272.27124086.1562836112586.JavaMail.zimbra@redhat.com>
- <619411460.27128070.1562838433020.JavaMail.zimbra@redhat.com>
- <AM0PR05MB48664657022ECA8526E3C967D1F30@AM0PR05MB4866.eurprd05.prod.outlook.com>
-Message-ID: <AM0PR05MB4866070FBADCCABD1F84E42ED1F30@AM0PR05MB4866.eurprd05.prod.outlook.com>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Fri, 12 Jul 2019 02:04:47 +0900
+Subject: [PATCH] nvme: fix NULL deref for fabrics options
+Message-ID: <20190711170447.20836-1-minwoo.im.dev@gmail.com>
 
-Sagi,
+git://git.infradead.org/nvme.git nvme-5.3 branch now causes the
+following NULL deref oops.  Check the ctrl->opts first before the deref.
 
-This is better one to cc to linux-rdma.
+[   16.337581] BUG: kernel NULL pointer dereference, address: 0000000000000056
+[   16.338551] #PF: supervisor read access in kernel mode
+[   16.338551] #PF: error_code(0x0000) - not-present page
+[   16.338551] PGD 0 P4D 0
+[   16.338551] Oops: 0000 [#1] SMP PTI
+[   16.338551] CPU: 2 PID: 1035 Comm: kworker/u16:5 Not tainted 5.2.0-rc6+ #1
+[   16.338551] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.11.2-0-gf9626ccb91-prebuilt.qemu-project.org 04/01/2014
+[   16.338551] Workqueue: nvme-wq nvme_scan_work [nvme_core]
+[   16.338551] RIP: 0010:nvme_validate_ns+0xc9/0x7e0 [nvme_core]
+[   16.338551] Code: c0 49 89 c5 0f 84 00 07 00 00 48 8b 7b 58 e8 be 48 39 c1 48 3d 00 f0 ff ff 49 89 45 18 0f 87 a4 06 00 00 48 8b 93 70 0a 00 00 <80> 7a 56 00 74 0c 48 8b 40 68 83 48 3c 08 49 8b 45 18 48 89 c6 bf
+[   16.338551] RSP: 0018:ffffc900024c7d10 EFLAGS: 00010283
+[   16.338551] RAX: ffff888135a30720 RBX: ffff88813a4fd1f8 RCX: 0000000000000007
+[   16.338551] RDX: 0000000000000000 RSI: ffffffff8256dd38 RDI: ffff888135a30720
+[   16.338551] RBP: 0000000000000001 R08: 0000000000000007 R09: ffff88813aa6a840
+[   16.338551] R10: 0000000000000001 R11: 000000000002d060 R12: ffff88813a4fd1f8
+[   16.338551] R13: ffff88813a77f800 R14: ffff88813aa35180 R15: 0000000000000001
+[   16.338551] FS:  0000000000000000(0000) GS:ffff88813ba80000(0000) knlGS:0000000000000000
+[   16.338551] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   16.338551] CR2: 0000000000000056 CR3: 000000000240a002 CR4: 0000000000360ee0
+[   16.338551] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[   16.338551] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+[   16.338551] Call Trace:
+[   16.338551]  nvme_scan_work+0x2c0/0x340 [nvme_core]
+[   16.338551]  ? __switch_to_asm+0x40/0x70
+[   16.338551]  ? _raw_spin_unlock_irqrestore+0x18/0x30
+[   16.338551]  ? try_to_wake_up+0x408/0x450
+[   16.338551]  process_one_work+0x20b/0x3e0
+[   16.338551]  worker_thread+0x1f9/0x3d0
+[   16.338551]  ? cancel_delayed_work+0xa0/0xa0
+[   16.338551]  kthread+0x117/0x120
+[   16.338551]  ? kthread_stop+0xf0/0xf0
+[   16.338551]  ret_from_fork+0x3a/0x50
+[   16.338551] Modules linked in: nvme nvme_core
+[   16.338551] CR2: 0000000000000056
+[   16.338551] ---[ end trace b9bf761a93e62d84 ]---
+[   16.338551] RIP: 0010:nvme_validate_ns+0xc9/0x7e0 [nvme_core]
+[   16.338551] Code: c0 49 89 c5 0f 84 00 07 00 00 48 8b 7b 58 e8 be 48 39 c1 48 3d 00 f0 ff ff 49 89 45 18 0f 87 a4 06 00 00 48 8b 93 70 0a 00 00 <80> 7a 56 00 74 0c 48 8b 40 68 83 48 3c 08 49 8b 45 18 48 89 c6 bf
+[   16.338551] RSP: 0018:ffffc900024c7d10 EFLAGS: 00010283
+[   16.338551] RAX: ffff888135a30720 RBX: ffff88813a4fd1f8 RCX: 0000000000000007
+[   16.338551] RDX: 0000000000000000 RSI: ffffffff8256dd38 RDI: ffff888135a30720
+[   16.338551] RBP: 0000000000000001 R08: 0000000000000007 R09: ffff88813aa6a840
+[   16.338551] R10: 0000000000000001 R11: 000000000002d060 R12: ffff88813a4fd1f8
+[   16.338551] R13: ffff88813a77f800 R14: ffff88813aa35180 R15: 0000000000000001
+[   16.338551] FS:  0000000000000000(0000) GS:ffff88813ba80000(0000) knlGS:0000000000000000
+[   16.338551] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   16.338551] CR2: 0000000000000056 CR3: 000000000240a002 CR4: 0000000000360ee0
+[   16.338551] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[   16.338551] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 
-+ Devesh, Selvin.
+Fixes: 958f2a0f8 ("nvme-tcp: set the STABLE_WRITES flag when data digests
+are enabled")
 
-> -----Original Message-----
-> From: Parav Pandit
-> Sent: Thursday, July 11, 2019 6:25 PM
-> To: Yi Zhang <yi.zhang at redhat.com>; linux-nvme at lists.infradead.org
-> Cc: Daniel Jurgens <danielj at mellanox.com>
-> Subject: RE: regression: nvme rdma with bnxt_re0 broken
-> 
-> Hi Yi Zhang,
-> 
-> > -----Original Message-----
-> > From: Yi Zhang <yi.zhang at redhat.com>
-> > Sent: Thursday, July 11, 2019 3:17 PM
-> > To: linux-nvme at lists.infradead.org
-> > Cc: Daniel Jurgens <danielj at mellanox.com>; Parav Pandit
-> > <parav at mellanox.com>
-> > Subject: regression: nvme rdma with bnxt_re0 broken
-> >
-> > Hello
-> >
-> > 'nvme connect' failed when use bnxt_re0 on latest upstream build[1],
-> > by bisecting I found it was introduced from v5.2.0-rc1 with [2], it
-> > works after I revert it.
-> > Let me know if you need more info, thanks.
-> >
-> > [1]
-> > [root at rdma-perf-07 ~]$ nvme connect -t rdma -a 172.31.40.125 -s 4420
-> > -n testnqn Failed to write to /dev/nvme-fabrics: Bad address
-> >
-> > [root at rdma-perf-07 ~]$ dmesg
-> > [  476.320742] bnxt_en 0000:19:00.0: QPLIB: cmdq[0x4b9]=0x15 status
-> > 0x5 [ 476.327103] infiniband bnxt_re0: Failed to allocate HW AH [
-> > 476.332525] nvme nvme2: rdma_connect failed (-14).
-> > [  476.343552] nvme nvme2: rdma connection establishment failed (-14)
-> >
-> > [root at rdma-perf-07 ~]$ lspci  | grep -i Broadcom
-> > 01:00.0 Ethernet controller: Broadcom Inc. and subsidiaries NetXtreme
-> > BCM5720 2-port Gigabit Ethernet PCIe
-> > 01:00.1 Ethernet controller: Broadcom Inc. and subsidiaries NetXtreme
-> > BCM5720 2-port Gigabit Ethernet PCIe
-> > 18:00.0 RAID bus controller: Broadcom / LSI MegaRAID SAS-3 3008 [Fury]
-> > (rev
-> > 02)
-> > 19:00.0 Ethernet controller: Broadcom Inc. and subsidiaries BCM57412
-> > NetXtreme-E 10Gb RDMA Ethernet Controller (rev 01)
-> > 19:00.1 Ethernet controller: Broadcom Inc. and subsidiaries BCM57412
-> > NetXtreme-E 10Gb RDMA Ethernet Controller (rev 01)
-> >
-> >
-> > [2]
-> > commit 823b23da71132b80d9f41ab667c68b112455f3b6
-> > Author: Parav Pandit <parav at mellanox.com>
-> > Date:   Wed Apr 10 11:23:03 2019 +0300
-> >
-> >     IB/core: Allow vlan link local address based RoCE GIDs
-> >
-> >     IPv6 link local address for a VLAN netdevice has nothing to do with its
-> >     resemblance with the default GID, because VLAN link local GID is in
-> >     different layer 2 domain.
-> >
-> >     Now that RoCE MAD packet processing and route resolution consider the
-> >     right GID index, there is no need for an unnecessary check which prevents
-> >     the addition of vlan based IPv6 link local GIDs.
-> >
-> >     Signed-off-by: Parav Pandit <parav at mellanox.com>
-> >     Reviewed-by: Daniel Jurgens <danielj at mellanox.com>
-> >     Signed-off-by: Leon Romanovsky <leonro at mellanox.com>
-> >     Signed-off-by: Jason Gunthorpe <jgg at mellanox.com>
-> >
-> >
-> >
-> > Best Regards,
-> >   Yi Zhang
-> >
-> 
-> I need some more information from you to debug this issue as I don?t have the
-> hw.
-> The highlighted patch added support for IPv6 link local address for vlan. I am
-> unsure how this can affect IPv4 AH creation for which there is failure.
-> 
-> 1. Before you assign the IP address to the netdevice, Please do, echo -n
-> "module ib_core +p" > /sys/kernel/debug/dynamic_debug/control
-> 
-> Please share below output before doing nvme connect.
-> 2. Output of script [1]
-> $ show_gids script
-> If getting this script is problematic, share the output of,
-> 
-> $ cat /sys/class/infiniband/bnxt_re0/ports/1/gids/*
-> $ cat /sys/class/infiniband/bnxt_re0/ports/1/gid_attrs/ndevs/*
-> $ ip link show
-> $ip addr show
-> $ dmesg
-> 
-> [1] https://community.mellanox.com/s/article/understanding-show-gids-
-> script#jive_content_id_The_Script
-> 
-> I suspect that driver's assumption about GID indices might have gone wrong
-> here in drivers/infiniband/hw/bnxt_re/ib_verbs.c.
-> Lets see about results to confirm that.
+Cc: Christoph Hellwig <hch at lst.de>
+Cc: Keith Busch <kbusch at kernel.org>
+Cc: Sagi Grimberg <sagi at grimberg.me>
+Cc: Jens Axboe <axboe at fb.com>
+Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
+---
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 3077cd4d75bf..cc09b81fc7f4 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3305,7 +3305,7 @@ static int nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 		goto out_free_ns;
+ 	}
+ 
+-	if (ctrl->opts->data_digest)
++	if (ctrl->opts && ctrl->opts->data_digest)
+ 		ns->queue->backing_dev_info->capabilities
+ 			|= BDI_CAP_STABLE_WRITES;
+ 
+-- 
+2.17.1
