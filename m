@@ -1,84 +1,53 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Fri, 12 Jul 2019 02:04:47 +0900
-Subject: [PATCH] nvme: fix NULL deref for fabrics options
-Message-ID: <20190711170447.20836-1-minwoo.im.dev@gmail.com>
+Date: Fri, 12 Jul 2019 02:08:51 +0900
+Subject: [PATCH] nvme: tcp: depends on CRYPTO_HASH2 for nvme-tcp
+In-Reply-To: <d67b7a73-0061-202c-457d-93bc4cd06122@grimberg.me>
+References: <20190711151338.16810-1-minwoo.im.dev@gmail.com>
+ <d67b7a73-0061-202c-457d-93bc4cd06122@grimberg.me>
+Message-ID: <20190711170851.GA17328@minwoo-desktop>
 
-git://git.infradead.org/nvme.git nvme-5.3 branch now causes the
-following NULL deref oops.  Check the ctrl->opts first before the deref.
+Hi Sagi,
 
-[   16.337581] BUG: kernel NULL pointer dereference, address: 0000000000000056
-[   16.338551] #PF: supervisor read access in kernel mode
-[   16.338551] #PF: error_code(0x0000) - not-present page
-[   16.338551] PGD 0 P4D 0
-[   16.338551] Oops: 0000 [#1] SMP PTI
-[   16.338551] CPU: 2 PID: 1035 Comm: kworker/u16:5 Not tainted 5.2.0-rc6+ #1
-[   16.338551] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.11.2-0-gf9626ccb91-prebuilt.qemu-project.org 04/01/2014
-[   16.338551] Workqueue: nvme-wq nvme_scan_work [nvme_core]
-[   16.338551] RIP: 0010:nvme_validate_ns+0xc9/0x7e0 [nvme_core]
-[   16.338551] Code: c0 49 89 c5 0f 84 00 07 00 00 48 8b 7b 58 e8 be 48 39 c1 48 3d 00 f0 ff ff 49 89 45 18 0f 87 a4 06 00 00 48 8b 93 70 0a 00 00 <80> 7a 56 00 74 0c 48 8b 40 68 83 48 3c 08 49 8b 45 18 48 89 c6 bf
-[   16.338551] RSP: 0018:ffffc900024c7d10 EFLAGS: 00010283
-[   16.338551] RAX: ffff888135a30720 RBX: ffff88813a4fd1f8 RCX: 0000000000000007
-[   16.338551] RDX: 0000000000000000 RSI: ffffffff8256dd38 RDI: ffff888135a30720
-[   16.338551] RBP: 0000000000000001 R08: 0000000000000007 R09: ffff88813aa6a840
-[   16.338551] R10: 0000000000000001 R11: 000000000002d060 R12: ffff88813a4fd1f8
-[   16.338551] R13: ffff88813a77f800 R14: ffff88813aa35180 R15: 0000000000000001
-[   16.338551] FS:  0000000000000000(0000) GS:ffff88813ba80000(0000) knlGS:0000000000000000
-[   16.338551] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   16.338551] CR2: 0000000000000056 CR3: 000000000240a002 CR4: 0000000000360ee0
-[   16.338551] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-[   16.338551] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-[   16.338551] Call Trace:
-[   16.338551]  nvme_scan_work+0x2c0/0x340 [nvme_core]
-[   16.338551]  ? __switch_to_asm+0x40/0x70
-[   16.338551]  ? _raw_spin_unlock_irqrestore+0x18/0x30
-[   16.338551]  ? try_to_wake_up+0x408/0x450
-[   16.338551]  process_one_work+0x20b/0x3e0
-[   16.338551]  worker_thread+0x1f9/0x3d0
-[   16.338551]  ? cancel_delayed_work+0xa0/0xa0
-[   16.338551]  kthread+0x117/0x120
-[   16.338551]  ? kthread_stop+0xf0/0xf0
-[   16.338551]  ret_from_fork+0x3a/0x50
-[   16.338551] Modules linked in: nvme nvme_core
-[   16.338551] CR2: 0000000000000056
-[   16.338551] ---[ end trace b9bf761a93e62d84 ]---
-[   16.338551] RIP: 0010:nvme_validate_ns+0xc9/0x7e0 [nvme_core]
-[   16.338551] Code: c0 49 89 c5 0f 84 00 07 00 00 48 8b 7b 58 e8 be 48 39 c1 48 3d 00 f0 ff ff 49 89 45 18 0f 87 a4 06 00 00 48 8b 93 70 0a 00 00 <80> 7a 56 00 74 0c 48 8b 40 68 83 48 3c 08 49 8b 45 18 48 89 c6 bf
-[   16.338551] RSP: 0018:ffffc900024c7d10 EFLAGS: 00010283
-[   16.338551] RAX: ffff888135a30720 RBX: ffff88813a4fd1f8 RCX: 0000000000000007
-[   16.338551] RDX: 0000000000000000 RSI: ffffffff8256dd38 RDI: ffff888135a30720
-[   16.338551] RBP: 0000000000000001 R08: 0000000000000007 R09: ffff88813aa6a840
-[   16.338551] R10: 0000000000000001 R11: 000000000002d060 R12: ffff88813a4fd1f8
-[   16.338551] R13: ffff88813a77f800 R14: ffff88813aa35180 R15: 0000000000000001
-[   16.338551] FS:  0000000000000000(0000) GS:ffff88813ba80000(0000) knlGS:0000000000000000
-[   16.338551] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   16.338551] CR2: 0000000000000056 CR3: 000000000240a002 CR4: 0000000000360ee0
-[   16.338551] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-[   16.338551] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Thanks for your review on this.
 
-Fixes: 958f2a0f8 ("nvme-tcp: set the STABLE_WRITES flag when data digests
-are enabled")
+On 19-07-11 09:05:28, Sagi Grimberg wrote:
+> Hi Minwoo,
+> 
+> > The tcp host module is now taking those APIs from crypto ahash:
+> > 	(1) crypto_ahash_final()
+> > 	(2) crypto_ahash_digest()
+> > 	(3) crypto_alloc_ahash()
+> > 
+> > nvme-tcp should depends on CRYPTO_HASH2.
+> 
+> It actually should depend on CRYPTO_CRC32C because
+> it needs CRC32C.
 
-Cc: Christoph Hellwig <hch at lst.de>
-Cc: Keith Busch <kbusch at kernel.org>
-Cc: Sagi Grimberg <sagi at grimberg.me>
-Cc: Jens Axboe <axboe at fb.com>
-Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
----
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Okay.  That looks right for this commit's goal..
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 3077cd4d75bf..cc09b81fc7f4 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3305,7 +3305,7 @@ static int nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 		goto out_free_ns;
- 	}
- 
--	if (ctrl->opts->data_digest)
-+	if (ctrl->opts && ctrl->opts->data_digest)
- 		ns->queue->backing_dev_info->capabilities
- 			|= BDI_CAP_STABLE_WRITES;
- 
--- 
-2.17.1
+> > 
+> > Cc: Christoph Hellwig <hch at lst.de>
+> > Cc: Keith Busch <kbusch at kernel.org>
+> > Cc: Sagi Grimberg <sagi at grimberg.me>
+> > Cc: Jens Axboe <axboe at fb.com>
+> > Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
+> > ---
+> >   drivers/nvme/host/Kconfig | 1 +
+> >   1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
+> > index ec43ac9199e2..711d3ea5143f 100644
+> > --- a/drivers/nvme/host/Kconfig
+> > +++ b/drivers/nvme/host/Kconfig
+> > @@ -63,6 +63,7 @@ config NVME_TCP
+> >   	tristate "NVM Express over Fabrics TCP host driver"
+> >   	depends on INET
+> >   	depends on BLK_DEV_NVME
+> > +	depends on CRYPTO_HASH2
+> 
+> Lets make it select instead.
+
+Oh, That would be much easier to use them.  Will prepare updated patch
+soon.
+
+Thanks,
