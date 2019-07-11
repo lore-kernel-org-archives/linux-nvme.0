@@ -1,45 +1,65 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 11 Jul 2019 09:05:28 -0700
-Subject: [PATCH] nvme: tcp: depends on CRYPTO_HASH2 for nvme-tcp
-In-Reply-To: <20190711151338.16810-1-minwoo.im.dev@gmail.com>
-References: <20190711151338.16810-1-minwoo.im.dev@gmail.com>
-Message-ID: <d67b7a73-0061-202c-457d-93bc4cd06122@grimberg.me>
+Date: Thu, 11 Jul 2019 09:13:41 -0700
+Subject: regression: nvme rdma with bnxt_re0 broken
+In-Reply-To: <619411460.27128070.1562838433020.JavaMail.zimbra@redhat.com>
+References: <619411460.27128070.1562838433020.JavaMail.zimbra@redhat.com>
+Message-ID: <648e86db-864f-9eb1-5275-564a1ef535fb@grimberg.me>
 
-Hi Minwoo,
+CC linux-rdma
 
-> The tcp host module is now taking those APIs from crypto ahash:
-> 	(1) crypto_ahash_final()
-> 	(2) crypto_ahash_digest()
-> 	(3) crypto_alloc_ahash()
+On 7/11/19 2:47 AM, Yi Zhang wrote:
+> Hello
 > 
-> nvme-tcp should depends on CRYPTO_HASH2.
-
-It actually should depend on CRYPTO_CRC32C because
-it needs CRC32C.
-
+> 'nvme connect' failed when use bnxt_re0 on latest upstream build[1], by bisecting I found it was introduced from v5.2.0-rc1 with [2], it works after I revert it.
+> Let me know if you need more info, thanks.
 > 
-> Cc: Christoph Hellwig <hch at lst.de>
-> Cc: Keith Busch <kbusch at kernel.org>
-> Cc: Sagi Grimberg <sagi at grimberg.me>
-> Cc: Jens Axboe <axboe at fb.com>
-> Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
-> ---
->   drivers/nvme/host/Kconfig | 1 +
->   1 file changed, 1 insertion(+)
+> [1]
+> [root at rdma-perf-07 ~]$ nvme connect -t rdma -a 172.31.40.125 -s 4420 -n testnqn
+> Failed to write to /dev/nvme-fabrics: Bad address
 > 
-> diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
-> index ec43ac9199e2..711d3ea5143f 100644
-> --- a/drivers/nvme/host/Kconfig
-> +++ b/drivers/nvme/host/Kconfig
-> @@ -63,6 +63,7 @@ config NVME_TCP
->   	tristate "NVM Express over Fabrics TCP host driver"
->   	depends on INET
->   	depends on BLK_DEV_NVME
-> +	depends on CRYPTO_HASH2
-
-Lets make it select instead.
-
->   	select NVME_FABRICS
->   	help
->   	  This provides support for the NVMe over Fabrics protocol using
+> [root at rdma-perf-07 ~]$ dmesg
+> [  476.320742] bnxt_en 0000:19:00.0: QPLIB: cmdq[0x4b9]=0x15 status 0x5
+> [  476.327103] infiniband bnxt_re0: Failed to allocate HW AH
+> [  476.332525] nvme nvme2: rdma_connect failed (-14).
+> [  476.343552] nvme nvme2: rdma connection establishment failed (-14)
+> 
+> [root at rdma-perf-07 ~]$ lspci  | grep -i Broadcom
+> 01:00.0 Ethernet controller: Broadcom Inc. and subsidiaries NetXtreme BCM5720 2-port Gigabit Ethernet PCIe
+> 01:00.1 Ethernet controller: Broadcom Inc. and subsidiaries NetXtreme BCM5720 2-port Gigabit Ethernet PCIe
+> 18:00.0 RAID bus controller: Broadcom / LSI MegaRAID SAS-3 3008 [Fury] (rev 02)
+> 19:00.0 Ethernet controller: Broadcom Inc. and subsidiaries BCM57412 NetXtreme-E 10Gb RDMA Ethernet Controller (rev 01)
+> 19:00.1 Ethernet controller: Broadcom Inc. and subsidiaries BCM57412 NetXtreme-E 10Gb RDMA Ethernet Controller (rev 01)
+> 
+> 
+> [2]
+> commit 823b23da71132b80d9f41ab667c68b112455f3b6
+> Author: Parav Pandit <parav at mellanox.com>
+> Date:   Wed Apr 10 11:23:03 2019 +0300
+> 
+>      IB/core: Allow vlan link local address based RoCE GIDs
+>      
+>      IPv6 link local address for a VLAN netdevice has nothing to do with its
+>      resemblance with the default GID, because VLAN link local GID is in
+>      different layer 2 domain.
+>      
+>      Now that RoCE MAD packet processing and route resolution consider the
+>      right GID index, there is no need for an unnecessary check which prevents
+>      the addition of vlan based IPv6 link local GIDs.
+>      
+>      Signed-off-by: Parav Pandit <parav at mellanox.com>
+>      Reviewed-by: Daniel Jurgens <danielj at mellanox.com>
+>      Signed-off-by: Leon Romanovsky <leonro at mellanox.com>
+>      Signed-off-by: Jason Gunthorpe <jgg at mellanox.com>
+> 
+> 
+> 
+> Best Regards,
+>    Yi Zhang
+> 
+> 
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
 > 
