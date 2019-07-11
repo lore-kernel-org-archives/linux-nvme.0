@@ -1,53 +1,79 @@
-From: yi.zhang@redhat.com (Yi Zhang)
-Date: Thu, 11 Jul 2019 05:47:13 -0400 (EDT)
-Subject: regression: nvme rdma with bnxt_re0 broken
-In-Reply-To: <1310083272.27124086.1562836112586.JavaMail.zimbra@redhat.com>
-Message-ID: <619411460.27128070.1562838433020.JavaMail.zimbra@redhat.com>
-
-Hello
-
-'nvme connect' failed when use bnxt_re0 on latest upstream build[1], by bisecting I found it was introduced from v5.2.0-rc1 with [2], it works after I revert it.
-Let me know if you need more info, thanks.
-
-[1]
-[root at rdma-perf-07 ~]$ nvme connect -t rdma -a 172.31.40.125 -s 4420 -n testnqn
-Failed to write to /dev/nvme-fabrics: Bad address
-
-[root at rdma-perf-07 ~]$ dmesg
-[  476.320742] bnxt_en 0000:19:00.0: QPLIB: cmdq[0x4b9]=0x15 status 0x5
-[  476.327103] infiniband bnxt_re0: Failed to allocate HW AH
-[  476.332525] nvme nvme2: rdma_connect failed (-14).
-[  476.343552] nvme nvme2: rdma connection establishment failed (-14)
-
-[root at rdma-perf-07 ~]$ lspci  | grep -i Broadcom
-01:00.0 Ethernet controller: Broadcom Inc. and subsidiaries NetXtreme BCM5720 2-port Gigabit Ethernet PCIe
-01:00.1 Ethernet controller: Broadcom Inc. and subsidiaries NetXtreme BCM5720 2-port Gigabit Ethernet PCIe
-18:00.0 RAID bus controller: Broadcom / LSI MegaRAID SAS-3 3008 [Fury] (rev 02)
-19:00.0 Ethernet controller: Broadcom Inc. and subsidiaries BCM57412 NetXtreme-E 10Gb RDMA Ethernet Controller (rev 01)
-19:00.1 Ethernet controller: Broadcom Inc. and subsidiaries BCM57412 NetXtreme-E 10Gb RDMA Ethernet Controller (rev 01)
+From: hch@infradead.org (Christoph Hellwig)
+Date: Thu, 11 Jul 2019 13:20:31 +0200
+Subject: [GIT PULL] nvme updates for 5.3
+Message-ID: <20190711112031.GA5031@infradead.org>
 
 
-[2]
-commit 823b23da71132b80d9f41ab667c68b112455f3b6
-Author: Parav Pandit <parav at mellanox.com>
-Date:   Wed Apr 10 11:23:03 2019 +0300
-
-    IB/core: Allow vlan link local address based RoCE GIDs
-    
-    IPv6 link local address for a VLAN netdevice has nothing to do with its
-    resemblance with the default GID, because VLAN link local GID is in
-    different layer 2 domain.
-    
-    Now that RoCE MAD packet processing and route resolution consider the
-    right GID index, there is no need for an unnecessary check which prevents
-    the addition of vlan based IPv6 link local GIDs.
-    
-    Signed-off-by: Parav Pandit <parav at mellanox.com>
-    Reviewed-by: Daniel Jurgens <danielj at mellanox.com>
-    Signed-off-by: Leon Romanovsky <leonro at mellanox.com>
-    Signed-off-by: Jason Gunthorpe <jgg at mellanox.com>
+Lof of fixes all over the place, and two very minor features that
+were in the nvme tree by the end of the merge window, but hadn't made
+it out to Jens yet.
 
 
+The following changes since commit c9b3007feca018d3f7061f5d5a14cb00766ffe9b:
 
-Best Regards,
-  Yi Zhang
+  blk-iolatency: fix STS_AGAIN handling (2019-07-05 15:14:00 -0600)
+
+are available in the Git repository at:
+
+  git://git.infradead.org/nvme.git nvme-5.3
+
+for you to fetch changes up to 420dc733f980246f2179e0144f9cedab9ad4a91e:
+
+  nvme: fix regression upon hot device removal and insertion (2019-07-10 09:36:16 -0700)
+
+----------------------------------------------------------------
+Alan Mikhak (2):
+      nvme-pci: don't create a read hctx mapping without read queues
+      nvme-pci: check for NULL return from pci_alloc_p2pmem()
+
+Bart Van Assche (3):
+      nvmet: export I/O characteristics attributes in Identify
+      nvme: add I/O characteristics fields
+      nvme: set physical block size and optimal I/O size
+
+Christoph Hellwig (2):
+      nvme-pci: don't fall back to a 32-bit DMA mask
+      nvme-pci: limit max_hw_sectors based on the DMA max mapping size
+
+Colin Ian King (1):
+      nvme-trace: fix spelling mistake "spcecific" -> "specific"
+
+Hannes Reinecke (3):
+      nvme-multipath: factor out a nvme_path_is_disabled helper
+      nvme-multipath: also check for a disabled path if there is a single sibling
+      nvme-multipath: do not select namespaces which are about to be removed
+
+James Smart (3):
+      nvme-fcloop: fix inconsistent lock state warnings
+      nvme-fcloop: resolve warnings on RCU usage and sleep warnings
+      nvme-fc: fix module unloads while lports still pending
+
+Mikhail Skorzhinskii (3):
+      nvmet: print a hint while rejecting NSID 0 or 0xffffffff
+      nvme-tcp: set the STABLE_WRITES flag when data digests are enabled
+      nvme-tcp: don't use sendpage for SLAB pages
+
+Sagi Grimberg (1):
+      nvme: fix regression upon hot device removal and insertion
+
+Tom Wu (1):
+      nvme-trace: add delete completion and submission queue to admin cmds tracer
+
+YueHaibing (1):
+      nvme-pci: make nvme_dev_pm_ops static
+
+ drivers/nvme/host/core.c          | 43 ++++++++++++++++++++++++++++++---
+ drivers/nvme/host/fc.c            | 51 ++++++++++++++++++++++++++++++++++++---
+ drivers/nvme/host/multipath.c     | 18 ++++++++++----
+ drivers/nvme/host/nvme.h          |  1 +
+ drivers/nvme/host/pci.c           | 26 ++++++++++++--------
+ drivers/nvme/host/tcp.c           |  9 ++++++-
+ drivers/nvme/host/trace.c         | 28 ++++++++++++++++++++-
+ drivers/nvme/target/admin-cmd.c   |  3 +++
+ drivers/nvme/target/configfs.c    |  4 ++-
+ drivers/nvme/target/fcloop.c      | 44 ++++++++++++++++-----------------
+ drivers/nvme/target/io-cmd-bdev.c | 39 ++++++++++++++++++++++++++++++
+ drivers/nvme/target/nvmet.h       |  8 ++++++
+ drivers/nvme/target/trace.c       |  2 +-
+ include/linux/nvme.h              | 12 ++++++---
+ 14 files changed, 237 insertions(+), 51 deletions(-)
