@@ -1,65 +1,90 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 11 Jul 2019 09:13:41 -0700
-Subject: regression: nvme rdma with bnxt_re0 broken
-In-Reply-To: <619411460.27128070.1562838433020.JavaMail.zimbra@redhat.com>
-References: <619411460.27128070.1562838433020.JavaMail.zimbra@redhat.com>
-Message-ID: <648e86db-864f-9eb1-5275-564a1ef535fb@grimberg.me>
+From: jsmart2021@gmail.com (James Smart)
+Date: Thu, 11 Jul 2019 09:16:37 -0700
+Subject: [PATCH rfc 3/6] nvme-cli: allow discover to address discovery
+ controller by persistent name
+In-Reply-To: <20190711124116.GC8398@minwoo-desktop>
+References: <20190710232740.26734-1-jsmart2021@gmail.com>
+ <20190710232740.26734-4-jsmart2021@gmail.com>
+ <20190711124116.GC8398@minwoo-desktop>
+Message-ID: <39f7417d-dd5c-8c81-a4d5-7b8a313deaab@gmail.com>
 
-CC linux-rdma
+On 7/11/2019 5:41 AM, Minwoo Im wrote:
+> On 19-07-10 16:27:37, James Smart wrote:
+>> To support discovery (connect/connect-all) to operate against a
+>> persistent discovery controller, let the discovery controller to
+>> be specified by its device node name rather than new connection
+>> attributes.
+>>
+>> Example:
+>>    nvme connect-all ... --device=nvme5
+>>
+>> Also centralize extraction of controller instance from the controller
+>> name to a common helper.
+>>
+>> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+>> Signed-off-by: James Smart <jsmart2021 at gmail.com>
+>> Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+> 
+> Hi Sagi and James,
+> 
+> I think it might be too late review on this, but please have a look my
+> comments below :)
 
-On 7/11/19 2:47 AM, Yi Zhang wrote:
-> Hello
+well,  it was posted as an RFC, so....
+
+
 > 
-> 'nvme connect' failed when use bnxt_re0 on latest upstream build[1], by bisecting I found it was introduced from v5.2.0-rc1 with [2], it works after I revert it.
-> Let me know if you need more info, thanks.
+>> +static int ctrl_instance(char *device)
+>> +{
+>> +	int ret, instance;
+>> +
+>> +	device = basename(device);
+>> +	ret = sscanf(device, "nvme%d", &instance);
+>> +	if (ret < 0)
+>> +		return ret;
 > 
-> [1]
-> [root at rdma-perf-07 ~]$ nvme connect -t rdma -a 172.31.40.125 -s 4420 -n testnqn
-> Failed to write to /dev/nvme-fabrics: Bad address
+> It's just nitpick, but could we just do like:
 > 
-> [root at rdma-perf-07 ~]$ dmesg
-> [  476.320742] bnxt_en 0000:19:00.0: QPLIB: cmdq[0x4b9]=0x15 status 0x5
-> [  476.327103] infiniband bnxt_re0: Failed to allocate HW AH
-> [  476.332525] nvme nvme2: rdma_connect failed (-14).
-> [  476.343552] nvme nvme2: rdma connection establishment failed (-14)
+> 	ret = sscanf(device, "nvme%d", &instance);
+> 	if (ret < 0)
+> 		return -errno;
+
+I would think that what sscanf might report as a problem may not be 
+something understandable for someone using the cli. I'd like to replace
+this with something like -EINVAL for an invalid argument rather than 
+ret/-errorno.
+
+
 > 
-> [root at rdma-perf-07 ~]$ lspci  | grep -i Broadcom
-> 01:00.0 Ethernet controller: Broadcom Inc. and subsidiaries NetXtreme BCM5720 2-port Gigabit Ethernet PCIe
-> 01:00.1 Ethernet controller: Broadcom Inc. and subsidiaries NetXtreme BCM5720 2-port Gigabit Ethernet PCIe
-> 18:00.0 RAID bus controller: Broadcom / LSI MegaRAID SAS-3 3008 [Fury] (rev 02)
-> 19:00.0 Ethernet controller: Broadcom Inc. and subsidiaries BCM57412 NetXtreme-E 10Gb RDMA Ethernet Controller (rev 01)
-> 19:00.1 Ethernet controller: Broadcom Inc. and subsidiaries BCM57412 NetXtreme-E 10Gb RDMA Ethernet Controller (rev 01)
+>> +	if (!ret)
+>> +		return -1;
 > 
+> Same here.  Can we please do:
 > 
-> [2]
-> commit 823b23da71132b80d9f41ab667c68b112455f3b6
-> Author: Parav Pandit <parav at mellanox.com>
-> Date:   Wed Apr 10 11:23:03 2019 +0300
-> 
->      IB/core: Allow vlan link local address based RoCE GIDs
->      
->      IPv6 link local address for a VLAN netdevice has nothing to do with its
->      resemblance with the default GID, because VLAN link local GID is in
->      different layer 2 domain.
->      
->      Now that RoCE MAD packet processing and route resolution consider the
->      right GID index, there is no need for an unnecessary check which prevents
->      the addition of vlan based IPv6 link local GIDs.
->      
->      Signed-off-by: Parav Pandit <parav at mellanox.com>
->      Reviewed-by: Daniel Jurgens <danielj at mellanox.com>
->      Signed-off-by: Leon Romanovsky <leonro at mellanox.com>
->      Signed-off-by: Jason Gunthorpe <jgg at mellanox.com>
+> 	if (!ret)
+> 		return -EINVAL;
+
+yep
+
+
 > 
 > 
+> These two things are not from this commit, but if you don't like it to
+> be involved in this scope of the commit, I think I can make it later, if
+> you don't mind.
 > 
-> Best Regards,
->    Yi Zhang
+>> +	return instance;
+>> +}
 > 
+> I have a doubt here.  In case of multipath, if this function is given an
+> argument like "nvme0n1", Is "0" really an instance of that controller?
+> I think it could be an instance of the subsystem.  If so, can we just
+> prevent the argstr as a namespace node?
 > 
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
-> 
+> Please correct me if I'm wrong here.
+
+it should never be given an argument with the n? suffix. We're dealing 
+with controllers only. And multipath won't confuse that.  Perhaps we 
+should verify it ends at the controller name.
+
+-- james
