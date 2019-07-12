@@ -1,127 +1,721 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Fri, 12 Jul 2019 17:57:33 -0600
-Subject: [PATCH blktests 03/12] nvme: Add new test to verify the generation
- counter
+Date: Fri, 12 Jul 2019 17:57:39 -0600
+Subject: [PATCH blktests 09/12] nvme: Cleanup modprobe lines into helper
+ functions
 In-Reply-To: <20190712235742.22646-1-logang@deltatee.com>
 References: <20190712235742.22646-1-logang@deltatee.com>
-Message-ID: <20190712235742.22646-4-logang@deltatee.com>
+Message-ID: <20190712235742.22646-10-logang@deltatee.com>
 
-Now that the other discovery tests ignore the generation counter value,
-create a new test to specifically check that it increments when
-subsystems are added or removed from ports and when allow_any_host
-is set/unset.
+Move all the lines to modprobe nvmet and nvme-loop
+into _setup_nvmet() and _cleanup_nvmet() helper functions
+and call _cleanup_nvmet() using _register_test_cleanup()
+to ensure it's always called after the test terminates.
+
+This will allow us to improve the cleanup of these tests and
+not leave the system in an inconsistent state when tests
+are aborted.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 ---
- tests/nvme/030     | 76 ++++++++++++++++++++++++++++++++++++++++++++++
- tests/nvme/030.out |  2 ++
- tests/nvme/rc      |  5 +++
- 3 files changed, 83 insertions(+)
- create mode 100755 tests/nvme/030
- create mode 100644 tests/nvme/030.out
+ tests/nvme/002 |  8 ++------
+ tests/nvme/003 |  5 +----
+ tests/nvme/004 |  5 +----
+ tests/nvme/005 |  6 +-----
+ tests/nvme/006 |  6 +-----
+ tests/nvme/007 |  6 +-----
+ tests/nvme/008 |  6 +-----
+ tests/nvme/009 |  5 +----
+ tests/nvme/010 |  6 +-----
+ tests/nvme/011 |  6 +-----
+ tests/nvme/012 |  6 +-----
+ tests/nvme/013 |  6 +-----
+ tests/nvme/014 |  6 +-----
+ tests/nvme/015 |  3 +--
+ tests/nvme/016 |  4 +---
+ tests/nvme/017 |  6 +-----
+ tests/nvme/018 |  3 +--
+ tests/nvme/019 |  6 +-----
+ tests/nvme/020 |  5 +----
+ tests/nvme/021 |  6 +-----
+ tests/nvme/022 |  6 +-----
+ tests/nvme/023 |  6 +-----
+ tests/nvme/024 |  6 +-----
+ tests/nvme/025 |  6 +-----
+ tests/nvme/026 |  6 +-----
+ tests/nvme/027 |  6 +-----
+ tests/nvme/028 |  6 +-----
+ tests/nvme/029 |  6 +-----
+ tests/nvme/030 |  6 +-----
+ tests/nvme/rc  | 11 +++++++++++
+ 30 files changed, 41 insertions(+), 134 deletions(-)
 
+diff --git a/tests/nvme/002 b/tests/nvme/002
+index ceac1c677bd4..07b7fdae2d39 100755
+--- a/tests/nvme/002
++++ b/tests/nvme/002
+@@ -16,11 +16,9 @@ requires() {
+ test() {
+ 	echo "Running ${TEST_NAME}"
+ 
+-	local iterations=1000
+-
+-	modprobe nvmet
+-	modprobe nvme-loop
++	_setup_nvmet
+ 
++	local iterations=1000
+ 	local port
+ 	port="$(_create_nvmet_port "loop")"
+ 
+@@ -41,7 +39,5 @@ test() {
+ 
+ 	_remove_nvmet_port "${port}"
+ 
+-	modprobe -r nvme-loop
+-	modprobe -r nvmet
+ 	echo "Test complete"
+ }
+diff --git a/tests/nvme/003 b/tests/nvme/003
+index 374e6af0ca6f..ed0feca3cac7 100755
+--- a/tests/nvme/003
++++ b/tests/nvme/003
+@@ -17,8 +17,7 @@ requires() {
+ test() {
+ 	echo "Running ${TEST_NAME}"
+ 
+-	modprobe nvmet
+-	modprobe nvme-loop
++	_setup_nvmet
+ 
+ 	local port
+ 	port="$(_create_nvmet_port "loop")"
+@@ -47,7 +46,5 @@ test() {
+ 	_remove_nvmet_subsystem "blktests-subsystem-1"
+ 	_remove_nvmet_port "${port}"
+ 
+-	modprobe -r nvme-loop
+-	modprobe -r nvmet
+ 	echo "Test complete"
+ }
+diff --git a/tests/nvme/004 b/tests/nvme/004
+index 767aedaa0263..0debcd9c7049 100755
+--- a/tests/nvme/004
++++ b/tests/nvme/004
+@@ -18,8 +18,7 @@ requires() {
+ test() {
+ 	echo "Running ${TEST_NAME}"
+ 
+-	modprobe nvmet
+-	modprobe nvme-loop
++	_setup_nvmet
+ 
+ 	local port
+ 	port="$(_create_nvmet_port "loop")"
+@@ -47,7 +46,5 @@ test() {
+ 	losetup -d "$loop_dev"
+ 	rm "$TMPDIR/img"
+ 
+-	modprobe -r nvme-loop
+-	modprobe -r nvmet
+ 	echo "Test complete"
+ }
+diff --git a/tests/nvme/005 b/tests/nvme/005
+index 91c164de73e6..8c79d234bb1d 100755
+--- a/tests/nvme/005
++++ b/tests/nvme/005
+@@ -19,8 +19,7 @@ requires() {
+ test() {
+ 	echo "Running ${TEST_NAME}"
+ 
+-	modprobe nvmet
+-	modprobe nvme-loop
++	_setup_nvmet
+ 
+ 	local port
+ 	port="$(_create_nvmet_port "loop")"
+@@ -51,8 +50,5 @@ test() {
+ 	losetup -d "$loop_dev"
+ 	rm "$TMPDIR/img"
+ 
+-	modprobe -r nvme-loop
+-	modprobe -r nvmet
+-
+ 	echo "Test complete"
+ }
+diff --git a/tests/nvme/006 b/tests/nvme/006
+index d12d66bc5a8d..6c8e18560264 100755
+--- a/tests/nvme/006
++++ b/tests/nvme/006
+@@ -21,8 +21,7 @@ test() {
+ 	local loop_dev
+ 	local subsys_name="blktests-subsystem-1"
+ 
+-	modprobe nvmet
+-	modprobe nvme-loop
++	_setup_nvmet
+ 
+ 	truncate -s 1G "$TMPDIR/img"
+ 
+@@ -41,8 +40,5 @@ test() {
+ 
+ 	rm "$TMPDIR/img"
+ 
+-	modprobe -r nvme-loop
+-	modprobe -r nvmet
+-
+ 	echo "Test complete"
+ }
+diff --git a/tests/nvme/007 b/tests/nvme/007
+index 6a57b7bf7e0d..58f4bf8808a1 100755
+--- a/tests/nvme/007
++++ b/tests/nvme/007
+@@ -20,8 +20,7 @@ test() {
+ 	local file_path
+ 	local subsys_name="blktests-subsystem-1"
+ 
+-	modprobe nvmet
+-	modprobe nvme-loop
++	_setup_nvmet
+ 
+ 	file_path="${TMPDIR}/img"
+ 
+@@ -38,8 +37,5 @@ test() {
+ 
+ 	rm "${file_path}"
+ 
+-	modprobe -r nvme-loop
+-	modprobe -r nvmet
+-
+ 	echo "Test complete"
+ }
+diff --git a/tests/nvme/008 b/tests/nvme/008
+index 04ff0bda42e3..71ff4d962b00 100755
+--- a/tests/nvme/008
++++ b/tests/nvme/008
+@@ -17,8 +17,7 @@ requires() {
+ test() {
+ 	echo "Running ${TEST_NAME}"
+ 
+-	modprobe nvmet
+-	modprobe nvme-loop
++	_setup_nvmet
+ 
+ 	local port
+ 	local nvmedev
+@@ -53,8 +52,5 @@ test() {
+ 
+ 	rm "${file_path}"
+ 
+-	modprobe -r nvme-loop
+-	modprobe -r nvmet
+-
+ 	echo "Test complete"
+ }
+diff --git a/tests/nvme/009 b/tests/nvme/009
+index 81e61f99aba5..25c7da2ab854 100755
+--- a/tests/nvme/009
++++ b/tests/nvme/009
+@@ -16,8 +16,7 @@ requires() {
+ test() {
+ 	echo "Running ${TEST_NAME}"
+ 
+-	modprobe nvmet
+-	modprobe nvme-loop
++	_setup_nvmet
+ 
+ 	local port
+ 	local nvmedev
+@@ -47,7 +46,5 @@ test() {
+ 
+ 	rm "${file_path}"
+ 
+-	modprobe -r nvme-loop
+-	modprobe -r nvmet
+ 	echo "Test complete"
+ }
+diff --git a/tests/nvme/010 b/tests/nvme/010
+index ed7c95af2853..2ed0f4871a30 100755
+--- a/tests/nvme/010
++++ b/tests/nvme/010
+@@ -17,8 +17,7 @@ requires() {
+ test() {
+ 	echo "Running ${TEST_NAME}"
+ 
+-	modprobe nvmet
+-	modprobe nvme-loop
++	_setup_nvmet
+ 
+ 	local port
+ 	local nvmedev
+@@ -54,8 +53,5 @@ test() {
+ 	rm "${file_path}"
+ 	rm -f local*verify*state
+ 
+-	modprobe -r nvme_loop
+-	modprobe -r nvmet
+-
+ 	echo "Test complete"
+ }
+diff --git a/tests/nvme/011 b/tests/nvme/011
+index fa638a193bad..974b33745b99 100755
+--- a/tests/nvme/011
++++ b/tests/nvme/011
+@@ -17,8 +17,7 @@ requires() {
+ test() {
+ 	echo "Running ${TEST_NAME}"
+ 
+-	modprobe nvmet
+-	modprobe nvme-loop
++	_setup_nvmet
+ 
+ 	local port
+ 	local nvmedev
+@@ -50,8 +49,5 @@ test() {
+ 	rm "${file_path}"
+ 	rm -f local-write-and-verify*state
+ 
+-	modprobe -r nvme_loop
+-	modprobe -r nvmet
+-
+ 	echo "Test complete"
+ }
+diff --git a/tests/nvme/012 b/tests/nvme/012
+index d7a8751ec752..27981e903c58 100755
+--- a/tests/nvme/012
++++ b/tests/nvme/012
+@@ -17,8 +17,7 @@ requires() {
+ test() {
+ 	echo "Running ${TEST_NAME}"
+ 
+-	modprobe nvmet
+-	modprobe nvme-loop
++	_setup_nvmet
+ 
+ 	local port
+ 	local nvmedev
+@@ -66,8 +65,5 @@ test() {
+ 	rm "${file_path}"
+ 	rm -fr "${mount_dir}"
+ 
+-	modprobe -r nvme_loop
+-	modprobe -r nvmet
+-
+ 	echo "Test complete"
+ }
+diff --git a/tests/nvme/013 b/tests/nvme/013
+index 131855298f0f..af5f3730a2fc 100755
+--- a/tests/nvme/013
++++ b/tests/nvme/013
+@@ -17,8 +17,7 @@ requires() {
+ test() {
+ 	echo "Running ${TEST_NAME}"
+ 
+-	modprobe nvmet
+-	modprobe nvme-loop
++	_setup_nvmet
+ 
+ 	local port
+ 	local nvmedev
+@@ -62,8 +61,5 @@ test() {
+ 	rm "${file_path}"
+ 	rm -fr "${mount_dir}"
+ 
+-	modprobe -r nvme_loop
+-	modprobe -r nvmet
+-
+ 	echo "Test complete"
+ }
+diff --git a/tests/nvme/014 b/tests/nvme/014
+index 7de568faeff2..c255d5f12205 100755
+--- a/tests/nvme/014
++++ b/tests/nvme/014
+@@ -17,8 +17,7 @@ requires() {
+ test() {
+ 	echo "Running ${TEST_NAME}"
+ 
+-	modprobe nvmet
+-	modprobe nvme-loop
++	_setup_nvmet
+ 
+ 	local port
+ 	local nvmedev
+@@ -55,8 +54,5 @@ test() {
+ 
+ 	rm "${file_path}"
+ 
+-	modprobe -r nvme-loop
+-	modprobe -r nvmet
+-
+ 	echo "Test complete"
+ }
+diff --git a/tests/nvme/015 b/tests/nvme/015
+index ca1216163e16..a8497a2ba400 100755
+--- a/tests/nvme/015
++++ b/tests/nvme/015
+@@ -16,8 +16,7 @@ requires() {
+ test() {
+ 	echo "Running ${TEST_NAME}"
+ 
+-	modprobe nvmet
+-	modprobe nvme-loop
++	_setup_nvmet
+ 
+ 	local port
+ 	local nvmedev
+diff --git a/tests/nvme/016 b/tests/nvme/016
+index dd1b84a16daa..9e670e7f6bcd 100755
+--- a/tests/nvme/016
++++ b/tests/nvme/016
+@@ -20,8 +20,7 @@ test() {
+ 	local loop_dev
+ 	local subsys_nqn="blktests-subsystem-1"
+ 
+-	modprobe nvmet
+-	modprobe nvme-loop
++	_setup_nvmet
+ 
+ 	loop_dev="$(losetup -f)"
+ 
+@@ -44,6 +43,5 @@ test() {
+ 
+ 	_remove_nvmet_subsystem "${subsys_nqn}"
+ 
+-	modprobe -r nvme-loop nvmet
+ 	echo "Test complete"
+ }
+diff --git a/tests/nvme/017 b/tests/nvme/017
+index 5f8d60907293..ef27de65cf2e 100755
+--- a/tests/nvme/017
++++ b/tests/nvme/017
+@@ -20,8 +20,7 @@ test() {
+ 	local iterations=1000
+ 	local subsys_name="blktests-subsystem-1"
+ 
+-	modprobe nvmet
+-	modprobe nvme-loop
++	_setup_nvmet
+ 
+ 	file_path="${TMPDIR}/img"
+ 
+@@ -49,8 +48,5 @@ test() {
+ 
+ 	rm "${file_path}"
+ 
+-	modprobe -r nvme-loop
+-	modprobe -r nvmet
+-
+ 	echo "Test complete"
+ }
+diff --git a/tests/nvme/018 b/tests/nvme/018
+index 7b5ade5d3c40..c1231c3de172 100755
+--- a/tests/nvme/018
++++ b/tests/nvme/018
+@@ -18,8 +18,7 @@ requires() {
+ test() {
+ 	echo "Running ${TEST_NAME}"
+ 
+-	modprobe nvmet
+-	modprobe nvme-loop
++	_setup_nvmet
+ 
+ 	local port
+ 	local nvmedev
+diff --git a/tests/nvme/019 b/tests/nvme/019
+index 4a167361c42c..a8b0204ec0eb 100755
+--- a/tests/nvme/019
++++ b/tests/nvme/019
+@@ -17,8 +17,7 @@ requires() {
+ test() {
+ 	echo "Running ${TEST_NAME}"
+ 
+-	modprobe nvmet
+-	modprobe nvme-loop
++	_setup_nvmet
+ 
+ 	local port
+ 	local nvmedev
+@@ -55,8 +54,5 @@ test() {
+ 
+ 	rm -f "${file_path}"
+ 
+-	modprobe -r nvme-loop
+-	modprobe -r nvmet
+-
+ 	echo "Test complete"
+ }
+diff --git a/tests/nvme/020 b/tests/nvme/020
+index 6bd8075b1f4d..b480ee1b92d0 100755
+--- a/tests/nvme/020
++++ b/tests/nvme/020
+@@ -16,8 +16,7 @@ requires() {
+ test() {
+ 	echo "Running ${TEST_NAME}"
+ 
+-	modprobe nvmet
+-	modprobe nvme-loop
++	_setup_nvmet
+ 
+ 	local port
+ 	local nvmedev
+@@ -49,7 +48,5 @@ test() {
+ 
+ 	rm -f "${file_path}"
+ 
+-	modprobe -r nvme-loop
+-	modprobe -r nvmet
+ 	echo "Test complete"
+ }
+diff --git a/tests/nvme/021 b/tests/nvme/021
+index fef31b080c99..bbee54d16ff1 100755
+--- a/tests/nvme/021
++++ b/tests/nvme/021
+@@ -17,8 +17,7 @@ requires() {
+ test() {
+ 	echo "Running ${TEST_NAME}"
+ 
+-	modprobe nvmet
+-	modprobe nvme-loop
++	_setup_nvmet
+ 
+ 	local port
+ 	local nvmedev
+@@ -50,8 +49,5 @@ test() {
+ 
+ 	rm -f "${file_path}"
+ 
+-	modprobe -r nvme-loop
+-	modprobe -r nvmet
+-
+ 	echo "Test complete"
+ }
+diff --git a/tests/nvme/022 b/tests/nvme/022
+index 8f7492c0ff15..9ba07c1cc50f 100755
+--- a/tests/nvme/022
++++ b/tests/nvme/022
+@@ -17,8 +17,7 @@ requires() {
+ test() {
+ 	echo "Running ${TEST_NAME}"
+ 
+-	modprobe nvmet
+-	modprobe nvme-loop
++	_setup_nvmet
+ 
+ 	local port
+ 	local nvmedev
+@@ -50,8 +49,5 @@ test() {
+ 
+ 	rm -f "${file_path}"
+ 
+-	modprobe -r nvme-loop
+-	modprobe -r nvmet
+-
+ 	echo "Test complete"
+ }
+diff --git a/tests/nvme/023 b/tests/nvme/023
+index de1a6bc0f975..ed2a5ad7653f 100755
+--- a/tests/nvme/023
++++ b/tests/nvme/023
+@@ -17,8 +17,7 @@ requires() {
+ test() {
+ 	echo "Running ${TEST_NAME}"
+ 
+-	modprobe nvmet
+-	modprobe nvme-loop
++	_setup_nvmet
+ 
+ 	local port
+ 	local nvmedev
+@@ -55,8 +54,5 @@ test() {
+ 
+ 	rm -f "${file_path}"
+ 
+-	modprobe -r nvme-loop
+-	modprobe -r nvmet
+-
+ 	echo "Test complete"
+ }
+diff --git a/tests/nvme/024 b/tests/nvme/024
+index c88fbd8a3663..538580947c5c 100755
+--- a/tests/nvme/024
++++ b/tests/nvme/024
+@@ -17,8 +17,7 @@ requires() {
+ test() {
+ 	echo "Running ${TEST_NAME}"
+ 
+-	modprobe nvmet
+-	modprobe nvme-loop
++	_setup_nvmet
+ 
+ 	local port
+ 	local nvmedev
+@@ -49,8 +48,5 @@ test() {
+ 
+ 	rm -f "${file_path}"
+ 
+-	modprobe -r nvme-loop
+-	modprobe -r nvmet
+-
+ 	echo "Test complete"
+ }
+diff --git a/tests/nvme/025 b/tests/nvme/025
+index 6468f59d9dd9..0039fefa5007 100755
+--- a/tests/nvme/025
++++ b/tests/nvme/025
+@@ -17,8 +17,7 @@ requires() {
+ test() {
+ 	echo "Running ${TEST_NAME}"
+ 
+-	modprobe nvmet
+-	modprobe nvme-loop
++	_setup_nvmet
+ 
+ 	local port
+ 	local nvmedev
+@@ -50,8 +49,5 @@ test() {
+ 
+ 	rm -f "${file_path}"
+ 
+-	modprobe -r nvme-loop
+-	modprobe -r nvmet
+-
+ 	echo "Test complete"
+ }
+diff --git a/tests/nvme/026 b/tests/nvme/026
+index 2e9655bdd40f..7e89d840529c 100755
+--- a/tests/nvme/026
++++ b/tests/nvme/026
+@@ -17,8 +17,7 @@ requires() {
+ test() {
+ 	echo "Running ${TEST_NAME}"
+ 
+-	modprobe nvmet
+-	modprobe nvme-loop
++	_setup_nvmet
+ 
+ 	local port
+ 	local nvmedev
+@@ -50,8 +49,5 @@ test() {
+ 
+ 	rm -f "${file_path}"
+ 
+-	modprobe -r nvme-loop
+-	modprobe -r nvmet
+-
+ 	echo "Test complete"
+ }
+diff --git a/tests/nvme/027 b/tests/nvme/027
+index db732425db21..4d293beb8b47 100755
+--- a/tests/nvme/027
++++ b/tests/nvme/027
+@@ -17,8 +17,7 @@ requires() {
+ test() {
+ 	echo "Running ${TEST_NAME}"
+ 
+-	modprobe nvmet
+-	modprobe nvme-loop
++	_setup_nvmet
+ 
+ 	local port
+ 	local nvmedev
+@@ -49,8 +48,5 @@ test() {
+ 
+ 	rm -f "${file_path}"
+ 
+-	modprobe -r nvme-loop
+-	modprobe -r nvmet
+-
+ 	echo "Test complete"
+ }
+diff --git a/tests/nvme/028 b/tests/nvme/028
+index 10be8fb4ba9c..1280107ed5df 100755
+--- a/tests/nvme/028
++++ b/tests/nvme/028
+@@ -17,8 +17,7 @@ requires() {
+ test() {
+ 	echo "Running ${TEST_NAME}"
+ 
+-	modprobe nvmet
+-	modprobe nvme-loop
++	_setup_nvmet
+ 
+ 	local port
+ 	local nvmedev
+@@ -49,8 +48,5 @@ test() {
+ 
+ 	rm -f "${file_path}"
+ 
+-	modprobe -r nvme-loop
+-	modprobe -r nvmet
+-
+ 	echo "Test complete"
+ }
+diff --git a/tests/nvme/029 b/tests/nvme/029
+index e63dfc166f26..65eb40031888 100755
+--- a/tests/nvme/029
++++ b/tests/nvme/029
+@@ -50,8 +50,7 @@ test_user_io()
+ test() {
+ 	echo "Running ${TEST_NAME}"
+ 
+-	modprobe nvmet
+-	modprobe nvme-loop
++	_setup_nvmet
+ 
+ 	local port
+ 	local nvmedev
+@@ -92,8 +91,5 @@ test() {
+ 
+ 	rm "${file_path}"
+ 
+-	modprobe -r nvme-loop
+-	modprobe -r nvmet
+-
+ 	echo "Test complete"
+ }
 diff --git a/tests/nvme/030 b/tests/nvme/030
-new file mode 100755
-index 000000000000..963e1ad7118c
---- /dev/null
+index 963e1ad7118c..94020f47411e 100755
+--- a/tests/nvme/030
 +++ b/tests/nvme/030
-@@ -0,0 +1,76 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-3.0+
-+# Copyright (C) 2019 Logan Gunthorpe
-+#
-+# Test nvme discovery generation counter
-+
-+. tests/nvme/rc
-+
-+DESCRIPTION="ensure the discovery generation counter is updated appropriately"
-+QUICK=1
-+
-+requires() {
-+	_have_program nvme &&
-+	_have_modules loop nvme-loop nvmet &&
-+	_have_configfs
-+}
-+
-+
-+checkgenctr() {
-+	local last=$1
-+	local msg=$2
-+	local genctr
-+
-+	genctr=$(_discovery_genctr)
-+	if (( "${genctr}" <= "${last}" )); then
-+		echo "Generation counter not incremented when ${msg} (${genctr} <= ${last})"
-+	fi
-+
-+	echo "${genctr}"
-+}
-+
-+test() {
-+	local port
-+	local genctr
-+	local subsys="blktests-subsystem-"
-+
-+	echo "Running ${TEST_NAME}"
-+
-+	modprobe nvmet
-+	modprobe nvme-loop
-+
-+	port="$(_create_nvmet_port "loop")"
-+
-+	_create_nvmet_subsystem "${subsys}1" "$(losetup -f)"
-+	_add_nvmet_subsys_to_port "${port}" "${subsys}1"
-+
-+	genctr=$(_discovery_genctr)
-+
-+	_create_nvmet_subsystem "${subsys}2" "$(losetup -f)"
-+	_add_nvmet_subsys_to_port "${port}" "${subsys}2"
-+
-+	genctr=$(checkgenctr "${genctr}" "adding a subsystem to a port")
-+
-+	echo 0 > "${NVMET_CFS}/subsystems/${subsys}2/attr_allow_any_host"
-+
-+	genctr=$(checkgenctr "${genctr}" "clearing attr_allow_any_host")
-+
-+	echo 1 > "${NVMET_CFS}/subsystems/${subsys}2/attr_allow_any_host"
-+
-+	genctr=$(checkgenctr "${genctr}" "setting attr_allow_any_host")
-+
-+	_remove_nvmet_subsystem_from_port "${port}" "${subsys}2"
-+	_remove_nvmet_subsystem "${subsys}2"
-+
-+	genctr=$(checkgenctr "${genctr}" "removing a subsystem from a port")
-+
-+	_remove_nvmet_subsystem_from_port "${port}" "${subsys}1"
-+	_remove_nvmet_subsystem "${subsys}1"
-+
-+	_remove_nvmet_port "${port}"
-+
-+	modprobe -r nvme-loop
-+	modprobe -r nvmet
-+
-+	echo "Test complete"
-+}
-diff --git a/tests/nvme/030.out b/tests/nvme/030.out
-new file mode 100644
-index 000000000000..93e51905b5d4
---- /dev/null
-+++ b/tests/nvme/030.out
-@@ -0,0 +1,2 @@
-+Running nvme/030
-+Test complete
+@@ -36,8 +36,7 @@ test() {
+ 
+ 	echo "Running ${TEST_NAME}"
+ 
+-	modprobe nvmet
+-	modprobe nvme-loop
++    _setup_nvmet
+ 
+ 	port="$(_create_nvmet_port "loop")"
+ 
+@@ -69,8 +68,5 @@ test() {
+ 
+ 	_remove_nvmet_port "${port}"
+ 
+-	modprobe -r nvme-loop
+-	modprobe -r nvmet
+-
+ 	echo "Test complete"
+ }
 diff --git a/tests/nvme/rc b/tests/nvme/rc
-index 60dc05869726..39b2c2e2b91c 100644
+index 39b2c2e2b91c..b8f7571c7170 100644
 --- a/tests/nvme/rc
 +++ b/tests/nvme/rc
-@@ -123,3 +123,8 @@ _filter_discovery() {
- 	sed -r -e "s/Generation counter [0-9]+/Generation counter X/" |
- 		grep 'Discovery Log Number\|Log Entry\|trtype\|subnqn'
+@@ -24,6 +24,17 @@ _test_dev_is_nvme() {
+ 	return 0
  }
-+
-+_discovery_genctr() {
-+	nvme discover -t loop |
-+		sed -n -e 's/^.*Generation counter \([0-9]\+\).*$/\1/p'
+ 
++_cleanup_nvmet() {
++	modprobe -r nvme-loop
++	modprobe -r nvmet
 +}
++
++_setup_nvmet() {
++	_register_test_cleanup _cleanup_nvmet
++	modprobe nvmet
++	modprobe nvme-loop
++}
++
+ _create_nvmet_port() {
+ 	local trtype="$1"
+ 
 -- 
 2.17.1
