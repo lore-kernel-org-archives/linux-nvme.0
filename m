@@ -1,50 +1,80 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Fri, 12 Jul 2019 16:10:37 +0200
-Subject: [PATCH rfc v2 08/10] nvme-cli: Expand --device argument processing
-In-Reply-To: <20190712003140.16221-9-jsmart2021@gmail.com>
-References: <20190712003140.16221-1-jsmart2021@gmail.com>
- <20190712003140.16221-9-jsmart2021@gmail.com>
-Message-ID: <6699bf8a-b78e-ed9f-e579-e4f96440b5f9@suse.de>
+From: sschricker@suse.de (Simon Schricker)
+Date: Fri, 12 Jul 2019 17:34:57 +0200
+Subject: [PATCH] nvme-vendor: fix c99 declarations in vendor plugins
+Message-ID: <20190712153457.13877-1-sschricker@suse.de>
 
-On 7/12/19 2:31 AM, James Smart wrote:
-> The connect-all --device argument was used to specify a specific device
-> to be used as the discovery controller. The device is typically a
-> long-lived discovery controller that posted a discovery event.
-> No attempt was made to ensure the device is who it is supposed to be
-> before using it.
-> 
-> Revised the code to use the other arguments in the connect-all request
-> to validate that the device is the entity that was expected. If the
-> device doesn't match, the cli will look for an existing matching device
-> in the system (should be a discovery controller due to nqn) with the
-> same connect parameters and use it.  If one is not found on the system,
-> a new discovery controller will be created for the connect-all request.
-> 
-> The revision uses new routines to parse the connect arguments given
-> in the argstr parameter. As a couple of new fieldnames are needed, the
-> parse routine constants were expanded for them.
-> 
-> The revision uses the new routines to match the specified device vs
-> it's attributes as well as the search routine that looks for a device
-> with the connect arguments.
-> 
-> Signed-off-by: James Smart <jsmart2021 at gmail.com>
-> CC: Sagi Grimberg <sagi at grimberg.me>
-> CC: Hannes Reinecke <hare at suse.com>
-> ---
->  fabrics.c | 38 ++++++++++++++++++++++++++++++++++++++
->  nvme.c    |  2 ++
->  nvme.h    |  2 ++
->  3 files changed, 42 insertions(+)
-> 
-Reviewed-by: Hannes Reinecke <hare at suse.com>
+We can't use c99 declarations with older compilers.
 
-Cheers,
+Signed-off-by: Simon Schricker <sschricker at suse.de>
+---
+ plugins/micron/micron-nvme.c   | 3 ++-
+ plugins/toshiba/toshiba-nvme.c | 9 ++++++---
+ 2 files changed, 8 insertions(+), 4 deletions(-)
 
-Hannes
+diff --git a/plugins/micron/micron-nvme.c b/plugins/micron/micron-nvme.c
+index c827bae..b0762f0 100644
+--- a/plugins/micron/micron-nvme.c
++++ b/plugins/micron/micron-nvme.c
+@@ -40,6 +40,7 @@ static int micron_selective_download(int argc, char **argv, struct command *cmd,
+ 	void *fw_buf;
+     int fd, selectNo,fw_fd,fw_size,err,offset = 0;
+     struct stat sb;
++	int i;
+ 
+ 	struct config {
+ 		char  *fw;
+@@ -68,7 +69,7 @@ static int micron_selective_download(int argc, char **argv, struct command *cmd,
+         goto out;
+     }
+ 
+-    for(int i=0;i<3;i++) 
++    for(i=0;i<3;i++)
+     {
+         cfg.select[i] = toupper(cfg.select[i]);
+     }
+diff --git a/plugins/toshiba/toshiba-nvme.c b/plugins/toshiba/toshiba-nvme.c
+index a22a4d6..e27653f 100644
+--- a/plugins/toshiba/toshiba-nvme.c
++++ b/plugins/toshiba/toshiba-nvme.c
+@@ -192,10 +192,11 @@ static int d_raw_to_fd(const unsigned char *buf, unsigned len, int fd)
+ static void progress_runner(float progress)
+ {
+     const size_t barWidth = 70;
++    size_t i;
+ 
+     fprintf(stdout, "[");
+     size_t pos = barWidth * progress;
+-    for (size_t i = 0; i < barWidth; ++i) {
++    for (i = 0; i < barWidth; ++i) {
+         if (i <= pos) {
+         	fprintf(stdout, "=");
+         } else {
+@@ -216,6 +217,8 @@ static int nvme_get_internal_log(int fd, const char* const filename, bool curren
+ 	// By trial and error it seems that the largest transfer chunk size
+ 	// is 128 * 32 =  4k sectors = 2MB
+ 	const __u32 max_pages = 128;
++	size_t i;
++	unsigned j;
+ 	err = nvme_sct_command_transfer_log(fd, current);
+ 	if (err) {
+ 		fprintf(stderr, "%s: SCT command transfer failed\n", __func__);
+@@ -267,7 +270,7 @@ static int nvme_get_internal_log(int fd, const char* const filename, bool curren
+ 		}
+ 	}
+ 	// Now read the rest
+-	for (size_t i = 1; i < pages;) {
++	for (i = 1; i < pages;) {
+ 		__u32 pages_chunk = max_pages;
+ 		if (pages_chunk + i >= pages) {
+ 			pages_chunk = pages - i;
+@@ -280,7 +283,7 @@ static int nvme_get_internal_log(int fd, const char* const filename, bool curren
+ 		progress = (float) (i) / (float) (pages);
+ 		progress_runner(progress);
+ 		if (filename == NULL) {
+-			for (unsigned j = 0; j < pages_chunk; ++j) {
++			for (j = 0; j < pages_chunk; ++j) {
+ 				fprintf(stdout, "Page: %zu of %zu\n", i + j, pages);
+ 				d(page_data + (j * page_data_len), page_data_len, 16, 1);
+ 			}
 -- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N?rnberg)
+2.22.0
