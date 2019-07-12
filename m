@@ -1,20 +1,19 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Fri, 12 Jul 2019 08:25:49 +0200
-Subject: [PATCH rfc v2 06/10] nvme-cli: Add routine to compare
- ctrl_list_item to connect args
-In-Reply-To: <20190712003140.16221-7-jsmart2021@gmail.com>
+Date: Fri, 12 Jul 2019 08:28:21 +0200
+Subject: [PATCH rfc v2 07/10] nvme-cli: Add routine to search for
+ controller with specific attributes
+In-Reply-To: <20190712003140.16221-8-jsmart2021@gmail.com>
 References: <20190712003140.16221-1-jsmart2021@gmail.com>
- <20190712003140.16221-7-jsmart2021@gmail.com>
-Message-ID: <da7269f9-e6c0-62a6-a2af-f65979e83bdc@suse.de>
+ <20190712003140.16221-8-jsmart2021@gmail.com>
+Message-ID: <03d14bc2-5564-e9db-8977-dccb27502a67@suse.de>
 
 On 7/12/19 2:31 AM, James Smart wrote:
 > In preparation for searching controllers to match with connect args:
 > 
-> Create a new routine that receives a structure containing connect
-> arguments and a device name. The routine will build and fill in a
-> ctrl_list_item for the device and compare its attributes with the
-> connect arguments. The routine returns true/false on whether they
-> match.
+> Create a new routine find_ctrl_with_connectargs() that will search the
+> controllers that exist in the system to find one that has attributes
+> that match the connect arguments specified.  If found, the routine
+> returns the controller name ("nvme?"). If not found, a NULL is returned.
 > 
 > Routine is defined as a global as a subsequent patch will use it
 > from the fabrics routines.
@@ -23,9 +22,9 @@ On 7/12/19 2:31 AM, James Smart wrote:
 > CC: Sagi Grimberg <sagi at grimberg.me>
 > CC: Hannes Reinecke <hare at suse.com>
 > ---
->  nvme.c | 40 ++++++++++++++++++++++++++++++++++++++++
->  nvme.h |  9 +++++++++
->  2 files changed, 49 insertions(+)
+>  nvme.c | 37 +++++++++++++++++++++++++++++++++++++
+>  nvme.h |  1 +
+>  2 files changed, 38 insertions(+)
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
