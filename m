@@ -1,117 +1,122 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Thu, 11 Jul 2019 17:31:33 -0700
-Subject: [PATCH rfc v2 03/10] nvme-cli: allow discover to address discovery
- controller by persistent name
+Date: Thu, 11 Jul 2019 17:31:34 -0700
+Subject: [PATCH rfc v2 04/10] nvme-cli: Refactor to create a
+ get_nvme_ctrl_info routine
 In-Reply-To: <20190712003140.16221-1-jsmart2021@gmail.com>
 References: <20190712003140.16221-1-jsmart2021@gmail.com>
-Message-ID: <20190712003140.16221-4-jsmart2021@gmail.com>
+Message-ID: <20190712003140.16221-5-jsmart2021@gmail.com>
 
-To support discovery (connect/connect-all) to operate against a
-persistent discovery controller, let the discovery controller to
-be specified by its device node name rather than new connection
-attributes.
+In preparation for searching controllers to match with connect args:
 
-Example:
-  nvme connect-all ... --device=nvme5
+Refactor the get_nvme_subsystem_info() routine to take the portion
+that creates a ctrl_list_item and sets its values and put it in a
+separate get_nvme_ctrl_info() routine.
 
-Also centralize extraction of controller instance from the controller
-name to a common helper.
-
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 Signed-off-by: James Smart <jsmart2021 at gmail.com>
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
-
+CC: Sagi Grimberg <sagi at grimberg.me>
+CC: Hannes Reinecke <hare at suse.com>
 ---
-v2:
- Rework ctrl_instance for return value on error.
- Validate device name is a controller name.
----
- fabrics.c | 37 +++++++++++++++++++++++++++----------
- 1 file changed, 27 insertions(+), 10 deletions(-)
+ nvme.c | 77 ++++++++++++++++++++++++++++++++++++++----------------------------
+ 1 file changed, 45 insertions(+), 32 deletions(-)
 
-diff --git a/fabrics.c b/fabrics.c
-index 75dedf8..d92c2ff 100644
---- a/fabrics.c
-+++ b/fabrics.c
-@@ -190,6 +190,21 @@ static const char *cms_str(__u8 cm)
+diff --git a/nvme.c b/nvme.c
+index 6fe99eb..dabbbe0 100644
+--- a/nvme.c
++++ b/nvme.c
+@@ -1544,10 +1544,50 @@ static void free_ctrl_list_item(struct ctrl_list_item *ctrls)
+ 	free(ctrls->ana_state);
+ }
  
- static int do_discover(char *argstr, bool connect);
- 
-+static int ctrl_instance(char *device)
++static int get_nvme_ctrl_info(char *name, char *path,
++			struct ctrl_list_item *ctrl, __u32 nsid)
 +{
-+	char d[64];
-+	int ret, instance;
++	char ctrl_path[512];
 +
-+	device = basename(device);
-+	ret = sscanf(device, "nvme%d", &instance);
-+	if (ret <= 0)
-+		return -EINVAL;
-+	if (snprintf(d, sizeof(d), "nvme%d", instance) <= 0 ||
-+	    strcmp(device, d))
-+		return -EINVAL;
-+	return instance;
++	ctrl->name = strdup(name);
++
++	snprintf(ctrl_path, sizeof(ctrl_path), "%s/%s", path, ctrl->name);
++
++	ctrl->address = get_nvme_ctrl_attr(ctrl_path, "address");
++	if (!ctrl->address) {
++		fprintf(stderr, "%s: failed to get controller address.\n",
++			ctrl->name);
++		goto free_ctrl_items;
++	}
++
++	ctrl->transport = get_nvme_ctrl_attr(ctrl_path, "transport");
++	if (!ctrl->transport) {
++		fprintf(stderr, "%s: failed to get controller transport.\n",
++			ctrl->name);
++		goto free_ctrl_items;
++	}
++
++	ctrl->state = get_nvme_ctrl_attr(ctrl_path, "state");
++	if (!ctrl->state) {
++		fprintf(stderr, "%s: failed to get controller state.\n",
++			ctrl->name);
++		goto free_ctrl_items;
++	}
++
++	if (nsid != NVME_NSID_ALL)
++		ctrl->ana_state = get_nvme_ctrl_path_ana_state(ctrl_path, nsid);
++
++	return 0;	/* success */
++
++free_ctrl_items:
++	free_ctrl_list_item(ctrl);
++
++	return 1;	/* failure */
 +}
 +
- static int add_ctrl(const char *argstr)
+ static int get_nvme_subsystem_info(char *name, char *path,
+ 				struct subsys_list_item *item, __u32 nsid)
  {
- 	substring_t args[MAX_OPT_ARGS];
-@@ -865,7 +880,10 @@ static int do_discover(char *argstr, bool connect)
- 	int instance, numrec = 0, ret, err;
- 	int status = 0;
+-	char ctrl_path[512];
+ 	struct dirent **ctrls;
+ 	int n, i, ret = 1, ccnt = 0;
  
--	instance = add_ctrl(argstr);
-+	if (!cfg.device)
-+		instance = add_ctrl(argstr);
-+	else
-+		instance = ctrl_instance(cfg.device);
- 	if (instance < 0)
- 		return instance;
+@@ -1574,38 +1614,11 @@ static int get_nvme_subsystem_info(char *name, char *path,
+ 	item->nctrls = n;
  
-@@ -873,7 +891,7 @@ static int do_discover(char *argstr, bool connect)
- 		return -errno;
- 	ret = nvmf_get_log_page_discovery(dev_name, &log, &numrec, &status);
- 	free(dev_name);
--	if (!cfg.persistent) {
-+	if (!cfg.device && !cfg.persistent) {
- 		err = remove_ctrl(instance);
- 		if (err)
- 			return err;
-@@ -996,6 +1014,7 @@ int discover(const char *desc, int argc, char **argv, bool connect)
- 		{"hostnqn",     'q', "LIST", CFG_STRING, &cfg.hostnqn,     required_argument, "user-defined hostnqn (if default not used)" },
- 		{"hostid",      'I', "LIST", CFG_STRING, &cfg.hostid,      required_argument, "user-defined hostid (if default not used)"},
- 		{"raw",         'r', "LIST", CFG_STRING, &cfg.raw,         required_argument, "raw output file" },
-+		{"device",      'd', "LIST", CFG_STRING, &cfg.device, required_argument, "use existing discovery controller device" },
- 		{"keep-alive-tmo",  'k', "LIST", CFG_INT, &cfg.keep_alive_tmo,  required_argument, "keep alive timeout period in seconds" },
- 		{"reconnect-delay", 'c', "LIST", CFG_INT, &cfg.reconnect_delay, required_argument, "reconnect timeout period in seconds" },
- 		{"ctrl-loss-tmo",   'l', "LIST", CFG_INT, &cfg.ctrl_loss_tmo,   required_argument, "controller loss timeout period in seconds" },
-@@ -1014,6 +1033,9 @@ int discover(const char *desc, int argc, char **argv, bool connect)
- 	if (ret)
- 		goto out;
- 
-+	if (cfg.device && !strcmp(cfg.device, "none"))
-+		cfg.device = NULL;
-+
- 	cfg.nqn = NVME_DISC_SUBSYS_NAME;
- 
- 	if (!cfg.transport && !cfg.traddr) {
-@@ -1157,15 +1179,10 @@ static int disconnect_by_nqn(char *nqn)
- static int disconnect_by_device(char *device)
- {
- 	int instance;
--	int ret;
+ 	for (i = 0; i < n; i++) {
+-		item->ctrls[ccnt].name = strdup(ctrls[i]->d_name);
 -
--	device = basename(device);
--	ret = sscanf(device, "nvme%d", &instance);
--	if (ret < 0)
--		return ret;
--	if (!ret)
--		return -1;
- 
-+	instance = ctrl_instance(device);
-+	if (instance < 0)
-+		return instance;
- 	return remove_ctrl(instance);
- }
+-		snprintf(ctrl_path, sizeof(ctrl_path), "%s/%s", path,
+-			 item->ctrls[ccnt].name);
+-
+-		item->ctrls[ccnt].address =
+-				get_nvme_ctrl_attr(ctrl_path, "address");
+-		if (!item->ctrls[ccnt].address) {
+-			fprintf(stderr, "failed to get controller[%d] address.\n", i);
+-			free_ctrl_list_item(&item->ctrls[ccnt]);
+-			continue;
++		if (get_nvme_ctrl_info(ctrls[i]->d_name, path,
++				&item->ctrls[ccnt], nsid)) {
++			fprintf(stderr, "failed to get controller[%d] info.\n",
++					i);
+ 		}
+-
+-		item->ctrls[ccnt].transport =
+-				get_nvme_ctrl_attr(ctrl_path, "transport");
+-		if (!item->ctrls[ccnt].transport) {
+-			fprintf(stderr, "failed to get controller[%d] transport.\n", i);
+-			free_ctrl_list_item(&item->ctrls[ccnt]);
+-			continue;
+-		}
+-
+-		item->ctrls[ccnt].state =
+-				get_nvme_ctrl_attr(ctrl_path, "state");
+-		if (!item->ctrls[ccnt].state) {
+-			fprintf(stderr, "failed to get controller[%d] state.\n", i);
+-			free_ctrl_list_item(&item->ctrls[ccnt]);
+-			continue;
+-		}
+-
+-		if (nsid != NVME_NSID_ALL)
+-			item->ctrls[ccnt].ana_state =
+-				get_nvme_ctrl_path_ana_state(ctrl_path, nsid);
+ 		ccnt++;
+ 	}
  
 -- 
 2.13.7
