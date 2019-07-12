@@ -1,70 +1,97 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Thu, 11 Jul 2019 17:31:31 -0700
-Subject: [PATCH rfc v2 01/10] nvme-cli: ignore arguments that pass in "none"
+Date: Thu, 11 Jul 2019 17:31:32 -0700
+Subject: [PATCH rfc v2 02/10] nvme-cli: support persistent connections to a
+ discovery controller
 In-Reply-To: <20190712003140.16221-1-jsmart2021@gmail.com>
 References: <20190712003140.16221-1-jsmart2021@gmail.com>
-Message-ID: <20190712003140.16221-2-jsmart2021@gmail.com>
+Message-ID: <20190712003140.16221-3-jsmart2021@gmail.com>
 
-As we want to support discovery uevents over different
-transports, we want to allow the kernel to provide missing
-information in the form of none and have nvme-cli properly
-ignore it.
+From: Sagi Grimberg <sagi@grimberg.me>
 
-One example is the host_traddr. If it is not set (which means
-that the default route determined the host address) we will
-want to do the same for newly discovered controllers.
-
-So allow users to pass 'none' arguments as well.
+Simply don't destroy the discovery controller after getting the
+log pages. Note that persistent connection to a discovery subsystem
+require to pass in a non-zero kato value, so if not provided we
+simply use a default of 30 seconds kato.
 
 Example:
-  nvme connect-all ... --hostnqn=none --hostid=none --host_traddr=none
+  nvme connect-all ... --persistent
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-Signed-off-by: James Smart <jsmart2021 at gmail.com>
+Reviewed-by: James Smart <jsmart2021 at gmail.com>
 Reviewed-by: Hannes Reinecke <hare at suse.com>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
 Reviewed-by: Minwoo Im <minwoo.im.dev at gmail.com>
 ---
- fabrics.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ fabrics.c | 15 ++++++++++++---
+ fabrics.h |  2 ++
+ 2 files changed, 14 insertions(+), 3 deletions(-)
 
 diff --git a/fabrics.c b/fabrics.c
-index 32c3a9c..5757aaf 100644
+index 5757aaf..75dedf8 100644
 --- a/fabrics.c
 +++ b/fabrics.c
-@@ -578,7 +578,7 @@ add_argument(char **argstr, int *max_len, char *arg_str, char *arg)
- {
- 	int len;
+@@ -66,6 +66,7 @@ static struct config {
+ 	int  disable_sqflow;
+ 	int  hdr_digest;
+ 	int  data_digest;
++	bool persistent;
+ } cfg = { NULL };
  
--	if (arg) {
-+	if (arg && strcmp(arg, "none")) {
- 		len = snprintf(*argstr, *max_len, ",%s=%s", arg_str, arg);
- 		if (len < 0)
- 			return -EINVAL;
-@@ -671,14 +671,14 @@ retry:
- 		return -EINVAL;
- 	p += len;
+ #define BUF_SIZE		4096
+@@ -872,9 +873,11 @@ static int do_discover(char *argstr, bool connect)
+ 		return -errno;
+ 	ret = nvmf_get_log_page_discovery(dev_name, &log, &numrec, &status);
+ 	free(dev_name);
+-	err = remove_ctrl(instance);
+-	if (err)
+-		return err;
++	if (!cfg.persistent) {
++		err = remove_ctrl(instance);
++		if (err)
++			return err;
++	}
  
--	if (cfg.hostnqn) {
-+	if (cfg.hostnqn && strcmp(cfg.hostnqn, "none")) {
- 		len = sprintf(p, ",hostnqn=%s", cfg.hostnqn);
- 		if (len < 0)
- 			return -EINVAL;
- 		p += len;
- 	}
+ 	switch (ret) {
+ 	case DISC_OK:
+@@ -957,6 +960,9 @@ static int discover_from_conf_file(const char *desc, char *argstr,
+ 		if (err)
+ 			continue;
  
--	if (cfg.hostid) {
-+	if (cfg.hostid && strcmp(cfg.hostid, "none")) {
- 		len = sprintf(p, ",hostid=%s", cfg.hostid);
- 		if (len < 0)
- 			return -EINVAL;
-@@ -713,7 +713,7 @@ retry:
- 		p += len;
- 	}
++		if (cfg.persistent && !cfg.keep_alive_tmo)
++			cfg.keep_alive_tmo = NVMF_DEF_DISC_TMO;
++
+ 		err = build_options(argstr, BUF_SIZE);
+ 		if (err) {
+ 			ret = err;
+@@ -999,6 +1005,7 @@ int discover(const char *desc, int argc, char **argv, bool connect)
+ 		{"nr-write-queues", 'W', "LIST", CFG_INT, &cfg.nr_write_queues,    required_argument, "number of write queues to use (default 0)" },
+ 		{"nr-poll-queues",  'P', "LIST", CFG_INT, &cfg.nr_poll_queues,    required_argument, "number of poll queues to use (default 0)" },
+ 		{"queue-size",      'Q', "LIST", CFG_INT, &cfg.queue_size,      required_argument, "number of io queue elements to use (default 128)" },
++		{"persistent",  'p', "LIST", CFG_NONE, &cfg.persistent,  no_argument, "persistent discovery connection" },
+ 		{NULL},
+ 	};
  
--	if (cfg.host_traddr) {
-+	if (cfg.host_traddr && strcmp(cfg.host_traddr, "none")) {
- 		len = sprintf(p, ",host_traddr=%s", cfg.host_traddr);
- 		if (len < 0)
- 			return -EINVAL;
+@@ -1013,6 +1020,8 @@ int discover(const char *desc, int argc, char **argv, bool connect)
+ 		ret = discover_from_conf_file(desc, argstr,
+ 				command_line_options, connect);
+ 	} else {
++		if (cfg.persistent && !cfg.keep_alive_tmo)
++			cfg.keep_alive_tmo = NVMF_DEF_DISC_TMO;
+ 		ret = build_options(argstr, BUF_SIZE);
+ 		if (ret)
+ 			goto out;
+diff --git a/fabrics.h b/fabrics.h
+index 988f3ef..7c1664b 100644
+--- a/fabrics.h
++++ b/fabrics.h
+@@ -1,6 +1,8 @@
+ #ifndef _DISCOVER_H
+ #define _DISCOVER_H
+ 
++#define NVMF_DEF_DISC_TMO	30
++
+ extern int discover(const char *desc, int argc, char **argv, bool connect);
+ extern int connect(const char *desc, int argc, char **argv);
+ extern int disconnect(const char *desc, int argc, char **argv);
 -- 
 2.13.7
