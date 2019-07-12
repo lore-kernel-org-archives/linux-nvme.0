@@ -1,51 +1,29 @@
-From: jgg@ziepe.ca (Jason Gunthorpe)
-Date: Fri, 12 Jul 2019 14:42:20 -0300
-Subject: regression: nvme rdma with bnxt_re0 broken
-In-Reply-To: <CA+sbYW0F6Vgpa5SQX+9ge4EwWrMkJ4kQ-psEq11S00=-L_mVhg@mail.gmail.com>
-References: <66d43fd8-18e8-8b9d-90e3-ee2804d56889@redhat.com>
- <AM0PR05MB4866DEDB9DE4379F6A6EF15BD1F20@AM0PR05MB4866.eurprd05.prod.outlook.com>
- <CA+sbYW17PGAW57pyRmQB9KsDA9Q+7FFgSseSTTWE_h6vffa7UQ@mail.gmail.com>
- <AM0PR05MB4866CFEDCDF3CDA1D7D18AA5D1F20@AM0PR05MB4866.eurprd05.prod.outlook.com>
- <AM0PR05MB4866CCD487C9D99BD9526BA8D1F20@AM0PR05MB4866.eurprd05.prod.outlook.com>
- <AM0PR05MB4866665D5CACB34AE885BCA2D1F20@AM0PR05MB4866.eurprd05.prod.outlook.com>
- <ef6a01a1-9163-ef4e-29ac-4f4130c682f1@redhat.com>
- <AM0PR05MB48666463325E1D0E25D63F57D1F20@AM0PR05MB4866.eurprd05.prod.outlook.com>
- <20190712154044.GJ27512@ziepe.ca>
- <CA+sbYW0F6Vgpa5SQX+9ge4EwWrMkJ4kQ-psEq11S00=-L_mVhg@mail.gmail.com>
-Message-ID: <20190712174220.GL27512@ziepe.ca>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Fri, 12 Jul 2019 10:55:11 -0700
+Subject: [PATCH rfc v2 10/10] nvme-cli: nvmf auto-connect scripts
+In-Reply-To: <20190712003140.16221-11-jsmart2021@gmail.com>
+References: <20190712003140.16221-1-jsmart2021@gmail.com>
+ <20190712003140.16221-11-jsmart2021@gmail.com>
+Message-ID: <6627bc48-cdda-dace-b7a9-6e6eb5530d72@grimberg.me>
 
-On Fri, Jul 12, 2019@09:59:38PM +0530, Selvin Xavier wrote:
 
-> > bnxt guys: please just delete this duplicate detection code from the
-> > driver. Every GID provided from the core must be programmed into the
-> > given gid table index.
-> 
-> Jason,
->  This check is required in bnxt_re because the HW need only one entry
-> in its table for RoCE V1 and RoCE v2 Gids.
+> diff --git a/nvmf-autoconnect/70-nvmf-autoconnect.rules b/nvmf-autoconnect/70-nvmf-autoconnect.rules
+> new file mode 100644
+> index 0000000..b241b12
+> --- /dev/null
+> +++ b/nvmf-autoconnect/70-nvmf-autoconnect.rules
+> @@ -0,0 +1,18 @@
+> +#
+> +# nvmf-autoconnect.rules:
+> +#   Handles udev events which invoke automatically scan via discovery
+> +#   controller and connect to elements in the discovery log.
+> +#
+> +#
+> +
+> +# Events from persistent discovery controllers or nvme-fc transport events
+> +ACTION=="change", SUBSYSTEM=="nvme", ENV{NVME_EVENT}=="discovery",\
+> +  ENV{NVME_CTLR_NAME}=="*", ENV{NVME_TRTYPE}=="*", ENV{NVME_TRADDR}=="*", \
+> +  ENV{NVME_TRSVCID}=="*", ENV{NVME_HOST_TRADDR}=="*", \
+> +  RUN+="/usr/bin/systemctl --no-block start nvmf-connect at --quiet\t--device=$env{NVME_CTLR_NAME}\t--transport=$env{NVME_TRTYPE}\t--traddr=$env{NVME_TRADDR}\t--trsvcid=$env{NVME_TRSVCID}\t--host-traddr=$env{NVME_HOST_TRADDR}.service"
 
-The HW doesn't have a 'GID table' if it has this restriction. It
-sounds like it has some 'IP table' or maybe 'IP and VLAN' table?
-
-So the driver must provide a full emulated 'GID Table' with all the
-normal semantics.
-
-Which looks sort of like what the add side is doing, other than the
-mis-naming it seems reasonable..
-
-But then I see this in re_create_ah:
-
-	/*
-	 * If RoCE V2 is enabled, stack will have two entries for
-	 * each GID entry. Avoiding this duplicte entry in HW. Dividing
-	 * the GID index by 2 for RoCE V2
-	 */
-	ah->qplib_ah.sgid_index = grh->sgid_index / 2;
-
-Which seems completely wrong - that is making assumptions about the
-layout of the gid table that is just not allowed.
-
-Surely it needs to access the per-gid driver context that add_gid set
-and use the index into the sgid_table from there?
-
-Jason
+NVME_CTRL_NAME
