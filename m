@@ -1,102 +1,51 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri, 12 Jul 2019 10:35:57 -0700
-Subject: [PATCH rfc v2 09/10] nvme-cli: add --quiet option
-In-Reply-To: <20190712003140.16221-10-jsmart2021@gmail.com>
-References: <20190712003140.16221-1-jsmart2021@gmail.com>
- <20190712003140.16221-10-jsmart2021@gmail.com>
-Message-ID: <46dcab64-c4f9-74dc-b75c-4f4b8926051d@grimberg.me>
+From: jgg@ziepe.ca (Jason Gunthorpe)
+Date: Fri, 12 Jul 2019 14:42:20 -0300
+Subject: regression: nvme rdma with bnxt_re0 broken
+In-Reply-To: <CA+sbYW0F6Vgpa5SQX+9ge4EwWrMkJ4kQ-psEq11S00=-L_mVhg@mail.gmail.com>
+References: <66d43fd8-18e8-8b9d-90e3-ee2804d56889@redhat.com>
+ <AM0PR05MB4866DEDB9DE4379F6A6EF15BD1F20@AM0PR05MB4866.eurprd05.prod.outlook.com>
+ <CA+sbYW17PGAW57pyRmQB9KsDA9Q+7FFgSseSTTWE_h6vffa7UQ@mail.gmail.com>
+ <AM0PR05MB4866CFEDCDF3CDA1D7D18AA5D1F20@AM0PR05MB4866.eurprd05.prod.outlook.com>
+ <AM0PR05MB4866CCD487C9D99BD9526BA8D1F20@AM0PR05MB4866.eurprd05.prod.outlook.com>
+ <AM0PR05MB4866665D5CACB34AE885BCA2D1F20@AM0PR05MB4866.eurprd05.prod.outlook.com>
+ <ef6a01a1-9163-ef4e-29ac-4f4130c682f1@redhat.com>
+ <AM0PR05MB48666463325E1D0E25D63F57D1F20@AM0PR05MB4866.eurprd05.prod.outlook.com>
+ <20190712154044.GJ27512@ziepe.ca>
+ <CA+sbYW0F6Vgpa5SQX+9ge4EwWrMkJ4kQ-psEq11S00=-L_mVhg@mail.gmail.com>
+Message-ID: <20190712174220.GL27512@ziepe.ca>
 
+On Fri, Jul 12, 2019@09:59:38PM +0530, Selvin Xavier wrote:
 
-> From: Sagi Grimberg <sagi at grimberg.me>
+> > bnxt guys: please just delete this duplicate detection code from the
+> > driver. Every GID provided from the core must be programmed into the
+> > given gid table index.
 > 
-> Now we are going to have discovery log change events, so
-> instead of trying to figure out which NVM subsystem ports
-> are already connected, we let the driver do that and
-> only suppress the failure messages.
-> 
-> Example:
->    nvme connect-all ... --quiet
-> 
-> This option will be used by the discovery log change corresponding
-> udev rule.
-> 
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> Reviewed-by: James Smart <jsmart2021 at gmail.com>
-> Reviewed-by: Hannes Reinecke <hare at suse.com>
-> Reviewed-by: Minwoo Im <minwoo.im.dev at gmail.com>
-> ---
->   fabrics.c | 21 ++++++++++++++-------
->   1 file changed, 14 insertions(+), 7 deletions(-)
-> 
-> diff --git a/fabrics.c b/fabrics.c
-> index e101ead..13e2cf8 100644
-> --- a/fabrics.c
-> +++ b/fabrics.c
-> @@ -67,6 +67,7 @@ static struct config {
->   	int  hdr_digest;
->   	int  data_digest;
->   	bool persistent;
-> +	bool quiet;
->   } cfg = { NULL };
->   
->   #define BUF_SIZE		4096
-> @@ -219,9 +220,11 @@ static int add_ctrl(const char *argstr)
->   		goto out;
->   	}
->   
-> -	if (write(fd, argstr, len) != len) {
-> -		fprintf(stderr, "Failed to write to %s: %s\n",
-> -			 PATH_NVME_FABRICS, strerror(errno));
-> +	ret = write(fd, argstr, len);
-> +	if (ret != len) {
-> +		if (errno != EALREADY || !cfg.quiet)
-> +			fprintf(stderr, "Failed to write to %s: %s\n",
-> +				 PATH_NVME_FABRICS, strerror(errno));
->   		ret = -errno;
->   		goto out_close;
->   	}
-> @@ -855,10 +858,13 @@ static int connect_ctrls(struct nvmf_disc_rsp_page_hdr *log, int numrec)
->   		/* already connected print message	*/
->   		if (instance == -EALREADY) {
->   			const char *traddr = log->entries[i].traddr;
-> -			fprintf(stderr,
-> -				"traddr=%.*s is already connected\n",
-> -				space_strip_len(NVMF_TRADDR_SIZE, traddr),
-> -				traddr);
-> +
-> +			if (!cfg.quiet)
-> +				fprintf(stderr,
-> +					"traddr=%.*s is already connected\n",
-> +					space_strip_len(NVMF_TRADDR_SIZE,
-> +							traddr),
-> +					traddr);
->   			continue;
->   		}
->   
-> @@ -1063,6 +1069,7 @@ int discover(const char *desc, int argc, char **argv, bool connect)
->   		{"nr-poll-queues",  'P', "LIST", CFG_INT, &cfg.nr_poll_queues,    required_argument, "number of poll queues to use (default 0)" },
->   		{"queue-size",      'Q', "LIST", CFG_INT, &cfg.queue_size,      required_argument, "number of io queue elements to use (default 128)" },
->   		{"persistent",  'p', "LIST", CFG_NONE, &cfg.persistent,  no_argument, "persistent discovery connection" },
-> +		{"quiet",       'Q', "LIST", CFG_NONE, &cfg.quiet,  no_argument, "suppress already connected errors" },
+> Jason,
+>  This check is required in bnxt_re because the HW need only one entry
+> in its table for RoCE V1 and RoCE v2 Gids.
 
-Q is already a short-arg (queue-size). Lets have it 'S' (stand for 
-Suppress). Also, when I tested it locally for some reason it did not
-take:
---
-Jul 12 17:30:00 nvmc systemd[1]: Started NVMf auto-connect scan upon 
-nvme discovery controller Events.
-Jul 12 17:30:00 nvmc sh[2767]: Failed to write to /dev/nvme-fabrics: 
-Operation already in progress
-Jul 12 17:30:00 nvmc sh[2767]: traddr=192.168.123.1 is already connected
-Jul 12 17:30:00 nvmc kernel: nvme nvme2: creating 4 I/O queues.
-Jul 12 17:30:00 nvmc kernel: nvme nvme2: mapped 4/0/0 default/read/poll 
-queues.
-Jul 12 17:30:00 nvmc kernel: nvme nvme2: new ctrl: NQN "testnqn2", addr 
-192.168.123.1:8009
---
+The HW doesn't have a 'GID table' if it has this restriction. It
+sounds like it has some 'IP table' or maybe 'IP and VLAN' table?
 
-Adding print to add_ctrl:
-Jul 12 17:30:00 nvmc sh[2767]: errno 114 quiet 0
+So the driver must provide a full emulated 'GID Table' with all the
+normal semantics.
 
-When I pass it manually it works, but not from udev... Not sure what
-is going on...
+Which looks sort of like what the add side is doing, other than the
+mis-naming it seems reasonable..
+
+But then I see this in re_create_ah:
+
+	/*
+	 * If RoCE V2 is enabled, stack will have two entries for
+	 * each GID entry. Avoiding this duplicte entry in HW. Dividing
+	 * the GID index by 2 for RoCE V2
+	 */
+	ah->qplib_ah.sgid_index = grh->sgid_index / 2;
+
+Which seems completely wrong - that is making assumptions about the
+layout of the gid table that is just not allowed.
+
+Surely it needs to access the per-gid driver context that add_gid set
+and use the index into the sgid_table from there?
+
+Jason
