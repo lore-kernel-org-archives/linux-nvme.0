@@ -1,97 +1,75 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Thu, 11 Jul 2019 17:31:32 -0700
-Subject: [PATCH rfc v2 02/10] nvme-cli: support persistent connections to a
- discovery controller
-In-Reply-To: <20190712003140.16221-1-jsmart2021@gmail.com>
-References: <20190712003140.16221-1-jsmart2021@gmail.com>
-Message-ID: <20190712003140.16221-3-jsmart2021@gmail.com>
+Date: Thu, 11 Jul 2019 17:31:30 -0700
+Subject: [PATCH rfc v2 00/10] nvme-cli: nvmf auto-connect scripts
+Message-ID: <20190712003140.16221-1-jsmart2021@gmail.com>
 
-From: Sagi Grimberg <sagi@grimberg.me>
+This posting is a combination of the nvme-fc auto-connect scripts
+posted by Hannes, the RFC from Sagi to allow auto-connect for
+persistent discovery controllers that send AENs, and the RFC that
+I posted addressing comments. It does not contain the code that
+handles the persistent discovery controller AEN and generates the
+event.
 
-Simply don't destroy the discovery controller after getting the
-log pages. Note that persistent connection to a discovery subsystem
-require to pass in a non-zero kato value, so if not provided we
-simply use a default of 30 seconds kato.
+The auto-connect scripts are now commonized with the exception
+of the nvme-fc boot connections service.  It's expected that both
+the persistent discovery controllers and nvme-fc can post the same
+udev event. Whenever the discovery aen generates an event, the
+new --device=<name> argument will be used to identify the persistent
+discovery controller. When --device is used, the other connect
+attributes will be specified, set to the values of the discovery
+controller, and will be used by the cli to validate the device is
+who it should be or a new discovery controller will be created.
+When nvme-fc generates it's events, it will specify --device=none
+and specify the discovery controller addressing arguments.  If a
+persistent discovery controller exists on nvme-fc, will do nothing
+special and AEN's from it will follow the --device=<name> syntax.
 
-Example:
-  nvme connect-all ... --persistent
+The udev event handler supports both the new event to be used
+by discovery controllers as well as the existing nvme-fc transport
+event. The nvme-fc transport will be migrated to issue the new
+event syntax. The udev script will continue to support the older
+style nvme-fc event info in case the cli is running against an
+older kernel.
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-Reviewed-by: James Smart <jsmart2021 at gmail.com>
-Reviewed-by: Hannes Reinecke <hare at suse.com>
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
-Reviewed-by: Minwoo Im <minwoo.im.dev at gmail.com>
----
- fabrics.c | 15 ++++++++++++---
- fabrics.h |  2 ++
- 2 files changed, 14 insertions(+), 3 deletions(-)
+v2:
+ Addressed a couple of comments from Minwoo Im
+ Break device arg extension into multiple patches
+ Slight tweaks to parse routine
+ Add reviewed-by's
 
-diff --git a/fabrics.c b/fabrics.c
-index 5757aaf..75dedf8 100644
---- a/fabrics.c
-+++ b/fabrics.c
-@@ -66,6 +66,7 @@ static struct config {
- 	int  disable_sqflow;
- 	int  hdr_digest;
- 	int  data_digest;
-+	bool persistent;
- } cfg = { NULL };
- 
- #define BUF_SIZE		4096
-@@ -872,9 +873,11 @@ static int do_discover(char *argstr, bool connect)
- 		return -errno;
- 	ret = nvmf_get_log_page_discovery(dev_name, &log, &numrec, &status);
- 	free(dev_name);
--	err = remove_ctrl(instance);
--	if (err)
--		return err;
-+	if (!cfg.persistent) {
-+		err = remove_ctrl(instance);
-+		if (err)
-+			return err;
-+	}
- 
- 	switch (ret) {
- 	case DISC_OK:
-@@ -957,6 +960,9 @@ static int discover_from_conf_file(const char *desc, char *argstr,
- 		if (err)
- 			continue;
- 
-+		if (cfg.persistent && !cfg.keep_alive_tmo)
-+			cfg.keep_alive_tmo = NVMF_DEF_DISC_TMO;
-+
- 		err = build_options(argstr, BUF_SIZE);
- 		if (err) {
- 			ret = err;
-@@ -999,6 +1005,7 @@ int discover(const char *desc, int argc, char **argv, bool connect)
- 		{"nr-write-queues", 'W', "LIST", CFG_INT, &cfg.nr_write_queues,    required_argument, "number of write queues to use (default 0)" },
- 		{"nr-poll-queues",  'P', "LIST", CFG_INT, &cfg.nr_poll_queues,    required_argument, "number of poll queues to use (default 0)" },
- 		{"queue-size",      'Q', "LIST", CFG_INT, &cfg.queue_size,      required_argument, "number of io queue elements to use (default 128)" },
-+		{"persistent",  'p', "LIST", CFG_NONE, &cfg.persistent,  no_argument, "persistent discovery connection" },
- 		{NULL},
- 	};
- 
-@@ -1013,6 +1020,8 @@ int discover(const char *desc, int argc, char **argv, bool connect)
- 		ret = discover_from_conf_file(desc, argstr,
- 				command_line_options, connect);
- 	} else {
-+		if (cfg.persistent && !cfg.keep_alive_tmo)
-+			cfg.keep_alive_tmo = NVMF_DEF_DISC_TMO;
- 		ret = build_options(argstr, BUF_SIZE);
- 		if (ret)
- 			goto out;
-diff --git a/fabrics.h b/fabrics.h
-index 988f3ef..7c1664b 100644
---- a/fabrics.h
-+++ b/fabrics.h
-@@ -1,6 +1,8 @@
- #ifndef _DISCOVER_H
- #define _DISCOVER_H
- 
-+#define NVMF_DEF_DISC_TMO	30
-+
- extern int discover(const char *desc, int argc, char **argv, bool connect);
- extern int connect(const char *desc, int argc, char **argv);
- extern int disconnect(const char *desc, int argc, char **argv);
+James Smart (8):
+  nvme-cli: ignore arguments that pass in "none"
+  nvme-cli: allow discover to address discovery controller by persistent
+    name
+  nvme-cli: Refactor to create a get_nvme_ctrl_info routine
+  nvme-cli: extend ctrl_list_item for connect attributes
+  nvme-cli: Add routine to compare ctrl_list_item to connect args
+  nvme-cli: Add routine to search for controller with specific
+    attributes
+  nvme-cli: Expand --device argument processing
+  nvme-cli: nvmf auto-connect scripts
+
+Sagi Grimberg (2):
+  nvme-cli: support persistent connections to a discovery controller
+  nvme-cli: add --quiet option
+
+ Makefile                                         |  16 +-
+ fabrics.c                                        | 117 +++++++++---
+ fabrics.h                                        |   2 +
+ nvme.c                                           | 228 +++++++++++++++++++----
+ nvme.h                                           |  22 +++
+ nvme.spec.in                                     |   9 +
+ nvmf-autoconnect/70-nvmf-autoconnect.conf        |   1 +
+ nvmf-autoconnect/70-nvmf-autoconnect.rules       |  18 ++
+ nvmf-autoconnect/nvmefc-boot-connections.service |   9 +
+ nvmf-autoconnect/nvmf-connect.target             |   2 +
+ nvmf-autoconnect/nvmf-connect at .service           |  14 ++
+ 11 files changed, 381 insertions(+), 57 deletions(-)
+ create mode 100644 nvmf-autoconnect/70-nvmf-autoconnect.conf
+ create mode 100644 nvmf-autoconnect/70-nvmf-autoconnect.rules
+ create mode 100644 nvmf-autoconnect/nvmefc-boot-connections.service
+ create mode 100644 nvmf-autoconnect/nvmf-connect.target
+ create mode 100644 nvmf-autoconnect/nvmf-connect at .service
+
 -- 
 2.13.7
