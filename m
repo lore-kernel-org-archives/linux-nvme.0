@@ -1,73 +1,31 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Fri, 12 Jul 2019 17:57:40 -0600
-Subject: [PATCH blktests 10/12] nvme: Ensure all ports and subsystems are
- removed on cleanup
+Date: Fri, 12 Jul 2019 17:57:41 -0600
+Subject: [PATCH blktests 11/12] common: Use sysfs instead of modinfo for
+ _have_module_param()
 In-Reply-To: <20190712235742.22646-1-logang@deltatee.com>
 References: <20190712235742.22646-1-logang@deltatee.com>
-Message-ID: <20190712235742.22646-11-logang@deltatee.com>
+Message-ID: <20190712235742.22646-12-logang@deltatee.com>
 
-This ensures any test that fails or is interrupted will cleanup
-their subsystems. This will prevent the system from being left
-in an inconsistent state that will fail subsequent tests.
+Using modinfo fails if the given module is built-in. Instead,
+just check for the parameter's existence in sysfs.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 ---
- tests/nvme/rc | 43 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
+ common/rc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/nvme/rc b/tests/nvme/rc
-index b8f7571c7170..1c9e4af0cbe5 100644
---- a/tests/nvme/rc
-+++ b/tests/nvme/rc
-@@ -25,6 +25,49 @@ _test_dev_is_nvme() {
+diff --git a/common/rc b/common/rc
+index 49050c71dabf..d48f73c5bf3d 100644
+--- a/common/rc
++++ b/common/rc
+@@ -48,7 +48,7 @@ _have_modules() {
  }
  
- _cleanup_nvmet() {
-+	local dev
-+	local port
-+	local subsys
-+	local transport
-+	local name
-+
-+	if [[ ! -d "${NVMET_CFS}" ]]; then
-+		return 0
-+	fi
-+
-+	# Don't let successive Ctrl-Cs interrupt the cleanup processes
-+	stty -isig
-+
-+	shopt -s nullglob
-+
-+	for dev in /sys/class/nvme/nvme*; do
-+		dev="$(basename "$dev")"
-+		transport="$(cat "/sys/class/nvme/${dev}/transport")"
-+		if [[ "$transport" == "loop" ]]; then
-+			echo "WARNING: Test did not clean up loop device: ${dev}"
-+			nvme disconnect -d "${dev}"
-+		fi
-+	done
-+
-+	for port in "${NVMET_CFS}"/ports/*; do
-+		name=$(basename "${port}")
-+		echo "WARNING: Test did not clean up port: ${name}"
-+		rm -f "${port}"/subsystems/*
-+		rmdir "${port}"
-+	done
-+
-+	for subsys in "${NVMET_CFS}"/subsystems/*; do
-+		name=$(basename "${subsys}")
-+		echo "WARNING: Test did not clean up subsystem: ${name}"
-+		for ns in "${subsys}"/namespaces/*; do
-+			rmdir "${ns}"
-+		done
-+		rmdir "${subsys}"
-+	done
-+
-+	shopt -u nullglob
-+	stty isig
-+
- 	modprobe -r nvme-loop
- 	modprobe -r nvmet
- }
+ _have_module_param() {
+-	if ! modinfo -F parm -0 "$1" | grep -q -z "^$2:"; then
++	if ! [ -e "/sys/module/$1/parameters/$2" ]; then
+ 		SKIP_REASON="$1 module does not have parameter $2"
+ 		return 1
+ 	fi
 -- 
 2.17.1
