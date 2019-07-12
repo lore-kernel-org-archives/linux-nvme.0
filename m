@@ -1,18 +1,17 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Thu, 11 Jul 2019 17:31:36 -0700
-Subject: [PATCH rfc v2 06/10] nvme-cli: Add routine to compare ctrl_list_item
- to connect args
+Date: Thu, 11 Jul 2019 17:31:37 -0700
+Subject: [PATCH rfc v2 07/10] nvme-cli: Add routine to search for controller
+ with specific attributes
 In-Reply-To: <20190712003140.16221-1-jsmart2021@gmail.com>
 References: <20190712003140.16221-1-jsmart2021@gmail.com>
-Message-ID: <20190712003140.16221-7-jsmart2021@gmail.com>
+Message-ID: <20190712003140.16221-8-jsmart2021@gmail.com>
 
 In preparation for searching controllers to match with connect args:
 
-Create a new routine that receives a structure containing connect
-arguments and a device name. The routine will build and fill in a
-ctrl_list_item for the device and compare its attributes with the
-connect arguments. The routine returns true/false on whether they
-match.
+Create a new routine find_ctrl_with_connectargs() that will search the
+controllers that exist in the system to find one that has attributes
+that match the connect arguments specified.  If found, the routine
+returns the controller name ("nvme?"). If not found, a NULL is returned.
 
 Routine is defined as a global as a subsequent patch will use it
 from the fabrics routines.
@@ -21,78 +20,67 @@ Signed-off-by: James Smart <jsmart2021 at gmail.com>
 CC: Sagi Grimberg <sagi at grimberg.me>
 CC: Hannes Reinecke <hare at suse.com>
 ---
- nvme.c | 40 ++++++++++++++++++++++++++++++++++++++++
- nvme.h |  9 +++++++++
- 2 files changed, 49 insertions(+)
+ nvme.c | 37 +++++++++++++++++++++++++++++++++++++
+ nvme.h |  1 +
+ 2 files changed, 38 insertions(+)
 
 diff --git a/nvme.c b/nvme.c
-index 66ba2fc..ef3c61c 100644
+index ef3c61c..314a04f 100644
 --- a/nvme.c
 +++ b/nvme.c
-@@ -2010,6 +2010,46 @@ static int list(int argc, char **argv, struct command *cmd, struct plugin *plugi
- 	return nvme_status_to_errno(ret, false);
+@@ -2050,6 +2050,43 @@ cleanup_exit:
+ 	return found;
  }
  
-+static char *nvme_ctrl_dir = "/sys/class/nvme/";
-+
 +/*
-+ * Given a controller name, create a ctrl_list_item with its
-+ * attributes and compare the attributes against the connect args
-+ * given.
-+ * Return true/false based on whether it matches
++ * Look through the system to find an existing controller whose
++ * attributes match the connect arguments specified
++ * If found, a string containing the controller name (ex: "nvme?")
++ * is returned.
++ * If not found, a NULL is returned.
 + */
-+bool ctrl_matches_connectargs(char *name, struct connect_args *args)
++char *find_ctrl_with_connectargs(struct connect_args *args)
 +{
-+	struct ctrl_list_item *ctrl;
-+	bool found = false;
++	struct dirent **devices;
++	char *devname = NULL;
++	int i, n;
 +
-+	ctrl = malloc(sizeof(*ctrl));
-+	if (!ctrl) {
-+		fprintf(stderr, "Failed to allocate controller list element\n");
-+		return false;
++	n = scandir(nvme_ctrl_dir, &devices, scan_ctrls_filter, alphasort);
++	if (n < 0) {
++		fprintf(stderr, "no NVMe controller(s) detected.\n");
++		return NULL;
 +	}
-+	memset(ctrl, 0, sizeof(*ctrl));
 +
-+	if (get_nvme_ctrl_info(name, nvme_ctrl_dir, ctrl, NVME_NSID_ALL))
-+		goto cleanup_exit;
++	for (i = 0; i < n; i++) {
++		if (ctrl_matches_connectargs(devices[i]->d_name, args)) {
++			devname = strdup(devices[i]->d_name);
++			if (devname == NULL)
++				fprintf(stderr, "no memory for ctlr name %s\n",
++						devices[i]->d_name);
++			goto cleanup_devices;
++		}
++	}
 +
-+	if (!strcmp(ctrl->subsysnqn, args->subsysnqn) &&
-+	    !strcmp(ctrl->transport, args->transport) &&
-+	    (!strcmp(ctrl->traddr, args->traddr) ||
-+	     !strcmp(args->traddr, "none")) &&
-+	    (!strcmp(ctrl->trsvcid, args->trsvcid) ||
-+	     !strcmp(args->trsvcid, "none")) &&
-+	    (!strcmp(ctrl->host_traddr, args->host_traddr) ||
-+	     !strcmp(args->host_traddr, "none")))
-+		found = true;
++cleanup_devices:
++	for (i = 0; i < n; i++)
++		free(devices[i]);
++	free(devices);
 +
-+cleanup_exit:
-+	free_ctrl_list_item(ctrl);
-+	free(ctrl);
-+
-+	return found;
++	return devname;
 +}
 +
  int __id_ctrl(int argc, char **argv, struct command *cmd, struct plugin *plugin, void (*vs)(__u8 *vs, struct json_object *root))
  {
  	const char *desc = "Send an Identify Controller command to "\
 diff --git a/nvme.h b/nvme.h
-index 470f702..537b8dd 100644
+index 537b8dd..04f8d46 100644
 --- a/nvme.h
 +++ b/nvme.h
-@@ -179,6 +179,15 @@ enum {
- 	BINARY,
+@@ -188,6 +188,7 @@ struct connect_args {
  };
  
-+struct connect_args {
-+	char *subsysnqn;
-+	char *transport;
-+	char *traddr;
-+	char *trsvcid;
-+	char *host_traddr;
-+};
-+
-+bool ctrl_matches_connectargs(char *name, struct connect_args *args);
+ bool ctrl_matches_connectargs(char *name, struct connect_args *args);
++char *find_ctrl_with_connectargs(struct connect_args *args);
  char *__parse_connect_arg(char *conargs, const char delim, const char *fieldnm);
  
  extern const char *conarg_traddr;
