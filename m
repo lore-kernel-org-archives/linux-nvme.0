@@ -1,37 +1,35 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Fri, 12 Jul 2019 17:57:42 -0600
-Subject: [PATCH blktests 12/12] nvme: Ignore errors when removing modules
+Date: Fri, 12 Jul 2019 17:57:36 -0600
+Subject: [PATCH blktests 06/12] nvme/015: Ensure the namespace is flushed not
+ the char device
 In-Reply-To: <20190712235742.22646-1-logang@deltatee.com>
 References: <20190712235742.22646-1-logang@deltatee.com>
-Message-ID: <20190712235742.22646-13-logang@deltatee.com>
+Message-ID: <20190712235742.22646-7-logang@deltatee.com>
 
-It is no longer important for correct test functionality to
-remove the modules between tests. Therefore, we ignore errors
-if the modules are not removed (ie. if they are builtin).
+Flushing the char device now results in the warning:
 
-With this patch, it is now safe to run the tests with the nvmet
-modules built-in. This will be more convienent for developers
-that want to run the tests in a simple VM.
+   nvme nvme1: using deprecated NVME_IOCTL_IO_CMD ioctl on the char
+	device!
+
+Instead, call the flush on the namespace.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 ---
- tests/nvme/rc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/nvme/015 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/nvme/rc b/tests/nvme/rc
-index 1c9e4af0cbe5..0b98b89d0634 100644
---- a/tests/nvme/rc
-+++ b/tests/nvme/rc
-@@ -68,8 +68,8 @@ _cleanup_nvmet() {
- 	shopt -u nullglob
- 	stty isig
+diff --git a/tests/nvme/015 b/tests/nvme/015
+index 47e1b048e16d..ca1216163e16 100755
+--- a/tests/nvme/015
++++ b/tests/nvme/015
+@@ -39,7 +39,7 @@ test() {
  
--	modprobe -r nvme-loop
--	modprobe -r nvmet
-+	modprobe -r nvme-loop 2>/dev/null
-+	modprobe -r nvmet 2>/dev/null
- }
+ 	dd if=/dev/urandom of="/dev/${nvmedev}n1" count=128000 bs=4k status=none
  
- _setup_nvmet() {
+-	nvme flush "/dev/${nvmedev}" -n 1
++	nvme flush "/dev/${nvmedev}n1" -n 1
+ 
+ 	nvme disconnect -n "${subsys_name}"
+ 
 -- 
 2.17.1
