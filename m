@@ -1,8 +1,8 @@
-From: alex@zadara.com (Alex Lyakas)
-Date: Sat, 13 Jul 2019 22:44:01 +0300
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Sun, 14 Jul 2019 00:27:52 -0700
 Subject: NULL pointer dereference in nvmet_rdma_queue_disconnect during
  bond failover
-In-Reply-To: <28046c97-c271-dff4-5252-4b5668c7bfb7@grimberg.me>
+In-Reply-To: <B3E9005C4E4645628157970AE2A385C4@alyakaslap>
 References: <F7E28AA1609E4FC495B5E8D4250E7DEF@alyakaslap>
  <90599926-b7ec-8431-a7aa-c44fde08b5c4@grimberg.me>
  <ec4fb8df-98c4-fffc-7581-5245c397d16c@mellanox.com>
@@ -10,37 +10,13 @@ References: <F7E28AA1609E4FC495B5E8D4250E7DEF@alyakaslap>
  <b6443a7c-4be6-3dbc-0535-a8ded3261c50@mellanox.com>
  <8ab1fa5e-2d67-5128-93b5-2f32704869e4@grimberg.me>
  <28046c97-c271-dff4-5252-4b5668c7bfb7@grimberg.me>
-Message-ID: <B3E9005C4E4645628157970AE2A385C4@alyakaslap>
-
-Hi Sagi,
-
-Which kernel this patch applies to?
-
-At this point the environment I used for nvmf evaluation is not available 
-for me. I will make an effort to test this patch, and get back to you.
-
-Thanks,
-Alex,
+ <B3E9005C4E4645628157970AE2A385C4@alyakaslap>
+Message-ID: <fbcd59ef-9c48-4e1a-4802-1cae33c5f671@grimberg.me>
 
 
------Original Message----- 
-From: Sagi Grimberg
-Sent: Friday, July 12, 2019 10:38 PM
-To: Max Gurtovoy ; Alex Lyakas ; linux-nvme at lists.infradead.org ; Shlomi 
-Nimrodi ; Israel Rukshin ; tomwu at mellanox.com
-Subject: Re: NULL pointer dereference in nvmet_rdma_queue_disconnect during 
-bond failover
+> Hi Sagi,
+> 
+> Which kernel this patch applies to?
 
-
->> Hi Alex,
->>
->> Not yet. Our fix is in the Initiator/Host side and it was merged.
->>
->> This is on our plate.
->>
->> In case you would like to send a patch to solve this, we'll review it 
->> of-course.
->
-> Does the attached untested patch help?
-
-Alex? Max? 
+its based on the nvme tree, but it should apply cleanly on upstream
+5.2...
