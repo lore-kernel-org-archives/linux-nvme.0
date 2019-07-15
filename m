@@ -1,74 +1,47 @@
 From: benh@kernel.crashing.org (Benjamin Herrenschmidt)
-Date: Mon, 15 Jul 2019 18:43:25 +1000
+Date: Mon, 15 Jul 2019 19:03:31 +1000
 Subject: [PATCH] nvme: Add support for Apple 2018+ models
-In-Reply-To: <20190715081041.GB31791@lst.de>
+In-Reply-To: <c088cb27f99adbcc1f8faf8e86167903f11593b8.camel@kernel.crashing.org>
 References: <71b009057582cd9c82cff2b45bc1af846408bcf7.camel@kernel.crashing.org>
  <20190715081041.GB31791@lst.de>
-Message-ID: <c088cb27f99adbcc1f8faf8e86167903f11593b8.camel@kernel.crashing.org>
+ <c088cb27f99adbcc1f8faf8e86167903f11593b8.camel@kernel.crashing.org>
+Message-ID: <25c3813ab1c2943658d7e79756803801b14a34db.camel@kernel.crashing.org>
 
-On Mon, 2019-07-15@10:10 +0200, Christoph Hellwig wrote:
-> > +	/*
-> > +	 * Apple 2018 and latter variant has a few issues
-> > +	 */
-> > +	NVME_QUIRK_APPLE_2018			= (1 << 10),
+On Mon, 2019-07-15@18:43 +1000, Benjamin Herrenschmidt wrote:
+> On Mon, 2019-07-15@10:10 +0200, Christoph Hellwig wrote:
+> > > +	/*
+> > > +	 * Apple 2018 and latter variant has a few issues
+> > > +	 */
+> > > +	NVME_QUIRK_APPLE_2018			= (1 << 10),
+> > 
+> > We try to have quirks for the actual issue, so this should be one quirk
+> > for the irq vectors issues, and another for the sq entry size.  Note that
+> > NVMe actually has the concept of an I/O queue entry size (IOSQES in the
+> > Cc register based on values reported in the SQES field in Identify
+> > Controller.  Do these controllers report anything interesting there?
 > 
-> We try to have quirks for the actual issue, so this should be one quirk
-> for the irq vectors issues, and another for the sq entry size.  Note that
-> NVMe actually has the concept of an I/O queue entry size (IOSQES in the
-> Cc register based on values reported in the SQES field in Identify
-> Controller.  Do these controllers report anything interesting there?
+> Ah good to know, I'll dig.
 
-Ah good to know, I'll dig.
+Interesting... so SQES is 0x76, indicating that it supports the larger
+entry size but not that it mandates it.
 
-> At the very least I'd make all the terminology based on that and then
-> just treat the Apple controllers as a buggy implementation of that model.
+However, we configure CC:IOSQES with 6 and the HW fails unless we have
+the 128 bytes entry size.
 
-Yup, sounds good. I'll poke around tomorrow.
+So the HW is bogus, but we can probably sort that by doing a better job
+at fixing up SQES in the identify on the Apple HW, and then actually
+using it for the SQ.
 
-> Btw, are there open source darwin NVMe driver that could explain this
-> mess a little better?
+I checked and CC is 0x00460001 so it takes our write of "6" fine. I
+think they just ignore the value.
 
-You wish...
+How do you want to proceed here ? Should I go all the way at attempting
+to honor sqes "mandatory" size field (and quirk *that*) or just I go
+the simpler way and stick to shift 6 unless Apple ?
 
-> > @@ -504,8 +505,11 @@ static inline void nvme_write_sq_db(struct nvme_queue *nvmeq, bool write_sq)
-> >  static void nvme_submit_cmd(struct nvme_queue *nvmeq, struct nvme_command *cmd,
-> >  			    bool write_sq)
-> >  {
-> > +	u16 sq_actual_pos;
-> > +
-> >  	spin_lock(&nvmeq->sq_lock);
-> > -	memcpy(&nvmeq->sq_cmds[nvmeq->sq_tail], cmd, sizeof(*cmd));
-> > +	sq_actual_pos = nvmeq->sq_tail << nvmeq->sq_extra_shift;
-> > +	memcpy(&nvmeq->sq_cmds[sq_actual_pos], cmd, sizeof(*cmd));
-> 
-> This is a little too magic.  I think we'd better off making sq_cmds
-> a void array and use manual indexing, at least that makes it very
-> obvious what is going on.
-
-Ok. That's plan B as I described in the message. There's an advantage
-to do that, it merges the indexing shift and the quirk shift into one.
-
-I'll look into it & respin
-
-> > -				nvmeq->sq_cmds, SQ_SIZE(nvmeq->q_depth));
-> > +				nvmeq->sq_cmds, SQ_SIZE(nvmeq));
-> 
-> Btw, chaning SQ_SIZE to take the queue seems like something that should
-> be split into a prep patch, making the main change a lot smaller.
-
-Sure. Will do.
-
-> > -	if (!polled)
-> > +	if (!polled) {
-> > +
-> > +		/*
-> > +		 * On Apple 2018 or later implementations, only vector 0 is accepted
-> 
-> Please fix the > 80 char line.
-
-Ok.
-
-Thanks for the review.
+If I go the complicated path, should I do the same with cq size
+(knowing that no known HW has a non-4 mandatory size there and we don't
+know of a HW bug... yet).
 
 Cheers,
 Ben.
