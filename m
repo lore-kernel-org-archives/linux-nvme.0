@@ -1,47 +1,11 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 15 Jul 2019 09:21:48 +0200
-Subject: [PATCH blktests 11/12] common: Use sysfs instead of modinfo for
- _have_module_param()
-In-Reply-To: <20190712235742.22646-12-logang@deltatee.com>
-References: <20190712235742.22646-1-logang@deltatee.com>
- <20190712235742.22646-12-logang@deltatee.com>
-Message-ID: <20190715072148.GC4495@x250>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 15 Jul 2019 10:01:25 +0200
+Subject: [PATCH] NVME: ignore subnqn for ADATA SX6000LNP
+In-Reply-To: <20190715071149.GA24206@nasledov.com>
+References: <20190715071149.GA24206@nasledov.com>
+Message-ID: <20190715080125.GA31791@lst.de>
 
-On Fri, Jul 12, 2019@05:57:41PM -0600, Logan Gunthorpe wrote:
-> Using modinfo fails if the given module is built-in. Instead,
-> just check for the parameter's existence in sysfs.
-> 
-> Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
-> ---
->  common/rc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/common/rc b/common/rc
-> index 49050c71dabf..d48f73c5bf3d 100644
-> --- a/common/rc
-> +++ b/common/rc
-> @@ -48,7 +48,7 @@ _have_modules() {
->  }
->  
->  _have_module_param() {
-> -	if ! modinfo -F parm -0 "$1" | grep -q -z "^$2:"; then
-> +	if ! [ -e "/sys/module/$1/parameters/$2" ]; then
->  		SKIP_REASON="$1 module does not have parameter $2"
->  		return 1
->  	fi
+Thanks,
 
-But this now fails if the module isn't loaded yet. IMHO we'll need to check if
-"/sys/module/$1" exists and if it does check for
-"/sys/module/$1/parameters/$2", if not try modinfo.
-
-Does that make sense?
-
-Byte,
-	Johannes
--- 
-Johannes Thumshirn                            SUSE Labs Filesystems
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+applied to nvme-5.3 manually as our quirk list has growned vs whatever
+tree you prepared it against.
