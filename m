@@ -1,45 +1,30 @@
-From: misha@nasledov.com (Misha Nasledov)
-Date: Mon, 15 Jul 2019 00:11:49 -0700
-Subject: [PATCH] NVME: ignore subnqn for ADATA SX6000LNP
-Message-ID: <20190715071149.GA24206@nasledov.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Mon, 15 Jul 2019 09:15:22 +0200
+Subject: [PATCH blktests 07/12] nvme/018: Ignore error message generated
+ by nvme read]
+In-Reply-To: <20190712235742.22646-8-logang@deltatee.com>
+References: <20190712235742.22646-1-logang@deltatee.com>
+ <20190712235742.22646-8-logang@deltatee.com>
+Message-ID: <20190715071522.GB4495@x250>
 
-The ADATA SX6000LNP NVMe SSDs have the same subnqn and, due to this,
-a system with more than one of these SSDs will only have one usable.
+On Fri, Jul 12, 2019@05:57:37PM -0600, Logan Gunthorpe wrote:
+> nvme-cli at some point started printing the error message:
+> 
+>   NVMe status: CAP_EXCEEDED: The execution of the command has caused the
+> 	capacity of the namespace to be exceeded(0x6081)
+> 
+> This was not accounted for by test 018 and caused it to fail.
+> 
+> This test does not need to test the error message content, it's
+> only important that a read past the end of the file fails. Therefore,
+> pipe stderr of nvme-cli to /dev/null.
 
-[ 0.942706] nvme nvme1: ignoring ctrl due to duplicate subnqn (nqn.2018-05.com.example:nvme:nvm-subsystem-OUI00E04C).
-[ 0.943017] nvme nvme1: Removing after probe failure status: -22
-
-# lspci | grep Non-Volatile
-02:00.0 Non-Volatile memory controller [0108]: Realtek Semiconductor Co., Ltd. Device [10ec:5762] (rev 01)
-71:00.0 Non-Volatile memory controller [0108]: Realtek Semiconductor Co., Ltd. Device [10ec:5762] (rev 01)
-
-There are no firmware updates available from the vendor,
-unfortunately. Applying the NVME_QUIRK_IGNORE_DEV_SUBNQN quirk for
-these SSDs resolves the issue, and they all work after this patch:
-
-# nvme list
-/dev/nvme0n1     2J1120050420         ADATA SX6000LNP [...]
-/dev/nvme1n1     2J1120050540         ADATA SX6000LNP [...]
-
-Signed-off-by: Misha Nasledov <misha at nasledov.com>
----
- drivers/nvme/host/pci.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 189352081994..762ae6927689 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -3005,6 +3005,8 @@ static const struct pci_device_id nvme_id_table[] = {
-        { PCI_VDEVICE(INTEL, 0x5845),   /* Qemu emulated controller */
-                .driver_data = NVME_QUIRK_IDENTIFY_CNS |
-                                NVME_QUIRK_DISABLE_WRITE_ZEROES, },
-+       { PCI_DEVICE(0x10ec, 0x5762),   /* ADATA SX6000LNP */
-+               .driver_data = NVME_QUIRK_IGNORE_DEV_SUBNQN, },
-        { PCI_DEVICE(0x1bb1, 0x0100),   /* Seagate Nytro Flash Storage */
-                .driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY, },
-        { PCI_DEVICE(0x1c58, 0x0003),   /* HGST adapter */
+How about redirecting all of the output to $FULL?
 
 -- 
-Misha Nasledov <misha at nasledov.com>
-GPG: A063 B99A 2BD3 2D48 F2D7 8E68 0F27 4D21 948F 8F06
+Johannes Thumshirn                            SUSE Labs Filesystems
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
