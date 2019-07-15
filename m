@@ -1,49 +1,56 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Mon, 15 Jul 2019 09:45:00 -0400
-Subject: [PATCH AUTOSEL 5.2 135/249] nvme-pci: properly report state change
- failure in nvme_reset_work
+Date: Mon, 15 Jul 2019 09:45:01 -0400
+Subject: [PATCH AUTOSEL 5.2 136/249] nvme-pci: set the errno on ctrl state
+ change error
 In-Reply-To: <20190715134655.4076-1-sashal@kernel.org>
 References: <20190715134655.4076-1-sashal@kernel.org>
-Message-ID: <20190715134655.4076-135-sashal@kernel.org>
+Message-ID: <20190715134655.4076-136-sashal@kernel.org>
 
-From: Minwoo Im <minwoo.im.dev@gmail.com>
+From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
-[ Upstream commit cee6c269b016ba89c62e34d6bccb103ee2c7de4f ]
+[ Upstream commit e71afda49335620e3d9adf56015676db33a3bd86 ]
 
-If the state change to NVME_CTRL_CONNECTING fails, the dmesg is going to
-be like:
+This patch removes the confusing assignment of the variable result at
+the time of declaration and sets the value in error cases next to the
+places where the actual error is happening.
 
-  [  293.689160] nvme nvme0: failed to mark controller CONNECTING
-  [  293.689160] nvme nvme0: Removing after probe failure status: 0
+Here we also set the result value to -ENODEV when we fail at the final
+ctrl state transition in nvme_reset_work(). Without this assignment
+result will hold 0 from nvme_setup_io_queue() and on failure 0 will be
+passed to he nvme_remove_dead_ctrl() from final state transition.
 
-Even it prints the first line to indicate the situation, the second line
-is not proper because the status is 0 which means normally success of
-the previous operation.
-
-This patch makes it indicate the proper error value when it fails.
-  [   25.932367] nvme nvme0: failed to mark controller CONNECTING
-  [   25.932369] nvme nvme0: Removing after probe failure status: -16
-
-This situation is able to be easily reproduced by:
-  root at target:~# rmmod nvme && modprobe nvme && rmmod nvme
-
-Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 Signed-off-by: Sasha Levin <sashal at kernel.org>
 ---
- drivers/nvme/host/pci.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/nvme/host/pci.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 524d6bd6d095..385ba7a1e23b 100644
+index 385ba7a1e23b..544d095d44e5 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -2528,6 +2528,7 @@ static void nvme_reset_work(struct work_struct *work)
- 	if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_CONNECTING)) {
+@@ -2480,11 +2480,13 @@ static void nvme_reset_work(struct work_struct *work)
+ 	struct nvme_dev *dev =
+ 		container_of(work, struct nvme_dev, ctrl.reset_work);
+ 	bool was_suspend = !!(dev->ctrl.ctrl_config & NVME_CC_SHN_NORMAL);
+-	int result = -ENODEV;
++	int result;
+ 	enum nvme_ctrl_state new_state = NVME_CTRL_LIVE;
+ 
+-	if (WARN_ON(dev->ctrl.state != NVME_CTRL_RESETTING))
++	if (WARN_ON(dev->ctrl.state != NVME_CTRL_RESETTING)) {
++		result = -ENODEV;
+ 		goto out;
++	}
+ 
+ 	/*
+ 	 * If we're called to reset a live controller first shut it down before
+@@ -2589,6 +2591,7 @@ static void nvme_reset_work(struct work_struct *work)
+ 	if (!nvme_change_ctrl_state(&dev->ctrl, new_state)) {
  		dev_warn(dev->ctrl.device,
- 			"failed to mark controller CONNECTING\n");
-+		result = -EBUSY;
+ 			"failed to mark controller state %d\n", new_state);
++		result = -ENODEV;
  		goto out;
  	}
  
