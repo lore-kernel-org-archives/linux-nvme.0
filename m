@@ -1,18 +1,73 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 15 Jul 2019 14:29:53 +0200
-Subject: [PATCH] nvme: Add support for Apple 2018+ models
-In-Reply-To: <4caeb954b2fa91445e02bac7ac9610ca886b4dd8.camel@redhat.com>
-References: <71b009057582cd9c82cff2b45bc1af846408bcf7.camel@kernel.crashing.org>
- <20190715081041.GB31791@lst.de>
- <c088cb27f99adbcc1f8faf8e86167903f11593b8.camel@kernel.crashing.org>
- <25c3813ab1c2943658d7e79756803801b14a34db.camel@kernel.crashing.org>
- <4caeb954b2fa91445e02bac7ac9610ca886b4dd8.camel@redhat.com>
-Message-ID: <20190715122953.GB3937@lst.de>
+From: sashal@kernel.org (Sasha Levin)
+Date: Mon, 15 Jul 2019 09:44:59 -0400
+Subject: [PATCH AUTOSEL 5.2 134/249] nvme: fix possible io failures when
+ removing multipathed ns
+In-Reply-To: <20190715134655.4076-1-sashal@kernel.org>
+References: <20190715134655.4076-1-sashal@kernel.org>
+Message-ID: <20190715134655.4076-134-sashal@kernel.org>
 
-On Mon, Jul 15, 2019@12:28:05PM +0300, Maxim Levitsky wrote:
-> 
-> To be honest, the spec explicitly states that minimum submission queue entry size is 64 
-> and minimum completion entry size should be is 16 bytes for NVM command set:
+From: Anton Eidelman <anton@lightbitslabs.com>
 
-That doesn't keep Apple from implementing whatever they want and soldering
-that down on their MacBook mainboards unfortunately :(
+[ Upstream commit 2181e455612a8db2761eabbf126640552a451e96 ]
+
+When a shared namespace is removed, we call blk_cleanup_queue()
+when the device can still be accessed as the current path and this can
+result in submission to a dying queue. Hence, direct_make_request()
+called by our mpath device may fail (propagating the failure to userspace).
+Instead, we want to failover this I/O to a different path if one exists.
+Thus, before we cleanup the request queue, we make sure that the device is
+cleared from the current path nor it can be selected again as such.
+
+Fix this by:
+- clear the ns from the head->list and synchronize rcu to make sure there is
+  no concurrent path search that restores it as the current path
+- clear the mpath current path in order to trigger a subsequent path search
+  and sync srcu to wait for any ongoing request submissions
+- safely continue to namespace removal and blk_cleanup_queue
+
+Signed-off-by: Anton Eidelman <anton at lightbitslabs.com>
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+Signed-off-by: Sasha Levin <sashal at kernel.org>
+---
+ drivers/nvme/host/core.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 120fb593d1da..22c68e3b71d5 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3344,6 +3344,14 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+ 		return;
+ 
+ 	nvme_fault_inject_fini(ns);
++
++	mutex_lock(&ns->ctrl->subsys->lock);
++	list_del_rcu(&ns->siblings);
++	mutex_unlock(&ns->ctrl->subsys->lock);
++	synchronize_rcu(); /* guarantee not available in head->list */
++	nvme_mpath_clear_current_path(ns);
++	synchronize_srcu(&ns->head->srcu); /* wait for concurrent submissions */
++
+ 	if (ns->disk && ns->disk->flags & GENHD_FL_UP) {
+ 		del_gendisk(ns->disk);
+ 		blk_cleanup_queue(ns->queue);
+@@ -3351,16 +3359,10 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+ 			blk_integrity_unregister(ns->disk);
+ 	}
+ 
+-	mutex_lock(&ns->ctrl->subsys->lock);
+-	list_del_rcu(&ns->siblings);
+-	nvme_mpath_clear_current_path(ns);
+-	mutex_unlock(&ns->ctrl->subsys->lock);
+-
+ 	down_write(&ns->ctrl->namespaces_rwsem);
+ 	list_del_init(&ns->list);
+ 	up_write(&ns->ctrl->namespaces_rwsem);
+ 
+-	synchronize_srcu(&ns->head->srcu);
+ 	nvme_mpath_check_last_path(ns);
+ 	nvme_put_ns(ns);
+ }
+-- 
+2.20.1
