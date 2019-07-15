@@ -1,40 +1,50 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Mon, 15 Jul 2019 16:17:07 -0600
-Subject: [PATCH v2] nvmet-file: fix nvmet_file_flush() always returning an
- error
-Message-ID: <20190715221707.3265-1-logang@deltatee.com>
+From: osandov@osandov.com (Omar Sandoval)
+Date: Mon, 15 Jul 2019 16:07:13 -0700
+Subject: [PATCH blktests 02/12] nvme: More agressively filter the
+ discovery output
+In-Reply-To: <20190712235742.22646-3-logang@deltatee.com>
+References: <20190712235742.22646-1-logang@deltatee.com>
+ <20190712235742.22646-3-logang@deltatee.com>
+Message-ID: <20190715230713.GA5449@vader>
 
-Presently, nvmet_file_flush() always returns a call to
-errno_to_nvme_status() but that helper doesn't take into account the
-case when errno=0. So nvmet_file_flush() always returns an error code.
+On Fri, Jul 12, 2019@05:57:32PM -0600, Logan Gunthorpe wrote:
+> Comparing the entire output of nvme-cli for discovery is fragile
+> and error prone as things change. There's already been the
+> long standing issue of the generation counter mismatching
+> and also some versions of nvme-cli print an extra "sq flow control
+> disable supported" text[1].
+> 
+> Instead, filter out all but a few key values from the discovery
+> text which should still be sufficient for this test and much
+> less likely to be subject to churn.
+> 
+> [1] https://lore.kernel.org/linux-block/20190505150611.15776-4-minwoo.im.dev at gmail.com/
+> 
+> Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
+> ---
+>  tests/nvme/002.out | 6001 --------------------------------------------
+>  tests/nvme/016.out |    7 -
+>  tests/nvme/017.out |    7 -
+>  tests/nvme/rc      |    4 +-
+>  4 files changed, 2 insertions(+), 6017 deletions(-)
 
-All other callers of errno_to_nvme_status() check for success before
-calling it.
+[snip]
 
-To fix this, ensure errno_to_nvme_status() returns success if the
-errno is zero. This should prevent future mistakes like this from
-happening.
+> diff --git a/tests/nvme/rc b/tests/nvme/rc
+> index 22833d8ef9bb..60dc05869726 100644
+> --- a/tests/nvme/rc
+> +++ b/tests/nvme/rc
+> @@ -120,6 +120,6 @@ _find_nvme_loop_dev() {
+>  }
+>  
+>  _filter_discovery() {
+> -	sed -r  -e "s/portid:  [0-9]+/portid:  X/" \
+> -		-e "s/Generation counter [0-9]+/Generation counter X/"
+> +	sed -r -e "s/Generation counter [0-9]+/Generation counter X/" |
+> +		grep 'Discovery Log Number\|Log Entry\|trtype\|subnqn'
+>  }
 
-Fixes: c6aa3542e010 ("nvmet: add error log support for file backend")
-Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
-Cc: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
----
- drivers/nvme/target/core.c | 3 +++
- 1 file changed, 3 insertions(+)
+This can be done in a single sed command instead of sed + grep:
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 7734a6acff85..e1f03cfc6675 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -43,6 +43,9 @@ inline u16 errno_to_nvme_status(struct nvmet_req *req, int errno)
- 	u16 status;
- 
- 	switch (errno) {
-+	case 0:
-+		status = NVME_SC_SUCCESS;
-+		break;
- 	case -ENOSPC:
- 		req->error_loc = offsetof(struct nvme_rw_command, length);
- 		status = NVME_SC_CAP_EXCEEDED | NVME_SC_DNR;
--- 
-2.20.1
+sed -rn -e 's/Generation counter [0-9]+/Generation counter X/' \
+	-e '/Discovery Log Number|Log Entry|trtype|subnqn/p'
