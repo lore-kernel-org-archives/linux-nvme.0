@@ -1,53 +1,40 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Mon, 15 Jul 2019 12:04:35 -0700
-Subject: [PATCH rfc v2 10/10] nvme-cli: nvmf auto-connect scripts
-In-Reply-To: <3999132d-498d-e2ef-f52d-a81fdb37f914@grimberg.me>
-References: <20190712003140.16221-1-jsmart2021@gmail.com>
- <20190712003140.16221-11-jsmart2021@gmail.com>
- <9c08054d-751e-fdc0-4ea1-64cfa388e439@grimberg.me>
- <e45db042-2cf0-2922-cceb-ff593711e42f@broadcom.com>
- <3999132d-498d-e2ef-f52d-a81fdb37f914@grimberg.me>
-Message-ID: <e5511415-2a4b-ed12-7f2b-8b144174e392@broadcom.com>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Mon, 15 Jul 2019 16:17:07 -0600
+Subject: [PATCH v2] nvmet-file: fix nvmet_file_flush() always returning an
+ error
+Message-ID: <20190715221707.3265-1-logang@deltatee.com>
 
-On 7/15/2019 10:21 AM, Sagi Grimberg wrote:
->
->> On 7/12/2019 10:58 AM, Sagi Grimberg wrote:
->>>
->>>> diff --git a/Makefile b/Makefile
->>>> index db594a3..4ea8b41 100644
->>>> --- a/Makefile
->>>> +++ b/Makefile
->>>> @@ -8,6 +8,10 @@ DESTDIR =
->>>> ? PREFIX ?= /usr/local
->>>> ? SYSCONFDIR = /etc
->>>> ? SBINDIR = $(PREFIX)/sbin
->>>> +LIBDIR ?= /usr/lib
->>>> +SYSTEMDDIR ?= $(LIBDIR)/systemd
->>>> +UDEVDIR ?= $(LIBDIR)/udev
->>>
->>> UDEVDIR needs to be built from $(SYSCONFDIR)/udev as LIBDIR might be
->>> /usr/local/lib and udev doesn't look there.
->>
->> I really would like to change prefix to /usr, so that it matches what 
->> is in nvme.spec.in where the %install paragraph sets PREFIX to 
->> /usr.?? We have two separate places setting a value and they are in 
->> conflict.
->>
->> Based on the spec file setting - the only make targets that match 
->> PREFIX outside of the install targets is the pkg target which is 
->> mainly man files and a copy of nvme.? The man files perhaps would be 
->> under /usr/local, but everything else we're talking about would be 
->> very odd under /usr/local.?? Perhaps a better answer is PREFIX=/usr 
->> (which also set SBINDIR for the nvme copy), LIBDIR=$(PREFIX)/lib, 
->> other variables the same, and add a MANPREFIX=/usr/local for the man 
->> files.
->
-> Why not just place it in /etc? its equivalent and works regardless.
+Presently, nvmet_file_flush() always returns a call to
+errno_to_nvme_status() but that helper doesn't take into account the
+case when errno=0. So nvmet_file_flush() always returns an error code.
 
-you lost me.? "/etc"?
+All other callers of errno_to_nvme_status() check for success before
+calling it.
 
-I know of no reason not to set PREFIX to /usr. As this package becomes 
-standard, it is / will be there. Today's nvme utility is installed in 
-/usr.? /usr/local does not seem correct.
+To fix this, ensure errno_to_nvme_status() returns success if the
+errno is zero. This should prevent future mistakes like this from
+happening.
 
--- james
+Fixes: c6aa3542e010 ("nvmet: add error log support for file backend")
+Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
+Cc: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+---
+ drivers/nvme/target/core.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 7734a6acff85..e1f03cfc6675 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -43,6 +43,9 @@ inline u16 errno_to_nvme_status(struct nvmet_req *req, int errno)
+ 	u16 status;
+ 
+ 	switch (errno) {
++	case 0:
++		status = NVME_SC_SUCCESS;
++		break;
+ 	case -ENOSPC:
+ 		req->error_loc = offsetof(struct nvme_rw_command, length);
+ 		status = NVME_SC_CAP_EXCEEDED | NVME_SC_DNR;
+-- 
+2.20.1
