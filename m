@@ -1,26 +1,43 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 15 Jul 2019 09:15:22 +0200
-Subject: [PATCH blktests 07/12] nvme/018: Ignore error message generated
- by nvme read]
-In-Reply-To: <20190712235742.22646-8-logang@deltatee.com>
+Date: Mon, 15 Jul 2019 09:21:48 +0200
+Subject: [PATCH blktests 11/12] common: Use sysfs instead of modinfo for
+ _have_module_param()
+In-Reply-To: <20190712235742.22646-12-logang@deltatee.com>
 References: <20190712235742.22646-1-logang@deltatee.com>
- <20190712235742.22646-8-logang@deltatee.com>
-Message-ID: <20190715071522.GB4495@x250>
+ <20190712235742.22646-12-logang@deltatee.com>
+Message-ID: <20190715072148.GC4495@x250>
 
-On Fri, Jul 12, 2019@05:57:37PM -0600, Logan Gunthorpe wrote:
-> nvme-cli at some point started printing the error message:
+On Fri, Jul 12, 2019@05:57:41PM -0600, Logan Gunthorpe wrote:
+> Using modinfo fails if the given module is built-in. Instead,
+> just check for the parameter's existence in sysfs.
 > 
->   NVMe status: CAP_EXCEEDED: The execution of the command has caused the
-> 	capacity of the namespace to be exceeded(0x6081)
+> Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
+> ---
+>  common/rc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> This was not accounted for by test 018 and caused it to fail.
-> 
-> This test does not need to test the error message content, it's
-> only important that a read past the end of the file fails. Therefore,
-> pipe stderr of nvme-cli to /dev/null.
+> diff --git a/common/rc b/common/rc
+> index 49050c71dabf..d48f73c5bf3d 100644
+> --- a/common/rc
+> +++ b/common/rc
+> @@ -48,7 +48,7 @@ _have_modules() {
+>  }
+>  
+>  _have_module_param() {
+> -	if ! modinfo -F parm -0 "$1" | grep -q -z "^$2:"; then
+> +	if ! [ -e "/sys/module/$1/parameters/$2" ]; then
+>  		SKIP_REASON="$1 module does not have parameter $2"
+>  		return 1
+>  	fi
 
-How about redirecting all of the output to $FULL?
+But this now fails if the module isn't loaded yet. IMHO we'll need to check if
+"/sys/module/$1" exists and if it does check for
+"/sys/module/$1/parameters/$2", if not try modinfo.
 
+Does that make sense?
+
+Byte,
+	Johannes
 -- 
 Johannes Thumshirn                            SUSE Labs Filesystems
 jthumshirn at suse.de                                +49 911 74053 689
