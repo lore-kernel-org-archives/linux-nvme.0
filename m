@@ -1,73 +1,51 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Mon, 15 Jul 2019 10:01:59 -0400
-Subject: [PATCH AUTOSEL 5.1 118/219] nvme: fix possible io failures when
- removing multipathed ns
+Date: Mon, 15 Jul 2019 10:02:00 -0400
+Subject: [PATCH AUTOSEL 5.1 119/219] nvme-pci: properly report state change
+ failure in nvme_reset_work
 In-Reply-To: <20190715140341.6443-1-sashal@kernel.org>
 References: <20190715140341.6443-1-sashal@kernel.org>
-Message-ID: <20190715140341.6443-118-sashal@kernel.org>
+Message-ID: <20190715140341.6443-119-sashal@kernel.org>
 
-From: Anton Eidelman <anton@lightbitslabs.com>
+From: Minwoo Im <minwoo.im.dev@gmail.com>
 
-[ Upstream commit 2181e455612a8db2761eabbf126640552a451e96 ]
+[ Upstream commit cee6c269b016ba89c62e34d6bccb103ee2c7de4f ]
 
-When a shared namespace is removed, we call blk_cleanup_queue()
-when the device can still be accessed as the current path and this can
-result in submission to a dying queue. Hence, direct_make_request()
-called by our mpath device may fail (propagating the failure to userspace).
-Instead, we want to failover this I/O to a different path if one exists.
-Thus, before we cleanup the request queue, we make sure that the device is
-cleared from the current path nor it can be selected again as such.
+If the state change to NVME_CTRL_CONNECTING fails, the dmesg is going to
+be like:
 
-Fix this by:
-- clear the ns from the head->list and synchronize rcu to make sure there is
-  no concurrent path search that restores it as the current path
-- clear the mpath current path in order to trigger a subsequent path search
-  and sync srcu to wait for any ongoing request submissions
-- safely continue to namespace removal and blk_cleanup_queue
+  [  293.689160] nvme nvme0: failed to mark controller CONNECTING
+  [  293.689160] nvme nvme0: Removing after probe failure status: 0
 
-Signed-off-by: Anton Eidelman <anton at lightbitslabs.com>
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+Even it prints the first line to indicate the situation, the second line
+is not proper because the status is 0 which means normally success of
+the previous operation.
+
+This patch makes it indicate the proper error value when it fails.
+  [   25.932367] nvme nvme0: failed to mark controller CONNECTING
+  [   25.932369] nvme nvme0: Removing after probe failure status: -16
+
+This situation is able to be easily reproduced by:
+  root at target:~# rmmod nvme && modprobe nvme && rmmod nvme
+
+Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
+Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 Signed-off-by: Sasha Levin <sashal at kernel.org>
 ---
- drivers/nvme/host/core.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ drivers/nvme/host/pci.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 3a390b2c7540..cbbdd3dae5a1 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3341,6 +3341,14 @@ static void nvme_ns_remove(struct nvme_ns *ns)
- 		return;
- 
- 	nvme_fault_inject_fini(ns);
-+
-+	mutex_lock(&ns->ctrl->subsys->lock);
-+	list_del_rcu(&ns->siblings);
-+	mutex_unlock(&ns->ctrl->subsys->lock);
-+	synchronize_rcu(); /* guarantee not available in head->list */
-+	nvme_mpath_clear_current_path(ns);
-+	synchronize_srcu(&ns->head->srcu); /* wait for concurrent submissions */
-+
- 	if (ns->disk && ns->disk->flags & GENHD_FL_UP) {
- 		del_gendisk(ns->disk);
- 		blk_cleanup_queue(ns->queue);
-@@ -3348,16 +3356,10 @@ static void nvme_ns_remove(struct nvme_ns *ns)
- 			blk_integrity_unregister(ns->disk);
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 693f2a856200..21a51a0ff4d7 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2545,6 +2545,7 @@ static void nvme_reset_work(struct work_struct *work)
+ 	if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_CONNECTING)) {
+ 		dev_warn(dev->ctrl.device,
+ 			"failed to mark controller CONNECTING\n");
++		result = -EBUSY;
+ 		goto out;
  	}
  
--	mutex_lock(&ns->ctrl->subsys->lock);
--	list_del_rcu(&ns->siblings);
--	nvme_mpath_clear_current_path(ns);
--	mutex_unlock(&ns->ctrl->subsys->lock);
--
- 	down_write(&ns->ctrl->namespaces_rwsem);
- 	list_del_init(&ns->list);
- 	up_write(&ns->ctrl->namespaces_rwsem);
- 
--	synchronize_srcu(&ns->head->srcu);
- 	nvme_mpath_check_last_path(ns);
- 	nvme_put_ns(ns);
- }
 -- 
 2.20.1
