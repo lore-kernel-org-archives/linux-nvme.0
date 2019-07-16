@@ -1,42 +1,52 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 16 Jul 2019 09:18:30 +0200
-Subject: [PATCH] nvme-multipath: sanitize nvme_update_ana_state()
-Message-ID: <20190716071830.22672-1-hare@suse.de>
+From: leon@kernel.org (Leon Romanovsky)
+Date: Tue, 16 Jul 2019 11:41:26 +0300
+Subject: [PATCH for-rc] RDMA/bnxt_re: Honor vlan_id in GID entry comparison
+In-Reply-To: <20190716071644.GA21780@kroah.com>
+References: <20190715091913.15726-1-selvin.xavier@broadcom.com>
+ <20190716071030.GH10130@mtr-leonro.mtl.com>
+ <20190716071644.GA21780@kroah.com>
+Message-ID: <20190716084126.GJ10130@mtr-leonro.mtl.com>
 
-Commit 04e70bd4a026 ("nvme-multipath: do not select namespaces
-which are about to be removed") introduced checks when traversing
-the list of namespaces to avoid tripping over invalid namespaces.
-A similar check is needed in nvme_update_ana_state() to skip updates
-for any namespaces which will be removed.
-With that we should also remove the WARN_ON() at the end of the
-iteration; this will also be errorneously triggered if ANA Change AENS
-are received during scanning.
+On Tue, Jul 16, 2019@04:16:44PM +0900, Greg KH wrote:
+> On Tue, Jul 16, 2019@10:10:30AM +0300, Leon Romanovsky wrote:
+> > On Mon, Jul 15, 2019@05:19:13AM -0400, Selvin Xavier wrote:
+> > > GID entry consist of GID, vlan, netdev and smac.
+> > > Extend GID duplicate check companions to consider vlan_id as well
+> > > to support IPv6 VLAN based link local addresses. Introduce
+> > > a new structure (bnxt_qplib_gid_info) to hold gid and vlan_id information.
+> > >
+> > > The issue is discussed in the following thread
+> > > https://www.spinics.net/lists/linux-rdma/msg81594.html
+> > >
+> > > Fixes: 823b23da7113 ("IB/core: Allow vlan link local address based RoCE GIDs")
+> > > Cc: <stable at vger.kernel.org> # v5.2+
+> > > Reported-by: Yi Zhang <yi.zhang at redhat.com>
+> >
+> > > Co-developed-by: Parav Pandit <parav at mellanox.com>
+> > > Signed-off-by: Parav Pandit <parav at mellanox.com>
+> >
+> > I never understood why bad habits are so stinky.
+> >
+> > Can you please explain us what does it mean Co-developed-by and
+> > Signed-off-by of the same person in the same patch?
+>
+> See Documentation/process/submitting-patches.rst for what that tag
+> means.
 
-Signed-off-by: Hannes Reinecke <hare at suse.com>
----
- drivers/nvme/host/multipath.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Read it, it doesn't help me to understand if I should now add
+Co-developed-by tag to most of RDMA Mellanox upstreamed patches,
+which already care my Signed-off-by, because I'm changing and fixing
+them many times.
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index a9a927677970..78415f2909cd 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -449,6 +449,8 @@ static int nvme_update_ana_state(struct nvme_ctrl *ctrl,
- 
- 	down_write(&ctrl->namespaces_rwsem);
- 	list_for_each_entry(ns, &ctrl->namespaces, list) {
-+		if (test_bit(NVME_NS_REMOVING, &ns->flags))
-+			continue;
- 		if (ns->head->ns_id != le32_to_cpu(desc->nsids[n]))
- 			continue;
- 		nvme_update_ns_ana_state(desc, ns);
-@@ -456,7 +458,6 @@ static int nvme_update_ana_state(struct nvme_ctrl *ctrl,
- 			break;
- 	}
- 	up_write(&ctrl->namespaces_rwsem);
--	WARN_ON_ONCE(n < nr_nsids);
- 	return 0;
- }
- 
--- 
-2.16.4
+Maybe I should write for my upstreamed patched something like this?
+Co-developed-by: Leon R...
+Reviewed-By: Leon R...
+Tested-by: Leon R...
+Signed-by: Leon R...
+
+Thanks
+
+>
+> thanks,
+>
+> greg k-h
