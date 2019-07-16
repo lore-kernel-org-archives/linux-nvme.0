@@ -1,26 +1,42 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Mon, 15 Jul 2019 16:34:58 -0700
-Subject: [PATCH rfc v2 09/10] nvme-cli: add --quiet option
-In-Reply-To: <898fcfa4-e70f-fd0d-0905-cc4af74d4cda@broadcom.com>
+From: jsmart2021@gmail.com (James Smart)
+Date: Mon, 15 Jul 2019 17:11:44 -0700
+Subject: [PATCH rfc v2 05/10] nvme-cli: extend ctrl_list_item for connect
+ attributes
+In-Reply-To: <6647e40b-cfc9-46e3-cd11-aeaaec8eeff6@grimberg.me>
 References: <20190712003140.16221-1-jsmart2021@gmail.com>
- <20190712003140.16221-10-jsmart2021@gmail.com>
- <46dcab64-c4f9-74dc-b75c-4f4b8926051d@grimberg.me>
- <898fcfa4-e70f-fd0d-0905-cc4af74d4cda@broadcom.com>
-Message-ID: <36f155f5-a661-1b5b-4596-55b7333abca0@broadcom.com>
+ <20190712003140.16221-6-jsmart2021@gmail.com>
+ <6647e40b-cfc9-46e3-cd11-aeaaec8eeff6@grimberg.me>
+Message-ID: <721a6054-6e49-0fcb-2928-127470b798f6@gmail.com>
 
+On 7/11/2019 5:47 PM, Sagi Grimberg wrote:
+> 
+>> +char *__parse_connect_arg(char *conargs, const char delim, const char 
+>> *fieldnm)
+>> +{
+>> +??? char *s, *e;
+>> +??? size_t cnt;
+>> +
+>> +??? /*
+>> +???? * There are field name overlaps: traddr and host_traddr.
+>> +???? * By chance, both connect arg strings are set up to
+>> +???? * have traddr field followed by host_traddr field. Thus field
+>> +???? * name matching doesn't overlap in the searches. Technically,
+>> +???? * as is, the loop and delimiter checking isn't necessary.
+>> +???? * However, better to be prepared.
+>> +???? */
+>> +??? do {
+>> +??????? s = strstr(conargs, fieldnm);
+> 
+> Any reason not to use the normal strsep for loop?
 
-On 7/14/2019 7:49 AM, James Smart wrote:
->
-> On 7/12/2019 10:35 AM, Sagi Grimberg wrote:
->> When I pass it manually it works, but not from udev... Not sure what
->> is going on...
->
-> ?? I'll check it on my side
->
+strsep wasn't used as I didn't want to modify the args string.
 
-yeah - the --quiet option wasn't passed right. It became part of the 
-service name, not in the command invoked.
+I could convert, but it means I need to duplicate the args string both 
+in do_discover and in the nvme_ctrl_listitem routine or have the parse
+routine duplicate it then throw it away. Using strsep would also mean I 
+have to continue to have the check for '=' token and extracting the 
+value. Not sure I gain much code reduction.
 
-fixing it
+Any preference over leaving as is or having the parse routine duplicate it ?
 
 -- james
