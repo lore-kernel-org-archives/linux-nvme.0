@@ -1,152 +1,88 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Tue, 16 Jul 2019 14:12:36 -0700
-Subject: [PATCH 05/10] nvme-cli: extend ctrl_list_item for connect attributes
+Date: Tue, 16 Jul 2019 14:12:38 -0700
+Subject: [PATCH 07/10] nvme-cli: Add routine to search for controller with
+ specific attributes
 In-Reply-To: <20190716211241.7650-1-jsmart2021@gmail.com>
 References: <20190716211241.7650-1-jsmart2021@gmail.com>
-Message-ID: <20190716211241.7650-6-jsmart2021@gmail.com>
+Message-ID: <20190716211241.7650-8-jsmart2021@gmail.com>
 
 In preparation for searching controllers to match with connect args:
 
-Extend the ctrl_list_item with elements that can be compared against
-connect arguments. Extend the get_nvme_ctrl_info() routine to set
-the fields.
+Create a new routine find_ctrl_with_connectargs() that will search the
+controllers that exist in the system to find one that has attributes
+that match the connect arguments specified.  If found, the routine
+returns the controller name ("nvme?"). If not found, a NULL is returned.
 
-subsysnqn was added as the ctrl_list_item may now be used outside of
-a subsystem listing.
-
-traddr, trsvid, and host_traddr are added. Their values come from
-the address attribute.  A new parsing routine was added that extracts
-the values from the address string.
-
-The new parsing routine and supporting field names strings are
-declared as a global interface as a subsequent patch will call it
+Routine is defined as a global as a subsequent patch will use it
 from the fabrics routines.
 
 Signed-off-by: James Smart <jsmart2021 at gmail.com>
-CC: Sagi Grimberg <sagi at grimberg.me>
-CC: Hannes Reinecke <hare at suse.com>
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Reviewed-by: Hannes Reinecke <hare at suse.com>
 ---
- nvme.c | 72 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- nvme.h | 10 ++++++++++
- 2 files changed, 82 insertions(+)
+ nvme.c | 37 +++++++++++++++++++++++++++++++++++++
+ nvme.h |  1 +
+ 2 files changed, 38 insertions(+)
 
 diff --git a/nvme.c b/nvme.c
-index dabbbe0..66ba2fc 100644
+index 7f706c8..3fc2658 100644
 --- a/nvme.c
 +++ b/nvme.c
-@@ -1542,6 +1542,64 @@ static void free_ctrl_list_item(struct ctrl_list_item *ctrls)
- 	free(ctrls->address);
- 	free(ctrls->state);
- 	free(ctrls->ana_state);
-+	free(ctrls->subsysnqn);
-+	free(ctrls->traddr);
-+	free(ctrls->trsvcid);
-+	free(ctrls->host_traddr);
-+}
-+
-+static const char delim_space  = ' ';
-+const char *conarg_traddr = "traddr";
-+const char *conarg_trsvcid = "trsvcid";
-+const char *conarg_host_traddr = "host_traddr";
-+
-+/*
-+ * parse strings with connect arguments to find a particular field.
-+ * If field found, return string containing field value. If field
-+ * not found, return an empty string.
-+ */
-+char *__parse_connect_arg(char *conargs, const char delim, const char *fieldnm)
-+{
-+	char *s, *e;
-+	size_t cnt;
-+
-+	/*
-+	 * There are field name overlaps: traddr and host_traddr.
-+	 * By chance, both connect arg strings are set up to
-+	 * have traddr field followed by host_traddr field. Thus field
-+	 * name matching doesn't overlap in the searches. Technically,
-+	 * as is, the loop and delimiter checking isn't necessary.
-+	 * However, better to be prepared.
-+	 */
-+	do {
-+		s = strstr(conargs, fieldnm);
-+		if (!s)
-+			goto empty_field;
-+		/* validate prior character is delimiter */
-+		if (s == conargs || *(s - 1) == delim) {
-+			/* match requires next character to be assignment */
-+			s += strlen(fieldnm);
-+			if (*s == '=')
-+				/* match */
-+				break;
-+		}
-+		/* field overlap: seek to delimiter and keep looking */
-+		conargs = strchr(s, delim);
-+		if (!conargs)
-+			goto empty_field;
-+		conargs++;	/* skip delimiter */
-+	} while (1);
-+	s++;		/* skip assignment character */
-+	e = strchr(s, delim);
-+	if (e)
-+		cnt = e - s;
-+	else
-+		cnt = strlen(s);
-+
-+	return strndup(s, cnt);
-+
-+empty_field:
-+	return strdup("\0");
+@@ -2048,6 +2048,43 @@ cleanup_exit:
+ 	return found;
  }
  
- static int get_nvme_ctrl_info(char *name, char *path,
-@@ -1577,6 +1635,20 @@ static int get_nvme_ctrl_info(char *name, char *path,
- 	if (nsid != NVME_NSID_ALL)
- 		ctrl->ana_state = get_nvme_ctrl_path_ana_state(ctrl_path, nsid);
- 
-+	ctrl->subsysnqn = get_nvme_ctrl_attr(ctrl_path, "subsysnqn");
-+	if (!ctrl->subsysnqn) {
-+		fprintf(stderr, "%s: failed to get controller subsysnqn.\n",
-+			ctrl->name);
-+		goto free_ctrl_items;
++/*
++ * Look through the system to find an existing controller whose
++ * attributes match the connect arguments specified
++ * If found, a string containing the controller name (ex: "nvme?")
++ * is returned.
++ * If not found, a NULL is returned.
++ */
++char *find_ctrl_with_connectargs(struct connect_args *args)
++{
++	struct dirent **devices;
++	char *devname = NULL;
++	int i, n;
++
++	n = scandir(nvme_ctrl_dir, &devices, scan_ctrls_filter, alphasort);
++	if (n < 0) {
++		fprintf(stderr, "no NVMe controller(s) detected.\n");
++		return NULL;
 +	}
 +
-+	ctrl->traddr = __parse_connect_arg(ctrl->address, delim_space,
-+					conarg_traddr);
-+	ctrl->trsvcid = __parse_connect_arg(ctrl->address, delim_space,
-+					conarg_trsvcid);
-+	ctrl->host_traddr = __parse_connect_arg(ctrl->address, delim_space,
-+					conarg_host_traddr);
++	for (i = 0; i < n; i++) {
++		if (ctrl_matches_connectargs(devices[i]->d_name, args)) {
++			devname = strdup(devices[i]->d_name);
++			if (devname == NULL)
++				fprintf(stderr, "no memory for ctlr name %s\n",
++						devices[i]->d_name);
++			goto cleanup_devices;
++		}
++	}
 +
- 	return 0;	/* success */
- 
- free_ctrl_items:
++cleanup_devices:
++	for (i = 0; i < n; i++)
++		free(devices[i]);
++	free(devices);
++
++	return devname;
++}
++
+ int __id_ctrl(int argc, char **argv, struct command *cmd, struct plugin *plugin, void (*vs)(__u8 *vs, struct json_object *root))
+ {
+ 	const char *desc = "Send an Identify Controller command to "\
 diff --git a/nvme.h b/nvme.h
-index 3409515..470f702 100644
+index 2fecb68..b91a22c 100644
 --- a/nvme.h
 +++ b/nvme.h
-@@ -160,6 +160,10 @@ struct ctrl_list_item {
- 	char *transport;
- 	char *state;
- 	char *ana_state;
-+	char *subsysnqn;
-+	char *traddr;
-+	char *trsvcid;
-+	char *host_traddr;
- };
+@@ -190,6 +190,7 @@ struct connect_args {
+ #define SYS_NVME		"/sys/class/nvme"
  
- struct subsys_list_item {
-@@ -175,6 +179,12 @@ enum {
- 	BINARY,
- };
+ bool ctrl_matches_connectargs(char *name, struct connect_args *args);
++char *find_ctrl_with_connectargs(struct connect_args *args);
+ char *__parse_connect_arg(char *conargs, const char delim, const char *fieldnm);
  
-+char *__parse_connect_arg(char *conargs, const char delim, const char *fieldnm);
-+
-+extern const char *conarg_traddr;
-+extern const char *conarg_trsvcid;
-+extern const char *conarg_host_traddr;
-+
- void register_extension(struct plugin *plugin);
- 
- #include "argconfig.h"
+ extern const char *conarg_traddr;
 -- 
 2.13.7
