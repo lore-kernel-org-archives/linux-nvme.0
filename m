@@ -1,122 +1,118 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Tue, 16 Jul 2019 14:12:35 -0700
-Subject: [PATCH 04/10] nvme-cli: Refactor to create a get_nvme_ctrl_info
- routine
+Date: Tue, 16 Jul 2019 14:12:37 -0700
+Subject: [PATCH 06/10] nvme-cli: Add routine to compare ctrl_list_item to
+ connect args
 In-Reply-To: <20190716211241.7650-1-jsmart2021@gmail.com>
 References: <20190716211241.7650-1-jsmart2021@gmail.com>
-Message-ID: <20190716211241.7650-5-jsmart2021@gmail.com>
+Message-ID: <20190716211241.7650-7-jsmart2021@gmail.com>
 
 In preparation for searching controllers to match with connect args:
 
-Refactor the get_nvme_subsystem_info() routine to take the portion
-that creates a ctrl_list_item and sets its values and put it in a
-separate get_nvme_ctrl_info() routine.
+Create a new routine that receives a structure containing connect
+arguments and a device name. The routine will build and fill in a
+ctrl_list_item for the device and compare its attributes with the
+connect arguments. The routine returns true/false on whether they
+match.
+
+Routine is defined as a global as a subsequent patch will use it
+from the fabrics routines.
 
 Signed-off-by: James Smart <jsmart2021 at gmail.com>
-Reviewed-by: Hannes Reinecke <hare at suse.com>
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
----
- nvme.c | 77 ++++++++++++++++++++++++++++++++++++++----------------------------
- 1 file changed, 45 insertions(+), 32 deletions(-)
+CC: Sagi Grimberg <sagi at grimberg.me>
+CC: Hannes Reinecke <hare at suse.com>
 
+---
+from rfc to actual posting:
+  moved SYS_NVME from fabrics.c to nvme.h
+  replaced nvme_ctrl_dir with SYS_NVME
+---
+ fabrics.c |  1 -
+ nvme.c    | 38 ++++++++++++++++++++++++++++++++++++++
+ nvme.h    | 11 +++++++++++
+ 3 files changed, 49 insertions(+), 1 deletion(-)
+
+diff --git a/fabrics.c b/fabrics.c
+index d92c2ff..f3afa0b 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -74,7 +74,6 @@ static struct config {
+ #define PATH_NVMF_DISC		"/etc/nvme/discovery.conf"
+ #define PATH_NVMF_HOSTNQN	"/etc/nvme/hostnqn"
+ #define PATH_NVMF_HOSTID	"/etc/nvme/hostid"
+-#define SYS_NVME		"/sys/class/nvme"
+ #define MAX_DISC_ARGS		10
+ #define MAX_DISC_RETRIES	10
+ 
 diff --git a/nvme.c b/nvme.c
-index 6fe99eb..dabbbe0 100644
+index 66ba2fc..7f706c8 100644
 --- a/nvme.c
 +++ b/nvme.c
-@@ -1544,10 +1544,50 @@ static void free_ctrl_list_item(struct ctrl_list_item *ctrls)
- 	free(ctrls->ana_state);
+@@ -2010,6 +2010,44 @@ static int list(int argc, char **argv, struct command *cmd, struct plugin *plugi
+ 	return nvme_status_to_errno(ret, false);
  }
  
-+static int get_nvme_ctrl_info(char *name, char *path,
-+			struct ctrl_list_item *ctrl, __u32 nsid)
++/*
++ * Given a controller name, create a ctrl_list_item with its
++ * attributes and compare the attributes against the connect args
++ * given.
++ * Return true/false based on whether it matches
++ */
++bool ctrl_matches_connectargs(char *name, struct connect_args *args)
 +{
-+	char ctrl_path[512];
++	struct ctrl_list_item *ctrl;
++	bool found = false;
 +
-+	ctrl->name = strdup(name);
-+
-+	snprintf(ctrl_path, sizeof(ctrl_path), "%s/%s", path, ctrl->name);
-+
-+	ctrl->address = get_nvme_ctrl_attr(ctrl_path, "address");
-+	if (!ctrl->address) {
-+		fprintf(stderr, "%s: failed to get controller address.\n",
-+			ctrl->name);
-+		goto free_ctrl_items;
++	ctrl = malloc(sizeof(*ctrl));
++	if (!ctrl) {
++		fprintf(stderr, "Failed to allocate controller list element\n");
++		return false;
 +	}
++	memset(ctrl, 0, sizeof(*ctrl));
 +
-+	ctrl->transport = get_nvme_ctrl_attr(ctrl_path, "transport");
-+	if (!ctrl->transport) {
-+		fprintf(stderr, "%s: failed to get controller transport.\n",
-+			ctrl->name);
-+		goto free_ctrl_items;
-+	}
++	if (get_nvme_ctrl_info(name, SYS_NVME, ctrl, NVME_NSID_ALL))
++		goto cleanup_exit;
 +
-+	ctrl->state = get_nvme_ctrl_attr(ctrl_path, "state");
-+	if (!ctrl->state) {
-+		fprintf(stderr, "%s: failed to get controller state.\n",
-+			ctrl->name);
-+		goto free_ctrl_items;
-+	}
++	if (!strcmp(ctrl->subsysnqn, args->subsysnqn) &&
++	    !strcmp(ctrl->transport, args->transport) &&
++	    (!strcmp(ctrl->traddr, args->traddr) ||
++	     !strcmp(args->traddr, "none")) &&
++	    (!strcmp(ctrl->trsvcid, args->trsvcid) ||
++	     !strcmp(args->trsvcid, "none")) &&
++	    (!strcmp(ctrl->host_traddr, args->host_traddr) ||
++	     !strcmp(args->host_traddr, "none")))
++		found = true;
 +
-+	if (nsid != NVME_NSID_ALL)
-+		ctrl->ana_state = get_nvme_ctrl_path_ana_state(ctrl_path, nsid);
-+
-+	return 0;	/* success */
-+
-+free_ctrl_items:
++cleanup_exit:
 +	free_ctrl_list_item(ctrl);
++	free(ctrl);
 +
-+	return 1;	/* failure */
++	return found;
 +}
 +
- static int get_nvme_subsystem_info(char *name, char *path,
- 				struct subsys_list_item *item, __u32 nsid)
+ int __id_ctrl(int argc, char **argv, struct command *cmd, struct plugin *plugin, void (*vs)(__u8 *vs, struct json_object *root))
  {
--	char ctrl_path[512];
- 	struct dirent **ctrls;
- 	int n, i, ret = 1, ccnt = 0;
+ 	const char *desc = "Send an Identify Controller command to "\
+diff --git a/nvme.h b/nvme.h
+index 470f702..2fecb68 100644
+--- a/nvme.h
++++ b/nvme.h
+@@ -179,6 +179,17 @@ enum {
+ 	BINARY,
+ };
  
-@@ -1574,38 +1614,11 @@ static int get_nvme_subsystem_info(char *name, char *path,
- 	item->nctrls = n;
++struct connect_args {
++	char *subsysnqn;
++	char *transport;
++	char *traddr;
++	char *trsvcid;
++	char *host_traddr;
++};
++
++#define SYS_NVME		"/sys/class/nvme"
++
++bool ctrl_matches_connectargs(char *name, struct connect_args *args);
+ char *__parse_connect_arg(char *conargs, const char delim, const char *fieldnm);
  
- 	for (i = 0; i < n; i++) {
--		item->ctrls[ccnt].name = strdup(ctrls[i]->d_name);
--
--		snprintf(ctrl_path, sizeof(ctrl_path), "%s/%s", path,
--			 item->ctrls[ccnt].name);
--
--		item->ctrls[ccnt].address =
--				get_nvme_ctrl_attr(ctrl_path, "address");
--		if (!item->ctrls[ccnt].address) {
--			fprintf(stderr, "failed to get controller[%d] address.\n", i);
--			free_ctrl_list_item(&item->ctrls[ccnt]);
--			continue;
-+		if (get_nvme_ctrl_info(ctrls[i]->d_name, path,
-+				&item->ctrls[ccnt], nsid)) {
-+			fprintf(stderr, "failed to get controller[%d] info.\n",
-+					i);
- 		}
--
--		item->ctrls[ccnt].transport =
--				get_nvme_ctrl_attr(ctrl_path, "transport");
--		if (!item->ctrls[ccnt].transport) {
--			fprintf(stderr, "failed to get controller[%d] transport.\n", i);
--			free_ctrl_list_item(&item->ctrls[ccnt]);
--			continue;
--		}
--
--		item->ctrls[ccnt].state =
--				get_nvme_ctrl_attr(ctrl_path, "state");
--		if (!item->ctrls[ccnt].state) {
--			fprintf(stderr, "failed to get controller[%d] state.\n", i);
--			free_ctrl_list_item(&item->ctrls[ccnt]);
--			continue;
--		}
--
--		if (nsid != NVME_NSID_ALL)
--			item->ctrls[ccnt].ana_state =
--				get_nvme_ctrl_path_ana_state(ctrl_path, nsid);
- 		ccnt++;
- 	}
- 
+ extern const char *conarg_traddr;
 -- 
 2.13.7
