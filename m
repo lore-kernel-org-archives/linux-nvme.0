@@ -1,41 +1,45 @@
-From: benh@kernel.crashing.org (Benjamin Herrenschmidt)
-Date: Tue, 16 Jul 2019 11:04:36 +1000
-Subject: nvme-5.3 ssd performance regression
-Message-ID: <798a3907573b910fbb102036afe3dfc1405fb353.camel@kernel.crashing.org>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 15 Jul 2019 18:13:19 -0700
+Subject: [PATCH rfc v2 05/10] nvme-cli: extend ctrl_list_item for connect
+ attributes
+In-Reply-To: <721a6054-6e49-0fcb-2928-127470b798f6@gmail.com>
+References: <20190712003140.16221-1-jsmart2021@gmail.com>
+ <20190712003140.16221-6-jsmart2021@gmail.com>
+ <6647e40b-cfc9-46e3-cd11-aeaaec8eeff6@grimberg.me>
+ <721a6054-6e49-0fcb-2928-127470b798f6@gmail.com>
+Message-ID: <a6f99081-0c14-6de8-7a93-45ebdec8377f@grimberg.me>
 
-Hi !
 
-Something I noticed while testing those patches for the Apple drives.
+>>> +char *__parse_connect_arg(char *conargs, const char delim, const 
+>>> char *fieldnm)
+>>> +{
+>>> +??? char *s, *e;
+>>> +??? size_t cnt;
+>>> +
+>>> +??? /*
+>>> +???? * There are field name overlaps: traddr and host_traddr.
+>>> +???? * By chance, both connect arg strings are set up to
+>>> +???? * have traddr field followed by host_traddr field. Thus field
+>>> +???? * name matching doesn't overlap in the searches. Technically,
+>>> +???? * as is, the loop and delimiter checking isn't necessary.
+>>> +???? * However, better to be prepared.
+>>> +???? */
+>>> +??? do {
+>>> +??????? s = strstr(conargs, fieldnm);
+>>
+>> Any reason not to use the normal strsep for loop?
+> 
+> strsep wasn't used as I didn't want to modify the args string.
+> 
+> I could convert, but it means I need to duplicate the args string both 
+> in do_discover and in the nvme_ctrl_listitem routine or have the parse
+> routine duplicate it then throw it away. Using strsep would also mean I 
+> have to continue to have the check for '=' token and extracting the 
+> value. Not sure I gain much code reduction.
+> 
+> Any preference over leaving as is or having the parse routine duplicate 
+> it ?
 
-With 5.2.0 (and those patches):
-
-[benh at mini ~]$ sudo hdparm -tf /dev/nvme0n1
-
-/dev/nvme0n1:
- HDIO_DRIVE_CMD(identify) failed: Inappropriate ioctl for device
- Timing buffered disk reads: 5960 MB in  3.00 seconds = 1986.22 MB/sec
-
-(The numbers are reasonably stable accross multiple runs)
-
-With nvme-5.3 (and those patches & the ctrl->opts NULL fix)
-
-[benh at mini linux]$ sudo hdparm -tf /dev/nvme0n1
-
-/dev/nvme0n1:
- HDIO_DRIVE_CMD(identify) failed: Inappropriate ioctl for device
- Timing buffered disk reads: 4520 MB in  3.00 seconds = 1506.63 MB/sec
-[benh at mini linux]$ sudo hdparm -tf /dev/nvme0n1
-
-Here too, the numbers are quite stable during a given boot but
-interestingly they seem to change from boot to boot, I also observed
-1700 MB/s for example. It's a rather major regression.
-
-The .config is identical in both cases (an x86_64-defconfig with a
-small tweak or two, I removed more drivers mostly and made nvme a
-module)
-
-In both cases the io scheduler is mq-deadline. The device has a single
-IO queue.
-
-Cheers,
-Ben.
+No hard emotions on this, just thought it would be less convoluted and
+more common with other parsers, but if its create a more convoluted code
+we don't have to go there...
