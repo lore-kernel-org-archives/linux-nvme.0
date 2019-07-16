@@ -1,36 +1,24 @@
-From: benh@kernel.crashing.org (Benjamin Herrenschmidt)
-Date: Tue, 16 Jul 2019 20:58:28 +1000
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 16 Jul 2019 14:05:47 +0200
 Subject: [PATCH 2/3] nvme: Retrieve the required IO queue entry size
  from the controller
-In-Reply-To: <20190716093301.GA32562@lst.de>
+In-Reply-To: <bfbc7352951d1adc714f699acb49e298c24fe7e3.camel@kernel.crashing.org>
 References: <20190716004649.17799-1-benh@kernel.crashing.org>
  <20190716004649.17799-2-benh@kernel.crashing.org>
  <20190716060430.GB29414@lst.de>
  <ad18ff8d004225e102076f8e1fb617916617f337.camel@kernel.crashing.org>
  <20190716093301.GA32562@lst.de>
-Message-ID: <bfbc7352951d1adc714f699acb49e298c24fe7e3.camel@kernel.crashing.org>
+ <bfbc7352951d1adc714f699acb49e298c24fe7e3.camel@kernel.crashing.org>
+Message-ID: <20190716120547.GA2388@lst.de>
 
-On Tue, 2019-07-16@11:33 +0200, Christoph Hellwig wrote:
-> > >    So back to the version
-> > > you circulated to me in private mail that just sets q->sqes and has a
-> > > comment that this is magic for The Apple controller.  If/when we get
-> > > standardized large SQE support we'll need to discover that earlier or
-> > > do a disable/enable dance.  Sorry for misleading you down this road and
-> > > creating the extra work.  
-> > 
-> > I think it's still ok, let me know...
+On Tue, Jul 16, 2019@08:58:28PM +1000, Benjamin Herrenschmidt wrote:
+> The main risk is if existing controllers return crap in SQES and we try
+> to then use that crap. The rest should essentially be NOPs.
 > 
-> Ok, let's go with this series then unless the other maintainers have
-> objections.
-> 
-> I'm still not sure if we want to queue this up for 5.3 (new hardware
-> enablement) or wait a bit, though.
+> Maybe I should add some kind of printk to warn in case we use/detect a
+> non-standard size. That would help diagnosing issues.
 
-The main risk is if existing controllers return crap in SQES and we try
-to then use that crap. The rest should essentially be NOPs.
-
-Maybe I should add some kind of printk to warn in case we use/detect a
-non-standard size. That would help diagnosing issues.
-
-Cheers,
-Ben.
+Given that the spec currently requires bits 0 to 3 of SQES to be 6
+we might as well not check SQES and just hardcode it to 6 or 7 depending
+on the quirk.  That actually was my initial idea, I just suggested using
+the SQES naming and indexing.
