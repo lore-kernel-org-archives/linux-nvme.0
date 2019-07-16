@@ -1,32 +1,61 @@
-From: leon@kernel.org (Leon Romanovsky)
-Date: Tue, 16 Jul 2019 10:10:30 +0300
-Subject: [PATCH for-rc] RDMA/bnxt_re: Honor vlan_id in GID entry comparison
-In-Reply-To: <20190715091913.15726-1-selvin.xavier@broadcom.com>
-References: <20190715091913.15726-1-selvin.xavier@broadcom.com>
-Message-ID: <20190716071030.GH10130@mtr-leonro.mtl.com>
+From: tom.leiming@gmail.com (Ming Lei)
+Date: Tue, 16 Jul 2019 15:12:06 +0800
+Subject: nvme-5.3 ssd performance regression
+In-Reply-To: <798a3907573b910fbb102036afe3dfc1405fb353.camel@kernel.crashing.org>
+References: <798a3907573b910fbb102036afe3dfc1405fb353.camel@kernel.crashing.org>
+Message-ID: <CACVXFVP8w3mzQ8XVgeif=Nq3kyiZopS0XDB+-c2x5CcT9V3djA@mail.gmail.com>
 
-On Mon, Jul 15, 2019@05:19:13AM -0400, Selvin Xavier wrote:
-> GID entry consist of GID, vlan, netdev and smac.
-> Extend GID duplicate check companions to consider vlan_id as well
-> to support IPv6 VLAN based link local addresses. Introduce
-> a new structure (bnxt_qplib_gid_info) to hold gid and vlan_id information.
+On Tue, Jul 16, 2019 at 9:05 AM Benjamin Herrenschmidt
+<benh@kernel.crashing.org> wrote:
 >
-> The issue is discussed in the following thread
-> https://www.spinics.net/lists/linux-rdma/msg81594.html
+> Hi !
 >
-> Fixes: 823b23da7113 ("IB/core: Allow vlan link local address based RoCE GIDs")
-> Cc: <stable at vger.kernel.org> # v5.2+
-> Reported-by: Yi Zhang <yi.zhang at redhat.com>
+> Something I noticed while testing those patches for the Apple drives.
+>
+> With 5.2.0 (and those patches):
+>
+> [benh at mini ~]$ sudo hdparm -tf /dev/nvme0n1
+>
+> /dev/nvme0n1:
+>  HDIO_DRIVE_CMD(identify) failed: Inappropriate ioctl for device
+>  Timing buffered disk reads: 5960 MB in  3.00 seconds = 1986.22 MB/sec
+>
+> (The numbers are reasonably stable accross multiple runs)
+>
+> With nvme-5.3 (and those patches & the ctrl->opts NULL fix)
+>
+> [benh at mini linux]$ sudo hdparm -tf /dev/nvme0n1
+>
+> /dev/nvme0n1:
+>  HDIO_DRIVE_CMD(identify) failed: Inappropriate ioctl for device
+>  Timing buffered disk reads: 4520 MB in  3.00 seconds = 1506.63 MB/sec
+> [benh at mini linux]$ sudo hdparm -tf /dev/nvme0n1
+>
+> Here too, the numbers are quite stable during a given boot but
+> interestingly they seem to change from boot to boot, I also observed
+> 1700 MB/s for example. It's a rather major regression.
+>
+> The .config is identical in both cases (an x86_64-defconfig with a
+> small tweak or two, I removed more drivers mostly and made nvme a
+> module)
+>
+> In both cases the io scheduler is mq-deadline. The device has a single
+> IO queue.
 
-> Co-developed-by: Parav Pandit <parav at mellanox.com>
-> Signed-off-by: Parav Pandit <parav at mellanox.com>
+It should be caused by the following commit, and that patch uses
+single mapping size to limit max hw sectors, and looks that way
+is wrong. For example, on qemu, max_hw_sectors is decreased to
+512. You can try to revert the patch and see if it makes a difference.
 
-I never understood why bad habits are so stinky.
+I feel we might need the max segment size limit too.
 
-Can you please explain us what does it mean Co-developed-by and
-Signed-off-by of the same person in the same patch?
+commit 7637de311bd2124b298a072852448b940d8a34b9
+Author: Christoph Hellwig <hch at lst.de>
+Date:   Wed Jul 3 09:54:44 2019 -0700
 
-> Signed-off-by: Selvin Xavier <selvin.xavier at broadcom.com>
-> ---
+    nvme-pci: limit max_hw_sectors based on the DMA max mapping size
 
-Thanks
+
+
+Thanks,
+Ming Lei
