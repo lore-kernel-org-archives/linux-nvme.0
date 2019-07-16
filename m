@@ -1,47 +1,30 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 16 Jul 2019 11:33:01 +0200
-Subject: [PATCH 2/3] nvme: Retrieve the required IO queue entry size
- from the controller
-In-Reply-To: <ad18ff8d004225e102076f8e1fb617916617f337.camel@kernel.crashing.org>
-References: <20190716004649.17799-1-benh@kernel.crashing.org>
- <20190716004649.17799-2-benh@kernel.crashing.org>
- <20190716060430.GB29414@lst.de>
- <ad18ff8d004225e102076f8e1fb617916617f337.camel@kernel.crashing.org>
-Message-ID: <20190716093301.GA32562@lst.de>
+Date: Tue, 16 Jul 2019 11:36:17 +0200
+Subject: nvme-5.3 ssd performance regression
+In-Reply-To: <CACVXFVP8w3mzQ8XVgeif=Nq3kyiZopS0XDB+-c2x5CcT9V3djA@mail.gmail.com>
+References: <798a3907573b910fbb102036afe3dfc1405fb353.camel@kernel.crashing.org>
+ <CACVXFVP8w3mzQ8XVgeif=Nq3kyiZopS0XDB+-c2x5CcT9V3djA@mail.gmail.com>
+Message-ID: <20190716093617.GB32562@lst.de>
 
-On Tue, Jul 16, 2019@04:21:14PM +1000, Benjamin Herrenschmidt wrote:
-> > Actually, this doesn't work on a "real" nvme controller, to change CC
-> > values the controller needs to be disabled.
+On Tue, Jul 16, 2019@03:12:06PM +0800, Ming Lei wrote:
+> It should be caused by the following commit, and that patch uses
+> single mapping size to limit max hw sectors, and looks that way
+> is wrong. For example, on qemu, max_hw_sectors is decreased to
+> 512. You can try to revert the patch and see if it makes a difference.
 > 
-> Not really. The specs says that MPS, AMD and CSS need to be set before
-> enabling, but IOCQES and IOSQES can be modified later as long as there
-> is no IO queue created yet.
+> I feel we might need the max segment size limit too.
 
-I guess that is true based on the spec.
+No, with swiotlb it really is the whole request size that ?s limited
+by the swiotlb buffer size.  Similar for potential iommus where
+again it is the whole thing.
 
-> This is necessary otherwise there's a chicken and egg problem. You need
-> the admin queue to do the controller id in order to get the sizes and
-> for that you need the controller to be enabled.
-> 
-> Note: This is not a huge issue anyway since I only update the register
-> if the required size isn't 6 which is probably never going to be the
-> case on non-Apple HW.
+But looking at the implementation of dma_direct_max_mapping_size I
+think we need to relax it - it currently limits the size as soon
+as swiotlb is enabled, and not just if we need it for a given device.
 
-Yes, but the whole point of making you go down the route is so that
-we can share the code with eventual real nvme controllers that can
-support a larger SQE size.
+We have some open coded versions of those checks elsewhere, let me
+cook up a series to sort that mess out.
 
-> >   So back to the version
-> > you circulated to me in private mail that just sets q->sqes and has a
-> > comment that this is magic for The Apple controller.  If/when we get
-> > standardized large SQE support we'll need to discover that earlier or
-> > do a disable/enable dance.  Sorry for misleading you down this road and
-> > creating the extra work.  
-> 
-> I think it's still ok, let me know...
-
-Ok, let's go with this series then unless the other maintainers have
-objections.
-
-I'm still not sure if we want to queue this up for 5.3 (new hardware
-enablement) or wait a bit, though.
+Ben, in then meantime can you try a revert of the commit Ming identified?
+That is obviously not the proper fix, but it would help validating the
+hypothesis.
