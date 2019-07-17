@@ -1,37 +1,89 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Wed, 17 Jul 2019 11:12:59 -0600
-Subject: [PATCH blktests v2 12/12] nvme: Ignore errors when removing modules
+Date: Wed, 17 Jul 2019 11:12:52 -0600
+Subject: [PATCH blktests v2 05/12] nvme/005: Don't rely on modprobing to set
+ the multipath paramater
 In-Reply-To: <20190717171259.3311-1-logang@deltatee.com>
 References: <20190717171259.3311-1-logang@deltatee.com>
-Message-ID: <20190717171259.3311-13-logang@deltatee.com>
+Message-ID: <20190717171259.3311-6-logang@deltatee.com>
 
-It is no longer important for correct test functionality to
-remove the modules between tests. Therefore, we ignore errors
-if the modules are not removed (ie. if they are builtin).
+On test systems with existing nvme drives or built-in modules it may not
+be possible to remove nvme-core in order to re-probe it with
+multipath=1.
 
-With this patch, it is now safe to run the tests with the nvmet
-modules built-in. This will be more convienent for developers
-that want to run the tests in a simple VM.
+Instead, skip the test if the multipath parameter is not already set
+ahead of time.
+
+Note: the multipath parameter of nvme-core is set by default if
+CONFIG_NVME_MULTIPATH is set so this will only affect systems
+that explicitly disable it via the module parameter.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 ---
- tests/nvme/rc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ common/rc      | 18 ++++++++++++++++++
+ tests/nvme/005 | 10 ++--------
+ 2 files changed, 20 insertions(+), 8 deletions(-)
 
-diff --git a/tests/nvme/rc b/tests/nvme/rc
-index a6b4d5938680..348b4a3c2cbc 100644
---- a/tests/nvme/rc
-+++ b/tests/nvme/rc
-@@ -68,8 +68,8 @@ _cleanup_nvmet() {
- 	shopt -u nullglob
- 	stty isig
- 
--	modprobe -r nvme-loop
--	modprobe -r nvmet
-+	modprobe -r nvme-loop 2>/dev/null
-+	modprobe -r nvmet 2>/dev/null
+diff --git a/common/rc b/common/rc
+index 5dd2c9512fd2..a487cc69026c 100644
+--- a/common/rc
++++ b/common/rc
+@@ -55,6 +55,24 @@ _have_module_param() {
+ 	return 0
  }
  
- _setup_nvmet() {
++_have_module_param_value() {
++	local value
++
++	modprobe "$1"
++
++	if ! _have_module_param "$1" "$2"; then
++		return 1
++	fi
++
++	value=$(cat "/sys/module/$1/parameters/$2")
++	if [[ "${value}" != "$3" ]]; then
++		SKIP_REASON="$1 module parameter $2 must be set to $3"
++		return 1
++	fi
++
++	return 0
++}
++
+ _have_program() {
+ 	if command -v "$1" >/dev/null 2>&1; then
+ 		return 0
+diff --git a/tests/nvme/005 b/tests/nvme/005
+index e72fc809c936..91c164de73e6 100755
+--- a/tests/nvme/005
++++ b/tests/nvme/005
+@@ -12,18 +12,13 @@ QUICK=1
+ 
+ requires() {
+ 	_have_modules loop nvme-core nvme-loop nvmet && \
+-		_have_module_param nvme-core multipath && _have_configfs
++		_have_module_param_value nvme_core multipath Y && \
++		_have_configfs
+ }
+ 
+ test() {
+ 	echo "Running ${TEST_NAME}"
+ 
+-	# Clean up all stale modules
+-	modprobe -r nvme-loop
+-	modprobe -r nvme-core
+-	modprobe -r nvmet
+-
+-	modprobe nvme-core multipath=1
+ 	modprobe nvmet
+ 	modprobe nvme-loop
+ 
+@@ -57,7 +52,6 @@ test() {
+ 	rm "$TMPDIR/img"
+ 
+ 	modprobe -r nvme-loop
+-	modprobe -r nvme-core
+ 	modprobe -r nvmet
+ 
+ 	echo "Test complete"
 -- 
 2.17.1
