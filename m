@@ -1,29 +1,14 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 17 Jul 2019 06:40:41 +0200
-Subject: nvme-5.3 ssd performance regression
-In-Reply-To: <a510b276a5c94fa79ec86dfde78fcbc0edb06053.camel@kernel.crashing.org>
-References: <798a3907573b910fbb102036afe3dfc1405fb353.camel@kernel.crashing.org>
- <CACVXFVP8w3mzQ8XVgeif=Nq3kyiZopS0XDB+-c2x5CcT9V3djA@mail.gmail.com>
- <6863e5fa43409c370395cc66e7499dd7c150c497.camel@kernel.crashing.org>
- <20190717042646.GA4583@lst.de>
- <a510b276a5c94fa79ec86dfde78fcbc0edb06053.camel@kernel.crashing.org>
-Message-ID: <20190717044041.GB4755@lst.de>
+Date: Wed, 17 Jul 2019 06:50:00 +0200
+Subject: [PATCH v2 3/3] nvme-pci: Add support for Apple 2018+ models
+In-Reply-To: <20190717004527.30363-3-benh@kernel.crashing.org>
+References: <20190717004527.30363-1-benh@kernel.crashing.org>
+ <20190717004527.30363-3-benh@kernel.crashing.org>
+Message-ID: <20190717045000.GA4965@lst.de>
 
-On Wed, Jul 17, 2019@02:33:59PM +1000, Benjamin Herrenschmidt wrote:
-> On Wed, 2019-07-17@06:26 +0200, Christoph Hellwig wrote:
-> > On Wed, Jul 17, 2019 at 10:15:00AM +1000, Benjamin Herrenschmidt
-> > wrote:
-> > > Yes. Reverting this brings the speed back to 2GB/s
-> > 
-> > Thanks.  Can you try this series as well:
-> > 
-> > 
-> http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/dma-max-mapping-size-fix
-> 
-> With or without
-> 
->  "nvme-pci: limit max_hw_sectors based on the DMA max mapping size"
-> 
-> ?
+> # Conflicts:
+> #	drivers/nvme/host/core.c
 
-With.  Just pull in the branch :)
+I thought you were going to fix this up :)
+
+But I can do that and this version of the series looks fine to me.
