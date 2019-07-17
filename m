@@ -1,73 +1,37 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Wed, 17 Jul 2019 11:12:57 -0600
-Subject: [PATCH blktests v2 10/12] nvme: Ensure all ports and subsystems are
- removed on cleanup
+Date: Wed, 17 Jul 2019 11:12:59 -0600
+Subject: [PATCH blktests v2 12/12] nvme: Ignore errors when removing modules
 In-Reply-To: <20190717171259.3311-1-logang@deltatee.com>
 References: <20190717171259.3311-1-logang@deltatee.com>
-Message-ID: <20190717171259.3311-11-logang@deltatee.com>
+Message-ID: <20190717171259.3311-13-logang@deltatee.com>
 
-This ensures any test that fails or is interrupted will cleanup
-their subsystems. This will prevent the system from being left
-in an inconsistent state that will fail subsequent tests.
+It is no longer important for correct test functionality to
+remove the modules between tests. Therefore, we ignore errors
+if the modules are not removed (ie. if they are builtin).
+
+With this patch, it is now safe to run the tests with the nvmet
+modules built-in. This will be more convienent for developers
+that want to run the tests in a simple VM.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 ---
- tests/nvme/rc | 43 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
+ tests/nvme/rc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/tests/nvme/rc b/tests/nvme/rc
-index 16bdb7f0c083..a6b4d5938680 100644
+index a6b4d5938680..348b4a3c2cbc 100644
 --- a/tests/nvme/rc
 +++ b/tests/nvme/rc
-@@ -25,6 +25,49 @@ _test_dev_is_nvme() {
+@@ -68,8 +68,8 @@ _cleanup_nvmet() {
+ 	shopt -u nullglob
+ 	stty isig
+ 
+-	modprobe -r nvme-loop
+-	modprobe -r nvmet
++	modprobe -r nvme-loop 2>/dev/null
++	modprobe -r nvmet 2>/dev/null
  }
  
- _cleanup_nvmet() {
-+	local dev
-+	local port
-+	local subsys
-+	local transport
-+	local name
-+
-+	if [[ ! -d "${NVMET_CFS}" ]]; then
-+		return 0
-+	fi
-+
-+	# Don't let successive Ctrl-Cs interrupt the cleanup processes
-+	stty -isig
-+
-+	shopt -s nullglob
-+
-+	for dev in /sys/class/nvme/nvme*; do
-+		dev="$(basename "$dev")"
-+		transport="$(cat "/sys/class/nvme/${dev}/transport")"
-+		if [[ "$transport" == "loop" ]]; then
-+			echo "WARNING: Test did not clean up loop device: ${dev}"
-+			nvme disconnect -d "${dev}"
-+		fi
-+	done
-+
-+	for port in "${NVMET_CFS}"/ports/*; do
-+		name=$(basename "${port}")
-+		echo "WARNING: Test did not clean up port: ${name}"
-+		rm -f "${port}"/subsystems/*
-+		rmdir "${port}"
-+	done
-+
-+	for subsys in "${NVMET_CFS}"/subsystems/*; do
-+		name=$(basename "${subsys}")
-+		echo "WARNING: Test did not clean up subsystem: ${name}"
-+		for ns in "${subsys}"/namespaces/*; do
-+			rmdir "${ns}"
-+		done
-+		rmdir "${subsys}"
-+	done
-+
-+	shopt -u nullglob
-+	stty isig
-+
- 	modprobe -r nvme-loop
- 	modprobe -r nvmet
- }
+ _setup_nvmet() {
 -- 
 2.17.1
