@@ -1,142 +1,66 @@
-From: benh@kernel.crashing.org (Benjamin Herrenschmidt)
-Date: Thu, 18 Jul 2019 17:11:02 +1000
-Subject: [PATCH] nvme-pci: Support shared tags across queues for Apple 2018
- controllers
-In-Reply-To: <2cc90b8cfa935e345ec2b185b087f1859a040176.camel@kernel.crashing.org>
-References: <20190717004527.30363-1-benh@kernel.crashing.org>
- <20190717004527.30363-2-benh@kernel.crashing.org>
- <20190717115145.GB10495@minwoo-desktop>
- <2cc90b8cfa935e345ec2b185b087f1859a040176.camel@kernel.crashing.org>
-Message-ID: <ee80e26d2eda385a709d749e5f0ec9e42b442090.camel@kernel.crashing.org>
+From: Damien.LeMoal@wdc.com (Damien Le Moal)
+Date: Thu, 18 Jul 2019 07:13:57 +0000
+Subject: Duplicate tag error with 5.2
+References: <0007d555cf4586c4ae43fdca66766b6b11863078.camel@kernel.crashing.org>
+ <dbb6572c3d0b8ad1f20fd5f89ee112995676375b.camel@kernel.crashing.org>
+ <6e4b08daaa0482bd863b63cc5a85fa58ed871045.camel@kernel.crashing.org>
+ <CAOSXXT6Z=zEpWqac2k1ydk2LynAEtFr-4jXJVCtTa5yn8H7f3Q@mail.gmail.com>
+ <ee8eb3c8855942eb22391dd6137f3b969abce303.camel@kernel.crashing.org>
+ <f5de042adc383df7cb040859f13ce92412977467.camel@kernel.crashing.org>
+ <8936e370b7ae272c8810780ee26ae3cebc8525b9.camel@kernel.crashing.org>
+Message-ID: <BYAPR04MB58169C5A4EF8DFB10C5C2148E7C80@BYAPR04MB5816.namprd04.prod.outlook.com>
 
-Another issue with the Apple T2 based 2018 controllers seem to be
-that they blow up (and shut the machine down) if there's a tag
-collision between the IO queue and the Admin queue.
+On 2019/07/18 15:01, Benjamin Herrenschmidt wrote:
+> On Thu, 2019-07-18@15:27 +1000, Benjamin Herrenschmidt wrote:
+>>
+>> Actually the original printk's ignored the qid. I have a theory, trying
+>> to test it now.
+>>
+>> The problem tends to happens around when smartd starts. I wonder if the
+>> Apple drive is assuming a unique tag set accross both IO and admin
+>> queue...
+>>
+>> I'll do more digging.
+> 
+> Ok. I think that's it.
+> 
+> I reduced the IO queue to 4 entries (3 usable) and the admin queue to 6
+> (4 usable), and added printk's of submitted and completed tags.
+> 
+> I can trigger the problem easily now running smartctl -c /dev/nvme0n1
+> and doing a bit of IOs. It seems to happen when the IO and Admin queue
+> use the same tag.
 
-This adds a quirk that offsets all the tags in the IO queue by 32
-to avoid those collisions. It also limits the number of IO queues
-to 1 since the code wouldn't otherwise make sense (the device
-supports only one queue anyway but better safe than sorry).
+So isn't it that you are getting a completion cqe for an admin queue command in
+an IO completion queue ? Or the reverse ? Given how weird this NVMe device seems
+to be, it may be a possibility. In addition to the command ID (tag), if you
+print the cqe queue ID (le16_to_cpu(cqe->sq_id)), what do you see ?
 
-The bug is typically triggered by tag collisions between SMART
-commands from smartd and IO commands, often at boot time.
+> I verified after the crash, going to MacOS and getting the log from the
+> T2 chip, that the tag it complains about *is* the one that we happened
+> to have used accross both queues at the point where it dies.
+> 
+> Now, I am not that familiar with the tag management/allocation code,
+> how hard would it be to split the tags accross the queues ? I suppose I
+> could easily add a quirk to do +32 to the tags used on the IO queue...
 
-Signed-off-by: Benjamin Herrenschmidt <benh at kernel.crashing.org>
----
+The admin queue has its own tagset (nvme_dev->admin_tagset), separate from IO
+queues (nvme_dev->tagset). So I do not see how this would solve the problem.
 
-Note: This is the smallest way I found of doing this that keeps
-the impact self contained to pci.c. Feel free to suggest alternatives.
+> (Provided they support arbitrary sized tags up to 16 bits).
+> 
+> Cheers,
+> Ben.
+> 
+> 
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
+> 
 
- drivers/nvme/host/nvme.h |  5 +++++
- drivers/nvme/host/pci.c  | 26 ++++++++++++++++++++------
- 2 files changed, 25 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 564b967058f4..eeb99e485898 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -102,6 +102,11 @@ enum nvme_quirks {
- 	 * Use non-standard 128 bytes SQEs.
- 	 */
- 	NVME_QUIRK_128_BYTES_SQES		= (1 << 11),
-+
-+	/*
-+	 * Prevent tag overlap between queues
-+	 */
-+	NVME_QUIRK_SHARED_TAGS			= (1 << 12),
- };
- 
- /*
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index e399e59863c7..1055f19e57a4 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -194,6 +194,7 @@ struct nvme_queue {
- 	u16 cq_head;
- 	u16 last_cq_head;
- 	u16 qid;
-+	u16 tag_offset;
- 	u8 cq_phase;
- 	u8 sqes;
- 	unsigned long flags;
-@@ -506,6 +507,7 @@ static void nvme_submit_cmd(struct nvme_queue *nvmeq, struct nvme_command *cmd,
- 			    bool write_sq)
- {
- 	spin_lock(&nvmeq->sq_lock);
-+	cmd->common.command_id += nvmeq->tag_offset;
- 	memcpy(nvmeq->sq_cmds + (nvmeq->sq_tail << nvmeq->sqes),
- 	       cmd, sizeof(*cmd));
- 	if (++nvmeq->sq_tail == nvmeq->q_depth)
-@@ -967,9 +969,10 @@ static inline void nvme_ring_cq_doorbell(struct nvme_queue *nvmeq)
- static inline void nvme_handle_cqe(struct nvme_queue *nvmeq, u16 idx)
- {
- 	volatile struct nvme_completion *cqe = &nvmeq->cqes[idx];
-+	u16 ctag = cqe->command_id - nvmeq->tag_offset;
- 	struct request *req;
- 
--	if (unlikely(cqe->command_id >= nvmeq->q_depth)) {
-+	if (unlikely(ctag >= nvmeq->q_depth)) {
- 		dev_warn(nvmeq->dev->ctrl.device,
- 			"invalid id %d completed on queue %d\n",
- 			cqe->command_id, le16_to_cpu(cqe->sq_id));
-@@ -982,14 +985,13 @@ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq, u16 idx)
- 	 * aborts.  We don't even bother to allocate a struct request
- 	 * for them but rather special case them here.
- 	 */
--	if (unlikely(nvmeq->qid == 0 &&
--			cqe->command_id >= NVME_AQ_BLK_MQ_DEPTH)) {
-+	if (unlikely(nvmeq->qid == 0 && ctag >= NVME_AQ_BLK_MQ_DEPTH)) {
- 		nvme_complete_async_event(&nvmeq->dev->ctrl,
- 				cqe->status, &cqe->result);
- 		return;
- 	}
- 
--	req = blk_mq_tag_to_rq(*nvmeq->tags, cqe->command_id);
-+	req = blk_mq_tag_to_rq(*nvmeq->tags, ctag);
- 	trace_nvme_sq(req, cqe->sq_head, nvmeq->sq_tail);
- 	nvme_end_request(req, cqe->status, cqe->result);
- }
-@@ -1020,7 +1022,10 @@ static inline int nvme_process_cq(struct nvme_queue *nvmeq, u16 *start,
- 
- 	*start = nvmeq->cq_head;
- 	while (nvme_cqe_pending(nvmeq)) {
--		if (tag == -1U || nvmeq->cqes[nvmeq->cq_head].command_id == tag)
-+		u16 ctag = nvmeq->cqes[nvmeq->cq_head].command_id;
-+
-+		ctag -= nvmeq->tag_offset;
-+		if (tag == -1U || ctag == tag)
- 			found++;
- 		nvme_update_cq_head(nvmeq);
- 	}
-@@ -1499,6 +1504,10 @@ static int nvme_alloc_queue(struct nvme_dev *dev, int qid, int depth)
- 	nvmeq->qid = qid;
- 	dev->ctrl.queue_count++;
- 
-+	if (qid && (dev->ctrl.quirks & NVME_QUIRK_SHARED_TAGS))
-+		nvmeq->tag_offset = NVME_AQ_DEPTH;
-+	else
-+		nvmeq->tag_offset = 0;
- 	return 0;
- 
-  free_cqdma:
-@@ -2110,6 +2119,10 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 	unsigned long size;
- 
- 	nr_io_queues = max_io_queues();
-+
-+	if (dev->ctrl.quirks & NVME_QUIRK_SHARED_TAGS)
-+		nr_io_queues = 1;
-+
- 	result = nvme_set_queue_count(&dev->ctrl, &nr_io_queues);
- 	if (result < 0)
- 		return result;
-@@ -2957,7 +2970,8 @@ static const struct pci_device_id nvme_id_table[] = {
- 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2003) },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2005),
- 		.driver_data = NVME_QUIRK_SINGLE_VECTOR |
--				NVME_QUIRK_128_BYTES_SQES },
-+				NVME_QUIRK_128_BYTES_SQES |
-+				NVME_QUIRK_SHARED_TAGS },
- 	{ 0, }
- };
- MODULE_DEVICE_TABLE(pci, nvme_id_table);
+-- 
+Damien Le Moal
+Western Digital Research
