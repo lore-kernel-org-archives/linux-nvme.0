@@ -1,46 +1,168 @@
-From: benh@kernel.crashing.org (Benjamin Herrenschmidt)
-Date: Thu, 18 Jul 2019 17:39:50 +1000
-Subject: Duplicate tag error with 5.2
-In-Reply-To: <BYAPR04MB58169C5A4EF8DFB10C5C2148E7C80@BYAPR04MB5816.namprd04.prod.outlook.com>
-References: <0007d555cf4586c4ae43fdca66766b6b11863078.camel@kernel.crashing.org>
- <dbb6572c3d0b8ad1f20fd5f89ee112995676375b.camel@kernel.crashing.org>
- <6e4b08daaa0482bd863b63cc5a85fa58ed871045.camel@kernel.crashing.org>
- <CAOSXXT6Z=zEpWqac2k1ydk2LynAEtFr-4jXJVCtTa5yn8H7f3Q@mail.gmail.com>
- <ee8eb3c8855942eb22391dd6137f3b969abce303.camel@kernel.crashing.org>
- <f5de042adc383df7cb040859f13ce92412977467.camel@kernel.crashing.org>
- <8936e370b7ae272c8810780ee26ae3cebc8525b9.camel@kernel.crashing.org>
- <BYAPR04MB58169C5A4EF8DFB10C5C2148E7C80@BYAPR04MB5816.namprd04.prod.outlook.com>
-Message-ID: <c7235187d44618bc6636da0968c8037aebf50742.camel@kernel.crashing.org>
+From: zwp10758@gmail.com (Weiping Zhang)
+Date: Thu, 18 Jul 2019 21:33:07 +0800
+Subject: [PATCH v3 0/5] Add support Weighted Round Robin for blkcg and nvme
+In-Reply-To: <cover.1561381826.git.zhangweiping@didiglobal.com>
+References: <cover.1561381826.git.zhangweiping@didiglobal.com>
+Message-ID: <CAA70yB5wsa9+Tb5AYvvq9YHUm79PVhQDcq_amYKjt2WwGqCc_g@mail.gmail.com>
 
-On Thu, 2019-07-18@07:13 +0000, Damien Le Moal wrote:
-> > I can trigger the problem easily now running smartctl -c /dev/nvme0n1
-> > and doing a bit of IOs. It seems to happen when the IO and Admin queue
-> > use the same tag.
-> 
-> So isn't it that you are getting a completion cqe for an admin queue command in
-> an IO completion queue ? Or the reverse ? Given how weird this NVMe device seems
-> to be, it may be a possibility. In addition to the command ID (tag), if you
-> print the cqe queue ID (le16_to_cpu(cqe->sq_id)), what do you see ?
+Weiping Zhang <zhangweiping at didiglobal.com> ?2019?6?24??? ??10:34???
+>
+> Hi,
+>
+> This series try to add Weighted Round Robin for block cgroup and nvme
+> driver. When multiple containers share a single nvme device, we want
+> to protect IO critical container from not be interfernced by other
+> containers. We add blkio.wrr interface to user to control their IO
+> priority. The blkio.wrr accept five level priorities, which contains
+> "urgent", "high", "medium", "low" and "none", the "none" is used for
+> disable WRR for this cgroup.
+>
+> The first patch add an WRR infrastucture for block cgroup.
+>
+> We add extra four hareware contexts at blk-mq layer,
+> HCTX_TYPE_WRR_URGETN/HIGH/MEDIUM/LOW to allow device driver maps
+> different hardsware queues to dirrenct hardware context.
+>
+> The second patch add a nvme_ctrl_ops named get_ams to get the expect
+> Arbitration Mechanism Selected, now this series only support nvme-pci.
+> This operations will check both CAP.AMS and nvme-pci wrr queue count,
+> to decide enable WRR or RR.
+>
+> The third patch rename write_queues module parameter to read_queues,
+> that can simplify the calculation the number of defaut,read,poll,wrr
+> queue.
+>
+> The fourth patch skip the empty affinity set, because nvme may have
+> 7 affinity sets, and some affinity set may be empty.
+>
+> The last patch add support nvme-pci Weighted Round Robin with Urgent
+> Priority Class, we add four module paranmeters as follow:
+>         wrr_urgent_queues
+>         wrr_high_queues
+>         wrr_medium_queues
+>         wrr_low_queues
+> nvme-pci will set CC.AMS=001b, if CAP.AMS[17]=1 and wrr_xxx_queues
+> larger than 0. nvme driver will split hardware queues base on the
+> read/pool/wrr_xxx_queues, then set proper value for Queue Priority
+> (QPRIO) in DWORD11.
+>
+> fio test:
+>
+> CPU:    Intel(R) Xeon(R) Platinum 8160 CPU @ 2.10GHz
+> NVME:   Intel SSDPE2KX020T8 P4510 2TB
+>
+> [root at tmp-201812-d1802-818396173 low]# nvme show-regs /dev/nvme0n1
+> cap     : 2078030fff
+> version : 10200
+> intms   : 0
+> intmc   : 0
+> cc      : 460801
+> csts    : 1
+> nssr    : 0
+> aqa     : 1f001f
+> asq     : 5f7cc08000
+> acq     : 5f5ac23000
+> cmbloc  : 0
+> cmbsz   : 0
+>
+> Run fio-1, fio-2, fio-3 in parallel,
+>
+> For RR(round robin) these three fio nearly get same iops or bps,
+> if we set blkio.wrr for different priority, the WRR "high" will
+> get more iops/bps than "medium" and "low".
+>
+>
+>
+> RR:
+> fio-1: echo "259:0 none" > /sys/fs/cgroup/blkio/high/blkio.wrr
+> fio-2: echo "259:0 none" > /sys/fs/cgroup/blkio/medium/blkio.wrr
+> fio-3: echo "259:0 none" > /sys/fs/cgroup/blkio/low/blkio.wrr
+>
+> WRR:
+> fio-1: echo "259:0 high" > /sys/fs/cgroup/blkio/high/blkio.wrr
+> fio-2: echo "259:0 medium" > /sys/fs/cgroup/blkio/medium/blkio.wrr
+> fio-3: echo "259:0 low" > /sys/fs/cgroup/blkio/low/blkio.wrr
+>
+> rwtest=randread
+> fio --bs=4k --ioengine=libaio --iodepth=32 --filename=/dev/nvme0n1 --direct=1 --runtime=60 --numjobs=8 --rw=$rwtest --name=test$1 --group_reporting
+>
+> Randread 4K     RR              WRR
+> -------------------------------------------------------
+> fio-1:          220 k           395 k
+> fio-2:          220 k           197 k
+> fio-3:          220 k           66  k
+>
+> rwtest=randwrite
+> fio --bs=4k --ioengine=libaio --iodepth=32 --filename=/dev/nvme0n1 --direct=1 --runtime=60 --numjobs=8 --rw=$rwtest --name=test$1 --group_reporting
+>
+> Randwrite 4K    RR              WRR
+> -------------------------------------------------------
+> fio-1:          150 k           295 k
+> fio-2:          150 k           148 k
+> fio-3:          150 k           51  k
+>
+> rwtest=read
+> fio --bs=512k --ioengine=libaio --iodepth=32 --filename=/dev/nvme0n1 --direct=1 --runtime=60 --numjobs=8 --rw=$rwtest --name=test$1 --group_reporting
+>
+> read 512K       RR              WRR
+> -------------------------------------------------------
+> fio-1:          963 MiB/s       1704 MiB/s
+> fio-2:          950 MiB/s       850  MiB/s
+> fio-3:          961 MiB/s       284  MiB/s
+>
+> rwtest=read
+> fio --bs=512k --ioengine=libaio --iodepth=32 --filename=/dev/nvme0n1 --direct=1 --runtime=60 --numjobs=8 --rw=$rwtest --name=test$1 --group_reporting
+>
+> write 512K      RR              WRR
+> -------------------------------------------------------
+> fio-1:          890 MiB/s       1150 MiB/s
+> fio-2:          871 MiB/s       595  MiB/s
+> fio-3:          895 MiB/s       188  MiB/s
+>
+>
+> Changes since V2:
+>  * drop null_blk related patch, which adds a new NULL_Q_IRQ_WRR to
+>         simulte nvme wrr policy
+>  * add urgent tagset map for nvme driver
+>  * fix some problem in V2, suggested by Minwoo
+>
+> Changes since V1:
+>  * reorder HCTX_TYPE_POLL to the last one to adopt nvme driver easily.
+>  * add support WRR(Weighted Round Robin) for nvme driver
+>
+> Weiping Zhang (5):
+>   block: add weighted round robin for blkcgroup
+>   nvme: add get_ams for nvme_ctrl_ops
+>   nvme-pci: rename module parameter write_queues to read_queues
+>   genirq/affinity: allow driver's discontigous affinity set
+>   nvme: add support weighted round robin queue
+>
+>  block/blk-cgroup.c         |  89 ++++++++++++++++
+>  block/blk-mq-debugfs.c     |   4 +
+>  block/blk-mq-sched.c       |   6 +-
+>  block/blk-mq-tag.c         |   4 +-
+>  block/blk-mq-tag.h         |   2 +-
+>  block/blk-mq.c             |  12 ++-
+>  block/blk-mq.h             |  20 +++-
+>  block/blk.h                |   2 +-
+>  drivers/nvme/host/core.c   |   9 +-
+>  drivers/nvme/host/nvme.h   |   2 +
+>  drivers/nvme/host/pci.c    | 246 ++++++++++++++++++++++++++++++++++++---------
+>  include/linux/blk-cgroup.h |   2 +
+>  include/linux/blk-mq.h     |  14 +++
+>  include/linux/interrupt.h  |   2 +-
+>  include/linux/nvme.h       |   3 +
+>  kernel/irq/affinity.c      |   4 +
+>  16 files changed, 362 insertions(+), 59 deletions(-)
+>
 
-Ah I can add code to validate that it's coming into the right queue,
-good idea.
+Hi Jens,
 
-> > I verified after the crash, going to MacOS and getting the log from the
-> > T2 chip, that the tag it complains about *is* the one that we happened
-> > to have used accross both queues at the point where it dies.
-> > 
-> > Now, I am not that familiar with the tag management/allocation code,
-> > how hard would it be to split the tags accross the queues ? I suppose I
-> > could easily add a quirk to do +32 to the tags used on the IO queue...
-> 
-> The admin queue has its own tagset (nvme_dev->admin_tagset), separate from IO
-> queues (nvme_dev->tagset). So I do not see how this would solve the problem.
+Would you give some comments for this series.
 
-I can easily do that by offsetting command_id locally to pci.c but
-doing just that didn't completely fix it. It just made it much harder
-to hit. I suspect they might also not like tags > 128, so I've added a
-hack to clamp the IO queue depth to 64 as well, it's still running,
-I'll let it run overnight (smartctl in a loop + dd's)
+Thanks
 
-Cheers,
-Ben.
+
+> --
+> 2.14.1
+>
