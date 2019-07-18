@@ -1,14 +1,14 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 18 Jul 2019 09:04:18 +0200
-Subject: [PATCH blktests v2 05/12] nvme/005: Don't rely on modprobing to
- set the multipath paramater
-In-Reply-To: <20190717171259.3311-6-logang@deltatee.com>
+Date: Thu, 18 Jul 2019 09:04:47 +0200
+Subject: [PATCH blktests v2 06/12] nvme/015: Ensure the namespace is
+ flushed not the char device
+In-Reply-To: <20190717171259.3311-7-logang@deltatee.com>
 References: <20190717171259.3311-1-logang@deltatee.com>
- <20190717171259.3311-6-logang@deltatee.com>
-Message-ID: <20190718070418.GE15760@x250.microfocus.com>
+ <20190717171259.3311-7-logang@deltatee.com>
+Message-ID: <20190718070447.GF15760@x250.microfocus.com>
 
 Looks good,
-eviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 -- 
 Johannes Thumshirn                            SUSE Labs Filesystems
 jthumshirn at suse.de                                +49 911 74053 689
