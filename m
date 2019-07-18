@@ -1,39 +1,29 @@
-From: tj@kernel.org (Tejun Heo)
-Date: Thu, 18 Jul 2019 06:59:16 -0700
-Subject: [PATCH v3 1/5] block: add weighted round robin for blkcgroup
-In-Reply-To: <1333161d2c64dbe93f9dcd0814ffaf6d00216d58.1561385989.git.zhangweiping@didiglobal.com>
-References: <cover.1561385989.git.zhangweiping@didiglobal.com>
- <1333161d2c64dbe93f9dcd0814ffaf6d00216d58.1561385989.git.zhangweiping@didiglobal.com>
-Message-ID: <20190718135916.GC696309@devbig004.ftw2.facebook.com>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Thu, 18 Jul 2019 09:55:09 -0600
+Subject: [PATCH blktests v2 03/12] nvme: Add new test to verify the
+ generation counter
+In-Reply-To: <20190718070330.GC15760@x250.microfocus.com>
+References: <20190717171259.3311-1-logang@deltatee.com>
+ <20190717171259.3311-4-logang@deltatee.com>
+ <20190718070330.GC15760@x250.microfocus.com>
+Message-ID: <1c81c160-7c32-7a88-53ae-ea54030b8d19@deltatee.com>
 
-Hello, Weiping.
 
-On Mon, Jun 24, 2019@10:28:51PM +0800, Weiping Zhang wrote:
-> +static const char *blk_wrr_name[BLK_WRR_COUNT] = {
-> +	[BLK_WRR_NONE]		= "none",
-> +	[BLK_WRR_LOW]		= "low",
-> +	[BLK_WRR_MEDIUM]	= "medium",
-> +	[BLK_WRR_HIGH]		= "high",
-> +	[BLK_WRR_URGENT]	= "urgent",
-> +};
 
-cgroup controllers must be fully hierarchical which the proposed
-implementation isn't.  While it can be made hierarchical, there's only
-so much one can do if there are only five priority levels.
+On 2019-07-18 1:03 a.m., Johannes Thumshirn wrote:
+> On Wed, Jul 17, 2019@11:12:50AM -0600, Logan Gunthorpe wrote:
+> [...]
+>> +_discovery_genctr() {
+>> +	nvme discover -t loop |
+>> +		sed -n -e 's/^.*Generation counter \([0-9]\+\).*$/\1/p'
+>> +}
+> 
+> Sorry for not having spotted this in v1, but do we really want to hard-core
+> the transport type in a library function?
 
-Can you please take a look at the following?
+My opinion is that this is unnecessary until we have users of the
+function that need different transport types. It's easy enough for
+someone to change when they need it. It's a pretty standard practice in
+kernel development to not add a feature that no-one uses.
 
-  http://lkml.kernel.org/r/20190710205128.1316483-1-tj at kernel.org
-
-In comparison, I'm having a bit of hard time seeing the benefits of
-this approach.  In addition to the finite level limitation, the actual
-WRR behavior would be device dependent and what each level means is
-likely to fluctuate depending on the workload and device model.
-
-I wonder whether WRR is something more valuable to help internal queue
-management rather than being exposed to userspace directly.
-
-Thanks.
-
--- 
-tejun
+Logan
