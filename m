@@ -1,30 +1,21 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Wed, 17 Jul 2019 18:35:22 +0000
-Subject: [PATCH v2] nvmet-file: fix nvmet_file_flush() always returning an
- error
-References: <20190715221707.3265-1-logang@deltatee.com>
-Message-ID: <BYAPR04MB57492E5376FAAF29B70A46F786C90@BYAPR04MB5749.namprd04.prod.outlook.com>
+From: benh@kernel.crashing.org (Benjamin Herrenschmidt)
+Date: Thu, 18 Jul 2019 10:41:53 +1000
+Subject: Duplicate tag error with 5.2
+Message-ID: <0007d555cf4586c4ae43fdca66766b6b11863078.camel@kernel.crashing.org>
 
-On 07/15/2019 03:17 PM, Logan Gunthorpe wrote:
-> Presently, nvmet_file_flush() always returns a call to
-> errno_to_nvme_status() but that helper doesn't take into account the
-> case when errno=0. So nvmet_file_flush() always returns an error code.
->
-> All other callers of errno_to_nvme_status() check for success before
-> calling it.
->
-> To fix this, ensure errno_to_nvme_status() returns success if the
-> errno is zero. This should prevent future mistakes like this from
-> happening.
->
-> Fixes: c6aa3542e010 ("nvmet: add error log support for file backend")
-> Signed-off-by: Logan Gunthorpe<logang at deltatee.com>
-> Cc: Chaitanya Kulkarni<chaitanya.kulkarni at wdc.com>
+Hi !
 
-Thanks for the fix Logan, errno_to_nvme_status() needs to be only called 
-in the case of error. Clearly bad example of calling function withing 
-function.
+So I'm getting occasional abrupt shutdowns on the Mac Mini 2018. I
+found out that it's the T2 chip that is panic'ing and shutting the
+system down.
 
-Looks good to me.
+Interestingly, when booting into MacOS, we can get some kind of error
+log of what happened. It looks like the NVME implementation on that
+thing is a SW emulation done by the T2 chip :-) It's failing on an
+assert due to a duplicate tag error...
 
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+Does that ring any bell ? Any idea what might be causing that ? (tag is
+tag 8 if that means anything).
+
+Cheers,
+Ben.
