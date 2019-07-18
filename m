@@ -1,39 +1,46 @@
-From: benh@kernel.crashing.org (Benjamin Herrenschmidt)
-Date: Thu, 18 Jul 2019 15:27:29 +1000
-Subject: Duplicate tag error with 5.2
-In-Reply-To: <ee8eb3c8855942eb22391dd6137f3b969abce303.camel@kernel.crashing.org>
-References: <0007d555cf4586c4ae43fdca66766b6b11863078.camel@kernel.crashing.org>
- <dbb6572c3d0b8ad1f20fd5f89ee112995676375b.camel@kernel.crashing.org>
- <6e4b08daaa0482bd863b63cc5a85fa58ed871045.camel@kernel.crashing.org>
- <CAOSXXT6Z=zEpWqac2k1ydk2LynAEtFr-4jXJVCtTa5yn8H7f3Q@mail.gmail.com>
- <ee8eb3c8855942eb22391dd6137f3b969abce303.camel@kernel.crashing.org>
-Message-ID: <f5de042adc383df7cb040859f13ce92412977467.camel@kernel.crashing.org>
+From: hare@suse.de (Hannes Reinecke)
+Date: Thu, 18 Jul 2019 07:52:31 +0200
+Subject: [PATCH 05/10] nvme-cli: extend ctrl_list_item for connect
+ attributes
+In-Reply-To: <20190716211241.7650-6-jsmart2021@gmail.com>
+References: <20190716211241.7650-1-jsmart2021@gmail.com>
+ <20190716211241.7650-6-jsmart2021@gmail.com>
+Message-ID: <9425d990-1c58-aa23-6822-a861c781b876@suse.de>
 
-On Thu, 2019-07-18@14:53 +1000, Benjamin Herrenschmidt wrote:
-> On Thu, 2019-07-18@12:58 +0900, Keith Busch wrote:
-> > It doesn't look possible to reuse an active tag on the same queue,
-> > but we can have duplicate tags on different hardware queues. Could
-> > you the queue ID in addition to the tag in the prints?
+On 7/16/19 11:12 PM, James Smart wrote:
+> In preparation for searching controllers to match with connect args:
 > 
-> There's only one IO queue on this, and my testing is on qid 1 only.
+> Extend the ctrl_list_item with elements that can be compared against
+> connect arguments. Extend the get_nvme_ctrl_info() routine to set
+> the fields.
 > 
-> That said, I wonder whether we have a different issue that's indirectly
-> causing this...
+> subsysnqn was added as the ctrl_list_item may now be used outside of
+> a subsystem listing.
 > 
-> I noticed the qdepth is strange ... 129. That doesn't look right to me.
-> I wonder if Apple is not properly 0-basing the capability, and thus as
-> a result, we might get bogus completions or something like this.
+> traddr, trsvid, and host_traddr are added. Their values come from
+> the address attribute.  A new parsing routine was added that extracts
+> the values from the address string.
 > 
-> I'll dig a bit more.
-
-Actually the original printk's ignored the qid. I have a theory, trying
-to test it now.
-
-The problem tends to happens around when smartd starts. I wonder if the
-Apple drive is assuming a unique tag set accross both IO and admin
-queue...
-
-I'll do more digging.
+> The new parsing routine and supporting field names strings are
+> declared as a global interface as a subsequent patch will call it
+> from the fabrics routines.
+> 
+> Signed-off-by: James Smart <jsmart2021 at gmail.com>
+> CC: Sagi Grimberg <sagi at grimberg.me>
+> CC: Hannes Reinecke <hare at suse.com>
+> ---
+>  nvme.c | 72 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  nvme.h | 10 ++++++++++
+>  2 files changed, 82 insertions(+)
+> 
+Reviewed-by: Hannes Reinecke <hare at suse.com>
 
 Cheers,
-Ben.
+
+Hannes
+-- 
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
+HRB 21284 (AG N?rnberg)
