@@ -1,11 +1,11 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 18 Jul 2019 09:07:46 +0200
-Subject: [PATCH blktests v2 09/12] nvme: Cleanup modprobe lines into
- helper functions
-In-Reply-To: <20190717171259.3311-10-logang@deltatee.com>
+Date: Thu, 18 Jul 2019 09:08:09 +0200
+Subject: [PATCH blktests v2 10/12] nvme: Ensure all ports and subsystems
+ are removed on cleanup
+In-Reply-To: <20190717171259.3311-11-logang@deltatee.com>
 References: <20190717171259.3311-1-logang@deltatee.com>
- <20190717171259.3311-10-logang@deltatee.com>
-Message-ID: <20190718070745.GI15760@x250.microfocus.com>
+ <20190717171259.3311-11-logang@deltatee.com>
+Message-ID: <20190718070809.GJ15760@x250.microfocus.com>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
