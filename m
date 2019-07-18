@@ -1,11 +1,11 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 18 Jul 2019 09:08:37 +0200
-Subject: [PATCH blktests v2 11/12] common: Use sysfs instead of modinfo
- for _have_module_param()
-In-Reply-To: <20190717171259.3311-12-logang@deltatee.com>
+Date: Thu, 18 Jul 2019 09:09:00 +0200
+Subject: [PATCH blktests v2 12/12] nvme: Ignore errors when removing
+ modules
+In-Reply-To: <20190717171259.3311-13-logang@deltatee.com>
 References: <20190717171259.3311-1-logang@deltatee.com>
- <20190717171259.3311-12-logang@deltatee.com>
-Message-ID: <20190718070837.GK15760@x250.microfocus.com>
+ <20190717171259.3311-13-logang@deltatee.com>
+Message-ID: <20190718070900.GL15760@x250.microfocus.com>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
