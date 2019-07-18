@@ -1,11 +1,11 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 18 Jul 2019 09:07:03 +0200
-Subject: [PATCH blktests v2 08/12] check: Add the ability to call a
- cleanup function after a test ends
-In-Reply-To: <20190717171259.3311-9-logang@deltatee.com>
+Date: Thu, 18 Jul 2019 09:07:46 +0200
+Subject: [PATCH blktests v2 09/12] nvme: Cleanup modprobe lines into
+ helper functions
+In-Reply-To: <20190717171259.3311-10-logang@deltatee.com>
 References: <20190717171259.3311-1-logang@deltatee.com>
- <20190717171259.3311-9-logang@deltatee.com>
-Message-ID: <20190718070703.GH15760@x250.microfocus.com>
+ <20190717171259.3311-10-logang@deltatee.com>
+Message-ID: <20190718070745.GI15760@x250.microfocus.com>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
