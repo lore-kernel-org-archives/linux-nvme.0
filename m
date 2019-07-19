@@ -1,90 +1,30 @@
-From: benh@kernel.crashing.org (Benjamin Herrenschmidt)
-Date: Fri, 19 Jul 2019 15:31:02 +1000
+From: bsingharora@gmail.com (Balbir Singh)
+Date: Fri, 19 Jul 2019 15:45:20 +1000
 Subject: [PATCH v3] nvme-pci: Support shared tags across queues for Apple
  2018 controllers
-Message-ID: <b1f9bdf0294b8d87d292de3c7462c8e99551b02d.camel@kernel.crashing.org>
+In-Reply-To: <b1f9bdf0294b8d87d292de3c7462c8e99551b02d.camel@kernel.crashing.org>
+References: <b1f9bdf0294b8d87d292de3c7462c8e99551b02d.camel@kernel.crashing.org>
+Message-ID: <CAKTCnzm25sa_6p=U-FAL9dEPdd13OJ446hqhZfHPn5zrYmAKRg@mail.gmail.com>
 
->From 8dcba2ef5b1466b023b88b4eca463b30de78d9eb Mon Sep 17 00:00:00 2001
-From: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Date: Fri, 19 Jul 2019 15:03:06 +1000
-Subject: 
+On Fri, Jul 19, 2019 at 3:31 PM Benjamin Herrenschmidt
+<benh@kernel.crashing.org> wrote:
+>
+> From 8dcba2ef5b1466b023b88b4eca463b30de78d9eb Mon Sep 17 00:00:00 2001
+> From: Benjamin Herrenschmidt <benh at kernel.crashing.org>
+> Date: Fri, 19 Jul 2019 15:03:06 +1000
+> Subject:
+>
+> Another issue with the Apple T2 based 2018 controllers seem to be
+> that they blow up (and shut the machine down) if there's a tag
+> collision between the IO queue and the Admin queue.
+>
+> My suspicion is that they use our tags for their internal tracking
+> and don't mix them with the queue id. They also seem to not like
+> when tags go beyond the IO queue depth, ie 128 tags.
+>
+> This adds a quirk that marks tags 0..31 of the IO queue reserved
+>
+> Signed-off-by: Benjamin Herrenschmidt <benh at kernel.crashing.org>
+> ---
 
-Another issue with the Apple T2 based 2018 controllers seem to be
-that they blow up (and shut the machine down) if there's a tag
-collision between the IO queue and the Admin queue.
-
-My suspicion is that they use our tags for their internal tracking
-and don't mix them with the queue id. They also seem to not like
-when tags go beyond the IO queue depth, ie 128 tags.
-
-This adds a quirk that marks tags 0..31 of the IO queue reserved
-
-Signed-off-by: Benjamin Herrenschmidt <benh at kernel.crashing.org>
----
-
-Thanks Damien, reserved tags work and make this a lot simpler !
-
- drivers/nvme/host/nvme.h |  5 +++++
- drivers/nvme/host/pci.c  | 19 ++++++++++++++++++-
- 2 files changed, 23 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index ced0e0a7e039..8732da6df555 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -102,6 +102,11 @@ enum nvme_quirks {
- 	 * Use non-standard 128 bytes SQEs.
- 	 */
- 	NVME_QUIRK_128_BYTES_SQES		= (1 << 11),
-+
-+	/*
-+	 * Prevent tag overlap between queues
-+	 */
-+	NVME_QUIRK_SHARED_TAGS                  = (1 << 12),
- };
- 
- /*
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 7088971d4c42..fc74395a028b 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2106,6 +2106,14 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 	unsigned long size;
- 
- 	nr_io_queues = max_io_queues();
-+
-+	/*
-+	 * If tags are shared with admin queue (Apple bug), then
-+	 * make sure we only use one IO queue.
-+	 */
-+	if (dev->ctrl.quirks & NVME_QUIRK_SHARED_TAGS)
-+		nr_io_queues = 1;
-+
- 	result = nvme_set_queue_count(&dev->ctrl, &nr_io_queues);
- 	if (result < 0)
- 		return result;
-@@ -2278,6 +2286,14 @@ static int nvme_dev_add(struct nvme_dev *dev)
- 		dev->tagset.flags = BLK_MQ_F_SHOULD_MERGE;
- 		dev->tagset.driver_data = dev;
- 
-+		/*
-+		 * Some Apple controllers requires tags to be unique
-+		 * across admin and IO queue, so reserve the first 32
-+		 * tags of the IO queue.
-+		 */
-+		if (dev->ctrl.quirks & NVME_QUIRK_SHARED_TAGS)
-+			dev->tagset.reserved_tags = NVME_AQ_DEPTH;
-+
- 		ret = blk_mq_alloc_tag_set(&dev->tagset);
- 		if (ret) {
- 			dev_warn(dev->ctrl.device,
-@@ -3057,7 +3073,8 @@ static const struct pci_device_id nvme_id_table[] = {
- 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2003) },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2005),
- 		.driver_data = NVME_QUIRK_SINGLE_VECTOR |
--				NVME_QUIRK_128_BYTES_SQES },
-+				NVME_QUIRK_128_BYTES_SQES |
-+				NVME_QUIRK_SHARED_TAGS },
- 	{ 0, }
- };
- MODULE_DEVICE_TABLE(pci, nvme_id_table);
+Reviewed-by: Balbir Singh <bsingharora at gmail.com>
