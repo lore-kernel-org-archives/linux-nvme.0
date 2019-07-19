@@ -1,135 +1,67 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 18 Jul 2019 18:39:56 -0600
-Subject: [PATCH 2/2] nvme-core: Fix deadlock when deleting the ctrl while
- scanning
-In-Reply-To: <c52f80b1-e154-b11f-a868-e3209e4ccb2d@grimberg.me>
-References: <20190718225132.5865-1-logang@deltatee.com>
- <20190718225132.5865-2-logang@deltatee.com>
- <c52f80b1-e154-b11f-a868-e3209e4ccb2d@grimberg.me>
-Message-ID: <6deea9e7-ff3c-e115-b2f2-8914df0b6da7@deltatee.com>
+From: benh@kernel.crashing.org (Benjamin Herrenschmidt)
+Date: Fri, 19 Jul 2019 10:44:33 +1000
+Subject: Duplicate tag error with 5.2
+In-Reply-To: <BYAPR04MB581667EE6FB45D86881529E2E7CB0@BYAPR04MB5816.namprd04.prod.outlook.com>
+References: <0007d555cf4586c4ae43fdca66766b6b11863078.camel@kernel.crashing.org>
+ <dbb6572c3d0b8ad1f20fd5f89ee112995676375b.camel@kernel.crashing.org>
+ <6e4b08daaa0482bd863b63cc5a85fa58ed871045.camel@kernel.crashing.org>
+ <CAOSXXT6Z=zEpWqac2k1ydk2LynAEtFr-4jXJVCtTa5yn8H7f3Q@mail.gmail.com>
+ <ee8eb3c8855942eb22391dd6137f3b969abce303.camel@kernel.crashing.org>
+ <f5de042adc383df7cb040859f13ce92412977467.camel@kernel.crashing.org>
+ <8936e370b7ae272c8810780ee26ae3cebc8525b9.camel@kernel.crashing.org>
+ <BYAPR04MB58169C5A4EF8DFB10C5C2148E7C80@BYAPR04MB5816.namprd04.prod.outlook.com>
+ <c7235187d44618bc6636da0968c8037aebf50742.camel@kernel.crashing.org>
+ <BYAPR04MB581667EE6FB45D86881529E2E7CB0@BYAPR04MB5816.namprd04.prod.outlook.com>
+Message-ID: <50c35ab3db7745875476c0966bf191ab42de4dd1.camel@kernel.crashing.org>
 
+On Fri, 2019-07-19@00:39 +0000, Damien Le Moal wrote:
+> On 2019/07/18 16:40, Benjamin Herrenschmidt wrote:
+> > On Thu, 2019-07-18@07:13 +0000, Damien Le Moal wrote:
+> > > > I can trigger the problem easily now running smartctl -c /dev/nvme0n1
+> > > > and doing a bit of IOs. It seems to happen when the IO and Admin queue
+> > > > use the same tag.
+> > > 
+> > > So isn't it that you are getting a completion cqe for an admin queue command in
+> > > an IO completion queue ? Or the reverse ? Given how weird this NVMe device seems
+> > > to be, it may be a possibility. In addition to the command ID (tag), if you
+> > > print the cqe queue ID (le16_to_cpu(cqe->sq_id)), what do you see ?
+> > 
+> > Ah I can add code to validate that it's coming into the right queue,
+> > good idea.
+> 
+> If the completion really shows up into the wrong queue, a fix may be simply to
+> hack this code in nvme_handle_cqe():
+> 
+> 	req = blk_mq_tag_to_rq(*nvmeq->tags, cqe->command_id);
+> 	trace_nvme_sq(req, cqe->sq_head, nvmeq->sq_tail);
+> 	nvme_end_request(req, cqe->status, cqe->result);
+> 
+> to use a different nvmeq pointer, that is the one that corresponds to cqe->sq_id
+> queue used for submission, which would lead to the correct tagset to be
+> referenced and suppress the false "duplicate" tag issue. Locking of queues/hctx
+> may need careful checking with such a change though.
 
+But if the completion arrived in the wrong queue, wouldn't we be
+missing the completions for admin requests and thus having all sort of
+issues ?
 
-On 2019-07-18 6:25 p.m., Sagi Grimberg wrote:
-> 
->> With multipath enabled, nvme_scan_work() can read from the
->> device (through nvme_mpath_add_disk()). However, with fabrics,
->> once ctrl->state is set to NVME_CTRL_DELETING, the reads will hang
->> (see nvmf_check_ready()).
->>
->> After setting the state to deleting, nvme_remove_namespaces() will
->> hang waiting for scan_work to flush and these tasks will hang.
->>
->> To fix this, ensure we take scan_lock before changing the ctrl-state.
->> Also, ensure the state is checked while the lock is held
->> in nvme_scan_lock_work().
-> 
-> That's a big hammer...
+Things are now solid with those two changes I've done locally, I'll
+send a tentative patche:
 
-I didn't think the scan_lock was that contested or that
-nvme_change_ctrl_state() was really called that often...
+ - Offset all tags in the IO queue with 32 so they don't overlap (I do
+it at the point of writing into the submission queue, and undo it when
+processing the CQs).
 
-> But this is I/O that we cannot have queued until we have a path..
-> 
-> I would rather have nvme_remove_namespaces() requeue all I/Os for
-> namespaces that serve as the current_path and have the make_request
-> routine to fail I/O if all controllers are deleting as well.
-> 
-> Would something like [1] (untested) make sense instead?
+ - Reduce the IO queue depth by 32
 
-I'll have to give this a try next week and I'll let you know then. It
-kind of makes sense to me but a number of things I tried to fix this
-that I thought made sense did not work.
+Without the latter, I occasionally (but more rarely) still got the
+error, but always with tags > 127. I suspect that not only Apple
+implementation actually *uses* the tags we specify for their own
+internal tracking, but they also only support values 0...127.
 
-> 
->> +??? mutex_lock(&ctrl->scan_lock);
->> +
->> ????? if (ctrl->state != NVME_CTRL_LIVE)
->> ????????? return;
-> 
-> unlock
+With those two changes it's been solid. Thankfully the resulting quirk
+is reasonably simple and self contained to pci.c. I'll clean things up
+and post.
 
-If we unlock here and relock below, we'd have to recheck the ctrl->state
-to avoid any races. If you don't want to call nvme_identify_ctrl with
-the lock held, then it would probably be better to move the state check
-below it.
-
->> ? @@ -3547,7 +3554,6 @@ static void nvme_scan_work(struct work_struct
->> *work)
->> ????? if (nvme_identify_ctrl(ctrl, &id))
->> ????????? return;
-> 
-> unlock
-> 
-> 
-> [1]:
-> -- 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 76cd3dd8736a..627f5871858d 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -3576,6 +3576,11 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
-> ??????? struct nvme_ns *ns, *next;
-> ??????? LIST_HEAD(ns_list);
-> 
-> +?????? mutex_lock(&ctrl->scan_lock);
-> +?????? list_for_each_entry(ns, &ctrl->namespaces, list)
-> +?????????????? nvme_mpath_clear_current_path(ns);
-> +?????? mutex_lock(&ctrl->scan_lock);
-> +
-> ??????? /* prevent racing with ns scanning */
-> ??????? flush_work(&ctrl->scan_work);
-> 
-> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-> index a9a927677970..da1731266788 100644
-> --- a/drivers/nvme/host/multipath.c
-> +++ b/drivers/nvme/host/multipath.c
-> @@ -231,6 +231,24 @@ inline struct nvme_ns *nvme_find_path(struct
-> nvme_ns_head *head)
-> ??????? return ns;
-> ?}
-> 
-> +static bool nvme_available_path(struct nvme_ns_head *head)
-> +{
-> +?????? struct nvme_ns *ns;
-> +
-> +?????? list_for_each_entry_rcu(ns, &head->list, siblings) {
-> +?????????????? switch (ns->ctrl->state) {
-> +?????????????? case NVME_CTRL_LIVE:
-> +?????????????? case NVME_CTRL_RESETTING:
-> +?????????????? case NVME_CTRL_CONNECTING:
-> +?????????????????????? /* fallthru */
-> +?????????????????????? return true;
-> +?????????????? default:
-> +?????????????????????? break;
-> +?????????????? }
-> +?????? }
-> +?????? return false;
-> +}
-> +
-> ?static blk_qc_t nvme_ns_head_make_request(struct request_queue *q,
-> ??????????????? struct bio *bio)
-> ?{
-> @@ -257,14 +275,14 @@ static blk_qc_t nvme_ns_head_make_request(struct
-> request_queue *q,
-> ????????????????????????????????????? disk_devt(ns->head->disk),
-> ????????????????????????????????????? bio->bi_iter.bi_sector);
-> ??????????????? ret = direct_make_request(bio);
-> -?????? } else if (!list_empty_careful(&head->list)) {
-> -?????????????? dev_warn_ratelimited(dev, "no path available - requeuing
-> I/O\n");
-> +?????? } else if (nvme_available_path(head)) {
-> +?????????????? dev_warn_ratelimited(dev, "no usable path - requeuing
-> I/O\n");
-> 
-> ??????????????? spin_lock_irq(&head->requeue_lock);
-> ??????????????? bio_list_add(&head->requeue_list, bio);
-> ??????????????? spin_unlock_irq(&head->requeue_lock);
-> ??????? } else {
-> -?????????????? dev_warn_ratelimited(dev, "no path - failing I/O\n");
-> +?????????????? dev_warn_ratelimited(dev, "no available path - failing
-> I/O\n");
-> 
-> ??????????????? bio->bi_status = BLK_STS_IOERR;
-> ??????????????? bio_endio(bio);
-> -- 
+Cheers,
+Ben.
