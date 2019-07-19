@@ -1,7 +1,6 @@
-From: benh@kernel.crashing.org (Benjamin Herrenschmidt)
-Date: Fri, 19 Jul 2019 11:00:29 +1000
+From: Damien.LeMoal@wdc.com (Damien Le Moal)
+Date: Fri, 19 Jul 2019 01:09:28 +0000
 Subject: Duplicate tag error with 5.2
-In-Reply-To: <BYAPR04MB58163BC85D7A5351BC053D43E7CB0@BYAPR04MB5816.namprd04.prod.outlook.com>
 References: <0007d555cf4586c4ae43fdca66766b6b11863078.camel@kernel.crashing.org>
  <dbb6572c3d0b8ad1f20fd5f89ee112995676375b.camel@kernel.crashing.org>
  <6e4b08daaa0482bd863b63cc5a85fa58ed871045.camel@kernel.crashing.org>
@@ -14,26 +13,45 @@ References: <0007d555cf4586c4ae43fdca66766b6b11863078.camel@kernel.crashing.org>
  <BYAPR04MB581667EE6FB45D86881529E2E7CB0@BYAPR04MB5816.namprd04.prod.outlook.com>
  <50c35ab3db7745875476c0966bf191ab42de4dd1.camel@kernel.crashing.org>
  <BYAPR04MB58163BC85D7A5351BC053D43E7CB0@BYAPR04MB5816.namprd04.prod.outlook.com>
-Message-ID: <5f29b93ba4bf2f7bd8b0a77bc5f82f4cbb9e8f98.camel@kernel.crashing.org>
+ <5f29b93ba4bf2f7bd8b0a77bc5f82f4cbb9e8f98.camel@kernel.crashing.org>
+Message-ID: <BYAPR04MB58167459AA9933C66694C2D2E7CB0@BYAPR04MB5816.namprd04.prod.outlook.com>
 
-On Fri, 2019-07-19@00:53 +0000, Damien Le Moal wrote:
+On 2019/07/19 10:00, Benjamin Herrenschmidt wrote:
+> On Fri, 2019-07-19@00:53 +0000, Damien Le Moal wrote:
+>>
+>> If the admin req completion comes in the wrong queue, then the admin queue
+>> completion queue should not be changing and not need any head/doorbell tweaks.
+>> It simply stays as is. Since I think that nvme_handle_cqe is used for all
+>> commands regardless of submission type (normal, polled, sync, etc), this should
+>> work in all cases. Not sure at all for all this. Some side effects are
+>> definitely possible. But worth a try I think.
 > 
-> If the admin req completion comes in the wrong queue, then the admin queue
-> completion queue should not be changing and not need any head/doorbell tweaks.
-> It simply stays as is. Since I think that nvme_handle_cqe is used for all
-> commands regardless of submission type (normal, polled, sync, etc), this should
-> work in all cases. Not sure at all for all this. Some side effects are
-> definitely possible. But worth a try I think.
+> I've printed the queue I get completions from and they arrive in the
+> right queues. So that doesn't seem to be the issue.
 
-I've printed the queue I get completions from and they arrive in the
-right queues. So that doesn't seem to be the issue.
+OK... But then how is it possible to get a bad tag error ? if the commands are
+issued and completes in the correct queues, the tagsets are independent and
+should not clash in any way. This is really weird.
 
-Apple's implementation is a SW one running on the T2 chip, I suspect
-it's just completely broken and they don't care because they have their
-own driver.
+> Apple's implementation is a SW one running on the T2 chip, I suspect
+> it's just completely broken and they don't care because they have their
+> own driver.
 
-I'll clean up my latest fix, test more and send it. It applies on top
-of the 3 patches I sent earlier.
+Got it, but if the prints show correct cqueues, Linux normal driver should
+work... Or is it a problem with a buggy T2 controller implementation resulting
+in some completions being queued twice ? Really weird HW :)
 
-Cheers,
-Ben.
+> 
+> I'll clean up my latest fix, test more and send it. It applies on top
+> of the 3 patches I sent earlier.
+> 
+> Cheers,
+> Ben.
+> 
+> 
+> 
+
+
+-- 
+Damien Le Moal
+Western Digital Research
