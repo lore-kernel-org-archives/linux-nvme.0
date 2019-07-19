@@ -1,89 +1,196 @@
-From: sashal@kernel.org (Sasha Levin)
-Date: Fri, 19 Jul 2019 00:02:29 -0400
-Subject: [PATCH AUTOSEL 5.1 124/141] nvme: fix NULL deref for fabrics options
-In-Reply-To: <20190719040246.15945-1-sashal@kernel.org>
-References: <20190719040246.15945-1-sashal@kernel.org>
-Message-ID: <20190719040246.15945-124-sashal@kernel.org>
+From: benh@kernel.crashing.org (Benjamin Herrenschmidt)
+Date: Fri, 19 Jul 2019 14:36:13 +1000
+Subject: [PATCH v2] nvme-pci: Support shared tags across queues for Apple
+ 2018 controllers
+Message-ID: <f19ac710b4dc28fb3b59ef11bd06d341bc939f3d.camel@kernel.crashing.org>
 
-From: Minwoo Im <minwoo.im.dev@gmail.com>
+Another issue with the Apple T2 based 2018 controllers seem to be
+that they blow up (and shut the machine down) if there's a tag
+collision between the IO queue and the Admin queue.
 
-[ Upstream commit 7d30c81b80ea9b0812d27030a46a5bf4c4e328f5 ]
+My suspicion is that they use our tags for their internal tracking
+and don't mix them with the queue id. They also seem to not like
+when tags go beyond the IO queue depth, ie 128 tags.
 
-git://git.infradead.org/nvme.git nvme-5.3 branch now causes the
-following NULL deref oops.  Check the ctrl->opts first before the deref.
+This adds a quirk that offsets all the tags in the IO queue by 32
+to avoid those collisions. It also limits the number of IO queues
+to 1 since the code wouldn't otherwise make sense (the device
+supports only one queue anyway but better safe than sorry) and
+reduces the size of the IO queue
 
-[   16.337581] BUG: kernel NULL pointer dereference, address: 0000000000000056
-[   16.338551] #PF: supervisor read access in kernel mode
-[   16.338551] #PF: error_code(0x0000) - not-present page
-[   16.338551] PGD 0 P4D 0
-[   16.338551] Oops: 0000 [#1] SMP PTI
-[   16.338551] CPU: 2 PID: 1035 Comm: kworker/u16:5 Not tainted 5.2.0-rc6+ #1
-[   16.338551] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.11.2-0-gf9626ccb91-prebuilt.qemu-project.org 04/01/2014
-[   16.338551] Workqueue: nvme-wq nvme_scan_work [nvme_core]
-[   16.338551] RIP: 0010:nvme_validate_ns+0xc9/0x7e0 [nvme_core]
-[   16.338551] Code: c0 49 89 c5 0f 84 00 07 00 00 48 8b 7b 58 e8 be 48 39 c1 48 3d 00 f0 ff ff 49 89 45 18 0f 87 a4 06 00 00 48 8b 93 70 0a 00 00 <80> 7a 56 00 74 0c 48 8b 40 68 83 48 3c 08 49 8b 45 18 48 89 c6 bf
-[   16.338551] RSP: 0018:ffffc900024c7d10 EFLAGS: 00010283
-[   16.338551] RAX: ffff888135a30720 RBX: ffff88813a4fd1f8 RCX: 0000000000000007
-[   16.338551] RDX: 0000000000000000 RSI: ffffffff8256dd38 RDI: ffff888135a30720
-[   16.338551] RBP: 0000000000000001 R08: 0000000000000007 R09: ffff88813aa6a840
-[   16.338551] R10: 0000000000000001 R11: 000000000002d060 R12: ffff88813a4fd1f8
-[   16.338551] R13: ffff88813a77f800 R14: ffff88813aa35180 R15: 0000000000000001
-[   16.338551] FS:  0000000000000000(0000) GS:ffff88813ba80000(0000) knlGS:0000000000000000
-[   16.338551] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   16.338551] CR2: 0000000000000056 CR3: 000000000240a002 CR4: 0000000000360ee0
-[   16.338551] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-[   16.338551] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-[   16.338551] Call Trace:
-[   16.338551]  nvme_scan_work+0x2c0/0x340 [nvme_core]
-[   16.338551]  ? __switch_to_asm+0x40/0x70
-[   16.338551]  ? _raw_spin_unlock_irqrestore+0x18/0x30
-[   16.338551]  ? try_to_wake_up+0x408/0x450
-[   16.338551]  process_one_work+0x20b/0x3e0
-[   16.338551]  worker_thread+0x1f9/0x3d0
-[   16.338551]  ? cancel_delayed_work+0xa0/0xa0
-[   16.338551]  kthread+0x117/0x120
-[   16.338551]  ? kthread_stop+0xf0/0xf0
-[   16.338551]  ret_from_fork+0x3a/0x50
-[   16.338551] Modules linked in: nvme nvme_core
-[   16.338551] CR2: 0000000000000056
-[   16.338551] ---[ end trace b9bf761a93e62d84 ]---
-[   16.338551] RIP: 0010:nvme_validate_ns+0xc9/0x7e0 [nvme_core]
-[   16.338551] Code: c0 49 89 c5 0f 84 00 07 00 00 48 8b 7b 58 e8 be 48 39 c1 48 3d 00 f0 ff ff 49 89 45 18 0f 87 a4 06 00 00 48 8b 93 70 0a 00 00 <80> 7a 56 00 74 0c 48 8b 40 68 83 48 3c 08 49 8b 45 18 48 89 c6 bf
-[   16.338551] RSP: 0018:ffffc900024c7d10 EFLAGS: 00010283
-[   16.338551] RAX: ffff888135a30720 RBX: ffff88813a4fd1f8 RCX: 0000000000000007
-[   16.338551] RDX: 0000000000000000 RSI: ffffffff8256dd38 RDI: ffff888135a30720
-[   16.338551] RBP: 0000000000000001 R08: 0000000000000007 R09: ffff88813aa6a840
-[   16.338551] R10: 0000000000000001 R11: 000000000002d060 R12: ffff88813a4fd1f8
-[   16.338551] R13: ffff88813a77f800 R14: ffff88813aa35180 R15: 0000000000000001
-[   16.338551] FS:  0000000000000000(0000) GS:ffff88813ba80000(0000) knlGS:0000000000000000
-[   16.338551] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   16.338551] CR2: 0000000000000056 CR3: 000000000240a002 CR4: 0000000000360ee0
-[   16.338551] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-[   16.338551] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-
-Fixes: 958f2a0f8121 ("nvme-tcp: set the STABLE_WRITES flag when data digests are enabled")
-Cc: Christoph Hellwig <hch at lst.de>
-Cc: Keith Busch <kbusch at kernel.org>
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
-Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
-Signed-off-by: Jens Axboe <axboe at kernel.dk>
-Signed-off-by: Sasha Levin <sashal at kernel.org>
+Signed-off-by: Benjamin Herrenschmidt <benh at kernel.crashing.org>
 ---
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index d4c0bc88dd1e..491922bd8b65 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3254,7 +3254,7 @@ static int nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 		goto out_free_ns;
+Note: One thing I noticed is how we have nvme_completion as volatile.
+
+I don't think we really need that, it's forcing the compiler to constantly
+reload things which makes no sense once we have established that an
+entry is valid.
+
+And since we have a data & control dependency from nvme_cqe_pending(),
+we know that reading the CQE is going to depend on it being valid. I
+don't really see what volatile is buying us here other than cargo culting.
+
+Cheers,
+Ben.
+
+ drivers/nvme/host/nvme.h |  5 ++++
+ drivers/nvme/host/pci.c  | 52 +++++++++++++++++++++++++++++++++-------
+ 2 files changed, 49 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index ced0e0a7e039..7c6de398de7d 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -102,6 +102,11 @@ enum nvme_quirks {
+ 	 * Use non-standard 128 bytes SQEs.
+ 	 */
+ 	NVME_QUIRK_128_BYTES_SQES		= (1 << 11),
++
++	/*
++	 * Prevent tag overlap between queues
++	 */
++	NVME_QUIRK_SHARED_TAGS			= (1 << 12),
+ };
+ 
+ /*
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 7088971d4c42..c38e946ad8ca 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -178,6 +178,7 @@ struct nvme_queue {
+ 	u16 cq_head;
+ 	u16 last_cq_head;
+ 	u16 qid;
++	u16 tag_offset;
+ 	u8 cq_phase;
+ 	u8 sqes;
+ 	unsigned long flags;
+@@ -490,6 +491,7 @@ static void nvme_submit_cmd(struct nvme_queue *nvmeq, struct nvme_command *cmd,
+ 			    bool write_sq)
+ {
+ 	spin_lock(&nvmeq->sq_lock);
++	cmd->common.command_id += nvmeq->tag_offset;
+ 	memcpy(nvmeq->sq_cmds + (nvmeq->sq_tail << nvmeq->sqes),
+ 	       cmd, sizeof(*cmd));
+ 	if (++nvmeq->sq_tail == nvmeq->q_depth)
+@@ -951,9 +953,10 @@ static inline void nvme_ring_cq_doorbell(struct nvme_queue *nvmeq)
+ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq, u16 idx)
+ {
+ 	volatile struct nvme_completion *cqe = &nvmeq->cqes[idx];
++	u16 ctag = cqe->command_id - nvmeq->tag_offset;
+ 	struct request *req;
+ 
+-	if (unlikely(cqe->command_id >= nvmeq->q_depth)) {
++	if (unlikely(ctag >= nvmeq->q_depth)) {
+ 		dev_warn(nvmeq->dev->ctrl.device,
+ 			"invalid id %d completed on queue %d\n",
+ 			cqe->command_id, le16_to_cpu(cqe->sq_id));
+@@ -966,14 +969,13 @@ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq, u16 idx)
+ 	 * aborts.  We don't even bother to allocate a struct request
+ 	 * for them but rather special case them here.
+ 	 */
+-	if (unlikely(nvmeq->qid == 0 &&
+-			cqe->command_id >= NVME_AQ_BLK_MQ_DEPTH)) {
++	if (unlikely(nvmeq->qid == 0 && ctag >= NVME_AQ_BLK_MQ_DEPTH)) {
+ 		nvme_complete_async_event(&nvmeq->dev->ctrl,
+ 				cqe->status, &cqe->result);
+ 		return;
  	}
  
--	if (ctrl->opts->data_digest)
-+	if (ctrl->opts && ctrl->opts->data_digest)
- 		ns->queue->backing_dev_info->capabilities
- 			|= BDI_CAP_STABLE_WRITES;
+-	req = blk_mq_tag_to_rq(*nvmeq->tags, cqe->command_id);
++	req = blk_mq_tag_to_rq(*nvmeq->tags, ctag);
+ 	trace_nvme_sq(req, cqe->sq_head, nvmeq->sq_tail);
+ 	nvme_end_request(req, cqe->status, cqe->result);
+ }
+@@ -1004,7 +1006,10 @@ static inline int nvme_process_cq(struct nvme_queue *nvmeq, u16 *start,
  
--- 
-2.20.1
+ 	*start = nvmeq->cq_head;
+ 	while (nvme_cqe_pending(nvmeq)) {
+-		if (tag == -1U || nvmeq->cqes[nvmeq->cq_head].command_id == tag)
++		u16 ctag = nvmeq->cqes[nvmeq->cq_head].command_id;
++
++		ctag -= nvmeq->tag_offset;
++		if (tag == -1U || ctag == tag)
+ 			found++;
+ 		nvme_update_cq_head(nvmeq);
+ 	}
+@@ -1487,6 +1492,10 @@ static int nvme_alloc_queue(struct nvme_dev *dev, int qid, int depth)
+ 	nvmeq->qid = qid;
+ 	dev->ctrl.queue_count++;
+ 
++	if (qid && (dev->ctrl.quirks & NVME_QUIRK_SHARED_TAGS))
++		nvmeq->tag_offset = NVME_AQ_DEPTH;
++	else
++		nvmeq->tag_offset = 0;
+ 	return 0;
+ 
+  free_cqdma:
+@@ -2106,6 +2115,14 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 	unsigned long size;
+ 
+ 	nr_io_queues = max_io_queues();
++
++	/*
++	 * If tags are shared with admin queue (Apple bug), then
++	 * make sure we only use one queue.
++	 */
++	if (dev->ctrl.quirks & NVME_QUIRK_SHARED_TAGS)
++		nr_io_queues = 1;
++
+ 	result = nvme_set_queue_count(&dev->ctrl, &nr_io_queues);
+ 	if (result < 0)
+ 		return result;
+@@ -2300,6 +2317,7 @@ static int nvme_pci_enable(struct nvme_dev *dev)
+ {
+ 	int result = -ENOMEM;
+ 	struct pci_dev *pdev = to_pci_dev(dev->dev);
++	unsigned int mqes;
+ 
+ 	if (pci_enable_device_mem(pdev))
+ 		return result;
+@@ -2325,8 +2343,8 @@ static int nvme_pci_enable(struct nvme_dev *dev)
+ 
+ 	dev->ctrl.cap = lo_hi_readq(dev->bar + NVME_REG_CAP);
+ 
+-	dev->q_depth = min_t(int, NVME_CAP_MQES(dev->ctrl.cap) + 1,
+-				io_queue_depth);
++	mqes = NVME_CAP_MQES(dev->ctrl.cap);
++	dev->q_depth = min_t(int, mqes + 1, io_queue_depth);
+ 	dev->db_stride = 1 << NVME_CAP_STRIDE(dev->ctrl.cap);
+ 	dev->dbs = dev->bar + 4096;
+ 
+@@ -2340,6 +2358,23 @@ static int nvme_pci_enable(struct nvme_dev *dev)
+ 	else
+ 		dev->io_sqes = NVME_NVM_IOSQES;
+ 
++	/*
++	 * Another Apple one: If we're going to offset the IO queue tags,
++	 * we still want to make sure they are no bigger than MQES,
++	 * it *looks* like otherwise, bad things happen (I suspect some
++	 * of the tag tracking in that device is limited).
++	 */
++	if (dev->ctrl.quirks & NVME_QUIRK_SHARED_TAGS) {
++		if (mqes <= NVME_AQ_DEPTH) {
++			dev_err(dev->ctrl.device, "Apple shared tags quirk"
++				" not compatible with device mqes %d\n", mqes);
++			result = -ENODEV;
++			goto disable;
++		}
++		dev->q_depth = min_t(int, dev->q_depth,
++				     mqes - NVME_AQ_DEPTH + 1);
++	}
++
+ 	/*
+ 	 * Temporary fix for the Apple controller found in the MacBook8,1 and
+ 	 * some MacBook7,1 to avoid controller resets and data loss.
+@@ -3057,7 +3092,8 @@ static const struct pci_device_id nvme_id_table[] = {
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2003) },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2005),
+ 		.driver_data = NVME_QUIRK_SINGLE_VECTOR |
+-				NVME_QUIRK_128_BYTES_SQES },
++				NVME_QUIRK_128_BYTES_SQES |
++				NVME_QUIRK_SHARED_TAGS },
+ 	{ 0, }
+ };
+ MODULE_DEVICE_TABLE(pci, nvme_id_table);
