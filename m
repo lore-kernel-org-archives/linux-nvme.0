@@ -1,11 +1,11 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 19 Jul 2019 14:28:59 +0200
-Subject: [PATCH v3] nvme-pci: Support shared tags across queues for
- Apple 2018 controllers
-In-Reply-To: <b1f9bdf0294b8d87d292de3c7462c8e99551b02d.camel@kernel.crashing.org>
-References: <b1f9bdf0294b8d87d292de3c7462c8e99551b02d.camel@kernel.crashing.org>
-Message-ID: <20190719122859.GA30193@lst.de>
+Date: Fri, 19 Jul 2019 14:31:45 +0200
+Subject: [PATCH] nvme-core: Fix memory leak caused by incorrect
+ subsystem free
+In-Reply-To: <20190718235350.6610-1-logang@deltatee.com>
+References: <20190718235350.6610-1-logang@deltatee.com>
+Message-ID: <20190719123145.GA30695@lst.de>
 
-Yikes, that things looks worse and worse.  I think at this point we'll
-have to defer the support to 5.4 unfortunately as it is getting more
-and more involved..
+Thanks,
+
+applied to nvme-5.3.
