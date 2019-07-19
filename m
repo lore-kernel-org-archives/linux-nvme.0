@@ -1,6 +1,7 @@
-From: Damien.LeMoal@wdc.com (Damien Le Moal)
-Date: Fri, 19 Jul 2019 01:24:39 +0000
+From: benh@kernel.crashing.org (Benjamin Herrenschmidt)
+Date: Fri, 19 Jul 2019 11:34:17 +1000
 Subject: Duplicate tag error with 5.2
+In-Reply-To: <BYAPR04MB58166A99868B66ABB31CB0DDE7CB0@BYAPR04MB5816.namprd04.prod.outlook.com>
 References: <0007d555cf4586c4ae43fdca66766b6b11863078.camel@kernel.crashing.org>
  <dbb6572c3d0b8ad1f20fd5f89ee112995676375b.camel@kernel.crashing.org>
  <6e4b08daaa0482bd863b63cc5a85fa58ed871045.camel@kernel.crashing.org>
@@ -16,50 +17,28 @@ References: <0007d555cf4586c4ae43fdca66766b6b11863078.camel@kernel.crashing.org>
  <5f29b93ba4bf2f7bd8b0a77bc5f82f4cbb9e8f98.camel@kernel.crashing.org>
  <BYAPR04MB58167459AA9933C66694C2D2E7CB0@BYAPR04MB5816.namprd04.prod.outlook.com>
  <62f188398528c74cfa8352a8cf8a7e3bce50307b.camel@kernel.crashing.org>
-Message-ID: <BYAPR04MB58166A99868B66ABB31CB0DDE7CB0@BYAPR04MB5816.namprd04.prod.outlook.com>
+ <BYAPR04MB58166A99868B66ABB31CB0DDE7CB0@BYAPR04MB5816.namprd04.prod.outlook.com>
+Message-ID: <817740cb3c59f82afab3a361045d05d21618a924.camel@kernel.crashing.org>
 
-On 2019/07/19 10:20, Benjamin Herrenschmidt wrote:
-> On Fri, 2019-07-19@01:09 +0000, Damien Le Moal wrote:
->> On 2019/07/19 10:00, Benjamin Herrenschmidt wrote:
->>> On Fri, 2019-07-19@00:53 +0000, Damien Le Moal wrote:
->>>>
->>>> If the admin req completion comes in the wrong queue, then the admin queue
->>>> completion queue should not be changing and not need any head/doorbell tweaks.
->>>> It simply stays as is. Since I think that nvme_handle_cqe is used for all
->>>> commands regardless of submission type (normal, polled, sync, etc), this should
->>>> work in all cases. Not sure at all for all this. Some side effects are
->>>> definitely possible. But worth a try I think.
->>>
->>> I've printed the queue I get completions from and they arrive in the
->>> right queues. So that doesn't seem to be the issue.
->>
->> OK... But then how is it possible to get a bad tag error ? if the commands are
->> issued and completes in the correct queues, the tagsets are independent and
->> should not clash in any way. This is really weird.
->>
->>> Apple's implementation is a SW one running on the T2 chip, I suspect
->>> it's just completely broken and they don't care because they have their
->>> own driver.
->>
->> Got it, but if the prints show correct cqueues, Linux normal driver should
->> work... Or is it a problem with a buggy T2 controller implementation resulting
->> in some completions being queued twice ? Really weird HW :)
+On Fri, 2019-07-19@01:24 +0000, Damien Le Moal wrote:
+> > No, I think the problem is that Apple implementation (which as I said
+> > is just a bit of SW running off the PCIe slave bit of the T2 chip, on
+> > the ARM core), somewhat uses the tags we provide for internal tracking,
+> > and they don't append the qid to them, so internally they assume all
+> > tags are unique regardless of what queue they come from. It's crazy but
+> > that seem to be what they did.
 > 
-> No, I think the problem is that Apple implementation (which as I said
-> is just a bit of SW running off the PCIe slave bit of the T2 chip, on
-> the ARM core), somewhat uses the tags we provide for internal tracking,
-> and they don't append the qid to them, so internally they assume all
-> tags are unique regardless of what queue they come from. It's crazy but
-> that seem to be what they did.
+> OK. So the device essentially operates with a shared tagset across all queues..
+> And indeed that does not play well with Linux driver. Looking at the code,
+> having the admin queue and io queues share the same tagset would be the cleanest
+> fix, but that would also mean essentially rewriting completely pci.c and
+> implementing an "apple.c" host driver :)
 
-OK. So the device essentially operates with a shared tagset across all queues..
-And indeed that does not play well with Linux driver. Looking at the code,
-having the admin queue and io queues share the same tagset would be the cleanest
-fix, but that would also mean essentially rewriting completely pci.c and
-implementing an "apple.c" host driver :)
+Yeah, that's why my approach, while sub-optimal (I have to shrink the
+IO queue) is the simplest, I just "offset" the IO queue tag space to
+avoid overlaps. The offset is basically the patch I posted yesterday,
+just with another hack missing I'll send later to also shrink the queue
+to the resulting tags don't go over 127.
 
-
-
--- 
-Damien Le Moal
-Western Digital Research
+Cheers,
+Ben.
