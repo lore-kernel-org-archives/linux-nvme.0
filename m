@@ -1,74 +1,64 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 18 Jul 2019 17:25:14 -0700
+Date: Thu, 18 Jul 2019 17:31:00 -0700
 Subject: [PATCH 2/2] nvme-core: Fix deadlock when deleting the ctrl while
  scanning
-In-Reply-To: <20190718225132.5865-2-logang@deltatee.com>
+In-Reply-To: <c52f80b1-e154-b11f-a868-e3209e4ccb2d@grimberg.me>
 References: <20190718225132.5865-1-logang@deltatee.com>
  <20190718225132.5865-2-logang@deltatee.com>
-Message-ID: <c52f80b1-e154-b11f-a868-e3209e4ccb2d@grimberg.me>
+ <c52f80b1-e154-b11f-a868-e3209e4ccb2d@grimberg.me>
+Message-ID: <ba6d1a56-8f86-4060-a167-6d67435e1a88@grimberg.me>
 
-
-> With multipath enabled, nvme_scan_work() can read from the
-> device (through nvme_mpath_add_disk()). However, with fabrics,
-> once ctrl->state is set to NVME_CTRL_DELETING, the reads will hang
-> (see nvmf_check_ready()).
-> 
-> After setting the state to deleting, nvme_remove_namespaces() will
-> hang waiting for scan_work to flush and these tasks will hang.
-> 
-> To fix this, ensure we take scan_lock before changing the ctrl-state.
-> Also, ensure the state is checked while the lock is held
-> in nvme_scan_lock_work().
-
-That's a big hammer...
-
-But this is I/O that we cannot have queued until we have a path..
-
-I would rather have nvme_remove_namespaces() requeue all I/Os for
-namespaces that serve as the current_path and have the make_request
-routine to fail I/O if all controllers are deleting as well.
-
-Would something like [1] (untested) make sense instead?
-
-
-> +	mutex_lock(&ctrl->scan_lock);
-> +
->   	if (ctrl->state != NVME_CTRL_LIVE)
->   		return;
-
-unlock
-
->   
-> @@ -3547,7 +3554,6 @@ static void nvme_scan_work(struct work_struct *work)
->   	if (nvme_identify_ctrl(ctrl, &id))
->   		return;
-
-unlock
-
-
-[1]:
+> [1]:
+Or actually:
 --
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 76cd3dd8736a..627f5871858d 100644
+index 76cd3dd8736a..a0e2072fe73e 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -3576,6 +3576,11 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
+@@ -3576,6 +3576,12 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
          struct nvme_ns *ns, *next;
          LIST_HEAD(ns_list);
 
 +       mutex_lock(&ctrl->scan_lock);
 +       list_for_each_entry(ns, &ctrl->namespaces, list)
-+               nvme_mpath_clear_current_path(ns);
++               if (nvme_mpath_clear_current_path(ns))
++                       kblockd_schedule_work(&ns->head->requeue_work);
 +       mutex_lock(&ctrl->scan_lock);
 +
          /* prevent racing with ns scanning */
          flush_work(&ctrl->scan_work);
 
 diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index a9a927677970..da1731266788 100644
+index a9a927677970..0e7e41381388 100644
 --- a/drivers/nvme/host/multipath.c
 +++ b/drivers/nvme/host/multipath.c
-@@ -231,6 +231,24 @@ inline struct nvme_ns *nvme_find_path(struct 
+@@ -109,18 +109,22 @@ static const char *nvme_ana_state_names[] = {
+         [NVME_ANA_CHANGE]               = "change",
+  };
+
+-void nvme_mpath_clear_current_path(struct nvme_ns *ns)
++bool nvme_mpath_clear_current_path(struct nvme_ns *ns)
+  {
+         struct nvme_ns_head *head = ns->head;
++       bool changed = false;
+         int node;
+
+         if (!head)
+-               return;
++               return changed;
+
+         for_each_node(node) {
+-               if (ns == rcu_access_pointer(head->current_path[node]))
++               if (ns == rcu_access_pointer(head->current_path[node])) {
+                         rcu_assign_pointer(head->current_path[node], NULL);
++                       changed = true;
++               }
+         }
++       return changed;
+  }
+
+  static bool nvme_path_is_disabled(struct nvme_ns *ns)
+@@ -231,6 +235,24 @@ inline struct nvme_ns *nvme_find_path(struct 
 nvme_ns_head *head)
          return ns;
   }
@@ -94,7 +84,7 @@ nvme_ns_head *head)
   static blk_qc_t nvme_ns_head_make_request(struct request_queue *q,
                  struct bio *bio)
   {
-@@ -257,14 +275,14 @@ static blk_qc_t nvme_ns_head_make_request(struct 
+@@ -257,14 +279,14 @@ static blk_qc_t nvme_ns_head_make_request(struct 
 request_queue *q,
                                        disk_devt(ns->head->disk),
                                        bio->bi_iter.bi_sector);
@@ -116,4 +106,17 @@ I/O\n");
 
                  bio->bi_status = BLK_STS_IOERR;
                  bio_endio(bio);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 716a876119c8..915179368d30 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -496,7 +496,7 @@ void nvme_mpath_remove_disk(struct nvme_ns_head *head);
+  int nvme_mpath_init(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id);
+  void nvme_mpath_uninit(struct nvme_ctrl *ctrl);
+  void nvme_mpath_stop(struct nvme_ctrl *ctrl);
+-void nvme_mpath_clear_current_path(struct nvme_ns *ns);
++bool nvme_mpath_clear_current_path(struct nvme_ns *ns);
+  struct nvme_ns *nvme_find_path(struct nvme_ns_head *head);
+
+  static inline void nvme_mpath_check_last_path(struct nvme_ns *ns)
 --
