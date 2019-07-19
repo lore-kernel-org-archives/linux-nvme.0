@@ -1,36 +1,65 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Thu, 18 Jul 2019 18:22:37 -0700
-Subject: [PATCH 07/10] nvme-cli: Add routine to search for controller with
- specific attributes
-In-Reply-To: <6b3ebb18-4b8c-c18e-501d-cd8f1f41c676@grimberg.me>
-References: <20190716211241.7650-1-jsmart2021@gmail.com>
- <20190716211241.7650-8-jsmart2021@gmail.com>
- <20190717115711.GD10495@minwoo-desktop>
- <6b3ebb18-4b8c-c18e-501d-cd8f1f41c676@grimberg.me>
-Message-ID: <daca2393-86ff-f9ec-cf7c-15c33990de7c@gmail.com>
+From: Damien.LeMoal@wdc.com (Damien Le Moal)
+Date: Fri, 19 Jul 2019 01:24:39 +0000
+Subject: Duplicate tag error with 5.2
+References: <0007d555cf4586c4ae43fdca66766b6b11863078.camel@kernel.crashing.org>
+ <dbb6572c3d0b8ad1f20fd5f89ee112995676375b.camel@kernel.crashing.org>
+ <6e4b08daaa0482bd863b63cc5a85fa58ed871045.camel@kernel.crashing.org>
+ <CAOSXXT6Z=zEpWqac2k1ydk2LynAEtFr-4jXJVCtTa5yn8H7f3Q@mail.gmail.com>
+ <ee8eb3c8855942eb22391dd6137f3b969abce303.camel@kernel.crashing.org>
+ <f5de042adc383df7cb040859f13ce92412977467.camel@kernel.crashing.org>
+ <8936e370b7ae272c8810780ee26ae3cebc8525b9.camel@kernel.crashing.org>
+ <BYAPR04MB58169C5A4EF8DFB10C5C2148E7C80@BYAPR04MB5816.namprd04.prod.outlook.com>
+ <c7235187d44618bc6636da0968c8037aebf50742.camel@kernel.crashing.org>
+ <BYAPR04MB581667EE6FB45D86881529E2E7CB0@BYAPR04MB5816.namprd04.prod.outlook.com>
+ <50c35ab3db7745875476c0966bf191ab42de4dd1.camel@kernel.crashing.org>
+ <BYAPR04MB58163BC85D7A5351BC053D43E7CB0@BYAPR04MB5816.namprd04.prod.outlook.com>
+ <5f29b93ba4bf2f7bd8b0a77bc5f82f4cbb9e8f98.camel@kernel.crashing.org>
+ <BYAPR04MB58167459AA9933C66694C2D2E7CB0@BYAPR04MB5816.namprd04.prod.outlook.com>
+ <62f188398528c74cfa8352a8cf8a7e3bce50307b.camel@kernel.crashing.org>
+Message-ID: <BYAPR04MB58166A99868B66ABB31CB0DDE7CB0@BYAPR04MB5816.namprd04.prod.outlook.com>
 
-On 7/18/2019 5:35 PM, Sagi Grimberg wrote:
-> 
->>> +??? for (i = 0; i < n; i++) {
->>> +??????? if (ctrl_matches_connectargs(devices[i]->d_name, args)) {
->>> +??????????? devname = strdup(devices[i]->d_name);
->>> +??????????? if (devname == NULL)
->>> +??????????????? fprintf(stderr, "no memory for ctlr name %s\n",
+On 2019/07/19 10:20, Benjamin Herrenschmidt wrote:
+> On Fri, 2019-07-19@01:09 +0000, Damien Le Moal wrote:
+>> On 2019/07/19 10:00, Benjamin Herrenschmidt wrote:
+>>> On Fri, 2019-07-19@00:53 +0000, Damien Le Moal wrote:
+>>>>
+>>>> If the admin req completion comes in the wrong queue, then the admin queue
+>>>> completion queue should not be changing and not need any head/doorbell tweaks.
+>>>> It simply stays as is. Since I think that nvme_handle_cqe is used for all
+>>>> commands regardless of submission type (normal, polled, sync, etc), this should
+>>>> work in all cases. Not sure at all for all this. Some side effects are
+>>>> definitely possible. But worth a try I think.
+>>>
+>>> I've printed the queue I get completions from and they arrive in the
+>>> right queues. So that doesn't seem to be the issue.
 >>
->> nitpick: s/ctlr/ctrl
+>> OK... But then how is it possible to get a bad tag error ? if the commands are
+>> issued and completes in the correct queues, the tagsets are independent and
+>> should not clash in any way. This is really weird.
 >>
->> Maybe it can be updated when it gets merged.
+>>> Apple's implementation is a SW one running on the T2 chip, I suspect
+>>> it's just completely broken and they don't care because they have their
+>>> own driver.
+>>
+>> Got it, but if the prints show correct cqueues, Linux normal driver should
+>> work... Or is it a problem with a buggy T2 controller implementation resulting
+>> in some completions being queued twice ? Really weird HW :)
 > 
-> Yea, lets change that (either james or keith)
+> No, I think the problem is that Apple implementation (which as I said
+> is just a bit of SW running off the PCIe slave bit of the T2 chip, on
+> the ARM core), somewhat uses the tags we provide for internal tracking,
+> and they don't append the qid to them, so internally they assume all
+> tags are unique regardless of what queue they come from. It's crazy but
+> that seem to be what they did.
 
-NP. I'll plan on posting a v2 with the 2 small comments resolved (this 
-print, Hannes's order).
+OK. So the device essentially operates with a shared tagset across all queues..
+And indeed that does not play well with Linux driver. Looking at the code,
+having the admin queue and io queues share the same tagset would be the cleanest
+fix, but that would also mean essentially rewriting completely pci.c and
+implementing an "apple.c" host driver :)
 
-I've been toying with tweaking the parse routines. I'm wondering if 
-passing the connect args string to ctrl_matches_connectargs() is better 
-than creating a new structure to pass it.  It would mean we would parse 
-the base connect args strings perhaps multiple times, but it sure 
-localizes the parsing to the matches routine and eliminates the new 
-structure.  Thoughts ?
 
--- james
+
+-- 
+Damien Le Moal
+Western Digital Research
