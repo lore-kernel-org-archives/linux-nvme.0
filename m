@@ -1,45 +1,30 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri, 19 Jul 2019 12:46:46 -0700
-Subject: [PATCH] nvme-tcp: cleanup nvme_tcp_recv_pdu
-Message-ID: <20190719194646.24826-1-sagi@grimberg.me>
+Date: Fri, 19 Jul 2019 13:15:50 -0700
+Subject: [PATCH 2/2] nvme-core: Fix deadlock when deleting the ctrl while
+ scanning
+In-Reply-To: <ba6d1a56-8f86-4060-a167-6d67435e1a88@grimberg.me>
+References: <20190718225132.5865-1-logang@deltatee.com>
+ <20190718225132.5865-2-logang@deltatee.com>
+ <c52f80b1-e154-b11f-a868-e3209e4ccb2d@grimberg.me>
+ <ba6d1a56-8f86-4060-a167-6d67435e1a88@grimberg.me>
+Message-ID: <e516395c-7741-af1a-42a9-2bd528b3976c@grimberg.me>
 
-Can return directly in the switch statement
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/host/tcp.c | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+>> [1]:
+> Or actually:
+> -- 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 76cd3dd8736a..a0e2072fe73e 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -3576,6 +3576,12 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
+>  ??????? struct nvme_ns *ns, *next;
+>  ??????? LIST_HEAD(ns_list);
+> 
+> +?????? mutex_lock(&ctrl->scan_lock);
+> +?????? list_for_each_entry(ns, &ctrl->namespaces, list)
+> +?????????????? if (nvme_mpath_clear_current_path(ns))
+> +?????????????????????? kblockd_schedule_work(&ns->head->requeue_work);
+> +?????? mutex_lock(&ctrl->scan_lock);
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 361e4bd6338e..8d4965031399 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -611,23 +611,18 @@ static int nvme_tcp_recv_pdu(struct nvme_tcp_queue *queue, struct sk_buff *skb,
- 
- 	switch (hdr->type) {
- 	case nvme_tcp_c2h_data:
--		ret = nvme_tcp_handle_c2h_data(queue, (void *)queue->pdu);
--		break;
-+		return nvme_tcp_handle_c2h_data(queue, (void *)queue->pdu);
- 	case nvme_tcp_rsp:
- 		nvme_tcp_init_recv_ctx(queue);
--		ret = nvme_tcp_handle_comp(queue, (void *)queue->pdu);
--		break;
-+		return nvme_tcp_handle_comp(queue, (void *)queue->pdu);
- 	case nvme_tcp_r2t:
- 		nvme_tcp_init_recv_ctx(queue);
--		ret = nvme_tcp_handle_r2t(queue, (void *)queue->pdu);
--		break;
-+		return nvme_tcp_handle_r2t(queue, (void *)queue->pdu);
- 	default:
- 		dev_err(queue->ctrl->ctrl.device,
- 			"unsupported pdu type (%d)\n", hdr->type);
- 		return -EINVAL;
- 	}
--
--	return ret;
- }
- 
- static inline void nvme_tcp_end_request(struct request *rq, u16 status)
--- 
-2.17.1
+This should be mutex_unlock of course...
