@@ -1,30 +1,70 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri, 19 Jul 2019 13:15:50 -0700
-Subject: [PATCH 2/2] nvme-core: Fix deadlock when deleting the ctrl while
- scanning
-In-Reply-To: <ba6d1a56-8f86-4060-a167-6d67435e1a88@grimberg.me>
-References: <20190718225132.5865-1-logang@deltatee.com>
- <20190718225132.5865-2-logang@deltatee.com>
- <c52f80b1-e154-b11f-a868-e3209e4ccb2d@grimberg.me>
- <ba6d1a56-8f86-4060-a167-6d67435e1a88@grimberg.me>
-Message-ID: <e516395c-7741-af1a-42a9-2bd528b3976c@grimberg.me>
+From: jsmart2021@gmail.com (James Smart)
+Date: Fri, 19 Jul 2019 15:52:56 -0700
+Subject: [PATCH v2 01/10] nvme-cli: ignore arguments that pass in "none"
+In-Reply-To: <20190719225305.11397-1-jsmart2021@gmail.com>
+References: <20190719225305.11397-1-jsmart2021@gmail.com>
+Message-ID: <20190719225305.11397-2-jsmart2021@gmail.com>
 
+As we want to support discovery uevents over different
+transports, we want to allow the kernel to provide missing
+information in the form of none and have nvme-cli properly
+ignore it.
 
->> [1]:
-> Or actually:
-> -- 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 76cd3dd8736a..a0e2072fe73e 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -3576,6 +3576,12 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
->  ??????? struct nvme_ns *ns, *next;
->  ??????? LIST_HEAD(ns_list);
-> 
-> +?????? mutex_lock(&ctrl->scan_lock);
-> +?????? list_for_each_entry(ns, &ctrl->namespaces, list)
-> +?????????????? if (nvme_mpath_clear_current_path(ns))
-> +?????????????????????? kblockd_schedule_work(&ns->head->requeue_work);
-> +?????? mutex_lock(&ctrl->scan_lock);
+One example is the host_traddr. If it is not set (which means
+that the default route determined the host address) we will
+want to do the same for newly discovered controllers.
 
-This should be mutex_unlock of course...
+So allow users to pass 'none' arguments as well.
+
+Example:
+  nvme connect-all ... --hostnqn=none --hostid=none --host_traddr=none
+
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+Signed-off-by: James Smart <jsmart2021 at gmail.com>
+Reviewed-by: Hannes Reinecke <hare at suse.com>
+Reviewed-by: Minwoo Im <minwoo.im.dev at gmail.com>
+---
+ fabrics.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/fabrics.c b/fabrics.c
+index 32c3a9c..5757aaf 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -578,7 +578,7 @@ add_argument(char **argstr, int *max_len, char *arg_str, char *arg)
+ {
+ 	int len;
+ 
+-	if (arg) {
++	if (arg && strcmp(arg, "none")) {
+ 		len = snprintf(*argstr, *max_len, ",%s=%s", arg_str, arg);
+ 		if (len < 0)
+ 			return -EINVAL;
+@@ -671,14 +671,14 @@ retry:
+ 		return -EINVAL;
+ 	p += len;
+ 
+-	if (cfg.hostnqn) {
++	if (cfg.hostnqn && strcmp(cfg.hostnqn, "none")) {
+ 		len = sprintf(p, ",hostnqn=%s", cfg.hostnqn);
+ 		if (len < 0)
+ 			return -EINVAL;
+ 		p += len;
+ 	}
+ 
+-	if (cfg.hostid) {
++	if (cfg.hostid && strcmp(cfg.hostid, "none")) {
+ 		len = sprintf(p, ",hostid=%s", cfg.hostid);
+ 		if (len < 0)
+ 			return -EINVAL;
+@@ -713,7 +713,7 @@ retry:
+ 		p += len;
+ 	}
+ 
+-	if (cfg.host_traddr) {
++	if (cfg.host_traddr && strcmp(cfg.host_traddr, "none")) {
+ 		len = sprintf(p, ",host_traddr=%s", cfg.host_traddr);
+ 		if (len < 0)
+ 			return -EINVAL;
+-- 
+2.13.7
