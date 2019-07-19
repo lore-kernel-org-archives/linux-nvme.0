@@ -1,44 +1,35 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Fri, 19 Jul 2019 09:06:25 +0200
-Subject: [PATCH] nvme-multipath: sanitize nvme_update_ana_state()
-In-Reply-To: <D78D352F-0E90-46E1-ABBC-1093CBD858C3@oracle.com>
-References: <20190716071830.22672-1-hare@suse.de>
- <20190716093825.GC32562@lst.de>
- <aa83c6b8-5d72-2e11-2681-5bb2e67ba890@suse.de>
- <20190717143859.GA13872@lst.de>
- <D78D352F-0E90-46E1-ABBC-1093CBD858C3@oracle.com>
-Message-ID: <0d34286c-3c81-8e8f-57b2-480ad33f4648@suse.de>
+Date: Fri, 19 Jul 2019 09:27:16 +0200
+Subject: [PATCH 10/10] nvme-cli: nvmf auto-connect scripts
+In-Reply-To: <3a2ddff8-d900-1eee-2179-43539fcc1383@gmail.com>
+References: <20190716211241.7650-1-jsmart2021@gmail.com>
+ <20190716211241.7650-11-jsmart2021@gmail.com>
+ <2bd2a068-dbbd-84e8-250e-d9d4afa640d3@suse.de>
+ <5669f502-e931-d0ed-71f7-91d3fca01816@grimberg.me>
+ <3a2ddff8-d900-1eee-2179-43539fcc1383@gmail.com>
+Message-ID: <75bb5303-08a8-d96a-aa4d-0c52780fb25e@suse.de>
 
-On 7/18/19 8:08 PM, John Donnelly wrote:
-> 
-> 
->> On Jul 17, 2019,@9:38 AM, Christoph Hellwig <hch@lst.de> wrote:
+On 7/19/19 3:20 AM, James Smart wrote:
+> On 7/18/2019 5:33 PM, Sagi Grimberg wrote:
 >>
->> On Tue, Jul 16, 2019@12:02:15PM +0200, Hannes Reinecke wrote:
->>> The underlying problem is the 'WARN_ON()', which actually can (and is)
->>> triggered when ANA change AENs are received during controller (re-) connect.
->>> At the same time it's quite pointless to update the ANA state for
->>> namespaces which are on their way out; we _still_ seeing odd behaviour
->>> during simultaneous rescan/reset, and this is just another safeguard.
->>>
->>> But for now I'd be happy to drop the check for NS_REMOVING and just
->>> delete the WARN_ON().
+>>> The install sequence is slightly odd, but not enough to complain.
 >>
->> Well, we should certainly skip the nvme_mpath_set_live as well for
->> a removing namespace.  But yes, I'd prefer to move the check there
->> and then remove the WARN_ON over the big hammer.
+>> Whats odd the udevadm vs. systemctl?
 >>
+>>> (udevadm trigger before systemd daemon-reload? I'd rather do it the
+>>> other way round. Anyway.)
+>>
+>> Why? just out of curiosity?
 > 
-> Hi 
->   I happen to be seeing this WARNING in a port we are using while doing
-> failover testing . If the WARNING is removed , should there be another
-> logging message of a similar nature that alerts of a configuration issue
-> has been detected ? Or is this a transient condition ? 
+> I assume it's - if you load udev first, it can trigger systemd services
+> that don't exit yet. Thus cleaner to have systemd setup then udev
+> enabled to call it.
 > 
-This is typically a transient condition.
-If we receive an ANA chane AEN while scanning is in progress the ANA log
-page will contain all namespaces, yet the scanning thread is still
-processing and hasn't connected all namespaces. Hence we see this error.
+Precisely.
+Either udevadm trigger will already bring up the namespaces, but then
+the call to systemctl is pointless.
+Or the call to systemctl is required, but then the udevadm trigger will
+draw a blank.
 
 Cheers,
 
