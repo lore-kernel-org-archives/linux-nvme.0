@@ -1,19 +1,21 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Fri, 19 Jul 2019 15:49:15 +0200
-Subject: [PATCH v2 2/3] nvme: enable aen also for discovery controllers
-In-Reply-To: <20190712180211.26333-3-sagi@grimberg.me>
+Date: Fri, 19 Jul 2019 15:49:52 +0200
+Subject: [PATCH v2 3/3] nvme: fire discovery log page change events to
+ userspace
+In-Reply-To: <20190712180211.26333-4-sagi@grimberg.me>
 References: <20190712180211.26333-1-sagi@grimberg.me>
- <20190712180211.26333-3-sagi@grimberg.me>
-Message-ID: <1eab16e4-b7ca-2676-64c9-9a270769ea12@suse.de>
+ <20190712180211.26333-4-sagi@grimberg.me>
+Message-ID: <818a1212-ea35-7675-27e1-40627316824c@suse.de>
 
 On 7/12/19 8:02 PM, Sagi Grimberg wrote:
-> If the controller supports discovery log page change events,
-> we want to enable it on the host side as well.
+> Provide userspace with nvme discovery controller device instance,
+> controller traddr and trsvcid. We'd expect userspace to handle
+> this event by issuing a discovery + connect.
 > 
 > Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 > ---
->   drivers/nvme/host/core.c | 9 +++++++--
->   1 file changed, 7 insertions(+), 2 deletions(-)
+>   drivers/nvme/host/core.c | 30 +++++++++++++++++++++++++++++-
+>   1 file changed, 29 insertions(+), 1 deletion(-)
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
