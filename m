@@ -1,258 +1,46 @@
-From: benh@kernel.crashing.org (Benjamin Herrenschmidt)
-Date: Fri, 19 Jul 2019 15:00:05 +1000
-Subject: [PATCH v2] nvme-pci: Support shared tags across queues for
- Apple 2018 controllers
-In-Reply-To: <bc856389e6b09f7c545144be0f370f7ad3b05784.camel@kernel.crashing.org>
+From: Damien.LeMoal@wdc.com (Damien Le Moal)
+Date: Fri, 19 Jul 2019 05:01:01 +0000
+Subject: [PATCH v2] nvme-pci: Support shared tags across queues for Apple
+ 2018 controllers
 References: <f19ac710b4dc28fb3b59ef11bd06d341bc939f3d.camel@kernel.crashing.org>
  <BYAPR04MB58168C42A68712287F734242E7CB0@BYAPR04MB5816.namprd04.prod.outlook.com>
  <bc856389e6b09f7c545144be0f370f7ad3b05784.camel@kernel.crashing.org>
-Message-ID: <ccffe4661cf1d1e0478426ebe1347bb8f7b87a6b.camel@kernel.crashing.org>
+Message-ID: <BYAPR04MB58166CED3126757BEC56D3A8E7CB0@BYAPR04MB5816.namprd04.prod.outlook.com>
 
-On Fri, 2019-07-19@14:49 +1000, Benjamin Herrenschmidt wrote:
+On 2019/07/19 13:49, Benjamin Herrenschmidt wrote:
 > On Fri, 2019-07-19@04:43 +0000, Damien Le Moal wrote:
-> > On 2019/07/19 13:37, Benjamin Herrenschmidt wrote:
-> > > Another issue with the Apple T2 based 2018 controllers seem to be
-> > > that they blow up (and shut the machine down) if there's a tag
-> > > collision between the IO queue and the Admin queue.
-> > > 
-> > > My suspicion is that they use our tags for their internal
-> > > tracking
-> > > and don't mix them with the queue id. They also seem to not like
-> > > when tags go beyond the IO queue depth, ie 128 tags.
-> > > 
-> > > This adds a quirk that offsets all the tags in the IO queue by 32
-> > > to avoid those collisions. It also limits the number of IO queues
-> > > to 1 since the code wouldn't otherwise make sense (the device
-> > > supports only one queue anyway but better safe than sorry) and
-> > > reduces the size of the IO queue
-> > 
-> > What about keeping the IO queue QD at 128, but marking the first 32
-> > tags as
-> > "allocated" when the device is initialized ? This way, these tags
-> > numbers are
-> > never used for regular IOs and you can avoid the entire tag +/-
-> > offset dance at
-> > runtime. The admin queue uses tags 0-31 and the IO queue uses tags
-> > 32-127. No ?
+>> On 2019/07/19 13:37, Benjamin Herrenschmidt wrote:
+>>> Another issue with the Apple T2 based 2018 controllers seem to be
+>>> that they blow up (and shut the machine down) if there's a tag
+>>> collision between the IO queue and the Admin queue.
+>>>
+>>> My suspicion is that they use our tags for their internal tracking
+>>> and don't mix them with the queue id. They also seem to not like
+>>> when tags go beyond the IO queue depth, ie 128 tags.
+>>>
+>>> This adds a quirk that offsets all the tags in the IO queue by 32
+>>> to avoid those collisions. It also limits the number of IO queues
+>>> to 1 since the code wouldn't otherwise make sense (the device
+>>> supports only one queue anyway but better safe than sorry) and
+>>> reduces the size of the IO queue
+>>
+>> What about keeping the IO queue QD at 128, but marking the first 32 tags as
+>> "allocated" when the device is initialized ? This way, these tags numbers are
+>> never used for regular IOs and you can avoid the entire tag +/- offset dance at
+>> runtime. The admin queue uses tags 0-31 and the IO queue uses tags 32-127. No ?
 > 
 > I suppose that would work and be simpler. I honestly don't know much
 > about the block layer and tag allocation so I stayed away from it :-)
 > 
 > I'll dig, but a hint would be welcome :)
 
-Hrm .. tagset->reserved_tags ?
+Uuuh.. Never played with the tag management code directly myself either. A quick
+look seem to indicate that blk_mq_get/put_tag() is what you should be using. But
+further looking, struct blk_mq_tags has the field nr_reserved_tags which is used
+as an offset start point for searching free tags, which is exactly what you
+would need.
 
-> Cheers,
-> Ben.
-> 
-> > > 
-> > > Signed-off-by: Benjamin Herrenschmidt <benh at kernel.crashing.org>
-> > > ---
-> > > 
-> > > Note: One thing I noticed is how we have nvme_completion as
-> > > volatile.
-> > > 
-> > > I don't think we really need that, it's forcing the compiler to
-> > > constantly
-> > > reload things which makes no sense once we have established that
-> > > an
-> > > entry is valid.
-> > > 
-> > > And since we have a data & control dependency from
-> > > nvme_cqe_pending(),
-> > > we know that reading the CQE is going to depend on it being
-> > > valid. I
-> > > don't really see what volatile is buying us here other than cargo
-> > > culting.
-> > > 
-> > > Cheers,
-> > > Ben.
-> > > 
-> > >  drivers/nvme/host/nvme.h |  5 ++++
-> > >  drivers/nvme/host/pci.c  | 52 +++++++++++++++++++++++++++++++++-
-> > > ------
-> > >  2 files changed, 49 insertions(+), 8 deletions(-)
-> > > 
-> > > diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> > > index ced0e0a7e039..7c6de398de7d 100644
-> > > --- a/drivers/nvme/host/nvme.h
-> > > +++ b/drivers/nvme/host/nvme.h
-> > > @@ -102,6 +102,11 @@ enum nvme_quirks {
-> > >  	 * Use non-standard 128 bytes SQEs.
-> > >  	 */
-> > >  	NVME_QUIRK_128_BYTES_SQES		= (1 << 11),
-> > > +
-> > > +	/*
-> > > +	 * Prevent tag overlap between queues
-> > > +	 */
-> > > +	NVME_QUIRK_SHARED_TAGS			= (1 << 12),
-> > >  };
-> > >  
-> > >  /*
-> > > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> > > index 7088971d4c42..c38e946ad8ca 100644
-> > > --- a/drivers/nvme/host/pci.c
-> > > +++ b/drivers/nvme/host/pci.c
-> > > @@ -178,6 +178,7 @@ struct nvme_queue {
-> > >  	u16 cq_head;
-> > >  	u16 last_cq_head;
-> > >  	u16 qid;
-> > > +	u16 tag_offset;
-> > >  	u8 cq_phase;
-> > >  	u8 sqes;
-> > >  	unsigned long flags;
-> > > @@ -490,6 +491,7 @@ static void nvme_submit_cmd(struct nvme_queue
-> > > *nvmeq, struct nvme_command *cmd,
-> > >  			    bool write_sq)
-> > >  {
-> > >  	spin_lock(&nvmeq->sq_lock);
-> > > +	cmd->common.command_id += nvmeq->tag_offset;
-> > >  	memcpy(nvmeq->sq_cmds + (nvmeq->sq_tail << nvmeq->sqes),
-> > >  	       cmd, sizeof(*cmd));
-> > >  	if (++nvmeq->sq_tail == nvmeq->q_depth)
-> > > @@ -951,9 +953,10 @@ static inline void
-> > > nvme_ring_cq_doorbell(struct nvme_queue *nvmeq)
-> > >  static inline void nvme_handle_cqe(struct nvme_queue *nvmeq, u16
-> > > idx)
-> > >  {
-> > >  	volatile struct nvme_completion *cqe = &nvmeq->cqes[idx];
-> > > +	u16 ctag = cqe->command_id - nvmeq->tag_offset;
-> > >  	struct request *req;
-> > >  
-> > > -	if (unlikely(cqe->command_id >= nvmeq->q_depth)) {
-> > > +	if (unlikely(ctag >= nvmeq->q_depth)) {
-> > >  		dev_warn(nvmeq->dev->ctrl.device,
-> > >  			"invalid id %d completed on queue %d\n",
-> > >  			cqe->command_id, le16_to_cpu(cqe->sq_id));
-> > > @@ -966,14 +969,13 @@ static inline void nvme_handle_cqe(struct
-> > > nvme_queue *nvmeq, u16 idx)
-> > >  	 * aborts.  We don't even bother to allocate a struct request
-> > >  	 * for them but rather special case them here.
-> > >  	 */
-> > > -	if (unlikely(nvmeq->qid == 0 &&
-> > > -			cqe->command_id >= NVME_AQ_BLK_MQ_DEPTH)) {
-> > > +	if (unlikely(nvmeq->qid == 0 && ctag >= NVME_AQ_BLK_MQ_DEPTH))
-> > > {
-> > >  		nvme_complete_async_event(&nvmeq->dev->ctrl,
-> > >  				cqe->status, &cqe->result);
-> > >  		return;
-> > >  	}
-> > >  
-> > > -	req = blk_mq_tag_to_rq(*nvmeq->tags, cqe->command_id);
-> > > +	req = blk_mq_tag_to_rq(*nvmeq->tags, ctag);
-> > >  	trace_nvme_sq(req, cqe->sq_head, nvmeq->sq_tail);
-> > >  	nvme_end_request(req, cqe->status, cqe->result);
-> > >  }
-> > > @@ -1004,7 +1006,10 @@ static inline int nvme_process_cq(struct
-> > > nvme_queue *nvmeq, u16 *start,
-> > >  
-> > >  	*start = nvmeq->cq_head;
-> > >  	while (nvme_cqe_pending(nvmeq)) {
-> > > -		if (tag == -1U || nvmeq->cqes[nvmeq-
-> > > >cq_head].command_id == tag)
-> > > +		u16 ctag = nvmeq->cqes[nvmeq->cq_head].command_id;
-> > > +
-> > > +		ctag -= nvmeq->tag_offset;
-> > > +		if (tag == -1U || ctag == tag)
-> > >  			found++;
-> > >  		nvme_update_cq_head(nvmeq);
-> > >  	}
-> > > @@ -1487,6 +1492,10 @@ static int nvme_alloc_queue(struct
-> > > nvme_dev *dev, int qid, int depth)
-> > >  	nvmeq->qid = qid;
-> > >  	dev->ctrl.queue_count++;
-> > >  
-> > > +	if (qid && (dev->ctrl.quirks & NVME_QUIRK_SHARED_TAGS))
-> > > +		nvmeq->tag_offset = NVME_AQ_DEPTH;
-> > > +	else
-> > > +		nvmeq->tag_offset = 0;
-> > >  	return 0;
-> > >  
-> > >   free_cqdma:
-> > > @@ -2106,6 +2115,14 @@ static int nvme_setup_io_queues(struct
-> > > nvme_dev *dev)
-> > >  	unsigned long size;
-> > >  
-> > >  	nr_io_queues = max_io_queues();
-> > > +
-> > > +	/*
-> > > +	 * If tags are shared with admin queue (Apple bug), then
-> > > +	 * make sure we only use one queue.
-> > > +	 */
-> > > +	if (dev->ctrl.quirks & NVME_QUIRK_SHARED_TAGS)
-> > > +		nr_io_queues = 1;
-> > > +
-> > >  	result = nvme_set_queue_count(&dev->ctrl, &nr_io_queues);
-> > >  	if (result < 0)
-> > >  		return result;
-> > > @@ -2300,6 +2317,7 @@ static int nvme_pci_enable(struct nvme_dev
-> > > *dev)
-> > >  {
-> > >  	int result = -ENOMEM;
-> > >  	struct pci_dev *pdev = to_pci_dev(dev->dev);
-> > > +	unsigned int mqes;
-> > >  
-> > >  	if (pci_enable_device_mem(pdev))
-> > >  		return result;
-> > > @@ -2325,8 +2343,8 @@ static int nvme_pci_enable(struct nvme_dev
-> > > *dev)
-> > >  
-> > >  	dev->ctrl.cap = lo_hi_readq(dev->bar + NVME_REG_CAP);
-> > >  
-> > > -	dev->q_depth = min_t(int, NVME_CAP_MQES(dev->ctrl.cap) + 1,
-> > > -				io_queue_depth);
-> > > +	mqes = NVME_CAP_MQES(dev->ctrl.cap);
-> > > +	dev->q_depth = min_t(int, mqes + 1, io_queue_depth);
-> > >  	dev->db_stride = 1 << NVME_CAP_STRIDE(dev->ctrl.cap);
-> > >  	dev->dbs = dev->bar + 4096;
-> > >  
-> > > @@ -2340,6 +2358,23 @@ static int nvme_pci_enable(struct nvme_dev
-> > > *dev)
-> > >  	else
-> > >  		dev->io_sqes = NVME_NVM_IOSQES;
-> > >  
-> > > +	/*
-> > > +	 * Another Apple one: If we're going to offset the IO queue
-> > > tags,
-> > > +	 * we still want to make sure they are no bigger than MQES,
-> > > +	 * it *looks* like otherwise, bad things happen (I suspect some
-> > > +	 * of the tag tracking in that device is limited).
-> > > +	 */
-> > > +	if (dev->ctrl.quirks & NVME_QUIRK_SHARED_TAGS) {
-> > > +		if (mqes <= NVME_AQ_DEPTH) {
-> > > +			dev_err(dev->ctrl.device, "Apple shared tags
-> > > quirk"
-> > > +				" not compatible with device mqes
-> > > %d\n", mqes);
-> > > +			result = -ENODEV;
-> > > +			goto disable;
-> > > +		}
-> > > +		dev->q_depth = min_t(int, dev->q_depth,
-> > > +				     mqes - NVME_AQ_DEPTH + 1);
-> > > +	}
-> > > +
-> > >  	/*
-> > >  	 * Temporary fix for the Apple controller found in the
-> > > MacBook8,1 and
-> > >  	 * some MacBook7,1 to avoid controller resets and data loss.
-> > > @@ -3057,7 +3092,8 @@ static const struct pci_device_id
-> > > nvme_id_table[] = {
-> > >  	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2003) },
-> > >  	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2005),
-> > >  		.driver_data = NVME_QUIRK_SINGLE_VECTOR |
-> > > -				NVME_QUIRK_128_BYTES_SQES },
-> > > +				NVME_QUIRK_128_BYTES_SQES |
-> > > +				NVME_QUIRK_SHARED_TAGS },
-> > >  	{ 0, }
-> > >  };
-> > >  MODULE_DEVICE_TABLE(pci, nvme_id_table);
-> > > 
-> > > 
-> > > 
-> > > _______________________________________________
-> > > Linux-nvme mailing list
-> > > Linux-nvme at lists.infradead.org
-> > > http://lists.infradead.org/mailman/listinfo/linux-nvme
-> > > 
-> > 
-> > 
+
+-- 
+Damien Le Moal
+Western Digital Research
