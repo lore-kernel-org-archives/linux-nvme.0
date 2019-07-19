@@ -1,58 +1,43 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Fri, 19 Jul 2019 00:02:13 -0400
-Subject: [PATCH AUTOSEL 5.1 108/141] nvme-pci: check for NULL return from
- pci_alloc_p2pmem()
+Date: Fri, 19 Jul 2019 00:02:14 -0400
+Subject: [PATCH AUTOSEL 5.1 109/141] nvme-pci: limit max_hw_sectors based on
+ the DMA max mapping size
 In-Reply-To: <20190719040246.15945-1-sashal@kernel.org>
 References: <20190719040246.15945-1-sashal@kernel.org>
-Message-ID: <20190719040246.15945-108-sashal@kernel.org>
+Message-ID: <20190719040246.15945-109-sashal@kernel.org>
 
-From: Alan Mikhak <alan.mikhak@sifive.com>
+From: Christoph Hellwig <hch@lst.de>
 
-[ Upstream commit bfac8e9f55cf62a000b643a0081488badbe92d96 ]
+[ Upstream commit 7637de311bd2124b298a072852448b940d8a34b9 ]
 
-Modify nvme_alloc_sq_cmds() to call pci_free_p2pmem() to free the memory
-it allocated using pci_alloc_p2pmem() in case pci_p2pmem_virt_to_bus()
-returns null.
+When running a NVMe device that is attached to a addressing
+challenged PCIe root port that requires bounce buffering, our
+request sizes can easily overflow the swiotlb bounce buffer
+size.  Limit the maximum I/O size to the limit exposed by
+the DMA mapping subsystem.
 
-Makes sure not to call pci_free_p2pmem() if pci_alloc_p2pmem() returned
-NULL, which can happen if CONFIG_PCI_P2PDMA is not configured.
-
-The current implementation is not expected to leak since
-pci_p2pmem_virt_to_bus() is expected to fail only if pci_alloc_p2pmem()
-returns null. However, checking the return value of pci_alloc_p2pmem()
-is more explicit.
-
-Signed-off-by: Alan Mikhak <alan.mikhak at sifive.com>
 Signed-off-by: Christoph Hellwig <hch at lst.de>
+Reported-by: Atish Patra <Atish.Patra at wdc.com>
+Tested-by: Atish Patra <Atish.Patra at wdc.com>
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 Signed-off-by: Sasha Levin <sashal at kernel.org>
 ---
- drivers/nvme/host/pci.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ drivers/nvme/host/pci.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 693f2a856200..b97ba5ea0e61 100644
+index b97ba5ea0e61..5112983a59fb 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -1471,11 +1471,15 @@ static int nvme_alloc_sq_cmds(struct nvme_dev *dev, struct nvme_queue *nvmeq,
- 
- 	if (qid && dev->cmb_use_sqes && (dev->cmbsz & NVME_CMBSZ_SQS)) {
- 		nvmeq->sq_cmds = pci_alloc_p2pmem(pdev, SQ_SIZE(depth));
--		nvmeq->sq_dma_addr = pci_p2pmem_virt_to_bus(pdev,
--						nvmeq->sq_cmds);
--		if (nvmeq->sq_dma_addr) {
--			set_bit(NVMEQ_SQ_CMB, &nvmeq->flags);
--			return 0; 
-+		if (nvmeq->sq_cmds) {
-+			nvmeq->sq_dma_addr = pci_p2pmem_virt_to_bus(pdev,
-+							nvmeq->sq_cmds);
-+			if (nvmeq->sq_dma_addr) {
-+				set_bit(NVMEQ_SQ_CMB, &nvmeq->flags);
-+				return 0;
-+			}
-+
-+			pci_free_p2pmem(pdev, nvmeq->sq_cmds, SQ_SIZE(depth));
- 		}
- 	}
+@@ -2538,7 +2538,8 @@ static void nvme_reset_work(struct work_struct *work)
+ 	 * Limit the max command size to prevent iod->sg allocations going
+ 	 * over a single page.
+ 	 */
+-	dev->ctrl.max_hw_sectors = NVME_MAX_KB_SZ << 1;
++	dev->ctrl.max_hw_sectors = min_t(u32,
++		NVME_MAX_KB_SZ << 1, dma_max_mapping_size(dev->dev) >> 9);
+ 	dev->ctrl.max_segments = NVME_MAX_SEGS;
+ 	mutex_unlock(&dev->shutdown_lock);
  
 -- 
 2.20.1
