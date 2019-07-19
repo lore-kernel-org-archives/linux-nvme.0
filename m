@@ -1,43 +1,47 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Fri, 19 Jul 2019 00:02:14 -0400
-Subject: [PATCH AUTOSEL 5.1 109/141] nvme-pci: limit max_hw_sectors based on
- the DMA max mapping size
+Date: Fri, 19 Jul 2019 00:02:15 -0400
+Subject: [PATCH AUTOSEL 5.1 110/141] nvme-tcp: don't use sendpage for SLAB
+ pages
 In-Reply-To: <20190719040246.15945-1-sashal@kernel.org>
 References: <20190719040246.15945-1-sashal@kernel.org>
-Message-ID: <20190719040246.15945-109-sashal@kernel.org>
+Message-ID: <20190719040246.15945-110-sashal@kernel.org>
 
-From: Christoph Hellwig <hch@lst.de>
+From: Mikhail Skorzhinskii <mskorzhinskiy@solarflare.com>
 
-[ Upstream commit 7637de311bd2124b298a072852448b940d8a34b9 ]
+[ Upstream commit 37c15219599f7a4baa73f6e3432afc69ba7cc530 ]
 
-When running a NVMe device that is attached to a addressing
-challenged PCIe root port that requires bounce buffering, our
-request sizes can easily overflow the swiotlb bounce buffer
-size.  Limit the maximum I/O size to the limit exposed by
-the DMA mapping subsystem.
+According to commit a10674bf2406 ("tcp: detecting the misuse of
+.sendpage for Slab objects") and previous discussion, tcp_sendpage
+should not be used for pages that is managed by SLAB, as SLAB is not
+taking page reference counters into consideration.
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
-Reported-by: Atish Patra <Atish.Patra at wdc.com>
-Tested-by: Atish Patra <Atish.Patra at wdc.com>
+Signed-off-by: Mikhail Skorzhinskii <mskorzhinskiy at solarflare.com>
 Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Signed-off-by: Christoph Hellwig <hch at lst.de>
 Signed-off-by: Sasha Levin <sashal at kernel.org>
 ---
- drivers/nvme/host/pci.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/nvme/host/tcp.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index b97ba5ea0e61..5112983a59fb 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2538,7 +2538,8 @@ static void nvme_reset_work(struct work_struct *work)
- 	 * Limit the max command size to prevent iod->sg allocations going
- 	 * over a single page.
- 	 */
--	dev->ctrl.max_hw_sectors = NVME_MAX_KB_SZ << 1;
-+	dev->ctrl.max_hw_sectors = min_t(u32,
-+		NVME_MAX_KB_SZ << 1, dma_max_mapping_size(dev->dev) >> 9);
- 	dev->ctrl.max_segments = NVME_MAX_SEGS;
- 	mutex_unlock(&dev->shutdown_lock);
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 08a2501b9357..606b13d35d16 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -860,7 +860,14 @@ static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
+ 		else
+ 			flags |= MSG_MORE;
+ 
+-		ret = kernel_sendpage(queue->sock, page, offset, len, flags);
++		/* can't zcopy slab pages */
++		if (unlikely(PageSlab(page))) {
++			ret = sock_no_sendpage(queue->sock, page, offset, len,
++					flags);
++		} else {
++			ret = kernel_sendpage(queue->sock, page, offset, len,
++					flags);
++		}
+ 		if (ret <= 0)
+ 			return ret;
  
 -- 
 2.20.1
