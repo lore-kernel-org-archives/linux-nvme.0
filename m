@@ -1,92 +1,121 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Fri, 19 Jul 2019 15:53:02 -0700
-Subject: [PATCH v2 07/10] nvme-cli: Add routine to search for controller with
- specific attributes
+Date: Fri, 19 Jul 2019 15:53:03 -0700
+Subject: [PATCH v2 08/10] nvme-cli: Expand --device argument processing
 In-Reply-To: <20190719225305.11397-1-jsmart2021@gmail.com>
 References: <20190719225305.11397-1-jsmart2021@gmail.com>
-Message-ID: <20190719225305.11397-8-jsmart2021@gmail.com>
+Message-ID: <20190719225305.11397-9-jsmart2021@gmail.com>
 
-In preparation for searching controllers to match with connect args:
+The connect-all --device argument was used to specify a specific device
+to be used as the discovery controller. The device is typically a
+long-lived discovery controller that posted a discovery event.
+No attempt was made to ensure the device is who it is supposed to be
+before using it.
 
-Create a new routine find_ctrl_with_connectargs() that will search the
-controllers that exist in the system to find one that has attributes
-that match the connect arguments specified.  If found, the routine
-returns the controller name ("nvme?"). If not found, a NULL is returned.
+Revised the code to use the other arguments in the connect-all request
+to validate that the device is the entity that was expected. If the
+device doesn't match, the cli will look for an existing matching device
+in the system (should be a discovery controller due to nqn) with the
+same connect parameters and use it.  If one is not found on the system,
+a new discovery controller will be created for the connect-all request.
 
-Routine is defined as a global as a subsequent patch will use it
-from the fabrics routines.
+The revision uses new routines to parse the connect arguments given
+in the argstr parameter. As a couple of new fieldnames are needed, the
+parse routine constants were expanded for them.
+
+The revision uses the new routines to match the specified device vs
+it's attributes as well as the search routine that looks for a device
+with the connect arguments.
 
 Signed-off-by: James Smart <jsmart2021 at gmail.com>
 Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 Reviewed-by: Hannes Reinecke <hare at suse.com>
-
 ---
-v2:
-  change "ctlr" to "ctrl" in fprintf
----
- nvme.c | 37 +++++++++++++++++++++++++++++++++++++
- nvme.h |  1 +
- 2 files changed, 38 insertions(+)
+ fabrics.c | 38 ++++++++++++++++++++++++++++++++++++++
+ nvme.c    |  2 ++
+ nvme.h    |  2 ++
+ 3 files changed, 42 insertions(+)
 
-diff --git a/nvme.c b/nvme.c
-index 7f706c8..e4fdb4e 100644
---- a/nvme.c
-+++ b/nvme.c
-@@ -2048,6 +2048,43 @@ cleanup_exit:
- 	return found;
+diff --git a/fabrics.c b/fabrics.c
+index f3afa0b..9a7f832 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -872,6 +872,8 @@ static int connect_ctrls(struct nvmf_disc_rsp_page_hdr *log, int numrec)
+ 	return ret;
  }
  
-+/*
-+ * Look through the system to find an existing controller whose
-+ * attributes match the connect arguments specified
-+ * If found, a string containing the controller name (ex: "nvme?")
-+ * is returned.
-+ * If not found, a NULL is returned.
-+ */
-+char *find_ctrl_with_connectargs(struct connect_args *args)
-+{
-+	struct dirent **devices;
-+	char *devname = NULL;
-+	int i, n;
++static const char delim_comma  = ',';
 +
-+	n = scandir(SYS_NVME, &devices, scan_ctrls_filter, alphasort);
-+	if (n < 0) {
-+		fprintf(stderr, "no NVMe controller(s) detected.\n");
-+		return NULL;
-+	}
-+
-+	for (i = 0; i < n; i++) {
-+		if (ctrl_matches_connectargs(devices[i]->d_name, args)) {
-+			devname = strdup(devices[i]->d_name);
-+			if (devname == NULL)
-+				fprintf(stderr, "no memory for ctrl name %s\n",
-+						devices[i]->d_name);
-+			goto cleanup_devices;
-+		}
-+	}
-+
-+cleanup_devices:
-+	for (i = 0; i < n; i++)
-+		free(devices[i]);
-+	free(devices);
-+
-+	return devname;
-+}
-+
- int __id_ctrl(int argc, char **argv, struct command *cmd, struct plugin *plugin, void (*vs)(__u8 *vs, struct json_object *root))
+ static int do_discover(char *argstr, bool connect)
  {
- 	const char *desc = "Send an Identify Controller command to "\
+ 	struct nvmf_disc_rsp_page_hdr *log = NULL;
+@@ -879,6 +881,42 @@ static int do_discover(char *argstr, bool connect)
+ 	int instance, numrec = 0, ret, err;
+ 	int status = 0;
+ 
++	if (cfg.device) {
++		struct connect_args cargs;
++
++		memset(&cargs, 0, sizeof(cargs));
++		cargs.subsysnqn = __parse_connect_arg(argstr, delim_comma,
++						conarg_nqn);
++		cargs.transport = __parse_connect_arg(argstr, delim_comma,
++						conarg_transport);
++		cargs.traddr = __parse_connect_arg(argstr, delim_comma,
++						conarg_traddr);
++		cargs.trsvcid = __parse_connect_arg(argstr, delim_comma,
++						conarg_trsvcid);
++		cargs.host_traddr = __parse_connect_arg(argstr, delim_comma,
++						conarg_host_traddr);
++
++		/*
++		 * if the cfg.device passed in matches the connect args
++		 *    cfg.device is left as-is
++		 * else if there exists a controller that matches the
++		 *         connect args
++		 *    cfg.device is the matching ctrl name
++		 * else if no ctrl matches the connect args
++		 *    cfg.device is set to null. This will attempt to
++		 *    create a new ctrl.
++		 * endif
++		 */
++		if (!ctrl_matches_connectargs(cfg.device, &cargs))
++			cfg.device = find_ctrl_with_connectargs(&cargs);
++
++		free(cargs.subsysnqn);
++		free(cargs.transport);
++		free(cargs.traddr);
++		free(cargs.trsvcid);
++		free(cargs.host_traddr);
++	}
++
+ 	if (!cfg.device)
+ 		instance = add_ctrl(argstr);
+ 	else
+diff --git a/nvme.c b/nvme.c
+index e4fdb4e..1a1191a 100644
+--- a/nvme.c
++++ b/nvme.c
+@@ -1549,6 +1549,8 @@ static void free_ctrl_list_item(struct ctrl_list_item *ctrls)
+ }
+ 
+ static const char delim_space  = ' ';
++const char *conarg_nqn = "nqn";
++const char *conarg_transport = "transport";
+ const char *conarg_traddr = "traddr";
+ const char *conarg_trsvcid = "trsvcid";
+ const char *conarg_host_traddr = "host_traddr";
 diff --git a/nvme.h b/nvme.h
-index 2fecb68..b91a22c 100644
+index b91a22c..e630b10 100644
 --- a/nvme.h
 +++ b/nvme.h
-@@ -190,6 +190,7 @@ struct connect_args {
- #define SYS_NVME		"/sys/class/nvme"
- 
- bool ctrl_matches_connectargs(char *name, struct connect_args *args);
-+char *find_ctrl_with_connectargs(struct connect_args *args);
+@@ -193,6 +193,8 @@ bool ctrl_matches_connectargs(char *name, struct connect_args *args);
+ char *find_ctrl_with_connectargs(struct connect_args *args);
  char *__parse_connect_arg(char *conargs, const char delim, const char *fieldnm);
  
++extern const char *conarg_nqn;
++extern const char *conarg_transport;
  extern const char *conarg_traddr;
+ extern const char *conarg_trsvcid;
+ extern const char *conarg_host_traddr;
 -- 
 2.13.7
