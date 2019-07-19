@@ -1,30 +1,23 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Fri, 19 Jul 2019 15:49:52 +0200
-Subject: [PATCH v2 3/3] nvme: fire discovery log page change events to
- userspace
-In-Reply-To: <20190712180211.26333-4-sagi@grimberg.me>
-References: <20190712180211.26333-1-sagi@grimberg.me>
- <20190712180211.26333-4-sagi@grimberg.me>
-Message-ID: <818a1212-ea35-7675-27e1-40627316824c@suse.de>
+From: benh@kernel.crashing.org (Benjamin Herrenschmidt)
+Date: Fri, 19 Jul 2019 23:51:56 +1000
+Subject: [PATCH v3] nvme-pci: Support shared tags across queues for
+ Apple 2018 controllers
+In-Reply-To: <20190719122859.GA30193@lst.de>
+References: <b1f9bdf0294b8d87d292de3c7462c8e99551b02d.camel@kernel.crashing.org>
+ <20190719122859.GA30193@lst.de>
+Message-ID: <91ef44522140bf83720f6c377648b307964d34e4.camel@kernel.crashing.org>
 
-On 7/12/19 8:02 PM, Sagi Grimberg wrote:
-> Provide userspace with nvme discovery controller device instance,
-> controller traddr and trsvcid. We'd expect userspace to handle
-> this event by issuing a discovery + connect.
-> 
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> ---
->   drivers/nvme/host/core.c | 30 +++++++++++++++++++++++++++++-
->   1 file changed, 29 insertions(+), 1 deletion(-)
-> 
-Reviewed-by: Hannes Reinecke <hare at suse.com>
+On Fri, 2019-07-19@14:28 +0200, Christoph Hellwig wrote:
+> Yikes, that things looks worse and worse.  I think at this point
+> we'll
+> have to defer the support to 5.4 unfortunately as it is getting more
+> and more involved..
+
+Well, at least v3 of that patch, thanks to Damien's idea, isn't
+particularly invasive and I've hammered the SSD with it over night with
+a combination of IOs and smart commands, it's solid.
+
+But if you prefer waiting for 5.4, no worries.
 
 Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke            Teamlead Storage & Networking
-hare at suse.de                              +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N?rnberg)
+Ben.
