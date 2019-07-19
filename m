@@ -1,59 +1,89 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Thu, 18 Jul 2019 23:56:10 -0400
-Subject: [PATCH AUTOSEL 5.2 139/171] nvme-tcp: set the STABLE_WRITES flag when
- data digests are enabled
+Date: Thu, 18 Jul 2019 23:56:24 -0400
+Subject: [PATCH AUTOSEL 5.2 153/171] nvme: fix NULL deref for fabrics options
 In-Reply-To: <20190719035643.14300-1-sashal@kernel.org>
 References: <20190719035643.14300-1-sashal@kernel.org>
-Message-ID: <20190719035643.14300-139-sashal@kernel.org>
+Message-ID: <20190719035643.14300-153-sashal@kernel.org>
 
-From: Mikhail Skorzhinskii <mskorzhinskiy@solarflare.com>
+From: Minwoo Im <minwoo.im.dev@gmail.com>
 
-[ Upstream commit 958f2a0f8121ae36a5cbff383ab94fadf1fba5eb ]
+[ Upstream commit 7d30c81b80ea9b0812d27030a46a5bf4c4e328f5 ]
 
-There was a few false alarms sighted on target side about wrong data
-digest while performing high throughput load to XFS filesystem shared
-through NVMoF TCP.
+git://git.infradead.org/nvme.git nvme-5.3 branch now causes the
+following NULL deref oops.  Check the ctrl->opts first before the deref.
 
-This flag tells the rest of the kernel to ensure that the data buffer
-does not change while the write is in flight.  It incurs a performance
-penalty, so only enable it when it is actually needed, i.e. when we are
-calculating data digests.
+[   16.337581] BUG: kernel NULL pointer dereference, address: 0000000000000056
+[   16.338551] #PF: supervisor read access in kernel mode
+[   16.338551] #PF: error_code(0x0000) - not-present page
+[   16.338551] PGD 0 P4D 0
+[   16.338551] Oops: 0000 [#1] SMP PTI
+[   16.338551] CPU: 2 PID: 1035 Comm: kworker/u16:5 Not tainted 5.2.0-rc6+ #1
+[   16.338551] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.11.2-0-gf9626ccb91-prebuilt.qemu-project.org 04/01/2014
+[   16.338551] Workqueue: nvme-wq nvme_scan_work [nvme_core]
+[   16.338551] RIP: 0010:nvme_validate_ns+0xc9/0x7e0 [nvme_core]
+[   16.338551] Code: c0 49 89 c5 0f 84 00 07 00 00 48 8b 7b 58 e8 be 48 39 c1 48 3d 00 f0 ff ff 49 89 45 18 0f 87 a4 06 00 00 48 8b 93 70 0a 00 00 <80> 7a 56 00 74 0c 48 8b 40 68 83 48 3c 08 49 8b 45 18 48 89 c6 bf
+[   16.338551] RSP: 0018:ffffc900024c7d10 EFLAGS: 00010283
+[   16.338551] RAX: ffff888135a30720 RBX: ffff88813a4fd1f8 RCX: 0000000000000007
+[   16.338551] RDX: 0000000000000000 RSI: ffffffff8256dd38 RDI: ffff888135a30720
+[   16.338551] RBP: 0000000000000001 R08: 0000000000000007 R09: ffff88813aa6a840
+[   16.338551] R10: 0000000000000001 R11: 000000000002d060 R12: ffff88813a4fd1f8
+[   16.338551] R13: ffff88813a77f800 R14: ffff88813aa35180 R15: 0000000000000001
+[   16.338551] FS:  0000000000000000(0000) GS:ffff88813ba80000(0000) knlGS:0000000000000000
+[   16.338551] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   16.338551] CR2: 0000000000000056 CR3: 000000000240a002 CR4: 0000000000360ee0
+[   16.338551] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[   16.338551] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+[   16.338551] Call Trace:
+[   16.338551]  nvme_scan_work+0x2c0/0x340 [nvme_core]
+[   16.338551]  ? __switch_to_asm+0x40/0x70
+[   16.338551]  ? _raw_spin_unlock_irqrestore+0x18/0x30
+[   16.338551]  ? try_to_wake_up+0x408/0x450
+[   16.338551]  process_one_work+0x20b/0x3e0
+[   16.338551]  worker_thread+0x1f9/0x3d0
+[   16.338551]  ? cancel_delayed_work+0xa0/0xa0
+[   16.338551]  kthread+0x117/0x120
+[   16.338551]  ? kthread_stop+0xf0/0xf0
+[   16.338551]  ret_from_fork+0x3a/0x50
+[   16.338551] Modules linked in: nvme nvme_core
+[   16.338551] CR2: 0000000000000056
+[   16.338551] ---[ end trace b9bf761a93e62d84 ]---
+[   16.338551] RIP: 0010:nvme_validate_ns+0xc9/0x7e0 [nvme_core]
+[   16.338551] Code: c0 49 89 c5 0f 84 00 07 00 00 48 8b 7b 58 e8 be 48 39 c1 48 3d 00 f0 ff ff 49 89 45 18 0f 87 a4 06 00 00 48 8b 93 70 0a 00 00 <80> 7a 56 00 74 0c 48 8b 40 68 83 48 3c 08 49 8b 45 18 48 89 c6 bf
+[   16.338551] RSP: 0018:ffffc900024c7d10 EFLAGS: 00010283
+[   16.338551] RAX: ffff888135a30720 RBX: ffff88813a4fd1f8 RCX: 0000000000000007
+[   16.338551] RDX: 0000000000000000 RSI: ffffffff8256dd38 RDI: ffff888135a30720
+[   16.338551] RBP: 0000000000000001 R08: 0000000000000007 R09: ffff88813aa6a840
+[   16.338551] R10: 0000000000000001 R11: 000000000002d060 R12: ffff88813a4fd1f8
+[   16.338551] R13: ffff88813a77f800 R14: ffff88813aa35180 R15: 0000000000000001
+[   16.338551] FS:  0000000000000000(0000) GS:ffff88813ba80000(0000) knlGS:0000000000000000
+[   16.338551] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   16.338551] CR2: 0000000000000056 CR3: 000000000240a002 CR4: 0000000000360ee0
+[   16.338551] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[   16.338551] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 
-Although even with this change in place, ext2 users can steel experience
-false positives, as ext2 is not respecting this flag. This may be apply
-to vfat as well.
-
-Signed-off-by: Mikhail Skorzhinskii <mskorzhinskiy at solarflare.com>
-Signed-off-by: Mike Playle <mplayle at solarflare.com>
+Fixes: 958f2a0f8121 ("nvme-tcp: set the STABLE_WRITES flag when data digests are enabled")
+Cc: Christoph Hellwig <hch at lst.de>
+Cc: Keith Busch <kbusch at kernel.org>
 Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
-Signed-off-by: Christoph Hellwig <hch at lst.de>
+Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
+Signed-off-by: Jens Axboe <axboe at kernel.dk>
 Signed-off-by: Sasha Levin <sashal at kernel.org>
 ---
- drivers/nvme/host/core.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 120fb593d1da..b4048748551e 100644
+index b4048748551e..db5731657529 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -11,6 +11,7 @@
- #include <linux/hdreg.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
-+#include <linux/backing-dev.h>
- #include <linux/list_sort.h>
- #include <linux/slab.h>
- #include <linux/types.h>
-@@ -3256,6 +3257,10 @@ static int nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+@@ -3257,7 +3257,7 @@ static int nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
  		goto out_free_ns;
  	}
  
-+	if (ctrl->opts->data_digest)
-+		ns->queue->backing_dev_info->capabilities
-+			|= BDI_CAP_STABLE_WRITES;
-+
- 	blk_queue_flag_set(QUEUE_FLAG_NONROT, ns->queue);
- 	if (ctrl->ops->flags & NVME_F_PCI_P2PDMA)
- 		blk_queue_flag_set(QUEUE_FLAG_PCI_P2PDMA, ns->queue);
+-	if (ctrl->opts->data_digest)
++	if (ctrl->opts && ctrl->opts->data_digest)
+ 		ns->queue->backing_dev_info->capabilities
+ 			|= BDI_CAP_STABLE_WRITES;
+ 
 -- 
 2.20.1
