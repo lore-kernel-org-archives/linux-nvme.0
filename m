@@ -1,29 +1,50 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Sat, 20 Jul 2019 11:33:06 -0700
-Subject: [PATCH v2 07/10] nvme-cli: Add routine to search for controller
- with specific attributes
-In-Reply-To: <20190720082504.GG22395@minwoo-desktop>
-References: <20190719225305.11397-1-jsmart2021@gmail.com>
- <20190719225305.11397-8-jsmart2021@gmail.com>
- <20190720082504.GG22395@minwoo-desktop>
-Message-ID: <ca511e18-6141-2bbb-a5c6-ce6ad802c10a@broadcom.com>
+From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Sat, 20 Jul 2019 21:15:14 +0000
+Subject: [PATCH 1/4] nvme: have nvme_init_identify set ctrl->cap
+References: <20190719194546.24229-1-sagi@grimberg.me>
+ <20190719194546.24229-2-sagi@grimberg.me>
+Message-ID: <BYAPR04MB57496536D23B276FA3E9BFDA86CA0@BYAPR04MB5749.namprd04.prod.outlook.com>
 
-On 7/20/2019 1:25 AM, Minwoo Im wrote:
-> James,
-> It might be too late to discuss about this argument, but did you decided
-> to have (struct connect_args) as a parameter for this function?
->
-> Sorry for not giving any thoughts on the following mail[1], but I would
-> prefer not introducing a new data structure for this because it's just a
-> bypass argument from a perspective of find_ctrl_with_connetargs().  But
-> If you think it's okay to go with, then I'm fine with that too.
->
-> [1] http://lists.infradead.org/pipermail/linux-nvme/2019-July/025646.html
->
-> Thanks!
+Looks good to me.
 
-It's never too late.? I talked briefly with Sagi before reposting. He 
-had a request for a future item that looked like it may be able to use 
-the structure.? So I left it as is.
-
--- james
+Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+On 07/19/2019 12:46 PM, Sagi Grimberg wrote:
+> No need to use a stack cap variable.
+>
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> ---
+>   drivers/nvme/host/core.c | 7 +++----
+>   1 file changed, 3 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 76cd3dd8736a..058e06e40df8 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -2563,7 +2563,6 @@ static int nvme_get_effects_log(struct nvme_ctrl *ctrl)
+>   int nvme_init_identify(struct nvme_ctrl *ctrl)
+>   {
+>   	struct nvme_id_ctrl *id;
+> -	u64 cap;
+>   	int ret, page_shift;
+>   	u32 max_hw_sectors;
+>   	bool prev_apst_enabled;
+> @@ -2574,15 +2573,15 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+>   		return ret;
+>   	}
+>
+> -	ret = ctrl->ops->reg_read64(ctrl, NVME_REG_CAP, &cap);
+> +	ret = ctrl->ops->reg_read64(ctrl, NVME_REG_CAP, &ctrl->cap);
+>   	if (ret) {
+>   		dev_err(ctrl->device, "Reading CAP failed (%d)\n", ret);
+>   		return ret;
+>   	}
+> -	page_shift = NVME_CAP_MPSMIN(cap) + 12;
+> +	page_shift = NVME_CAP_MPSMIN(ctrl->cap) + 12;
+>
+>   	if (ctrl->vs >= NVME_VS(1, 1, 0))
+> -		ctrl->subsystem = NVME_CAP_NSSRC(cap);
+> +		ctrl->subsystem = NVME_CAP_NSSRC(ctrl->cap);
+>
+>   	ret = nvme_identify_ctrl(ctrl, &id);
+>   	if (ret) {
+>
