@@ -1,134 +1,108 @@
 From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Sat, 20 Jul 2019 21:18:39 +0000
-Subject: [PATCH 2/4] nvme: move sqsize setting to the core
+Date: Sat, 20 Jul 2019 21:22:13 +0000
+Subject: [PATCH 3/4] nvme: don't pass cap to nvme_disable_ctrl
 References: <20190719194546.24229-1-sagi@grimberg.me>
- <20190719194546.24229-3-sagi@grimberg.me>
-Message-ID: <BYAPR04MB5749A02F2DE52E8392786E8F86CA0@BYAPR04MB5749.namprd04.prod.outlook.com>
+ <20190719194546.24229-4-sagi@grimberg.me>
+Message-ID: <BYAPR04MB574973AD83411B2CD72414BB86CA0@BYAPR04MB5749.namprd04.prod.outlook.com>
 
 Looks good to me.
 
 Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 
 On 07/19/2019 12:46 PM, Sagi Grimberg wrote:
-> nvme_init_identify reads the cap register right after, so
-> no need to do that locally in the transport driver.
+> All seem to call it with ctrl->cap so no need to pass it
+> at all.
 >
 > Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 > ---
->   drivers/nvme/host/core.c   |  1 +
->   drivers/nvme/host/fc.c     | 10 ----------
->   drivers/nvme/host/pci.c    |  1 +
->   drivers/nvme/host/rdma.c   | 11 -----------
->   drivers/nvme/host/tcp.c    |  9 ---------
->   drivers/nvme/target/loop.c | 10 ----------
->   6 files changed, 2 insertions(+), 40 deletions(-)
+>   drivers/nvme/host/core.c | 4 ++--
+>   drivers/nvme/host/nvme.h | 2 +-
+>   drivers/nvme/host/pci.c  | 4 ++--
+>   drivers/nvme/host/rdma.c | 2 +-
+>   drivers/nvme/host/tcp.c  | 2 +-
+>   5 files changed, 7 insertions(+), 7 deletions(-)
 >
 > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 058e06e40df8..da4182aa16b0 100644
+> index da4182aa16b0..60e924b0b510 100644
 > --- a/drivers/nvme/host/core.c
 > +++ b/drivers/nvme/host/core.c
-> @@ -2579,6 +2579,7 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
->   		return ret;
->   	}
->   	page_shift = NVME_CAP_MPSMIN(ctrl->cap) + 12;
-> +	ctrl->sqsize = min_t(int, NVME_CAP_MQES(ctrl->cap), ctrl->sqsize);
+> @@ -1949,7 +1949,7 @@ static int nvme_wait_ready(struct nvme_ctrl *ctrl, u64 cap, bool enabled)
+>    * bits', but doing so may cause the device to complete commands to the
+>    * admin queue ... and we don't know what memory that might be pointing at!
+>    */
+> -int nvme_disable_ctrl(struct nvme_ctrl *ctrl, u64 cap)
+> +int nvme_disable_ctrl(struct nvme_ctrl *ctrl)
+>   {
+>   	int ret;
 >
->   	if (ctrl->vs >= NVME_VS(1, 1, 0))
->   		ctrl->subsystem = NVME_CAP_NSSRC(ctrl->cap);
-> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> index 1a391aa1f7d5..67d420bd79f6 100644
-> --- a/drivers/nvme/host/fc.c
-> +++ b/drivers/nvme/host/fc.c
-> @@ -2647,16 +2647,6 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
->   	 * prior connection values
->   	 */
+> @@ -1963,7 +1963,7 @@ int nvme_disable_ctrl(struct nvme_ctrl *ctrl, u64 cap)
+>   	if (ctrl->quirks & NVME_QUIRK_DELAY_BEFORE_CHK_RDY)
+>   		msleep(NVME_QUIRK_DELAY_AMOUNT);
 >
-> -	ret = nvmf_reg_read64(&ctrl->ctrl, NVME_REG_CAP, &ctrl->ctrl.cap);
-> -	if (ret) {
-> -		dev_err(ctrl->ctrl.device,
-> -			"prop_get NVME_REG_CAP failed\n");
-> -		goto out_disconnect_admin_queue;
-> -	}
-> -
-> -	ctrl->ctrl.sqsize =
-> -		min_t(int, NVME_CAP_MQES(ctrl->ctrl.cap), ctrl->ctrl.sqsize);
-> -
->   	ret = nvme_enable_ctrl(&ctrl->ctrl, ctrl->ctrl.cap);
->   	if (ret)
->   		goto out_disconnect_admin_queue;
+> -	return nvme_wait_ready(ctrl, cap, false);
+> +	return nvme_wait_ready(ctrl, ctrl->cap, false);
+>   }
+>   EXPORT_SYMBOL_GPL(nvme_disable_ctrl);
+>
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index 716a876119c8..a7f8fccb1f35 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -426,7 +426,7 @@ void nvme_complete_rq(struct request *req);
+>   bool nvme_cancel_request(struct request *req, void *data, bool reserved);
+>   bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+>   		enum nvme_ctrl_state new_state);
+> -int nvme_disable_ctrl(struct nvme_ctrl *ctrl, u64 cap);
+> +int nvme_disable_ctrl(struct nvme_ctrl *ctrl);
+>   int nvme_enable_ctrl(struct nvme_ctrl *ctrl, u64 cap);
+>   int nvme_shutdown_ctrl(struct nvme_ctrl *ctrl);
+>   int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
 > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index bb970ca82517..0f38c1d96d19 100644
+> index 0f38c1d96d19..f2e74043dc6b 100644
 > --- a/drivers/nvme/host/pci.c
 > +++ b/drivers/nvme/host/pci.c
-> @@ -2316,6 +2316,7 @@ static int nvme_pci_enable(struct nvme_dev *dev)
+> @@ -1403,7 +1403,7 @@ static void nvme_disable_admin_queue(struct nvme_dev *dev, bool shutdown)
+>   	if (shutdown)
+>   		nvme_shutdown_ctrl(&dev->ctrl);
+>   	else
+> -		nvme_disable_ctrl(&dev->ctrl, dev->ctrl.cap);
+> +		nvme_disable_ctrl(&dev->ctrl);
 >
->   	dev->q_depth = min_t(int, NVME_CAP_MQES(dev->ctrl.cap) + 1,
->   				io_queue_depth);
-> +	dev->ctrl.sqsize = dev->q_depth - 1; /* 0's based queue depth */
->   	dev->db_stride = 1 << NVME_CAP_STRIDE(dev->ctrl.cap);
->   	dev->dbs = dev->bar + 4096;
+>   	nvme_poll_irqdisable(nvmeq, -1);
+>   }
+> @@ -1679,7 +1679,7 @@ static int nvme_pci_configure_admin_queue(struct nvme_dev *dev)
+>   	    (readl(dev->bar + NVME_REG_CSTS) & NVME_CSTS_NSSRO))
+>   		writel(NVME_CSTS_NSSRO, dev->bar + NVME_REG_CSTS);
+>
+> -	result = nvme_disable_ctrl(&dev->ctrl, dev->ctrl.cap);
+> +	result = nvme_disable_ctrl(&dev->ctrl);
+>   	if (result < 0)
+>   		return result;
 >
 > diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index 7b074323bcdf..8e9f0fd5b01f 100644
+> index 8e9f0fd5b01f..8e2094fb5e7e 100644
 > --- a/drivers/nvme/host/rdma.c
 > +++ b/drivers/nvme/host/rdma.c
-> @@ -809,17 +809,6 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
->   	if (error)
->   		goto out_cleanup_queue;
+> @@ -1860,7 +1860,7 @@ static void nvme_rdma_shutdown_ctrl(struct nvme_rdma_ctrl *ctrl, bool shutdown)
+>   	if (shutdown)
+>   		nvme_shutdown_ctrl(&ctrl->ctrl);
+>   	else
+> -		nvme_disable_ctrl(&ctrl->ctrl, ctrl->ctrl.cap);
+> +		nvme_disable_ctrl(&ctrl->ctrl);
+>   	nvme_rdma_teardown_admin_queue(ctrl, shutdown);
+>   }
 >
-> -	error = ctrl->ctrl.ops->reg_read64(&ctrl->ctrl, NVME_REG_CAP,
-> -			&ctrl->ctrl.cap);
-> -	if (error) {
-> -		dev_err(ctrl->ctrl.device,
-> -			"prop_get NVME_REG_CAP failed\n");
-> -		goto out_stop_queue;
-> -	}
-> -
-> -	ctrl->ctrl.sqsize =
-> -		min_t(int, NVME_CAP_MQES(ctrl->ctrl.cap), ctrl->ctrl.sqsize);
-> -
->   	error = nvme_enable_ctrl(&ctrl->ctrl, ctrl->ctrl.cap);
->   	if (error)
->   		goto out_stop_queue;
 > diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 8d4965031399..fba80dc61ce1 100644
+> index fba80dc61ce1..4a32d5350fc5 100644
 > --- a/drivers/nvme/host/tcp.c
 > +++ b/drivers/nvme/host/tcp.c
-> @@ -1721,15 +1721,6 @@ static int nvme_tcp_configure_admin_queue(struct nvme_ctrl *ctrl, bool new)
->   	if (error)
->   		goto out_cleanup_queue;
+> @@ -1896,7 +1896,7 @@ static void nvme_tcp_teardown_ctrl(struct nvme_ctrl *ctrl, bool shutdown)
+>   	if (shutdown)
+>   		nvme_shutdown_ctrl(ctrl);
+>   	else
+> -		nvme_disable_ctrl(ctrl, ctrl->cap);
+> +		nvme_disable_ctrl(ctrl);
+>   	nvme_tcp_teardown_admin_queue(ctrl, shutdown);
+>   }
 >
-> -	error = ctrl->ops->reg_read64(ctrl, NVME_REG_CAP, &ctrl->cap);
-> -	if (error) {
-> -		dev_err(ctrl->device,
-> -			"prop_get NVME_REG_CAP failed\n");
-> -		goto out_stop_queue;
-> -	}
-> -
-> -	ctrl->sqsize = min_t(int, NVME_CAP_MQES(ctrl->cap), ctrl->sqsize);
-> -
->   	error = nvme_enable_ctrl(ctrl, ctrl->cap);
->   	if (error)
->   		goto out_stop_queue;
-> diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-> index 9e211ad6bdd3..d901a019e3a2 100644
-> --- a/drivers/nvme/target/loop.c
-> +++ b/drivers/nvme/target/loop.c
-> @@ -369,16 +369,6 @@ static int nvme_loop_configure_admin_queue(struct nvme_loop_ctrl *ctrl)
->
->   	set_bit(NVME_LOOP_Q_LIVE, &ctrl->queues[0].flags);
->
-> -	error = nvmf_reg_read64(&ctrl->ctrl, NVME_REG_CAP, &ctrl->ctrl.cap);
-> -	if (error) {
-> -		dev_err(ctrl->ctrl.device,
-> -			"prop_get NVME_REG_CAP failed\n");
-> -		goto out_cleanup_queue;
-> -	}
-> -
-> -	ctrl->ctrl.sqsize =
-> -		min_t(int, NVME_CAP_MQES(ctrl->ctrl.cap), ctrl->ctrl.sqsize);
-> -
->   	error = nvme_enable_ctrl(&ctrl->ctrl, ctrl->ctrl.cap);
->   	if (error)
->   		goto out_cleanup_queue;
 >
