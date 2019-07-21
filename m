@@ -1,52 +1,42 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Mon, 22 Jul 2019 00:26:47 +0900
-Subject: [PATCH 2/4] lnvm: do not print 0 when the arg is not given
-In-Reply-To: <20190721152649.4894-2-minwoo.im.dev@gmail.com>
+Date: Mon, 22 Jul 2019 00:26:48 +0900
+Subject: [PATCH 3/4] lnvm: cast identity structure to (void *) directly
+In-Reply-To: <20190721152649.4894-3-minwoo.im.dev@gmail.com>
 References: <20190721152649.4894-1-minwoo.im.dev@gmail.com>
  <20190721152649.4894-2-minwoo.im.dev@gmail.com>
-Message-ID: <20190721152649.4894-3-minwoo.im.dev@gmail.com>
+ <20190721152649.4894-3-minwoo.im.dev@gmail.com>
+Message-ID: <20190721152649.4894-4-minwoo.im.dev@gmail.com>
 
-If an argument is not given by the user, it just needs to show the
-situation, not a prominent 0 which indicates the size of the argument
-variable.
+If we use "tmp" or something like this, we can expect that it just
+stores the previous pointer and do something else with the previous
+pointer.  But, in this function, it just to cast it out.
 
 Cc: Keith Busch <kbusch at kernel.org>
 Cc: Matias Bjorling <mb at lightnvm.io>
 Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
 ---
- plugins/lnvm/lnvm-nvme.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ nvme-lightnvm.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/plugins/lnvm/lnvm-nvme.c b/plugins/lnvm/lnvm-nvme.c
-index 37b6733..aacd469 100644
---- a/plugins/lnvm/lnvm-nvme.c
-+++ b/plugins/lnvm/lnvm-nvme.c
-@@ -48,7 +48,7 @@ static int lnvm_init(int argc, char **argv, struct command *cmd, struct plugin *
- 		return ret;
+diff --git a/nvme-lightnvm.c b/nvme-lightnvm.c
+index 0b99786..62bdc40 100644
+--- a/nvme-lightnvm.c
++++ b/nvme-lightnvm.c
+@@ -422,13 +422,12 @@ static void show_lnvm_id20_ns(struct nvme_nvm_id20 *id, unsigned int flags)
  
- 	if (!strlen(cfg.devname)) {
--		fprintf(stderr, "device name missing %d\n", (int)strlen(cfg.devname));
-+		fprintf(stderr, "device name missing\n");
- 		return -EINVAL;
- 	}
- 
-@@ -179,7 +179,7 @@ static int lnvm_create_tgt(int argc, char **argv, struct command *cmd, struct pl
- 		return ret;
- 
- 	if (!strlen(cfg.devname)) {
--		fprintf(stderr, "device name missing %d\n", (int)strlen(cfg.devname));
-+		fprintf(stderr, "device name missing\n");
- 		return -EINVAL;
- 	}
- 	if (!strlen(cfg.tgtname)) {
-@@ -265,7 +265,7 @@ static int lnvm_factory_init(int argc, char **argv, struct command *cmd, struct
- 		return ret;
- 
- 	if (!strlen(cfg.devname)) {
--		fprintf(stderr, "device name missing %d\n", (int)strlen(cfg.devname));
-+		fprintf(stderr, "device name missing\n");
- 		return -EINVAL;
- 	}
- 
+ static void show_lnvm_id_ns(struct nvme_nvm_id *id, unsigned int flags)
+ {
+-	void *tmp = id;
+ 	switch (id->ver_id) {
+ 		case 1:
+-			show_lnvm_id12_ns(tmp, flags);
++			show_lnvm_id12_ns((void *) id, flags);
+ 		break;
+ 		case 2:
+-			show_lnvm_id20_ns(tmp, flags);
++			show_lnvm_id20_ns((void *) id, flags);
+ 		break;
+ 		default:
+ 			fprintf(stderr, "Version %d not supported.\n",
 -- 
 2.17.1
