@@ -1,34 +1,31 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Mon, 22 Jul 2019 00:26:45 +0900
-Subject: [PATCH 0/4] lnvm: minor clean-ups
-Message-ID: <20190721152649.4894-1-minwoo.im.dev@gmail.com>
+Date: Mon, 22 Jul 2019 00:26:46 +0900
+Subject: [PATCH 1/4] lnvm: remove redundant whitespace in lnvm_init()
+In-Reply-To: <20190721152649.4894-1-minwoo.im.dev@gmail.com>
+References: <20190721152649.4894-1-minwoo.im.dev@gmail.com>
+Message-ID: <20190721152649.4894-2-minwoo.im.dev@gmail.com>
 
-Hi,
+The description for lnvm-init subcommand has a redundant whitespace.
 
-This series is nothing but a clean-up patch series.  I hope it's not a
-just code churns, but a good start to do something for lnvm.
+Cc: Keith Busch <kbusch at kernel.org>
+Cc: Matias Bjorling <mb at lightnvm.io>
+Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
+---
+ plugins/lnvm/lnvm-nvme.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The first one removed a redundant whitespace in the command description.
-The second one removed unnecessary print for the sizeof(dev) which will
-always be zero in case user does not give any argument for the device.
-The third patch removed temp variable instead casting the pinter
-directly.  The last one just sync-up the kernel UAPI header file to the
-latest.
-
-Please review.
-
-Thanks,
-
-Minwoo Im (4):
-  lnvm: remove redundant whitespace in lnvm_init()
-  lnvm: do not print 0 when the arg is not given
-  lnvm: cast identity structure to (void *) directly
-  lnvm: sync-up uapi lightnvm.h header from kernel
-
- linux/lightnvm.h         | 52 +++++++++++++++++++++++++++++++++++++++-
- nvme-lightnvm.c          |  5 ++--
- plugins/lnvm/lnvm-nvme.c |  8 +++----
- 3 files changed, 57 insertions(+), 8 deletions(-)
-
+diff --git a/plugins/lnvm/lnvm-nvme.c b/plugins/lnvm/lnvm-nvme.c
+index 754931a..37b6733 100644
+--- a/plugins/lnvm/lnvm-nvme.c
++++ b/plugins/lnvm/lnvm-nvme.c
+@@ -17,7 +17,7 @@
+ static int lnvm_init(int argc, char **argv, struct command *cmd, struct plugin *plugin)
+ {
+ 	const char *desc = "Initialize LightNVM device. A LightNVM/Open-Channel SSD"\
+-			   " must have a media manager associated before it can "\
++			   " must have a media manager associated before it can"\
+ 			   " be exposed to the user. The default is to initialize"
+ 			   " the general media manager on top of the device.\n\n"
+ 			   "Example:"
 -- 
 2.17.1
