@@ -1,61 +1,49 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 22 Jul 2019 11:18:34 -0700
+From: bvanassche@acm.org (Bart Van Assche)
+Date: Mon, 22 Jul 2019 11:26:57 -0700
 Subject: [PATCH] nvme-pci: fix probe and remove race
-In-Reply-To: <CAOSXXT7z4+pScQ+Kf0VauTCvPdRDEXX=H7jQN-Dkk=M2hkTFsA@mail.gmail.com>
+In-Reply-To: <20190719194256.23618-1-sagi@grimberg.me>
 References: <20190719194256.23618-1-sagi@grimberg.me>
- <CAOSXXT7z4+pScQ+Kf0VauTCvPdRDEXX=H7jQN-Dkk=M2hkTFsA@mail.gmail.com>
-Message-ID: <5426a9fd-ef5b-0ee5-8f65-1f49d5fb2290@grimberg.me>
+Message-ID: <ef8149f9-b7e0-d2ba-6bcb-ff51d8e2a908@acm.org>
 
+On 7/19/19 12:42 PM, Sagi Grimberg wrote:
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 4b508d5e45cf..50061abe49c6 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -127,6 +127,7 @@ struct nvme_dev {
+>   	dma_addr_t host_mem_descs_dma;
+>   	struct nvme_host_mem_buf_desc *host_mem_descs;
+>   	void **host_mem_desc_bufs;
+> +	async_cookie_t async_probe;
+>   };
+>   
+>   static int io_queue_depth_set(const char *val, const struct kernel_param *kp)
+> @@ -2765,7 +2766,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>   	dev_info(dev->ctrl.device, "pci function %s\n", dev_name(&pdev->dev));
+>   
+>   	nvme_get_ctrl(&dev->ctrl);
+> -	async_schedule(nvme_async_probe, dev);
+> +	dev->async_probe = async_schedule(nvme_async_probe, dev);
+>   
+>   	return 0;
+>   
+> @@ -2810,6 +2811,8 @@ static void nvme_remove(struct pci_dev *pdev)
+>   {
+>   	struct nvme_dev *dev = pci_get_drvdata(pdev);
+>   
+> +	/* wait for async probe to complete */
+> +	async_synchronize_cookie(dev->async_probe + 1);
+>   	nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DELETING);
+>   	pci_set_drvdata(pdev, NULL);
 
+Hi Sagi,
 
-On 7/20/19 7:46 PM, Keith Busch wrote:
-> On Fri, Jul 19, 2019 at 1:43 PM Sagi Grimberg <sagi at grimberg.me 
-> <mailto:sagi@grimberg.me>> wrote:
->  > It is possible that nvme_remove() being ran concurrently with
->  > nvme_reset_work(), with following sequence:
->  >
->  > nvme_probe()
->  > ? nvme_init_ctrl()
->  > ? ? //set to NEW
->  > ? nvme_async_probe()
->  > ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? nvme_remove()
->  > ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? //can not 
-> change to
->  > ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? //DELETING 
-> from NEW
->  > ? ? nvme_reset_ctrl_sync()
->  > ? ? ? ? nvme_reset_ctrl()
->  > ? ? ? ? ? //change from NEW
->  > ? ? ? ? ? //to RESETTING
->  > ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?flush reset_work()
->  > ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?//not yet queued
->  > ? ? ? ? ? queue reset_work
->  > ? ? ? ? ? ? nvme_reset_work()
->  > ? ? ? ? ? ? ? .... ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ....
->  >
->  > With the above running concurrently, then it is possible to cause some
->  > strange issues, like kernel crash with illegal memory accessing
->  > or something like:
->  > kernel: pci 0000:00:1f.0: can't enable device: BAR 0
->  > ?[mem 0xc0000000-0xc0003fff] not claimed
->  >
->  > Fix this by waiting for the async probe to complete before allowing
->  > remove to make forward progress.
-> 
-> Hi Sagi,
-> 
-> The only problem is the async probe may be stuck if its device was hot 
-> removed, and needs nvme_remove to make it unstuck immediately. Otherwise 
-> it waits for timeout work to fix it up, which can be a very long time.
+Does the async_synchronize_cookie() call wait until all previously 
+started probes have finished? In other words, does the change in 
+nvme_remove() introduce a dependency between probe and remove calls of 
+different NVMe devices? Is that dependency important? If not, can it be 
+avoided to introduce that dependency?
 
-Given that this is an error case, I don't think that the timeout is a
-big issue.
+Thanks,
 
-> We only really need to wait for the state to not be new? And if so, is 
-> the attached ok?
-
-I don't have a firm reproducer, I was hoping that Li would have since
-he reported the problem.
-
-This would work because nvme_dev_disable is serialized with the
-shutdown_lock...
+Bart.
