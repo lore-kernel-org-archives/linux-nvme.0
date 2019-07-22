@@ -1,71 +1,81 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Mon, 22 Jul 2019 17:08:56 -0600
-Subject: [PATCH 11/14] PCI/P2PDMA: dma_map P2PDMA map requests that traverse
- the host bridge
+Date: Mon, 22 Jul 2019 17:08:50 -0600
+Subject: [PATCH 05/14] PCI/P2PDMA: Factor out host_bridge_whitelist()
 In-Reply-To: <20190722230859.5436-1-logang@deltatee.com>
 References: <20190722230859.5436-1-logang@deltatee.com>
-Message-ID: <20190722230859.5436-12-logang@deltatee.com>
+Message-ID: <20190722230859.5436-6-logang@deltatee.com>
 
-Any requests that traverse the host bridge will need to be mapped into
-the IOMMU, so call dma_map_sg() inside pci_p2pdma_map_sg() when
-appropriate.
+Push both PCI devices into the whitelist checking function seeing
+some hardware will require us ensuring they are on the same host
+bridge.
 
-Similarly, call dma_unmap_sg() inside pci_p2pdma_unmap_sg().
+At the same time we rename root_complex_whitelist() to
+host_bridge_whitelist() to match the terminology used in the code.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 ---
- drivers/pci/p2pdma.c | 31 ++++++++++++++++++++++++++++++-
- 1 file changed, 30 insertions(+), 1 deletion(-)
+ drivers/pci/p2pdma.c | 31 ++++++++++++++++++++-----------
+ 1 file changed, 20 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-index 5f43f92f9336..76f51678342c 100644
+index 25663c1d8bc9..dfb802afc8ca 100644
 --- a/drivers/pci/p2pdma.c
 +++ b/drivers/pci/p2pdma.c
-@@ -830,8 +830,22 @@ int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
- 		int nents, enum dma_data_direction dir, unsigned long attrs)
- {
- 	struct dev_pagemap *pgmap = sg_page(sg)->pgmap;
-+	struct pci_dev *client;
-+	int dist;
-+
-+	client = find_parent_pci_dev(dev);
-+	if (WARN_ON_ONCE(!client))
-+		return 0;
- 
--	return __pci_p2pdma_map_sg(pgmap, dev, sg, nents);
-+	dist = upstream_bridge_distance(pgmap->pci_p2pdma_provider,
-+					client, NULL);
-+	if (WARN_ON_ONCE(dist & P2PDMA_NOT_SUPPORTED))
-+		return 0;
-+
-+	if (dist & P2PDMA_THRU_HOST_BRIDGE)
-+		return dma_map_sg_attrs(dev, sg, nents, dir, attrs);
-+	else
-+		return __pci_p2pdma_map_sg(pgmap, dev, sg, nents);
+@@ -250,19 +250,11 @@ static void seq_buf_print_bus_devfn(struct seq_buf *buf, struct pci_dev *pdev)
+ 	seq_buf_printf(buf, "%s;", pci_name(pdev));
  }
- EXPORT_SYMBOL_GPL(pci_p2pdma_map_sg_attrs);
  
-@@ -847,6 +861,21 @@ EXPORT_SYMBOL_GPL(pci_p2pdma_map_sg_attrs);
- void pci_p2pdma_unmap_sg_attrs(struct device *dev, struct scatterlist *sg,
- 		int nents, enum dma_data_direction dir, unsigned long attrs)
+-/*
+- * If we can't find a common upstream bridge take a look at the root
+- * complex and compare it to a whitelist of known good hardware.
+- */
+-static bool root_complex_whitelist(struct pci_dev *dev)
++static bool __host_bridge_whitelist(struct pci_host_bridge *host)
  {
-+	struct dev_pagemap *pgmap = sg_page(sg)->pgmap;
-+	struct pci_dev *client;
-+	int dist;
-+
-+	client = find_parent_pci_dev(dev);
-+	if (!client)
-+		return;
-+
-+	dist = upstream_bridge_distance(pgmap->pci_p2pdma_provider,
-+					client, NULL);
-+	if (dist & P2PDMA_NOT_SUPPORTED)
-+		return;
-+
-+	if (dist & P2PDMA_THRU_HOST_BRIDGE)
-+		dma_unmap_sg_attrs(dev, sg, nents, dir, attrs);
- }
- EXPORT_SYMBOL_GPL(pci_p2pdma_unmap_sg_attrs);
+-	struct pci_host_bridge *host = pci_find_host_bridge(dev->bus);
+ 	struct pci_dev *root = pci_get_slot(host->bus, PCI_DEVFN(0, 0));
+ 	unsigned short vendor, device;
  
+-	if (iommu_present(dev->dev.bus))
+-		return false;
+-
+ 	if (!root)
+ 		return false;
+ 
+@@ -277,6 +269,24 @@ static bool root_complex_whitelist(struct pci_dev *dev)
+ 	return false;
+ }
+ 
++/*
++ * If we can't find a common upstream bridge take a look at the root
++ * complex and compare it to a whitelist of known good hardware.
++ */
++static bool host_bridge_whitelist(struct pci_dev *a, struct pci_dev *b)
++{
++	struct pci_host_bridge *host_a = pci_find_host_bridge(a->bus);
++	struct pci_host_bridge *host_b = pci_find_host_bridge(b->bus);
++
++	if (iommu_present(a->dev.bus) || iommu_present(b->dev.bus))
++		return false;
++
++	if (__host_bridge_whitelist(host_a) && __host_bridge_whitelist(host_b))
++		return true;
++
++	return false;
++}
++
+ enum {
+ 	/*
+ 	 * Thes arbitrary offset are or'd onto the upstream distance
+@@ -412,8 +422,7 @@ static int upstream_bridge_distance(struct pci_dev *provider,
+ 	if (!(dist & P2PDMA_THRU_HOST_BRIDGE))
+ 		goto store_and_return;
+ 
+-	if (!root_complex_whitelist(provider) ||
+-	    !root_complex_whitelist(client))
++	if (!host_bridge_whitelist(provider, client))
+ 		dist |= P2PDMA_NOT_SUPPORTED;
+ 
+ store_and_return:
 -- 
 2.20.1
