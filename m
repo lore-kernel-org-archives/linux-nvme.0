@@ -1,48 +1,34 @@
-From: bvanassche@acm.org (Bart Van Assche)
-Date: Mon, 22 Jul 2019 08:27:32 -0700
-Subject: [PATCH 3/5] nvme: don't abort completed request in
- nvme_cancel_request
-In-Reply-To: <20190722053954.25423-4-ming.lei@redhat.com>
-References: <20190722053954.25423-1-ming.lei@redhat.com>
- <20190722053954.25423-4-ming.lei@redhat.com>
-Message-ID: <d82ead02-c893-4d14-307e-70a6d4596439@acm.org>
+From: james.smart@broadcom.com (James Smart)
+Date: Mon, 22 Jul 2019 08:42:44 -0700
+Subject: [PATCH 0/4] small set of nvme cleanups
+In-Reply-To: <20190719194546.24229-1-sagi@grimberg.me>
+References: <20190719194546.24229-1-sagi@grimberg.me>
+Message-ID: <3086fcef-efb2-85e4-4e36-2c5734cf3068@broadcom.com>
 
-On 7/21/19 10:39 PM, Ming Lei wrote:
-> Before aborting in-flight requests, all IO queues have been shutdown.
-> However, request's completion fn may not be done yet because it may
-> be scheduled to run via IPI.
-> 
-> So don't abort one request if it is marked as completed, otherwise
-> we may abort one normal completed request.
-> 
-> Cc: Max Gurtovoy <maxg at mellanox.com>
-> Cc: Sagi Grimberg <sagi at grimberg.me>
-> Cc: Keith Busch <keith.busch at intel.com>
-> Cc: Christoph Hellwig <hch at lst.de>
-> Signed-off-by: Ming Lei <ming.lei at redhat.com>
-> ---
->   drivers/nvme/host/core.c | 4 ++++
->   1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index cc09b81fc7f4..cb8007cce4d1 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -285,6 +285,10 @@ EXPORT_SYMBOL_GPL(nvme_complete_rq);
->   
->   bool nvme_cancel_request(struct request *req, void *data, bool reserved)
->   {
-> +	/* don't abort one completed request */
-> +	if (blk_mq_request_completed(req))
-> +		return;
-> +
->   	dev_dbg_ratelimited(((struct nvme_ctrl *) data)->device,
->   				"Cancelling I/O %d", req->tag);
 
-Something I probably already asked before: what prevents that 
-nvme_cancel_request() is executed concurrently with the completion 
-handler of the same request?
 
-Thanks,
+On 7/19/2019 12:45 PM, Sagi Grimberg wrote:
+> Centralizes queue size settings for fabrics and
+> removes redundant argument to nvme_disable/enable_ctrl.
+>
+> Sagi Grimberg (4):
+>    nvme: have nvme_init_identify set ctrl->cap
+>    nvme: move sqsize setting to the core
+>    nvme: don't pass cap to nvme_disable_ctrl
+>    nvme: don't pass cap to nvme_enable_ctrl
+>
+>   drivers/nvme/host/core.c   | 19 ++++++++++---------
+>   drivers/nvme/host/fc.c     | 12 +-----------
+>   drivers/nvme/host/nvme.h   |  4 ++--
+>   drivers/nvme/host/pci.c    |  7 ++++---
+>   drivers/nvme/host/rdma.c   | 15 ++-------------
+>   drivers/nvme/host/tcp.c    | 13 ++-----------
+>   drivers/nvme/target/loop.c | 12 +-----------
+>   7 files changed, 22 insertions(+), 60 deletions(-)
+>
 
-Bart.
+The changes look fine except for 1 main issue:? All of the nvmf 
+transports call nvme_enable_ctrl(), which still references ctrl->cap, 
+before they call nvme_init_identify().
+
+-- james
