@@ -1,34 +1,38 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Mon, 22 Jul 2019 08:42:44 -0700
-Subject: [PATCH 0/4] small set of nvme cleanups
-In-Reply-To: <20190719194546.24229-1-sagi@grimberg.me>
-References: <20190719194546.24229-1-sagi@grimberg.me>
-Message-ID: <3086fcef-efb2-85e4-4e36-2c5734cf3068@broadcom.com>
+From: jgg@ziepe.ca (Jason Gunthorpe)
+Date: Mon, 22 Jul 2019 15:07:46 -0300
+Subject: [PATCH for-rc] RDMA/bnxt_re: Honor vlan_id in GID entry comparison
+In-Reply-To: <20190715091913.15726-1-selvin.xavier@broadcom.com>
+References: <20190715091913.15726-1-selvin.xavier@broadcom.com>
+Message-ID: <20190722180746.GA9441@ziepe.ca>
 
+On Mon, Jul 15, 2019@05:19:13AM -0400, Selvin Xavier wrote:
+> GID entry consist of GID, vlan, netdev and smac.
+> Extend GID duplicate check companions to consider vlan_id as well
+> to support IPv6 VLAN based link local addresses. Introduce
+> a new structure (bnxt_qplib_gid_info) to hold gid and vlan_id information.
+> 
+> The issue is discussed in the following thread
+> https://www.spinics.net/lists/linux-rdma/msg81594.html
+> 
+> Fixes: 823b23da7113 ("IB/core: Allow vlan link local address based RoCE GIDs")
+> Cc: <stable at vger.kernel.org> # v5.2+
+> Reported-by: Yi Zhang <yi.zhang at redhat.com>
+> Co-developed-by: Parav Pandit <parav at mellanox.com>
+> Signed-off-by: Parav Pandit <parav at mellanox.com>
+> Signed-off-by: Selvin Xavier <selvin.xavier at broadcom.com>
+> Tested-by: Yi Zhang <yi.zhang at redhat.com>
+> Reviewed-By: Leon R...
+> Tested-by: Leon R...
+> ---
+>  drivers/infiniband/hw/bnxt_re/ib_verbs.c  |  7 +++++--
+>  drivers/infiniband/hw/bnxt_re/qplib_res.c | 13 +++++++++----
+>  drivers/infiniband/hw/bnxt_re/qplib_res.h |  2 +-
+>  drivers/infiniband/hw/bnxt_re/qplib_sp.c  | 14 +++++++++-----
+>  drivers/infiniband/hw/bnxt_re/qplib_sp.h  |  7 ++++++-
+>  5 files changed, 30 insertions(+), 13 deletions(-)
 
+Applied to for-rc, thanks
 
-On 7/19/2019 12:45 PM, Sagi Grimberg wrote:
-> Centralizes queue size settings for fabrics and
-> removes redundant argument to nvme_disable/enable_ctrl.
->
-> Sagi Grimberg (4):
->    nvme: have nvme_init_identify set ctrl->cap
->    nvme: move sqsize setting to the core
->    nvme: don't pass cap to nvme_disable_ctrl
->    nvme: don't pass cap to nvme_enable_ctrl
->
->   drivers/nvme/host/core.c   | 19 ++++++++++---------
->   drivers/nvme/host/fc.c     | 12 +-----------
->   drivers/nvme/host/nvme.h   |  4 ++--
->   drivers/nvme/host/pci.c    |  7 ++++---
->   drivers/nvme/host/rdma.c   | 15 ++-------------
->   drivers/nvme/host/tcp.c    | 13 ++-----------
->   drivers/nvme/target/loop.c | 12 +-----------
->   7 files changed, 22 insertions(+), 60 deletions(-)
->
+Please also fix that sketchy use of the gid_index
 
-The changes look fine except for 1 main issue:? All of the nvmf 
-transports call nvme_enable_ctrl(), which still references ctrl->cap, 
-before they call nvme_init_identify().
-
--- james
+Jason
