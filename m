@@ -1,118 +1,84 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Mon, 22 Jul 2019 17:08:59 -0600
-Subject: [PATCH 14/14] PCI/P2PDMA: Introduce pci_p2pdma_[un]map_resource()
+Date: Mon, 22 Jul 2019 17:08:49 -0600
+Subject: [PATCH 04/14] PCI/P2PDMA: Cache the result of
+ upstream_bridge_distance()
 In-Reply-To: <20190722230859.5436-1-logang@deltatee.com>
 References: <20190722230859.5436-1-logang@deltatee.com>
-Message-ID: <20190722230859.5436-15-logang@deltatee.com>
+Message-ID: <20190722230859.5436-5-logang@deltatee.com>
 
-pci_p2pdma_[un]map_resource() can be used to map a resource given
-it's physical address and the backing pci_dev. The functions will call
-dma_[un]map_resource() when appropriate.
-
-This is for demonstration purposes only as there are no users of this
-function at this time. Thus, this patch should not be merged at
-this time.
+The result of upstream_bridge_distance() will be needed every time
+we map the dma address so cache it in an xarray stored in the
+provider's p2pdma struct.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 ---
- drivers/pci/p2pdma.c | 85 ++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 85 insertions(+)
+ drivers/pci/p2pdma.c | 29 +++++++++++++++++++++++++----
+ 1 file changed, 25 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-index baf476039396..20c834cfd2d3 100644
+index d5034e28d1e1..25663c1d8bc9 100644
 --- a/drivers/pci/p2pdma.c
 +++ b/drivers/pci/p2pdma.c
-@@ -874,6 +874,91 @@ void pci_p2pdma_unmap_sg_attrs(struct device *dev, struct scatterlist *sg,
- }
- EXPORT_SYMBOL_GPL(pci_p2pdma_unmap_sg_attrs);
+@@ -19,10 +19,12 @@
+ #include <linux/random.h>
+ #include <linux/seq_buf.h>
+ #include <linux/iommu.h>
++#include <linux/xarray.h>
  
-+static pci_bus_addr_t pci_p2pdma_phys_to_bus(struct pci_dev *dev,
-+		phys_addr_t start, size_t size)
-+{
-+	struct pci_host_bridge *bridge = pci_find_host_bridge(dev->bus);
-+	phys_addr_t end = start + size;
-+	struct resource_entry *window;
+ struct pci_p2pdma {
+ 	struct gen_pool *pool;
+ 	bool p2pmem_published;
++	struct xarray dist_cache;
+ };
+ 
+ static ssize_t size_show(struct device *dev, struct device_attribute *attr,
+@@ -98,6 +100,8 @@ static int pci_p2pdma_setup(struct pci_dev *pdev)
+ 	if (!p2p)
+ 		return -ENOMEM;
+ 
++	xa_init(&p2p->dist_cache);
 +
-+	resource_list_for_each_entry(window, &bridge->windows) {
-+		if (window->res->start <= start && window->res->end >= end)
-+			return start - window->offset;
+ 	p2p->pool = gen_pool_create(PAGE_SHIFT, dev_to_node(&pdev->dev));
+ 	if (!p2p->pool)
+ 		goto out;
+@@ -390,17 +394,34 @@ static int upstream_bridge_distance(struct pci_dev *provider,
+ 				    struct pci_dev *client,
+ 				    struct seq_buf *acs_list)
+ {
++	void *entry;
+ 	int dist;
++	int idx;
++
++	idx = (pci_domain_nr(client->bus) << 16) |
++		(client->bus->number << 8) | client->devfn;
++
++	if (provider->p2pdma) {
++		entry = xa_load(&provider->p2pdma->dist_cache, idx);
++		if (entry)
++			return xa_to_value(entry);
 +	}
+ 
+ 	dist = __upstream_bridge_distance(provider, client, acs_list);
+ 
+ 	if (!(dist & P2PDMA_THRU_HOST_BRIDGE))
+-		return dist;
++		goto store_and_return;
 +
-+	return DMA_MAPPING_ERROR;
-+}
-+EXPORT_SYMBOL_GPL(pci_p2pdma_phys_to_bus);
-+
-+/**
-+ * pci_p2pdma_map_resource - map a PCI peer-to-peer physical address for DMA
-+ * @provider: pci device that provides the memory backed by phys_addr
-+ * @dma_dev: device doing the DMA request
-+ * @phys_addr: physical address of the memory to map
-+ * @size: size of the memory to map
-+ * @dir: DMA direction
-+ * @attrs: dma attributes passed to dma_map_resource() (if called)
-+ *
-+ * Maps a BAR physical address for programming a DMA engine.
-+ *
-+ * Returns the dma_addr_t to map or DMA_MAPPING_ERROR on failure
-+ */
-+dma_addr_t pci_p2pdma_map_resource(struct pci_dev *provider,
-+		struct device *dma_dev, phys_addr_t phys_addr, size_t size,
-+		enum dma_data_direction dir, unsigned long attrs)
-+{
-+	struct pci_dev *client;
-+	int dist;
-+
-+	client = find_parent_pci_dev(dma_dev);
-+	if (!client)
-+		return DMA_MAPPING_ERROR;
-+
-+	dist = upstream_bridge_distance(provider, client, NULL);
-+	if (dist & P2PDMA_NOT_SUPPORTED)
-+		return DMA_MAPPING_ERROR;
-+
-+	if (dist & P2PDMA_THRU_HOST_BRIDGE)
-+		return dma_map_resource(dma_dev, phys_addr, size, dir, attrs);
-+	else
-+		return pci_p2pdma_phys_to_bus(provider, phys_addr, size);
-+}
-+EXPORT_SYMBOL_GPL(pci_p2pdma_map_resource);
-+
-+/**
-+ * pci_p2pdma_unmap_resource - unmap a resource mapped with
-+ *		pci_p2pdma_map_resource()
-+ * @provider: pci device that provides the memory backed by phys_addr
-+ * @dma_dev: device doing the DMA request
-+ * @addr: dma address returned by pci_p2pdma_unmap_resource()
-+ * @size: size of the memory to map
-+ * @dir: DMA direction
-+ * @attrs: dma attributes passed to dma_unmap_resource() (if called)
-+ *
-+ * Maps a BAR physical address for programming a DMA engine.
-+ *
-+ * Returns the dma_addr_t to map or DMA_MAPPING_ERROR on failure
-+ */
-+void pci_p2pdma_unmap_resource(struct pci_dev *provider,
-+		struct device *dma_dev, dma_addr_t addr, size_t size,
-+		enum dma_data_direction dir, unsigned long attrs)
-+{
-+	struct pci_dev *client;
-+	int dist;
-+
-+	client = find_parent_pci_dev(dma_dev);
-+	if (!client)
-+		return;
-+
-+	dist = upstream_bridge_distance(provider, client, NULL);
-+	if (dist & P2PDMA_NOT_SUPPORTED)
-+		return;
-+
-+	if (dist & P2PDMA_THRU_HOST_BRIDGE)
-+		dma_unmap_resource(dma_dev, addr, size, dir, attrs);
-+}
-+EXPORT_SYMBOL_GPL(pci_p2pdma_unmap_resource);
-+
- /**
-  * pci_p2pdma_enable_store - parse a configfs/sysfs attribute store
-  *		to enable p2pdma
++	if (!root_complex_whitelist(provider) ||
++	    !root_complex_whitelist(client))
++		dist |= P2PDMA_NOT_SUPPORTED;
+ 
+-	if (root_complex_whitelist(provider) && root_complex_whitelist(client))
+-		return dist;
++store_and_return:
++	if (provider->p2pdma)
++		xa_store(&provider->p2pdma->dist_cache, idx,
++			 xa_mk_value(dist), GFP_KERNEL);
+ 
+-	return dist | P2PDMA_NOT_SUPPORTED;
++	return dist;
+ }
+ 
+ static int upstream_bridge_distance_warn(struct pci_dev *provider,
 -- 
 2.20.1
