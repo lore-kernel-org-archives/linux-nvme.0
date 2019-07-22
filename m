@@ -1,50 +1,48 @@
-From: keith.busch@gmail.com (Keith Busch)
-Date: Mon, 22 Jul 2019 17:22:33 -0600
-Subject: [PATCH 3/5] nvme: don't abort completed request in
- nvme_cancel_request
-In-Reply-To: <d82ead02-c893-4d14-307e-70a6d4596439@acm.org>
+From: bob.liu@oracle.com (Bob Liu)
+Date: Tue, 23 Jul 2019 07:27:00 +0800
+Subject: [PATCH 0/5] blk-mq: wait until completed req's complete fn is run
+In-Reply-To: <20190722053954.25423-1-ming.lei@redhat.com>
 References: <20190722053954.25423-1-ming.lei@redhat.com>
- <20190722053954.25423-4-ming.lei@redhat.com>
- <d82ead02-c893-4d14-307e-70a6d4596439@acm.org>
-Message-ID: <CAOSXXT5TkrfH0AFZCV0c+YtbFCQ4MnShKM-gkZrj8Qex+Z7Png@mail.gmail.com>
+Message-ID: <a22e7266-98cb-875d-aa89-f37dd6c34ad5@oracle.com>
 
-On Mon, Jul 22, 2019@9:27 AM Bart Van Assche <bvanassche@acm.org> wrote:
-> On 7/21/19 10:39 PM, Ming Lei wrote:
-> > Before aborting in-flight requests, all IO queues have been shutdown.
-> > However, request's completion fn may not be done yet because it may
-> > be scheduled to run via IPI.
-> >
-> > So don't abort one request if it is marked as completed, otherwise
-> > we may abort one normal completed request.
-> >
-> > Cc: Max Gurtovoy <maxg at mellanox.com>
-> > Cc: Sagi Grimberg <sagi at grimberg.me>
-> > Cc: Keith Busch <keith.busch at intel.com>
-> > Cc: Christoph Hellwig <hch at lst.de>
-> > Signed-off-by: Ming Lei <ming.lei at redhat.com>
-> > ---
-> >   drivers/nvme/host/core.c | 4 ++++
-> >   1 file changed, 4 insertions(+)
-> >
-> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> > index cc09b81fc7f4..cb8007cce4d1 100644
-> > --- a/drivers/nvme/host/core.c
-> > +++ b/drivers/nvme/host/core.c
-> > @@ -285,6 +285,10 @@ EXPORT_SYMBOL_GPL(nvme_complete_rq);
-> >
-> >   bool nvme_cancel_request(struct request *req, void *data, bool reserved)
-> >   {
-> > +     /* don't abort one completed request */
-> > +     if (blk_mq_request_completed(req))
-> > +             return;
-> > +
-> >       dev_dbg_ratelimited(((struct nvme_ctrl *) data)->device,
-> >                               "Cancelling I/O %d", req->tag);
->
-> Something I probably already asked before: what prevents that
-> nvme_cancel_request() is executed concurrently with the completion
-> handler of the same request?
+On 7/22/19 1:39 PM, Ming Lei wrote:
+> Hi,
+> 
+> blk-mq may schedule to call queue's complete function on remote CPU via
+> IPI, but never provide any way to synchronize the request's complete
+> fn.
+> 
+> In some driver's EH(such as NVMe), hardware queue's resource may be freed &
+> re-allocated. If the completed request's complete fn is run finally after the
+> hardware queue's resource is released, kernel crash will be triggered.
+> 
 
-At least for pci, we've shutdown the queues and their interrupts prior
-to tagset iteration, so we can't concurrently execute a natural
-completion for in-flight requests while cancelling them.
+Have you seen the crash? Anyway to emulate/verify this bug..
+
+> Fixes this issue by waitting until completed req's complete fn is run.
+> 
+> Thanks,
+> Ming
+> 
+> Ming Lei (5):
+>   blk-mq: introduce blk_mq_request_completed()
+>   blk-mq: introduce blk_mq_tagset_wait_completed_request()
+>   nvme: don't abort completed request in nvme_cancel_request
+>   nvme: wait until all completed request's complete fn is called
+>   blk-mq: remove blk_mq_complete_request_sync
+> 
+>  block/blk-mq-tag.c         | 32 ++++++++++++++++++++++++++++++++
+>  block/blk-mq.c             | 13 ++++++-------
+>  drivers/nvme/host/core.c   |  6 +++++-
+>  drivers/nvme/host/pci.c    |  2 ++
+>  drivers/nvme/host/rdma.c   |  8 ++++++--
+>  drivers/nvme/host/tcp.c    |  8 ++++++--
+>  drivers/nvme/target/loop.c |  2 ++
+>  include/linux/blk-mq.h     |  3 ++-
+>  8 files changed, 61 insertions(+), 13 deletions(-)
+> 
+> Cc: Max Gurtovoy <maxg at mellanox.com>
+> Cc: Sagi Grimberg <sagi at grimberg.me>
+> Cc: Keith Busch <keith.busch at intel.com>
+> Cc: Christoph Hellwig <hch at lst.de>
+> 
