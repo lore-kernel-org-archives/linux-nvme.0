@@ -1,20 +1,16 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Mon, 22 Jul 2019 13:39:51 +0800
-Subject: [PATCH 2/5] blk-mq: introduce blk_mq_tagset_wait_completed_request()
+Date: Mon, 22 Jul 2019 13:39:52 +0800
+Subject: [PATCH 3/5] nvme: don't abort completed request in nvme_cancel_request
 In-Reply-To: <20190722053954.25423-1-ming.lei@redhat.com>
 References: <20190722053954.25423-1-ming.lei@redhat.com>
-Message-ID: <20190722053954.25423-3-ming.lei@redhat.com>
+Message-ID: <20190722053954.25423-4-ming.lei@redhat.com>
 
-blk-mq may schedule to call queue's complete function on remote CPU via
-IPI, but doesn't provide any way to synchronize the request's complete
-fn.
+Before aborting in-flight requests, all IO queues have been shutdown.
+However, request's completion fn may not be done yet because it may
+be scheduled to run via IPI.
 
-In some driver's EH(such as NVMe), hardware queue's resource may be freed &
-re-allocated. If the completed request's complete fn is run finally after the
-hardware queue's resource is released, kernel crash will be triggered.
-
-Prepare for fixing this kind of issue by introducing
-blk_mq_tagset_wait_completed_request().
+So don't abort one request if it is marked as completed, otherwise
+we may abort one normal completed request.
 
 Cc: Max Gurtovoy <maxg at mellanox.com>
 Cc: Sagi Grimberg <sagi at grimberg.me>
@@ -22,71 +18,23 @@ Cc: Keith Busch <keith.busch at intel.com>
 Cc: Christoph Hellwig <hch at lst.de>
 Signed-off-by: Ming Lei <ming.lei at redhat.com>
 ---
- block/blk-mq-tag.c     | 32 ++++++++++++++++++++++++++++++++
- include/linux/blk-mq.h |  1 +
- 2 files changed, 33 insertions(+)
+ drivers/nvme/host/core.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/block/blk-mq-tag.c b/block/blk-mq-tag.c
-index da19f0bc8876..008388e82b5c 100644
---- a/block/blk-mq-tag.c
-+++ b/block/blk-mq-tag.c
-@@ -10,6 +10,7 @@
- #include <linux/module.h>
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index cc09b81fc7f4..cb8007cce4d1 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -285,6 +285,10 @@ EXPORT_SYMBOL_GPL(nvme_complete_rq);
  
- #include <linux/blk-mq.h>
-+#include <linux/delay.h>
- #include "blk.h"
- #include "blk-mq.h"
- #include "blk-mq-tag.h"
-@@ -354,6 +355,37 @@ void blk_mq_tagset_busy_iter(struct blk_mq_tag_set *tagset,
- }
- EXPORT_SYMBOL(blk_mq_tagset_busy_iter);
+ bool nvme_cancel_request(struct request *req, void *data, bool reserved)
+ {
++	/* don't abort one completed request */
++	if (blk_mq_request_completed(req))
++		return;
++
+ 	dev_dbg_ratelimited(((struct nvme_ctrl *) data)->device,
+ 				"Cancelling I/O %d", req->tag);
  
-+static bool blk_mq_tagset_count_completed_rqs(struct request *rq,
-+		void *data, bool reserved)
-+{
-+	unsigned *count = data;
-+
-+	if (blk_mq_request_completed(rq))
-+		(*count)++;
-+	return true;
-+}
-+
-+/**
-+ * blk_mq_tagset_wait_completed_request - wait until all completed req's
-+ * complete funtion is run
-+ * @tagset:	Tag set to drain completed request
-+ *
-+ * Note: This function has to be run after all IO queues are shutdown
-+ */
-+void blk_mq_tagset_wait_completed_request(struct blk_mq_tag_set *tagset)
-+{
-+	while (true) {
-+		unsigned count = 0;
-+
-+		blk_mq_tagset_busy_iter(tagset,
-+				blk_mq_tagset_count_completed_rqs, &count);
-+		if (!count)
-+			break;
-+		msleep(5);
-+	}
-+}
-+EXPORT_SYMBOL(blk_mq_tagset_wait_completed_request);
-+
- /**
-  * blk_mq_queue_tag_busy_iter - iterate over all requests with a driver tag
-  * @q:		Request queue to examine.
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index baac2926e54a..ee0719b649b6 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -322,6 +322,7 @@ bool blk_mq_run_hw_queue(struct blk_mq_hw_ctx *hctx, bool async);
- void blk_mq_run_hw_queues(struct request_queue *q, bool async);
- void blk_mq_tagset_busy_iter(struct blk_mq_tag_set *tagset,
- 		busy_tag_iter_fn *fn, void *priv);
-+void blk_mq_tagset_wait_completed_request(struct blk_mq_tag_set *tagset);
- void blk_mq_freeze_queue(struct request_queue *q);
- void blk_mq_unfreeze_queue(struct request_queue *q);
- void blk_freeze_queue_start(struct request_queue *q);
 -- 
 2.20.1
