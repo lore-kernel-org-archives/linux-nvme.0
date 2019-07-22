@@ -1,105 +1,127 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Mon, 22 Jul 2019 17:08:53 -0600
-Subject: [PATCH 08/14] PCI/P2PDMA: Add attrs argument to pci_p2pdma_map_sg()
+Date: Mon, 22 Jul 2019 17:08:47 -0600
+Subject: [PATCH 02/14] PCI/P2PDMA: Factor out __upstream_bridge_distance()
 In-Reply-To: <20190722230859.5436-1-logang@deltatee.com>
 References: <20190722230859.5436-1-logang@deltatee.com>
-Message-ID: <20190722230859.5436-9-logang@deltatee.com>
+Message-ID: <20190722230859.5436-3-logang@deltatee.com>
 
-This is to match the dma_map_sg() API which this function will have
-to call in an future patch.
+This is a prep patch to create a second level helper. There are no
+functional changes.
 
-Adds a pci_p2pdma_map_sg_attrs() function and helper to call it with
-no attributes just like the dma_map_sg() function.
+The root complex whitelist code will be moved into this function in
+a subsequent patch.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 ---
- drivers/nvme/host/pci.c    |  4 ++--
- drivers/pci/p2pdma.c       |  7 ++++---
- include/linux/pci-p2pdma.h | 15 +++++++++++----
- 3 files changed, 17 insertions(+), 9 deletions(-)
+ drivers/pci/p2pdma.c | 89 ++++++++++++++++++++++++--------------------
+ 1 file changed, 48 insertions(+), 41 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index bb970ca82517..7747712054cd 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -832,8 +832,8 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
- 		goto out;
- 
- 	if (is_pci_p2pdma_page(sg_page(iod->sg)))
--		nr_mapped = pci_p2pdma_map_sg(dev->dev, iod->sg, iod->nents,
--					      rq_dma_dir(req));
-+		nr_mapped = pci_p2pdma_map_sg_attrs(dev->dev, iod->sg,
-+				iod->nents, rq_dma_dir(req), DMA_ATTR_NO_WARN);
- 	else
- 		nr_mapped = dma_map_sg_attrs(dev->dev, iod->sg, iod->nents,
- 					     rq_dma_dir(req), DMA_ATTR_NO_WARN);
 diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-index 70c262b7c731..ce361e287543 100644
+index e8ec86e1dd00..289d03a31e7d 100644
 --- a/drivers/pci/p2pdma.c
 +++ b/drivers/pci/p2pdma.c
-@@ -791,13 +791,14 @@ EXPORT_SYMBOL_GPL(pci_p2pmem_publish);
-  * @sg: scatter list to map
-  * @nents: elements in the scatterlist
-  * @dir: DMA direction
-+ * @attrs: dma attributes passed to dma_map_sg() (if called)
-  *
-  * Scatterlists mapped with this function should not be unmapped in any way.
-  *
-  * Returns the number of SG entries mapped or 0 on error.
-  */
--int pci_p2pdma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
--		      enum dma_data_direction dir)
-+int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
-+		int nents, enum dma_data_direction dir, unsigned long attrs)
- {
- 	struct dev_pagemap *pgmap;
- 	struct scatterlist *s;
-@@ -824,7 +825,7 @@ int pci_p2pdma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
+@@ -287,47 +287,9 @@ enum {
+ 	P2PDMA_NOT_SUPPORTED		= 0x08000000,
+ };
  
- 	return nents;
- }
--EXPORT_SYMBOL_GPL(pci_p2pdma_map_sg);
-+EXPORT_SYMBOL_GPL(pci_p2pdma_map_sg_attrs);
- 
- /**
-  * pci_p2pdma_enable_store - parse a configfs/sysfs attribute store
-diff --git a/include/linux/pci-p2pdma.h b/include/linux/pci-p2pdma.h
-index bca9bc3e5be7..7fd51954f93a 100644
---- a/include/linux/pci-p2pdma.h
-+++ b/include/linux/pci-p2pdma.h
-@@ -30,8 +30,8 @@ struct scatterlist *pci_p2pmem_alloc_sgl(struct pci_dev *pdev,
- 					 unsigned int *nents, u32 length);
- void pci_p2pmem_free_sgl(struct pci_dev *pdev, struct scatterlist *sgl);
- void pci_p2pmem_publish(struct pci_dev *pdev, bool publish);
--int pci_p2pdma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
--		      enum dma_data_direction dir);
-+int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
-+		int nents, enum dma_data_direction dir, unsigned long attrs);
- int pci_p2pdma_enable_store(const char *page, struct pci_dev **p2p_dev,
- 			    bool *use_p2pdma);
- ssize_t pci_p2pdma_enable_show(char *page, struct pci_dev *p2p_dev,
-@@ -81,8 +81,9 @@ static inline void pci_p2pmem_free_sgl(struct pci_dev *pdev,
- static inline void pci_p2pmem_publish(struct pci_dev *pdev, bool publish)
+-/*
+- * Find the distance through the nearest common upstream bridge between
+- * two PCI devices.
+- *
+- * If the two devices are the same device then 0 will be returned.
+- *
+- * If there are two virtual functions of the same device behind the same
+- * bridge port then 2 will be returned (one step down to the PCIe switch,
+- * then one step back to the same device).
+- *
+- * In the case where two devices are connected to the same PCIe switch, the
+- * value 4 will be returned. This corresponds to the following PCI tree:
+- *
+- *     -+  Root Port
+- *      \+ Switch Upstream Port
+- *       +-+ Switch Downstream Port
+- *       + \- Device A
+- *       \-+ Switch Downstream Port
+- *         \- Device B
+- *
+- * The distance is 4 because we traverse from Device A through the downstream
+- * port of the switch, to the common upstream port, back up to the second
+- * downstream port and then to Device B.
+- *
+- * Any two devices that cannot communicate using p2pdma will return the distance
+- * with the flag P2PDMA_NOT_SUPPORTED.
+- *
+- * Any two devices that have a data path that goes through the host bridge
+- * will consult a whitelist. If the host bridges are on the whitelist,
+- * then the distance will be returned with the flag P2PDMA_THRU_HOST_BRIDGE set.
+- * If either bridge is not on the whitelist, the flag P2PDMA_NOT_SUPPORTED will
+- * be set.
+- *
+- * If a bridge which has any ACS redirection bits set is in the path
+- * then this functions will flag the result with P2PDMA_ACS_FORCES_UPSTREAM.
+- * In this case, a list of all infringing bridge addresses will be
+- * populated in acs_list (assuming it's non-null) for printk purposes.
+- */
+-static int upstream_bridge_distance(struct pci_dev *provider,
+-				    struct pci_dev *client,
+-				    struct seq_buf *acs_list)
++static int __upstream_bridge_distance(struct pci_dev *provider,
++				      struct pci_dev *client,
++				      struct seq_buf *acs_list)
  {
- }
--static inline int pci_p2pdma_map_sg(struct device *dev,
--		struct scatterlist *sg, int nents, enum dma_data_direction dir)
-+static inline int pci_p2pdma_map_sg_attrs(struct device *dev,
-+		struct scatterlist *sg, int nents, enum dma_data_direction dir,
-+		unsigned long attrs)
- {
- 	return 0;
- }
-@@ -111,4 +112,10 @@ static inline struct pci_dev *pci_p2pmem_find(struct device *client)
- 	return pci_p2pmem_find_many(&client, 1);
+ 	struct pci_dev *a = provider, *b = client, *bb;
+ 	int dist_a = 0;
+@@ -393,6 +355,51 @@ static int upstream_bridge_distance(struct pci_dev *provider,
+ 	return dist_a + dist_b;
  }
  
-+static inline int pci_p2pdma_map_sg(struct device *dev, struct scatterlist *sg,
-+				    int nents, enum dma_data_direction dir)
++/*
++ * Find the distance through the nearest common upstream bridge between
++ * two PCI devices.
++ *
++ * If the two devices are the same device then 0 will be returned.
++ *
++ * If there are two virtual functions of the same device behind the same
++ * bridge port then 2 will be returned (one step down to the PCIe switch,
++ * then one step back to the same device).
++ *
++ * In the case where two devices are connected to the same PCIe switch, the
++ * value 4 will be returned. This corresponds to the following PCI tree:
++ *
++ *     -+  Root Port
++ *      \+ Switch Upstream Port
++ *       +-+ Switch Downstream Port
++ *       + \- Device A
++ *       \-+ Switch Downstream Port
++ *         \- Device B
++ *
++ * The distance is 4 because we traverse from Device A through the downstream
++ * port of the switch, to the common upstream port, back up to the second
++ * downstream port and then to Device B.
++ *
++ * Any two devices that cannot communicate using p2pdma will return the distance
++ * with the flag P2PDMA_NOT_SUPPORTED.
++ *
++ * Any two devices that have a data path that goes through the host bridge
++ * will consult a whitelist. If the host bridges are on the whitelist,
++ * then the distance will be returned with the flag P2PDMA_THRU_HOST_BRIDGE set.
++ * If either bridge is not on the whitelist, the flag P2PDMA_NOT_SUPPORTED will
++ * be set.
++ *
++ * If a bridge which has any ACS redirection bits set is in the path
++ * then this functions will flag the result with P2PDMA_ACS_FORCES_UPSTREAM.
++ * In this case, a list of all infringing bridge addresses will be
++ * populated in acs_list (assuming it's non-null) for printk purposes.
++ */
++static int upstream_bridge_distance(struct pci_dev *provider,
++				    struct pci_dev *client,
++				    struct seq_buf *acs_list)
 +{
-+	return pci_p2pdma_map_sg_attrs(dev, sg, nents, dir, 0);
++	return __upstream_bridge_distance(provider, client, acs_list);
 +}
 +
- #endif /* _LINUX_PCI_P2P_H */
+ static int upstream_bridge_distance_warn(struct pci_dev *provider,
+ 					 struct pci_dev *client)
+ {
 -- 
 2.20.1
