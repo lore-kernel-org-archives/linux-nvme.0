@@ -1,49 +1,105 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 22 Jul 2019 15:09:14 -0700
-Subject: [PATCH] nvme-pci: fix probe and remove race
-In-Reply-To: <ef8149f9-b7e0-d2ba-6bcb-ff51d8e2a908@acm.org>
-References: <20190719194256.23618-1-sagi@grimberg.me>
- <ef8149f9-b7e0-d2ba-6bcb-ff51d8e2a908@acm.org>
-Message-ID: <045c47a4-0844-ec0f-bb5a-6d6c0bf386fe@grimberg.me>
+From: robh@kernel.org (Rob Herring)
+Date: Mon, 22 Jul 2019 16:16:45 -0600
+Subject: [PATCH v5 2/4] dt-bindings: thermal: nvme: Add binding
+ documentation
+In-Reply-To: <1561990354-4084-3-git-send-email-akinobu.mita@gmail.com>
+References: <1561990354-4084-1-git-send-email-akinobu.mita@gmail.com>
+ <1561990354-4084-3-git-send-email-akinobu.mita@gmail.com>
+Message-ID: <20190722221645.GA32515@bogus>
 
-
->> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
->> index 4b508d5e45cf..50061abe49c6 100644
->> --- a/drivers/nvme/host/pci.c
->> +++ b/drivers/nvme/host/pci.c
->> @@ -127,6 +127,7 @@ struct nvme_dev {
->> ????? dma_addr_t host_mem_descs_dma;
->> ????? struct nvme_host_mem_buf_desc *host_mem_descs;
->> ????? void **host_mem_desc_bufs;
->> +??? async_cookie_t async_probe;
->> ? };
->> ? static int io_queue_depth_set(const char *val, const struct 
->> kernel_param *kp)
->> @@ -2765,7 +2766,7 @@ static int nvme_probe(struct pci_dev *pdev, 
->> const struct pci_device_id *id)
->> ????? dev_info(dev->ctrl.device, "pci function %s\n", 
->> dev_name(&pdev->dev));
->> ????? nvme_get_ctrl(&dev->ctrl);
->> -??? async_schedule(nvme_async_probe, dev);
->> +??? dev->async_probe = async_schedule(nvme_async_probe, dev);
->> ????? return 0;
->> @@ -2810,6 +2811,8 @@ static void nvme_remove(struct pci_dev *pdev)
->> ? {
->> ????? struct nvme_dev *dev = pci_get_drvdata(pdev);
->> +??? /* wait for async probe to complete */
->> +??? async_synchronize_cookie(dev->async_probe + 1);
->> ????? nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DELETING);
->> ????? pci_set_drvdata(pdev, NULL);
+On Mon, Jul 01, 2019@11:12:32PM +0900, Akinobu Mita wrote:
+> Add thermal binding documentation for NVMe temperature sensor.
 > 
-> Hi Sagi,
+> Cc: Rob Herring <robh at kernel.org>
+> Cc: Zhang Rui <rui.zhang at intel.com>
+> Cc: Eduardo Valentin <edubezval at gmail.com>
+> Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
+> Cc: Keith Busch <kbusch at kernel.org>
+> Cc: Jens Axboe <axboe at fb.com>
+> Cc: Christoph Hellwig <hch at lst.de>
+> Cc: Sagi Grimberg <sagi at grimberg.me>
+> Cc: Minwoo Im <minwoo.im.dev at gmail.com>
+> Cc: Kenneth Heitke <kenneth.heitke at intel.com>
+> Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni at wdc.com>
+> Signed-off-by: Akinobu Mita <akinobu.mita at gmail.com>
+> ---
+> * v5
+> - New patch
 > 
-> Does the async_synchronize_cookie() call wait until all previously 
-> started probes have finished? In other words, does the change in 
-> nvme_remove() introduce a dependency between probe and remove calls of 
-> different NVMe devices? Is that dependency important? If not, can it be 
-> avoided to introduce that dependency?
+>  Documentation/devicetree/bindings/thermal/nvme.txt | 56 ++++++++++++++++++++++
+>  1 file changed, 56 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/thermal/nvme.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/thermal/nvme.txt b/Documentation/devicetree/bindings/thermal/nvme.txt
+> new file mode 100644
+> index 0000000..60b90de
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/thermal/nvme.txt
+> @@ -0,0 +1,56 @@
+> +Binding for NVMe temperature sensor
+> +
+> +An NVMe controller reports up to nine temperature values in the SMART / Health
+> +log.
+> +
+> +Required properties:
+> +- reg: A five-cell address encoded as (phys.hi phys.mid phys.lo size.hi
+> +  size.lo). phys.hi should contain the device's BDF (Bus/Device/Function)
+> +  as 0b00000000 bbbbbbbb dddddfff 00000000. The other cells should be zero.
+> +  See also Documentation/devicetree/bindings/pci/pci.txt
+> +
+> +- #thermal-sensor-cells: Must be 1. See ./thermal.txt for a description.
+> +  In the thermal-sensors property, the sensor ID 0 for composite temperature,
+> +  1 through 8 for NVMe temperature sensor N.
+> +
+> +Example:
+> +
+> +&pcie0 {
+> +	...
+> +	nvme: nvme at 0,0 {
+> +		reg = <0x0000 0 0 0 0>;
+> +		#address-cells = <3>;
+> +		#size-cells = <2>;
+> +
+> +		nvmetemp: nvmetemp {
+> +			reg = <0x0000 0 0 0 0>; /* DEVFN = 0x00 (0:0) */
 
-It does create dependency as they are in the same domain I assume. Given
-that nvme_remove() is really a hot-unplug operation (or shutdown) I am
-not sure if this dependency is a limitation in any real use-case
-though..
+I'm not sure this is really valid PCI addressing as the parent has the 
+same address.
+
+> +			#thermal-sensor-cells = <1>;
+
+Can't you just put this in the parent? Is this really a separate 
+addressable device from the parent?
+
+> +		};
+> +	};
+> +};
+> +
+> +&thermal_zones {
+> +	nvme_thermal: nvme {
+> +		polling-delay-passive = <2000>; /* milliseconds */
+> +		polling-delay = <0>; /* asynchronous event driven */
+> +
+> +				/* sensor	ID */
+> +		thermal-sensors = <&nvmetemp	0>;
+> +
+> +		trips {
+> +			nvme_alert0: nvme_alert0 {
+> +				temperature = <80000>; /* millicelsius */
+> +				hysteresis = <2000>; /* millicelsius */
+> +				type = "passive";
+> +			};
+> +		};
+> +
+> +		cooling-maps {
+> +			map0 {
+> +				trip = <&nvme_alert0>;
+> +				cooling-device =
+> +				<&fan0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
+> +			};
+> +		};
+> +	};
+> +};
+> -- 
+> 2.7.4
+> 
