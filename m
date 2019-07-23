@@ -1,33 +1,54 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Tue, 23 Jul 2019 09:06:18 +0800
-Subject: [PATCH 2/5] blk-mq: introduce
- blk_mq_tagset_wait_completed_request()
-In-Reply-To: <c2722892-9cbf-0747-58a8-91a99b72bc53@acm.org>
+Date: Tue, 23 Jul 2019 09:08:46 +0800
+Subject: [PATCH 3/5] nvme: don't abort completed request in
+ nvme_cancel_request
+In-Reply-To: <d82ead02-c893-4d14-307e-70a6d4596439@acm.org>
 References: <20190722053954.25423-1-ming.lei@redhat.com>
- <20190722053954.25423-3-ming.lei@redhat.com>
- <c2722892-9cbf-0747-58a8-91a99b72bc53@acm.org>
-Message-ID: <20190723010616.GC30776@ming.t460p>
+ <20190722053954.25423-4-ming.lei@redhat.com>
+ <d82ead02-c893-4d14-307e-70a6d4596439@acm.org>
+Message-ID: <20190723010845.GD30776@ming.t460p>
 
-On Mon, Jul 22, 2019@08:25:07AM -0700, Bart Van Assche wrote:
+On Mon, Jul 22, 2019@08:27:32AM -0700, Bart Van Assche wrote:
 > On 7/21/19 10:39 PM, Ming Lei wrote:
-> > blk-mq may schedule to call queue's complete function on remote CPU via
-> > IPI, but doesn't provide any way to synchronize the request's complete
-> > fn.
+> > Before aborting in-flight requests, all IO queues have been shutdown.
+> > However, request's completion fn may not be done yet because it may
+> > be scheduled to run via IPI.
 > > 
-> > In some driver's EH(such as NVMe), hardware queue's resource may be freed &
-> > re-allocated. If the completed request's complete fn is run finally after the
-> > hardware queue's resource is released, kernel crash will be triggered.
+> > So don't abort one request if it is marked as completed, otherwise
+> > we may abort one normal completed request.
 > > 
-> > Prepare for fixing this kind of issue by introducing
-> > blk_mq_tagset_wait_completed_request().
+> > Cc: Max Gurtovoy <maxg at mellanox.com>
+> > Cc: Sagi Grimberg <sagi at grimberg.me>
+> > Cc: Keith Busch <keith.busch at intel.com>
+> > Cc: Christoph Hellwig <hch at lst.de>
+> > Signed-off-by: Ming Lei <ming.lei at redhat.com>
+> > ---
+> >   drivers/nvme/host/core.c | 4 ++++
+> >   1 file changed, 4 insertions(+)
+> > 
+> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> > index cc09b81fc7f4..cb8007cce4d1 100644
+> > --- a/drivers/nvme/host/core.c
+> > +++ b/drivers/nvme/host/core.c
+> > @@ -285,6 +285,10 @@ EXPORT_SYMBOL_GPL(nvme_complete_rq);
+> >   bool nvme_cancel_request(struct request *req, void *data, bool reserved)
+> >   {
+> > +	/* don't abort one completed request */
+> > +	if (blk_mq_request_completed(req))
+> > +		return;
+> > +
+> >   	dev_dbg_ratelimited(((struct nvme_ctrl *) data)->device,
+> >   				"Cancelling I/O %d", req->tag);
 > 
-> An explanation is missing of why the block layer is modified to fix this
-> instead of the NVMe driver.
+> Something I probably already asked before: what prevents that
+> nvme_cancel_request() is executed concurrently with the completion handler
+> of the same request?
 
-The above commit log has explained that there isn't sync mechanism in
-blk-mq wrt. request completion, and there might be similar issue in other
-future drivers.
+The commit log did mention the point:
 
+	Before aborting in-flight requests, all IO queues have been shutdown.
+
+which implies that no concurrent normal completion.
 
 Thanks,
 Ming
