@@ -1,28 +1,102 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Tue, 23 Jul 2019 09:10:41 +0800
-Subject: [PATCH 0/5] blk-mq: wait until completed req's complete fn is run
-In-Reply-To: <a22e7266-98cb-875d-aa89-f37dd6c34ad5@oracle.com>
-References: <20190722053954.25423-1-ming.lei@redhat.com>
- <a22e7266-98cb-875d-aa89-f37dd6c34ad5@oracle.com>
-Message-ID: <20190723011040.GE30776@ming.t460p>
+From: tom.leiming@gmail.com (Ming Lei)
+Date: Tue, 23 Jul 2019 09:36:40 +0800
+Subject: [PATCH v3] nvme-pci: Support shared tags across queues for Apple
+ 2018 controllers
+In-Reply-To: <b1f9bdf0294b8d87d292de3c7462c8e99551b02d.camel@kernel.crashing.org>
+References: <b1f9bdf0294b8d87d292de3c7462c8e99551b02d.camel@kernel.crashing.org>
+Message-ID: <CACVXFVPbrXaAQe2C+13dNQSSL7f7gZ4QZ=W9vMpmmhJnxQMjew@mail.gmail.com>
 
-On Tue, Jul 23, 2019@07:27:00AM +0800, Bob Liu wrote:
-> On 7/22/19 1:39 PM, Ming Lei wrote:
-> > Hi,
-> > 
-> > blk-mq may schedule to call queue's complete function on remote CPU via
-> > IPI, but never provide any way to synchronize the request's complete
-> > fn.
-> > 
-> > In some driver's EH(such as NVMe), hardware queue's resource may be freed &
-> > re-allocated. If the completed request's complete fn is run finally after the
-> > hardware queue's resource is released, kernel crash will be triggered.
-> > 
-> 
-> Have you seen the crash? Anyway to emulate/verify this bug..
+On Fri, Jul 19, 2019 at 1:31 PM Benjamin Herrenschmidt
+<benh@kernel.crashing.org> wrote:
+>
+> From 8dcba2ef5b1466b023b88b4eca463b30de78d9eb Mon Sep 17 00:00:00 2001
+> From: Benjamin Herrenschmidt <benh at kernel.crashing.org>
+> Date: Fri, 19 Jul 2019 15:03:06 +1000
+> Subject:
+>
+> Another issue with the Apple T2 based 2018 controllers seem to be
+> that they blow up (and shut the machine down) if there's a tag
+> collision between the IO queue and the Admin queue.
+>
+> My suspicion is that they use our tags for their internal tracking
+> and don't mix them with the queue id. They also seem to not like
+> when tags go beyond the IO queue depth, ie 128 tags.
+>
+> This adds a quirk that marks tags 0..31 of the IO queue reserved
+>
+> Signed-off-by: Benjamin Herrenschmidt <benh at kernel.crashing.org>
+> ---
+>
+> Thanks Damien, reserved tags work and make this a lot simpler !
+>
+>  drivers/nvme/host/nvme.h |  5 +++++
+>  drivers/nvme/host/pci.c  | 19 ++++++++++++++++++-
+>  2 files changed, 23 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index ced0e0a7e039..8732da6df555 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -102,6 +102,11 @@ enum nvme_quirks {
+>          * Use non-standard 128 bytes SQEs.
+>          */
+>         NVME_QUIRK_128_BYTES_SQES               = (1 << 11),
+> +
+> +       /*
+> +        * Prevent tag overlap between queues
+> +        */
+> +       NVME_QUIRK_SHARED_TAGS                  = (1 << 12),
+>  };
+>
+>  /*
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 7088971d4c42..fc74395a028b 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -2106,6 +2106,14 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+>         unsigned long size;
+>
+>         nr_io_queues = max_io_queues();
+> +
+> +       /*
+> +        * If tags are shared with admin queue (Apple bug), then
+> +        * make sure we only use one IO queue.
+> +        */
+> +       if (dev->ctrl.quirks & NVME_QUIRK_SHARED_TAGS)
+> +               nr_io_queues = 1;
+> +
+>         result = nvme_set_queue_count(&dev->ctrl, &nr_io_queues);
+>         if (result < 0)
+>                 return result;
+> @@ -2278,6 +2286,14 @@ static int nvme_dev_add(struct nvme_dev *dev)
+>                 dev->tagset.flags = BLK_MQ_F_SHOULD_MERGE;
+>                 dev->tagset.driver_data = dev;
+>
+> +               /*
+> +                * Some Apple controllers requires tags to be unique
+> +                * across admin and IO queue, so reserve the first 32
+> +                * tags of the IO queue.
+> +                */
+> +               if (dev->ctrl.quirks & NVME_QUIRK_SHARED_TAGS)
+> +                       dev->tagset.reserved_tags = NVME_AQ_DEPTH;
+> +
+>                 ret = blk_mq_alloc_tag_set(&dev->tagset);
+>                 if (ret) {
+>                         dev_warn(dev->ctrl.device,
+> @@ -3057,7 +3073,8 @@ static const struct pci_device_id nvme_id_table[] = {
+>         { PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2003) },
+>         { PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2005),
+>                 .driver_data = NVME_QUIRK_SINGLE_VECTOR |
+> -                               NVME_QUIRK_128_BYTES_SQES },
+> +                               NVME_QUIRK_128_BYTES_SQES |
+> +                               NVME_QUIRK_SHARED_TAGS },
+>         { 0, }
+>  };
+>  MODULE_DEVICE_TABLE(pci, nvme_id_table);
 
-The crash is reported on nvme-rdma by one RH partner, and the approach
-of this patchset has been verified already.
+Looks fine for me:
+
+Reviewed-by: Ming Lei <ming.lei at redhat.com>
 
 Thanks,
-Ming
+Ming Lei
