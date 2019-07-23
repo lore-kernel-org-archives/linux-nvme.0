@@ -1,32 +1,45 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Tue, 23 Jul 2019 23:42:33 +0900
-Subject: [PATCH 1/3] lnvm: remove redundant whitespace in lnvm_init()
-In-Reply-To: <20190723144235.12207-1-minwoo.im.dev@gmail.com>
-References: <20190723144235.12207-1-minwoo.im.dev@gmail.com>
-Message-ID: <20190723144235.12207-2-minwoo.im.dev@gmail.com>
+Date: Tue, 23 Jul 2019 23:42:32 +0900
+Subject: [PATCH V3 0/3] lnvm: minor clean-ups
+Message-ID: <20190723144235.12207-1-minwoo.im.dev@gmail.com>
 
-The description for lnvm-init subcommand has a redundant whitespace.
+Hi Keith,
 
-Cc: Keith Busch <kbusch at kernel.org>
-Cc: Matias Bjorling <mb at lightnvm.io>
-Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
-Reviewed-by: Javier Gonz?lez <javier at javigon.com>
----
- plugins/lnvm/lnvm-nvme.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This series has been reviewed by Matias and Javier.  Please consider
+this series to be merged.  The Github PR can be found at:
+	https://github.com/linux-nvme/nvme-cli/pull/527
 
-diff --git a/plugins/lnvm/lnvm-nvme.c b/plugins/lnvm/lnvm-nvme.c
-index 754931a..37b6733 100644
---- a/plugins/lnvm/lnvm-nvme.c
-+++ b/plugins/lnvm/lnvm-nvme.c
-@@ -17,7 +17,7 @@
- static int lnvm_init(int argc, char **argv, struct command *cmd, struct plugin *plugin)
- {
- 	const char *desc = "Initialize LightNVM device. A LightNVM/Open-Channel SSD"\
--			   " must have a media manager associated before it can "\
-+			   " must have a media manager associated before it can"\
- 			   " be exposed to the user. The default is to initialize"
- 			   " the general media manager on top of the device.\n\n"
- 			   "Example:"
+This series is nothing but a clean-up patch series.  I hope it's not a
+just code churns, but a good start to do something for lnvm.
+
+The first one removed a redundant whitespace in the command description.
+The second one removed unnecessary print for the sizeof(dev) which will
+always be zero in case user does not give any argument for the device.
+The third patch removed temp variable instead casting the pinter
+directly.  The last one just sync-up the kernel UAPI header file to the
+latest.
+
+Please review.
+
+Thanks,
+
+Changes to V3:
+  - Drop the last commit which is about the re-sync for the UAPI header
+    file from the kernel because it does not have any actual using code.
+    (Matias)
+  - Added Reviewed-by tag from Javier. (Javier)
+
+Changes to V2:
+  - Resend the series with the latest patch commits.
+
+Minwoo Im (3):
+  lnvm: remove redundant whitespace in lnvm_init()
+  lnvm: do not print 0 when the arg is not given
+  lnvm: cast identity structure to (void *) directly
+
+ nvme-lightnvm.c          | 5 ++---
+ plugins/lnvm/lnvm-nvme.c | 8 ++++----
+ 2 files changed, 6 insertions(+), 7 deletions(-)
+
 -- 
 2.17.1
