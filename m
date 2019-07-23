@@ -1,34 +1,16 @@
-From: yangerkun@huawei.com (yangerkun)
-Date: Tue, 23 Jul 2019 11:23:13 +0800
-Subject: [PATCH] Revert "nvme-pci: don't create a read hctx mapping without
- read queues"
-Message-ID: <1563852193-6895-1-git-send-email-yangerkun@huawei.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 22 Jul 2019 20:57:51 -0700
+Subject: [PATCH v2 10/10] nvme-cli: nvmf auto-connect scripts
+In-Reply-To: <20190719225305.11397-11-jsmart2021@gmail.com>
+References: <20190719225305.11397-1-jsmart2021@gmail.com>
+ <20190719225305.11397-11-jsmart2021@gmail.com>
+Message-ID: <4efefb70-7ab1-69af-4f41-63223e9f4ff8@grimberg.me>
 
-This reverts commit 0298d5435276e7795b0b939d74827f6e775e7009.
 
-With this patch, set 'poll_queues > hard queues' will lead to 'nr_read_queues = 0'
-in nvme_calc_irq_sets. Then poll_queues setting can fail since dev->tagset.nr_maps
-equals to 2 and nvme_pci_map_queues will not do map for poll queues.
+> +# Events from persistent discovery controllers or nvme-fc transport events
+> +ACTION=="change", SUBSYSTEM=="nvme", ENV{NVME_EVENT}=="discovery",\
+> +  ENV{NVME_CTRL_NAME}=="*", ENV{NVME_TRTYPE}=="*", ENV{NVME_TRADDR}=="*", \
+> +  ENV{NVME_TRSVCID}=="*", ENV{NVME_HOST_TRADDR}=="*", \
+> +  RUN+="/usr/bin/systemctl --no-block start nvmf-connect at --device=$env{NVME_CTRL_NAME}\t--transport=$env{NVME_TRTYPE}\t--traddr=$env{NVME_TRADDR}\t--trsvcid=$env{NVME_TRSVCID}\t--host-traddr=$env{NVME_HOST_TRADDR}.service"
 
-Signed-off-by: yangerkun <yangerkun at huawei.com>
----
- drivers/nvme/host/pci.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index bb970ca..77555ad 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2254,9 +2254,7 @@ static int nvme_dev_add(struct nvme_dev *dev)
- 	if (!dev->ctrl.tagset) {
- 		dev->tagset.ops = &nvme_mq_ops;
- 		dev->tagset.nr_hw_queues = dev->online_queues - 1;
--		dev->tagset.nr_maps = 1; /* default */
--		if (dev->io_queues[HCTX_TYPE_READ])
--			dev->tagset.nr_maps++;
-+		dev->tagset.nr_maps = 2; /* default + read */
- 		if (dev->io_queues[HCTX_TYPE_POLL])
- 			dev->tagset.nr_maps++;
- 		dev->tagset.timeout = NVME_IO_TIMEOUT;
--- 
-2.7.4
+James, shouldn't this be /bin/systemctl?
