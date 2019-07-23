@@ -1,15 +1,27 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 23 Jul 2019 10:31:21 -0700
-Subject: [PATCH v2 1/3] nvme: have nvme_init_identify set ctrl->cap
-In-Reply-To: <0b926f73-c439-7057-dcb8-75e89486f084@broadcom.com>
-References: <20190723000654.6448-1-sagi@grimberg.me>
- <20190723000654.6448-2-sagi@grimberg.me>
- <0b926f73-c439-7057-dcb8-75e89486f084@broadcom.com>
-Message-ID: <67662209-d680-733a-e673-6cd2c45010b3@grimberg.me>
+Date: Tue, 23 Jul 2019 10:32:29 -0700
+Subject: [PATCH v2 10/10] nvme-cli: nvmf auto-connect scripts
+In-Reply-To: <d5b4ef61-cf1d-ce9c-1bd0-7f372f874320@broadcom.com>
+References: <20190719225305.11397-1-jsmart2021@gmail.com>
+ <20190719225305.11397-11-jsmart2021@gmail.com>
+ <4efefb70-7ab1-69af-4f41-63223e9f4ff8@grimberg.me>
+ <d5b4ef61-cf1d-ce9c-1bd0-7f372f874320@broadcom.com>
+Message-ID: <2297e9f3-4a9d-e759-5633-aeefe736b09c@grimberg.me>
 
 
+>>> +# Events from persistent discovery controllers or nvme-fc transport 
+>>> events
+>>> +ACTION=="change", SUBSYSTEM=="nvme", ENV{NVME_EVENT}=="discovery",\
+>>> +? ENV{NVME_CTRL_NAME}=="*", ENV{NVME_TRTYPE}=="*", 
+>>> ENV{NVME_TRADDR}=="*", \
+>>> +? ENV{NVME_TRSVCID}=="*", ENV{NVME_HOST_TRADDR}=="*", \
+>>> +? RUN+="/usr/bin/systemctl --no-block start 
+>>> nvmf-connect at --device=$env{NVME_CTRL_NAME}\t--transport=$env{NVME_TRTYPE}\t--traddr=$env{NVME_TRADDR}\t--trsvcid=$env{NVME_TRSVCID}\t--host-traddr=$env{NVME_HOST_TRADDR}.service" 
+>>>
+>>
+>> James, shouldn't this be /bin/systemctl?
 > 
-> wondering why we're re-reading CAP if it was already done in 
-> nvme_enable_ctrl()
+> I don't believe so.?? On the distros I checked, /bin/systemctl is a soft 
+> or hard link to /usr/bin/systemctl
 
-Its lost in patch #2
+Not always the case. Lets change that to /bin/systemctl.
