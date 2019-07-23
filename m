@@ -1,78 +1,126 @@
 From: Christian.Koenig@amd.com (Koenig, Christian)
-Date: Tue, 23 Jul 2019 16:23:23 +0000
-Subject: [PATCH 03/14] PCI/P2PDMA: Apply host bridge white list for ACS
-In-Reply-To: <20190722230859.5436-4-logang@deltatee.com>
+Date: Tue, 23 Jul 2019 16:28:25 +0000
+Subject: [PATCH 14/14] PCI/P2PDMA: Introduce pci_p2pdma_[un]map_resource()
+In-Reply-To: <20190722230859.5436-15-logang@deltatee.com>
 References: <20190722230859.5436-1-logang@deltatee.com>
- <20190722230859.5436-4-logang@deltatee.com>
-Message-ID: <7ced9658-33f9-4496-4335-a6852f08ed12@amd.com>
+ <20190722230859.5436-15-logang@deltatee.com>
+Message-ID: <d5e20223-04b9-dcb4-7c96-57d84eb010ae@amd.com>
 
 Am 23.07.19 um 01:08 schrieb Logan Gunthorpe:
-> When a P2PDMA transfer is rejected due to ACS being set, we
-> can also check the white list and allow the transactions.
+> pci_p2pdma_[un]map_resource() can be used to map a resource given
+> it's physical address and the backing pci_dev. The functions will call
+> dma_[un]map_resource() when appropriate.
 >
-> Do this by pushing the whitelist check into the
-> upstream_bridge_distance() function.
+> This is for demonstration purposes only as there are no users of this
+> function at this time. Thus, this patch should not be merged at
+> this time.
 >
 > Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 
-This one and patch #2 are Reviewed-by: Christian K?nig 
-<christian.koenig at amd.com>.
+Not sure if pci_p2pdma_phys_to_bus actually needs to be exported. But 
+apart from that looks fine to me.
 
-But I actually think the two patches could be merged.
+Reviewed-by: Christian K?nig <christian.koenig at amd.com>
 
 Christian.
 
 > ---
->   drivers/pci/p2pdma.c | 25 ++++++++++++++-----------
->   1 file changed, 14 insertions(+), 11 deletions(-)
+>   drivers/pci/p2pdma.c | 85 ++++++++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 85 insertions(+)
 >
 > diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-> index 289d03a31e7d..d5034e28d1e1 100644
+> index baf476039396..20c834cfd2d3 100644
 > --- a/drivers/pci/p2pdma.c
 > +++ b/drivers/pci/p2pdma.c
-> @@ -324,15 +324,7 @@ static int __upstream_bridge_distance(struct pci_dev *provider,
->   		dist_a++;
->   	}
->   
-> -	/*
-> -	 * Allow the connection if both devices are on a whitelisted root
-> -	 * complex, but add an arbitrary large value to the distance.
-> -	 */
-> -	if (root_complex_whitelist(provider) &&
-> -	    root_complex_whitelist(client))
-> -		return (dist_a + dist_b) | P2PDMA_THRU_HOST_BRIDGE;
-> -
-> -	return (dist_a + dist_b) | P2PDMA_NOT_SUPPORTED;
-> +	return (dist_a + dist_b) | P2PDMA_THRU_HOST_BRIDGE;
->   
->   check_b_path_acs:
->   	bb = b;
-> @@ -350,7 +342,8 @@ static int __upstream_bridge_distance(struct pci_dev *provider,
->   	}
->   
->   	if (acs_cnt)
-> -		return P2PDMA_NOT_SUPPORTED | P2PDMA_ACS_FORCES_UPSTREAM;
-> +		return (dist_a + dist_b) | P2PDMA_ACS_FORCES_UPSTREAM |
-> +			P2PDMA_THRU_HOST_BRIDGE;
->   
->   	return dist_a + dist_b;
+> @@ -874,6 +874,91 @@ void pci_p2pdma_unmap_sg_attrs(struct device *dev, struct scatterlist *sg,
 >   }
-> @@ -397,7 +390,17 @@ static int upstream_bridge_distance(struct pci_dev *provider,
->   				    struct pci_dev *client,
->   				    struct seq_buf *acs_list)
->   {
-> -	return __upstream_bridge_distance(provider, client, acs_list);
+>   EXPORT_SYMBOL_GPL(pci_p2pdma_unmap_sg_attrs);
+>   
+> +static pci_bus_addr_t pci_p2pdma_phys_to_bus(struct pci_dev *dev,
+> +		phys_addr_t start, size_t size)
+> +{
+> +	struct pci_host_bridge *bridge = pci_find_host_bridge(dev->bus);
+> +	phys_addr_t end = start + size;
+> +	struct resource_entry *window;
+> +
+> +	resource_list_for_each_entry(window, &bridge->windows) {
+> +		if (window->res->start <= start && window->res->end >= end)
+> +			return start - window->offset;
+> +	}
+> +
+> +	return DMA_MAPPING_ERROR;
+> +}
+> +EXPORT_SYMBOL_GPL(pci_p2pdma_phys_to_bus);
+> +
+> +/**
+> + * pci_p2pdma_map_resource - map a PCI peer-to-peer physical address for DMA
+> + * @provider: pci device that provides the memory backed by phys_addr
+> + * @dma_dev: device doing the DMA request
+> + * @phys_addr: physical address of the memory to map
+> + * @size: size of the memory to map
+> + * @dir: DMA direction
+> + * @attrs: dma attributes passed to dma_map_resource() (if called)
+> + *
+> + * Maps a BAR physical address for programming a DMA engine.
+> + *
+> + * Returns the dma_addr_t to map or DMA_MAPPING_ERROR on failure
+> + */
+> +dma_addr_t pci_p2pdma_map_resource(struct pci_dev *provider,
+> +		struct device *dma_dev, phys_addr_t phys_addr, size_t size,
+> +		enum dma_data_direction dir, unsigned long attrs)
+> +{
+> +	struct pci_dev *client;
 > +	int dist;
 > +
-> +	dist = __upstream_bridge_distance(provider, client, acs_list);
+> +	client = find_parent_pci_dev(dma_dev);
+> +	if (!client)
+> +		return DMA_MAPPING_ERROR;
 > +
-> +	if (!(dist & P2PDMA_THRU_HOST_BRIDGE))
-> +		return dist;
+> +	dist = upstream_bridge_distance(provider, client, NULL);
+> +	if (dist & P2PDMA_NOT_SUPPORTED)
+> +		return DMA_MAPPING_ERROR;
 > +
-> +	if (root_complex_whitelist(provider) && root_complex_whitelist(client))
-> +		return dist;
+> +	if (dist & P2PDMA_THRU_HOST_BRIDGE)
+> +		return dma_map_resource(dma_dev, phys_addr, size, dir, attrs);
+> +	else
+> +		return pci_p2pdma_phys_to_bus(provider, phys_addr, size);
+> +}
+> +EXPORT_SYMBOL_GPL(pci_p2pdma_map_resource);
 > +
-> +	return dist | P2PDMA_NOT_SUPPORTED;
->   }
->   
->   static int upstream_bridge_distance_warn(struct pci_dev *provider,
+> +/**
+> + * pci_p2pdma_unmap_resource - unmap a resource mapped with
+> + *		pci_p2pdma_map_resource()
+> + * @provider: pci device that provides the memory backed by phys_addr
+> + * @dma_dev: device doing the DMA request
+> + * @addr: dma address returned by pci_p2pdma_unmap_resource()
+> + * @size: size of the memory to map
+> + * @dir: DMA direction
+> + * @attrs: dma attributes passed to dma_unmap_resource() (if called)
+> + *
+> + * Maps a BAR physical address for programming a DMA engine.
+> + *
+> + * Returns the dma_addr_t to map or DMA_MAPPING_ERROR on failure
+> + */
+> +void pci_p2pdma_unmap_resource(struct pci_dev *provider,
+> +		struct device *dma_dev, dma_addr_t addr, size_t size,
+> +		enum dma_data_direction dir, unsigned long attrs)
+> +{
+> +	struct pci_dev *client;
+> +	int dist;
+> +
+> +	client = find_parent_pci_dev(dma_dev);
+> +	if (!client)
+> +		return;
+> +
+> +	dist = upstream_bridge_distance(provider, client, NULL);
+> +	if (dist & P2PDMA_NOT_SUPPORTED)
+> +		return;
+> +
+> +	if (dist & P2PDMA_THRU_HOST_BRIDGE)
+> +		dma_unmap_resource(dma_dev, addr, size, dir, attrs);
+> +}
+> +EXPORT_SYMBOL_GPL(pci_p2pdma_unmap_resource);
+> +
+>   /**
+>    * pci_p2pdma_enable_store - parse a configfs/sysfs attribute store
+>    *		to enable p2pdma
