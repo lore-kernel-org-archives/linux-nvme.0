@@ -1,132 +1,44 @@
-From: javier@javigon.com (=?utf-8?Q?Javier_Gonz=C3=A1lez?=)
-Date: Tue, 23 Jul 2019 07:45:08 +0200
-Subject: [PATCH 4/4] lnvm: sync-up uapi lightnvm.h header from kernel
-In-Reply-To: <20190721153219.5730-5-minwoo.im.dev@gmail.com>
+From: mb@lightnvm.io (=?UTF-8?Q?Matias_Bj=c3=b8rling?=)
+Date: Tue, 23 Jul 2019 10:58:11 +0200
+Subject: [PATCH V2 0/4] lnvm: minor clean-ups
+In-Reply-To: <20190721153219.5730-1-minwoo.im.dev@gmail.com>
 References: <20190721153219.5730-1-minwoo.im.dev@gmail.com>
- <20190721153219.5730-5-minwoo.im.dev@gmail.com>
-Message-ID: <249F24E5-D511-4B5C-A963-4A930A1AC98D@javigon.com>
+Message-ID: <744d9561-0710-6428-6135-cb1902fc66ad@lightnvm.io>
 
-> On 21 Jul 2019,@17.32, Minwoo Im <minwoo.im.dev@gmail.com> wrote:
+On 7/21/19 5:32 PM, Minwoo Im wrote:
+> Hi,
 > 
-> This patch just syncs-up UAPI header from the kernel.  No functional
-> changes included.
+> This series is nothing but a clean-up patch series.  I hope it's not a
+> just code churns, but a good start to do something for lnvm.
 > 
-> Cc: Keith Busch <kbusch at kernel.org>
-> Cc: Matias Bjorling <mb at lightnvm.io>
-> Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
-> ---
-> linux/lightnvm.h | 52 +++++++++++++++++++++++++++++++++++++++++++++++-
-> nvme-lightnvm.c  |  2 +-
-> 2 files changed, 52 insertions(+), 2 deletions(-)
+> The first one removed a redundant whitespace in the command description.
+> The second one removed unnecessary print for the sizeof(dev) which will
+> always be zero in case user does not give any argument for the device.
+> The third patch removed temp variable instead casting the pinter
+> directly.  The last one just sync-up the kernel UAPI header file to the
+> latest.
 > 
-> diff --git a/linux/lightnvm.h b/linux/lightnvm.h
-> index f678ffb..c937160 100644
-> --- a/linux/lightnvm.h
-> +++ b/linux/lightnvm.h
-> @@ -77,7 +77,7 @@ struct nvm_ioctl_create_simple {
-> struct nvm_ioctl_create_extended {
-> 	__u16 lun_begin;
-> 	__u16 lun_end;
-> -	__u16 over_prov;
-> +	__u16 op;
-> 	__u16 rsv;
-> };
+> Please review.
 > 
-> @@ -135,6 +135,44 @@ struct nvm_ioctl_dev_factory {
-> 	__u32 flags;
-> };
+> Thanks,
 > 
-> +struct nvm_user_vio {
-> +	__u8 opcode;
-> +	__u8 flags;
-> +	__u16 control;
-> +	__u16 nppas;
-> +	__u16 rsvd;
-> +	__u64 metadata;
-> +	__u64 addr;
-> +	__u64 ppa_list;
-> +	__u32 metadata_len;
-> +	__u32 data_len;
-> +	__u64 status;
-> +	__u32 result;
-> +	__u32 rsvd3[3];
-> +};
-> +
-> +struct nvm_passthru_vio {
-> +	__u8 opcode;
-> +	__u8 flags;
-> +	__u8 rsvd[2];
-> +	__u32 nsid;
-> +	__u32 cdw2;
-> +	__u32 cdw3;
-> +	__u64 metadata;
-> +	__u64 addr;
-> +	__u32 metadata_len;
-> +	__u32 data_len;
-> +	__u64 ppa_list;
-> +	__u16 nppas;
-> +	__u16 control;
-> +	__u32 cdw13;
-> +	__u32 cdw14;
-> +	__u32 cdw15;
-> +	__u64 status;
-> +	__u32 result;
-> +	__u32 timeout_ms;
-> +};
-> +
-> /* The ioctl type, 'L', 0x20 - 0x2F documented in ioctl-number.txt */
-> enum {
-> 	/* top level cmds */
-> @@ -150,6 +188,11 @@ enum {
+> Changes to V2:
+>    - Resend the series with the latest patch commits.
 > 
-> 	/* Factory reset device */
-> 	NVM_DEV_FACTORY_CMD,
-> +
-> +	/* Vector user I/O */
-> +	NVM_DEV_VIO_ADMIN_CMD = 0x41,
-> +	NVM_DEV_VIO_CMD = 0x42,
-> +	NVM_DEV_VIO_USER_CMD = 0x43,
-> };
+> Minwoo Im (4):
+>    lnvm: remove redundant whitespace in lnvm_init()
+>    lnvm: do not print 0 when the arg is not given
+>    lnvm: cast identity structure to (void *) directly
+>    lnvm: sync-up uapi lightnvm.h header from kernel
 > 
-> #define NVM_IOCTL 'L' /* 0x4c */
-> @@ -167,6 +210,13 @@ enum {
-> #define NVM_DEV_FACTORY		_IOW(NVM_IOCTL, NVM_DEV_FACTORY_CMD, \
-> 						struct nvm_ioctl_dev_factory)
+>   linux/lightnvm.h         | 52 +++++++++++++++++++++++++++++++++++++++-
+>   nvme-lightnvm.c          |  7 +++---
+>   plugins/lnvm/lnvm-nvme.c |  8 +++----
+>   3 files changed, 58 insertions(+), 9 deletions(-)
 > 
-> +#define NVME_NVM_IOCTL_IO_VIO		_IOWR(NVM_IOCTL, NVM_DEV_VIO_USER_CMD, \
-> +						struct nvm_passthru_vio)
-> +#define NVME_NVM_IOCTL_ADMIN_VIO	_IOWR(NVM_IOCTL, NVM_DEV_VIO_ADMIN_CMD,\
-> +						struct nvm_passthru_vio)
-> +#define NVME_NVM_IOCTL_SUBMIT_VIO	_IOWR(NVM_IOCTL, NVM_DEV_VIO_CMD,\
-> +						struct nvm_user_vio)
-> +
-> #define NVM_VERSION_MAJOR	1
-> #define NVM_VERSION_MINOR	0
-> #define NVM_VERSION_PATCHLEVEL	0
-> diff --git a/nvme-lightnvm.c b/nvme-lightnvm.c
-> index 62bdc40..b4b20ec 100644
-> --- a/nvme-lightnvm.c
-> +++ b/nvme-lightnvm.c
-> @@ -167,7 +167,7 @@ int lnvm_do_create_tgt(char *devname, char *tgtname, char *tgttype,
-> 		c.conf.type = NVM_CONFIG_TYPE_EXTENDED;
-> 		c.conf.e.lun_begin = lun_begin;
-> 		c.conf.e.lun_end = lun_end;
-> -		c.conf.e.over_prov = over_prov;
-> +		c.conf.e.op = over_prov;
-> 	} else {
-> 		c.conf.type = NVM_CONFIG_TYPE_SIMPLE;
-> 		c.conf.s.lun_begin = lun_begin;
-> --
-> 2.17.1
 
-LGTM
+Thanks Minwoo.
 
+Patch 1-3 looks good to me. Keith, feel free to pick them up.
 
-Reviewed-by: Javier Gonz?lez <javier at javigon.com>
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 833 bytes
-Desc: Message signed with OpenPGP
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20190723/39f97d8b/attachment.sig>
+Patch 4 can wait until there is a use for the data structures.
