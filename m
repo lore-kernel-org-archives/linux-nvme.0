@@ -1,45 +1,52 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Tue, 23 Jul 2019 23:42:32 +0900
-Subject: [PATCH V3 0/3] lnvm: minor clean-ups
-Message-ID: <20190723144235.12207-1-minwoo.im.dev@gmail.com>
+Date: Tue, 23 Jul 2019 23:42:34 +0900
+Subject: [PATCH 2/3] lnvm: do not print 0 when the arg is not given
+In-Reply-To: <20190723144235.12207-1-minwoo.im.dev@gmail.com>
+References: <20190723144235.12207-1-minwoo.im.dev@gmail.com>
+Message-ID: <20190723144235.12207-3-minwoo.im.dev@gmail.com>
 
-Hi Keith,
+If an argument is not given by the user, it just needs to show the
+situation, not a prominent 0 which indicates the size of the argument
+variable.
 
-This series has been reviewed by Matias and Javier.  Please consider
-this series to be merged.  The Github PR can be found at:
-	https://github.com/linux-nvme/nvme-cli/pull/527
+Cc: Keith Busch <kbusch at kernel.org>
+Cc: Matias Bjorling <mb at lightnvm.io>
+Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
+Reviewed-by: Javier Gonz?lez <javier at javigon.com>
+---
+ plugins/lnvm/lnvm-nvme.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-This series is nothing but a clean-up patch series.  I hope it's not a
-just code churns, but a good start to do something for lnvm.
-
-The first one removed a redundant whitespace in the command description.
-The second one removed unnecessary print for the sizeof(dev) which will
-always be zero in case user does not give any argument for the device.
-The third patch removed temp variable instead casting the pinter
-directly.  The last one just sync-up the kernel UAPI header file to the
-latest.
-
-Please review.
-
-Thanks,
-
-Changes to V3:
-  - Drop the last commit which is about the re-sync for the UAPI header
-    file from the kernel because it does not have any actual using code.
-    (Matias)
-  - Added Reviewed-by tag from Javier. (Javier)
-
-Changes to V2:
-  - Resend the series with the latest patch commits.
-
-Minwoo Im (3):
-  lnvm: remove redundant whitespace in lnvm_init()
-  lnvm: do not print 0 when the arg is not given
-  lnvm: cast identity structure to (void *) directly
-
- nvme-lightnvm.c          | 5 ++---
- plugins/lnvm/lnvm-nvme.c | 8 ++++----
- 2 files changed, 6 insertions(+), 7 deletions(-)
-
+diff --git a/plugins/lnvm/lnvm-nvme.c b/plugins/lnvm/lnvm-nvme.c
+index 37b6733..aacd469 100644
+--- a/plugins/lnvm/lnvm-nvme.c
++++ b/plugins/lnvm/lnvm-nvme.c
+@@ -48,7 +48,7 @@ static int lnvm_init(int argc, char **argv, struct command *cmd, struct plugin *
+ 		return ret;
+ 
+ 	if (!strlen(cfg.devname)) {
+-		fprintf(stderr, "device name missing %d\n", (int)strlen(cfg.devname));
++		fprintf(stderr, "device name missing\n");
+ 		return -EINVAL;
+ 	}
+ 
+@@ -179,7 +179,7 @@ static int lnvm_create_tgt(int argc, char **argv, struct command *cmd, struct pl
+ 		return ret;
+ 
+ 	if (!strlen(cfg.devname)) {
+-		fprintf(stderr, "device name missing %d\n", (int)strlen(cfg.devname));
++		fprintf(stderr, "device name missing\n");
+ 		return -EINVAL;
+ 	}
+ 	if (!strlen(cfg.tgtname)) {
+@@ -265,7 +265,7 @@ static int lnvm_factory_init(int argc, char **argv, struct command *cmd, struct
+ 		return ret;
+ 
+ 	if (!strlen(cfg.devname)) {
+-		fprintf(stderr, "device name missing %d\n", (int)strlen(cfg.devname));
++		fprintf(stderr, "device name missing\n");
+ 		return -EINVAL;
+ 	}
+ 
 -- 
 2.17.1
