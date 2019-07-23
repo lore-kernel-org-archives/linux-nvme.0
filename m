@@ -1,102 +1,68 @@
-From: tom.leiming@gmail.com (Ming Lei)
-Date: Tue, 23 Jul 2019 09:36:40 +0800
-Subject: [PATCH v3] nvme-pci: Support shared tags across queues for Apple
- 2018 controllers
-In-Reply-To: <b1f9bdf0294b8d87d292de3c7462c8e99551b02d.camel@kernel.crashing.org>
-References: <b1f9bdf0294b8d87d292de3c7462c8e99551b02d.camel@kernel.crashing.org>
-Message-ID: <CACVXFVPbrXaAQe2C+13dNQSSL7f7gZ4QZ=W9vMpmmhJnxQMjew@mail.gmail.com>
+From: lkp@intel.com (kbuild test robot)
+Date: Tue, 23 Jul 2019 10:04:23 +0800
+Subject: [PATCH v2 1/3] block: introduce LED block device activity trigger
+In-Reply-To: <1563807552-23498-2-git-send-email-akinobu.mita@gmail.com>
+References: <1563807552-23498-2-git-send-email-akinobu.mita@gmail.com>
+Message-ID: <201907231015.ELtC6gvZ%lkp@intel.com>
 
-On Fri, Jul 19, 2019 at 1:31 PM Benjamin Herrenschmidt
-<benh@kernel.crashing.org> wrote:
->
-> From 8dcba2ef5b1466b023b88b4eca463b30de78d9eb Mon Sep 17 00:00:00 2001
-> From: Benjamin Herrenschmidt <benh at kernel.crashing.org>
-> Date: Fri, 19 Jul 2019 15:03:06 +1000
-> Subject:
->
-> Another issue with the Apple T2 based 2018 controllers seem to be
-> that they blow up (and shut the machine down) if there's a tag
-> collision between the IO queue and the Admin queue.
->
-> My suspicion is that they use our tags for their internal tracking
-> and don't mix them with the queue id. They also seem to not like
-> when tags go beyond the IO queue depth, ie 128 tags.
->
-> This adds a quirk that marks tags 0..31 of the IO queue reserved
->
-> Signed-off-by: Benjamin Herrenschmidt <benh at kernel.crashing.org>
-> ---
->
-> Thanks Damien, reserved tags work and make this a lot simpler !
->
->  drivers/nvme/host/nvme.h |  5 +++++
->  drivers/nvme/host/pci.c  | 19 ++++++++++++++++++-
->  2 files changed, 23 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> index ced0e0a7e039..8732da6df555 100644
-> --- a/drivers/nvme/host/nvme.h
-> +++ b/drivers/nvme/host/nvme.h
-> @@ -102,6 +102,11 @@ enum nvme_quirks {
->          * Use non-standard 128 bytes SQEs.
->          */
->         NVME_QUIRK_128_BYTES_SQES               = (1 << 11),
-> +
-> +       /*
-> +        * Prevent tag overlap between queues
-> +        */
-> +       NVME_QUIRK_SHARED_TAGS                  = (1 << 12),
->  };
->
->  /*
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 7088971d4c42..fc74395a028b 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -2106,6 +2106,14 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
->         unsigned long size;
->
->         nr_io_queues = max_io_queues();
-> +
-> +       /*
-> +        * If tags are shared with admin queue (Apple bug), then
-> +        * make sure we only use one IO queue.
-> +        */
-> +       if (dev->ctrl.quirks & NVME_QUIRK_SHARED_TAGS)
-> +               nr_io_queues = 1;
-> +
->         result = nvme_set_queue_count(&dev->ctrl, &nr_io_queues);
->         if (result < 0)
->                 return result;
-> @@ -2278,6 +2286,14 @@ static int nvme_dev_add(struct nvme_dev *dev)
->                 dev->tagset.flags = BLK_MQ_F_SHOULD_MERGE;
->                 dev->tagset.driver_data = dev;
->
-> +               /*
-> +                * Some Apple controllers requires tags to be unique
-> +                * across admin and IO queue, so reserve the first 32
-> +                * tags of the IO queue.
-> +                */
-> +               if (dev->ctrl.quirks & NVME_QUIRK_SHARED_TAGS)
-> +                       dev->tagset.reserved_tags = NVME_AQ_DEPTH;
-> +
->                 ret = blk_mq_alloc_tag_set(&dev->tagset);
->                 if (ret) {
->                         dev_warn(dev->ctrl.device,
-> @@ -3057,7 +3073,8 @@ static const struct pci_device_id nvme_id_table[] = {
->         { PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2003) },
->         { PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2005),
->                 .driver_data = NVME_QUIRK_SINGLE_VECTOR |
-> -                               NVME_QUIRK_128_BYTES_SQES },
-> +                               NVME_QUIRK_128_BYTES_SQES |
-> +                               NVME_QUIRK_SHARED_TAGS },
->         { 0, }
->  };
->  MODULE_DEVICE_TABLE(pci, nvme_id_table);
+Hi Akinobu,
 
-Looks fine for me:
+I love your patch! Yet something to improve:
 
-Reviewed-by: Ming Lei <ming.lei at redhat.com>
+[auto build test ERROR on linus/master]
+[also build test ERROR on v5.3-rc1 next-20190722]
+[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
 
-Thanks,
-Ming Lei
+url:    https://github.com/0day-ci/linux/commits/Akinobu-Mita/block-introduce-LED-block-device-activity-trigger/20190723-074956
+config: x86_64-fedora-25 (attached as .config)
+compiler: gcc-7 (Debian 7.4.0-10) 7.4.0
+reproduce:
+        # save the attached .config to linux build tree
+        make ARCH=x86_64 
+
+If you fix the issue, kindly add following tag
+Reported-by: kbuild test robot <lkp at intel.com>
+
+All error/warnings (new ones prefixed by >>):
+
+   In file included from drivers/block/umem.c:52:0:
+>> drivers/block/umem.h:39:19: error: expected identifier before numeric constant
+    #define  LED_OFF  0x00
+                      ^
+>> include/linux/leds.h:27:2: note: in expansion of macro 'LED_OFF'
+     LED_OFF  = 0,
+     ^~~~~~~
+
+vim +/LED_OFF +27 include/linux/leds.h
+
+af410fc1 Johannes Berg  2006-09-29  19  
+c72a1d60 Richard Purdie 2006-03-31  20  struct device;
+5fd752b6 Baolin Wang    2018-10-11  21  struct led_pattern;
+c72a1d60 Richard Purdie 2006-03-31  22  /*
+c72a1d60 Richard Purdie 2006-03-31  23   * LED Core
+c72a1d60 Richard Purdie 2006-03-31  24   */
+c72a1d60 Richard Purdie 2006-03-31  25  
+c72a1d60 Richard Purdie 2006-03-31  26  enum led_brightness {
+c72a1d60 Richard Purdie 2006-03-31 @27  	LED_OFF		= 0,
+4e552c8c Andi Shyti     2017-01-05  28  	LED_ON		= 1,
+c72a1d60 Richard Purdie 2006-03-31  29  	LED_HALF	= 127,
+c72a1d60 Richard Purdie 2006-03-31  30  	LED_FULL	= 255,
+c72a1d60 Richard Purdie 2006-03-31  31  };
+c72a1d60 Richard Purdie 2006-03-31  32  
+
+:::::: The code at line 27 was first introduced by commit
+:::::: c72a1d608dd0eb3d553a08bfdf1c0041bebaa8a0 [PATCH] LED: add LED class
+
+:::::: TO: Richard Purdie <rpurdie at rpsys.net>
+:::::: CC: Linus Torvalds <torvalds at g5.osdl.org>
+
+---
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: .config.gz
+Type: application/gzip
+Size: 50846 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20190723/bf1adebb/attachment-0001.gz>
