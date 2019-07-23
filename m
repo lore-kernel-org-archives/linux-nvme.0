@@ -1,53 +1,35 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 22 Jul 2019 17:07:51 -0700
-Subject: [PATCH 3/5] nvme: don't abort completed request in
- nvme_cancel_request
-In-Reply-To: <CAOSXXT5TkrfH0AFZCV0c+YtbFCQ4MnShKM-gkZrj8Qex+Z7Png@mail.gmail.com>
-References: <20190722053954.25423-1-ming.lei@redhat.com>
- <20190722053954.25423-4-ming.lei@redhat.com>
- <d82ead02-c893-4d14-307e-70a6d4596439@acm.org>
- <CAOSXXT5TkrfH0AFZCV0c+YtbFCQ4MnShKM-gkZrj8Qex+Z7Png@mail.gmail.com>
-Message-ID: <29a64c98-5da2-c954-1272-e8705a4941c4@grimberg.me>
+From: mark.wunderlich@intel.com (Wunderlich, Mark)
+Date: Tue, 23 Jul 2019 00:06:44 +0000
+Subject: nvme-tcp: 'page must not be a Slab one'
+In-Reply-To: <6a2eedf1-8629-c5b5-257b-94cf7b3c7ae6@grimberg.me>
+References: <B33B37937B7F3D4CB878107E305D4916D14FD1@ORSMSX104.amr.corp.intel.com>
+ <6a2eedf1-8629-c5b5-257b-94cf7b3c7ae6@grimberg.me>
+Message-ID: <B33B37937B7F3D4CB878107E305D4916D15096@ORSMSX104.amr.corp.intel.com>
+
+Thanks Sagi,
+
+Indeed no, I did not have that patch yet.  I now see it tagged @ v5.3-rc1.
+I'll move to that branch, or also try for now stable-v5.2.1 without CONFIG_DEBUG_VM.
+
+Cheers
+
+-----Original Message-----
+From: Sagi Grimberg [mailto:sagi@grimberg.me] 
+Sent: Monday, July 22, 2019 3:38 PM
+To: Wunderlich, Mark <mark.wunderlich at intel.com>; linux-nvme at lists.infradead.org
+Subject: Re: nvme-tcp: 'page must not be a Slab one'
 
 
->> On 7/21/19 10:39 PM, Ming Lei wrote:
->>> Before aborting in-flight requests, all IO queues have been shutdown.
->>> However, request's completion fn may not be done yet because it may
->>> be scheduled to run via IPI.
->>>
->>> So don't abort one request if it is marked as completed, otherwise
->>> we may abort one normal completed request.
->>>
->>> Cc: Max Gurtovoy <maxg at mellanox.com>
->>> Cc: Sagi Grimberg <sagi at grimberg.me>
->>> Cc: Keith Busch <keith.busch at intel.com>
->>> Cc: Christoph Hellwig <hch at lst.de>
->>> Signed-off-by: Ming Lei <ming.lei at redhat.com>
->>> ---
->>>    drivers/nvme/host/core.c | 4 ++++
->>>    1 file changed, 4 insertions(+)
->>>
->>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->>> index cc09b81fc7f4..cb8007cce4d1 100644
->>> --- a/drivers/nvme/host/core.c
->>> +++ b/drivers/nvme/host/core.c
->>> @@ -285,6 +285,10 @@ EXPORT_SYMBOL_GPL(nvme_complete_rq);
->>>
->>>    bool nvme_cancel_request(struct request *req, void *data, bool reserved)
->>>    {
->>> +     /* don't abort one completed request */
->>> +     if (blk_mq_request_completed(req))
->>> +             return;
->>> +
->>>        dev_dbg_ratelimited(((struct nvme_ctrl *) data)->device,
->>>                                "Cancelling I/O %d", req->tag);
->>
->> Something I probably already asked before: what prevents that
->> nvme_cancel_request() is executed concurrently with the completion
->> handler of the same request?
+> New to this list, not to NVMe_oF.? Apologize up front if this is not an appropriate use of this forum, please slap wrist appropriately if so.
+
+This is exactly the correct forum.
+
+> Am developing for NVMe_oF/TCP, and seeing the failure message in subject line during kernel_sendpage.
+> This failure new to me starting with v5.1.? See it in v5.2 and stable 5.2.1
 > 
-> At least for pci, we've shutdown the queues and their interrupts prior
-> to tagset iteration, so we can't concurrently execute a natural
-> completion for in-flight requests while cancelling them.
+> Wondering if this is related to 'nvme-tcp: replace sendpage calls with sendmsg calls for SLAB chunks'?.? If so, is there patch in the works to address it, or did I miss it.
 
-Same for tcp and rdma.
+Yes, this is specific to CONFIG_DEBUG_VM.
+
+do you have this patch applied?
+37c15219599f ("nvme-tcp: don't use sendpage for SLAB pages")
