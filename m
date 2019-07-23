@@ -1,44 +1,33 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Wed, 24 Jul 2019 03:35:59 +0900
-Subject: [PATCH 3/5] lnvm: add chunk_info log page structure
+Date: Wed, 24 Jul 2019 03:36:01 +0900
+Subject: [PATCH 5/5] lnvm: introduce alias geometry for id-ns for lnvm
 In-Reply-To: <20190723183601.29370-1-minwoo.im.dev@gmail.com>
 References: <20190723183601.29370-1-minwoo.im.dev@gmail.com>
-Message-ID: <20190723183601.29370-4-minwoo.im.dev@gmail.com>
+Message-ID: <20190723183601.29370-6-minwoo.im.dev@gmail.com>
 
-The log ID is 0xCA which is defined in OCSSD 2.0 spec.  Also it has
-32bytes sized structure for each entries.
+Now we have 2.0 OCSSD spec which introudces Geometry command instead of
+Identity or something else.  This patch just adds an alias for this
+command for the given NVMe namespace with backward compatibility.
 
 Cc: Keith Busch <kbusch at kernel.org>
 Cc: Matias Bjorling <mb at lightnvm.io>
 Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
 ---
- nvme-lightnvm.h | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ plugins/lnvm/lnvm-nvme.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/nvme-lightnvm.h b/nvme-lightnvm.h
-index 9dc1868..7a8ef7d 100644
---- a/nvme-lightnvm.h
-+++ b/nvme-lightnvm.h
-@@ -246,6 +246,20 @@ struct nvme_nvm_id {
- 	__u8			resv[4095];
- } __attribute__((packed));
- 
-+enum {
-+	NVM_LID_CHUNK_INFO = 0xCA,
-+};
-+
-+struct nvme_nvm_chunk_desc {
-+	__u8	cs;
-+	__u8	ct;
-+	__u8	wli;
-+	__u8	rsvd_7_3[5];
-+	__u64	slba;
-+	__u64	cnlb;
-+	__u64	wp;
-+};
-+
- struct nvme_nvm_bb_tbl {
- 	__u8	tblid[4];
- 	__le16	verid;
+diff --git a/plugins/lnvm/lnvm-nvme.h b/plugins/lnvm/lnvm-nvme.h
+index f091f7b..2879a0b 100644
+--- a/plugins/lnvm/lnvm-nvme.h
++++ b/plugins/lnvm/lnvm-nvme.h
+@@ -11,7 +11,7 @@ PLUGIN(NAME("lnvm", "LightNVM specific extensions"),
+ 	COMMAND_LIST(
+ 		ENTRY("list", "List available LightNVM devices", lnvm_list)
+ 		ENTRY("info", "List general information and available target engines", lnvm_info)
+-		ENTRY("id-ns", "List geometry for LightNVM device", lnvm_id_ns)
++		ENTRY("id-ns", "List geometry for LightNVM device", lnvm_id_ns, "geometry")
+ 		ENTRY("chunk-log", "Chunk information by Get Log Page", lnvm_chunk_log)
+ 		ENTRY("init", "Initialize media manager on LightNVM device", lnvm_init)
+ 		ENTRY("create", "Create target on top of a LightNVM device", lnvm_create_tgt)
 -- 
 2.17.1
