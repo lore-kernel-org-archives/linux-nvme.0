@@ -1,10 +1,9 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 23 Jul 2019 17:47:39 +0200
-Subject: [PATCH] Revert "nvme-pci: don't create a read hctx mapping
- without read queues"
-In-Reply-To: <1563852193-6895-1-git-send-email-yangerkun@huawei.com>
-References: <1563852193-6895-1-git-send-email-yangerkun@huawei.com>
-Message-ID: <20190723154739.GA1331@lst.de>
+Date: Tue, 23 Jul 2019 17:47:48 +0200
+Subject: [PATCH v3] nvme: fix multipath crash when ANA deactivated
+In-Reply-To: <504897239.41425939.1563860480394.JavaMail.zimbra@kalray.eu>
+References: <504897239.41425939.1563860480394.JavaMail.zimbra@kalray.eu>
+Message-ID: <20190723154748.GB1331@lst.de>
 
 Thanks,
 
