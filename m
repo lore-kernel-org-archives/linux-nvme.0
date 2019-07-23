@@ -1,28 +1,48 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Tue, 23 Jul 2019 09:04:34 -0700
-Subject: [PATCH v2 10/10] nvme-cli: nvmf auto-connect scripts
-In-Reply-To: <4efefb70-7ab1-69af-4f41-63223e9f4ff8@grimberg.me>
-References: <20190719225305.11397-1-jsmart2021@gmail.com>
- <20190719225305.11397-11-jsmart2021@gmail.com>
- <4efefb70-7ab1-69af-4f41-63223e9f4ff8@grimberg.me>
-Message-ID: <d5b4ef61-cf1d-ce9c-1bd0-7f372f874320@broadcom.com>
+From: kbusch@kernel.org (Keith Busch)
+Date: Tue, 23 Jul 2019 10:01:42 -0600
+Subject: [PATCH V2 0/4] lnvm: minor clean-ups
+In-Reply-To: <744d9561-0710-6428-6135-cb1902fc66ad@lightnvm.io>
+References: <20190721153219.5730-1-minwoo.im.dev@gmail.com>
+ <744d9561-0710-6428-6135-cb1902fc66ad@lightnvm.io>
+Message-ID: <20190723160141.GA4002@localhost.localdomain>
 
+On Tue, Jul 23, 2019@10:58:11AM +0200, Matias Bj?rling wrote:
+> On 7/21/19 5:32 PM, Minwoo Im wrote:
+> > Hi,
+> > 
+> > This series is nothing but a clean-up patch series.  I hope it's not a
+> > just code churns, but a good start to do something for lnvm.
+> > 
+> > The first one removed a redundant whitespace in the command description.
+> > The second one removed unnecessary print for the sizeof(dev) which will
+> > always be zero in case user does not give any argument for the device.
+> > The third patch removed temp variable instead casting the pinter
+> > directly.  The last one just sync-up the kernel UAPI header file to the
+> > latest.
+> > 
+> > Please review.
+> > 
+> > Thanks,
+> > 
+> > Changes to V2:
+> >    - Resend the series with the latest patch commits.
+> > 
+> > Minwoo Im (4):
+> >    lnvm: remove redundant whitespace in lnvm_init()
+> >    lnvm: do not print 0 when the arg is not given
+> >    lnvm: cast identity structure to (void *) directly
+> >    lnvm: sync-up uapi lightnvm.h header from kernel
+> > 
+> >   linux/lightnvm.h         | 52 +++++++++++++++++++++++++++++++++++++++-
+> >   nvme-lightnvm.c          |  7 +++---
+> >   plugins/lnvm/lnvm-nvme.c |  8 +++----
+> >   3 files changed, 58 insertions(+), 9 deletions(-)
+> > 
+> 
+> Thanks Minwoo.
+> 
+> Patch 1-3 looks good to me. Keith, feel free to pick them up.
+> 
+> Patch 4 can wait until there is a use for the data structures.
 
-
-On 7/22/2019 8:57 PM, Sagi Grimberg wrote:
->
->> +# Events from persistent discovery controllers or nvme-fc transport 
->> events
->> +ACTION=="change", SUBSYSTEM=="nvme", ENV{NVME_EVENT}=="discovery",\
->> +? ENV{NVME_CTRL_NAME}=="*", ENV{NVME_TRTYPE}=="*", 
->> ENV{NVME_TRADDR}=="*", \
->> +? ENV{NVME_TRSVCID}=="*", ENV{NVME_HOST_TRADDR}=="*", \
->> +? RUN+="/usr/bin/systemctl --no-block start 
->> nvmf-connect at --device=$env{NVME_CTRL_NAME}\t--transport=$env{NVME_TRTYPE}\t--traddr=$env{NVME_TRADDR}\t--trsvcid=$env{NVME_TRSVCID}\t--host-traddr=$env{NVME_HOST_TRADDR}.service"
->
-> James, shouldn't this be /bin/systemctl?
-
-I don't believe so.?? On the distros I checked, /bin/systemctl is a soft 
-or hard link to /usr/bin/systemctl
-
--- james
+Sounds good, series applied from the pull-request.
