@@ -1,46 +1,120 @@
-From: javier@javigon.com (=?utf-8?Q?Javier_Gonz=C3=A1lez?=)
-Date: Tue, 23 Jul 2019 07:39:43 +0200
-Subject: [PATCH 1/4] lnvm: remove redundant whitespace in lnvm_init()
-In-Reply-To: <20190721153219.5730-2-minwoo.im.dev@gmail.com>
-References: <20190721153219.5730-1-minwoo.im.dev@gmail.com>
- <20190721153219.5730-2-minwoo.im.dev@gmail.com>
-Message-ID: <500DD0DC-F64F-4A9C-9D0B-DD1F17C7290F@javigon.com>
+From: mrybczyn@kalray.eu (Marta Rybczynska)
+Date: Tue, 23 Jul 2019 07:41:20 +0200 (CEST)
+Subject: [PATCH v3] nvme: fix multipath crash when ANA deactivated
+Message-ID: <504897239.41425939.1563860480394.JavaMail.zimbra@kalray.eu>
 
-> On 21 Jul 2019,@17.32, Minwoo Im <minwoo.im.dev@gmail.com> wrote:
-> 
-> The description for lnvm-init subcommand has a redundant whitespace.
-> 
-> Cc: Keith Busch <kbusch at kernel.org>
-> Cc: Matias Bjorling <mb at lightnvm.io>
-> Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
-> ---
-> plugins/lnvm/lnvm-nvme.c | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/plugins/lnvm/lnvm-nvme.c b/plugins/lnvm/lnvm-nvme.c
-> index 754931a..37b6733 100644
-> --- a/plugins/lnvm/lnvm-nvme.c
-> +++ b/plugins/lnvm/lnvm-nvme.c
-> @@ -17,7 +17,7 @@
-> static int lnvm_init(int argc, char **argv, struct command *cmd, struct plugin *plugin)
-> {
-> 	const char *desc = "Initialize LightNVM device. A LightNVM/Open-Channel SSD"\
-> -			   " must have a media manager associated before it can "\
-> +			   " must have a media manager associated before it can"\
-> 			   " be exposed to the user. The default is to initialize"
-> 			   " the general media manager on top of the device.\n\n"
-> 			   "Example:"
-> --
-> 2.17.1
+Fix a crash with multipath activated. It happends when ANA log
+page is larger than MDTS and because of that ANA is disabled.
+The driver then tries to access unallocated buffer when connecting
+to a nvme target. The signature is as follows:
 
-Looks good to me.
+[  300.433586] nvme nvme0: ANA log page size (8208) larger than MDTS (8192).
+[  300.435387] nvme nvme0: disabling ANA support.
+[  300.437835] nvme nvme0: creating 4 I/O queues.
+[  300.459132] nvme nvme0: new ctrl: NQN "nqn.0.0.0", addr 10.91.0.1:8009
+[  300.464609] BUG: unable to handle kernel NULL pointer dereference at 0000000000000008
+[  300.466342] #PF error: [normal kernel read fault]
+[  300.467385] PGD 0 P4D 0
+[  300.467987] Oops: 0000 [#1] SMP PTI
+[  300.468787] CPU: 3 PID: 50 Comm: kworker/u8:1 Not tainted 5.0.20kalray+ #4
+[  300.470264] Hardware name: Red Hat KVM, BIOS 0.5.1 01/01/2011
+[  300.471532] Workqueue: nvme-wq nvme_scan_work [nvme_core]
+[  300.472724] RIP: 0010:nvme_parse_ana_log+0x21/0x140 [nvme_core]
+[  300.474038] Code: 45 01 d2 d8 48 98 c3 66 90 0f 1f 44 00 00 41 57 41 56 41 55 41 54 55 53 48 89 fb 48 83 ec 08 48 8b af 20 0a 00 00 48 89 34 24 <66> 83 7d 08 00 0f 84 c6 00 00 00 44 8b 7d 14 49 89 d5 8b 55 10 48
+[  300.477374] RSP: 0018:ffffa50e80fd7cb8 EFLAGS: 00010296
+[  300.478334] RAX: 0000000000000001 RBX: ffff9130f1872258 RCX: 0000000000000000
+[  300.479784] RDX: ffffffffc06c4c30 RSI: ffff9130edad4280 RDI: ffff9130f1872258
+[  300.481488] RBP: 0000000000000000 R08: 0000000000000001 R09: 0000000000000044
+[  300.483203] R10: 0000000000000220 R11: 0000000000000040 R12: ffff9130f18722c0
+[  300.484928] R13: ffff9130f18722d0 R14: ffff9130edad4280 R15: ffff9130f18722c0
+[  300.486626] FS:  0000000000000000(0000) GS:ffff9130f7b80000(0000) knlGS:0000000000000000
+[  300.488538] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  300.489907] CR2: 0000000000000008 CR3: 00000002365e6000 CR4: 00000000000006e0
+[  300.491612] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[  300.493303] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+[  300.494991] Call Trace:
+[  300.495645]  nvme_mpath_add_disk+0x5c/0xb0 [nvme_core]
+[  300.496880]  nvme_validate_ns+0x2ef/0x550 [nvme_core]
+[  300.498105]  ? nvme_identify_ctrl.isra.45+0x6a/0xb0 [nvme_core]
+[  300.499539]  nvme_scan_work+0x2b4/0x370 [nvme_core]
+[  300.500717]  ? __switch_to_asm+0x35/0x70
+[  300.501663]  process_one_work+0x171/0x380
+[  300.502340]  worker_thread+0x49/0x3f0
+[  300.503079]  kthread+0xf8/0x130
+[  300.503795]  ? max_active_store+0x80/0x80
+[  300.504690]  ? kthread_bind+0x10/0x10
+[  300.505502]  ret_from_fork+0x35/0x40
+[  300.506280] Modules linked in: nvme_tcp nvme_rdma rdma_cm iw_cm ib_cm ib_core nvme_fabrics nvme_core xt_physdev ip6table_raw ip6table_mangle ip6table_filter ip6_tables xt_comment iptable_nat nf_nat_ipv4 nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 xt_CHECKSUM iptable_mangle iptable_filter veth ebtable_filter ebtable_nat ebtables iptable_raw vxlan ip6_udp_tunnel udp_tunnel sunrpc joydev pcspkr virtio_balloon br_netfilter bridge stp llc ip_tables xfs libcrc32c ata_generic pata_acpi virtio_net virtio_console net_failover virtio_blk failover ata_piix serio_raw libata virtio_pci virtio_ring virtio
+[  300.514984] CR2: 0000000000000008
+[  300.515569] ---[ end trace faa2eefad7e7f218 ]---
+[  300.516354] RIP: 0010:nvme_parse_ana_log+0x21/0x140 [nvme_core]
+[  300.517330] Code: 45 01 d2 d8 48 98 c3 66 90 0f 1f 44 00 00 41 57 41 56 41 55 41 54 55 53 48 89 fb 48 83 ec 08 48 8b af 20 0a 00 00 48 89 34 24 <66> 83 7d 08 00 0f 84 c6 00 00 00 44 8b 7d 14 49 89 d5 8b 55 10 48
+[  300.520353] RSP: 0018:ffffa50e80fd7cb8 EFLAGS: 00010296
+[  300.521229] RAX: 0000000000000001 RBX: ffff9130f1872258 RCX: 0000000000000000
+[  300.522399] RDX: ffffffffc06c4c30 RSI: ffff9130edad4280 RDI: ffff9130f1872258
+[  300.523560] RBP: 0000000000000000 R08: 0000000000000001 R09: 0000000000000044
+[  300.524734] R10: 0000000000000220 R11: 0000000000000040 R12: ffff9130f18722c0
+[  300.525915] R13: ffff9130f18722d0 R14: ffff9130edad4280 R15: ffff9130f18722c0
+[  300.527084] FS:  0000000000000000(0000) GS:ffff9130f7b80000(0000) knlGS:0000000000000000
+[  300.528396] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  300.529440] CR2: 0000000000000008 CR3: 00000002365e6000 CR4: 00000000000006e0
+[  300.530739] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[  300.531989] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+[  300.533264] Kernel panic - not syncing: Fatal exception
+[  300.534338] Kernel Offset: 0x17c00000 from 0xffffffff81000000 (relocation range: 0xffffffff80000000-0xffffffffbfffffff)
+[  300.536227] ---[ end Kernel panic - not syncing: Fatal exception ]---
 
-Reviewed-by: Javier Gonz?lez <javier at javigon.com>
+Condition check refactoring from Christoph Hellwig.
 
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 833 bytes
-Desc: Message signed with OpenPGP
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20190723/8a83905d/attachment.sig>
+Signed-off-by: Marta Rybczynska <marta.rybczynska at kalray.eu>
+Tested-by: Jean-Baptiste Riaux <jbriaux at kalray.eu>
+---
+ drivers/nvme/host/multipath.c | 8 ++------
+ drivers/nvme/host/nvme.h      | 6 +++++-
+ 2 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 499acf0..e942b3e 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -12,11 +12,6 @@
+ MODULE_PARM_DESC(multipath,
+ 	"turn on native support for multiple controllers per subsystem");
+ 
+-inline bool nvme_ctrl_use_ana(struct nvme_ctrl *ctrl)
+-{
+-	return multipath && ctrl->subsys && (ctrl->subsys->cmic & (1 << 3));
+-}
+-
+ /*
+  * If multipathing is enabled we need to always use the subsystem instance
+  * number for numbering our devices to avoid conflicts between subsystems that
+@@ -614,7 +609,8 @@ int nvme_mpath_init(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+ {
+ 	int error;
+ 
+-	if (!nvme_ctrl_use_ana(ctrl))
++	/* check if multipath is enabled and we have the capability */
++	if (!multipath || !ctrl->subsys || !(ctrl->subsys->cmic & (1 << 3)))
+ 		return 0;
+ 
+ 	ctrl->anacap = id->anacap;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 55553d2..7391cd0 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -472,7 +472,11 @@ int nvme_get_log(struct nvme_ctrl *ctrl, u32 nsid, u8 log_page, u8 lsp,
+ extern const struct block_device_operations nvme_ns_head_ops;
+ 
+ #ifdef CONFIG_NVME_MULTIPATH
+-bool nvme_ctrl_use_ana(struct nvme_ctrl *ctrl);
++static inline bool nvme_ctrl_use_ana(struct nvme_ctrl *ctrl)
++{
++	return ctrl->ana_log_buf != NULL;
++}
++
+ void nvme_set_disk_name(char *disk_name, struct nvme_ns *ns,
+ 			struct nvme_ctrl *ctrl, int *flags);
+ void nvme_failover_req(struct request *req);
+-- 
+1.8.3.1
