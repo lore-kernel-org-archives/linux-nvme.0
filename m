@@ -1,30 +1,40 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Tue, 23 Jul 2019 22:36:17 +0900
-Subject: [PATCH v2 07/10] nvme-cli: Add routine to search for controller
- with specific attributes
-In-Reply-To: <f020727d-28c9-ff5b-3caa-f4258284bdec@grimberg.me>
-References: <20190719225305.11397-1-jsmart2021@gmail.com>
- <20190719225305.11397-8-jsmart2021@gmail.com>
- <20190720082504.GG22395@minwoo-desktop>
- <f020727d-28c9-ff5b-3caa-f4258284bdec@grimberg.me>
-Message-ID: <20190723133617.GC7148@minwoo-desktop>
+Date: Tue, 23 Jul 2019 22:43:22 +0900
+Subject: [PATCH v2 1/3] nvme: have nvme_init_identify set ctrl->cap
+In-Reply-To: <20190723000654.6448-2-sagi@grimberg.me>
+References: <20190723000654.6448-1-sagi@grimberg.me>
+ <20190723000654.6448-2-sagi@grimberg.me>
+Message-ID: <20190723134322.GD7148@minwoo-desktop>
 
-On 19-07-22 15:41:08, Sagi Grimberg wrote:
+On 19-07-22 17:06:52, Sagi Grimberg wrote:
+> No need to use a stack cap variable.
 > 
-> > James,
-> > 
-> > It might be too late to discuss about this argument, but did you decided
-> > to have (struct connect_args) as a parameter for this function?
-> > 
-> > Sorry for not giving any thoughts on the following mail[1], but I would
-> > prefer not introducing a new data structure for this because it's just a
-> > bypass argument from a perspective of find_ctrl_with_connetargs().  But
-> > If you think it's okay to go with, then I'm fine with that too.
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> ---
+>  drivers/nvme/host/core.c | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
 > 
-> I think its just fine with the connect_args. This can also extend to
-> other search/match functionality we may need in the future (that is
-> insensitive to short/long args).
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 76cd3dd8736a..058e06e40df8 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -2563,7 +2563,6 @@ static int nvme_get_effects_log(struct nvme_ctrl *ctrl)
+>  int nvme_init_identify(struct nvme_ctrl *ctrl)
+>  {
+>  	struct nvme_id_ctrl *id;
+> -	u64 cap;
+>  	int ret, page_shift;
+>  	u32 max_hw_sectors;
+>  	bool prev_apst_enabled;
+> @@ -2574,15 +2573,15 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+>  		return ret;
+>  	}
+>  
+> -	ret = ctrl->ops->reg_read64(ctrl, NVME_REG_CAP, &cap);
+> +	ret = ctrl->ops->reg_read64(ctrl, NVME_REG_CAP, &ctrl->cap);
 
-Agreed.  I think it's good to go with what James just got sent.
+I think the host drivers already have the CAP values before the
+nvme_init_identify() being called.  But it looks good to me with the
+goal of this commit.
 
-Thanks for the clarification, Sagi!
+Reviewed-by: Minwoo Im <minwoo.im.dev at gmail.com>
