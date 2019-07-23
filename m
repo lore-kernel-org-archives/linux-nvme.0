@@ -1,27 +1,41 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 23 Jul 2019 10:32:29 -0700
-Subject: [PATCH v2 10/10] nvme-cli: nvmf auto-connect scripts
-In-Reply-To: <d5b4ef61-cf1d-ce9c-1bd0-7f372f874320@broadcom.com>
-References: <20190719225305.11397-1-jsmart2021@gmail.com>
- <20190719225305.11397-11-jsmart2021@gmail.com>
- <4efefb70-7ab1-69af-4f41-63223e9f4ff8@grimberg.me>
- <d5b4ef61-cf1d-ce9c-1bd0-7f372f874320@broadcom.com>
-Message-ID: <2297e9f3-4a9d-e759-5633-aeefe736b09c@grimberg.me>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Wed, 24 Jul 2019 03:35:56 +0900
+Subject: [PATCH 0/5] nvme-cli: lnvm: introduce chunk-log command
+Message-ID: <20190723183601.29370-1-minwoo.im.dev@gmail.com>
 
+Hi all,
 
->>> +# Events from persistent discovery controllers or nvme-fc transport 
->>> events
->>> +ACTION=="change", SUBSYSTEM=="nvme", ENV{NVME_EVENT}=="discovery",\
->>> +? ENV{NVME_CTRL_NAME}=="*", ENV{NVME_TRTYPE}=="*", 
->>> ENV{NVME_TRADDR}=="*", \
->>> +? ENV{NVME_TRSVCID}=="*", ENV{NVME_HOST_TRADDR}=="*", \
->>> +? RUN+="/usr/bin/systemctl --no-block start 
->>> nvmf-connect at --device=$env{NVME_CTRL_NAME}\t--transport=$env{NVME_TRTYPE}\t--traddr=$env{NVME_TRADDR}\t--trsvcid=$env{NVME_TRSVCID}\t--host-traddr=$env{NVME_HOST_TRADDR}.service" 
->>>
->>
->> James, shouldn't this be /bin/systemctl?
-> 
-> I don't believe so.?? On the distros I checked, /bin/systemctl is a soft 
-> or hard link to /usr/bin/systemctl
+This series introduces a "chunk-log" subcommand for lnvm extension
+plugin.  This command will send a get-log page NVMe admin command to the
+given namespace which is for OCSSD.  We just can use nvme get-log
+command with log id, but this subcommand is much more easier to use
+because it gives parameters.
 
-Not always the case. Lets change that to /bin/systemctl.
+liblightnvm also provides nvm_cmd rprt_all command to retrieve this
+information, but nvme-cli can do it also.  If you have something else
+for this, please let me know.
+
+This series also holds few clean-ups for the existing codes.
+
+The last patch is introducing alias command name "geometry" for the
+id-ns subcommand.
+
+Please reivew.
+
+Thanks!
+
+Minwoo Im (5):
+  lnvm: make data_len to sizeof() instead of magic number
+  lnvm: export lnvm_get_identity
+  lnvm: add chunk_info log page structure
+  lnvm: introduce chunk-log command for chunk info
+  lnvm: introduce alias geometry for id-ns for lnvm
+
+ nvme-lightnvm.c          | 41 +++++++++++++++++++-
+ nvme-lightnvm.h          | 17 ++++++++
+ plugins/lnvm/lnvm-nvme.c | 84 ++++++++++++++++++++++++++++++++++++++++
+ plugins/lnvm/lnvm-nvme.h |  3 +-
+ 4 files changed, 142 insertions(+), 3 deletions(-)
+
+-- 
+2.17.1
