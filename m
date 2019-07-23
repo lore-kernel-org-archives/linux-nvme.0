@@ -1,48 +1,47 @@
-From: bob.liu@oracle.com (Bob Liu)
-Date: Tue, 23 Jul 2019 07:27:00 +0800
-Subject: [PATCH 0/5] blk-mq: wait until completed req's complete fn is run
-In-Reply-To: <20190722053954.25423-1-ming.lei@redhat.com>
-References: <20190722053954.25423-1-ming.lei@redhat.com>
-Message-ID: <a22e7266-98cb-875d-aa89-f37dd6c34ad5@oracle.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 22 Jul 2019 17:06:52 -0700
+Subject: [PATCH v2 1/3] nvme: have nvme_init_identify set ctrl->cap
+In-Reply-To: <20190723000654.6448-1-sagi@grimberg.me>
+References: <20190723000654.6448-1-sagi@grimberg.me>
+Message-ID: <20190723000654.6448-2-sagi@grimberg.me>
 
-On 7/22/19 1:39 PM, Ming Lei wrote:
-> Hi,
-> 
-> blk-mq may schedule to call queue's complete function on remote CPU via
-> IPI, but never provide any way to synchronize the request's complete
-> fn.
-> 
-> In some driver's EH(such as NVMe), hardware queue's resource may be freed &
-> re-allocated. If the completed request's complete fn is run finally after the
-> hardware queue's resource is released, kernel crash will be triggered.
-> 
+No need to use a stack cap variable.
 
-Have you seen the crash? Anyway to emulate/verify this bug..
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/host/core.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-> Fixes this issue by waitting until completed req's complete fn is run.
-> 
-> Thanks,
-> Ming
-> 
-> Ming Lei (5):
->   blk-mq: introduce blk_mq_request_completed()
->   blk-mq: introduce blk_mq_tagset_wait_completed_request()
->   nvme: don't abort completed request in nvme_cancel_request
->   nvme: wait until all completed request's complete fn is called
->   blk-mq: remove blk_mq_complete_request_sync
-> 
->  block/blk-mq-tag.c         | 32 ++++++++++++++++++++++++++++++++
->  block/blk-mq.c             | 13 ++++++-------
->  drivers/nvme/host/core.c   |  6 +++++-
->  drivers/nvme/host/pci.c    |  2 ++
->  drivers/nvme/host/rdma.c   |  8 ++++++--
->  drivers/nvme/host/tcp.c    |  8 ++++++--
->  drivers/nvme/target/loop.c |  2 ++
->  include/linux/blk-mq.h     |  3 ++-
->  8 files changed, 61 insertions(+), 13 deletions(-)
-> 
-> Cc: Max Gurtovoy <maxg at mellanox.com>
-> Cc: Sagi Grimberg <sagi at grimberg.me>
-> Cc: Keith Busch <keith.busch at intel.com>
-> Cc: Christoph Hellwig <hch at lst.de>
-> 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 76cd3dd8736a..058e06e40df8 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2563,7 +2563,6 @@ static int nvme_get_effects_log(struct nvme_ctrl *ctrl)
+ int nvme_init_identify(struct nvme_ctrl *ctrl)
+ {
+ 	struct nvme_id_ctrl *id;
+-	u64 cap;
+ 	int ret, page_shift;
+ 	u32 max_hw_sectors;
+ 	bool prev_apst_enabled;
+@@ -2574,15 +2573,15 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 		return ret;
+ 	}
+ 
+-	ret = ctrl->ops->reg_read64(ctrl, NVME_REG_CAP, &cap);
++	ret = ctrl->ops->reg_read64(ctrl, NVME_REG_CAP, &ctrl->cap);
+ 	if (ret) {
+ 		dev_err(ctrl->device, "Reading CAP failed (%d)\n", ret);
+ 		return ret;
+ 	}
+-	page_shift = NVME_CAP_MPSMIN(cap) + 12;
++	page_shift = NVME_CAP_MPSMIN(ctrl->cap) + 12;
+ 
+ 	if (ctrl->vs >= NVME_VS(1, 1, 0))
+-		ctrl->subsystem = NVME_CAP_NSSRC(cap);
++		ctrl->subsystem = NVME_CAP_NSSRC(ctrl->cap);
+ 
+ 	ret = nvme_identify_ctrl(ctrl, &id);
+ 	if (ret) {
+-- 
+2.17.1
