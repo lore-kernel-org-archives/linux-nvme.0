@@ -1,44 +1,30 @@
-From: mb@lightnvm.io (=?UTF-8?Q?Matias_Bj=c3=b8rling?=)
-Date: Tue, 23 Jul 2019 10:58:11 +0200
-Subject: [PATCH V2 0/4] lnvm: minor clean-ups
-In-Reply-To: <20190721153219.5730-1-minwoo.im.dev@gmail.com>
-References: <20190721153219.5730-1-minwoo.im.dev@gmail.com>
-Message-ID: <744d9561-0710-6428-6135-cb1902fc66ad@lightnvm.io>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Tue, 23 Jul 2019 22:36:17 +0900
+Subject: [PATCH v2 07/10] nvme-cli: Add routine to search for controller
+ with specific attributes
+In-Reply-To: <f020727d-28c9-ff5b-3caa-f4258284bdec@grimberg.me>
+References: <20190719225305.11397-1-jsmart2021@gmail.com>
+ <20190719225305.11397-8-jsmart2021@gmail.com>
+ <20190720082504.GG22395@minwoo-desktop>
+ <f020727d-28c9-ff5b-3caa-f4258284bdec@grimberg.me>
+Message-ID: <20190723133617.GC7148@minwoo-desktop>
 
-On 7/21/19 5:32 PM, Minwoo Im wrote:
-> Hi,
+On 19-07-22 15:41:08, Sagi Grimberg wrote:
 > 
-> This series is nothing but a clean-up patch series.  I hope it's not a
-> just code churns, but a good start to do something for lnvm.
+> > James,
+> > 
+> > It might be too late to discuss about this argument, but did you decided
+> > to have (struct connect_args) as a parameter for this function?
+> > 
+> > Sorry for not giving any thoughts on the following mail[1], but I would
+> > prefer not introducing a new data structure for this because it's just a
+> > bypass argument from a perspective of find_ctrl_with_connetargs().  But
+> > If you think it's okay to go with, then I'm fine with that too.
 > 
-> The first one removed a redundant whitespace in the command description.
-> The second one removed unnecessary print for the sizeof(dev) which will
-> always be zero in case user does not give any argument for the device.
-> The third patch removed temp variable instead casting the pinter
-> directly.  The last one just sync-up the kernel UAPI header file to the
-> latest.
-> 
-> Please review.
-> 
-> Thanks,
-> 
-> Changes to V2:
->    - Resend the series with the latest patch commits.
-> 
-> Minwoo Im (4):
->    lnvm: remove redundant whitespace in lnvm_init()
->    lnvm: do not print 0 when the arg is not given
->    lnvm: cast identity structure to (void *) directly
->    lnvm: sync-up uapi lightnvm.h header from kernel
-> 
->   linux/lightnvm.h         | 52 +++++++++++++++++++++++++++++++++++++++-
->   nvme-lightnvm.c          |  7 +++---
->   plugins/lnvm/lnvm-nvme.c |  8 +++----
->   3 files changed, 58 insertions(+), 9 deletions(-)
-> 
+> I think its just fine with the connect_args. This can also extend to
+> other search/match functionality we may need in the future (that is
+> insensitive to short/long args).
 
-Thanks Minwoo.
+Agreed.  I think it's good to go with what James just got sent.
 
-Patch 1-3 looks good to me. Keith, feel free to pick them up.
-
-Patch 4 can wait until there is a use for the data structures.
+Thanks for the clarification, Sagi!
