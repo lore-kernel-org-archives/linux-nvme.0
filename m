@@ -1,46 +1,46 @@
 From: mb@lightnvm.io (=?UTF-8?Q?Matias_Bj=c3=b8rling?=)
-Date: Wed, 24 Jul 2019 14:29:38 +0200
-Subject: [PATCH 5/5] lnvm: introduce alias geometry for id-ns for lnvm
-In-Reply-To: <20190723183601.29370-6-minwoo.im.dev@gmail.com>
+Date: Wed, 24 Jul 2019 14:33:39 +0200
+Subject: [PATCH 1/5] lnvm: make data_len to sizeof() instead of magic
+ number
+In-Reply-To: <20190723183601.29370-2-minwoo.im.dev@gmail.com>
 References: <20190723183601.29370-1-minwoo.im.dev@gmail.com>
- <20190723183601.29370-6-minwoo.im.dev@gmail.com>
-Message-ID: <519420f6-350d-05e9-4938-45bc529b9a26@lightnvm.io>
+ <20190723183601.29370-2-minwoo.im.dev@gmail.com>
+Message-ID: <80d59219-12b7-47da-d37e-9fd9941260de@lightnvm.io>
 
-On 23/07/2019 20.36, Minwoo Im wrote:
-> Now we have 2.0 OCSSD spec which introudces Geometry command instead of
-> Identity or something else.  This patch just adds an alias for this
-> command for the given NVMe namespace with backward compatibility.
+On 23/07/2019 20.35, Minwoo Im wrote:
+> We can have it as a sizeof() instead of the hard-coded value for the
+> data structure.
 >
 > Cc: Keith Busch <kbusch at kernel.org>
 > Cc: Matias Bjorling <mb at lightnvm.io>
 > Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
 > ---
->   plugins/lnvm/lnvm-nvme.h | 2 +-
+>   nvme-lightnvm.c | 2 +-
 >   1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/plugins/lnvm/lnvm-nvme.h b/plugins/lnvm/lnvm-nvme.h
-> index f091f7b..2879a0b 100644
-> --- a/plugins/lnvm/lnvm-nvme.h
-> +++ b/plugins/lnvm/lnvm-nvme.h
-> @@ -11,7 +11,7 @@ PLUGIN(NAME("lnvm", "LightNVM specific extensions"),
->   	COMMAND_LIST(
->   		ENTRY("list", "List available LightNVM devices", lnvm_list)
->   		ENTRY("info", "List general information and available target engines", lnvm_info)
-> -		ENTRY("id-ns", "List geometry for LightNVM device", lnvm_id_ns)
-> +		ENTRY("id-ns", "List geometry for LightNVM device", lnvm_id_ns, "geometry")
->   		ENTRY("chunk-log", "Chunk information by Get Log Page", lnvm_chunk_log)
->   		ENTRY("init", "Initialize media manager on LightNVM device", lnvm_init)
->   		ENTRY("create", "Create target on top of a LightNVM device", lnvm_create_tgt)
+> diff --git a/nvme-lightnvm.c b/nvme-lightnvm.c
+> index 0b99786..e8cdccd 100644
+> --- a/nvme-lightnvm.c
+> +++ b/nvme-lightnvm.c
+> @@ -442,7 +442,7 @@ static int lnvm_get_identity(int fd, int nsid, struct nvme_nvm_id *nvm_id)
+>   		.opcode		= nvme_nvm_admin_identity,
+>   		.nsid		= nsid,
+>   		.addr		= (__u64)(uintptr_t)nvm_id,
+> -		.data_len	= 0x1000,
+> +		.data_len	= sizeof(struct nvme_nvm_id),
+>   	};
+>   
+>   	return nvme_submit_passthru(fd, NVME_IOCTL_ADMIN_CMD, &cmd);
 
-Hi Minwoo,
+Works for me.
 
-How about also rewording the text to:
+Please use use my Signed-off-by instead of Reviewed-by - traditionally 
+Keith has been kind to wait to pull in patches until I got a chance to 
+look at them on Github. Having the review here on the mailing list and 
+later as a pull request on github makes it explicit that I signed off on it.
 
-List geometry structure for LightNVM device?
+Signed-off-by: Matias Bj?rling <matias.bjorling at wdc.com>
 
-Also, do we want to use a short hand (instead of writing geometry in 
-full)? How is it done elsewhere in the nvme-cli code?
+Thank you!
 
-Regards,
-
-Matias
+- Matias
