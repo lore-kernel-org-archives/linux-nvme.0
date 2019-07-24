@@ -1,79 +1,51 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Wed, 24 Jul 2019 09:58:59 -0600
-Subject: [PATCH 11/14] PCI/P2PDMA: dma_map P2PDMA map requests that
- traverse the host bridge
-In-Reply-To: <20190724063232.GB1804@lst.de>
+Date: Wed, 24 Jul 2019 10:06:22 -0600
+Subject: [PATCH 14/14] PCI/P2PDMA: Introduce pci_p2pdma_[un]map_resource()
+In-Reply-To: <20190724063235.GC1804@lst.de>
 References: <20190722230859.5436-1-logang@deltatee.com>
- <20190722230859.5436-12-logang@deltatee.com> <20190724063232.GB1804@lst.de>
-Message-ID: <7173a4dd-0c9c-48de-98cd-93513313fd8d@deltatee.com>
+ <20190722230859.5436-15-logang@deltatee.com> <20190724063235.GC1804@lst.de>
+Message-ID: <57e8fc1a-de70-fb65-5ef1-ffa2b95c73a6@deltatee.com>
 
 
 
 On 2019-07-24 12:32 a.m., Christoph Hellwig wrote:
->>  	struct dev_pagemap *pgmap = sg_page(sg)->pgmap;
->> +	struct pci_dev *client;
->> +	int dist;
->> +
->> +	client = find_parent_pci_dev(dev);
->> +	if (WARN_ON_ONCE(!client))
->> +		return 0;
->>  
->> +	dist = upstream_bridge_distance(pgmap->pci_p2pdma_provider,
->> +					client, NULL);
-> 
-> Doing this on every mapping call sounds expensive..
-
-The result of this function is cached in an xarray (per patch 4) so, on
-the hot path, it should just be a single xa_load() which should be a
-relatively fast lookup which is similarly used for other hot path
-operations.
-
-> 
->> +	if (WARN_ON_ONCE(dist & P2PDMA_NOT_SUPPORTED))
->> +		return 0;
->> +
->> +	if (dist & P2PDMA_THRU_HOST_BRIDGE)
->> +		return dma_map_sg_attrs(dev, sg, nents, dir, attrs);
->> +	else
->> +		return __pci_p2pdma_map_sg(pgmap, dev, sg, nents);
-> 
-> Can't we organize the values so that we can switch on the return
-> value instead of doing flag checks?
-
-Sorry, I don't follow what you are saying here. If you mean for
-upstream_bridge_distance() to just return how to map and not the
-distance that would interfere with other uses of that function.
-
+>> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
+>> index baf476039396..20c834cfd2d3 100644
+>> --- a/drivers/pci/p2pdma.c
+>> +++ b/drivers/pci/p2pdma.c
+>> @@ -874,6 +874,91 @@ void pci_p2pdma_unmap_sg_attrs(struct device *dev, struct scatterlist *sg,
 >>  }
->>  EXPORT_SYMBOL_GPL(pci_p2pdma_map_sg_attrs);
+>>  EXPORT_SYMBOL_GPL(pci_p2pdma_unmap_sg_attrs);
 >>  
->> @@ -847,6 +861,21 @@ EXPORT_SYMBOL_GPL(pci_p2pdma_map_sg_attrs);
->>  void pci_p2pdma_unmap_sg_attrs(struct device *dev, struct scatterlist *sg,
->>  		int nents, enum dma_data_direction dir, unsigned long attrs)
->>  {
->> +	struct dev_pagemap *pgmap = sg_page(sg)->pgmap;
->> +	struct pci_dev *client;
->> +	int dist;
+>> +static pci_bus_addr_t pci_p2pdma_phys_to_bus(struct pci_dev *dev,
+>> +		phys_addr_t start, size_t size)
+>> +{
+>> +	struct pci_host_bridge *bridge = pci_find_host_bridge(dev->bus);
+>> +	phys_addr_t end = start + size;
+>> +	struct resource_entry *window;
 >> +
->> +	client = find_parent_pci_dev(dev);
->> +	if (!client)
->> +		return;
+>> +	resource_list_for_each_entry(window, &bridge->windows) {
+>> +		if (window->res->start <= start && window->res->end >= end)
+>> +			return start - window->offset;
+>> +	}
 >> +
->> +	dist = upstream_bridge_distance(pgmap->pci_p2pdma_provider,
->> +					client, NULL);
+>> +	return DMA_MAPPING_ERROR;
 > 
-> And then we do it for every unmap again..
+> This does once again look very expensive for something called in the
+> hot path.
 
-Yup, I don't think there's much else we can do here.
+Yes. This is the downside of dealing only with a phys_addr_t: we have to
+look up against it. Unfortunately, I believe it's possible for different
+BARs on a device to be in different windows, so something like this is
+necessary unless we already know the BAR the phys_addr_t belongs to. It
+might probably be sped up a bit by storing the offsets of each bar
+instead of looping through all the bridge windows, but I don't think it
+will get you *that* much.
 
-This is why I was fighting against doing lookups against the phys_addr_t
-because that means you have to do these additional lookups.
-
-My hope is if we can move to the phys_addr_t and flags as I described
-here[1] we can get rid of these hot path lookups, but with the way
-things are structured now this is necessary.
+As this is an example with no users, the answer here will really depend
+on what the use-case is doing. If they can lookup, ahead of time, the
+mapping type and offset then they don't have to do this work on the hot
+path and it means that pci_p2pdma_map_resource() is simply not a
+suitable API.
 
 Logan
-
-[1]
-https://lore.kernel.org/linux-block/e63d0259-e17f-effe-b76d-43dbfda8ae3a at deltatee.com/
