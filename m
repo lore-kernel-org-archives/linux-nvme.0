@@ -1,46 +1,46 @@
-From: mb@lightnvm.io (=?UTF-8?Q?Matias_Bj=c3=b8rling?=)
-Date: Wed, 24 Jul 2019 14:33:39 +0200
-Subject: [PATCH 1/5] lnvm: make data_len to sizeof() instead of magic
- number
-In-Reply-To: <20190723183601.29370-2-minwoo.im.dev@gmail.com>
-References: <20190723183601.29370-1-minwoo.im.dev@gmail.com>
- <20190723183601.29370-2-minwoo.im.dev@gmail.com>
-Message-ID: <80d59219-12b7-47da-d37e-9fd9941260de@lightnvm.io>
+From: hare@suse.de (Hannes Reinecke)
+Date: Wed, 24 Jul 2019 15:47:55 +0200
+Subject: [PATCH] nvme: trace bio completion
+Message-ID: <20190724134755.96315-1-hare@suse.de>
 
-On 23/07/2019 20.35, Minwoo Im wrote:
-> We can have it as a sizeof() instead of the hard-coded value for the
-> data structure.
->
-> Cc: Keith Busch <kbusch at kernel.org>
-> Cc: Matias Bjorling <mb at lightnvm.io>
-> Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
-> ---
->   nvme-lightnvm.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/nvme-lightnvm.c b/nvme-lightnvm.c
-> index 0b99786..e8cdccd 100644
-> --- a/nvme-lightnvm.c
-> +++ b/nvme-lightnvm.c
-> @@ -442,7 +442,7 @@ static int lnvm_get_identity(int fd, int nsid, struct nvme_nvm_id *nvm_id)
->   		.opcode		= nvme_nvm_admin_identity,
->   		.nsid		= nsid,
->   		.addr		= (__u64)(uintptr_t)nvm_id,
-> -		.data_len	= 0x1000,
-> +		.data_len	= sizeof(struct nvme_nvm_id),
->   	};
->   
->   	return nvme_submit_passthru(fd, NVME_IOCTL_ADMIN_CMD, &cmd);
+When native multipathing is enabled we cannot enable blktrace for
+the underlying paths, so any completion is never traced.
 
-Works for me.
+Signed-off-by: Hannes Reinecke <hare at suse.com>
+---
+ drivers/nvme/host/core.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Please use use my Signed-off-by instead of Reviewed-by - traditionally 
-Keith has been kind to wait to pull in patches until I got a chance to 
-look at them on Github. Having the review here on the mailing list and 
-later as a pull request on github makes it explicit that I signed off on it.
-
-Signed-off-by: Matias Bj?rling <matias.bjorling at wdc.com>
-
-Thank you!
-
-- Matias
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 8f3fbe5ca937..ba5a23475314 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -22,6 +22,8 @@
+ #include <linux/pm_qos.h>
+ #include <asm/unaligned.h>
+ 
++#include <trace/events/block.h>
++
+ #define CREATE_TRACE_POINTS
+ #include "trace.h"
+ 
+@@ -261,6 +263,7 @@ static void nvme_retry_req(struct request *req)
+ void nvme_complete_rq(struct request *req)
+ {
+ 	blk_status_t status = nvme_error_status(req);
++	struct nvme_ns *ns = req->q->queuedata;
+ 
+ 	trace_nvme_complete_rq(req);
+ 
+@@ -279,6 +282,9 @@ void nvme_complete_rq(struct request *req)
+ 			return;
+ 		}
+ 	}
++	if (req->bio && ns && ns->head->disk)
++		trace_block_bio_complete(ns->head->disk->queue,
++					 req->bio, status);
+ 	blk_mq_end_request(req, status);
+ }
+ EXPORT_SYMBOL_GPL(nvme_complete_rq);
+-- 
+2.16.4
