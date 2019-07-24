@@ -1,51 +1,40 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Wed, 24 Jul 2019 10:06:22 -0600
-Subject: [PATCH 14/14] PCI/P2PDMA: Introduce pci_p2pdma_[un]map_resource()
-In-Reply-To: <20190724063235.GC1804@lst.de>
-References: <20190722230859.5436-1-logang@deltatee.com>
- <20190722230859.5436-15-logang@deltatee.com> <20190724063235.GC1804@lst.de>
-Message-ID: <57e8fc1a-de70-fb65-5ef1-ffa2b95c73a6@deltatee.com>
+From: james.smart@broadcom.com (James Smart)
+Date: Wed, 24 Jul 2019 09:38:46 -0700
+Subject: [PATCH v2 10/10] nvme-cli: nvmf auto-connect scripts
+In-Reply-To: <2297e9f3-4a9d-e759-5633-aeefe736b09c@grimberg.me>
+References: <20190719225305.11397-1-jsmart2021@gmail.com>
+ <20190719225305.11397-11-jsmart2021@gmail.com>
+ <4efefb70-7ab1-69af-4f41-63223e9f4ff8@grimberg.me>
+ <d5b4ef61-cf1d-ce9c-1bd0-7f372f874320@broadcom.com>
+ <2297e9f3-4a9d-e759-5633-aeefe736b09c@grimberg.me>
+Message-ID: <1215e814-30f7-85e6-a9b9-fd7d2c725654@broadcom.com>
 
+On 7/23/2019 10:32 AM, Sagi Grimberg wrote:
+>
+>>>> +# Events from persistent discovery controllers or nvme-fc 
+>>>> transport events
+>>>> +ACTION=="change", SUBSYSTEM=="nvme", ENV{NVME_EVENT}=="discovery",\
+>>>> +? ENV{NVME_CTRL_NAME}=="*", ENV{NVME_TRTYPE}=="*", 
+>>>> ENV{NVME_TRADDR}=="*", \
+>>>> +? ENV{NVME_TRSVCID}=="*", ENV{NVME_HOST_TRADDR}=="*", \
+>>>> +? RUN+="/usr/bin/systemctl --no-block start 
+>>>> nvmf-connect at --device=$env{NVME_CTRL_NAME}\t--transport=$env{NVME_TRTYPE}\t--traddr=$env{NVME_TRADDR}\t--trsvcid=$env{NVME_TRSVCID}\t--host-traddr=$env{NVME_HOST_TRADDR}.service" 
+>>>>
+>>>
+>>> James, shouldn't this be /bin/systemctl?
+>>
+>> I don't believe so.?? On the distros I checked, /bin/systemctl is a 
+>> soft or hard link to /usr/bin/systemctl
+>
+> Not always the case. Lets change that to /bin/systemctl.
 
+I have no problem changing it, but am wondering what resource is giving 
+you the reference locations. I can't find anything that actually 
+specifies the location with some having /bin and others /usr/bin. The 
+other files seem to lean toward a preference of /usr/bin.
 
-On 2019-07-24 12:32 a.m., Christoph Hellwig wrote:
->> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
->> index baf476039396..20c834cfd2d3 100644
->> --- a/drivers/pci/p2pdma.c
->> +++ b/drivers/pci/p2pdma.c
->> @@ -874,6 +874,91 @@ void pci_p2pdma_unmap_sg_attrs(struct device *dev, struct scatterlist *sg,
->>  }
->>  EXPORT_SYMBOL_GPL(pci_p2pdma_unmap_sg_attrs);
->>  
->> +static pci_bus_addr_t pci_p2pdma_phys_to_bus(struct pci_dev *dev,
->> +		phys_addr_t start, size_t size)
->> +{
->> +	struct pci_host_bridge *bridge = pci_find_host_bridge(dev->bus);
->> +	phys_addr_t end = start + size;
->> +	struct resource_entry *window;
->> +
->> +	resource_list_for_each_entry(window, &bridge->windows) {
->> +		if (window->res->start <= start && window->res->end >= end)
->> +			return start - window->offset;
->> +	}
->> +
->> +	return DMA_MAPPING_ERROR;
-> 
-> This does once again look very expensive for something called in the
-> hot path.
+-- james
 
-Yes. This is the downside of dealing only with a phys_addr_t: we have to
-look up against it. Unfortunately, I believe it's possible for different
-BARs on a device to be in different windows, so something like this is
-necessary unless we already know the BAR the phys_addr_t belongs to. It
-might probably be sped up a bit by storing the offsets of each bar
-instead of looping through all the bridge windows, but I don't think it
-will get you *that* much.
-
-As this is an example with no users, the answer here will really depend
-on what the use-case is doing. If they can lookup, ahead of time, the
-mapping type and offset then they don't have to do this work on the hot
-path and it means that pci_p2pdma_map_resource() is simply not a
-suitable API.
-
-Logan
+references that didn't help:
+http://www.tldp.org/LDP/Linux-Filesystem-Hierarchy/html
+https://www.freedesktop.org/wiki/Software/systemd/
