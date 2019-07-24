@@ -1,55 +1,51 @@
-From: john.p.donnelly@oracle.com (John Donnelly)
-Date: Wed, 24 Jul 2019 09:51:36 -0500
-Subject: nvme statistics :  iostat vs  sar 
-Message-ID: <D4F9A3CB-489A-4946-ADF2-C7C17A21E076@oracle.com>
+From: kbusch@kernel.org (Keith Busch)
+Date: Wed, 24 Jul 2019 09:12:01 -0600
+Subject: nvme statistics :  iostat vs  sar
+In-Reply-To: <D4F9A3CB-489A-4946-ADF2-C7C17A21E076@oracle.com>
+References: <D4F9A3CB-489A-4946-ADF2-C7C17A21E076@oracle.com>
+Message-ID: <20190724151200.GA5379@localhost.localdomain>
 
-Hi,
+On Wed, Jul 24, 2019@09:51:36AM -0500, John Donnelly wrote:
+> Hi,
+> 
+> I noticed  nvme I/O  does not appear  in sar disk data (-d ) ,  but it does appear with  sar block (-b)  and iostat.
+> 
+> Is this expected ?
 
-I noticed  nvme I/O  does not appear  in sar disk data (-d ) ,  but it does appear with  sar block (-b)  and iostat.
+'sar -d' should show activity. It does work as expected on my test machine:
 
-Is this expected ?
+# ls -l /dev/nvme*n*
+brw-rw----. 1 root disk 259, 0 May 23 09:07 /dev/nvme0n1
+brw-rw----. 1 root disk 259, 1 May 23 09:07 /dev/nvme1n1
+brw-rw----. 1 root disk 259, 2 May 23 09:07 /dev/nvme2n1
+brw-rw----. 1 root disk 259, 3 May 23 09:07 /dev/nvme3n1
 
-sar -d 
+# sar -d 2 10
+Linux 5.2.0-rc1+ (localhost.localdomain)        07/24/2019      _x86_64_        (112 CPU)
 
+09:03:06 AM       DEV       tps     rkB/s     wkB/s   areq-sz    aqu-sz     await     svctm     %util
+09:03:08 AM    dev8-0      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
+09:03:08 AM  dev253-0      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
+09:03:08 AM  dev253-1      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
+09:03:08 AM  dev259-1      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
+09:03:08 AM  dev259-0      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
+09:03:08 AM  dev259-2      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
+09:03:08 AM  dev259-3      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
 
-07:49:47 AM       DEV       tps  rd_sec/s  wr_sec/s  avgrq-sz  avgqu-sz     await     svctm     %util
-07:49:49 AM   dev8-32      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
-07:49:49 AM   dev8-16      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
-07:49:49 AM   dev8-48      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
-07:49:49 AM    dev8-0      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
-07:49:49 AM  dev259-0      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
-07:49:49 AM  dev252-0      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
-07:49:49 AM  dev252-1      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
-07:49:49 AM  dev252-2      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
+09:03:08 AM       DEV       tps     rkB/s     wkB/s   areq-sz    aqu-sz     await     svctm     %util
+09:03:10 AM    dev8-0      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
+09:03:10 AM  dev253-0      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
+09:03:10 AM  dev253-1      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
+09:03:10 AM  dev259-1  26370.50 105482.00      0.00      4.00      0.00      0.02      0.00     12.75
+09:03:10 AM  dev259-0      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
+09:03:10 AM  dev259-2  26384.00 105532.00      0.00      4.00      0.00      0.03      0.00     12.75
+09:03:10 AM  dev259-3  26389.50 105556.00      0.00      4.00      0.00      0.02      0.00     12.75
 
-
-
-sar -b   2 2 
-
-07:47:35 AM       tps      rtps      wtps   bread/s   bwrtn/s
-07:47:37 AM    792.50    395.50    397.00  25312.00  25316.00
-07:47:39 AM    796.50    394.00    402.50  25216.00  25760.00
-Average:       794.50    394.75    399.75  25264.00  25538.00
-
-
-
-iostat:
-
-
-avg-cpu:  %user   %nice %system %iowait  %steal   %idle
-           0.05    0.00    0.33    0.33    0.00   99.29
-
-Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
-sdc               0.07         2.43         0.00       6295          0
-sdb               0.07         2.43         0.00       6295          0
-sdd               0.07         2.43         0.00       6295          0
-sda               6.07       117.40        21.34     303739      55202
-nvme0n1           0.48        15.18         0.00      39283          0
-dm-0              5.60       103.39        19.45     267499      50321
-dm-1              0.03         0.95         0.00       2460          0
-dm-2              0.23         1.40         0.79       3617       2048
-nvme1c1n1       284.39      3011.48      2814.17    7791448    7280960
-nvme1c1n2        96.70       756.17       750.80    1956388    1942520
-nvme1c3n2         0.00         0.00         0.00          0          0
-nvme1c2n2        60.15       962.11       962.63    2489220    2490560
-nvme1c4n2         0.00         0.00         0.00          0          0
+09:03:10 AM       DEV       tps     rkB/s     wkB/s   areq-sz    aqu-sz     await     svctm     %util
+09:03:12 AM    dev8-0      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
+09:03:12 AM  dev253-0      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
+09:03:12 AM  dev253-1      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
+09:03:12 AM  dev259-1 225306.00 901224.00      0.00      4.00      0.00      0.02      0.00    100.00
+09:03:12 AM  dev259-0      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
+09:03:12 AM  dev259-2 225304.50 901220.00      0.00      4.00      0.00      0.03      0.00    100.00
+09:03:12 AM  dev259-3 225306.50 901228.00      0.00      4.00      0.00      0.02      0.00    100.00
