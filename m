@@ -1,39 +1,45 @@
-From: kbusch@kernel.org (Keith Busch)
-Date: Tue, 23 Jul 2019 16:31:45 -0600
-Subject: [PATCH] nvme-pci: fix probe and remove race
-In-Reply-To: <6e5af7f5-be2a-6cf8-81fc-84ed831cbacd@grimberg.me>
-References: <20190719194256.23618-1-sagi@grimberg.me>
- <20190723204643.GC4002@localhost.localdomain>
- <6e5af7f5-be2a-6cf8-81fc-84ed831cbacd@grimberg.me>
-Message-ID: <20190723223144.GE4002@localhost.localdomain>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Wed, 24 Jul 2019 09:34:34 +0800
+Subject: [PATCH 2/5] blk-mq: introduce
+ blk_mq_tagset_wait_completed_request()
+In-Reply-To: <d4d3ded9-0012-68c1-7511-f5ac3aa7b1fb@acm.org>
+References: <20190722053954.25423-1-ming.lei@redhat.com>
+ <20190722053954.25423-3-ming.lei@redhat.com>
+ <c2722892-9cbf-0747-58a8-91a99b72bc53@acm.org>
+ <20190723010616.GC30776@ming.t460p>
+ <d4d3ded9-0012-68c1-7511-f5ac3aa7b1fb@acm.org>
+Message-ID: <20190724013432.GB22421@ming.t460p>
 
-On Tue, Jul 23, 2019@03:21:49PM -0700, Sagi Grimberg wrote:
-> 
-> > I still think we'd prefer not adding that async domain dependency and
-> > relying on timeout to unstuck a hot-removal. So how about we schedule
-> > the reset work in probe and have the async part just flush the reset
-> > and scan work?
+On Tue, Jul 23, 2019@01:54:52PM -0700, Bart Van Assche wrote:
+> On 7/22/19 6:06 PM, Ming Lei wrote:
+> > On Mon, Jul 22, 2019@08:25:07AM -0700, Bart Van Assche wrote:
+> > > On 7/21/19 10:39 PM, Ming Lei wrote:
+> > > > blk-mq may schedule to call queue's complete function on remote CPU via
+> > > > IPI, but doesn't provide any way to synchronize the request's complete
+> > > > fn.
+> > > > 
+> > > > In some driver's EH(such as NVMe), hardware queue's resource may be freed &
+> > > > re-allocated. If the completed request's complete fn is run finally after the
+> > > > hardware queue's resource is released, kernel crash will be triggered.
+> > > > 
+> > > > Prepare for fixing this kind of issue by introducing
+> > > > blk_mq_tagset_wait_completed_request().
+> > > 
+> > > An explanation is missing of why the block layer is modified to fix this
+> > > instead of the NVMe driver.
 > > 
-> > ---
-> > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> > index db160cee42ad..0c2c4b0c6655 100644
-> > --- a/drivers/nvme/host/pci.c
-> > +++ b/drivers/nvme/host/pci.c
-> > @@ -2695,7 +2695,7 @@ static void nvme_async_probe(void *data, async_cookie_t cookie)
-> >   {
-> >   	struct nvme_dev *dev = data;
-> > -	nvme_reset_ctrl_sync(&dev->ctrl);
-> > +	flush_work(&dev->ctrl.reset_work);
-> >   	flush_work(&dev->ctrl.scan_work);
-> >   	nvme_put_ctrl(&dev->ctrl);
-> >   }
-> > @@ -2761,6 +2761,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-> >   	dev_info(dev->ctrl.device, "pci function %s\n", dev_name(&pdev->dev));
-> > +	nvme_reset_ctrl(&dev->ctrl);
-> >   	nvme_get_ctrl(&dev->ctrl);
+> > The above commit log has explained that there isn't sync mechanism in
+> > blk-mq wrt. request completion, and there might be similar issue in other
+> > future drivers.
 > 
-> I think you need to get the ref first and then fire the work right?
+> That is not sufficient as a motivation to modify the block layer because
+> there is already a way to wait until request completions have finished,
+> namely the request queue freeze mechanism. Have you considered to use that
+> mechanism instead of introducing blk_mq_tagset_wait_completed_request()?
 
-That ref order doesn't actually matter here. We can't call nvme_remove
-during the synchronous part of probe, and the extra ref is just for the
-async_schedule callback.
+The introduced interface is used in EH, during which the aborted
+requests will stay at blk-mq sw/scheduler queue, so queue freeze will
+cause deadlock. We simply can't use it.
+
+Thanks,
+Ming
