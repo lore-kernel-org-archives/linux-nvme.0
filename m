@@ -1,51 +1,35 @@
-From: kbusch@kernel.org (Keith Busch)
-Date: Wed, 24 Jul 2019 09:12:01 -0600
-Subject: nvme statistics :  iostat vs  sar
-In-Reply-To: <D4F9A3CB-489A-4946-ADF2-C7C17A21E076@oracle.com>
-References: <D4F9A3CB-489A-4946-ADF2-C7C17A21E076@oracle.com>
-Message-ID: <20190724151200.GA5379@localhost.localdomain>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Wed, 24 Jul 2019 09:50:03 -0600
+Subject: [PATCH 07/14] PCI/P2PDMA: Add the provider's pci_dev to the
+ dev_pgmap struct
+In-Reply-To: <20190724063229.GA1804@lst.de>
+References: <20190722230859.5436-1-logang@deltatee.com>
+ <20190722230859.5436-8-logang@deltatee.com> <20190724063229.GA1804@lst.de>
+Message-ID: <818e465d-3e57-b425-2431-e330a43fe7bd@deltatee.com>
 
-On Wed, Jul 24, 2019@09:51:36AM -0500, John Donnelly wrote:
-> Hi,
+
+
+On 2019-07-24 12:32 a.m., Christoph Hellwig wrote:
+> On Mon, Jul 22, 2019@05:08:52PM -0600, Logan Gunthorpe wrote:
+>> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
+>> index 143e11d2a5c3..70c262b7c731 100644
+>> --- a/drivers/pci/p2pdma.c
+>> +++ b/drivers/pci/p2pdma.c
+>> @@ -168,6 +168,7 @@ int pci_p2pdma_add_resource(struct pci_dev *pdev, int bar, size_t size,
+>>  	pgmap->res.end = pgmap->res.start + size - 1;
+>>  	pgmap->res.flags = pci_resource_flags(pdev, bar);
+>>  	pgmap->type = MEMORY_DEVICE_PCI_P2PDMA;
+>> +	pgmap->pci_p2pdma_provider = pdev;
+>>  	pgmap->pci_p2pdma_bus_offset = pci_bus_address(pdev, bar) -
+>>  		pci_resource_start(pdev, bar);
 > 
-> I noticed  nvme I/O  does not appear  in sar disk data (-d ) ,  but it does appear with  sar block (-b)  and iostat.
-> 
-> Is this expected ?
+> I think we need to bite the bullet and move the PCIe P2P specific
+> information out of struct dev_pagemap and into a pci-specific structure
+> that embedds struct dev_pagemap.
 
-'sar -d' should show activity. It does work as expected on my test machine:
+OK, I was going to do that, but you just removed the p2p specific page
+map. ;)
 
-# ls -l /dev/nvme*n*
-brw-rw----. 1 root disk 259, 0 May 23 09:07 /dev/nvme0n1
-brw-rw----. 1 root disk 259, 1 May 23 09:07 /dev/nvme1n1
-brw-rw----. 1 root disk 259, 2 May 23 09:07 /dev/nvme2n1
-brw-rw----. 1 root disk 259, 3 May 23 09:07 /dev/nvme3n1
+I'll change this for a v2.
 
-# sar -d 2 10
-Linux 5.2.0-rc1+ (localhost.localdomain)        07/24/2019      _x86_64_        (112 CPU)
-
-09:03:06 AM       DEV       tps     rkB/s     wkB/s   areq-sz    aqu-sz     await     svctm     %util
-09:03:08 AM    dev8-0      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
-09:03:08 AM  dev253-0      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
-09:03:08 AM  dev253-1      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
-09:03:08 AM  dev259-1      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
-09:03:08 AM  dev259-0      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
-09:03:08 AM  dev259-2      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
-09:03:08 AM  dev259-3      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
-
-09:03:08 AM       DEV       tps     rkB/s     wkB/s   areq-sz    aqu-sz     await     svctm     %util
-09:03:10 AM    dev8-0      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
-09:03:10 AM  dev253-0      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
-09:03:10 AM  dev253-1      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
-09:03:10 AM  dev259-1  26370.50 105482.00      0.00      4.00      0.00      0.02      0.00     12.75
-09:03:10 AM  dev259-0      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
-09:03:10 AM  dev259-2  26384.00 105532.00      0.00      4.00      0.00      0.03      0.00     12.75
-09:03:10 AM  dev259-3  26389.50 105556.00      0.00      4.00      0.00      0.02      0.00     12.75
-
-09:03:10 AM       DEV       tps     rkB/s     wkB/s   areq-sz    aqu-sz     await     svctm     %util
-09:03:12 AM    dev8-0      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
-09:03:12 AM  dev253-0      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
-09:03:12 AM  dev253-1      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
-09:03:12 AM  dev259-1 225306.00 901224.00      0.00      4.00      0.00      0.02      0.00    100.00
-09:03:12 AM  dev259-0      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
-09:03:12 AM  dev259-2 225304.50 901220.00      0.00      4.00      0.00      0.03      0.00    100.00
-09:03:12 AM  dev259-3 225306.50 901228.00      0.00      4.00      0.00      0.02      0.00    100.00
+Logan
