@@ -1,72 +1,67 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 25 Jul 2019 11:22:39 -0600
-Subject: [PATCH 11/14] PCI/P2PDMA: dma_map P2PDMA map requests that
- traverse the host bridge
-In-Reply-To: <20190725163438.GF7450@mellanox.com>
-References: <20190722230859.5436-1-logang@deltatee.com>
- <20190722230859.5436-12-logang@deltatee.com> <20190724063232.GB1804@lst.de>
- <7173a4dd-0c9c-48de-98cd-93513313fd8d@deltatee.com>
- <20190725061005.GB24875@lst.de>
- <fb39485a-2914-bac4-b249-e1f4ecc8d2be@deltatee.com>
- <20190725163438.GF7450@mellanox.com>
-Message-ID: <486e2a25-f6e6-75d4-a8b7-6a38fff8546a@deltatee.com>
+Date: Thu, 25 Jul 2019 11:23:25 -0600
+Subject: [PATCH v6 06/16] nvmet: add return value to  nvmet_add_async_event()
+In-Reply-To: <20190725172335.6825-1-logang@deltatee.com>
+References: <20190725172335.6825-1-logang@deltatee.com>
+Message-ID: <20190725172335.6825-7-logang@deltatee.com>
 
+From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
+Change the return value for nvmet_add_async_event().
 
-On 2019-07-25 10:34 a.m., Jason Gunthorpe wrote:
-> On Thu, Jul 25, 2019@10:00:25AM -0600, Logan Gunthorpe wrote:
->>
->>
->> On 2019-07-25 12:10 a.m., Christoph Hellwig wrote:
->>> On Wed, Jul 24, 2019@09:58:59AM -0600, Logan Gunthorpe wrote:
->>>>
->>>>
->>>> On 2019-07-24 12:32 a.m., Christoph Hellwig wrote:
->>>>>>  	struct dev_pagemap *pgmap = sg_page(sg)->pgmap;
->>>>>> +	struct pci_dev *client;
->>>>>> +	int dist;
->>>>>> +
->>>>>> +	client = find_parent_pci_dev(dev);
->>>>>> +	if (WARN_ON_ONCE(!client))
->>>>>> +		return 0;
->>>>>>  
->>>>>> +	dist = upstream_bridge_distance(pgmap->pci_p2pdma_provider,
->>>>>> +					client, NULL);
->>>>>
->>>>> Doing this on every mapping call sounds expensive..
->>>>
->>>> The result of this function is cached in an xarray (per patch 4) so, on
->>>> the hot path, it should just be a single xa_load() which should be a
->>>> relatively fast lookup which is similarly used for other hot path
->>>> operations.
->>>
->>> We don't cache find_parent_pci_dev, though.  So we should probably
->>> export find_parent_pci_dev with a proper namespaces name and cache
->>> that in the caler.
->>
->> Oh, yes, I'll take a look at this. Of the two callers: NVMe should be
->> easy we could just pass the PCI device instead of the struct device.
->> RDMA is significantly more unclear: would you add a pci_dev to struct
->> ib_device? Or maybe we should be able to simply rely on the fact that
->> the DMA device *must* be a PCI device and just use to_pci_dev() directly?
-> 
-> AFAIK you need to use the ib_device->dma_device and add some kind of
-> is_pci_dev to make it safe
+This change is needed for the target passthru code to generate async
+events.
 
-Yes, that's my thinking. The dma_device *should* be a PCI device. We can
-just be sure by doing is_pci_dev() and failing the mapping if it is not.
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+[logang at deltatee.com: fixed up commit message that was no
+ longer accurate]
+Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
+---
+ drivers/nvme/target/core.c  | 5 +++--
+ drivers/nvme/target/nvmet.h | 2 +-
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
-So I *think* we should be able to simply replace the
-find_parent_pci_dev() with:
-
-if (!dev_is_pci(dev))
-     return 0;
-
-client = to_pci_dev(dev);
-
-Which should be fast and reliable.
-
-The alternative is to push this out into the caller which may have a bit
-more information (like the nvme driver does).
-
-Logan
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 3a67e244e568..f7f25bdc4763 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -173,14 +173,14 @@ static void nvmet_async_event_work(struct work_struct *work)
+ 	}
+ }
+ 
+-void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
++bool nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
+ 		u8 event_info, u8 log_page)
+ {
+ 	struct nvmet_async_event *aen;
+ 
+ 	aen = kmalloc(sizeof(*aen), GFP_KERNEL);
+ 	if (!aen)
+-		return;
++		return false;
+ 
+ 	aen->event_type = event_type;
+ 	aen->event_info = event_info;
+@@ -191,6 +191,7 @@ void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
+ 	mutex_unlock(&ctrl->lock);
+ 
+ 	schedule_work(&ctrl->async_event_work);
++	return true;
+ }
+ 
+ static void nvmet_add_to_changed_ns_log(struct nvmet_ctrl *ctrl, __le32 nsid)
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index c51f8dd01dc4..217a787952e8 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -441,7 +441,7 @@ void nvmet_port_disc_changed(struct nvmet_port *port,
+ 		struct nvmet_subsys *subsys);
+ void nvmet_subsys_disc_changed(struct nvmet_subsys *subsys,
+ 		struct nvmet_host *host);
+-void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
++bool nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
+ 		u8 event_info, u8 log_page);
+ 
+ #define NVMET_QUEUE_SIZE	1024
+-- 
+2.20.1
