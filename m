@@ -1,36 +1,26 @@
-From: rjw@rjwysocki.net (Rafael J. Wysocki)
-Date: Thu, 25 Jul 2019 11:51:41 +0200
-Subject: [Regression] Commit "nvme/pci: Use host managed power state for
- suspend" has problems
-Message-ID: <2332799.izEFUvJP67@kreacher>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 25 Jul 2019 13:50:38 +0200
+Subject: [PATCH 14/14] PCI/P2PDMA: Introduce pci_p2pdma_[un]map_resource()
+In-Reply-To: <57e8fc1a-de70-fb65-5ef1-ffa2b95c73a6@deltatee.com>
+References: <20190722230859.5436-1-logang@deltatee.com>
+ <20190722230859.5436-15-logang@deltatee.com> <20190724063235.GC1804@lst.de>
+ <57e8fc1a-de70-fb65-5ef1-ffa2b95c73a6@deltatee.com>
+Message-ID: <20190725115038.GC31065@lst.de>
 
-Hi Keith,
+On Wed, Jul 24, 2019@10:06:22AM -0600, Logan Gunthorpe wrote:
+> Yes. This is the downside of dealing only with a phys_addr_t: we have to
+> look up against it. Unfortunately, I believe it's possible for different
+> BARs on a device to be in different windows, so something like this is
+> necessary unless we already know the BAR the phys_addr_t belongs to. It
+> might probably be sped up a bit by storing the offsets of each bar
+> instead of looping through all the bridge windows, but I don't think it
+> will get you *that* much.
+> 
+> As this is an example with no users, the answer here will really depend
+> on what the use-case is doing. If they can lookup, ahead of time, the
+> mapping type and offset then they don't have to do this work on the hot
+> path and it means that pci_p2pdma_map_resource() is simply not a
+> suitable API.
 
-Unfortunately,
-
-commit d916b1be94b6dc8d293abed2451f3062f6af7551
-Author: Keith Busch <keith.busch at intel.com>
-Date:   Thu May 23 09:27:35 2019 -0600
-
-    nvme-pci: use host managed power state for suspend
-
-doesn't universally improve things.  In fact, in some cases it makes things worse.
-
-For example, on the Dell XPS13 9380 I have here it prevents the processor package
-from reaching idle states deeper than PC2 in suspend-to-idle (which, of course, also
-prevents the SoC from reaching any kind of S0ix).
-
-That can be readily explained too.  Namely, with the commit above the NVMe device
-stays in D0 over suspend/resume, so the root port it is connected to also has to stay in
-D0 and that "blocks" package C-states deeper than PC2.
-
-In order for the root port to be able to go to D3, the device connected to it also needs
-to go into D3, so it looks like (at least on this particular machine, but maybe in
-general), both D3 and the NVMe-specific PM are needed.
-
-I'm not sure what to do here, because evidently there are systems where that commit
-helps.  I was thinking about adding a module option allowing the user to override the
-default behavior which in turn should be compatible with 5.2 and earlier kernels.
-
-Cheers,
-Rafael
+Ok.  So lets just keep this out as an RFC and don't merge it until an
+actual concrete user shows up.
