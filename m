@@ -1,32 +1,45 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 25 Jul 2019 13:31:20 -0600
+From: gregkh@linuxfoundation.org (Greg Kroah-Hartman)
+Date: Thu, 25 Jul 2019 21:34:15 +0200
 Subject: [PATCH v6 02/16] chardev: introduce cdev_get_by_path()
-In-Reply-To: <20190725192613.GF30641@bombadil.infradead.org>
-References: <20190725172335.6825-3-logang@deltatee.com>
+In-Reply-To: <5951e0f5-cc90-f3de-0083-088fecfd43bb@grimberg.me>
+References: <20190725172335.6825-1-logang@deltatee.com>
+ <20190725172335.6825-3-logang@deltatee.com>
  <20190725174032.GA27818@kroah.com>
  <682ff89f-04e0-7a94-5aeb-895ac65ee7c9@deltatee.com>
  <20190725180816.GA32305@kroah.com>
  <da0eacb7-3738-ddf3-8c61-7ffc61aa41f4@deltatee.com>
  <20190725182701.GA11547@kroah.com>
- <20190725190024.GD30641@bombadil.infradead.org>
- <27943e06-a503-162e-356b-abb9e106ab2e@grimberg.me>
- <20190725191124.GE30641@bombadil.infradead.org>
- <425dd2ac-333d-a8c4-ce49-870c8dadf436@deltatee.com>
- <20190725192613.GF30641@bombadil.infradead.org>
-Message-ID: <a4bb9e66-9165-3557-ae43-02a916b4fa0e@deltatee.com>
+ <a3262a7f-b78e-05ba-cda3-a7587946bd91@deltatee.com>
+ <5951e0f5-cc90-f3de-0083-088fecfd43bb@grimberg.me>
+Message-ID: <20190725193415.GA12117@kroah.com>
 
-
-
-On 2019-07-25 1:26 p.m., Matthew Wilcox wrote:
-> On Thu, Jul 25, 2019@01:24:22PM -0600, Logan Gunthorpe wrote:
->>>> Assuming that there is a open handle somewhere out there...
->>
->> Yes, that would be a step backwards from an interface. The user would
->> then need a special process to open the fd and pass it through configfs.
->> They couldn't just do it with basic bash commands.
+On Thu, Jul 25, 2019@12:02:30PM -0700, Sagi Grimberg wrote:
 > 
-> echo 3 3</dev/nvme3 >/configfs/foor/bar/whatever
+> > > > > Why do you have a "string" within the kernel and are not using the
+> > > > > normal open() call from userspace on the character device node on the
+> > > > > filesystem in your namespace/mount/whatever?
+> > > > 
+> > > > NVMe-OF is configured using configfs. The target is specified by the
+> > > > user writing a path to a configfs attribute. This is the way it works
+> > > > today but with blkdev_get_by_path()[1]. For the passthru code, we need
+> > > > to get a nvme_ctrl instead of a block_device, but the principal is the same.
+> > > 
+> > > Why isn't a fd being passed in there instead of a random string?
+> > 
+> > I wouldn't know the answer to this but I assume because once we decided
+> > to use configfs, there was no way for the user to pass the kernel an fd.
+> 
+> That's definitely not changing. But this is not different than how we
+> use the block device or file configuration, this just happen to need the
+> nvme controller chardev now to issue I/O.
 
-Neat. I didn't know you could do that.
+So, as was kind of alluded to in another part of the thread, what are
+you doing about permissions?  It seems that any user/group permissions
+are out the window when you have the kernel itself do the opening of the
+char device, right?  Why is that ok?  You can pass it _any_ character
+device node and away it goes?  What if you give it a "wrong" one?  Char
+devices are very different from block devices this way.
 
-Logan
+thanks,
+
+greg k-h
