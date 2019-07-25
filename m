@@ -1,52 +1,63 @@
-From: jgg@mellanox.com (Jason Gunthorpe)
-Date: Thu, 25 Jul 2019 16:34:44 +0000
-Subject: [PATCH 11/14] PCI/P2PDMA: dma_map P2PDMA map requests that
- traverse the host bridge
-In-Reply-To: <fb39485a-2914-bac4-b249-e1f4ecc8d2be@deltatee.com>
-References: <20190722230859.5436-1-logang@deltatee.com>
- <20190722230859.5436-12-logang@deltatee.com> <20190724063232.GB1804@lst.de>
- <7173a4dd-0c9c-48de-98cd-93513313fd8d@deltatee.com>
- <20190725061005.GB24875@lst.de>
- <fb39485a-2914-bac4-b249-e1f4ecc8d2be@deltatee.com>
-Message-ID: <20190725163438.GF7450@mellanox.com>
+From: rafael@kernel.org (Rafael J. Wysocki)
+Date: Thu, 25 Jul 2019 18:59:59 +0200
+Subject: [Regression] Commit "nvme/pci: Use host managed power state for
+ suspend" has problems
+In-Reply-To: <E62786E4-5DA9-4542-899A-658D0E021190@canonical.com>
+References: <2332799.izEFUvJP67@kreacher>
+ <E62786E4-5DA9-4542-899A-658D0E021190@canonical.com>
+Message-ID: <CAJZ5v0h++56je0z_3f9K9g3qtZMcquKC=7Ew+fmu6+KjCsjMWA@mail.gmail.com>
 
-On Thu, Jul 25, 2019@10:00:25AM -0600, Logan Gunthorpe wrote:
-> 
-> 
-> On 2019-07-25 12:10 a.m., Christoph Hellwig wrote:
-> > On Wed, Jul 24, 2019@09:58:59AM -0600, Logan Gunthorpe wrote:
-> >>
-> >>
-> >> On 2019-07-24 12:32 a.m., Christoph Hellwig wrote:
-> >>>>  	struct dev_pagemap *pgmap = sg_page(sg)->pgmap;
-> >>>> +	struct pci_dev *client;
-> >>>> +	int dist;
-> >>>> +
-> >>>> +	client = find_parent_pci_dev(dev);
-> >>>> +	if (WARN_ON_ONCE(!client))
-> >>>> +		return 0;
-> >>>>  
-> >>>> +	dist = upstream_bridge_distance(pgmap->pci_p2pdma_provider,
-> >>>> +					client, NULL);
-> >>>
-> >>> Doing this on every mapping call sounds expensive..
-> >>
-> >> The result of this function is cached in an xarray (per patch 4) so, on
-> >> the hot path, it should just be a single xa_load() which should be a
-> >> relatively fast lookup which is similarly used for other hot path
-> >> operations.
-> > 
-> > We don't cache find_parent_pci_dev, though.  So we should probably
-> > export find_parent_pci_dev with a proper namespaces name and cache
-> > that in the caler.
-> 
-> Oh, yes, I'll take a look at this. Of the two callers: NVMe should be
-> easy we could just pass the PCI device instead of the struct device.
-> RDMA is significantly more unclear: would you add a pci_dev to struct
-> ib_device? Or maybe we should be able to simply rely on the fact that
-> the DMA device *must* be a PCI device and just use to_pci_dev() directly?
+On Thu, Jul 25, 2019 at 4:02 PM Kai-Heng Feng
+<kai.heng.feng@canonical.com> wrote:
+>
+> Hi Rafael,
+>
+>@17:51, Rafael J. Wysocki <rjw@rjwysocki.net> wrote:
+>
+> > Hi Keith,
+> >
+> > Unfortunately,
+> >
+> > commit d916b1be94b6dc8d293abed2451f3062f6af7551
+> > Author: Keith Busch <keith.busch at intel.com>
+> > Date:   Thu May 23 09:27:35 2019 -0600
+> >
+> >     nvme-pci: use host managed power state for suspend
+> >
+> > doesn't universally improve things.  In fact, in some cases it makes
+> > things worse.
+> >
+> > For example, on the Dell XPS13 9380 I have here it prevents the processor
+> > package
+> > from reaching idle states deeper than PC2 in suspend-to-idle (which, of
+> > course, also
+> > prevents the SoC from reaching any kind of S0ix).
+> >
+> > That can be readily explained too.  Namely, with the commit above the
+> > NVMe device
+> > stays in D0 over suspend/resume, so the root port it is connected to also
+> > has to stay in
+> > D0 and that "blocks" package C-states deeper than PC2.
+> >
+> > In order for the root port to be able to go to D3, the device connected
+> > to it also needs
+> > to go into D3, so it looks like (at least on this particular machine, but
+> > maybe in
+> > general), both D3 and the NVMe-specific PM are needed.
+> >
+> > I'm not sure what to do here, because evidently there are systems where
+> > that commit
+> > helps.  I was thinking about adding a module option allowing the user to
+> > override the
+> > default behavior which in turn should be compatible with 5.2 and earlier
+> > kernels.
+>
+> I just briefly tested s2i on XPS 9370, and the power meter shows a 0.8~0.9W
+> power consumption so at least I don?t see the issue on XPS 9370.
 
-AFAIK you need to use the ib_device->dma_device and add some kind of
-is_pci_dev to make it safe
+It works for me on a XPS13 9360 too, only the 9380 is problematic.
 
-Jason
+> Can you please provide the output of `nvme id-ctrl /dev/nvme*` and I?ll
+> test the NVMe controller on XPS 9380.
+
+I'll reply to Keith with that later.
