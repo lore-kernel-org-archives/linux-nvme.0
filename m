@@ -1,44 +1,52 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 25 Jul 2019 10:24:25 -0600
-Subject: [GIT PULL] nvme fixes for 5.3
-In-Reply-To: <20190725141245.GA4339@infradead.org>
-References: <20190725141245.GA4339@infradead.org>
-Message-ID: <f1bda303-27f9-8c5c-3cb1-a2bb58c91566@kernel.dk>
+From: jgg@mellanox.com (Jason Gunthorpe)
+Date: Thu, 25 Jul 2019 16:34:44 +0000
+Subject: [PATCH 11/14] PCI/P2PDMA: dma_map P2PDMA map requests that
+ traverse the host bridge
+In-Reply-To: <fb39485a-2914-bac4-b249-e1f4ecc8d2be@deltatee.com>
+References: <20190722230859.5436-1-logang@deltatee.com>
+ <20190722230859.5436-12-logang@deltatee.com> <20190724063232.GB1804@lst.de>
+ <7173a4dd-0c9c-48de-98cd-93513313fd8d@deltatee.com>
+ <20190725061005.GB24875@lst.de>
+ <fb39485a-2914-bac4-b249-e1f4ecc8d2be@deltatee.com>
+Message-ID: <20190725163438.GF7450@mellanox.com>
 
-On 7/25/19 8:12 AM, Christoph Hellwig wrote:
+On Thu, Jul 25, 2019@10:00:25AM -0600, Logan Gunthorpe wrote:
 > 
-> The following changes since commit 77ce56e2bfaa64127ae5e23ef136c0168b818777:
 > 
->    drbd: dynamically allocate shash descriptor (2019-07-23 07:35:18 -0600)
+> On 2019-07-25 12:10 a.m., Christoph Hellwig wrote:
+> > On Wed, Jul 24, 2019@09:58:59AM -0600, Logan Gunthorpe wrote:
+> >>
+> >>
+> >> On 2019-07-24 12:32 a.m., Christoph Hellwig wrote:
+> >>>>  	struct dev_pagemap *pgmap = sg_page(sg)->pgmap;
+> >>>> +	struct pci_dev *client;
+> >>>> +	int dist;
+> >>>> +
+> >>>> +	client = find_parent_pci_dev(dev);
+> >>>> +	if (WARN_ON_ONCE(!client))
+> >>>> +		return 0;
+> >>>>  
+> >>>> +	dist = upstream_bridge_distance(pgmap->pci_p2pdma_provider,
+> >>>> +					client, NULL);
+> >>>
+> >>> Doing this on every mapping call sounds expensive..
+> >>
+> >> The result of this function is cached in an xarray (per patch 4) so, on
+> >> the hot path, it should just be a single xa_load() which should be a
+> >> relatively fast lookup which is similarly used for other hot path
+> >> operations.
+> > 
+> > We don't cache find_parent_pci_dev, though.  So we should probably
+> > export find_parent_pci_dev with a proper namespaces name and cache
+> > that in the caler.
 > 
-> are available in the Git repository at:
-> 
->    git://git.infradead.org/nvme.git nvme-5.3
-> 
-> for you to fetch changes up to 8fe34be14ecb5eb0ef8d8d44aa7ab62d9e2911ca:
-> 
->    Revert "nvme-pci: don't create a read hctx mapping without read queues" (2019-07-23 17:47:02 +0200)
-> 
-> ----------------------------------------------------------------
-> Logan Gunthorpe (1):
->        nvme: fix memory leak caused by incorrect subsystem free
-> 
-> Marta Rybczynska (1):
->        nvme: fix multipath crash when ANA is deactivated
-> 
-> Misha Nasledov (1):
->        nvme: ignore subnqn for ADATA SX6000LNP
-> 
-> yangerkun (1):
->        Revert "nvme-pci: don't create a read hctx mapping without read queues"
-> 
->   drivers/nvme/host/core.c      | 12 +++++-------
->   drivers/nvme/host/multipath.c |  8 ++------
->   drivers/nvme/host/nvme.h      |  6 +++++-
->   drivers/nvme/host/pci.c       |  6 +++---
->   4 files changed, 15 insertions(+), 17 deletions(-)
+> Oh, yes, I'll take a look at this. Of the two callers: NVMe should be
+> easy we could just pass the PCI device instead of the struct device.
+> RDMA is significantly more unclear: would you add a pci_dev to struct
+> ib_device? Or maybe we should be able to simply rely on the fact that
+> the DMA device *must* be a PCI device and just use to_pci_dev() directly?
 
-Pulled, thanks.
+AFAIK you need to use the ib_device->dma_device and add some kind of
+is_pci_dev to make it safe
 
--- 
-Jens Axboe
+Jason
