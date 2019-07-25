@@ -1,58 +1,56 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Thu, 25 Jul 2019 22:43:32 +0900
-Subject: [PATCH 4/5] lnvm: introduce chunk-log command for chunk info
-In-Reply-To: <a40ea502-e293-e07c-9f7b-e5f9cc118adf@lightnvm.io>
+Date: Thu, 25 Jul 2019 22:46:09 +0900
+Subject: [PATCH 1/5] lnvm: make data_len to sizeof() instead of magic
+ number
+In-Reply-To: <80d59219-12b7-47da-d37e-9fd9941260de@lightnvm.io>
 References: <20190723183601.29370-1-minwoo.im.dev@gmail.com>
- <20190723183601.29370-5-minwoo.im.dev@gmail.com>
- <a40ea502-e293-e07c-9f7b-e5f9cc118adf@lightnvm.io>
-Message-ID: <20190725134332.GC3018@minwoo-desktop>
+ <20190723183601.29370-2-minwoo.im.dev@gmail.com>
+ <80d59219-12b7-47da-d37e-9fd9941260de@lightnvm.io>
+Message-ID: <20190725134609.GD3018@minwoo-desktop>
 
 Hi Matias,
 
-On 19-07-24 14:27:10, Matias Bj?rling wrote:
-> On 23/07/2019 20.36, Minwoo Im wrote:
-> > To retrieve the chunk information from the nvme namespae for the given
-> > OCSSD, we can just do like:
-> > 	nvme lnvm chunk-log /dev/nvme0n1 --output-format=normal
-> > 
-> > This will calculate the data length from the geometry data structure
-> > which might be retrieved by a Geometry command(Identity for 1.2 spec.).
-> > Then it will request get log page API for 1.3 NVMe spec to get the
-> > entries which indicate chunk information.
+On 19-07-24 14:33:39, Matias Bj?rling wrote:
+> On 23/07/2019 20.35, Minwoo Im wrote:
+> > We can have it as a sizeof() instead of the hard-coded value for the
+> > data structure.
 > > 
 > > Cc: Keith Busch <kbusch at kernel.org>
 > > Cc: Matias Bjorling <mb at lightnvm.io>
 > > Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
 > > ---
-> > diff --git a/plugins/lnvm/lnvm-nvme.h b/plugins/lnvm/lnvm-nvme.h
-> > index 3d5cbc5..f091f7b 100644
-> > --- a/plugins/lnvm/lnvm-nvme.h
-> > +++ b/plugins/lnvm/lnvm-nvme.h
-> > @@ -12,6 +12,7 @@ PLUGIN(NAME("lnvm", "LightNVM specific extensions"),
-> >   		ENTRY("list", "List available LightNVM devices", lnvm_list)
-> >   		ENTRY("info", "List general information and available target engines", lnvm_info)
-> >   		ENTRY("id-ns", "List geometry for LightNVM device", lnvm_id_ns)
-> > +		ENTRY("chunk-log", "Chunk information by Get Log Page", lnvm_chunk_log)
+> >   nvme-lightnvm.c | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/nvme-lightnvm.c b/nvme-lightnvm.c
+> > index 0b99786..e8cdccd 100644
+> > --- a/nvme-lightnvm.c
+> > +++ b/nvme-lightnvm.c
+> > @@ -442,7 +442,7 @@ static int lnvm_get_identity(int fd, int nsid, struct nvme_nvm_id *nvm_id)
+> >   		.opcode		= nvme_nvm_admin_identity,
+> >   		.nsid		= nsid,
+> >   		.addr		= (__u64)(uintptr_t)nvm_id,
+> > -		.data_len	= 0x1000,
+> > +		.data_len	= sizeof(struct nvme_nvm_id),
+> >   	};
+> >   	return nvme_submit_passthru(fd, NVME_IOCTL_ADMIN_CMD, &cmd);
 > 
-> Chunk Information Log Page ?
+> Works for me.
+> 
+> Please use use my Signed-off-by instead of Reviewed-by - traditionally Keith
+> has been kind to wait to pull in patches until I got a chance to look at
+> them on Github. Having the review here on the mailing list and later as a
+> pull request on github makes it explicit that I signed off on it.
 
-Sure, I'm fine with that also.
-
-> >   		ENTRY("init", "Initialize media manager on LightNVM device", lnvm_init)
-> >   		ENTRY("create", "Create target on top of a LightNVM device", lnvm_create_tgt)
-> >   		ENTRY("remove", "Remove target from device", lnvm_remove_tgt)
-> 
-> Hi Minwoo,
-> 
-> Could you squash patch 2, 3 and 4 together (4 being the main patch) - They
-> belong together to implement one feature.
-> 
-> As a side-note, we have the same command for ZNS (that will be pushed when
-> the ZNS TP is ratified) - In that, we've also added support for supplying
-> start lba and number of chunks (zones) to return. Could you add that as well
-> to this? Then there is coherency between the two?
-
-Thanks for the review.  Yes I will if the TP has been ratified.  Also
-I'll prepare a new series with squashed what you just mentioned here :)
+Oh okay.  I'll keep that in mind.  But now I'll prepare a V2 series so
+that if you review that one also, I'll put your tag below into the
+commit and post as a PR on Github once Javier gives some comments on the
+previous patch review.
 
 Thanks!
+
+> Signed-off-by: Matias Bj?rling <matias.bjorling at wdc.com>
+> 
+> Thank you!
+> 
+> - Matias
