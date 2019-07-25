@@ -1,37 +1,50 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 25 Jul 2019 12:20:31 -0600
-Subject: [PATCH 2/2] nvme-core: Fix deadlock when deleting the ctrl while
- scanning
-In-Reply-To: <b501f53b-48e9-87a3-9023-8597ed1efc6d@grimberg.me>
-References: <20190718225132.5865-1-logang@deltatee.com>
- <20190718225132.5865-2-logang@deltatee.com>
- <c52f80b1-e154-b11f-a868-e3209e4ccb2d@grimberg.me>
- <6deea9e7-ff3c-e115-b2f2-8914df0b6da7@deltatee.com>
- <dd287560-2cb3-28ab-c22d-fe9f3682c609@grimberg.me>
- <021b5195-9a09-4cc2-064f-940ada9cf764@deltatee.com>
- <b501f53b-48e9-87a3-9023-8597ed1efc6d@grimberg.me>
-Message-ID: <25f1903e-2ef1-8dbb-c08b-5dd0d44ba2d2@deltatee.com>
+From: gregkh@linuxfoundation.org (Greg Kroah-Hartman)
+Date: Thu, 25 Jul 2019 20:27:01 +0200
+Subject: [PATCH v6 02/16] chardev: introduce cdev_get_by_path()
+In-Reply-To: <da0eacb7-3738-ddf3-8c61-7ffc61aa41f4@deltatee.com>
+References: <20190725172335.6825-1-logang@deltatee.com>
+ <20190725172335.6825-3-logang@deltatee.com>
+ <20190725174032.GA27818@kroah.com>
+ <682ff89f-04e0-7a94-5aeb-895ac65ee7c9@deltatee.com>
+ <20190725180816.GA32305@kroah.com>
+ <da0eacb7-3738-ddf3-8c61-7ffc61aa41f4@deltatee.com>
+Message-ID: <20190725182701.GA11547@kroah.com>
 
-
-
-On 2019-07-25 12:16 p.m., Sagi Grimberg wrote:
+On Thu, Jul 25, 2019@12:14:33PM -0600, Logan Gunthorpe wrote:
 > 
->> Hey,
->>
->> Sorry for the delay.
->>
->> I tested your patch and it does work. Do you want me to send your change
->> as a full patch? Can I add your signed-off-by?
 > 
-> I have a patch ready with a proper comment in place. I can send it
-> out... Can I get your tested-by and reported-by?
+> On 2019-07-25 12:08 p.m., Greg Kroah-Hartman wrote:
+> > On Thu, Jul 25, 2019@11:53:20AM -0600, Logan Gunthorpe wrote:
+> >>
+> >>
+> >> On 2019-07-25 11:40 a.m., Greg Kroah-Hartman wrote:
+> >>> On Thu, Jul 25, 2019@11:23:21AM -0600, Logan Gunthorpe wrote:
+> >>>> cdev_get_by_path() attempts to retrieve a struct cdev from
+> >>>> a path name. It is analagous to blkdev_get_by_path().
+> >>>>
+> >>>> This will be necessary to create a nvme_ctrl_get_by_path()to
+> >>>> support NVMe-OF passthru.
+> >>>
+> >>> Ick, why?  Why would a cdev have a "pathname"?
+> >>
+> >> So we can go from "/dev/nvme0" (which points to a char device) to its
+> >> struct cdev and eventually it's struct nvme_ctrl. Doing it this way also
+> >> allows supporting symlinks that might be created by udev rules.
+> > 
+> > Why do you have a "string" within the kernel and are not using the
+> > normal open() call from userspace on the character device node on the
+> > filesystem in your namespace/mount/whatever?
+> 
+> NVMe-OF is configured using configfs. The target is specified by the
+> user writing a path to a configfs attribute. This is the way it works
+> today but with blkdev_get_by_path()[1]. For the passthru code, we need
+> to get a nvme_ctrl instead of a block_device, but the principal is the same.
 
-Yup. I can retest once you send the patch and I'll send a test-by then.
-For now you can add my reported-by:
+Why isn't a fd being passed in there instead of a random string?
 
-Reported-by: Logan Gunthorpe <logang at deltatee.com>
+Seems odd, but oh well, that ship sailed a long time ago for block
+devices I guess.
 
-Note: I had to modify your original patch a fair bit so it compiled with
-multipath disabled.
+So what do you actually _do_ with that char device once you have it?
 
-Logan
+greg k-h
