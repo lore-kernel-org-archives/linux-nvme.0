@@ -1,7 +1,7 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 25 Jul 2019 11:54:27 -0700
-Subject: [PATCH v2] nvme: fix controller removal race with scan work
-Message-ID: <20190725185427.6340-1-sagi@grimberg.me>
+Date: Thu, 25 Jul 2019 11:56:57 -0700
+Subject: [PATCH v3] nvme: fix controller removal race with scan work
+Message-ID: <20190725185657.9025-1-sagi@grimberg.me>
 
 With multipath enabled, nvme_scan_work() can read from the device
 (through nvme_mpath_add_disk()) and hang [1]. However, with fabrics,
@@ -72,13 +72,16 @@ request will fast fail upon requeuing.
 Reported-by: Logan Gunthorpe <logang at deltatee.com>
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
+Changes from v2:
+- fix silly compilation error (undiclared variable)
+
 Changes from v1:
 - fix compilation with CONFIG_NVME_MULTIPATH=n (Logan)
 
  drivers/nvme/host/core.c      |  7 ++++++
- drivers/nvme/host/multipath.c | 44 ++++++++++++++++++++++++++++++-----
+ drivers/nvme/host/multipath.c | 46 ++++++++++++++++++++++++++++++-----
  drivers/nvme/host/nvme.h      |  9 +++++--
- 3 files changed, 52 insertions(+), 8 deletions(-)
+ 3 files changed, 54 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
 index 1c2863216082..c657e38f0554 100644
@@ -99,10 +102,10 @@ index 1c2863216082..c657e38f0554 100644
  	flush_work(&ctrl->scan_work);
  
 diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index a9a927677970..1f14cc991fbc 100644
+index a9a927677970..45ffa17f844e 100644
 --- a/drivers/nvme/host/multipath.c
 +++ b/drivers/nvme/host/multipath.c
-@@ -109,18 +109,32 @@ static const char *nvme_ana_state_names[] = {
+@@ -109,18 +109,34 @@ static const char *nvme_ana_state_names[] = {
  	[NVME_ANA_CHANGE]		= "change",
  };
  
@@ -130,6 +133,8 @@ index a9a927677970..1f14cc991fbc 100644
 +
 +void nvme_mpath_clear_ctrl_paths(struct nvme_ctrl *ctrl)
 +{
++	struct nvme_ns *ns;
++
 +	mutex_lock(&ctrl->scan_lock);
 +	list_for_each_entry(ns, &ctrl->namespaces, list)
 +		if (nvme_mpath_clear_current_path(ns))
@@ -138,7 +143,7 @@ index a9a927677970..1f14cc991fbc 100644
  }
  
  static bool nvme_path_is_disabled(struct nvme_ns *ns)
-@@ -231,6 +245,24 @@ inline struct nvme_ns *nvme_find_path(struct nvme_ns_head *head)
+@@ -231,6 +247,24 @@ inline struct nvme_ns *nvme_find_path(struct nvme_ns_head *head)
  	return ns;
  }
  
@@ -163,7 +168,7 @@ index a9a927677970..1f14cc991fbc 100644
  static blk_qc_t nvme_ns_head_make_request(struct request_queue *q,
  		struct bio *bio)
  {
-@@ -257,14 +289,14 @@ static blk_qc_t nvme_ns_head_make_request(struct request_queue *q,
+@@ -257,14 +291,14 @@ static blk_qc_t nvme_ns_head_make_request(struct request_queue *q,
  				      disk_devt(ns->head->disk),
  				      bio->bi_iter.bi_sector);
  		ret = direct_make_request(bio);
