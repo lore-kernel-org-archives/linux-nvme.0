@@ -1,5 +1,5 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 25 Jul 2019 12:37:11 -0700
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Thu, 25 Jul 2019 13:41:16 -0600
 Subject: [PATCH v6 02/16] chardev: introduce cdev_get_by_path()
 In-Reply-To: <20190725193415.GA12117@kroah.com>
 References: <20190725172335.6825-1-logang@deltatee.com>
@@ -12,9 +12,13 @@ References: <20190725172335.6825-1-logang@deltatee.com>
  <a3262a7f-b78e-05ba-cda3-a7587946bd91@deltatee.com>
  <5951e0f5-cc90-f3de-0083-088fecfd43bb@grimberg.me>
  <20190725193415.GA12117@kroah.com>
-Message-ID: <966fa988-de56-effe-dd52-3515ee83629c@grimberg.me>
+Message-ID: <77a3e81d-2542-6782-0fc1-1d25bcc75598@deltatee.com>
 
 
+
+On 2019-07-25 1:34 p.m., Greg Kroah-Hartman wrote:
+> On Thu, Jul 25, 2019@12:02:30PM -0700, Sagi Grimberg wrote:
+>>
 >>>>>> Why do you have a "string" within the kernel and are not using the
 >>>>>> normal open() call from userspace on the character device node on the
 >>>>>> filesystem in your namespace/mount/whatever?
@@ -40,5 +44,14 @@ Message-ID: <966fa988-de56-effe-dd52-3515ee83629c@grimberg.me>
 > device node and away it goes?  What if you give it a "wrong" one?  Char
 > devices are very different from block devices this way.
 
-We could condition any configfs operation on capable(CAP_NET_ADMIN) to
-close that hole for now..
+Well the permission question is no different from the block-device case
+we already have. The user has to be root to configure a target so it has
+access to the block/char device. Containers and NVMe-of are really not
+designed to mix and would take a lot of work to make this make any sense
+(And that's way out of scope of what I'm trying to do here and doesn't
+change the need for a the cdev_get_by_path()).
+
+If the user specifies a non-nvme char device, it is rejected by the code
+in nvme_ctrl_get_by_path() when it compares the fops. See patch 4.
+
+Logan
