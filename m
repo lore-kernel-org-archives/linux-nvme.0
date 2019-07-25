@@ -1,37 +1,128 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 25 Jul 2019 12:45:15 -0700
-Subject: [PATCH v6 02/16] chardev: introduce cdev_get_by_path()
-In-Reply-To: <20190725194312.GA13090@kroah.com>
-References: <20190725172335.6825-3-logang@deltatee.com>
- <20190725174032.GA27818@kroah.com>
- <682ff89f-04e0-7a94-5aeb-895ac65ee7c9@deltatee.com>
- <20190725180816.GA32305@kroah.com>
- <da0eacb7-3738-ddf3-8c61-7ffc61aa41f4@deltatee.com>
- <20190725182701.GA11547@kroah.com>
- <a3262a7f-b78e-05ba-cda3-a7587946bd91@deltatee.com>
- <5951e0f5-cc90-f3de-0083-088fecfd43bb@grimberg.me>
- <20190725193415.GA12117@kroah.com>
- <966fa988-de56-effe-dd52-3515ee83629c@grimberg.me>
- <20190725194312.GA13090@kroah.com>
-Message-ID: <89fb0e7e-eccd-5db5-00c1-d0b90c85270f@grimberg.me>
+From: rjw@rjwysocki.net (Rafael J. Wysocki)
+Date: Thu, 25 Jul 2019 21:48:57 +0200
+Subject: [Regression] Commit "nvme/pci: Use host managed power state for
+ suspend" has problems
+In-Reply-To: <20190725145209.GA6949@localhost.localdomain>
+References: <2332799.izEFUvJP67@kreacher>
+ <20190725145209.GA6949@localhost.localdomain>
+Message-ID: <2428826.VBuqOhikiK@kreacher>
 
-
->>> So, as was kind of alluded to in another part of the thread, what are
->>> you doing about permissions?  It seems that any user/group permissions
->>> are out the window when you have the kernel itself do the opening of the
->>> char device, right?  Why is that ok?  You can pass it _any_ character
->>> device node and away it goes?  What if you give it a "wrong" one?  Char
->>> devices are very different from block devices this way.
->>
->> We could condition any configfs operation on capable(CAP_NET_ADMIN) to
->> close that hole for now..
+On Thursday, July 25, 2019 4:52:10 PM CEST Keith Busch wrote:
+> On Thu, Jul 25, 2019@02:51:41AM -0700, Rafael J. Wysocki wrote:
+> > Hi Keith,
+> > 
+> > Unfortunately,
+> > 
+> > commit d916b1be94b6dc8d293abed2451f3062f6af7551
+> > Author: Keith Busch <keith.busch at intel.com>
+> > Date:   Thu May 23 09:27:35 2019 -0600
+> > 
+> >     nvme-pci: use host managed power state for suspend
+> > 
+> > doesn't universally improve things.  In fact, in some cases it makes things worse.
+> > 
+> > For example, on the Dell XPS13 9380 I have here it prevents the processor package
+> > from reaching idle states deeper than PC2 in suspend-to-idle (which, of course, also
+> > prevents the SoC from reaching any kind of S0ix).
+> > 
+> > That can be readily explained too.  Namely, with the commit above the NVMe device
+> > stays in D0 over suspend/resume, so the root port it is connected to also has to stay in
+> > D0 and that "blocks" package C-states deeper than PC2.
+> > 
+> > In order for the root port to be able to go to D3, the device connected to it also needs
+> > to go into D3, so it looks like (at least on this particular machine, but maybe in
+> > general), both D3 and the NVMe-specific PM are needed.
+> > 
+> > I'm not sure what to do here, because evidently there are systems where that commit
+> > helps.  I was thinking about adding a module option allowing the user to override the
+> > default behavior which in turn should be compatible with 5.2 and earlier kernels.
 > 
-> Why that specific permission?
+> Darn, that's too bad. I don't think we can improve one thing at the
+> expense of another, so unless we find an acceptable criteria to select
+> what low power mode to use, I would be inclined to support a revert or
+> a kernel option to default to the previous behavior.
+> 
+> One thing we might check before using NVMe power states is if the lowest
+> PS is non-operational with MP below some threshold. What does your device
+> report for:
+> 
+>   nvme id-ctrl /dev/nvme0
 
-Meant CAP_SYS_ADMIN
-
-> And what about the "pass any random char device name" issue?  What
-> happens if you pass /dev/random/ as the string?
-
-What is the difference if the application is opening the device if
-it has the wrong path?
+NVME Identify Controller:
+vid     : 0x1c5c
+ssvid   : 0x1c5c
+sn      : MS92N171312902J0N   
+mn      : PC401 NVMe SK hynix 256GB               
+fr      : 80007E00
+rab     : 2
+ieee    : ace42e
+cmic    : 0
+mdts    : 5
+cntlid  : 1
+ver     : 10200
+rtd3r   : 7a120
+rtd3e   : 1e8480
+oaes    : 0x200
+ctratt  : 0
+oacs    : 0x17
+acl     : 7
+aerl    : 3
+frmw    : 0x14
+lpa     : 0x2
+elpe    : 255
+npss    : 4
+avscc   : 0x1
+apsta   : 0x1
+wctemp  : 352
+cctemp  : 354
+mtfa    : 0
+hmpre   : 0
+hmmin   : 0
+tnvmcap : 0
+unvmcap : 0
+rpmbs   : 0
+edstt   : 10
+dsto    : 0
+fwug    : 0
+kas     : 0
+hctma   : 0
+mntmt   : 0
+mxtmt   : 0
+sanicap : 0
+hmminds : 0
+hmmaxd  : 0
+nsetidmax : 0
+anatt   : 0
+anacap  : 0
+anagrpmax : 0
+nanagrpid : 0
+sqes    : 0x66
+cqes    : 0x44
+maxcmd  : 0
+nn      : 1
+oncs    : 0x1f
+fuses   : 0x1
+fna     : 0
+vwc     : 0x1
+awun    : 7
+awupf   : 7
+nvscc   : 1
+acwu    : 7
+sgls    : 0
+mnan    : 0
+subnqn  : 
+ioccsz  : 0
+iorcsz  : 0
+icdoff  : 0
+ctrattr : 0
+msdbd   : 0
+ps    0 : mp:6.00W operational enlat:5 exlat:5 rrt:0 rrl:0
+          rwt:0 rwl:0 idle_power:- active_power:-
+ps    1 : mp:3.80W operational enlat:30 exlat:30 rrt:1 rrl:1
+          rwt:1 rwl:1 idle_power:- active_power:-
+ps    2 : mp:2.40W operational enlat:100 exlat:100 rrt:2 rrl:2
+          rwt:2 rwl:2 idle_power:- active_power:-
+ps    3 : mp:0.0700W non-operational enlat:1000 exlat:1000 rrt:3 rrl:3
+          rwt:3 rwl:3 idle_power:- active_power:-
+ps    4 : mp:0.0070W non-operational enlat:1000 exlat:5000 rrt:3 rrl:3
+          rwt:3 rwl:3 idle_power:- active_power:-
