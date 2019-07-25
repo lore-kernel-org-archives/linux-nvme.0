@@ -1,154 +1,54 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 25 Jul 2019 11:23:32 -0600
-Subject: [PATCH v6 13/16] nvmet-configfs: introduce passthru configfs interface
+Date: Thu, 25 Jul 2019 11:23:33 -0600
+Subject: [PATCH v6 14/16] block: don't check blk_rq_is_passthrough() in
+ blk_do_io_stat()
 In-Reply-To: <20190725172335.6825-1-logang@deltatee.com>
 References: <20190725172335.6825-1-logang@deltatee.com>
-Message-ID: <20190725172335.6825-14-logang@deltatee.com>
+Message-ID: <20190725172335.6825-15-logang@deltatee.com>
 
-When CONFIG_NVME_TARGET_PASSTHRU as 'passthru' directory will
-be added to each subsystem. The directory is similar to a namespace
-and has two attributes: device_path and enable. The user must set the
-path to the nvme controller's char device and write '1' to enable the
-subsystem to use passthru.
-
-Any given subsystem is prevented from enabling both a regular namespace
-and the passthru device. If one is enabled, enabling the other will
-produce an error.
+Instead of checking blk_rq_is_passthruough() for every call to
+blk_do_io_stat(), don't set RQF_IO_STAT for passthrough requests.
+This should be equivalent, and opens the possibility of passthrough
+requests specifically requesting statistics tracking.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 ---
- drivers/nvme/target/configfs.c | 99 ++++++++++++++++++++++++++++++++++
- drivers/nvme/target/nvmet.h    |  1 +
- 2 files changed, 100 insertions(+)
+ block/blk-mq.c | 2 +-
+ block/blk.h    | 5 ++---
+ 2 files changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index 98613a45bd3b..b15d64c19f58 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -615,6 +615,103 @@ static const struct config_item_type nvmet_namespaces_type = {
- 	.ct_owner		= THIS_MODULE,
- };
- 
-+#ifdef CONFIG_NVME_TARGET_PASSTHRU
-+
-+static ssize_t nvmet_passthru_device_path_show(struct config_item *item,
-+		char *page)
-+{
-+	struct nvmet_subsys *subsys = to_subsys(item->ci_parent);
-+
-+	return snprintf(page, PAGE_SIZE, "%s\n", subsys->passthru_ctrl_path);
-+}
-+
-+static ssize_t nvmet_passthru_device_path_store(struct config_item *item,
-+		const char *page, size_t count)
-+{
-+	struct nvmet_subsys *subsys = to_subsys(item->ci_parent);
-+	int ret = -ENOMEM;
-+	size_t len;
-+
-+	mutex_lock(&subsys->lock);
-+
-+	ret = -EBUSY;
-+	if (subsys->passthru_ctrl)
-+		goto out_unlock;
-+
-+	ret = -EINVAL;
-+	len = strcspn(page, "\n");
-+	if (!len)
-+		goto out_unlock;
-+
-+	kfree(subsys->passthru_ctrl_path);
-+	ret = -ENOMEM;
-+	subsys->passthru_ctrl_path = kstrndup(page, len, GFP_KERNEL);
-+	if (!subsys->passthru_ctrl_path)
-+		goto out_unlock;
-+
-+	mutex_unlock(&subsys->lock);
-+
-+	return count;
-+out_unlock:
-+	mutex_unlock(&subsys->lock);
-+	return ret;
-+}
-+CONFIGFS_ATTR(nvmet_passthru_, device_path);
-+
-+static ssize_t nvmet_passthru_enable_show(struct config_item *item,
-+		char *page)
-+{
-+	struct nvmet_subsys *subsys = to_subsys(item->ci_parent);
-+
-+	return sprintf(page, "%d\n", subsys->passthru_ctrl ? 1 : 0);
-+}
-+
-+static ssize_t nvmet_passthru_enable_store(struct config_item *item,
-+		const char *page, size_t count)
-+{
-+	struct nvmet_subsys *subsys = to_subsys(item->ci_parent);
-+	bool enable;
-+	int ret = 0;
-+
-+	if (strtobool(page, &enable))
-+		return -EINVAL;
-+
-+	if (enable)
-+		ret = nvmet_passthru_ctrl_enable(subsys);
-+	else
-+		nvmet_passthru_ctrl_disable(subsys);
-+
-+	return ret ? ret : count;
-+}
-+CONFIGFS_ATTR(nvmet_passthru_, enable);
-+
-+static struct configfs_attribute *nvmet_passthru_attrs[] = {
-+	&nvmet_passthru_attr_device_path,
-+	&nvmet_passthru_attr_enable,
-+	NULL,
-+};
-+
-+static const struct config_item_type nvmet_passthru_type = {
-+	.ct_attrs		= nvmet_passthru_attrs,
-+	.ct_owner		= THIS_MODULE,
-+};
-+
-+static void nvmet_add_passthru_group(struct nvmet_subsys *subsys)
-+{
-+	config_group_init_type_name(&subsys->passthru_group,
-+				    "passthru", &nvmet_passthru_type);
-+	configfs_add_default_group(&subsys->passthru_group,
-+				   &subsys->group);
-+}
-+
-+#else /* CONFIG_NVME_TARGET_PASSTHRU */
-+
-+static void nvmet_add_passthru_group(struct nvmet_subsys *subsys)
-+{
-+}
-+
-+#endif /* CONFIG_NVME_TARGET_PASSTHRU */
-+
- static int nvmet_port_subsys_allow_link(struct config_item *parent,
- 		struct config_item *target)
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index b038ec680e84..b8d41d6824f6 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -318,7 +318,7 @@ static struct request *blk_mq_rq_ctx_init(struct blk_mq_alloc_data *data,
+ 	rq->cmd_flags = op;
+ 	if (data->flags & BLK_MQ_REQ_PREEMPT)
+ 		rq->rq_flags |= RQF_PREEMPT;
+-	if (blk_queue_io_stat(data->q))
++	if (blk_queue_io_stat(data->q) && !blk_rq_is_passthrough(rq))
+ 		rq->rq_flags |= RQF_IO_STAT;
+ 	INIT_LIST_HEAD(&rq->queuelist);
+ 	INIT_HLIST_NODE(&rq->hash);
+diff --git a/block/blk.h b/block/blk.h
+index de6b2e146d6e..554efa769bfe 100644
+--- a/block/blk.h
++++ b/block/blk.h
+@@ -234,13 +234,12 @@ int blk_dev_init(void);
+  *
+  *	a) it's attached to a gendisk, and
+  *	b) the queue had IO stats enabled when this request was started, and
+- *	c) it's a file system request
++ *	c) it's a file system request (RQF_IO_STAT will not be set otherwise)
+  */
+ static inline bool blk_do_io_stat(struct request *rq)
  {
-@@ -915,6 +1012,8 @@ static struct config_group *nvmet_subsys_make(struct config_group *group,
- 	configfs_add_default_group(&subsys->allowed_hosts_group,
- 			&subsys->group);
- 
-+	nvmet_add_passthru_group(subsys);
-+
- 	return &subsys->group;
+ 	return rq->rq_disk &&
+-	       (rq->rq_flags & RQF_IO_STAT) &&
+-		!blk_rq_is_passthrough(rq);
++	       (rq->rq_flags & RQF_IO_STAT);
  }
  
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 004949b6b666..fdcfadb7eb61 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -232,6 +232,7 @@ struct nvmet_subsys {
- 	struct nvme_ctrl	*passthru_ctrl;
- 	char			*passthru_ctrl_path;
- 	bool			passthru_connected;
-+	struct config_group	passthru_group;
- #endif /* CONFIG_NVME_TARGET_PASSTHRU */
- };
- 
+ static inline void req_set_nomerge(struct request_queue *q, struct request *req)
 -- 
 2.20.1
