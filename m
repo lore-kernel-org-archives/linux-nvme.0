@@ -1,54 +1,50 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 25 Jul 2019 11:23:33 -0600
-Subject: [PATCH v6 14/16] block: don't check blk_rq_is_passthrough() in
- blk_do_io_stat()
+Date: Thu, 25 Jul 2019 11:23:31 -0600
+Subject: [PATCH v6 12/16] nvmet-core: don't check the data len for pt-ctrl
 In-Reply-To: <20190725172335.6825-1-logang@deltatee.com>
 References: <20190725172335.6825-1-logang@deltatee.com>
-Message-ID: <20190725172335.6825-15-logang@deltatee.com>
+Message-ID: <20190725172335.6825-13-logang@deltatee.com>
 
-Instead of checking blk_rq_is_passthruough() for every call to
-blk_do_io_stat(), don't set RQF_IO_STAT for passthrough requests.
-This should be equivalent, and opens the possibility of passthrough
-requests specifically requesting statistics tracking.
+From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
+Right now, data_len is calculated before the transfer len after we
+parse the command, With passthru interface we allow VUCs (Vendor-Unique
+Commands). In order to make the code simple and compact, instead of
+assigning the data len or each VUC in the command parse function
+just use the transfer len as it is. This may result in error if expected
+data_len != transfer_len.
+
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+[logang at deltatee.com:
+   * added definition of VUC to the commit message and comment
+   * use nvmet_req_passthru_ctrl() helper seeing we can't dereference
+     subsys->passthru_ctrl if CONFIG_NVME_TARGET_PASSTHRU is not set]
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 ---
- block/blk-mq.c | 2 +-
- block/blk.h    | 5 ++---
- 2 files changed, 3 insertions(+), 4 deletions(-)
+ drivers/nvme/target/core.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index b038ec680e84..b8d41d6824f6 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -318,7 +318,7 @@ static struct request *blk_mq_rq_ctx_init(struct blk_mq_alloc_data *data,
- 	rq->cmd_flags = op;
- 	if (data->flags & BLK_MQ_REQ_PREEMPT)
- 		rq->rq_flags |= RQF_PREEMPT;
--	if (blk_queue_io_stat(data->q))
-+	if (blk_queue_io_stat(data->q) && !blk_rq_is_passthrough(rq))
- 		rq->rq_flags |= RQF_IO_STAT;
- 	INIT_LIST_HEAD(&rq->queuelist);
- 	INIT_HLIST_NODE(&rq->hash);
-diff --git a/block/blk.h b/block/blk.h
-index de6b2e146d6e..554efa769bfe 100644
---- a/block/blk.h
-+++ b/block/blk.h
-@@ -234,13 +234,12 @@ int blk_dev_init(void);
-  *
-  *	a) it's attached to a gendisk, and
-  *	b) the queue had IO stats enabled when this request was started, and
-- *	c) it's a file system request
-+ *	c) it's a file system request (RQF_IO_STAT will not be set otherwise)
-  */
- static inline bool blk_do_io_stat(struct request *rq)
- {
- 	return rq->rq_disk &&
--	       (rq->rq_flags & RQF_IO_STAT) &&
--		!blk_rq_is_passthrough(rq);
-+	       (rq->rq_flags & RQF_IO_STAT);
- }
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 9e92486e2ee9..77660dfc6c8f 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -942,7 +942,16 @@ EXPORT_SYMBOL_GPL(nvmet_req_uninit);
  
- static inline void req_set_nomerge(struct request_queue *q, struct request *req)
+ void nvmet_req_execute(struct nvmet_req *req)
+ {
+-	if (unlikely(req->data_len != req->transfer_len)) {
++	/*
++	 * data_len is calculated before the transfer len after we parse
++	 * the command, With passthru interface we allow VUC (Vendor-Unique
++	 * Commands)'s. In order to make the code simple and compact,
++	 * instead of assinging the dala len for each VUC in the command
++	 * parse function just use the transfer len as it is. This may
++	 * result in error if expected data_len != transfer_len.
++	 */
++	if (!(req->sq->ctrl && nvmet_req_passthru_ctrl(req)) &&
++	    unlikely(req->data_len != req->transfer_len)) {
+ 		req->error_loc = offsetof(struct nvme_common_command, dptr);
+ 		nvmet_req_complete(req, NVME_SC_SGL_INVALID_DATA | NVME_SC_DNR);
+ 	} else
 -- 
 2.20.1
