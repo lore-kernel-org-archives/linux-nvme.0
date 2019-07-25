@@ -1,46 +1,63 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 25 Jul 2019 13:14:40 -0600
-Subject: [PATCH 06/14] PCI/P2PDMA: Add whitelist support for Intel Host
- Bridges
-In-Reply-To: <20190725185230.GG7450@mellanox.com>
+Date: Thu, 25 Jul 2019 13:17:02 -0600
+Subject: [PATCH 11/14] PCI/P2PDMA: dma_map P2PDMA map requests that
+ traverse the host bridge
+In-Reply-To: <20190725185830.GH7450@mellanox.com>
 References: <20190722230859.5436-1-logang@deltatee.com>
- <20190722230859.5436-7-logang@deltatee.com>
- <20190725185230.GG7450@mellanox.com>
-Message-ID: <dc151716-d584-35df-0de6-d25c1267be6c@deltatee.com>
+ <20190722230859.5436-12-logang@deltatee.com>
+ <20190725185830.GH7450@mellanox.com>
+Message-ID: <cf61d237-8a8a-e3ac-a9df-466f20b63020@deltatee.com>
 
 
 
-On 2019-07-25 12:52 p.m., Jason Gunthorpe wrote:
-> On Mon, Jul 22, 2019@05:08:51PM -0600, Logan Gunthorpe wrote:
->> Intel devices do not have good support for P2P requests that span
->> different host bridges as the transactions will cross the QPI/UPI bus
->> and this does not perform well.
+On 2019-07-25 12:58 p.m., Jason Gunthorpe wrote:
+> On Mon, Jul 22, 2019@05:08:56PM -0600, Logan Gunthorpe wrote:
+>> Any requests that traverse the host bridge will need to be mapped into
+>> the IOMMU, so call dma_map_sg() inside pci_p2pdma_map_sg() when
+>> appropriate.
 >>
->> Therefore, enable support for these devices only if the host bridges
->> match.
->>
->> Adds the Intel device's that have been tested to work. There are
->> likely many others out there that will need to be tested and added.
+>> Similarly, call dma_unmap_sg() inside pci_p2pdma_unmap_sg().
 >>
 >> Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
->>  drivers/pci/p2pdma.c | 36 ++++++++++++++++++++++++++++++++----
->>  1 file changed, 32 insertions(+), 4 deletions(-)
+>>  drivers/pci/p2pdma.c | 31 ++++++++++++++++++++++++++++++-
+>>  1 file changed, 30 insertions(+), 1 deletion(-)
 >>
 >> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
->> index dfb802afc8ca..143e11d2a5c3 100644
+>> index 5f43f92f9336..76f51678342c 100644
 >> +++ b/drivers/pci/p2pdma.c
->> @@ -250,9 +250,28 @@ static void seq_buf_print_bus_devfn(struct seq_buf *buf, struct pci_dev *pdev)
->>  	seq_buf_printf(buf, "%s;", pci_name(pdev));
->>  }
+>> @@ -830,8 +830,22 @@ int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
+>>  		int nents, enum dma_data_direction dir, unsigned long attrs)
+>>  {
+>>  	struct dev_pagemap *pgmap = sg_page(sg)->pgmap;
+>> +	struct pci_dev *client;
+>> +	int dist;
+>> +
+>> +	client = find_parent_pci_dev(dev);
+>> +	if (WARN_ON_ONCE(!client))
+>> +		return 0;
 >>  
->> -static bool __host_bridge_whitelist(struct pci_host_bridge *host)
->> +static const struct pci_p2pdma_whitelist_entry {
->> +	unsigned short vendor;
->> +	unsigned short device;
->> +	bool req_same_host_bridge;
+>> -	return __pci_p2pdma_map_sg(pgmap, dev, sg, nents);
+>> +	dist = upstream_bridge_distance(pgmap->pci_p2pdma_provider,
+>> +					client, NULL);
+>> +	if (WARN_ON_ONCE(dist & P2PDMA_NOT_SUPPORTED))
+>> +		return 0;
+>> +
+>> +	if (dist & P2PDMA_THRU_HOST_BRIDGE)
+>> +		return dma_map_sg_attrs(dev, sg, nents, dir, attrs);
 > 
-> This would be more readable in the initializer as a flags not a bool
+> IIRC at this point the SG will have struct page references to the BAR
+> memory - so (all?) the IOMMU drivers are able to handle P2P setup in
+> this case?
 
-Ok, will change for v2.
+Yes. The IOMMU drivers refer to the physical address for BAR which they
+can get from the struct page. And this works fine today.
+
+> Didn't you also have a patch to remove the struct page's for the BAR
+> memory?  
+
+Well that was an RFC that's not going anywhere in it's current form. I'd
+still like to remove struct pages but that's going to take a while and
+when that happens, this will have to be reworked. Probably to use
+dma_map_resource() instead but will depend on the form the removal takes.
 
 Logan
