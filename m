@@ -1,89 +1,44 @@
-From: Mario.Limonciello@dell.com (Mario.Limonciello@dell.com)
-Date: Thu, 25 Jul 2019 16:23:53 +0000
-Subject: [Regression] Commit "nvme/pci: Use host managed power state for
- suspend" has problems
-In-Reply-To: <E62786E4-5DA9-4542-899A-658D0E021190@canonical.com>
-References: <2332799.izEFUvJP67@kreacher>
- <E62786E4-5DA9-4542-899A-658D0E021190@canonical.com>
-Message-ID: <4323ed84dd07474eab65699b4d007aaf@AUSX13MPC105.AMER.DELL.COM>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Thu, 25 Jul 2019 10:24:25 -0600
+Subject: [GIT PULL] nvme fixes for 5.3
+In-Reply-To: <20190725141245.GA4339@infradead.org>
+References: <20190725141245.GA4339@infradead.org>
+Message-ID: <f1bda303-27f9-8c5c-3cb1-a2bb58c91566@kernel.dk>
 
-+Rajat
+On 7/25/19 8:12 AM, Christoph Hellwig wrote:
+> 
+> The following changes since commit 77ce56e2bfaa64127ae5e23ef136c0168b818777:
+> 
+>    drbd: dynamically allocate shash descriptor (2019-07-23 07:35:18 -0600)
+> 
+> are available in the Git repository at:
+> 
+>    git://git.infradead.org/nvme.git nvme-5.3
+> 
+> for you to fetch changes up to 8fe34be14ecb5eb0ef8d8d44aa7ab62d9e2911ca:
+> 
+>    Revert "nvme-pci: don't create a read hctx mapping without read queues" (2019-07-23 17:47:02 +0200)
+> 
+> ----------------------------------------------------------------
+> Logan Gunthorpe (1):
+>        nvme: fix memory leak caused by incorrect subsystem free
+> 
+> Marta Rybczynska (1):
+>        nvme: fix multipath crash when ANA is deactivated
+> 
+> Misha Nasledov (1):
+>        nvme: ignore subnqn for ADATA SX6000LNP
+> 
+> yangerkun (1):
+>        Revert "nvme-pci: don't create a read hctx mapping without read queues"
+> 
+>   drivers/nvme/host/core.c      | 12 +++++-------
+>   drivers/nvme/host/multipath.c |  8 ++------
+>   drivers/nvme/host/nvme.h      |  6 +++++-
+>   drivers/nvme/host/pci.c       |  6 +++---
+>   4 files changed, 15 insertions(+), 17 deletions(-)
 
-> -----Original Message-----
-> From: Kai-Heng Feng <kai.heng.feng at canonical.com>
-> Sent: Thursday, July 25, 2019 9:03 AM
-> To: Rafael J. Wysocki
-> Cc: Keith Busch; Christoph Hellwig; Sagi Grimberg; linux-
-> nvme at lists.infradead.org; Limonciello, Mario; Linux PM; LKML
-> Subject: Re: [Regression] Commit "nvme/pci: Use host managed power state for
-> suspend" has problems
-> 
-> 
-> [EXTERNAL EMAIL]
-> 
-> Hi Rafael,
-> 
->@17:51, Rafael J. Wysocki <rjw@rjwysocki.net> wrote:
-> 
-> > Hi Keith,
-> >
-> > Unfortunately,
-> >
-> > commit d916b1be94b6dc8d293abed2451f3062f6af7551
-> > Author: Keith Busch <keith.busch at intel.com>
-> > Date:   Thu May 23 09:27:35 2019 -0600
-> >
-> >     nvme-pci: use host managed power state for suspend
-> >
-> > doesn't universally improve things.  In fact, in some cases it makes
-> > things worse.
-> >
-> > For example, on the Dell XPS13 9380 I have here it prevents the processor
-> > package
-> > from reaching idle states deeper than PC2 in suspend-to-idle (which, of
-> > course, also
-> > prevents the SoC from reaching any kind of S0ix).
-> >
-> > That can be readily explained too.  Namely, with the commit above the
-> > NVMe device
-> > stays in D0 over suspend/resume, so the root port it is connected to also
-> > has to stay in
-> > D0 and that "blocks" package C-states deeper than PC2.
-> >
-> > In order for the root port to be able to go to D3, the device connected
-> > to it also needs
-> > to go into D3, so it looks like (at least on this particular machine, but
-> > maybe in
-> > general), both D3 and the NVMe-specific PM are needed.
+Pulled, thanks.
 
-Well this is really unfortunate to hear.  I recall that with some disks we were
-seeing problems where NVME specific PM wasn't working when the disk was in D3.
-
-On your specific disk, it would be good to know if just removing the pci_save_state(pdev)
-call helps.
-
-If so, :
-* that might be a better option to add as a parameter.
-* maybe we should double check all the disks one more time with that tweak.
-
-> >
-> > I'm not sure what to do here, because evidently there are systems where
-> > that commit
-> > helps.  I was thinking about adding a module option allowing the user to
-> > override the
-> > default behavior which in turn should be compatible with 5.2 and earlier
-> > kernels.
-> 
-> I just briefly tested s2i on XPS 9370, and the power meter shows a 0.8~0.9W
-> power consumption so at least I don?t see the issue on XPS 9370.
-> 
-
-To me that confirms NVME is down, but it still seems higher than I would have
-expected.  We should be more typically in the order of ~0.3W I think.
-
-> Can you please provide the output of `nvme id-ctrl /dev/nvme*` and I?ll
-> test the NVMe controller on XPS 9380.
-> 
-> Kai-Heng
-> 
-> >
+-- 
+Jens Axboe
