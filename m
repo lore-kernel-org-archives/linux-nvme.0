@@ -1,70 +1,49 @@
-From: jgg@mellanox.com (Jason Gunthorpe)
-Date: Thu, 25 Jul 2019 19:29:49 +0000
-Subject: [PATCH 11/14] PCI/P2PDMA: dma_map P2PDMA map requests that
- traverse the host bridge
-In-Reply-To: <cf61d237-8a8a-e3ac-a9df-466f20b63020@deltatee.com>
-References: <20190722230859.5436-1-logang@deltatee.com>
- <20190722230859.5436-12-logang@deltatee.com>
- <20190725185830.GH7450@mellanox.com>
- <cf61d237-8a8a-e3ac-a9df-466f20b63020@deltatee.com>
-Message-ID: <20190725192944.GI7450@mellanox.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 25 Jul 2019 12:31:14 -0700
+Subject: [PATCH v6 02/16] chardev: introduce cdev_get_by_path()
+In-Reply-To: <20190725191124.GE30641@bombadil.infradead.org>
+References: <20190725172335.6825-1-logang@deltatee.com>
+ <20190725172335.6825-3-logang@deltatee.com>
+ <20190725174032.GA27818@kroah.com>
+ <682ff89f-04e0-7a94-5aeb-895ac65ee7c9@deltatee.com>
+ <20190725180816.GA32305@kroah.com>
+ <da0eacb7-3738-ddf3-8c61-7ffc61aa41f4@deltatee.com>
+ <20190725182701.GA11547@kroah.com>
+ <20190725190024.GD30641@bombadil.infradead.org>
+ <27943e06-a503-162e-356b-abb9e106ab2e@grimberg.me>
+ <20190725191124.GE30641@bombadil.infradead.org>
+Message-ID: <e91094eb-3ce8-b42b-663a-b62d4617fc96@grimberg.me>
 
-On Thu, Jul 25, 2019@01:17:02PM -0600, Logan Gunthorpe wrote:
+
+>>>>> NVMe-OF is configured using configfs. The target is specified by the
+>>>>> user writing a path to a configfs attribute. This is the way it works
+>>>>> today but with blkdev_get_by_path()[1]. For the passthru code, we need
+>>>>> to get a nvme_ctrl instead of a block_device, but the principal is the same.
+>>>>
+>>>> Why isn't a fd being passed in there instead of a random string?
+>>>
+>>> I suppose we could echo a string of the file descriptor number there,
+>>> and look up the fd in the process' file descriptor table ...
+>>
+>> Assuming that there is a open handle somewhere out there...
 > 
-> 
-> On 2019-07-25 12:58 p.m., Jason Gunthorpe wrote:
-> > On Mon, Jul 22, 2019@05:08:56PM -0600, Logan Gunthorpe wrote:
-> >> Any requests that traverse the host bridge will need to be mapped into
-> >> the IOMMU, so call dma_map_sg() inside pci_p2pdma_map_sg() when
-> >> appropriate.
-> >>
-> >> Similarly, call dma_unmap_sg() inside pci_p2pdma_unmap_sg().
-> >>
-> >> Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
-> >>  drivers/pci/p2pdma.c | 31 ++++++++++++++++++++++++++++++-
-> >>  1 file changed, 30 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-> >> index 5f43f92f9336..76f51678342c 100644
-> >> +++ b/drivers/pci/p2pdma.c
-> >> @@ -830,8 +830,22 @@ int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
-> >>  		int nents, enum dma_data_direction dir, unsigned long attrs)
-> >>  {
-> >>  	struct dev_pagemap *pgmap = sg_page(sg)->pgmap;
-> >> +	struct pci_dev *client;
-> >> +	int dist;
-> >> +
-> >> +	client = find_parent_pci_dev(dev);
-> >> +	if (WARN_ON_ONCE(!client))
-> >> +		return 0;
-> >>  
-> >> -	return __pci_p2pdma_map_sg(pgmap, dev, sg, nents);
-> >> +	dist = upstream_bridge_distance(pgmap->pci_p2pdma_provider,
-> >> +					client, NULL);
+> Well, that's how we'd know that the application echoing /dev/nvme3 into
+> configfs actually has permission to access /dev/nvme3.
 
-Isn't is a bit of a leap to assume that the pgmap is uniform across
-all the sgs?
+Actually, the application is exposing a target device to someone else,
+its actually preferable that it doesn't have access to it as its
+possibly can create a consistency hole, but that is usually a root
+application anyways... We could verify at least that though..
 
-> >> +	if (WARN_ON_ONCE(dist & P2PDMA_NOT_SUPPORTED))
-> >> +		return 0;
-> >> +
-> >> +	if (dist & P2PDMA_THRU_HOST_BRIDGE)
-> >> +		return dma_map_sg_attrs(dev, sg, nents, dir, attrs);
-> > 
-> > IIRC at this point the SG will have struct page references to the BAR
-> > memory - so (all?) the IOMMU drivers are able to handle P2P setup in
-> > this case?
-> 
-> Yes. The IOMMU drivers refer to the physical address for BAR which they
-> can get from the struct page. And this works fine today.
+>  Think about
+> containers, for example.  It's not exactly safe to mount configfs in a
+> non-root container since it can access any NVMe device in the system,
+> not just ones which it's been given permission to access.  Right?
 
-Interesting.
+I'm seeing this as an equivalent to an application that is binding a
+socket to an ip address, and the kernel looks-up according to the net
+namespace that the socket has.
 
-So, for the places where we already map BAR memory to userspace, if I
-were to make struct pages for those BARs and use vm_insert_page()
-instead of io_remap_pfn_range(), then the main thing missing in RDMA
-to actually do P2P DMA is a way to get those struct pages out of
-get_user_pages and know to call the pci_p2pdma_map_sg version (ie in
-ib_umem_get())?
-
-Jason
+I do agree this is an area that was never really thought of. But what
+you are describing requires infrastructure around it instead of forcing
+the user to pass an fd to validate around it.
