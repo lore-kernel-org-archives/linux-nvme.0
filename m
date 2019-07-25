@@ -1,117 +1,37 @@
-From: kai.heng.feng@canonical.com (Kai-Heng Feng)
-Date: Fri, 26 Jul 2019 02:20:19 +0800
-Subject: [Regression] Commit "nvme/pci: Use host managed power state for
- suspend" has problems
-In-Reply-To: <CAJZ5v0iDQ4=kTUgW94tKGt7oJzA_3uVU_M6HAMbNCRXwp_do8A@mail.gmail.com>
-References: <2332799.izEFUvJP67@kreacher>
- <E62786E4-5DA9-4542-899A-658D0E021190@canonical.com>
- <4323ed84dd07474eab65699b4d007aaf@AUSX13MPC105.AMER.DELL.COM>
- <CAJZ5v0iDQ4=kTUgW94tKGt7oJzA_3uVU_M6HAMbNCRXwp_do8A@mail.gmail.com>
-Message-ID: <46857EDA-081E-4622-A8D7-D337127A38DE@canonical.com>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Thu, 25 Jul 2019 12:20:31 -0600
+Subject: [PATCH 2/2] nvme-core: Fix deadlock when deleting the ctrl while
+ scanning
+In-Reply-To: <b501f53b-48e9-87a3-9023-8597ed1efc6d@grimberg.me>
+References: <20190718225132.5865-1-logang@deltatee.com>
+ <20190718225132.5865-2-logang@deltatee.com>
+ <c52f80b1-e154-b11f-a868-e3209e4ccb2d@grimberg.me>
+ <6deea9e7-ff3c-e115-b2f2-8914df0b6da7@deltatee.com>
+ <dd287560-2cb3-28ab-c22d-fe9f3682c609@grimberg.me>
+ <021b5195-9a09-4cc2-064f-940ada9cf764@deltatee.com>
+ <b501f53b-48e9-87a3-9023-8597ed1efc6d@grimberg.me>
+Message-ID: <25f1903e-2ef1-8dbb-c08b-5dd0d44ba2d2@deltatee.com>
 
-at 01:03, Rafael J. Wysocki <rafael@kernel.org> wrote:
 
-> On Thu, Jul 25, 2019@6:24 PM <Mario.Limonciello@dell.com> wrote:
->> +Rajat
+
+On 2019-07-25 12:16 p.m., Sagi Grimberg wrote:
+> 
+>> Hey,
 >>
->>> -----Original Message-----
->>> From: Kai-Heng Feng <kai.heng.feng at canonical.com>
->>> Sent: Thursday, July 25, 2019 9:03 AM
->>> To: Rafael J. Wysocki
->>> Cc: Keith Busch; Christoph Hellwig; Sagi Grimberg; linux-
->>> nvme at lists.infradead.org; Limonciello, Mario; Linux PM; LKML
->>> Subject: Re: [Regression] Commit "nvme/pci: Use host managed power  
->>> state for
->>> suspend" has problems
->>>
->>>
->>> [EXTERNAL EMAIL]
->>>
->>> Hi Rafael,
->>>
->>>@17:51, Rafael J. Wysocki <rjw@rjwysocki.net> wrote:
->>>
->>>> Hi Keith,
->>>>
->>>> Unfortunately,
->>>>
->>>> commit d916b1be94b6dc8d293abed2451f3062f6af7551
->>>> Author: Keith Busch <keith.busch at intel.com>
->>>> Date:   Thu May 23 09:27:35 2019 -0600
->>>>
->>>>     nvme-pci: use host managed power state for suspend
->>>>
->>>> doesn't universally improve things.  In fact, in some cases it makes
->>>> things worse.
->>>>
->>>> For example, on the Dell XPS13 9380 I have here it prevents the  
->>>> processor
->>>> package
->>>> from reaching idle states deeper than PC2 in suspend-to-idle (which, of
->>>> course, also
->>>> prevents the SoC from reaching any kind of S0ix).
->>>>
->>>> That can be readily explained too.  Namely, with the commit above the
->>>> NVMe device
->>>> stays in D0 over suspend/resume, so the root port it is connected to  
->>>> also
->>>> has to stay in
->>>> D0 and that "blocks" package C-states deeper than PC2.
->>>>
->>>> In order for the root port to be able to go to D3, the device connected
->>>> to it also needs
->>>> to go into D3, so it looks like (at least on this particular machine,  
->>>> but
->>>> maybe in
->>>> general), both D3 and the NVMe-specific PM are needed.
+>> Sorry for the delay.
 >>
->> Well this is really unfortunate to hear.  I recall that with some disks  
->> we were
->> seeing problems where NVME specific PM wasn't working when the disk was  
->> in D3.
->>
->> On your specific disk, it would be good to know if just removing the  
->> pci_save_state(pdev)
->> call helps.
->
-> Yes, it does help.
->
->> If so, :
->> * that might be a better option to add as a parameter.
->> * maybe we should double check all the disks one more time with that  
->> tweak.
->
-> At this point it seems so.
->
->>>> I'm not sure what to do here, because evidently there are systems where
->>>> that commit
->>>> helps.  I was thinking about adding a module option allowing the user to
->>>> override the
->>>> default behavior which in turn should be compatible with 5.2 and earlier
->>>> kernels.
->>>
->>> I just briefly tested s2i on XPS 9370, and the power meter shows a  
->>> 0.8~0.9W
->>> power consumption so at least I don?t see the issue on XPS 9370.
->>
->> To me that confirms NVME is down, but it still seems higher than I would  
->> have
->> expected.  We should be more typically in the order of ~0.3W I think.
+>> I tested your patch and it does work. Do you want me to send your change
+>> as a full patch? Can I add your signed-off-by?
+> 
+> I have a patch ready with a proper comment in place. I can send it
+> out... Can I get your tested-by and reported-by?
 
- From what I?ve observed, ~0.8W s2idle is already better than Windows (~1W).
-0.3W is what I see during S5.
+Yup. I can retest once you send the patch and I'll send a test-by then.
+For now you can add my reported-by:
 
->
-> It may go to PC10, but not reach S0ix.
->
-> Anyway, I run the s2idle tests under turbostat which then tells me
-> what has happened more precisely.
+Reported-by: Logan Gunthorpe <logang at deltatee.com>
 
-The XPS 9370 at my hand does reach to s0ix during s2idle:
-# cat /sys/kernel/debug/pmc_core/slp_s0_residency_usec
-15998400
+Note: I had to modify your original patch a fair bit so it compiled with
+multipath disabled.
 
-So I think keep the root port in D0 is not the culprit here.
-Maybe something is wrong on the ASPM settings?
-
-Kai-Heng
+Logan
