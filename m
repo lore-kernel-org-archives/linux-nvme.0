@@ -1,49 +1,42 @@
-From: kbusch@kernel.org (Keith Busch)
-Date: Thu, 25 Jul 2019 08:52:10 -0600
-Subject: [Regression] Commit "nvme/pci: Use host managed power state for
- suspend" has problems
-In-Reply-To: <2332799.izEFUvJP67@kreacher>
-References: <2332799.izEFUvJP67@kreacher>
-Message-ID: <20190725145209.GA6949@localhost.localdomain>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Fri, 26 Jul 2019 00:29:26 +0900
+Subject: [PATCH 4/5] lnvm: introduce chunk-log command for chunk info
+In-Reply-To: <a40ea502-e293-e07c-9f7b-e5f9cc118adf@lightnvm.io>
+References: <20190723183601.29370-1-minwoo.im.dev@gmail.com>
+ <20190723183601.29370-5-minwoo.im.dev@gmail.com>
+ <a40ea502-e293-e07c-9f7b-e5f9cc118adf@lightnvm.io>
+Message-ID: <20190725152926.GF3018@minwoo-desktop>
 
-On Thu, Jul 25, 2019@02:51:41AM -0700, Rafael J. Wysocki wrote:
-> Hi Keith,
+On 19-07-24 14:27:10, Matias Bj?rling wrote:
+> Could you squash patch 2, 3 and 4 together (4 being the main patch) - They
+> belong together to implement one feature.
 > 
-> Unfortunately,
-> 
-> commit d916b1be94b6dc8d293abed2451f3062f6af7551
-> Author: Keith Busch <keith.busch at intel.com>
-> Date:   Thu May 23 09:27:35 2019 -0600
-> 
->     nvme-pci: use host managed power state for suspend
-> 
-> doesn't universally improve things.  In fact, in some cases it makes things worse.
-> 
-> For example, on the Dell XPS13 9380 I have here it prevents the processor package
-> from reaching idle states deeper than PC2 in suspend-to-idle (which, of course, also
-> prevents the SoC from reaching any kind of S0ix).
-> 
-> That can be readily explained too.  Namely, with the commit above the NVMe device
-> stays in D0 over suspend/resume, so the root port it is connected to also has to stay in
-> D0 and that "blocks" package C-states deeper than PC2.
-> 
-> In order for the root port to be able to go to D3, the device connected to it also needs
-> to go into D3, so it looks like (at least on this particular machine, but maybe in
-> general), both D3 and the NVMe-specific PM are needed.
-> 
-> I'm not sure what to do here, because evidently there are systems where that commit
-> helps.  I was thinking about adding a module option allowing the user to override the
-> default behavior which in turn should be compatible with 5.2 and earlier kernels.
+> As a side-note, we have the same command for ZNS (that will be pushed when
+> the ZNS TP is ratified) - In that, we've also added support for supplying
+> start lba and number of chunks (zones) to return. Could you add that as well
+> to this? Then there is coherency between the two?
 
-Darn, that's too bad. I don't think we can improve one thing at the
-expense of another, so unless we find an acceptable criteria to select
-what low power mode to use, I would be inclined to support a revert or
-a kernel option to default to the previous behavior.
+Matias,
 
-One thing we might check before using NVMe power states is if the lowest
-PS is non-operational with MP below some threshold. What does your device
-report for:
+I just had a deep look at your slide about the ZNS which can be found at
+[1].  Sorry, I misunderstood your meaning here.
 
-  nvme id-ctrl /dev/nvme0
+This patch already introduced the SLBA in its chunk, but no nr_chunks in
+a single summary line.  Do you want me to print it like:
 
-?
+	root at host:~/nvme-cli.git# nvme lnvm chunk-log /dev/nvme0n1
+	nr_chunks: 480
+	 [    0] { cs: 0x2, ct: 0x1, wli: 2, slba: 0x0000000000000000, cnlb: 0x0000000000001000, wp: 0x0000000000001000 }
+	 [    1] { cs: 0x2, ct: 0x1, wli: 1, slba: 0x0000000000001000, cnlb: 0x0000000000001000, wp: 0x0000000000001000 }
+	 [    2] { cs: 0x1, ct: 0x1, wli: 0, slba: 0x0000000000002000, cnlb: 0x0000000000001000, wp: 0x0000000000000000 }
+	 [    3] { cs: 0x1, ct: 0x1, wli: 0, slba: 0x0000000000003000, cnlb: 0x0000000000001000, wp: 0x0000000000000000 }
+	 [    4] { cs: 0x1, ct: 0x1, wli: 0, slba: 0x0000000000004000, cnlb: 0x0000000000001000, wp: 0x0000000000000000 }
+	 [    5] { cs: 0x1, ct: 0x1, wli: 0, slba: 0x0000000000005000, cnlb: 0x0000000000001000, wp: 0x0000000000000000 }
+	 [    6] { cs: 0x1, ct: 0x1, wli: 0, slba: 0x0000000000006000, cnlb: 0x0000000000001000, wp: 0x0000000000000000 }
+	...
+	 [  478] { cs: 0x1, ct: 0x1, wli: 0, slba: 0x00000000001fa000, cnlb: 0x0000000000001000, wp: 0x0000000000000000 }
+	 [  479] { cs: 0x1, ct: 0x1, wli: 0, slba: 0x00000000001fb000, cnlb: 0x0000000000001000, wp: 0x0000000000000000 }
+
+Thanks!
+
+[1] https://nvmexpress.org/wp-content/uploads/NVMeAnnualMeeting2019-ZNSv3.pptx
