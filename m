@@ -1,141 +1,119 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 25 Jul 2019 11:23:30 -0600
-Subject: [PATCH v6 11/16] nvmet-core: allow one host per passthru-ctrl
-In-Reply-To: <20190725172335.6825-1-logang@deltatee.com>
-References: <20190725172335.6825-1-logang@deltatee.com>
-Message-ID: <20190725172335.6825-12-logang@deltatee.com>
+From: Mario.Limonciello@dell.com (Mario.Limonciello@dell.com)
+Date: Thu, 25 Jul 2019 17:23:51 +0000
+Subject: [Regression] Commit "nvme/pci: Use host managed power state for
+ suspend" has problems
+In-Reply-To: <CAJZ5v0iDQ4=kTUgW94tKGt7oJzA_3uVU_M6HAMbNCRXwp_do8A@mail.gmail.com>
+References: <2332799.izEFUvJP67@kreacher>
+ <E62786E4-5DA9-4542-899A-658D0E021190@canonical.com>
+ <4323ed84dd07474eab65699b4d007aaf@AUSX13MPC105.AMER.DELL.COM>
+ <CAJZ5v0iDQ4=kTUgW94tKGt7oJzA_3uVU_M6HAMbNCRXwp_do8A@mail.gmail.com>
+Message-ID: <1c37b80fd8284911936a3f4bc9e840a0@AUSX13MPC105.AMER.DELL.COM>
 
-From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+> -----Original Message-----
+> From: Rafael J. Wysocki <rafael at kernel.org>
+> Sent: Thursday, July 25, 2019 12:04 PM
+> To: Limonciello, Mario
+> Cc: Kai-Heng Feng; Rafael J. Wysocki; Keith Busch; Christoph Hellwig; Sagi
+> Grimberg; linux-nvme; Linux PM; Linux Kernel Mailing List; Rajat Jain
+> Subject: Re: [Regression] Commit "nvme/pci: Use host managed power state for
+> suspend" has problems
+> 
+> 
+> [EXTERNAL EMAIL]
+> 
+> On Thu, Jul 25, 2019@6:24 PM <Mario.Limonciello@dell.com> wrote:
+> >
+> > +Rajat
+> >
+> > > -----Original Message-----
+> > > From: Kai-Heng Feng <kai.heng.feng at canonical.com>
+> > > Sent: Thursday, July 25, 2019 9:03 AM
+> > > To: Rafael J. Wysocki
+> > > Cc: Keith Busch; Christoph Hellwig; Sagi Grimberg; linux-
+> > > nvme at lists.infradead.org; Limonciello, Mario; Linux PM; LKML
+> > > Subject: Re: [Regression] Commit "nvme/pci: Use host managed power state
+> for
+> > > suspend" has problems
+> > >
+> > >
+> > > [EXTERNAL EMAIL]
+> > >
+> > > Hi Rafael,
+> > >
+> > >@17:51, Rafael J. Wysocki <rjw@rjwysocki.net> wrote:
+> > >
+> > > > Hi Keith,
+> > > >
+> > > > Unfortunately,
+> > > >
+> > > > commit d916b1be94b6dc8d293abed2451f3062f6af7551
+> > > > Author: Keith Busch <keith.busch at intel.com>
+> > > > Date:   Thu May 23 09:27:35 2019 -0600
+> > > >
+> > > >     nvme-pci: use host managed power state for suspend
+> > > >
+> > > > doesn't universally improve things.  In fact, in some cases it makes
+> > > > things worse.
+> > > >
+> > > > For example, on the Dell XPS13 9380 I have here it prevents the processor
+> > > > package
+> > > > from reaching idle states deeper than PC2 in suspend-to-idle (which, of
+> > > > course, also
+> > > > prevents the SoC from reaching any kind of S0ix).
+> > > >
+> > > > That can be readily explained too.  Namely, with the commit above the
+> > > > NVMe device
+> > > > stays in D0 over suspend/resume, so the root port it is connected to also
+> > > > has to stay in
+> > > > D0 and that "blocks" package C-states deeper than PC2.
+> > > >
+> > > > In order for the root port to be able to go to D3, the device connected
+> > > > to it also needs
+> > > > to go into D3, so it looks like (at least on this particular machine, but
+> > > > maybe in
+> > > > general), both D3 and the NVMe-specific PM are needed.
+> >
+> > Well this is really unfortunate to hear.  I recall that with some disks we were
+> > seeing problems where NVME specific PM wasn't working when the disk was in
+> D3.
+> >
+> > On your specific disk, it would be good to know if just removing the
+> pci_save_state(pdev)
+> > call helps.
+> 
+> Yes, it does help.
+> 
+> > If so, :
+> > * that might be a better option to add as a parameter.
+> > * maybe we should double check all the disks one more time with that tweak.
+> 
+> At this point it seems so.
 
-This patch rejects any new connection to the passthru-ctrl if this
-controller is already connected to host. At the time of allocating the
-controller we check if the subsys associated with the passthru ctrl is
-already connected to the host.
+OK, I've asked someone in my lab to check across a variety of otherwise working SSDs
+with that modification.
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-[logang at deltatee.com:
-   * drop the overide of the target cntlid with the passthru cntlid;
-     this seemed like a really bad idea especially in the presence of
-     mixed systems as you could end up with two ctrlrs with the same
-     cntlid
-   * push the check to ensure only one ctrlr per subsys into
-     functions in passthru-cmd.c to avoid excess inline #ifdefs
-]
-Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
----
- drivers/nvme/target/core.c            |  6 +++++
- drivers/nvme/target/io-cmd-passthru.c | 32 +++++++++++++++++++++++++++
- drivers/nvme/target/nvmet.h           | 10 +++++++++
- 3 files changed, 48 insertions(+)
+Hopefully KH can also accomplish in his lab that as he has more SSDs readily available.
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 2e75968af7f4..9e92486e2ee9 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -13,6 +13,7 @@
- #define CREATE_TRACE_POINTS
- #include "trace.h"
- 
-+#include "../host/nvme.h"
- #include "nvmet.h"
- 
- struct workqueue_struct *buffered_io_wq;
-@@ -1278,6 +1279,10 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
- 	if (!ctrl->sqs)
- 		goto out_free_cqs;
- 
-+	ret = nvmet_passthru_alloc_ctrl(subsys);
-+	if (ret)
-+		goto out_free_sqs;
-+
- 	ret = ida_simple_get(&cntlid_ida,
- 			     NVME_CNTLID_MIN, NVME_CNTLID_MAX,
- 			     GFP_KERNEL);
-@@ -1341,6 +1346,7 @@ static void nvmet_ctrl_free(struct kref *ref)
- 	flush_work(&ctrl->async_event_work);
- 	cancel_work_sync(&ctrl->fatal_err_work);
- 
-+	nvmet_passthru_ctrl_free(subsys);
- 	ida_simple_remove(&cntlid_ida, ctrl->cntlid);
- 
- 	kfree(ctrl->sqs);
-diff --git a/drivers/nvme/target/io-cmd-passthru.c b/drivers/nvme/target/io-cmd-passthru.c
-index 9ddcdb8415fc..aefdd534cb4a 100644
---- a/drivers/nvme/target/io-cmd-passthru.c
-+++ b/drivers/nvme/target/io-cmd-passthru.c
-@@ -104,6 +104,38 @@ void nvmet_passthru_subsys_free(struct nvmet_subsys *subsys)
- 	mutex_unlock(&subsys->lock);
- }
- 
-+int nvmet_passthru_alloc_ctrl(struct nvmet_subsys *subsys)
-+{
-+	/*
-+	 * Check here if this subsystem is already connected to the passthru
-+	 * ctrl. We allow only one target ctrl for one passthru subsystem.
-+	 */
-+
-+	mutex_lock(&subsys->lock);
-+
-+	if (!subsys->passthru_ctrl)
-+		goto out;
-+
-+	if (subsys->passthru_connected) {
-+		mutex_unlock(&subsys->lock);
-+		return -ENODEV;
-+	}
-+
-+	subsys->passthru_connected = true;
-+
-+out:
-+	mutex_unlock(&subsys->lock);
-+
-+	return 0;
-+}
-+
-+void nvmet_passthru_ctrl_free(struct nvmet_subsys *subsys)
-+{
-+	mutex_lock(&subsys->lock);
-+	subsys->passthru_connected = false;
-+	mutex_unlock(&subsys->lock);
-+}
-+
- static void nvmet_passthru_req_complete(struct nvmet_req *req,
- 		struct request *rq, u16 status)
- {
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index aff4db03269d..004949b6b666 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -231,6 +231,7 @@ struct nvmet_subsys {
- #ifdef CONFIG_NVME_TARGET_PASSTHRU
- 	struct nvme_ctrl	*passthru_ctrl;
- 	char			*passthru_ctrl_path;
-+	bool			passthru_connected;
- #endif /* CONFIG_NVME_TARGET_PASSTHRU */
- };
- 
-@@ -513,6 +514,8 @@ void nvmet_passthru_destroy(void);
- void nvmet_passthru_subsys_free(struct nvmet_subsys *subsys);
- int nvmet_passthru_ctrl_enable(struct nvmet_subsys *subsys);
- void nvmet_passthru_ctrl_disable(struct nvmet_subsys *subsys);
-+int nvmet_passthru_alloc_ctrl(struct nvmet_subsys *subsys);
-+void nvmet_passthru_ctrl_free(struct nvmet_subsys *subsys);
- u16 nvmet_parse_passthru_cmd(struct nvmet_req *req);
- 
- static inline
-@@ -536,6 +539,13 @@ static inline void nvmet_passthru_subsys_free(struct nvmet_subsys *subsys)
- static inline void nvmet_passthru_ctrl_disable(struct nvmet_subsys *subsys)
- {
- }
-+static inline int nvmet_passthru_alloc_ctrl(struct nvmet_subsys *subsys)
-+{
-+	return 0;
-+}
-+static inline void nvmet_passthru_ctrl_free(struct nvmet_subsys *subsys)
-+{
-+}
- static inline u16 nvmet_parse_passthru_cmd(struct nvmet_req *req)
- {
- 	return 0;
--- 
-2.20.1
+> 
+> > > > I'm not sure what to do here, because evidently there are systems where
+> > > > that commit
+> > > > helps.  I was thinking about adding a module option allowing the user to
+> > > > override the
+> > > > default behavior which in turn should be compatible with 5.2 and earlier
+> > > > kernels.
+> > >
+> > > I just briefly tested s2i on XPS 9370, and the power meter shows a 0.8~0.9W
+> > > power consumption so at least I don?t see the issue on XPS 9370.
+> > >
+> >
+> > To me that confirms NVME is down, but it still seems higher than I would have
+> > expected.  We should be more typically in the order of ~0.3W I think.
+> 
+> It may go to PC10, but not reach S0ix.
+> 
+> Anyway, I run the s2idle tests under turbostat which then tells me
+> what has happened more precisely.
+
+To echo the request earlier, it would be good to know exactly which SSD you have
+here in your 9380.  Specifically I'd like to know the vendor/model and if the SSD
+you're using requests HMB.
