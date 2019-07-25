@@ -1,67 +1,48 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 25 Jul 2019 11:23:25 -0600
-Subject: [PATCH v6 06/16] nvmet: add return value to  nvmet_add_async_event()
+Date: Thu, 25 Jul 2019 11:23:26 -0600
+Subject: [PATCH v6 07/16] nvmet: make nvmet_copy_ns_identifier() non-static
 In-Reply-To: <20190725172335.6825-1-logang@deltatee.com>
 References: <20190725172335.6825-1-logang@deltatee.com>
-Message-ID: <20190725172335.6825-7-logang@deltatee.com>
+Message-ID: <20190725172335.6825-8-logang@deltatee.com>
 
-From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+This function will be needed by the upcoming passthru code.
 
-Change the return value for nvmet_add_async_event().
-
-This change is needed for the target passthru code to generate async
-events.
-
+[chaitanya.kulkarni at wdc.com: this was factored out of a patch
+ originally authored by Chaitanya]
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-[logang at deltatee.com: fixed up commit message that was no
- longer accurate]
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 ---
- drivers/nvme/target/core.c  | 5 +++--
- drivers/nvme/target/nvmet.h | 2 +-
- 2 files changed, 4 insertions(+), 3 deletions(-)
+ drivers/nvme/target/admin-cmd.c | 4 ++--
+ drivers/nvme/target/nvmet.h     | 2 ++
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 3a67e244e568..f7f25bdc4763 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -173,14 +173,14 @@ static void nvmet_async_event_work(struct work_struct *work)
- 	}
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 4dc12ea52f23..eeb24f606d00 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -506,8 +506,8 @@ static void nvmet_execute_identify_nslist(struct nvmet_req *req)
+ 	nvmet_req_complete(req, status);
  }
  
--void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
-+bool nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
- 		u8 event_info, u8 log_page)
+-static u16 nvmet_copy_ns_identifier(struct nvmet_req *req, u8 type, u8 len,
+-				    void *id, off_t *off)
++u16 nvmet_copy_ns_identifier(struct nvmet_req *req, u8 type, u8 len,
++			     void *id, off_t *off)
  {
- 	struct nvmet_async_event *aen;
- 
- 	aen = kmalloc(sizeof(*aen), GFP_KERNEL);
- 	if (!aen)
--		return;
-+		return false;
- 
- 	aen->event_type = event_type;
- 	aen->event_info = event_info;
-@@ -191,6 +191,7 @@ void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
- 	mutex_unlock(&ctrl->lock);
- 
- 	schedule_work(&ctrl->async_event_work);
-+	return true;
- }
- 
- static void nvmet_add_to_changed_ns_log(struct nvmet_ctrl *ctrl, __le32 nsid)
+ 	struct nvme_ns_id_desc desc = {
+ 		.nidt = type,
 diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index c51f8dd01dc4..217a787952e8 100644
+index 217a787952e8..d1a0a3190a24 100644
 --- a/drivers/nvme/target/nvmet.h
 +++ b/drivers/nvme/target/nvmet.h
-@@ -441,7 +441,7 @@ void nvmet_port_disc_changed(struct nvmet_port *port,
- 		struct nvmet_subsys *subsys);
- void nvmet_subsys_disc_changed(struct nvmet_subsys *subsys,
- 		struct nvmet_host *host);
--void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
-+bool nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
- 		u8 event_info, u8 log_page);
+@@ -489,6 +489,8 @@ u16 nvmet_bdev_flush(struct nvmet_req *req);
+ u16 nvmet_file_flush(struct nvmet_req *req);
+ void nvmet_ns_changed(struct nvmet_subsys *subsys, u32 nsid);
  
- #define NVMET_QUEUE_SIZE	1024
++u16 nvmet_copy_ns_identifier(struct nvmet_req *req, u8 type, u8 len,
++			     void *id, off_t *off);
+ static inline u32 nvmet_rw_len(struct nvmet_req *req)
+ {
+ 	return ((u32)le16_to_cpu(req->cmd->rw.length) + 1) <<
 -- 
 2.20.1
