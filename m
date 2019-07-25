@@ -1,12 +1,12 @@
-From: willy@infradead.org (Matthew Wilcox)
-Date: Thu, 25 Jul 2019 10:58:34 -0700
+From: gregkh@linuxfoundation.org (Greg Kroah-Hartman)
+Date: Thu, 25 Jul 2019 20:08:16 +0200
 Subject: [PATCH v6 02/16] chardev: introduce cdev_get_by_path()
 In-Reply-To: <682ff89f-04e0-7a94-5aeb-895ac65ee7c9@deltatee.com>
 References: <20190725172335.6825-1-logang@deltatee.com>
  <20190725172335.6825-3-logang@deltatee.com>
  <20190725174032.GA27818@kroah.com>
  <682ff89f-04e0-7a94-5aeb-895ac65ee7c9@deltatee.com>
-Message-ID: <20190725175834.GB30641@bombadil.infradead.org>
+Message-ID: <20190725180816.GA32305@kroah.com>
 
 On Thu, Jul 25, 2019@11:53:20AM -0600, Logan Gunthorpe wrote:
 > 
@@ -25,10 +25,13 @@ On Thu, Jul 25, 2019@11:53:20AM -0600, Logan Gunthorpe wrote:
 > struct cdev and eventually it's struct nvme_ctrl. Doing it this way also
 > allows supporting symlinks that might be created by udev rules.
 
-But you're not really trying to go from a string to a chardev.  You're
-trying to go from a nvmet_subsys to a chardev.  Isn't there a better
-way to link the two somewhere else?
+Why do you have a "string" within the kernel and are not using the
+normal open() call from userspace on the character device node on the
+filesystem in your namespace/mount/whatever?
 
-(I must confess that once I would have known the answer to this, but
-the NVMe subsystem has grown ridiculously complex and I can no longer
-fit it in my head)
+Where is this random string coming from?  Why is this so special that no
+one else has ever needed it?
+
+thanks,
+
+greg k-h
