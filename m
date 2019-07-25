@@ -1,63 +1,55 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 25 Jul 2019 13:17:02 -0600
-Subject: [PATCH 11/14] PCI/P2PDMA: dma_map P2PDMA map requests that
- traverse the host bridge
-In-Reply-To: <20190725185830.GH7450@mellanox.com>
-References: <20190722230859.5436-1-logang@deltatee.com>
- <20190722230859.5436-12-logang@deltatee.com>
- <20190725185830.GH7450@mellanox.com>
-Message-ID: <cf61d237-8a8a-e3ac-a9df-466f20b63020@deltatee.com>
+Date: Thu, 25 Jul 2019 13:24:22 -0600
+Subject: [PATCH v6 02/16] chardev: introduce cdev_get_by_path()
+In-Reply-To: <20190725191124.GE30641@bombadil.infradead.org>
+References: <20190725172335.6825-1-logang@deltatee.com>
+ <20190725172335.6825-3-logang@deltatee.com>
+ <20190725174032.GA27818@kroah.com>
+ <682ff89f-04e0-7a94-5aeb-895ac65ee7c9@deltatee.com>
+ <20190725180816.GA32305@kroah.com>
+ <da0eacb7-3738-ddf3-8c61-7ffc61aa41f4@deltatee.com>
+ <20190725182701.GA11547@kroah.com>
+ <20190725190024.GD30641@bombadil.infradead.org>
+ <27943e06-a503-162e-356b-abb9e106ab2e@grimberg.me>
+ <20190725191124.GE30641@bombadil.infradead.org>
+Message-ID: <425dd2ac-333d-a8c4-ce49-870c8dadf436@deltatee.com>
 
 
 
-On 2019-07-25 12:58 p.m., Jason Gunthorpe wrote:
-> On Mon, Jul 22, 2019@05:08:56PM -0600, Logan Gunthorpe wrote:
->> Any requests that traverse the host bridge will need to be mapped into
->> the IOMMU, so call dma_map_sg() inside pci_p2pdma_map_sg() when
->> appropriate.
+On 2019-07-25 1:11 p.m., Matthew Wilcox wrote:
+> On Thu, Jul 25, 2019@12:05:29PM -0700, Sagi Grimberg wrote:
 >>
->> Similarly, call dma_unmap_sg() inside pci_p2pdma_unmap_sg().
+>>>>> NVMe-OF is configured using configfs. The target is specified by the
+>>>>> user writing a path to a configfs attribute. This is the way it works
+>>>>> today but with blkdev_get_by_path()[1]. For the passthru code, we need
+>>>>> to get a nvme_ctrl instead of a block_device, but the principal is the same.
+>>>>
+>>>> Why isn't a fd being passed in there instead of a random string?
+>>>
+>>> I suppose we could echo a string of the file descriptor number there,
+>>> and look up the fd in the process' file descriptor table ...
 >>
->> Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
->>  drivers/pci/p2pdma.c | 31 ++++++++++++++++++++++++++++++-
->>  1 file changed, 30 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
->> index 5f43f92f9336..76f51678342c 100644
->> +++ b/drivers/pci/p2pdma.c
->> @@ -830,8 +830,22 @@ int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
->>  		int nents, enum dma_data_direction dir, unsigned long attrs)
->>  {
->>  	struct dev_pagemap *pgmap = sg_page(sg)->pgmap;
->> +	struct pci_dev *client;
->> +	int dist;
->> +
->> +	client = find_parent_pci_dev(dev);
->> +	if (WARN_ON_ONCE(!client))
->> +		return 0;
->>  
->> -	return __pci_p2pdma_map_sg(pgmap, dev, sg, nents);
->> +	dist = upstream_bridge_distance(pgmap->pci_p2pdma_provider,
->> +					client, NULL);
->> +	if (WARN_ON_ONCE(dist & P2PDMA_NOT_SUPPORTED))
->> +		return 0;
->> +
->> +	if (dist & P2PDMA_THRU_HOST_BRIDGE)
->> +		return dma_map_sg_attrs(dev, sg, nents, dir, attrs);
-> 
-> IIRC at this point the SG will have struct page references to the BAR
-> memory - so (all?) the IOMMU drivers are able to handle P2P setup in
-> this case?
+>> Assuming that there is a open handle somewhere out there...
 
-Yes. The IOMMU drivers refer to the physical address for BAR which they
-can get from the struct page. And this works fine today.
+Yes, that would be a step backwards from an interface. The user would
+then need a special process to open the fd and pass it through configfs.
+They couldn't just do it with basic bash commands.
 
-> Didn't you also have a patch to remove the struct page's for the BAR
-> memory?  
+> Well, that's how we'd know that the application echoing /dev/nvme3 into
+> configfs actually has permission to access /dev/nvme3.  
 
-Well that was an RFC that's not going anywhere in it's current form. I'd
-still like to remove struct pages but that's going to take a while and
-when that happens, this will have to be reworked. Probably to use
-dma_map_resource() instead but will depend on the form the removal takes.
+It's the kernel that's accessing the device so it has permission. root
+permission is required to configure the kernel.
+
+> Think about
+> containers, for example.  It's not exactly safe to mount configfs in a
+> non-root container since it can access any NVMe device in the system,
+> not just ones which it's been given permission to access.  Right?
+
+I don't think it really makes any sense to talk about NVMe-of and
+containers. Though, if we did it would be solely on the configuration
+interface so that users inside a container might be able to configure a
+new target for resources they can see and they'd have to have their own
+view into configfs....
 
 Logan
