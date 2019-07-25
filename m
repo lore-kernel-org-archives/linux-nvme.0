@@ -1,180 +1,43 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 25 Jul 2019 11:23:29 -0600
-Subject: [PATCH v6 10/16] nvmet-passthru: add enable/disable helpers
+Date: Thu, 25 Jul 2019 11:23:35 -0600
+Subject: [PATCH v6 16/16] nvmet-passthru: support block accounting
 In-Reply-To: <20190725172335.6825-1-logang@deltatee.com>
 References: <20190725172335.6825-1-logang@deltatee.com>
-Message-ID: <20190725172335.6825-11-logang@deltatee.com>
+Message-ID: <20190725172335.6825-17-logang@deltatee.com>
 
-This patch adds helper functions which are used in the NVMeOF configfs
-when the user is configuring the passthru subsystem. Here we ensure
-that only one subsys is assigned to each nvme_ctrl by using an xarray
-on the cntlid.
+Support block disk accounting by setting the RQF_IO_STAT flag
+and gendisk in the request.
 
-[chaitanya.kulkarni at wdc.com: this patch is very roughly based
- on a similar one by Chaitanya]
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+After this change, IO counts will be reflected correctly in
+/proc/diskstats for drives being used by passthru.
+
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 ---
- drivers/nvme/target/core.c            |  8 +++
- drivers/nvme/target/io-cmd-passthru.c | 77 +++++++++++++++++++++++++++
- drivers/nvme/target/nvmet.h           | 10 ++++
- 3 files changed, 95 insertions(+)
+ drivers/nvme/target/io-cmd-passthru.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 50c01b2da568..2e75968af7f4 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -519,6 +519,12 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
- 
- 	mutex_lock(&subsys->lock);
- 	ret = 0;
-+
-+	if (nvmet_passthru_ctrl(subsys)) {
-+		pr_info("cannot enable both passthru and regular namespaces for a single subsystem");
-+		goto out_unlock;
-+	}
-+
- 	if (ns->enabled)
- 		goto out_unlock;
- 
-@@ -1439,6 +1445,8 @@ static void nvmet_subsys_free(struct kref *ref)
- 
- 	WARN_ON_ONCE(!list_empty(&subsys->namespaces));
- 
-+	nvmet_passthru_subsys_free(subsys);
-+
- 	kfree(subsys->subsysnqn);
- 	kfree(subsys);
- }
 diff --git a/drivers/nvme/target/io-cmd-passthru.c b/drivers/nvme/target/io-cmd-passthru.c
-index 920b102ec13b..9ddcdb8415fc 100644
+index aefdd534cb4a..0a3f1249341a 100644
 --- a/drivers/nvme/target/io-cmd-passthru.c
 +++ b/drivers/nvme/target/io-cmd-passthru.c
-@@ -11,6 +11,11 @@
- #include "../host/nvme.h"
- #include "nvmet.h"
+@@ -439,6 +439,9 @@ static struct request *nvmet_passthru_blk_make_request(struct nvmet_req *req,
+ 	if (unlikely(IS_ERR(rq)))
+ 		return rq;
  
-+/*
-+ * xarray to maintain one passthru subsystem per nvme controller.
-+ */
-+static DEFINE_XARRAY(passthru_subsystems);
++	if (blk_queue_io_stat(q) && cmd->common.opcode != nvme_cmd_flush)
++		rq->rq_flags |= RQF_IO_STAT;
 +
- static struct workqueue_struct *passthru_wq;
+ 	if (req->sg_cnt) {
+ 		ret = nvmet_passthru_map_sg(req, rq);
+ 		if (unlikely(ret)) {
+@@ -503,7 +506,7 @@ static void nvmet_passthru_execute_cmd(struct nvmet_req *req)
  
- int nvmet_passthru_init(void)
-@@ -27,6 +32,78 @@ void nvmet_passthru_destroy(void)
- 	destroy_workqueue(passthru_wq);
- }
- 
-+int nvmet_passthru_ctrl_enable(struct nvmet_subsys *subsys)
-+{
-+	struct nvme_ctrl *ctrl;
-+	int ret = -EINVAL;
-+	void *old;
-+
-+	mutex_lock(&subsys->lock);
-+	if (!subsys->passthru_ctrl_path)
-+		goto out_unlock;
-+	if (subsys->passthru_ctrl)
-+		goto out_unlock;
-+
-+	if (subsys->nr_namespaces) {
-+		pr_info("cannot enable both passthru and regular namespaces for a single subsystem");
-+		goto out_unlock;
-+	}
-+
-+	ctrl = nvme_ctrl_get_by_path(subsys->passthru_ctrl_path);
-+	if (IS_ERR(ctrl)) {
-+		ret = PTR_ERR(ctrl);
-+		pr_err("failed to open nvme controller %s\n",
-+		       subsys->passthru_ctrl_path);
-+
-+		goto out_unlock;
-+	}
-+
-+	old = xa_cmpxchg(&passthru_subsystems, ctrl->cntlid, NULL,
-+			 subsys, GFP_KERNEL);
-+	if (xa_is_err(old)) {
-+		ret = xa_err(old);
-+		goto out_put_ctrl;
-+	}
-+
-+	if (old)
-+		goto out_put_ctrl;
-+
-+	subsys->passthru_ctrl = ctrl;
-+	ret = 0;
-+
-+	goto out_unlock;
-+
-+out_put_ctrl:
-+	nvme_put_ctrl(ctrl);
-+out_unlock:
-+	mutex_unlock(&subsys->lock);
-+	return ret;
-+}
-+
-+static void __nvmet_passthru_ctrl_disable(struct nvmet_subsys *subsys)
-+{
-+	if (subsys->passthru_ctrl) {
-+		xa_erase(&passthru_subsystems, subsys->passthru_ctrl->cntlid);
-+		nvme_put_ctrl(subsys->passthru_ctrl);
-+	}
-+	subsys->passthru_ctrl = NULL;
-+}
-+
-+void nvmet_passthru_ctrl_disable(struct nvmet_subsys *subsys)
-+{
-+	mutex_lock(&subsys->lock);
-+	__nvmet_passthru_ctrl_disable(subsys);
-+	mutex_unlock(&subsys->lock);
-+}
-+
-+void nvmet_passthru_subsys_free(struct nvmet_subsys *subsys)
-+{
-+	mutex_lock(&subsys->lock);
-+	__nvmet_passthru_ctrl_disable(subsys);
-+	kfree(subsys->passthru_ctrl_path);
-+	mutex_unlock(&subsys->lock);
-+}
-+
- static void nvmet_passthru_req_complete(struct nvmet_req *req,
- 		struct request *rq, u16 status)
- {
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index bd11114ebbb9..aff4db03269d 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -230,6 +230,7 @@ struct nvmet_subsys {
- 
- #ifdef CONFIG_NVME_TARGET_PASSTHRU
- 	struct nvme_ctrl	*passthru_ctrl;
-+	char			*passthru_ctrl_path;
- #endif /* CONFIG_NVME_TARGET_PASSTHRU */
- };
- 
-@@ -509,6 +510,9 @@ static inline u32 nvmet_rw_len(struct nvmet_req *req)
- 
- int nvmet_passthru_init(void);
- void nvmet_passthru_destroy(void);
-+void nvmet_passthru_subsys_free(struct nvmet_subsys *subsys);
-+int nvmet_passthru_ctrl_enable(struct nvmet_subsys *subsys);
-+void nvmet_passthru_ctrl_disable(struct nvmet_subsys *subsys);
- u16 nvmet_parse_passthru_cmd(struct nvmet_req *req);
- 
- static inline
-@@ -526,6 +530,12 @@ static inline int nvmet_passthru_init(void)
- static inline void nvmet_passthru_destroy(void)
- {
- }
-+static inline void nvmet_passthru_subsys_free(struct nvmet_subsys *subsys)
-+{
-+}
-+static inline void nvmet_passthru_ctrl_disable(struct nvmet_subsys *subsys)
-+{
-+}
- static inline u16 nvmet_parse_passthru_cmd(struct nvmet_req *req)
- {
- 	return 0;
+ 	rq->end_io_data = req;
+ 	if (req->sq->qid != 0) {
+-		blk_execute_rq_nowait(rq->q, NULL, rq, 0,
++		blk_execute_rq_nowait(rq->q, ns->disk, rq, 0,
+ 				      nvmet_passthru_req_done);
+ 	} else {
+ 		req->p.rq = rq;
 -- 
 2.20.1
