@@ -1,116 +1,46 @@
-From: robh@kernel.org (Rob Herring)
-Date: Thu, 25 Jul 2019 16:46:05 -0600
-Subject: [PATCH v5 2/4] dt-bindings: thermal: nvme: Add binding
- documentation
-In-Reply-To: <CAC5umyh5d7Ya-Ou8BZmPfpXKT+WkMCWnRKkCw8xhe9upNKqVbg@mail.gmail.com>
-References: <1561990354-4084-1-git-send-email-akinobu.mita@gmail.com>
- <1561990354-4084-3-git-send-email-akinobu.mita@gmail.com>
- <20190722221645.GA32515@bogus>
- <CAC5umyh5d7Ya-Ou8BZmPfpXKT+WkMCWnRKkCw8xhe9upNKqVbg@mail.gmail.com>
-Message-ID: <CAL_Jsq++7TkihOTrcx+3NVqYsS502h-1Og7h9H2YCA_YY5av2A@mail.gmail.com>
+From: viro@zeniv.linux.org.uk (Al Viro)
+Date: Fri, 26 Jul 2019 00:55:02 +0100
+Subject: [PATCH v6 02/16] chardev: introduce cdev_get_by_path()
+In-Reply-To: <425dd2ac-333d-a8c4-ce49-870c8dadf436@deltatee.com>
+References: <20190725172335.6825-3-logang@deltatee.com>
+ <20190725174032.GA27818@kroah.com>
+ <682ff89f-04e0-7a94-5aeb-895ac65ee7c9@deltatee.com>
+ <20190725180816.GA32305@kroah.com>
+ <da0eacb7-3738-ddf3-8c61-7ffc61aa41f4@deltatee.com>
+ <20190725182701.GA11547@kroah.com>
+ <20190725190024.GD30641@bombadil.infradead.org>
+ <27943e06-a503-162e-356b-abb9e106ab2e@grimberg.me>
+ <20190725191124.GE30641@bombadil.infradead.org>
+ <425dd2ac-333d-a8c4-ce49-870c8dadf436@deltatee.com>
+Message-ID: <20190725235502.GJ1131@ZenIV.linux.org.uk>
 
-On Thu, Jul 25, 2019@8:24 AM Akinobu Mita <akinobu.mita@gmail.com> wrote:
->
-> 2019?7?23?(?) 7:16 Rob Herring <robh at kernel.org>:
-> >
-> > On Mon, Jul 01, 2019@11:12:32PM +0900, Akinobu Mita wrote:
-> > > Add thermal binding documentation for NVMe temperature sensor.
-> > >
-> > > Cc: Rob Herring <robh at kernel.org>
-> > > Cc: Zhang Rui <rui.zhang at intel.com>
-> > > Cc: Eduardo Valentin <edubezval at gmail.com>
-> > > Cc: Daniel Lezcano <daniel.lezcano at linaro.org>
-> > > Cc: Keith Busch <kbusch at kernel.org>
-> > > Cc: Jens Axboe <axboe at fb.com>
-> > > Cc: Christoph Hellwig <hch at lst.de>
-> > > Cc: Sagi Grimberg <sagi at grimberg.me>
-> > > Cc: Minwoo Im <minwoo.im.dev at gmail.com>
-> > > Cc: Kenneth Heitke <kenneth.heitke at intel.com>
-> > > Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni at wdc.com>
-> > > Signed-off-by: Akinobu Mita <akinobu.mita at gmail.com>
-> > > ---
-> > > * v5
-> > > - New patch
-> > >
-> > >  Documentation/devicetree/bindings/thermal/nvme.txt | 56 ++++++++++++++++++++++
-> > >  1 file changed, 56 insertions(+)
-> > >  create mode 100644 Documentation/devicetree/bindings/thermal/nvme.txt
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/thermal/nvme.txt b/Documentation/devicetree/bindings/thermal/nvme.txt
-> > > new file mode 100644
-> > > index 0000000..60b90de
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/thermal/nvme.txt
-> > > @@ -0,0 +1,56 @@
-> > > +Binding for NVMe temperature sensor
-> > > +
-> > > +An NVMe controller reports up to nine temperature values in the SMART / Health
-> > > +log.
-> > > +
-> > > +Required properties:
-> > > +- reg: A five-cell address encoded as (phys.hi phys.mid phys.lo size.hi
-> > > +  size.lo). phys.hi should contain the device's BDF (Bus/Device/Function)
-> > > +  as 0b00000000 bbbbbbbb dddddfff 00000000. The other cells should be zero.
-> > > +  See also Documentation/devicetree/bindings/pci/pci.txt
-> > > +
-> > > +- #thermal-sensor-cells: Must be 1. See ./thermal.txt for a description.
-> > > +  In the thermal-sensors property, the sensor ID 0 for composite temperature,
-> > > +  1 through 8 for NVMe temperature sensor N.
-> > > +
-> > > +Example:
-> > > +
-> > > +&pcie0 {
-> > > +     ...
-> > > +     nvme: nvme at 0,0 {
-> > > +             reg = <0x0000 0 0 0 0>;
-> > > +             #address-cells = <3>;
-> > > +             #size-cells = <2>;
-> > > +
-> > > +             nvmetemp: nvmetemp {
-> > > +                     reg = <0x0000 0 0 0 0>; /* DEVFN = 0x00 (0:0) */
-> >
-> > I'm not sure this is really valid PCI addressing as the parent has the
-> > same address.
-> >
-> > > +                     #thermal-sensor-cells = <1>;
-> >
-> > Can't you just put this in the parent? Is this really a separate
-> > addressable device from the parent?
->
-> How about this?
->
-> &pcie0 {
-> ...
->         pci-bridge at 0 {
->                 reg = <0x00000 0 0 0 0>;
->                 #address-cells = <3>;
->                 #size-cells = <2>;
->
->                 nvme: nvme at 0,0 {
->                         reg = <0x10000 0 0 0 0>;
->                         #thermal-sensor-cells = <1>;
->                 };
->         };
-> };
->
-> and
->
-> &thermal_zones {
-> ...
-> thermal-sensors = <&nvme 0>;
-> };
->
-> I tested this with the RockPro64 and edited
-> arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dts.
->
-> $ lspci
-> 00:00.0 PCI bridge: Fuzhou Rockchip Electronics Co., Ltd Device 0100
-> 01:00.0 Non-Volatile memory controller: Micron/Crucial Technology
-> Device 2263 (rev 03)
->
-> $ lspci -tv
-> -[0000:00]---00.0-[01]----00.0  Micron/Crucial Technology Device 2263
+On Thu, Jul 25, 2019@01:24:22PM -0600, Logan Gunthorpe wrote:
+> 
+> 
+> On 2019-07-25 1:11 p.m., Matthew Wilcox wrote:
+> > On Thu, Jul 25, 2019@12:05:29PM -0700, Sagi Grimberg wrote:
+> >>
+> >>>>> NVMe-OF is configured using configfs. The target is specified by the
+> >>>>> user writing a path to a configfs attribute. This is the way it works
+> >>>>> today but with blkdev_get_by_path()[1]. For the passthru code, we need
+> >>>>> to get a nvme_ctrl instead of a block_device, but the principal is the same.
+> >>>>
+> >>>> Why isn't a fd being passed in there instead of a random string?
+> >>>
+> >>> I suppose we could echo a string of the file descriptor number there,
+> >>> and look up the fd in the process' file descriptor table ...
+> >>
+> >> Assuming that there is a open handle somewhere out there...
+> 
+> Yes, that would be a step backwards from an interface. The user would
+> then need a special process to open the fd and pass it through configfs.
+> They couldn't just do it with basic bash commands.
 
-Looks better to me.
+First of all, they can, but... WTF not have filp_open() done right there?
+Yes, by name.  With permission checks done.  And pick your object from the
+sodding struct file you'll get.
 
-Rob
+What's the problem?  Why do you need cdev lookups, etc., when you are
+dealing with files under your full control?  Just open them and use
+->private_data or whatever you set in ->open() to access the damn thing.
+All there is to it...
