@@ -1,246 +1,60 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Fri, 26 Jul 2019 17:42:18 +0200
-Subject: [PATCH v3] nvme: fix controller removal race with scan work
-In-Reply-To: <20190725185657.9025-1-sagi@grimberg.me>
-References: <20190725185657.9025-1-sagi@grimberg.me>
-Message-ID: <a5ce0b2d-e4d5-ab79-442c-4c3795fdb0fd@suse.de>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Fri, 26 Jul 2019 09:46:40 -0600
+Subject: [PATCH v6 02/16] chardev: introduce cdev_get_by_path()
+In-Reply-To: <7f48a40c-6e0f-2545-a939-45fc10862dfd@grimberg.me>
+References: <20190725172335.6825-3-logang@deltatee.com>
+ <20190725174032.GA27818@kroah.com>
+ <682ff89f-04e0-7a94-5aeb-895ac65ee7c9@deltatee.com>
+ <20190725180816.GA32305@kroah.com>
+ <da0eacb7-3738-ddf3-8c61-7ffc61aa41f4@deltatee.com>
+ <20190725182701.GA11547@kroah.com>
+ <20190725190024.GD30641@bombadil.infradead.org>
+ <27943e06-a503-162e-356b-abb9e106ab2e@grimberg.me>
+ <20190725191124.GE30641@bombadil.infradead.org>
+ <425dd2ac-333d-a8c4-ce49-870c8dadf436@deltatee.com>
+ <20190725235502.GJ1131@ZenIV.linux.org.uk>
+ <7f48a40c-6e0f-2545-a939-45fc10862dfd@grimberg.me>
+Message-ID: <fce9d627-3bf7-2c63-dbdc-5b252792cc36@deltatee.com>
 
-On 7/25/19 8:56 PM, Sagi Grimberg wrote:
-> With multipath enabled, nvme_scan_work() can read from the device
-> (through nvme_mpath_add_disk()) and hang [1]. However, with fabrics,
-> once ctrl->state is set to NVME_CTRL_DELETING, the reads will hang
-> (see nvmf_check_ready()) and the mpath stack device make_request
-> will block if head->list is not empty. However, when the head->list
-> consistst of only DELETING/DEAD controllers, we should actually not
-> block, but rather fail immediately.
-> 
-> In addition, before we go ahead and remove the namespaces, make sure
-> to clear the current path and kick the requeue list so that the
-> request will fast fail upon requeuing.
-> 
-> [1]:
-> --
->    INFO: task kworker/u4:3:166 blocked for more than 120 seconds.
->          Not tainted 5.2.0-rc6-vmlocalyes-00005-g808c8c2dc0cf #316
->    "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
->    kworker/u4:3    D    0   166      2 0x80004000
->    Workqueue: nvme-wq nvme_scan_work
->    Call Trace:
->     __schedule+0x851/0x1400
->     schedule+0x99/0x210
->     io_schedule+0x21/0x70
->     do_read_cache_page+0xa57/0x1330
->     read_cache_page+0x4a/0x70
->     read_dev_sector+0xbf/0x380
->     amiga_partition+0xc4/0x1230
->     check_partition+0x30f/0x630
->     rescan_partitions+0x19a/0x980
->     __blkdev_get+0x85a/0x12f0
->     blkdev_get+0x2a5/0x790
->     __device_add_disk+0xe25/0x1250
->     device_add_disk+0x13/0x20
->     nvme_mpath_set_live+0x172/0x2b0
->     nvme_update_ns_ana_state+0x130/0x180
->     nvme_set_ns_ana_state+0x9a/0xb0
->     nvme_parse_ana_log+0x1c3/0x4a0
->     nvme_mpath_add_disk+0x157/0x290
->     nvme_validate_ns+0x1017/0x1bd0
->     nvme_scan_work+0x44d/0x6a0
->     process_one_work+0x7d7/0x1240
->     worker_thread+0x8e/0xff0
->     kthread+0x2c3/0x3b0
->     ret_from_fork+0x35/0x40
-> 
->     INFO: task kworker/u4:1:1034 blocked for more than 120 seconds.
->          Not tainted 5.2.0-rc6-vmlocalyes-00005-g808c8c2dc0cf #316
->    "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
->    kworker/u4:1    D    0  1034      2 0x80004000
->    Workqueue: nvme-delete-wq nvme_delete_ctrl_work
->    Call Trace:
->     __schedule+0x851/0x1400
->     schedule+0x99/0x210
->     schedule_timeout+0x390/0x830
->     wait_for_completion+0x1a7/0x310
->     __flush_work+0x241/0x5d0
->     flush_work+0x10/0x20
->     nvme_remove_namespaces+0x85/0x3d0
->     nvme_do_delete_ctrl+0xb4/0x1e0
->     nvme_delete_ctrl_work+0x15/0x20
->     process_one_work+0x7d7/0x1240
->     worker_thread+0x8e/0xff0
->     kthread+0x2c3/0x3b0
->     ret_from_fork+0x35/0x40
-> --
-> 
-> Reported-by: Logan Gunthorpe <logang at deltatee.com>
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> ---
-> Changes from v2:
-> - fix silly compilation error (undiclared variable)
-> 
-> Changes from v1:
-> - fix compilation with CONFIG_NVME_MULTIPATH=n (Logan)
-> 
->   drivers/nvme/host/core.c      |  7 ++++++
->   drivers/nvme/host/multipath.c | 46 ++++++++++++++++++++++++++++++-----
->   drivers/nvme/host/nvme.h      |  9 +++++--
->   3 files changed, 54 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 1c2863216082..c657e38f0554 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -3577,6 +3577,13 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
->   	struct nvme_ns *ns, *next;
->   	LIST_HEAD(ns_list);
->   
-> +	/*
-> +	 * make sure to requeue I/O to all namespaces as these
-> +	 * might result from the scan itself and must complete
-> +	 * for the scan_work to make progress
-> +	 */
-> +	nvme_mpath_clear_ctrl_paths(ctrl);
-> +
->   	/* prevent racing with ns scanning */
->   	flush_work(&ctrl->scan_work);
->   
-> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-> index a9a927677970..45ffa17f844e 100644
-> --- a/drivers/nvme/host/multipath.c
-> +++ b/drivers/nvme/host/multipath.c
-> @@ -109,18 +109,34 @@ static const char *nvme_ana_state_names[] = {
->   	[NVME_ANA_CHANGE]		= "change",
->   };
->   
-> -void nvme_mpath_clear_current_path(struct nvme_ns *ns)
-> +bool nvme_mpath_clear_current_path(struct nvme_ns *ns)
->   {
->   	struct nvme_ns_head *head = ns->head;
-> +	bool changed = false;
->   	int node;
->   
->   	if (!head)
-> -		return;
-> +		goto out;
->   
->   	for_each_node(node) {
-> -		if (ns == rcu_access_pointer(head->current_path[node]))
-> +		if (ns == rcu_access_pointer(head->current_path[node])) {
->   			rcu_assign_pointer(head->current_path[node], NULL);
-> +			changed = true;
-> +		}
->   	}
-> +out:
-> +	return changed;
-> +}
-> +
-> +void nvme_mpath_clear_ctrl_paths(struct nvme_ctrl *ctrl)
-> +{
-> +	struct nvme_ns *ns;
-> +
-> +	mutex_lock(&ctrl->scan_lock);
-> +	list_for_each_entry(ns, &ctrl->namespaces, list)
-> +		if (nvme_mpath_clear_current_path(ns))
-> +			kblockd_schedule_work(&ns->head->requeue_work);
-> +	mutex_unlock(&ctrl->scan_lock);
->   }
->   
->   static bool nvme_path_is_disabled(struct nvme_ns *ns)
-> @@ -231,6 +247,24 @@ inline struct nvme_ns *nvme_find_path(struct nvme_ns_head *head)
->   	return ns;
->   }
->   
-> +static bool nvme_available_path(struct nvme_ns_head *head)
-> +{
-> +	struct nvme_ns *ns;
-> +
-> +	list_for_each_entry_rcu(ns, &head->list, siblings) {
-> +		switch (ns->ctrl->state) {
-> +		case NVME_CTRL_LIVE:
-> +		case NVME_CTRL_RESETTING:
-> +		case NVME_CTRL_CONNECTING:
-> +			/* fallthru */
-> +			return true;
-> +		default:
-> +			break;
-> +		}
-> +	}
-> +	return false;
-> +}
-> +
->   static blk_qc_t nvme_ns_head_make_request(struct request_queue *q,
->   		struct bio *bio)
->   {
-> @@ -257,14 +291,14 @@ static blk_qc_t nvme_ns_head_make_request(struct request_queue *q,
->   				      disk_devt(ns->head->disk),
->   				      bio->bi_iter.bi_sector);
->   		ret = direct_make_request(bio);
-> -	} else if (!list_empty_careful(&head->list)) {
-> -		dev_warn_ratelimited(dev, "no path available - requeuing I/O\n");
-> +	} else if (nvme_available_path(head)) {
-> +		dev_warn_ratelimited(dev, "no usable path - requeuing I/O\n");
->   
->   		spin_lock_irq(&head->requeue_lock);
->   		bio_list_add(&head->requeue_list, bio);
->   		spin_unlock_irq(&head->requeue_lock);
->   	} else {
-> -		dev_warn_ratelimited(dev, "no path - failing I/O\n");
-> +		dev_warn_ratelimited(dev, "no available path - failing I/O\n");
->   
->   		bio->bi_status = BLK_STS_IOERR;
->   		bio_endio(bio);
-> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> index 740241e84d29..a730c6b3dfba 100644
-> --- a/drivers/nvme/host/nvme.h
-> +++ b/drivers/nvme/host/nvme.h
-> @@ -496,7 +496,8 @@ void nvme_mpath_remove_disk(struct nvme_ns_head *head);
->   int nvme_mpath_init(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id);
->   void nvme_mpath_uninit(struct nvme_ctrl *ctrl);
->   void nvme_mpath_stop(struct nvme_ctrl *ctrl);
-> -void nvme_mpath_clear_current_path(struct nvme_ns *ns);
-> +bool nvme_mpath_clear_current_path(struct nvme_ns *ns);
-> +void nvme_mpath_clear_ctrl_paths(struct nvme_ctrl *ctrl);
->   struct nvme_ns *nvme_find_path(struct nvme_ns_head *head);
->   
->   static inline void nvme_mpath_check_last_path(struct nvme_ns *ns)
-> @@ -544,7 +545,11 @@ static inline void nvme_mpath_add_disk(struct nvme_ns *ns,
->   static inline void nvme_mpath_remove_disk(struct nvme_ns_head *head)
->   {
->   }
-> -static inline void nvme_mpath_clear_current_path(struct nvme_ns *ns)
-> +static inline bool nvme_mpath_clear_current_path(struct nvme_ns *ns)
-> +{
-> +	return false;
-> +}
-> +static inline void nvme_mpath_clear_ctrl_paths(struct nvme_ctrl *ctrl)
->   {
->   }
->   static inline void nvme_mpath_check_last_path(struct nvme_ns *ns)
-> 
-Weellll ... I'm not sure if I totally agree with this one.
 
-As you might know I'm chasing down the mysterious reset/rescan issue, 
-too, and still haven't been able to resolve is properly.
 
-But looking at this patch the hunk for clearing the current path on 
-removing namespaces looks like a good idea on itself.
-Care to separate this out?
+On 2019-07-25 10:29 p.m., Sagi Grimberg wrote:
+> 
+>>>>>>>> NVMe-OF is configured using configfs. The target is specified by
+>>>>>>>> the
+>>>>>>>> user writing a path to a configfs attribute. This is the way it
+>>>>>>>> works
+>>>>>>>> today but with blkdev_get_by_path()[1]. For the passthru code,
+>>>>>>>> we need
+>>>>>>>> to get a nvme_ctrl instead of a block_device, but the principal
+>>>>>>>> is the same.
+>>>>>>>
+>>>>>>> Why isn't a fd being passed in there instead of a random string?
+>>>>>>
+>>>>>> I suppose we could echo a string of the file descriptor number there,
+>>>>>> and look up the fd in the process' file descriptor table ...
+>>>>>
+>>>>> Assuming that there is a open handle somewhere out there...
+>>>
+>>> Yes, that would be a step backwards from an interface. The user would
+>>> then need a special process to open the fd and pass it through configfs.
+>>> They couldn't just do it with basic bash commands.
+>>
+>> First of all, they can, but... WTF not have filp_open() done right there?
+>> Yes, by name.? With permission checks done.? And pick your object from
+>> the
+>> sodding struct file you'll get.
+>>
+>> What's the problem?? Why do you need cdev lookups, etc., when you are
+>> dealing with files under your full control?? Just open them and use
+>> ->private_data or whatever you set in ->open() to access the damn thing.
+>> All there is to it...
+> Oh this is so much simpler. There is really no point in using anything
+> else. Just need to remember to compare f->f_op to what we expect to make
+> sure that it is indeed the same device class.
 
-Thing is, I had been notified on a regression caused by commit 
-525aa5a705d86e ("nvme-multipath: split bios with the ns_head..."), which 
-manifests itself by a spurious I/O error during failover.
-This is hitting precisely the code path in nvme multipath; we're seeing 
-the message 'No path, failing I/O' during failover despite paths having 
-been reconnected previously.
-So your patch would indeed increase the likelyhood here, and I'm not 
-sure if that's the correct way to go.
+Yes, that sounds like a good idea. I'll do this for v2.
 
-Cheers,
+Thanks,
 
-Hannes
--- 
-Dr. Hannes Reinecke            Teamlead Storage & Networking
-hare at suse.de                              +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N?rnberg)
+Logan
