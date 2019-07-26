@@ -1,60 +1,85 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Fri, 26 Jul 2019 11:50:14 -0600
+Date: Fri, 26 Jul 2019 12:50:39 -0600
 Subject: [PATCH v3] nvme: fix controller removal race with scan work
-In-Reply-To: <93c38a70-3500-b1eb-38c7-41419c8f64c8@grimberg.me>
+In-Reply-To: <20190725185657.9025-1-sagi@grimberg.me>
 References: <20190725185657.9025-1-sagi@grimberg.me>
- <a5ce0b2d-e4d5-ab79-442c-4c3795fdb0fd@suse.de>
- <93c38a70-3500-b1eb-38c7-41419c8f64c8@grimberg.me>
-Message-ID: <2ba25e11-1f37-4a91-8de8-2344157e96cb@deltatee.com>
+Message-ID: <28bc494a-dba1-8fbd-8fcf-891d388f7c5f@deltatee.com>
 
 
 
-On 2019-07-26 11:39 a.m., Sagi Grimberg wrote:
+On 2019-07-25 12:56 p.m., Sagi Grimberg wrote:
+> With multipath enabled, nvme_scan_work() can read from the device
+> (through nvme_mpath_add_disk()) and hang [1]. However, with fabrics,
+> once ctrl->state is set to NVME_CTRL_DELETING, the reads will hang
+> (see nvmf_check_ready()) and the mpath stack device make_request
+> will block if head->list is not empty. However, when the head->list
+> consistst of only DELETING/DEAD controllers, we should actually not
+> block, but rather fail immediately.
 > 
->> Weellll ... I'm not sure if I totally agree with this one.
+> In addition, before we go ahead and remove the namespaces, make sure
+> to clear the current path and kick the requeue list so that the
+> request will fast fail upon requeuing.
 > 
-> That's fair...
+> [1]:
+> --
+>   INFO: task kworker/u4:3:166 blocked for more than 120 seconds.
+>         Not tainted 5.2.0-rc6-vmlocalyes-00005-g808c8c2dc0cf #316
+>   "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+>   kworker/u4:3    D    0   166      2 0x80004000
+>   Workqueue: nvme-wq nvme_scan_work
+>   Call Trace:
+>    __schedule+0x851/0x1400
+>    schedule+0x99/0x210
+>    io_schedule+0x21/0x70
+>    do_read_cache_page+0xa57/0x1330
+>    read_cache_page+0x4a/0x70
+>    read_dev_sector+0xbf/0x380
+>    amiga_partition+0xc4/0x1230
+>    check_partition+0x30f/0x630
+>    rescan_partitions+0x19a/0x980
+>    __blkdev_get+0x85a/0x12f0
+>    blkdev_get+0x2a5/0x790
+>    __device_add_disk+0xe25/0x1250
+>    device_add_disk+0x13/0x20
+>    nvme_mpath_set_live+0x172/0x2b0
+>    nvme_update_ns_ana_state+0x130/0x180
+>    nvme_set_ns_ana_state+0x9a/0xb0
+>    nvme_parse_ana_log+0x1c3/0x4a0
+>    nvme_mpath_add_disk+0x157/0x290
+>    nvme_validate_ns+0x1017/0x1bd0
+>    nvme_scan_work+0x44d/0x6a0
+>    process_one_work+0x7d7/0x1240
+>    worker_thread+0x8e/0xff0
+>    kthread+0x2c3/0x3b0
+>    ret_from_fork+0x35/0x40
 > 
->> As you might know I'm chasing down the mysterious reset/rescan issue,
->> too, and still haven't been able to resolve is properly.
+>    INFO: task kworker/u4:1:1034 blocked for more than 120 seconds.
+>         Not tainted 5.2.0-rc6-vmlocalyes-00005-g808c8c2dc0cf #316
+>   "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+>   kworker/u4:1    D    0  1034      2 0x80004000
+>   Workqueue: nvme-delete-wq nvme_delete_ctrl_work
+>   Call Trace:
+>    __schedule+0x851/0x1400
+>    schedule+0x99/0x210
+>    schedule_timeout+0x390/0x830
+>    wait_for_completion+0x1a7/0x310
+>    __flush_work+0x241/0x5d0
+>    flush_work+0x10/0x20
+>    nvme_remove_namespaces+0x85/0x3d0
+>    nvme_do_delete_ctrl+0xb4/0x1e0
+>    nvme_delete_ctrl_work+0x15/0x20
+>    process_one_work+0x7d7/0x1240
+>    worker_thread+0x8e/0xff0
+>    kthread+0x2c3/0x3b0
+>    ret_from_fork+0x35/0x40
+> --
 > 
-> Have you tried the patch that I proposed to you?
-> 
-> This is a different problem than what you reported, this is
-> addressing the scenario that the host connects and quickly
-> disconnects from a client before the scan is completed AND
-> multipath is enabled.
-> 
->> But looking at this patch the hunk for clearing the current path on
->> removing namespaces looks like a good idea on itself.
->> Care to separate this out?
-> 
-> Sure, although its designed to address this issue and not very
-> effective without the other part.
-> 
->> Thing is, I had been notified on a regression caused by commit
->> 525aa5a705d86e ("nvme-multipath: split bios with the ns_head..."),
->> which manifests itself by a spurious I/O error during failover.
-> 
-> Hmm, this is interesting. Not sure how this specific commit would
-> introduce such an issue.
-> 
->> This is hitting precisely the code path in nvme multipath; we're
->> seeing the message 'No path, failing I/O' during failover despite
->> paths having been reconnected previously.
-> 
-> Can we understand what are the controller states in this scenario?
-> 
->> So your patch would indeed increase the likelyhood here, and I'm not
->> sure if that's the correct way to go.
-> 
-> Well, we are clearly doing the wrong thing if we're queueing I/O if all
-> the paths that we have are either DELETING or DEAD controllers. That
-> is precisely why we suffer from I/O hangs. This patch corrects this
-> wrong behavior. We must only requeue I/O if we have an available path
-> that is expected to sometime to resume (i.e. RESETTING/CONNECTING).
+> Reported-by: Logan Gunthorpe <logang at deltatee.com>
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 
-Agreed. I think this is the key point and why I think this patch is the
-right thing to do.
+Tested-by: Logan Gunthorpe <logang at deltatee.com>
+Reviewed-by: Logan Gunthorpe <logang at deltatee.com>
+
+Looks good to me. Thanks!
 
 Logan
