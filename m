@@ -1,7 +1,7 @@
-From: viro@zeniv.linux.org.uk (Al Viro)
-Date: Fri, 26 Jul 2019 00:55:02 +0100
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 25 Jul 2019 21:29:40 -0700
 Subject: [PATCH v6 02/16] chardev: introduce cdev_get_by_path()
-In-Reply-To: <425dd2ac-333d-a8c4-ce49-870c8dadf436@deltatee.com>
+In-Reply-To: <20190725235502.GJ1131@ZenIV.linux.org.uk>
 References: <20190725172335.6825-3-logang@deltatee.com>
  <20190725174032.GA27818@kroah.com>
  <682ff89f-04e0-7a94-5aeb-895ac65ee7c9@deltatee.com>
@@ -12,35 +12,34 @@ References: <20190725172335.6825-3-logang@deltatee.com>
  <27943e06-a503-162e-356b-abb9e106ab2e@grimberg.me>
  <20190725191124.GE30641@bombadil.infradead.org>
  <425dd2ac-333d-a8c4-ce49-870c8dadf436@deltatee.com>
-Message-ID: <20190725235502.GJ1131@ZenIV.linux.org.uk>
+ <20190725235502.GJ1131@ZenIV.linux.org.uk>
+Message-ID: <7f48a40c-6e0f-2545-a939-45fc10862dfd@grimberg.me>
 
-On Thu, Jul 25, 2019@01:24:22PM -0600, Logan Gunthorpe wrote:
-> 
-> 
-> On 2019-07-25 1:11 p.m., Matthew Wilcox wrote:
-> > On Thu, Jul 25, 2019@12:05:29PM -0700, Sagi Grimberg wrote:
-> >>
-> >>>>> NVMe-OF is configured using configfs. The target is specified by the
-> >>>>> user writing a path to a configfs attribute. This is the way it works
-> >>>>> today but with blkdev_get_by_path()[1]. For the passthru code, we need
-> >>>>> to get a nvme_ctrl instead of a block_device, but the principal is the same.
-> >>>>
-> >>>> Why isn't a fd being passed in there instead of a random string?
-> >>>
-> >>> I suppose we could echo a string of the file descriptor number there,
-> >>> and look up the fd in the process' file descriptor table ...
-> >>
-> >> Assuming that there is a open handle somewhere out there...
-> 
-> Yes, that would be a step backwards from an interface. The user would
-> then need a special process to open the fd and pass it through configfs.
-> They couldn't just do it with basic bash commands.
 
-First of all, they can, but... WTF not have filp_open() done right there?
-Yes, by name.  With permission checks done.  And pick your object from the
-sodding struct file you'll get.
-
-What's the problem?  Why do you need cdev lookups, etc., when you are
-dealing with files under your full control?  Just open them and use
-->private_data or whatever you set in ->open() to access the damn thing.
-All there is to it...
+>>>>>>> NVMe-OF is configured using configfs. The target is specified by the
+>>>>>>> user writing a path to a configfs attribute. This is the way it works
+>>>>>>> today but with blkdev_get_by_path()[1]. For the passthru code, we need
+>>>>>>> to get a nvme_ctrl instead of a block_device, but the principal is the same.
+>>>>>>
+>>>>>> Why isn't a fd being passed in there instead of a random string?
+>>>>>
+>>>>> I suppose we could echo a string of the file descriptor number there,
+>>>>> and look up the fd in the process' file descriptor table ...
+>>>>
+>>>> Assuming that there is a open handle somewhere out there...
+>>
+>> Yes, that would be a step backwards from an interface. The user would
+>> then need a special process to open the fd and pass it through configfs.
+>> They couldn't just do it with basic bash commands.
+> 
+> First of all, they can, but... WTF not have filp_open() done right there?
+> Yes, by name.  With permission checks done.  And pick your object from the
+> sodding struct file you'll get.
+> 
+> What's the problem?  Why do you need cdev lookups, etc., when you are
+> dealing with files under your full control?  Just open them and use
+> ->private_data or whatever you set in ->open() to access the damn thing.
+> All there is to it...
+Oh this is so much simpler. There is really no point in using anything
+else. Just need to remember to compare f->f_op to what we expect to make
+sure that it is indeed the same device class.
