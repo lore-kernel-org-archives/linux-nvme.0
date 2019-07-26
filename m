@@ -1,53 +1,86 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Fri, 26 Jul 2019 11:07:44 -0600
-Subject: [PATCH v6 00/16] nvmet: add target passthru commands support
-In-Reply-To: <1f202de3-1122-f4a3-debd-0d169f545047@suse.de>
-References: <20190725172335.6825-1-logang@deltatee.com>
- <1f202de3-1122-f4a3-debd-0d169f545047@suse.de>
-Message-ID: <8fd8813f-f8e1-2139-13bf-b0635a03bc30@deltatee.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Fri, 26 Jul 2019 10:29:49 -0700
+Subject: [PATCH] nvme-rdma: fix possible use-after-free in connect error flow
+Message-ID: <20190726172949.1635-1-sagi@grimberg.me>
 
+When start_queue fails, we need to make sure to drain the
+queue cq before freeing the rdma resources because we might
+still race with the completion path. Have start_queue() error
+path safely stop the queue.
 
+--
+[30371.808111] nvme nvme1: Failed reconnect attempt 11
+[30371.808113] nvme nvme1: Reconnecting in 10 seconds...
+[...]
+[30382.069315] nvme nvme1: creating 4 I/O queues.
+[30382.257058] nvme nvme1: Connect Invalid SQE Parameter, qid 4
+[30382.257061] nvme nvme1: failed to connect queue: 4 ret=386
+[30382.305001] BUG: unable to handle kernel NULL pointer dereference at 0000000000000018
+[30382.305022] IP: qedr_poll_cq+0x8a3/0x1170 [qedr]
+[30382.305028] PGD 0 P4D 0
+[30382.305037] Oops: 0000 [#1] SMP PTI
+[...]
+[30382.305153] Call Trace:
+[30382.305166]  ? __switch_to_asm+0x34/0x70
+[30382.305187]  __ib_process_cq+0x56/0xd0 [ib_core]
+[30382.305201]  ib_poll_handler+0x26/0x70 [ib_core]
+[30382.305213]  irq_poll_softirq+0x88/0x110
+[30382.305223]  ? sort_range+0x20/0x20
+[30382.305232]  __do_softirq+0xde/0x2c6
+[30382.305241]  ? sort_range+0x20/0x20
+[30382.305249]  run_ksoftirqd+0x1c/0x60
+[30382.305258]  smpboot_thread_fn+0xef/0x160
+[30382.305265]  kthread+0x113/0x130
+[30382.305273]  ? kthread_create_worker_on_cpu+0x50/0x50
+[30382.305281]  ret_from_fork+0x35/0x40
+--
 
-On 2019-07-26 12:23 a.m., Hannes Reinecke wrote:
-> How do you handle subsystem naming?
-> If you enable the 'passthru' device, the (nvmet) subsystem (and its
-> name) is already created. Yet the passthru device will have its own
-> internal subsystem naming, so if you're not extra careful you'll end up
-> with a nvmet subsystem which doesn't have any relationship with the
-> passthru subsystem, making addressing etc ... tricky.
-> Any thoughts about that?
+Reported-by: Nicolas Morey-Chaisemartin <NMoreyChaisemartin at suse.com>
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/host/rdma.c | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
-Well I can't say I have a great understanding of how multipath works, but...
-
-I don't think it necessarily makes sense for the target subsynqn and the
-target's device nqn to be the same. It would be weird for a user to want
-to use the same device and a passed through device (through a loop) as
-part of the same subsystem. That being said, it's possible for the user
-to use the subsysnqn from the passed through device for the name of the
-subsys of the target. I tried this and it works except for the fact that
-the device I'm passing through doesn't set id->cmic.
-
-> Similarly: how do you propose to handle multipath devices?
-> Any NVMe with several paths will be enabling NVMe multipathing
-> automatically, presenting you with a single multipathed namespace.
-> How will these devices be treated?
-
-Well passthru works on the controller level not on the namespace level.
-So it can't make use of the multipath handling on the target system.
-
-The one case that I think makes sense to me, but I don't know how if we
-can handle, is if the user had a couple multipath enabled controllers
-with the same subsynqn and wanted to passthru all of them to another
-system and use multipath on the host with both controllers. This would
-require having multiple target subsystems with the same name which I
-don't think will work too well.
-
-> Will the multipathed namespace be used for passthru?
-
-Nope.
-
-Honestly, I think the answer is if someone wants to use multipathed
-controllers they should use regular NVMe-of as it doesn't really mesh
-well with the passthru approach.
-
-Logan
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 97f668a39ae1..7b074323bcdf 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -562,13 +562,17 @@ static int nvme_rdma_alloc_queue(struct nvme_rdma_ctrl *ctrl,
+ 	return ret;
+ }
+ 
++static void __nvme_rdma_stop_queue(struct nvme_rdma_queue *queue)
++{
++	rdma_disconnect(queue->cm_id);
++	ib_drain_qp(queue->qp);
++}
++
+ static void nvme_rdma_stop_queue(struct nvme_rdma_queue *queue)
+ {
+ 	if (!test_and_clear_bit(NVME_RDMA_Q_LIVE, &queue->flags))
+ 		return;
+-
+-	rdma_disconnect(queue->cm_id);
+-	ib_drain_qp(queue->qp);
++	__nvme_rdma_stop_queue(queue);
+ }
+ 
+ static void nvme_rdma_free_queue(struct nvme_rdma_queue *queue)
+@@ -607,11 +611,13 @@ static int nvme_rdma_start_queue(struct nvme_rdma_ctrl *ctrl, int idx)
+ 	else
+ 		ret = nvmf_connect_admin_queue(&ctrl->ctrl);
+ 
+-	if (!ret)
++	if (!ret) {
+ 		set_bit(NVME_RDMA_Q_LIVE, &queue->flags);
+-	else
++	} else {
++		__nvme_rdma_stop_queue(queue);
+ 		dev_info(ctrl->ctrl.device,
+ 			"failed to connect queue: %d ret=%d\n", idx, ret);
++	}
+ 	return ret;
+ }
+ 
+-- 
+2.17.1
