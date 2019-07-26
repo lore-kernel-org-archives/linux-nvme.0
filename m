@@ -1,53 +1,78 @@
-From: jacek.anaszewski@gmail.com (Jacek Anaszewski)
-Date: Fri, 26 Jul 2019 23:22:10 +0200
-Subject: [PATCH v2 1/3] block: introduce LED block device activity trigger
-In-Reply-To: <1563807552-23498-2-git-send-email-akinobu.mita@gmail.com>
-References: <1563807552-23498-1-git-send-email-akinobu.mita@gmail.com>
- <1563807552-23498-2-git-send-email-akinobu.mita@gmail.com>
-Message-ID: <44a6093f-7df7-9442-c33b-5827eb5f187b@gmail.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Fri, 26 Jul 2019 15:21:14 -0700
+Subject: [PATCH v6 00/16] nvmet: add target passthru commands support
+In-Reply-To: <8fd8813f-f8e1-2139-13bf-b0635a03bc30@deltatee.com>
+References: <20190725172335.6825-1-logang@deltatee.com>
+ <1f202de3-1122-f4a3-debd-0d169f545047@suse.de>
+ <8fd8813f-f8e1-2139-13bf-b0635a03bc30@deltatee.com>
+Message-ID: <175fa142-4815-ee48-82a4-18eb411db1ae@grimberg.me>
 
-Hi Akinobu,
 
-Thank you for the v2. I've checked and it works as expected.
-
-One thing is missing though - ABI documentation.
-
-Please add Documentation/ABI/testing/sysfs-class-led-trigger-blk
-and document read, write and discard files.
-
-Best regards,
-Jacek Anaszewski
-
-On 7/22/19 4:59 PM, Akinobu Mita wrote:
-> This allows LEDs to be controlled by block device activity.
+>> How do you handle subsystem naming?
+>> If you enable the 'passthru' device, the (nvmet) subsystem (and its
+>> name) is already created. Yet the passthru device will have its own
+>> internal subsystem naming, so if you're not extra careful you'll end up
+>> with a nvmet subsystem which doesn't have any relationship with the
+>> passthru subsystem, making addressing etc ... tricky.
+>> Any thoughts about that?
 > 
-> We already have ledtrig-disk (LED disk activity trigger), but the lower
-> level disk drivers need to utilize ledtrig_disk_activity() to make the
-> LED blink.
+> Well I can't say I have a great understanding of how multipath works, but...
+
+Why is this related to multipath?
+
+> I don't think it necessarily makes sense for the target subsynqn and the
+> target's device nqn to be the same. It would be weird for a user to want
+> to use the same device and a passed through device (through a loop) as
+> part of the same subsystem. That being said, it's possible for the user
+> to use the subsysnqn from the passed through device for the name of the
+> subsys of the target. I tried this and it works except for the fact that
+> the device I'm passing through doesn't set id->cmic.
+
+I don't see why should the subsystem nqn should be the same name. Its
+just like any other nvmet subsystem, just happens to have a nvme
+controller in the backend (which it knows about). No reason to have
+the same name IMO.
+
+>> Similarly: how do you propose to handle multipath devices?
+>> Any NVMe with several paths will be enabling NVMe multipathing
+>> automatically, presenting you with a single multipathed namespace.
+>> How will these devices be treated?
 > 
-> The LED block device trigger doesn't require the lower level drivers to
-> have any instrumentation. The activity is collected by polling the disk
-> stats.
+> Well passthru works on the controller level not on the namespace level.
+> So it can't make use of the multipath handling on the target system.
+
+Why? if nvmet is capable, why shouldn't we support it?
+
+> The one case that I think makes sense to me, but I don't know how if we
+> can handle, is if the user had a couple multipath enabled controllers
+> with the same subsynqn
+
+That is usually the case, there is no multipathing defined across NVM
+subsystems (at least for now).
+
+> and wanted to passthru all of them to another
+> system and use multipath on the host with both controllers. This would
+> require having multiple target subsystems with the same name which I
+> don't think will work too well.
+
+Don't understand why this is the case?
+
+AFAICT, all nvmet needs to do is:
+1. override cimc
+2. allow allocating multiple controllers to the pt ctrl as long as the
+hostnqn match.
+3. answer all the ana stuff.
+
+What else is missing?
+
+>> Will the multipathed namespace be used for passthru?
 > 
-> Example:
+> Nope.
 > 
-> echo block-nvme0n1 > /sys/class/leds/diy/trigger
-> 
-> Cc: Frank Steiner <fsteiner-mail1 at bio.ifi.lmu.de>
-> Cc: Jacek Anaszewski <jacek.anaszewski at gmail.com>
-> Cc: Pavel Machek <pavel at ucw.cz>
-> Cc: Dan Murphy <dmurphy at ti.com>
-> Cc: Jens Axboe <axboe at kernel.dk>
-> Cc: "James E.J. Bottomley" <jejb at linux.ibm.com>
-> Cc: "Martin K. Petersen" <martin.petersen at oracle.com>
-> Signed-off-by: Akinobu Mita <akinobu.mita at gmail.com>
-> ---
->  block/genhd.c                      |   2 +
->  drivers/leds/trigger/Kconfig       |   7 ++
->  drivers/leds/trigger/Makefile      |   1 +
->  drivers/leds/trigger/ledtrig-blk.c | 225 +++++++++++++++++++++++++++++++++++++
->  include/linux/genhd.h              |   3 +
->  include/linux/leds.h               |  27 +++++
->  6 files changed, 265 insertions(+)
->  create mode 100644 drivers/leds/trigger/ledtrig-blk.c
-[...]
+> Honestly, I think the answer is if someone wants to use multipathed
+> controllers they should use regular NVMe-of as it doesn't really mesh
+> well with the passthru approach.
+
+Maybe I'm missing something, but they should be orthogonal.. I know that
+its sort of not real passthru, but we are exposing an nvme device across
+a fabric, I think its reasonable to have some adjustments on top.
