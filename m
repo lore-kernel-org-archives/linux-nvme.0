@@ -1,85 +1,53 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Fri, 26 Jul 2019 12:50:39 -0600
-Subject: [PATCH v3] nvme: fix controller removal race with scan work
-In-Reply-To: <20190725185657.9025-1-sagi@grimberg.me>
-References: <20190725185657.9025-1-sagi@grimberg.me>
-Message-ID: <28bc494a-dba1-8fbd-8fcf-891d388f7c5f@deltatee.com>
+From: jacek.anaszewski@gmail.com (Jacek Anaszewski)
+Date: Fri, 26 Jul 2019 23:22:10 +0200
+Subject: [PATCH v2 1/3] block: introduce LED block device activity trigger
+In-Reply-To: <1563807552-23498-2-git-send-email-akinobu.mita@gmail.com>
+References: <1563807552-23498-1-git-send-email-akinobu.mita@gmail.com>
+ <1563807552-23498-2-git-send-email-akinobu.mita@gmail.com>
+Message-ID: <44a6093f-7df7-9442-c33b-5827eb5f187b@gmail.com>
 
+Hi Akinobu,
 
+Thank you for the v2. I've checked and it works as expected.
 
-On 2019-07-25 12:56 p.m., Sagi Grimberg wrote:
-> With multipath enabled, nvme_scan_work() can read from the device
-> (through nvme_mpath_add_disk()) and hang [1]. However, with fabrics,
-> once ctrl->state is set to NVME_CTRL_DELETING, the reads will hang
-> (see nvmf_check_ready()) and the mpath stack device make_request
-> will block if head->list is not empty. However, when the head->list
-> consistst of only DELETING/DEAD controllers, we should actually not
-> block, but rather fail immediately.
+One thing is missing though - ABI documentation.
+
+Please add Documentation/ABI/testing/sysfs-class-led-trigger-blk
+and document read, write and discard files.
+
+Best regards,
+Jacek Anaszewski
+
+On 7/22/19 4:59 PM, Akinobu Mita wrote:
+> This allows LEDs to be controlled by block device activity.
 > 
-> In addition, before we go ahead and remove the namespaces, make sure
-> to clear the current path and kick the requeue list so that the
-> request will fast fail upon requeuing.
+> We already have ledtrig-disk (LED disk activity trigger), but the lower
+> level disk drivers need to utilize ledtrig_disk_activity() to make the
+> LED blink.
 > 
-> [1]:
-> --
->   INFO: task kworker/u4:3:166 blocked for more than 120 seconds.
->         Not tainted 5.2.0-rc6-vmlocalyes-00005-g808c8c2dc0cf #316
->   "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
->   kworker/u4:3    D    0   166      2 0x80004000
->   Workqueue: nvme-wq nvme_scan_work
->   Call Trace:
->    __schedule+0x851/0x1400
->    schedule+0x99/0x210
->    io_schedule+0x21/0x70
->    do_read_cache_page+0xa57/0x1330
->    read_cache_page+0x4a/0x70
->    read_dev_sector+0xbf/0x380
->    amiga_partition+0xc4/0x1230
->    check_partition+0x30f/0x630
->    rescan_partitions+0x19a/0x980
->    __blkdev_get+0x85a/0x12f0
->    blkdev_get+0x2a5/0x790
->    __device_add_disk+0xe25/0x1250
->    device_add_disk+0x13/0x20
->    nvme_mpath_set_live+0x172/0x2b0
->    nvme_update_ns_ana_state+0x130/0x180
->    nvme_set_ns_ana_state+0x9a/0xb0
->    nvme_parse_ana_log+0x1c3/0x4a0
->    nvme_mpath_add_disk+0x157/0x290
->    nvme_validate_ns+0x1017/0x1bd0
->    nvme_scan_work+0x44d/0x6a0
->    process_one_work+0x7d7/0x1240
->    worker_thread+0x8e/0xff0
->    kthread+0x2c3/0x3b0
->    ret_from_fork+0x35/0x40
+> The LED block device trigger doesn't require the lower level drivers to
+> have any instrumentation. The activity is collected by polling the disk
+> stats.
 > 
->    INFO: task kworker/u4:1:1034 blocked for more than 120 seconds.
->         Not tainted 5.2.0-rc6-vmlocalyes-00005-g808c8c2dc0cf #316
->   "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
->   kworker/u4:1    D    0  1034      2 0x80004000
->   Workqueue: nvme-delete-wq nvme_delete_ctrl_work
->   Call Trace:
->    __schedule+0x851/0x1400
->    schedule+0x99/0x210
->    schedule_timeout+0x390/0x830
->    wait_for_completion+0x1a7/0x310
->    __flush_work+0x241/0x5d0
->    flush_work+0x10/0x20
->    nvme_remove_namespaces+0x85/0x3d0
->    nvme_do_delete_ctrl+0xb4/0x1e0
->    nvme_delete_ctrl_work+0x15/0x20
->    process_one_work+0x7d7/0x1240
->    worker_thread+0x8e/0xff0
->    kthread+0x2c3/0x3b0
->    ret_from_fork+0x35/0x40
-> --
+> Example:
 > 
-> Reported-by: Logan Gunthorpe <logang at deltatee.com>
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-
-Tested-by: Logan Gunthorpe <logang at deltatee.com>
-Reviewed-by: Logan Gunthorpe <logang at deltatee.com>
-
-Looks good to me. Thanks!
-
-Logan
+> echo block-nvme0n1 > /sys/class/leds/diy/trigger
+> 
+> Cc: Frank Steiner <fsteiner-mail1 at bio.ifi.lmu.de>
+> Cc: Jacek Anaszewski <jacek.anaszewski at gmail.com>
+> Cc: Pavel Machek <pavel at ucw.cz>
+> Cc: Dan Murphy <dmurphy at ti.com>
+> Cc: Jens Axboe <axboe at kernel.dk>
+> Cc: "James E.J. Bottomley" <jejb at linux.ibm.com>
+> Cc: "Martin K. Petersen" <martin.petersen at oracle.com>
+> Signed-off-by: Akinobu Mita <akinobu.mita at gmail.com>
+> ---
+>  block/genhd.c                      |   2 +
+>  drivers/leds/trigger/Kconfig       |   7 ++
+>  drivers/leds/trigger/Makefile      |   1 +
+>  drivers/leds/trigger/ledtrig-blk.c | 225 +++++++++++++++++++++++++++++++++++++
+>  include/linux/genhd.h              |   3 +
+>  include/linux/leds.h               |  27 +++++
+>  6 files changed, 265 insertions(+)
+>  create mode 100644 drivers/leds/trigger/ledtrig-blk.c
+[...]
