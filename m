@@ -1,60 +1,54 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Fri, 26 Jul 2019 08:23:45 +0200
-Subject: [PATCH v6 00/16] nvmet: add target passthru commands support
-In-Reply-To: <20190725172335.6825-1-logang@deltatee.com>
-References: <20190725172335.6825-1-logang@deltatee.com>
-Message-ID: <1f202de3-1122-f4a3-debd-0d169f545047@suse.de>
+From: gregkh@linuxfoundation.org (Greg Kroah-Hartman)
+Date: Fri, 26 Jul 2019 09:13:49 +0200
+Subject: [PATCH v6 02/16] chardev: introduce cdev_get_by_path()
+In-Reply-To: <7f48a40c-6e0f-2545-a939-45fc10862dfd@grimberg.me>
+References: <682ff89f-04e0-7a94-5aeb-895ac65ee7c9@deltatee.com>
+ <20190725180816.GA32305@kroah.com>
+ <da0eacb7-3738-ddf3-8c61-7ffc61aa41f4@deltatee.com>
+ <20190725182701.GA11547@kroah.com>
+ <20190725190024.GD30641@bombadil.infradead.org>
+ <27943e06-a503-162e-356b-abb9e106ab2e@grimberg.me>
+ <20190725191124.GE30641@bombadil.infradead.org>
+ <425dd2ac-333d-a8c4-ce49-870c8dadf436@deltatee.com>
+ <20190725235502.GJ1131@ZenIV.linux.org.uk>
+ <7f48a40c-6e0f-2545-a939-45fc10862dfd@grimberg.me>
+Message-ID: <20190726071349.GA16265@kroah.com>
 
-Hi Logan,
-
-On 7/25/19 7:23 PM, Logan Gunthorpe wrote:
-> Hi,
+On Thu, Jul 25, 2019@09:29:40PM -0700, Sagi Grimberg wrote:
 > 
-> Chaitainya has asked us to take on these patches as we have an
-> interest in getting them into upstream. To that end, we've done
-> a large amount of testing, bug fixes and cleanup.
-> 
-> Passthru support for nvmet allows users to export an entire
-> NVMe controller through NVMe-oF. When exported in this way (as opposed
-> to exporting each namespace as a block device), all the NVMe commands
-> are passed to the given controller unmodified, including most admin
-> commands and Vendor Unique Commands (VUCs). A passthru target will
-> expose all namespaces for a given device to the remote host.
-> 
-In general I'm very much in favour of this, yet there are some issues
-which I'm not quite clear about.
+> > > > > > > > NVMe-OF is configured using configfs. The target is specified by the
+> > > > > > > > user writing a path to a configfs attribute. This is the way it works
+> > > > > > > > today but with blkdev_get_by_path()[1]. For the passthru code, we need
+> > > > > > > > to get a nvme_ctrl instead of a block_device, but the principal is the same.
+> > > > > > > 
+> > > > > > > Why isn't a fd being passed in there instead of a random string?
+> > > > > > 
+> > > > > > I suppose we could echo a string of the file descriptor number there,
+> > > > > > and look up the fd in the process' file descriptor table ...
+> > > > > 
+> > > > > Assuming that there is a open handle somewhere out there...
+> > > 
+> > > Yes, that would be a step backwards from an interface. The user would
+> > > then need a special process to open the fd and pass it through configfs.
+> > > They couldn't just do it with basic bash commands.
+> > 
+> > First of all, they can, but... WTF not have filp_open() done right there?
+> > Yes, by name.  With permission checks done.  And pick your object from the
+> > sodding struct file you'll get.
+> > 
+> > What's the problem?  Why do you need cdev lookups, etc., when you are
+> > dealing with files under your full control?  Just open them and use
+> > ->private_data or whatever you set in ->open() to access the damn thing.
+> > All there is to it...
+> Oh this is so much simpler. There is really no point in using anything
+> else. Just need to remember to compare f->f_op to what we expect to make
+> sure that it is indeed the same device class.
 
-> There are three major non-bugfix changes that we've done to the series:
-> 
-> 1) Instead of using a seperate special passthru subsystem in
->    configfs simply add a passthru directory that's analogous to
->    the existing namespace directories. The directories have
->    very similar attributes to namespaces but are mutually exclusive.
->    If a user enables a namespaces, they can't then enable
->    passthru controller and vice versa. This simplifies the code
->    required to implement passthru configfs and IMO creates a much
->    clearer and uniform interface.
-> 
-How do you handle subsystem naming?
-If you enable the 'passthru' device, the (nvmet) subsystem (and its
-name) is already created. Yet the passthru device will have its own
-internal subsystem naming, so if you're not extra careful you'll end up
-with a nvmet subsystem which doesn't have any relationship with the
-passthru subsystem, making addressing etc ... tricky.
-Any thoughts about that?
+That is good, that solves the "/dev/random/" issue I was talking about
+earlier as well.
 
-Similarly: how do you propose to handle multipath devices?
-Any NVMe with several paths will be enabling NVMe multipathing
-automatically, presenting you with a single multipathed namespace.
-How will these devices be treated?
-Will the multipathed namespace be used for passthru?
+Odds are you all can do the same for the blockdev interface as well.
 
-Cheers,
+thanks,
 
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N?rnberg)
+greg k-h
