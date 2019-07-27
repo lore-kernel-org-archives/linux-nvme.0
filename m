@@ -1,124 +1,58 @@
-From: rafael@kernel.org (Rafael J. Wysocki)
-Date: Sat, 27 Jul 2019 14:55:05 +0200
-Subject: [Regression] Commit "nvme/pci: Use host managed power state for
- suspend" has problems
-In-Reply-To: <D33632F4-E119-4833-816C-79084DA03DE4@canonical.com>
-References: <2332799.izEFUvJP67@kreacher> <2428826.VBuqOhikiK@kreacher>
- <20190725195258.GA7307@localhost.localdomain> <15043168.halW6uqc8m@kreacher>
- <D33632F4-E119-4833-816C-79084DA03DE4@canonical.com>
-Message-ID: <CAJZ5v0imsVS-eDB+Lmd5qzAfmb0UpJ5AwV_Vf+v8D21KAtqTOg@mail.gmail.com>
+From: mb@lightnvm.io (=?UTF-8?Q?Matias_Bj=C3=B8rling?=)
+Date: Sat, 27 Jul 2019 17:25:24 +0200
+Subject: [PATCH 4/5] lnvm: introduce chunk-log command for chunk info
+In-Reply-To: <20190725152926.GF3018@minwoo-desktop>
+References: <20190723183601.29370-1-minwoo.im.dev@gmail.com>
+ <20190723183601.29370-5-minwoo.im.dev@gmail.com>
+ <a40ea502-e293-e07c-9f7b-e5f9cc118adf@lightnvm.io>
+ <20190725152926.GF3018@minwoo-desktop>
+Message-ID: <CAOA7RkOe_pOvuSJZVhYkm8c=pC6bOu1g4Y0cN7wARrcMqoCEVA@mail.gmail.com>
 
-On Fri, Jul 26, 2019 at 4:03 PM Kai-Heng Feng
-<kai.heng.feng@canonical.com> wrote:
+Hi Minwoo,
+
+Something like this would do:
+
+Total chunks in namespace: %d
+...
+SLBA: 0xee40000  WP: 0x12345678  CNLB: 0x12345 WLI: XXX   State: FREE
+      Type: SEQWRITE_REQ   Attrs: 0x00
+...
+
+Thank you,
+Matias
+
+On Thu, Jul 25, 2019@5:29 PM Minwoo Im <minwoo.im.dev@gmail.com> wrote:
 >
->@04:02, Rafael J. Wysocki <rjw@rjwysocki.net> wrote:
->
-> > On Thursday, July 25, 2019 9:52:59 PM CEST Keith Busch wrote:
-> >> On Thu, Jul 25, 2019@09:48:57PM +0200, Rafael J. Wysocki wrote:
-> >>> NVME Identify Controller:
-> >>> vid     : 0x1c5c
-> >>> ssvid   : 0x1c5c
-> >>> sn      : MS92N171312902J0N
-> >>> mn      : PC401 NVMe SK hynix 256GB
-> >>> fr      : 80007E00
-> >>> rab     : 2
-> >>> ieee    : ace42e
-> >>> cmic    : 0
-> >>> mdts    : 5
-> >>> cntlid  : 1
-> >>> ver     : 10200
-> >>> rtd3r   : 7a120
-> >>> rtd3e   : 1e8480
-> >>> oaes    : 0x200
-> >>> ctratt  : 0
-> >>> oacs    : 0x17
-> >>> acl     : 7
-> >>> aerl    : 3
-> >>> frmw    : 0x14
-> >>> lpa     : 0x2
-> >>> elpe    : 255
-> >>> npss    : 4
-> >>> avscc   : 0x1
-> >>> apsta   : 0x1
-> >>> wctemp  : 352
-> >>> cctemp  : 354
-> >>> mtfa    : 0
-> >>> hmpre   : 0
-> >>> hmmin   : 0
-> >>> tnvmcap : 0
-> >>> unvmcap : 0
-> >>> rpmbs   : 0
-> >>> edstt   : 10
-> >>> dsto    : 0
-> >>> fwug    : 0
-> >>> kas     : 0
-> >>> hctma   : 0
-> >>> mntmt   : 0
-> >>> mxtmt   : 0
-> >>> sanicap : 0
-> >>> hmminds : 0
-> >>> hmmaxd  : 0
-> >>> nsetidmax : 0
-> >>> anatt   : 0
-> >>> anacap  : 0
-> >>> anagrpmax : 0
-> >>> nanagrpid : 0
-> >>> sqes    : 0x66
-> >>> cqes    : 0x44
-> >>> maxcmd  : 0
-> >>> nn      : 1
-> >>> oncs    : 0x1f
-> >>> fuses   : 0x1
-> >>> fna     : 0
-> >>> vwc     : 0x1
-> >>> awun    : 7
-> >>> awupf   : 7
-> >>> nvscc   : 1
-> >>> acwu    : 7
-> >>> sgls    : 0
-> >>> mnan    : 0
-> >>> subnqn  :
-> >>> ioccsz  : 0
-> >>> iorcsz  : 0
-> >>> icdoff  : 0
-> >>> ctrattr : 0
-> >>> msdbd   : 0
-> >>> ps    0 : mp:6.00W operational enlat:5 exlat:5 rrt:0 rrl:0
-> >>>           rwt:0 rwl:0 idle_power:- active_power:-
-> >>> ps    1 : mp:3.80W operational enlat:30 exlat:30 rrt:1 rrl:1
-> >>>           rwt:1 rwl:1 idle_power:- active_power:-
-> >>> ps    2 : mp:2.40W operational enlat:100 exlat:100 rrt:2 rrl:2
-> >>>           rwt:2 rwl:2 idle_power:- active_power:-
-> >>> ps    3 : mp:0.0700W non-operational enlat:1000 exlat:1000 rrt:3 rrl:3
-> >>>           rwt:3 rwl:3 idle_power:- active_power:-
-> >>> ps    4 : mp:0.0070W non-operational enlat:1000 exlat:5000 rrt:3 rrl:3
-> >>>           rwt:3 rwl:3 idle_power:- active_power:-
-> >>
-> >> Hm, nothing stands out as something we can use to determine if we should
-> >> skip the nvme specific settings or allow D3. I've no other ideas at the
-> >> moment for what we may check.
+> On 19-07-24 14:27:10, Matias Bj?rling wrote:
+> > Could you squash patch 2, 3 and 4 together (4 being the main patch) - They
+> > belong together to implement one feature.
 > >
-> > Well, do ASPM settings matter here?
+> > As a side-note, we have the same command for ZNS (that will be pushed when
+> > the ZNS TP is ratified) - In that, we've also added support for supplying
+> > start lba and number of chunks (zones) to return. Could you add that as well
+> > to this? Then there is coherency between the two?
 >
-> Seems like it's a regression in the firmware.
+> Matias,
 >
-> The issue happens in version 80007E00 but not version 80006E00.
-
-So you mean the NVMe firmware, to be entirely precise.
-
-> I am not sure how to downgrade it under Linux though.
-
-Me neither.
-
-> The firmware changelog [1] is very interesting:
-> - Improves the performance of the solid-state drive (SSD) by distributing
-> power into the SSD efficiently according to the power state of the system.
+> I just had a deep look at your slide about the ZNS which can be found at
+> [1].  Sorry, I misunderstood your meaning here.
 >
-> [1]
-> https://www.dell.com/support/home/us/en/04/drivers/driversdetails?driverid=mcxm8
-
-Huh.
-
-It looks like something else prevents the PCH on my 9380 from reaching
-the right state for S0ix, though.  I still need to find out what it
-is.
+> This patch already introduced the SLBA in its chunk, but no nr_chunks in
+> a single summary line.  Do you want me to print it like:
+>
+>         root at host:~/nvme-cli.git# nvme lnvm chunk-log /dev/nvme0n1
+>         nr_chunks: 480
+>          [    0] { cs: 0x2, ct: 0x1, wli: 2, slba: 0x0000000000000000, cnlb: 0x0000000000001000, wp: 0x0000000000001000 }
+>          [    1] { cs: 0x2, ct: 0x1, wli: 1, slba: 0x0000000000001000, cnlb: 0x0000000000001000, wp: 0x0000000000001000 }
+>          [    2] { cs: 0x1, ct: 0x1, wli: 0, slba: 0x0000000000002000, cnlb: 0x0000000000001000, wp: 0x0000000000000000 }
+>          [    3] { cs: 0x1, ct: 0x1, wli: 0, slba: 0x0000000000003000, cnlb: 0x0000000000001000, wp: 0x0000000000000000 }
+>          [    4] { cs: 0x1, ct: 0x1, wli: 0, slba: 0x0000000000004000, cnlb: 0x0000000000001000, wp: 0x0000000000000000 }
+>          [    5] { cs: 0x1, ct: 0x1, wli: 0, slba: 0x0000000000005000, cnlb: 0x0000000000001000, wp: 0x0000000000000000 }
+>          [    6] { cs: 0x1, ct: 0x1, wli: 0, slba: 0x0000000000006000, cnlb: 0x0000000000001000, wp: 0x0000000000000000 }
+>         ...
+>          [  478] { cs: 0x1, ct: 0x1, wli: 0, slba: 0x00000000001fa000, cnlb: 0x0000000000001000, wp: 0x0000000000000000 }
+>          [  479] { cs: 0x1, ct: 0x1, wli: 0, slba: 0x00000000001fb000, cnlb: 0x0000000000001000, wp: 0x0000000000000000 }
+>
+> Thanks!
+>
+> [1] https://nvmexpress.org/wp-content/uploads/NVMeAnnualMeeting2019-ZNSv3.pptx
