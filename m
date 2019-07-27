@@ -1,21 +1,12 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Sun, 28 Jul 2019 03:41:54 +0900
-Subject: [PATCH 3/4] nvme: lightnvm: trace opcode name
+Date: Sun, 28 Jul 2019 03:41:55 +0900
+Subject: [PATCH 4/4] nvme: lightnvm: trace opcode name of I/O commands for 2.0
 In-Reply-To: <20190727184155.18014-1-minwoo.im.dev@gmail.com>
 References: <20190727184155.18014-1-minwoo.im.dev@gmail.com>
-Message-ID: <20190727184155.18014-4-minwoo.im.dev@gmail.com>
+Message-ID: <20190727184155.18014-5-minwoo.im.dev@gmail.com>
 
-This patch moved opcode enum values to nvme.h to make it support for
-command trace with opcode name istead of raw opcode value.
-
-Example of Vector Chunk Read:
-	... cmd=(0xe2 cdw10=00 00 00 00 00 00 00 00 00 ...
-
-It would be like:
-	... cmd=(nvme_nvm_admin_identity cdw10=00 00 00 00 00 00 00 00 00 ...
-
-Although OCSSD 1.2 has been deprecated, we have the codes for 1.2 so
-that this kind of traces might be deprecated later time.
+This patch adds opcode values which are defined in OCSSD 2.0 spec.  This
+will make it printed a name of opcode rather than the raw value.
 
 Cc: Keith Busch <kbusch at kernel.org>
 Cc: Jens Axboe <axboe at fb.com>
@@ -25,54 +16,38 @@ Cc: Matias Bj?rling <mb at lightnvm.io>
 Cc: Javier Gonz?lez <javier at javigon.com>
 Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
 ---
- drivers/nvme/host/lightnvm.c |  6 ------
- include/linux/nvme.h         | 10 +++++++++-
- 2 files changed, 9 insertions(+), 7 deletions(-)
+ include/linux/nvme.h | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
-index ba009d4c9dfa..d06d0919c139 100644
---- a/drivers/nvme/host/lightnvm.c
-+++ b/drivers/nvme/host/lightnvm.c
-@@ -15,12 +15,6 @@
- #include <linux/sched/sysctl.h>
- #include <uapi/linux/lightnvm.h>
- 
--enum nvme_nvm_admin_opcode {
--	nvme_nvm_admin_identity		= 0xe2,
--	nvme_nvm_admin_get_bb_tbl	= 0xf2,
--	nvme_nvm_admin_set_bb_tbl	= 0xf1,
--};
--
- enum nvme_nvm_log_page {
- 	NVME_NVM_LOG_REPORT_CHUNK	= 0xca,
- };
 diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 01aa6a6c241d..fddf4c776788 100644
+index fddf4c776788..d1db459dbfc1 100644
 --- a/include/linux/nvme.h
 +++ b/include/linux/nvme.h
-@@ -814,6 +814,11 @@ enum nvme_admin_opcode {
- 	nvme_admin_security_send	= 0x81,
- 	nvme_admin_security_recv	= 0x82,
- 	nvme_admin_sanitize_nvm		= 0x84,
+@@ -566,6 +566,12 @@ enum nvme_opcode {
+ 	nvme_cmd_resv_report	= 0x0e,
+ 	nvme_cmd_resv_acquire	= 0x11,
+ 	nvme_cmd_resv_release	= 0x15,
 +
-+	/* OCSSD 1.2 */
-+	nvme_nvm_admin_identity		= 0xe2,
-+	nvme_nvm_admin_get_bb_tbl	= 0xf2,
-+	nvme_nvm_admin_set_bb_tbl	= 0xf1,
++	/* OCSSD 2.0 */
++	nvme_nvm_cmd_vec_chunk_reset	= 0x90,
++	nvme_nvm_cmd_vec_chunk_write	= 0x91,
++	nvme_nvm_cmd_vec_chunk_read	= 0x92,
++	nvme_nvm_cmd_vec_chunk_copy	= 0x93,
  };
  
- #define nvme_admin_opcode_name(opcode)	{ opcode, #opcode }
-@@ -840,7 +845,10 @@ enum nvme_admin_opcode {
- 		nvme_admin_opcode_name(nvme_admin_format_nvm),		\
- 		nvme_admin_opcode_name(nvme_admin_security_send),	\
- 		nvme_admin_opcode_name(nvme_admin_security_recv),	\
--		nvme_admin_opcode_name(nvme_admin_sanitize_nvm))
-+		nvme_admin_opcode_name(nvme_admin_sanitize_nvm),	\
-+		nvme_admin_opcode_name(nvme_nvm_admin_identity),	\
-+		nvme_admin_opcode_name(nvme_nvm_admin_get_bb_tbl),	\
-+		nvme_admin_opcode_name(nvme_nvm_admin_set_bb_tbl))
+ #define nvme_opcode_name(opcode)	{ opcode, #opcode }
+@@ -581,7 +587,11 @@ enum nvme_opcode {
+ 		nvme_opcode_name(nvme_cmd_resv_register),	\
+ 		nvme_opcode_name(nvme_cmd_resv_report),		\
+ 		nvme_opcode_name(nvme_cmd_resv_acquire),	\
+-		nvme_opcode_name(nvme_cmd_resv_release))
++		nvme_opcode_name(nvme_cmd_resv_release),	\
++		nvme_opcode_name(nvme_nvm_cmd_vec_chunk_reset),	\
++		nvme_opcode_name(nvme_nvm_cmd_vec_chunk_write),	\
++		nvme_opcode_name(nvme_nvm_cmd_vec_chunk_read),	\
++		nvme_opcode_name(nvme_nvm_cmd_vec_chunk_copy))
  
- enum {
- 	NVME_QUEUE_PHYS_CONTIG	= (1 << 0),
+ 
+ /*
 -- 
 2.17.1
