@@ -1,20 +1,21 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Sun, 28 Jul 2019 03:41:53 +0900
-Subject: [PATCH 2/4] nvme: check admin queue with ctrl->admin_q, not rq_disk
+Date: Sun, 28 Jul 2019 03:41:54 +0900
+Subject: [PATCH 3/4] nvme: lightnvm: trace opcode name
 In-Reply-To: <20190727184155.18014-1-minwoo.im.dev@gmail.com>
 References: <20190727184155.18014-1-minwoo.im.dev@gmail.com>
-Message-ID: <20190727184155.18014-3-minwoo.im.dev@gmail.com>
+Message-ID: <20190727184155.18014-4-minwoo.im.dev@gmail.com>
 
-It used to figure out whether the given request is about the admin queue
-or not by the req->rq_disk only.  But, in case of lightnvm, the request
-may not have rq_disk mapped so that we just can't return the proper qid
-for the I/O NVM commands like Vector Chunk Read/Write.
+This patch moved opcode enum values to nvme.h to make it support for
+command trace with opcode name istead of raw opcode value.
 
-This patch replaces the condition from rq_disk to check
-nvme_ctrl->admin_q and the given request_queue from the request itself.
+Example of Vector Chunk Read:
+	... cmd=(0xe2 cdw10=00 00 00 00 00 00 00 00 00 ...
 
-This patch also moved nvme_req_qid() right next to struct nvme_ctrl to
-have it inside.
+It would be like:
+	... cmd=(nvme_nvm_admin_identity cdw10=00 00 00 00 00 00 00 00 00 ...
+
+Although OCSSD 1.2 has been deprecated, we have the codes for 1.2 so
+that this kind of traces might be deprecated later time.
 
 Cc: Keith Busch <kbusch at kernel.org>
 Cc: Jens Axboe <axboe at fb.com>
@@ -24,42 +25,54 @@ Cc: Matias Bj?rling <mb at lightnvm.io>
 Cc: Javier Gonz?lez <javier at javigon.com>
 Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
 ---
- drivers/nvme/host/nvme.h | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+ drivers/nvme/host/lightnvm.c |  6 ------
+ include/linux/nvme.h         | 10 +++++++++-
+ 2 files changed, 9 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 2e76198f5833..60c1abf8dce1 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -122,13 +122,6 @@ static inline struct nvme_request *nvme_req(struct request *req)
- 	return blk_mq_rq_to_pdu(req);
- }
+diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
+index ba009d4c9dfa..d06d0919c139 100644
+--- a/drivers/nvme/host/lightnvm.c
++++ b/drivers/nvme/host/lightnvm.c
+@@ -15,12 +15,6 @@
+ #include <linux/sched/sysctl.h>
+ #include <uapi/linux/lightnvm.h>
  
--static inline u16 nvme_req_qid(struct request *req)
--{
--	if (!req->rq_disk)
--		return 0;
--	return req->mq_hctx->queue_num + 1;
--}
+-enum nvme_nvm_admin_opcode {
+-	nvme_nvm_admin_identity		= 0xe2,
+-	nvme_nvm_admin_get_bb_tbl	= 0xf2,
+-	nvme_nvm_admin_set_bb_tbl	= 0xf1,
+-};
 -
- /* The below value is the specific amount of delay needed before checking
-  * readiness in case of the PCI_DEVICE(0x1c58, 0x0003), which needs the
-  * NVME_QUIRK_DELAY_BEFORE_CHK_RDY quirk enabled. The value (in ms) was
-@@ -260,6 +253,15 @@ struct nvme_ctrl {
- 	struct nvme_fault_inject fault_inject;
+ enum nvme_nvm_log_page {
+ 	NVME_NVM_LOG_REPORT_CHUNK	= 0xca,
+ };
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 01aa6a6c241d..fddf4c776788 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -814,6 +814,11 @@ enum nvme_admin_opcode {
+ 	nvme_admin_security_send	= 0x81,
+ 	nvme_admin_security_recv	= 0x82,
+ 	nvme_admin_sanitize_nvm		= 0x84,
++
++	/* OCSSD 1.2 */
++	nvme_nvm_admin_identity		= 0xe2,
++	nvme_nvm_admin_get_bb_tbl	= 0xf2,
++	nvme_nvm_admin_set_bb_tbl	= 0xf1,
  };
  
-+static inline u16 nvme_req_qid(struct request *req)
-+{
-+	struct nvme_ctrl *ctrl = nvme_req(req)->ctrl;
-+
-+	if (req->q == ctrl->admin_q)
-+		return 0;
-+	return req->mq_hctx->queue_num + 1;
-+}
-+
- enum nvme_iopolicy {
- 	NVME_IOPOLICY_NUMA,
- 	NVME_IOPOLICY_RR,
+ #define nvme_admin_opcode_name(opcode)	{ opcode, #opcode }
+@@ -840,7 +845,10 @@ enum nvme_admin_opcode {
+ 		nvme_admin_opcode_name(nvme_admin_format_nvm),		\
+ 		nvme_admin_opcode_name(nvme_admin_security_send),	\
+ 		nvme_admin_opcode_name(nvme_admin_security_recv),	\
+-		nvme_admin_opcode_name(nvme_admin_sanitize_nvm))
++		nvme_admin_opcode_name(nvme_admin_sanitize_nvm),	\
++		nvme_admin_opcode_name(nvme_nvm_admin_identity),	\
++		nvme_admin_opcode_name(nvme_nvm_admin_get_bb_tbl),	\
++		nvme_admin_opcode_name(nvme_nvm_admin_set_bb_tbl))
+ 
+ enum {
+ 	NVME_QUEUE_PHYS_CONTIG	= (1 << 0),
 -- 
 2.17.1
