@@ -1,29 +1,33 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Sun, 28 Jul 2019 02:55:08 +0900
-Subject: [PATCH 4/5] lnvm: introduce chunk-log command for chunk info
-In-Reply-To: <CAOA7RkOe_pOvuSJZVhYkm8c=pC6bOu1g4Y0cN7wARrcMqoCEVA@mail.gmail.com>
-References: <20190723183601.29370-1-minwoo.im.dev@gmail.com>
- <20190723183601.29370-5-minwoo.im.dev@gmail.com>
- <a40ea502-e293-e07c-9f7b-e5f9cc118adf@lightnvm.io>
- <20190725152926.GF3018@minwoo-desktop>
- <CAOA7RkOe_pOvuSJZVhYkm8c=pC6bOu1g4Y0cN7wARrcMqoCEVA@mail.gmail.com>
-Message-ID: <20190727175508.GA23704@minwoo-desktop>
+Date: Sun, 28 Jul 2019 03:41:51 +0900
+Subject: [PATCH 0/4] nvme: update way to get qid in trace
+Message-ID: <20190727184155.18014-1-minwoo.im.dev@gmail.com>
 
-On 19-07-27 17:25:24, Matias Bj?rling wrote:
-> Hi Minwoo,
-> 
-> Something like this would do:
-> 
-> Total chunks in namespace: %d
-> ...
-> SLBA: 0xee40000  WP: 0x12345678  CNLB: 0x12345 WLI: XXX   State: FREE
->       Type: SEQWRITE_REQ   Attrs: 0x00
-> ...
+Hi All,
 
-Hi Matias,
+This series is mainly to support trace for lightnvm commands.  To make
+it support:
 
-Okay with that.  But I'm not sure what the "Attrs:" means here.  I'll
-prepare the next version series with that format of print without Attrs
-first.
+The first patch just simplify the exactly same operations in short by
+have queue_num directly.  The second one modified the condition of how
+to figure out whether the given request is for admin queue or not.
+In case of lightnvm, req->rq_disk might be NULL even it's a NVM command
+so that we can compare the admin request queue itself.
 
-Thanks,
+The third one added lightnvm admin commands to nvme.h from the lightnvm
+core module to support for trace of opcode names.  The fourth one added
+NVM I/O commands for the lightnvm for the trace.
+
+Minwoo Im (4):
+  nvme: simplify nvme_req_qid()
+  nvme: check admin queue with ctrl->admin_q, not rq_disk
+  nvme: lightnvm: trace opcode name
+  nvme: lightnvm: trace opcode name of I/O commands for 2.0
+
+ drivers/nvme/host/lightnvm.c |  6 ------
+ drivers/nvme/host/nvme.h     | 16 +++++++++-------
+ include/linux/nvme.h         | 22 ++++++++++++++++++++--
+ 3 files changed, 29 insertions(+), 15 deletions(-)
+
+-- 
+2.17.1
