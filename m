@@ -1,27 +1,32 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Sun, 28 Jul 2019 12:12:06 +0900
-Subject: [PATCH 3/4] nvme: lightnvm: trace opcode name
-In-Reply-To: <bf4212ea-8c08-61eb-39cd-c43a5186125c@lightnvm.io>
+Date: Sun, 28 Jul 2019 12:15:44 +0900
+Subject: [PATCH 4/4] nvme: lightnvm: trace opcode name of I/O commands
+ for 2.0
+In-Reply-To: <97cbcbd3-5887-ec8e-dd43-ef08d612372c@lightnvm.io>
 References: <20190727184155.18014-1-minwoo.im.dev@gmail.com>
- <20190727184155.18014-4-minwoo.im.dev@gmail.com>
- <bf4212ea-8c08-61eb-39cd-c43a5186125c@lightnvm.io>
-Message-ID: <20190728031206.GA24390@minwoo-desktop>
+ <20190727184155.18014-5-minwoo.im.dev@gmail.com>
+ <97cbcbd3-5887-ec8e-dd43-ef08d612372c@lightnvm.io>
+Message-ID: <20190728031544.GB24390@minwoo-desktop>
 
 Hi Matias,
 
-> We should not pollute the standardilized NVMe code with vendor-specific
-> opcodes. The above code assumes generally that an opcode is associated as an
-> admin opcode - this is true for an OCSSD 1.2 drive, but not so for any other
-> vendor's drive.
+> It can not be assumed that it is an nvme opcode for any other device than an
+> OCSSD 2.0 device (the command opcodes are allocated from the vendor-specific
+> range of the NVMe specification). The trace code should be updated to take
+> that into account before using the lookup value.
 
-Agree with that.  I was thinking that these are nothing but an opcodes
-which could be not a pollusion, but you're right other vendors are not
-suitable for these opcodes.
+Okay!
 
-> Besides that, I don't think we should add anymore code for 1.2 since it is
-> deprecated.
+> As a side note, I appreciate the work being put into supporting OCSSD, but
+> for broad adoption, the OCSSD interface is superseded by the Zoned
+> Namespaces (ZNS) technical proposal that is under standardization in the
+> NVMe workgroup. We do expect a lot of adoption in this area, and have the
+> kernel code ready when work is ratified (only at that point is the TBD
+> values allocated). I hope that the energy that is now being put into OCSSD,
+> can be put onto ZNS, as that is where we will see broad adoption and
+> long-term support in the kernel.
 
-Okay, I think I need to think about how to trace the nvme commands for
-the vendor-specific commands with minimal changes.
+Sure, Once it gets ratified, that would be great to put the energy on
+it.  Thanks for the info, Matias.
 
 Thanks!
