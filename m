@@ -1,23 +1,59 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Sun, 28 Jul 2019 15:36:37 +0900
-Subject: [PATCH V3 3/3] lnvm: introduce alias geometry for id-ns for lnvm
-In-Reply-To: <20190728063516.17732-4-minwoo.im.dev@gmail.com>
-References: <20190728063516.17732-1-minwoo.im.dev@gmail.com>
- <20190728063516.17732-4-minwoo.im.dev@gmail.com>
-Message-ID: <20190728063637.GJ24390@minwoo-desktop>
+From: akinobu.mita@gmail.com (Akinobu Mita)
+Date: Sun, 28 Jul 2019 22:51:06 +0900
+Subject: [PATCH v2 1/3] block: introduce LED block device activity trigger
+In-Reply-To: <44a6093f-7df7-9442-c33b-5827eb5f187b@gmail.com>
+References: <1563807552-23498-1-git-send-email-akinobu.mita@gmail.com>
+ <1563807552-23498-2-git-send-email-akinobu.mita@gmail.com>
+ <44a6093f-7df7-9442-c33b-5827eb5f187b@gmail.com>
+Message-ID: <CAC5umygzNj=7LjzrzrVgOyLiZrKckaCgH68j0COFuWvX1yZAzA@mail.gmail.com>
 
-On 19-07-28 15:35:16, Minwoo Im wrote:
-> Now we have 2.0 OCSSD spec which introudces Geometry command instead of
-> Identity or something else.  This patch just adds an alias for this
-> command for the given NVMe namespace with backward compatibility.
-> 
-> Cc: Keith Busch <kbusch at kernel.org>
-> Cc: Matias Bjorling <mb at lightnvm.io>
-> Cc: Javier Gonz?lez <javier at javigon.com>
-> Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
-> Singed-off-by: Matias Bj?rling <mb at lightnvm.io>
+2019?7?27?(?) 6:22 Jacek Anaszewski <jacek.anaszewski at gmail.com>:
+>
+> Hi Akinobu,
+>
+> Thank you for the v2. I've checked and it works as expected.
+>
+> One thing is missing though - ABI documentation.
+>
+> Please add Documentation/ABI/testing/sysfs-class-led-trigger-blk
+> and document read, write and discard files.
 
-Sorry please ignore this typo.  I'll fix it up once series gets review
-before the Github PR.
+OK. I'll add document like below.
 
-Sorry for making noises.
+What:           /sys/class/leds/<led>/interval
+Date:           Aug 2019
+KernelVersion:  5.4
+Contact:        linux-leds at vger.kernel.org
+Description:
+                Specifies the duration of the LED blink in milliseconds.
+                Defaults to 50 ms.
+
+What:           /sys/class/leds/<led>/read
+Date:           Aug 2019
+KernelVersion:  5.4
+Contact:        linux-leds at vger.kernel.org
+Description:
+                Signal data read on the block device.
+                If set to 0, the LED will not blink on data read.
+                If set to 1 (default), the LED will blink for the milliseconds
+                specified in interval to signal data read.
+
+What:           /sys/class/leds/<led>/write
+Date:           Aug 2019
+KernelVersion:  5.4
+Contact:        linux-leds at vger.kernel.org
+Description:
+                Signal data written on the block device.
+                If set to 0, the LED will not blink on data written.
+                If set to 1 (default), the LED will blink for the milliseconds
+                specified in interval to signal data written.
+
+What:           /sys/class/leds/<led>/discard
+Date:           Aug 2019
+KernelVersion:  5.4
+Contact:        linux-leds at vger.kernel.org
+Description:
+                Signal data discarded on the block device.
+                If set to 0, the LED will not blink on data discarded.
+                If set to 1 (default), the LED will blink for the milliseconds
+                specified in interval to signal data discarded.
