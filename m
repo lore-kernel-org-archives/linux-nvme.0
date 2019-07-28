@@ -1,32 +1,33 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Sun, 28 Jul 2019 12:15:44 +0900
-Subject: [PATCH 4/4] nvme: lightnvm: trace opcode name of I/O commands
- for 2.0
-In-Reply-To: <97cbcbd3-5887-ec8e-dd43-ef08d612372c@lightnvm.io>
-References: <20190727184155.18014-1-minwoo.im.dev@gmail.com>
- <20190727184155.18014-5-minwoo.im.dev@gmail.com>
- <97cbcbd3-5887-ec8e-dd43-ef08d612372c@lightnvm.io>
-Message-ID: <20190728031544.GB24390@minwoo-desktop>
+Date: Sun, 28 Jul 2019 12:18:22 +0900
+Subject: [PATCH V2 2/3] lnvm: introduce chunk-log command for chunk info
+In-Reply-To: <8276ea2a-990d-3aae-b144-54986153e834@lightnvm.io>
+References: <20190727193249.22655-1-minwoo.im.dev@gmail.com>
+ <20190727193249.22655-3-minwoo.im.dev@gmail.com>
+ <8276ea2a-990d-3aae-b144-54986153e834@lightnvm.io>
+Message-ID: <20190728031822.GC24390@minwoo-desktop>
 
 Hi Matias,
 
-> It can not be assumed that it is an nvme opcode for any other device than an
-> OCSSD 2.0 device (the command opcodes are allocated from the vendor-specific
-> range of the NVMe specification). The trace code should be updated to take
-> that into account before using the lookup value.
+> > +static inline const char *print_chunk_type(__u8 ct)
+> > +{
+> > +	switch (ct) {
+> > +	case 1 << 0:	return "SEQWRITE_REQ";
+> > +	case 1 << 1:	return "RANDWRITE_ALLOWED";
+> > +	case 1 << 4:	return "DEVIATED";
+> > +	default:	return "UNKNOWN";
+> > +	}
+> > +}
+> 
+> The Chunk Type is divided into two value ranges - one for the chunk type
+> (seq, req) and one that describes the properties of the zone. I would move
+> the "Deviated" into being expressed as an attribute (or similar). Then they
+> are clearly separated. An OCSSD implementation can both have the SEQ write
+> bit set, together with bit 4 for dynamic chunk capacity. The above doesn't
+> communicate that in the right way.
 
-Okay!
+Ah sorry, I think my brain was not working well in the dawn ;).  I'll
+provide "Deviated" things as an attribute first regardless the chunk
+types.
 
-> As a side note, I appreciate the work being put into supporting OCSSD, but
-> for broad adoption, the OCSSD interface is superseded by the Zoned
-> Namespaces (ZNS) technical proposal that is under standardization in the
-> NVMe workgroup. We do expect a lot of adoption in this area, and have the
-> kernel code ready when work is ratified (only at that point is the TBD
-> values allocated). I hope that the energy that is now being put into OCSSD,
-> can be put onto ZNS, as that is where we will see broad adoption and
-> long-term support in the kernel.
-
-Sure, Once it gets ratified, that would be great to put the energy on
-it.  Thanks for the info, Matias.
-
-Thanks!
+Thanks for the review.  Will prepare the next version.
