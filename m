@@ -1,70 +1,67 @@
-From: jacek.anaszewski@gmail.com (Jacek Anaszewski)
-Date: Sun, 28 Jul 2019 19:46:13 +0200
-Subject: [PATCH v2 1/3] block: introduce LED block device activity trigger
-In-Reply-To: <CAC5umygzNj=7LjzrzrVgOyLiZrKckaCgH68j0COFuWvX1yZAzA@mail.gmail.com>
-References: <1563807552-23498-1-git-send-email-akinobu.mita@gmail.com>
- <1563807552-23498-2-git-send-email-akinobu.mita@gmail.com>
- <44a6093f-7df7-9442-c33b-5827eb5f187b@gmail.com>
- <CAC5umygzNj=7LjzrzrVgOyLiZrKckaCgH68j0COFuWvX1yZAzA@mail.gmail.com>
-Message-ID: <5630049e-7ab7-e48e-894d-b07a87fe6c25@gmail.com>
+From: hare@suse.de (Hannes Reinecke)
+Date: Mon, 29 Jul 2019 10:31:53 +0200
+Subject: [PATCH v3] nvme: fix controller removal race with scan work
+In-Reply-To: <93c38a70-3500-b1eb-38c7-41419c8f64c8@grimberg.me>
+References: <20190725185657.9025-1-sagi@grimberg.me>
+ <a5ce0b2d-e4d5-ab79-442c-4c3795fdb0fd@suse.de>
+ <93c38a70-3500-b1eb-38c7-41419c8f64c8@grimberg.me>
+Message-ID: <df50ec95-0ca1-58be-1660-101529a72662@suse.de>
 
-Hi Akinobu,
+On 7/26/19 7:39 PM, Sagi Grimberg wrote:
+> 
+>> Weellll ... I'm not sure if I totally agree with this one.
+> 
+> That's fair...
+> 
+>> As you might know I'm chasing down the mysterious reset/rescan issue,
+>> too, and still haven't been able to resolve is properly.
+> 
+> Have you tried the patch that I proposed to you?
+> 
+Yeah. But reports are still inconclusive due to the second problem.
+And
 
-On 7/28/19 3:51 PM, Akinobu Mita wrote:
-> 2019?7?27?(?) 6:22 Jacek Anaszewski <jacek.anaszewski at gmail.com>:
->>
->> Hi Akinobu,
->>
->> Thank you for the v2. I've checked and it works as expected.
->>
->> One thing is missing though - ABI documentation.
->>
->> Please add Documentation/ABI/testing/sysfs-class-led-trigger-blk
->> and document read, write and discard files.
+> This is a different problem than what you reported, this is
+> addressing the scenario that the host connects and quickly
+> disconnects from a client before the scan is completed AND
+> multipath is enabled.
 > 
-> OK. I'll add document like below.
-> 
-> What:           /sys/class/leds/<led>/interval
-> Date:           Aug 2019
-> KernelVersion:  5.4
-> Contact:        linux-leds at vger.kernel.org
-> Description:
->                 Specifies the duration of the LED blink in milliseconds.
->                 Defaults to 50 ms.
-> 
-> What:           /sys/class/leds/<led>/read
-> Date:           Aug 2019
-> KernelVersion:  5.4
-> Contact:        linux-leds at vger.kernel.org
-> Description:
->                 Signal data read on the block device.
->                 If set to 0, the LED will not blink on data read.
->                 If set to 1 (default), the LED will blink for the milliseconds
->                 specified in interval to signal data read.
-> 
-> What:           /sys/class/leds/<led>/write
-> Date:           Aug 2019
-> KernelVersion:  5.4
-> Contact:        linux-leds at vger.kernel.org
-> Description:
->                 Signal data written on the block device.
->                 If set to 0, the LED will not blink on data written.
->                 If set to 1 (default), the LED will blink for the milliseconds
->                 specified in interval to signal data written.
-> 
-> What:           /sys/class/leds/<led>/discard
-> Date:           Aug 2019
-> KernelVersion:  5.4
-> Contact:        linux-leds at vger.kernel.org
-> Description:
->                 Signal data discarded on the block device.
->                 If set to 0, the LED will not blink on data discarded.
->                 If set to 1 (default), the LED will blink for the milliseconds
->                 specified in interval to signal data discarded.
-> 
+.... Which is precisely the failure scenario for my problem, too ...
 
-Looks good, please submit it officially.
+>> But looking at this patch the hunk for clearing the current path on
+>> removing namespaces looks like a good idea on itself.
+>> Care to separate this out?
+> 
+> Sure, although its designed to address this issue and not very
+> effective without the other part.
+> 
+>> Thing is, I had been notified on a regression caused by commit
+>> 525aa5a705d86e ("nvme-multipath: split bios with the ns_head..."),
+>> which manifests itself by a spurious I/O error during failover.
+> 
+> Hmm, this is interesting. Not sure how this specific commit would
+> introduce such an issue.
+> 
+See? Me neither. Sadly they _have_ bisected it, and this really is the
+patch introducing the regression.
+Current thinking is that we're dropping all paths during reset, causing
+ns_head to be deleted, too. The ns_head will get recreated immediately
+afterwards, so userspace wouldn't even notice that.
+But if we have a non-empty requeue list that will be flushed only when
+doing the final put on the ns_head structure, causing all I/O to fail.
 
+So looking at it that way, it _might_ actually be that your patch helps
+for that situation, too, seeing that we can't reliably enumerate
+namespaces during reset.
+
+I'll give it a try and will get back to you with the results.
+
+Cheers,
+
+Hannes
 -- 
-Best regards,
-Jacek Anaszewski
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
+HRB 21284 (AG N?rnberg)
