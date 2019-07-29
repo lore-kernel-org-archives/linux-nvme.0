@@ -1,40 +1,52 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 29 Jul 2019 16:32:00 -0700
-Subject: [PATCH rfc 1/2] nvme: don't remove namespace if revalidate failed
- because of controller reset
+Date: Mon, 29 Jul 2019 16:32:01 -0700
+Subject: [PATCH rfc 2/2] nvme: fix possible use-after-free condition when
+ controller reset is racing namespace scanning
 In-Reply-To: <20190729233201.27993-1-sagi@grimberg.me>
 References: <20190729233201.27993-1-sagi@grimberg.me>
-Message-ID: <20190729233201.27993-2-sagi@grimberg.me>
+Message-ID: <20190729233201.27993-3-sagi@grimberg.me>
 
-If a controller reset is racing with a namespace revalidation, the
-revalidation I/O will surely fail, but we should not remove the
-namespace as we will execute the I/O when the controller is LIVE again.
-Specifically check if the controller is LIVE because as
-RESETTING/CONNECTING are transient and DELETING/DEAD will eventually
-remove the namespace in the removal code path.
+remove ns from ctrl namespaces list before destroying the request queue
+as the reset work will unquisce for all the controller namespaces, while
+an online scan might remove invalid namespaces resulting from a
+concurrent AEN.
 
-This fixes sporious I/O errors in path failover coditions where the
-controller reset is racing with the namespace scan work.
+While we're at it, move nvme_check_last_path to right after we modify
+the multipath reated cleanups.
 
 Reported-by: Hannes Reinecke  <hare at suse.de>
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/core.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index fa31da0762b9..5f6970e7ba73 100644
+index 5f6970e7ba73..9f8f8f5feeae 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -3428,7 +3428,8 @@ static void nvme_validate_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+@@ -3406,6 +3406,11 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+ 	synchronize_rcu(); /* guarantee not available in head->list */
+ 	nvme_mpath_clear_current_path(ns);
+ 	synchronize_srcu(&ns->head->srcu); /* wait for concurrent submissions */
++	nvme_mpath_check_last_path(ns);
++
++	down_write(&ns->ctrl->namespaces_rwsem);
++	list_del_init(&ns->list);
++	up_write(&ns->ctrl->namespaces_rwsem);
  
- 	ns = nvme_find_get_ns(ctrl, nsid);
- 	if (ns) {
--		if (ns->disk && revalidate_disk(ns->disk))
-+		if (ns->disk && revalidate_disk(ns->disk) &&
-+		    ctrl->state != NVME_CTRL_LIVE)
- 			nvme_ns_remove(ns);
- 		nvme_put_ns(ns);
- 	} else
+ 	if (ns->disk && ns->disk->flags & GENHD_FL_UP) {
+ 		del_gendisk(ns->disk);
+@@ -3414,11 +3419,6 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+ 			blk_integrity_unregister(ns->disk);
+ 	}
+ 
+-	down_write(&ns->ctrl->namespaces_rwsem);
+-	list_del_init(&ns->list);
+-	up_write(&ns->ctrl->namespaces_rwsem);
+-
+-	nvme_mpath_check_last_path(ns);
+ 	nvme_put_ns(ns);
+ }
+ 
 -- 
 2.17.1
