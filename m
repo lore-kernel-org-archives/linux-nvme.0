@@ -1,87 +1,55 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 29 Jul 2019 18:36:26 +0200
-Subject: [PATCH v3] nvme: fix controller removal race with scan work
-In-Reply-To: <1bf56b26-a521-8de2-5d52-0c1c9d19fd25@grimberg.me>
-References: <20190725185657.9025-1-sagi@grimberg.me>
- <a5ce0b2d-e4d5-ab79-442c-4c3795fdb0fd@suse.de>
- <93c38a70-3500-b1eb-38c7-41419c8f64c8@grimberg.me>
- <df50ec95-0ca1-58be-1660-101529a72662@suse.de>
- <1bf56b26-a521-8de2-5d52-0c1c9d19fd25@grimberg.me>
-Message-ID: <f4deb57e-ee86-a980-45c5-6d58ee1116cc@suse.de>
+From: osandov@osandov.com (Omar Sandoval)
+Date: Mon, 29 Jul 2019 10:31:19 -0700
+Subject: [PATCH blktests v2 00/12] Fix nvme block test issues
+In-Reply-To: <20190717171259.3311-1-logang@deltatee.com>
+References: <20190717171259.3311-1-logang@deltatee.com>
+Message-ID: <20190729173119.GA30186@vader>
 
-On 7/29/19 6:11 PM, Sagi Grimberg wrote:
+On Wed, Jul 17, 2019@11:12:47AM -0600, Logan Gunthorpe wrote:
+> Changes since v1:
+>  * Use second sed expression instead of another call to grep
+>    in _filter_discovery() for Patch 2 (per Omar)
+>  * Redirect error output to $FULL in for nvme/018 in Patch 7
+>    (Per Johannes)
+>  * Rework _have_module_param() in Patch 11 so that it supports
+>    cases where the module is not inserted.
 > 
->>>> As you might know I'm chasing down the mysterious reset/rescan issue,
->>>> too, and still haven't been able to resolve is properly.
->>>
->>> Have you tried the patch that I proposed to you?
->>>
->> Yeah. But reports are still inconclusive due to the second problem.
->> And
+> --
 > 
-> OK, looking forward to understanding the root-cause and if/how
-> we can address this.
+> This patchset cleans up a number of issues and pain points
+> I've had with getting the nvme blktests to pass and run cleanly.
 > 
->>> This is a different problem than what you reported, this is
->>> addressing the scenario that the host connects and quickly
->>> disconnects from a client before the scan is completed AND
->>> multipath is enabled.
->>>
->> .... Which is precisely the failure scenario for my problem, too ...
+> The first three patches are meant to fix the Generation Counter
+> issue that's been discussed before but hasn't been fixed in months.
+> I primarily use a slightly fixed up patch posted by Michael Moese[1]
+> but add another patch to properly test the Generation Counter that
+> would no longer be tested otherwise.
 > 
-> Hannes, I'm a bit confused again. I was under the impression that
-> your issues were around controller reset race with scan, not controller
-> removal (disconnect).
+> I've also taken it a step further to filter out more of the discovery
+> information so that we are less fragile against churn and less dependant
+> on the version of nvme-cli in use. This should also fix the issue discussed
+> in [2].
 > 
->>>> Thing is, I had been notified on a regression caused by commit
->>>> 525aa5a705d86e ("nvme-multipath: split bios with the ns_head..."),
->>>> which manifests itself by a spurious I/O error during failover.
->>>
->>> Hmm, this is interesting. Not sure how this specific commit would
->>> introduce such an issue.
->>>
->> See? Me neither. Sadly they _have_ bisected it, and this really is the
->> patch introducing the regression.
->> Current thinking is that we're dropping all paths during reset, causing
->> ns_head to be deleted, too.
+> Patches 4 through 7 fix a number of smaller issues I've found with
+> individual tests.
 > 
-> That is impossible, the only thing that would drop paths is either
-> if the user is removing a controller, or the ctrl_loss_tmo expired, both
-> are controller removal and not controller reset.
+> Patches 8 through 10 implement a system to ensure the nvme tests
+> clean themselves up properly especially when ctrl-c is used to
+> interrupt a test (working with the tests before this was a huge
+> pain seeing,  when you ctrl-c, you have to either manually clean
+> up the nvmet configuration or reboot to get the system in a state
+> where it's sane to run the tests again).
 > 
-Well ... the problem seem to be arising if we get an Namespace Changed 
-AEN during reset.
-In that case we'll call nvme_scan_ns_list(), on which the initial 
-identify will fail for all namespaces, and all of them will be disconnected.
+> Patches 11 and 12 make some minor changes that allow running the
+> tests with the nvme modules built into the kernel.
+> 
+> With these patches, plus a couple I've sent to the nvme list for the
+> kernel, I can consistently pass the entire nvme suite with the
+> exception of the lockdep false-positive with nvme/012 that still
+> seems to be in a bit of contention[3].
+> 
+> [1] https://github.com/osandov/blktests/pull/34
+> [2] https://lore.kernel.org/linux-block/20190505150611.15776-4-minwoo.im.dev at gmail.com/
+> [3] https://lore.kernel.org/lkml/20190214230058.196511-22-bvanassche at acm.org/
 
->> The ns_head will get recreated immediately
->> afterwards, so userspace wouldn't even notice that.
->> But if we have a non-empty requeue list that will be flushed only when
->> doing the final put on the ns_head structure, causing all I/O to fail.
-> 
-> Again, we need to understand what is the exact scenario, because if we
-> are losing all the paths, I/O failure is the expected behavior.
-> 
-... Unless we're disconnecting those paths during controller reset, 
-which actually is expected to happen, and will be corrected after reset 
-completes.
-
->> So looking at it that way, it _might_ actually be that your patch helps
->> for that situation, too, seeing that we can't reliably enumerate
->> namespaces during reset.
-> 
-> Can we define clearly what do you mean when you say "enumerate 
-> namespaces during reset"?
-> 
-Any call which walks the list of namespaces, either the controller list 
-or the ns_head siblings list.
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke            Teamlead Storage & Networking
-hare at suse.de                              +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N?rnberg)
+Merged, thanks, Logan!
