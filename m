@@ -1,42 +1,39 @@
-From: zwp10758@gmail.com (Weiping Zhang)
-Date: Mon, 29 Jul 2019 18:22:46 +0800
-Subject: [PATCH v3 5/5] nvme: add support weighted round robin queue
-In-Reply-To: <CAA70yB7-mLguBM=RxHeGzpDrrvnvdOaK3A32k4bdFc3uOvKaiQ@mail.gmail.com>
-References: <cover.1561385989.git.zhangweiping@didiglobal.com>
- <6e3b0f511a291dd0ce570a6cc5393e10d4509d0e.1561385989.git.zhangweiping@didiglobal.com>
- <20190627103719.GC4421@minwooim-desktop> <20190627110342.GA13612@lst.de>
- <CAA70yB5uve6x-t56u7RcM8=JNSXh644uErC5z4m5h2C1rkSuvA@mail.gmail.com>
- <CAA70yB7-mLguBM=RxHeGzpDrrvnvdOaK3A32k4bdFc3uOvKaiQ@mail.gmail.com>
-Message-ID: <CAA70yB4FjB+Lh6R92syPztpXswNzNk7rqyAqhaiojC4h5aE1kg@mail.gmail.com>
+From: ailiopoulos@suse.com (Anthony Iliopoulos)
+Date: Mon, 29 Jul 2019 14:40:40 +0200
+Subject: [PATCH] nvme/multipath: revalidate nvme_ns_head gendisk in
+ nvme_validate_ns
+Message-ID: <20190729124040.16581-1-ailiopoulos@suse.com>
 
-Weiping Zhang <zwp10758 at gmail.com> ?2019?7?10??? ??10:20???
->
-> Weiping Zhang <zwp10758 at gmail.com> ?2019?6?28??? ??11:57???
-> >
-> > Christoph Hellwig <hch at lst.de> ?2019?6?27??? ??7:06???
-> > >
-> > > On Thu, Jun 27, 2019@07:37:19PM +0900, Minwoo Im wrote:
-> > > > Hi, Maintainers
-> > > >
-> > > > Would you guys please give some thoughts about this patch?  I like this
-> > > > feature WRR addition to the driver so I really want to hear something
-> > > > from you guys.
-> > >
-> > > We are at the end of the merge window with tons of things to sort out.
-> > > A giant feature series with a lot of impact is not at the top of the
-> > > priority list right now.
-> >
-> > Hi Christoph,
-> >
-> > There are some feedback in V3, I really want to get some more feedback from you
-> > and other people, at that time I post V4.
-> >
-> > So please give some comments for V3 at your convenience after this merge window.
-> >
-> Hi Christoph,
->
-> Ping
+When CONFIG_NVME_MULTIPATH is set, only the hidden gendisk associated
+with the per-controller ns is run through revalidate_disk when a
+rescan is triggered, while the visible blockdev never gets its size
+(bdev->bd_inode->i_size) updated to reflect any capacity changes that
+may have occurred.
 
-Hi Christoph,
+This prevents online resizing of nvme block devices and in extension of
+any filesystems atop that will are unable to expand while mounted, as
+userspace relies on the blockdev size for obtaining the disk capacity
+(via BLKGETSIZE/64 ioctls).
 
-Ping
+Fix this by explicitly revalidating the actual namespace gendisk in
+addition to the per-controller gendisk, when multipath is enabled.
+
+Signed-off-by: Anthony Iliopoulos <ailiopoulos at suse.com>
+---
+ drivers/nvme/host/core.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 8f3fbe5ca937..80c7a7ee240b 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1715,6 +1715,7 @@ static void __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
+ 	if (ns->head->disk) {
+ 		nvme_update_disk_info(ns->head->disk, ns, id);
+ 		blk_queue_stack_limits(ns->head->disk->queue, ns->queue);
++		revalidate_disk(ns->head->disk);
+ 	}
+ #endif
+ }
+-- 
+2.16.4
