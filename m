@@ -1,25 +1,66 @@
-From: kbusch@kernel.org (Keith Busch)
-Date: Tue, 30 Jul 2019 13:19:34 -0600
-Subject: [Regression] Commit "nvme/pci: Use host managed power state for
- suspend" has problems
-In-Reply-To: <8246360B-F7D9-42EB-94FC-82995A769E28@canonical.com>
-References: <2332799.izEFUvJP67@kreacher>
- <4323ed84dd07474eab65699b4d007aaf@AUSX13MPC105.AMER.DELL.COM>
- <CAJZ5v0iDQ4=kTUgW94tKGt7oJzA_3uVU_M6HAMbNCRXwp_do8A@mail.gmail.com>
- <47415939.KV5G6iaeJG@kreacher>
- <20190730144134.GA12844@localhost.localdomain>
- <100ba4aff1c6434a81e47774ab4acddc@AUSX13MPC105.AMER.DELL.COM>
- <8246360B-F7D9-42EB-94FC-82995A769E28@canonical.com>
-Message-ID: <20190730191934.GD13948@localhost.localdomain>
+From: Charles.Hyde@dellteam.com (Charles.Hyde@dellteam.com)
+Date: Tue, 30 Jul 2019 20:09:15 +0000
+Subject: [PATCH] drivers/nvme: save/restore HMB on suspend/resume
+Message-ID: <362aad7f1cf547c2a73e1c4f564984db@AUSX13MPS303.AMER.DELL.COM>
 
-On Wed, Jul 31, 2019@02:50:01AM +0800, Kai-Heng Feng wrote:
-> 
-> Just did a quick test, this patch regress SK Hynix BC501, the SoC stays at
-> PC3 once the patch is applied.
+LiteOn CL1 devices allocate host memory buffer at initialization.
+This patch saves and restores the host memory buffer allocation
+for any NVMe device which has HMB.  Devices which have on-board
+memory buffers are not impacted.  This patch has been tested locally
+with the following devices: LiteOn CL1 and CA3, Hynix BC511 and
+PC601, WDC SN520 and SN720.  This patch has also been tested by
+our partners at Wistron and Compal.
 
-Okay, I'm afraid device/platform quirks may be required unless there are
-any other ideas out there.
+Signed-off-by: Charles Hyde <charles_hyde at dellteam.com>
+Cc: Mario Limonciello <mario.limonciello at dell.com>
+Cc: Rajat Jain <rajatja at google.com>
+---
+ drivers/nvme/host/pci.c | 26 ++++++++++++++++++++++++--
+ 1 file changed, 24 insertions(+), 2 deletions(-)
 
-I'm not a big fan of adding more params to this driver. Those are
-global to the module, so that couldn't really handle a platform with
-two different devices that want different behavior.
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index db160cee42ad..7c07d6ddbbac 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2847,8 +2847,20 @@ static int nvme_resume(struct device *dev)
+ 	struct nvme_ctrl *ctrl = &ndev->ctrl;
+ 
+ 	if (pm_resume_via_firmware() || !ctrl->npss ||
+-	    nvme_set_power_state(ctrl, ndev->last_ps) != 0)
+-		nvme_reset_ctrl(ctrl);
++	    nvme_set_power_state(ctrl, ndev->last_ps) != 0) {
++		goto reset;
++	}
++
++	/*
++	 * If the device has allocated system memory for host memory buffer,
++	 * such as LiteOn CL1 devices, deal with it.
++	 */
++	if (ndev->host_mem_descs) {
++		if (nvme_setup_host_mem(ndev) != 0) {
++reset:
++			nvme_reset_ctrl(ctrl);
++		}
++	}
+ 	return 0;
+ }
+ 
+@@ -2880,6 +2892,16 @@ static int nvme_suspend(struct device *dev)
+ 	    ctrl->state != NVME_CTRL_ADMIN_ONLY)
+ 		goto unfreeze;
+ 
++	/*
++	 * If the device has allocated system memory for host memory buffer,
++	 * such as LiteOn CL1 devices, we need to deal with that.
++	 */
++	if (ndev->host_mem_descs) {
++		ret = nvme_set_host_mem(ndev, 0);
++		if (ret < 0)
++			goto unfreeze;
++	}
++
+ 	ndev->last_ps = 0;
+ 	ret = nvme_get_power_state(ctrl, &ndev->last_ps);
+ 	if (ret < 0)
+-- 
+2.20.1
