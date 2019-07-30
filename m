@@ -1,66 +1,44 @@
-From: Charles.Hyde@dellteam.com (Charles.Hyde@dellteam.com)
-Date: Tue, 30 Jul 2019 20:09:15 +0000
-Subject: [PATCH] drivers/nvme: save/restore HMB on suspend/resume
-Message-ID: <362aad7f1cf547c2a73e1c4f564984db@AUSX13MPS303.AMER.DELL.COM>
+From: benh@kernel.crashing.org (Benjamin Herrenschmidt)
+Date: Tue, 30 Jul 2019 13:15:03 -0700
+Subject: [PATCH v3] nvme-pci: Support shared tags across queues for
+ Apple 2018 controllers
+In-Reply-To: <20190730153044.GA13948@localhost.localdomain>
+References: <b1f9bdf0294b8d87d292de3c7462c8e99551b02d.camel@kernel.crashing.org>
+ <20190730153044.GA13948@localhost.localdomain>
+Message-ID: <fc55769bcacd45f8283f504b7d4332271da1436b.camel@kernel.crashing.org>
 
-LiteOn CL1 devices allocate host memory buffer at initialization.
-This patch saves and restores the host memory buffer allocation
-for any NVMe device which has HMB.  Devices which have on-board
-memory buffers are not impacted.  This patch has been tested locally
-with the following devices: LiteOn CL1 and CA3, Hynix BC511 and
-PC601, WDC SN520 and SN720.  This patch has also been tested by
-our partners at Wistron and Compal.
+On Tue, 2019-07-30@09:30 -0600, Keith Busch wrote:
+> On Fri, Jul 19, 2019@03:31:02PM +1000, Benjamin Herrenschmidt wrote:
+> > From 8dcba2ef5b1466b023b88b4eca463b30de78d9eb Mon Sep 17 00:00:00 2001
+> > From: Benjamin Herrenschmidt <benh at kernel.crashing.org>
+> > Date: Fri, 19 Jul 2019 15:03:06 +1000
+> > Subject: 
+> > 
+> > Another issue with the Apple T2 based 2018 controllers seem to be
+> > that they blow up (and shut the machine down) if there's a tag
+> > collision between the IO queue and the Admin queue.
+> > 
+> > My suspicion is that they use our tags for their internal tracking
+> > and don't mix them with the queue id. They also seem to not like
+> > when tags go beyond the IO queue depth, ie 128 tags.
+> > 
+> > This adds a quirk that marks tags 0..31 of the IO queue reserved
+> > 
+> > Signed-off-by: Benjamin Herrenschmidt <benh at kernel.crashing.org>
+> > ---
+> 
+> One problem is that we've an nvme parameter, io_queue_depth, that a user
+> could set to something less than 32, and then you won't be able to do
+> any IO. I'd recommend enforce the admin queue to QD1 for this device so
+> that you have more potential IO tags.
 
-Signed-off-by: Charles Hyde <charles_hyde at dellteam.com>
-Cc: Mario Limonciello <mario.limonciello at dell.com>
-Cc: Rajat Jain <rajatja at google.com>
----
- drivers/nvme/host/pci.c | 26 ++++++++++++++++++++++++--
- 1 file changed, 24 insertions(+), 2 deletions(-)
+Makes sense, I don't think we care much about the number of admin tags 
+on these devices.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index db160cee42ad..7c07d6ddbbac 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2847,8 +2847,20 @@ static int nvme_resume(struct device *dev)
- 	struct nvme_ctrl *ctrl = &ndev->ctrl;
- 
- 	if (pm_resume_via_firmware() || !ctrl->npss ||
--	    nvme_set_power_state(ctrl, ndev->last_ps) != 0)
--		nvme_reset_ctrl(ctrl);
-+	    nvme_set_power_state(ctrl, ndev->last_ps) != 0) {
-+		goto reset;
-+	}
-+
-+	/*
-+	 * If the device has allocated system memory for host memory buffer,
-+	 * such as LiteOn CL1 devices, deal with it.
-+	 */
-+	if (ndev->host_mem_descs) {
-+		if (nvme_setup_host_mem(ndev) != 0) {
-+reset:
-+			nvme_reset_ctrl(ctrl);
-+		}
-+	}
- 	return 0;
- }
- 
-@@ -2880,6 +2892,16 @@ static int nvme_suspend(struct device *dev)
- 	    ctrl->state != NVME_CTRL_ADMIN_ONLY)
- 		goto unfreeze;
- 
-+	/*
-+	 * If the device has allocated system memory for host memory buffer,
-+	 * such as LiteOn CL1 devices, we need to deal with that.
-+	 */
-+	if (ndev->host_mem_descs) {
-+		ret = nvme_set_host_mem(ndev, 0);
-+		if (ret < 0)
-+			goto unfreeze;
-+	}
-+
- 	ndev->last_ps = 0;
- 	ret = nvme_get_power_state(ctrl, &ndev->last_ps);
- 	if (ret < 0)
--- 
-2.20.1
+I'm travelling, not sure I'll be able to respin & test before next
+week.
+
+Thanks.
+
+Cheers,
+Ben.
