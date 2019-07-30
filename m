@@ -1,91 +1,128 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Tue, 30 Jul 2019 10:35:38 -0600
-Subject: [PATCH v2 07/14] PCI/P2PDMA: Add whitelist support for Intel Host
- Bridges
+Date: Tue, 30 Jul 2019 10:35:35 -0600
+Subject: [PATCH v2 04/14] PCI/P2PDMA: Factor out __upstream_bridge_distance()
 In-Reply-To: <20190730163545.4915-1-logang@deltatee.com>
 References: <20190730163545.4915-1-logang@deltatee.com>
-Message-ID: <20190730163545.4915-8-logang@deltatee.com>
+Message-ID: <20190730163545.4915-5-logang@deltatee.com>
 
-Intel devices do not have good support for P2P requests that span
-different host bridges as the transactions will cross the QPI/UPI bus
-and this does not perform well.
+This is a prep patch to create a second level helper. There are no
+functional changes.
 
-Therefore, enable support for these devices only if the host bridges
-match.
-
-Adds the Intel device's that have been tested to work. There are
-likely many others out there that will need to be tested and added.
+The root complex whitelist code will be moved into this function in
+a subsequent patch.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
+Reviewed-by: Christian K?nig <christian.koenig at amd.com>
 ---
- drivers/pci/p2pdma.c | 38 ++++++++++++++++++++++++++++++++++----
- 1 file changed, 34 insertions(+), 4 deletions(-)
+ drivers/pci/p2pdma.c | 89 ++++++++++++++++++++++++--------------------
+ 1 file changed, 48 insertions(+), 41 deletions(-)
 
 diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-index ca36ea533ed7..1504f7ea006a 100644
+index 64f5a0e30244..b4ef6e8da784 100644
 --- a/drivers/pci/p2pdma.c
 +++ b/drivers/pci/p2pdma.c
-@@ -262,9 +262,30 @@ static void seq_buf_print_bus_devfn(struct seq_buf *buf, struct pci_dev *pdev)
- 	seq_buf_printf(buf, "%s;", pci_name(pdev));
- }
+@@ -303,47 +303,9 @@ enum {
+ 	P2PDMA_NOT_SUPPORTED		= 0x08000000,
+ };
  
--static bool __host_bridge_whitelist(struct pci_host_bridge *host)
-+static const struct pci_p2pdma_whitelist_entry {
-+	unsigned short vendor;
-+	unsigned short device;
-+	enum {
-+		REQ_SAME_HOST_BRIDGE	= 1 << 0,
-+	} flags;
-+} pci_p2pdma_whitelist[] = {
-+	/* AMD ZEN */
-+	{PCI_VENDOR_ID_AMD,	0x1450,	0},
-+
-+	/* Intel Xeon E5/Core i7 */
-+	{PCI_VENDOR_ID_INTEL,	0x3c00, REQ_SAME_HOST_BRIDGE},
-+	{PCI_VENDOR_ID_INTEL,	0x3c01, REQ_SAME_HOST_BRIDGE},
-+	/* Intel Xeon E7 v3/Xeon E5 v3/Core i7 */
-+	{PCI_VENDOR_ID_INTEL,	0x2f00, REQ_SAME_HOST_BRIDGE},
-+	{PCI_VENDOR_ID_INTEL,	0x2f01, REQ_SAME_HOST_BRIDGE},
-+	{}
-+};
-+
-+static bool __host_bridge_whitelist(struct pci_host_bridge *host,
-+				    bool same_host_bridge)
+-/*
+- * Find the distance through the nearest common upstream bridge between
+- * two PCI devices.
+- *
+- * If the two devices are the same device then 0 will be returned.
+- *
+- * If there are two virtual functions of the same device behind the same
+- * bridge port then 2 will be returned (one step down to the PCIe switch,
+- * then one step back to the same device).
+- *
+- * In the case where two devices are connected to the same PCIe switch, the
+- * value 4 will be returned. This corresponds to the following PCI tree:
+- *
+- *     -+  Root Port
+- *      \+ Switch Upstream Port
+- *       +-+ Switch Downstream Port
+- *       + \- Device A
+- *       \-+ Switch Downstream Port
+- *         \- Device B
+- *
+- * The distance is 4 because we traverse from Device A through the downstream
+- * port of the switch, to the common upstream port, back up to the second
+- * downstream port and then to Device B.
+- *
+- * Any two devices that cannot communicate using p2pdma will return the distance
+- * with the flag P2PDMA_NOT_SUPPORTED.
+- *
+- * Any two devices that have a data path that goes through the host bridge
+- * will consult a whitelist. If the host bridges are on the whitelist,
+- * then the distance will be returned with the flag P2PDMA_THRU_HOST_BRIDGE set.
+- * If either bridge is not on the whitelist, the flag P2PDMA_NOT_SUPPORTED will
+- * be set.
+- *
+- * If a bridge which has any ACS redirection bits set is in the path
+- * then this functions will flag the result with P2PDMA_ACS_FORCES_UPSTREAM.
+- * In this case, a list of all infringing bridge addresses will be
+- * populated in acs_list (assuming it's non-null) for printk purposes.
+- */
+-static int upstream_bridge_distance(struct pci_dev *provider,
+-				    struct pci_dev *client,
+-				    struct seq_buf *acs_list)
++static int __upstream_bridge_distance(struct pci_dev *provider,
++				      struct pci_dev *client,
++				      struct seq_buf *acs_list)
  {
- 	struct pci_dev *root = pci_get_slot(host->bus, PCI_DEVFN(0, 0));
-+	const struct pci_p2pdma_whitelist_entry *entry;
- 	unsigned short vendor, device;
- 
- 	if (!root)
-@@ -274,9 +295,14 @@ static bool __host_bridge_whitelist(struct pci_host_bridge *host)
- 	device = root->device;
- 	pci_dev_put(root);
- 
--	/* AMD ZEN host bridges can do peer to peer */
--	if (vendor == PCI_VENDOR_ID_AMD && device == 0x1450)
-+	for (entry = pci_p2pdma_whitelist; entry->vendor; entry++) {
-+		if (vendor != entry->vendor || device != entry->device)
-+			continue;
-+		if (entry->flags & REQ_SAME_HOST_BRIDGE && !same_host_bridge)
-+			return false;
-+
- 		return true;
-+	}
- 
- 	return false;
+ 	struct pci_dev *a = provider, *b = client, *bb;
+ 	int dist_a = 0;
+@@ -409,6 +371,51 @@ static int upstream_bridge_distance(struct pci_dev *provider,
+ 	return dist_a + dist_b;
  }
-@@ -293,7 +319,11 @@ static bool host_bridge_whitelist(struct pci_dev *a, struct pci_dev *b)
- 	if (iommu_present(a->dev.bus) || iommu_present(b->dev.bus))
- 		return false;
  
--	if (__host_bridge_whitelist(host_a) && __host_bridge_whitelist(host_b))
-+	if (host_a == host_b)
-+		return __host_bridge_whitelist(host_a, true);
++/*
++ * Find the distance through the nearest common upstream bridge between
++ * two PCI devices.
++ *
++ * If the two devices are the same device then 0 will be returned.
++ *
++ * If there are two virtual functions of the same device behind the same
++ * bridge port then 2 will be returned (one step down to the PCIe switch,
++ * then one step back to the same device).
++ *
++ * In the case where two devices are connected to the same PCIe switch, the
++ * value 4 will be returned. This corresponds to the following PCI tree:
++ *
++ *     -+  Root Port
++ *      \+ Switch Upstream Port
++ *       +-+ Switch Downstream Port
++ *       + \- Device A
++ *       \-+ Switch Downstream Port
++ *         \- Device B
++ *
++ * The distance is 4 because we traverse from Device A through the downstream
++ * port of the switch, to the common upstream port, back up to the second
++ * downstream port and then to Device B.
++ *
++ * Any two devices that cannot communicate using p2pdma will return the distance
++ * with the flag P2PDMA_NOT_SUPPORTED.
++ *
++ * Any two devices that have a data path that goes through the host bridge
++ * will consult a whitelist. If the host bridges are on the whitelist,
++ * then the distance will be returned with the flag P2PDMA_THRU_HOST_BRIDGE set.
++ * If either bridge is not on the whitelist, the flag P2PDMA_NOT_SUPPORTED will
++ * be set.
++ *
++ * If a bridge which has any ACS redirection bits set is in the path
++ * then this functions will flag the result with P2PDMA_ACS_FORCES_UPSTREAM.
++ * In this case, a list of all infringing bridge addresses will be
++ * populated in acs_list (assuming it's non-null) for printk purposes.
++ */
++static int upstream_bridge_distance(struct pci_dev *provider,
++				    struct pci_dev *client,
++				    struct seq_buf *acs_list)
++{
++	return __upstream_bridge_distance(provider, client, acs_list);
++}
 +
-+	if (__host_bridge_whitelist(host_a, false) &&
-+	    __host_bridge_whitelist(host_b, false))
- 		return true;
- 
- 	return false;
+ static int upstream_bridge_distance_warn(struct pci_dev *provider,
+ 					 struct pci_dev *client)
+ {
 -- 
 2.20.1
