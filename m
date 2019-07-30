@@ -1,40 +1,87 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Tue, 30 Jul 2019 10:35:44 -0600
-Subject: [PATCH v2 13/14] PCI/P2PDMA: No longer require no-mmu for host bridge
- whitelist
+Date: Tue, 30 Jul 2019 10:35:43 -0600
+Subject: [PATCH v2 12/14] PCI/P2PDMA: dma_map P2PDMA map requests that
+ traverse the host bridge
 In-Reply-To: <20190730163545.4915-1-logang@deltatee.com>
 References: <20190730163545.4915-1-logang@deltatee.com>
-Message-ID: <20190730163545.4915-14-logang@deltatee.com>
+Message-ID: <20190730163545.4915-13-logang@deltatee.com>
 
-Now that we map the requests correctly we can remove the iommu_present()
-restriction.
+Any requests that traverse the host bridge will need to be mapped into
+the IOMMU, so call dma_map_sg() inside pci_p2pdma_map_sg() when
+appropriate.
+
+Similarly, call dma_unmap_sg() inside pci_p2pdma_unmap_sg().
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 ---
- drivers/pci/p2pdma.c | 4 ----
- 1 file changed, 4 deletions(-)
+ drivers/pci/p2pdma.c | 40 +++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 39 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-index b86a1c0c11a0..2d643b26d080 100644
+index 010aa8742bec..b86a1c0c11a0 100644
 --- a/drivers/pci/p2pdma.c
 +++ b/drivers/pci/p2pdma.c
-@@ -18,7 +18,6 @@
- #include <linux/percpu-refcount.h>
- #include <linux/random.h>
- #include <linux/seq_buf.h>
--#include <linux/iommu.h>
- #include <linux/xarray.h>
+@@ -812,6 +812,16 @@ void pci_p2pmem_publish(struct pci_dev *pdev, bool publish)
+ }
+ EXPORT_SYMBOL_GPL(pci_p2pmem_publish);
  
- enum pci_p2pdma_map_type {
-@@ -328,9 +327,6 @@ static bool host_bridge_whitelist(struct pci_dev *a, struct pci_dev *b)
- 	struct pci_host_bridge *host_a = pci_find_host_bridge(a->bus);
- 	struct pci_host_bridge *host_b = pci_find_host_bridge(b->bus);
++static enum pci_p2pdma_map_type pci_p2pdma_map_type(struct pci_dev *provider,
++						    struct pci_dev *client)
++{
++	if (!provider->p2pdma)
++		return PCI_P2PDMA_MAP_NOT_SUPPORTED;
++
++	return xa_to_value(xa_load(&provider->p2pdma->map_types,
++				   map_types_idx(client)));
++}
++
+ static int __pci_p2pdma_map_sg(struct pci_p2pdma_pagemap *p2p_pgmap,
+ 		struct device *dev, struct scatterlist *sg, int nents)
+ {
+@@ -857,8 +867,22 @@ int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
+ {
+ 	struct pci_p2pdma_pagemap *p2p_pgmap =
+ 		to_p2p_pgmap(sg_page(sg)->pgmap);
++	struct pci_dev *client;
  
--	if (iommu_present(a->dev.bus) || iommu_present(b->dev.bus))
--		return false;
--
- 	if (host_a == host_b)
- 		return __host_bridge_whitelist(host_a, true);
+-	return __pci_p2pdma_map_sg(p2p_pgmap, dev, sg, nents);
++	if (WARN_ON_ONCE(!dev_is_pci(dev)))
++		return 0;
++
++	client = to_pci_dev(dev);
++
++	switch (pci_p2pdma_map_type(p2p_pgmap->provider, client)) {
++	case PCI_P2PDMA_MAP_THRU_IOMMU:
++		return dma_map_sg_attrs(dev, sg, nents, dir, attrs);
++	case PCI_P2PDMA_MAP_BUS_ADDR:
++		return __pci_p2pdma_map_sg(p2p_pgmap, dev, sg, nents);
++	default:
++		WARN_ON_ONCE(1);
++		return 0;
++	}
+ }
+ EXPORT_SYMBOL_GPL(pci_p2pdma_map_sg_attrs);
+ 
+@@ -874,6 +898,20 @@ EXPORT_SYMBOL_GPL(pci_p2pdma_map_sg_attrs);
+ void pci_p2pdma_unmap_sg_attrs(struct device *dev, struct scatterlist *sg,
+ 		int nents, enum dma_data_direction dir, unsigned long attrs)
+ {
++	struct pci_p2pdma_pagemap *p2p_pgmap =
++		to_p2p_pgmap(sg_page(sg)->pgmap);
++	enum pci_p2pdma_map_type map_type;
++	struct pci_dev *client;
++
++	if (WARN_ON_ONCE(!dev_is_pci(dev)))
++		return;
++
++	client = to_pci_dev(dev);
++
++	map_type = pci_p2pdma_map_type(p2p_pgmap->provider, client);
++
++	if (map_type == PCI_P2PDMA_MAP_THRU_IOMMU)
++		dma_unmap_sg_attrs(dev, sg, nents, dir, attrs);
+ }
+ EXPORT_SYMBOL_GPL(pci_p2pdma_unmap_sg_attrs);
  
 -- 
 2.20.1
