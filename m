@@ -1,71 +1,85 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Tue, 30 Jul 2019 10:35:36 -0600
-Subject: [PATCH v2 05/14] PCI/P2PDMA: Apply host bridge white list for ACS
+Date: Tue, 30 Jul 2019 10:35:41 -0600
+Subject: [PATCH v2 10/14] PCI/P2PDMA: Factor out __pci_p2pdma_map_sg()
 In-Reply-To: <20190730163545.4915-1-logang@deltatee.com>
 References: <20190730163545.4915-1-logang@deltatee.com>
-Message-ID: <20190730163545.4915-6-logang@deltatee.com>
+Message-ID: <20190730163545.4915-11-logang@deltatee.com>
 
-When a P2PDMA transfer is rejected due to ACS being set, we
-can also check the white list and allow the transactions.
-
-Do this by pushing the whitelist check into the
-upstream_bridge_distance() function.
+Factor out the bus only mapping into it's own static function.
+No functional changes. The original pci_p2pdma_map_sg_attrs() will
+be used to decide whether this is an appropriate way to map.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
-Reviewed-by: Christian K?nig <christian.koenig at amd.com>
 ---
- drivers/pci/p2pdma.c | 25 ++++++++++++++-----------
- 1 file changed, 14 insertions(+), 11 deletions(-)
+ drivers/pci/p2pdma.c | 41 ++++++++++++++++++++++++-----------------
+ 1 file changed, 24 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-index b4ef6e8da784..10765ab90e64 100644
+index 392653fe0583..fe647bd8f947 100644
 --- a/drivers/pci/p2pdma.c
 +++ b/drivers/pci/p2pdma.c
-@@ -340,15 +340,7 @@ static int __upstream_bridge_distance(struct pci_dev *provider,
- 		dist_a++;
- 	}
- 
--	/*
--	 * Allow the connection if both devices are on a whitelisted root
--	 * complex, but add an arbitrary large value to the distance.
--	 */
--	if (root_complex_whitelist(provider) &&
--	    root_complex_whitelist(client))
--		return (dist_a + dist_b) | P2PDMA_THRU_HOST_BRIDGE;
--
--	return (dist_a + dist_b) | P2PDMA_NOT_SUPPORTED;
-+	return (dist_a + dist_b) | P2PDMA_THRU_HOST_BRIDGE;
- 
- check_b_path_acs:
- 	bb = b;
-@@ -366,7 +358,8 @@ static int __upstream_bridge_distance(struct pci_dev *provider,
- 	}
- 
- 	if (acs_cnt)
--		return P2PDMA_NOT_SUPPORTED | P2PDMA_ACS_FORCES_UPSTREAM;
-+		return (dist_a + dist_b) | P2PDMA_ACS_FORCES_UPSTREAM |
-+			P2PDMA_THRU_HOST_BRIDGE;
- 
- 	return dist_a + dist_b;
+@@ -782,23 +782,9 @@ void pci_p2pmem_publish(struct pci_dev *pdev, bool publish)
  }
-@@ -413,7 +406,17 @@ static int upstream_bridge_distance(struct pci_dev *provider,
- 				    struct pci_dev *client,
- 				    struct seq_buf *acs_list)
+ EXPORT_SYMBOL_GPL(pci_p2pmem_publish);
+ 
+-/**
+- * pci_p2pdma_map_sg - map a PCI peer-to-peer scatterlist for DMA
+- * @dev: device doing the DMA request
+- * @sg: scatter list to map
+- * @nents: elements in the scatterlist
+- * @dir: DMA direction
+- * @attrs: dma attributes passed to dma_map_sg() (if called)
+- *
+- * Scatterlists mapped with this function should be unmapped using
+- * pci_p2pdma_unmap_sg_attrs().
+- *
+- * Returns the number of SG entries mapped or 0 on error.
+- */
+-int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
+-		int nents, enum dma_data_direction dir, unsigned long attrs)
++static int __pci_p2pdma_map_sg(struct pci_p2pdma_pagemap *p2p_pgmap,
++		struct device *dev, struct scatterlist *sg, int nents)
  {
--	return __upstream_bridge_distance(provider, client, acs_list);
-+	int dist;
-+
-+	dist = __upstream_bridge_distance(provider, client, acs_list);
-+
-+	if (!(dist & P2PDMA_THRU_HOST_BRIDGE))
-+		return dist;
-+
-+	if (root_complex_whitelist(provider) && root_complex_whitelist(client))
-+		return dist;
-+
-+	return dist | P2PDMA_NOT_SUPPORTED;
- }
+-	struct pci_p2pdma_pagemap *p2p_pgmap;
+ 	struct scatterlist *s;
+ 	phys_addr_t paddr;
+ 	int i;
+@@ -814,7 +800,6 @@ int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
+ 		return 0;
  
- static int upstream_bridge_distance_warn(struct pci_dev *provider,
+ 	for_each_sg(sg, s, nents, i) {
+-		p2p_pgmap = to_p2p_pgmap(sg_page(s)->pgmap);
+ 		paddr = sg_phys(s);
+ 
+ 		s->dma_address = paddr - p2p_pgmap->bus_offset;
+@@ -823,6 +808,28 @@ int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
+ 
+ 	return nents;
+ }
++
++/**
++ * pci_p2pdma_map_sg - map a PCI peer-to-peer scatterlist for DMA
++ * @dev: device doing the DMA request
++ * @sg: scatter list to map
++ * @nents: elements in the scatterlist
++ * @dir: DMA direction
++ * @attrs: dma attributes passed to dma_map_sg() (if called)
++ *
++ * Scatterlists mapped with this function should be unmapped using
++ * pci_p2pdma_unmap_sg_attrs().
++ *
++ * Returns the number of SG entries mapped or 0 on error.
++ */
++int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
++		int nents, enum dma_data_direction dir, unsigned long attrs)
++{
++	struct pci_p2pdma_pagemap *p2p_pgmap =
++		to_p2p_pgmap(sg_page(sg)->pgmap);
++
++	return __pci_p2pdma_map_sg(p2p_pgmap, dev, sg, nents);
++}
+ EXPORT_SYMBOL_GPL(pci_p2pdma_map_sg_attrs);
+ 
+ /**
 -- 
 2.20.1
