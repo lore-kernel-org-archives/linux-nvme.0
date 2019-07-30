@@ -1,58 +1,51 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Tue, 30 Jul 2019 08:45:26 +0800
-Subject: [PATCH V2 0/5] blk-mq: wait until completed req's complete fn is
- run
-In-Reply-To: <20190724034843.10879-1-ming.lei@redhat.com>
-References: <20190724034843.10879-1-ming.lei@redhat.com>
-Message-ID: <20190730004525.GB28708@ming.t460p>
+From: keith.busch@gmail.com (Keith Busch)
+Date: Mon, 29 Jul 2019 18:59:11 -0600
+Subject: [PATCH rfc 1/2] nvme: don't remove namespace if revalidate failed
+ because of controller reset
+In-Reply-To: <20190729233201.27993-2-sagi@grimberg.me>
+References: <20190729233201.27993-1-sagi@grimberg.me>
+ <20190729233201.27993-2-sagi@grimberg.me>
+Message-ID: <CAOSXXT6kG36vCf7wj8aJG+9fARYP9y+SB8TogfKuc+g20S_TYg@mail.gmail.com>
 
-On Wed, Jul 24, 2019@11:48:38AM +0800, Ming Lei wrote:
-> Hi,
-> 
-> blk-mq may schedule to call queue's complete function on remote CPU via
-> IPI, but never provide any way to synchronize the request's complete
-> fn.
-> 
-> In some driver's EH(such as NVMe), hardware queue's resource may be freed &
-> re-allocated. If the completed request's complete fn is run finally after the
-> hardware queue's resource is released, kernel crash will be triggered.
-> 
-> Fixes this issue by waitting until completed req's complete fn is run.
-> 
-> V2:
-> 	- fix one build warning
-> 	- fix commit log
-> 	- apply the wait on nvme-fc code too
-> 
-> Thanks,
-> Ming
-> 
-> Ming Lei (5):
->   blk-mq: introduce blk_mq_request_completed()
->   blk-mq: introduce blk_mq_tagset_wait_completed_request()
->   nvme: don't abort completed request in nvme_cancel_request
->   nvme: wait until all completed request's complete fn is called
->   blk-mq: remove blk_mq_complete_request_sync
-> 
->  block/blk-mq-tag.c         | 32 ++++++++++++++++++++++++++++++++
->  block/blk-mq.c             | 13 ++++++-------
->  drivers/nvme/host/core.c   |  6 +++++-
->  drivers/nvme/host/fc.c     |  2 ++
->  drivers/nvme/host/pci.c    |  2 ++
->  drivers/nvme/host/rdma.c   |  8 ++++++--
->  drivers/nvme/host/tcp.c    |  8 ++++++--
->  drivers/nvme/target/loop.c |  2 ++
->  include/linux/blk-mq.h     |  3 ++-
->  9 files changed, 63 insertions(+), 13 deletions(-)
-> 
-> Cc: Max Gurtovoy <maxg at mellanox.com>
-> Cc: Sagi Grimberg <sagi at grimberg.me>
-> Cc: Keith Busch <keith.busch at intel.com>
-> Cc: Christoph Hellwig <hch at lst.de>
+On Mon, Jul 29, 2019@5:32 PM Sagi Grimberg <sagi@grimberg.me> wrote:
+> If a controller reset is racing with a namespace revalidation, the
+> revalidation I/O will surely fail, but we should not remove the
+> namespace as we will execute the I/O when the controller is LIVE again.
+> Specifically check if the controller is LIVE because as
+> RESETTING/CONNECTING are transient and DELETING/DEAD will eventually
+> remove the namespace in the removal code path.
+>
+> This fixes sporious I/O errors in path failover coditions where the
+> controller reset is racing with the namespace scan work.
+>
+> Reported-by: Hannes Reinecke  <hare at suse.de>
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> ---
+>  drivers/nvme/host/core.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index fa31da0762b9..5f6970e7ba73 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -3428,7 +3428,8 @@ static void nvme_validate_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+>
+>         ns = nvme_find_get_ns(ctrl, nsid);
+>         if (ns) {
+> -               if (ns->disk && revalidate_disk(ns->disk))
+> +               if (ns->disk && revalidate_disk(ns->disk) &&
+> +                   ctrl->state != NVME_CTRL_LIVE)
+>                         nvme_ns_remove(ns);
 
-Hello Jens, Chritoph and Guys,
+That should be '== NVME_CTRL_LIVE', right? You don't want to remove it
+for the resetting state, and the removing states take care of removal
+directly.
 
-Ping on this fix.
+On the RESETTING state, shouldn't we avoid calling revalidate_disk()
+in the first place? An intermittent failure during reset could cause
+the disk to temporarily go to a zero-capacity, which may cause some
+filesystem issues that we could avoid if we know we're about to rescan
+this namespace.
 
-Thanks,
-Ming
+>                 nvme_put_ns(ns);
+>         } else
