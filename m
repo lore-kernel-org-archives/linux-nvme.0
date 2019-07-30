@@ -1,101 +1,129 @@
-From: kbusch@kernel.org (Keith Busch)
-Date: Tue, 30 Jul 2019 09:30:44 -0600
-Subject: [PATCH v3] nvme-pci: Support shared tags across queues for Apple
- 2018 controllers
-In-Reply-To: <b1f9bdf0294b8d87d292de3c7462c8e99551b02d.camel@kernel.crashing.org>
-References: <b1f9bdf0294b8d87d292de3c7462c8e99551b02d.camel@kernel.crashing.org>
-Message-ID: <20190730153044.GA13948@localhost.localdomain>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Tue, 30 Jul 2019 10:35:40 -0600
+Subject: [PATCH v2 09/14] PCI/P2PDMA: Introduce pci_p2pdma_unmap_sg()
+In-Reply-To: <20190730163545.4915-1-logang@deltatee.com>
+References: <20190730163545.4915-1-logang@deltatee.com>
+Message-ID: <20190730163545.4915-10-logang@deltatee.com>
 
-On Fri, Jul 19, 2019@03:31:02PM +1000, Benjamin Herrenschmidt wrote:
-> From 8dcba2ef5b1466b023b88b4eca463b30de78d9eb Mon Sep 17 00:00:00 2001
-> From: Benjamin Herrenschmidt <benh at kernel.crashing.org>
-> Date: Fri, 19 Jul 2019 15:03:06 +1000
-> Subject: 
-> 
-> Another issue with the Apple T2 based 2018 controllers seem to be
-> that they blow up (and shut the machine down) if there's a tag
-> collision between the IO queue and the Admin queue.
-> 
-> My suspicion is that they use our tags for their internal tracking
-> and don't mix them with the queue id. They also seem to not like
-> when tags go beyond the IO queue depth, ie 128 tags.
-> 
-> This adds a quirk that marks tags 0..31 of the IO queue reserved
-> 
-> Signed-off-by: Benjamin Herrenschmidt <benh at kernel.crashing.org>
-> ---
+Add pci_p2pdma_unmap_sg() to the two places that call
+pci_p2pdma_map_sg().
 
-One problem is that we've an nvme parameter, io_queue_depth, that a user
-could set to something less than 32, and then you won't be able to do
-any IO. I'd recommend enforce the admin queue to QD1 for this device so
-that you have more potential IO tags.
+This is a prep patch to introduce correct mappings for p2pdma
+transactions that go through the root complex.
 
+Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
+---
+ drivers/infiniband/core/rw.c |  6 ++++--
+ drivers/nvme/host/pci.c      |  6 ++++--
+ drivers/pci/p2pdma.c         | 18 +++++++++++++++++-
+ include/linux/pci-p2pdma.h   | 13 +++++++++++++
+ 4 files changed, 38 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/infiniband/core/rw.c b/drivers/infiniband/core/rw.c
+index dce06108c8c3..5337393d4dfe 100644
+--- a/drivers/infiniband/core/rw.c
++++ b/drivers/infiniband/core/rw.c
+@@ -583,8 +583,10 @@ void rdma_rw_ctx_destroy(struct rdma_rw_ctx *ctx, struct ib_qp *qp, u8 port_num,
+ 		break;
+ 	}
  
-> Thanks Damien, reserved tags work and make this a lot simpler !
-> 
->  drivers/nvme/host/nvme.h |  5 +++++
->  drivers/nvme/host/pci.c  | 19 ++++++++++++++++++-
->  2 files changed, 23 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> index ced0e0a7e039..8732da6df555 100644
-> --- a/drivers/nvme/host/nvme.h
-> +++ b/drivers/nvme/host/nvme.h
-> @@ -102,6 +102,11 @@ enum nvme_quirks {
->  	 * Use non-standard 128 bytes SQEs.
->  	 */
->  	NVME_QUIRK_128_BYTES_SQES		= (1 << 11),
-> +
-> +	/*
-> +	 * Prevent tag overlap between queues
-> +	 */
-> +	NVME_QUIRK_SHARED_TAGS                  = (1 << 12),
->  };
->  
->  /*
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 7088971d4c42..fc74395a028b 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -2106,6 +2106,14 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
->  	unsigned long size;
->  
->  	nr_io_queues = max_io_queues();
-> +
-> +	/*
-> +	 * If tags are shared with admin queue (Apple bug), then
-> +	 * make sure we only use one IO queue.
-> +	 */
-> +	if (dev->ctrl.quirks & NVME_QUIRK_SHARED_TAGS)
-> +		nr_io_queues = 1;
-> +
->  	result = nvme_set_queue_count(&dev->ctrl, &nr_io_queues);
->  	if (result < 0)
->  		return result;
-> @@ -2278,6 +2286,14 @@ static int nvme_dev_add(struct nvme_dev *dev)
->  		dev->tagset.flags = BLK_MQ_F_SHOULD_MERGE;
->  		dev->tagset.driver_data = dev;
->  
-> +		/*
-> +		 * Some Apple controllers requires tags to be unique
-> +		 * across admin and IO queue, so reserve the first 32
-> +		 * tags of the IO queue.
-> +		 */
-> +		if (dev->ctrl.quirks & NVME_QUIRK_SHARED_TAGS)
-> +			dev->tagset.reserved_tags = NVME_AQ_DEPTH;
-> +
->  		ret = blk_mq_alloc_tag_set(&dev->tagset);
->  		if (ret) {
->  			dev_warn(dev->ctrl.device,
-> @@ -3057,7 +3073,8 @@ static const struct pci_device_id nvme_id_table[] = {
->  	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2003) },
->  	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2005),
->  		.driver_data = NVME_QUIRK_SINGLE_VECTOR |
-> -				NVME_QUIRK_128_BYTES_SQES },
-> +				NVME_QUIRK_128_BYTES_SQES |
-> +				NVME_QUIRK_SHARED_TAGS },
->  	{ 0, }
->  };
->  MODULE_DEVICE_TABLE(pci, nvme_id_table);
-> 
-> 
+-	/* P2PDMA contexts do not need to be unmapped */
+-	if (!is_pci_p2pdma_page(sg_page(sg)))
++	if (is_pci_p2pdma_page(sg_page(sg)))
++		pci_p2pdma_unmap_sg(qp->pd->device->dma_device, sg,
++				    sg_cnt, dir);
++	else
+ 		ib_dma_unmap_sg(qp->pd->device, sg, sg_cnt, dir);
+ }
+ EXPORT_SYMBOL(rdma_rw_ctx_destroy);
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index f97bb031228a..0f92cca7a860 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -547,8 +547,10 @@ static void nvme_unmap_data(struct nvme_dev *dev, struct request *req)
+ 
+ 	WARN_ON_ONCE(!iod->nents);
+ 
+-	/* P2PDMA requests do not need to be unmapped */
+-	if (!is_pci_p2pdma_page(sg_page(iod->sg)))
++	if (is_pci_p2pdma_page(sg_page(iod->sg)))
++		pci_p2pdma_unmap_sg(dev->dev, iod->sg, iod->nents,
++				    rq_dma_dir(req));
++	else
+ 		dma_unmap_sg(dev->dev, iod->sg, iod->nents, rq_dma_dir(req));
+ 
+ 
+diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
+index 0d875abea8a1..392653fe0583 100644
+--- a/drivers/pci/p2pdma.c
++++ b/drivers/pci/p2pdma.c
+@@ -790,7 +790,8 @@ EXPORT_SYMBOL_GPL(pci_p2pmem_publish);
+  * @dir: DMA direction
+  * @attrs: dma attributes passed to dma_map_sg() (if called)
+  *
+- * Scatterlists mapped with this function should not be unmapped in any way.
++ * Scatterlists mapped with this function should be unmapped using
++ * pci_p2pdma_unmap_sg_attrs().
+  *
+  * Returns the number of SG entries mapped or 0 on error.
+  */
+@@ -824,6 +825,21 @@ int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
+ }
+ EXPORT_SYMBOL_GPL(pci_p2pdma_map_sg_attrs);
+ 
++/**
++ * pci_p2pdma_unmap_sg - unmap a PCI peer-to-peer scatterlist that was
++ *	mapped with pci_p2pdma_map_sg()
++ * @dev: device doing the DMA request
++ * @sg: scatter list to map
++ * @nents: number of elements returned by pci_p2pdma_map_sg()
++ * @dir: DMA direction
++ * @attrs: dma attributes passed to dma_unmap_sg() (if called)
++ */
++void pci_p2pdma_unmap_sg_attrs(struct device *dev, struct scatterlist *sg,
++		int nents, enum dma_data_direction dir, unsigned long attrs)
++{
++}
++EXPORT_SYMBOL_GPL(pci_p2pdma_unmap_sg_attrs);
++
+ /**
+  * pci_p2pdma_enable_store - parse a configfs/sysfs attribute store
+  *		to enable p2pdma
+diff --git a/include/linux/pci-p2pdma.h b/include/linux/pci-p2pdma.h
+index 7fd51954f93a..8318a97c9c61 100644
+--- a/include/linux/pci-p2pdma.h
++++ b/include/linux/pci-p2pdma.h
+@@ -32,6 +32,8 @@ void pci_p2pmem_free_sgl(struct pci_dev *pdev, struct scatterlist *sgl);
+ void pci_p2pmem_publish(struct pci_dev *pdev, bool publish);
+ int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
+ 		int nents, enum dma_data_direction dir, unsigned long attrs);
++void pci_p2pdma_unmap_sg_attrs(struct device *dev, struct scatterlist *sg,
++		int nents, enum dma_data_direction dir, unsigned long attrs);
+ int pci_p2pdma_enable_store(const char *page, struct pci_dev **p2p_dev,
+ 			    bool *use_p2pdma);
+ ssize_t pci_p2pdma_enable_show(char *page, struct pci_dev *p2p_dev,
+@@ -87,6 +89,11 @@ static inline int pci_p2pdma_map_sg_attrs(struct device *dev,
+ {
+ 	return 0;
+ }
++static inline void pci_p2pdma_unmap_sg_attrs(struct device *dev,
++		struct scatterlist *sg, int nents, enum dma_data_direction dir,
++		unsigned long attrs)
++{
++}
+ static inline int pci_p2pdma_enable_store(const char *page,
+ 		struct pci_dev **p2p_dev, bool *use_p2pdma)
+ {
+@@ -118,4 +125,10 @@ static inline int pci_p2pdma_map_sg(struct device *dev, struct scatterlist *sg,
+ 	return pci_p2pdma_map_sg_attrs(dev, sg, nents, dir, 0);
+ }
+ 
++static inline void pci_p2pdma_unmap_sg(struct device *dev,
++		struct scatterlist *sg, int nents, enum dma_data_direction dir)
++{
++	pci_p2pdma_unmap_sg_attrs(dev, sg, nents, dir, 0);
++}
++
+ #endif /* _LINUX_PCI_P2P_H */
+-- 
+2.20.1
