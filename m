@@ -1,68 +1,101 @@
 From: kbusch@kernel.org (Keith Busch)
-Date: Tue, 30 Jul 2019 08:41:35 -0600
-Subject: [Regression] Commit "nvme/pci: Use host managed power state for
- suspend" has problems
-In-Reply-To: <47415939.KV5G6iaeJG@kreacher>
-References: <2332799.izEFUvJP67@kreacher>
- <4323ed84dd07474eab65699b4d007aaf@AUSX13MPC105.AMER.DELL.COM>
- <CAJZ5v0iDQ4=kTUgW94tKGt7oJzA_3uVU_M6HAMbNCRXwp_do8A@mail.gmail.com>
- <47415939.KV5G6iaeJG@kreacher>
-Message-ID: <20190730144134.GA12844@localhost.localdomain>
+Date: Tue, 30 Jul 2019 09:30:44 -0600
+Subject: [PATCH v3] nvme-pci: Support shared tags across queues for Apple
+ 2018 controllers
+In-Reply-To: <b1f9bdf0294b8d87d292de3c7462c8e99551b02d.camel@kernel.crashing.org>
+References: <b1f9bdf0294b8d87d292de3c7462c8e99551b02d.camel@kernel.crashing.org>
+Message-ID: <20190730153044.GA13948@localhost.localdomain>
 
-On Tue, Jul 30, 2019@03:45:31AM -0700, Rafael J. Wysocki wrote:
-> So I can reproduce this problem with plain 5.3-rc1 and the patch below fixes it.
+On Fri, Jul 19, 2019@03:31:02PM +1000, Benjamin Herrenschmidt wrote:
+> From 8dcba2ef5b1466b023b88b4eca463b30de78d9eb Mon Sep 17 00:00:00 2001
+> From: Benjamin Herrenschmidt <benh at kernel.crashing.org>
+> Date: Fri, 19 Jul 2019 15:03:06 +1000
+> Subject: 
 > 
-> Also Mario reports that the same patch needs to be applied for his 9380 to reach
-> SLP_S0 after some additional changes under testing/review now, so here it goes.
+> Another issue with the Apple T2 based 2018 controllers seem to be
+> that they blow up (and shut the machine down) if there's a tag
+> collision between the IO queue and the Admin queue.
 > 
-> [The changes mentioned above are in the pm-s2idle-testing branch in the
->  linux-pm.git tree at kernel.org.]
+> My suspicion is that they use our tags for their internal tracking
+> and don't mix them with the queue id. They also seem to not like
+> when tags go beyond the IO queue depth, ie 128 tags.
 > 
+> This adds a quirk that marks tags 0..31 of the IO queue reserved
+> 
+> Signed-off-by: Benjamin Herrenschmidt <benh at kernel.crashing.org>
 > ---
-> From: Rafael J. Wysocki <rafael.j.wysocki at intel.com>
-> Subject: [PATCH] nvme-pci: Do not prevent PCI bus-level PM from being used
-> 
-> One of the modifications made by commit d916b1be94b6 ("nvme-pci: use
-> host managed power state for suspend") was adding a pci_save_state()
-> call to nvme_suspend() in order to prevent the PCI bus-level PM from
-> being applied to the suspended NVMe devices, but that causes the NVMe
-> drive (PC401 NVMe SK hynix 256GB) in my Dell XPS13 9380 to prevent
-> the SoC from reaching package idle states deeper than PC3, which is
-> way insufficient for system suspend.
-> 
-> Fix this issue by removing the pci_save_state() call in question.
 
-I'm okay with the patch if we can get confirmation this doesn't break
-any previously tested devices. I recall we add the pci_save_state() in
-the first place specifically to prevent PCI D3 since that was reported
-to break some devices' low power settings. Kai-Heng or Mario, any input
-here?
-
+One problem is that we've an nvme parameter, io_queue_depth, that a user
+could set to something less than 32, and then you won't be able to do
+any IO. I'd recommend enforce the admin queue to QD1 for this device so
+that you have more potential IO tags.
 
  
-> Fixes: d916b1be94b6 ("nvme-pci: use host managed power state for suspend")
-> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki at intel.com>
-> ---
->  drivers/nvme/host/pci.c |    8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
+> Thanks Damien, reserved tags work and make this a lot simpler !
 > 
-> Index: linux-pm/drivers/nvme/host/pci.c
-> ===================================================================
-> --- linux-pm.orig/drivers/nvme/host/pci.c
-> +++ linux-pm/drivers/nvme/host/pci.c
-> @@ -2897,14 +2897,8 @@ static int nvme_suspend(struct device *d
->  		nvme_dev_disable(ndev, true);
->  		ctrl->npss = 0;
->  		ret = 0;
-> -		goto unfreeze;
->  	}
-> -	/*
-> -	 * A saved state prevents pci pm from generically controlling the
-> -	 * device's power. If we're using protocol specific settings, we don't
-> -	 * want pci interfering.
-> -	 */
-> -	pci_save_state(pdev);
+>  drivers/nvme/host/nvme.h |  5 +++++
+>  drivers/nvme/host/pci.c  | 19 ++++++++++++++++++-
+>  2 files changed, 23 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index ced0e0a7e039..8732da6df555 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -102,6 +102,11 @@ enum nvme_quirks {
+>  	 * Use non-standard 128 bytes SQEs.
+>  	 */
+>  	NVME_QUIRK_128_BYTES_SQES		= (1 << 11),
 > +
->  unfreeze:
->  	nvme_unfreeze(ctrl);
->  	return ret;
+> +	/*
+> +	 * Prevent tag overlap between queues
+> +	 */
+> +	NVME_QUIRK_SHARED_TAGS                  = (1 << 12),
+>  };
+>  
+>  /*
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 7088971d4c42..fc74395a028b 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -2106,6 +2106,14 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+>  	unsigned long size;
+>  
+>  	nr_io_queues = max_io_queues();
+> +
+> +	/*
+> +	 * If tags are shared with admin queue (Apple bug), then
+> +	 * make sure we only use one IO queue.
+> +	 */
+> +	if (dev->ctrl.quirks & NVME_QUIRK_SHARED_TAGS)
+> +		nr_io_queues = 1;
+> +
+>  	result = nvme_set_queue_count(&dev->ctrl, &nr_io_queues);
+>  	if (result < 0)
+>  		return result;
+> @@ -2278,6 +2286,14 @@ static int nvme_dev_add(struct nvme_dev *dev)
+>  		dev->tagset.flags = BLK_MQ_F_SHOULD_MERGE;
+>  		dev->tagset.driver_data = dev;
+>  
+> +		/*
+> +		 * Some Apple controllers requires tags to be unique
+> +		 * across admin and IO queue, so reserve the first 32
+> +		 * tags of the IO queue.
+> +		 */
+> +		if (dev->ctrl.quirks & NVME_QUIRK_SHARED_TAGS)
+> +			dev->tagset.reserved_tags = NVME_AQ_DEPTH;
+> +
+>  		ret = blk_mq_alloc_tag_set(&dev->tagset);
+>  		if (ret) {
+>  			dev_warn(dev->ctrl.device,
+> @@ -3057,7 +3073,8 @@ static const struct pci_device_id nvme_id_table[] = {
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2003) },
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2005),
+>  		.driver_data = NVME_QUIRK_SINGLE_VECTOR |
+> -				NVME_QUIRK_128_BYTES_SQES },
+> +				NVME_QUIRK_128_BYTES_SQES |
+> +				NVME_QUIRK_SHARED_TAGS },
+>  	{ 0, }
+>  };
+>  MODULE_DEVICE_TABLE(pci, nvme_id_table);
+> 
+> 
