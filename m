@@ -1,47 +1,109 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 30 Jul 2019 11:15:26 -0700
-Subject: [PATCH rfc 1/2] nvme: don't remove namespace if revalidate failed
- because of controller reset
-In-Reply-To: <20190730173048.GC13948@localhost.localdomain>
-References: <20190729233201.27993-1-sagi@grimberg.me>
- <20190729233201.27993-2-sagi@grimberg.me>
- <CACVXFVM+WGwQeqiK-poVKoQR4hVxCMWu0n0-HdVGb8EDDCySSA@mail.gmail.com>
- <464bb489-552f-b67e-545d-48616a1e76dd@grimberg.me>
- <CACVXFVO+e5De4+o8cqzvaVbMU22geicCbpmfk6zZStykEiDVmw@mail.gmail.com>
- <82a91815-f7ed-5931-58ac-5893e68cc940@grimberg.me>
- <CACVXFVN6o+dOFwDV=FPSHjVnhYSLBUWNHsXc4B=fwE5PAny_dQ@mail.gmail.com>
- <8bd6d219-f4fd-de58-a341-257c6274eddd@grimberg.me>
- <CACVXFVNT5sjk4MC6qJoBFug8K9YgEFQEy6LSknJT6=O-2ispMg@mail.gmail.com>
- <2825eb74-1df5-5dd2-3e90-c696bc7fa3d1@grimberg.me>
- <20190730173048.GC13948@localhost.localdomain>
-Message-ID: <f6ef7bfc-0d7c-95e6-21d3-b69545a1715b@grimberg.me>
+From: kai.heng.feng@canonical.com (Kai-Heng Feng)
+Date: Wed, 31 Jul 2019 02:50:01 +0800
+Subject: [Regression] Commit "nvme/pci: Use host managed power state for
+ suspend" has problems
+In-Reply-To: <100ba4aff1c6434a81e47774ab4acddc@AUSX13MPC105.AMER.DELL.COM>
+References: <2332799.izEFUvJP67@kreacher>
+ <4323ed84dd07474eab65699b4d007aaf@AUSX13MPC105.AMER.DELL.COM>
+ <CAJZ5v0iDQ4=kTUgW94tKGt7oJzA_3uVU_M6HAMbNCRXwp_do8A@mail.gmail.com>
+ <47415939.KV5G6iaeJG@kreacher> <20190730144134.GA12844@localhost.localdomain>
+ <100ba4aff1c6434a81e47774ab4acddc@AUSX13MPC105.AMER.DELL.COM>
+Message-ID: <8246360B-F7D9-42EB-94FC-82995A769E28@canonical.com>
 
+at 01:14, <Mario.Limonciello@dell.com> <Mario.Limonciello@dell.com> wrote:
 
->> Keith,
+>> -----Original Message-----
+>> From: Keith Busch <kbusch at kernel.org>
+>> Sent: Tuesday, July 30, 2019 9:42 AM
+>> To: Rafael J. Wysocki
+>> Cc: Busch, Keith; Limonciello, Mario; Kai-Heng Feng; Christoph Hellwig;  
+>> Sagi
+>> Grimberg; linux-nvme; Linux PM; Linux Kernel Mailing List; Rajat Jain
+>> Subject: Re: [Regression] Commit "nvme/pci: Use host managed power state  
+>> for
+>> suspend" has problems
 >>
->> As for the failure during reset scenario, this is happening only when
->> the namespace is about to go away or something is seriously wrong right
->> (looking from where nvme_kill_queues is called).
 >>
->> Do you still think we should avoid calling the revalidate_disk if the
->> controller is resetting?
-> 
-> I was considering if a reset happens to trigger when nvme's
-> revalidate_disk tries to read identify namespace. It's possible that
-> command gets aborted, and we don't retry admin commands, so we'd return
-> -ENODEV and nvme_validate_ns() removes an otherwise healthy namespace.
+>> [EXTERNAL EMAIL]
+>>
+>> On Tue, Jul 30, 2019@03:45:31AM -0700, Rafael J. Wysocki wrote:
+>>> So I can reproduce this problem with plain 5.3-rc1 and the patch below  
+>>> fixes it.
+>>>
+>>> Also Mario reports that the same patch needs to be applied for his 9380  
+>>> to
+>> reach
+>>> SLP_S0 after some additional changes under testing/review now, so here it
+>> goes.
+>>> [The changes mentioned above are in the pm-s2idle-testing branch in the
+>>>  linux-pm.git tree at kernel.org.]
+>>>
+>>> ---
+>>> From: Rafael J. Wysocki <rafael.j.wysocki at intel.com>
+>>> Subject: [PATCH] nvme-pci: Do not prevent PCI bus-level PM from being  
+>>> used
+>>>
+>>> One of the modifications made by commit d916b1be94b6 ("nvme-pci: use
+>>> host managed power state for suspend") was adding a pci_save_state()
+>>> call to nvme_suspend() in order to prevent the PCI bus-level PM from
+>>> being applied to the suspended NVMe devices, but that causes the NVMe
+>>> drive (PC401 NVMe SK hynix 256GB) in my Dell XPS13 9380 to prevent
+>>> the SoC from reaching package idle states deeper than PC3, which is
+>>> way insufficient for system suspend.
+>>>
+>>> Fix this issue by removing the pci_save_state() call in question.
+>>
+>> I'm okay with the patch if we can get confirmation this doesn't break
+>> any previously tested devices. I recall we add the pci_save_state() in
+>> the first place specifically to prevent PCI D3 since that was reported
+>> to break some devices' low power settings. Kai-Heng or Mario, any input
+>> here?
+>
+> It's entirely possible that in fixing the shutdown/flush/send NVME power  
+> state command
+> that D3 will be OK now but it will take some time to double check across  
+> the variety of disks that
+> we tested before.
 
-But if the ctrl->state condition is after the revalidate_disk call it
-won't remove the namespace.
---
-                 if (ns->disk && revalidate_disk(ns->disk &&
-                     ctrl->state == NVME_CTRL_LIVE)
-                         nvme_ns_remove(ns);
---
+Just did a quick test, this patch regress SK Hynix BC501, the SoC stays at  
+PC3 once the patch is applied.
 
-> 
-> I'm not too concerned about this corner case actually occuring in
-> practice, though.
+Kai-Heng
 
-Say, why are we removing the namepsace if the revalidate failed?
-Don't see an equivalent behavior in scsi or others in drivers/block..
+>
+> What's kernel policy in terms of adding a module parameter and removing  
+> it later?  My gut
+> reaction is I'd like to see that behind a module parameter and if we see  
+> that all the disks
+> are actually OK we can potentially rip it out in a future release.  Also  
+> gives us a knob for easier
+> wider testing outside of the 4 of us.
+>
+>>> Fixes: d916b1be94b6 ("nvme-pci: use host managed power state for  
+>>> suspend")
+>>> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki at intel.com>
+>>> ---
+>>>  drivers/nvme/host/pci.c |    8 +-------
+>>>  1 file changed, 1 insertion(+), 7 deletions(-)
+>>>
+>>> Index: linux-pm/drivers/nvme/host/pci.c
+>> ==============================================================
+>> =====
+>>> --- linux-pm.orig/drivers/nvme/host/pci.c
+>>> +++ linux-pm/drivers/nvme/host/pci.c
+>>> @@ -2897,14 +2897,8 @@ static int nvme_suspend(struct device *d
+>>>  		nvme_dev_disable(ndev, true);
+>>>  		ctrl->npss = 0;
+>>>  		ret = 0;
+>>> -		goto unfreeze;
+>>>  	}
+>>> -	/*
+>>> -	 * A saved state prevents pci pm from generically controlling the
+>>> -	 * device's power. If we're using protocol specific settings, we don't
+>>> -	 * want pci interfering.
+>>> -	 */
+>>> -	pci_save_state(pdev);
+>>> +
+>>>  unfreeze:
+>>>  	nvme_unfreeze(ctrl);
+>>>  	return ret;
