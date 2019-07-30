@@ -1,11 +1,11 @@
 From: benh@kernel.crashing.org (Benjamin Herrenschmidt)
-Date: Tue, 30 Jul 2019 13:15:03 -0700
+Date: Tue, 30 Jul 2019 13:28:57 -0700
 Subject: [PATCH v3] nvme-pci: Support shared tags across queues for
  Apple 2018 controllers
 In-Reply-To: <20190730153044.GA13948@localhost.localdomain>
 References: <b1f9bdf0294b8d87d292de3c7462c8e99551b02d.camel@kernel.crashing.org>
  <20190730153044.GA13948@localhost.localdomain>
-Message-ID: <fc55769bcacd45f8283f504b7d4332271da1436b.camel@kernel.crashing.org>
+Message-ID: <2030a028664a9af9e96fffca3ab352faf1f739e5.camel@kernel.crashing.org>
 
 On Tue, 2019-07-30@09:30 -0600, Keith Busch wrote:
 > On Fri, Jul 19, 2019@03:31:02PM +1000, Benjamin Herrenschmidt wrote:
@@ -32,13 +32,21 @@ On Tue, 2019-07-30@09:30 -0600, Keith Busch wrote:
 > any IO. I'd recommend enforce the admin queue to QD1 for this device so
 > that you have more potential IO tags.
 
-Makes sense, I don't think we care much about the number of admin tags 
-on these devices.
+So I had a look and it's not that trivial. I would have to change
+a few things that use constants for the admin queue depth, such as
+the AEN tag etc...
 
-I'm travelling, not sure I'll be able to respin & test before next
-week.
+For such a special case, I am tempted instead to do the much simpler:
 
-Thanks.
+	if (dev->ctrl.quirks & NVME_QUIRK_SHARED_TAGS) {
+		if (dev->q_depth < (NVME_AQ_DEPTH + 2))
+			dev->q_depth = NVME_AQ_DEPTH + 2;
+	}
+
+In nvme_pci_enable() next to the existing q_depth hackery for other
+controllers.
+
+Thoughts ?
 
 Cheers,
 Ben.
