@@ -1,105 +1,71 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Tue, 30 Jul 2019 10:35:39 -0600
-Subject: [PATCH v2 08/14] PCI/P2PDMA: Add attrs argument to pci_p2pdma_map_sg()
+Date: Tue, 30 Jul 2019 10:35:36 -0600
+Subject: [PATCH v2 05/14] PCI/P2PDMA: Apply host bridge white list for ACS
 In-Reply-To: <20190730163545.4915-1-logang@deltatee.com>
 References: <20190730163545.4915-1-logang@deltatee.com>
-Message-ID: <20190730163545.4915-9-logang@deltatee.com>
+Message-ID: <20190730163545.4915-6-logang@deltatee.com>
 
-This is to match the dma_map_sg() API which this function will have
-to call in an future patch.
+When a P2PDMA transfer is rejected due to ACS being set, we
+can also check the white list and allow the transactions.
 
-Adds a pci_p2pdma_map_sg_attrs() function and helper to call it with
-no attributes just like the dma_map_sg() function.
+Do this by pushing the whitelist check into the
+upstream_bridge_distance() function.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
+Reviewed-by: Christian K?nig <christian.koenig at amd.com>
 ---
- drivers/nvme/host/pci.c    |  4 ++--
- drivers/pci/p2pdma.c       |  7 ++++---
- include/linux/pci-p2pdma.h | 15 +++++++++++----
- 3 files changed, 17 insertions(+), 9 deletions(-)
+ drivers/pci/p2pdma.c | 25 ++++++++++++++-----------
+ 1 file changed, 14 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index db160cee42ad..f97bb031228a 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -832,8 +832,8 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
- 		goto out;
- 
- 	if (is_pci_p2pdma_page(sg_page(iod->sg)))
--		nr_mapped = pci_p2pdma_map_sg(dev->dev, iod->sg, iod->nents,
--					      rq_dma_dir(req));
-+		nr_mapped = pci_p2pdma_map_sg_attrs(dev->dev, iod->sg,
-+				iod->nents, rq_dma_dir(req), DMA_ATTR_NO_WARN);
- 	else
- 		nr_mapped = dma_map_sg_attrs(dev->dev, iod->sg, iod->nents,
- 					     rq_dma_dir(req), DMA_ATTR_NO_WARN);
 diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-index 1504f7ea006a..0d875abea8a1 100644
+index b4ef6e8da784..10765ab90e64 100644
 --- a/drivers/pci/p2pdma.c
 +++ b/drivers/pci/p2pdma.c
-@@ -788,13 +788,14 @@ EXPORT_SYMBOL_GPL(pci_p2pmem_publish);
-  * @sg: scatter list to map
-  * @nents: elements in the scatterlist
-  * @dir: DMA direction
-+ * @attrs: dma attributes passed to dma_map_sg() (if called)
-  *
-  * Scatterlists mapped with this function should not be unmapped in any way.
-  *
-  * Returns the number of SG entries mapped or 0 on error.
-  */
--int pci_p2pdma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
--		      enum dma_data_direction dir)
-+int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
-+		int nents, enum dma_data_direction dir, unsigned long attrs)
- {
- 	struct pci_p2pdma_pagemap *p2p_pgmap;
- 	struct scatterlist *s;
-@@ -821,7 +822,7 @@ int pci_p2pdma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
+@@ -340,15 +340,7 @@ static int __upstream_bridge_distance(struct pci_dev *provider,
+ 		dist_a++;
+ 	}
  
- 	return nents;
- }
--EXPORT_SYMBOL_GPL(pci_p2pdma_map_sg);
-+EXPORT_SYMBOL_GPL(pci_p2pdma_map_sg_attrs);
+-	/*
+-	 * Allow the connection if both devices are on a whitelisted root
+-	 * complex, but add an arbitrary large value to the distance.
+-	 */
+-	if (root_complex_whitelist(provider) &&
+-	    root_complex_whitelist(client))
+-		return (dist_a + dist_b) | P2PDMA_THRU_HOST_BRIDGE;
+-
+-	return (dist_a + dist_b) | P2PDMA_NOT_SUPPORTED;
++	return (dist_a + dist_b) | P2PDMA_THRU_HOST_BRIDGE;
  
- /**
-  * pci_p2pdma_enable_store - parse a configfs/sysfs attribute store
-diff --git a/include/linux/pci-p2pdma.h b/include/linux/pci-p2pdma.h
-index bca9bc3e5be7..7fd51954f93a 100644
---- a/include/linux/pci-p2pdma.h
-+++ b/include/linux/pci-p2pdma.h
-@@ -30,8 +30,8 @@ struct scatterlist *pci_p2pmem_alloc_sgl(struct pci_dev *pdev,
- 					 unsigned int *nents, u32 length);
- void pci_p2pmem_free_sgl(struct pci_dev *pdev, struct scatterlist *sgl);
- void pci_p2pmem_publish(struct pci_dev *pdev, bool publish);
--int pci_p2pdma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
--		      enum dma_data_direction dir);
-+int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
-+		int nents, enum dma_data_direction dir, unsigned long attrs);
- int pci_p2pdma_enable_store(const char *page, struct pci_dev **p2p_dev,
- 			    bool *use_p2pdma);
- ssize_t pci_p2pdma_enable_show(char *page, struct pci_dev *p2p_dev,
-@@ -81,8 +81,9 @@ static inline void pci_p2pmem_free_sgl(struct pci_dev *pdev,
- static inline void pci_p2pmem_publish(struct pci_dev *pdev, bool publish)
- {
- }
--static inline int pci_p2pdma_map_sg(struct device *dev,
--		struct scatterlist *sg, int nents, enum dma_data_direction dir)
-+static inline int pci_p2pdma_map_sg_attrs(struct device *dev,
-+		struct scatterlist *sg, int nents, enum dma_data_direction dir,
-+		unsigned long attrs)
- {
- 	return 0;
- }
-@@ -111,4 +112,10 @@ static inline struct pci_dev *pci_p2pmem_find(struct device *client)
- 	return pci_p2pmem_find_many(&client, 1);
- }
+ check_b_path_acs:
+ 	bb = b;
+@@ -366,7 +358,8 @@ static int __upstream_bridge_distance(struct pci_dev *provider,
+ 	}
  
-+static inline int pci_p2pdma_map_sg(struct device *dev, struct scatterlist *sg,
-+				    int nents, enum dma_data_direction dir)
-+{
-+	return pci_p2pdma_map_sg_attrs(dev, sg, nents, dir, 0);
-+}
+ 	if (acs_cnt)
+-		return P2PDMA_NOT_SUPPORTED | P2PDMA_ACS_FORCES_UPSTREAM;
++		return (dist_a + dist_b) | P2PDMA_ACS_FORCES_UPSTREAM |
++			P2PDMA_THRU_HOST_BRIDGE;
+ 
+ 	return dist_a + dist_b;
+ }
+@@ -413,7 +406,17 @@ static int upstream_bridge_distance(struct pci_dev *provider,
+ 				    struct pci_dev *client,
+ 				    struct seq_buf *acs_list)
+ {
+-	return __upstream_bridge_distance(provider, client, acs_list);
++	int dist;
 +
- #endif /* _LINUX_PCI_P2P_H */
++	dist = __upstream_bridge_distance(provider, client, acs_list);
++
++	if (!(dist & P2PDMA_THRU_HOST_BRIDGE))
++		return dist;
++
++	if (root_complex_whitelist(provider) && root_complex_whitelist(client))
++		return dist;
++
++	return dist | P2PDMA_NOT_SUPPORTED;
+ }
+ 
+ static int upstream_bridge_distance_warn(struct pci_dev *provider,
 -- 
 2.20.1
