@@ -1,87 +1,38 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Tue, 30 Jul 2019 10:35:43 -0600
-Subject: [PATCH v2 12/14] PCI/P2PDMA: dma_map P2PDMA map requests that
- traverse the host bridge
+Date: Tue, 30 Jul 2019 10:35:33 -0600
+Subject: [PATCH v2 02/14] PCI/P2PDMA: Add the provider's pci_dev to the
+ pci_p2pdma_pagemap struct
 In-Reply-To: <20190730163545.4915-1-logang@deltatee.com>
 References: <20190730163545.4915-1-logang@deltatee.com>
-Message-ID: <20190730163545.4915-13-logang@deltatee.com>
+Message-ID: <20190730163545.4915-3-logang@deltatee.com>
 
-Any requests that traverse the host bridge will need to be mapped into
-the IOMMU, so call dma_map_sg() inside pci_p2pdma_map_sg() when
-appropriate.
-
-Similarly, call dma_unmap_sg() inside pci_p2pdma_unmap_sg().
+The provider will be needed to figure out how to properly map
+a device.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 ---
- drivers/pci/p2pdma.c | 40 +++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 39 insertions(+), 1 deletion(-)
+ drivers/pci/p2pdma.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-index 010aa8742bec..b86a1c0c11a0 100644
+index 03e9c887bdfb..93fbda14f4a9 100644
 --- a/drivers/pci/p2pdma.c
 +++ b/drivers/pci/p2pdma.c
-@@ -812,6 +812,16 @@ void pci_p2pmem_publish(struct pci_dev *pdev, bool publish)
- }
- EXPORT_SYMBOL_GPL(pci_p2pmem_publish);
+@@ -27,6 +27,7 @@ struct pci_p2pdma {
  
-+static enum pci_p2pdma_map_type pci_p2pdma_map_type(struct pci_dev *provider,
-+						    struct pci_dev *client)
-+{
-+	if (!provider->p2pdma)
-+		return PCI_P2PDMA_MAP_NOT_SUPPORTED;
-+
-+	return xa_to_value(xa_load(&provider->p2pdma->map_types,
-+				   map_types_idx(client)));
-+}
-+
- static int __pci_p2pdma_map_sg(struct pci_p2pdma_pagemap *p2p_pgmap,
- 		struct device *dev, struct scatterlist *sg, int nents)
- {
-@@ -857,8 +867,22 @@ int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
- {
- 	struct pci_p2pdma_pagemap *p2p_pgmap =
- 		to_p2p_pgmap(sg_page(sg)->pgmap);
-+	struct pci_dev *client;
+ struct pci_p2pdma_pagemap {
+ 	struct dev_pagemap pgmap;
++	struct pci_dev *provider;
+ 	u64 bus_offset;
+ };
  
--	return __pci_p2pdma_map_sg(p2p_pgmap, dev, sg, nents);
-+	if (WARN_ON_ONCE(!dev_is_pci(dev)))
-+		return 0;
-+
-+	client = to_pci_dev(dev);
-+
-+	switch (pci_p2pdma_map_type(p2p_pgmap->provider, client)) {
-+	case PCI_P2PDMA_MAP_THRU_IOMMU:
-+		return dma_map_sg_attrs(dev, sg, nents, dir, attrs);
-+	case PCI_P2PDMA_MAP_BUS_ADDR:
-+		return __pci_p2pdma_map_sg(p2p_pgmap, dev, sg, nents);
-+	default:
-+		WARN_ON_ONCE(1);
-+		return 0;
-+	}
- }
- EXPORT_SYMBOL_GPL(pci_p2pdma_map_sg_attrs);
+@@ -178,6 +179,7 @@ int pci_p2pdma_add_resource(struct pci_dev *pdev, int bar, size_t size,
+ 	pgmap->res.flags = pci_resource_flags(pdev, bar);
+ 	pgmap->type = MEMORY_DEVICE_PCI_P2PDMA;
  
-@@ -874,6 +898,20 @@ EXPORT_SYMBOL_GPL(pci_p2pdma_map_sg_attrs);
- void pci_p2pdma_unmap_sg_attrs(struct device *dev, struct scatterlist *sg,
- 		int nents, enum dma_data_direction dir, unsigned long attrs)
- {
-+	struct pci_p2pdma_pagemap *p2p_pgmap =
-+		to_p2p_pgmap(sg_page(sg)->pgmap);
-+	enum pci_p2pdma_map_type map_type;
-+	struct pci_dev *client;
-+
-+	if (WARN_ON_ONCE(!dev_is_pci(dev)))
-+		return;
-+
-+	client = to_pci_dev(dev);
-+
-+	map_type = pci_p2pdma_map_type(p2p_pgmap->provider, client);
-+
-+	if (map_type == PCI_P2PDMA_MAP_THRU_IOMMU)
-+		dma_unmap_sg_attrs(dev, sg, nents, dir, attrs);
- }
- EXPORT_SYMBOL_GPL(pci_p2pdma_unmap_sg_attrs);
++	p2p_pgmap->provider = pdev;
+ 	p2p_pgmap->bus_offset = pci_bus_address(pdev, bar) -
+ 		pci_resource_start(pdev, bar);
  
 -- 
 2.20.1
