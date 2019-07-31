@@ -1,97 +1,81 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Wed, 31 Jul 2019 17:47:08 -0600
-Subject: [PATCH blktests] nvme/031: Add test to check controller deletion
- after setup
-Message-ID: <20190731234708.5450-1-logang@deltatee.com>
+From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Wed, 31 Jul 2019 23:52:06 +0000
+Subject: [PATCH v3 1/4] nvmet: Fix use-after-free bug when a port is
+ removed
+References: <20190731233534.4841-1-logang@deltatee.com>
+ <20190731233534.4841-2-logang@deltatee.com>
+Message-ID: <BYAPR04MB5749D4309C95D1318BEC505B86DF0@BYAPR04MB5749.namprd04.prod.outlook.com>
 
-A number of bug fixes have been submitted to the kernel to
-fix bugs when a controller is removed immediately after it is
-set up. This new test ensures this doesn't regress.
+Looks good.
 
-Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
----
+Reviewed-by : Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 
-All of the fixes required for this test to pass have been on the
-list for a couple weeks, but not all of them have been merged.
-
-I'm not sure what the policy is for blktests for patches that
-aren't yet upstream but this patch is here for when it makes
-sense to pick it up.
-
- tests/nvme/031     | 55 ++++++++++++++++++++++++++++++++++++++++++++++
- tests/nvme/031.out |  2 ++
- 2 files changed, 57 insertions(+)
- create mode 100755 tests/nvme/031
- create mode 100644 tests/nvme/031.out
-
-diff --git a/tests/nvme/031 b/tests/nvme/031
-new file mode 100755
-index 000000000000..16390dcb380e
---- /dev/null
-+++ b/tests/nvme/031
-@@ -0,0 +1,55 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-3.0+
-+# Copyright (C) 2019 Logan Gunthorpe
-+#
-+# Regression test for the following patches:
-+#    nvme: fix controller removal race with scan work
-+#    nvme: fix regression upon hot device removal and insertion
-+#    nvme-core: Fix extra device_put() call on error path
-+#    nvmet-loop: Flush nvme_delete_wq when removing the port
-+#    nvmet: Fix use-after-free bug when a port is removed
-+#
-+# All these patches fix issues related to deleting a controller
-+# immediately after setting it up.
-+
-+. tests/nvme/rc
-+
-+DESCRIPTION="test deletion of NVMeOF controllers immediately after setup"
-+QUICK=1
-+
-+requires() {
-+	_have_program nvme &&
-+	_have_modules loop nvme-loop nvmet &&
-+	_have_configfs
-+}
-+
-+test() {
-+	local subsys="blktests-subsystem-"
-+	local iterations=10
-+	local loop_dev
-+	local port
-+
-+	echo "Running ${TEST_NAME}"
-+
-+	_setup_nvmet
-+
-+	truncate -s 1G "$TMPDIR/img"
-+
-+	local loop_dev
-+	loop_dev="$(losetup -f --show "$TMPDIR/img")"
-+
-+	port="$(_create_nvmet_port "loop")"
-+
-+	for ((i = 0; i < iterations; i++)); do
-+		_create_nvmet_subsystem "${subsys}$i" "${loop_dev}"
-+		_add_nvmet_subsys_to_port "${port}" "${subsys}$i"
-+		nvme connect -t loop -n "${subsys}$i"
-+		nvme disconnect -n "${subsys}$i" >> "${FULL}" 2>&1
-+		_remove_nvmet_subsystem_from_port "${port}" "${subsys}$i"
-+		_remove_nvmet_subsystem "${subsys}$i"
-+	done
-+
-+	_remove_nvmet_port "${port}"
-+
-+	echo "Test complete"
-+}
-diff --git a/tests/nvme/031.out b/tests/nvme/031.out
-new file mode 100644
-index 000000000000..ae902bdd36d4
---- /dev/null
-+++ b/tests/nvme/031.out
-@@ -0,0 +1,2 @@
-+Running nvme/031
-+Test complete
---
-2.20.1
+On 07/31/2019 04:36 PM, Logan Gunthorpe wrote:
+> When a port is removed through configfs, any connected controllers
+> are still active and can still send commands. This causes a
+> use-after-free bug which is detected by KASAN for any admin command
+> that dereferences req->port (like in nvmet_execute_identify_ctrl).
+>
+> To fix this, disconnect all active controllers when a subsystem is
+> removed from a port. This ensures there are no active controllers
+> when the port is eventually removed.
+>
+> Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
+> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+> Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+> ---
+>   drivers/nvme/target/configfs.c |  1 +
+>   drivers/nvme/target/core.c     | 12 ++++++++++++
+>   drivers/nvme/target/nvmet.h    |  3 +++
+>   3 files changed, 16 insertions(+)
+>
+> diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+> index cd52b9f15376..98613a45bd3b 100644
+> --- a/drivers/nvme/target/configfs.c
+> +++ b/drivers/nvme/target/configfs.c
+> @@ -675,6 +675,7 @@ static void nvmet_port_subsys_drop_link(struct config_item *parent,
+>
+>   found:
+>   	list_del(&p->entry);
+> +	nvmet_port_del_ctrls(port, subsys);
+>   	nvmet_port_disc_changed(port, subsys);
+>
+>   	if (list_empty(&port->subsystems))
+> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+> index dad0243c7c96..b86a23aa9020 100644
+> --- a/drivers/nvme/target/core.c
+> +++ b/drivers/nvme/target/core.c
+> @@ -280,6 +280,18 @@ void nvmet_unregister_transport(const struct nvmet_fabrics_ops *ops)
+>   }
+>   EXPORT_SYMBOL_GPL(nvmet_unregister_transport);
+>
+> +void nvmet_port_del_ctrls(struct nvmet_port *port, struct nvmet_subsys *subsys)
+> +{
+> +	struct nvmet_ctrl *ctrl;
+> +
+> +	mutex_lock(&subsys->lock);
+> +	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
+> +		if (ctrl->port == port)
+> +			ctrl->ops->delete_ctrl(ctrl);
+> +	}
+> +	mutex_unlock(&subsys->lock);
+> +}
+> +
+>   int nvmet_enable_port(struct nvmet_port *port)
+>   {
+>   	const struct nvmet_fabrics_ops *ops;
+> diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+> index 6ee66c610739..c51f8dd01dc4 100644
+> --- a/drivers/nvme/target/nvmet.h
+> +++ b/drivers/nvme/target/nvmet.h
+> @@ -418,6 +418,9 @@ void nvmet_port_send_ana_event(struct nvmet_port *port);
+>   int nvmet_register_transport(const struct nvmet_fabrics_ops *ops);
+>   void nvmet_unregister_transport(const struct nvmet_fabrics_ops *ops);
+>
+> +void nvmet_port_del_ctrls(struct nvmet_port *port,
+> +			  struct nvmet_subsys *subsys);
+> +
+>   int nvmet_enable_port(struct nvmet_port *port);
+>   void nvmet_disable_port(struct nvmet_port *port);
+>
+>
