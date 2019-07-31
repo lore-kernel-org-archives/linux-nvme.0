@@ -1,46 +1,43 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Wed, 31 Jul 2019 17:35:32 -0600
-Subject: [PATCH v3 2/4] nvmet-loop: Flush nvme_delete_wq when removing the port
+Date: Wed, 31 Jul 2019 17:35:33 -0600
+Subject: [PATCH v3 3/4] nvmet-file: fix nvmet_file_flush() always returning an
+ error
 In-Reply-To: <20190731233534.4841-1-logang@deltatee.com>
 References: <20190731233534.4841-1-logang@deltatee.com>
-Message-ID: <20190731233534.4841-3-logang@deltatee.com>
+Message-ID: <20190731233534.4841-4-logang@deltatee.com>
 
-After calling nvme_loop_delete_ctrl(), the controllers will not
-yet be deleted because nvme_delete_ctrl() only schedules work
-to do the delete.
+Presently, nvmet_file_flush() always returns a call to
+errno_to_nvme_status() but that helper doesn't take into account the
+case when errno=0. So nvmet_file_flush() always returns an error code.
 
-This means a race can occur if a port is removed but there
-are still active controllers trying to access that memory.
+All other callers of errno_to_nvme_status() check for success before
+calling it.
 
-To fix this, flush the nvme_delete_wq before returning from
-nvme_loop_remove_port() so that any controllers that might
-be in the process of being deleted won't access a freed port.
+To fix this, ensure errno_to_nvme_status() returns success if the
+errno is zero. This should prevent future mistakes like this from
+happening.
 
+Fixes: c6aa3542e010 ("nvmet: add error log support for file backend")
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- drivers/nvme/target/loop.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/nvme/target/core.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index b16dc3981c69..0940c5024a34 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -654,6 +654,14 @@ static void nvme_loop_remove_port(struct nvmet_port *port)
- 	mutex_lock(&nvme_loop_ports_mutex);
- 	list_del_init(&port->entry);
- 	mutex_unlock(&nvme_loop_ports_mutex);
-+
-+	/*
-+	 * Ensure any ctrls that are in the process of being
-+	 * deleted are in fact deleted before we return
-+	 * and free the port. This is to prevent active
-+	 * ctrls from using a port after it's freed.
-+	 */
-+	flush_workqueue(nvme_delete_wq);
- }
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index b86a23aa9020..3a67e244e568 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -46,6 +46,9 @@ inline u16 errno_to_nvme_status(struct nvmet_req *req, int errno)
+ 	u16 status;
  
- static const struct nvmet_fabrics_ops nvme_loop_ops = {
+ 	switch (errno) {
++	case 0:
++		status = NVME_SC_SUCCESS;
++		break;
+ 	case -ENOSPC:
+ 		req->error_loc = offsetof(struct nvme_rw_command, length);
+ 		status = NVME_SC_CAP_EXCEEDED | NVME_SC_DNR;
 -- 
 2.20.1
