@@ -1,70 +1,30 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 31 Jul 2019 14:23:21 +0200
-Subject: [PATCH rfc 2/2] nvme: fix possible use-after-free condition when
- controller reset is racing namespace scanning
-In-Reply-To: <20190729233201.27993-3-sagi@grimberg.me>
-References: <20190729233201.27993-1-sagi@grimberg.me>
- <20190729233201.27993-3-sagi@grimberg.me>
-Message-ID: <e3b0f11f-a66f-9b1a-6790-89efcaa33140@suse.de>
+From: kbusch@kernel.org (Keith Busch)
+Date: Wed, 31 Jul 2019 08:16:59 -0600
+Subject: [PATCH rfc 1/2] nvme: don't remove namespace if revalidate
+ failed because of controller reset
+In-Reply-To: <61445d6f-f4ca-f8d4-cef2-5bfe40aa1e7f@suse.de>
+References: <CACVXFVM+WGwQeqiK-poVKoQR4hVxCMWu0n0-HdVGb8EDDCySSA@mail.gmail.com>
+ <464bb489-552f-b67e-545d-48616a1e76dd@grimberg.me>
+ <CACVXFVO+e5De4+o8cqzvaVbMU22geicCbpmfk6zZStykEiDVmw@mail.gmail.com>
+ <82a91815-f7ed-5931-58ac-5893e68cc940@grimberg.me>
+ <CACVXFVN6o+dOFwDV=FPSHjVnhYSLBUWNHsXc4B=fwE5PAny_dQ@mail.gmail.com>
+ <8bd6d219-f4fd-de58-a341-257c6274eddd@grimberg.me>
+ <CACVXFVNT5sjk4MC6qJoBFug8K9YgEFQEy6LSknJT6=O-2ispMg@mail.gmail.com>
+ <2825eb74-1df5-5dd2-3e90-c696bc7fa3d1@grimberg.me>
+ <20190730173048.GC13948@localhost.localdomain>
+ <61445d6f-f4ca-f8d4-cef2-5bfe40aa1e7f@suse.de>
+Message-ID: <20190731141658.GB14402@localhost.localdomain>
 
-On 7/30/19 1:32 AM, Sagi Grimberg wrote:
-> remove ns from ctrl namespaces list before destroying the request queue
-> as the reset work will unquisce for all the controller namespaces, while
-> an online scan might remove invalid namespaces resulting from a
-> concurrent AEN.
+On Wed, Jul 31, 2019@12:01:58AM -0700, Hannes Reinecke wrote:
+> > I'm not too concerned about this corner case actually occuring in
+> > practice, though.
+> > 
+> ... discarding those poor folks having to hunt down this very same issue
+> for several months now ...
 > 
-> While we're at it, move nvme_check_last_path to right after we modify
-> the multipath reated cleanups.
-> 
-> Reported-by: Hannes Reinecke  <hare at suse.de>
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> ---
->  drivers/nvme/host/core.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 5f6970e7ba73..9f8f8f5feeae 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -3406,6 +3406,11 @@ static void nvme_ns_remove(struct nvme_ns *ns)
->  	synchronize_rcu(); /* guarantee not available in head->list */
->  	nvme_mpath_clear_current_path(ns);
->  	synchronize_srcu(&ns->head->srcu); /* wait for concurrent submissions */
-> +	nvme_mpath_check_last_path(ns);
-> +
-> +	down_write(&ns->ctrl->namespaces_rwsem);
-> +	list_del_init(&ns->list);
-> +	up_write(&ns->ctrl->namespaces_rwsem);
->  
->  	if (ns->disk && ns->disk->flags & GENHD_FL_UP) {
->  		del_gendisk(ns->disk);
-> @@ -3414,11 +3419,6 @@ static void nvme_ns_remove(struct nvme_ns *ns)
->  			blk_integrity_unregister(ns->disk);
->  	}
->  
-> -	down_write(&ns->ctrl->namespaces_rwsem);
-> -	list_del_init(&ns->list);
-> -	up_write(&ns->ctrl->namespaces_rwsem);
-> -
-> -	nvme_mpath_check_last_path(ns);
->  	nvme_put_ns(ns);
->  }
->  
-> 
-How does this one play with nvme_stop_queues()/nvme_start_queues() we're
-doing during reset?
-IE what happens if this is called after nvme_stop_queues(), but before
-nvme_start_queues()?
-We'll end up having a stopped queue when deleting the disk; from what
-I've seen blk_cleanup_queue() will just freeze the queue and wait for
-I/O to complete, which it'll never will as the queue is stopped ...
+> Yes, it _does_ occur.
+> Not on PCI, mind, but definitely for FC. RDMA might have a slightly
+> better chance of not hitting it, but even there we have seen it.
 
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N?rnberg)
+Fair enough! I'll re-read your patches with this better understanding
+on the context. :)
