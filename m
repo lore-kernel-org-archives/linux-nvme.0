@@ -1,49 +1,43 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 31 Jul 2019 14:03:45 +0200
-Subject: [PATCH] nvme-rdma: fix possible use-after-free in connect error
- flow
-In-Reply-To: <20190726172949.1635-1-sagi@grimberg.me>
-References: <20190726172949.1635-1-sagi@grimberg.me>
-Message-ID: <8b7a4d91-1524-4f33-d165-0529f0e9c7f3@suse.de>
+Date: Wed, 31 Jul 2019 14:04:59 +0200
+Subject: [PATCH] nvme/multipath: revalidate nvme_ns_head gendisk in
+ nvme_validate_ns
+In-Reply-To: <20190729124040.16581-1-ailiopoulos@suse.com>
+References: <20190729124040.16581-1-ailiopoulos@suse.com>
+Message-ID: <b85af4b7-bf17-709f-cf45-d1fbc7573131@suse.de>
 
-On 7/26/19 7:29 PM, Sagi Grimberg wrote:
-> When start_queue fails, we need to make sure to drain the
-> queue cq before freeing the rdma resources because we might
-> still race with the completion path. Have start_queue() error
-> path safely stop the queue.
+On 7/29/19 2:40 PM, Anthony Iliopoulos wrote:
+> When CONFIG_NVME_MULTIPATH is set, only the hidden gendisk associated
+> with the per-controller ns is run through revalidate_disk when a
+> rescan is triggered, while the visible blockdev never gets its size
+> (bdev->bd_inode->i_size) updated to reflect any capacity changes that
+> may have occurred.
 > 
-> --
-> [30371.808111] nvme nvme1: Failed reconnect attempt 11
-> [30371.808113] nvme nvme1: Reconnecting in 10 seconds...
-> [...]
-> [30382.069315] nvme nvme1: creating 4 I/O queues.
-> [30382.257058] nvme nvme1: Connect Invalid SQE Parameter, qid 4
-> [30382.257061] nvme nvme1: failed to connect queue: 4 ret=386
-> [30382.305001] BUG: unable to handle kernel NULL pointer dereference at 0000000000000018
-> [30382.305022] IP: qedr_poll_cq+0x8a3/0x1170 [qedr]
-> [30382.305028] PGD 0 P4D 0
-> [30382.305037] Oops: 0000 [#1] SMP PTI
-> [...]
-> [30382.305153] Call Trace:
-> [30382.305166]  ? __switch_to_asm+0x34/0x70
-> [30382.305187]  __ib_process_cq+0x56/0xd0 [ib_core]
-> [30382.305201]  ib_poll_handler+0x26/0x70 [ib_core]
-> [30382.305213]  irq_poll_softirq+0x88/0x110
-> [30382.305223]  ? sort_range+0x20/0x20
-> [30382.305232]  __do_softirq+0xde/0x2c6
-> [30382.305241]  ? sort_range+0x20/0x20
-> [30382.305249]  run_ksoftirqd+0x1c/0x60
-> [30382.305258]  smpboot_thread_fn+0xef/0x160
-> [30382.305265]  kthread+0x113/0x130
-> [30382.305273]  ? kthread_create_worker_on_cpu+0x50/0x50
-> [30382.305281]  ret_from_fork+0x35/0x40
-> --
+> This prevents online resizing of nvme block devices and in extension of
+> any filesystems atop that will are unable to expand while mounted, as
+> userspace relies on the blockdev size for obtaining the disk capacity
+> (via BLKGETSIZE/64 ioctls).
 > 
-> Reported-by: Nicolas Morey-Chaisemartin <NMoreyChaisemartin at suse.com>
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> Fix this by explicitly revalidating the actual namespace gendisk in
+> addition to the per-controller gendisk, when multipath is enabled.
+> 
+> Signed-off-by: Anthony Iliopoulos <ailiopoulos at suse.com>
 > ---
->  drivers/nvme/host/rdma.c | 16 +++++++++++-----
->  1 file changed, 11 insertions(+), 5 deletions(-)
+>  drivers/nvme/host/core.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 8f3fbe5ca937..80c7a7ee240b 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -1715,6 +1715,7 @@ static void __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
+>  	if (ns->head->disk) {
+>  		nvme_update_disk_info(ns->head->disk, ns, id);
+>  		blk_queue_stack_limits(ns->head->disk->queue, ns->queue);
+> +		revalidate_disk(ns->head->disk);
+>  	}
+>  #endif
+>  }
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
