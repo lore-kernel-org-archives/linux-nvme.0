@@ -1,30 +1,25 @@
 From: kbusch@kernel.org (Keith Busch)
-Date: Wed, 31 Jul 2019 13:11:21 -0600
-Subject: [PATCH] nvme: fix a possible deadlock when passthru commands
- sent to a multipath device
-In-Reply-To: <20190731180026.4725-1-sagi@grimberg.me>
-References: <20190731180026.4725-1-sagi@grimberg.me>
-Message-ID: <20190731191121.GA15643@localhost.localdomain>
+Date: Wed, 31 Jul 2019 13:32:57 -0600
+Subject: [PATCH rfc 1/2] nvme: don't remove namespace if revalidate
+ failed because of controller reset
+In-Reply-To: <2f7535ab-3d45-b24d-1512-a937e16e620f@grimberg.me>
+References: <464bb489-552f-b67e-545d-48616a1e76dd@grimberg.me>
+ <CACVXFVO+e5De4+o8cqzvaVbMU22geicCbpmfk6zZStykEiDVmw@mail.gmail.com>
+ <82a91815-f7ed-5931-58ac-5893e68cc940@grimberg.me>
+ <CACVXFVN6o+dOFwDV=FPSHjVnhYSLBUWNHsXc4B=fwE5PAny_dQ@mail.gmail.com>
+ <8bd6d219-f4fd-de58-a341-257c6274eddd@grimberg.me>
+ <CACVXFVNT5sjk4MC6qJoBFug8K9YgEFQEy6LSknJT6=O-2ispMg@mail.gmail.com>
+ <2825eb74-1df5-5dd2-3e90-c696bc7fa3d1@grimberg.me>
+ <20190730173048.GC13948@localhost.localdomain>
+ <61445d6f-f4ca-f8d4-cef2-5bfe40aa1e7f@suse.de>
+ <2f7535ab-3d45-b24d-1512-a937e16e620f@grimberg.me>
+Message-ID: <20190731193257.GB15643@localhost.localdomain>
 
-On Wed, Jul 31, 2019@11:00:26AM -0700, Sagi Grimberg wrote:
-> When the user issues a command with side effects, we will end up freezing
-> the namespace request queue when updating disk info (and the same for
-> the corresponding mpath disk node).
+On Wed, Jul 31, 2019@11:03:41AM -0700, Sagi Grimberg wrote:
 > 
-> However, we are not freezing the mpath node request queue,
-> which means that mpath I/O can still come in and block on blk_queue_enter
-> (called from nvme_ns_head_make_request -> direct_make_request).
-> 
-> This is a deadlock, because blk_queue_enter will block until the inner
-> namespace request queue is unfroze, but that process is blocked because
-> the namespace revalidation is trying to update the mpath disk info
-> and freeze its request queue (which will never complete because
-> of the I/O that is blocked on blk_queue_enter).
-> 
-> Fix this by freezing all the subsystem nsheads request queues before
-> executing the passthru command. Given that these commands are infrequent
-> we should not worry about this temporary I/O freeze to keep things sane.
+> I think I asked this but was not answered, why are we removing
+> the namespace at all? do others do the same thing (remove the
+> disk if revalidation fails)?
 
-Looks good to me.
-
-Reviewed-by: Keith Busch <kbusch at kernel.org>
+If a namespace no longer exists, what do you want to do with it instead
+of removing it?
