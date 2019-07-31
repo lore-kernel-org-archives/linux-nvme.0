@@ -1,60 +1,44 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 31 Jul 2019 13:16:56 -0700
-Subject: [PATCH rfc 1/2] nvme: don't remove namespace if revalidate failed
- because of controller reset
-In-Reply-To: <82c624fc-257d-66a9-90e6-792900f58b29@suse.de>
-References: <20190729233201.27993-1-sagi@grimberg.me>
- <20190729233201.27993-2-sagi@grimberg.me>
- <CACVXFVM+WGwQeqiK-poVKoQR4hVxCMWu0n0-HdVGb8EDDCySSA@mail.gmail.com>
- <464bb489-552f-b67e-545d-48616a1e76dd@grimberg.me>
- <CACVXFVO+e5De4+o8cqzvaVbMU22geicCbpmfk6zZStykEiDVmw@mail.gmail.com>
- <82a91815-f7ed-5931-58ac-5893e68cc940@grimberg.me>
+From: kbusch@kernel.org (Keith Busch)
+Date: Wed, 31 Jul 2019 14:16:34 -0600
+Subject: [PATCH rfc 1/2] nvme: don't remove namespace if revalidate
+ failed because of controller reset
+In-Reply-To: <0720636c-8706-e927-3c0b-c2687694664f@grimberg.me>
+References: <82a91815-f7ed-5931-58ac-5893e68cc940@grimberg.me>
  <CACVXFVN6o+dOFwDV=FPSHjVnhYSLBUWNHsXc4B=fwE5PAny_dQ@mail.gmail.com>
  <8bd6d219-f4fd-de58-a341-257c6274eddd@grimberg.me>
  <CACVXFVNT5sjk4MC6qJoBFug8K9YgEFQEy6LSknJT6=O-2ispMg@mail.gmail.com>
  <2825eb74-1df5-5dd2-3e90-c696bc7fa3d1@grimberg.me>
- <0e103ae2-b0b5-28e5-bfea-35d8f683809a@suse.de>
- <ef157a14-748b-08a1-b5e5-f5f9676988f7@grimberg.me>
- <82c624fc-257d-66a9-90e6-792900f58b29@suse.de>
-Message-ID: <f9458a91-b3e6-55ce-e9dc-29f5bf6601d2@grimberg.me>
+ <20190730173048.GC13948@localhost.localdomain>
+ <61445d6f-f4ca-f8d4-cef2-5bfe40aa1e7f@suse.de>
+ <2f7535ab-3d45-b24d-1512-a937e16e620f@grimberg.me>
+ <20190731193257.GB15643@localhost.localdomain>
+ <0720636c-8706-e927-3c0b-c2687694664f@grimberg.me>
+Message-ID: <20190731201634.GC15643@localhost.localdomain>
 
-
-> Fully agree. But so far we don't seem to be there yet.
-
-Right.
-
->>> But as all paths are dropped struct ns_head doesn't have any reference
->>> to any namespaces (and consequently, to any controller), and will be
->>> failing all I/O before itself being removed.
->>> It will be re-created after resetting completes and all namespaces are
->>> re-attached, for sure, but it still means that we're getting I/O errors
->>> where we really shouldn't.
->>
->> Paths should only be removed when the controller is going away, not when
->> it is temporarily disconnected.
+On Wed, Jul 31, 2019@01:08:05PM -0700, Sagi Grimberg wrote:
 > 
-> I'm fully in line with that.
-> However, it looks as if this isn't the case currently :-)
-> And whenever I try to come up with a solution here I always come back to 
-> the thought: It would've been easier if we just could flush scan_work ...
+> > > I think I asked this but was not answered, why are we removing
+> > > the namespace at all? do others do the same thing (remove the
+> > > disk if revalidation fails)?
+> > 
+> > If a namespace no longer exists,
 > 
-> And my main worry here is: surely we'll manage to hash out the situation 
-> eventually, and fixup all code paths to avoid dropping paths during reset.
-> But the solution will be very fragile, as any innocent change there 
-> might break things again. So I'm not convinced that asynchronous reset 
-> and rescan is a feature which should be kept.
-> (And honestly, we're working towards a solution where scanning during 
-> reset will become a no-op ...)
+> Why is it no longer exists? it failed revalidate..
 
-But flushing the scan_work is even more fragile.. the scan_work is a
-non-trivial work that may have dependencies with other processes.
+One way it fails to validate is if it doesn't exist, i.e., the
+controller returned an error when attempting to identify it.
 
-For example, passthru commands with effects take the scan lock during
-its lifetime, which means that it may be blocked even before it checks
-the ctrl state (which is again, unreliable with respect to resets).
-So do resets flush all outstanding passthru commands now?
+The other way it may fail to revalidate is if its identify has changed
+since we last discovered it, so removal is better than data corruption.
 
-So I think that flushing the scan_work might bring us new issues because
-of this dependency. That is why I think we should address the root cause
-which is we're wrongly removing the namespace, not the fact that we
-failed to scan it.
+Either scenario could happen from administrative namespace management
+commands to any controller in the subsystem.
+ 
+> > what do you want to do with it instead of removing it?
+> 
+> Well, I don't see anyone else even checking the return
+> status of revalidate_disk.. Perhaps Hannes can share more
+> on how scsi handles this?
+
+Other drivers may have a different path to this, but I'd imagine they
+handle a LUN deletion somehow.
