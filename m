@@ -1,53 +1,51 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 31 Jul 2019 11:16:56 -0700
-Subject: [PATCH rfc 1/2] nvme: don't remove namespace if revalidate failed
- because of controller reset
-In-Reply-To: <993aee4e-9f9e-4af1-07e6-69218a12bc1b@suse.de>
+Date: Wed, 31 Jul 2019 11:21:21 -0700
+Subject: [PATCH rfc 2/2] nvme: fix possible use-after-free condition when
+ controller reset is racing namespace scanning
+In-Reply-To: <e3b0f11f-a66f-9b1a-6790-89efcaa33140@suse.de>
 References: <20190729233201.27993-1-sagi@grimberg.me>
- <20190729233201.27993-2-sagi@grimberg.me>
- <993aee4e-9f9e-4af1-07e6-69218a12bc1b@suse.de>
-Message-ID: <886831d7-7035-7c38-7b1f-9945c222564e@grimberg.me>
+ <20190729233201.27993-3-sagi@grimberg.me>
+ <e3b0f11f-a66f-9b1a-6790-89efcaa33140@suse.de>
+Message-ID: <fb6c9d38-32f6-a659-f3b9-1c57f28b410d@grimberg.me>
 
 
 >> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->> index fa31da0762b9..5f6970e7ba73 100644
+>> index 5f6970e7ba73..9f8f8f5feeae 100644
 >> --- a/drivers/nvme/host/core.c
 >> +++ b/drivers/nvme/host/core.c
->> @@ -3428,7 +3428,8 @@ static void nvme_validate_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+>> @@ -3406,6 +3406,11 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+>>   	synchronize_rcu(); /* guarantee not available in head->list */
+>>   	nvme_mpath_clear_current_path(ns);
+>>   	synchronize_srcu(&ns->head->srcu); /* wait for concurrent submissions */
+>> +	nvme_mpath_check_last_path(ns);
+>> +
+>> +	down_write(&ns->ctrl->namespaces_rwsem);
+>> +	list_del_init(&ns->list);
+>> +	up_write(&ns->ctrl->namespaces_rwsem);
 >>   
->>   	ns = nvme_find_get_ns(ctrl, nsid);
->>   	if (ns) {
->> -		if (ns->disk && revalidate_disk(ns->disk))
->> +		if (ns->disk && revalidate_disk(ns->disk) &&
->> +		    ctrl->state != NVME_CTRL_LIVE)
->>   			nvme_ns_remove(ns);
->>   		nvme_put_ns(ns);
->>   	} else
+>>   	if (ns->disk && ns->disk->flags & GENHD_FL_UP) {
+>>   		del_gendisk(ns->disk);
+>> @@ -3414,11 +3419,6 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+>>   			blk_integrity_unregister(ns->disk);
+>>   	}
+>>   
+>> -	down_write(&ns->ctrl->namespaces_rwsem);
+>> -	list_del_init(&ns->list);
+>> -	up_write(&ns->ctrl->namespaces_rwsem);
+>> -
+>> -	nvme_mpath_check_last_path(ns);
+>>   	nvme_put_ns(ns);
+>>   }
+>>   
 >>
-> The thing I'm worried about here is concurrency (this was also what
-> caused my earlier attempts to be rejected).
-> Thing is, the controller state can be set asynchronously. Which in
-> itself is protected by ctrl->lock, but here we're not taking the lock at
-> all. Hence we might be seeing a stale value, causing us to makt the
-> wrong decision.
+> How does this one play with nvme_stop_queues()/nvme_start_queues() we're
+> doing during reset?
+> IE what happens if this is called after nvme_stop_queues(), but before
+> nvme_start_queues()?
+> We'll end up having a stopped queue when deleting the disk; from what
+> I've seen blk_cleanup_queue() will just freeze the queue and wait for
+> I/O to complete, which it'll never will as the queue is stopped ...
 
-This is why the state check is _after_ the failure, if we failed to do
-I/O because of a reset, it will be reflected in the state.
-
-> I have a patchset checking 'ctrl->state' under lock; will be posting it
-> later.
-
-Unless the wraps your actions according the state, the state still
-advisory.
-
-> And another thing: where's the point in 'revalidate_disk()' to be called
-> if the controller is not live? At best it won't do anything; at worst
-> we'll stall if we have to do more than one I/O (the reset cycle will
-> abort _one_ I/O, but if we have to submit more than one we'll be stuck,
-> too).
-
-Exactly because of the race that you are indicating. We can't reliably
-know if the controller is resetting (or will be starting a reset soon)
-so we go ahead with the revalidate knowing that if the controller is
-resetting it will fail. That is why the state check is after (this tells
-us if the revalidation failed because of a reset or something else).
+nvme_stop/start_queue are quiescing the queue, not freezing it which
+does not block requests in blk_queue_enter.
+So I don't think that blk_cleanup_queue will hang for unquiesced queues.
