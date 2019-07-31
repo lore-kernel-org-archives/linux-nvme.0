@@ -1,8 +1,8 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 31 Jul 2019 08:58:54 +0200
+Date: Wed, 31 Jul 2019 09:01:58 +0200
 Subject: [PATCH rfc 1/2] nvme: don't remove namespace if revalidate failed
  because of controller reset
-In-Reply-To: <2825eb74-1df5-5dd2-3e90-c696bc7fa3d1@grimberg.me>
+In-Reply-To: <20190730173048.GC13948@localhost.localdomain>
 References: <20190729233201.27993-1-sagi@grimberg.me>
  <20190729233201.27993-2-sagi@grimberg.me>
  <CACVXFVM+WGwQeqiK-poVKoQR4hVxCMWu0n0-HdVGb8EDDCySSA@mail.gmail.com>
@@ -13,62 +13,76 @@ References: <20190729233201.27993-1-sagi@grimberg.me>
  <8bd6d219-f4fd-de58-a341-257c6274eddd@grimberg.me>
  <CACVXFVNT5sjk4MC6qJoBFug8K9YgEFQEy6LSknJT6=O-2ispMg@mail.gmail.com>
  <2825eb74-1df5-5dd2-3e90-c696bc7fa3d1@grimberg.me>
-Message-ID: <0e103ae2-b0b5-28e5-bfea-35d8f683809a@suse.de>
+ <20190730173048.GC13948@localhost.localdomain>
+Message-ID: <61445d6f-f4ca-f8d4-cef2-5bfe40aa1e7f@suse.de>
 
-On 7/30/19 7:12 PM, Sagi Grimberg wrote:
-> 
->>> Yes, and again, addresses the case that the namespace is going away.
+On 7/30/19 7:30 PM, Keith Busch wrote:
+> On Tue, Jul 30, 2019@10:12:42AM -0700, Sagi Grimberg wrote:
+>>
+>>>> Yes, and again, addresses the case that the namespace is going away.
+>>>>
+>>>> So I think we are in agreement? I only need to change the commit
+>>>> message from: "the revalidation I/O" to "the admin I/O" ?
 >>>
->>> So I think we are in agreement? I only need to change the commit
->>> message from: "the revalidation I/O" to "the admin I/O" ?
+>>> That words of 'admin I/O' isn't related with the patch or issue.
 >>
->> That words of 'admin I/O' isn't related with the patch or issue.
-> 
-> But it is, the original issue was due to the fact that
-> nvme_revalidate_disk() I/Os such as nvme_identify_ns() or
-> nvme_identify_ns_descs(). This was the original issue.
-> 
->>> Yea, this should do the trick I guess:
->>> -- 
->>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->>> index fa31da0762b9..d01976c93160 100644
->>> --- a/drivers/nvme/host/core.c
->>> +++ b/drivers/nvme/host/core.c
->>> @@ -3428,7 +3428,8 @@ static void nvme_validate_ns(struct nvme_ctrl
->>> *ctrl, unsigned nsid)
+>> But it is, the original issue was due to the fact that
+>> nvme_revalidate_disk() I/Os such as nvme_identify_ns() or
+>> nvme_identify_ns_descs(). This was the original issue.
+>>
+>>>> Yea, this should do the trick I guess:
+>>>> --
+>>>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+>>>> index fa31da0762b9..d01976c93160 100644
+>>>> --- a/drivers/nvme/host/core.c
+>>>> +++ b/drivers/nvme/host/core.c
+>>>> @@ -3428,7 +3428,8 @@ static void nvme_validate_ns(struct nvme_ctrl
+>>>> *ctrl, unsigned nsid)
+>>>>
+>>>>           ns = nvme_find_get_ns(ctrl, nsid);
+>>>>           if (ns) {
+>>>> -               if (ns->disk && revalidate_disk(ns->disk))
+>>>> +               if (ns->disk && ctrl->state == NVME_CTRL_LIVE &&
+>>>> +                   revalidate_disk(ns->disk)
+>>>>                           nvme_ns_remove(ns);
+>>>>                   nvme_put_ns(ns);
+>>>>           } else
 >>>
->>> ????????? ns = nvme_find_get_ns(ctrl, nsid);
->>> ????????? if (ns) {
->>> -?????????????? if (ns->disk && revalidate_disk(ns->disk))
->>> +?????????????? if (ns->disk && ctrl->state == NVME_CTRL_LIVE &&
->>> +?????????????????? revalidate_disk(ns->disk)
->>> ????????????????????????? nvme_ns_remove(ns);
->>> ????????????????? nvme_put_ns(ns);
->>> ????????? } else
+>>> If RESET is triggered just inside revalidate_disk(), and not done after
+>>> revalidate_disk() returns,  there is still race between reset and scan work.
+>>>
 >>
->> If RESET is triggered just inside revalidate_disk(), and not done after
->> revalidate_disk() returns,? there is still race between reset and scan
->> work.
+>> You are correct, this was why I had the ctrl->state check after
+>> revalidate_disk so if it failed because we are in a reset we should
+>> not remove the namespace.
 >>
+>> We need a reliable way to NOT remove the namespace if revalidate_disk
+>> failed because the controller is resetting and we don't have a channel
+>> to the controller at this very moment...
+>>
+>> Keith,
+>>
+>> As for the failure during reset scenario, this is happening only when
+>> the namespace is about to go away or something is seriously wrong right
+>> (looking from where nvme_kill_queues is called).
+>>
+>> Do you still think we should avoid calling the revalidate_disk if the
+>> controller is resetting?
 > 
-> You are correct, this was why I had the ctrl->state check after
-> revalidate_disk so if it failed because we are in a reset we should
-> not remove the namespace.
+> I was considering if a reset happens to trigger when nvme's
+> revalidate_disk tries to read identify namespace. It's possible that
+> command gets aborted, and we don't retry admin commands, so we'd return
+> -ENODEV and nvme_validate_ns() removes an otherwise healthy namespace.
 > 
-> We need a reliable way to NOT remove the namespace if revalidate_disk
-> failed because the controller is resetting and we don't have a channel
-> to the controller at this very moment...
+> I'm not too concerned about this corner case actually occuring in
+> practice, though.
 > 
-A similar thing is true for the 'ns_head' structure; I could easily
-envision a scenario where all paths are dropped (due to revalidate
-failures or whatnot) with all controllers in reset.
-But as all paths are dropped struct ns_head doesn't have any reference
-to any namespaces (and consequently, to any controller), and will be
-failing all I/O before itself being removed.
-It will be re-created after resetting completes and all namespaces are
-re-attached, for sure, but it still means that we're getting I/O errors
-where we really shouldn't.
-One is tempted to say 'queue_if_no_path' here ...
+... discarding those poor folks having to hunt down this very same issue
+for several months now ...
+
+Yes, it _does_ occur.
+Not on PCI, mind, but definitely for FC. RDMA might have a slightly
+better chance of not hitting it, but even there we have seen it.
 
 Cheers,
 
