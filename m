@@ -1,8 +1,8 @@
-From: kbusch@kernel.org (Keith Busch)
-Date: Wed, 31 Jul 2019 14:58:37 -0600
-Subject: [PATCH rfc 1/2] nvme: don't remove namespace if revalidate
- failed because of controller reset
-In-Reply-To: <cb8a1faf-ea19-06c8-35dc-08cd11180974@grimberg.me>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 31 Jul 2019 14:14:25 -0700
+Subject: [PATCH rfc 1/2] nvme: don't remove namespace if revalidate failed
+ because of controller reset
+In-Reply-To: <20190731205836.GD15643@localhost.localdomain>
 References: <8bd6d219-f4fd-de58-a341-257c6274eddd@grimberg.me>
  <CACVXFVNT5sjk4MC6qJoBFug8K9YgEFQEy6LSknJT6=O-2ispMg@mail.gmail.com>
  <2825eb74-1df5-5dd2-3e90-c696bc7fa3d1@grimberg.me>
@@ -13,33 +13,28 @@ References: <8bd6d219-f4fd-de58-a341-257c6274eddd@grimberg.me>
  <0720636c-8706-e927-3c0b-c2687694664f@grimberg.me>
  <20190731201634.GC15643@localhost.localdomain>
  <cb8a1faf-ea19-06c8-35dc-08cd11180974@grimberg.me>
-Message-ID: <20190731205836.GD15643@localhost.localdomain>
+ <20190731205836.GD15643@localhost.localdomain>
+Message-ID: <68358e82-cbd5-6199-1329-89421c778dc0@grimberg.me>
 
-On Wed, Jul 31, 2019@01:45:12PM -0700, Sagi Grimberg wrote:
-> 
-> > > > > I think I asked this but was not answered, why are we removing
-> > > > > the namespace at all? do others do the same thing (remove the
-> > > > > disk if revalidation fails)?
-> > > > 
-> > > > If a namespace no longer exists,
-> > > 
-> > > Why is it no longer exists? it failed revalidate..
-> > 
-> > One way it fails to validate is if it doesn't exist, i.e., the
-> > controller returned an error when attempting to identify it.
-> > 
-> > The other way it may fail to revalidate is if its identify has changed
-> > since we last discovered it, so removal is better than data corruption.
-> 
-> Well, perhaps we can mark failures resulting from reset with a transport
-> error.
-> 
-> For example, nvme_cancel_request is setting:NVME_SC_ABORT_REQ, perhaps
-> we can modify nvme_error_status to set that into BLK_STS_TRANSPORT and
-> check for that as the return code for revalidate_disk?
-> 
-> Thoughts?
 
-Would it be sufficient to let these admin commands requeue? Instead of
-flushing the scan work, we can let it block for IO on a reset, and the
-IO will resume when the reset completes.
+>>> The other way it may fail to revalidate is if its identify has changed
+>>> since we last discovered it, so removal is better than data corruption.
+>>
+>> Well, perhaps we can mark failures resulting from reset with a transport
+>> error.
+>>
+>> For example, nvme_cancel_request is setting:NVME_SC_ABORT_REQ, perhaps
+>> we can modify nvme_error_status to set that into BLK_STS_TRANSPORT and
+>> check for that as the return code for revalidate_disk?
+>>
+>> Thoughts?
+> 
+> Would it be sufficient to let these admin commands requeue? Instead of
+> flushing the scan work, we can let it block for IO on a reset, and the
+> IO will resume when the reset completes.
+
+Well, I don't think we should do that. Unlike I/O commands, which can
+failover to a different path, these admin commands are bound to the
+specific controller. In case it takes minutes/hours/days for the
+controller to restore normal operation, it will be unpleasant to say
+the least to have admin operations get stuck for so long.
