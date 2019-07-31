@@ -1,19 +1,81 @@
-From: kbusch@kernel.org (Keith Busch)
-Date: Tue, 30 Jul 2019 15:34:04 -0600
-Subject: [PATCH] drivers/nvme: save/restore HMB on suspend/resume
-In-Reply-To: <8c5bfc2cee134ed392b5aa933827ed4e@AUSX13MPS303.AMER.DELL.COM>
-References: <362aad7f1cf547c2a73e1c4f564984db@AUSX13MPS303.AMER.DELL.COM>
- <20190730204829.GI13948@localhost.localdomain>
- <c90ac9850f944407b39e369dce2e1e72@AUSX13MPS303.AMER.DELL.COM>
- <20190730211044.GJ13948@localhost.localdomain>
- <8c5bfc2cee134ed392b5aa933827ed4e@AUSX13MPS303.AMER.DELL.COM>
-Message-ID: <20190730213404.GA14402@localhost.localdomain>
+From: hare@suse.de (Hannes Reinecke)
+Date: Wed, 31 Jul 2019 08:58:54 +0200
+Subject: [PATCH rfc 1/2] nvme: don't remove namespace if revalidate failed
+ because of controller reset
+In-Reply-To: <2825eb74-1df5-5dd2-3e90-c696bc7fa3d1@grimberg.me>
+References: <20190729233201.27993-1-sagi@grimberg.me>
+ <20190729233201.27993-2-sagi@grimberg.me>
+ <CACVXFVM+WGwQeqiK-poVKoQR4hVxCMWu0n0-HdVGb8EDDCySSA@mail.gmail.com>
+ <464bb489-552f-b67e-545d-48616a1e76dd@grimberg.me>
+ <CACVXFVO+e5De4+o8cqzvaVbMU22geicCbpmfk6zZStykEiDVmw@mail.gmail.com>
+ <82a91815-f7ed-5931-58ac-5893e68cc940@grimberg.me>
+ <CACVXFVN6o+dOFwDV=FPSHjVnhYSLBUWNHsXc4B=fwE5PAny_dQ@mail.gmail.com>
+ <8bd6d219-f4fd-de58-a341-257c6274eddd@grimberg.me>
+ <CACVXFVNT5sjk4MC6qJoBFug8K9YgEFQEy6LSknJT6=O-2ispMg@mail.gmail.com>
+ <2825eb74-1df5-5dd2-3e90-c696bc7fa3d1@grimberg.me>
+Message-ID: <0e103ae2-b0b5-28e5-bfea-35d8f683809a@suse.de>
 
-On Tue, Jul 30, 2019@09:32:13PM +0000, Charles.Hyde@dellteam.com wrote:
-> Without this change, I have observed 100% failure rate with LiteOn CL1
-> devices.  I was informed yesterday the vendor is investigating a root
-> cause of S0ix failures with their device, I have not heard anything
-> further.  Like you, I would wish this patch is not needed, and maybe it
-> will not be when the vendor finishes their failure analysis.
+On 7/30/19 7:12 PM, Sagi Grimberg wrote:
+> 
+>>> Yes, and again, addresses the case that the namespace is going away.
+>>>
+>>> So I think we are in agreement? I only need to change the commit
+>>> message from: "the revalidation I/O" to "the admin I/O" ?
+>>
+>> That words of 'admin I/O' isn't related with the patch or issue.
+> 
+> But it is, the original issue was due to the fact that
+> nvme_revalidate_disk() I/Os such as nvme_identify_ns() or
+> nvme_identify_ns_descs(). This was the original issue.
+> 
+>>> Yea, this should do the trick I guess:
+>>> -- 
+>>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+>>> index fa31da0762b9..d01976c93160 100644
+>>> --- a/drivers/nvme/host/core.c
+>>> +++ b/drivers/nvme/host/core.c
+>>> @@ -3428,7 +3428,8 @@ static void nvme_validate_ns(struct nvme_ctrl
+>>> *ctrl, unsigned nsid)
+>>>
+>>> ????????? ns = nvme_find_get_ns(ctrl, nsid);
+>>> ????????? if (ns) {
+>>> -?????????????? if (ns->disk && revalidate_disk(ns->disk))
+>>> +?????????????? if (ns->disk && ctrl->state == NVME_CTRL_LIVE &&
+>>> +?????????????????? revalidate_disk(ns->disk)
+>>> ????????????????????????? nvme_ns_remove(ns);
+>>> ????????????????? nvme_put_ns(ns);
+>>> ????????? } else
+>>
+>> If RESET is triggered just inside revalidate_disk(), and not done after
+>> revalidate_disk() returns,? there is still race between reset and scan
+>> work.
+>>
+> 
+> You are correct, this was why I had the ctrl->state check after
+> revalidate_disk so if it failed because we are in a reset we should
+> not remove the namespace.
+> 
+> We need a reliable way to NOT remove the namespace if revalidate_disk
+> failed because the controller is resetting and we don't have a channel
+> to the controller at this very moment...
+> 
+A similar thing is true for the 'ns_head' structure; I could easily
+envision a scenario where all paths are dropped (due to revalidate
+failures or whatnot) with all controllers in reset.
+But as all paths are dropped struct ns_head doesn't have any reference
+to any namespaces (and consequently, to any controller), and will be
+failing all I/O before itself being removed.
+It will be re-created after resetting completes and all namespaces are
+re-attached, for sure, but it still means that we're getting I/O errors
+where we really shouldn't.
+One is tempted to say 'queue_if_no_path' here ...
 
-Okay, let's wait to hear root cause before considering work-arounds.
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
+HRB 21284 (AG N?rnberg)
