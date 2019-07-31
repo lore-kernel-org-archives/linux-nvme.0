@@ -1,43 +1,46 @@
-From: rafael@kernel.org (Rafael J. Wysocki)
-Date: Thu, 1 Aug 2019 00:33:20 +0200
-Subject: [Regression] Commit "nvme/pci: Use host managed power state for
- suspend" has problems
-In-Reply-To: <20190731221956.GB15795@localhost.localdomain>
-References: <4323ed84dd07474eab65699b4d007aaf@AUSX13MPC105.AMER.DELL.COM>
- <CAJZ5v0iDQ4=kTUgW94tKGt7oJzA_3uVU_M6HAMbNCRXwp_do8A@mail.gmail.com>
- <47415939.KV5G6iaeJG@kreacher> <20190730144134.GA12844@localhost.localdomain>
- <100ba4aff1c6434a81e47774ab4acddc@AUSX13MPC105.AMER.DELL.COM>
- <8246360B-F7D9-42EB-94FC-82995A769E28@canonical.com>
- <20190730191934.GD13948@localhost.localdomain>
- <7d3e0b8ba1444194a153c93faa1cabb3@AUSX13MPC105.AMER.DELL.COM>
- <20190730213114.GK13948@localhost.localdomain>
- <CAJZ5v0gxfeMN8eCNRjcXmUOkReVsdozb3EccaYMpnmSHu3771g@mail.gmail.com>
- <20190731221956.GB15795@localhost.localdomain>
-Message-ID: <CAJZ5v0hxYGBXau39sb80MQ8jbZZCzH0JU2DYZvn9JOtYT2+30g@mail.gmail.com>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Wed, 31 Jul 2019 17:35:32 -0600
+Subject: [PATCH v3 2/4] nvmet-loop: Flush nvme_delete_wq when removing the port
+In-Reply-To: <20190731233534.4841-1-logang@deltatee.com>
+References: <20190731233534.4841-1-logang@deltatee.com>
+Message-ID: <20190731233534.4841-3-logang@deltatee.com>
 
-On Thu, Aug 1, 2019@12:22 AM Keith Busch <kbusch@kernel.org> wrote:
->
-> On Wed, Jul 31, 2019@11:25:51PM +0200, Rafael J. Wysocki wrote:
-> >
-> > A couple of remarks if you will.
-> >
-> > First, we don't know which case is the majority at this point.  For
-> > now, there is one example of each, but it may very well turn out that
-> > the SK Hynix BC501 above needs to be quirked.
-> >
-> > Second, the reference here really is 5.2, so if there are any systems
-> > that are not better off with 5.3-rc than they were with 5.2, well, we
-> > have not made progress.  However, if there are systems that are worse
-> > off with 5.3, that's bad.  In the face of the latest findings the only
-> > way to avoid that is to be backwards compatible with 5.2 and that's
-> > where my patch is going.  That cannot be achieved by quirking all
-> > cases that are reported as "bad", because there still may be
-> > unreported ones.
->
-> I have to agree. I think your proposal may allow PCI D3cold,
+After calling nvme_loop_delete_ctrl(), the controllers will not
+yet be deleted because nvme_delete_ctrl() only schedules work
+to do the delete.
 
-Yes, it may.
+This means a race can occur if a port is removed but there
+are still active controllers trying to access that memory.
 
-> In which case we do need to reintroduce the HMB handling.
+To fix this, flush the nvme_delete_wq before returning from
+nvme_loop_remove_port() so that any controllers that might
+be in the process of being deleted won't access a freed port.
 
-Right.
+Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ drivers/nvme/target/loop.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index b16dc3981c69..0940c5024a34 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -654,6 +654,14 @@ static void nvme_loop_remove_port(struct nvmet_port *port)
+ 	mutex_lock(&nvme_loop_ports_mutex);
+ 	list_del_init(&port->entry);
+ 	mutex_unlock(&nvme_loop_ports_mutex);
++
++	/*
++	 * Ensure any ctrls that are in the process of being
++	 * deleted are in fact deleted before we return
++	 * and free the port. This is to prevent active
++	 * ctrls from using a port after it's freed.
++	 */
++	flush_workqueue(nvme_delete_wq);
+ }
+ 
+ static const struct nvmet_fabrics_ops nvme_loop_ops = {
+-- 
+2.20.1
