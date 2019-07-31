@@ -1,45 +1,59 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 31 Jul 2019 14:04:59 +0200
-Subject: [PATCH] nvme/multipath: revalidate nvme_ns_head gendisk in
- nvme_validate_ns
-In-Reply-To: <20190729124040.16581-1-ailiopoulos@suse.com>
-References: <20190729124040.16581-1-ailiopoulos@suse.com>
-Message-ID: <b85af4b7-bf17-709f-cf45-d1fbc7573131@suse.de>
+Date: Wed, 31 Jul 2019 14:18:55 +0200
+Subject: [PATCH rfc 1/2] nvme: don't remove namespace if revalidate failed
+ because of controller reset
+In-Reply-To: <20190729233201.27993-2-sagi@grimberg.me>
+References: <20190729233201.27993-1-sagi@grimberg.me>
+ <20190729233201.27993-2-sagi@grimberg.me>
+Message-ID: <993aee4e-9f9e-4af1-07e6-69218a12bc1b@suse.de>
 
-On 7/29/19 2:40 PM, Anthony Iliopoulos wrote:
-> When CONFIG_NVME_MULTIPATH is set, only the hidden gendisk associated
-> with the per-controller ns is run through revalidate_disk when a
-> rescan is triggered, while the visible blockdev never gets its size
-> (bdev->bd_inode->i_size) updated to reflect any capacity changes that
-> may have occurred.
+On 7/30/19 1:32 AM, Sagi Grimberg wrote:
+> If a controller reset is racing with a namespace revalidation, the
+> revalidation I/O will surely fail, but we should not remove the
+> namespace as we will execute the I/O when the controller is LIVE again.
+> Specifically check if the controller is LIVE because as
+> RESETTING/CONNECTING are transient and DELETING/DEAD will eventually
+> remove the namespace in the removal code path.
 > 
-> This prevents online resizing of nvme block devices and in extension of
-> any filesystems atop that will are unable to expand while mounted, as
-> userspace relies on the blockdev size for obtaining the disk capacity
-> (via BLKGETSIZE/64 ioctls).
+> This fixes sporious I/O errors in path failover coditions where the
+> controller reset is racing with the namespace scan work.
 > 
-> Fix this by explicitly revalidating the actual namespace gendisk in
-> addition to the per-controller gendisk, when multipath is enabled.
-> 
-> Signed-off-by: Anthony Iliopoulos <ailiopoulos at suse.com>
+> Reported-by: Hannes Reinecke  <hare at suse.de>
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 > ---
->  drivers/nvme/host/core.c | 1 +
->  1 file changed, 1 insertion(+)
+>  drivers/nvme/host/core.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
 > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 8f3fbe5ca937..80c7a7ee240b 100644
+> index fa31da0762b9..5f6970e7ba73 100644
 > --- a/drivers/nvme/host/core.c
 > +++ b/drivers/nvme/host/core.c
-> @@ -1715,6 +1715,7 @@ static void __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
->  	if (ns->head->disk) {
->  		nvme_update_disk_info(ns->head->disk, ns, id);
->  		blk_queue_stack_limits(ns->head->disk->queue, ns->queue);
-> +		revalidate_disk(ns->head->disk);
->  	}
->  #endif
->  }
+> @@ -3428,7 +3428,8 @@ static void nvme_validate_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+>  
+>  	ns = nvme_find_get_ns(ctrl, nsid);
+>  	if (ns) {
+> -		if (ns->disk && revalidate_disk(ns->disk))
+> +		if (ns->disk && revalidate_disk(ns->disk) &&
+> +		    ctrl->state != NVME_CTRL_LIVE)
+>  			nvme_ns_remove(ns);
+>  		nvme_put_ns(ns);
+>  	} else
 > 
-Reviewed-by: Hannes Reinecke <hare at suse.com>
+The thing I'm worried about here is concurrency (this was also what
+caused my earlier attempts to be rejected).
+Thing is, the controller state can be set asynchronously. Which in
+itself is protected by ctrl->lock, but here we're not taking the lock at
+all. Hence we might be seeing a stale value, causing us to makt the
+wrong decision.
+
+I have a patchset checking 'ctrl->state' under lock; will be posting it
+later.
+
+And another thing: where's the point in 'revalidate_disk()' to be called
+if the controller is not live? At best it won't do anything; at worst
+we'll stall if we have to do more than one I/O (the reset cycle will
+abort _one_ I/O, but if we have to submit more than one we'll be stuck,
+too).
 
 Cheers,
 
