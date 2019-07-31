@@ -1,60 +1,51 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 31 Jul 2019 09:13:33 +0200
-Subject: [PATCH rfc 1/2] nvme: don't remove namespace if revalidate failed
- because of controller reset
-In-Reply-To: <f6ef7bfc-0d7c-95e6-21d3-b69545a1715b@grimberg.me>
-References: <20190729233201.27993-1-sagi@grimberg.me>
- <20190729233201.27993-2-sagi@grimberg.me>
- <CACVXFVM+WGwQeqiK-poVKoQR4hVxCMWu0n0-HdVGb8EDDCySSA@mail.gmail.com>
- <464bb489-552f-b67e-545d-48616a1e76dd@grimberg.me>
- <CACVXFVO+e5De4+o8cqzvaVbMU22geicCbpmfk6zZStykEiDVmw@mail.gmail.com>
- <82a91815-f7ed-5931-58ac-5893e68cc940@grimberg.me>
- <CACVXFVN6o+dOFwDV=FPSHjVnhYSLBUWNHsXc4B=fwE5PAny_dQ@mail.gmail.com>
- <8bd6d219-f4fd-de58-a341-257c6274eddd@grimberg.me>
- <CACVXFVNT5sjk4MC6qJoBFug8K9YgEFQEy6LSknJT6=O-2ispMg@mail.gmail.com>
- <2825eb74-1df5-5dd2-3e90-c696bc7fa3d1@grimberg.me>
- <20190730173048.GC13948@localhost.localdomain>
- <f6ef7bfc-0d7c-95e6-21d3-b69545a1715b@grimberg.me>
-Message-ID: <0d1ab1b6-220e-aa25-465a-5d9d0a01b920@suse.de>
+Date: Wed, 31 Jul 2019 14:03:45 +0200
+Subject: [PATCH] nvme-rdma: fix possible use-after-free in connect error
+ flow
+In-Reply-To: <20190726172949.1635-1-sagi@grimberg.me>
+References: <20190726172949.1635-1-sagi@grimberg.me>
+Message-ID: <8b7a4d91-1524-4f33-d165-0529f0e9c7f3@suse.de>
 
-On 7/30/19 8:15 PM, Sagi Grimberg wrote:
+On 7/26/19 7:29 PM, Sagi Grimberg wrote:
+> When start_queue fails, we need to make sure to drain the
+> queue cq before freeing the rdma resources because we might
+> still race with the completion path. Have start_queue() error
+> path safely stop the queue.
 > 
->>> Keith,
->>>
->>> As for the failure during reset scenario, this is happening only when
->>> the namespace is about to go away or something is seriously wrong right
->>> (looking from where nvme_kill_queues is called).
->>>
->>> Do you still think we should avoid calling the revalidate_disk if the
->>> controller is resetting?
->>
->> I was considering if a reset happens to trigger when nvme's
->> revalidate_disk tries to read identify namespace. It's possible that
->> command gets aborted, and we don't retry admin commands, so we'd return
->> -ENODEV and nvme_validate_ns() removes an otherwise healthy namespace.
+> --
+> [30371.808111] nvme nvme1: Failed reconnect attempt 11
+> [30371.808113] nvme nvme1: Reconnecting in 10 seconds...
+> [...]
+> [30382.069315] nvme nvme1: creating 4 I/O queues.
+> [30382.257058] nvme nvme1: Connect Invalid SQE Parameter, qid 4
+> [30382.257061] nvme nvme1: failed to connect queue: 4 ret=386
+> [30382.305001] BUG: unable to handle kernel NULL pointer dereference at 0000000000000018
+> [30382.305022] IP: qedr_poll_cq+0x8a3/0x1170 [qedr]
+> [30382.305028] PGD 0 P4D 0
+> [30382.305037] Oops: 0000 [#1] SMP PTI
+> [...]
+> [30382.305153] Call Trace:
+> [30382.305166]  ? __switch_to_asm+0x34/0x70
+> [30382.305187]  __ib_process_cq+0x56/0xd0 [ib_core]
+> [30382.305201]  ib_poll_handler+0x26/0x70 [ib_core]
+> [30382.305213]  irq_poll_softirq+0x88/0x110
+> [30382.305223]  ? sort_range+0x20/0x20
+> [30382.305232]  __do_softirq+0xde/0x2c6
+> [30382.305241]  ? sort_range+0x20/0x20
+> [30382.305249]  run_ksoftirqd+0x1c/0x60
+> [30382.305258]  smpboot_thread_fn+0xef/0x160
+> [30382.305265]  kthread+0x113/0x130
+> [30382.305273]  ? kthread_create_worker_on_cpu+0x50/0x50
+> [30382.305281]  ret_from_fork+0x35/0x40
+> --
 > 
-> But if the ctrl->state condition is after the revalidate_disk call it
-> won't remove the namespace.
-> -- 
-> ??????????????? if (ns->disk && revalidate_disk(ns->disk &&
-> ??????????????????? ctrl->state == NVME_CTRL_LIVE)
-> ??????????????????????? nvme_ns_remove(ns);
-> -- 
+> Reported-by: Nicolas Morey-Chaisemartin <NMoreyChaisemartin at suse.com>
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> ---
+>  drivers/nvme/host/rdma.c | 16 +++++++++++-----
+>  1 file changed, 11 insertions(+), 5 deletions(-)
 > 
->>
->> I'm not too concerned about this corner case actually occuring in
->> practice, though.
-> 
-> Say, why are we removing the namepsace if the revalidate failed?
-> Don't see an equivalent behavior in scsi or others in drivers/block..
-
-That probably due to the convoluted logic in nvme_scan_ns_list().
-That scans all namespaces in the list, and removes those which fails.
-Which seems sensible, but really shouldn't be called during reset
-as we cannot get any sensible results for any of those calls.
-
-This was the reason for my original patch to flush the scanning thread
-before entering reset. Maybe we should revive it...
+Reviewed-by: Hannes Reinecke <hare at suse.com>
 
 Cheers,
 
