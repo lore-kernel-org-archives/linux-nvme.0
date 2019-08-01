@@ -1,180 +1,50 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu,  1 Aug 2019 17:45:06 -0600
-Subject: [PATCH v7 07/14] nvmet-passthru: add enable/disable helpers
+Date: Thu,  1 Aug 2019 17:45:08 -0600
+Subject: [PATCH v7 09/14] nvmet-core: don't check the data len for pt-ctrl
 In-Reply-To: <20190801234514.7941-1-logang@deltatee.com>
 References: <20190801234514.7941-1-logang@deltatee.com>
-Message-ID: <20190801234514.7941-8-logang@deltatee.com>
+Message-ID: <20190801234514.7941-10-logang@deltatee.com>
 
-This patch adds helper functions which are used in the NVMeOF configfs
-when the user is configuring the passthru subsystem. Here we ensure
-that only one subsys is assigned to each nvme_ctrl by using an xarray
-on the cntlid.
+From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
-[chaitanya.kulkarni at wdc.com: this patch is very roughly based
- on a similar one by Chaitanya]
+Right now, data_len is calculated before the transfer len after we
+parse the command, With passthru interface we allow VUCs (Vendor-Unique
+Commands). In order to make the code simple and compact, instead of
+assigning the data len or each VUC in the command parse function
+just use the transfer len as it is. This may result in error if expected
+data_len != transfer_len.
+
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+[logang at deltatee.com:
+   * added definition of VUC to the commit message and comment
+   * use nvmet_req_passthru_ctrl() helper seeing we can't dereference
+     subsys->passthru_ctrl if CONFIG_NVME_TARGET_PASSTHRU is not set]
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 ---
- drivers/nvme/target/core.c            |  8 +++
- drivers/nvme/target/io-cmd-passthru.c | 77 +++++++++++++++++++++++++++
- drivers/nvme/target/nvmet.h           | 10 ++++
- 3 files changed, 95 insertions(+)
+ drivers/nvme/target/core.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 50c01b2da568..2e75968af7f4 100644
+index c655f26db3da..1cda94437fbf 100644
 --- a/drivers/nvme/target/core.c
 +++ b/drivers/nvme/target/core.c
-@@ -519,6 +519,12 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
+@@ -941,7 +941,16 @@ EXPORT_SYMBOL_GPL(nvmet_req_uninit);
  
- 	mutex_lock(&subsys->lock);
- 	ret = 0;
-+
-+	if (nvmet_passthru_ctrl(subsys)) {
-+		pr_info("cannot enable both passthru and regular namespaces for a single subsystem");
-+		goto out_unlock;
-+	}
-+
- 	if (ns->enabled)
- 		goto out_unlock;
- 
-@@ -1439,6 +1445,8 @@ static void nvmet_subsys_free(struct kref *ref)
- 
- 	WARN_ON_ONCE(!list_empty(&subsys->namespaces));
- 
-+	nvmet_passthru_subsys_free(subsys);
-+
- 	kfree(subsys->subsysnqn);
- 	kfree(subsys);
- }
-diff --git a/drivers/nvme/target/io-cmd-passthru.c b/drivers/nvme/target/io-cmd-passthru.c
-index 46c58fec5608..b199785500ad 100644
---- a/drivers/nvme/target/io-cmd-passthru.c
-+++ b/drivers/nvme/target/io-cmd-passthru.c
-@@ -11,6 +11,11 @@
- #include "../host/nvme.h"
- #include "nvmet.h"
- 
-+/*
-+ * xarray to maintain one passthru subsystem per nvme controller.
-+ */
-+static DEFINE_XARRAY(passthru_subsystems);
-+
- static struct workqueue_struct *passthru_wq;
- 
- int nvmet_passthru_init(void)
-@@ -27,6 +32,78 @@ void nvmet_passthru_destroy(void)
- 	destroy_workqueue(passthru_wq);
- }
- 
-+int nvmet_passthru_ctrl_enable(struct nvmet_subsys *subsys)
-+{
-+	struct nvme_ctrl *ctrl;
-+	int ret = -EINVAL;
-+	void *old;
-+
-+	mutex_lock(&subsys->lock);
-+	if (!subsys->passthru_ctrl_path)
-+		goto out_unlock;
-+	if (subsys->passthru_ctrl)
-+		goto out_unlock;
-+
-+	if (subsys->nr_namespaces) {
-+		pr_info("cannot enable both passthru and regular namespaces for a single subsystem");
-+		goto out_unlock;
-+	}
-+
-+	ctrl = nvme_ctrl_get_by_path(subsys->passthru_ctrl_path);
-+	if (IS_ERR(ctrl)) {
-+		ret = PTR_ERR(ctrl);
-+		pr_err("failed to open nvme controller %s\n",
-+		       subsys->passthru_ctrl_path);
-+
-+		goto out_unlock;
-+	}
-+
-+	old = xa_cmpxchg(&passthru_subsystems, ctrl->cntlid, NULL,
-+			 subsys, GFP_KERNEL);
-+	if (xa_is_err(old)) {
-+		ret = xa_err(old);
-+		goto out_put_ctrl;
-+	}
-+
-+	if (old)
-+		goto out_put_ctrl;
-+
-+	subsys->passthru_ctrl = ctrl;
-+	ret = 0;
-+
-+	goto out_unlock;
-+
-+out_put_ctrl:
-+	nvme_put_ctrl(ctrl);
-+out_unlock:
-+	mutex_unlock(&subsys->lock);
-+	return ret;
-+}
-+
-+static void __nvmet_passthru_ctrl_disable(struct nvmet_subsys *subsys)
-+{
-+	if (subsys->passthru_ctrl) {
-+		xa_erase(&passthru_subsystems, subsys->passthru_ctrl->cntlid);
-+		nvme_put_ctrl(subsys->passthru_ctrl);
-+	}
-+	subsys->passthru_ctrl = NULL;
-+}
-+
-+void nvmet_passthru_ctrl_disable(struct nvmet_subsys *subsys)
-+{
-+	mutex_lock(&subsys->lock);
-+	__nvmet_passthru_ctrl_disable(subsys);
-+	mutex_unlock(&subsys->lock);
-+}
-+
-+void nvmet_passthru_subsys_free(struct nvmet_subsys *subsys)
-+{
-+	mutex_lock(&subsys->lock);
-+	__nvmet_passthru_ctrl_disable(subsys);
-+	kfree(subsys->passthru_ctrl_path);
-+	mutex_unlock(&subsys->lock);
-+}
-+
- static void nvmet_passthru_req_complete(struct nvmet_req *req,
- 		struct request *rq, u16 status)
+ void nvmet_req_execute(struct nvmet_req *req)
  {
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index bd11114ebbb9..aff4db03269d 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -230,6 +230,7 @@ struct nvmet_subsys {
- 
- #ifdef CONFIG_NVME_TARGET_PASSTHRU
- 	struct nvme_ctrl	*passthru_ctrl;
-+	char			*passthru_ctrl_path;
- #endif /* CONFIG_NVME_TARGET_PASSTHRU */
- };
- 
-@@ -509,6 +510,9 @@ static inline u32 nvmet_rw_len(struct nvmet_req *req)
- 
- int nvmet_passthru_init(void);
- void nvmet_passthru_destroy(void);
-+void nvmet_passthru_subsys_free(struct nvmet_subsys *subsys);
-+int nvmet_passthru_ctrl_enable(struct nvmet_subsys *subsys);
-+void nvmet_passthru_ctrl_disable(struct nvmet_subsys *subsys);
- u16 nvmet_parse_passthru_cmd(struct nvmet_req *req);
- 
- static inline
-@@ -526,6 +530,12 @@ static inline int nvmet_passthru_init(void)
- static inline void nvmet_passthru_destroy(void)
- {
- }
-+static inline void nvmet_passthru_subsys_free(struct nvmet_subsys *subsys)
-+{
-+}
-+static inline void nvmet_passthru_ctrl_disable(struct nvmet_subsys *subsys)
-+{
-+}
- static inline u16 nvmet_parse_passthru_cmd(struct nvmet_req *req)
- {
- 	return 0;
+-	if (unlikely(req->data_len != req->transfer_len)) {
++	/*
++	 * data_len is calculated before the transfer len after we parse
++	 * the command, With passthru interface we allow VUC (Vendor-Unique
++	 * Commands)'s. In order to make the code simple and compact,
++	 * instead of assinging the dala len for each VUC in the command
++	 * parse function just use the transfer len as it is. This may
++	 * result in error if expected data_len != transfer_len.
++	 */
++	if (!(req->sq->ctrl && nvmet_req_passthru_ctrl(req)) &&
++	    unlikely(req->data_len != req->transfer_len)) {
+ 		req->error_loc = offsetof(struct nvme_common_command, dptr);
+ 		nvmet_req_complete(req, NVME_SC_SGL_INVALID_DATA | NVME_SC_DNR);
+ 	} else
 -- 
 2.20.1
