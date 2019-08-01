@@ -1,122 +1,97 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Thu,  1 Aug 2019 16:13:42 -0700
-Subject: [PATCH v3 04/10] nvme-cli: Refactor to create a get_nvme_ctrl_info
- routine
+Date: Thu,  1 Aug 2019 16:13:40 -0700
+Subject: [PATCH v3 02/10] nvme-cli: support persistent connections to a
+ discovery controller
 In-Reply-To: <20190801231348.21397-1-jsmart2021@gmail.com>
 References: <20190801231348.21397-1-jsmart2021@gmail.com>
-Message-ID: <20190801231348.21397-5-jsmart2021@gmail.com>
+Message-ID: <20190801231348.21397-3-jsmart2021@gmail.com>
 
-In preparation for searching controllers to match with connect args:
+From: Sagi Grimberg <sagi@grimberg.me>
 
-Refactor the get_nvme_subsystem_info() routine to take the portion
-that creates a ctrl_list_item and sets its values and put it in a
-separate get_nvme_ctrl_info() routine.
+Simply don't destroy the discovery controller after getting the
+log pages. Note that persistent connection to a discovery subsystem
+require to pass in a non-zero kato value, so if not provided we
+simply use a default of 30 seconds kato.
 
-Signed-off-by: James Smart <jsmart2021 at gmail.com>
+Example:
+  nvme connect-all ... --persistent
+
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+Reviewed-by: James Smart <jsmart2021 at gmail.com>
 Reviewed-by: Hannes Reinecke <hare at suse.com>
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+Reviewed-by: Minwoo Im <minwoo.im.dev at gmail.com>
 ---
- nvme.c | 77 ++++++++++++++++++++++++++++++++++++++----------------------------
- 1 file changed, 45 insertions(+), 32 deletions(-)
+ fabrics.c | 15 ++++++++++++---
+ fabrics.h |  2 ++
+ 2 files changed, 14 insertions(+), 3 deletions(-)
 
-diff --git a/nvme.c b/nvme.c
-index cfe3844..a5c2961 100644
---- a/nvme.c
-+++ b/nvme.c
-@@ -1544,10 +1544,50 @@ static void free_ctrl_list_item(struct ctrl_list_item *ctrls)
- 	free(ctrls->ana_state);
- }
+diff --git a/fabrics.c b/fabrics.c
+index 5757aaf..75dedf8 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -66,6 +66,7 @@ static struct config {
+ 	int  disable_sqflow;
+ 	int  hdr_digest;
+ 	int  data_digest;
++	bool persistent;
+ } cfg = { NULL };
  
-+static int get_nvme_ctrl_info(char *name, char *path,
-+			struct ctrl_list_item *ctrl, __u32 nsid)
-+{
-+	char ctrl_path[512];
-+
-+	ctrl->name = strdup(name);
-+
-+	snprintf(ctrl_path, sizeof(ctrl_path), "%s/%s", path, ctrl->name);
-+
-+	ctrl->address = get_nvme_ctrl_attr(ctrl_path, "address");
-+	if (!ctrl->address) {
-+		fprintf(stderr, "%s: failed to get controller address.\n",
-+			ctrl->name);
-+		goto free_ctrl_items;
+ #define BUF_SIZE		4096
+@@ -872,9 +873,11 @@ static int do_discover(char *argstr, bool connect)
+ 		return -errno;
+ 	ret = nvmf_get_log_page_discovery(dev_name, &log, &numrec, &status);
+ 	free(dev_name);
+-	err = remove_ctrl(instance);
+-	if (err)
+-		return err;
++	if (!cfg.persistent) {
++		err = remove_ctrl(instance);
++		if (err)
++			return err;
 +	}
-+
-+	ctrl->transport = get_nvme_ctrl_attr(ctrl_path, "transport");
-+	if (!ctrl->transport) {
-+		fprintf(stderr, "%s: failed to get controller transport.\n",
-+			ctrl->name);
-+		goto free_ctrl_items;
-+	}
-+
-+	ctrl->state = get_nvme_ctrl_attr(ctrl_path, "state");
-+	if (!ctrl->state) {
-+		fprintf(stderr, "%s: failed to get controller state.\n",
-+			ctrl->name);
-+		goto free_ctrl_items;
-+	}
-+
-+	if (nsid != NVME_NSID_ALL)
-+		ctrl->ana_state = get_nvme_ctrl_path_ana_state(ctrl_path, nsid);
-+
-+	return 0;	/* success */
-+
-+free_ctrl_items:
-+	free_ctrl_list_item(ctrl);
-+
-+	return 1;	/* failure */
-+}
-+
- static int get_nvme_subsystem_info(char *name, char *path,
- 				struct subsys_list_item *item, __u32 nsid)
- {
--	char ctrl_path[512];
- 	struct dirent **ctrls;
- 	int n, i, ret = 1, ccnt = 0;
  
-@@ -1574,38 +1614,11 @@ static int get_nvme_subsystem_info(char *name, char *path,
- 	item->nctrls = n;
+ 	switch (ret) {
+ 	case DISC_OK:
+@@ -957,6 +960,9 @@ static int discover_from_conf_file(const char *desc, char *argstr,
+ 		if (err)
+ 			continue;
  
- 	for (i = 0; i < n; i++) {
--		item->ctrls[ccnt].name = strdup(ctrls[i]->d_name);
--
--		snprintf(ctrl_path, sizeof(ctrl_path), "%s/%s", path,
--			 item->ctrls[ccnt].name);
--
--		item->ctrls[ccnt].address =
--				get_nvme_ctrl_attr(ctrl_path, "address");
--		if (!item->ctrls[ccnt].address) {
--			fprintf(stderr, "failed to get controller[%d] address.\n", i);
--			free_ctrl_list_item(&item->ctrls[ccnt]);
--			continue;
-+		if (get_nvme_ctrl_info(ctrls[i]->d_name, path,
-+				&item->ctrls[ccnt], nsid)) {
-+			fprintf(stderr, "failed to get controller[%d] info.\n",
-+					i);
- 		}
--
--		item->ctrls[ccnt].transport =
--				get_nvme_ctrl_attr(ctrl_path, "transport");
--		if (!item->ctrls[ccnt].transport) {
--			fprintf(stderr, "failed to get controller[%d] transport.\n", i);
--			free_ctrl_list_item(&item->ctrls[ccnt]);
--			continue;
--		}
--
--		item->ctrls[ccnt].state =
--				get_nvme_ctrl_attr(ctrl_path, "state");
--		if (!item->ctrls[ccnt].state) {
--			fprintf(stderr, "failed to get controller[%d] state.\n", i);
--			free_ctrl_list_item(&item->ctrls[ccnt]);
--			continue;
--		}
--
--		if (nsid != NVME_NSID_ALL)
--			item->ctrls[ccnt].ana_state =
--				get_nvme_ctrl_path_ana_state(ctrl_path, nsid);
- 		ccnt++;
- 	}
++		if (cfg.persistent && !cfg.keep_alive_tmo)
++			cfg.keep_alive_tmo = NVMF_DEF_DISC_TMO;
++
+ 		err = build_options(argstr, BUF_SIZE);
+ 		if (err) {
+ 			ret = err;
+@@ -999,6 +1005,7 @@ int discover(const char *desc, int argc, char **argv, bool connect)
+ 		{"nr-write-queues", 'W', "LIST", CFG_INT, &cfg.nr_write_queues,    required_argument, "number of write queues to use (default 0)" },
+ 		{"nr-poll-queues",  'P', "LIST", CFG_INT, &cfg.nr_poll_queues,    required_argument, "number of poll queues to use (default 0)" },
+ 		{"queue-size",      'Q', "LIST", CFG_INT, &cfg.queue_size,      required_argument, "number of io queue elements to use (default 128)" },
++		{"persistent",  'p', "LIST", CFG_NONE, &cfg.persistent,  no_argument, "persistent discovery connection" },
+ 		{NULL},
+ 	};
  
+@@ -1013,6 +1020,8 @@ int discover(const char *desc, int argc, char **argv, bool connect)
+ 		ret = discover_from_conf_file(desc, argstr,
+ 				command_line_options, connect);
+ 	} else {
++		if (cfg.persistent && !cfg.keep_alive_tmo)
++			cfg.keep_alive_tmo = NVMF_DEF_DISC_TMO;
+ 		ret = build_options(argstr, BUF_SIZE);
+ 		if (ret)
+ 			goto out;
+diff --git a/fabrics.h b/fabrics.h
+index 988f3ef..7c1664b 100644
+--- a/fabrics.h
++++ b/fabrics.h
+@@ -1,6 +1,8 @@
+ #ifndef _DISCOVER_H
+ #define _DISCOVER_H
+ 
++#define NVMF_DEF_DISC_TMO	30
++
+ extern int discover(const char *desc, int argc, char **argv, bool connect);
+ extern int connect(const char *desc, int argc, char **argv);
+ extern int disconnect(const char *desc, int argc, char **argv);
 -- 
 2.13.7
