@@ -1,21 +1,31 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 1 Aug 2019 11:42:39 -0700
-Subject: [PATCH 2/2] nvme: do not remove namespaces during reset
-In-Reply-To: <20190801071644.66690-3-hare@suse.de>
-References: <20190801071644.66690-1-hare@suse.de>
- <20190801071644.66690-3-hare@suse.de>
-Message-ID: <133a8679-0949-98ea-ed29-51be0fd2ebc3@grimberg.me>
+Date: Thu, 1 Aug 2019 11:46:34 -0700
+Subject: [PATCH rfc 2/2] nvme: fix possible use-after-free condition when
+ controller reset is racing namespace scanning
+In-Reply-To: <b6b929e7-3da5-f274-f7c8-4e98f8585917@suse.de>
+References: <20190729233201.27993-1-sagi@grimberg.me>
+ <20190729233201.27993-3-sagi@grimberg.me>
+ <e3b0f11f-a66f-9b1a-6790-89efcaa33140@suse.de>
+ <fb6c9d38-32f6-a659-f3b9-1c57f28b410d@grimberg.me>
+ <b6b929e7-3da5-f274-f7c8-4e98f8585917@suse.de>
+Message-ID: <97583db4-8ff5-9d13-bbc8-d133bbc3f28d@grimberg.me>
 
 
-> Whenever the controller is resetting or connecting we cannot make
-> any decisions about the attached namespaces, and consequently we
-> shouldn't remove them. So skip namespace removal during reset;
-> a scan will be triggered anyway after reconnecting which will
-> clean up any stale namespaces.
+>> nvme_stop/start_queue are quiescing the queue, not freezing it which
+>> does not block requests in blk_queue_enter.
+>> So I don't think that blk_cleanup_queue will hang for unquiesced queues.
+> 
+> My worry here is for quiesced queues; they are not unquiesced when
+> blk_clean_queue() is running. So I'm not sure if we're able to flush all
+> commands then.
 
-I personally dislike making nvme_ns_remove() to semantically
-mean nvme_ns_maybe_remove()..
+blk_cleanup_queue does not block on quiesced queues, it blocks on frozen
+queues.
 
-Is there a fundamental why this check is not performed in the
-call-site and is inside nvme_ns_remove()? Are there other
-calls that you have seen to be problematic? if so which? and how?
+> But be it as it may, I've sent a patchset for checking the NS_REMOVING
+> flag when traversing the namespace list. That should take care of this
+> issue, and should render this patch obsolete.
+
+I've shared feedback on that one, I need to understand what is the
+crash that you are talking about.. and why not promoting the list
+removal in nvme_ns_remove() doesn't address it.
