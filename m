@@ -1,88 +1,83 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Thu,  1 Aug 2019 16:13:45 -0700
-Subject: [PATCH v3 07/10] nvme-cli: Add routine to search for controller with
- specific attributes
+Date: Thu,  1 Aug 2019 16:13:47 -0700
+Subject: [PATCH v3 09/10] nvme-cli: add --quiet option
 In-Reply-To: <20190801231348.21397-1-jsmart2021@gmail.com>
 References: <20190801231348.21397-1-jsmart2021@gmail.com>
-Message-ID: <20190801231348.21397-8-jsmart2021@gmail.com>
+Message-ID: <20190801231348.21397-10-jsmart2021@gmail.com>
 
-In preparation for searching controllers to match with connect args:
+From: Sagi Grimberg <sagi@grimberg.me>
 
-Create a new routine find_ctrl_with_connectargs() that will search the
-controllers that exist in the system to find one that has attributes
-that match the connect arguments specified.  If found, the routine
-returns the controller name ("nvme?"). If not found, a NULL is returned.
+Now we are going to have discovery log change events, so
+instead of trying to figure out which NVM subsystem ports
+are already connected, we let the driver do that and
+only suppress the failure messages.
 
-Routine is defined as a global as a subsequent patch will use it
-from the fabrics routines.
+Example:
+  nvme connect-all ... --quiet
 
-Signed-off-by: James Smart <jsmart2021 at gmail.com>
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+This option will be used by the discovery log change corresponding
+udev rule.
+
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+Reviewed-by: James Smart <jsmart2021 at gmail.com>
 Reviewed-by: Hannes Reinecke <hare at suse.com>
+Reviewed-by: Minwoo Im <minwoo.im.dev at gmail.com>
 ---
- nvme.c | 37 +++++++++++++++++++++++++++++++++++++
- nvme.h |  1 +
- 2 files changed, 38 insertions(+)
+ fabrics.c | 21 ++++++++++++++-------
+ 1 file changed, 14 insertions(+), 7 deletions(-)
 
-diff --git a/nvme.c b/nvme.c
-index 875b2c8..bbf1a2c 100644
---- a/nvme.c
-+++ b/nvme.c
-@@ -2048,6 +2048,43 @@ cleanup_exit:
- 	return found;
- }
+diff --git a/fabrics.c b/fabrics.c
+index 9a7f832..fd5a742 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -67,6 +67,7 @@ static struct config {
+ 	int  hdr_digest;
+ 	int  data_digest;
+ 	bool persistent;
++	bool quiet;
+ } cfg = { NULL };
  
-+/*
-+ * Look through the system to find an existing controller whose
-+ * attributes match the connect arguments specified
-+ * If found, a string containing the controller name (ex: "nvme?")
-+ * is returned.
-+ * If not found, a NULL is returned.
-+ */
-+char *find_ctrl_with_connectargs(struct connect_args *args)
-+{
-+	struct dirent **devices;
-+	char *devname = NULL;
-+	int i, n;
-+
-+	n = scandir(SYS_NVME, &devices, scan_ctrls_filter, alphasort);
-+	if (n < 0) {
-+		fprintf(stderr, "no NVMe controller(s) detected.\n");
-+		return NULL;
-+	}
-+
-+	for (i = 0; i < n; i++) {
-+		if (ctrl_matches_connectargs(devices[i]->d_name, args)) {
-+			devname = strdup(devices[i]->d_name);
-+			if (devname == NULL)
-+				fprintf(stderr, "no memory for ctrl name %s\n",
-+						devices[i]->d_name);
-+			goto cleanup_devices;
-+		}
-+	}
-+
-+cleanup_devices:
-+	for (i = 0; i < n; i++)
-+		free(devices[i]);
-+	free(devices);
-+
-+	return devname;
-+}
-+
- int __id_ctrl(int argc, char **argv, struct command *cmd, struct plugin *plugin, void (*vs)(__u8 *vs, struct json_object *root))
- {
- 	const char *desc = "Send an Identify Controller command to "\
-diff --git a/nvme.h b/nvme.h
-index 2fecb68..b91a22c 100644
---- a/nvme.h
-+++ b/nvme.h
-@@ -190,6 +190,7 @@ struct connect_args {
- #define SYS_NVME		"/sys/class/nvme"
+ #define BUF_SIZE		4096
+@@ -218,9 +219,11 @@ static int add_ctrl(const char *argstr)
+ 		goto out;
+ 	}
  
- bool ctrl_matches_connectargs(char *name, struct connect_args *args);
-+char *find_ctrl_with_connectargs(struct connect_args *args);
- char *__parse_connect_arg(char *conargs, const char delim, const char *fieldnm);
+-	if (write(fd, argstr, len) != len) {
+-		fprintf(stderr, "Failed to write to %s: %s\n",
+-			 PATH_NVME_FABRICS, strerror(errno));
++	ret = write(fd, argstr, len);
++	if (ret != len) {
++		if (errno != EALREADY || !cfg.quiet)
++			fprintf(stderr, "Failed to write to %s: %s\n",
++				 PATH_NVME_FABRICS, strerror(errno));
+ 		ret = -errno;
+ 		goto out_close;
+ 	}
+@@ -854,10 +857,13 @@ static int connect_ctrls(struct nvmf_disc_rsp_page_hdr *log, int numrec)
+ 		/* already connected print message	*/
+ 		if (instance == -EALREADY) {
+ 			const char *traddr = log->entries[i].traddr;
+-			fprintf(stderr,
+-				"traddr=%.*s is already connected\n",
+-				space_strip_len(NVMF_TRADDR_SIZE, traddr),
+-				traddr);
++
++			if (!cfg.quiet)
++				fprintf(stderr,
++					"traddr=%.*s is already connected\n",
++					space_strip_len(NVMF_TRADDR_SIZE,
++							traddr),
++					traddr);
+ 			continue;
+ 		}
  
- extern const char *conarg_traddr;
+@@ -1062,6 +1068,7 @@ int discover(const char *desc, int argc, char **argv, bool connect)
+ 		{"nr-poll-queues",  'P', "LIST", CFG_INT, &cfg.nr_poll_queues,    required_argument, "number of poll queues to use (default 0)" },
+ 		{"queue-size",      'Q', "LIST", CFG_INT, &cfg.queue_size,      required_argument, "number of io queue elements to use (default 128)" },
+ 		{"persistent",  'p', "LIST", CFG_NONE, &cfg.persistent,  no_argument, "persistent discovery connection" },
++		{"quiet",       'Q', "LIST", CFG_NONE, &cfg.quiet,  no_argument, "suppress already connected errors" },
+ 		{NULL},
+ 	};
+ 
 -- 
 2.13.7
