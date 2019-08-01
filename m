@@ -1,69 +1,57 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Thu, 1 Aug 2019 09:24:53 +0200
-Subject: [PATCH rfc 2/2] nvme: fix possible use-after-free condition when
- controller reset is racing namespace scanning
-In-Reply-To: <fb6c9d38-32f6-a659-f3b9-1c57f28b410d@grimberg.me>
-References: <20190729233201.27993-1-sagi@grimberg.me>
- <20190729233201.27993-3-sagi@grimberg.me>
- <e3b0f11f-a66f-9b1a-6790-89efcaa33140@suse.de>
- <fb6c9d38-32f6-a659-f3b9-1c57f28b410d@grimberg.me>
-Message-ID: <b6b929e7-3da5-f274-f7c8-4e98f8585917@suse.de>
+From: kai.heng.feng@canonical.com (Kai-Heng Feng)
+Date: Thu, 1 Aug 2019 17:05:54 +0800
+Subject: [Regression] Commit "nvme/pci: Use host managed power state for
+ suspend" has problems
+In-Reply-To: <CAJZ5v0hxYGBXau39sb80MQ8jbZZCzH0JU2DYZvn9JOtYT2+30g@mail.gmail.com>
+References: <4323ed84dd07474eab65699b4d007aaf@AUSX13MPC105.AMER.DELL.COM>
+ <CAJZ5v0iDQ4=kTUgW94tKGt7oJzA_3uVU_M6HAMbNCRXwp_do8A@mail.gmail.com>
+ <47415939.KV5G6iaeJG@kreacher> <20190730144134.GA12844@localhost.localdomain>
+ <100ba4aff1c6434a81e47774ab4acddc@AUSX13MPC105.AMER.DELL.COM>
+ <8246360B-F7D9-42EB-94FC-82995A769E28@canonical.com>
+ <20190730191934.GD13948@localhost.localdomain>
+ <7d3e0b8ba1444194a153c93faa1cabb3@AUSX13MPC105.AMER.DELL.COM>
+ <20190730213114.GK13948@localhost.localdomain>
+ <CAJZ5v0gxfeMN8eCNRjcXmUOkReVsdozb3EccaYMpnmSHu3771g@mail.gmail.com>
+ <20190731221956.GB15795@localhost.localdomain>
+ <CAJZ5v0hxYGBXau39sb80MQ8jbZZCzH0JU2DYZvn9JOtYT2+30g@mail.gmail.com>
+Message-ID: <70D536BE-8DC7-4CA2-84A9-AFB067BA520E@canonical.com>
 
-On 7/31/19 8:21 PM, Sagi Grimberg wrote:
-> 
->>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->>> index 5f6970e7ba73..9f8f8f5feeae 100644
->>> --- a/drivers/nvme/host/core.c
->>> +++ b/drivers/nvme/host/core.c
->>> @@ -3406,6 +3406,11 @@ static void nvme_ns_remove(struct nvme_ns *ns)
->>> ????? synchronize_rcu(); /* guarantee not available in head->list */
->>> ????? nvme_mpath_clear_current_path(ns);
->>> ????? synchronize_srcu(&ns->head->srcu); /* wait for concurrent
->>> submissions */
->>> +??? nvme_mpath_check_last_path(ns);
->>> +
->>> +??? down_write(&ns->ctrl->namespaces_rwsem);
->>> +??? list_del_init(&ns->list);
->>> +??? up_write(&ns->ctrl->namespaces_rwsem);
->>> ? ????? if (ns->disk && ns->disk->flags & GENHD_FL_UP) {
->>> ????????? del_gendisk(ns->disk);
->>> @@ -3414,11 +3419,6 @@ static void nvme_ns_remove(struct nvme_ns *ns)
->>> ????????????? blk_integrity_unregister(ns->disk);
->>> ????? }
->>> ? -??? down_write(&ns->ctrl->namespaces_rwsem);
->>> -??? list_del_init(&ns->list);
->>> -??? up_write(&ns->ctrl->namespaces_rwsem);
->>> -
->>> -??? nvme_mpath_check_last_path(ns);
->>> ????? nvme_put_ns(ns);
->>> ? }
->>> ?
->> How does this one play with nvme_stop_queues()/nvme_start_queues() we're
->> doing during reset?
->> IE what happens if this is called after nvme_stop_queues(), but before
->> nvme_start_queues()?
->> We'll end up having a stopped queue when deleting the disk; from what
->> I've seen blk_cleanup_queue() will just freeze the queue and wait for
->> I/O to complete, which it'll never will as the queue is stopped ...
-> 
-> nvme_stop/start_queue are quiescing the queue, not freezing it which
-> does not block requests in blk_queue_enter.
-> So I don't think that blk_cleanup_queue will hang for unquiesced queues.
+at 06:33, Rafael J. Wysocki <rafael@kernel.org> wrote:
 
-My worry here is for quiesced queues; they are not unquiesced when
-blk_clean_queue() is running. So I'm not sure if we're able to flush all
-commands then.
+> On Thu, Aug 1, 2019@12:22 AM Keith Busch <kbusch@kernel.org> wrote:
+>> On Wed, Jul 31, 2019@11:25:51PM +0200, Rafael J. Wysocki wrote:
+>>> A couple of remarks if you will.
+>>>
+>>> First, we don't know which case is the majority at this point.  For
+>>> now, there is one example of each, but it may very well turn out that
+>>> the SK Hynix BC501 above needs to be quirked.
+>>>
+>>> Second, the reference here really is 5.2, so if there are any systems
+>>> that are not better off with 5.3-rc than they were with 5.2, well, we
+>>> have not made progress.  However, if there are systems that are worse
+>>> off with 5.3, that's bad.  In the face of the latest findings the only
+>>> way to avoid that is to be backwards compatible with 5.2 and that's
+>>> where my patch is going.  That cannot be achieved by quirking all
+>>> cases that are reported as "bad", because there still may be
+>>> unreported ones.
+>>
+>> I have to agree. I think your proposal may allow PCI D3cold,
+>
+> Yes, it may.
 
-But be it as it may, I've sent a patchset for checking the NS_REMOVING
-flag when traversing the namespace list. That should take care of this
-issue, and should render this patch obsolete.
+Somehow the 9380 with Toshiba NVMe never hits SLP_S0 with or without  
+Rafael?s patch.
+But the ?real? s2idle power consumption does improve with the patch.
 
-Cheers,
+Can we use a DMI based quirk for this platform? It seems like a platform  
+specific issue.
 
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N?rnberg)
+>
+>> In which case we do need to reintroduce the HMB handling.
+>
+> Right.
+
+The patch alone doesn?t break HMB Toshiba NVMe I tested. But I think it?s  
+still safer to do proper HMB handling.
+
+Kai-Heng
