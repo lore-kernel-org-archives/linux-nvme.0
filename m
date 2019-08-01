@@ -1,153 +1,114 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Thu,  1 Aug 2019 16:13:43 -0700
-Subject: [PATCH v3 05/10] nvme-cli: extend ctrl_list_item for connect
- attributes
+Date: Thu,  1 Aug 2019 16:13:41 -0700
+Subject: [PATCH v3 03/10] nvme-cli: allow discover to address discovery
+ controller by persistent name
 In-Reply-To: <20190801231348.21397-1-jsmart2021@gmail.com>
 References: <20190801231348.21397-1-jsmart2021@gmail.com>
-Message-ID: <20190801231348.21397-6-jsmart2021@gmail.com>
+Message-ID: <20190801231348.21397-4-jsmart2021@gmail.com>
 
-In preparation for searching controllers to match with connect args:
+To support discovery (connect/connect-all) to operate against a
+persistent discovery controller, let the discovery controller to
+be specified by its device node name rather than new connection
+attributes.
 
-Extend the ctrl_list_item with elements that can be compared against
-connect arguments. Extend the get_nvme_ctrl_info() routine to set
-the fields.
+Example:
+  nvme connect-all ... --device=nvme5
 
-subsysnqn was added as the ctrl_list_item may now be used outside of
-a subsystem listing.
-
-traddr, trsvid, and host_traddr are added. Their values come from
-the address attribute.  A new parsing routine was added that extracts
-the values from the address string.
-
-The new parsing routine and supporting field names strings are
-declared as a global interface as a subsequent patch will call it
-from the fabrics routines.
+Also centralize extraction of controller instance from the controller
+name to a common helper.
 
 Signed-off-by: James Smart <jsmart2021 at gmail.com>
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+Reviewed-by: Minwoo Im <minwoo.im.dev at gmail.com>
 Reviewed-by: Hannes Reinecke <hare at suse.com>
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- nvme.c | 72 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- nvme.h | 10 ++++++++++
- 2 files changed, 82 insertions(+)
+ fabrics.c | 37 +++++++++++++++++++++++++++----------
+ 1 file changed, 27 insertions(+), 10 deletions(-)
 
-diff --git a/nvme.c b/nvme.c
-index a5c2961..b93d9da 100644
---- a/nvme.c
-+++ b/nvme.c
-@@ -1542,6 +1542,64 @@ static void free_ctrl_list_item(struct ctrl_list_item *ctrls)
- 	free(ctrls->address);
- 	free(ctrls->state);
- 	free(ctrls->ana_state);
-+	free(ctrls->subsysnqn);
-+	free(ctrls->traddr);
-+	free(ctrls->trsvcid);
-+	free(ctrls->host_traddr);
+diff --git a/fabrics.c b/fabrics.c
+index 75dedf8..d92c2ff 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -190,6 +190,21 @@ static const char *cms_str(__u8 cm)
+ 
+ static int do_discover(char *argstr, bool connect);
+ 
++static int ctrl_instance(char *device)
++{
++	char d[64];
++	int ret, instance;
++
++	device = basename(device);
++	ret = sscanf(device, "nvme%d", &instance);
++	if (ret <= 0)
++		return -EINVAL;
++	if (snprintf(d, sizeof(d), "nvme%d", instance) <= 0 ||
++	    strcmp(device, d))
++		return -EINVAL;
++	return instance;
 +}
 +
-+static const char delim_space  = ' ';
-+const char *conarg_traddr = "traddr";
-+const char *conarg_trsvcid = "trsvcid";
-+const char *conarg_host_traddr = "host_traddr";
-+
-+/*
-+ * parse strings with connect arguments to find a particular field.
-+ * If field found, return string containing field value. If field
-+ * not found, return an empty string.
-+ */
-+char *__parse_connect_arg(char *conargs, const char delim, const char *fieldnm)
-+{
-+	char *s, *e;
-+	size_t cnt;
-+
-+	/*
-+	 * There are field name overlaps: traddr and host_traddr.
-+	 * By chance, both connect arg strings are set up to
-+	 * have traddr field followed by host_traddr field. Thus field
-+	 * name matching doesn't overlap in the searches. Technically,
-+	 * as is, the loop and delimiter checking isn't necessary.
-+	 * However, better to be prepared.
-+	 */
-+	do {
-+		s = strstr(conargs, fieldnm);
-+		if (!s)
-+			goto empty_field;
-+		/* validate prior character is delimiter */
-+		if (s == conargs || *(s - 1) == delim) {
-+			/* match requires next character to be assignment */
-+			s += strlen(fieldnm);
-+			if (*s == '=')
-+				/* match */
-+				break;
-+		}
-+		/* field overlap: seek to delimiter and keep looking */
-+		conargs = strchr(s, delim);
-+		if (!conargs)
-+			goto empty_field;
-+		conargs++;	/* skip delimiter */
-+	} while (1);
-+	s++;		/* skip assignment character */
-+	e = strchr(s, delim);
-+	if (e)
-+		cnt = e - s;
+ static int add_ctrl(const char *argstr)
+ {
+ 	substring_t args[MAX_OPT_ARGS];
+@@ -865,7 +880,10 @@ static int do_discover(char *argstr, bool connect)
+ 	int instance, numrec = 0, ret, err;
+ 	int status = 0;
+ 
+-	instance = add_ctrl(argstr);
++	if (!cfg.device)
++		instance = add_ctrl(argstr);
 +	else
-+		cnt = strlen(s);
++		instance = ctrl_instance(cfg.device);
+ 	if (instance < 0)
+ 		return instance;
+ 
+@@ -873,7 +891,7 @@ static int do_discover(char *argstr, bool connect)
+ 		return -errno;
+ 	ret = nvmf_get_log_page_discovery(dev_name, &log, &numrec, &status);
+ 	free(dev_name);
+-	if (!cfg.persistent) {
++	if (!cfg.device && !cfg.persistent) {
+ 		err = remove_ctrl(instance);
+ 		if (err)
+ 			return err;
+@@ -996,6 +1014,7 @@ int discover(const char *desc, int argc, char **argv, bool connect)
+ 		{"hostnqn",     'q', "LIST", CFG_STRING, &cfg.hostnqn,     required_argument, "user-defined hostnqn (if default not used)" },
+ 		{"hostid",      'I', "LIST", CFG_STRING, &cfg.hostid,      required_argument, "user-defined hostid (if default not used)"},
+ 		{"raw",         'r', "LIST", CFG_STRING, &cfg.raw,         required_argument, "raw output file" },
++		{"device",      'd', "LIST", CFG_STRING, &cfg.device, required_argument, "use existing discovery controller device" },
+ 		{"keep-alive-tmo",  'k', "LIST", CFG_INT, &cfg.keep_alive_tmo,  required_argument, "keep alive timeout period in seconds" },
+ 		{"reconnect-delay", 'c', "LIST", CFG_INT, &cfg.reconnect_delay, required_argument, "reconnect timeout period in seconds" },
+ 		{"ctrl-loss-tmo",   'l', "LIST", CFG_INT, &cfg.ctrl_loss_tmo,   required_argument, "controller loss timeout period in seconds" },
+@@ -1014,6 +1033,9 @@ int discover(const char *desc, int argc, char **argv, bool connect)
+ 	if (ret)
+ 		goto out;
+ 
++	if (cfg.device && !strcmp(cfg.device, "none"))
++		cfg.device = NULL;
 +
-+	return strndup(s, cnt);
-+
-+empty_field:
-+	return strdup("\0");
+ 	cfg.nqn = NVME_DISC_SUBSYS_NAME;
+ 
+ 	if (!cfg.transport && !cfg.traddr) {
+@@ -1157,15 +1179,10 @@ static int disconnect_by_nqn(char *nqn)
+ static int disconnect_by_device(char *device)
+ {
+ 	int instance;
+-	int ret;
+-
+-	device = basename(device);
+-	ret = sscanf(device, "nvme%d", &instance);
+-	if (ret < 0)
+-		return ret;
+-	if (!ret)
+-		return -1;
+ 
++	instance = ctrl_instance(device);
++	if (instance < 0)
++		return instance;
+ 	return remove_ctrl(instance);
  }
  
- static int get_nvme_ctrl_info(char *name, char *path,
-@@ -1577,6 +1635,20 @@ static int get_nvme_ctrl_info(char *name, char *path,
- 	if (nsid != NVME_NSID_ALL)
- 		ctrl->ana_state = get_nvme_ctrl_path_ana_state(ctrl_path, nsid);
- 
-+	ctrl->subsysnqn = get_nvme_ctrl_attr(ctrl_path, "subsysnqn");
-+	if (!ctrl->subsysnqn) {
-+		fprintf(stderr, "%s: failed to get controller subsysnqn.\n",
-+			ctrl->name);
-+		goto free_ctrl_items;
-+	}
-+
-+	ctrl->traddr = __parse_connect_arg(ctrl->address, delim_space,
-+					conarg_traddr);
-+	ctrl->trsvcid = __parse_connect_arg(ctrl->address, delim_space,
-+					conarg_trsvcid);
-+	ctrl->host_traddr = __parse_connect_arg(ctrl->address, delim_space,
-+					conarg_host_traddr);
-+
- 	return 0;	/* success */
- 
- free_ctrl_items:
-diff --git a/nvme.h b/nvme.h
-index 3409515..470f702 100644
---- a/nvme.h
-+++ b/nvme.h
-@@ -160,6 +160,10 @@ struct ctrl_list_item {
- 	char *transport;
- 	char *state;
- 	char *ana_state;
-+	char *subsysnqn;
-+	char *traddr;
-+	char *trsvcid;
-+	char *host_traddr;
- };
- 
- struct subsys_list_item {
-@@ -175,6 +179,12 @@ enum {
- 	BINARY,
- };
- 
-+char *__parse_connect_arg(char *conargs, const char delim, const char *fieldnm);
-+
-+extern const char *conarg_traddr;
-+extern const char *conarg_trsvcid;
-+extern const char *conarg_host_traddr;
-+
- void register_extension(struct plugin *plugin);
- 
- #include "argconfig.h"
 -- 
 2.13.7
