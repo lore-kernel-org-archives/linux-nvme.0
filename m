@@ -1,51 +1,84 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Tue, 30 Apr 2019 14:58:36 -0700
-Subject: [PATCH v2 1/2] nvme: nvme_set_queue_count should use descriptive
- macros
-In-Reply-To: <20190430200905.28341-2-ednadols@linux.microsoft.com>
-References: <20190430200905.28341-1-ednadols@linux.microsoft.com>
- <20190430200905.28341-2-ednadols@linux.microsoft.com>
-Message-ID: <62780ff5-7484-2e63-7b5e-3ef6eaf0b1a0@broadcom.com>
+From: hare@suse.de (Hannes Reinecke)
+Date: Thu,  1 Aug 2019 09:16:44 +0200
+Subject: [PATCH 2/2] nvme: do not remove namespaces during reset
+In-Reply-To: <20190801071644.66690-1-hare@suse.de>
+References: <20190801071644.66690-1-hare@suse.de>
+Message-ID: <20190801071644.66690-3-hare@suse.de>
 
-On 4/30/2019 1:09 PM, Edmund Nadolski wrote:
-> Implement macros to set/get the number of submission and/or completion
-> queues requested by the Set Features command. This replaces the bit
-> masking/shifting code and reflects the field names used in the spec.
->
-> Signed-off-by: Edmund Nadolski <ednadols at linux.microsoft.com>
-> ---
->   drivers/nvme/host/core.c | 8 ++++++--
->   1 file changed, 6 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 3dd043aa6d1f..b3804dbdcc30 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -1132,9 +1132,13 @@ static int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword
->   	return ret;
->   }
->   
-> +#define SET_NUMQ(nsqr, ncqr)	(((nsqr) - 1) | (((ncqr) - 1) << 16))
-> +#define GET_NSQA(dw)		(((dw) & 0xffff) + 1)
-> +#define GET_NCQA(dw)		(((dw) >> 16) + 1)
-> +
->   int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count)
->   {
-> -	u32 q_count = (*count - 1) | ((*count - 1) << 16);
-> +	u32 q_count = SET_NUMQ(*count, *count);
->   	u32 result;
->   	int status, nr_io_queues;
->   
-> @@ -1152,7 +1156,7 @@ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count)
->   		dev_err(ctrl->device, "Could not set queue count (%d)\n", status);
->   		*count = 0;
->   	} else {
-> -		nr_io_queues = min(result & 0xffff, result >> 16) + 1;
-> +		nr_io_queues = min(GET_NSQA(result), GET_NCQA(result));
->   		*count = min(*count, nr_io_queues);
->   	}
->   
+Whenever the controller is resetting or connecting we cannot make
+any decisions about the attached namespaces, and consequently we
+shouldn't remove them. So skip namespace removal during reset;
+a scan will be triggered anyway after reconnecting which will
+clean up any stale namespaces.
 
-I agree with Christoph. I think it actually hurts understanding.
+Signed-off-by: Hannes Reinecke <hare at suse.com>
+---
+ drivers/nvme/host/core.c | 25 ++++++++++++++++++++++---
+ 1 file changed, 22 insertions(+), 3 deletions(-)
 
--- james
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 177fa4185775..b24cf21f34d0 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3410,7 +3410,7 @@ static int nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 	return ret;
+ }
+ 
+-static void nvme_ns_remove(struct nvme_ns *ns)
++static void __nvme_ns_remove(struct nvme_ns *ns)
+ {
+ 	if (test_and_set_bit(NVME_NS_REMOVING, &ns->flags))
+ 		return;
+@@ -3439,6 +3439,21 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+ 	nvme_put_ns(ns);
+ }
+ 
++static void nvme_ns_remove(struct nvme_ns *ns)
++{
++	/*
++	 * We cannot make any assumptions about namespaces during
++	 * reset; in particular we shouldn't attempt to remove them
++	 * as I/O might still be queued to them.
++	 * So ignore this call during reset and rely on the
++	 * rescan after reset to clean up things again.
++	 */
++	if (ns->ctrl->state == NVME_CTRL_RESETTING ||
++	    ns->ctrl->state == NVME_CTRL_CONNECTING)
++		return;
++	__nvme_ns_remove(ns);
++}
++
+ static void nvme_validate_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ {
+ 	struct nvme_ns *ns;
+@@ -3458,6 +3473,10 @@ static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
+ 	struct nvme_ns *ns, *next;
+ 	LIST_HEAD(rm_list);
+ 
++	if (ctrl->state == NVME_CTRL_RESETTING ||
++	    ctrl->state == NVME_CTRL_CONNECTING)
++		return;
++
+ 	down_write(&ctrl->namespaces_rwsem);
+ 	list_for_each_entry_safe(ns, next, &ctrl->namespaces, list) {
+ 		if (test_bit(NVME_NS_REMOVING, &ns->flags))
+@@ -3468,7 +3487,7 @@ static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
+ 	up_write(&ctrl->namespaces_rwsem);
+ 
+ 	list_for_each_entry_safe(ns, next, &rm_list, list)
+-		nvme_ns_remove(ns);
++		__nvme_ns_remove(ns);
+ 
+ }
+ 
+@@ -3618,7 +3637,7 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
+ 	up_write(&ctrl->namespaces_rwsem);
+ 
+ 	list_for_each_entry_safe(ns, next, &ns_list, list)
+-		nvme_ns_remove(ns);
++		__nvme_ns_remove(ns);
+ }
+ EXPORT_SYMBOL_GPL(nvme_remove_namespaces);
+ 
+-- 
+2.16.4
