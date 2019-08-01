@@ -1,48 +1,34 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu,  1 Aug 2019 17:45:03 -0600
-Subject: [PATCH v7 04/14] nvmet: make nvmet_copy_ns_identifier() non-static
+Date: Thu,  1 Aug 2019 17:45:12 -0600
+Subject: [PATCH v7 13/14] block: call blk_account_io_start() in
+ blk_execute_rq_nowait()
 In-Reply-To: <20190801234514.7941-1-logang@deltatee.com>
 References: <20190801234514.7941-1-logang@deltatee.com>
-Message-ID: <20190801234514.7941-5-logang@deltatee.com>
+Message-ID: <20190801234514.7941-14-logang@deltatee.com>
 
-This function will be needed by the upcoming passthru code.
+All existing users of blk_execute_rq[_nowait]() are for passthrough
+commands and will thus be rejected by blk_do_io_stat().
 
-[chaitanya.kulkarni at wdc.com: this was factored out of a patch
- originally authored by Chaitanya]
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+This allows passthrough requests to opt-in to IO accounting by setting
+RQF_IO_STAT.
+
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 ---
- drivers/nvme/target/admin-cmd.c | 4 ++--
- drivers/nvme/target/nvmet.h     | 2 ++
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ block/blk-exec.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 4dc12ea52f23..eeb24f606d00 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -506,8 +506,8 @@ static void nvmet_execute_identify_nslist(struct nvmet_req *req)
- 	nvmet_req_complete(req, status);
- }
+diff --git a/block/blk-exec.c b/block/blk-exec.c
+index 1db44ca0f4a6..e20a852ae432 100644
+--- a/block/blk-exec.c
++++ b/block/blk-exec.c
+@@ -55,6 +55,8 @@ void blk_execute_rq_nowait(struct request_queue *q, struct gendisk *bd_disk,
+ 	rq->rq_disk = bd_disk;
+ 	rq->end_io = done;
  
--static u16 nvmet_copy_ns_identifier(struct nvmet_req *req, u8 type, u8 len,
--				    void *id, off_t *off)
-+u16 nvmet_copy_ns_identifier(struct nvmet_req *req, u8 type, u8 len,
-+			     void *id, off_t *off)
- {
- 	struct nvme_ns_id_desc desc = {
- 		.nidt = type,
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 217a787952e8..d1a0a3190a24 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -489,6 +489,8 @@ u16 nvmet_bdev_flush(struct nvmet_req *req);
- u16 nvmet_file_flush(struct nvmet_req *req);
- void nvmet_ns_changed(struct nvmet_subsys *subsys, u32 nsid);
- 
-+u16 nvmet_copy_ns_identifier(struct nvmet_req *req, u8 type, u8 len,
-+			     void *id, off_t *off);
- static inline u32 nvmet_rw_len(struct nvmet_req *req)
- {
- 	return ((u32)le16_to_cpu(req->cmd->rw.length) + 1) <<
++	blk_account_io_start(rq, true);
++
+ 	/*
+ 	 * don't check dying flag for MQ because the request won't
+ 	 * be reused after dying flag is set
 -- 
 2.20.1
