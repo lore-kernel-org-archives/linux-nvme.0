@@ -1,50 +1,138 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu,  1 Aug 2019 17:45:08 -0600
-Subject: [PATCH v7 09/14] nvmet-core: don't check the data len for pt-ctrl
+Date: Thu,  1 Aug 2019 17:45:01 -0600
+Subject: [PATCH v7 02/14] nvme-core: export existing ctrl and ns interfaces
 In-Reply-To: <20190801234514.7941-1-logang@deltatee.com>
 References: <20190801234514.7941-1-logang@deltatee.com>
-Message-ID: <20190801234514.7941-10-logang@deltatee.com>
+Message-ID: <20190801234514.7941-3-logang@deltatee.com>
 
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
-Right now, data_len is calculated before the transfer len after we
-parse the command, With passthru interface we allow VUCs (Vendor-Unique
-Commands). In order to make the code simple and compact, instead of
-assigning the data len or each VUC in the command parse function
-just use the transfer len as it is. This may result in error if expected
-data_len != transfer_len.
+We export existing nvme ctrl and ns management APIs so that target
+passthru code can manage the nvme ctrl.
+
+This is a preparation patch for implementing NVMe Over Fabric target
+passthru feature.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-[logang at deltatee.com:
-   * added definition of VUC to the commit message and comment
-   * use nvmet_req_passthru_ctrl() helper seeing we can't dereference
-     subsys->passthru_ctrl if CONFIG_NVME_TARGET_PASSTHRU is not set]
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 ---
- drivers/nvme/target/core.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 17 +++++++++++------
+ drivers/nvme/host/nvme.h |  7 +++++++
+ 2 files changed, 18 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index c655f26db3da..1cda94437fbf 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -941,7 +941,16 @@ EXPORT_SYMBOL_GPL(nvmet_req_uninit);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index f72334f34a30..4445efb16a84 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -412,10 +412,11 @@ static void nvme_free_ns(struct kref *kref)
+ 	kfree(ns);
+ }
  
- void nvmet_req_execute(struct nvmet_req *req)
+-static void nvme_put_ns(struct nvme_ns *ns)
++void nvme_put_ns(struct nvme_ns *ns)
  {
--	if (unlikely(req->data_len != req->transfer_len)) {
-+	/*
-+	 * data_len is calculated before the transfer len after we parse
-+	 * the command, With passthru interface we allow VUC (Vendor-Unique
-+	 * Commands)'s. In order to make the code simple and compact,
-+	 * instead of assinging the dala len for each VUC in the command
-+	 * parse function just use the transfer len as it is. This may
-+	 * result in error if expected data_len != transfer_len.
-+	 */
-+	if (!(req->sq->ctrl && nvmet_req_passthru_ctrl(req)) &&
-+	    unlikely(req->data_len != req->transfer_len)) {
- 		req->error_loc = offsetof(struct nvme_common_command, dptr);
- 		nvmet_req_complete(req, NVME_SC_SGL_INVALID_DATA | NVME_SC_DNR);
- 	} else
+ 	kref_put(&ns->kref, nvme_free_ns);
+ }
++EXPORT_SYMBOL_GPL(nvme_put_ns);
+ 
+ static inline void nvme_clear_nvme_request(struct request *req)
+ {
+@@ -1088,7 +1089,7 @@ static int nvme_identify_ns_list(struct nvme_ctrl *dev, unsigned nsid, __le32 *n
+ 				    NVME_IDENTIFY_DATA_SIZE);
+ }
+ 
+-static struct nvme_id_ns *nvme_identify_ns(struct nvme_ctrl *ctrl,
++struct nvme_id_ns *nvme_identify_ns(struct nvme_ctrl *ctrl,
+ 		unsigned nsid)
+ {
+ 	struct nvme_id_ns *id;
+@@ -1113,6 +1114,7 @@ static struct nvme_id_ns *nvme_identify_ns(struct nvme_ctrl *ctrl,
+ 
+ 	return id;
+ }
++EXPORT_SYMBOL_GPL(nvme_identify_ns);
+ 
+ static int nvme_features(struct nvme_ctrl *dev, u8 op, unsigned int fid,
+ 		unsigned int dword11, void *buffer, size_t buflen, u32 *result)
+@@ -1261,8 +1263,8 @@ static u32 nvme_known_admin_effects(u8 opcode)
+ 	return 0;
+ }
+ 
+-static u32 nvme_passthru_start(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+-								u8 opcode)
++u32 nvme_passthru_start(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
++		u8 opcode)
+ {
+ 	u32 effects = 0;
+ 
+@@ -1291,6 +1293,7 @@ static u32 nvme_passthru_start(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 	}
+ 	return effects;
+ }
++EXPORT_SYMBOL_GPL(nvme_passthru_start);
+ 
+ static void nvme_update_formats(struct nvme_ctrl *ctrl)
+ {
+@@ -1305,7 +1308,7 @@ static void nvme_update_formats(struct nvme_ctrl *ctrl)
+ 	nvme_remove_invalid_namespaces(ctrl, NVME_NSID_ALL);
+ }
+ 
+-static void nvme_passthru_end(struct nvme_ctrl *ctrl, u32 effects)
++void nvme_passthru_end(struct nvme_ctrl *ctrl, u32 effects)
+ {
+ 	/*
+ 	 * Revalidate LBA changes prior to unfreezing. This is necessary to
+@@ -1323,6 +1326,7 @@ static void nvme_passthru_end(struct nvme_ctrl *ctrl, u32 effects)
+ 	if (effects & (NVME_CMD_EFFECTS_NIC | NVME_CMD_EFFECTS_NCC))
+ 		nvme_queue_scan(ctrl);
+ }
++EXPORT_SYMBOL_GPL(nvme_passthru_end);
+ 
+ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 			struct nvme_passthru_cmd __user *ucmd)
+@@ -3265,7 +3269,7 @@ static int ns_cmp(void *priv, struct list_head *a, struct list_head *b)
+ 	return nsa->head->ns_id - nsb->head->ns_id;
+ }
+ 
+-static struct nvme_ns *nvme_find_get_ns(struct nvme_ctrl *ctrl, unsigned nsid)
++struct nvme_ns *nvme_find_get_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ {
+ 	struct nvme_ns *ns, *ret = NULL;
+ 
+@@ -3283,6 +3287,7 @@ static struct nvme_ns *nvme_find_get_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 	up_read(&ctrl->namespaces_rwsem);
+ 	return ret;
+ }
++EXPORT_SYMBOL_GPL(nvme_find_get_ns);
+ 
+ static int nvme_setup_streams_ns(struct nvme_ctrl *ctrl, struct nvme_ns *ns)
+ {
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 7e827c9e892c..ccd3aff675fb 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -436,6 +436,8 @@ void nvme_start_ctrl(struct nvme_ctrl *ctrl);
+ void nvme_stop_ctrl(struct nvme_ctrl *ctrl);
+ void nvme_put_ctrl(struct nvme_ctrl *ctrl);
+ int nvme_init_identify(struct nvme_ctrl *ctrl);
++struct nvme_ns *nvme_find_get_ns(struct nvme_ctrl *ctrl, unsigned int nsid);
++void nvme_put_ns(struct nvme_ns *ns);
+ 
+ void nvme_remove_namespaces(struct nvme_ctrl *ctrl);
+ 
+@@ -472,8 +474,13 @@ int nvme_set_features(struct nvme_ctrl *dev, unsigned int fid,
+ int nvme_get_features(struct nvme_ctrl *dev, unsigned int fid,
+ 		      unsigned int dword11, void *buffer, size_t buflen,
+ 		      u32 *result);
++u32 nvme_passthru_start(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
++		u8 opcode);
++void nvme_passthru_end(struct nvme_ctrl *ctrl, u32 effects);
+ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count);
+ void nvme_stop_keep_alive(struct nvme_ctrl *ctrl);
++struct nvme_id_ns *nvme_identify_ns(struct nvme_ctrl *ctrl,
++		unsigned int nsid);
+ int nvme_reset_ctrl(struct nvme_ctrl *ctrl);
+ int nvme_reset_ctrl_sync(struct nvme_ctrl *ctrl);
+ int nvme_delete_ctrl(struct nvme_ctrl *ctrl);
 -- 
 2.20.1
