@@ -1,114 +1,87 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Thu,  1 Aug 2019 16:13:41 -0700
-Subject: [PATCH v3 03/10] nvme-cli: allow discover to address discovery
- controller by persistent name
-In-Reply-To: <20190801231348.21397-1-jsmart2021@gmail.com>
-References: <20190801231348.21397-1-jsmart2021@gmail.com>
-Message-ID: <20190801231348.21397-4-jsmart2021@gmail.com>
+Date: Thu,  1 Aug 2019 16:13:38 -0700
+Subject: [PATCH v3 00/10] nvme-cli: nvmf auto-connect scripts
+Message-ID: <20190801231348.21397-1-jsmart2021@gmail.com>
 
-To support discovery (connect/connect-all) to operate against a
-persistent discovery controller, let the discovery controller to
-be specified by its device node name rather than new connection
-attributes.
+This is a formal posting of the patches, not an RFC.
 
-Example:
-  nvme connect-all ... --device=nvme5
+This posting is a combination of the RFC postings of nvme-fc
+auto-connect scripts by Hannes, Sagi, and I. The auto-connect
+scripts are utilized on nvme-fc and for persistent discovery
+controllers that send AENs.  It does not contain the code that
+handles the persistent discovery controller AEN and generates the
+event.
 
-Also centralize extraction of controller instance from the controller
-name to a common helper.
+The auto-connect scripts are now commonized with the exception
+of the nvme-fc boot connections service.  It's expected that both
+the persistent discovery controllers and nvme-fc can post the same
+udev event. Whenever the discovery aen generates an event, the
+new --device=<name> argument will be used to identify the persistent
+discovery controller. When --device is used, the other connect
+attributes will be specified, set to the values of the discovery
+controller, and will be used by the cli to validate the device is
+who it should be or a new discovery controller will be created.
+When nvme-fc generates it's events, it will specify --device=none
+and specify the discovery controller addressing arguments.  If a
+persistent discovery controller exists on nvme-fc, will do nothing
+special and AEN's from it will follow the --device=<name> syntax.
 
-Signed-off-by: James Smart <jsmart2021 at gmail.com>
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
-Reviewed-by: Minwoo Im <minwoo.im.dev at gmail.com>
-Reviewed-by: Hannes Reinecke <hare at suse.com>
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
----
- fabrics.c | 37 +++++++++++++++++++++++++++----------
- 1 file changed, 27 insertions(+), 10 deletions(-)
+The udev event handler supports both the new event to be used
+by discovery controllers as well as the existing nvme-fc transport
+event. The nvme-fc transport will be migrated to issue the new
+event syntax. The udev script will continue to support the older
+style nvme-fc event info in case the cli is running against an
+older kernel.
 
-diff --git a/fabrics.c b/fabrics.c
-index 75dedf8..d92c2ff 100644
---- a/fabrics.c
-+++ b/fabrics.c
-@@ -190,6 +190,21 @@ static const char *cms_str(__u8 cm)
- 
- static int do_discover(char *argstr, bool connect);
- 
-+static int ctrl_instance(char *device)
-+{
-+	char d[64];
-+	int ret, instance;
-+
-+	device = basename(device);
-+	ret = sscanf(device, "nvme%d", &instance);
-+	if (ret <= 0)
-+		return -EINVAL;
-+	if (snprintf(d, sizeof(d), "nvme%d", instance) <= 0 ||
-+	    strcmp(device, d))
-+		return -EINVAL;
-+	return instance;
-+}
-+
- static int add_ctrl(const char *argstr)
- {
- 	substring_t args[MAX_OPT_ARGS];
-@@ -865,7 +880,10 @@ static int do_discover(char *argstr, bool connect)
- 	int instance, numrec = 0, ret, err;
- 	int status = 0;
- 
--	instance = add_ctrl(argstr);
-+	if (!cfg.device)
-+		instance = add_ctrl(argstr);
-+	else
-+		instance = ctrl_instance(cfg.device);
- 	if (instance < 0)
- 		return instance;
- 
-@@ -873,7 +891,7 @@ static int do_discover(char *argstr, bool connect)
- 		return -errno;
- 	ret = nvmf_get_log_page_discovery(dev_name, &log, &numrec, &status);
- 	free(dev_name);
--	if (!cfg.persistent) {
-+	if (!cfg.device && !cfg.persistent) {
- 		err = remove_ctrl(instance);
- 		if (err)
- 			return err;
-@@ -996,6 +1014,7 @@ int discover(const char *desc, int argc, char **argv, bool connect)
- 		{"hostnqn",     'q', "LIST", CFG_STRING, &cfg.hostnqn,     required_argument, "user-defined hostnqn (if default not used)" },
- 		{"hostid",      'I', "LIST", CFG_STRING, &cfg.hostid,      required_argument, "user-defined hostid (if default not used)"},
- 		{"raw",         'r', "LIST", CFG_STRING, &cfg.raw,         required_argument, "raw output file" },
-+		{"device",      'd', "LIST", CFG_STRING, &cfg.device, required_argument, "use existing discovery controller device" },
- 		{"keep-alive-tmo",  'k', "LIST", CFG_INT, &cfg.keep_alive_tmo,  required_argument, "keep alive timeout period in seconds" },
- 		{"reconnect-delay", 'c', "LIST", CFG_INT, &cfg.reconnect_delay, required_argument, "reconnect timeout period in seconds" },
- 		{"ctrl-loss-tmo",   'l', "LIST", CFG_INT, &cfg.ctrl_loss_tmo,   required_argument, "controller loss timeout period in seconds" },
-@@ -1014,6 +1033,9 @@ int discover(const char *desc, int argc, char **argv, bool connect)
- 	if (ret)
- 		goto out;
- 
-+	if (cfg.device && !strcmp(cfg.device, "none"))
-+		cfg.device = NULL;
-+
- 	cfg.nqn = NVME_DISC_SUBSYS_NAME;
- 
- 	if (!cfg.transport && !cfg.traddr) {
-@@ -1157,15 +1179,10 @@ static int disconnect_by_nqn(char *nqn)
- static int disconnect_by_device(char *device)
- {
- 	int instance;
--	int ret;
--
--	device = basename(device);
--	ret = sscanf(device, "nvme%d", &instance);
--	if (ret < 0)
--		return ret;
--	if (!ret)
--		return -1;
- 
-+	instance = ctrl_instance(device);
-+	if (instance < 0)
-+		return instance;
- 	return remove_ctrl(instance);
- }
- 
+
+v2:
+  Change "ctlr" to "ctrl" in fprintf string in patch 7.
+  Swap enablement order of systemd vs udev in patch 10.
+
+v3:
+  Revise patch 10 scripts:
+    70-nvmf-autoconnect.rules:
+      change from "/usr/bin/systemctl" to "systemctl".
+      remove blank line at end of file
+    Created dracut-conf, systemd, udev-rules sub directories under
+       nvmf-autoconnect.  Moved the respective files into their
+       proper subdirectory. Updated the makefile install targets
+         accordingly.
+
+
+James Smart (8):
+  nvme-cli: ignore arguments that pass in "none"
+  nvme-cli: allow discover to address discovery controller by persistent
+    name
+  nvme-cli: Refactor to create a get_nvme_ctrl_info routine
+  nvme-cli: extend ctrl_list_item for connect attributes
+  nvme-cli: Add routine to compare ctrl_list_item to connect args
+  nvme-cli: Add routine to search for controller with specific
+    attributes
+  nvme-cli: Expand --device argument processing
+  nvme-cli: nvmf auto-connect scripts
+
+Sagi Grimberg (2):
+  nvme-cli: support persistent connections to a discovery controller
+  nvme-cli: add --quiet option
+
+ Makefile                                           |  22 +-
+ fabrics.c                                          | 118 ++++++++---
+ fabrics.h                                          |   2 +
+ nvme.c                                             | 226 ++++++++++++++++++---
+ nvme.h                                             |  24 +++
+ nvme.spec.in                                       |   9 +
+ .../dracut-conf/70-nvmf-autoconnect.conf           |   1 +
+ .../systemd/nvmefc-boot-connections.service        |   9 +
+ nvmf-autoconnect/systemd/nvmf-connect.target       |   2 +
+ nvmf-autoconnect/systemd/nvmf-connect at .service     |  14 ++
+ .../udev-rules/70-nvmf-autoconnect.rules           |  17 ++
+ 11 files changed, 385 insertions(+), 59 deletions(-)
+ create mode 100644 nvmf-autoconnect/dracut-conf/70-nvmf-autoconnect.conf
+ create mode 100644 nvmf-autoconnect/systemd/nvmefc-boot-connections.service
+ create mode 100644 nvmf-autoconnect/systemd/nvmf-connect.target
+ create mode 100644 nvmf-autoconnect/systemd/nvmf-connect at .service
+ create mode 100644 nvmf-autoconnect/udev-rules/70-nvmf-autoconnect.rules
+
 -- 
 2.13.7
