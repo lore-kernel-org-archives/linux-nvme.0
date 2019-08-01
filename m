@@ -1,87 +1,113 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Thu,  1 Aug 2019 16:13:38 -0700
-Subject: [PATCH v3 00/10] nvme-cli: nvmf auto-connect scripts
-Message-ID: <20190801231348.21397-1-jsmart2021@gmail.com>
+Date: Thu,  1 Aug 2019 16:13:44 -0700
+Subject: [PATCH v3 06/10] nvme-cli: Add routine to compare ctrl_list_item to
+ connect args
+In-Reply-To: <20190801231348.21397-1-jsmart2021@gmail.com>
+References: <20190801231348.21397-1-jsmart2021@gmail.com>
+Message-ID: <20190801231348.21397-7-jsmart2021@gmail.com>
 
-This is a formal posting of the patches, not an RFC.
+In preparation for searching controllers to match with connect args:
 
-This posting is a combination of the RFC postings of nvme-fc
-auto-connect scripts by Hannes, Sagi, and I. The auto-connect
-scripts are utilized on nvme-fc and for persistent discovery
-controllers that send AENs.  It does not contain the code that
-handles the persistent discovery controller AEN and generates the
-event.
+Create a new routine that receives a structure containing connect
+arguments and a device name. The routine will build and fill in a
+ctrl_list_item for the device and compare its attributes with the
+connect arguments. The routine returns true/false on whether they
+match.
 
-The auto-connect scripts are now commonized with the exception
-of the nvme-fc boot connections service.  It's expected that both
-the persistent discovery controllers and nvme-fc can post the same
-udev event. Whenever the discovery aen generates an event, the
-new --device=<name> argument will be used to identify the persistent
-discovery controller. When --device is used, the other connect
-attributes will be specified, set to the values of the discovery
-controller, and will be used by the cli to validate the device is
-who it should be or a new discovery controller will be created.
-When nvme-fc generates it's events, it will specify --device=none
-and specify the discovery controller addressing arguments.  If a
-persistent discovery controller exists on nvme-fc, will do nothing
-special and AEN's from it will follow the --device=<name> syntax.
+Routine is defined as a global as a subsequent patch will use it
+from the fabrics routines.
 
-The udev event handler supports both the new event to be used
-by discovery controllers as well as the existing nvme-fc transport
-event. The nvme-fc transport will be migrated to issue the new
-event syntax. The udev script will continue to support the older
-style nvme-fc event info in case the cli is running against an
-older kernel.
+Signed-off-by: James Smart <jsmart2021 at gmail.com>
+Reviewed-by: Hannes Reinecke <hare at suse.com>
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ fabrics.c |  1 -
+ nvme.c    | 38 ++++++++++++++++++++++++++++++++++++++
+ nvme.h    | 11 +++++++++++
+ 3 files changed, 49 insertions(+), 1 deletion(-)
 
-
-v2:
-  Change "ctlr" to "ctrl" in fprintf string in patch 7.
-  Swap enablement order of systemd vs udev in patch 10.
-
-v3:
-  Revise patch 10 scripts:
-    70-nvmf-autoconnect.rules:
-      change from "/usr/bin/systemctl" to "systemctl".
-      remove blank line at end of file
-    Created dracut-conf, systemd, udev-rules sub directories under
-       nvmf-autoconnect.  Moved the respective files into their
-       proper subdirectory. Updated the makefile install targets
-         accordingly.
-
-
-James Smart (8):
-  nvme-cli: ignore arguments that pass in "none"
-  nvme-cli: allow discover to address discovery controller by persistent
-    name
-  nvme-cli: Refactor to create a get_nvme_ctrl_info routine
-  nvme-cli: extend ctrl_list_item for connect attributes
-  nvme-cli: Add routine to compare ctrl_list_item to connect args
-  nvme-cli: Add routine to search for controller with specific
-    attributes
-  nvme-cli: Expand --device argument processing
-  nvme-cli: nvmf auto-connect scripts
-
-Sagi Grimberg (2):
-  nvme-cli: support persistent connections to a discovery controller
-  nvme-cli: add --quiet option
-
- Makefile                                           |  22 +-
- fabrics.c                                          | 118 ++++++++---
- fabrics.h                                          |   2 +
- nvme.c                                             | 226 ++++++++++++++++++---
- nvme.h                                             |  24 +++
- nvme.spec.in                                       |   9 +
- .../dracut-conf/70-nvmf-autoconnect.conf           |   1 +
- .../systemd/nvmefc-boot-connections.service        |   9 +
- nvmf-autoconnect/systemd/nvmf-connect.target       |   2 +
- nvmf-autoconnect/systemd/nvmf-connect at .service     |  14 ++
- .../udev-rules/70-nvmf-autoconnect.rules           |  17 ++
- 11 files changed, 385 insertions(+), 59 deletions(-)
- create mode 100644 nvmf-autoconnect/dracut-conf/70-nvmf-autoconnect.conf
- create mode 100644 nvmf-autoconnect/systemd/nvmefc-boot-connections.service
- create mode 100644 nvmf-autoconnect/systemd/nvmf-connect.target
- create mode 100644 nvmf-autoconnect/systemd/nvmf-connect at .service
- create mode 100644 nvmf-autoconnect/udev-rules/70-nvmf-autoconnect.rules
-
+diff --git a/fabrics.c b/fabrics.c
+index d92c2ff..f3afa0b 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -74,7 +74,6 @@ static struct config {
+ #define PATH_NVMF_DISC		"/etc/nvme/discovery.conf"
+ #define PATH_NVMF_HOSTNQN	"/etc/nvme/hostnqn"
+ #define PATH_NVMF_HOSTID	"/etc/nvme/hostid"
+-#define SYS_NVME		"/sys/class/nvme"
+ #define MAX_DISC_ARGS		10
+ #define MAX_DISC_RETRIES	10
+ 
+diff --git a/nvme.c b/nvme.c
+index b93d9da..875b2c8 100644
+--- a/nvme.c
++++ b/nvme.c
+@@ -2010,6 +2010,44 @@ ret:
+ 	return nvme_status_to_errno(ret, false);
+ }
+ 
++/*
++ * Given a controller name, create a ctrl_list_item with its
++ * attributes and compare the attributes against the connect args
++ * given.
++ * Return true/false based on whether it matches
++ */
++bool ctrl_matches_connectargs(char *name, struct connect_args *args)
++{
++	struct ctrl_list_item *ctrl;
++	bool found = false;
++
++	ctrl = malloc(sizeof(*ctrl));
++	if (!ctrl) {
++		fprintf(stderr, "Failed to allocate controller list element\n");
++		return false;
++	}
++	memset(ctrl, 0, sizeof(*ctrl));
++
++	if (get_nvme_ctrl_info(name, SYS_NVME, ctrl, NVME_NSID_ALL))
++		goto cleanup_exit;
++
++	if (!strcmp(ctrl->subsysnqn, args->subsysnqn) &&
++	    !strcmp(ctrl->transport, args->transport) &&
++	    (!strcmp(ctrl->traddr, args->traddr) ||
++	     !strcmp(args->traddr, "none")) &&
++	    (!strcmp(ctrl->trsvcid, args->trsvcid) ||
++	     !strcmp(args->trsvcid, "none")) &&
++	    (!strcmp(ctrl->host_traddr, args->host_traddr) ||
++	     !strcmp(args->host_traddr, "none")))
++		found = true;
++
++cleanup_exit:
++	free_ctrl_list_item(ctrl);
++	free(ctrl);
++
++	return found;
++}
++
+ int __id_ctrl(int argc, char **argv, struct command *cmd, struct plugin *plugin, void (*vs)(__u8 *vs, struct json_object *root))
+ {
+ 	const char *desc = "Send an Identify Controller command to "\
+diff --git a/nvme.h b/nvme.h
+index 470f702..2fecb68 100644
+--- a/nvme.h
++++ b/nvme.h
+@@ -179,6 +179,17 @@ enum {
+ 	BINARY,
+ };
+ 
++struct connect_args {
++	char *subsysnqn;
++	char *transport;
++	char *traddr;
++	char *trsvcid;
++	char *host_traddr;
++};
++
++#define SYS_NVME		"/sys/class/nvme"
++
++bool ctrl_matches_connectargs(char *name, struct connect_args *args);
+ char *__parse_connect_arg(char *conargs, const char delim, const char *fieldnm);
+ 
+ extern const char *conarg_traddr;
 -- 
 2.13.7
