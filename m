@@ -1,27 +1,26 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 31 Jul 2019 18:32:05 -0700
-Subject: [PATCH v2 0/3] Support discovery log change events
-In-Reply-To: <20190712180211.26333-1-sagi@grimberg.me>
-References: <20190712180211.26333-1-sagi@grimberg.me>
-Message-ID: <53ec841c-f71e-1789-1f7c-7ae3a0aa2d66@grimberg.me>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Wed, 31 Jul 2019 20:45:20 -0600
+Subject: [PATCH V2 0/5] blk-mq: wait until completed req's complete fn is
+ run
+In-Reply-To: <7eeb2e89-a056-456a-8be3-6edbda83b7bc@grimberg.me>
+References: <20190724034843.10879-1-ming.lei@redhat.com>
+ <20190730004525.GB28708@ming.t460p>
+ <7eeb2e89-a056-456a-8be3-6edbda83b7bc@grimberg.me>
+Message-ID: <944c6735-f03e-c055-33d8-fe7f9a760b8a@kernel.dk>
 
-
-> We want to be able to support discovery log change events automatically
-> without user intervention.
+On 7/31/19 7:15 PM, Sagi Grimberg wrote:
 > 
-> The definition of discovery log change events applies on "persistent" long
-> lived controllers, so first we need to have discovery controllers to stay
-> for a long time and accept kato value.
+>> Hello Jens, Chritoph and Guys,
+>>
+>> Ping on this fix.
 > 
-> Then when we do happen to get a discovery log change event on the persistent
-> discovery controller, we simply fire a udev event to user-space to re-query
-> the discovery log page and connect to new subsystems in the fabric.
-> 
-> This works with James' latest nvme-cli patches.
+> Given that this is nvme related, we could feed
+> it to jens from the nvme tree.
+> Applying to nvme-5.4 tree for now, if Jens picks
+> it up, we'll drop it.
 
-James, I've applied this to nvme-5.4
+It's on my top of list to review, I'd like to take it through
+the block tree though. I think that makes the most sense.
 
-Are you sending out the nvme-cli part? If you can make sure
-that it works with what is in nvme-5.4 it will be great..
-
-Thanks
+-- 
+Jens Axboe
