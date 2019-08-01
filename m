@@ -1,8 +1,8 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 31 Jul 2019 18:23:05 -0700
-Subject: [PATCH] nvme: tcp: selects CRYPTO_CRC32C for nvme-tcp
-In-Reply-To: <20190714081842.32427-1-minwoo.im.dev@gmail.com>
-References: <20190714081842.32427-1-minwoo.im.dev@gmail.com>
-Message-ID: <6bcb4d7a-7aec-23e3-2038-557a1fea8dcf@grimberg.me>
+Date: Wed, 31 Jul 2019 18:23:38 -0700
+Subject: [PATCH] nvme: trace bio completion
+In-Reply-To: <20190724134755.96315-1-hare@suse.de>
+References: <20190724134755.96315-1-hare@suse.de>
+Message-ID: <931d9159-ebbc-f0f4-dcc8-97c379342d9f@grimberg.me>
 
 applied to nvme-5.4
