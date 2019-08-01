@@ -1,10 +1,8 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 31 Jul 2019 18:02:53 -0700
-Subject: [PATCH v3 0/4] Varios NVMe Fixes
-In-Reply-To: <20190731233534.4841-1-logang@deltatee.com>
-References: <20190731233534.4841-1-logang@deltatee.com>
-Message-ID: <3f9c1d7d-edb0-f4b5-dc48-fe0f061b1e17@grimberg.me>
-
-Thanks,
+Date: Wed, 31 Jul 2019 18:05:55 -0700
+Subject: [PATCH] nvme-pci: Fix async probe remove race
+In-Reply-To: <20190729223452.12967-1-keith.busch@intel.com>
+References: <20190729223452.12967-1-keith.busch@intel.com>
+Message-ID: <ce8c9398-d60e-974b-d646-9862a0f1833a@grimberg.me>
 
 applied to nvme-5.3-rc
