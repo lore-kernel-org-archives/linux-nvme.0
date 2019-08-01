@@ -1,31 +1,47 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 1 Aug 2019 11:46:34 -0700
-Subject: [PATCH rfc 2/2] nvme: fix possible use-after-free condition when
- controller reset is racing namespace scanning
-In-Reply-To: <b6b929e7-3da5-f274-f7c8-4e98f8585917@suse.de>
-References: <20190729233201.27993-1-sagi@grimberg.me>
- <20190729233201.27993-3-sagi@grimberg.me>
- <e3b0f11f-a66f-9b1a-6790-89efcaa33140@suse.de>
- <fb6c9d38-32f6-a659-f3b9-1c57f28b410d@grimberg.me>
- <b6b929e7-3da5-f274-f7c8-4e98f8585917@suse.de>
-Message-ID: <97583db4-8ff5-9d13-bbc8-d133bbc3f28d@grimberg.me>
+Date: Thu, 1 Aug 2019 11:52:18 -0700
+Subject: [PATCH rfc 1/2] nvme: don't remove namespace if revalidate failed
+ because of controller reset
+In-Reply-To: <20190801143331.GC15795@localhost.localdomain>
+References: <61445d6f-f4ca-f8d4-cef2-5bfe40aa1e7f@suse.de>
+ <2f7535ab-3d45-b24d-1512-a937e16e620f@grimberg.me>
+ <20190731193257.GB15643@localhost.localdomain>
+ <0720636c-8706-e927-3c0b-c2687694664f@grimberg.me>
+ <20190731201634.GC15643@localhost.localdomain>
+ <cb8a1faf-ea19-06c8-35dc-08cd11180974@grimberg.me>
+ <20190731205836.GD15643@localhost.localdomain>
+ <68358e82-cbd5-6199-1329-89421c778dc0@grimberg.me>
+ <20190731215437.GA15795@localhost.localdomain>
+ <55631812-bc90-9dc1-53b7-a76696a7140e@grimberg.me>
+ <20190801143331.GC15795@localhost.localdomain>
+Message-ID: <29109a74-ff16-24ca-21ea-d2a225228601@grimberg.me>
 
 
->> nvme_stop/start_queue are quiescing the queue, not freezing it which
->> does not block requests in blk_queue_enter.
->> So I don't think that blk_cleanup_queue will hang for unquiesced queues.
+>>>> Well, I don't think we should do that. Unlike I/O commands, which can
+>>>> failover to a different path, these admin commands are bound to the
+>>>> specific controller. In case it takes minutes/hours/days for the
+>>>> controller to restore normal operation, it will be unpleasant to say
+>>>> the least to have admin operations get stuck for so long.
+>>>
+>>> Unpleasant for who? The scan_work is the only thing waiting for these
+>>> commands, no one else should care because you can't run IO if you're
+>>> stuck in very long reset anyway.
+>>
+>> The hung task detector would care, and a user who will attempt to issue
+>> a passthru command, and the rest of the system that have one of the
+>> kworkers sacrificed for a significant amount of time...
 > 
-> My worry here is for quiesced queues; they are not unquiesced when
-> blk_clean_queue() is running. So I'm not sure if we're able to flush all
-> commands then.
+> blk_execute_rq already defeats hung task detection for stalled IO.
+> 
+> My point, though, was passthru doesn't care about scan_work. A submitted
+> passthru command is blocked for reset,
 
-blk_cleanup_queue does not block on quiesced queues, it blocks on frozen
-queues.
+Not in fabrics drivers (unless I'm missing something that changed).
 
-> But be it as it may, I've sent a patchset for checking the NS_REMOVING
-> flag when traversing the namespace list. That should take care of this
-> issue, and should render this patch obsolete.
+> so blocking scan_work doesn't make that situation any better or worse.
 
-I've shared feedback on that one, I need to understand what is the
-crash that you are talking about.. and why not promoting the list
-removal in nvme_ns_remove() doesn't address it.
+I think that when we talk about reset in fabrics, we have in mind a long
+process (mainly because of the fact that network port failures are a lot
+more frequent and span some amount of time). This is why fabric drivers,
+when they get a transport error, they go into the reset flow and they
+quiesce+terminate+unquiesce to fastfail admin commands.
