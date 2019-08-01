@@ -1,97 +1,153 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Thu,  1 Aug 2019 16:13:40 -0700
-Subject: [PATCH v3 02/10] nvme-cli: support persistent connections to a
- discovery controller
+Date: Thu,  1 Aug 2019 16:13:43 -0700
+Subject: [PATCH v3 05/10] nvme-cli: extend ctrl_list_item for connect
+ attributes
 In-Reply-To: <20190801231348.21397-1-jsmart2021@gmail.com>
 References: <20190801231348.21397-1-jsmart2021@gmail.com>
-Message-ID: <20190801231348.21397-3-jsmart2021@gmail.com>
+Message-ID: <20190801231348.21397-6-jsmart2021@gmail.com>
 
-From: Sagi Grimberg <sagi@grimberg.me>
+In preparation for searching controllers to match with connect args:
 
-Simply don't destroy the discovery controller after getting the
-log pages. Note that persistent connection to a discovery subsystem
-require to pass in a non-zero kato value, so if not provided we
-simply use a default of 30 seconds kato.
+Extend the ctrl_list_item with elements that can be compared against
+connect arguments. Extend the get_nvme_ctrl_info() routine to set
+the fields.
 
-Example:
-  nvme connect-all ... --persistent
+subsysnqn was added as the ctrl_list_item may now be used outside of
+a subsystem listing.
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-Reviewed-by: James Smart <jsmart2021 at gmail.com>
+traddr, trsvid, and host_traddr are added. Their values come from
+the address attribute.  A new parsing routine was added that extracts
+the values from the address string.
+
+The new parsing routine and supporting field names strings are
+declared as a global interface as a subsequent patch will call it
+from the fabrics routines.
+
+Signed-off-by: James Smart <jsmart2021 at gmail.com>
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 Reviewed-by: Hannes Reinecke <hare at suse.com>
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
-Reviewed-by: Minwoo Im <minwoo.im.dev at gmail.com>
 ---
- fabrics.c | 15 ++++++++++++---
- fabrics.h |  2 ++
- 2 files changed, 14 insertions(+), 3 deletions(-)
+ nvme.c | 72 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ nvme.h | 10 ++++++++++
+ 2 files changed, 82 insertions(+)
 
-diff --git a/fabrics.c b/fabrics.c
-index 5757aaf..75dedf8 100644
---- a/fabrics.c
-+++ b/fabrics.c
-@@ -66,6 +66,7 @@ static struct config {
- 	int  disable_sqflow;
- 	int  hdr_digest;
- 	int  data_digest;
-+	bool persistent;
- } cfg = { NULL };
+diff --git a/nvme.c b/nvme.c
+index a5c2961..b93d9da 100644
+--- a/nvme.c
++++ b/nvme.c
+@@ -1542,6 +1542,64 @@ static void free_ctrl_list_item(struct ctrl_list_item *ctrls)
+ 	free(ctrls->address);
+ 	free(ctrls->state);
+ 	free(ctrls->ana_state);
++	free(ctrls->subsysnqn);
++	free(ctrls->traddr);
++	free(ctrls->trsvcid);
++	free(ctrls->host_traddr);
++}
++
++static const char delim_space  = ' ';
++const char *conarg_traddr = "traddr";
++const char *conarg_trsvcid = "trsvcid";
++const char *conarg_host_traddr = "host_traddr";
++
++/*
++ * parse strings with connect arguments to find a particular field.
++ * If field found, return string containing field value. If field
++ * not found, return an empty string.
++ */
++char *__parse_connect_arg(char *conargs, const char delim, const char *fieldnm)
++{
++	char *s, *e;
++	size_t cnt;
++
++	/*
++	 * There are field name overlaps: traddr and host_traddr.
++	 * By chance, both connect arg strings are set up to
++	 * have traddr field followed by host_traddr field. Thus field
++	 * name matching doesn't overlap in the searches. Technically,
++	 * as is, the loop and delimiter checking isn't necessary.
++	 * However, better to be prepared.
++	 */
++	do {
++		s = strstr(conargs, fieldnm);
++		if (!s)
++			goto empty_field;
++		/* validate prior character is delimiter */
++		if (s == conargs || *(s - 1) == delim) {
++			/* match requires next character to be assignment */
++			s += strlen(fieldnm);
++			if (*s == '=')
++				/* match */
++				break;
++		}
++		/* field overlap: seek to delimiter and keep looking */
++		conargs = strchr(s, delim);
++		if (!conargs)
++			goto empty_field;
++		conargs++;	/* skip delimiter */
++	} while (1);
++	s++;		/* skip assignment character */
++	e = strchr(s, delim);
++	if (e)
++		cnt = e - s;
++	else
++		cnt = strlen(s);
++
++	return strndup(s, cnt);
++
++empty_field:
++	return strdup("\0");
+ }
  
- #define BUF_SIZE		4096
-@@ -872,9 +873,11 @@ static int do_discover(char *argstr, bool connect)
- 		return -errno;
- 	ret = nvmf_get_log_page_discovery(dev_name, &log, &numrec, &status);
- 	free(dev_name);
--	err = remove_ctrl(instance);
--	if (err)
--		return err;
-+	if (!cfg.persistent) {
-+		err = remove_ctrl(instance);
-+		if (err)
-+			return err;
+ static int get_nvme_ctrl_info(char *name, char *path,
+@@ -1577,6 +1635,20 @@ static int get_nvme_ctrl_info(char *name, char *path,
+ 	if (nsid != NVME_NSID_ALL)
+ 		ctrl->ana_state = get_nvme_ctrl_path_ana_state(ctrl_path, nsid);
+ 
++	ctrl->subsysnqn = get_nvme_ctrl_attr(ctrl_path, "subsysnqn");
++	if (!ctrl->subsysnqn) {
++		fprintf(stderr, "%s: failed to get controller subsysnqn.\n",
++			ctrl->name);
++		goto free_ctrl_items;
 +	}
- 
- 	switch (ret) {
- 	case DISC_OK:
-@@ -957,6 +960,9 @@ static int discover_from_conf_file(const char *desc, char *argstr,
- 		if (err)
- 			continue;
- 
-+		if (cfg.persistent && !cfg.keep_alive_tmo)
-+			cfg.keep_alive_tmo = NVMF_DEF_DISC_TMO;
 +
- 		err = build_options(argstr, BUF_SIZE);
- 		if (err) {
- 			ret = err;
-@@ -999,6 +1005,7 @@ int discover(const char *desc, int argc, char **argv, bool connect)
- 		{"nr-write-queues", 'W', "LIST", CFG_INT, &cfg.nr_write_queues,    required_argument, "number of write queues to use (default 0)" },
- 		{"nr-poll-queues",  'P', "LIST", CFG_INT, &cfg.nr_poll_queues,    required_argument, "number of poll queues to use (default 0)" },
- 		{"queue-size",      'Q', "LIST", CFG_INT, &cfg.queue_size,      required_argument, "number of io queue elements to use (default 128)" },
-+		{"persistent",  'p', "LIST", CFG_NONE, &cfg.persistent,  no_argument, "persistent discovery connection" },
- 		{NULL},
- 	};
- 
-@@ -1013,6 +1020,8 @@ int discover(const char *desc, int argc, char **argv, bool connect)
- 		ret = discover_from_conf_file(desc, argstr,
- 				command_line_options, connect);
- 	} else {
-+		if (cfg.persistent && !cfg.keep_alive_tmo)
-+			cfg.keep_alive_tmo = NVMF_DEF_DISC_TMO;
- 		ret = build_options(argstr, BUF_SIZE);
- 		if (ret)
- 			goto out;
-diff --git a/fabrics.h b/fabrics.h
-index 988f3ef..7c1664b 100644
---- a/fabrics.h
-+++ b/fabrics.h
-@@ -1,6 +1,8 @@
- #ifndef _DISCOVER_H
- #define _DISCOVER_H
- 
-+#define NVMF_DEF_DISC_TMO	30
++	ctrl->traddr = __parse_connect_arg(ctrl->address, delim_space,
++					conarg_traddr);
++	ctrl->trsvcid = __parse_connect_arg(ctrl->address, delim_space,
++					conarg_trsvcid);
++	ctrl->host_traddr = __parse_connect_arg(ctrl->address, delim_space,
++					conarg_host_traddr);
 +
- extern int discover(const char *desc, int argc, char **argv, bool connect);
- extern int connect(const char *desc, int argc, char **argv);
- extern int disconnect(const char *desc, int argc, char **argv);
+ 	return 0;	/* success */
+ 
+ free_ctrl_items:
+diff --git a/nvme.h b/nvme.h
+index 3409515..470f702 100644
+--- a/nvme.h
++++ b/nvme.h
+@@ -160,6 +160,10 @@ struct ctrl_list_item {
+ 	char *transport;
+ 	char *state;
+ 	char *ana_state;
++	char *subsysnqn;
++	char *traddr;
++	char *trsvcid;
++	char *host_traddr;
+ };
+ 
+ struct subsys_list_item {
+@@ -175,6 +179,12 @@ enum {
+ 	BINARY,
+ };
+ 
++char *__parse_connect_arg(char *conargs, const char delim, const char *fieldnm);
++
++extern const char *conarg_traddr;
++extern const char *conarg_trsvcid;
++extern const char *conarg_host_traddr;
++
+ void register_extension(struct plugin *plugin);
+ 
+ #include "argconfig.h"
 -- 
 2.13.7
