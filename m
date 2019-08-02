@@ -1,10 +1,10 @@
 From: sashal@kernel.org (Sasha Levin)
-Date: Fri,  2 Aug 2019 09:19:35 -0400
-Subject: [PATCH AUTOSEL 5.2 61/76] nvme: fix multipath crash when ANA is
+Date: Fri,  2 Aug 2019 09:22:51 -0400
+Subject: [PATCH AUTOSEL 4.19 31/42] nvme: fix multipath crash when ANA is
  deactivated
-In-Reply-To: <20190802131951.11600-1-sashal@kernel.org>
-References: <20190802131951.11600-1-sashal@kernel.org>
-Message-ID: <20190802131951.11600-61-sashal@kernel.org>
+In-Reply-To: <20190802132302.13537-1-sashal@kernel.org>
+References: <20190802132302.13537-1-sashal@kernel.org>
+Message-ID: <20190802132302.13537-31-sashal@kernel.org>
 
 From: Marta Rybczynska <mrybczyn@kalray.eu>
 
@@ -83,10 +83,10 @@ Signed-off-by: Sasha Levin <sashal at kernel.org>
  2 files changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 499acf07d61a7..e942b3e840687 100644
+index 260248fbb8feb..a11e210d173e4 100644
 --- a/drivers/nvme/host/multipath.c
 +++ b/drivers/nvme/host/multipath.c
-@@ -12,11 +12,6 @@ module_param(multipath, bool, 0444);
+@@ -20,11 +20,6 @@ module_param(multipath, bool, 0444);
  MODULE_PARM_DESC(multipath,
  	"turn on native support for multiple controllers per subsystem");
  
@@ -98,7 +98,7 @@ index 499acf07d61a7..e942b3e840687 100644
  /*
   * If multipathing is enabled we need to always use the subsystem instance
   * number for numbering our devices to avoid conflicts between subsystems that
-@@ -614,7 +609,8 @@ int nvme_mpath_init(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+@@ -516,7 +511,8 @@ int nvme_mpath_init(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
  {
  	int error;
  
@@ -109,10 +109,10 @@ index 499acf07d61a7..e942b3e840687 100644
  
  	ctrl->anacap = id->anacap;
 diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 55553d293a98a..7391cd0a7739e 100644
+index e82cdaec81c9c..d5e29b57eb340 100644
 --- a/drivers/nvme/host/nvme.h
 +++ b/drivers/nvme/host/nvme.h
-@@ -472,7 +472,11 @@ extern const struct attribute_group *nvme_ns_id_attr_groups[];
+@@ -464,7 +464,11 @@ extern const struct attribute_group nvme_ns_id_attr_group;
  extern const struct block_device_operations nvme_ns_head_ops;
  
  #ifdef CONFIG_NVME_MULTIPATH
