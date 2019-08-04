@@ -1,124 +1,50 @@
 From: israelr@mellanox.com (Israel Rukshin)
-Date: Sun,  4 Aug 2019 12:55:30 +0300
-Subject: [PATCH] nvme-cli/fabrics: Add tos param to connect cmd
+Date: Sun,  4 Aug 2019 12:55:29 +0300
+Subject: [PATCH 2/2] nvme-rdma: Add TOS for rdma transport
 In-Reply-To: <1564912530-15404-1-git-send-email-israelr@mellanox.com>
 References: <1564912530-15404-1-git-send-email-israelr@mellanox.com>
-Message-ID: <1564912530-15404-3-git-send-email-israelr@mellanox.com>
+Message-ID: <1564912530-15404-2-git-send-email-israelr@mellanox.com>
 
-Added 'tos' to 'connect' command so users can specify the type of service.
+For RDMA transports, TOS is an extension of IB QoS to provide clients
+the ability to segregate traffic flows for different type of data.
+RDMA CM abstract it for ULPs using rdma_set_service_type().
+Internally, each traffic flow is represented by a connection with all of
+its independent resources like that of a normal connection, and is
+differentiated by service type. In other words, there can be multiple qp
+connections between an IP pair and each supports a unique service type.
 
-usage examples:
-nvme connect --tos=0 --transport=rdma --traddr=10.0.1.1 --nqn=test-nvme
-nvme connect -T 0 -t rdma -a 10.0.1.1 -n test_nvme
+Note: In addition QOS must be configured on the relevant HCA on the
+target (send RDMA commands) and initiator to effect the traffic.
 
 Signed-off-by: Israel Rukshin <israelr at mellanox.com>
 ---
- fabrics.c | 33 ++++++++++++++++++++++++---------
- 1 file changed, 24 insertions(+), 9 deletions(-)
+ drivers/nvme/host/rdma.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/fabrics.c b/fabrics.c
-index 333669f..f952722 100644
---- a/fabrics.c
-+++ b/fabrics.c
-@@ -60,6 +60,7 @@ static struct config {
- 	int  keep_alive_tmo;
- 	int  reconnect_delay;
- 	int  ctrl_loss_tmo;
-+	int  tos;
- 	char *raw;
- 	char *device;
- 	int  duplicate_connect;
-@@ -576,11 +577,12 @@ add_bool_argument(char **argstr, int *max_len, char *arg_str, bool arg)
- }
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 13743b97a315..091f1d2f108f 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1758,16 +1758,18 @@ static int nvme_rdma_conn_rejected(struct nvme_rdma_queue *queue,
  
- static int
--add_int_argument(char **argstr, int *max_len, char *arg_str, int arg)
-+add_int_argument(char **argstr, int *max_len, char *arg_str, int arg,
-+		 bool allow_zero)
+ static int nvme_rdma_addr_resolved(struct nvme_rdma_queue *queue)
  {
- 	int len;
++	struct nvme_ctrl *ctrl = &queue->ctrl->ctrl;
+ 	int ret;
  
--	if (arg) {
-+	if ((arg && !allow_zero) || (arg != -1 && allow_zero)) {
- 		len = snprintf(*argstr, *max_len, ",%s=%d", arg_str, arg);
- 		if (len < 0)
- 			return -EINVAL;
-@@ -640,21 +642,23 @@ static int build_options(char *argstr, int max_len, bool discover)
- 		    add_argument(&argstr, &max_len, "hostid", cfg.hostid)) ||
- 	    (!discover &&
- 	      add_int_argument(&argstr, &max_len, "nr_io_queues",
--				cfg.nr_io_queues)) ||
-+				cfg.nr_io_queues, false)) ||
- 	    add_int_argument(&argstr, &max_len, "nr_write_queues",
--				cfg.nr_write_queues) ||
-+				cfg.nr_write_queues, false) ||
- 	    add_int_argument(&argstr, &max_len, "nr_poll_queues",
--				cfg.nr_poll_queues) ||
-+				cfg.nr_poll_queues, false) ||
- 	    (!discover &&
- 	      add_int_argument(&argstr, &max_len, "queue_size",
--				cfg.queue_size)) ||
-+				cfg.queue_size, false)) ||
- 	    (!discover &&
- 	      add_int_argument(&argstr, &max_len, "keep_alive_tmo",
--				cfg.keep_alive_tmo)) ||
-+				cfg.keep_alive_tmo, false)) ||
- 	    add_int_argument(&argstr, &max_len, "reconnect_delay",
--				cfg.reconnect_delay) ||
-+				cfg.reconnect_delay, false) ||
- 	    add_int_argument(&argstr, &max_len, "ctrl_loss_tmo",
--				cfg.ctrl_loss_tmo) ||
-+				cfg.ctrl_loss_tmo, false) ||
-+	    add_int_argument(&argstr, &max_len, "tos",
-+				cfg.tos, true) ||
- 	    add_bool_argument(&argstr, &max_len, "duplicate_connect",
- 				cfg.duplicate_connect) ||
- 	    add_bool_argument(&argstr, &max_len, "disable_sqflow",
-@@ -749,6 +753,13 @@ retry:
- 		p += len;
+ 	ret = nvme_rdma_create_queue_ib(queue);
+ 	if (ret)
+ 		return ret;
+ 
++	if (ctrl->opts->tos >= 0)
++		rdma_set_service_type(queue->cm_id, ctrl->opts->tos);
+ 	ret = rdma_resolve_route(queue->cm_id, NVME_RDMA_CONNECT_TIMEOUT_MS);
+ 	if (ret) {
+-		dev_err(queue->ctrl->ctrl.device,
+-			"rdma_resolve_route failed (%d).\n",
++		dev_err(ctrl->device, "rdma_resolve_route failed (%d).\n",
+ 			queue->cm_error);
+ 		goto out_destroy_queue;
  	}
- 
-+	if (cfg.tos != -1) {
-+		len = sprintf(p, ",tos=%d", cfg.tos);
-+		if (len < 0)
-+			return -EINVAL;
-+		p += len;
-+	}
-+
- 	if (cfg.keep_alive_tmo && !discover) {
- 		len = sprintf(p, ",keep_alive_tmo=%d", cfg.keep_alive_tmo);
- 		if (len < 0)
-@@ -1065,6 +1076,7 @@ int discover(const char *desc, int argc, char **argv, bool connect)
- 		{"keep-alive-tmo",  'k', "LIST", CFG_INT, &cfg.keep_alive_tmo,  required_argument, "keep alive timeout period in seconds" },
- 		{"reconnect-delay", 'c', "LIST", CFG_INT, &cfg.reconnect_delay, required_argument, "reconnect timeout period in seconds" },
- 		{"ctrl-loss-tmo",   'l', "LIST", CFG_INT, &cfg.ctrl_loss_tmo,   required_argument, "controller loss timeout period in seconds" },
-+		{"tos",             'T', "LIST", CFG_INT, &cfg.tos,             required_argument, "type of service" },
- 		{"hdr_digest", 'g', "", CFG_NONE, &cfg.hdr_digest, no_argument, "enable transport protocol header digest (TCP transport)" },
- 		{"data_digest", 'G', "", CFG_NONE, &cfg.data_digest, no_argument, "enable transport protocol data digest (TCP transport)" },
- 		{"nr-io-queues",    'i', "LIST", CFG_INT, &cfg.nr_io_queues,    required_argument, "number of io queues to use (default is core count)" },
-@@ -1076,6 +1088,7 @@ int discover(const char *desc, int argc, char **argv, bool connect)
- 		{NULL},
- 	};
- 
-+	cfg.tos = -1;
- 	ret = argconfig_parse(argc, argv, desc, command_line_options, &cfg,
- 			sizeof(cfg));
- 	if (ret)
-@@ -1122,6 +1135,7 @@ int connect(const char *desc, int argc, char **argv)
- 		{"keep-alive-tmo",  'k', "LIST", CFG_INT, &cfg.keep_alive_tmo,  required_argument, "keep alive timeout period in seconds" },
- 		{"reconnect-delay", 'c', "LIST", CFG_INT, &cfg.reconnect_delay, required_argument, "reconnect timeout period in seconds" },
- 		{"ctrl-loss-tmo",   'l', "LIST", CFG_INT, &cfg.ctrl_loss_tmo,   required_argument, "controller loss timeout period in seconds" },
-+		{"tos",             'T', "LIST", CFG_INT, &cfg.tos,             required_argument, "type of service" },
- 		{"duplicate_connect", 'D', "", CFG_NONE, &cfg.duplicate_connect, no_argument, "allow duplicate connections between same transport host and subsystem port" },
- 		{"disable_sqflow", 'd', "", CFG_NONE, &cfg.disable_sqflow, no_argument, "disable controller sq flow control (default false)" },
- 		{"hdr_digest", 'g', "", CFG_NONE, &cfg.hdr_digest, no_argument, "enable transport protocol header digest (TCP transport)" },
-@@ -1129,6 +1143,7 @@ int connect(const char *desc, int argc, char **argv)
- 		{NULL},
- 	};
- 
-+	cfg.tos = -1;
- 	ret = argconfig_parse(argc, argv, desc, command_line_options, &cfg,
- 			sizeof(cfg));
- 	if (ret)
 -- 
-1.8.3.1
+2.16.3
