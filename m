@@ -1,32 +1,53 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Sun,  4 Aug 2019 16:50:48 +0900
-Subject: [PATCH 2/4] nvme: trace: support for Get LBA Status opcode parsed
+Date: Sun,  4 Aug 2019 16:50:49 +0900
+Subject: [PATCH 3/4] nvme: trace: parse Get LBA Status command in detail
 In-Reply-To: <20190804075050.14642-1-minwoo.im.dev@gmail.com>
 References: <20190804075050.14642-1-minwoo.im.dev@gmail.com>
-Message-ID: <20190804075050.14642-3-minwoo.im.dev@gmail.com>
+Message-ID: <20190804075050.14642-4-minwoo.im.dev@gmail.com>
 
-This patch adds Get LBA Status command's opcode to the macro that is
-used by the trace feature.  Now we can see "get_lba_status" instead of
-the opcode value itself.
+Four different fields are in CDWs of Get LBA Status command which means
+it would be great if we can see in detail when tracing.
 
 Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
 ---
- include/linux/nvme.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/nvme/host/trace.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index a01277501eae..32c25b46ae63 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -841,7 +841,8 @@ enum nvme_admin_opcode {
- 		nvme_admin_opcode_name(nvme_admin_format_nvm),		\
- 		nvme_admin_opcode_name(nvme_admin_security_send),	\
- 		nvme_admin_opcode_name(nvme_admin_security_recv),	\
--		nvme_admin_opcode_name(nvme_admin_sanitize_nvm))
-+		nvme_admin_opcode_name(nvme_admin_sanitize_nvm),	\
-+		nvme_admin_opcode_name(nvme_admin_get_lba_status))
+diff --git a/drivers/nvme/host/trace.c b/drivers/nvme/host/trace.c
+index 9778eb0406b3..5c3cb6928f3c 100644
+--- a/drivers/nvme/host/trace.c
++++ b/drivers/nvme/host/trace.c
+@@ -86,6 +86,22 @@ static const char *nvme_trace_admin_get_features(struct trace_seq *p,
+ 	return ret;
+ }
  
- enum {
- 	NVME_QUEUE_PHYS_CONTIG	= (1 << 0),
++static const char *nvme_trace_get_lba_status(struct trace_seq *p,
++					     u8 *cdw10)
++{
++	const char *ret = trace_seq_buffer_ptr(p);
++	u64 slba = get_unaligned_le64(cdw10);
++	u32 mndw = get_unaligned_le32(cdw10 + 8);
++	u16 rl = get_unaligned_le16(cdw10 + 12);
++	u8 atype = cdw10[15];
++
++	trace_seq_printf(p, "slba=0x%llx, mndw=0x%x, rl=0x%x, atype=%u",
++			slba, mndw, rl, atype);
++	trace_seq_putc(p, 0);
++
++	return ret;
++}
++
+ static const char *nvme_trace_read_write(struct trace_seq *p, u8 *cdw10)
+ {
+ 	const char *ret = trace_seq_buffer_ptr(p);
+@@ -141,6 +157,8 @@ const char *nvme_trace_parse_admin_cmd(struct trace_seq *p,
+ 		return nvme_trace_admin_identify(p, cdw10);
+ 	case nvme_admin_get_features:
+ 		return nvme_trace_admin_get_features(p, cdw10);
++	case nvme_admin_get_lba_status:
++		return nvme_trace_get_lba_status(p, cdw10);
+ 	default:
+ 		return nvme_trace_common(p, cdw10);
+ 	}
 -- 
 2.17.1
