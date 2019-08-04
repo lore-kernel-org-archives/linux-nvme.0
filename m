@@ -1,58 +1,30 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri,  2 Aug 2019 19:49:55 -0700
-Subject: [PATCH rfc v2 6/6] nvme: don't remove namespace if revalidate failed
- because of a transport error
-In-Reply-To: <20190803024955.29508-1-sagi@grimberg.me>
-References: <20190803024955.29508-1-sagi@grimberg.me>
-Message-ID: <20190803024955.29508-7-sagi@grimberg.me>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Sun,  4 Aug 2019 16:10:23 +0900
+Subject: [PATCH 0/3] nvme-cli: add Get LBA Status command for 1.4
+Message-ID: <20190804071026.16149-1-minwoo.im.dev@gmail.com>
 
-If a controller reset is racing with a namespace revalidation, the
-revalidation (admin) I/O will surely fail, but we should not remove the
-namespace as we will execute the I/O when the controller is back up.
+Hi All,
 
-Fix this by checking the specific error code that revalidate_disk
-returns, and if it is a transport related error, do not remove
-the namespace as it will either recover when the controller is
-back up and schedule a subsequent scan, or the controller is
-going away and the namespaces will be removed anyways.
+This series adds Get LBA Status command which has been introduced in
+NVMe 1.4 spec.  Also it covers new fields in Identify controller data.
 
-This fixes a hang namespace scanning racing with a controller reset and
-also sporious I/O errors in path failover coditions where the
-controller reset is racing with the namespace scan work with multipath
-enabled.
+Github PR: https://github.com/linux-nvme/nvme-cli/pull/546
 
-Reported-by: Hannes Reinecke  <hare at suse.de>
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/host/core.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+Thanks,
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index b561b61b35d9..7412989a1f78 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -228,6 +228,8 @@ static blk_status_t nvme_error_status(struct request *req)
- 		return BLK_STS_PROTECTION;
- 	case NVME_SC_RESERVATION_CONFLICT:
- 		return BLK_STS_NEXUS;
-+	case NVME_SC_HOST_PATH_ERROR:
-+		return BLK_STS_TRANSPORT;
- 	default:
- 		return BLK_STS_IOERR;
- 	}
-@@ -3448,8 +3450,11 @@ static void nvme_validate_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 
- 	ns = nvme_find_get_ns(ctrl, nsid);
- 	if (ns) {
--		if (ns->disk && revalidate_disk(ns->disk))
--			nvme_ns_remove(ns);
-+		if (ns->disk) {
-+			blk_status_t sts = revalidate_disk(ns->disk);
-+			if (sts && sts != BLK_STS_TRANSPORT)
-+				nvme_ns_remove(ns);
-+		}
- 		nvme_put_ns(ns);
- 	} else
- 		nvme_alloc_ns(ctrl, nsid);
+Minwoo Im (3):
+  id-ctrl: add an indicator for get lba status capability
+  id-ctrl: add 1.4 features to OAES
+  get-lba-status: add Get LBA Status command
+
+ linux/nvme.h   | 16 ++++++++++
+ nvme-builtin.h |  1 +
+ nvme-ioctl.c   | 15 +++++++++
+ nvme-ioctl.h   |  2 ++
+ nvme-print.c   | 49 ++++++++++++++++++++++++++++--
+ nvme-print.h   |  1 +
+ nvme.c         | 82 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ 7 files changed, 164 insertions(+), 2 deletions(-)
+
 -- 
 2.17.1
