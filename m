@@ -1,27 +1,28 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Sun,  4 Aug 2019 16:50:49 +0900
-Subject: [PATCH 3/4] nvme: trace: parse Get LBA Status command in detail
+Date: Sun,  4 Aug 2019 16:50:50 +0900
+Subject: [PATCH 4/4] nvmet: trace: parse Get LBA Status command in detail
 In-Reply-To: <20190804075050.14642-1-minwoo.im.dev@gmail.com>
 References: <20190804075050.14642-1-minwoo.im.dev@gmail.com>
-Message-ID: <20190804075050.14642-4-minwoo.im.dev@gmail.com>
+Message-ID: <20190804075050.14642-5-minwoo.im.dev@gmail.com>
 
 Four different fields are in CDWs of Get LBA Status command which means
-it would be great if we can see in detail when tracing.
+it would be great if we can see in detail when tracing in target side
+also.
 
 Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
 ---
- drivers/nvme/host/trace.c | 18 ++++++++++++++++++
+ drivers/nvme/target/trace.c | 18 ++++++++++++++++++
  1 file changed, 18 insertions(+)
 
-diff --git a/drivers/nvme/host/trace.c b/drivers/nvme/host/trace.c
-index 9778eb0406b3..5c3cb6928f3c 100644
---- a/drivers/nvme/host/trace.c
-+++ b/drivers/nvme/host/trace.c
-@@ -86,6 +86,22 @@ static const char *nvme_trace_admin_get_features(struct trace_seq *p,
+diff --git a/drivers/nvme/target/trace.c b/drivers/nvme/target/trace.c
+index 6af11d493271..1373a3c67962 100644
+--- a/drivers/nvme/target/trace.c
++++ b/drivers/nvme/target/trace.c
+@@ -33,6 +33,22 @@ static const char *nvmet_trace_admin_get_features(struct trace_seq *p,
  	return ret;
  }
  
-+static const char *nvme_trace_get_lba_status(struct trace_seq *p,
++static const char *nvmet_trace_get_lba_status(struct trace_seq *p,
 +					     u8 *cdw10)
 +{
 +	const char *ret = trace_seq_buffer_ptr(p);
@@ -37,17 +38,17 @@ index 9778eb0406b3..5c3cb6928f3c 100644
 +	return ret;
 +}
 +
- static const char *nvme_trace_read_write(struct trace_seq *p, u8 *cdw10)
+ static const char *nvmet_trace_read_write(struct trace_seq *p, u8 *cdw10)
  {
  	const char *ret = trace_seq_buffer_ptr(p);
-@@ -141,6 +157,8 @@ const char *nvme_trace_parse_admin_cmd(struct trace_seq *p,
- 		return nvme_trace_admin_identify(p, cdw10);
+@@ -80,6 +96,8 @@ const char *nvmet_trace_parse_admin_cmd(struct trace_seq *p,
+ 		return nvmet_trace_admin_identify(p, cdw10);
  	case nvme_admin_get_features:
- 		return nvme_trace_admin_get_features(p, cdw10);
+ 		return nvmet_trace_admin_get_features(p, cdw10);
 +	case nvme_admin_get_lba_status:
-+		return nvme_trace_get_lba_status(p, cdw10);
++		return nvmet_trace_get_lba_status(p, cdw10);
  	default:
- 		return nvme_trace_common(p, cdw10);
+ 		return nvmet_trace_common(p, cdw10);
  	}
 -- 
 2.17.1
