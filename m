@@ -1,50 +1,57 @@
-From: israelr@mellanox.com (Israel Rukshin)
-Date: Sun,  4 Aug 2019 12:55:29 +0300
-Subject: [PATCH 2/2] nvme-rdma: Add TOS for rdma transport
-In-Reply-To: <1564912530-15404-1-git-send-email-israelr@mellanox.com>
-References: <1564912530-15404-1-git-send-email-israelr@mellanox.com>
-Message-ID: <1564912530-15404-2-git-send-email-israelr@mellanox.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Mon,  5 Aug 2019 09:19:06 +0800
+Subject: [PATCH] genirq/affinity: create affinity mask for single vector
+Message-ID: <20190805011906.5020-1-ming.lei@redhat.com>
 
-For RDMA transports, TOS is an extension of IB QoS to provide clients
-the ability to segregate traffic flows for different type of data.
-RDMA CM abstract it for ULPs using rdma_set_service_type().
-Internally, each traffic flow is represented by a connection with all of
-its independent resources like that of a normal connection, and is
-differentiated by service type. In other words, there can be multiple qp
-connections between an IP pair and each supports a unique service type.
+Since commit c66d4bd110a1f8 ("genirq/affinity: Add new callback for
+(re)calculating interrupt sets"), irq_create_affinity_masks() returns
+NULL in case of single vector. This change has caused regression on some
+drivers, such as lpfc.
 
-Note: In addition QOS must be configured on the relevant HCA on the
-target (send RDMA commands) and initiator to effect the traffic.
+The problem is that single vector may be triggered in some generic cases:
+1) kdump kernel 2) irq vectors resource is close to exhaustion.
 
-Signed-off-by: Israel Rukshin <israelr at mellanox.com>
+If we don't create affinity mask for single vector, almost every caller
+has to handle the special case.
+
+So still create affinity mask for single vector, since irq_create_affinity_masks()
+is capable of handling that.
+
+Cc: Marc Zyngier <marc.zyngier at arm.com>
+Cc: Christoph Hellwig <hch at lst.de>
+Cc: Bjorn Helgaas <helgaas at kernel.org>
+Cc: Jens Axboe <axboe at kernel.dk>
+Cc: linux-block at vger.kernel.org
+Cc: Sagi Grimberg <sagi at grimberg.me>
+Cc: linux-nvme at lists.infradead.org
+Cc: linux-pci at vger.kernel.org
+Cc: Keith Busch <keith.busch at intel.com>
+Cc: Sumit Saxena <sumit.saxena at broadcom.com>
+Cc: Kashyap Desai <kashyap.desai at broadcom.com>
+Cc: Shivasharan Srikanteshwara <shivasharan.srikanteshwara at broadcom.com>
+Fixes: c66d4bd110a1f8 ("genirq/affinity: Add new callback for (re)calculating interrupt sets")
+Signed-off-by: Ming Lei <ming.lei at redhat.com>
 ---
- drivers/nvme/host/rdma.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ kernel/irq/affinity.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 13743b97a315..091f1d2f108f 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1758,16 +1758,18 @@ static int nvme_rdma_conn_rejected(struct nvme_rdma_queue *queue,
- 
- static int nvme_rdma_addr_resolved(struct nvme_rdma_queue *queue)
- {
-+	struct nvme_ctrl *ctrl = &queue->ctrl->ctrl;
- 	int ret;
- 
- 	ret = nvme_rdma_create_queue_ib(queue);
- 	if (ret)
- 		return ret;
- 
-+	if (ctrl->opts->tos >= 0)
-+		rdma_set_service_type(queue->cm_id, ctrl->opts->tos);
- 	ret = rdma_resolve_route(queue->cm_id, NVME_RDMA_CONNECT_TIMEOUT_MS);
- 	if (ret) {
--		dev_err(queue->ctrl->ctrl.device,
--			"rdma_resolve_route failed (%d).\n",
-+		dev_err(ctrl->device, "rdma_resolve_route failed (%d).\n",
- 			queue->cm_error);
- 		goto out_destroy_queue;
- 	}
+diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
+index 4352b08ae48d..6fef48033f96 100644
+--- a/kernel/irq/affinity.c
++++ b/kernel/irq/affinity.c
+@@ -251,11 +251,9 @@ irq_create_affinity_masks(unsigned int nvecs, struct irq_affinity *affd)
+ 	 * Determine the number of vectors which need interrupt affinities
+ 	 * assigned. If the pre/post request exhausts the available vectors
+ 	 * then nothing to do here except for invoking the calc_sets()
+-	 * callback so the device driver can adjust to the situation. If there
+-	 * is only a single vector, then managing the queue is pointless as
+-	 * well.
++	 * callback so the device driver can adjust to the situation.
+ 	 */
+-	if (nvecs > 1 && nvecs > affd->pre_vectors + affd->post_vectors)
++	if (nvecs > affd->pre_vectors + affd->post_vectors)
+ 		affvecs = nvecs - affd->pre_vectors - affd->post_vectors;
+ 	else
+ 		affvecs = 0;
 -- 
-2.16.3
+2.20.1
