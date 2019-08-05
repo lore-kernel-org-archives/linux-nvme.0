@@ -1,46 +1,32 @@
-From: tomwu@mellanox.com (Tom Wu)
-Date: Mon,  5 Aug 2019 01:57:39 +0000
-Subject: [PATCH] nvmet: fix data units read and written counters in SMART log
-Message-ID: <1564970259-12279-1-git-send-email-tomwu@mellanox.com>
+From: minwoo.im@samsung.com (Minwoo Im)
+Date: Mon, 05 Aug 2019 11:38:48 +0900
+Subject: [PATCH] nvmet: fix data units read and written counters in
+ SMART log
+In-Reply-To: <1564970259-12279-1-git-send-email-tomwu@mellanox.com>
+References: <1564970259-12279-1-git-send-email-tomwu@mellanox.com>
+ <CGME20190805015817epcas5p2617320fe4cae019ab373710395ca43ed@epcms2p2>
+Message-ID: <20190805023848epcms2p2de4d04f6606b26740027fe2a7a023759@epcms2p2>
 
-In nvme spec 1.3 there is a definition for data write/read counters
-from SMART log. (See section 5.14.1.2):
-	This value is reported in thousands (i.e., a value of 1
-	corresponds to 1000 units of 512 bytes read) and is rounded up.
+> -----Original Message-----
+> From: Linux-nvme <linux-nvme-bounces at lists.infradead.org> On Behalf Of Tom Wu
+> Sent: Monday, August 5, 2019 10:58 AM
+> To: Linux-nvme <linux-nvme at lists.infradead.org>; keith.busch at intel.com;
+> hch at lst.de; sagi at grimberg.me
+> Cc: Shlomi Nimrodi <shlomin at mellanox.com>; Max Gurtovoy
+> <maxg at mellanox.com>; Tom Wu <tomwu at mellanox.com>; Israel Rukshin
+> <israelr at mellanox.com>
+> Subject: [PATCH] nvmet: fix data units read and written counters in SMART log
+> 
+> In nvme spec 1.3 there is a definition for data write/read counters
+> from SMART log. (See section 5.14.1.2):
+> 	This value is reported in thousands (i.e., a value of 1
+> 	corresponds to 1000 units of 512 bytes read) and is rounded up.
+> 
+> However, in nvme target where value is reported with actual units,
+> but not thousands of units as the spec requires.
+> 
+> Signed-off-by: Tom Wu <tomwu at mellanox.com>
+> Reviewed-by: Israel Rukshin <israelr at mellanox.com>
+> Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
 
-However, in nvme target where value is reported with actual units,
-but not thousands of units as the spec requires.
-
-Signed-off-by: Tom Wu <tomwu at mellanox.com>
-Reviewed-by: Israel Rukshin <israelr at mellanox.com>
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
----
- drivers/nvme/target/admin-cmd.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 9f72d51..acbadbe 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -85,6 +85,9 @@ static u16 nvmet_get_smart_log_nsid(struct nvmet_req *req,
- 	host_writes = part_stat_read(ns->bdev->bd_part, ios[WRITE]);
- 	data_units_written = part_stat_read(ns->bdev->bd_part, sectors[WRITE]);
- 
-+	data_units_read = DIV_ROUND_UP(data_units_read, 1000);
-+	data_units_written = DIV_ROUND_UP(data_units_written, 1000);
-+
- 	put_unaligned_le64(host_reads, &slog->host_reads[0]);
- 	put_unaligned_le64(data_units_read, &slog->data_units_read[0]);
- 	put_unaligned_le64(host_writes, &slog->host_writes[0]);
-@@ -120,6 +123,9 @@ static u16 nvmet_get_smart_log_all(struct nvmet_req *req,
- 	}
- 	rcu_read_unlock();
- 
-+	data_units_read = DIV_ROUND_UP(data_units_read, 1000);
-+	data_units_written = DIV_ROUND_UP(data_units_written, 1000);
-+
- 	put_unaligned_le64(host_reads, &slog->host_reads[0]);
- 	put_unaligned_le64(data_units_read, &slog->data_units_read[0]);
- 	put_unaligned_le64(host_writes, &slog->host_writes[0]);
--- 
-1.8.4.3
+Reviewed-by: Minwoo Im <minwoo.im at samsung.com>
