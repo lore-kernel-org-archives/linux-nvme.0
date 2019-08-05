@@ -1,163 +1,141 @@
-From: kai.heng.feng@canonical.com (Kai-Heng Feng)
-Date: Tue, 6 Aug 2019 03:13:56 +0800
-Subject: [Regression] Commit "nvme/pci: Use host managed power state for
- suspend" has problems
-In-Reply-To: <CAJZ5v0ipG-MJjERBL9fjx29QktaYEKSmMCbWiEGPHsbF=Xfxtw@mail.gmail.com>
-References: <4323ed84dd07474eab65699b4d007aaf@AUSX13MPC105.AMER.DELL.COM>
- <CAJZ5v0iDQ4=kTUgW94tKGt7oJzA_3uVU_M6HAMbNCRXwp_do8A@mail.gmail.com>
- <47415939.KV5G6iaeJG@kreacher> <20190730144134.GA12844@localhost.localdomain>
- <100ba4aff1c6434a81e47774ab4acddc@AUSX13MPC105.AMER.DELL.COM>
- <8246360B-F7D9-42EB-94FC-82995A769E28@canonical.com>
- <20190730191934.GD13948@localhost.localdomain>
- <7d3e0b8ba1444194a153c93faa1cabb3@AUSX13MPC105.AMER.DELL.COM>
- <20190730213114.GK13948@localhost.localdomain>
- <CAJZ5v0gxfeMN8eCNRjcXmUOkReVsdozb3EccaYMpnmSHu3771g@mail.gmail.com>
- <20190731221956.GB15795@localhost.localdomain>
- <CAJZ5v0hxYGBXau39sb80MQ8jbZZCzH0JU2DYZvn9JOtYT2+30g@mail.gmail.com>
- <70D536BE-8DC7-4CA2-84A9-AFB067BA520E@canonical.com>
- <CAJZ5v0hFYEv_+vFkrxaCn_pNAbyqmO_cLb5GOLNn_xxRRwjh2g@mail.gmail.com>
- <38d4b4b107154454a932781acde0fa5a@AUSX13MPC105.AMER.DELL.COM>
- <CAJZ5v0jmO4FMOVYs62wkvPrUW81scD2H7cJyRc+tfoj+vODVbQ@mail.gmail.com>
- <43A8DF53-8463-4314-9E8E-47A7D3C5A709@canonical.com>
- <CAJZ5v0ipG-MJjERBL9fjx29QktaYEKSmMCbWiEGPHsbF=Xfxtw@mail.gmail.com>
-Message-ID: <1FA3D56B-80C6-496C-8772-2F773AA8043C@canonical.com>
+From: jsmart2021@gmail.com (James Smart)
+Date: Mon, 5 Aug 2019 12:32:50 -0700
+Subject: Fwd: [PATCH rfc v2 0/6] nvme controller reset and namespace scan
+ work race conditions
+In-Reply-To: <e04be8bf-20cb-db7d-6046-74d8ec6fa485@broadcom.com>
+References: <20190803024955.29508-1-sagi@grimberg.me>
+ <e04be8bf-20cb-db7d-6046-74d8ec6fa485@broadcom.com>
+Message-ID: <e80a1e7a-ab7d-fc89-0f62-2c88b7c75b85@gmail.com>
 
-at 19:04, Rafael J. Wysocki <rafael@kernel.org> wrote:
+On 8/5/2019 10:47 AM, James Smart wrote:
+> 
+> Hey Hannes and Keith,
+> 
+> This is the second attempt to handle the reset and scanning race saga.
+> 
+> The approach is to have the relevant admin commands return a proper
+> status code that reflects that we had a transport error and
+> not remove the namepsace if that is indeed the case.
+> 
+> This should be a reliable way to know if the revalidate_disk failed
+> due to a transport error or not.
+> 
+> I am able to reproduce this race with the following command (using
+> tcp/rdma):
+> for j in `seq 50`; do for i in `seq 50`; do nvme reset /dev/nvme0; done 
+> ; nvme disconnect-all; nvme connect-all; done
+> 
+> With this patch set (plus two more tcp/rdma transport specific patches
+> that address a other issues) I was able to pass the test without
+> reproducing the hang that you hannes reported.
+> 
+> In the patchset:
+> - first make sure that transport related errors (such as
+> nvme_cancel_request) reflect HOST_PATH_ERROR status.
+> - make NVME_SC_HOST_PATH_ERROR a BLK_STS_TRANSPORT conversion.
+> - Make sure that the callers indeed propagate the status back
+> - Then simply look at the status code when calling revalidate_disk
+> in nvme_validate_ns, and only remove it if the status code is
+> indeed a transport related status.
+> 
+> Please let me know your thoghts.
+> 
+> Sagi Grimberg (6):
+> nvme: fail cancelled commands with NVME_SC_HOST_PATH_ERROR
+> nvme: return nvme_error_status for sync commands failure
+> nvme: make nvme_identify_ns propagate errors back
+> nvme: make nvme_report_ns_ids propagate error back
+> nvme-tcp: fail command with NVME_SC_HOST_PATH_ERROR send failed
+> nvme: don't remove namespace if revalidate failed because of a
+> transport error
+> 
+> drivers/nvme/host/core.c | 67 ++++++++++++++++++++++++----------------
+> drivers/nvme/host/tcp.c | 2 +-
 
-> On Fri, Aug 2, 2019 at 12:55 PM Kai-Heng Feng
-> <kai.heng.feng@canonical.com> wrote:
->>@06:26, Rafael J. Wysocki <rafael@kernel.org> wrote:
->>
->>> On Thu, Aug 1, 2019@9:05 PM <Mario.Limonciello@dell.com> wrote:
->>>>> -----Original Message-----
->>>>> From: Rafael J. Wysocki <rafael at kernel.org>
->>>>> Sent: Thursday, August 1, 2019 12:30 PM
->>>>> To: Kai-Heng Feng; Keith Busch; Limonciello, Mario
->>>>> Cc: Keith Busch; Christoph Hellwig; Sagi Grimberg; linux-nvme; Linux
->>>>> PM; Linux
->>>>> Kernel Mailing List; Rajat Jain
->>>>> Subject: Re: [Regression] Commit "nvme/pci: Use host managed power
->>>>> state for
->>>>> suspend" has problems
->>>>>
->>>>>
->>>>> [EXTERNAL EMAIL]
->>>>>
->>>>> On Thu, Aug 1, 2019 at 11:06 AM Kai-Heng Feng
->>>>> <kai.heng.feng@canonical.com> wrote:
->>>>>>@06:33, Rafael J. Wysocki <rafael@kernel.org> wrote:
->>>>>>
->>>>>>> On Thu, Aug 1, 2019 at 12:22 AM Keith Busch <kbusch at kernel.org>  
->>>>>>> wrote:
->>>>>>>> On Wed, Jul 31, 2019@11:25:51PM +0200, Rafael J. Wysocki wrote:
->>>>>>>>> A couple of remarks if you will.
->>>>>>>>>
->>>>>>>>> First, we don't know which case is the majority at this point.  For
->>>>>>>>> now, there is one example of each, but it may very well turn out  
->>>>>>>>> that
->>>>>>>>> the SK Hynix BC501 above needs to be quirked.
->>>>>>>>>
->>>>>>>>> Second, the reference here really is 5.2, so if there are any  
->>>>>>>>> systems
->>>>>>>>> that are not better off with 5.3-rc than they were with 5.2,  
->>>>>>>>> well, we
->>>>>>>>> have not made progress.  However, if there are systems that are  
->>>>>>>>> worse
->>>>>>>>> off with 5.3, that's bad.  In the face of the latest findings the
->>>>>>>>> only
->>>>>>>>> way to avoid that is to be backwards compatible with 5.2 and that's
->>>>>>>>> where my patch is going.  That cannot be achieved by quirking all
->>>>>>>>> cases that are reported as "bad", because there still may be
->>>>>>>>> unreported ones.
->>>>>>>>
->>>>>>>> I have to agree. I think your proposal may allow PCI D3cold,
->>>>>>>
->>>>>>> Yes, it may.
->>>>>>
->>>>>> Somehow the 9380 with Toshiba NVMe never hits SLP_S0 with or without
->>>>>> Rafael?s patch.
->>>>>> But the ?real? s2idle power consumption does improve with the patch.
->>>>>
->>>>> Do you mean this patch:
->>>>>
->>>>> https://lore.kernel.org/linux-pm/70D536BE-8DC7-4CA2-84A9-
->>>>> AFB067BA520E at canonical.com/T/#m456aa5c69973a3b68f2cdd4713a1ce83be5145
->>>>> 8f
->>>>>
->>>>> or the $subject one without the above?
->>>>>
->>>>>> Can we use a DMI based quirk for this platform? It seems like a  
->>>>>> platform
->>>>>> specific issue.
->>>>>
->>>>> We seem to see too many "platform-specific issues" here. :-)
->>>>>
->>>>> To me, the status quo (ie. what we have in 5.3-rc2) is not defensible.
->>>>> Something needs to be done to improve the situation.
->>>>
->>>> Rafael, would it be possible to try popping out PC401 from the 9380 and
->>>> into a 9360 to
->>>> confirm there actually being a platform impact or not?
->>>
->>> Not really, sorry.
->>>
->>>> I was hoping to have something useful from Hynix by now before
->>>> responding, but oh well.
->>>>
->>>> In terms of what is the majority, I do know that between folks at Dell,
->>>> Google, Compal,
->>>> Wistron, Canonical, Micron, Hynix, Toshiba, LiteOn, and Western Digital
->>>> we tested a wide
->>>> variety of SSDs with this patch series.  I would like to think that they
->>>> are representative of
->>>> what's being manufactured into machines now.
->>>
->>> Well, what about drives already in the field?  My concern is mostly
->>> about those ones.
->>>
->>>> Notably the LiteOn CL1 was tested with the HMB flushing support and
->>>> and Hynix PC401 was tested with older firmware though.
->>>>
->>>>>>>> In which case we do need to reintroduce the HMB handling.
->>>>>>>
->>>>>>> Right.
->>>>>>
->>>>>> The patch alone doesn?t break HMB Toshiba NVMe I tested. But I think
->>>>>> it?s
->>>>>> still safer to do proper HMB handling.
->>>>>
->>>>> Well, so can anyone please propose something specific?  Like an
->>>>> alternative patch?
->>>>
->>>> This was proposed a few days ago:
->>>> http://lists.infradead.org/pipermail/linux-nvme/2019-July/026056.html
->>>>
->>>> However we're still not sure why it is needed, and it will take some
->>>> time to get
->>>> a proper failure analysis from LiteOn  regarding the CL1.
->>>
->>> Thanks for the update, but IMO we still need to do something before
->>> final 5.3 while the investigation continues.
->>>
->>> Honestly, at this point I would vote for going back to the 5.2
->>> behavior at least by default and only running the new code on the
->>> drives known to require it (because they will block PC10 otherwise).
->>>
->>> Possibly (ideally) with an option for users who can't get beyond PC3
->>> to test whether or not the new code helps them.
->>
->> I just found out that the XPS 9380 at my hand never reaches SLP_S0 but  
->> only
->> PC10.
->
-> That's the case for me too.
->
->> This happens with or without putting the device to D3.
->
-> On my system, though, it only can get to PC3 without putting the NVMe
-> into D3 (as reported previously).
 
-I forgot to ask, what BIOS version does the system have?
-I don?t see this issue on BIOS v1.5.0.
+I have two complaints:
 
-Kai-Heng
+- FC is eliminated from this fix, as FC doesn't use 
+nvme_cancel_request() to terminate I/O's on resets/error recovery.
+
+- With this change, any error set by a transport must be either 
+NVME_SC_SUCCESS or NVME_SC_HOST_PATH_ERROR or it potentially misses the 
+fix. I'm not sure that I like that, although any error from the 
+transport is essentially a path error.  Do we lose anything by the loss 
+of error clarity ?   Looking at what's present, we don't have much 
+diversity when an error is set, so I guess it's ok.
+
+- james
+
+Minimally, include the following fix for FC as well:
+
+
+Signed-off-by: James Smart <james.smart at broadcom.com>
+---
+  fc.c.new |   35 +++++++++++++++++++++++++++++------
+  1 file changed, 29 insertions(+), 6 deletions(-)
+
+--- fc.c.old	2019-08-05 10:55:51.318627945 -0700
++++ fc.c.new	2019-08-05 11:01:46.278380191 -0700
+@@ -1608,9 +1608,13 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req
+  				sizeof(op->rsp_iu), DMA_FROM_DEVICE);
+
+  	if (opstate == FCPOP_STATE_ABORTED)
+-		status = cpu_to_le16(NVME_SC_ABORT_REQ << 1);
+-	else if (freq->status)
+-		status = cpu_to_le16(NVME_SC_INTERNAL << 1);
++		status = cpu_to_le16(NVME_SC_HOST_PATH_ERROR << 1);
++	else if (freq->status) {
++		status = cpu_to_le16(NVME_SC_HOST_PATH_ERROR << 1);
++		dev_info(ctrl->ctrl.device,
++			"NVME-FC{%d}: io failed due to lldd error %d\n",
++			ctrl->cnum, freq->status);
++	}
+
+  	/*
+  	 * For the linux implementation, if we have an unsuccesful
+@@ -1638,7 +1642,12 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req
+  		 */
+  		if (freq->transferred_length !=
+  			be32_to_cpu(op->cmd_iu.data_len)) {
+-			status = cpu_to_le16(NVME_SC_INTERNAL << 1);
++			status = cpu_to_le16(NVME_SC_HOST_PATH_ERROR << 1);
++			dev_info(ctrl->ctrl.device,
++				"NVME-FC{%d}: io failed due to bad transfer "
++				"length: %d vs expected %d\n",
++				ctrl->cnum, freq->transferred_length,
++				be32_to_cpu(op->cmd_iu.data_len));
+  			goto done;
+  		}
+  		result.u64 = 0;
+@@ -1655,7 +1664,17 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req
+  					freq->transferred_length ||
+  			     op->rsp_iu.status_code ||
+  			     sqe->common.command_id != cqe->command_id)) {
+-			status = cpu_to_le16(NVME_SC_INTERNAL << 1);
++			status = cpu_to_le16(NVME_SC_HOST_PATH_ERROR << 1);
++			dev_info(ctrl->ctrl.device,
++				"NVME-FC{%d}: io failed due to bad NVMe_ERSP: "
++				"iu len %d, xfr len %d vs %d, status code "
++				"%d, cmdid %d vs %d\n",
++				ctrl->cnum, be16_to_cpu(op->rsp_iu.iu_len),
++				be32_to_cpu(op->rsp_iu.xfrd_len),
++				freq->transferred_length,
++			     	op->rsp_iu.status_code,
++				sqe->common.command_id,
++				cqe->command_id);
+  			goto done;
+  		}
+  		result = cqe->result;
+@@ -1663,7 +1682,11 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req
+  		break;
+
+  	default:
+-		status = cpu_to_le16(NVME_SC_INTERNAL << 1);
++		status = cpu_to_le16(NVME_SC_HOST_PATH_ERROR << 1);
++		dev_info(ctrl->ctrl.device,
++			"NVME-FC{%d}: io failed due to odd NVMe_xRSP iu "
++			"len %d\n",
++			ctrl->cnum, freq->rcv_rsplen);
+  		goto done;
+  	}
