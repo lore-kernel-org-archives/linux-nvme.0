@@ -1,106 +1,34 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 5 Aug 2019 12:48:41 -0700
-Subject: Fwd: [PATCH rfc v2 0/6] nvme controller reset and namespace scan
- work race conditions
-In-Reply-To: <e80a1e7a-ab7d-fc89-0f62-2c88b7c75b85@gmail.com>
-References: <20190803024955.29508-1-sagi@grimberg.me>
- <e04be8bf-20cb-db7d-6046-74d8ec6fa485@broadcom.com>
- <e80a1e7a-ab7d-fc89-0f62-2c88b7c75b85@gmail.com>
-Message-ID: <e76173c0-b398-5e57-7fe6-e943ecd7b625@grimberg.me>
+Date: Mon, 5 Aug 2019 12:56:29 -0700
+Subject: [PATCH v3] nvme-pci: Support shared tags across queues for Apple
+ 2018 controllers
+In-Reply-To: <caa04d02-05a0-dd1f-2072-df41a21f2aa8@fb.com>
+References: <b1f9bdf0294b8d87d292de3c7462c8e99551b02d.camel@kernel.crashing.org>
+ <20190730153044.GA13948@localhost.localdomain>
+ <2030a028664a9af9e96fffca3ab352faf1f739e5.camel@kernel.crashing.org>
+ <6290507e1b2830b1729fc858cd5c20b85d092728.camel@kernel.crashing.org>
+ <20190805134907.GC18647@localhost.localdomain>
+ <40a6acc2-beae-3e36-ca20-af5801038a1e@grimberg.me>
+ <caa04d02-05a0-dd1f-2072-df41a21f2aa8@fb.com>
+Message-ID: <f34af208-2707-f326-0451-354a8b482586@grimberg.me>
 
 
-> I have two complaints:
+>>>> Ping ? I had another look today and I don't feel like mucking around
+>>>> with all the AQ size logic, AEN magic tag etc... just for that sake of
+>>>> that Apple gunk. I'm happy to have it give up IO tags, it doesn't seem
+>>>> to make much of a difference in practice anyway.
+>>>>
+>>>> But if you feel strongly about it, then I'll implement the "proper" way
+>>>> sometimes this week, adding a way to shrink the AQ down to something
+>>>> like 3 (one admin request, one async event (AEN), and the empty slot)
+>>>> by making a bunch of the constants involved variables instead.
+>>>
+>>> I don't feel too strongly about it. I think your patch is fine, so
+>>>
+>>> Acked-by: Keith Busch <keith.busch at intel.com>
+>>
+>> Should we pick this up for 5.3-rc?
 > 
-> - FC is eliminated from this fix, as FC doesn't use 
-> nvme_cancel_request() to terminate I/O's on resets/error recovery.
+> No, it's not a regression fix. Queue it up for 5.4 instead.
 
-Becuase I didn't find nvme_cancel_request in fc I assumed that it
-doesn't see the issue, but thanks for the extra hunk that is needed!
-
-> - With this change, any error set by a transport must be either 
-> NVME_SC_SUCCESS or NVME_SC_HOST_PATH_ERROR or it potentially misses the 
-> fix. I'm not sure that I like that, although any error from the 
-> transport is essentially a path error.? Do we lose anything by the loss 
-> of error clarity ??? Looking at what's present, we don't have much 
-> diversity when an error is set, so I guess it's ok.
-
-The main objective is to avoid the issue if we have a transport related
-error which means we cannot communicate the the device (hence we set
-BLK_STS_TRANSPORT). If we have another transport related error we should
-assign that as well to this path.
-
-> Minimally, include the following fix for FC as well:
-> 
-> 
-> Signed-off-by: James Smart <james.smart at broadcom.com>
-> ---
->  ?fc.c.new |?? 35 +++++++++++++++++++++++++++++------
->  ?1 file changed, 29 insertions(+), 6 deletions(-)
-> 
-> --- fc.c.old??? 2019-08-05 10:55:51.318627945 -0700
-> +++ fc.c.new??? 2019-08-05 11:01:46.278380191 -0700
-> @@ -1608,9 +1608,13 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req
->  ???????????????? sizeof(op->rsp_iu), DMA_FROM_DEVICE);
-> 
->  ???? if (opstate == FCPOP_STATE_ABORTED)
-> -??????? status = cpu_to_le16(NVME_SC_ABORT_REQ << 1);
-> -??? else if (freq->status)
-> -??????? status = cpu_to_le16(NVME_SC_INTERNAL << 1);
-> +??????? status = cpu_to_le16(NVME_SC_HOST_PATH_ERROR << 1);
-> +??? else if (freq->status) {
-> +??????? status = cpu_to_le16(NVME_SC_HOST_PATH_ERROR << 1);
-> +??????? dev_info(ctrl->ctrl.device,
-> +??????????? "NVME-FC{%d}: io failed due to lldd error %d\n",
-> +??????????? ctrl->cnum, freq->status);
-> +??? }
-> 
->  ???? /*
->  ????? * For the linux implementation, if we have an unsuccesful
-> @@ -1638,7 +1642,12 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req
->  ????????? */
->  ???????? if (freq->transferred_length !=
->  ???????????? be32_to_cpu(op->cmd_iu.data_len)) {
-> -??????????? status = cpu_to_le16(NVME_SC_INTERNAL << 1);
-> +??????????? status = cpu_to_le16(NVME_SC_HOST_PATH_ERROR << 1);
-> +??????????? dev_info(ctrl->ctrl.device,
-> +??????????????? "NVME-FC{%d}: io failed due to bad transfer "
-> +??????????????? "length: %d vs expected %d\n",
-> +??????????????? ctrl->cnum, freq->transferred_length,
-> +??????????????? be32_to_cpu(op->cmd_iu.data_len));
->  ???????????? goto done;
->  ???????? }
->  ???????? result.u64 = 0;
-> @@ -1655,7 +1664,17 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req
->  ???????????????????? freq->transferred_length ||
->  ????????????????? op->rsp_iu.status_code ||
->  ????????????????? sqe->common.command_id != cqe->command_id)) {
-> -??????????? status = cpu_to_le16(NVME_SC_INTERNAL << 1);
-> +??????????? status = cpu_to_le16(NVME_SC_HOST_PATH_ERROR << 1);
-> +??????????? dev_info(ctrl->ctrl.device,
-> +??????????????? "NVME-FC{%d}: io failed due to bad NVMe_ERSP: "
-> +??????????????? "iu len %d, xfr len %d vs %d, status code "
-> +??????????????? "%d, cmdid %d vs %d\n",
-> +??????????????? ctrl->cnum, be16_to_cpu(op->rsp_iu.iu_len),
-> +??????????????? be32_to_cpu(op->rsp_iu.xfrd_len),
-> +??????????????? freq->transferred_length,
-> +???????????????????? op->rsp_iu.status_code,
-> +??????????????? sqe->common.command_id,
-> +??????????????? cqe->command_id);
->  ???????????? goto done;
->  ???????? }
->  ???????? result = cqe->result;
-> @@ -1663,7 +1682,11 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req
->  ???????? break;
-> 
->  ???? default:
-> -??????? status = cpu_to_le16(NVME_SC_INTERNAL << 1);
-> +??????? status = cpu_to_le16(NVME_SC_HOST_PATH_ERROR << 1);
-> +??????? dev_info(ctrl->ctrl.device,
-> +??????????? "NVME-FC{%d}: io failed due to odd NVMe_xRSP iu "
-> +??????????? "len %d\n",
-> +??????????? ctrl->cnum, freq->rcv_rsplen);
->  ???????? goto done;
->  ???? }
-> 
-
-I will, thanks!
+OK, will queue it up for nvme-5.4
