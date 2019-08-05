@@ -1,17 +1,21 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 5 Aug 2019 11:10:44 -0700
-Subject: [PATCH] nvme: simplify nvme_req_qid()
-In-Reply-To: <20190804071902.31872-1-minwoo.im.dev@gmail.com>
-References: <20190804071902.31872-1-minwoo.im.dev@gmail.com>
-Message-ID: <4ce851fc-2560-cb45-9733-bb8ff4a5069e@grimberg.me>
+Date: Mon, 5 Aug 2019 11:12:20 -0700
+Subject: [PATCH rfc v2 2/6] nvme: return nvme_error_status for sync
+ commands failure
+In-Reply-To: <20190804075758.GB14486@minwoo-desktop>
+References: <20190803024955.29508-1-sagi@grimberg.me>
+ <20190803024955.29508-3-sagi@grimberg.me>
+ <20190804075758.GB14486@minwoo-desktop>
+Message-ID: <a16aa5b3-262b-e895-e0f2-f28e01c39e4a@grimberg.me>
 
 
-> blk_mq_unique_tag() just makes a unique tag which holds not only the
-> tag, but also the queue_num of the hctx.  With this unique tag,
-> blk_mq_unique_tag_to_hwq is nothing but removing the tag from it.
+> Hi Sagi,
 > 
-> Therefore the qid or the I/O queues can simply be:
-> 	(struct blk_mq_hw_ctx *)->queue_num + 1
+> On 19-08-02 19:49:51, Sagi Grimberg wrote:
+>> callers should not rely on raw nvme status, blk_status_t
+>> is more appropriate.
+> 
+> May I ask why caller should not rely on the nvme status?
 
-This pattern is not unique to nvme, perhaps add a helper for it
-in the block layer and modify the callers?
+Because the origin of these calls may not be nvme at all, so
+a generic block status is definitely more appropriate.
