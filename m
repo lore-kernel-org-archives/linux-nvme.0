@@ -1,167 +1,205 @@
-From: rafael@kernel.org (Rafael J. Wysocki)
-Date: Mon, 5 Aug 2019 23:28:58 +0200
-Subject: [Regression] Commit "nvme/pci: Use host managed power state for
- suspend" has problems
-In-Reply-To: <1FA3D56B-80C6-496C-8772-2F773AA8043C@canonical.com>
-References: <4323ed84dd07474eab65699b4d007aaf@AUSX13MPC105.AMER.DELL.COM>
- <CAJZ5v0iDQ4=kTUgW94tKGt7oJzA_3uVU_M6HAMbNCRXwp_do8A@mail.gmail.com>
- <47415939.KV5G6iaeJG@kreacher> <20190730144134.GA12844@localhost.localdomain>
- <100ba4aff1c6434a81e47774ab4acddc@AUSX13MPC105.AMER.DELL.COM>
- <8246360B-F7D9-42EB-94FC-82995A769E28@canonical.com>
- <20190730191934.GD13948@localhost.localdomain>
- <7d3e0b8ba1444194a153c93faa1cabb3@AUSX13MPC105.AMER.DELL.COM>
- <20190730213114.GK13948@localhost.localdomain>
- <CAJZ5v0gxfeMN8eCNRjcXmUOkReVsdozb3EccaYMpnmSHu3771g@mail.gmail.com>
- <20190731221956.GB15795@localhost.localdomain>
- <CAJZ5v0hxYGBXau39sb80MQ8jbZZCzH0JU2DYZvn9JOtYT2+30g@mail.gmail.com>
- <70D536BE-8DC7-4CA2-84A9-AFB067BA520E@canonical.com>
- <CAJZ5v0hFYEv_+vFkrxaCn_pNAbyqmO_cLb5GOLNn_xxRRwjh2g@mail.gmail.com>
- <38d4b4b107154454a932781acde0fa5a@AUSX13MPC105.AMER.DELL.COM>
- <CAJZ5v0jmO4FMOVYs62wkvPrUW81scD2H7cJyRc+tfoj+vODVbQ@mail.gmail.com>
- <43A8DF53-8463-4314-9E8E-47A7D3C5A709@canonical.com>
- <CAJZ5v0ipG-MJjERBL9fjx29QktaYEKSmMCbWiEGPHsbF=Xfxtw@mail.gmail.com>
- <1FA3D56B-80C6-496C-8772-2F773AA8043C@canonical.com>
-Message-ID: <CAJZ5v0g_yAP=zgYDXtJWtwceQp4wWPWFghDDD0opdZ4zT-yo5Q@mail.gmail.com>
+From: marcos.souza.org@gmail.com (Marcos Paulo de Souza)
+Date: Mon,  5 Aug 2019 22:17:51 -0300
+Subject: [PATCH] block: Remove request_queue argument from
+ blk_execute_rq_nowait
+Message-ID: <20190806011754.7722-1-marcos.souza.org@gmail.com>
 
-On Mon, Aug 5, 2019 at 9:14 PM Kai-Heng Feng
-<kai.heng.feng@canonical.com> wrote:
->
->@19:04, Rafael J. Wysocki <rafael@kernel.org> wrote:
->
-> > On Fri, Aug 2, 2019 at 12:55 PM Kai-Heng Feng
-> > <kai.heng.feng@canonical.com> wrote:
-> >>@06:26, Rafael J. Wysocki <rafael@kernel.org> wrote:
-> >>
-> >>> On Thu, Aug 1, 2019@9:05 PM <Mario.Limonciello@dell.com> wrote:
-> >>>>> -----Original Message-----
-> >>>>> From: Rafael J. Wysocki <rafael at kernel.org>
-> >>>>> Sent: Thursday, August 1, 2019 12:30 PM
-> >>>>> To: Kai-Heng Feng; Keith Busch; Limonciello, Mario
-> >>>>> Cc: Keith Busch; Christoph Hellwig; Sagi Grimberg; linux-nvme; Linux
-> >>>>> PM; Linux
-> >>>>> Kernel Mailing List; Rajat Jain
-> >>>>> Subject: Re: [Regression] Commit "nvme/pci: Use host managed power
-> >>>>> state for
-> >>>>> suspend" has problems
-> >>>>>
-> >>>>>
-> >>>>> [EXTERNAL EMAIL]
-> >>>>>
-> >>>>> On Thu, Aug 1, 2019 at 11:06 AM Kai-Heng Feng
-> >>>>> <kai.heng.feng@canonical.com> wrote:
-> >>>>>>@06:33, Rafael J. Wysocki <rafael@kernel.org> wrote:
-> >>>>>>
-> >>>>>>> On Thu, Aug 1, 2019 at 12:22 AM Keith Busch <kbusch at kernel.org>
-> >>>>>>> wrote:
-> >>>>>>>> On Wed, Jul 31, 2019@11:25:51PM +0200, Rafael J. Wysocki wrote:
-> >>>>>>>>> A couple of remarks if you will.
-> >>>>>>>>>
-> >>>>>>>>> First, we don't know which case is the majority at this point.  For
-> >>>>>>>>> now, there is one example of each, but it may very well turn out
-> >>>>>>>>> that
-> >>>>>>>>> the SK Hynix BC501 above needs to be quirked.
-> >>>>>>>>>
-> >>>>>>>>> Second, the reference here really is 5.2, so if there are any
-> >>>>>>>>> systems
-> >>>>>>>>> that are not better off with 5.3-rc than they were with 5.2,
-> >>>>>>>>> well, we
-> >>>>>>>>> have not made progress.  However, if there are systems that are
-> >>>>>>>>> worse
-> >>>>>>>>> off with 5.3, that's bad.  In the face of the latest findings the
-> >>>>>>>>> only
-> >>>>>>>>> way to avoid that is to be backwards compatible with 5.2 and that's
-> >>>>>>>>> where my patch is going.  That cannot be achieved by quirking all
-> >>>>>>>>> cases that are reported as "bad", because there still may be
-> >>>>>>>>> unreported ones.
-> >>>>>>>>
-> >>>>>>>> I have to agree. I think your proposal may allow PCI D3cold,
-> >>>>>>>
-> >>>>>>> Yes, it may.
-> >>>>>>
-> >>>>>> Somehow the 9380 with Toshiba NVMe never hits SLP_S0 with or without
-> >>>>>> Rafael?s patch.
-> >>>>>> But the ?real? s2idle power consumption does improve with the patch.
-> >>>>>
-> >>>>> Do you mean this patch:
-> >>>>>
-> >>>>> https://lore.kernel.org/linux-pm/70D536BE-8DC7-4CA2-84A9-
-> >>>>> AFB067BA520E at canonical.com/T/#m456aa5c69973a3b68f2cdd4713a1ce83be5145
-> >>>>> 8f
-> >>>>>
-> >>>>> or the $subject one without the above?
-> >>>>>
-> >>>>>> Can we use a DMI based quirk for this platform? It seems like a
-> >>>>>> platform
-> >>>>>> specific issue.
-> >>>>>
-> >>>>> We seem to see too many "platform-specific issues" here. :-)
-> >>>>>
-> >>>>> To me, the status quo (ie. what we have in 5.3-rc2) is not defensible.
-> >>>>> Something needs to be done to improve the situation.
-> >>>>
-> >>>> Rafael, would it be possible to try popping out PC401 from the 9380 and
-> >>>> into a 9360 to
-> >>>> confirm there actually being a platform impact or not?
-> >>>
-> >>> Not really, sorry.
-> >>>
-> >>>> I was hoping to have something useful from Hynix by now before
-> >>>> responding, but oh well.
-> >>>>
-> >>>> In terms of what is the majority, I do know that between folks at Dell,
-> >>>> Google, Compal,
-> >>>> Wistron, Canonical, Micron, Hynix, Toshiba, LiteOn, and Western Digital
-> >>>> we tested a wide
-> >>>> variety of SSDs with this patch series.  I would like to think that they
-> >>>> are representative of
-> >>>> what's being manufactured into machines now.
-> >>>
-> >>> Well, what about drives already in the field?  My concern is mostly
-> >>> about those ones.
-> >>>
-> >>>> Notably the LiteOn CL1 was tested with the HMB flushing support and
-> >>>> and Hynix PC401 was tested with older firmware though.
-> >>>>
-> >>>>>>>> In which case we do need to reintroduce the HMB handling.
-> >>>>>>>
-> >>>>>>> Right.
-> >>>>>>
-> >>>>>> The patch alone doesn?t break HMB Toshiba NVMe I tested. But I think
-> >>>>>> it?s
-> >>>>>> still safer to do proper HMB handling.
-> >>>>>
-> >>>>> Well, so can anyone please propose something specific?  Like an
-> >>>>> alternative patch?
-> >>>>
-> >>>> This was proposed a few days ago:
-> >>>> http://lists.infradead.org/pipermail/linux-nvme/2019-July/026056.html
-> >>>>
-> >>>> However we're still not sure why it is needed, and it will take some
-> >>>> time to get
-> >>>> a proper failure analysis from LiteOn  regarding the CL1.
-> >>>
-> >>> Thanks for the update, but IMO we still need to do something before
-> >>> final 5.3 while the investigation continues.
-> >>>
-> >>> Honestly, at this point I would vote for going back to the 5.2
-> >>> behavior at least by default and only running the new code on the
-> >>> drives known to require it (because they will block PC10 otherwise).
-> >>>
-> >>> Possibly (ideally) with an option for users who can't get beyond PC3
-> >>> to test whether or not the new code helps them.
-> >>
-> >> I just found out that the XPS 9380 at my hand never reaches SLP_S0 but
-> >> only
-> >> PC10.
-> >
-> > That's the case for me too.
-> >
-> >> This happens with or without putting the device to D3.
-> >
-> > On my system, though, it only can get to PC3 without putting the NVMe
-> > into D3 (as reported previously).
->
-> I forgot to ask, what BIOS version does the system have?
-> I don?t see this issue on BIOS v1.5.0.
+Commit a1ce35fa4985 ("block: remove dead elevator code") removed code
+that was using the request_queue argument. This got simplified by
+calling blk_mq_sched_insert_request which already gets the request_queue
+from the request being inserted in the scheduler queue for execution.
 
-It is 1.5.0 here too.
+Signed-off-by: Marcos Paulo de Souza <marcos.souza.org at gmail.com>
+---
+ block/blk-exec.c                   | 7 +++----
+ drivers/block/sx8.c                | 4 ++--
+ drivers/nvme/host/core.c           | 4 ++--
+ drivers/nvme/host/lightnvm.c       | 2 +-
+ drivers/nvme/host/pci.c            | 7 +++----
+ drivers/scsi/scsi_error.c          | 2 +-
+ drivers/scsi/sg.c                  | 3 +--
+ drivers/scsi/st.c                  | 2 +-
+ drivers/target/target_core_pscsi.c | 5 ++---
+ include/linux/blkdev.h             | 4 ++--
+ 10 files changed, 18 insertions(+), 22 deletions(-)
+
+diff --git a/block/blk-exec.c b/block/blk-exec.c
+index 1db44ca0f4a6..dc9f37f2602f 100644
+--- a/block/blk-exec.c
++++ b/block/blk-exec.c
+@@ -45,9 +45,8 @@ static void blk_end_sync_rq(struct request *rq, blk_status_t error)
+  * Note:
+  *    This function will invoke @done directly if the queue is dead.
+  */
+-void blk_execute_rq_nowait(struct request_queue *q, struct gendisk *bd_disk,
+-			   struct request *rq, int at_head,
+-			   rq_end_io_fn *done)
++void blk_execute_rq_nowait(struct gendisk *bd_disk, struct request *rq,
++			int at_head, rq_end_io_fn *done)
+ {
+ 	WARN_ON(irqs_disabled());
+ 	WARN_ON(!blk_rq_is_passthrough(rq));
+@@ -81,7 +80,7 @@ void blk_execute_rq(struct request_queue *q, struct gendisk *bd_disk,
+ 	unsigned long hang_check;
+ 
+ 	rq->end_io_data = &wait;
+-	blk_execute_rq_nowait(q, bd_disk, rq, at_head, blk_end_sync_rq);
++	blk_execute_rq_nowait(bd_disk, rq, at_head, blk_end_sync_rq);
+ 
+ 	/* Prevent hang_check timer from firing at us during very long I/O */
+ 	hang_check = sysctl_hung_task_timeout_secs;
+diff --git a/drivers/block/sx8.c b/drivers/block/sx8.c
+index 4478eb7efee0..2cdf2771f8e8 100644
+--- a/drivers/block/sx8.c
++++ b/drivers/block/sx8.c
+@@ -539,7 +539,7 @@ static int carm_array_info (struct carm_host *host, unsigned int array_idx)
+ 	spin_unlock_irq(&host->lock);
+ 
+ 	DPRINTK("blk_execute_rq_nowait, tag == %u\n", rq->tag);
+-	blk_execute_rq_nowait(host->oob_q, NULL, rq, true, NULL);
++	blk_execute_rq_nowait(NULL, rq, true, NULL);
+ 
+ 	return 0;
+ 
+@@ -578,7 +578,7 @@ static int carm_send_special (struct carm_host *host, carm_sspc_t func)
+ 	crq->msg_bucket = (u32) rc;
+ 
+ 	DPRINTK("blk_execute_rq_nowait, tag == %u\n", rq->tag);
+-	blk_execute_rq_nowait(host->oob_q, NULL, rq, true, NULL);
++	blk_execute_rq_nowait(NULL, rq, true, NULL);
+ 
+ 	return 0;
+ }
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 8f3fbe5ca937..6682fdcece0f 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -756,7 +756,7 @@ static void nvme_execute_rq_polled(struct request_queue *q,
+ 
+ 	rq->cmd_flags |= REQ_HIPRI;
+ 	rq->end_io_data = &wait;
+-	blk_execute_rq_nowait(q, bd_disk, rq, at_head, nvme_end_sync_rq);
++	blk_execute_rq_nowait(bd_disk, rq, at_head, nvme_end_sync_rq);
+ 
+ 	while (!completion_done(&wait)) {
+ 		blk_poll(q, request_to_qc_t(rq->mq_hctx, rq), true);
+@@ -941,7 +941,7 @@ static int nvme_keep_alive(struct nvme_ctrl *ctrl)
+ 	rq->timeout = ctrl->kato * HZ;
+ 	rq->end_io_data = ctrl;
+ 
+-	blk_execute_rq_nowait(rq->q, NULL, rq, 0, nvme_keep_alive_end_io);
++	blk_execute_rq_nowait(NULL, rq, 0, nvme_keep_alive_end_io);
+ 
+ 	return 0;
+ }
+diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
+index ba009d4c9dfa..5d0e330e86d0 100644
+--- a/drivers/nvme/host/lightnvm.c
++++ b/drivers/nvme/host/lightnvm.c
+@@ -685,7 +685,7 @@ static int nvme_nvm_submit_io(struct nvm_dev *dev, struct nvm_rq *rqd)
+ 
+ 	rq->end_io_data = rqd;
+ 
+-	blk_execute_rq_nowait(q, NULL, rq, 0, nvme_nvm_end_io);
++	blk_execute_rq_nowait(NULL, rq, 0, nvme_nvm_end_io);
+ 
+ 	return 0;
+ }
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index db160cee42ad..d8f83696b4ba 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1332,7 +1332,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ 
+ 	abort_req->timeout = ADMIN_TIMEOUT;
+ 	abort_req->end_io_data = NULL;
+-	blk_execute_rq_nowait(abort_req->q, NULL, abort_req, 0, abort_endio);
++	blk_execute_rq_nowait(NULL, abort_req, 0, abort_endio);
+ 
+ 	/*
+ 	 * The aborted req will be completed on receiving the abort req.
+@@ -2205,9 +2205,8 @@ static int nvme_delete_queue(struct nvme_queue *nvmeq, u8 opcode)
+ 	req->end_io_data = nvmeq;
+ 
+ 	init_completion(&nvmeq->delete_done);
+-	blk_execute_rq_nowait(q, NULL, req, false,
+-			opcode == nvme_admin_delete_cq ?
+-				nvme_del_cq_end : nvme_del_queue_end);
++	blk_execute_rq_nowait(NULL, req, false,
++			      opcode == nvme_admin_delete_cq ? nvme_del_cq_end : nvme_del_queue_end);
+ 	return 0;
+ }
+ 
+diff --git a/drivers/scsi/scsi_error.c b/drivers/scsi/scsi_error.c
+index 1c470e31ae81..49cda23c7fb8 100644
+--- a/drivers/scsi/scsi_error.c
++++ b/drivers/scsi/scsi_error.c
+@@ -1988,7 +1988,7 @@ static void scsi_eh_lock_door(struct scsi_device *sdev)
+ 	req->timeout = 10 * HZ;
+ 	rq->retries = 5;
+ 
+-	blk_execute_rq_nowait(req->q, NULL, req, 1, eh_lock_door_done);
++	blk_execute_rq_nowait(NULL, req, 1, eh_lock_door_done);
+ }
+ 
+ /**
+diff --git a/drivers/scsi/sg.c b/drivers/scsi/sg.c
+index cce757506383..81ece3ed0474 100644
+--- a/drivers/scsi/sg.c
++++ b/drivers/scsi/sg.c
+@@ -835,8 +835,7 @@ sg_common_write(Sg_fd * sfp, Sg_request * srp,
+ 
+ 	srp->rq->timeout = timeout;
+ 	kref_get(&sfp->f_ref); /* sg_rq_end_io() does kref_put(). */
+-	blk_execute_rq_nowait(sdp->device->request_queue, sdp->disk,
+-			      srp->rq, at_head, sg_rq_end_io);
++	blk_execute_rq_nowait(sdp->disk, srp->rq, at_head, sg_rq_end_io);
+ 	return 0;
+ }
+ 
+diff --git a/drivers/scsi/st.c b/drivers/scsi/st.c
+index e3266a64a477..3b828f260294 100644
+--- a/drivers/scsi/st.c
++++ b/drivers/scsi/st.c
+@@ -583,7 +583,7 @@ static int st_scsi_execute(struct st_request *SRpnt, const unsigned char *cmd,
+ 	rq->retries = retries;
+ 	req->end_io_data = SRpnt;
+ 
+-	blk_execute_rq_nowait(req->q, NULL, req, 1, st_scsi_execute_end);
++	blk_execute_rq_nowait(NULL, req, 1, st_scsi_execute_end);
+ 	return 0;
+ }
+ 
+diff --git a/drivers/target/target_core_pscsi.c b/drivers/target/target_core_pscsi.c
+index c9d92b3e777d..021212569d1b 100644
+--- a/drivers/target/target_core_pscsi.c
++++ b/drivers/target/target_core_pscsi.c
+@@ -1000,9 +1000,8 @@ pscsi_execute_cmd(struct se_cmd *cmd)
+ 		req->timeout = PS_TIMEOUT_OTHER;
+ 	scsi_req(req)->retries = PS_RETRY;
+ 
+-	blk_execute_rq_nowait(pdv->pdv_sd->request_queue, NULL, req,
+-			(cmd->sam_task_attr == TCM_HEAD_TAG),
+-			pscsi_req_done);
++	blk_execute_rq_nowait(NULL, req, (cmd->sam_task_attr == TCM_HEAD_TAG),
++			      pscsi_req_done);
+ 
+ 	return 0;
+ 
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 1ef375dafb1c..8e8f088c75a5 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -867,8 +867,8 @@ extern int blk_rq_map_user_iov(struct request_queue *, struct request *,
+ 			       gfp_t);
+ extern void blk_execute_rq(struct request_queue *, struct gendisk *,
+ 			  struct request *, int);
+-extern void blk_execute_rq_nowait(struct request_queue *, struct gendisk *,
+-				  struct request *, int, rq_end_io_fn *);
++extern void blk_execute_rq_nowait(struct gendisk *, struct request *, int,
++				rq_end_io_fn *);
+ 
+ /* Helper to convert REQ_OP_XXX to its string format XXX */
+ extern const char *blk_op_str(unsigned int op);
+-- 
+2.22.0
