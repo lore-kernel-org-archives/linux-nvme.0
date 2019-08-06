@@ -1,207 +1,141 @@
-From: rafael@kernel.org (Rafael J. Wysocki)
-Date: Tue, 6 Aug 2019 17:00:06 +0200
-Subject: [Regression] Commit "nvme/pci: Use host managed power state for
- suspend" has problems
-In-Reply-To: <1d05e26a91f94e5b92eaf5854fa85289@AUSX13MPC105.AMER.DELL.COM>
-References: <4323ed84dd07474eab65699b4d007aaf@AUSX13MPC105.AMER.DELL.COM>
- <CAJZ5v0iDQ4=kTUgW94tKGt7oJzA_3uVU_M6HAMbNCRXwp_do8A@mail.gmail.com>
- <47415939.KV5G6iaeJG@kreacher> <20190730144134.GA12844@localhost.localdomain>
- <100ba4aff1c6434a81e47774ab4acddc@AUSX13MPC105.AMER.DELL.COM>
- <8246360B-F7D9-42EB-94FC-82995A769E28@canonical.com>
- <20190730191934.GD13948@localhost.localdomain>
- <7d3e0b8ba1444194a153c93faa1cabb3@AUSX13MPC105.AMER.DELL.COM>
- <20190730213114.GK13948@localhost.localdomain>
- <CAJZ5v0gxfeMN8eCNRjcXmUOkReVsdozb3EccaYMpnmSHu3771g@mail.gmail.com>
- <20190731221956.GB15795@localhost.localdomain>
- <CAJZ5v0hxYGBXau39sb80MQ8jbZZCzH0JU2DYZvn9JOtYT2+30g@mail.gmail.com>
- <70D536BE-8DC7-4CA2-84A9-AFB067BA520E@canonical.com>
- <CAJZ5v0hFYEv_+vFkrxaCn_pNAbyqmO_cLb5GOLNn_xxRRwjh2g@mail.gmail.com>
- <38d4b4b107154454a932781acde0fa5a@AUSX13MPC105.AMER.DELL.COM>
- <CAJZ5v0jmO4FMOVYs62wkvPrUW81scD2H7cJyRc+tfoj+vODVbQ@mail.gmail.com>
- <43A8DF53-8463-4314-9E8E-47A7D3C5A709@canonical.com>
- <CAJZ5v0ipG-MJjERBL9fjx29QktaYEKSmMCbWiEGPHsbF=Xfxtw@mail.gmail.com>
- <1FA3D56B-80C6-496C-8772-2F773AA8043C@canonical.com>
- <CAJZ5v0g_yAP=zgYDXtJWtwceQp4wWPWFghDDD0opdZ4zT-yo5Q@mail.gmail.com>
- <1d05e26a91f94e5b92eaf5854fa85289@AUSX13MPC105.AMER.DELL.COM>
-Message-ID: <CAJZ5v0gBCTyRwg0ePHOD4qQvcSwXzHjb5hkswQ7=Ki=gO_nx0A@mail.gmail.com>
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Tue, 6 Aug 2019 18:44:39 -0500
+Subject: [PATCH v2 00/14] PCI/P2PDMA: Support transactions that hit the
+ host bridge
+In-Reply-To: <20190730163545.4915-1-logang@deltatee.com>
+References: <20190730163545.4915-1-logang@deltatee.com>
+Message-ID: <20190806234439.GW151852@google.com>
 
-On Tue, Aug 6, 2019@4:02 PM <Mario.Limonciello@dell.com> wrote:
->
->
->
-> > -----Original Message-----
-> > From: Rafael J. Wysocki <rafael at kernel.org>
-> > Sent: Monday, August 5, 2019 4:29 PM
-> > To: Kai-Heng Feng
-> > Cc: Rafael J. Wysocki; Limonciello, Mario; Keith Busch; Keith Busch; Christoph
-> > Hellwig; Sagi Grimberg; linux-nvme; Linux PM; Linux Kernel Mailing List; Rajat Jain
-> > Subject: Re: [Regression] Commit "nvme/pci: Use host managed power state for
-> > suspend" has problems
-> >
-> >
-> > [EXTERNAL EMAIL]
-> >
-> > On Mon, Aug 5, 2019 at 9:14 PM Kai-Heng Feng
-> > <kai.heng.feng@canonical.com> wrote:
-> > >
-> > >@19:04, Rafael J. Wysocki <rafael@kernel.org> wrote:
-> > >
-> > > > On Fri, Aug 2, 2019 at 12:55 PM Kai-Heng Feng
-> > > > <kai.heng.feng@canonical.com> wrote:
-> > > >>@06:26, Rafael J. Wysocki <rafael@kernel.org> wrote:
-> > > >>
-> > > >>> On Thu, Aug 1, 2019@9:05 PM <Mario.Limonciello@dell.com> wrote:
-> > > >>>>> -----Original Message-----
-> > > >>>>> From: Rafael J. Wysocki <rafael at kernel.org>
-> > > >>>>> Sent: Thursday, August 1, 2019 12:30 PM
-> > > >>>>> To: Kai-Heng Feng; Keith Busch; Limonciello, Mario
-> > > >>>>> Cc: Keith Busch; Christoph Hellwig; Sagi Grimberg; linux-nvme; Linux
-> > > >>>>> PM; Linux
-> > > >>>>> Kernel Mailing List; Rajat Jain
-> > > >>>>> Subject: Re: [Regression] Commit "nvme/pci: Use host managed power
-> > > >>>>> state for
-> > > >>>>> suspend" has problems
-> > > >>>>>
-> > > >>>>>
-> > > >>>>> [EXTERNAL EMAIL]
-> > > >>>>>
-> > > >>>>> On Thu, Aug 1, 2019 at 11:06 AM Kai-Heng Feng
-> > > >>>>> <kai.heng.feng@canonical.com> wrote:
-> > > >>>>>>@06:33, Rafael J. Wysocki <rafael@kernel.org> wrote:
-> > > >>>>>>
-> > > >>>>>>> On Thu, Aug 1, 2019 at 12:22 AM Keith Busch <kbusch at kernel.org>
-> > > >>>>>>> wrote:
-> > > >>>>>>>> On Wed, Jul 31, 2019@11:25:51PM +0200, Rafael J. Wysocki wrote:
-> > > >>>>>>>>> A couple of remarks if you will.
-> > > >>>>>>>>>
-> > > >>>>>>>>> First, we don't know which case is the majority at this point.  For
-> > > >>>>>>>>> now, there is one example of each, but it may very well turn out
-> > > >>>>>>>>> that
-> > > >>>>>>>>> the SK Hynix BC501 above needs to be quirked.
-> > > >>>>>>>>>
-> > > >>>>>>>>> Second, the reference here really is 5.2, so if there are any
-> > > >>>>>>>>> systems
-> > > >>>>>>>>> that are not better off with 5.3-rc than they were with 5.2,
-> > > >>>>>>>>> well, we
-> > > >>>>>>>>> have not made progress.  However, if there are systems that are
-> > > >>>>>>>>> worse
-> > > >>>>>>>>> off with 5.3, that's bad.  In the face of the latest findings the
-> > > >>>>>>>>> only
-> > > >>>>>>>>> way to avoid that is to be backwards compatible with 5.2 and that's
-> > > >>>>>>>>> where my patch is going.  That cannot be achieved by quirking all
-> > > >>>>>>>>> cases that are reported as "bad", because there still may be
-> > > >>>>>>>>> unreported ones.
-> > > >>>>>>>>
-> > > >>>>>>>> I have to agree. I think your proposal may allow PCI D3cold,
-> > > >>>>>>>
-> > > >>>>>>> Yes, it may.
-> > > >>>>>>
-> > > >>>>>> Somehow the 9380 with Toshiba NVMe never hits SLP_S0 with or
-> > without
-> > > >>>>>> Rafael?s patch.
-> > > >>>>>> But the ?real? s2idle power consumption does improve with the patch.
-> > > >>>>>
-> > > >>>>> Do you mean this patch:
-> > > >>>>>
-> > > >>>>> https://lore.kernel.org/linux-pm/70D536BE-8DC7-4CA2-84A9-
-> > > >>>>>
-> > AFB067BA520E at canonical.com/T/#m456aa5c69973a3b68f2cdd4713a1ce83be5145
-> > > >>>>> 8f
-> > > >>>>>
-> > > >>>>> or the $subject one without the above?
-> > > >>>>>
-> > > >>>>>> Can we use a DMI based quirk for this platform? It seems like a
-> > > >>>>>> platform
-> > > >>>>>> specific issue.
-> > > >>>>>
-> > > >>>>> We seem to see too many "platform-specific issues" here. :-)
-> > > >>>>>
-> > > >>>>> To me, the status quo (ie. what we have in 5.3-rc2) is not defensible.
-> > > >>>>> Something needs to be done to improve the situation.
-> > > >>>>
-> > > >>>> Rafael, would it be possible to try popping out PC401 from the 9380 and
-> > > >>>> into a 9360 to
-> > > >>>> confirm there actually being a platform impact or not?
-> > > >>>
-> > > >>> Not really, sorry.
-> > > >>>
-> > > >>>> I was hoping to have something useful from Hynix by now before
-> > > >>>> responding, but oh well.
-> > > >>>>
-> > > >>>> In terms of what is the majority, I do know that between folks at Dell,
-> > > >>>> Google, Compal,
-> > > >>>> Wistron, Canonical, Micron, Hynix, Toshiba, LiteOn, and Western Digital
-> > > >>>> we tested a wide
-> > > >>>> variety of SSDs with this patch series.  I would like to think that they
-> > > >>>> are representative of
-> > > >>>> what's being manufactured into machines now.
-> > > >>>
-> > > >>> Well, what about drives already in the field?  My concern is mostly
-> > > >>> about those ones.
-> > > >>>
-> > > >>>> Notably the LiteOn CL1 was tested with the HMB flushing support and
-> > > >>>> and Hynix PC401 was tested with older firmware though.
-> > > >>>>
-> > > >>>>>>>> In which case we do need to reintroduce the HMB handling.
-> > > >>>>>>>
-> > > >>>>>>> Right.
-> > > >>>>>>
-> > > >>>>>> The patch alone doesn?t break HMB Toshiba NVMe I tested. But I think
-> > > >>>>>> it?s
-> > > >>>>>> still safer to do proper HMB handling.
-> > > >>>>>
-> > > >>>>> Well, so can anyone please propose something specific?  Like an
-> > > >>>>> alternative patch?
-> > > >>>>
-> > > >>>> This was proposed a few days ago:
-> > > >>>> http://lists.infradead.org/pipermail/linux-nvme/2019-July/026056.html
-> > > >>>>
-> > > >>>> However we're still not sure why it is needed, and it will take some
-> > > >>>> time to get
-> > > >>>> a proper failure analysis from LiteOn  regarding the CL1.
-> > > >>>
-> > > >>> Thanks for the update, but IMO we still need to do something before
-> > > >>> final 5.3 while the investigation continues.
-> > > >>>
-> > > >>> Honestly, at this point I would vote for going back to the 5.2
-> > > >>> behavior at least by default and only running the new code on the
-> > > >>> drives known to require it (because they will block PC10 otherwise).
-> > > >>>
-> > > >>> Possibly (ideally) with an option for users who can't get beyond PC3
-> > > >>> to test whether or not the new code helps them.
-> > > >>
-> > > >> I just found out that the XPS 9380 at my hand never reaches SLP_S0 but
-> > > >> only
-> > > >> PC10.
-> > > >
-> > > > That's the case for me too.
-> > > >
-> > > >> This happens with or without putting the device to D3.
-> > > >
-> > > > On my system, though, it only can get to PC3 without putting the NVMe
-> > > > into D3 (as reported previously).
-> > >
-> > > I forgot to ask, what BIOS version does the system have?
-> > > I don?t see this issue on BIOS v1.5.0.
-> >
-> > It is 1.5.0 here too.
->
-> All, regarding the need for the patch proposed by Rafael on PC401, I have some updates
-> to share from Hynix.
-> First off - the firmware changelog is misleading from 80006E00 to 80007E00.
->
-> The change was made in the firmware specifically because of a change in behavior from
-> Intel KBL to CFL and WHL.  On CFL/WHL the period of time that RefClk was turned on after L1.2
-> was larger than KBL platforms.  So this meant that Hynix couldn't lock up from CLKREQ#
-> to RefClk as quickly on CFL/WHL.  So there is a "larger" fixed delay introduced in their FW.
->
-> To those that don't know - XPS 9380 is a WHL platform.
->
-> Second - a hypothesis of what is happening with the patch proposed by Rafael is that the link
-> is only transitioning to L1.0 rather than L1.2.  This may satisfy the PMC but it shouldn't lead to
-> the lowest actual device power state.
+On Tue, Jul 30, 2019@10:35:31AM -0600, Logan Gunthorpe wrote:
+> Here's v2 of the patchset. It doesn't sound like there's anything
+> terribly controversial here so this version is mostly just some
+> cleanup changes for clarity.
+> 
+> Changes in v2:
+>  * Rebase on v5.3-rc2 (No changes)
+>  * Re-introduce the private pagemap structure and move the p2p-specific
+>    elements out of the commond dev_pagemap (per Christoph)
+>  * Use flags instead of bool in the whitelist (per Jason)
+>  * Only store the mapping type in the xarray (instead of the distance
+>    with flags) such that a function can return the mapping method
+>    with a switch statement to decide how to map. (per Christoph)
+>  * Drop find_parent_pci_dev() on the fast path and rely on the fact
+>    that the struct device passed to the mapping functions *must* be
+>    a PCI device and convert it directly. (per suggestions from
+>    Christoph and Jason)
+>  * Collected Christian's Reviewed-by's
+> --
+> 
+> As discussed on the list previously, in order to fully support the
+> whitelist Christian added with the IOMMU, we must ensure that we
+> map any buffer going through the IOMMU with an aprropriate dma_map
+> call. This patchset accomplishes this by cleaning up the output of
+> upstream_bridge_distance() to better indicate the mapping requirements,
+> caching these requirements in an xarray, then looking them up at map
+> time and applying the appropriate mapping method.
+> 
+> After this patchset, it's possible to use the NVMe-of P2P support to
+> transfer between devices without a switch on the whitelisted root
+> complexes. A couple Intel device I have tested this on have also
+> been added to the white list.
+> 
+> Most of the changes are contained within the p2pdma.c, but there are
+> a few minor touches to other subsystems, mostly to add support
+> to call an unmap function.
+> 
+> The final patch in this series demonstrates a possible
+> pci_p2pdma_map_resource() function that I expect Christian will need
+> but does not have any users at this time so I don't intend for it to be
+> considered for merging.
 
-The north complex doesn't get to PC10 without this patch, so this is
-more about the PCIe root complex than the PMC.
+I don't see pci_p2pdma_map_resource() in any of these patches.
 
-PC3 vs PC10 is a big deal regardless of what the NVMe can achieve.
+I tentatively applied these to pci/p2pdma with minor typographical
+updates (below), but I'll update the branch if necessary.
+
+> This patchset is based on 5.3-rc2 and a git branch is available here:
+> 
+> https://github.com/sbates130272/linux-p2pmem/ p2pdma_rc_map_v2
+> 
+> --
+> 
+> Logan Gunthorpe (14):
+>   PCI/P2PDMA: Introduce private pagemap structure
+>   PCI/P2PDMA: Add the provider's pci_dev to the pci_p2pdma_pagemap
+>     struct
+>   PCI/P2PDMA: Add constants for not-supported result
+>     upstream_bridge_distance()
+>   PCI/P2PDMA: Factor out __upstream_bridge_distance()
+>   PCI/P2PDMA: Apply host bridge white list for ACS
+>   PCI/P2PDMA: Factor out host_bridge_whitelist()
+>   PCI/P2PDMA: Add whitelist support for Intel Host Bridges
+>   PCI/P2PDMA: Add attrs argument to pci_p2pdma_map_sg()
+>   PCI/P2PDMA: Introduce pci_p2pdma_unmap_sg()
+>   PCI/P2PDMA: Factor out __pci_p2pdma_map_sg()
+>   PCI/P2PDMA: Store mapping method in an xarray
+>   PCI/P2PDMA: dma_map P2PDMA map requests that traverse the host bridge
+>   PCI/P2PDMA: No longer require no-mmu for host bridge whitelist
+>   PCI/P2PDMA: Update documentation for pci_p2pdma_distance_many()
+> 
+>  drivers/infiniband/core/rw.c |   6 +-
+>  drivers/nvme/host/pci.c      |  10 +-
+>  drivers/pci/p2pdma.c         | 361 +++++++++++++++++++++++++----------
+>  include/linux/memremap.h     |   1 -
+>  include/linux/pci-p2pdma.h   |  28 ++-
+>  5 files changed, 296 insertions(+), 110 deletions(-)
+
+diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
+index ac6b599a10ef..afa42512e604 100644
+--- a/drivers/pci/p2pdma.c
++++ b/drivers/pci/p2pdma.c
+@@ -442,17 +442,17 @@ static int map_types_idx(struct pci_dev *client)
+  * port of the switch, to the common upstream port, back up to the second
+  * downstream port and then to Device B.
+  *
+- * Any two devices that cannot communicate using p2pdma will return the distance
+- * with the flag P2PDMA_NOT_SUPPORTED.
++ * Any two devices that cannot communicate using p2pdma will return the
++ * distance with the flag P2PDMA_NOT_SUPPORTED.
+  *
+  * Any two devices that have a data path that goes through the host bridge
+  * will consult a whitelist. If the host bridges are on the whitelist,
+- * then the distance will be returned with the flag P2PDMA_THRU_HOST_BRIDGE set.
++ * the distance will be returned with the flag P2PDMA_THRU_HOST_BRIDGE set.
+  * If either bridge is not on the whitelist, the flag P2PDMA_NOT_SUPPORTED will
+  * be set.
+  *
+  * If a bridge which has any ACS redirection bits set is in the path
+- * then this functions will flag the result with P2PDMA_ACS_FORCES_UPSTREAM.
++ * this function will flag the result with P2PDMA_ACS_FORCES_UPSTREAM.
+  * In this case, a list of all infringing bridge addresses will be
+  * populated in acs_list (assuming it's non-null) for printk purposes.
+  */
+@@ -529,8 +529,8 @@ static int upstream_bridge_distance_warn(struct pci_dev *provider,
+  * choice).
+  *
+  * "compatible" means the provider and the clients are either all behind
+- * the same PCI root port or the host bridge connected to each of the devices
+- * are is listed in the 'pci_p2pdma_whitelist'.
++ * the same PCI root port or the host bridges connected to each of the devices
++ * are listed in the 'pci_p2pdma_whitelist'.
+  */
+ int pci_p2pdma_distance_many(struct pci_dev *provider, struct device **clients,
+ 			     int num_clients, bool verbose)
+@@ -850,7 +850,7 @@ static int __pci_p2pdma_map_sg(struct pci_p2pdma_pagemap *p2p_pgmap,
+  * @sg: scatter list to map
+  * @nents: elements in the scatterlist
+  * @dir: DMA direction
+- * @attrs: dma attributes passed to dma_map_sg() (if called)
++ * @attrs: DMA attributes passed to dma_map_sg() (if called)
+  *
+  * Scatterlists mapped with this function should be unmapped using
+  * pci_p2pdma_unmap_sg_attrs().
+@@ -888,7 +888,7 @@ EXPORT_SYMBOL_GPL(pci_p2pdma_map_sg_attrs);
+  * @sg: scatter list to map
+  * @nents: number of elements returned by pci_p2pdma_map_sg()
+  * @dir: DMA direction
+- * @attrs: dma attributes passed to dma_unmap_sg() (if called)
++ * @attrs: DMA attributes passed to dma_unmap_sg() (if called)
+  */
+ void pci_p2pdma_unmap_sg_attrs(struct device *dev, struct scatterlist *sg,
+ 		int nents, enum dma_data_direction dir, unsigned long attrs)
