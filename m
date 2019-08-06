@@ -1,19 +1,20 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 6 Aug 2019 10:42:09 +0800
-Subject: [PATCH 1/2] nvme-fabrics: Add type of service (TOS) configuration
-In-Reply-To: <1564912530-15404-1-git-send-email-israelr@mellanox.com>
-References: <1564912530-15404-1-git-send-email-israelr@mellanox.com>
-Message-ID: <d6ef0513-b271-6cb4-b1fb-aaed071cab91@mellanox.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 6 Aug 2019 07:19:11 +0200
+Subject: [PATCH] block: Remove request_queue argument from
+ blk_execute_rq_nowait
+In-Reply-To: <20190806011754.7722-1-marcos.souza.org@gmail.com>
+References: <20190806011754.7722-1-marcos.souza.org@gmail.com>
+Message-ID: <20190806051911.GA13409@lst.de>
 
-The series looks good (sorry for not reviewing internally :))
+On Mon, Aug 05, 2019@10:17:51PM -0300, Marcos Paulo de Souza wrote:
+> +void blk_execute_rq_nowait(struct gendisk *bd_disk, struct request *rq,
+> +			int at_head, rq_end_io_fn *done)
 
-please add to the v2:
+We store a ->rq_disk in struct request, so we should also not need
+that.  And at_head should either become a bool, or be replaced with
+a flags argument, ints used boolean are usually not a good idea.
 
-connect example for the kernel commit message (rdma + tcp) and please 
-show how the TOS influence on the traffic:
+> @@ -81,7 +80,7 @@ void blk_execute_rq(struct request_queue *q, struct gendisk *bd_disk,
 
-e.g. 80% to ctrl_1 and 20% to ctrl_2.
-
-
-
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+And all the same argument changes that apply to blk_execute_rq_nowait
+apply to blk_execute_rq as well.
