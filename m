@@ -1,65 +1,33 @@
-From: tomwu@mellanox.com (Tom Wu)
-Date: Tue, 6 Aug 2019 10:49:03 +0000
-Subject: [PATCH] nvmet: fix data units read and written counters in SMART
- log
-In-Reply-To: <8cbab0aa-51c7-b33a-46a3-5a85debc023c@grimberg.me>
-References: <1564970259-12279-1-git-send-email-tomwu@mellanox.com>
- <8cbab0aa-51c7-b33a-46a3-5a85debc023c@grimberg.me>
-Message-ID: <dedb990d-ef45-0cd9-b662-e98b911fe45a@mellanox.com>
+From: hare@suse.de (Hannes Reinecke)
+Date: Tue,  6 Aug 2019 13:10:36 +0200
+Subject: [PATCH] nvme: Return BLK_STS_TARGET if the DNR bit is set
+Message-ID: <20190806111036.113233-1-hare@suse.de>
 
-Hi, Sagi
+If the DNR bit is set we should not retry the command, even if
+the standard status evaluation indicates so.
 
-when you say I can 'modifying the actual retrieval', you are try to 
-suggest that I can do the changes as below, right?
+Signed-off-by: Hannes Reinecke <hare at suse.com>
+---
+ drivers/nvme/host/core.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -81,9 +81,11 @@ static u16 nvmet_get_smart_log_nsid(struct nvmet_req 
-*req,
- ??????????????? goto out;
-
- ??????? host_reads = part_stat_read(ns->bdev->bd_part, ios[READ]);
--?????? data_units_read = part_stat_read(ns->bdev->bd_part, sectors[READ]);
-+?????? data_units_read = DIV_ROUND_UP(part_stat_read(ns->bdev->bd_part,
-+?????????????? sectors[READ]), 1000);
- ??????? host_writes = part_stat_read(ns->bdev->bd_part, ios[WRITE]);
--?????? data_units_written = part_stat_read(ns->bdev->bd_part, 
-sectors[WRITE]);
-+?????? data_units_written = DIV_ROUND_UP(part_stat_read(ns->bdev->bd_part,
-+?????????????? sectors[WRITE]), 1000);
-
- ??????? put_unaligned_le64(host_reads, &slog->host_reads[0]);
- ??????? put_unaligned_le64(data_units_read, &slog->data_units_read[0]);
-@@ -112,10 +114,10 @@ static u16 nvmet_get_smart_log_all(struct 
-nvmet_req *req,
- ??????????????????????? continue;
- ??????????????? host_reads += part_stat_read(ns->bdev->bd_part, ios[READ]);
- ??????????????? data_units_read +=
--?????????????????????? part_stat_read(ns->bdev->bd_part, sectors[READ]);
-+ DIV_ROUND_UP(part_stat_read(ns->bdev->bd_part, sectors[READ]), 1000);
- ??????????????? host_writes += part_stat_read(ns->bdev->bd_part, 
-ios[WRITE]);
- ??????????????? data_units_written +=
--?????????????????????? part_stat_read(ns->bdev->bd_part, sectors[WRITE]);
-+ DIV_ROUND_UP(part_stat_read(ns->bdev->bd_part, sectors[WRITE]), 1000);
-
- ??????? }
-
-On 8/6/2019 2:24 AM, Sagi Grimberg wrote:
->
->> diff --git a/drivers/nvme/target/admin-cmd.c 
->> b/drivers/nvme/target/admin-cmd.c
->> index 9f72d51..acbadbe 100644
->> --- a/drivers/nvme/target/admin-cmd.c
->> +++ b/drivers/nvme/target/admin-cmd.c
->> @@ -85,6 +85,9 @@ static u16 nvmet_get_smart_log_nsid(struct 
->> nvmet_req *req,
->> ????? host_writes = part_stat_read(ns->bdev->bd_part, ios[WRITE]);
->> ????? data_units_written = part_stat_read(ns->bdev->bd_part, 
->> sectors[WRITE]);
->> ? +??? data_units_read = DIV_ROUND_UP(data_units_read, 1000);
->> +??? data_units_written = DIV_ROUND_UP(data_units_written, 1000);
->> +
->
-> How about either modifying the actual retrieval or move the fixups 
-> right next to the initial setting...
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index cc09b81fc7f4..c3e9254f4757 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -279,6 +279,13 @@ void nvme_complete_rq(struct request *req)
+ 			return;
+ 		}
+ 	}
++	/*
++	 * Any pathing error might be retried, but the DNR bit takes
++	 * precedence. So return BLK_STS_TARGET if the DNR bit is set
++	 * to avoid retrying.
++	 */
++	if (blk_path_error(status) && nvme_req(req)->status & NVME_SC_DNR)
++		status = BLK_STS_TARGET;
+ 	blk_mq_end_request(req, status);
+ }
+ EXPORT_SYMBOL_GPL(nvme_complete_rq);
+-- 
+2.16.4
