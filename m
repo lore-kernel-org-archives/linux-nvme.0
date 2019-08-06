@@ -1,20 +1,31 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 6 Aug 2019 07:19:11 +0200
-Subject: [PATCH] block: Remove request_queue argument from
- blk_execute_rq_nowait
-In-Reply-To: <20190806011754.7722-1-marcos.souza.org@gmail.com>
-References: <20190806011754.7722-1-marcos.souza.org@gmail.com>
-Message-ID: <20190806051911.GA13409@lst.de>
+From: benh@kernel.crashing.org (Benjamin Herrenschmidt)
+Date: Tue, 06 Aug 2019 15:24:19 +1000
+Subject: [PATCH v3] nvme-pci: Support shared tags across queues for
+ Apple 2018 controllers
+In-Reply-To: <20190805134907.GC18647@localhost.localdomain>
+References: <b1f9bdf0294b8d87d292de3c7462c8e99551b02d.camel@kernel.crashing.org>
+ <20190730153044.GA13948@localhost.localdomain>
+ <2030a028664a9af9e96fffca3ab352faf1f739e5.camel@kernel.crashing.org>
+ <6290507e1b2830b1729fc858cd5c20b85d092728.camel@kernel.crashing.org>
+ <20190805134907.GC18647@localhost.localdomain>
+Message-ID: <198e51f1454720f15f0570e98203834eed11893f.camel@kernel.crashing.org>
 
-On Mon, Aug 05, 2019@10:17:51PM -0300, Marcos Paulo de Souza wrote:
-> +void blk_execute_rq_nowait(struct gendisk *bd_disk, struct request *rq,
-> +			int at_head, rq_end_io_fn *done)
+On Mon, 2019-08-05@07:49 -0600, Keith Busch wrote:
+> > Ping ? I had another look today and I don't feel like mucking around
+> > with all the AQ size logic, AEN magic tag etc... just for that sake of
+> > that Apple gunk. I'm happy to have it give up IO tags, it doesn't seem
+> > to make much of a difference in practice anyway.
+> > 
+> > But if you feel strongly about it, then I'll implement the "proper" way
+> > sometimes this week, adding a way to shrink the AQ down to something
+> > like 3 (one admin request, one async event (AEN), and the empty slot)
+> > by making a bunch of the constants involved variables instead.
+> 
+> I don't feel too strongly about it. I think your patch is fine, so
+> 
+> Acked-by: Keith Busch <keith.busch at intel.com>
 
-We store a ->rq_disk in struct request, so we should also not need
-that.  And at_head should either become a bool, or be replaced with
-a flags argument, ints used boolean are usually not a good idea.
+Thanks, I'll fold the test and respin this week.
 
-> @@ -81,7 +80,7 @@ void blk_execute_rq(struct request_queue *q, struct gendisk *bd_disk,
-
-And all the same argument changes that apply to blk_execute_rq_nowait
-apply to blk_execute_rq as well.
+Cheers,
+Ben.
