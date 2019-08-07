@@ -1,92 +1,62 @@
-From: benh@kernel.crashing.org (Benjamin Herrenschmidt)
-Date: Wed,  7 Aug 2019 17:51:21 +1000
-Subject: [PATCH v4 3/4] nvme-pci: Add support for Apple 2018+ models
-In-Reply-To: <20190807075122.6247-1-benh@kernel.crashing.org>
-References: <20190807075122.6247-1-benh@kernel.crashing.org>
-Message-ID: <20190807075122.6247-4-benh@kernel.crashing.org>
+From: israelr@mellanox.com (Israel Rukshin)
+Date: Wed, 7 Aug 2019 08:02:54 +0000
+Subject: [PATCH 1/2] nvme-fabrics: Add type of service (TOS) configuration
+In-Reply-To: <04c776f4-a04a-8256-c659-daa11fe78a29@grimberg.me>
+References: <1564912530-15404-1-git-send-email-israelr@mellanox.com>
+ <04c776f4-a04a-8256-c659-daa11fe78a29@grimberg.me>
+Message-ID: <806d9809-2c24-fcf9-e4c0-e07eaac88d13@mellanox.com>
 
-Based on reverse engineering and original patch by
+On 8/5/2019 6:10 PM, Sagi Grimberg wrote:
+>
+>> TOS is user-defined and needs to be configured via nvme-cli.
+>> It must be set before initiating any traffic and once set the TOS
+>> cannot be changed.
+>
+> Can you please have tcp support it too in the patch set (and test
+> that it works)?
+>
+> Its simply setsockopt with SO_PRIORITY.
 
-Paul Pawlowski <paul at mrarm.io>
+Hi Sagi,
 
-This adds support for Apple weird implementation of NVME in their
-2018 or later machines. It accounts for the twice-as-big SQ entries
-for the IO queues, and the fact that only interrupt vector 0 appears
-to function properly.
+I implemented your suggestion but it doesn't work for me.
 
-Signed-off-by: Benjamin Herrenschmidt <benh at kernel.crashing.org>
-Reviewed-by: Minwoo Im <minwoo.im.dev at gmail.com>
----
- drivers/nvme/host/nvme.h | 10 ++++++++++
- drivers/nvme/host/pci.c  | 21 ++++++++++++++++++++-
- 2 files changed, 30 insertions(+), 1 deletion(-)
+The kernel_setsockopt() succeed and I see that 
+queue->sock->sk->sk_priority was changed to the correct value,
 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 8dc010ca30e5..0925f7fc13ff 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -92,6 +92,16 @@ enum nvme_quirks {
- 	 * Broken Write Zeroes.
- 	 */
- 	NVME_QUIRK_DISABLE_WRITE_ZEROES		= (1 << 9),
+but I don't see that the priority was changed on Wireshark.
+
+Do I miss anything?
+
+Here is my change:
+
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 606b13d..c0efb2a 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1301,6 +1301,19 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl 
+*nctrl,
+ ???? ??? goto err_sock;
+ ???? }
+
++??? /* Set socket priority */
++??? if (nctrl->opts->tos >= 0) {
++??? ??? opt = nctrl->opts->tos;
++??? ??? ret = kernel_setsockopt(queue->sock, SOL_SOCKET, SO_PRIORITY,
++??? ??? ??? ??? (char *)&opt, sizeof(opt));
++??? ??? if (ret) {
++??? ??? ??? dev_err(nctrl->device,
++??? ??? ??? ??? "failed to set SO_PRIORITY sock opt %d\n", ret);
++??? ??? ??? goto err_sock;
++??? ??? }
++??? }
 +
-+	/*
-+	 * Use only one interrupt vector for all queues
-+	 */
-+	NVME_QUIRK_SINGLE_VECTOR		= (1 << 10),
-+
-+	/*
-+	 * Use non-standard 128 bytes SQEs.
-+	 */
-+	NVME_QUIRK_128_BYTES_SQES		= (1 << 11),
- };
- 
- /*
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 78a660e229d9..c683263cdf60 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2081,6 +2081,13 @@ static int nvme_setup_irqs(struct nvme_dev *dev, unsigned int nr_io_queues)
- 	dev->io_queues[HCTX_TYPE_DEFAULT] = 1;
- 	dev->io_queues[HCTX_TYPE_READ] = 0;
- 
-+	/*
-+	 * Some Apple controllers require all queues to use the
-+	 * first vector.
-+	 */
-+	if (dev->ctrl.quirks & NVME_QUIRK_SINGLE_VECTOR)
-+		irq_queues = 1;
-+
- 	return pci_alloc_irq_vectors_affinity(pdev, 1, irq_queues,
- 			      PCI_IRQ_ALL_TYPES | PCI_IRQ_AFFINITY, &affd);
- }
-@@ -2321,7 +2328,16 @@ static int nvme_pci_enable(struct nvme_dev *dev)
- 	dev->ctrl.sqsize = dev->q_depth - 1; /* 0's based queue depth */
- 	dev->db_stride = 1 << NVME_CAP_STRIDE(dev->ctrl.cap);
- 	dev->dbs = dev->bar + 4096;
--	dev->io_sqes = NVME_NVM_IOSQES;
-+
-+	/*
-+	 * Some Apple controllers require a non-standard SQE size.
-+	 * Interestingly they also seem to ignore the CC:IOSQES register
-+	 * so we don't bother updating it here.
-+	 */
-+	if (dev->ctrl.quirks & NVME_QUIRK_128_BYTES_SQES)
-+		dev->io_sqes = 7;
-+	else
-+		dev->io_sqes = NVME_NVM_IOSQES;
- 
- 	/*
- 	 * Temporary fix for the Apple controller found in the MacBook8,1 and
-@@ -3039,6 +3055,9 @@ static const struct pci_device_id nvme_id_table[] = {
- 	{ PCI_DEVICE_CLASS(PCI_CLASS_STORAGE_EXPRESS, 0xffffff) },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2001) },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2003) },
-+	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2005),
-+		.driver_data = NVME_QUIRK_SINGLE_VECTOR |
-+				NVME_QUIRK_128_BYTES_SQES },
- 	{ 0, }
- };
- MODULE_DEVICE_TABLE(pci, nvme_id_table);
+ ???? queue->sock->sk->sk_allocation = GFP_ATOMIC;
+ ???? if (!qid)
+ ???? ??? n = 0;
 -- 
-2.17.1
+
+
+Regards,
+
+Israel
