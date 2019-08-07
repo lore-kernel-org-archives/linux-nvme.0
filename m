@@ -1,23 +1,26 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 7 Aug 2019 12:43:53 +0200
-Subject: [PATCH] nvme-pci: Do not prevent PCI bus-level PM from being used
-In-Reply-To: <1893355.EP2830DdO9@kreacher>
-References: <47415939.KV5G6iaeJG@kreacher>
- <20190730144134.GA12844@localhost.localdomain>
- <100ba4aff1c6434a81e47774ab4acddc@AUSX13MPC105.AMER.DELL.COM>
- <8246360B-F7D9-42EB-94FC-82995A769E28@canonical.com>
- <20190730191934.GD13948@localhost.localdomain>
- <7d3e0b8ba1444194a153c93faa1cabb3@AUSX13MPC105.AMER.DELL.COM>
- <20190730213114.GK13948@localhost.localdomain>
+Date: Wed, 7 Aug 2019 12:45:00 +0200
+Subject: [Regression] Commit "nvme/pci: Use host managed power state
+ for suspend" has problems
+In-Reply-To: <2763495.NmdaWeg79L@kreacher>
+References: <4323ed84dd07474eab65699b4d007aaf@AUSX13MPC105.AMER.DELL.COM>
  <CAJZ5v0gxfeMN8eCNRjcXmUOkReVsdozb3EccaYMpnmSHu3771g@mail.gmail.com>
- <20190731221956.GB15795@localhost.localdomain> <1893355.EP2830DdO9@kreacher>
-Message-ID: <20190807104353.GA11356@lst.de>
+ <20190731221956.GB15795@localhost.localdomain> <2763495.NmdaWeg79L@kreacher>
+Message-ID: <20190807104500.GB11356@lst.de>
 
-> +	if (pm_suspend_via_firmware() || !ctrl->npss || !pcie_aspm_enabled(pdev)) {
+On Wed, Aug 07, 2019@11:48:33AM +0200, Rafael J. Wysocki wrote:
+> So I think I know what the problem is here.
+> 
+> If ASPM is disabled for the NVMe device (which is the case on my machine by default),
+> skipping the bus-level PM in nvme_suspend() causes the PCIe link of it to stay up and
+> that prevents the SoC from getting into deeper package C-states.
+> 
+> If I change the ASPM policy to "powersave" (through the module parameter in there),
+> ASPM gets enabled for the NVMe drive and I can get into PC10 via S2Idle with plain 5.3-rc3.
+> 
+> However, that's a bit less than straightforward, so I'm going to post a patch to make
+> nvme_suspend() fall back to the "old ways" if ASPM is not enabled for the target device.
 
+Sounds sensibel.
 
-
-> +	mutex_lock(&aspm_lock);
-> +	aspm_enabled = bridge->link_state ? bridge->link_state->aspm_enabled : 0;
-
-Please fix the overly long lines..
+FYI your mail is not properly formatted and has way too long lines.
