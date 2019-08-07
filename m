@@ -1,13 +1,101 @@
 From: benh@kernel.crashing.org (Benjamin Herrenschmidt)
-Date: Wed,  7 Aug 2019 17:51:18 +1000
-Subject: [PATCH v4 0/4] nvme-pci: Support for Apple 201+ (T2 chip) 
-Message-ID: <20190807075122.6247-1-benh@kernel.crashing.org>
+Date: Wed,  7 Aug 2019 17:51:20 +1000
+Subject: [PATCH v4 2/4] nvme-pci: Add support for variable IO SQ element size
+In-Reply-To: <20190807075122.6247-1-benh@kernel.crashing.org>
+References: <20190807075122.6247-1-benh@kernel.crashing.org>
+Message-ID: <20190807075122.6247-3-benh@kernel.crashing.org>
 
-This series combines the original series and an updated version of the
-shared tags patch, and is rebased on nvme-5.4.
+The size of a submission queue element should always be 6 (64 bytes)
+by spec.
 
-This adds support for the controller found in recent Apple machines
-which is basically a SW emulated NVME controller in the T2 chip.
+However some controllers such as Apple's are not properly implementing
+the standard and require a different size.
 
-The original reverse engineering work was done by
-Paul Pawlowski <paul at mrarm.io>.
+This provides the ground work for the subsequent quirks for these
+controllers.
+
+Signed-off-by: Benjamin Herrenschmidt <benh at kernel.crashing.org>
+Reviewed-by: Minwoo Im <minwoo.im.dev at gmail.com>
+---
+ drivers/nvme/host/pci.c | 11 ++++++++---
+ include/linux/nvme.h    |  1 +
+ 2 files changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index b5b296984aa1..78a660e229d9 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -28,7 +28,7 @@
+ #include "trace.h"
+ #include "nvme.h"
+ 
+-#define SQ_SIZE(q)	((q)->q_depth * sizeof(struct nvme_command))
++#define SQ_SIZE(q)	((q)->q_depth << (q)->sqes)
+ #define CQ_SIZE(q)	((q)->q_depth * sizeof(struct nvme_completion))
+ 
+ #define SGES_PER_PAGE	(PAGE_SIZE / sizeof(struct nvme_sgl_desc))
+@@ -100,6 +100,7 @@ struct nvme_dev {
+ 	unsigned io_queues[HCTX_MAX_TYPES];
+ 	unsigned int num_vecs;
+ 	int q_depth;
++	int io_sqes;
+ 	u32 db_stride;
+ 	void __iomem *bar;
+ 	unsigned long bar_mapped_size;
+@@ -162,7 +163,7 @@ static inline struct nvme_dev *to_nvme_dev(struct nvme_ctrl *ctrl)
+ struct nvme_queue {
+ 	struct nvme_dev *dev;
+ 	spinlock_t sq_lock;
+-	struct nvme_command *sq_cmds;
++	void *sq_cmds;
+ 	 /* only used for poll queues: */
+ 	spinlock_t cq_poll_lock ____cacheline_aligned_in_smp;
+ 	volatile struct nvme_completion *cqes;
+@@ -178,6 +179,7 @@ struct nvme_queue {
+ 	u16 last_cq_head;
+ 	u16 qid;
+ 	u8 cq_phase;
++	u8 sqes;
+ 	unsigned long flags;
+ #define NVMEQ_ENABLED		0
+ #define NVMEQ_SQ_CMB		1
+@@ -488,7 +490,8 @@ static void nvme_submit_cmd(struct nvme_queue *nvmeq, struct nvme_command *cmd,
+ 			    bool write_sq)
+ {
+ 	spin_lock(&nvmeq->sq_lock);
+-	memcpy(&nvmeq->sq_cmds[nvmeq->sq_tail], cmd, sizeof(*cmd));
++	memcpy(nvmeq->sq_cmds + (nvmeq->sq_tail << nvmeq->sqes),
++	       cmd, sizeof(*cmd));
+ 	if (++nvmeq->sq_tail == nvmeq->q_depth)
+ 		nvmeq->sq_tail = 0;
+ 	nvme_write_sq_db(nvmeq, write_sq);
+@@ -1465,6 +1468,7 @@ static int nvme_alloc_queue(struct nvme_dev *dev, int qid, int depth)
+ 	if (dev->ctrl.queue_count > qid)
+ 		return 0;
+ 
++	nvmeq->sqes = qid ? dev->io_sqes : NVME_NVM_ADMSQES;
+ 	nvmeq->q_depth = depth;
+ 	nvmeq->cqes = dma_alloc_coherent(dev->dev, CQ_SIZE(nvmeq),
+ 					 &nvmeq->cq_dma_addr, GFP_KERNEL);
+@@ -2317,6 +2321,7 @@ static int nvme_pci_enable(struct nvme_dev *dev)
+ 	dev->ctrl.sqsize = dev->q_depth - 1; /* 0's based queue depth */
+ 	dev->db_stride = 1 << NVME_CAP_STRIDE(dev->ctrl.cap);
+ 	dev->dbs = dev->bar + 4096;
++	dev->io_sqes = NVME_NVM_IOSQES;
+ 
+ 	/*
+ 	 * Temporary fix for the Apple controller found in the MacBook8,1 and
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 01aa6a6c241d..d5a4bc21f36b 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -140,6 +140,7 @@ enum {
+  * Submission and Completion Queue Entry Sizes for the NVM command set.
+  * (In bytes and specified as a power of two (2^n)).
+  */
++#define NVME_NVM_ADMSQES	6
+ #define NVME_NVM_IOSQES		6
+ #define NVME_NVM_IOCQES		4
+ 
+-- 
+2.17.1
