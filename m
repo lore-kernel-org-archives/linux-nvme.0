@@ -1,17 +1,12 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 7 Aug 2019 13:54:15 -0700
-Subject: [PATCH] nvmet: fix data units read and written counters in SMART
- log
-In-Reply-To: <dedb990d-ef45-0cd9-b662-e98b911fe45a@mellanox.com>
-References: <1564970259-12279-1-git-send-email-tomwu@mellanox.com>
- <8cbab0aa-51c7-b33a-46a3-5a85debc023c@grimberg.me>
- <dedb990d-ef45-0cd9-b662-e98b911fe45a@mellanox.com>
-Message-ID: <a27bc24d-6806-8fe9-0b76-8e01d8d35464@grimberg.me>
+Date: Wed, 7 Aug 2019 13:54:47 -0700
+Subject: nvme target fused command support
+In-Reply-To: <CABECqUF5=Zd9Uu+9th4z1NNR8zvaW0T5nLM1k0JwTKU-9Dx5-w@mail.gmail.com>
+References: <CABECqUF5=Zd9Uu+9th4z1NNR8zvaW0T5nLM1k0JwTKU-9Dx5-w@mail.gmail.com>
+Message-ID: <5dcafde6-fbf4-f8eb-3de9-555e80c934d9@grimberg.me>
 
 
-> Hi, Sagi
-> 
-> when you say I can 'modifying the actual retrieval', you are try to
-> suggest that I can do the changes as below, right?
+> hi
+> is present  Linux NVMe target has fused command support?
 
-Yes.
+No
