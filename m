@@ -1,32 +1,56 @@
-From: jeff.johnson@aeoncomputing.com (Jeff Johnson)
-Date: Wed, 7 Aug 2019 14:54:13 -0700
-Subject: inverting order of NVMe pci enable/disable device during
- boot/shutdown? Failing release.
-In-Reply-To: <CAFCYAsd6ra346vBuNfd8fGcL_5ntRTNneXa3_TTk_YoAUy0ZFw@mail.gmail.com>
-References: <CAFCYAsfsCH+swCmpubto9od6dmJFsw0i+VDri9U+GVyZkOqcWg@mail.gmail.com>
- <20190807213039.GA26026@localhost.localdomain>
- <CAFCYAsd6ra346vBuNfd8fGcL_5ntRTNneXa3_TTk_YoAUy0ZFw@mail.gmail.com>
-Message-ID: <CAFCYAseCyHqpn-6NEhbu3EpyGfs-eMmsmkdKhg9QCiNP_tuE-w@mail.gmail.com>
+From: jonathan.derrick@intel.com (Jon Derrick)
+Date: Wed,  7 Aug 2019 14:10:51 -0600
+Subject: [PATCH] genirq/affinity: report extra vectors on uneven nodes
+Message-ID: <20190807201051.32662-1-jonathan.derrick@intel.com>
 
-On Wed, Aug 7, 2019 at 2:36 PM Jeff Johnson
-<jeff.johnson@aeoncomputing.com> wrote:
->
-> On Wed, Aug 7, 2019@2:33 PM Keith Busch <kbusch@kernel.org> wrote:
-> > Do you require all 24 slots be populated to observe the failure, or can
-> > you repro with fewer?
->
-> I have not tried with partially depopulating the JBOD but I'll attempt
-> it now and report back. It always occurs on the final one or two
-> endpoint devices (SSDs) to disable/release during the shutdown
-> process.
+The current irq spreading algorithm spreads vectors amongst cpus evenly
+per node. If a node has more cpus than another node, the extra vectors
+being spread may not be reported back to the caller.
 
-Depopulated chassis down to 18 NVMe SSDs from 24. All 18 were
-functional with good status, negotiated speed and width. All SSDs
-visible to kernel.
+This is most apparent with the NVMe driver and nr_cpus < vectors, where
+the underreporting results in the caller's WARN being triggered:
 
-After shutdown `sync ; poweroff` the next to last drive in the
-shutdown disable/release order was left in a polling state
-(G1/0width).
+irq_build_affinity_masks()
+...
+	if (nr_present < numvecs)
+		WARN_ON(nr_present + nr_others < numvecs);
 
-Host: Intel Xeon (Sky Lake SP), UEFI, VMD enabled, CentOS 7.6,
-3.10.0-957.21.3.el7 (with DPC enabled)
+Signed-off-by: Jon Derrick <jonathan.derrick at intel.com>
+---
+ kernel/irq/affinity.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
+index 4352b08ae48d..9beafb8c7e92 100644
+--- a/kernel/irq/affinity.c
++++ b/kernel/irq/affinity.c
+@@ -127,7 +127,8 @@ static int __irq_build_affinity_masks(unsigned int startvec,
+ 	}
+ 
+ 	for_each_node_mask(n, nodemsk) {
+-		unsigned int ncpus, v, vecs_to_assign, vecs_per_node;
++		unsigned int ncpus, v, vecs_to_assign, total_vecs_to_assign,
++			vecs_per_node;
+ 
+ 		/* Spread the vectors per node */
+ 		vecs_per_node = (numvecs - (curvec - firstvec)) / nodes;
+@@ -141,14 +142,16 @@ static int __irq_build_affinity_masks(unsigned int startvec,
+ 
+ 		/* Account for rounding errors */
+ 		extra_vecs = ncpus - vecs_to_assign * (ncpus / vecs_to_assign);
++		total_vecs_to_assign = vecs_to_assign + extra_vecs;
+ 
+-		for (v = 0; curvec < last_affv && v < vecs_to_assign;
++		for (v = 0; curvec < last_affv && v < total_vecs_to_assign;
+ 		     curvec++, v++) {
+ 			cpus_per_vec = ncpus / vecs_to_assign;
+ 
+ 			/* Account for extra vectors to compensate rounding errors */
+ 			if (extra_vecs) {
+ 				cpus_per_vec++;
++				v++;
+ 				--extra_vecs;
+ 			}
+ 			irq_spread_init_one(&masks[curvec].mask, nmsk,
+-- 
+2.20.1
