@@ -1,31 +1,19 @@
-From: rafael@kernel.org (Rafael J. Wysocki)
-Date: Wed, 7 Aug 2019 12:54:08 +0200
-Subject: [Regression] Commit "nvme/pci: Use host managed power state for
- suspend" has problems
-In-Reply-To: <20190807104500.GB11356@lst.de>
-References: <4323ed84dd07474eab65699b4d007aaf@AUSX13MPC105.AMER.DELL.COM>
- <CAJZ5v0gxfeMN8eCNRjcXmUOkReVsdozb3EccaYMpnmSHu3771g@mail.gmail.com>
- <20190731221956.GB15795@localhost.localdomain> <2763495.NmdaWeg79L@kreacher>
- <20190807104500.GB11356@lst.de>
-Message-ID: <CAJZ5v0hsLqugkep9JTzUpErUoBdFbEqmHEXqSzdfPk8D1ZvHdg@mail.gmail.com>
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Wed, 7 Aug 2019 07:43:01 -0500
+Subject: [PATCH v2 13/14] PCI/P2PDMA: No longer require no-mmu for host
+ bridge whitelist
+In-Reply-To: <20190807055958.GC6627@lst.de>
+References: <20190730163545.4915-1-logang@deltatee.com>
+ <20190730163545.4915-14-logang@deltatee.com>
+ <20190807055958.GC6627@lst.de>
+Message-ID: <20190807124259.GX151852@google.com>
 
-On Wed, Aug 7, 2019@12:45 PM Christoph Hellwig <hch@lst.de> wrote:
->
-> On Wed, Aug 07, 2019@11:48:33AM +0200, Rafael J. Wysocki wrote:
-> > So I think I know what the problem is here.
-> >
-> > If ASPM is disabled for the NVMe device (which is the case on my machine by default),
-> > skipping the bus-level PM in nvme_suspend() causes the PCIe link of it to stay up and
-> > that prevents the SoC from getting into deeper package C-states.
-> >
-> > If I change the ASPM policy to "powersave" (through the module parameter in there),
-> > ASPM gets enabled for the NVMe drive and I can get into PC10 via S2Idle with plain 5.3-rc3.
-> >
-> > However, that's a bit less than straightforward, so I'm going to post a patch to make
-> > nvme_suspend() fall back to the "old ways" if ASPM is not enabled for the target device.
->
-> Sounds sensibel.
->
-> FYI your mail is not properly formatted and has way too long lines.
+On Wed, Aug 07, 2019@07:59:58AM +0200, Christoph Hellwig wrote:
+> no-mmu sounds stange, as we use that for linux ports without paging
+> hardware.  I think an "io" got lost somewhere..
 
-Sorry about that.
+I had already changed the subject to
+
+  PCI/P2PDMA: Allow IOMMU for host bridge whitelist
+
+but certainly open to better suggestions.
