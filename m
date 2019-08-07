@@ -1,56 +1,67 @@
-From: jonathan.derrick@intel.com (Jon Derrick)
-Date: Wed,  7 Aug 2019 14:10:51 -0600
-Subject: [PATCH] genirq/affinity: report extra vectors on uneven nodes
-Message-ID: <20190807201051.32662-1-jonathan.derrick@intel.com>
+From: tom.leiming@gmail.com (Ming Lei)
+Date: Thu, 8 Aug 2019 07:50:59 +0800
+Subject: [PATCH] genirq/affinity: create affinity mask for single vector
+In-Reply-To: <20190805011906.5020-1-ming.lei@redhat.com>
+References: <20190805011906.5020-1-ming.lei@redhat.com>
+Message-ID: <CACVXFVNn9wu2sU=47csi+stvzN0TnOV4E8xBHYknxo9uDksMuQ@mail.gmail.com>
 
-The current irq spreading algorithm spreads vectors amongst cpus evenly
-per node. If a node has more cpus than another node, the extra vectors
-being spread may not be reported back to the caller.
+Hello Thomas and Guys,
 
-This is most apparent with the NVMe driver and nr_cpus < vectors, where
-the underreporting results in the caller's WARN being triggered:
+On Mon, Aug 5, 2019@9:19 AM Ming Lei <ming.lei@redhat.com> wrote:
+>
+> Since commit c66d4bd110a1f8 ("genirq/affinity: Add new callback for
+> (re)calculating interrupt sets"), irq_create_affinity_masks() returns
+> NULL in case of single vector. This change has caused regression on some
+> drivers, such as lpfc.
+>
+> The problem is that single vector may be triggered in some generic cases:
+> 1) kdump kernel 2) irq vectors resource is close to exhaustion.
+>
+> If we don't create affinity mask for single vector, almost every caller
+> has to handle the special case.
+>
+> So still create affinity mask for single vector, since irq_create_affinity_masks()
+> is capable of handling that.
+>
+> Cc: Marc Zyngier <marc.zyngier at arm.com>
+> Cc: Christoph Hellwig <hch at lst.de>
+> Cc: Bjorn Helgaas <helgaas at kernel.org>
+> Cc: Jens Axboe <axboe at kernel.dk>
+> Cc: linux-block at vger.kernel.org
+> Cc: Sagi Grimberg <sagi at grimberg.me>
+> Cc: linux-nvme at lists.infradead.org
+> Cc: linux-pci at vger.kernel.org
+> Cc: Keith Busch <keith.busch at intel.com>
+> Cc: Sumit Saxena <sumit.saxena at broadcom.com>
+> Cc: Kashyap Desai <kashyap.desai at broadcom.com>
+> Cc: Shivasharan Srikanteshwara <shivasharan.srikanteshwara at broadcom.com>
+> Fixes: c66d4bd110a1f8 ("genirq/affinity: Add new callback for (re)calculating interrupt sets")
+> Signed-off-by: Ming Lei <ming.lei at redhat.com>
+> ---
+>  kernel/irq/affinity.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+>
+> diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
+> index 4352b08ae48d..6fef48033f96 100644
+> --- a/kernel/irq/affinity.c
+> +++ b/kernel/irq/affinity.c
+> @@ -251,11 +251,9 @@ irq_create_affinity_masks(unsigned int nvecs, struct irq_affinity *affd)
+>          * Determine the number of vectors which need interrupt affinities
+>          * assigned. If the pre/post request exhausts the available vectors
+>          * then nothing to do here except for invoking the calc_sets()
+> -        * callback so the device driver can adjust to the situation. If there
+> -        * is only a single vector, then managing the queue is pointless as
+> -        * well.
+> +        * callback so the device driver can adjust to the situation.
+>          */
+> -       if (nvecs > 1 && nvecs > affd->pre_vectors + affd->post_vectors)
+> +       if (nvecs > affd->pre_vectors + affd->post_vectors)
+>                 affvecs = nvecs - affd->pre_vectors - affd->post_vectors;
+>         else
+>                 affvecs = 0;
 
-irq_build_affinity_masks()
-...
-	if (nr_present < numvecs)
-		WARN_ON(nr_present + nr_others < numvecs);
+Without this patch, kdump kernel may not work, so could you take a look
+at this patch?
 
-Signed-off-by: Jon Derrick <jonathan.derrick at intel.com>
----
- kernel/irq/affinity.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
-index 4352b08ae48d..9beafb8c7e92 100644
---- a/kernel/irq/affinity.c
-+++ b/kernel/irq/affinity.c
-@@ -127,7 +127,8 @@ static int __irq_build_affinity_masks(unsigned int startvec,
- 	}
- 
- 	for_each_node_mask(n, nodemsk) {
--		unsigned int ncpus, v, vecs_to_assign, vecs_per_node;
-+		unsigned int ncpus, v, vecs_to_assign, total_vecs_to_assign,
-+			vecs_per_node;
- 
- 		/* Spread the vectors per node */
- 		vecs_per_node = (numvecs - (curvec - firstvec)) / nodes;
-@@ -141,14 +142,16 @@ static int __irq_build_affinity_masks(unsigned int startvec,
- 
- 		/* Account for rounding errors */
- 		extra_vecs = ncpus - vecs_to_assign * (ncpus / vecs_to_assign);
-+		total_vecs_to_assign = vecs_to_assign + extra_vecs;
- 
--		for (v = 0; curvec < last_affv && v < vecs_to_assign;
-+		for (v = 0; curvec < last_affv && v < total_vecs_to_assign;
- 		     curvec++, v++) {
- 			cpus_per_vec = ncpus / vecs_to_assign;
- 
- 			/* Account for extra vectors to compensate rounding errors */
- 			if (extra_vecs) {
- 				cpus_per_vec++;
-+				v++;
- 				--extra_vecs;
- 			}
- 			irq_spread_init_one(&masks[curvec].mask, nmsk,
--- 
-2.20.1
+Thanks,
+Ming Lei
