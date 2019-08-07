@@ -1,62 +1,44 @@
-From: israelr@mellanox.com (Israel Rukshin)
-Date: Wed, 7 Aug 2019 08:02:54 +0000
-Subject: [PATCH 1/2] nvme-fabrics: Add type of service (TOS) configuration
-In-Reply-To: <04c776f4-a04a-8256-c659-daa11fe78a29@grimberg.me>
-References: <1564912530-15404-1-git-send-email-israelr@mellanox.com>
- <04c776f4-a04a-8256-c659-daa11fe78a29@grimberg.me>
-Message-ID: <806d9809-2c24-fcf9-e4c0-e07eaac88d13@mellanox.com>
+From: rjw@rjwysocki.net (Rafael J. Wysocki)
+Date: Wed, 07 Aug 2019 11:48:33 +0200
+Subject: [Regression] Commit "nvme/pci: Use host managed power state for
+ suspend" has problems
+In-Reply-To: <20190731221956.GB15795@localhost.localdomain>
+References: <4323ed84dd07474eab65699b4d007aaf@AUSX13MPC105.AMER.DELL.COM>
+ <CAJZ5v0gxfeMN8eCNRjcXmUOkReVsdozb3EccaYMpnmSHu3771g@mail.gmail.com>
+ <20190731221956.GB15795@localhost.localdomain>
+Message-ID: <2763495.NmdaWeg79L@kreacher>
 
-On 8/5/2019 6:10 PM, Sagi Grimberg wrote:
->
->> TOS is user-defined and needs to be configured via nvme-cli.
->> It must be set before initiating any traffic and once set the TOS
->> cannot be changed.
->
-> Can you please have tcp support it too in the patch set (and test
-> that it works)?
->
-> Its simply setsockopt with SO_PRIORITY.
+On Thursday, August 1, 2019 12:19:56 AM CEST Keith Busch wrote:
+> On Wed, Jul 31, 2019@11:25:51PM +0200, Rafael J. Wysocki wrote:
+> > 
+> > A couple of remarks if you will.
+> > 
+> > First, we don't know which case is the majority at this point.  For
+> > now, there is one example of each, but it may very well turn out that
+> > the SK Hynix BC501 above needs to be quirked.
+> > 
+> > Second, the reference here really is 5.2, so if there are any systems
+> > that are not better off with 5.3-rc than they were with 5.2, well, we
+> > have not made progress.  However, if there are systems that are worse
+> > off with 5.3, that's bad.  In the face of the latest findings the only
+> > way to avoid that is to be backwards compatible with 5.2 and that's
+> > where my patch is going.  That cannot be achieved by quirking all
+> > cases that are reported as "bad", because there still may be
+> > unreported ones.
+> 
+> I have to agree. I think your proposal may allow PCI D3cold, in which
+> case we do need to reintroduce the HMB handling.
 
-Hi Sagi,
+So I think I know what the problem is here.
 
-I implemented your suggestion but it doesn't work for me.
+If ASPM is disabled for the NVMe device (which is the case on my machine by default),
+skipping the bus-level PM in nvme_suspend() causes the PCIe link of it to stay up and
+that prevents the SoC from getting into deeper package C-states.
 
-The kernel_setsockopt() succeed and I see that 
-queue->sock->sk->sk_priority was changed to the correct value,
+If I change the ASPM policy to "powersave" (through the module parameter in there),
+ASPM gets enabled for the NVMe drive and I can get into PC10 via S2Idle with plain 5.3-rc3.
 
-but I don't see that the priority was changed on Wireshark.
+However, that's a bit less than straightforward, so I'm going to post a patch to make
+nvme_suspend() fall back to the "old ways" if ASPM is not enabled for the target device.
 
-Do I miss anything?
-
-Here is my change:
-
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 606b13d..c0efb2a 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1301,6 +1301,19 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl 
-*nctrl,
- ???? ??? goto err_sock;
- ???? }
-
-+??? /* Set socket priority */
-+??? if (nctrl->opts->tos >= 0) {
-+??? ??? opt = nctrl->opts->tos;
-+??? ??? ret = kernel_setsockopt(queue->sock, SOL_SOCKET, SO_PRIORITY,
-+??? ??? ??? ??? (char *)&opt, sizeof(opt));
-+??? ??? if (ret) {
-+??? ??? ??? dev_err(nctrl->device,
-+??? ??? ??? ??? "failed to set SO_PRIORITY sock opt %d\n", ret);
-+??? ??? ??? goto err_sock;
-+??? ??? }
-+??? }
-+
- ???? queue->sock->sk->sk_allocation = GFP_ATOMIC;
- ???? if (!qid)
- ???? ??? n = 0;
--- 
-
-
-Regards,
-
-Israel
+Cheers!
