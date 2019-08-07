@@ -1,41 +1,24 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Wed, 7 Aug 2019 09:58:06 -0600
-Subject: [PATCH v2 03/14] PCI/P2PDMA: Add constants for not-supported
- result upstream_bridge_distance()
-In-Reply-To: <20190807055455.GA6627@lst.de>
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Wed, 7 Aug 2019 14:29:19 -0500
+Subject: [PATCH v2 00/14] PCI/P2PDMA: Support transactions that hit the
+ host bridge
+In-Reply-To: <e31f13f8-5afd-6f38-a206-163e9f77c91a@deltatee.com>
 References: <20190730163545.4915-1-logang@deltatee.com>
- <20190730163545.4915-4-logang@deltatee.com> <20190807055455.GA6627@lst.de>
-Message-ID: <4b0c012a-c3a1-a1c0-b098-8b350963aed1@deltatee.com>
+ <20190806234439.GW151852@google.com>
+ <e31f13f8-5afd-6f38-a206-163e9f77c91a@deltatee.com>
+Message-ID: <20190807192919.GY151852@google.com>
 
+On Tue, Aug 06, 2019@06:31:07PM -0600, Logan Gunthorpe wrote:
+> On 2019-08-06 5:44 p.m., Bjorn Helgaas wrote:
 
-
-On 2019-08-06 11:54 p.m., Christoph Hellwig wrote:
-> On Tue, Jul 30, 2019@10:35:34AM -0600, Logan Gunthorpe wrote:
->> Add constant flags to indicate two devices are not supported or whether
->> the data path goes through the host bridge instead of using the negative
->> values -1 and -2.
->>
->> This helps annotate the code better, but the main reason is so we
->> can use the information to store the required mapping method in an
->> xarray.
->>
->> Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
->> Reviewed-by: Christian K?nig <christian.koenig at amd.com>
+> > I tentatively applied these to pci/p2pdma with minor typographical
+> > updates (below), but I'll update the branch if necessary.
 > 
-> Is there really no way to keep the distance separate from the type of
-> the connection as I requested?  I think that would avoid a lot of
-> confusion down the road.
+> Great, thanks! The typographical changes look good.
+> 
+> I already have one very minor change queued up for these. Should I just
+> send you a small patch against your branch for you to squash?
 
-Well I separated it in the xarray and the interface. It only stores the
-type of mapping, not the distance and uses pci_p2pdma_map_type() to
-retrieve it.
+Yes, an incremental patch against my branch would be nice.
 
-We only calculate it at the same time as we calculate the distance. This
-is necessary because, to calculate the type, we have to walk the tree
-and check the ACS bits. If we separated it, we'd have to walk the tree
-twice in a very similar way just to determine both the distance and the
-mapping type.
-
-I'll apply your other feedback to a v3 next week.
-
-Logan
+Bjorn
