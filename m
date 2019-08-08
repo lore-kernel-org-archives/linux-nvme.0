@@ -1,93 +1,42 @@
-From: jonathan.derrick@intel.com (Derrick, Jonathan)
-Date: Thu, 8 Aug 2019 22:46:06 +0000
+From: kbusch@kernel.org (Keith Busch)
+Date: Thu, 8 Aug 2019 17:08:35 -0600
 Subject: [PATCH] genirq/affinity: report extra vectors on uneven nodes
-In-Reply-To: <20190808163224.GB27077@localhost.localdomain>
+In-Reply-To: <1a6ab898b8800c3e660054f77ac81bfc3921d45a.camel@intel.com>
 References: <20190807201051.32662-1-jonathan.derrick@intel.com>
  <alpine.DEB.2.21.1908080903360.2882@nanos.tec.linutronix.de>
  <20190808163224.GB27077@localhost.localdomain>
-Message-ID: <1a6ab898b8800c3e660054f77ac81bfc3921d45a.camel@intel.com>
+ <1a6ab898b8800c3e660054f77ac81bfc3921d45a.camel@intel.com>
+Message-ID: <20190808230835.GB27570@localhost.localdomain>
 
-On Thu, 2019-08-08@10:32 -0600, Keith Busch wrote:
-> On Thu, Aug 08, 2019@09:04:28AM +0200, Thomas Gleixner wrote:
-> > On Wed, 7 Aug 2019, Jon Derrick wrote:
-> > > The current irq spreading algorithm spreads vectors amongst cpus evenly
-> > > per node. If a node has more cpus than another node, the extra vectors
-> > > being spread may not be reported back to the caller.
-> > > 
-> > > This is most apparent with the NVMe driver and nr_cpus < vectors, where
-> > > the underreporting results in the caller's WARN being triggered:
-> > > 
-> > > irq_build_affinity_masks()
-> > > ...
-> > > 	if (nr_present < numvecs)
-> > > 		WARN_ON(nr_present + nr_others < numvecs);
-> > > 
-> > > Signed-off-by: Jon Derrick <jonathan.derrick at intel.com>
-> > > ---
-> > >  kernel/irq/affinity.c | 7 +++++--
-> > >  1 file changed, 5 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
-> > > index 4352b08ae48d..9beafb8c7e92 100644
-> > > --- a/kernel/irq/affinity.c
-> > > +++ b/kernel/irq/affinity.c
-> > > @@ -127,7 +127,8 @@ static int __irq_build_affinity_masks(unsigned int startvec,
-> > >  	}
-> > >  
-> > >  	for_each_node_mask(n, nodemsk) {
-> > > -		unsigned int ncpus, v, vecs_to_assign, vecs_per_node;
-> > > +		unsigned int ncpus, v, vecs_to_assign, total_vecs_to_assign,
-> > > +			vecs_per_node;
-> > >  
-> > >  		/* Spread the vectors per node */
-> > >  		vecs_per_node = (numvecs - (curvec - firstvec)) / nodes;
-> > > @@ -141,14 +142,16 @@ static int __irq_build_affinity_masks(unsigned int startvec,
-> > >  
-> > >  		/* Account for rounding errors */
-> > >  		extra_vecs = ncpus - vecs_to_assign * (ncpus / vecs_to_assign);
-> > > +		total_vecs_to_assign = vecs_to_assign + extra_vecs;
-> > >  
-> > > -		for (v = 0; curvec < last_affv && v < vecs_to_assign;
-> > > +		for (v = 0; curvec < last_affv && v < total_vecs_to_assign;
-> > >  		     curvec++, v++) {
-> > >  			cpus_per_vec = ncpus / vecs_to_assign;
-> > >  
-> > >  			/* Account for extra vectors to compensate rounding errors */
-> > >  			if (extra_vecs) {
-> > >  				cpus_per_vec++;
-> > > +				v++;
-> > >  				--extra_vecs;
-> > >  			}
-> > >  			irq_spread_init_one(&masks[curvec].mask, nmsk,
-> > > -- 
+On Thu, Aug 08, 2019@10:46:06PM +0000, Derrick, Jonathan wrote:
+> On Thu, 2019-08-08@10:32 -0600, Keith Busch wrote:
+> > 
+> > I think the real problem is the spread's vecs_per_node doesn't account
+> > which nodes contribute more CPUs than others. For example:
+> > 
+> >   Node 0 has 32 CPUs
+> >   Node 1 has 8 CPUs
+> >   Assign 32 vectors
+> > 
+> > The current algorithm assigns 16 vectors to node 0 because vecs_per_node
+> > is calculated as 32 vectors / 2 nodes on the first iteration. The
+> > subsequent iteration for node 1 gets 8 vectors because it has only 8
+> > CPUs, leaving 8 vectors unassigned.
+> > 
+> > A more fair spread would give node 0 the remaining 8 vectors. This
+> > optimization, however, is a bit more complex than the current algorithm,
+> > which is probably why it wasn't done, so I think the warning should just
+> > be removed.
 > 
-> This looks like it will break the spread to non-present CPUs since
-> it's not accurately reporting how many vectors were assigned for the
-> present spread.
-> 
-> I think the real problem is the spread's vecs_per_node doesn't account
-> which nodes contribute more CPUs than others. For example:
-> 
->   Node 0 has 32 CPUs
->   Node 1 has 8 CPUs
->   Assign 32 vectors
-> 
-> The current algorithm assigns 16 vectors to node 0 because vecs_per_node
-> is calculated as 32 vectors / 2 nodes on the first iteration. The
-> subsequent iteration for node 1 gets 8 vectors because it has only 8
-> CPUs, leaving 8 vectors unassigned.
-> 
-> A more fair spread would give node 0 the remaining 8 vectors. This
-> optimization, however, is a bit more complex than the current algorithm,
-> which is probably why it wasn't done, so I think the warning should just
-> be removed.
+> It does get a bit complex for the rare scenario in this case
+> Maybe just an informational warning rather than a stackdumping warning
 
-It does get a bit complex for the rare scenario in this case
-Maybe just an informational warning rather than a stackdumping warning
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: smime.p7s
-Type: application/x-pkcs7-signature
-Size: 3278 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20190808/79da8b7e/attachment.bin>
+I think the easiest way to ensure all vectors are assigned is iterate
+the nodes in a sorted order from fewest CPUs to most. That should fix
+the warning, though it may not have the best possible assignment ratio
+(but better than what we're currently doing).
+
+Unfortunately the kernel's sort() doesn't take a 'void *priv' for the
+compare callback, so we wouldn't have all the information needed to weigh
+each node, but maybe we can fix that if there's agreement to iterate
+the nodes this way.
