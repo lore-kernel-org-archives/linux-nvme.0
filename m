@@ -1,33 +1,40 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu,  8 Aug 2019 13:53:19 -0700
-Subject: [PATCH v3 1/7] nvme: fail cancelled commands with
- NVME_SC_HOST_PATH_ERROR
+Date: Thu,  8 Aug 2019 13:53:20 -0700
+Subject: [PATCH v3 2/7] nvme: return nvme_error_status for sync commands
+ failure
 In-Reply-To: <20190808205325.24036-1-sagi@grimberg.me>
 References: <20190808205325.24036-1-sagi@grimberg.me>
-Message-ID: <20190808205325.24036-2-sagi@grimberg.me>
+Message-ID: <20190808205325.24036-3-sagi@grimberg.me>
 
-NVME_SC_ABORT_REQ means that the request was aborted due to
-an abort command received. In our case, this is a transport
-cancellation, so host pathing error is much more appropriate.
+callers should not rely on raw nvme status, blk_status_t
+is more appropriate.
 
-Reviewed-by: Minwoo Im <minwoo.im.dev at gmail.com>
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 6956041224ec..d2b4f57fa67e 100644
+index d2b4f57fa67e..f435c85c4062 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -294,7 +294,7 @@ bool nvme_cancel_request(struct request *req, void *data, bool reserved)
- 	dev_dbg_ratelimited(((struct nvme_ctrl *) data)->device,
- 				"Cancelling I/O %d", req->tag);
- 
--	nvme_req(req)->status = NVME_SC_ABORT_REQ;
-+	nvme_req(req)->status = NVME_SC_HOST_PATH_ERROR;
- 	blk_mq_complete_request_sync(req);
- 	return true;
- }
+@@ -803,7 +803,7 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+ 	if (nvme_req(req)->flags & NVME_REQ_CANCELLED)
+ 		ret = -EINTR;
+ 	else
+-		ret = nvme_req(req)->status;
++		ret = nvme_error_status(req);
+  out:
+ 	blk_mq_free_request(req);
+ 	return ret;
+@@ -894,7 +894,7 @@ static int nvme_submit_user_cmd(struct request_queue *q,
+ 	if (nvme_req(req)->flags & NVME_REQ_CANCELLED)
+ 		ret = -EINTR;
+ 	else
+-		ret = nvme_req(req)->status;
++		ret = nvme_error_status(req);
+ 	if (result)
+ 		*result = le32_to_cpu(nvme_req(req)->result.u32);
+ 	if (meta && !ret && !write) {
 -- 
 2.17.1
