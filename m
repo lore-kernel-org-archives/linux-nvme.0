@@ -1,58 +1,59 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu,  8 Aug 2019 13:53:25 -0700
-Subject: [PATCH v3 7/7] nvme: don't remove namespace if revalidate failed
- because of a transport error
-In-Reply-To: <20190808205325.24036-1-sagi@grimberg.me>
-References: <20190808205325.24036-1-sagi@grimberg.me>
-Message-ID: <20190808205325.24036-8-sagi@grimberg.me>
+Date: Thu,  8 Aug 2019 13:55:21 -0700
+Subject: [PATCH 1/2] nvmet-tcp: fix possible NULL deref
+Message-ID: <20190808205522.24638-1-sagi@grimberg.me>
 
-If a controller reset is racing with a namespace revalidation, the
-revalidation (admin) I/O will surely fail, but we should not remove the
-namespace as we will execute the I/O when the controller is back up.
+We must only call sgl_free for sgl that we actually
+allocated.
 
-Fix this by checking the specific error code that revalidate_disk
-returns, and if it is a transport related error, do not remove
-the namespace as it will either recover when the controller is
-back up and schedule a subsequent scan, or the controller is
-going away and the namespaces will be removed anyways.
-
-This fixes a hang namespace scanning racing with a controller reset and
-also sporious I/O errors in path failover coditions where the
-controller reset is racing with the namespace scan work with multipath
-enabled.
-
-Reported-by: Hannes Reinecke  <hare at suse.de>
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/core.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ drivers/nvme/target/tcp.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 49ffccd72091..001bcc8a8d3e 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -228,6 +228,8 @@ static blk_status_t nvme_error_status(struct request *req)
- 		return BLK_STS_PROTECTION;
- 	case NVME_SC_RESERVATION_CONFLICT:
- 		return BLK_STS_NEXUS;
-+	case NVME_SC_HOST_PATH_ERROR:
-+		return BLK_STS_TRANSPORT;
- 	default:
- 		return BLK_STS_IOERR;
- 	}
-@@ -3452,8 +3454,11 @@ static void nvme_validate_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index 69b83fa0c76c..0d63f3da0117 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -348,7 +348,8 @@ static int nvmet_tcp_map_data(struct nvmet_tcp_cmd *cmd)
  
- 	ns = nvme_find_get_ns(ctrl, nsid);
- 	if (ns) {
--		if (ns->disk && revalidate_disk(ns->disk))
--			nvme_ns_remove(ns);
-+		if (ns->disk) {
-+			blk_status_t sts = revalidate_disk(ns->disk);
-+			if (sts && sts != BLK_STS_TRANSPORT)
-+				nvme_ns_remove(ns);
-+		}
- 		nvme_put_ns(ns);
- 	} else
- 		nvme_alloc_ns(ctrl, nsid);
+ 	return 0;
+ err:
+-	sgl_free(cmd->req.sg);
++	if (cmd->req.sg_cnt)
++		sgl_free(cmd->req.sg);
+ 	return NVME_SC_INTERNAL;
+ }
+ 
+@@ -553,7 +554,8 @@ static int nvmet_try_send_data(struct nvmet_tcp_cmd *cmd)
+ 
+ 	if (queue->nvme_sq.sqhd_disabled) {
+ 		kfree(cmd->iov);
+-		sgl_free(cmd->req.sg);
++		if (cmd->req.sg_cnt)
++			sgl_free(cmd->req.sg);
+ 	}
+ 
+ 	return 1;
+@@ -584,7 +586,8 @@ static int nvmet_try_send_response(struct nvmet_tcp_cmd *cmd,
+ 		return -EAGAIN;
+ 
+ 	kfree(cmd->iov);
+-	sgl_free(cmd->req.sg);
++	if (cmd->req.sg_cnt)
++		sgl_free(cmd->req.sg);
+ 	cmd->queue->snd_cmd = NULL;
+ 	nvmet_tcp_put_cmd(cmd);
+ 	return 1;
+@@ -1306,7 +1309,8 @@ static void nvmet_tcp_finish_cmd(struct nvmet_tcp_cmd *cmd)
+ {
+ 	nvmet_req_uninit(&cmd->req);
+ 	nvmet_tcp_unmap_pdu_iovec(cmd);
+-	sgl_free(cmd->req.sg);
++	if (cmd->req.sg_cnt)
++		sgl_free(cmd->req.sg);
+ }
+ 
+ static void nvmet_tcp_uninit_data_in_cmds(struct nvmet_tcp_queue *queue)
 -- 
 2.17.1
