@@ -1,43 +1,81 @@
-From: israelr@mellanox.com (Israel Rukshin)
-Date: Thu, 8 Aug 2019 16:12:35 +0000
-Subject: [PATCH 1/2] nvme-fabrics: Add type of service (TOS) configuration
-In-Reply-To: <e2a4fa0c-cba1-c044-768f-b9c249e5a5e5@grimberg.me>
-References: <1564912530-15404-1-git-send-email-israelr@mellanox.com>
- <04c776f4-a04a-8256-c659-daa11fe78a29@grimberg.me>
- <806d9809-2c24-fcf9-e4c0-e07eaac88d13@mellanox.com>
- <e2a4fa0c-cba1-c044-768f-b9c249e5a5e5@grimberg.me>
-Message-ID: <bbab005d-a1c2-02a6-0716-fd74e5c8150f@mellanox.com>
+From: kbusch@kernel.org (Keith Busch)
+Date: Thu, 8 Aug 2019 10:32:24 -0600
+Subject: [PATCH] genirq/affinity: report extra vectors on uneven nodes
+In-Reply-To: <alpine.DEB.2.21.1908080903360.2882@nanos.tec.linutronix.de>
+References: <20190807201051.32662-1-jonathan.derrick@intel.com>
+ <alpine.DEB.2.21.1908080903360.2882@nanos.tec.linutronix.de>
+Message-ID: <20190808163224.GB27077@localhost.localdomain>
 
-On 8/7/2019 11:53 PM, Sagi Grimberg wrote:
->
->> Hi Sagi,
->>
->> I implemented your suggestion but it doesn't work for me.
->>
->> The kernel_setsockopt() succeed and I see that
->> queue->sock->sk->sk_priority was changed to the correct value,
->>
->> but I don't see that the priority was changed on Wireshark.
->>
->> Do I miss anything?
->
-> Should work, can you instrument to see that the skb->priority does
-> get assigned correctly?
+On Thu, Aug 08, 2019@09:04:28AM +0200, Thomas Gleixner wrote:
+> On Wed, 7 Aug 2019, Jon Derrick wrote:
+> > The current irq spreading algorithm spreads vectors amongst cpus evenly
+> > per node. If a node has more cpus than another node, the extra vectors
+> > being spread may not be reported back to the caller.
+> > 
+> > This is most apparent with the NVMe driver and nr_cpus < vectors, where
+> > the underreporting results in the caller's WARN being triggered:
+> > 
+> > irq_build_affinity_masks()
+> > ...
+> > 	if (nr_present < numvecs)
+> > 		WARN_ON(nr_present + nr_others < numvecs);
+> > 
+> > Signed-off-by: Jon Derrick <jonathan.derrick at intel.com>
+> > ---
+> >  kernel/irq/affinity.c | 7 +++++--
+> >  1 file changed, 5 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
+> > index 4352b08ae48d..9beafb8c7e92 100644
+> > --- a/kernel/irq/affinity.c
+> > +++ b/kernel/irq/affinity.c
+> > @@ -127,7 +127,8 @@ static int __irq_build_affinity_masks(unsigned int startvec,
+> >  	}
+> >  
+> >  	for_each_node_mask(n, nodemsk) {
+> > -		unsigned int ncpus, v, vecs_to_assign, vecs_per_node;
+> > +		unsigned int ncpus, v, vecs_to_assign, total_vecs_to_assign,
+> > +			vecs_per_node;
+> >  
+> >  		/* Spread the vectors per node */
+> >  		vecs_per_node = (numvecs - (curvec - firstvec)) / nodes;
+> > @@ -141,14 +142,16 @@ static int __irq_build_affinity_masks(unsigned int startvec,
+> >  
+> >  		/* Account for rounding errors */
+> >  		extra_vecs = ncpus - vecs_to_assign * (ncpus / vecs_to_assign);
+> > +		total_vecs_to_assign = vecs_to_assign + extra_vecs;
+> >  
+> > -		for (v = 0; curvec < last_affv && v < vecs_to_assign;
+> > +		for (v = 0; curvec < last_affv && v < total_vecs_to_assign;
+> >  		     curvec++, v++) {
+> >  			cpus_per_vec = ncpus / vecs_to_assign;
+> >  
+> >  			/* Account for extra vectors to compensate rounding errors */
+> >  			if (extra_vecs) {
+> >  				cpus_per_vec++;
+> > +				v++;
+> >  				--extra_vecs;
+> >  			}
+> >  			irq_spread_init_one(&masks[curvec].mask, nmsk,
+> > -- 
 
-I did the following instead and it works! :)
+This looks like it will break the spread to non-present CPUs since
+it's not accurately reporting how many vectors were assigned for the
+present spread.
 
-+?????????????? ret = kernel_setsockopt(queue->sock, SOL_IP, IP_TOS,
-+?????????????????????????????? (char *)&opt, sizeof(opt));
+I think the real problem is the spread's vecs_per_node doesn't account
+which nodes contribute more CPUs than others. For example:
 
-It affects only the outgoing packets from the initiator side (unlike 
-rdma-cm that affects both sides).
+  Node 0 has 32 CPUs
+  Node 1 has 8 CPUs
+  Assign 32 vectors
 
-I added the same kernel_setsockopt() to the target at 
-nvmet_tcp_add_port() and it works on both sides.
+The current algorithm assigns 16 vectors to node 0 because vecs_per_node
+is calculated as 32 vectors / 2 nodes on the first iteration. The
+subsequent iteration for node 1 gets 8 vectors because it has only 8
+CPUs, leaving 8 vectors unassigned.
 
-Do you think we need to add port configuration on the target side for 
-nvmet tcp?
-
-Regards,
-
-Israel
+A more fair spread would give node 0 the remaining 8 vectors. This
+optimization, however, is a bit more complex than the current algorithm,
+which is probably why it wasn't done, so I think the warning should just
+be removed.
