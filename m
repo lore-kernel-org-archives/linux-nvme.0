@@ -1,67 +1,56 @@
-From: tom.leiming@gmail.com (Ming Lei)
-Date: Thu, 8 Aug 2019 07:50:59 +0800
-Subject: [PATCH] genirq/affinity: create affinity mask for single vector
-In-Reply-To: <20190805011906.5020-1-ming.lei@redhat.com>
-References: <20190805011906.5020-1-ming.lei@redhat.com>
-Message-ID: <CACVXFVNn9wu2sU=47csi+stvzN0TnOV4E8xBHYknxo9uDksMuQ@mail.gmail.com>
+From: tomwu@mellanox.com (Tom Wu)
+Date: Thu,  8 Aug 2019 02:22:36 +0000
+Subject: [PATCH] nvmet: fix data units read and written counters in SMART log
+Message-ID: <1565230956-28982-1-git-send-email-tomwu@mellanox.com>
 
-Hello Thomas and Guys,
+In nvme spec 1.3 there is a definition for data write/read counters
+from SMART log, (See section 5.14.1.2):
+	This value is reported in thousands (i.e., a value of 1
+	corresponds to 1000 units of 512 bytes read) and is rounded up.
 
-On Mon, Aug 5, 2019@9:19 AM Ming Lei <ming.lei@redhat.com> wrote:
->
-> Since commit c66d4bd110a1f8 ("genirq/affinity: Add new callback for
-> (re)calculating interrupt sets"), irq_create_affinity_masks() returns
-> NULL in case of single vector. This change has caused regression on some
-> drivers, such as lpfc.
->
-> The problem is that single vector may be triggered in some generic cases:
-> 1) kdump kernel 2) irq vectors resource is close to exhaustion.
->
-> If we don't create affinity mask for single vector, almost every caller
-> has to handle the special case.
->
-> So still create affinity mask for single vector, since irq_create_affinity_masks()
-> is capable of handling that.
->
-> Cc: Marc Zyngier <marc.zyngier at arm.com>
-> Cc: Christoph Hellwig <hch at lst.de>
-> Cc: Bjorn Helgaas <helgaas at kernel.org>
-> Cc: Jens Axboe <axboe at kernel.dk>
-> Cc: linux-block at vger.kernel.org
-> Cc: Sagi Grimberg <sagi at grimberg.me>
-> Cc: linux-nvme at lists.infradead.org
-> Cc: linux-pci at vger.kernel.org
-> Cc: Keith Busch <keith.busch at intel.com>
-> Cc: Sumit Saxena <sumit.saxena at broadcom.com>
-> Cc: Kashyap Desai <kashyap.desai at broadcom.com>
-> Cc: Shivasharan Srikanteshwara <shivasharan.srikanteshwara at broadcom.com>
-> Fixes: c66d4bd110a1f8 ("genirq/affinity: Add new callback for (re)calculating interrupt sets")
-> Signed-off-by: Ming Lei <ming.lei at redhat.com>
-> ---
->  kernel/irq/affinity.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
->
-> diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
-> index 4352b08ae48d..6fef48033f96 100644
-> --- a/kernel/irq/affinity.c
-> +++ b/kernel/irq/affinity.c
-> @@ -251,11 +251,9 @@ irq_create_affinity_masks(unsigned int nvecs, struct irq_affinity *affd)
->          * Determine the number of vectors which need interrupt affinities
->          * assigned. If the pre/post request exhausts the available vectors
->          * then nothing to do here except for invoking the calc_sets()
-> -        * callback so the device driver can adjust to the situation. If there
-> -        * is only a single vector, then managing the queue is pointless as
-> -        * well.
-> +        * callback so the device driver can adjust to the situation.
->          */
-> -       if (nvecs > 1 && nvecs > affd->pre_vectors + affd->post_vectors)
-> +       if (nvecs > affd->pre_vectors + affd->post_vectors)
->                 affvecs = nvecs - affd->pre_vectors - affd->post_vectors;
->         else
->                 affvecs = 0;
+However, in nvme target where value is reported with actual units,
+but not thousands of units as the spec requires.
 
-Without this patch, kdump kernel may not work, so could you take a look
-at this patch?
+Signed-off-by: Tom Wu <tomwu at mellanox.com>
+Reviewed-by: Israel Rukshin <israelr at mellanox.com>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ drivers/nvme/target/admin-cmd.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-Thanks,
-Ming Lei
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 9f72d51..4099093 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -81,9 +81,11 @@ static u16 nvmet_get_smart_log_nsid(struct nvmet_req *req,
+ 		goto out;
+ 
+ 	host_reads = part_stat_read(ns->bdev->bd_part, ios[READ]);
+-	data_units_read = part_stat_read(ns->bdev->bd_part, sectors[READ]);
++	data_units_read = DIV_ROUND_UP(part_stat_read(ns->bdev->bd_part,
++		sectors[READ]), 1000);
+ 	host_writes = part_stat_read(ns->bdev->bd_part, ios[WRITE]);
+-	data_units_written = part_stat_read(ns->bdev->bd_part, sectors[WRITE]);
++	data_units_written = DIV_ROUND_UP(part_stat_read(ns->bdev->bd_part,
++		sectors[WRITE]), 1000);
+ 
+ 	put_unaligned_le64(host_reads, &slog->host_reads[0]);
+ 	put_unaligned_le64(data_units_read, &slog->data_units_read[0]);
+@@ -111,11 +113,11 @@ static u16 nvmet_get_smart_log_all(struct nvmet_req *req,
+ 		if (!ns->bdev)
+ 			continue;
+ 		host_reads += part_stat_read(ns->bdev->bd_part, ios[READ]);
+-		data_units_read +=
+-			part_stat_read(ns->bdev->bd_part, sectors[READ]);
++		data_units_read += DIV_ROUND_UP(
++			part_stat_read(ns->bdev->bd_part, sectors[READ]), 1000);
+ 		host_writes += part_stat_read(ns->bdev->bd_part, ios[WRITE]);
+-		data_units_written +=
+-			part_stat_read(ns->bdev->bd_part, sectors[WRITE]);
++		data_units_written += DIV_ROUND_UP(
++			part_stat_read(ns->bdev->bd_part, sectors[WRITE]), 1000);
+ 
+ 	}
+ 	rcu_read_unlock();
+-- 
+1.8.4.3
