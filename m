@@ -1,26 +1,21 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 8 Aug 2019 09:29:47 +0200
-Subject: [PATCH v2 13/14] PCI/P2PDMA: No longer require no-mmu for host
- bridge whitelist
-In-Reply-To: <20190807124259.GX151852@google.com>
+Date: Thu, 8 Aug 2019 09:31:09 +0200
+Subject: [PATCH v2 03/14] PCI/P2PDMA: Add constants for not-supported
+ result upstream_bridge_distance()
+In-Reply-To: <4b0c012a-c3a1-a1c0-b098-8b350963aed1@deltatee.com>
 References: <20190730163545.4915-1-logang@deltatee.com>
- <20190730163545.4915-14-logang@deltatee.com> <20190807055958.GC6627@lst.de>
- <20190807124259.GX151852@google.com>
-Message-ID: <20190808072947.GB29852@lst.de>
+ <20190730163545.4915-4-logang@deltatee.com> <20190807055455.GA6627@lst.de>
+ <4b0c012a-c3a1-a1c0-b098-8b350963aed1@deltatee.com>
+Message-ID: <20190808073109.GC29852@lst.de>
 
-On Wed, Aug 07, 2019@07:43:01AM -0500, Bjorn Helgaas wrote:
-> On Wed, Aug 07, 2019@07:59:58AM +0200, Christoph Hellwig wrote:
-> > no-mmu sounds stange, as we use that for linux ports without paging
-> > hardware.  I think an "io" got lost somewhere..
-> 
-> I had already changed the subject to
-> 
->   PCI/P2PDMA: Allow IOMMU for host bridge whitelist
-> 
-> but certainly open to better suggestions.
+On Wed, Aug 07, 2019@09:58:06AM -0600, Logan Gunthorpe wrote:
+> We only calculate it at the same time as we calculate the distance. This
+> is necessary because, to calculate the type, we have to walk the tree
+> and check the ACS bits. If we separated it, we'd have to walk the tree
+> twice in a very similar way just to determine both the distance and the
+> mapping type.
 
-Maybe:
-
-PCI/P2PDMA: Allow P2P transfers behind IOMMUs
-
-?
+Calculating it together makes perfect sense.  What I find odd is the
+overloading of a single return value.  Why not return the map type as
+the return value, and the distance as a by reference argument to keep
+them properly separated?
