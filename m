@@ -1,66 +1,26 @@
-From: tglx@linutronix.de (Thomas Gleixner)
-Date: Thu, 8 Aug 2019 09:04:28 +0200 (CEST)
-Subject: [PATCH] genirq/affinity: report extra vectors on uneven nodes
-In-Reply-To: <20190807201051.32662-1-jonathan.derrick@intel.com>
-References: <20190807201051.32662-1-jonathan.derrick@intel.com>
-Message-ID: <alpine.DEB.2.21.1908080903360.2882@nanos.tec.linutronix.de>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 8 Aug 2019 09:29:47 +0200
+Subject: [PATCH v2 13/14] PCI/P2PDMA: No longer require no-mmu for host
+ bridge whitelist
+In-Reply-To: <20190807124259.GX151852@google.com>
+References: <20190730163545.4915-1-logang@deltatee.com>
+ <20190730163545.4915-14-logang@deltatee.com> <20190807055958.GC6627@lst.de>
+ <20190807124259.GX151852@google.com>
+Message-ID: <20190808072947.GB29852@lst.de>
 
-On Wed, 7 Aug 2019, Jon Derrick wrote:
+On Wed, Aug 07, 2019@07:43:01AM -0500, Bjorn Helgaas wrote:
+> On Wed, Aug 07, 2019@07:59:58AM +0200, Christoph Hellwig wrote:
+> > no-mmu sounds stange, as we use that for linux ports without paging
+> > hardware.  I think an "io" got lost somewhere..
+> 
+> I had already changed the subject to
+> 
+>   PCI/P2PDMA: Allow IOMMU for host bridge whitelist
+> 
+> but certainly open to better suggestions.
 
-Cc+: Ming, Christoph.
+Maybe:
 
-Left context for reference.
+PCI/P2PDMA: Allow P2P transfers behind IOMMUs
 
-> The current irq spreading algorithm spreads vectors amongst cpus evenly
-> per node. If a node has more cpus than another node, the extra vectors
-> being spread may not be reported back to the caller.
-> 
-> This is most apparent with the NVMe driver and nr_cpus < vectors, where
-> the underreporting results in the caller's WARN being triggered:
-> 
-> irq_build_affinity_masks()
-> ...
-> 	if (nr_present < numvecs)
-> 		WARN_ON(nr_present + nr_others < numvecs);
-> 
-> Signed-off-by: Jon Derrick <jonathan.derrick at intel.com>
-> ---
->  kernel/irq/affinity.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
-> index 4352b08ae48d..9beafb8c7e92 100644
-> --- a/kernel/irq/affinity.c
-> +++ b/kernel/irq/affinity.c
-> @@ -127,7 +127,8 @@ static int __irq_build_affinity_masks(unsigned int startvec,
->  	}
->  
->  	for_each_node_mask(n, nodemsk) {
-> -		unsigned int ncpus, v, vecs_to_assign, vecs_per_node;
-> +		unsigned int ncpus, v, vecs_to_assign, total_vecs_to_assign,
-> +			vecs_per_node;
->  
->  		/* Spread the vectors per node */
->  		vecs_per_node = (numvecs - (curvec - firstvec)) / nodes;
-> @@ -141,14 +142,16 @@ static int __irq_build_affinity_masks(unsigned int startvec,
->  
->  		/* Account for rounding errors */
->  		extra_vecs = ncpus - vecs_to_assign * (ncpus / vecs_to_assign);
-> +		total_vecs_to_assign = vecs_to_assign + extra_vecs;
->  
-> -		for (v = 0; curvec < last_affv && v < vecs_to_assign;
-> +		for (v = 0; curvec < last_affv && v < total_vecs_to_assign;
->  		     curvec++, v++) {
->  			cpus_per_vec = ncpus / vecs_to_assign;
->  
->  			/* Account for extra vectors to compensate rounding errors */
->  			if (extra_vecs) {
->  				cpus_per_vec++;
-> +				v++;
->  				--extra_vecs;
->  			}
->  			irq_spread_init_one(&masks[curvec].mask, nmsk,
-> -- 
-> 2.20.1
-> 
-> 
+?
