@@ -1,18 +1,17 @@
-From: rafael@kernel.org (Rafael J. Wysocki)
-Date: Thu, 8 Aug 2019 19:06:58 +0200
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Thu, 8 Aug 2019 13:39:54 -0500
 Subject: [PATCH v2 2/2] nvme-pci: Allow PCI bus-level PM to be used if
  ASPM is disabled
 In-Reply-To: <CAJZ5v0h=nz8yXwOOGBUB9m1GtJPOqBwtNK7zXPNMJjzPhMWd9w@mail.gmail.com>
 References: <4323ed84dd07474eab65699b4d007aaf@AUSX13MPC105.AMER.DELL.COM>
- <20190731221956.GB15795@localhost.localdomain> <1921165.pTveHRX1Co@kreacher>
- <1870928.r7tBYyfqdz@kreacher> <20190808134356.GF151852@google.com>
+ <20190731221956.GB15795@localhost.localdomain>
+ <1921165.pTveHRX1Co@kreacher> <1870928.r7tBYyfqdz@kreacher>
+ <20190808134356.GF151852@google.com>
  <CAJZ5v0h=nz8yXwOOGBUB9m1GtJPOqBwtNK7zXPNMJjzPhMWd9w@mail.gmail.com>
-Message-ID: <CAJZ5v0jJBceekiOmBUJsAJZRkLYgzuUjoNBpdO_uBoh0RY7EmQ@mail.gmail.com>
+Message-ID: <20190808183954.GG151852@google.com>
 
-On Thu, Aug 8, 2019@4:47 PM Rafael J. Wysocki <rafael@kernel.org> wrote:
->
+On Thu, Aug 08, 2019@04:47:45PM +0200, Rafael J. Wysocki wrote:
 > On Thu, Aug 8, 2019@3:43 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
-> >
 > > On Thu, Aug 08, 2019@12:10:06PM +0200, Rafael J. Wysocki wrote:
 > > > From: Rafael J. Wysocki <rafael.j.wysocki at intel.com>
 > > >
@@ -31,9 +30,9 @@ On Thu, Aug 8, 2019@4:47 PM Rafael J. Wysocki <rafael@kernel.org> wrote:
 > >
 > > Just curious: I assume the SoC you reference is some part of the NVMe
 > > drive?
->
+> 
 > No, the SoC is what contains the Intel processor and PCH (formerly "chipset").
->
+> 
 > > > To address this shortcoming, make nvme_suspend() check if ASPM is
 > > > enabled for the target device and fall back to full device shutdown
 > > > and PCI bus-level PM if that is not the case.
@@ -89,51 +88,99 @@ On Thu, Aug 8, 2019@4:47 PM Rafael J. Wysocki <rafael@kernel.org> wrote:
 > >
 > > This seems like a layering violation, in the sense that ASPM is
 > > supposed to be hardware-autonomous and invisible to software.
->
+> 
 > But software has to enable it.
->
-> If it is not enabled, it will not be used, and that's what the check is about.
->
-> > IIUC the NVMe device will go to the desired package idle state if the
-> > link is in L0s or L1, but not if the link is in L0.  I don't
-> > understand that connection; AFAIK that would be something outside the
-> > scope of the PCIe spec.
->
+> 
+> If it is not enabled, it will not be used, and that's what the check
+> is about.
+> 
+> > IIUC the NVMe device will go to the desired package idle state if
+> > the link is in L0s or L1, but not if the link is in L0.  I don't
+> > understand that connection; AFAIK that would be something outside
+> > the scope of the PCIe spec.
+> 
 > Yes, it is outside of the PCIe spec.
->
+> 
 > No, this is not about the NVMe device, it is about the Intel SoC
 > (System-on-a-Chip) the platform is based on.
->
-> The background really is commit d916b1be94b6 and its changelog is kind
-> of misleading, unfortunately.  What it did, among other things, was to
-> cause the NVMe driver to prevent the PCI bus type from applying the
-> standard PCI PM to the devices handled by it in the suspend-to-idle
-> flow.  The reason for doing that was a (reportedly) widespread failure
-> to take the PCIe link down during D0 -> D3hot transitions of NVMe
-> devices, which then prevented the platform from going into a deep
-> enough low-power state while suspended (because it was not sure
-> whether or not the NVMe device was really "sufficiently" inactive).
-> [I guess I should mention that in the changelog of the $subject
-> patch.]  So the idea was to put the (NVMe) device into a low-power
-> state internally and then let ASPM take care of the PCIe link.
->
-> Of course, that can only work if ASPM is enabled at all for the device
-> in question, even though it may not be sufficient as you say below.
->
+
+Ah.  So this problem could occur with any device, not just NVMe?  If
+so, how do you address that?  Obviously you don't want to patch all
+drivers this way.
+
+> The background really is commit d916b1be94b6 and its changelog is
+> kind of misleading, unfortunately.  What it did, among other things,
+> was to cause the NVMe driver to prevent the PCI bus type from
+> applying the standard PCI PM to the devices handled by it in the
+> suspend-to-idle flow.  
+
+This is more meaningful to you than to most people because "applying
+the standard PCI PM" doesn't tell us what that means in terms of the
+device.  Presumably it has something to do with a D-state transition?
+I *assume* a suspend might involve the D0 -> D3hot transition you
+mention below?
+
+> The reason for doing that was a (reportedly) widespread failure to
+> take the PCIe link down during D0 -> D3hot transitions of NVMe
+> devices,
+
+I don't know any of the details, but "failure to take the link down
+during D0 -> D3hot transitions" is phrased as though it might be a
+hardware erratum.  If this *is* related to an NVMe erratum, that would
+explain why you only need to patch the nvme driver, and it would be
+useful to mention that in the commit log, since otherwise it sounds
+like something that might be needed in other drivers, too.
+
+According to PCIe r5.0 sec 5.3.2, the only legal link states for D3hot
+are L1, L2/L3 Ready.  So if you put a device in D3hot and its link
+stays in L0, that sounds like a defect.  Is that what happens?
+
+Obviously I'm still confused.  I think it would help if you could
+describe the problem in terms of the specific PCIe states involved
+(D0, D3hot, L0, L1, L2, L3, etc) because then the spec would help
+explain what's happening.
+
+> which then prevented the platform from going into a deep enough
+> low-power state while suspended (because it was not sure whether or
+> not the NVMe device was really "sufficiently" inactive).  [I guess I
+> should mention that in the changelog of the $subject patch.]  So the
+> idea was to put the (NVMe) device into a low-power state internally
+> and then let ASPM take care of the PCIe link.
+> 
+> Of course, that can only work if ASPM is enabled at all for the
+> device in question, even though it may not be sufficient as you say
+> below.
+> 
 > > The spec (PCIe r5.0, sec 5.4.1.1.1 for L0s, 5.4.1.2.1 for L1) is
-> > careful to say that when the conditions are right, devices "should"
-> > enter L0s but it is never mandatory, or "may" enter L1.
+> > careful to say that when the conditions are right, devices
+> > "should" enter L0s but it is never mandatory, or "may" enter L1.
 > >
 > > And this patch assumes that if ASPM is enabled, the link will
 > > eventually go to L0s or L1.
->
+> 
 > No, it doesn't.
->
+> 
 > It avoids failure in the case in which it is guaranteed to happen
 > (disabled ASPM) and that's it.
-
-IOW, after commit d916b1be94b6 and without this patch, nvme_suspend()
-*always* assumes ASPM to take the device's PCIe link down, which
-obviously is not going to happen if ASPM is disabled for that device.
-
-The rationale for this patch is to avoid the obvious failure.
+> 
+> > Because the PCIe spec doesn't mandate that transition, I think
+> > this patch makes the driver dependent on device-specific behavior.
+> 
+> IMO not really.  It just adds a "don't do it if you are going to
+> fail" kind of check.
+> 
+> >
+> > >               nvme_dev_disable(ndev, true);
+> > >               return 0;
+> > >       }
+> > > @@ -2880,7 +2888,6 @@ static int nvme_suspend(struct device *d
+> > >           ctrl->state != NVME_CTRL_ADMIN_ONLY)
+> > >               goto unfreeze;
+> > >
+> > > -     ndev->last_ps = 0;
+> > >       ret = nvme_get_power_state(ctrl, &ndev->last_ps);
+> > >       if (ret < 0)
+> > >               goto unfreeze;
+> > >
+> > >
+> > >
