@@ -1,25 +1,20 @@
-From: benh@kernel.crashing.org (Benjamin Herrenschmidt)
-Date: Fri, 09 Aug 2019 11:13:49 +1000
-Subject: [PATCH v4 0/4] nvme-pci: Support for Apple 201+ (T2 chip)
-In-Reply-To: <ae14ef26-b4a5-1ef2-e2a9-581e813893fe@grimberg.me>
-References: <20190807075122.6247-1-benh@kernel.crashing.org>
- <ae14ef26-b4a5-1ef2-e2a9-581e813893fe@grimberg.me>
-Message-ID: <885b0189e457095b73c8fd7fa7aaa1946d5c614f.camel@kernel.crashing.org>
+From: keith.busch@gmail.com (Keith Busch)
+Date: Thu, 8 Aug 2019 19:57:53 -0600
+Subject: [PATCH v4 2/7] nvme: return a proper errno for sync commands
+ failure
+In-Reply-To: <20190808232536.4258-3-sagi@grimberg.me>
+References: <20190808232536.4258-1-sagi@grimberg.me>
+ <20190808232536.4258-3-sagi@grimberg.me>
+Message-ID: <CAOSXXT4HByc7QXdUrfGgYB93jDRKsFETUsYxw7LL7=AEsOmipQ@mail.gmail.com>
 
-On Thu, 2019-08-08@16:52 -0700, Sagi Grimberg wrote:
-> > This series combines the original series and an updated version of
-> > the
-> > shared tags patch, and is rebased on nvme-5.4.
-> > 
-> > This adds support for the controller found in recent Apple machines
-> > which is basically a SW emulated NVME controller in the T2 chip.
-> > 
-> > The original reverse engineering work was done by
-> > Paul Pawlowski <paul at mrarm.io>.
-> 
-> Thanks, pulled to nvme-5.4
+On Thu, Aug 8, 2019@5:25 PM Sagi Grimberg <sagi@grimberg.me> wrote:
+> callers should not rely on raw nvme status, instead return
+> is more appropriate errno that relates to blk_status_t.
 
-Thanks !
-
-Cheers,
-Ben.
+We can't readily return a negative value if the controller did provide
+a real response. There are a lot of driver assumptions that a return <
+0 to nvme_submit_sync_cmd() means the controller didn't provide a
+response, and we should abort initialization, and >= 0 is a command
+status returned from a responsive controller. I don't think there's
+any driver use for specific nvme statuses, though, so returning >= 0
+blk_sts_t is probably okay.
