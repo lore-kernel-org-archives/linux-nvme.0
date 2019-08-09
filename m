@@ -1,55 +1,22 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri,  9 Aug 2019 11:04:12 -0700
-Subject: [GIT PULL] nvme fixes for the next round of 5.3-rc
-Message-ID: <20190809180412.26392-1-sagi@grimberg.me>
+Date: Fri, 9 Aug 2019 14:37:53 -0700
+Subject: [PATCH v4 2/7] nvme: return a proper errno for sync commands
+ failure
+In-Reply-To: <CAOSXXT4HByc7QXdUrfGgYB93jDRKsFETUsYxw7LL7=AEsOmipQ@mail.gmail.com>
+References: <20190808232536.4258-1-sagi@grimberg.me>
+ <20190808232536.4258-3-sagi@grimberg.me>
+ <CAOSXXT4HByc7QXdUrfGgYB93jDRKsFETUsYxw7LL7=AEsOmipQ@mail.gmail.com>
+Message-ID: <b498b6b8-4e6d-3e25-1f93-4cfcdcc716d9@grimberg.me>
 
-Hey Jens,
 
-Few nvme fixes for the next rc round.
-- detect capacity changes on the mpath disk from Anthony
-- probe/remove fix from Keith
-- various fixes to pass blktests from Logan
-- deadlock in reset/scan race fix
-- nvme-rdma use-after-free fix
-- deadlock fix when passthru commands race mpath disk info update
+> We can't readily return a negative value if the controller did provide
+> a real response. There are a lot of driver assumptions that a return <
+> 0 to nvme_submit_sync_cmd() means the controller didn't provide a
+> response, and we should abort initialization, and >= 0 is a command
+> status returned from a responsive controller. I don't think there's
+> any driver use for specific nvme statuses, though, so returning >= 0
+> blk_sts_t is probably okay.
+> 
 
-The following changes since commit 71d6c505b4d9e6f76586350450e785e3d452b346:
 
-  libata: zpodd: Fix small read overflow in zpodd_get_mech_type() (2019-07-29 16:00:14 -0600)
-
-are available in the Git repository at:
-
-  git://git.infradead.org/nvme.git nvme-5.3-rc 
-
-for you to fetch changes up to bd46a90634302bfe791e93ad5496f98f165f7ae0:
-
-  nvme-pci: Fix async probe remove race (2019-07-31 18:03:36 -0700)
-
-----------------------------------------------------------------
-Anthony Iliopoulos (1):
-      nvme-multipath: revalidate nvme_ns_head gendisk in nvme_validate_ns
-
-Keith Busch (1):
-      nvme-pci: Fix async probe remove race
-
-Logan Gunthorpe (4):
-      nvmet: Fix use-after-free bug when a port is removed
-      nvmet-loop: Flush nvme_delete_wq when removing the port
-      nvmet-file: fix nvmet_file_flush() always returning an error
-      nvme-core: Fix extra device_put() call on error path
-
-Sagi Grimberg (3):
-      nvme: fix a possible deadlock when passthru commands sent to a multipath device
-      nvme-rdma: fix possible use-after-free in connect error flow
-      nvme: fix controller removal race with scan work
-
- drivers/nvme/host/core.c       | 15 ++++++++-
- drivers/nvme/host/multipath.c  | 76 ++++++++++++++++++++++++++++++++++++++----
- drivers/nvme/host/nvme.h       | 21 ++++++++++--
- drivers/nvme/host/pci.c        |  3 +-
- drivers/nvme/host/rdma.c       | 16 ++++++---
- drivers/nvme/target/configfs.c |  1 +
- drivers/nvme/target/core.c     | 15 +++++++++
- drivers/nvme/target/loop.c     |  8 +++++
- drivers/nvme/target/nvmet.h    |  3 ++
- 9 files changed, 143 insertions(+), 15 deletions(-)
+OK, I'll go back to what you suggested earlier. Thanks Keith.
