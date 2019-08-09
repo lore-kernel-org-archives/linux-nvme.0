@@ -1,57 +1,82 @@
-From: mskorzhinskiy@solarflare.com (Mikhail Skorzhinskii)
-Date: Thu, 8 Aug 2019 17:35:02 +0200
-Subject: [PATCH v2] nvme: exclude completion trace from non-multipath builds
-Message-ID: <01a54b2ad1810fc9354c1586ebcb104364c0234a.1565348491.git.mskorzhinskiy@solarflare.com>
+From: kbusch@kernel.org (Keith Busch)
+Date: Fri, 9 Aug 2019 08:42:04 -0600
+Subject: [PATCH 1/2] genirq/affinity: improve __irq_build_affinity_masks()
+In-Reply-To: <20190809102310.27246-2-ming.lei@redhat.com>
+References: <20190809102310.27246-1-ming.lei@redhat.com>
+ <20190809102310.27246-2-ming.lei@redhat.com>
+Message-ID: <20190809144204.GA28515@localhost.localdomain>
 
-This trace point have no meaning without native multipath support and
-break compilation on configurations without enabled multipath.
+On Fri, Aug 09, 2019@06:23:09PM +0800, Ming Lei wrote:
+> One invariant of __irq_build_affinity_masks() is that all CPUs in the
+> specified masks( cpu_mask AND node_to_cpumask for each node) should be
+> covered during the spread. Even though all requested vectors have been
+> reached, we still need to spread vectors among left CPUs. The similar
+> policy has been taken in case of 'numvecs <= nodes'.
+> 
+> So remove the following check inside the loop:
+> 
+> 	if (done >= numvecs)
+> 		break;
+> 
+> Meantime assign at least 1 vector for left nodes if 'numvecs' vectors
+> have been spread.
+> 
+> Also, if the specified cpumask for one numa node is empty, simply not
+> spread vectors on this node.
+> 
+> Cc: Christoph Hellwig <hch at lst.de>
+> Cc: Keith Busch <kbusch at kernel.org>
+> Cc: linux-nvme at lists.infradead.org,
+> Cc: Jon Derrick <jonathan.derrick at intel.com>
+> Signed-off-by: Ming Lei <ming.lei at redhat.com>
+> ---
+>  kernel/irq/affinity.c | 33 +++++++++++++++++++++------------
+>  1 file changed, 21 insertions(+), 12 deletions(-)
+> 
+> diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
+> index 6fef48033f96..bc3652a2c61b 100644
+> --- a/kernel/irq/affinity.c
+> +++ b/kernel/irq/affinity.c
+> @@ -129,21 +129,32 @@ static int __irq_build_affinity_masks(unsigned int startvec,
+>  	for_each_node_mask(n, nodemsk) {
+>  		unsigned int ncpus, v, vecs_to_assign, vecs_per_node;
+>  
+> -		/* Spread the vectors per node */
+> -		vecs_per_node = (numvecs - (curvec - firstvec)) / nodes;
+> -
+>  		/* Get the cpus on this node which are in the mask */
+>  		cpumask_and(nmsk, cpu_mask, node_to_cpumask[n]);
+> -
+> -		/* Calculate the number of cpus per vector */
+>  		ncpus = cpumask_weight(nmsk);
+> +		if (!ncpus)
+> +			continue;
 
-Signed-off-by: Mikhail Skorzhinskii <mskorzhinskiy at solarflare.com>
----
- drivers/nvme/host/core.c | 21 +++++++++++++++++----
- 1 file changed, 17 insertions(+), 4 deletions(-)
+This shouldn't be possible, right? The nodemsk we're looping  wouldn't
+have had that node set if no CPUs intersect the node_to_cpu_mask for
+that node, so the resulting cpumask should always have a non-zero weight.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 6956041224ec..1202b7461031 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -260,10 +260,24 @@ static void nvme_retry_req(struct request *req)
- 	blk_mq_delay_kick_requeue_list(req->q, delay);
- }
- 
-+#ifdef CONFIG_NVME_MULTIPATH
-+static void nvme_trace_bio_complete(struct request *req, blk_status_t status)
-+{
-+	struct nvme_ns *ns = req->q->queuedata;
-+
-+	if (req->bio && ns && ns->head->disk)
-+		trace_block_bio_complete(ns->head->disk->queue,
-+					 req->bio, status);
-+}
-+#else
-+static void nvme_trace_bio_complete(struct request *req, blk_status_t status)
-+{
-+}
-+#endif
-+
- void nvme_complete_rq(struct request *req)
- {
- 	blk_status_t status = nvme_error_status(req);
--	struct nvme_ns *ns = req->q->queuedata;
- 
- 	trace_nvme_complete_rq(req);
- 
-@@ -282,9 +296,8 @@ void nvme_complete_rq(struct request *req)
- 			return;
- 		}
- 	}
--	if (req->bio && ns && ns->head->disk)
--		trace_block_bio_complete(ns->head->disk->queue,
--					 req->bio, status);
-+
-+	nvme_trace_bio_complete(req, status);
- 	blk_mq_end_request(req, status);
- }
- EXPORT_SYMBOL_GPL(nvme_complete_rq);
--- 
-2.22.0
+> @@ -153,16 +164,14 @@ static int __irq_build_affinity_masks(unsigned int startvec,
+>  			}
+>  			irq_spread_init_one(&masks[curvec].mask, nmsk,
+>  						cpus_per_vec);
+> +			if (++curvec >= last_affv)
+> +				curvec = firstvec;
+
+I'm not so sure about wrapping the vector to share it across nodes. We
+have enough vectors in this path to ensure each compute node can have
+a unique one, and it's much cheaper to share these within nodes than
+across them.
+
+>  		}
+>  
+>  		done += v;
+> -		if (done >= numvecs)
+> -			break;
+> -		if (curvec >= last_affv)
+> -			curvec = firstvec;
+>  		--nodes;
+>  	}
+> -	return done;
+> +	return done < numvecs ? done : numvecs;
+>  }
