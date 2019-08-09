@@ -1,62 +1,31 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri,  9 Aug 2019 15:12:04 -0700
-Subject: [PATCH v5 0/7] nvme controller reset and namespace scan work race
- conditions
-Message-ID: <20190809221211.21157-1-sagi@grimberg.me>
+Date: Fri,  9 Aug 2019 15:12:09 -0700
+Subject: [PATCH v5 5/7] nvme-tcp: fail command with NVME_SC_HOST_PATH_ERROR
+ send failed
+In-Reply-To: <20190809221211.21157-1-sagi@grimberg.me>
+References: <20190809221211.21157-1-sagi@grimberg.me>
+Message-ID: <20190809221211.21157-6-sagi@grimberg.me>
 
-Hey Hannes and Keith,
+This is a more appropriate error status for a transport error
+detected by us (the host).
 
-This series handles the reset and scanning race saga.
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/host/tcp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The approach is to have the relevant admin commands return a proper
-status code that reflects that we had a transport error and
-not remove the namepsace if that is indeed the case.
-
-This should be a reliable way to know if the revalidate_disk failed
-due to a transport error or not.
-
-I am able to reproduce this race with the following command (using
-tcp/rdma):
-for j in `seq 50`; do nvme connect-all; for i in `seq 50`; do nvme reset /dev/nvme0; done ; nvme disconnect-all; done
-
-With this patch set (plus two more tcp/rdma transport specific patches
-that address a other issues) I was able to pass the test without
-reproducing the hang that you hannes reported.
-
-Changes from v4:
-- return nvme_error_status in __nvme_submit_sync_cmd and cast to
-  errno in nvme_identify_ns
-- modified status print in nvme_report_ns_ids
-
-Changes from v3:
-- return blk_status_to_errno instead of blk_status_t in sync cmds
-- check for normal return errno from revalidate_disk, this covers
-  transport errors, but also spurious allocation errors and any
-  type of transient errors.
-
-Changes from v2:
-- added fc patch from James (can you test please?)
-- made nvme_identify_ns return id or PTR_ERR (Hannes)
-
-Changes from v1:
-- different approach
-
-James Smart (1):
-  nvme-fc: Fail transport errors with NVME_SC_HOST_PATH
-
-Sagi Grimberg (6):
-  nvme: fail cancelled commands with NVME_SC_HOST_PATH_ERROR
-  nvme: return a proper status for sync commands failure
-  nvme: make nvme_identify_ns propagate errors back
-  nvme: make nvme_report_ns_ids propagate error back
-  nvme-tcp: fail command with NVME_SC_HOST_PATH_ERROR send failed
-  nvme: fix ns removal hang when failing to revalidate due to a
-    transient error
-
- drivers/nvme/host/core.c | 60 ++++++++++++++++++++++++++++------------
- drivers/nvme/host/fc.c   | 37 ++++++++++++++++++++-----
- drivers/nvme/host/tcp.c  |  2 +-
- 3 files changed, 74 insertions(+), 25 deletions(-)
-
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 2de33c4c5d14..7daf39f31b08 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -842,7 +842,7 @@ static inline void nvme_tcp_done_send_req(struct nvme_tcp_queue *queue)
+ 
+ static void nvme_tcp_fail_request(struct nvme_tcp_request *req)
+ {
+-	nvme_tcp_end_request(blk_mq_rq_from_pdu(req), NVME_SC_DATA_XFER_ERROR);
++	nvme_tcp_end_request(blk_mq_rq_from_pdu(req), NVME_SC_HOST_PATH_ERROR);
+ }
+ 
+ static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
 -- 
 2.17.1
