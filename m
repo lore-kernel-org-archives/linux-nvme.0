@@ -1,61 +1,18 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 8 Aug 2019 17:00:41 -0700
-Subject: [PATCH] nvme: exclude completion trace from non-multipath builds
-In-Reply-To: <9efc495c41b7bf050362a3a7eb64b5809092afd6.1565280170.git.mskorzhinskiy@solarflare.com>
-References: <9efc495c41b7bf050362a3a7eb64b5809092afd6.1565280170.git.mskorzhinskiy@solarflare.com>
-Message-ID: <1febf497-e92e-6acd-1968-50ae7735ec79@grimberg.me>
+Date: Thu, 8 Aug 2019 17:31:40 -0700
+Subject: [PATCH 0/4] nvme: add support for Get LBA Status tracing
+In-Reply-To: <20190804075050.14642-1-minwoo.im.dev@gmail.com>
+References: <20190804075050.14642-1-minwoo.im.dev@gmail.com>
+Message-ID: <edbf18f8-fe9a-f9ec-2fa1-75e22466b6ff@grimberg.me>
 
 
-
-On 8/8/19 8:35 AM, Mikhail Skorzhinskii wrote:
-> This trace point have no meaning without native multipath support and
-> break compilation on configurations without enabled multipath.
+> Hi All,
 > 
-> Signed-off-by: Mikhail Skorzhinskii <mskorzhinskiy at solarflare.com>
-> ---
->   drivers/nvme/host/core.c | 19 +++++++++++++++----
->   1 file changed, 15 insertions(+), 4 deletions(-)
+> This series introduces command tracing in both host and target side for
+> the Get LBA Statas admin command which has been added from NVMe 1.4.
 > 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 6956041224ec..9fd4397ff158 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -260,10 +260,20 @@ static void nvme_retry_req(struct request *req)
->   	blk_mq_delay_kick_requeue_list(req->q, delay);
->   }
->   
-> +#ifdef CONFIG_NVME_MULTIPATH
-> +static void nvme_trace_compl(struct request *req, blk_status_t status)
-> +{
-> +	struct nvme_ns *ns = req->q->queuedata;
-> +
-> +	if (req->bio && ns && ns->head->disk)
-> +		trace_block_bio_complete(ns->head->disk->queue,
-> +					 req->bio, status);
-> +}
-> +#endif
-> +
->   void nvme_complete_rq(struct request *req)
->   {
->   	blk_status_t status = nvme_error_status(req);
-> -	struct nvme_ns *ns = req->q->queuedata;
->   
->   	trace_nvme_complete_rq(req);
->   
-> @@ -282,9 +292,10 @@ void nvme_complete_rq(struct request *req)
->   			return;
->   		}
->   	}
-> -	if (req->bio && ns && ns->head->disk)
-> -		trace_block_bio_complete(ns->head->disk->queue,
-> -					 req->bio, status);
-> +
-> +#ifdef CONFIG_NVME_MULTIPATH
-> +	nvme_trace_compl(req, status);
-> +#endif
+> Please review.
 
-The call should not condition on CONFIG_NVME_MULTIPATH, but the function
-implementation should be left empty if CONFIG_NVME_MULTIPATH is not
-enabled (see nvme.h).
+Series looks fine to me,
 
-Also, lets call it nvme_trace_bio_complete..
+Pulling to nvme-5.4
