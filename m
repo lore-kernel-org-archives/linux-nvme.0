@@ -1,30 +1,32 @@
-From: rafael@kernel.org (Rafael J. Wysocki)
-Date: Fri, 9 Aug 2019 10:05:42 +0200
-Subject: [PATCH v3 0/2] nvme-pci: Allow PCI bus-level PM to be used if
- ASPM is disabled
-In-Reply-To: <20190808221353.GA27570@localhost.localdomain>
-References: <47415939.KV5G6iaeJG@kreacher>
- <20190730144134.GA12844@localhost.localdomain>
- <100ba4aff1c6434a81e47774ab4acddc@AUSX13MPC105.AMER.DELL.COM>
- <8246360B-F7D9-42EB-94FC-82995A769E28@canonical.com>
- <20190730191934.GD13948@localhost.localdomain>
- <7d3e0b8ba1444194a153c93faa1cabb3@AUSX13MPC105.AMER.DELL.COM>
- <20190730213114.GK13948@localhost.localdomain>
- <CAJZ5v0gxfeMN8eCNRjcXmUOkReVsdozb3EccaYMpnmSHu3771g@mail.gmail.com>
- <20190731221956.GB15795@localhost.localdomain> <2184247.yL3mcj2FRQ@kreacher>
- <20190808221353.GA27570@localhost.localdomain>
-Message-ID: <CAJZ5v0hh3Yfx0Kbt11NEXV9q5RtApuvvg5JZ2O_rZLvixOWSOA@mail.gmail.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Fri,  9 Aug 2019 18:23:08 +0800
+Subject: [PATCH 0/2] genriq/affinity: two improvement on
+ __irq_build_affinity_masks
+Message-ID: <20190809102310.27246-1-ming.lei@redhat.com>
 
-On Fri, Aug 9, 2019@12:16 AM Keith Busch <kbusch@kernel.org> wrote:
->
-> The v3 series looks good to me.
->
-> Reviewed-by: Keith Busch <keith.busch at intel.com>
->
-> Bjorn,
->
-> If you're okay with the series, we can either take it through nvme,
-> or you can feel free to apply through pci, whichever you prefer.
+Hi,
 
-Actually, I can apply it too with your R-by along with the PCIe patch
-ACKed by Bjorn.  Please let me know if that works for you.
+The 1st patch makes __irq_build_affinity_masks() more reliable, such as,
+all nodes can be covered in the spread.
+
+The 2nd patch spread vectors on node according to the ratio of this node's
+CPU number to number of all remaining CPUs, then vectors assignment can
+become more fair. Meantime, the warning report from Jon Derrick can be
+fixed.
+
+Please review & comment!
+
+Ming Lei (2):
+  genirq/affinity: improve __irq_build_affinity_masks()
+  genirq/affinity: spread vectors on node according to nr_cpu ratio
+
+ kernel/irq/affinity.c | 46 +++++++++++++++++++++++++++++++------------
+ 1 file changed, 33 insertions(+), 13 deletions(-)
+
+Cc: Christoph Hellwig <hch at lst.de>
+Cc: Keith Busch <kbusch at kernel.org>
+Cc: linux-nvme at lists.infradead.org,
+Cc: Jon Derrick <jonathan.derrick at intel.com>
+
+-- 
+2.20.1
