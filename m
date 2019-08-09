@@ -1,84 +1,65 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri,  9 Aug 2019 15:12:08 -0700
-Subject: [PATCH v5 4/7] nvme: make nvme_report_ns_ids propagate error back
+Date: Fri,  9 Aug 2019 15:12:07 -0700
+Subject: [PATCH v5 3/7] nvme: make nvme_identify_ns propagate errors back
 In-Reply-To: <20190809221211.21157-1-sagi@grimberg.me>
 References: <20190809221211.21157-1-sagi@grimberg.me>
-Message-ID: <20190809221211.21157-5-sagi@grimberg.me>
+Message-ID: <20190809221211.21157-4-sagi@grimberg.me>
 
-And make the callers check the return status and propagate
-back accordingly. Also print the return status.
+right now callers of nvme_identify_ns only know that it failed,
+but don't know why. Make nvme_identify_ns propagate the error back.
+Note that if the return status from nvme_submit_sync_cmd() is positive
+then we convert it from a blk_status_t to a negative errno.
 
+Reviewed-by: Minwoo Im <minwoo.im.dev at gmail.com>
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/core.c | 24 ++++++++++++++++++------
- 1 file changed, 18 insertions(+), 6 deletions(-)
+ drivers/nvme/host/core.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index c01610733c20..7c3bb7fb8eac 100644
+index cba0008dab5a..c01610733c20 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1608,9 +1608,11 @@ static void nvme_config_write_zeroes(struct gendisk *disk, struct nvme_ns *ns)
- 	blk_queue_max_write_zeroes_sectors(disk->queue, max_sectors);
- }
+@@ -1110,13 +1110,16 @@ static struct nvme_id_ns *nvme_identify_ns(struct nvme_ctrl *ctrl,
  
--static void nvme_report_ns_ids(struct nvme_ctrl *ctrl, unsigned int nsid,
-+static int nvme_report_ns_ids(struct nvme_ctrl *ctrl, unsigned int nsid,
- 		struct nvme_id_ns *id, struct nvme_ns_ids *ids)
- {
-+	int ret = 0;
-+
- 	memset(ids, 0, sizeof(*ids));
+ 	id = kmalloc(sizeof(*id), GFP_KERNEL);
+ 	if (!id)
+-		return NULL;
++		return ERR_PTR(-ENOMEM);
  
- 	if (ctrl->vs >= NVME_VS(1, 1, 0))
-@@ -1621,10 +1623,12 @@ static void nvme_report_ns_ids(struct nvme_ctrl *ctrl, unsigned int nsid,
- 		 /* Don't treat error as fatal we potentially
- 		  * already have a NGUID or EUI-64
- 		  */
--		if (nvme_identify_ns_descs(ctrl, nsid, ids))
-+		ret = nvme_identify_ns_descs(ctrl, nsid, ids);
-+		if (ret)
- 			dev_warn(ctrl->device,
--				 "%s: Identify Descriptors failed\n", __func__);
-+				 "Identify Descriptors failed (%d)\n", ret);
- 	}
-+	return ret;
- }
- 
- static bool nvme_ns_ids_valid(struct nvme_ns_ids *ids)
-@@ -1762,7 +1766,10 @@ static int nvme_revalidate_disk(struct gendisk *disk)
+ 	error = nvme_submit_sync_cmd(ctrl->admin_q, &c, id, sizeof(*id));
+ 	if (error) {
+ 		dev_warn(ctrl->device, "Identify namespace failed (%d)\n", error);
+ 		kfree(id);
+-		return NULL;
++		if (error > 0)
++			return ERR_PTR(blk_status_to_errno(error));
++		else
++			return ERR_PTR(error);
  	}
  
- 	__nvme_revalidate_disk(disk, id);
--	nvme_report_ns_ids(ctrl, ns->head->ns_id, id, &ids);
-+	ret = nvme_report_ns_ids(ctrl, ns->head->ns_id, id, &ids);
-+	if (ret)
-+		goto out;
-+
- 	if (!nvme_ns_ids_equal(&ns->head->ids, &ids)) {
- 		dev_err(ctrl->device,
- 			"identifiers changed for nsid %d\n", ns->head->ns_id);
-@@ -3187,7 +3194,9 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
- 	head->ns_id = nsid;
- 	kref_init(&head->ref);
+ 	return id;
+@@ -1750,8 +1753,8 @@ static int nvme_revalidate_disk(struct gendisk *disk)
+ 	}
  
--	nvme_report_ns_ids(ctrl, nsid, id, &head->ids);
-+	ret = nvme_report_ns_ids(ctrl, nsid, id, &head->ids);
-+	if (ret)
-+		goto out_cleanup_srcu;
+ 	id = nvme_identify_ns(ctrl, ns->head->ns_id);
+-	if (!id)
+-		return -ENODEV;
++	if (IS_ERR(id))
++		return PTR_ERR(id);
  
- 	ret = __nvme_check_ids(ctrl->subsys, head);
- 	if (ret) {
-@@ -3235,7 +3244,10 @@ static int nvme_init_ns_head(struct nvme_ns *ns, unsigned nsid,
- 	} else {
- 		struct nvme_ns_ids ids;
+ 	if (id->ncap == 0) {
+ 		ret = -ENODEV;
+@@ -3339,8 +3342,8 @@ static int nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 	nvme_set_queue_limits(ctrl, ns->queue);
  
--		nvme_report_ns_ids(ctrl, nsid, id, &ids);
-+		ret = nvme_report_ns_ids(ctrl, nsid, id, &ids);
-+		if (ret)
-+			goto out_unlock;
-+
- 		if (!nvme_ns_ids_equal(&head->ids, &ids)) {
- 			dev_err(ctrl->device,
- 				"IDs don't match for shared namespace %d\n",
+ 	id = nvme_identify_ns(ctrl, nsid);
+-	if (!id) {
+-		ret = -EIO;
++	if (IS_ERR(id)) {
++		ret = PTR_ERR(id);
+ 		goto out_free_queue;
+ 	}
+ 
 -- 
 2.17.1
