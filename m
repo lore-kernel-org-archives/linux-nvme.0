@@ -1,48 +1,84 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri,  9 Aug 2019 15:12:05 -0700
-Subject: [PATCH v5 1/7] nvme: fail cancelled commands with
- NVME_SC_HOST_PATH_ERROR
+Date: Fri,  9 Aug 2019 15:12:08 -0700
+Subject: [PATCH v5 4/7] nvme: make nvme_report_ns_ids propagate error back
 In-Reply-To: <20190809221211.21157-1-sagi@grimberg.me>
 References: <20190809221211.21157-1-sagi@grimberg.me>
-Message-ID: <20190809221211.21157-2-sagi@grimberg.me>
+Message-ID: <20190809221211.21157-5-sagi@grimberg.me>
 
-NVME_SC_ABORT_REQ means that the request was aborted due to
-an abort command received. In our case, this is a transport
-cancellation, so host pathing error is much more appropriate.
+And make the callers check the return status and propagate
+back accordingly. Also print the return status.
 
-Also, convert NVME_SC_HOST_PATH_ERROR to BLK_STS_TRANSPORT for
-such that callers can understand that the status is a transport
-related error. This will be used by the ns scanning code to
-understand if it got an error from the controller or that the
-controller happens to be unreachable by the transport.
-
-Reviewed-by: Minwoo Im <minwoo.im.dev at gmail.com>
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/core.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 24 ++++++++++++++++++------
+ 1 file changed, 18 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 6956041224ec..867c8977eb3e 100644
+index c01610733c20..7c3bb7fb8eac 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -228,6 +228,8 @@ static blk_status_t nvme_error_status(struct request *req)
- 		return BLK_STS_PROTECTION;
- 	case NVME_SC_RESERVATION_CONFLICT:
- 		return BLK_STS_NEXUS;
-+	case NVME_SC_HOST_PATH_ERROR:
-+		return BLK_STS_TRANSPORT;
- 	default:
- 		return BLK_STS_IOERR;
- 	}
-@@ -294,7 +296,7 @@ bool nvme_cancel_request(struct request *req, void *data, bool reserved)
- 	dev_dbg_ratelimited(((struct nvme_ctrl *) data)->device,
- 				"Cancelling I/O %d", req->tag);
- 
--	nvme_req(req)->status = NVME_SC_ABORT_REQ;
-+	nvme_req(req)->status = NVME_SC_HOST_PATH_ERROR;
- 	blk_mq_complete_request_sync(req);
- 	return true;
+@@ -1608,9 +1608,11 @@ static void nvme_config_write_zeroes(struct gendisk *disk, struct nvme_ns *ns)
+ 	blk_queue_max_write_zeroes_sectors(disk->queue, max_sectors);
  }
+ 
+-static void nvme_report_ns_ids(struct nvme_ctrl *ctrl, unsigned int nsid,
++static int nvme_report_ns_ids(struct nvme_ctrl *ctrl, unsigned int nsid,
+ 		struct nvme_id_ns *id, struct nvme_ns_ids *ids)
+ {
++	int ret = 0;
++
+ 	memset(ids, 0, sizeof(*ids));
+ 
+ 	if (ctrl->vs >= NVME_VS(1, 1, 0))
+@@ -1621,10 +1623,12 @@ static void nvme_report_ns_ids(struct nvme_ctrl *ctrl, unsigned int nsid,
+ 		 /* Don't treat error as fatal we potentially
+ 		  * already have a NGUID or EUI-64
+ 		  */
+-		if (nvme_identify_ns_descs(ctrl, nsid, ids))
++		ret = nvme_identify_ns_descs(ctrl, nsid, ids);
++		if (ret)
+ 			dev_warn(ctrl->device,
+-				 "%s: Identify Descriptors failed\n", __func__);
++				 "Identify Descriptors failed (%d)\n", ret);
+ 	}
++	return ret;
+ }
+ 
+ static bool nvme_ns_ids_valid(struct nvme_ns_ids *ids)
+@@ -1762,7 +1766,10 @@ static int nvme_revalidate_disk(struct gendisk *disk)
+ 	}
+ 
+ 	__nvme_revalidate_disk(disk, id);
+-	nvme_report_ns_ids(ctrl, ns->head->ns_id, id, &ids);
++	ret = nvme_report_ns_ids(ctrl, ns->head->ns_id, id, &ids);
++	if (ret)
++		goto out;
++
+ 	if (!nvme_ns_ids_equal(&ns->head->ids, &ids)) {
+ 		dev_err(ctrl->device,
+ 			"identifiers changed for nsid %d\n", ns->head->ns_id);
+@@ -3187,7 +3194,9 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
+ 	head->ns_id = nsid;
+ 	kref_init(&head->ref);
+ 
+-	nvme_report_ns_ids(ctrl, nsid, id, &head->ids);
++	ret = nvme_report_ns_ids(ctrl, nsid, id, &head->ids);
++	if (ret)
++		goto out_cleanup_srcu;
+ 
+ 	ret = __nvme_check_ids(ctrl->subsys, head);
+ 	if (ret) {
+@@ -3235,7 +3244,10 @@ static int nvme_init_ns_head(struct nvme_ns *ns, unsigned nsid,
+ 	} else {
+ 		struct nvme_ns_ids ids;
+ 
+-		nvme_report_ns_ids(ctrl, nsid, id, &ids);
++		ret = nvme_report_ns_ids(ctrl, nsid, id, &ids);
++		if (ret)
++			goto out_unlock;
++
+ 		if (!nvme_ns_ids_equal(&head->ids, &ids)) {
+ 			dev_err(ctrl->device,
+ 				"IDs don't match for shared namespace %d\n",
 -- 
 2.17.1
