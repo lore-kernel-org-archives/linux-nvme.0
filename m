@@ -1,66 +1,45 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Sat, 10 Aug 2019 14:14:39 +0200
-Subject: [PATCH v3 7/7] nvme: don't remove namespace if revalidate failed
- because of a transport error
-In-Reply-To: <20190808205325.24036-8-sagi@grimberg.me>
-References: <20190808205325.24036-1-sagi@grimberg.me>
- <20190808205325.24036-8-sagi@grimberg.me>
-Message-ID: <16b63247-f020-5522-ffab-9404ba7b3408@suse.de>
+Date: Sat, 10 Aug 2019 14:16:02 +0200
+Subject: [PATCH v4 2/7] nvme: return a proper errno for sync commands
+ failure
+In-Reply-To: <20190808232536.4258-3-sagi@grimberg.me>
+References: <20190808232536.4258-1-sagi@grimberg.me>
+ <20190808232536.4258-3-sagi@grimberg.me>
+Message-ID: <e117a938-e85f-1d6b-c7da-0edb91658adb@suse.de>
 
-On 8/8/19 10:53 PM, Sagi Grimberg wrote:
-> If a controller reset is racing with a namespace revalidation, the
-> revalidation (admin) I/O will surely fail, but we should not remove the
-> namespace as we will execute the I/O when the controller is back up.
+On 8/9/19 1:25 AM, Sagi Grimberg wrote:
+> callers should not rely on raw nvme status, instead return
+> is more appropriate errno that relates to blk_status_t.
 > 
-> Fix this by checking the specific error code that revalidate_disk
-> returns, and if it is a transport related error, do not remove
-> the namespace as it will either recover when the controller is
-> back up and schedule a subsequent scan, or the controller is
-> going away and the namespaces will be removed anyways.
-> 
-> This fixes a hang namespace scanning racing with a controller reset and
-> also sporious I/O errors in path failover coditions where the
-> controller reset is racing with the namespace scan work with multipath
-> enabled.
-> 
-> Reported-by: Hannes Reinecke  <hare at suse.de>
 > Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 > ---
->   drivers/nvme/host/core.c | 9 +++++++--
->   1 file changed, 7 insertions(+), 2 deletions(-)
+>   drivers/nvme/host/core.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
 > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 49ffccd72091..001bcc8a8d3e 100644
+> index d2b4f57fa67e..c259586eeadc 100644
 > --- a/drivers/nvme/host/core.c
 > +++ b/drivers/nvme/host/core.c
-> @@ -228,6 +228,8 @@ static blk_status_t nvme_error_status(struct request *req)
->   		return BLK_STS_PROTECTION;
->   	case NVME_SC_RESERVATION_CONFLICT:
->   		return BLK_STS_NEXUS;
-> +	case NVME_SC_HOST_PATH_ERROR:
-> +		return BLK_STS_TRANSPORT;
->   	default:
->   		return BLK_STS_IOERR;
->   	}
-> @@ -3452,8 +3454,11 @@ static void nvme_validate_ns(struct nvme_ctrl *ctrl, unsigned nsid)
->   
->   	ns = nvme_find_get_ns(ctrl, nsid);
->   	if (ns) {
-> -		if (ns->disk && revalidate_disk(ns->disk))
-> -			nvme_ns_remove(ns);
-> +		if (ns->disk) {
-> +			blk_status_t sts = revalidate_disk(ns->disk);
-> +			if (sts && sts != BLK_STS_TRANSPORT)
-> +				nvme_ns_remove(ns);
-> +		}
->   		nvme_put_ns(ns);
->   	} else
->   		nvme_alloc_ns(ctrl, nsid);
+> @@ -803,7 +803,7 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+>   	if (nvme_req(req)->flags & NVME_REQ_CANCELLED)
+>   		ret = -EINTR;
+>   	else
+> -		ret = nvme_req(req)->status;
+> +		ret = blk_status_to_errno(nvme_error_status(req));
+>    out:
+>   	blk_mq_free_request(req);
+>   	return ret;
+> @@ -894,7 +894,7 @@ static int nvme_submit_user_cmd(struct request_queue *q,
+>   	if (nvme_req(req)->flags & NVME_REQ_CANCELLED)ck
+>   		ret = -EINTR;
+>   	else
+> -		ret = nvme_req(req)->status;
+> +		ret = blk_status_to_errno(nvme_error_status(req));
+>   	if (result)
+>   		*result = le32_to_cpu(nvme_req(req)->result.u32);
+>   	if (meta && !ret && !write) {
 > 
-This is a neat solution, yet I'm not convinced that it'll solve the 
-problem entirely. I'll give it a spin.
-But in any case, it's definitely a step in the right direction.
-So:
+Hehe. Just as I said.
 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
