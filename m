@@ -1,49 +1,71 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Sat, 10 Aug 2019 14:06:48 +0200
-Subject: [PATCH v3 2/7] nvme: return nvme_error_status for sync commands
- failure
-In-Reply-To: <20190808205325.24036-3-sagi@grimberg.me>
+Date: Sat, 10 Aug 2019 14:09:50 +0200
+Subject: [PATCH v3 3/7] nvme: make nvme_identify_ns propagate errors back
+In-Reply-To: <20190808205325.24036-4-sagi@grimberg.me>
 References: <20190808205325.24036-1-sagi@grimberg.me>
- <20190808205325.24036-3-sagi@grimberg.me>
-Message-ID: <306e0f03-a3a9-afe0-dfee-b6ba34c91102@suse.de>
+ <20190808205325.24036-4-sagi@grimberg.me>
+Message-ID: <9bf08266-c51c-d1e1-1881-6817cfbd0c59@suse.de>
 
 On 8/8/19 10:53 PM, Sagi Grimberg wrote:
-> callers should not rely on raw nvme status, blk_status_t
-> is more appropriate.
+> right now callers of nvme_identify_ns only know that it failed,
+> but don't know why. Make nvme_identify_ns propagate the error back.
 > 
+> Reviewed-by: Minwoo Im <minwoo.im.dev at gmail.com>
 > Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 > ---
->   drivers/nvme/host/core.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   drivers/nvme/host/core.c | 12 ++++++------
+>   1 file changed, 6 insertions(+), 6 deletions(-)
 > 
 > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index d2b4f57fa67e..f435c85c4062 100644
+> index f435c85c4062..e503fd14de81 100644
 > --- a/drivers/nvme/host/core.c
 > +++ b/drivers/nvme/host/core.c
-> @@ -803,7 +803,7 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
->   	if (nvme_req(req)->flags & NVME_REQ_CANCELLED)
->   		ret = -EINTR;
->   	else
-> -		ret = nvme_req(req)->status;
-> +		ret = nvme_error_status(req);
->    out:
->   	blk_mq_free_request(req);
->   	return ret;
-Please update the description for this function, too.
-
-> @@ -894,7 +894,7 @@ static int nvme_submit_user_cmd(struct request_queue *q,
->   	if (nvme_req(req)->flags & NVME_REQ_CANCELLED)
->   		ret = -EINTR;
->   	else
-> -		ret = nvme_req(req)->status;
-> +		ret = nvme_error_status(req);
->   	if (result)
->   		*result = le32_to_cpu(nvme_req(req)->result.u32);
->   	if (meta && !ret && !write) {
+> @@ -1108,13 +1108,13 @@ static struct nvme_id_ns *nvme_identify_ns(struct nvme_ctrl *ctrl,
+>   
+>   	id = kmalloc(sizeof(*id), GFP_KERNEL);
+>   	if (!id)
+> -		return NULL;
+> +		return ERR_PTR(-ENOMEM);
+>   
+>   	error = nvme_submit_sync_cmd(ctrl->admin_q, &c, id, sizeof(*id));
+>   	if (error) {
+>   		dev_warn(ctrl->device, "Identify namespace failed (%d)\n", error);
+>   		kfree(id);
+> -		return NULL;
+> +		return ERR_PTR(error);
+>   	}
+>   
+>   	return id;
+> @@ -1748,8 +1748,8 @@ static int nvme_revalidate_disk(struct gendisk *disk)
+>   	}
+>   
+>   	id = nvme_identify_ns(ctrl, ns->head->ns_id);
+> -	if (!id)
+> -		return -ENODEV;
+> +	if (IS_ERR(id))
+> +		return PTR_ERR(id);
+>   
+>   	if (id->ncap == 0) {
+>   		ret = -ENODEV;
+> @@ -3337,8 +3337,8 @@ static int nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+>   	nvme_set_queue_limits(ctrl, ns->queue);
+>   
+>   	id = nvme_identify_ns(ctrl, nsid);
+> -	if (!id) {
+> -		ret = -EIO;
+> +	if (IS_ERR(id)) {
+> +		ret = PTR_ERR(id);
+>   		goto out_free_queue;
+>   	}
+>   
 > 
-But even with this change we'll be leaking blk_status_t error code to 
-things like nvme_ioctl(). I'd rather have it mapped to posix error codes 
-here by calling blk_status_to_errno().
+See my comments to the previous patch. This will only work if we return 
+POSIX error codes only; it'll probably fall flat on its face when 
+returning blk_status_t codes.
+Once we have converted nvme_submit_sync_cmd() to return POSIX error 
+codes this is fine.
+
+Reviewed-by: Hannes Reinecke <hare at suse.com>
 
 Cheers,
 
