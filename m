@@ -1,55 +1,15 @@
 From: akinobu.mita@gmail.com (Akinobu Mita)
-Date: Sun, 11 Aug 2019 02:54:57 +0900
-Subject: [PATCH v3 0/6] introduce LED block device activity trigger
-Message-ID: <1565459703-30513-1-git-send-email-akinobu.mita@gmail.com>
+Date: Sun, 11 Aug 2019 02:54:58 +0900
+Subject: [PATCH v3 1/6] block: umem: rename LED_* macros to MEMCTRL_LED_*
+In-Reply-To: <1565459703-30513-1-git-send-email-akinobu.mita@gmail.com>
+References: <1565459703-30513-1-git-send-email-akinobu.mita@gmail.com>
+Message-ID: <1565459703-30513-2-git-send-email-akinobu.mita@gmail.com>
 
-This work is inspired by the report on linux-nvme mailing list.
+The umem driver defines LED_* macros for MEMCTRLCMD_LEDCTRL register
+values.  The LED_OFF and LED_ON macros conflict with the LED subsystem's
+LED_OFF and LED_ON enums.
 
-disk-activity trigger not working for nvme disk:
-http://lists.infradead.org/pipermail/linux-nvme/2019-July/025253.html
-
-This LED block device activity trigger works with any block devices.
-
-* v3
-- Avoid the name collision with LED_OFF and LED_ON
-- Add ABI documentation
-- Add more detail to Kconfig help text
-
-* v2
-- Remove "move declaration of led_stop_software_blink() to linux/leds.h" patch
-- Move the trigger implementation to drivers/leds/trigger
-- s/blk_ledtrig/ledtrig_blk/
-- Add CONFIG_LEDS_TRIGGER_BLOCK
-- Fix wrong bitops usages
-- Add interface to stop and restart polling disk stats
-- Stop polling disk stats for scsi disk during runtime suspend
-
-Akinobu Mita (6):
-  block: umem: rename LED_* macros to MEMCTRL_LED_*
-  scsi: mvsas: rename LED_* enums to SGPIO_LED_*
-  scsi: nsp32: rename LED_* macros to EXT_PORT_LED_*
-  block: introduce LED block device activity trigger
-  ledtrig-blk: add interface to stop and restart polling disk stats
-  scsi: sd: stop polling disk stats by ledtrig-blk during runtime
-    suspend
-
- .../ABI/testing/sysfs-class-led-trigger-blk        |  37 +++
- block/genhd.c                                      |   2 +
- drivers/block/umem.c                               |  20 +-
- drivers/block/umem.h                               |  20 +-
- drivers/leds/trigger/Kconfig                       |   9 +
- drivers/leds/trigger/Makefile                      |   1 +
- drivers/leds/trigger/ledtrig-blk.c                 | 258 +++++++++++++++++++++
- drivers/scsi/mvsas/mv_94xx.c                       |   2 +-
- drivers/scsi/mvsas/mv_94xx.h                       |  24 +-
- drivers/scsi/nsp32.c                               |   7 +-
- drivers/scsi/nsp32.h                               |   4 +-
- drivers/scsi/sd.c                                  |  40 ++--
- include/linux/genhd.h                              |   3 +
- include/linux/leds.h                               |  38 +++
- 14 files changed, 410 insertions(+), 55 deletions(-)
- create mode 100644 Documentation/ABI/testing/sysfs-class-led-trigger-blk
- create mode 100644 drivers/leds/trigger/ledtrig-blk.c
+This renames these LED_* macros to MEMCTRL_LED_* in umem driver.
 
 Cc: Frank Steiner <fsteiner-mail1 at bio.ifi.lmu.de>
 Cc: Jacek Anaszewski <jacek.anaszewski at gmail.com>
@@ -58,8 +18,111 @@ Cc: Dan Murphy <dmurphy at ti.com>
 Cc: Jens Axboe <axboe at kernel.dk>
 Cc: "James E.J. Bottomley" <jejb at linux.ibm.com>
 Cc: "Martin K. Petersen" <martin.petersen at oracle.com>
-Cc: GOTO Masanori <gotom at debian.or.jp>
-Cc: YOKOTA Hiroshi <yokota at netlab.is.tsukuba.ac.jp>
 Cc: Hannes Reinecke <hare at suse.com>
+Signed-off-by: Akinobu Mita <akinobu.mita at gmail.com>
+---
+ drivers/block/umem.c | 20 ++++++++++----------
+ drivers/block/umem.h | 20 ++++++++++----------
+ 2 files changed, 20 insertions(+), 20 deletions(-)
+
+diff --git a/drivers/block/umem.c b/drivers/block/umem.c
+index 1f3f9e0..1109308 100644
+--- a/drivers/block/umem.c
++++ b/drivers/block/umem.c
+@@ -167,14 +167,14 @@ static int set_userbit(struct cardinfo *card, int bit, unsigned char state)
+ }
+ 
+ /*
+- * NOTE: For the power LED, use the LED_POWER_* macros since they differ
++ * NOTE: For the power LED, use the MEMCTRL_LED_POWER_* macros since they differ
+  */
+ static void set_led(struct cardinfo *card, int shift, unsigned char state)
+ {
+ 	unsigned char led;
+ 
+ 	led = readb(card->csr_remap + MEMCTRLCMD_LEDCTRL);
+-	if (state == LED_FLIP)
++	if (state == MEMCTRL_LED_FLIP)
+ 		led ^= (1<<shift);
+ 	else {
+ 		led &= ~(0x03 << shift);
+@@ -268,7 +268,7 @@ static void mm_start_io(struct cardinfo *card)
+ 
+ 
+ 	if (debug & DEBUG_LED_ON_TRANSFER)
+-		set_led(card, LED_REMOVE, LED_ON);
++		set_led(card, MEMCTRL_LED_REMOVE, MEMCTRL_LED_ON);
+ 
+ 	desc = &page->desc[page->headcnt];
+ 	writel(0, card->csr_remap + DMA_PCI_ADDR);
+@@ -477,7 +477,7 @@ static void process_page(unsigned long data)
+ 	}
+ 
+ 	if (debug & DEBUG_LED_ON_TRANSFER)
+-		set_led(card, LED_REMOVE, LED_OFF);
++		set_led(card, MEMCTRL_LED_REMOVE, MEMCTRL_LED_OFF);
+ 
+ 	if (card->check_batteries) {
+ 		card->check_batteries = 0;
+@@ -652,13 +652,13 @@ HW_TRACE(0x36);
+ static void set_fault_to_battery_status(struct cardinfo *card)
+ {
+ 	if (card->battery[0].good && card->battery[1].good)
+-		set_led(card, LED_FAULT, LED_OFF);
++		set_led(card, MEMCTRL_LED_FAULT, MEMCTRL_LED_OFF);
+ 	else if (card->battery[0].warned || card->battery[1].warned)
+-		set_led(card, LED_FAULT, LED_ON);
++		set_led(card, MEMCTRL_LED_FAULT, MEMCTRL_LED_ON);
+ 	else if (!card->battery[0].good && !card->battery[1].good)
+-		set_led(card, LED_FAULT, LED_FLASH_7_0);
++		set_led(card, MEMCTRL_LED_FAULT, MEMCTRL_LED_FLASH_7_0);
+ 	else
+-		set_led(card, LED_FAULT, LED_FLASH_3_5);
++		set_led(card, MEMCTRL_LED_FAULT, MEMCTRL_LED_FLASH_3_5);
+ }
+ 
+ static void init_battery_timer(void);
+@@ -919,8 +919,8 @@ static int mm_pci_probe(struct pci_dev *dev, const struct pci_device_id *id)
+ 	}
+ 
+ 	/* Clear the LED's we control */
+-	set_led(card, LED_REMOVE, LED_OFF);
+-	set_led(card, LED_FAULT, LED_OFF);
++	set_led(card, MEMCTRL_LED_REMOVE, MEMCTRL_LED_OFF);
++	set_led(card, MEMCTRL_LED_FAULT, MEMCTRL_LED_OFF);
+ 
+ 	batt_status = readb(card->csr_remap + MEMCTRLSTATUS_BATTERY);
+ 
+diff --git a/drivers/block/umem.h b/drivers/block/umem.h
+index 5838497..cc9cb37 100644
+--- a/drivers/block/umem.h
++++ b/drivers/block/umem.h
+@@ -32,16 +32,16 @@
+ #define  MEM_2_GB		0xe0
+ 
+ #define MEMCTRLCMD_LEDCTRL	0x08
+-#define  LED_REMOVE		2
+-#define  LED_FAULT		4
+-#define  LED_POWER		6
+-#define	 LED_FLIP		255
+-#define  LED_OFF		0x00
+-#define  LED_ON			0x01
+-#define  LED_FLASH_3_5		0x02
+-#define  LED_FLASH_7_0		0x03
+-#define  LED_POWER_ON		0x00
+-#define  LED_POWER_OFF		0x01
++#define  MEMCTRL_LED_REMOVE	2
++#define  MEMCTRL_LED_FAULT	4
++#define  MEMCTRL_LED_POWER	6
++#define  MEMCTRL_LED_FLIP	255
++#define  MEMCTRL_LED_OFF	0x00
++#define  MEMCTRL_LED_ON		0x01
++#define  MEMCTRL_LED_FLASH_3_5	0x02
++#define  MEMCTRL_LED_FLASH_7_0	0x03
++#define  MEMCTRL_LED_POWER_ON	0x00
++#define  MEMCTRL_LED_POWER_OFF	0x01
+ #define  USER_BIT1		0x01
+ #define  USER_BIT2		0x02
+ 
 -- 
 2.7.4
