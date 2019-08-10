@@ -1,15 +1,23 @@
 From: akinobu.mita@gmail.com (Akinobu Mita)
-Date: Sun, 11 Aug 2019 02:55:00 +0900
-Subject: [PATCH v3 3/6] scsi: nsp32: rename LED_* macros to EXT_PORT_LED_*
+Date: Sun, 11 Aug 2019 02:55:01 +0900
+Subject: [PATCH v3 4/6] block: introduce LED block device activity trigger
 In-Reply-To: <1565459703-30513-1-git-send-email-akinobu.mita@gmail.com>
 References: <1565459703-30513-1-git-send-email-akinobu.mita@gmail.com>
-Message-ID: <1565459703-30513-4-git-send-email-akinobu.mita@gmail.com>
+Message-ID: <1565459703-30513-5-git-send-email-akinobu.mita@gmail.com>
 
-The nsp32 driver defines LED_ON and LED_OFF macros for EXT_PORT_DDR or
-EXT_PORT register values.  The LED_OFF and LED_ON macros conflict with
-the LED subsystem's LED_OFF and LED_ON enums.
+This allows LEDs to be controlled by block device activity.
 
-This renames these LED_* macros to EXT_PORT_LED_* in nsp32 driver.
+We already have ledtrig-disk (LED disk activity trigger), but the lower
+level disk drivers need to utilize ledtrig_disk_activity() to make the
+LED blink.
+
+The LED block device trigger doesn't require the lower level drivers to
+have any instrumentation. The activity is collected by polling the disk
+stats.
+
+Example:
+
+echo block-nvme0n1 > /sys/class/leds/diy/trigger
 
 Cc: Frank Steiner <fsteiner-mail1 at bio.ifi.lmu.de>
 Cc: Jacek Anaszewski <jacek.anaszewski at gmail.com>
@@ -18,56 +26,401 @@ Cc: Dan Murphy <dmurphy at ti.com>
 Cc: Jens Axboe <axboe at kernel.dk>
 Cc: "James E.J. Bottomley" <jejb at linux.ibm.com>
 Cc: "Martin K. Petersen" <martin.petersen at oracle.com>
-Cc: GOTO Masanori <gotom at debian.or.jp>
-Cc: YOKOTA Hiroshi <yokota at netlab.is.tsukuba.ac.jp>
 Cc: Hannes Reinecke <hare at suse.com>
-Reviewed-by: Hannes Reinecke <hare at suse.com>
-Acked-by: Pavel Machek <pavel at ucw.cz>
 Signed-off-by: Akinobu Mita <akinobu.mita at gmail.com>
 ---
- drivers/scsi/nsp32.c | 7 ++++---
- drivers/scsi/nsp32.h | 4 ++--
- 2 files changed, 6 insertions(+), 5 deletions(-)
+* v3
+- Add ABI documentation
+- Add more detail to Kconfig help text
 
-diff --git a/drivers/scsi/nsp32.c b/drivers/scsi/nsp32.c
-index 70db792..8170358 100644
---- a/drivers/scsi/nsp32.c
-+++ b/drivers/scsi/nsp32.c
-@@ -763,7 +763,8 @@ static int nsp32_arbitration(struct scsi_cmnd *SCpnt, unsigned int base)
- 	if (arbit & ARBIT_WIN) {
- 		/* Arbitration succeeded */
- 		SCpnt->result = DID_OK << 16;
--		nsp32_index_write1(base, EXT_PORT, LED_ON); /* PCI LED on */
-+		/* PCI LED on */
-+		nsp32_index_write1(base, EXT_PORT, EXT_PORT_LED_ON);
- 	} else if (arbit & ARBIT_FAIL) {
- 		/* Arbitration failed */
- 		SCpnt->result = DID_BUS_BUSY << 16;
-@@ -1137,8 +1138,8 @@ static int nsp32hw_init(nsp32_hw_data *data)
- 	nsp32_write2(base, IRQ_CONTROL, 0);
+ .../ABI/testing/sysfs-class-led-trigger-blk        |  37 ++++
+ block/genhd.c                                      |   2 +
+ drivers/leds/trigger/Kconfig                       |   9 +
+ drivers/leds/trigger/Makefile                      |   1 +
+ drivers/leds/trigger/ledtrig-blk.c                 | 225 +++++++++++++++++++++
+ include/linux/genhd.h                              |   3 +
+ include/linux/leds.h                               |  27 +++
+ 7 files changed, 304 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-class-led-trigger-blk
+ create mode 100644 drivers/leds/trigger/ledtrig-blk.c
+
+diff --git a/Documentation/ABI/testing/sysfs-class-led-trigger-blk b/Documentation/ABI/testing/sysfs-class-led-trigger-blk
+new file mode 100644
+index 0000000..73472c3
+--- /dev/null
++++ b/Documentation/ABI/testing/sysfs-class-led-trigger-blk
+@@ -0,0 +1,37 @@
++What:		/sys/class/leds/<led>/interval
++Date:		Aug 2019
++KernelVersion:	5.4
++Contact:	linux-leds at vger.kernel.org
++Description:
++		Specifies the duration of the LED blink in milliseconds.
++		Defaults to 50 ms.
++
++What:		/sys/class/leds/<led>/read
++Date:		Aug 2019
++KernelVersion:	5.4
++Contact:	linux-leds at vger.kernel.org
++Description:
++		Signal data read on the block device.
++		If set to 0, the LED will not blink on data read.
++		If set to 1 (default), the LED will blink for the milliseconds
++		specified in interval to signal data read.
++
++What:		/sys/class/leds/<led>/write
++Date:		Aug 2019
++KernelVersion:	5.4
++Contact:	linux-leds at vger.kernel.org
++Description:
++		Signal data written on the block device.
++		If set to 0, the LED will not blink on data written.
++		If set to 1 (default), the LED will blink for the milliseconds
++		specified in interval to signal data written.
++
++What:		/sys/class/leds/<led>/discard
++Date:		Aug 2019
++KernelVersion:	5.4
++Contact:	linux-leds at vger.kernel.org
++Description:
++		Signal data discarded on the block device.
++		If set to 0, the LED will not blink on data discarded.
++		If set to 1 (default), the LED will blink for the milliseconds
++		specified in interval to signal data discarded.
+diff --git a/block/genhd.c b/block/genhd.c
+index 54f1f0d3..1c68861 100644
+--- a/block/genhd.c
++++ b/block/genhd.c
+@@ -745,6 +745,7 @@ static void __device_add_disk(struct device *parent, struct gendisk *disk,
  
- 	/* PCI LED off */
--	nsp32_index_write1(base, EXT_PORT_DDR, LED_OFF);
--	nsp32_index_write1(base, EXT_PORT,     LED_OFF);
-+	nsp32_index_write1(base, EXT_PORT_DDR, EXT_PORT_LED_OFF);
-+	nsp32_index_write1(base, EXT_PORT,     EXT_PORT_LED_OFF);
- 
- 	return TRUE;
+ 	disk_add_events(disk);
+ 	blk_integrity_add(disk);
++	ledtrig_blk_register(disk);
  }
-diff --git a/drivers/scsi/nsp32.h b/drivers/scsi/nsp32.h
-index ab0726c..a7553ea 100644
---- a/drivers/scsi/nsp32.h
-+++ b/drivers/scsi/nsp32.h
-@@ -306,8 +306,8 @@ typedef u16 u16_le;
  
- #define EXT_PORT_DDR		0x02	/* BASE+08, IDX+02, B, R/W */
- #define EXT_PORT		0x03	/* BASE+08, IDX+03, B, R/W */
--# define LED_ON	 (0)
--# define LED_OFF BIT(0)
-+# define EXT_PORT_LED_ON	(0)
-+# define EXT_PORT_LED_OFF	BIT(0)
+ void device_add_disk(struct device *parent, struct gendisk *disk,
+@@ -766,6 +767,7 @@ void del_gendisk(struct gendisk *disk)
+ 	struct disk_part_iter piter;
+ 	struct hd_struct *part;
  
- #define IRQ_SELECT		0x04	/* BASE+08, IDX+04, W, R/W */
- # define IRQSELECT_RESELECT_IRQ      BIT(0)
++	ledtrig_blk_unregister(disk);
+ 	blk_integrity_del(disk);
+ 	disk_del_events(disk);
+ 
+diff --git a/drivers/leds/trigger/Kconfig b/drivers/leds/trigger/Kconfig
+index ce9429c..e399a11 100644
+--- a/drivers/leds/trigger/Kconfig
++++ b/drivers/leds/trigger/Kconfig
+@@ -144,4 +144,13 @@ config LEDS_TRIGGER_AUDIO
+ 	  the audio mute and mic-mute changes.
+ 	  If unsure, say N
+ 
++config LEDS_TRIGGER_BLOCK
++	bool "LED Block device Trigger"
++	depends on BLOCK
++	help
++	  This allows LEDs to be controlled by block device activity.
++	  This trigger doesn't require the lower level drivers to have any
++	  instrumentation. The activity is collected by polling the disk stats.
++	  If unsure, say Y.
++
+ endif # LEDS_TRIGGERS
+diff --git a/drivers/leds/trigger/Makefile b/drivers/leds/trigger/Makefile
+index 733a83e..60200eb 100644
+--- a/drivers/leds/trigger/Makefile
++++ b/drivers/leds/trigger/Makefile
+@@ -15,3 +15,4 @@ obj-$(CONFIG_LEDS_TRIGGER_PANIC)	+= ledtrig-panic.o
+ obj-$(CONFIG_LEDS_TRIGGER_NETDEV)	+= ledtrig-netdev.o
+ obj-$(CONFIG_LEDS_TRIGGER_PATTERN)	+= ledtrig-pattern.o
+ obj-$(CONFIG_LEDS_TRIGGER_AUDIO)	+= ledtrig-audio.o
++obj-$(CONFIG_LEDS_TRIGGER_BLOCK)	+= ledtrig-blk.o
+diff --git a/drivers/leds/trigger/ledtrig-blk.c b/drivers/leds/trigger/ledtrig-blk.c
+new file mode 100644
+index 0000000..d5808c9
+--- /dev/null
++++ b/drivers/leds/trigger/ledtrig-blk.c
+@@ -0,0 +1,225 @@
++// SPDX-License-Identifier: GPL-2.0
++// LED Kernel Blockdev Trigger
++// Derived from ledtrig-netdev.c
++
++#include <linux/atomic.h>
++#include <linux/genhd.h>
++#include <linux/leds.h>
++#include <linux/workqueue.h>
++#include "../leds.h"
++
++enum ledtrig_blk_attr {
++	LEDTRIG_BLK_READ,
++	LEDTRIG_BLK_WRITE,
++	LEDTRIG_BLK_DISCARD
++};
++
++struct ledtrig_blk_data {
++	struct delayed_work work;
++	struct led_classdev *led_cdev;
++
++	atomic_t interval;
++	u64 last_activity;
++
++	unsigned long mode;
++};
++
++static ssize_t ledtrig_blk_attr_show(struct device *dev, char *buf,
++				     enum ledtrig_blk_attr attr)
++{
++	struct ledtrig_blk_data *trig_data = led_trigger_get_drvdata(dev);
++
++	return sprintf(buf, "%u\n", test_bit(attr, &trig_data->mode));
++}
++
++static ssize_t ledtrig_blk_attr_store(struct device *dev, const char *buf,
++				      size_t size, enum ledtrig_blk_attr attr)
++{
++	struct ledtrig_blk_data *trig_data = led_trigger_get_drvdata(dev);
++	unsigned long state;
++	int ret;
++
++	ret = kstrtoul(buf, 0, &state);
++	if (ret)
++		return ret;
++
++	if (state)
++		set_bit(attr, &trig_data->mode);
++	else
++		clear_bit(attr, &trig_data->mode);
++
++	return size;
++}
++
++static ssize_t read_show(struct device *dev, struct device_attribute *attr,
++			 char *buf)
++{
++	return ledtrig_blk_attr_show(dev, buf, LEDTRIG_BLK_READ);
++}
++static ssize_t read_store(struct device *dev, struct device_attribute *attr,
++			  const char *buf, size_t size)
++{
++	return ledtrig_blk_attr_store(dev, buf, size, LEDTRIG_BLK_READ);
++}
++static DEVICE_ATTR_RW(read);
++
++static ssize_t write_show(struct device *dev, struct device_attribute *attr,
++			  char *buf)
++{
++	return ledtrig_blk_attr_show(dev, buf, LEDTRIG_BLK_WRITE);
++}
++static ssize_t write_store(struct device *dev, struct device_attribute *attr,
++			   const char *buf, size_t size)
++{
++	return ledtrig_blk_attr_store(dev, buf, size, LEDTRIG_BLK_WRITE);
++}
++static DEVICE_ATTR_RW(write);
++
++static ssize_t discard_show(struct device *dev, struct device_attribute *attr,
++			    char *buf)
++{
++	return ledtrig_blk_attr_show(dev, buf, LEDTRIG_BLK_DISCARD);
++}
++static ssize_t discard_store(struct device *dev, struct device_attribute *attr,
++			     const char *buf, size_t size)
++{
++	return ledtrig_blk_attr_store(dev, buf, size, LEDTRIG_BLK_DISCARD);
++}
++static DEVICE_ATTR_RW(discard);
++
++static ssize_t interval_show(struct device *dev, struct device_attribute *attr,
++			     char *buf)
++{
++	struct ledtrig_blk_data *trig_data = led_trigger_get_drvdata(dev);
++
++	return sprintf(buf, "%u\n",
++		       jiffies_to_msecs(atomic_read(&trig_data->interval)));
++}
++static ssize_t interval_store(struct device *dev, struct device_attribute *attr,
++			      const char *buf, size_t size)
++{
++	struct ledtrig_blk_data *trig_data = led_trigger_get_drvdata(dev);
++	unsigned long value;
++	int ret;
++
++	ret = kstrtoul(buf, 0, &value);
++	if (ret)
++		return ret;
++
++	/* impose some basic bounds on the timer interval */
++	if (value >= 5 && value <= 10000) {
++		cancel_delayed_work_sync(&trig_data->work);
++		atomic_set(&trig_data->interval, msecs_to_jiffies(value));
++		schedule_delayed_work(&trig_data->work,
++				      atomic_read(&trig_data->interval) * 2);
++	}
++
++	return size;
++}
++static DEVICE_ATTR_RW(interval);
++
++static struct attribute *ledtrig_blk_attrs[] = {
++	&dev_attr_read.attr,
++	&dev_attr_write.attr,
++	&dev_attr_discard.attr,
++	&dev_attr_interval.attr,
++	NULL
++};
++ATTRIBUTE_GROUPS(ledtrig_blk);
++
++static void ledtrig_blk_work(struct work_struct *work)
++{
++	struct ledtrig_blk_data *trig_data =
++		container_of(work, struct ledtrig_blk_data, work.work);
++	struct gendisk *disk = container_of(trig_data->led_cdev->trigger,
++					    struct gendisk, led.trig);
++	u64 activity = 0;
++
++	if (test_bit(LEDTRIG_BLK_READ, &trig_data->mode))
++		activity += part_stat_read(&disk->part0, ios[STAT_READ]);
++	if (test_bit(LEDTRIG_BLK_WRITE, &trig_data->mode))
++		activity += part_stat_read(&disk->part0, ios[STAT_WRITE]);
++	if (test_bit(LEDTRIG_BLK_DISCARD, &trig_data->mode))
++		activity += part_stat_read(&disk->part0, ios[STAT_DISCARD]);
++
++	if (trig_data->last_activity != activity) {
++		unsigned long interval;
++
++		led_stop_software_blink(trig_data->led_cdev);
++		interval = jiffies_to_msecs(atomic_read(&trig_data->interval));
++		led_blink_set_oneshot(trig_data->led_cdev, &interval, &interval,
++				      0);
++
++		trig_data->last_activity = activity;
++	}
++
++	schedule_delayed_work(&trig_data->work,
++			      atomic_read(&trig_data->interval) * 2);
++}
++
++static int ledtrig_blk_activate(struct led_classdev *led_cdev)
++{
++	struct ledtrig_blk_data *trig_data;
++
++	trig_data = kzalloc(sizeof(*trig_data), GFP_KERNEL);
++	if (!trig_data)
++		return -ENOMEM;
++
++	trig_data->mode = BIT(LEDTRIG_BLK_READ) | BIT(LEDTRIG_BLK_WRITE) |
++			  BIT(LEDTRIG_BLK_DISCARD);
++
++	atomic_set(&trig_data->interval, msecs_to_jiffies(50));
++	trig_data->last_activity = 0;
++	trig_data->led_cdev = led_cdev;
++
++	INIT_DELAYED_WORK(&trig_data->work, ledtrig_blk_work);
++
++	led_set_trigger_data(led_cdev, trig_data);
++
++	schedule_delayed_work(&trig_data->work,
++			      atomic_read(&trig_data->interval) * 2);
++
++	return 0;
++}
++
++static void ledtrig_blk_deactivate(struct led_classdev *led_cdev)
++{
++	struct ledtrig_blk_data *trig_data = led_get_trigger_data(led_cdev);
++
++	cancel_delayed_work_sync(&trig_data->work);
++	kfree(trig_data);
++}
++
++int ledtrig_blk_register(struct gendisk *disk)
++{
++	int ret;
++
++	disk->led.trig.name = kasprintf(GFP_KERNEL, "block-%s",
++					disk->disk_name);
++	if (!disk->led.trig.name)
++		return -ENOMEM;
++
++	disk->led.trig.activate = ledtrig_blk_activate;
++	disk->led.trig.deactivate = ledtrig_blk_deactivate;
++	disk->led.trig.groups = ledtrig_blk_groups;
++
++	ret = led_trigger_register(&disk->led.trig);
++	if (ret) {
++		kfree(disk->led.trig.name);
++		disk->led.trig.name = NULL;
++	}
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(ledtrig_blk_register);
++
++void ledtrig_blk_unregister(struct gendisk *disk)
++{
++	if (!disk->led.trig.name)
++		return;
++
++	led_trigger_unregister(&disk->led.trig);
++	kfree(disk->led.trig.name);
++	disk->led.trig.name = NULL;
++}
++EXPORT_SYMBOL_GPL(ledtrig_blk_unregister);
+diff --git a/include/linux/genhd.h b/include/linux/genhd.h
+index 8b5330d..b2c934e 100644
+--- a/include/linux/genhd.h
++++ b/include/linux/genhd.h
+@@ -17,6 +17,7 @@
+ #include <linux/percpu-refcount.h>
+ #include <linux/uuid.h>
+ #include <linux/blk_types.h>
++#include <linux/leds.h>
+ #include <asm/local.h>
+ 
+ #ifdef CONFIG_BLOCK
+@@ -219,6 +220,8 @@ struct gendisk {
+ 	int node_id;
+ 	struct badblocks *bb;
+ 	struct lockdep_map lockdep_map;
++
++	struct ledtrig_blk led;
+ };
+ 
+ static inline struct gendisk *part_to_disk(struct hd_struct *part)
+diff --git a/include/linux/leds.h b/include/linux/leds.h
+index 9b2bf57..395fa61 100644
+--- a/include/linux/leds.h
++++ b/include/linux/leds.h
+@@ -517,4 +517,31 @@ static inline void ledtrig_audio_set(enum led_audio type,
+ }
+ #endif
+ 
++struct gendisk;
++
++#ifdef CONFIG_LEDS_TRIGGER_BLOCK
++
++struct ledtrig_blk {
++	struct led_trigger trig;
++};
++
++int ledtrig_blk_register(struct gendisk *disk);
++void ledtrig_blk_unregister(struct gendisk *disk);
++
++#else
++
++struct ledtrig_blk {
++};
++
++static inline int ledtrig_blk_register(struct gendisk *disk)
++{
++	return 0;
++}
++
++static inline void ledtrig_blk_unregister(struct gendisk *disk)
++{
++}
++
++#endif /* CONFIG_LEDS_TRIGGER_BLOCK */
++
+ #endif		/* __LINUX_LEDS_H_INCLUDED */
 -- 
 2.7.4
