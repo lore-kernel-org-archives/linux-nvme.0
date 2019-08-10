@@ -1,54 +1,35 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Sat, 10 Aug 2019 14:16:02 +0200
-Subject: [PATCH v4 2/7] nvme: return a proper errno for sync commands
+From: keith.busch@gmail.com (Keith Busch)
+Date: Sat, 10 Aug 2019 08:19:16 -0600
+Subject: [PATCH v5 2/7] nvme: return a proper status for sync commands
  failure
-In-Reply-To: <20190808232536.4258-3-sagi@grimberg.me>
-References: <20190808232536.4258-1-sagi@grimberg.me>
- <20190808232536.4258-3-sagi@grimberg.me>
-Message-ID: <e117a938-e85f-1d6b-c7da-0edb91658adb@suse.de>
+In-Reply-To: <20190809221211.21157-3-sagi@grimberg.me>
+References: <20190809221211.21157-1-sagi@grimberg.me>
+ <20190809221211.21157-3-sagi@grimberg.me>
+Message-ID: <CAOSXXT607=1L5TywNgpi242kcKP-P64Bz4atUgQ6iT=B41HV1A@mail.gmail.com>
 
-On 8/9/19 1:25 AM, Sagi Grimberg wrote:
-> callers should not rely on raw nvme status, instead return
-> is more appropriate errno that relates to blk_status_t.
-> 
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> ---
->   drivers/nvme/host/core.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index d2b4f57fa67e..c259586eeadc 100644
+On Fri, Aug 9, 2019@4:12 PM Sagi Grimberg <sagi@grimberg.me> wrote:
 > --- a/drivers/nvme/host/core.c
 > +++ b/drivers/nvme/host/core.c
-> @@ -803,7 +803,7 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
->   	if (nvme_req(req)->flags & NVME_REQ_CANCELLED)
->   		ret = -EINTR;
->   	else
-> -		ret = nvme_req(req)->status;
-> +		ret = blk_status_to_errno(nvme_error_status(req));
->    out:
->   	blk_mq_free_request(req);
->   	return ret;
-> @@ -894,7 +894,7 @@ static int nvme_submit_user_cmd(struct request_queue *q,
->   	if (nvme_req(req)->flags & NVME_REQ_CANCELLED)ck
->   		ret = -EINTR;
->   	else
-> -		ret = nvme_req(req)->status;
-> +		ret = blk_status_to_errno(nvme_error_status(req));
->   	if (result)
->   		*result = le32_to_cpu(nvme_req(req)->result.u32);
->   	if (meta && !ret && !write) {
-> 
-Hehe. Just as I said.
+> @@ -805,7 +805,7 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+>         if (nvme_req(req)->flags & NVME_REQ_CANCELLED)
+>                 ret = -EINTR;
+>         else
+> -               ret = nvme_req(req)->status;
+> +               ret = nvme_error_status(req);
+>   out:
+>         blk_mq_free_request(req);
+>         return ret;
+> @@ -896,7 +896,7 @@ static int nvme_submit_user_cmd(struct request_queue *q,
+>         if (nvme_req(req)->flags & NVME_REQ_CANCELLED)
+>                 ret = -EINTR;
+>         else
+> -               ret = nvme_req(req)->status;
+> +               ret = nvme_error_status(req);
+>         if (result)
+>                 *result = le32_to_cpu(nvme_req(req)->result.u32);
+>         if (meta && !ret && !write) {
+> --
 
-Reviewed-by: Hannes Reinecke <hare at suse.com>
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke            Teamlead Storage & Networking
-hare at suse.de                              +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N?rnberg)
+Fine for the driver initiated commands, but no for user commands.
+Tooling definitely wants to see the NVMe status directly, and we'll
+break them all if we change this API.
