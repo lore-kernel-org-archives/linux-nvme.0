@@ -1,105 +1,45 @@
-From: tom.leiming@gmail.com (Ming Lei)
-Date: Sat, 10 Aug 2019 07:05:32 +0800
-Subject: [PATCH 1/2] genirq/affinity: improve __irq_build_affinity_masks()
-In-Reply-To: <20190809144204.GA28515@localhost.localdomain>
-References: <20190809102310.27246-1-ming.lei@redhat.com>
- <20190809102310.27246-2-ming.lei@redhat.com>
- <20190809144204.GA28515@localhost.localdomain>
-Message-ID: <CACVXFVMT=rkZC7LwK5quXgudS7fb7bQ_LunA1tEE-Z-9s1uvaA@mail.gmail.com>
+From: hare@suse.de (Hannes Reinecke)
+Date: Sat, 10 Aug 2019 13:59:05 +0200
+Subject: [PATCH v3 1/7] nvme: fail cancelled commands with
+ NVME_SC_HOST_PATH_ERROR
+In-Reply-To: <20190808205325.24036-2-sagi@grimberg.me>
+References: <20190808205325.24036-1-sagi@grimberg.me>
+ <20190808205325.24036-2-sagi@grimberg.me>
+Message-ID: <6c97840c-0360-6503-ba5d-58d732b99a05@suse.de>
 
-On Fri, Aug 9, 2019@10:44 PM Keith Busch <kbusch@kernel.org> wrote:
->
-> On Fri, Aug 09, 2019@06:23:09PM +0800, Ming Lei wrote:
-> > One invariant of __irq_build_affinity_masks() is that all CPUs in the
-> > specified masks( cpu_mask AND node_to_cpumask for each node) should be
-> > covered during the spread. Even though all requested vectors have been
-> > reached, we still need to spread vectors among left CPUs. The similar
-> > policy has been taken in case of 'numvecs <= nodes'.
-> >
-> > So remove the following check inside the loop:
-> >
-> >       if (done >= numvecs)
-> >               break;
-> >
-> > Meantime assign at least 1 vector for left nodes if 'numvecs' vectors
-> > have been spread.
-> >
-> > Also, if the specified cpumask for one numa node is empty, simply not
-> > spread vectors on this node.
-> >
-> > Cc: Christoph Hellwig <hch at lst.de>
-> > Cc: Keith Busch <kbusch at kernel.org>
-> > Cc: linux-nvme at lists.infradead.org,
-> > Cc: Jon Derrick <jonathan.derrick at intel.com>
-> > Signed-off-by: Ming Lei <ming.lei at redhat.com>
-> > ---
-> >  kernel/irq/affinity.c | 33 +++++++++++++++++++++------------
-> >  1 file changed, 21 insertions(+), 12 deletions(-)
-> >
-> > diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
-> > index 6fef48033f96..bc3652a2c61b 100644
-> > --- a/kernel/irq/affinity.c
-> > +++ b/kernel/irq/affinity.c
-> > @@ -129,21 +129,32 @@ static int __irq_build_affinity_masks(unsigned int startvec,
-> >       for_each_node_mask(n, nodemsk) {
-> >               unsigned int ncpus, v, vecs_to_assign, vecs_per_node;
-> >
-> > -             /* Spread the vectors per node */
-> > -             vecs_per_node = (numvecs - (curvec - firstvec)) / nodes;
-> > -
-> >               /* Get the cpus on this node which are in the mask */
-> >               cpumask_and(nmsk, cpu_mask, node_to_cpumask[n]);
-> > -
-> > -             /* Calculate the number of cpus per vector */
-> >               ncpus = cpumask_weight(nmsk);
-> > +             if (!ncpus)
-> > +                     continue;
->
-> This shouldn't be possible, right? The nodemsk we're looping  wouldn't
-> have had that node set if no CPUs intersect the node_to_cpu_mask for
-> that node, so the resulting cpumask should always have a non-zero weight.
+On 8/8/19 10:53 PM, Sagi Grimberg wrote:
+> NVME_SC_ABORT_REQ means that the request was aborted due to
+> an abort command received. In our case, this is a transport
+> cancellation, so host pathing error is much more appropriate.
+> 
+> Reviewed-by: Minwoo Im <minwoo.im.dev at gmail.com>
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> ---
+>   drivers/nvme/host/core.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 6956041224ec..d2b4f57fa67e 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -294,7 +294,7 @@ bool nvme_cancel_request(struct request *req, void *data, bool reserved)
+>   	dev_dbg_ratelimited(((struct nvme_ctrl *) data)->device,
+>   				"Cancelling I/O %d", req->tag);
+>   
+> -	nvme_req(req)->status = NVME_SC_ABORT_REQ;
+> +	nvme_req(req)->status = NVME_SC_HOST_PATH_ERROR;
+>   	blk_mq_complete_request_sync(req);
+>   	return true;
+>   }
+> 
+Reviewed-by: Hannes Reinecke <hare at suse.com>
 
-     cpumask_and(nmsk, cpu_mask, node_to_cpumask[n]);
+Cheers,
 
-It is often true, see the following cases:
-
-1) all CPUs in one node are not present
-
-OR
-
-2) all CPUs in one node are present
-
->
-> > @@ -153,16 +164,14 @@ static int __irq_build_affinity_masks(unsigned int startvec,
-> >                       }
-> >                       irq_spread_init_one(&masks[curvec].mask, nmsk,
-> >                                               cpus_per_vec);
-> > +                     if (++curvec >= last_affv)
-> > +                             curvec = firstvec;
->
-> I'm not so sure about wrapping the vector to share it across nodes. We
-
-The wrapping is always there, not added by this patch.
-
-Most time it won't happen since we spread vectors on remaining
-(un-assigned)nodes.  And it only happens when there is remaining
-nodes not spread. We have to make sure all nodes are spread.
-
-And the similar policy is applied on the branch of 'numvecs <= nodes' too.
-
-> have enough vectors in this path to ensure each compute node can have
-> a unique one, and it's much cheaper to share these within nodes than
-> across them.
-
-The patch just moves the wrapping from loop outside into the loop, then
-all 'extra_vecs' can be covered because it is always < 'vecs_to_assign'.
-
-What matters is that the following check is removed:
-
-   if (done >= numvecs)
-                break;
-
-then all nodes can be covered.
-
-Thanks,
-Ming Lei
+Hannes
+-- 
+Dr. Hannes Reinecke            Teamlead Storage & Networking
+hare at suse.de                              +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
+HRB 21284 (AG N?rnberg)
