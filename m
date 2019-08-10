@@ -1,34 +1,25 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Sat, 10 Aug 2019 14:10:38 +0200
-Subject: [PATCH v3 5/7] nvme-tcp: fail command with
- NVME_SC_HOST_PATH_ERROR send failed
-In-Reply-To: <20190808205325.24036-6-sagi@grimberg.me>
+Date: Sat, 10 Aug 2019 14:11:01 +0200
+Subject: [PATCH v3 6/7] nvme-fc: Fail transport errors with
+ NVME_SC_HOST_PATH
+In-Reply-To: <20190808205325.24036-7-sagi@grimberg.me>
 References: <20190808205325.24036-1-sagi@grimberg.me>
- <20190808205325.24036-6-sagi@grimberg.me>
-Message-ID: <f1919db0-5729-80ec-9295-ee9f82bd51b5@suse.de>
+ <20190808205325.24036-7-sagi@grimberg.me>
+Message-ID: <6d1b8c1e-27b0-1701-3ec1-c0f314d12886@suse.de>
 
 On 8/8/19 10:53 PM, Sagi Grimberg wrote:
-> This is a more appropriate error status for a transport error
-> detected by us (the host).
+> From: James Smart <james.smart at broadcom.com>
+> 
+> NVME_SC_INTERNAL should indicate an internal controller errors
+> and not host transport errors. These errors will propagate to
+> upper layers (essentially nvme core) and be interpereted as
+> transport errors which should not be taken into account for
+> namespace state or condition.
 > 
 > Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 > ---
->   drivers/nvme/host/tcp.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 2de33c4c5d14..7daf39f31b08 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -842,7 +842,7 @@ static inline void nvme_tcp_done_send_req(struct nvme_tcp_queue *queue)
->   
->   static void nvme_tcp_fail_request(struct nvme_tcp_request *req)
->   {
-> -	nvme_tcp_end_request(blk_mq_rq_from_pdu(req), NVME_SC_DATA_XFER_ERROR);
-> +	nvme_tcp_end_request(blk_mq_rq_from_pdu(req), NVME_SC_HOST_PATH_ERROR);
->   }
->   
->   static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
+>   drivers/nvme/host/fc.c | 37 ++++++++++++++++++++++++++++++-------
+>   1 file changed, 30 insertions(+), 7 deletions(-)
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
