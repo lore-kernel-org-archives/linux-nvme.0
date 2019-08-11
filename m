@@ -1,38 +1,30 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sat, 10 Aug 2019 22:14:34 -0700
-Subject: [PATCH v5 2/7] nvme: return a proper status for sync commands
- failure
-In-Reply-To: <CAOSXXT607=1L5TywNgpi242kcKP-P64Bz4atUgQ6iT=B41HV1A@mail.gmail.com>
-References: <20190809221211.21157-1-sagi@grimberg.me>
- <20190809221211.21157-3-sagi@grimberg.me>
- <CAOSXXT607=1L5TywNgpi242kcKP-P64Bz4atUgQ6iT=B41HV1A@mail.gmail.com>
-Message-ID: <2321fe18-91e5-dd7d-d231-d64b4dc1afb2@grimberg.me>
+Date: Sat, 10 Aug 2019 22:28:39 -0700
+Subject: [PATCH v3 7/7] nvme: don't remove namespace if revalidate failed
+ because of a transport error
+In-Reply-To: <16b63247-f020-5522-ffab-9404ba7b3408@suse.de>
+References: <20190808205325.24036-1-sagi@grimberg.me>
+ <20190808205325.24036-8-sagi@grimberg.me>
+ <16b63247-f020-5522-ffab-9404ba7b3408@suse.de>
+Message-ID: <da217f10-97de-2eae-4e60-92ff84fb8014@grimberg.me>
 
 
->> --- a/drivers/nvme/host/core.c
->> +++ b/drivers/nvme/host/core.c
->> @@ -805,7 +805,7 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
->>          if (nvme_req(req)->flags & NVME_REQ_CANCELLED)
->>                  ret = -EINTR;
->>          else
->> -               ret = nvme_req(req)->status;
->> +               ret = nvme_error_status(req);
->>    out:
->>          blk_mq_free_request(req);
->>          return ret;
->> @@ -896,7 +896,7 @@ static int nvme_submit_user_cmd(struct request_queue *q,
->>          if (nvme_req(req)->flags & NVME_REQ_CANCELLED)
->>                  ret = -EINTR;
->>          else
->> -               ret = nvme_req(req)->status;
->> +               ret = nvme_error_status(req);
->>          if (result)
->>                  *result = le32_to_cpu(nvme_req(req)->result.u32);
->>          if (meta && !ret && !write) {
->> --
-> 
-> Fine for the driver initiated commands, but no for user commands.
-> Tooling definitely wants to see the NVMe status directly, and we'll
-> break them all if we change this API.
+> This is a neat solution, yet I'm not convinced that it'll solve the 
+> problem entirely. I'll give it a spin.
 
-OK, I can leave that one alone...
+Thanks Hannes,
+
+Note that with tcp/rdma, there is another patch needed to pass
+this test.
+
+See:
+[PATCH rfc] nvme: make all fabrics command run on a separate request queue
+
+The reason is, that because we have admin commands making their way
+to the target between we disable the controller and (re)enable it
+as part of the reset process. Because of that, we have the target
+failing some of the scan commands that are wrongly made it through
+(which cause the scan work to wrongly remove the ns and hang).
+
+So I would recommend running it with that patch as well (and also
+get your feedback on it ;))
