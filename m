@@ -1,30 +1,28 @@
 From: jacek.anaszewski@gmail.com (Jacek Anaszewski)
-Date: Mon, 12 Aug 2019 21:28:18 +0200
-Subject: [PATCH v3 4/6] block: introduce LED block device activity trigger
-In-Reply-To: <1565459703-30513-5-git-send-email-akinobu.mita@gmail.com>
+Date: Mon, 12 Aug 2019 21:31:17 +0200
+Subject: [PATCH v3 5/6] ledtrig-blk: add interface to stop and restart
+ polling disk stats
+In-Reply-To: <1565459703-30513-6-git-send-email-akinobu.mita@gmail.com>
 References: <1565459703-30513-1-git-send-email-akinobu.mita@gmail.com>
- <1565459703-30513-5-git-send-email-akinobu.mita@gmail.com>
-Message-ID: <1b341463-3a0d-93cc-9d76-bbddf5a6e434@gmail.com>
+ <1565459703-30513-6-git-send-email-akinobu.mita@gmail.com>
+Message-ID: <e1ece602-b413-b391-c7c3-34a8e46254c4@gmail.com>
 
 Hi Akinobu,
 
-Thank you for the update. I have one more remark to this patch
-below.
+I don't see any vital reason to keep this change separately.
+We're introducing new trigger, so please just squash it with
+the patch 4/6.
+
+Best regards,
+Jacek Anaszewski
 
 On 8/10/19 7:55 PM, Akinobu Mita wrote:
-> This allows LEDs to be controlled by block device activity.
+> The LED block device activity trigger periodically polls the disk stats
+> to collect the activity.  However, it is pointless to poll while the
+> block device is in quiescent state.
 > 
-> We already have ledtrig-disk (LED disk activity trigger), but the lower
-> level disk drivers need to utilize ledtrig_disk_activity() to make the
-> LED blink.
-> 
-> The LED block device trigger doesn't require the lower level drivers to
-> have any instrumentation. The activity is collected by polling the disk
-> stats.
-> 
-> Example:
-> 
-> echo block-nvme0n1 > /sys/class/leds/diy/trigger
+> This provides an optional interface to stop and restart polling disk stats
+> for the lower-level block drivers.
 > 
 > Cc: Frank Steiner <fsteiner-mail1 at bio.ifi.lmu.de>
 > Cc: Jacek Anaszewski <jacek.anaszewski at gmail.com>
@@ -36,86 +34,101 @@ On 8/10/19 7:55 PM, Akinobu Mita wrote:
 > Cc: Hannes Reinecke <hare at suse.com>
 > Signed-off-by: Akinobu Mita <akinobu.mita at gmail.com>
 > ---
-> * v3
-> - Add ABI documentation
-> - Add more detail to Kconfig help text
+>  drivers/leds/trigger/ledtrig-blk.c | 37 +++++++++++++++++++++++++++++++++++--
+>  include/linux/leds.h               | 11 +++++++++++
+>  2 files changed, 46 insertions(+), 2 deletions(-)
 > 
->  .../ABI/testing/sysfs-class-led-trigger-blk        |  37 ++++
->  block/genhd.c                                      |   2 +
->  drivers/leds/trigger/Kconfig                       |   9 +
->  drivers/leds/trigger/Makefile                      |   1 +
->  drivers/leds/trigger/ledtrig-blk.c                 | 225 +++++++++++++++++++++
->  include/linux/genhd.h                              |   3 +
->  include/linux/leds.h                               |  27 +++
->  7 files changed, 304 insertions(+)
->  create mode 100644 Documentation/ABI/testing/sysfs-class-led-trigger-blk
->  create mode 100644 drivers/leds/trigger/ledtrig-blk.c
-> 
-[...]
-> +EXPORT_SYMBOL_GPL(ledtrig_blk_unregister);
-> diff --git a/include/linux/genhd.h b/include/linux/genhd.h
-> index 8b5330d..b2c934e 100644
-> --- a/include/linux/genhd.h
-> +++ b/include/linux/genhd.h
-> @@ -17,6 +17,7 @@
->  #include <linux/percpu-refcount.h>
->  #include <linux/uuid.h>
->  #include <linux/blk_types.h>
-> +#include <linux/leds.h>
->  #include <asm/local.h>
+> diff --git a/drivers/leds/trigger/ledtrig-blk.c b/drivers/leds/trigger/ledtrig-blk.c
+> index d5808c9..6b826ed 100644
+> --- a/drivers/leds/trigger/ledtrig-blk.c
+> +++ b/drivers/leds/trigger/ledtrig-blk.c
+> @@ -153,8 +153,9 @@ static void ledtrig_blk_work(struct work_struct *work)
+>  		trig_data->last_activity = activity;
+>  	}
 >  
->  #ifdef CONFIG_BLOCK
-> @@ -219,6 +220,8 @@ struct gendisk {
->  	int node_id;
->  	struct badblocks *bb;
->  	struct lockdep_map lockdep_map;
+> -	schedule_delayed_work(&trig_data->work,
+> -			      atomic_read(&trig_data->interval) * 2);
+> +	if (atomic_read(&disk->led.enable_count))
+> +		schedule_delayed_work(&trig_data->work,
+> +				      atomic_read(&trig_data->interval) * 2);
+>  }
+>  
+>  static int ledtrig_blk_activate(struct led_classdev *led_cdev)
+> @@ -190,6 +191,36 @@ static void ledtrig_blk_deactivate(struct led_classdev *led_cdev)
+>  	kfree(trig_data);
+>  }
+>  
+> +void ledtrig_blk_disable(struct gendisk *disk)
+> +{
+> +	if (disk)
+> +		atomic_dec(&disk->led.enable_count);
+> +}
+> +EXPORT_SYMBOL_GPL(ledtrig_blk_disable);
 > +
-> +	struct ledtrig_blk led;
-
-Please rename this property to led_trig to reflect
-its purpose accurately.
-
->  };
+> +void ledtrig_blk_enable(struct gendisk *disk)
+> +{
+> +	struct led_classdev *led_cdev;
+> +
+> +	if (!disk)
+> +		return;
+> +
+> +	atomic_inc(&disk->led.enable_count);
+> +
+> +	read_lock(&disk->led.trig.leddev_list_lock);
+> +
+> +	list_for_each_entry(led_cdev, &disk->led.trig.led_cdevs, trig_list) {
+> +		struct ledtrig_blk_data *trig_data =
+> +			led_get_trigger_data(led_cdev);
+> +
+> +		schedule_delayed_work(&trig_data->work,
+> +				      atomic_read(&trig_data->interval) * 2);
+> +	}
+> +
+> +	read_unlock(&disk->led.trig.leddev_list_lock);
+> +}
+> +EXPORT_SYMBOL_GPL(ledtrig_blk_enable);
+> +
+>  int ledtrig_blk_register(struct gendisk *disk)
+>  {
+>  	int ret;
+> @@ -203,6 +234,8 @@ int ledtrig_blk_register(struct gendisk *disk)
+>  	disk->led.trig.deactivate = ledtrig_blk_deactivate;
+>  	disk->led.trig.groups = ledtrig_blk_groups;
 >  
->  static inline struct gendisk *part_to_disk(struct hd_struct *part)
+> +	atomic_set(&disk->led.enable_count, 1);
+> +
+>  	ret = led_trigger_register(&disk->led.trig);
+>  	if (ret) {
+>  		kfree(disk->led.trig.name);
 > diff --git a/include/linux/leds.h b/include/linux/leds.h
-> index 9b2bf57..395fa61 100644
+> index 395fa61..fd2eb7c 100644
 > --- a/include/linux/leds.h
 > +++ b/include/linux/leds.h
-> @@ -517,4 +517,31 @@ static inline void ledtrig_audio_set(enum led_audio type,
->  }
->  #endif
+> @@ -523,8 +523,11 @@ struct gendisk;
 >  
-> +struct gendisk;
-> +
-> +#ifdef CONFIG_LEDS_TRIGGER_BLOCK
-> +
-> +struct ledtrig_blk {
-> +	struct led_trigger trig;
-> +};
-> +
-> +int ledtrig_blk_register(struct gendisk *disk);
-> +void ledtrig_blk_unregister(struct gendisk *disk);
-> +
-> +#else
-> +
-> +struct ledtrig_blk {
-> +};
-> +
-> +static inline int ledtrig_blk_register(struct gendisk *disk)
-> +{
-> +	return 0;
-> +}
-> +
-> +static inline void ledtrig_blk_unregister(struct gendisk *disk)
+>  struct ledtrig_blk {
+>  	struct led_trigger trig;
+> +	atomic_t enable_count;
+>  };
+>  
+> +void ledtrig_blk_enable(struct gendisk *disk);
+> +void ledtrig_blk_disable(struct gendisk *disk);
+>  int ledtrig_blk_register(struct gendisk *disk);
+>  void ledtrig_blk_unregister(struct gendisk *disk);
+>  
+> @@ -533,6 +536,14 @@ void ledtrig_blk_unregister(struct gendisk *disk);
+>  struct ledtrig_blk {
+>  };
+>  
+> +static inline void ledtrig_blk_enable(struct gendisk *disk)
 > +{
 > +}
 > +
-> +#endif /* CONFIG_LEDS_TRIGGER_BLOCK */
+> +static inline void ledtrig_blk_disable(struct gendisk *disk)
+> +{
+> +}
 > +
->  #endif		/* __LINUX_LEDS_H_INCLUDED */
+>  static inline int ledtrig_blk_register(struct gendisk *disk)
+>  {
+>  	return 0;
 > 
-
--- 
-Best regards,
-Jacek Anaszewski
