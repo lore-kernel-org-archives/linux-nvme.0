@@ -1,39 +1,130 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Mon, 12 Aug 2019 11:30:36 -0600
-Subject: [PATCH v3 02/14] PCI/P2PDMA: Add provider's pci_dev to
- pci_p2pdma_pagemap struct
+Date: Mon, 12 Aug 2019 11:30:38 -0600
+Subject: [PATCH v3 04/14] PCI/P2PDMA: Factor out __upstream_bridge_distance()
 In-Reply-To: <20190812173048.9186-1-logang@deltatee.com>
 References: <20190812173048.9186-1-logang@deltatee.com>
-Message-ID: <20190812173048.9186-3-logang@deltatee.com>
+Message-ID: <20190812173048.9186-5-logang@deltatee.com>
 
-The provider will be needed to figure out how to map a device.
+This is a prep patch to create a second level helper. There are no
+functional changes.
 
-Link: https://lore.kernel.org/r/20190730163545.4915-3-logang at deltatee.com
+The root complex whitelist code will be moved into this function in a
+subsequent patch.
+
+Link: https://lore.kernel.org/r/20190730163545.4915-5-logang at deltatee.com
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 Signed-off-by: Bjorn Helgaas <bhelgaas at google.com>
+Reviewed-by: Christian K?nig <christian.koenig at amd.com>
 ---
- drivers/pci/p2pdma.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/pci/p2pdma.c | 88 ++++++++++++++++++++++++--------------------
+ 1 file changed, 48 insertions(+), 40 deletions(-)
 
 diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-index 03e9c887bdfb..93fbda14f4a9 100644
+index 8f0688201aec..600ba6a7aa11 100644
 --- a/drivers/pci/p2pdma.c
 +++ b/drivers/pci/p2pdma.c
-@@ -27,6 +27,7 @@ struct pci_p2pdma {
+@@ -296,47 +296,8 @@ static bool root_complex_whitelist(struct pci_dev *dev)
+ 	return false;
+ }
  
- struct pci_p2pdma_pagemap {
- 	struct dev_pagemap pgmap;
-+	struct pci_dev *provider;
- 	u64 bus_offset;
- };
+-/*
+- * Find the distance through the nearest common upstream bridge between
+- * two PCI devices.
+- *
+- * If the two devices are the same device then 0 will be returned.
+- *
+- * If there are two virtual functions of the same device behind the same
+- * bridge port then 2 will be returned (one step down to the PCIe switch,
+- * then one step back to the same device).
+- *
+- * In the case where two devices are connected to the same PCIe switch, the
+- * value 4 will be returned. This corresponds to the following PCI tree:
+- *
+- *     -+  Root Port
+- *      \+ Switch Upstream Port
+- *       +-+ Switch Downstream Port
+- *       + \- Device A
+- *       \-+ Switch Downstream Port
+- *         \- Device B
+- *
+- * The distance is 4 because we traverse from Device A through the downstream
+- * port of the switch, to the common upstream port, back up to the second
+- * downstream port and then to Device B.
+- *
+- * Any two devices that cannot communicate using p2pdma will return
+- * PCI_P2PDMA_MAP_NOT_SUPPORTED.
+- *
+- * Any two devices that have a data path that goes through the host bridge
+- * will consult a whitelist. If the host bridges are on the whitelist,
+- * this function will return PCI_P2PDMA_MAP_THRU_HOST_BRIDGE.
+- *
+- * If either bridge is not on the whitelist this function returns
+- * PCI_P2PDMA_MAP_NOT_SUPPORTED.
+- *
+- * If a bridge which has any ACS redirection bits set is in the path,
+- * acs_redirects will be set to true. In this case, a list of all infringing
+- * bridge addresses will be populated in acs_list (assuming it's non-null)
+- * for printk purposes.
+- */
+ static enum pci_p2pdma_map_type
+-upstream_bridge_distance(struct pci_dev *provider, struct pci_dev *client,
++__upstream_bridge_distance(struct pci_dev *provider, struct pci_dev *client,
+ 		int *dist, bool *acs_redirects, struct seq_buf *acs_list)
+ {
+ 	struct pci_dev *a = provider, *b = client, *bb;
+@@ -416,6 +377,53 @@ upstream_bridge_distance(struct pci_dev *provider, struct pci_dev *client,
+ 	return PCI_P2PDMA_MAP_BUS_ADDR;
+ }
  
-@@ -178,6 +179,7 @@ int pci_p2pdma_add_resource(struct pci_dev *pdev, int bar, size_t size,
- 	pgmap->res.flags = pci_resource_flags(pdev, bar);
- 	pgmap->type = MEMORY_DEVICE_PCI_P2PDMA;
- 
-+	p2p_pgmap->provider = pdev;
- 	p2p_pgmap->bus_offset = pci_bus_address(pdev, bar) -
- 		pci_resource_start(pdev, bar);
- 
++/*
++ * Find the distance through the nearest common upstream bridge between
++ * two PCI devices.
++ *
++ * If the two devices are the same device then 0 will be returned.
++ *
++ * If there are two virtual functions of the same device behind the same
++ * bridge port then 2 will be returned (one step down to the PCIe switch,
++ * then one step back to the same device).
++ *
++ * In the case where two devices are connected to the same PCIe switch, the
++ * value 4 will be returned. This corresponds to the following PCI tree:
++ *
++ *     -+  Root Port
++ *      \+ Switch Upstream Port
++ *       +-+ Switch Downstream Port
++ *       + \- Device A
++ *       \-+ Switch Downstream Port
++ *         \- Device B
++ *
++ * The distance is 4 because we traverse from Device A through the downstream
++ * port of the switch, to the common upstream port, back up to the second
++ * downstream port and then to Device B.
++ *
++ * Any two devices that cannot communicate using p2pdma will return
++ * PCI_P2PDMA_MAP_NOT_SUPPORTED.
++ *
++ * Any two devices that have a data path that goes through the host bridge
++ * will consult a whitelist. If the host bridges are on the whitelist,
++ * this function will return PCI_P2PDMA_MAP_THRU_HOST_BRIDGE.
++ *
++ * If either bridge is not on the whitelist this function returns
++ * PCI_P2PDMA_MAP_NOT_SUPPORTED.
++ *
++ * If a bridge which has any ACS redirection bits set is in the path,
++ * acs_redirects will be set to true. In this case, a list of all infringing
++ * bridge addresses will be populated in acs_list (assuming it's non-null)
++ * for printk purposes.
++ */
++static enum pci_p2pdma_map_type
++upstream_bridge_distance(struct pci_dev *provider, struct pci_dev *client,
++		int *dist, bool *acs_redirects, struct seq_buf *acs_list)
++{
++	return __upstream_bridge_distance(provider, client, dist,
++					  acs_redirects, acs_list);
++}
++
+ static enum pci_p2pdma_map_type
+ upstream_bridge_distance_warn(struct pci_dev *provider, struct pci_dev *client,
+ 			      int *dist)
 -- 
 2.20.1
