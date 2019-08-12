@@ -1,48 +1,74 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Mon, 12 Aug 2019 11:30:48 -0600
-Subject: [PATCH v3 14/14] PCI/P2PDMA: Update pci_p2pdma_distance_many()
- documentation
+Date: Mon, 12 Aug 2019 11:30:39 -0600
+Subject: [PATCH v3 05/14] PCI/P2PDMA: Apply host bridge whitelist for ACS
 In-Reply-To: <20190812173048.9186-1-logang@deltatee.com>
 References: <20190812173048.9186-1-logang@deltatee.com>
-Message-ID: <20190812173048.9186-15-logang@deltatee.com>
+Message-ID: <20190812173048.9186-6-logang@deltatee.com>
 
-The comment describing pci_p2pdma_distance_many() still referred to
-the devices being behind the same root port. This no longer applies
-so reword the documentation.
+When a P2PDMA transfer is rejected due to ACS being set, we can also check
+the whitelist and allow the transactions.
 
-Link: https://lore.kernel.org/r/20190730163545.4915-15-logang at deltatee.com
+Do this by pushing the whitelist check into the upstream_bridge_distance()
+function.
+
+Link: https://lore.kernel.org/r/20190730163545.4915-6-logang at deltatee.com
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 Signed-off-by: Bjorn Helgaas <bhelgaas at google.com>
+Reviewed-by: Christian K?nig <christian.koenig at amd.com>
 ---
- drivers/pci/p2pdma.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+ drivers/pci/p2pdma.c | 26 ++++++++++++++------------
+ 1 file changed, 14 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-index d8c824097d26..0608aae72ccc 100644
+index 600ba6a7aa11..f7f7e5862bab 100644
 --- a/drivers/pci/p2pdma.c
 +++ b/drivers/pci/p2pdma.c
-@@ -517,15 +517,14 @@ upstream_bridge_distance_warn(struct pci_dev *provider, struct pci_dev *client,
-  * @num_clients: number of clients in the array
-  * @verbose: if true, print warnings for devices when we return -1
-  *
-- * Returns -1 if any of the clients are not compatible (behind the same
-- * root port as the provider), otherwise returns a positive number where
-- * a lower number is the preferable choice. (If there's one client
-- * that's the same as the provider it will return 0, which is best choice).
-+ * Returns -1 if any of the clients are not compatible, otherwise returns a
-+ * positive number where a lower number is the preferable choice. (If there's
-+ * one client that's the same as the provider it will return 0, which is best
-+ * choice).
-  *
-- * For now, "compatible" means the provider and the clients are all behind
-- * the same PCI root port. This cuts out cases that may work but is safest
-- * for the user. Future work can expand this to white-list root complexes that
-- * can safely forward between each ports.
-+ * "compatible" means the provider and the clients are either all behind
-+ * the same PCI root port or the host bridges connected to each of the devices
-+ * are listed in the 'pci_p2pdma_whitelist'.
-  */
- int pci_p2pdma_distance_many(struct pci_dev *provider, struct device **clients,
- 			     int num_clients, bool verbose)
+@@ -339,15 +339,7 @@ __upstream_bridge_distance(struct pci_dev *provider, struct pci_dev *client,
+ 	if (dist)
+ 		*dist = dist_a + dist_b;
+ 
+-	/*
+-	 * Allow the connection if both devices are on a whitelisted root
+-	 * complex, but add an arbitrary large value to the distance.
+-	 */
+-	if (root_complex_whitelist(provider) &&
+-	    root_complex_whitelist(client))
+-		return PCI_P2PDMA_MAP_THRU_HOST_BRIDGE;
+-
+-	return PCI_P2PDMA_MAP_NOT_SUPPORTED;
++	return PCI_P2PDMA_MAP_THRU_HOST_BRIDGE;
+ 
+ check_b_path_acs:
+ 	bb = b;
+@@ -371,7 +363,7 @@ __upstream_bridge_distance(struct pci_dev *provider, struct pci_dev *client,
+ 		if (acs_redirects)
+ 			*acs_redirects = true;
+ 
+-		return PCI_P2PDMA_MAP_NOT_SUPPORTED;
++		return PCI_P2PDMA_MAP_THRU_HOST_BRIDGE;
+ 	}
+ 
+ 	return PCI_P2PDMA_MAP_BUS_ADDR;
+@@ -420,8 +412,18 @@ static enum pci_p2pdma_map_type
+ upstream_bridge_distance(struct pci_dev *provider, struct pci_dev *client,
+ 		int *dist, bool *acs_redirects, struct seq_buf *acs_list)
+ {
+-	return __upstream_bridge_distance(provider, client, dist,
+-					  acs_redirects, acs_list);
++	enum pci_p2pdma_map_type map_type;
++
++	map_type = __upstream_bridge_distance(provider, client, dist,
++					      acs_redirects, acs_list);
++
++	if (map_type == PCI_P2PDMA_MAP_THRU_HOST_BRIDGE) {
++		if (!root_complex_whitelist(provider) ||
++		    !root_complex_whitelist(client))
++			return PCI_P2PDMA_MAP_NOT_SUPPORTED;
++	}
++
++	return map_type;
+ }
+ 
+ static enum pci_p2pdma_map_type
 -- 
 2.20.1
