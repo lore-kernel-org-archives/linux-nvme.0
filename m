@@ -1,107 +1,121 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Mon, 12 Aug 2019 11:30:42 -0600
-Subject: [PATCH v3 08/14] PCI/P2PDMA: Add attrs argument to pci_p2pdma_map_sg()
-In-Reply-To: <20190812173048.9186-1-logang@deltatee.com>
-References: <20190812173048.9186-1-logang@deltatee.com>
-Message-ID: <20190812173048.9186-9-logang@deltatee.com>
+From: jacek.anaszewski@gmail.com (Jacek Anaszewski)
+Date: Mon, 12 Aug 2019 21:28:18 +0200
+Subject: [PATCH v3 4/6] block: introduce LED block device activity trigger
+In-Reply-To: <1565459703-30513-5-git-send-email-akinobu.mita@gmail.com>
+References: <1565459703-30513-1-git-send-email-akinobu.mita@gmail.com>
+ <1565459703-30513-5-git-send-email-akinobu.mita@gmail.com>
+Message-ID: <1b341463-3a0d-93cc-9d76-bbddf5a6e434@gmail.com>
 
-This is to match the dma_map_sg() API which this function will have to call
-in an future patch.
+Hi Akinobu,
 
-Add a pci_p2pdma_map_sg_attrs() function and helper to call it with no
-attributes just like the dma_map_sg() function.
+Thank you for the update. I have one more remark to this patch
+below.
 
-Link: https://lore.kernel.org/r/20190730163545.4915-9-logang at deltatee.com
-Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
-Signed-off-by: Bjorn Helgaas <bhelgaas at google.com>
----
- drivers/nvme/host/pci.c    |  4 ++--
- drivers/pci/p2pdma.c       |  7 ++++---
- include/linux/pci-p2pdma.h | 15 +++++++++++----
- 3 files changed, 17 insertions(+), 9 deletions(-)
+On 8/10/19 7:55 PM, Akinobu Mita wrote:
+> This allows LEDs to be controlled by block device activity.
+> 
+> We already have ledtrig-disk (LED disk activity trigger), but the lower
+> level disk drivers need to utilize ledtrig_disk_activity() to make the
+> LED blink.
+> 
+> The LED block device trigger doesn't require the lower level drivers to
+> have any instrumentation. The activity is collected by polling the disk
+> stats.
+> 
+> Example:
+> 
+> echo block-nvme0n1 > /sys/class/leds/diy/trigger
+> 
+> Cc: Frank Steiner <fsteiner-mail1 at bio.ifi.lmu.de>
+> Cc: Jacek Anaszewski <jacek.anaszewski at gmail.com>
+> Cc: Pavel Machek <pavel at ucw.cz>
+> Cc: Dan Murphy <dmurphy at ti.com>
+> Cc: Jens Axboe <axboe at kernel.dk>
+> Cc: "James E.J. Bottomley" <jejb at linux.ibm.com>
+> Cc: "Martin K. Petersen" <martin.petersen at oracle.com>
+> Cc: Hannes Reinecke <hare at suse.com>
+> Signed-off-by: Akinobu Mita <akinobu.mita at gmail.com>
+> ---
+> * v3
+> - Add ABI documentation
+> - Add more detail to Kconfig help text
+> 
+>  .../ABI/testing/sysfs-class-led-trigger-blk        |  37 ++++
+>  block/genhd.c                                      |   2 +
+>  drivers/leds/trigger/Kconfig                       |   9 +
+>  drivers/leds/trigger/Makefile                      |   1 +
+>  drivers/leds/trigger/ledtrig-blk.c                 | 225 +++++++++++++++++++++
+>  include/linux/genhd.h                              |   3 +
+>  include/linux/leds.h                               |  27 +++
+>  7 files changed, 304 insertions(+)
+>  create mode 100644 Documentation/ABI/testing/sysfs-class-led-trigger-blk
+>  create mode 100644 drivers/leds/trigger/ledtrig-blk.c
+> 
+[...]
+> +EXPORT_SYMBOL_GPL(ledtrig_blk_unregister);
+> diff --git a/include/linux/genhd.h b/include/linux/genhd.h
+> index 8b5330d..b2c934e 100644
+> --- a/include/linux/genhd.h
+> +++ b/include/linux/genhd.h
+> @@ -17,6 +17,7 @@
+>  #include <linux/percpu-refcount.h>
+>  #include <linux/uuid.h>
+>  #include <linux/blk_types.h>
+> +#include <linux/leds.h>
+>  #include <asm/local.h>
+>  
+>  #ifdef CONFIG_BLOCK
+> @@ -219,6 +220,8 @@ struct gendisk {
+>  	int node_id;
+>  	struct badblocks *bb;
+>  	struct lockdep_map lockdep_map;
+> +
+> +	struct ledtrig_blk led;
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index db160cee42ad..f97bb031228a 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -832,8 +832,8 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
- 		goto out;
- 
- 	if (is_pci_p2pdma_page(sg_page(iod->sg)))
--		nr_mapped = pci_p2pdma_map_sg(dev->dev, iod->sg, iod->nents,
--					      rq_dma_dir(req));
-+		nr_mapped = pci_p2pdma_map_sg_attrs(dev->dev, iod->sg,
-+				iod->nents, rq_dma_dir(req), DMA_ATTR_NO_WARN);
- 	else
- 		nr_mapped = dma_map_sg_attrs(dev->dev, iod->sg, iod->nents,
- 					     rq_dma_dir(req), DMA_ATTR_NO_WARN);
-diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-index 2c4a8e92ed64..94fbacbcbbd0 100644
---- a/drivers/pci/p2pdma.c
-+++ b/drivers/pci/p2pdma.c
-@@ -798,13 +798,14 @@ EXPORT_SYMBOL_GPL(pci_p2pmem_publish);
-  * @sg: scatter list to map
-  * @nents: elements in the scatterlist
-  * @dir: DMA direction
-+ * @attrs: DMA attributes passed to dma_map_sg() (if called)
-  *
-  * Scatterlists mapped with this function should not be unmapped in any way.
-  *
-  * Returns the number of SG entries mapped or 0 on error.
-  */
--int pci_p2pdma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
--		      enum dma_data_direction dir)
-+int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
-+		int nents, enum dma_data_direction dir, unsigned long attrs)
- {
- 	struct pci_p2pdma_pagemap *p2p_pgmap;
- 	struct scatterlist *s;
-@@ -831,7 +832,7 @@ int pci_p2pdma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
- 
- 	return nents;
- }
--EXPORT_SYMBOL_GPL(pci_p2pdma_map_sg);
-+EXPORT_SYMBOL_GPL(pci_p2pdma_map_sg_attrs);
- 
- /**
-  * pci_p2pdma_enable_store - parse a configfs/sysfs attribute store
-diff --git a/include/linux/pci-p2pdma.h b/include/linux/pci-p2pdma.h
-index bca9bc3e5be7..7fd51954f93a 100644
---- a/include/linux/pci-p2pdma.h
-+++ b/include/linux/pci-p2pdma.h
-@@ -30,8 +30,8 @@ struct scatterlist *pci_p2pmem_alloc_sgl(struct pci_dev *pdev,
- 					 unsigned int *nents, u32 length);
- void pci_p2pmem_free_sgl(struct pci_dev *pdev, struct scatterlist *sgl);
- void pci_p2pmem_publish(struct pci_dev *pdev, bool publish);
--int pci_p2pdma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
--		      enum dma_data_direction dir);
-+int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
-+		int nents, enum dma_data_direction dir, unsigned long attrs);
- int pci_p2pdma_enable_store(const char *page, struct pci_dev **p2p_dev,
- 			    bool *use_p2pdma);
- ssize_t pci_p2pdma_enable_show(char *page, struct pci_dev *p2p_dev,
-@@ -81,8 +81,9 @@ static inline void pci_p2pmem_free_sgl(struct pci_dev *pdev,
- static inline void pci_p2pmem_publish(struct pci_dev *pdev, bool publish)
- {
- }
--static inline int pci_p2pdma_map_sg(struct device *dev,
--		struct scatterlist *sg, int nents, enum dma_data_direction dir)
-+static inline int pci_p2pdma_map_sg_attrs(struct device *dev,
-+		struct scatterlist *sg, int nents, enum dma_data_direction dir,
-+		unsigned long attrs)
- {
- 	return 0;
- }
-@@ -111,4 +112,10 @@ static inline struct pci_dev *pci_p2pmem_find(struct device *client)
- 	return pci_p2pmem_find_many(&client, 1);
- }
- 
-+static inline int pci_p2pdma_map_sg(struct device *dev, struct scatterlist *sg,
-+				    int nents, enum dma_data_direction dir)
-+{
-+	return pci_p2pdma_map_sg_attrs(dev, sg, nents, dir, 0);
-+}
-+
- #endif /* _LINUX_PCI_P2P_H */
+Please rename this property to led_trig to reflect
+its purpose accurately.
+
+>  };
+>  
+>  static inline struct gendisk *part_to_disk(struct hd_struct *part)
+> diff --git a/include/linux/leds.h b/include/linux/leds.h
+> index 9b2bf57..395fa61 100644
+> --- a/include/linux/leds.h
+> +++ b/include/linux/leds.h
+> @@ -517,4 +517,31 @@ static inline void ledtrig_audio_set(enum led_audio type,
+>  }
+>  #endif
+>  
+> +struct gendisk;
+> +
+> +#ifdef CONFIG_LEDS_TRIGGER_BLOCK
+> +
+> +struct ledtrig_blk {
+> +	struct led_trigger trig;
+> +};
+> +
+> +int ledtrig_blk_register(struct gendisk *disk);
+> +void ledtrig_blk_unregister(struct gendisk *disk);
+> +
+> +#else
+> +
+> +struct ledtrig_blk {
+> +};
+> +
+> +static inline int ledtrig_blk_register(struct gendisk *disk)
+> +{
+> +	return 0;
+> +}
+> +
+> +static inline void ledtrig_blk_unregister(struct gendisk *disk)
+> +{
+> +}
+> +
+> +#endif /* CONFIG_LEDS_TRIGGER_BLOCK */
+> +
+>  #endif		/* __LINUX_LEDS_H_INCLUDED */
+> 
+
 -- 
-2.20.1
+Best regards,
+Jacek Anaszewski
