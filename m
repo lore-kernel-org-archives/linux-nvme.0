@@ -1,74 +1,106 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Mon, 12 Aug 2019 11:30:39 -0600
-Subject: [PATCH v3 05/14] PCI/P2PDMA: Apply host bridge whitelist for ACS
+Date: Mon, 12 Aug 2019 11:30:35 -0600
+Subject: [PATCH v3 01/14] PCI/P2PDMA: Introduce private pagemap structure
 In-Reply-To: <20190812173048.9186-1-logang@deltatee.com>
 References: <20190812173048.9186-1-logang@deltatee.com>
-Message-ID: <20190812173048.9186-6-logang@deltatee.com>
+Message-ID: <20190812173048.9186-2-logang@deltatee.com>
 
-When a P2PDMA transfer is rejected due to ACS being set, we can also check
-the whitelist and allow the transactions.
+Move the PCI bus offset from the generic dev_pagemap structure to a
+specific pci_p2pdma_pagemap structure.
 
-Do this by pushing the whitelist check into the upstream_bridge_distance()
-function.
+This structure will grow in subsequent patches.
 
-Link: https://lore.kernel.org/r/20190730163545.4915-6-logang at deltatee.com
+Link: https://lore.kernel.org/r/20190730163545.4915-2-logang at deltatee.com
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 Signed-off-by: Bjorn Helgaas <bhelgaas at google.com>
-Reviewed-by: Christian K?nig <christian.koenig at amd.com>
 ---
- drivers/pci/p2pdma.c | 26 ++++++++++++++------------
- 1 file changed, 14 insertions(+), 12 deletions(-)
+ drivers/pci/p2pdma.c     | 26 ++++++++++++++++++++------
+ include/linux/memremap.h |  1 -
+ 2 files changed, 20 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-index 600ba6a7aa11..f7f7e5862bab 100644
+index 234476226529..03e9c887bdfb 100644
 --- a/drivers/pci/p2pdma.c
 +++ b/drivers/pci/p2pdma.c
-@@ -339,15 +339,7 @@ __upstream_bridge_distance(struct pci_dev *provider, struct pci_dev *client,
- 	if (dist)
- 		*dist = dist_a + dist_b;
+@@ -25,6 +25,16 @@ struct pci_p2pdma {
+ 	bool p2pmem_published;
+ };
  
--	/*
--	 * Allow the connection if both devices are on a whitelisted root
--	 * complex, but add an arbitrary large value to the distance.
--	 */
--	if (root_complex_whitelist(provider) &&
--	    root_complex_whitelist(client))
--		return PCI_P2PDMA_MAP_THRU_HOST_BRIDGE;
--
--	return PCI_P2PDMA_MAP_NOT_SUPPORTED;
-+	return PCI_P2PDMA_MAP_THRU_HOST_BRIDGE;
- 
- check_b_path_acs:
- 	bb = b;
-@@ -371,7 +363,7 @@ __upstream_bridge_distance(struct pci_dev *provider, struct pci_dev *client,
- 		if (acs_redirects)
- 			*acs_redirects = true;
- 
--		return PCI_P2PDMA_MAP_NOT_SUPPORTED;
-+		return PCI_P2PDMA_MAP_THRU_HOST_BRIDGE;
++struct pci_p2pdma_pagemap {
++	struct dev_pagemap pgmap;
++	u64 bus_offset;
++};
++
++static struct pci_p2pdma_pagemap *to_p2p_pgmap(struct dev_pagemap *pgmap)
++{
++	return container_of(pgmap, struct pci_p2pdma_pagemap, pgmap);
++}
++
+ static ssize_t size_show(struct device *dev, struct device_attribute *attr,
+ 			 char *buf)
+ {
+@@ -135,6 +145,7 @@ static int pci_p2pdma_setup(struct pci_dev *pdev)
+ int pci_p2pdma_add_resource(struct pci_dev *pdev, int bar, size_t size,
+ 			    u64 offset)
+ {
++	struct pci_p2pdma_pagemap *p2p_pgmap;
+ 	struct dev_pagemap *pgmap;
+ 	void *addr;
+ 	int error;
+@@ -157,14 +168,17 @@ int pci_p2pdma_add_resource(struct pci_dev *pdev, int bar, size_t size,
+ 			return error;
  	}
  
- 	return PCI_P2PDMA_MAP_BUS_ADDR;
-@@ -420,8 +412,18 @@ static enum pci_p2pdma_map_type
- upstream_bridge_distance(struct pci_dev *provider, struct pci_dev *client,
- 		int *dist, bool *acs_redirects, struct seq_buf *acs_list)
- {
--	return __upstream_bridge_distance(provider, client, dist,
--					  acs_redirects, acs_list);
-+	enum pci_p2pdma_map_type map_type;
+-	pgmap = devm_kzalloc(&pdev->dev, sizeof(*pgmap), GFP_KERNEL);
+-	if (!pgmap)
++	p2p_pgmap = devm_kzalloc(&pdev->dev, sizeof(*p2p_pgmap), GFP_KERNEL);
++	if (!p2p_pgmap)
+ 		return -ENOMEM;
 +
-+	map_type = __upstream_bridge_distance(provider, client, dist,
-+					      acs_redirects, acs_list);
++	pgmap = &p2p_pgmap->pgmap;
+ 	pgmap->res.start = pci_resource_start(pdev, bar) + offset;
+ 	pgmap->res.end = pgmap->res.start + size - 1;
+ 	pgmap->res.flags = pci_resource_flags(pdev, bar);
+ 	pgmap->type = MEMORY_DEVICE_PCI_P2PDMA;
+-	pgmap->pci_p2pdma_bus_offset = pci_bus_address(pdev, bar) -
 +
-+	if (map_type == PCI_P2PDMA_MAP_THRU_HOST_BRIDGE) {
-+		if (!root_complex_whitelist(provider) ||
-+		    !root_complex_whitelist(client))
-+			return PCI_P2PDMA_MAP_NOT_SUPPORTED;
-+	}
-+
-+	return map_type;
- }
++	p2p_pgmap->bus_offset = pci_bus_address(pdev, bar) -
+ 		pci_resource_start(pdev, bar);
  
- static enum pci_p2pdma_map_type
+ 	addr = devm_memremap_pages(&pdev->dev, pgmap);
+@@ -720,7 +734,7 @@ EXPORT_SYMBOL_GPL(pci_p2pmem_publish);
+ int pci_p2pdma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
+ 		      enum dma_data_direction dir)
+ {
+-	struct dev_pagemap *pgmap;
++	struct pci_p2pdma_pagemap *p2p_pgmap;
+ 	struct scatterlist *s;
+ 	phys_addr_t paddr;
+ 	int i;
+@@ -736,10 +750,10 @@ int pci_p2pdma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
+ 		return 0;
+ 
+ 	for_each_sg(sg, s, nents, i) {
+-		pgmap = sg_page(s)->pgmap;
++		p2p_pgmap = to_p2p_pgmap(sg_page(s)->pgmap);
+ 		paddr = sg_phys(s);
+ 
+-		s->dma_address = paddr - pgmap->pci_p2pdma_bus_offset;
++		s->dma_address = paddr - p2p_pgmap->bus_offset;
+ 		sg_dma_len(s) = s->length;
+ 	}
+ 
+diff --git a/include/linux/memremap.h b/include/linux/memremap.h
+index f8a5b2a19945..b459518ce475 100644
+--- a/include/linux/memremap.h
++++ b/include/linux/memremap.h
+@@ -112,7 +112,6 @@ struct dev_pagemap {
+ 	struct device *dev;
+ 	enum memory_type type;
+ 	unsigned int flags;
+-	u64 pci_p2pdma_bus_offset;
+ 	const struct dev_pagemap_ops *ops;
+ };
+ 
 -- 
 2.20.1
