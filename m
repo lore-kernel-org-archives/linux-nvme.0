@@ -1,92 +1,48 @@
-From: tom.leiming@gmail.com (Ming Lei)
-Date: Mon, 12 Aug 2019 13:06:49 +0800
-Subject: [PATCH 1/2] genirq/affinity: improve __irq_build_affinity_masks()
-In-Reply-To: <CACVXFVMT=rkZC7LwK5quXgudS7fb7bQ_LunA1tEE-Z-9s1uvaA@mail.gmail.com>
-References: <20190809102310.27246-1-ming.lei@redhat.com>
- <20190809102310.27246-2-ming.lei@redhat.com>
- <20190809144204.GA28515@localhost.localdomain>
- <CACVXFVMT=rkZC7LwK5quXgudS7fb7bQ_LunA1tEE-Z-9s1uvaA@mail.gmail.com>
-Message-ID: <CACVXFVNMu3tnEgi0+jcdgv5CD-ZAy7xnff4GxpPrVaKDh_fULA@mail.gmail.com>
+From: hare@suse.de (Hannes Reinecke)
+Date: Mon, 12 Aug 2019 09:51:47 +0200
+Subject: [PATCHv3] nvme: Return BLK_STS_TARGET if the DNR bit is set
+Message-ID: <20190812075147.79598-1-hare@suse.de>
 
-On Sat, Aug 10, 2019@7:05 AM Ming Lei <tom.leiming@gmail.com> wrote:
->
-> On Fri, Aug 9, 2019@10:44 PM Keith Busch <kbusch@kernel.org> wrote:
-> >
-> > On Fri, Aug 09, 2019@06:23:09PM +0800, Ming Lei wrote:
-> > > One invariant of __irq_build_affinity_masks() is that all CPUs in the
-> > > specified masks( cpu_mask AND node_to_cpumask for each node) should be
-> > > covered during the spread. Even though all requested vectors have been
-> > > reached, we still need to spread vectors among left CPUs. The similar
-> > > policy has been taken in case of 'numvecs <= nodes'.
-> > >
-> > > So remove the following check inside the loop:
-> > >
-> > >       if (done >= numvecs)
-> > >               break;
-> > >
-> > > Meantime assign at least 1 vector for left nodes if 'numvecs' vectors
-> > > have been spread.
-> > >
-> > > Also, if the specified cpumask for one numa node is empty, simply not
-> > > spread vectors on this node.
-> > >
-> > > Cc: Christoph Hellwig <hch at lst.de>
-> > > Cc: Keith Busch <kbusch at kernel.org>
-> > > Cc: linux-nvme at lists.infradead.org,
-> > > Cc: Jon Derrick <jonathan.derrick at intel.com>
-> > > Signed-off-by: Ming Lei <ming.lei at redhat.com>
-> > > ---
-> > >  kernel/irq/affinity.c | 33 +++++++++++++++++++++------------
-> > >  1 file changed, 21 insertions(+), 12 deletions(-)
-> > >
-> > > diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
-> > > index 6fef48033f96..bc3652a2c61b 100644
-> > > --- a/kernel/irq/affinity.c
-> > > +++ b/kernel/irq/affinity.c
-> > > @@ -129,21 +129,32 @@ static int __irq_build_affinity_masks(unsigned int startvec,
-> > >       for_each_node_mask(n, nodemsk) {
-> > >               unsigned int ncpus, v, vecs_to_assign, vecs_per_node;
-> > >
-> > > -             /* Spread the vectors per node */
-> > > -             vecs_per_node = (numvecs - (curvec - firstvec)) / nodes;
-> > > -
-> > >               /* Get the cpus on this node which are in the mask */
-> > >               cpumask_and(nmsk, cpu_mask, node_to_cpumask[n]);
-> > > -
-> > > -             /* Calculate the number of cpus per vector */
-> > >               ncpus = cpumask_weight(nmsk);
-> > > +             if (!ncpus)
-> > > +                     continue;
-> >
-> > This shouldn't be possible, right? The nodemsk we're looping  wouldn't
-> > have had that node set if no CPUs intersect the node_to_cpu_mask for
-> > that node, so the resulting cpumask should always have a non-zero weight.
->
->      cpumask_and(nmsk, cpu_mask, node_to_cpumask[n]);
->
-> It is often true, see the following cases:
->
-> 1) all CPUs in one node are not present
->
-> OR
->
-> 2) all CPUs in one node are present
->
-> >
-> > > @@ -153,16 +164,14 @@ static int __irq_build_affinity_masks(unsigned int startvec,
-> > >                       }
-> > >                       irq_spread_init_one(&masks[curvec].mask, nmsk,
-> > >                                               cpus_per_vec);
-> > > +                     if (++curvec >= last_affv)
-> > > +                             curvec = firstvec;
-> >
-> > I'm not so sure about wrapping the vector to share it across nodes. We
->
-> The wrapping is always there, not added by this patch.
+If the DNR bit is set we should not retry the command, even if
+the standard status evaluation indicates so.
 
-We could avoid the wrapping completely given 'numvecs' > 'nodes', and
-it can be done by sorting each node's nr_cpus, will do it in V2.
+Signed-off-by: Hannes Reinecke <hare at suse.com>
+---
+ drivers/nvme/host/core.c | 21 +++++++++++++--------
+ 1 file changed, 13 insertions(+), 8 deletions(-)
 
-
-Thanks,
-Ming Lei
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index cc09b81fc7f4..5e1309709917 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -267,15 +267,20 @@ void nvme_complete_rq(struct request *req)
+ 	if (nvme_req(req)->ctrl->kas)
+ 		nvme_req(req)->ctrl->comp_seen = true;
+ 
+-	if (unlikely(status != BLK_STS_OK && nvme_req_needs_retry(req))) {
+-		if ((req->cmd_flags & REQ_NVME_MPATH) &&
+-		    blk_path_error(status)) {
+-			nvme_failover_req(req);
+-			return;
++	if (unlikely(status != BLK_STS_OK)) {
++		if (nvme_req_needs_retry(req)) {
++			if ((req->cmd_flags & REQ_NVME_MPATH) &&
++			    blk_path_error(status)) {
++				nvme_failover_req(req);
++				return;
++			}
++			if (!blk_queue_dying(req->q)) {
++				nvme_retry_req(req);
++				return;
++			}
+ 		}
+-
+-		if (!blk_queue_dying(req->q)) {
+-			nvme_retry_req(req);
++		if (nvme_req(req)->status & NVME_SC_DNR) {
++			blk_mq_end_request(req, BLK_STS_TARGET);
+ 			return;
+ 		}
+ 	}
+-- 
+2.16.4
