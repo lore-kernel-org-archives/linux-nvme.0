@@ -1,35 +1,65 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 13 Aug 2019 09:37:07 -0700
-Subject: [PATCHv3] nvme: Return BLK_STS_TARGET if the DNR bit is set
-In-Reply-To: <20190813141510.GB32686@localhost.localdomain>
-References: <20190812075147.79598-1-hare@suse.de>
- <a8b400cf-94ef-a4a1-e196-a74e115357ea@intel.com>
- <1f2025d7-b79e-ad46-df73-66fdff1b5f28@grimberg.me>
- <20190813141510.GB32686@localhost.localdomain>
-Message-ID: <5c6ec6e6-d2ae-2e3b-0adc-e30cbcce528b@grimberg.me>
+Date: Tue, 13 Aug 2019 09:40:04 -0700
+Subject: [PATCH 1/5] nvme-fabrics: Add type of service (TOS) configuration
+In-Reply-To: <1565702251-17198-3-git-send-email-israelr@mellanox.com>
+References: <1565702251-17198-1-git-send-email-israelr@mellanox.com>
+ <1565702251-17198-3-git-send-email-israelr@mellanox.com>
+Message-ID: <7054c205-5490-9329-8dc9-8c0bbb78e4d7@grimberg.me>
 
 
-> We need to override the default nvme_error_status() to BLK_STS_TARGET
-> when DNR is set to prevent upper layers from their own retries/failover.
-> I suggested adding that check in the existing unlikely() case, but maybe
-> it's more obvious if we teach nvme_error_status() to default to return
-> BLK_STS_TARGET for this condition?
+> TOS is user-defined and needs to be configured via nvme-cli.
+> It must be set before initiating any traffic and once set the TOS
+> cannot be changed.
 > 
+> Signed-off-by: Israel Rukshin <israelr at mellanox.com>
+> Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
 > ---
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 8f3fbe5ca937..50adcdde44d5 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -199,6 +199,9 @@ static inline bool nvme_ns_has_pi(struct nvme_ns *ns)
+>   drivers/nvme/host/fabrics.c | 16 +++++++++++++++-
+>   drivers/nvme/host/fabrics.h |  3 +++
+>   2 files changed, 18 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+> index 1994d5b..9e9ee07 100644
+> --- a/drivers/nvme/host/fabrics.c
+> +++ b/drivers/nvme/host/fabrics.c
+> @@ -611,6 +611,7 @@ bool __nvmf_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
+>   	{ NVMF_OPT_DATA_DIGEST,		"data_digest"		},
+>   	{ NVMF_OPT_NR_WRITE_QUEUES,	"nr_write_queues=%d"	},
+>   	{ NVMF_OPT_NR_POLL_QUEUES,	"nr_poll_queues=%d"	},
+> +	{ NVMF_OPT_TOS,			"tos=%d"		},
+>   	{ NVMF_OPT_ERR,			NULL			}
+>   };
 >   
->   static blk_status_t nvme_error_status(struct request *req)
->   {
-> +	if (unlikely(nvme_req(req)->status & NVME_SC_DNR))
-> +		return BLK_STS_TARGET;
-> +
->   	switch (nvme_req(req)->status & 0x7ff) {
->   	case NVME_SC_SUCCESS:
->   		return BLK_STS_OK;
-> --
+> @@ -632,6 +633,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+>   	opts->duplicate_connect = false;
+>   	opts->hdr_digest = false;
+>   	opts->data_digest = false;
+> +	opts->tos = -1; /* < 0 == use transport default */
+>   
+>   	options = o = kstrdup(buf, GFP_KERNEL);
+>   	if (!options)
+> @@ -856,6 +858,18 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+>   			}
+>   			opts->nr_poll_queues = token;
+>   			break;
+> +		case NVMF_OPT_TOS:
+> +			if (match_int(args, &token)) {
+> +				ret = -EINVAL;
+> +				goto out;
+> +			}
+> +			if (token < 0 || token > 255) {
+> +				pr_err("Invalid type of service %d\n", token);
+> +				ret = -EINVAL;
+> +				goto out;
+> +			}
+> +			opts->tos = token;
+> +			break;
 
-Makes sense to me, Hannes does this address your issue?
+If we treat it like a transport agnostic parameter, we should handle
+these limits in the individual transports. Also I think we can simply
+clamp down tos>255 (we can still fail negative tos here though).
+
+James, Christoph, Keith,
+
+What do you think, do we want to start individual transport parameters
+support like James suggested?
