@@ -1,24 +1,30 @@
-From: dwagner@suse.de (Daniel Wagner)
-Date: Tue, 13 Aug 2019 11:34:27 +0200
-Subject: [PATCH V3 3/3] genirq/affinity: Spread vectors on node according
- to nr_cpu ratio
-In-Reply-To: <20190813081447.1396-4-ming.lei@redhat.com>
-References: <20190813081447.1396-1-ming.lei@redhat.com>
- <20190813081447.1396-4-ming.lei@redhat.com>
-Message-ID: <7579c5b8-3992-e685-d559-98e9b0f7baad@suse.de>
+From: pavel@ucw.cz (Pavel Machek)
+Date: Tue, 13 Aug 2019 12:11:50 +0200
+Subject: [PATCH v3 1/6] block: umem: rename LED_* macros to MEMCTRL_LED_*
+In-Reply-To: <1565459703-30513-2-git-send-email-akinobu.mita@gmail.com>
+References: <1565459703-30513-1-git-send-email-akinobu.mita@gmail.com>
+ <1565459703-30513-2-git-send-email-akinobu.mita@gmail.com>
+Message-ID: <20190813101150.GA26337@amd>
 
-Hi,
-
-On 8/13/19 10:14 AM, Ming Lei wrote:
-> Now __irq_build_affinity_masks() spreads vectors evenly per node, and
-> all vectors may not be spread in case that each numa node has different
-> CPU number, then the following warning in irq_build_affinity_masks() can
-> be triggered:
+On Sun 2019-08-11 02:54:58, Akinobu Mita wrote:
+> The umem driver defines LED_* macros for MEMCTRLCMD_LEDCTRL register
+> values.  The LED_OFF and LED_ON macros conflict with the LED subsystem's
+> LED_OFF and LED_ON enums.
 > 
-> 	if (nr_present < numvecs)
-> 		WARN_ON(nr_present + nr_others < numvecs);
+> This renames these LED_* macros to MEMCTRL_LED_* in umem driver.
+> 
+> Cc: Frank Steiner <fsteiner-mail1 at bio.ifi.lmu.de>
+> Cc: Jacek Anaszewski <jacek.anaszewski at gmail.com>
 
-Is this the warning which is changed in patch #1?
+Acked-by: Pavel Machek <pavel at ucw.cz>
 
-Thanks,
-Daniel
+-- 
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 181 bytes
+Desc: Digital signature
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20190813/9f14a906/attachment.sig>
