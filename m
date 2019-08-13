@@ -1,58 +1,52 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 12 Aug 2019 23:43:04 -0700
-Subject: [PATCH v6 7/7] nvme: fix ns removal hang when failing to revalidate
- due to a transient error
-In-Reply-To: <20190813064304.7344-1-sagi@grimberg.me>
+From: hare@suse.de (Hannes Reinecke)
+Date: Tue, 13 Aug 2019 09:09:44 +0200
+Subject: [PATCH v6 2/7] nvme: return a proper status for sync commands
+ failure
+In-Reply-To: <20190813064304.7344-3-sagi@grimberg.me>
 References: <20190813064304.7344-1-sagi@grimberg.me>
-Message-ID: <20190813064304.7344-8-sagi@grimberg.me>
+ <20190813064304.7344-3-sagi@grimberg.me>
+Message-ID: <83640ee9-15c4-2e00-c7c5-39fe3db58b88@suse.de>
 
-If a controller reset is racing with a namespace revalidation, the
-revalidation (admin) I/O will surely fail, but we should not remove the
-namespace as we will execute the I/O when the controller is back up.
-Same for spurious allocation errors (return -ENOMEM).
-
-Fix this by checking the specific error code that revalidate_disk
-returns, and if it is a transient error (for example ENOLINK correlates
-to BLK_STS_TRANSPORT or ENOMEM correlates to BLK_STS_RESOURCE or an
-allocation failure), do not remove the namespace as it will either
-recover when the controller is back up and schedule a subsequent scan,
-or the controller is going away and the namespaces will be removed anyways.
-
-This fixes a hang namespace scanning racing with a controller reset and
-also sporious I/O errors in path failover coditions where the
-controller reset is racing with the namespace scan work with multipath
-enabled.
-
-Reported-by: Hannes Reinecke  <hare at suse.de>
+On 8/13/19 8:42 AM, Sagi Grimberg wrote:
+> callers should not rely on raw nvme status, instead return
+> is more appropriate blk_status_t.
+> 
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> ---
+>  drivers/nvme/host/core.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 867c8977eb3e..f9bc10407f1b 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -774,7 +774,7 @@ static void nvme_execute_rq_polled(struct request_queue *q,
+>  
+>  /*
+>   * Returns 0 on success.  If the result is negative, it's a Linux error code;
+> - * if the result is positive, it's an NVM Express status code
+> + * if the result is positive, it's a blk_status_t status code
+>   */
+>  int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+>  		union nvme_result *result, void *buffer, unsigned bufflen,
+> @@ -805,7 +805,7 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+>  	if (nvme_req(req)->flags & NVME_REQ_CANCELLED)
+>  		ret = -EINTR;
+>  	else
+> -		ret = nvme_req(req)->status;
+> +		ret = nvme_error_status(req);
+>   out:
+>  	blk_mq_free_request(req);
+>  	return ret;
+> 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/host/core.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 10e237f80800..ce93fbebff61 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3457,8 +3457,17 @@ static void nvme_validate_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 
- 	ns = nvme_find_get_ns(ctrl, nsid);
- 	if (ns) {
--		if (ns->disk && revalidate_disk(ns->disk))
--			nvme_ns_remove(ns);
-+		if (ns->disk) {
-+			int ret = revalidate_disk(ns->disk);
-+
-+			/*
-+			 * remove the ns only if the return status is
-+			 * not a temporal execution error.
-+			 */
-+			if (ret && ret != -ENOLINK && ret != -ENOMEM &&
-+			    ret != -EAGAIN && ret != -EBUSY)
-+				nvme_ns_remove(ns);
-+		}
- 		nvme_put_ns(ns);
- 	} else
- 		nvme_alloc_ns(ctrl, nsid);
+Cheers,
+
+Hannes
 -- 
-2.17.1
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
+HRB 21284 (AG N?rnberg)
