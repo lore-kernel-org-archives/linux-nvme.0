@@ -1,19 +1,22 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 13 Aug 2019 19:08:50 +0200
-Subject: [PATCHv3] nvme: Return BLK_STS_TARGET if the DNR bit is set
-In-Reply-To: <955adc31-6d46-3187-54ac-8d342c117bf8@suse.de>
-References: <20190812075147.79598-1-hare@suse.de>
- <20190813170144.GA10269@lst.de>
- <955adc31-6d46-3187-54ac-8d342c117bf8@suse.de>
-Message-ID: <20190813170850.GA10538@lst.de>
+From: james.smart@broadcom.com (James Smart)
+Date: Tue, 13 Aug 2019 10:55:22 -0700
+Subject: [PATCH 1/5] nvme-fabrics: Add type of service (TOS) configuration
+In-Reply-To: <7054c205-5490-9329-8dc9-8c0bbb78e4d7@grimberg.me>
+References: <1565702251-17198-1-git-send-email-israelr@mellanox.com>
+ <1565702251-17198-3-git-send-email-israelr@mellanox.com>
+ <7054c205-5490-9329-8dc9-8c0bbb78e4d7@grimberg.me>
+Message-ID: <16b420a0-8766-6135-6a88-f8408cc67673@broadcom.com>
 
-On Tue, Aug 13, 2019@07:03:35PM +0200, Hannes Reinecke wrote:
-> That was my worry, too.
-> But I wasn't sure if that was the direction we should be going.
-> Personally, I'd be more than happy to add a flag for non-retryable errors.
+
+
+On 8/13/2019 9:40 AM, Sagi Grimberg wrote:
+> James, Christoph, Keith,
 >
-> Let's see how it would look like ...
+> What do you think, do we want to start individual transport parameters
+> support like James suggested?
 
-Can you start by explaining what the actual problem is, e.g. what
-you are doing, what the expected and what the actual behavior is.
-That also belongs into the commit log.
+As 2 of the 3 nvmeof transports can use it - global parameter seems fine.
+
+I may revisit it on some things I have upcoming.
+
+-- james
