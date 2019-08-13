@@ -1,105 +1,297 @@
-From: israelr@mellanox.com (Israel Rukshin)
-Date: Tue, 13 Aug 2019 16:17:29 +0300
-Subject: [PATCH 3/5] nvme-tcp: Use struct nvme_ctrl directly
-In-Reply-To: <1565702251-17198-1-git-send-email-israelr@mellanox.com>
-References: <1565702251-17198-1-git-send-email-israelr@mellanox.com>
-Message-ID: <1565702251-17198-5-git-send-email-israelr@mellanox.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Tue, 13 Aug 2019 21:25:36 +0800
+Subject: [PATCH V2 2/3] genirq/affinity: Spread vectors on node according
+ to nr_cpu ratio
+In-Reply-To: <20190813092651.GA30205@ming.t460p>
+References: <20190812095709.25623-1-ming.lei@redhat.com>
+ <20190812095709.25623-3-ming.lei@redhat.com>
+ <20190812152718.GA32550@localhost.localdomain>
+ <20190813074112.GA8610@ming.t460p>
+ <20190813092651.GA30205@ming.t460p>
+Message-ID: <20190813132530.GA30599@ming.t460p>
 
-This patch doesn't change any functionality.
+On Tue, Aug 13, 2019@05:26:51PM +0800, Ming Lei wrote:
+> On Tue, Aug 13, 2019@03:41:12PM +0800, Ming Lei wrote:
+> > On Mon, Aug 12, 2019@09:27:18AM -0600, Keith Busch wrote:
+> > > On Mon, Aug 12, 2019@05:57:08PM +0800, Ming Lei wrote:
+> > > > Now __irq_build_affinity_masks() spreads vectors evenly per node, and
+> > > > all vectors may not be spread in case that each numa node has different
+> > > > CPU number, then the following warning in irq_build_affinity_masks() can
+> > > > be triggered:
+> > > > 
+> > > > 	if (nr_present < numvecs)
+> > > > 		WARN_ON(nr_present + nr_others < numvecs);
+> > > > 
+> > > > Improve current spreading algorithm by assigning vectors according to
+> > > > the ratio of node's nr_cpu to nr_remaining_cpus, meantime running the
+> > > > assignment from smaller nodes to bigger nodes to guarantee that every
+> > > > active node gets allocated at least one vector, then we can avoid
+> > > > cross-node spread.
+> > > > 
+> > > > Meantime the reported warning can be fixed.
+> > > > 
+> > > > Another big goodness is that the spread approach becomes more fair if
+> > > > node has different CPU number.
+> > > > 
+> > > > For example, on the following machine:
+> > > > 	[root at ktest-01 ~]# lscpu
+> > > > 	...
+> > > > 	CPU(s):              16
+> > > > 	On-line CPU(s) list: 0-15
+> > > > 	Thread(s) per core:  1
+> > > > 	Core(s) per socket:  8
+> > > > 	Socket(s):           2
+> > > > 	NUMA node(s):        2
+> > > > 	...
+> > > > 	NUMA node0 CPU(s):   0,1,3,5-9,11,13-15
+> > > > 	NUMA node1 CPU(s):   2,4,10,12
+> > > > 
+> > > > When driver requests to allocate 8 vectors, the following spread can
+> > > > be got:
+> > > > 	irq 31, cpu list 2,4
+> > > > 	irq 32, cpu list 10,12
+> > > > 	irq 33, cpu list 0-1
+> > > > 	irq 34, cpu list 3,5
+> > > > 	irq 35, cpu list 6-7
+> > > > 	irq 36, cpu list 8-9
+> > > > 	irq 37, cpu list 11,13
+> > > > 	irq 38, cpu list 14-15
+> > > > 
+> > > > Without this patch, kernel warning is triggered on above situation, and
+> > > > allocation result was supposed to be 4 vectors for each node.
+> > > > 
+> > > > Cc: Christoph Hellwig <hch at lst.de>
+> > > > Cc: Keith Busch <kbusch at kernel.org>
+> > > > Cc: linux-nvme at lists.infradead.org,
+> > > > Cc: Jon Derrick <jonathan.derrick at intel.com>
+> > > > Cc: Jens Axboe <axboe at kernel.dk>
+> > > > Reported-by: Jon Derrick <jonathan.derrick at intel.com>
+> > > > Signed-off-by: Ming Lei <ming.lei at redhat.com>
+> > > > ---
+> > > >  kernel/irq/affinity.c | 141 +++++++++++++++++++++++++++++++++++-------
+> > > >  1 file changed, 117 insertions(+), 24 deletions(-)
+> > > > 
+> > > > diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
+> > > > index c7cca942bd8a..927dcbe80482 100644
+> > > > --- a/kernel/irq/affinity.c
+> > > > +++ b/kernel/irq/affinity.c
+> > > > @@ -7,6 +7,7 @@
+> > > >  #include <linux/kernel.h>
+> > > >  #include <linux/slab.h>
+> > > >  #include <linux/cpu.h>
+> > > > +#include <linux/sort.h>
+> > > >  
+> > > >  static void irq_spread_init_one(struct cpumask *irqmsk, struct cpumask *nmsk,
+> > > >  				unsigned int cpus_per_vec)
+> > > > @@ -94,6 +95,87 @@ static int get_nodes_in_cpumask(cpumask_var_t *node_to_cpumask,
+> > > >  	return nodes;
+> > > >  }
+> > > >  
+> > > > +struct node_nr_vectors {
+> > > > +	unsigned n;
+> > > > +
+> > > > +	union {
+> > > > +		unsigned nvectors;
+> > > > +		unsigned ncpus;
+> > > > +	};
+> > > > +};
+> > > > +
+> > > > +static int ncpus_cmp_func(const void *l, const void *r)
+> > > > +{
+> > > > +	const struct node_nr_vectors *ln = l;
+> > > > +	const struct node_nr_vectors *rn = r;
+> > > > +
+> > > > +	if (ln->ncpus < rn->ncpus)
+> > > > +		return -1;
+> > > > +	if (ln->ncpus > rn->ncpus)
+> > > > +		return 1;
+> > > > +	return 0;
+> > > 
+> > > You can collapse these to one line:
+> > > 
+> > > 	return ln->ncpus - rn->ncpus;
+> > 
+> > OK.
+> > 
+> > > 
+> > > > +}
+> > > > +
+> > > > +static void alloc_nodes_vectors(unsigned int numvecs,
+> > > > +				const cpumask_var_t *node_to_cpumask,
+> > > > +				const struct cpumask *cpu_mask,
+> > > > +				const nodemask_t nodemsk,
+> > > > +				struct cpumask *nmsk,
+> > > > +				struct node_nr_vectors *node_vectors)
+> > > > +{
+> > > > +	unsigned remaining_ncpus = 0;
+> > > > +	unsigned n;
+> > > > +
+> > > > +	for (n = 0; n < nr_node_ids; n++) {
+> > > > +		node_vectors[n].n = n;
+> > > > +		node_vectors[n].ncpus = UINT_MAX;
+> > > > +	}
+> > > > +
+> > > > +	for_each_node_mask(n, nodemsk) {
+> > > > +		unsigned ncpus;
+> > > > +
+> > > > +		cpumask_and(nmsk, cpu_mask, node_to_cpumask[n]);
+> > > > +		ncpus = cpumask_weight(nmsk);
+> > > > +
+> > > > +		if (!ncpus)
+> > > > +			continue;
+> > > > +		remaining_ncpus += ncpus;
+> > > > +		node_vectors[n].ncpus = ncpus;
+> > > > +	}
+> > > > +
+> > > > +	sort(node_vectors, nr_node_ids, sizeof(node_vectors[0]),
+> > > > +	     ncpus_cmp_func, NULL);
+> > > > +
+> > > > +	/*
+> > > > +	 * Allocate vectors for each node according to the ratio of this
+> > > > +	 * node's nr_cpus to remaining un-assigned ncpus. 'numvecs' is
+> > > > +	 * bigger than number of active numa nodes. Always start the
+> > > > +	 * allocation from the node with minimized nr_cpus.
+> > > > +	 *
+> > > > +	 * This way guarantees that each active node gets allocated at
+> > > > +	 * least one vector, and the theory is simple: over-allocation
+> > > > +	 * is only done when this node is assigned by one vector, so
+> > > > +	 * other nodes will be allocated >= 1 vector, since 'numvecs' is
+> > > > +	 * bigger than number of numa nodes.
+> > > > +	 */
+> > > > +	for (n = 0; n < nr_node_ids; n++) {
+> > > > +		unsigned nvectors, ncpus;
+> > > > +
+> > > > +		if (node_vectors[n].ncpus == UINT_MAX)
+> > > > +			continue;
+> > > > +
+> > > > +		WARN_ON_ONCE(numvecs == 0);
+> > > > +
+> > > > +		ncpus = node_vectors[n].ncpus;
+> > > > +		nvectors = max_t(unsigned, 1,
+> > > > +				 numvecs * ncpus / remaining_ncpus);
+> > > > +
+> > > > +		node_vectors[n].nvectors = nvectors;
+> > > > +		remaining_ncpus -= ncpus;
+> > > > +		numvecs -= nvectors;
+> > > > +	}
+> > > 
+> > > This looks good to me.
+> > > 
+> > > > +}
+> > > > +
+> > > >  static int __irq_build_affinity_masks(unsigned int startvec,
+> > > >  				      unsigned int numvecs,
+> > > >  				      unsigned int firstvec,
+> > > > @@ -102,10 +184,11 @@ static int __irq_build_affinity_masks(unsigned int startvec,
+> > > >  				      struct cpumask *nmsk,
+> > > >  				      struct irq_affinity_desc *masks)
+> > > >  {
+> > > > -	unsigned int n, nodes, cpus_per_vec, extra_vecs, done = 0;
+> > > > +	unsigned int i, n, nodes, cpus_per_vec, extra_vecs, done = 0;
+> > > >  	unsigned int last_affv = firstvec + numvecs;
+> > > >  	unsigned int curvec = startvec;
+> > > >  	nodemask_t nodemsk = NODE_MASK_NONE;
+> > > > +	struct node_nr_vectors *node_vectors;
+> > > >  
+> > > >  	if (!cpumask_weight(cpu_mask))
+> > > >  		return 0;
+> > > > @@ -126,8 +209,23 @@ static int __irq_build_affinity_masks(unsigned int startvec,
+> > > >  		return numvecs;
+> > > >  	}
+> > > >  
+> > > > -	for_each_node_mask(n, nodemsk) {
+> > > > -		unsigned int ncpus, v, vecs_to_assign, vecs_per_node;
+> > > > +	node_vectors = kcalloc(nr_node_ids,
+> > > > +			       sizeof(struct node_nr_vectors),
+> > > > +			       GFP_KERNEL);
+> > > > +	if (!node_vectors)
+> > > > +		return 0;
+> > > 
+> > > I think we need to get this -ENOMEM condition back to the caller and
+> > > have that condition handled.
+> > 
+> > Good point.
+> > 
+> > > 
+> > > > @@ -165,13 +250,21 @@ static int __irq_build_affinity_masks(unsigned int startvec,
+> > > >  			}
+> > > >  			irq_spread_init_one(&masks[curvec].mask, nmsk,
+> > > >  						cpus_per_vec);
+> > > > +			/*
+> > > > +			 * alloc_nodes_vectors() is intelligent enough to
+> > > > +			 * allocate vectors on all nodes, so wrapping
+> > > > +			 * shouldn't be triggered usually. However, if it
+> > > > +			 * happens when allocated vectors is bigger than
+> > > > +			 * node's CPU number becasue of round down, wraps
+> > > > +			 * to the first vector allocated for this node, then
+> > > > +			 * cross-node spread can be avoided.
+> > > > +			 */
+> > > > +			if (curvec >= last_affv)
+> > > > +				curvec -= v;
+> > > 
+> > > Could you explain again how this could happen? The round-down should mean we
+> > > apply a vector to more CPUs so that the number of vectors applied to a
+> > > node wthin the loop should never require wrapping to hit all those CPUs.
+> > > And if that's true, the check should probably be a warn because it
+> > > should never happen.
+> > 
+> > You are right.
+> > 
+> > We should simply spread from the 1st vector for this node if there is
+> > more vectors not done.
+> 
+> oops, the above approach is wrong, same with V3.
+> 
+> It should happen on just the node with max CPU count, then we can't
+> go ahead. There are more vectors than CPU count on this node, all
+> vectors have to be spread, each CPU can be assigned to only one vector.
+> 
+> However, can't observe such problem at all, I need to think about if
+> it is possible from viewpoint of math.
 
-Signed-off-by: Israel Rukshin <israelr at mellanox.com>
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
----
- drivers/nvme/host/tcp.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+Looks we can prove that vectors assigned to every node is <= nr_cpu of
+this node, see the following:
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 606b13d..feed0dc 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1255,7 +1255,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
- 	queue->queue_size = queue_size;
- 
- 	if (qid > 0)
--		queue->cmnd_capsule_len = ctrl->ctrl.ioccsz * 16;
-+		queue->cmnd_capsule_len = nctrl->ioccsz * 16;
- 	else
- 		queue->cmnd_capsule_len = sizeof(struct nvme_command) +
- 						NVME_TCP_ADMIN_CCSZ;
-@@ -1263,7 +1263,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
- 	ret = sock_create(ctrl->addr.ss_family, SOCK_STREAM,
- 			IPPROTO_TCP, &queue->sock);
- 	if (ret) {
--		dev_err(ctrl->ctrl.device,
-+		dev_err(nctrl->device,
- 			"failed to create socket: %d\n", ret);
- 		return ret;
- 	}
-@@ -1273,7 +1273,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
- 	ret = kernel_setsockopt(queue->sock, IPPROTO_TCP, TCP_SYNCNT,
- 			(char *)&opt, sizeof(opt));
- 	if (ret) {
--		dev_err(ctrl->ctrl.device,
-+		dev_err(nctrl->device,
- 			"failed to set TCP_SYNCNT sock opt %d\n", ret);
- 		goto err_sock;
- 	}
-@@ -1283,7 +1283,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
- 	ret = kernel_setsockopt(queue->sock, IPPROTO_TCP,
- 			TCP_NODELAY, (char *)&opt, sizeof(opt));
- 	if (ret) {
--		dev_err(ctrl->ctrl.device,
-+		dev_err(nctrl->device,
- 			"failed to set TCP_NODELAY sock opt %d\n", ret);
- 		goto err_sock;
- 	}
-@@ -1296,7 +1296,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
- 	ret = kernel_setsockopt(queue->sock, SOL_SOCKET, SO_LINGER,
- 			(char *)&sol, sizeof(sol));
- 	if (ret) {
--		dev_err(ctrl->ctrl.device,
-+		dev_err(nctrl->device,
- 			"failed to set SO_LINGER sock opt %d\n", ret);
- 		goto err_sock;
- 	}
-@@ -1314,11 +1314,11 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
- 	queue->pdu_offset = 0;
- 	sk_set_memalloc(queue->sock->sk);
- 
--	if (ctrl->ctrl.opts->mask & NVMF_OPT_HOST_TRADDR) {
-+	if (nctrl->opts->mask & NVMF_OPT_HOST_TRADDR) {
- 		ret = kernel_bind(queue->sock, (struct sockaddr *)&ctrl->src_addr,
- 			sizeof(ctrl->src_addr));
- 		if (ret) {
--			dev_err(ctrl->ctrl.device,
-+			dev_err(nctrl->device,
- 				"failed to bind queue %d socket %d\n",
- 				qid, ret);
- 			goto err_sock;
-@@ -1330,7 +1330,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
- 	if (queue->hdr_digest || queue->data_digest) {
- 		ret = nvme_tcp_alloc_crypto(queue);
- 		if (ret) {
--			dev_err(ctrl->ctrl.device,
-+			dev_err(nctrl->device,
- 				"failed to allocate queue %d crypto\n", qid);
- 			goto err_sock;
- 		}
-@@ -1344,13 +1344,13 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
- 		goto err_crypto;
- 	}
- 
--	dev_dbg(ctrl->ctrl.device, "connecting queue %d\n",
-+	dev_dbg(nctrl->device, "connecting queue %d\n",
- 			nvme_tcp_queue_id(queue));
- 
- 	ret = kernel_connect(queue->sock, (struct sockaddr *)&ctrl->addr,
- 		sizeof(ctrl->addr), 0);
- 	if (ret) {
--		dev_err(ctrl->ctrl.device,
-+		dev_err(nctrl->device,
- 			"failed to connect socket: %d\n", ret);
- 		goto err_rcv_pdu;
- 	}
--- 
-1.8.3.1
+1) suppose there are two nodes: A and B
+- ncpu(X) is CPU count of node X
+- vecs(X) is the vector count assigned to node X via this algorithm
+
+	ncpu(A) + ncpu(B) = N 
+	vecs(A) + vecs(B) = V
+	vecs(A) = round_down(ncpu(A) * V / N)
+	vecs(B) = V - vecs(A)
+
+N and V are integer, and 2 <= V <= N, suppose V = N - delta, then
+delta is still integer, and 0 <= delta <= N - 2 
+
+let's prove:
+	vecs(A) <= ncpu(A)
+	vecs(B) <= ncpu(B)
+
+2) prove vecs(A) <= ncpu(A)
+
+vecs(A) =
+	round_down(ncpu(A) * (N - delta) / N) =
+		ncpu(A) - round_down(cpu(A) * delta / N)
+
+so vecs(A) is <= ncpu(A)
+
+
+3) prove vecs(B) <= ncpu(B)
+
+vecs(B) = V - vecs(A)
+	N - delta - ncpu(A) + round_down(cpu(A) * delta / N) = 
+	ncpu(B) - delta + round_down(cpu(A) * delta / N) <=
+	ncpu(B) - delta + cpu(A) * delta / N = 
+	ncpu(B) - (1 - ncpu(A)/N) * delta <= ncpu(B)
+
+because (1 - ncpu(A)/N) is > 0, and delta >= 0 too.
+
+For nodes >= 3, it can be thought as one node and another big node given
+that is exactly what this algorithm is implemented('remaining_ncpus' and
+'numvecs' are updated in each loop), and finally for each node X, we can
+prove vecs(X) <= ncpu(X).
+
+
+thanks,
+Ming
