@@ -1,49 +1,65 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 12 Aug 2019 23:42:58 -0700
-Subject: [PATCH v6 1/7] nvme: fail cancelled commands with
- NVME_SC_HOST_PATH_ERROR
-In-Reply-To: <20190813064304.7344-1-sagi@grimberg.me>
-References: <20190813064304.7344-1-sagi@grimberg.me>
-Message-ID: <20190813064304.7344-2-sagi@grimberg.me>
+Date: Mon, 12 Aug 2019 23:42:57 -0700
+Subject: [PATCH v6 0/7] nvme controller reset and namespace scan work race
+ conditions
+Message-ID: <20190813064304.7344-1-sagi@grimberg.me>
 
-NVME_SC_ABORT_REQ means that the request was aborted due to
-an abort command received. In our case, this is a transport
-cancellation, so host pathing error is much more appropriate.
+Hey Hannes and Keith,
 
-Also, convert NVME_SC_HOST_PATH_ERROR to BLK_STS_TRANSPORT for
-such that callers can understand that the status is a transport
-related error. This will be used by the ns scanning code to
-understand if it got an error from the controller or that the
-controller happens to be unreachable by the transport.
+This series handles the reset and scanning race saga.
 
-Reviewed-by: Minwoo Im <minwoo.im.dev at gmail.com>
-Reviewed-by: Hannes Reinecke <hare at suse.com>
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/host/core.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+The approach is to have the relevant admin commands return a proper
+status code that reflects that we had a transport error and
+not remove the namepsace if that is indeed the case.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 6956041224ec..867c8977eb3e 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -228,6 +228,8 @@ static blk_status_t nvme_error_status(struct request *req)
- 		return BLK_STS_PROTECTION;
- 	case NVME_SC_RESERVATION_CONFLICT:
- 		return BLK_STS_NEXUS;
-+	case NVME_SC_HOST_PATH_ERROR:
-+		return BLK_STS_TRANSPORT;
- 	default:
- 		return BLK_STS_IOERR;
- 	}
-@@ -294,7 +296,7 @@ bool nvme_cancel_request(struct request *req, void *data, bool reserved)
- 	dev_dbg_ratelimited(((struct nvme_ctrl *) data)->device,
- 				"Cancelling I/O %d", req->tag);
- 
--	nvme_req(req)->status = NVME_SC_ABORT_REQ;
-+	nvme_req(req)->status = NVME_SC_HOST_PATH_ERROR;
- 	blk_mq_complete_request_sync(req);
- 	return true;
- }
+This should be a reliable way to know if the revalidate_disk failed
+due to a transport error or not.
+
+I am able to reproduce this race with the following command (using
+tcp/rdma):
+for j in `seq 50`; do nvme connect-all; for i in `seq 50`; do nvme reset /dev/nvme0; done ; nvme disconnect-all; done
+
+With this patch set (plus two more tcp/rdma transport specific patches
+that address a other issues) I was able to pass the test without
+reproducing the hang that you hannes reported.
+
+Changes from v5:
+- don't return blk_status_t from nvme_submit_user_cmd
+
+Changes from v4:
+- return nvme_error_status in __nvme_submit_sync_cmd and cast to
+  errno in nvme_identify_ns
+- modified status print in nvme_report_ns_ids
+
+Changes from v3:
+- return blk_status_to_errno instead of blk_status_t in sync cmds
+- check for normal return errno from revalidate_disk, this covers
+  transport errors, but also spurious allocation errors and any
+  type of transient errors.
+
+Changes from v2:
+- added fc patch from James (can you test please?)
+- made nvme_identify_ns return id or PTR_ERR (Hannes)
+
+Changes from v1:
+- different approach
+
+James Smart (1):
+  nvme-fc: Fail transport errors with NVME_SC_HOST_PATH
+
+Sagi Grimberg (6):
+  nvme: fail cancelled commands with NVME_SC_HOST_PATH_ERROR
+  nvme: return a proper status for sync commands failure
+  nvme: make nvme_identify_ns propagate errors back
+  nvme: make nvme_report_ns_ids propagate error back
+  nvme-tcp: fail command with NVME_SC_HOST_PATH_ERROR send failed
+  nvme: fix ns removal hang when failing to revalidate due to a
+    transient error
+
+ drivers/nvme/host/core.c | 60 ++++++++++++++++++++++++++++------------
+ drivers/nvme/host/fc.c   | 37 ++++++++++++++++++++-----
+ drivers/nvme/host/tcp.c  |  2 +-
+ 3 files changed, 74 insertions(+), 25 deletions(-)
+
 -- 
 2.17.1
