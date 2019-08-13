@@ -1,92 +1,58 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 12 Aug 2019 23:43:03 -0700
-Subject: [PATCH v6 6/7] nvme-fc: Fail transport errors with NVME_SC_HOST_PATH
+Date: Mon, 12 Aug 2019 23:43:04 -0700
+Subject: [PATCH v6 7/7] nvme: fix ns removal hang when failing to revalidate
+ due to a transient error
 In-Reply-To: <20190813064304.7344-1-sagi@grimberg.me>
 References: <20190813064304.7344-1-sagi@grimberg.me>
-Message-ID: <20190813064304.7344-7-sagi@grimberg.me>
+Message-ID: <20190813064304.7344-8-sagi@grimberg.me>
 
-From: James Smart <james.smart@broadcom.com>
+If a controller reset is racing with a namespace revalidation, the
+revalidation (admin) I/O will surely fail, but we should not remove the
+namespace as we will execute the I/O when the controller is back up.
+Same for spurious allocation errors (return -ENOMEM).
 
-NVME_SC_INTERNAL should indicate an internal controller errors
-and not host transport errors. These errors will propagate to
-upper layers (essentially nvme core) and be interpereted as
-transport errors which should not be taken into account for
-namespace state or condition.
+Fix this by checking the specific error code that revalidate_disk
+returns, and if it is a transient error (for example ENOLINK correlates
+to BLK_STS_TRANSPORT or ENOMEM correlates to BLK_STS_RESOURCE or an
+allocation failure), do not remove the namespace as it will either
+recover when the controller is back up and schedule a subsequent scan,
+or the controller is going away and the namespaces will be removed anyways.
 
+This fixes a hang namespace scanning racing with a controller reset and
+also sporious I/O errors in path failover coditions where the
+controller reset is racing with the namespace scan work with multipath
+enabled.
+
+Reported-by: Hannes Reinecke  <hare at suse.de>
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/fc.c | 37 ++++++++++++++++++++++++++++++-------
- 1 file changed, 30 insertions(+), 7 deletions(-)
+ drivers/nvme/host/core.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 3f3725d1eca1..c289f46f6d13 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -1608,9 +1608,13 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
- 				sizeof(op->rsp_iu), DMA_FROM_DEVICE);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 10e237f80800..ce93fbebff61 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3457,8 +3457,17 @@ static void nvme_validate_ns(struct nvme_ctrl *ctrl, unsigned nsid)
  
- 	if (opstate == FCPOP_STATE_ABORTED)
--		status = cpu_to_le16(NVME_SC_ABORT_REQ << 1);
--	else if (freq->status)
--		status = cpu_to_le16(NVME_SC_INTERNAL << 1);
-+		status = cpu_to_le16(NVME_SC_HOST_PATH_ERROR << 1);
-+	else if (freq->status) {
-+		status = cpu_to_le16(NVME_SC_HOST_PATH_ERROR << 1);
-+		dev_info(ctrl->ctrl.device,
-+			"NVME-FC{%d}: io failed due to lldd error %d\n",
-+			ctrl->cnum, freq->status);
-+	}
- 
- 	/*
- 	 * For the linux implementation, if we have an unsuccesful
-@@ -1637,8 +1641,13 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
- 		 * no payload in the CQE by the transport.
- 		 */
- 		if (freq->transferred_length !=
--			be32_to_cpu(op->cmd_iu.data_len)) {
--			status = cpu_to_le16(NVME_SC_INTERNAL << 1);
-+		    be32_to_cpu(op->cmd_iu.data_len)) {
-+			status = cpu_to_le16(NVME_SC_HOST_PATH_ERROR << 1);
-+			dev_info(ctrl->ctrl.device,
-+				"NVME-FC{%d}: io failed due to bad transfer "
-+				"length: %d vs expected %d\n",
-+				ctrl->cnum, freq->transferred_length,
-+				be32_to_cpu(op->cmd_iu.data_len));
- 			goto done;
- 		}
- 		result.u64 = 0;
-@@ -1655,7 +1664,17 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
- 					freq->transferred_length ||
- 			     op->rsp_iu.status_code ||
- 			     sqe->common.command_id != cqe->command_id)) {
--			status = cpu_to_le16(NVME_SC_INTERNAL << 1);
-+			status = cpu_to_le16(NVME_SC_HOST_PATH_ERROR << 1);
-+			dev_info(ctrl->ctrl.device,
-+				"NVME-FC{%d}: io failed due to bad NVMe_ERSP: "
-+				"iu len %d, xfr len %d vs %d, status code "
-+				"%d, cmdid %d vs %d\n",
-+				ctrl->cnum, be16_to_cpu(op->rsp_iu.iu_len),
-+				be32_to_cpu(op->rsp_iu.xfrd_len),
-+				freq->transferred_length,
-+				op->rsp_iu.status_code,
-+				sqe->common.command_id,
-+				cqe->command_id);
- 			goto done;
- 		}
- 		result = cqe->result;
-@@ -1663,7 +1682,11 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
- 		break;
- 
- 	default:
--		status = cpu_to_le16(NVME_SC_INTERNAL << 1);
-+		status = cpu_to_le16(NVME_SC_HOST_PATH_ERROR << 1);
-+		dev_info(ctrl->ctrl.device,
-+			"NVME-FC{%d}: io failed due to odd NVMe_xRSP iu "
-+			"len %d\n",
-+			ctrl->cnum, freq->rcv_rsplen);
- 		goto done;
- 	}
- 
+ 	ns = nvme_find_get_ns(ctrl, nsid);
+ 	if (ns) {
+-		if (ns->disk && revalidate_disk(ns->disk))
+-			nvme_ns_remove(ns);
++		if (ns->disk) {
++			int ret = revalidate_disk(ns->disk);
++
++			/*
++			 * remove the ns only if the return status is
++			 * not a temporal execution error.
++			 */
++			if (ret && ret != -ENOLINK && ret != -ENOMEM &&
++			    ret != -EAGAIN && ret != -EBUSY)
++				nvme_ns_remove(ns);
++		}
+ 		nvme_put_ns(ns);
+ 	} else
+ 		nvme_alloc_ns(ctrl, nsid);
 -- 
 2.17.1
