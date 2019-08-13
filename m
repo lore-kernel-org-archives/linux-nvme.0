@@ -1,52 +1,18 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 13 Aug 2019 18:56:58 +0200
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 13 Aug 2019 19:01:44 +0200
 Subject: [PATCHv3] nvme: Return BLK_STS_TARGET if the DNR bit is set
-In-Reply-To: <5c6ec6e6-d2ae-2e3b-0adc-e30cbcce528b@grimberg.me>
+In-Reply-To: <20190812075147.79598-1-hare@suse.de>
 References: <20190812075147.79598-1-hare@suse.de>
- <a8b400cf-94ef-a4a1-e196-a74e115357ea@intel.com>
- <1f2025d7-b79e-ad46-df73-66fdff1b5f28@grimberg.me>
- <20190813141510.GB32686@localhost.localdomain>
- <5c6ec6e6-d2ae-2e3b-0adc-e30cbcce528b@grimberg.me>
-Message-ID: <ceea7aaf-9537-ea19-8abe-bda525582170@suse.de>
+Message-ID: <20190813170144.GA10269@lst.de>
 
-On 8/13/19 6:37 PM, Sagi Grimberg wrote:
-> 
->> We need to override the default nvme_error_status() to BLK_STS_TARGET
->> when DNR is set to prevent upper layers from their own retries/failover.
->> I suggested adding that check in the existing unlikely() case, but maybe
->> it's more obvious if we teach nvme_error_status() to default to return
->> BLK_STS_TARGET for this condition?
->>
->> ---
->> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->> index 8f3fbe5ca937..50adcdde44d5 100644
->> --- a/drivers/nvme/host/core.c
->> +++ b/drivers/nvme/host/core.c
->> @@ -199,6 +199,9 @@ static inline bool nvme_ns_has_pi(struct nvme_ns *ns)
->> ? static blk_status_t nvme_error_status(struct request *req)
->> ? {
->> +??? if (unlikely(nvme_req(req)->status & NVME_SC_DNR))
->> +??????? return BLK_STS_TARGET;
->> +
->> ????? switch (nvme_req(req)->status & 0x7ff) {
->> ????? case NVME_SC_SUCCESS:
->> ????????? return BLK_STS_OK;
->> -- 
-> 
-> Makes sense to me, Hannes does this address your issue?
-Oh, yes, it does.
-I was slightly worried as we would override other non-retryable status 
-codes, but as there is no definite mapping which status codes are 
-retryable we can go with this one.
+On Mon, Aug 12, 2019@09:51:47AM +0200, Hannes Reinecke wrote:
+> If the DNR bit is set we should not retry the command, even if
+> the standard status evaluation indicates so.
 
-I'll be sending a patch.
+What problem is this even trying to solve?  Nothing in the
+documentation of BLK_STS_TARGET says it should be retried any more
+or less than other error code.
 
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke            Teamlead Storage & Networking
-hare at suse.de                              +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N?rnberg)
+If you really care about a retryable vs not retryable distinction
+at the block layer we need to propagate the equivalent of the DNR
+bit.
