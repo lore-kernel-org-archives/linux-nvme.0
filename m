@@ -1,125 +1,105 @@
 From: israelr@mellanox.com (Israel Rukshin)
-Date: Tue, 13 Aug 2019 16:17:26 +0300
-Subject: [PATCH] nvme-cli/fabrics: Add tos param to connect cmd
+Date: Tue, 13 Aug 2019 16:17:29 +0300
+Subject: [PATCH 3/5] nvme-tcp: Use struct nvme_ctrl directly
 In-Reply-To: <1565702251-17198-1-git-send-email-israelr@mellanox.com>
 References: <1565702251-17198-1-git-send-email-israelr@mellanox.com>
-Message-ID: <1565702251-17198-2-git-send-email-israelr@mellanox.com>
+Message-ID: <1565702251-17198-5-git-send-email-israelr@mellanox.com>
 
-Added 'tos' to 'connect' command so users can specify the type of service.
-
-usage examples:
-nvme connect --tos=0 --transport=rdma --traddr=10.0.1.1 --nqn=test-nvme
-nvme connect -T 0 -t rdma -a 10.0.1.1 -n test_nvme
+This patch doesn't change any functionality.
 
 Signed-off-by: Israel Rukshin <israelr at mellanox.com>
 Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
 ---
- fabrics.c | 33 ++++++++++++++++++++++++---------
- 1 file changed, 24 insertions(+), 9 deletions(-)
+ drivers/nvme/host/tcp.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/fabrics.c b/fabrics.c
-index 333669f..f952722 100644
---- a/fabrics.c
-+++ b/fabrics.c
-@@ -60,6 +60,7 @@ static struct config {
- 	int  keep_alive_tmo;
- 	int  reconnect_delay;
- 	int  ctrl_loss_tmo;
-+	int  tos;
- 	char *raw;
- 	char *device;
- 	int  duplicate_connect;
-@@ -576,11 +577,12 @@ add_bool_argument(char **argstr, int *max_len, char *arg_str, bool arg)
- }
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 606b13d..feed0dc 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1255,7 +1255,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
+ 	queue->queue_size = queue_size;
  
- static int
--add_int_argument(char **argstr, int *max_len, char *arg_str, int arg)
-+add_int_argument(char **argstr, int *max_len, char *arg_str, int arg,
-+		 bool allow_zero)
- {
- 	int len;
+ 	if (qid > 0)
+-		queue->cmnd_capsule_len = ctrl->ctrl.ioccsz * 16;
++		queue->cmnd_capsule_len = nctrl->ioccsz * 16;
+ 	else
+ 		queue->cmnd_capsule_len = sizeof(struct nvme_command) +
+ 						NVME_TCP_ADMIN_CCSZ;
+@@ -1263,7 +1263,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
+ 	ret = sock_create(ctrl->addr.ss_family, SOCK_STREAM,
+ 			IPPROTO_TCP, &queue->sock);
+ 	if (ret) {
+-		dev_err(ctrl->ctrl.device,
++		dev_err(nctrl->device,
+ 			"failed to create socket: %d\n", ret);
+ 		return ret;
+ 	}
+@@ -1273,7 +1273,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
+ 	ret = kernel_setsockopt(queue->sock, IPPROTO_TCP, TCP_SYNCNT,
+ 			(char *)&opt, sizeof(opt));
+ 	if (ret) {
+-		dev_err(ctrl->ctrl.device,
++		dev_err(nctrl->device,
+ 			"failed to set TCP_SYNCNT sock opt %d\n", ret);
+ 		goto err_sock;
+ 	}
+@@ -1283,7 +1283,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
+ 	ret = kernel_setsockopt(queue->sock, IPPROTO_TCP,
+ 			TCP_NODELAY, (char *)&opt, sizeof(opt));
+ 	if (ret) {
+-		dev_err(ctrl->ctrl.device,
++		dev_err(nctrl->device,
+ 			"failed to set TCP_NODELAY sock opt %d\n", ret);
+ 		goto err_sock;
+ 	}
+@@ -1296,7 +1296,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
+ 	ret = kernel_setsockopt(queue->sock, SOL_SOCKET, SO_LINGER,
+ 			(char *)&sol, sizeof(sol));
+ 	if (ret) {
+-		dev_err(ctrl->ctrl.device,
++		dev_err(nctrl->device,
+ 			"failed to set SO_LINGER sock opt %d\n", ret);
+ 		goto err_sock;
+ 	}
+@@ -1314,11 +1314,11 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
+ 	queue->pdu_offset = 0;
+ 	sk_set_memalloc(queue->sock->sk);
  
--	if (arg) {
-+	if ((arg && !allow_zero) || (arg != -1 && allow_zero)) {
- 		len = snprintf(*argstr, *max_len, ",%s=%d", arg_str, arg);
- 		if (len < 0)
- 			return -EINVAL;
-@@ -640,21 +642,23 @@ static int build_options(char *argstr, int max_len, bool discover)
- 		    add_argument(&argstr, &max_len, "hostid", cfg.hostid)) ||
- 	    (!discover &&
- 	      add_int_argument(&argstr, &max_len, "nr_io_queues",
--				cfg.nr_io_queues)) ||
-+				cfg.nr_io_queues, false)) ||
- 	    add_int_argument(&argstr, &max_len, "nr_write_queues",
--				cfg.nr_write_queues) ||
-+				cfg.nr_write_queues, false) ||
- 	    add_int_argument(&argstr, &max_len, "nr_poll_queues",
--				cfg.nr_poll_queues) ||
-+				cfg.nr_poll_queues, false) ||
- 	    (!discover &&
- 	      add_int_argument(&argstr, &max_len, "queue_size",
--				cfg.queue_size)) ||
-+				cfg.queue_size, false)) ||
- 	    (!discover &&
- 	      add_int_argument(&argstr, &max_len, "keep_alive_tmo",
--				cfg.keep_alive_tmo)) ||
-+				cfg.keep_alive_tmo, false)) ||
- 	    add_int_argument(&argstr, &max_len, "reconnect_delay",
--				cfg.reconnect_delay) ||
-+				cfg.reconnect_delay, false) ||
- 	    add_int_argument(&argstr, &max_len, "ctrl_loss_tmo",
--				cfg.ctrl_loss_tmo) ||
-+				cfg.ctrl_loss_tmo, false) ||
-+	    add_int_argument(&argstr, &max_len, "tos",
-+				cfg.tos, true) ||
- 	    add_bool_argument(&argstr, &max_len, "duplicate_connect",
- 				cfg.duplicate_connect) ||
- 	    add_bool_argument(&argstr, &max_len, "disable_sqflow",
-@@ -749,6 +753,13 @@ retry:
- 		p += len;
+-	if (ctrl->ctrl.opts->mask & NVMF_OPT_HOST_TRADDR) {
++	if (nctrl->opts->mask & NVMF_OPT_HOST_TRADDR) {
+ 		ret = kernel_bind(queue->sock, (struct sockaddr *)&ctrl->src_addr,
+ 			sizeof(ctrl->src_addr));
+ 		if (ret) {
+-			dev_err(ctrl->ctrl.device,
++			dev_err(nctrl->device,
+ 				"failed to bind queue %d socket %d\n",
+ 				qid, ret);
+ 			goto err_sock;
+@@ -1330,7 +1330,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
+ 	if (queue->hdr_digest || queue->data_digest) {
+ 		ret = nvme_tcp_alloc_crypto(queue);
+ 		if (ret) {
+-			dev_err(ctrl->ctrl.device,
++			dev_err(nctrl->device,
+ 				"failed to allocate queue %d crypto\n", qid);
+ 			goto err_sock;
+ 		}
+@@ -1344,13 +1344,13 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
+ 		goto err_crypto;
  	}
  
-+	if (cfg.tos != -1) {
-+		len = sprintf(p, ",tos=%d", cfg.tos);
-+		if (len < 0)
-+			return -EINVAL;
-+		p += len;
-+	}
-+
- 	if (cfg.keep_alive_tmo && !discover) {
- 		len = sprintf(p, ",keep_alive_tmo=%d", cfg.keep_alive_tmo);
- 		if (len < 0)
-@@ -1065,6 +1076,7 @@ int discover(const char *desc, int argc, char **argv, bool connect)
- 		{"keep-alive-tmo",  'k', "LIST", CFG_INT, &cfg.keep_alive_tmo,  required_argument, "keep alive timeout period in seconds" },
- 		{"reconnect-delay", 'c', "LIST", CFG_INT, &cfg.reconnect_delay, required_argument, "reconnect timeout period in seconds" },
- 		{"ctrl-loss-tmo",   'l', "LIST", CFG_INT, &cfg.ctrl_loss_tmo,   required_argument, "controller loss timeout period in seconds" },
-+		{"tos",             'T', "LIST", CFG_INT, &cfg.tos,             required_argument, "type of service" },
- 		{"hdr_digest", 'g', "", CFG_NONE, &cfg.hdr_digest, no_argument, "enable transport protocol header digest (TCP transport)" },
- 		{"data_digest", 'G', "", CFG_NONE, &cfg.data_digest, no_argument, "enable transport protocol data digest (TCP transport)" },
- 		{"nr-io-queues",    'i', "LIST", CFG_INT, &cfg.nr_io_queues,    required_argument, "number of io queues to use (default is core count)" },
-@@ -1076,6 +1088,7 @@ int discover(const char *desc, int argc, char **argv, bool connect)
- 		{NULL},
- 	};
+-	dev_dbg(ctrl->ctrl.device, "connecting queue %d\n",
++	dev_dbg(nctrl->device, "connecting queue %d\n",
+ 			nvme_tcp_queue_id(queue));
  
-+	cfg.tos = -1;
- 	ret = argconfig_parse(argc, argv, desc, command_line_options, &cfg,
- 			sizeof(cfg));
- 	if (ret)
-@@ -1122,6 +1135,7 @@ int connect(const char *desc, int argc, char **argv)
- 		{"keep-alive-tmo",  'k', "LIST", CFG_INT, &cfg.keep_alive_tmo,  required_argument, "keep alive timeout period in seconds" },
- 		{"reconnect-delay", 'c', "LIST", CFG_INT, &cfg.reconnect_delay, required_argument, "reconnect timeout period in seconds" },
- 		{"ctrl-loss-tmo",   'l', "LIST", CFG_INT, &cfg.ctrl_loss_tmo,   required_argument, "controller loss timeout period in seconds" },
-+		{"tos",             'T', "LIST", CFG_INT, &cfg.tos,             required_argument, "type of service" },
- 		{"duplicate_connect", 'D', "", CFG_NONE, &cfg.duplicate_connect, no_argument, "allow duplicate connections between same transport host and subsystem port" },
- 		{"disable_sqflow", 'd', "", CFG_NONE, &cfg.disable_sqflow, no_argument, "disable controller sq flow control (default false)" },
- 		{"hdr_digest", 'g', "", CFG_NONE, &cfg.hdr_digest, no_argument, "enable transport protocol header digest (TCP transport)" },
-@@ -1129,6 +1143,7 @@ int connect(const char *desc, int argc, char **argv)
- 		{NULL},
- 	};
- 
-+	cfg.tos = -1;
- 	ret = argconfig_parse(argc, argv, desc, command_line_options, &cfg,
- 			sizeof(cfg));
- 	if (ret)
+ 	ret = kernel_connect(queue->sock, (struct sockaddr *)&ctrl->addr,
+ 		sizeof(ctrl->addr), 0);
+ 	if (ret) {
+-		dev_err(ctrl->ctrl.device,
++		dev_err(nctrl->device,
+ 			"failed to connect socket: %d\n", ret);
+ 		goto err_rcv_pdu;
+ 	}
 -- 
 1.8.3.1
