@@ -1,52 +1,32 @@
-From: kbusch@kernel.org (Keith Busch)
-Date: Wed, 14 Aug 2019 10:27:54 -0600
-Subject: [PATCH] nvme: Use first ctrl->instance id as subsystem id
-In-Reply-To: <abfc4bd0-f4f0-5655-81ee-ec32d3516f35@canonical.com>
-References: <20190814142836.2322-1-gpiccoli@canonical.com>
- <20190814160640.GA3256@localhost.localdomain>
- <abfc4bd0-f4f0-5655-81ee-ec32d3516f35@canonical.com>
-Message-ID: <20190814162754.GB3256@localhost.localdomain>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Wed, 14 Aug 2019 10:59:44 -0600
+Subject: [PATCH v7 03/14] nvmet: add return value to
+ nvmet_add_async_event()
+In-Reply-To: <9bb2966a-0d7c-a492-7628-37916a941cfb@mellanox.com>
+References: <20190801234514.7941-1-logang@deltatee.com>
+ <20190801234514.7941-4-logang@deltatee.com>
+ <9bb2966a-0d7c-a492-7628-37916a941cfb@mellanox.com>
+Message-ID: <f83cacb8-de44-05b9-dfbc-73e1d5ed02e2@deltatee.com>
 
-On Wed, Aug 14, 2019@09:18:22AM -0700, Guilherme G. Piccoli wrote:
-> On 14/08/2019 13:06, Keith Busch wrote:
-> > On Wed, Aug 14, 2019@07:28:36AM -0700, Guilherme G. Piccoli wrote:
-> >>[...]
-> > 
-> > The subsystem lifetime is not tied to a single controller's. Disconnect
-> > the "first" controller in a multipathed subsystem with this patch, then
-> > connect another controller from a different subsystem, and now you will
-> > create naming collisions.
-> > 
+
+
+On 2019-08-14 8:26 a.m., Max Gurtovoy wrote:
 > 
-> Hi Keith, thanks for your clarification. Isn't the controller id unique?
-> Could the new connected controller from a different subsystem have the
-> same id? If you can give a rough example I appreciate.
+> On 8/2/2019 2:45 AM, Logan Gunthorpe wrote:
+>> From: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+>>
+>> Change the return value for nvmet_add_async_event().
+>>
+>> This change is needed for the target passthru code to generate async
+>> events.
+> 
+> As a stand alone commit it's not clear what is the purpose of it.
+> 
+> Please add some extra explanation in the commit message.
+> 
+> Also better to use integer as return value if the return value should
+> reflect return code.
 
-Sure, start with nvme subsystem A, with host connected to to
-controllers, X and Y.
+Thanks for the Review, Max. I'll queue up these changes for v8.
 
- ctrl X gets instance 0, which you assign to the newly discovered
- subsytem
-
- ctrl Y gets instance 1
-
- disconnect ctrl X, which releases instance 0 back to the allocator
-
- connect to a new ctrl Z in new subsystem B: ctrl Z gets the first
- available instance, which is now 0, and you assign that name to the new
- susbystem, colliding with the sysfs nvme-subsys entries we've created
- for subsys A, as well as any namespaces.
- 
-> But given the above statement is a fact, what do you think of trying the
-> ctrl->instance first and in case we have duplicity, fallback to
-> subsystem ID allocator?
-
-At the point we assign the subsystem identifier, we're locked into using
-that for the namespace names, which may be discovered long before we're
-aware the host has multiple connections to the same subsystem.
-
-I think it'd be better to just completely disassociate any notion of
-relationships based on names. The following patch enforces that way of
-thinking:
-
-  http://lists.infradead.org/pipermail/linux-nvme/2019-May/024142.html
+Logan
