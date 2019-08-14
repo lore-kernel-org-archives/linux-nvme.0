@@ -1,71 +1,60 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Wed, 14 Aug 2019 16:58:46 +0800
-Subject: [PATCH V3 1/3] genirq/affinity: Enhance warning check
-In-Reply-To: <ac920ba3996d0feedc924045b54724ba5482e427.camel@intel.com>
-References: <20190813081447.1396-1-ming.lei@redhat.com>
- <20190813081447.1396-2-ming.lei@redhat.com>
- <ac920ba3996d0feedc924045b54724ba5482e427.camel@intel.com>
-Message-ID: <20190814085845.GA21802@ming.t460p>
+From: israelr@mellanox.com (Israel Rukshin)
+Date: Wed, 14 Aug 2019 13:19:38 +0300
+Subject: [PATCH 2/5] nvme-rdma: Add TOS for rdma transport
+In-Reply-To: <1565777981-18755-1-git-send-email-israelr@mellanox.com>
+References: <1565777981-18755-1-git-send-email-israelr@mellanox.com>
+Message-ID: <1565777981-18755-4-git-send-email-israelr@mellanox.com>
 
-On Tue, Aug 13, 2019@07:31:39PM +0000, Derrick, Jonathan wrote:
-> Hi Ming,
-> 
-> On Tue, 2019-08-13@16:14 +0800, Ming Lei wrote:
-> > The two-stage spread is done on same irq vectors, and we just need that
-> > either one stage covers all vector, not two stage work together to cover
-> > all vectors.
-> > 
-> > So enhance the warning check to make sure all vectors are spread.
-> > 
-> > Cc: Christoph Hellwig <hch at lst.de>
-> > Cc: Keith Busch <kbusch at kernel.org>
-> > Cc: linux-nvme at lists.infradead.org,
-> > Cc: Jon Derrick <jonathan.derrick at intel.com>
-> > Cc: Jens Axboe <axboe at kernel.dk>
-> > Fixes: 6da4b3ab9a6 ("genirq/affinity: Add support for allocating interrupt sets")
-> > Signed-off-by: Ming Lei <ming.lei at redhat.com>
-> > ---
-> >  kernel/irq/affinity.c | 3 +--
-> >  1 file changed, 1 insertion(+), 2 deletions(-)
-> > 
-> > diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
-> > index 6fef48033f96..265b3076f16b 100644
-> > --- a/kernel/irq/affinity.c
-> > +++ b/kernel/irq/affinity.c
-> > @@ -215,8 +215,7 @@ static int irq_build_affinity_masks(unsigned int startvec, unsigned int numvecs,
-> >  					       npresmsk, nmsk, masks);
-> >  	put_online_cpus();
-> >  
-> > -	if (nr_present < numvecs)
-> > -		WARN_ON(nr_present + nr_others < numvecs);
-> > +	WARN_ON(max(nr_present, nr_others) < numvecs);
-> 
-> I think the patch description assumes the first condition
-> "The two-stage spread is done on same irq vectors"
-> 
->     /*
->      * Spread on non present CPUs starting from the next vector to be
->      * handled. If the spreading of present CPUs already exhausted the
->      * vector space, assign the non present CPUs to the already spread
->      * out vectors.
->      */
->     if (nr_present >= numvecs)
->             curvec = firstvec;
-> 
-> But doesn't following condition imply nr_others spread is potentionally
-> different vector set?
-> 
->     else
->             curvec = firstvec + nr_present;
-> 
+For RDMA transports, TOS is an extension of IB QoS to provide clients
+the ability to segregate traffic flows for different type of data.
+RDMA CM abstract it for ULPs using rdma_set_service_type().
+Internally, each traffic flow is represented by a connection with all of
+its independent resources like that of a normal connection, and is
+differentiated by service type. In other words, there can be multiple qp
+connections between an IP pair and each supports a unique service type.
 
-Most times, __irq_build_affinity_masks() returns numvecs.
+One of the TOS usage is bandwidth management which allows setting bandwidth
+limits for QoS classes, e.g. 80% bandwidth to controllers at QoS class A
+and 20% to controllers at QoS class B.
 
-However, each stage may expose less CPU number than num_vecs, then less
-vectors than 'numvecs' can be spread.
+Note: In addition to the TOS configuration, QOS must be configured on the
+relevant HCA on the target (send RDMA commands) and initiator to effect
+the traffic.
 
-So this patch is actually wrong.
+usage example:
+nvme connect --tos=0 --transport=rdma --traddr=10.0.1.1 --nqn=test-nvme
 
+Signed-off-by: Israel Rukshin <israelr at mellanox.com>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/host/rdma.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Thank,
-Ming
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index a249db5..9fd3d33 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1541,16 +1541,18 @@ static int nvme_rdma_conn_rejected(struct nvme_rdma_queue *queue,
+ 
+ static int nvme_rdma_addr_resolved(struct nvme_rdma_queue *queue)
+ {
++	struct nvme_ctrl *ctrl = &queue->ctrl->ctrl;
+ 	int ret;
+ 
+ 	ret = nvme_rdma_create_queue_ib(queue);
+ 	if (ret)
+ 		return ret;
+ 
++	if (ctrl->opts->tos >= 0)
++		rdma_set_service_type(queue->cm_id, ctrl->opts->tos);
+ 	ret = rdma_resolve_route(queue->cm_id, NVME_RDMA_CONNECT_TIMEOUT_MS);
+ 	if (ret) {
+-		dev_err(queue->ctrl->ctrl.device,
+-			"rdma_resolve_route failed (%d).\n",
++		dev_err(ctrl->device, "rdma_resolve_route failed (%d).\n",
+ 			queue->cm_error);
+ 		goto out_destroy_queue;
+ 	}
+-- 
+1.8.3.1
