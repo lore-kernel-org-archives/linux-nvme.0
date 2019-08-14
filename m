@@ -1,53 +1,77 @@
-From: gpiccoli@canonical.com (Guilherme G. Piccoli)
-Date: Wed, 14 Aug 2019 11:26:10 -0300
-Subject: [PATCH] nvme: Fix cntlid validation when not using NVMEoF
-Message-ID: <20190814142610.2164-1-gpiccoli@canonical.com>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Wed, 14 Aug 2019 17:26:59 +0300
+Subject: [PATCH v7 03/14] nvmet: add return value to
+ nvmet_add_async_event()
+In-Reply-To: <20190801234514.7941-4-logang@deltatee.com>
+References: <20190801234514.7941-1-logang@deltatee.com>
+ <20190801234514.7941-4-logang@deltatee.com>
+Message-ID: <9bb2966a-0d7c-a492-7628-37916a941cfb@mellanox.com>
 
-Commit 1b1031ca63b2 ("nvme: validate cntlid during controller initialisation")
-introduced a validation for controllers with duplicate cntlid that runs
-on nvme_init_subsystem(). The problem is that the validation relies on
-ctrl->cntlid, and this value is assigned (from id_ctrl value) after the
-call for nvme_init_subsystem() in nvme_init_identify() for non-fabrics
-scenario. That leads to ctrl->cntlid always being 0 in case we have a
-physical set of controllers in the same subsystem.
 
-This patch fixes that by loading the discovered cntlid id_ctrl value into
-ctrl->cntlid before the subsystem initialization, only for the non-fabrics
-case. The patch was tested with emulated nvme devices (qemu) having two
-controllers in a single subsystem. Without the patch, we couldn't make
-it work failing in the duplicate check; when running with the patch, we
-could see the subsystem holding both controllers.
+On 8/2/2019 2:45 AM, Logan Gunthorpe wrote:
+> From: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+>
+> Change the return value for nvmet_add_async_event().
+>
+> This change is needed for the target passthru code to generate async
+> events.
 
-For the fabrics case we see ctrl->cntlid has a more intricate relation
-with the admin connect, so we didn't change that.
+As a stand alone commit it's not clear what is the purpose of it.
 
-Fixes: 1b1031ca63b2 ("nvme: validate cntlid during controller initialisation")
-Signed-off-by: Guilherme G. Piccoli <gpiccoli at canonical.com>
----
- drivers/nvme/host/core.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Please add some extra explanation in the commit message.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 8f3fbe5ca937..cca270836892 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2591,6 +2591,9 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
- 			goto out_free;
- 	}
- 
-+	if (!(ctrl->ops->flags & NVME_F_FABRICS))
-+		ctrl->cntlid = le16_to_cpu(id->cntlid);
-+
- 	if (!ctrl->identified) {
- 		int i;
- 
-@@ -2691,7 +2694,6 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
- 			goto out_free;
- 		}
- 	} else {
--		ctrl->cntlid = le16_to_cpu(id->cntlid);
- 		ctrl->hmpre = le32_to_cpu(id->hmpre);
- 		ctrl->hmmin = le32_to_cpu(id->hmmin);
- 		ctrl->hmminds = le32_to_cpu(id->hmminds);
--- 
-2.22.0
+Also better to use integer as return value if the return value should 
+reflect return code.
+
+
+> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+> [logang at deltatee.com: fixed up commit message that was no
+>   longer accurate]
+> Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
+> ---
+>   drivers/nvme/target/core.c  | 5 +++--
+>   drivers/nvme/target/nvmet.h | 2 +-
+>   2 files changed, 4 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+> index 3a67e244e568..f7f25bdc4763 100644
+> --- a/drivers/nvme/target/core.c
+> +++ b/drivers/nvme/target/core.c
+> @@ -173,14 +173,14 @@ static void nvmet_async_event_work(struct work_struct *work)
+>   	}
+>   }
+>   
+> -void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
+> +bool nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
+>   		u8 event_info, u8 log_page)
+>   {
+>   	struct nvmet_async_event *aen;
+>   
+>   	aen = kmalloc(sizeof(*aen), GFP_KERNEL);
+>   	if (!aen)
+> -		return;
+> +		return false;
+>   
+>   	aen->event_type = event_type;
+>   	aen->event_info = event_info;
+> @@ -191,6 +191,7 @@ void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
+>   	mutex_unlock(&ctrl->lock);
+>   
+>   	schedule_work(&ctrl->async_event_work);
+> +	return true;
+>   }
+>   
+>   static void nvmet_add_to_changed_ns_log(struct nvmet_ctrl *ctrl, __le32 nsid)
+> diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+> index c51f8dd01dc4..217a787952e8 100644
+> --- a/drivers/nvme/target/nvmet.h
+> +++ b/drivers/nvme/target/nvmet.h
+> @@ -441,7 +441,7 @@ void nvmet_port_disc_changed(struct nvmet_port *port,
+>   		struct nvmet_subsys *subsys);
+>   void nvmet_subsys_disc_changed(struct nvmet_subsys *subsys,
+>   		struct nvmet_host *host);
+> -void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
+> +bool nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
+>   		u8 event_info, u8 log_page);
+>   
+>   #define NVMET_QUEUE_SIZE	1024
