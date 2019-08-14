@@ -1,68 +1,89 @@
-From: Mario.Limonciello@dell.com (Mario.Limonciello@dell.com)
-Date: Wed, 14 Aug 2019 19:51:46 +0000
-Subject: [PATCH] nvme: Add quirk for LiteON CL1 devices running FW 22301111
-In-Reply-To: <20190814193132.GD3256@localhost.localdomain>
-References: <1565798749-15672-1-git-send-email-mario.limonciello@dell.com>
- <20190814193132.GD3256@localhost.localdomain>
-Message-ID: <3f5dec208f334839b56ae63bb1a3e6f3@AUSX13MPC105.AMER.DELL.COM>
+From: mario.limonciello@dell.com (Mario Limonciello)
+Date: Wed, 14 Aug 2019 15:08:24 -0500
+Subject: [PATCH v2] nvme: Add quirk for LiteON CL1 devices running FW 22301111
+Message-ID: <1565813304-16710-1-git-send-email-mario.limonciello@dell.com>
 
-> -----Original Message-----
-> From: Keith Busch <kbusch at kernel.org>
-> Sent: Wednesday, August 14, 2019 2:32 PM
-> To: Limonciello, Mario
-> Cc: Jens Axboe; Christoph Hellwig; Sagi Grimberg; linux-
-> nvme at lists.infradead.org; LKML; Hong, Ryan; Wang, Crag; sjg at google.com;
-> Hyde, Charles - Dell Team; Dominguez, Jared
-> Subject: Re: [PATCH] nvme: Add quirk for LiteON CL1 devices running FW
-> 22301111
-> 
-> 
-> [EXTERNAL EMAIL]
-> 
-> On Wed, Aug 14, 2019@09:05:49AM -0700, Mario Limonciello wrote:
-> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> > index 8f3fbe5..47c7754 100644
-> > --- a/drivers/nvme/host/core.c
-> > +++ b/drivers/nvme/host/core.c
-> > @@ -2251,6 +2251,29 @@ static const struct nvme_core_quirk_entry
-> core_quirks[] = {
-> >  		.vid = 0x1179,
-> >  		.mn = "THNSF5256GPUK TOSHIBA",
-> >  		.quirks = NVME_QUIRK_NO_APST,
-> > +	},
-> > +	/*
-> > +	 * This LiteON CL1 firmware version has a race condition associated with
-> > +	 * actions related to suspend to idle.  LiteON has resolved the problem
-> > +	 * in future firmware.
-> > +	 */
-> > +	{
-> > +		.vid = 0x14a4,
-> > +		.mn = "CL1-3D128-Q11 NVMe LITEON 128GB",
-> > +		.fr = "22301111",
-> > +		.quirks = NVME_QUIRK_SIMPLE_SUSPEND,
-> > +	},
-> > +	{
-> > +		.vid = 0x14a4,
-> > +		.mn = "CL1-3D256-Q11 NVMe LITEON 256GB",
-> > +		.fr = "22301111",
-> > +		.quirks = NVME_QUIRK_SIMPLE_SUSPEND,
-> > +	},
-> > +	{
-> > +		.vid = 0x14a4,
-> > +		.mn = "CL1-3D512-Q11 NVMe LITEON 512GB",
-> > +		.fr = "22301111",
-> > +		.quirks = NVME_QUIRK_SIMPLE_SUSPEND,
-> >  	}
-> >  };
-> 
-> Are there models from this vendor with this same 'fr' that don't need
-> this quirk? If not, you can leave .mn blank and just use a single entry.
+One of the components in LiteON CL1 device has limitations that
+can be encountered based upon boundary race conditions using the
+nvme bus specific suspend to idle flow.
 
-Yes, I confirmed this firmware version string is only used on the CL1 family
-of devices.
+When this situation occurs the drive doesn't resume properly from
+suspend-to-idle.
 
-I will send a v2 modifying this.  I also noticed that the
-(ndev->ctrl.quirks & NVME_QUIRK_SIMPLE_SUSPEND)
+LiteON has confirmed this problem and fixed in the next firmware
+version.  As this firmware is already in the field, avoid running
+nvme specific suspend to idle flow.
 
-is unnecessary in nvme_resume because ndev->last_ps is set to U32_MAX
-in nvme_suspend, so I will remove that second modification.
+Fixes: d916b1be94b6 ("nvme-pci: use host managed power state for suspend")
+Link: http://lists.infradead.org/pipermail/linux-nvme/2019-July/thread.html
+Signed-off-by: Mario Limonciello <mario.limonciello at dell.com>
+Signed-off-by: Charles Hyde <charles.hyde at dellteam.com>
+---
+ drivers/nvme/host/core.c | 10 ++++++++++
+ drivers/nvme/host/nvme.h |  5 +++++
+ drivers/nvme/host/pci.c  |  3 ++-
+ 3 files changed, 17 insertions(+), 1 deletion(-)
+
+This patch is the spiritual successor to the previously submitted
+patch "[PATCH] drivers/nvme: save/restore HMB on suspend/resume".
+
+After discussion with LiteON, they agreed to resolve the issue
+in their next firmware release.
+
+changes from v1:
+ * Group all 3 possible CL1 strings together
+ * Remove the resume code because it's
+   already implied by ndev->last_ps = U32_MAX
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 8f3fbe5..02770d6 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2251,6 +2251,16 @@ static const struct nvme_core_quirk_entry core_quirks[] = {
+ 		.vid = 0x1179,
+ 		.mn = "THNSF5256GPUK TOSHIBA",
+ 		.quirks = NVME_QUIRK_NO_APST,
++	},
++	/*
++	 * This LiteON CL1-3D*-Q11 firmware version has a race condition
++	 * associated with actions related to suspend to idle.  LiteON has
++	 * resolved the problem in future firmware.
++	 */
++	{
++		.vid = 0x14a4,
++		.fr = "22301111",
++		.quirks = NVME_QUIRK_SIMPLE_SUSPEND,
+ 	}
+ };
+ 
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 26b563f..fe1ca0d 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -92,6 +92,11 @@ enum nvme_quirks {
+ 	 * Broken Write Zeroes.
+ 	 */
+ 	NVME_QUIRK_DISABLE_WRITE_ZEROES		= (1 << 9),
++
++	/*
++	 * Force simple suspend/resume path.
++	 */
++	NVME_QUIRK_SIMPLE_SUSPEND		= (1 << 10),
+ };
+ 
+ /*
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 108e109..b366f54 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2875,7 +2875,8 @@ static int nvme_suspend(struct device *dev)
+ 	 * state (which may not be possible if the link is up).
+ 	 */
+ 	if (pm_suspend_via_firmware() || !ctrl->npss ||
+-	    !pcie_aspm_enabled(pdev)) {
++	    !pcie_aspm_enabled(pdev) ||
++	    (ndev->ctrl.quirks & NVME_QUIRK_SIMPLE_SUSPEND)) {
+ 		nvme_dev_disable(ndev, true);
+ 		return 0;
+ 	}
+-- 
+2.7.4
