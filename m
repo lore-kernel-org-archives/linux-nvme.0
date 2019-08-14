@@ -1,8 +1,11 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 14 Aug 2019 12:22:06 -0700
-Subject: [PATCH] nvme: Add quirk for LiteON CL1 devices running FW 22301111
-In-Reply-To: <1565798749-15672-1-git-send-email-mario.limonciello@dell.com>
-References: <1565798749-15672-1-git-send-email-mario.limonciello@dell.com>
-Message-ID: <4352c052-50f6-ed52-deef-69b321c4b61c@grimberg.me>
+Date: Wed, 14 Aug 2019 12:26:22 -0700
+Subject: [PATCH] nvme: Fix cntlid validation when not using NVMEoF
+In-Reply-To: <20190814142610.2164-1-gpiccoli@canonical.com>
+References: <20190814142610.2164-1-gpiccoli@canonical.com>
+Message-ID: <58533d94-1390-f21c-236a-d8f226499582@grimberg.me>
 
-Looks fine to me, Keith can we get a review from you?
+This looks fine, wonder how this wasn't detected before
+as this area was tested by Jon Derrick..
+
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
