@@ -1,28 +1,53 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Wed, 14 Aug 2019 17:20:51 +0300
-Subject: [PATCH v7 01/14] nvme-core: introduce nvme_ctrl_get_by_path()
-In-Reply-To: <20190801234514.7941-2-logang@deltatee.com>
-References: <20190801234514.7941-1-logang@deltatee.com>
- <20190801234514.7941-2-logang@deltatee.com>
-Message-ID: <e107b5f4-de8b-4dd1-2855-aa65e9f47376@mellanox.com>
+From: gpiccoli@canonical.com (Guilherme G. Piccoli)
+Date: Wed, 14 Aug 2019 11:26:10 -0300
+Subject: [PATCH] nvme: Fix cntlid validation when not using NVMEoF
+Message-ID: <20190814142610.2164-1-gpiccoli@canonical.com>
 
+Commit 1b1031ca63b2 ("nvme: validate cntlid during controller initialisation")
+introduced a validation for controllers with duplicate cntlid that runs
+on nvme_init_subsystem(). The problem is that the validation relies on
+ctrl->cntlid, and this value is assigned (from id_ctrl value) after the
+call for nvme_init_subsystem() in nvme_init_identify() for non-fabrics
+scenario. That leads to ctrl->cntlid always being 0 in case we have a
+physical set of controllers in the same subsystem.
 
-On 8/2/2019 2:45 AM, Logan Gunthorpe wrote:
-> nvme_ctrl_get_by_path() is analagous to blkdev_get_by_path() except it
-> gets a struct nvme_ctrl from the path to its char dev (/dev/nvme0).
-> It makes use of filp_open() to open the file and uses the private
-> data to obtain a pointer to the struct nvme_ctrl. If the fops of the
-> file do not match, -EINVAL is returned.
->
-> The purpose of this function is to support NVMe-OF target passthru.
->
-> Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
-> ---
->   drivers/nvme/host/core.c | 24 ++++++++++++++++++++++++
->   drivers/nvme/host/nvme.h |  2 ++
->   2 files changed, 26 insertions(+)
+This patch fixes that by loading the discovered cntlid id_ctrl value into
+ctrl->cntlid before the subsystem initialization, only for the non-fabrics
+case. The patch was tested with emulated nvme devices (qemu) having two
+controllers in a single subsystem. Without the patch, we couldn't make
+it work failing in the duplicate check; when running with the patch, we
+could see the subsystem holding both controllers.
 
+For the fabrics case we see ctrl->cntlid has a more intricate relation
+with the admin connect, so we didn't change that.
 
-Looks good,
+Fixes: 1b1031ca63b2 ("nvme: validate cntlid during controller initialisation")
+Signed-off-by: Guilherme G. Piccoli <gpiccoli at canonical.com>
+---
+ drivers/nvme/host/core.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 8f3fbe5ca937..cca270836892 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2591,6 +2591,9 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 			goto out_free;
+ 	}
+ 
++	if (!(ctrl->ops->flags & NVME_F_FABRICS))
++		ctrl->cntlid = le16_to_cpu(id->cntlid);
++
+ 	if (!ctrl->identified) {
+ 		int i;
+ 
+@@ -2691,7 +2694,6 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 			goto out_free;
+ 		}
+ 	} else {
+-		ctrl->cntlid = le16_to_cpu(id->cntlid);
+ 		ctrl->hmpre = le32_to_cpu(id->hmpre);
+ 		ctrl->hmmin = le32_to_cpu(id->hmmin);
+ 		ctrl->hmminds = le32_to_cpu(id->hmminds);
+-- 
+2.22.0
