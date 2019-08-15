@@ -1,68 +1,55 @@
 From: israelr@mellanox.com (Israel Rukshin)
-Date: Thu, 15 Aug 2019 16:33:44 +0300
-Subject: [PATCH 2/5] nvme-rdma: Add TOS for rdma transport
+Date: Thu, 15 Aug 2019 16:33:46 +0300
+Subject: [PATCH 4/5] nvme-tcp: Add TOS for tcp transport
 In-Reply-To: <1565876027-25092-1-git-send-email-israelr@mellanox.com>
 References: <1565876027-25092-1-git-send-email-israelr@mellanox.com>
-Message-ID: <1565876027-25092-4-git-send-email-israelr@mellanox.com>
+Message-ID: <1565876027-25092-6-git-send-email-israelr@mellanox.com>
 
-For RDMA transports, TOS is an extension of IB QoS to provide clients
-the ability to segregate traffic flows for different type of data.
-RDMA CM abstract it for ULPs using rdma_set_service_type().
-Internally, each traffic flow is represented by a connection with all of
-its independent resources like that of a normal connection, and is
-differentiated by service type. In other words, there can be multiple qp
-connections between an IP pair and each supports a unique service type.
-
+TOS provide clients the ability to segregate traffic flows for
+different type of data.
 One of the TOS usage is bandwidth management which allows setting bandwidth
 limits for QoS classes, e.g. 80% bandwidth to controllers at QoS class A
 and 20% to controllers at QoS class B.
 
-Note: In addition to the TOS configuration, QOS must be configured on the
-relevant HCA on the target (send RDMA commands) and initiator to effect
-the traffic.
-
 usage examples:
-nvme connect --tos=0 --transport=rdma --traddr=10.0.1.1 --nqn=test-nvme
+nvme connect --tos=0 --transport=tcp --traddr=10.0.1.1 --nqn=test-nvme
 
 Signed-off-by: Israel Rukshin <israelr at mellanox.com>
 Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
 ---
- drivers/nvme/host/rdma.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ drivers/nvme/host/tcp.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index a249db5..9b3fb4e 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1541,16 +1541,18 @@ static int nvme_rdma_conn_rejected(struct nvme_rdma_queue *queue,
- 
- static int nvme_rdma_addr_resolved(struct nvme_rdma_queue *queue)
- {
-+	struct nvme_ctrl *ctrl = &queue->ctrl->ctrl;
- 	int ret;
- 
- 	ret = nvme_rdma_create_queue_ib(queue);
- 	if (ret)
- 		return ret;
- 
-+	if (ctrl->opts->tos >= 0)
-+		rdma_set_service_type(queue->cm_id, ctrl->opts->tos);
- 	ret = rdma_resolve_route(queue->cm_id, NVME_RDMA_CONNECT_TIMEOUT_MS);
- 	if (ret) {
--		dev_err(queue->ctrl->ctrl.device,
--			"rdma_resolve_route failed (%d).\n",
-+		dev_err(ctrl->device, "rdma_resolve_route failed (%d).\n",
- 			queue->cm_error);
- 		goto out_destroy_queue;
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index feed0dc..f99301a 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1301,6 +1301,18 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
+ 		goto err_sock;
  	}
-@@ -2045,7 +2047,8 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
- 	.required_opts	= NVMF_OPT_TRADDR,
+ 
++	/* Set socket type of service */
++	if (nctrl->opts->tos >= 0) {
++		opt = nctrl->opts->tos;
++		ret = kernel_setsockopt(queue->sock, SOL_IP, IP_TOS,
++				(char *)&opt, sizeof(opt));
++		if (ret) {
++			dev_err(nctrl->device,
++				"failed to set IP_TOS sock opt %d\n", ret);
++			goto err_sock;
++		}
++	}
++
+ 	queue->sock->sk->sk_allocation = GFP_ATOMIC;
+ 	if (!qid)
+ 		n = 0;
+@@ -2314,7 +2326,7 @@ static struct nvme_ctrl *nvme_tcp_create_ctrl(struct device *dev,
  	.allowed_opts	= NVMF_OPT_TRSVCID | NVMF_OPT_RECONNECT_DELAY |
  			  NVMF_OPT_HOST_TRADDR | NVMF_OPT_CTRL_LOSS_TMO |
--			  NVMF_OPT_NR_WRITE_QUEUES | NVMF_OPT_NR_POLL_QUEUES,
-+			  NVMF_OPT_NR_WRITE_QUEUES | NVMF_OPT_NR_POLL_QUEUES |
-+			  NVMF_OPT_TOS,
- 	.create_ctrl	= nvme_rdma_create_ctrl,
+ 			  NVMF_OPT_HDR_DIGEST | NVMF_OPT_DATA_DIGEST |
+-			  NVMF_OPT_NR_WRITE_QUEUES,
++			  NVMF_OPT_NR_WRITE_QUEUES | NVMF_OPT_TOS,
+ 	.create_ctrl	= nvme_tcp_create_ctrl,
  };
  
 -- 
