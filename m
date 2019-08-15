@@ -1,65 +1,29 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Thu, 15 Aug 2019 07:15:04 +0000
-Subject: [PATCH v7 04/14] nvmet: make nvmet_copy_ns_identifier() non-static
-References: <20190801234514.7941-1-logang@deltatee.com>
- <20190801234514.7941-5-logang@deltatee.com>
- <43951ad9-873b-5bbe-b627-0ad4610fbb11@mellanox.com>
-Message-ID: <BYAPR04MB5749D194F4AD68F5A8CF0D5E86AC0@BYAPR04MB5749.namprd04.prod.outlook.com>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Thu, 15 Aug 2019 11:41:17 +0300
+Subject: [PATCH] nvme-cli/fabrics: Add tos param to connect cmd
+In-Reply-To: <33ddd40f-14a8-9506-01dc-65a049f8bb5f@grimberg.me>
+References: <1565777981-18755-1-git-send-email-israelr@mellanox.com>
+ <1565777981-18755-2-git-send-email-israelr@mellanox.com>
+ <33ddd40f-14a8-9506-01dc-65a049f8bb5f@grimberg.me>
+Message-ID: <a447b0ba-31ea-6a12-2fb4-6cef0b95da96@mellanox.com>
 
-On 8/14/19 7:30 AM, Max Gurtovoy wrote:
-> 
-> On 8/2/2019 2:45 AM, Logan Gunthorpe wrote:
->> This function will be needed by the upcoming passthru code.
-> 
-> Same here. As a standalone commit I can't take a lot from here.
-> 
-> Maybe should be squashed ?
 
-This commit changes the existing code which is independent of the
-passthru code which we are adding. For that reason I've made this
-standalone as it doesn't have direct modification from w.r.t passthru 
-code.
-
-Perhaps more documentation will make this clear.
-
-> 
-> 
+On 8/14/2019 8:08 PM, Sagi Grimberg wrote:
+>
+>> Added 'tos' to 'connect' command so users can specify the type of 
+>> service.
 >>
->> [chaitanya.kulkarni at wdc.com: this was factored out of a patch
->>    originally authored by Chaitanya]
->> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
->> Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
->> ---
->>    drivers/nvme/target/admin-cmd.c | 4 ++--
->>    drivers/nvme/target/nvmet.h     | 2 ++
->>    2 files changed, 4 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
->> index 4dc12ea52f23..eeb24f606d00 100644
->> --- a/drivers/nvme/target/admin-cmd.c
->> +++ b/drivers/nvme/target/admin-cmd.c
->> @@ -506,8 +506,8 @@ static void nvmet_execute_identify_nslist(struct nvmet_req *req)
->>    	nvmet_req_complete(req, status);
->>    }
->>    
->> -static u16 nvmet_copy_ns_identifier(struct nvmet_req *req, u8 type, u8 len,
->> -				    void *id, off_t *off)
->> +u16 nvmet_copy_ns_identifier(struct nvmet_req *req, u8 type, u8 len,
->> +			     void *id, off_t *off)
->>    {
->>    	struct nvme_ns_id_desc desc = {
->>    		.nidt = type,
->> diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
->> index 217a787952e8..d1a0a3190a24 100644
->> --- a/drivers/nvme/target/nvmet.h
->> +++ b/drivers/nvme/target/nvmet.h
->> @@ -489,6 +489,8 @@ u16 nvmet_bdev_flush(struct nvmet_req *req);
->>    u16 nvmet_file_flush(struct nvmet_req *req);
->>    void nvmet_ns_changed(struct nvmet_subsys *subsys, u32 nsid);
->>    
->> +u16 nvmet_copy_ns_identifier(struct nvmet_req *req, u8 type, u8 len,
->> +			     void *id, off_t *off);
->>    static inline u32 nvmet_rw_len(struct nvmet_req *req)
->>    {
->>    	return ((u32)le16_to_cpu(req->cmd->rw.length) + 1) <<
-> 
+>> usage examples:
+>> nvme connect --tos=0 --transport=rdma --traddr=10.0.1.1 --nqn=test-nvme
+>> nvme connect -T 0 -t rdma -a 10.0.1.1 -n test_nvme
+>
+> Still don't see how this is handled if the kernel does not support
+> tos yet.
+
+how any other feature we added to connect command will act with old 
+kernel ? (e.g. queue_size/nr_queues)
+
+it will fail to get token "token = match_token(p, opt_tokens, args);" 
+and return? -EINVAL.
+
+Israel checked that.
