@@ -1,74 +1,81 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Thu, 15 Aug 2019 11:54:28 +0300
-Subject: [PATCH 1/5] nvme-fabrics: Add type of service (TOS) configuration
-In-Reply-To: <6dc92c98-146e-206b-d3cb-127e5c7c3ac9@grimberg.me>
-References: <1565777981-18755-1-git-send-email-israelr@mellanox.com>
- <1565777981-18755-3-git-send-email-israelr@mellanox.com>
- <6dc92c98-146e-206b-d3cb-127e5c7c3ac9@grimberg.me>
-Message-ID: <e74e4c9e-7479-054b-fd6c-9641cf422494@mellanox.com>
+Date: Thu, 15 Aug 2019 14:46:35 +0300
+Subject: [PATCH v7 01/14] nvme-core: introduce nvme_ctrl_get_by_path()
+In-Reply-To: <20190801234514.7941-2-logang@deltatee.com>
+References: <20190801234514.7941-1-logang@deltatee.com>
+ <20190801234514.7941-2-logang@deltatee.com>
+Message-ID: <563baec2-61f6-5705-d751-1eee75370e66@mellanox.com>
 
 
-On 8/14/2019 8:06 PM, Sagi Grimberg wrote:
+On 8/2/2019 2:45 AM, Logan Gunthorpe wrote:
+> nvme_ctrl_get_by_path() is analagous to blkdev_get_by_path() except it
+> gets a struct nvme_ctrl from the path to its char dev (/dev/nvme0).
+> It makes use of filp_open() to open the file and uses the private
+> data to obtain a pointer to the struct nvme_ctrl. If the fops of the
+> file do not match, -EINVAL is returned.
 >
+> The purpose of this function is to support NVMe-OF target passthru.
 >
-> On 8/14/19 3:19 AM, Israel Rukshin wrote:
->> TOS is user-defined and needs to be configured via nvme-cli.
->> It must be set before initiating any traffic and once set the TOS
->> cannot be changed.
->>
->> Signed-off-by: Israel Rukshin <israelr at mellanox.com>
->> Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
->> ---
->> ? drivers/nvme/host/fabrics.c | 20 +++++++++++++++++++-
->> ? drivers/nvme/host/fabrics.h |? 3 +++
->> ? 2 files changed, 22 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
->> index 1994d5b..d343c22 100644
->> --- a/drivers/nvme/host/fabrics.c
->> +++ b/drivers/nvme/host/fabrics.c
->> @@ -611,6 +611,7 @@ bool __nvmf_check_ready(struct nvme_ctrl *ctrl, 
->> struct request *rq,
->> ????? { NVMF_OPT_DATA_DIGEST,??????? "data_digest"??????? },
->> ????? { NVMF_OPT_NR_WRITE_QUEUES,??? "nr_write_queues=%d"??? },
->> ????? { NVMF_OPT_NR_POLL_QUEUES,??? "nr_poll_queues=%d"??? },
->> +??? { NVMF_OPT_TOS,??????????? "tos=%d"??????? },
->> ????? { NVMF_OPT_ERR,??????????? NULL??????????? }
->> ? };
->> ? @@ -632,6 +633,7 @@ static int nvmf_parse_options(struct 
->> nvmf_ctrl_options *opts,
->> ????? opts->duplicate_connect = false;
->> ????? opts->hdr_digest = false;
->> ????? opts->data_digest = false;
->> +??? opts->tos = -1; /* < 0 == use transport default */
->> ? ????? options = o = kstrdup(buf, GFP_KERNEL);
->> ????? if (!options)
->> @@ -856,6 +858,22 @@ static int nvmf_parse_options(struct 
->> nvmf_ctrl_options *opts,
->> ????????????? }
->> ????????????? opts->nr_poll_queues = token;
->> ????????????? break;
->> +??????? case NVMF_OPT_TOS:
->> +??????????? if (match_int(args, &token)) {
->> +??????????????? ret = -EINVAL;
->> +??????????????? goto out;
->> +??????????? }
->> +??????????? if (token < 0) {
->> +??????????????? pr_err("Invalid type of service %d\n", token);
->> +??????????????? ret = -EINVAL;
->> +??????????????? goto out;
->> +??????????? }
->> +??????????? if (token > 255) {
->> +??????????????? pr_warn("Clamping type of service to 255\n");
->> +??????????????? token = 255;
->> +??????????? }
+> Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
+> ---
+>   drivers/nvme/host/core.c | 24 ++++++++++++++++++++++++
+>   drivers/nvme/host/nvme.h |  2 ++
+>   2 files changed, 26 insertions(+)
 >
-> Again, if tos is an abstract opaque, this needs to happen in the
-> individual transports, not in the generic part.
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index e6ee6f2a3da6..f72334f34a30 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -2817,6 +2817,30 @@ static const struct file_operations nvme_dev_fops = {
+>   	.compat_ioctl	= nvme_dev_ioctl,
+>   };
+>   
+> +struct nvme_ctrl *nvme_ctrl_get_by_path(const char *path)
+> +{
+> +	struct nvme_ctrl *ctrl;
+> +	struct file *f;
+> +
+> +	f = filp_open(path, O_RDWR, 0);
+> +	if (IS_ERR(f))
+> +		return ERR_CAST(f);
+> +
+> +	if (f->f_op != &nvme_dev_fops) {
+> +		ctrl = ERR_PTR(-EINVAL);
+> +		goto out_close;
+> +	}
 
-right, we'll add it to .allowed_opts in the rdma.c and tcp.c and remove 
-from NVMF_ALLOWED_OPTS in V4.
+Logan,
 
-We'll leave the parsing in the common code.
+this means that the PT is for nvme-pci and also nvme-fabrics as well.
 
--Max.
+Is this the intention ? or we want to restrict it to pci only.
+
+
+
+> +
+> +	ctrl = f->private_data;
+> +	nvme_get_ctrl(ctrl);
+> +
+> +out_close:
+> +	filp_close(f, NULL);
+> +
+> +	return ctrl;
+> +}
+> +EXPORT_SYMBOL_GPL(nvme_ctrl_get_by_path);
+> +
+>   static ssize_t nvme_sysfs_reset(struct device *dev,
+>   				struct device_attribute *attr, const char *buf,
+>   				size_t count)
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index ecbd90c31d0d..7e827c9e892c 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -484,6 +484,8 @@ int nvme_get_log(struct nvme_ctrl *ctrl, u32 nsid, u8 log_page, u8 lsp,
+>   extern const struct attribute_group *nvme_ns_id_attr_groups[];
+>   extern const struct block_device_operations nvme_ns_head_ops;
+>   
+> +struct nvme_ctrl *nvme_ctrl_get_by_path(const char *path);
+> +
+>   #ifdef CONFIG_NVME_MULTIPATH
+>   static inline bool nvme_ctrl_use_ana(struct nvme_ctrl *ctrl)
+>   {
