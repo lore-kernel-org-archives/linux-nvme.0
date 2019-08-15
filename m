@@ -1,30 +1,91 @@
-From: gpiccoli@canonical.com (Guilherme G. Piccoli)
-Date: Thu, 15 Aug 2019 10:01:43 -0300
-Subject: [PATCH] nvme: Use first ctrl->instance id as subsystem id
-In-Reply-To: <20190814190814.GC3256@localhost.localdomain>
-References: <20190814142836.2322-1-gpiccoli@canonical.com>
- <20190814160640.GA3256@localhost.localdomain>
- <abfc4bd0-f4f0-5655-81ee-ec32d3516f35@canonical.com>
- <20190814162754.GB3256@localhost.localdomain>
- <b5b471cc-8935-cf96-d55a-a7dc731cb0d6@canonical.com>
- <20190814190814.GC3256@localhost.localdomain>
-Message-ID: <9edcb6b3-806c-a422-8d44-c1ab49ce0b57@canonical.com>
+From: israelr@mellanox.com (Israel Rukshin)
+Date: Thu, 15 Aug 2019 16:33:43 +0300
+Subject: [PATCH 1/5] nvme-fabrics: Add type of service (TOS) configuration
+In-Reply-To: <1565876027-25092-1-git-send-email-israelr@mellanox.com>
+References: <1565876027-25092-1-git-send-email-israelr@mellanox.com>
+Message-ID: <1565876027-25092-3-git-send-email-israelr@mellanox.com>
 
-On 14/08/2019 16:08, Keith Busch wrote:
-> On Wed, Aug 14, 2019@11:29:17AM -0700, Guilherme G. Piccoli wrote:
->> It is a suggestion from my colleague Dan (CCed here), something like:
->> for non-multipath nvme, keep nvmeC and nvmeCnN (C=controller ida,
->> N=namespace); for multipath nvme, use nvmeScCnN (S=subsystem ida).
-> 
-> This will inevitably lead to collisions. The existing naming scheme was
-> selected specifically to avoid that problem.
-> 
+TOS is user-defined and needs to be configured via nvme-cli.
+It must be set before initiating any traffic and once set the TOS
+cannot be changed.
 
-Thanks again for the discussion Keith! So, I guess the way to go is
-really the kernel parameter in case users want to fallback to the old
-numbering (and only if they're not using multipath).
+Signed-off-by: Israel Rukshin <israelr at mellanox.com>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ drivers/nvme/host/fabrics.c | 18 ++++++++++++++++++
+ drivers/nvme/host/fabrics.h |  3 +++
+ 2 files changed, 21 insertions(+)
 
-Cheers,
-
-
-Guilherme
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 1994d5b..854ce75 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -611,6 +611,7 @@ bool __nvmf_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
+ 	{ NVMF_OPT_DATA_DIGEST,		"data_digest"		},
+ 	{ NVMF_OPT_NR_WRITE_QUEUES,	"nr_write_queues=%d"	},
+ 	{ NVMF_OPT_NR_POLL_QUEUES,	"nr_poll_queues=%d"	},
++	{ NVMF_OPT_TOS,			"tos=%d"		},
+ 	{ NVMF_OPT_ERR,			NULL			}
+ };
+ 
+@@ -632,6 +633,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 	opts->duplicate_connect = false;
+ 	opts->hdr_digest = false;
+ 	opts->data_digest = false;
++	opts->tos = -1; /* < 0 == use transport default */
+ 
+ 	options = o = kstrdup(buf, GFP_KERNEL);
+ 	if (!options)
+@@ -856,6 +858,22 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 			}
+ 			opts->nr_poll_queues = token;
+ 			break;
++		case NVMF_OPT_TOS:
++			if (match_int(args, &token)) {
++				ret = -EINVAL;
++				goto out;
++			}
++			if (token < 0) {
++				pr_err("Invalid type of service %d\n", token);
++				ret = -EINVAL;
++				goto out;
++			}
++			if (token > 255) {
++				pr_warn("Clamping type of service to 255\n");
++				token = 255;
++			}
++			opts->tos = token;
++			break;
+ 		default:
+ 			pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
+ 				p);
+diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+index 3044d8b..93f08d7 100644
+--- a/drivers/nvme/host/fabrics.h
++++ b/drivers/nvme/host/fabrics.h
+@@ -55,6 +55,7 @@ enum {
+ 	NVMF_OPT_DATA_DIGEST	= 1 << 16,
+ 	NVMF_OPT_NR_WRITE_QUEUES = 1 << 17,
+ 	NVMF_OPT_NR_POLL_QUEUES = 1 << 18,
++	NVMF_OPT_TOS		= 1 << 19,
+ };
+ 
+ /**
+@@ -87,6 +88,7 @@ enum {
+  * @data_digest: generate/verify data digest (TCP)
+  * @nr_write_queues: number of queues for write I/O
+  * @nr_poll_queues: number of queues for polling I/O
++ * @tos: type of service
+  */
+ struct nvmf_ctrl_options {
+ 	unsigned		mask;
+@@ -108,6 +110,7 @@ struct nvmf_ctrl_options {
+ 	bool			data_digest;
+ 	unsigned int		nr_write_queues;
+ 	unsigned int		nr_poll_queues;
++	int			tos;
+ };
+ 
+ /*
+-- 
+1.8.3.1
