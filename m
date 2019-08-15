@@ -1,37 +1,159 @@
-From: amit.engel@dell.com (amit.engel@dell.com)
-Date: Thu, 15 Aug 2019 15:43:48 +0300
-Subject: [PATCH] nvme/target/admin-cmd.c: Fix a bug in
- 'nvmet_execute_get_log_page_error'
-Message-ID: <20190815124348.125105-1-amit.engel@dell.com>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Thu, 15 Aug 2019 15:46:16 +0300
+Subject: [PATCH v7 11/14] nvmet-configfs: introduce passthru configfs
+ interface
+In-Reply-To: <20190801234514.7941-12-logang@deltatee.com>
+References: <20190801234514.7941-1-logang@deltatee.com>
+ <20190801234514.7941-12-logang@deltatee.com>
+Message-ID: <28a807ae-fbba-5016-3b71-04baa121e522@mellanox.com>
 
-From: Amit <amit.engel@emc.com>
 
-ensure that nvmet_copy_to_sgl does not exceed data_len
+On 8/2/2019 2:45 AM, Logan Gunthorpe wrote:
+> When CONFIG_NVME_TARGET_PASSTHRU as 'passthru' directory will
+> be added to each subsystem. The directory is similar to a namespace
+> and has two attributes: device_path and enable. The user must set the
+> path to the nvme controller's char device and write '1' to enable the
+> subsystem to use passthru.
+>
+> Any given subsystem is prevented from enabling both a regular namespace
+> and the passthru device. If one is enabled, enabling the other will
+> produce an error.
+>
+> Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
+> ---
+>   drivers/nvme/target/configfs.c | 99 ++++++++++++++++++++++++++++++++++
+>   drivers/nvme/target/nvmet.h    |  1 +
+>   2 files changed, 100 insertions(+)
+>
+> diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+> index 98613a45bd3b..b15d64c19f58 100644
+> --- a/drivers/nvme/target/configfs.c
+> +++ b/drivers/nvme/target/configfs.c
+> @@ -615,6 +615,103 @@ static const struct config_item_type nvmet_namespaces_type = {
+>   	.ct_owner		= THIS_MODULE,
+>   };
+>   
+> +#ifdef CONFIG_NVME_TARGET_PASSTHRU
+> +
+> +static ssize_t nvmet_passthru_device_path_show(struct config_item *item,
+> +		char *page)
+> +{
+> +	struct nvmet_subsys *subsys = to_subsys(item->ci_parent);
+> +
+> +	return snprintf(page, PAGE_SIZE, "%s\n", subsys->passthru_ctrl_path);
+> +}
+> +
+> +static ssize_t nvmet_passthru_device_path_store(struct config_item *item,
+> +		const char *page, size_t count)
+> +{
+> +	struct nvmet_subsys *subsys = to_subsys(item->ci_parent);
+> +	int ret = -ENOMEM;
 
-Signed-off-by: Amit <amit.engel at emc.com>
----
- drivers/nvme/target/admin-cmd.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+seems like a redundant initialization.
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 51800a9ce9a9..fd7749727f55 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -40,13 +40,14 @@ static void nvmet_execute_get_log_page_error(struct nvmet_req *req)
- 	u16 status = NVME_SC_SUCCESS;
- 	unsigned long flags;
- 	off_t offset = 0;
-+	size_t num_of_sgl_slots = req->data_len/sizeof(struct nvme_error_slot);
- 	u64 slot;
- 	u64 i;
- 
- 	spin_lock_irqsave(&ctrl->error_lock, flags);
- 	slot = ctrl->err_counter % NVMET_ERROR_LOG_SLOTS;
- 
--	for (i = 0; i < NVMET_ERROR_LOG_SLOTS; i++) {
-+	for (i = 0; i < NVMET_ERROR_LOG_SLOTS && i < num_of_sgl_slots; i++) {
- 		status = nvmet_copy_to_sgl(req, offset, &ctrl->slots[slot],
- 				sizeof(struct nvme_error_slot));
- 		if (status)
--- 
-2.16.2
+> +	size_t len;
+> +
+> +	mutex_lock(&subsys->lock);
+> +
+> +	ret = -EBUSY;
+> +	if (subsys->passthru_ctrl)
+> +		goto out_unlock;
+> +
+> +	ret = -EINVAL;
+> +	len = strcspn(page, "\n");
+> +	if (!len)
+> +		goto out_unlock;
+> +
+> +	kfree(subsys->passthru_ctrl_path);
+> +	ret = -ENOMEM;
+> +	subsys->passthru_ctrl_path = kstrndup(page, len, GFP_KERNEL);
+> +	if (!subsys->passthru_ctrl_path)
+> +		goto out_unlock;
+> +
+> +	mutex_unlock(&subsys->lock);
+> +
+> +	return count;
+> +out_unlock:
+> +	mutex_unlock(&subsys->lock);
+> +	return ret;
+> +}
+> +CONFIGFS_ATTR(nvmet_passthru_, device_path);
+> +
+> +static ssize_t nvmet_passthru_enable_show(struct config_item *item,
+> +		char *page)
+> +{
+> +	struct nvmet_subsys *subsys = to_subsys(item->ci_parent);
+> +
+> +	return sprintf(page, "%d\n", subsys->passthru_ctrl ? 1 : 0);
+> +}
+> +
+> +static ssize_t nvmet_passthru_enable_store(struct config_item *item,
+> +		const char *page, size_t count)
+> +{
+> +	struct nvmet_subsys *subsys = to_subsys(item->ci_parent);
+> +	bool enable;
+> +	int ret = 0;
+> +
+> +	if (strtobool(page, &enable))
+> +		return -EINVAL;
+> +
+> +	if (enable)
+> +		ret = nvmet_passthru_ctrl_enable(subsys);
+> +	else
+> +		nvmet_passthru_ctrl_disable(subsys);
+> +
+> +	return ret ? ret : count;
+> +}
+> +CONFIGFS_ATTR(nvmet_passthru_, enable);
+> +
+> +static struct configfs_attribute *nvmet_passthru_attrs[] = {
+> +	&nvmet_passthru_attr_device_path,
+> +	&nvmet_passthru_attr_enable,
+> +	NULL,
+> +};
+> +
+> +static const struct config_item_type nvmet_passthru_type = {
+> +	.ct_attrs		= nvmet_passthru_attrs,
+> +	.ct_owner		= THIS_MODULE,
+> +};
+> +
+> +static void nvmet_add_passthru_group(struct nvmet_subsys *subsys)
+> +{
+> +	config_group_init_type_name(&subsys->passthru_group,
+> +				    "passthru", &nvmet_passthru_type);
+> +	configfs_add_default_group(&subsys->passthru_group,
+> +				   &subsys->group);
+> +}
+> +
+> +#else /* CONFIG_NVME_TARGET_PASSTHRU */
+> +
+> +static void nvmet_add_passthru_group(struct nvmet_subsys *subsys)
+> +{
+> +}
+> +
+> +#endif /* CONFIG_NVME_TARGET_PASSTHRU */
+> +
+>   static int nvmet_port_subsys_allow_link(struct config_item *parent,
+>   		struct config_item *target)
+>   {
+> @@ -915,6 +1012,8 @@ static struct config_group *nvmet_subsys_make(struct config_group *group,
+>   	configfs_add_default_group(&subsys->allowed_hosts_group,
+>   			&subsys->group);
+>   
+> +	nvmet_add_passthru_group(subsys);
+> +
+>   	return &subsys->group;
+>   }
+>   
+> diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+> index 6436cb990905..f9c593f1305d 100644
+> --- a/drivers/nvme/target/nvmet.h
+> +++ b/drivers/nvme/target/nvmet.h
+> @@ -231,6 +231,7 @@ struct nvmet_subsys {
+>   #ifdef CONFIG_NVME_TARGET_PASSTHRU
+>   	struct nvme_ctrl	*passthru_ctrl;
+>   	char			*passthru_ctrl_path;
+> +	struct config_group	passthru_group;
+>   #endif /* CONFIG_NVME_TARGET_PASSTHRU */
+>   };
+>   
