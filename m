@@ -1,106 +1,69 @@
 From: israelr@mellanox.com (Israel Rukshin)
-Date: Thu, 15 Aug 2019 16:33:45 +0300
-Subject: [PATCH 3/5] nvme-tcp: Use struct nvme_ctrl directly
+Date: Thu, 15 Aug 2019 16:33:44 +0300
+Subject: [PATCH 2/5] nvme-rdma: Add TOS for rdma transport
 In-Reply-To: <1565876027-25092-1-git-send-email-israelr@mellanox.com>
 References: <1565876027-25092-1-git-send-email-israelr@mellanox.com>
-Message-ID: <1565876027-25092-5-git-send-email-israelr@mellanox.com>
+Message-ID: <1565876027-25092-4-git-send-email-israelr@mellanox.com>
 
-This patch doesn't change any functionality.
+For RDMA transports, TOS is an extension of IB QoS to provide clients
+the ability to segregate traffic flows for different type of data.
+RDMA CM abstract it for ULPs using rdma_set_service_type().
+Internally, each traffic flow is represented by a connection with all of
+its independent resources like that of a normal connection, and is
+differentiated by service type. In other words, there can be multiple qp
+connections between an IP pair and each supports a unique service type.
+
+One of the TOS usage is bandwidth management which allows setting bandwidth
+limits for QoS classes, e.g. 80% bandwidth to controllers at QoS class A
+and 20% to controllers at QoS class B.
+
+Note: In addition to the TOS configuration, QOS must be configured on the
+relevant HCA on the target (send RDMA commands) and initiator to effect
+the traffic.
+
+usage examples:
+nvme connect --tos=0 --transport=rdma --traddr=10.0.1.1 --nqn=test-nvme
 
 Signed-off-by: Israel Rukshin <israelr at mellanox.com>
 Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/tcp.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ drivers/nvme/host/rdma.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 606b13d..feed0dc 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1255,7 +1255,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
- 	queue->queue_size = queue_size;
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index a249db5..9b3fb4e 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1541,16 +1541,18 @@ static int nvme_rdma_conn_rejected(struct nvme_rdma_queue *queue,
  
- 	if (qid > 0)
--		queue->cmnd_capsule_len = ctrl->ctrl.ioccsz * 16;
-+		queue->cmnd_capsule_len = nctrl->ioccsz * 16;
- 	else
- 		queue->cmnd_capsule_len = sizeof(struct nvme_command) +
- 						NVME_TCP_ADMIN_CCSZ;
-@@ -1263,7 +1263,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
- 	ret = sock_create(ctrl->addr.ss_family, SOCK_STREAM,
- 			IPPROTO_TCP, &queue->sock);
- 	if (ret) {
--		dev_err(ctrl->ctrl.device,
-+		dev_err(nctrl->device,
- 			"failed to create socket: %d\n", ret);
+ static int nvme_rdma_addr_resolved(struct nvme_rdma_queue *queue)
+ {
++	struct nvme_ctrl *ctrl = &queue->ctrl->ctrl;
+ 	int ret;
+ 
+ 	ret = nvme_rdma_create_queue_ib(queue);
+ 	if (ret)
  		return ret;
- 	}
-@@ -1273,7 +1273,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
- 	ret = kernel_setsockopt(queue->sock, IPPROTO_TCP, TCP_SYNCNT,
- 			(char *)&opt, sizeof(opt));
- 	if (ret) {
--		dev_err(ctrl->ctrl.device,
-+		dev_err(nctrl->device,
- 			"failed to set TCP_SYNCNT sock opt %d\n", ret);
- 		goto err_sock;
- 	}
-@@ -1283,7 +1283,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
- 	ret = kernel_setsockopt(queue->sock, IPPROTO_TCP,
- 			TCP_NODELAY, (char *)&opt, sizeof(opt));
- 	if (ret) {
--		dev_err(ctrl->ctrl.device,
-+		dev_err(nctrl->device,
- 			"failed to set TCP_NODELAY sock opt %d\n", ret);
- 		goto err_sock;
- 	}
-@@ -1296,7 +1296,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
- 	ret = kernel_setsockopt(queue->sock, SOL_SOCKET, SO_LINGER,
- 			(char *)&sol, sizeof(sol));
- 	if (ret) {
--		dev_err(ctrl->ctrl.device,
-+		dev_err(nctrl->device,
- 			"failed to set SO_LINGER sock opt %d\n", ret);
- 		goto err_sock;
- 	}
-@@ -1314,11 +1314,11 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
- 	queue->pdu_offset = 0;
- 	sk_set_memalloc(queue->sock->sk);
  
--	if (ctrl->ctrl.opts->mask & NVMF_OPT_HOST_TRADDR) {
-+	if (nctrl->opts->mask & NVMF_OPT_HOST_TRADDR) {
- 		ret = kernel_bind(queue->sock, (struct sockaddr *)&ctrl->src_addr,
- 			sizeof(ctrl->src_addr));
- 		if (ret) {
--			dev_err(ctrl->ctrl.device,
-+			dev_err(nctrl->device,
- 				"failed to bind queue %d socket %d\n",
- 				qid, ret);
- 			goto err_sock;
-@@ -1330,7 +1330,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
- 	if (queue->hdr_digest || queue->data_digest) {
- 		ret = nvme_tcp_alloc_crypto(queue);
- 		if (ret) {
--			dev_err(ctrl->ctrl.device,
-+			dev_err(nctrl->device,
- 				"failed to allocate queue %d crypto\n", qid);
- 			goto err_sock;
- 		}
-@@ -1344,13 +1344,13 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
- 		goto err_crypto;
- 	}
- 
--	dev_dbg(ctrl->ctrl.device, "connecting queue %d\n",
-+	dev_dbg(nctrl->device, "connecting queue %d\n",
- 			nvme_tcp_queue_id(queue));
- 
- 	ret = kernel_connect(queue->sock, (struct sockaddr *)&ctrl->addr,
- 		sizeof(ctrl->addr), 0);
++	if (ctrl->opts->tos >= 0)
++		rdma_set_service_type(queue->cm_id, ctrl->opts->tos);
+ 	ret = rdma_resolve_route(queue->cm_id, NVME_RDMA_CONNECT_TIMEOUT_MS);
  	if (ret) {
--		dev_err(ctrl->ctrl.device,
-+		dev_err(nctrl->device,
- 			"failed to connect socket: %d\n", ret);
- 		goto err_rcv_pdu;
+-		dev_err(queue->ctrl->ctrl.device,
+-			"rdma_resolve_route failed (%d).\n",
++		dev_err(ctrl->device, "rdma_resolve_route failed (%d).\n",
+ 			queue->cm_error);
+ 		goto out_destroy_queue;
  	}
+@@ -2045,7 +2047,8 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
+ 	.required_opts	= NVMF_OPT_TRADDR,
+ 	.allowed_opts	= NVMF_OPT_TRSVCID | NVMF_OPT_RECONNECT_DELAY |
+ 			  NVMF_OPT_HOST_TRADDR | NVMF_OPT_CTRL_LOSS_TMO |
+-			  NVMF_OPT_NR_WRITE_QUEUES | NVMF_OPT_NR_POLL_QUEUES,
++			  NVMF_OPT_NR_WRITE_QUEUES | NVMF_OPT_NR_POLL_QUEUES |
++			  NVMF_OPT_TOS,
+ 	.create_ctrl	= nvme_rdma_create_ctrl,
+ };
+ 
 -- 
 1.8.3.1
