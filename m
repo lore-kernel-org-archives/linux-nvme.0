@@ -1,33 +1,69 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 15 Aug 2019 10:06:56 -0600
-Subject: [PATCH v7 08/14] nvmet-core: allow one host per passthru-ctrl
-In-Reply-To: <05a74e81-1dbd-725f-1369-5ca5c5918db1@mellanox.com>
-References: <20190801234514.7941-1-logang@deltatee.com>
- <20190801234514.7941-9-logang@deltatee.com>
- <05a74e81-1dbd-725f-1369-5ca5c5918db1@mellanox.com>
-Message-ID: <a6b9db95-a7f0-d1f6-1fa2-8dc13a6aa29e@deltatee.com>
+From: akinobu.mita@gmail.com (Akinobu Mita)
+Date: Fri, 16 Aug 2019 01:59:54 +0900
+Subject: [PATCH v4 0/5] introduce LED block device activity trigger
+Message-ID: <1565888399-21550-1-git-send-email-akinobu.mita@gmail.com>
 
+This work is inspired by the report on linux-nvme mailing list.
 
+disk-activity trigger not working for nvme disk:
+http://lists.infradead.org/pipermail/linux-nvme/2019-July/025253.html
 
-On 2019-08-15 6:36 a.m., Max Gurtovoy wrote:
-> 
-> On 8/2/2019 2:45 AM, Logan Gunthorpe wrote:
->> This patch rejects any new connection to the passthru-ctrl if this
->> controller is already connected to a different host. At the time of
->> allocating the controller we check if the subsys associated with
->> the passthru ctrl is already connected to a host and reject it
->> if the hostnqn differs.
-> 
-> This is a big limitation.
-> 
-> Are we plan to enable many front-end ctrl's to connect to the single
-> back-end ctrl in the future ?
+This LED block device activity trigger works with any block devices.
 
-Honestly, I don't know that it's really necessary, but the limitation
-was requested by Sagi the first time this patch-set was submitted[1]
-citing unspecified user troubles. If there's consensus to remove the
-restriction I certainly can.
+* v4
+- Squash patch 'add interface to stop and restart polling disk stats' into
+  the ledtrig-blk introduction patch
+- Rename 'led' to 'led_trig' in struct ledtrig_blk
 
-Logan
+* v3
+- Avoid the name collision with LED_OFF and LED_ON
+- Add ABI documentation
+- Add more detail to Kconfig help text
 
-[1] http://lists.infradead.org/pipermail/linux-nvme/2018-April/016588.html
+* v2
+- Remove "move declaration of led_stop_software_blink() to linux/leds.h" patch
+- Move the trigger implementation to drivers/leds/trigger
+- s/blk_ledtrig/ledtrig_blk/
+- Add CONFIG_LEDS_TRIGGER_BLOCK
+- Fix wrong bitops usages
+- Add interface to stop and restart polling disk stats
+- Stop polling disk stats for scsi disk during runtime suspend
+
+Akinobu Mita (5):
+  block: umem: rename LED_* macros to MEMCTRL_LED_*
+  scsi: mvsas: rename LED_* enums to SGPIO_LED_*
+  scsi: nsp32: rename LED_* macros to EXT_PORT_LED_*
+  block: introduce LED block device activity trigger
+  scsi: sd: stop polling disk stats by ledtrig-blk during runtime
+    suspend
+
+ .../ABI/testing/sysfs-class-led-trigger-blk        |  37 +++
+ block/genhd.c                                      |   2 +
+ drivers/block/umem.c                               |  20 +-
+ drivers/block/umem.h                               |  20 +-
+ drivers/leds/trigger/Kconfig                       |   9 +
+ drivers/leds/trigger/Makefile                      |   1 +
+ drivers/leds/trigger/ledtrig-blk.c                 | 259 +++++++++++++++++++++
+ drivers/scsi/mvsas/mv_94xx.c                       |   2 +-
+ drivers/scsi/mvsas/mv_94xx.h                       |  24 +-
+ drivers/scsi/nsp32.c                               |   7 +-
+ drivers/scsi/nsp32.h                               |   4 +-
+ drivers/scsi/sd.c                                  |  40 ++--
+ include/linux/genhd.h                              |   3 +
+ include/linux/leds.h                               |  38 +++
+ 14 files changed, 411 insertions(+), 55 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-class-led-trigger-blk
+ create mode 100644 drivers/leds/trigger/ledtrig-blk.c
+
+Cc: Frank Steiner <fsteiner-mail1 at bio.ifi.lmu.de>
+Cc: Jacek Anaszewski <jacek.anaszewski at gmail.com>
+Cc: Pavel Machek <pavel at ucw.cz>
+Cc: Dan Murphy <dmurphy at ti.com>
+Cc: Jens Axboe <axboe at kernel.dk>
+Cc: "James E.J. Bottomley" <jejb at linux.ibm.com>
+Cc: "Martin K. Petersen" <martin.petersen at oracle.com>
+Cc: GOTO Masanori <gotom at debian.or.jp>
+Cc: YOKOTA Hiroshi <yokota at netlab.is.tsukuba.ac.jp>
+Cc: Hannes Reinecke <hare at suse.com>
+-- 
+2.7.4
