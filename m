@@ -1,19 +1,22 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 15 Aug 2019 10:15:27 -0700
-Subject: [PATCH 4/5] nvme-tcp: Add TOS for tcp transport
-In-Reply-To: <1565876027-25092-6-git-send-email-israelr@mellanox.com>
-References: <1565876027-25092-1-git-send-email-israelr@mellanox.com>
- <1565876027-25092-6-git-send-email-israelr@mellanox.com>
-Message-ID: <8022ef05-466c-6994-2e63-e8084e9749b4@grimberg.me>
+Date: Thu, 15 Aug 2019 10:19:04 -0700
+Subject: [PATCH v2] nvme: Add quirk for LiteON CL1 devices running FW
+ 22301111
+In-Reply-To: <20190814201900.GA3511@localhost.localdomain>
+References: <1565813304-16710-1-git-send-email-mario.limonciello@dell.com>
+ <32f20898-b9af-eee0-97de-0a568de54b57@grimberg.me>
+ <20190814201900.GA3511@localhost.localdomain>
+Message-ID: <0cafca37-011d-4c19-4462-14687046a153@grimberg.me>
 
 
-> @@ -2314,7 +2326,7 @@ static struct nvme_ctrl *nvme_tcp_create_ctrl(struct device *dev,
->   	.allowed_opts	= NVMF_OPT_TRSVCID | NVMF_OPT_RECONNECT_DELAY |
->   			  NVMF_OPT_HOST_TRADDR | NVMF_OPT_CTRL_LOSS_TMO |
->   			  NVMF_OPT_HDR_DIGEST | NVMF_OPT_DATA_DIGEST |
-> -			  NVMF_OPT_NR_WRITE_QUEUES,
-> +			  NVMF_OPT_NR_WRITE_QUEUES | NVMF_OPT_TOS,
->   	.create_ctrl	= nvme_tcp_create_ctrl,
->   };
+>> Mario,
+>>
+>> Can you please respin a patch that applies cleanly on nvme-5.4?
+> 
+> This fixes a regression we introduced in 5.3, so it should go in
+> 5.3-rc. For this to apply cleanly, though, we'll need to resync to Linus'
+> tree to get Rafael's PCIe ASPM check after he sends his linux-pm pull
+> request.
 
-This does not apply on nvme-5.4
+We need to coordinate with Jens, don't think its a good idea if I'll
+just randomly get stuff from linus' tree and send an rc pull request.
