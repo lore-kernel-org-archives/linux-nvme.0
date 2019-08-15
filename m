@@ -1,15 +1,15 @@
 From: akinobu.mita@gmail.com (Akinobu Mita)
-Date: Fri, 16 Aug 2019 01:59:56 +0900
-Subject: [PATCH v4 2/5] scsi: mvsas: rename LED_* enums to SGPIO_LED_*
+Date: Fri, 16 Aug 2019 01:59:57 +0900
+Subject: [PATCH v4 3/5] scsi: nsp32: rename LED_* macros to EXT_PORT_LED_*
 In-Reply-To: <1565888399-21550-1-git-send-email-akinobu.mita@gmail.com>
 References: <1565888399-21550-1-git-send-email-akinobu.mita@gmail.com>
-Message-ID: <1565888399-21550-3-git-send-email-akinobu.mita@gmail.com>
+Message-ID: <1565888399-21550-4-git-send-email-akinobu.mita@gmail.com>
 
-The mvsas driver declares LED_* enums for enum sgpio_led_status. The
-LED_OFF and LED_ON enums cause redeclaration of enumerator with the
-LED subsystem's LED_OFF and LED_ON enums.
+The nsp32 driver defines LED_ON and LED_OFF macros for EXT_PORT_DDR or
+EXT_PORT register values.  The LED_OFF and LED_ON macros conflict with
+the LED subsystem's LED_OFF and LED_ON enums.
 
-This adds 'SGPIO_' prefix to these enums in mvsas driver.
+This renames these LED_* macros to EXT_PORT_LED_* in nsp32 driver.
 
 Cc: Frank Steiner <fsteiner-mail1 at bio.ifi.lmu.de>
 Cc: Jacek Anaszewski <jacek.anaszewski at gmail.com>
@@ -18,67 +18,56 @@ Cc: Dan Murphy <dmurphy at ti.com>
 Cc: Jens Axboe <axboe at kernel.dk>
 Cc: "James E.J. Bottomley" <jejb at linux.ibm.com>
 Cc: "Martin K. Petersen" <martin.petersen at oracle.com>
+Cc: GOTO Masanori <gotom at debian.or.jp>
+Cc: YOKOTA Hiroshi <yokota at netlab.is.tsukuba.ac.jp>
 Cc: Hannes Reinecke <hare at suse.com>
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 Acked-by: Pavel Machek <pavel at ucw.cz>
 Signed-off-by: Akinobu Mita <akinobu.mita at gmail.com>
 ---
- drivers/scsi/mvsas/mv_94xx.c |  2 +-
- drivers/scsi/mvsas/mv_94xx.h | 24 ++++++++++++------------
- 2 files changed, 13 insertions(+), 13 deletions(-)
+ drivers/scsi/nsp32.c | 7 ++++---
+ drivers/scsi/nsp32.h | 4 ++--
+ 2 files changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/scsi/mvsas/mv_94xx.c b/drivers/scsi/mvsas/mv_94xx.c
-index fc0b8eb..3558a625 100644
---- a/drivers/scsi/mvsas/mv_94xx.c
-+++ b/drivers/scsi/mvsas/mv_94xx.c
-@@ -1085,7 +1085,7 @@ static int mvs_94xx_gpio_write(struct mvs_prv_info *mvs_prv,
- 				block &= ~((0x7 << MVS_SGPIO_DCTRL_ACT_SHIFT)
- 					<< driveshift);
- 					/* hardwire activity bit to SOF */
--				block |= LED_BLINKA_SOF << (
-+				block |= SGPIO_LED_BLINKA_SOF << (
- 					MVS_SGPIO_DCTRL_ACT_SHIFT +
- 					driveshift);
- 				break;
-diff --git a/drivers/scsi/mvsas/mv_94xx.h b/drivers/scsi/mvsas/mv_94xx.h
-index a243182..2c96ff1 100644
---- a/drivers/scsi/mvsas/mv_94xx.h
-+++ b/drivers/scsi/mvsas/mv_94xx.h
-@@ -275,23 +275,23 @@ enum sgpio_registers {
- };
+diff --git a/drivers/scsi/nsp32.c b/drivers/scsi/nsp32.c
+index 70db792..8170358 100644
+--- a/drivers/scsi/nsp32.c
++++ b/drivers/scsi/nsp32.c
+@@ -763,7 +763,8 @@ static int nsp32_arbitration(struct scsi_cmnd *SCpnt, unsigned int base)
+ 	if (arbit & ARBIT_WIN) {
+ 		/* Arbitration succeeded */
+ 		SCpnt->result = DID_OK << 16;
+-		nsp32_index_write1(base, EXT_PORT, LED_ON); /* PCI LED on */
++		/* PCI LED on */
++		nsp32_index_write1(base, EXT_PORT, EXT_PORT_LED_ON);
+ 	} else if (arbit & ARBIT_FAIL) {
+ 		/* Arbitration failed */
+ 		SCpnt->result = DID_BUS_BUSY << 16;
+@@ -1137,8 +1138,8 @@ static int nsp32hw_init(nsp32_hw_data *data)
+ 	nsp32_write2(base, IRQ_CONTROL, 0);
  
- enum sgpio_led_status {
--	LED_OFF	= 0,
--	LED_ON	= 1,
--	LED_BLINKA	= 2,
--	LED_BLINKA_INV	= 3,
--	LED_BLINKA_SOF	= 4,
--	LED_BLINKA_EOF	= 5,
--	LED_BLINKB	= 6,
--	LED_BLINKB_INV	= 7,
-+	SGPIO_LED_OFF		= 0,
-+	SGPIO_LED_ON		= 1,
-+	SGPIO_LED_BLINKA	= 2,
-+	SGPIO_LED_BLINKA_INV	= 3,
-+	SGPIO_LED_BLINKA_SOF	= 4,
-+	SGPIO_LED_BLINKA_EOF	= 5,
-+	SGPIO_LED_BLINKB	= 6,
-+	SGPIO_LED_BLINKB_INV	= 7,
- };
+ 	/* PCI LED off */
+-	nsp32_index_write1(base, EXT_PORT_DDR, LED_OFF);
+-	nsp32_index_write1(base, EXT_PORT,     LED_OFF);
++	nsp32_index_write1(base, EXT_PORT_DDR, EXT_PORT_LED_OFF);
++	nsp32_index_write1(base, EXT_PORT,     EXT_PORT_LED_OFF);
  
--#define DEFAULT_SGPIO_BITS ((LED_BLINKA_SOF << \
-+#define DEFAULT_SGPIO_BITS ((SGPIO_LED_BLINKA_SOF << \
- 				MVS_SGPIO_DCTRL_ACT_SHIFT) << (8 * 3) | \
--			(LED_BLINKA_SOF << \
-+			(SGPIO_LED_BLINKA_SOF << \
- 				MVS_SGPIO_DCTRL_ACT_SHIFT) << (8 * 2) | \
--			(LED_BLINKA_SOF << \
-+			(SGPIO_LED_BLINKA_SOF << \
- 				MVS_SGPIO_DCTRL_ACT_SHIFT) << (8 * 1) | \
--			(LED_BLINKA_SOF << \
-+			(SGPIO_LED_BLINKA_SOF << \
- 				MVS_SGPIO_DCTRL_ACT_SHIFT) << (8 * 0))
+ 	return TRUE;
+ }
+diff --git a/drivers/scsi/nsp32.h b/drivers/scsi/nsp32.h
+index ab0726c..a7553ea 100644
+--- a/drivers/scsi/nsp32.h
++++ b/drivers/scsi/nsp32.h
+@@ -306,8 +306,8 @@ typedef u16 u16_le;
  
- /*
+ #define EXT_PORT_DDR		0x02	/* BASE+08, IDX+02, B, R/W */
+ #define EXT_PORT		0x03	/* BASE+08, IDX+03, B, R/W */
+-# define LED_ON	 (0)
+-# define LED_OFF BIT(0)
++# define EXT_PORT_LED_ON	(0)
++# define EXT_PORT_LED_OFF	BIT(0)
+ 
+ #define IRQ_SELECT		0x04	/* BASE+08, IDX+04, W, R/W */
+ # define IRQSELECT_RESELECT_IRQ      BIT(0)
 -- 
 2.7.4
