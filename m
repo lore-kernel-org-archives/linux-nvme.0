@@ -1,28 +1,18 @@
 From: akinobu.mita@gmail.com (Akinobu Mita)
-Date: Fri, 16 Aug 2019 01:59:58 +0900
-Subject: [PATCH v4 4/5] block: introduce LED block device activity trigger
+Date: Fri, 16 Aug 2019 01:59:59 +0900
+Subject: [PATCH v4 5/5] scsi: sd: stop polling disk stats by ledtrig-blk
+ during runtime suspend
 In-Reply-To: <1565888399-21550-1-git-send-email-akinobu.mita@gmail.com>
 References: <1565888399-21550-1-git-send-email-akinobu.mita@gmail.com>
-Message-ID: <1565888399-21550-5-git-send-email-akinobu.mita@gmail.com>
-
-This allows LEDs to be controlled by block device activity.
-
-We already have ledtrig-disk (LED disk activity trigger), but the lower
-level disk drivers need to utilize ledtrig_disk_activity() to make the
-LED blink.
-
-The LED block device trigger doesn't require the lower level drivers to
-have any instrumentation. The activity is collected by polling the disk
-stats.
-
-Example:
-
-echo block-nvme0n1 > /sys/class/leds/diy/trigger
+Message-ID: <1565888399-21550-6-git-send-email-akinobu.mita@gmail.com>
 
 The LED block device activity trigger periodically polls the disk stats
 to collect the activity.  However, it is pointless to poll while the
-block device is in quiescent state.  So there is an optional interface to
-stop and restart polling disk stats for the lower-level block drivers.
+scsi device is in runtime suspend.
+
+This stops polling disk stats when the device is successfully runtime
+suspended, and restarts polling when the device is successfully runtime
+resumed.
 
 Cc: Frank Steiner <fsteiner-mail1 at bio.ifi.lmu.de>
 Cc: Jacek Anaszewski <jacek.anaszewski at gmail.com>
@@ -34,444 +24,94 @@ Cc: "Martin K. Petersen" <martin.petersen at oracle.com>
 Cc: Hannes Reinecke <hare at suse.com>
 Signed-off-by: Akinobu Mita <akinobu.mita at gmail.com>
 ---
-* v4
-- Squash patch 'add interface to stop and restart polling disk stats' into
-  the ledtrig-blk introduction patch
-- Rename 'led' to 'led_trig' in struct ledtrig_blk
+ drivers/scsi/sd.c | 40 +++++++++++++++++++++++-----------------
+ 1 file changed, 23 insertions(+), 17 deletions(-)
 
- .../ABI/testing/sysfs-class-led-trigger-blk        |  37 +++
- block/genhd.c                                      |   2 +
- drivers/leds/trigger/Kconfig                       |   9 +
- drivers/leds/trigger/Makefile                      |   1 +
- drivers/leds/trigger/ledtrig-blk.c                 | 259 +++++++++++++++++++++
- include/linux/genhd.h                              |   3 +
- include/linux/leds.h                               |  38 +++
- 7 files changed, 349 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-class-led-trigger-blk
- create mode 100644 drivers/leds/trigger/ledtrig-blk.c
-
-diff --git a/Documentation/ABI/testing/sysfs-class-led-trigger-blk b/Documentation/ABI/testing/sysfs-class-led-trigger-blk
-new file mode 100644
-index 0000000..73472c3
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-class-led-trigger-blk
-@@ -0,0 +1,37 @@
-+What:		/sys/class/leds/<led>/interval
-+Date:		Aug 2019
-+KernelVersion:	5.4
-+Contact:	linux-leds at vger.kernel.org
-+Description:
-+		Specifies the duration of the LED blink in milliseconds.
-+		Defaults to 50 ms.
-+
-+What:		/sys/class/leds/<led>/read
-+Date:		Aug 2019
-+KernelVersion:	5.4
-+Contact:	linux-leds at vger.kernel.org
-+Description:
-+		Signal data read on the block device.
-+		If set to 0, the LED will not blink on data read.
-+		If set to 1 (default), the LED will blink for the milliseconds
-+		specified in interval to signal data read.
-+
-+What:		/sys/class/leds/<led>/write
-+Date:		Aug 2019
-+KernelVersion:	5.4
-+Contact:	linux-leds at vger.kernel.org
-+Description:
-+		Signal data written on the block device.
-+		If set to 0, the LED will not blink on data written.
-+		If set to 1 (default), the LED will blink for the milliseconds
-+		specified in interval to signal data written.
-+
-+What:		/sys/class/leds/<led>/discard
-+Date:		Aug 2019
-+KernelVersion:	5.4
-+Contact:	linux-leds at vger.kernel.org
-+Description:
-+		Signal data discarded on the block device.
-+		If set to 0, the LED will not blink on data discarded.
-+		If set to 1 (default), the LED will blink for the milliseconds
-+		specified in interval to signal data discarded.
-diff --git a/block/genhd.c b/block/genhd.c
-index 54f1f0d3..1c68861 100644
---- a/block/genhd.c
-+++ b/block/genhd.c
-@@ -745,6 +745,7 @@ static void __device_add_disk(struct device *parent, struct gendisk *disk,
- 
- 	disk_add_events(disk);
- 	blk_integrity_add(disk);
-+	ledtrig_blk_register(disk);
- }
- 
- void device_add_disk(struct device *parent, struct gendisk *disk,
-@@ -766,6 +767,7 @@ void del_gendisk(struct gendisk *disk)
- 	struct disk_part_iter piter;
- 	struct hd_struct *part;
- 
-+	ledtrig_blk_unregister(disk);
- 	blk_integrity_del(disk);
- 	disk_del_events(disk);
- 
-diff --git a/drivers/leds/trigger/Kconfig b/drivers/leds/trigger/Kconfig
-index ce9429c..e399a11 100644
---- a/drivers/leds/trigger/Kconfig
-+++ b/drivers/leds/trigger/Kconfig
-@@ -144,4 +144,13 @@ config LEDS_TRIGGER_AUDIO
- 	  the audio mute and mic-mute changes.
- 	  If unsure, say N
- 
-+config LEDS_TRIGGER_BLOCK
-+	bool "LED Block device Trigger"
-+	depends on BLOCK
-+	help
-+	  This allows LEDs to be controlled by block device activity.
-+	  This trigger doesn't require the lower level drivers to have any
-+	  instrumentation. The activity is collected by polling the disk stats.
-+	  If unsure, say Y.
-+
- endif # LEDS_TRIGGERS
-diff --git a/drivers/leds/trigger/Makefile b/drivers/leds/trigger/Makefile
-index 733a83e..60200eb 100644
---- a/drivers/leds/trigger/Makefile
-+++ b/drivers/leds/trigger/Makefile
-@@ -15,3 +15,4 @@ obj-$(CONFIG_LEDS_TRIGGER_PANIC)	+= ledtrig-panic.o
- obj-$(CONFIG_LEDS_TRIGGER_NETDEV)	+= ledtrig-netdev.o
- obj-$(CONFIG_LEDS_TRIGGER_PATTERN)	+= ledtrig-pattern.o
- obj-$(CONFIG_LEDS_TRIGGER_AUDIO)	+= ledtrig-audio.o
-+obj-$(CONFIG_LEDS_TRIGGER_BLOCK)	+= ledtrig-blk.o
-diff --git a/drivers/leds/trigger/ledtrig-blk.c b/drivers/leds/trigger/ledtrig-blk.c
-new file mode 100644
-index 0000000..de05e92
---- /dev/null
-+++ b/drivers/leds/trigger/ledtrig-blk.c
-@@ -0,0 +1,259 @@
-+// SPDX-License-Identifier: GPL-2.0
-+// LED Kernel Blockdev Trigger
-+// Derived from ledtrig-netdev.c
-+
-+#include <linux/atomic.h>
-+#include <linux/genhd.h>
-+#include <linux/leds.h>
-+#include <linux/workqueue.h>
-+#include "../leds.h"
-+
-+enum ledtrig_blk_attr {
-+	LEDTRIG_BLK_READ,
-+	LEDTRIG_BLK_WRITE,
-+	LEDTRIG_BLK_DISCARD
-+};
-+
-+struct ledtrig_blk_data {
-+	struct delayed_work work;
-+	struct led_classdev *led_cdev;
-+
-+	atomic_t interval;
-+	u64 last_activity;
-+
-+	unsigned long mode;
-+};
-+
-+static ssize_t ledtrig_blk_attr_show(struct device *dev, char *buf,
-+				     enum ledtrig_blk_attr attr)
-+{
-+	struct ledtrig_blk_data *trig_data = led_trigger_get_drvdata(dev);
-+
-+	return sprintf(buf, "%u\n", test_bit(attr, &trig_data->mode));
-+}
-+
-+static ssize_t ledtrig_blk_attr_store(struct device *dev, const char *buf,
-+				      size_t size, enum ledtrig_blk_attr attr)
-+{
-+	struct ledtrig_blk_data *trig_data = led_trigger_get_drvdata(dev);
-+	unsigned long state;
+diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
+index 149d406..5f73142 100644
+--- a/drivers/scsi/sd.c
++++ b/drivers/scsi/sd.c
+@@ -3538,7 +3538,7 @@ static int sd_suspend_common(struct device *dev, bool ignore_stop_errors)
+ {
+ 	struct scsi_disk *sdkp = dev_get_drvdata(dev);
+ 	struct scsi_sense_hdr sshdr;
+-	int ret = 0;
 +	int ret;
-+
-+	ret = kstrtoul(buf, 0, &state);
-+	if (ret)
-+		return ret;
-+
-+	if (state)
-+		set_bit(attr, &trig_data->mode);
-+	else
-+		clear_bit(attr, &trig_data->mode);
-+
-+	return size;
-+}
-+
-+static ssize_t read_show(struct device *dev, struct device_attribute *attr,
-+			 char *buf)
-+{
-+	return ledtrig_blk_attr_show(dev, buf, LEDTRIG_BLK_READ);
-+}
-+static ssize_t read_store(struct device *dev, struct device_attribute *attr,
-+			  const char *buf, size_t size)
-+{
-+	return ledtrig_blk_attr_store(dev, buf, size, LEDTRIG_BLK_READ);
-+}
-+static DEVICE_ATTR_RW(read);
-+
-+static ssize_t write_show(struct device *dev, struct device_attribute *attr,
-+			  char *buf)
-+{
-+	return ledtrig_blk_attr_show(dev, buf, LEDTRIG_BLK_WRITE);
-+}
-+static ssize_t write_store(struct device *dev, struct device_attribute *attr,
-+			   const char *buf, size_t size)
-+{
-+	return ledtrig_blk_attr_store(dev, buf, size, LEDTRIG_BLK_WRITE);
-+}
-+static DEVICE_ATTR_RW(write);
-+
-+static ssize_t discard_show(struct device *dev, struct device_attribute *attr,
-+			    char *buf)
-+{
-+	return ledtrig_blk_attr_show(dev, buf, LEDTRIG_BLK_DISCARD);
-+}
-+static ssize_t discard_store(struct device *dev, struct device_attribute *attr,
-+			     const char *buf, size_t size)
-+{
-+	return ledtrig_blk_attr_store(dev, buf, size, LEDTRIG_BLK_DISCARD);
-+}
-+static DEVICE_ATTR_RW(discard);
-+
-+static ssize_t interval_show(struct device *dev, struct device_attribute *attr,
-+			     char *buf)
-+{
-+	struct ledtrig_blk_data *trig_data = led_trigger_get_drvdata(dev);
-+
-+	return sprintf(buf, "%u\n",
-+		       jiffies_to_msecs(atomic_read(&trig_data->interval)));
-+}
-+static ssize_t interval_store(struct device *dev, struct device_attribute *attr,
-+			      const char *buf, size_t size)
-+{
-+	struct ledtrig_blk_data *trig_data = led_trigger_get_drvdata(dev);
-+	unsigned long value;
-+	int ret;
-+
-+	ret = kstrtoul(buf, 0, &value);
-+	if (ret)
-+		return ret;
-+
-+	/* impose some basic bounds on the timer interval */
-+	if (value >= 5 && value <= 10000) {
-+		cancel_delayed_work_sync(&trig_data->work);
-+		atomic_set(&trig_data->interval, msecs_to_jiffies(value));
-+		schedule_delayed_work(&trig_data->work,
-+				      atomic_read(&trig_data->interval) * 2);
-+	}
-+
-+	return size;
-+}
-+static DEVICE_ATTR_RW(interval);
-+
-+static struct attribute *ledtrig_blk_attrs[] = {
-+	&dev_attr_read.attr,
-+	&dev_attr_write.attr,
-+	&dev_attr_discard.attr,
-+	&dev_attr_interval.attr,
-+	NULL
-+};
-+ATTRIBUTE_GROUPS(ledtrig_blk);
-+
-+static void ledtrig_blk_work(struct work_struct *work)
-+{
-+	struct ledtrig_blk_data *trig_data =
-+		container_of(work, struct ledtrig_blk_data, work.work);
-+	struct gendisk *disk = container_of(trig_data->led_cdev->trigger,
-+					    struct gendisk, led_trig.trig);
-+	u64 activity = 0;
-+
-+	if (test_bit(LEDTRIG_BLK_READ, &trig_data->mode))
-+		activity += part_stat_read(&disk->part0, ios[STAT_READ]);
-+	if (test_bit(LEDTRIG_BLK_WRITE, &trig_data->mode))
-+		activity += part_stat_read(&disk->part0, ios[STAT_WRITE]);
-+	if (test_bit(LEDTRIG_BLK_DISCARD, &trig_data->mode))
-+		activity += part_stat_read(&disk->part0, ios[STAT_DISCARD]);
-+
-+	if (trig_data->last_activity != activity) {
-+		unsigned long interval;
-+
-+		led_stop_software_blink(trig_data->led_cdev);
-+		interval = jiffies_to_msecs(atomic_read(&trig_data->interval));
-+		led_blink_set_oneshot(trig_data->led_cdev, &interval, &interval,
-+				      0);
-+
-+		trig_data->last_activity = activity;
-+	}
-+
-+	if (atomic_read(&disk->led_trig.enable_count))
-+		schedule_delayed_work(&trig_data->work,
-+				      atomic_read(&trig_data->interval) * 2);
-+}
-+
-+static int ledtrig_blk_activate(struct led_classdev *led_cdev)
-+{
-+	struct ledtrig_blk_data *trig_data;
-+
-+	trig_data = kzalloc(sizeof(*trig_data), GFP_KERNEL);
-+	if (!trig_data)
-+		return -ENOMEM;
-+
-+	trig_data->mode = BIT(LEDTRIG_BLK_READ) | BIT(LEDTRIG_BLK_WRITE) |
-+			  BIT(LEDTRIG_BLK_DISCARD);
-+
-+	atomic_set(&trig_data->interval, msecs_to_jiffies(50));
-+	trig_data->last_activity = 0;
-+	trig_data->led_cdev = led_cdev;
-+
-+	INIT_DELAYED_WORK(&trig_data->work, ledtrig_blk_work);
-+
-+	led_set_trigger_data(led_cdev, trig_data);
-+
-+	schedule_delayed_work(&trig_data->work,
-+			      atomic_read(&trig_data->interval) * 2);
+ 
+ 	if (!sdkp)	/* E.g.: runtime suspend following sd_remove() */
+ 		return 0;
+@@ -3550,18 +3550,16 @@ static int sd_suspend_common(struct device *dev, bool ignore_stop_errors)
+ 		if (ret) {
+ 			/* ignore OFFLINE device */
+ 			if (ret == -ENODEV)
+-				return 0;
+-
+-			if (!scsi_sense_valid(&sshdr) ||
+-			    sshdr.sense_key != ILLEGAL_REQUEST)
+-				return ret;
++				goto success;
+ 
+ 			/*
+ 			 * sshdr.sense_key == ILLEGAL_REQUEST means this drive
+ 			 * doesn't support sync. There's not much to do and
+ 			 * suspend shouldn't fail.
+ 			 */
+-			ret = 0;
++			if (!scsi_sense_valid(&sshdr) ||
++			    sshdr.sense_key != ILLEGAL_REQUEST)
++				return ret;
+ 		}
+ 	}
+ 
+@@ -3569,11 +3567,14 @@ static int sd_suspend_common(struct device *dev, bool ignore_stop_errors)
+ 		sd_printk(KERN_NOTICE, sdkp, "Stopping disk\n");
+ 		/* an error is not worth aborting a system sleep */
+ 		ret = sd_start_stop_device(sdkp, 0);
+-		if (ignore_stop_errors)
+-			ret = 0;
++		if (ret && !ignore_stop_errors)
++			return ret;
+ 	}
+ 
+-	return ret;
++success:
++	ledtrig_blk_disable(sdkp->disk);
 +
 +	return 0;
-+}
-+
-+static void ledtrig_blk_deactivate(struct led_classdev *led_cdev)
-+{
-+	struct ledtrig_blk_data *trig_data = led_get_trigger_data(led_cdev);
-+
-+	cancel_delayed_work_sync(&trig_data->work);
-+	kfree(trig_data);
-+}
-+
-+void ledtrig_blk_disable(struct gendisk *disk)
-+{
-+	if (disk)
-+		atomic_dec(&disk->led_trig.enable_count);
-+}
-+EXPORT_SYMBOL_GPL(ledtrig_blk_disable);
-+
-+void ledtrig_blk_enable(struct gendisk *disk)
-+{
-+	struct led_classdev *led_cdev;
-+
-+	if (!disk)
-+		return;
-+
-+	atomic_inc(&disk->led_trig.enable_count);
-+
-+	read_lock(&disk->led_trig.trig.leddev_list_lock);
-+
-+	list_for_each_entry(led_cdev, &disk->led_trig.trig.led_cdevs,
-+			    trig_list) {
-+		struct ledtrig_blk_data *trig_data =
-+			led_get_trigger_data(led_cdev);
-+
-+		schedule_delayed_work(&trig_data->work,
-+				      atomic_read(&trig_data->interval) * 2);
-+	}
-+
-+	read_unlock(&disk->led_trig.trig.leddev_list_lock);
-+}
-+EXPORT_SYMBOL_GPL(ledtrig_blk_enable);
-+
-+int ledtrig_blk_register(struct gendisk *disk)
-+{
-+	int ret;
-+
-+	disk->led_trig.trig.name = kasprintf(GFP_KERNEL, "block-%s",
-+					disk->disk_name);
-+	if (!disk->led_trig.trig.name)
-+		return -ENOMEM;
-+
-+	disk->led_trig.trig.activate = ledtrig_blk_activate;
-+	disk->led_trig.trig.deactivate = ledtrig_blk_deactivate;
-+	disk->led_trig.trig.groups = ledtrig_blk_groups;
-+
-+	atomic_set(&disk->led_trig.enable_count, 1);
-+
-+	ret = led_trigger_register(&disk->led_trig.trig);
-+	if (ret) {
-+		kfree(disk->led_trig.trig.name);
-+		disk->led_trig.trig.name = NULL;
-+	}
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(ledtrig_blk_register);
-+
-+void ledtrig_blk_unregister(struct gendisk *disk)
-+{
-+	if (!disk->led_trig.trig.name)
-+		return;
-+
-+	led_trigger_unregister(&disk->led_trig.trig);
-+	kfree(disk->led_trig.trig.name);
-+	disk->led_trig.trig.name = NULL;
-+}
-+EXPORT_SYMBOL_GPL(ledtrig_blk_unregister);
-diff --git a/include/linux/genhd.h b/include/linux/genhd.h
-index 8b5330d..d4fdb21 100644
---- a/include/linux/genhd.h
-+++ b/include/linux/genhd.h
-@@ -17,6 +17,7 @@
- #include <linux/percpu-refcount.h>
- #include <linux/uuid.h>
- #include <linux/blk_types.h>
-+#include <linux/leds.h>
- #include <asm/local.h>
- 
- #ifdef CONFIG_BLOCK
-@@ -219,6 +220,8 @@ struct gendisk {
- 	int node_id;
- 	struct badblocks *bb;
- 	struct lockdep_map lockdep_map;
-+
-+	struct ledtrig_blk led_trig;
- };
- 
- static inline struct gendisk *part_to_disk(struct hd_struct *part)
-diff --git a/include/linux/leds.h b/include/linux/leds.h
-index 9b2bf57..fd2eb7c 100644
---- a/include/linux/leds.h
-+++ b/include/linux/leds.h
-@@ -517,4 +517,42 @@ static inline void ledtrig_audio_set(enum led_audio type,
  }
- #endif
  
-+struct gendisk;
+ static int sd_suspend_system(struct device *dev)
+@@ -3589,19 +3590,24 @@ static int sd_suspend_runtime(struct device *dev)
+ static int sd_resume(struct device *dev)
+ {
+ 	struct scsi_disk *sdkp = dev_get_drvdata(dev);
+-	int ret;
+ 
+ 	if (!sdkp)	/* E.g.: runtime resume at the start of sd_probe() */
+ 		return 0;
+ 
+-	if (!sdkp->device->manage_start_stop)
+-		return 0;
++	if (sdkp->device->manage_start_stop) {
++		int ret;
 +
-+#ifdef CONFIG_LEDS_TRIGGER_BLOCK
++		sd_printk(KERN_NOTICE, sdkp, "Starting disk\n");
++		ret = sd_start_stop_device(sdkp, 1);
++		if (ret)
++			return ret;
+ 
+-	sd_printk(KERN_NOTICE, sdkp, "Starting disk\n");
+-	ret = sd_start_stop_device(sdkp, 1);
+-	if (!ret)
+ 		opal_unlock_from_suspend(sdkp->opal_dev);
+-	return ret;
++	}
 +
-+struct ledtrig_blk {
-+	struct led_trigger trig;
-+	atomic_t enable_count;
-+};
++	ledtrig_blk_enable(sdkp->disk);
 +
-+void ledtrig_blk_enable(struct gendisk *disk);
-+void ledtrig_blk_disable(struct gendisk *disk);
-+int ledtrig_blk_register(struct gendisk *disk);
-+void ledtrig_blk_unregister(struct gendisk *disk);
-+
-+#else
-+
-+struct ledtrig_blk {
-+};
-+
-+static inline void ledtrig_blk_enable(struct gendisk *disk)
-+{
-+}
-+
-+static inline void ledtrig_blk_disable(struct gendisk *disk)
-+{
-+}
-+
-+static inline int ledtrig_blk_register(struct gendisk *disk)
-+{
 +	return 0;
-+}
-+
-+static inline void ledtrig_blk_unregister(struct gendisk *disk)
-+{
-+}
-+
-+#endif /* CONFIG_LEDS_TRIGGER_BLOCK */
-+
- #endif		/* __LINUX_LEDS_H_INCLUDED */
+ }
+ 
+ /**
 -- 
 2.7.4
