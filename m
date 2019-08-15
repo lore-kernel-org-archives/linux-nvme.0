@@ -1,16 +1,46 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 15 Aug 2019 10:10:59 -0700
-Subject: [PATCH] nvme: exclude completion trace from non-multipath builds
-In-Reply-To: <1febf497-e92e-6acd-1968-50ae7735ec79@grimberg.me>
-References: <9efc495c41b7bf050362a3a7eb64b5809092afd6.1565280170.git.mskorzhinskiy@solarflare.com>
- <1febf497-e92e-6acd-1968-50ae7735ec79@grimberg.me>
-Message-ID: <a83f9206-4e09-3522-8574-1f9887491e2a@grimberg.me>
+Date: Thu, 15 Aug 2019 10:13:35 -0700
+Subject: [PATCH] nvme-cli/fabrics: Add tos param to connect cmd
+In-Reply-To: <d44bfcb2-08c8-d621-6d9f-17c3da9c40d2@broadcom.com>
+References: <1565777981-18755-1-git-send-email-israelr@mellanox.com>
+ <1565777981-18755-2-git-send-email-israelr@mellanox.com>
+ <33ddd40f-14a8-9506-01dc-65a049f8bb5f@grimberg.me>
+ <a447b0ba-31ea-6a12-2fb4-6cef0b95da96@mellanox.com>
+ <d44bfcb2-08c8-d621-6d9f-17c3da9c40d2@broadcom.com>
+Message-ID: <fde884a9-323c-a40d-27ed-0a3464c02ca1@grimberg.me>
 
 
-> The call should not condition on CONFIG_NVME_MULTIPATH, but the function
-> implementation should be left empty if CONFIG_NVME_MULTIPATH is not
-> enabled (see nvme.h).
+>>>> Added 'tos' to 'connect' command so users can specify the type of 
+>>>> service.
+>>>>
+>>>> usage examples:
+>>>> nvme connect --tos=0 --transport=rdma --traddr=10.0.1.1 --nqn=test-nvme
+>>>> nvme connect -T 0 -t rdma -a 10.0.1.1 -n test_nvme
+>>>
+>>> Still don't see how this is handled if the kernel does not support
+>>> tos yet.
+>>
+>> how any other feature we added to connect command will act with old 
+>> kernel ? (e.g. queue_size/nr_queues)
+>>
+>> it will fail to get token "token = match_token(p, opt_tokens, args);" 
+>> and return? -EINVAL.
+>>
+>> Israel checked that.
 > 
-> Also, lets call it nvme_trace_bio_complete..
+> I think what Sagi's getting at is: it would be really nice to not fail 
+> the whole connect request if an argument can't be parsed. E.g. a newer 
+> cli, used on an older kernel, should be functional with or without the 
+> tos argument.
+> 
+> If so- as I doubt the cli knows what was invalid or which argument was 
+> invalid and it would be really odd (especially over time) to back out 
+> arguments and try again - we need to update the kernel to warn that an 
+> argument was not parsed and was ignored, but attempt to use what it does 
+> recognize and not return failure to the cli.? Sagi ?
 
-Hey Mikhail, are you sending a respin or should I?
+Actually, I think its fine. I got it confused with another case where
+nvme-cli generates this argument on its own from the discovery log
+page (like the sqflow_disable thing).
+
+I think we're fine here, we can ignore my comment...
