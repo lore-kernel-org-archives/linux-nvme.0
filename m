@@ -1,56 +1,44 @@
-From: israelr@mellanox.com (Israel Rukshin)
-Date: Thu, 15 Aug 2019 16:33:46 +0300
-Subject: [PATCH 4/5] nvme-tcp: Add TOS for tcp transport
-In-Reply-To: <1565876027-25092-1-git-send-email-israelr@mellanox.com>
-References: <1565876027-25092-1-git-send-email-israelr@mellanox.com>
-Message-ID: <1565876027-25092-6-git-send-email-israelr@mellanox.com>
+From: james.smart@broadcom.com (James Smart)
+Date: Thu, 15 Aug 2019 08:18:29 -0700
+Subject: [PATCH] nvme-cli/fabrics: Add tos param to connect cmd
+In-Reply-To: <a447b0ba-31ea-6a12-2fb4-6cef0b95da96@mellanox.com>
+References: <1565777981-18755-1-git-send-email-israelr@mellanox.com>
+ <1565777981-18755-2-git-send-email-israelr@mellanox.com>
+ <33ddd40f-14a8-9506-01dc-65a049f8bb5f@grimberg.me>
+ <a447b0ba-31ea-6a12-2fb4-6cef0b95da96@mellanox.com>
+Message-ID: <d44bfcb2-08c8-d621-6d9f-17c3da9c40d2@broadcom.com>
 
-TOS provide clients the ability to segregate traffic flows for
-different type of data.
-One of the TOS usage is bandwidth management which allows setting bandwidth
-limits for QoS classes, e.g. 80% bandwidth to controllers at QoS class A
-and 20% to controllers at QoS class B.
+On 8/15/2019 1:41 AM, Max Gurtovoy wrote:
+>
+> On 8/14/2019 8:08 PM, Sagi Grimberg wrote:
+>>
+>>> Added 'tos' to 'connect' command so users can specify the type of 
+>>> service.
+>>>
+>>> usage examples:
+>>> nvme connect --tos=0 --transport=rdma --traddr=10.0.1.1 --nqn=test-nvme
+>>> nvme connect -T 0 -t rdma -a 10.0.1.1 -n test_nvme
+>>
+>> Still don't see how this is handled if the kernel does not support
+>> tos yet.
+>
+> how any other feature we added to connect command will act with old 
+> kernel ? (e.g. queue_size/nr_queues)
+>
+> it will fail to get token "token = match_token(p, opt_tokens, args);" 
+> and return? -EINVAL.
+>
+> Israel checked that.
 
-usage examples:
-nvme connect --tos=0 --transport=tcp --traddr=10.0.1.1 --nqn=test-nvme
+I think what Sagi's getting at is: it would be really nice to not fail 
+the whole connect request if an argument can't be parsed. E.g. a newer 
+cli, used on an older kernel, should be functional with or without the 
+tos argument.
 
-Signed-off-by: Israel Rukshin <israelr at mellanox.com>
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
----
- drivers/nvme/host/tcp.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+If so- as I doubt the cli knows what was invalid or which argument was 
+invalid and it would be really odd (especially over time) to back out 
+arguments and try again - we need to update the kernel to warn that an 
+argument was not parsed and was ignored, but attempt to use what it does 
+recognize and not return failure to the cli.? Sagi ?
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index feed0dc..f99301a 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1301,6 +1301,18 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
- 		goto err_sock;
- 	}
- 
-+	/* Set socket type of service */
-+	if (nctrl->opts->tos >= 0) {
-+		opt = nctrl->opts->tos;
-+		ret = kernel_setsockopt(queue->sock, SOL_IP, IP_TOS,
-+				(char *)&opt, sizeof(opt));
-+		if (ret) {
-+			dev_err(nctrl->device,
-+				"failed to set IP_TOS sock opt %d\n", ret);
-+			goto err_sock;
-+		}
-+	}
-+
- 	queue->sock->sk->sk_allocation = GFP_ATOMIC;
- 	if (!qid)
- 		n = 0;
-@@ -2314,7 +2326,7 @@ static struct nvme_ctrl *nvme_tcp_create_ctrl(struct device *dev,
- 	.allowed_opts	= NVMF_OPT_TRSVCID | NVMF_OPT_RECONNECT_DELAY |
- 			  NVMF_OPT_HOST_TRADDR | NVMF_OPT_CTRL_LOSS_TMO |
- 			  NVMF_OPT_HDR_DIGEST | NVMF_OPT_DATA_DIGEST |
--			  NVMF_OPT_NR_WRITE_QUEUES,
-+			  NVMF_OPT_NR_WRITE_QUEUES | NVMF_OPT_TOS,
- 	.create_ctrl	= nvme_tcp_create_ctrl,
- };
- 
--- 
-1.8.3.1
+-- james
