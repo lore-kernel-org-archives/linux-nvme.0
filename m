@@ -1,22 +1,37 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Thu, 15 Aug 2019 15:36:02 +0300
-Subject: [PATCH v7 08/14] nvmet-core: allow one host per passthru-ctrl
-In-Reply-To: <20190801234514.7941-9-logang@deltatee.com>
-References: <20190801234514.7941-1-logang@deltatee.com>
- <20190801234514.7941-9-logang@deltatee.com>
-Message-ID: <05a74e81-1dbd-725f-1369-5ca5c5918db1@mellanox.com>
+From: amit.engel@dell.com (amit.engel@dell.com)
+Date: Thu, 15 Aug 2019 15:43:48 +0300
+Subject: [PATCH] nvme/target/admin-cmd.c: Fix a bug in
+ 'nvmet_execute_get_log_page_error'
+Message-ID: <20190815124348.125105-1-amit.engel@dell.com>
 
+From: Amit <amit.engel@emc.com>
 
-On 8/2/2019 2:45 AM, Logan Gunthorpe wrote:
-> This patch rejects any new connection to the passthru-ctrl if this
-> controller is already connected to a different host. At the time of
-> allocating the controller we check if the subsys associated with
-> the passthru ctrl is already connected to a host and reject it
-> if the hostnqn differs.
+ensure that nvmet_copy_to_sgl does not exceed data_len
 
-This is a big limitation.
+Signed-off-by: Amit <amit.engel at emc.com>
+---
+ drivers/nvme/target/admin-cmd.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Are we plan to enable many front-end ctrl's to connect to the single 
-back-end ctrl in the future ?
-
-I guess it can be incremental to this series.
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 51800a9ce9a9..fd7749727f55 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -40,13 +40,14 @@ static void nvmet_execute_get_log_page_error(struct nvmet_req *req)
+ 	u16 status = NVME_SC_SUCCESS;
+ 	unsigned long flags;
+ 	off_t offset = 0;
++	size_t num_of_sgl_slots = req->data_len/sizeof(struct nvme_error_slot);
+ 	u64 slot;
+ 	u64 i;
+ 
+ 	spin_lock_irqsave(&ctrl->error_lock, flags);
+ 	slot = ctrl->err_counter % NVMET_ERROR_LOG_SLOTS;
+ 
+-	for (i = 0; i < NVMET_ERROR_LOG_SLOTS; i++) {
++	for (i = 0; i < NVMET_ERROR_LOG_SLOTS && i < num_of_sgl_slots; i++) {
+ 		status = nvmet_copy_to_sgl(req, offset, &ctrl->slots[slot],
+ 				sizeof(struct nvme_error_slot));
+ 		if (status)
+-- 
+2.16.2
