@@ -1,23 +1,23 @@
 From: james.smart@broadcom.com (James Smart)
-Date: Thu, 15 Aug 2019 14:05:15 -0700
-Subject: [PATCH v6 2/7] nvme: return a proper status for sync commands
- failure
-In-Reply-To: <20190813064304.7344-3-sagi@grimberg.me>
+Date: Thu, 15 Aug 2019 14:10:47 -0700
+Subject: [PATCH v6 3/7] nvme: make nvme_identify_ns propagate errors back
+In-Reply-To: <20190813064304.7344-4-sagi@grimberg.me>
 References: <20190813064304.7344-1-sagi@grimberg.me>
- <20190813064304.7344-3-sagi@grimberg.me>
-Message-ID: <12b07987-4190-d1b9-22b1-468ad9f8f540@broadcom.com>
+ <20190813064304.7344-4-sagi@grimberg.me>
+Message-ID: <3b0b8d89-ed03-3e76-0203-0c45431e4b6b@broadcom.com>
 
 
 
-On 8/12/2019 11:42 PM, Sagi Grimberg wrote:
-> callers should not rely on raw nvme status, instead return
-> is more appropriate blk_status_t.
+On 8/12/2019 11:43 PM, Sagi Grimberg wrote:
+> right now callers of nvme_identify_ns only know that it failed,
+> but don't know why. Make nvme_identify_ns propagate the error back.
+> Note that if the return status from nvme_submit_sync_cmd() is positive
+> then we convert it from a blk_status_t to a negative errno.
 >
+> Reviewed-by: Minwoo Im <minwoo.im.dev at gmail.com>
+> Reviewed-by: Hannes Reinecke <hare at suse.com>
 > Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 > ---
->   drivers/nvme/host/core.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->
 >
 
 
