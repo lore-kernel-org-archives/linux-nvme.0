@@ -1,22 +1,29 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 15 Aug 2019 10:19:04 -0700
-Subject: [PATCH v2] nvme: Add quirk for LiteON CL1 devices running FW
- 22301111
-In-Reply-To: <20190814201900.GA3511@localhost.localdomain>
-References: <1565813304-16710-1-git-send-email-mario.limonciello@dell.com>
- <32f20898-b9af-eee0-97de-0a568de54b57@grimberg.me>
- <20190814201900.GA3511@localhost.localdomain>
-Message-ID: <0cafca37-011d-4c19-4462-14687046a153@grimberg.me>
+Date: Thu, 15 Aug 2019 10:22:25 -0700
+Subject: [PATCH] nvme/target/admin-cmd.c: Fix a bug in
+ 'nvmet_execute_get_log_page_error'
+In-Reply-To: <20190815124348.125105-1-amit.engel@dell.com>
+References: <20190815124348.125105-1-amit.engel@dell.com>
+Message-ID: <ca9ad5ba-6199-cc0b-176a-9f8ccf7870a5@grimberg.me>
 
 
->> Mario,
->>
->> Can you please respin a patch that applies cleanly on nvme-5.4?
+> From: Amit <amit.engel at emc.com>
 > 
-> This fixes a regression we introduced in 5.3, so it should go in
-> 5.3-rc. For this to apply cleanly, though, we'll need to resync to Linus'
-> tree to get Rafael's PCIe ASPM check after he sends his linux-pm pull
-> request.
+> ensure that nvmet_copy_to_sgl does not exceed data_len
+> 
+> Signed-off-by: Amit <amit.engel at emc.com>
+> ---
+>   drivers/nvme/target/admin-cmd.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+> index 51800a9ce9a9..fd7749727f55 100644
+> --- a/drivers/nvme/target/admin-cmd.c
+> +++ b/drivers/nvme/target/admin-cmd.c
+> @@ -40,13 +40,14 @@ static void nvmet_execute_get_log_page_error(struct nvmet_req *req)
+>   	u16 status = NVME_SC_SUCCESS;
+>   	unsigned long flags;
+>   	off_t offset = 0;
+> +	size_t num_of_sgl_slots = req->data_len/sizeof(struct nvme_error_slot);
 
-We need to coordinate with Jens, don't think its a good idea if I'll
-just randomly get stuff from linus' tree and send an rc pull request.
+This should be do_div.
