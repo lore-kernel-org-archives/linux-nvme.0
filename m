@@ -1,81 +1,190 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Thu, 15 Aug 2019 14:46:35 +0300
-Subject: [PATCH v7 01/14] nvme-core: introduce nvme_ctrl_get_by_path()
-In-Reply-To: <20190801234514.7941-2-logang@deltatee.com>
+Date: Thu, 15 Aug 2019 15:20:35 +0300
+Subject: [PATCH v7 07/14] nvmet-passthru: add enable/disable helpers
+In-Reply-To: <20190801234514.7941-8-logang@deltatee.com>
 References: <20190801234514.7941-1-logang@deltatee.com>
- <20190801234514.7941-2-logang@deltatee.com>
-Message-ID: <563baec2-61f6-5705-d751-1eee75370e66@mellanox.com>
+ <20190801234514.7941-8-logang@deltatee.com>
+Message-ID: <e0323600-c4e8-00e7-d8cc-ff8d31b4ed10@mellanox.com>
 
 
 On 8/2/2019 2:45 AM, Logan Gunthorpe wrote:
-> nvme_ctrl_get_by_path() is analagous to blkdev_get_by_path() except it
-> gets a struct nvme_ctrl from the path to its char dev (/dev/nvme0).
-> It makes use of filp_open() to open the file and uses the private
-> data to obtain a pointer to the struct nvme_ctrl. If the fops of the
-> file do not match, -EINVAL is returned.
+> This patch adds helper functions which are used in the NVMeOF configfs
+> when the user is configuring the passthru subsystem. Here we ensure
+> that only one subsys is assigned to each nvme_ctrl by using an xarray
+> on the cntlid.
 >
-> The purpose of this function is to support NVMe-OF target passthru.
->
+> [chaitanya.kulkarni at wdc.com: this patch is very roughly based
+>   on a similar one by Chaitanya]
+> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 > Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 > ---
->   drivers/nvme/host/core.c | 24 ++++++++++++++++++++++++
->   drivers/nvme/host/nvme.h |  2 ++
->   2 files changed, 26 insertions(+)
+>   drivers/nvme/target/core.c            |  8 +++
+>   drivers/nvme/target/io-cmd-passthru.c | 77 +++++++++++++++++++++++++++
+>   drivers/nvme/target/nvmet.h           | 10 ++++
+>   3 files changed, 95 insertions(+)
 >
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index e6ee6f2a3da6..f72334f34a30 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -2817,6 +2817,30 @@ static const struct file_operations nvme_dev_fops = {
->   	.compat_ioctl	= nvme_dev_ioctl,
->   };
+> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+> index 50c01b2da568..2e75968af7f4 100644
+> --- a/drivers/nvme/target/core.c
+> +++ b/drivers/nvme/target/core.c
+> @@ -519,6 +519,12 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
 >   
-> +struct nvme_ctrl *nvme_ctrl_get_by_path(const char *path)
+>   	mutex_lock(&subsys->lock);
+>   	ret = 0;
+> +
+> +	if (nvmet_passthru_ctrl(subsys)) {
+> +		pr_info("cannot enable both passthru and regular namespaces for a single subsystem");
+> +		goto out_unlock;
+> +	}
+> +
+>   	if (ns->enabled)
+>   		goto out_unlock;
+>   
+> @@ -1439,6 +1445,8 @@ static void nvmet_subsys_free(struct kref *ref)
+>   
+>   	WARN_ON_ONCE(!list_empty(&subsys->namespaces));
+>   
+> +	nvmet_passthru_subsys_free(subsys);
+> +
+>   	kfree(subsys->subsysnqn);
+>   	kfree(subsys);
+>   }
+> diff --git a/drivers/nvme/target/io-cmd-passthru.c b/drivers/nvme/target/io-cmd-passthru.c
+> index 46c58fec5608..b199785500ad 100644
+> --- a/drivers/nvme/target/io-cmd-passthru.c
+> +++ b/drivers/nvme/target/io-cmd-passthru.c
+> @@ -11,6 +11,11 @@
+>   #include "../host/nvme.h"
+>   #include "nvmet.h"
+>   
+> +/*
+> + * xarray to maintain one passthru subsystem per nvme controller.
+> + */
+> +static DEFINE_XARRAY(passthru_subsystems);
+> +
+>   static struct workqueue_struct *passthru_wq;
+>   
+>   int nvmet_passthru_init(void)
+> @@ -27,6 +32,78 @@ void nvmet_passthru_destroy(void)
+>   	destroy_workqueue(passthru_wq);
+>   }
+>   
+> +int nvmet_passthru_ctrl_enable(struct nvmet_subsys *subsys)
 > +{
 > +	struct nvme_ctrl *ctrl;
-> +	struct file *f;
+> +	int ret = -EINVAL;
+> +	void *old;
 > +
-> +	f = filp_open(path, O_RDWR, 0);
-> +	if (IS_ERR(f))
-> +		return ERR_CAST(f);
+> +	mutex_lock(&subsys->lock);
+> +	if (!subsys->passthru_ctrl_path)
+> +		goto out_unlock;
+> +	if (subsys->passthru_ctrl)
+> +		goto out_unlock;
 > +
-> +	if (f->f_op != &nvme_dev_fops) {
-> +		ctrl = ERR_PTR(-EINVAL);
-> +		goto out_close;
+> +	if (subsys->nr_namespaces) {
+> +		pr_info("cannot enable both passthru and regular namespaces for a single subsystem");
+> +		goto out_unlock;
 > +	}
+> +
+> +	ctrl = nvme_ctrl_get_by_path(subsys->passthru_ctrl_path);
+> +	if (IS_ERR(ctrl)) {
+> +		ret = PTR_ERR(ctrl);
+> +		pr_err("failed to open nvme controller %s\n",
+> +		       subsys->passthru_ctrl_path);
+> +
+> +		goto out_unlock;
+> +	}
+> +
+> +	old = xa_cmpxchg(&passthru_subsystems, ctrl->cntlid, NULL,
+> +			 subsys, GFP_KERNEL);
+> +	if (xa_is_err(old)) {
+> +		ret = xa_err(old);
+> +		goto out_put_ctrl;
+> +	}
+> +
+> +	if (old)
+> +		goto out_put_ctrl;
+> +
+> +	subsys->passthru_ctrl = ctrl;
+> +	ret = 0;
+> +
+> +	goto out_unlock;
 
-Logan,
+can we re-arrange the code here ?
 
-this means that the PT is for nvme-pci and also nvme-fabrics as well.
+it's not so common to see goto in a good flow.
 
-Is this the intention ? or we want to restrict it to pci only.
-
+maybe have 1 good flow the goto's will go bellow it as we usually do in 
+this subsystem.
 
 
 > +
-> +	ctrl = f->private_data;
-> +	nvme_get_ctrl(ctrl);
-> +
-> +out_close:
-> +	filp_close(f, NULL);
-> +
-> +	return ctrl;
+> +out_put_ctrl:
+> +	nvme_put_ctrl(ctrl);
+> +out_unlock:
+> +	mutex_unlock(&subsys->lock);
+> +	return ret;
 > +}
-> +EXPORT_SYMBOL_GPL(nvme_ctrl_get_by_path);
 > +
->   static ssize_t nvme_sysfs_reset(struct device *dev,
->   				struct device_attribute *attr, const char *buf,
->   				size_t count)
-> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> index ecbd90c31d0d..7e827c9e892c 100644
-> --- a/drivers/nvme/host/nvme.h
-> +++ b/drivers/nvme/host/nvme.h
-> @@ -484,6 +484,8 @@ int nvme_get_log(struct nvme_ctrl *ctrl, u32 nsid, u8 log_page, u8 lsp,
->   extern const struct attribute_group *nvme_ns_id_attr_groups[];
->   extern const struct block_device_operations nvme_ns_head_ops;
->   
-> +struct nvme_ctrl *nvme_ctrl_get_by_path(const char *path);
+> +static void __nvmet_passthru_ctrl_disable(struct nvmet_subsys *subsys)
+> +{
+> +	if (subsys->passthru_ctrl) {
+> +		xa_erase(&passthru_subsystems, subsys->passthru_ctrl->cntlid);
+> +		nvme_put_ctrl(subsys->passthru_ctrl);
+> +	}
+> +	subsys->passthru_ctrl = NULL;
+> +}
 > +
->   #ifdef CONFIG_NVME_MULTIPATH
->   static inline bool nvme_ctrl_use_ana(struct nvme_ctrl *ctrl)
+> +void nvmet_passthru_ctrl_disable(struct nvmet_subsys *subsys)
+> +{
+> +	mutex_lock(&subsys->lock);
+> +	__nvmet_passthru_ctrl_disable(subsys);
+> +	mutex_unlock(&subsys->lock);
+> +}
+> +
+> +void nvmet_passthru_subsys_free(struct nvmet_subsys *subsys)
+> +{
+> +	mutex_lock(&subsys->lock);
+> +	__nvmet_passthru_ctrl_disable(subsys);
+> +	kfree(subsys->passthru_ctrl_path);
+> +	mutex_unlock(&subsys->lock);
+> +}
+> +
+>   static void nvmet_passthru_req_complete(struct nvmet_req *req,
+>   		struct request *rq, u16 status)
 >   {
+> diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+> index bd11114ebbb9..aff4db03269d 100644
+> --- a/drivers/nvme/target/nvmet.h
+> +++ b/drivers/nvme/target/nvmet.h
+> @@ -230,6 +230,7 @@ struct nvmet_subsys {
+>   
+>   #ifdef CONFIG_NVME_TARGET_PASSTHRU
+>   	struct nvme_ctrl	*passthru_ctrl;
+> +	char			*passthru_ctrl_path;
+>   #endif /* CONFIG_NVME_TARGET_PASSTHRU */
+>   };
+>   
+> @@ -509,6 +510,9 @@ static inline u32 nvmet_rw_len(struct nvmet_req *req)
+>   
+>   int nvmet_passthru_init(void);
+>   void nvmet_passthru_destroy(void);
+> +void nvmet_passthru_subsys_free(struct nvmet_subsys *subsys);
+> +int nvmet_passthru_ctrl_enable(struct nvmet_subsys *subsys);
+> +void nvmet_passthru_ctrl_disable(struct nvmet_subsys *subsys);
+>   u16 nvmet_parse_passthru_cmd(struct nvmet_req *req);
+>   
+>   static inline
+> @@ -526,6 +530,12 @@ static inline int nvmet_passthru_init(void)
+>   static inline void nvmet_passthru_destroy(void)
+>   {
+>   }
+> +static inline void nvmet_passthru_subsys_free(struct nvmet_subsys *subsys)
+> +{
+> +}
+> +static inline void nvmet_passthru_ctrl_disable(struct nvmet_subsys *subsys)
+> +{
+> +}
+>   static inline u16 nvmet_parse_passthru_cmd(struct nvmet_req *req)
+>   {
+>   	return 0;
