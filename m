@@ -1,46 +1,19 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 15 Aug 2019 10:13:35 -0700
-Subject: [PATCH] nvme-cli/fabrics: Add tos param to connect cmd
-In-Reply-To: <d44bfcb2-08c8-d621-6d9f-17c3da9c40d2@broadcom.com>
-References: <1565777981-18755-1-git-send-email-israelr@mellanox.com>
- <1565777981-18755-2-git-send-email-israelr@mellanox.com>
- <33ddd40f-14a8-9506-01dc-65a049f8bb5f@grimberg.me>
- <a447b0ba-31ea-6a12-2fb4-6cef0b95da96@mellanox.com>
- <d44bfcb2-08c8-d621-6d9f-17c3da9c40d2@broadcom.com>
-Message-ID: <fde884a9-323c-a40d-27ed-0a3464c02ca1@grimberg.me>
+Date: Thu, 15 Aug 2019 10:15:27 -0700
+Subject: [PATCH 4/5] nvme-tcp: Add TOS for tcp transport
+In-Reply-To: <1565876027-25092-6-git-send-email-israelr@mellanox.com>
+References: <1565876027-25092-1-git-send-email-israelr@mellanox.com>
+ <1565876027-25092-6-git-send-email-israelr@mellanox.com>
+Message-ID: <8022ef05-466c-6994-2e63-e8084e9749b4@grimberg.me>
 
 
->>>> Added 'tos' to 'connect' command so users can specify the type of 
->>>> service.
->>>>
->>>> usage examples:
->>>> nvme connect --tos=0 --transport=rdma --traddr=10.0.1.1 --nqn=test-nvme
->>>> nvme connect -T 0 -t rdma -a 10.0.1.1 -n test_nvme
->>>
->>> Still don't see how this is handled if the kernel does not support
->>> tos yet.
->>
->> how any other feature we added to connect command will act with old 
->> kernel ? (e.g. queue_size/nr_queues)
->>
->> it will fail to get token "token = match_token(p, opt_tokens, args);" 
->> and return? -EINVAL.
->>
->> Israel checked that.
-> 
-> I think what Sagi's getting at is: it would be really nice to not fail 
-> the whole connect request if an argument can't be parsed. E.g. a newer 
-> cli, used on an older kernel, should be functional with or without the 
-> tos argument.
-> 
-> If so- as I doubt the cli knows what was invalid or which argument was 
-> invalid and it would be really odd (especially over time) to back out 
-> arguments and try again - we need to update the kernel to warn that an 
-> argument was not parsed and was ignored, but attempt to use what it does 
-> recognize and not return failure to the cli.? Sagi ?
+> @@ -2314,7 +2326,7 @@ static struct nvme_ctrl *nvme_tcp_create_ctrl(struct device *dev,
+>   	.allowed_opts	= NVMF_OPT_TRSVCID | NVMF_OPT_RECONNECT_DELAY |
+>   			  NVMF_OPT_HOST_TRADDR | NVMF_OPT_CTRL_LOSS_TMO |
+>   			  NVMF_OPT_HDR_DIGEST | NVMF_OPT_DATA_DIGEST |
+> -			  NVMF_OPT_NR_WRITE_QUEUES,
+> +			  NVMF_OPT_NR_WRITE_QUEUES | NVMF_OPT_TOS,
+>   	.create_ctrl	= nvme_tcp_create_ctrl,
+>   };
 
-Actually, I think its fine. I got it confused with another case where
-nvme-cli generates this argument on its own from the discovery log
-page (like the sqflow_disable thing).
-
-I think we're fine here, we can ignore my comment...
+This does not apply on nvme-5.4
