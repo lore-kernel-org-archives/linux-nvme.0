@@ -1,44 +1,24 @@
-From: chris@chris-wilson.co.uk (Chris Wilson)
-Date: Fri, 16 Aug 2019 15:12:11 +0100
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 16 Aug 2019 08:26:48 -0600
 Subject: [PATCH] Revert "nvme-pci: use host managed power state for
  suspend"
-In-Reply-To: <CAOSXXT54LyxmF7sAgfxYr7G_vnvDjhiEiHnVm7Zrm1vjS7zLQA@mail.gmail.com>
+In-Reply-To: <156596473180.11610.10618280744615593681@skylake-alporthouse-com>
 References: <20190816121549.8754-1-chris@chris-wilson.co.uk>
  <20190816122644.GA21797@lst.de>
  <156595862897.11610.6852982219615959799@skylake-alporthouse-com>
  <20190816123850.GA22923@lst.de>
  <CAOSXXT54LyxmF7sAgfxYr7G_vnvDjhiEiHnVm7Zrm1vjS7zLQA@mail.gmail.com>
-Message-ID: <156596473180.11610.10618280744615593681@skylake-alporthouse-com>
+ <156596473180.11610.10618280744615593681@skylake-alporthouse-com>
+Message-ID: <20190816142648.GA6849@localhost.localdomain>
 
-Quoting Keith Busch (2019-08-16 13:46:41)
-> On Fri, Aug 16, 2019@6:38 AM Christoph Hellwig <hch@lst.de> wrote:
-> > On Fri, Aug 16, 2019@01:30:29PM +0100, Chris Wilson wrote:
-> > > Quoting Christoph Hellwig (2019-08-16 13:26:44)
-> > > > Please, report the actual problem.  Blindly reverting a patch without
-> > > > even an explanation of your regressions is not the way to do it.
-> > >
-> > > As stated, the system doesn't suspend.
-> > >
-> > > If you would like to wait, you will get test results from our CI
-> > > giving the current failed state and the outcome of the patch.
-> >
-> > Platform type, SSD vendor and type, firmware version?
-
-Which platform were you interested in, and is that information not
-present in the debug log? The issue is observed across multiple different
-SSD and vendors.
- 
-> Also not a fan of knee-jerk reverts. Even if it may turn out to be
-> necessary, let's at least start with a bug report for an opportunity
-> to fix first!
-
-I just did report that we successfully bisected the earlier bug we
-reported, and was testing a revert for our CI.
-
-> Could you please try Rafael's solution? These two commits here:
+On Fri, Aug 16, 2019@07:12:11AM -0700, Chris Wilson wrote:
+> Quoting Keith Busch (2019-08-16 13:46:41)
+> > Could you please try Rafael's solution? These two commits here:
+> > 
+> > https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git/commit/?h=xps13-9380-20190812&id=accd2dd72c8f087441d725dd916688171519e4e6
+> > https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git/commit/?h=xps13-9380-20190812&id=4eaefe8c621c6195c91044396ed8060c179f7aae
 > 
-> https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git/commit/?h=xps13-9380-20190812&id=accd2dd72c8f087441d725dd916688171519e4e6
-> https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git/commit/?h=xps13-9380-20190812&id=4eaefe8c621c6195c91044396ed8060c179f7aae
+> Which indeed work, thank you.
 
-Which indeed work, thank you.
--Chris
+Great! A pull request inlcuding these fixes was sent to Linus earlier
+today. We should expect to see its inclusion in the next -rc.
