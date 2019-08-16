@@ -1,52 +1,48 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Fri, 16 Aug 2019 11:24:21 -0700
-Subject: [PATCH rfc] nvme: make all fabrics command run on a separate
- request queue
-In-Reply-To: <1b3e039b-15ef-703b-1d01-454eaa22ef0e@grimberg.me>
-References: <20190808234643.8180-1-sagi@grimberg.me>
- <4c7083d3-2067-13d8-b3d8-0418769c80c4@broadcom.com>
- <1b3e039b-15ef-703b-1d01-454eaa22ef0e@grimberg.me>
-Message-ID: <44e08fd5-f5be-0055-2deb-eb914b36eaea@broadcom.com>
+From: Mario.Limonciello@dell.com (Mario.Limonciello@dell.com)
+Date: Fri, 16 Aug 2019 19:43:02 +0000
+Subject: [PATCH v2] nvme: Add quirk for LiteON CL1 devices running FW
+ 22301111
+In-Reply-To: <0cafca37-011d-4c19-4462-14687046a153@grimberg.me>
+References: <1565813304-16710-1-git-send-email-mario.limonciello@dell.com>
+ <32f20898-b9af-eee0-97de-0a568de54b57@grimberg.me>
+ <20190814201900.GA3511@localhost.localdomain>
+ <0cafca37-011d-4c19-4462-14687046a153@grimberg.me>
+Message-ID: <d71fc97ef6c8428f96ecfb2cec6077ab@AUSX13MPC101.AMER.DELL.COM>
 
+> -----Original Message-----
+> From: Sagi Grimberg <sagi at grimberg.me>
+> Sent: Thursday, August 15, 2019 12:19 PM
+> To: Keith Busch
+> Cc: Limonciello, Mario; Jens Axboe; Christoph Hellwig; linux-
+> nvme at lists.infradead.org; LKML; Hong, Ryan; Wang, Crag; sjg at google.com;
+> Hyde, Charles - Dell Team; Dominguez, Jared
+> Subject: Re: [PATCH v2] nvme: Add quirk for LiteON CL1 devices running FW
+> 22301111
+> 
+> 
+> [EXTERNAL EMAIL]
+> 
+> 
+> >> Mario,
+> >>
+> >> Can you please respin a patch that applies cleanly on nvme-5.4?
+> >
+> > This fixes a regression we introduced in 5.3, so it should go in
+> > 5.3-rc. For this to apply cleanly, though, we'll need to resync to Linus'
+> > tree to get Rafael's PCIe ASPM check after he sends his linux-pm pull
+> > request.
+> 
+> We need to coordinate with Jens, don't think its a good idea if I'll
+> just randomly get stuff from linus' tree and send an rc pull request.
 
+The dependent commit is in Linus' tree now.
+4eaefe8c621c6195c91044396ed8060c179f7aae
 
-On 8/16/2019 10:24 AM, Sagi Grimberg wrote:
->
->> This keeps anything in that scan thread from getting in the way.?? 
->> We're not too far from this with your patches. It may be the 
->> interaction of the two isn't so bad (if you are live enough for a 
->> controller Identify, are you live enough for the ns scanning ios ?),
->
-> Exactly, this is why everything stays the same, and we just unquiesce
-> the admin_q after the controller is enabled (and also quiesce before
-> we disable).
->
->> but my initial reaction is I'd like to separate them.? Thoughts ?
->
-> I'm not sure I understand what you are suggesting. Adding states that
-> will determine which request queue to use? Not sure how this is going
-> to work. Can you explain more on your thoughts?
->
+Also it was reported to me after this was submitted that the comment
+whitespace should have been aligned during the switchover from v1 to v2.
 
-I'm good with the explanation.
+V1 the whitespace was further left since it was applying to 3 drives, but now
+that they're combined in v2 the whitespace wasn't adjusted.
 
-
-
->>
->> I think the fabrics_q had to be quiesced and unquiesed at the points 
->> where today's admin_q is in fc.? It's possible the controller may 
->> under go a reset while in the middle of creating/initializing a new 
->> controller (on FC, async detection of connectivity is detected, 
->> resetting the controller). As such, I need to be sure the fabric 
->> commands initializing the controller are stopped/aborted, and the 
->> admin queue will be marked non-live to abort any retries other 
->> attempts, until the new create_association is attempted.?? Quiescing 
->> also helps as, as is, we are looping on the admin tag set to 
->> abort/clear anything outstanding on the reset, with the request_q not 
->> quiesced, which is probably not a good thing.
->
-> OK, I can add that.
-
-Thanks.
-
--- james
+Let me know if you want me to resubmit v3 w/ whitespace modification or
+if you will want to adjust that locally when you pull it in.
