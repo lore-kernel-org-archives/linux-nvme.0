@@ -1,32 +1,63 @@
-From: keith.busch@gmail.com (Keith Busch)
-Date: Fri, 16 Aug 2019 06:46:41 -0600
-Subject: [PATCH] Revert "nvme-pci: use host managed power state for
- suspend"
-In-Reply-To: <20190816123850.GA22923@lst.de>
-References: <20190816121549.8754-1-chris@chris-wilson.co.uk>
- <20190816122644.GA21797@lst.de>
- <156595862897.11610.6852982219615959799@skylake-alporthouse-com>
- <20190816123850.GA22923@lst.de>
-Message-ID: <CAOSXXT54LyxmF7sAgfxYr7G_vnvDjhiEiHnVm7Zrm1vjS7zLQA@mail.gmail.com>
+From: rafael@kernel.org (Rafael J. Wysocki)
+Date: Fri, 16 Aug 2019 15:11:27 +0200
+Subject: [GIT PULL] Power management fixes for v5.3-rc5
+Message-ID: <CAJZ5v0j4ezEuK1dk0J3wwjSuudzjhKWTXzJL=EkE1QG39HKRiw@mail.gmail.com>
 
-On Fri, Aug 16, 2019@6:38 AM Christoph Hellwig <hch@lst.de> wrote:
-> On Fri, Aug 16, 2019@01:30:29PM +0100, Chris Wilson wrote:
-> > Quoting Christoph Hellwig (2019-08-16 13:26:44)
-> > > Please, report the actual problem.  Blindly reverting a patch without
-> > > even an explanation of your regressions is not the way to do it.
-> >
-> > As stated, the system doesn't suspend.
-> >
-> > If you would like to wait, you will get test results from our CI
-> > giving the current failed state and the outcome of the patch.
->
-> Platform type, SSD vendor and type, firmware version?
+Hi Linus,
 
-Also not a fan of knee-jerk reverts. Even if it may turn out to be
-necessary, let's at least start with a bug report for an opportunity
-to fix first!
+Please pull from the tag
 
-Could you please try Rafael's solution? These two commits here:
+ git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git \
+ pm-5.3-rc5
 
-https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git/commit/?h=xps13-9380-20190812&id=accd2dd72c8f087441d725dd916688171519e4e6
-https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git/commit/?h=xps13-9380-20190812&id=4eaefe8c621c6195c91044396ed8060c179f7aae
+with top-most commit a3ee2477c45f73184a64d9c6cf97855a52732dc6
+
+ Merge branch 'pm-cpufreq'
+
+on top of commit d45331b00ddb179e291766617259261c112db872
+
+ Linux 5.3-rc4
+
+to receive power management fixes for 5.3-rc5.
+
+These add a check to avoid recent suspend-to-idle power regression on
+systems with NVMe drives where the PCIe ASPM policy is "performance"
+(or when the kernel is built without ASPM support), fix an issue
+related to frequency limits in the schedutil cpufreq governor and fix a
+mistake related to the PM QoS usage in the cpufreq core introduced
+recently.
+
+Specifics:
+
+ - Disable NVMe power optimization related to suspend-to-idle added
+   recently on systems where PCIe ASPM is not able to put PCIe links
+   into low-power states to prevent excess power from being drawn by
+   the system while suspended (Rafael Wysocki).
+
+ - Make the schedutil cpufreq governor handle frequency limits changes
+   properly in all cases (Viresh Kumar).
+
+ - Prevent the cpufreq core from treating positive values returned
+   by dev_pm_qos_update_request() as errors (Viresh Kumar).
+
+Thanks!
+
+
+---------------
+
+Rafael J. Wysocki (2):
+      PCI/ASPM: Add pcie_aspm_enabled()
+      nvme-pci: Allow PCI bus-level PM to be used if ASPM is disabled
+
+Viresh Kumar (2):
+      cpufreq: dev_pm_qos_update_request() can return 1 on success
+      cpufreq: schedutil: Don't skip freq update when limits change
+
+---------------
+
+ drivers/cpufreq/cpufreq.c        |  2 +-
+ drivers/nvme/host/pci.c          | 13 ++++++++++---
+ drivers/pci/pcie/aspm.c          | 20 ++++++++++++++++++++
+ include/linux/pci.h              |  2 ++
+ kernel/sched/cpufreq_schedutil.c | 14 ++++++++++----
+ 5 files changed, 43 insertions(+), 8 deletions(-)
