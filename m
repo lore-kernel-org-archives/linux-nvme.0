@@ -1,17 +1,20 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 16 Aug 2019 10:16:16 +0200
-Subject: [PATCH v3 14/14] PCI/P2PDMA: Update pci_p2pdma_distance_many()
- documentation
-In-Reply-To: <20190812173048.9186-15-logang@deltatee.com>
-References: <20190812173048.9186-1-logang@deltatee.com>
- <20190812173048.9186-15-logang@deltatee.com>
-Message-ID: <20190816081616.GN9249@lst.de>
+From: m.malygin@yadro.com (Mikhail Malygin)
+Date: Fri, 16 Aug 2019 08:37:36 +0000
+Subject: [PATCH] nvmet: read device size in identify-ns command handler
+In-Reply-To: <5fdce872-8e34-f34e-6ae8-e67bc2f935ac@grimberg.me>
+References: <20190813093157.21755-1-m.malygin@yadro.com>
+ <5fdce872-8e34-f34e-6ae8-e67bc2f935ac@grimberg.me>
+Message-ID: <A6E7616B-75C7-4C02-B93B-8FF44DE86642@yadro.com>
 
-On Mon, Aug 12, 2019@11:30:48AM -0600, Logan Gunthorpe wrote:
-> The comment describing pci_p2pdma_distance_many() still referred to
-> the devices being behind the same root port. This no longer applies
-> so reword the documentation.
+Rescan may be triggered manually from the initiator side. It would good to have rescan tiggered automatically, 
+however I did not find a way to notify nvmet about block size change. 
 
-Looks good,
-
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+> On 15 Aug 2019,@20:03, Sagi Grimberg <sagi@grimberg.me> wrote:
+> 
+> 
+>> Currently device size is cached in ns->size field on namespace enable, so
+>> any device size change after that can't bee seen by initiator.
+>> This patch updates ns->size field in identify-ns command handler,
+>> so initiator can see new device size after ns-rescan.
+> 
+> What would trigger a ns rescan?
