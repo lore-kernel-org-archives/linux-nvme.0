@@ -1,98 +1,73 @@
-From: mario.limonciello@dell.com (Mario Limonciello)
-Date: Fri, 16 Aug 2019 15:16:19 -0500
-Subject: [PATCH v3] nvme: Add quirk for LiteON CL1 devices running FW 22301111
-Message-ID: <1565986579-10466-1-git-send-email-mario.limonciello@dell.com>
+From: pavel@ucw.cz (Pavel Machek)
+Date: Sat, 17 Aug 2019 16:55:09 +0200
+Subject: [PATCH v4 4/5] block: introduce LED block device activity trigger
+In-Reply-To: <1565888399-21550-5-git-send-email-akinobu.mita@gmail.com>
+References: <1565888399-21550-1-git-send-email-akinobu.mita@gmail.com>
+ <1565888399-21550-5-git-send-email-akinobu.mita@gmail.com>
+Message-ID: <20190817145509.GA18381@amd>
 
-One of the components in LiteON CL1 device has limitations that
-can be encountered based upon boundary race conditions using the
-nvme bus specific suspend to idle flow.
+On Fri 2019-08-16 01:59:58, Akinobu Mita wrote:
+> This allows LEDs to be controlled by block device activity.
+> 
+> We already have ledtrig-disk (LED disk activity trigger), but the lower
+> level disk drivers need to utilize ledtrig_disk_activity() to make the
+> LED blink.
+> 
+> The LED block device trigger doesn't require the lower level drivers to
+> have any instrumentation. The activity is collected by polling the disk
+> stats.
+> 
+> Example:
+> 
+> echo block-nvme0n1 > /sys/class/leds/diy/trigger
 
-When this situation occurs the drive doesn't resume properly from
-suspend-to-idle.
+Lets use one trigger "block" and have the device as a parameter,
+please.
 
-LiteON has confirmed this problem and fixed in the next firmware
-version.  As this firmware is already in the field, avoid running
-nvme specific suspend to idle flow.
+We already have 1000 cpu triggers on 1000 cpu machines, and yes, its a
+disaster we'll need to fix. Lets not repeat the same mistake here.
 
-Fixes: d916b1be94b6 ("nvme-pci: use host managed power state for suspend")
-Link: http://lists.infradead.org/pipermail/linux-nvme/2019-July/thread.html
-Signed-off-by: Mario Limonciello <mario.limonciello at dell.com>
-Signed-off-by: Charles Hyde <charles.hyde at dellteam.com>
----
- drivers/nvme/host/core.c | 10 ++++++++++
- drivers/nvme/host/nvme.h |  5 +++++
- drivers/nvme/host/pci.c  |  3 ++-
- 3 files changed, 17 insertions(+), 1 deletion(-)
+I guess it may be slightly more work. Sorry about that.
 
-This patch is the spiritual successor to the previously submitted
-patch "[PATCH] drivers/nvme: save/restore HMB on suspend/resume".
+								Pavel
 
-After discussion with LiteON, they agreed to resolve the issue
-in their next firmware release.
+> +++ b/include/linux/leds.h
+> +#else
+> +
+> +struct ledtrig_blk {
+> +};
+> +
 
-This patch is dependent upon commit
-4eaefe8c621c6195c91044396ed8060c179f7aae
-which is currently in Linus' tree for the next 5.3-rcX but not
-yet in nvme-5.4.
+Is the empty struct neccessary?
 
-changes from v2:
- * Fix whitespace to match other nearby code
+> +static inline void ledtrig_blk_enable(struct gendisk *disk)
+> +{
+> +}
+> +
+> +static inline void ledtrig_blk_disable(struct gendisk *disk)
+> +{
+> +}
+> +
+> +static inline int ledtrig_blk_register(struct gendisk *disk)
+> +{
+> +	return 0;
+> +}
+> +
+> +static inline void ledtrig_blk_unregister(struct gendisk *disk)
+> +{
+> +}
 
-changes from v1:
- * Group all 3 possible CL1 strings together
- * Remove the resume code because it's
-   already implied by ndev->last_ps = U32_MAX
+Normally we put such empty functions on single lines...
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 8f3fbe5..a1c8c19 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2251,6 +2251,16 @@ static const struct nvme_core_quirk_entry core_quirks[] = {
- 		.vid = 0x1179,
- 		.mn = "THNSF5256GPUK TOSHIBA",
- 		.quirks = NVME_QUIRK_NO_APST,
-+	},
-+	{
-+		/*
-+		 * This LiteON CL1-3D*-Q11 firmware version has a race
-+		 * condition associated with actions related to suspend to idle
-+		 * LiteON has resolved the problem in future firmware
-+		 */
-+		.vid = 0x14a4,
-+		.fr = "22301111",
-+		.quirks = NVME_QUIRK_SIMPLE_SUSPEND,
- 	}
- };
- 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 26b563f..fe1ca0d 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -92,6 +92,11 @@ enum nvme_quirks {
- 	 * Broken Write Zeroes.
- 	 */
- 	NVME_QUIRK_DISABLE_WRITE_ZEROES		= (1 << 9),
-+
-+	/*
-+	 * Force simple suspend/resume path.
-+	 */
-+	NVME_QUIRK_SIMPLE_SUSPEND		= (1 << 10),
- };
- 
- /*
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 108e109..b366f54 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2875,7 +2875,8 @@ static int nvme_suspend(struct device *dev)
- 	 * state (which may not be possible if the link is up).
- 	 */
- 	if (pm_suspend_via_firmware() || !ctrl->npss ||
--	    !pcie_aspm_enabled(pdev)) {
-+	    !pcie_aspm_enabled(pdev) ||
-+	    (ndev->ctrl.quirks & NVME_QUIRK_SIMPLE_SUSPEND)) {
- 		nvme_dev_disable(ndev, true);
- 		return 0;
- 	}
+Best regards,
+									     Pavel
 -- 
-2.7.4
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 181 bytes
+Desc: Digital signature
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20190817/55367839/attachment.sig>
