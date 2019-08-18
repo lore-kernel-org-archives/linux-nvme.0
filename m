@@ -1,57 +1,49 @@
 From: israelr@mellanox.com (Israel Rukshin)
-Date: Sun, 18 Aug 2019 12:08:54 +0300
-Subject: [PATCH 4/5] nvme-tcp: Add TOS for tcp transport
+Date: Sun, 18 Aug 2019 12:08:55 +0300
+Subject: [PATCH 5/5] nvmet-tcp: Add TOS for tcp transport
 In-Reply-To: <1566119335-15058-1-git-send-email-israelr@mellanox.com>
 References: <1566119335-15058-1-git-send-email-israelr@mellanox.com>
-Message-ID: <1566119335-15058-6-git-send-email-israelr@mellanox.com>
+Message-ID: <1566119335-15058-7-git-send-email-israelr@mellanox.com>
 
-TOS provide clients the ability to segregate traffic flows for
-different type of data.
-One of the TOS usage is bandwidth management which allows setting bandwidth
-limits for QoS classes, e.g. 80% bandwidth to controllers at QoS class A
-and 20% to controllers at QoS class B.
-
-usage examples:
-nvme connect --tos=0 --transport=tcp --traddr=10.0.1.1 --nqn=test-nvme
+Set the outgoing packets type of service (TOS) according to the
+receiving TOS.
 
 Signed-off-by: Israel Rukshin <israelr at mellanox.com>
+Suggested-by: Sagi Grimberg <sagi at grimberg.me>
 Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/tcp.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+ drivers/nvme/target/tcp.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index a534ec6..4a03cab 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1304,6 +1304,18 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
- 		goto err_sock;
- 	}
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index 76e4375..bf4f034 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -1415,6 +1415,7 @@ static void nvmet_tcp_state_change(struct sock *sk)
+ static int nvmet_tcp_set_queue_sock(struct nvmet_tcp_queue *queue)
+ {
+ 	struct socket *sock = queue->sock;
++	struct inet_sock *inet = inet_sk(sock->sk);
+ 	struct linger sol = { .l_onoff = 1, .l_linger = 0 };
+ 	int ret;
+ 
+@@ -1438,6 +1439,16 @@ static int nvmet_tcp_set_queue_sock(struct nvmet_tcp_queue *queue)
+ 	if (ret)
+ 		return ret;
  
 +	/* Set socket type of service */
-+	if (nctrl->opts->tos >= 0) {
-+		opt = nctrl->opts->tos;
-+		ret = kernel_setsockopt(queue->sock, SOL_IP, IP_TOS,
-+				(char *)&opt, sizeof(opt));
-+		if (ret) {
-+			dev_err(nctrl->device,
-+				"failed to set IP_TOS sock opt %d\n", ret);
-+			goto err_sock;
-+		}
++	if (inet->rcv_tos > 0) {
++		int tos = inet->rcv_tos;
++
++		ret = kernel_setsockopt(sock, SOL_IP, IP_TOS,
++				(char *)&tos, sizeof(tos));
++		if (ret)
++			return ret;
 +	}
 +
- 	queue->sock->sk->sk_allocation = GFP_ATOMIC;
- 	if (!qid)
- 		n = 0;
-@@ -2340,7 +2352,8 @@ static struct nvme_ctrl *nvme_tcp_create_ctrl(struct device *dev,
- 	.allowed_opts	= NVMF_OPT_TRSVCID | NVMF_OPT_RECONNECT_DELAY |
- 			  NVMF_OPT_HOST_TRADDR | NVMF_OPT_CTRL_LOSS_TMO |
- 			  NVMF_OPT_HDR_DIGEST | NVMF_OPT_DATA_DIGEST |
--			  NVMF_OPT_NR_WRITE_QUEUES | NVMF_OPT_NR_POLL_QUEUES,
-+			  NVMF_OPT_NR_WRITE_QUEUES | NVMF_OPT_NR_POLL_QUEUES |
-+			  NVMF_OPT_TOS,
- 	.create_ctrl	= nvme_tcp_create_ctrl,
- };
- 
+ 	write_lock_bh(&sock->sk->sk_callback_lock);
+ 	sock->sk->sk_user_data = queue;
+ 	queue->data_ready = sock->sk->sk_data_ready;
 -- 
 1.8.3.1
