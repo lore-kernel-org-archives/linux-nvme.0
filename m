@@ -1,91 +1,69 @@
-From: jacek.anaszewski@gmail.com (Jacek Anaszewski)
-Date: Sat, 17 Aug 2019 22:07:43 +0200
-Subject: [PATCH v4 4/5] block: introduce LED block device activity trigger
-In-Reply-To: <20190817145509.GA18381@amd>
-References: <1565888399-21550-1-git-send-email-akinobu.mita@gmail.com>
- <1565888399-21550-5-git-send-email-akinobu.mita@gmail.com>
- <20190817145509.GA18381@amd>
-Message-ID: <925633c4-a459-5e84-9c9a-502a504fdc82@gmail.com>
+From: israelr@mellanox.com (Israel Rukshin)
+Date: Sun, 18 Aug 2019 12:08:52 +0300
+Subject: [PATCH 2/5] nvme-rdma: Add TOS for rdma transport
+In-Reply-To: <1566119335-15058-1-git-send-email-israelr@mellanox.com>
+References: <1566119335-15058-1-git-send-email-israelr@mellanox.com>
+Message-ID: <1566119335-15058-4-git-send-email-israelr@mellanox.com>
 
-On 8/17/19 4:55 PM, Pavel Machek wrote:
-> On Fri 2019-08-16 01:59:58, Akinobu Mita wrote:
->> This allows LEDs to be controlled by block device activity.
->>
->> We already have ledtrig-disk (LED disk activity trigger), but the lower
->> level disk drivers need to utilize ledtrig_disk_activity() to make the
->> LED blink.
->>
->> The LED block device trigger doesn't require the lower level drivers to
->> have any instrumentation. The activity is collected by polling the disk
->> stats.
->>
->> Example:
->>
->> echo block-nvme0n1 > /sys/class/leds/diy/trigger
-> 
-> Lets use one trigger "block" and have the device as a parameter,
-> please.
-> 
-> We already have 1000 cpu triggers on 1000 cpu machines, and yes, its a
-> disaster we'll need to fix. Lets not repeat the same mistake here.
-> 
-> I guess it may be slightly more work. Sorry about that.
+For RDMA transports, TOS is an extension of IB QoS to provide clients
+the ability to segregate traffic flows for different type of data.
+RDMA CM abstract it for ULPs using rdma_set_service_type().
+Internally, each traffic flow is represented by a connection with all of
+its independent resources like that of a normal connection, and is
+differentiated by service type. In other words, there can be multiple qp
+connections between an IP pair and each supports a unique service type.
 
-We should be able to list available block devices to set,
-so the problem would be not avoided anyway. And Greg already proposed
-a solution for trigger file PAGE_SIZE overflow, so this should not pose
-a big problem in the future once that is implemented.
+One of the TOS usage is bandwidth management which allows setting bandwidth
+limits for QoS classes, e.g. 80% bandwidth to controllers at QoS class A
+and 20% to controllers at QoS class B.
 
-> 								Pavel
-> 
->> +++ b/include/linux/leds.h
->> +#else
->> +
->> +struct ledtrig_blk {
->> +};
->> +
-> 
-> Is the empty struct neccessary?
+Note: In addition to the TOS configuration, QOS must be configured on the
+relevant HCA on the target (send RDMA commands) and initiator to effect
+the traffic.
 
-Yeah, I didn't like that too and tried to play with the code to turn
-it into a pointer but it turned out to be non-trivial.
+usage examples:
+nvme connect --tos=0 --transport=rdma --traddr=10.0.1.1 --nqn=test-nvme
 
-The thing is that struct ledtrig_blk is made a property of
-struct gendisk, which then allows to get a pointer to the struct gendisk
-of the registrar in ledtrig_blk_work() via container_of macro.
+Signed-off-by: Israel Rukshin <israelr at mellanox.com>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ drivers/nvme/host/rdma.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-Initially I did not realize the problem and asked Akinobu to move the
-trigger implementation to the LED subsystem since it seems to have
-likely broad use and it would be good to have it visible in the LED
-triggers config menu.
-
-That move unfortunately entails the cumbersome dependency we're
-discussing now. It's to be decided then if it wouldn't be cleaner
-to have that trigger entirely implemented on gendisk side.
-
->> +static inline void ledtrig_blk_enable(struct gendisk *disk)
->> +{
->> +}
->> +
->> +static inline void ledtrig_blk_disable(struct gendisk *disk)
->> +{
->> +}
->> +
->> +static inline int ledtrig_blk_register(struct gendisk *disk)
->> +{
->> +	return 0;
->> +}
->> +
->> +static inline void ledtrig_blk_unregister(struct gendisk *disk)
->> +{
->> +}
-> 
-> Normally we put such empty functions on single lines...
-> 
-> Best regards,
-> 									     Pavel
-> 
-
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index c029ef1..017e48a 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1536,16 +1536,18 @@ static int nvme_rdma_conn_rejected(struct nvme_rdma_queue *queue,
+ 
+ static int nvme_rdma_addr_resolved(struct nvme_rdma_queue *queue)
+ {
++	struct nvme_ctrl *ctrl = &queue->ctrl->ctrl;
+ 	int ret;
+ 
+ 	ret = nvme_rdma_create_queue_ib(queue);
+ 	if (ret)
+ 		return ret;
+ 
++	if (ctrl->opts->tos >= 0)
++		rdma_set_service_type(queue->cm_id, ctrl->opts->tos);
+ 	ret = rdma_resolve_route(queue->cm_id, NVME_RDMA_CONNECT_TIMEOUT_MS);
+ 	if (ret) {
+-		dev_err(queue->ctrl->ctrl.device,
+-			"rdma_resolve_route failed (%d).\n",
++		dev_err(ctrl->device, "rdma_resolve_route failed (%d).\n",
+ 			queue->cm_error);
+ 		goto out_destroy_queue;
+ 	}
+@@ -2040,7 +2042,8 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
+ 	.required_opts	= NVMF_OPT_TRADDR,
+ 	.allowed_opts	= NVMF_OPT_TRSVCID | NVMF_OPT_RECONNECT_DELAY |
+ 			  NVMF_OPT_HOST_TRADDR | NVMF_OPT_CTRL_LOSS_TMO |
+-			  NVMF_OPT_NR_WRITE_QUEUES | NVMF_OPT_NR_POLL_QUEUES,
++			  NVMF_OPT_NR_WRITE_QUEUES | NVMF_OPT_NR_POLL_QUEUES |
++			  NVMF_OPT_TOS,
+ 	.create_ctrl	= nvme_rdma_create_ctrl,
+ };
+ 
 -- 
-Best regards,
-Jacek Anaszewski
+1.8.3.1
