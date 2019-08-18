@@ -1,106 +1,91 @@
 From: israelr@mellanox.com (Israel Rukshin)
-Date: Sun, 18 Aug 2019 12:08:53 +0300
-Subject: [PATCH 3/5] nvme-tcp: Use struct nvme_ctrl directly
+Date: Sun, 18 Aug 2019 12:08:51 +0300
+Subject: [PATCH 1/5] nvme-fabrics: Add type of service (TOS) configuration
 In-Reply-To: <1566119335-15058-1-git-send-email-israelr@mellanox.com>
 References: <1566119335-15058-1-git-send-email-israelr@mellanox.com>
-Message-ID: <1566119335-15058-5-git-send-email-israelr@mellanox.com>
+Message-ID: <1566119335-15058-3-git-send-email-israelr@mellanox.com>
 
-This patch doesn't change any functionality.
+TOS is user-defined and needs to be configured via nvme-cli.
+It must be set before initiating any traffic and once set the TOS
+cannot be changed.
 
 Signed-off-by: Israel Rukshin <israelr at mellanox.com>
 Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/tcp.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ drivers/nvme/host/fabrics.c | 18 ++++++++++++++++++
+ drivers/nvme/host/fabrics.h |  3 +++
+ 2 files changed, 21 insertions(+)
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 2de33c4..a534ec6 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1258,7 +1258,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
- 	queue->queue_size = queue_size;
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index d0d0663..6a8bcaa 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -611,6 +611,7 @@ bool __nvmf_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
+ 	{ NVMF_OPT_DATA_DIGEST,		"data_digest"		},
+ 	{ NVMF_OPT_NR_WRITE_QUEUES,	"nr_write_queues=%d"	},
+ 	{ NVMF_OPT_NR_POLL_QUEUES,	"nr_poll_queues=%d"	},
++	{ NVMF_OPT_TOS,			"tos=%d"		},
+ 	{ NVMF_OPT_ERR,			NULL			}
+ };
  
- 	if (qid > 0)
--		queue->cmnd_capsule_len = ctrl->ctrl.ioccsz * 16;
-+		queue->cmnd_capsule_len = nctrl->ioccsz * 16;
- 	else
- 		queue->cmnd_capsule_len = sizeof(struct nvme_command) +
- 						NVME_TCP_ADMIN_CCSZ;
-@@ -1266,7 +1266,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
- 	ret = sock_create(ctrl->addr.ss_family, SOCK_STREAM,
- 			IPPROTO_TCP, &queue->sock);
- 	if (ret) {
--		dev_err(ctrl->ctrl.device,
-+		dev_err(nctrl->device,
- 			"failed to create socket: %d\n", ret);
- 		return ret;
- 	}
-@@ -1276,7 +1276,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
- 	ret = kernel_setsockopt(queue->sock, IPPROTO_TCP, TCP_SYNCNT,
- 			(char *)&opt, sizeof(opt));
- 	if (ret) {
--		dev_err(ctrl->ctrl.device,
-+		dev_err(nctrl->device,
- 			"failed to set TCP_SYNCNT sock opt %d\n", ret);
- 		goto err_sock;
- 	}
-@@ -1286,7 +1286,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
- 	ret = kernel_setsockopt(queue->sock, IPPROTO_TCP,
- 			TCP_NODELAY, (char *)&opt, sizeof(opt));
- 	if (ret) {
--		dev_err(ctrl->ctrl.device,
-+		dev_err(nctrl->device,
- 			"failed to set TCP_NODELAY sock opt %d\n", ret);
- 		goto err_sock;
- 	}
-@@ -1299,7 +1299,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
- 	ret = kernel_setsockopt(queue->sock, SOL_SOCKET, SO_LINGER,
- 			(char *)&sol, sizeof(sol));
- 	if (ret) {
--		dev_err(ctrl->ctrl.device,
-+		dev_err(nctrl->device,
- 			"failed to set SO_LINGER sock opt %d\n", ret);
- 		goto err_sock;
- 	}
-@@ -1317,11 +1317,11 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
- 	queue->pdu_offset = 0;
- 	sk_set_memalloc(queue->sock->sk);
+@@ -632,6 +633,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 	opts->duplicate_connect = false;
+ 	opts->hdr_digest = false;
+ 	opts->data_digest = false;
++	opts->tos = -1; /* < 0 == use transport default */
  
--	if (ctrl->ctrl.opts->mask & NVMF_OPT_HOST_TRADDR) {
-+	if (nctrl->opts->mask & NVMF_OPT_HOST_TRADDR) {
- 		ret = kernel_bind(queue->sock, (struct sockaddr *)&ctrl->src_addr,
- 			sizeof(ctrl->src_addr));
- 		if (ret) {
--			dev_err(ctrl->ctrl.device,
-+			dev_err(nctrl->device,
- 				"failed to bind queue %d socket %d\n",
- 				qid, ret);
- 			goto err_sock;
-@@ -1333,7 +1333,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
- 	if (queue->hdr_digest || queue->data_digest) {
- 		ret = nvme_tcp_alloc_crypto(queue);
- 		if (ret) {
--			dev_err(ctrl->ctrl.device,
-+			dev_err(nctrl->device,
- 				"failed to allocate queue %d crypto\n", qid);
- 			goto err_sock;
- 		}
-@@ -1347,13 +1347,13 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
- 		goto err_crypto;
- 	}
+ 	options = o = kstrdup(buf, GFP_KERNEL);
+ 	if (!options)
+@@ -849,6 +851,22 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 			}
+ 			opts->nr_poll_queues = token;
+ 			break;
++		case NVMF_OPT_TOS:
++			if (match_int(args, &token)) {
++				ret = -EINVAL;
++				goto out;
++			}
++			if (token < 0) {
++				pr_err("Invalid type of service %d\n", token);
++				ret = -EINVAL;
++				goto out;
++			}
++			if (token > 255) {
++				pr_warn("Clamping type of service to 255\n");
++				token = 255;
++			}
++			opts->tos = token;
++			break;
+ 		default:
+ 			pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
+ 				p);
+diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+index 3044d8b..93f08d7 100644
+--- a/drivers/nvme/host/fabrics.h
++++ b/drivers/nvme/host/fabrics.h
+@@ -55,6 +55,7 @@ enum {
+ 	NVMF_OPT_DATA_DIGEST	= 1 << 16,
+ 	NVMF_OPT_NR_WRITE_QUEUES = 1 << 17,
+ 	NVMF_OPT_NR_POLL_QUEUES = 1 << 18,
++	NVMF_OPT_TOS		= 1 << 19,
+ };
  
--	dev_dbg(ctrl->ctrl.device, "connecting queue %d\n",
-+	dev_dbg(nctrl->device, "connecting queue %d\n",
- 			nvme_tcp_queue_id(queue));
+ /**
+@@ -87,6 +88,7 @@ enum {
+  * @data_digest: generate/verify data digest (TCP)
+  * @nr_write_queues: number of queues for write I/O
+  * @nr_poll_queues: number of queues for polling I/O
++ * @tos: type of service
+  */
+ struct nvmf_ctrl_options {
+ 	unsigned		mask;
+@@ -108,6 +110,7 @@ struct nvmf_ctrl_options {
+ 	bool			data_digest;
+ 	unsigned int		nr_write_queues;
+ 	unsigned int		nr_poll_queues;
++	int			tos;
+ };
  
- 	ret = kernel_connect(queue->sock, (struct sockaddr *)&ctrl->addr,
- 		sizeof(ctrl->addr), 0);
- 	if (ret) {
--		dev_err(ctrl->ctrl.device,
-+		dev_err(nctrl->device,
- 			"failed to connect socket: %d\n", ret);
- 		goto err_rcv_pdu;
- 	}
+ /*
 -- 
 1.8.3.1
