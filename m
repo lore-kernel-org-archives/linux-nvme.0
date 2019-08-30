@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9FEFC3A59B
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 Aug 2019 19:19:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0B66C3A59B
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 Aug 2019 19:19:37 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8F3E323429
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 Aug 2019 19:19:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 78AF923429
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 Aug 2019 19:19:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="JS5ov03T"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8F3E323429
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="kkKWrLqf"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 78AF923429
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,25 +26,25 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	In-Reply-To:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Owner;
-	bh=xPvxigyiS0FPKg0cV3fLztFvFaQoom+r9p1hVkxodtk=; b=JS5ov03TDSyImKCNpdUhmSArQZ
-	lkucmVU7HsmAFLCpMO5ew1wccPT6OYNGh6k+AAAkiJwlPmqSSyBnAxEZVT4bRXaUSrUQIAtYxaN4B
-	9atYt1nSo6+tNjUfBxKpUnW5cCkV+dG7C+oqvy3T+RyUB53i2wFmdLUjJq7wsZgGUDY7t8nfeVcPd
-	lfmLopznspZC7V7i2T+v5Shs8lHhjS9VrE22VlcD9RMP504SYbY+fG8WhMPVjAfu7lo23m41bjDsz
-	gzzOyjrv96YJqEgGlLSDff7ZtrpCUYQMgW/W+keDRQ5qLM6Ave3nNAsV4CJCMV5TyAr1H98i4QmtC
-	zau7Hh8w==;
+	bh=7+0YPZ8rwCINE4E8XBfY6dQmcddYzYBtWnczqAO50LM=; b=kkKWrLqfGnfjvzUhL6ha70u8nQ
+	X1od1xtSuK58DqCvmC3AoBIVbmbPQ+Cw6749IV2ZmZ+bEvZfG39nzE9clpIyOSUI0WaO2C7vLJR3K
+	02DUad00TYIzfra4V7oW+AgkaiivsrPC34tUwPuNGULZSppaI1Nm3WIu+GbcrD4/pIz6hjPFaRKwS
+	aVFk0skPY8tmy6T5dapKYzHnmrj5vgNJH1O1H4dtOY4pTVOO2sCA6eeG7fmyq3Z/XbYSlpkXNj0xf
+	2t0O4zZ57Qh+C5v11V+iUg3vYtGkO9iTThj3w+BQBhK1Ne5I2jVXNE9hlx0vXpb75LPNYmNli2ehy
+	uE4s4yxw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92 #3 (Red Hat Linux))
-	id 1i3mQe-00038z-DI; Fri, 30 Aug 2019 19:19:24 +0000
+	id 1i3mQo-0003KX-Nm; Fri, 30 Aug 2019 19:19:34 +0000
 Received: from [2600:1700:65a0:78e0:514:7862:1503:8e4d]
  (helo=sagi-Latitude-E7470.lbits)
  by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
- id 1i3mQV-00030j-2y; Fri, 30 Aug 2019 19:19:15 +0000
+ id 1i3mQV-00030j-A4; Fri, 30 Aug 2019 19:19:15 +0000
 From: Sagi Grimberg <sagi@grimberg.me>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH v10 1/7] nvme: fail cancelled commands with
- NVME_SC_HOST_PATH_ERROR
-Date: Fri, 30 Aug 2019 12:19:08 -0700
-Message-Id: <20190830191914.29713-2-sagi@grimberg.me>
+Subject: [PATCH v10 2/7] nvme-tcp: fail command with NVME_SC_HOST_PATH_ERROR
+ send failed
+Date: Fri, 30 Aug 2019 12:19:09 -0700
+Message-Id: <20190830191914.29713-3-sagi@grimberg.me>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190830191914.29713-1-sagi@grimberg.me>
 References: <20190830191914.29713-1-sagi@grimberg.me>
@@ -67,47 +67,31 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-NVME_SC_ABORT_REQ means that the request was aborted due to
-an abort command received. In our case, this is a transport
-cancellation, so host pathing error is much more appropriate.
+This is a more appropriate error status for a transport error
+detected by us (the host).
 
-Also, convert NVME_SC_HOST_PATH_ERROR to BLK_STS_TRANSPORT for
-such that callers can understand that the status is a transport
-related error. This will be used by the ns scanning code to
-understand if it got an error from the controller or that the
-controller happens to be unreachable by the transport.
-
-Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
 Reviewed-by: Hannes Reinecke <hare@suse.com>
 Reviewed-by: James Smart <james.smart@broadcom.com>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/host/core.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/nvme/host/tcp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 0eb5c1bb2f48..11ef174e8399 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -226,6 +226,8 @@ static blk_status_t nvme_error_status(struct request *req)
- 		return BLK_STS_PROTECTION;
- 	case NVME_SC_RESERVATION_CONFLICT:
- 		return BLK_STS_NEXUS;
-+	case NVME_SC_HOST_PATH_ERROR:
-+		return BLK_STS_TRANSPORT;
- 	default:
- 		return BLK_STS_IOERR;
- 	}
-@@ -294,7 +296,7 @@ bool nvme_cancel_request(struct request *req, void *data, bool reserved)
- 	if (blk_mq_request_completed(req))
- 		return true;
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 2d8ba31cb691..0a0263a364f2 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -842,7 +842,7 @@ static inline void nvme_tcp_done_send_req(struct nvme_tcp_queue *queue)
  
--	nvme_req(req)->status = NVME_SC_ABORT_REQ;
-+	nvme_req(req)->status = NVME_SC_HOST_PATH_ERROR;
- 	blk_mq_complete_request(req);
- 	return true;
+ static void nvme_tcp_fail_request(struct nvme_tcp_request *req)
+ {
+-	nvme_tcp_end_request(blk_mq_rq_from_pdu(req), NVME_SC_DATA_XFER_ERROR);
++	nvme_tcp_end_request(blk_mq_rq_from_pdu(req), NVME_SC_HOST_PATH_ERROR);
  }
+ 
+ static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
 -- 
 2.17.1
 
