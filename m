@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E3DCC3A59B
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 Aug 2019 19:19:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C865BC3A5A6
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 Aug 2019 19:20:20 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D916C23429
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 Aug 2019 19:19:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A34FC23429
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 Aug 2019 19:20:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="uezOV/MY"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D916C23429
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="cZi7/6GC"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A34FC23429
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,24 +26,24 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	In-Reply-To:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Owner;
-	bh=BOTkCeIUZs9CAJl686FPqVjpMWgLMb93Nz72cB4eI+A=; b=uezOV/MYIkkJxdFAZEjiwWTzO6
-	Xkdl89QO+JouZTzpFGJCFRDwYPG0acjwJvr9BS64chOAr2Tn8kYXORXpo/mMCctAUWsR9fAhP01yu
-	HzsI2ASKPeX+ObTn9j15LG43Ib5qVIKgjnVbI6zicrWI/cnim1sZb1KD7Tr1SQOunue0ADhoNkmBJ
-	8iyWqon5D4mNQkD5EevqE3I0wYU80JSBofjVwHx9822TI5TMwqgKplqJq9EJ3TUCBZVoFJ9g0ek/q
-	nBUpbLDjRaO0BIKkjKSH9fwjiKMgV85mUdOOYMm9I6f5yLvxCUkYBPFim7d15U+dIFO28Q7ZoXZDY
-	esKNDe8A==;
+	bh=RumipyvSALffFksdJro/Ec+zYD3h+x+29kB1aqFpDcA=; b=cZi7/6GCNuR+tmoRpFQO/1jd+K
+	VDI2FiT8j6LmxWozPs5Ewv2WR/301n60mYe6Vpv/76Y0pxNgM0EPElAy0fhTATZiFljr0BrE1LuGH
+	JJvZNqbv4cXXZAa2bMXYSweO5KjwMNH45c+JIZhPRErLfsY9+32bHb6ahnW/y++mhdNMD3A1ts9wR
+	ENy7DgkqGX0ShbWVLhVWk/hcPkNmgufXmkhwzClvSB6OystVBoLs8DOHgzrPkRWOh+HCSChV5iGvq
+	s6GIMwBkcaOeqX0pLMYZjlcM8GgB4uiKxeXv2g0PS9CRwvAQdU+RA3VwskwBjvRqhebpEHAfcC7tb
+	WSOPuKvg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92 #3 (Red Hat Linux))
-	id 1i3mRA-0003hn-Ng; Fri, 30 Aug 2019 19:19:56 +0000
+	id 1i3mRX-0005Bu-3V; Fri, 30 Aug 2019 19:20:19 +0000
 Received: from [2600:1700:65a0:78e0:514:7862:1503:8e4d]
  (helo=sagi-Latitude-E7470.lbits)
  by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
- id 1i3mQV-00030j-PE; Fri, 30 Aug 2019 19:19:15 +0000
+ id 1i3mQW-00030j-11; Fri, 30 Aug 2019 19:19:16 +0000
 From: Sagi Grimberg <sagi@grimberg.me>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH v10 4/7] nvme: pass status to nvme_error_status
-Date: Fri, 30 Aug 2019 12:19:11 -0700
-Message-Id: <20190830191914.29713-5-sagi@grimberg.me>
+Subject: [PATCH v10 5/7] nvme: make nvme_identify_ns propagate errors back
+Date: Fri, 30 Aug 2019 12:19:12 -0700
+Message-Id: <20190830191914.29713-6-sagi@grimberg.me>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190830191914.29713-1-sagi@grimberg.me>
 References: <20190830191914.29713-1-sagi@grimberg.me>
@@ -66,37 +66,117 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-No need for the full blown request structure.
+right now callers of nvme_identify_ns only know that it failed,
+but don't know why. Make nvme_identify_ns propagate the error back.
+Because nvme_submit_sync_cmd may return a positive status code, we
+make nvme_identify_ns receive the id by reference and return that
+status up the call chain, but make sure not to leak positive nvme
+status codes to the upper layers.
 
+Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
+Reviewed-by: Hannes Reinecke <hare@suse.com>
+Reviewed-by: James Smart <james.smart@broadcom.com>
+Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/host/core.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/nvme/host/core.c | 39 ++++++++++++++++++++-------------------
+ 1 file changed, 20 insertions(+), 19 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 11ef174e8399..5e5ff7aab3ca 100644
+index 5e5ff7aab3ca..73d65172006d 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -197,9 +197,9 @@ static inline bool nvme_ns_has_pi(struct nvme_ns *ns)
- 	return ns->pi_type && ns->ms == sizeof(struct t10_pi_tuple);
+@@ -1096,10 +1096,9 @@ static int nvme_identify_ns_list(struct nvme_ctrl *dev, unsigned nsid, __le32 *n
+ 				    NVME_IDENTIFY_DATA_SIZE);
  }
  
--static blk_status_t nvme_error_status(struct request *req)
-+static blk_status_t nvme_error_status(u16 status)
+-static struct nvme_id_ns *nvme_identify_ns(struct nvme_ctrl *ctrl,
+-		unsigned nsid)
++static int nvme_identify_ns(struct nvme_ctrl *ctrl,
++		unsigned nsid, struct nvme_id_ns **id)
  {
--	switch (nvme_req(req)->status & 0x7ff) {
-+	switch (status & 0x7ff) {
- 	case NVME_SC_SUCCESS:
- 		return BLK_STS_OK;
- 	case NVME_SC_CAP_EXCEEDED:
-@@ -262,7 +262,7 @@ static void nvme_retry_req(struct request *req)
+-	struct nvme_id_ns *id;
+ 	struct nvme_command c = { };
+ 	int error;
  
- void nvme_complete_rq(struct request *req)
- {
--	blk_status_t status = nvme_error_status(req);
-+	blk_status_t status = nvme_error_status(nvme_req(req)->status);
+@@ -1108,18 +1107,17 @@ static struct nvme_id_ns *nvme_identify_ns(struct nvme_ctrl *ctrl,
+ 	c.identify.nsid = cpu_to_le32(nsid);
+ 	c.identify.cns = NVME_ID_CNS_NS;
  
- 	trace_nvme_complete_rq(req);
+-	id = kmalloc(sizeof(*id), GFP_KERNEL);
+-	if (!id)
+-		return NULL;
++	*id = kmalloc(sizeof(**id), GFP_KERNEL);
++	if (!*id)
++		return -ENOMEM;
+ 
+-	error = nvme_submit_sync_cmd(ctrl->admin_q, &c, id, sizeof(*id));
++	error = nvme_submit_sync_cmd(ctrl->admin_q, &c, *id, sizeof(**id));
+ 	if (error) {
+ 		dev_warn(ctrl->device, "Identify namespace failed (%d)\n", error);
+-		kfree(id);
+-		return NULL;
++		kfree(*id);
+ 	}
+ 
+-	return id;
++	return error;
+ }
+ 
+ static int nvme_features(struct nvme_ctrl *dev, u8 op, unsigned int fid,
+@@ -1743,13 +1741,13 @@ static int nvme_revalidate_disk(struct gendisk *disk)
+ 		return -ENODEV;
+ 	}
+ 
+-	id = nvme_identify_ns(ctrl, ns->head->ns_id);
+-	if (!id)
+-		return -ENODEV;
++	ret = nvme_identify_ns(ctrl, ns->head->ns_id, &id);
++	if (ret)
++		goto out;
+ 
+ 	if (id->ncap == 0) {
+ 		ret = -ENODEV;
+-		goto out;
++		goto free_id;
+ 	}
+ 
+ 	__nvme_revalidate_disk(disk, id);
+@@ -1760,8 +1758,11 @@ static int nvme_revalidate_disk(struct gendisk *disk)
+ 		ret = -ENODEV;
+ 	}
+ 
+-out:
++free_id:
+ 	kfree(id);
++out:
++	if (ret > 0)
++		ret = blk_status_to_errno(nvme_error_status(ret));
+ 	return ret;
+ }
+ 
+@@ -3332,11 +3333,9 @@ static int nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 	blk_queue_logical_block_size(ns->queue, 1 << ns->lba_shift);
+ 	nvme_set_queue_limits(ctrl, ns->queue);
+ 
+-	id = nvme_identify_ns(ctrl, nsid);
+-	if (!id) {
+-		ret = -EIO;
++	ret = nvme_identify_ns(ctrl, nsid, &id);
++	if (ret)
+ 		goto out_free_queue;
+-	}
+ 
+ 	if (id->ncap == 0) {
+ 		ret = -EINVAL;
+@@ -3398,6 +3397,8 @@ static int nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 	blk_cleanup_queue(ns->queue);
+  out_free_ns:
+ 	kfree(ns);
++	if (ret > 0)
++		ret = blk_status_to_errno(nvme_error_status(ret));
+ 	return ret;
+ }
  
 -- 
 2.17.1
