@@ -2,22 +2,23 @@ Return-Path: <SRS0=Ir45=W2=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCE66C3A59B
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 Aug 2019 18:14:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6395FC3A59B
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 Aug 2019 18:24:28 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 908B12342E
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 Aug 2019 18:14:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3116523428
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 Aug 2019 18:24:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="IvaR6d04"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 908B12342E
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="cLLJrUyV";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="JU3cQsYW"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3116523428
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
@@ -25,65 +26,64 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=XSc8lWXVkJW8Ip34/ZLOn8Cp513tMxsoX28fa8IB/lk=; b=IvaR6d04L4nv3sY/1WyO923cp
-	unxbJTAfuAVU9sQnZLL6b89X+9BcK/JQ1Dy2thGr/2BLRPzTvuyu5/aJcSRNxoT7gN1C+o8XIhCsf
-	BVlwBBQeDK5SSZNipkyvPnDdO4sI1I1zW5PfJ7LJ4ZMO1/rKc2KrS3xYn0sNhbNTh1RgIzuaHW/aK
-	rCNjmm0mC2ocn6VjwDSPJrDZujrTFvmRKpvotP/Ge8AhGZuLcQHSKEy0VK+bMZo64RpnoKn6O9bNY
-	I8CLWmh119TgJJnJBXzNP7/vtziI4Z9ssQtNHw0kW9e+CR1Anosv1iv7UpPtO3ZBMmJHrSIgIVnii
-	oGlFukJLQ==;
+	 bh=nNnkj1ixMW9Hk830c17zoPyN2V4XsbJHTMCh01zmB6o=; b=cLLJrUyV2i4S7shP7wLdq9Elc
+	cFOrhOq6PqIs9ZF+6LK6h5FglPdI+bwOCO343Oiw2vR44chdQQ9XAfA+WkpODcKa+QbuaD0DseTa/
+	X0HvqFhJbP2A6+mXaNMCBzXg96LSXAyHrd4c/27AgVBWIQLUQ6vWAcNdhPKXk7cJ0llkbDA6nTj5f
+	JfiXgPGm8S8M0r+nGnJN85oSBc5GvvZbTo87kh7EF2oEXYond+8rTzKakvVJbyGec0q0oEB3Cj2sQ
+	VddnCnoIkHZ/FNPrWYgCG9Mxse8ANXeqMPLp+gFPlUIOuX3r4S6NmY1ywKgu2M3oaaTgfHJZW+ura
+	3CkwoRGdg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92 #3 (Red Hat Linux))
-	id 1i3lQ6-0003Bf-Pk; Fri, 30 Aug 2019 18:14:46 +0000
-Received: from mail-ot1-f65.google.com ([209.85.210.65])
+	id 1i3lZS-0006iV-Aa; Fri, 30 Aug 2019 18:24:26 +0000
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642])
  by bombadil.infradead.org with esmtps (Exim 4.92 #3 (Red Hat Linux))
- id 1i3lQ4-0003BI-D5
- for linux-nvme@lists.infradead.org; Fri, 30 Aug 2019 18:14:45 +0000
-Received: by mail-ot1-f65.google.com with SMTP id p23so7814673oto.0
- for <linux-nvme@lists.infradead.org>; Fri, 30 Aug 2019 11:14:42 -0700 (PDT)
+ id 1i3lZP-0006iA-OJ
+ for linux-nvme@lists.infradead.org; Fri, 30 Aug 2019 18:24:25 +0000
+Received: by mail-pl1-x642.google.com with SMTP id bj8so3724514plb.4
+ for <linux-nvme@lists.infradead.org>; Fri, 30 Aug 2019 11:24:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=gzpgC3FTE2H5SLLu0moK6mkYYMgqL91tMfLk5oVosM8=;
+ b=JU3cQsYWYe0tnwgoIEju2z1fN8m+/wLy4RGovNp6wdYJP3TUagMmn8TAueRcJ2fqeT
+ jVH4aka/kNtqpfSFKuTdZwrV37T0EVaykoVQJb34LHqN3aWuSvBpm2pXYv0kxFPMrmcw
+ APg6H+VrIIquoKxDNy6Uq8qLLA1af0NxEqEFg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=tcZ7CbFDJuL2UIE4e1E/mRyvfTkPs0zewzMOwmkGiT4=;
- b=Ahxgy0ceR6ttgoQ8WyOgGkfv5uew8k3Se3QUnrCeXNiWENEaNmZR4MUFxSg6vU6T0P
- vJt33VYjKJqfeBsoDU5Arz2cPZrylqUuk5XDin0krnxu9G0tW8wK/0gZCuIx+WOQS3bz
- njvdAd2FP+ykIKajXQtZXWRuKpuI5gBsYvao+Ok5Kb/f5tCDPQfVm2ELNSk/6+/tJuPQ
- ri9lwc0lo/VpOYq2NOZLsIQFxGNuZCrKHdbIHZhU4B/NPQ3yezgdbX2Nmbz777sKYz9C
- Q14PCferbaXwxlIsvXgIixaEamMI58DxgyB8KUv05Cpq6CO1HBuCFdCkSziiX/xp6zL3
- 5gzw==
-X-Gm-Message-State: APjAAAWKBTBtaCB2orxw3Aq2Y8QhJVuOJCkchiva2DryjqYZok8lFqr9
- D6IlHcIK3YGgTKPj8VN03ts=
-X-Google-Smtp-Source: APXvYqzJrSypv8jdgqcjkdqz7JMqUKmism7bakP3K5KtbmwuRNzlmboECazuu8tNvKzgIcHkH/dRvw==
-X-Received: by 2002:a05:6830:130e:: with SMTP id
- p14mr13486506otq.339.1567188881552; 
- Fri, 30 Aug 2019 11:14:41 -0700 (PDT)
-Received: from ?IPv6:2600:1700:65a0:78e0:514:7862:1503:8e4d?
- ([2600:1700:65a0:78e0:514:7862:1503:8e4d])
- by smtp.gmail.com with ESMTPSA id 34sm1469032ots.47.2019.08.30.11.14.39
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=gzpgC3FTE2H5SLLu0moK6mkYYMgqL91tMfLk5oVosM8=;
+ b=mWf+ys8eX0z6Nw9UL9BkV2/6+k5p46iZ8BBvMgXjnXgW9MLgqpl8aWbArqE1OzEM6V
+ nz8NuJ+g6ma5FnXhAGXe+nBrvrJ7GxKj8RCdmhcxxBTTZ0q+sD1zik1wOL5kmzy2O91e
+ J/OJlU/NElGcFXU1y7f7jL5QCDrmaImY1n6oBiFNYk8h+kcmhkHGwu+QWTAnGHwQCY5H
+ Vow5yvjAx66n58GFrbqzjiEsuc0bD6eSq39QRnn+05J5oIZqw2IL6fmYMZGC4p3gh9dP
+ 7BbNXbZqCsnB3E41eAq2rGC3mXujipaXOtiXraxBDrGxelxg8ou/LokCAhyqVlzpqAVP
+ 786w==
+X-Gm-Message-State: APjAAAXBQUrDJifft/8eITZoz/xNSsdFBbIzDqT8seJ9bs4uKBYfpYP2
+ n/HWOBt13e7ciVkqO7A+czTOexZMQ7s=
+X-Google-Smtp-Source: APXvYqw8mOBtv4lqimx4vJyvYaSM7lKuVqF+CLfiMoxDudEc1s/xXIYuzGILGBZbXUglaKhavGpI1w==
+X-Received: by 2002:a17:902:100c:: with SMTP id
+ b12mr17258122pla.40.1567189462803; 
+ Fri, 30 Aug 2019 11:24:22 -0700 (PDT)
+Received: from [10.69.45.46] ([192.19.223.252])
+ by smtp.gmail.com with ESMTPSA id n9sm5752273pjq.30.2019.08.30.11.24.21
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 30 Aug 2019 11:14:40 -0700 (PDT)
-Subject: Re: [PATCH v2 3/3] nvme: fire discovery log page change events to
- userspace
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20190712180211.26333-1-sagi@grimberg.me>
- <20190712180211.26333-4-sagi@grimberg.me> <20190822002328.GP9511@lst.de>
- <205d06ab-fedc-739d-323f-b358aff2cbfe@grimberg.me>
- <e4603511-6dae-e26d-12a9-e9fa727a8d03@grimberg.me>
- <20190826065639.GA11036@lst.de> <20190826075916.GA30396@kroah.com>
- <ac168168-fed2-2b57-493e-e88261ead73b@grimberg.me>
- <20190830062036.GA15257@kroah.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <73e3d2ca-33e0-3133-9dfb-62b07e5b09c4@grimberg.me>
-Date: Fri, 30 Aug 2019 11:14:39 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Fri, 30 Aug 2019 11:24:21 -0700 (PDT)
+Subject: Re: [PATCH 2/2] nvme: validate cntlid during controller initialisation
+To: Christoph Hellwig <hch@lst.de>, hare@suse.de
+References: <20190513062510.756-1-hch@lst.de> <20190513062510.756-3-hch@lst.de>
+From: James Smart <james.smart@broadcom.com>
+Message-ID: <749191be-9521-8a49-7fc9-a1a3a659f51b@broadcom.com>
+Date: Fri, 30 Aug 2019 11:24:20 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190830062036.GA15257@kroah.com>
+In-Reply-To: <20190513062510.756-3-hch@lst.de>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190830_111444_447387_19064CF0 
-X-CRM114-Status: GOOD (  16.36  )
+X-CRM114-CacheID: sfid-20190830_112423_801818_446F07FE 
+X-CRM114-Status: GOOD (  24.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,65 +95,61 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <keith.busch@intel.com>, linux-kernel@vger.kernel.org,
- Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
- James Smart <james.smart@broadcom.com>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
->>>>>> You are correct that this information can be derived from sysfs, but the
->>>>>> main reason why we add these here, is because in udev rule we can't
->>>>>> just go ahead and start looking these up and parsing these..
->>>>>>
->>>>>> We could send the discovery aen with NVME_CTRL_NAME and have
->>>>>> then have systemd run something like:
->>>>>>
->>>>>> nvme connect-all -d nvme0 --sysfs
->>>>>>
->>>>>> and have nvme-cli retrieve all this stuff from sysfs?
->>>>>
->>>>> Actually that may be a problem.
->>>>>
->>>>> There could be a hypothetical case where after the event was fired
->>>>> and before it was handled, the discovery controller went away and
->>>>> came back again with a different controller instance, and the old
->>>>> instance is now a different discovery controller.
->>>>>
->>>>> This is why we need this information in the event. And we verify this
->>>>> information in sysfs in nvme-cli.
->>>>
->>>> Well, that must be a usual issue with uevents, right?  Don't we usually
->>>> have a increasing serial number for that or something?
->>>
->>> Yes we do, userspace should use it to order events.  Does udev not
->>> handle that properly today?
->>
->> The problem is not ordering of events, its really about the fact that
->> the chardev can be removed and reallocated for a different controller
->> (could be a completely different discovery controller) by the time
->> that userspace handles the event.
-> 
-> So?  You will have gotten the remove and then new addition uevent in
-> order showing you this.  So your userspace code knows that something
-> went away and then came back properly so you should be kept in sync.
-
-Still don't understand how this is ok...
-
-I have /dev/nvme0 represents a network endpoint that I would discover
-from, it is raising me an event to do a discovery operation (namely to
-issue an ioctl to it) so my udev code calls a systemd script.
-
-By the time I actually get to do that, /dev/nvme0 represents now a new
-network endpoint (where the event is no longer relevant to). I would
-rather the discovery to explicitly fail than to give me something
-different, so we pass some arguments that we verify in the operation.
-
-Its a stretch case, but it was raised by people as a potential issue.
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+CgpPbiA1LzEyLzIwMTkgMTE6MjUgUE0sIENocmlzdG9waCBIZWxsd2lnIHdyb3RlOgo+IFRoZSBD
+TlRMSUQgdmFsdWUgaXMgcmVxdWlyZWQgdG8gYmUgdW5pcXVlLCBhbmQgd2UgZG8gcmVseSBvbiB0
+aGlzCj4gZm9yIGNvcnJlY3Qgb3BlcmF0aW9uLiBTbyByZWplY3QgYW55IGNvbnRyb2xsZXIgZm9y
+IHdoaWNoIGEgbm9uLXVuaXF1ZQo+IENOVExJRCBoYXMgYmVlbiBkZXRlY3RlZC4KPgo+IEJhc2Vk
+IG9uIGEgcGF0Y2ggZnJvbSBIYW5uZXMgUmVpbmVja2UuCj4KPiBTaWduZWQtb2ZmLWJ5OiBDaHJp
+c3RvcGggSGVsbHdpZyA8aGNoQGxzdC5kZT4KPiAtLS0KPiAgIGRyaXZlcnMvbnZtZS9ob3N0L2Nv
+cmUuYyB8IDQxICsrKysrKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLS0KPiAgIDEg
+ZmlsZSBjaGFuZ2VkLCAyNCBpbnNlcnRpb25zKCspLCAxNyBkZWxldGlvbnMoLSkKPgo+IGRpZmYg
+LS1naXQgYS9kcml2ZXJzL252bWUvaG9zdC9jb3JlLmMgYi9kcml2ZXJzL252bWUvaG9zdC9jb3Jl
+LmMKPiBpbmRleCA3MGEyYmMwMWU0MWUuLjA5YTFkNWNhODcyZiAxMDA2NDQKPiAtLS0gYS9kcml2
+ZXJzL252bWUvaG9zdC9jb3JlLmMKPiArKysgYi9kcml2ZXJzL252bWUvaG9zdC9jb3JlLmMKPiBA
+QCAtMjM0MSwyMCArMjM0MSwzNSBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGF0dHJpYnV0ZV9ncm91
+cCAqbnZtZV9zdWJzeXNfYXR0cnNfZ3JvdXBzW10gPSB7Cj4gICAJTlVMTCwKPiAgIH07Cj4gICAK
+PiAtc3RhdGljIGludCBudm1lX2FjdGl2ZV9jdHJscyhzdHJ1Y3QgbnZtZV9zdWJzeXN0ZW0gKnN1
+YnN5cykKPiArc3RhdGljIGJvb2wgbnZtZV92YWxpZGF0ZV9jbnRsaWQoc3RydWN0IG52bWVfc3Vi
+c3lzdGVtICpzdWJzeXMsCj4gKwkJc3RydWN0IG52bWVfY3RybCAqY3RybCwgc3RydWN0IG52bWVf
+aWRfY3RybCAqaWQpCj4gICB7Cj4gLQlpbnQgY291bnQgPSAwOwo+IC0Jc3RydWN0IG52bWVfY3Ry
+bCAqY3RybDsKPiArCXN0cnVjdCBudm1lX2N0cmwgKnRtcDsKPiAgIAo+ICAgCWxvY2tkZXBfYXNz
+ZXJ0X2hlbGQoJm52bWVfc3Vic3lzdGVtc19sb2NrKTsKPiAgIAo+IC0JbGlzdF9mb3JfZWFjaF9l
+bnRyeShjdHJsLCAmc3Vic3lzLT5jdHJscywgc3Vic3lzX2VudHJ5KSB7Cj4gLQkJaWYgKGN0cmwt
+PnN0YXRlICE9IE5WTUVfQ1RSTF9ERUxFVElORyAmJgo+IC0JCSAgICBjdHJsLT5zdGF0ZSAhPSBO
+Vk1FX0NUUkxfREVBRCkKPiAtCQkJY291bnQrKzsKPiArCWxpc3RfZm9yX2VhY2hfZW50cnkodG1w
+LCAmc3Vic3lzLT5jdHJscywgc3Vic3lzX2VudHJ5KSB7Cj4gKwkJaWYgKGN0cmwtPnN0YXRlID09
+IE5WTUVfQ1RSTF9ERUxFVElORyB8fAo+ICsJCSAgICBjdHJsLT5zdGF0ZSA9PSBOVk1FX0NUUkxf
+REVBRCkKPiArCQkJY29udGludWU7Cj4gKwo+ICsJCWlmICh0bXAtPmNudGxpZCA9PSBjdHJsLT5j
+bnRsaWQpIHsKPiArCQkJZGV2X2VycihjdHJsLT5kZXZpY2UsCj4gKwkJCQkiRHVwbGljYXRlIGNu
+dGxpZCAldSB3aXRoICVzLCByZWplY3RpbmdcbiIsCj4gKwkJCQljdHJsLT5jbnRsaWQsIGRldl9u
+YW1lKHRtcC0+ZGV2aWNlKSk7Cj4gKwkJCXJldHVybiBmYWxzZTsKPiArCQl9Cj4gKwkJaWYgKChp
+ZC0+Y21pYyAmICgxIDw8IDEpKSB8fAo+ICsJCSAgICAoY3RybC0+b3B0cyAmJiBjdHJsLT5vcHRz
+LT5kaXNjb3ZlcnlfbnFuKSkKPiArCQkgICAgCWNvbnRpbnVlOwoKRG8gd2UgaGF2ZSBhIHByb2Js
+ZW0gaGVyZcKgIGlmIHRoZSBzdWJzeXN0ZW0gaXMgYSBkaXNjb3ZlcnkgY29udHJvbGxlciBucW4g
+PwoKQXNzdW1lIHdlIGhhdmUgYSBjb25uZWN0aW9uIHRvIGEgZGlzY292ZXJ5IGNvbnRyb2xsZXIg
+aW4gcGxhY2UgKGl0IGhhcyAKYmVlbiBjcmVhdGVkLCBpcyBpbiB0aGUgbWlkc3Qgb2YgcmVhZGlu
+ZyB0aGUgZGlzY292ZXJ5IGxvZzsgb3IgYSAKbG9uZy1saXZlZCBkaXNjb3ZlcnkgY29udHJvbGxl
+cikgYW5kIGEgbmV3IG9uZSBpcyBiZWluZyBtYWRlLsKgIFRoZSBuZXcgCm9uZSBjb3VsZCBiZSBv
+biBjb21wbGV0ZWx5IGRpZmZlcmVudCB0cmFuc3BvcnQgb3IgZGlmZmVyZW50IApob3N0L3N1YnN5
+c3RlbSBwb3J0czoKCkl0IGxvb2tzIGxpa2UgX19udm1lX2ZpbmRfZ2V0X3N1YnN5c3RlbSgpIHdo
+ZW4gY2FsbGVkIHdpdGggdGhlIGRpc2NvdmVyeSAKbnFuIHdpbGwgbWF0Y2ggdGhlIHN1YnN5c3Rl
+bSBmb3IgdGhlIGV4aXN0aW5nIGRpc2NvdmVyeSBjb250cm9sbGVyLCAKd2hpY2ggdGhlbiBmb3Jj
+ZXMgdGhlIGNhbGwgdG8gbnZtZV92YWxpZGF0ZV9jbnRsaWQoKSwgd2hpY2ggd2lsbCBmaW5kIGEg
+CmxpdmUgY29udHJvbGxlciBhbmQgaXQncyB2ZXJ5IHBvc3NpYmxlIHRoYXQgY29udHJvbGxlciBp
+ZCBjYW4gYmUgCmRpZmZlcmVudC4gVGhlIHJlcXVpcmVtZW50IGZvciBzYW1lbmVzcyBkb2VzIG5v
+dCBhcHBseSB0byB0aGUgZGlzY292ZXJ5IApjb250cm9sbGVyIC0gc28gaXQgc2hvdWxkbid0IGJl
+IHJldHVybmluZyBmYWlsdXJlIGluIHRoaXMgY2FzZS7CoMKgIEFncmVlID8KCldoYXQncyB0aGUg
+YmVzdCBwYXRjaCB0byBhdm9pZCB0aGlzID8KLSBjaGFuZ2UgX19udm1lX2ZpbmRfZ2V0X3N1YnN5
+c3RlbSgpIHNvIHRoYXQgaWYgZGlzY292ZXJ5IG5xbiwgaXQgdHJlYXRzIAppdCBhcyBhIHNlcGFy
+YXRlIHN1YnN5c3RlbSA/Ci0gY2hhbmdlIG52bWVfdmFsaWRhdGVfY250bGlkKCkgc3VjaCB0aGF0
+ICIoY3RybC0+b3B0cyAmJiAKY3RybC0+b3B0cy0+ZGlzY292ZXJ5X25xbikiIGlzIGFkZGVkIHRv
+IHRoZSBjdHJsIHN0YXRlIGNoZWNrcyBhYm92ZSB0aGlzIAp0ZXN0ID8KCi0tIGphbWVzCgoKCl9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LW52bWUg
+bWFpbGluZyBsaXN0CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMu
+aW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
