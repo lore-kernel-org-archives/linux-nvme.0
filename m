@@ -2,49 +2,52 @@ Return-Path: <SRS0=Ir45=W2=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA0C0C3A59B
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 Aug 2019 19:19:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9FEFC3A59B
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 Aug 2019 19:19:27 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BF26523429
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 Aug 2019 19:19:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8F3E323429
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 Aug 2019 19:19:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="DtvePfH/"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BF26523429
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="JS5ov03T"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8F3E323429
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:MIME-Version:Cc:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	References:List-Owner; bh=BFha27e4rfivq7ak0mcE8ss9rd5o/Tmtby+YMe/mPLg=; b=Dtv
-	ePfH/c7BZckEBFC28euO6qqtB5hy1ncM9p/JDKEUjOxWSunCqp9YmS2KyJBaNduV9EBPNLYwHJmEi
-	iFTlsH+dYIQk/Vmg/LxYj5kVQQ4r7bYyAPvyM1tRpNafZ50quSEqIn8eEqVhxrDfOvndBaiMgkjlp
-	oBX9Y5HrrUc/hjomtWLUMMCFX2YEHCR0M2pLy7WNBTS5fgVVyaJrG2jxzbLmRXsG1LN11CEtZYKXg
-	iutzGHMkttRadW+/52rED9y+e6zPbTIN/qnFvIGMddrx76GiVOutUdDpVRdCEnBsMugJ0iyzxAAB4
-	95S4mUaJeQcPc7Fli3jkIqyaUz/DZGA==;
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
+	In-Reply-To:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Owner;
+	bh=xPvxigyiS0FPKg0cV3fLztFvFaQoom+r9p1hVkxodtk=; b=JS5ov03TDSyImKCNpdUhmSArQZ
+	lkucmVU7HsmAFLCpMO5ew1wccPT6OYNGh6k+AAAkiJwlPmqSSyBnAxEZVT4bRXaUSrUQIAtYxaN4B
+	9atYt1nSo6+tNjUfBxKpUnW5cCkV+dG7C+oqvy3T+RyUB53i2wFmdLUjJq7wsZgGUDY7t8nfeVcPd
+	lfmLopznspZC7V7i2T+v5Shs8lHhjS9VrE22VlcD9RMP504SYbY+fG8WhMPVjAfu7lo23m41bjDsz
+	gzzOyjrv96YJqEgGlLSDff7ZtrpCUYQMgW/W+keDRQ5qLM6Ave3nNAsV4CJCMV5TyAr1H98i4QmtC
+	zau7Hh8w==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92 #3 (Red Hat Linux))
-	id 1i3mQW-000324-QX; Fri, 30 Aug 2019 19:19:16 +0000
+	id 1i3mQe-00038z-DI; Fri, 30 Aug 2019 19:19:24 +0000
 Received: from [2600:1700:65a0:78e0:514:7862:1503:8e4d]
  (helo=sagi-Latitude-E7470.lbits)
  by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
- id 1i3mQU-00030j-SD; Fri, 30 Aug 2019 19:19:14 +0000
+ id 1i3mQV-00030j-2y; Fri, 30 Aug 2019 19:19:15 +0000
 From: Sagi Grimberg <sagi@grimberg.me>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH v10 0/7] nvme controller reset and namespace scan work race
- conditions
-Date: Fri, 30 Aug 2019 12:19:07 -0700
-Message-Id: <20190830191914.29713-1-sagi@grimberg.me>
+Subject: [PATCH v10 1/7] nvme: fail cancelled commands with
+ NVME_SC_HOST_PATH_ERROR
+Date: Fri, 30 Aug 2019 12:19:08 -0700
+Message-Id: <20190830191914.29713-2-sagi@grimberg.me>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190830191914.29713-1-sagi@grimberg.me>
+References: <20190830191914.29713-1-sagi@grimberg.me>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,95 +67,47 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hey all,
+NVME_SC_ABORT_REQ means that the request was aborted due to
+an abort command received. In our case, this is a transport
+cancellation, so host pathing error is much more appropriate.
 
-This series handles the reset and scanning race saga.
+Also, convert NVME_SC_HOST_PATH_ERROR to BLK_STS_TRANSPORT for
+such that callers can understand that the status is a transport
+related error. This will be used by the ns scanning code to
+understand if it got an error from the controller or that the
+controller happens to be unreachable by the transport.
 
-The approach is to have the relevant admin commands return a proper
-status code that reflects that we had a transport error and
-not remove the namepsace if that is indeed the case.
+Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
+Reviewed-by: Hannes Reinecke <hare@suse.com>
+Reviewed-by: James Smart <james.smart@broadcom.com>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+---
+ drivers/nvme/host/core.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-This should be a reliable way to know if the revalidate_disk failed
-due to a transport error or not.
-
-I am able to reproduce this race with the following command (using
-tcp/rdma):
-for j in `seq 50`; do nvme connect-all; for i in `seq 50`; do nvme reset /dev/nvme0; done ; nvme disconnect-all; done
-
-With this patch set I was able to pass the test without reproducing the hang
-that hannes reported.
-
-This version follows Christoph's suggestion to ignore non dnr failures
-in nvme_revalidate_disk
-
-Changes from v9:
-- fixed positive nvme status leak to the block layer (and also for
-  the allocation path, just to be consistent)
-- instead of checking revalidate_disk ret code, ignore transient
-  errors (non-dnr) in nvme_revalidate_disk (suggested by Christoph)
-- changed the ordering of the patches a bit
-- collected some more review tags
-
-Changes from v8:
-- fixed nvme_revalidate_disk to never leak nvme status to the block layer
-- used __nvme_revalidate_disk in nvme_validate_ns to also check for nvme
-  status if return status is positive
-- added patch to rename __nvme_revalidate_disk to nvme_revalidate_ns
-- added patch that makes nvme_status_error get status instead of request struct
-- added review tags
-
-Changes from v7:
-- added patch to split out revalidate_disk to ->revalidate_disk()
-  and check_disk_size
-- split nvme_validate_ns to call nvme_revalidate_disk and the new
-  check_disk_size callout (only if nvme_revalidate_disk succeeded)
-
-Changes from v6:
-- dropped patch for nvme_submit_sync_cmd returning blk_status_t, it
-  is now returning nvme status or negative errno again
-- made nvme_identify_ns return status code and get id struct by reference
-- made nvme_validate_ns check for -ENOMEM or NVME_SC_HOST_PATH_ERROR
-  to decide if it should/should'nt to remove the namespace.
-- added review tags
-
-Changes from v5:
-- don't return blk_status_t from nvme_submit_user_cmd
-
-Changes from v4:
-- return nvme_error_status in __nvme_submit_sync_cmd and cast to
-  errno in nvme_identify_ns
-- modified status print in nvme_report_ns_ids
-
-Changes from v3:
-- return blk_status_to_errno instead of blk_status_t in sync cmds
-- check for normal return errno from revalidate_disk, this covers
-  transport errors, but also spurious allocation errors and any
-  type of transient errors.
-
-Changes from v2:
-- added fc patch from James (can you test please?)
-- made nvme_identify_ns return id or PTR_ERR (Hannes)
-
-Changes from v1:
-- different approach
-
-James Smart (1):
-  nvme-fc: Fail transport errors with NVME_SC_HOST_PATH
-
-Sagi Grimberg (6):
-  nvme: fail cancelled commands with NVME_SC_HOST_PATH_ERROR
-  nvme-tcp: fail command with NVME_SC_HOST_PATH_ERROR send failed
-  nvme: pass status to nvme_error_status
-  nvme: make nvme_identify_ns propagate errors back
-  nvme: make nvme_report_ns_ids propagate error back
-  nvme: fix ns removal hang when failing to revalidate due to a
-    transient error
-
- drivers/nvme/host/core.c | 83 ++++++++++++++++++++++++++--------------
- drivers/nvme/host/fc.c   | 37 ++++++++++++++----
- drivers/nvme/host/tcp.c  |  2 +-
- 3 files changed, 85 insertions(+), 37 deletions(-)
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 0eb5c1bb2f48..11ef174e8399 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -226,6 +226,8 @@ static blk_status_t nvme_error_status(struct request *req)
+ 		return BLK_STS_PROTECTION;
+ 	case NVME_SC_RESERVATION_CONFLICT:
+ 		return BLK_STS_NEXUS;
++	case NVME_SC_HOST_PATH_ERROR:
++		return BLK_STS_TRANSPORT;
+ 	default:
+ 		return BLK_STS_IOERR;
+ 	}
+@@ -294,7 +296,7 @@ bool nvme_cancel_request(struct request *req, void *data, bool reserved)
+ 	if (blk_mq_request_completed(req))
+ 		return true;
+ 
+-	nvme_req(req)->status = NVME_SC_ABORT_REQ;
++	nvme_req(req)->status = NVME_SC_HOST_PATH_ERROR;
+ 	blk_mq_complete_request(req);
+ 	return true;
+ }
 -- 
 2.17.1
 
