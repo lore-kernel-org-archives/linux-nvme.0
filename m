@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31D6CC3A59B
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 Aug 2019 18:04:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16081C3A59B
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 Aug 2019 18:08:28 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E499823407
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 Aug 2019 18:04:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E0D052342B
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 Aug 2019 18:08:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="imET8y+L"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E499823407
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="YbvRWcuV"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E0D052342B
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,62 +25,65 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=nx1C84sF+gdRlQn27aaTs3iBYppw+TjVcPje+MQSi9s=; b=imET8y+L335KgPNC0H3lKKB4R
-	8vijNzDPtV0nLY80wkNLalSsACKy+SAwjX+lGz1/NI3Ni2rE6BMTQTkHFe6M684orkMNWxJOehG0U
-	nt5Rs95a6ZZNtsG3OUY9UC27/OLOySajaFkjXtyAgP0gkSebjptXVj2ck6HmRY9g5NPr0i7p2479f
-	tTM0G5A/IAP7yywrtc22gHzKMJaVnoTc8zb61P09/UGYIUM6zvbbTwZLcnzCCEXZkrRsZnS2wtS64
-	aGfkx+sJWlJ5F09KbiBM0dVqo1kX3H7UfPKtW8pbDqtBvQet9+qRdXhxAAFbkwhlw1V3+cGiPsYiN
-	CeHkS3cRQ==;
+	 bh=qrPWMyDrJC2jlb1m3lpqHwjccT4lrvzQM4qzwYjNkCg=; b=YbvRWcuVTCRTavaIXISUvgG0A
+	HBZMZZUQQarg9TLgtI8MGEd3RLu23LZjldyR3UzChX/0NFn3nGZWiAHUB+tZ+XhkOt7yxUgbGD7/6
+	T5TAp+P+em4/v4unbuzRS2xx3oOzaH7TmEqgr9meCpPZ5kXhC2uXBoD0owyjCO8nIWA/H9ebr9Qqw
+	+i+XGECXOaEVrAeqJkDjjUS6FLPYmKh5Ru+gRAEVJ9YpNT7n0z7m2MY4dlVxFIiYlGCtiAce2os7K
+	pVp0fW653LDiC9ufSFSxFwYJ2xnLdzqTSwLSo5tmacRg/5VqDqK2Uwn4xQaCdRO4V2c4JKu+vEzYL
+	5gVf1srsQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92 #3 (Red Hat Linux))
-	id 1i3lFh-0007xS-4Q; Fri, 30 Aug 2019 18:04:01 +0000
-Received: from mail-ot1-f68.google.com ([209.85.210.68])
+	id 1i3lJx-0001Gp-UV; Fri, 30 Aug 2019 18:08:25 +0000
+Received: from mail-oi1-f194.google.com ([209.85.167.194])
  by bombadil.infradead.org with esmtps (Exim 4.92 #3 (Red Hat Linux))
- id 1i3lFe-0007x9-N7
- for linux-nvme@lists.infradead.org; Fri, 30 Aug 2019 18:03:59 +0000
-Received: by mail-ot1-f68.google.com with SMTP id m24so7714267otp.12
- for <linux-nvme@lists.infradead.org>; Fri, 30 Aug 2019 11:03:58 -0700 (PDT)
+ id 1i3lJv-0001G9-0c
+ for linux-nvme@lists.infradead.org; Fri, 30 Aug 2019 18:08:24 +0000
+Received: by mail-oi1-f194.google.com with SMTP id n1so6044949oic.3
+ for <linux-nvme@lists.infradead.org>; Fri, 30 Aug 2019 11:08:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=y1bfrqZMtyKtHjROhmA58gn9KXYuiOk3sj5GqbPU8gw=;
- b=iVl7I+2BPpdgRb3stkXAgXekSBq+Iyb3wECiq75rGmFEnEkfKed61f9vAoQBFTHYFN
- m7W5yUEJCADLMR8N800bKmOrrtlk76a0kAMHGACd7LyccA80qP793oMeAcSvirmRwEfj
- xB4r+fthAs4exKoPLtM6VyaXpxS6yllXwSV0yoOUJXH5/WmbNI6n63lLCgAbw5kyVPq5
- 4NIGfD1Wf8f7Q/jyegtXSCpHXfIU19DYsMWQgPTjItsMzVsRYa6ciHi4LlN5q8UXDFES
- 37CJcL9erz66pYOPR8YtIfYxXMgskRo7zSkFUEycQs0m5QE4Xi/sk+eSF5C/HnjC82Fy
- bfKw==
-X-Gm-Message-State: APjAAAVrl2Zss8Gg1vsa1OOkg/MhzNs7npnopjLUGH97HKBj/tOS1QUe
- o/AxwA3TT5Rf0YGsjRrd5HE=
-X-Google-Smtp-Source: APXvYqxPbsBJCsHpu8LtT2okpPAqMcYZjhdWXoXxgWzbTQcsoKurr7wwQakl4zPxHK98dJOcFz4C6Q==
-X-Received: by 2002:a9d:340b:: with SMTP id v11mr13688804otb.317.1567188237748; 
- Fri, 30 Aug 2019 11:03:57 -0700 (PDT)
+ bh=8WcqhFY+HXLsWaR9k6uq7mqcDR/FvX17iR08vwKJNkg=;
+ b=SHZdxSWJClDGXkrrj/3w+r/Ex0ulcOendYqppJ7VW5yUEkzAm3OuUQOs7zIf7Iq9wu
+ 1QMM4X1njOHwPX0pw3TPHlJRmAoKwIvVtE218wznSocwA7SmpqUBojd5NB3Kcdcj3qzT
+ lL+2gaiLKw8rJZpWD8jF6A8E3yNaHvYqVkaIXo6xVAGoqfOmrnBcd+KJO0fRkpUfixFT
+ eODlUiCM5dRB09X72IcpW91v63zgo/n/ob3sodAXh6aP10JMj2HYXEgaQkkvwXYbd6qT
+ 3nSidjIQQ/1JW8Nrtn0q/7NEWnYN2prcFzGQzua3vE1RaCUX+A+oXKKKBdZryjGV8QuR
+ iprg==
+X-Gm-Message-State: APjAAAVvLWsHcaU1b/O9PlBdcG5CimMa4uUp/UOhvQ+jNHD5xcw5owqd
+ FwduDWuHPAdYt86eDZa2KfU=
+X-Google-Smtp-Source: APXvYqy/r+B34kWyM1uoSMAGuaDOErtirv5P6iSD1QVBLVfIYjMhC3Jv/g6vrbd1ORP6cWObumfZAQ==
+X-Received: by 2002:aca:75c2:: with SMTP id
+ q185mr10615384oic.134.1567188501705; 
+ Fri, 30 Aug 2019 11:08:21 -0700 (PDT)
 Received: from ?IPv6:2600:1700:65a0:78e0:514:7862:1503:8e4d?
  ([2600:1700:65a0:78e0:514:7862:1503:8e4d])
- by smtp.gmail.com with ESMTPSA id f31sm1187488otb.81.2019.08.30.11.03.56
+ by smtp.gmail.com with ESMTPSA id 59sm2340442otq.9.2019.08.30.11.08.20
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 30 Aug 2019 11:03:56 -0700 (PDT)
-Subject: Re: [PATCH v8 7/7] nvme: fix ns removal hang when failing to
- revalidate due to a transient error
+ Fri, 30 Aug 2019 11:08:20 -0700 (PDT)
+Subject: Re: [PATCH v2 3/3] nvme: fire discovery log page change events to
+ userspace
 To: Christoph Hellwig <hch@lst.de>
-References: <20190823055442.19148-1-sagi@grimberg.me>
- <20190823055442.19148-8-sagi@grimberg.me> <20190825013813.GC23887@lst.de>
- <20190825205700.GA3911@lst.de>
- <a7dca3f1-5b51-ac6a-cfee-2cb8a5e3718d@grimberg.me>
- <20190830055435.GB8492@lst.de>
+References: <20190712180211.26333-1-sagi@grimberg.me>
+ <20190712180211.26333-4-sagi@grimberg.me> <20190822002328.GP9511@lst.de>
+ <205d06ab-fedc-739d-323f-b358aff2cbfe@grimberg.me>
+ <e4603511-6dae-e26d-12a9-e9fa727a8d03@grimberg.me>
+ <20190826065639.GA11036@lst.de> <20190826075916.GA30396@kroah.com>
+ <ac168168-fed2-2b57-493e-e88261ead73b@grimberg.me>
+ <20190830055514.GC8492@lst.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <b4fbecce-f647-71c2-45fc-00352734e4ca@grimberg.me>
-Date: Fri, 30 Aug 2019 11:03:55 -0700
+Message-ID: <4555a281-3cbc-0890-ce85-385c06ca912b@grimberg.me>
+Date: Fri, 30 Aug 2019 11:08:19 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190830055435.GB8492@lst.de>
+In-Reply-To: <20190830055514.GC8492@lst.de>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190830_110358_763181_24D30021 
-X-CRM114-Status: GOOD (  12.87  )
+X-CRM114-CacheID: sfid-20190830_110823_060151_29BC2C02 
+X-CRM114-Status: GOOD (  14.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,26 +95,32 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <keith.busch@intel.com>, James Smart <james.smart@broadcom.com>,
- linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ James Smart <james.smart@broadcom.com>, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Keith Busch <keith.busch@intel.com>,
+ Hannes Reinecke <hare@suse.de>
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
->>> After looking into various revalidate_disk refactoring I think we could
->>> do something simple like this to just ignore the non-fatal errors
->>> (won't apply as is, but you get the idea):
+>>> Yes we do, userspace should use it to order events.  Does udev not
+>>> handle that properly today?
 >>
->> This will quietly ignore errors even for the routine ns allocation path,
->> do we want that to happen?
+>> The problem is not ordering of events, its really about the fact that
+>> the chardev can be removed and reallocated for a different controller
+>> (could be a completely different discovery controller) by the time
+>> that userspace handles the event.
 > 
-> Why not?  Why would we treat an -ENOMEM or transport error different
-> when doing a scanning (e.g. because we have to reconnect) vs just when
-> revalidating?
+> The same is generally true for lot of kernel devices.  We could reduce
+> the chance by using the idr cyclic allocator.
 
-OK, I'll give that a shot because I think it solves the issue as well.
+Well, it was raised by Hannes and James, so I'll ask them respond here
+because I don't mind having it this way. I personally think that this
+is a better approach than having a cyclic idr allocator. In general, I
+don't necessarily think that this is a good idea to have cyclic
+controller enumerations if we don't absolutely have to...
 
 _______________________________________________
 Linux-nvme mailing list
