@@ -2,84 +2,91 @@ Return-Path: <SRS0=Ir45=W2=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 613D2C3A59B
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 Aug 2019 20:12:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CA8DC3A59B
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 Aug 2019 20:24:24 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 346E123439
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 Aug 2019 20:12:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0DE1C2342E
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 Aug 2019 20:24:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="RIYwG/gD";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N7A+aPT4"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 346E123439
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="OX/GNRqj";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel-dk.20150623.gappssmtp.com header.i=@kernel-dk.20150623.gappssmtp.com header.b="sRYVSUQN"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0DE1C2342E
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Cc:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	References:List-Owner; bh=gJNi+TzOUPkIZRaRs2g6FLs6PSJp4z5RW1KuO8GEbTQ=; b=RIY
-	wG/gDZ5sbb4anFGDuFN+2ZB9+biEw5LcCrC5DCut/UQd0b/lJf/bWNrHBmf2r2DehH2t+1TPPSz66
-	enmXPlFCy/30W3MAw3FuGNQ6a7YTXo61pKFf4bCOgGmtqnIkN4Mmjk33WJJyZSarEMqCRb64pAO72
-	1H4NDSEBZl+fNm0hS5uGlgf5tCKbVNK9dD9LR6woX+k3D7PHiKKgq+Glw/5kD3DuUqMQok7B6d9z8
-	AG68a1vnx2C04rgBV6ymgwqkIoxTdEMUgrEl8S5zE234ig4pZL7HqRKQ8+y6SSDpp7HAoykkPJ2zT
-	635Hc1lyjhXhraPENNJE9JsJCZ7TOPQ==;
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
+	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
+	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=blwuVyNJwQYK2rb1HxHPoztYhuq66/rUBE2MInQvuuI=; b=OX/GNRqjXB4zVv
+	IUPba0fvfKbxhKnSLi6LuNrhSNmuhWR5/2a98iR4KArCNkAA6PkdUyqb0YdbaY+YOz7bHfO8/MGgU
+	KUO/VS+uiotS9VXD8YaXNMMkYTTAzRHBg2r1sx20wSSQhiKwY+GPsaa0o6cAmRdmCd2JXCHJo6fBb
+	DyQi9++JcWSQZfNskdG4g+axkpHb3VpwGgWQPeJgISXlj2VdTTith472s1B+Itn9LIPjd6PBKagHH
+	8y0JN8+pZ6E4YjOAMlJjhMVYJDHloWMjIcu9LOoml6rBalEHfGQr3IfqqnB9JP/Ikuwy8uLaYxN7K
+	dEpaP4BhwcUtTBNwrtcA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92 #3 (Red Hat Linux))
-	id 1i3nFY-0003tk-4J; Fri, 30 Aug 2019 20:12:00 +0000
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444])
+	id 1i3nRW-0007Qt-Cg; Fri, 30 Aug 2019 20:24:22 +0000
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530])
  by bombadil.infradead.org with esmtps (Exim 4.92 #3 (Red Hat Linux))
- id 1i3nFU-0003tR-SJ
- for linux-nvme@lists.infradead.org; Fri, 30 Aug 2019 20:11:58 +0000
-Received: by mail-pf1-x444.google.com with SMTP id q21so268600pfn.11
- for <linux-nvme@lists.infradead.org>; Fri, 30 Aug 2019 13:11:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=Ye53Of+X2rjWdqx45gvvaAXyLvZRrIy9uFa+5X81IlY=;
- b=N7A+aPT4j8f1WRIZsRFYG4E1QLJi8qft2SBYJfOchGKh0z88Y9LqMjYVAjCNsV7Jre
- mBkPl5VD64sz47iO9oOFTzM2W5gsCMOWzf0NuxOgZnPbUS0w3uEaQlGZUQ3EOd9bGq59
- mKdcAMNAMyCNTH+LV6xbSSjFCY6IKWhaJbC1S3MHmp0bepG94qD7c3kIYXxtl0FYIxIv
- epukWqC1PIwvup3//w9xA41+oyPAYwEoC311l4doFclRb408I5Fg3boS65mainHlvqdu
- MbyE47gh616uBVi63wWi1o8uyHOrGi5nU4Ud/KSFO3ZNDVAO/QvCFCODuStZizyrit4s
- LEUw==
+ id 1i3nRS-0007QJ-Hg
+ for linux-nvme@lists.infradead.org; Fri, 30 Aug 2019 20:24:20 +0000
+Received: by mail-pg1-x530.google.com with SMTP id x15so4072625pgg.8
+ for <linux-nvme@lists.infradead.org>; Fri, 30 Aug 2019 13:24:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=in9aWTB7prkon6YbFcL4nw4lBCBNNJ1R4OpyxT059Tg=;
+ b=sRYVSUQNEyVt8SsHijofFXAWcmVjc6Z0PUueL4EwXqcVgDUpRuRKcYAR8360pWemoa
+ ecZDXnkevFnxO38QXV5hd1sJmL4bG7G6FHyaCjuaSmGuILo1+agWnD8HCwlxNfuPDCWq
+ wBt1yFDJtZxDSGgkXsy3bxRSW2SNLraiIZu2m2KcSAFFZ/pUuDp36SeIAcf9dgnf2oUh
+ 8Ki524trPKcQD8fBXyhrWKZnFgrxBZq2aCntCcBE7USmwQT9MNHMqoBrjxaqQhzPlflA
+ 68mms7BTV+L8fV+ttMlJW+EI8oRT8KR+60BdJJdySTeAr2DbqKFc8crxi/aq8+t3I0Nd
+ dBQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=Ye53Of+X2rjWdqx45gvvaAXyLvZRrIy9uFa+5X81IlY=;
- b=FF9kJXxAJXhOujqXGe6puwg5w5BSMJPuRGhNiT6ar7S1h4xMDpue2uZeK8zaNgZOC3
- 5OZsaEh4mj81BGQYZbx/1NkYHE6upDCucdV33SWiSJrXXwE6WKiG58TGGFzmktNV5Dqw
- 8k2EX3Y2Ig2fGu4k24fUHlk12AZ3dDdlDx/tf+9zmo6Z2RzBDcmMAHDRiMi0AgESHQ/j
- b8nq/9OYEGH8/FWYo0OTvXN6TyH4M+yApD+XPCUKgdMkPSTpbDYqrX5TT6GG6gxMGXkn
- /WKXA27s79LYbGnNhA1HxhmpTDHwRqGWNpRGlJy85Li2AfQ8sK90jMgtMw8pRazw4P0k
- 06yA==
-X-Gm-Message-State: APjAAAWB4nXZ08z7D6UGgEWWn0Mu+CjfrucRa0WLkcu0f+EbxOlW9DZM
- 3vieUsJAvqiu8zqJVPWuKVkJt1IS
-X-Google-Smtp-Source: APXvYqxk/TXt1vcPJdfnaicZBUgy1qMBL2uuK1o7Lh2UCIoxG+kXm1t/US/qlR4m0gM/gD8EBBIgfQ==
-X-Received: by 2002:a62:63c1:: with SMTP id x184mr20803740pfb.11.1567195915818; 
- Fri, 30 Aug 2019 13:11:55 -0700 (PDT)
-Received: from pallmd1.broadcom.com ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id d189sm8243177pfd.165.2019.08.30.13.11.55
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Fri, 30 Aug 2019 13:11:55 -0700 (PDT)
-From: James Smart <jsmart2021@gmail.com>
-To: linux-nvme@lists.infradead.org
-Subject: [PATCH] nvme: Treat discovery subsystems as unique subsystems
-Date: Fri, 30 Aug 2019 13:11:45 -0700
-Message-Id: <20190830201145.6729-1-jsmart2021@gmail.com>
-X-Mailer: git-send-email 2.13.7
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=in9aWTB7prkon6YbFcL4nw4lBCBNNJ1R4OpyxT059Tg=;
+ b=aB6reX2tN5NR37YuUyKIGdcgvZyU5ZQfrXxsWG15K5RNuNHtN2w4Xtwo21jhkJuhJf
+ KDR3LrpC9cF6NCr0L65hvS5LWzsHpYGT2JHbM4iRhe5yB6B4fA2NkZFkpAMgruU9tTBk
+ H2gJIJERMdGdRfZ1P7si3v+LSlOGb7shkH2v24DPUgtuaMGcScBTi0+d4BM6CopPrT+u
+ J6O/zPEqJelXJtMFytOjZ1LbKWW+8XJ7m3HkPZoUj6Yz/LitAjyL33QBOsRM2XH4biXd
+ EmMqmnxb8kfi7P7i80PoBAtkhK33PpulFbXuNHCy4DZ8O5Xasgh+kSzoCkhmPYTKt2sg
+ Kxvg==
+X-Gm-Message-State: APjAAAVUn0xPh/CtgH64ZJvVYebuwXJ7KVbsxWI7ZRNY7BcLraeEgKqh
+ ExmqQdrGXFmcRjirqHUdF67KNrlMyV3Pqg==
+X-Google-Smtp-Source: APXvYqzciNSXJWmRwZzrAE3OgHHgoI6Orlwn1U1aHca9OArrgV/hn7ggrcOwravrIcEp0CIJ0zP6HA==
+X-Received: by 2002:a62:3644:: with SMTP id d65mr20455732pfa.128.1567196657028; 
+ Fri, 30 Aug 2019 13:24:17 -0700 (PDT)
+Received: from [192.168.1.188] (66.29.164.166.static.utbb.net. [66.29.164.166])
+ by smtp.gmail.com with ESMTPSA id a16sm9158334pfo.33.2019.08.30.13.24.15
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 30 Aug 2019 13:24:16 -0700 (PDT)
+Subject: Re: [GIT PULL] nvme updates for 5.4
+To: Sagi Grimberg <sagi@grimberg.me>
+References: <20190830190124.11961-1-sagi@grimberg.me>
+From: Jens Axboe <axboe@kernel.dk>
+Message-ID: <53701429-a0f9-ed67-4cde-d402da2814ba@kernel.dk>
+Date: Fri, 30 Aug 2019 14:24:14 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <20190830190124.11961-1-sagi@grimberg.me>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190830_131156_918582_F664B2FD 
-X-CRM114-Status: UNSURE (   9.24  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20190830_132418_648869_F7F786BE 
+X-CRM114-Status: GOOD (  17.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,47 +98,48 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: James Smart <jsmart2021@gmail.com>
-MIME-Version: 1.0
+Cc: linux-block@vger.kernel.org, Keith Busch <keith.busch@intel.com>,
+ Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Current code matches subnqn and collapses all controllers to the
-same subnqn to a single subsystem structure. This is good for
-recognizing multiple controllers for the same subsystem. But with
-the well-known discovery subnqn, the subsystems aren't truly the
-same subsystem. As such, subsystem specific rules, such as no
-overlap of controller id, do not apply. With today's behavior, the
-check for overlap of controller id can fail, preventing the new
-discovery controller from being created.
+On 8/30/19 1:01 PM, Sagi Grimberg wrote:
+> Hey Jens,
+> 
+> First pull request for 5.4. Note that we do have some more patchsets
+> in the pipe, but we'll have them settle first in the nvme tree.
+> 
+> Also, note that there will be a merge conflict with 5.3-rc fixes on
+> the nvme quirk enumeration from the Apple work-around patches from Ben
+> and the LiteON quirk cb32de1b7e25 ("nvme: Add quirk for LiteON CL1 devices
+> running FW 22301111"). The fix pretty trivial, as the quirks enums simply
+> need to increment.
+> 
+> I have the fixed series in a branch:
+> 
+>    git://git.infradead.org/nvme.git nvme-resolve-5.4-conflict
+> 
+> The nvme updates include:
+> - ana log parse fix from Anton
+> - nvme quirks support for Apple devices from Ben
+> - fix missing bio completion tracing for multipath stack devices from Hannes and
+>    Mikhail
+> - IP TOS settings for nvme rdma and tcp transports from Israel
+> - rq_dma_dir cleanups from Israel
+> - tracing for Get LBA Status command from Minwoo
+> - Some nvme-tcp cleanups from Minwoo, Potnuri and Myself
+> - Some consolidation between the fabrics transports for handling the CAP
+>    register
+> - reset race with ns scanning fix for fabrics (move fabrics commands to
+>    a dedicated request queue with a different lifetime from the admin
+>    request queue).
 
-When searching for like subsystem nqn, exclude the discovery nqn
-from matching. This will result in each discovery controller being
-attached to a unique subsystem structure.
+Pulled, thanks Sagi.
 
-Signed-off-by: James Smart <jsmart2021@gmail.com>
----
- drivers/nvme/host/core.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 4660505eded9..3edafe57c7f7 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2358,6 +2358,9 @@ static struct nvme_subsystem *__nvme_find_get_subsystem(const char *subsysnqn)
- 
- 	lockdep_assert_held(&nvme_subsystems_lock);
- 
-+	if (!strcmp(subsysnqn, NVME_DISC_SUBSYS_NAME))
-+		return NULL;
-+
- 	list_for_each_entry(subsys, &nvme_subsystems, entry) {
- 		if (strcmp(subsys->subnqn, subsysnqn))
- 			continue;
 -- 
-2.13.7
+Jens Axboe
 
 
 _______________________________________________
