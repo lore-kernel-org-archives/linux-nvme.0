@@ -2,104 +2,143 @@ Return-Path: <SRS0=EcNd=W3=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,TVD_RCVD_SPACE_BRACKET,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CE19C3A5A6
-	for <linux-nvme@archiver.kernel.org>; Sat, 31 Aug 2019 18:51:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C36AC3A5A6
+	for <linux-nvme@archiver.kernel.org>; Sat, 31 Aug 2019 18:53:42 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 20B0022D37
-	for <linux-nvme@archiver.kernel.org>; Sat, 31 Aug 2019 18:51:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 2F33C21874
+	for <linux-nvme@archiver.kernel.org>; Sat, 31 Aug 2019 18:53:42 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="RzN5copG";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=dell.com header.i=@dell.com header.b="aAtYVb5O"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 20B0022D37
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=dell.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="JLv0U25Y";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=dell.com header.i=@dell.com header.b="t2RPf/iv";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=emc.com header.i=@emc.com header.b="UswIHPsu"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2F33C21874
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=Dell.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Cc:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	References:List-Owner; bh=vTaNEoYBAF6Rz+Sk7PDJF8j64hcnYa1lvoCZI541iEU=; b=RzN
-	5copGIOOHZ17wEPkbyytu/8dqn6n64gs7ZdVMkb3eWPnrF/b++YEYvl57jWEpA6njMI/GdVyeNMr/
-	NfVdb7r87VFBJSEOLYonL707LYlNn6xSq/TebeBv5shgMpqrQxqTNGyIaKJXq+2xcoOA65YWGwSZP
-	pLZaLAr8BJhXdCGYzdbNJHT9YKR7xf8aMh9Kx3TmD6SK08lraTEhnzr52hs/6U7pukz23kQf2VNiU
-	zrCGDl65kI/YaMXr02R3HveCppmkBI0+vk3IdrwHwzcp6jzpEsfy9F1UazRgWoxiLPCS0lAmEtfW7
-	bciZ4RGsvznI/P++Q0M0JZPDoaxgVOw==;
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
+	Message-ID:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=p9npix2/EevWzZYqF/F5PyftLXRfq7GLPXWE+NHgtCs=; b=JLv0U25Y2ZWzO4
+	U8gBZ1PchR3s3sh0q6WEWcpnry47Dnv96Fz/9cY5p41BYwPtrZs7+rCgaB1PXTzLtFTotQ0ejE9TR
+	Oc/Ex76xJKTRoolRh/CdR7WKgAz4q+nHJbO7g2BlC7aoMrfl4uP5alCv4hdzmd/rOg37RnGFVhNya
+	RCH+pEs4oUiDr7Iif31ma0unnnjwNspEUKWRb8xTGVpxcSH5A5f1JzGW396Ctp5QnDHkLhr0uusxO
+	UKYXG2tNfIiEu37fRED1PqHWbpG3Njo48es5JGROKeWCX1ykXz22+WOltonHju2RvhYU1CJmeMmrD
+	XaCTNJ4uL5nakcrq3pJw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92 #3 (Red Hat Linux))
-	id 1i48TL-0001dL-Fy; Sat, 31 Aug 2019 18:51:39 +0000
-Received: from mx0b-00154904.pphosted.com ([148.163.137.20])
+	id 1i48VI-0001zW-2q; Sat, 31 Aug 2019 18:53:40 +0000
+Received: from mx0a-00154904.pphosted.com ([148.163.133.20])
  by bombadil.infradead.org with esmtps (Exim 4.92 #3 (Red Hat Linux))
- id 1i48TH-0001cT-KO
- for linux-nvme@lists.infradead.org; Sat, 31 Aug 2019 18:51:37 +0000
-Received: from pps.filterd (m0170395.ppops.net [127.0.0.1])
- by mx0b-00154904.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- x7VIoP3d030517; Sat, 31 Aug 2019 14:51:26 -0400
+ id 1i48VF-0001ys-KP
+ for linux-nvme@lists.infradead.org; Sat, 31 Aug 2019 18:53:39 +0000
+Received: from pps.filterd (m0170391.ppops.net [127.0.0.1])
+ by mx0a-00154904.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ x7VIngOq006333; Sat, 31 Aug 2019 14:52:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com;
- h=from : to : cc : subject : date : message-id; s=smtpout1;
- bh=HVQYSXZC+veo3x0PDWRR/zxrRiCcTV25SemEZljuj8c=;
- b=aAtYVb5O87CT8Ze0Nr10sHESAGIIP51kPG2YAfH9tpEoqd3YubqTd9hsYaZXCb1zJKEB
- lMMGM2n6U6J1vbLRupAasc0ftd5lNTiZC43eKHOXowh0BAlPLwKmjD3VybGN4WFCaKL7
- ArP+IfFybkQymIxgUsuuTtSMZqzc/HU27lzBwsqX+bdGrtGvqclFdniE7gHfHUUNNXhA
- UlfOr8PmflSb87BDQYYMJDuQ55nbW+pHH8PTI15/gYES3asQYE4Sq2ZRjtbNdyikImQN
- qMXriivpWl9qvDrsV5aOPzYGjVe5j7jhxcoDumKVf1cIjln4S1Cu7jQPtvutn2B0ECtq Cw== 
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=smtpout1;
+ bh=FukuB4t1mI8Ff6k/vqNEdtRHFkP9FEXD7185oVy4rHM=;
+ b=t2RPf/ivUgxibAFz6yu0fb8gBtFDBjR3qS+1U84FQ0ScCx4xNjaiYWZS74WyzyZcsGfw
+ k0ehB/8+Uiq3G4qwzSfhD2f4Qg3cFzX9F8WYWf0ALQ272DaVxC2UZ598jxDhVR9ITsG3
+ VTy3w17KhJDOnYh8LSTPi8f5+ZHcO7TIn5cXsQjiEUvY+7TOIGQEZmQ/tpPrlSXNoNLX
+ LxA8Z+sPTcYSC9uBRZLbO8YIi5TunCE7yJoXfVtRZp62mjoB9l3Z47u4+gnSSS6Fg6wI
+ kspMZuOkZXdrO3k6mcnaoa1hNcFRUgCc1hOoN91mKHWLoAcn4B6o5H8yT+d139SscCX4 Wg== 
 Received: from mx0a-00154901.pphosted.com (mx0a-00154901.pphosted.com
  [67.231.149.39])
- by mx0b-00154904.pphosted.com with ESMTP id 2uqnjp11vb-1
+ by mx0a-00154904.pphosted.com with ESMTP id 2uqm1xh7qe-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 31 Aug 2019 14:51:26 -0400
-Received: from pps.filterd (m0133268.ppops.net [127.0.0.1])
+ Sat, 31 Aug 2019 14:52:56 -0400
+Received: from pps.filterd (m0142693.ppops.net [127.0.0.1])
  by mx0a-00154901.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- x7VIljQ6165250; Sat, 31 Aug 2019 14:51:25 -0400
-Received: from mailuogwhop.emc.com (mailuogwhop.emc.com [168.159.213.141])
- by mx0a-00154901.pphosted.com with ESMTP id 2uqk4r5jmq-1
+ x7VIqtlL036554; Sat, 31 Aug 2019 14:52:56 -0400
+Received: from mailuogwdur.emc.com (mailuogwdur.emc.com [128.221.224.79])
+ by mx0a-00154901.pphosted.com with ESMTP id 2uqn56cgyd-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Sat, 31 Aug 2019 14:51:25 -0400
-Received: from emc.com (localhost [127.0.0.1])
- by mailuogwprd02.lss.emc.com (Sentrion-MTA-4.3.1/Sentrion-MTA-4.3.0) with
- ESMTP id x7VIpNxH016329; Sat, 31 Aug 2019 14:51:23 -0400
-Received: from maildlpprd04.lss.emc.com ([maildlpprd04.lss.emc.com
- [10.253.24.36]]) by mailuogwprd02.lss.emc.com with ESMTP id x7VIomrY016185 ; 
- Sat, 31 Aug 2019 14:50:54 -0400
-Received: from mailsyshubprd55.lss.emc.com (mailhub.lss.emc.com
- [10.106.48.137]) by maildlpprd04.lss.emc.com (RSA Interceptor);
- Sat, 31 Aug 2019 14:50:11 -0400
-Received: from vd-amite.xiolab.lab.emc.com (vd-amite.xiolab.lab.emc.com
- [10.64.137.6])
- by mailsyshubprd55.lss.emc.com (Sentrion-MTA-4.3.1/Sentrion-MTA-4.3.0) with
- ESMTP id x7VIo9pZ007953; Sat, 31 Aug 2019 14:50:10 -0400
-From: amit.engel@dell.com
-To: sagi@grimberg.me, linux-nvme@lists.infradead.org
-Subject: [PATCH] nvmet: fix a wrong error status returned in error log page
-Date: Sat, 31 Aug 2019 21:50:06 +0300
-Message-Id: <20190831185006.119748-1-amit.engel@dell.com>
-X-Mailer: git-send-email 2.16.5
+ Sat, 31 Aug 2019 14:52:56 -0400
+Received: from maildlpprd54.lss.emc.com (maildlpprd54.lss.emc.com
+ [10.106.48.158])
+ by mailuogwprd52.lss.emc.com (Sentrion-MTA-4.3.1/Sentrion-MTA-4.3.0) with
+ ESMTP id x7VIqjH3028867
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+ Sat, 31 Aug 2019 14:52:55 -0400
+X-DKIM: OpenDKIM Filter v2.4.3 mailuogwprd52.lss.emc.com x7VIqjH3028867
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=emc.com; s=jan2013;
+ t=1567277575; bh=gJfUMLrgRdHOlnY3CNViK5Pqo0M=;
+ h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+ Content-Type:Content-Transfer-Encoding:MIME-Version;
+ b=UswIHPsuugp0InnZIbzOPpSSrWm8rd0tVroI2Pcc5/VjFsbYGjkNN51wh6sjLFJ0v
+ LTjN1T5SX9hGgJzyE0WOo7o+gf7E5W8lHt2Y2K84rsGRVVBD6JioQyPF8uS4Am7e8u
+ EkNzePhPYBg2SGwzuei9LnAHZY5yTHqBiGMx+sRA=
+Received: from mailusrhubprd52.lss.emc.com (mailusrhubprd52.lss.emc.com
+ [10.106.48.25]) by maildlpprd54.lss.emc.com (RSA Interceptor);
+ Sat, 31 Aug 2019 14:51:36 -0400
+Received: from MXHUB315.corp.emc.com (MXHUB315.corp.emc.com [10.146.3.93])
+ by mailusrhubprd52.lss.emc.com (Sentrion-MTA-4.3.1/Sentrion-MTA-4.3.0) with
+ ESMTP id x7VIpaQq016635
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=FAIL);
+ Sat, 31 Aug 2019 14:51:36 -0400
+Received: from MX302CL04.corp.emc.com ([fe80::18ad:6300:21eb:2b39]) by
+ MXHUB315.corp.emc.com ([10.146.3.93]) with mapi id 14.03.0439.000; Sat, 31
+ Aug 2019 14:51:35 -0400
+From: "Engel, Amit" <Amit.Engel@Dell.com>
+To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@infradead.org>
+Subject: RE: [PATCH] nvme/target/admin-cmd.c: Fix a bug in
+ 'nvmet_execute_get_log_page_error'
+Thread-Topic: [PATCH] nvme/target/admin-cmd.c: Fix a bug in
+ 'nvmet_execute_get_log_page_error'
+Thread-Index: AQHVV+rhGH+z1ZJ98kqkpi+ZAD2lWKcGiGKAgAA23nCAAHpT0IAEh6nQgAcHF4CAAuHO0A==
+Date: Sat, 31 Aug 2019 18:51:34 +0000
+Message-ID: <8739B0CD2FC2DC40AF691A1CCBB989603460A6C1@MX302CL04.corp.emc.com>
+References: <20190821063711.1252-1-amit.engel@dell.com>
+ <20190821234559.GB27887@infradead.org>
+ <8739B0CD2FC2DC40AF691A1CCBB9896034606D14@MX302CL04.corp.emc.com>
+ <8739B0CD2FC2DC40AF691A1CCBB9896034606E73@MX302CL04.corp.emc.com>
+ <8739B0CD2FC2DC40AF691A1CCBB989603460714F@MX302CL04.corp.emc.com>
+ <442e4fd6-0288-8da4-fec4-3e5ae6df5dae@grimberg.me>
+In-Reply-To: <442e4fd6-0288-8da4-fec4-3e5ae6df5dae@grimberg.me>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Enabled=True;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Owner=Amit.Engel@emc.com;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SetDate=2019-08-31T18:51:32.7084995Z;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Name=External Public;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Application=Microsoft Azure
+ Information Protection;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Extended_MSFT_Method=Manual;
+ aiplabel=External Public
+x-originating-ip: [10.76.41.142]
+MIME-Version: 1.0
+X-Sentrion-Hostname: mailusrhubprd52.lss.emc.com
 X-RSA-Classifications: public
-X-Sentrion-Hostname: mailuogwprd02.lss.emc.com
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.70,1.0.8
  definitions=2019-08-31_07:2019-08-29,2019-08-31 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- impostorscore=0 phishscore=0 clxscore=1015 suspectscore=0
- lowpriorityscore=0 bulkscore=0 priorityscore=1501 mlxlogscore=813
- mlxscore=0 spamscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-1906280000 definitions=main-1908310217
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- mlxlogscore=895
- priorityscore=1501 clxscore=1015 lowpriorityscore=0 bulkscore=0
- impostorscore=0 suspectscore=0 mlxscore=0 malwarescore=0 spamscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1906280000 definitions=main-1908310217
+ malwarescore=0 adultscore=0
+ spamscore=0 phishscore=0 priorityscore=1501 lowpriorityscore=0 mlxscore=0
+ clxscore=1015 mlxlogscore=933 impostorscore=0 suspectscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-1906280000
+ definitions=main-1908310218
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ spamscore=0 clxscore=1015 lowpriorityscore=0 adultscore=0 bulkscore=0
+ phishscore=0 mlxlogscore=999 impostorscore=0 suspectscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-1906280000
+ definitions=main-1908310217
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190831_115135_842911_A8A1D9EA 
-X-CRM114-Status: GOOD (  12.70  )
+X-CRM114-CacheID: sfid-20190831_115337_830756_E9942A35 
+X-CRM114-Status: GOOD (  13.33  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,50 +150,39 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Amit <Amit.Engel@Dell.com>
-MIME-Version: 1.0
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Amit <amit.engel@emc.com>
+Hi Sagi,
 
-When the command data_len cannot hold all the controller errors,
-we should simply return as much errors as we can fit
-instead of failing the command.
+I updated the commit message per you ask.
 
-Signed-off-by: Amit Engel <amit.engel@dell.com>
----
- drivers/nvme/target/admin-cmd.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Thanks!
+Amit
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 51800a9ce9a9..f7753b8a485c 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -40,13 +40,16 @@ static void nvmet_execute_get_log_page_error(struct nvmet_req *req)
- 	u16 status = NVME_SC_SUCCESS;
- 	unsigned long flags;
- 	off_t offset = 0;
-+	size_t num_of_sgl_slots;
- 	u64 slot;
- 	u64 i;
- 
-+	num_of_sgl_slots = do_div(req->data_len, sizeof(struct nvme_error_slot));
-+
- 	spin_lock_irqsave(&ctrl->error_lock, flags);
- 	slot = ctrl->err_counter % NVMET_ERROR_LOG_SLOTS;
- 
--	for (i = 0; i < NVMET_ERROR_LOG_SLOTS; i++) {
-+	for (i = 0; i < NVMET_ERROR_LOG_SLOTS && i < num_of_sgl_slots; i++) {
- 		status = nvmet_copy_to_sgl(req, offset, &ctrl->slots[slot],
- 				sizeof(struct nvme_error_slot));
- 		if (status)
--- 
-2.16.5
+-----Original Message-----
+From: Sagi Grimberg <sagi@grimberg.me> 
+Sent: Thursday, August 29, 2019 9:50 PM
+To: Engel, Amit; Christoph Hellwig
+Cc: linux-nvme@lists.infradead.org
+Subject: Re: [PATCH] nvme/target/admin-cmd.c: Fix a bug in 'nvmet_execute_get_log_page_error'
 
 
+[EXTERNAL EMAIL] 
+
+
+> Hi, Any update regarding my below fix proposal?
+
+The patch is fine, but can you please update the commit message,
+
+First: the title should be:
+nvmet: fix a wrong error status returned in error log page
+
+And the message body needs to be:
+When the command data_len cannot hold all the controller errors, we should simply return as much errors as we can fit instead of failing the command.
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
