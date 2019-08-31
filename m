@@ -7,83 +7,85 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80779C3A59B
-	for <linux-nvme@archiver.kernel.org>; Sat, 31 Aug 2019 00:02:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67805C3A59B
+	for <linux-nvme@archiver.kernel.org>; Sat, 31 Aug 2019 00:10:24 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 41C9623431
-	for <linux-nvme@archiver.kernel.org>; Sat, 31 Aug 2019 00:02:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 2FDE723407
+	for <linux-nvme@archiver.kernel.org>; Sat, 31 Aug 2019 00:10:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="SbNInI5O";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="f8X74QUu"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 41C9623431
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="OhQb/Zal";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="jNJlaHa5"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2FDE723407
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Cc:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	References:List-Owner; bh=DLgiu+aQXPwd76RHzICIFhlnR9hgeTu16O0Po+ngPyE=; b=SbN
-	InI5OeTmXEvOIYEo4PI9dDPb7jxBE16oKVMzMC/8RdcZyN42DOVrgV/PodIJ87rX+XZlqCyeqg3ch
-	mVyv+6o6YTVK7JWuZ8rcGtRPOfuVG2XRrOjrOrGjUG5eMzdNIL+1ODvMxQEBHqn7zsJJumMbQHPrJ
-	6JvlPE1Eu/xAgFQFmX1f60K7/fwCNX49zrgeI5Nz4MxGtXgIOihm67n/dQnFJrxGkMFDPDt/fLycU
-	yqEf5S70kdpyMpBrFQSF2YSeYjHaefgQGOSZoMIEseBCQdlvzK/6v2C+CRT3/VFf4cq/M35aRbJLV
-	n2JkS50zrwB5YVMBaBPtpL5+g/DChPw==;
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
+	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=qO4+44Qo9lDUQ+OK3t/hTkCQG+A8szg3Blqg64kB7s0=; b=OhQb/ZalGe0VV5
+	Faw4fxmUOsmz5wFBMw2GwfCiSWOnlrQN4/NdsEWvqAZheJVepSY3UOVsyfuDWeytyzNHYw43PuR3g
+	zmab/U43xW9n/jcrkEnDTztoYUu8RMUKzEBILDPNyOzSn/Brx0TbCq3LgIyw1YnNxL+6jWg1no1UP
+	Alt7jPaXASQ0rguK0HZ9FJgsPpDwU8VYWoP3bt23x/H9BaiZ+4juC+DWTSHsFD/t4E1eP0Otzp4KS
+	0J2zBd7LtuEysMTPZi53CeiWoFpelRipGPIBI7ivsHLtGTdLL9HEtTbk91LeiInO7B9dCiqLpFa4Y
+	ZbbOfjnlyGCLvjUOtaFA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92 #3 (Red Hat Linux))
-	id 1i3qqr-0002rm-1O; Sat, 31 Aug 2019 00:02:45 +0000
-Received: from esa3.hgst.iphmx.com ([216.71.153.141])
+	id 1i3qyE-0005rP-7y; Sat, 31 Aug 2019 00:10:22 +0000
+Received: from esa1.hgst.iphmx.com ([68.232.141.245])
  by bombadil.infradead.org with esmtps (Exim 4.92 #3 (Red Hat Linux))
- id 1i3qqo-0002rK-Bw
- for linux-nvme@lists.infradead.org; Sat, 31 Aug 2019 00:02:43 +0000
+ id 1i3qy9-0005r3-Il
+ for linux-nvme@lists.infradead.org; Sat, 31 Aug 2019 00:10:20 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1567209763; x=1598745763;
- h=from:to:cc:subject:date:message-id;
- bh=20XJsaG/cU0nP5w2E+p/qCfcKCXjR+3hPsHUqX639vI=;
- b=f8X74QUuwP2KpkfS66aztJEda3mbErOQ0lIShVvcOI5tCsgZ1dVlyJ8l
- z8KlmJ5LZDUiAUrjXamdaGZte0tRF0VDz3cG4E2Bbdabd0/fqXZslqiIT
- SzDD0hUyyfI8r7TiAmL37a/x1EPRZMmoBn/CkAuEq6ttoxSGqeKELPkt5
- OPYR0jqqJoWL52ywtT8r5JjIL+00vJb+P1Dal9GA65X3x96GIAb6pSZKG
- fjWDOqPrcrXPe0MrJOxFQciYU6SM/wm6mbEDGQXV4/8Ni5xcZe7Uate17
- MhHGmiq1CA4E56+sjoNHFQplqjh8iMCh3tTbnFFxQ5fkxEwqeDEricAQa Q==;
-IronPort-SDR: i5MhCCuVziOD0lXvYBgD9K9qcXIBhvPLLqy33tUnAuqyeXCUTk8qNZfbzjbhvw9chhpCMZQk2X
- JhChc2HtF+kpDrEv9RHseVYUmZcxqzEQ6eI1/YuaXraVsdcHBsO5Sgv8tQIXeWAXojUs9X/WpE
- 3pnznLEUBiH5pvQQlCy7mOvmcE5I41KMYaYDtjjjjXYaOEEkZ+iYIEIgbAcmXqE1d2Ocf1Oyzv
- oi9fn5VAX7D5FR+XTDHZUO0OEmJOBot5mK6a5wJIl/EKIuQvKLaMUIXFrsnJPeYrO68PQXqxZi
- xKA=
-X-IronPort-AV: E=Sophos;i="5.64,449,1559491200"; d="scan'208";a="121646016"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ t=1567210217; x=1598746217;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=zj5i/W8d8iNF49xddR4/+DEh1tw6smMifwUnIaur9F8=;
+ b=jNJlaHa5Tn3nwNQcjDeYK2lsqzUrFkZqancsoCSjs8K0OoCz4ODlJSJ+
+ bhjvp2ro2yhkN8o/xxImBkvRMfo0xuWKA+Anepz/UmgjBg4xyR/ttV7Sn
+ dWM93uXBWlta42INbm5IdKYe9K5acKdlOvM1Ta3A4G/IgQAcZ+8e+rJPy
+ EeNQS0psGO+mbA9EOCPUsRATfTHfdAzFdNDryzGlbs/2C49zzHnlEQZLB
+ b7hh8G5io0hvIjEYT4Zmw8Tr044GKJzYs0k0CKoSc8Fdv5+mCHrRVJ8LT
+ pVMJ7FflRQbbJJz73tsJKeGiApXkwbcurEbRbPPxOZkqgnhpmLabCrW9O g==;
+IronPort-SDR: 43KyhuITiN0QeU86OK6yVcnAYmI0t5g0oq9WcGsMq/GC7LtiIps29G6Shj0kSVCcLMnJ9IZlZx
+ C1j8Tnt9DWq1ooEUi++qLE53QferjhAHuTfjcc8zY5yicqAAk0kBupKaa1SQ+2rfxPI4bt1L0J
+ CxPopDuACPgSRTQL8MzMn5TCtvHpekVKLCDDhWGS6Azyzfmns2iOYyGlawky8yd39DVHAgqycQ
+ w5BkH1NuHAEtGsi+x7Jb+ycLNX1fNjJbUWLAT8KfHyUKlCQd+nBJJjMnxe/kh14ENg2MY+e2lu
+ 0Vs=
+X-IronPort-AV: E=Sophos;i="5.64,449,1559491200"; d="scan'208";a="223755687"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 31 Aug 2019 08:02:38 +0800
-IronPort-SDR: 6C+HnGIulHV3AaizxVe9evZlApU+DU6VSAMswQ6cdxYxtsKqmHFJDwxfxLVfIaAurBAZs1ylqj
- YgudIl5JvZAsd5cJlyV0bh4/h4XGaorH/PyCqfU4HPBsnQgdJyOGZTAyaKPViB65oflDI51EYk
- So59sSWiw5QxxpAEoqdNvtOIYjBiMJ0cPHBAk1tdCK+3raXufBtMUNFxYO1OhPS+m6tBzRKXqM
- 6q5CfFA+8Dgwqx2TmcnZ5M5m2M93lsCmc1LCr5DJ2pehPO4FKUzOD3XpOhfCEZtNel5O0k8CwE
- rLqO8ZLopeL28aGErNSveHMp
+ by ob1.hgst.iphmx.com with ESMTP; 31 Aug 2019 08:10:16 +0800
+IronPort-SDR: VCqjcWhE5+VX8kdIkyCYEiqmmEIOedyOYT+siI0FECUfl9K7C1EXjD6vUnyf3rp8CnY+OHoClf
+ H4NQ0JUjwzA8LMqlXS0OFZucN0tIYzwPeBc719BS8asHaMclsI92AGhglEz4wYUAUYN+LNI2l+
+ c15myZXPV68ZzHsEo/NabeaOZe8Kr84bQoJxCVpYtUPTMCV4zPwKVAarDgjLmdXa9XRNidZzXc
+ GvET7ytn7rjLmtGehvh3cIKxx8gt7t96pd8g892RJIzWJsVWlZHzkWacML1/1/4NCRkYmCqOa6
+ BONC3WGXE/T/VZd4iP4EVF2t
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Aug 2019 16:59:43 -0700
-IronPort-SDR: 4H09yevGEUHtgzfFceHQweJpad6Z5naHYjQf/kFWHxKzs22IfNozpNO8Lhg83z+U3QfTIZeHA0
- hnrieoV9jYxlwseP07eXszeKLOKwONO7r9Q1raHGvylSaF/kVkES3QXo1GBJyvf8r6+cDcPAeN
- t0fZVvZL6bGjrInNs54tuLxRdlmjQMi8iIs5VUCVN1PxZPmoS5jxjyNB7/6bXN6yebsqMyftGi
- FY2fQPyzc/N+Y8WSKp5++fsdhoskUKtk8/MwTRz3VQHYvWGmkSYiyi+BvEDrraGngVhcgkNtcS
- HJs=
+ 30 Aug 2019 17:07:21 -0700
+IronPort-SDR: FtyiBzjWLih3fvhXmy0PQtgdpzzVaKra83knRrwaez4lhvDjSKRTK769L7X8O1rzOm12lKduJm
+ y6zFCP3YZY1Ghl+QUSfji7zZvc1WaCqx8KLLEnmxK+iZZNCEaQsHqktlA/vzFdnpbpaFDtqGgJ
+ bWs1x0VQgWXafsUiizzU30RIY9BftvGqhOLZM5Pll7ljkiXhwdwOMnE9jrkan48hG+6Z6Z77Pm
+ s25LkecUUve8NgCs7G36nPnmgoTeLiIQUL3w1K8EU7Q3G4EgU5F89zgyW2HgJYTpax8Jdkg7aM
+ s94=
 WDCIronportException: Internal
 Received: from qemu.hgst.com ([10.202.66.53])
- by uls-op-cesaip01.wdc.com with ESMTP; 30 Aug 2019 17:02:38 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 30 Aug 2019 17:10:15 -0700
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH] nvme-core: cleanup work queue flags
-Date: Fri, 30 Aug 2019 17:02:35 -0700
-Message-Id: <20190831000235.7400-1-chaitanya.kulkarni@wdc.com>
+Subject: [PATCH] nvme-core: get rid of the unused variable
+Date: Fri, 30 Aug 2019 17:10:13 -0700
+Message-Id: <20190831001013.8581-1-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.17.0
+MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190830_170242_542674_DA9FF9D6 
-X-CRM114-Status: UNSURE (   9.52  )
+X-CRM114-CacheID: sfid-20190830_171017_736045_3C8306F7 
+X-CRM114-Status: UNSURE (   9.22  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -97,72 +99,25 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Over the period of time there are three workqueues been added to the
-nvme-core which all share same flags :-
-
-nvme-wq :-
-commit 9a6327d2f25b ("nvme: Move transports to use nvme-core workqueue")
-
-nvme-reset-wq :-
-nvme-delete-wq :-
-commit b227c59b9b5b
-("nvme: host delete_work and reset_work on separate workqueues")
-
-This is a pure cleanup patch which defines a new macro for common
-workqueue flags used to initialize for nvme-wq, nvme-reset-wq,
-nvme-delete-wq and avoids the repetition of the flags in 
-nvme_core_init().
-
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
----
- drivers/nvme/host/core.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 0b1ff8d54e48..555d9efa76cd 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -61,6 +61,7 @@ static bool streams;
- module_param(streams, bool, 0644);
- MODULE_PARM_DESC(streams, "turn on support for Streams write directives");
- 
-+#define NVME_WQ_FLAGS (WQ_UNBOUND | WQ_MEM_RECLAIM | WQ_SYSFS)
- /*
-  * nvme_wq - hosts nvme related works that are not reset or delete
-  * nvme_reset_wq - hosts nvme reset works
-@@ -4055,18 +4056,15 @@ static int __init nvme_core_init(void)
- 
- 	_nvme_check_size();
- 
--	nvme_wq = alloc_workqueue("nvme-wq",
--			WQ_UNBOUND | WQ_MEM_RECLAIM | WQ_SYSFS, 0);
-+	nvme_wq = alloc_workqueue("nvme-wq", NVME_WQ_FLAGS, 0);
- 	if (!nvme_wq)
- 		goto out;
- 
--	nvme_reset_wq = alloc_workqueue("nvme-reset-wq",
--			WQ_UNBOUND | WQ_MEM_RECLAIM | WQ_SYSFS, 0);
-+	nvme_reset_wq = alloc_workqueue("nvme-reset-wq", NVME_WQ_FLAGS, 0);
- 	if (!nvme_reset_wq)
- 		goto destroy_wq;
- 
--	nvme_delete_wq = alloc_workqueue("nvme-delete-wq",
--			WQ_UNBOUND | WQ_MEM_RECLAIM | WQ_SYSFS, 0);
-+	nvme_delete_wq = alloc_workqueue("nvme-delete-wq", NVME_WQ_FLAGS, 0);
- 	if (!nvme_delete_wq)
- 		goto destroy_reset_wq;
- 
--- 
-2.17.0
-
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+VGhpcyBwYXRjaCBmaXhlcyB0aGUgZm9sbG93aW5nIGNvbXBpbGF0aW9uIHdhcm5pbmc6LQoKZHJp
+dmVycy9udm1lLy9ob3N0L2NvcmUuYzogSW4gZnVuY3Rpb24g4oCYbnZtZV9jb21wbGV0ZV9yceKA
+mToKZHJpdmVycy9udm1lLy9ob3N0L2NvcmUuYzoyNjQ6MTg6IHdhcm5pbmc6IHVudXNlZCB2YXJp
+YWJsZSDigJhuc+KAmQpbLVd1bnVzZWQtdmFyaWFibGVdCiAgc3RydWN0IG52bWVfbnMgKm5zID0g
+cmVxLT5xLT5xdWV1ZWRhdGE7CgpTaWduZWQtb2ZmLWJ5OiBDaGFpdGFueWEgS3Vsa2FybmkgPGNo
+YWl0YW55YS5rdWxrYXJuaUB3ZGMuY29tPgotLS0KIGRyaXZlcnMvbnZtZS9ob3N0L2NvcmUuYyB8
+IDEgLQogMSBmaWxlIGNoYW5nZWQsIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJz
+L252bWUvaG9zdC9jb3JlLmMgYi9kcml2ZXJzL252bWUvaG9zdC9jb3JlLmMKaW5kZXggMGIxZmY4
+ZDU0ZTQ4Li5kZGY5OTM0NWUzZDggMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvbnZtZS9ob3N0L2NvcmUu
+YworKysgYi9kcml2ZXJzL252bWUvaG9zdC9jb3JlLmMKQEAgLTI2MSw3ICsyNjEsNiBAQCBzdGF0
+aWMgdm9pZCBudm1lX3JldHJ5X3JlcShzdHJ1Y3QgcmVxdWVzdCAqcmVxKQogdm9pZCBudm1lX2Nv
+bXBsZXRlX3JxKHN0cnVjdCByZXF1ZXN0ICpyZXEpCiB7CiAJYmxrX3N0YXR1c190IHN0YXR1cyA9
+IG52bWVfZXJyb3Jfc3RhdHVzKHJlcSk7Ci0Jc3RydWN0IG52bWVfbnMgKm5zID0gcmVxLT5xLT5x
+dWV1ZWRhdGE7CiAKIAl0cmFjZV9udm1lX2NvbXBsZXRlX3JxKHJlcSk7CiAKLS0gCjIuMTcuMAoK
+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LW52
+bWUgbWFpbGluZyBsaXN0CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlz
+dHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
