@@ -5,64 +5,86 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0E9AC3A59B
-	for <linux-nvme@archiver.kernel.org>; Sat, 31 Aug 2019 00:02:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80779C3A59B
+	for <linux-nvme@archiver.kernel.org>; Sat, 31 Aug 2019 00:02:46 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BF7AA23431
-	for <linux-nvme@archiver.kernel.org>; Sat, 31 Aug 2019 00:02:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 41C9623431
+	for <linux-nvme@archiver.kernel.org>; Sat, 31 Aug 2019 00:02:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="aGHGcGtg"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BF7AA23431
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="SbNInI5O";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="f8X74QUu"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 41C9623431
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Subject:MIME-Version:Message-Id:Date:To
-	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=RhHdWKvQkoRJ4pURT65lK1KeesWjLmY9WXARsajz0a4=; b=aGHGcGtgXLM4fY
-	U9vxyTmJICXJ20yEEH90x2tPyJe03+xqTwdeLlZ8dRSnFitrAJUEpbbar5Tx262epgiZR1jbZuLbG
-	eNj4v+l8o9T2HtVS9+8EIagddxX+huaexS5ZgiVQAclnUxmzWFzNJbAe7wZ/W88hAbVPJyOLMQqwc
-	/DUt4lAcoqWMX/IUmp2iUhcsvsedcc5ETfy2oR3ipC1YXpeq4dhctY7qQwXKF7ep4F5UJMNItUMCT
-	4oOW1oPrgIXAhHbBMu3/ZG0X06+CAAaNbWwMNZ4ZXcCRYf40wrDM6vJoT8BmH/hO+40IS0yqqjkHD
-	+XVO0UGg3xRCymlbmucA==;
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Cc:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+	References:List-Owner; bh=DLgiu+aQXPwd76RHzICIFhlnR9hgeTu16O0Po+ngPyE=; b=SbN
+	InI5OeTmXEvOIYEo4PI9dDPb7jxBE16oKVMzMC/8RdcZyN42DOVrgV/PodIJ87rX+XZlqCyeqg3ch
+	mVyv+6o6YTVK7JWuZ8rcGtRPOfuVG2XRrOjrOrGjUG5eMzdNIL+1ODvMxQEBHqn7zsJJumMbQHPrJ
+	6JvlPE1Eu/xAgFQFmX1f60K7/fwCNX49zrgeI5Nz4MxGtXgIOihm67n/dQnFJrxGkMFDPDt/fLycU
+	yqEf5S70kdpyMpBrFQSF2YSeYjHaefgQGOSZoMIEseBCQdlvzK/6v2C+CRT3/VFf4cq/M35aRbJLV
+	n2JkS50zrwB5YVMBaBPtpL5+g/DChPw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92 #3 (Red Hat Linux))
-	id 1i3qqR-0002gc-Rg; Sat, 31 Aug 2019 00:02:19 +0000
-Received: from ale.deltatee.com ([207.54.116.67])
+	id 1i3qqr-0002rm-1O; Sat, 31 Aug 2019 00:02:45 +0000
+Received: from esa3.hgst.iphmx.com ([216.71.153.141])
  by bombadil.infradead.org with esmtps (Exim 4.92 #3 (Red Hat Linux))
- id 1i3qqN-0002ff-N9
- for linux-nvme@lists.infradead.org; Sat, 31 Aug 2019 00:02:17 +0000
-Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
- by ale.deltatee.com with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.89) (envelope-from <gunthorp@deltatee.com>)
- id 1i3qqE-0003Cm-6L; Fri, 30 Aug 2019 18:02:07 -0600
-Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
- (envelope-from <gunthorp@deltatee.com>)
- id 1i3qqC-00020M-63; Fri, 30 Aug 2019 18:02:04 -0600
-From: Logan Gunthorpe <logang@deltatee.com>
-To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- Christoph Hellwig <hch@lst.de>
-Date: Fri, 30 Aug 2019 18:01:39 -0600
-Message-Id: <20190831000139.7662-1-logang@deltatee.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 172.16.1.31
-X-SA-Exim-Rcpt-To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- hch@lst.de, sagi@grimberg.me, axboe@fb.com, kbusch@kernel.org, hare@suse.com,
- martin.petersen@oracle.com, logang@deltatee.com
-X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH] nvme-core: Fix subsystem instance mismatches
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+ id 1i3qqo-0002rK-Bw
+ for linux-nvme@lists.infradead.org; Sat, 31 Aug 2019 00:02:43 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1567209763; x=1598745763;
+ h=from:to:cc:subject:date:message-id;
+ bh=20XJsaG/cU0nP5w2E+p/qCfcKCXjR+3hPsHUqX639vI=;
+ b=f8X74QUuwP2KpkfS66aztJEda3mbErOQ0lIShVvcOI5tCsgZ1dVlyJ8l
+ z8KlmJ5LZDUiAUrjXamdaGZte0tRF0VDz3cG4E2Bbdabd0/fqXZslqiIT
+ SzDD0hUyyfI8r7TiAmL37a/x1EPRZMmoBn/CkAuEq6ttoxSGqeKELPkt5
+ OPYR0jqqJoWL52ywtT8r5JjIL+00vJb+P1Dal9GA65X3x96GIAb6pSZKG
+ fjWDOqPrcrXPe0MrJOxFQciYU6SM/wm6mbEDGQXV4/8Ni5xcZe7Uate17
+ MhHGmiq1CA4E56+sjoNHFQplqjh8iMCh3tTbnFFxQ5fkxEwqeDEricAQa Q==;
+IronPort-SDR: i5MhCCuVziOD0lXvYBgD9K9qcXIBhvPLLqy33tUnAuqyeXCUTk8qNZfbzjbhvw9chhpCMZQk2X
+ JhChc2HtF+kpDrEv9RHseVYUmZcxqzEQ6eI1/YuaXraVsdcHBsO5Sgv8tQIXeWAXojUs9X/WpE
+ 3pnznLEUBiH5pvQQlCy7mOvmcE5I41KMYaYDtjjjjXYaOEEkZ+iYIEIgbAcmXqE1d2Ocf1Oyzv
+ oi9fn5VAX7D5FR+XTDHZUO0OEmJOBot5mK6a5wJIl/EKIuQvKLaMUIXFrsnJPeYrO68PQXqxZi
+ xKA=
+X-IronPort-AV: E=Sophos;i="5.64,449,1559491200"; d="scan'208";a="121646016"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 31 Aug 2019 08:02:38 +0800
+IronPort-SDR: 6C+HnGIulHV3AaizxVe9evZlApU+DU6VSAMswQ6cdxYxtsKqmHFJDwxfxLVfIaAurBAZs1ylqj
+ YgudIl5JvZAsd5cJlyV0bh4/h4XGaorH/PyCqfU4HPBsnQgdJyOGZTAyaKPViB65oflDI51EYk
+ So59sSWiw5QxxpAEoqdNvtOIYjBiMJ0cPHBAk1tdCK+3raXufBtMUNFxYO1OhPS+m6tBzRKXqM
+ 6q5CfFA+8Dgwqx2TmcnZ5M5m2M93lsCmc1LCr5DJ2pehPO4FKUzOD3XpOhfCEZtNel5O0k8CwE
+ rLqO8ZLopeL28aGErNSveHMp
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Aug 2019 16:59:43 -0700
+IronPort-SDR: 4H09yevGEUHtgzfFceHQweJpad6Z5naHYjQf/kFWHxKzs22IfNozpNO8Lhg83z+U3QfTIZeHA0
+ hnrieoV9jYxlwseP07eXszeKLOKwONO7r9Q1raHGvylSaF/kVkES3QXo1GBJyvf8r6+cDcPAeN
+ t0fZVvZL6bGjrInNs54tuLxRdlmjQMi8iIs5VUCVN1PxZPmoS5jxjyNB7/6bXN6yebsqMyftGi
+ FY2fQPyzc/N+Y8WSKp5++fsdhoskUKtk8/MwTRz3VQHYvWGmkSYiyi+BvEDrraGngVhcgkNtcS
+ HJs=
+WDCIronportException: Internal
+Received: from qemu.hgst.com ([10.202.66.53])
+ by uls-op-cesaip01.wdc.com with ESMTP; 30 Aug 2019 17:02:38 -0700
+From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+To: linux-nvme@lists.infradead.org
+Subject: [PATCH] nvme-core: cleanup work queue flags
+Date: Fri, 30 Aug 2019 17:02:35 -0700
+Message-Id: <20190831000235.7400-1-chaitanya.kulkarni@wdc.com>
+X-Mailer: git-send-email 2.17.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190830_170216_092229_AB99BC70 
-X-CRM114-Status: GOOD (  14.06  )
+X-CRM114-CacheID: sfid-20190830_170242_542674_DA9FF9D6 
+X-CRM114-Status: UNSURE (   9.52  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,83 +96,70 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Hannes Reinecke <hare@suse.com>, Sagi Grimberg <sagi@grimberg.me>,
- "Martin K . Petersen" <martin.petersen@oracle.com>, Jens Axboe <axboe@fb.com>,
- Keith Busch <kbusch@kernel.org>, Logan Gunthorpe <logang@deltatee.com>
+Cc: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-With multipath enabled (which is now default in many distros), nvme
-controllers and their respective namespaces can be numbered
-differently. For example: nvme0n1 might actually belong to controller
-nvme1, which is super confusing (and may have broken any scripts that
-rely on the numbering relation). To make matters worse, the mismatches
-can sometimes change from boot to boot so anyone dealing with the
-nvme control device has to inspect sysfs every boot to ensure they
-get the right one.
+Over the period of time there are three workqueues been added to the
+nvme-core which all share same flags :-
 
-The reason for this is that the X in nvmeXn1 is the subsystem's instance
-number (when multipath is enabled) which is distinct from the
-controller's instance and the subsystem instance is assigned from a
-separate IDA after the controller gets identified and this can race
-a bit when multiple controllers are being setup.
+nvme-wq :-
+commit 9a6327d2f25b ("nvme: Move transports to use nvme-core workqueue")
 
-To fix this, assign the subsystem's instance based on the instance
-number of the controller's instance that first created it. There should
-always be fewer subsystems than controllers so the should not be a need
-to create extra subsystems that overlap existing controllers.
+nvme-reset-wq :-
+nvme-delete-wq :-
+commit b227c59b9b5b
+("nvme: host delete_work and reset_work on separate workqueues")
 
-Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+This is a pure cleanup patch which defines a new macro for common
+workqueue flags used to initialize for nvme-wq, nvme-reset-wq,
+nvme-delete-wq and avoids the repetition of the flags in 
+nvme_core_init().
+
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 ---
- drivers/nvme/host/core.c | 10 +---------
- 1 file changed, 1 insertion(+), 9 deletions(-)
+ drivers/nvme/host/core.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index d3d6b7bd6903..ca201b71ab49 100644
+index 0b1ff8d54e48..555d9efa76cd 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -81,7 +81,6 @@ EXPORT_SYMBOL_GPL(nvme_reset_wq);
- struct workqueue_struct *nvme_delete_wq;
- EXPORT_SYMBOL_GPL(nvme_delete_wq);
+@@ -61,6 +61,7 @@ static bool streams;
+ module_param(streams, bool, 0644);
+ MODULE_PARM_DESC(streams, "turn on support for Streams write directives");
  
--static DEFINE_IDA(nvme_subsystems_ida);
- static LIST_HEAD(nvme_subsystems);
- static DEFINE_MUTEX(nvme_subsystems_lock);
++#define NVME_WQ_FLAGS (WQ_UNBOUND | WQ_MEM_RECLAIM | WQ_SYSFS)
+ /*
+  * nvme_wq - hosts nvme related works that are not reset or delete
+  * nvme_reset_wq - hosts nvme reset works
+@@ -4055,18 +4056,15 @@ static int __init nvme_core_init(void)
  
-@@ -2332,7 +2331,6 @@ static void nvme_release_subsystem(struct device *dev)
- 	struct nvme_subsystem *subsys =
- 		container_of(dev, struct nvme_subsystem, dev);
+ 	_nvme_check_size();
  
--	ida_simple_remove(&nvme_subsystems_ida, subsys->instance);
- 	kfree(subsys);
- }
+-	nvme_wq = alloc_workqueue("nvme-wq",
+-			WQ_UNBOUND | WQ_MEM_RECLAIM | WQ_SYSFS, 0);
++	nvme_wq = alloc_workqueue("nvme-wq", NVME_WQ_FLAGS, 0);
+ 	if (!nvme_wq)
+ 		goto out;
  
-@@ -2461,12 +2459,7 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
- 	subsys = kzalloc(sizeof(*subsys), GFP_KERNEL);
- 	if (!subsys)
- 		return -ENOMEM;
--	ret = ida_simple_get(&nvme_subsystems_ida, 0, 0, GFP_KERNEL);
--	if (ret < 0) {
--		kfree(subsys);
--		return ret;
--	}
--	subsys->instance = ret;
-+	subsys->instance = ctrl->instance;
- 	mutex_init(&subsys->lock);
- 	kref_init(&subsys->ref);
- 	INIT_LIST_HEAD(&subsys->ctrls);
-@@ -4074,7 +4067,6 @@ static int __init nvme_core_init(void)
+-	nvme_reset_wq = alloc_workqueue("nvme-reset-wq",
+-			WQ_UNBOUND | WQ_MEM_RECLAIM | WQ_SYSFS, 0);
++	nvme_reset_wq = alloc_workqueue("nvme-reset-wq", NVME_WQ_FLAGS, 0);
+ 	if (!nvme_reset_wq)
+ 		goto destroy_wq;
  
- static void __exit nvme_core_exit(void)
- {
--	ida_destroy(&nvme_subsystems_ida);
- 	class_destroy(nvme_subsys_class);
- 	class_destroy(nvme_class);
- 	unregister_chrdev_region(nvme_chr_devt, NVME_MINORS);
+-	nvme_delete_wq = alloc_workqueue("nvme-delete-wq",
+-			WQ_UNBOUND | WQ_MEM_RECLAIM | WQ_SYSFS, 0);
++	nvme_delete_wq = alloc_workqueue("nvme-delete-wq", NVME_WQ_FLAGS, 0);
+ 	if (!nvme_delete_wq)
+ 		goto destroy_reset_wq;
+ 
 -- 
-2.20.1
+2.17.0
 
 
 _______________________________________________
