@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD644C3A59E
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 Sep 2019 16:12:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01B8CC3A59E
+	for <linux-nvme@archiver.kernel.org>; Mon,  2 Sep 2019 16:13:30 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9CA732173E
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 Sep 2019 16:12:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C82152173E
+	for <linux-nvme@archiver.kernel.org>; Mon,  2 Sep 2019 16:13:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="V0DDFQ4f"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9CA732173E
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="uVcCrhwE"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C82152173E
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,26 +25,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=U1K/ABcRneOLf5oCwsWecorh80v6MzjHNaVG9wGhmLI=; b=V0DDFQ4fpj82b+
-	1S9wDInJpLyrGMVRUZRckrJkDI6lPyglZioq7o9I8Et4ddaGDydNvwSsIg11qLSAkJipymCdn7wsG
-	MZ/pI6NCryXNXGgDRF8ExWKo6Rxjey8++8YJlp53Uk6Xy66XU3LiU/PE+XxKIM1Mx1+g8OJRiNO8L
-	j3o0udCvYAgAaNvC+sEuoWhphCMASXhX0C332tlZ7CSHTQtsFgqqLGdAFB8M7QKZYHsYK/Ya2gN8d
-	q7/BrPg/QOeBSfZtbufhQQcIGn0HkHdEx5Cw45j+69AO2PbIWdeZEIzM0X99uML7o5fsBe6uEgdrF
-	7vOAMFvjV/FBN3nQknqw==;
+	List-Owner; bh=n2+ISCa4jd07W11NOfy3LrXPPuGoYjLefD5mwHElehc=; b=uVcCrhwE38Cw6X
+	3jlr7w9UURY3LY9p9NlScy7gyMe6vngTn0d/oqOasl5NoBt9xuyzLjyOKISfLue2XIC1SRf93pbsU
+	HyiNODEgL1eiCD0hF0ww/uyKe3d2OJmjkMY6H7sw0o8IAp8Jo70RObqCBZgR1YeABQhWyY76if40P
+	8/pRk1qkqeTySiXwVNi8ELJo2IILPSEEcyYDE+l/3qG9zhzGytRqNNBdeHQKBQ19gJmq/2td/srHg
+	m+CnQ3PrL37AvqM6Z0Evilw/dADxIorTV1fpbMyzHT8utR7FgmQIkRm4ppC4GXSJXuSBqWUPIe4Iy
+	SjdD7DxjBfuR94y7Eh2g==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92 #3 (Red Hat Linux))
-	id 1i4owO-0008Px-La; Mon, 02 Sep 2019 16:12:28 +0000
+	id 1i4oxL-0000Ou-Ty; Mon, 02 Sep 2019 16:13:28 +0000
 Received: from hch by bombadil.infradead.org with local (Exim 4.92 #3 (Red Hat
- Linux)) id 1i4owN-0008Po-Aq; Mon, 02 Sep 2019 16:12:27 +0000
-Date: Mon, 2 Sep 2019 09:12:27 -0700
+ Linux)) id 1i4oxK-0000OK-Nb; Mon, 02 Sep 2019 16:13:26 +0000
+Date: Mon, 2 Sep 2019 09:13:26 -0700
 From: Christoph Hellwig <hch@infradead.org>
-To: James Smart <jsmart2021@gmail.com>
-Subject: Re: [PATCH] nvme: Treat discovery subsystems as unique subsystems
-Message-ID: <20190902161227.GA27231@infradead.org>
-References: <20190830201145.6729-1-jsmart2021@gmail.com>
+To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Subject: Re: [PATCH] nvme-core: cleanup work queue flags
+Message-ID: <20190902161326.GB27231@infradead.org>
+References: <20190831000235.7400-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20190830201145.6729-1-jsmart2021@gmail.com>
+In-Reply-To: <20190831000235.7400-1-chaitanya.kulkarni@wdc.com>
 User-Agent: Mutt/1.11.4 (2019-03-13)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -63,20 +63,27 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Aug 30, 2019 at 01:11:45PM -0700, James Smart wrote:
-> @@ -2358,6 +2358,9 @@ static struct nvme_subsystem *__nvme_find_get_subsystem(const char *subsysnqn)
->  
->  	lockdep_assert_held(&nvme_subsystems_lock);
->  
-> +	if (!strcmp(subsysnqn, NVME_DISC_SUBSYS_NAME))
-> +		return NULL;
-> +
+s/-core// in the subject, please.
 
-Can you throw in a comment here?
+On Fri, Aug 30, 2019 at 05:02:35PM -0700, Chaitanya Kulkarni wrote:
+> Over the period of time there are three workqueues been added to the
+> nvme-core which all share same flags :-
+> 
+> nvme-wq :-
+> commit 9a6327d2f25b ("nvme: Move transports to use nvme-core workqueue")
+> 
+> nvme-reset-wq :-
+> nvme-delete-wq :-
+> commit b227c59b9b5b
+> ("nvme: host delete_work and reset_work on separate workqueues")
+> 
+> This is a pure cleanup patch which defines a new macro for common
+> workqueue flags used to initialize for nvme-wq, nvme-reset-wq,
+> nvme-delete-wq and avoids the repetition of the flags in 
+> nvme_core_init().
 
-Otherwise this looks good:
-
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+There is nothing inheritly nvme about the workqueue flags, so I don't
+think this define is a good idea.
 
 _______________________________________________
 Linux-nvme mailing list
