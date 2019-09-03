@@ -7,65 +7,78 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77191C3A5A2
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Sep 2019 18:13:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6675C3A5A2
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Sep 2019 19:11:48 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4B88522CED
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Sep 2019 18:13:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 68BAD23400
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Sep 2019 19:11:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="AqKcWsbs"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4B88522CED
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="qJmexCfz"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 68BAD23400
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Subject:In-Reply-To:MIME-Version:Date:
-	Message-ID:From:References:To:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ReOenZ6gOoSxaDxo/E1ydzw4RcYQCDUa5weNQWgf7Tk=; b=AqKcWsbsK+2DQc
-	7jYEIIpOo74v7GwkA/WvkGcmvjh6b5QJywK4geZlTePQaZtR/u2iE9hkDtz3FbgQoXltQ1czvD4G0
-	P6Ob2jluYS1oI5FuBhFqQdkyV848XB+uRKkvBuq0TBmUiAfyfRZP6pIyQ1oOcP0tDFzbkeQcuDhTY
-	K2VKXemtALn/hiCql8TRJbxG4uErKPWd3qslMBU2dzsQcSOaGFZuDj3o7IsF10tq1yPSRt1spmCc+
-	CjZfH5g7gKE2XM45o3fz32uCDPrZlXRHKckway8mPCNFTPfOKlS2G0/dRBxnRc2roZwNWTfxn1B7a
-	2wrSrAczBudkHMsi2b7w==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=7UOQwXBhkHyY+DjX45pgDjN8gwvUoqFL9s0fbBQEQZA=; b=qJmexCfz3SaOFuVgxn7Tj+GaT
+	QxKZyFYnvs3rUx4AfyNPk79C8TflnxXMbKzoGGMWO5Swhux1H8kx8lPeWngNhj+tEOKQVcdzfRt6Q
+	LxY8uynmcrjOuaAWSQ82Ss4E3kdyJlvfnrOO+qmwQW8pqvRaWsa2E+p7hnhQ7kxcs9ahQrj2OyyEO
+	dD/M6ctCrxyZHGrBV9ITUkfHMNzPXmxJrJIpqvXvMNU7idRxxMSOFcl6Zzu+Rwynh+L1In48HxL+t
+	K3BwNSmFsqf8HN89CzTu+EESgXuuv7Ny7b2Y2Xgt4X8A1t+PZUCFI9at133y11LdvtXEzixcbiYN5
+	WybcfvcYQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92 #3 (Red Hat Linux))
-	id 1i5DJO-0000JY-P8; Tue, 03 Sep 2019 18:13:50 +0000
-Received: from ale.deltatee.com ([207.54.116.67])
+	id 1i5EDP-0004Kh-9Y; Tue, 03 Sep 2019 19:11:43 +0000
+Received: from mail-oi1-f196.google.com ([209.85.167.196])
  by bombadil.infradead.org with esmtps (Exim 4.92 #3 (Red Hat Linux))
- id 1i5DJL-0000JD-OX
- for linux-nvme@lists.infradead.org; Tue, 03 Sep 2019 18:13:49 +0000
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
- by ale.deltatee.com with esmtp (Exim 4.89)
- (envelope-from <logang@deltatee.com>)
- id 1i5DJ1-0005Zx-O9; Tue, 03 Sep 2019 12:13:28 -0600
-To: Keith Busch <kbusch@kernel.org>
-References: <20190831000139.7662-1-logang@deltatee.com>
- <20190831152910.GA29439@localhost.localdomain>
- <33af4d94-9f6d-9baa-01fa-0f75ccee263e@deltatee.com>
- <20190903164620.GA20847@localhost.localdomain>
-From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <d71107d2-c133-9f51-c271-688516641703@deltatee.com>
-Date: Tue, 3 Sep 2019 12:13:24 -0600
+ id 1i5EDN-0004KK-M9
+ for linux-nvme@lists.infradead.org; Tue, 03 Sep 2019 19:11:42 +0000
+Received: by mail-oi1-f196.google.com with SMTP id w144so6716325oia.6
+ for <linux-nvme@lists.infradead.org>; Tue, 03 Sep 2019 12:11:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=URWBJCKMLF9JrQV153//VBnnjZqNM/DWZOjYUVblmIY=;
+ b=a5BPYxSj9FwDOEtRHb1PZWcH1Od+CYw4g+RXqxDKyXxV/TrXQPuwEbyj+W8ML2Rjv0
+ Su2i6a9lFQNLpZedZzy+DFu/UDzB7hkVOSMHA9tBCqcNP8HJ7uWttHkbvyQ/2JXiYpwp
+ zfU/Cts6hCzEN4vhbFiEojVDBmVGbSG5K2jtw7r7MKfienQH/PrLQyth6+8h5WGo9dcq
+ 4n9YgbDGqaiolfPxFfyYfiS9CXeYlccQcmTDAgRxLkPJ7BezZufkCfvFzlmrIF9HsnRn
+ ugLPqFqcVuVBpN/D3oVKPLgSnvRAhvSXD/vhBiiNUwtpc/BlJKNMXp+7oi2IwshNsbqX
+ wHPw==
+X-Gm-Message-State: APjAAAXSkGq7AljEmTaWpV/mBGTzp139D44nZtOJsEOjkY9WMneoKgMO
+ mMkZlNTmjs8taG3v9uT+ZlQ=
+X-Google-Smtp-Source: APXvYqw2DmMHc5CE6UqqDkMZBdLNVpTfYTQiChaGEcROJ4Re4A9GNp3jUMs7eGed5eTqcfve2kcSJg==
+X-Received: by 2002:aca:edd4:: with SMTP id l203mr683897oih.52.1567537900120; 
+ Tue, 03 Sep 2019 12:11:40 -0700 (PDT)
+Received: from ?IPv6:2600:1700:65a0:78e0:514:7862:1503:8e4d?
+ ([2600:1700:65a0:78e0:514:7862:1503:8e4d])
+ by smtp.gmail.com with ESMTPSA id e1sm919082otj.48.2019.09.03.12.11.38
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 03 Sep 2019 12:11:39 -0700 (PDT)
+Subject: Re: [PATCH 1/4] block: centrelize PI remapping logic to the block
+ layer
+To: Max Gurtovoy <maxg@mellanox.com>, linux-block@vger.kernel.org,
+ axboe@kernel.dk, martin.petersen@oracle.com, linux-nvme@lists.infradead.org,
+ keith.busch@intel.com, hch@lst.de
+References: <1567523655-23989-1-git-send-email-maxg@mellanox.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <8df57b71-9404-904d-7abd-587942814039@grimberg.me>
+Date: Tue, 3 Sep 2019 12:11:36 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190903164620.GA20847@localhost.localdomain>
-Content-Language: en-CA
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: martin.petersen@oracle.com, hare@suse.com, axboe@fb.com,
- sagi@grimberg.me, hch@lst.de, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org, keith.busch@intel.com, kbusch@kernel.org
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH] nvme-core: Fix subsystem instance mismatches
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+In-Reply-To: <1567523655-23989-1-git-send-email-maxg@mellanox.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190903_111348_125474_183DCA92 
-X-CRM114-Status: GOOD (  15.39  )
+X-CRM114-CacheID: sfid-20190903_121141_726986_EBD48A42 
+X-CRM114-Status: GOOD (  10.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,63 +90,27 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Jens Axboe <axboe@fb.com>, Hannes Reinecke <hare@suse.com>,
- Sagi Grimberg <sagi@grimberg.me>,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- Keith Busch <keith.busch@intel.com>, Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="us-ascii"
+Cc: shlomin@mellanox.com, israelr@mellanox.com
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
+> +	if (blk_integrity_rq(req) && req_op(req) == REQ_OP_READ &&
+> +	    error == BLK_STS_OK)
+> +		t10_pi_complete(req,
+> +				nr_bytes / queue_logical_block_size(req->q));
+> +
 
-On 2019-09-03 10:46 a.m., Keith Busch wrote:
-> On Tue, Sep 03, 2019 at 10:08:01AM -0600, Logan Gunthorpe wrote:
->> On 2019-08-31 9:29 a.m., Keith Busch wrote:
->>> On Fri, Aug 30, 2019 at 06:01:39PM -0600, Logan Gunthorpe wrote:
->>>> To fix this, assign the subsystem's instance based on the instance
->>>> number of the controller's instance that first created it. There should
->>>> always be fewer subsystems than controllers so the should not be a need
->>>> to create extra subsystems that overlap existing controllers.
->>>
->>> The subsystem's lifetime is not tied to the controller's. When the
->>> controller is removed and releases its instance, the next controller
->>> to take that available instance will create naming collisions with the
->>> subsystem still using it.
->>>
->>
->> Hmm, yes, ok.
->>
->> So perhaps we can just make the subsystem prefer the ctrl's instance
->> when allocating the ID? Then at least, in the common case, the
->> controller numbers will match the subsystem numbers. Only when there's
->> random hot-plugs would the numbers get out of sync.
-> 
-> I really don't know about a patch that works only on static
-> configurations. Connects and disconnects do happen on live systems,
-> so the numerals will inevitably get out of sync.
+div in this path? better to use  >> ilog2(block_size).
 
-Well this depends on how big a problem we think the number mismatch is.
-Right now it's pretty annoying because numbers aren't matching for
-non-CMIC controllers in simple setups on boot. I think having a small
-patch that makes it more consistent for the static would be worth it and
-if CMIC controllers with significant hot-plug events have mismatches
-that seems more understandable to me.
+Also, would be better to have a wrapper in place like:
 
-> Could we possibly make /dev/nvmeX be a subsystem handle without causing
-> trouble for anyone? This would essentially be the same thing as today
-> for non-CMIC controllers with a device-per-controller and only affects
-> the CMIC ones.
-
-Well then we'd have to be able to do everything that's possible with a
-controller via the subsystem and it would have to multiplex all admin
-commands for CMIC ones, etc to a sensible controller. This might make
-sense in the long term but it sounds like a larger project than I have
-time to take on.
-
-Logan
+static inline unsigned short blk_integrity_interval(struct request *rq)
+{
+	return queue_logical_block_size(rq->q);
+}
 
 _______________________________________________
 Linux-nvme mailing list
