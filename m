@@ -7,79 +7,90 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B7D6C3A5A2
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Sep 2019 19:15:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 423FBC3A5A2
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Sep 2019 19:22:09 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 38068206BB
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Sep 2019 19:15:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 137642077B
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Sep 2019 19:22:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="MzxNUmGq"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 38068206BB
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="I3xd9+8h";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel-dk.20150623.gappssmtp.com header.i=@kernel-dk.20150623.gappssmtp.com header.b="voEl1xim"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 137642077B
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=buP4xDdqS2otj14DlL1/LDDZ/u+z83tBcxTZa6u9J5g=; b=MzxNUmGqekS6VxOtU13x6MI5R
-	2eido73sjEdE5ePuNRYXmIjWvNrJf1wrQG9/LIICxcfMhappBA8qxqhWpj9iYjcDwEbiAvjml9/F1
-	J4XP3rfRd5Jl03cna1DLO+crz5r2i5tmFg1ETT2y8y+3KSWdZIC09Xp+CUjw1WfeHrwHGYbVULBhh
-	h/HLIJkrZL0h5oMncXDpBknxeoeSeeiDsYEqme6+EOc55DJ7rMb37ZGnhKpvW8w0UqAfbTz3irK1w
-	2c8dtKLJmK7q7+HMeuQC1Q85oiGe3j38sfn1jS6XpT38k9KeT/QM9B+/SLu0C34ZwyBnIAWqh6ayC
-	rR9yT/otA==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
+	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
+	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=z0qwgHpSXB7yEZlm429y5mD0trk1sTHx3ok0zoG348c=; b=I3xd9+8hHwFAP4
+	FeStPnjtxhdBp/yAotXoc5rsA9ZvpU7IvRSQLk2zRPifWkqDiICgmJJGXapckhbUems2HAUqOd8bG
+	zrUAhNTF3Dks39Im2jklaHnNRq+3eaqSr1v3fVBacwPp5uFlu5RigE45VEduZdjFb+oSzhRe+wqiN
+	LUxjwV3lnEBAA5pqESrnOuU2QVRQiRm2GNibx25eC0sefX6sUsFoaQ95CGQrLvO4c6zoAH8wV2kUR
+	IKzSJ7yQK5DusVqrMmJ1M2xXWJxez9n7cxPcM5yhhjDamPChD0Vjn94JZ+o+eoYUDX3LYjjOdsv3q
+	5CSXi7HwRZm25PxnUVFg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92 #3 (Red Hat Linux))
-	id 1i5EHS-0005ri-CY; Tue, 03 Sep 2019 19:15:54 +0000
-Received: from mail-oi1-f195.google.com ([209.85.167.195])
+	id 1i5ENS-0007Yx-0f; Tue, 03 Sep 2019 19:22:06 +0000
+Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41])
  by bombadil.infradead.org with esmtps (Exim 4.92 #3 (Red Hat Linux))
- id 1i5EHP-0005r9-Lo
- for linux-nvme@lists.infradead.org; Tue, 03 Sep 2019 19:15:52 +0000
-Received: by mail-oi1-f195.google.com with SMTP id l2so13759942oil.0
- for <linux-nvme@lists.infradead.org>; Tue, 03 Sep 2019 12:15:51 -0700 (PDT)
+ id 1i5ENP-0007YN-48
+ for linux-nvme@lists.infradead.org; Tue, 03 Sep 2019 19:22:04 +0000
+Received: by mail-io1-xd41.google.com with SMTP id b10so38631877ioj.2
+ for <linux-nvme@lists.infradead.org>; Tue, 03 Sep 2019 12:22:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=29dtAFPf34LxGH/UUfzYlaG1O5dS7BXSw9jlWp67F8c=;
+ b=voEl1ximKls/CHflGcztyqprJBz4GJWnF0D9iQrARetjSUY5FM8m65i3q5k3tbQWQ7
+ Yj2s+fKyQle47M78dVTd4avxZcIGVNxEZvlfKUPf/zbvuro4G3mTEfJNXHeG0wF1VXrI
+ RjEtncz1zhWQwN3m1ah3oWfp67udechQZOV9XX4AxpvTvLrd8uaAyQD+gCHpJkRPDjRf
+ xn+ptBl2YqBWF8COlppdc2taHxz3dT6K4ZVvVSmSHqZ+ZhwhPQbT/YMePjt2IcLrmmoy
+ MiAlNNV2jg1Hm9ZXhDMH1xfRC0JV8/YLBqKlYAU99/nk1Xt9TE5w8hWTV+rLv1idTxgH
+ aoag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=mAOsk3v+mGWoFMnNBMYGwd8dnmyJmNgXPI3w1pcXB+c=;
- b=j0SIEY7Y7bnC82H1XBeouX2pTN09S8F9ZAuaFXB0r4rZJCgF/yJ6oEbBadsh133n6b
- x7pN+CKuEkYW2zGNHL+1x0JmTCCy16pn2N3WPHgDsCJZVoaTy4TaPpLh56sPA4C7kOI+
- D9CGN0zjDtotrP7dSksHpbvUajoDA97zu66Lz1g6nOBaG8EMffVf5g3n6gpmTozSzvbZ
- ++jFye/Su1Zhruv60KoogCUhGjbwSugh55VXNm5LaMPN87Az8+97xNCi+OHGkKK2bhdf
- LtjrifJIxqF40XteEHJ64XMF3Sm3dn+DhUu2zE5QbQ6eNsJeY1JS0dPOsl0tv8/k/DvO
- Q38w==
-X-Gm-Message-State: APjAAAXBBHXssC8bG4oIlBjtDo5SmVXP0vDejwyFkcusWbCzpggjABnl
- Td1Wo7wiEGJ7xkWpBs2NBR8=
-X-Google-Smtp-Source: APXvYqwE2C7oaOtRtmT8t2Z8lATUvZSej/eQ/Z51Mp1OstlAFQOhFD07S4XgepHERL72YIfHU80nPg==
-X-Received: by 2002:a05:6808:7c8:: with SMTP id
- f8mr615332oij.118.1567538150702; 
- Tue, 03 Sep 2019 12:15:50 -0700 (PDT)
-Received: from ?IPv6:2600:1700:65a0:78e0:514:7862:1503:8e4d?
- ([2600:1700:65a0:78e0:514:7862:1503:8e4d])
- by smtp.gmail.com with ESMTPSA id 36sm94811ott.66.2019.09.03.12.15.48
+ bh=29dtAFPf34LxGH/UUfzYlaG1O5dS7BXSw9jlWp67F8c=;
+ b=J1+oG92TeKxNXCvwWdnwV1Ic4aQOASArCNLYVv/GOxBaswfY91uU9RvR2uPuNfYDRQ
+ mwCopJD+PPHiOoPGFUb7O/BFiThTLFQ+cl7ePlKJcQiLzvd3ugEwhmX34qcDnlNpSB8V
+ Yx8oQXwWgHJvO6S8g9fq/Ph9oMqz6ctBrLPbvjN+KU0NKKoh9p5YRvsaZ3SHEpOhH/Kw
+ Z1UG0dszQXCFvMtGGf1X3ui0TBTV0GCU2CDotmXCT5RuHMR/YNIWooTn/Fdg4vL1VP1J
+ 1KvYmBXEp8ttArDO/zWWQHi4LeTRGr+Pto770ZeDAOtR6RuA2CE9jWrT8ehANBJiECqs
+ i0lg==
+X-Gm-Message-State: APjAAAW6KLYLQ/M685e9QlYGW3RVavJeKS9JpUuMX1sd2+ZP+ShvyLCa
+ XLhjbi1DFswuCiQRxS3pYK6t2A==
+X-Google-Smtp-Source: APXvYqzBMtMZ2ZLDWbSZL0p1Rzk8Q6xurNani/F3mC7VqI3TC/2Wga/K5TZsESkUAb0XIIkxdMiP7g==
+X-Received: by 2002:a02:ab90:: with SMTP id t16mr4273892jan.110.1567538521476; 
+ Tue, 03 Sep 2019 12:22:01 -0700 (PDT)
+Received: from [192.168.1.50] ([65.144.74.34])
+ by smtp.gmail.com with ESMTPSA id i62sm13973375ioa.4.2019.09.03.12.22.00
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 03 Sep 2019 12:15:49 -0700 (PDT)
-Subject: Re: [PATCH 3/4] nvme-tcp: introduce nvme_tcp_complete_rq callback
-To: Max Gurtovoy <maxg@mellanox.com>, linux-block@vger.kernel.org,
- axboe@kernel.dk, martin.petersen@oracle.com, linux-nvme@lists.infradead.org,
- keith.busch@intel.com, hch@lst.de
+ Tue, 03 Sep 2019 12:22:00 -0700 (PDT)
+Subject: Re: [PATCH 1/4] block: centrelize PI remapping logic to the block
+ layer
+To: Sagi Grimberg <sagi@grimberg.me>, Max Gurtovoy <maxg@mellanox.com>,
+ linux-block@vger.kernel.org, martin.petersen@oracle.com,
+ linux-nvme@lists.infradead.org, keith.busch@intel.com, hch@lst.de
 References: <1567523655-23989-1-git-send-email-maxg@mellanox.com>
- <1567523655-23989-3-git-send-email-maxg@mellanox.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <c5757c95-2a4f-410d-a275-85d8c9da737f@grimberg.me>
-Date: Tue, 3 Sep 2019 12:15:48 -0700
+ <8df57b71-9404-904d-7abd-587942814039@grimberg.me>
+From: Jens Axboe <axboe@kernel.dk>
+Message-ID: <e9e36b41-f262-e825-15dc-aecadb44cf85@kernel.dk>
+Date: Tue, 3 Sep 2019 13:21:59 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <1567523655-23989-3-git-send-email-maxg@mellanox.com>
+In-Reply-To: <8df57b71-9404-904d-7abd-587942814039@grimberg.me>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190903_121551_714961_029DA369 
-X-CRM114-Status: GOOD (  10.19  )
+X-CRM114-CacheID: sfid-20190903_122203_231328_260605EF 
+X-CRM114-Status: GOOD (  12.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,17 +103,34 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: shlomin@mellanox.com, israelr@mellanox.com
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On 9/3/19 1:11 PM, Sagi Grimberg wrote:
+> 
+>> +	if (blk_integrity_rq(req) && req_op(req) == REQ_OP_READ &&
+>> +	    error == BLK_STS_OK)
+>> +		t10_pi_complete(req,
+>> +				nr_bytes / queue_logical_block_size(req->q));
+>> +
+> 
+> div in this path? better to use  >> ilog2(block_size).
+> 
+> Also, would be better to have a wrapper in place like:
+> 
+> static inline unsigned short blk_integrity_interval(struct request *rq)
+> {
+> 	return queue_logical_block_size(rq->q);
+> }
 
-> The nvme_cleanup_cmd function should be called to avoid resource leakage
-> (it's the opposite to nvme_setup_cmd). Fix the error flow during command
-> submission and also fix the missing call in command completion.
+If it's a hot path thing that matters, I'd strongly suggest to add
+a queue block size shift instead.
 
-Is it always called with nvme_complete_rq? Why not just put it there?
+-- 
+Jens Axboe
+
 
 _______________________________________________
 Linux-nvme mailing list
