@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BE39C3A59E
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Sep 2019 22:00:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76E09C3A59E
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Sep 2019 22:00:50 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E31C720870
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Sep 2019 22:00:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4529F20870
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Sep 2019 22:00:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="pR7YNTRK"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E31C720870
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="k6n4fX+w"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4529F20870
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,25 +26,25 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	In-Reply-To:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Owner;
-	bh=3OXuUKSVXRlSNXxJWpl9OtKO4Lt3FSmE2Y/lolOn8L4=; b=pR7YNTRKC0LdBXIVhFrAF0R7zI
-	XgW6f3OzrFwCTRdJ8x5m3pjVycNmW8mLOPAZqGLOdAWhBPII/n1Xwlm6npGwumE1CIO3t3yyIWITT
-	c8j6cfUM4HapqdsVmxcr+FMcAHzweONhTIvN2CeNFuTc72CqvIRsjoo893/GHuAVIWGsk1qvEwFCN
-	lfTaDV/U9+ev3echqbBK/f0Dgbt1EEDVuRPbpFRLkA396RU+r7jT1661NgRZmCzlYu2yOdyR/o39z
-	pCOkQA8rudvpszHGHH9C04xMP1OEy6hUtG6fApsoZJI93b/eVPWS+TetA6pCgxl5xaGWCuMeodV1K
-	jjyvoBJA==;
+	bh=tXfIFvGWwQJ9v0XPOEBFqIciBCuF4EWmL9vLaCil4Ss=; b=k6n4fX+woOKgRyuMj1/Irps/iI
+	+OSrVwRZN3zvR4C5mZAuwDoHlEG3Q9E5JXX6UtKrn16nPN7i8hGGvf6DtddIc976cQD/6soXYLJWF
+	31EX3bWG6g1JURYoAWk0WuUdgCpGSLGViKxUotRcUAw+C8GYW34y4+WL2f9p3Ic1KLv0fFLD/VP5q
+	1SZ+FumKnMbVGT6Buxjdmxx3kJNv0v8AtNHvzfoNTxHB+U9ehHgzTFRJyoQlPlgKbxoHJ2iqbPQG0
+	643c4cwu4nZzaPmV5Q7JF8tqDKm0AYrJ00i3RG2Hk+c+cVPPY1rxTrIVA3rrGPOJhZJBYNXYDmGjB
+	RNgtAA8g==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92 #3 (Red Hat Linux))
-	id 1i5dKO-0007eh-QK; Wed, 04 Sep 2019 22:00:36 +0000
+	id 1i5dKZ-0007qD-Bp; Wed, 04 Sep 2019 22:00:47 +0000
 Received: from [2600:1700:65a0:78e0:514:7862:1503:8e4d]
  (helo=bombadil.infradead.org)
  by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
- id 1i5dJn-0005pf-Dq; Wed, 04 Sep 2019 21:59:59 +0000
+ id 1i5dJn-0005pf-Kw; Wed, 04 Sep 2019 21:59:59 +0000
 From: Sagi Grimberg <sagi@grimberg.me>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH v4 4/4] nvme: send discovery log page change events to
- userspace
-Date: Wed,  4 Sep 2019 14:59:53 -0700
-Message-Id: <20190904215954.15423-5-sagi@grimberg.me>
+Subject: [PATCH v4 5/4 nvme-cli] udev: convert the discovery event handler to
+ the kernel support
+Date: Wed,  4 Sep 2019 14:59:54 -0700
+Message-Id: <20190904215954.15423-6-sagi@grimberg.me>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190904215954.15423-1-sagi@grimberg.me>
 References: <20190904215954.15423-1-sagi@grimberg.me>
@@ -67,43 +67,38 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-If the controller supports discovery log page change events,
-we want to enable it. When we see a discovery log change event
-we will send it up to userspace and expect it to handle it.
+The kernel will not send us a specific event for discovery but
+rather the AEN result code. So expect NVME_AEN=0x70f002 for
+discovery log change events.
 
-Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
-Reviewed-by: James Smart <james.smart@broadcom.com>
-Reviewed-by: Hannes Reinecke <hare@suse.com>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Also, we don't get the NVME_CTRL_NAME env var anymore as this is
+available from the device $kernel.
+
 Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/host/core.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ nvmf-autoconnect/udev-rules/70-nvmf-autoconnect.rules | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 7a1df95ec840..b1ff49ffde25 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1186,7 +1186,8 @@ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count)
- EXPORT_SYMBOL_GPL(nvme_set_queue_count);
+diff --git a/nvmf-autoconnect/udev-rules/70-nvmf-autoconnect.rules b/nvmf-autoconnect/udev-rules/70-nvmf-autoconnect.rules
+index c909fb036d54..cbbebc56ea80 100644
+--- a/nvmf-autoconnect/udev-rules/70-nvmf-autoconnect.rules
++++ b/nvmf-autoconnect/udev-rules/70-nvmf-autoconnect.rules
+@@ -6,10 +6,12 @@
+ #
  
- #define NVME_AEN_SUPPORTED \
--	(NVME_AEN_CFG_NS_ATTR | NVME_AEN_CFG_FW_ACT | NVME_AEN_CFG_ANA_CHANGE)
-+	(NVME_AEN_CFG_NS_ATTR | NVME_AEN_CFG_FW_ACT | NVME_AEN_CFG_ANA_CHANGE | \
-+	 NVME_AEN_CFG_DISC_CHANGE)
+ # Events from persistent discovery controllers or nvme-fc transport events
+-ACTION=="change", SUBSYSTEM=="nvme", ENV{NVME_EVENT}=="discovery",\
+-  ENV{NVME_CTRL_NAME}=="*", ENV{NVME_TRTYPE}=="*", ENV{NVME_TRADDR}=="*", \
++# NVME_AEN:
++#   type 0x2 (NOTICE) info 0xf0 (DISCOVERY_LOG_CHANGE) log-page-id 0x70 (DISCOVERY_LOG_PAGE)
++ACTION=="change", SUBSYSTEM=="nvme", ENV{NVME_AEN}=="0x70f002",\
++  ENV{NVME_TRTYPE}=="*", ENV{NVME_TRADDR}=="*", \
+   ENV{NVME_TRSVCID}=="*", ENV{NVME_HOST_TRADDR}=="*", \
+-  RUN+="/bin/systemctl --no-block start nvmf-connect@--device=$env{NVME_CTRL_NAME}\t--transport=$env{NVME_TRTYPE}\t--traddr=$env{NVME_TRADDR}\t--trsvcid=$env{NVME_TRSVCID}\t--host-traddr=$env{NVME_HOST_TRADDR}.service"
++  RUN+="/bin/systemctl --no-block start nvmf-connect@--device=$kernel\t--transport=$env{NVME_TRTYPE}\t--traddr=$env{NVME_TRADDR}\t--trsvcid=$env{NVME_TRSVCID}\t--host-traddr=$env{NVME_HOST_TRADDR}.service"
  
- static void nvme_enable_aen(struct nvme_ctrl *ctrl)
- {
-@@ -3763,6 +3764,9 @@ static void nvme_handle_aen_notice(struct nvme_ctrl *ctrl, u32 result)
- 		queue_work(nvme_wq, &ctrl->ana_work);
- 		break;
- #endif
-+	case NVME_AER_NOTICE_DISC_CHANGED:
-+		ctrl->aen_result = result;
-+		break;
- 	default:
- 		dev_warn(ctrl->device, "async event result %08x\n", result);
- 	}
+ # nvme-fc transport generated events (old-style for compatibility)
+ ACTION=="change", SUBSYSTEM=="fc", ENV{FC_EVENT}=="nvmediscovery", \
 -- 
 2.17.1
 
