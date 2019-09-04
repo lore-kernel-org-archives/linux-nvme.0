@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D6C3C3A59E
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Sep 2019 05:54:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07C5DC3A59E
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Sep 2019 06:06:13 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E32B123400
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Sep 2019 05:54:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id CE6C223400
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Sep 2019 06:06:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="nu5oRAps"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E32B123400
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="jvpt9l+Z"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CE6C223400
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,36 +25,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=8ORJ8FSHwvrjy3SntT+q5yjUPb2E0RP4G1ZgXwJXJAQ=; b=nu5oRApsN5kjpx
-	xitKK3o77ew0ntoqRrr5poOgprwVgk07YlE4hcRodIEG+ZUAVYtnse2hAEnftPjpkEGF8v9ZepTPK
-	GP2QxQKmJgrjMoJtEKzVcGzPHq6uwdAgtPIU4i5aE+yzcxZGoVvDHaQGQ3ROp5EM4Z3fiL/qVvTdr
-	81Aa1fsgG9g1FKrH+c/TspUzm+G2kY3KAeFwMufdB502nL6krNj5vI46VHENGp9Bs7KmcHMLWvSOt
-	WT1vFgLu89tIAkqnUBaZKW70dRu3kXF1hMHgWbijB4Z/Brj4g9ouo4AoI6kQH2oUrQaDlNgcVYic2
-	ThLLMf+LMZPHs/zp0V0Q==;
+	List-Owner; bh=vEV+bz/IVMqIZDbZj8geSrDBPNaGVHiLT5VKqdRR4Dc=; b=jvpt9l+ZR6itne
+	cpTHjVSxR+vFcoyeGHyXYKYMDFgEsMHITSSPx/EyI/4TBf8YAdO+QBzC5oYIyzR+dEm5YNlujJFGw
+	UwKopkJLFg3wJOjbj2CtuzmYv/jtkvSlNjmTr6OVMV8CGQ/1Z2QfQMdAvX97HD2xXrnWI/nEw/fv+
+	2IVtQLV17DZRHp25sC+7c9L+s6Jii9Y0Y6jIwgAPk8O7yYE16R4Egd9xeIVoFpER2YjyAfNyRVmgN
+	gwF1OSqAr3pJbz1VIubNyWzuUmhj+AB3tyVA0BLQqN+658gQHwo2QFOHF05qmgKhYuR4U08Jl5Vm5
+	n3bceotQ6lhBYtgDDv5A==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92 #3 (Red Hat Linux))
-	id 1i5OFO-0000Sy-3a; Wed, 04 Sep 2019 05:54:26 +0000
+	id 1i5OQi-0004jZ-I7; Wed, 04 Sep 2019 06:06:08 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.92 #3 (Red Hat Linux))
- id 1i5OFL-0000SX-KV
- for linux-nvme@lists.infradead.org; Wed, 04 Sep 2019 05:54:24 +0000
+ id 1i5OQf-0004j4-Pt
+ for linux-nvme@lists.infradead.org; Wed, 04 Sep 2019 06:06:07 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 2605A227A8A; Wed,  4 Sep 2019 07:54:20 +0200 (CEST)
-Date: Wed, 4 Sep 2019 07:54:19 +0200
+ id 4D026227A8D; Wed,  4 Sep 2019 08:05:59 +0200 (CEST)
+Date: Wed, 4 Sep 2019 08:05:58 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH 3/4] nvme-tcp: introduce nvme_tcp_complete_rq callback
-Message-ID: <20190904055419.GD10553@lst.de>
-References: <1567523655-23989-1-git-send-email-maxg@mellanox.com>
- <1567523655-23989-3-git-send-email-maxg@mellanox.com>
- <c5757c95-2a4f-410d-a275-85d8c9da737f@grimberg.me>
+To: Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH] nvme-core: Fix subsystem instance mismatches
+Message-ID: <20190904060558.GA10849@lst.de>
+References: <20190831000139.7662-1-logang@deltatee.com>
+ <20190831152910.GA29439@localhost.localdomain>
+ <33af4d94-9f6d-9baa-01fa-0f75ccee263e@deltatee.com>
+ <20190903164620.GA20847@localhost.localdomain>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <c5757c95-2a4f-410d-a275-85d8c9da737f@grimberg.me>
+In-Reply-To: <20190903164620.GA20847@localhost.localdomain>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190903_225423_823838_51756D55 
-X-CRM114-Status: UNSURE (   8.86  )
+X-CRM114-CacheID: sfid-20190903_230605_991745_4CFC7041 
+X-CRM114-Status: UNSURE (   8.93  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -67,29 +68,36 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: axboe@kernel.dk, keith.busch@intel.com, martin.petersen@oracle.com,
- israelr@mellanox.com, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, shlomin@mellanox.com,
- Max Gurtovoy <maxg@mellanox.com>, hch@lst.de
+Cc: Jens Axboe <axboe@fb.com>, Hannes Reinecke <hare@suse.com>,
+ Sagi Grimberg <sagi@grimberg.me>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ Keith Busch <keith.busch@intel.com>, Logan Gunthorpe <logang@deltatee.com>,
+ Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Sep 03, 2019 at 12:15:48PM -0700, Sagi Grimberg wrote:
->
->> The nvme_cleanup_cmd function should be called to avoid resource leakage
->> (it's the opposite to nvme_setup_cmd). Fix the error flow during command
->> submission and also fix the missing call in command completion.
->
-> Is it always called with nvme_complete_rq? Why not just put it there?
+On Tue, Sep 03, 2019 at 10:46:20AM -0600, Keith Busch wrote:
+> Could we possibly make /dev/nvmeX be a subsystem handle without causing
+> trouble for anyone? This would essentially be the same thing as today
+> for non-CMIC controllers with a device-per-controller and only affects
+> the CMIC ones.
 
-Yes, unless I am missing something we could call nvme_cleanup_cmd
-at the beginning of nvme_complete_rq.
+A per-subsyste character device doesn't make sense, as a lot of admin
+command require a specific controller.
 
-Max, can you send one series for all the nvme_cleanup_cmd fixes and
-cleanups and split that from the PI work?  That might be a little
-less confusing.
+If this really is an isue for people we'll just need to refcount the
+handle allocation.  That is:
+
+ - nvme_init_ctrl allocates a new nvme_instance or so object, which
+   does the ida_simple_get.
+ - we allocate a new subsystem that reuses the handle and grabs
+   a reference in nvme_init_subsystem, then if we find an existing
+   subsystem we drop that reference again.
+ - last free of a ctrl or subsystem also drops a reference, with
+   the final free releasing the ida
 
 _______________________________________________
 Linux-nvme mailing list
