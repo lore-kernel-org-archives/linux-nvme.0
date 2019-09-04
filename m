@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C56EC3A59E
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Sep 2019 22:00:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BE39C3A59E
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Sep 2019 22:00:41 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id ED89E20870
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Sep 2019 22:00:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E31C720870
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Sep 2019 22:00:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="KQbyAiZv"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ED89E20870
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="pR7YNTRK"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E31C720870
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,25 +26,25 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	In-Reply-To:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Owner;
-	bh=LWZPpJ4u6vT7pJNtmUHMHxmNAGUPqhw7nitG8s3qYJM=; b=KQbyAiZvKcOJA4hlFopUJ6Q48H
-	fmSu7BQHIA+MkMP5fKfM21lrRRY5tPsxOzFGHBuwRpOleBQnFyIP4zv9qeIeK8muCUUAHXlgbuc04
-	ACjct/HFRTvzj3UnTRHK9don2aRTGlEx+gjz6gvOyBak1UIXK3aiydx43RzFprjyqGo3rMVDHmhsl
-	cUx07zRK964Dde5ByjfG6PiBV7POlaV3LwMCVLzO6dQ0u529rRKv8AyXuTzpDay5dH4BlV5RZNi8w
-	CCb/xcmejI/f75pqoTwaLWV9qvBjq1zRZRiU9YZe467AmpudIlZrvRqvoaNYVnyXs/N8QKLT6hAp3
-	YTmiI3Xw==;
+	bh=3OXuUKSVXRlSNXxJWpl9OtKO4Lt3FSmE2Y/lolOn8L4=; b=pR7YNTRKC0LdBXIVhFrAF0R7zI
+	XgW6f3OzrFwCTRdJ8x5m3pjVycNmW8mLOPAZqGLOdAWhBPII/n1Xwlm6npGwumE1CIO3t3yyIWITT
+	c8j6cfUM4HapqdsVmxcr+FMcAHzweONhTIvN2CeNFuTc72CqvIRsjoo893/GHuAVIWGsk1qvEwFCN
+	lfTaDV/U9+ev3echqbBK/f0Dgbt1EEDVuRPbpFRLkA396RU+r7jT1661NgRZmCzlYu2yOdyR/o39z
+	pCOkQA8rudvpszHGHH9C04xMP1OEy6hUtG6fApsoZJI93b/eVPWS+TetA6pCgxl5xaGWCuMeodV1K
+	jjyvoBJA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92 #3 (Red Hat Linux))
-	id 1i5dKE-0007Tq-3b; Wed, 04 Sep 2019 22:00:26 +0000
+	id 1i5dKO-0007eh-QK; Wed, 04 Sep 2019 22:00:36 +0000
 Received: from [2600:1700:65a0:78e0:514:7862:1503:8e4d]
  (helo=bombadil.infradead.org)
  by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
- id 1i5dJm-0005pf-W0; Wed, 04 Sep 2019 21:59:59 +0000
+ id 1i5dJn-0005pf-Dq; Wed, 04 Sep 2019 21:59:59 +0000
 From: Sagi Grimberg <sagi@grimberg.me>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH v4 2/4] nvme: enable aen regardless of the presence of I/O
- queues
-Date: Wed,  4 Sep 2019 14:59:51 -0700
-Message-Id: <20190904215954.15423-3-sagi@grimberg.me>
+Subject: [PATCH v4 4/4] nvme: send discovery log page change events to
+ userspace
+Date: Wed,  4 Sep 2019 14:59:53 -0700
+Message-Id: <20190904215954.15423-5-sagi@grimberg.me>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190904215954.15423-1-sagi@grimberg.me>
 References: <20190904215954.15423-1-sagi@grimberg.me>
@@ -67,48 +67,43 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-AENs in general are not related to the presence of I/O queues,
-so enable them regardless. Note that the only exception is that
-discovery controller will not support any of the requested AENs
-and nvme_enable_aen will respect that and return, so it is still
-safe to enable regardless.
-
-Note it is safe to enable AENs even before the initial namespace
-scanning as we have the scan operation in a workqueue context.
+If the controller supports discovery log page change events,
+we want to enable it. When we see a discovery log change event
+we will send it up to userspace and expect it to handle it.
 
 Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
+Reviewed-by: James Smart <james.smart@broadcom.com>
+Reviewed-by: Hannes Reinecke <hare@suse.com>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/host/core.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/nvme/host/core.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 14c0bfb55615..fccf28d77c03 100644
+index 7a1df95ec840..b1ff49ffde25 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1201,6 +1201,8 @@ static void nvme_enable_aen(struct nvme_ctrl *ctrl)
- 	if (status)
- 		dev_warn(ctrl->device, "Failed to configure AEN (cfg %x)\n",
- 			 supported_aens);
-+
-+	queue_work(nvme_wq, &ctrl->async_event_work);
- }
+@@ -1186,7 +1186,8 @@ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count)
+ EXPORT_SYMBOL_GPL(nvme_set_queue_count);
  
- static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
-@@ -3780,10 +3782,10 @@ void nvme_start_ctrl(struct nvme_ctrl *ctrl)
- 	if (ctrl->kato)
- 		nvme_start_keep_alive(ctrl);
+ #define NVME_AEN_SUPPORTED \
+-	(NVME_AEN_CFG_NS_ATTR | NVME_AEN_CFG_FW_ACT | NVME_AEN_CFG_ANA_CHANGE)
++	(NVME_AEN_CFG_NS_ATTR | NVME_AEN_CFG_FW_ACT | NVME_AEN_CFG_ANA_CHANGE | \
++	 NVME_AEN_CFG_DISC_CHANGE)
  
-+	nvme_enable_aen(ctrl);
-+
- 	if (ctrl->queue_count > 1) {
- 		nvme_queue_scan(ctrl);
--		nvme_enable_aen(ctrl);
--		queue_work(nvme_wq, &ctrl->async_event_work);
- 		nvme_start_queues(ctrl);
+ static void nvme_enable_aen(struct nvme_ctrl *ctrl)
+ {
+@@ -3763,6 +3764,9 @@ static void nvme_handle_aen_notice(struct nvme_ctrl *ctrl, u32 result)
+ 		queue_work(nvme_wq, &ctrl->ana_work);
+ 		break;
+ #endif
++	case NVME_AER_NOTICE_DISC_CHANGED:
++		ctrl->aen_result = result;
++		break;
+ 	default:
+ 		dev_warn(ctrl->device, "async event result %08x\n", result);
  	}
- }
 -- 
 2.17.1
 
