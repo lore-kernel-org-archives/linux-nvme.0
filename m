@@ -2,61 +2,93 @@ Return-Path: <SRS0=Tecl=W7=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11FDAC3A5A8
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Sep 2019 17:33:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 226D5C3A5A8
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Sep 2019 17:39:08 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D8FEB2087E
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Sep 2019 17:33:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id EA62321670
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Sep 2019 17:39:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="sl1RIEg6"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D8FEB2087E
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="j4HFVLGC"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EA62321670
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=acm.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Cc:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	References:List-Owner; bh=/P+XFxkJIE1Ouu/xYzd0fQmp28o7vQMciqE2+/qGCHQ=; b=sl1
-	RIEg6hFyM8VZt0SlYWKflD0O773k+3NCMlppyB160WrCDkZP0V7vSw4IoeNl+ojbitrXtBT2z4QE7
-	KfFlUAme8C8sZyH+ZDWfYgEe46Maebsep1V2XdYoiMeN3u2XfHyonlitqVTohSZf76rYZTs/7BNNw
-	cwld3CMKOVke+p35etkXCr7WHu7BPK08EgNkXcEyNN7vPEAbHb/+PjqyEurca0wDKH6kdqKAzoZgu
-	r5Y3XU0hc/NitX005xsn6nZkZDK4JtqHAX8MDu3/P/a7il3UGngnZbfcQUvBKAfBgLDcsTg05pMQY
-	Gzd7CbdxhjxCXkCjQZTQDcDpSh4//1A==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=oko5e3PHLs0SEF8Wye7yPsBW71pY+ogt5HX/lrlLkGs=; b=j4HFVLGCs43oGQMYAtfJc4V34
+	QMk9pFRB17U61Ry0f5Ekp/wN8qWMXKZNbiwlz/Iaz5/IfnFGNzlVA0stND18JYsRexHbWTbJbECk/
+	nF32nSy1GPLtXuV5T1OKQPq54u1MuS6xtROW9EMIr2iP1pId//gVXDI3ne0MjCP/t2vF2y1rXH2QH
+	NrIAM1yqsuQ8owRUv3VpZ/L5Ib+uvEBsOSlbHCFm905GNqmPXOTJXUQbqWnPb8jgN8ppvDyR3+Tkv
+	t0Zw3MAG4/DzgOef5zshd35TghC4+tD4XDQzW6ESXRxw043D4+mZMf9xKQeOIieIVEoQWbbpXAdjD
+	CjjRGrHZg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92 #3 (Red Hat Linux))
-	id 1i5ZAJ-0001MD-3B; Wed, 04 Sep 2019 17:33:55 +0000
-Received: from mga02.intel.com ([134.134.136.20])
+	id 1i5ZFJ-000324-7g; Wed, 04 Sep 2019 17:39:05 +0000
+Received: from mail-pf1-f193.google.com ([209.85.210.193])
  by bombadil.infradead.org with esmtps (Exim 4.92 #3 (Red Hat Linux))
- id 1i5ZAF-0001LX-Nc
- for linux-nvme@lists.infradead.org; Wed, 04 Sep 2019 17:33:53 +0000
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 04 Sep 2019 10:33:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,467,1559545200"; d="scan'208";a="199078464"
-Received: from unknown (HELO localhost.lm.intel.com) ([10.232.112.69])
- by fmsmga001.fm.intel.com with ESMTP; 04 Sep 2019 10:33:49 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
- Sagi Grimberg <sagi@grimberg.me>
-Subject: [PATCH] nvme: Restore device naming sanity
-Date: Wed,  4 Sep 2019 11:31:59 -0600
-Message-Id: <20190904173159.22921-1-kbusch@kernel.org>
-X-Mailer: git-send-email 2.13.6
+ id 1i5ZFG-00031j-Sy
+ for linux-nvme@lists.infradead.org; Wed, 04 Sep 2019 17:39:04 +0000
+Received: by mail-pf1-f193.google.com with SMTP id b13so7053279pfo.8
+ for <linux-nvme@lists.infradead.org>; Wed, 04 Sep 2019 10:39:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=KnvfsSXVbwlDdjXbwbCBJbJBscMecP2Y83R9nu77QrY=;
+ b=WNt9B2kkr3IbWaeSnkewpUcMIFCtydJHYoeMIHmXsiblkxE5K+FAyz/3FLYwSLv/IN
+ tD3S9l0ToqIC7gqlbK8sxjvt2VvYasplEKXkTrFJ0xpEtOn08ZaaPcn1KmRDroXu3xVF
+ /Gk6HO1y6hMNuNBftpD0RidgbsS61WHDOHSeObo2DJLIri/miGCZz3QHWiKvi/8OS/Iq
+ 7YsCEPHhzublEr2aVz6cbvLeuuvvcsak39eZnr9BVlPGZdDB3imOqY/tRQ3gGbW+aPgt
+ HoOzTDk9MXtDxCVyRNjWebYHNAGdovg1nQvjvgEgr1T5Y0fZCHVdcnaiWic7ClImuYG/
+ ynQA==
+X-Gm-Message-State: APjAAAW1b+QdogX+bxrEaRvCuBFNR79+AvWcvsQ/uPlCfhlXmT8ml+q9
+ WKjGjy9jNxt1YkVBA8k+QVI=
+X-Google-Smtp-Source: APXvYqzrk/gkg2yGQWmQ4/JeJVdU8iF4leHlHSGlyvREresBS+YkyH/0INQtThrw0f/ygpLmb9mz8g==
+X-Received: by 2002:a63:ff65:: with SMTP id s37mr35380567pgk.102.1567618741236; 
+ Wed, 04 Sep 2019 10:39:01 -0700 (PDT)
+Received: from desktop-bart.svl.corp.google.com
+ ([2620:15c:2cd:202:4308:52a3:24b6:2c60])
+ by smtp.gmail.com with ESMTPSA id v15sm23521222pfn.69.2019.09.04.10.38.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 04 Sep 2019 10:39:00 -0700 (PDT)
+Subject: Re: [PATCH 1/4] softirq: implement IRQ flood detection mechanism
+To: Daniel Lezcano <daniel.lezcano@linaro.org>, Ming Lei <ming.lei@redhat.com>
+References: <20190827225827.GA5263@ming.t460p>
+ <alpine.DEB.2.21.1908280104330.1939@nanos.tec.linutronix.de>
+ <20190828110633.GC15524@ming.t460p>
+ <alpine.DEB.2.21.1908281316230.1869@nanos.tec.linutronix.de>
+ <20190828135054.GA23861@ming.t460p>
+ <alpine.DEB.2.21.1908281605190.23149@nanos.tec.linutronix.de>
+ <20190903033001.GB23861@ming.t460p>
+ <299fb6b5-d414-2e71-1dd2-9d6e34ee1c79@linaro.org>
+ <20190903063125.GA21022@ming.t460p>
+ <6b88719c-782a-4a63-db9f-bf62734a7874@linaro.org>
+ <20190903072848.GA22170@ming.t460p>
+ <dd96def4-1121-afbe-2431-9e516a06850c@linaro.org>
+ <6f3b6557-1767-8c80-f786-1ea667179b39@acm.org>
+ <2a8bd278-5384-d82f-c09b-4fce236d2d95@linaro.org>
+From: Bart Van Assche <bvanassche@acm.org>
+Message-ID: <de16de12-fa1a-666c-ea19-fea5d096c1ca@acm.org>
+Date: Wed, 4 Sep 2019 10:38:59 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <2a8bd278-5384-d82f-c09b-4fce236d2d95@linaro.org>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190904_103351_821299_F095D6B4 
-X-CRM114-Status: GOOD (  13.27  )
+X-CRM114-CacheID: sfid-20190904_103902_937711_50B98E49 
+X-CRM114-Status: GOOD (  13.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,112 +100,33 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Hannes Reinecke <hare@suse.com>,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- linux-kernel@vger.kernel.org, Jens Axboe <axboe@fb.com>,
- Keith Busch <kbusch@kernel.org>, Logan Gunthorpe <logang@deltatee.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Cc: Jens Axboe <axboe@fb.com>, Hannes Reinecke <hare@suse.com>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-scsi@vger.kernel.org,
+ Peter Zijlstra <peterz@infradead.org>, Long Li <longli@microsoft.com>,
+ John Garry <john.garry@huawei.com>, LKML <linux-kernel@vger.kernel.org>,
+ linux-nvme@lists.infradead.org, Keith Busch <keith.busch@intel.com>,
+ Ingo Molnar <mingo@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Christoph Hellwig <hch@lst.de>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The namespace names must be unique for the lifetime of the subsystem.
-This was accomplished by using their parent subsystems' instances which
-was independent of the controllers connected to that subsystem.
+On 9/4/19 10:31 AM, Daniel Lezcano wrote:
+> On 04/09/2019 19:07, Bart Van Assche wrote:
+>> Only if CONFIG_IRQ_TIME_ACCOUNTING has been enabled. However, I don't
+>> know any Linux distro that enables that option. That's probably because
+>> that option introduces two rdtsc() calls in each interrupt. Given the
+>> overhead introduced by this option, I don't think this is the solution
+>> Ming is looking for.
+> 
+> Was this overhead reported somewhere ?
+  I think it is widely known that rdtsc is a relatively slow x86 
+instruction. So I expect that using that instruction will cause a 
+measurable overhead if it is called frequently enough. I'm not aware of 
+any publicly available measurement data however.
 
-The consequence of that naming scheme meant that name prefixes given to
-namespaces may match a controller from an unrelated subsystem. This has
-understandbly invited confusion when examining device nodes.
-
-Ensure the namespace's subsystem instance never clashes with a
-controller instance of another subsystem by transferring the instance
-ownership to parent subsystem from the first controller discovered in
-that subsystem.
-
-Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/core.c | 21 ++++++++++-----------
- 1 file changed, 10 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 14c0bfb55615..8a8279ece5ee 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -81,7 +81,6 @@ EXPORT_SYMBOL_GPL(nvme_reset_wq);
- struct workqueue_struct *nvme_delete_wq;
- EXPORT_SYMBOL_GPL(nvme_delete_wq);
- 
--static DEFINE_IDA(nvme_subsystems_ida);
- static LIST_HEAD(nvme_subsystems);
- static DEFINE_MUTEX(nvme_subsystems_lock);
- 
-@@ -2344,7 +2343,8 @@ static void nvme_release_subsystem(struct device *dev)
- 	struct nvme_subsystem *subsys =
- 		container_of(dev, struct nvme_subsystem, dev);
- 
--	ida_simple_remove(&nvme_subsystems_ida, subsys->instance);
-+	if (subsys->instance >= 0)
-+		ida_simple_remove(&nvme_instance_ida, subsys->instance);
- 	kfree(subsys);
- }
- 
-@@ -2473,12 +2473,8 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
- 	subsys = kzalloc(sizeof(*subsys), GFP_KERNEL);
- 	if (!subsys)
- 		return -ENOMEM;
--	ret = ida_simple_get(&nvme_subsystems_ida, 0, 0, GFP_KERNEL);
--	if (ret < 0) {
--		kfree(subsys);
--		return ret;
--	}
--	subsys->instance = ret;
-+
-+	subsys->instance = -1;
- 	mutex_init(&subsys->lock);
- 	kref_init(&subsys->ref);
- 	INIT_LIST_HEAD(&subsys->ctrls);
-@@ -2497,7 +2493,7 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
- 	subsys->dev.class = nvme_subsys_class;
- 	subsys->dev.release = nvme_release_subsystem;
- 	subsys->dev.groups = nvme_subsys_attrs_groups;
--	dev_set_name(&subsys->dev, "nvme-subsys%d", subsys->instance);
-+	dev_set_name(&subsys->dev, "nvme-subsys%d", ctrl->instance);
- 	device_initialize(&subsys->dev);
- 
- 	mutex_lock(&nvme_subsystems_lock);
-@@ -2528,6 +2524,8 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
- 		goto out_put_subsystem;
- 	}
- 
-+	if (!found)
-+		subsys->instance = ctrl->instance;
- 	ctrl->subsys = subsys;
- 	list_add_tail(&ctrl->subsys_entry, &subsys->ctrls);
- 	mutex_unlock(&nvme_subsystems_lock);
-@@ -3803,7 +3801,9 @@ static void nvme_free_ctrl(struct device *dev)
- 		container_of(dev, struct nvme_ctrl, ctrl_device);
- 	struct nvme_subsystem *subsys = ctrl->subsys;
- 
--	ida_simple_remove(&nvme_instance_ida, ctrl->instance);
-+	if (subsys && ctrl->instance != subsys->instance)
-+		ida_simple_remove(&nvme_instance_ida, ctrl->instance);
-+
- 	kfree(ctrl->effects);
- 	nvme_mpath_uninit(ctrl);
- 	__free_page(ctrl->discard_page);
-@@ -4085,7 +4085,6 @@ static int __init nvme_core_init(void)
- 
- static void __exit nvme_core_exit(void)
- {
--	ida_destroy(&nvme_subsystems_ida);
- 	class_destroy(nvme_subsys_class);
- 	class_destroy(nvme_class);
- 	unregister_chrdev_region(nvme_chr_devt, NVME_MINORS);
--- 
-2.14.5
-
+Bart.
 
 _______________________________________________
 Linux-nvme mailing list
