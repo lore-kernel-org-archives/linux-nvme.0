@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-5.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 457DFC3A59E
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Sep 2019 05:50:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 285DAC3A59E
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Sep 2019 05:51:33 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1465D23400
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Sep 2019 05:50:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id F27B323400
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Sep 2019 05:51:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Jmwy6t7B"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1465D23400
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="S8IoRBYT"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F27B323400
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,35 +25,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=dQ9nlYWbtFtFP3px2COy228dKFFaw+gKZBdGok78wHI=; b=Jmwy6t7B/Fc3kZ
-	YEuy5qa32VgXfz4+sq4HA3bDZ4u7BnThFIeMlcQO+xWVlv0wXAF3ZN3XOMsQl+5Jb0ofqkx20vsl7
-	vEBpeROe5lzCu1aYEZEwDfX0hdivT19g9oP9AXeeBAZReJBGWYTA+Pp9zPhgc33hTOxiTUV8ZHlYQ
-	487ZLyF/JShHK3sixmKOPTwnP3eWAWTB8mO931DQLFR/+mCSYgD+B2Ga1nVmr/3zNF1A/TpvTUBWs
-	kXiQi1PWKyY1xUkx4mYrEhgzl5k3DxNgyszdMpGbkU9tC4n5aHJ+W+feCqvV/QiY3xuq4s3w+N5g0
-	ZsZApINNKRnLT3X2U0WA==;
+	List-Owner; bh=oGAz3I1JjeS7ZTG6+UXxJwwk7SfteVyVSlaFCKgCGj4=; b=S8IoRBYTB/6OvB
+	kBXvLW4w3vov3KfqT+Xq4gzkMyXis7uGIUf4HrpTqRWed4IURyyWlhqgevd0sdhnlD96Uwg4o+RdY
+	LktM3xo7kssU1J04vZqVJRrIvyr5tM9Ef1cyKg7FOgenekrAf0iYuO/HSpIE70QYmeFHVqlYRDi1l
+	NG6t5yyCJP2uLv5qWX6nQkpJsCnP+4UlUKB43wcIOEw1tagGCoF24CEtkwwUkYX0zo2zYmpoVJe8a
+	r4K66UesRO6Xr9bXg4JA65vtQjxVFGn4dmigDdgKCwApa0COWZb+lIBxX9ovLVpxxCRlMehLn9uha
+	Y6OWvnWyFA4V2B6Xu1xQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92 #3 (Red Hat Linux))
-	id 1i5OBi-0008RW-2G; Wed, 04 Sep 2019 05:50:38 +0000
+	id 1i5OCZ-0000Bl-P6; Wed, 04 Sep 2019 05:51:31 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.92 #3 (Red Hat Linux))
- id 1i5OBf-0008Qz-H4
- for linux-nvme@lists.infradead.org; Wed, 04 Sep 2019 05:50:36 +0000
+ id 1i5OCX-0000BF-Ey
+ for linux-nvme@lists.infradead.org; Wed, 04 Sep 2019 05:51:30 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id B3E39227A8A; Wed,  4 Sep 2019 07:50:32 +0200 (CEST)
-Date: Wed, 4 Sep 2019 07:50:32 +0200
+ id B0AEE227A8A; Wed,  4 Sep 2019 07:51:26 +0200 (CEST)
+Date: Wed, 4 Sep 2019 07:51:26 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Max Gurtovoy <maxg@mellanox.com>
-Subject: Re: [PATCH 4/4] nvmet-loop: fix possible leakage during error flow
-Message-ID: <20190904055032.GB10553@lst.de>
+Subject: Re: [PATCH 2/4] nvme-rdma: simplify error flow in nvme_rdma_queue_rq
+Message-ID: <20190904055126.GC10553@lst.de>
 References: <1567523655-23989-1-git-send-email-maxg@mellanox.com>
- <1567523655-23989-4-git-send-email-maxg@mellanox.com>
+ <1567523655-23989-2-git-send-email-maxg@mellanox.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1567523655-23989-4-git-send-email-maxg@mellanox.com>
+In-Reply-To: <1567523655-23989-2-git-send-email-maxg@mellanox.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190903_225035_710444_817B9F39 
-X-CRM114-Status: UNSURE (   6.54  )
+X-CRM114-CacheID: sfid-20190903_225129_652001_A4B0E10A 
+X-CRM114-Status: UNSURE (   7.40  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -75,14 +75,13 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Sep 03, 2019 at 06:14:15PM +0300, Max Gurtovoy wrote:
-> During nvme_loop_queue_rq error flow, one must call nvme_cleanup_cmd since
-> it's symmetric to nvme_setup_cmd.
+On Tue, Sep 03, 2019 at 06:14:13PM +0300, Max Gurtovoy wrote:
+> Make the error flow symmetric to the good flow by moving the call to
+> nvme_cleanup_cmd from nvme_rdma_unmap_data function.
 > 
 > Signed-off-by: Max Gurtovoy <maxg@mellanox.com>
 
-This seems independent from the rest of the series.  Looks good,
-and we should queue it up ASAP:
+Looks good, and also independent from the PI changes:
 
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 
