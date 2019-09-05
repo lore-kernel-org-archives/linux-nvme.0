@@ -7,52 +7,77 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1155EC43331
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Sep 2019 16:11:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7171C00306
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Sep 2019 16:12:45 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A73E520825
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Sep 2019 16:11:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4D0232082E
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Sep 2019 16:12:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="TbJvjwfR"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A73E520825
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Cc7WU24Y"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4D0232082E
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=y6hik8XgSdU1G/8p1l8e0nMK2eSiHUpR4ufpAfaGJdo=; b=TbJvjwfRk85gt6
-	c3Ds4jdxed6TpdPt2/NY5GQ/oXUP1lvnSwQMlT1fPcuR7EBKTgFRV3V9v8064ax7Z/ijy79ydP7ir
-	/4hY7gKW9ylurQIioQJsgluAfPQojP/TcHH6sQrUzaIuCcrcN1bdN0ZiF8udJyPUptL312QDwmYpO
-	pSXoZkEy1v5AQR5urBkvNKOl1yIo9ePmRcLkaEJ1oDZQoLmm/aEBeTpaInU74KPZW0f/RcrKfLDSC
-	EbYpGHHCn9Tw37jDfHhQEIEmLqF034N9fCCCYdb+3CLfHsV1eH4luhPjD+27RTKZIzV7v3Yo5Cy4S
-	1pBtqIdus/IDFHzckDbA==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=SLUxEjstswUBYpV1USOlm68nauBsI8Xl0DyVnNSbw4k=; b=Cc7WU24Y3XV6FFLXEX1BUOUql
+	Of9w1L7lpWxJyZlq4DmK6pHo0fZlirUH9T85iYPLSs4r07E4fdjXiQUwjEZRChp+QecfSHkcJSDKW
+	QEAKmsTcQmyvNlcYjGLJYs/kGOUYOvd9DFx5r1W12ku49+Ou2zU6tWMsQSN6KHCcAC32+lg02v0u9
+	C9lfGATiiLk8UD5Q7CemsHfjyRhtsNHSCgq6WV5pEF05iuiwNsYMss00MyXmFRLlpx3Qf1cQiUwrY
+	3ERClwv5/Qri/8lwS+kagotXQmZBgJh+PnbNGxiw5hHfnt0hEZTHKvvVOVIKdm4Ntd89ODmUllFcp
+	jXPYdhzGQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92 #3 (Red Hat Linux))
-	id 1i5uMJ-0007KA-E4; Thu, 05 Sep 2019 16:11:43 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1i5uNH-0007Y7-SN; Thu, 05 Sep 2019 16:12:43 +0000
+Received: from mail-ot1-f67.google.com ([209.85.210.67])
  by bombadil.infradead.org with esmtps (Exim 4.92 #3 (Red Hat Linux))
- id 1i5uMG-0007JV-K6
- for linux-nvme@lists.infradead.org; Thu, 05 Sep 2019 16:11:41 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 0B01668B05; Thu,  5 Sep 2019 18:11:35 +0200 (CEST)
-Date: Thu, 5 Sep 2019 18:11:34 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH] nvme: Restore device naming sanity
-Message-ID: <20190905161134.GA22363@lst.de>
-References: <20190904173159.22921-1-kbusch@kernel.org>
+ id 1i5uNF-0007X9-Kw
+ for linux-nvme@lists.infradead.org; Thu, 05 Sep 2019 16:12:42 +0000
+Received: by mail-ot1-f67.google.com with SMTP id r20so2753356ota.5
+ for <linux-nvme@lists.infradead.org>; Thu, 05 Sep 2019 09:12:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=n9/mVvbc+FJD5lFAC39ToEnsu4tlFlkzdP2wms0HhJ0=;
+ b=FCi5zMKcDzAo5sJ5sLYdead89SKzu1qshk+auQlxjTIMak7h8j9zQbnxKrNnXBJjxM
+ Y311ZLYQkczdwkiaSt31oX2zxpXq+ks1rRmGeljCKdvLjE/BxhluIC8/Nwft6Sm74H4b
+ m4ocTeNDSr0fZHhWCx4w9f+VIjhSzB8Vh+gMccSo4sPWlkhECfN3CXUrY7EeNsT8XUWS
+ OhtFzdy+ZSo5hzxKkfhuIxYs5R50bZ3JYETWXhEptRXVJ3K7AgRTMVvm8EvpFhscJ2wE
+ bfNaS4WzfPeL9SzcwcU4oEQWZODe9Zw/03/GzWHH9yL6haS+4OPzztpt56tZoKwPOj0h
+ ytHg==
+X-Gm-Message-State: APjAAAWlnr7gdR5kR2Lj9PNXW4YivKEQebqabwWAIeE0GxI9IecmN68g
+ ABRAyiFVMwixa+dOfn5RiRg=
+X-Google-Smtp-Source: APXvYqzRcb8W/oZq18yF/qsn+UkujlrvsEZn46ppLsm0+TIemu1nunO3GijvRMpn59nJIjSofzxQZg==
+X-Received: by 2002:a9d:7a83:: with SMTP id l3mr2122370otn.359.1567699960205; 
+ Thu, 05 Sep 2019 09:12:40 -0700 (PDT)
+Received: from ?IPv6:2600:1700:65a0:78e0:514:7862:1503:8e4d?
+ ([2600:1700:65a0:78e0:514:7862:1503:8e4d])
+ by smtp.gmail.com with ESMTPSA id 5sm595489ois.15.2019.09.05.09.12.38
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 05 Sep 2019 09:12:39 -0700 (PDT)
+Subject: Re: [PATCH] nvme: tcp: remove redundant assignment to variable ret
+To: Colin King <colin.king@canonical.com>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
+ linux-nvme@lists.infradead.org
+References: <20190905143435.2864-1-colin.king@canonical.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <2aa4f13f-7d24-ee59-ac6b-ed3dc30d3da3@grimberg.me>
+Date: Thu, 5 Sep 2019 09:12:34 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190904173159.22921-1-kbusch@kernel.org>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20190905143435.2864-1-colin.king@canonical.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190905_091140_811814_2DB426EB 
-X-CRM114-Status: UNSURE (   9.86  )
+X-CRM114-CacheID: sfid-20190905_091241_682850_24A1D1A4 
+X-CRM114-Status: UNSURE (   9.50  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -65,34 +90,13 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Hannes Reinecke <hare@suse.com>, Sagi Grimberg <sagi@grimberg.me>,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- Jens Axboe <axboe@fb.com>, Logan Gunthorpe <logang@deltatee.com>,
- Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="us-ascii"
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Sep 04, 2019 at 11:31:59AM -0600, Keith Busch wrote:
-> The namespace names must be unique for the lifetime of the subsystem.
-> This was accomplished by using their parent subsystems' instances which
-> was independent of the controllers connected to that subsystem.
-> 
-> The consequence of that naming scheme meant that name prefixes given to
-> namespaces may match a controller from an unrelated subsystem. This has
-> understandbly invited confusion when examining device nodes.
-> 
-> Ensure the namespace's subsystem instance never clashes with a
-> controller instance of another subsystem by transferring the instance
-> ownership to parent subsystem from the first controller discovered in
-> that subsystem.
-
-Sanitity sounds a little exaggerated.  The nvme naming isn't really
-that different except that the block devices uses number where say
-scsi uses letters.  So maybe tone down that claim a bit, but otherwise
-the patch looks fine.
+Applied to nvme-5.4
 
 _______________________________________________
 Linux-nvme mailing list
