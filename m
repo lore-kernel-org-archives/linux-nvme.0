@@ -2,22 +2,23 @@ Return-Path: <SRS0=5twQ=XA=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DB5AC43331
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Sep 2019 21:37:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DDD7C43331
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Sep 2019 22:27:05 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id AF984206BB
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Sep 2019 21:37:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C01152070C
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Sep 2019 22:27:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="oUtOeW+U";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="gIqPaPDb"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AF984206BB
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="DJVLBbRs";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=Mellanox.com header.i=@Mellanox.com header.b="g/LW+FG6"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C01152070C
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
@@ -25,68 +26,112 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=gqDdesp46vJduUalm31NNXsGNorTu9/Vo+568H79jA0=; b=oUtOeW+UKkTDdYBi3Hw5zBALR
-	9eospP9szZEMEwyAcxzf6yv7+FSI6mCJExetpJxbDT6zyQZDg/eBb6eythtKKnsJwOHWFSbpekV5C
-	P7LgtZNb895iHshPBLPGZ2xSlm52XqWCTmywBcyq1FIu9yXn2zOXM/jA5Cx7R5Hlno7yazbFaGRby
-	Nxp00IYJIvRBguvYVk/90ENhvlTSM9hZXOVuecJOY2pXb/JZcGbPJBe5h7YJZ9fDBSB9ug2xe4QDF
-	Zwc05zgfjEphf1msTOOELsiAFs7/6B0hy77yKPD6/x3UdPnDGcTpbQNxy/KQ/la3yrUtd2zrse8vH
-	ZyD4T/asw==;
+	 bh=ciJJee71M4bX+WjrI9JVLvbtPq9OJT0LiPq7GFL0b7g=; b=DJVLBbRsIqwc2wKU6+12+MRMY
+	6s55uNpqhSqJjSz/pGlrKolixb6p8ptN6r1/zYrikDbYZdkMK6z81S2//dIEhjxXJkeL9yAA4yPH2
+	WSaZED1D6pNN6LiK3rfGesojc+nfJeO/RKvOmoI0IvULjF6M+UYotonwYeHFsB+Yc5tsMugQ9QghI
+	3OJphwZL4pVDRyc4xgzkHFLd8T63ar7kuCkQNgfhGFRiJ6KZKAkUZK95ih1QVdTBQovQXbx5QeZ9t
+	ym34URqU3ADOgduz/j53gOILGn+VOSiEJGNJ457lE1iBOaC9CphBMksucUotEH/rKNCwCIGUoVf20
+	9a4HWe1Kg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92 #3 (Red Hat Linux))
-	id 1i5zR0-0002C5-FK; Thu, 05 Sep 2019 21:36:54 +0000
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544])
+	id 1i60DU-0000d1-Mp; Thu, 05 Sep 2019 22:27:00 +0000
+Received: from mail-eopbgr70042.outbound.protection.outlook.com ([40.107.7.42]
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.92 #3 (Red Hat Linux))
- id 1i5zQx-0002Bg-KC
- for linux-nvme@lists.infradead.org; Thu, 05 Sep 2019 21:36:52 +0000
-Received: by mail-pg1-x544.google.com with SMTP id w10so2181815pgj.7
- for <linux-nvme@lists.infradead.org>; Thu, 05 Sep 2019 14:36:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=KaGed34z7gBVg5THuh38t/cxJDxpND4ade6H47mlGx8=;
- b=gIqPaPDbW5oWowZaIX272zLtN43m2XC5wFQIpxShGfKh4GdQyq7fjd3RDm/XBgAvzN
- YWtEkeppeUTqoK8hQzZyR8tet+8t+eeHjjNIh9imgBkJveINFz98WRpjOU+zzl5ut0Mf
- fPU2Aw06WMUbzAIk6mRjtC7xOncSS/DqTVwo4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=KaGed34z7gBVg5THuh38t/cxJDxpND4ade6H47mlGx8=;
- b=O7PG+7AdziUCkitF6mVZeFCVy3qATEbMT+3+eG4xRNTLFH2x4QNO/7822mrqL7rE13
- HP0W7su0AzWPYghwmf6PGZfnK/qYiO+P04PEJ0wv9IXjuuTwFqfvYokh/xgqbDM6wdlQ
- Fh7dySrAoB8wIqb+6+vG6ZBKHx+llkUwnkxRO4OW6TVVaLa2NC/VD6rmcqgJJEFjWFOc
- xMqFHzxcFmpoGjRW9l49plSBITEFkc1jFvfpcdGdO2q9x+WChM2jwYoC+9O+aB1tWj/s
- QkyNlLxAITbTKSnG6SMgQ1VhcrkkNtWYrCWMGsBNmOhfK//2Ts4zN2TOflvlQtDmWSWl
- UjeQ==
-X-Gm-Message-State: APjAAAXZlJjEtQN6U0JlafsQUHs8xIenjOiOyTHQPw2riuOEW43Z0IWv
- jATUcEPKYbrwCbTcz1KVusRYCcVjeAqa+lcKIM18Ck7xyI/JwtLUbXmLGbB5ZRUhFibwoAt9IuB
- sE8qlDdz9SDlOwGJDF/Nt3EUHyFMQbBmD7EmgHIIip14EQehngDhXgMJnxrUvyzIje1/Pa6Z64f
- ffZBMtvA==
-X-Google-Smtp-Source: APXvYqzZY+hP2f7vhyfYcGOwib+bHFkslmSCx8bgQkwQw58rz6vKDV0IwEZme8iDgC3mCqrzqwhoZA==
-X-Received: by 2002:a63:58c:: with SMTP id 134mr5360688pgf.106.1567719410316; 
- Thu, 05 Sep 2019 14:36:50 -0700 (PDT)
-Received: from [10.69.45.46] ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id u4sm1098986pfh.55.2019.09.05.14.36.48
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 05 Sep 2019 14:36:49 -0700 (PDT)
-Subject: Re: [PATCH 1/5] nvme: Restart request timers in resetting state
-To: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>
-References: <20190905142607.24897-1-kbusch@kernel.org>
- <65aa0709-c8a7-2988-864a-4bda0a4c3ce8@grimberg.me>
- <20190905202557.GA25467@localhost.localdomain>
- <d5d5efd7-cbab-4e07-3e20-69b3c3ae1de8@grimberg.me>
-From: James Smart <james.smart@broadcom.com>
-Message-ID: <2b4c9e21-c104-0824-2514-b4043a75c1ee@broadcom.com>
-Date: Thu, 5 Sep 2019 14:36:47 -0700
+ id 1i60DS-0000bs-9x
+ for linux-nvme@lists.infradead.org; Thu, 05 Sep 2019 22:26:59 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TLgVRPFg/ZWGLVMHVNY/KTAgLRrAG7Lps45O5fxDur9s4ougWF8QJcRcnDdDu6kY6U0kz724x7nh1Ovkh2cDcu/lX2/HjLmqiOpF0oumrtaST2yNQwdYCCJim1jnOKTNwVdX5dkmTnRNhdceVFL6emUnt2J1XDyqFOlVjnBlR5/ZxDilID2HzsHPEJ7eNmkGIorLhK5q7CbYy5cVyuPUDDxmIk1oJj/p6xQgbKwCUwJAW5FYPkBW70daj37Zj8+POIKC4EU8yl0pKKBxKQZrBDFr00y0FTX2i3bJlpkALjJgyrMVB8CvF5QO3v323XQKn4nGvkMIDcE6t5KDIxOpag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sLF665LHxh5cP7R64VSQzFtrBVYsSvCjet2eT+IPmrE=;
+ b=Lgltjic8duASR2fA6fCFbTvQSBZdwwLFO4j/I/Zh90dUvqbmKFRW4LPyg8J9MXv8x91bNLdPzwaeUEGiZeOJvpSr+F6JELIMIsbRGU19npRJYlfejsmyc7JCtIb+ZwaV6L+1KE6Vu1ApUuvoqoXWaLCgXbgkW8vv/DGh3oPkVEBSOGHBivxiFlxdCevUoYTcCxt90SQ+S+Q28agaWP7ap51puI0p7nDKvpND3oNBkBsk9pOlBwLyvDevWT2INP4FiX1b5LZZw7hAdZOB0YGDAtatE3LtIuxRWlLPbsSJ6pjNbEbud0Rtv5tINHTZYsq4vuIt5yBXcQVMyU7uiUwrLQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 193.47.165.251) smtp.rcpttodomain=lst.de smtp.mailfrom=mellanox.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=mellanox.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sLF665LHxh5cP7R64VSQzFtrBVYsSvCjet2eT+IPmrE=;
+ b=g/LW+FG6GVQRn4U6fJ+y9mH+kmZOugM15g90ObXp0pRqJYU12Ok7K9Oj+D5wWY/tNIYXrmTYkIzK0ha0ogptw82a/ECoftrfCOj5EIxicUkKjBBCPQnhB1LlNXeva+7THEU1mWzhG/xAOJ4F0yrL4Qsbl+qPm8LI3ptwpSJt3KM=
+Received: from VI1PR0502CA0002.eurprd05.prod.outlook.com (2603:10a6:803:1::15)
+ by DB7PR05MB4283.eurprd05.prod.outlook.com (2603:10a6:5:1b::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2220.19; Thu, 5 Sep
+ 2019 22:26:50 +0000
+Received: from VE1EUR03FT009.eop-EUR03.prod.protection.outlook.com
+ (2a01:111:f400:7e09::207) by VI1PR0502CA0002.outlook.office365.com
+ (2603:10a6:803:1::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.2241.14 via Frontend
+ Transport; Thu, 5 Sep 2019 22:26:50 +0000
+Authentication-Results: spf=pass (sender IP is 193.47.165.251)
+ smtp.mailfrom=mellanox.com; lst.de; dkim=none (message not signed)
+ header.d=none;lst.de; dmarc=pass action=none header.from=mellanox.com;
+Received-SPF: Pass (protection.outlook.com: domain of mellanox.com designates
+ 193.47.165.251 as permitted sender)
+ receiver=protection.outlook.com; 
+ client-ip=193.47.165.251; helo=mtlcas13.mtl.com;
+Received: from mtlcas13.mtl.com (193.47.165.251) by
+ VE1EUR03FT009.mail.protection.outlook.com (10.152.18.92) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.2241.14 via Frontend Transport; Thu, 5 Sep 2019 22:26:50 +0000
+Received: from MTLCAS13.mtl.com (10.0.8.78) by mtlcas13.mtl.com (10.0.8.78)
+ with Microsoft SMTP Server (TLS) id 15.0.1178.4; Fri, 6 Sep 2019 01:26:49
+ +0300
+Received: from MTLCAS01.mtl.com (10.0.8.71) by MTLCAS13.mtl.com (10.0.8.78)
+ with Microsoft SMTP Server (TLS) id 15.0.1178.4 via Frontend Transport; Fri,
+ 6 Sep 2019 01:26:49 +0300
+Received: from [172.16.0.20] (172.16.0.20) by MTLCAS01.mtl.com (10.0.8.71)
+ with Microsoft SMTP Server (TLS) id 14.3.468.0; Fri, 6 Sep 2019 01:25:54
+ +0300
+Subject: Re: [PATCH 3/3] nvme: remove PI values definition from NVMe subsystem
+To: Sagi Grimberg <sagi@grimberg.me>, <linux-block@vger.kernel.org>,
+ <axboe@kernel.dk>, <martin.petersen@oracle.com>,
+ <linux-nvme@lists.infradead.org>, <keith.busch@intel.com>, <hch@lst.de>
+References: <1567701836-29725-1-git-send-email-maxg@mellanox.com>
+ <1567701836-29725-3-git-send-email-maxg@mellanox.com>
+ <882441fc-599a-21fb-9030-5208b3b671cc@grimberg.me>
+From: Max Gurtovoy <maxg@mellanox.com>
+Message-ID: <75189f9b-3eaf-c676-4096-eb3e9e78993e@mellanox.com>
+Date: Fri, 6 Sep 2019 01:25:53 +0300
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <d5d5efd7-cbab-4e07-3e20-69b3c3ae1de8@grimberg.me>
+In-Reply-To: <882441fc-599a-21fb-9030-5208b3b671cc@grimberg.me>
 Content-Language: en-US
+X-Originating-IP: [172.16.0.20]
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:193.47.165.251; IPV:NLI; CTRY:IL; EFV:NLI;
+ SFV:NSPM;
+ SFS:(10009020)(4636009)(396003)(376002)(346002)(39850400004)(136003)(2980300002)(189003)(199004)(2906002)(2616005)(36756003)(229853002)(6246003)(107886003)(7736002)(5660300002)(305945005)(31686004)(53936002)(8936002)(81166006)(8676002)(81156014)(486006)(4744005)(356004)(126002)(476003)(11346002)(86362001)(53546011)(2201001)(446003)(65956001)(65806001)(186003)(47776003)(31696002)(16526019)(26005)(336012)(478600001)(106002)(76176011)(4326008)(50466002)(230700001)(70206006)(2486003)(3846002)(70586007)(58126008)(23676004)(316002)(16576012)(110136005)(36906005)(6116002)(54906003)(3940600001);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:DB7PR05MB4283; H:mtlcas13.mtl.com; FPR:;
+ SPF:Pass; LANG:en; PTR:InfoDomainNonexistent; MX:1; A:1; 
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c800fe6c-e78c-4c06-85d5-08d732502574
+X-Microsoft-Antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(4709080)(1401327)(4618075)(2017052603328)(7193020);
+ SRVR:DB7PR05MB4283; 
+X-MS-TrafficTypeDiagnostic: DB7PR05MB4283:
+X-Microsoft-Antispam-PRVS: <DB7PR05MB4283D3F4C5CF07F17E998131B6BB0@DB7PR05MB4283.eurprd05.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-Forefront-PRVS: 015114592F
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Message-Info: niagxElZYOuFseaXC7DsEB3OVzk+59a3l3tzOemDtxv5fL2T2dvd6LdqnzTN7YGgwv3L3rjSXVSeRslnZjlwxk6WAoGdon3EuW8Tvy/wNKyOPQ9unMP7cjqWmxIUjXHOJFY6FZN8D+zLm+jiEEBDEHd/w6w1cHCfSHy/f2s3eG3PDrGT4xO0LHq6rvlwSW+jeV9b0EPUV8TIqEIVnfaq/Q3i0sVUEb47WoK3X9KqXfZrdDvWAqddMVnaPYqdvQHrIKFrQQ110h/f0jVo76Ruj9xl341kytwl9nJqX8QL7682rCF0wMBiBRXiAvn5AnQ1ZTDVHgwpWb8Js7GhRcyxLiLOV7gH/GicErovz5xXll24ZJdkmTR2zTanz5gtEi3lEpBYdzcFYXZ0WkULnudVNfqWUzKhU6T3Vuczasg+XKA=
+X-OriginatorOrg: Mellanox.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2019 22:26:50.0267 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c800fe6c-e78c-4c06-85d5-08d732502574
+X-MS-Exchange-CrossTenant-Id: a652971c-7d2e-4d9b-a6a4-d149256f461b
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a652971c-7d2e-4d9b-a6a4-d149256f461b; Ip=[193.47.165.251];
+ Helo=[mtlcas13.mtl.com]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR05MB4283
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190905_143651_671035_68429BC8 
-X-CRM114-Status: GOOD (  11.85  )
+X-CRM114-CacheID: sfid-20190905_152658_352940_1316FA72 
+X-CRM114-Status: UNSURE (   8.50  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,36 +143,31 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Edmund Nadolski <edmund.nadolski@intel.com>, Christoph Hellwig <hch@lst.de>,
- linux-nvme@lists.infradead.org
+Cc: shlomin@mellanox.com, israelr@mellanox.com
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
-
-On 9/5/2019 1:39 PM, Sagi Grimberg wrote:
+On 9/5/2019 11:52 PM, Sagi Grimberg wrote:
 >
->> The point of this patch is to not do anything in a
->> reset state because whatever set the reset state is responsible for
->> clearing any commands prior to exiting that state.
+>> Use block layer definition instead of re-defining it with the same
+>> values.
 >
-> OK, we might need a bit more to make this correct in the fabrics
-> drivers.
+> The nvme_setup_rw is fine, but nvme_init_integrity gets values from
+> the controller id structure so I think it will be better to stick with
+> the enums that are referenced in the spec (even if they happen to match
+> the block layer values).
 
-We certainly should be meeting this bar:
+according to the spec:
 
-rdma/tcp uses blk_mq_tagset_busy_iter() with nvme_cancel_request, which 
-is immediately completion of anything outstanding.
+"NVM Express supports the same end-to-end protection types as DIF. The 
+type of end-to-end data protection (Type 1, Type 2, or Type 3) is 
+selected when a namespace is formatted and is reported in the Identify 
+Namespace data structure."
 
-FC uses blk_mq_tagset_busy_iter() with an abort path then waits for the 
-io aborts.
-
-These coupled with the fabrics check-ready logic to not accept new io 
-should mean we meet the bar.
-
--- james
+This is exactly what this patch does.
 
 
 _______________________________________________
