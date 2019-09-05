@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65A22C43331
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Sep 2019 14:28:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8390DC43331
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Sep 2019 14:28:37 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7A7FE206A5
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Sep 2019 14:28:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9AC45206A5
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Sep 2019 14:28:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="MuhqWZvI"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7A7FE206A5
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="W4pbNFXK"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9AC45206A5
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,40 +26,40 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	In-Reply-To:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Owner;
-	bh=M+l0y4NxV98JKUItAXNmCZFFg5eiUfsufvf3ypfzFNw=; b=MuhqWZvIdJVB3d8USATFz5ErZP
-	DEV0VvB9MIiR1Qlzx2mML+meLeXpWGZYjRSd1fWyhArMBcoyCgCd97Rfb7k6AuMZagBDYpQ465sz5
-	dxqrX9r5QYW5cZbQ5bJkNdZQz+wXZ87CszCCN8nbE8LFT/+mHClCpX3Ki0MR1vpl3A4r7vVBcCn5U
-	OMZDCCClo4t2MQfZp7gVq/9gJUx1UNIwmpfV1fPMSPaBG5mUp2dQ/70bDHjZ+r8+OVVsmuLcG3HC4
-	Fr4FKTueodn4oqmhctyXjh8gpljPxe6K1fNY0ZAe81u3biH00dzUR5jWM2HQMDk4XsxQQ1rVqpRrC
-	UqGhmV+A==;
+	bh=NqUcBJuaByS7abEID831g8cY0qWCrzbBOxGT8467o/E=; b=W4pbNFXKk0VpQMcpzxCqKb/oOT
+	q28tJxKHXq5LszK61SEnmLgjWTrZ1iCrig98fPypRRTkbmfD/UxEcTuRGKxyW1zeljEyUZVccwDwe
+	Iuf1NI0vDjw63B+GIAyNEq+UdAZPFYzYOl524+xh9T9fOpaslHtRshs9NhAku0JKVBCyy/L5Q83jp
+	Bvi7RUr+k7lS/QqF+vhFvxzcaMBulT1UB8Q2Ybqf3nY9WQsues7lYFfr76eoRwSKlCiv8m3mtXfaq
+	06+Kg3c+R/uQ/Ak2AImJGnJcBnotSkBYhJ3qYmV6SrdQasWYRj0vEvwcVXNnvdiBT8kSaVDHYoJLq
+	7Mg/aY8A==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92 #3 (Red Hat Linux))
-	id 1i5skJ-0007XA-Uh; Thu, 05 Sep 2019 14:28:23 +0000
+	id 1i5skT-0007gZ-Vt; Thu, 05 Sep 2019 14:28:34 +0000
 Received: from mga11.intel.com ([192.55.52.93])
  by bombadil.infradead.org with esmtps (Exim 4.92 #3 (Red Hat Linux))
- id 1i5sjt-0007Cr-IE
- for linux-nvme@lists.infradead.org; Thu, 05 Sep 2019 14:27:58 +0000
+ id 1i5sju-0007D6-5r
+ for linux-nvme@lists.infradead.org; Thu, 05 Sep 2019 14:27:59 +0000
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
  05 Sep 2019 07:27:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,470,1559545200"; d="scan'208";a="187991056"
+X-IronPort-AV: E=Sophos;i="5.64,470,1559545200"; d="scan'208";a="187991061"
 Received: from unknown (HELO localhost.lm.intel.com) ([10.232.112.69])
- by orsmga006.jf.intel.com with ESMTP; 05 Sep 2019 07:27:55 -0700
+ by orsmga006.jf.intel.com with ESMTP; 05 Sep 2019 07:27:56 -0700
 From: Keith Busch <kbusch@kernel.org>
 To: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
  Sagi Grimberg <sagi@grimberg.me>
-Subject: [PATCH 3/5] nvme-pci: Free tagset if no IO queues
-Date: Thu,  5 Sep 2019 08:26:05 -0600
-Message-Id: <20190905142607.24897-3-kbusch@kernel.org>
+Subject: [PATCH 4/5] nvme: Remove ADMIN_ONLY state
+Date: Thu,  5 Sep 2019 08:26:06 -0600
+Message-Id: <20190905142607.24897-4-kbusch@kernel.org>
 X-Mailer: git-send-email 2.13.6
 In-Reply-To: <20190905142607.24897-1-kbusch@kernel.org>
 References: <20190905142607.24897-1-kbusch@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190905_072757_612775_39F05074 
-X-CRM114-Status: GOOD (  11.83  )
+X-CRM114-CacheID: sfid-20190905_072758_232696_7B963447 
+X-CRM114-Status: GOOD (  16.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,51 +79,216 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-If a controller becomes degraded after a reset, we will not be able to
-perform any IO. We currently teardown all previously created request
-queues and namespaces, but we had been keeping an unusable tagset. Free
-it after all queues using it have been released.
+The admin only state was intended to fence off actions that don't
+apply to a non-IO capable controller. The only actual user of this is
+the scan_work, and pci was the only transport to ever set this state.
+The consequence of having this state is placing an additional burden on
+every other action that applies to both live and admin only controllers.
+
+Remove the admin only state and place the admin only burden on the only
+place that actually cares: scan_work.
+
+This also prepares to make it easier to temporarily pause a LIVE state
+so that we don't need to remember which state the controller had been in
+prior to the pause.
 
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- drivers/nvme/host/pci.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ drivers/nvme/host/core.c    | 22 +++-------------------
+ drivers/nvme/host/fabrics.h |  3 +--
+ drivers/nvme/host/nvme.h    |  1 -
+ drivers/nvme/host/pci.c     | 21 ++++++---------------
+ 4 files changed, 10 insertions(+), 37 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 5c3732fd02bc..ef6c31c20571 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2489,14 +2489,20 @@ static void nvme_release_prp_pools(struct nvme_dev *dev)
- 	dma_pool_destroy(dev->prp_small_pool);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index d42167d7594b..d3920c1e54b9 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -114,7 +114,7 @@ static void nvme_queue_scan(struct nvme_ctrl *ctrl)
+ 	/*
+ 	 * Only new queue scan work when admin and IO queues are both alive
+ 	 */
+-	if (ctrl->state == NVME_CTRL_LIVE)
++	if (ctrl->state == NVME_CTRL_LIVE && ctrl->tagset)
+ 		queue_work(nvme_wq, &ctrl->scan_work);
  }
  
-+static void nvme_free_tagset(struct nvme_dev *dev)
-+{
-+	if (dev->tagset.tags)
-+		blk_mq_free_tag_set(&dev->tagset);
-+	dev->ctrl.tagset = NULL;
-+}
-+
- static void nvme_pci_free_ctrl(struct nvme_ctrl *ctrl)
- {
- 	struct nvme_dev *dev = to_nvme_dev(ctrl);
+@@ -135,8 +135,7 @@ int nvme_reset_ctrl_sync(struct nvme_ctrl *ctrl)
+ 	ret = nvme_reset_ctrl(ctrl);
+ 	if (!ret) {
+ 		flush_work(&ctrl->reset_work);
+-		if (ctrl->state != NVME_CTRL_LIVE &&
+-		    ctrl->state != NVME_CTRL_ADMIN_ONLY)
++		if (ctrl->state != NVME_CTRL_LIVE)
+ 			ret = -ENETRESET;
+ 	}
  
- 	nvme_dbbuf_dma_free(dev);
- 	put_device(dev->dev);
--	if (dev->tagset.tags)
--		blk_mq_free_tag_set(&dev->tagset);
-+	nvme_free_tagset(dev);
- 	if (dev->ctrl.admin_q)
- 		blk_put_queue(dev->ctrl.admin_q);
- 	kfree(dev->queues);
-@@ -2615,6 +2621,7 @@ static void nvme_reset_work(struct work_struct *work)
+@@ -313,15 +312,6 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+ 
+ 	old_state = ctrl->state;
+ 	switch (new_state) {
+-	case NVME_CTRL_ADMIN_ONLY:
+-		switch (old_state) {
+-		case NVME_CTRL_CONNECTING:
+-			changed = true;
+-			/* FALLTHRU */
+-		default:
+-			break;
+-		}
+-		break;
+ 	case NVME_CTRL_LIVE:
+ 		switch (old_state) {
+ 		case NVME_CTRL_NEW:
+@@ -337,7 +327,6 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+ 		switch (old_state) {
+ 		case NVME_CTRL_NEW:
+ 		case NVME_CTRL_LIVE:
+-		case NVME_CTRL_ADMIN_ONLY:
+ 			changed = true;
+ 			/* FALLTHRU */
+ 		default:
+@@ -357,7 +346,6 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+ 	case NVME_CTRL_DELETING:
+ 		switch (old_state) {
+ 		case NVME_CTRL_LIVE:
+-		case NVME_CTRL_ADMIN_ONLY:
+ 		case NVME_CTRL_RESETTING:
+ 		case NVME_CTRL_CONNECTING:
+ 			changed = true;
+@@ -2775,7 +2763,6 @@ static int nvme_dev_open(struct inode *inode, struct file *file)
+ 
+ 	switch (ctrl->state) {
+ 	case NVME_CTRL_LIVE:
+-	case NVME_CTRL_ADMIN_ONLY:
+ 		break;
+ 	default:
+ 		return -EWOULDBLOCK;
+@@ -3065,7 +3052,6 @@ static ssize_t nvme_sysfs_show_state(struct device *dev,
+ 	static const char *const state_name[] = {
+ 		[NVME_CTRL_NEW]		= "new",
+ 		[NVME_CTRL_LIVE]	= "live",
+-		[NVME_CTRL_ADMIN_ONLY]	= "only-admin",
+ 		[NVME_CTRL_RESETTING]	= "resetting",
+ 		[NVME_CTRL_CONNECTING]	= "connecting",
+ 		[NVME_CTRL_DELETING]	= "deleting",
+@@ -3579,11 +3565,9 @@ static void nvme_scan_work(struct work_struct *work)
+ 	struct nvme_id_ctrl *id;
+ 	unsigned nn;
+ 
+-	if (ctrl->state != NVME_CTRL_LIVE)
++	if (ctrl->state != NVME_CTRL_LIVE || !ctrl->tagset)
+ 		return;
+ 
+-	WARN_ON_ONCE(!ctrl->tagset);
+-
+ 	if (test_and_clear_bit(NVME_AER_NOTICE_NS_CHANGED, &ctrl->events)) {
+ 		dev_info(ctrl->device, "rescanning namespaces.\n");
+ 		nvme_clear_changed_ns_log(ctrl);
+diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+index 93f08d77c896..a0ec40ab62ee 100644
+--- a/drivers/nvme/host/fabrics.h
++++ b/drivers/nvme/host/fabrics.h
+@@ -182,8 +182,7 @@ bool nvmf_ip_options_match(struct nvme_ctrl *ctrl,
+ static inline bool nvmf_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
+ 		bool queue_live)
+ {
+-	if (likely(ctrl->state == NVME_CTRL_LIVE ||
+-		   ctrl->state == NVME_CTRL_ADMIN_ONLY))
++	if (likely(ctrl->state == NVME_CTRL_LIVE))
+ 		return true;
+ 	return __nvmf_check_ready(ctrl, rq, queue_live);
+ }
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index a818313a1f15..a9fc25c3b64d 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -156,7 +156,6 @@ static inline u16 nvme_req_qid(struct request *req)
+ enum nvme_ctrl_state {
+ 	NVME_CTRL_NEW,
+ 	NVME_CTRL_LIVE,
+-	NVME_CTRL_ADMIN_ONLY,    /* Only admin queue live */
+ 	NVME_CTRL_RESETTING,
+ 	NVME_CTRL_CONNECTING,
+ 	NVME_CTRL_DELETING,
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index ef6c31c20571..95411f53f159 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2262,10 +2262,7 @@ static bool __nvme_disable_io_queues(struct nvme_dev *dev, u8 opcode)
+ 	return true;
+ }
+ 
+-/*
+- * return error value only when tagset allocation failed
+- */
+-static int nvme_dev_add(struct nvme_dev *dev)
++static void nvme_dev_add(struct nvme_dev *dev)
+ {
+ 	int ret;
+ 
+@@ -2295,7 +2292,7 @@ static int nvme_dev_add(struct nvme_dev *dev)
+ 		if (ret) {
+ 			dev_warn(dev->ctrl.device,
+ 				"IO queues tagset allocation failed %d\n", ret);
+-			return ret;
++			return;
+ 		}
+ 		dev->ctrl.tagset = &dev->tagset;
+ 	} else {
+@@ -2306,7 +2303,6 @@ static int nvme_dev_add(struct nvme_dev *dev)
+ 	}
+ 
+ 	nvme_dbbuf_set(dev);
+-	return 0;
+ }
+ 
+ static int nvme_pci_enable(struct nvme_dev *dev)
+@@ -2526,7 +2522,6 @@ static void nvme_reset_work(struct work_struct *work)
+ 		container_of(work, struct nvme_dev, ctrl.reset_work);
+ 	bool was_suspend = !!(dev->ctrl.ctrl_config & NVME_CC_SHN_NORMAL);
+ 	int result;
+-	enum nvme_ctrl_state new_state = NVME_CTRL_LIVE;
+ 
+ 	if (WARN_ON(dev->ctrl.state != NVME_CTRL_RESETTING)) {
+ 		result = -ENODEV;
+@@ -2620,14 +2615,11 @@ static void nvme_reset_work(struct work_struct *work)
+ 		dev_warn(dev->ctrl.device, "IO queues not created\n");
  		nvme_kill_queues(&dev->ctrl);
  		nvme_remove_namespaces(&dev->ctrl);
- 		new_state = NVME_CTRL_ADMIN_ONLY;
-+		nvme_free_tagset(dev);
+-		new_state = NVME_CTRL_ADMIN_ONLY;
+ 		nvme_free_tagset(dev);
  	} else {
  		nvme_start_queues(&dev->ctrl);
  		nvme_wait_freeze(&dev->ctrl);
+-		/* hit this only when allocate tagset fails */
+-		if (nvme_dev_add(dev))
+-			new_state = NVME_CTRL_ADMIN_ONLY;
++		nvme_dev_add(dev);
+ 		nvme_unfreeze(&dev->ctrl);
+ 	}
+ 
+@@ -2635,9 +2627,9 @@ static void nvme_reset_work(struct work_struct *work)
+ 	 * If only admin queue live, keep it to do further investigation or
+ 	 * recovery.
+ 	 */
+-	if (!nvme_change_ctrl_state(&dev->ctrl, new_state)) {
++	if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_LIVE)) {
+ 		dev_warn(dev->ctrl.device,
+-			"failed to mark controller state %d\n", new_state);
++			"failed to mark controller live state\n");
+ 		result = -ENODEV;
+ 		goto out;
+ 	}
+@@ -2934,8 +2926,7 @@ static int nvme_suspend(struct device *dev)
+ 	nvme_wait_freeze(ctrl);
+ 	nvme_sync_queues(ctrl);
+ 
+-	if (ctrl->state != NVME_CTRL_LIVE &&
+-	    ctrl->state != NVME_CTRL_ADMIN_ONLY)
++	if (ctrl->state != NVME_CTRL_LIVE)
+ 		goto unfreeze;
+ 
+ 	ndev->last_ps = 0;
 -- 
 2.14.5
 
