@@ -2,65 +2,83 @@ Return-Path: <SRS0=5twQ=XA=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0F88C43331
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Sep 2019 20:41:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D372FC43331
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Sep 2019 20:42:31 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DCFB820820
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Sep 2019 20:41:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id F31D820820
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Sep 2019 20:42:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ffGMaMDb"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DCFB820820
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Tdb7//Bo"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F31D820820
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=NBWYhFdIwXNmuN0mLXyVAaXZndOuo/XQpM6W7HoD8Pw=; b=ffGMaMDbfrws8W
-	vdszljp0XCzXYEXGy5TBPPNUJSp4gl+1m/rlcKbwCTj4mfjeajvgVehyBVW2OdKNitS8IUPZlrrRu
-	5ZjCQDY26l+frGzbb9yNseMqxqSwSJTOrT39GnkXWQdXD/J/wZD3CxJa3Om9op3rkpRxQBXUk1GzS
-	qIlF9nOXITHOHlCg+OwObI3ZKC8q+AqLjEsfvfsO/2RySUGsXXdc0GbJNE0RTxeCv+FHkefTKcgxe
-	TpL9Jud7lsn06xNZDT+UiRooULUkoiBQSEa26fDW32EKcZ8hM1Ll86cn9H0gZFdIjmMQT8KprdM0Q
-	ZliEQH78dN10H0h1jDNQ==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=6z2M3M3p4aW/DyrEMQaWaik3tYKNl0nPhnn8qAx4pjQ=; b=Tdb7//BoLU7UFq2lmCblKHusJ
+	My61g4vfybW1V0KAG+T6dxklZEbSUMYXunoZlzYUVwbcIVeVqrqum873bt2dy6+OgEqy5svk8k6qE
+	SxVzf8heE02c99HccWScgG2Y2E5UEJpfFMSI4xMvfOWvqnJf+KygckgujmWHaT4Qm5k2JzJ2OZgMb
+	ZRPdG6o+lAiGy0giL0uw0QA0oIzCxvXrol/awOs97RsCV5KtHxdUhoPwB1DN2p20GmGehXlTWjCQs
+	r0DSfyCYJUmNELCRFb6gFvM0zW6/2iHUHFfzYfUrFsCRAh/A/q5ShkV+1ThKSTufNxteXr44D/3Cs
+	9P6bISAfg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92 #3 (Red Hat Linux))
-	id 1i5yZh-0000Lw-UI; Thu, 05 Sep 2019 20:41:49 +0000
-Received: from mga03.intel.com ([134.134.136.65])
+	id 1i5yaL-0000al-UM; Thu, 05 Sep 2019 20:42:29 +0000
+Received: from mail-wr1-f49.google.com ([209.85.221.49])
  by bombadil.infradead.org with esmtps (Exim 4.92 #3 (Red Hat Linux))
- id 1i5yZg-0000LU-1c
- for linux-nvme@lists.infradead.org; Thu, 05 Sep 2019 20:41:49 +0000
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 05 Sep 2019 13:41:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,471,1559545200"; d="scan'208";a="383989247"
-Received: from unknown (HELO localhost.localdomain) ([10.232.112.69])
- by fmsmga006.fm.intel.com with ESMTP; 05 Sep 2019 13:41:46 -0700
-Date: Thu, 5 Sep 2019 14:40:18 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH 3/5] nvme-pci: Free tagset if no IO queues
-Message-ID: <20190905204017.GC25467@localhost.localdomain>
+ id 1i5yaJ-0000aB-Mv
+ for linux-nvme@lists.infradead.org; Thu, 05 Sep 2019 20:42:28 +0000
+Received: by mail-wr1-f49.google.com with SMTP id g7so4305061wrx.2
+ for <linux-nvme@lists.infradead.org>; Thu, 05 Sep 2019 13:42:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=RshjTaGhFBNTyHj1L4BXqwdsUmTKiNO23WK8s0QWYCc=;
+ b=VK6yshEUEn3sirw9ks4YaET5BHm08I0G/ErI40rbaMeVQ3HJXtY7u7HkG+89jwKMqE
+ 8bCRwNgjydZFcH8Xi/pYOG1O5rhz+RqvdR5knUWhf2ZSt2yd+odxSQuiqStP79Pzt1+L
+ +9NpitLms6hcvp01EAwBIeb+tTe7yz5Mue0m0DRJ2GdLMegGTbEQqaIiHJC+kPYcYMB6
+ s6FHh01rYISZ0Tuq/oHA9Cd0FASiiYREYuA8mJivvACcRWz7myRIb/V52XUgTglLUZZP
+ ZuOePI9Nqb5NGvOkMWlLP51mlXzKh4198yVKuwliXwEiD/+SeYmgHfRezQHCZuAVamYZ
+ MCjg==
+X-Gm-Message-State: APjAAAUY2RBLkW4ToiG4ZDPfG0AWpkpWZfz9s1h/Go7fM2kLk4+Mfm3f
+ Sqs72ZBg8WOLItD7SKCpd9A=
+X-Google-Smtp-Source: APXvYqzExUpghcJjLlHbstk/WLqTW63omVkyQSYrKkwis1Soa3BwAiB4hIfmUwXzRrMXOEkvyfo0KA==
+X-Received: by 2002:adf:ef12:: with SMTP id e18mr4169214wro.65.1567716145825; 
+ Thu, 05 Sep 2019 13:42:25 -0700 (PDT)
+Received: from ?IPv6:2600:1700:65a0:78e0:514:7862:1503:8e4d?
+ ([2600:1700:65a0:78e0:514:7862:1503:8e4d])
+ by smtp.gmail.com with ESMTPSA id v6sm5095477wma.24.2019.09.05.13.42.24
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 05 Sep 2019 13:42:25 -0700 (PDT)
+Subject: Re: [PATCH 2/5] nvme: Prevent resets during paused states
+To: Keith Busch <kbusch@kernel.org>
 References: <20190905142607.24897-1-kbusch@kernel.org>
- <20190905142607.24897-3-kbusch@kernel.org>
- <5183cfd8-5143-2378-13f5-02c7a70bf3e3@grimberg.me>
+ <20190905142607.24897-2-kbusch@kernel.org>
+ <5f36518c-7cf0-9fe1-49d7-2b24b3d229fe@grimberg.me>
+ <20190905203546.GB25467@localhost.localdomain>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <67e7eb83-c4e2-ebd8-9c82-c5e038e3ca9f@grimberg.me>
+Date: Thu, 5 Sep 2019 13:42:21 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <5183cfd8-5143-2378-13f5-02c7a70bf3e3@grimberg.me>
-User-Agent: Mutt/1.9.1 (2017-09-22)
+In-Reply-To: <20190905203546.GB25467@localhost.localdomain>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190905_134148_130887_2809AF62 
-X-CRM114-Status: GOOD (  12.07  )
+X-CRM114-CacheID: sfid-20190905_134227_748645_352B4872 
+X-CRM114-Status: GOOD (  14.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,25 +92,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: Edmund Nadolski <edmund.nadolski@intel.com>, Christoph Hellwig <hch@lst.de>,
  linux-nvme@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Sep 05, 2019 at 01:24:43PM -0700, Sagi Grimberg wrote:
-> 
-> > If a controller becomes degraded after a reset, we will not be able to
-> > perform any IO. We currently teardown all previously created request
-> > queues and namespaces, but we had been keeping an unusable tagset. Free
-> > it after all queues using it have been released.
-> 
-> Is this a resource thing? or is this causing actual troubles?
 
-Yes, this is freeing an unusable resource so that we don't need to
-unbind the driver in order to reclaim it.
+>> Also, seems a bit "acrobatic" to set the state to RESETTING without
+>> really resetting it (and then change it back to LIVE before you do
+>> actually resetting it).
+> 
+> We can think of a CSTS.PP as the device internally resetting itself to
+> activate firmware.
 
-I only noticed this though because PATCH 4/5 needs to observe the cleared
-tagset to operate correctly.
+Can the reset flush the fw activation work? I'm trying to understand if
+this state games are the best solution here...
+
+>> Would it make sense to look at nvme_ctrl_pp_status when
+>> scheduling a reset in nvme_reset_ctrl? Just a thought..
+> 
+> We have to be able to reset if we decide CSTS.PP is stuck, fw activation
+> timeout.
+
+See above.
+
+>>> -			nvme_reset_ctrl(ctrl);
+>>> +			if (nvme_change_ctrl_state(ctrl, NVME_CTRL_LIVE))
+>>> +				nvme_reset_ctrl(ctrl);
+>>
+>> How can this state change not succeed? ctrl removal?
+> 
+> Right, we can't prevent a transition to a deleting state.
 
 _______________________________________________
 Linux-nvme mailing list
