@@ -2,67 +2,82 @@ Return-Path: <SRS0=5twQ=XA=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56C81C43331
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Sep 2019 20:37:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 217E2C43331
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Sep 2019 20:39:42 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 797B220828
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Sep 2019 20:37:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 438C220828
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Sep 2019 20:39:42 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="FwKs14IT"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 797B220828
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Z3ambhRQ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 438C220828
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Fms/GbwbM04ksyJLAQqyysctw56zYb7vgMl7iuIwto8=; b=FwKs14IT2SInT9
-	0wOFCYyctoY2vt+b37NJAP5719nQoHSTxLK5BDgEEp1WBJ9RvD8ILbWAIipB02NA2tMBHaORWGOfN
-	x84npOTvjny7LKwLHXnlnqnM5DX5TR7g6Mh0VKRL3AN4HdQlAoQk/Bq1pK59uHMyPYNjBksSxGak5
-	W0qcxhVrLJEQPjzCFLayr+/lUYZLpJBKDWSnoMoxhfo10sQAY676qVJnaZOttIFjhonI0CrADxbVw
-	IKe9MY9JhC/22fkmii4ElwdeA1qG7OAWM8ssN9Vaf+9jsigEg4VMSknDzqN2TW7yBljOh8RC4jKW1
-	G3x3UYQ6d7kBAhnWfoAA==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=vY3c5WoXlN7z9WFZpMHo33SBJKG9e6s9xEJB03L8RLA=; b=Z3ambhRQa0dBU6N7+cYe4SYEs
+	JtisW7PCoO295N1Kdz6/O8zCocPpsQa9/RG2cwmRKJjEAsR46/AGVe7NX1161SFb3VCifPzzxiiIU
+	tI6MlqD5lq/dN3HFoIjIc3+7tiw8fXRWCRjy9RxoBp2WrI05tIQeCUZ+67NnzX/wEuF3qDC61qAKT
+	4AxmshRwSSB3hYtM+LJTFYe7I/LuZcsAUrEstEHL9YU35rmb6qAhUuZXEtESqlpi2gc/Ik0z3IynH
+	0FgaEd+J4ED9eIL6kyrPWkYXEta0/Vy2tjj6h4vboI0T4WqNd6FL0Q9rAi+3KJ6p/9ycNKPMAhTy5
+	4YaJgEPkQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92 #3 (Red Hat Linux))
-	id 1i5yVK-0006YL-U9; Thu, 05 Sep 2019 20:37:18 +0000
-Received: from mga12.intel.com ([192.55.52.136])
+	id 1i5yXc-0006xg-Nh; Thu, 05 Sep 2019 20:39:40 +0000
+Received: from mail-wr1-f65.google.com ([209.85.221.65])
  by bombadil.infradead.org with esmtps (Exim 4.92 #3 (Red Hat Linux))
- id 1i5yVI-0006Uz-Ee
- for linux-nvme@lists.infradead.org; Thu, 05 Sep 2019 20:37:17 +0000
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 05 Sep 2019 13:37:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,471,1559545200"; d="scan'208";a="177424705"
-Received: from unknown (HELO localhost.localdomain) ([10.232.112.69])
- by orsmga008.jf.intel.com with ESMTP; 05 Sep 2019 13:37:14 -0700
-Date: Thu, 5 Sep 2019 14:35:46 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH 2/5] nvme: Prevent resets during paused states
-Message-ID: <20190905203546.GB25467@localhost.localdomain>
+ id 1i5yXU-0006wj-Rq
+ for linux-nvme@lists.infradead.org; Thu, 05 Sep 2019 20:39:34 +0000
+Received: by mail-wr1-f65.google.com with SMTP id w13so4265998wru.7
+ for <linux-nvme@lists.infradead.org>; Thu, 05 Sep 2019 13:39:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=xCf4ubhwUPcF/ihLJklu0DrlhXX0OM88DDWJtUGoY+I=;
+ b=MNgQ2XS2hczMaAoPn7FKnkKve9tbMDg6KGeVx13EVtO/WvdqgroAkaGJPF5pkbsXRl
+ sTwpO0B8NlBTVDhfhfuQbXKk24DmYAwcl8yL9k+G906ecwgicfGS4i0t1AGWX/LgjvJ4
+ Ecmc9l5L5GPzoyNhUFHS1BFkkdsaVsKQTNqwf8356ch3gT+vLjkvLqMZVUiIp1IPCcon
+ tQylMQbeZzQapGEQWUR87m5zRR70hulbZcDGs69VjLKt2+kFjFlMnWpa7knMJX7CHL4O
+ KBhW0/mAeIXaxuwdVFlTexq24os5AXQE4lejqOlFstaOBtXAE9odGN1N+lvvhGdz7l80
+ zuDQ==
+X-Gm-Message-State: APjAAAURH+37SLnFwYZsl/13XfGyCeNEW37mTgPx4KunXEIsVv1w1tw+
+ KlGPnHMxa+cLT+x2O+Jvz4M=
+X-Google-Smtp-Source: APXvYqyPFQLUJLZY1hSCX87ucCt7l2ZQG82jQ2kRQq4Q9uR3kzu+MciSi0ZAxEuvq7VnJQ4h1J7Kbg==
+X-Received: by 2002:adf:9e09:: with SMTP id u9mr4157016wre.169.1567715970159; 
+ Thu, 05 Sep 2019 13:39:30 -0700 (PDT)
+Received: from ?IPv6:2600:1700:65a0:78e0:514:7862:1503:8e4d?
+ ([2600:1700:65a0:78e0:514:7862:1503:8e4d])
+ by smtp.gmail.com with ESMTPSA id s1sm4789488wrg.80.2019.09.05.13.39.28
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 05 Sep 2019 13:39:29 -0700 (PDT)
+Subject: Re: [PATCH 1/5] nvme: Restart request timers in resetting state
+To: Keith Busch <kbusch@kernel.org>
 References: <20190905142607.24897-1-kbusch@kernel.org>
- <20190905142607.24897-2-kbusch@kernel.org>
- <5f36518c-7cf0-9fe1-49d7-2b24b3d229fe@grimberg.me>
+ <65aa0709-c8a7-2988-864a-4bda0a4c3ce8@grimberg.me>
+ <20190905202557.GA25467@localhost.localdomain>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <d5d5efd7-cbab-4e07-3e20-69b3c3ae1de8@grimberg.me>
+Date: Thu, 5 Sep 2019 13:39:26 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <5f36518c-7cf0-9fe1-49d7-2b24b3d229fe@grimberg.me>
-User-Agent: Mutt/1.9.1 (2017-09-22)
+In-Reply-To: <20190905202557.GA25467@localhost.localdomain>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190905_133716_507398_BDE165B6 
-X-CRM114-Status: GOOD (  22.32  )
+X-CRM114-CacheID: sfid-20190905_133932_903801_ADF414C2 
+X-CRM114-Status: GOOD (  21.65  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,84 +91,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: Edmund Nadolski <edmund.nadolski@intel.com>, Christoph Hellwig <hch@lst.de>,
  linux-nvme@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Sep 05, 2019 at 01:23:53PM -0700, Sagi Grimberg wrote:
+
+>>> +	/*
+>>> +	 * Restart the timer if a controller reset is already scheduled. Any
+>>> +	 * timed out commands would be handled before entering the connecting
+>>> +	 * state.
+>>> +	 */
+>>> +	if (ctrl->ctrl.state == NVME_CTRL_RESETTING)
+>>> +		return BLK_EH_RESET_TIMER;
+>>> +
+>>>    	if (ctrl->ctrl.state != NVME_CTRL_LIVE) {
+>>
+>> Not sure I understand what exactly is this solving? if the controller is
+>> not responding to a connect command, we just added another ADMIN_TIMEOUT
+>> to failing it.
 > 
-> > A paused controller is doing critical internal activation work. Don't
-> > allow a reset to occur by setting it to the resetting state, preventing
-> > any future reset from occuring during this time.
-> 
-> Is there a reproducible bug actually being addressed here?
+> The connect command is sent in the CONNECTING state, no? So that's not
+> affected by this.
 
-Yes, IO timeouts happen during CSTS.PP, which is normal, and esaclating
-such errors to reset the controller while it is activating firmware is
-not a good idea.
+Right. but if the channel failed in connect, we will not transition to
+RESTTING and handle the failure in the timeout handler. I will need to
+test what is the effect here.
 
-Further, we do not want to a user to manaully trigger a reset (via sysfs
-or other means), so this properly blocks such actions.
- 
-> Also, seems a bit "acrobatic" to set the state to RESETTING without
-> really resetting it (and then change it back to LIVE before you do
-> actually resetting it).
+> The point of this patch is to not do anything in a
+> reset state because whatever set the reset state is responsible for
+> clearing any commands prior to exiting that state.
 
-We can think of a CSTS.PP as the device internally resetting itself to
-activate firmware.
+OK, we might need a bit more to make this correct in the fabrics
+drivers.
 
-> Would it make sense to look at nvme_ctrl_pp_status when
-> scheduling a reset in nvme_reset_ctrl? Just a thought..
+> But the motivation for why I'm bringing this up now is that it also
+> prepares for PATCH 2/5. That one uses the RESETTING state when the
+> controller reports CSTS.PP. We do not want to schedule a reset when the
+> controller is in that state, and we also expect any IO dispatched prior to
+> seeing CSTS.PP may time out. Any IO should complete once CSTS.PP clears,
+> so not escalating recovery is the correct action during that window,
+> and we use the state machine to coordinate that.
 
-We have to be able to reset if we decide CSTS.PP is stuck, fw activation
-timeout.
-
-> > Signed-off-by: Keith Busch <kbusch@kernel.org>
-> > ---
-> >   drivers/nvme/host/core.c | 9 ++++++---
-> >   1 file changed, 6 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> > index 91b1f0e57715..d42167d7594b 100644
-> > --- a/drivers/nvme/host/core.c
-> > +++ b/drivers/nvme/host/core.c
-> > @@ -3705,20 +3705,23 @@ static void nvme_fw_act_work(struct work_struct *work)
-> >   		fw_act_timeout = jiffies +
-> >   				msecs_to_jiffies(admin_timeout * 1000);
-> > +	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
-> > +		return;
-> > +
-> >   	nvme_stop_queues(ctrl);
-> >   	while (nvme_ctrl_pp_status(ctrl)) {
-> >   		if (time_after(jiffies, fw_act_timeout)) {
-> >   			dev_warn(ctrl->device,
-> >   				"Fw activation timeout, reset controller\n");
-> 
-> Would be good if the print will reflect if it resetting or not..
->
-> > -			nvme_reset_ctrl(ctrl);
-> > +			if (nvme_change_ctrl_state(ctrl, NVME_CTRL_LIVE))
-> > +				nvme_reset_ctrl(ctrl);
-> 
-> How can this state change not succeed? ctrl removal?
-
-Right, we can't prevent a transition to a deleting state.
-
-> >   			break;
-> >   		}
-> >   		msleep(100);
-> >   	}
-> > -	if (ctrl->state != NVME_CTRL_LIVE)
-> > +	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_LIVE))
-> >   		return;
-> 
-> In what scenario this will not succeed? if the reset did it?
-
-Controller deletion should be the only reason here.
-
-I see now the "break" for a failed activation ought to be a return,
-so I can fix that if you're okay with the rest.
+I think that patch 2/5 needs some more in-code documentation to explain
+why its mangling with the controller state machine without going through
+the normal state changing operations.
 
 _______________________________________________
 Linux-nvme mailing list
