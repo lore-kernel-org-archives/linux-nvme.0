@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32BDDC43331
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Sep 2019 18:12:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DCF4C43331
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Sep 2019 18:12:55 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 082A520838
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Sep 2019 18:12:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 52A1020838
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Sep 2019 18:12:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="sdm3Sxjm"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 082A520838
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Cg7zEJBY"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 52A1020838
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,24 +26,25 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	In-Reply-To:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Owner;
-	bh=AcISIOAWlg5BHaPs3jQ1rIxtNYQSxAPw/Rp0l3NDfto=; b=sdm3SxjmLvjFdygJ0qtFfIEUBD
-	9i5s8ZbYua2uZoB2XdKhtd7PqW5XJsUMoa6OtaaNlYzvms/BpKRNz5ZyB+P0lkIenw9Mle4Fd/jbL
-	BCUo8uhWMX+IZ8okvMZAeW2sd2AsqtOMF4RFMdJM3Oc9AIqSC4G7rWKUDva0SfaKoCveacRWnSifv
-	VGkm0Y3A7Ol4aXxduIPkVKbxDsKU6Yarwc7ETTd3rOCsBcmWZaBCchgAyjtKcOd4GBSmVuB4Hu3iQ
-	uG8W3ulO8EcvsgUBvydVY0x6DsjhrKpZOog4qaaF3vcaGQlPqiHtgeX6ZpQIVV4Lt2GSXpgIlgGrg
-	QG1XuT3A==;
+	bh=ze0cWubCFjokH9oInK18vQrQIDR8HEZEXDWMk08NRgM=; b=Cg7zEJBYPG7SdkmnT7jqgDLENz
+	p8iukxUY+efxueCRgB24wYhey6/uEetPwptEL03LLXzbTptVT01xjLyTdJ/2TJIZpIlFpuNLsvQdY
+	3vRd/kXgAhHrG3uLS0hcLz65W3P41OQz3ZgACDRmwneMmDWbf9pnarq3XIFDsjwJspWP/feKM8gdj
+	6voqxwMWUpaKTbp0UPQcrJDnj4rCK6qVL7cKr+IkPAoTm3axzPRMRZF+ho5htOy+sIm2QkYnU7AX0
+	2rQS4ZEHo19MKdEHyQxtLag41t8TqcEntVXxbgRDBnE5SAUY4vrZAM9U8fE72yp4TDCK1x/RjabwX
+	9zqcFJFg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92 #3 (Red Hat Linux))
-	id 1i6Iix-0001WF-45; Fri, 06 Sep 2019 18:12:43 +0000
+	id 1i6Ij6-0001hs-KZ; Fri, 06 Sep 2019 18:12:52 +0000
 Received: from [2600:1700:65a0:78e0:514:7862:1503:8e4d]
  (helo=sagi-Latitude-E7470.lbits)
  by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
- id 1i6Iip-0001O2-Vr; Fri, 06 Sep 2019 18:12:36 +0000
+ id 1i6Iiq-0001O2-6g; Fri, 06 Sep 2019 18:12:36 +0000
 From: Sagi Grimberg <sagi@grimberg.me>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH v5 1/4] nvme-fabrics: allow discovery subsystems accept a kato
-Date: Fri,  6 Sep 2019 11:12:31 -0700
-Message-Id: <20190906181235.20365-2-sagi@grimberg.me>
+Subject: [PATCH v5 2/4] nvme: enable aen regardless of the presence of I/O
+ queues
+Date: Fri,  6 Sep 2019 11:12:32 -0700
+Message-Id: <20190906181235.20365-3-sagi@grimberg.me>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190906181235.20365-1-sagi@grimberg.me>
 References: <20190906181235.20365-1-sagi@grimberg.me>
@@ -66,58 +67,48 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This modifies the behavior of discovery subsystems to accept
-a kato as a preparation to support discovery log change
-events. This also means that now every discovery controller
-will have a default kato value, and for non-persistent connections
-the host needs to pass in a zero kato value (keep_alive_tmo=0).
+AENs in general are not related to the presence of I/O queues,
+so enable them regardless. Note that the only exception is that
+discovery controller will not support any of the requested AENs
+and nvme_enable_aen will respect that and return, so it is still
+safe to enable regardless.
+
+Note it is safe to enable AENs even before the initial namespace
+scanning as we have the scan operation in a workqueue context.
 
 Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
-Reviewed-by: James Smart <james.smart@broadcom.com>
-Reviewed-by: Hannes Reinecke <hare@suse.com>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/host/fabrics.c | 12 ++----------
- 1 file changed, 2 insertions(+), 10 deletions(-)
+ drivers/nvme/host/core.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 145c210edb03..74b8818ac9a1 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -381,8 +381,8 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
- 	 * Set keep-alive timeout in seconds granularity (ms * 1000)
- 	 * and add a grace period for controller kato enforcement
- 	 */
--	cmd.connect.kato = ctrl->opts->discovery_nqn ? 0 :
--		cpu_to_le32((ctrl->kato + NVME_KATO_GRACE) * 1000);
-+	cmd.connect.kato = ctrl->kato ?
-+		cpu_to_le32((ctrl->kato + NVME_KATO_GRACE) * 1000) : 0;
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 3b19f9153161..23cc0fd6f667 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1200,6 +1200,8 @@ static void nvme_enable_aen(struct nvme_ctrl *ctrl)
+ 	if (status)
+ 		dev_warn(ctrl->device, "Failed to configure AEN (cfg %x)\n",
+ 			 supported_aens);
++
++	queue_work(nvme_wq, &ctrl->async_event_work);
+ }
  
- 	if (ctrl->opts->disable_sqflow)
- 		cmd.connect.cattr |= NVME_CONNECT_DISABLE_SQFLOW;
-@@ -740,13 +740,6 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 				pr_warn("keep_alive_tmo 0 won't execute keep alives!!!\n");
- 			}
- 			opts->kato = token;
--
--			if (opts->discovery_nqn && opts->kato) {
--				pr_err("Discovery controllers cannot accept KATO != 0\n");
--				ret = -EINVAL;
--				goto out;
--			}
--
- 			break;
- 		case NVMF_OPT_CTRL_LOSS_TMO:
- 			if (match_int(args, &token)) {
-@@ -883,7 +876,6 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
+@@ -3789,10 +3791,10 @@ void nvme_start_ctrl(struct nvme_ctrl *ctrl)
+ 	if (ctrl->kato)
+ 		nvme_start_keep_alive(ctrl);
+ 
++	nvme_enable_aen(ctrl);
++
+ 	if (ctrl->queue_count > 1) {
+ 		nvme_queue_scan(ctrl);
+-		nvme_enable_aen(ctrl);
+-		queue_work(nvme_wq, &ctrl->async_event_work);
+ 		nvme_start_queues(ctrl);
  	}
- 
- 	if (opts->discovery_nqn) {
--		opts->kato = 0;
- 		opts->nr_io_queues = 0;
- 		opts->nr_write_queues = 0;
- 		opts->nr_poll_queues = 0;
+ }
 -- 
 2.17.1
 
