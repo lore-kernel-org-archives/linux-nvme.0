@@ -2,107 +2,139 @@ Return-Path: <SRS0=r3NF=XC=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5A7FC43331
-	for <linux-nvme@archiver.kernel.org>; Sat,  7 Sep 2019 06:14:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84A76C43331
+	for <linux-nvme@archiver.kernel.org>; Sat,  7 Sep 2019 18:19:50 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B74D6206BB
-	for <linux-nvme@archiver.kernel.org>; Sat,  7 Sep 2019 06:14:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 50AF221848
+	for <linux-nvme@archiver.kernel.org>; Sat,  7 Sep 2019 18:19:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="cQFCLYVA";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="MCVfr7wV"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B74D6206BB
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=samsung.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="YUvyaWnz";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="EDPm/pNE";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="v08h+9rQ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 50AF221848
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:Reply-To:List-Subscribe:List-Help:
-	List-Post:List-Archive:List-Unsubscribe:List-Id:References:Date:Message-ID:
-	In-Reply-To:To:From:Subject:Mime-Version:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=kjDcx8HCLWY5FzNdof+TSk2cwUryydMrKz3PQG0FDVw=; b=cQFCLYVA49tsGa
-	Wbz+M/JHFRrg2Fas36ew3h1VSwwTempM2uREgVFhms9oJbHpe8RiRdfXmVkLHNBcYIRLH2hKd0ABS
-	hE+X830DSYrjTqTD8pHsSJ7sMLKKEeZOCQgRcyzYzE3o6Q8kttQpJVZW8E7WDNPPhdHRjgvVbyB0F
-	jOOSqcco4VHtyfAnpru5Rc7v/z4uLF46Y1Ry98dfYXvXZ1vnNJ7zmgpqTB+1E9M5eQ0F54slExh6O
-	1xV1aNWxWxwq1/iXS2Cs9CGg4LD1W7K2NtO4+cVH/bnHFst3UsofYTwde9viDyyq5sBH/7QLnzyHI
-	KYBs1P2NWRvikpgqS2cA==;
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date
+	:Subject:To:From:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+	List-Owner; bh=AHUzR1/lafGpWZk6sNlBlMAUfi57PeYjByY2xqT4MSM=; b=YUvyaWnz745Y/p
+	4Tlo/IY6kt2wVISDk0FROtw5rYAoQz/Omm3tNcziUyN00nzKEhpmSFbDA6YAYupJSewdkdTopylXK
+	y5zlG70sMeLohMibXICQzfPjpHEpqJ94M6EaHiPlglafoXs6eY5BwurW2hIe+jSYko14kYmsbnSPg
+	lu+HruWek7heCnmVLl3KGLc37HPQT8LgFN1JOPEew32uLRwUVQcMnirll6ak5FmqENaP3tc2sN1Q9
+	osPKIJdYYbbci6xTkgFUlxzxqPvKcySYzkR2r4M61MSXMJtPzXWmqIitEgBJVZ+YtaWBhxRCPCdd9
+	g8kDIt0Q27U12+W47kmw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92 #3 (Red Hat Linux))
-	id 1i6Tz2-0007Ua-Q7; Sat, 07 Sep 2019 06:14:04 +0000
-Received: from mailout2.samsung.com ([203.254.224.25])
+	id 1i6fJD-000332-Kr; Sat, 07 Sep 2019 18:19:39 +0000
+Received: from esa3.hgst.iphmx.com ([216.71.153.141])
  by bombadil.infradead.org with esmtps (Exim 4.92 #3 (Red Hat Linux))
- id 1i6Tyy-0007U9-5q
- for linux-nvme@lists.infradead.org; Sat, 07 Sep 2019 06:14:02 +0000
-Received: from epcas2p4.samsung.com (unknown [182.195.41.56])
- by mailout2.samsung.com (KnoxPortal) with ESMTP id
- 20190907061352epoutp022c7e8d3dffff1bc13792b29b0e2a8bb4~CE0rEYUdN3218432184epoutp02Y
- for <linux-nvme@lists.infradead.org>; Sat,  7 Sep 2019 06:13:52 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
- 20190907061352epoutp022c7e8d3dffff1bc13792b29b0e2a8bb4~CE0rEYUdN3218432184epoutp02Y
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1567836832;
- bh=RHAhUw8JyYTsJvg4vmUzKRzM78YLPUMEpN/OZDtpePc=;
- h=Subject:Reply-To:From:To:CC:In-Reply-To:Date:References:From;
- b=MCVfr7wVX4d+qWJL9zLWZo4/jFrUZ14QgyxGlGkTyLePdHh91jyTK7FC4jlmLK5P/
- KHxX6BHyc5rqyf8qsnxsSRDq53TFb2Qlw+WgCkHgKr5H5jgMpeE/NQMhfbS5FXfoRg
- TCnW8JUtSicwg7D1Z72ynYSahBWxBn3k0Ac69QYo=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
- epcas2p1.samsung.com (KnoxPortal) with ESMTP id
- 20190907061351epcas2p1c289b7660c2cb94b4edcce4d6fb1f592~CE0qNW_id0282402824epcas2p1L;
- Sat,  7 Sep 2019 06:13:51 +0000 (GMT)
-Received: from epsmges2p2.samsung.com (unknown [182.195.40.188]) by
- epsnrtp3.localdomain (Postfix) with ESMTP id 46QPJG0HvrzMqYkV; Sat,  7 Sep
- 2019 06:13:50 +0000 (GMT)
-X-AuditID: b6c32a46-fedff70000001035-5a-5d734a9d573f
-Received: from epcas2p1.samsung.com ( [182.195.41.53]) by
- epsmges2p2.samsung.com (Symantec Messaging Gateway) with SMTP id
- 6B.F8.04149.D9A437D5; Sat,  7 Sep 2019 15:13:49 +0900 (KST)
-Mime-Version: 1.0
-Subject: Re: [PATCHv2] nvme: Assign subsy instance from first ctrl
-From: Minwoo Im <minwoo.im@samsung.com>
-To: Keith Busch <kbusch@kernel.org>, Minwoo Im <minwoo.im@samsung.com>
-X-Priority: 3
-X-Content-Kind-Code: NORMAL
-In-Reply-To: <20190905163354.25139-1-kbusch@kernel.org>
-X-Drm-Type: N,general
-X-Msg-Generator: Mail
-X-Msg-Type: PERSONAL
-X-Reply-Demand: N
-Message-ID: <20190907061349epcms2p76a7cba4689b2ff2bd5a65640f5529605@epcms2p7>
-Date: Sat, 07 Sep 2019 15:13:49 +0900
-X-CMS-MailID: 20190907061349epcms2p76a7cba4689b2ff2bd5a65640f5529605
-X-Sendblock-Type: AUTO_CONFIDENTIAL
-CMS-TYPE: 102P
-X-Brightmail-Tracker: H4sIAAAAAAAAA02TfUgUaRzHe3bG2VGbmDazXwa1TEVXZO0u7jpZRmQnk5ckRP9cmTe4DyrO
- 7k4za5TBJUlZ9kIGxt1e5dJtSRqJ24uL28uxWQvVJdgZrNFWkAZaSmUvx1XejqPUfx++fJ/n
- +/s+LzRh6qAy6Aq3FytuUeKoFPLqrcX2zFMFarGl/cxKfuzaHYr3v7pO8edbbxv445FHiH/Y
- eZLim871G/nAvijFN0e/GviBe38R/MWhEXJNijDQO4CEhtpho9AdbyeFYMtBSrgU2COEYzWU
- 8Ka/jxSOXm5BQtvlXlJ4F5xblPKztKoci06smLG71OOscJflcj9tKskrsTss1kzrCj6bM7tF
- F87l1m0oysyvkBLTcuYdolSVkIpEVeWWr16leKq82FzuUb25HJadkmy1ystU0aVWucuWlXpc
- OVaLxWZPOH+Ryp/4D1FyF73zw+h7Qw0ao+pRMg1sFoQf9pP1KIU2sSEEv9/oNtYjmmbY6fAl
- NEPzzGDXwp+HjyZpsomdB58GLbq8GIbD95M0pthFUNM4SGqcxubDgaefCG1Lgn1pgCMHIxNZ
- DPxW10/qPAc6mq8gjZPZbAifOD7hmQmx1tfGSR6504R0ToN98b8JnafDs3/DSJsHWID48God
- axF8ztMdhxG0txXonA3/PQ2Pj8mwhfD20ZBBs5PsQrgyquiWdRC9e3Y8lEgU7Hh9ktAsRKJh
- W+dyffP50NVH6o5pcODWF+NkpdDpFwad58ObSGRixNnQ3DM0UUmAax96xnUT+ytEfbfJY8js
- +3bIvu9yfd9y/YhoQelYVl1lWLXJtu/vNYjGH+2S/BAKPNgQQSyNuKkMn6cUm5LEHeouVwQB
- TXBpTFu7XGxinOKuaqx4SpQqCasRZE+0byAyZpZ6El/A7S2x2m0Oh2WFnbc7bDw3iwmmxraa
- 2DLRiysxlrEyuc5AJ2fUoC11OUJh6n5m/UWxxe6rrnuXGtgdM7Y27R0b2bTgx42nJEnpOrFt
- s7M7nhGK45ybS9N/6OrrUxd0Ev7qusbRwu3yP717Bl95Yg6LUPtH5QPvc8fd65sLwj3pj/kL
- AfBkBT+nq/KUtcnUhUZ29kd/Gm6sFBqiTNbc6vP3O/MwR6rlonUJoaji/+Pv3vXKAwAA
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20190905163547epcas5p185b3455e7f33cff005c48a0f25745bab
-References: <20190905163354.25139-1-kbusch@kernel.org>
- <CGME20190905163547epcas5p185b3455e7f33cff005c48a0f25745bab@epcms2p7>
+ id 1i6fJ9-00032J-EB
+ for linux-nvme@lists.infradead.org; Sat, 07 Sep 2019 18:19:37 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1567880375; x=1599416375;
+ h=from:to:subject:date:message-id:references:
+ content-transfer-encoding:mime-version;
+ bh=jeUPPlsk1roi7pXzNyYNHvjs64pP2G8YPJ3tr7qh04o=;
+ b=EDPm/pNEcXw03hcSU5sMrAPaWMGsKJ8nhUIZLmdOOClgzt3bIRnYEiUo
+ jO8xdD3DmImhz6+D38NtrtbrO28Js/9EU+QLsn2ux7U+9FC+gUJOBM7se
+ G7AcsD9OxH/CwET5ZJVLnTp/w+AYYpL9jh706Y1VyxoS+0x1eMRXQCGF9
+ PSxKHjHQ/vXT12Yy1Tts0B5LqjUF9W79GNjvsB9pYEykLgRyOQp2e9/Iu
+ 6Q678k12df5bJ6D08Nqu+UEpvRzg6Hr+r9uYo1CCec8XVLUBEHODXHuSX
+ 1yVR4zoA/smsJF2eVhkuMN99hjxdezs7snNMKfvS4T6rj4rcPVIy7IUxu g==;
+IronPort-SDR: InlaL53MzF3uCAG9WtCNcBZWjq/Dk2fMbdcDYRuZEFp2Q/kJw6Wac2J7VsDhGGxe3yo+AOcpWf
+ hRYqHRBeqefTtEHD93r7mNF3UooJPGB43yr9Grp4jLTs+gialR97ZpABM0/+u6n6FchaE5qeBS
+ 4ht/wOdVf28HyGRdyOjxaA2r7L9b5YmYXJW/gSWkl3f+LuS3lWNSmuGRH0DVWr9Yn7choFJ+Ji
+ tMgFTAOhzFqi+hSOgkHqbkOfr+LjeMykqWlfE050KUQNQ/3GUO6ePzor36VcBgr+ggE+77iyZk
+ q6w=
+X-IronPort-AV: E=Sophos;i="5.64,478,1559491200"; d="scan'208";a="122310913"
+Received: from mail-co1nam03lp2053.outbound.protection.outlook.com (HELO
+ NAM03-CO1-obe.outbound.protection.outlook.com) ([104.47.40.53])
+ by ob1.hgst.iphmx.com with ESMTP; 08 Sep 2019 02:19:28 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eFsBS/FIlSheso7XyoC9DGSG42mCHZTYveJvDo8C91ABX8DqTRNUynwg/uC7y+euOHwmPqATItLCHjJ1Rmo35+9ZqkwZzuLg6lQdui05d4M2B7CM+E4Gk0vV7Zl9eYpxpTTKfC1S5k9wU+b3u/W/v83AqZkr28O080vcEfA/Hc926PGtuyapWFNIyiybBgocDZjdrj5rWsd0S8mKUIsSuCcRh7KGqgFdTUZPvUYHooDZllGacxMYOVzqnQqvZMgvah6ZP3+yaTwn9i23TwYmHv60m553p6A8fzNcsPbcY4fM8fm42CxjRUg53n4Iahuhhn1V8E3ugb4Ygz5JV8v2TQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oHfKOUQro8jgPq/LQoM8wnyLahSclTo3CK3OCt50oKc=;
+ b=A4ksj4uYn3DBxQVRUJ4K6d+2HUo9IKC0IS+Vwj+2Ei11ictB4nbK+pHodDgAZQtAfsXziTQCZhKjpe+TGb33c+CNUWxynPHkkX6q+IyCd9rFqEyv8mMOUnrFY6J3UCoTFx5KCf/4NlPkPE9c95aURxhULsngQkyueNLd6HLuIm4y2I1hNbo2nxm4kzO3iqH554fFCivsgRo+uD05hRbWAFjkzahU1Vbkr0sDstDENZLTc7lg655KHoUfkwauE4CoVSl0ZMX8t3sup+xrKCEgD6V9NeZTw/XvBrNau0/1SD9lX5bIJGiKRPLM818P1HeCAJCirKfrM8SJkPS3PBlpow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oHfKOUQro8jgPq/LQoM8wnyLahSclTo3CK3OCt50oKc=;
+ b=v08h+9rQazt1aeY4cTcaPHaEMKkQcXjV4Z0MT1G5aHrz37XfbwnwWLE/7VBO7BFaWu4R2+wxUnYN/k4TAb+L5pyso5yokid+yuAQEveK9Gqm5zUd5cGE5TgbFfQofRN1WKol6nS/MEQJJVAq+6GDmt/gwd0Vni1jDPyiRR23TK0=
+Received: from BYAPR04MB5749.namprd04.prod.outlook.com (20.179.58.26) by
+ BYAPR04MB5639.namprd04.prod.outlook.com (20.179.56.149) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2241.15; Sat, 7 Sep 2019 18:19:27 +0000
+Received: from BYAPR04MB5749.namprd04.prod.outlook.com
+ ([fe80::6169:680:44fc:965d]) by BYAPR04MB5749.namprd04.prod.outlook.com
+ ([fe80::6169:680:44fc:965d%6]) with mapi id 15.20.2241.018; Sat, 7 Sep 2019
+ 18:19:27 +0000
+From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+To: Logan Gunthorpe <logang@deltatee.com>, "linux-block@vger.kernel.org"
+ <linux-block@vger.kernel.org>, "linux-nvme@lists.infradead.org"
+ <linux-nvme@lists.infradead.org>, Omar Sandoval <osandov@fb.com>
+Subject: Re: [PATCH blktests] nvme/031: Add test to check controller deletion
+ after setup
+Thread-Topic: [PATCH blktests] nvme/031: Add test to check controller deletion
+ after setup
+Thread-Index: AQHVZBGFOhLove2B20W3iAzHm6F5Cg==
+Date: Sat, 7 Sep 2019 18:19:27 +0000
+Message-ID: <BYAPR04MB5749A3E9B06514AF589FE13B86B50@BYAPR04MB5749.namprd04.prod.outlook.com>
+References: <20190905174347.30886-1-logang@deltatee.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Chaitanya.Kulkarni@wdc.com; 
+x-originating-ip: [199.255.45.62]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 7a78056d-4edd-431b-1078-08d733bfeb26
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
+ SRVR:BYAPR04MB5639; 
+x-ms-traffictypediagnostic: BYAPR04MB5639:
+x-ms-exchange-purlcount: 1
+x-microsoft-antispam-prvs: <BYAPR04MB56393D079216B0BBA724249F86B50@BYAPR04MB5639.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:2512;
+x-forefront-prvs: 0153A8321A
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(4636009)(39860400002)(366004)(136003)(376002)(346002)(396003)(199004)(189003)(14454004)(53936002)(229853002)(71200400001)(33656002)(25786009)(71190400001)(478600001)(476003)(186003)(6306002)(966005)(2201001)(486006)(7736002)(81166006)(305945005)(81156014)(74316002)(76176011)(2906002)(6436002)(52536014)(55016002)(8676002)(64756008)(6246003)(110136005)(256004)(5660300002)(66556008)(316002)(66946007)(66446008)(2501003)(8936002)(66476007)(9686003)(14444005)(3846002)(6506007)(86362001)(76116006)(53546011)(446003)(6116002)(99286004)(7696005)(26005)(66066001)(102836004);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:BYAPR04MB5639;
+ H:BYAPR04MB5749.namprd04.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: omMe5ZxokF4eXjbStNhhOHJnvdIgPonoPQHXkehn5WNBJt5mr4xIzaEiW80HbU4aPY1xpcKhj4Gs5UJutD70MkQOJ+K9Hzv3mRqF3xUyOFYg+gPWfabT+XggOw0iXts5+M2o9v20c5MpIo7MMf4o4LPoRX7fLM6xLOWvQbJ+47gCsxVVjvh23tJw3EbYenMIkQMGTX2tVHf05yfN56NDpNqIfLmn1LjKfzfcRmIoIj3BNDshRMOy0xK+iW1K7/cxSSeiPRmyHo2hIi5oo/DHJZ6Fbzf3vsw+R3WguWDaRercJdEd1nFlUaPYH2PkC/k8W0Q8ci07gd73x6hA48t68hp83UUcJvylkDK2xoeweNRikhegrw6SGx/5tuqKOBzfMYUWgZ8NbZOKKVLTOZGjOj8jeuNC0Z2MGsys68ui24w=
+x-ms-exchange-transport-forked: True
+MIME-Version: 1.0
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7a78056d-4edd-431b-1078-08d733bfeb26
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Sep 2019 18:19:27.0256 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: PRSqn20pNVXyH0MvRArWBzk4XuZZFK3uQ6mLyvWkvuY9MZviyzKyoVraO4oQJyjaQBqkGlSVzKW9qscNl26uuk5TjuuKxaO7ys1LzUpf6wc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB5639
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190906_231400_455834_60930BFA 
-X-CRM114-Status: GOOD (  15.37  )
+X-CRM114-CacheID: sfid-20190907_111935_498741_936B4E2D 
+X-CRM114-Status: GOOD (  15.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,45 +146,116 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: minwoo.im@samsung.com
-Cc: Hannes Reinecke <hare@suse.com>, Sagi Grimberg <sagi@grimberg.me>,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Jens Axboe <axboe@fb.com>, Logan Gunthorpe <logang@deltatee.com>,
- Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> Subject: [PATCHv2] nvme: Assign subsy instance from first ctrl
+On 09/05/2019 10:44 AM, Logan Gunthorpe wrote:
+> A number of bug fixes have been submitted to the kernel to
+> fix bugs when a controller is removed immediately after it is
+> set up. This new test ensures this doesn't regress.
+>
+> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+>
+> ---
+>
+> This is reallly just a resend. The patches this tests for are all in
+> 5.3-rc7 or earlier and it passes on said kernel version.
+>
+> I've rebased this patch onto the latest blktests as of today with no
+> changes required.
+>
+> Thanks,
+>
+> Logan
+>
+>   tests/nvme/031     | 55 ++++++++++++++++++++++++++++++++++++++++++++++
+>   tests/nvme/031.out |  2 ++
+>   2 files changed, 57 insertions(+)
+>   create mode 100755 tests/nvme/031
+>   create mode 100644 tests/nvme/031.out
+>
+> diff --git a/tests/nvme/031 b/tests/nvme/031
+> new file mode 100755
+> index 000000000000..16390dcb380e
+> --- /dev/null
+> +++ b/tests/nvme/031
+> @@ -0,0 +1,55 @@
+> +#!/bin/bash
+> +# SPDX-License-Identifier: GPL-3.0+
+> +# Copyright (C) 2019 Logan Gunthorpe
+> +#
+> +# Regression test for the following patches:
+> +#    nvme: fix controller removal race with scan work
+> +#    nvme: fix regression upon hot device removal and insertion
+> +#    nvme-core: Fix extra device_put() call on error path
+> +#    nvmet-loop: Flush nvme_delete_wq when removing the port
+> +#    nvmet: Fix use-after-free bug when a port is removed
+> +#
+> +# All these patches fix issues related to deleting a controller
+> +# immediately after setting it up.
+> +
+> +. tests/nvme/rc
+> +
+> +DESCRIPTION="test deletion of NVMeOF controllers immediately after setup"
+> +QUICK=1
+> +
+> +requires() {
+> +	_have_program nvme &&
+> +	_have_modules loop nvme-loop nvmet &&
+> +	_have_configfs
+> +}
+> +
+> +test() {
+> +	local subsys="blktests-subsystem-"
+> +	local iterations=10
+> +	local loop_dev
+> +	local port
+> +
+> +	echo "Running ${TEST_NAME}"
+> +
+> +	_setup_nvmet
+> +
+> +	truncate -s 1G "$TMPDIR/img"
+> +
+> +	local loop_dev
+Duplicate declaration of the local variable ?
 
-I'm not sure but, I have not seen 'subsy' thing before.  Maybe
-s/sybsy/subsys/ ?
+> +	loop_dev="$(losetup -f --show "$TMPDIR/img")"
+> +
+> +	port="$(_create_nvmet_port "loop")"
+> +
+> +	for ((i = 0; i < iterations; i++)); do
+> +		_create_nvmet_subsystem "${subsys}$i" "${loop_dev}"
+> +		_add_nvmet_subsys_to_port "${port}" "${subsys}$i"
+> +		nvme connect -t loop -n "${subsys}$i"
+> +		nvme disconnect -n "${subsys}$i" >> "${FULL}" 2>&1
+> +		_remove_nvmet_subsystem_from_port "${port}" "${subsys}$i"
+> +		_remove_nvmet_subsystem "${subsys}$i"
+> +	done
+> +
+> +	_remove_nvmet_port "${port}"
+> +
+> +	echo "Test complete"
+> +}
+> diff --git a/tests/nvme/031.out b/tests/nvme/031.out
+> new file mode 100644
+> index 000000000000..ae902bdd36d4
+> --- /dev/null
+> +++ b/tests/nvme/031.out
+> @@ -0,0 +1,2 @@
+> +Running nvme/031
+> +Test complete
+> --
+> 2.20.1
+>
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
+>
 
-> 
-> The namespace disk names must be unique for the lifetime of the
-> subsystem. This was accomplished by using their parent subsystems'
-> instances which were allocated independently from the controllers
-> connected to that subsystem. This allowed name prefixes assigned to
-> namespaces to match a controller from an unrelated subsystem, and has
-> created confusion among users examining device nodes.
-> 
-> Ensure a namespace's subsystem instance never clashes with a controller
-> instance of another subsystem by transferring the instance ownership
-> to the parent subsystem from the first controller discovered in that
-> subsystem.
-> 
-> Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
-> Signed-off-by: Keith Busch <kbusch@kernel.org>
-
-Keith, Thanks for this patch.  I really like this concept which can
-avoid from instance mistakes.
-
-Otherwise looks good to me.
-
-Reviewed-by: Minwoo Im <minwoo.im@samsung.com>
 
 _______________________________________________
 Linux-nvme mailing list
