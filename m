@@ -2,105 +2,80 @@ Return-Path: <SRS0=NvMH=XE=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95C87C433EF
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Sep 2019 07:00:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7E74C433EF
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Sep 2019 10:07:22 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5E92621479
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Sep 2019 07:00:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9B0AA21D7B
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Sep 2019 10:07:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="frOkonbV"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5E92621479
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="U2bHUHdC";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GRaSAzsj"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9B0AA21D7B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
-	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
-	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=3p2HMR1LtEhOcpeAwG2njuX/sfB2HcS05vZni2LzMzE=; b=frOkonbV2HVI1l
-	LbATImokxBy5a6nG8B13rhfrBYkNyRmsPz6WuUTlKKvHmuc0PVrNMRKR5HKA+x38lU96R5jUCP+RS
-	je+Q5Kr4maFLbtRyYYzmdZUR+rc6CH4gsYulWWSy0zFpon4MbbqG3zt9g3iN63avsfrS+ojy3yuXQ
-	IvmN8anELxK4K9mzHCobS+36xK4JHiqxfv37OUW+7drvvf/4lmysGxfUpe9iGguEyj6OH5veJYlam
-	Q8FxDUXOrLso7UrbzGSdnaAW0ukgMqv6aV0BaKlbn7Xtdb65Y1iqRFK8M34p8i898P6V0x3B/wvyB
-	3mYZPzQJRz0RHaE3y9KQ==;
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
+	MIME-Version:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+	References:List-Owner; bh=50DezHDUhMX892aXuWIV8ESD/j2s7Zq8tLYlYSRwCj4=; b=U2b
+	HUHdCct5EDTTloRa7BG4AtsV2IENdxzoAEuhTqvyYPu4pqh2+FS4GvIydfS8IRNSboCF37Pa0Tz80
+	xXjW32Z+HYqK3r0e9fE0l/Hzu0j4UlVrq9mx0Lgel/N85R9GOqayHfJwtNZibIuFCBEPtaf88oUdA
+	sDcxf90ExGnsqk9repjQoc+wNKqs2iIY15IqUX6V+wXZMG7upchjFnErbqolYOhxk+Nw2tXGcWDGC
+	Wm7/GDnR+7yA8nJW1RbD8bKi5hZwHAwQOiT4nndvY8X9qt8gaPRtOOMkJFxt4QskO823D3cmZFYGu
+	gZQRkPaVehCSYClCalKZ8mePuT9Gurg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92 #3 (Red Hat Linux))
-	id 1i7Dee-0003u7-08; Mon, 09 Sep 2019 07:00:04 +0000
-Received: from mx2.suse.de ([195.135.220.15] helo=mx1.suse.de)
+	id 1i7GZk-0000Gg-IW; Mon, 09 Sep 2019 10:07:12 +0000
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c])
  by bombadil.infradead.org with esmtps (Exim 4.92 #3 (Red Hat Linux))
- id 1i7DeZ-0003bq-TL
- for linux-nvme@lists.infradead.org; Mon, 09 Sep 2019 07:00:01 +0000
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id 9EB0BAFFC;
- Mon,  9 Sep 2019 06:59:58 +0000 (UTC)
-Subject: Re: [PATCH v9 7/9] nvme: pass status to nvme_error_status
-To: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-References: <20190829220645.5480-1-sagi@grimberg.me>
- <20190829220645.5480-8-sagi@grimberg.me>
-From: Hannes Reinecke <hare@suse.de>
-Openpgp: preference=signencrypt
-Autocrypt: addr=hare@suse.de; prefer-encrypt=mutual; keydata=
- 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
- azzYF4VRJsdl+d0MCaSy8mUh
-Message-ID: <d00e9aea-c21a-1e43-9f38-4963bf21ae75@suse.de>
-Date: Mon, 9 Sep 2019 08:59:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ id 1i7GZh-0000G1-T6
+ for linux-nvme@lists.infradead.org; Mon, 09 Sep 2019 10:07:11 +0000
+Received: by mail-ed1-x52c.google.com with SMTP id c19so12359060edy.10
+ for <linux-nvme@lists.infradead.org>; Mon, 09 Sep 2019 03:07:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=yF+S3f5L3R+X5oSnjKjqvnh/FJveZwN7QE+x+DbGsMw=;
+ b=GRaSAzsjJqL+ErJzVxgW+UqsTbgRs0oN7aEir3UtYAHB/g2VyZFDswAp5xnYUuJ6mb
+ 929dRnIxSWg0F55w+s2/CH8zAtRjvOGx/vFQAoIVLY/8oJ3CCuI2Km6P4HRgr9V0JSMb
+ eMqu+2E6Vb6xWdB76oMKZ4gKNRtC7Qtp/Ps3fniyZrpYBJemG6az6FhIxMp9/OAEEghy
+ onZ5LuZPSDl0pOAxpRftGQ1+xNvGPnlsnGYMlATw5KE1tdKnzZ35kmHQLSeeHTUMS4LD
+ CEfrJ33cso/MvkXcrmDIRVMg242uboXKX+i9yObntbucrlcK0HX/QkTcyHtWm7NWRzIq
+ x/ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=yF+S3f5L3R+X5oSnjKjqvnh/FJveZwN7QE+x+DbGsMw=;
+ b=OKCyCLRIIa8r0w7NOpW0I1JgV/Ge1hUw3IuMhkwVyJpg8exVqTAh/nSX+CmFRkQlke
+ M99VJbauVj0R7BUVASKVNXz0KMTjPgRds1mCkeyVySO2MIUOt1tGTO5xz3mh3EJlkE2C
+ h5o0TyReqqbODbCRziUY5Z5dHzmzMQSIjGcleX0R4JGJvi1jhporWBEIR/Ha+bBWO5bw
+ 5ylhDJvFRaaMqHKmm/1s5TQyACP4G4l5LaChYjAfXwvvdGszjNqXW2cdE39w+t8SY0WZ
+ XGyJGqz0Nfric9LTRJsdQ0A/cGNa8Ax22Rj5oAmD7NPupeyPyCeqVBy2C4PEG42+j7nl
+ s8/Q==
+X-Gm-Message-State: APjAAAUGmKFoIEpQz8q3FNUGP4355+BhDlN9KJrNsArMI4Hg/ZgYW4SG
+ gzulIDPewBXpKlafZyn8FC5dOHq5Eq6DvTxTLGcPBPoaMf8=
+X-Google-Smtp-Source: APXvYqw5f76fwxYwneIFoZaCLVKPQPbVRkdRiP74QKR7pMI20mqP5RsVXl89iZznq+jM/5TCtcok6/E+BGc5Pl/OR7w=
+X-Received: by 2002:a05:6402:1426:: with SMTP id
+ c6mr6950609edx.53.1568023627102; 
+ Mon, 09 Sep 2019 03:07:07 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190829220645.5480-8-sagi@grimberg.me>
-Content-Language: en-US
+From: Szymon Scharmach <szymon.scharmach@gmail.com>
+Date: Mon, 9 Sep 2019 12:06:30 +0200
+Message-ID: <CAKFbMv8u9w7jKB9tux1+4+8xQWdRpA4Y1kArrt6rCX1L0H76sA@mail.gmail.com>
+Subject: "nvme disconnect" for mounted volumes - stuck thread
+To: linux-nvme@lists.infradead.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190909_000000_234921_5CD6D602 
-X-CRM114-Status: GOOD (  18.27  )
+X-CRM114-CacheID: sfid-20190909_030709_959916_4F59B2CC 
+X-CRM114-Status: UNSURE (   7.62  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,38 +87,37 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <keith.busch@intel.com>, Christoph Hellwig <hch@lst.de>,
- James Smart <james.smart@broadcom.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gOC8zMC8xOSAxMjowNiBBTSwgU2FnaSBHcmltYmVyZyB3cm90ZToKPiBObyBuZWVkIGZvciB0
-aGUgZnVsbCBibG93biByZXF1ZXN0IHN0cnVjdHVyZS4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBTYWdp
-IEdyaW1iZXJnIDxzYWdpQGdyaW1iZXJnLm1lPgo+IC0tLQo+ICBkcml2ZXJzL252bWUvaG9zdC9j
-b3JlLmMgfCA2ICsrKy0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAzIGRl
-bGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL252bWUvaG9zdC9jb3JlLmMgYi9k
-cml2ZXJzL252bWUvaG9zdC9jb3JlLmMKPiBpbmRleCAwOTE2YzBlOGQ1NzIuLjhmMDg4MWRlYzkw
-NyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL252bWUvaG9zdC9jb3JlLmMKPiArKysgYi9kcml2ZXJz
-L252bWUvaG9zdC9jb3JlLmMKPiBAQCAtMTk3LDkgKzE5Nyw5IEBAIHN0YXRpYyBpbmxpbmUgYm9v
-bCBudm1lX25zX2hhc19waShzdHJ1Y3QgbnZtZV9ucyAqbnMpCj4gIAlyZXR1cm4gbnMtPnBpX3R5
-cGUgJiYgbnMtPm1zID09IHNpemVvZihzdHJ1Y3QgdDEwX3BpX3R1cGxlKTsKPiAgfQo+ICAKPiAt
-c3RhdGljIGJsa19zdGF0dXNfdCBudm1lX2Vycm9yX3N0YXR1cyhzdHJ1Y3QgcmVxdWVzdCAqcmVx
-KQo+ICtzdGF0aWMgYmxrX3N0YXR1c190IG52bWVfZXJyb3Jfc3RhdHVzKHUxNiBzdGF0dXMpCj4g
-IHsKPiAtCXN3aXRjaCAobnZtZV9yZXEocmVxKS0+c3RhdHVzICYgMHg3ZmYpIHsKPiArCXN3aXRj
-aCAoc3RhdHVzICYgMHg3ZmYpIHsKPiAgCWNhc2UgTlZNRV9TQ19TVUNDRVNTOgo+ICAJCXJldHVy
-biBCTEtfU1RTX09LOwo+ICAJY2FzZSBOVk1FX1NDX0NBUF9FWENFRURFRDoKPiBAQCAtMjYyLDcg
-KzI2Miw3IEBAIHN0YXRpYyB2b2lkIG52bWVfcmV0cnlfcmVxKHN0cnVjdCByZXF1ZXN0ICpyZXEp
-Cj4gIAo+ICB2b2lkIG52bWVfY29tcGxldGVfcnEoc3RydWN0IHJlcXVlc3QgKnJlcSkKPiAgewo+
-IC0JYmxrX3N0YXR1c190IHN0YXR1cyA9IG52bWVfZXJyb3Jfc3RhdHVzKHJlcSk7Cj4gKwlibGtf
-c3RhdHVzX3Qgc3RhdHVzID0gbnZtZV9lcnJvcl9zdGF0dXMobnZtZV9yZXEocmVxKS0+c3RhdHVz
-KTsKPiAgCj4gIAl0cmFjZV9udm1lX2NvbXBsZXRlX3JxKHJlcSk7Cj4gIAo+IApSZXZpZXdlZC1i
-eTogSGFubmVzIFJlaW5lY2tlIDxoYXJlQHN1c2UuY29tPgoKQ2hlZXJzLAoKSGFubmVzCi0tIApE
-ci4gSGFubmVzIFJlaW5lY2tlCQkgICAgICBUZWFtbGVhZCBTdG9yYWdlICYgTmV0d29ya2luZwpo
-YXJlQHN1c2UuZGUJCQkgICAgICAgICAgICAgICAgICArNDkgOTExIDc0MDUzIDY4OApTVVNFIFNv
-ZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgsIE1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJu
-YmVyZwpIUkIgMjQ3MTY1IChBRyBNw7xuY2hlbiksIEdGOiBGZWxpeCBJbWVuZMO2cmZmZXIKCl9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LW52bWUg
-bWFpbGluZyBsaXN0CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMu
-aW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
+Hi,
+
+In the deployment scenario i am using we use around 200 NvmeOF volumes
+that are being connected to different initiators and after data have
+been saved - reconnected to different ones.
+nvme cli allows to disconnect volumes that are either mounted or
+umount is in progress which leads threads to end up in uninterruptible
+sleep. (D state)
+
+root      69368  0.0  0.0   6704   640 ?        D    09:29   0:00 nvme
+disconnect --nqn=pvc-4f6b7502-cb08-11e9-a2bf-3cfdfeb878d0
+root      69375  0.0  0.0   5920   900 ?        D    09:29   0:00
+umount /var/lib/origin/openshift.local.volumes/pods/4f6caee2-cb08-11e9-a2bf-3cfdfe-b878d0/
+volumes/kubernetes.io~csi/pvc-4f6b7502-cb08-11e9-a2bf-3c
+
+Those threads are stuck in D forever and whole block stack on the node
+becomes unusable.
+Is it the responsibility of nvme-cli or kernel module (nvme_fabrics
+AFAIK) to block 'disconnect' in that case - or is it expected behavior
+(nvme disconnect with force flag maybe) ?
+
+
+BR\
+Szymon Scharmach
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
