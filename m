@@ -2,136 +2,60 @@ Return-Path: <SRS0=M8F8=XG=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F098AECDE27
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Sep 2019 09:12:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19045C5ACAE
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Sep 2019 15:23:38 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C37E2206A1
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Sep 2019 09:12:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E35F3207FC
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Sep 2019 15:23:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="RFyjBNDe";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=Mellanox.com header.i=@Mellanox.com header.b="RFLi5C4f"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C37E2206A1
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="OQwYPkAv"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E35F3207FC
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=O/mJeJpWkvBNM6SlZTghd9z2W1gbTKXUwZUos9Ys2y8=; b=RFyjBNDe07QgTHiIKVci0va17
-	SJ0CVqpMX5V7hQtT0gPzuNBIqIjwzP4HfNLGw64Gj5w1zVwh3vgjtmmcmuZbxEqePdwnJ6QueIBXQ
-	lHio5L9juJWXCCzEDisOHJfPcfbySoc8qKMok6yIsciPDnYtTlWJAoxcsQdFqp7RS0MqnBwLc0mb4
-	0TFtze/EEDnlf6RSgfjpV6twhDASRZ5GJZvPAH7hXslrPimDYrnFrFlE4OAQVj/eDC1kr1iBNC40t
-	cFDluGJbKimRBeGXiXfKR1qQPXMa1RM1zf+oajs5yTlyn0iE82R+RvqDHCdCN36otZ64N5+nlaSXN
-	kQNVGxubA==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Cc:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+	References:List-Owner; bh=ia7VfJhirIwIJ3WGGY0DRKBoaEWYHgWw5w6x8j+e/GQ=; b=OQw
+	YPkAvTOMLEw8LiZhQCJ87AdfyOmUCZtMzafkND3RYNNtezurixjQY87dlxlJ7hae2KRhGYg6XRcFy
+	GVGQ3W051gr3yfNtUXdi2ccSXq9Jv9QnUPKb4SxtFKvZ6mrP7VFLJ9Kbv1Ym52MCWiUIVrr//WY+G
+	eAMSewrHGHqvmR2eGK7VLn8EzFrU+1SC68pKt4671AM26Xw7xktWTQ0NOTf7kPE+YIXqtc776Sxa8
+	xFH+rv94Ehwxj0kn/4M+PXLKd8pjXt2BibjhOM8KoLASNE30I3xQvEVSN6RAUasJp+SaWlr4guvel
+	ZHUqc78lsjOU7TodiOc9p1NNZmQVO6w==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtp (Exim 4.92 #3 (Red Hat Linux))
-	id 1i7yfj-0006gv-LB; Wed, 11 Sep 2019 09:12:19 +0000
-Received: from mail-eopbgr140043.outbound.protection.outlook.com
- ([40.107.14.43] helo=EUR01-VE1-obe.outbound.protection.outlook.com)
- by bombadil.infradead.org with esmtps (Exim 4.92 #3 (Red Hat Linux))
- id 1i7yff-0006gM-DB
- for linux-nvme@lists.infradead.org; Wed, 11 Sep 2019 09:12:17 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FCWbemChoGSVWwA4p2nHqYJrB6JCW4QVYfLAPasttONEeLW/dKCYywKGgaWKwyZejOzYDbGv3FA2JOjaHV3Npeem1elOeiJse/xAKX7X8f4zGhmYbAdjOeveRtXhpIVTpREQ5OyOOeQnd4/ilZG3+9vkpA7PvZoAJErvn1Z5H2X5Bp0/PdnL7UmL4o1cdKwt9nv6GFOQXs+n3VAEoCncU/KpBeAJvCxRGzlrp8G1mqTbOoHzRshNgrXltsJYaDen6TySozwRnRupIIDGMHCSsaV83SUm/GyWIVnFvKidIc5d9bE9kT1HTjtYEeZino/D7xu2XQKBRgF9SnBjEVgu+w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ubbXKUd1bdbtHqW2UB1mLwwKZ7ch1HiuZJdOsQU+tco=;
- b=V7K/9y1Hv3JvjEu4Zu0fS/IWCCZEUIuUyLzdS1s4KlJWdfxtq1x0LZ0cDyWXdkmonISuLI023dwCalRWvzftKvUctvxybxErIjmk+HZRxD5VyK3PgOLX4fYAxByAtIdn/bkDyASboSOuEdXg7RmioORuEtOwic5Ulgi7kpuO6Qwh2nvkTDuL3a93CrYX+8oLQsbceha1ZQV8/HVrPhUQG33BFQsG5zEBvfKFEsTyUmo2vat5qJYEaWwqmL+bSkZkEg++Ag/cWCebrWyFmYjxLLBU33v6w8WYGq+IxVPBGbMw4T529rZMaQSdW2p9c+hjL1iAi82Ull47g/bN9cHEDA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 193.47.165.251) smtp.rcpttodomain=lst.de smtp.mailfrom=mellanox.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=mellanox.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ubbXKUd1bdbtHqW2UB1mLwwKZ7ch1HiuZJdOsQU+tco=;
- b=RFLi5C4fob6+X27WH2EpiBTgEXXezkKm2jrmMiA2A0F5MwXJaVgGmYmxHaWovq2gFjn0F9sRokODFhCWmeoet6ZKj4emQIwkh/M/w4Fr6clNHb1CepumntQ1A8eV1YOZseLFgVTM/qBVm/j/vKIw3FjRJcnqwGL2t4MEX1z3ecs=
-Received: from AM3PR05CA0116.eurprd05.prod.outlook.com (2603:10a6:207:2::18)
- by VI1PR05MB4382.eurprd05.prod.outlook.com (2603:10a6:803:42::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2241.13; Wed, 11 Sep
- 2019 09:12:11 +0000
-Received: from AM5EUR03FT043.eop-EUR03.prod.protection.outlook.com
- (2a01:111:f400:7e08::203) by AM3PR05CA0116.outlook.office365.com
- (2603:10a6:207:2::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2263.15 via Frontend
- Transport; Wed, 11 Sep 2019 09:12:11 +0000
-Authentication-Results: spf=pass (sender IP is 193.47.165.251)
- smtp.mailfrom=mellanox.com; lst.de; dkim=none (message not signed)
- header.d=none;lst.de; dmarc=pass action=none header.from=mellanox.com;
-Received-SPF: Pass (protection.outlook.com: domain of mellanox.com designates
- 193.47.165.251 as permitted sender)
- receiver=protection.outlook.com; 
- client-ip=193.47.165.251; helo=mtlcas13.mtl.com;
-Received: from mtlcas13.mtl.com (193.47.165.251) by
- AM5EUR03FT043.mail.protection.outlook.com (10.152.17.43) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.2263.14 via Frontend Transport; Wed, 11 Sep 2019 09:12:10 +0000
-Received: from MTLCAS13.mtl.com (10.0.8.78) by mtlcas13.mtl.com (10.0.8.78)
- with Microsoft SMTP Server (TLS) id 15.0.1178.4; Wed, 11 Sep 2019 12:12:10
- +0300
-Received: from MTLCAS01.mtl.com (10.0.8.71) by MTLCAS13.mtl.com (10.0.8.78)
- with Microsoft SMTP Server (TLS) id 15.0.1178.4 via Frontend Transport; Wed,
- 11 Sep 2019 12:12:10 +0300
-Received: from [10.223.0.54] (10.223.0.54) by MTLCAS01.mtl.com (10.0.8.71)
- with Microsoft SMTP Server (TLS) id 14.3.468.0; Wed, 11 Sep 2019 12:12:08
- +0300
-Subject: Re: [PATCH v4 1/3] block: centralize PI remapping logic to the block
- layer
-To: "Martin K. Petersen" <martin.petersen@oracle.com>
-References: <1567956405-5585-1-git-send-email-maxg@mellanox.com>
- <yq1mufei4zk.fsf@oracle.com>
- <d6cfe6e5-508a-f01c-267d-c8009fafc571@mellanox.com>
- <yq1d0g8hoj5.fsf@oracle.com>
- <61ab22ba-6f2d-3dbd-3991-693426db1133@mellanox.com>
- <yq1k1affx8v.fsf@oracle.com>
+	by bombadil.infradead.org with esmtp (Exim 4.92.2 #3 (Red Hat Linux))
+	id 1i84Sw-0003RQ-CM; Wed, 11 Sep 2019 15:23:30 +0000
+Received: from mail-il-dmz.mellanox.com ([193.47.165.129] helo=mellanox.co.il)
+ by bombadil.infradead.org with esmtp (Exim 4.92.2 #3 (Red Hat Linux))
+ id 1i84Ss-0003PI-M9
+ for linux-nvme@lists.infradead.org; Wed, 11 Sep 2019 15:23:28 +0000
+Received: from Internal Mail-Server by MTLPINE1 (envelope-from
+ maxg@mellanox.com)
+ with ESMTPS (AES256-SHA encrypted); 11 Sep 2019 18:23:17 +0300
+Received: from r-vnc12.mtr.labs.mlnx (r-vnc12.mtr.labs.mlnx [10.208.0.12])
+ by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id x8BFNHrb031358;
+ Wed, 11 Sep 2019 18:23:17 +0300
 From: Max Gurtovoy <maxg@mellanox.com>
-Message-ID: <e59b2d78-4cf6-971a-1926-7969140d2a01@mellanox.com>
-Date: Wed, 11 Sep 2019 12:12:08 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <yq1k1affx8v.fsf@oracle.com>
-Content-Language: en-US
-X-Originating-IP: [10.223.0.54]
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:193.47.165.251; IPV:NLI; CTRY:IL; EFV:NLI;
- SFV:NSPM;
- SFS:(10009020)(4636009)(346002)(396003)(136003)(39860400002)(376002)(199004)(189003)(53936002)(106002)(36906005)(11346002)(229853002)(230700001)(81166006)(305945005)(26005)(76176011)(58126008)(16576012)(7736002)(2906002)(316002)(6916009)(53546011)(31696002)(54906003)(31686004)(86362001)(14444005)(65956001)(8676002)(47776003)(50466002)(23676004)(16526019)(356004)(65806001)(3846002)(6116002)(8936002)(4326008)(5660300002)(476003)(126002)(446003)(70206006)(2486003)(70586007)(478600001)(81156014)(336012)(486006)(186003)(6246003)(2616005)(36756003)(3940600001);
- DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR05MB4382; H:mtlcas13.mtl.com; FPR:;
- SPF:Pass; LANG:en; PTR:InfoDomainNonexistent; A:1; MX:1; 
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3969b29d-2644-4af2-4bd8-08d7369820e9
-X-Microsoft-Antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(4709080)(1401327)(4618075)(2017052603328)(7193020);
- SRVR:VI1PR05MB4382; 
-X-MS-TrafficTypeDiagnostic: VI1PR05MB4382:
-X-Microsoft-Antispam-PRVS: <VI1PR05MB4382751AEBA632DA8A0BF869B6B10@VI1PR05MB4382.eurprd05.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-Forefront-PRVS: 0157DEB61B
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Message-Info: lmaJxtS6W/E8XBXZFRwl049tgq8gpxgWqNY37WhB1367g5gYSUpFPMnRbFQflPMUxl1ipumXFwZw4hSPz2pdU8vG/xPo436lhyjbtjbFWAbuQJKkCsZYVC4e1cGmxeYs43ajYPHeT6cIdMUZ6i2jEDkpoq330RkrhlwKKyDETfakV/la01Y+B0GEyWzbdH4R7zCDQ3EyVbHVifq7DYvlibYsvQTleienygqk68GVGhDSKYRzB5/djbpbRLMX0SFNKA5XsY0yCpyqFwCUF8sLRmR4bDSgeY3ygf9+29bsd8/dsPdAFcdQKptVRQPQ70xITyiKGxJHtEwPck6sQGF5qNCioI4qUM6P3MWNXYD2dkRc7pDex/c+gCKuC/W+B4ghO/AqUGqenY4fLJKjZPKfINVuF5T+7gUyC3KmLtDkiO4=
-X-OriginatorOrg: Mellanox.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2019 09:12:10.8591 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3969b29d-2644-4af2-4bd8-08d7369820e9
-X-MS-Exchange-CrossTenant-Id: a652971c-7d2e-4d9b-a6a4-d149256f461b
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a652971c-7d2e-4d9b-a6a4-d149256f461b; Ip=[193.47.165.251];
- Helo=[mtlcas13.mtl.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR05MB4382
+To: linux-block@vger.kernel.org, axboe@kernel.dk, martin.petersen@oracle.com, 
+ linux-nvme@lists.infradead.org, keith.busch@intel.com, hch@lst.de,
+ sagi@grimberg.me
+Subject: [PATCH v5 1/2] block: use symbolic constants for t10_pi type
+Date: Wed, 11 Sep 2019 18:23:16 +0300
+Message-Id: <1568215397-15496-1-git-send-email-maxg@mellanox.com>
+X-Mailer: git-send-email 1.7.1
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190911_021215_703459_C14AA17C 
-X-CRM114-Status: GOOD (  12.01  )
+X-CRM114-CacheID: sfid-20190911_082327_118557_C96E9F37 
+X-CRM114-Status: UNSURE (   7.41  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,40 +67,123 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: axboe@kernel.dk, linux-block@vger.kernel.org, sagi@grimberg.me,
- israelr@mellanox.com, linux-nvme@lists.infradead.org, keith.busch@intel.com,
- shlomin@mellanox.com, hch@lst.de
+Cc: Max Gurtovoy <maxg@mellanox.com>, shlomin@mellanox.com,
+ israelr@mellanox.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Signed-off-by: Max Gurtovoy <maxg@mellanox.com>
+---
+ block/t10-pi.c | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
-On 9/11/2019 4:16 AM, Martin K. Petersen wrote:
-> Max,
->
->> I guess Type 1 and Type 3 mirrors can work because Type 3 doesn't have
->> a ref tag, right ?
-> It will work but you'll lose ref tag checking on the Type 3 side of the
-> mirror. So not exactly desirable. And in our experience, the ref tag is
-> hugely important.
->
-> Also, there are probably some headaches lurking in the slightly
-> different app/ref tag escape handling if you mix the two
-> formats. Whereas Type 1 and 2 are 100% identical in behavior if you use
-> the LBA as the ref tag.
->
->>> Anyway. So my take on all this is that the T10-DIF-TYPE1-CRC profile is
->>> "it" and everything else is legacy.
->> do you see any reason to support the broken type 3 ?
-> Only to support existing installations. We can't really remove it
-> without the risk of breaking something for somebody out there.
-
-what about broken type 3 in the NVMe spec ?
-
-I don't really know what is broken there but maybe we can avoid 
-supporting it for NVMe until it's fixed.
-
+diff --git a/block/t10-pi.c b/block/t10-pi.c
+index 0c00946..7fed587 100644
+--- a/block/t10-pi.c
++++ b/block/t10-pi.c
+@@ -27,7 +27,7 @@ static __be16 t10_pi_ip_fn(void *data, unsigned int len)
+  * tag.
+  */
+ static blk_status_t t10_pi_generate(struct blk_integrity_iter *iter,
+-		csum_fn *fn, unsigned int type)
++		csum_fn *fn, enum t10_dif_type type)
+ {
+ 	unsigned int i;
+ 
+@@ -37,7 +37,7 @@ static blk_status_t t10_pi_generate(struct blk_integrity_iter *iter,
+ 		pi->guard_tag = fn(iter->data_buf, iter->interval);
+ 		pi->app_tag = 0;
+ 
+-		if (type == 1)
++		if (type == T10_PI_TYPE1_PROTECTION)
+ 			pi->ref_tag = cpu_to_be32(lower_32_bits(iter->seed));
+ 		else
+ 			pi->ref_tag = 0;
+@@ -51,7 +51,7 @@ static blk_status_t t10_pi_generate(struct blk_integrity_iter *iter,
+ }
+ 
+ static blk_status_t t10_pi_verify(struct blk_integrity_iter *iter,
+-		csum_fn *fn, unsigned int type)
++		csum_fn *fn, enum t10_dif_type type)
+ {
+ 	unsigned int i;
+ 
+@@ -60,8 +60,8 @@ static blk_status_t t10_pi_verify(struct blk_integrity_iter *iter,
+ 		__be16 csum;
+ 
+ 		switch (type) {
+-		case 1:
+-		case 2:
++		case T10_PI_TYPE1_PROTECTION:
++		case T10_PI_TYPE2_PROTECTION:
+ 			if (pi->app_tag == T10_PI_APP_ESCAPE)
+ 				goto next;
+ 
+@@ -74,7 +74,7 @@ static blk_status_t t10_pi_verify(struct blk_integrity_iter *iter,
+ 				return BLK_STS_PROTECTION;
+ 			}
+ 			break;
+-		case 3:
++		case T10_PI_TYPE3_PROTECTION:
+ 			if (pi->app_tag == T10_PI_APP_ESCAPE &&
+ 			    pi->ref_tag == T10_PI_REF_ESCAPE)
+ 				goto next;
+@@ -102,42 +102,42 @@ static blk_status_t t10_pi_verify(struct blk_integrity_iter *iter,
+ 
+ static blk_status_t t10_pi_type1_generate_crc(struct blk_integrity_iter *iter)
+ {
+-	return t10_pi_generate(iter, t10_pi_crc_fn, 1);
++	return t10_pi_generate(iter, t10_pi_crc_fn, T10_PI_TYPE1_PROTECTION);
+ }
+ 
+ static blk_status_t t10_pi_type1_generate_ip(struct blk_integrity_iter *iter)
+ {
+-	return t10_pi_generate(iter, t10_pi_ip_fn, 1);
++	return t10_pi_generate(iter, t10_pi_ip_fn, T10_PI_TYPE1_PROTECTION);
+ }
+ 
+ static blk_status_t t10_pi_type1_verify_crc(struct blk_integrity_iter *iter)
+ {
+-	return t10_pi_verify(iter, t10_pi_crc_fn, 1);
++	return t10_pi_verify(iter, t10_pi_crc_fn, T10_PI_TYPE1_PROTECTION);
+ }
+ 
+ static blk_status_t t10_pi_type1_verify_ip(struct blk_integrity_iter *iter)
+ {
+-	return t10_pi_verify(iter, t10_pi_ip_fn, 1);
++	return t10_pi_verify(iter, t10_pi_ip_fn, T10_PI_TYPE1_PROTECTION);
+ }
+ 
+ static blk_status_t t10_pi_type3_generate_crc(struct blk_integrity_iter *iter)
+ {
+-	return t10_pi_generate(iter, t10_pi_crc_fn, 3);
++	return t10_pi_generate(iter, t10_pi_crc_fn, T10_PI_TYPE3_PROTECTION);
+ }
+ 
+ static blk_status_t t10_pi_type3_generate_ip(struct blk_integrity_iter *iter)
+ {
+-	return t10_pi_generate(iter, t10_pi_ip_fn, 3);
++	return t10_pi_generate(iter, t10_pi_ip_fn, T10_PI_TYPE3_PROTECTION);
+ }
+ 
+ static blk_status_t t10_pi_type3_verify_crc(struct blk_integrity_iter *iter)
+ {
+-	return t10_pi_verify(iter, t10_pi_crc_fn, 3);
++	return t10_pi_verify(iter, t10_pi_crc_fn, T10_PI_TYPE3_PROTECTION);
+ }
+ 
+ static blk_status_t t10_pi_type3_verify_ip(struct blk_integrity_iter *iter)
+ {
+-	return t10_pi_verify(iter, t10_pi_ip_fn, 3);
++	return t10_pi_verify(iter, t10_pi_ip_fn, T10_PI_TYPE3_PROTECTION);
+ }
+ 
+ const struct blk_integrity_profile t10_pi_type1_crc = {
+-- 
+1.8.3.1
 
 
 _______________________________________________
