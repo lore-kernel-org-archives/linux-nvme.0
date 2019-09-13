@@ -1,95 +1,74 @@
-Return-Path: <SRS0=lXTb=XH=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=imtT=XI=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2754C4CEC5
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Sep 2019 17:20:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD891C4CEC7
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Sep 2019 02:45:03 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9097A20640
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Sep 2019 17:20:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8E02F20692
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Sep 2019 02:45:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="XEc5wGug";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel-dk.20150623.gappssmtp.com header.i=@kernel-dk.20150623.gappssmtp.com header.b="B/9+9cuq"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9097A20640
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Dhf41UkJ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8E02F20692
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=amzn.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
-	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
-	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=3iK/atYbFgi9GUKjw5DSEdpya4gt49UBDiA54L8eux8=; b=XEc5wGugXbzuMp
-	pp5DKIMig9ZUecu4Zy+tc0QU1C7xN8B6LQiD/4jUVKdKvVdlEQyKmegctltm8aAtJA4G9Cj6RrYUb
-	2f0bf9JOVNGKOilNctPWAKCO2H8u0ctJkGZmxTOmFssEo9z0tIZydGyIcMUCNLNai22DpLTMnd0x3
-	YpQcB0iZqd/T5hiboQqEe8cXFROAWq7OgBv4zGus5dIqtdDvbQeUJ0UjsguZMiKL7EJnHW5SA+K2Q
-	JgFrUMe/S1lmiBPaEgQ8gSt1ncdhp4NWi/nTvYTvIP6JWhgGHJq3tnl89Ry5iYO5QVofKCPcoyLhf
-	l0wer0FeA8rWxw+cMD+Q==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:To
+	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=26Sa8MIkyZQJ0Myfirl1ObsWOURSW1+PGBwMGfeEREY=; b=Dhf41UkJ5BwFGu
+	a9i4HvCxTC4Aq6ruzgX0oPvWbxTM3PKa26sBaP5kLGMsd2+DHRP4XYAnFy+B4TqZ69UmlbHQMpoii
+	LPoqM/yD4Z2SmUy4Afd110CTKkvk93fU1KENG4/o3gzqQ1m8SV2ILq3P46di0f0kEe8OREgYipOvN
+	fbNQrIbaMPgZasak8iB0bYjD4g8Jqi5sBcAmQpCwEyqQANxxszYP6ZkRKLyQSJ3B8po9D4tSN8KuC
+	RmIdO0s0ZzwGR04cuoYNcYvYjTEMdLkIDbyRxQMLpykAVvJhiorGA+00NkbHmFOw69ChUzbXIenT5
+	7dvFQiaeMlPeqxGx4oeA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.2 #3 (Red Hat Linux))
-	id 1i8Sm0-0003cP-KU; Thu, 12 Sep 2019 17:20:48 +0000
-Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35])
+	id 1i8bZu-0002Tl-SE; Fri, 13 Sep 2019 02:44:55 +0000
+Received: from smtp-fw-6001.amazon.com ([52.95.48.154])
  by bombadil.infradead.org with esmtps (Exim 4.92.2 #3 (Red Hat Linux))
- id 1i8Sly-0003bn-1n
- for linux-nvme@lists.infradead.org; Thu, 12 Sep 2019 17:20:47 +0000
-Received: by mail-io1-xd35.google.com with SMTP id r8so31645749iol.10
- for <linux-nvme@lists.infradead.org>; Thu, 12 Sep 2019 10:20:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=LfDDG1yPuXvqWqb0gH52F3FjqH4jap+10Padj/ieipI=;
- b=B/9+9cuqZGLD3Vtugi5f2NQ/MaQhy+eQHvFLFqAACT3HI+d6J8mU+JVNsbaa6wfecZ
- fqAGGe9Nuu46CEJzrwfmgQEC2SlvwAHlCLDNTjjTGyJiTiozRquCy/nUsTL5J55/6/cX
- 4+xtXSLLzrckIg2xJ2F623vHBtNhrddjhn7RcQRcGJyBoNDwuOLQGkTDEy9keNX1Amod
- 4cPOgo7MddK+U/qD/TnSOGUB7tkocdgvpw1EzuAs4TG86zzCmQuyc2TdZjXmMxQb5vbQ
- 73lw8vHkOAdazk2cwDmBcdTYBpX8lAuXIR79C5HIqlin58C6jsDL1D3SA5k/k04fwTGv
- BCOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=LfDDG1yPuXvqWqb0gH52F3FjqH4jap+10Padj/ieipI=;
- b=MZ4rNXxKpSN/SJkSM9SYUFUAKV1J3QW3jaiRl/F+ifbQrpC3ZJfi8DfcZbBUYWnFhk
- P5XTKdlKRKJ3m3r22qBc0pvrlUqdMB0TrOX5aSbqY6J0vjSZjQpGk9YeDGCredwNufmZ
- iMora26UyrGKSOZGPfZXLPFjWMIsTIvJ4rsvs59MCwF5zkbjb2UQpC5YpDS5t8xRjCu8
- P9kJPO8/eWDwBErRN8VZcrK05TKTH8PrmC50nNN42aPRVUanejNVUJJLzDnKkKnMZ2s4
- tlEKZN4zQGmeJ9h1O2MuCmqsCLMxIVips4e7egHWzWPPtCYDd3wIZxiLAGP1vBoFYcP1
- 3Y6Q==
-X-Gm-Message-State: APjAAAWwKWoD7eVtqrdfDilcdlchZET9tPLdEXBwKCVLQl9P3drtA3PX
- Y4fefRYXCA9SybnFdYSuXBYmqg==
-X-Google-Smtp-Source: APXvYqwqg3S/10FiraOdZzfZuwSW85lEHXjS7ReQ3aSr1HSPhYxfVqv+BvscIl/xNEXkqLNfd17BCQ==
-X-Received: by 2002:a5d:9a01:: with SMTP id s1mr5943898iol.255.1568308843836; 
- Thu, 12 Sep 2019 10:20:43 -0700 (PDT)
-Received: from [192.168.1.50] ([65.144.74.34])
- by smtp.gmail.com with ESMTPSA id n15sm18674391ioa.70.2019.09.12.10.20.42
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 12 Sep 2019 10:20:42 -0700 (PDT)
-Subject: Re: [GIT PULL] second round of nvme updates for 5.4
-To: Sagi Grimberg <sagi@grimberg.me>
-References: <20190912164151.7788-1-sagi@grimberg.me>
-From: Jens Axboe <axboe@kernel.dk>
-Message-ID: <19027784-22ec-e479-b963-ae6b1c93fdd0@kernel.dk>
-Date: Thu, 12 Sep 2019 11:20:41 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ id 1i8bZq-0002Sy-1y
+ for linux-nvme@lists.infradead.org; Fri, 13 Sep 2019 02:44:53 +0000
+X-IronPort-AV: E=Sophos;i="5.64,499,1559520000"; d="scan'208";a="415032740"
+Received: from iad6-co-svc-p1-lb1-vlan3.amazon.com (HELO
+ email-inbound-relay-2a-538b0bfb.us-west-2.amazon.com) ([10.124.125.6])
+ by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP;
+ 13 Sep 2019 02:44:37 +0000
+Received: from EX13MTAUEA001.ant.amazon.com
+ (pdx4-ws-svc-p6-lb7-vlan3.pdx.amazon.com [10.170.41.166])
+ by email-inbound-relay-2a-538b0bfb.us-west-2.amazon.com (Postfix) with ESMTPS
+ id 1BA42A1D31; Fri, 13 Sep 2019 02:44:39 +0000 (UTC)
+Received: from EX13D05UEE001.ant.amazon.com (10.43.62.120) by
+ EX13MTAUEA001.ant.amazon.com (10.43.61.82) with Microsoft SMTP Server (TLS)
+ id 15.0.1367.3; Fri, 13 Sep 2019 02:44:38 +0000
+Received: from EX13MTAUEE001.ant.amazon.com (10.43.62.200) by
+ EX13D05UEE001.ant.amazon.com (10.43.62.120) with Microsoft SMTP Server (TLS)
+ id 15.0.1367.3; Fri, 13 Sep 2019 02:44:38 +0000
+Received: from localhost (172.23.204.141) by mail-relay.amazon.com
+ (10.43.62.226) with Microsoft SMTP Server id 15.0.1367.3 via Frontend
+ Transport; Fri, 13 Sep 2019 02:44:38 +0000
+From: Balbir Singh <sblbir@amzn.com>
+To: <linux-nvme@lists.infradead.org>
+Subject: [PATCH 1/2] nvme/host/pci: Fix a race in controller removal
+Date: Fri, 13 Sep 2019 02:44:31 +0000
+Message-ID: <20190913024432.7705-1-sblbir@amzn.com>
+X-Mailer: git-send-email 2.16.5
 MIME-Version: 1.0
-In-Reply-To: <20190912164151.7788-1-sagi@grimberg.me>
-Content-Language: en-US
+Precedence: Bulk
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190912_102046_237438_3127D9E8 
-X-CRM114-Status: GOOD (  12.59  )
+X-CRM114-CacheID: sfid-20190912_194450_222255_6B55FC10 
+X-CRM114-Status: GOOD (  12.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <linux-nvme.lists.infradead.org>
 List-Unsubscribe: <http://lists.infradead.org/mailman/options/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=unsubscribe>
@@ -98,29 +77,71 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-block@vger.kernel.org, Keith Busch <keith.busch@intel.com>,
- Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org, axboe@fb.com, Balbir Singh <sblbir@amzn.com>, hch@lst.de,
+ sagi@grimberg.me
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/12/19 10:41 AM, Sagi Grimberg wrote:
-> Hey Jens,
-> 
-> This is the second batch of nvme updates for 5.4.
-> 
-> Highlights includes:
-> - controller reset and namespace scan races fixes
-> - nvme discovery log change uevent support
-> - naming improvements from Keith
-> - multiple discovery controllers reject fix from James
-> - some regular cleanups from various people
+This race is hard to hit in general, now that we
+have the shutdown_lock in both nvme_reset_work() and
+nvme_dev_disable()
 
-Thanks Sagi, pulled.
+The real issue is that after doing all the setup work
+in nvme_reset_work(), when get another timeout (nvme_timeout()),
+then we proceed to disable the controller. This causes
+the reset work to only partially progress and then fail.
 
+Depending on the progress made, we call into
+nvme_remove_dead_ctrl(), which does another
+nvme_dev_disable() freezing the block-mq queues.
+
+I've noticed a race with udevd with udevd trying to re-read
+the partition table, it ends up with the bd_mutex held and
+it ends up waiting in blk_queue_enter(), since we froze
+the queues in nvme_dev_disable(). nvme_kill_queues() calls
+revalidate_disk() and ends up waiting on the bd_mutex
+resulting in a deadlock.
+
+Allow the hung tasks a chance by unfreezing the queues after
+setting dying bits on the queue, then call revalidate_disk()
+to update the disk size.
+
+NOTE: I've seen this race when the controller does not
+respond to IOs or abort requests, but responds to other
+commands and even signals it's ready after its reset,
+but still drops IO. I've tested this by emulating the
+behaviour in the driver.
+
+Signed-off-by: Balbir Singh <sblbir@amzn.com>
+---
+ drivers/nvme/host/core.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index b45f82d58be8..45b96c6ac2d5 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -103,10 +103,15 @@ static void nvme_set_queue_dying(struct nvme_ns *ns)
+ 	 */
+ 	if (!ns->disk || test_and_set_bit(NVME_NS_DEAD, &ns->flags))
+ 		return;
+-	revalidate_disk(ns->disk);
+ 	blk_set_queue_dying(ns->queue);
++	/*
++	 * Allow any pending udevd commands to be unblocked
++	 * so that revalidate_disk can then get bd_mutex
++	 */
++	blk_mq_unfreeze_queue(ns->queue);
+ 	/* Forcibly unquiesce queues to avoid blocking dispatch */
+ 	blk_mq_unquiesce_queue(ns->queue);
++	revalidate_disk(ns->disk);
+ }
+ 
+ static void nvme_queue_scan(struct nvme_ctrl *ctrl)
 -- 
-Jens Axboe
+2.16.5
 
 
 _______________________________________________
