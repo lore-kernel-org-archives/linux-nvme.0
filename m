@@ -2,108 +2,99 @@ Return-Path: <SRS0=imtT=XI=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED autolearn=no autolearn_force=no
+X-Spam-Status: No, score=0.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_ADSP_ALL,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3BADC49ED7
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Sep 2019 22:31:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF0C6C49ED7
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Sep 2019 22:46:50 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6D82820692
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Sep 2019 22:31:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A4A462089F
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Sep 2019 22:46:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="dXukCFUp";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="HXUJIqd/"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6D82820692
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="JkqVyNu3";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="GaP0t8Wm"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A4A462089F
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=amazon.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:In-Reply-To:
-	Date:References:From:Subject:To:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:
+	References:Message-ID:Date:Subject:To:From:Reply-To:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ab3boBK1sIvAMnmBxGr1Q869IzgClTh58+t6IXWs1yc=; b=dXukCFUpcPqDny
-	II63QXba2C5IOgWIQgSctrWHq2M91CEn8nFEYwcXep5/tcD2aAniousnEcHb0Ro5cFtpABo1baqte
-	SfRWhjhUIiU5eLFUld9H63/0RFkqlrqD2qMF2aYIuT015vuLZrHJKBgMyWsECZgknkP88TtrALukF
-	7TKyyxUpXkSx+v9XXDfUW2SOzMiAQWUYHtKAvvWy4hHrVcZeo8zMqWrE2aDhnK/SDztKCGcOPNaFc
-	puN1En8PqcugAwfziB49RyQ/lM/pZRqOsljMgfUpCeR4WEmof6ALw/5+a9/3yDAZEGu0trbXH7lt1
-	QlyAq4k7hDz6tuPrHayg==;
+	List-Owner; bh=qlBWGM30cBlLFWMIAbh7aJxX0HgQJB/BfEC0zj0m2mw=; b=JkqVyNu3dhnhKM
+	jYC5pU1SRIbZxk7Scizf+sWI5MjGSNbFP6DI6oeklzlgAeG/CrZvDUqHsElEUtm7NByH8sHQdH4Zi
+	RcfHRx45uP65dvzuZ9OYL0c/PvkxN2ImBjvNA+/0gBToRxDezKE56X6Bk4lv4zGeNcHF3eYhlkWw0
+	pGZbDw2FFVkiFc7U9lQE2rMa1o2O4SRa1lgSo8IYc8sNVvWl6INs7YlzTKVOSTWgwJ64TqvO77poT
+	3nJHMHgm7pd/cfECBhNEHwmX7p4OdQxDTwAfSQw53HbbnRIW51puOK9jMV9FXClDHtJF4w3bfq54e
+	BzuQvyv1np1WuNI4FHhQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.2 #3 (Red Hat Linux))
-	id 1i8u6Q-0002LW-Bw; Fri, 13 Sep 2019 22:31:42 +0000
-Received: from userp2120.oracle.com ([156.151.31.85])
+	id 1i8uL1-0007B2-Hf; Fri, 13 Sep 2019 22:46:47 +0000
+Received: from smtp-fw-6002.amazon.com ([52.95.49.90])
  by bombadil.infradead.org with esmtps (Exim 4.92.2 #3 (Red Hat Linux))
- id 1i8u6N-0002LC-C9
- for linux-nvme@lists.infradead.org; Fri, 13 Sep 2019 22:31:40 +0000
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x8DMTb46002552;
- Fri, 13 Sep 2019 22:31:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=to : cc : subject :
- from : references : date : in-reply-to : message-id : mime-version :
- content-type; s=corp-2019-08-05;
- bh=AytNg7Y7pX8v7DSd9Lm6chkJVbM/QLIa9/YYRNsXJpY=;
- b=HXUJIqd/1NrjT8MwU8LQ9nuvE/iikC+T8GG/0eoU1QhIia/SdtoMiSGv0TBTmF4Yqo37
- BvenJ1K37tiLXbY8OYto/rYPRQgaX/gMmQHwy5ki7AzQ7L0oacS8CkNtcC+ZXj9eYLYH
- IS+YWk11+T/4RLParSq/IBl+iIC2Ebjq9X9b+6ZJo2uypqkiiPvmkqXcHU2ADurjqAs9
- 8k3lJDj++5bwvP+p1mNzUSakzXtVgAcl+f4FgBl5AgVl8Dfd1XEczC1El7iMVNZqbseG
- dwsnK9HS0yJmHMpDuoFxAZpSZJL7Cl42n/94Zq0gj9hj8UVl1vgZv9+b4yBCJi6AeKVm uQ== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2120.oracle.com with ESMTP id 2uytd379ck-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 13 Sep 2019 22:31:31 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x8DMSYct010694;
- Fri, 13 Sep 2019 22:31:30 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3030.oracle.com with ESMTP id 2uytdxc071-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 13 Sep 2019 22:31:30 +0000
-Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x8DMVT0m022663;
- Fri, 13 Sep 2019 22:31:29 GMT
-Received: from ca-mkp.ca.oracle.com (/10.159.214.123)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 13 Sep 2019 15:31:28 -0700
-To: Jens Axboe <axboe@kernel.dk>
-Subject: Re: [PATCH v5 2/2] block: centralize PI remapping logic to the block
- layer
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-Organization: Oracle Corporation
-References: <1568215397-15496-1-git-send-email-maxg@mellanox.com>
- <1568215397-15496-2-git-send-email-maxg@mellanox.com>
- <380932df-2119-ad86-8bb2-3eccb005c949@kernel.dk>
-Date: Fri, 13 Sep 2019 18:31:21 -0400
-In-Reply-To: <380932df-2119-ad86-8bb2-3eccb005c949@kernel.dk> (Jens Axboe's
- message of "Wed, 11 Sep 2019 16:01:11 -0600")
-Message-ID: <yq18sqrde12.fsf@oracle.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1.92 (gnu/linux)
+ id 1i8uKy-0007Ad-Is
+ for linux-nvme@lists.infradead.org; Fri, 13 Sep 2019 22:46:45 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+ t=1568414804; x=1599950804;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=TVVtncXAMkBiOHFTqBwDUwqEj/jm5yAWGH6HuwhcjhQ=;
+ b=GaP0t8WmrOvf9y2p33B1ruOCgoTgAhsQurol0cYuDJxXPvH2YeVkPb4k
+ hrO1bmVf83FAI0wuhN/wG5Dz3H1Y5/FdR8+B5VCMFAw+Z45adI9mu8iNd
+ C/4wH9uGugSB2ZIVqjacwoBFhiuduHk2oWqHCnFcS7+xS312XWBqOkvGY Q=;
+X-IronPort-AV: E=Sophos;i="5.64,501,1559520000"; d="scan'208";a="421091822"
+Received: from iad6-co-svc-p1-lb1-vlan3.amazon.com (HELO
+ email-inbound-relay-2c-168cbb73.us-west-2.amazon.com) ([10.124.125.6])
+ by smtp-border-fw-out-6002.iad6.amazon.com with ESMTP;
+ 13 Sep 2019 22:46:41 +0000
+Received: from EX13MTAUWB001.ant.amazon.com
+ (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
+ by email-inbound-relay-2c-168cbb73.us-west-2.amazon.com (Postfix) with ESMTPS
+ id 5A921A230A; Fri, 13 Sep 2019 22:46:41 +0000 (UTC)
+Received: from EX13D01UWB004.ant.amazon.com (10.43.161.157) by
+ EX13MTAUWB001.ant.amazon.com (10.43.161.207) with Microsoft SMTP Server (TLS)
+ id 15.0.1367.3; Fri, 13 Sep 2019 22:46:40 +0000
+Received: from EX13D01UWB002.ant.amazon.com (10.43.161.136) by
+ EX13d01UWB004.ant.amazon.com (10.43.161.157) with Microsoft SMTP Server (TLS)
+ id 15.0.1367.3; Fri, 13 Sep 2019 22:46:40 +0000
+Received: from EX13D01UWB002.ant.amazon.com ([10.43.161.136]) by
+ EX13d01UWB002.ant.amazon.com ([10.43.161.136]) with mapi id 15.00.1367.000;
+ Fri, 13 Sep 2019 22:46:40 +0000
+From: "Singh, Balbir" <sblbir@amazon.com>
+To: "kbusch@kernel.org" <kbusch@kernel.org>, "bvanassche@acm.org"
+ <bvanassche@acm.org>, "sblbir@amzn.com" <sblbir@amzn.com>
+Subject: Re: [PATCH 1/2] nvme/host/pci: Fix a race in controller removal
+Thread-Topic: [PATCH 1/2] nvme/host/pci: Fix a race in controller removal
+Thread-Index: AQHVad0weaqtoCO2e0WbgGM6z7w9W6cptIiAgABjv4CAAAuugIAABdUAgAAMsAA=
+Date: Fri, 13 Sep 2019 22:46:40 +0000
+Message-ID: <082c6d54bfb05cab364821094a089d5f0f92f643.camel@amazon.com>
+References: <20190913024432.7705-1-sblbir@amzn.com>
+ <20190913150132.GB17139@keith-busch>
+ <3cf02675ea58f3e3b91f23f63e53f1d2010fadf9.camel@amazon.com>
+ <ad85a4ac-7b88-a855-abe2-6fab85c703a8@acm.org>
+ <9feca2b1c52a960451b24c2f1d2239e7875101e3.camel@amazon.com>
+In-Reply-To: <9feca2b1c52a960451b24c2f1d2239e7875101e3.camel@amazon.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.43.162.189]
+Content-ID: <BE767E0EB80F914F8A0F0BA520C58443@amazon.com>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9379
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=815
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1908290000 definitions=main-1909130220
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9379
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=902 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1908290000
- definitions=main-1909130220
+Precedence: Bulk
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190913_153139_546802_B5A3F904 
-X-CRM114-Status: GOOD (  13.71  )
+X-CRM114-CacheID: sfid-20190913_154644_756439_F8498A73 
+X-CRM114-Status: GOOD (  13.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <linux-nvme.lists.infradead.org>
 List-Unsubscribe: <http://lists.infradead.org/mailman/options/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=unsubscribe>
@@ -112,26 +103,42 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: keith.busch@intel.com, sagi@grimberg.me, martin.petersen@oracle.com,
- israelr@mellanox.com, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, shlomin@mellanox.com,
- Max Gurtovoy <maxg@mellanox.com>, hch@lst.de
+Cc: "axboe@fb.com" <axboe@fb.com>, "hch@lst.de" <hch@lst.de>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "sagi@grimberg.me" <sagi@grimberg.me>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Sat, 2019-09-14 at 08:01 +1000, Balbir Singh wrote:
+> On Fri, 2019-09-13 at 14:40 -0700, Bart Van Assche wrote:
+> > On 9/13/19 1:58 PM, Singh, Balbir wrote:
+> > > The real issue is that by then udevd has already called into
+> > > blk_queue_enter()
+> > > and is waiting on wait_event(q->mq_freeze_wq,...), so we do need
+> > > to unfreeze
+> > > and wake_all waiting on the event.
+> > 
+> > I don't think that's correct. blk_set_queue_dying() wakes up 
+> > blk_queue_enter() and causes it to return -ENODEV.
+> > 
+> 
+> Fair enough.. I presume looking at the name, it was twiddling
+> bits. I am going to test with just the re-ordering and check.
+> 
 
-Jens,
+Upon further check, blk_set_queue_dying() tries to freeze the
+queue again, but then it does do an unconditional wakeup.
+I can confirm that just re-ordering seems to help and
+blk_set_queue_dying() seems to have the right bits.
 
-> While I like the idea of centralizing stuff like this, I'm also not
-> happy with adding checks like this to the fast path.
+Respinning for comments, thanks for the reviews Bart
+and Keith
 
-Yeah, but at least it's just checking a request queue flag.
+Balbir Singh.
 
--- 
-Martin K. Petersen	Oracle Linux Engineering
-
+> > Bart.
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
