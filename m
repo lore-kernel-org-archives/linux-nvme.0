@@ -7,66 +7,69 @@ X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B59B1C49ED7
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Sep 2019 23:36:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E791C49ED7
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Sep 2019 23:36:52 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7CE8720692
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Sep 2019 23:36:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D647A20692
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Sep 2019 23:36:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="G4ACKnYn"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7CE8720692
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Wr0vx4MK"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D647A20692
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=amzn.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:To
-	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=wQT9ttDfHoSWWRhyBYh+NbxiZzzNRayz/wDyicPDV3E=; b=G4ACKnYnqsDpx4
-	sINjXRsAR8qM7u6UxamIJBq3UBEhqKdI65154VGn7PR/oZIzd/WqY+nhaG6h6JTAuUu4y5Ga+JV8S
-	PMve4lCK99mejrBPVhouzLbyCTaekro99PJY3u6H3RI13dlroaRkWDOtMlPciX/Pv2IzIsVoXASU3
-	3tyXMCfFM8BdOQ5y8zUi3k5jvk4n8yeLIlnANbd3v14COokvsA9J2Amiw8VwZQ7BGyj4UnUWr9aCV
-	s120JQRRurLX3JSlC204htU7vE1IlmmhGOq1shK1umRQdD04GEqhwZ+goxTvOHB55tFwBdGcNRxfO
-	C9g2MTQ9nU4HIAxJFoqA==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-ID:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=qHGrErjsKoc1j2RhXDlHWKppw6knwmlrvaDGtm9qvjI=; b=Wr0vx4MKXoMoxk
+	ejp2s+BxHjXKGLzEHWYYspj2qGenW4AaJDogdrENuTAl8qnD2CycXjBe8vqP2uLzD1queOxGN9UnE
+	2BQUcM6zJyPmBPZdu6G93jFAPcGM7uVdiH48Gq659wXV0za0pRoNQEbMfb3Knd4PgD91acXrN5H+G
+	pmGUW/E0lZMC9wvhin7eFOjBEZ5XB0NryLRwsjeszObsCRv912KBk7p0WYAm62/ImFL1q0jH7Nrma
+	/S+LE80+Bz0q//ZrLCqe7jmPkOOPVDwSt0PsJJqOMxgR+KLAuo6p56e2qsw9I05iXmcJ4J6Y5XXts
+	Ek8h++xKpH7OXexTqDpA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.2 #3 (Red Hat Linux))
-	id 1i8v7M-00078W-GP; Fri, 13 Sep 2019 23:36:44 +0000
+	id 1i8v7R-0007D5-0L; Fri, 13 Sep 2019 23:36:49 +0000
 Received: from smtp-fw-2101.amazon.com ([72.21.196.25])
  by bombadil.infradead.org with esmtps (Exim 4.92.2 #3 (Red Hat Linux))
- id 1i8v7J-00077u-9X
- for linux-nvme@lists.infradead.org; Fri, 13 Sep 2019 23:36:42 +0000
-X-IronPort-AV: E=Sophos;i="5.64,501,1559520000"; d="scan'208";a="750670157"
+ id 1i8v7M-00077u-8P
+ for linux-nvme@lists.infradead.org; Fri, 13 Sep 2019 23:36:45 +0000
+X-IronPort-AV: E=Sophos;i="5.64,501,1559520000"; d="scan'208";a="750670160"
 Received: from iad6-co-svc-p1-lb1-vlan2.amazon.com (HELO
- email-inbound-relay-2b-c7131dcf.us-west-2.amazon.com) ([10.124.125.2])
+ email-inbound-relay-2b-c300ac87.us-west-2.amazon.com) ([10.124.125.2])
  by smtp-border-fw-out-2101.iad2.amazon.com with ESMTP;
- 13 Sep 2019 23:36:38 +0000
+ 13 Sep 2019 23:36:43 +0000
 Received: from EX13MTAUEA001.ant.amazon.com
  (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
- by email-inbound-relay-2b-c7131dcf.us-west-2.amazon.com (Postfix) with ESMTPS
- id 96964A1BF1; Fri, 13 Sep 2019 23:36:37 +0000 (UTC)
-Received: from EX13D15UEE001.ant.amazon.com (10.43.62.86) by
+ by email-inbound-relay-2b-c300ac87.us-west-2.amazon.com (Postfix) with ESMTPS
+ id C206AA18CB; Fri, 13 Sep 2019 23:36:42 +0000 (UTC)
+Received: from EX13D05UEE001.ant.amazon.com (10.43.62.120) by
  EX13MTAUEA001.ant.amazon.com (10.43.61.82) with Microsoft SMTP Server (TLS)
- id 15.0.1367.3; Fri, 13 Sep 2019 23:36:37 +0000
+ id 15.0.1367.3; Fri, 13 Sep 2019 23:36:42 +0000
 Received: from EX13MTAUEE001.ant.amazon.com (10.43.62.200) by
- EX13D15UEE001.ant.amazon.com (10.43.62.86) with Microsoft SMTP Server (TLS)
- id 15.0.1367.3; Fri, 13 Sep 2019 23:36:36 +0000
+ EX13D05UEE001.ant.amazon.com (10.43.62.120) with Microsoft SMTP Server (TLS)
+ id 15.0.1367.3; Fri, 13 Sep 2019 23:36:41 +0000
 Received: from localhost (172.23.204.141) by mail-relay.amazon.com
  (10.43.62.226) with Microsoft SMTP Server id 15.0.1367.3 via Frontend
- Transport; Fri, 13 Sep 2019 23:36:36 +0000
+ Transport; Fri, 13 Sep 2019 23:36:41 +0000
 From: Balbir Singh <sblbir@amzn.com>
 To: <linux-nvme@lists.infradead.org>
-Subject: [PATCH v2 1/2] nvme/host/pci: Fix a race in controller removal
-Date: Fri, 13 Sep 2019 23:36:30 +0000
-Message-ID: <20190913233631.15352-1-sblbir@amzn.com>
+Subject: [PATCH v2 2/2] nvme/host/core: Allow overriding of wait_ready timeout
+Date: Fri, 13 Sep 2019 23:36:31 +0000
+Message-ID: <20190913233631.15352-2-sblbir@amzn.com>
 X-Mailer: git-send-email 2.16.5
+In-Reply-To: <20190913233631.15352-1-sblbir@amzn.com>
+References: <20190913233631.15352-1-sblbir@amzn.com>
 MIME-Version: 1.0
 Precedence: Bulk
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190913_163641_461247_407DD7E1 
-X-CRM114-Status: GOOD (  13.82  )
+X-CRM114-CacheID: sfid-20190913_163644_423175_70C377A2 
+X-CRM114-Status: UNSURE (   8.59  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 List-Id: <linux-nvme.lists.infradead.org>
@@ -84,67 +87,58 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This race is hard to hit in general, now that we
-have the shutdown_lock in both nvme_reset_work() and
-nvme_dev_disable()
-
-The real issue is that after doing all the setup work
-in nvme_reset_work(), when get another timeout (nvme_timeout()),
-then we proceed to disable the controller. This causes
-the reset work to only partially progress and then fail.
-
-Depending on the progress made, we call into
-nvme_remove_dead_ctrl(), which does another
-nvme_dev_disable() freezing the block-mq queues.
-
-I've noticed a race with udevd with udevd trying to re-read
-the partition table, it ends up with the bd_mutex held and
-it ends up waiting in blk_queue_enter(), since we froze
-the queues in nvme_dev_disable(). nvme_kill_queues() calls
-revalidate_disk() and ends up waiting on the bd_mutex
-resulting in a deadlock.
-
-Allow the hung tasks a chance by unfreezing the queues after
-setting dying bits on the queue, then call revalidate_disk()
-to update the disk size.
-
-NOTE: I've seen this race when the controller does not
-respond to IOs or abort requests, but responds to other
-commands and even signals it's ready after its reset,
-but still drops IO. I've tested this by emulating the
-behaviour in the driver.
+Largely for debugging purposes where controllers with large
+timeouts get stuck during reset.
 
 Signed-off-by: Balbir Singh <sblbir@amzn.com>
 ---
 
 Changelog:
-- Rely on blk_set_queue_dying to do the wake_all()
+ - Remove EXPORT_SYMBOL_GPL for the nvme_wait_ready_timeout
 
- drivers/nvme/host/core.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 7 +++++++
+ drivers/nvme/host/nvme.h | 3 +++
+ 2 files changed, 10 insertions(+)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index b45f82d58be8..f6ddb58a7013 100644
+index f6ddb58a7013..b8676786c06a 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -103,10 +103,16 @@ static void nvme_set_queue_dying(struct nvme_ns *ns)
- 	 */
- 	if (!ns->disk || test_and_set_bit(NVME_NS_DEAD, &ns->flags))
- 		return;
--	revalidate_disk(ns->disk);
- 	blk_set_queue_dying(ns->queue);
- 	/* Forcibly unquiesce queues to avoid blocking dispatch */
- 	blk_mq_unquiesce_queue(ns->queue);
-+	/*
-+	 * revalidate_disk, after all pending IO is cleaned up
-+	 * by blk_set_queue_dying, largely any races with blk parittion
-+	 * reads that might come in after freezing the queues, otherwise
-+	 * we'll end up waiting up on bd_mutex, creating a deadlock.
-+	 */
-+	revalidate_disk(ns->disk);
- }
+@@ -40,6 +40,10 @@ module_param_named(io_timeout, nvme_io_timeout, uint, 0644);
+ MODULE_PARM_DESC(io_timeout, "timeout in seconds for I/O");
+ EXPORT_SYMBOL_GPL(nvme_io_timeout);
  
- static void nvme_queue_scan(struct nvme_ctrl *ctrl)
++unsigned int nvme_wait_ready_timeout = 0;
++module_param_named(wait_ready_timeout, nvme_wait_ready_timeout, uint, 0644);
++MODULE_PARM_DESC(wait_ready_timeout, "timeout in seconds for wait ready on reset");
++
+ static unsigned char shutdown_timeout = 5;
+ module_param(shutdown_timeout, byte, 0644);
+ MODULE_PARM_DESC(shutdown_timeout, "timeout in seconds for controller shutdown");
+@@ -1938,6 +1942,9 @@ static int nvme_wait_ready(struct nvme_ctrl *ctrl, u64 cap, bool enabled)
+ 	u32 csts, bit = enabled ? NVME_CSTS_RDY : 0;
+ 	int ret;
+ 
++	if (nvme_wait_ready_timeout)
++		timeout = NVME_WAIT_READY_TIMEOUT + jiffies;
++
+ 	while ((ret = ctrl->ops->reg_read32(ctrl, NVME_REG_CSTS, &csts)) == 0) {
+ 		if (csts == ~0)
+ 			return -ENODEV;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index b5013c101b35..c3caabc1f149 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -21,6 +21,9 @@
+ extern unsigned int nvme_io_timeout;
+ #define NVME_IO_TIMEOUT	(nvme_io_timeout * HZ)
+ 
++extern unsigned int nvme_wait_ready_timeout;
++#define NVME_WAIT_READY_TIMEOUT	(nvme_wait_ready_timeout * HZ)
++
+ extern unsigned int admin_timeout;
+ #define ADMIN_TIMEOUT	(admin_timeout * HZ)
+ 
 -- 
 2.16.5
 
