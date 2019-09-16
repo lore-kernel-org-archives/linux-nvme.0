@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-7.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB548C4CEC7
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Sep 2019 06:36:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3ACEC49ED7
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Sep 2019 06:57:52 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 97BEC20830
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Sep 2019 06:36:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 94CAB2067B
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Sep 2019 06:57:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="p8MKwcUH"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 97BEC20830
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="rOLZl6rR"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 94CAB2067B
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,48 +25,48 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Type:MIME-Version:References:Message-ID:Subject:To:From:Date:Reply-To
 	:Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=6Qxkp08YqCXX4+GwH+KMOwE9WmxfZ7O4DueKwc1S/P8=; b=p8MKwcUHnT6m/58lfm05DSpA0
-	z4+cMp1yhtFugILXR5aHlppl8WBeaeL6Rs1WWyTCyxFJY1KCzxEaeBbWuA//KvYOD7LJP50GEpaOc
-	3+rI1UeMG/U+rVEBO8cwdMUXseqkgzZKkbDxViBMJE92V8/h5vQSoJvLk6ecU9bGstWMcEGsOUCio
-	I8/tN0Z28JGU8bEnevVOHXJXjHCaUE57HpDKgiRMyd1TgjG3+qeioJ1h+iEQbFvjz0ZPl7CdwoeQb
-	usNrXFGHh72Tb5z29BT9T2VfQJVa027jt5Buq2RS6Gz3ayvD7stMrKDlSiEmvVkDqbA7rIl8O23fA
-	02L85hp3Q==;
+	 bh=4hKf5JgCiRRI0HOS7VRwM2toweqcMVX5K5JY7JIIb4E=; b=rOLZl6rR21dE4nF4vPhQmdxPO
+	Z6TVOm9FgWfr/2b02EW3QXje7rF1Y+j1beXCyR9SBKdMjsJS37c8ZJMG0c6D4iiDqIxnQHOOzIbIf
+	xbZSklXNj/vxOKXtYtBNIWNTMYF2/AO7vzdauR91bZAgaNTajK4n8xLbKxiVKE1EkxC71x2EvNcez
+	4SVTXsZhk8LdC7ZrGMDsb6TWTSt3Eo9/3WyWKrxcSuDDKVCT+ionHapjFaJb6TpoFIHB5n+bSpKJo
+	j6c/roSEP/V5792kTpGi/eANSF2nwBfPKI/K54ArbftSw+jK7RqKzIXbC2De3W2n2Mv1Fup3/t7+z
+	RMmnzvWfA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.2 #3 (Red Hat Linux))
-	id 1i9kcv-000366-FY; Mon, 16 Sep 2019 06:36:45 +0000
-Received: from mga05.intel.com ([192.55.52.43])
+	id 1i9kxJ-0003Wt-1L; Mon, 16 Sep 2019 06:57:49 +0000
+Received: from mga09.intel.com ([134.134.136.24])
  by bombadil.infradead.org with esmtps (Exim 4.92.2 #3 (Red Hat Linux))
- id 1i9kcq-00035f-OY
- for linux-nvme@lists.infradead.org; Mon, 16 Sep 2019 06:36:42 +0000
+ id 1i9kxG-0003WD-9j
+ for linux-nvme@lists.infradead.org; Mon, 16 Sep 2019 06:57:48 +0000
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2019 23:36:39 -0700
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2019 23:57:41 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.64,510,1559545200"; 
- d="gz'50?scan'50,208,50";a="216105634"
+ d="gz'50?scan'50,208,50";a="386110348"
 Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
- by fmsmga002.fm.intel.com with ESMTP; 15 Sep 2019 23:36:36 -0700
+ by fmsmga005.fm.intel.com with ESMTP; 15 Sep 2019 23:57:38 -0700
 Received: from kbuild by lkp-server01 with local (Exim 4.89)
  (envelope-from <lkp@intel.com>)
- id 1i9kcm-000Fiq-1X; Mon, 16 Sep 2019 14:36:36 +0800
-Date: Mon, 16 Sep 2019 14:36:31 +0800
+ id 1i9kx8-0006Gc-2S; Mon, 16 Sep 2019 14:57:38 +0800
+Date: Mon, 16 Sep 2019 14:57:08 +0800
 From: kbuild test robot <lkp@intel.com>
 To: Robert Baldyga <robert.baldyga@intel.com>
-Subject: Re: [PATCH 1/2] nvme: add API for sending admin commands by bdev
-Message-ID: <201909161438.IPyN145h%lkp@intel.com>
-References: <20190913111610.9958-2-robert.baldyga@intel.com>
+Subject: Re: [PATCH 2/2] nvme: add API for getting nsid by bdev
+Message-ID: <201909161414.wRn53neW%lkp@intel.com>
+References: <20190913111610.9958-3-robert.baldyga@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="muhszody2jyclasv"
+Content-Type: multipart/mixed; boundary="pogb2xwpo36cqnf6"
 Content-Disposition: inline
-In-Reply-To: <20190913111610.9958-2-robert.baldyga@intel.com>
+In-Reply-To: <20190913111610.9958-3-robert.baldyga@intel.com>
 X-Patchwork-Hint: ignore
 User-Agent: NeoMutt/20170113 (1.7.2)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190915_233640_844771_A4A6DDC1 
-X-CRM114-Status: UNSURE (   8.18  )
+X-CRM114-CacheID: sfid-20190915_235746_456036_3BC7D556 
+X-CRM114-Status: UNSURE (   7.94  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -87,15 +87,15 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
---muhszody2jyclasv
+--pogb2xwpo36cqnf6
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 Hi Robert,
 
-Thank you for the patch! Perhaps something to improve:
+I love your patch! Yet something to improve:
 
-[auto build test WARNING on linus/master]
+[auto build test ERROR on linus/master]
 [cannot apply to v5.3 next-20190915]
 [if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
 
@@ -111,31 +111,56 @@ reproduce:
 If you fix the issue, kindly add following tag
 Reported-by: kbuild test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from drivers/nvme/host/nvme.h:9:0,
-                    from drivers/nvme/host/fault_inject.c:9:
->> include/linux/nvme.h:1395:42: warning: 'struct block_device' declared inside parameter list will not be visible outside of this definition or declaration
-    int nvme_submit_admin_cmd_by_bdev(struct block_device *bdev,
-                                             ^~~~~~~~~~~~
+   In file included from include/linux/linkage.h:7:0,
+                    from include/linux/kernel.h:8,
+                    from include/asm-generic/bug.h:18,
+                    from arch/sparc/include/asm/bug.h:25,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:12,
+                    from arch/sparc/include/asm/current.h:15,
+                    from include/linux/sched.h:12,
+                    from include/linux/blkdev.h:5,
+                    from drivers/nvme/host/core.c:7:
+>> drivers/nvme/host/core.c:827:19: error: 'nvme_nsid_by_bdev' undeclared here (not in a function); did you mean 'nvme_get_nsid_by_bdev'?
+    EXPORT_SYMBOL_GPL(nvme_nsid_by_bdev);
+                      ^
+   include/linux/export.h:79:16: note: in definition of macro '___EXPORT_SYMBOL'
+     extern typeof(sym) sym;      \
+                   ^~~
+>> drivers/nvme/host/core.c:827:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+    EXPORT_SYMBOL_GPL(nvme_nsid_by_bdev);
+    ^~~~~~~~~~~~~~~~~
 
-vim +1395 include/linux/nvme.h
+vim +827 drivers/nvme/host/core.c
 
-  1394	
-> 1395	int nvme_submit_admin_cmd_by_bdev(struct block_device *bdev,
-  1396			struct nvme_command *c, void *buffer, unsigned int bufflen);
-  1397	
+   814	
+   815	int nvme_get_nsid_by_bdev(struct block_device *bdev, unsigned int *nsid)
+   816	{
+   817		struct nvme_ns *ns;
+   818	
+   819		if (!bdev && !nsid)
+   820			return -EINVAL;
+   821	
+   822		ns = bdev->bd_disk->private_data;
+   823		*nsid = ns->head->ns_id;
+   824	
+   825		return 0;
+   826	}
+ > 827	EXPORT_SYMBOL_GPL(nvme_nsid_by_bdev);
+   828	
 
 ---
 0-DAY kernel test infrastructure                Open Source Technology Center
 https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
 
---muhszody2jyclasv
+--pogb2xwpo36cqnf6
 Content-Type: application/gzip
 Content-Disposition: attachment; filename=".config.gz"
 Content-Transfer-Encoding: base64
 
-H4sICBkmf10AAy5jb25maWcAjFxbc+M2sn7Pr1BNXpKqk4kvM052T/kBJEEKEUlwAFCy/cJS
+H4sICGQuf10AAy5jb25maWcAjFxbc+M2sn7Pr1BNXpKqk4kvM052T/kBJEEKEUlwAFCy/cJS
 PJqJK7blleScnX9/usEbbqSnamtjft1o3Bp9AzQ//vDjgrye9k/b08P99vHx2+Lr7nl32J52
 nxdfHh53/7tI+KLkakETpt4Dc/7w/PrfX48v28P91YfFx/eX788Wq93hefe4iPfPXx6+vkLj
 h/3zDz/+AP/7EcCnF5Bz+Peia/PLI0r45ev9/eKnLI5/Xvz2/sP7M+CNeZmyrInjhskGKNff
@@ -1223,7 +1248,7 @@ jrrHyL9jysULRqPrEj2gP324HG/Go9EHwbYXufDX7xybIxUaiB4dlmFQkgyTCv2llqpAZdZd
 6PXHQtW64AeU9Iln2ioKt0ks7ml1VyF+Y/FpN/S2mNg4yfI2UcV1SjpJ2jZRlKpQdAhAXvnR
 Ti31qrgROf4PoSgpOcKnAwA=
 
---muhszody2jyclasv
+--pogb2xwpo36cqnf6
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -1234,5 +1259,5 @@ Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
 
---muhszody2jyclasv--
+--pogb2xwpo36cqnf6--
 
