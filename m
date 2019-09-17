@@ -2,87 +2,63 @@ Return-Path: <SRS0=v579=XM=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9CEDC4CEC9
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Sep 2019 17:55:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14C43C4CEC9
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Sep 2019 18:52:15 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B24C820640
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Sep 2019 17:55:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E0A52206C2
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Sep 2019 18:52:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="oj4AP3wQ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B24C820640
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=acm.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="KaZipL6E"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E0A52206C2
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=3fW+tO80ynivad+Mi/lLlnTdH1bjL1oUv4q6PA92rd0=; b=oj4AP3wQg2LKYexR82HP/4jz6
-	eLlUZeLcJ8WI2F0B69R/twS1evwHO36igVPaKfmgLv9iJEkb4WopHysMhiqaJ1dmlX/Vo/7MCZ1bh
-	5qFiK+z72rKdomwKOOiDqHQDgmRTBNBRz7rtwJna5hAHsm52ypzgoGXGatlCYWfFYjFy/+IGwCoHx
-	y7Y1Mo5U5kMXy8IZyAdYWDQhYpGJ0CCnpAFKCGWoNE6TI5/HRRlpCQSfIwU8tEVUVZK1PFDd26twB
-	MPVBTe+V1/KQgXgTjkeih1WPIF6Ww0cHwchUue6urLY3Pa3qaTW1ZgzIS23GLsHlSqtIdzt42NIdg
-	p0jYCqDkg==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Cc:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+	References:List-Owner; bh=i98zx2BQCP27cLhhcUw84QvEyDVhpUxVkIU0sO1GtTo=; b=KaZ
+	ipL6EP/5XIQdWzHqJVlg1MbNxwqbd/Cf15j8RbZ5Mk8byYNSmJqsSK5/Sd7Fg1n4MO7UTkr3M5Fkh
+	9+hKPzzg2QMKLntTvmKFfZl73NOFXQJADPJNwRY9KTwlFs34+o9yGRgkL+QehmtA3YLanMFjBUBom
+	2HdiWmmTC+HAonYBVdKc5aQC25+2AWKyLqfWF6+YTjNalEv0T1GhFE/OuMB5BnJzsQvp373kdy8IF
+	asIKdThC4sB/FUCUOrUzH3p4MK49W5fcLKPd0r2mK7WRQFwfiGM7hCTa2Kh+q1dY+cdk7QUMemqg8
+	feHtbDXKEWDlgTGadIMdVgnIe4Gs5VQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.2 #3 (Red Hat Linux))
-	id 1iAHhh-0008S8-Hb; Tue, 17 Sep 2019 17:55:53 +0000
-Received: from mail-pf1-f196.google.com ([209.85.210.196])
+	id 1iAIaA-00028w-Sq; Tue, 17 Sep 2019 18:52:10 +0000
+Received: from mx1.redhat.com ([209.132.183.28])
  by bombadil.infradead.org with esmtps (Exim 4.92.2 #3 (Red Hat Linux))
- id 1iAHhe-0008Ro-5H
- for linux-nvme@lists.infradead.org; Tue, 17 Sep 2019 17:55:52 +0000
-Received: by mail-pf1-f196.google.com with SMTP id i1so2592343pfa.6
- for <linux-nvme@lists.infradead.org>; Tue, 17 Sep 2019 10:55:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=sue9gm5GYVlq6Ah5YSo2jiRk5h2ShuCRyL3tfYq+NeM=;
- b=N4AzXLFjyV8k2IG0P/4lXCpKlH+kUejb5kg7Vdjt4+GH9g965pkoYCfepB2xDxZBBq
- c/ys9iEedcCb2nXqRoRTnGuFDCeCweSlgWsO77AaCueJu4goedO+ng+5VHOXQYWWDZ6w
- hJZXPo4/JpBGQJ3CPqDSKTswPDvoKzI8LU5izFEWAhkSKyAnkbzcG2aHjWxkimQITvS6
- scq6+x5MyUle+Cm4miQ0ddkGPng6vtptiIlbpqWovjEzHugdhixPYe83vt0IjTmN7TM7
- eW1N37IDUD2V1bHu+onRgZijHU6mx91/2uqxcYvuBUuaLUIMqRNNqsYjLIquVrvvqEv5
- ys2Q==
-X-Gm-Message-State: APjAAAVooE94FZCfqBqkqw7tfOllkIZJMZb0itiNSIqkynhYZV8c7Tk3
- +FETxCcg+QmXbxYJJaWDvOye42We
-X-Google-Smtp-Source: APXvYqyGS6Y5SLvQDqMkDrZ3iuePpqXqKj/KePRN1bIGZYAWf1azCK7f71ZYLAopuIQtJD0RqdKorA==
-X-Received: by 2002:a17:90a:ba90:: with SMTP id
- t16mr6392878pjr.104.1568742947599; 
- Tue, 17 Sep 2019 10:55:47 -0700 (PDT)
-Received: from desktop-bart.svl.corp.google.com
- ([2620:15c:2cd:202:4308:52a3:24b6:2c60])
- by smtp.gmail.com with ESMTPSA id w69sm9499192pgd.91.2019.09.17.10.55.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Sep 2019 10:55:46 -0700 (PDT)
-Subject: Re: [PATCH v2 1/2] nvme/host/pci: Fix a race in controller removal
-To: "Singh, Balbir" <sblbir@amazon.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "sblbir@amzn.com" <sblbir@amzn.com>
-References: <20190913233631.15352-1-sblbir@amzn.com>
- <7017c4c1-75a9-1e37-eb54-6126dfbb251b@acm.org>
- <25d9badc90a1eb951cb5103774e8360edaa8ec15.camel@amazon.com>
- <14becaec-2284-d680-b3b2-c38537c91521@acm.org>
- <7a90bbc89594dd884b055cec3dc5f3060f1b1e5c.camel@amazon.com>
-From: Bart Van Assche <bvanassche@acm.org>
-Message-ID: <eeefce01-3d9d-ade1-50e1-79e3dca76fcc@acm.org>
-Date: Tue, 17 Sep 2019 10:55:45 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <7a90bbc89594dd884b055cec3dc5f3060f1b1e5c.camel@amazon.com>
-Content-Language: en-US
+ id 1iAIa8-00028S-AZ
+ for linux-nvme@lists.infradead.org; Tue, 17 Sep 2019 18:52:09 +0000
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 971313091755;
+ Tue, 17 Sep 2019 18:52:06 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-122-42.rdu2.redhat.com
+ [10.10.122.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DF43D1001B11;
+ Tue, 17 Sep 2019 18:52:05 +0000 (UTC)
+From: John Pittman <jpittman@redhat.com>
+To: hch@lst.de
+Subject: [PATCH] nvmet: change ppl to lpp
+Date: Tue, 17 Sep 2019 14:52:00 -0400
+Message-Id: <20190917185200.24292-1-jpittman@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.41]); Tue, 17 Sep 2019 18:52:06 +0000 (UTC)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190917_105551_280282_65410052 
-X-CRM114-Status: GOOD (  12.93  )
+X-CRM114-CacheID: sfid-20190917_115208_389818_EAE203A8 
+X-CRM114-Status: GOOD (  12.88  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,39 +70,69 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
- "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>
+Cc: John Pittman <jpittman@redhat.com>, sagi@grimberg.me,
+ linux-nvme@lists.infradead.org, bvanassche@asm.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/16/19 1:40 PM, Singh, Balbir wrote:
-> Is your concern largely with the comment or the patch?
-> 
-> Keith just recommend added
-> 
->   /* Revalidate after unblocking dispatchers that may be holding bd_butex */
-> 
-> That sounds quite reasonable to me
+In nvmet_bdev_set_limits() the number of logical blocks per
+physical block is calculated, but the opposite is mentioned in
+the associated comment and reflected in the variable name. Correct
+the comment and adjust the variable name to reflect the calculation
+done.
 
-Hi Balbir,
+Signed-off-by: John Pittman <jpittman@redhat.com>
+---
+ drivers/nvme/target/io-cmd-bdev.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-Keith's comment suggestion sounds great to me.
+diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+index de0bff70ebb6..32008d85172b 100644
+--- a/drivers/nvme/target/io-cmd-bdev.c
++++ b/drivers/nvme/target/io-cmd-bdev.c
+@@ -11,10 +11,10 @@
+ void nvmet_bdev_set_limits(struct block_device *bdev, struct nvme_id_ns *id)
+ {
+ 	const struct queue_limits *ql = &bdev_get_queue(bdev)->limits;
+-	/* Number of physical blocks per logical block. */
+-	const u32 ppl = ql->physical_block_size / ql->logical_block_size;
+-	/* Physical blocks per logical block, 0's based. */
+-	const __le16 ppl0b = to0based(ppl);
++	/* Number of logical blocks per physical block. */
++	const u32 lpp = ql->physical_block_size / ql->logical_block_size;
++	/* Logical blocks per physical block, 0's based. */
++	const __le16 lpp0b = to0based(lpp);
+ 
+ 	/*
+ 	 * For NVMe 1.2 and later, bit 1 indicates that the fields NAWUN,
+@@ -25,9 +25,9 @@ void nvmet_bdev_set_limits(struct block_device *bdev, struct nvme_id_ns *id)
+ 	 * field from the identify controller data structure should be used.
+ 	 */
+ 	id->nsfeat |= 1 << 1;
+-	id->nawun = ppl0b;
+-	id->nawupf = ppl0b;
+-	id->nacwu = ppl0b;
++	id->nawun = lpp0b;
++	id->nawupf = lpp0b;
++	id->nacwu = lpp0b;
+ 
+ 	/*
+ 	 * Bit 4 indicates that the fields NPWG, NPWA, NPDG, NPDA, and
+@@ -36,7 +36,7 @@ void nvmet_bdev_set_limits(struct block_device *bdev, struct nvme_id_ns *id)
+ 	 */
+ 	id->nsfeat |= 1 << 4;
+ 	/* NPWG = Namespace Preferred Write Granularity. 0's based */
+-	id->npwg = ppl0b;
++	id->npwg = lpp0b;
+ 	/* NPWA = Namespace Preferred Write Alignment. 0's based */
+ 	id->npwa = id->npwg;
+ 	/* NPDG = Namespace Preferred Deallocate Granularity. 0's based */
+-- 
+2.17.2
 
-Another concern I have is that your patch depends on implementation 
-details of the block layer. Calling revalidate_disk() after the DYING 
-flag has been set means that requests will be allocated, started and 
-completed after the DYING flag has been set. I think that works with the 
-current implementation of the block layer because blk_queue_enter() does 
-not check the DYING flag if percpu_ref_tryget_live() succeeds. If your 
-patch gets accepted and if blk_queue_enter() would be modified such that 
-the DYING flag is checked for every blk_queue_enter() call then that 
-would break the NVMe driver.
-
-Thanks,
-
-Bart.
 
 _______________________________________________
 Linux-nvme mailing list
