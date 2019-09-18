@@ -2,81 +2,87 @@ Return-Path: <SRS0=vpxS=XN=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD4B8C4CEC9
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Sep 2019 18:20:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1287CC4CEC4
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Sep 2019 18:22:04 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7E58221848
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Sep 2019 18:20:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id CA46321848
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Sep 2019 18:22:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="RWVcB3Wk"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7E58221848
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="t2OHQAff"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CA46321848
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=acm.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
-	Message-ID:Date:Subject:To:From:Reply-To:Cc:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=oHd8NzzB3er+eUg/h4Ui2MgqKwLuBKoIribI0iZzfc8=; b=RWVcB3WkBU54H2
-	WCaWl3lDW7A9wNgMgOrVy9E4xSzklt56O/Qu+5APr6GPSXuddlUI9g4sIa3EvQNpUpTd8gw7UIu7U
-	nzv7vDDMMeKd8EnARYqxxU0HvbIlR/066qm7nasVY1YWFX2wA+3yywS9OEDE3A/JMoELsTZzyysOw
-	2ccGqNuGg7dATc16CzAsQKaeUM3SBXKw3jYXzZ7YIDZokKN2pe/tBGAz0JgL2L2BntHFb+IvuzLWE
-	CdHWHU/9p6UV9mRQ31RiWo8Db6PkaP9YLKjVNPqaJnf5sRUdy1q29sqntbmxqBuwTokncEwjHDMk9
-	NBtf834FRo2T1VlzsqzA==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
+	Message-ID:From:References:To:Subject:Reply-To:Cc:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Owner;
+	bh=AlB7n9EquNt5PFXBZxn0EykEWvo0ZDiNTcmscMe3AMI=; b=t2OHQAffCL+CwO3ycpbo3Fxw7G
+	i2ouIYP8m4EN15slNNXTR7T0JAVDRSPMsNNYLwNXEDkFLlFUueKKy7/KjZPhLZGQWzdiMo3veNPiL
+	yBaeV5EjW4s1FkCqgO2El1hjR4E0bUQ64SpfEuRVQZKW7dhPxzetf1Had5oCFz1w7EHVQPlfKHpab
+	KNNMDTEj9jHYRfVOsc3371vIU7O7IXkZ7B2jrGXVDZPHhWdHJb9OqZrTcw1rfQZbmpesePf5Fruk0
+	rERrW7t27lEDr4CNoEfuudLCFUSfC5fJcwGzmni1AzVY04eRMyRP4fSedfYFfpqTlf3Z192yeDgIw
+	CQk+X9Wg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.2 #3 (Red Hat Linux))
-	id 1iAeZ3-0002NE-DR; Wed, 18 Sep 2019 18:20:29 +0000
-Received: from mga02.intel.com ([134.134.136.20])
+	id 1iAeaX-0002vd-U2; Wed, 18 Sep 2019 18:22:01 +0000
+Received: from mail-pf1-f169.google.com ([209.85.210.169])
  by bombadil.infradead.org with esmtps (Exim 4.92.2 #3 (Red Hat Linux))
- id 1iAeZ0-0002M3-Rg
- for linux-nvme@lists.infradead.org; Wed, 18 Sep 2019 18:20:28 +0000
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 18 Sep 2019 11:20:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,521,1559545200"; d="scan'208";a="181210437"
-Received: from orsmsx107.amr.corp.intel.com ([10.22.240.5])
- by orsmga008.jf.intel.com with ESMTP; 18 Sep 2019 11:20:25 -0700
-Received: from orsmsx154.amr.corp.intel.com (10.22.226.12) by
- ORSMSX107.amr.corp.intel.com (10.22.240.5) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Wed, 18 Sep 2019 11:20:25 -0700
-Received: from orsmsx104.amr.corp.intel.com ([169.254.4.204]) by
- ORSMSX154.amr.corp.intel.com ([169.254.11.180]) with mapi id 14.03.0439.000;
- Wed, 18 Sep 2019 11:20:25 -0700
-From: "Wunderlich, Mark" <mark.wunderlich@intel.com>
-To: Sagi Grimberg <sagi@grimberg.me>, "linux-nvme@lists.infradead.org"
- <linux-nvme@lists.infradead.org>
-Subject: RE: [PATCH] nvme/host/tcp.c: fix use of time_after()
-Thread-Topic: [PATCH] nvme/host/tcp.c: fix use of time_after()
-Thread-Index: AdVtuy0phZrVw6c5R66UFeK7PswOXwAQYSoAABOgVEA=
-Date: Wed, 18 Sep 2019 18:20:25 +0000
-Message-ID: <B33B37937B7F3D4CB878107E305D4916D35B84@ORSMSX104.amr.corp.intel.com>
+ id 1iAeaV-0002ux-3a
+ for linux-nvme@lists.infradead.org; Wed, 18 Sep 2019 18:22:00 +0000
+Received: by mail-pf1-f169.google.com with SMTP id y5so537845pfo.4
+ for <linux-nvme@lists.infradead.org>; Wed, 18 Sep 2019 11:21:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=tywo6qkwM1eZtP4+JRFX1NUkqZvEclUHKaVKp+d17Ac=;
+ b=CMUTN/Zm+/iNQl44qd6I6l67LVtsMd1rX70XPk9b5xWrKhGrRXSlYg/QzO0hdVnGzR
+ idumuQhWsEgg30Zr6ucOscXnQTv4GJgchykeXpI8y0engSBsW2kpxWPaONsYei0bYqK9
+ Aml6iK2MKMKpUgkeUfugU7foX8aPIIR4Jaf1yBQddzVMt68Z7LRYpmBt8W5jhZUHQgcY
+ iVSaHYX2okJR93ki8chPrQS9+9HItUqL4dPudnvj036FT+ax77HDVwgW/gPmXBNP6E8t
+ d2KDQsRRNm9c4Lzzh+IWsStR38mbYTXhjd5TAjCiYX04ZS9H5Ul537aFpeBtAvs0y54D
+ egrA==
+X-Gm-Message-State: APjAAAVWGuUSZ0nWQphY0t6ajG/H3MkG90//D5/NqKthdRNs9PngzWyy
+ uMjVjxEJzdBvnJHq2r7q0GxPG66C
+X-Google-Smtp-Source: APXvYqxV7sCYn08TZqxMB4fp8Q46Ca3dbBbIzrbPlbqg5u6BM52Fl2DFoIu+tPrjHyfp9dCQwqIARQ==
+X-Received: by 2002:a17:90a:3546:: with SMTP id
+ q64mr5098664pjb.13.1568830916364; 
+ Wed, 18 Sep 2019 11:21:56 -0700 (PDT)
+Received: from ?IPv6:2620:15c:2c1:200:fb9c:664d:d2ad:c9b5?
+ ([2620:15c:2c1:200:fb9c:664d:d2ad:c9b5])
+ by smtp.gmail.com with ESMTPSA id u17sm6491438pgf.8.2019.09.18.11.21.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Sep 2019 11:21:55 -0700 (PDT)
+Subject: Re: [PATCH] nvme/host/tcp.c: fix use of time_after()
+To: "Wunderlich, Mark" <mark.wunderlich@intel.com>,
+ Sagi Grimberg <sagi@grimberg.me>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
 References: <B33B37937B7F3D4CB878107E305D4916D339CC@ORSMSX104.amr.corp.intel.com>
  <8881fa6b-0825-4f4d-4713-eee3062f1cea@grimberg.me>
-In-Reply-To: <8881fa6b-0825-4f4d-4713-eee3062f1cea@grimberg.me>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiYjA1ZDAyMzUtZWUzOC00ODI3LWE1ZjctMWJmMmZmYWRkOGM4IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiNlJzdVJ0emhETzlaT0p6QXVlUDFkdXNEaDVlZEhXeWoySEtmS2xra1VRT0RPallQODQzaVZ4M0Z1MFgreUIxUCJ9
-x-originating-ip: [10.22.254.139]
+ <B33B37937B7F3D4CB878107E305D4916D35B84@ORSMSX104.amr.corp.intel.com>
+From: Bart Van Assche <bvanassche@acm.org>
+Message-ID: <f7dc2e5c-b392-5a65-9d6f-b6576e9a7dcf@acm.org>
+Date: Wed, 18 Sep 2019 11:21:53 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <B33B37937B7F3D4CB878107E305D4916D35B84@ORSMSX104.amr.corp.intel.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190918_112026_939493_8003A99F 
-X-CRM114-Status: GOOD (  12.36  )
+X-CRM114-CacheID: sfid-20190918_112159_148642_E0512F9D 
+X-CRM114-Status: UNSURE (   9.10  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,37 +99,16 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On 9/18/19 11:20 AM, Wunderlich, Mark wrote:
+> Personally do not like use of label 'start' to indicate the end of time period, to me would read better if used something like 'quota_end' or 'time_end'.  But not worth changing here?
 
->Thanks Mark for catching this!
->> nvme/host/tcp.c: fix use of time_after()
+How about 'deadline'?
 
->title should be:
->nvme-tcp: fix wrong stop condition in io_work
-Sure, will change when I re-submit as 'v2';  [PATCH v2] nvme-tcp: fix wrong stop condition in io_work, correct?
+Thanks,
 
->> From: Mark Wunderlich <mark.wunderlich@intel.com>
+Bart.
 
->This should not appear in the patch message, are you using git-send-email?
-Sorry, could not send email directly from server with git tree, so had to just send via my workstation email, copying exported patch contexts into plain text mail message.
-I'll remove that from the patch next time.  Is this process OK then, or will I need to replicate git tree on my workstation to use the git email path?
 
->> The values provided to time_after() call used to terminate do/while 
->> loop were reversed, causing loop to always exit after single pass.
-
->They are not reversed, but rather in the right order, the problem is that the do/while statement needs to continue as long as the time *DID NOT* expire.
-
->So the right fix is:
- >> -	} while (time_after(jiffies, start)); /* quota is exhausted */
- >> +	} while (!time_after(jiffies, start)); /* quota is exhausted */
-Same result either way, but I think your suggestion reads better.  Will change.
-Personally do not like use of label 'start' to indicate the end of time period, to me would read better if used something like 'quota_end' or 'time_end'.  But not worth changing here?
-
->Please also update the patch description accordingly.
-Will do.
-
->I'm inclined to get this to jens asap and also send it to stable as well.
-
->I'll be waiting for you to respin.
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
