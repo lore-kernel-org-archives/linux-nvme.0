@@ -2,22 +2,22 @@ Return-Path: <SRS0=vpxS=XN=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B9F0C4CEC4
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Sep 2019 17:10:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2062C4CEC9
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Sep 2019 17:29:07 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7319620665
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Sep 2019 17:10:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 956E621907
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Sep 2019 17:29:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="PWuLjyLs"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7319620665
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="GWYM4rt+";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="1t5g0jOY"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 956E621907
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
@@ -25,41 +25,45 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=rhE8vhbkXlrtHD1kJ3WV0ivM353BZgX9DApiIisepx4=; b=PWuLjyLsnP12mf
-	w9ksYVGvz0n6hUV81eQ4WRqY77iY4SJb5+r29kuxgIuzgsAuuZPyOAJI1Q9NdVKQRRvOlxOizGIuy
-	sG0ZHhmTQlEmYMp8+Cx8ULR9NrkC7objUVlnbV8chrzjUeVz+stNSuPTDx1zGCmDFTJAuOP93rWJ2
-	jzFONcS2wp4WW8GVkmoA11rgHdNklcKV1QRDtdb/mYuij9ba4PdJ1v+2RW4ILcSPPaml4YUhbF9Gx
-	cI22sZEEuQTdTZly94rMZGOrDW8HPLq4dDv7lwuBzBbGWA1mL0doag0bdpNwdyeO4D5pz8GC/7h6W
-	MCq+Me0X3f8SorUjZmjQ==;
+	List-Owner; bh=w6YzTkCDrjjcId2eUAREXd3i50KY9dFctpR52gSY5OM=; b=GWYM4rt+tadQyG
+	kYcsSggT0s3B/WPBGTFkSkOwncTUrnYM+xV0Ksck3mirLE7J7ybfPtN91/3jzzXyGUKQlSBxzWhmb
+	AQHoYFUC3RE8cH4JZk2/goeknCzOqq8+AcG1vm2sFSWCzIRCfa7WsderusPI6OXp8bNVlre4XAKo+
+	2EsitmxIHQBhvv3ZO9eZipucErCYDxtTFUMMMR+9dBlqQwnYWcTwPCpR4TGSn3LlcjliFJMRwgp5W
+	7Yj8BUOZyNVivNXXX1OqmVLV8M4VHMbIA/vpBsxqXu7rOGFpllKbQfJGvMGDrZTMyuCLtFb9xxCM9
+	3E1rA2iJyVYiWcYlQp7w==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.2 #3 (Red Hat Linux))
-	id 1iAdSw-0006HX-U1; Wed, 18 Sep 2019 17:10:06 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1iAdlI-0003BS-GM; Wed, 18 Sep 2019 17:29:04 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.2 #3 (Red Hat Linux))
- id 1iAdSt-0005Mi-PB
- for linux-nvme@lists.infradead.org; Wed, 18 Sep 2019 17:10:05 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id DB71568B05; Wed, 18 Sep 2019 19:09:56 +0200 (CEST)
-Date: Wed, 18 Sep 2019 19:09:56 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH 0/2] nvme: Add kernel API for admin command
-Message-ID: <20190918170956.GA19639@lst.de>
-References: <20190913111610.9958-1-robert.baldyga@intel.com>
- <20190913143709.GA8525@lst.de>
- <850977D77E4B5C41926C0A7E2DAC5E234F2C9C09@IRSMSX104.ger.corp.intel.com>
- <20190916073455.GA25515@lst.de>
- <850977D77E4B5C41926C0A7E2DAC5E234F2C9D03@IRSMSX104.ger.corp.intel.com>
- <20190917163909.GB34045@C02WT3WMHTD6.wdl.wdc.com>
- <20190918132611.GA16232@lst.de> <20190918170807.GA50966@C02WT3WMHTD6>
+ id 1iAdlG-0003Av-Eo
+ for linux-nvme@lists.infradead.org; Wed, 18 Sep 2019 17:29:03 +0000
+Received: from C02WT3WMHTD6 (unknown [8.36.226.102])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id D55BB208C0;
+ Wed, 18 Sep 2019 17:29:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1568827741;
+ bh=M7SNZBXcCiFOmpNM1RhyX6kmDyGHg4qu/nFa+CO6J5k=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=1t5g0jOYSizU0QAnxEcRb0YGK1Fa0yF/Sa4zBR6ZOzFbOJW1G32upZ9VbqXRgm/Ka
+ 1lD6GlVA7SNvHCgqk3OKQmROEglF1emr5Fhs+z+T+69nfpPoMf6hw5RDNxKjQlSZfT
+ 4RscS47PEHrlFiExw8REs7biCMuAUU/vO5SQBZLo=
+Date: Wed, 18 Sep 2019 11:28:59 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Mario Limonciello <mario.limonciello@dell.com>
+Subject: Re: [PATCH] nvme-pci: Save PCI state before putting drive into
+ deepest state
+Message-ID: <20190918172859.GA51420@C02WT3WMHTD6>
+References: <1568245353-13787-1-git-send-email-mario.limonciello@dell.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20190918170807.GA50966@C02WT3WMHTD6>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <1568245353-13787-1-git-send-email-mario.limonciello@dell.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190918_101003_975772_55596EF7 
-X-CRM114-Status: UNSURE (   9.20  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20190918_102902_526928_DEA4A8C8 
+X-CRM114-Status: GOOD (  14.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,27 +75,57 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "sagi@grimberg.me" <sagi@grimberg.me>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, "Rakowski,
- Michal" <michal.rakowski@intel.com>, "axboe@fb.com" <axboe@fb.com>, "Baldyga,
- Robert" <robert.baldyga@intel.com>, Christoph Hellwig <hch@lst.de>
+Cc: Crag Wang <Crag.Wang@dell.com>, Sagi Grimberg <sagi@grimberg.me>,
+ sjg@google.com, LKML <linux-kernel@vger.kernel.org>,
+ linux-nvme@lists.infradead.org, Jens Axboe <axboe@fb.com>,
+ Ryan Hong <Ryan.Hong@Dell.com>, Jared Dominguez <jared.dominguez@dell.com>,
+ Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Sep 18, 2019 at 11:08:07AM -0600, Keith Busch wrote:
-> And yes, that bouncing is really nasty, but it's really only needed for
-> PRP, so maybe let's just not ignore that transfer mode and support
-> extended metadata iff the controller supports SGLs. We just need a
-> special SGL setup routine to weave the data and metadata.
+On Wed, Sep 11, 2019 at 06:42:33PM -0500, Mario Limonciello wrote:
+> ---
+>  drivers/nvme/host/pci.c | 13 +++++++------
+>  1 file changed, 7 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 732d5b6..9b3fed4 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -2894,6 +2894,13 @@ static int nvme_suspend(struct device *dev)
+>  	if (ret < 0)
+>  		goto unfreeze;
+>  
+> +	/*
+> +	 * A saved state prevents pci pm from generically controlling the
+> +	 * device's power. If we're using protocol specific settings, we don't
+> +	 * want pci interfering.
+> +	 */
+> +	pci_save_state(pdev);
+> +
+>  	ret = nvme_set_power_state(ctrl, ctrl->npss);
+>  	if (ret < 0)
+>  		goto unfreeze;
+> @@ -2908,12 +2915,6 @@ static int nvme_suspend(struct device *dev)
+>  		ret = 0;
+>  		goto unfreeze;
 
-Well, what is the point?  If people really want to use metadata they
-should just buy a drive supporting the separate metadata pointer.  In
-fact I haven't had to deal with a drive that only supports interleaved
-metadata so far given how awkward that is to deal with.  But based on
-the discussions here it seems Intel is stupid enough to ship such a thing.
+We would need to clear the saved state here, though. You can also
+infact remove the unfreeze label and goto.
+
+>  	}
+> -	/*
+> -	 * A saved state prevents pci pm from generically controlling the
+> -	 * device's power. If we're using protocol specific settings, we don't
+> -	 * want pci interfering.
+> -	 */
+> -	pci_save_state(pdev);
+>  unfreeze:
+>  	nvme_unfreeze(ctrl);
+>  	return ret;
+> -- 
 
 _______________________________________________
 Linux-nvme mailing list
