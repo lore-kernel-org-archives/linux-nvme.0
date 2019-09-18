@@ -2,96 +2,81 @@ Return-Path: <SRS0=vpxS=XN=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CC2DC4CEC4
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Sep 2019 18:16:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD4B8C4CEC9
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Sep 2019 18:20:31 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D1711208C0
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Sep 2019 18:16:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7E58221848
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Sep 2019 18:20:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="HiYt3MuA";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=dell.com header.i=@dell.com header.b="wtBDntCf"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D1711208C0
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=dell.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="RWVcB3Wk"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7E58221848
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Cc:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	References:List-Owner; bh=uIrTcRezIOtmcQJ9CpQP/MdsHxqwLhZSd0Q6AJy9ZSw=; b=HiY
-	t3MuAlgKs7Qbe+/mOEKDt9vQV2JAw3UMUaA+VgR87yhqGFQN1ToqAqMnnyzhXbBL+qxf7ntQfHHSX
-	4CjQrkk+ZtdOGOuRrDVI9/xIWpWocoWBJ/JsBM0V82pml135Zh9qI+87iAtJUqfU6K92qFpu38Qzy
-	NK5LG56+LudaFDyK6Xq2d4eJvwQibDNaEeSzjtXPyOiN5e9CHgcagPS9CbLnYK0cTcztshccgqo9U
-	1hTM203kiThRfjmKg9X0g7bxtCMlwZfB3bjW3VfEyKwiM5fskPjVjRbgqF012ZZ+OHvFkrq2bfhAa
-	Q2vcrJhATsvlFp/eFAhKnSXcVt6xZNg==;
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
+	Message-ID:Date:Subject:To:From:Reply-To:Cc:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=oHd8NzzB3er+eUg/h4Ui2MgqKwLuBKoIribI0iZzfc8=; b=RWVcB3WkBU54H2
+	WCaWl3lDW7A9wNgMgOrVy9E4xSzklt56O/Qu+5APr6GPSXuddlUI9g4sIa3EvQNpUpTd8gw7UIu7U
+	nzv7vDDMMeKd8EnARYqxxU0HvbIlR/066qm7nasVY1YWFX2wA+3yywS9OEDE3A/JMoELsTZzyysOw
+	2ccGqNuGg7dATc16CzAsQKaeUM3SBXKw3jYXzZ7YIDZokKN2pe/tBGAz0JgL2L2BntHFb+IvuzLWE
+	CdHWHU/9p6UV9mRQ31RiWo8Db6PkaP9YLKjVNPqaJnf5sRUdy1q29sqntbmxqBuwTokncEwjHDMk9
+	NBtf834FRo2T1VlzsqzA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.2 #3 (Red Hat Linux))
-	id 1iAeV2-0000Rg-Og; Wed, 18 Sep 2019 18:16:20 +0000
-Received: from mx0b-00154904.pphosted.com ([148.163.137.20])
+	id 1iAeZ3-0002NE-DR; Wed, 18 Sep 2019 18:20:29 +0000
+Received: from mga02.intel.com ([134.134.136.20])
  by bombadil.infradead.org with esmtps (Exim 4.92.2 #3 (Red Hat Linux))
- id 1iAeV0-0000Qw-OL
- for linux-nvme@lists.infradead.org; Wed, 18 Sep 2019 18:16:20 +0000
-Received: from pps.filterd (m0170395.ppops.net [127.0.0.1])
- by mx0b-00154904.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- x8II0ScU032010
- for <linux-nvme@lists.infradead.org>; Wed, 18 Sep 2019 14:16:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com;
- h=from : to : cc : subject : date : message-id; s=smtpout1;
- bh=A/GA2kt9PkFSXOdi/VLlD9hTYzR2T4fpkhomChyE9Co=;
- b=wtBDntCf5Mg7NkwRO3z1NSwe+wwKrvyJ1tO4RyzGpkjZmVAU8SyKMLn3x5ypui8BY6ol
- bfPdT3dlID39LPQ7hQfVE6jzfqgUIkuwu6AjkdnwEiSuoRfbqcNe1pfqqkXcJls6Gao7
- 8pM3Iw49DJT6l551+PfrbkHNyDhXDMEQY5euUBhbh74bY9H9yV4RB977Vpdyc7EAm3Un
- ibT8iZaRP9RVkhR7/XSA+ad/1td7qZfWvPbqWuW5l5pxayStpcTD6OE5eZ+CY9F4GOmB
- YvduR+pfjd2vQzLIDb+zVAVyx4qxb1MXaFcWayKuweuRv2izOq2scZcZXsC1wBTtBLMj hQ== 
-Received: from mx0b-00154901.pphosted.com (mx0a-00154901.pphosted.com
- [67.231.149.39])
- by mx0b-00154904.pphosted.com with ESMTP id 2v37sv5pfk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <linux-nvme@lists.infradead.org>; Wed, 18 Sep 2019 14:16:15 -0400
-Received: from pps.filterd (m0090350.ppops.net [127.0.0.1])
- by mx0b-00154901.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- x8II2n4K069900
- for <linux-nvme@lists.infradead.org>; Wed, 18 Sep 2019 14:16:14 -0400
-Received: from ausxippc101.us.dell.com (ausxippc101.us.dell.com
- [143.166.85.207])
- by mx0b-00154901.pphosted.com with ESMTP id 2v37hxrd94-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
- for <linux-nvme@lists.infradead.org>; Wed, 18 Sep 2019 14:16:14 -0400
-X-LoopCount0: from 10.173.37.27
-X-PREM-Routing: D-Outbound
-X-IronPort-AV: E=Sophos;i="5.60,346,1549951200"; d="scan'208";a="1299619002"
-From: Mario Limonciello <mario.limonciello@dell.com>
-To: Keith Busch <kbusch@kernel.org>
-Subject: [PATCH v2] nvme-pci: Save PCI state before putting drive into deepest
- state
-Date: Wed, 18 Sep 2019 13:15:55 -0500
-Message-Id: <1568830555-11531-1-git-send-email-mario.limonciello@dell.com>
-X-Mailer: git-send-email 2.7.4
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.70,1.0.8
- definitions=2019-09-18_09:2019-09-18,2019-09-18 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 malwarescore=0
- clxscore=1011 mlxlogscore=577 adultscore=0 spamscore=0 impostorscore=0
- priorityscore=1501 bulkscore=8 suspectscore=0 lowpriorityscore=8
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1908290000 definitions=main-1909180161
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0
- mlxscore=0 phishscore=0
- mlxlogscore=720 bulkscore=14 clxscore=1015 spamscore=0 suspectscore=0
- priorityscore=1501 adultscore=0 malwarescore=0 lowpriorityscore=14
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-1908290000
- definitions=main-1909180161
+ id 1iAeZ0-0002M3-Rg
+ for linux-nvme@lists.infradead.org; Wed, 18 Sep 2019 18:20:28 +0000
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 18 Sep 2019 11:20:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,521,1559545200"; d="scan'208";a="181210437"
+Received: from orsmsx107.amr.corp.intel.com ([10.22.240.5])
+ by orsmga008.jf.intel.com with ESMTP; 18 Sep 2019 11:20:25 -0700
+Received: from orsmsx154.amr.corp.intel.com (10.22.226.12) by
+ ORSMSX107.amr.corp.intel.com (10.22.240.5) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Wed, 18 Sep 2019 11:20:25 -0700
+Received: from orsmsx104.amr.corp.intel.com ([169.254.4.204]) by
+ ORSMSX154.amr.corp.intel.com ([169.254.11.180]) with mapi id 14.03.0439.000;
+ Wed, 18 Sep 2019 11:20:25 -0700
+From: "Wunderlich, Mark" <mark.wunderlich@intel.com>
+To: Sagi Grimberg <sagi@grimberg.me>, "linux-nvme@lists.infradead.org"
+ <linux-nvme@lists.infradead.org>
+Subject: RE: [PATCH] nvme/host/tcp.c: fix use of time_after()
+Thread-Topic: [PATCH] nvme/host/tcp.c: fix use of time_after()
+Thread-Index: AdVtuy0phZrVw6c5R66UFeK7PswOXwAQYSoAABOgVEA=
+Date: Wed, 18 Sep 2019 18:20:25 +0000
+Message-ID: <B33B37937B7F3D4CB878107E305D4916D35B84@ORSMSX104.amr.corp.intel.com>
+References: <B33B37937B7F3D4CB878107E305D4916D339CC@ORSMSX104.amr.corp.intel.com>
+ <8881fa6b-0825-4f4d-4713-eee3062f1cea@grimberg.me>
+In-Reply-To: <8881fa6b-0825-4f4d-4713-eee3062f1cea@grimberg.me>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiYjA1ZDAyMzUtZWUzOC00ODI3LWE1ZjctMWJmMmZmYWRkOGM4IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiNlJzdVJ0emhETzlaT0p6QXVlUDFkdXNEaDVlZEhXeWoySEtmS2xra1VRT0RPallQODQzaVZ4M0Z1MFgreUIxUCJ9
+x-originating-ip: [10.22.254.139]
+MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190918_111618_963523_076E4C01 
-X-CRM114-Status: GOOD (  15.40  )
+X-CRM114-CacheID: sfid-20190918_112026_939493_8003A99F 
+X-CRM114-Status: GOOD (  12.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,84 +88,42 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Crag Wang <Crag.Wang@dell.com>, Sagi Grimberg <sagi@grimberg.me>,
- Mario Limonciello <mario.limonciello@dell.com>, sjg@google.com,
- LKML <linux-kernel@vger.kernel.org>, linux-nvme@lists.infradead.org,
- Jens Axboe <axboe@fb.com>, Ryan Hong <Ryan.Hong@Dell.com>,
- Jared Dominguez <jared.dominguez@dell.com>, Christoph Hellwig <hch@lst.de>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The action of saving the PCI state will cause numerous PCI configuration
-space reads which depending upon the vendor implementation may cause
-the drive to exit the deepest NVMe state.
 
-In these cases ASPM will typically resolve the PCIe link state and APST
-may resolve the NVMe power state.  However it has also been observed
-that this register access after quiesced will cause PC10 failure
-on some device combinations.
+>Thanks Mark for catching this!
+>> nvme/host/tcp.c: fix use of time_after()
 
-To resolve this, move the PCI state saving to before SetFeatures has been
-called.  This has been proven to resolve the issue across a 5000 sample
-test on previously failing disk/system combinations.
+>title should be:
+>nvme-tcp: fix wrong stop condition in io_work
+Sure, will change when I re-submit as 'v2';  [PATCH v2] nvme-tcp: fix wrong stop condition in io_work, correct?
 
-Signed-off-by: Mario Limonciello <mario.limonciello@dell.com>
----
- drivers/nvme/host/pci.c | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
+>> From: Mark Wunderlich <mark.wunderlich@intel.com>
 
-Changes from v1:
- * Discard saved state in error scenario
- * Removed unneeded goto statement in error scenario
+>This should not appear in the patch message, are you using git-send-email?
+Sorry, could not send email directly from server with git tree, so had to just send via my workstation email, copying exported patch contexts into plain text mail message.
+I'll remove that from the patch next time.  Is this process OK then, or will I need to replicate git tree on my workstation to use the git email path?
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 732d5b6..ef69013 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2894,11 +2894,21 @@ static int nvme_suspend(struct device *dev)
- 	if (ret < 0)
- 		goto unfreeze;
- 
-+	/*
-+	 * A saved state prevents pci pm from generically controlling the
-+	 * device's power. If we're using protocol specific settings, we don't
-+	 * want pci interfering.
-+	 */
-+	pci_save_state(pdev);
-+
- 	ret = nvme_set_power_state(ctrl, ctrl->npss);
- 	if (ret < 0)
- 		goto unfreeze;
- 
- 	if (ret) {
-+		/* discard the saved state */
-+		pci_load_saved_state(pdev, NULL);
-+
- 		/*
- 		 * Clearing npss forces a controller reset on resume. The
- 		 * correct value will be resdicovered then.
-@@ -2906,14 +2916,7 @@ static int nvme_suspend(struct device *dev)
- 		nvme_dev_disable(ndev, true);
- 		ctrl->npss = 0;
- 		ret = 0;
--		goto unfreeze;
- 	}
--	/*
--	 * A saved state prevents pci pm from generically controlling the
--	 * device's power. If we're using protocol specific settings, we don't
--	 * want pci interfering.
--	 */
--	pci_save_state(pdev);
- unfreeze:
- 	nvme_unfreeze(ctrl);
- 	return ret;
--- 
-2.7.4
+>> The values provided to time_after() call used to terminate do/while 
+>> loop were reversed, causing loop to always exit after single pass.
 
+>They are not reversed, but rather in the right order, the problem is that the do/while statement needs to continue as long as the time *DID NOT* expire.
 
+>So the right fix is:
+ >> -	} while (time_after(jiffies, start)); /* quota is exhausted */
+ >> +	} while (!time_after(jiffies, start)); /* quota is exhausted */
+Same result either way, but I think your suggestion reads better.  Will change.
+Personally do not like use of label 'start' to indicate the end of time period, to me would read better if used something like 'quota_end' or 'time_end'.  But not worth changing here?
+
+>Please also update the patch description accordingly.
+Will do.
+
+>I'm inclined to get this to jens asap and also send it to stable as well.
+
+>I'll be waiting for you to respin.
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
