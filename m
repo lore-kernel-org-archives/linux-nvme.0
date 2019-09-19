@@ -4,106 +4,113 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,UNPARSEABLE_RELAY autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEFA6C4CEC9
-	for <linux-nvme@archiver.kernel.org>; Thu, 19 Sep 2019 00:40:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24DC4C3A5A6
+	for <linux-nvme@archiver.kernel.org>; Thu, 19 Sep 2019 13:48:13 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8A63721907
-	for <linux-nvme@archiver.kernel.org>; Thu, 19 Sep 2019 00:40:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id EC58821D6C
+	for <linux-nvme@archiver.kernel.org>; Thu, 19 Sep 2019 13:48:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="V1OKTgLZ";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="XFNu2t5B"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8A63721907
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="K/fJcrms";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=xilinx.onmicrosoft.com header.i=@xilinx.onmicrosoft.com header.b="kckn+cRd"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EC58821D6C
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=xilinx.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:In-Reply-To:
-	Date:References:From:Subject:To:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=G8RKAfKgBoCvrUYcy/LhT5NooiFUha7m/EsJl840VBA=; b=V1OKTgLZOHLEMu
-	SvgmDBEn0PSjJ8rFKc8PiVUSo6WoSDw3HbuYUCTmhrKGPB2z2ZeeawoKU9YvU75RZ7RzjcWQ4X/IE
-	xj3OHFul9otRhpMnN4O165YUPBQ2u8UyNmZwGDB5Rx905vFrEDUxXb+RJ7NE7Z05siq/ht1A0XX+e
-	GO/SjsmopsTIRcs6AgcvbIa/D1V/q/0EYcXRXZqLbLV0QzxyZpYH15wsdaPACPo+ix+7bGG5b5ZUa
-	e/tQA/+58oDye0UKLfLmgZzM98CTUeIkyZCJgW4apO+zKTiO5OmeOwYZ0J/jxNn5Lt7e15vJEUgGt
-	xN0kw7UU3434YR+9HOgg==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:To
+	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=6pE+Fx6CillS99aLSuWsEMfKb34qWfWelriFG06ge3M=; b=K/fJcrmsxD0azt
+	vjw+qfpadZcMxYiuM3zCdVe4C2F93IuoISoDU81lFzxnoHI2cCviHG4WVCHDUY4DAzIX1rbqXXNml
+	UBuPDmhbr/nFsfhVZDRdYdojEbHdR3c+0WmV8BORkYtVIx0l5nWB/y9jytCPTb63oTzNMySqHkBRE
+	ZCFgCqDxEV0qMqMEiSgCAatXNMwsz/G/55TRxA9SjQ6xQDzBrIRonvg1TWj6wjQZfddSws3RSJljC
+	WwCxg3dw8aQKEheyaR1ncBFf+1OctpdRXiujgOky6EH9ve23aBiV2sDKdHB9aS73EFDlhoaSUjYus
+	6OESg2M/VqkajD+cKMZQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.2 #3 (Red Hat Linux))
-	id 1iAkUs-0000SE-6Y; Thu, 19 Sep 2019 00:40:34 +0000
-Received: from userp2130.oracle.com ([156.151.31.86])
+	id 1iAwmt-0006QD-UK; Thu, 19 Sep 2019 13:47:59 +0000
+Received: from mail-eopbgr750073.outbound.protection.outlook.com
+ ([40.107.75.73] helo=NAM02-BL2-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.92.2 #3 (Red Hat Linux))
- id 1iAkUp-0000RO-H8
- for linux-nvme@lists.infradead.org; Thu, 19 Sep 2019 00:40:32 +0000
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x8J0dX9T024573;
- Thu, 19 Sep 2019 00:40:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=to : cc : subject :
- from : references : date : in-reply-to : message-id : mime-version :
- content-type; s=corp-2019-08-05;
- bh=IiS8L7N9j19Ktt7jiprEMiAHt8Lso8e0fWbUgEUG5V8=;
- b=XFNu2t5BvRu7qGRCCJQS1sWozs+CA4hh3L0XGMClLM2Cm3YnguEM8kkMdZ/FeoJTBnPR
- fjqurUlG/LDbpdST7E+qHopb8FFOZaYmlfDwkIDM8NZBWAMqDJTyIfh0nZuPlBk2WW83
- /tnT5kacddQ8RpYRr2XsY/gkGZs0j4nTPYqyiaE5/C1hd+24H4Rg/Ue7NREL9OvhxUr3
- csEkHfR5rt8rWtXOVYxuiByruFiOSDyMp8m6FMWLoNSOFpebRy5QhlE2xspTRU6bZbp2
- SXI6b5cGophHGNpOZtJU6ZfoqMRUKV9Hnj7+GxpIBk0iijootjmPzXcD859YbGSSRpB1 hw== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2130.oracle.com with ESMTP id 2v3vb50jge-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 19 Sep 2019 00:40:11 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x8J0cKii096214;
- Thu, 19 Sep 2019 00:40:11 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3030.oracle.com with ESMTP id 2v3vb926j5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 19 Sep 2019 00:40:11 +0000
-Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x8J0e80I029874;
- Thu, 19 Sep 2019 00:40:08 GMT
-Received: from ca-mkp.ca.oracle.com (/10.159.214.123)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 18 Sep 2019 17:40:07 -0700
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 0/2] nvme: Add kernel API for admin command
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-Organization: Oracle Corporation
-References: <20190913111610.9958-1-robert.baldyga@intel.com>
- <20190913143709.GA8525@lst.de>
- <850977D77E4B5C41926C0A7E2DAC5E234F2C9C09@IRSMSX104.ger.corp.intel.com>
- <20190916073455.GA25515@lst.de>
- <850977D77E4B5C41926C0A7E2DAC5E234F2C9D03@IRSMSX104.ger.corp.intel.com>
- <20190917163909.GB34045@C02WT3WMHTD6.wdl.wdc.com>
- <20190918132611.GA16232@lst.de> <20190918170807.GA50966@C02WT3WMHTD6>
- <20190918170956.GA19639@lst.de>
-Date: Wed, 18 Sep 2019 20:40:05 -0400
-In-Reply-To: <20190918170956.GA19639@lst.de> (Christoph Hellwig's message of
- "Wed, 18 Sep 2019 19:09:56 +0200")
-Message-ID: <yq1h85986fu.fsf@oracle.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1.92 (gnu/linux)
+ id 1iAwmp-0006PR-E9
+ for linux-nvme@lists.infradead.org; Thu, 19 Sep 2019 13:47:56 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=j9d+NIXY9g1RFgg34/p8UkdRvXf+BdVB6s+MlE8n0XnXM24uqcgf3kMkBKzwM2HU7YR/A3X8R0vNm9H5nGkBMjveYVvqT2/9qzkLQ5hY5zwHFUxaeQ1I4V3UlwO6VWuybrQDbAGhd1JBxI4CkMn685A3U6iFiaeqYY2uSFe2qTMsL674XA4gq5GePf8TKPbTLiNZQz3PhwEpbVoiTfuAS7cpH7neCgCRA7Enia45vRpNFkj6Qzqmo9d4BQMT+MfcQFBx4ldgJAV9W7+YPwXPikgz8PxlEd8xCqB90MG1N3qurmZ2mlorN2OUM2NHzK7Ed3y1j5IIu/y1238Aduv4TA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Lc/7Mo0S82K3XXn6045fwkE9Hs6ORlZCBm3PlGRa5uo=;
+ b=lfxO2jTfDxp8MIK1QvX7ur0mo64AuS0gtES6mYuVnrXW56bOWqyukqQv/GTTPw993JLeQkcypC1F+g2jk1LSbHgCpm63wYwDt4a5qoyUo4KAFh86ZaoDJl9Eerd+OhCFM9MWxG/trtqX2wuq+UrD4Qf+QjZtFlUUUrPJeeHz8HlagpdFyVidXggUg7fQKkeiFdThodkEc0s27WzcwKnXi+oaqyICs3EJCWdqc2hEkthdwy3shtVARIcOil35dDhZHXDMNbfIXKJpEvKPDRXXPfFpT6L60++0RdImDg9xtZQgxKYFXzqUtmRbGoMd9ZiWAJOx9WFNNLtjhhoEeA1iAA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
+ dkim=pass header.d=xilinx.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Lc/7Mo0S82K3XXn6045fwkE9Hs6ORlZCBm3PlGRa5uo=;
+ b=kckn+cRdzfeXr5xZHLqFmesylMQpUecI5X64PNDRjGHulrI9PUYPkpfzR0LtN5BrP4wuXTpzxTJRoqCdJI634R8KnhRz1VCm7IDMku88UIWQRKuRFxRbcOwgv5/D4OefgtrUzSGm/DS8xIo2zK+FhOuaNWYmtYcwP7g1fXAIEqI=
+Received: from MN2PR02MB6336.namprd02.prod.outlook.com (52.132.175.93) by
+ MN2PR02MB7022.namprd02.prod.outlook.com (20.179.223.15) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2284.20; Thu, 19 Sep 2019 13:47:50 +0000
+Received: from MN2PR02MB6336.namprd02.prod.outlook.com
+ ([fe80::5c7e:59ac:afbc:2196]) by MN2PR02MB6336.namprd02.prod.outlook.com
+ ([fe80::5c7e:59ac:afbc:2196%3]) with mapi id 15.20.2284.009; Thu, 19 Sep 2019
+ 13:47:50 +0000
+From: Bharat Kumar Gogada <bharatku@xilinx.com>
+To: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: NVMe Poll CQ on timeout
+Thread-Topic: NVMe Poll CQ on timeout
+Thread-Index: AdVu7wdM7XQNFN1FSKya+9NO0ckL4A==
+Date: Thu, 19 Sep 2019 13:47:50 +0000
+Message-ID: <MN2PR02MB633689DBBA6DE9DD7A34043FA5890@MN2PR02MB6336.namprd02.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=bharatku@xilinx.com; 
+x-originating-ip: [149.199.50.133]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: d1bc17e6-a024-48f1-ab2e-08d73d07f641
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600167)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
+ SRVR:MN2PR02MB7022; 
+x-ms-traffictypediagnostic: MN2PR02MB7022:
+x-microsoft-antispam-prvs: <MN2PR02MB702263E28C47E02545EACE6BA5890@MN2PR02MB7022.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6430;
+x-forefront-prvs: 016572D96D
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10009020)(4636009)(346002)(136003)(396003)(366004)(376002)(39860400002)(53754006)(189003)(199004)(74316002)(55016002)(7736002)(25786009)(9686003)(305945005)(66946007)(66476007)(6506007)(64756008)(2906002)(66446008)(66556008)(102836004)(4744005)(256004)(99286004)(76116006)(7696005)(3846002)(14454004)(476003)(478600001)(86362001)(486006)(5660300002)(26005)(186003)(6116002)(71190400001)(6436002)(8936002)(2501003)(66066001)(71200400001)(54906003)(110136005)(33656002)(316002)(81166006)(4326008)(8676002)(52536014)(81156014);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:MN2PR02MB7022;
+ H:MN2PR02MB6336.namprd02.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: xilinx.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: Wc67vZ6JEyj6xfObK1WTURL8Ebc+yjvqyLzDhmv5hddfrfm1tRxpCJc898IqcAGIWCT/Dmxs83p5FAS/p/k6xPaAbWZFsdCRmwJFW+nVeZy+J1l9nHIGU76K/g5ERsu+3jCYirp3OGHJFheRte1LwmoRM3SOyqFZi3xcz2js8a4Z2bNPsX29/kFN+wmgi5A8YQhNP4QmQltWgDXpTUpqua2kt4RpHBaOmLme8boQ4Yb6lYlktRCYPEvOqcWgveBZfRx5q/VCh0Z8y4jAcFIrB6elCJQF0j+SD1d/QaI4tfwtEtQ14x9flBPh3Y6pLihgv1FEA44BHs1UwUc7WCIuoe7PknUxj4ZonGGvJF30s16WmztKqWWM6nsSgI/Iw6TPv8AKXkwhpSnZGTe8l1xENweVwsWuQqrZnQfdfLLX4CE=
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9384
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=721
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1908290000 definitions=main-1909190003
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9384
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=797 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1908290000
- definitions=main-1909190003
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d1bc17e6-a024-48f1-ab2e-08d73d07f641
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Sep 2019 13:47:50.0259 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 4a33QhzktERdiu5GVlm8LS8JD74ZW+31NNVaIv57XGNDyCSPkDLMd6KpBae7yDgSBaeElOHclxU5wYJF6c2hgQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB7022
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190918_174031_659656_A1822EE3 
-X-CRM114-Status: GOOD (  17.02  )
+X-CRM114-CacheID: sfid-20190919_064755_480995_579A9E40 
+X-CRM114-Status: UNSURE (   5.75  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,35 +122,40 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "sagi@grimberg.me" <sagi@grimberg.me>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "axboe@fb.com" <axboe@fb.com>, "Baldyga, Robert" <robert.baldyga@intel.com>,
- Keith Busch <kbusch@kernel.org>, "Rakowski,
- Michal" <michal.rakowski@intel.com>
+Cc: "keith.busch@intel.com" <keith.busch@intel.com>,
+ Keith Busch <keith.busch@linux.intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hi All,
 
-Christoph,
+We are testing NVMe cards on ARM64 platform, the card uses MSI-X interrupts.
+We are hitting following case in drivers/nvme/host/pci.c
+/*
+         * Did we miss an interrupt?
+         */
+        if (__nvme_poll(nvmeq, req->tag)) {
+                dev_warn(dev->ctrl.device,
+                         "I/O %d QID %d timeout, completion polled\n",
+                         req->tag, nvmeq->qid);
+                return BLK_EH_DONE;
+        }
 
-> On Wed, Sep 18, 2019 at 11:08:07AM -0600, Keith Busch wrote:
->> And yes, that bouncing is really nasty, but it's really only needed for
->> PRP, so maybe let's just not ignore that transfer mode and support
->> extended metadata iff the controller supports SGLs. We just need a
->> special SGL setup routine to weave the data and metadata.
->
-> Well, what is the point?  If people really want to use metadata they
-> should just buy a drive supporting the separate metadata pointer.  In
-> fact I haven't had to deal with a drive that only supports interleaved
-> metadata so far given how awkward that is to deal with.
+Can anyone tell when does nvme_timeout gets invoked ?
+In what cases we see this interrupt miss ?
 
-Yep. There's a reason we did DIX...
+We are seeing this issue only for reads with following fio command 
+fio --name=randwrite --ioengine=libaio --iodepth=1 --rw=randread --bs=128k --direct=0 \
+--size=128M --numjobs=3 --group_reporting --filename=/dev/nvme0n1
 
--- 
-Martin K. Petersen	Oracle Linux Engineering
+We are not seeing issue with --rw=randwrite for same size.
+
+Please let us know what can cause this issue. 
+
+Regards,
+Bharat
 
 _______________________________________________
 Linux-nvme mailing list
