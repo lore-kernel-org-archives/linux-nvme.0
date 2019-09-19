@@ -1,83 +1,109 @@
-Return-Path: <SRS0=vpxS=XN=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=DlcY=XO=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_PASS,UNPARSEABLE_RELAY autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1A1EC4CEC9
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Sep 2019 23:39:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEFA6C4CEC9
+	for <linux-nvme@archiver.kernel.org>; Thu, 19 Sep 2019 00:40:46 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 72638218AE
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Sep 2019 23:39:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8A63721907
+	for <linux-nvme@archiver.kernel.org>; Thu, 19 Sep 2019 00:40:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="FJ9tErK1"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 72638218AE
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="V1OKTgLZ";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="XFNu2t5B"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8A63721907
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=Dt/sq/+/La3qdguifu7iSF7afXDFGVhNVyioO+WPxeg=; b=FJ9tErK1wJ7aka7MOqQiAHciP
-	E9fHKNeBo+csYE6IDjaVvbYCKa0PFb4x+54ZNXzlOQQonV03yhyihNLodXKqRi1Ag4JsnLgZqGG6L
-	rKwkmLGyX5Mu5OHAnAve9mWuxgMjsyOZ62xni7WUUsOK+qTJHX1fblMv5HFSjsYtZ6LCBrixHN0e5
-	BlD0nRc+6BXc14HM7kMxuRyZer8bRNotAobUunQGzeJLIafgjWpqTB9xcFXhsUIcvEhvmahGisGqn
-	O+SV++0FR8aqSnRWAPfRf7LTFyDGp2ZXueFR+AWBRfZAdzZ3MT5scggv/EMm0xb/aUZrA2OztPEBA
-	GZno82Mbg==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:In-Reply-To:
+	Date:References:From:Subject:To:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=G8RKAfKgBoCvrUYcy/LhT5NooiFUha7m/EsJl840VBA=; b=V1OKTgLZOHLEMu
+	SvgmDBEn0PSjJ8rFKc8PiVUSo6WoSDw3HbuYUCTmhrKGPB2z2ZeeawoKU9YvU75RZ7RzjcWQ4X/IE
+	xj3OHFul9otRhpMnN4O165YUPBQ2u8UyNmZwGDB5Rx905vFrEDUxXb+RJ7NE7Z05siq/ht1A0XX+e
+	GO/SjsmopsTIRcs6AgcvbIa/D1V/q/0EYcXRXZqLbLV0QzxyZpYH15wsdaPACPo+ix+7bGG5b5ZUa
+	e/tQA/+58oDye0UKLfLmgZzM98CTUeIkyZCJgW4apO+zKTiO5OmeOwYZ0J/jxNn5Lt7e15vJEUgGt
+	xN0kw7UU3434YR+9HOgg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.2 #3 (Red Hat Linux))
-	id 1iAjY1-000502-Eh; Wed, 18 Sep 2019 23:39:45 +0000
-Received: from mail-wr1-f44.google.com ([209.85.221.44])
+	id 1iAkUs-0000SE-6Y; Thu, 19 Sep 2019 00:40:34 +0000
+Received: from userp2130.oracle.com ([156.151.31.86])
  by bombadil.infradead.org with esmtps (Exim 4.92.2 #3 (Red Hat Linux))
- id 1iAjXy-0004zd-W3
- for linux-nvme@lists.infradead.org; Wed, 18 Sep 2019 23:39:44 +0000
-Received: by mail-wr1-f44.google.com with SMTP id b9so1159901wrs.0
- for <linux-nvme@lists.infradead.org>; Wed, 18 Sep 2019 16:39:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=4vlEG+ZKcxG0rZW4gnwqwcC4Pdh9BOuassBEU81b5+g=;
- b=Ieyav+pNujPLe0VK3gBS2Lh0YubUxZS/aH6LKW4I5lMzE3d4/ONAnT5ikW+X2d0np/
- 2yUppEn7wkUi5vXo3lobBnwgakDLYp/lXrYuFH1H8c0c+oDnPKOUfDhH20HcjS7ANlkp
- Ugf2v3+pKvp/ru7W+EVKNQcBFhAViM81Hil+zfAkiotTA6XbHF3wQN+V9w449qxlIo3W
- p98tppw+mlAGc7EvfZZZQbK75JKmj/1XYrpT2sv5CPTO7SX3foG61srdI0pI5eTq3NlV
- AxEAm0Wasi6hnUvZdsTVdM8tVb1JjLpkkuBdIOSwqlDpBMl5DehFy4etXPjYlFp9lYbF
- F4Iw==
-X-Gm-Message-State: APjAAAU4ZFFoCN7IQwqBw0pG33JlLZ6VJddHp8K12Kpy3ETpcLO+iWLu
- B5gDVOzzz/+5dQUfx+PVdKq6h/Ky
-X-Google-Smtp-Source: APXvYqz5C/D4hU3Nv56AM0kieozYCiDchSRDfG5R3wAPhtCogXEFKrQXiIIu7x2/TYd+NkLchXLaSA==
-X-Received: by 2002:a5d:5708:: with SMTP id a8mr5045744wrv.240.1568849980764; 
- Wed, 18 Sep 2019 16:39:40 -0700 (PDT)
-Received: from ?IPv6:2600:1700:65a0:78e0:514:7862:1503:8e4d?
- ([2600:1700:65a0:78e0:514:7862:1503:8e4d])
- by smtp.gmail.com with ESMTPSA id f143sm6660959wme.40.2019.09.18.16.39.39
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 18 Sep 2019 16:39:40 -0700 (PDT)
-Subject: Re: [PATCH v2] nvme-tcp: fix wrong stop condition in io_work
-To: "Wunderlich, Mark" <mark.wunderlich@intel.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <B33B37937B7F3D4CB878107E305D4916D35C21@ORSMSX104.amr.corp.intel.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <570be145-037b-3236-0b18-4812df7650b9@grimberg.me>
-Date: Wed, 18 Sep 2019 16:39:37 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ id 1iAkUp-0000RO-H8
+ for linux-nvme@lists.infradead.org; Thu, 19 Sep 2019 00:40:32 +0000
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x8J0dX9T024573;
+ Thu, 19 Sep 2019 00:40:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=to : cc : subject :
+ from : references : date : in-reply-to : message-id : mime-version :
+ content-type; s=corp-2019-08-05;
+ bh=IiS8L7N9j19Ktt7jiprEMiAHt8Lso8e0fWbUgEUG5V8=;
+ b=XFNu2t5BvRu7qGRCCJQS1sWozs+CA4hh3L0XGMClLM2Cm3YnguEM8kkMdZ/FeoJTBnPR
+ fjqurUlG/LDbpdST7E+qHopb8FFOZaYmlfDwkIDM8NZBWAMqDJTyIfh0nZuPlBk2WW83
+ /tnT5kacddQ8RpYRr2XsY/gkGZs0j4nTPYqyiaE5/C1hd+24H4Rg/Ue7NREL9OvhxUr3
+ csEkHfR5rt8rWtXOVYxuiByruFiOSDyMp8m6FMWLoNSOFpebRy5QhlE2xspTRU6bZbp2
+ SXI6b5cGophHGNpOZtJU6ZfoqMRUKV9Hnj7+GxpIBk0iijootjmPzXcD859YbGSSRpB1 hw== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2130.oracle.com with ESMTP id 2v3vb50jge-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 19 Sep 2019 00:40:11 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x8J0cKii096214;
+ Thu, 19 Sep 2019 00:40:11 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3030.oracle.com with ESMTP id 2v3vb926j5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 19 Sep 2019 00:40:11 +0000
+Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x8J0e80I029874;
+ Thu, 19 Sep 2019 00:40:08 GMT
+Received: from ca-mkp.ca.oracle.com (/10.159.214.123)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 18 Sep 2019 17:40:07 -0700
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH 0/2] nvme: Add kernel API for admin command
+From: "Martin K. Petersen" <martin.petersen@oracle.com>
+Organization: Oracle Corporation
+References: <20190913111610.9958-1-robert.baldyga@intel.com>
+ <20190913143709.GA8525@lst.de>
+ <850977D77E4B5C41926C0A7E2DAC5E234F2C9C09@IRSMSX104.ger.corp.intel.com>
+ <20190916073455.GA25515@lst.de>
+ <850977D77E4B5C41926C0A7E2DAC5E234F2C9D03@IRSMSX104.ger.corp.intel.com>
+ <20190917163909.GB34045@C02WT3WMHTD6.wdl.wdc.com>
+ <20190918132611.GA16232@lst.de> <20190918170807.GA50966@C02WT3WMHTD6>
+ <20190918170956.GA19639@lst.de>
+Date: Wed, 18 Sep 2019 20:40:05 -0400
+In-Reply-To: <20190918170956.GA19639@lst.de> (Christoph Hellwig's message of
+ "Wed, 18 Sep 2019 19:09:56 +0200")
+Message-ID: <yq1h85986fu.fsf@oracle.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1.92 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <B33B37937B7F3D4CB878107E305D4916D35C21@ORSMSX104.amr.corp.intel.com>
-Content-Language: en-US
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9384
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=721
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1908290000 definitions=main-1909190003
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9384
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=797 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1908290000
+ definitions=main-1909190003
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190918_163943_034846_7E9AC686 
-X-CRM114-Status: UNSURE (   9.03  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20190918_174031_659656_A1822EE3 
+X-CRM114-Status: GOOD (  17.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,14 +115,35 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Cc: "sagi@grimberg.me" <sagi@grimberg.me>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "axboe@fb.com" <axboe@fb.com>, "Baldyga, Robert" <robert.baldyga@intel.com>,
+ Keith Busch <kbusch@kernel.org>, "Rakowski,
+ Michal" <michal.rakowski@intel.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thanks Mark,
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Christoph,
+
+> On Wed, Sep 18, 2019 at 11:08:07AM -0600, Keith Busch wrote:
+>> And yes, that bouncing is really nasty, but it's really only needed for
+>> PRP, so maybe let's just not ignore that transfer mode and support
+>> extended metadata iff the controller supports SGLs. We just need a
+>> special SGL setup routine to weave the data and metadata.
+>
+> Well, what is the point?  If people really want to use metadata they
+> should just buy a drive supporting the separate metadata pointer.  In
+> fact I haven't had to deal with a drive that only supports interleaved
+> metadata so far given how awkward that is to deal with.
+
+Yep. There's a reason we did DIX...
+
+-- 
+Martin K. Petersen	Oracle Linux Engineering
 
 _______________________________________________
 Linux-nvme mailing list
