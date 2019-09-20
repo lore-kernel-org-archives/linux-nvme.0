@@ -1,69 +1,72 @@
-Return-Path: <SRS0=DlcY=XO=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=jFtc=XP=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D249DC3A5A6
-	for <linux-nvme@archiver.kernel.org>; Thu, 19 Sep 2019 21:36:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4149C49ED7
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Sep 2019 03:37:39 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9BD98206C2
-	for <linux-nvme@archiver.kernel.org>; Thu, 19 Sep 2019 21:36:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 778FF214AF
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Sep 2019 03:37:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="fbeP7SlX";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="XRoTRrbU"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9BD98206C2
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="piDUGxXF"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 778FF214AF
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=+DQwaAzeEc6yZZQuGv0cEYnTKG1R6ijWX/BPrnum/P8=; b=fbeP7SlX7JFozf
-	CoImTd8sfZaSrr5gxnT71mQBhv9w8d974x3uHx4gqkWF5AL8migdub+v61JaLlTNHo9FsFrrLU1Bk
-	nv3LcUV0PNKXitNn60NYRUMBKmMI3LeXTM0quUbcRjsy8hivLLFOJqXcKm/IT8GOYoof7TLX6L7gI
-	ELy71ekTh03P70/DVNHxymCVWhEUYyJJSe31cfKVkoW1yUK5Zb6JaH7UMNvq65UWYVTEQzZ6JRicR
-	Q2DJw8dzL3GAConWrkM6WuF3aLrr1FnxTuCDOThwMCxDDx5WWk0jEsxmZ6vzFrpAg+hYqnzQNCjRg
-	F6i8RdKqc5vitNVJfMng==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=7ezzakLsn1JZPKyRZkwLJuoFdj/WWew4GWbSBcYN2iU=; b=piDUGxXFZ677vbCExXgiMD+P9
+	pnYJZn2TRAWBS2mxG7eNI6Cj5FEPOb71FBqW5gFhVuKGouw+3n8RU7XIpYzYvyORWo7Pc4mcpCypn
+	EV31zp6p8fZiajLzL9coWuDulsEMAJ1Edo20o1bdqvheIFtN9X3mjG9t0aj+leoOIwumYIfwfb4tX
+	4sCzPFiuz5V23ExL9tsN9zcnce6KWKItFt/IRHJGmQ7B/w+rmFT7Qrpru58d93dn0PlUjKUGcUAPY
+	SKqp+ElQK9BdOX6M3U18BVX0jEplblSaq1tG11MjrOHJtAlPSIVT9Nl+P/vRDoTBiynbprnUqGmk3
+	d7bSyIo/A==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.2 #3 (Red Hat Linux))
-	id 1iB460-0004cc-Fr; Thu, 19 Sep 2019 21:36:12 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1iB9ji-0008Vs-Nm; Fri, 20 Sep 2019 03:37:34 +0000
+Received: from mx1.redhat.com ([209.132.183.28])
  by bombadil.infradead.org with esmtps (Exim 4.92.2 #3 (Red Hat Linux))
- id 1iB44a-0002FH-U4
- for linux-nvme@lists.infradead.org; Thu, 19 Sep 2019 21:34:46 +0000
-Received: from washi1.fujisawa.hgst.com (unknown [199.255.47.10])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ id 1iB9jf-0008VY-KJ
+ for linux-nvme@lists.infradead.org; Fri, 20 Sep 2019 03:37:33 +0000
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id D6DA32196F;
- Thu, 19 Sep 2019 21:34:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1568928884;
- bh=x4utuQrdsugQJ1ljDaXlDyQbFnzhfzNcog/mTt8dDck=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XRoTRrbUdfesbaDVs1p804ix2K/2hNXO8HZkPmsnZs2C/vDG08ZhleQ3ViksC3v9Z
- nsYbT7l4eZb1nOvdb/3/s6edUVRcKktAfjCOGAnxJ4hDlTj2So15Dee6zeCxpu8Gto
- jORd+FWSC6Hf25ZezoIA2Ds+egSiuKMT5+73ij5U=
-From: kbusch@kernel.org
-To: linux-nvme@lists.infradead.org, Sagi Grimberg <sagi@grimberg.me>,
- Christoph Hellwig <hch@lst.de>
-Subject: [PATCHv2 6/6] nvme: Wait for reset state when required
-Date: Fri, 20 Sep 2019 06:34:31 +0900
-Message-Id: <20190919213431.7864-7-kbusch@kernel.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190919213431.7864-1-kbusch@kernel.org>
-References: <20190919213431.7864-1-kbusch@kernel.org>
+ by mx1.redhat.com (Postfix) with ESMTPS id EDDF2898106;
+ Fri, 20 Sep 2019 03:37:27 +0000 (UTC)
+Received: from dhcp-12-105.nay.redhat.com (dhcp-12-105.nay.redhat.com
+ [10.66.12.105])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id ABBBD5D6C8;
+ Fri, 20 Sep 2019 03:37:26 +0000 (UTC)
+Subject: Re: NVMeoF RDMA IB: I/O timeout and NULL pointer observed during
+ rescan_controller/reset_controller with fio background
+To: Max Gurtovoy <maxg@mellanox.com>, linux-nvme@lists.infradead.org
+References: <1437535598.446597.1568798016422.JavaMail.zimbra@redhat.com>
+ <2ea07772-3905-fb82-4d73-7458a963677c@mellanox.com>
+From: Yi Zhang <yi.zhang@redhat.com>
+Message-ID: <1a2ef415-72fd-7a78-33b3-5a2656246f77@redhat.com>
+Date: Fri, 20 Sep 2019 11:37:24 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <2ea07772-3905-fb82-4d73-7458a963677c@mellanox.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.67]); Fri, 20 Sep 2019 03:37:28 +0000 (UTC)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190919_143445_374642_F5673BE1 
-X-CRM114-Status: GOOD (  18.70  )
+X-CRM114-CacheID: sfid-20190919_203731_712049_D7DF0A7D 
+X-CRM114-Status: GOOD (  17.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,249 +78,132 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>,
- Edmund Nadolski <edmund.nadolski@intel.com>,
- James Smart <james.smart@broadcom.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: sagi@grimberg.me
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
-
-Provide a method to block until we've successfully entered the
-RESETTING state so that we can ensure disabling the controller can
-not be interrupted by another one of the various controller reset
-paths. Otherwise, these simultaneous controller disabling/enabling tasks
-may interfere with each other and leave the controller in the wrong state.
-
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/core.c | 36 ++++++++++++++++++++++++++++++-
- drivers/nvme/host/nvme.h |  4 ++++
- drivers/nvme/host/pci.c  | 46 +++++++++++++++++++++++++++-------------
- 3 files changed, 70 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 33b5729763c2..3c75459c28bb 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -374,8 +374,10 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- 		break;
- 	}
- 
--	if (changed)
-+	if (changed) {
- 		ctrl->state = new_state;
-+		wake_up_all(&ctrl->state_wq);
-+	}
- 
- 	spin_unlock_irqrestore(&ctrl->lock, flags);
- 	if (changed && ctrl->state == NVME_CTRL_LIVE)
-@@ -384,6 +386,37 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- }
- EXPORT_SYMBOL_GPL(nvme_change_ctrl_state);
- 
-+/*
-+ * Returns false for sink states that can't ever transition back to live.
-+ */
-+static bool nvme_state_transient(struct nvme_ctrl *ctrl)
-+{
-+	switch (ctrl->state) {
-+	case NVME_CTRL_NEW:
-+	case NVME_CTRL_LIVE:
-+	case NVME_CTRL_RESETTING:
-+	case NVME_CTRL_CONNECTING:
-+		return true;
-+	case NVME_CTRL_DELETING:
-+	case NVME_CTRL_DEAD:
-+	default:
-+		return false;
-+	}
-+}
-+
-+/*
-+ * Waits for the controller state to be resetting, or returns false if it is
-+ * not possible to ever transition to that state.
-+ */
-+bool nvme_wait_reset(struct nvme_ctrl *ctrl)
-+{
-+	wait_event(ctrl->state_wq,
-+		   nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING) ||
-+		   !nvme_state_transient(ctrl));
-+	return ctrl->state == NVME_CTRL_RESETTING;
-+}
-+EXPORT_SYMBOL_GPL(nvme_wait_reset);
-+
- static void nvme_free_ns_head(struct kref *ref)
- {
- 	struct nvme_ns_head *head =
-@@ -3891,6 +3924,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	INIT_WORK(&ctrl->async_event_work, nvme_async_event_work);
- 	INIT_WORK(&ctrl->fw_act_work, nvme_fw_act_work);
- 	INIT_WORK(&ctrl->delete_work, nvme_delete_ctrl_work);
-+	init_waitqueue_head(&ctrl->state_wq);
- 
- 	INIT_DELAYED_WORK(&ctrl->ka_work, nvme_keep_alive_work);
- 	memset(&ctrl->ka_cmd, 0, sizeof(ctrl->ka_cmd));
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 3ad16a81370b..43ac1244c4f7 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -15,6 +15,7 @@
- #include <linux/sed-opal.h>
- #include <linux/fault-inject.h>
- #include <linux/rcupdate.h>
-+#include <linux/wait.h>
- 
- #include <trace/events/block.h>
- 
-@@ -198,6 +199,7 @@ struct nvme_ctrl {
- 	struct cdev cdev;
- 	struct work_struct reset_work;
- 	struct work_struct delete_work;
-+	wait_queue_head_t state_wq;
- 
- 	struct nvme_subsystem *subsys;
- 	struct list_head subsys_entry;
-@@ -448,6 +450,7 @@ void nvme_complete_rq(struct request *req);
- bool nvme_cancel_request(struct request *req, void *data, bool reserved);
- bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- 		enum nvme_ctrl_state new_state);
-+bool nvme_wait_reset(struct nvme_ctrl *ctrl);
- int nvme_disable_ctrl(struct nvme_ctrl *ctrl);
- int nvme_enable_ctrl(struct nvme_ctrl *ctrl);
- int nvme_shutdown_ctrl(struct nvme_ctrl *ctrl);
-@@ -499,6 +502,7 @@ void nvme_stop_keep_alive(struct nvme_ctrl *ctrl);
- int nvme_reset_ctrl(struct nvme_ctrl *ctrl);
- int nvme_reset_continue(struct nvme_ctrl *ctrl);
- int nvme_reset_ctrl_sync(struct nvme_ctrl *ctrl);
-+int nvme_reset_continue(struct nvme_ctrl *ctrl);
- int nvme_delete_ctrl(struct nvme_ctrl *ctrl);
- 
- int nvme_get_log(struct nvme_ctrl *ctrl, u32 nsid, u8 log_page, u8 lsp,
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 9a9e90efcc95..41eb89bf0be3 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2461,6 +2461,14 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 	mutex_unlock(&dev->shutdown_lock);
- }
- 
-+static int nvme_disable_prepare_reset(struct nvme_dev *dev, bool shutdown)
-+{
-+	if (!nvme_wait_reset(&dev->ctrl))
-+		return -EBUSY;
-+	nvme_dev_disable(dev, shutdown);
-+	return 0;
-+}
-+
- static int nvme_setup_prp_pools(struct nvme_dev *dev)
- {
- 	dev->prp_page_pool = dma_pool_create("prp list page", dev->dev,
-@@ -2508,6 +2516,11 @@ static void nvme_pci_free_ctrl(struct nvme_ctrl *ctrl)
- 
- static void nvme_remove_dead_ctrl(struct nvme_dev *dev)
- {
-+	/*
-+	 * Set state to deleting now to avoid blocking nvme_wait_reset(), which
-+	 * may be holding this pci_dev's device lock.
-+	 */
-+	nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DELETING);
- 	nvme_get_ctrl(&dev->ctrl);
- 	nvme_dev_disable(dev, false);
- 	nvme_kill_queues(&dev->ctrl);
-@@ -2833,19 +2846,28 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- static void nvme_reset_prepare(struct pci_dev *pdev)
- {
- 	struct nvme_dev *dev = pci_get_drvdata(pdev);
--	nvme_dev_disable(dev, false);
-+
-+	/*
-+	 * We don't need to check the return value from waiting for the reset
-+	 * state as pci_dev device lock is held, making it impossible to race
-+	 * with ->remove().
-+	 */
-+	nvme_disable_prepare_reset(dev, false);
-+	nvme_sync_queues(&dev->ctrl);
- }
- 
- static void nvme_reset_done(struct pci_dev *pdev)
- {
- 	struct nvme_dev *dev = pci_get_drvdata(pdev);
--	nvme_reset_ctrl_sync(&dev->ctrl);
-+
-+	if (!nvme_reset_continue(&dev->ctrl))
-+		flush_work(&dev->ctrl.reset_work);
- }
- 
- static void nvme_shutdown(struct pci_dev *pdev)
- {
- 	struct nvme_dev *dev = pci_get_drvdata(pdev);
--	nvme_dev_disable(dev, true);
-+	nvme_disable_prepare_reset(dev, true);
- }
- 
- /*
-@@ -2898,7 +2920,7 @@ static int nvme_resume(struct device *dev)
- 
- 	if (ndev->last_ps == U32_MAX ||
- 	    nvme_set_power_state(ctrl, ndev->last_ps) != 0)
--		nvme_reset_ctrl(ctrl);
-+		return nvme_reset_continue(&ndev->ctrl);
- 	return 0;
- }
- 
-@@ -2926,10 +2948,8 @@ static int nvme_suspend(struct device *dev)
- 	 */
- 	if (pm_suspend_via_firmware() || !ctrl->npss ||
- 	    !pcie_aspm_enabled(pdev) ||
--	    (ndev->ctrl.quirks & NVME_QUIRK_SIMPLE_SUSPEND)) {
--		nvme_dev_disable(ndev, true);
--		return 0;
--	}
-+	    (ndev->ctrl.quirks & NVME_QUIRK_SIMPLE_SUSPEND))
-+		return nvme_disable_prepare_reset(ndev, true);
- 
- 	nvme_start_freeze(ctrl);
- 	nvme_wait_freeze(ctrl);
-@@ -2951,9 +2971,8 @@ static int nvme_suspend(struct device *dev)
- 		 * Clearing npss forces a controller reset on resume. The
- 		 * correct value will be resdicovered then.
- 		 */
--		nvme_dev_disable(ndev, true);
-+		ret = nvme_disable_prepare_reset(ndev, true);
- 		ctrl->npss = 0;
--		ret = 0;
- 		goto unfreeze;
- 	}
- 	/*
-@@ -2970,9 +2989,7 @@ static int nvme_suspend(struct device *dev)
- static int nvme_simple_suspend(struct device *dev)
- {
- 	struct nvme_dev *ndev = pci_get_drvdata(to_pci_dev(dev));
--
--	nvme_dev_disable(ndev, true);
--	return 0;
-+	return nvme_disable_prepare_reset(ndev, true);
- }
- 
- static int nvme_simple_resume(struct device *dev)
-@@ -2980,8 +2997,7 @@ static int nvme_simple_resume(struct device *dev)
- 	struct pci_dev *pdev = to_pci_dev(dev);
- 	struct nvme_dev *ndev = pci_get_drvdata(pdev);
- 
--	nvme_reset_ctrl(&ndev->ctrl);
--	return 0;
-+	return nvme_reset_continue(&ndev->ctrl);
- }
- 
- static const struct dev_pm_ops nvme_dev_pm_ops = {
--- 
-2.21.0
-
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+CgpPbiA5LzE4LzE5IDEwOjIxIFBNLCBNYXggR3VydG92b3kgd3JvdGU6Cj4KPiBPbiA5LzE4LzIw
+MTkgMTI6MTMgUE0sIFlpIFpoYW5nIHdyb3RlOgo+PiBIZWxsbwo+PiBJIG9ic2VydmVkIGJlbGxv
+dyBJL08gdGltZW91dCBhbmQgTlVMTCBwb2ludGVyIG9uIDUuMy4wLCBwbHMgaGVscCAKPj4gY2hl
+Y2sgaXQsIGxldCBtZSBrbm93IGlmIHlvdSBuZWVkIG1vcmUgaW5mbyBvciB0ZXN0IHBhdGNoLCB0
+aGFua3MKPgo+IEhpLAo+Cj4gQ2FuIHlvdSB0cnkgdG8gcmVwcm8gaXQgd2l0aCBvbGRlciBrZXJu
+ZWwgKDUuMi4wKSA/Cj4KPiBJIHdhbnQgdG8gdW5kZXJzdGFuZCBpZiBpdHMgYSByZWdyZXNzaW9u
+IGZyb20gdGhlIGxhc3QgZmV3IG1vbnRocy4uLgo+CkhpIE1heAogRnJvbSBteSB0ZXN0LCBzZWVt
+cyB0aGVyZSBhcmUgdHdvIGlzc3VlIGhlcmUsIG9uZSBpdCBJL08gdGltZW91dCBkdXJpbmcgCnJl
+c2V0X2NvbnRyb2xsZXIsCnRoZSBvdGhlciBvbmUgaXMgcmVjb25uZWN0aW5nIGFmdGVyIEkvTyB0
+aW1lb3V0IGxlYWQga2VybmVsIE5VTEwgCnBvaW50ZXIsIGFuZCBpdCB3YXMgaW50cm9kdWNlZCBm
+cm9tIHY1LjIuMC1yYzEKCnY1LjEKI2VjaG8gMSA+IC9zeXMvYmxvY2svbnZtZTJuMS9kZXZpY2Uv
+cmVzZXRfY29udHJvbGxlcgplY2hvOiB3cml0ZSBlcnJvcjogTmV0d29yayBkcm9wcGVkIGNvbm5l
+Y3Rpb24gb24gcmVzZXQKCls1NTU0Mi4wNzM5MjldIG52bWUgbnZtZTI6IFBsZWFzZSBlbmFibGUg
+Q09ORklHX05WTUVfTVVMVElQQVRIIGZvciBmdWxsIApzdXBwb3J0IG9mIG11bHRpLXBvcnQgZGV2
+aWNlcy4KWzU1NTQyLjA4MzA5OF0gbnZtZSBudm1lMjogY3JlYXRpbmcgNDggSS9PIHF1ZXVlcy4K
+WzU1NjA3LjkyMDAxNV0gbnZtZSBudm1lMjogSS9PIDAgUUlEIDAgdGltZW91dApbNTU2MDcuOTM3
+ODYzXSBudm1lIG52bWUyOiBDb25uZWN0IGNvbW1hbmQgZmFpbGVkLCBlcnJvciB3by9ETlIgYml0
+OiA3Cls1NTYwNy45NDQxNTddIG52bWUgbnZtZTI6IGZhaWxlZCB0byBjb25uZWN0IHF1ZXVlOiAw
+IHJldD03Cls1NTYwNy45NDk0NzhdIG52bWUgbnZtZTI6IFJlY29ubmVjdGluZyBpbiAxMCBzZWNv
+bmRzLi4uCls1NTYxOC4xNjYzOTVdIG52bWUgbnZtZTI6IFBsZWFzZSBlbmFibGUgQ09ORklHX05W
+TUVfTVVMVElQQVRIIGZvciBmdWxsIApzdXBwb3J0IG9mIG11bHRpLXBvcnQgZGV2aWNlcy4KWzU1
+NjE4LjE3NTU3NV0gbnZtZSBudm1lMjogY3JlYXRpbmcgNDggSS9PIHF1ZXVlcy4KWzU1NjE4Ljk2
+MDM4N10gbnZtZSBudm1lMjogU3VjY2Vzc2Z1bGx5IHJlY29ubmVjdGVkICgyIGF0dGVtcHRzKQoK
+CnY1LjIuMC1yYzEKWyAxNDYzLjUxNjAyM10gbnZtZSBudm1lMjogY3JlYXRpbmcgNDggSS9PIHF1
+ZXVlcy4KWyAxNDY0LjMxMTM4N10gbnZtZTJjMm4xOiBkZXRlY3RlZCBjYXBhY2l0eSBjaGFuZ2Ug
+ZnJvbSAwIHRvIDE2MDAzMjEzMTQ4MTYKWyAxNDY0LjQzNTIyNV0gbnZtZTJjMm4xOiBkZXRlY3Rl
+ZCBjYXBhY2l0eSBjaGFuZ2UgZnJvbSAwIHRvIDE2MDAzMjEzMTQ4MTYKWyAxNDg2LjUxNTg5OV0g
+bnZtZV9uc19oZWFkX21ha2VfcmVxdWVzdDogMTY3IGNhbGxiYWNrcyBzdXBwcmVzc2VkClsgMTQ4
+Ni41MTU5MDNdIGJsb2NrIG52bWUybjE6IG5vIHBhdGggYXZhaWxhYmxlIC0gcmVxdWV1aW5nIEkv
+TwpbIDE0ODYuNTI3NTEzXSBibG9jayBudm1lMm4xOiBubyBwYXRoIGF2YWlsYWJsZSAtIHJlcXVl
+dWluZyBJL08KWyAxNDg2LjUzMzE4M10gYmxvY2sgbnZtZTJuMTogbm8gcGF0aCBhdmFpbGFibGUg
+LSByZXF1ZXVpbmcgSS9PClsgMTQ4Ni41Mzg4NTJdIGJsb2NrIG52bWUybjE6IG5vIHBhdGggYXZh
+aWxhYmxlIC0gcmVxdWV1aW5nIEkvTwpbIDE0ODYuNTQ0NTM2XSBibG9jayBudm1lMm4xOiBubyBw
+YXRoIGF2YWlsYWJsZSAtIHJlcXVldWluZyBJL08KWyAxNDg2LjU1MDIxNF0gYmxvY2sgbnZtZTJu
+MTogbm8gcGF0aCBhdmFpbGFibGUgLSByZXF1ZXVpbmcgSS9PClsgMTQ4Ni41NTU4ODBdIGJsb2Nr
+IG52bWUybjE6IG5vIHBhdGggYXZhaWxhYmxlIC0gcmVxdWV1aW5nIEkvTwpbIDE0ODYuNTYxNTQ4
+XSBibG9jayBudm1lMm4xOiBubyBwYXRoIGF2YWlsYWJsZSAtIHJlcXVldWluZyBJL08KWyAxNDg2
+LjU2NzIzMl0gYmxvY2sgbnZtZTJuMTogbm8gcGF0aCBhdmFpbGFibGUgLSByZXF1ZXVpbmcgSS9P
+ClsgMTQ4Ni41NzI5MTBdIGJsb2NrIG52bWUybjE6IG5vIHBhdGggYXZhaWxhYmxlIC0gcmVxdWV1
+aW5nIEkvTwpbIDE1MjYuNDUwNDM5XSBudm1lIG52bWUyOiBJL08gMCBRSUQgMCB0aW1lb3V0Clsg
+MTUyNi40Njk0MTFdIG52bWUgbnZtZTI6IENvbm5lY3QgY29tbWFuZCBmYWlsZWQsIGVycm9yIHdv
+L0ROUiBiaXQ6IDcKWyAxNTI2LjQ3NTcwMl0gbnZtZSBudm1lMjogZmFpbGVkIHRvIGNvbm5lY3Qg
+cXVldWU6IDAgcmV0PTcKWyAxNTI2LjQ4MTAzNF0gZ2VuZXJhbCBwcm90ZWN0aW9uIGZhdWx0OiAw
+MDAwIFsjMV0gU01QIFBUSQpbIDE1MjYuNDg2MjgxXSBDUFU6IDIxIFBJRDogMTYxMzggQ29tbTog
+a3dvcmtlci91OTg6MiBOb3QgdGFpbnRlZCAKNS4yLjAtcmMxICMxNQpbIDE1MjYuNDkzMzM2XSBI
+YXJkd2FyZSBuYW1lOiBEZWxsIEluYy4gUG93ZXJFZGdlIFI3NDAvMDBXR0QxLCBCSU9TIAoyLjIu
+MTEgMDYvMTMvMjAxOQpbIDE1MjYuNTAwOTAzXSBXb3JrcXVldWU6IG52bWUtcmVzZXQtd3EgbnZt
+ZV9yZG1hX3Jlc2V0X2N0cmxfd29yayAKW252bWVfcmRtYV0KWyAxNTI2LjUwNzc5NF0gUklQOiAw
+MDEwOl9feDg2X2luZGlyZWN0X3RodW5rX3JheCsweDEwLzB4MjAKWyAxNTI2LjUxMzEyMF0gQ29k
+ZTogMDMgMDEgZDEgODkgY2EgZTkgODAgZWMgY2EgZmYgNDggOGQgMGMgYzggZTkgODEgZWEgCmNh
+IGZmIDkwIDkwIDkwIDkwIDkwIDkwIDkwIGU4IDA3IDAwIDAwIDAwIGYzIDkwIDBmIGFlIGU4IGVi
+IGY5IDQ4IDg5IDA0IAoyNCA8YzM+IDBmIDFmIDQ0IDAwIDAwIDY2IDJlIDBmIDFmIDg0IDAwIDAw
+IDAwIDAwIDAwIGU4IDA3IDAwIDAwIDAwIGYzClsgMTUyNi41MzE4NjRdIFJTUDogMDAxODpmZmZm
+YzE5ZDJhZGU3ZTE4IEVGTEFHUzogMDAwMTAyNDYKWyAxNTI2LjUzNzA4OV0gUkFYOiA3MzA0MjQw
+NzNmMDEzMjAwIFJCWDogMDAwMDAwMDAwMDAwMDAwMCBSQ1g6IAowMDAwMDAwMDAwMDAwMDAxClsg
+MTUyNi41NDQyMjNdIFJEWDogMDAwMDAwMDAwMDAwMDA0MCBSU0k6IDAwMDAwMDBiZTJhMTllMDAg
+UkRJOiAKZmZmZjllMDJmZjkwN2Q4MApbIDE1MjYuNTUxMzU1XSBSQlA6IDAwMDAwMDAwMDAwMDAw
+MDcgUjA4OiAwMDAwMDAwMDAwMDAwMDAwIFIwOTogCjAwMDAwMDAwMDAwMDAwMTUKWyAxNTI2LjU1
+ODUxM10gUjEwOiAwMDAwMDAwMDAwMDAwMDAwIFIxMTogZmZmZmMxOWQyYWRlN2I2MCBSMTI6IAow
+MDAwMDAwMDAwMDAwMDAwClsgMTUyNi41NjU2NDRdIFIxMzogZmZmZjllMGU4YjlhMDJmOCBSMTQ6
+IGZmZmY5ZTBlOGI5YTAwMDAgUjE1OiAKZmZmZjllMGU4YjlhMDZlMApbIDE1MjYuNTcyNzc5XSBG
+UzrCoCAwMDAwMDAwMDAwMDAwMDAwKDAwMDApIEdTOmZmZmY5ZTBmMDY2ODAwMDAoMDAwMCkgCmtu
+bEdTOjAwMDAwMDAwMDAwMDAwMDAKWyAxNTI2LjU4MDg2M10gQ1M6wqAgMDAxMCBEUzogMDAwMCBF
+UzogMDAwMCBDUjA6IDAwMDAwMDAwODAwNTAwMzMKWyAxNTI2LjU4NjYzNF0gQ1IyOiAwMDAwN2Yw
+MTc5Y2QxZWM4IENSMzogMDAwMDAwMTgzZjAwYTAwNiBDUjQ6IAowMDAwMDAwMDAwNzYwNmUwClsg
+MTUyNi41OTM3NjldIERSMDogMDAwMDAwMDAwMDAwMDAwMCBEUjE6IDAwMDAwMDAwMDAwMDAwMDAg
+RFIyOiAKMDAwMDAwMDAwMDAwMDAwMApbIDE1MjYuNjAwOTAwXSBEUjM6IDAwMDAwMDAwMDAwMDAw
+MDAgRFI2OiAwMDAwMDAwMGZmZmUwZmYwIERSNzogCjAwMDAwMDAwMDAwMDA0MDAKWyAxNTI2LjYw
+ODAzM10gUEtSVTogNTU1NTU1NTQKWyAxNTI2LjYxMDc1M10gQ2FsbCBUcmFjZToKWyAxNTI2LjYx
+MzIwMV3CoCA/IG52bWVfcmRtYV9zZXR1cF9jdHJsKzB4MWFlLzB4NmIwIFtudm1lX3JkbWFdClsg
+MTUyNi42MTg3ODJdwqAgPyBudm1lX3JkbWFfcmVzZXRfY3RybF93b3JrKzB4NGUvMHg3MCBbbnZt
+ZV9yZG1hXQpbIDE1MjYuNjI0NjQyXcKgID8gcHJvY2Vzc19vbmVfd29yaysweDFhMS8weDNhMApb
+IDE1MjYuNjI4ODI0XcKgID8gd29ya2VyX3RocmVhZCsweDFjOS8weDM4MApbIDE1MjYuNjMyNzUx
+XcKgID8gcHJvY2Vzc19vbmVfd29yaysweDNhMC8weDNhMApbIDE1MjYuNjM2OTM3XcKgID8ga3Ro
+cmVhZCsweDEwYy8weDEzMApbIDE1MjYuNjQwMzQxXcKgID8ga3RocmVhZF9jcmVhdGVfb25fbm9k
+ZSsweDYwLzB4NjAKWyAxNTI2LjY0NDg3Nl3CoCA/IHJldF9mcm9tX2ZvcmsrMHgzNS8weDQwClsg
+MTUyNi42NDg2MzVdIE1vZHVsZXMgbGlua2VkIGluOiBudm1lX3JkbWEgbnZtZV9mYWJyaWNzIG52
+bWV0X3JkbWEgCm52bWV0IDgwMjFxIGdhcnAgbXJwIHN0cCBsbGMgaWJfaXNlcnQgaXNjc2lfdGFy
+Z2V0X21vZCBpYl9zcnB0IAp0YXJnZXRfY29yZV9tb2QgaWJfc3JwIHNjc2lfdHJhbnNwb3J0X3Ny
+cCB2ZmF0IGZhdCBtbHg1X2liIG9wYV92bmljIAppYl91bWFkIGliX2lwb2liIGludGVsX3JhcGwg
+c2t4X2VkYWMgbmZpdCBsaWJudmRpbW0geDg2X3BrZ190ZW1wX3RoZXJtYWwgCmludGVsX3Bvd2Vy
+Y2xhbXAgY29yZXRlbXAgcnBjcmRtYSBzdW5ycGMga3ZtX2ludGVsIGhmaTEga3ZtIHJkbWFfdWNt
+IAppYl9pc2VyIGxpYmlzY3NpIHNjc2lfdHJhbnNwb3J0X2lzY3NpIGl3X2N4Z2I0IGlwbWlfc3Np
+ZiByZG1hX2NtIGl3X2NtIApyZG1hdnQgaWJfY20gYm54dF9yZSBsaWJjeGdiIGlycWJ5cGFzcyBp
+Yl91dmVyYnMgY3JjdDEwZGlmX3BjbG11bCAKY3JjMzJfcGNsbXVsIGdoYXNoX2NsbXVsbmlfaW50
+ZWwgaW50ZWxfY3N0YXRlIGlUQ09fd2R0IAppVENPX3ZlbmRvcl9zdXBwb3J0IGludGVsX3VuY29y
+ZSBpYl9jb3JlIGRjZGJhcyBtZWlfbWUgZGVsbF9zbWJpb3MgCmlwbWlfc2kgd21pX2Jtb2YgZGVs
+bF93bWlfZGVzY3JpcHRvciBpbnRlbF9yYXBsX3BlcmYgc2cgcGNzcGtyIG1laSAKaXBtaV9kZXZp
+bnRmIGkyY19pODAxIGxwY19pY2ggaXBtaV9tc2doYW5kbGVyIGFjcGlfcG93ZXJfbWV0ZXIgeGZz
+IApsaWJjcmMzMmMgc2RfbW9kIG1nYWcyMDAgaTJjX2FsZ29fYml0IGRybV9rbXNfaGVscGVyIHN5
+c2NvcHlhcmVhIApzeXNmaWxscmVjdCBzeXNpbWdibHQgZmJfc3lzX2ZvcHMgbWx4NV9jb3JlIHR0
+bSBkcm0gY3hnYjQgY3Npb3N0b3IgYWhjaSAKbnZtZSBsaWJhaGNpIGJueHRfZW4gY3JjMzJjX2lu
+dGVsIG52bWVfY29yZSBsaWJhdGEgbWVnYXJhaWRfc2FzIApzY3NpX3RyYW5zcG9ydF9mYyBtbHhm
+dyB0ZzMgd21pIGRtX21pcnJvciBkbV9yZWdpb25faGFzaCBkbV9sb2cgZG1fbW9kClsgMTUyNi43
+MzYxMTldIC0tLVsgZW5kIHRyYWNlIDAxMjRiOWEyZjhkY2YyMWQgXS0tLQpbIDE1MjYuNzU3NDAw
+XSBSSVA6IDAwMTA6X194ODZfaW5kaXJlY3RfdGh1bmtfcmF4KzB4MTAvMHgyMApbIDE1MjYuNzYy
+NzEzXSBDb2RlOiAwMyAwMSBkMSA4OSBjYSBlOSA4MCBlYyBjYSBmZiA0OCA4ZCAwYyBjOCBlOSA4
+MSBlYSAKY2EgZmYgOTAgOTAgOTAgOTAgOTAgOTAgOTAgZTggMDcgMDAgMDAgMDAgZjMgOTAgMGYg
+YWUgZTggZWIgZjkgNDggODkgMDQgCjI0IDxjMz4gMGYgMWYgNDQgMDAgMDAgNjYgMmUgMGYgMWYg
+ODQgMDAgMDAgMDAgMDAgMDAgZTggMDcgMDAgMDAgMDAgZjMKWyAxNTI2Ljc4MTQ3Ml0gUlNQOiAw
+MDE4OmZmZmZjMTlkMmFkZTdlMTggRUZMQUdTOiAwMDAxMDI0NgpbIDE1MjYuNzg2NzE1XSBSQVg6
+IDczMDQyNDA3M2YwMTMyMDAgUkJYOiAwMDAwMDAwMDAwMDAwMDAwIFJDWDogCjAwMDAwMDAwMDAw
+MDAwMDEKWyAxNTI2Ljc5Mzg2M10gUkRYOiAwMDAwMDAwMDAwMDAwMDQwIFJTSTogMDAwMDAwMGJl
+MmExOWUwMCBSREk6IApmZmZmOWUwMmZmOTA3ZDgwClsgMTUyNi44MDEwMTRdIFJCUDogMDAwMDAw
+MDAwMDAwMDAwNyBSMDg6IDAwMDAwMDAwMDAwMDAwMDAgUjA5OiAKMDAwMDAwMDAwMDAwMDAxNQpb
+IDE1MjYuODA4MTYyXSBSMTA6IDAwMDAwMDAwMDAwMDAwMDAgUjExOiBmZmZmYzE5ZDJhZGU3YjYw
+IFIxMjogCjAwMDAwMDAwMDAwMDAwMDAKWyAxNTI2LjgxNTMwNF0gUjEzOiBmZmZmOWUwZThiOWEw
+MmY4IFIxNDogZmZmZjllMGU4YjlhMDAwMCBSMTU6IApmZmZmOWUwZThiOWEwNmUwClsgMTUyNi44
+MjI0NTddIEZTOsKgIDAwMDAwMDAwMDAwMDAwMDAoMDAwMCkgR1M6ZmZmZjllMGYwNjY4MDAwMCgw
+MDAwKSAKa25sR1M6MDAwMDAwMDAwMDAwMDAwMApbIDE1MjYuODMwNTU4XSBDUzrCoCAwMDEwIERT
+OiAwMDAwIEVTOiAwMDAwIENSMDogMDAwMDAwMDA4MDA1MDAzMwpbIDE1MjYuODM2MzM3XSBDUjI6
+IDAwMDA3ZjAxNzljZDFlYzggQ1IzOiAwMDAwMDAxODNmMDBhMDA2IENSNDogCjAwMDAwMDAwMDA3
+NjA2ZTAKWyAxNTI2Ljg0MzQ3Ml0gRFIwOiAwMDAwMDAwMDAwMDAwMDAwIERSMTogMDAwMDAwMDAw
+MDAwMDAwMCBEUjI6IAowMDAwMDAwMDAwMDAwMDAwClsgMTUyNi44NTA2MjhdIERSMzogMDAwMDAw
+MDAwMDAwMDAwMCBEUjY6IDAwMDAwMDAwZmZmZTBmZjAgRFI3OiAKMDAwMDAwMDAwMDAwMDQwMApb
+IDE1MjYuODU3NzY3XSBQS1JVOiA1NTU1NTU1NApbIDE1MjYuODYwNTAxXSBLZXJuZWwgcGFuaWMg
+LSBub3Qgc3luY2luZzogRmF0YWwgZXhjZXB0aW9uClsgMTUyNi44NjU4MTNdIEtlcm5lbCBPZmZz
+ZXQ6IDB4MTMwMDAwMDAgZnJvbSAweGZmZmZmZmZmODEwMDAwMDAgCihyZWxvY2F0aW9uIHJhbmdl
+OiAweGZmZmZmZmZmODAwMDAwMDAtMHhmZmZmZmZmZmJmZmZmZmZmKQpbIDE1MjYuODkzMzM3XSAt
+LS1bIGVuZCBLZXJuZWwgcGFuaWMgLSBub3Qgc3luY2luZzogRmF0YWwgZXhjZXB0aW9uIF0tLS0K
+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LW52
+bWUgbWFpbGluZyBsaXN0CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlz
+dHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
