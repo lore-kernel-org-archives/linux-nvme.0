@@ -6,17 +6,17 @@ X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32B86C3A5A2
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Sep 2019 17:53:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A16AC3A5A2
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Sep 2019 17:55:01 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0DFE02086A
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Sep 2019 17:53:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D83CB2086A
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Sep 2019 17:55:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="adSy5bx2";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="uWQPidMT"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0DFE02086A
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="B6LEEPAu";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="RnWKj25U"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D83CB2086A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,46 +25,45 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=eQZq9ddCuKO0I7itwkRO2QUUIXRxATHjPMymhic6j4c=; b=adSy5bx2E3sp0b
-	p/PKPOPNdljiBi6bAKMrhRao8kZtv4I8FBBENfM0V5nvJGzCaR2uEaW/tDENYJK5EIdDbDZrM25ZW
-	+kwrPBNyCH2MT/uGLQrgHVNANj6OglqBJytaVoF8ooeVehPi+u39Fv89q9tl+axoReOXyEfQ/xtYo
-	LP9dWdGEDZ5vaCUFq/YOJW6AOmnq9M6YYmfmPsgtjROEWLO9kmO+WEGrYz3EOgetNMhSDaRvIsXij
-	+b3p4XsX0N6wvMH7GNwPK9NvEFAodW2gUAH4rdAvjZGDRXy8QWqHR3SanaljKrizL4/RKYcqP5X3A
-	daMQcvBdOXYq59bwkIGA==;
+	List-Owner; bh=RDtVGda3h/aG2eSwzYWma7h4Jhn9zMX2EY6ZTsyiuKY=; b=B6LEEPAuQSkt+D
+	0+HM7QT6h6R2139NSxUiSZeTc/t985XKwwjigwgRsaM482gGLJEikD7EixKVk88jsnUMiA0uC2VUH
+	mWbqKWxbo/u4l7g/gLzMalGWORyrkf8Tvx8WuayIg3DUWFLqEANIVlT7oC4llFC+GGT4nD+cmvAXo
+	rVIoipha9XQr4F6dutjEl6QR9nINxqjg9q7YBB5PXbevnZR8PWW1P4Fih8/vKwghePPNU/ShOsqDO
+	9yZwH2Mdx/8+EaV/lAJJX0igU05v/YM3F4z6M+SeWrjUqvGIbog524Ho4kJOHgG2IcHXpAhpknbvj
+	/og0my4ixb515zT7m3kg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.2 #3 (Red Hat Linux))
-	id 1iBN6S-0005uQ-12; Fri, 20 Sep 2019 17:53:56 +0000
+	id 1iBN7T-00068n-3P; Fri, 20 Sep 2019 17:54:59 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.2 #3 (Red Hat Linux))
- id 1iBN6P-0005sZ-U1
- for linux-nvme@lists.infradead.org; Fri, 20 Sep 2019 17:53:55 +0000
+ id 1iBN7Q-00068P-ES
+ for linux-nvme@lists.infradead.org; Fri, 20 Sep 2019 17:54:58 +0000
 Received: from C02WT3WMHTD6 (unknown [8.36.226.102])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 5380C208C0;
- Fri, 20 Sep 2019 17:53:53 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id DD0C02086A;
+ Fri, 20 Sep 2019 17:54:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1569002033;
- bh=0iQq9F8mXl+BcVV56komRet+Xcto/LA1aHyYI9gedLM=;
+ s=default; t=1569002096;
+ bh=yZCO4v4fZBAhBf7cVRwNF01joLuaJE574y7iX8J0JJs=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=uWQPidMTYFqX4kYlwxZoO2x4rR2D+95wNT7ctsp+N4JdfcGI/BfKrRhPqLTchzQgr
- jKG1Y0bq/biqtGb36vu3H8c9v7R/WSdoY8IUHrybAqu1WtR5uF5ZAqqPsRqT06OSDN
- IVysQpSVFlrk8/EX8TdjVNJrmPILba9A1oVaxpAE=
-Date: Fri, 20 Sep 2019 11:53:51 -0600
+ b=RnWKj25UsgwTdXYFlyTq2usMl72gTEGncJhkbdYeJOCMtPamyrATkPNbbCUWaquoC
+ vOYAtlVmO0kVSXoKloiKsd6hCrfRvQdAQ/sNTH0kecbBBslAuHXxkC0HHwV/BrN9yb
+ RpDb+Zam0i9aGflefPFNfCyGjBHm1YaPeHDJm3AI=
+Date: Fri, 20 Sep 2019 11:54:54 -0600
 From: Keith Busch <kbusch@kernel.org>
 To: Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCHv2 1/6] nvme-pci: Free tagset if no IO queues
-Message-ID: <20190920175351.GA97854@C02WT3WMHTD6>
+Subject: Re: [PATCHv2 0/6] nvme: double reset prevention
+Message-ID: <20190920175454.GB97854@C02WT3WMHTD6>
 References: <20190919213431.7864-1-kbusch@kernel.org>
- <20190919213431.7864-2-kbusch@kernel.org>
- <d6c5e276-6479-89e6-4a59-5e950ddf2fe5@grimberg.me>
+ <6f31bc09-95d3-bf11-7846-e57d8600462d@grimberg.me>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <d6c5e276-6479-89e6-4a59-5e950ddf2fe5@grimberg.me>
+In-Reply-To: <6f31bc09-95d3-bf11-7846-e57d8600462d@grimberg.me>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190920_105353_984925_6A2F9491 
-X-CRM114-Status: GOOD (  10.75  )
+X-CRM114-CacheID: sfid-20190920_105456_504010_2A915510 
+X-CRM114-Status: GOOD (  12.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,24 +82,26 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Sep 20, 2019 at 10:49:11AM -0700, Sagi Grimberg wrote:
+On Fri, Sep 20, 2019 at 10:51:52AM -0700, Sagi Grimberg wrote:
 > 
-> > +static void nvme_free_tagset(struct nvme_dev *dev)
-> > +{
-> > +	if (dev->tagset.tags)
-> > +		blk_mq_free_tag_set(&dev->tagset);
-> > +	dev->ctrl.tagset = NULL;
-> > +}
-> > +
+> > The main objective of this series is to prevent double resets. This sort
+> > of thing is known to have happened if a timeout occurs at roughly the same time
+> > as a user intiated reset, like through through PCIe's FLR.
+> > 
+> > The double reset could happen because the controller disabling had been
+> > occuring outside of the RESETTING state when we can't schedule the
+> > reset_work, which is to occur later. When another reset schedules in
+> > between these events, the controller ends up in the wrong state.
+> > 
+> > The end result of this series is simply to block subsequent resets by
+> > initializing the controller state to RESETTING without actually
+> > scheduling the reset_work. The first patches in this series are simply
 > 
-> testing dev->tagset.tags and nulling dev->ctrl.tagset?
-> why not check dev->ctrl.tagset?
+> are simply what?
 
-We could theoretically use either. I don't see any case where we've
-allocated dev->tagset.tags but didn't set dev->ctrl.tagset.  But I
-just kept the same check we had before, just moved it into a helper
-function.
+Oops, cut off my message.
 
+Simply fixing issues discovered while testing the changes.
 
 _______________________________________________
 Linux-nvme mailing list
