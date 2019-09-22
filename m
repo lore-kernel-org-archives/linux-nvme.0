@@ -4,20 +4,20 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BC6AC4740C
-	for <linux-nvme@archiver.kernel.org>; Sun, 22 Sep 2019 18:59:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79697C3A5A6
+	for <linux-nvme@archiver.kernel.org>; Sun, 22 Sep 2019 19:00:57 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 677CC21479
-	for <linux-nvme@archiver.kernel.org>; Sun, 22 Sep 2019 18:59:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 535FA208C2
+	for <linux-nvme@archiver.kernel.org>; Sun, 22 Sep 2019 19:00:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="HgU+qvqn";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="SyHg8RGP"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 677CC21479
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="aErGewCn";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="ftGg14r1"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 535FA208C2
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,48 +26,48 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=XBXWLNg5jODCVHNIW+blNWkYASyv9beTwp5uA9d2IG0=; b=HgU+qvqnyOJxJY
-	7cQyFhRoCEg48dWi6TMwRAhElRZlEy47Pi6lszbuZjD31UXT/p5DzqVQULYkJucOq6XmSDbwTzrYq
-	8e1rtxlu7p3YuBkhRVy2e0VRQPOvwKQ7awkxcEnYqnvqk05Atm7vD/jbtWzIghDUR5heDlrzkXFXF
-	tyoWavUpD5H1FybumqZV/ueyBCAbkXgah3yDK3lP5/IqCZx38/EE1KRjcGNqZvVnGKQrcJgNrPJ2r
-	WetIFP/0AEqweUUsiVQBjPFxqvQ1vhxHugsqhGeMeF83PFPczybz5joNpMgEyCeA+5KDgOPdgO1VE
-	HkSMOHQqIkIAApAddS6g==;
+	List-Owner; bh=wM8avbaZSxD1RtCA92ufmrDzKYqlSBV8SWt+yNj5/HE=; b=aErGewCn0o7wOc
+	YAWqwEVUozqAxRdCvaZts3FSe4t90o2j0muw5xd03DgTdwiiGFUJ60BHFiiNRxln1+7BPB3N9TPV5
+	QuDwIKd9ptZsxg4do0h8f2JRU5VdaTqm9Wcki3ExhH4NHl5twHTgLTC0HI2JSyqHvkyf2GMVrJZIM
+	X0ONH4GkediIskEBqrptiLN8jqTLCOxYItF6QGRbFfj5yp53LtwL1ilcahPx0xsizlRzDYrWqsP7S
+	cv2glMX0vhIJcYjO8tIHyAJzLx0sS6Tk7RfrNoEkJKhneBI98VZqcnEwPgiyvSe6f8GHlvgmhhVYc
+	3GUH9u0dS8ir0h8vWIUg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.2 #3 (Red Hat Linux))
-	id 1iC74T-0007C5-Uo; Sun, 22 Sep 2019 18:58:57 +0000
+	id 1iC76M-00014m-TN; Sun, 22 Sep 2019 19:00:55 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.2 #3 (Red Hat Linux))
- id 1iC74R-0007Ah-4u
- for linux-nvme@lists.infradead.org; Sun, 22 Sep 2019 18:58:56 +0000
+ id 1iC75x-0000gJ-8h
+ for linux-nvme@lists.infradead.org; Sun, 22 Sep 2019 19:00:31 +0000
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id C0BA821479;
- Sun, 22 Sep 2019 18:58:53 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id DE596206C2;
+ Sun, 22 Sep 2019 19:00:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1569178734;
- bh=tt0LCh4YXjzKOv/dvjz3XCtEM80VHmZtBK0kywOKkYo=;
+ s=default; t=1569178828;
+ bh=lTc6DFAiAPGMPxNE/on0ezBOoV5GI9L/+6b0widIlG0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=SyHg8RGPNWbzXpK3uQKcVBgefQAXOQzTPHD85yckt8kC/JfdzSqk4LQ9blvrOvrKt
- L+GR7GAO2ruvE9o1FbrCZw8QrqEXVwQXtQacO7VBICBg6wSHXCM8jqT5Y0TPfM9G6P
- kXOOz+Z2C/+td4yFqndVQRuuGfa6xCX4xp4vxes4=
+ b=ftGg14r1TAdD4/UwRqCv6vqeIDpUVksq5Ew7xXR2GzcTanoOg5rZSvJFzfhGqtSyj
+ 0QG1BtJwmxmAKMDaJVi42eBabLN0ZKSFRzHcfL10yD5GJoDp/F7q8ffX1UH8F7mkFt
+ nX3QDUO6S6qcGwNYhI6bb3EnaRpHBwt907crzelw=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 63/89] nvmet: fix data units read and written
+Subject: [PATCH AUTOSEL 4.9 39/60] nvmet: fix data units read and written
  counters in SMART log
-Date: Sun, 22 Sep 2019 14:56:51 -0400
-Message-Id: <20190922185717.3412-63-sashal@kernel.org>
+Date: Sun, 22 Sep 2019 14:59:12 -0400
+Message-Id: <20190922185934.4305-39-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190922185717.3412-1-sashal@kernel.org>
-References: <20190922185717.3412-1-sashal@kernel.org>
+In-Reply-To: <20190922185934.4305-1-sashal@kernel.org>
+References: <20190922185934.4305-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190922_115855_209715_CFD10613 
-X-CRM114-Status: UNSURE (   9.72  )
+X-CRM114-CacheID: sfid-20190922_120029_953409_3BC396C7 
+X-CRM114-Status: UNSURE (   9.93  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -114,10 +114,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 8 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index c4a0bf36e7521..0e94fd737eb4e 100644
+index cdb7752dcbb79..446f61ba018d7 100644
 --- a/drivers/nvme/target/admin-cmd.c
 +++ b/drivers/nvme/target/admin-cmd.c
-@@ -49,9 +49,11 @@ static u16 nvmet_get_smart_log_nsid(struct nvmet_req *req,
+@@ -47,9 +47,11 @@ static u16 nvmet_get_smart_log_nsid(struct nvmet_req *req,
  	}
  
  	host_reads = part_stat_read(ns->bdev->bd_part, ios[READ]);
@@ -131,7 +131,7 @@ index c4a0bf36e7521..0e94fd737eb4e 100644
  
  	put_unaligned_le64(host_reads, &slog->host_reads[0]);
  	put_unaligned_le64(data_units_read, &slog->data_units_read[0]);
-@@ -77,11 +79,11 @@ static u16 nvmet_get_smart_log_all(struct nvmet_req *req,
+@@ -75,11 +77,11 @@ static u16 nvmet_get_smart_log_all(struct nvmet_req *req,
  	rcu_read_lock();
  	list_for_each_entry_rcu(ns, &ctrl->subsys->namespaces, dev_link) {
  		host_reads += part_stat_read(ns->bdev->bd_part, ios[READ]);
