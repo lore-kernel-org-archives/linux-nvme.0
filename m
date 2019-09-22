@@ -7,18 +7,18 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BD35C3A5A2
-	for <linux-nvme@archiver.kernel.org>; Sun, 22 Sep 2019 04:27:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F1E3C3A5A2
+	for <linux-nvme@archiver.kernel.org>; Sun, 22 Sep 2019 05:34:01 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 115B2208C2
-	for <linux-nvme@archiver.kernel.org>; Sun, 22 Sep 2019 04:27:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id DCB8C2067B
+	for <linux-nvme@archiver.kernel.org>; Sun, 22 Sep 2019 05:34:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="oClG6yYy";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="jok47W4K";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="T6xL+aX3"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 115B2208C2
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="dDjQidb6";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="ng6T1DxC";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="trdnrTrx"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DCB8C2067B
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -27,74 +27,72 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date
 	:Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	List-Owner; bh=Wnv1wK6J/mTpFLoFgIxOHPYvWMQj+j9ei/0HEzzXlhY=; b=oClG6yYyu60fb6
-	EYT39lEyNP9mrO9WSBqA42KmokS4zJ1qoUUZUWgNj7LcoX6TUnv32X9+u9GCV1z8vXEXjvdJjsVG8
-	MywPY16hITTUT+NkWyZz3eVvyCzmPp03G99rNiHV8/3YxTRDUt3d3jFbQpVRNV4WwZ+O3qG9I25Ca
-	SB9oPYp21MlkaVJSj7MCwvCsV6UuARYP8/smKj6Xp8ievacYu6ExHccCZZU4V63RsFWDKGC287HFE
-	t3CGbQHRfE6GuYbmn97oAUYeyU8FXlXCBvxOgnTdVquSNdzzrZ3OA9dkXrR6w/aY5GgRhd9spFncD
-	kItbEANZC5AybDgTAsBQ==;
+	List-Owner; bh=3db/uzBdLafPDheMXC6Z6PIb/YQilRoRJtNWjuZMyIU=; b=dDjQidb68tbJ9S
+	4GcALvfeAG7KyO8S/vwSCuAt64qR1H3UIMP9y3T7+0hL3ux7sly3TkdSGpikSu9v3DZdINcVd1+q4
+	m3mIzni5qzaicuuqBRi9ERhlobtwzOdVpbE173KOQX8uomGilJDgaOZ6PZN+Szuxz1fRDo8BoruNO
+	IXkobXfe9MYIowsN5IVUxVzoYE7Pv7T1eHIbFlWYpP6eM2YSEz9TO/2SbaeWf09B0/I84M1OBAZyf
+	3RocIhaouTUqjvICRDuDjqk5SO9WXJ/ZjGnOh4tSXzMxrQkrMSHaLaSJ9kpxyWQiaPucQ1dnvfY/d
+	brMEG2HNdx9Gm5rcefSg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.2 #3 (Red Hat Linux))
-	id 1iBtSZ-0000uU-Ns; Sun, 22 Sep 2019 04:26:55 +0000
-Received: from esa2.hgst.iphmx.com ([68.232.143.124])
+	id 1iBuVE-00033u-2i; Sun, 22 Sep 2019 05:33:44 +0000
+Received: from esa6.hgst.iphmx.com ([216.71.154.45])
  by bombadil.infradead.org with esmtps (Exim 4.92.2 #3 (Red Hat Linux))
- id 1iBtSS-0000u2-FX
- for linux-nvme@lists.infradead.org; Sun, 22 Sep 2019 04:26:53 +0000
+ id 1iBuV2-00033B-3i
+ for linux-nvme@lists.infradead.org; Sun, 22 Sep 2019 05:33:39 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1569126416; x=1600662416;
+ t=1569130412; x=1600666412;
  h=from:to:cc:subject:date:message-id:references:
  content-transfer-encoding:mime-version;
- bh=1nAx0CYdCe9cfMG/1d5Eo/0Ttp8h6QtC7PFXo+Zsvbc=;
- b=jok47W4KObl4MgJYMXESdIRkYC7TWqSozKEFZVfEjm+9ZzGkS0My1Xeh
- Y+Q8lGmxGQ71Q6IrmVfw6yudBFWvPckyRcboK5p17BRsGHL6ghqA3E6mM
- 4EpWMNMaTssTN0mKS18zIyi2dBrrmmQ65Rw03nYN6oQ56J0NXDkLdgUdI
- vAe8ns2g2RkxIQzJErA2ZBavrimWoHg26+ojoa+LFu0LS+mfhQJWUnUb9
- hpkUdqirtITksn8RqcCKPCghskPBu8dXlFnxD8NwugxeVH+sJZJm0+/0p
- JJpDqLNcJLFHUuAwCL+oKuWpu+sXhc3UvBsuL9aHvVATM41xJJB9tSUx9 A==;
-IronPort-SDR: HmzMRr07bkKyz31Rn27ntUs2gHsitN5Zfl11oJ2kyE8ix7ySIF8/YkAQmYeTJo/y33fSNuhgTr
- Dj4ZHZe7I5unz+uNt7VMhDShcTw79d12MIdFSfzlFyRo5X6oKrkk1vAthIMUTNMvoQdcY53h0L
- ALNCuZVLlCD0DwHWozCF/6ZGuhlzfYujOzhrUQ9++petUkKEAC5HqOpxt65NFB4eRVYSxBELXf
- +RxUCQKD3ISunS4MJE5REQNtEfKoF5BRbrx9zM4I5ZDfIRG8qz8UyMCw2B9eD+1XPGiNcEpDSy
- fvA=
-X-IronPort-AV: E=Sophos;i="5.64,535,1559491200"; d="scan'208";a="219643206"
-Received: from mail-co1nam04lp2055.outbound.protection.outlook.com (HELO
- NAM04-CO1-obe.outbound.protection.outlook.com) ([104.47.45.55])
- by ob1.hgst.iphmx.com with ESMTP; 22 Sep 2019 12:26:48 +0800
+ bh=AlBqYHGorPTp4R9kR/ix6AQsdZSaELSeuuaa7p50qwE=;
+ b=ng6T1DxCaB4x+II6nldVvYA2jRnVqYja/T77e2ZzGwdw3F6Y07jknLj4
+ gdv1YnaOITCCzNirl0dW4TAUz4zjSqc4zJ1LmPDcvkQbdZFr4NVkVlFoi
+ 8nPIKjh1V3FzIY/3j9rguT8T6wxtXZ0vcYnWmxNu0WYpXvSgXTI5Dq3Rs
+ 4TNzbCILcIkjZZX/mbCooLEiA828Nx95Jt2howCa81p4pXDmrdU8uE30U
+ o5oFaEso/nBSDUgk6WxKL/QgQebeR9y6F6OTSzfkwOnX2XolE3Q0NvQjX
+ 2foji0woe65YolCV5MLgExk9ShVpygVTH1PLzNSUEWRPcnBNhgCsg4yZe g==;
+IronPort-SDR: 3AELqwkY+CT3Kugz23FtL2KMSTfX9D5uM1+1hTnDPUFJ3EIV8IbthAgbGQP0NxvvGEUpuFQ81C
+ TFWxqIW5z1uFYIgzLrbbT0nXPkPKlujP8GFwjXI9aRZS9cSo2BI0vnF7iQDveV8Z7ssminqhVq
+ h+BH0+VyWgloGxeUEr+goAo9i2xF8hQWwl7YqZO4IVss1uhdeMZoNcA5h5pRexOJWGPkz5XmTq
+ q6LspIMgthyTdZLpU1AxFtbK6l2/VH3ZogMlJltOAZQVn8XZaB/g2fx4RzvtWLwabTgcbdPPLM
+ DOo=
+X-IronPort-AV: E=Sophos;i="5.64,535,1559491200"; d="scan'208";a="120396775"
+Received: from mail-co1nam04lp2053.outbound.protection.outlook.com (HELO
+ NAM04-CO1-obe.outbound.protection.outlook.com) ([104.47.45.53])
+ by ob1.hgst.iphmx.com with ESMTP; 22 Sep 2019 13:33:25 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fLVYSeNdnymk/HQPJbpPamnthMHG7qvrj0x0Z/8LFCgoNcPhT7X6xwcN9weXz0p3ForC960GorcOrk9AvFU7pxWyLzDqoxIZU2eiyzfznB+oNryXqJggnWF6K6iTYJS3mvnFSpf6i4cFulXuNxcCPdaGhWWjDm+bWVcAd/NmXeKZXZHkiXfpHvrtfqzPiSSrVjGwTKWjcRAbcZ8zicD7W+rrJOgCSpjxTAhhDBnvRd7bxZTlmRnNw9vNgfN3eyhG3Y46cYzyatW1bu37AEKqnf8MaaKu9rwD6w1m9AGNpQ84fybbQQ2M7dlYM+Tz8UJ9VXrPqf+2Ne5OxS/0HtJaAA==
+ b=TkE5Ym3TnNfxkDN9W3nypsbuNQhf0YEfA52EhQh7PC0cnjuKum0j1iDe/MwL7UxFibq8dDpSY5P8f1Y5OGz1qxORqKXgRcxAeCDHgSQ8q62aUgNMU8+qV6F7yXdfd0211rJaRlLiH8Rk2LmrdmdX2Ba/09lks1vZfxIdx2oGqg1tCtesVf+H6jwtVh4ncOJF6WQGX6lcXeSNDykQdNVCqJ/fMQuZSjAcZuvHNqDfS+pbLLoaYQyXbab0M2a3v3vliRwZhzTV831YjbL+LnNl0TP2vUqk6vx9WxXoy1d7gr7OlauLPcTDWAFtbAVZO5Oa/EPhFv3Y41VNsYK5yTyO2Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wrb+56hP2gyPQx94rWObMREOGDMeHg04T1kz5dF7Dqs=;
- b=bS5RJ6l1KDxu2734mTg8oe1jDJBm6w82LKlb4NcabF67twXgLIFs1rUguYBTesbQpVHJkwhaeeuIOehTbHZLC6Ir+9Mz3CaCF23TW2lTHHZH8wvCk8Zdhd0ejMSUrnA27p4iLxvXQ+pq8VFhDP3oSUV0cr/vkoBzBvgxNkGL31nQI79oyDllI2AhTIt7+G4Pu6bUcu1SGjMAqFwZjpjk5VKvL2eTVPWml5PDg8k9in7BKx7pIgYnpKOv/iZv3sqYOaI7+WLBRS9mJSj+d1+y7Tm6/Ed7UoWKD98IiQevwKsgEW5gSyfknldlaBYRabN7CEo+6gPIKm36GCHICLYf6Q==
+ bh=vID74Dd2DKJ75FzdrfZLXYlOHvhvHBji+pMS1folX+s=;
+ b=dRa/hoXi3OURiSx/8QrWRRH5bSxu2hJFA4FPud42RUTCkTr/MjBdlZFye50SaNt9Yha3XLLAoa2o//mPbZtnXuq6trO8QqDe7SrJlPV7c1z7h48ah6QkjhcBoF/dU6hVQoOst2HDIYrWXYTTDElzx1jTycygoyIgnz5qzW71RR5HKTBYeyH3GMPxt++SRFcCf4fcPgwdzz3XWAGzJ04DlChqFD9A4YfggNIZ0noB53VmMApPhWb9Dg5g5WZsFoRqB/F+8jTeZwm9FRK6RmqaVsQDdvBD2Zt0blrOTdbio/+bydPwLpeA3xM11k19U85NBx1GWFMRsdcPFroL330pYA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
  header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wrb+56hP2gyPQx94rWObMREOGDMeHg04T1kz5dF7Dqs=;
- b=T6xL+aX3tS6ixy5YMdjmH8HvSUlkVOwt/yMwdDeOHpOwxnFqrhKgvgdgDHh7PAXDlyHrA5vAynHDrOWPRGYPDm+UA0dwEKAHnRJVgGNV53KmpxqxqaMvyWbNo6ZcANgXfADbwOMiki08CSs2JU2pmcKo05buOTz7U3usbvgOQEE=
+ bh=vID74Dd2DKJ75FzdrfZLXYlOHvhvHBji+pMS1folX+s=;
+ b=trdnrTrxmzjrKQJfWT94Rt7uc6Do0JbBKPZCGsjwEJD7HGKntW8s7Mkg9kURx0cD0vL+OHoG0F42bxwO41oKyEpk+I0JeGGhxbjhkVsYq312Gba6BWoyzf37W1m7+OR8Jcp4BZoq4jbHyHdissXwJnJQ3WBRjkf3syVQiHkyC6w=
 Received: from BYAPR04MB5749.namprd04.prod.outlook.com (20.179.58.26) by
- BYAPR04MB4551.namprd04.prod.outlook.com (52.135.240.80) with Microsoft SMTP
+ BYAPR04MB6102.namprd04.prod.outlook.com (20.178.234.94) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2284.23; Sun, 22 Sep 2019 04:26:41 +0000
+ 15.20.2284.25; Sun, 22 Sep 2019 05:33:24 +0000
 Received: from BYAPR04MB5749.namprd04.prod.outlook.com
  ([fe80::6169:680:44fc:965d]) by BYAPR04MB5749.namprd04.prod.outlook.com
  ([fe80::6169:680:44fc:965d%6]) with mapi id 15.20.2284.023; Sun, 22 Sep 2019
- 04:26:40 +0000
+ 05:33:23 +0000
 From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
 To: Sagi Grimberg <sagi@grimberg.me>, "linux-nvme@lists.infradead.org"
  <linux-nvme@lists.infradead.org>
-Subject: Re: [PATCH] nvme: set NVME_REQ_CANCELLED flag when cancelling a
- request
-Thread-Topic: [PATCH] nvme: set NVME_REQ_CANCELLED flag when cancelling a
- request
-Thread-Index: AQHVb9/uCvIXRTLrl0GVafrQHvP0Rw==
-Date: Sun, 22 Sep 2019 04:26:40 +0000
-Message-ID: <BYAPR04MB5749B6AC6EE50BEC6C63D213868A0@BYAPR04MB5749.namprd04.prod.outlook.com>
-References: <20190920181913.14723-1-sagi@grimberg.me>
+Subject: Re: [PATCH 1/2] scatterlist: make sgl_free null pointer safe
+Thread-Topic: [PATCH 1/2] scatterlist: make sgl_free null pointer safe
+Thread-Index: AQHVb9/Nml9ko61kuUmCZf1rz5rqAA==
+Date: Sun, 22 Sep 2019 05:33:23 +0000
+Message-ID: <BYAPR04MB5749A22666141F6BD6E07573868A0@BYAPR04MB5749.namprd04.prod.outlook.com>
+References: <20190920181818.14424-1-sagi@grimberg.me>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -103,37 +101,36 @@ authentication-results: spf=none (sender IP is )
  smtp.mailfrom=Chaitanya.Kulkarni@wdc.com; 
 x-originating-ip: [199.255.44.170]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 1dd445e1-a6fc-4aea-94c3-08d73f1510fb
+x-ms-office365-filtering-correlation-id: a4db592e-92ff-48fc-016f-08d73f1e6300
 x-ms-office365-filtering-ht: Tenant
 x-microsoft-antispam: BCL:0; PCL:0;
  RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600167)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
- SRVR:BYAPR04MB4551; 
-x-ms-traffictypediagnostic: BYAPR04MB4551:
-x-ms-exchange-purlcount: 1
-x-microsoft-antispam-prvs: <BYAPR04MB4551FA816B967CE1D58C3F9F868A0@BYAPR04MB4551.namprd04.prod.outlook.com>
+ SRVR:BYAPR04MB6102; 
+x-ms-traffictypediagnostic: BYAPR04MB6102:
+x-microsoft-antispam-prvs: <BYAPR04MB6102213D426525E748850715868A0@BYAPR04MB6102.namprd04.prod.outlook.com>
 wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:2657;
+x-ms-oob-tlc-oobclassifiers: OLM:200;
 x-forefront-prvs: 016885DD9B
 x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(376002)(346002)(136003)(39850400004)(396003)(366004)(199004)(189003)(76116006)(7696005)(66946007)(52536014)(6306002)(9686003)(229853002)(14454004)(478600001)(33656002)(86362001)(6436002)(5660300002)(4326008)(25786009)(74316002)(66066001)(2501003)(316002)(55016002)(110136005)(54906003)(7736002)(305945005)(966005)(76176011)(476003)(8936002)(486006)(446003)(2906002)(102836004)(26005)(53546011)(6506007)(256004)(6246003)(186003)(6116002)(3846002)(81156014)(81166006)(99286004)(71190400001)(66556008)(8676002)(64756008)(71200400001)(66476007)(66446008)(14444005);
- DIR:OUT; SFP:1102; SCL:1; SRVR:BYAPR04MB4551;
+ SFS:(10019020)(4636009)(346002)(366004)(136003)(396003)(376002)(39860400002)(189003)(199004)(6506007)(53546011)(76176011)(81166006)(110136005)(99286004)(5660300002)(316002)(54906003)(478600001)(71200400001)(229853002)(71190400001)(33656002)(6436002)(66066001)(6246003)(76116006)(14454004)(305945005)(66446008)(7736002)(66476007)(55016002)(66556008)(64756008)(25786009)(9686003)(66946007)(74316002)(52536014)(3846002)(14444005)(2906002)(256004)(4326008)(8936002)(26005)(486006)(6116002)(476003)(446003)(102836004)(7696005)(81156014)(2501003)(86362001)(186003)(8676002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:BYAPR04MB6102;
  H:BYAPR04MB5749.namprd04.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
+ PTR:InfoNoRecords; MX:1; A:1; 
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: /Lae4qLPt8u+ie0E0d42eITNelSB4jSxbPbkl8pc2/NCbV4ZQO7bTb0pziqglh8TNd700iWSji0axjTxOC/iYwgDIVGYX2r7gsEdQoGTcd3f3cQ4/ms4/btIJ1IrVqQWUQTdWzqGjlBJLiuHPcTgzyfNoq4broG/ZMV8bJi0BSRb1+1f95UdUlSg6Lpt/03I0hwdQanFQn5M9EasjRVf15Uh7BAlpPvlwP3SK2GnFuLH80Uw4zIpKYYK+X0fXLSCJJnEwKMXTfrma97pHE6glLxEd81GPeQBcj5e1QCDjo6GDVyWoSbftXXpS02ePIL957fj8cD1bPnJAjz+W42/bRsgDf0nciasAd9j54J857sntf9wENtJnmlqN00nwwR+69BMYes/Rrr7qQozsqsJH2OefeDSOnqsN5EDguxIx4c=
+x-microsoft-antispam-message-info: nIIeBKO1Q4LQ7TJsCBLURf7fs4TbGhAgaiXWQw6P4VLcLHP3wFsWWI3bsKNUFJ9PLQvxmFmEJSLqWlOGMGX1LxF5J/hoEuUTdvagfQIpbIZQ3OZlrVmKOauKpS7/tf2yB4Kzvo0ga2QfJ82Oxa4BXpzaAwiiPaWYOk594fikUBLJ1U97h2Tuu9LDrDkDmPbQNrAHnltuUX50QdGB3jvBIgkYDu2JPV6tjD1XJ6Ydsg92L0kX4TGLAbsZtsIaQN9CSe4EDNTyuVXQIkyZyMouLL1SS+Mvl+pwHihk5pnzUuEgN+crS6yoAXz1h6EE1zzoDnzqfVlhYmafKtf4W9drx7zyNB8+pSpifmMc8fJnQW9Q5vFcX3pw0n6fNqwI1dW/FWColOiUh0LtaoDtBxTbPbA61HJBQ0ORDIeDVomhUiE=
 x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
 X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1dd445e1-a6fc-4aea-94c3-08d73f1510fb
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Sep 2019 04:26:40.5232 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a4db592e-92ff-48fc-016f-08d73f1e6300
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Sep 2019 05:33:23.1911 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: u+/ze8BsTqjWefnlDnuNtlrx4DFtl5eLwOud2sTWtNx51nhY87hzkZemtYyrLQI7zw5rdEvoyef8wdJRfk1ZmpaWU8N8GC6P7+/a8ElEMrc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB4551
+X-MS-Exchange-CrossTenant-userprincipalname: DXVTuReGusWUxOa801WuQHOn+XcNoE9j5r28W1beScIWzvfvImg/tc98Oz5M+DaYmoZgjX1LmvsR4Bdp+sy6MThx2bcKIASS2f9cJAioJ3c=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB6102
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190921_212649_031305_CB2DE8E3 
-X-CRM114-Status: GOOD (  16.46  )
+X-CRM114-CacheID: sfid-20190921_223332_596023_E3671880 
+X-CRM114-Status: GOOD (  17.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,76 +148,116 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-There are couple of places where we explicitly set the
-NVME_REQ_CANCALLED which is followed by the call to
-nvme_dev_disable(). Since :-
+Unless I totally missed what you are trying to fix here,
+I think this case is already handled implicitly to avoid
+the code repetition inside for_each_sg() which makes :-
 
-nvme_dev_disable()
-	blk_mq_tagset_busy_iter()
-		nvme_cancel_requets()
-			
-with your patch nvme_cancel_request() will duplicate
-NVME_REQ_CANCELLED assignment, we need to avoid duplicate
-assignment. Following patch is on the top of yours, please
-have a look :-
+sgl_free()
+	sgl_free_order()
+		sgl_free_n_order()
+code path NULL safe.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 6447702..4c71bbd 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1286,7 +1286,6 @@ static enum blk_eh_timer_return 
-nvme_timeout(struct request *req, bool reserved
-                          "I/O %d QID %d timeout, disable controller\n",
-                          req->tag, nvmeq->qid);
-                 nvme_dev_disable(dev, true);
--               nvme_req(req)->flags |= NVME_REQ_CANCELLED;
-                 return BLK_EH_DONE;
-         case NVME_CTRL_RESETTING:
-                 return BLK_EH_RESET_TIMER;
-@@ -1306,7 +1305,6 @@ static enum blk_eh_timer_return 
-nvme_timeout(struct request *req, bool reserved
-                 nvme_dev_disable(dev, false);
-                 nvme_reset_ctrl(&dev->ctrl);
+I did a quick test without applying your patch with some prints
+and it worked file following module:-
 
--               nvme_req(req)->flags |= NVME_REQ_CANCELLED;
-                 return BLK_EH_DONE;
+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+#include <linux/init.h>
+#include <linux/blkdev.h>
+#include <linux/slab.h>
+#include <linux/module.h>
+#include <linux/kernel.h>
+
+int init_module(void)
+{
+	sgl_free(NULL);
+	return 0;
+}
+
+void cleanup_module(void)
+{
+
+}
+
+MODULE_LICENSE("GPL");
+MODULE_VERSION("1.0");
+
+Prints :-
+diff --git a/lib/scatterlist.c b/lib/scatterlist.c
+index c2cf2c3..56fa586 100644
+--- a/lib/scatterlist.c
++++ b/lib/scatterlist.c
+@@ -563,13 +563,20 @@ void sgl_free_n_order(struct scatterlist *sgl, int 
+nents, int order)
+         struct page *page;
+         int i;
+
++       pr_info("%s %d\n", __func__, __LINE__);
+         for_each_sg(sgl, sg, nents, i) {
++               pr_info("%s %d\n", __func__, __LINE__);
+                 if (!sg)
+                         break;
++
++               pr_info("%s %d\n", __func__, __LINE__);
+                 page = sg_page(sg);
+                 if (page)
+                         __free_pages(page, order);
++               pr_info("%s %d\n", __func__, __LINE__);
          }
++
++       pr_info("%s %d\n", __func__, __LINE__);
+         kfree(sgl);
+  }
+  EXPORT_SYMBOL(sgl_free_n_order);
+@@ -581,6 +588,7 @@ void sgl_free_n_order(struct scatterlist *sgl, int 
+nents, int order)
+   */
+  void sgl_free_order(struct scatterlist *sgl, int order)
+  {
++       pr_info("%s %d\n", __func__, __LINE__);
+         sgl_free_n_order(sgl, INT_MAX, order);
+  }
+  EXPORT_SYMBOL(sgl_free_order);
+@@ -591,6 +599,7 @@ void sgl_free_order(struct scatterlist *sgl, int order)
+   */
+  void sgl_free(struct scatterlist *sgl)
+  {
++       pr_info("%s %d\n", __func__, __LINE__);
+         sgl_free_order(sgl, 0);
+  }
+  EXPORT_SYMBOL(sgl_free);
 
-If you are okay I can send a separate patch on the top yours.
+Got the following output without any crash or warning :-
 
-On 09/20/2019 11:19 AM, Sagi Grimberg wrote:
-> This will prevent userspace to wrongly get the completion result
-> when we cancelled the command. Also, make sure to clear it from
-> the request flags in nvme_setup_cmd.
+[  156.950073] sgl_free 602
+[  156.950076] sgl_free_order 591
+[  156.950078] sgl_free_n_order 566
+[  156.950079] sgl_free_n_order 568
+[  156.950081] sgl_free_n_order 579
+
+Did I miss anything ?
+
+On 09/20/2019 11:18 AM, Sagi Grimberg wrote:
+> Match other alloc/free routines by checking the sgl pointer first.
 >
-> Signed-off-by: Sagi Grimberg<sagi@grimberg.me>
+> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
 > ---
->   drivers/nvme/host/core.c | 2 ++
->   1 file changed, 2 insertions(+)
+>   lib/scatterlist.c | 3 +++
+>   1 file changed, 3 insertions(+)
 >
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index f85e7b09d1d4..fc3ed75ef80b 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -298,6 +298,7 @@ bool nvme_cancel_request(struct request *req, void *data, bool reserved)
->   	if (blk_mq_request_completed(req))
->   		return true;
+> diff --git a/lib/scatterlist.c b/lib/scatterlist.c
+> index c2cf2c311b7d..fea25b035e67 100644
+> --- a/lib/scatterlist.c
+> +++ b/lib/scatterlist.c
+> @@ -563,6 +563,9 @@ void sgl_free_n_order(struct scatterlist *sgl, int nents, int order)
+>   	struct page *page;
+>   	int i;
 >
-> +	nvme_req(req)->flags |= NVME_REQ_CANCELLED;
->   	nvme_req(req)->status = NVME_SC_HOST_PATH_ERROR;
->   	blk_mq_complete_request(req);
->   	return true;
-> @@ -434,6 +435,7 @@ static inline void nvme_clear_nvme_request(struct request *req)
->   		nvme_req(req)->flags = 0;
->   		req->rq_flags |= RQF_DONTPREP;
->   	}
-> +	nvme_req(req)->flags &= ~NVME_REQ_CANCELLED;
->   }
->
->   struct request *nvme_alloc_request(struct request_queue *q,
-> -- 2.17.1 _______________________________________________ Linux-nvme
-> mailing list Linux-nvme@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+> +	if (!sgl)
+> +		return;
+> +
+>   	for_each_sg(sgl, sg, nents, i) {
+>   		if (!sg)
+>   			break;
 >
 
 
