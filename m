@@ -4,20 +4,20 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D0B0C3A5A2
-	for <linux-nvme@archiver.kernel.org>; Sun, 22 Sep 2019 18:56:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46B04C3A5A2
+	for <linux-nvme@archiver.kernel.org>; Sun, 22 Sep 2019 18:56:36 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7788C21928
-	for <linux-nvme@archiver.kernel.org>; Sun, 22 Sep 2019 18:56:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 2034221BE5
+	for <linux-nvme@archiver.kernel.org>; Sun, 22 Sep 2019 18:56:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="OtYdEcll";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="0Xud0IrG"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7788C21928
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="M4Nt2PIu";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="bfpqS+hX"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2034221BE5
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,39 +26,39 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=JJp2eVb+hNWlY3EC18oKSqvxrwf6F70BfoFGQ123WW0=; b=OtYdEclloyZyog
-	v6llHhXaGNrY4B/FiX7Wmj4VMJecOhCOd4GzJh7pt3mTh9Ep5YGzLl0JZX1RyLvvc98BBsALPUc5H
-	j954jHrlFU+d3SCAOelHnTqPfEHjX0+Spx4cEtcpAj5dKQ3NjuvT0LSMncuM88s90qpRX6leynNR6
-	pkDK7U0ErdqzuWJnjW2vva4tM0ZM3xg+lO3UDda1uOcusjI4VPJ+hYD27FmI8tQQOxCVeBCynN5s+
-	deOPpQIq8Ytkkx/GQG+JRfJ3OE52f5NoBoL0z8v5T657TP9or+ofCvTS5ScmxM7jYtJPmqRA8CfIZ
-	YvN4mEwOnkq4qKJwviXw==;
+	List-Owner; bh=5URC5CRIcdBqLj3oY6cxX0rzMWQ5xK+2KmLfeDQ28Nw=; b=M4Nt2PIutZcFPx
+	l9Hd7DNQWEzo0z27i6E5Efe5+EOch4/kCMPtl6AmddZ1BeghJwUUQfaSkVXTA7YYZ61Geax/Z4ku7
+	hflkpw19nj5HKniZjoQUYSzx4e1D18Dj8mXoj2onPydR2x0QXAh9eok86zqKC4jbQF9LT0L0ZIWGQ
+	WzmgZ8XFtZ3UQSJMOBL4/TwQm278ypGEkghSoDLqnITqGNEIktYnZn0jTNQfIK7sUNCfRtDIHwrCe
+	48Ionw8fRAMn1M1jlfr6q4nj0Fj6vGIM+chN9MSX0fNY62atwIIvzf1b2uwtfUybnYAjrXnXSBXe1
+	+Ih3hTEqG8jKjOfoLC5g==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.2 #3 (Red Hat Linux))
-	id 1iC720-0005wg-Fc; Sun, 22 Sep 2019 18:56:24 +0000
+	id 1iC728-000658-Ub; Sun, 22 Sep 2019 18:56:33 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.2 #3 (Red Hat Linux))
- id 1iC71y-0005w3-9Q
- for linux-nvme@lists.infradead.org; Sun, 22 Sep 2019 18:56:23 +0000
+ id 1iC71z-0005wK-Jk
+ for linux-nvme@lists.infradead.org; Sun, 22 Sep 2019 18:56:25 +0000
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id DF58421928;
- Sun, 22 Sep 2019 18:56:20 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 5E1C321A4A;
+ Sun, 22 Sep 2019 18:56:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1569178581;
- bh=SAeCV379qkmyVZyuHuEgE/SSHwe7+vx+dkjf8h+w48Q=;
+ s=default; t=1569178583;
+ bh=TEG5FMLOPxC2m3iJa7OAlqaOJOc/fweVtH3XyEcLuQE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=0Xud0IrG1EoZCyYgjz8NHBxiwMBt1QQDhE0FT05XPus9dq3WOKOmZPU8sAs5AOkcy
- RTcYkdv4yzV8EUvWF6Qd1dcLm+56eLSaymGPzFH0AEwDdD9ZiJrNLnlQv8tfiFEHfr
- W/hvIWvWsR3bEqHQTrUFkpbB+bfRbHfRzyvkXTfM=
+ b=bfpqS+hXjNn5VeH3zAmoE97rlGiPN2YBPfXjcFbQoba/dd4jFMs5+Ygu259YTI6Eo
+ HpVRazpLM/PYCZbBeCAckL/od9PGYknG+SIG3wpx1XqrxdcjAxtcUyFO+cglePVBug
+ RHSZ21HC7i+sCVxhJvICDmx6Y+vfLzqvvLtUfpqM=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 091/128] nvmet: fix data units read and written
- counters in SMART log
-Date: Sun, 22 Sep 2019 14:53:41 -0400
-Message-Id: <20190922185418.2158-91-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 092/128] nvme-multipath: fix ana log nsid lookup
+ when nsid is not found
+Date: Sun, 22 Sep 2019 14:53:42 -0400
+Message-Id: <20190922185418.2158-92-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190922185418.2158-1-sashal@kernel.org>
 References: <20190922185418.2158-1-sashal@kernel.org>
@@ -66,9 +66,8 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190922_115622_353688_D6619DE8 
-X-CRM114-Status: UNSURE (   9.83  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20190922_115623_687667_2D6CA963 
+X-CRM114-Status: GOOD (  15.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,73 +79,89 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
- Israel Rukshin <israelr@mellanox.com>, linux-nvme@lists.infradead.org,
- Tom Wu <tomwu@mellanox.com>, Max Gurtovoy <maxg@mellanox.com>,
+Cc: Sasha Levin <sashal@kernel.org>, Anton Eidelman <anton@lightbitslabs.com>,
+ Sagi Grimberg <sagi@grimberg.me>, James Smart <james.smart@broadcom.com>,
+ linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.com>,
  Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Tom Wu <tomwu@mellanox.com>
+From: Anton Eidelman <anton@lightbitslabs.com>
 
-[ Upstream commit 3bec2e3754becebd4c452999adb49bc62c575ea4 ]
+[ Upstream commit e01f91dff91c7b16a6e3faf2565017d497a73f83 ]
 
-In nvme spec 1.3 there is a definition for data write/read counters
-from SMART log, (See section 5.14.1.2):
-	This value is reported in thousands (i.e., a value of 1
-	corresponds to 1000 units of 512 bytes read) and is rounded up.
+ANA log parsing invokes nvme_update_ana_state() per ANA group desc.
+This updates the state of namespaces with nsids in desc->nsids[].
 
-However, in nvme target where value is reported with actual units,
-but not thousands of units as the spec requires.
+Both ctrl->namespaces list and desc->nsids[] array are sorted by nsid.
+Hence nvme_update_ana_state() performs a single walk over ctrl->namespaces:
+- if current namespace matches the current desc->nsids[n],
+  this namespace is updated, and n is incremented.
+- the process stops when it encounters the end of either
+  ctrl->namespaces end or desc->nsids[]
 
-Signed-off-by: Tom Wu <tomwu@mellanox.com>
-Reviewed-by: Israel Rukshin <israelr@mellanox.com>
-Reviewed-by: Max Gurtovoy <maxg@mellanox.com>
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+In case desc->nsids[n] does not match any of ctrl->namespaces,
+the remaining nsids following desc->nsids[n] will not be updated.
+Such situation was considered abnormal and generated WARN_ON_ONCE.
+
+However ANA log MAY contain nsids not (yet) found in ctrl->namespaces.
+For example, lets consider the following scenario:
+- nvme0 exposes namespaces with nsids = [2, 3] to the host
+- a new namespace nsid = 1 is added dynamically
+- also, a ANA topology change is triggered
+- NS_CHANGED aen is generated and triggers scan_work
+- before scan_work discovers nsid=1 and creates a namespace, a NOTICE_ANA
+  aen was issues and ana_work receives ANA log with nsids=[1, 2, 3]
+
+Result: ana_work fails to update ANA state on existing namespaces [2, 3]
+
+Solution:
+Change the way nvme_update_ana_state() namespace list walk
+checks the current namespace against desc->nsids[n] as follows:
+a) ns->head->ns_id < desc->nsids[n]: keep walking ctrl->namespaces.
+b) ns->head->ns_id == desc->nsids[n]: match, update the namespace
+c) ns->head->ns_id >= desc->nsids[n]: skip to desc->nsids[n+1]
+
+This enables correct operation in the scenario described above.
+This also allows ANA log to contain nsids currently invisible
+to the host, i.e. inactive nsids.
+
+Signed-off-by: Anton Eidelman <anton@lightbitslabs.com>
+Reviewed-by:   James Smart <james.smart@broadcom.com>
+Reviewed-by: Hannes Reinecke <hare@suse.com>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/target/admin-cmd.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ drivers/nvme/host/multipath.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 2008fa62a373b..a8eb8784e151f 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -68,9 +68,11 @@ static u16 nvmet_get_smart_log_nsid(struct nvmet_req *req,
- 		goto out;
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index f57feb8fdea45..892ef52122329 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -404,14 +404,16 @@ static int nvme_update_ana_state(struct nvme_ctrl *ctrl,
  
- 	host_reads = part_stat_read(ns->bdev->bd_part, ios[READ]);
--	data_units_read = part_stat_read(ns->bdev->bd_part, sectors[READ]);
-+	data_units_read = DIV_ROUND_UP(part_stat_read(ns->bdev->bd_part,
-+		sectors[READ]), 1000);
- 	host_writes = part_stat_read(ns->bdev->bd_part, ios[WRITE]);
--	data_units_written = part_stat_read(ns->bdev->bd_part, sectors[WRITE]);
-+	data_units_written = DIV_ROUND_UP(part_stat_read(ns->bdev->bd_part,
-+		sectors[WRITE]), 1000);
- 
- 	put_unaligned_le64(host_reads, &slog->host_reads[0]);
- 	put_unaligned_le64(data_units_read, &slog->data_units_read[0]);
-@@ -98,11 +100,11 @@ static u16 nvmet_get_smart_log_all(struct nvmet_req *req,
- 		if (!ns->bdev)
+ 	down_write(&ctrl->namespaces_rwsem);
+ 	list_for_each_entry(ns, &ctrl->namespaces, list) {
+-		if (ns->head->ns_id != le32_to_cpu(desc->nsids[n]))
++		unsigned nsid = le32_to_cpu(desc->nsids[n]);
++
++		if (ns->head->ns_id < nsid)
  			continue;
- 		host_reads += part_stat_read(ns->bdev->bd_part, ios[READ]);
--		data_units_read +=
--			part_stat_read(ns->bdev->bd_part, sectors[READ]);
-+		data_units_read += DIV_ROUND_UP(
-+			part_stat_read(ns->bdev->bd_part, sectors[READ]), 1000);
- 		host_writes += part_stat_read(ns->bdev->bd_part, ios[WRITE]);
--		data_units_written +=
--			part_stat_read(ns->bdev->bd_part, sectors[WRITE]);
-+		data_units_written += DIV_ROUND_UP(
-+			part_stat_read(ns->bdev->bd_part, sectors[WRITE]), 1000);
- 
+-		nvme_update_ns_ana_state(desc, ns);
++		if (ns->head->ns_id == nsid)
++			nvme_update_ns_ana_state(desc, ns);
+ 		if (++n == nr_nsids)
+ 			break;
  	}
- 	rcu_read_unlock();
+ 	up_write(&ctrl->namespaces_rwsem);
+-	WARN_ON_ONCE(n < nr_nsids);
+ 	return 0;
+ }
+ 
 -- 
 2.20.1
 
