@@ -1,74 +1,99 @@
-Return-Path: <SRS0=CsQm=XR=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=8MmT=XS=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79697C3A5A6
-	for <linux-nvme@archiver.kernel.org>; Sun, 22 Sep 2019 19:00:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC8C5C32755
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Sep 2019 14:22:30 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 535FA208C2
-	for <linux-nvme@archiver.kernel.org>; Sun, 22 Sep 2019 19:00:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9C8F4207FD
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Sep 2019 14:22:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="aErGewCn";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="ftGg14r1"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 535FA208C2
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="tzjwFENu";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="NXa4V1GZ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9C8F4207FD
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=wM8avbaZSxD1RtCA92ufmrDzKYqlSBV8SWt+yNj5/HE=; b=aErGewCn0o7wOc
-	YAWqwEVUozqAxRdCvaZts3FSe4t90o2j0muw5xd03DgTdwiiGFUJ60BHFiiNRxln1+7BPB3N9TPV5
-	QuDwIKd9ptZsxg4do0h8f2JRU5VdaTqm9Wcki3ExhH4NHl5twHTgLTC0HI2JSyqHvkyf2GMVrJZIM
-	X0ONH4GkediIskEBqrptiLN8jqTLCOxYItF6QGRbFfj5yp53LtwL1ilcahPx0xsizlRzDYrWqsP7S
-	cv2glMX0vhIJcYjO8tIHyAJzLx0sS6Tk7RfrNoEkJKhneBI98VZqcnEwPgiyvSe6f8GHlvgmhhVYc
-	3GUH9u0dS8ir0h8vWIUg==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:To:From
+	:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=KgmvfOE84m8RVJBHRxJvLjbWN8v19K763YqrmQKnJgo=; b=tzjwFENu00G6RO
+	jIaPV1qn0LLhKYUOKrDTDicydo9ZPiMYMLFlyfe+U1bD+jfJ/qPEDyGeTU1byIh1t53l97msuGv7B
+	hNwtNT2z0TKJJApvGqaFcMf24Po2OXRydgep8HtROJ1wectZoOJfEJtJgmE0unf4Run2rvvFpOvFm
+	IxKn8ygg4Af+9lBKh0zV3ftrs70fnFu2QPlrgdmd5Uq7CPyEHqZzDuounF5MJI7eudn50t1d4UcTz
+	nKfAxTT7r5NGtFo6EgmRvkHpxCtQNrQ1sLSyxNQ7qGjw1y3WpaBcIduKjn3SQnHohOr73m8qGPElc
+	C5MCvGC6SVJmwHI13+aQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.2 #3 (Red Hat Linux))
-	id 1iC76M-00014m-TN; Sun, 22 Sep 2019 19:00:55 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1iCPEO-0001UR-Rm; Mon, 23 Sep 2019 14:22:24 +0000
+Received: from userp2130.oracle.com ([156.151.31.86])
  by bombadil.infradead.org with esmtps (Exim 4.92.2 #3 (Red Hat Linux))
- id 1iC75x-0000gJ-8h
- for linux-nvme@lists.infradead.org; Sun, 22 Sep 2019 19:00:31 +0000
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
- [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id DE596206C2;
- Sun, 22 Sep 2019 19:00:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1569178828;
- bh=lTc6DFAiAPGMPxNE/on0ezBOoV5GI9L/+6b0widIlG0=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ftGg14r1TAdD4/UwRqCv6vqeIDpUVksq5Ew7xXR2GzcTanoOg5rZSvJFzfhGqtSyj
- 0QG1BtJwmxmAKMDaJVi42eBabLN0ZKSFRzHcfL10yD5GJoDp/F7q8ffX1UH8F7mkFt
- nX3QDUO6S6qcGwNYhI6bb3EnaRpHBwt907crzelw=
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 39/60] nvmet: fix data units read and written
- counters in SMART log
-Date: Sun, 22 Sep 2019 14:59:12 -0400
-Message-Id: <20190922185934.4305-39-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190922185934.4305-1-sashal@kernel.org>
-References: <20190922185934.4305-1-sashal@kernel.org>
+ id 1iCPEL-0001U6-Kf
+ for linux-nvme@lists.infradead.org; Mon, 23 Sep 2019 14:22:22 +0000
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x8NEJCZE111282;
+ Mon, 23 Sep 2019 14:21:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2019-08-05;
+ bh=ijA5URtv/98vHuAZIGyZ6iuoFF4Fyn/jEc22CmlTEdM=;
+ b=NXa4V1GZRACyU93DDdoCr11+k0CdEOiuckcdwo8czwRjYcwhkGkAgGq2fP/TkCXV4+E5
+ K/9Klh+oa9OPyZo3clbzVcl2UStzv4mRxtp0SFca0jcIOIzO+0F22ZEgqOAa+CaozuGF
+ Tx7jVP1EYC3sxEQvGd0STjaeD7dR4VCqdCvSJPwHZrsvyf7tClONkVD8UM3zwJMByrtz
+ UT6k4hzU57Fsb5TzFSdexrU0xL0BsC9cMpQWf4rY8/0Ok9zXmlBWfPZCSO+d9Sn+BngR
+ l/8aLHn3wztAIrqtyc7/sPtfl72EYnhUlX1JCRlb4krkrxCUwVfYdjuMwxA+1NMkFZU/ CQ== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2130.oracle.com with ESMTP id 2v5b9tf9gx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 23 Sep 2019 14:21:55 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x8NEJDrK129050;
+ Mon, 23 Sep 2019 14:19:54 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by aserp3020.oracle.com with ESMTP id 2v5bpgfa06-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 23 Sep 2019 14:19:53 +0000
+Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x8NEIj3W006948;
+ Mon, 23 Sep 2019 14:18:45 GMT
+Received: from mwanda (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Mon, 23 Sep 2019 07:18:44 -0700
+Date: Mon, 23 Sep 2019 17:18:36 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
+Subject: [PATCH] nvme: fix an error code in nvme_init_subsystem()
+Message-ID: <20190923141836.GA31251@mwanda>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9389
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1908290000 definitions=main-1909230140
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9389
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1908290000
+ definitions=main-1909230140
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190922_120029_953409_3BC396C7 
-X-CRM114-Status: UNSURE (   9.93  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20190923_072221_810777_CE6FDA61 
+X-CRM114-Status: GOOD (  15.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,73 +105,39 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
- Israel Rukshin <israelr@mellanox.com>, linux-nvme@lists.infradead.org,
- Tom Wu <tomwu@mellanox.com>, Max Gurtovoy <maxg@mellanox.com>,
- Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@fb.com>, kernel-janitors@vger.kernel.org,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Tom Wu <tomwu@mellanox.com>
+"ret" should be a negative error code here, but it's either success or
+possibly uninitialized.
 
-[ Upstream commit 3bec2e3754becebd4c452999adb49bc62c575ea4 ]
-
-In nvme spec 1.3 there is a definition for data write/read counters
-from SMART log, (See section 5.14.1.2):
-	This value is reported in thousands (i.e., a value of 1
-	corresponds to 1000 units of 512 bytes read) and is rounded up.
-
-However, in nvme target where value is reported with actual units,
-but not thousands of units as the spec requires.
-
-Signed-off-by: Tom Wu <tomwu@mellanox.com>
-Reviewed-by: Israel Rukshin <israelr@mellanox.com>
-Reviewed-by: Max Gurtovoy <maxg@mellanox.com>
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Fixes: 32fd90c40768 ("nvme: change locking for the per-subsystem controller list")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 ---
- drivers/nvme/target/admin-cmd.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ drivers/nvme/host/core.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index cdb7752dcbb79..446f61ba018d7 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -47,9 +47,11 @@ static u16 nvmet_get_smart_log_nsid(struct nvmet_req *req,
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 63b37d08ac98..f6acbff3e3bc 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2540,8 +2540,9 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+ 		list_add_tail(&subsys->entry, &nvme_subsystems);
  	}
  
- 	host_reads = part_stat_read(ns->bdev->bd_part, ios[READ]);
--	data_units_read = part_stat_read(ns->bdev->bd_part, sectors[READ]);
-+	data_units_read = DIV_ROUND_UP(part_stat_read(ns->bdev->bd_part,
-+		sectors[READ]), 1000);
- 	host_writes = part_stat_read(ns->bdev->bd_part, ios[WRITE]);
--	data_units_written = part_stat_read(ns->bdev->bd_part, sectors[WRITE]);
-+	data_units_written = DIV_ROUND_UP(part_stat_read(ns->bdev->bd_part,
-+		sectors[WRITE]), 1000);
- 
- 	put_unaligned_le64(host_reads, &slog->host_reads[0]);
- 	put_unaligned_le64(data_units_read, &slog->data_units_read[0]);
-@@ -75,11 +77,11 @@ static u16 nvmet_get_smart_log_all(struct nvmet_req *req,
- 	rcu_read_lock();
- 	list_for_each_entry_rcu(ns, &ctrl->subsys->namespaces, dev_link) {
- 		host_reads += part_stat_read(ns->bdev->bd_part, ios[READ]);
--		data_units_read +=
--			part_stat_read(ns->bdev->bd_part, sectors[READ]);
-+		data_units_read += DIV_ROUND_UP(
-+			part_stat_read(ns->bdev->bd_part, sectors[READ]), 1000);
- 		host_writes += part_stat_read(ns->bdev->bd_part, ios[WRITE]);
--		data_units_written +=
--			part_stat_read(ns->bdev->bd_part, sectors[WRITE]);
-+		data_units_written += DIV_ROUND_UP(
-+			part_stat_read(ns->bdev->bd_part, sectors[WRITE]), 1000);
- 
- 	}
- 	rcu_read_unlock();
+-	if (sysfs_create_link(&subsys->dev.kobj, &ctrl->device->kobj,
+-			dev_name(ctrl->device))) {
++	ret = sysfs_create_link(&subsys->dev.kobj, &ctrl->device->kobj,
++				dev_name(ctrl->device));
++	if (ret) {
+ 		dev_err(ctrl->device,
+ 			"failed to create sysfs link from subsystem.\n");
+ 		goto out_put_subsystem;
 -- 
 2.20.1
 
