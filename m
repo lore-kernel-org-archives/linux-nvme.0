@@ -2,81 +2,133 @@ Return-Path: <SRS0=cpn7=XT=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D8B0C432C1
-	for <linux-nvme@archiver.kernel.org>; Tue, 24 Sep 2019 13:15:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABFCDC432C1
+	for <linux-nvme@archiver.kernel.org>; Tue, 24 Sep 2019 13:19:50 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0DBD72146E
-	for <linux-nvme@archiver.kernel.org>; Tue, 24 Sep 2019 13:15:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 79C78214AF
+	for <linux-nvme@archiver.kernel.org>; Tue, 24 Sep 2019 13:19:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="L6hBbxYP";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kalray.eu header.i=@kalray.eu header.b="J+rM1NRx"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0DBD72146E
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kalray.eu
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ShhYTpsH";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="Z7eEb8Dz";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="zB3U1HZQ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 79C78214AF
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Subject:Message-ID:To:From
-	:Date:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:To
+	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=w3v0BVuYb/jRjkY5mLT8njqKffCDoxawLNsLTUlgENc=; b=L6hBbxYPXcllop
-	/Dsr/siMb8EbEY/27d9WHb9FZ8YpT6pRX5XQad77iLCeg7C/ZW910ZLeXqjSR6Yail+5QdjdoOi/u
-	ruPS3ZZ6Kh/aAsWXNI/StWe5vOlHHKw+JG7d9n/dLS4pmF/z1sWWdiw8lYdx6MkPBrYbGgQy3tndl
-	peWJsPQwug6uivxrDTpcHuJk9YiLLHwwx7ZCkVnhbZh1k3gL8xF8cFEkK6etXYnPJc2UZG2aawbOt
-	tY0UCUoOnqxLY0JGfIoqcg+l5eaDJujJ11iOuup8ZaIvx+2a2RKadcGqEpXQqPpWra9l62FAxnuAZ
-	ZLPEYagURjjq91BLYzDQ==;
+	List-Owner; bh=+sLOxTI8b0HDPA2zee3WORH82+OTO8YljwyTqrWLhxM=; b=ShhYTpsHbaoU5g
+	4MN6k9MRdXifGlZg3TjP7ox8TildCcjMUXE8FU3nbz2FTYnw1jWAFTPBVpdQq8+PQE2fthdY7jRSR
+	Q+ozyXl0GOtxTWUneTvzT1S/Zs6nnMdIeD7fKkFSI6EhypIWaGT07dob+GjeeNv8MKYXRpoorlWAN
+	12MhAGZepia3BXnRsvNyyHHhObZhM6qZ5biBghF97OE4d7fuIEpV3jf6p4N50ztGxPHdm7v/mJ+i0
+	Nyzss4DqyscXRyPIGjThkaDyo8D0PDEylD6xDTWkQGM8cVhapzVn9pXsWfpX2FpwZyNzAllLoISRJ
+	xxDFcV4gDolKZLnzRyrA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.2 #3 (Red Hat Linux))
-	id 1iCken-0006b3-Rk; Tue, 24 Sep 2019 13:15:05 +0000
-Received: from zimbra2.kalray.eu ([92.103.151.219])
+	id 1iCkjM-0007Q3-Di; Tue, 24 Sep 2019 13:19:48 +0000
+Received: from esa5.hgst.iphmx.com ([216.71.153.144])
  by bombadil.infradead.org with esmtps (Exim 4.92.2 #3 (Red Hat Linux))
- id 1iCkeh-0005jy-Uj
- for linux-nvme@lists.infradead.org; Tue, 24 Sep 2019 13:15:03 +0000
-Received: from localhost (localhost [127.0.0.1])
- by zimbra2.kalray.eu (Postfix) with ESMTP id A025627E0CFA;
- Tue, 24 Sep 2019 15:14:53 +0200 (CEST)
-Received: from zimbra2.kalray.eu ([127.0.0.1])
- by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10032)
- with ESMTP id YU6-2rdQqUH4; Tue, 24 Sep 2019 15:14:53 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zimbra2.kalray.eu (Postfix) with ESMTP id F2D7F27E0D98;
- Tue, 24 Sep 2019 15:14:52 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu F2D7F27E0D98
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
- s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1569330893;
- bh=CHfhYsclsYqLuOF6BzFzIy+z4FP4HoLkxVz/AeE0Hh8=;
- h=Date:From:To:Message-ID:MIME-Version;
- b=J+rM1NRxzoBhlzAks7Nh+ovgBqFfQHEs+ky+bjjCpaXWGU7lNq7jIz/yx/3xiy4PI
- mvv+CQd7q/SYPxXktwBOAUkyayhys6mmI6VdfHGuJT2WqiAD6UKtAJnY1FAkWG90GD
- iC6/txNSLiLTEICrPC7pDm4rDmmh2K8R75RdVA1E=
-X-Virus-Scanned: amavisd-new at zimbra2.kalray.eu
-Received: from zimbra2.kalray.eu ([127.0.0.1])
- by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id Umz9pB2D1A72; Tue, 24 Sep 2019 15:14:52 +0200 (CEST)
-Received: from zimbra2.kalray.eu (zimbra2.kalray.eu [192.168.40.202])
- by zimbra2.kalray.eu (Postfix) with ESMTP id DB3E327E0CFA;
- Tue, 24 Sep 2019 15:14:52 +0200 (CEST)
-Date: Tue, 24 Sep 2019 15:14:52 +0200 (CEST)
-From: Marta Rybczynska <mrybczyn@kalray.eu>
-To: kbusch@kernel.org, axboe@fb.com, hch@lst.de, sagi@grimberg.me, 
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Message-ID: <786558932.78398145.1569330892814.JavaMail.zimbra@kalray.eu>
-Subject: [PATCH v3] nvme: allow 64-bit results in passthru commands
+ id 1iCkjJ-0007Of-10
+ for linux-nvme@lists.infradead.org; Tue, 24 Sep 2019 13:19:46 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1569331185; x=1600867185;
+ h=from:to:cc:subject:date:message-id:
+ content-transfer-encoding:mime-version;
+ bh=CVWoImCOjsLmNou/f9Idjmh4BGIswN/EgyIxh9OTSMc=;
+ b=Z7eEb8DzNc7WD5x3FGIcE0fYBy2V2L+TPRKCt0skNM8F6wFgtWJntG9X
+ XZroXbtHUTAM+eDlzxjwDeeRsF/J6Q1creVNyig41EPrLcPlr/EX3n3Zn
+ t3qCKovPnP+9vVrabwa99zF3wkSfZkVeIJJL5XTZ4gjOYjrXjJJctPQYR
+ gkE+bDe+P1w1748nzHvRlFOC+2MF84fAfk3hh/w+lVYk8frPevvUpSbb2
+ eSZOK+xS6ULTu3ICn3ps3w2zgyzGB1FmrrHzbU9p97D/WVfrysIZ/pTxQ
+ Y4mZtyZkMWUPxrxGIIf2xf/jGlpVw94l4QhfKhTgmpqXWPXS5dKaLaqbs Q==;
+IronPort-SDR: Mf0oR9XSiaYVZuMG8V8WmDaVZDD4e9E1KdWGAaNo1/DpVlCxVjy3n9F1lINlFZxW8KwwCcnOm2
+ UqheKqe4TiFwgsjsVwndWZsyrPlwxhl9UQ4xqwP/SixAQrS69Pbu26VSvetClxZaTDwnqlt95m
+ Kb0Ld0Th/idNFh8ni8QJrd7rltw81Ga1pOF16/ecsmava6YzY0nvBWd1jXFn1MisWZ0jhoeMsr
+ b302+qFRxB+YSRligKirL0uyB5/kiQfszlyaqKU/SFiuQgNuuW90Unp08bQJgQu6BEfrbg8AgS
+ tKI=
+X-IronPort-AV: E=Sophos;i="5.64,544,1559491200"; d="scan'208";a="119757361"
+Received: from mail-co1nam05lp2057.outbound.protection.outlook.com (HELO
+ NAM05-CO1-obe.outbound.protection.outlook.com) ([104.47.48.57])
+ by ob1.hgst.iphmx.com with ESMTP; 24 Sep 2019 21:19:42 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZoYWPPb4bbR1kLBxKfY/QEpenOuwDdM+StGQR5mgHN18zRWf9A9C2vhLK5YY1UrzTPvh9sUJIbpLFEt23wBZiiMntKWiZkmtfdVrvbHFVtPBomlZvI140QIZhMAVWwM4s/YFvdxJ5/3+jswHstRj/z9T6FzsTjspC60DbSlyihs9ADvLdgi5KILaJ1EX+TK2D9ymh3E6pxUqZc1dCgn0u61KwQkOEv+CNadnPO9Yfr/PnIxdp+cn8OZkpxeXEHFU51SiaPjb3McGyiArrYNS4Al19cYDTyXy83TZRH6Q8j9bTB9DJVuHLTjXyY9BB+jQ1wuZgVaI/I3v2UVvacFc7Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ew2DmqCfOTquzXJvsJrJpN0X95EzCsp9gndyad9dH3A=;
+ b=hAAOeFbKaB4Tqd/Wu7g+xetHO8QU8DbrqWs+pfazmwb9ZLQmV9AhwQay0nLLhrRghSThXvV4hXYLroBTT60AiI0Ofzo3xtUFQyiWfdltUplyXZOXRJxBCCeJBwTZcen/abJqFbk9i5/yX4Y2q4zYiowDe1ixRgBVCM67YMzG5M+SOAGoQ02tDy1T+bMPFs1/Hz/G7t6Umqxwmc29vAyBycW1ujZt89me2Nnfp9R3HfEDftspW3C0mhEyPgY2krld2ooQ+GpuvD4BHJvim/akao6yGCk102xbEDi0xL4uSE/yLe0etHDFcLVPxbrNyBeY31YdQOOncf8EHHP5tD+6hA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ew2DmqCfOTquzXJvsJrJpN0X95EzCsp9gndyad9dH3A=;
+ b=zB3U1HZQYy7QNi1Dz05RVrtDPD0J19HPzyaVIA/8TUgQHzOy6NTx2DPLVWKfxtefx/xeYlEG32irgunDHuiTCYpGx4Mx8nHpX62sAG3kATzMxa39ztCX6JrrjeYnd2XF+lZO6TFywedYSxYaZY3S/r/0xmm/HgJYnWfz5OaWVm4=
+Received: from DM5PR04MB1244.namprd04.prod.outlook.com (10.174.190.148) by
+ DM5PR04MB0459.namprd04.prod.outlook.com (10.173.169.14) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2284.26; Tue, 24 Sep 2019 13:19:40 +0000
+Received: from DM5PR04MB1244.namprd04.prod.outlook.com
+ ([fe80::49f0:a8ed:cf02:e11f]) by DM5PR04MB1244.namprd04.prod.outlook.com
+ ([fe80::49f0:a8ed:cf02:e11f%5]) with mapi id 15.20.2284.023; Tue, 24 Sep 2019
+ 13:19:40 +0000
+From: Jeffrey Lien <Jeff.Lien@wdc.com>
+To: Keith Busch <kbusch@kernel.org>
+Subject: NVMe CLI Documentation Regen
+Thread-Topic: NVMe CLI Documentation Regen
+Thread-Index: AdVy2i0DHylCZVCBQoGUw0zA7mVxbg==
+Date: Tue, 24 Sep 2019 13:19:40 +0000
+Message-ID: <DM5PR04MB12448280B8639C509EC336F3EA840@DM5PR04MB1244.namprd04.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Jeff.Lien@wdc.com; 
+x-originating-ip: [199.255.44.173]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 05e1e33b-758e-4124-e19d-08d740f1db32
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600167)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
+ SRVR:DM5PR04MB0459; 
+x-ms-traffictypediagnostic: DM5PR04MB0459:
+x-microsoft-antispam-prvs: <DM5PR04MB0459841D4A18B865E1AD4E84EA840@DM5PR04MB0459.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:6108;
+x-forefront-prvs: 0170DAF08C
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(4636009)(346002)(376002)(39860400002)(396003)(366004)(136003)(189003)(199004)(74316002)(3846002)(66066001)(71200400001)(486006)(66446008)(66556008)(66476007)(71190400001)(3480700005)(26005)(4326008)(9686003)(66946007)(55016002)(186003)(64756008)(476003)(316002)(33656002)(6116002)(86362001)(14454004)(81166006)(305945005)(7736002)(256004)(6506007)(14444005)(6916009)(8676002)(5660300002)(8936002)(6436002)(7696005)(81156014)(52536014)(102836004)(76116006)(2906002)(99286004)(478600001)(25786009)(4744005);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:DM5PR04MB0459;
+ H:DM5PR04MB1244.namprd04.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: seLgncNeLCFdmVRYJemBD4wPgwA6qaf4H4MKszmwvxMjNmlsHl9iSZTygjD8tBMzgOV2kYYB4zk1PYLxpXE5eFJ2HJ5B6S7TdZcaBya3sziOG+Mtv+MNA2RHa//1iZwCe/iWrTSBTJSctbKOE+BQq/63Iu9OijU2LuLISP/U9dKgGILExNqi7NiSImDgmENPUskfQRO7O027ZKinB7Rvi//OgyQbnbcV5ZP7uRFqfFGnx5OKQ/op5C9a7IlYG2neYJMZ07wOBiWqixQZzvUVdG9TZ5fYg7Gn8iGwqp0yeJjC19+B1eHG1Zkx0BbMUxev2P8sw7y1Ulq8fvX/IayVIDFgxr2GegCie1I+RRziALv6tbrRVThbWZYDU72RyTznWtNiP1E+86ZC5X8DISVhfZuIl2UzIJC4y9903NoOSIY=
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-X-Originating-IP: [192.168.40.202]
-X-Mailer: Zimbra 8.8.12_GA_3794 (ZimbraWebClient - FF57 (Linux)/8.8.12_GA_3794)
-Thread-Index: tWaLpLj02BVn+M3V8YsXMTlR7z2yLA==
-Thread-Topic: nvme: allow 64-bit results in passthru commands
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 05e1e33b-758e-4124-e19d-08d740f1db32
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Sep 2019 13:19:40.3446 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: SYI8HFVUCU56crLKjLivlpKiJx/HeFOhXVbF1RN9ZPXNLT6NLyEecPYITFH7pC3duoXiS5pBkKet9aywfS+Jsg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR04MB0459
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190924_061500_313016_FF1DF981 
-X-CRM114-Status: GOOD (  10.55  )
+X-CRM114-CacheID: sfid-20190924_061945_126710_B0D2E244 
+X-CRM114-Status: UNSURE (   7.45  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,235 +140,28 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Cc: linux-nvme <linux-nvme@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-It is not possible to get 64-bit results from the passthru commands,
-what prevents from getting for the Capabilities (CAP) property value.
+Keith,
+Could you regenerate the nvme cli Documentation dir?  I made a few documentation updates to the some of the wdc plugin commands (vs-internal-log and vs-fw-activate-history) in my last pull request and noticed the .html and .1 files hadn't been updated.  
 
-As a result, it is not possible to implement IOL's NVMe Conformance
-test 4.3 Case 1 for Fabrics targets [1] (page 123).
+Thanks
 
-This issue has been already discussed [2], but without a solution.
+Jeff Lien
+Linux Device Driver Development
+Device Host Apps and Drivers
+jeff.lien@wdc.com
+o: 507-322-2416 (ext. 23-2416)
+m: 507-273-9124
 
-This patch solves the problem by adding new ioctls with a new
-passthru structure, including 64-bit results. The older ioctls stay
-unchanged.
 
-[1] https://www.iol.unh.edu/sites/default/files/testsuites/nvme/UNH-IOL_NVMe_Conformance_Test_Suite_v11.0.pdf
-[2] http://lists.infradead.org/pipermail/linux-nvme/2018-June/018791.html
 
-Signed-off-by: Marta Rybczynska <marta.rybczynska@kalray.eu>
----
- drivers/nvme/host/core.c        | 108 ++++++++++++++++++++++++++++++++++------
- include/uapi/linux/nvme_ioctl.h |  23 +++++++++
- 2 files changed, 115 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 1ede176..ac6a787 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -856,7 +856,7 @@ static void *nvme_add_user_metadata(struct bio *bio, void __user *ubuf,
- static int nvme_submit_user_cmd(struct request_queue *q,
- 		struct nvme_command *cmd, void __user *ubuffer,
- 		unsigned bufflen, void __user *meta_buffer, unsigned meta_len,
--		u32 meta_seed, u32 *result, unsigned timeout)
-+		u32 meta_seed, u64 *result, unsigned timeout)
- {
- 	bool write = nvme_is_write(cmd);
- 	struct nvme_ns *ns = q->queuedata;
-@@ -897,7 +897,7 @@ static int nvme_submit_user_cmd(struct request_queue *q,
- 	else
- 		ret = nvme_req(req)->status;
- 	if (result)
--		*result = le32_to_cpu(nvme_req(req)->result.u32);
-+		*result = le64_to_cpu(nvme_req(req)->result.u64);
- 	if (meta && !ret && !write) {
- 		if (copy_to_user(meta_buffer, meta, meta_len))
- 			ret = -EFAULT;
-@@ -1344,6 +1344,54 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	struct nvme_command c;
- 	unsigned timeout = 0;
- 	u32 effects;
-+	u64 result;
-+	int status;
-+
-+	if (!capable(CAP_SYS_ADMIN))
-+		return -EACCES;
-+	if (copy_from_user(&cmd, ucmd, sizeof(cmd)))
-+		return -EFAULT;
-+	if (cmd.flags)
-+		return -EINVAL;
-+
-+	memset(&c, 0, sizeof(c));
-+	c.common.opcode = cmd.opcode;
-+	c.common.flags = cmd.flags;
-+	c.common.nsid = cpu_to_le32(cmd.nsid);
-+	c.common.cdw2[0] = cpu_to_le32(cmd.cdw2);
-+	c.common.cdw2[1] = cpu_to_le32(cmd.cdw3);
-+	c.common.cdw10 = cpu_to_le32(cmd.cdw10);
-+	c.common.cdw11 = cpu_to_le32(cmd.cdw11);
-+	c.common.cdw12 = cpu_to_le32(cmd.cdw12);
-+	c.common.cdw13 = cpu_to_le32(cmd.cdw13);
-+	c.common.cdw14 = cpu_to_le32(cmd.cdw14);
-+	c.common.cdw15 = cpu_to_le32(cmd.cdw15);
-+
-+	if (cmd.timeout_ms)
-+		timeout = msecs_to_jiffies(cmd.timeout_ms);
-+
-+	effects = nvme_passthru_start(ctrl, ns, cmd.opcode);
-+	status = nvme_submit_user_cmd(ns ? ns->queue : ctrl->admin_q, &c,
-+			(void __user *)(uintptr_t)cmd.addr, cmd.data_len,
-+			(void __user *)(uintptr_t)cmd.metadata,
-+			cmd.metadata_len, 0, &result, timeout);
-+	nvme_passthru_end(ctrl, effects);
-+
-+	if (status >= 0) {
-+		if (put_user(result, &ucmd->result))
-+			return -EFAULT;
-+	}
-+
-+	return status;
-+}
-+
-+static int nvme_user_cmd64(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
-+			struct nvme_passthru_cmd64 __user *ucmd)
-+{
-+	struct nvme_passthru_cmd64 cmd;
-+	struct nvme_command c;
-+	unsigned timeout = 0;
-+	u32 effects;
- 	int status;
- 
- 	if (!capable(CAP_SYS_ADMIN))
-@@ -1414,6 +1462,41 @@ static void nvme_put_ns_from_disk(struct nvme_ns_head *head, int idx)
- 		srcu_read_unlock(&head->srcu, idx);
- }
- 
-+static bool is_ctrl_ioctl(unsigned int cmd)
-+{
-+	if (cmd == NVME_IOCTL_ADMIN_CMD || cmd == NVME_IOCTL_ADMIN64_CMD)
-+		return true;
-+	if (is_sed_ioctl(cmd))
-+		return true;
-+	return false;
-+}
-+
-+static int nvme_handle_ctrl_ioctl(struct nvme_ns *ns, unsigned int cmd,
-+				  void __user *argp,
-+				  struct nvme_ns_head *head,
-+				  int srcu_idx)
-+{
-+	struct nvme_ctrl *ctrl = ns->ctrl;
-+	int ret;
-+
-+	nvme_get_ctrl(ns->ctrl);
-+	nvme_put_ns_from_disk(head, srcu_idx);
-+
-+	switch (cmd) {
-+	case NVME_IOCTL_ADMIN_CMD:
-+		ret = nvme_user_cmd(ctrl, NULL, argp);
-+		break;
-+	case NVME_IOCTL_ADMIN64_CMD:
-+		ret = nvme_user_cmd64(ctrl, NULL, argp);
-+		break;
-+	default:
-+		ret = sed_ioctl(ctrl->opal_dev, cmd, argp);
-+		break;
-+	}
-+	nvme_put_ctrl(ctrl);
-+	return ret;
-+}
-+
- static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
- 		unsigned int cmd, unsigned long arg)
- {
-@@ -1431,20 +1514,8 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
- 	 * seperately and drop the ns SRCU reference early.  This avoids a
- 	 * deadlock when deleting namespaces using the passthrough interface.
- 	 */
--	if (cmd == NVME_IOCTL_ADMIN_CMD || is_sed_ioctl(cmd)) {
--		struct nvme_ctrl *ctrl = ns->ctrl;
--
--		nvme_get_ctrl(ns->ctrl);
--		nvme_put_ns_from_disk(head, srcu_idx);
--
--		if (cmd == NVME_IOCTL_ADMIN_CMD)
--			ret = nvme_user_cmd(ctrl, NULL, argp);
--		else
--			ret = sed_ioctl(ctrl->opal_dev, cmd, argp);
--
--		nvme_put_ctrl(ctrl);
--		return ret;
--	}
-+	if (is_ctrl_ioctl(cmd))
-+		return nvme_handle_ctrl_ioctl(ns, cmd, argp, head, srcu_idx);
- 
- 	switch (cmd) {
- 	case NVME_IOCTL_ID:
-@@ -1457,6 +1528,9 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
- 	case NVME_IOCTL_SUBMIT_IO:
- 		ret = nvme_submit_io(ns, argp);
- 		break;
-+	case NVME_IOCTL_IO64_CMD:
-+		ret = nvme_user_cmd64(ns->ctrl, ns, argp);
-+		break;
- 	default:
- 		if (ns->ndev)
- 			ret = nvme_nvm_ioctl(ns, cmd, arg);
-@@ -2847,6 +2921,8 @@ static long nvme_dev_ioctl(struct file *file, unsigned int cmd,
- 	switch (cmd) {
- 	case NVME_IOCTL_ADMIN_CMD:
- 		return nvme_user_cmd(ctrl, NULL, argp);
-+	case NVME_IOCTL_ADMIN64_CMD:
-+		return nvme_user_cmd64(ctrl, NULL, argp);
- 	case NVME_IOCTL_IO_CMD:
- 		return nvme_dev_user_cmd(ctrl, argp);
- 	case NVME_IOCTL_RESET:
-diff --git a/include/uapi/linux/nvme_ioctl.h b/include/uapi/linux/nvme_ioctl.h
-index 1c215ea..e168dc5 100644
---- a/include/uapi/linux/nvme_ioctl.h
-+++ b/include/uapi/linux/nvme_ioctl.h
-@@ -45,6 +45,27 @@ struct nvme_passthru_cmd {
- 	__u32	result;
- };
- 
-+struct nvme_passthru_cmd64 {
-+	__u8	opcode;
-+	__u8	flags;
-+	__u16	rsvd1;
-+	__u32	nsid;
-+	__u32	cdw2;
-+	__u32	cdw3;
-+	__u64	metadata;
-+	__u64	addr;
-+	__u32	metadata_len;
-+	__u32	data_len;
-+	__u32	cdw10;
-+	__u32	cdw11;
-+	__u32	cdw12;
-+	__u32	cdw13;
-+	__u32	cdw14;
-+	__u32	cdw15;
-+	__u32	timeout_ms;
-+	__u64	result;
-+};
-+
- #define nvme_admin_cmd nvme_passthru_cmd
- 
- #define NVME_IOCTL_ID		_IO('N', 0x40)
-@@ -54,5 +75,7 @@ struct nvme_passthru_cmd {
- #define NVME_IOCTL_RESET	_IO('N', 0x44)
- #define NVME_IOCTL_SUBSYS_RESET	_IO('N', 0x45)
- #define NVME_IOCTL_RESCAN	_IO('N', 0x46)
-+#define NVME_IOCTL_ADMIN64_CMD	_IOWR('N', 0x47, struct nvme_passthru_cmd64)
-+#define NVME_IOCTL_IO64_CMD	_IOWR('N', 0x48, struct nvme_passthru_cmd64)
- 
- #endif /* _UAPI_LINUX_NVME_IOCTL_H */
--- 
-1.8.3.1
+
 
 
 _______________________________________________
