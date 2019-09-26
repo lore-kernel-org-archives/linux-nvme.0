@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35B1CC4360C
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 Sep 2019 20:01:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2DA5C4360C
+	for <linux-nvme@archiver.kernel.org>; Thu, 26 Sep 2019 20:04:02 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 08F2E21A4A
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 Sep 2019 20:01:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id AC98621A4A
+	for <linux-nvme@archiver.kernel.org>; Thu, 26 Sep 2019 20:04:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="sO9UQA1H"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 08F2E21A4A
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Sqs9cuVb"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AC98621A4A
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,58 +25,58 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=SLUxEjstswUBYpV1USOlm68nauBsI8Xl0DyVnNSbw4k=; b=sO9UQA1H+aPPcZE/zOjgEpwGn
-	4TTAaflxefNHkw0Rzw6vPX3wqY3GSTuDEE9eyYURkMUGDvmxuz/3bmj/EOdCBoInJToJGrUECToxd
-	di7SoFdCq2kbn9uE/wtLQnaqqw3aNLgG9rwP/A9FrKZ0gIAckpmsNzk8Hb0hpiSBtqS2fHhW9aDZk
-	1bRIbdLqf6YCr/aiEg/2IQohFJg3bCQ7l8sYZsjPzuMrBiiS5ISsVLaOFvNLeNyTPa67uR9OdDmPR
-	QFh16IuVlR5WlsdcWJFqCzCOCSBsdjco4Q7Gms3ZixJGLyUvO8KkeV9gDFEcKRoXfgv2PeQaMTkkd
-	vJ0P6fr0Q==;
+	 bh=tNwVbN+1M30OUzfmvYH6JVi7nuPlyDY437stjCe4Cxw=; b=Sqs9cuVbIyJxSaF8r73I1PACl
+	hapuThgscJ92vYqo0ixQnP8VyvF59GZqB+jLsDf1JTg9z6p/ZJRcY8ZJPQksVaNHvNwpExhtTrZPE
+	CH/tFZrorLWfRnp5WUG6g9mIk0hehuteSw0zxzQQ4CIQqLYtAqydnkDBesDwMD/gjorKlF+GDXmBH
+	C8BBAV+iUCozKh43EXsb8SX8Oiyf007w5rwZ+uZY2guZcMoXkyGLMc1xUmWfdCqMMQulnQcR2ekFi
+	BAULaUrPPpFqroH+BAmyqgHmhrfXyWxO1cCGyEqYL9PXhAnCIjOxpUD8+/BvFMkM3aTnvZi82VG/m
+	Neg7ezmQQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.2 #3 (Red Hat Linux))
-	id 1iDZxT-0005ky-Qh; Thu, 26 Sep 2019 20:01:47 +0000
-Received: from mail-oi1-f193.google.com ([209.85.167.193])
+	id 1iDZzc-0005zz-KD; Thu, 26 Sep 2019 20:04:00 +0000
+Received: from mail-ot1-f68.google.com ([209.85.210.68])
  by bombadil.infradead.org with esmtps (Exim 4.92.2 #3 (Red Hat Linux))
- id 1iDZxJ-0005f4-E3
- for linux-nvme@lists.infradead.org; Thu, 26 Sep 2019 20:01:41 +0000
-Received: by mail-oi1-f193.google.com with SMTP id i16so3223345oie.4
- for <linux-nvme@lists.infradead.org>; Thu, 26 Sep 2019 13:01:37 -0700 (PDT)
+ id 1iDZzZ-0005zf-VG
+ for linux-nvme@lists.infradead.org; Thu, 26 Sep 2019 20:03:59 +0000
+Received: by mail-ot1-f68.google.com with SMTP id y39so246938ota.7
+ for <linux-nvme@lists.infradead.org>; Thu, 26 Sep 2019 13:03:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=n9/mVvbc+FJD5lFAC39ToEnsu4tlFlkzdP2wms0HhJ0=;
- b=oZLqpDoVnmFqEHevzYwpki6xpzm0mITD3Ts5pF34hseiBCHEPM4PYTSpB2u1rT9URs
- gnt+LzOr/xwmYpeOWFRtWV32kPhIB5yTIMZoSjAl85NT+TTjtpIfXb7y1V+YVn8v62ng
- ED9O4gN98lCP2/CpW8uGtcrfrFvjjDfKtzWFJTfMDnE4hyCTk2ek/5NTic4Hg7NQ1HPq
- JeWuUe440B0GDTRzTiivtWpPLKcppvz8U3RZnq/3YwyXJAFUyi5rjHpzSg4AWy8hWhH5
- IcjwO1+WCoZzdIcrXBUlZ8DQCCJGJtGBB8lYjKo4KZ/usVu+YDXoyRZL7EhexkUGuGkz
- sg5Q==
-X-Gm-Message-State: APjAAAVyFDjcSzzNg5FNrLJ6i55nIX0fwlIKabKc5i6E+tmrlH2qeq/Q
- DDlo2BzlceFKcn3N+sEjdx/8aOWu
-X-Google-Smtp-Source: APXvYqy8BQXddHVrqHOBn4eH6n0GG57df0bFcr1cagYjuhWPymPN1156w/k8BHf0B4L0fr93BX0u4w==
-X-Received: by 2002:aca:33c6:: with SMTP id z189mr4086017oiz.137.1569528096037; 
- Thu, 26 Sep 2019 13:01:36 -0700 (PDT)
+ bh=sOaP61NzCbjteLEjIgUHiaIabeRxs6SAIyG2Wbqa820=;
+ b=uaRRXPFiLN84geyWrr6ODmiTM+MfvxYSM1HeFfjmAsngqa33z5G2k9H0553A01u673
+ VbCnE9fF9W11KjzSYWi2VPOVX0x7UqErFJUPL4bXwhBmcNLc5brL4TaTLOOQC7P5IgHO
+ KnqwAo2oxwG9P/rhzgX0PxnIfiiEDxEKYHXuqE4q35CK6xvVpnElGYBWO1PivBvsJWhL
+ i0IlCcPIOm9IVPpY3FggWsPq9Jt5UAv/Pfu1gf/727M/HTCxR/y4B04ctVof000ZeAIy
+ qTsnuI/DO+UoQ89MHlkcn6Ak6XU0oiHaCLaqhLMJR+EBOz6vMg0fK/w/SncbPlSMslVO
+ VFtg==
+X-Gm-Message-State: APjAAAXFFcTTL6vP6B/j24v9+yayoJoGKXfbaj5UFxlMsU0Jec3wl3Dc
+ kNThwBiSvpJSX2vdAvHepzcZZi5S
+X-Google-Smtp-Source: APXvYqwZa2jbjTt5msTlQwymnYNUsfqPZt4NTg1AcW/mpJPrGxm2SDZfK3qRDnrXBYRtotsEPzwwDQ==
+X-Received: by 2002:a9d:5a06:: with SMTP id v6mr365418oth.250.1569528236556;
+ Thu, 26 Sep 2019 13:03:56 -0700 (PDT)
 Received: from ?IPv6:2600:1700:65a0:78e0:514:7862:1503:8e4d?
  ([2600:1700:65a0:78e0:514:7862:1503:8e4d])
- by smtp.gmail.com with ESMTPSA id h32sm113442otb.46.2019.09.26.13.01.34
+ by smtp.gmail.com with ESMTPSA id g18sm105450otl.76.2019.09.26.13.03.55
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 26 Sep 2019 13:01:35 -0700 (PDT)
-Subject: Re: [PATCH] nvme: Move ctrl sqsize to generic space
-To: kbusch@kernel.org, linux-nvme@lists.infradead.org
-References: <20190926034439.2542-1-kbusch@kernel.org>
+ Thu, 26 Sep 2019 13:03:55 -0700 (PDT)
+Subject: Re: [PATCH rfc 2/2] nvmet-tcp: set SO_PRIORITY for network sockets
+To: "Wunderlich, Mark" <mark.wunderlich@intel.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+References: <B33B37937B7F3D4CB878107E305D4916D36846@ORSMSX104.amr.corp.intel.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <c223a470-b8f9-8c7a-c2a2-c2aced28c022@grimberg.me>
-Date: Thu, 26 Sep 2019 13:01:33 -0700
+Message-ID: <63782282-026f-b12f-7a97-3e5d9643e262@grimberg.me>
+Date: Thu, 26 Sep 2019 13:03:54 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190926034439.2542-1-kbusch@kernel.org>
+In-Reply-To: <B33B37937B7F3D4CB878107E305D4916D36846@ORSMSX104.amr.corp.intel.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190926_130138_348658_0C3CD8AB 
-X-CRM114-Status: UNSURE (   8.44  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20190926_130358_061730_49C3FBFF 
+X-CRM114-Status: GOOD (  12.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,7 +93,21 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Applied to nvme-5.4
+
+> +/* Define the socket priority to use for connections were it is desirable
+> + * that the NIC consider performing optimized packet processing or filtering.
+> + * A non-zero value being sufficient to indicate general consideration of any
+> + * possible optimization.  Making it a module param allows for alternative
+> + * values that may be unique for some NIC implementations.
+> + */
+> +static int nvmet_tcp_so_priority;
+> +module_param(nvmet_tcp_so_priority, int, 0644);
+> +MODULE_PARM_DESC(nvmet_tcp_so_priority, "nvmet tcp socket optimize priority");
+> +
+
+No need for nvmet_tcp prefix I assume.
+
+Should it be a bool if a non-zero value is sufficient?
 
 _______________________________________________
 Linux-nvme mailing list
