@@ -2,83 +2,83 @@ Return-Path: <SRS0=X9H7=XW=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F305C388F3
-	for <linux-nvme@archiver.kernel.org>; Fri, 27 Sep 2019 22:27:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9619CC4360C
+	for <linux-nvme@archiver.kernel.org>; Fri, 27 Sep 2019 22:34:37 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 40202217D9
-	for <linux-nvme@archiver.kernel.org>; Fri, 27 Sep 2019 22:27:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6675A21655
+	for <linux-nvme@archiver.kernel.org>; Fri, 27 Sep 2019 22:34:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="riYAk7c3";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gvoUk7U+"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 40202217D9
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Yx/4CTie"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6675A21655
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Cc:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	References:List-Owner; bh=u1Ty/Zztq28GIsRZJ9vKVPoBKVWfMqDw14W4kweyYgg=; b=riY
-	Ak7c36LVysw/DffXEe/X/L5juPNelfYjWij3F98Q2DLNCMoAnyCqA63IwLBSgjND3QjvXSJkiqnBM
-	kTicZjavoY31n4y6CCIEI3Uu7hRPlEN/a5in4oHd6BX8PCwG/4T+hujpRR1wNURcgIjyoWKNWm+hF
-	J9vX1Xfc02hD+Z5k6jJ/7ztA0JBDX1N6R2KgenxCLFOfyM28AT7VxnPMorcrO8hfJI+PHybBNjFvm
-	DdlT9c2j2V1ZjyLO0UTYLVtAnJPg5u2/gzO2I00mkS9WaLPChUPDm0ezU1oIrpdenb8RkPg5kqlgU
-	bFRkmyWLklXFragrTIP/qtGJkYNMD6g==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=TTuK8iUMhnQKZ2o4D9eHJBFwQ9An8taqn3RsoPAnnWo=; b=Yx/4CTiep/8aWv/6TGY+9avto
+	RwXu+PuQejB3ApqSh2rnVvMUZECbi6pakP5YkyoGlq3Z7auFoGa3ksfWskf3W6qwm8xsz7G1CsdBG
+	yqBm8cB6fd+Hz7CkqOH0LKIw7IXnTmDCQA7UdS/w9g2IKHdt7pNKDMurzUXuFdhVGpc3iGnUZWKDQ
+	jzwtCnjyWrE5498Df+cBusAG7MZVHsDpyEm+cMYSOe6HkE+BBKdknIoeVjio10VjmyHKjMhIDOQ+j
+	hfh7uObBWelth4fYsGAnz72+bmL/LcRyP+U8q1F+zf3PEfHa4tavdYNgC8ud8T1TrHS+mtr/WXBqI
+	VlHCTTa+w==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.2 #3 (Red Hat Linux))
-	id 1iDyhu-0004OL-HA; Fri, 27 Sep 2019 22:27:22 +0000
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442])
+	id 1iDyor-000742-If; Fri, 27 Sep 2019 22:34:33 +0000
+Received: from mail-oi1-f195.google.com ([209.85.167.195])
  by bombadil.infradead.org with esmtps (Exim 4.92.2 #3 (Red Hat Linux))
- id 1iDyhr-0004Nl-V4
- for linux-nvme@lists.infradead.org; Fri, 27 Sep 2019 22:27:21 +0000
-Received: by mail-pf1-x442.google.com with SMTP id v4so2321168pff.6
- for <linux-nvme@lists.infradead.org>; Fri, 27 Sep 2019 15:27:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=htKoag7l58Zi38H+hfaNMCS1bVXuCw2QBsdt/OVLMSY=;
- b=gvoUk7U+5zh81IZq3BNs3lMu99esxFdflddP/dVy/JEDd2frPYZ4YESBW0YpwGKXfZ
- 9LG9gHiPcjg/nyiBWVJDqWDi8cx/08X0jcn/YrNQxMpLSuxz6p4v7R3yPRHxFYBvzJ5w
- GRP5ohkl5RWnJ8kDGwuidnE9mc6Xknhn1Sq+UwpsVeTAN1YkIVBHQhSHlGYMy5UFnm8W
- iOnQsy1zjMksQrDXCbk843QTP6UqA7UE5S3N/qdYtEcfXL9PXn37soPONHs6bY7Ef3TZ
- 0Uk1LzmprP1RzoN5H8GJtM6A2H5Dn9X2u7j1OuXRfUNSzwlCSojuL4nerOmYwA+PZVEj
- CELw==
+ id 1iDyoo-00073e-R5
+ for linux-nvme@lists.infradead.org; Fri, 27 Sep 2019 22:34:32 +0000
+Received: by mail-oi1-f195.google.com with SMTP id k25so6498306oiw.13
+ for <linux-nvme@lists.infradead.org>; Fri, 27 Sep 2019 15:34:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=htKoag7l58Zi38H+hfaNMCS1bVXuCw2QBsdt/OVLMSY=;
- b=ljSLj6oZ5oQ/yvqNYBFlEqVyC57vw/CUEq5I/SdpEliENJmE4IGBlLVv6zUMndIjm8
- nvcwscc/1Gji/DWgU1JSvC0cTMiDhgdpaN16ohdHxPhLIUh2XTY40/IrqadBiaA6ao8p
- xtiGsNw0J/qlML+b9t+2AmJckISY6TJbfud/3SntaGZKrcdLCKcZCs6qmdyWNCcsUtrv
- H4uwjTn5TBDZ0hreVgC+bvnfpwGlUL8XGcGXiz+pWNwx2xACKatk1qLwqx2DOk+CCrw4
- 1Jv+3W6zwWTMz5A59qLaxEdswNiK/6FT8XNDQjX760ZhORLaM57SLNnZfT91jQASt+Ke
- x1YQ==
-X-Gm-Message-State: APjAAAV2rZGjzmBQ74N15KEd4CYpoeJxxlnJcuNAMTe5BY6qx9f1+YTA
- A/uSgzoLKbdCCh6F/TGZmqiWf6ih
-X-Google-Smtp-Source: APXvYqxWmhDMPRfluZewhnVjKkASSAMMzJ80xW4oiMeCDI64oFr1IyBd9fNQHnOtqWEuzvy9LrbISw==
-X-Received: by 2002:a62:5c82:: with SMTP id q124mr7156559pfb.177.1569623239241; 
- Fri, 27 Sep 2019 15:27:19 -0700 (PDT)
-Received: from pallmd1.broadcom.com ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id s202sm5223271pfs.24.2019.09.27.15.27.18
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Fri, 27 Sep 2019 15:27:18 -0700 (PDT)
-From: James Smart <jsmart2021@gmail.com>
-To: linux-nvme@lists.infradead.org
-Subject: [PATCH] nvme-fc: clarify error messages
-Date: Fri, 27 Sep 2019 15:27:11 -0700
-Message-Id: <20190927222711.16556-1-jsmart2021@gmail.com>
-X-Mailer: git-send-email 2.13.7
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=QqOL/HYipstsdzRdbKFa7B6VDhApW8sIYh5FSgaWqLk=;
+ b=oSfEAb1D9DaBA4Tz3UzJrjgqbv5aBRUbqt2bcrDuIuDgwZwh9I1OTHtnwGH03rOCJt
+ uf/EdciNoRUS6dODOQxMrM06Vub/HDh62dVZlLU7LTKZwZkEvoW18zbaBH5n7WEoxlSN
+ SwzxP0xYitHScyYwMD0wyp1mZu/HveGMSrabNbkTHYO9oIO1ucxhqtJ01ydPOXvI6KPc
+ xZA8N0P6eh8Pf3yj+E6Ae2Olg2sqX2WG2XU2hOWYQv8BRZj+3sZyDgRrtRzuHJMpOYt6
+ 32ykaUTqGVPlrEUNT05l787UqJbMZD4zbw0+99zFRBpCUuQFTeO2asTGwkmWCuPoeW3M
+ xlYw==
+X-Gm-Message-State: APjAAAVSo9ggEAAoQBZJ5e2Ib55nqMW8bvpJ+rSIoX2bJdzqV0zNapoc
+ uuahQOZ544brBJ7ghioLB5rlpiR1
+X-Google-Smtp-Source: APXvYqwoUQzpFRVGmAgfJYzaAqSjx4815SxHBMPEiBbLbJnw0mpfnB8Unm8kWOTpcluvIrXss9+pEQ==
+X-Received: by 2002:aca:3c82:: with SMTP id j124mr9151159oia.82.1569623667038; 
+ Fri, 27 Sep 2019 15:34:27 -0700 (PDT)
+Received: from ?IPv6:2600:1700:65a0:78e0:514:7862:1503:8e4d?
+ ([2600:1700:65a0:78e0:514:7862:1503:8e4d])
+ by smtp.gmail.com with ESMTPSA id 88sm1489394otb.63.2019.09.27.15.34.25
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 27 Sep 2019 15:34:26 -0700 (PDT)
+Subject: Re: [PATCH] nvmet: add revalidate ns sysfs attribute to handle device
+ resize
+To: Christoph Hellwig <hch@lst.de>
+References: <20190926231940.7494-1-m.malygin@yadro.com>
+ <80c2509b-bd48-c3c4-13bf-8ad6b1c0f77a@grimberg.me>
+ <20190927221352.GA17568@lst.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <d969c277-a14e-4155-7cee-e5e5af995449@grimberg.me>
+Date: Fri, 27 Sep 2019 15:34:24 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <20190927221352.GA17568@lst.de>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190927_152720_022446_740950CC 
-X-CRM114-Status: GOOD (  10.35  )
+X-CRM114-CacheID: sfid-20190927_153430_876482_F1B80F35 
+X-CRM114-Status: GOOD (  13.93  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,74 +90,47 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: James Smart <jsmart2021@gmail.com>, "Ewan D . Milne" <emilne@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Cc: Mikhail Malygin <m.malygin@yadro.com>, linux-nvme@lists.infradead.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Change wording on a couple of messages to clarify what happened.
 
-Signed-off-by: Ewan D. Milne <emilne@redhat.com>
-Signed-off-by: James Smart <jsmart2021@gmail.com>
----
- drivers/nvme/host/fc.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+>>> +int nvmet_ns_revalidate(struct nvmet_ns *ns)
+>>> +{
+>>> +	struct nvmet_subsys *subsys = ns->subsys;
+>>> +	int ret = 0;
+>>> +
+>>> +	mutex_lock(&subsys->lock);
+>>> +	if(!ns->enabled){
+>>> +		goto out_unlock;
+>>> +	}
+>>> +
+>>> +	if(ns->bdev){
+>>> +		ret = nvmet_bdev_ns_revalidate(ns);
+>>> +	}else if(ns->file){
+>>> +		ret = nvmet_file_ns_revalidate(ns);
+>>> +	}
+>>> +
+>>> +	nvmet_ns_changed(subsys, ns->nsid);
+>>
+>> Shouldn't that happen only of the size changed?
+> 
+> s/of/if/ ?
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index b880c5b3d3e0..714a1c3aa0c5 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -1264,7 +1264,7 @@ nvme_fc_connect_admin_queue(struct nvme_fc_ctrl *ctrl,
- 	if (fcret) {
- 		ret = -EBADF;
- 		dev_err(ctrl->dev,
--			"q %d connect failed: %s\n",
-+			"q %d Create Association LS failed: %s\n",
- 			queue->qnum, validation_errors[fcret]);
- 	} else {
- 		ctrl->association_id =
-@@ -1363,7 +1363,7 @@ nvme_fc_connect_queue(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
- 	if (fcret) {
- 		ret = -EBADF;
- 		dev_err(ctrl->dev,
--			"q %d connect failed: %s\n",
-+			"q %d Create I/O Connection LS failed: %s\n",
- 			queue->qnum, validation_errors[fcret]);
- 	} else {
- 		queue->connection_id =
-@@ -1376,7 +1376,7 @@ nvme_fc_connect_queue(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
- out_no_memory:
- 	if (ret)
- 		dev_err(ctrl->dev,
--			"queue %d connect command failed (%d).\n",
-+			"queue %d connect I/O queue failed (%d).\n",
- 			queue->qnum, ret);
- 	return ret;
- }
-@@ -2695,7 +2695,7 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
- 		/* warn if maxcmd is lower than queue_size */
- 		dev_warn(ctrl->ctrl.device,
- 			"queue_size %zu > ctrl maxcmd %u, reducing "
--			"to queue_size\n",
-+			"to maxcmd\n",
- 			opts->queue_size, ctrl->ctrl.maxcmd);
- 		opts->queue_size = ctrl->ctrl.maxcmd;
- 	}
-@@ -2703,7 +2703,8 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
- 	if (opts->queue_size > ctrl->ctrl.sqsize + 1) {
- 		/* warn if sqsize is lower than queue_size */
- 		dev_warn(ctrl->ctrl.device,
--			"queue_size %zu > ctrl sqsize %u, clamping down\n",
-+			"queue_size %zu > ctrl sqsize %u, reducing "
-+			"to sqsize\n",
- 			opts->queue_size, ctrl->ctrl.sqsize + 1);
- 		opts->queue_size = ctrl->ctrl.sqsize + 1;
- 	}
--- 
-2.13.7
+Yes..
 
+> I guess we could do a sanity check first.
+> 
+>> So what is the model here? have some udev rule to
+>> trigger this?
+> 
+> Well, even if there was a udev rule we can't directly rely on it.
+
+What do you mean we can't rely on it?
+
+I do understand that we'd have no triggers for file-backed namespaces.
 
 _______________________________________________
 Linux-nvme mailing list
