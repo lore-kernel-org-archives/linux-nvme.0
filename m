@@ -1,58 +1,86 @@
-Return-Path: <SRS0=7yTB=XY=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=mwZ5=XZ=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D5A0C4360C
-	for <linux-nvme@archiver.kernel.org>; Sun, 29 Sep 2019 19:18:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01CCAC32792
+	for <linux-nvme@archiver.kernel.org>; Mon, 30 Sep 2019 15:02:33 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id ECBB420863
-	for <linux-nvme@archiver.kernel.org>; Sun, 29 Sep 2019 19:18:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C463720679
+	for <linux-nvme@archiver.kernel.org>; Mon, 30 Sep 2019 15:02:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="qX76AA4q"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ECBB420863
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="alZVKDOc";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=yadro.com header.i=@yadro.com header.b="Q5d2JQiw"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C463720679
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=yadro.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-ID:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=kWFvhulpWMncTlTrc/pcuKR1QjO/DDsujy6GdFhylnI=; b=qX76AA4q5yYoZY
-	l5WpHg0ZMlKf0CeLx9j+qJ6UBKFCWaj157iicQW+9D1ijTnd9vGppe2XE6cDmurFckZYZ3N5Os17B
-	xfzvCsOOvwlc1I7bZlZ/pd7SwPy++aiA3FzQ/xOVVxm4j1OXJt04knVdOwHkF2ntKpLJhI64ywRUo
-	rNVDYad4KZqIWEf9mIa3epS+uIp5mJi2buw2TzKtJoYkQOZ0sWe4MAHaYkxvJUDDscRE5Tjm9Bg9h
-	bKSY6AHrcMPOOQhXOqMHsCMsWfJrQLSC8KlDNFb/JcwxXTwOLShLa0LAjWLSgJlwp/VnvW8xbFNtP
-	uuiDfBYzcbwrgqy4mEOg==;
+	List-Owner; bh=gi1CwpDIJGWlyjMZ6AMt++RDIezZbbXxy8ZKDRicVd4=; b=alZVKDOccSz6t/
+	Svh8M/FNsHGcsWOuOQkDv/He6z5lVjdhtkLTPKYCp1AJa7AAlfNL1IlKdYOsVKEVknL07xU3yUK+w
+	YR94hS4NQAcOPDJOzcrk5XavDZdwBH0LDTKOhK4yY3cfOmucO+UfQiKVDRgTocyZjoVpuxqagzh10
+	uC1jBd4tQl+3i4cf71PMnFVziho0H7CrPX70iOo2aTMRvgeAmQQdsv9cNDYFA/a/M/0wV5bwMhZW5
+	cU4WP0Iu8FxyXgUcRLagQ2DxOC0sgw4euwPykieWHhppKJBMtkDqyKI+Vd2jJIstBBE6LalP/SekL
+	ev+VnK7VbddgeqPWOlOA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.2 #3 (Red Hat Linux))
-	id 1iEeiK-0004TO-5c; Sun, 29 Sep 2019 19:18:36 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1iExBz-0002oZ-Tf; Mon, 30 Sep 2019 15:02:27 +0000
+Received: from mta-02.yadro.com ([89.207.88.252] helo=mta-01.yadro.com)
  by bombadil.infradead.org with esmtps (Exim 4.92.2 #3 (Red Hat Linux))
- id 1iEeiG-0004Sr-I3
- for linux-nvme@lists.infradead.org; Sun, 29 Sep 2019 19:18:34 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id C6FEA68BFE; Sun, 29 Sep 2019 21:18:22 +0200 (CEST)
-Date: Sun, 29 Sep 2019 21:18:22 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH] nvme: look up proper namespace in NVME_IOCTL_IO_CMD
-Message-ID: <20190929191822.GA2995@lst.de>
-References: <20190928021500.31382-1-minwoo.im.dev@gmail.com>
- <20190929173654.GA1484@C02WT3WMHTD6>
+ id 1iExBv-0002dO-Qt
+ for linux-nvme@lists.infradead.org; Mon, 30 Sep 2019 15:02:25 +0000
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 55E2742E7D
+ for <linux-nvme@lists.infradead.org>; Mon, 30 Sep 2019 15:02:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ content-type:content-type:mime-version:references:in-reply-to
+ :x-mailer:message-id:date:date:subject:subject:from:from
+ :received:received:received; s=mta-01; t=1569855732; x=
+ 1571670133; bh=tzgo0740Rgow/Ai1KrM0HwGBSZN2lFZ3Suse8QGnDy4=; b=Q
+ 5d2JQiwIUQDTNFIacFEru9MIPLbCN9J+atoPHrI9iQQUqiz6oZfLVZW+/EmIPl00
+ 5xiduV6tDFiKpIUBSNGhSiGxveaQ/G3KbHqTzIE4j/c0NPZmTq0rpifB/OKJ3lqN
+ ALVO3wIjdOnM4Zp94jWljV8N/1Mnui9e/YQwcLtXaU=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id GHtNuGdgWOSI for <linux-nvme@lists.infradead.org>;
+ Mon, 30 Sep 2019 18:02:12 +0300 (MSK)
+Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
+ [172.17.10.102])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 285184200A
+ for <linux-nvme@lists.infradead.org>; Mon, 30 Sep 2019 18:02:12 +0300 (MSK)
+Received: from ttln-dm-ec-sle15-sp1-0.spb.yadro.com (172.17.128.132) by
+ T-EXCH-02.corp.yadro.com (172.17.10.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+ 15.1.669.32; Mon, 30 Sep 2019 18:02:11 +0300
+From: <m.malygin@yadro.com>
+To: <linux-nvme@lists.infradead.org>
+Subject: [PATCH v2] nvmet: add revalidate ns sysfs attribute to handle device
+ resize
+Date: Mon, 30 Sep 2019 18:02:02 +0300
+Message-ID: <20190930150202.9259-1-m.malygin@yadro.com>
+X-Mailer: git-send-email 2.16.4
+In-Reply-To: <20190926231940.7494-1-m.malygin@yadro.com>
+References: <20190926231940.7494-1-m.malygin@yadro.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190929173654.GA1484@C02WT3WMHTD6>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+X-Originating-IP: [172.17.128.132]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-02.corp.yadro.com (172.17.10.102)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20190929_121832_745855_CE0BF0D4 
-X-CRM114-Status: GOOD (  10.01  )
+X-CRM114-CacheID: sfid-20190930_080224_247930_780F2609 
+X-CRM114-Status: GOOD (  15.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,27 +92,238 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Jens Axboe <axboe@fb.com>, Minwoo Im <minwoo.im.dev@gmail.com>,
- Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
- Sagi Grimberg <sagi@grimberg.me>
+Cc: Mikhail Malygin <m.malygin@yadro.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Sep 29, 2019 at 11:36:54AM -0600, Keith Busch wrote:
-> On Sat, Sep 28, 2019 at 11:15:00AM +0900, Minwoo Im wrote:
-> > NVME_IOCTL_IO_CMD is deprecated because IO request for a chardev is
-> > unsafe.  But in case userspace gives nsid, kernel should at least look
-> > up the proper namespace instance instead getting the first entry and
-> > checking whether if it's the last one.
-> 
-> This pretty much defeats the purpose of discouraging using this interface, and
-> possibly opens security issues if someone can issue IO to a device they
-> shouldn't be able to access.
+From: Mikhail Malygin <m.malygin@yadro.com>
 
-It also breaks any old user relying on the fact that the nsid is
-ignored.
+Currently device size is cached in ns->size field on namespace enable, so
+any device size change after that can't bee seen by initiator.
+This patch adds revalidate namespace attribute. Once it is written,
+target refreshes ns->size property and calls nvmet_ns_changed
+so initator may perform namespace rescan
+
+Signed-off-by: Mikhail Malygin <m.malygin@yadro.com>
+---
+ drivers/nvme/target/configfs.c    | 14 +++++++++++
+ drivers/nvme/target/core.c        | 31 +++++++++++++++++++++++
+ drivers/nvme/target/io-cmd-bdev.c | 16 ++++++++++--
+ drivers/nvme/target/io-cmd-file.c | 42 ++++++++++++++++++++++---------
+ drivers/nvme/target/nvmet.h       |  3 +++
+ 5 files changed, 92 insertions(+), 14 deletions(-)
+
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index 98613a45bd3b..06566ad1d197 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -545,6 +545,19 @@ static ssize_t nvmet_ns_buffered_io_store(struct config_item *item,
+ 
+ CONFIGFS_ATTR(nvmet_ns_, buffered_io);
+ 
++static ssize_t nvmet_ns_revalidate_store(struct config_item *item,
++		const char *page, size_t count)
++{
++	struct nvmet_ns *ns = to_nvmet_ns(item);
++	int ret = 0;
++
++	ret = nvmet_ns_revalidate(ns);
++
++	return ret ? ret : count;
++}
++
++CONFIGFS_ATTR_WO(nvmet_ns_, revalidate);
++
+ static struct configfs_attribute *nvmet_ns_attrs[] = {
+ 	&nvmet_ns_attr_device_path,
+ 	&nvmet_ns_attr_device_nguid,
+@@ -552,6 +565,7 @@ static struct configfs_attribute *nvmet_ns_attrs[] = {
+ 	&nvmet_ns_attr_ana_grpid,
+ 	&nvmet_ns_attr_enable,
+ 	&nvmet_ns_attr_buffered_io,
++	&nvmet_ns_attr_revalidate,
+ #ifdef CONFIG_PCI_P2PDMA
+ 	&nvmet_ns_attr_p2pmem,
+ #endif
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 3a67e244e568..2f5933c2d300 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -620,6 +620,37 @@ void nvmet_ns_disable(struct nvmet_ns *ns)
+ 	mutex_unlock(&subsys->lock);
+ }
+ 
++int nvmet_ns_revalidate(struct nvmet_ns *ns)
++{
++	struct nvmet_subsys *subsys = ns->subsys;
++	loff_t ns_size = ns->size;
++	u32 ns_blksize_shift = ns->blksize_shift;
++	int ret = 0;
++
++	mutex_lock(&subsys->lock);
++	if(!ns->enabled){
++		goto out_unlock;
++	}
++
++	if(ns->bdev){
++		ret = nvmet_bdev_ns_revalidate(ns);
++	}else if(ns->file){
++		ret = nvmet_file_ns_revalidate(ns);
++	}
++
++	if(ret){
++		goto out_unlock;
++	}
++
++	if(ns->size != ns_size || ns->blksize_shift != ns_blksize_shift){
++		nvmet_ns_changed(subsys, ns->nsid);
++	}
++
++out_unlock:
++	mutex_unlock(&subsys->lock);
++	return ret;
++}
++
+ void nvmet_ns_free(struct nvmet_ns *ns)
+ {
+ 	nvmet_ns_disable(ns);
+diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+index de0bff70ebb6..ea55bbe93813 100644
+--- a/drivers/nvme/target/io-cmd-bdev.c
++++ b/drivers/nvme/target/io-cmd-bdev.c
+@@ -47,6 +47,12 @@ void nvmet_bdev_set_limits(struct block_device *bdev, struct nvme_id_ns *id)
+ 	id->nows = to0based(ql->io_opt / ql->logical_block_size);
+ }
+ 
++static void nvmet_bdev_ns_read_size(struct nvmet_ns *ns)
++{
++	ns->size = i_size_read(ns->bdev->bd_inode);
++	ns->blksize_shift = blksize_bits(bdev_logical_block_size(ns->bdev));
++}
++
+ int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
+ {
+ 	int ret;
+@@ -62,8 +68,8 @@ int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
+ 		ns->bdev = NULL;
+ 		return ret;
+ 	}
+-	ns->size = i_size_read(ns->bdev->bd_inode);
+-	ns->blksize_shift = blksize_bits(bdev_logical_block_size(ns->bdev));
++
++	nvmet_bdev_ns_read_size(ns);
+ 	return 0;
+ }
+ 
+@@ -75,6 +81,12 @@ void nvmet_bdev_ns_disable(struct nvmet_ns *ns)
+ 	}
+ }
+ 
++int nvmet_bdev_ns_revalidate(struct nvmet_ns *ns)
++{
++	nvmet_bdev_ns_read_size(ns);
++	return 0;
++}
++
+ static u16 blk_to_nvme_status(struct nvmet_req *req, blk_status_t blk_sts)
+ {
+ 	u16 status = NVME_SC_SUCCESS;
+diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
+index 05453f5d1448..84a2d664d39a 100644
+--- a/drivers/nvme/target/io-cmd-file.c
++++ b/drivers/nvme/target/io-cmd-file.c
+@@ -27,10 +27,30 @@ void nvmet_file_ns_disable(struct nvmet_ns *ns)
+ 	}
+ }
+ 
++static int nvmet_file_ns_read_size(struct nvmet_ns *ns)
++{
++	int ret;
++	struct kstat stat;
++
++	ret = vfs_getattr(&ns->file->f_path,
++			&stat, STATX_SIZE, AT_STATX_FORCE_SYNC);
++	if (ret)
++		return ret;
++
++	ns->size = stat.size;
++	/*
++	 * i_blkbits can be greater than the universally accepted upper bound,
++	 * so make sure we export a sane namespace lba_shift.
++	 */
++	ns->blksize_shift = min_t(u8,
++			file_inode(ns->file)->i_blkbits, 12);
++
++	return 0;
++}
++
+ int nvmet_file_ns_enable(struct nvmet_ns *ns)
+ {
+ 	int flags = O_RDWR | O_LARGEFILE;
+-	struct kstat stat;
+ 	int ret;
+ 
+ 	if (!ns->buffered_io)
+@@ -43,18 +63,11 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
+ 		return PTR_ERR(ns->file);
+ 	}
+ 
+-	ret = vfs_getattr(&ns->file->f_path,
+-			&stat, STATX_SIZE, AT_STATX_FORCE_SYNC);
+-	if (ret)
+-		goto err;
++	ret = nvmet_file_ns_read_size(ns);
+ 
+-	ns->size = stat.size;
+-	/*
+-	 * i_blkbits can be greater than the universally accepted upper bound,
+-	 * so make sure we export a sane namespace lba_shift.
+-	 */
+-	ns->blksize_shift = min_t(u8,
+-			file_inode(ns->file)->i_blkbits, 12);
++	if(ret){
++		goto err;
++	}
+ 
+ 	ns->bvec_cache = kmem_cache_create("nvmet-bvec",
+ 			NVMET_MAX_MPOOL_BVEC * sizeof(struct bio_vec),
+@@ -80,6 +93,11 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
+ 	return ret;
+ }
+ 
++int nvmet_file_ns_revalidate(struct nvmet_ns *ns)
++{
++	return nvmet_file_ns_read_size(ns);
++}
++
+ static void nvmet_file_init_bvec(struct bio_vec *bv, struct scatterlist *sg)
+ {
+ 	bv->bv_page = sg_page(sg);
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index c51f8dd01dc4..a9453e63e5dd 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -408,6 +408,7 @@ struct nvmet_ns *nvmet_find_namespace(struct nvmet_ctrl *ctrl, __le32 nsid);
+ void nvmet_put_namespace(struct nvmet_ns *ns);
+ int nvmet_ns_enable(struct nvmet_ns *ns);
+ void nvmet_ns_disable(struct nvmet_ns *ns);
++int nvmet_ns_revalidate(struct nvmet_ns *ns);
+ struct nvmet_ns *nvmet_ns_alloc(struct nvmet_subsys *subsys, u32 nsid);
+ void nvmet_ns_free(struct nvmet_ns *ns);
+ 
+@@ -485,6 +486,8 @@ int nvmet_bdev_ns_enable(struct nvmet_ns *ns);
+ int nvmet_file_ns_enable(struct nvmet_ns *ns);
+ void nvmet_bdev_ns_disable(struct nvmet_ns *ns);
+ void nvmet_file_ns_disable(struct nvmet_ns *ns);
++int nvmet_bdev_ns_revalidate(struct nvmet_ns *ns);
++int nvmet_file_ns_revalidate(struct nvmet_ns *ns);
+ u16 nvmet_bdev_flush(struct nvmet_req *req);
+ u16 nvmet_file_flush(struct nvmet_req *req);
+ void nvmet_ns_changed(struct nvmet_subsys *subsys, u32 nsid);
+-- 
+
 
 _______________________________________________
 Linux-nvme mailing list
