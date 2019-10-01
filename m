@@ -2,83 +2,82 @@ Return-Path: <SRS0=wdCx=X2=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F40AC352AA
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Oct 2019 17:12:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C136C352AA
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Oct 2019 18:08:18 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 62CC42086A
-	for <linux-nvme@archiver.kernel.org>; Tue,  1 Oct 2019 17:12:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D4DE620B7C
+	for <linux-nvme@archiver.kernel.org>; Tue,  1 Oct 2019 18:08:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="SCgqhK7D"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 62CC42086A
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ZogspypV"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D4DE620B7C
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
-	Message-ID:Date:Subject:To:From:Reply-To:Cc:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=H0LonBV515guw7PPYs9acG2hkI6jcHxNqSintPM8wC0=; b=SCgqhK7DmFxUt4
-	QYBriHcOkblzWFWivNbVhS7VuhxMK3PGqKeCfE3hACPhOkAShvyqAl27g1XJnpseWBL6jq8NQILXm
-	sPvu6nVnU2ys4uARct5eK1WN/8qkBLlnsSxerS6VCsaFXkIkmJmGKkmSZ8jjM5t2WlHxH0bjJPf5F
-	nP03YwrAGhhNbzJO7MQUA/EYMnvyMEmCXyN/bYbSarLb0VYdnneCSWypS4XdHZMMzq4ROYBHhhe7L
-	fIhLo1Mynrd5kfSFtzm1397g5Zoyo73ygQHiEGS7KVAmKL6dfNb/6mS2tT1wfmW5U2Gkez4e/gFeo
-	Fssycy62tBYYQgq8sonQ==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=920l+xOCrpd1zRPuMueOAJEqYAIaNXrmL7Wqufp9mb8=; b=ZogspypVEjkah5u2P1XeQbKVU
+	ppp5FcYvZ+DP2QWD58PUt+K8Oqm1EHMFxu3QCyJRmFM2EfbhPhAiMloauC+Vh0Hgfbx/OFTaL23UI
+	8NJ5Tn0S4bD/6d1uPzUet/VVJ/9Btp/G3ZdZIf+0XbTUqw6D8kOMMyc3wEXwJFx7CEJgttWm6BSju
+	v5EvndK2Ocwx/XJdYbLntc7DRERUCtWaNuRXggoAEb4la8QmFjcKKV27E85Y6DT8ymwpE6TZnlHIy
+	LvV4piFOsGqVqM3OR/HU345E0UUnzU/cxBLu6vy/jnUJsrHY5pgzgotLGEdCe7yXY/EKjfuQ06FIT
+	sU0OkYH4A==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.2 #3 (Red Hat Linux))
-	id 1iFLhD-0005gQ-6B; Tue, 01 Oct 2019 17:12:19 +0000
-Received: from mga07.intel.com ([134.134.136.100])
+	id 1iFMZK-0002qY-0N; Tue, 01 Oct 2019 18:08:14 +0000
+Received: from mail-ot1-f67.google.com ([209.85.210.67])
  by bombadil.infradead.org with esmtps (Exim 4.92.2 #3 (Red Hat Linux))
- id 1iFLh7-0005Xn-Id
- for linux-nvme@lists.infradead.org; Tue, 01 Oct 2019 17:12:15 +0000
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 01 Oct 2019 10:12:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,571,1559545200"; d="scan'208";a="191517085"
-Received: from orsmsx101.amr.corp.intel.com ([10.22.225.128])
- by fmsmga007.fm.intel.com with ESMTP; 01 Oct 2019 10:12:08 -0700
-Received: from orsmsx121.amr.corp.intel.com (10.22.225.226) by
- ORSMSX101.amr.corp.intel.com (10.22.225.128) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Tue, 1 Oct 2019 10:12:07 -0700
-Received: from orsmsx104.amr.corp.intel.com ([169.254.4.204]) by
- ORSMSX121.amr.corp.intel.com ([169.254.10.190]) with mapi id 14.03.0439.000;
- Tue, 1 Oct 2019 10:12:07 -0700
-From: "Wunderlich, Mark" <mark.wunderlich@intel.com>
-To: Sagi Grimberg <sagi@grimberg.me>, "'linux-nvme@lists.infradead.org'"
- <linux-nvme@lists.infradead.org>
-Subject: RE: [PATCH v2 rfc 1/2] nvmet-tcp: time based stop condition in io_work
-Thread-Topic: [PATCH v2 rfc 1/2] nvmet-tcp: time based stop condition in
- io_work
-Thread-Index: AdV0iGjbKvWo9MHKT5+sPKvOVIqgiAAWK9YAAOJ6dBA=
-Date: Tue, 1 Oct 2019 17:12:07 +0000
-Message-ID: <B33B37937B7F3D4CB878107E305D4916D383D8@ORSMSX104.amr.corp.intel.com>
-References: <B33B37937B7F3D4CB878107E305D4916D37CA2@ORSMSX104.amr.corp.intel.com>
- <0695bebb-968f-36f2-c850-4974c100cbd7@grimberg.me>
-In-Reply-To: <0695bebb-968f-36f2-c850-4974c100cbd7@grimberg.me>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiNjk4NjUzNGUtOTk4Yy00YWFmLWE4MzctZWE5ZWFmY2M0NTczIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiNmFuK25cLytSR1JjTUE3OW50SUV0eGN1Mld5ODdmVGNvWVF2UVcrOTF2QUxJZmpHRUxqcytHdEF4MTlTUithckwifQ==
-x-originating-ip: [10.22.254.138]
+ id 1iFMZG-0002pm-IT
+ for linux-nvme@lists.infradead.org; Tue, 01 Oct 2019 18:08:12 +0000
+Received: by mail-ot1-f67.google.com with SMTP id m19so12415474otp.1
+ for <linux-nvme@lists.infradead.org>; Tue, 01 Oct 2019 11:08:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=LL2/fcPHqZVTOpJEC1J8uqfmCZbB1xF0h4ROjggk35o=;
+ b=plHdDlUkifoexSwOtlFgCVkvVlRYOwOW8YZbdOIUI2olgYASaUpU2yaIgcYcr0MxR2
+ rt1pmaLaImPkEuBcB6FKy8dnns9mcfDg/ItgKO3MvBhJrcMVrHnQnS7Fi3Z8AePb1wcv
+ cO9HYmWTaLDsmbVuCsTJxPoiVaOj0K54ii5wsSRR6cpiLPicBNSowubEnw2MtmdksnYz
+ pnAY7KcBC0HhFWagDKhzur4jWNhF0c126GOhpXT8JHf9SKWgsH/0il1nbzlzq3vdVw7t
+ Nok6xhqTRiw11+0QMsdQu4KHOF6ElFFaGa5VSOs+hVesqatco0NnggWllcqo9kkZxrvl
+ Wl/A==
+X-Gm-Message-State: APjAAAVyAQN46VMJ3JzaYKm4RCdBNTm3RVIBiK3aG8JbOmQfkHqoPGQh
+ Bl9gpqAY0lJueTRHxByDurk=
+X-Google-Smtp-Source: APXvYqyW3Fr971S/DVTZ+/7ymljuXK5X9D1OaDO/mMwM+4G1vLSZJcwfJWip4iXIe4/mB1v/HORnWQ==
+X-Received: by 2002:a05:6830:18b:: with SMTP id
+ q11mr14123342ota.94.1569953288744; 
+ Tue, 01 Oct 2019 11:08:08 -0700 (PDT)
+Received: from ?IPv6:2600:1700:65a0:78e0:514:7862:1503:8e4d?
+ ([2600:1700:65a0:78e0:514:7862:1503:8e4d])
+ by smtp.gmail.com with ESMTPSA id a88sm5609563otb.0.2019.10.01.11.08.07
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 01 Oct 2019 11:08:07 -0700 (PDT)
+Subject: Re: : name: possible deadlock in nvme_ns_remove
+To: =?UTF-8?Q?Javier_Gonz=c3=a1lez?= <javier@javigon.com>,
+ linux-nvme@lists.infradead.org
+References: <04580CD6-7652-459D-ABDD-732947B4A6DF@javigon.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <3ac73ede-1be4-8459-01f2-1a24b83a1155@grimberg.me>
+Date: Tue, 1 Oct 2019 11:08:06 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <04580CD6-7652-459D-ABDD-732947B4A6DF@javigon.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191001_101213_658685_FF71789A 
-X-CRM114-Status: GOOD (  27.96  )
+X-CRM114-CacheID: sfid-20191001_110810_616572_2AFD631B 
+X-CRM114-Status: GOOD (  23.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,118 +89,247 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Judy Brock <judy.brock@samsung.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
->> Move to a do/while loop terminate condition in
->> nvmet_tcp_io_work() that is time based that can be applicable for 
->> network interface that is in either interrupt or polling mode.  If a 
->> busy poll time period configuration setting (net.core.busy_read) not 
->> active then assume interrupt mode and default loop period to 
->> sufficient time period that would have satisfied previous default ops 
->> count of 64.
->> 
->> Preserve previous interrupt mode behavior in that do/while loop could 
->> exit early if at end of an iteration that 'pending'
->> is false.
->> 
->> Outside loop add poll mode interpretation of 'pending', resetting it 
->> to true if any recv/send activity during complete loop time period.
->> 
->> Re-queue the work item if either mode determines that previous 
->> activity indicates there may be additional 'pending'
->> to be processed.
->> 
->> Signed-off-by: Sridhar Samudrala <sridhar.samudrala@intel.com>
->> Signed-off-by: Kiran Patil <kiran.patil@intel.com>
->> Signed-off-by: Mark Wunderlich <mark.wunderlich@intel.com>
->> ---
->>   drivers/nvme/target/tcp.c |   29 +++++++++++++++++++++++++----
->>   1 file changed, 25 insertions(+), 4 deletions(-)
->> 
->> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c 
->> index bf4f034..8ec124a 100644
->> --- a/drivers/nvme/target/tcp.c
->> +++ b/drivers/nvme/target/tcp.c
->> @@ -21,7 +21,6 @@
->>   
->>   #define NVMET_TCP_RECV_BUDGET		8
->>   #define NVMET_TCP_SEND_BUDGET		8
->> -#define NVMET_TCP_IO_WORK_BUDGET	64
->>   
->>   enum nvmet_tcp_send_state {
->>   	NVMET_TCP_SEND_DATA_PDU,
->> @@ -1167,6 +1166,15 @@ static void nvmet_tcp_io_work(struct work_struct *w)
->>   		container_of(w, struct nvmet_tcp_queue, io_work);
->>   	bool pending;
->>   	int ret, ops = 0;
->> +	unsigned long deadline, bp_usec;
->> +	bool interrupt_mode = false;
->> +
->> +	bp_usec = READ_ONCE(queue->sock->sk->sk_ll_usec);
->> +	if (!bp_usec) {
->> +		bp_usec = 1000; /* 1 msec default for interrupt mode */
->> +		interrupt_mode = true;
-
-> Can't say I like the interrupt_mode variable...
-Yes, I was torn on this as well.  Because it is not really about interrupt vs. non-interrupt, that is confusing things.  It is really about taking advantage of the advanced polling option to reap packets that are available via the sockets layer, which is busy polling.  Maybe the more appropriate variable would be something like 'adv_polling_mode' or 'busy_polling_enabled'?  the key thing is having a variable that the code could use to preserve default behavior if busy polling was not available.  The code should change to include busy_poll.h and use the function 'sk_can_busy_poll()' to get the sk_ll_usec polling period if that advanced kernel config option is available.
-
->> +	}
->> +	deadline = jiffies + usecs_to_jiffies(bp_usec);
->>   
->>   	do {
->>   		pending = false;
->> @@ -1194,10 +1202,23 @@ static void nvmet_tcp_io_work(struct work_struct *w)
->>   			return;
->>   		}
->>   
->> -	} while (pending && ops < NVMET_TCP_IO_WORK_BUDGET);
->> +		/* If in interrupt mode, exit loop if this
->> +		 * time through there was no activity.
->> +		 */
->> +		if (interrupt_mode && !pending)
->> +			break;
-
-> Why can't you break in the adq mode if you don't have any pending work?
-> This will mean that you don't get an interrupt?
-The meaning of pending work somewhat changes during busy polling, where the underlying sockets layer is indicating a recommended time period in which optimized performance can be achieved while looping or polling for packet arrivals.  This polling option being able to efficiently bridge gaps in packet arrivals.
-
-> I think we're lacking understanding of how this works, when does the application get an interrupt and when it does not...
-As I indicated above, I probably confused the issue using the term interrupt mode.  Indeed, in the beginning, an interrupt is required at the device level that results in the first data_ready indication that kicks off this Io_work thread of execution.  Once indicated then busy polling is active (if configured).  During the busy polling period interrupts aren't necessarily disabled, and how any NIC implements advanced busy polling may be different.  But all should efficiently support the polling period they advertise.
-
-> I would like to see some abstraction from the socket interface that will tell us if we should poll more instead of becoming aware of the interrupt vs. adq thing...
-In a way it is.  The sockets layer is indicating a polling time period to monitor for activity.  If no activity during the period, that is the best indication it is time to stop polling.  There are no means for the SW to predict future arrivals other than leveraging the idea that if there was recorded activity during one period then there should be more in a highly active network scenario.  This is the benefit of busy polling and why one would configure it into the system.
-
-> Overall the performance improvement is impressive with adq, does this have any impact vs. a non-adq device?
-I expect that any vendors implemented support for busy polling (adq or non-adq) would perform better vs. the default when busy poll support is not configured.  If busy poll support is not configured then this code will perform basically as it did before.  The only change being that the loop becoming time based vs using the hard defined ops limit (NVMET_TCP_IO_WORK_LIMIT).  
-
-Using a time period in general seemed more consistent with how the host side of the code worked.  Since the default behavior is to exit on the first loop iteration with no activity, then the loop limit of 64 historically was defined to cover a specific burst size or max I/O size?  There may be a better time period to use than 1 msec to represent the previous work limit that was 64?
-
-I suppose if there is significant pushback in giving up use of NVMET_TCP_IO_WORK_LIMIT a hybrid loop terminate condition like the following could be used?
-'while ((!busy_polling_enabled && ops < NVMET_TCP_IO_WORK_LIMIT) || (busy_polling_enabled && !time_after(jiffies, deadline));'  But in my mind, using just the time based condition is cleaner.
-
->>   
->> -	/*
->> -	 * We exahusted our budget, requeue our selves
->> +	} while (!time_after(jiffies, deadline));
->> +
->> +	/* For poll mode, pending will be true if there was
->> +	 * any completed operations during the complete loop
->> +	 * period.
->> +	 */
->> +	if (!interrupt_mode && ops > 0)
->> +		pending = true;
->> +
->> +	/* We exhausted our budget, requeue if pending indicates
->> +	 * potential of more to process in either mode.
->>   	 */
->>   	if (pending)
->>   		queue_work_on(queue->cpu, nvmet_tcp_wq, &queue->io_work);
->> 
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+PiBTZW5kaW5nIHRoaXMgYnVnIHJlcG9ydCBmcm9tIEp1ZHksIHdobyBpcyBoYXZpbmcgcHJvYmxl
+bXMgd2l0aCB0aGUgbWFpbGluZyBsaXN0Lg0KDQpIZXkgSnVkeSwNCg0KSXQgYXBwZWFycyB0aGF0
+IHlvdSBpbmRlZWQgc3RlcCBvbiBhIHJlYWwgaXNzdWUuIEl0IHNlZW1zIHRoYXQNCmlmIG52bWVf
+dXBkYXRlX2Zvcm1hdHMgd2lsbCBmYWlsIHRoZSByZXZhbGlkYXRlIHdlIHdpbGwgYWNxdWlyZQ0K
+dGhlIHN5YnN5cy0+bG9jayBhbmQgaGFuZy4NCg0KRG9lcyB0aGlzIGNoYW5nZSBzb2x2ZSB0aGUg
+aXNzdWU/DQotLSANCmRpZmYgLS1naXQgYS9kcml2ZXJzL252bWUvaG9zdC9jb3JlLmMgYi9kcml2
+ZXJzL252bWUvaG9zdC9jb3JlLmMNCmluZGV4IGZkN2RlYTM2YzNiNi4uZGM3ODViMWFmZjhhIDEw
+MDY0NA0KLS0tIGEvZHJpdmVycy9udm1lL2hvc3QvY29yZS5jDQorKysgYi9kcml2ZXJzL252bWUv
+aG9zdC9jb3JlLmMNCkBAIC0xMzA2LDggKzEzMDYsNiBAQCBzdGF0aWMgdm9pZCBudm1lX3VwZGF0
+ZV9mb3JtYXRzKHN0cnVjdCBudm1lX2N0cmwgDQoqY3RybCkNCiAgICAgICAgICAgICAgICAgaWYg
+KG5zLT5kaXNrICYmIG52bWVfcmV2YWxpZGF0ZV9kaXNrKG5zLT5kaXNrKSkNCiAgICAgICAgICAg
+ICAgICAgICAgICAgICBudm1lX3NldF9xdWV1ZV9keWluZyhucyk7DQogICAgICAgICB1cF9yZWFk
+KCZjdHJsLT5uYW1lc3BhY2VzX3J3c2VtKTsNCi0NCi0gICAgICAgbnZtZV9yZW1vdmVfaW52YWxp
+ZF9uYW1lc3BhY2VzKGN0cmwsIE5WTUVfTlNJRF9BTEwpOw0KICB9DQoNCiAgc3RhdGljIHZvaWQg
+bnZtZV9wYXNzdGhydV9lbmQoc3RydWN0IG52bWVfY3RybCAqY3RybCwgdTMyIGVmZmVjdHMpDQpA
+QCAtMTMyNSw2ICsxMzIzLDkgQEAgc3RhdGljIHZvaWQgbnZtZV9wYXNzdGhydV9lbmQoc3RydWN0
+IG52bWVfY3RybCANCipjdHJsLCB1MzIgZWZmZWN0cykNCiAgICAgICAgICAgICAgICAgbXV0ZXhf
+dW5sb2NrKCZjdHJsLT5zdWJzeXMtPmxvY2spOw0KICAgICAgICAgICAgICAgICBtdXRleF91bmxv
+Y2soJmN0cmwtPnNjYW5fbG9jayk7DQogICAgICAgICB9DQorDQorICAgICAgIG52bWVfcmVtb3Zl
+X2ludmFsaWRfbmFtZXNwYWNlcyhjdHJsLCBOVk1FX05TSURfQUxMKTsNCisNCiAgICAgICAgIGlm
+IChlZmZlY3RzICYgTlZNRV9DTURfRUZGRUNUU19DQ0MpDQogICAgICAgICAgICAgICAgIG52bWVf
+aW5pdF9pZGVudGlmeShjdHJsKTsNCiAgICAgICAgIGlmIChlZmZlY3RzICYgKE5WTUVfQ01EX0VG
+RkVDVFNfTklDIHwgTlZNRV9DTURfRUZGRUNUU19OQ0MpKQ0KLS0gDQoNCj4gDQo+IOKAlA0KPiAN
+Cj4gSGksDQo+IA0KPiBXZSBhcmUgcnVubmluZyB0ZXN0IGNhc2VzIHRvIHN0cmVzcyBvdXIgZGV2
+aWNlIHRoYXQgc2VlbSB0byBoaXQgcmFjZSBjb25kaXRpb25zIC8gZGVhZGxvY2tzICAtIGV2ZXJ5
+IGNvdXBsZSBvZiBkYXlzIG9yIHNvIC0gd2hlcmUgbXVsdGlwbGUgdGhyZWFkcyBhcmUgdHJ5aW5n
+IHRvIGFjcXVpcmUgY3RybC0+c3Vic3lzdGVtLT5sb2NrIG9yIGN0cmwtPnNjYW5fbG9jay4NCj4g
+DQo+IFdlJ2QgbGlrZSB0byBrbm93IGlmIG91ciB0ZXN0IGlzIHZhbGlkLiBJZiBub3QsIHdlIGFy
+ZSBob3BpbmcgZm9yIHNvbWUgb3ZlcmFsbCBndWlkZWxpbmVzIGFib3V0IHdoYXQgYSBob3N0IGlz
+IG5vdCBwZXJtaXR0ZWQvZXhwZWN0ZWQgbm90IHRvIGRvLg0KPiANCj4gV2UgYXJlIHNlbmRpbmcg
+YSBsb3Qgb2YgbnZtZSBjbGkgcmVxdWVzdHMgdG8gZG8gU2FuaXRpemUsIEZvcm1hdCwgRlcgRG93
+bmxvYWQsIEZXIEFjdGl2YXRlLCBGbHVzaCwgR2V0IExvZywgSWRlbnRpZnksIGFuZCByZXNldCBy
+ZXF1ZXN0cyB0byB0d28gY29udHJvbGxlcnMgdGhhdCBzaGFyZSBhIG5hbWVzcGFjZSAtIHNvbWUg
+b2YgdGhvc2UgY29tbWFuZHMgdGFyZ2V0IGEgbmFtZXNwYWNlLCBzb21lIHRhcmdldCBhIGNvbnRy
+b2xsZXIuICBUaGV5J3JlIHNlbnQgaW4gcmFuZG9tIG9yZGVyIC8gcmFuZG9tIG1peCB0byB0aGUg
+dHdvIGNvbnRyb2xsZXJzLg0KPiANCj4gV2UgRE8gTk9UIFdBSVQgZm9yIG52bWUgY2xpIHJlcXVl
+c3RzIHRvIGZpbmlzaCBiZWZvcmUgc2VuZGluZyBtb3JlLiBTbyBmb3IgZXhhbXBsZSwgdGhlcmUg
+Y291bGQgYmUgbXVsdGlwbGUgcmVzZXQgcmVxdWVzdHMsIG11bHRpcGxlIGZvcm1hdCByZXF1ZXN0
+cywgb3V0c3RhbmRpbmcgYXQgdGhlIHNhbWUgdGltZSBhcyBhIHNhbml0aXplLCBvbiBib3RoIHBh
+dGhzIGF0IHRoZSBzYW1lIHRpbWUsIGV0Yy4gQ29tYm9zIHRoYXQgZG9uJ3QgcmVhbGx5IG1ha2Ug
+c2Vuc2UgLSBpdCdzIGp1c3QgbWVhbnQgdG8gY3JlYXRlIGFzIG11Y2ggc3RyZXNzIGFzIHBvc3Np
+YmxlLg0KPiANCj4gIEZyb20gbG9va2luZyBhdCBrZXJuZWwgZHJpdmVyIHNvdXJjZXMgYW5kIHZh
+cmlvdXMgaGFuZyB0cmFjZXMsIHRoZXkgYWxsIGdvIHRocnUgdGhlIG52bWVfdXNlcl9jbWQsIG1h
+bnkgaGF2ZSBlZmZlY3RzIChlLmcuIE5WTUVfQ01EX0VGRkVDVFNfTEJDQywgTlZNRV9DTURfRUZG
+RUNUU19OQ0MpLCBsYXVuY2ggdGhpbmdzIGxpa2UgbmFtZXNwYWNlIGludmFsaWRhdGlvbiwgbmV3
+IHNjYW5zLCBldGMuIGFzIHBhcnQgb2YgcHJvY2Vzc2luZyBvZiB0aG9zZSBlZmZlY3RzLg0KPiAN
+Cj4gSSd2ZSB0cmllZCB0byB1bmRlcnN0YW5kIHZhcmlvdXMgb2xkIHRocmVhZHMgb24gdGhlIG52
+bWVfbGludXggcmVmbGVjdG9yIGFuZCBzZWUgc2V2ZXJhbCB0aGF0IHNlZW0gdG8gYWRkcmVzcyBp
+c3N1ZXMgc2ltaWxhciB0byBzb21lIG9mIHRoZSBoYW5nIHRyYWNlcyB3ZSd2ZSBzZWVuLiAgRm9y
+IGV4YW1wbGUsIHRoZXNlIHRocmVhZHM6DQo+IA0KPiAtIG52bWUgbmFtZXNwYWNlIHNjYW5uaW5n
+IG1pZ2h0IHJhY2Ugd2l0aCBjb250cm9sbGVyIHJlc2V0DQo+IC0gc2hvcnRlbiByYWNlIHdpbmRv
+dyBpbiBudm1lX25zX3JlbW92ZSgpIC0NCj4gLSBudm1lOiBmaXggYSBwb3NzaWJsZSBkZWFkbG9j
+ayB3aGVuIHBhc3N0aHJ1IGNvbW1hbmRzIHNlbnQgdG8gYSBtdWx0aXBhdGggZGV2aWNlDQo+IA0K
+PiBXZSBhcmUgc2VlIGhhbmcgdHJhY2VzIHRoYXQgbG9vayBsaWtlIHNvbWUgb2YgdGhvc2UgYWRk
+cmVzc2VkIGluIHRoZSB0aHJlYWRzIGFib3ZlIChzbyBtYXliZSB3ZSBhcmUgaGl0dGluZyBzb21l
+IGRlYWRsb2NrIHNjZW5hcmlvcyBub3QgeWV0IGRpc2NvdmVyZWQgLikgLSBmb3IgZXguIHdlIHNl
+ZSBtdWx0aXBsZSBibG9ja2VkIHNjYW5zLCBhbmQvb3IgIHRocmVhZHMgc3R1Y2sgaW4gbnZtZV9u
+c19yZW1vdmUgLyBudm1lX3NjYW5fcXVldWUgLyBudm1lX3Bhc3N0aHJ1X3N0YXJ0IGF0IHRoZSBz
+YW1lIHRpbWUgd2FpdGluZyBvbiB0aGUgc2FtZSBtdXRleC4NCj4gDQo+IEkndmUgcGFzdGVkIG9u
+ZSBzdWNoIHRyYWNlIGJlbG93Lg0KPiANCj4gSSBrbm93IG5vcm1hbGx5IHBlb3BsZSBwYXN0ZSBu
+b3QganVzdCBwcm9ibGVtcyBidXQgc29sdXRpb25zIG9uIHRoaXMgcmVmbGVjdG9yIC0gd2UgYXJl
+IG5vdCBMaW51eCBrZXJuZWwgZGV2cyB0aG91Z2ggc28gd2hhdCB3ZSdyZSB0cnlpbmcgdG8gZG8g
+aXMgZmluZCBvdXQgd2hhdCB3ZSBuZWVkIHRvIGRvIHRvIG1vdmUgZm9yd2FyZC4gV2UgbmVlZCB0
+byBiZSBhYmxlIHRvIGF2b2lkIGFueSBwb3RlbnRpYWwgZGVhZGxvY2tzIG9uIHRoZSBPUyBzaWRl
+IHNvIHdlIGNhbiBkbyBtdWx0aS1kYXkgc3RyZXNzIHRlc3Rpbmcgb2Ygb3VyIGRldmljZXMuIElm
+IHdlIG5lZWQgdG8gY2hhbmdlIHRoaW5ncyBvbiBvdXIgc2lkZSwgdGhhdCdzIGZpbmUgLSB3ZSBq
+dXN0IGFyZW4ndCBzdXJlIG9mIG5leHQgc3RlcHMuIEJ5IHRoZSB3YXksIGZvcmdvdCB0byBtZW50
+aW9uIHRoYXQgZXZlcnl0aGluZyBhbHdheXMgbG9va3MgY2xlYW4gb24gdGhlIGRyaXZlIHNpZGUg
+LSBubyBjb21tYW5kcyBvdXRzdGFuZGluZywgZXRjLg0KPiANCj4gSWYgdGhlcmUgaXMgYWRkaXRp
+b25hbCBpbmZvcm1hdGlvbiB3ZSBzaG91bGQvY291bGQgcHJvdmlkZSBvciBvdGhlciBvdXRsZXRz
+IHdlIHNob3VsZCBkaXJlY3Qgb3VyIGlucXVpcmllcyB0bywgcGxlYXNlIGxldCBtZSBrbm93Lg0K
+PiANCj4gVGhhbmsgYW55L2FsbCBvZiB5b3UgZm9yIHlvdXIgdGltZSBhbmQgcGxlYXNlIHNlZSB0
+aGUgdHJhY2UgYmVsb3c6DQo+IA0KPiAyMDE5LTA5LTE5IDAyOjQyOjExLDYxMCBJTkZPIG52bWVT
+YW5pdGl6ZTo6ID4+PiBFeGVjdXRpbmcgdGhlIGNvbW1hbmQ6bnZtZSBzYW5pdGl6ZSAvZGV2L252
+bWUwIC0tc2FuYWN0PTQgIFBJRDoxMzU1OSBjaGlsZFBJRDoxOTkxOQ0KPiANCj4gMjAxOS0wOS0x
+OSAwMjo0MzoxMSw2MTAgRVJST1Igc3RvcFRlc3Q6OiBGdW5jdGlvbjpudm1lU2FuaXRpemUgY21k
+Om52bWUgc2FuaXRpemUgL2Rldi9udm1lMCAtLXNhbmFjdD00ICB0aW1lb3V0IG9jY3VycmVkIG91
+clBpZDoxMzU1OSBjaGlsZFBJRDoxOTkxOTsgVGVzdCBydW4gd2lsbCBiZSBzdG9wcGVkIFNlcCAx
+OSAwMjo0NDoyMSBJT1AtWjM3MC0wMjYga2VybmVsOiBJTkZPOiB0YXNrIG52bWU6MTk5MTkgYmxv
+Y2tlZCBmb3IgbW9yZSB0aGFuIDEyMiBzZWNvbmRzLg0KPiBTZXAgMTkgMDI6NDQ6MjEgSU9QLVoz
+NzAtMDI2IGtlcm5lbDogICAgICBOb3QgdGFpbnRlZCA1LjMuMC1yYzYgIzENCj4gU2VwIDE5IDAy
+OjQ0OjIxIElPUC1aMzcwLTAyNiBrZXJuZWw6ICJlY2hvIDAgPiAvcHJvYy9zeXMva2VybmVsL2h1
+bmdfdGFza190aW1lb3V0X3NlY3MiIGRpc2FibGVzIHRoaXMgbWVzc2FnZS4NCj4gU2VwIDE5IDAy
+OjQ0OjIxIElPUC1aMzcwLTAyNiBrZXJuZWw6IG52bWUgICAgICAgICAgICBEICAgIDAgMTk5MTkg
+IDEzNTU5IDB4MDAwMDQwODANCj4gU2VwIDE5IDAyOjQ0OjIxIElPUC1aMzcwLTAyNiBrZXJuZWw6
+IENhbGwgVHJhY2U6DQo+IFNlcCAxOSAwMjo0NDoyMSBJT1AtWjM3MC0wMjYga2VybmVsOiA/IF9f
+c2NoZWR1bGUrMHgyYTkvMHg2NTAgU2VwIDE5IDAyOjQ0OjIxIElPUC1aMzcwLTAyNiBrZXJuZWw6
+IHNjaGVkdWxlKzB4MzkvMHhhMCBTZXAgMTkgMDI6NDQ6MjEgSU9QLVozNzAtMDI2IGtlcm5lbDog
+c2NoZWR1bGVfcHJlZW1wdF9kaXNhYmxlZCsweGEvMHgxMA0KPiBTZXAgMTkgMDI6NDQ6MjEgSU9Q
+LVozNzAtMDI2IGtlcm5lbDogX19tdXRleF9sb2NrLmlzcmEuMTErMHgyMzMvMHg0ZTAgU2VwIDE5
+IDAyOjQ0OjIxIElPUC1aMzcwLTAyNiBrZXJuZWw6IG52bWVfbnNfcmVtb3ZlKzB4MmQvMHgxMzAg
+W252bWVfY29yZV0gU2VwIDE5IDAyOjQ0OjIxIElPUC1aMzcwLTAyNiBrZXJuZWw6IG52bWVfcmVt
+b3ZlX2ludmFsaWRfbmFtZXNwYWNlcysweGYxLzB4MTIwIFtudm1lX2NvcmVdIFNlcCAxOSAwMjo0
+NDoyMSBJT1AtWjM3MC0wMjYga2VybmVsOiBudm1lX3VzZXJfY21kKzB4MmM0LzB4MzkwIFtudm1l
+X2NvcmVdIFNlcCAxOSAwMjo0NDoyMSBJT1AtWjM3MC0wMjYga2VybmVsOiBudm1lX2Rldl9pb2N0
+bCsweDEwZC8weDFkMCBbbnZtZV9jb3JlXSBTZXAgMTkgMDI6NDQ6MjEgSU9QLVozNzAtMDI2IGtl
+cm5lbDogZG9fdmZzX2lvY3RsKzB4YTkvMHg2MjAgU2VwIDE5IDAyOjQ0OjIxIElPUC1aMzcwLTAy
+NiBrZXJuZWw6IGtzeXNfaW9jdGwrMHg2MC8weDkwIFNlcCAxOSAwMjo0NDoyMSBJT1AtWjM3MC0w
+MjYga2VybmVsOiBfX3g2NF9zeXNfaW9jdGwrMHgxNi8weDIwIFNlcCAxOSAwMjo0NDoyMSBJT1At
+WjM3MC0wMjYga2VybmVsOiBkb19zeXNjYWxsXzY0KzB4NWIvMHgxZDANCj4gDQo+IDIwMTktMDkt
+MTkgMDI6NDI6MTYsNzkwIElORk8gbnZtZUZvcm1hdDo6ID4+PiBFeGVjdXRpbmcgdGhlIGNvbW1h
+bmQ6bnZtZSBmb3JtYXQgL2Rldi9udm1lMG4xIC0tbGJhZj0wIC0tcGlsPTAgLS1tcz0wIC0tc2Vz
+PTAgLS1waT0wICBQSUQ6MTM1OTEgY2hpbGRQSUQ6MjAwOTQNCj4gDQo+IFNlcCAxOSAwMjo0NDoy
+MSBJT1AtWjM3MC0wMjYga2VybmVsOiBJTkZPOiB0YXNrIG52bWU6MjAwOTQgYmxvY2tlZCBmb3Ig
+bW9yZSB0aGFuIDEyMiBzZWNvbmRzLg0KPiBTZXAgMTkgMDI6NDQ6MjEgSU9QLVozNzAtMDI2IGtl
+cm5lbDogICAgICBOb3QgdGFpbnRlZCA1LjMuMC1yYzYgIzENCj4gU2VwIDE5IDAyOjQ0OjIxIElP
+UC1aMzcwLTAyNiBrZXJuZWw6ICJlY2hvIDAgPiAvcHJvYy9zeXMva2VybmVsL2h1bmdfdGFza190
+aW1lb3V0X3NlY3MiIGRpc2FibGVzIHRoaXMgbWVzc2FnZS4NCj4gU2VwIDE5IDAyOjQ0OjIxIElP
+UC1aMzcwLTAyNiBrZXJuZWw6IG52bWUgICAgICAgICAgICBEICAgIDAgMjAwOTQgICAgICAxIDB4
+MDAwMDAwODANCj4gU2VwIDE5IDAyOjQ0OjIxIElPUC1aMzcwLTAyNiBrZXJuZWw6IENhbGwgVHJh
+Y2U6DQo+IFNlcCAxOSAwMjo0NDoyMSBJT1AtWjM3MC0wMjYga2VybmVsOiA/IF9fc2NoZWR1bGUr
+MHgyYTkvMHg2NTAgU2VwIDE5IDAyOjQ0OjIxIElPUC1aMzcwLTAyNiBrZXJuZWw6IHNjaGVkdWxl
+KzB4MzkvMHhhMCBTZXAgMTkgMDI6NDQ6MjEgSU9QLVozNzAtMDI2IGtlcm5lbDogc2NoZWR1bGVf
+cHJlZW1wdF9kaXNhYmxlZCsweGEvMHgxMA0KPiBTZXAgMTkgMDI6NDQ6MjEgSU9QLVozNzAtMDI2
+IGtlcm5lbDogX19tdXRleF9sb2NrLmlzcmEuMTErMHgyMzMvMHg0ZTAgU2VwIDE5IDAyOjQ0OjIx
+IElPUC1aMzcwLTAyNiBrZXJuZWw6IG52bWVfdXNlcl9jbWQrMHgzMzAvMHgzOTAgW252bWVfY29y
+ZV0gU2VwIDE5IDAyOjQ0OjIxIElPUC1aMzcwLTAyNiBrZXJuZWw6IG52bWVfaW9jdGwrMHg5Mi8w
+eGIwIFtudm1lX2NvcmVdIFNlcCAxOSAwMjo0NDoyMSBJT1AtWjM3MC0wMjYga2VybmVsOiBibGtk
+ZXZfaW9jdGwrMHg4ZjUvMHg5YTAgU2VwIDE5IDAyOjQ0OjIxIElPUC1aMzcwLTAyNiBrZXJuZWw6
+ID8gc2VsaW51eF9maWxlX2lvY3RsKzB4MTNiLzB4MWYwIFNlcCAxOSAwMjo0NDoyMSBJT1AtWjM3
+MC0wMjYga2VybmVsOiBibG9ja19pb2N0bCsweDNkLzB4NDAgU2VwIDE5IDAyOjQ0OjIxIElPUC1a
+MzcwLTAyNiBrZXJuZWw6IGRvX3Zmc19pb2N0bCsweGE5LzB4NjIwIFNlcCAxOSAwMjo0NDoyMSBJ
+T1AtWjM3MC0wMjYga2VybmVsOiBrc3lzX2lvY3RsKzB4NjAvMHg5MCBTZXAgMTkgMDI6NDQ6MjEg
+SU9QLVozNzAtMDI2IGtlcm5lbDogX194NjRfc3lzX2lvY3RsKzB4MTYvMHgyMCBTZXAgMTkgMDI6
+NDQ6MjEgSU9QLVozNzAtMDI2IGtlcm5lbDogZG9fc3lzY2FsbF82NCsweDViLzB4MWQwDQo+IA0K
+PiAyMDE5LTA5LTE5IDAyOjQyOjE3LDM4MCBJTkZPIG52bWVGb3JtYXQ6OiA+Pj4gRXhlY3V0aW5n
+IHRoZSBjb21tYW5kOm52bWUgZm9ybWF0IC9kZXYvbnZtZTBuMSAtLWxiYWY9MCAtLXNlcz0xICBQ
+SUQ6MTM2MjUgY2hpbGRQSUQ6MjAxMTMNCj4gDQo+IFNlcCAxOSAwMjo0NDoyMSBJT1AtWjM3MC0w
+MjYga2VybmVsOiBJTkZPOiB0YXNrIG52bWU6MjAxMTMgYmxvY2tlZCBmb3IgbW9yZSB0aGFuIDEy
+MiBzZWNvbmRzLg0KPiBTZXAgMTkgMDI6NDQ6MjEgSU9QLVozNzAtMDI2IGtlcm5lbDogICAgICBO
+b3QgdGFpbnRlZCA1LjMuMC1yYzYgIzENCj4gU2VwIDE5IDAyOjQ0OjIxIElPUC1aMzcwLTAyNiBr
+ZXJuZWw6ICJlY2hvIDAgPiAvcHJvYy9zeXMva2VybmVsL2h1bmdfdGFza190aW1lb3V0X3NlY3Mi
+IGRpc2FibGVzIHRoaXMgbWVzc2FnZS4NCj4gU2VwIDE5IDAyOjQ0OjIxIElPUC1aMzcwLTAyNiBr
+ZXJuZWw6IG52bWUgICAgICAgICAgICBEICAgIDAgMjAxMTMgICAgICAxIDB4MDAwMDAwODANCj4g
+U2VwIDE5IDAyOjQ0OjIxIElPUC1aMzcwLTAyNiBrZXJuZWw6IENhbGwgVHJhY2U6DQo+IFNlcCAx
+OSAwMjo0NDoyMSBJT1AtWjM3MC0wMjYga2VybmVsOiA/IF9fc2NoZWR1bGUrMHgyYTkvMHg2NTAg
+U2VwIDE5IDAyOjQ0OjIxIElPUC1aMzcwLTAyNiBrZXJuZWw6IHNjaGVkdWxlKzB4MzkvMHhhMCBT
+ZXAgMTkgMDI6NDQ6MjEgSU9QLVozNzAtMDI2IGtlcm5lbDogc2NoZWR1bGVfcHJlZW1wdF9kaXNh
+YmxlZCsweGEvMHgxMA0KPiBTZXAgMTkgMDI6NDQ6MjEgSU9QLVozNzAtMDI2IGtlcm5lbDogX19t
+dXRleF9sb2NrLmlzcmEuMTErMHgyMzMvMHg0ZTAgU2VwIDE5IDAyOjQ0OjIxIElPUC1aMzcwLTAy
+NiBrZXJuZWw6IG52bWVfdXNlcl9jbWQrMHgzMzAvMHgzOTAgW252bWVfY29yZV0gU2VwIDE5IDAy
+OjQ0OjIxIElPUC1aMzcwLTAyNiBrZXJuZWw6IG52bWVfaW9jdGwrMHg5Mi8weGIwIFtudm1lX2Nv
+cmVdIFNlcCAxOSAwMjo0NDoyMSBJT1AtWjM3MC0wMjYga2VybmVsOiBibGtkZXZfaW9jdGwrMHg4
+ZjUvMHg5YTAgU2VwIDE5IDAyOjQ0OjIxIElPUC1aMzcwLTAyNiBrZXJuZWw6ID8gc2VsaW51eF9m
+aWxlX2lvY3RsKzB4MTNiLzB4MWYwIFNlcCAxOSAwMjo0NDoyMSBJT1AtWjM3MC0wMjYga2VybmVs
+OiBibG9ja19pb2N0bCsweDNkLzB4NDAgU2VwIDE5IDAyOjQ0OjIxIElPUC1aMzcwLTAyNiBrZXJu
+ZWw6IGRvX3Zmc19pb2N0bCsweGE5LzB4NjIwIFNlcCAxOSAwMjo0NDoyMSBJT1AtWjM3MC0wMjYg
+a2VybmVsOiBrc3lzX2lvY3RsKzB4NjAvMHg5MCBTZXAgMTkgMDI6NDQ6MjEgSU9QLVozNzAtMDI2
+IGtlcm5lbDogX194NjRfc3lzX2lvY3RsKzB4MTYvMHgyMCBTZXAgMTkgMDI6NDQ6MjEgSU9QLVoz
+NzAtMDI2IGtlcm5lbDogZG9fc3lzY2FsbF82NCsweDViLzB4MWQwDQo+IA0KPiAyMDE5LTA5LTE5
+IDAyOjQyOjIyLDI2OCBJTkZPIG52bWVGb3JtYXQ6OiA+Pj4gRXhlY3V0aW5nIHRoZSBjb21tYW5k
+Om52bWUgZm9ybWF0IC9kZXYvbnZtZTBuMSAtLWxiYWY9MCAtLXBpbD0wIC0tbXM9MCAtLXNlcz0w
+IC0tcGk9MCAgUElEOjEzNTg2IGNoaWxkUElEOjIwMjMwDQo+IA0KPiBTZXAgMTkgMDI6NDY6MjQg
+SU9QLVozNzAtMDI2IGtlcm5lbDogSU5GTzogdGFzayBudm1lOjIwMjMwIGJsb2NrZWQgZm9yIG1v
+cmUgdGhhbiAxMjIgc2Vjb25kcy4NCj4gU2VwIDE5IDAyOjQ2OjI0IElPUC1aMzcwLTAyNiBrZXJu
+ZWw6ICAgICAgTm90IHRhaW50ZWQgNS4zLjAtcmM2ICMxDQo+IFNlcCAxOSAwMjo0NjoyNCBJT1At
+WjM3MC0wMjYga2VybmVsOiAiZWNobyAwID4gL3Byb2Mvc3lzL2tlcm5lbC9odW5nX3Rhc2tfdGlt
+ZW91dF9zZWNzIiBkaXNhYmxlcyB0aGlzIG1lc3NhZ2UuDQo+IFNlcCAxOSAwMjo0NjoyNCBJT1At
+WjM3MC0wMjYga2VybmVsOiBudm1lICAgICAgICAgICAgRCAgICAwIDIwMjMwICAgICAgMSAweDAw
+MDAwMDgwDQo+IFNlcCAxOSAwMjo0NjoyNCBJT1AtWjM3MC0wMjYga2VybmVsOiBDYWxsIFRyYWNl
+Og0KPiBTZXAgMTkgMDI6NDY6MjQgSU9QLVozNzAtMDI2IGtlcm5lbDogPyBfX3NjaGVkdWxlKzB4
+MmE5LzB4NjUwIFNlcCAxOSAwMjo0NjoyNCBJT1AtWjM3MC0wMjYga2VybmVsOiBzY2hlZHVsZSsw
+eDM5LzB4YTAgU2VwIDE5IDAyOjQ2OjI0IElPUC1aMzcwLTAyNiBrZXJuZWw6IHNjaGVkdWxlX3By
+ZWVtcHRfZGlzYWJsZWQrMHhhLzB4MTANCj4gU2VwIDE5IDAyOjQ2OjI0IElPUC1aMzcwLTAyNiBr
+ZXJuZWw6IF9fbXV0ZXhfbG9jay5pc3JhLjExKzB4MjMzLzB4NGUwIFNlcCAxOSAwMjo0NjoyNCBJ
+T1AtWjM3MC0wMjYga2VybmVsOiBudm1lX3VzZXJfY21kKzB4MzMwLzB4MzkwIFtudm1lX2NvcmVd
+IFNlcCAxOSAwMjo0NjoyNCBJT1AtWjM3MC0wMjYga2VybmVsOiBudm1lX2lvY3RsKzB4OTIvMHhi
+MCBbbnZtZV9jb3JlXSBTZXAgMTkgMDI6NDY6MjQgSU9QLVozNzAtMDI2IGtlcm5lbDogYmxrZGV2
+X2lvY3RsKzB4OGY1LzB4OWEwIFNlcCAxOSAwMjo0NjoyNCBJT1AtWjM3MC0wMjYga2VybmVsOiA/
+IHNlbGludXhfZmlsZV9pb2N0bCsweDEzYi8weDFmMCBTZXAgMTkgMDI6NDY6MjQgSU9QLVozNzAt
+MDI2IGtlcm5lbDogYmxvY2tfaW9jdGwrMHgzZC8weDQwIFNlcCAxOSAwMjo0NjoyNCBJT1AtWjM3
+MC0wMjYga2VybmVsOiBkb192ZnNfaW9jdGwrMHhhOS8weDYyMCBTZXAgMTkgMDI6NDY6MjQgSU9Q
+LVozNzAtMDI2IGtlcm5lbDoga3N5c19pb2N0bCsweDYwLzB4OTAgU2VwIDE5IDAyOjQ2OjI0IElP
+UC1aMzcwLTAyNiBrZXJuZWw6IF9feDY0X3N5c19pb2N0bCsweDE2LzB4MjAgU2VwIDE5IDAyOjQ2
+OjI0IElPUC1aMzcwLTAyNiBrZXJuZWw6IGRvX3N5c2NhbGxfNjQrMHg1Yi8weDFkMA0KPiANCj4g
+dGhlIDIgbnZtZSBzY2FuIHdvcmtlciBrZXJuZWwgdGhyZWFkcyBhcmUgYWxzbyBibG9ja2VkIHdh
+aXRpbmcgZm9yIHRoZSBzYW1lIG11dGV4Og0KPiANCj4gU2VwIDE5IDAyOjQ0OjIxIElPUC1aMzcw
+LTAyNiBrZXJuZWw6IElORk86IHRhc2sga3dvcmtlci91MjQ6Mzo1MzUxIGJsb2NrZWQgZm9yIG1v
+cmUgdGhhbiAxMjIgc2Vjb25kcy4NCj4gU2VwIDE5IDAyOjQ0OjIxIElPUC1aMzcwLTAyNiBrZXJu
+ZWw6ICAgICAgTm90IHRhaW50ZWQgNS4zLjAtcmM2ICMxDQo+IFNlcCAxOSAwMjo0NDoyMSBJT1At
+WjM3MC0wMjYga2VybmVsOiAiZWNobyAwID4gL3Byb2Mvc3lzL2tlcm5lbC9odW5nX3Rhc2tfdGlt
+ZW91dF9zZWNzIiBkaXNhYmxlcyB0aGlzIG1lc3NhZ2UuDQo+IFNlcCAxOSAwMjo0NDoyMSBJT1At
+WjM3MC0wMjYga2VybmVsOiBrd29ya2VyL3UyNDozICAgRCAgICAwICA1MzUxICAgICAgMiAweDgw
+MDA0MDgwDQo+IFNlcCAxOSAwMjo0NDoyMSBJT1AtWjM3MC0wMjYga2VybmVsOiBXb3JrcXVldWU6
+IG52bWUtd3EgbnZtZV9zY2FuX3dvcmsgW252bWVfY29yZV0gU2VwIDE5IDAyOjQ0OjIxIElPUC1a
+MzcwLTAyNiBrZXJuZWw6IENhbGwgVHJhY2U6DQo+IFNlcCAxOSAwMjo0NDoyMSBJT1AtWjM3MC0w
+MjYga2VybmVsOiA/IF9fc2NoZWR1bGUrMHgyYTkvMHg2NTAgU2VwIDE5IDAyOjQ0OjIxIElPUC1a
+MzcwLTAyNiBrZXJuZWw6IHNjaGVkdWxlKzB4MzkvMHhhMCBTZXAgMTkgMDI6NDQ6MjEgSU9QLVoz
+NzAtMDI2IGtlcm5lbDogc2NoZWR1bGVfcHJlZW1wdF9kaXNhYmxlZCsweGEvMHgxMA0KPiBTZXAg
+MTkgMDI6NDQ6MjEgSU9QLVozNzAtMDI2IGtlcm5lbDogX19tdXRleF9sb2NrLmlzcmEuMTErMHgy
+MzMvMHg0ZTAgU2VwIDE5IDAyOjQ0OjIxIElPUC1aMzcwLTAyNiBrZXJuZWw6ID8gbnZtZV9pZGVu
+dGlmeV9jdHJsLmlzcmEuNTgrMHg2YS8weGIwIFtudm1lX2NvcmVdIFNlcCAxOSAwMjo0NDoyMSBJ
+T1AtWjM3MC0wMjYga2VybmVsOiBudm1lX3NjYW5fd29yaysweGE5LzB4MzgwIFtudm1lX2NvcmVd
+IFNlcCAxOSAwMjo0NDoyMSBJT1AtWjM3MC0wMjYga2VybmVsOiA/IGNoZWNrX3ByZWVtcHRfY3Vy
+cisweDZiLzB4OTAgU2VwIDE5IDAyOjQ0OjIxIElPUC1aMzcwLTAyNiBrZXJuZWw6ID8gdHJ5X3Rv
+X3dha2VfdXArMHgyMDMvMHg1ZTAgU2VwIDE5IDAyOjQ0OjIxIElPUC1aMzcwLTAyNiBrZXJuZWw6
+IHByb2Nlc3Nfb25lX3dvcmsrMHgxNzEvMHgzODAgU2VwIDE5IDAyOjQ0OjIxIElPUC1aMzcwLTAy
+NiBrZXJuZWw6IHdvcmtlcl90aHJlYWQrMHg0OS8weDNmMCBTZXAgMTkgMDI6NDQ6MjEgSU9QLVoz
+NzAtMDI2IGtlcm5lbDoga3RocmVhZCsweGY4LzB4MTMwDQo+IA0KPiBTZXAgMTkgMDI6NDY6MjQg
+SU9QLVozNzAtMDI2IGtlcm5lbDogSU5GTzogdGFzayBrd29ya2VyL3UyNDoxOjIyMjkgYmxvY2tl
+ZCBmb3IgbW9yZSB0aGFuIDEyMiBzZWNvbmRzLg0KPiBTZXAgMTkgMDI6NDY6MjQgSU9QLVozNzAt
+MDI2IGtlcm5lbDogICAgICBOb3QgdGFpbnRlZCA1LjMuMC1yYzYgIzENCj4gU2VwIDE5IDAyOjQ2
+OjI0IElPUC1aMzcwLTAyNiBrZXJuZWw6ICJlY2hvIDAgPiAvcHJvYy9zeXMva2VybmVsL2h1bmdf
+dGFza190aW1lb3V0X3NlY3MiIGRpc2FibGVzIHRoaXMgbWVzc2FnZS4NCj4gU2VwIDE5IDAyOjQ2
+OjI0IElPUC1aMzcwLTAyNiBrZXJuZWw6IGt3b3JrZXIvdTI0OjEgICBEICAgIDAgIDIyMjkgICAg
+ICAyIDB4ODAwMDQwODANCj4gU2VwIDE5IDAyOjQ2OjI0IElPUC1aMzcwLTAyNiBrZXJuZWw6IFdv
+cmtxdWV1ZTogbnZtZS13cSBudm1lX3NjYW5fd29yayBbbnZtZV9jb3JlXSBTZXAgMTkgMDI6NDY6
+MjQgSU9QLVozNzAtMDI2IGtlcm5lbDogQ2FsbCBUcmFjZToNCj4gU2VwIDE5IDAyOjQ2OjI0IElP
+UC1aMzcwLTAyNiBrZXJuZWw6ID8gX19zY2hlZHVsZSsweDJhOS8weDY1MCBTZXAgMTkgMDI6NDY6
+MjQgSU9QLVozNzAtMDI2IGtlcm5lbDogc2NoZWR1bGUrMHgzOS8weGEwIFNlcCAxOSAwMjo0Njoy
+NCBJT1AtWjM3MC0wMjYga2VybmVsOiBzY2hlZHVsZV9wcmVlbXB0X2Rpc2FibGVkKzB4YS8weDEw
+DQo+IFNlcCAxOSAwMjo0NjoyNCBJT1AtWjM3MC0wMjYga2VybmVsOiBfX211dGV4X2xvY2suaXNy
+YS4xMSsweDIzMy8weDRlMCBTZXAgMTkgMDI6NDY6MjQgSU9QLVozNzAtMDI2IGtlcm5lbDogPyBu
+dm1lX2lkZW50aWZ5X2N0cmwuaXNyYS41OCsweDZhLzB4YjAgW252bWVfY29yZV0gU2VwIDE5IDAy
+OjQ2OjI0IElPUC1aMzcwLTAyNiBrZXJuZWw6IG52bWVfc2Nhbl93b3JrKzB4YTkvMHgzODAgW252
+bWVfY29yZV0gU2VwIDE5IDAyOjQ2OjI0IElPUC1aMzcwLTAyNiBrZXJuZWw6ID8gX19zd2l0Y2hf
+dG9fYXNtKzB4NDAvMHg3MCBTZXAgMTkgMDI6NDY6MjQgSU9QLVozNzAtMDI2IGtlcm5lbDogPyBf
+X3N3aXRjaF90b19hc20rMHgzNC8weDcwIFNlcCAxOSAwMjo0NjoyNCBJT1AtWjM3MC0wMjYga2Vy
+bmVsOiA/IF9fc3dpdGNoX3RvX2FzbSsweDM0LzB4NzAgU2VwIDE5IDAyOjQ2OjI0IElPUC1aMzcw
+LTAyNiBrZXJuZWw6ID8gX19zd2l0Y2hfdG9fYXNtKzB4NDAvMHg3MCBTZXAgMTkgMDI6NDY6MjQg
+SU9QLVozNzAtMDI2IGtlcm5lbDogPyBfX3N3aXRjaF90b19hc20rMHgzNC8weDcwIFNlcCAxOSAw
+Mjo0NjoyNCBJT1AtWjM3MC0wMjYga2VybmVsOiA/IF9fc3dpdGNoX3RvX2FzbSsweDQwLzB4NzAg
+U2VwIDE5IDAyOjQ2OjI0IElPUC1aMzcwLTAyNiBrZXJuZWw6ID8gX19zd2l0Y2hfdG9fYXNtKzB4
+MzQvMHg3MCBTZXAgMTkgMDI6NDY6MjQgSU9QLVozNzAtMDI2IGtlcm5lbDogPyBfX3N3aXRjaF90
+b19hc20rMHgzNC8weDcwIFNlcCAxOSAwMjo0NjoyNCBJT1AtWjM3MC0wMjYga2VybmVsOiA/IF9f
+c3dpdGNoX3RvKzB4N2EvMHg0MDAgU2VwIDE5IDAyOjQ2OjI0IElPUC1aMzcwLTAyNiBrZXJuZWw6
+ID8gX19zd2l0Y2hfdG9fYXNtKzB4MzQvMHg3MCBTZXAgMTkgMDI6NDY6MjQgSU9QLVozNzAtMDI2
+IGtlcm5lbDogcHJvY2Vzc19vbmVfd29yaysweDE3MS8weDM4MCBTZXAgMTkgMDI6NDY6MjQgSU9Q
+LVozNzAtMDI2IGtlcm5lbDogd29ya2VyX3RocmVhZCsweDQ5LzB4M2YwDQo+IA0KPiBUaGFuayB5
+b3UsDQo+IEp1ZHkgQnJvY2ssIFNhbXN1bmcNCj4gcC5zLiAtIEkgdHJpZWQgdG8gcG9zdCBhbiBl
+bWFpbCBhYm91dCB0aGlzIGEgZmV3IGRheXMgYWdvIHNvIGlmIGl0IGZpbmFsbHkgZ29lcyB0aHJ1
+LCBzb3JyeSBmb3IgdGhlIHJlZHVuZGFuY3kuDQo+IA0KPiANCj4gDQo+IF9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQo+IExpbnV4LW52bWUgbWFpbGluZyBs
+aXN0DQo+IExpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZw0KPiBodHRwOi8vbGlzdHMuaW5m
+cmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUNCj4gDQpfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1udm1lIG1haWxpbmcgbGlz
+dApMaW51eC1udm1lQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5v
+cmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1udm1lCg==
