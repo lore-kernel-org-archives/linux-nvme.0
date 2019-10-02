@@ -2,99 +2,66 @@ Return-Path: <SRS0=mn4A=X3=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84503C35280
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Oct 2019 13:09:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B576FC10F14
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Oct 2019 22:05:15 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2CA3121920
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Oct 2019 13:09:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7ADF420659
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Oct 2019 22:05:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Ezaj48eV";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel-dk.20150623.gappssmtp.com header.i=@kernel-dk.20150623.gappssmtp.com header.b="rivVgCtt"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2CA3121920
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="hjJq0HpY"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7ADF420659
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
-	Message-ID:From:References:To:Subject:Reply-To:Cc:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Owner;
-	bh=xOddn1TnGm8sAJFI2KwMttGtvhB4R9GmOqahBmqUHoc=; b=Ezaj48eVVbqQa+jLt7ooJ9+ykL
-	9YLMXpE7cvICb8JygPjmLRlNg7e+BXDhc59bfUV1xtasrpkHy6mFsMKclSt0etJphH5Lhj41QcDk9
-	IiGu6qx5YevDCZUHL8SeGwUeUbVQB9ZlFASiFGhNXeWXTdKTWJXE27S4JPyW0RR13ezPSb6J68Pcy
-	3NsHWAZ6rBg9twDRZFwnn2sD3iKkDU/24V7oa0cnPEnR//N/Rv7Cq2O0nK5VIOJIXyiNZVcVYIhoK
-	phW4xmlE+qgnvktzrp8KQnf8sSDnW8hyOVbXUy1PDZkv+u7D/r2+tN0OrP2cRXqX/Tmp2GEHTOC9c
-	HZD9bCXw==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=gju1oPVMD+J+sVfvvqAWIlLHj6yC3B9unpEPYBuwB5o=; b=hjJq0HpYcwp0OKYHzgg3CoKtr
+	M5BYJsvgfmrJEBm88BASdn7mVpPl5hkTlbRB8DxiiCUoVNXN3pvt010x057lPrrZci6Mm5rGC/oM8
+	zdDmg0+vlllrwl57k8qoU739IVqbf82loCZyiYAjDa8LUII/JzuYiF79l2QP9Y2YaoAYf3dTP1A01
+	MNy8Y63R/oybBO5HqtYFqtIgnbFW76dmJi/Q6Gsm0adhey9KhuFjt5Fck+NtTX+f1bsaSIEJXAENk
+	IeJOp6YmAXL+aZxCpNkymwscGJo8ogu12lr+gNOorbPIpMLxtt2N+gTmCCca3XKnY+3+PC2U3iwuS
+	hR5e7vpfA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.2 #3 (Red Hat Linux))
-	id 1iFeNt-0008Ov-Ve; Wed, 02 Oct 2019 13:09:37 +0000
-Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41])
+	id 1iFmkB-00089r-9n; Wed, 02 Oct 2019 22:05:11 +0000
+Received: from mga01.intel.com ([192.55.52.88])
  by bombadil.infradead.org with esmtps (Exim 4.92.2 #3 (Red Hat Linux))
- id 1iFeNq-0008NR-T3
- for linux-nvme@lists.infradead.org; Wed, 02 Oct 2019 13:09:37 +0000
-Received: by mail-io1-xd41.google.com with SMTP id b19so28603620iob.4
- for <linux-nvme@lists.infradead.org>; Wed, 02 Oct 2019 06:09:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20150623.gappssmtp.com; s=20150623;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=LGBRuLqUYrX9GGEZI9KKoyUAhJq9ZXxDsRWTIcZfJKs=;
- b=rivVgCttX729kcL32gPJi94oiGeS/ifekn7WfKH0+689qAHuwZ9GMA8DoZ3c1HyAR/
- hLXUYrXvu/gAXPTX4iddYvXTTqa4Clmf9rHuwEC5ng0E4lqdeTmrusQ/3rMg9Hl8tJ66
- T/m4Lsd230UKL4EoovEAS51KnE/io9py1nKfWosvvFoE9iykZLeRcp4WbIiPCEXcoAaM
- BSq09rThM9NHC2ODOBVwG3W/Dl7wBBGv/xnvIoC4NIAcf4Ld3PmW3sXbRdGHT3rKj+CD
- 3QwI4qifLJc1emxI5N20ihafo6GqeuuARQ7FOLsRk9ryt9v0nRr/G404yZpHtpR9ECkF
- XYEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=LGBRuLqUYrX9GGEZI9KKoyUAhJq9ZXxDsRWTIcZfJKs=;
- b=fOFC75UOV8S7vE6hBqizVwUQFeQy9r5UQBJE12ATsBG+z2UMOyM13UMNa0WzWO8bH/
- /+gQl3/2EhUaRG943mlgNwzPzdGm3XQlHuE/5komjFsw6QPEPfvi92XSrxjI1eJE6LO2
- 3CSuJk6mXhYEY8uNO99vh52hZExsSeHDJUOKi62rBlnSUVaGMBK9SGNNFjRHAnHpqpIn
- 2+8mt3tSqmUvcctzjVDPr+L/8Gmvsaa8S6WLPhARAOh3blcfGyV5lVBgbvxi7zKIwXvu
- Ei0jQXN6JPFtOGkyRBDrOYhqZLdFHKxf1bQTVhFKC1KvC/PeXDM523RCI+RO8PQ9p60/
- KxIQ==
-X-Gm-Message-State: APjAAAVDRMJWlHkWRxzNo9IzZ5LsjAZUD9Mp6qAXKN66W8M0NO5YRCM8
- Fte9iU507LeArXDftvwG0JeyOhXgtTt5Gg==
-X-Google-Smtp-Source: APXvYqxoOv3gPtGv+2gVmJxtYhhJTGAOSpJ5159QObAXDK3v9RjA9LkKGLL73o5+qLKCvndxIogJsA==
-X-Received: by 2002:a5e:8341:: with SMTP id y1mr2926558iom.284.1570021769994; 
- Wed, 02 Oct 2019 06:09:29 -0700 (PDT)
-Received: from [192.168.1.50] ([65.144.74.34])
- by smtp.gmail.com with ESMTPSA id c4sm7265663ilh.32.2019.10.02.06.09.28
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 02 Oct 2019 06:09:29 -0700 (PDT)
-Subject: Re: [PATCH v2 1/1] blk-mq: Inline request status checkers
-To: Pavel Begunkov <asml.silence@gmail.com>,
- Bart Van Assche <bvanassche@acm.org>, Josef Bacik <josef@toxicpanda.com>,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, nbd@other.debian.org,
- linux-nvme@lists.infradead.org
-References: <1cd320dad54bd78cb6721f7fe8dd2e197b9fbfa2.1569830796.git.asml.silence@gmail.com>
- <e6fc239412811140c83de906b75689530661f65d.1569872122.git.asml.silence@gmail.com>
- <e4d452ad-da24-a1a9-7e2d-f9cd5d0733da@acm.org>
- <6da099e2-7e29-3c7b-7682-df86835e9e8c@gmail.com>
-From: Jens Axboe <axboe@kernel.dk>
-Message-ID: <e4fb245a-5587-866b-8bfa-927d0fb0801b@kernel.dk>
-Date: Wed, 2 Oct 2019 07:09:28 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ id 1iFmk8-0007gu-Uk
+ for linux-nvme@lists.infradead.org; Wed, 02 Oct 2019 22:05:10 +0000
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 02 Oct 2019 15:05:06 -0700
+X-IronPort-AV: E=Sophos;i="5.67,249,1566889200"; d="scan'208";a="196142452"
+Received: from unknown (HELO [10.232.112.84]) ([10.232.112.84])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA;
+ 02 Oct 2019 15:05:05 -0700
+Subject: Re: [RFC PATCH] nvme: retain split access workaround for capability
+ reads
+To: Ard Biesheuvel <ard.biesheuvel@linaro.org>, linux-nvme@lists.infradead.org
+References: <20191002073643.5339-1-ard.biesheuvel@linaro.org>
+From: "Nadolski, Edmund" <edmund.nadolski@intel.com>
+Message-ID: <806b32f6-221a-daa5-1942-f4f6cf47d2bd@intel.com>
+Date: Wed, 2 Oct 2019 16:05:04 -0600
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <6da099e2-7e29-3c7b-7682-df86835e9e8c@gmail.com>
+In-Reply-To: <20191002073643.5339-1-ard.biesheuvel@linaro.org>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191002_060935_033854_5185811D 
-X-CRM114-Status: GOOD (  15.01  )
+X-CRM114-CacheID: sfid-20191002_150509_009632_A47D58FC 
+X-CRM114-Status: GOOD (  25.92  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,45 +73,74 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
+Cc: axboe@fb.com, kbusch@kernel.org, ilias.apalodimas@linaro.org,
+ sagi@grimberg.me, hch@lst.de
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/30/19 2:12 PM, Pavel Begunkov wrote:
-> On 30/09/2019 22:53, Bart Van Assche wrote:
->> On 9/30/19 12:43 PM, Pavel Begunkov (Silence) wrote:
->>> @@ -282,7 +282,7 @@ static bool bt_tags_iter(struct sbitmap *bitmap, unsigned int bitnr, void *data)
->>>   	 * test and set the bit before assining ->rqs[].
->>>   	 */
->>>   	rq = tags->rqs[bitnr];
->>> -	if (rq && blk_mq_request_started(rq))
->>> +	if (rq && blk_mq_rq_state(rq) != MQ_RQ_IDLE)
->>>   		return iter_data->fn(rq, iter_data->data, reserved);
->>>   
->>>   	return true>
->>> @@ -360,7 +360,7 @@ static bool blk_mq_tagset_count_completed_rqs(struct request *rq,
->>>   {
->>>   	unsigned *count = data;
->>>   
->>> -	if (blk_mq_request_completed(rq))
->>> +	if (blk_mq_rq_state(rq) == MQ_RQ_COMPLETE)
->>>   		(*count)++;
->>>   	return true;
->>>   }
->>
->> Changes like the above significantly reduce readability of the code in
->> the block layer core. I don't like this. I think this patch is a step
->> backwards instead of a step forwards.
+On 10/2/2019 1:36 AM, Ard Biesheuvel wrote:
+> Recent changes to the NVMe core have re-introduced an issue that we
+> have attempted to work around in the past, in commit a310acd7a7ea
+> ("NVMe: use split lo_hi_{read,write}q").
 > 
-> Yep, looks too bulky.
+> The problem is that some PCIe NVMe controllers do not implement 64-bit
+> outbound accesses correctly, which is why the commit above switched
+> to using lo_hi_[read|write]q for all 64-bit BAR accesses.
 > 
-> Jens, could you consider the first version?
+> In the mean time, the NVMe subsystem has been refactored, and now calls
+> into the PCIe support layer for NVMe via a .reg_read64() method, which
+> fails to use lo_hi_readq(), and thus reintroduces the problem that the
+> commit above aimed to address.
+> 
+> Given that, at the moment, .reg_read64() is only used to read the
+> capability register [which is known to tolerate split reads, which is
+> not guaranteed in the general case, given that the NVMe BAR may be
+> non-prefetchable], let's switch .reg_read64() to lo_hi_readq() as
+> well.
 
-Yes, first one is fine, I have applied it. Thanks.
+Might be good to include this as a comment, for clarity and so it won't
+get refactored out again.
 
--- 
-Jens Axboe
+> To ensure that we will spot any changes that will start using the
+> .reg_read64() method for other purposes, WARN() if the requested
+> offset != NVME_REG_CAP.
+
+Would WARN_ONCE() suffice?
+
+Ed
+
+> This fixes a boot issue on some ARM boxes with NVMe behind a
+> Synopsys DesignWare PCIe host controller.
+> 
+> Signed-off-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+> ---
+> Broken since v5.3, so if this gets fixed one way or the other, please
+> add cc: stable.
+> 
+> Given that reg_read64() is only used in a single place to read the
+> capability register, it would be cleaner to just drop it and add a
+> .reg_readcap() method instead, but this is a more invasive change.
+> 
+>   drivers/nvme/host/pci.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index c0808f9eb8ab..bb012075fbb2 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -2672,7 +2672,8 @@ static int nvme_pci_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val)
+>   
+>   static int nvme_pci_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val)
+>   {
+> -	*val = readq(to_nvme_dev(ctrl)->bar + off);
+> +	WARN_ON(off != NVME_REG_CAP);
+> +	*val = lo_hi_readq(to_nvme_dev(ctrl)->bar + off);
+>   	return 0;
+>   }
+>   
+> 
 
 
 _______________________________________________
