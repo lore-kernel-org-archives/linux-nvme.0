@@ -2,133 +2,85 @@ Return-Path: <SRS0=mn4A=X3=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFA8AC35280
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Oct 2019 06:10:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A7D8C352AA
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Oct 2019 07:37:05 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 840C3215EA
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Oct 2019 06:10:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 601D0215EA
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Oct 2019 07:37:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="EGAkexIp";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="c/X2umJC";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="OfdulA3s"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 840C3215EA
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="rZuGAW3I";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dOj9q0JV"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 601D0215EA
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linaro.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date
-	:Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	List-Owner; bh=SDXtHLsXpMRotpXsP9tLpGivnuKwUD8snm2JdmG+niA=; b=EGAkexIpn8yAu1
-	3k/3Ohmgg/uCrKRGL7XDyGHPw2R2yudz1xfgZpdO/DOAvrGlvLpvuJMI587GNxxBh8XUl4EITueSI
-	/KiaizinbcAhVXT1cE4WRldwq7jncKV2NswtIT+aTYpuZjT4YXPWulJXsFuhK87L8HqxiYzRTXitD
-	Rxfr+zzBA+kCLYaK4lMEtrmxOuD4A6FJgHWk3MbFH0V0qzXD2hNjoV/cO6ZNDkmVsXk4CpYoWGO0i
-	xIxcOUuKRkwFJqPqE7IxfrH1i3nBDgQPy9wKiMnhMfLUdmTOe4GUIhjJfCkd7pSU6A0c9KfOBN4+a
-	WFfr3hcSFGZJRFa+WWpQ==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
+	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=QOCFKoQ5Wxv8d8/p6lP8TbrgZkEwZeceY68qDh3Yhz4=; b=rZuGAW3IgLxE8t
+	d9pmCaw2ym9oPiI4/JMzPNWbRCpV4ZsBo48ibRWvisVg6TRHYe85kj6cx4uEeDxjQ+BDBmeO9dvux
+	HicUdNwnvbffrZVuFWTuV/NuIEfReNszX9slb1Z4/bdEtc+F2wn4poAfl2lnsbRT54Z+bddHcIhl4
+	NI5/qtSWcKypagYcNhp8+A1+7BY+z1pijWOcz3sOoAmzY3oksvF0H84uVFRMsiy9uXrXK3tZqHHT9
+	/5XKIBUAWPntxX1Kri5M+yCmDL+LGX558iInvWtwTCqU6Pm5BJnX01uzuDLhH+SPkQv68Tzh1CYN7
+	GYqkd+mJeMy97qIjVROA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.2 #3 (Red Hat Linux))
-	id 1iFXqB-00083S-Nm; Wed, 02 Oct 2019 06:10:23 +0000
-Received: from esa2.hgst.iphmx.com ([68.232.143.124])
+	id 1iFZC1-0003uw-2R; Wed, 02 Oct 2019 07:37:01 +0000
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443])
  by bombadil.infradead.org with esmtps (Exim 4.92.2 #3 (Red Hat Linux))
- id 1iFXq8-00083B-S9
- for linux-nvme@lists.infradead.org; Wed, 02 Oct 2019 06:10:22 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1569996628; x=1601532628;
- h=from:to:cc:subject:date:message-id:references:
- content-transfer-encoding:mime-version;
- bh=wJee+Ue7K6j0n3g21KWpkKY/5Ad262uYL9yLIiAmeIE=;
- b=c/X2umJC/0y9lpx+XT9hIYfC0CWdzsvSm7t/ILFEmUSEci0VDDM1QBYx
- INaL9F7pbyrXUcHsfwu9YBeo3tGaR3BYwRAkM4hQFVXRYwsPfnOYNWp+T
- 81pG7CvMDv0FhIA/wsqqvRn4Izhy9k+0f6/p68qtULoVAO4cp2APEKYDt
- BHDEHdwce9ycJ/m1+SBktnQIwjvSoPymCxnRfoSH6RYwumUNvr48X2JgY
- nfKcuJ+mYtm1ipo6QnPrE7VyXTouQCYdcTqvIqUEYyZZ9WY5eW6roGlcs
- MR3ufJGZ9xNwmDY4raVG0jBVY+ORdgt42XZz3NLdTQimRvIHQWXDKPgGu A==;
-IronPort-SDR: ycIMVe7h3MKTZzhBnMR9t8vntX3AQD2vNJgTKKZUUnLfaaYwdrZ1w6dRVUGBK+zriVWmmOsjwD
- m4I7cJ5oEE4IIreENlQexE3QlhWpJGPRFSvbdBSSyInXw/YfrXEeXHlToRAaB+1jEW0CSjn07x
- GHhiX4ILLHZWHZomiRyUUJbStPRqY3N+IIX015ZFI2dOfGaS+IqBzXt34Dl7UG2OBIzXA/hc8l
- rX+Ef2WWOD/DgRcjGid4UXuBGj9rRcWUG2Gzu0vswlnIyjQIKqw7+lgiF4Hvyvf/2QGcWWr5e9
- CvQ=
-X-IronPort-AV: E=Sophos;i="5.64,573,1559491200"; d="scan'208";a="220514255"
-Received: from mail-by2nam03lp2052.outbound.protection.outlook.com (HELO
- NAM03-BY2-obe.outbound.protection.outlook.com) ([104.47.42.52])
- by ob1.hgst.iphmx.com with ESMTP; 02 Oct 2019 14:10:13 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aUlmTqyKxh8iOT603yToFvBAIHf9jnGwnWdX5sk/V12snaUhwQh7bvQhQziQ17QWJWwa4Etz2fDcwf932Q9wRqYmlU5OM883uxpOHYO9u7OT4pi5B481EC82W6/eh63HmmRdYPuDSKabtLJrjdEzcaFejjauF/D9cMWDSHnqF15rmyiyFxnaov3NRS6EUwoohxokAEzZ+/hAlCOqpqj9dRHev4pXlodRS+gsdJHR5W5z1z1D9IK4hM0T+I7ELrYINeDXN5BMKgciHHjoV/NKrKb1QypDOtPKvzEY8a/KD1/+R6tNxRw5LP4yWO8jURR4t1h7Oz7GT39MMzn+GOoPYA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wJee+Ue7K6j0n3g21KWpkKY/5Ad262uYL9yLIiAmeIE=;
- b=AVDb/E1I7zv8AetrB2Az4KVrUjqKSqT/ZC3WVVLhTPtERabro556LnCeiStYtSpoykRoa9yBrZ5SmzdqQcNnM3cluNP0n8nVllniSlQURg2QTXMEgNwO+JsiCyqGfkGRu4SYPNyjlt/r6bG6EEPM0Aw88pujeC4y71MMcVNslxMlOvtRdh1jl4NoVlOQGOxD3daNBhHPOSaaNO6hHjx0kakcC8zwNhK7MeDljdnMjrPDnIpGsNQbAscM41+7KR+rAGsbYntkiFyTk8UjcJDvKNp46acP/pnczTxk9X4JOKxUyhTA2e0dR10IAhh6ZaCLNRWtlglfHQFVq4Qbj8I3Qw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wJee+Ue7K6j0n3g21KWpkKY/5Ad262uYL9yLIiAmeIE=;
- b=OfdulA3sDAQRAZ0+b/ltp6ICXbGSE/xWBJBIgaUleMIWz4PXZhEOPuxX5RnxLbIMbBJL1+QBdHselbPv6x3VwKkilu3GT9XYRjhrjEg7m+3UuLBmJLYVmsFg//OSUPhORBXoEN8d4t1SYt2hCS9aatTOEVNbS/JTO5VQk2fcgJ8=
-Received: from BYAPR04MB5749.namprd04.prod.outlook.com (20.179.58.26) by
- BYAPR04MB6069.namprd04.prod.outlook.com (20.178.234.11) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2305.20; Wed, 2 Oct 2019 06:10:10 +0000
-Received: from BYAPR04MB5749.namprd04.prod.outlook.com
- ([fe80::45c6:1:4f9f:eab8]) by BYAPR04MB5749.namprd04.prod.outlook.com
- ([fe80::45c6:1:4f9f:eab8%4]) with mapi id 15.20.2305.023; Wed, 2 Oct 2019
- 06:10:09 +0000
-From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-To: =?iso-8859-1?Q?Javier_Gonz=E1lez?= <javier@javigon.com>
-Subject: Re: [PATCH] nvme: define struct for __nvme_submit_sync_cmd()
-Thread-Topic: [PATCH] nvme: define struct for __nvme_submit_sync_cmd()
-Thread-Index: AQHVeK3i3e5fq2y9tkqFZTXIXU35FQ==
-Date: Wed, 2 Oct 2019 06:10:09 +0000
-Message-ID: <BYAPR04MB5749A393F5328589B36CDE36869C0@BYAPR04MB5749.namprd04.prod.outlook.com>
-References: <20191001231346.18518-1-chaitanya.kulkarni@wdc.com>
- <58CA8A6F-46B6-4728-9EF4-ED3EAEEEEE2E@javigon.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Chaitanya.Kulkarni@wdc.com; 
-x-originating-ip: [199.255.44.171]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 955320f6-e023-4c55-5d83-08d746ff2e01
-x-ms-office365-filtering-ht: Tenant
-x-ms-traffictypediagnostic: BYAPR04MB6069:
-x-microsoft-antispam-prvs: <BYAPR04MB6069C82C0C2FBA8E47BFFB6E869C0@BYAPR04MB6069.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-forefront-prvs: 0178184651
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(346002)(366004)(396003)(39860400002)(376002)(136003)(199004)(189003)(51914003)(55016002)(486006)(66066001)(6506007)(6916009)(52536014)(5660300002)(2906002)(558084003)(86362001)(9686003)(3846002)(6116002)(229853002)(6436002)(446003)(4326008)(14454004)(8936002)(316002)(6246003)(8676002)(81166006)(81156014)(305945005)(33656002)(76116006)(256004)(476003)(7736002)(74316002)(66446008)(64756008)(66556008)(66476007)(66946007)(7696005)(478600001)(53546011)(102836004)(76176011)(25786009)(71190400001)(71200400001)(186003)(26005)(99286004);
- DIR:OUT; SFP:1102; SCL:1; SRVR:BYAPR04MB6069;
- H:BYAPR04MB5749.namprd04.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: jnWL8W0+kWjjSAd9D5SOLV6Gwf0VG3N7r0FMOTIOmjAkNL2/varEZ7skYx18v1DZu04PuVl5FIz1d++sgSkbWYNyO1UmHIf+S7fEMJGbtgVVY1jipbZMNUo5BwzT73wd9+EsCsHcRxiwMF9UzSOkVNLRzQltGuIogSNg5uxGzS4YSI9RykiGrH/xFAadkOwlbchNFz/jRMSPTNqq+UZ0rPMn0Szhq++G5itZ0vPrLHu74Qd9e0UsiDfJzkBU2sfiIcatdqK0FTwp2xfWWJwRBKx/ZyoPFGxwK9K62qnj4zYkjiHl8XT8ES+Iy2e6RjKCehvj2+GhXbDFQFejG0HOzSXJULONC/RyvWC3UvbmIGKSam6Q/X50h6+hKmb0tBl/piw9PmDTmJqobHeuyNN9Va+ASab6BxXBPL/VY7VjSSc=
-x-ms-exchange-transport-forked: True
+ id 1iFZBx-0003uc-GD
+ for linux-nvme@lists.infradead.org; Wed, 02 Oct 2019 07:36:58 +0000
+Received: by mail-wr1-x443.google.com with SMTP id o18so18319752wrv.13
+ for <linux-nvme@lists.infradead.org>; Wed, 02 Oct 2019 00:36:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=R1AMblbpULBxb43nEVZyfbmDD2ZvoFRR7AmT/Fc0VJo=;
+ b=dOj9q0JVaiDcBUk0adCq3Aeg2wPAg9VKm2j353MuUy79BvoF1ipr1Fj4D69T8D1uCC
+ juqO01Av0oqp08GRxNd+De4xxGz7nyvMumiMl6afwfhyF+J8RHb8xMlj4aEEpMY1thlv
+ qk+5k3NefiOYwsGwL8NJ20S8xzaevxLzzaox4H0KdfthqXhLFkc2mjqhfBJlpnvalxun
+ BFJwpe69f5JU6vLd3L7oLpo5FYsp+Vo8QmxWiAA42E/B4CBShl17wg5eV+bIE+o7p2Om
+ gfyP+OnzT8rzr9BmjZAsc2dBj0tE0WmLh19oKMA3puYQHSlc7jDycUxtCai1stORQ1fd
+ 0a5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=R1AMblbpULBxb43nEVZyfbmDD2ZvoFRR7AmT/Fc0VJo=;
+ b=cHvimqWVMMG9QrtHlFANsNV2B0G8X1rOED2VGMEAmQSGCaaiX4Qw24JWjOlZj195gi
+ s2vM1BFerDRljNxib5pP3JJMOH+MwYamUj1m2j5zG3bXBRzHqVdDL4cOJjYl78sdmm+S
+ Gd4gR7p6W3dxr4RBTwbH2V/ZQFWYckyrECfsoIzq/DhCwga2ybN8uVvmTnrbiXOUfq6n
+ AX1AoguFaFfHiBY+iPOs9I6rdBgQj5ODuFo86bz5S/138Bo66OBRvK32bEVnFYlXPIA2
+ DmBDA3mbxx7tOW6scfx0F3pDQVx84xnRx7CjqntCyj2pJTSYA+7i16BvKotW8u7UoSFX
+ GI+w==
+X-Gm-Message-State: APjAAAW4IOer6C57rwJTdsc77Z1A6F0/5sB64SfMJ27IMije0geiPaZ5
+ 7UWBLllhPmVJ/fhD7aVCS6tWFU+V/spRMay7
+X-Google-Smtp-Source: APXvYqxb1A4jIFRU1PxvYCCP2gLXTFW4suvE5NOGnbRNHz4kbRvmu02SIQOKbvdgZsfnY3J0uQIJ6Q==
+X-Received: by 2002:adf:e5cb:: with SMTP id a11mr1442377wrn.200.1570001815744; 
+ Wed, 02 Oct 2019 00:36:55 -0700 (PDT)
+Received: from sudo.home ([2a01:cb1d:112:6f00:1d6f:6259:a948:207b])
+ by smtp.gmail.com with ESMTPSA id f20sm4948575wmb.6.2019.10.02.00.36.54
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 02 Oct 2019 00:36:54 -0700 (PDT)
+From: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+To: linux-nvme@lists.infradead.org
+Subject: [RFC PATCH] nvme: retain split access workaround for capability reads
+Date: Wed,  2 Oct 2019 09:36:43 +0200
+Message-Id: <20191002073643.5339-1-ard.biesheuvel@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 955320f6-e023-4c55-5d83-08d746ff2e01
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Oct 2019 06:10:09.6671 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: o+bHEL9NGL5XyToU+tTx2STnwGYM4sXlFNbdgZcohf7mDjbTpvDJWDcNo+NVHQ1KowHC4OOJs8I+jkQfLUJyL20UglUCpeoTfjhaDKBKYq8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB6069
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191001_231021_025994_791522C7 
-X-CRM114-Status: UNSURE (   8.67  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20191002_003657_603184_0045084C 
+X-CRM114-Status: GOOD (  16.87  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,19 +92,67 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: sagi@grimberg.me, Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+ ilias.apalodimas@linaro.org, axboe@fb.com, kbusch@kernel.org, hch@lst.de
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/1/19 10:47 PM, Javier Gonz=E1lez wrote:
-> Makes sense to me. We have other places with similar arguments (e.g.,
-> nvme_submit_user_cmd). Would it make sense to unify this too if we move
-> in this direction?
-> =
+Recent changes to the NVMe core have re-introduced an issue that we
+have attempted to work around in the past, in commit a310acd7a7ea
+("NVMe: use split lo_hi_{read,write}q").
 
-Thanks for the feedback, I'll add that too in the next version.
+The problem is that some PCIe NVMe controllers do not implement 64-bit
+outbound accesses correctly, which is why the commit above switched
+to using lo_hi_[read|write]q for all 64-bit BAR accesses.
+
+In the mean time, the NVMe subsystem has been refactored, and now calls
+into the PCIe support layer for NVMe via a .reg_read64() method, which
+fails to use lo_hi_readq(), and thus reintroduces the problem that the
+commit above aimed to address.
+
+Given that, at the moment, .reg_read64() is only used to read the
+capability register [which is known to tolerate split reads, which is
+not guaranteed in the general case, given that the NVMe BAR may be
+non-prefetchable], let's switch .reg_read64() to lo_hi_readq() as
+well.
+
+To ensure that we will spot any changes that will start using the
+.reg_read64() method for other purposes, WARN() if the requested
+offset != NVME_REG_CAP.
+
+This fixes a boot issue on some ARM boxes with NVMe behind a
+Synopsys DesignWare PCIe host controller.
+
+Signed-off-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+---
+Broken since v5.3, so if this gets fixed one way or the other, please
+add cc: stable.
+
+Given that reg_read64() is only used in a single place to read the
+capability register, it would be cleaner to just drop it and add a
+.reg_readcap() method instead, but this is a more invasive change.
+
+ drivers/nvme/host/pci.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index c0808f9eb8ab..bb012075fbb2 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2672,7 +2672,8 @@ static int nvme_pci_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val)
+ 
+ static int nvme_pci_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val)
+ {
+-	*val = readq(to_nvme_dev(ctrl)->bar + off);
++	WARN_ON(off != NVME_REG_CAP);
++	*val = lo_hi_readq(to_nvme_dev(ctrl)->bar + off);
+ 	return 0;
+ }
+ 
+-- 
+2.20.1
 
 
 _______________________________________________
