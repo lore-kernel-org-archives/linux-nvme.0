@@ -2,85 +2,88 @@ Return-Path: <SRS0=6Jtf=X4=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E00A0C10F14
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Oct 2019 12:05:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 401E4C32792
+	for <linux-nvme@archiver.kernel.org>; Thu,  3 Oct 2019 19:13:15 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B0AFB222C2
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Oct 2019 12:05:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0E0A8207FF
+	for <linux-nvme@archiver.kernel.org>; Thu,  3 Oct 2019 19:13:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="uPR614eq";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IQQ/19UI"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B0AFB222C2
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linaro.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="b0SaeA7O";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="se77SjyV"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0E0A8207FF
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=1TrbGe5zeSoK8kveHHMlfKjmn22keOwSiC+iT1sHbvg=; b=uPR614eq70Mrsm
-	uL8iZ0Ia4PSBLiAiLCK8XHIHCL2pmjzh071ROmwpTT5nf35XGDcrRx68uzxftC2BDjlb+aOsHhbhS
-	/eAO92ki0/uAr2naPyrMwe9gavudBGLYnSfAFoC8AYxha9AeY4OhL4yAosQq/Iapa+nj77jtAs3D9
-	nyda/6vx/JS8IwPW66R0mlMrdK1sZMkALShI6qBNZqt5++8IpC757R6TIwA4k9ew4OsBHsCmxm/m8
-	1agGwWC5f7VkkkTVlfoFlpQnDHNsLThGh5XOBwPtGvCMwkWBLnmGyWq5UCzlNo1WMWa45I/hAAODk
-	iWQmuBXwNd5Su+1LvVqQ==;
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:To:From
+	:Date:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=YsfrzJXFKLYzQE5CT4btAw4znhKbZe/UPWBtdh9xoWc=; b=b0SaeA7O2iACy0
+	5POGoxmmo7POs0EakkbkxarW8z7Q6WWMHb5xPSerP//K7nr+ayVAnfDKGX/+yRlzlCS+SSshqedAH
+	vL/EF3uk5fBa4DpkCaLPDHT/5XWf9uf4jh5oGQaMo7g2s527Y2iU9VWAfI/E7xwwpx7VOr6PY3912
+	ykqs6q/sMvyoryUI4Me+M56FwnsrsFb5mztT+2h0AYoeMnzOMkyY4a9JTNOlyhfRQu68j/ATkbZlP
+	84XCpfxw6viNMxYTHjE9kUZ2WYRqhM8vu80oPi9IrtthiyMe3BjtvuavrHgknDqnDexwuM2HeD854
+	MDdIxbT9FMkl77KDcKTg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.2 #3 (Red Hat Linux))
-	id 1iFzrQ-0005eu-A4; Thu, 03 Oct 2019 12:05:32 +0000
-Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741])
+	id 1iG6XG-0006Bz-Fi; Thu, 03 Oct 2019 19:13:10 +0000
+Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42])
  by bombadil.infradead.org with esmtps (Exim 4.92.2 #3 (Red Hat Linux))
- id 1iFzrN-0005eT-Tg
- for linux-nvme@lists.infradead.org; Thu, 03 Oct 2019 12:05:31 +0000
-Received: by mail-qk1-x741.google.com with SMTP id w2so2065161qkf.2
- for <linux-nvme@lists.infradead.org>; Thu, 03 Oct 2019 05:05:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+SA33MEmVikWzqcvO7ZglveqbdC4Bqr+Az02qJrwQpA=;
- b=IQQ/19UIyjQAiNDZK/ziahwgUeYZozpod0rrAA29xe3AW57A8wkk6kuNOdN6gmwPxf
- fQBM67pgtCLIBDYOEMqn953qQRdhxrXMBKKZYnc13gEtxBQ+OoS0kyrpmwsooqwFj+L3
- yPHW5btb7YPhSez38WMhps6BmEoSBcaKtu1373AQB1FHv3I3UQxvHIEUeBFq2Ps2qt+D
- K+v+ZJNUId9g2wzInKjpH/Si0oMS+w4qxqIU1ZdGnNUp2vevgdFUG364+O1rP2qxQXzk
- B6vtcCQkZaQvQgpfdiC7jREFaVW1JIGzUsmLV++SouF4xg8Zd2ZalPtApnUV+Gef8u1o
- bO8g==
+ id 1iG6XE-0006BR-Rl
+ for linux-nvme@lists.infradead.org; Thu, 03 Oct 2019 19:13:10 +0000
+Received: by mail-io1-xd42.google.com with SMTP id v2so8093573iob.10
+ for <linux-nvme@lists.infradead.org>; Thu, 03 Oct 2019 12:13:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:subject:message-id:mime-version:content-disposition
+ :user-agent; bh=kR8Zy1YrMRxTBtPohNQSd/AqP79mcgM2qqBmsukmkyI=;
+ b=se77SjyVATxLFOZM67qjxeZ6JxrN0Fjp0aVCUA1pBKktbIzqSWVh1TFERJq6YKaGJC
+ xg4VQFzjWMXBt84K4G4NL9GZ6Uujcw25j8eMYP5o/fOr8qR3VuSODEFu8IOndrfU0fUE
+ JVl5yWlUmf10315yQLrSdtz7/3QtJLK8YNfoVIZvzNj4XckX8jqaVVHFbA0qIAy2k+s2
+ Cp7BhycojGSNLdD8YwHpQL+R2UBF/HZ+MIM1Lk0fbeEeLCZc4K9XA008b/HIYOXUudtM
+ LWfLEXL6b0UiR0bvuAjW1fDQjdE7hPpktN9fneHWgfI4lMORqVroCz/RuDmgNQavEHtq
+ wFMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+SA33MEmVikWzqcvO7ZglveqbdC4Bqr+Az02qJrwQpA=;
- b=FWDADln1+lvIdECyPkXA6k5Jw3KZMVqUyI9T1DxEdl1ZpSw414t5Dl1WtWq+nqowuj
- KKn670tBm8jdcdylH9JrItSD0A5CrAPzwCJYZKr18aL8RCYrzQN4luO00eWlDPjwiohB
- KAFr912IG93bePxlZ3oshVCFmbDlH5IMOJsNH7KtC5d9ytABBSJZPz+wgkV/YvFbWay5
- 5Uzja7CBGpkJUSO6Ci1tlJzdEYBSbuYcIs57tgVhJygYhuAOnKdtQq5zNARBtBYsjaRc
- 4IkOELqj6sf4zupKJB93loSQb7x8Q3fDgLY6U0JHkPkflGWYYGi07IVDqRSmOHkMj5hi
- x7rA==
-X-Gm-Message-State: APjAAAVF7tWfF/ooEbKqGOnMZKNG0oZTRT5qoaf9vnfL00PvC5hf39ut
- ZyHfY5zbowAaiQCX2ZOHcE02uTnZm2bIBO2/7j2MfQ==
-X-Google-Smtp-Source: APXvYqydcu9YazwWY6KkgPb4R9zDLEGYMVBDPu28bXj7TYByTE8QK9Ynqy7V79ePXCjsR6M2TfAyUVZM1o2ACbKNdiU=
-X-Received: by 2002:a37:4b43:: with SMTP id y64mr3725372qka.139.1570104328832; 
- Thu, 03 Oct 2019 05:05:28 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+ :content-disposition:user-agent;
+ bh=kR8Zy1YrMRxTBtPohNQSd/AqP79mcgM2qqBmsukmkyI=;
+ b=O12Q4majIkOzQQ2hHBO7JZ8HTJTzKSLk6jZuEul7LimERK3iofOWfjuB76t8Bhy0OV
+ 2I6G6euYC53VCfka5RrDt0677LkjUuUWcsddyD9vVU55lIJx8ab/dANsAyT6O7J7e6k8
+ XAWgflIVNHghg60hmKfSOnvsTSJezxO02FIWmQ4X8TFNiK5ssOPiNcXejrC1n7rxtA/3
+ zsOmZuVGAYVDAPsrSKqG8Tb/dC/cqv1qOXhOSp5jnyjyXPOODtox1SI/O6faT0oB9zOF
+ XdJGh34J4VfwUGS73ob80kREc65vDQ4Y5mXrRtQalz6fuSeC/bWSemaEnSuFOdbT70KH
+ mexw==
+X-Gm-Message-State: APjAAAVWERgaAg70/iWWsO5TP2ZBEZ41UMIRTT13CisyqVOFKL/vz3m2
+ TY1m6O9TM8zJH7f5s9ZXfzg=
+X-Google-Smtp-Source: APXvYqz6nPLd4RajPw+ZYmFpKrfqpnW6/OhBMwg45uYZm6lUpOatNTvPjK3Q4wBFqI1YNDjnz6MfJg==
+X-Received: by 2002:a02:2a46:: with SMTP id w67mr11216914jaw.17.1570129987782; 
+ Thu, 03 Oct 2019 12:13:07 -0700 (PDT)
+Received: from Serenity ([104.129.159.212])
+ by smtp.gmail.com with ESMTPSA id z10sm1203162iog.41.2019.10.03.12.13.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Oct 2019 12:13:07 -0700 (PDT)
+Date: Thu, 3 Oct 2019 15:13:54 -0400
+From: Tyler Ramer <tyaramer@gmail.com>
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] nvme-pci: Shutdown when removing dead controller
+Message-ID: <20191003191354.GA4481@Serenity>
 MIME-Version: 1.0
-References: <20191002073643.5339-1-ard.biesheuvel@linaro.org>
- <20191003114901.GA34459@C02WT3WMHTD6.fritz.box>
- <CAKv+Gu_YCRwvtc=QSu0V2i1GESxHv9ndkqe0cyJsDaL6LQATDw@mail.gmail.com>
- <20191003120325.GB34459@C02WT3WMHTD6.fritz.box>
-In-Reply-To: <20191003120325.GB34459@C02WT3WMHTD6.fritz.box>
-From: Ard Biesheuvel <ard.biesheuvel@linaro.org>
-Date: Thu, 3 Oct 2019 14:05:17 +0200
-Message-ID: <CAKv+Gu_5MWeNVq2NePnTcLcGvYgJS-cZ7BRf11rBt+iLhdW0-w@mail.gmail.com>
-Subject: Re: [RFC PATCH] nvme: retain split access workaround for capability
- reads
-To: Keith Busch <kbusch@kernel.org>
+Content-Disposition: inline
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191003_050529_961806_2E986B22 
-X-CRM114-Status: UNSURE (   9.46  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20191003_121308_900885_549FAD26 
+X-CRM114-Status: GOOD (  12.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,32 +95,40 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: axboe@fb.com, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- sagi@grimberg.me, linux-nvme@lists.infradead.org,
- Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, 3 Oct 2019 at 14:03, Keith Busch <kbusch@kernel.org> wrote:
->
-> On Thu, Oct 03, 2019 at 01:51:03PM +0200, Ard Biesheuvel wrote:
-> > On Thu, 3 Oct 2019 at 13:49, Keith Busch <kbusch@kernel.org> wrote:
-> > > On Wed, Oct 02, 2019 at 09:36:43AM +0200, Ard Biesheuvel wrote:
-> > > > Broken since v5.3, so if this gets fixed one way or the other, please
-> > > > add cc: stable.
-> > >
-> > > Since 5.3?! 'git blame' says the code has been this way since 7fd8930f26be4,
-> > > which was from 2015 during the 4.4 development cycle.
-> > >
-> >
-> > That may be true, but the box in question happily boots a v5.2 kernel.
->
-> Looks like your observation was introduced with c0f2f45be2976abe.
+Always shutdown the controller when nvme_remove_dead_controller is
+reached.
 
-Indeed. The corrupted read produces a bogus minimum page size, and the
-driver gives up.
+It's possible for nvme_remove_dead_controller to be called as part of a
+failed reset, when there is a bad NVME_CSTS. The controller won't
+be comming back online, so we should shut it down rather than just
+disabling.
+
+Signed-off-by: Tyler Ramer <tyaramer@gmail.com>
+---
+ drivers/nvme/host/pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index c0808f9eb8ab..c3f5ba22c625 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2509,7 +2509,7 @@ static void nvme_pci_free_ctrl(struct nvme_ctrl *ctrl)
+ static void nvme_remove_dead_ctrl(struct nvme_dev *dev)
+ {
+ 	nvme_get_ctrl(&dev->ctrl);
+-	nvme_dev_disable(dev, false);
++	nvme_dev_disable(dev, true);
+ 	nvme_kill_queues(&dev->ctrl);
+ 	if (!queue_work(nvme_wq, &dev->remove_work))
+ 		nvme_put_ctrl(&dev->ctrl);
+-- 
+2.23.0
+
 
 _______________________________________________
 Linux-nvme mailing list
