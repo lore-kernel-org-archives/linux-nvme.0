@@ -1,89 +1,87 @@
-Return-Path: <SRS0=6Jtf=X4=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=SS5y=X5=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-11.7 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 401E4C32792
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Oct 2019 19:13:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0C89C4360C
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Oct 2019 15:36:13 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0E0A8207FF
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Oct 2019 19:13:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 97C1B20873
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Oct 2019 15:36:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="b0SaeA7O";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="se77SjyV"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0E0A8207FF
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="GachI6Ig";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dVsyXeM+"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 97C1B20873
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:To:From
-	:Date:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=YsfrzJXFKLYzQE5CT4btAw4znhKbZe/UPWBtdh9xoWc=; b=b0SaeA7O2iACy0
-	5POGoxmmo7POs0EakkbkxarW8z7Q6WWMHb5xPSerP//K7nr+ayVAnfDKGX/+yRlzlCS+SSshqedAH
-	vL/EF3uk5fBa4DpkCaLPDHT/5XWf9uf4jh5oGQaMo7g2s527Y2iU9VWAfI/E7xwwpx7VOr6PY3912
-	ykqs6q/sMvyoryUI4Me+M56FwnsrsFb5mztT+2h0AYoeMnzOMkyY4a9JTNOlyhfRQu68j/ATkbZlP
-	84XCpfxw6viNMxYTHjE9kUZ2WYRqhM8vu80oPi9IrtthiyMe3BjtvuavrHgknDqnDexwuM2HeD854
-	MDdIxbT9FMkl77KDcKTg==;
+	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Cc:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Owner;
+	bh=i/NxYtAOcr7pM6+3jL4nxQRS5zXDNxZn2FFORBCtKRA=; b=GachI6Ig0yqFRuufHokDsVPb6n
+	zuWBZ/FAlgYjYmhCjo/wbXq3HUH2v9Ea2yZVI9yKMhCh7DZdVLPaKDLRJVhoIMBnN4Pi5OEIeGgWM
+	n7DK7G1S1v++0fas4ZX9S1dQGGO6fH7I/touD2WqjhcyM9vBgrOoroPDlhBwsUobp9z2MvDbJJuXN
+	GcFMu0MWQ03KkYHmbUVOmguRRRizeo08VXeJeNKaIc5omBvGeCHpmcpa6mgqoF7qjTLnxAtMd0NvT
+	s1cvOAlGMpzQuz1ZDR3nHEJ+PrkvxjlJsiD8dKvfRj+FMizOLroCqo/HzsvzMaCZYJo2of6sWbYB6
+	heYVqVoQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.2 #3 (Red Hat Linux))
-	id 1iG6XG-0006Bz-Fi; Thu, 03 Oct 2019 19:13:10 +0000
-Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42])
+	id 1iGPcn-00013u-GD; Fri, 04 Oct 2019 15:36:09 +0000
+Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41])
  by bombadil.infradead.org with esmtps (Exim 4.92.2 #3 (Red Hat Linux))
- id 1iG6XE-0006BR-Rl
- for linux-nvme@lists.infradead.org; Thu, 03 Oct 2019 19:13:10 +0000
-Received: by mail-io1-xd42.google.com with SMTP id v2so8093573iob.10
- for <linux-nvme@lists.infradead.org>; Thu, 03 Oct 2019 12:13:08 -0700 (PDT)
+ id 1iGPcj-00013T-FF
+ for linux-nvme@lists.infradead.org; Fri, 04 Oct 2019 15:36:07 +0000
+Received: by mail-io1-xd41.google.com with SMTP id h144so14416172iof.7
+ for <linux-nvme@lists.infradead.org>; Fri, 04 Oct 2019 08:36:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:subject:message-id:mime-version:content-disposition
- :user-agent; bh=kR8Zy1YrMRxTBtPohNQSd/AqP79mcgM2qqBmsukmkyI=;
- b=se77SjyVATxLFOZM67qjxeZ6JxrN0Fjp0aVCUA1pBKktbIzqSWVh1TFERJq6YKaGJC
- xg4VQFzjWMXBt84K4G4NL9GZ6Uujcw25j8eMYP5o/fOr8qR3VuSODEFu8IOndrfU0fUE
- JVl5yWlUmf10315yQLrSdtz7/3QtJLK8YNfoVIZvzNj4XckX8jqaVVHFbA0qIAy2k+s2
- Cp7BhycojGSNLdD8YwHpQL+R2UBF/HZ+MIM1Lk0fbeEeLCZc4K9XA008b/HIYOXUudtM
- LWfLEXL6b0UiR0bvuAjW1fDQjdE7hPpktN9fneHWgfI4lMORqVroCz/RuDmgNQavEHtq
- wFMw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=7wtWmNaBzWvHZFXd7ETJjhq/Ls8R+LbN1dmWdsPcLY8=;
+ b=dVsyXeM+omMSii7CtpS0Du2za9NVA5njCkQUFjCWvClC5TIp4AfWCO4StgcM+JsVYO
+ lj2RQdcQ7punxe1uv6ZBQBHk1CW5E+xCoVocUtDIquHCr9hdFneeQcAGmipReTC/pU6W
+ lLTqG8QfMAqlPdFapGoA6BTIG5MKWJycO00e5pjiS0dRgDYsyZVFUKpcSWHcxE/9gUeL
+ nbJhvaX0/XVgmENdcRDA5da1eh2dw/d7/0Pe5LIJuSAJOT+ASgS8ysIed0PwDZaS7eXJ
+ Hcu0fqTZNPVsUVDDu9CbYJAXK88Sb5XS9WwhFXYh/MFJmJ8ytp/BiPWwDn+V1cuilSkV
+ 8NAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:subject:message-id:mime-version
- :content-disposition:user-agent;
- bh=kR8Zy1YrMRxTBtPohNQSd/AqP79mcgM2qqBmsukmkyI=;
- b=O12Q4majIkOzQQ2hHBO7JZ8HTJTzKSLk6jZuEul7LimERK3iofOWfjuB76t8Bhy0OV
- 2I6G6euYC53VCfka5RrDt0677LkjUuUWcsddyD9vVU55lIJx8ab/dANsAyT6O7J7e6k8
- XAWgflIVNHghg60hmKfSOnvsTSJezxO02FIWmQ4X8TFNiK5ssOPiNcXejrC1n7rxtA/3
- zsOmZuVGAYVDAPsrSKqG8Tb/dC/cqv1qOXhOSp5jnyjyXPOODtox1SI/O6faT0oB9zOF
- XdJGh34J4VfwUGS73ob80kREc65vDQ4Y5mXrRtQalz6fuSeC/bWSemaEnSuFOdbT70KH
- mexw==
-X-Gm-Message-State: APjAAAVWERgaAg70/iWWsO5TP2ZBEZ41UMIRTT13CisyqVOFKL/vz3m2
- TY1m6O9TM8zJH7f5s9ZXfzg=
-X-Google-Smtp-Source: APXvYqz6nPLd4RajPw+ZYmFpKrfqpnW6/OhBMwg45uYZm6lUpOatNTvPjK3Q4wBFqI1YNDjnz6MfJg==
-X-Received: by 2002:a02:2a46:: with SMTP id w67mr11216914jaw.17.1570129987782; 
- Thu, 03 Oct 2019 12:13:07 -0700 (PDT)
-Received: from Serenity ([104.129.159.212])
- by smtp.gmail.com with ESMTPSA id z10sm1203162iog.41.2019.10.03.12.13.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Oct 2019 12:13:07 -0700 (PDT)
-Date: Thu, 3 Oct 2019 15:13:54 -0400
-From: Tyler Ramer <tyaramer@gmail.com>
-To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] nvme-pci: Shutdown when removing dead controller
-Message-ID: <20191003191354.GA4481@Serenity>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=7wtWmNaBzWvHZFXd7ETJjhq/Ls8R+LbN1dmWdsPcLY8=;
+ b=knxksFbIgAUZdAHGB1cuLjtlBRnJW9pUa9yQyV3aTe4oSWiBK4yVS9cPdq3Hq9W31V
+ ViHq1Zlj1Qw9DrB8eRQzx5bLIs5wVQSM10wWLsipK3OtRwQE/BC3PGg0V24lWkS/Qbac
+ 0I4GTtsL3wxYCTpUOZV5XCoZbj8TwJ6zZZOuaLE91BELDNSARIXMXjT3TehV1O8gnnGp
+ nqDDq8yNGattGH7gDKPmocFFtJGSEulwpOEHKoS31ISa1nMGpf0g/hTLLR9NSYnTv8w/
+ VFDN90z7q164o6g65Mmhg66rsiVTz5uYAQeLGK8d3Q7VCBcH9FyxemSm77iSkKznOnxN
+ qNYg==
+X-Gm-Message-State: APjAAAX66tG8bmpi/kWiCnr66muUx/HoRQr/y4jxHTkWgh5jHUFVvOfC
+ spvtgW9zCY+kByiM1XctVrKZTHpko3g67+OYVDg=
+X-Google-Smtp-Source: APXvYqwyXYuqJXNQSyqexuyIk1RBvL29kVGFINewYpKfKOnPBcgWsjdT14kVqNJH+073EwFW0A+Dv6sYwrOooEet4mk=
+X-Received: by 2002:a6b:c8cf:: with SMTP id y198mr9811572iof.179.1570203364443; 
+ Fri, 04 Oct 2019 08:36:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-User-Agent: Mutt/1.12.1 (2019-06-15)
+References: <20191003191354.GA4481@Serenity>
+In-Reply-To: <20191003191354.GA4481@Serenity>
+From: Tyler Ramer <tyaramer@gmail.com>
+Date: Fri, 4 Oct 2019 11:36:42 -0400
+Message-ID: <CAKcoMVC2LdcmUx6j5JzuT-TsFGz=mwQ0MsprrKR2qeXoTmQ-TQ@mail.gmail.com>
+Subject: Re: [PATCH] nvme-pci: Shutdown when removing dead controller
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>, 
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org, 
+ linux-kernel@vger.kernel.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191003_121308_900885_549FAD26 
-X-CRM114-Status: GOOD (  12.59  )
+X-CRM114-CacheID: sfid-20191004_083605_535637_BB9C70EF 
+X-CRM114-Status: GOOD (  15.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,35 +98,72 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Always shutdown the controller when nvme_remove_dead_controller is
-reached.
+Here's a failure we had which represents the issue the patch is
+intended to solve:
 
-It's possible for nvme_remove_dead_controller to be called as part of a
-failed reset, when there is a bad NVME_CSTS. The controller won't
-be comming back online, so we should shut it down rather than just
-disabling.
+Aug 26 15:00:56 testhost kernel: nvme nvme4: async event result 00010300
+Aug 26 15:01:27 testhost kernel: nvme nvme4: controller is down; will
+reset: CSTS=0x3, PCI_STATUS=0x10
+Aug 26 15:02:10 testhost kernel: nvme nvme4: Device not ready; aborting reset
+Aug 26 15:02:10 testhost kernel: nvme nvme4: Removing after probe
+failure status: -19
 
-Signed-off-by: Tyler Ramer <tyaramer@gmail.com>
----
- drivers/nvme/host/pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The CSTS warnings comes from nvme_timeout, and is printed by
+nvme_warn_reset. A reset then occurs
+Controller state should be NVME_CTRL_RESETTING
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index c0808f9eb8ab..c3f5ba22c625 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2509,7 +2509,7 @@ static void nvme_pci_free_ctrl(struct nvme_ctrl *ctrl)
- static void nvme_remove_dead_ctrl(struct nvme_dev *dev)
- {
- 	nvme_get_ctrl(&dev->ctrl);
--	nvme_dev_disable(dev, false);
-+	nvme_dev_disable(dev, true);
- 	nvme_kill_queues(&dev->ctrl);
- 	if (!queue_work(nvme_wq, &dev->remove_work))
- 		nvme_put_ctrl(&dev->ctrl);
--- 
-2.23.0
+Now, in nvme_reset_work, controller is never marked "CONNECTING"  at:
 
+     if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_CONNECTING))
+
+because several lines above, we can determine that
+nvme_pci_configure_admin_queues returns
+a bad result, which triggers a goto out_unlock and prints "removing
+after probe failure status: -19"
+
+Because state is never changed to NVME_CTRL_CONNECTING or
+NVME_CTRL_DELETING, the
+logic added in https://github.com/torvalds/linux/commit/2036f7263d70e67d70a67899a468588cb7356bc9
+should not apply. We can further validate that dev->ctrl.state ==
+NVME_CTRL_RESETTING thanks to
+the WARN_ON in nvme_reset_work.
+
+
+
+
+
+
+On Thu, Oct 3, 2019 at 3:13 PM Tyler Ramer <tyaramer@gmail.com> wrote:
+>
+> Always shutdown the controller when nvme_remove_dead_controller is
+> reached.
+>
+> It's possible for nvme_remove_dead_controller to be called as part of a
+> failed reset, when there is a bad NVME_CSTS. The controller won't
+> be comming back online, so we should shut it down rather than just
+> disabling.
+>
+> Signed-off-by: Tyler Ramer <tyaramer@gmail.com>
+> ---
+>  drivers/nvme/host/pci.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index c0808f9eb8ab..c3f5ba22c625 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -2509,7 +2509,7 @@ static void nvme_pci_free_ctrl(struct nvme_ctrl *ctrl)
+>  static void nvme_remove_dead_ctrl(struct nvme_dev *dev)
+>  {
+>         nvme_get_ctrl(&dev->ctrl);
+> -       nvme_dev_disable(dev, false);
+> +       nvme_dev_disable(dev, true);
+>         nvme_kill_queues(&dev->ctrl);
+>         if (!queue_work(nvme_wq, &dev->remove_work))
+>                 nvme_put_ctrl(&dev->ctrl);
+> --
+> 2.23.0
+>
 
 _______________________________________________
 Linux-nvme mailing list
