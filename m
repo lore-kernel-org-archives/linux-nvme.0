@@ -2,83 +2,82 @@ Return-Path: <SRS0=LrAE=X6=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80A3AC47404
-	for <linux-nvme@archiver.kernel.org>; Sat,  5 Oct 2019 00:02:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65BA3C4360C
+	for <linux-nvme@archiver.kernel.org>; Sat,  5 Oct 2019 00:03:46 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4601420830
-	for <linux-nvme@archiver.kernel.org>; Sat,  5 Oct 2019 00:02:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 33F9720830
+	for <linux-nvme@archiver.kernel.org>; Sat,  5 Oct 2019 00:03:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="hl6/bgLH"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4601420830
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="cDW641i4"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 33F9720830
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=q+4yK6xUuvLoyrRwz1tFc3UVqw+nDAY/NzQxwADUpLI=; b=hl6/bgLHlSls3GH1NGofCCLzw
-	WL61HdGo95+MgN5FDGJqBATNTu56TZ12uZ1eBh1HTF2Cz/PkBGQtZN7JyzqumvlMWQ62Q2rynTl9e
-	JZWsKh1FX9fFVCOLq48mqtFBoNi4OS/1rS+t4zmog0cruF7qyzgoZWQJIPsidwclMQxi2nvljYmbn
-	nuy78XhKNT3raUdTWoimFlXvTNazOz6gsDIBmbPKsA45LOUwX2l7lf+koeGT6r8Ev6HohhUrQ/YAc
-	/OStO3VyXbVCOiWWQCHXX8k/QkYkzKeeKyILX5BhAJ0m/Gux3W5xG4Dvbm+niki4sjkxQNDuuqQTi
-	sVV1YChyQ==;
+	 bh=2+1IwXINKF0e5JqNlwnLKBWEvKuGBdghys1hd4YaDsM=; b=cDW641i4/OEwIDdamJTriqSeR
+	btuTZZBY2bKe/P7rEeboE6NftdEdGiSsfoSuBc0oXeb3mKHlcWW17iCLZH1WsBLITijCdUApUQgxd
+	UGRcY9/fW2t+PdErR1AUXQE2RzYxZ+wlXXLS4tPxF7CHeqWITUf5X4m0g6s4lRSODMdVpjdRmwu+E
+	zbHdc8gC9rO3XiBcpxaULqEtSV3siDOH7lHiyeNkVsg4Gy4AegE/buiZh/0UKO1wLj5y7z9E2RBeq
+	B4xNtvARKczNUzDsIU+259k+YH+IhNNO0jA3ziYh1OnnkhasPMhsbhRProD0DTBEStLLzak8PAkQO
+	cqQCHc1iQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.2 #3 (Red Hat Linux))
-	id 1iGXWu-0003iq-VO; Sat, 05 Oct 2019 00:02:36 +0000
-Received: from mail-wr1-f65.google.com ([209.85.221.65])
+	id 1iGXY1-0003wS-9Y; Sat, 05 Oct 2019 00:03:45 +0000
+Received: from mail-wm1-f67.google.com ([209.85.128.67])
  by bombadil.infradead.org with esmtps (Exim 4.92.2 #3 (Red Hat Linux))
- id 1iGXWs-0003iK-ES
- for linux-nvme@lists.infradead.org; Sat, 05 Oct 2019 00:02:35 +0000
-Received: by mail-wr1-f65.google.com with SMTP id q9so9012033wrm.8
- for <linux-nvme@lists.infradead.org>; Fri, 04 Oct 2019 17:02:33 -0700 (PDT)
+ id 1iGXXx-0003wB-AY
+ for linux-nvme@lists.infradead.org; Sat, 05 Oct 2019 00:03:43 +0000
+Received: by mail-wm1-f67.google.com with SMTP id f22so7373527wmc.2
+ for <linux-nvme@lists.infradead.org>; Fri, 04 Oct 2019 17:03:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=nJY323ptNq5iteV7TuRcRazZgxFU0ETiSK6yIFchgJ0=;
- b=G7HkzHid42PxxADTCYt6QAYC4T+mlU5j/yhzrV1OzVP9Ii5s8OwHv+OXsZuwsNj9V1
- WOel8HTSK/D03cZZcgppu68A1dABsjF79I0wuu1m09Tf5yyMfxVNbhE8oXUjeeNPu2Ah
- 6gQw5XQZTPMnw69pAin2LXTfYW+Kr3wpq/W8LYrDP5OXYEBPtuAyJ9oS+bXv0jpIgoO0
- tvFVdDnrgqKXlG1yZwnvHwdJz7BngmG2Iojh6yE2YvMMeyPvGCB7+QZR1RPPQbXJVz+w
- 6f9tl9NCXlLBkWbkNw5n0BUhUCDG9g6eo/Jn1ao2PmoxVrwJHfnzyqYuBzJGRgYPPCle
- P+6Q==
-X-Gm-Message-State: APjAAAWm9Xk/nafUEmF7ygupanMPFpnAuv3X8j0ekIaDBVJGmndG0bHN
- IRCFYeeJxX1KsIPs+4YFSm4=
-X-Google-Smtp-Source: APXvYqywzxXdSMIcTUOp2QhVjpd6bCxB+ayx1RxNoyn2judgDukJITAS5OAEsB61xQ+0L5JjfhjuKA==
-X-Received: by 2002:adf:eec5:: with SMTP id a5mr9287812wrp.191.1570233752675; 
- Fri, 04 Oct 2019 17:02:32 -0700 (PDT)
+ bh=n/qNzDvsoyHjdZs50Nlwp+Ui/DB68tJM/9AmfW+9TRw=;
+ b=Ectz6vX4qm6KwGD6P3ffN3b9vWxkyxEOe/ZhEgW/YwmFHtxYQOMXQ/fF51IPS8r+nj
+ 07Sz006d9SsrOM6buUQYKYjZR1kZHh4lQfyIYUT8NrWbux759b8vtKsBTAxnjp8/bznm
+ to3/yFZyvhAtbRsk2fW/lNKimRMlHkfVD1DqMpUMz59U7Zbz8uvzfgZYaaQTd1j8I5Ds
+ KrnPmJwfiU93Tx8fibagEj9xDrdaj5oTK3BnfaGIem3z2ImvAZKQOj6uPYJZu8MmIlN9
+ 3tHOdb7azyTBOeymJ952hq/qTQ9oXZTCQm00Ruc1nPa6OLUsRo7cwyEyd9rpwFhMzcMm
+ MpCg==
+X-Gm-Message-State: APjAAAX9qwrv5iBKu+nOC46VyOizgeQQ70K6RZi6nfuHjtEeXiJY2sHd
+ dVHeWBeKjSOXDgBYk1yOd/nzYNts
+X-Google-Smtp-Source: APXvYqzw9r5Q+OJnnNuL0ILR4N5NhXvtUEzH43HGsdcIBaUi2KUGS4sjZQN4b+DX1V30RGTt+EMyeA==
+X-Received: by 2002:a1c:9c96:: with SMTP id f144mr12934074wme.96.1570233819584; 
+ Fri, 04 Oct 2019 17:03:39 -0700 (PDT)
 Received: from ?IPv6:2600:1700:65a0:78e0:514:7862:1503:8e4d?
  ([2600:1700:65a0:78e0:514:7862:1503:8e4d])
- by smtp.gmail.com with ESMTPSA id a4sm6583334wmm.10.2019.10.04.17.02.30
+ by smtp.gmail.com with ESMTPSA id j1sm16736951wrg.24.2019.10.04.17.03.38
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 04 Oct 2019 17:02:32 -0700 (PDT)
-Subject: Re: [PATCH] nvme: fix uninitialized return of ret when
- sysfs_create_link fails
-To: Colin King <colin.king@canonical.com>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
- linux-nvme@lists.infradead.org
-References: <20191002124328.17264-1-colin.king@canonical.com>
+ Fri, 04 Oct 2019 17:03:38 -0700 (PDT)
+Subject: Re: [PATCH v2] nvmet: add revalidate ns sysfs attribute to handle
+ device resize
+To: m.malygin@yadro.com, linux-nvme@lists.infradead.org
+References: <20190926231940.7494-1-m.malygin@yadro.com>
+ <20190930150202.9259-1-m.malygin@yadro.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <17e3dc55-6e6e-a4e8-f082-4b57144467af@grimberg.me>
-Date: Fri, 4 Oct 2019 17:02:29 -0700
+Message-ID: <11e37d39-c85e-f844-953f-f540596b4410@grimberg.me>
+Date: Fri, 4 Oct 2019 17:03:36 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20191002124328.17264-1-colin.king@canonical.com>
+In-Reply-To: <20190930150202.9259-1-m.malygin@yadro.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191004_170234_480679_A6327ECA 
-X-CRM114-Status: GOOD (  18.53  )
+X-CRM114-CacheID: sfid-20191004_170341_360707_6440F949 
+X-CRM114-Status: UNSURE (   8.36  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,46 +89,14 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This was already fixed and merged (by Dan)
+This looks fine to me,
 
-On 10/2/19 5:43 AM, Colin King wrote:
-> From: Colin Ian King <colin.king@canonical.com>
-> 
-> Currently when the call to sysfs_create_link fails the error exit
-> path returns an uninitialized value in variable ret. Fix this by
-> returning the error code returned from the failed call to
-> sysfs_create_link.
-> 
-> Addresses-Coverity: ("Uninitialized scalar variable")
-> Fixes: 32fd90c40768 ("nvme: change locking for the per-subsystem controller list")
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
-> ---
->   drivers/nvme/host/core.c | 5 +++--
->   1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 63b37d08ac98..f6acbff3e3bc 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -2540,8 +2540,9 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
->   		list_add_tail(&subsys->entry, &nvme_subsystems);
->   	}
->   
-> -	if (sysfs_create_link(&subsys->dev.kobj, &ctrl->device->kobj,
-> -			dev_name(ctrl->device))) {
-> +	ret = sysfs_create_link(&subsys->dev.kobj, &ctrl->device->kobj,
-> +				dev_name(ctrl->device));
-> +	if (ret) {
->   		dev_err(ctrl->device,
->   			"failed to create sysfs link from subsystem.\n");
->   		goto out_put_subsystem;
-> 
+Christoph, you happy with this version?
 
 _______________________________________________
 Linux-nvme mailing list
