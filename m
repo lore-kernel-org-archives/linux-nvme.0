@@ -6,16 +6,16 @@ X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E75BCC4360C
-	for <linux-nvme@archiver.kernel.org>; Sun,  6 Oct 2019 10:12:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FABDC4360C
+	for <linux-nvme@archiver.kernel.org>; Sun,  6 Oct 2019 10:13:25 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9F0AB20673
-	for <linux-nvme@archiver.kernel.org>; Sun,  6 Oct 2019 10:12:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 23CC520673
+	for <linux-nvme@archiver.kernel.org>; Sun,  6 Oct 2019 10:13:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="LP6xnILf"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9F0AB20673
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="u+k2Os2M"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 23CC520673
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,26 +24,29 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ysAg9moaHVstE2eYYVtT3lrZiut1DXN0LbjRA7re0ug=; b=LP6xnILfHXve3p
-	6bUMGZipmOFqEc0Sljo7hgYBdsU38bIWFmzWe6ys5z/EKWUe3UCkJd6pYrzKaEWDbcNpi6ibl1tg4
-	UXJorh3z53VfcgDgl8yIPFJLj4QqeF3rtLQ2S2OB9RfOlXJ3C7STwF/xFN5UwwXDYSOSmVrNChdIT
-	2tS3GwjvplvUpXgCKzyqYhh5XpawJa1IpUHrdo7ip1oqPsuDd+xyX46OGuyefNsGizfWuObYY3Bp6
-	Gkh+7xdoDNwJQ3RX6iHV2LLQY/+63Eo30VdOqWpY6a4KHC/1iQNB119JDehA0fmPqUcHk5Sfv4RDm
-	BtqS9K/mhR+OC9ziquiA==;
+	List-Owner; bh=0qhCAO3nOhfGp7c70EVyRxe4KJSReDpkGWNKqA4k6dM=; b=u+k2Os2MQuaUyU
+	9n7G6yEsYM8G+gWrqSAkT3jc7rp5bgMIeZh5V+uAguddEFV9HqryZWob18hn0fiIkm0nL0ybbpogJ
+	zoQsSDCHorr2U0T+iKUsrAOVv1tYWcVEc86CyMmgcsfn3vA8xK4tlbWivIrL0L410/q3BYzndrTjq
+	pJn9spzKASJDY6OgADrB+aIRU5/DZWvoPM3xaI31kzrTWYPW/KvWBmElLkOj6u+G5raH6IBjlqb5U
+	nDZLhILms0ate5J2AuT/M2JXWW3KqrMqQaAKW7AERBuecVzqNr+NCdznhwboN8flomWcFa/OHcqt+
+	WGQjS8I3woh38h1NVQKg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.2 #3 (Red Hat Linux))
-	id 1iH3X3-00086J-OS; Sun, 06 Oct 2019 10:12:53 +0000
+	id 1iH3XY-0008J7-5U; Sun, 06 Oct 2019 10:13:24 +0000
 Received: from hch by bombadil.infradead.org with local (Exim 4.92.2 #3 (Red
- Hat Linux)) id 1iH3X2-00086A-RE; Sun, 06 Oct 2019 10:12:52 +0000
-Date: Sun, 6 Oct 2019 03:12:52 -0700
+ Hat Linux)) id 1iH3XW-0008Iv-VS; Sun, 06 Oct 2019 10:13:22 +0000
+Date: Sun, 6 Oct 2019 03:13:22 -0700
 From: Christoph Hellwig <hch@infradead.org>
-To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+To: Keith Busch <kbusch@kernel.org>
 Subject: Re: [PATCH] nvme: define struct for __nvme_submit_sync_cmd()
-Message-ID: <20191006101252.GB30175@infradead.org>
+Message-ID: <20191006101322.GC30175@infradead.org>
 References: <20191001231346.18518-1-chaitanya.kulkarni@wdc.com>
+ <58CA8A6F-46B6-4728-9EF4-ED3EAEEEEE2E@javigon.com>
+ <BYAPR04MB5749A393F5328589B36CDE36869C0@BYAPR04MB5749.namprd04.prod.outlook.com>
+ <20191005144811.GB30437@keith-busch>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191001231346.18518-1-chaitanya.kulkarni@wdc.com>
+In-Reply-To: <20191005144811.GB30437@keith-busch>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -56,23 +59,31 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-nvme@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Javier =?iso-8859-1?Q?Gonz=E1lez?= <javier@javigon.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Oct 01, 2019 at 04:13:46PM -0700, Chaitanya Kulkarni wrote:
-> Over the period of time __nvme_submit_sync_cmd() function has grown to
-> accept large number of paratements. The function __nvme_submit_sync_cmd()
-> now takes 10 parameters. This patch consolidates all the parameters into
-> one defined structure.
-> 
-> This makes calls to the same function easy to read and improves overall
-> code readability.
+On Sat, Oct 05, 2019 at 08:48:12AM -0600, Keith Busch wrote:
+> On Wed, Oct 02, 2019 at 06:10:09AM +0000, Chaitanya Kulkarni wrote:
+> > On 10/1/19 10:47 PM, Javier Gonz=E1lez wrote:
+> > > Makes sense to me. We have other places with similar arguments (e.g.,
+> > > nvme_submit_user_cmd). Would it make sense to unify this too if we mo=
+ve
+> > > in this direction?
+> > > =
 
-This makes the code both a lot more unreadable and a lot larger.  What
-is the point?
+> > Thanks for the feedback, I'll add that too in the next version.
+> =
+
+> It also looks like much of the callers can use the much simpler
+> nvme_submit_user_cmd() that already provides defaults to the numerous
+> parameters.
+
+That on the other hand actually seems like a useful change.
 
 _______________________________________________
 Linux-nvme mailing list
