@@ -2,21 +2,21 @@ Return-Path: <SRS0=ttKb=YA=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 232C5C47404
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Oct 2019 18:28:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A877CECE58C
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Oct 2019 18:29:00 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EDAE5206BB
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Oct 2019 18:28:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7D636206C2
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Oct 2019 18:29:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Z+T1D4dx";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="bo5MCDgq"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EDAE5206BB
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ecazvfpm";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="vTGwUn1E"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7D636206C2
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,45 +25,44 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=XaMO1P+wRsHgOLi14b1vqzXVDf4WE/Pase3ajCYNMnk=; b=Z+T1D4dxqAkU7H
-	WbS0K3ZuAzp3p7u/IX3dWU/B0udllrr6d85uWhqs43p1gUN7AR4M5Qcjse0yYyYrduARcDy+pLt5Q
-	gHNlgBSKeyjR3g9Y9Bc+DLQ7HRW4EbwFpmTLEQR6XzivVo6n/YaUKoY0nyPwFFu0iT4V3wcX2yQOi
-	yEyZ7eWMPpblJazgqmG20YM1iteWOOoDZqOUu1be3wRzRStBTRzS1Bz6c1GMElTbNDtmx8/ZWrXvE
-	SxR7wUXfU+Ncf+lvpxddvnF+y4awd/m9WrBSD7cC14+FObVkASGzFNxYobeNWQw3tq8a6Y/OOViRX
-	CtM/MCagT8lxHda0TmCQ==;
+	List-Owner; bh=Zk7ZIPoG6PnNeGYnjA92+p55b2yw/vNJ9SmcqwF8jjs=; b=ecazvfpmSgimx5
+	5YkEQ10SOVLsLMtoqmwtQWB4FJmWY+nQkHbtHjub0WrEKF2zZVSVlxuO35Uh+/j8rzp7KWodX3ALO
+	4xPdGRONGloNgdUEZBsDgF74dJESkTYxxq2OzLzIyWabcy3RhH+UbxF13bW664bA6ZpNXcR1A5r11
+	ZtDRw1ELZCw8wEkGXsFGapw6ZHuOILP8vEkM9IhlK43pbi7JE5g8dFCpHhMDRhnnFHdHL5dqS277b
+	luIqaJZacUb2KruZQAEIGARqJ+LHcuTnYmXfkb9Q1CGimcZJSUtVp4w5VotlxnI+1Nwitu02r6wJv
+	SS8gHVL7QZL2NtL3QiHw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.2 #3 (Red Hat Linux))
-	id 1iHXk1-0004BD-O1; Mon, 07 Oct 2019 18:28:17 +0000
+	id 1iHXkh-0004Ow-BZ; Mon, 07 Oct 2019 18:28:59 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.2 #3 (Red Hat Linux))
- id 1iHXjz-0004At-Lz
- for linux-nvme@lists.infradead.org; Mon, 07 Oct 2019 18:28:16 +0000
+ id 1iHXkf-0004OV-N4
+ for linux-nvme@lists.infradead.org; Mon, 07 Oct 2019 18:28:59 +0000
 Received: from C02WT3WMHTD6 (rap-us.hgst.com [199.255.44.250])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 3BD1F206BB;
- Mon,  7 Oct 2019 18:28:14 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id CDE7E206BB;
+ Mon,  7 Oct 2019 18:28:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1570472894;
- bh=GCojsMxQn10tgSiueLPPGM61PEMejhrPHTmNDbqeo3I=;
+ s=default; t=1570472937;
+ bh=V0HCvV3/UZim9r66yiqTv/12tsCJh8QrV4Dh+1Dd0cg=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bo5MCDgqgvG2usng8PEml0Sdlc4SAjEU6X+c6XUEdu/ey+U0elRbqGSAT17xNnuP5
- ETyGhtnlNbZsZpOFM1qEz/kwTthmMcd3CQhSvPoEQF1tGi+vqyovP+/7WTe8X2YmQS
- kLuHZ3p7vjpn/U05sk+oNd7m6LTt4F+wtQklbpug=
-Date: Mon, 7 Oct 2019 12:28:12 -0600
+ b=vTGwUn1EwXYM/nhveGZypgYfPjefat5pGUYT4fvk14xNHEfXv6Xkfp1r1JHYF/Ejs
+ 48DY6a09P0usDkiBdrOpWMGpZjleaVZhaK8m0/eW0QuKXNF5iDWMB/nli7ZT+GaKhQ
+ vTTylPuTjJbwu6A6T291YDpj8Ms68pouwV6LIPTA=
+Date: Mon, 7 Oct 2019 12:28:54 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Tyler Ramer <tyaramer@gmail.com>
-Subject: Re: [PATCH v2] nvme-pci: Shutdown when removing dead controller
-Message-ID: <20191007182812.GB13149@C02WT3WMHTD6>
-References: <20191007154448.GA3818@C02WT3WMHTD6>
- <20191007175011.6753-1-tyaramer@gmail.com>
+To: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+Subject: Re: [PATCH v4] nvme/pci: Split 8-byte reads
+Message-ID: <20191007182854.GC13149@C02WT3WMHTD6>
+References: <20191007182244.8516-1-ard.biesheuvel@linaro.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191007175011.6753-1-tyaramer@gmail.com>
+In-Reply-To: <20191007182244.8516-1-ard.biesheuvel@linaro.org>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191007_112815_736910_E96FC425 
-X-CRM114-Status: GOOD (  16.42  )
+X-CRM114-CacheID: sfid-20191007_112857_769173_2A3C95BE 
+X-CRM114-Status: GOOD (  16.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,55 +74,50 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Jens Axboe <axboe@fb.com>, linux-kernel@vger.kernel.org,
- Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
- Sagi Grimberg <sagi@grimberg.me>
+Cc: axboe@fb.com, ilias.apalodimas@linaro.org, sagi@grimberg.me,
+ linux-nvme@lists.infradead.org, hch@lst.de
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Oct 07, 2019 at 01:50:11PM -0400, Tyler Ramer wrote:
-> Shutdown the controller when nvme_remove_dead_controller is
-> reached.
+On Mon, Oct 07, 2019 at 08:22:44PM +0200, Ard Biesheuvel wrote:
+> The nvme pci driver had split 8-byte register reads using lo_hi_readq()
+> due to nvme controllers that do not support that sized access. This
+> behavior was inadvertently changed to readq(), which may break those
+> controllers. Restore the previous behavior.
 > 
-> If nvme_remove_dead_controller() is called, the controller won't
-> be comming back online, so we should shut it down rather than just
-> disabling.
-> 
-> Remove nvme_kill_queues() as nvme_dev_remove() will take care of
-> unquiescing queues.
+> Fixes: 7fd8930f26be4 ("nvme: add a common helper to read Identify Controller data")
+> Signed-off-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
 
+Looks good to me.
 
-We do still need to kill the queues, though. The shutdown == true just flushes
-all pending requests. Killing queues does that too, but it also sets the
-request_queue to dying, which will terminate syncing any dirty pages.
- 
+Reviewed-by: Keith Busch <kbusch@kernel.org>
+
 > ---
-> 
-> Changes since v1:
->     * Clean up commit message
->     * Remove nvme_kill_queues()
-> ---
->  drivers/nvme/host/pci.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+>  drivers/nvme/host/pci.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
 > 
 > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index c0808f9eb8ab..68d5fb880d80 100644
+> index bb88681f4dc3..3fe0c5185646 100644
 > --- a/drivers/nvme/host/pci.c
 > +++ b/drivers/nvme/host/pci.c
-> @@ -2509,8 +2509,7 @@ static void nvme_pci_free_ctrl(struct nvme_ctrl *ctrl)
->  static void nvme_remove_dead_ctrl(struct nvme_dev *dev)
+> @@ -2672,7 +2672,12 @@ static int nvme_pci_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val)
+>  
+>  static int nvme_pci_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val)
 >  {
->  	nvme_get_ctrl(&dev->ctrl);
-> -	nvme_dev_disable(dev, false);
-> -	nvme_kill_queues(&dev->ctrl);
-> +	nvme_dev_disable(dev, true);
->  	if (!queue_work(nvme_wq, &dev->remove_work))
->  		nvme_put_ctrl(&dev->ctrl);
+> -	*val = readq(to_nvme_dev(ctrl)->bar + off);
+> +	/*
+> +	 * Split the 8-byte read into two 4-byte reads since all controllers
+> +	 * support 4 byte register reads, but some do not support the larger
+> +	 * access size.
+> +	 */
+> +	 *val = lo_hi_readq(to_nvme_dev(ctrl)->bar + off);
+>  	return 0;
 >  }
+>  
 > -- 
-> 2.23.0
+> 2.20.1
 > 
 
 _______________________________________________
