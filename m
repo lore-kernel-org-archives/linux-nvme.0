@@ -2,136 +2,90 @@ Return-Path: <SRS0=/gup=YB=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22553C4360C
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Oct 2019 17:27:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD28EC4360C
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Oct 2019 17:46:09 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CFD80217D7
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Oct 2019 17:27:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 61E4B206B6
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Oct 2019 17:46:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Uu/U4GAX";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="bsX0H5Ax";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="FW9g2ECx"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CFD80217D7
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="S5UlHAYQ";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="HY1E61z9"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 61E4B206B6
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date
-	:Subject:To:From:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	List-Owner; bh=QqoQMUj6cV2iLwYmNBwRsLfTQeAG7wUAEp5p7w5M6Jw=; b=Uu/U4GAXQJ3724
-	SG3xOlcE3y+tBG9POwBUsMI21L6DhuC3XmOG/pla4kAQFAgYNvpvRT+zR+CWf/td5FkO71wJo4733
-	TgJlY7DePeH9qhrmtfeVO+M7VfrXpEMDS/dEqvXtj3k16BwD+wz+uhMXv7xAGXIBZZQO/73Q2qqKW
-	yRrNyiuQB8P/FizqOen4AYySKTIE2DlJd3kSo4sJVd+awPKlvCkBWNNTIQ2XVGi0kpKmHXiUg9AJl
-	a56YMAPbt0Y0RfIVQqiAy1NgZmnBhWvdgWZd9vMe/Jj5Cpyp4rLs6+I5cNKJDmqkKnECLzOIvEFOi
-	Vkyuo6uWngnyJ2PQXsKA==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=oesj1k3SRbGTsBg5PhlO6xK67xQq3By/qJpWX92EMVY=; b=S5UlHAYQBNzcwHHcFuzGKdkkQ
+	K+8GbnGdEkqgM4fJiAA0+64iCmKfYc2pjooRKedS18k3C5gVDAwvEXpIVtUk19tIT7l2hmH1zaPcF
+	uF+Idn9QV/BuGvhhtFbmsrqozwuEsSC43mWJV5J/IlIRj+uuHtPbLTDiXTLBqDSsRwHg7gojZUhUW
+	bcKXXdqVRORQ+uy+Ja1FCCDWr60TkGEqpLB3AV8L78GbMzYm2+J9uOPO7bZQhxKL/9yX6pfVddw3l
+	HEEf+X1viXJyQEYlCXID9YZwdDkmFnOSFXEZzITTbQVmUPnOJEkA51ns/M2FTrJrdkQfqDELHpOqH
+	IJn34L/bA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.2 #3 (Red Hat Linux))
-	id 1iHtGf-0007NA-00; Tue, 08 Oct 2019 17:27:25 +0000
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
+	id 1iHtYk-0006jz-SP; Tue, 08 Oct 2019 17:46:06 +0000
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533])
  by bombadil.infradead.org with esmtps (Exim 4.92.2 #3 (Red Hat Linux))
- id 1iHtGc-0007M1-OG
- for linux-nvme@lists.infradead.org; Tue, 08 Oct 2019 17:27:24 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1570555642; x=1602091642;
- h=from:to:subject:date:message-id:references:
- content-transfer-encoding:mime-version;
- bh=//pktCntAgSW0HEJzUeBx6PLzhI7ymdVXKWmxe0gYNs=;
- b=bsX0H5AxmCnOJkCTKqEWVok0q1WvR4a6LSX7WN5Euiut81YhXPUXsgck
- WO5ncT0KSEibkbrMsr6EG5pg/hUYrtBcQTwf0o73QMS8LfoOx7wf7pfjH
- +qtjoZtdUXIyYGKUx2vl9T+9Eku2NOxHgG3bpxB83bYkEbuhwvNVGLDLA
- TAXS2VGgzrtlq1QclArmnkZuaaVURvBYrJgg4q32gKouxayIYSxICaQBZ
- dnD3Vdloe7dHzL9CYhOl5QLfCMJh1bNziVkPy0d5PNF6gnWEC9jgKuAbf
- CkZbSXp+Wmqxl46MLkXd2OJ+gfNPWDCfovqJVuFI+O/gL3XOW8d/935Ul A==;
-IronPort-SDR: FF6q3M7St6rNr1h3w1Wfajf9wQ31qXeEHpfuTkSfRL8In2jbEK3tuBMteX/jC+XMYlH6cjkAXM
- IXXt/NyDQQoWW0aiGGgj9ScIP8fruRkAjwG6KFt3k3HXeIwsgfFAjvq5JMXaB3G9uQZEXwuzaR
- NUPmfwrP7lUmOXeUgaJbkcfILRCzp0vREv36DCYbol/YZldxq49qrqWicvRrbP5XzkNHQGWK0w
- HuyIN5jndGJ0Tla/LhHGNIAfPz1TQCLE2gsJLEbp6Z0U47/Ih5yg6k0eRCvOvi4eykr5DG2iH8
- WVw=
-X-IronPort-AV: E=Sophos;i="5.67,272,1566835200"; d="scan'208";a="227029615"
-Received: from mail-sn1nam04lp2053.outbound.protection.outlook.com (HELO
- NAM04-SN1-obe.outbound.protection.outlook.com) ([104.47.44.53])
- by ob1.hgst.iphmx.com with ESMTP; 09 Oct 2019 01:27:20 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UN17XL+JDGeJ8up12nwmSuthpQQ3WjaYBLq7pdzA3L3WwvwVCgLPSZ3GxweIpt3fuWXsqu7b819OU+xd8xf3YQ4gEkIbWVX7v3WRa6/5rDkg948w5FOlBmNFJjxW3wHmz3yb3gQh4nvuZ4617NITq8jNKpHSWo+sfv2HCC0MD4KLPNVGKx9byV3tNh8RIYjuW31M3WbepK7LH+1LMUM5/V5MCTcdg66BeWxWkf0XYE8hv83lXxdgnkjNXDzzOqyuiGJShfrjFR1nzlhW0/kVYSgLkpKokZ8iUP6Ik4MnW0UMRmOIF787OGESx9P0zSbd2mtHyaH0HnryZ4V8vZR8ZQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=//pktCntAgSW0HEJzUeBx6PLzhI7ymdVXKWmxe0gYNs=;
- b=F//r/m1MT6Kkd9bF9/Vt3rZUlqGRx4tEZbnm2546Aj/hWZfF2Z1bJjkriqiJqNEHLHpcRjsZX86Qr7Su9QEyofcLoKqTWXA0Dyd67LpOD/GHG0e+3vv7xvuOyL43moe45Fx09a4o/eLXAs36+5owx+I+0riwU/EZVGeOFXfG8ou37vTQwSfmjb7uTiYU31wxLgJATrtyd/SGhqXF7mHVSMJH8Asph5kiap6P2GQWy1+M6fD+Mqz5MBdH+RddWN9Zhu8zmBx8yU9mPWPDKelOEsmv/Z83SAz8wohfXy2rp+1sYG8N/SXqsLyYYKH5EbPfNFQgC1RIAw6hY86DaSsg2A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=//pktCntAgSW0HEJzUeBx6PLzhI7ymdVXKWmxe0gYNs=;
- b=FW9g2ECx4xpevl9Gtr21fvtAo+7Nluev4SkcWwl4tYMGTJ5efBct5E0IltBCHG+QZeKTw6glANqgmAy71UDx6IGHXO4s74Ps5d0111VMYKHyiIPydoRwsIw9Yg7333pGsA5vvAwX7qPkKeTm1i8x8HkB8/1HXZ+axTIrcgHAdrk=
-Received: from DM6PR04MB5754.namprd04.prod.outlook.com (20.179.52.22) by
- DM6PR04MB6281.namprd04.prod.outlook.com (10.141.161.213) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2327.25; Tue, 8 Oct 2019 17:27:19 +0000
-Received: from DM6PR04MB5754.namprd04.prod.outlook.com
- ([fe80::9894:e31d:c666:a0dc]) by DM6PR04MB5754.namprd04.prod.outlook.com
- ([fe80::9894:e31d:c666:a0dc%7]) with mapi id 15.20.2327.023; Tue, 8 Oct 2019
- 17:27:19 +0000
-From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-To: "m.malygin@yadro.com" <m.malygin@yadro.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: [PATCH v5] nvmet: add revalidate ns sysfs attribute to handle
- device resize
-Thread-Topic: [PATCH v5] nvmet: add revalidate ns sysfs attribute to handle
- device resize
-Thread-Index: AQHVfdQMPl5F22Bp+U2EfOyGT83GzQ==
-Date: Tue, 8 Oct 2019 17:27:19 +0000
-Message-ID: <DM6PR04MB57549F74ACFC85AEEF74D36B869A0@DM6PR04MB5754.namprd04.prod.outlook.com>
-References: <20190926231940.7494-1-m.malygin@yadro.com>
- <20191008122904.20438-1-m.malygin@yadro.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Chaitanya.Kulkarni@wdc.com; 
-x-originating-ip: [199.255.44.250]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: e813dca9-8ee3-4ce3-06aa-08d74c14c5b7
-x-ms-office365-filtering-ht: Tenant
-x-ms-traffictypediagnostic: DM6PR04MB6281:
-x-microsoft-antispam-prvs: <DM6PR04MB628128097383F2AF828B327C869A0@DM6PR04MB6281.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:3276;
-x-forefront-prvs: 01842C458A
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(376002)(346002)(39860400002)(136003)(396003)(366004)(189003)(199004)(26005)(486006)(229853002)(9686003)(478600001)(6246003)(8936002)(8676002)(81156014)(81166006)(6436002)(256004)(14444005)(55016002)(25786009)(4744005)(5660300002)(2906002)(52536014)(14454004)(3846002)(6116002)(110136005)(74316002)(305945005)(86362001)(64756008)(33656002)(316002)(66476007)(66446008)(91956017)(102836004)(76116006)(7736002)(71200400001)(71190400001)(66556008)(66946007)(53546011)(99286004)(476003)(446003)(2501003)(66066001)(76176011)(6506007)(186003)(7696005);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DM6PR04MB6281;
- H:DM6PR04MB5754.namprd04.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: BS2D40HNsYOMy1vxygOX6z9nbHvVJtJpiP5BzVIE4YogUf2/+406ZRni+IUi1/vJ8h/X7weqQzqZp4tq0Tsg8eE/8KbT3svprPI2M0ZVh1EsjL7IXj2/d9Wqly4BlbMEvpc3Cu8b8M68cZU6ND87XpMgFmJVXkQQXzkbCOLRyEPHa2EP4G+a1eB0V0MrzBuPtaXTDuWeiLPwnao0GMThbKYJXVlWCZH3s0tZYAgO6hTGBHnA7wfjJrd1ui5HY6g84WlfiDrjvIJVkOIoIEhWHXlfXEtQ/+LQ+hE7PIjw/fzCQnaNBv8PvmE4onWAdipcMzxR/fTJmN/FvWfBE7zhOXU8+zqfUXxQx/1LIkC+LWgisqEkKQIPUYYnUyCc2+M3gNoV1WBkoB/lAdMKK8pNXaL9M3Rb4/Z/sJcTbCs/OUE=
-x-ms-exchange-transport-forked: True
+ id 1iHtYh-0006jU-C6
+ for linux-nvme@lists.infradead.org; Tue, 08 Oct 2019 17:46:04 +0000
+Received: by mail-pg1-x533.google.com with SMTP id 23so10661991pgk.3
+ for <linux-nvme@lists.infradead.org>; Tue, 08 Oct 2019 10:46:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=0I6nmqThIO2/cV954eLyGRphlXB+DS7u+3m6GoAIHU4=;
+ b=HY1E61z9PCtAbzV3WBIJh+1SC0ljri2WzbJGRIUgE2hnKcLHVmTSteqDjxoaTlutWT
+ ntsu/77Ua5wHJoNtckLvVnLN52qkR+odR1Mn1TfktwzSWjac3dD47sctHNRRtMqRt7s8
+ 5MfWng7kZcyig81DYDH0u1vfY9NRCIVrKuhDQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=0I6nmqThIO2/cV954eLyGRphlXB+DS7u+3m6GoAIHU4=;
+ b=SQWXddef6OyvIu3bwjxSMmM5r6YfB69et6achJ3Ire5lB1/T5EH2bSZ9/XM3F5psUB
+ mBEa/x4EGEUgoHKWYkhJUrL4a00p7WnBxI21Ur3jyQVwcik4e+nYCe1irHxSHHHzSbfc
+ Q3F/7kFzlVGstqX9KylLHjAFSUe5bGN27VkS7HPdKS2grtFriAIjF2YSdzFR96vDPOwy
+ +7du22Nu7/j+wmZZxkrmn7z7cAAhO1CTOGKFsQSByDusDG90mWtTd8Lx5e9CCwIxoAJo
+ jzgGOsRVuzJXHpKHJGGZVt3h1Mw+HShrmej0xKwaDfxkaWosdVoYKS8F0D6kYtcQXfdZ
+ 4++A==
+X-Gm-Message-State: APjAAAUFSMio2X+0Fupzmjc+I1lYkjTo12l9GCCMtrli7TKWRVy1sLKA
+ oF0rsu4XdV5Ud57eQmrGH2K4yg==
+X-Google-Smtp-Source: APXvYqwMWlmDTY7HKesMpz0Kyv+SMg3pc4hHN8HdCDbyZcf9Cr4+6tgyS47O81f5bN5440yXUbhnaw==
+X-Received: by 2002:a17:90a:a781:: with SMTP id
+ f1mr7374286pjq.29.1570556761821; 
+ Tue, 08 Oct 2019 10:46:01 -0700 (PDT)
+Received: from [10.69.45.46] ([192.19.223.252])
+ by smtp.gmail.com with ESMTPSA id s202sm22342620pfs.24.2019.10.08.10.46.00
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 08 Oct 2019 10:46:01 -0700 (PDT)
+Subject: Re: NVMe PCI driver ignores SQHD from completion entries
+To: Keith Busch <kbusch@kernel.org>, Vaibhav Nagarnaik <vnagarnaik@google.com>
+References: <CAL26m8+WdjrKvnXDZdP4d2ekznfORDUV2Td6U6-DY9gcOqoOUA@mail.gmail.com>
+ <20191005142722.GA30437@keith-busch>
+ <CAL26m8+gM6KdrqpDTTQ_Tj7FGSd-qbcU78O0Ok3EaQ_B9rgHkw@mail.gmail.com>
+ <20191008155928.GB23704@C02WT3WMHTD6.wdl.wdc.com>
+From: James Smart <james.smart@broadcom.com>
+Message-ID: <6facf1d3-d1d3-4b0c-72cd-246889ab2c68@broadcom.com>
+Date: Tue, 8 Oct 2019 10:45:59 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e813dca9-8ee3-4ce3-06aa-08d74c14c5b7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Oct 2019 17:27:19.5568 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 2LXD6JeIXxOVJ7T6CbNlj6RFmNMKvfNz68V6dLreIS2acl4z0Ya9+9blYrrpp7lj51RW6CCs6RvH3A/ZoKlsQ3zUR6ugi0vTF5bx3dVInAg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB6281
+In-Reply-To: <20191008155928.GB23704@C02WT3WMHTD6.wdl.wdc.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191008_102722_885269_BA03C2E2 
-X-CRM114-Status: UNSURE (   9.42  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20191008_104603_424695_8E8C542A 
+X-CRM114-Status: GOOD (  19.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,26 +97,81 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
+Cc: Abbas Companywala <acompany@google.com>,
+ Bart Van Assche <bvanassche@google.com>, linux-nvme@lists.infradead.org,
+ Jens Axboe <axboe@fb.com>, "Mihai R." <dizzy@google.com>,
+ Christoph Hellwig <hch@lst.de>, Eric Gouriou <egouriou@google.com>,
+ Sagi Grimberg <sagi@grimberg.me>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thanks foe this patch Mikhail.
+On 10/8/2019 8:59 AM, Keith Busch wrote:
+> On Mon, Oct 07, 2019 at 05:32:55PM -0700, Vaibhav Nagarnaik wrote:
+>> On Sat, Oct 5, 2019 at 7:27 AM Keith Busch <kbusch@kernel.org> wrote:
+>>> Checking SQ head is required only if the host might submit more commands
+>>> than there are entries. The Linux nvme driver allocates enough tags
+>>> for the depth of the queue, leaving one entry empty, so having a tag
+>>> available means the next sq entry must be available.
+>> But the driver does overwrite submission queue entries under process
+>> (which are already fetched by the controller). Are there guarantees
+>> from controllers out there that once fetched, the SQ entries will not
+>> be fetched again for any reason? The spec doesn't prohibit that.
+> Every controller I've encountered fetches commands exactly once. I have to
+> admit I don't find this spelled out in great detail in the spec, though
+> out-of-order fetching doesn't sound like it would satisfy the properties of a
+> queue.
+>
+> Closest thing I can find is in section 4.1:
+>
+>    The consumer of entries on a queue uses the current Head entry pointer to
+>    identify the slot containing the next entry to be consumed.
+>
+> And later says:
+>
+>    Once a Submission Queue or Completion Queue entry has been consumed, the slot
+>    in which it was placed is free and available for reuse.
+>
+> If you have to re-fetch an entry, then the controller didn't "consume" it on
+> the original fetch. If the controller completes a later entry, it has consumed
+> an entry that wasn't the "next" entry in violation of the consumer requirement.
+>
 
-Looks good.
+Agree - Nearly everything so far works in a fetch-once-in-order manner, 
+but there's also nothing quoted that has great conviction. There's a lot 
+of implications, especially with the word "next", but no hard 
+requirement spelled out.
 
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+What I read that is more conclusive is.:
 
-On 10/8/19 5:29 AM, m.malygin@yadro.com wrote:
-> From: Mikhail Malygin<m.malygin@yadro.com>
-> 
-> Currently device size is cached in ns->size field on namespace enable, so
-> any device size change after that can't bee seen by the initiator.
-> This patch adds revalidate namespace attribute. Once it is written,
-> target refreshes ns->size property and calls nvmet_ns_changed
-> so initiator may perform namespace rescan
+(4.1) "A Submission Queue entry has been consumed by the controller when 
+a Completion Queue entry is posted that indicates that the Submission 
+Queue Head Pointer has moved past the slot in which that Submission 
+Queue entry was placed."
+and
+(4.1) "The controller uses the SQ Head Pointer (SQHD) field in 
+Completion Queue entries to communicate new values of the Submission 
+Queue Head Pointer to the host. A new SQHD value indicates that 
+Submission Queue entries have been consumed, but does not indicate 
+either execution or completion of any command."
+and
+(CQE SQHD description) "A Submission Queue entry has been consumed by 
+the controller when a Completion Queue entry is posted that indicates 
+that the Submission Queue Head Pointer has moved past the slot in which 
+that Submission Queue entry was placed."
 
+All of which say an SQE slot isn't consumed until the controller says so 
+via a CQE with a SQHD pointer that says it's moved past the SQE slot. 
+And it becomes absolutely necessary with a fabric and OOO SQE delivery.
+
+Given there's some deviation in interpretation, it's likely a good thing 
+to take up in the NVM Express group.
+
+-- james
+
+
+-- 
 
 _______________________________________________
 Linux-nvme mailing list
