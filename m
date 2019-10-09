@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F3A7C47404
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Oct 2019 17:25:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81560ECE58C
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Oct 2019 17:25:34 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 24E1021BE5
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Oct 2019 17:24:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 57AB921920
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Oct 2019 17:25:34 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ohCSxU2w";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="tKGYLMLA"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 24E1021BE5
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="UlpO5RBz";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="rB5L71Ol"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 57AB921920
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,47 +26,46 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=QCjCRutq7gtvIZPrm+5k2ejLQYpT0HoKvMeViNmrtYY=; b=ohCSxU2wK1nz/H
-	xDJvFDEVGY6Ne0fWsoBw8BMz1aNzXhy06c2I18I4bZ33Psh/+S5c1DuTbUgAhdAvirSeNb8nZd13D
-	5pQmVneUuaRiI2Mb6U8avsKTpxuqtJM4h599DTcLa3RE9KdsVvzArRa7SXXLBkiqoA9gTawb3NpAg
-	f5SecM4l6Qi3fu58rmJREFStTAxR3DX6JrM67uGxmPjaKuU3dJLaw81LGAX9IUaTgougU06+wS631
-	BFF3sUJHhHyGg2ctQliNOXBV2rysPBio6hV2+7mii6HN7wxGZY3kBKyk3TgX4DxehCb2gahtBUtvW
-	IBuixlEIby+bi7TezFig==;
+	List-Owner; bh=nO16ppd+P0f1q48cA0phbZu4KBauiB4xJ4jGaLMukms=; b=UlpO5RBzNFwm6+
+	oCwoPobSW1cut2chs7PoHXFivUz4zmiW2rt8+Yr8mFw+1tv98NjjyxJl710eBROG9Qhf39r2U9rFn
+	l7s6Wt6ijOtDXERxk9k0LJ2QRc+MqSw7wd+ZF4IRnIIFZUg43O7lJQJfwfitDMjgzblSaGJ3VQJ3x
+	bkGQwayQJfHSaXUxYVW8pw/g33FF7tnFtRiql6Wmhe6sfrSF1bj5Dj2XXdgOzeCJidgN7qkssCyc+
+	cI512zcbBlM/OF/6w5nb4pblJWNMdPlw2cmvZHA2layKh4g2HKwy3EMPLyx1maNTP4wafut/9DcWy
+	ZH+E3+9+W4p4yAHmytng==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.2 #3 (Red Hat Linux))
-	id 1iIFhp-0004sg-1L; Wed, 09 Oct 2019 17:24:57 +0000
+	id 1iIFiL-0006Pt-UJ; Wed, 09 Oct 2019 17:25:29 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.2 #3 (Red Hat Linux))
- id 1iIFgu-0003zY-8n
- for linux-nvme@lists.infradead.org; Wed, 09 Oct 2019 17:24:02 +0000
+ id 1iIFgy-00044d-6V
+ for linux-nvme@lists.infradead.org; Wed, 09 Oct 2019 17:24:05 +0000
 Received: from sasha-vm.mshome.net (unknown [167.220.2.234])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 91E2921920;
- Wed,  9 Oct 2019 17:23:59 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id C89FA21929;
+ Wed,  9 Oct 2019 17:24:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1570641839;
- bh=8bnMYcLJcKc4ZU8HhKpFN1Z0TuerJPwW6b+l8HVm9/0=;
+ s=default; t=1570641843;
+ bh=HqvXM5KNaKG/zgmqzl+/ZTz93tY+4j8tnfWyNVjau/s=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=tKGYLMLAa2Wvzk4k5sY9/cXLyczoZgHVFjQ9HdBOWiuyNL0ejS0xdXN3FqD7iCIlE
- N32dKQRk4WpzxADzu68ifDxCr7x9XCGoKQEeVj/Ap094WqZJQzbCKbfcEykCv5XBLr
- OXZpvtB0yPrK3/3LReQpbMOm3snaze88lGJrcCIQ=
+ b=rB5L71OlaJzeuc1a/F/Pbtv9Vc7iaYO+SZdYz6wCuOFoix7ep6I7vNivjCxCBBS71
+ HdVP5OkKi6AYGku9I9EE/dqhh5sMKEaD8G+AEAANn7sT1GQcdVdFG+K79m7gudPJUw
+ bSyb7VCEwXH/D6iaKfeZ3OWFbLbxwKr+NXYijJP8=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.3 23/68] nvme: Add quirk for Kingston NVME SSD
- running FW E8FK11.T
-Date: Wed,  9 Oct 2019 13:05:02 -0400
-Message-Id: <20191009170547.32204-23-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 02/26] nvme-pci: Fix a race in controller removal
+Date: Wed,  9 Oct 2019 13:05:34 -0400
+Message-Id: <20191009170558.32517-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191009170547.32204-1-sashal@kernel.org>
-References: <20191009170547.32204-1-sashal@kernel.org>
+In-Reply-To: <20191009170558.32517-1-sashal@kernel.org>
+References: <20191009170558.32517-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191009_102400_356470_63ABEAB4 
-X-CRM114-Status: GOOD (  12.53  )
+X-CRM114-CacheID: sfid-20191009_102404_286304_D7AE0D3F 
+X-CRM114-Status: GOOD (  11.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,51 +77,52 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Jian-Hong Pan <jian-hong@endlessm.com>,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+Cc: Keith Busch <kbusch@kernel.org>, Sasha Levin <sashal@kernel.org>,
+ Balbir Singh <sblbir@amzn.com>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Jian-Hong Pan <jian-hong@endlessm.com>
+From: Balbir Singh <sblbir@amzn.com>
 
-[ Upstream commit 19ea025e1d28c629b369c3532a85b3df478cc5c6 ]
+[ Upstream commit b224726de5e496dbf78147a66755c3d81e28bdd2 ]
 
-Kingston NVME SSD with firmware version E8FK11.T has no interrupt after
-resume with actions related to suspend to idle. This patch applied
-NVME_QUIRK_SIMPLE_SUSPEND quirk to fix this issue.
+User space programs like udevd may try to read to partitions at the
+same time the driver detects a namespace is unusable, and may deadlock
+if revalidate_disk() is called while such a process is waiting to
+enter the frozen queue. On detecting a dead namespace, move the disk
+revalidate after unblocking dispatchers that may be holding bd_butex.
 
-Fixes: d916b1be94b6 ("nvme-pci: use host managed power state for suspend")
-Buglink: https://bugzilla.kernel.org/show_bug.cgi?id=204887
-Signed-off-by: Jian-Hong Pan <jian-hong@endlessm.com>
+changelog Suggested-by: Keith Busch <kbusch@kernel.org>
+Signed-off-by: Balbir Singh <sblbir@amzn.com>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/core.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/nvme/host/core.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index ac2ac06d870b5..3304e2c8a448a 100644
+index ae0b01059fc6d..5d0f99bcc987f 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -2270,6 +2270,16 @@ static const struct nvme_core_quirk_entry core_quirks[] = {
- 		.vid = 0x14a4,
- 		.fr = "22301111",
- 		.quirks = NVME_QUIRK_SIMPLE_SUSPEND,
-+	},
-+	{
-+		/*
-+		 * This Kingston E8FK11.T firmware version has no interrupt
-+		 * after resume with actions related to suspend to idle
-+		 * https://bugzilla.kernel.org/show_bug.cgi?id=204887
-+		 */
-+		.vid = 0x2646,
-+		.fr = "E8FK11.T",
-+		.quirks = NVME_QUIRK_SIMPLE_SUSPEND,
- 	}
- };
+@@ -111,10 +111,13 @@ static void nvme_set_queue_dying(struct nvme_ns *ns)
+ 	 */
+ 	if (!ns->disk || test_and_set_bit(NVME_NS_DEAD, &ns->flags))
+ 		return;
+-	revalidate_disk(ns->disk);
+ 	blk_set_queue_dying(ns->queue);
+ 	/* Forcibly unquiesce queues to avoid blocking dispatch */
+ 	blk_mq_unquiesce_queue(ns->queue);
++	/*
++	 * Revalidate after unblocking dispatchers that may be holding bd_butex
++	 */
++	revalidate_disk(ns->disk);
+ }
  
+ static void nvme_queue_scan(struct nvme_ctrl *ctrl)
 -- 
 2.20.1
 
