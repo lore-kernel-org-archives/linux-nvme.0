@@ -4,19 +4,19 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 581F6ECE58C
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Oct 2019 22:10:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D089FECE58C
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Oct 2019 22:13:51 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2FEF920B7C
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Oct 2019 22:10:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A5771218AC
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Oct 2019 22:13:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="oWzUYQlS";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="fibYmpks"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2FEF920B7C
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="AQD0ZmWm";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ob9rAGSf"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A5771218AC
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,45 +25,45 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=7QnGpBLqGNohHFv03MKWGhyWhIEwj6Z3He0Ix/Kqbxg=; b=oWzUYQlS0JQmVR
-	fQTvS5XHdpgaTQ3x2BngCqeexBnc1Bm4zxdaTPQ7JnnhRmJ7lWMjSu4QfXh+ahACvDRsz7wm+E9z2
-	DuCE1Ccp6mkHYA/jptNIBgYApip4IIcqhLkR+aMxvUJl0D7NXkSyZFsoEY7mO2loSRx5cqN75+nUq
-	TEWZDsaG9PcD3EGlbN+PpiOB7tRDmVouKcv77rE9mi6LHu1Q/ympdYbH7C2m7rczGyjeJWmVJtizu
-	suo3im5mMpDlQXhOYKWFQj+ApVc/3LcCAwKgyKsnUn+OlPwhnP5jDizga0wRE/TKQqmFyhlaImiOH
-	C2D7eQ0CwFMTeOMGLUYw==;
+	List-Owner; bh=hQPZdkV4wgv1E3Zo5wV30aFak3vDv3idX6yKwfyueIA=; b=AQD0ZmWmsPLkfP
+	1oWdBFT3H3JLoFF0pvt0Rp7IOi10vya0IugbzB6P71nnhz8OLBKgTyUgtiMX4gY8U4yZIyeV5//vN
+	P+ShYgiJv1S2etcM5wlHnXVtnsQEQjuqd8MMYC/nPr+2JeeFhiKhtd6ZKtkHv627wO9Pzem/IMprU
+	LaQy4Ue1pjEW74hwWvRR3FRVJsPo4vDM3OKJrMUQUwwPBDQEXUJm/wKCKxQxIxAehtSaTnZULYIZs
+	3tMizHPIaO7BCWRaIk9VKaD+2H6kYIJFbj8zG/KIzOWPKE3Gu2UroFutOOMmdXTJgBZ5stYLpWMUY
+	Os1JgQaH/j5B7X2OlAAw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.2 #3 (Red Hat Linux))
-	id 1iIKAQ-0005FL-Kl; Wed, 09 Oct 2019 22:10:46 +0000
+	id 1iIKDO-0006C0-IN; Wed, 09 Oct 2019 22:13:50 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.2 #3 (Red Hat Linux))
- id 1iIKAM-0005Ei-Q7
- for linux-nvme@lists.infradead.org; Wed, 09 Oct 2019 22:10:44 +0000
+ id 1iIKDM-0006Bc-8B
+ for linux-nvme@lists.infradead.org; Wed, 09 Oct 2019 22:13:49 +0000
 Received: from washi1.fujisawa.hgst.com (unknown [199.255.47.10])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 3C11220B7C;
- Wed,  9 Oct 2019 22:10:41 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id A08B120B7C;
+ Wed,  9 Oct 2019 22:13:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1570659042;
- bh=FQuEaTociCoUgYX9UFpVgH54MWKMMymSTxWUZxJ3XnU=;
+ s=default; t=1570659227;
+ bh=RyPgVqyj3PPw8zKgkDtZVoZJBEN/mwASsfZ3X8viFlg=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fibYmpksKxqucYFycti50RMvVKSZpgpVeNGsXVejp7ozcybU6EPbMZJj/TesW1zp/
- rLinlU5KdG5NhfECZx5qasQhFPVkQYKAWUEbSyQfs+497PpuxN2fwXGcP1Gix+UsIA
- bP91b+3hQqm55EMjmOaxmbZNr2wq4nhMRlga8JQY=
-Date: Thu, 10 Oct 2019 07:10:38 +0900
+ b=Ob9rAGSf4kNkBMpSCe4SQ3shpy8EKIrmDLXF707Cgz9PzHJA6+ZVX3wqfOwpy3c94
+ 4KqzrRhJaQyB3mDz9J4jyRqBVSABi8NN3laK0c/71U1sIEzkZjJGvGLqWrDmNtIGke
+ PqJspaioXzcDujS0cyNGMv6SjJM66iv/A0BGWCEg=
+Date: Thu, 10 Oct 2019 07:13:44 +0900
 From: Keith Busch <kbusch@kernel.org>
-To: Sasha Levin <sashal@kernel.org>
-Subject: Re: [PATCH 4.19] nvme: Assign subsys instance from first ctrl
-Message-ID: <20191009221038.GA3009@washi1.fujisawa.hgst.com>
-References: <20191009162910.1801-1-kbusch@kernel.org>
- <20191009215504.GW1396@sasha-vm>
+To: Logan Gunthorpe <logang@deltatee.com>
+Subject: Re: [PATCH v9 01/12] nvme-core: introduce nvme_ctrl_get_by_path()
+Message-ID: <20191009221344.GB3009@washi1.fujisawa.hgst.com>
+References: <20191009192530.13079-1-logang@deltatee.com>
+ <20191009192530.13079-2-logang@deltatee.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191009215504.GW1396@sasha-vm>
+In-Reply-To: <20191009192530.13079-2-logang@deltatee.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191009_151042_864564_8E13F94A 
-X-CRM114-Status: GOOD (  14.38  )
+X-CRM114-CacheID: sfid-20191009_151348_312095_E56EA9E4 
+X-CRM114-Status: GOOD (  11.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,53 +75,32 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Hannes Reinecke <hare@suse.com>, Sagi Grimberg <sagi@grimberg.me>,
- stable@vger.kernel.org, linux-nvme@lists.infradead.org,
- Logan Gunthorpe <logang@deltatee.com>, Christoph Hellwig <hch@lst.de>,
- Minwoo Im <minwoo.im@samsung.com>
+Cc: Jens Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, Stephen Bates <sbates@raithlin.com>,
+ linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ Max Gurtovoy <maxg@mellanox.com>, Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Oct 09, 2019 at 05:55:04PM -0400, Sasha Levin wrote:
-> On Thu, Oct 10, 2019 at 01:29:10AM +0900, Keith Busch wrote:
-> > commit 733e4b69d508d03c20adfdcf4bd27abc60fae9cc upstream
-> > 
-> > The namespace disk names must be unique for the lifetime of the
-> > subsystem. This was accomplished by using their parent subsystems'
-> > instances which were allocated independently from the controllers
-> > connected to that subsystem. This allowed name prefixes assigned to
-> > namespaces to match a controller from an unrelated subsystem, and has
-> > created confusion among users examining device nodes.
-> > 
-> > Ensure a namespace's subsystem instance never clashes with a controller
-> > instance of another subsystem by transferring the instance ownership
-> > to the parent subsystem from the first controller discovered in that
-> > subsystem.
-> > 
-> > Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
-> > Reviewed-by: Christoph Hellwig <hch@lst.de>
-> > Reviewed-by: Minwoo Im <minwoo.im@samsung.com>
-> > Reviewed-by: Hannes Reinecke <hare@suse.com>
-> > Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-> > Signed-off-by: Keith Busch <kbusch@kernel.org>
-> > Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+On Wed, Oct 09, 2019 at 01:25:18PM -0600, Logan Gunthorpe wrote:
+> nvme_ctrl_get_by_path() is analagous to blkdev_get_by_path() except it
+> gets a struct nvme_ctrl from the path to its char dev (/dev/nvme0).
+> It makes use of filp_open() to open the file and uses the private
+> data to obtain a pointer to the struct nvme_ctrl. If the fops of the
+> file do not match, -EINVAL is returned.
 > 
-> What are your thoughts about taking the following for 4.19 instead?
+> The purpose of this function is to support NVMe-OF target passthru.
 > 
-> 733e4b69d508d nvme: Assign subsys instance from first ctrl
-> e654dfd38c1ec nvme: fix memory leak caused by incorrect subsystem free
-> 32fd90c407680 nvme: change locking for the per-subsystem controller list
-> 092ff0520070f nvme: fix kernel paging oops
-> cb5b7262b011c nvme: provide fallback for discard alloc failure
+> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+> Reviewed-by: Max Gurtovoy <maxg@mellanox.com>
+> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
-Thank you for the suggestion. I have reviewed the proposed sequence, and
-I would prefer to use this for stable instead of this back-ported patch.
- 
-> --
-> Thanks,
-> Sasha
+Looks fine.
+
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 
 _______________________________________________
 Linux-nvme mailing list
