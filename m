@@ -2,68 +2,89 @@ Return-Path: <SRS0=Uo3O=YD=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FE80C4360C
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Oct 2019 16:59:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73BBBC4360C
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Oct 2019 17:08:38 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0B24B214E0
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Oct 2019 16:59:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4775B2067B
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Oct 2019 17:08:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="pc0CqQWo";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="CJGtAnTi"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0B24B214E0
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="tqsOl770"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4775B2067B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
+	Message-ID:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=gmYLIIah1GIxuD4SzNvho7bOHvyzLjmzYejDWqIwB54=; b=pc0CqQWox5y47w
-	H0sRzHQyLs6oIlghMB5QSvjZyGb+ECD0ykoZhz00kECmQfBWQ8s7qnP6lrUtLM41ThZ3NLYPpFzY2
-	1WESEomTgMIZGWGAM98/hnFDAfUaeJ0S14goesOif16dYeEDZcpS8pvdjEuoPSUyFFL5dJtEPZeiG
-	WmhqiayRTttrSUvFlNepJbwhr1O5oP352uvnAi5qm3gVilCILXtVzvq0uEhBtdvZXkQiVbRWQpZ3p
-	N6U+7uQzjKTRLgIq5PB0l8AyMM9jr+LIZl+yoNIwVEj9WhBkWXrSprgChcAYir6cXkoxQvezKtBu+
-	2qZQTYIznMpH25HOeHyw==;
+	List-Owner; bh=CwSFejWEwIIxX6urrC0kR4Cbc5Rp6Rd6DerMJmo6z94=; b=tqsOl770a4FNIX
+	CAD/mNjQ9rc8WuigvlKPppp7Chfvik2BjGOUyXlyKEFxNSj32c1yudJNfe85g7pF/w8B6GqKdyhUl
+	BYgXfvEg1rzC/MYicH326Vdk1PEEyae04Yfvqu03AmeJIoe1b5uSXzujer/J/55FOwWwdwVevHLLI
+	sRGk6s1yGd7VfTs4g9nQtBJ4J+Df2Dbk9sShxdYxZDJAWPBr/NXrHDobU4okSpBnVO11F4vO4O8UK
+	T9ymLlMY1on8eSfv02tqsAIFUZMDd/VS4ZYkbo3VwiWaSRzR8LJxcUe7xqiHO/e8mzLAk758Wco7O
+	ySAjf8ztm5IExiFH8qgg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iIbmJ-0000j6-H1; Thu, 10 Oct 2019 16:59:03 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1iIbvV-0004AU-JJ; Thu, 10 Oct 2019 17:08:33 +0000
+Received: from mga07.intel.com ([134.134.136.100])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iIbl7-0008Ev-7Q
- for linux-nvme@lists.infradead.org; Thu, 10 Oct 2019 16:57:51 +0000
-Received: from washi1.fujisawa.hgst.com (unknown [199.255.47.10])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 45AEB21A4C;
- Thu, 10 Oct 2019 16:57:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1570726668;
- bh=KxwRe1yIMhvqKi5WHe15UoNmmTBt6YLbqDwMfN6x+J4=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CJGtAnTisMbGi0Sc73s817QZWzWF6+WZXUh636Ymz03NWZhbAi3nP99hTZNrzjSFy
- 64rpydpC8Mdq8eIhi88g3HGSxCRQT0qLoMY64em6S54Ixh1H8wYUaOIdtHI9OvW0b3
- Dg+Q10V7t54N5J9XV9iQl2RsbdY7vbbKs/g2M4wg=
-From: Keith Busch <kbusch@kernel.org>
-To: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>
-Subject: [PATCHv4 5/5] nvme: Wait for reset state when required
-Date: Fri, 11 Oct 2019 01:57:36 +0900
-Message-Id: <20191010165736.12081-6-kbusch@kernel.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191010165736.12081-1-kbusch@kernel.org>
-References: <20191010165736.12081-1-kbusch@kernel.org>
+ id 1iIbvS-00049p-Hs
+ for linux-nvme@lists.infradead.org; Thu, 10 Oct 2019 17:08:32 +0000
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 10 Oct 2019 10:08:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,280,1566889200"; d="scan'208";a="200530868"
+Received: from orsmsx110.amr.corp.intel.com ([10.22.240.8])
+ by FMSMGA003.fm.intel.com with ESMTP; 10 Oct 2019 10:08:28 -0700
+Received: from orsmsx161.amr.corp.intel.com (10.22.240.84) by
+ ORSMSX110.amr.corp.intel.com (10.22.240.8) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Thu, 10 Oct 2019 10:08:27 -0700
+Received: from orsmsx104.amr.corp.intel.com ([169.254.4.167]) by
+ ORSMSX161.amr.corp.intel.com ([169.254.4.111]) with mapi id 14.03.0439.000;
+ Thu, 10 Oct 2019 10:08:28 -0700
+From: "Wunderlich, Mark" <mark.wunderlich@intel.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Christoph Hellwig
+ <hch@lst.de>
+Subject: RE: [PATCH v2] nvme-tcp: Initialize sk->sk_ll_usec only with
+ NET_RX_BUSY_POLL
+Thread-Topic: [PATCH v2] nvme-tcp: Initialize sk->sk_ll_usec only with
+ NET_RX_BUSY_POLL
+Thread-Index: AQHVf4BIMoH146YQqk694EsSuYD23adUGVNQ
+Date: Thu, 10 Oct 2019 17:08:27 +0000
+Message-ID: <B33B37937B7F3D4CB878107E305D4916D48CFD@ORSMSX104.amr.corp.intel.com>
+References: <20191010150622.reqmasxgavug4amm@linutronix.de>
+ <20191010150719.GA617@lst.de>
+ <20191010151023.gru6fhrhy7gxxwye@linutronix.de>
+ <20191010151444.GA638@lst.de>
+ <20191010152924.jlr53aunkj7de5js@linutronix.de>
+ <20191010152958.GA1057@lst.de>
+ <20191010153411.6uetttizkto6rv65@linutronix.de>
+In-Reply-To: <20191010153411.6uetttizkto6rv65@linutronix.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiY2Q2ZWJkNmYtYWFiNi00NjdmLWJjODgtZWQ4YTYyMTc3MTg3IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiZWRLQ3ZBb0xEVU1TbG00UDhON2ZxZHRTemdEN0h2V1JnZ0dQRjNiQVRCOU1OWHUwWnYyeDh3VWJjYUVhYWxPSSJ9
+x-originating-ip: [10.22.254.138]
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191010_095749_353309_53F03EA8 
-X-CRM114-Status: GOOD (  20.72  )
+X-CRM114-CacheID: sfid-20191010_100830_634019_810A39C5 
+X-CRM114-Status: GOOD (  14.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,266 +96,49 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Judy Brock <judy.brock@samsung.com>,
- Edmund Nadolski <edmund.nadolski@intel.com>,
- James Smart <james.smart@broadcom.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ "tglx@linutronix.de" <tglx@linutronix.de>, Sagi Grimberg <sagi@grimberg.me>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Prevent simultaneous controller disabling/enabling tasks from interfering
-with each other through a method to wait until the task successfully
-transitioned the controller to the RESETTING state. This ensures disabling
-the controller will not be interrupted by another reset path, otherwise
-a concurrent reset would leave the controller in the wrong state.
-
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/core.c | 41 +++++++++++++++++++++++++++++++++--
- drivers/nvme/host/nvme.h |  4 ++++
- drivers/nvme/host/pci.c  | 46 +++++++++++++++++++++++++++-------------
- 3 files changed, 74 insertions(+), 17 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 0f5a82b7d3a4..7442c99a5ed7 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -126,7 +126,7 @@ static void nvme_queue_scan(struct nvme_ctrl *ctrl)
-  * code paths that can't be interrupted by other reset attempts. A hot removal
-  * may prevent this from succeeding.
-  */
--static int nvme_try_sched_reset(struct nvme_ctrl *ctrl)
-+int nvme_try_sched_reset(struct nvme_ctrl *ctrl)
- {
- 	if (ctrl->state != NVME_CTRL_RESETTING)
- 		return -EBUSY;
-@@ -134,6 +134,7 @@ static int nvme_try_sched_reset(struct nvme_ctrl *ctrl)
- 		return -EBUSY;
- 	return 0;
- }
-+EXPORT_SYMBOL_GPL(nvme_try_sched_reset);
- 
- int nvme_reset_ctrl(struct nvme_ctrl *ctrl)
- {
-@@ -384,8 +385,10 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- 		break;
- 	}
- 
--	if (changed)
-+	if (changed) {
- 		ctrl->state = new_state;
-+		wake_up_all(&ctrl->state_wq);
-+	}
- 
- 	spin_unlock_irqrestore(&ctrl->lock, flags);
- 	if (changed && ctrl->state == NVME_CTRL_LIVE)
-@@ -394,6 +397,39 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- }
- EXPORT_SYMBOL_GPL(nvme_change_ctrl_state);
- 
-+/*
-+ * Returns true for sink states that can't ever transition back to live.
-+ */
-+static bool nvme_state_terminal(struct nvme_ctrl *ctrl)
-+{
-+	switch (ctrl->state) {
-+	case NVME_CTRL_NEW:
-+	case NVME_CTRL_LIVE:
-+	case NVME_CTRL_RESETTING:
-+	case NVME_CTRL_CONNECTING:
-+		return false;
-+	case NVME_CTRL_DELETING:
-+	case NVME_CTRL_DEAD:
-+		return true;
-+	default:
-+		WARN_ONCE(1, "Unhandled ctrl state:%d", ctrl->state);
-+		return true;
-+	}
-+}
-+
-+/*
-+ * Waits for the controller state to be resetting, or returns false if it is
-+ * not possible to ever transition to that state.
-+ */
-+bool nvme_wait_reset(struct nvme_ctrl *ctrl)
-+{
-+	wait_event(ctrl->state_wq,
-+		   nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING) ||
-+		   nvme_state_terminal(ctrl));
-+	return ctrl->state == NVME_CTRL_RESETTING;
-+}
-+EXPORT_SYMBOL_GPL(nvme_wait_reset);
-+
- static void nvme_free_ns_head(struct kref *ref)
- {
- 	struct nvme_ns_head *head =
-@@ -3999,6 +4035,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	INIT_WORK(&ctrl->async_event_work, nvme_async_event_work);
- 	INIT_WORK(&ctrl->fw_act_work, nvme_fw_act_work);
- 	INIT_WORK(&ctrl->delete_work, nvme_delete_ctrl_work);
-+	init_waitqueue_head(&ctrl->state_wq);
- 
- 	INIT_DELAYED_WORK(&ctrl->ka_work, nvme_keep_alive_work);
- 	memset(&ctrl->ka_cmd, 0, sizeof(ctrl->ka_cmd));
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 2ba577271ada..22e8401352c2 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -15,6 +15,7 @@
- #include <linux/sed-opal.h>
- #include <linux/fault-inject.h>
- #include <linux/rcupdate.h>
-+#include <linux/wait.h>
- 
- #include <trace/events/block.h>
- 
-@@ -198,6 +199,7 @@ struct nvme_ctrl {
- 	struct cdev cdev;
- 	struct work_struct reset_work;
- 	struct work_struct delete_work;
-+	wait_queue_head_t state_wq;
- 
- 	struct nvme_subsystem *subsys;
- 	struct list_head subsys_entry;
-@@ -448,6 +450,7 @@ void nvme_complete_rq(struct request *req);
- bool nvme_cancel_request(struct request *req, void *data, bool reserved);
- bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- 		enum nvme_ctrl_state new_state);
-+bool nvme_wait_reset(struct nvme_ctrl *ctrl);
- int nvme_disable_ctrl(struct nvme_ctrl *ctrl);
- int nvme_enable_ctrl(struct nvme_ctrl *ctrl);
- int nvme_shutdown_ctrl(struct nvme_ctrl *ctrl);
-@@ -498,6 +501,7 @@ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count);
- void nvme_stop_keep_alive(struct nvme_ctrl *ctrl);
- int nvme_reset_ctrl(struct nvme_ctrl *ctrl);
- int nvme_reset_ctrl_sync(struct nvme_ctrl *ctrl);
-+int nvme_try_sched_reset(struct nvme_ctrl *ctrl);
- int nvme_delete_ctrl(struct nvme_ctrl *ctrl);
- 
- int nvme_get_log(struct nvme_ctrl *ctrl, u32 nsid, u8 log_page, u8 lsp,
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 7d0de87d733d..4fcfd01f350d 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2463,6 +2463,14 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 	mutex_unlock(&dev->shutdown_lock);
- }
- 
-+static int nvme_disable_prepare_reset(struct nvme_dev *dev, bool shutdown)
-+{
-+	if (!nvme_wait_reset(&dev->ctrl))
-+		return -EBUSY;
-+	nvme_dev_disable(dev, shutdown);
-+	return 0;
-+}
-+
- static int nvme_setup_prp_pools(struct nvme_dev *dev)
- {
- 	dev->prp_page_pool = dma_pool_create("prp list page", dev->dev,
-@@ -2510,6 +2518,11 @@ static void nvme_pci_free_ctrl(struct nvme_ctrl *ctrl)
- 
- static void nvme_remove_dead_ctrl(struct nvme_dev *dev)
- {
-+	/*
-+	 * Set state to deleting now to avoid blocking nvme_wait_reset(), which
-+	 * may be holding this pci_dev's device lock.
-+	 */
-+	nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DELETING);
- 	nvme_get_ctrl(&dev->ctrl);
- 	nvme_dev_disable(dev, false);
- 	nvme_kill_queues(&dev->ctrl);
-@@ -2835,19 +2848,28 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- static void nvme_reset_prepare(struct pci_dev *pdev)
- {
- 	struct nvme_dev *dev = pci_get_drvdata(pdev);
--	nvme_dev_disable(dev, false);
-+
-+	/*
-+	 * We don't need to check the return value from waiting for the reset
-+	 * state as pci_dev device lock is held, making it impossible to race
-+	 * with ->remove().
-+	 */
-+	nvme_disable_prepare_reset(dev, false);
-+	nvme_sync_queues(&dev->ctrl);
- }
- 
- static void nvme_reset_done(struct pci_dev *pdev)
- {
- 	struct nvme_dev *dev = pci_get_drvdata(pdev);
--	nvme_reset_ctrl_sync(&dev->ctrl);
-+
-+	if (!nvme_try_sched_reset(&dev->ctrl))
-+		flush_work(&dev->ctrl.reset_work);
- }
- 
- static void nvme_shutdown(struct pci_dev *pdev)
- {
- 	struct nvme_dev *dev = pci_get_drvdata(pdev);
--	nvme_dev_disable(dev, true);
-+	nvme_disable_prepare_reset(dev, true);
- }
- 
- /*
-@@ -2900,7 +2922,7 @@ static int nvme_resume(struct device *dev)
- 
- 	if (ndev->last_ps == U32_MAX ||
- 	    nvme_set_power_state(ctrl, ndev->last_ps) != 0)
--		nvme_reset_ctrl(ctrl);
-+		return nvme_try_sched_reset(&ndev->ctrl);
- 	return 0;
- }
- 
-@@ -2928,10 +2950,8 @@ static int nvme_suspend(struct device *dev)
- 	 */
- 	if (pm_suspend_via_firmware() || !ctrl->npss ||
- 	    !pcie_aspm_enabled(pdev) ||
--	    (ndev->ctrl.quirks & NVME_QUIRK_SIMPLE_SUSPEND)) {
--		nvme_dev_disable(ndev, true);
--		return 0;
--	}
-+	    (ndev->ctrl.quirks & NVME_QUIRK_SIMPLE_SUSPEND))
-+		return nvme_disable_prepare_reset(ndev, true);
- 
- 	nvme_start_freeze(ctrl);
- 	nvme_wait_freeze(ctrl);
-@@ -2963,9 +2983,8 @@ static int nvme_suspend(struct device *dev)
- 		 * Clearing npss forces a controller reset on resume. The
- 		 * correct value will be resdicovered then.
- 		 */
--		nvme_dev_disable(ndev, true);
-+		ret = nvme_disable_prepare_reset(ndev, true);
- 		ctrl->npss = 0;
--		ret = 0;
- 	}
- unfreeze:
- 	nvme_unfreeze(ctrl);
-@@ -2975,9 +2994,7 @@ static int nvme_suspend(struct device *dev)
- static int nvme_simple_suspend(struct device *dev)
- {
- 	struct nvme_dev *ndev = pci_get_drvdata(to_pci_dev(dev));
--
--	nvme_dev_disable(ndev, true);
--	return 0;
-+	return nvme_disable_prepare_reset(ndev, true);
- }
- 
- static int nvme_simple_resume(struct device *dev)
-@@ -2985,8 +3002,7 @@ static int nvme_simple_resume(struct device *dev)
- 	struct pci_dev *pdev = to_pci_dev(dev);
- 	struct nvme_dev *ndev = pci_get_drvdata(pdev);
- 
--	nvme_reset_ctrl(&ndev->ctrl);
--	return 0;
-+	return nvme_try_sched_reset(&ndev->ctrl);
- }
- 
- static const struct dev_pm_ops nvme_dev_pm_ops = {
--- 
-2.21.0
-
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+U2hvdWxkIHRoZXJlIGFsc28gYmUgYSBjaGVjayBoZXJlIHRvIGhvbm9yIGFueSBub24temVybyB2
+YWx1ZSBvZiBza19sbF91c2VjICggdmlhIHN5c2N0bF9uZXRfYnVzeV9yZWFkICksIGJlZm9yZSBz
+ZXR0aW5nIGhlcmUgdG8gaGFyZCBjb2RlZCBkZWZhdWx0IG9mIDE/DQpPciBtYXliZSBiZXN0IHRv
+IGhhdmUgdGhpcyBhcyBhIHNlcGFyYXRlIHBhdGNoIHRvIGNvbnNpZGVyPw0KDQorI2lmZGVmIENP
+TkZJR19ORVRfUlhfQlVTWV9QT0xMDQoJSWYgKCFxdWV1ZS0+c29jay0+c2stPnNrX2xsX3VzZWMp
+DQogCQlxdWV1ZS0+c29jay0+c2stPnNrX2xsX3VzZWMgPSAxOw0KKyNlbmRpZg0KDQotLS0tLU9y
+aWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogTGludXgtbnZtZSA8bGludXgtbnZtZS1ib3VuY2Vz
+QGxpc3RzLmluZnJhZGVhZC5vcmc+IE9uIEJlaGFsZiBPZiBTZWJhc3RpYW4gQW5kcnplaiBTaWV3
+aW9yDQpTZW50OiBUaHVyc2RheSwgT2N0b2JlciAxMCwgMjAxOSA4OjM0IEFNDQpUbzogQ2hyaXN0
+b3BoIEhlbGx3aWcgPGhjaEBsc3QuZGU+DQpDYzogS2VpdGggQnVzY2ggPGtidXNjaEBrZXJuZWwu
+b3JnPjsgSmVucyBBeGJvZSA8YXhib2VAZmIuY29tPjsgdGdseEBsaW51dHJvbml4LmRlOyBTYWdp
+IEdyaW1iZXJnIDxzYWdpQGdyaW1iZXJnLm1lPjsgbGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQu
+b3JnDQpTdWJqZWN0OiBbUEFUQ0ggdjJdIG52bWUtdGNwOiBJbml0aWFsaXplIHNrLT5za19sbF91
+c2VjIG9ubHkgd2l0aCBORVRfUlhfQlVTWV9QT0xMDQoNClRoZSBhY2Nlc3MgdG8gc2stPnNrX2xs
+X3VzZWMgc2hvdWxkIGJlIGhpZGRlbiBiZWhpbmQgQ09ORklHX05FVF9SWF9CVVNZX1BPTEwgbGlr
+ZSB0aGUgZGVmaW5pdGlvbiBvZiBza19sbF91c2VjLg0KDQpQdXQgYWNjZXNzIHRvIC0+c2tfbGxf
+dXNlYyBiZWhpbmQgQ09ORklHX05FVF9SWF9CVVNZX1BPTEwuDQoNCkZpeGVzOiAxYTk0NjBjZWY1
+NzExICgibnZtZS10Y3A6IHN1cHBvcnQgc2ltcGxlIHBvbGxpbmciKQ0KU2lnbmVkLW9mZi1ieTog
+U2ViYXN0aWFuIEFuZHJ6ZWogU2lld2lvciA8YmlnZWFzeUBsaW51dHJvbml4LmRlPg0KLS0tDQp2
+MeKApnYyOiBIaWRlIGl0IGJlaGluZCBDT05GSUdfTkVUX1JYX0JVU1lfUE9MTCBpbnN0ZWFkIHJl
+bW92aW5nIGl0Lg0KDQogZHJpdmVycy9udm1lL2hvc3QvdGNwLmMgfCAyICsrDQogMSBmaWxlIGNo
+YW5nZWQsIDIgaW5zZXJ0aW9ucygrKQ0KDQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9udm1lL2hvc3Qv
+dGNwLmMgYi9kcml2ZXJzL252bWUvaG9zdC90Y3AuYyBpbmRleCAzODVhNTIxMmMxMGYxLi43MjA1
+OTU2MWI3ZjJhIDEwMDY0NA0KLS0tIGEvZHJpdmVycy9udm1lL2hvc3QvdGNwLmMNCisrKyBiL2Ry
+aXZlcnMvbnZtZS9ob3N0L3RjcC5jDQpAQCAtMTM4Niw3ICsxMzg2LDkgQEAgc3RhdGljIGludCBu
+dm1lX3RjcF9hbGxvY19xdWV1ZShzdHJ1Y3QgbnZtZV9jdHJsICpuY3RybCwNCiAJcXVldWUtPnNv
+Y2stPnNrLT5za19kYXRhX3JlYWR5ID0gbnZtZV90Y3BfZGF0YV9yZWFkeTsNCiAJcXVldWUtPnNv
+Y2stPnNrLT5za19zdGF0ZV9jaGFuZ2UgPSBudm1lX3RjcF9zdGF0ZV9jaGFuZ2U7DQogCXF1ZXVl
+LT5zb2NrLT5zay0+c2tfd3JpdGVfc3BhY2UgPSBudm1lX3RjcF93cml0ZV9zcGFjZTsNCisjaWZk
+ZWYgQ09ORklHX05FVF9SWF9CVVNZX1BPTEwNCiAJcXVldWUtPnNvY2stPnNrLT5za19sbF91c2Vj
+ID0gMTsNCisjZW5kaWYNCiAJd3JpdGVfdW5sb2NrX2JoKCZxdWV1ZS0+c29jay0+c2stPnNrX2Nh
+bGxiYWNrX2xvY2spOw0KIA0KIAlyZXR1cm4gMDsNCi0tDQoyLjIzLjANCg0KDQpfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KTGludXgtbnZtZSBtYWlsaW5n
+IGxpc3QNCkxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZw0KaHR0cDovL2xpc3RzLmluZnJh
+ZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1udm1lDQpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1udm1lIG1haWxpbmcgbGlzdApMaW51
+eC1udm1lQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFp
+bG1hbi9saXN0aW5mby9saW51eC1udm1lCg==
