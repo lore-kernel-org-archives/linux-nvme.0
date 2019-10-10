@@ -4,63 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A154DC10F14
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Oct 2019 17:09:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10AD0C10F14
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Oct 2019 17:19:23 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7D2362067B
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Oct 2019 17:09:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id DDD9C20659
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Oct 2019 17:19:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="UskX8Wxu"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7D2362067B
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="OBcHY7Oe"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DDD9C20659
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=eAUZjxwzB7MizCFpnGfd35Cnx0EBrDG0TCiZZYYM4Gc=; b=UskX8WxutNzKx1x5Xko6Pekbp
-	7Ca4AknCstdw1n2B1oKPiA4WTmc7OGidrlOIoWnv5nlAvdPWLeDd7butYWozBQtSS2S4ZBWNR5R7r
-	Zy3zyshPQl9N+Uy11Vf8qU5n6//rMdtnu4k5TCmZBFb/Cs0KF394OvAwAPE+jqBP0qxQlV4n/2Xaf
-	jWT6gk0h8tH0RKBstl5IO26gmBceC4811MAvbAn8qMvYQF1f4QRmIKcbqflz53CO3RAW7W+O9zWuk
-	ruI+Z0zoxFkaG4RQu3MxU4A0dfTUjO6FzvYbarPjHH0bTMvxKEMxis0VgF/HRGXEm1N9OcxEzd6FK
-	MrH+U81cw==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=SEc0TkClg68OPGe1C62tMYPIYNXhYrJF1gxDc0Gu4bI=; b=OBcHY7Oemk1hNF
+	e9H3QYbqJnQ0vmYbAFhFQ6e/DsIev+bWuBKJPKOJYDlDy8QoiHsxTyg3cTH7S/3iG/zW33rmq03LZ
+	G8yy8NjDeeKVzrJBuBCMfIH4cQdqyeM+2z+T/7e6dGF8SfNyMo50rHGBX+vZfFF4RJol+EQSllWgR
+	h90h8sO7EU5JQ90lKkl+uX25/6Se5/L2A9j0Qi8AHst3O4cmTLBYwHDtLi4Ew4wvrYNvrEoyAyhph
+	LmiLjL/Nnc3QQJAKYPEsXSgt8aeAWoHCdRw97RioXtqkNPNXRKKnakRHzsFRtmxWCIXmI/asZT6h7
+	I2+X7xhXPo9Yrgnf7FjQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iIbw3-0004MV-HU; Thu, 10 Oct 2019 17:09:07 +0000
-Received: from mga06.intel.com ([134.134.136.31])
+	id 1iIc5w-0000U0-Fw; Thu, 10 Oct 2019 17:19:20 +0000
+Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iIbw0-0004Lj-Kn
- for linux-nvme@lists.infradead.org; Thu, 10 Oct 2019 17:09:05 +0000
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 10 Oct 2019 10:09:03 -0700
-X-IronPort-AV: E=Sophos;i="5.67,280,1566889200"; d="scan'208";a="188031188"
-Received: from unknown (HELO [10.232.112.84]) ([10.232.112.84])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA;
- 10 Oct 2019 10:09:02 -0700
-Subject: Re: [PATCHv4 0/5] nvme: double reset prevention
-To: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
-References: <20191010165736.12081-1-kbusch@kernel.org>
-From: "Nadolski, Edmund" <edmund.nadolski@intel.com>
-Message-ID: <9490c89d-f70d-8333-1cf2-3bdc0071af6b@intel.com>
-Date: Thu, 10 Oct 2019 11:09:02 -0600
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ id 1iIc5u-0000Sz-5Q
+ for linux-nvme@lists.infradead.org; Thu, 10 Oct 2019 17:19:19 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 4CC6F68CFC; Thu, 10 Oct 2019 19:19:13 +0200 (CEST)
+Date: Thu, 10 Oct 2019 19:19:13 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: "Wunderlich, Mark" <mark.wunderlich@intel.com>
+Subject: Re: [PATCH v2] nvme-tcp: Initialize sk->sk_ll_usec only with
+ NET_RX_BUSY_POLL
+Message-ID: <20191010171913.GA3104@lst.de>
+References: <20191010150622.reqmasxgavug4amm@linutronix.de>
+ <20191010150719.GA617@lst.de> <20191010151023.gru6fhrhy7gxxwye@linutronix.de>
+ <20191010151444.GA638@lst.de> <20191010152924.jlr53aunkj7de5js@linutronix.de>
+ <20191010152958.GA1057@lst.de>
+ <20191010153411.6uetttizkto6rv65@linutronix.de>
+ <B33B37937B7F3D4CB878107E305D4916D48CFD@ORSMSX104.amr.corp.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20191010165736.12081-1-kbusch@kernel.org>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <B33B37937B7F3D4CB878107E305D4916D48CFD@ORSMSX104.amr.corp.intel.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191010_100904_725574_08D4C70E 
-X-CRM114-Status: GOOD (  14.34  )
+X-CRM114-CacheID: sfid-20191010_101918_354347_51834DFE 
+X-CRM114-Status: UNSURE (   7.39  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,38 +71,23 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Judy Brock <judy.brock@samsung.com>, James Smart <james.smart@broadcom.com>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ Jens Axboe <axboe@fb.com>, Keith Busch <kbusch@kernel.org>,
+ "tglx@linutronix.de" <tglx@linutronix.de>, Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/10/2019 10:57 AM, Keith Busch wrote:
-> The main objective of this series is to prevent double resets. This sort
-> of thing is known to have happened if a timeout occurs at roughly the
-> same time as a user intiated reset, like through through PCIe's FLR.
-> 
-> The double reset could happen because the controller disabling had been
-> occuring outside of the RESETTING state when we can't schedule the
-> reset_work, which is to occur later. When another reset schedules in
-> between these events, the controller ends up in the wrong state.
-> 
-> The end result of this series is simply to block subsequent resets by
-> initializing the controller state to RESETTING without actually scheduling
-> the reset_work.
-> 
-> v3 -> v4:
-> 
->    Renamed nvme_reset_schedule() to nvme_try_sched_reset_work() and
->    documented when it may fail (hot remove). I'm open to suggestions for
->    a better name.
+On Thu, Oct 10, 2019 at 05:08:27PM +0000, Wunderlich, Mark wrote:
+> Should there also be a check here to honor any non-zero value of sk_ll_usec ( via sysctl_net_busy_read ), before setting here to hard coded default of 1?
+> Or maybe best to have this as a separate patch to consider?
 
-nvme_queue_reset()
-nvme_atomic_reset()
-nvme_queue_atomic_reset()
-
-Ed
-
+Let's keep that separate.  If you want to enhance that area, we probably
+shouldn't build nvme_tcp_poll at all without CONFIG_NET_RX_BUSY_POLL as
+well.
 
 _______________________________________________
 Linux-nvme mailing list
