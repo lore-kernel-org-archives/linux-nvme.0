@@ -1,84 +1,71 @@
-Return-Path: <SRS0=YKC+=YP=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=6M3L=YQ=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8397C47E49
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Oct 2019 19:49:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FAC2CA9EA0
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Oct 2019 01:18:32 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7160621906
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Oct 2019 19:49:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 430AF20679
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Oct 2019 01:18:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="KILUTsah"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7160621906
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Iq+BlYyW";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="tUoKG6JL"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 430AF20679
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=mzwhEM1WPGlPx04i5gnftJZzuMicnZyqbesD0koUSjg=; b=KILUTsah8+4iP9eOBinnaUG6H
-	Q+scjNwwR8wN/OTUg53C+eUoFDmgH1hv6XA4/c9b4C28J5Qq0Afss1FgNyjjHE1cj9o1A3DEiDEQ3
-	OTZbTrYITlSEeKz/9nH0yYzBrWakwLXb0Yue1cRuRYZhfb2nvKre3fPODGjGzI6Y2+L1xlbmwNWXu
-	y2ju9a1kyLPr+5YATYZYnFtWC3p0A6NTUYy9OFziaAXKbOnd2NT0YAIcjLQtt2v06qoc5P4XfqMae
-	x3cYtFLaT46CLc3qcKQmnFh4zG/nv5hNlS2f94W+4Ulo/GVkjv6iCjELlLfpA+SxQRfcUa0cXYEK9
-	7ZxUaYBOg==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=Oh99xhCa8wRxA+ZSuWzVNS1maFCfNELGJbPTDMRpi3k=; b=Iq+BlYyWkFxXey
+	BxGSczfYLCaSkd5MR5OsMSOBR2g6xPosXcj04HIstbPx/zyBj9LO5cRZqeEp57oQOZVQmpNVJmcZC
+	5qySA+YtAfEuA9VUr1ZEJWFjdDgzVg0CrKocBM6IYjCxkJIhTRRpqr/wvn3TzIh2/UI9nbyKTo/ce
+	Tqd1frFlthf7Fy4plssxN6c2nay/72Bhuog3qFFt88YbkmvI7Ykvyc3uKFekRDQnwXsgl1i2+vsqU
+	hF+D88YnQAcGWfSjxEmBa5WdwHZKoOoteRyFbPgdCrcMu9smPIdNsY/ud/8zFw7GawpCnQxvYzW8i
+	8WGJl6lmqfZSA5frqnYQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iN09J-0000Yr-Ci; Tue, 22 Oct 2019 19:48:57 +0000
-Received: from mail-wr1-f68.google.com ([209.85.221.68])
+	id 1iN5I9-0004ZX-3D; Wed, 23 Oct 2019 01:18:25 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iN098-0000VV-Va
- for linux-nvme@lists.infradead.org; Tue, 22 Oct 2019 19:48:51 +0000
-Received: by mail-wr1-f68.google.com with SMTP id a11so3326663wra.6
- for <linux-nvme@lists.infradead.org>; Tue, 22 Oct 2019 12:48:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=/7Zh1aPWF33tthSbvZvz9bFPO4C1wjLVBXfNd4P57ho=;
- b=TBeMopkoAx9o5/PkfPOXK78Zyy2iPm/Ug9B1n0wJPrDILPrGeYpt0Xhxnz4DqifIcH
- RYksVDs1FneOruXZOlo2r9RSqckIEwNiSU6lhdrAx9ds22iaESo20QZ/L+osR6DwNy6a
- zYc+dhVyu/4+2V3yY8brPovXYuobRTD8TbUE9b4JJxwN5KD+g3A/oHWNR49KpZlprB9L
- WvxtpK3Z1uJsuhAas1P4TzreXEnMh0Hvzy3nhEp7pIwYxen74mUcnBy9n6tozyUwgjwT
- cGOFTsbTLeERHeB8MsQ2Cd9nWscU4SlIVdLbDdv+Bzwtq6FB45FEnu4/QpCVW0sRqRez
- ghAA==
-X-Gm-Message-State: APjAAAUIu14t/1kQBXbKla0ur9vecXVlkrQNrefi+qBXi+jnJo3M3Q0H
- +u7YCPMkk48wwJNWltcywt0=
-X-Google-Smtp-Source: APXvYqwyiHhSWngRPSmQ1i3svOkD/lGll71A+QUUWDbmv64mvm80etmGSulginfFocLBcopkRyG71w==
-X-Received: by 2002:a5d:50c2:: with SMTP id f2mr4972053wrt.147.1571773720919; 
- Tue, 22 Oct 2019 12:48:40 -0700 (PDT)
-Received: from ?IPv6:2600:1700:65a0:78e0:514:7862:1503:8e4d?
- ([2600:1700:65a0:78e0:514:7862:1503:8e4d])
- by smtp.gmail.com with ESMTPSA id p15sm19162737wrs.94.2019.10.22.12.48.38
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 22 Oct 2019 12:48:40 -0700 (PDT)
+ id 1iN5I6-0004Z7-Dd
+ for linux-nvme@lists.infradead.org; Wed, 23 Oct 2019 01:18:23 +0000
+Received: from redsun51.ssa.fujisawa.hgst.com (unknown [199.255.47.7])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 7659A20679;
+ Wed, 23 Oct 2019 01:18:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1571793501;
+ bh=Bw0/TnI87+PCX28Mqjm+a+pamH85slRig8ez/oJLqHk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=tUoKG6JLiMBpyUThnswyrzp0gZGqrvxX7LZdeyGM21roJzlZDzqEQ+4QSf8ujbRvS
+ lZGpsmb5Ui07UVje0TZI9DV4+xSVqckZh+KtnP4mcAn8JDjol/xgx0okFyJMF4UjEv
+ fMHwNPJduk/+cJg+wPZRYUIwNM5ldH58W84hBZIs=
+Date: Wed, 23 Oct 2019 10:18:14 +0900
+From: Keith Busch <kbusch@kernel.org>
+To: Sagi Grimberg <sagi@grimberg.me>
 Subject: Re: [PATCH v2 1/2] nvme-multipath: fix possible io hang after ctrl
  reconnect
-To: Anton Eidelman <anton@lightbitslabs.com>, linux-nvme@lists.infradead.org, 
- hch@lst.de, keith.busch@intel.com, hare@suse.de
+Message-ID: <20191023011814.GA15012@redsun51.ssa.fujisawa.hgst.com>
 References: <20191018091016.GA25478@lst.de>
  <20191018183251.501-1-anton@lightbitslabs.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <7180cfee-d1d0-6dda-1bae-53235dc49a05@grimberg.me>
-Date: Tue, 22 Oct 2019 12:48:35 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ <7180cfee-d1d0-6dda-1bae-53235dc49a05@grimberg.me>
 MIME-Version: 1.0
-In-Reply-To: <20191018183251.501-1-anton@lightbitslabs.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <7180cfee-d1d0-6dda-1bae-53235dc49a05@grimberg.me>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191022_124850_291644_6F4AF114 
-X-CRM114-Status: UNSURE (   9.05  )
+X-CRM114-CacheID: sfid-20191022_181822_485435_F7DCC622 
+X-CRM114-Status: UNSURE (   7.85  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -91,14 +78,19 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Cc: keith.busch@intel.com, Anton Eidelman <anton@lightbitslabs.com>, hch@lst.de,
+ linux-nvme@lists.infradead.org, hare@suse.de
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+On Tue, Oct 22, 2019 at 12:48:35PM -0700, Sagi Grimberg wrote:
+> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+> 
+> Keith can you apply these to nvme-5.4-rc?
 
-Keith can you apply these to nvme-5.4-rc?
+Yep, applied to nvme-5.4. Thanks!
 
 _______________________________________________
 Linux-nvme mailing list
