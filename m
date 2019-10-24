@@ -5,46 +5,80 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 452CBCA9EAF
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Oct 2019 16:56:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EE45CA9EAF
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Oct 2019 17:13:17 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1BDD4205C9
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Oct 2019 16:56:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0FF1620650
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Oct 2019 17:13:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="b88BYm/s"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1BDD4205C9
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ZNP8QpRo";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=yadro.com header.i=@yadro.com header.b="eG207hBf"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0FF1620650
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=yadro.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
-	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=wvyOKblrJ35As/5TjV06PantIcGjs2vNbj+jyv96eBI=; b=b88BYm/sVm7jJs
-	kx7S/b7/XcPQLhSzP0jabaupDyLzD6OUebZfsg1320ymoxVwmaJmoyK5epWzUSEzHhmZkiPYXxpcO
-	ZdTYF52W9rtJIYMYnp9UyX61UJFmLUfowLAVMa6yd0oD6VE9CHt3Gz4ihhBRey1DwOg9YuWyYR15i
-	zOL88OAD3WhmJQnjyt+Cx8crhC92ZaGABfjsSWZS69nusUD27ibwWof878/lKAMzUJ2d7qISTlHbh
-	zhMupUD2YFLWC17q264GG7ibCECF59faZ5DmJevQAegSNeOI4TCjnP5t1pNyi74yybeYrNH96ifkq
-	a9mphpp6wnAtCdTnspzg==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-ID:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=nBfSjF/Ffp9lRNO6f60czkWo6yn8yvsbLkVCyuc9c3Y=; b=ZNP8QpRo4EMJOt
+	JF0JA/agwey15aCXQE2lh2KNYRasSUU6iLgAcWAxc5oYyybmYYf6VkULRurP7QswPS06BCbQC8Zrn
+	uD61i5r1eAen1L7wiImd+7BE/WC2t875AkLCrfbGoZCYEMDtEQcd6iiHw2NqjjV+XRu/gqjjqR1mn
+	1NLV6w07Aw3io7nGNAUAKC54BTkZPa0ZBNjaSqjBQuBA28e2ctgLzV6SXCBhvbNxGpq3cNDjEDboy
+	ryx3nzwdckrjcHEjS9cQYD02fPVpCZ2zqZ1Ef7er+Y1ZKn1we3Tvne4eewJx8d58PPlxv+v7MW2Xy
+	/rstPECjnustwzgrK9Rw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iNgP5-0008Tf-LC; Thu, 24 Oct 2019 16:56:03 +0000
-Received: from [2600:1700:65a0:78e0:7405:a22f:16c2:b29]
- (helo=sagi-Latitude-E7470.lbits)
- by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iNgP4-0008TW-PQ; Thu, 24 Oct 2019 16:56:02 +0000
-From: Sagi Grimberg <sagi@grimberg.me>
-To: linux-nvme@lists.infradead.org
-Subject: [PATCH] nvmet: fill discovery controller sn, fr and mn correctly
-Date: Thu, 24 Oct 2019 09:55:58 -0700
-Message-Id: <20191024165558.28056-1-sagi@grimberg.me>
-X-Mailer: git-send-email 2.20.1
+	id 1iNgfY-00009d-Mi; Thu, 24 Oct 2019 17:13:04 +0000
+Received: from mta-02.yadro.com ([89.207.88.252] helo=mta-01.yadro.com)
+ by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1iNgfW-00007K-2W
+ for linux-nvme@lists.infradead.org; Thu, 24 Oct 2019 17:13:03 +0000
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id F03F6437F6;
+ Thu, 24 Oct 2019 17:12:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ content-type:content-type:content-transfer-encoding:mime-version
+ :references:in-reply-to:x-mailer:message-id:date:date:subject
+ :subject:from:from:received:received:received; s=mta-01; t=
+ 1571937175; x=1573751576; bh=BvsEhzhdlSaFHugg08Hbv0nvpwWr5AVr2aa
+ 4bqlxehk=; b=eG207hBfekp7gIVP9tYX87mJmnN20Wm0vkPCRBxt1glvBS11Ef7
+ ubY8GIY5QMUMG1rkl5/CZi+kgPZPLZ7aR83CFYrv5w1L8rgVE18h5WjSrC47J4rN
+ XKQ383EPrB5beTrDQ/06vBUMP6kNVmRJQKPyLD/TaEanvVhn/LJcVSYk=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id l66uyQuYIjNe; Thu, 24 Oct 2019 20:12:55 +0300 (MSK)
+Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
+ [172.17.10.102])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id D5A2443E10;
+ Thu, 24 Oct 2019 20:12:44 +0300 (MSK)
+Received: from NB-148.yadro.com (172.17.15.136) by T-EXCH-02.corp.yadro.com
+ (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Thu, 24
+ Oct 2019 20:12:44 +0300
+From: Sergey Miroshnichenko <s.miroshnichenko@yadro.com>
+To: <linux-pci@vger.kernel.org>, <linuxppc-dev@lists.ozlabs.org>
+Subject: [PATCH v6 27/30] nvme-pci: Handle movable BARs
+Date: Thu, 24 Oct 2019 20:12:25 +0300
+Message-ID: <20191024171228.877974-28-s.miroshnichenko@yadro.com>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191024171228.877974-1-s.miroshnichenko@yadro.com>
+References: <20191024171228.877974-1-s.miroshnichenko@yadro.com>
 MIME-Version: 1.0
+X-Originating-IP: [172.17.15.136]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-02.corp.yadro.com (172.17.10.102)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20191024_101302_475439_35F43FA2 
+X-CRM114-Status: GOOD (  13.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,48 +90,105 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
+Cc: Sergey Miroshnichenko <s.miroshnichenko@yadro.com>,
+ Bjorn Helgaas <helgaas@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ linux-nvme@lists.infradead.org, linux@yadro.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Discovery controllers need this information as well.
+Hotplugged devices can affect the existing ones by moving their BARs. The
+PCI subsystem will inform the NVME driver about this by invoking the
+.rescan_prepare() and .rescan_done() hooks, so the BARs can by re-mapped.
 
-Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+Tested under the "randrw" mode of the fio tool. Before the hotplugging:
+
+  % sudo cat /proc/iomem
+  ...
+                3fe800000000-3fe8007fffff : PCI Bus 0020:0b
+                  3fe800000000-3fe8007fffff : PCI Bus 0020:18
+                    3fe800000000-3fe8000fffff : 0020:18:00.0
+                      3fe800000000-3fe8000fffff : nvme
+                    3fe800100000-3fe80017ffff : 0020:18:00.0
+  ...
+
+, then another NVME drive was hot-added, so BARs of the 0020:18:00.0 are
+moved:
+
+  % sudo cat /proc/iomem
+    ...
+                3fe800000000-3fe800ffffff : PCI Bus 0020:0b
+                  3fe800000000-3fe8007fffff : PCI Bus 0020:10
+                    3fe800000000-3fe800003fff : 0020:10:00.0
+                      3fe800000000-3fe800003fff : nvme
+                    3fe800010000-3fe80001ffff : 0020:10:00.0
+                  3fe800800000-3fe800ffffff : PCI Bus 0020:18
+                    3fe800800000-3fe8008fffff : 0020:18:00.0
+                      3fe800800000-3fe8008fffff : nvme
+                    3fe800900000-3fe80097ffff : 0020:18:00.0
+    ...
+
+During the rescanning, both READ and WRITE speeds drop to zero for a while
+due to driver's pause, then restore.
+
+Also tested with an NVME as a system drive.
+
+Cc: linux-nvme@lists.infradead.org
+Cc: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Sergey Miroshnichenko <s.miroshnichenko@yadro.com>
 ---
- drivers/nvme/target/discovery.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/nvme/host/pci.c | 21 ++++++++++++++++++++-
+ 1 file changed, 20 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
-index 3764a8900850..63994787e2ca 100644
---- a/drivers/nvme/target/discovery.c
-+++ b/drivers/nvme/target/discovery.c
-@@ -231,6 +231,7 @@ static void nvmet_execute_identify_disc_ctrl(struct nvmet_req *req)
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 869f462e6b6e..5f162ea5a5f1 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1650,7 +1650,7 @@ static int nvme_remap_bar(struct nvme_dev *dev, unsigned long size)
  {
- 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
- 	struct nvme_id_ctrl *id;
-+	const char model[] = "Linux";
- 	u16 status = 0;
+ 	struct pci_dev *pdev = to_pci_dev(dev->dev);
  
- 	id = kzalloc(sizeof(*id), GFP_KERNEL);
-@@ -239,8 +240,13 @@ static void nvmet_execute_identify_disc_ctrl(struct nvmet_req *req)
- 		goto out;
- 	}
+-	if (size <= dev->bar_mapped_size)
++	if (dev->bar && size <= dev->bar_mapped_size)
+ 		return 0;
+ 	if (size > pci_resource_len(pdev, 0))
+ 		return -ENOMEM;
+@@ -3059,6 +3059,23 @@ static void nvme_error_resume(struct pci_dev *pdev)
+ 	flush_work(&dev->ctrl.reset_work);
+ }
  
-+	memset(id->sn, ' ', sizeof(id->sn));
-+	bin2hex(id->sn, &ctrl->subsys->serial,
-+		min(sizeof(ctrl->subsys->serial), sizeof(id->sn) / 2));
- 	memset(id->fr, ' ', sizeof(id->fr));
--	strncpy((char *)id->fr, UTS_RELEASE, sizeof(id->fr));
-+	memcpy_and_pad(id->mn, sizeof(id->mn), model, sizeof(model) - 1, ' ');
-+	memcpy_and_pad(id->fr, sizeof(id->fr),
-+		       UTS_RELEASE, strlen(UTS_RELEASE), ' ');
++static void nvme_rescan_prepare(struct pci_dev *pdev)
++{
++	struct nvme_dev *dev = pci_get_drvdata(pdev);
++
++	nvme_dev_disable(dev, false);
++	nvme_dev_unmap(dev);
++	dev->bar = NULL;
++}
++
++static void nvme_rescan_done(struct pci_dev *pdev)
++{
++	struct nvme_dev *dev = pci_get_drvdata(pdev);
++
++	nvme_dev_map(dev);
++	nvme_reset_ctrl_sync(&dev->ctrl);
++}
++
+ static const struct pci_error_handlers nvme_err_handler = {
+ 	.error_detected	= nvme_error_detected,
+ 	.slot_reset	= nvme_slot_reset,
+@@ -3135,6 +3152,8 @@ static struct pci_driver nvme_driver = {
+ #endif
+ 	.sriov_configure = pci_sriov_configure_simple,
+ 	.err_handler	= &nvme_err_handler,
++	.rescan_prepare	= nvme_rescan_prepare,
++	.rescan_done	= nvme_rescan_done,
+ };
  
- 	/* no limit on data transfer sizes for now */
- 	id->mdts = 0;
+ static int __init nvme_init(void)
 -- 
-2.20.1
+2.23.0
 
 
 _______________________________________________
