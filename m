@@ -2,83 +2,70 @@ Return-Path: <SRS0=/YZe=YR=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EE45CA9EAF
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Oct 2019 17:13:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D495CA9EAF
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Oct 2019 17:18:44 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0FF1620650
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Oct 2019 17:13:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1E6F620659
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Oct 2019 17:18:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ZNP8QpRo";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=yadro.com header.i=@yadro.com header.b="eG207hBf"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0FF1620650
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=yadro.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Qv7QCB9F"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1E6F620659
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-ID:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:Subject:In-Reply-To:MIME-Version:Date:
+	Message-ID:From:References:To:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=nBfSjF/Ffp9lRNO6f60czkWo6yn8yvsbLkVCyuc9c3Y=; b=ZNP8QpRo4EMJOt
-	JF0JA/agwey15aCXQE2lh2KNYRasSUU6iLgAcWAxc5oYyybmYYf6VkULRurP7QswPS06BCbQC8Zrn
-	uD61i5r1eAen1L7wiImd+7BE/WC2t875AkLCrfbGoZCYEMDtEQcd6iiHw2NqjjV+XRu/gqjjqR1mn
-	1NLV6w07Aw3io7nGNAUAKC54BTkZPa0ZBNjaSqjBQuBA28e2ctgLzV6SXCBhvbNxGpq3cNDjEDboy
-	ryx3nzwdckrjcHEjS9cQYD02fPVpCZ2zqZ1Ef7er+Y1ZKn1we3Tvne4eewJx8d58PPlxv+v7MW2Xy
-	/rstPECjnustwzgrK9Rw==;
+	List-Owner; bh=70E7uSzt9zFdIWZWRDe4iR4PnvfFAC54TzkDZBVSMc0=; b=Qv7QCB9FhMs3LJ
+	ev90ttCdE1D6ws6pEoJmRYkf7LRM2l4uwI1m5svuHrVare2Vu2H6sUVtsMC06iPAnWVyO+ahylKdR
+	u2TUPjB635VcFw3yx6S1xPxjLAIc56ZEwAP9Hx8cqXxQYqXsWQWMtvse4m9tsP/3le1h35iNiy17i
+	u7ndiDoN6z7x3/1QmEnqJSOrpUPq3omRdqzVzGAKPGAtERQXhfPSuNuzsKHsqFezHaWocfBN0+YFT
+	V1SK74IhsWooqHcOnyIKPuCZdhSi86ZGzxygWNGREwA/LUu1NvJf0aOYpfcU6xN7WAnceD92tLE++
+	R3nfosoOPrI5HKP+Aw/A==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iNgfY-00009d-Mi; Thu, 24 Oct 2019 17:13:04 +0000
-Received: from mta-02.yadro.com ([89.207.88.252] helo=mta-01.yadro.com)
+	id 1iNgkp-000274-JL; Thu, 24 Oct 2019 17:18:31 +0000
+Received: from ale.deltatee.com ([207.54.116.67])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iNgfW-00007K-2W
- for linux-nvme@lists.infradead.org; Thu, 24 Oct 2019 17:13:03 +0000
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id F03F6437F6;
- Thu, 24 Oct 2019 17:12:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- content-type:content-type:content-transfer-encoding:mime-version
- :references:in-reply-to:x-mailer:message-id:date:date:subject
- :subject:from:from:received:received:received; s=mta-01; t=
- 1571937175; x=1573751576; bh=BvsEhzhdlSaFHugg08Hbv0nvpwWr5AVr2aa
- 4bqlxehk=; b=eG207hBfekp7gIVP9tYX87mJmnN20Wm0vkPCRBxt1glvBS11Ef7
- ubY8GIY5QMUMG1rkl5/CZi+kgPZPLZ7aR83CFYrv5w1L8rgVE18h5WjSrC47J4rN
- XKQ383EPrB5beTrDQ/06vBUMP6kNVmRJQKPyLD/TaEanvVhn/LJcVSYk=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id l66uyQuYIjNe; Thu, 24 Oct 2019 20:12:55 +0300 (MSK)
-Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
- [172.17.10.102])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id D5A2443E10;
- Thu, 24 Oct 2019 20:12:44 +0300 (MSK)
-Received: from NB-148.yadro.com (172.17.15.136) by T-EXCH-02.corp.yadro.com
- (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Thu, 24
- Oct 2019 20:12:44 +0300
-From: Sergey Miroshnichenko <s.miroshnichenko@yadro.com>
-To: <linux-pci@vger.kernel.org>, <linuxppc-dev@lists.ozlabs.org>
-Subject: [PATCH v6 27/30] nvme-pci: Handle movable BARs
-Date: Thu, 24 Oct 2019 20:12:25 +0300
-Message-ID: <20191024171228.877974-28-s.miroshnichenko@yadro.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191024171228.877974-1-s.miroshnichenko@yadro.com>
-References: <20191024171228.877974-1-s.miroshnichenko@yadro.com>
+ id 1iNgkn-00025n-3J
+ for linux-nvme@lists.infradead.org; Thu, 24 Oct 2019 17:18:30 +0000
+Received: from s0106ac1f6bb1ecac.cg.shawcable.net ([70.73.163.230]
+ helo=[192.168.11.155])
+ by ale.deltatee.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.89) (envelope-from <logang@deltatee.com>)
+ id 1iNgkh-0005m1-1a; Thu, 24 Oct 2019 11:18:25 -0600
+To: Christoph Hellwig <hch@lst.de>
+References: <20191023163545.4193-1-logang@deltatee.com>
+ <20191023163545.4193-4-logang@deltatee.com> <20191024011743.GC5190@lst.de>
+From: Logan Gunthorpe <logang@deltatee.com>
+Message-ID: <382906f0-ce0b-282a-9665-8317b50fe374@deltatee.com>
+Date: Thu, 24 Oct 2019 11:18:20 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-X-Originating-IP: [172.17.15.136]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-02.corp.yadro.com (172.17.10.102)
+In-Reply-To: <20191024011743.GC5190@lst.de>
+Content-Language: en-US
+X-SA-Exim-Connect-IP: 70.73.163.230
+X-SA-Exim-Rcpt-To: sbates@raithlin.com, maxg@mellanox.com,
+ Chaitanya.Kulkarni@wdc.com, sagi@grimberg.me, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org, hch@lst.de
+X-SA-Exim-Mail-From: logang@deltatee.com
+Subject: Re: [PATCH 3/7] nvmet: Introduce common execute function for
+ get_log_page and identify
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191024_101302_475439_35F43FA2 
-X-CRM114-Status: GOOD (  13.39  )
+X-CRM114-CacheID: sfid-20191024_101829_179611_9B45F731 
+X-CRM114-Status: GOOD (  12.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,106 +77,43 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sergey Miroshnichenko <s.miroshnichenko@yadro.com>,
- Bjorn Helgaas <helgaas@kernel.org>, Christoph Hellwig <hch@lst.de>,
- linux-nvme@lists.infradead.org, linux@yadro.com
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, Stephen Bates <sbates@raithlin.com>,
+ Max Gurtovoy <maxg@mellanox.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hotplugged devices can affect the existing ones by moving their BARs. The
-PCI subsystem will inform the NVME driver about this by invoking the
-.rescan_prepare() and .rescan_done() hooks, so the BARs can by re-mapped.
 
-Tested under the "randrw" mode of the fio tool. Before the hotplugging:
 
-  % sudo cat /proc/iomem
-  ...
-                3fe800000000-3fe8007fffff : PCI Bus 0020:0b
-                  3fe800000000-3fe8007fffff : PCI Bus 0020:18
-                    3fe800000000-3fe8000fffff : 0020:18:00.0
-                      3fe800000000-3fe8000fffff : nvme
-                    3fe800100000-3fe80017ffff : 0020:18:00.0
-  ...
+On 2019-10-23 7:17 p.m., Christoph Hellwig wrote:
+> On Wed, Oct 23, 2019 at 10:35:41AM -0600, Logan Gunthorpe wrote:
+>> Instead of picking the sub-command handler to execute in a nested
+>> switch statement introduce a landing functions that calls out
+>> to the appropriate sub-command handler.
+>>
+>> This will allow us to have a common place in the handler to check
+>> the transfer length in a future patch.
+>>
+>> Signed-off-by: Christoph Hellwig <hch@lst.de>
+>> [logang@deltatee.com: separated out of a larger draft patch from hch]
+>> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+> 
+> First signoff needs to be the From line picked up by git.  I don't really
+> care if you keep my attribution or not, but if you do it needs From
+> line for me as the first theing in the mail body, and if not it
+> should drop by signoff and just say based on a patch from me.
+> 
+> Otherwise the series looks fine.
 
-, then another NVME drive was hot-added, so BARs of the 0020:18:00.0 are
-moved:
+Ok, understood. Do you want me to fix this up in a v2? Or can you fix it
+up when you pick up the patches?
 
-  % sudo cat /proc/iomem
-    ...
-                3fe800000000-3fe800ffffff : PCI Bus 0020:0b
-                  3fe800000000-3fe8007fffff : PCI Bus 0020:10
-                    3fe800000000-3fe800003fff : 0020:10:00.0
-                      3fe800000000-3fe800003fff : nvme
-                    3fe800010000-3fe80001ffff : 0020:10:00.0
-                  3fe800800000-3fe800ffffff : PCI Bus 0020:18
-                    3fe800800000-3fe8008fffff : 0020:18:00.0
-                      3fe800800000-3fe8008fffff : nvme
-                    3fe800900000-3fe80097ffff : 0020:18:00.0
-    ...
+Thanks,
 
-During the rescanning, both READ and WRITE speeds drop to zero for a while
-due to driver's pause, then restore.
-
-Also tested with an NVME as a system drive.
-
-Cc: linux-nvme@lists.infradead.org
-Cc: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Sergey Miroshnichenko <s.miroshnichenko@yadro.com>
----
- drivers/nvme/host/pci.c | 21 ++++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 869f462e6b6e..5f162ea5a5f1 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1650,7 +1650,7 @@ static int nvme_remap_bar(struct nvme_dev *dev, unsigned long size)
- {
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 
--	if (size <= dev->bar_mapped_size)
-+	if (dev->bar && size <= dev->bar_mapped_size)
- 		return 0;
- 	if (size > pci_resource_len(pdev, 0))
- 		return -ENOMEM;
-@@ -3059,6 +3059,23 @@ static void nvme_error_resume(struct pci_dev *pdev)
- 	flush_work(&dev->ctrl.reset_work);
- }
- 
-+static void nvme_rescan_prepare(struct pci_dev *pdev)
-+{
-+	struct nvme_dev *dev = pci_get_drvdata(pdev);
-+
-+	nvme_dev_disable(dev, false);
-+	nvme_dev_unmap(dev);
-+	dev->bar = NULL;
-+}
-+
-+static void nvme_rescan_done(struct pci_dev *pdev)
-+{
-+	struct nvme_dev *dev = pci_get_drvdata(pdev);
-+
-+	nvme_dev_map(dev);
-+	nvme_reset_ctrl_sync(&dev->ctrl);
-+}
-+
- static const struct pci_error_handlers nvme_err_handler = {
- 	.error_detected	= nvme_error_detected,
- 	.slot_reset	= nvme_slot_reset,
-@@ -3135,6 +3152,8 @@ static struct pci_driver nvme_driver = {
- #endif
- 	.sriov_configure = pci_sriov_configure_simple,
- 	.err_handler	= &nvme_err_handler,
-+	.rescan_prepare	= nvme_rescan_prepare,
-+	.rescan_done	= nvme_rescan_done,
- };
- 
- static int __init nvme_init(void)
--- 
-2.23.0
-
+Logan
 
 _______________________________________________
 Linux-nvme mailing list
