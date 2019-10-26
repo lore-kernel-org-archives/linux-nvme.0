@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 190EECA9EBC
-	for <linux-nvme@archiver.kernel.org>; Sat, 26 Oct 2019 13:21:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D45CCA9EBC
+	for <linux-nvme@archiver.kernel.org>; Sat, 26 Oct 2019 13:22:47 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E3BA920867
-	for <linux-nvme@archiver.kernel.org>; Sat, 26 Oct 2019 13:21:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id F171D21D7F
+	for <linux-nvme@archiver.kernel.org>; Sat, 26 Oct 2019 13:22:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="qakr8C2q";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="XJcpYRbM"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E3BA920867
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="cPu/L6WF";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="xHkJI+Cs"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F171D21D7F
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,47 +26,47 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=F1lsYJ/iljjWj9BZzw3CXKRnyv/dtlZ02HhNeZUD3Uk=; b=qakr8C2qMwuLIL
-	beT9YVsiHePx28Xr2B4O+Z870Oms7XXxL3TVkcImoau9KADS/XkG2TjIWwepNnsuoB3pWj9kcVw0t
-	6W0UnNxaGT2ksuxYDP7/Td0O7hJ7xQ13DOxIMBwW4/4FRAqxNdCBtPyts0WeDbHN/J88mQWbehoYP
-	z2T9Y0qLux6odJSDqeqV+j3Fnp7JqjricPp9QQ/J7W6wQx1YtqWNA5M5hXpVXW44jFHmPEFtH1VUa
-	DjGQWM3u13dLsY2zjx/G+V+sg4F8HC7BqnSHigkn7Xxuullgq/Y+MJl3Ayok0SEsrvfhNZgP5CQ3E
-	uc9dALT6M8MpBCPMF2Gg==;
+	List-Owner; bh=suTy7d32Jq8STRrR0JLpJ+kulfS3DOT2Vcz+ra+a+i4=; b=cPu/L6WFjXAuB/
+	WBYoB6g06j8/U7df/3MN5M8ooyaBrzyNsMgXAlNSaHrk9AGfCtMHs+aHdAEP5repglKF8Audrpj+N
+	+zSEgsJJRBJvodZgF98sVIhryZEVK3BnmSqxnVSP1KHH31Nga2YZO6fHfmaaG+G/tPTQHVlCHR9gd
+	5QjLm4wCAK2yUsq8nRmlik6vLb1S/2dRAMj21KiKiwatlagbx3xf2JCXfCahcgP7zvbBpjan/YHvD
+	ZphBVWb8qdSnTiZIjRD2murCSEjYbsf5FA2vp3T37oB4TwwQuqh8sEXQbkFA/+Rv7X5cgJJaJ7xSW
+	lURSogz7qT2tN9KfwJXA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iOM0L-0001tk-OJ; Sat, 26 Oct 2019 13:21:17 +0000
+	id 1iOM1R-0002GF-4o; Sat, 26 Oct 2019 13:22:25 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iOM0I-0001tO-HQ
- for linux-nvme@lists.infradead.org; Sat, 26 Oct 2019 13:21:15 +0000
+ id 1iOM1O-0002Fr-1j
+ for linux-nvme@lists.infradead.org; Sat, 26 Oct 2019 13:22:23 +0000
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 7567E222BD;
- Sat, 26 Oct 2019 13:21:13 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 0BC5A222D4;
+ Sat, 26 Oct 2019 13:22:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1572096074;
- bh=8mBqH8vbD/k/fQkmUBFop3VZFHsaPRKIhxQaiD8pzqA=;
+ s=default; t=1572096141;
+ bh=CBaszSDNlm5NoSx/zARR8prZi4DXJ4Y5llwvvqesr1I=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XJcpYRbMvcD70xDmu+xE7ESLOfv8SZDF1UPDt8F2/0vhIs+YLG9ftI+OvgluliwTl
- AQZiXOMDBa3gdyGSYlK1HoLMLcA3wQWyxe1PzNAWZbqhOK9XcIV/7LGqswK003nDA0
- +oZOlib332Ga1q7G0t/bxgZJhICzDK4tWH29oXbw=
+ b=xHkJI+CslqXFQiUpxGblIJ/9XuO1/cBbkW74om+hCzNzCYDwvJmB7jm/Hi4FBlSLb
+ FG3vezNJvABf/7ab1TqXxnc3ZlGlUlrRbYEkwluTVQTu5gKYKc/crw8owuQ7xRZJB8
+ H4WfukXBICGAJmVt6XdteZGoPKwzl64hdkmo1aSo=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 03/33] nvme: retain split access workaround for
+Subject: [PATCH AUTOSEL 4.9 03/21] nvme: retain split access workaround for
  capability reads
-Date: Sat, 26 Oct 2019 09:20:40 -0400
-Message-Id: <20191026132110.4026-3-sashal@kernel.org>
+Date: Sat, 26 Oct 2019 09:21:59 -0400
+Message-Id: <20191026132217.4380-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191026132110.4026-1-sashal@kernel.org>
-References: <20191026132110.4026-1-sashal@kernel.org>
+In-Reply-To: <20191026132217.4380-1-sashal@kernel.org>
+References: <20191026132217.4380-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191026_062114_601406_0708F305 
+X-CRM114-CacheID: sfid-20191026_062222_108710_99625E72 
 X-CRM114-Status: GOOD (  14.87  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -123,10 +123,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index cd11cced36781..3788c053a0b19 100644
+index 1ac4cec5f4f7c..e2bce9385eda6 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -2274,7 +2274,7 @@ static int nvme_pci_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val)
+@@ -1863,7 +1863,7 @@ static int nvme_pci_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val)
  
  static int nvme_pci_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val)
  {
