@@ -4,19 +4,20 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F7DECA9EB9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55A8ECA9EBD
 	for <linux-nvme@archiver.kernel.org>; Sat, 26 Oct 2019 13:20:58 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id ED82E21E6F
-	for <linux-nvme@archiver.kernel.org>; Sat, 26 Oct 2019 13:20:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 22076222BE
+	for <linux-nvme@archiver.kernel.org>; Sat, 26 Oct 2019 13:20:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="VUhiFfa5";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="1OoDFULT"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ED82E21E6F
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="jnSgiv6C";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="XvT2yo23"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 22076222BE
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,38 +26,39 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=hxLsWPC9DboLYLOYxnueeF4Sw0EtFWwOouBtNCar/ZQ=; b=VUhiFfa5KZDuEi
-	GAe1si5ACPNguwpjoRymz0AdY62xedQqLiT8DDdVxTJn1ISLrDCojqtqEMdxmHlcaoKykObE+QVJW
-	/sj+3xoeX9cr0/7eMhJCM7R/YfBR7e/55mN22Re+gON6MvcARRzlsSyyypZIS1e0DbvSQ7Laj4STN
-	wYzeoBA6XH4mqRU32ohC6VZtpeAwpdu8iJ57Di51SiCoIPfUsV4heodBgBvLyotdV1hyHtXrsEWXj
-	NnEMZHt5ksx7Z+GSlUUyYoY835UVtFPzBd83JMWwJMDlkFZ7oC1N1slRmOk7hJ42IdfxiWnKUT6Il
-	lFShifD2Xrdx8dT8eE6Q==;
+	List-Owner; bh=81K/b4N/ovDdM2sbEr2DF0J/fRIfHEu0KmLgMZde24M=; b=jnSgiv6ChjjdFk
+	0bSq3lEHymZO5VuHJ1FbpQLHplFT+tNIllx1OvKzvF+eP0K/ZbyHTCS7fp4N9WIlxTXTFGN7Sotmg
+	Xgb70BWgroP3YRwOyT+1WVSR3rXL1zeo9a8vqZstoFthg+wNpno4jsEt8himro0ObPFv2cZPUDYrH
+	UA91KmZ56t3LzchfYklcbPe53Z5Vcy1shgVy6/2yCUQFj/8QTyOSreS3+BWo6z5QIunDKXgBUbn2B
+	ro1TSyM7DqLJd4smrYocuzh/XbtkkMtx8BTpIwzlvofJHyvWmBbosq9cFFf3UgAKoNX3ojUlx4q6j
+	52XWPKevTOKHuiKkQ95g==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iOLzf-0001VJ-6s; Sat, 26 Oct 2019 13:20:35 +0000
+	id 1iOLzl-0001bI-TE; Sat, 26 Oct 2019 13:20:42 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iOLzc-0001Ui-Ln
- for linux-nvme@lists.infradead.org; Sat, 26 Oct 2019 13:20:34 +0000
+ id 1iOLzd-0001Uy-ON
+ for linux-nvme@lists.infradead.org; Sat, 26 Oct 2019 13:20:35 +0000
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 617AD21D7F;
- Sat, 26 Oct 2019 13:20:31 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id B3717222BD;
+ Sat, 26 Oct 2019 13:20:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1572096032;
- bh=bNC+TcN3IWRHEh9qOeVupKZeAl+zfDS1a3g66p+KHQk=;
+ s=default; t=1572096033;
+ bh=0gMrf58nyOQicRuJIsnB9fgJMehx9YiSuKXoMEcGI28=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=1OoDFULT7fwwBEkW1OuUXRyVMJNdYxWSKYWJXr4hexWG3XkHemiAOLnMr+uQbWKDw
- WquJCSsxrefZN3+x3q93U3VIHU57Q3Fs0LalaBgWE9IhR1+u/OvIg/SW2Mx8N1MZl6
- xakjrLDpr7TirJ8NULt5H0Knem5fHXm1g+rWzDmA=
+ b=XvT2yo23keVe2VXfZamfI/l28P5t+AkUnBS+mUn4TKR05cpORLtWlk7y4SqRt0GlP
+ 6EM5NC6jZLzY5wNCm/0msNPhnBGpAvyOb1DbG1C+bmzeDslCbWZ+GoWMfZrxyJqkhi
+ IKvN6YNW9I5A+kCK/p0fr0L0VaNIiH3/jOdPWSHo=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 42/59] nvme-pci: Free tagset if no IO queues
-Date: Sat, 26 Oct 2019 09:18:53 -0400
-Message-Id: <20191026131910.3435-42-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 43/59] nvme: Prevent resets during paused
+ controller state
+Date: Sat, 26 Oct 2019 09:18:54 -0400
+Message-Id: <20191026131910.3435-43-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191026131910.3435-1-sashal@kernel.org>
 References: <20191026131910.3435-1-sashal@kernel.org>
@@ -64,8 +66,8 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191026_062032_734180_12BEF997 
-X-CRM114-Status: GOOD (  11.90  )
+X-CRM114-CacheID: sfid-20191026_062033_830016_35D41024 
+X-CRM114-Status: GOOD (  12.34  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,10 +79,9 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- James Smart <james.smart@broadcom.com>, linux-nvme@lists.infradead.org,
- Edmund Nadolski <edmund.nadolski@intel.com>, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, Sasha Levin <sashal@kernel.org>,
+ Edmund Nadolski <edmund.nadolski@intel.com>, Christoph Hellwig <hch@lst.de>,
+ linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
@@ -88,58 +89,81 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Keith Busch <kbusch@kernel.org>
 
-[ Upstream commit 770597ecb2075390c01c425b8b1f551347f1bd70 ]
+[ Upstream commit 4c75f877853cfa81b12374a07208e07b077f39b8 ]
 
-If a controller becomes degraded after a reset, we will not be able to
-perform any IO. We currently teardown previously created request
-queues and namespaces, but we had kept the unusable tagset. Free
-it after all queues using it have been released.
+A paused controller is doing critical internal activation work in the
+background. Prevent subsequent controller resets from occurring during
+this period by setting the controller state to RESETTING first. A helper
+function, nvme_try_sched_reset_work(), is introduced for these paths so
+they may continue with scheduling the reset_work after they've completed
+their uninterruptible critical section.
 
 Tested-by: Edmund Nadolski <edmund.nadolski@intel.com>
-Reviewed-by: James Smart <james.smart@broadcom.com>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/pci.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ drivers/nvme/host/core.c | 29 +++++++++++++++++++++++++----
+ 1 file changed, 25 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index fad75362fe84b..ef60c9f7f27be 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2221,14 +2221,20 @@ static void nvme_release_prp_pools(struct nvme_dev *dev)
- 	dma_pool_destroy(dev->prp_small_pool);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index ddd5c72a565ad..95d4f1a6dd795 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -126,6 +126,21 @@ static void nvme_queue_scan(struct nvme_ctrl *ctrl)
+ 		queue_work(nvme_wq, &ctrl->scan_work);
  }
  
-+static void nvme_free_tagset(struct nvme_dev *dev)
++/*
++ * Use this function to proceed with scheduling reset_work for a controller
++ * that had previously been set to the resetting state. This is intended for
++ * code paths that can't be interrupted by other reset attempts. A hot removal
++ * may prevent this from succeeding.
++ */
++static int nvme_try_sched_reset(struct nvme_ctrl *ctrl)
 +{
-+	if (dev->tagset.tags)
-+		blk_mq_free_tag_set(&dev->tagset);
-+	dev->ctrl.tagset = NULL;
++	if (ctrl->state != NVME_CTRL_RESETTING)
++		return -EBUSY;
++	if (!queue_work(nvme_reset_wq, &ctrl->reset_work))
++		return -EBUSY;
++	return 0;
 +}
 +
- static void nvme_pci_free_ctrl(struct nvme_ctrl *ctrl)
+ int nvme_reset_ctrl(struct nvme_ctrl *ctrl)
  {
- 	struct nvme_dev *dev = to_nvme_dev(ctrl);
+ 	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
+@@ -3445,13 +3460,13 @@ static void nvme_fw_act_work(struct work_struct *work)
+ 		if (time_after(jiffies, fw_act_timeout)) {
+ 			dev_warn(ctrl->device,
+ 				"Fw activation timeout, reset controller\n");
+-			nvme_reset_ctrl(ctrl);
+-			break;
++			nvme_try_sched_reset(ctrl);
++			return;
+ 		}
+ 		msleep(100);
+ 	}
  
- 	nvme_dbbuf_dma_free(dev);
- 	put_device(dev->dev);
--	if (dev->tagset.tags)
--		blk_mq_free_tag_set(&dev->tagset);
-+	nvme_free_tagset(dev);
- 	if (dev->ctrl.admin_q)
- 		blk_put_queue(dev->ctrl.admin_q);
- 	kfree(dev->queues);
-@@ -2341,6 +2347,7 @@ static void nvme_reset_work(struct work_struct *work)
- 		nvme_kill_queues(&dev->ctrl);
- 		nvme_remove_namespaces(&dev->ctrl);
- 		new_state = NVME_CTRL_ADMIN_ONLY;
-+		nvme_free_tagset(dev);
- 	} else {
- 		nvme_start_queues(&dev->ctrl);
- 		nvme_wait_freeze(&dev->ctrl);
+-	if (ctrl->state != NVME_CTRL_LIVE)
++	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_LIVE))
+ 		return;
+ 
+ 	nvme_start_queues(ctrl);
+@@ -3467,7 +3482,13 @@ static void nvme_handle_aen_notice(struct nvme_ctrl *ctrl, u32 result)
+ 		nvme_queue_scan(ctrl);
+ 		break;
+ 	case NVME_AER_NOTICE_FW_ACT_STARTING:
+-		queue_work(nvme_wq, &ctrl->fw_act_work);
++		/*
++		 * We are (ab)using the RESETTING state to prevent subsequent
++		 * recovery actions from interfering with the controller's
++		 * firmware activation.
++		 */
++		if (nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
++			queue_work(nvme_wq, &ctrl->fw_act_work);
+ 		break;
+ #ifdef CONFIG_NVME_MULTIPATH
+ 	case NVME_AER_NOTICE_ANA:
 -- 
 2.20.1
 
