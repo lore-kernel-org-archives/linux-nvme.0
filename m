@@ -1,22 +1,22 @@
-Return-Path: <SRS0=pUqL=YS=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=T5EX=YT=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B8FCCA9EA0
-	for <linux-nvme@archiver.kernel.org>; Fri, 25 Oct 2019 23:58:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FEF3CA9EA0
+	for <linux-nvme@archiver.kernel.org>; Sat, 26 Oct 2019 01:06:50 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3E31C206E0
-	for <linux-nvme@archiver.kernel.org>; Fri, 25 Oct 2019 23:58:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C7B4820679
+	for <linux-nvme@archiver.kernel.org>; Sat, 26 Oct 2019 01:06:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="RqAWoWkw";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="HsS9jvaR"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3E31C206E0
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Zym40UyO";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="CrQod7Wd"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C7B4820679
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,44 +25,49 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=QS6etAOc+6bfK1KinCc/LAow3JuQjyn8+4P5ajeZv/o=; b=RqAWoWkwIDxFFY
-	5zlMMAegrq7FI26VgmXepHS3fX/7VIZiyrrIjNyAh5q7GMxD0T7eGPbfTMZ11ykl91YGH85pmFz8Q
-	8dqBcElSQvfDTc9HyAGIW8rodgGxDxzyggZliXcdjMT6XKWIEjLnmuIlaco88DulAFQ3qWZDhGoMx
-	skQGn2LgXXyxYNTDD6mfh/yJzX0cjYXS/95D+RGJ53Rz/UV93PZcKcyZXOxhdTnAD8eif7rPp6oaI
-	EXvPOab1TS1ie/BEa76LkBJS4L6jj07sD82uR3l3FP6HJI7WjcQwC8YzHUupIb9+hgAEyW5S55ulh
-	9/goLZ++ZPNirfC4Ybgw==;
+	List-Owner; bh=hqAIX+WyJzUic9iWUgCKHb6j15EgOgoQBT7Ng6sg3XA=; b=Zym40UyOipNqHH
+	jnP9vBmnaCJQvtVjVLKlmIupaPrY8wD24dhBueHE/np1l3FR+PGvEG8nRCmSod9uWFW1gchVh/X3H
+	0O/LWRtluhyX6laHcPhJx21xaqr4TvKf8kFRrPb0C2mlstQjT+p3nHhSDoCcdXGm+tl1orQMVaxV4
+	L26eIoL/rG0QC//fB6g5JvFbyD6xO4i7JT6wexLE7F+kD7qsHwPU7VfnNr9uWXvL+a+qUzAGgr63C
+	sKVu/lDBZgQ0YpwaM+nYoLtRXBcWw0PEYdof7LQksQk3CqYMMfo1JKiN3//+JfY8AdvF5Am2rthPM
+	OaAQHppXzzXALk2NLa+g==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iO9T5-00037L-OL; Fri, 25 Oct 2019 23:58:07 +0000
+	id 1iOAXA-0004m8-Go; Sat, 26 Oct 2019 01:06:24 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iO9T2-000372-94
- for linux-nvme@lists.infradead.org; Fri, 25 Oct 2019 23:58:05 +0000
+ id 1iOAX7-0004lI-IE
+ for linux-nvme@lists.infradead.org; Sat, 26 Oct 2019 01:06:22 +0000
 Received: from redsun51.ssa.fujisawa.hgst.com (unknown [199.255.47.7])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 20566206E0;
- Fri, 25 Oct 2019 23:58:03 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id B34B720679;
+ Sat, 26 Oct 2019 01:06:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1572047883;
- bh=DCSLD8b6nF368+9qOsao2twIZ3wvvVlpSF9QZ0Md0Hg=;
+ s=default; t=1572051979;
+ bh=zbbKa1aKtmwBZUSaM1YpDsHSWg6hKENUsMcZGllWIx4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=HsS9jvaRIXmkq970vIkLXE0MAgl4P5paKvsO7iQGVQg4apc2nQ5zFE2nW8FB5HhiZ
- 8yD25obdWEefEWfGgUhE61MweSDrkSA+m1oLyadmJHj78ZrBEQY6holnabH67mf9lY
- d+e7HNAGGjEc2HLDapWHBTPdrobse/U1sTAneeio=
-Date: Sat, 26 Oct 2019 08:58:00 +0900
+ b=CrQod7WdTh3S76qkeypKC+6a8tHewmhyQXShvN3IuiiPY4YqOfGfpPaCmg42WNsvj
+ 64UFOYZlqLeCgBiZIsHFfqRA0j4bWTaADWeDEH7FpM0o0Fbztsq1f2oR9iLU7hlq4e
+ 5IgQf3sw+rWNLEEHfaekv9GsidIiBgP2FkbUckAA=
+Date: Sat, 26 Oct 2019 10:06:13 +0900
 From: Keith Busch <kbusch@kernel.org>
-To: Logan Gunthorpe <logang@deltatee.com>
-Subject: Re: [PATCH] nvmet: Cleanup nvmet_req_init() branching
-Message-ID: <20191025235800.GB23826@redsun51.ssa.fujisawa.hgst.com>
-References: <20191025193739.9878-1-logang@deltatee.com>
+To: Mark Ruijter <MRuijter@onestopsystems.com>
+Subject: Re: [PATCH] nvmet: introduce use_vfs ns-attr
+Message-ID: <20191026010613.GA3210@redsun51.ssa.fujisawa.hgst.com>
+References: <20191023201715.4236-1-chaitanya.kulkarni@wdc.com>
+ <20191024020003.GA2148@redsun51.ssa.fujisawa.hgst.com>
+ <FA6B6A9F-649B-4B58-99D0-2D09076E2482@onestopsystems.com>
+ <20191025040540.GA19941@redsun51.ssa.fujisawa.hgst.com>
+ <20191025042658.GB19941@redsun51.ssa.fujisawa.hgst.com>
+ <109617B2-CC73-4CDE-B97A-FDDB12CD22BD@onestopsystems.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191025193739.9878-1-logang@deltatee.com>
+In-Reply-To: <109617B2-CC73-4CDE-B97A-FDDB12CD22BD@onestopsystems.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191025_165804_341014_2B1AAB9E 
-X-CRM114-Status: UNSURE (   7.91  )
+X-CRM114-CacheID: sfid-20191025_180621_630345_4FD93FEF 
+X-CRM114-Status: UNSURE (   8.57  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -75,19 +80,26 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Stephen Bates <sbates@raithlin.com>,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- Christoph Hellwig <hch@lst.de>
+Cc: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>, "hch@lst.de" <hch@lst.de>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "sagi@grimberg.me" <sagi@grimberg.me>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Oct 25, 2019 at 01:37:39PM -0600, Logan Gunthorpe wrote:
-> This is a prep patch for the nvmet passthru patch set. It was part
-> of Christoph's feedback.
+On Fri, Oct 25, 2019 at 08:44:00AM +0000, Mark Ruijter wrote:
+> 
+> Hi Keith,
+> 
+> I am indeed not using buffered io.
+> Using the VFS increases my 4k random write performance from 200K to 650K when using raid1. 
+> So the difference is huge and becomes more significant when the underlying drives or raid0 can handle more iops.
 
-Looks like he sent the same patch just ahead of this one.
+You're observing a difference only when using RAID? I just tried some
+simple tests on a machine comparing ramdisk files and loop block devices
+as the backing storage, and there appears to be a similar performance
+difference there as well.
 
 _______________________________________________
 Linux-nvme mailing list
