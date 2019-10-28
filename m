@@ -2,91 +2,81 @@ Return-Path: <SRS0=TJkX=YV=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53A7ACA9EC0
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Oct 2019 18:23:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52C75CA9EC0
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Oct 2019 20:27:05 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2CD5B214B2
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Oct 2019 18:23:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 2806D21721
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Oct 2019 20:27:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="rCU7/cZX";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="IVhakUxz"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2CD5B214B2
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="mb9ZFTeS"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2806D21721
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
-	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=Ka7tIzqezZNvLZbWMZLn9qCjOZWrRwvB9bDE8gvfyHs=; b=rCU7/cZXp6r0J6
-	0dNNc9VijHbYenKvNOxTNSK1RvboZAw/wIW/SeE8pNAmiE82b/dcOJIqUnd0lMToH/86pXhhL4fMR
-	OY3Us4RYOVTVzJlxbSmNfIe9T0Vs+voxKH//r8cmPQW/mb6SLvyN5TCkCDXjID6ykjhY2md9RGQt6
-	9qnI1m+htKnD+hXYPQgMFfEBriTsC7eR+UlSOu8/3dKmnniNdHuZptwHhNTmq2Nb1CHBy5JNfeBwq
-	SKUu5ZF9cqY8NFUTCkMcNqmcMqWI7dHdbRxu8tF+qmMQ0ylRbQAFBQEnnpKoX/gj8svc66HkLJq9q
-	zjnIIKuu8TJKzrBFH70g==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=VGqcTdOIRl7k+1nHB+YA7o49dYX5Ign5OjBAuPM10fM=; b=mb9ZFTeS+vMwebrV3/w6AnT2v
+	JDGH7S0uF38oDQGaMwNKrvKe8vhPEt6vM8Mil4WON3EYF1KD5E4+Zztf2uiVvr4k/7iU/B1sldK02
+	iX2OgNopsDoVj0DOejK2pFEkAopd1gLjwJYePc8Kx+zYjGsc7anlcqA6VnMIjQPLnH5WfMAmUKJid
+	XJ2vTj7GU0il587DXn4vA+DCs/BBP9labeFPQCJEUM+Pa3+xGGOvcm5on84/9MH2F3zwkh7tb+9Rk
+	ehVijEmA16HzeN5MiC+iGoIt793oBpZOwlh4mhmg0a9/PP9/50NkPqSdsh94D2OfYqGFMTRRtbzze
+	7cQ2Ek/xQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iP9fy-0001dz-DB; Mon, 28 Oct 2019 18:23:34 +0000
-Received: from esa3.hgst.iphmx.com ([216.71.153.141])
+	id 1iPBbP-0008FN-OI; Mon, 28 Oct 2019 20:26:59 +0000
+Received: from mail-oi1-f171.google.com ([209.85.167.171])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iP9fu-0001ZL-9b
- for linux-nvme@lists.infradead.org; Mon, 28 Oct 2019 18:23:32 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1572287010; x=1603823010;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=/01gYfXSUc77ofu5LtVttmYnwMMJ/d1KzNZuqMsEBKo=;
- b=IVhakUxzfaaJmOiWLC7iIExb521KyclhWIWVWQhgUcHs57agjY4Ugh7F
- h+cN27/Dxhx6BAPJ6b+iJ1WfbUac8oBMRF0jVMl2S/K8ZtL3aC8B+8s1C
- qr+JEFeD1RUsqErc585NFnWH4uQJi2YfGnPEKv6bkr15txclDReW7iyZ3
- /VhfKgvUOYGvTg0eqfKPy66EcWvF0MUZ51nEf+O2l3CDr53gxS2lfrfrE
- Zhb3ibZrJ++EB8QqGlyjQ9srBJ0NbHDeuueVOyHcBZfiCMVRy4vttPSQf
- d+zW3l2JJYGH73P0EEImDZ52/lpg35Z7bx7HWZUC0ztOOoWWDyH5xHCYj w==;
-IronPort-SDR: 0ufFnm2l6hrooaykoMHdzk9odDFAVrkjmV0HjU2+RVOINozLNBS6bq5flZVg196gLv85CDeuOW
- /V7kYX51odQMl++Iw01/AKpodeO6ugaLoCA7WwsWgVzYMP+t+EfUWRixUd2XXqm3IpLrGImxg1
- 8fC1YM+MWnIpsAX2Z58XQPb+KLS9OS1YVxowkFz85U+xYfBvHhWH1ibwiF1jrnDaWpMm6oH+Z5
- h0qAB0UTJeXpQer9tXTCahzoIQuzCUBmvlQbYkecxJOb9eIFNub/dqSvRLNq384j3L6A9ouqGu
- i7A=
-X-IronPort-AV: E=Sophos;i="5.68,240,1569254400"; d="scan'208";a="125916853"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 29 Oct 2019 02:23:28 +0800
-IronPort-SDR: XjqCcpiss0sCEUqtBvdOl4lqVyC6RT14JWiGM/266z4gv51Wk1GzBT80aKD6yFP6Iox5XDh2bO
- bzmagvRqw2PqHTGaCoblufmXOX16YYtVMg5kYGhrJooNwnSQIgdoyzx8XR6HBM8RA1RGw3Lkq+
- FIITHHTUORK8DzOVSTgyuWFeBFLs+tLrJvkc4s+saJgiQvhJ42p1UeVHqX9meyzcLwQe7XeA/A
- MFcPFVJq9Wz+/b61Q9CRx86QfybGln8gLU346qXcprs0KCGUCOsR/ysKgHXOgOSDxFfQGytve+
- GtE8Op3dWWKLm8AYZ7wQxlfA
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2019 11:18:48 -0700
-IronPort-SDR: SE61Lz/JpzSFoEYZbF2+xbbEA8lvottfXObqfJ6gXmOj2K17ycFc9xoiQ3Kx3/FnjQII6M1jgC
- P9pQ6dW9Odc0wZDZpHZ1H+pxyUzflfHMQflvOHGFZ7SRpEBIjq3o3QL6IixANMbXM5p3w7WMoY
- fmMEjVIUXiOz8cNeL8QPgGlrr7csxti78XHW7+fQguXIpFvjuJACR7IGCremGDSZA8nDJ/w7Z8
- 4UB38QI6IkBNil4uOIkPA+aYjxlvOkKAjRQxhm2A9179Z/Pn6OpQXc0gQ0rFfCOpXIkxzeEfMo
- ga0=
-WDCIronportException: Internal
-Received: from cvenusqemu.hgst.com ([10.202.66.73])
- by uls-op-cesaip02.wdc.com with ESMTP; 28 Oct 2019 11:23:28 -0700
-From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-To: linux-nvme@lists.infradead.org
-Subject: [PATCH] nvmet: add plugging for read/write when ns is bdev
-Date: Mon, 28 Oct 2019 11:23:26 -0700
-Message-Id: <20191028182326.14311-1-chaitanya.kulkarni@wdc.com>
-X-Mailer: git-send-email 2.22.1
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+ id 1iPBbN-0008F0-En
+ for linux-nvme@lists.infradead.org; Mon, 28 Oct 2019 20:26:58 +0000
+Received: by mail-oi1-f171.google.com with SMTP id n16so4801734oig.2
+ for <linux-nvme@lists.infradead.org>; Mon, 28 Oct 2019 13:26:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=KSwf6YKQuOuNajmGdQ7gKEV71+gjIPpE/B9qE1+kGwM=;
+ b=nLwsNcbjMwWC0juPq7PEd24xZW46bImKdOPArVLwvEq3oyXje2AkQIjSnoefdQyIVy
+ pn0+dbgCC+xVUw/btxO8PnLuDDCGCyJKFPt22yXtPvjWXS4OWBGlktHDYTqAXq7uaHFQ
+ OHsCm80DS0v6ZZCMh6G0N0bzP7Ma/lLLMfLviU2/o52+o+p9ki8q7wQax9JO1eDi9IGR
+ g8qNkbokMaABMQl3skuytOHP1aixNNOowga8ro9xzmPgMhBGvnIuqAQ+BXLywgau4rP4
+ y4Lcm3Vcx+vUr69cJMRIYPJv5CBu0G+zIuV0M2hDzVt1LUhzurSp4Bf1i/hXDC3VhF35
+ 33AA==
+X-Gm-Message-State: APjAAAU0srvBic2AAkdAkgyADGcmumkSTKWPNz269SNq9Z0Yi2uIJ38U
+ om2MONNsosiHwvpEhbQUg04=
+X-Google-Smtp-Source: APXvYqxIu/vGRDTQCNJc6cHAEkPRN55/CGvMMtEODugO0V+///zaXVnA8Tr8I8Yf50CmNNaSc9O53g==
+X-Received: by 2002:aca:d19:: with SMTP id 25mr882507oin.64.1572294415851;
+ Mon, 28 Oct 2019 13:26:55 -0700 (PDT)
+Received: from ?IPv6:2600:1700:65a0:78e0:514:7862:1503:8e4d?
+ ([2600:1700:65a0:78e0:514:7862:1503:8e4d])
+ by smtp.gmail.com with ESMTPSA id w4sm59717otp.22.2019.10.28.13.26.54
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 28 Oct 2019 13:26:55 -0700 (PDT)
+Subject: Re: [PATCH] nvmet: add plugging for read/write when ns is bdev
+To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
+ linux-nvme@lists.infradead.org
+References: <20191028182326.14311-1-chaitanya.kulkarni@wdc.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <4fef7f91-67ce-548e-ae0d-6f43fe1d1bfd@grimberg.me>
+Date: Mon, 28 Oct 2019 13:26:54 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
+In-Reply-To: <20191028182326.14311-1-chaitanya.kulkarni@wdc.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191028_112330_381387_89A6451E 
-X-CRM114-Status: GOOD (  10.78  )
+X-CRM114-CacheID: sfid-20191028_132657_495629_C5DE0068 
+X-CRM114-Status: UNSURE (   9.81  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,54 +88,17 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: kbusch@kernel.org, hch@lst.de,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: kbusch@kernel.org, hch@lst.de
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-RnJvbTogQ2hyaXN0b3BoIEhlbGx3aWcgPGhjaEBsc3QuZGU+CgpXaXRoIHJlZmVyZW5jZSB0byB0
-aGUgZm9sbG93aW5nIGlzc3VlIHJlcG9ydGVkIG9uIHRoZSBtYWlsaW5nIGxpc3QgOi0KaHR0cDov
-L2xpc3RzLmluZnJhZGVhZC5vcmcvcGlwZXJtYWlsL2xpbnV4LW52bWUvMjAxOS1PY3RvYmVyLzAy
-NzYwNC5odG1sCnRoaXMgcGF0Y2ggYWRkcyBwbHVnZ2luZyBmb3IgdGhlIGJkZXYtbnMgdW5kZXIg
-bnZtZXRfYmRldl9leGVjdXRlX3J3KCkuCgpXZSBjYW4gc2VlIHRoZSBmb2xsb3dpbmcgcGVyZm9y
-bWFuY2UgaW1wcm92ZW1lbnQgaW4gcmFuZG9tIHdyaXRlCndvcmtsb2FkIEkvT3Mgd2l0aCB0aGUg
-c2V0dXAgZGVzY3JpYmVkIGluIHRoZSBsaW5rIHdoZW4gZGV2aWNlX3BhdGgKY29uZmlndXJlZCBh
-cyAvZGV2L21kMC4KCldpdGhvdXQgdGhpcyBwYXRjaCA6LQoKwqAgd3JpdGU6IElPUFM9NDAuOGss
-IEJXPTE1OU1pQi9zICgxNjdNQi9zKSg0Nzc3TWlCLzMwMDAybXNlYykKwqAgd3JpdGU6IElPUFM9
-NDEuMmssIEJXPTE2MU1pQi9zICgxNjlNQi9zKSg0ODMxTWlCLzMwMDExbXNlYykKwqAgwqAgc2xh
-dCAodXNlYyk6IG1pbj04LCDCoG1heD0xMDgyMywgYXZnPTE1LjY0LCDCoHN0ZGV2PTE2Ljg1CsKg
-IMKgIHNsYXQgKHVzZWMpOiBtaW49OCwgwqBtYXg9NDAxLCDCoCBhdmc9MTUuNDAsIMKgc3RkZXY9
-IDkuNTYKwqAgwqAgY2xhdCAodXNlYyk6IG1pbj01NCwgbWF4PTI0OTIsIMKgYXZnPTc1OS4wNywg
-c3RkZXY9MTcyLjYyCsKgIMKgIGNsYXQgKHVzZWMpOiBtaW49NTYsIG1heD0xOTk3LCDCoGF2Zz03
-NjguMDYsIHN0ZGV2PTE3OC43MgoKV2l0aCB0aGlzIHBhdGNoIDotCgrCoCB3cml0ZTogSU9QUz0x
-MjNrLCBCVz00ODBNaUIvcyAoNTA0TUIvcykoMTQuMUdpQi8zMDAxMW1zZWMpCsKgIHdyaXRlOiBJ
-T1BTPTEyM2ssIEJXPTQ4MU1pQi9zICg1MDRNQi9zKSgxNC4xR2lCLzMwMDAybXNlYykKwqAgwqAg
-c2xhdCAodXNlYyk6IG1pbj04LCDCoG1heD05OTQxLCDCoGF2Zz0xMy4zMSwgwqBzdGRldj0gOC4w
-NArCoCDCoCBzbGF0ICh1c2VjKTogbWluPTgsIMKgbWF4PTI4OSwgwqAgYXZnPTEzLjMxLCDCoHN0
-ZGV2PSAzLjM3CsKgIMKgIGNsYXQgKHVzZWMpOiBtaW49NDMsIG1heD0xNzYzNSwgYXZnPTI0NS40
-Niwgc3RkZXY9MTcxLjIzCsKgIMKgIGNsYXQgKHVzZWMpOiBtaW49NDQsIG1heD0xNzc1MSwgYXZn
-PTI0NS4yNSwgc3RkZXY9MTgzLjE0CgpTaWduZWQtb2ZmLWJ5OiBDaHJpc3RvcGggSGVsbHdpZyA8
-aGNoQGxzdC5kZT4KU2lnbmVkLW9mZi1ieTogQ2hhaXRhbnlhIEt1bGthcm5pIDxjaGFpdGFueWEu
-a3Vsa2FybmlAd2RjLmNvbT4KLS0tCiBkcml2ZXJzL252bWUvdGFyZ2V0L2lvLWNtZC1iZGV2LmMg
-fCAzICsrKwogMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvbnZtZS90YXJnZXQvaW8tY21kLWJkZXYuYyBiL2RyaXZlcnMvbnZtZS90YXJnZXQvaW8t
-Y21kLWJkZXYuYwppbmRleCAwNGE5Y2QyLi4wN2U0ZjhjIDEwMDY0NAotLS0gYS9kcml2ZXJzL252
-bWUvdGFyZ2V0L2lvLWNtZC1iZGV2LmMKKysrIGIvZHJpdmVycy9udm1lL3RhcmdldC9pby1jbWQt
-YmRldi5jCkBAIC0xNDcsNiArMTQ3LDcgQEAgc3RhdGljIHZvaWQgbnZtZXRfYmRldl9leGVjdXRl
-X3J3KHN0cnVjdCBudm1ldF9yZXEgKnJlcSkKIAlpbnQgc2dfY250ID0gcmVxLT5zZ19jbnQ7CiAJ
-c3RydWN0IGJpbyAqYmlvOwogCXN0cnVjdCBzY2F0dGVybGlzdCAqc2c7CisJc3RydWN0IGJsa19w
-bHVnIHBsdWc7CiAJc2VjdG9yX3Qgc2VjdG9yOwogCWludCBvcCwgb3BfZmxhZ3MgPSAwLCBpOwog
-CkBAIC0xODUsNiArMTg2LDcgQEAgc3RhdGljIHZvaWQgbnZtZXRfYmRldl9leGVjdXRlX3J3KHN0
-cnVjdCBudm1ldF9yZXEgKnJlcSkKIAliaW8tPmJpX2VuZF9pbyA9IG52bWV0X2Jpb19kb25lOwog
-CWJpb19zZXRfb3BfYXR0cnMoYmlvLCBvcCwgb3BfZmxhZ3MpOwogCisJYmxrX3N0YXJ0X3BsdWco
-JnBsdWcpOwogCWZvcl9lYWNoX3NnKHJlcS0+c2csIHNnLCByZXEtPnNnX2NudCwgaSkgewogCQl3
-aGlsZSAoYmlvX2FkZF9wYWdlKGJpbywgc2dfcGFnZShzZyksIHNnLT5sZW5ndGgsIHNnLT5vZmZz
-ZXQpCiAJCQkJIT0gc2ctPmxlbmd0aCkgewpAQCAtMjA0LDYgKzIwNiw3IEBAIHN0YXRpYyB2b2lk
-IG52bWV0X2JkZXZfZXhlY3V0ZV9ydyhzdHJ1Y3QgbnZtZXRfcmVxICpyZXEpCiAJfQogCiAJc3Vi
-bWl0X2JpbyhiaW8pOworCWJsa19maW5pc2hfcGx1ZygmcGx1Zyk7CiB9CiAKIHN0YXRpYyB2b2lk
-IG52bWV0X2JkZXZfZXhlY3V0ZV9mbHVzaChzdHJ1Y3QgbnZtZXRfcmVxICpyZXEpCi0tIAoxLjgu
-My4xCgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGlu
-dXgtbnZtZSBtYWlsaW5nIGxpc3QKTGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6
-Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
+Looks good!
+
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
