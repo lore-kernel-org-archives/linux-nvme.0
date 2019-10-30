@@ -2,90 +2,67 @@ Return-Path: <SRS0=ZUg+=YX=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF24ECA9EAF
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Oct 2019 05:30:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0B99CA9EAF
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Oct 2019 06:32:47 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6626E2083E
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Oct 2019 05:30:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 88F352067D
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Oct 2019 06:32:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="L9wQ5s3J";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="q5bD+B9Q"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6626E2083E
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="MfFNTOvH";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="YmoKMAvz"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 88F352067D
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
-	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=OHStHCndx0nZtzu0bxVD/CFKXZyu5lcRJUCgefFumv4=; b=L9wQ5s3Jl7GhOH
-	Uhb4XYWjjqDsWbGN8XTWRZ08jTVgwPykQKpHXk6PRLfbJtms1mqo9+TPShGxLZDGNto5oFIOHG1xt
-	WO+Tc1ctl7rEsnyfNwC9DZu1WW37pvx9nUpt1QLhogIV445Tk3f5yWXQw6FBNckA0ytFzm2RyHZLh
-	zy7AFy27xlSmcVp4+5aQ9DdUCq/Fh6YVnCjrQ//OkWyum2S94yAdl9hzasADIC3/y2YrWNn5qGBFE
-	Cm+t4BkDuL8r+LilJkbj6BfJlXkzlBWicPpllQlbQb9ABbBKiDMe256ZtXzIiCRSzTbVfKKQF79ya
-	A97mUUDaFbXL2QF+3jIA==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=JUvgKNzVgHdtf8+9G/wdkWdB5SYzVOTzLotTyPj2pok=; b=MfFNTOvHuJfS6o
+	FS62XkOzZOZUQwvXjbzs8VZ3HU2V0qNkOuarfQXLtJAN9Ua1nb38aa87mFkKvAy3jKFPUQa69X/84
+	7hz/Viaxfu56IPfKgIRXJu6ql4QG7/MUbEyXE3gbk50UdOXU8e8f/HNSaCkO1rrvNnY+OdVNwvaVa
+	Qstib9R10E5Bf/yzAxJQnjb+PPbCkZHv9CT7j5DAQ7GkEe64sONIKpd1o0bAD9eGM1BH+TJ31j18M
+	tkYKx67q77x9UhmDV4A0KrdaUwzTYFxM0bBBlVgggUNOpTvjctt62JJ+XbqQ94fAQlxCB3bqVw0rc
+	HtDfFs2hQ0FsWefbsw+w==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iPgYV-0003A1-5V; Wed, 30 Oct 2019 05:30:03 +0000
-Received: from esa4.hgst.iphmx.com ([216.71.154.42])
+	id 1iPhX7-0002Wt-DQ; Wed, 30 Oct 2019 06:32:41 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iPgYQ-00030v-Nq
- for linux-nvme@lists.infradead.org; Wed, 30 Oct 2019 05:30:01 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1572413398; x=1603949398;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=YV4gQIu9qsoBoCJ/cKwVEAqTDsomUVsDwVziE35Fubo=;
- b=q5bD+B9QpYi7FDuCJQJlKK7vwb9FZ4zKC3BPWIycu07M1Er4LommHOeU
- zv3jUNlHq4NrhO+MddWxlYyCGIDFqd+R6xhn7T+07WWNDL3Wvp5GmVJqR
- CtqIVU0XNPgdHnR2fB5SJJApCeu7D9jZSQPu/onZVOc8IqgMdrIbKkkft
- jk0eiSiQkAms/YdC43gKuDHimQ8n4Y7mfXp6x8MI4XzgWxm+9MVpJb2SG
- ws38FbYm8PFeJKfUhGBsHCmZ9YJHhvwsy3D6dZ8o/7iLT59ao7jcwX5zL
- FZUcg2N2xpE+M+rzR1/ixtvtOfJx1OOrXUkTJMNKvw0A4ZioPl36H1am0 A==;
-IronPort-SDR: XGVuBbyVvinQyAvuBmpcBhGWJr2e2BsAad0hx9R/qhIsVHuf9dL2gUTtB5EHNjtFjGJUjABeoh
- dDiaI63k6T2Id2H/VjWKYowGUHJ/8562BY/lJY2qZrAliFDwvtA6/QZsK46rP+dQ4YRGHE0lOg
- UOtC59nXrVQeaaRFg28ZbnEF+i1qMKukgbdsOil7TesHsorCGDQl5IgE9I2tDkYS1MccYjoXhD
- 9fWw66E9xNZY4JpFWs/pjDrOv3G+GteVHOGSYSqAJeymD48K6A1duxtIHO1NXSdzHnizRdvMT9
- gBs=
-X-IronPort-AV: E=Sophos;i="5.68,246,1569254400"; d="scan'208";a="121663048"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 30 Oct 2019 13:29:56 +0800
-IronPort-SDR: SvbpL93AbHape72/qUMaoov/jfFfjl3SIJEYCWI6E+ETDr/r7mxaN+7WSf+l2wc3QrDJBadVrj
- S3kMFIytvNYq0JMc+X5X+lSqrgz1iHANMb/72fitcQIUX3feJChrzFu76mzJwaBe6RGscv+1/z
- 1OUTqR1T8CEph1sIUyPd/75rvqlHos4URv1QjKWhQMzdKpJdbnG7hIUqmyQucBeun3amyzodve
- XqoDjqy+f+p7P6nq41Fc5wHra9hGawYFLxEvFt1W0/ieXGVFST8TUownkE7XBMkyowPzF3lQD0
- adCjdR8MuqCCIj5bdmb7w9yo
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Oct 2019 22:25:21 -0700
-IronPort-SDR: 53tcohxmystiDXTfXjn5FYFJ0DiFHi9MK1sKO3hxU4eJljHKEOgrOOfkmUwktZWlk0tT+3teX7
- aRdonlu03rGlRniWT5Fo+zzmcY2ZVW7erKM5RVGkWAhBpIcXVTE0c/4vxkRI8gqd1oudfUxtrS
- 4tDB3WvAnip+7fIQ5nQ3n4T5GoSUJxLk6m5h0pXMi7+JYLctYylNAPb1AojP9SF7aN9Am/lrtk
- APgi6Ms5VCp8MRzx8L93TqAT83OQWUgWpc/GH8dZL6tUO2VayH5sNQYtOJCJzVyJszBeb37EVo
- yR8=
-WDCIronportException: Internal
-Received: from ioprio.labspan.wdc.com (HELO ioprio.sc.wdc.com) ([10.6.139.89])
- by uls-op-cesaip02.wdc.com with ESMTP; 29 Oct 2019 22:29:57 -0700
-From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-To: linux-nvme@lists.infradead.org
-Subject: [PATCH] nvmet: allow block device to use buffered I/O
-Date: Tue, 29 Oct 2019 21:26:23 -0700
-Message-Id: <1572409583-3109-1-git-send-email-chaitanya.kulkarni@wdc.com>
-X-Mailer: git-send-email 1.8.3.1
+ id 1iPhX4-0002WM-RZ
+ for linux-nvme@lists.infradead.org; Wed, 30 Oct 2019 06:32:40 +0000
+Received: from redsun51.ssa.fujisawa.hgst.com (unknown [199.255.47.7])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 9B6422067D;
+ Wed, 30 Oct 2019 06:32:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1572417158;
+ bh=mQJzQyGGNJJMVNEsin/hOVoiQxTy3AVKsq4SaWHqdoU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=YmoKMAvz7GNgT70k0mfyfKvU1eFSZXqiqwhxHJI511Ssp7fCRjNfuE49Q3xMTm8vs
+ 71ZL5eeNfQVtp0Rl7MxXfXZrv2Ka/imud//Wfygz0QcTzCrC9+WKU07V9tvNE944Qj
+ ilZQ2tDhxyrBkFdtLhon6YewDT3Biu+NTJk4U6Ts=
+Date: Wed, 30 Oct 2019 15:32:33 +0900
+From: Keith Busch <kbusch@kernel.org>
+To: Charles Machalow <csm10495@gmail.com>
+Subject: Re: nvme_passthru_cmd64 has a 4 byte hole
+Message-ID: <20191030063233.GA16863@redsun51.ssa.fujisawa.hgst.com>
+References: <CANSCoS8HakAy6zHgEjDiYQ87z83RJy-OC9ZfktRJwr+9kgnFKw@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CANSCoS8HakAy6zHgEjDiYQ87z83RJy-OC9ZfktRJwr+9kgnFKw@mail.gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191029_222958_837555_EBF98A73 
-X-CRM114-Status: GOOD (  18.20  )
+X-CRM114-CacheID: sfid-20191029_233238_915721_623635A8 
+X-CRM114-Status: GOOD (  10.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,122 +74,58 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: kbusch@kernel.org, hch@lst.de,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>, sagi@grimberg.me
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-nvme@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-TlZNZU9GIHRhcmdldCBhbHJlYWR5IGhhcyBhIHN1cHBvcnQgdG8gZXhlY3V0ZSByZXF1ZXN0cyBp
-biB0aGUKYnVmZmVyZWQgSS9PIG1vZGUgd2l0aCBmaWxlIGJhY2tlbmQuIFRoaXMgcGF0Y2ggYWxs
-b3dzwqBibG9jayBkZXZpY2VzCnRvIGJlIHVzZWQgd2l0aCBmaWxlIGJhY2tlbmQgY29kZSBzbyB0
-aGF0IGJ1ZmZlcmVkIEkvTyBwYXJhbWV0ZXIgY2FuCmJlIHNldCBmb3IgYSBibG9jayBkZXZpY2Ug
-YmFja2VkIG5hbWVzcGFjZSB3aGVuIG5ld2x5IGludHJvZHVjZQpjb25maWdmcyBwYXJhbWV0ZXIg
-dXNlX3Zmcz0xLgoKRm9sbG93aW5nIGlzIHRoZSBwZXJmb3JtYW5jZSBpbXByb3ZlbWVudCA6LQoK
-RGV2aWNlX3BhdGggPSAvZGV2L251bGxiMCwgSS9PIHR5cGUgPSByYW5kcmVhZC4KCldpdGggdGhp
-cyBwYXRjaCBhbmQgYnVmZmVyZWQgSS9PID0gMCwgdXNlX3Zmcz0wIDoKwqAgcmVhZDogSU9QUz0x
-OThrLCBCVz03NzJNaUIvcyAoODA5TUIvcykoNDUuMkdpQi82MDAwMm1zZWMpCsKgIHJlYWQ6IElP
-UFM9MTk4aywgQlc9Nzc0TWlCL3MgKDgxMU1CL3MpKDQ1LjNHaUIvNjAwMDJtc2VjKQrCoCByZWFk
-OiBJT1BTPTE5N2ssIEJXPTc3MU1pQi9zICg4MDhNQi9zKSg0NS4yR2lCLzYwMDAybXNlYykKCldp
-dGggdGhpcyBwYXRjaCBhbmQgYnVmZmVyZWQgSS9PID0gMSwgdXNlX3Zmcz0xOgrCoCByZWFkOiBJ
-T1BTPTk3OWssIEJXPTM4MjVNaUIvcyAoNDAxME1CL3MpKDIyNEdpQi82MDAwMm1zZWMpCsKgIHJl
-YWQ6IElPUFM9OTgzaywgQlc9Mzg0MU1pQi9zICg0MDI4TUIvcykoMjI1R2lCLzYwMDAzbXNlYykK
-wqAgcmVhZDogSU9QUz05ODBrLCBCVz0zODI4TWlCL3MgKDQwMTRNQi9zKSgyMjRHaUIvNjAwMDJt
-c2VjKQoKQ2FjaGVzdGF0ZSBzaG93cyB0aGUgZm9sbG93aW5nIG91dHB1dCBmb3IgYWJvdmUgY2Fz
-ZTotCjxzbmlwPgogICAgSElUUyAgIE1JU1NFUyAgRElSVElFUyAgICBSQVRJTyAgIEJVRkZFUlNf
-TUIgICBDQUNIRV9NQgogIDc5NTA1NyAgICA3ODA3MCAgICAgICAgMCAgICA5MS4xJSAgICAgICAg
-IDEwMjYgICAgICAgNzk2MQogMTAyODAxNyAgICAgICAgNCAgICAgICAgMCAgIDEwMC4wJSAgICAg
-ICAgIDEwMjYgICAgICAgNzk2MgogMTAyNTI1OSAgICAgICAgMCAgICAgICAgMCAgIDEwMC4wJSAg
-ICAgICAgIDEwMjYgICAgICAgNzk2MgogMTAwMzY1MSAgICAgICAgMCAgICAgICAgMCAgIDEwMC4w
-JSAgICAgICAgIDEwMjYgICAgICAgNzk2MgogMTAyNDc3NSAgICAgICAgMCAgICAgICAgMCAgIDEw
-MC4wJSAgICAgICAgIDEwMjYgICAgICAgNzk2MgogMTAwMzA4MCAgICAgICAgMCAgICAgICAgMCAg
-IDEwMC4wJSAgICAgICAgIDEwMjYgICAgICAgNzk2MgogMTAwNDEyOCAgICAgICAgMCAgICAgICAg
-MCAgIDEwMC4wJSAgICAgICAgIDEwMjYgICAgICAgNzk2MgogMTAwMzgzMSAgICAgICAgMCAgICAg
-ICAgMCAgIDEwMC4wJSAgICAgICAgIDEwMjYgICAgICAgNzk2MgogMTAyNjEzMyAgICAgICAgMCAg
-ICAgICAgMCAgIDEwMC4wJSAgICAgICAgIDEwMjYgICAgICAgNzk2Mgo8c25pcD4KClNpZ25lZC1v
-ZmYtYnk6IENoYWl0YW55YSBLdWxrYXJuaSA8Y2hhaXRhbnlhLmt1bGthcm5pQHdkYy5jb20+Ci0t
-LQpIaSwKClBsZWFlIG5vdGUgdGhhdCBwYXRjaCBvbiB0aGUgc2ltaWxhciBjb25jZXB0IHdhcyBw
-b3N0ZWQgdG8gcmVzb2x2ZQpkaWZmZXJlbnQgaXNzdWUuIEV2ZW4gdGhvdWdoIHRoaXMgcGF0Y2gg
-aXMgYmFzZWQgb24gc2ltaWxhciBjb25jZXB0Cml0IGhhcyBjb21wbGV0ZWx5IGRpZmZlcmVudCBw
-dXJwb3NlIGFuZCBjb2RlIGNoYW5nZXMuCgpSZWdhcmRzLApDaGFpdGFueWEKLS0tCiBkcml2ZXJz
-L252bWUvdGFyZ2V0L2NvbmZpZ2ZzLmMgICAgfCAyOSArKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKwogZHJpdmVycy9udm1lL3RhcmdldC9jb3JlLmMgICAgICAgIHwgIDEgKwogZHJpdmVycy9u
-dm1lL3RhcmdldC9pby1jbWQtYmRldi5jIHwgIDIgKy0KIGRyaXZlcnMvbnZtZS90YXJnZXQvaW8t
-Y21kLWZpbGUuYyB8IDMzICsrKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLQogZHJpdmVy
-cy9udm1lL3RhcmdldC9udm1ldC5oICAgICAgIHwgIDEgKwogNSBmaWxlcyBjaGFuZ2VkLCA1MiBp
-bnNlcnRpb25zKCspLCAxNCBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL252bWUv
-dGFyZ2V0L2NvbmZpZ2ZzLmMgYi9kcml2ZXJzL252bWUvdGFyZ2V0L2NvbmZpZ2ZzLmMKaW5kZXgg
-OTg2MTNhNC4uMWNhNzI3YiAxMDA2NDQKLS0tIGEvZHJpdmVycy9udm1lL3RhcmdldC9jb25maWdm
-cy5jCisrKyBiL2RyaXZlcnMvbnZtZS90YXJnZXQvY29uZmlnZnMuYwpAQCAtNTQ1LDYgKzU0NSwz
-NCBAQCBzdGF0aWMgc3NpemVfdCBudm1ldF9uc19idWZmZXJlZF9pb19zdG9yZShzdHJ1Y3QgY29u
-ZmlnX2l0ZW0gKml0ZW0sCiAKIENPTkZJR0ZTX0FUVFIobnZtZXRfbnNfLCBidWZmZXJlZF9pbyk7
-CiAKK3N0YXRpYyBzc2l6ZV90IG52bWV0X25zX3VzZV92ZnNfc2hvdyhzdHJ1Y3QgY29uZmlnX2l0
-ZW0gKml0ZW0sIGNoYXIgKnBhZ2UpCit7CisJcmV0dXJuIHNwcmludGYocGFnZSwgIiVkXG4iLCB0
-b19udm1ldF9ucyhpdGVtKS0+dXNlX3Zmcyk7Cit9CisKK3N0YXRpYyBzc2l6ZV90IG52bWV0X25z
-X3VzZV92ZnNfc3RvcmUoc3RydWN0IGNvbmZpZ19pdGVtICppdGVtLAorCQljb25zdCBjaGFyICpw
-YWdlLCBzaXplX3QgY291bnQpCit7CisJc3RydWN0IG52bWV0X25zICpucyA9IHRvX252bWV0X25z
-KGl0ZW0pOworCWJvb2wgdmFsOworCisJaWYgKHN0cnRvYm9vbChwYWdlLCAmdmFsKSkKKwkJcmV0
-dXJuIC1FSU5WQUw7CisKKwltdXRleF9sb2NrKCZucy0+c3Vic3lzLT5sb2NrKTsKKwlpZiAobnMt
-PmVuYWJsZWQpIHsKKwkJcHJfZXJyKCJkaXNhYmxlIG5zIGJlZm9yZSBzZXR0aW5nIGJ1ZmZlcmVk
-X2lvIHZhbHVlLlxuIik7CisJCW11dGV4X3VubG9jaygmbnMtPnN1YnN5cy0+bG9jayk7CisJCXJl
-dHVybiAtRUlOVkFMOworCX0KKworCW5zLT51c2VfdmZzID0gdmFsOworCW11dGV4X3VubG9jaygm
-bnMtPnN1YnN5cy0+bG9jayk7CisJcmV0dXJuIGNvdW50OworfQorCitDT05GSUdGU19BVFRSKG52
-bWV0X25zXywgdXNlX3Zmcyk7CisKIHN0YXRpYyBzdHJ1Y3QgY29uZmlnZnNfYXR0cmlidXRlICpu
-dm1ldF9uc19hdHRyc1tdID0gewogCSZudm1ldF9uc19hdHRyX2RldmljZV9wYXRoLAogCSZudm1l
-dF9uc19hdHRyX2RldmljZV9uZ3VpZCwKQEAgLTU1Miw2ICs1ODAsNyBAQCBzdGF0aWMgc3NpemVf
-dCBudm1ldF9uc19idWZmZXJlZF9pb19zdG9yZShzdHJ1Y3QgY29uZmlnX2l0ZW0gKml0ZW0sCiAJ
-Jm52bWV0X25zX2F0dHJfYW5hX2dycGlkLAogCSZudm1ldF9uc19hdHRyX2VuYWJsZSwKIAkmbnZt
-ZXRfbnNfYXR0cl9idWZmZXJlZF9pbywKKwkmbnZtZXRfbnNfYXR0cl91c2VfdmZzLAogI2lmZGVm
-IENPTkZJR19QQ0lfUDJQRE1BCiAJJm52bWV0X25zX2F0dHJfcDJwbWVtLAogI2VuZGlmCmRpZmYg
-LS1naXQgYS9kcml2ZXJzL252bWUvdGFyZ2V0L2NvcmUuYyBiL2RyaXZlcnMvbnZtZS90YXJnZXQv
-Y29yZS5jCmluZGV4IDI4NDM4YjguLjA4M2U4ODQ2IDEwMDY0NAotLS0gYS9kcml2ZXJzL252bWUv
-dGFyZ2V0L2NvcmUuYworKysgYi9kcml2ZXJzL252bWUvdGFyZ2V0L2NvcmUuYwpAQCAtNjUzLDYg
-KzY1Myw3IEBAIHN0cnVjdCBudm1ldF9ucyAqbnZtZXRfbnNfYWxsb2Moc3RydWN0IG52bWV0X3N1
-YnN5cyAqc3Vic3lzLCB1MzIgbnNpZCkKIAogCXV1aWRfZ2VuKCZucy0+dXVpZCk7CiAJbnMtPmJ1
-ZmZlcmVkX2lvID0gZmFsc2U7CisJbnMtPnVzZV92ZnMgPSBmYWxzZTsKIAogCXJldHVybiBuczsK
-IH0KZGlmZiAtLWdpdCBhL2RyaXZlcnMvbnZtZS90YXJnZXQvaW8tY21kLWJkZXYuYyBiL2RyaXZl
-cnMvbnZtZS90YXJnZXQvaW8tY21kLWJkZXYuYwppbmRleCBiNmZjYTBlLi5lYzgwN2UxIDEwMDY0
-NAotLS0gYS9kcml2ZXJzL252bWUvdGFyZ2V0L2lvLWNtZC1iZGV2LmMKKysrIGIvZHJpdmVycy9u
-dm1lL3RhcmdldC9pby1jbWQtYmRldi5jCkBAIC02NCw3ICs2NCw3IEBAIGludCBudm1ldF9iZGV2
-X25zX2VuYWJsZShzdHJ1Y3QgbnZtZXRfbnMgKm5zKQogCX0KIAlucy0+c2l6ZSA9IGlfc2l6ZV9y
-ZWFkKG5zLT5iZGV2LT5iZF9pbm9kZSk7CiAJbnMtPmJsa3NpemVfc2hpZnQgPSBibGtzaXplX2Jp
-dHMoYmRldl9sb2dpY2FsX2Jsb2NrX3NpemUobnMtPmJkZXYpKTsKLQlyZXR1cm4gMDsKKwlyZXR1
-cm4gbnMtPnVzZV92ZnMgPyAtRU5PVEJMSyA6IDA7CiB9CiAKIHZvaWQgbnZtZXRfYmRldl9uc19k
-aXNhYmxlKHN0cnVjdCBudm1ldF9ucyAqbnMpCmRpZmYgLS1naXQgYS9kcml2ZXJzL252bWUvdGFy
-Z2V0L2lvLWNtZC1maWxlLmMgYi9kcml2ZXJzL252bWUvdGFyZ2V0L2lvLWNtZC1maWxlLmMKaW5k
-ZXggY2FlYmZjZS4uNWYyMjc4NCAxMDA2NDQKLS0tIGEvZHJpdmVycy9udm1lL3RhcmdldC9pby1j
-bWQtZmlsZS5jCisrKyBiL2RyaXZlcnMvbnZtZS90YXJnZXQvaW8tY21kLWZpbGUuYwpAQCAtMjUs
-NiArMjUsMTAgQEAgdm9pZCBudm1ldF9maWxlX25zX2Rpc2FibGUoc3RydWN0IG52bWV0X25zICpu
-cykKIAkJZnB1dChucy0+ZmlsZSk7CiAJCW5zLT5maWxlID0gTlVMTDsKIAl9CisKKwkvKiB3aGVu
-IHVzaW5nIHZmcyBsYXllciB3ZSBoYXZlIG9wZW5kIGJkZXYgc2VlIHRhcmdldC5jb3JlLmMgKi8K
-KwlpZiAobnMtPnVzZV92ZnMpCisJCW52bWV0X2JkZXZfbnNfZGlzYWJsZShucyk7CiB9CiAKIGlu
-dCBudm1ldF9maWxlX25zX2VuYWJsZShzdHJ1Y3QgbnZtZXRfbnMgKm5zKQpAQCAtNDMsMTkgKzQ3
-LDIyIEBAIGludCBudm1ldF9maWxlX25zX2VuYWJsZShzdHJ1Y3QgbnZtZXRfbnMgKm5zKQogCQly
-ZXR1cm4gUFRSX0VSUihucy0+ZmlsZSk7CiAJfQogCi0JcmV0ID0gdmZzX2dldGF0dHIoJm5zLT5m
-aWxlLT5mX3BhdGgsCi0JCQkmc3RhdCwgU1RBVFhfU0laRSwgQVRfU1RBVFhfRk9SQ0VfU1lOQyk7
-Ci0JaWYgKHJldCkKLQkJZ290byBlcnI7Ci0KLQlucy0+c2l6ZSA9IHN0YXQuc2l6ZTsKLQkvKgot
-CSAqIGlfYmxrYml0cyBjYW4gYmUgZ3JlYXRlciB0aGFuIHRoZSB1bml2ZXJzYWxseSBhY2NlcHRl
-ZCB1cHBlciBib3VuZCwKLQkgKiBzbyBtYWtlIHN1cmUgd2UgZXhwb3J0IGEgc2FuZSBuYW1lc3Bh
-Y2UgbGJhX3NoaWZ0LgotCSAqLwotCW5zLT5ibGtzaXplX3NoaWZ0ID0gbWluX3QodTgsCi0JCQlm
-aWxlX2lub2RlKG5zLT5maWxlKS0+aV9ibGtiaXRzLCAxMik7Ci0KKwlpZiAoIW5zLT51c2VfdmZz
-KSB7CisJCXJldCA9IHZmc19nZXRhdHRyKCZucy0+ZmlsZS0+Zl9wYXRoLAorCQkJCSAgJnN0YXQs
-IFNUQVRYX1NJWkUsIEFUX1NUQVRYX0ZPUkNFX1NZTkMpOworCQlpZiAocmV0KSB7CisJCQlwcl9l
-cnIoImZhaWxlZCB0byBzdGF0IGRldmljZSBmaWxlICVzXG4iLAorCQkJCQlucy0+ZGV2aWNlX3Bh
-dGgpOworCQkJZ290byBlcnI7CisJCX0KKwkJLyoKKwkJICogaV9ibGtiaXRzIGNhbiBiZSBncmVh
-dGVyIHRoYW4gdGhlIHVuaXZlcnNhbGx5IGFjY2VwdGVkIHVwcGVyCisJCSAqIGJvdW5kLCBzbyBt
-YWtlIHN1cmUgd2UgZXhwb3J0IGEgc2FuZSBuYW1lc3BhY2UgbGJhX3NoaWZ0LgorCQkgKi8KKwkJ
-bnMtPnNpemUgPSBzdGF0LnNpemU7CisJCW5zLT5ibGtzaXplX3NoaWZ0ID0gbWluX3QodTgsCisJ
-CQkJZmlsZV9pbm9kZShucy0+ZmlsZSktPmlfYmxrYml0cywgMTIpOworCX0KIAlucy0+YnZlY19j
-YWNoZSA9IGttZW1fY2FjaGVfY3JlYXRlKCJudm1ldC1idmVjIiwKIAkJCU5WTUVUX01BWF9NUE9P
-TF9CVkVDICogc2l6ZW9mKHN0cnVjdCBiaW9fdmVjKSwKIAkJCTAsIFNMQUJfSFdDQUNIRV9BTElH
-TiwgTlVMTCk7CmRpZmYgLS1naXQgYS9kcml2ZXJzL252bWUvdGFyZ2V0L252bWV0LmggYi9kcml2
-ZXJzL252bWUvdGFyZ2V0L252bWV0LmgKaW5kZXggNDZkZjQ1ZS4uMGY2OGI4MiAxMDA2NDQKLS0t
-IGEvZHJpdmVycy9udm1lL3RhcmdldC9udm1ldC5oCisrKyBiL2RyaXZlcnMvbnZtZS90YXJnZXQv
-bnZtZXQuaApAQCAtNjMsNiArNjMsNyBAQCBzdHJ1Y3QgbnZtZXRfbnMgewogCXUzMgkJCWFuYWdy
-cGlkOwogCiAJYm9vbAkJCWJ1ZmZlcmVkX2lvOworCWJvb2wJCQl1c2VfdmZzOwogCWJvb2wJCQll
-bmFibGVkOwogCXN0cnVjdCBudm1ldF9zdWJzeXMJKnN1YnN5czsKIAljb25zdCBjaGFyCQkqZGV2
-aWNlX3BhdGg7Ci0tIAoxLjguMy4xCgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KTGludXgtbnZtZSBtYWlsaW5nIGxpc3QKTGludXgtbnZtZUBsaXN0cy5p
-bmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8v
-bGludXgtbnZtZQo=
+On Tue, Oct 29, 2019 at 09:43:20PM -0700, Charles Machalow wrote:
+> Hey all,
+> 
+> I noticed (via some debug) that nvme_passthru_cmd64 seems to have a 4
+> byte hole that isn't currently accounted for in the struct:
+> From pahole:
+> 
+> struct nvme_passthru_cmd64 {
+>         __u8                       opcode;               /*     0     1 */
+>         __u8                       flags;                /*     1     1 */
+>         __u16                      rsvd1;                /*     2     2 */
+>         __u32                      nsid;                 /*     4     4 */
+>         __u32                      cdw2;                 /*     8     4 */
+>         __u32                      cdw3;                 /*    12     4 */
+>         __u64                      metadata;             /*    16     8 */
+>         __u64                      addr;                 /*    24     8 */
+>         __u32                      metadata_len;         /*    32     4 */
+>         __u32                      data_len;             /*    36     4 */
+>         __u32                      cdw10;                /*    40     4 */
+>         __u32                      cdw11;                /*    44     4 */
+>         __u32                      cdw12;                /*    48     4 */
+>         __u32                      cdw13;                /*    52     4 */
+>         __u32                      cdw14;                /*    56     4 */
+>         __u32                      cdw15;                /*    60     4 */
+>         /* --- cacheline 1 boundary (64 bytes) --- */
+>         __u32                      timeout_ms;           /*    64     4 */
+> 
+>         /* XXX 4 bytes hole, try to pack */
+> 
+>         __u64                      result;               /*    72     8 */
+> 
+>         /* size: 80, cachelines: 2, members: 18 */
+>         /* sum members: 76, holes: 1, sum holes: 4 */
+>         /* last cacheline: 16 bytes */
+> };
+> 
+> (Since I doubt we can functionally change the structure at this
+> point...) 
+
+Well, there is no official kernel release using this structure,
+so I suppose even this late in the rc cycle, we can change it with
+appropriate justification. I think an alternative to padding is to make
+this a __u32[2] field, which should also be backward compatible with
+the 4 byte result passthrough.
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
