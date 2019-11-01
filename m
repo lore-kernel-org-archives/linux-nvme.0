@@ -2,86 +2,133 @@ Return-Path: <SRS0=Vg0R=YZ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC605CA9EC9
-	for <linux-nvme@archiver.kernel.org>; Fri,  1 Nov 2019 03:57:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA4D2CA9EC9
+	for <linux-nvme@archiver.kernel.org>; Fri,  1 Nov 2019 06:35:44 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 86CDB2083E
-	for <linux-nvme@archiver.kernel.org>; Fri,  1 Nov 2019 03:57:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id BB0A8208E3
+	for <linux-nvme@archiver.kernel.org>; Fri,  1 Nov 2019 06:35:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="TFthpxUB";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z6/DP9MJ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 86CDB2083E
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="tc5ksABP";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="ZvqQEmED";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="KHxn9hU1"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BB0A8208E3
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
-	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=f5LmBFkhKSwco05yyjSbea10X+Mi51jAceQWpizmhP8=; b=TFthpxUBDrz0fM
-	FXSrjYjRTQfewUb/55Jd561WR5LypaKbRt4LxQhEL2i3lUx/6WmJW7xPfmeenRwmfI2uDD+IgEJtW
-	NdG8dnkLB3AXIbl+qs6Y7BiA2q8AvxVbp1pfPWa6VZskgVnR/EZl1w7GqOkxoEhC7zjq0w4vAHQ4e
-	Qr6QhwCR4ti7jld5ELZnNBF4tuslzWTlNdJse2KWxUrT5APRVyq75cRAvhWOxM1gwPQBwWfa7xH3+
-	tYabcmyTVnTGD2nD6Xtcw/fGB2bkZORtYHXL1mt5XpIos5Q9RRXgbBsGWHlLNuqhps4swsdw5r+rk
-	ZVOtCAPMKjettp6QbE/g==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date
+	:Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+	List-Owner; bh=w6bbSFtG2hoYLLi1Mitm9qH7g/989iD1vmui+VU2rYI=; b=tc5ksABPE8sj5a
+	MkWFRWe1DeQ35yMSWcXiRtRdRABQr0AS1bh4Mgqs0cDu1iLSwIY5dm3Cj+htpe7h50Ji0x7DLNxdG
+	rJgp3iGDjkoW6bcaLG8UF5xTyH3ajHNzZHPmA2TBIzWqX2+PelmojDbwTCtqM71w8jBwrefobsHxq
+	5j7DyjJtfHRuPHBC2mKVlftWu1iyTA8gAWU9+z5DXP5lZUCj58rK1Uir0kh7dn+ILwRMFN1mCqMKl
+	Ar3VeRudXhEbvKM3NK1GCJTPVKESs5WIBf7zZ2X7pyFT7tic1MDDw8ZtncjF2H1U++YwtMXVilB4n
+	y/++Uy82mjLAmlMbIJLw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iQO3V-0001ol-9B; Fri, 01 Nov 2019 03:56:57 +0000
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543])
+	id 1iQQX4-0000PI-5l; Fri, 01 Nov 2019 06:35:38 +0000
+Received: from esa1.hgst.iphmx.com ([68.232.141.245])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iQO3P-0001jW-Be
- for linux-nvme@lists.infradead.org; Fri, 01 Nov 2019 03:56:53 +0000
-Received: by mail-pg1-x543.google.com with SMTP id u23so5621338pgo.0
- for <linux-nvme@lists.infradead.org>; Thu, 31 Oct 2019 20:56:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=hg3gUNhnCj04JrTkUSlXP5wvJM/+g/HdA4JjcTtjCak=;
- b=Z6/DP9MJrq8FSb0y1ag7BuQaeRT07SWWXbRifHU9s1rQH4OSx67FYDGBeQ+xShuSpd
- ArzeSZtTDR+aXAbj9fsynajbIowHcZo0n8LEJWfmtJLCnSAyqbiNpdQjQtO1BFmsFHMH
- ikFhVbO6HC8KD59i9A+VD6WmbC5OySw26y1YngdS5S5zuY16fth3JzW2mcAFt3NMIZK5
- SzqVW74JR/iD08dDm6/2v1yic2PUhhkYxpQz90III0dvTpAOabmy/vg3zHkJwSN1RIrJ
- jYdh4EfTNDkDykMTFztqxZbF5gFLGUEObbrPMr/iwU01MU5RD7Vtcz34OvE+4MJ9X/gD
- Ix2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=hg3gUNhnCj04JrTkUSlXP5wvJM/+g/HdA4JjcTtjCak=;
- b=oopIFKWI9dgs0uk6f218MxT1LFD+Ah0iWcgi+KsC3zdA27Clba1VkrivOsAFaI7sRt
- GgiXA2j8yR1wOuVTWBXOnU2bUn4MUGQfvNXb9TsGaew5P7CaXVAQqWmtbmt/kXFmR65y
- 7QcHj4qgJ8f0q3QERUchdiknh4TSDSH9zeYBElDLJ9c2q3ARakupw5jC3mUir4y8TPIP
- qmRzIAflFoI0lvg8o/DH0sXIWsS538x2vpEwP7X1NiXCOwp5NGSBMlIpUrJRjt0iA3sp
- 4XDBjqapW/Y5IbQuM0Q2xm6P6nd8MURqzj1eG4lVBwvgKYedMpBxsllrEFu87KVl5tyB
- Fkpw==
-X-Gm-Message-State: APjAAAUMNtyAusOgypPOXd84xJmbRfKaCXCY6ho4SvB+p4bbe7gucjIy
- oooeh3y9XZ1tKpoNTmqdOwE=
-X-Google-Smtp-Source: APXvYqwM14FC37lvLIVeiUcrc+0TBOusUiTwECRQDLDIzvYzeQgM1dA7r0vfVAvtIX9yLXBMJSwJ2Q==
-X-Received: by 2002:a17:90a:26e4:: with SMTP id
- m91mr2367680pje.92.1572580610035; 
- Thu, 31 Oct 2019 20:56:50 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id u68sm4879907pfu.39.2019.10.31.20.56.48
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 31 Oct 2019 20:56:48 -0700 (PDT)
-From: Guenter Roeck <linux@roeck-us.net>
-To: Keith Busch <kbusch@kernel.org>
-Subject: [PATCH v3] nvme: Add hardware monitoring support
-Date: Thu, 31 Oct 2019 20:56:46 -0700
-Message-Id: <20191101035646.25644-1-linux@roeck-us.net>
-X-Mailer: git-send-email 2.17.1
+ id 1iQQX0-0000Oj-3Y
+ for linux-nvme@lists.infradead.org; Fri, 01 Nov 2019 06:35:35 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1572590134; x=1604126134;
+ h=from:to:cc:subject:date:message-id:references:
+ content-transfer-encoding:mime-version;
+ bh=Fqb3MBeEkyir7HY4IPmAkoSnd+EltXEiq9+EzS20Wfw=;
+ b=ZvqQEmEDISV7PzpC4LmV2Nlvhzz6MIj/qkkvn2VUWCoxoCWNDGOgeL/M
+ Uez+hKvEutURVE1BZX1jP609ViYLqZRlNXt+jJC9O+Y6OfZB/fmS8EmlG
+ mFgH8SL5Wi7eDM4Apm21httNqXUJQWecAvvXnuRBxWrsXo/Du1Zrj9221
+ vjRKkgpvO/FD0tPRehAQdXPSPMcfAznkCdKdJH8TH9QR/Q2wuI5Q8yPMB
+ vurK9czvcClsjlJGCwYc8KpDsCofZSs6Cb+cY/8qMcTpaQvfwaUM7q6O+
+ UVeBFWkHyJ0tppsSUlAXFvxPrNEVVKGZ4p7apdI5kBjofk3QaxSerrXp7 w==;
+IronPort-SDR: SAAqVyjBbl42+kMFqaUynysIkX5pOL9YF76v90MOZ4RUBYG2knqMhxJ/jtCfX7KiXMnph7E6B4
+ trIHCnfPO0ShOwtC476MNnIv3UicLccl1cia6+z1ipRi4rNkT5/qLaN20aSAeSiYIBGMRPltHe
+ ofFzmMehuW3BZlnVrLRsL2obhjbZ4zEqezAEDASk5zk/jBoKupiZpl1yY7LUeQYQc0cbLqEj72
+ IDYqvcKR58jmNgTy0NPczp2DKmRCl43MLCd+iaGndHQacicbZMAvVAGKevwHtVn4+fuoBQP8cK
+ 9l0=
+X-IronPort-AV: E=Sophos;i="5.68,254,1569254400"; d="scan'208";a="229053611"
+Received: from mail-sn1nam02lp2059.outbound.protection.outlook.com (HELO
+ NAM02-SN1-obe.outbound.protection.outlook.com) ([104.47.36.59])
+ by ob1.hgst.iphmx.com with ESMTP; 01 Nov 2019 14:35:31 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=I4b/sVEz5JWLIiqdkT4/DJPlNxltzY1fp0h5v/aJPspQ4wFw14nOQBCeMb687nkkGuXMVzbMuNgpTMUjQQrl2wfQ7r+OPEV8ktJqLRplQMYIR5JN7VIlE4C+ICH15tKQhi5zz3rTiawF7fcl89YpSCFbZwY9NAn2DzGOy84gRh7J4DdjqIplHcPWEdE4dPm4PQ1F4Vr2FFLXNnzncriLg53OTR6OnKVLP5/VTJUNK+rXvhH0+/CMfcgJCqsbRBfW/MZ9LxYxMoZp1IQaA1iETxBmvttewTFqs+g10uRYbL/LDFrQ6ejX9ZXUsgxVuv2UwV9ZMZdthYDKZ1PFS1EMug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ah/lorb4kJLAf9AU0oebPRKFm86YRAG4uknc4GQG5bY=;
+ b=jbXcreoPz1sPWJgnveo5KZ0jeJtb20SuT63jyF7Mm6tjcE0Albxm4/ZDn5Sgj+ek+s+XJr8Nv1+iPufQePfmLlPDhUjRHt0viFpOZjRDFsD5QF86D7q86gZzRRuu2j9PJFFnPfoB+KxZndN1liV+ZM5IATjtD3AY/Dd3X/B0rAq2PxQQntW0mKCeW2GGmTEkNRECJ/re+60nFjtDIakcHxPXUdKlMG4PTDT3OccaH7u/YPiwJAYzRGXPn3asP15BCxrQUSkhxbfwuGZ/bogRI+OGY23AHez91EKTzWB6KCNzohrueZMSiBpzSNDHxQqb/KG0mSqDLajcz2Un9aNzyg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ah/lorb4kJLAf9AU0oebPRKFm86YRAG4uknc4GQG5bY=;
+ b=KHxn9hU1QYE5YutVJ+gPEiO1dLS/EfGHFy648Vr7JY+x3Q7+KIPvyXQJiHiTLkJ+6mhY+XYcrLinikGBUMXGtv8gQ0lQM7+muwN9Am750NbDBhTsWH0c23XFPovnGj/Nf3Gln7GKpU1cTwYj+n5RV58GB/2W9h1YCY8dO766b3Y=
+Received: from DM6PR04MB5754.namprd04.prod.outlook.com (20.179.52.22) by
+ DM6PR04MB4075.namprd04.prod.outlook.com (20.176.87.152) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2387.24; Fri, 1 Nov 2019 06:35:29 +0000
+Received: from DM6PR04MB5754.namprd04.prod.outlook.com
+ ([fe80::65c4:52fd:1454:4b04]) by DM6PR04MB5754.namprd04.prod.outlook.com
+ ([fe80::65c4:52fd:1454:4b04%7]) with mapi id 15.20.2408.016; Fri, 1 Nov 2019
+ 06:35:29 +0000
+From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH] nvmet: allow block device to use buffered I/O
+Thread-Topic: [PATCH] nvmet: allow block device to use buffered I/O
+Thread-Index: AQHVjuMTkpKH7LTBv02BcTLV8YUdtA==
+Date: Fri, 1 Nov 2019 06:35:29 +0000
+Message-ID: <DM6PR04MB57546F751A33B58A4D2161A686620@DM6PR04MB5754.namprd04.prod.outlook.com>
+References: <1572409583-3109-1-git-send-email-chaitanya.kulkarni@wdc.com>
+ <20191031144531.GB6024@lst.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Chaitanya.Kulkarni@wdc.com; 
+x-originating-ip: [199.255.45.62]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: abb7a509-e87c-43e2-8c2d-08d75e95b040
+x-ms-traffictypediagnostic: DM6PR04MB4075:
+x-microsoft-antispam-prvs: <DM6PR04MB4075A71078135F8328C60B3D86620@DM6PR04MB4075.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:2657;
+x-forefront-prvs: 020877E0CB
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(4636009)(136003)(346002)(39860400002)(376002)(366004)(396003)(199004)(189003)(99286004)(316002)(54906003)(446003)(6116002)(52536014)(6436002)(55016002)(53546011)(6506007)(76176011)(25786009)(478600001)(66556008)(3846002)(66066001)(66476007)(476003)(229853002)(6246003)(102836004)(86362001)(26005)(2906002)(4326008)(5660300002)(486006)(14454004)(9686003)(66946007)(8676002)(8936002)(76116006)(81156014)(14444005)(256004)(91956017)(186003)(81166006)(64756008)(66446008)(7736002)(6916009)(305945005)(74316002)(71190400001)(33656002)(71200400001)(7696005);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:DM6PR04MB4075;
+ H:DM6PR04MB5754.namprd04.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: IUolcPP0CWU+pfZk7RDvAFHr9xkgCs2dPrYUOcH/nQc5AEYiAi/5TBSAih9x7EyUxIM59FtNQ5VdOlypob4F29jJ1vear/QaOu+4+ByCHjzjXo9qJnFSX3mwP1Js5oclX6BW8O3xuprzTMLTQ4k4q5PtOQOm4BZ0H1vCb5kUQctjgbBvyiYrRaJA0dWh20YAfNdyvHSXq8+7Hn3pxZ31ddh3KAPuJp+1y9l8pNN1xrU/if4za3AkpXJQmSNJLkfNrROnIefF3SSSexHQO7y5d384UBPpDdlCNJEU8QObBW5VKL8WtULalZFRJYHOfRBxxevvoJRr8acMfRZVWr+MG0jD1VnGLtmEbr9zmeXMRw41IGN9Uz3DG6a/qwZwP4oeabhtPCOhQgajM8SCpl9YN72DBMbHVNyBizfOmVHwOpuMQG8lzUv2ZUN66IaZwCsX
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: abb7a509-e87c-43e2-8c2d-08d75e95b040
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Nov 2019 06:35:29.2285 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 7CtIhAPUKHjNh4Cb6WDbznXibnYkN3vH5ysse9GVZi63kVDX6sU2CI2GkzJUg6XzOAVZKuWfni1YhnC8cp2jLLxkhcHtXewvQMjkSoDmckM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB4075
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191031_205651_614556_8C30C4A0 
-X-CRM114-Status: GOOD (  23.56  )
+X-CRM114-CacheID: sfid-20191031_233534_227044_2EA308D1 
+X-CRM114-Status: GOOD (  19.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,172 +140,252 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sagi Grimberg <sagi@grimberg.me>, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- Akinobu Mita <akinobu.mita@gmail.com>, Jens Axboe <axboe@fb.com>,
- Guenter Roeck <linux@roeck-us.net>, Christoph Hellwig <hch@lst.de>,
- Chris Healy <cphealy@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "kbusch@kernel.org" <kbusch@kernel.org>,
+ "sagi@grimberg.me" <sagi@grimberg.me>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-bnZtZSBkZXZpY2VzIHJlcG9ydCB0ZW1wZXJhdHVyZSBpbmZvcm1hdGlvbiBpbiB0aGUgY29udHJv
-bGxlciBpbmZvcm1hdGlvbgooZm9yIGxpbWl0cykgYW5kIGluIHRoZSBzbWFydCBsb2cuIEN1cnJl
-bnRseSwgdGhlIG9ubHkgbWVhbnMgdG8gcmV0cmlldmUKdGhpcyBpbmZvcm1hdGlvbiBpcyB0aGUg
-bnZtZSBjb21tYW5kIGxpbmUgaW50ZXJmYWNlLCB3aGljaCByZXF1aXJlcwpzdXBlci11c2VyIHBy
-aXZpbGVnZXMuCgpBdCB0aGUgc2FtZSB0aW1lLCBpdCB3b3VsZCBiZSBkZXNpcmFibGUgdG8gYmUg
-YWJsZSB0byB1c2UgTlZNZSB0ZW1wZXJhdHVyZQppbmZvcm1hdGlvbiBmb3IgdGhlcm1hbCBjb250
-cm9sLgoKVGhpcyBwYXRjaCBhZGRzIHN1cHBvcnQgdG8gcmVhZCBOVk1lIHRlbXBlcmF0dXJlcyBm
-cm9tIHRoZSBrZXJuZWwgdXNpbmcgdGhlCmh3bW9uIEFQSSBhbmQgYWRkcyB0ZW1wZXJhdHVyZSB6
-b25lcyBmb3IgTlZNZSBkcml2ZXMuIFRoZSB0aGVybWFsIHN1YnN5c3RlbQpjYW4gdXNlIHRoaXMg
-aW5mb3JtYXRpb24gdG8gc2V0IHRoZXJtYWwgcG9saWNpZXMsIGFuZCB1c2Vyc3BhY2UgY2FuIGFj
-Y2VzcwppdCB1c2luZyBsaWJzZW5zb3JzIGFuZC9vciB0aGUgInNlbnNvcnMiIGNvbW1hbmQuCgpF
-eGFtcGxlIG91dHB1dCBmcm9tIHRoZSAic2Vuc29ycyIgY29tbWFuZDoKCm52bWUwLXBjaS0wMTAw
-CkFkYXB0ZXI6IFBDSSBhZGFwdGVyCkNvbXBvc2l0ZTogICAgKzM5LjDCsEMgIChoaWdoID0gKzg1
-LjDCsEMsIGNyaXQgPSArODUuMMKwQykKU2Vuc29yIDE6ICAgICArMzkuMMKwQwpTZW5zb3IgMjog
-ICAgICs0MS4wwrBDCgpTaWduZWQtb2ZmLWJ5OiBHdWVudGVyIFJvZWNrIDxsaW51eEByb2Vjay11
-cy5uZXQ+Ci0tLQp2MzogTlZNRSAtPiBOVk1lCiAgICBDYWxsIG52bWVfaHdtb25faW5pdCgpIG9u
-bHkgb25jZSwgd2hlbiB0aGUgY29udHJvbGxlciBpcyBmaXJzdAogICAgaWRlbnRpZmllZAogICAg
-UHJvdGVjdCBjYWxsIHRvIG52bWVfZ2V0X2xvZygpIGFuZCByZWFkaW5nIHRoZSBsb2cgd2l0aCBt
-dXRleAogICAgQ29udmVydCBlcnJvciByZXR1cm4gZnJvbSBudm1lX2dldF9sb2coKSB0byBMaW51
-eCBlcnJvciBjb2RlCiAgICBpbiBudm1lX2h3bW9uX2dldF9zbWFydF9sb2coKQogICAgRG9uJ3Qg
-cmVhZCBzbWFydCBsb2cgZm9yIHJlcG9ydGluZyB3YXJuaW5nIGFuZCBjcml0aWNhbCBsaW1pdHMK
-ICAgIFVzZSBnZXRfdW5hbGlnbmVkX2xlMTYoKSBpbnN0ZWFkIG9mIGxlMTZfdG9fY3B1cCgpIHRv
-IHJlYWQgdGhlCiAgICBjb21wb3NpdGUgdGVtcGVyYXR1cmUKICAgIFVzZSAjaWZkZWYgQ09ORklH
-X05WTUVfSFdNT04gaW5zdGVhZCBvZiBJU19FTkFCTEVEKENPTkZJR19OVk1FX0hXTU9OKQogICAg
-LUVQUk9UTyAtPiAtRUlPIGZvciBnZW5lcmljIE5WTWUgbGV2ZWwgZXJyb3JzCiAgICBUYWItYWxp
-Z24gJz0nIGluIGRhdGEgc3RydWN0dXJlIGluaXRpYWxpemF0aW9ucwoKdjI6IFVzZSBkZXZtX2tm
-cmVlKCkgdG8gcmVsZWFzZSBtZW1vcnkgaW4gZXJyb3IgcGF0aAoKVGVzdGVkIHdpdGggdGhlIGZv
-bGxvd2luZyBOVk1lIGRyaXZlczoKCUludGVsIFNTRFBFS0tXNTEyRzcgNTAwR0IKCVNhbXN1bmcg
-U1NEIDk2MCBFVk8gNTAwR0IKCVNhbXN1bmcgU1NEIDk3MCBFVk8gNTAwR0IKCVNhbXN1bmcgU1NE
-IDk3MCBFVk8gMVRCCgogZHJpdmVycy9udm1lL2hvc3QvS2NvbmZpZyAgICAgIHwgIDEwICsrCiBk
-cml2ZXJzL252bWUvaG9zdC9NYWtlZmlsZSAgICAgfCAgIDEgKwogZHJpdmVycy9udm1lL2hvc3Qv
-Y29yZS5jICAgICAgIHwgICA2ICsrCiBkcml2ZXJzL252bWUvaG9zdC9udm1lLWh3bW9uLmMgfCAx
-ODEgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrCiBkcml2ZXJzL252bWUvaG9zdC9u
-dm1lLmggICAgICAgfCAgIDggKysKIDUgZmlsZXMgY2hhbmdlZCwgMjA2IGluc2VydGlvbnMoKykK
-IGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL252bWUvaG9zdC9udm1lLWh3bW9uLmMKCmRpZmYg
-LS1naXQgYS9kcml2ZXJzL252bWUvaG9zdC9LY29uZmlnIGIvZHJpdmVycy9udm1lL2hvc3QvS2Nv
-bmZpZwppbmRleCAyYjM2ZjA1MmJmYjkuLmM2NDM5NjM4YTQxOSAxMDA2NDQKLS0tIGEvZHJpdmVy
-cy9udm1lL2hvc3QvS2NvbmZpZworKysgYi9kcml2ZXJzL252bWUvaG9zdC9LY29uZmlnCkBAIC0y
-Myw2ICsyMywxNiBAQCBjb25maWcgTlZNRV9NVUxUSVBBVEgKIAkgICAvZGV2L252bWVYblkgZGV2
-aWNlIHdpbGwgc2hvdyB1cCBmb3IgZWFjaCBOVk1lIG5hbWVzcGFjZXMsCiAJICAgZXZlbiBpZiBp
-dCBpcyBhY2Nlc3NpYmxlIHRocm91Z2ggbXVsdGlwbGUgY29udHJvbGxlcnMuCiAKK2NvbmZpZyBO
-Vk1FX0hXTU9OCisJYm9vbCAiTlZNZSBoYXJkd2FyZSBtb25pdG9yaW5nIgorCWRlcGVuZHMgb24g
-KE5WTUVfQ09SRT15ICYmIEhXTU9OPXkpIHx8IChOVk1FX0NPUkU9bSAmJiBIV01PTikKKwloZWxw
-CisJICBUaGlzIHByb3ZpZGVzIHN1cHBvcnQgZm9yIE5WTWUgaGFyZHdhcmUgbW9uaXRvcmluZy4g
-SWYgZW5hYmxlZCwKKwkgIGEgaGFyZHdhcmUgbW9uaXRvcmluZyBkZXZpY2Ugd2lsbCBiZSBjcmVh
-dGVkIGZvciBlYWNoIE5WTWUgZHJpdmUKKwkgIGluIHRoZSBzeXN0ZW0uCisKKwkgIElmIHVuc3Vy
-ZSwgc2F5IE4uCisKIGNvbmZpZyBOVk1FX0ZBQlJJQ1MKIAl0cmlzdGF0ZQogCmRpZmYgLS1naXQg
-YS9kcml2ZXJzL252bWUvaG9zdC9NYWtlZmlsZSBiL2RyaXZlcnMvbnZtZS9ob3N0L01ha2VmaWxl
-CmluZGV4IDhhNGI2NzFjNWYwYy4uMDNkZTQ3OTdhODc3IDEwMDY0NAotLS0gYS9kcml2ZXJzL252
-bWUvaG9zdC9NYWtlZmlsZQorKysgYi9kcml2ZXJzL252bWUvaG9zdC9NYWtlZmlsZQpAQCAtMTQs
-NiArMTQsNyBAQCBudm1lLWNvcmUtJChDT05GSUdfVFJBQ0lORykJCSs9IHRyYWNlLm8KIG52bWUt
-Y29yZS0kKENPTkZJR19OVk1FX01VTFRJUEFUSCkJKz0gbXVsdGlwYXRoLm8KIG52bWUtY29yZS0k
-KENPTkZJR19OVk0pCQkJKz0gbGlnaHRudm0ubwogbnZtZS1jb3JlLSQoQ09ORklHX0ZBVUxUX0lO
-SkVDVElPTl9ERUJVR19GUykJKz0gZmF1bHRfaW5qZWN0Lm8KK252bWUtY29yZS0kKENPTkZJR19O
-Vk1FX0hXTU9OKQkJKz0gbnZtZS1od21vbi5vCiAKIG52bWUteQkJCQkJKz0gcGNpLm8KIApkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9udm1lL2hvc3QvY29yZS5jIGIvZHJpdmVycy9udm1lL2hvc3QvY29y
-ZS5jCmluZGV4IGZhN2JhMDlkY2E3Ny4uZDAzOWUzOTJkZTM2IDEwMDY0NAotLS0gYS9kcml2ZXJz
-L252bWUvaG9zdC9jb3JlLmMKKysrIGIvZHJpdmVycy9udm1lL2hvc3QvY29yZS5jCkBAIC0yNzk2
-LDYgKzI3OTYsOSBAQCBpbnQgbnZtZV9pbml0X2lkZW50aWZ5KHN0cnVjdCBudm1lX2N0cmwgKmN0
-cmwpCiAJY3RybC0+b25jcyA9IGxlMTZfdG9fY3B1KGlkLT5vbmNzKTsKIAljdHJsLT5tdGZhID0g
-bGUxNl90b19jcHUoaWQtPm10ZmEpOwogCWN0cmwtPm9hZXMgPSBsZTMyX3RvX2NwdShpZC0+b2Fl
-cyk7CisJY3RybC0+d2N0ZW1wID0gbGUxNl90b19jcHUoaWQtPndjdGVtcCk7CisJY3RybC0+Y2N0
-ZW1wID0gbGUxNl90b19jcHUoaWQtPmNjdGVtcCk7CisKIAlhdG9taWNfc2V0KCZjdHJsLT5hYm9y
-dF9saW1pdCwgaWQtPmFjbCArIDEpOwogCWN0cmwtPnZ3YyA9IGlkLT52d2M7CiAJaWYgKGlkLT5t
-ZHRzKQpAQCAtMjg5NSw2ICsyODk4LDkgQEAgaW50IG52bWVfaW5pdF9pZGVudGlmeShzdHJ1Y3Qg
-bnZtZV9jdHJsICpjdHJsKQogCWlmIChyZXQgPCAwKQogCQlyZXR1cm4gcmV0OwogCisJaWYgKCFj
-dHJsLT5pZGVudGlmaWVkKQorCQludm1lX2h3bW9uX2luaXQoY3RybCk7CisKIAljdHJsLT5pZGVu
-dGlmaWVkID0gdHJ1ZTsKIAogCXJldHVybiAwOwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9udm1lL2hv
-c3QvbnZtZS1od21vbi5jIGIvZHJpdmVycy9udm1lL2hvc3QvbnZtZS1od21vbi5jCm5ldyBmaWxl
-IG1vZGUgMTAwNjQ0CmluZGV4IDAwMDAwMDAwMDAwMC4uOGE4NmYwMzYzNTMxCi0tLSAvZGV2L251
-bGwKKysrIGIvZHJpdmVycy9udm1lL2hvc3QvbnZtZS1od21vbi5jCkBAIC0wLDAgKzEsMTgxIEBA
-CisvLyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMAorLyoKKyAqIE5WTSBFeHByZXNz
-IGhhcmR3YXJlIG1vbml0b3Jpbmcgc3VwcG9ydAorICogQ29weXJpZ2h0IChjKSAyMDE5LCBHdWVu
-dGVyIFJvZWNrCisgKi8KKworI2luY2x1ZGUgPGxpbnV4L2h3bW9uLmg+CisjaW5jbHVkZSA8YXNt
-L3VuYWxpZ25lZC5oPgorCisjaW5jbHVkZSAibnZtZS5oIgorCitzdHJ1Y3QgbnZtZV9od21vbl9k
-YXRhIHsKKwlzdHJ1Y3QgbnZtZV9jdHJsICpjdHJsOworCXN0cnVjdCBudm1lX3NtYXJ0X2xvZyBs
-b2c7CisJc3RydWN0IG11dGV4IHJlYWRfbG9jazsKK307CisKK3N0YXRpYyBpbnQgbnZtZV9od21v
-bl9nZXRfc21hcnRfbG9nKHN0cnVjdCBudm1lX2h3bW9uX2RhdGEgKmRhdGEpCit7CisJaW50IHJl
-dDsKKworCXJldCA9IG52bWVfZ2V0X2xvZyhkYXRhLT5jdHJsLCBOVk1FX05TSURfQUxMLCBOVk1F
-X0xPR19TTUFSVCwgMCwKKwkJCSAgICZkYXRhLT5sb2csIHNpemVvZihkYXRhLT5sb2cpLCAwKTsK
-KworCXJldHVybiByZXQgPD0gMCA/IHJldCA6IC1FSU87Cit9CisKK3N0YXRpYyBpbnQgbnZtZV9o
-d21vbl9yZWFkKHN0cnVjdCBkZXZpY2UgKmRldiwgZW51bSBod21vbl9zZW5zb3JfdHlwZXMgdHlw
-ZSwKKwkJCSAgIHUzMiBhdHRyLCBpbnQgY2hhbm5lbCwgbG9uZyAqdmFsKQoreworCXN0cnVjdCBu
-dm1lX2h3bW9uX2RhdGEgKmRhdGEgPSBkZXZfZ2V0X2RydmRhdGEoZGV2KTsKKwlzdHJ1Y3QgbnZt
-ZV9zbWFydF9sb2cgKmxvZyA9ICZkYXRhLT5sb2c7CisJaW50IHRlbXA7CisJaW50IGVycjsKKwor
-CS8qCisJICogRmlyc3QgaGFuZGxlIGF0dHJpYnV0ZXMgd2hpY2ggZG9uJ3QgcmVxdWlyZSB1cyB0
-byByZWFkCisJICogdGhlIHNtYXJ0IGxvZy4KKwkgKi8KKwlzd2l0Y2ggKGF0dHIpIHsKKwljYXNl
-IGh3bW9uX3RlbXBfbWF4OgorCQkqdmFsID0gKGRhdGEtPmN0cmwtPndjdGVtcCAtIDI3MykgKiAx
-MDAwOworCQlyZXR1cm4gMDsKKwljYXNlIGh3bW9uX3RlbXBfY3JpdDoKKwkJKnZhbCA9IChkYXRh
-LT5jdHJsLT5jY3RlbXAgLSAyNzMpICogMTAwMDsKKwkJcmV0dXJuIDA7CisJZGVmYXVsdDoKKwkJ
-YnJlYWs7CisJfQorCisJbXV0ZXhfbG9jaygmZGF0YS0+cmVhZF9sb2NrKTsKKwllcnIgPSBudm1l
-X2h3bW9uX2dldF9zbWFydF9sb2coZGF0YSk7CisJaWYgKGVycikKKwkJZ290byB1bmxvY2s7CisK
-Kwlzd2l0Y2ggKGF0dHIpIHsKKwljYXNlIGh3bW9uX3RlbXBfaW5wdXQ6CisJCWlmICghY2hhbm5l
-bCkKKwkJCXRlbXAgPSBnZXRfdW5hbGlnbmVkX2xlMTYobG9nLT50ZW1wZXJhdHVyZSk7CisJCWVs
-c2UKKwkJCXRlbXAgPSBsZTE2X3RvX2NwdShsb2ctPnRlbXBfc2Vuc29yW2NoYW5uZWwgLSAxXSk7
-CisJCSp2YWwgPSAodGVtcCAtIDI3MykgKiAxMDAwOworCQlicmVhazsKKwljYXNlIGh3bW9uX3Rl
-bXBfY3JpdF9hbGFybToKKwkJKnZhbCA9ICEhKGxvZy0+Y3JpdGljYWxfd2FybmluZyAmIE5WTUVf
-U01BUlRfQ1JJVF9URU1QRVJBVFVSRSk7CisJCWJyZWFrOworCWRlZmF1bHQ6CisJCWVyciA9IC1F
-T1BOT1RTVVBQOworCQlicmVhazsKKwl9Cit1bmxvY2s6CisJbXV0ZXhfdW5sb2NrKCZkYXRhLT5y
-ZWFkX2xvY2spOworCXJldHVybiBlcnI7Cit9CisKK3N0YXRpYyBjb25zdCBjaGFyICogY29uc3Qg
-bnZtZV9od21vbl9zZW5zb3JfbmFtZXNbXSA9IHsKKwkiQ29tcG9zaXRlIiwKKwkiU2Vuc29yIDEi
-LAorCSJTZW5zb3IgMiIsCisJIlNlbnNvciAzIiwKKwkiU2Vuc29yIDQiLAorCSJTZW5zb3IgNSIs
-CisJIlNlbnNvciA2IiwKKwkiU2Vuc29yIDciLAorCSJTZW5zb3IgOCIsCit9OworCitzdGF0aWMg
-aW50IG52bWVfaHdtb25fcmVhZF9zdHJpbmcoc3RydWN0IGRldmljZSAqZGV2LAorCQkJCSAgZW51
-bSBod21vbl9zZW5zb3JfdHlwZXMgdHlwZSwgdTMyIGF0dHIsCisJCQkJICBpbnQgY2hhbm5lbCwg
-Y29uc3QgY2hhciAqKnN0cikKK3sKKwkqc3RyID0gbnZtZV9od21vbl9zZW5zb3JfbmFtZXNbY2hh
-bm5lbF07CisJcmV0dXJuIDA7Cit9CisKK3N0YXRpYyB1bW9kZV90IG52bWVfaHdtb25faXNfdmlz
-aWJsZShjb25zdCB2b2lkICpfZGF0YSwKKwkJCQkgICAgIGVudW0gaHdtb25fc2Vuc29yX3R5cGVz
-IHR5cGUsCisJCQkJICAgICB1MzIgYXR0ciwgaW50IGNoYW5uZWwpCit7CisJY29uc3Qgc3RydWN0
-IG52bWVfaHdtb25fZGF0YSAqZGF0YSA9IF9kYXRhOworCisJc3dpdGNoIChhdHRyKSB7CisJY2Fz
-ZSBod21vbl90ZW1wX2NyaXQ6CisJCWlmICghY2hhbm5lbCAmJiBkYXRhLT5jdHJsLT5jY3RlbXAp
-CisJCQlyZXR1cm4gMDQ0NDsKKwkJYnJlYWs7CisJY2FzZSBod21vbl90ZW1wX21heDoKKwkJaWYg
-KCFjaGFubmVsICYmIGRhdGEtPmN0cmwtPndjdGVtcCkKKwkJCXJldHVybiAwNDQ0OworCQlicmVh
-azsKKwljYXNlIGh3bW9uX3RlbXBfY3JpdF9hbGFybToKKwkJaWYgKCFjaGFubmVsKQorCQkJcmV0
-dXJuIDA0NDQ7CisJCWJyZWFrOworCWNhc2UgaHdtb25fdGVtcF9pbnB1dDoKKwljYXNlIGh3bW9u
-X3RlbXBfbGFiZWw6CisJCWlmICghY2hhbm5lbCB8fCBkYXRhLT5sb2cudGVtcF9zZW5zb3JbY2hh
-bm5lbCAtIDFdKQorCQkJcmV0dXJuIDA0NDQ7CisJCWJyZWFrOworCWRlZmF1bHQ6CisJCWJyZWFr
-OworCX0KKwlyZXR1cm4gMDsKK30KKworc3RhdGljIGNvbnN0IHN0cnVjdCBod21vbl9jaGFubmVs
-X2luZm8gKm52bWVfaHdtb25faW5mb1tdID0geworCUhXTU9OX0NIQU5ORUxfSU5GTyhjaGlwLCBI
-V01PTl9DX1JFR0lTVEVSX1RaKSwKKwlIV01PTl9DSEFOTkVMX0lORk8odGVtcCwKKwkJCSAgIEhX
-TU9OX1RfSU5QVVQgfCBIV01PTl9UX01BWCB8IEhXTU9OX1RfQ1JJVCB8CisJCQkJSFdNT05fVF9M
-QUJFTCB8IEhXTU9OX1RfQ1JJVF9BTEFSTSwKKwkJCSAgIEhXTU9OX1RfSU5QVVQgfCBIV01PTl9U
-X0xBQkVMLAorCQkJICAgSFdNT05fVF9JTlBVVCB8IEhXTU9OX1RfTEFCRUwsCisJCQkgICBIV01P
-Tl9UX0lOUFVUIHwgSFdNT05fVF9MQUJFTCwKKwkJCSAgIEhXTU9OX1RfSU5QVVQgfCBIV01PTl9U
-X0xBQkVMLAorCQkJICAgSFdNT05fVF9JTlBVVCB8IEhXTU9OX1RfTEFCRUwsCisJCQkgICBIV01P
-Tl9UX0lOUFVUIHwgSFdNT05fVF9MQUJFTCwKKwkJCSAgIEhXTU9OX1RfSU5QVVQgfCBIV01PTl9U
-X0xBQkVMLAorCQkJICAgSFdNT05fVF9JTlBVVCB8IEhXTU9OX1RfTEFCRUwpLAorCU5VTEwKK307
-CisKK3N0YXRpYyBjb25zdCBzdHJ1Y3QgaHdtb25fb3BzIG52bWVfaHdtb25fb3BzID0geworCS5p
-c192aXNpYmxlCT0gbnZtZV9od21vbl9pc192aXNpYmxlLAorCS5yZWFkCQk9IG52bWVfaHdtb25f
-cmVhZCwKKwkucmVhZF9zdHJpbmcJPSBudm1lX2h3bW9uX3JlYWRfc3RyaW5nLAorfTsKKworc3Rh
-dGljIGNvbnN0IHN0cnVjdCBod21vbl9jaGlwX2luZm8gbnZtZV9od21vbl9jaGlwX2luZm8gPSB7
-CisJLm9wcwk9ICZudm1lX2h3bW9uX29wcywKKwkuaW5mbwk9IG52bWVfaHdtb25faW5mbywKK307
-CisKK3ZvaWQgbnZtZV9od21vbl9pbml0KHN0cnVjdCBudm1lX2N0cmwgKmN0cmwpCit7CisJc3Ry
-dWN0IGRldmljZSAqZGV2ID0gY3RybC0+ZGV2aWNlOworCXN0cnVjdCBudm1lX2h3bW9uX2RhdGEg
-KmRhdGE7CisJc3RydWN0IGRldmljZSAqaHdtb247CisJaW50IGVycjsKKworCWRhdGEgPSBkZXZt
-X2t6YWxsb2MoZGV2LCBzaXplb2YoKmRhdGEpLCBHRlBfS0VSTkVMKTsKKwlpZiAoIWRhdGEpCisJ
-CXJldHVybjsKKworCWRhdGEtPmN0cmwgPSBjdHJsOworCW11dGV4X2luaXQoJmRhdGEtPnJlYWRf
-bG9jayk7CisKKwllcnIgPSBudm1lX2h3bW9uX2dldF9zbWFydF9sb2coZGF0YSk7CisJaWYgKGVy
-cikgeworCQlkZXZfd2FybihkZXYsICJGYWlsZWQgdG8gcmVhZCBzbWFydCBsb2cgKGVycm9yICVk
-KVxuIiwgZXJyKTsKKwkJZGV2bV9rZnJlZShkZXYsIGRhdGEpOworCQlyZXR1cm47CisJfQorCisJ
-aHdtb24gPSBkZXZtX2h3bW9uX2RldmljZV9yZWdpc3Rlcl93aXRoX2luZm8oZGV2LCBkZXZfbmFt
-ZShkZXYpLCBkYXRhLAorCQkJCQkJICAgICAmbnZtZV9od21vbl9jaGlwX2luZm8sCisJCQkJCQkg
-ICAgIE5VTEwpOworCWlmIChJU19FUlIoaHdtb24pKSB7CisJCWRldl93YXJuKGRldiwgIkZhaWxl
-ZCB0byBpbnN0YW50aWF0ZSBod21vbiBkZXZpY2VcbiIpOworCQlkZXZtX2tmcmVlKGRldiwgZGF0
-YSk7CisJfQorfQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9udm1lL2hvc3QvbnZtZS5oIGIvZHJpdmVy
-cy9udm1lL2hvc3QvbnZtZS5oCmluZGV4IDIyZTg0MDEzNTJjMi4uY2IzYjI0MmEyMTRlIDEwMDY0
-NAotLS0gYS9kcml2ZXJzL252bWUvaG9zdC9udm1lLmgKKysrIGIvZHJpdmVycy9udm1lL2hvc3Qv
-bnZtZS5oCkBAIC0yMzEsNiArMjMxLDggQEAgc3RydWN0IG52bWVfY3RybCB7CiAJdTE2IGthczsK
-IAl1OCBucHNzOwogCXU4IGFwc3RhOworCXUxNiB3Y3RlbXA7CisJdTE2IGNjdGVtcDsKIAl1MzIg
-b2FlczsKIAl1MzIgYWVuX3Jlc3VsdDsKIAl1MzIgY3RyYXR0OwpAQCAtNjUyLDQgKzY1NCwxMCBA
-QCBzdGF0aWMgaW5saW5lIHN0cnVjdCBudm1lX25zICpudm1lX2dldF9uc19mcm9tX2RldihzdHJ1
-Y3QgZGV2aWNlICpkZXYpCiAJcmV0dXJuIGRldl90b19kaXNrKGRldiktPnByaXZhdGVfZGF0YTsK
-IH0KIAorI2lmZGVmIENPTkZJR19OVk1FX0hXTU9OCit2b2lkIG52bWVfaHdtb25faW5pdChzdHJ1
-Y3QgbnZtZV9jdHJsICpjdHJsKTsKKyNlbHNlCitzdGF0aWMgaW5saW5lIHZvaWQgbnZtZV9od21v
-bl9pbml0KHN0cnVjdCBudm1lX2N0cmwgKmN0cmwpIHsgfQorI2VuZGlmCisKICNlbmRpZiAvKiBf
-TlZNRV9IICovCi0tIAoyLjE3LjEKCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpMaW51eC1udm1lIG1haWxpbmcgbGlzdApMaW51eC1udm1lQGxpc3RzLmlu
-ZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9s
-aW51eC1udm1lCg==
+On 10/31/2019 07:45 AM, Christoph Hellwig wrote:
+> IFF we want to allow selecting the backend it should be a configfs
+> file with the backend name, use_vfs is not very descriptive.  But I'm
+> still not sure it is an all that useful feature.
+>
+
+Right now we don't have any caching support on the target side for
+the block device backend. With this patch we can at least have
+minimum caching support. Although, with this we are depending on the
+page cache for performance, but it is still better than having
+nothing.
+
+For applications with datasets which can fit in the Target DRAM
+and where write once and read many pattern is common this feature
+is very useful.
+
+With the above suggestion how about something like this:-
+
+ From 2e640a1a34875fa8920794afc55181b636ce0d00 Mon Sep 17 00:00:00 2001
+From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Date: Tue, 29 Oct 2019 21:05:03 -0700
+Subject: [PATCH] nvmet: allow block device to use buffered I/O
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+NVMeOF target already has a support to execute requests in the buffered
+I/O mode with file backend. This patch allows block devices to be used
+with file backend code so that buffered I/O parameter can be set for a
+block device backed namespace when newly introduced per namespace
+optional configfs parameter "backend" is set to string value "file".
+
+Please note that this parameter is only in effect when device_path is
+configured as a block device.
+
+Following is the performance improvement :-
+
+Device_path = /dev/nullb0, I/O type = randread.
+
+With this patch and buffered I/O = 0, backend=block:
+   read: IOPS=198k, BW=772MiB/s (809MB/s)(45.2GiB/60002msec)
+   read: IOPS=198k, BW=774MiB/s (811MB/s)(45.3GiB/60002msec)
+   read: IOPS=197k, BW=771MiB/s (808MB/s)(45.2GiB/60002msec)
+
+With this patch and buffered I/O = 1, backend=file:
+   read: IOPS=979k, BW=3825MiB/s (4010MB/s)(224GiB/60002msec)
+   read: IOPS=983k, BW=3841MiB/s (4028MB/s)(225GiB/60003msec)
+   read: IOPS=980k, BW=3828MiB/s (4014MB/s)(224GiB/60002msec)
+
+<snip>
+     HITS   MISSES  DIRTIES    RATIO   BUFFERS_MB   CACHE_MB
+   795057    78070        0    91.1%         1026       7961
+  1028017        4        0   100.0%         1026       7962
+  1025259        0        0   100.0%         1026       7962
+  1003651        0        0   100.0%         1026       7962
+  1024775        0        0   100.0%         1026       7962
+  1003080        0        0   100.0%         1026       7962
+  1004128        0        0   100.0%         1026       7962
+  1003831        0        0   100.0%         1026       7962
+  1026133        0        0   100.0%         1026       7962
+<snip>
+
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+---
+  drivers/nvme/target/configfs.c    | 34 ++++++++++++++++++++++++++++++++++
+  drivers/nvme/target/core.c        |  1 +
+  drivers/nvme/target/io-cmd-bdev.c |  2 +-
+  drivers/nvme/target/io-cmd-file.c | 38 
++++++++++++++++++++++++++-------------
+  drivers/nvme/target/nvmet.h       |  1 +
+  5 files changed, 62 insertions(+), 14 deletions(-)
+
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index 98613a4..538a591 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -545,6 +545,39 @@ static ssize_t nvmet_ns_buffered_io_store(struct 
+config_item *item,
+
+  CONFIGFS_ATTR(nvmet_ns_, buffered_io);
+
++static ssize_t nvmet_ns_backend_show(struct config_item *item, char *page)
++{
++	struct nvmet_ns *ns = to_nvmet_ns(item);
++	int ret;
++
++	/* ns->backend value is valid only when we have valid ns->bdev set */
++	if (ns->bdev)
++		ret = sprintf(page, "%s\n", ns->backend ? "file" : "block");
++	else
++		ret = sprintf(page, "ns is either not enabled or not bdev.\n");
++
++	return ret;
++}
++
++static ssize_t nvmet_ns_backend_store(struct config_item *item,
++		const char *page, size_t count)
++{
++	struct nvmet_ns *ns = to_nvmet_ns(item);
++
++	mutex_lock(&ns->subsys->lock);
++	if (ns->enabled) {
++		pr_err("disable ns before setting backend value.\n");
++		mutex_unlock(&ns->subsys->lock);
++		return -EINVAL;
++	}
++
++	ns->backend = strncasecmp(page, "file", 4) == 0 ? true : false;
++	mutex_unlock(&ns->subsys->lock);
++	return count;
++}
++
++CONFIGFS_ATTR(nvmet_ns_, backend);
++
+  static struct configfs_attribute *nvmet_ns_attrs[] = {
+  	&nvmet_ns_attr_device_path,
+  	&nvmet_ns_attr_device_nguid,
+@@ -552,6 +585,7 @@ static ssize_t nvmet_ns_buffered_io_store(struct 
+config_item *item,
+  	&nvmet_ns_attr_ana_grpid,
+  	&nvmet_ns_attr_enable,
+  	&nvmet_ns_attr_buffered_io,
++	&nvmet_ns_attr_backend,
+  #ifdef CONFIG_PCI_P2PDMA
+  	&nvmet_ns_attr_p2pmem,
+  #endif
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 28438b8..fb9676d 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -653,6 +653,7 @@ struct nvmet_ns *nvmet_ns_alloc(struct nvmet_subsys 
+*subsys, u32 nsid)
+
+  	uuid_gen(&ns->uuid);
+  	ns->buffered_io = false;
++	ns->backend = false;
+
+  	return ns;
+  }
+diff --git a/drivers/nvme/target/io-cmd-bdev.c 
+b/drivers/nvme/target/io-cmd-bdev.c
+index b6fca0e..0179675 100644
+--- a/drivers/nvme/target/io-cmd-bdev.c
++++ b/drivers/nvme/target/io-cmd-bdev.c
+@@ -64,7 +64,7 @@ int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
+  	}
+  	ns->size = i_size_read(ns->bdev->bd_inode);
+  	ns->blksize_shift = blksize_bits(bdev_logical_block_size(ns->bdev));
+-	return 0;
++	return ns->backend ? -ENOTBLK : 0;
+  }
+
+  void nvmet_bdev_ns_disable(struct nvmet_ns *ns)
+diff --git a/drivers/nvme/target/io-cmd-file.c 
+b/drivers/nvme/target/io-cmd-file.c
+index caebfce..ec258a4 100644
+--- a/drivers/nvme/target/io-cmd-file.c
++++ b/drivers/nvme/target/io-cmd-file.c
+@@ -25,6 +25,10 @@ void nvmet_file_ns_disable(struct nvmet_ns *ns)
+  		fput(ns->file);
+  		ns->file = NULL;
+  	}
++
++	/* when using vfs layer we have opend bdev see target.core.c */
++	if (ns->backend)
++		nvmet_bdev_ns_disable(ns);
+  }
+
+  int nvmet_file_ns_enable(struct nvmet_ns *ns)
+@@ -33,6 +37,11 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
+  	struct kstat stat;
+  	int ret;
+
++	if (!ns->bdev && ns->backend) {
++		pr_info("backend value only applies to block device\n");
++		return -EINVAL;
++	}
++
+  	if (!ns->buffered_io)
+  		flags |= O_DIRECT;
+
+@@ -43,19 +52,22 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
+  		return PTR_ERR(ns->file);
+  	}
+
+-	ret = vfs_getattr(&ns->file->f_path,
+-			&stat, STATX_SIZE, AT_STATX_FORCE_SYNC);
+-	if (ret)
+-		goto err;
+-
+-	ns->size = stat.size;
+-	/*
+-	 * i_blkbits can be greater than the universally accepted upper bound,
+-	 * so make sure we export a sane namespace lba_shift.
+-	 */
+-	ns->blksize_shift = min_t(u8,
+-			file_inode(ns->file)->i_blkbits, 12);
+-
++	if (!ns->backend) {
++		ret = vfs_getattr(&ns->file->f_path,
++				  &stat, STATX_SIZE, AT_STATX_FORCE_SYNC);
++		if (ret) {
++			pr_err("failed to stat device file %s\n",
++					ns->device_path);
++			goto err;
++		}
++		/*
++		 * i_blkbits can be greater than the universally accepted upper
++		 * bound, so make sure we export a sane namespace lba_shift.
++		 */
++		ns->size = stat.size;
++		ns->blksize_shift = min_t(u8,
++				file_inode(ns->file)->i_blkbits, 12);
++	}
+  	ns->bvec_cache = kmem_cache_create("nvmet-bvec",
+  			NVMET_MAX_MPOOL_BVEC * sizeof(struct bio_vec),
+  			0, SLAB_HWCACHE_ALIGN, NULL);
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 46df45e..b7f7b97 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -63,6 +63,7 @@ struct nvmet_ns {
+  	u32			anagrpid;
+
+  	bool			buffered_io;
++	bool			backend;
+  	bool			enabled;
+  	struct nvmet_subsys	*subsys;
+  	const char		*device_path;
+-- 
+1.8.3.1
+
+
+
+
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
