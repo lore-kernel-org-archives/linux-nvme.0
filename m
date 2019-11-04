@@ -2,132 +2,91 @@ Return-Path: <SRS0=VSZw=Y4=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E2BCCA9EB5
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Nov 2019 20:41:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E75BACA9EB5
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Nov 2019 20:47:58 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id ECCF3206BA
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Nov 2019 20:41:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id BB0F520869
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Nov 2019 20:47:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="LbXNo0E6";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="YV9g3emE";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="hV6HvVuz"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ECCF3206BA
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="hqG2+XKL"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BB0F520869
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.vnet.ibm.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date
-	:Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Cc:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	List-Owner; bh=v11L+QuZ/yUgLtRNsxWQkg5tXiZyGOkW2fnAd/oSrkg=; b=LbXNo0E6lvJt67
-	dnmBQ2XiTttL8rccNjxpqiZjpkTnN9tf2RjedI4h1HglHfhR+fWFvZFhcDYfVqrkmoiFlb/X23ppr
-	2cSZInnWuCEY24jAwh0oOAYKpo/rSiM2xgTKaa8JBBTgM30FVmXFjKBehIpDbodAZozpaxnEi6ZaM
-	JI0HKbq779fwxN6gbwlUIpQXi5Am64P8qDeaceQTU7DXBb+NsJTMlYDTUan6T+BUPOodpI1EjOesl
-	J07U6L8qMd+ErX38DxEBOq+HcUBwjJMz9UR1YJtMPtUIaZ9YHJ1PzJffshGclWzsVv5ZSS6oGtZNk
-	8VKYmxOCmVepn5yhlB2g==;
+	References:List-Owner; bh=2MlOPiwCC1gm0J+LCiSQrMe1n7vd0CuOtBVIisabeTU=; b=hqG
+	2+XKLS7ftnSEdMnSlh50tDGqV+cN9vkrHFrrZTNnfdx8HrcQEFOL8GFvlsnprZmfJi0bekk+S5EJb
+	WxM914aF45kcb+2GOoA4JyHC79r5nId7/ynqBB2FZMtHkGoFjGDORYym88iye8xq2d5NGseO1ttI9
+	vyEvcwN8xIyOJaXvCXdUlR/R9U3428jwmZfRqdXLf7qnuDu8ubw/GBIbxJhKPDNRYfygkffHWZNnR
+	6aRD9LsM4OP6/+erP277jHYt7KT9H5nhdhkqJaFVkU7+rV0dBvj+OhbstOFAUP41VbDjBFKeOHKLI
+	iRFYsaUTAqOvCt4awoMM4qCnJvVsYDQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iRjAA-00065O-RT; Mon, 04 Nov 2019 20:41:22 +0000
-Received: from esa4.hgst.iphmx.com ([216.71.154.42])
+	id 1iRjGV-0008EQ-QH; Mon, 04 Nov 2019 20:47:55 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iRjA7-00064a-Sy
- for linux-nvme@lists.infradead.org; Mon, 04 Nov 2019 20:41:21 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1572900079; x=1604436079;
- h=from:to:cc:subject:date:message-id:references:
- content-transfer-encoding:mime-version;
- bh=87euDTuNoljjTVaNAtIyfCZEsQmfZGzVyWH2dVWCtvE=;
- b=YV9g3emEcaDb//rTno+EWievEPtwXyi+Xgpa+w3bb46M4FCZqwnH7iBQ
- qnm3p3Brw1cfsATpP2PXbZbKD86xb0Qfwq8lPiEaOMjFsgWEUoJ8vMDS+
- IExYxeyVzS86w44WMo6n2jv3CMrMDEKIFWNQIZ5Bs6hNocPIJZFqrqGkq
- PUR2ljzxsVrI94OW63UDnKsLI8ePFzCLbhBctKUewXNDHOG/rP8B168xO
- ieOGvAnpLvai0sOoFeTabe+6DAzbuOZAhaApU4tWdiXnqX0CEyxaDpzuT
- VH2Abi1fmuPheQWFQWf5j6P674mr4YNk9WxZ0EvsQRQ2wYPqKVZunv77k A==;
-IronPort-SDR: AtkA6t1yYeKsiyjOcrEtYFP5PNfdnpOyNDTTowhCnWmDsXrsT+e8fd3iYA0/EDfiooCJ6tM8S5
- CGn3o4E+byH3ZdTSSU803OOEFKIX+PVHXmNzg86FAkXHfRAnafLxU7s1AL1CHwWmTKalQXclJb
- gsQLJODcGooT90JPlR/cN70JRSIdPchaTU1S84Z++9c6Jh8Q1NCwwWKvGeI3R2//jtfWctGytU
- DAGiFSuF9FfRzdhChVoouf5n76XMFWKG6LBLALsdFUFJ0GSxbn/VL5sbyCkvHBeMbBn1RxtoMk
- w3E=
-X-IronPort-AV: E=Sophos;i="5.68,268,1569254400"; d="scan'208";a="122094610"
-Received: from mail-bn3nam04lp2058.outbound.protection.outlook.com (HELO
- NAM04-BN3-obe.outbound.protection.outlook.com) ([104.47.46.58])
- by ob1.hgst.iphmx.com with ESMTP; 05 Nov 2019 04:41:02 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bTweaNuG3Uau5+be8e3IM3tzkEHwz+T1hqQj521JR4oQSl5juE9rXaVAXlYe64d758EHhwEnrnrMjpOaM9UExiqROpmcymOT/h+qJxUV3lI6TXhSQV+1v6mYJa+2bWnKZE3xgSvsAVzC2UGUlDToUB2GEZTlSPsLCxfQ8MU3T97pgH8D11QfowSxCndyZKzOK326p0G8WaHXNcUWkR1IhTxe9/Uuh8IF/FvA2K876GrkXIWUhZr1l24x2bJOSQIxL9PNCbk6za0xEwrKilQDbr/eagPKtNzPloHPIql0oNGKCoC+C5Ahb2DXrpY8Gf75dHIBNKnDkIKdH52DjrE06A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ua4mjN1QXO0Uk/Gs6ANe+O7y05N+27Abbp6Pq0+BaAg=;
- b=mfQxt0h1PSxyHRIDNgMwDmzTyo2T6FGWKDNLeeatuvdTObqZSyF7YrfI6dJYLIhh9lnHEqV20FmIkJQ7XEWwz9HUByygmAS2qhvef7l7vxnoZxcDDjoBgLmloC1GmxGIlORdBlZ9X2jGt8Xi2sGoGqnIsI+M3oke795TA4TqaSVQkqQyummteYoWWqS2FrW2skUyrOAmafTiwhKHcpTKZjiDkmkO0uc8GiTQBJy1PmZCG8eGJDyC5nZROtDnx7HE35npmKZJStjSw8Q7R8ETsu6P5omhtKYdKoO2f1EacqTZz9gzYUPVfOA7oJPusFCf6r5R6PSeWRnGxRc9Ht+kDg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ua4mjN1QXO0Uk/Gs6ANe+O7y05N+27Abbp6Pq0+BaAg=;
- b=hV6HvVuzYYgHsTQXrWeVj0HKg6zzKByj9sgJ8iVFtTenMWeBFn862iQQ+6ftcs6UNbZe5CfnS3c+JytGe0ovM1EfG7Z1OKHidhNeequEPt8+GEJuqJhAL4nEgtgSEz/uTJDoSDjzHzTscFYaL/NOxqaOAuW6+/gDngbMenzTsLU=
-Received: from BYAPR04MB5749.namprd04.prod.outlook.com (20.179.57.21) by
- BYAPR04MB6008.namprd04.prod.outlook.com (20.178.233.28) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2408.24; Mon, 4 Nov 2019 20:41:01 +0000
-Received: from BYAPR04MB5749.namprd04.prod.outlook.com
- ([fe80::6066:cd5d:206:5e04]) by BYAPR04MB5749.namprd04.prod.outlook.com
- ([fe80::6066:cd5d:206:5e04%6]) with mapi id 15.20.2408.024; Mon, 4 Nov 2019
- 20:41:00 +0000
-From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-To: Daniel Wagner <dwagner@suse.de>
-Subject: Re: [PATCH] nvmet: Always remove processed AER elements from list
-Thread-Topic: [PATCH] nvmet: Always remove processed AER elements from list
-Thread-Index: AQHVkoMhq0HJ9KDTYUe4XHNQTdxotg==
-Date: Mon, 4 Nov 2019 20:41:00 +0000
-Message-ID: <BYAPR04MB574938B5AF804C910EDE4A6E867F0@BYAPR04MB5749.namprd04.prod.outlook.com>
-References: <20191103201310.24785-1-chaitanya.kulkarni@wdc.com>
- <20191104081338.gdrk2a4mlov2io6s@beryllium.lan>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Chaitanya.Kulkarni@wdc.com; 
-x-originating-ip: [199.255.45.62]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 835d1bc1-68eb-4ea2-4c74-08d761674db1
-x-ms-traffictypediagnostic: BYAPR04MB6008:
-x-microsoft-antispam-prvs: <BYAPR04MB60080D90B4A485CE3F0EDAB7867F0@BYAPR04MB6008.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
-x-forefront-prvs: 0211965D06
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(396003)(136003)(346002)(366004)(39860400002)(376002)(189003)(199004)(256004)(26005)(66946007)(76116006)(7696005)(76176011)(33656002)(305945005)(86362001)(7736002)(478600001)(476003)(446003)(6436002)(186003)(14454004)(4326008)(14444005)(8936002)(229853002)(66066001)(81156014)(81166006)(8676002)(316002)(99286004)(66446008)(64756008)(66556008)(66476007)(5660300002)(2906002)(74316002)(6246003)(486006)(52536014)(102836004)(53546011)(6116002)(55016002)(6506007)(3846002)(54906003)(9686003)(71190400001)(71200400001)(6916009)(25786009);
- DIR:OUT; SFP:1102; SCL:1; SRVR:BYAPR04MB6008;
- H:BYAPR04MB5749.namprd04.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 9dU1PRUpaJaXG9s3tBXo7k3oAJ93+T5cUMeWYsuDIL8qIHHhrbi5YqRR5hdl/olZCGsV0mMrSHZJ/Rto8yoWIgzABNt7GqIdPZoe1KAZOLPX2Q1yBETrKufsZRYY0W+uxyAEB+6Dipomm8n0o/vOa7JnwjZMden+v/irUhlKY95mOe5kRxLkLZmX83e+M/hLZ1tKEGKQyQ6bRnOvgP5PTT0NbhHgDXPTl3uBrl8f1NXTYR2K35F3Ba5rjpw7SNoQRFK5T/5McThkIjjUndBXZtpZKjI3rxRZP1R7erZTIo/jjT3TfFh4PXUQOmXgrTUB/VBAjgBJCQptXXpGOamU9xib49EEm84Pb88KFJ5RTGoWLwrQv/5Xo1gzhLFvJ4asevs7l3EaYgIq4RvyYpenAc1lg14AKg6dF92tBipE6v3A38s60IxW/8xrOr8vtTDh
-x-ms-exchange-transport-forked: True
-MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 835d1bc1-68eb-4ea2-4c74-08d761674db1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Nov 2019 20:41:00.7376 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: CtHhWqJwk+P3Bi8fsGNpcwxw023vvAeu+0yk69djb7o1EwZsQuZQlRpAOQhNw7/NaOox05swXsi3rcH9f402lp177MMm+0hFeBOHOwB/JzU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB6008
+ id 1iRjGS-0008Cu-U4
+ for linux-nvme@lists.infradead.org; Mon, 04 Nov 2019 20:47:54 +0000
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ xA4KlbxC098002; Mon, 4 Nov 2019 15:47:45 -0500
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.26])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2w14m3mfy5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 04 Nov 2019 15:47:45 -0500
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+ by ppma04wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xA4KiXEp029449;
+ Mon, 4 Nov 2019 20:47:44 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+ by ppma04wdc.us.ibm.com with ESMTP id 2w11e6ycwa-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 04 Nov 2019 20:47:44 +0000
+Received: from b03ledav005.gho.boulder.ibm.com
+ (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xA4Klhnh48234886
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 4 Nov 2019 20:47:43 GMT
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 94946BE056;
+ Mon,  4 Nov 2019 20:47:43 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 35ED7BE053;
+ Mon,  4 Nov 2019 20:47:43 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.40.195.89])
+ by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Mon,  4 Nov 2019 20:47:43 +0000 (GMT)
+From: wenxiong@linux.vnet.ibm.com
+To: linux-nvme@lists.infradead.org
+Subject: [PATCH] nvme-cli: improvment critical warning format
+Date: Mon,  4 Nov 2019 13:28:19 -0600
+Message-Id: <1572895699-3096-1-git-send-email-wenxiong@linux.vnet.ibm.com>
+X-Mailer: git-send-email 1.6.0.2
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-11-04_11:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=3 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1911040201
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191104_124120_039981_D14E3070 
-X-CRM114-Status: GOOD (  10.18  )
+X-CRM114-CacheID: sfid-20191104_124753_094673_217071D5 
+X-CRM114-Status: GOOD (  16.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,41 +98,160 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "jthumshirn@suse.de" <jthumshirn@suse.de>
+Cc: keith.busch@intel.com, Wen Xiong <wenxiong@linux.vnet.ibm.com>,
+ wenxiong@us.ibm.com
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/04/2019 12:13 AM, Daniel Wagner wrote:
->> >I did the basic testing create/delete ctrl and enable/disable ns that
->> >did not produced any hands or errors.
-> Thanks for addressing Christoph's comment. I'll get this patch into
-> our customer's test setup.
->
->> >Following is the test log if anyone wants to take a look:-
->> # echo 0 > /sys/kernel/config/nvmet/subsystems/fs/namespaces/1/enable
->> ># nvme list | tr -s ' ' ' ' | grep Linux | grep -v '\-\-\-\-'
->> ># echo 1 > /sys/kernel/config/nvmet/subsystems/fs/namespaces/1/enable
-> BTW, I got feedback how to produce the oops on our custerms setup:
->
-You are welcome.
+From: Wen Xiong <wenxiong@linux.vnet.ibm.com>
 
-> Test Steps:
-> 1. Create two targets on node n1 as target side (tgt1 and tgt2)
-> 2. Run perf to write data to tgt2:
->     sudo ./perf -q 1 -w read -o 4096 -t 60 -r 'trtype:RDMA adrfam:IPv4 traddr:192.168.219.4 trsvcid:4421'
-> 3. Deleted tgt2 node n1 configuration during perf execution
->     and reboot the node n1 automatically.
->
-> I hope I got the steps summerized correctly.
->
-Interesting let me have a look at this later this week.
-> Thanks,
-> Daniel
->
+This patch improves the critical warning format with smart-log.
+
+Signed-off-by: Wendy Xiong<wenxiong@linux.vnet.ibm.com>
+---
+ nvme-print.c |   28 +++++++++++++++++++++++++---
+ nvme-print.h |    4 ++--
+ nvme.c       |   11 +++++++++--
+ 3 files changed, 36 insertions(+), 7 deletions(-)
+
+diff --git a/nvme-print.c b/nvme-print.c
+index d3e3307..d64ae07 100644
+--- a/nvme-print.c
++++ b/nvme-print.c
+@@ -1722,15 +1722,26 @@ void show_endurance_log(struct nvme_endurance_group_log *endurance_group,
+ 		int128_to_double(endurance_group->num_err_info_log_entries));
+ }
+ 
+-void show_smart_log(struct nvme_smart_log *smart, unsigned int nsid, const char *devname)
++void show_smart_log(struct nvme_smart_log *smart, unsigned int nsid, const char *devname, unsigned int flag)
+ {
+ 	/* convert temperature from Kelvin to Celsius */
+ 	int temperature = ((smart->temperature[1] << 8) |
+ 		smart->temperature[0]) - 273;
+ 	int i;
++	int human = flag & HUMAN;
+ 
+ 	printf("Smart Log for NVME device:%s namespace-id:%x\n", devname, nsid);
+-	printf("critical_warning			: %#x\n", smart->critical_warning);
++	printf("critical_warning                        : %#x\n", smart->critical_warning);
++
++	if (human) {
++		printf("      [0:0]:Available Spare             : %d\n", smart->critical_warning & 0x01);
++		printf("      [1:1]:Temp. Threshold             : %d\n", (smart->critical_warning & 0x02) >> 1);
++		printf("      [2:2]:NVM subsystem Reliability   : %d\n", (smart->critical_warning & 0x04) >> 2);
++		printf("      [3:3]:Read-only                   : %d\n", (smart->critical_warning & 0x08) >> 3);
++		printf("      [4:4]:Volatile mem. backup failed : %d\n", (smart->critical_warning & 0x10) >> 4);
++		printf("      [5:5]:Persistent Mem. RO          : %d\n", (smart->critical_warning & 0x20) >> 5);
++	}
++
+ 	printf("temperature				: %d C\n", temperature);
+ 	printf("available_spare				: %u%%\n", smart->avail_spare);
+ 	printf("available_spare_threshold		: %u%%\n", smart->spare_thresh);
+@@ -3221,11 +3232,12 @@ void json_endurance_log(struct nvme_endurance_group_log *endurance_group,
+ 	json_free_object(root);
+ }
+ 
+-void json_smart_log(struct nvme_smart_log *smart, unsigned int nsid, const char *devname)
++void json_smart_log(struct nvme_smart_log *smart, unsigned int nsid, const char *devname, unsigned int flag)
+ {
+ 	struct json_object *root;
+ 	int c;
+ 	char key[21];
++	int human = flag & HUMAN;
+ 
+ 	unsigned int temperature = ((smart->temperature[1] << 8) |
+ 		smart->temperature[0]);
+@@ -3244,6 +3256,16 @@ void json_smart_log(struct nvme_smart_log *smart, unsigned int nsid, const char
+ 	root = json_create_object();
+ 
+ 	json_object_add_value_int(root, "critical_warning", smart->critical_warning);
++
++	if (human) {
++		json_object_add_value_int(root,"   [0:0]:Available Spare", smart->critical_warning & 0x01);
++		json_object_add_value_int(root,"   [1:1]:Temp. Threshold", (smart->critical_warning & 0x02) >> 1);
++		json_object_add_value_int(root,"   [2:2]:NVM subsystem Reliability", (smart->critical_warning & 0x04) >> 2);
++		json_object_add_value_int(root,"   [3:3]:Read-only", (smart->critical_warning & 0x08) >> 3);
++		json_object_add_value_int(root,"   [4:4]:Volatile mem. backup failed", (smart->critical_warning & 0x10) >> 4);
++		json_object_add_value_int(root,"   [5:5]:Persistent Mem. RO", (smart->critical_warning & 0x20) >> 5);
++	}
++
+ 	json_object_add_value_int(root, "temperature", temperature);
+ 	json_object_add_value_int(root, "avail_spare", smart->avail_spare);
+ 	json_object_add_value_int(root, "spare_thresh", smart->spare_thresh);
+diff --git a/nvme-print.h b/nvme-print.h
+index dea8915..44d7ff6 100644
+--- a/nvme-print.h
++++ b/nvme-print.h
+@@ -24,7 +24,7 @@ void show_nvme_id_ns(struct nvme_id_ns *ns, unsigned int flags);
+ void show_nvme_resv_report(struct nvme_reservation_status *status, int bytes, __u32 cdw11);
+ void show_lba_range(struct nvme_lba_range_type *lbrt, int nr_ranges);
+ void show_error_log(struct nvme_error_log_page *err_log, int entries, const char *devname);
+-void show_smart_log(struct nvme_smart_log *smart, unsigned int nsid, const char *devname);
++void show_smart_log(struct nvme_smart_log *smart, unsigned int nsid, const char *devname, unsigned int flag);
+ void show_ana_log(struct nvme_ana_rsp_hdr *ana_log, const char *devname);
+ void show_self_test_log(struct nvme_self_test_log *self_test, const char *devname);
+ void show_fw_log(struct nvme_firmware_log_page *fw_log, const char *devname);
+@@ -57,7 +57,7 @@ void json_nvme_id_ctrl(struct nvme_id_ctrl *ctrl, unsigned int mode, void (*vend
+ void json_nvme_id_ns(struct nvme_id_ns *ns, unsigned int flags);
+ void json_nvme_resv_report(struct nvme_reservation_status *status, int bytes, __u32 cdw11);
+ void json_error_log(struct nvme_error_log_page *err_log, int entries, const char *devname);
+-void json_smart_log(struct nvme_smart_log *smart, unsigned int nsid, const char *devname);
++void json_smart_log(struct nvme_smart_log *smart, unsigned int nsid, const char *devname, unsigned int flag);
+ void json_ana_log(struct nvme_ana_rsp_hdr *ana_log, const char *devname);
+ void json_effects_log(struct nvme_effects_log_page *effects_log, const char *devname);
+ void json_sanitize_log(struct nvme_sanitize_log_page *sanitize_log, const char *devname);
+diff --git a/nvme.c b/nvme.c
+index 0823267..c511f9d 100644
+--- a/nvme.c
++++ b/nvme.c
+@@ -174,11 +174,14 @@ static int get_smart_log(int argc, char **argv, struct command *cmd, struct plug
+ 			"(default) or binary.";
+ 	const char *namespace = "(optional) desired namespace";
+ 	const char *raw = "output in binary format";
++	const char *human_readable = "show info in readable format";
+ 	int err, fmt, fd;
++	unsigned int flags = 0;
+ 
+ 	struct config {
+ 		__u32 namespace_id;
+ 		int   raw_binary;
++		int   human_readable;
+ 		char *output_format;
+ 	};
+ 
+@@ -192,6 +195,7 @@ static int get_smart_log(int argc, char **argv, struct command *cmd, struct plug
+ 		OPT_UINT("namespace-id", 'n', &cfg.namespace_id,  namespace),
+ 		OPT_FMT("output-format", 'o', &cfg.output_format, output_format),
+ 		OPT_FLAG("raw-binary",   'b', &cfg.raw_binary,    raw),
++		OPT_FLAG("human-readable", 'H', &cfg.human_readable,    human_readable),
+ 		OPT_END()
+ 	};
+ 
+@@ -209,14 +213,17 @@ static int get_smart_log(int argc, char **argv, struct command *cmd, struct plug
+ 	if (cfg.raw_binary)
+ 		fmt = BINARY;
+ 
++	if (cfg.human_readable)
++		flags |= HUMAN;
++
+ 	err = nvme_smart_log(fd, cfg.namespace_id, &smart_log);
+ 	if (!err) {
+ 		if (fmt == BINARY)
+ 			d_raw((unsigned char *)&smart_log, sizeof(smart_log));
+ 		else if (fmt == JSON)
+-			json_smart_log(&smart_log, cfg.namespace_id, devicename);
++			json_smart_log(&smart_log, cfg.namespace_id, devicename, flag);
+ 		else
+-			show_smart_log(&smart_log, cfg.namespace_id, devicename);
++			show_smart_log(&smart_log, cfg.namespace_id, devicename, flag);
+ 	} else if (err > 0)
+ 		show_nvme_status(err);
+ 	else
+-- 
+1.6.0.2
 
 
 _______________________________________________
