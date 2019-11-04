@@ -2,91 +2,132 @@ Return-Path: <SRS0=VSZw=Y4=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 270BECA9EB5
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Nov 2019 17:04:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E2BCCA9EB5
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Nov 2019 20:41:30 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EDD052080F
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Nov 2019 17:04:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id ECCF3206BA
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Nov 2019 20:41:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="DAdHueRU";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel-dk.20150623.gappssmtp.com header.i=@kernel-dk.20150623.gappssmtp.com header.b="wayWu9mO"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EDD052080F
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="LbXNo0E6";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="YV9g3emE";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="hV6HvVuz"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ECCF3206BA
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
-	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
-	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Kuf8y7OxyupTNEDkJQY76W29B9oxGX1gjWMir8C29Ac=; b=DAdHueRUD1tEq8
-	w8fdl1F26f8+RXaLKOnluFsQC864SlaxeoO83Tts5RCxenq0cDU+GHzB0ff3+GLWQeGbOGYDKHH59
-	bVrHfaXFygpjcQEY7FrYkFRJqdOdDZgmEs/iS/H8AHXmomln5aAPaZjA7cp0cVnbVCg3dGr6gH8cO
-	E1BUatL3PwSZIIpDTmvoV65ukUoJbImUOjvmwW0+DAdFvzdFejAByzAIvmDoMCtMzoheS3lCpfV82
-	0Ne432CHe5OmsvzREEceH21l+t+NG9fiejilG/zl3MqWySSxiF7/yrh3jOOvL1ZbNoaESWiCcSIpe
-	Re/nIbrc/O6wY7/WacaQ==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date
+	:Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+	List-Owner; bh=v11L+QuZ/yUgLtRNsxWQkg5tXiZyGOkW2fnAd/oSrkg=; b=LbXNo0E6lvJt67
+	dnmBQ2XiTttL8rccNjxpqiZjpkTnN9tf2RjedI4h1HglHfhR+fWFvZFhcDYfVqrkmoiFlb/X23ppr
+	2cSZInnWuCEY24jAwh0oOAYKpo/rSiM2xgTKaa8JBBTgM30FVmXFjKBehIpDbodAZozpaxnEi6ZaM
+	JI0HKbq779fwxN6gbwlUIpQXi5Am64P8qDeaceQTU7DXBb+NsJTMlYDTUan6T+BUPOodpI1EjOesl
+	J07U6L8qMd+ErX38DxEBOq+HcUBwjJMz9UR1YJtMPtUIaZ9YHJ1PzJffshGclWzsVv5ZSS6oGtZNk
+	8VKYmxOCmVepn5yhlB2g==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iRfm0-0003vK-Hm; Mon, 04 Nov 2019 17:04:12 +0000
-Received: from mail-io1-xd2a.google.com ([2607:f8b0:4864:20::d2a])
+	id 1iRjAA-00065O-RT; Mon, 04 Nov 2019 20:41:22 +0000
+Received: from esa4.hgst.iphmx.com ([216.71.154.42])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iRflx-0003rz-58
- for linux-nvme@lists.infradead.org; Mon, 04 Nov 2019 17:04:11 +0000
-Received: by mail-io1-xd2a.google.com with SMTP id s17so19254552iol.12
- for <linux-nvme@lists.infradead.org>; Mon, 04 Nov 2019 09:04:07 -0800 (PST)
+ id 1iRjA7-00064a-Sy
+ for linux-nvme@lists.infradead.org; Mon, 04 Nov 2019 20:41:21 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1572900079; x=1604436079;
+ h=from:to:cc:subject:date:message-id:references:
+ content-transfer-encoding:mime-version;
+ bh=87euDTuNoljjTVaNAtIyfCZEsQmfZGzVyWH2dVWCtvE=;
+ b=YV9g3emEcaDb//rTno+EWievEPtwXyi+Xgpa+w3bb46M4FCZqwnH7iBQ
+ qnm3p3Brw1cfsATpP2PXbZbKD86xb0Qfwq8lPiEaOMjFsgWEUoJ8vMDS+
+ IExYxeyVzS86w44WMo6n2jv3CMrMDEKIFWNQIZ5Bs6hNocPIJZFqrqGkq
+ PUR2ljzxsVrI94OW63UDnKsLI8ePFzCLbhBctKUewXNDHOG/rP8B168xO
+ ieOGvAnpLvai0sOoFeTabe+6DAzbuOZAhaApU4tWdiXnqX0CEyxaDpzuT
+ VH2Abi1fmuPheQWFQWf5j6P674mr4YNk9WxZ0EvsQRQ2wYPqKVZunv77k A==;
+IronPort-SDR: AtkA6t1yYeKsiyjOcrEtYFP5PNfdnpOyNDTTowhCnWmDsXrsT+e8fd3iYA0/EDfiooCJ6tM8S5
+ CGn3o4E+byH3ZdTSSU803OOEFKIX+PVHXmNzg86FAkXHfRAnafLxU7s1AL1CHwWmTKalQXclJb
+ gsQLJODcGooT90JPlR/cN70JRSIdPchaTU1S84Z++9c6Jh8Q1NCwwWKvGeI3R2//jtfWctGytU
+ DAGiFSuF9FfRzdhChVoouf5n76XMFWKG6LBLALsdFUFJ0GSxbn/VL5sbyCkvHBeMbBn1RxtoMk
+ w3E=
+X-IronPort-AV: E=Sophos;i="5.68,268,1569254400"; d="scan'208";a="122094610"
+Received: from mail-bn3nam04lp2058.outbound.protection.outlook.com (HELO
+ NAM04-BN3-obe.outbound.protection.outlook.com) ([104.47.46.58])
+ by ob1.hgst.iphmx.com with ESMTP; 05 Nov 2019 04:41:02 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bTweaNuG3Uau5+be8e3IM3tzkEHwz+T1hqQj521JR4oQSl5juE9rXaVAXlYe64d758EHhwEnrnrMjpOaM9UExiqROpmcymOT/h+qJxUV3lI6TXhSQV+1v6mYJa+2bWnKZE3xgSvsAVzC2UGUlDToUB2GEZTlSPsLCxfQ8MU3T97pgH8D11QfowSxCndyZKzOK326p0G8WaHXNcUWkR1IhTxe9/Uuh8IF/FvA2K876GrkXIWUhZr1l24x2bJOSQIxL9PNCbk6za0xEwrKilQDbr/eagPKtNzPloHPIql0oNGKCoC+C5Ahb2DXrpY8Gf75dHIBNKnDkIKdH52DjrE06A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ua4mjN1QXO0Uk/Gs6ANe+O7y05N+27Abbp6Pq0+BaAg=;
+ b=mfQxt0h1PSxyHRIDNgMwDmzTyo2T6FGWKDNLeeatuvdTObqZSyF7YrfI6dJYLIhh9lnHEqV20FmIkJQ7XEWwz9HUByygmAS2qhvef7l7vxnoZxcDDjoBgLmloC1GmxGIlORdBlZ9X2jGt8Xi2sGoGqnIsI+M3oke795TA4TqaSVQkqQyummteYoWWqS2FrW2skUyrOAmafTiwhKHcpTKZjiDkmkO0uc8GiTQBJy1PmZCG8eGJDyC5nZROtDnx7HE35npmKZJStjSw8Q7R8ETsu6P5omhtKYdKoO2f1EacqTZz9gzYUPVfOA7oJPusFCf6r5R6PSeWRnGxRc9Ht+kDg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=1YF1y9aIEgl9O0xTvxxUEcxXiQBuiCkE34muq77fPbE=;
- b=wayWu9mOq9ePouyA/mJsG35ASeYqd5L6+0QOdktUm4tMxaPtBlx/VMA7EvUefDmeMq
- tDWXNbxDbsMiFMSzat39ovwJlQ4sOUlN6NRLb/qPW9fZzOy85G7iss8x0xCYjdezVYe7
- /tO1qPASLAXjgLeuLZIwnRwW+Yax56X7mjJHtRkN6V2hM8n2YcrxpH+knTbKlS8bEUUp
- LomrfNdRdrL1lrR6TFxQhGKEMJ/0AgMmo1czZM8tXoasPwqUSJxLgFvmfDppn4Amg67Y
- tsCmcXPFBQftiv6b4EDA6JKr3s4I/zimUdc99feQL45nitC33XiOWoSm1P/jM8A7ginE
- kF3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=1YF1y9aIEgl9O0xTvxxUEcxXiQBuiCkE34muq77fPbE=;
- b=k+uHxNQ8Gy4jJAijFjC2BuGdfV4maVEneUy3340+jgKVNSFMCAPLZFImq/kNJXPtk4
- GqNg2E458RRb3dYlfVfRkNOpG2f3Y8ibynKLbmL3j2JJbOWXBvNZA6ng/Cbut3/M/Z4M
- 2zWaQeJ0grnGu/GnXiaRE0aIILhDPFy2WWnz3oX5EDICgOuxUyfwghjO6li2/NWaBH2t
- 1oJq39EzzHMLVpt+wBBKPekfn+TRscUAS30Avm+6KFqvrKoyBwy8kFPy1eFg35pQo/YG
- Mdr0STxHr67HB7wJlWkM/xi/T09WtLIGCtPweHKDnbtej+PNHBK1W4HB7bvS9cwQLl0L
- 7Tyw==
-X-Gm-Message-State: APjAAAU4Ciz8HMFZLQP0so/2zxQvfzvFktPgub6QKxl+pdkhnUWcu/YX
- SR7AheyxoFITP9oqcAE2hmDLR2Eg3XrmHA==
-X-Google-Smtp-Source: APXvYqwllve90Rb76Kfc4QP15rteuvlQOQnG2XIAI3YMPZJGC1WqSFKKa99OIJSJ2uvVMK3psVTgUA==
-X-Received: by 2002:a5d:9a10:: with SMTP id s16mr14517814iol.121.1572887046315; 
- Mon, 04 Nov 2019 09:04:06 -0800 (PST)
-Received: from [192.168.1.159] ([65.144.74.34])
- by smtp.gmail.com with ESMTPSA id s90sm2535212ill.40.2019.11.04.09.04.04
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 04 Nov 2019 09:04:05 -0800 (PST)
-Subject: Re: [GIT PULL] nvme-5.5
-To: Keith Busch <kbusch@kernel.org>
-References: <20191104170040.GE26808@redsun51.ssa.fujisawa.hgst.com>
-From: Jens Axboe <axboe@kernel.dk>
-Message-ID: <36883c4d-9896-fa98-78e5-5ee36f78dc07@kernel.dk>
-Date: Mon, 4 Nov 2019 10:04:03 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <20191104170040.GE26808@redsun51.ssa.fujisawa.hgst.com>
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ua4mjN1QXO0Uk/Gs6ANe+O7y05N+27Abbp6Pq0+BaAg=;
+ b=hV6HvVuzYYgHsTQXrWeVj0HKg6zzKByj9sgJ8iVFtTenMWeBFn862iQQ+6ftcs6UNbZe5CfnS3c+JytGe0ovM1EfG7Z1OKHidhNeequEPt8+GEJuqJhAL4nEgtgSEz/uTJDoSDjzHzTscFYaL/NOxqaOAuW6+/gDngbMenzTsLU=
+Received: from BYAPR04MB5749.namprd04.prod.outlook.com (20.179.57.21) by
+ BYAPR04MB6008.namprd04.prod.outlook.com (20.178.233.28) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2408.24; Mon, 4 Nov 2019 20:41:01 +0000
+Received: from BYAPR04MB5749.namprd04.prod.outlook.com
+ ([fe80::6066:cd5d:206:5e04]) by BYAPR04MB5749.namprd04.prod.outlook.com
+ ([fe80::6066:cd5d:206:5e04%6]) with mapi id 15.20.2408.024; Mon, 4 Nov 2019
+ 20:41:00 +0000
+From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+To: Daniel Wagner <dwagner@suse.de>
+Subject: Re: [PATCH] nvmet: Always remove processed AER elements from list
+Thread-Topic: [PATCH] nvmet: Always remove processed AER elements from list
+Thread-Index: AQHVkoMhq0HJ9KDTYUe4XHNQTdxotg==
+Date: Mon, 4 Nov 2019 20:41:00 +0000
+Message-ID: <BYAPR04MB574938B5AF804C910EDE4A6E867F0@BYAPR04MB5749.namprd04.prod.outlook.com>
+References: <20191103201310.24785-1-chaitanya.kulkarni@wdc.com>
+ <20191104081338.gdrk2a4mlov2io6s@beryllium.lan>
+Accept-Language: en-US
 Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Chaitanya.Kulkarni@wdc.com; 
+x-originating-ip: [199.255.45.62]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 835d1bc1-68eb-4ea2-4c74-08d761674db1
+x-ms-traffictypediagnostic: BYAPR04MB6008:
+x-microsoft-antispam-prvs: <BYAPR04MB60080D90B4A485CE3F0EDAB7867F0@BYAPR04MB6008.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-forefront-prvs: 0211965D06
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(4636009)(396003)(136003)(346002)(366004)(39860400002)(376002)(189003)(199004)(256004)(26005)(66946007)(76116006)(7696005)(76176011)(33656002)(305945005)(86362001)(7736002)(478600001)(476003)(446003)(6436002)(186003)(14454004)(4326008)(14444005)(8936002)(229853002)(66066001)(81156014)(81166006)(8676002)(316002)(99286004)(66446008)(64756008)(66556008)(66476007)(5660300002)(2906002)(74316002)(6246003)(486006)(52536014)(102836004)(53546011)(6116002)(55016002)(6506007)(3846002)(54906003)(9686003)(71190400001)(71200400001)(6916009)(25786009);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:BYAPR04MB6008;
+ H:BYAPR04MB5749.namprd04.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 9dU1PRUpaJaXG9s3tBXo7k3oAJ93+T5cUMeWYsuDIL8qIHHhrbi5YqRR5hdl/olZCGsV0mMrSHZJ/Rto8yoWIgzABNt7GqIdPZoe1KAZOLPX2Q1yBETrKufsZRYY0W+uxyAEB+6Dipomm8n0o/vOa7JnwjZMden+v/irUhlKY95mOe5kRxLkLZmX83e+M/hLZ1tKEGKQyQ6bRnOvgP5PTT0NbhHgDXPTl3uBrl8f1NXTYR2K35F3Ba5rjpw7SNoQRFK5T/5McThkIjjUndBXZtpZKjI3rxRZP1R7erZTIo/jjT3TfFh4PXUQOmXgrTUB/VBAjgBJCQptXXpGOamU9xib49EEm84Pb88KFJ5RTGoWLwrQv/5Xo1gzhLFvJ4asevs7l3EaYgIq4RvyYpenAc1lg14AKg6dF92tBipE6v3A38s60IxW/8xrOr8vtTDh
+x-ms-exchange-transport-forked: True
+MIME-Version: 1.0
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 835d1bc1-68eb-4ea2-4c74-08d761674db1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Nov 2019 20:41:00.7376 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: CtHhWqJwk+P3Bi8fsGNpcwxw023vvAeu+0yk69djb7o1EwZsQuZQlRpAOQhNw7/NaOox05swXsi3rcH9f402lp177MMm+0hFeBOHOwB/JzU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB6008
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191104_090409_228170_70109334 
-X-CRM114-Status: GOOD (  12.52  )
+X-CRM114-CacheID: sfid-20191104_124120_039981_D14E3070 
+X-CRM114-Status: GOOD (  10.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,30 +139,41 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
- Sagi Grimberg <sagi@grimberg.me>
+Cc: "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "jthumshirn@suse.de" <jthumshirn@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/4/19 10:00 AM, Keith Busch wrote:
-> Hi Jens,
-> 
-> This is our first pull request for the upcoming 5.5 merge window.
-> Nothing major on new features here: mainly syncing with spec
-> updates, various code clean ups, and a few minor fixes.
-> 
-> This tree was based on linux-block/for-5.5/block. Please let me know if
-> you prefer these to be based on the for-5.x/drivers in the future and
-> I'll be sure to use that as a starting point.
+On 11/04/2019 12:13 AM, Daniel Wagner wrote:
+>> >I did the basic testing create/delete ctrl and enable/disable ns that
+>> >did not produced any hands or errors.
+> Thanks for addressing Christoph's comment. I'll get this patch into
+> our customer's test setup.
+>
+>> >Following is the test log if anyone wants to take a look:-
+>> # echo 0 > /sys/kernel/config/nvmet/subsystems/fs/namespaces/1/enable
+>> ># nvme list | tr -s ' ' ' ' | grep Linux | grep -v '\-\-\-\-'
+>> ># echo 1 > /sys/kernel/config/nvmet/subsystems/fs/namespaces/1/enable
+> BTW, I got feedback how to produce the oops on our custerms setup:
+>
+You are welcome.
 
-Yeah, I'd prefer if it was against for-5.x/drivers going forward to keep
-a cleaner separation between core and driver changes. I can just pull
-these and apply them to for-5.5/drivers, not a big deal.
-
--- 
-Jens Axboe
+> Test Steps:
+> 1. Create two targets on node n1 as target side (tgt1 and tgt2)
+> 2. Run perf to write data to tgt2:
+>     sudo ./perf -q 1 -w read -o 4096 -t 60 -r 'trtype:RDMA adrfam:IPv4 traddr:192.168.219.4 trsvcid:4421'
+> 3. Deleted tgt2 node n1 configuration during perf execution
+>     and reboot the node n1 automatically.
+>
+> I hope I got the steps summerized correctly.
+>
+Interesting let me have a look at this later this week.
+> Thanks,
+> Daniel
+>
 
 
 _______________________________________________
