@@ -2,22 +2,22 @@ Return-Path: <SRS0=AJHE=Y5=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DE99C5DF60
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Nov 2019 15:27:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40FFAC5DF60
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Nov 2019 15:31:57 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 744DC2053B
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Nov 2019 15:27:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 136B420650
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Nov 2019 15:31:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="eZ2FlMi5";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="S2w0B03Z"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 744DC2053B
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="MJqIRqBX"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 136B420650
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
@@ -25,44 +25,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=8p5P95WvdjK4U85PhEZnkxOO2LV5Um8O2YThikSPNbA=; b=eZ2FlMi58GJM4x
-	zxcgUi7JodIsw0CX2EhKHJ8MtLX9UN2DukYT0sg3QYhqPoslE0dZ6OvcgPJDzCNaBC8vREwF4xEbl
-	Gv8zUTnnO/txGko/fIPmTJcgU7eDwwWKul5u/aeKK5oaklPz4ij3545nXE5M2LiZUTbcGPh8fZbQI
-	hyIog/3f8AXkmaO6n8o5aFVgoo9N2/aIt5BNL2egVWQn9PDDQWu5PFl172qTvZREWPHGXurKX2Ojg
-	i1b9ipVb6bIYCLVHFOoiD1k9sz3tMCe8xO6NRgO8lNrIxgWf1u9vUl8myXx4JKpRHerqIQUKYYxC/
-	RPnNJg95vFlI2Av4sVBQ==;
+	List-Owner; bh=9laFoYWl5NSGSLk1p34dE5TVx2kBx7F9ytbom2pyMEo=; b=MJqIRqBXuJZOLQ
+	jm/X0FGdN3Wr7dwNG55A+l2fqlWdZdBhoIoals/comsvigE1Q6NKE+GHZVd1PLKHCxmgt7Pwj4cw8
+	ID9wX32o9NLeBtKrrGr74kAlf5Li+veJIjnA048Df6x9cPaKfw9yErHuEIkjnQ8qFsGyCJ1YpzheV
+	MQlsEPwJ+f5k7CsetbKfcyXn8UL9FqVxJ1nGw/cm+7QYx2VDaH6y/1qGbigAzHV1TSmfuBabqGWlb
+	IZo9RNSoqO2VXUoPOaIbhhikH9cMe/GJyTrP3AEIqNUm4kY30/jyaZsJSg2PBjluQBpj0o1SAdRxf
+	Hg74OHPstl20h5DxU/nQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iS0jU-0003UD-Oi; Tue, 05 Nov 2019 15:27:00 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1iS0oE-0005in-Vn; Tue, 05 Nov 2019 15:31:54 +0000
+Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iS0jS-0003Tq-9f
- for linux-nvme@lists.infradead.org; Tue, 05 Nov 2019 15:26:59 +0000
-Received: from redsun51.ssa.fujisawa.hgst.com (unknown [199.255.47.7])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id F06D92053B;
- Tue,  5 Nov 2019 15:26:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1572967617;
- bh=Y49i5hhOPhJugkrF4npAozYxT0zBE624ImjMcDKVD1U=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=S2w0B03Z3nwij7CLRx7gMlKWgGttnNnXAzBn1oUwsVRmqRs4TQg78leSvtraaFWD2
- tfFJNBhLGpVenI/rE1J15IbdDe8S4SSbb+DL3dOa2WEStmckDBW0d8C40qhfyecyr5
- fp0jHKRLU61DXfZykkUwrwJebdWs8Lk7ULCmM3cE=
-Date: Wed, 6 Nov 2019 00:26:54 +0900
-From: Keith Busch <kbusch@kernel.org>
-To: Charles Machalow <csm10495@gmail.com>
+ id 1iS0oC-0005hk-O9
+ for linux-nvme@lists.infradead.org; Tue, 05 Nov 2019 15:31:54 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 27F7468AFE; Tue,  5 Nov 2019 16:31:45 +0100 (CET)
+Date: Tue, 5 Nov 2019 16:31:44 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Marta Rybczynska <mrybczyn@kalray.eu>
 Subject: Re: [PATCH] nvme: change nvme_passthru_cmd64 to explicitly mark rsvd
-Message-ID: <20191105152654.GC22559@redsun51.ssa.fujisawa.hgst.com>
+Message-ID: <20191105153144.GA12437@lst.de>
 References: <20191105061510.22233-1-csm10495@gmail.com>
+ <442718702.90376810.1572939552776.JavaMail.zimbra@kalray.eu>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191105061510.22233-1-csm10495@gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <442718702.90376810.1572939552776.JavaMail.zimbra@kalray.eu>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191105_072658_357313_A9E2C37A 
-X-CRM114-Status: UNSURE (   8.59  )
+X-CRM114-CacheID: sfid-20191105_073152_936021_FF62B13C 
+X-CRM114-Status: UNSURE (   7.52  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -75,22 +66,27 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sagi Grimberg <sagi@grimberg.me>, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, Jens Axboe <axboe@fb.com>,
- marta.rybczynska@kalray.eu, Christoph Hellwig <hch@lst.de>
+Cc: Sasha Levin <sashal@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Charles Machalow <csm10495@gmail.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ linux-nvme <linux-nvme@lists.infradead.org>, axboe <axboe@fb.com>,
+ stable@vger.kernel.org, kbusch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Nov 04, 2019 at 10:15:10PM -0800, Charles Machalow wrote:
-> Changing nvme_passthru_cmd64 to add a field: rsvd2. This field is an explicit
-> marker for the padding space added on certain platforms as a result of the
-> enlargement of the result field from 32 bit to 64 bits in size.
+On Tue, Nov 05, 2019 at 08:39:12AM +0100, Marta Rybczynska wrote:
+> Looks good to me. However, please note that the new ioctl made it already to 5.3.8.
 
-Charles,
-Could you reply with your "Signed-off-by" so I can apply this patch?
-Thanks.
+It wasn't in 5.3, but it seems like you are right and it somehow got
+picked for the stable releases.
+
+Sasha, can you please revert 76d609da9ed1cc0dc780e2b539d7b827ce28f182
+in 5.3-stable ASAP and make sure crap like backporting new ABIs that
+haven't seen a release yet is never ever going to happen again?
 
 _______________________________________________
 Linux-nvme mailing list
