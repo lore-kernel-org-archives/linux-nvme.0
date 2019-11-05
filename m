@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-8.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F04CC5DF60
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Nov 2019 17:52:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84C4FC5DF60
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Nov 2019 17:58:21 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 601A421882
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Nov 2019 17:52:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5B8AE217F5
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Nov 2019 17:58:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="lr+N4ON+"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 601A421882
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="iqM/a6td"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5B8AE217F5
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,35 +25,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=FRMOcHGNPBBEMznOn5ZMTt/v/+fklDaIoe60FugIGCk=; b=lr+N4ON+oooPlJ
-	IlMRFgkPfSKTxQ1QXlcZc8puQpMQhRD5oUQaPKtmSUBMhklsLgi+eSzG6qVuxATjN1WTz9nDaBNAz
-	N/Tumzp4NC/asiv1/olunuAqkYUmpEjUqbFoxHoDCD+h74pMWLyXs2V2rvMoZW67RP2G4UTlifDAw
-	/yZNhMeOXmLFn7Q12G5UFwthYvDnZzZZwT9Do/Ygmlh7P/Pi+LSUzJKSDqQytuwph5OmcNntPvZNA
-	asS20W7+ioh7Er1Qzk5eAQk3t2myrx8NVfxrVszTzQPcYlSs3Lsu1f/9XZqKGF2nFbvnYjp1d4P9T
-	o82F8szmeufFLee1Mb7Q==;
+	List-Owner; bh=Bqd+wKm48WgxNObvVKvRafY8ZFBIJ45EopSBDgXYNLk=; b=iqM/a6tdyCKb7k
+	c5fsXHhsIoOWxIuFPnlnPpMwhHMY7XK+R/Q38KuP1UnGuwQZ6zl/WjrQWZatOVD1YUUhy7F+c9YEN
+	Axm8IzCjaoLcSzmkHCMESjP30ChAxFnK81teDmD4i6ELoRkLa/XmiVYwTZJyQViucjtnylnY9zzH+
+	HnrW7Yp4UtlpNHP8SjdbuXKXXIexGhSUzmCxsr74ymJuytNDAUqtgFIGr9nn7DaIqIdCp0cDl98y9
+	TN3eA+xTmAc1x0uUpHd1aBMSdw6aPEJmly7buJY8m82souv9+ClxsRx/wOUyxx8BeNIPzNi1Q2pwo
+	HIY6zV8A7rVn+aP/caaw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iS307-0004NP-9r; Tue, 05 Nov 2019 17:52:19 +0000
+	id 1iS35u-0007De-9P; Tue, 05 Nov 2019 17:58:18 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iS2zx-0004Dt-TA
- for linux-nvme@lists.infradead.org; Tue, 05 Nov 2019 17:52:11 +0000
+ id 1iS35r-0007DE-1e
+ for linux-nvme@lists.infradead.org; Tue, 05 Nov 2019 17:58:16 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 0C29868AFE; Tue,  5 Nov 2019 18:52:08 +0100 (CET)
-Date: Tue, 5 Nov 2019 18:52:07 +0100
+ id 743E768AFE; Tue,  5 Nov 2019 18:58:12 +0100 (CET)
+Date: Tue, 5 Nov 2019 18:58:12 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Max Gurtovoy <maxg@mellanox.com>
-Subject: Re: [PATCH 06/15] block: Introduce BIP_NOMAP_INTEGRITY bip_flag
-Message-ID: <20191105175207.GD18972@lst.de>
+Subject: Re: [PATCH 05/15] nvme-rdma: Add metadata/T10-PI support
+Message-ID: <20191105175812.GE18972@lst.de>
 References: <20191105162026.183901-1-maxg@mellanox.com>
- <20191105162026.183901-8-maxg@mellanox.com>
+ <20191105162026.183901-7-maxg@mellanox.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191105162026.183901-8-maxg@mellanox.com>
+In-Reply-To: <20191105162026.183901-7-maxg@mellanox.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191105_095210_089130_FFB693B4 
-X-CRM114-Status: GOOD (  15.30  )
+X-CRM114-CacheID: sfid-20191105_095815_240837_6460731A 
+X-CRM114-Status: GOOD (  14.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,71 +67,60 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: sagi@grimberg.me, vladimirk@mellanox.com, idanb@mellanox.com,
  israelr@mellanox.com, linux-nvme@lists.infradead.org, shlomin@mellanox.com,
- oren@mellanox.com, martin.petersen@oracle.com, kbusch@kernel.org, hch@lst.de
+ oren@mellanox.com, kbusch@kernel.org, hch@lst.de
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Please also sends this to Martin.  In fact adding him to the whole
-series might help you to get some good feedback.
-
-On Tue, Nov 05, 2019 at 06:20:17PM +0200, Max Gurtovoy wrote:
-> From: Israel Rukshin <israelr@mellanox.com>
+On Tue, Nov 05, 2019 at 06:20:16PM +0200, Max Gurtovoy wrote:
+> For capable HCAs (e.g. ConnectX-4/ConnectX-5) this will allow end-to-end
+> protection information passthrough and validation for NVMe over RDMA
+> transport. Metadata offload support was implemented over the new RDMA
+> signature verbs API and it is enabled per controller by using nvme-cli.
 > 
-> It means that reftag shouldn't be remapped. This flag will be used in
-> case some other layer did the reftag remapping (e.g. in NVMe/RDMA the
-> initiator controller performs the remapping so target side shouldn't
-> map it again).
-
+> usage example:
+> nvme connect --pi_enable --transport=rdma --traddr=10.0.1.1 --nqn=test-nvme
 > 
+> Signed-off-by: Max Gurtovoy <maxg@mellanox.com>
 > Signed-off-by: Israel Rukshin <israelr@mellanox.com>
-> Reviewed-by: Max Gurtovoy <maxg@mellanox.com>
 > ---
->  block/t10-pi.c      | 7 +++++++
->  include/linux/bio.h | 1 +
->  2 files changed, 8 insertions(+)
+>  drivers/nvme/host/rdma.c | 346 ++++++++++++++++++++++++++++++++++++++++-------
+>  1 file changed, 298 insertions(+), 48 deletions(-)
 > 
-> diff --git a/block/t10-pi.c b/block/t10-pi.c
-> index f4907d9..6de380b 100644
-> --- a/block/t10-pi.c
-> +++ b/block/t10-pi.c
-> @@ -144,6 +144,9 @@ static void t10_pi_type1_prepare(struct request *rq)
->  		/* Already remapped? */
->  		if (bip->bip_flags & BIP_MAPPED_INTEGRITY)
->  			break;
-> +		/* No need to remap */
-> +		if (bip->bip_flags & BIP_NOMAP_INTEGRITY)
-> +			break;
->  
->  		bip_for_each_vec(iv, bip, iter) {
->  			void *p, *pmap;
-> @@ -193,6 +196,10 @@ static void t10_pi_type1_complete(struct request *rq, unsigned int nr_bytes)
->  		struct bio_vec iv;
->  		struct bvec_iter iter;
->  
-> +		/* No need to remap */
-> +		if (bip->bip_flags & BIP_NOMAP_INTEGRITY)
-> +			break;
-> +
->  		bip_for_each_vec(iv, bip, iter) {
->  			void *p, *pmap;
->  			unsigned int j;
-> diff --git a/include/linux/bio.h b/include/linux/bio.h
-> index 3cdb84c..2ba09e6 100644
-> --- a/include/linux/bio.h
-> +++ b/include/linux/bio.h
-> @@ -299,6 +299,7 @@ enum bip_flags {
->  	BIP_CTRL_NOCHECK	= 1 << 2, /* disable HBA integrity checking */
->  	BIP_DISK_NOCHECK	= 1 << 3, /* disable disk integrity checking */
->  	BIP_IP_CHECKSUM		= 1 << 4, /* IP checksum */
-> +	BIP_NOMAP_INTEGRITY	= 1 << 5, /* ref tag shouldn't be remapped */
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 05f2dfa..16263b8 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -48,6 +48,12 @@ struct nvme_rdma_qe {
+>  	u64			dma;
 >  };
 >  
->  /*
-> -- 
-> 1.8.3.1
----end quoted text---
+> +struct nvme_rdma_sgl {
+> +	int			nents;
+> +	struct sg_table		sg_table;
+> +	struct scatterlist	first_sgl[SG_CHUNK_SIZE];
+
+I think this needs some rework.  Kill the first_sgl pointer, and then
+just set the pointer in the table to address found by pointer
+arithmetics behind the nvme_request in the allocation.
+
+We also have an open todo item to not actually allocate SG_CHUNK_SIZE
+entries, but a much smaller value like in SCSI.
+
+Also the whole switch to use struct sg_table should be a separate prep
+patch.
+
+> -	struct sg_table		sg_table;
+> -	struct scatterlist	first_sgl[];
+> +	/* T10-PI support */
+> +	bool			is_protected;
+
+This is a bit of an odd variable name.  Why not use_pi or something like
+that?
+
+Also all the new code should only be built if CONFIG_BLK_DEV_INTEGRITY
+is set.
 
 _______________________________________________
 Linux-nvme mailing list
