@@ -2,69 +2,92 @@ Return-Path: <SRS0=IwtP=Y6=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 630EBC5DF62
-	for <linux-nvme@archiver.kernel.org>; Wed,  6 Nov 2019 00:18:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A145AC5DF60
+	for <linux-nvme@archiver.kernel.org>; Wed,  6 Nov 2019 00:20:13 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0A97C214D8
-	for <linux-nvme@archiver.kernel.org>; Wed,  6 Nov 2019 00:18:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 472CA2087E
+	for <linux-nvme@archiver.kernel.org>; Wed,  6 Nov 2019 00:20:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="sWFX8ad3";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="xxX93IXM"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0A97C214D8
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ZrDtqGHt";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel-dk.20150623.gappssmtp.com header.i=@kernel-dk.20150623.gappssmtp.com header.b="MGxdBwVY"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 472CA2087E
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ChG848R+gpHNAevgY6+r+a7aUsna5qW4DQrCiWUWCaA=; b=sWFX8ad3eqdF3V
-	IYdib8WdxpEL2AAYrsFZw++ap627n6SQJ1uR9rPn9yQ3t+307h4D0bgIHw5VZz2Wlx7g0ueNV1mqo
-	ta3SEvooRf8SslOhx9rLF1oAef48IhADzvkfv+knc6j+xjiSBL/0ciabcsPZSl17U1CPX/fxd0ufK
-	+GV/MsUiqsmZeZF56MmC50E3NMDcuWRyGVIPwbT5Cm094/dW4k3Jnpv1fQrpYMa06zKIdGM8LHcCt
-	wLaPyTUuUzry0+2Ci7M90700+1l4851Gy329gX189mL32DTlhHhfG+7apb1FrqHtjbtZIt59e9P73
-	eecd+KOvbXZBKgkB7vjQ==;
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
+	Message-ID:From:References:To:Subject:Reply-To:Cc:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Owner;
+	bh=5fDSCn74mc5gDzEFVLnp/JFCSGTilz5jalYaC/VSPxE=; b=ZrDtqGHtcwfqlrUza8AulTSV2q
+	iJC72aEmk0FMG1Qk+k/12XgFD+huDFeIH9NzGq1oiPBfEjXDBfmvNBKnYpTiYxHhT3+eL1c8FEQoD
+	WzYRlLzXKOnp/adekDVsKDU2jYVbHCccNEL01FaY4+GQ7mEYGuc8yocBgfMG+bnjUAfDfoArGLM7M
+	xEjHz3v8uJCe4WEDel6PVw7uZRyLfvkQcLom2K5U5J3Tty4WTJh3cg6bwreACJq7Uga+bdvsuKbuy
+	cPdjNfDCWkrbKdEOLzaDI84/IEt4EMTLhKZwfBmX/26VkqimlDaIiJGyt77qaGDMFnIsvq+I9a5hQ
+	AbDa4Ewg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iS92A-0002KO-K2; Wed, 06 Nov 2019 00:18:50 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1iS93T-0003mX-60; Wed, 06 Nov 2019 00:20:11 +0000
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iS926-0002K2-UZ
- for linux-nvme@lists.infradead.org; Wed, 06 Nov 2019 00:18:48 +0000
-Received: from redsun51.ssa.fujisawa.hgst.com (unknown [199.255.47.7])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id E88B62087E;
- Wed,  6 Nov 2019 00:18:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1572999526;
- bh=xdCq91yOnBvmSUuhtJO18uIKVytxc59ip6x5qVWsesQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=xxX93IXMGF5SOlvoP29sLP7A0JaILkUkMNCG+f0pTtqnFPN5GVJdd4JrTDYFiR3y1
- r8nbeI2fvqeUCpbyDkUYVqlZESSb5b1oX5efFOHTqaTcej+D/KZMFpsrHs5VjIz6WS
- 6svPV43nWLcPUq8Wc+C4IJGJ4Y5rp6+KoPUqrkio=
-Date: Wed, 6 Nov 2019 09:18:39 +0900
-From: Keith Busch <kbusch@kernel.org>
-To: Sasha Levin <sashal@kernel.org>
-Subject: Re: [PATCH] nvme: change nvme_passthru_cmd64 to explicitly mark rsvd
-Message-ID: <20191106001839.GB1450@redsun51.ssa.fujisawa.hgst.com>
-References: <20191105061510.22233-1-csm10495@gmail.com>
- <442718702.90376810.1572939552776.JavaMail.zimbra@kalray.eu>
- <20191105153144.GA12437@lst.de> <20191106000836.GH4787@sasha-vm>
+ id 1iS93Q-0003TE-9y
+ for linux-nvme@lists.infradead.org; Wed, 06 Nov 2019 00:20:09 +0000
+Received: by mail-pg1-x544.google.com with SMTP id u23so15849803pgo.0
+ for <linux-nvme@lists.infradead.org>; Tue, 05 Nov 2019 16:20:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=AjhP9zM9Lb3wMWy1WXbtybFFKUxjVi+m8pDy4tHdHKQ=;
+ b=MGxdBwVYboU0LXfgMmZgtJtYbl4dKxlO5gwybQXfZbXc1T8HMJWJk447lJL9eNWK9L
+ IJhwOUnAhsPnsmBm80fp9JS8uY6vA2GCRXuRDevBYmzuHm2IeRsM7Zm1N2hRawVhFt02
+ RFN/CfD9nM5kkijZOCCOYymdzZapn9ynuNWXhajrbIkXdE2ZelMqEACt65jDxbJ6sCmu
+ j384I7C5GqNxEGJGe7DLG5pkFWgGBdz+DyUdleAXMDO8oJdKqU6d9vrgZhekF+JZgkNR
+ c8D47p3QNs0dATSqDbXTe1Sh5VoVFyao6ZMVwpBD4g1AyTQpGtFJgmJIhGYF+/D2SUlR
+ IyPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=AjhP9zM9Lb3wMWy1WXbtybFFKUxjVi+m8pDy4tHdHKQ=;
+ b=CKDPh/yhNrNVpjuwW9d5X8Pfp0bR+H/S9NQh7RZfEwMxxJHwRxaBm4ycPRJG0ureSV
+ udOJiAHn8ThcvmOHoCToyPP8hdPQ0Dh+GJQnYgJCz5AHs/JFiHtDCQZEQ9CU38jBBE2+
+ otEGHWg6YQHz87USDcTWBYAfRGnO31dD8rrDIhPu5vTi1OW5VoF2ecimRE9nR5M2ow98
+ /vx/oq88wKjyHuH6jYckxaEncespBpaGla9B97Y/pcvjElChS1qCvGvhRwquGcyPmjaz
+ pV60ImNr+6brDeqjMlQF1KL7Ht+IQHyRYxI8pevKWYIWAF5VUXdBpZ4o7EGunhF4jRBi
+ J4sg==
+X-Gm-Message-State: APjAAAUNbtyrv2u7SiPTDfVRtTwNcpgtHp5q0YKUJicnNRRx9oQOqSfe
+ 0ruibyyiQd3cJrHs7L8UwVVDe3SfPYY=
+X-Google-Smtp-Source: APXvYqz8YhJuGyknhJhSQQIbEJdhwMu+DyPnWGH7pOZpsvanY+4nN7aUbTGz7TydE1r89zzp6MRpSA==
+X-Received: by 2002:a62:a50a:: with SMTP id v10mr11314741pfm.222.1572999607068; 
+ Tue, 05 Nov 2019 16:20:07 -0800 (PST)
+Received: from [192.168.1.188] ([66.219.217.79])
+ by smtp.gmail.com with ESMTPSA id x70sm25711211pfd.132.2019.11.05.16.20.04
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 05 Nov 2019 16:20:05 -0800 (PST)
+Subject: Re: [RFC] nvme-cli: Support for hugetlbfs
+To: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+References: <20191105183412.333-1-kbusch@kernel.org>
+From: Jens Axboe <axboe@kernel.dk>
+Message-ID: <27eb0ed1-a31a-c466-7158-73d8fb5349d3@kernel.dk>
+Date: Tue, 5 Nov 2019 17:20:03 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191106000836.GH4787@sasha-vm>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20191105183412.333-1-kbusch@kernel.org>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191105_161847_009268_F3F05660 
-X-CRM114-Status: GOOD (  12.43  )
+X-CRM114-CacheID: sfid-20191105_162008_352938_5104D9D5 
+X-CRM114-Status: GOOD (  10.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,38 +99,28 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Marta Rybczynska <mrybczyn@kalray.eu>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Charles Machalow <csm10495@gmail.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- linux-nvme <linux-nvme@lists.infradead.org>, axboe <axboe@fb.com>,
- stable@vger.kernel.org, Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Nov 05, 2019 at 07:08:36PM -0500, Sasha Levin wrote:
-> On Tue, Nov 05, 2019 at 04:31:44PM +0100, Christoph Hellwig wrote:
-> > On Tue, Nov 05, 2019 at 08:39:12AM +0100, Marta Rybczynska wrote:
-> > > Looks good to me. However, please note that the new ioctl made it already to 5.3.8.
-> > 
-> > It wasn't in 5.3, but it seems like you are right and it somehow got
-> > picked for the stable releases.
-> > 
-> > Sasha, can you please revert 76d609da9ed1cc0dc780e2b539d7b827ce28f182
-> > in 5.3-stable ASAP and make sure crap like backporting new ABIs that
-> > haven't seen a release yet is never ever going to happen again?
+On 11/5/19 11:34 AM, Keith Busch wrote:
+> Some commands require exceptionally large data transfers, and the
+> kernel driver supports only a limited number of phyiscal segments per
+> command. To help support large transfers, try to allocate physically
+> contiguous space via hugetlbfs.
 > 
-> Sure, I'll revert it. I guess I wasn't expecting to see something like
-> this in a -rc release. How did it make it into one if it's not a fix?
+> Rather than deal with the nuances of allocating huge pages, this patch
+> requires libhugetlbfs be installed on the host system.
 
-It is a fix, but it wasn't marked as such in the original changelog.
-I've adjusted it for the pull request, currently staged here:
+LGTM, and solves a real issue with user issued admin commands that we
+can't break up.
 
-  https://git.kernel.dk/cgit/linux-block/commit/?h=for-linus&id=0d6eeb1fd625272bd60d25f2d5e116cf582fc7dc
+Reviewed-by: Jens Axboe <axboe@kernel.dk>
 
-Still, a new ioctl seems pretty aggressive for stable bot, yeah?
+-- 
+Jens Axboe
+
 
 _______________________________________________
 Linux-nvme mailing list
