@@ -1,76 +1,105 @@
-Return-Path: <SRS0=cJ6X=ZA=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=282r=ZB=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS,UNPARSEABLE_RELAY autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76BA7FA372C
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Nov 2019 16:15:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B01DC17441
+	for <linux-nvme@archiver.kernel.org>; Sat,  9 Nov 2019 01:55:59 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 432B721882
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Nov 2019 16:15:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 54F0D214DB
+	for <linux-nvme@archiver.kernel.org>; Sat,  9 Nov 2019 01:55:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="i/nfVkHM"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 432B721882
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=onestopsystems.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Z+h5nQbG";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="c5VxcldA"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 54F0D214DB
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	In-Reply-To:References:Message-ID:Date:Subject:To:From:Reply-To:Cc:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=YxkLSSV8/a+8HGCN1vnOSwpiA7yHdKVdMJlgxBC+ecw=; b=i/nfVkHMr+G2rsnY6pY5+oIDN
-	ZgWjzs1B/t95hBpYE1i+hMI0eGdqasjOrzumqtDiQt5c1KzXGKFwUaITru8aQWyle6pUXzAMWei0E
-	AfNx7HZvMCHd4GfyHfpA4tfu7eO0BB+715eMkEwSdbuB+txzA07jCcbOTfC8eC/9U2ssajYfnMIcb
-	9FhmjoGGGhDmjkRQTq60VJQMfwTWDh3kdCjoAn55UkrkVWkAe824JcQK/EaHMptK/b9iPCifolO5b
-	zJO/Uq59BH3aaibS9k7Z0njNJnBlxPkbUeVkbFMaB3P1B1s01lz2A+tvNVOcXvpqFIByIRxo4ex7C
-	/lcgl2dCw==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:In-Reply-To:
+	Date:References:From:Subject:To:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=YYJVcS1xyS1kIxjZPxGy8msRclqBi5oJv6Oc6P0MFHY=; b=Z+h5nQbG2gl58L
+	M8/bLMoLhRiJRsL8e3kNf37VlOcknF7vm8+WCYjkHk8iaw4HANg2/F/G8U8uI9/d5OEdfQMTF9x/4
+	JtOq/CF8oKLpfSawdSxfs5b05X/ZjUSV7YvO8OIheL4dbJaL0Ye2f92/ylS52l/QAX18rhFAS99gy
+	WWeZknYRwCzag89gkCMSFlIPJFL8EXXYawoTOsCuiNZdlW7oq4tJ+P7unfzK6wZtkNWAr/V8Tghty
+	EQdERbtBH6pwJ/cMJVj/NHXysvMGsNlC24vf1Cf/PrWSAYA90uBJR34YTMop+JHYhB+dDmFKpVrTa
+	/LZxF1aGRYc3aMBOEAew==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iT6vL-0000wh-7o; Fri, 08 Nov 2019 16:15:47 +0000
-Received: from cox.onestopsystems.com ([98.187.250.34]
- helo=osserver.onestopsystems.com)
+	id 1iTFyi-00088v-RX; Sat, 09 Nov 2019 01:55:52 +0000
+Received: from aserp2120.oracle.com ([141.146.126.78])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iT6vG-0000vi-OU
- for linux-nvme@lists.infradead.org; Fri, 08 Nov 2019 16:15:44 +0000
-Received: from OSSERVER.OSS.local ([fe80::792d:7e8d:4995:9203]) by
- OSSERVER.OSS.local ([fe80::792d:7e8d:4995:9203%10]) with mapi id
- 14.03.0468.000; Fri, 8 Nov 2019 08:15:35 -0800
-From: Mark Ruijter <MRuijter@onestopsystems.com>
-To: Sagi Grimberg <sagi@grimberg.me>, James Smart <james.smart@broadcom.com>, 
- Max Gurtovoy <maxg@mellanox.com>, Chaitanya Kulkarni
- <chaitanya.kulkarni@wdc.com>, "linux-nvme@lists.infradead.org"
- <linux-nvme@lists.infradead.org>
-Subject: Re: [PATCH] nvmet: make ctrl-id configurable
-Thread-Topic: [PATCH] nvmet: make ctrl-id configurable
-Thread-Index: AQHVknKB085Gn2d/PkqsHei3HhUGjqd7R8OAgAAkHQCAACb2gIAAOzMAgAHmsQCAATE7AIADK4IA
-Date: Fri, 8 Nov 2019 16:15:34 +0000
-Message-ID: <3D590371-4C4F-4355-B36E-7795FB218FC6@onestopsystems.com>
-References: <20191103181343.3011-1-chaitanya.kulkarni@wdc.com>
- <409804f3-158b-cc3e-9b04-6499bfe1638d@mellanox.com>
- <3381ACB3-3ACC-4124-8925-09CED68BA11E@onestopsystems.com>
- <b79e612f-4b49-a80f-bc34-e672ae98c1af@mellanox.com>
- <B500B4ED-DF25-41F3-83F8-6E239718564A@onestopsystems.com>
- <c8472575-1041-c44e-e26a-1201161c22c6@broadcom.com>
- <802cb171-34de-65cc-75c5-83ef7c200dc4@grimberg.me>
-In-Reply-To: <802cb171-34de-65cc-75c5-83ef7c200dc4@grimberg.me>
-Accept-Language: nl-NL, en-US
-Content-Language: nl-NL
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator: 
-user-agent: Microsoft-MacOutlook/10.10.f.191014
-x-originating-ip: [89.220.153.177]
-Content-Type: multipart/mixed;
- boundary="_002_3D5903714C4F4355B36E7795FB218FC6onestopsystemscom_"
+ id 1iTFyf-000882-T3
+ for linux-nvme@lists.infradead.org; Sat, 09 Nov 2019 01:55:51 +0000
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xA91tZ8S167283;
+ Sat, 9 Nov 2019 01:55:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=to : cc : subject :
+ from : references : date : in-reply-to : message-id : mime-version :
+ content-type; s=corp-2019-08-05;
+ bh=+2uTuUdEKLkFToaBAWGX6Wxu2kt1gkQV0EEFU7ozZaw=;
+ b=c5VxcldAYW3SkDC29zAJkiYtkJ7nWJ/ZSDJRUSyzdWia8wqk2vnGN0/Dd7VyK0lxxEkt
+ RCQG7/UQ3Eth3iDI6hXASV+DxvsYMrg3zDtqTlR37jZcPtIUWfvJG76z4pMhWOc/NAsm
+ mMNRS569TvCVWwbI8UOQw6khf1HhKCYa7hBQ4PlgHvcsz/7p2Tyrp66IEdrv3sNgUGoT
+ 73vl3DvxQUYowOa0BNUjkNgQqOArmKxQfBasap+DQHF4+7M3kk0hI36lMsVCVaNLdmoa
+ 8AmP98DJEa9+l6MPL5hdsnMsgDQ9xh9BDu2cxUvXTsjBIHsCJ6rb0W58oPTRehjYGRJ6 rA== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by aserp2120.oracle.com with ESMTP id 2w5hgwrag5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Sat, 09 Nov 2019 01:55:35 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xA91rwAD111398;
+ Sat, 9 Nov 2019 01:55:34 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3030.oracle.com with ESMTP id 2w5jkcpssk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Sat, 09 Nov 2019 01:55:34 +0000
+Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id xA91tUbS009400;
+ Sat, 9 Nov 2019 01:55:30 GMT
+Received: from ca-mkp.ca.oracle.com (/10.159.214.123)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Fri, 08 Nov 2019 17:55:29 -0800
+To: Max Gurtovoy <maxg@mellanox.com>
+Subject: Re: [PATCH] nvme-cli/fabrics: Add pi_enable param to connect cmd
+From: "Martin K. Petersen" <martin.petersen@oracle.com>
+Organization: Oracle Corporation
+References: <20191105162026.183901-1-maxg@mellanox.com>
+ <20191105162026.183901-2-maxg@mellanox.com>
+ <yq15zjwza2y.fsf@oracle.com>
+ <ed926da1-1466-edbd-6fa3-fb828bf455cc@mellanox.com>
+Date: Fri, 08 Nov 2019 20:55:25 -0500
+In-Reply-To: <ed926da1-1466-edbd-6fa3-fb828bf455cc@mellanox.com> (Max
+ Gurtovoy's message of "Thu, 7 Nov 2019 14:02:48 +0200")
+Message-ID: <yq14kzdx182.fsf@oracle.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1.92 (gnu/linux)
 MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9435
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=887
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1910280000 definitions=main-1911090016
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9435
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=971 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1910280000
+ definitions=main-1911090016
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191108_081542_844562_26E26281 
-X-CRM114-Status: GOOD (  15.58  )
+X-CRM114-CacheID: sfid-20191108_175550_028473_84F56EFF 
+X-CRM114-Status: GOOD (  18.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,127 +111,54 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Cc: sagi@grimberg.me, vladimirk@mellanox.com, idanb@mellanox.com,
+ israelr@mellanox.com, linux-nvme@lists.infradead.org, shlomin@mellanox.com,
+ oren@mellanox.com, "Martin K. Petersen" <martin.petersen@oracle.com>,
+ kbusch@kernel.org, hch@lst.de
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
---_002_3D5903714C4F4355B36E7795FB218FC6onestopsystemscom_
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <AB30D6DFBBCADF44B7576D62E1C3DCE9@onestopsystems.com>
-Content-Transfer-Encoding: base64
 
-DQpJIGhhdmUgc2V0dXAgYSBjbHVzdGVyIHVzaW5nIHR3byBub2RlcyB3aXRoIGEgZHVhbCBwb3J0
-ZWQgbnZtZSBkcml2ZSBhbmQgdGVzdGVkIGV4cG9ydGluZyB0aGUgZHJpdmUgZnJvbSBib3RoIG5v
-ZGVzLg0KDQpUaGUgY29uZmlndXJhdGlvbiBvbiBib3RoIG5vZGVzLCB3aXRoIHRoZSBleGNlcHRp
-b24gb2YgdGhlIGlwIGFkZHJlc3MsIGxvb2tzIGxpa2UgdGhpczoNCiAgICB7DQogICAgICAiYWRk
-ciI6IHsNCiAgICAgICAgImFkcmZhbSI6ICJpcHY0IiwgDQogICAgICAgICJ0cmFkZHIiOiAiMTky
-LjE2OC4xLjExIiwgDQogICAgICAgICJ0cmVxIjogIm5vdCBzcGVjaWZpZWQiLCANCiAgICAgICAg
-InRyc3ZjaWQiOiAiNDQyMCIsIA0KICAgICAgICAidHJ0eXBlIjogInRjcCINCiAgICAgIH0sIA0K
-ICAgICAgInBvcnRpZCI6IDMyMiwgDQogICAgICAicmVmZXJyYWxzIjogW10sIA0KICAgICAgInN1
-YnN5c3RlbXMiOiBbDQogICAgICAgICJjbHZvbCINCiAgICAgIF0NCiAgICB9LA0KDQogICJzdWJz
-eXN0ZW1zIjogWw0KICAgIHsNCiAgICAgICJhbGxvd2VkX2hvc3RzIjogW10sIA0KICAgICAgImF0
-dHIiOiB7DQogICAgICAgICJhbGxvd19hbnlfaG9zdCI6ICIxIiwgDQogICAgICAgICJtb2RlbCI6
-ICJjbHBvb2wvY2x2b2wiLCANCiAgICAgICAgInNlcmlhbCI6ICJlOTQ0MzA5MjBmNjEwM2FmIiwg
-DQogICAgICAgICJ2ZXJzaW9uIjogIjEuMyINCiAgICAgIH0sIA0KICAgICAgIm5hbWVzcGFjZXMi
-OiBbDQogICAgICAgIHsNCiAgICAgICAgICAiZGV2aWNlIjogew0KICAgICAgICAgICAgIm5ndWlk
-IjogIjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMCIsIA0KICAgICAgICAgICAg
-InBhdGgiOiAiL2Rldi9jbHBvb2wvY2x2b2wiLCANCiAgICAgICAgICAgICJ1dWlkIjogIjk5NDUx
-NTk2LTk2NzUtNDM4Mi1iZmY4LWI3OGVlMzRkZTU2NyINCiAgICAgICAgICB9LCANCiAgICAgICAg
-ICAiZW5hYmxlIjogMSwgDQogICAgICAgICAgIm5zaWQiOiAxDQogICAgICAgIH0NCiAgICAgIF0s
-IA0KICAgICAgIm5xbiI6ICJjbHZvbCINCiAgICB9LA0KDQpXaGVuIEkgbm93IGNvbm5lY3QgdGhl
-IGluaXRpYXRvciB0byB0aGUgdHdvIGNsdXN0ZXIgbm9kZXMgd2l0aG91dCB0aGUgcGF0Y2ggdGhl
-IHJlc3VsdCB3aWxsIGJlIGEgY29udHJvbGxlciBpZCBjb2xsaXNpb24uDQpBbmQgdGhlIGluaXRp
-YXRvciByZWZ1c2VzIHRvIGNvbm5lY3QgdG8gdGhlIHNlY29uZCBub2RlIHRoYXQgeW91IHRyeSB0
-byBjb25uZWN0Lg0KLS0NClsgNzg5NS4wNTIzMDJdIG52bWUgbnZtZTA6IG5ldyBjdHJsOiBOUU4g
-ImNsdm9sIiwgYWRkciAxOTIuMTY4LjguMTA6NDQyMA0KWyA3ODk1LjA1MzI5N10gbnZtZTBuMTog
-ZGV0ZWN0ZWQgY2FwYWNpdHkgY2hhbmdlIGZyb20gMCB0byAxMDczNzQxODI0MDANClsgNzg5OC4x
-ODgzMjFdIG52bWUgbnZtZTE6IER1cGxpY2F0ZSBjbnRsaWQgMSB3aXRoIG52bWUwLCByZWplY3Rp
-bmcNCi0tDQoNCldpdGggdGhlIGF0dGFjaGVkIHBhdGNoIEkgYW0gYWJsZSB0byBmb3JjZSB0aGUg
-c2Vjb25kIG5vZGUgdG8gdXNlIGEgaGlnaGVyIG9mZnNldCB3aGVuIGVudW1lcmF0aW5nIGNvbnRy
-b2xsZXIgaWRzOg0Kbm9kZWE6DQovc3lzL2tlcm5lbC9jb25maWcvbnZtZXQvc3Vic3lzdGVtcy9j
-bHZvbCAjIGNhdCBjbnRsaWRfbWluIA0KMQ0Kbm9kZWI6L3N5cy9rZXJuZWwvY29uZmlnL252bWV0
-L3N1YnN5c3RlbXMvY2x2b2wgIyBjYXQgY250bGlkX21pbiANCjMyDQoNCkluIHJlYWwgbGlmZSB0
-aGUgbnVtYmVyIHVzZWQgZm9yIHRoZSBvZmZzZXRzIGNvdWxkIGJlIGRlcml2ZWQgZnJvbSBzb21l
-dGhpbmcgbGlrZSB0aGUgUGFjZW1ha2VyIG5vZGUgbnVtYmVyLg0KQW5kIHRoZSBQYWNlbWFrZXIg
-KyBETE0gY291bGQgYmUgdXNlZCBmb3IgbnZtZSBwZXJzaXN0ZW50IHJlc2VydmF0aW9ucy4NCg0K
-VGhlIGNvbnRyb2xsZXIgaWQgY29sbGlzaW9uIG5vdyBubyBsb25nZXIgb2NjdXJzLg0KQW5kIHRo
-ZSBpbml0aWF0b3IgY2FuIGNvbm5lY3QsIGFuZCB0d28gcGF0aHMgd2lsbCBiZSBzaG93bjoNCg0K
-cm9vdEByMTFpMTp+IyBudm1lIGxpc3Qtc3Vic3lzDQpudm1lLXN1YnN5czAgLSBOUU49Y2x2b2wN
-ClwNCiArLSBudm1lMCB0Y3AgdHJhZGRyPTE5Mi4xNjguMS4xMCB0cnN2Y2lkPTQ0MjANCiArLSBu
-dm1lMSB0Y3AgdHJhZGRyPTE5Mi4xNjguMS4xMSB0cnN2Y2lkPTQ0MjANCg0KRG9lcyB0aGlzIGFs
-bCBtYWtlIHNlbnNlPw0KDQpUaGFua3MsDQoNCk1hcmsNCg0KDQoNCu+7v09wIDA2LTExLTE5IDE3
-OjUxIGhlZWZ0IFNhZ2kgR3JpbWJlcmcgPHNhZ2lAZ3JpbWJlcmcubWU+IGdlc2NocmV2ZW46DQoN
-CiAgICANCiAgICA+PiBIaSBNYXggJiBDaGFpdGFueWEsDQogICAgPj4NCiAgICA+PiBEb2VzIHRo
-ZSBOVk1FIHNwZWNpZmljYXRpb24gZXZlbiBhbGxvdyBkdXBsaWNhdGUgY29udHJvbGxlciBpZCdz
-Pw0KICAgID4gTm90IHdpdGhpbiBhIHNpbmdsZSBzdWJzeXN0ZW0uDQogICAgPiBCdXQgYWNyb3Nz
-IG11bHRpcGxlIHN1YnN5c3RlbXMgdGhlcmUgY2FuIGJlLg0KICAgIA0KICAgIFllcywgdGhpcyBw
-YXRjaCBpcyBicm9rZW4uLg0KICAgIA0KDQo=
+Max,
 
---_002_3D5903714C4F4355B36E7795FB218FC6onestopsystemscom_
-Content-Type: application/octet-stream; name="cntlid_min.patch"
-Content-Description: cntlid_min.patch
-Content-Disposition: attachment; filename="cntlid_min.patch"; size=2611;
-	creation-date="Fri, 08 Nov 2019 16:15:34 GMT";
-	modification-date="Fri, 08 Nov 2019 16:15:34 GMT"
-Content-ID: <B53E63269325CB4EBE843C4FD7F83204@onestopsystems.com>
-Content-Transfer-Encoding: base64
+> So iSER will create a signature resources for every capable device and
+> connection without giving the user the possibility to distinguish
+> between needed PI controllers and un-needed PI controllers.
+>
+> We don't have a format command in the fabrics so this is the best
+> option we can think of for adding flexibility to users.
+>
+> I spoke with Christoph about the module param possibility and we both
+> agreed it's not the way to go.
+>
+> Let me know if you have an idea that will enable flexibility to users.
 
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvbnZtZS90YXJnZXQvY29uZmlnZnMuYyBiL2RyaXZlcnMvbnZt
-ZS90YXJnZXQvY29uZmlnZnMuYwppbmRleCA5ODYxM2E0Li45NTg0OWJjIDEwMDY0NAotLS0gYS9k
-cml2ZXJzL252bWUvdGFyZ2V0L2NvbmZpZ2ZzLmMKKysrIGIvZHJpdmVycy9udm1lL3RhcmdldC9j
-b25maWdmcy5jCkBAIC04NjIsMTAgKzg2Miw0MCBAQCBzdGF0aWMgc3NpemVfdCBudm1ldF9zdWJz
-eXNfYXR0cl9zZXJpYWxfc3RvcmUoc3RydWN0IGNvbmZpZ19pdGVtICppdGVtLAogfQogQ09ORklH
-RlNfQVRUUihudm1ldF9zdWJzeXNfLCBhdHRyX3NlcmlhbCk7CiAKK3N0YXRpYyBzc2l6ZV90IG52
-bWV0X3N1YnN5c19jbnRsaWRfbWluX3Nob3coc3RydWN0IGNvbmZpZ19pdGVtICppdGVtLAorICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgY2hhciAqcGFnZSkKK3sK
-KyAgICAgICAgc3RydWN0IG52bWV0X3N1YnN5cyAqc3Vic3lzID0gdG9fc3Vic3lzKGl0ZW0pOwor
-CisgICAgICAgIHJldHVybiBzbnByaW50ZihwYWdlLCBQQUdFX1NJWkUsICIlZFxuIiwgc3Vic3lz
-LT5jbnRsaWRfbWluKTsKK30KKworc3RhdGljIHNzaXplX3QgbnZtZXRfc3Vic3lzX2NudGxpZF9t
-aW5fc3RvcmUoc3RydWN0IGNvbmZpZ19pdGVtICppdGVtLAorICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgY29uc3QgY2hhciAqcGFnZSwgc2l6ZV90IGNvdW50KQorewor
-ICAgICAgICBzdHJ1Y3QgbnZtZXRfc3Vic3lzICpzdWJzeXMgPSB0b19zdWJzeXMoaXRlbSk7Cisg
-ICAgICAgIHUxNiBzaWQ7CisgICAgICAgIGludCByZXQgPSAwOworCisgICAgICAgIGRvd25fd3Jp
-dGUoJm52bWV0X2NvbmZpZ19zZW0pOworICAgICAgICAvKiBzaG91bGQgdGhpcyBiZSAleCA/ICov
-CisgICAgICAgIHNzY2FuZihwYWdlLCAiJWh1XG4iLCAmc2lkKTsKKworICAgICAgICBpZiAoc2lk
-ID49IE5WTUVfQ05UTElEX01JTiAmJiBzaWQgPD0gTlZNRV9DTlRMSURfTUFYKQorICAgICAgICAg
-ICAgICAgIHN1YnN5cy0+Y250bGlkX21pbiA9IHNpZDsKKyAgICAgICAgZWxzZQorICAgICAgICAg
-ICAgICAgIHJldCA9IC1FSU5WQUw7CisgICAgICAgIHVwX3dyaXRlKCZudm1ldF9jb25maWdfc2Vt
-KTsKKworICAgICAgICByZXR1cm4gcmV0ID8gcmV0IDogY291bnQ7Cit9CitDT05GSUdGU19BVFRS
-KG52bWV0X3N1YnN5c18sIGNudGxpZF9taW4pOworCiBzdGF0aWMgc3RydWN0IGNvbmZpZ2ZzX2F0
-dHJpYnV0ZSAqbnZtZXRfc3Vic3lzX2F0dHJzW10gPSB7CiAJJm52bWV0X3N1YnN5c19hdHRyX2F0
-dHJfYWxsb3dfYW55X2hvc3QsCiAJJm52bWV0X3N1YnN5c19hdHRyX2F0dHJfdmVyc2lvbiwKIAkm
-bnZtZXRfc3Vic3lzX2F0dHJfYXR0cl9zZXJpYWwsCisJJm52bWV0X3N1YnN5c19hdHRyX2NudGxp
-ZF9taW4sCiAJTlVMTCwKIH07CiAKZGlmZiAtLWdpdCBhL2RyaXZlcnMvbnZtZS90YXJnZXQvY29y
-ZS5jIGIvZHJpdmVycy9udm1lL3RhcmdldC9jb3JlLmMKaW5kZXggM2E2N2UyNC4uYTkyYjFhZCAx
-MDA2NDQKLS0tIGEvZHJpdmVycy9udm1lL3RhcmdldC9jb3JlLmMKKysrIGIvZHJpdmVycy9udm1l
-L3RhcmdldC9jb3JlLmMKQEAgLTEyNjgsMTAgKzEyNjgsOSBAQCB1MTYgbnZtZXRfYWxsb2NfY3Ry
-bChjb25zdCBjaGFyICpzdWJzeXNucW4sIGNvbnN0IGNoYXIgKmhvc3RucW4sCiAJCQlHRlBfS0VS
-TkVMKTsKIAlpZiAoIWN0cmwtPnNxcykKIAkJZ290byBvdXRfZnJlZV9jcXM7Ci0KIAlyZXQgPSBp
-ZGFfc2ltcGxlX2dldCgmY250bGlkX2lkYSwKLQkJCSAgICAgTlZNRV9DTlRMSURfTUlOLCBOVk1F
-X0NOVExJRF9NQVgsCi0JCQkgICAgIEdGUF9LRVJORUwpOworCQkJc3Vic3lzLT5jbnRsaWRfbWlu
-LCBOVk1FX0NOVExJRF9NQVgsCisJCQlHRlBfS0VSTkVMKTsKIAlpZiAocmV0IDwgMCkgewogCQlz
-dGF0dXMgPSBOVk1FX1NDX0NPTk5FQ1RfQ1RSTF9CVVNZIHwgTlZNRV9TQ19ETlI7CiAJCWdvdG8g
-b3V0X2ZyZWVfc3FzOwpAQCAtMTQxOCw3ICsxNDE3LDcgQEAgc3RydWN0IG52bWV0X3N1YnN5cyAq
-bnZtZXRfc3Vic3lzX2FsbG9jKGNvbnN0IGNoYXIgKnN1YnN5c25xbiwKIAkJa2ZyZWUoc3Vic3lz
-KTsKIAkJcmV0dXJuIEVSUl9QVFIoLUVOT01FTSk7CiAJfQotCisJc3Vic3lzLT5jbnRsaWRfbWlu
-ID0gTlZNRV9DTlRMSURfTUlOOwogCWtyZWZfaW5pdCgmc3Vic3lzLT5yZWYpOwogCiAJbXV0ZXhf
-aW5pdCgmc3Vic3lzLT5sb2NrKTsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvbnZtZS90YXJnZXQvbnZt
-ZXQuaCBiL2RyaXZlcnMvbnZtZS90YXJnZXQvbnZtZXQuaAppbmRleCBjNTFmOGRkLi5jNmM3MjFh
-IDEwMDY0NAotLS0gYS9kcml2ZXJzL252bWUvdGFyZ2V0L252bWV0LmgKKysrIGIvZHJpdmVycy9u
-dm1lL3RhcmdldC9udm1ldC5oCkBAIC0yMTEsNiArMjExLDcgQEAgc3RydWN0IG52bWV0X3N1YnN5
-cyB7CiAJc3RydWN0IGxpc3RfaGVhZAluYW1lc3BhY2VzOwogCXVuc2lnbmVkIGludAkJbnJfbmFt
-ZXNwYWNlczsKIAl1bnNpZ25lZCBpbnQJCW1heF9uc2lkOworCXUxNiAgICAgICAgICAgICAgICAg
-ICAgIGNudGxpZF9taW47CiAKIAlzdHJ1Y3QgbGlzdF9oZWFkCWN0cmxzOwogCg==
+The way it works in SCSI is that if a user wants to enable PI, they do
+so when provision the device. So either a format for disk drives or by
+selecting an option while creating a LUN in a storage array management
+interface.
 
---_002_3D5903714C4F4355B36E7795FB218FC6onestopsystemscom_
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+There are some knobs that can be twiddled on the initiator side to
+enable/disable PI and/or DIX but these are meant for test or buggy
+device workaround purposes. Not as a means for the user to select or
+deselect the feature.
+
+The user can decide on a per-device basis whether the block layer should
+generate PI on write and verify on read. Those are the "proper" policy
+knobs on the initiator side.
+
+When an I/O request is received by the SCSI stack, we inspect it to
+determine whether we need to allocate one or two scatterlists. If the
+request has a bip attached, we'll allocate a separate scatterlist which
+is then used to map the protection information before the I/O is
+submitted to the device driver.
+
+-- 
+Martin K. Petersen	Oracle Linux Engineering
 
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
-
---_002_3D5903714C4F4355B36E7795FB218FC6onestopsystemscom_--
-
