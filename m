@@ -2,131 +2,86 @@ Return-Path: <SRS0=U9tF=ZC=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59599C43331
-	for <linux-nvme@archiver.kernel.org>; Sun, 10 Nov 2019 09:25:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 832FDC43331
+	for <linux-nvme@archiver.kernel.org>; Sun, 10 Nov 2019 14:18:18 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 23E4D207FA
-	for <linux-nvme@archiver.kernel.org>; Sun, 10 Nov 2019 09:25:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4DF37214E0
+	for <linux-nvme@archiver.kernel.org>; Sun, 10 Nov 2019 14:18:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="PPY6SXom";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=Mellanox.com header.i=@Mellanox.com header.b="Ahl5hNEx"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 23E4D207FA
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="epX+ycxa";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pcCHW+Xj"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4DF37214E0
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=ttSpBx0uCqeggjW01MOOHOtNhQ8tINEXTFJE1niJZYQ=; b=PPY6SXomGBuULqlt4jWwFBXAH
-	2yReIT5SNQ+GcwzZ5sHuSejgsmHjjiXPIuifvfX4KPavrXt7Bm9JrxgU4DZXTdbs6CoGnU+XnRgut
-	0L5kHtOsc+9FEFx4Yf27x6BQe418MsXVC4VBE896R26gNjcr/qcjCqmf620ZYVJf5UPmihK1Zq1ZB
-	j+apnSOWr2FId2keydUDUR6CIRxe4yY3PvE7txbHvB2PJAejA2/kUOgnQXBSAvmHvZE847E8lrVbP
-	aHPq6Rbrq68U2ZUIpNECD+pzAHeyx7sV5JF74BEP96Op0G3HypITqI3GfLtpfeE/xItLXvOuGQ77a
-	zBpFpmmhg==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Cc:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+	References:List-Owner; bh=xjt6yG//UNMXHGsXxTw1iMvRA/RbIbogPJvI8Ojywn8=; b=epX
+	+ycxa2CndlDfQ6BJMti0BOtfVa4BHg5v4tmHNfqipSqe4M4YuqJt85gTRi4MHZ7vS3g31AdKSag7n
+	p7CbaeOp13hGW4m37ZwseCh/apEJV4APqJZxqJEecWRcD7e1FScrVhWCkdo1jALiCkRPhMMYdNLK3
+	U0M+pobOYSkDNLHWp013uGRvJ6vrfEAlNypxFsHs3JIryxfVd7T/EQ8v7aN9kHsoIU8U5/XLKCTzH
+	b4LRpf6oYhpFGM5XlTON2vJDsMi09riZ9+W/rVjTWbGykQvMF3eVk3QHqkJvAtYWccB/XjUrLy6gw
+	7Y9vLw0jN5zPYzE94CieU0zXTTFO1mg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iTjTJ-0005Ho-9r; Sun, 10 Nov 2019 09:25:25 +0000
-Received: from mail-eopbgr70081.outbound.protection.outlook.com ([40.107.7.81]
- helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+	id 1iTo2e-0005MK-Vl; Sun, 10 Nov 2019 14:18:12 +0000
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iTjTF-0005HJ-SH
- for linux-nvme@lists.infradead.org; Sun, 10 Nov 2019 09:25:23 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CGxEvbsUiKTd3zBf6DcNBWgP3i2gpzAC4k5KE6ExZiuHHTPsAwNbItRQvAMpNGcituEBYIu0jk33Ey0E8ARN6NYNbkZvaFZp8G9SOHKkW2x1u7S2oGYoY1ev3kL8qMGZnnGwybzZdtgPk5i0ny9+n+hfLonOW1xRdjOEJEGN0y9BjgOGm4yeePidsIgz3yz/ThacKRlmSDwA3R2roq7pJx7JkUl5tp2ijl65s6/20a6fuKt+WEUisLQABdExLPjzfX54JbCEcpJw2RsTbHB/Ofwqyku5BButengQRFy3Jr9jVPiUSiZe5tTzkTKA3NARzVzK9W9wfrTSJfdzKKDoMg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0j5KjHj3Q4fGYmQtEeLol9sH7U9LqTEWUy1jdC1zD+Y=;
- b=gyEPlGHUsWNpvhzKsiF0qNsjj/oPRGaxyIWQk0ak6XN4IVEnHrle7958bgyEu8Ch0izwjH4v225hIIBAqehaRTOqAAa384JffJyT5BGKzx90hWzsn678C56L67frm9zO0757uoojdoN5FpIcsjDrc/Xd/4MTfSlgStAHTHmxSJqkYiuH7INwUAApxX4dnXEuE24hi4+P383GOOKNrnJ2msiL4/IRM81bix+tdnhozPnDxD/jUX6tmkdkouGshZmls9n9xR8YHgyrC5PhHMVOfJJZBfyGRC65ZOcaDm9bF33pw9nILnCD8MowrEBwcFDClXmsvoYhagyrDN8wwLisvw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 193.47.165.251) smtp.rcpttodomain=lst.de smtp.mailfrom=mellanox.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=mellanox.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0j5KjHj3Q4fGYmQtEeLol9sH7U9LqTEWUy1jdC1zD+Y=;
- b=Ahl5hNExLgGSg7PL3UHLmMmqs/WgUpA63Z0341a7rFgLdqy6ye8yqSLGU3eXaVZLuA/f53pXf7It5Jx+ZSzXDOcfdWwfQq83WOMyMO8O05UOtG5zEqDv++hkvBWEW7POSJI6r+GF/QtMvlp60Fka+wRnDOhhdRpDPZW2okfIX+Y=
-Received: from HE1PR05CA0376.eurprd05.prod.outlook.com (2603:10a6:7:94::35) by
- AM6PR05MB5317.eurprd05.prod.outlook.com (2603:10a6:20b:65::14) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2430.20; Sun, 10 Nov 2019 09:25:14 +0000
-Received: from DB5EUR03FT018.eop-EUR03.prod.protection.outlook.com
- (2a01:111:f400:7e0a::206) by HE1PR05CA0376.outlook.office365.com
- (2603:10a6:7:94::35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.2430.20 via Frontend
- Transport; Sun, 10 Nov 2019 09:25:14 +0000
-Authentication-Results: spf=pass (sender IP is 193.47.165.251)
- smtp.mailfrom=mellanox.com; lst.de; dkim=none (message not signed)
- header.d=none;lst.de; dmarc=pass action=none header.from=mellanox.com;
-Received-SPF: Pass (protection.outlook.com: domain of mellanox.com designates
- 193.47.165.251 as permitted sender)
- receiver=protection.outlook.com; 
- client-ip=193.47.165.251; helo=mtlcas13.mtl.com;
-Received: from mtlcas13.mtl.com (193.47.165.251) by
- DB5EUR03FT018.mail.protection.outlook.com (10.152.20.69) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.2430.21 via Frontend Transport; Sun, 10 Nov 2019 09:25:14 +0000
-Received: from MTLCAS13.mtl.com (10.0.8.78) by mtlcas13.mtl.com (10.0.8.78)
- with Microsoft SMTP Server (TLS) id 15.0.1178.4; Sun, 10 Nov 2019 11:25:13
- +0200
-Received: from MTLCAS01.mtl.com (10.0.8.71) by MTLCAS13.mtl.com (10.0.8.78)
- with Microsoft SMTP Server (TLS) id 15.0.1178.4 via Frontend Transport; Sun,
- 10 Nov 2019 11:25:13 +0200
-Received: from [10.223.0.100] (10.223.0.100) by MTLCAS01.mtl.com (10.0.8.71)
- with Microsoft SMTP Server (TLS) id 14.3.468.0; Sun, 10 Nov 2019 11:20:32
- +0200
-Subject: Re: [PATCH] nvme-cli/fabrics: Add pi_enable param to connect cmd
-To: "Martin K. Petersen" <martin.petersen@oracle.com>
-References: <20191105162026.183901-1-maxg@mellanox.com>
- <20191105162026.183901-2-maxg@mellanox.com> <yq15zjwza2y.fsf@oracle.com>
- <ed926da1-1466-edbd-6fa3-fb828bf455cc@mellanox.com>
- <yq14kzdx182.fsf@oracle.com>
-From: Max Gurtovoy <maxg@mellanox.com>
-Message-ID: <b3670fb4-7782-d4af-a9a5-c30b6d1db6f0@mellanox.com>
-Date: Sun, 10 Nov 2019 11:25:10 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.1
-MIME-Version: 1.0
-In-Reply-To: <yq14kzdx182.fsf@oracle.com>
-Content-Language: en-US
-X-Originating-IP: [10.223.0.100]
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:193.47.165.251; IPV:NLI; CTRY:IL; EFV:NLI;
- SFV:NSPM;
- SFS:(10009020)(4636009)(136003)(376002)(346002)(39850400004)(396003)(78124002)(199004)(189003)(2486003)(76176011)(230700001)(305945005)(31686004)(106002)(23676004)(478600001)(7736002)(54906003)(16576012)(50466002)(316002)(36756003)(58126008)(81166006)(81156014)(6246003)(336012)(70206006)(70586007)(2906002)(6666004)(47776003)(126002)(3846002)(6116002)(356004)(446003)(86362001)(65806001)(65956001)(11346002)(31696002)(476003)(2616005)(8676002)(486006)(53546011)(5660300002)(4326008)(26005)(16526019)(186003)(14444005)(5024004)(229853002)(6916009)(8936002)(3940600001);
- DIR:OUT; SFP:1101; SCL:1; SRVR:AM6PR05MB5317; H:mtlcas13.mtl.com; FPR:;
- SPF:Pass; LANG:en; PTR:InfoDomainNonexistent; A:1; MX:1; 
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f357e297-11bf-4ed2-eff5-08d765bfe4a7
-X-MS-TrafficTypeDiagnostic: AM6PR05MB5317:
-X-Microsoft-Antispam-PRVS: <AM6PR05MB5317DE7D880A832DCCE06E73B6750@AM6PR05MB5317.eurprd05.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-Forefront-PRVS: 02176E2458
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: JWIPJk6rmpaPDMhC6c3yJTAtRfCMP+Ys9ENzqJarapvHyytVxYH3yRNfcL/tFGai0Pm1tZObY5BbwryF/jO3xUMGCkfzJZbclwjDqk7K0yVYapjl5dccw8TkOXREl9ueAk1KBjVgokT/QczKERLIbQBpnBfxiky1Bdq1r1NU98kbwoMpg4mhDc8LN5EE+uMOh7uDSKrwgEUzn9crBHYls295nVB6m5H1xCWktdpg2fR0Y5avxR+xQj6YfrU/YONrlNweD+WroCoILm0Su4dsxJlsIXR6S4SK/3+yXU2qcxx/dRCCTI53wkGcz+XaASzzswRQzFlrD67kYva46xXLRC1/F5sDWvvwsT7+zOM+82jvQJVlEAQjo5ZFf8HDtoXyIzQwCSFmcMxLU4VeJxqdiEw6HwxaLHOmRO4Yfk/HSf3m91AZAtSEPDiXj+ggsOOP
-X-OriginatorOrg: Mellanox.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2019 09:25:14.3693 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f357e297-11bf-4ed2-eff5-08d765bfe4a7
-X-MS-Exchange-CrossTenant-Id: a652971c-7d2e-4d9b-a6a4-d149256f461b
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a652971c-7d2e-4d9b-a6a4-d149256f461b; Ip=[193.47.165.251];
- Helo=[mtlcas13.mtl.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR05MB5317
+ id 1iTo2b-0005KJ-EJ
+ for linux-nvme@lists.infradead.org; Sun, 10 Nov 2019 14:18:11 +0000
+Received: by mail-pl1-x641.google.com with SMTP id d29so6510826plj.8
+ for <linux-nvme@lists.infradead.org>; Sun, 10 Nov 2019 06:18:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=56oOc1o5bBJYxyuKfO925aa4uXU941JiLicanGKQoak=;
+ b=pcCHW+XjiLsSOFFtyt7KnbTPpnLPgPBU7l9nPi+1yXMbERnVFINFCpP0WIWsc5aWKX
+ aEdrsacwnV5Ky1oY3bSK6ABDIIryjomBNF9oJVhdjT1Rrc1DUL+TmNP6+hM+0Lctueoy
+ O/+f0i24E8XVw1TSbvUPKXLfSPw6VrTdJLX2mxNmfCfxFpD8Suo39cCdVEvKz53n5RMF
+ KMUjOCInExNaF2vS3fTNIk8N3RGxMhG6w4Z3tfUnhpKPACTWpPhPUPGY8PGT/PFdnFV1
+ hEP8eomaJnLwdexuv4c7PdcleO+7OWuw6Dg2Gzh2toCiGNCG0REFWfLTFmOfPkBronk3
+ PhiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=56oOc1o5bBJYxyuKfO925aa4uXU941JiLicanGKQoak=;
+ b=cttf4/taIWYPZmQyXY7OrZfgP+CAtG2IXsfjxX8cMOvyMSAn7ZLBz/uHtPrpjAAdTE
+ n8Apphpmz33EpMVOQFvmFfhZyFvIsaRdKTeXXQseYE2+Nv66Hk4O54guMURM0CpMDF4T
+ N8Ccndv10HiUXn/HDqOi4vyBCaQF/dbu0/+NHSGcaZOYaj7HEk0C9jtLAXU5ERSjBnOo
+ DaKmNbU7yQazjmQjrYwtuN2zp9HYRBjTisz5+eYHMzFEidkxsZKj6wUM7yoBEknre5xy
+ PU9wvKPBT3d20R1VuwH40S8T5dZwvamdjXwwa0YouRU1++N4i4ibVJk//kuJDP6gTLce
+ cS5Q==
+X-Gm-Message-State: APjAAAVlbMT7VJYOit2muqbxjIsl08Y0ncgjrZCu1eg4gacI4zwWVF2J
+ zaqbkIfrBz3fyY9PiN5bgqWGtf65
+X-Google-Smtp-Source: APXvYqyt6yKEiiKM7l7Eb6oL8y+rCt/S6h4Kzyt/e5DVmtkuZBhXbDomEbmFWe+mhhdb/oXY/WTNPg==
+X-Received: by 2002:a17:902:d717:: with SMTP id
+ w23mr3146303ply.142.1573395487415; 
+ Sun, 10 Nov 2019 06:18:07 -0800 (PST)
+Received: from localhost.localdomain ([240f:34:212d:1:368e:e048:68f1:84e7])
+ by smtp.gmail.com with ESMTPSA id c13sm12213253pfo.5.2019.11.10.06.18.03
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+ Sun, 10 Nov 2019 06:18:06 -0800 (PST)
+From: Akinobu Mita <akinobu.mita@gmail.com>
+To: linux-nvme@lists.infradead.org,
+	linux-hwmon@vger.kernel.org
+Subject: [PATCH] nvme: hwmon: provide temperature min and max values for each
+ sensor
+Date: Sun, 10 Nov 2019 23:17:46 +0900
+Message-Id: <1573395466-19526-1-git-send-email-akinobu.mita@gmail.com>
+X-Mailer: git-send-email 2.7.4
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191110_012521_992911_1F6665A6 
-X-CRM114-Status: GOOD (  17.79  )
+X-CRM114-CacheID: sfid-20191110_061809_504012_80356A7B 
+X-CRM114-Status: GOOD (  18.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,79 +93,230 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: sagi@grimberg.me, vladimirk@mellanox.com, idanb@mellanox.com,
- israelr@mellanox.com, linux-nvme@lists.infradead.org, shlomin@mellanox.com,
- oren@mellanox.com, kbusch@kernel.org, hch@lst.de
+Cc: Jean Delvare <jdelvare@suse.com>, Sagi Grimberg <sagi@grimberg.me>,
+ Akinobu Mita <akinobu.mita@gmail.com>, Jens Axboe <axboe@fb.com>,
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Guenter Roeck <linux@roeck-us.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+According to the NVMe specification, the over temperature threshold and
+under temperature threshold features shall be implemented for Composite
+Temperature if a non-zero WCTEMP field value is reported in the Identify
+Controller data structure.  The features are also implemented for all
+implemented temperature sensors (i.e., all Temperature Sensor fields that
+report a non-zero value).
 
-On 11/9/2019 3:55 AM, Martin K. Petersen wrote:
-> Max,
+This provides the over temperature threshold and under temperature
+threshold for each sensor as temperature min and max values of hwmon
+sysfs attributes.
 
-Martin,
+The WCTEMP is already provided as a temperature max value for Composite
+Temperature, but this change isn't incompatible.  Because the default
+value of the over temperature threshold for Composite Temperature is
+the WCTEMP.
 
+This also provides alarm attributes for each temperature sensor.  But all
+alarm conditions are same, because there is only a single bit in
+Critical Warning field that indicates one of the temperature is outside of
+a temperature threshold.
 
->
->> So iSER will create a signature resources for every capable device and
->> connection without giving the user the possibility to distinguish
->> between needed PI controllers and un-needed PI controllers.
->>
->> We don't have a format command in the fabrics so this is the best
->> option we can think of for adding flexibility to users.
->>
->> I spoke with Christoph about the module param possibility and we both
->> agreed it's not the way to go.
->>
->> Let me know if you have an idea that will enable flexibility to users.
-> The way it works in SCSI is that if a user wants to enable PI, they do
-> so when provision the device. So either a format for disk drives or by
-> selecting an option while creating a LUN in a storage array management
-> interface.
->
-> There are some knobs that can be twiddled on the initiator side to
-> enable/disable PI and/or DIX but these are meant for test or buggy
-> device workaround purposes. Not as a means for the user to select or
-> deselect the feature.
->
-> The user can decide on a per-device basis whether the block layer should
-> generate PI on write and verify on read. Those are the "proper" policy
-> knobs on the initiator side.
+Example output from the "sensors" command:
 
-The block layer option to enable/disable DIX is there, but there is no 
-way to disable DIF (wire PI check and generation).
+nvme-pci-0100
+Adapter: PCI adapter
+Composite:    +53.0 C  (low  = -273.0 C, high = +70.0 C)
+                       (crit = +80.0 C)
+Sensor 1:     +56.0 C  (low  = -273.0 C, high = +65262.0 C)
+Sensor 2:     +51.0 C  (low  = -273.0 C, high = +65262.0 C)
+Sensor 5:     +73.0 C  (low  = -273.0 C, high = +65262.0 C)
 
-Fabric storage doesn't support formatting a LUN/Namespace so we need to 
-give flexibility to users.
+Cc: Keith Busch <kbusch@kernel.org>
+Cc: Jens Axboe <axboe@fb.com>
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>
+Cc: Jean Delvare <jdelvare@suse.com>
+Cc: Guenter Roeck <linux@roeck-us.net>
+Signed-off-by: Akinobu Mita <akinobu.mita@gmail.com>
+---
+This patch depends on the patch "nvme: Add hardware monitoring support" [1]
+[1] http://lists.infradead.org/pipermail/linux-nvme/2019-November/027883.html
 
-Why we need to enforce the usage of E2E PI for all the controllers if 
-the user is not interested (because lack of resources for example) ?
+ drivers/nvme/host/nvme-hwmon.c | 98 ++++++++++++++++++++++++++++++++++++------
+ include/linux/nvme.h           |  6 +++
+ 2 files changed, 90 insertions(+), 14 deletions(-)
 
-Maybe the application has some kind of QOS, e.g. protected namespace is 
-ClassA (expensive storage) and non-protected namespace is ClassB (cheap 
-storage) and they both use NVMe/RDMA initiator...
-
-For example, we do it for TOS feature.
-
->
-> When an I/O request is received by the SCSI stack, we inspect it to
-> determine whether we need to allocate one or two scatterlists. If the
-> request has a bip attached, we'll allocate a separate scatterlist which
-> is then used to map the protection information before the I/O is
-> submitted to the device driver.
-
-For an NVMe/RDMA controller we must allocate a pool of PI MRs in the 
-constructor function in order to support E2E PI (and it's expensive).
-
-We can't do it in queue_rq function. In queue_rq we get the needed MR 
-according to the namespace format from a pre-allocated pool (PI_MR for 
-PI_namespace and REGULAR_MR for REGULAR_namespace).
-
-We can go with the module parameter approach but it will be very limited 
-for users and wasteful.
-
+diff --git a/drivers/nvme/host/nvme-hwmon.c b/drivers/nvme/host/nvme-hwmon.c
+index 5480cbb..79323b2 100644
+--- a/drivers/nvme/host/nvme-hwmon.c
++++ b/drivers/nvme/host/nvme-hwmon.c
+@@ -15,6 +15,46 @@ struct nvme_hwmon_data {
+ 	struct mutex read_lock;
+ };
+ 
++static int nvme_get_temp_thresh(struct nvme_ctrl *ctrl, int sensor, bool under,
++				long *temp)
++{
++	unsigned int threshold = sensor << NVME_TEMP_THRESH_SELECT_SHIFT;
++	int status;
++	int ret;
++
++	if (under)
++		threshold |= NVME_TEMP_THRESH_TYPE_UNDER;
++
++	ret = nvme_get_features(ctrl, NVME_FEAT_TEMP_THRESH, threshold, NULL, 0,
++				&status);
++	if (!ret)
++		*temp = ((status & NVME_TEMP_THRESH_MASK) - 273) * 1000;
++
++	return ret <= 0 ? ret : -EIO;
++}
++
++static int nvme_set_temp_thresh(struct nvme_ctrl *ctrl, int sensor, bool under,
++				long temp)
++{
++	unsigned int threshold = sensor << NVME_TEMP_THRESH_SELECT_SHIFT;
++	int status;
++	int ret;
++
++	temp = temp / 1000 + 273;
++	if (temp > NVME_TEMP_THRESH_MASK)
++		return -EINVAL;
++
++	threshold |= temp;
++
++	if (under)
++		threshold |= NVME_TEMP_THRESH_TYPE_UNDER;
++
++	ret = nvme_set_features(ctrl, NVME_FEAT_TEMP_THRESH, threshold, NULL, 0,
++				&status);
++
++	return ret <= 0 ? ret : -EIO;
++}
++
+ static int nvme_hwmon_get_smart_log(struct nvme_hwmon_data *data)
+ {
+ 	int ret;
+@@ -39,8 +79,12 @@ static int nvme_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
+ 	 */
+ 	switch (attr) {
+ 	case hwmon_temp_max:
+-		*val = (data->ctrl->wctemp - 273) * 1000;
++		err = nvme_get_temp_thresh(data->ctrl, channel, false, val);
++		if (err)
++			*val = (data->ctrl->wctemp - 273) * 1000;
+ 		return 0;
++	case hwmon_temp_min:
++		return nvme_get_temp_thresh(data->ctrl, channel, true, val);
+ 	case hwmon_temp_crit:
+ 		*val = (data->ctrl->cctemp - 273) * 1000;
+ 		return 0;
+@@ -73,6 +117,23 @@ static int nvme_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
+ 	return err;
+ }
+ 
++static int nvme_hwmon_write(struct device *dev, enum hwmon_sensor_types type,
++			    u32 attr, int channel, long val)
++{
++	struct nvme_hwmon_data *data = dev_get_drvdata(dev);
++
++	switch (attr) {
++	case hwmon_temp_max:
++		return nvme_set_temp_thresh(data->ctrl, channel, false, val);
++	case hwmon_temp_min:
++		return nvme_set_temp_thresh(data->ctrl, channel, true, val);
++	default:
++		break;
++	}
++
++	return -EOPNOTSUPP;
++}
++
+ static const char * const nvme_hwmon_sensor_names[] = {
+ 	"Composite",
+ 	"Sensor 1",
+@@ -105,13 +166,13 @@ static umode_t nvme_hwmon_is_visible(const void *_data,
+ 			return 0444;
+ 		break;
+ 	case hwmon_temp_max:
++	case hwmon_temp_min:
+ 		if (!channel && data->ctrl->wctemp)
+-			return 0444;
++			return 0644;
++		else if (data->log.temp_sensor[channel - 1])
++			return 0644;
+ 		break;
+ 	case hwmon_temp_alarm:
+-		if (!channel)
+-			return 0444;
+-		break;
+ 	case hwmon_temp_input:
+ 	case hwmon_temp_label:
+ 		if (!channel || data->log.temp_sensor[channel - 1])
+@@ -126,16 +187,24 @@ static umode_t nvme_hwmon_is_visible(const void *_data,
+ static const struct hwmon_channel_info *nvme_hwmon_info[] = {
+ 	HWMON_CHANNEL_INFO(chip, HWMON_C_REGISTER_TZ),
+ 	HWMON_CHANNEL_INFO(temp,
+-			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_CRIT |
++			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MIN |
++				HWMON_T_CRIT | HWMON_T_LABEL | HWMON_T_ALARM,
++			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MIN |
++				HWMON_T_LABEL | HWMON_T_ALARM,
++			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MIN |
++				HWMON_T_LABEL | HWMON_T_ALARM,
++			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MIN |
++				HWMON_T_LABEL | HWMON_T_ALARM,
++			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MIN |
++				HWMON_T_LABEL | HWMON_T_ALARM,
++			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MIN |
++				HWMON_T_LABEL | HWMON_T_ALARM,
++			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MIN |
++				HWMON_T_LABEL | HWMON_T_ALARM,
++			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MIN |
+ 				HWMON_T_LABEL | HWMON_T_ALARM,
+-			   HWMON_T_INPUT | HWMON_T_LABEL,
+-			   HWMON_T_INPUT | HWMON_T_LABEL,
+-			   HWMON_T_INPUT | HWMON_T_LABEL,
+-			   HWMON_T_INPUT | HWMON_T_LABEL,
+-			   HWMON_T_INPUT | HWMON_T_LABEL,
+-			   HWMON_T_INPUT | HWMON_T_LABEL,
+-			   HWMON_T_INPUT | HWMON_T_LABEL,
+-			   HWMON_T_INPUT | HWMON_T_LABEL),
++			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MIN |
++				HWMON_T_LABEL | HWMON_T_ALARM),
+ 	NULL
+ };
+ 
+@@ -143,6 +212,7 @@ static const struct hwmon_ops nvme_hwmon_ops = {
+ 	.is_visible	= nvme_hwmon_is_visible,
+ 	.read		= nvme_hwmon_read,
+ 	.read_string	= nvme_hwmon_read_string,
++	.write		= nvme_hwmon_write,
+ };
+ 
+ static const struct hwmon_chip_info nvme_hwmon_chip_info = {
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 269b2e8..347a44f 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -803,6 +803,12 @@ struct nvme_write_zeroes_cmd {
+ 
+ /* Features */
+ 
++enum {
++	NVME_TEMP_THRESH_MASK		= 0xffff,
++	NVME_TEMP_THRESH_SELECT_SHIFT	= 16,
++	NVME_TEMP_THRESH_TYPE_UNDER	= 0x100000,
++};
++
+ struct nvme_feat_auto_pst {
+ 	__le64 entries[32];
+ };
+-- 
+2.7.4
 
 
 _______________________________________________
