@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3789C43331
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Nov 2019 17:29:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBA36C43331
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Nov 2019 17:35:20 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A24822067B
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Nov 2019 17:29:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 92577214E0
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Nov 2019 17:35:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="T1IJ2Fhd"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A24822067B
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="H+Pr4OOV"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 92577214E0
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
@@ -25,43 +25,61 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=+3xBlhyDPsH2PjeWzSRDKijt6RgbnEiK1SBxTII4fDM=; b=T1IJ2FhdFxHB49Zt6/nMkJ78q
-	mQmgka3OIhZl1p6bZSArnGr9d0HXWO/hFNuIQF+AQYcy9XaMikXwkdEXOBE2y0Q9WelCAHytcy1kF
-	lwseld6XgqKDpGZgKAPxhQZWuWQJwloP/7oOLlwwFBbfuecnRv/+uId8pGhz3PpglVdsb+r1L9T2T
-	aR1Hep4EdLpU3e0sq8ePP8pDW001zeFFdaKa2Yt+KVo8hzL02WDhs21PgRai/k59eWOCqy2e0AiGZ
-	/aDQQ/zBPnhx5dV8D9h6g42eUQQoz2w4ef+eONy49AgDsHlAISk9U79kpGW7qy2PusYNF7r0ia8Mo
-	ToJfJ97ZA==;
+	 bh=LFvNm8LLInPVEBqyJ8NtRkdwDfgvtl1orV8cj/tjB+w=; b=H+Pr4OOVIs4ja2X73fHR+aZKF
+	x+mMC0i5IxULqYulQCk3QGxR1U3iUIYuCCGCCDoCbNVMdMdfqndEzGHRQDCPfLHC8in5thM/shhNO
+	kev5hGYFk9i2f7Fa4fv+HadD4Qf0sDuz6zh43ZzxZei5tlE9kbTCueO8pKXHi+SELh/I6Lv7gJPJi
+	iU6+l8oeIym6aBxIStJpZ6jeKRZHfctvWOy/RtDQNlFJLg78kwvqe0pXsYYmZb3xB79a38lkyDY+h
+	GfoutrqzmShWfcQENukdDRuROClYHxg3jyhV14CV+H8+K6SW6qilJAuTbXkJlPUFfaZnVBNmseYtT
+	ZrvK8V2xw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iUZz4-0005nT-Il; Tue, 12 Nov 2019 17:29:42 +0000
-Received: from mx2.suse.de ([195.135.220.15] helo=mx1.suse.de)
+	id 1iUa4U-0001cu-Mw; Tue, 12 Nov 2019 17:35:18 +0000
+Received: from mail-oi1-f194.google.com ([209.85.167.194])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iUZz1-0005n2-HD
- for linux-nvme@lists.infradead.org; Tue, 12 Nov 2019 17:29:41 +0000
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id 77212B13D;
- Tue, 12 Nov 2019 17:29:36 +0000 (UTC)
+ id 1iUa4R-0001b9-Ml
+ for linux-nvme@lists.infradead.org; Tue, 12 Nov 2019 17:35:17 +0000
+Received: by mail-oi1-f194.google.com with SMTP id s71so15547052oih.11
+ for <linux-nvme@lists.infradead.org>; Tue, 12 Nov 2019 09:35:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=lGyPjIXtlWJFIYjt6G4W7mzAQOvtH4svXIj+1YQ2mpw=;
+ b=YK4Dd0nTXlfIT33xypt98t5prX2lxJ/OiVK46DuTVTvbwMp07Kt/CO19b1JWbO+00j
+ 4TZN4bsdjEWPKRKdeXx0PDrZ9/t5bwcd+ZNeLw8sG3XSe/l8h057fqiZvfHQruwqUvc6
+ ++aOuod9u9ZsoHWFx2mwEhuE/FYHmNKJuWgB7wv08uuwnKQR/0tiaKwmBJJwnizUJ2dg
+ qp6ODCyIkr0NpzHvi/AurusNVeXwpCebWuMj5s3FBcUzOhxThTTSyb3/ibtwASadKYBz
+ 7O9vuKbEXvaGaQ1m9M909a2yyetTADE0nL4MGU0Fctfe5ZLeZHbAh2wYWU2NCsRJ+i8B
+ MVlQ==
+X-Gm-Message-State: APjAAAXmNIuMTrqntaxU87dQO1mQLEzgRN/wmvRJo6EajQGBGaDO4h1m
+ ARHfZahKNIxCpUMtDfoK6LayJ6bx
+X-Google-Smtp-Source: APXvYqwhcsOiaE2u1IuMlLcsKpTcS6LZsWIARF9Vthq4dhCIEbLtNTPkmlSbSnxlg38oCltMFTJnAw==
+X-Received: by 2002:aca:be08:: with SMTP id o8mr88824oif.9.1573580113667;
+ Tue, 12 Nov 2019 09:35:13 -0800 (PST)
+Received: from [192.168.1.114]
+ (162-195-240-247.lightspeed.sntcca.sbcglobal.net. [162.195.240.247])
+ by smtp.gmail.com with ESMTPSA id h79sm6082989oib.3.2019.11.12.09.35.12
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 12 Nov 2019 09:35:13 -0800 (PST)
 Subject: Re: [PATCH 2/2] nvme-pci: poll IO after batch submission for
  multi-mapping queue
-To: Keith Busch <kbusch@kernel.org>
+To: Ming Lei <ming.lei@redhat.com>
 References: <20191108035508.26395-1-ming.lei@redhat.com>
- <20191108035508.26395-3-ming.lei@redhat.com> <20191111204446.GA26028@lst.de>
- <CY4PR21MB0741004E62F9C50B8EF7DA9ECE770@CY4PR21MB0741.namprd21.prod.outlook.com>
- <20191112023920.GD15079@ming.t460p>
- <8198fd99-6b47-7594-ba1c-4a15ffe25269@suse.de>
- <20191112164947.GB29135@redsun51.ssa.fujisawa.hgst.com>
-From: Hannes Reinecke <hare@suse.de>
-Message-ID: <f69d4e4c-3d6e-74c0-ed97-cac3c6b230c2@suse.de>
-Date: Tue, 12 Nov 2019 18:29:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ <20191108035508.26395-3-ming.lei@redhat.com>
+ <82fb330e-a507-999a-69f3-947f13bbaae1@grimberg.me>
+ <20191112095649.GE15079@ming.t460p>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <4664ca6f-2ebb-c69c-5b7f-226a86394adf@grimberg.me>
+Date: Tue, 12 Nov 2019 09:35:08 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191112164947.GB29135@redsun51.ssa.fujisawa.hgst.com>
+In-Reply-To: <20191112095649.GE15079@ming.t460p>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191112_092939_716247_74EA053F 
-X-CRM114-Status: GOOD (  20.31  )
+X-CRM114-CacheID: sfid-20191112_093515_738402_83562991 
+X-CRM114-Status: GOOD (  24.46  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,42 +91,135 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Long Li <longli@microsoft.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@fb.com>,
- Christoph Hellwig <hch@lst.de>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Long Li <longli@microsoft.com>, Christoph Hellwig <hch@lst.de>,
+ linux-nvme@lists.infradead.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMTEvMTIvMTkgNTo0OSBQTSwgS2VpdGggQnVzY2ggd3JvdGU6Cj4gT24gVHVlLCBOb3YgMTIs
-IDIwMTkgYXQgMDU6MjU6NTlQTSArMDEwMCwgSGFubmVzIFJlaW5lY2tlIHdyb3RlOgo+PiAoTml0
-cGljazogd2hhdCBkb2VzIGhhcHBlbiB3aXRoIHRoZSBpbnRlcnJ1cHQgaWYgd2UgaGF2ZSBhIG1h
-c2sgb2YKPj4gc2V2ZXJhbCBDUFVzPyBXaWxsIHRoZSBpbnRlcnJ1cHQgZGVsaXZlcmVkIHRvIG9u
-ZSBDUFU/Cj4+IFRvIGFsbCBpbiB0aGUgbWFzaz8KPiAKPiBUaGUgaGFyZC1pbnRlcnJ1cHQgd2ls
-bCBiZSBkZWxpdmVyZWQgdG8gZWZmZWN0aXZlbHkgb25lIG9mIHRoZSBDUFVzIGluIHRoZQo+IG1h
-c2suIFRoZSBvbmUgdGhhdCBpcyBzZWxlY3RlZCBpcyBkZXRlcm1pbmVkIHdoZW4gdGhlIElSUSBp
-cyBhbGxvY2F0ZWQsCj4gYW5kIGl0IHNob3VsZCB0cnkgdG8gc2VsZWN0IG9uZSBmb3JtIHRoZSBt
-YXNrIHRoYXQgaXMgbGVhc3QgdXNlZCAoc2VlCj4gbWF0cml4X2ZpbmRfYmVzdF9jcHVfbWFuYWdl
-ZCgpKS4KPiAKWWVhaCwganVzdCBhcyBJIHRob3VnaHQuCldoaWNoIGFsc28gbWVhbnMgdGhhdCB3
-ZSBuZWVkIHRvIHJlZGlyZWN0IHRoZSBpcnEgdG8gYSBub24tYnVzeSBjcHUgdG8gCmF2b2lkIHN0
-YWxscyB1bmRlciBoaWdoIGxvYWQuCkV4cGVjaWFsbHkgaWYgd2UgaGF2ZSBzZXZlcmFsIE5WTWVz
-IHRvIGRlYWwgd2l0aC4KCj4+IENhbid0IHdlIGltcGxlbWVudCBibGtfcG9sbD8gT3IgbWF5YmUg
-ZXZlbiB0aHJlYWRlZCBpbnRlcnJ1cHRzPwo+IAo+IFRocmVhZGVkIGludGVycnVwdHMgc291bmQg
-Z29vZC4gQ3VycmVudGx5LCB0aG91Z2gsIHRocmVhZGVkIGludGVycnVwdHMKPiBleGVjdXRlIG9u
-bHkgb24gdGhlIHNhbWUgY3B1IGFzIHRoZSBoYXJkIGlycS4gVGhlcmUgd2FzIGEgcHJvcG9zYWwg
-aGVyZSB0bwo+IGNoYW5nZSB0aGF0IHRvIHVzZSBhbnkgQ1BVIGluIHRoZSBtYXNrLCBhbmQgSSBz
-dGlsbCB0aGluayBpdCBtYWtlcyBzZW5zZQo+IAo+ICAgIGh0dHA6Ly9saXN0cy5pbmZyYWRlYWQu
-b3JnL3BpcGVybWFpbC9saW51eC1udm1lLzIwMTktQXVndXN0LzAyNjYyOC5odG1sCj4gClRoYXQg
-bG9va3MgbGlrZSBqdXN0IHRoZSB0aWNrZXQuCkluIGNvbWJpbmF0aW9uIHdpdGggdGhyZWFkZWQg
-aXJxcyBhbmQgcG9zc2libHkgYmxrX3BvbGwgdG8gYXZvaWQgaXJxIApzdG9ybXMgd2Ugc2hvdWxk
-IGJlIGdvb2QuCgpMZXQncyBzZWUgaWYgSSBjYW4gY29tZSB1cCB3aXRoIHNvbWV0aGluZy4uLgoK
-Q2hlZXJzLAoKSGFubmVzCi0tIApEci4gSGFubmVzIFJlaW5lY2tlICAgICAgICAgICAgVGVhbWxl
-YWQgU3RvcmFnZSAmIE5ldHdvcmtpbmcKaGFyZUBzdXNlLmRlICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgKzQ5IDkxMSA3NDA1MyA2ODgKU1VTRSBMSU5VWCBHbWJILCBNYXhmZWxkc3RyLiA1
-LCA5MDQwOSBOw7xybmJlcmcKR0Y6IEZlbGl4IEltZW5kw7ZyZmZlciwgTWFyeSBIaWdnaW5zLCBT
-cmkgUmFzaWFoCkhSQiAyMTI4NCAoQUcgTsO8cm5iZXJnKQoKX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgtbnZtZSBtYWlsaW5nIGxpc3QKTGludXgt
-bnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxt
-YW4vbGlzdGluZm8vbGludXgtbnZtZQo=
+
+>>> f9dde187fa92("nvme-pci: remove cq check after submission") removes
+>>> cq check after submission, this change actually causes performance
+>>> regression on some NVMe drive in which single nvmeq handles requests
+>>> originated from more than one blk-mq sw queues(call it multi-mapping
+>>> queue).
+>>>
+>>> Actually polling IO after submission can handle IO more efficiently,
+>>> especially for multi-mapping queue:
+>>>
+>>> 1) the poll itself is very cheap, and lockless check on cq is enough,
+>>> see nvme_cqe_pending(). Especially the check can be done after batch
+>>> submission is done.
+>>>
+>>> 2) when IO completion is observed via the poll in submission, the requst
+>>> may be completed without interrupt involved, or the interrupt handler
+>>> overload can be decreased.
+>>>
+>>> 3) when single sw queue is submiting IOs to this hw queue, if IOs completion
+>>> is observed via this poll, the IO can be completed locally, which is
+>>> cheaper than remote completion.
+>>>
+>>> Follows test result done on Azure L80sv2 guest with NVMe drive(
+>>> Microsoft Corporation Device b111). This guest has 80 CPUs and 10
+>>> numa nodes, and each NVMe drive supports 8 hw queues.
+>>
+>> I think that the cpu lockup is a different problem, and we should
+>> separate this patch from that problem..
+> 
+> Why?
+> 
+> Most of CPU lockup is a performance issue in essence. In theory,
+> improvement in IO path could alleviate the soft lockup.
+
+I don't think its a performance issue, being exposed to stall in hard
+irq is a fundamental issue. I don't see how this patch solves it.
+
+>>> 1) test script:
+>>> fio --bs=4k --ioengine=libaio --iodepth=64 --filename=/dev/nvme0n1 \
+>>> 	--iodepth_batch_submit=16 --iodepth_batch_complete_min=16 \
+>>> 	--direct=1 --runtime=30 --numjobs=1 --rw=randread \
+>>> 	--name=test --group_reporting --gtod_reduce=1
+>>>
+>>> 2) test result:
+>>>        | v5.3       | v5.3 with this patchset
+>>> -------------------------------------------
+>>> IOPS | 130K       | 424K
+>>>
+>>> Given IO is handled more efficiently in this way, the original report
+>>> of CPU lockup[1] on Hyper-V can't be observed any more after this patch
+>>> is applied. This issue is usually triggered when running IO from all
+>>> CPUs concurrently.
+>>>
+>>
+>> This is just adding code that we already removed but in a more
+>> convoluted way...
+> 
+> That commit removing the code actually causes regression for Azure
+> NVMe.
+
+This issue has been observed long before we removed the polling from
+the submission path and the cq_lock split.
+
+>> The correct place that should optimize the polling is aio/io_uring and
+>> not the driver locally IMO. Adding blk_poll to aio_getevents like
+>> io_uring would be a lot better I think..
+> 
+> This poll is actually one-shot poll, and I shouldn't call it poll, and
+> it should have been called as 'check cq'.
+> 
+> I believe it has been tried for supporting aio poll before, seems not
+> successful.
+
+Is there a fundamental reason why it can work for io_uring and cannot
+work for aio?
+
+>>> I also run test on Optane(32 hw queues) in big machine(96 cores, 2 numa
+>>> nodes), small improvement is observed on running the above fio over two
+>>> NVMe drive with batch 1.
+>>
+>> Given that you add shared lock and atomic ops in the data path you are
+>> bound to hurt some latency oriented workloads in some way..
+> 
+> The spin_trylock_irqsave() is just called in case that nvme_cqe_pending() is
+> true. My test on Optane doesn't show that latency is hurt.
+
+It also condition on the multi-mapping bit..
+
+Can we know for a fact that this doesn't hurt what-so-ever? If so, we
+should always do it, not conditionally do it. I would test this for
+io_uring test applications that are doing heavy polling. I think
+Jens had some benchmarks he used for how fast io_uring can go in
+a single cpu core...
+
+> However, I just found the Azure's NVMe is a bit special, in which
+> the 'Interrupt Coalescing' Feature register shows zero. But IO interrupt is
+> often triggered when there are many commands completed by drive.
+> 
+> For example in fio test(4k, randread aio, single job), when IOPS is
+> 110K, interrupts per second is just 13~14K. When running heavy IO, the
+> interrupts per second can just reach 40~50K at most. And for normal nvme
+> drive, if 'Interrupt Coalescing' isn't used, most of times one interrupt
+> just complete one request in the rand IO test.
+> 
+> That said Azure's implementation must apply aggressive interrupt coalescing
+> even though the register doesn't claim it.
+
+Did you check how many completions a reaped per interrupt?
+
+> That seems the root cause of soft lockup for Azure since lots of requests
+> may be handled in one interrupt event, especially when interrupt event is
+> delay-handled by CPU. Then it can explain why this patch improves Azure
+> NVNe so much in single job fio.
+> 
+> But for other drives with N:1 mapping, the soft lockup risk still exists.
+
+As I said, we can discuss this as an optimization, but we should not
+consider this as a solution to the irq-stall issue reported on Azure as
+we agree that it doesn't solve the fundamental problem.
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
