@@ -2,73 +2,66 @@ Return-Path: <SRS0=/X2o=ZE=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F49FC43331
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Nov 2019 16:49:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3789C43331
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Nov 2019 17:29:47 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3E2FF21D7F
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Nov 2019 16:49:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A24822067B
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Nov 2019 17:29:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="jObpw+s7";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="glUAxkHM"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3E2FF21D7F
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="T1IJ2Fhd"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A24822067B
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=OP30YhMh/3+kpE5K8ZGOEvLQbKYYYJljouEn+pRH0aE=; b=jObpw+s7p9qQnO
-	pegykCQaDp472Ty42hHHuq6NLRwfW5YpoOSTIhanDMDm2R5YJD8h2765WH5lPQAgmbdKRw2PZ1+Ud
-	h/G6di9ohiRwILTDkQXRoesh5hznSQdAOnYVRivBnmCTKnnPvvBt0q04vIyUU2NnjCp3elsQf00ru
-	DjjhPm+JZrQRYZ45Weef8xD3KbK/o1m/Hgxsz07urHgn0tEwKSMXDXIMiOR8DV7BWBcBNTVazPvM9
-	alRrwd8pIxpS6FqTQnd0cLikxRIsXl4B+Zpm002S9uV7kMZuWMKmQyCEAZd+6QSsCpf1kbvyRVGGm
-	MGRZWXkHJZuLMc5Ls/Rg==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=+3xBlhyDPsH2PjeWzSRDKijt6RgbnEiK1SBxTII4fDM=; b=T1IJ2FhdFxHB49Zt6/nMkJ78q
+	mQmgka3OIhZl1p6bZSArnGr9d0HXWO/hFNuIQF+AQYcy9XaMikXwkdEXOBE2y0Q9WelCAHytcy1kF
+	lwseld6XgqKDpGZgKAPxhQZWuWQJwloP/7oOLlwwFBbfuecnRv/+uId8pGhz3PpglVdsb+r1L9T2T
+	aR1Hep4EdLpU3e0sq8ePP8pDW001zeFFdaKa2Yt+KVo8hzL02WDhs21PgRai/k59eWOCqy2e0AiGZ
+	/aDQQ/zBPnhx5dV8D9h6g42eUQQoz2w4ef+eONy49AgDsHlAISk9U79kpGW7qy2PusYNF7r0ia8Mo
+	ToJfJ97ZA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iUZMY-0003o5-N2; Tue, 12 Nov 2019 16:49:54 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1iUZz4-0005nT-Il; Tue, 12 Nov 2019 17:29:42 +0000
+Received: from mx2.suse.de ([195.135.220.15] helo=mx1.suse.de)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iUZMV-0003nV-5k
- for linux-nvme@lists.infradead.org; Tue, 12 Nov 2019 16:49:52 +0000
-Received: from redsun51.ssa.fujisawa.hgst.com (unknown [199.255.47.7])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id DD3DC2196E;
- Tue, 12 Nov 2019 16:49:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1573577390;
- bh=Q2xRU7Z4v3yzGyfzxMUbjy7nzrxqCBLw3lpu3s35AsQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=glUAxkHM0wzHyQ0mEHJ85TsKR/2yyVvFdh5Hjle2DFFl8RWS+EC+wwjzbA4oJRL/L
- lFD7RaH792NVskFVUbpDU3fARU1RZlMqih0HrZalFeXAP5QdLgWVU5EXS0Cnv4ZrHH
- x9bvGq56HwDsjyHfuMQMluidVgOi7RHLmSpuHSi0=
-Date: Wed, 13 Nov 2019 01:49:47 +0900
-From: Keith Busch <kbusch@kernel.org>
-To: Hannes Reinecke <hare@suse.de>
+ id 1iUZz1-0005n2-HD
+ for linux-nvme@lists.infradead.org; Tue, 12 Nov 2019 17:29:41 +0000
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id 77212B13D;
+ Tue, 12 Nov 2019 17:29:36 +0000 (UTC)
 Subject: Re: [PATCH 2/2] nvme-pci: poll IO after batch submission for
  multi-mapping queue
-Message-ID: <20191112164947.GB29135@redsun51.ssa.fujisawa.hgst.com>
+To: Keith Busch <kbusch@kernel.org>
 References: <20191108035508.26395-1-ming.lei@redhat.com>
- <20191108035508.26395-3-ming.lei@redhat.com>
- <20191111204446.GA26028@lst.de>
+ <20191108035508.26395-3-ming.lei@redhat.com> <20191111204446.GA26028@lst.de>
  <CY4PR21MB0741004E62F9C50B8EF7DA9ECE770@CY4PR21MB0741.namprd21.prod.outlook.com>
  <20191112023920.GD15079@ming.t460p>
  <8198fd99-6b47-7594-ba1c-4a15ffe25269@suse.de>
+ <20191112164947.GB29135@redsun51.ssa.fujisawa.hgst.com>
+From: Hannes Reinecke <hare@suse.de>
+Message-ID: <f69d4e4c-3d6e-74c0-ed97-cac3c6b230c2@suse.de>
+Date: Tue, 12 Nov 2019 18:29:34 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <8198fd99-6b47-7594-ba1c-4a15ffe25269@suse.de>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20191112164947.GB29135@redsun51.ssa.fujisawa.hgst.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191112_084951_237932_5D85C283 
-X-CRM114-Status: GOOD (  11.44  )
+X-CRM114-CacheID: sfid-20191112_092939_716247_74EA053F 
+X-CRM114-Status: GOOD (  20.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,30 +77,38 @@ Cc: Sagi Grimberg <sagi@grimberg.me>, Long Li <longli@microsoft.com>,
  "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
  Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@fb.com>,
  Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Nov 12, 2019 at 05:25:59PM +0100, Hannes Reinecke wrote:
-> (Nitpick: what does happen with the interrupt if we have a mask of
-> several CPUs? Will the interrupt delivered to one CPU?
-> To all in the mask?
-
-The hard-interrupt will be delivered to effectively one of the CPUs in the
-mask. The one that is selected is determined when the IRQ is allocated,
-and it should try to select one form the mask that is least used (see
-matrix_find_best_cpu_managed()).
-
-> Can't we implement blk_poll? Or maybe even threaded interrupts?
-
-Threaded interrupts sound good. Currently, though, threaded interrupts
-execute only on the same cpu as the hard irq. There was a proposal here to
-change that to use any CPU in the mask, and I still think it makes sense
-
-  http://lists.infradead.org/pipermail/linux-nvme/2019-August/026628.html
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+T24gMTEvMTIvMTkgNTo0OSBQTSwgS2VpdGggQnVzY2ggd3JvdGU6Cj4gT24gVHVlLCBOb3YgMTIs
+IDIwMTkgYXQgMDU6MjU6NTlQTSArMDEwMCwgSGFubmVzIFJlaW5lY2tlIHdyb3RlOgo+PiAoTml0
+cGljazogd2hhdCBkb2VzIGhhcHBlbiB3aXRoIHRoZSBpbnRlcnJ1cHQgaWYgd2UgaGF2ZSBhIG1h
+c2sgb2YKPj4gc2V2ZXJhbCBDUFVzPyBXaWxsIHRoZSBpbnRlcnJ1cHQgZGVsaXZlcmVkIHRvIG9u
+ZSBDUFU/Cj4+IFRvIGFsbCBpbiB0aGUgbWFzaz8KPiAKPiBUaGUgaGFyZC1pbnRlcnJ1cHQgd2ls
+bCBiZSBkZWxpdmVyZWQgdG8gZWZmZWN0aXZlbHkgb25lIG9mIHRoZSBDUFVzIGluIHRoZQo+IG1h
+c2suIFRoZSBvbmUgdGhhdCBpcyBzZWxlY3RlZCBpcyBkZXRlcm1pbmVkIHdoZW4gdGhlIElSUSBp
+cyBhbGxvY2F0ZWQsCj4gYW5kIGl0IHNob3VsZCB0cnkgdG8gc2VsZWN0IG9uZSBmb3JtIHRoZSBt
+YXNrIHRoYXQgaXMgbGVhc3QgdXNlZCAoc2VlCj4gbWF0cml4X2ZpbmRfYmVzdF9jcHVfbWFuYWdl
+ZCgpKS4KPiAKWWVhaCwganVzdCBhcyBJIHRob3VnaHQuCldoaWNoIGFsc28gbWVhbnMgdGhhdCB3
+ZSBuZWVkIHRvIHJlZGlyZWN0IHRoZSBpcnEgdG8gYSBub24tYnVzeSBjcHUgdG8gCmF2b2lkIHN0
+YWxscyB1bmRlciBoaWdoIGxvYWQuCkV4cGVjaWFsbHkgaWYgd2UgaGF2ZSBzZXZlcmFsIE5WTWVz
+IHRvIGRlYWwgd2l0aC4KCj4+IENhbid0IHdlIGltcGxlbWVudCBibGtfcG9sbD8gT3IgbWF5YmUg
+ZXZlbiB0aHJlYWRlZCBpbnRlcnJ1cHRzPwo+IAo+IFRocmVhZGVkIGludGVycnVwdHMgc291bmQg
+Z29vZC4gQ3VycmVudGx5LCB0aG91Z2gsIHRocmVhZGVkIGludGVycnVwdHMKPiBleGVjdXRlIG9u
+bHkgb24gdGhlIHNhbWUgY3B1IGFzIHRoZSBoYXJkIGlycS4gVGhlcmUgd2FzIGEgcHJvcG9zYWwg
+aGVyZSB0bwo+IGNoYW5nZSB0aGF0IHRvIHVzZSBhbnkgQ1BVIGluIHRoZSBtYXNrLCBhbmQgSSBz
+dGlsbCB0aGluayBpdCBtYWtlcyBzZW5zZQo+IAo+ICAgIGh0dHA6Ly9saXN0cy5pbmZyYWRlYWQu
+b3JnL3BpcGVybWFpbC9saW51eC1udm1lLzIwMTktQXVndXN0LzAyNjYyOC5odG1sCj4gClRoYXQg
+bG9va3MgbGlrZSBqdXN0IHRoZSB0aWNrZXQuCkluIGNvbWJpbmF0aW9uIHdpdGggdGhyZWFkZWQg
+aXJxcyBhbmQgcG9zc2libHkgYmxrX3BvbGwgdG8gYXZvaWQgaXJxIApzdG9ybXMgd2Ugc2hvdWxk
+IGJlIGdvb2QuCgpMZXQncyBzZWUgaWYgSSBjYW4gY29tZSB1cCB3aXRoIHNvbWV0aGluZy4uLgoK
+Q2hlZXJzLAoKSGFubmVzCi0tIApEci4gSGFubmVzIFJlaW5lY2tlICAgICAgICAgICAgVGVhbWxl
+YWQgU3RvcmFnZSAmIE5ldHdvcmtpbmcKaGFyZUBzdXNlLmRlICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgKzQ5IDkxMSA3NDA1MyA2ODgKU1VTRSBMSU5VWCBHbWJILCBNYXhmZWxkc3RyLiA1
+LCA5MDQwOSBOw7xybmJlcmcKR0Y6IEZlbGl4IEltZW5kw7ZyZmZlciwgTWFyeSBIaWdnaW5zLCBT
+cmkgUmFzaWFoCkhSQiAyMTI4NCAoQUcgTsO8cm5iZXJnKQoKX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgtbnZtZSBtYWlsaW5nIGxpc3QKTGludXgt
+bnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxt
+YW4vbGlzdGluZm8vbGludXgtbnZtZQo=
