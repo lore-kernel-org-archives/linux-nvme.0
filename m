@@ -2,72 +2,87 @@ Return-Path: <SRS0=s2cI=ZF=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90725C17441
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Nov 2019 01:55:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA1B1C17441
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Nov 2019 02:24:58 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6760F222D3
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Nov 2019 01:55:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B79EB2067B
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Nov 2019 02:24:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="SWq5Y0/g";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="N97tgouP"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6760F222D3
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="sZgi6Kq1";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VlodWpPQ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B79EB2067B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=xUXUZe4co543ICT76WptdaVmsooRsZOLVl6UFsRIwlY=; b=SWq5Y0/gT0OH+J
-	DyEQCEk18owIOeaUwyI5Jr6k297SxqMeOcYnNxjlrm7Kagcws1lFjxP+ExNg6BWMfEq3UdYHr+sD6
-	Hyn3QfhXTGizpKEk7vCQnCDBh06oJewq2UBo3WW3UTnFvTZzNPwNc05PobTcBUflTND8LMSY4f58+
-	2FuCGWY+I6tHvl9bXzoUcdcs5VAdp0u49cCHb9bqd/bGtojvY9e/AGFwnc7y6wi5yyYt8H355wFfb
-	kLp7K/IzZie+7LCveZrdwU95jhoCexp9GnVrWK+0/1IMDTDIRsluRKMO8ZtTmK7rSfAmBDZRG+8yE
-	Pd/kNcGsxdD3QmvMpnNw==;
+	List-Owner; bh=S+HSuGQV2RyMwKjUodju3CjrYcQBpIY1HFx8yzcG8y4=; b=sZgi6Kq1wcvVUQ
+	ZjVmCemU1vaefnAMZCj2Zt5xk0f5CjyPkWsWS8Ejm1KAcAkb0+I+OzR41eFvEkb7VdQPyIlbZByJd
+	Kddg/9mWqyKCFDJnRp88sPYbXJFUbR958FokLsSgZSTCyIfaTfdiCQQx+kw6tpbX1whnNLPhdAKAU
+	LNGgP4KWpb6Z9PHXopeEwDRe47v2qm1mPkHafG9wAULKIQ2RGBFgyuU7zs/NZcFVTJg0ZwnlP+iZB
+	JLWpCFKA/ldTblMknKN6wJllMXFtM3kKe9oiKUV681saHQghmqpDwyK/K5NPuZYhZqICxOmhWkZnX
+	LVn3qd541RfO3kR3B7fA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iUhsP-00066d-1J; Wed, 13 Nov 2019 01:55:21 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1iUiL2-0005F7-3F; Wed, 13 Nov 2019 02:24:56 +0000
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]
+ helo=us-smtp-delivery-1.mimecast.com)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iUhsM-0005ja-Km
- for linux-nvme@lists.infradead.org; Wed, 13 Nov 2019 01:55:19 +0000
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
- [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ id 1iUiKy-0005Di-FQ
+ for linux-nvme@lists.infradead.org; Wed, 13 Nov 2019 02:24:54 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573611889;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=X0vGAfEUKKtumEBYxj2UeMCKFkfMQEVG9Zxba+MpIHA=;
+ b=VlodWpPQpInVJ54Qa77ZLchvygHZ5Y+nFQwvP04WlgF+xCcwqj2HdBXGoVcwL5gHBpLRG/
+ d11HqNpVa1JA8fKuBD6CDdejXPcd5ByWR//d+uaOpa+qopesTazhzPvrIHG5gJhqAjIzua
+ xYBmNC3NHGXSIGvnQnMLJW6/+/YMiYE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-72-6KcXgl3HPO2hzQ33fD7Uzg-1; Tue, 12 Nov 2019 21:24:45 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 7C303222CD;
- Wed, 13 Nov 2019 01:55:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1573610118;
- bh=RgYw0oBSLwQBhdw3WvYdr72j1tYCT0JVBwh8M+A/DAk=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=N97tgouPjOSxzfN4UN0nTKCAT9du+rcWrRRmpcai3ZbRFl/TvOw/CyoLtkXVm0Ora
- EFMZK3wP5fyC/lyC+y9ngx/uLqfpxQqhUW705csK2v1dqEwjwgxmkC+6xYkz7Lu0Jk
- 9euYKpAbhuZ69+KMILBOkvpPpi/Z9ktxQt4uh32I=
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 173/209] lightnvm: do no update csecs and sos on
- 1.2
-Date: Tue, 12 Nov 2019 20:49:49 -0500
-Message-Id: <20191113015025.9685-173-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191113015025.9685-1-sashal@kernel.org>
-References: <20191113015025.9685-1-sashal@kernel.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6BF7018B5F77;
+ Wed, 13 Nov 2019 02:24:44 +0000 (UTC)
+Received: from ming.t460p (ovpn-8-28.pek2.redhat.com [10.72.8.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DA24A60933;
+ Wed, 13 Nov 2019 02:24:37 +0000 (UTC)
+Date: Wed, 13 Nov 2019 10:24:33 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Long Li <longli@microsoft.com>
+Subject: Re: [PATCH 2/2] nvme-pci: poll IO after batch submission for
+ multi-mapping queue
+Message-ID: <20191113022433.GA28701@ming.t460p>
+References: <20191108035508.26395-1-ming.lei@redhat.com>
+ <20191108035508.26395-3-ming.lei@redhat.com>
+ <20191111204446.GA26028@lst.de>
+ <CY4PR21MB0741004E62F9C50B8EF7DA9ECE770@CY4PR21MB0741.namprd21.prod.outlook.com>
+ <20191112023920.GD15079@ming.t460p>
+ <CY4PR21MB0741BB1F48C64613BF6E45F6CE770@CY4PR21MB0741.namprd21.prod.outlook.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+In-Reply-To: <CY4PR21MB0741BB1F48C64613BF6E45F6CE770@CY4PR21MB0741.namprd21.prod.outlook.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: 6KcXgl3HPO2hzQ33fD7Uzg-1
+X-Mimecast-Spam-Score: 0
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191112_175518_706621_1D93693A 
-X-CRM114-Status: UNSURE (   9.04  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20191112_182452_634707_CB19B068 
+X-CRM114-Status: GOOD (  15.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,34 +94,75 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Jens Axboe <axboe@kernel.dk>, Sasha Levin <sashal@kernel.org>,
- =?UTF-8?q?Javier=20Gonz=C3=A1lez?= <javier@javigon.com>,
- linux-nvme@lists.infradead.org,
- =?UTF-8?q?Javier=20Gonz=C3=A1lez?= <javier@cnexlabs.com>,
- =?UTF-8?q?Matias=20Bj=C3=B8rling?= <mb@lightnvm.io>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ Sagi Grimberg <sagi@grimberg.me>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-RnJvbTogSmF2aWVyIEdvbnrDoWxleiA8amF2aWVyQGphdmlnb24uY29tPgoKWyBVcHN0cmVhbSBj
-b21taXQgNmZkMDVjYWQ1ZWUxMjkwYjI3NmRkOGVkOTBhMWUwMTliMWZhNTc3YSBdCgoxLjIgZGV2
-aWNlcyBleHBvc2VzIHRoZWlyIGRhdGEgYW5kIG1ldGFkYXRhIHNpemUgdGhyb3VnaCB0aGUgc2Vw
-YXJhdGUKaWRlbnRpZnkgY29tbWFuZC4gTWFrZSBzdXJlIHRoYXQgdGhlIE5WTWUgTEJBIGZvcm1h
-dCBkb2VzIG5vdCBvdmVycmlkZQp0aGVzZSB2YWx1ZXMuCgpTaWduZWQtb2ZmLWJ5OiBKYXZpZXIg
-R29uesOhbGV6IDxqYXZpZXJAY25leGxhYnMuY29tPgpTaWduZWQtb2ZmLWJ5OiBNYXRpYXMgQmrD
-uHJsaW5nIDxtYkBsaWdodG52bS5pbz4KU2lnbmVkLW9mZi1ieTogSmVucyBBeGJvZSA8YXhib2VA
-a2VybmVsLmRrPgpTaWduZWQtb2ZmLWJ5OiBTYXNoYSBMZXZpbiA8c2FzaGFsQGtlcm5lbC5vcmc+
-Ci0tLQogZHJpdmVycy9udm1lL2hvc3QvbGlnaHRudm0uYyB8IDMgKysrCiAxIGZpbGUgY2hhbmdl
-ZCwgMyBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9udm1lL2hvc3QvbGlnaHRu
-dm0uYyBiL2RyaXZlcnMvbnZtZS9ob3N0L2xpZ2h0bnZtLmMKaW5kZXggNmZlNTkyM2M5NWQ0YS4u
-YTY5NTUzZTc1ZjM4ZSAxMDA2NDQKLS0tIGEvZHJpdmVycy9udm1lL2hvc3QvbGlnaHRudm0uYwor
-KysgYi9kcml2ZXJzL252bWUvaG9zdC9saWdodG52bS5jCkBAIC05NjgsNiArOTY4LDkgQEAgdm9p
-ZCBudm1lX252bV91cGRhdGVfbnZtX2luZm8oc3RydWN0IG52bWVfbnMgKm5zKQogCXN0cnVjdCBu
-dm1fZGV2ICpuZGV2ID0gbnMtPm5kZXY7CiAJc3RydWN0IG52bV9nZW8gKmdlbyA9ICZuZGV2LT5n
-ZW87CiAKKwlpZiAoZ2VvLT52ZXJzaW9uID09IE5WTV9PQ1NTRF9TUEVDXzEyKQorCQlyZXR1cm47
-CisKIAlnZW8tPmNzZWNzID0gMSA8PCBucy0+bGJhX3NoaWZ0OwogCWdlby0+c29zID0gbnMtPm1z
-OwogfQotLSAKMi4yMC4xCgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18KTGludXgtbnZtZSBtYWlsaW5nIGxpc3QKTGludXgtbnZtZUBsaXN0cy5pbmZyYWRl
-YWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgt
-bnZtZQo=
+On Tue, Nov 12, 2019 at 09:20:27PM +0000, Long Li wrote:
+> >Subject: Re: [PATCH 2/2] nvme-pci: poll IO after batch submission for multi-
+> >mapping queue
+> >
+> >On Tue, Nov 12, 2019 at 12:33:50AM +0000, Long Li wrote:
+> >> >From: Christoph Hellwig <hch@lst.de>
+> >> >Sent: Monday, November 11, 2019 12:45 PM
+> >> >To: Ming Lei <ming.lei@redhat.com>
+> >> >Cc: linux-nvme@lists.infradead.org; Keith Busch <kbusch@kernel.org>;
+> >> >Jens Axboe <axboe@fb.com>; Christoph Hellwig <hch@lst.de>; Sagi
+> >> >Grimberg <sagi@grimberg.me>; Long Li <longli@microsoft.com>
+> >> >Subject: Re: [PATCH 2/2] nvme-pci: poll IO after batch submission for
+> >> >multi- mapping queue
+> >> >
+> >> >On Fri, Nov 08, 2019 at 11:55:08AM +0800, Ming Lei wrote:
+> >> >> f9dde187fa92("nvme-pci: remove cq check after submission") removes
+> >> >> cq check after submission, this change actually causes performance
+> >> >> regression on some NVMe drive in which single nvmeq handles
+> >> >> requests originated from more than one blk-mq sw queues(call it
+> >> >> multi-mapping queue).
+> >> >
+> >> >> Follows test result done on Azure L80sv2 guest with NVMe drive(
+> >> >> Microsoft Corporation Device b111). This guest has 80 CPUs and 10
+> >> >> numa nodes, and each NVMe drive supports 8 hw queues.
+> >> >
+> >> >Have you actually seen this on a real nvme drive as well?
+> >> >
+> >> >Note that it is kinda silly to limit queues like that in VMs, so I
+> >> >really don't think we should optimize the driver for this particular case.
+> >>
+> >> I tested on an Azure L80s_v2 VM with newer Samsung P983 NVMe SSD
+> >(with 32 hardware queues). Tests also showed soft lockup when 32 queues
+> >are shared by 80 CPUs.
+> >>
+> >
+> >BTW, do you see if this simple change makes a difference?
+> 
+> Yes, I can confirm the patch fixed lockup on this VM configuration.  There is also no performance regression.
+
+Long, thanks for your update.
+
+As I explained in last email[1], Azure's single job IO performance issue
+& soft lockup is very specific to Hyper-V's NVMe implementation, which
+actually applies aggressive interrupt coalescing.
+
+Guys, I'd suggest to fix it via checking cq after submission for Azure first,
+which can be implemented as a quirk.
+
+We still need to understand the real reason for other NVMe soft lockup
+reports, so far I just saw such report, not get chance to investigate it.
+
+
+[1] http://lists.infradead.org/pipermail/linux-nvme/2019-November/027948.html
+
+
+Thanks,
+Ming
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
