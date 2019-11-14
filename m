@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-8.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2A78C432C3
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Nov 2019 19:06:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACFAFC432C3
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Nov 2019 19:14:48 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 996E12071B
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Nov 2019 19:06:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8794C20718
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Nov 2019 19:14:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="idpVauHi";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="upBAr43+"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 996E12071B
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="TBJHpCod";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KnibOcAE"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8794C20718
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,67 +26,68 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=loGEbNpIbuvkeCVx+pERz46952BcfHCCoEnCNoR5JE8=; b=idpVauHiCSQvXV
-	L8vdzIjXJDSZpa5r+YrJobwJ9VZwS7y50BvGRepjDEvsBvetrM7AwL32skhj4XmwYGplZMF7cZswj
-	HvovvYhvsp4D5XUIgjrC4LZ+XJJzgEJyliC4vFwJqM/hC5fv3wQi0sSBrUtudwnmy8ORcMoDyQjwl
-	xZ4X1gvl2DEk7B1GFrYBQRALW4vaUHqtATn0afBDtXXSAnzBaBX6oVvJpeueQe6Gqlse5UFeFXe8O
-	8lWy10XBHHs8OJ2LnFgG9OkbCqf5wGQE7m9Srr+FIh/uT0DV41IRyzAv04jkYedEJAQVTJ5kMcN2I
-	JAZ01iv2CeOt7wDe9Vug==;
+	List-Owner; bh=0aV69oBjxM6xDQI2Ng6q5ZF+jKH0gfZGOXwQ8fo6VYs=; b=TBJHpCod6lcqSg
+	IEeVNcFti7FuIkW1ffzA98hxE4ATj8jaSW1lZXEcACBgxZOd9L/rz+ETIZf/yTQkDyS8FcDMUCT55
+	zSB7djR3oSao6wIM3F9YWBgJzpE4iBHUbTE20VvgnhxJPoK7lI8BTeki12JOLZvaYzRJVNp59dqBS
+	qvlTf84HMN9PHJDUUJw+TFBo/9LtVyGHj3FdNz2GH0qZKopqsnK2XUrRiE1LGHa1nblKkC2iBkcbT
+	ik0LudnivIuF81G4lzrOklyliS6LXqr2t+ocQILVcC+CRL3XhGIuGhXgT0sgMXlBmSCnhKsAViWP6
+	qI/6rxAc2brPopCEWA8w==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iVKRi-0007P2-NU; Thu, 14 Nov 2019 19:06:22 +0000
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442])
+	id 1iVKZq-0002Gl-HM; Thu, 14 Nov 2019 19:14:46 +0000
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iVKRf-0007OM-Ct
- for linux-nvme@lists.infradead.org; Thu, 14 Nov 2019 19:06:21 +0000
-Received: by mail-pf1-x442.google.com with SMTP id q13so4922539pff.2
- for <linux-nvme@lists.infradead.org>; Thu, 14 Nov 2019 11:06:19 -0800 (PST)
+ id 1iVKZm-0002Dq-RR
+ for linux-nvme@lists.infradead.org; Thu, 14 Nov 2019 19:14:44 +0000
+Received: by mail-pl1-x642.google.com with SMTP id s10so3080078plp.2
+ for <linux-nvme@lists.infradead.org>; Thu, 14 Nov 2019 11:14:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=HRWqEoTSch+XEG0ppLarZ0QbVwRNfsUYs9OZK1M4DK8=;
- b=upBAr43+LtNCNYfUjWzE6AKZHfA9ggnQAU73m3/yQK03sb+Zrs/mc8IqprMlsYeYda
- hlEbZdgj185YaYS3Exh9AYBwIe/kHcBu2Ci2cHqcZwdZMsTPTTr2AXuDojeFFni36Cm8
- tbmN/2AJAaI8uEXfnHJmGI776G6X+LqEVz/6YT/t45/8m2qXNIqdI1rebyLeVa7Nn3OK
- FxZFAcOQsGzNjBfCrTq0Dz+/WX/sVbvhGxric9YacCNM7qJY/+MEZAJIg0/nI6/JhFSd
- hz7HdZJZG87mLGpNxVdGRgklWjOZ9bXMtefDvGzemLvDLphynx9eKRPyouVCr53wVjy6
- RhnA==
+ :user-agent; bh=eEgMwv4stYpP/dtbh27yGsGdSdg4kPUVFwkU2s2SmcI=;
+ b=KnibOcAELnyreaUyZfu9T1C9xnp2J1iyoVIYgNWPG3CLCVSbZa7E/MAMt/2Tz7b7Yn
+ xgOpwnWKVcWQloaaoTXlJSm1XxIQhu6v5dctuwdxNRPiqeBc32d9EWP77LhQcOd097uU
+ 0v2EeQeCV5996gmoKk4tW+5FSDiqJPdUmLFYkOK+gdULVj7UFWvR7rwp920D9GS5JCud
+ EBeajhvChHcJRwaHTeTReuJ1BUKTTEMv6dp0t8ALsm/KK8dluDOtL5HoDxXVSlJDh512
+ YIvEEdCOGiT386GCg6NUkfJXNJTzZIL4vSVCeJZ57eeeGLXfmJAQq1TetbynTP3ixpiN
+ CQsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
  :references:mime-version:content-disposition
  :content-transfer-encoding:in-reply-to:user-agent;
- bh=HRWqEoTSch+XEG0ppLarZ0QbVwRNfsUYs9OZK1M4DK8=;
- b=goWfpMm5AI5CDS/yr4KMmJbZmoEhCmep4IkZEyiWWS9Ia4d8PymZztiqkhSUgNSY00
- ghqKEwhcPeacelYyOJm/eM4kpl+7Mx9IuyfxUkg+EsWG5jdTMj09T4mPLR1I0cu6xul3
- yWR6ZCMIIxfTk8c3UDgC40lE6jI9iqCuPgsCB++756cNxXaZSMJEbs5bnlao3a0vd9n8
- flZpAKM/5SplzZ0IGEhfQ5C/w4HhubWs9yq1zQUWDOa84dCiJGjyilB+8fUcExpWjIyJ
- mxkbQP4BxMCwgXRyseTj5ooFWmPfdertweSaHUmY/QIk2nudFsyncyCwxbikEPfA9tJy
- EbqA==
-X-Gm-Message-State: APjAAAUVGI8ffSLPonhgkktE4gVbH62OPJTkjL8z4no/oexDn3kdysue
- TIKrrS0DmlIL2PvFAt6AU7E=
-X-Google-Smtp-Source: APXvYqzYild/yZAw3Z7GXRsGBL+J0VP2T27fFN1s1qW1+VcFhZO4Lt5SZi156nO7BoW7eeSZJZowpA==
-X-Received: by 2002:a62:14d0:: with SMTP id 199mr12643666pfu.147.1573758378849; 
- Thu, 14 Nov 2019 11:06:18 -0800 (PST)
+ bh=eEgMwv4stYpP/dtbh27yGsGdSdg4kPUVFwkU2s2SmcI=;
+ b=bYVo3vQD7+Vzmp456BHrhJ0Dk2TOMl8uh58t1EFSYqZDDKdNwIl09uUKDnxZ9LOjNs
+ OAoejd/wAZ3XgTwnm8ACzcdbr9YFJQfzdDOgPZMtu6TAm53gc/IRA7oTxs/qwiYQkLzR
+ gdNm2KvF/BZ3i7v9b2o6iUlMaO+CzPvmBD8xWiHGfn3q8ps98CfygTg98l8wnQ4H9Gka
+ o5LEoAfG35MSb4MYaq5XVxw2CTG00/+KioXbFIEt3eXUDEh9RG3bb3+GbwZbKVvRTgUX
+ 3prEyxrVNGIW7Fq3A9O/vMahgew0cNCxn+l1PG+wEn34l3IeD6fCsUXRd/rbMRA3aKr+
+ 37tg==
+X-Gm-Message-State: APjAAAWe/OWSBtcwUezSkKGixJVx/OdQrg+FkqUCJYUq+SrxVXrK9716
+ 13j8X6Y5X4rjHX/eJttK11pZYSIP
+X-Google-Smtp-Source: APXvYqxEwalysafupc/hxFAIWDdIp3t9KjjysJERhvel2CwWU6Z1VmwPIoL2g0i21O0jO8EIbjZoCg==
+X-Received: by 2002:a17:902:b218:: with SMTP id
+ t24mr11247613plr.267.1573758882326; 
+ Thu, 14 Nov 2019 11:14:42 -0800 (PST)
 Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id t8sm6472370pji.11.2019.11.14.11.06.17
+ by smtp.gmail.com with ESMTPSA id v14sm5375539pja.22.2019.11.14.11.14.41
  (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 14 Nov 2019 11:06:17 -0800 (PST)
-Date: Thu, 14 Nov 2019 11:06:17 -0800
+ Thu, 14 Nov 2019 11:14:41 -0800 (PST)
+Date: Thu, 14 Nov 2019 11:14:40 -0800
 From: Guenter Roeck <linux@roeck-us.net>
 To: Akinobu Mita <akinobu.mita@gmail.com>
-Subject: Re: [PATCH v2 1/2] nvme: hwmon: provide temperature min and max
- values for each sensor
-Message-ID: <20191114190617.GA11288@roeck-us.net>
+Subject: Re: [PATCH v2 2/2] nvme: hwmon: add quirk to avoid changing
+ temperature threshold
+Message-ID: <20191114191440.GB11288@roeck-us.net>
 References: <1573746001-20979-1-git-send-email-akinobu.mita@gmail.com>
- <1573746001-20979-2-git-send-email-akinobu.mita@gmail.com>
+ <1573746001-20979-3-git-send-email-akinobu.mita@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1573746001-20979-2-git-send-email-akinobu.mita@gmail.com>
+In-Reply-To: <1573746001-20979-3-git-send-email-akinobu.mita@gmail.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191114_110619_440824_F59F86BC 
-X-CRM114-Status: GOOD (  26.59  )
+X-CRM114-CacheID: sfid-20191114_111442_914290_82A37FC1 
+X-CRM114-Status: GOOD (  28.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,48 +108,29 @@ Content-Transfer-Encoding: quoted-printable
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Nov 15, 2019 at 12:40:00AM +0900, Akinobu Mita wrote:
-> According to the NVMe specification, the over temperature threshold and
-> under temperature threshold features shall be implemented for Composite
-> Temperature if a non-zero WCTEMP field value is reported in the Identify
-> Controller data structure.  The features are also implemented for all
-> implemented temperature sensors (i.e., all Temperature Sensor fields that
-> report a non-zero value).
+On Fri, Nov 15, 2019 at 12:40:01AM +0900, Akinobu Mita wrote:
+> This adds a new quirk NVME_QUIRK_NO_TEMP_THRESH_CHANGE to avoid changing
+> the value of the temperature threshold feature for specific devices that
+> show undesirable behavior.
 > =
 
-> This provides the over temperature threshold and under temperature
-> threshold for each sensor as temperature min and max values of hwmon
-> sysfs attributes.
+> Guenter reported:
 > =
 
-> The WCTEMP is already provided as a temperature max value for Composite
-> Temperature, but this change isn't incompatible.  Because the default
-> value of the over temperature threshold for Composite Temperature is
-> the WCTEMP.
+> "On my Intel NVME drive (SSDPEKKW512G7), writing any minimum limit on the
+> Composite temperature sensor results in a temperature warning, and that
+> warning is sticky until I reset the controller.
 > =
 
-> Now the alarm attribute for Composite Temperature indicates one of the
-> temperature is outside of a temperature threshold.  Because there is only
-> a single bit in Critical Warning field that indicates a temperature is
-> outside of a threshold.
+> It doesn't seem to matter which temperature I write; writing -273000 has
+> the same result."
 > =
 
-> Example output from the "sensors" command:
+> The Intel NVMe has the latest firmware version installed, so this isn't
+> a problem that was ever fixed.
 > =
 
-> nvme-pci-0100
-> Adapter: PCI adapter
-> Composite:    +33.9=B0C  (low  =3D -273.1=B0C, high =3D +69.8=B0C)
->                        (crit =3D +79.8=B0C)
-> Sensor 1:     +34.9=B0C  (low  =3D -273.1=B0C, high =3D +65261.8=B0C)
-> Sensor 2:     +31.9=B0C  (low  =3D -273.1=B0C, high =3D +65261.8=B0C)
-> Sensor 5:     +47.9=B0C  (low  =3D -273.1=B0C, high =3D +65261.8=B0C)
-> =
-
-> This also adds helper macros for kelvin from/to milli Celsius conversion,
-> and replaces the repeated code in nvme-hwmon.c.
-> =
-
+> Reported-by: Guenter Roeck <linux@roeck-us.net>
 > Cc: Keith Busch <kbusch@kernel.org>
 > Cc: Jens Axboe <axboe@fb.com>
 > Cc: Christoph Hellwig <hch@lst.de>
@@ -160,220 +142,100 @@ On Fri, Nov 15, 2019 at 12:40:00AM +0900, Akinobu Mita wrote:
 Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 Tested-by: Guenter Roeck <linux@roeck-us.net>
 
-Tested with:
+Tested on:
 	INTEL SSDPEKKW512G7
-	Samsung SSD 970 EVO 500GB
-	THNSN5256GPU7 NVMe TOSHIBA 256GB
+
+Specifically verified that min/max attributes are indeed read-only
+on this drive.
+
+nvme-pci-0100
+Adapter: PCI adapter
+Composite:    +32.9=B0C  (low  =3D -273.1=B0C, high =3D +69.8=B0C)
+                       (crit =3D +79.8=B0C)
+
+groeck@jupiter:/sys/class/hwmon/hwmon0$ ls -l
+total 0
+lrwxrwxrwx 1 root root    0 Nov 14 10:59 device -> ../../../0000:01:00.0
+-r--r--r-- 1 root root 4096 Nov 14 10:59 name
+drwxr-xr-x 2 root root    0 Nov 14 10:59 power
+lrwxrwxrwx 1 root root    0 Nov 14 10:59 subsystem -> ../../../../../../cla=
+ss/hwmon
+-r--r--r-- 1 root root 4096 Nov 14 10:59 temp1_alarm
+-r--r--r-- 1 root root 4096 Nov 14 10:59 temp1_crit
+-r--r--r-- 1 root root 4096 Nov 14 10:59 temp1_input
+-r--r--r-- 1 root root 4096 Nov 14 10:59 temp1_label
+-r--r--r-- 1 root root 4096 Nov 14 10:59 temp1_max
+-r--r--r-- 1 root root 4096 Nov 14 10:59 temp1_min
+-rw-r--r-- 1 root root 4096 Nov 14 10:59 uevent
+
+groeck@jupiter:/sys/class/hwmon/hwmon0$ sudo nvme list
+Node             SN                   Model                                =
+    Namespace Usage                      Format           FW Rev  =
+
+---------------- -------------------- -------------------------------------=
+--- --------- -------------------------- ---------------- --------
+/dev/nvme0n1     BTPY65250EQN512F     INTEL SSDPEKKW512G7                  =
+    1         512.11  GB / 512.11  GB    512   B +  0 B    PSF121C
 
 > ---
->  drivers/nvme/host/nvme-hwmon.c | 106 ++++++++++++++++++++++++++++++++++-=
-------
->  include/linux/nvme.h           |   6 +++
->  2 files changed, 96 insertions(+), 16 deletions(-)
+>  drivers/nvme/host/nvme-hwmon.c | 6 +++++-
+>  drivers/nvme/host/nvme.h       | 5 +++++
+>  drivers/nvme/host/pci.c        | 3 ++-
+>  3 files changed, 12 insertions(+), 2 deletions(-)
 > =
 
 > diff --git a/drivers/nvme/host/nvme-hwmon.c b/drivers/nvme/host/nvme-hwmo=
 n.c
-> index 5480cbb..97a84b4 100644
+> index 97a84b4..a5af21f 100644
 > --- a/drivers/nvme/host/nvme-hwmon.c
 > +++ b/drivers/nvme/host/nvme-hwmon.c
-> @@ -9,12 +9,57 @@
->  =
-
->  #include "nvme.h"
->  =
-
-> +/* These macros should be moved to linux/temperature.h */
-> +#define MILLICELSIUS_TO_KELVIN(t) DIV_ROUND_CLOSEST((t) + 273150, 1000)
-> +#define KELVIN_TO_MILLICELSIUS(t) ((t) * 1000L - 273150)
-> +
->  struct nvme_hwmon_data {
->  	struct nvme_ctrl *ctrl;
->  	struct nvme_smart_log log;
->  	struct mutex read_lock;
->  };
->  =
-
-> +static int nvme_get_temp_thresh(struct nvme_ctrl *ctrl, int sensor, bool=
- under,
-> +				long *temp)
-> +{
-> +	unsigned int threshold =3D sensor << NVME_TEMP_THRESH_SELECT_SHIFT;
-> +	u32 status;
-> +	int ret;
-> +
-> +	if (under)
-> +		threshold |=3D NVME_TEMP_THRESH_TYPE_UNDER;
-> +
-> +	ret =3D nvme_get_features(ctrl, NVME_FEAT_TEMP_THRESH, threshold, NULL,=
- 0,
-> +				&status);
-> +	if (ret > 0)
-> +		return -EIO;
-> +	if (ret < 0)
-> +		return ret;
-> +	*temp =3D KELVIN_TO_MILLICELSIUS(status & NVME_TEMP_THRESH_MASK);
-> +
-> +	return 0;
-> +}
-> +
-> +static int nvme_set_temp_thresh(struct nvme_ctrl *ctrl, int sensor, bool=
- under,
-> +				long temp)
-> +{
-> +	unsigned int threshold =3D sensor << NVME_TEMP_THRESH_SELECT_SHIFT;
-> +	int ret;
-> +
-> +	temp =3D MILLICELSIUS_TO_KELVIN(temp);
-> +	threshold |=3D clamp_val(temp, 0, NVME_TEMP_THRESH_MASK);
-> +
-> +	if (under)
-> +		threshold |=3D NVME_TEMP_THRESH_TYPE_UNDER;
-> +
-> +	ret =3D nvme_set_features(ctrl, NVME_FEAT_TEMP_THRESH, threshold, NULL,=
- 0,
-> +				NULL);
-> +	if (ret > 0)
-> +		return -EIO;
-> +
-> +	return ret;
-> +}
-> +
->  static int nvme_hwmon_get_smart_log(struct nvme_hwmon_data *data)
->  {
->  	int ret;
-> @@ -39,10 +84,11 @@ static int nvme_hwmon_read(struct device *dev, enum h=
-wmon_sensor_types type,
->  	 */
->  	switch (attr) {
->  	case hwmon_temp_max:
-> -		*val =3D (data->ctrl->wctemp - 273) * 1000;
-> -		return 0;
-> +		return nvme_get_temp_thresh(data->ctrl, channel, false, val);
-> +	case hwmon_temp_min:
-> +		return nvme_get_temp_thresh(data->ctrl, channel, true, val);
->  	case hwmon_temp_crit:
-> -		*val =3D (data->ctrl->cctemp - 273) * 1000;
-> +		*val =3D KELVIN_TO_MILLICELSIUS(data->ctrl->cctemp);
->  		return 0;
->  	default:
->  		break;
-> @@ -59,7 +105,7 @@ static int nvme_hwmon_read(struct device *dev, enum hw=
-mon_sensor_types type,
->  			temp =3D get_unaligned_le16(log->temperature);
->  		else
->  			temp =3D le16_to_cpu(log->temp_sensor[channel - 1]);
-> -		*val =3D (temp - 273) * 1000;
-> +		*val =3D KELVIN_TO_MILLICELSIUS(temp);
->  		break;
->  	case hwmon_temp_alarm:
->  		*val =3D !!(log->critical_warning & NVME_SMART_CRIT_TEMPERATURE);
-> @@ -73,6 +119,23 @@ static int nvme_hwmon_read(struct device *dev, enum h=
-wmon_sensor_types type,
->  	return err;
->  }
->  =
-
-> +static int nvme_hwmon_write(struct device *dev, enum hwmon_sensor_types =
-type,
-> +			    u32 attr, int channel, long val)
-> +{
-> +	struct nvme_hwmon_data *data =3D dev_get_drvdata(dev);
-> +
-> +	switch (attr) {
-> +	case hwmon_temp_max:
-> +		return nvme_set_temp_thresh(data->ctrl, channel, false, val);
-> +	case hwmon_temp_min:
-> +		return nvme_set_temp_thresh(data->ctrl, channel, true, val);
-> +	default:
-> +		break;
-> +	}
-> +
-> +	return -EOPNOTSUPP;
-> +}
-> +
->  static const char * const nvme_hwmon_sensor_names[] =3D {
->  	"Composite",
->  	"Sensor 1",
-> @@ -105,8 +168,10 @@ static umode_t nvme_hwmon_is_visible(const void *_da=
+> @@ -170,8 +170,12 @@ static umode_t nvme_hwmon_is_visible(const void *_da=
 ta,
->  			return 0444;
->  		break;
 >  	case hwmon_temp_max:
-> -		if (!channel && data->ctrl->wctemp)
-> -			return 0444;
-> +	case hwmon_temp_min:
-> +		if ((!channel && data->ctrl->wctemp) ||
-> +		    (channel && data->log.temp_sensor[channel - 1]))
-> +			return 0644;
+>  	case hwmon_temp_min:
+>  		if ((!channel && data->ctrl->wctemp) ||
+> -		    (channel && data->log.temp_sensor[channel - 1]))
+> +		    (channel && data->log.temp_sensor[channel - 1])) {
+> +			if (data->ctrl->quirks &
+> +			    NVME_QUIRK_NO_TEMP_THRESH_CHANGE)
+> +				return 0444;
+>  			return 0644;
+> +		}
 >  		break;
 >  	case hwmon_temp_alarm:
 >  		if (!channel)
-> @@ -126,16 +191,24 @@ static umode_t nvme_hwmon_is_visible(const void *_d=
-ata,
->  static const struct hwmon_channel_info *nvme_hwmon_info[] =3D {
->  	HWMON_CHANNEL_INFO(chip, HWMON_C_REGISTER_TZ),
->  	HWMON_CHANNEL_INFO(temp,
-> -			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_CRIT |
-> -				HWMON_T_LABEL | HWMON_T_ALARM,
-> -			   HWMON_T_INPUT | HWMON_T_LABEL,
-> -			   HWMON_T_INPUT | HWMON_T_LABEL,
-> -			   HWMON_T_INPUT | HWMON_T_LABEL,
-> -			   HWMON_T_INPUT | HWMON_T_LABEL,
-> -			   HWMON_T_INPUT | HWMON_T_LABEL,
-> -			   HWMON_T_INPUT | HWMON_T_LABEL,
-> -			   HWMON_T_INPUT | HWMON_T_LABEL,
-> -			   HWMON_T_INPUT | HWMON_T_LABEL),
-> +			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MIN |
-> +				HWMON_T_CRIT | HWMON_T_LABEL | HWMON_T_ALARM,
-> +			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MIN |
-> +				HWMON_T_LABEL,
-> +			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MIN |
-> +				HWMON_T_LABEL,
-> +			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MIN |
-> +				HWMON_T_LABEL,
-> +			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MIN |
-> +				HWMON_T_LABEL,
-> +			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MIN |
-> +				HWMON_T_LABEL,
-> +			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MIN |
-> +				HWMON_T_LABEL,
-> +			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MIN |
-> +				HWMON_T_LABEL,
-> +			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MIN |
-> +				HWMON_T_LABEL),
->  	NULL
->  };
->  =
-
-> @@ -143,6 +216,7 @@ static const struct hwmon_ops nvme_hwmon_ops =3D {
->  	.is_visible	=3D nvme_hwmon_is_visible,
->  	.read		=3D nvme_hwmon_read,
->  	.read_string	=3D nvme_hwmon_read_string,
-> +	.write		=3D nvme_hwmon_write,
->  };
->  =
-
->  static const struct hwmon_chip_info nvme_hwmon_chip_info =3D {
-> diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-> index 269b2e8..347a44f 100644
-> --- a/include/linux/nvme.h
-> +++ b/include/linux/nvme.h
-> @@ -803,6 +803,12 @@ struct nvme_write_zeroes_cmd {
->  =
-
->  /* Features */
->  =
-
-> +enum {
-> +	NVME_TEMP_THRESH_MASK		=3D 0xffff,
-> +	NVME_TEMP_THRESH_SELECT_SHIFT	=3D 16,
-> +	NVME_TEMP_THRESH_TYPE_UNDER	=3D 0x100000,
-> +};
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index 000a3d9..19e5e87 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -115,6 +115,11 @@ enum nvme_quirks {
+>  	 * Prevent tag overlap between queues
+>  	 */
+>  	NVME_QUIRK_SHARED_TAGS                  =3D (1 << 13),
 > +
->  struct nvme_feat_auto_pst {
->  	__le64 entries[32];
+> +	/*
+> +	 * Don't change the value of the temperature threshold feature
+> +	 */
+> +	NVME_QUIRK_NO_TEMP_THRESH_CHANGE	=3D (1 << 14),
 >  };
+>  =
+
+>  /*
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 931d4a9..2c0206b 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -3529,7 +3529,8 @@ static const struct pci_device_id nvme_id_table[] =
+=3D {
+>  				NVME_QUIRK_DEALLOCATE_ZEROES, },
+>  	{ PCI_VDEVICE(INTEL, 0xf1a5),	/* Intel 600P/P3100 */
+>  		.driver_data =3D NVME_QUIRK_NO_DEEPEST_PS |
+> -				NVME_QUIRK_MEDIUM_PRIO_SQ },
+> +				NVME_QUIRK_MEDIUM_PRIO_SQ |
+> +				NVME_QUIRK_NO_TEMP_THRESH_CHANGE },
+>  	{ PCI_VDEVICE(INTEL, 0xf1a6),	/* Intel 760p/Pro 7600p */
+>  		.driver_data =3D NVME_QUIRK_IGNORE_DEV_SUBNQN, },
+>  	{ PCI_VDEVICE(INTEL, 0x5845),	/* Qemu emulated controller */
 > -- =
 
 > 2.7.4
