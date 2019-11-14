@@ -2,78 +2,91 @@ Return-Path: <SRS0=270x=ZG=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-8.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA7B2C432C3
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Nov 2019 15:55:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2A78C432C3
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Nov 2019 19:06:27 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8CA6C206F0
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Nov 2019 15:55:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 996E12071B
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Nov 2019 19:06:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Ga0TIsuJ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8CA6C206F0
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=onestopsystems.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="idpVauHi";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="upBAr43+"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 996E12071B
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:
-	References:Message-ID:Date:Subject:To:From:Reply-To:Cc:Content-Description:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ZKLNzJCNh4Rpf4aLzQ9QyQNZnlwgwucMkaFp5l2mzmA=; b=Ga0TIsuJi0ys7c
-	jWa2C65aWHQGm2vNl5k45HuFc8H58WMpOtVpsTJ+ex/8kssfrNjjhZa0C4NVwVDNJaG+WmBCgDyhY
-	WUPhi5Ao9m8oB7y3DXShV82ZtH0oYOUaA0olUXHyRLfXsZANRghKO/GC3E/nkJPCmm1qb5J8rE2Sz
-	ZPzYbfon66XrTRT2EfBhJ/4XC857g3P3S3YlrZMSCcg209t/pw+CVwX9Gwoo6lxUptG4XT82BtFOg
-	11XcJvAOV57Au3Zh/2tnQ0Il/71Aji8+N6zFjsYp8ScM8NZcVHYrsxChJTr5/BgfyZ2mrU4lZWrjl
-	BRl5a0yXId1uvkaTlEpQ==;
+	List-Owner; bh=loGEbNpIbuvkeCVx+pERz46952BcfHCCoEnCNoR5JE8=; b=idpVauHiCSQvXV
+	L8vdzIjXJDSZpa5r+YrJobwJ9VZwS7y50BvGRepjDEvsBvetrM7AwL32skhj4XmwYGplZMF7cZswj
+	HvovvYhvsp4D5XUIgjrC4LZ+XJJzgEJyliC4vFwJqM/hC5fv3wQi0sSBrUtudwnmy8ORcMoDyQjwl
+	xZ4X1gvl2DEk7B1GFrYBQRALW4vaUHqtATn0afBDtXXSAnzBaBX6oVvJpeueQe6Gqlse5UFeFXe8O
+	8lWy10XBHHs8OJ2LnFgG9OkbCqf5wGQE7m9Srr+FIh/uT0DV41IRyzAv04jkYedEJAQVTJ5kMcN2I
+	JAZ01iv2CeOt7wDe9Vug==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iVHTM-00048H-GS; Thu, 14 Nov 2019 15:55:52 +0000
-Received: from cox.onestopsystems.com ([98.187.250.34]
- helo=osserver.onestopsystems.com)
+	id 1iVKRi-0007P2-NU; Thu, 14 Nov 2019 19:06:22 +0000
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iVHTG-00047C-M9
- for linux-nvme@lists.infradead.org; Thu, 14 Nov 2019 15:55:51 +0000
-Received: from OSSERVER.OSS.local ([fe80::792d:7e8d:4995:9203]) by
- OSSERVER.OSS.local ([fe80::792d:7e8d:4995:9203%10]) with mapi id
- 14.03.0468.000; Thu, 14 Nov 2019 07:55:38 -0800
-From: Mark Ruijter <MRuijter@onestopsystems.com>
-To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>, Sagi Grimberg
- <sagi@grimberg.me>, James Smart <james.smart@broadcom.com>, Max Gurtovoy
- <maxg@mellanox.com>, "linux-nvme@lists.infradead.org"
- <linux-nvme@lists.infradead.org>
-Subject: Re: [PATCH] nvmet: make ctrl-id configurable
-Thread-Topic: [PATCH] nvmet: make ctrl-id configurable
-Thread-Index: AQHVknKB085Gn2d/PkqsHei3HhUGjqeLeeMA
-Date: Thu, 14 Nov 2019 15:55:38 +0000
-Message-ID: <91F68864-CBD0-43F9-B740-E10A0597A679@onestopsystems.com>
-References: <20191103181343.3011-1-chaitanya.kulkarni@wdc.com>
- <409804f3-158b-cc3e-9b04-6499bfe1638d@mellanox.com>
- <3381ACB3-3ACC-4124-8925-09CED68BA11E@onestopsystems.com>
- <b79e612f-4b49-a80f-bc34-e672ae98c1af@mellanox.com>
- <B500B4ED-DF25-41F3-83F8-6E239718564A@onestopsystems.com>
- <c8472575-1041-c44e-e26a-1201161c22c6@broadcom.com>
- <802cb171-34de-65cc-75c5-83ef7c200dc4@grimberg.me>
- <3D590371-4C4F-4355-B36E-7795FB218FC6@onestopsystems.com>
- <2f3ea2c4-f59a-22e3-ed09-91cf737818ea@grimberg.me>
- <BYAPR04MB5749590C4171F548680DEB7686760@BYAPR04MB5749.namprd04.prod.outlook.com>
-In-Reply-To: <BYAPR04MB5749590C4171F548680DEB7686760@BYAPR04MB5749.namprd04.prod.outlook.com>
-Accept-Language: nl-NL, en-US
-Content-Language: nl-NL
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Microsoft-MacOutlook/10.10.f.191014
-x-originating-ip: [89.220.153.177]
-Content-ID: <FE9DC4D8D39F2642BBA1B960E115CC50@onestopsystems.com>
+ id 1iVKRf-0007OM-Ct
+ for linux-nvme@lists.infradead.org; Thu, 14 Nov 2019 19:06:21 +0000
+Received: by mail-pf1-x442.google.com with SMTP id q13so4922539pff.2
+ for <linux-nvme@lists.infradead.org>; Thu, 14 Nov 2019 11:06:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent; bh=HRWqEoTSch+XEG0ppLarZ0QbVwRNfsUYs9OZK1M4DK8=;
+ b=upBAr43+LtNCNYfUjWzE6AKZHfA9ggnQAU73m3/yQK03sb+Zrs/mc8IqprMlsYeYda
+ hlEbZdgj185YaYS3Exh9AYBwIe/kHcBu2Ci2cHqcZwdZMsTPTTr2AXuDojeFFni36Cm8
+ tbmN/2AJAaI8uEXfnHJmGI776G6X+LqEVz/6YT/t45/8m2qXNIqdI1rebyLeVa7Nn3OK
+ FxZFAcOQsGzNjBfCrTq0Dz+/WX/sVbvhGxric9YacCNM7qJY/+MEZAJIg0/nI6/JhFSd
+ hz7HdZJZG87mLGpNxVdGRgklWjOZ9bXMtefDvGzemLvDLphynx9eKRPyouVCr53wVjy6
+ RhnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to:user-agent;
+ bh=HRWqEoTSch+XEG0ppLarZ0QbVwRNfsUYs9OZK1M4DK8=;
+ b=goWfpMm5AI5CDS/yr4KMmJbZmoEhCmep4IkZEyiWWS9Ia4d8PymZztiqkhSUgNSY00
+ ghqKEwhcPeacelYyOJm/eM4kpl+7Mx9IuyfxUkg+EsWG5jdTMj09T4mPLR1I0cu6xul3
+ yWR6ZCMIIxfTk8c3UDgC40lE6jI9iqCuPgsCB++756cNxXaZSMJEbs5bnlao3a0vd9n8
+ flZpAKM/5SplzZ0IGEhfQ5C/w4HhubWs9yq1zQUWDOa84dCiJGjyilB+8fUcExpWjIyJ
+ mxkbQP4BxMCwgXRyseTj5ooFWmPfdertweSaHUmY/QIk2nudFsyncyCwxbikEPfA9tJy
+ EbqA==
+X-Gm-Message-State: APjAAAUVGI8ffSLPonhgkktE4gVbH62OPJTkjL8z4no/oexDn3kdysue
+ TIKrrS0DmlIL2PvFAt6AU7E=
+X-Google-Smtp-Source: APXvYqzYild/yZAw3Z7GXRsGBL+J0VP2T27fFN1s1qW1+VcFhZO4Lt5SZi156nO7BoW7eeSZJZowpA==
+X-Received: by 2002:a62:14d0:: with SMTP id 199mr12643666pfu.147.1573758378849; 
+ Thu, 14 Nov 2019 11:06:18 -0800 (PST)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id t8sm6472370pji.11.2019.11.14.11.06.17
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Thu, 14 Nov 2019 11:06:17 -0800 (PST)
+Date: Thu, 14 Nov 2019 11:06:17 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Akinobu Mita <akinobu.mita@gmail.com>
+Subject: Re: [PATCH v2 1/2] nvme: hwmon: provide temperature min and max
+ values for each sensor
+Message-ID: <20191114190617.GA11288@roeck-us.net>
+References: <1573746001-20979-1-git-send-email-akinobu.mita@gmail.com>
+ <1573746001-20979-2-git-send-email-akinobu.mita@gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <1573746001-20979-2-git-send-email-akinobu.mita@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191114_075549_875763_2BD9CECA 
-X-CRM114-Status: GOOD (  15.12  )
+X-CRM114-CacheID: sfid-20191114_110619_440824_F59F86BC 
+X-CRM114-Status: GOOD (  26.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,123 +98,289 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ Jens Axboe <axboe@fb.com>, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-ICAgPj4gQWx0aG91Z2ggd2Ugc3RpbGwgaGF2ZSB0aGUgb3V0c3RhbmRpbmcgaXNzdWUgcG9pbnRl
-ZCBieSBNYXJrLg0KDQpBc3N1bWluZyB0aGF0IHRoZSByYW5nZSBtaW4vbWF4IGlzIGdyZWF0ZXIg
-b3IgZXF1YWwgdGhhbiB0aGUgbnVtYmVyDQpvZiB0YXJnZXQgcG9ydHMgeW91IHVzZSBmb3IgZXhw
-b3J0aW5nIHRoZSBzdWJzeXN0ZW0geW91IHdpbGwgbm90IHJ1biBpbnRvIHByb2JsZW1zLg0KDQog
-ICA+PiBTaW5jZSB3ZSBkZWZpbmUgY29udHJvbGxlciBpZCBhdCB0aGUgbGV2ZWwgb2Ygc3Vic3lz
-dGVtIGhhdmluZyBtaW4gYW5kDQogICA+PiBtYXggc3RpbGwgcmVzdWx0IGluIHRoZSBlcnJvciB3
-aGVuIHdlIGFyZSB0cnlpbmcgdG8gZXhwb3J0IHNhbWUNCiAgID4+IHN1YnN5cyB3aXRoIHR3byBk
-aWZmZXJlbnQgcG9ydHMuDQpUaGF0IGlzIG5vIGxvbmdlciB0aGUgY2FzZSB3aGVuIGNudGxpZF9t
-YXggLSBjbnRsaWRfbWluID49IG51bWJlciBvZiBleHBvcnRzLg0KVGhlIGZpcnN0IHBhdGNoIHdl
-IGNyZWF0ZWQgaGFyZCB3aXJlZCB0aGUgY250bGlkLCB3aGljaCB3YXMgYSBwcm9ibGVtLg0KDQpX
-aGVuIHlvdSBzZXQgY250bGlkX21heCB0byBjbnRsaWRfbWluICsgdGhlIChleHBlY3RlZCkgbnVt
-YmVyIG9mIHRhcmdldCBwb3J0cyBpbiB0aGUgc3lzdGVtIHlvdSBzaG91bGQgYWx3YXlzIGJlIGZp
-bmUuIA0KSW4gYSBjbHVzdGVyIHRoZSBwb3J0X2lkIGNhbiBiZSBpZGVudGljYWwgd2VsbCBzbyBh
-ZGRpbmcgdGhhdCBkb2VzIG5vdCBtYWtlIG11Y2ggc2Vuc2UgZWl0aGVyLg0KDQpBcyBJIHNlZSBp
-dCwgdGhpcyBwYXRjaCBpcyBzdWZmaWNpZW50Og0KRWl0aGVyIHlvdSBkb24ndCBkbyBhbnl0aGlu
-ZywgaW4gd2hpY2ggY2FzZSB0aGluZ3Mgd29yayBsaWtlIGJlZm9yZS4gVGhlIGNudGxpZCBpcyBh
-dXRvbWF0aWNhbGx5IGFzc2lnbmVkLg0KT3IgeW91IGNhbiBjb25maWd1cmUgdGhlIGNudGxpZC4g
-U2hvdWxkIHlvdSBtYWtlIGEgbWlzdGFrZSB0aGUgaW5pdGlhdG9yIHdpbGwgc2ltcGx5IHJlZnVz
-ZSB0byBjb25uZWN0Lg0KVGhlIGluaXRpYXRvciB3aWxsIGFsc28gY2xlYXJseSBsb2cgdGhlIHBy
-b2JsZW0uDQpJbiB0aGF0IGNhc2Ugbm8gcmVhbCBoYXJtIGlzIGRvbmUgYW5kIHlvdSBjYW4gc2lt
-cGx5IGNoYW5nZSB0aGUgdGFyZ2V0IGNvbmZpZ3VyYXRpb24gdG8gbWFrZSBpdCB3b3JrLg0KDQpN
-YXJrDQoNCg0K77u/T3AgMTQtMTEtMTkgMDA6NDAgaGVlZnQgQ2hhaXRhbnlhIEt1bGthcm5pIDxD
-aGFpdGFueWEuS3Vsa2FybmlAd2RjLmNvbT4gZ2VzY2hyZXZlbjoNCg0KICAgIE9uIDExLzEyLzIw
-MTkgMTE6MDEgQU0sIFNhZ2kgR3JpbWJlcmcgd3JvdGU6DQogICAgPj4gPnJvb3RAcjExaTE6fiMg
-bnZtZSBsaXN0LXN1YnN5cw0KICAgID4+ID5udm1lLXN1YnN5czAgLSBOUU49Y2x2b2wNCiAgICA+
-PiA+XA0KICAgID4+ID4gICArLSBudm1lMCB0Y3AgdHJhZGRyPTE5Mi4xNjguMS4xMCB0cnN2Y2lk
-PTQ0MjANCiAgICA+PiA+ICAgKy0gbnZtZTEgdGNwIHRyYWRkcj0xOTIuMTY4LjEuMTEgdHJzdmNp
-ZD00NDIwDQogICAgPj4gPg0KICAgID4+ID5Eb2VzIHRoaXMgYWxsIG1ha2Ugc2Vuc2U/DQogICAg
-PiBJIHRoaW5rIHdlIG5lZWQgYSBjbnRsaWRfbWF4IHRvIG1ha2Ugc3VyZSB3ZSBkb24ndCBoYXZl
-IGNvbGxpc2lvbnMuLg0KICAgID4NCiAgICBIb3cgYWJvdXQgZm9sbG93aW5nIHBhdGNoIHdoaWNo
-IHVzZWQgY250bF9taW4gYW5kIGNudGxfbWF4ID8NCiAgICANCiAgICAoY29tcGlsZSBvbmx5KQ0K
-ICAgIA0KICAgICtzdGF0aWMgYm9vbCBudm1ldF9zdWJzeXNfY250bGlkX3N0b3JlKHN0cnVjdCBu
-dm1ldF9zdWJzeXMgKnMsIGNvbnN0IA0KICAgIGNoYXIgKnBhZ2UsDQogICAgKyAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICBib29sIG1pbikNCiAgICArew0KICAgICsgICAgICAg
-Ym9vbCByZXQgPSB0cnVlOw0KICAgICsgICAgICAgdTE2IGNpZDsNCiAgICArDQogICAgKyAgICAg
-ICBkb3duX3dyaXRlKCZudm1ldF9jb25maWdfc2VtKTsNCiAgICArICAgICAgIHNzY2FuZihwYWdl
-LCAiJWh1XG4iLCAmY2lkKTsNCiAgICArICAgICAgIGlmIChjaWQgPCAgTlZNRV9DTlRMSURfTUlO
-IHx8IGNpZCA+IE5WTUVfQ05UTElEX01BWCkgew0KICAgICsgICAgICAgICAgICAgICByZXQgPSBm
-YWxzZTsNCiAgICArICAgICAgICAgICAgICAgZ290byBvdXQ7DQogICAgKyAgICAgICB9DQogICAg
-Kw0KICAgICsgICAgICAgaWYgKG1pbikNCiAgICArICAgICAgICAgICAgICAgcy0+Y250bGlkX21p
-biA9IGNpZDsNCiAgICArICAgICAgIGVsc2UNCiAgICArICAgICAgICAgICAgICAgcy0+Y250bGlk
-X21heCA9IGNpZDsNCiAgICArb3V0Og0KICAgICsgICAgICAgdXBfd3JpdGUoJm52bWV0X2NvbmZp
-Z19zZW0pOw0KICAgICsNCiAgICArICAgICAgIHJldHVybiByZXQ7DQogICAgK30NCiAgICArDQog
-ICAgK3N0YXRpYyBib29sIG52bWV0X3N1YnN5c19jbnRsaWRfc2hvdyhzdHJ1Y3QgbnZtZXRfc3Vi
-c3lzICpzLCBjaGFyICpwYWdlLA0KICAgICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICBib29sIG1pbikNCiAgICArew0KICAgICsgICAgICAgdTE2IGNpZCA9IG1pbiA/IHMtPmNu
-dGxpZF9taW4gOiBzLT5jbnRsaWRfbWF4Ow0KICAgICsNCiAgICArICAgICAgIHJldHVybiBzbnBy
-aW50ZihwYWdlLCBQQUdFX1NJWkUsICIldVxuIiwgY2lkKTsNCiAgICArfQ0KICAgICsNCiAgICAr
-c3RhdGljIHNzaXplX3QgbnZtZXRfc3Vic3lzX2NudGxpZF9taW5fc2hvdyhzdHJ1Y3QgY29uZmln
-X2l0ZW0gKml0ZW0sDQogICAgKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICBjaGFyICpwYWdlKQ0KICAgICt7DQogICAgKyAgICAgICByZXR1cm4gbnZtZXRfc3Vic3lz
-X2NudGxpZF9zaG93KHRvX3N1YnN5cyhpdGVtKSwgcGFnZSwgdHJ1ZSk7DQogICAgK30NCiAgICAr
-DQogICAgK3N0YXRpYyBzc2l6ZV90IG52bWV0X3N1YnN5c19jbnRsaWRfbWluX3N0b3JlKHN0cnVj
-dCBjb25maWdfaXRlbSAqaXRlbSwNCiAgICArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICBjb25zdCBjaGFyICpwYWdlLCBzaXplX3QgY291bnQpDQogICAgK3sNCiAg
-ICArICAgICAgIHN0cnVjdCBudm1ldF9zdWJzeXMgKnMgPSB0b19zdWJzeXMoaXRlbSk7DQogICAg
-Kw0KICAgICsgICAgICAgcmV0dXJuIG52bWV0X3N1YnN5c19jbnRsaWRfc3RvcmUocywgcGFnZSwg
-dHJ1ZSkgPyBjb3VudCA6IC1FSU5WQUw7DQogICAgK30NCiAgICArQ09ORklHRlNfQVRUUihudm1l
-dF9zdWJzeXNfLCBjbnRsaWRfbWluKTsNCiAgICArDQogICAgK3N0YXRpYyBzc2l6ZV90IG52bWV0
-X3N1YnN5c19jbnRsaWRfbWF4X3Nob3coc3RydWN0IGNvbmZpZ19pdGVtICppdGVtLA0KICAgICsg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgY2hhciAqcGFnZSkNCiAg
-ICArew0KICAgICsgICAgICAgcmV0dXJuIG52bWV0X3N1YnN5c19jbnRsaWRfc2hvdyh0b19zdWJz
-eXMoaXRlbSksIHBhZ2UsIGZhbHNlKTsNCiAgICArfQ0KICAgICsNCiAgICArc3RhdGljIHNzaXpl
-X3QgbnZtZXRfc3Vic3lzX2NudGxpZF9tYXhfc3RvcmUoc3RydWN0IGNvbmZpZ19pdGVtICppdGVt
-LA0KICAgICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGNvbnN0
-IGNoYXIgKnBhZ2UsIHNpemVfdCBjb3VudCkNCiAgICArew0KICAgICsgICAgICAgc3RydWN0IG52
-bWV0X3N1YnN5cyAqcyA9IHRvX3N1YnN5cyhpdGVtKTsNCiAgICArDQogICAgKyAgICAgICByZXR1
-cm4gbnZtZXRfc3Vic3lzX2NudGxpZF9zdG9yZShzLCBwYWdlLCBmYWxzZSkgPyBjb3VudCA6IC1F
-SU5WQUw7DQogICAgK30NCiAgICArQ09ORklHRlNfQVRUUihudm1ldF9zdWJzeXNfLCBjbnRsaWRf
-bWF4KTsNCiAgICArDQogICAgICBzdGF0aWMgc3RydWN0IGNvbmZpZ2ZzX2F0dHJpYnV0ZSAqbnZt
-ZXRfc3Vic3lzX2F0dHJzW10gPSB7DQogICAgICAgICAgICAgJm52bWV0X3N1YnN5c19hdHRyX2F0
-dHJfYWxsb3dfYW55X2hvc3QsDQogICAgICAgICAgICAgJm52bWV0X3N1YnN5c19hdHRyX2F0dHJf
-dmVyc2lvbiwNCiAgICAgICAgICAgICAmbnZtZXRfc3Vic3lzX2F0dHJfYXR0cl9zZXJpYWwsDQog
-ICAgKyAgICAgICAmbnZtZXRfc3Vic3lzX2F0dHJfY250bGlkX21pbiwNCiAgICArICAgICAgICZu
-dm1ldF9zdWJzeXNfYXR0cl9jbnRsaWRfbWF4LA0KICAgICAgICAgICAgIE5VTEwsDQogICAgICB9
-Ow0KICAgIA0KICAgIGRpZmYgLS1naXQgYS9kcml2ZXJzL252bWUvdGFyZ2V0L2NvcmUuYyBiL2Ry
-aXZlcnMvbnZtZS90YXJnZXQvY29yZS5jDQogICAgaW5kZXggMjg0MzhiODMzYzFiLi5kNWE1YWYz
-ZjIxYjYgMTAwNjQ0DQogICAgLS0tIGEvZHJpdmVycy9udm1lL3RhcmdldC9jb3JlLmMNCiAgICAr
-KysgYi9kcml2ZXJzL252bWUvdGFyZ2V0L2NvcmUuYw0KICAgIEBAIC0xMjY4LDcgKzEyNjgsNyBA
-QCB1MTYgbnZtZXRfYWxsb2NfY3RybChjb25zdCBjaGFyICpzdWJzeXNucW4sIGNvbnN0IA0KICAg
-IGNoYXIgKmhvc3RucW4sDQogICAgICAgICAgICAgICAgICAgICBnb3RvIG91dF9mcmVlX2NxczsN
-CiAgICANCiAgICAgICAgICAgICByZXQgPSBpZGFfc2ltcGxlX2dldCgmY250bGlkX2lkYSwNCiAg
-ICAtICAgICAgICAgICAgICAgICAgICAgICAgICAgIE5WTUVfQ05UTElEX01JTiwgTlZNRV9DTlRM
-SURfTUFYLA0KICAgICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgc3Vic3lzLT5jbnRsaWRf
-bWluLCBzdWJzeXMtPmNudGxpZF9taW4sDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgR0ZQX0tFUk5FTCk7DQogICAgICAgICAgICAgaWYgKHJldCA8IDApIHsNCiAgICAgICAgICAg
-ICAgICAgICAgIHN0YXR1cyA9IE5WTUVfU0NfQ09OTkVDVF9DVFJMX0JVU1kgfCBOVk1FX1NDX0RO
-UjsNCiAgICBAQCAtMTQxNiw3ICsxNDE2LDggQEAgc3RydWN0IG52bWV0X3N1YnN5cyAqbnZtZXRf
-c3Vic3lzX2FsbG9jKGNvbnN0IGNoYXIgDQogICAgKnN1YnN5c25xbiwNCiAgICAgICAgICAgICAg
-ICAgICAgIGtmcmVlKHN1YnN5cyk7DQogICAgICAgICAgICAgICAgICAgICByZXR1cm4gRVJSX1BU
-UigtRU5PTUVNKTsNCiAgICAgICAgICAgICB9DQogICAgLQ0KICAgICsgICAgICAgc3Vic3lzLT5j
-bnRsaWRfbWluID0gTlZNRV9DTlRMSURfTUlOOw0KICAgICsgICAgICAgc3Vic3lzLT5jbnRsaWRf
-bWF4ID0gTlZNRV9DTlRMSURfTUFYOw0KICAgICAgICAgICAgIGtyZWZfaW5pdCgmc3Vic3lzLT5y
-ZWYpOw0KICAgIA0KICAgICAgICAgICAgIG11dGV4X2luaXQoJnN1YnN5cy0+bG9jayk7DQogICAg
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvbnZtZS90YXJnZXQvbnZtZXQuaCBiL2RyaXZlcnMvbnZtZS90
-YXJnZXQvbnZtZXQuaA0KICAgIGluZGV4IDQ2ZGY0NWU4MzdjOS4uZWNiZDE2ZjUyOTczIDEwMDY0
-NA0KICAgIC0tLSBhL2RyaXZlcnMvbnZtZS90YXJnZXQvbnZtZXQuaA0KICAgICsrKyBiL2RyaXZl
-cnMvbnZtZS90YXJnZXQvbnZtZXQuaA0KICAgIEBAIC0yMTEsNiArMjExLDggQEAgc3RydWN0IG52
-bWV0X3N1YnN5cyB7DQogICAgICAgICAgICAgc3RydWN0IGxpc3RfaGVhZCAgICAgICAgbmFtZXNw
-YWNlczsNCiAgICAgICAgICAgICB1bnNpZ25lZCBpbnQgICAgICAgICAgICBucl9uYW1lc3BhY2Vz
-Ow0KICAgICAgICAgICAgIHVuc2lnbmVkIGludCAgICAgICAgICAgIG1heF9uc2lkOw0KICAgICsg
-ICAgICAgdTE2ICAgICAgICAgICAgICAgICAgICAgY250bGlkX21pbjsNCiAgICArICAgICAgIHUx
-NiAgICAgICAgICAgICAgICAgICAgIGNudGxpZF9tYXg7DQogICAgDQogICAgICAgICAgICAgc3Ry
-dWN0IGxpc3RfaGVhZCAgICAgICAgY3RybHM7DQogICAgDQogICAgQWx0aG91Z2ggd2Ugc3RpbGwg
-aGF2ZSB0aGUgb3V0c3RhbmRpbmcgaXNzdWUgcG9pbnRlZCBieSBNYXJrLg0KICAgIFNpbmNlIHdl
-IGRlZmluZSBjb250cm9sbGVyIGlkIGF0IHRoZSBsZXZlbCBvZiBzdWJzeXN0ZW0gaGF2aW5nIG1p
-biBhbmQNCiAgICBtYXggc3RpbGwgcmVzdWx0IGluIHRoZSBlcnJvciB3aGVuIHdlIGFyZSB0cnlp
-bmcgdG8gZXhwb3J0IHNhbWUNCiAgICBzdWJzeXMgd2l0aCB0d28gZGlmZmVyZW50IHBvcnRzLg0K
-ICAgIA0KICAgIE1hcmsgcGxlYXNlIGNvcnJlY3QgbWUgaWYgSSdtIHdyb25nLg0KICAgIA0KICAg
-IEZvciB0aGF0IGNhc2Ugc2hvdWxkIHdlIHVzZSBzdWJzeXMtaWQgKyBwb3J0LWlkIGFzIGEgY29t
-YmluYXRpb24gb2YgdGhlDQogICAgY29udHJvbGxlciBpZCA/DQogICAgDQogICAgQW55IHRob3Vn
-aHRzID8NCiAgICANCiAgICANCiAgICANCiAgICANCiAgICANCiAgICANCg0KX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgtbnZtZSBtYWlsaW5nIGxp
-c3QKTGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQu
-b3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
+On Fri, Nov 15, 2019 at 12:40:00AM +0900, Akinobu Mita wrote:
+> According to the NVMe specification, the over temperature threshold and
+> under temperature threshold features shall be implemented for Composite
+> Temperature if a non-zero WCTEMP field value is reported in the Identify
+> Controller data structure.  The features are also implemented for all
+> implemented temperature sensors (i.e., all Temperature Sensor fields that
+> report a non-zero value).
+> =
+
+> This provides the over temperature threshold and under temperature
+> threshold for each sensor as temperature min and max values of hwmon
+> sysfs attributes.
+> =
+
+> The WCTEMP is already provided as a temperature max value for Composite
+> Temperature, but this change isn't incompatible.  Because the default
+> value of the over temperature threshold for Composite Temperature is
+> the WCTEMP.
+> =
+
+> Now the alarm attribute for Composite Temperature indicates one of the
+> temperature is outside of a temperature threshold.  Because there is only
+> a single bit in Critical Warning field that indicates a temperature is
+> outside of a threshold.
+> =
+
+> Example output from the "sensors" command:
+> =
+
+> nvme-pci-0100
+> Adapter: PCI adapter
+> Composite:    +33.9=B0C  (low  =3D -273.1=B0C, high =3D +69.8=B0C)
+>                        (crit =3D +79.8=B0C)
+> Sensor 1:     +34.9=B0C  (low  =3D -273.1=B0C, high =3D +65261.8=B0C)
+> Sensor 2:     +31.9=B0C  (low  =3D -273.1=B0C, high =3D +65261.8=B0C)
+> Sensor 5:     +47.9=B0C  (low  =3D -273.1=B0C, high =3D +65261.8=B0C)
+> =
+
+> This also adds helper macros for kelvin from/to milli Celsius conversion,
+> and replaces the repeated code in nvme-hwmon.c.
+> =
+
+> Cc: Keith Busch <kbusch@kernel.org>
+> Cc: Jens Axboe <axboe@fb.com>
+> Cc: Christoph Hellwig <hch@lst.de>
+> Cc: Sagi Grimberg <sagi@grimberg.me>
+> Cc: Jean Delvare <jdelvare@suse.com>
+> Cc: Guenter Roeck <linux@roeck-us.net>
+> Signed-off-by: Akinobu Mita <akinobu.mita@gmail.com>
+
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+Tested-by: Guenter Roeck <linux@roeck-us.net>
+
+Tested with:
+	INTEL SSDPEKKW512G7
+	Samsung SSD 970 EVO 500GB
+	THNSN5256GPU7 NVMe TOSHIBA 256GB
+
+> ---
+>  drivers/nvme/host/nvme-hwmon.c | 106 ++++++++++++++++++++++++++++++++++-=
+------
+>  include/linux/nvme.h           |   6 +++
+>  2 files changed, 96 insertions(+), 16 deletions(-)
+> =
+
+> diff --git a/drivers/nvme/host/nvme-hwmon.c b/drivers/nvme/host/nvme-hwmo=
+n.c
+> index 5480cbb..97a84b4 100644
+> --- a/drivers/nvme/host/nvme-hwmon.c
+> +++ b/drivers/nvme/host/nvme-hwmon.c
+> @@ -9,12 +9,57 @@
+>  =
+
+>  #include "nvme.h"
+>  =
+
+> +/* These macros should be moved to linux/temperature.h */
+> +#define MILLICELSIUS_TO_KELVIN(t) DIV_ROUND_CLOSEST((t) + 273150, 1000)
+> +#define KELVIN_TO_MILLICELSIUS(t) ((t) * 1000L - 273150)
+> +
+>  struct nvme_hwmon_data {
+>  	struct nvme_ctrl *ctrl;
+>  	struct nvme_smart_log log;
+>  	struct mutex read_lock;
+>  };
+>  =
+
+> +static int nvme_get_temp_thresh(struct nvme_ctrl *ctrl, int sensor, bool=
+ under,
+> +				long *temp)
+> +{
+> +	unsigned int threshold =3D sensor << NVME_TEMP_THRESH_SELECT_SHIFT;
+> +	u32 status;
+> +	int ret;
+> +
+> +	if (under)
+> +		threshold |=3D NVME_TEMP_THRESH_TYPE_UNDER;
+> +
+> +	ret =3D nvme_get_features(ctrl, NVME_FEAT_TEMP_THRESH, threshold, NULL,=
+ 0,
+> +				&status);
+> +	if (ret > 0)
+> +		return -EIO;
+> +	if (ret < 0)
+> +		return ret;
+> +	*temp =3D KELVIN_TO_MILLICELSIUS(status & NVME_TEMP_THRESH_MASK);
+> +
+> +	return 0;
+> +}
+> +
+> +static int nvme_set_temp_thresh(struct nvme_ctrl *ctrl, int sensor, bool=
+ under,
+> +				long temp)
+> +{
+> +	unsigned int threshold =3D sensor << NVME_TEMP_THRESH_SELECT_SHIFT;
+> +	int ret;
+> +
+> +	temp =3D MILLICELSIUS_TO_KELVIN(temp);
+> +	threshold |=3D clamp_val(temp, 0, NVME_TEMP_THRESH_MASK);
+> +
+> +	if (under)
+> +		threshold |=3D NVME_TEMP_THRESH_TYPE_UNDER;
+> +
+> +	ret =3D nvme_set_features(ctrl, NVME_FEAT_TEMP_THRESH, threshold, NULL,=
+ 0,
+> +				NULL);
+> +	if (ret > 0)
+> +		return -EIO;
+> +
+> +	return ret;
+> +}
+> +
+>  static int nvme_hwmon_get_smart_log(struct nvme_hwmon_data *data)
+>  {
+>  	int ret;
+> @@ -39,10 +84,11 @@ static int nvme_hwmon_read(struct device *dev, enum h=
+wmon_sensor_types type,
+>  	 */
+>  	switch (attr) {
+>  	case hwmon_temp_max:
+> -		*val =3D (data->ctrl->wctemp - 273) * 1000;
+> -		return 0;
+> +		return nvme_get_temp_thresh(data->ctrl, channel, false, val);
+> +	case hwmon_temp_min:
+> +		return nvme_get_temp_thresh(data->ctrl, channel, true, val);
+>  	case hwmon_temp_crit:
+> -		*val =3D (data->ctrl->cctemp - 273) * 1000;
+> +		*val =3D KELVIN_TO_MILLICELSIUS(data->ctrl->cctemp);
+>  		return 0;
+>  	default:
+>  		break;
+> @@ -59,7 +105,7 @@ static int nvme_hwmon_read(struct device *dev, enum hw=
+mon_sensor_types type,
+>  			temp =3D get_unaligned_le16(log->temperature);
+>  		else
+>  			temp =3D le16_to_cpu(log->temp_sensor[channel - 1]);
+> -		*val =3D (temp - 273) * 1000;
+> +		*val =3D KELVIN_TO_MILLICELSIUS(temp);
+>  		break;
+>  	case hwmon_temp_alarm:
+>  		*val =3D !!(log->critical_warning & NVME_SMART_CRIT_TEMPERATURE);
+> @@ -73,6 +119,23 @@ static int nvme_hwmon_read(struct device *dev, enum h=
+wmon_sensor_types type,
+>  	return err;
+>  }
+>  =
+
+> +static int nvme_hwmon_write(struct device *dev, enum hwmon_sensor_types =
+type,
+> +			    u32 attr, int channel, long val)
+> +{
+> +	struct nvme_hwmon_data *data =3D dev_get_drvdata(dev);
+> +
+> +	switch (attr) {
+> +	case hwmon_temp_max:
+> +		return nvme_set_temp_thresh(data->ctrl, channel, false, val);
+> +	case hwmon_temp_min:
+> +		return nvme_set_temp_thresh(data->ctrl, channel, true, val);
+> +	default:
+> +		break;
+> +	}
+> +
+> +	return -EOPNOTSUPP;
+> +}
+> +
+>  static const char * const nvme_hwmon_sensor_names[] =3D {
+>  	"Composite",
+>  	"Sensor 1",
+> @@ -105,8 +168,10 @@ static umode_t nvme_hwmon_is_visible(const void *_da=
+ta,
+>  			return 0444;
+>  		break;
+>  	case hwmon_temp_max:
+> -		if (!channel && data->ctrl->wctemp)
+> -			return 0444;
+> +	case hwmon_temp_min:
+> +		if ((!channel && data->ctrl->wctemp) ||
+> +		    (channel && data->log.temp_sensor[channel - 1]))
+> +			return 0644;
+>  		break;
+>  	case hwmon_temp_alarm:
+>  		if (!channel)
+> @@ -126,16 +191,24 @@ static umode_t nvme_hwmon_is_visible(const void *_d=
+ata,
+>  static const struct hwmon_channel_info *nvme_hwmon_info[] =3D {
+>  	HWMON_CHANNEL_INFO(chip, HWMON_C_REGISTER_TZ),
+>  	HWMON_CHANNEL_INFO(temp,
+> -			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_CRIT |
+> -				HWMON_T_LABEL | HWMON_T_ALARM,
+> -			   HWMON_T_INPUT | HWMON_T_LABEL,
+> -			   HWMON_T_INPUT | HWMON_T_LABEL,
+> -			   HWMON_T_INPUT | HWMON_T_LABEL,
+> -			   HWMON_T_INPUT | HWMON_T_LABEL,
+> -			   HWMON_T_INPUT | HWMON_T_LABEL,
+> -			   HWMON_T_INPUT | HWMON_T_LABEL,
+> -			   HWMON_T_INPUT | HWMON_T_LABEL,
+> -			   HWMON_T_INPUT | HWMON_T_LABEL),
+> +			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MIN |
+> +				HWMON_T_CRIT | HWMON_T_LABEL | HWMON_T_ALARM,
+> +			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MIN |
+> +				HWMON_T_LABEL,
+> +			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MIN |
+> +				HWMON_T_LABEL,
+> +			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MIN |
+> +				HWMON_T_LABEL,
+> +			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MIN |
+> +				HWMON_T_LABEL,
+> +			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MIN |
+> +				HWMON_T_LABEL,
+> +			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MIN |
+> +				HWMON_T_LABEL,
+> +			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MIN |
+> +				HWMON_T_LABEL,
+> +			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MIN |
+> +				HWMON_T_LABEL),
+>  	NULL
+>  };
+>  =
+
+> @@ -143,6 +216,7 @@ static const struct hwmon_ops nvme_hwmon_ops =3D {
+>  	.is_visible	=3D nvme_hwmon_is_visible,
+>  	.read		=3D nvme_hwmon_read,
+>  	.read_string	=3D nvme_hwmon_read_string,
+> +	.write		=3D nvme_hwmon_write,
+>  };
+>  =
+
+>  static const struct hwmon_chip_info nvme_hwmon_chip_info =3D {
+> diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+> index 269b2e8..347a44f 100644
+> --- a/include/linux/nvme.h
+> +++ b/include/linux/nvme.h
+> @@ -803,6 +803,12 @@ struct nvme_write_zeroes_cmd {
+>  =
+
+>  /* Features */
+>  =
+
+> +enum {
+> +	NVME_TEMP_THRESH_MASK		=3D 0xffff,
+> +	NVME_TEMP_THRESH_SELECT_SHIFT	=3D 16,
+> +	NVME_TEMP_THRESH_TYPE_UNDER	=3D 0x100000,
+> +};
+> +
+>  struct nvme_feat_auto_pst {
+>  	__le64 entries[32];
+>  };
+> -- =
+
+> 2.7.4
+> =
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
