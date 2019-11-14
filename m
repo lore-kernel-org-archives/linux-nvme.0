@@ -2,81 +2,70 @@ Return-Path: <SRS0=270x=ZG=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09A95C432C3
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Nov 2019 03:00:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 084D1C432C3
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Nov 2019 04:57:03 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 16963206E4
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Nov 2019 03:00:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id DEF5B206EF
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Nov 2019 04:57:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="X5BLlEpK";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HACeQoWK"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 16963206E4
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="s7jUV4wt";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nlfxm6aG"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DEF5B206EF
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=HpABp7G8GLq+1nGerhe71PORJ5Q3L+GN09EHZIRkAco=; b=X5BLlEpKXDU0L8
-	eeBQmxJAalhSRfU3qhvY8iSFKk+GHmLTJklWC6PuamqgDBZjXv67o2ZZ6Q+iwbfC90I6TYIv3tt0W
-	q8yB1scZVZKR6iBC9pEvX82KVpJBSELZawt0CEcgNwyHZQGwm0juHqTgUek9t1alqYQ+NoebvMt5f
-	M4jOaw5bgx9+IFOvmP4PX1OdqYc/uupCSt3NchyDwAETBxREsAHr2xq6cmBITSLtD4GmNAQIkqFfq
-	516BvFPiLZJFGXFsODDYrVLrsYRgPI3gRcthYGisTKwRuemlzkCCpdsFFCb1y/2xQMEGjAboJevIF
-	aThBLrR097RQz1DSQy3A==;
+	List-Owner; bh=yAbDrSAEKUBTXLpeGoolV+KmPkpw2e1k9SH87z8NWJY=; b=s7jUV4wtgpjmsU
+	v/mmR/UfcYPpd4QIBzM75THDwFktSzybVNGWMuQEjDx7P9Cm5n9x1LpqSgXfJlhKigtK5tQHXJHRX
+	CxiYyZp1nl8ur4NfRF8RuGxj2J2EGVmIqsqQBhdcdP4/X5t5d6gH0IXsWCZdrC6t6ncWQkT68b99W
+	0krxvhwh2/iKMyy/knJG5dZQ0zCG4CCCCa4+MPIU4Xw9sTpMn3Gd8eXMhYbcd7eN/IoEI+mdMLeQ3
+	MEQL3x+ZOS7alFVYcg+nIF24c07Zt6u4QmJOXFoc5dicgkSHeRz1h/zXLdwUxQu2netx3uIi/th+r
+	YfxbdNiSuSlRqf//qlpQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iV5MY-0002lB-Lt; Thu, 14 Nov 2019 03:00:02 +0000
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]
- helo=us-smtp-1.mimecast.com)
+	id 1iV7BY-0000UD-54; Thu, 14 Nov 2019 04:56:48 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iV5MJ-0002Yz-P6
- for linux-nvme@lists.infradead.org; Thu, 14 Nov 2019 02:59:51 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573700386;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=azuq7s7VPVTspbOCPl6csGuffC+PRAk39MYw7u8Pl0s=;
- b=HACeQoWKLMOayDLwAQfKpcjLg9e5HHS9h92pXmS2TBLRyQLRVUg1opccfa/0zXfxG7tAFx
- cbcfXkpMEbAYxB+2bRCdkLO61OrYbNYMo+1nwvUrTFoWUBu7tW5DkHZbPS60Ra81Knxiyh
- gLx7RKZLbRjWAXFd+tSu5xzJZNH8CYw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-24-PTlOTxVIMRWl-pHxbFN0UQ-1; Wed, 13 Nov 2019 21:59:42 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ id 1iV7BW-0000Tp-GB
+ for linux-nvme@lists.infradead.org; Thu, 14 Nov 2019 04:56:47 +0000
+Received: from C02WT3WMHTD6 (rap-us.hgst.com [199.255.44.250])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 336DC8C4FFA;
- Thu, 14 Nov 2019 02:59:41 +0000 (UTC)
-Received: from localhost (ovpn-8-18.pek2.redhat.com [10.72.8.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 30EBB108426B;
- Thu, 14 Nov 2019 02:59:39 +0000 (UTC)
-From: Ming Lei <ming.lei@redhat.com>
-To: linux-nvme@lists.infradead.org
-Subject: [PATCH V3 2/2] nvme-pci: check CQ after batch submission for
+ by mail.kernel.org (Postfix) with ESMTPSA id 44305206EF;
+ Thu, 14 Nov 2019 04:56:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1573707405;
+ bh=ZybG0U1xdPivojU1aM7/ARWNkO4aTSHoq2U65hEhQM8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Nlfxm6aG8zxVLFEigistX/daoshfuGSG0pvD2Xs5rmu51b/JqTNCQjJ4RdEyRvjl3
+ r7Rb8NbwWOa+zDmzeqbxzwnR0xiTIKKiVG2vWDcAUa5brAtUXW6Y0ImeZm4D1JSwhh
+ xxDYRHjUlfY/V8jvkEFSDid2Qep3559LSvDOxiSo=
+Date: Wed, 13 Nov 2019 21:56:43 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Ming Lei <ming.lei@redhat.com>
+Subject: Re: [PATCH V3 2/2] nvme-pci: check CQ after batch submission for
  Microsoft device
-Date: Thu, 14 Nov 2019 10:59:17 +0800
-Message-Id: <20191114025917.24634-3-ming.lei@redhat.com>
-In-Reply-To: <20191114025917.24634-1-ming.lei@redhat.com>
+Message-ID: <20191114045643.GA97802@C02WT3WMHTD6>
 References: <20191114025917.24634-1-ming.lei@redhat.com>
+ <20191114025917.24634-3-ming.lei@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: PTlOTxVIMRWl-pHxbFN0UQ-1
-X-Mimecast-Spam-Score: 0
+Content-Disposition: inline
+In-Reply-To: <20191114025917.24634-3-ming.lei@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191113_185947_946874_A995DA6E 
-X-CRM114-Status: GOOD (  16.92  )
+X-CRM114-CacheID: sfid-20191113_205646_564306_BE2EF245 
+X-CRM114-Status: UNSURE (   8.76  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,297 +78,26 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: Sagi Grimberg <sagi@grimberg.me>, Long Li <longli@microsoft.com>,
- Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@fb.com>,
- Nadolski Edmund <edmund.nadolski@intel.com>, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>
+ linux-nvme@lists.infradead.org, Jens Axboe <axboe@fb.com>,
+ Nadolski Edmund <edmund.nadolski@intel.com>, Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-f9dde187fa92("nvme-pci: remove cq check after submission") removes
-cq check after submission, this change actually causes performance
-regression on Microsoft Corporation device in which aggressive interrupt
-coalescing is used, for example, the max single interrupt per second
-can reach 40~50K at most.
+On Thu, Nov 14, 2019 at 10:59:17AM +0800, Ming Lei wrote:
+> @@ -912,6 +917,10 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+>  
+>  	blk_mq_start_request(req);
+>  	nvme_submit_cmd(nvmeq, &cmnd, bd->last);
+> +
+> +	if (bd->last && test_bit(NVMEQ_CHECK_CQ, &nvmeq->flags))
+> +		nvme_check_cq(nvmeq);
+> +
 
-Checking CQ after submission can improve IO completion for Microsoft
-Corporation device:
-
-1) the check is very cheap, and lockless check on cq is enough,
-see nvme_cqe_pending(). Especially the check can be done after batch
-submission is done. Compared with the big latency added by aggressive
-interrupt coalescing, cost of the check can be ignored.
-
-2) when IO completion is observed via checking CQ in submission, the requst
-may be completed without interrupt involved, or the interrupt handler
-overload can be decreased.
-
-3) when single sw queue is submiting IOs to this hw queue, if IOs completion
-is observed via this check, the IO can be completed locally, which is
-cheaper than remote completion.
-
-Follows test result done on Azure L80sv2 guest with NVMe drive(
-Microsoft Corporation Device b111). This guest has 80 CPUs and 10
-numa nodes, and each NVMe drive supports 8 hw queues.
-
-1) test script:
-fio --bs=4k --ioengine=libaio --iodepth=64 --filename=/dev/nvme0n1 \
-	--iodepth_batch_submit=16 --iodepth_batch_complete_min=16 \
-	--direct=1 --runtime=30 --numjobs=1 --rw=randread \
-	--name=test --group_reporting --gtod_reduce=1
-
-2) test result:
-     | v5.3       | v5.3 with this patchset
--------------------------------------------
-IOPS | 130K       | 424K
-
-Given IO is handled more efficiently in this way, the original report
-of CPU lockup[1] on Hyper-V can't be observed any more after this patch
-is applied, since this patch reduces IO completions much in interrupt
-handler.
-
-[1] https://lore.kernel.org/lkml/1566281669-48212-1-git-send-email-longli@linuxonhyperv.com
-
-Cc: Keith Busch <kbusch@kernel.org>
-Cc: Jens Axboe <axboe@fb.com>
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>
-Cc: Long Li <longli@microsoft.com>
-Fixes: f9dde187fa92("nvme-pci: remove cq check after submission")
-Signed-off-by: Ming Lei <ming.lei@redhat.com>
----
- drivers/nvme/host/nvme.h |  6 +++
- drivers/nvme/host/pci.c  | 95 ++++++++++++++++++++++++++++++++++------
- 2 files changed, 88 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 22e8401352c2..5575827016d1 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -115,6 +115,12 @@ enum nvme_quirks {
- 	 * Prevent tag overlap between queues
- 	 */
- 	NVME_QUIRK_SHARED_TAGS                  = (1 << 13),
-+
-+	/*
-+	 * Check CQ in submission for improving performance since
-+	 * the device applies aggressive interrupt coalescing
-+	 */
-+	NVME_QUIRK_CHECK_CQ			= (1 << 14),
- };
- 
- /*
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 01728409a7ea..15fd8574ee68 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -83,6 +83,7 @@ struct nvme_queue;
- 
- static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown);
- static bool __nvme_disable_io_queues(struct nvme_dev *dev, u8 opcode);
-+static void nvme_check_cq(struct nvme_queue *nvmeq);
- 
- /*
-  * Represents an NVM Express device.  Each nvme_dev is a PCI function.
-@@ -164,8 +165,11 @@ struct nvme_queue {
- 	struct nvme_dev *dev;
- 	spinlock_t sq_lock;
- 	void *sq_cmds;
--	 /* only used for poll queues: */
--	spinlock_t cq_poll_lock ____cacheline_aligned_in_smp;
-+
-+	union {
-+		spinlock_t cq_poll_lock; /* only used for poll queues */
-+		spinlock_t cq_lock;	 /* only used for irq queues */
-+	}____cacheline_aligned_in_smp;
- 	volatile struct nvme_completion *cqes;
- 	struct blk_mq_tags **tags;
- 	dma_addr_t sq_dma_addr;
-@@ -185,6 +189,7 @@ struct nvme_queue {
- #define NVMEQ_SQ_CMB		1
- #define NVMEQ_DELETE_ERROR	2
- #define NVMEQ_POLLED		3
-+#define NVMEQ_CHECK_CQ		4
- 	u32 *dbbuf_sq_db;
- 	u32 *dbbuf_cq_db;
- 	u32 *dbbuf_sq_ei;
-@@ -912,6 +917,10 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
- 
- 	blk_mq_start_request(req);
- 	nvme_submit_cmd(nvmeq, &cmnd, bd->last);
-+
-+	if (bd->last && test_bit(NVMEQ_CHECK_CQ, &nvmeq->flags))
-+		nvme_check_cq(nvmeq);
-+
- 	return BLK_STS_OK;
- out_unmap_data:
- 	nvme_unmap_data(dev, req);
-@@ -1017,6 +1026,19 @@ static inline int nvme_process_cq(struct nvme_queue *nvmeq, u16 *start,
- 	return found;
- }
- 
-+static inline irqreturn_t
-+nvme_update_cq(struct nvme_queue *nvmeq, u16 *start, u16 *end)
-+{
-+	irqreturn_t ret = IRQ_NONE;
-+
-+	if (nvmeq->cq_head != nvmeq->last_cq_head)
-+		ret = IRQ_HANDLED;
-+	nvme_process_cq(nvmeq, start, end, -1);
-+	nvmeq->last_cq_head = nvmeq->cq_head;
-+
-+	return ret;
-+}
-+
- static irqreturn_t nvme_irq(int irq, void *data)
- {
- 	struct nvme_queue *nvmeq = data;
-@@ -1028,10 +1050,7 @@ static irqreturn_t nvme_irq(int irq, void *data)
- 	 * the irq handler, even if that was on another CPU.
- 	 */
- 	rmb();
--	if (nvmeq->cq_head != nvmeq->last_cq_head)
--		ret = IRQ_HANDLED;
--	nvme_process_cq(nvmeq, &start, &end, -1);
--	nvmeq->last_cq_head = nvmeq->cq_head;
-+	ret = nvme_update_cq(nvmeq, &start, &end);
- 	wmb();
- 
- 	if (start != end) {
-@@ -1042,6 +1061,24 @@ static irqreturn_t nvme_irq(int irq, void *data)
- 	return ret;
- }
- 
-+static irqreturn_t nvme_irq_for_check_cq(int irq, void *data)
-+{
-+	struct nvme_queue *nvmeq = data;
-+	irqreturn_t ret = IRQ_NONE;
-+	u16 start, end;
-+
-+	spin_lock(&nvmeq->cq_lock);
-+	ret = nvme_update_cq(nvmeq, &start, &end);
-+	spin_unlock(&nvmeq->cq_lock);
-+
-+	if (start != end) {
-+		nvme_complete_cqes(nvmeq, start, end);
-+		return IRQ_HANDLED;
-+	}
-+
-+	return ret;
-+}
-+
- static irqreturn_t nvme_irq_check(int irq, void *data)
- {
- 	struct nvme_queue *nvmeq = data;
-@@ -1050,6 +1087,22 @@ static irqreturn_t nvme_irq_check(int irq, void *data)
- 	return IRQ_NONE;
- }
- 
-+static void nvme_check_cq(struct nvme_queue *nvmeq)
-+{
-+	if (!nvme_cqe_pending(nvmeq))
-+		return;
-+
-+	if (spin_trylock_irq(&nvmeq->cq_lock)) {
-+		u16 start, end;
-+
-+		nvme_update_cq(nvmeq, &start, &end);
-+		spin_unlock_irq(&nvmeq->cq_lock);
-+
-+		if (start != end)
-+			nvme_complete_cqes(nvmeq, start, end);
-+	}
-+}
-+
- /*
-  * Poll for completions any queue, including those not dedicated to polling.
-  * Can be called from any context.
-@@ -1500,12 +1553,14 @@ static int queue_request_irq(struct nvme_queue *nvmeq)
- {
- 	struct pci_dev *pdev = to_pci_dev(nvmeq->dev->dev);
- 	int nr = nvmeq->dev->ctrl.instance;
-+	irq_handler_t handler = test_bit(NVMEQ_CHECK_CQ, &nvmeq->flags) ?
-+		nvme_irq_for_check_cq : nvme_irq;
- 
- 	if (use_threaded_interrupts) {
- 		return pci_request_irq(pdev, nvmeq->cq_vector, nvme_irq_check,
--				nvme_irq, nvmeq, "nvme%dq%d", nr, nvmeq->qid);
-+				handler, nvmeq, "nvme%dq%d", nr, nvmeq->qid);
- 	} else {
--		return pci_request_irq(pdev, nvmeq->cq_vector, nvme_irq,
-+		return pci_request_irq(pdev, nvmeq->cq_vector, handler,
- 				NULL, nvmeq, "nvme%dq%d", nr, nvmeq->qid);
- 	}
- }
-@@ -1515,7 +1570,13 @@ static void nvme_init_queue(struct nvme_queue *nvmeq, u16 qid)
- 	struct nvme_dev *dev = nvmeq->dev;
- 
- 	spin_lock_init(&nvmeq->sq_lock);
--	spin_lock_init(&nvmeq->cq_poll_lock);
-+
-+	if (test_bit(NVMEQ_CHECK_CQ, &nvmeq->flags)) {
-+		WARN_ON_ONCE(test_bit(NVMEQ_POLLED, &nvmeq->flags));
-+		spin_lock_init(&nvmeq->cq_lock);
-+	} else {
-+		spin_lock_init(&nvmeq->cq_poll_lock);
-+	}
- 
- 	nvmeq->sq_tail = 0;
- 	nvmeq->last_sq_tail = 0;
-@@ -1528,22 +1589,27 @@ static void nvme_init_queue(struct nvme_queue *nvmeq, u16 qid)
- 	wmb(); /* ensure the first interrupt sees the initialization */
- }
- 
--static int nvme_create_queue(struct nvme_queue *nvmeq, int qid, bool polled)
-+static int nvme_create_queue(struct nvme_queue *nvmeq, int qid, bool polled,
-+		bool check_cq)
- {
- 	struct nvme_dev *dev = nvmeq->dev;
- 	int result;
- 	u16 vector = 0;
- 
- 	clear_bit(NVMEQ_DELETE_ERROR, &nvmeq->flags);
-+	clear_bit(NVMEQ_CHECK_CQ, &nvmeq->flags);
- 
- 	/*
- 	 * A queue's vector matches the queue identifier unless the controller
- 	 * has only one vector available.
- 	 */
--	if (!polled)
-+	if (!polled) {
- 		vector = dev->num_vecs == 1 ? 0 : qid;
--	else
-+		if (vector && check_cq)
-+			set_bit(NVMEQ_CHECK_CQ, &nvmeq->flags);
-+	} else {
- 		set_bit(NVMEQ_POLLED, &nvmeq->flags);
-+	}
- 
- 	result = adapter_alloc_cq(dev, qid, nvmeq, vector);
- 	if (result)
-@@ -1740,7 +1806,8 @@ static int nvme_create_io_queues(struct nvme_dev *dev)
- 	for (i = dev->online_queues; i <= max; i++) {
- 		bool polled = i > rw_queues;
- 
--		ret = nvme_create_queue(&dev->queues[i], i, polled);
-+		ret = nvme_create_queue(&dev->queues[i], i, polled,
-+				dev->ctrl.quirks & NVME_QUIRK_CHECK_CQ);
- 		if (ret)
- 			break;
- 	}
-@@ -3112,6 +3179,8 @@ static const struct pci_device_id nvme_id_table[] = {
- 	{ PCI_DEVICE(0x1cc1, 0x8201),   /* ADATA SX8200PNP 512GB */
- 		.driver_data = NVME_QUIRK_NO_DEEPEST_PS |
- 				NVME_QUIRK_IGNORE_DEV_SUBNQN, },
-+	{ PCI_DEVICE(0x1414, 0xb111),   /* Microsoft Corporation device */
-+		.driver_data = NVME_QUIRK_CHECK_CQ, },
- 	{ PCI_DEVICE_CLASS(PCI_CLASS_STORAGE_EXPRESS, 0xffffff) },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2001) },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2003) },
--- 
-2.20.1
-
+You've given this quirk a special completion handler, how about giving
+it a special queue_rq as well. Then you can check the completion queue
+during submission while holding the same lock as before.
 
 _______________________________________________
 Linux-nvme mailing list
