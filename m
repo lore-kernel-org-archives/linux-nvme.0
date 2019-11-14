@@ -2,85 +2,86 @@ Return-Path: <SRS0=270x=ZG=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2935C432C3
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Nov 2019 08:57:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 470FBC432C3
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Nov 2019 15:40:38 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 977EB206F0
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Nov 2019 08:57:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D4F63206D5
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Nov 2019 15:40:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="rnRSsVvB";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ewpqIFbE"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 977EB206F0
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="HqPFwe9Y";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NNH1sBRU"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D4F63206D5
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=6/naLf0NcnPdtLBAXm4NzGdXW/TaQIbmMXeNQ0lj35c=; b=rnRSsVvB/ktBsW
-	Ub60t8n09n48s5x+aYTcNwu5kfcDGyHEKYxxPKhehkjLqcDDjcIifxTwhOWFtuWeFm0iDwj7UAdAi
-	9wxcmKAn3hmhT1gyyg3SHAlopZw9dRSv6virU2Z5b3kNOmKM4c+gFKlVOBj4r+P8ncgPq0ToOyKu5
-	H/2MN8+/rk7mkSCZAEsRrOHH59Y8QoWDDSJIFb4gpn4GVsKTBuVduI2UdlJnJXGjNMqM9W5voo222
-	a9q+EtIoHlIlRn8u5znGG1zUI2nnpz365C97fnnlIPucT5TfJJvtkkIZPMhEt++jXa40aEoEeWlb8
-	lBkdRVPN9FDop+F+CPIA==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
+	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=yTN5G6ZvQwDp3hiCyqxXXQZKj2tD+X/owL6saf6RjEM=; b=HqPFwe9YUl+Fo1
+	vpiSYBCV0bfxn3kCzZdrUdIeylsH4vlkxogAjOV/+ScPbqwCFWlLxBRYCGdY+5vS7Y+nInC8cgMhe
+	MZc1BugQUx6HhufeJD8k15YdDOnu2CpJsWYoYm+GhC2gQv6cOJ5Mt5FuNzcWT2oMlbvBSMuYNS45J
+	loOXa2vrceQvhk3VME2GGlKGJW2NXpNT4En+mb+Q6ro7W5/ahkVnqc7FWDj8XLy0NkSJmnvLyqcFo
+	TcNGKaVaawbTxjiSi8gNYrR+NeczJN6j/f1RAp7/rqvPn/aDwu9yMat5LunyttpzjsQmqcZMHPHR+
+	mWTVF3N51kOd0OOrEcyQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iVAw5-00007b-34; Thu, 14 Nov 2019 08:57:05 +0000
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]
- helo=us-smtp-delivery-1.mimecast.com)
+	id 1iVHET-0006Tm-7x; Thu, 14 Nov 2019 15:40:29 +0000
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iVAw2-00006a-7L
- for linux-nvme@lists.infradead.org; Thu, 14 Nov 2019 08:57:04 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573721820;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Eil7Q7E2Xgftm42AgT9N52O2cASkUZrsXZ+UchAo3H4=;
- b=ewpqIFbEY3SDsmV4uvF8rVL6OuGNV4pkTz4wcBJWCFvrP831LkMtAsLfG8VXQE398X8XF3
- VmSeHC/K43eVSaUwu7I8D3OQdPdBbjVx8GvO/gAJ3oJQChMCECGG10wf31ZTyJRTT0w8p4
- bedpOkVwqzVWAvFPPspH3Gg0wpSGa4I=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-217-TN0GsuLqM1yladVJcIoHvg-1; Thu, 14 Nov 2019 03:56:56 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F31A88048E3;
- Thu, 14 Nov 2019 08:56:54 +0000 (UTC)
-Received: from ming.t460p (ovpn-8-24.pek2.redhat.com [10.72.8.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 69D8810841AF;
- Thu, 14 Nov 2019 08:56:47 +0000 (UTC)
-Date: Thu, 14 Nov 2019 16:56:43 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH V3 2/2] nvme-pci: check CQ after batch submission for
- Microsoft device
-Message-ID: <20191114085643.GA4213@ming.t460p>
-References: <20191114025917.24634-1-ming.lei@redhat.com>
- <20191114025917.24634-3-ming.lei@redhat.com>
- <20191114045643.GA97802@C02WT3WMHTD6>
+ id 1iVHEP-0006TB-KA
+ for linux-nvme@lists.infradead.org; Thu, 14 Nov 2019 15:40:27 +0000
+Received: by mail-pf1-x433.google.com with SMTP id z4so4471586pfn.12
+ for <linux-nvme@lists.infradead.org>; Thu, 14 Nov 2019 07:40:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=gBW+T3fGCC3ZauWE1bP/FEflNLqJJ9otTssyUktVKTU=;
+ b=NNH1sBRUCRVOORerPHFQHOlR9e9J+0xIID778YUDlEsiVBTpO0G52T3V/z+niqCe0k
+ kpBY3haS+YcDCH4UyxVTHnp2RnJxgZi43SNP1iGChuXsHszki7bV6OByo4QReb138167
+ A8Ry0kk8K1zWH4ep0OYVOciJ5MhwqkJ9EQiBCGHqrfSqF16dLRRuSJ03iK8oKqq4JEKQ
+ Ycl49nSXnzWvekivKbdO/zWQsMdkTYrkvriixOT6t+wtBVpP0iR+X5IWfpIsRGvUa+WE
+ +KbcNqPCmaOFNWti0Y1GIoy7aYVlO4wQ3esO3uNNHawfyzygvvVFixpv8GP8+Zr5A8pR
+ PYtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=gBW+T3fGCC3ZauWE1bP/FEflNLqJJ9otTssyUktVKTU=;
+ b=mD98HeVz3yBxnT1G6XSr59t4M9Ty7VoHBR6j+qToVQdf2KgOIS8hEmGl7JGFrsErbr
+ vAaxkI7aMgI2NKk1gZUB6TezVD8SXinDdHi6xTpDV9g3sP5RWk/D+weQ/JS9tc0Md4dS
+ +WnFM8p5oEWzo/mJkJZJHlNoGKEcKLb+LSonxTDNFF/7bvuXuG/LJaahhA63LkST0yfQ
+ SgRiK6fZDpaBdByrJoD9ntnXZebQmaCFZB9AfB2QQvtWvN0Smc1vTOBWJi4Je2rgIHlg
+ kkWZkW4aiC8GdeUwpgSW4IWlwpLCXUj+zPM/RlzcbotHOJOHuHAQV+0g1aLhP7nVPAUm
+ uMkQ==
+X-Gm-Message-State: APjAAAUBCypWc5SOusg+gUcaaaBEy3aibwAn+rDR/fMt6MLeMZ0uEnA2
+ XFksD6liRIejOIXdwHdS2dCqxIT9
+X-Google-Smtp-Source: APXvYqxvfLOY2clWvMfw944A1oYXSLmN9VRf6ZzB5NV9JeI2XR/e2es+VG3yj5p9pgUhOzZ/sTK6zg==
+X-Received: by 2002:a62:2902:: with SMTP id p2mr11215436pfp.160.1573746022668; 
+ Thu, 14 Nov 2019 07:40:22 -0800 (PST)
+Received: from localhost.localdomain ([240f:34:212d:1:368e:e048:68f1:84e7])
+ by smtp.gmail.com with ESMTPSA id 206sm11490858pfu.45.2019.11.14.07.40.18
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+ Thu, 14 Nov 2019 07:40:20 -0800 (PST)
+From: Akinobu Mita <akinobu.mita@gmail.com>
+To: linux-nvme@lists.infradead.org,
+	linux-hwmon@vger.kernel.org
+Subject: [PATCH v2 0/2] nvme: hwmon: provide temperature threshold features
+Date: Fri, 15 Nov 2019 00:39:59 +0900
+Message-Id: <1573746001-20979-1-git-send-email-akinobu.mita@gmail.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <20191114045643.GA97802@C02WT3WMHTD6>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: TN0GsuLqM1yladVJcIoHvg-1
-X-Mimecast-Spam-Score: 0
-Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191114_005702_346008_E442DE63 
-X-CRM114-Status: GOOD (  10.82  )
+X-CRM114-CacheID: sfid-20191114_074025_665063_76B3F881 
+X-CRM114-Status: GOOD (  11.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,41 +93,58 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Long Li <longli@microsoft.com>,
- linux-nvme@lists.infradead.org, Jens Axboe <axboe@fb.com>,
- Nadolski Edmund <edmund.nadolski@intel.com>, Christoph Hellwig <hch@lst.de>
+Cc: Jean Delvare <jdelvare@suse.com>, Sagi Grimberg <sagi@grimberg.me>,
+ Akinobu Mita <akinobu.mita@gmail.com>, Jens Axboe <axboe@fb.com>,
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Guenter Roeck <linux@roeck-us.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Nov 13, 2019 at 09:56:43PM -0700, Keith Busch wrote:
-> On Thu, Nov 14, 2019 at 10:59:17AM +0800, Ming Lei wrote:
-> > @@ -912,6 +917,10 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
-> >  
-> >  	blk_mq_start_request(req);
-> >  	nvme_submit_cmd(nvmeq, &cmnd, bd->last);
-> > +
-> > +	if (bd->last && test_bit(NVMEQ_CHECK_CQ, &nvmeq->flags))
-> > +		nvme_check_cq(nvmeq);
-> > +
-> 
-> You've given this quirk a special completion handler, how about giving
-> it a special queue_rq as well. Then you can check the completion queue
-> during submission while holding the same lock as before.
+According to the NVMe specification, the over temperature threshold and
+under temperature threshold features shall be implemented for Composite
+Temperature if a non-zero WCTEMP field value is reported in the Identify
+Controller data structure.  The features are also implemented for all
+implemented temperature sensors (i.e., all Temperature Sensor fields that
+report a non-zero value).
 
-We can do that, either we have to pass one extra 'check_cq' parameter to
-common helper or duplicate a nvme_queue_rq_quick(). Not sure what benefit
-we can get by this way, given test_bit(nvmeq->flags) is always close to
-zero cost. 
+This provides the over temperature threshold and under temperature
+threshold for each sensor as temperature min and max values of hwmon
+sysfs attributes.
 
-Also if same lock is held in both submission & completion for the quirk,
-the lock contention will be increased for the quirk since the lock has
-to cover command submission, which shouldn't be needed.
+This patch depends on the patch "nvme: Add hardware monitoring support".
+(http://lists.infradead.org/pipermail/linux-nvme/2019-November/027883.html)
 
+* v2
+- Add helper macros for kelvin from/to milli Celsius conversion
+- Remove alarm attributes for each implemented temperature sensor
+- Use u32 variable for the last parameter of nvme_get_features()
+- Use NULL for the unused last parameter of nvme_set_features()
+- Avoid ternary operator
+- Adjust temperature value ranges with clamp_val()
+- Don't use WCTEMP after initialization
+- Avoid accessing negative index when WCTEMP == 0
+- Add a new quirk to avoid changing temperature threshold
 
-Thanks,
-Ming
+Akinobu Mita (2):
+  nvme: hwmon: provide temperature min and max values for each sensor
+  nvme: hwmon: add quirk to avoid changing temperature threshold
+
+ drivers/nvme/host/nvme-hwmon.c | 110 +++++++++++++++++++++++++++++++++++------
+ drivers/nvme/host/nvme.h       |   5 ++
+ drivers/nvme/host/pci.c        |   3 +-
+ include/linux/nvme.h           |   6 +++
+ 4 files changed, 107 insertions(+), 17 deletions(-)
+
+Cc: Keith Busch <kbusch@kernel.org>
+Cc: Jens Axboe <axboe@fb.com>
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>
+Cc: Jean Delvare <jdelvare@suse.com>
+Cc: Guenter Roeck <linux@roeck-us.net>
+-- 
+2.7.4
 
 
 _______________________________________________
