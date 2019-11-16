@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9608C43215
-	for <linux-nvme@archiver.kernel.org>; Sat, 16 Nov 2019 15:46:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98166C432C3
+	for <linux-nvme@archiver.kernel.org>; Sat, 16 Nov 2019 15:47:12 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9E8E620836
-	for <linux-nvme@archiver.kernel.org>; Sat, 16 Nov 2019 15:46:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6C89320740
+	for <linux-nvme@archiver.kernel.org>; Sat, 16 Nov 2019 15:47:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="g4c4BFpP";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="uKbt2Xdh"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9E8E620836
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="K+wW+5K/";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="r+99ikYB"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6C89320740
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,38 +26,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=vj5tn3VTuy7hgzrMoMC9S9n/8zXFb/9RZuzU0YSZXSM=; b=g4c4BFpPQWQs1J
-	rSjXQLqk5u9oEAmO5M3lHq/VNOJi0weOFtIS0PbwSFDKmBnw+8i3yvknw/TaHvGrFd3Mn0o5rsSSc
-	kHnIEJXgFt45RDQhAew2gKP9aqxW6XgqZ/52ynLZ8yd+ZrP967hbOZuU+rbmkFZC5AdsX6N6ocObB
-	pnAqt2BWqWgdwGH2TgBi4jh6RLU4Dt5VoqcZ6npJ8a0GARuhz2oMh3SKNudQk0JN9/Pt3Y2Ux5kg7
-	dx0GbwW+6UHCEighpodbIYSvaCeELSn1O43KboqzZz3uClbLlOSY0g8FfTMkhMs1dhBPMpmUS5tXB
-	rYD2y+FplWBym0ya9LKw==;
+	List-Owner; bh=RbEaBlrx7is1rZ/rQTmBE2KhLV7E2mirugIjSvVwRfc=; b=K+wW+5K/hHu4lS
+	Eojhzwh6unGm9iqqF8o8/pX1h4hQjvlxChRWbjasME6SHhRnB6g6Bq3lwl7oVqs3R0wRkQddKU4bp
+	Mc+XuUPmG7mfi8ExzSe1nUQImQ5ECpTmCC1yOTBawzLceri8053HjrGU9D9NbV23L1BS2I9BRZ82u
+	mW/9ozKamSyrKGW7OP03KNgOPTq4qfJivwKnOUFbHnnU65sxTnOluRSxYTxgp6Y4mjuAqsw5pxSZI
+	KE3nDKVQ8EhTirKtu/RKYL6X//GOpHQAcgPOO/GAE0MpdQD4MHOoyBBfPcYk4SJEfCIN+uTY5WVcC
+	GGgCdXLBOIvmRuFRwhBQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iW0H3-0001kp-K4; Sat, 16 Nov 2019 15:46:09 +0000
+	id 1iW0I3-0002Fe-53; Sat, 16 Nov 2019 15:47:11 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iW0H0-0001k9-R8
- for linux-nvme@lists.infradead.org; Sat, 16 Nov 2019 15:46:08 +0000
+ id 1iW0I0-0002Ek-Fl
+ for linux-nvme@lists.infradead.org; Sat, 16 Nov 2019 15:47:09 +0000
 Received: from sasha-vm.mshome.net (unknown [50.234.116.4])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 2E72120866;
- Sat, 16 Nov 2019 15:46:06 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id DD3072083E;
+ Sat, 16 Nov 2019 15:47:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1573919166;
- bh=fD3i4LF56F5nF67qI1WpmKo+F44vFHcpbntZ+Ul8q2o=;
+ s=default; t=1573919228;
+ bh=PV75VkIsQLSgJfMJKGoDxgGY1yV4axR33hw/nS5ls3w=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=uKbt2XdhBqj/7jGhRFEreBXGE5yimXIBF2JqH3pYAvAsNeQwrMVr2oVLdIKqo3nEH
- lh6nDvPKnKWZtluygno4xWEuENnpuPorue1UpELD6C0Ntei/n4yjB2p5LqcewhQHo8
- EOumWeiQm/BJStF6ucjZbLeU6n9oW9j8axSfgu0M=
+ b=r+99ikYBG5FC64ak8lYuHubAWuli8KXEGLoHwOHONxLvx6m6QjkF+PzGuVutGKO0M
+ 2Gc3CPC6gt7drOKg3hHrhHg8Aeiare6n+EmxD51zAMObRAxh6L0vTeUsFalGMeWwUt
+ 6TkbyiWAnr7bmLU8/FcmIkrmdEylJxNvfuFVm2MY=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 175/237] nvme-pci: fix conflicting p2p resource
- adds
-Date: Sat, 16 Nov 2019 10:40:10 -0500
-Message-Id: <20191116154113.7417-175-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 232/237] nvme-pci: fix surprise removal
+Date: Sat, 16 Nov 2019 10:41:07 -0500
+Message-Id: <20191116154113.7417-232-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191116154113.7417-1-sashal@kernel.org>
 References: <20191116154113.7417-1-sashal@kernel.org>
@@ -65,8 +64,8 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191116_074606_901952_C7A43D6A 
-X-CRM114-Status: GOOD (  11.84  )
+X-CRM114-CacheID: sfid-20191116_074708_543517_EECD3572 
+X-CRM114-Status: GOOD (  11.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,84 +77,56 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Jens Axboe <axboe@kernel.dk>, Sasha Levin <sashal@kernel.org>,
- linux-nvme@lists.infradead.org, Keith Busch <keith.busch@intel.com>,
- Logan Gunthorpe <logang@deltatee.com>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <keith.busch@intel.com>, Sasha Levin <sashal@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
+ Igor Konopko <igor.j.konopko@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <keith.busch@intel.com>
+From: Igor Konopko <igor.j.konopko@intel.com>
 
-[ Upstream commit 9fe5c59ff6a1e5e26a39b75489a1420e7eaaf0b1 ]
+[ Upstream commit 751a0cc0cd3a0d51e6aaf6fd3b8bd31f4ecfaf3e ]
 
-The nvme pci driver had been adding its CMB resource to the P2P DMA
-subsystem everytime on on a controller reset. This results in the
-following warning:
+When a PCIe NVMe device is not present, nvme_dev_remove_admin() calls
+blk_cleanup_queue() on the admin queue, which frees the hctx for that
+queue.  Moments later, on the same path nvme_kill_queues() calls
+blk_mq_unquiesce_queue() on admin queue and tries to access hctx of it,
+which leads to following OOPS:
 
-    ------------[ cut here ]------------
-    nvme 0000:00:03.0: Conflicting mapping in same section
-    WARNING: CPU: 7 PID: 81 at kernel/memremap.c:155 devm_memremap_pages+0xa6/0x380
-    ...
-    Call Trace:
-     pci_p2pdma_add_resource+0x153/0x370
-     nvme_reset_work+0x28c/0x17b1 [nvme]
-     ? add_timer+0x107/0x1e0
-     ? dequeue_entity+0x81/0x660
-     ? dequeue_entity+0x3b0/0x660
-     ? pick_next_task_fair+0xaf/0x610
-     ? __switch_to+0xbc/0x410
-     process_one_work+0x1cf/0x350
-     worker_thread+0x215/0x3d0
-     ? process_one_work+0x350/0x350
-     kthread+0x107/0x120
-     ? kthread_park+0x80/0x80
-     ret_from_fork+0x1f/0x30
-    ---[ end trace f7ea76ac6ee72727 ]---
-    nvme nvme0: failed to register the CMB
+Oops: 0000 [#1] SMP PTI
+RIP: 0010:sbitmap_any_bit_set+0xb/0x40
+Call Trace:
+ blk_mq_run_hw_queue+0xd5/0x150
+ blk_mq_run_hw_queues+0x3a/0x50
+ nvme_kill_queues+0x26/0x50
+ nvme_remove_namespaces+0xb2/0xc0
+ nvme_remove+0x60/0x140
+ pci_device_remove+0x3b/0xb0
 
-This patch fixes this by registering the CMB with P2P only once.
-
-Signed-off-by: Keith Busch <keith.busch@intel.com>
-Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+Fixes: cb4bfda62afa2 ("nvme-pci: fix hot removal during error handling")
+Signed-off-by: Igor Konopko <igor.j.konopko@intel.com>
+Reviewed-by: Keith Busch <keith.busch@intel.com>
 Signed-off-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Jens Axboe <axboe@kernel.dk>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/pci.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 9479c0db08f62..124f41157173e 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1652,6 +1652,9 @@ static void nvme_map_cmb(struct nvme_dev *dev)
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	int bar;
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 5d0f99bcc987f..44da9fe5b27b8 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3647,7 +3647,7 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
+ 	down_read(&ctrl->namespaces_rwsem);
  
-+	if (dev->cmb_size)
-+		return;
-+
- 	dev->cmbsz = readl(dev->bar + NVME_REG_CMBSZ);
- 	if (!dev->cmbsz)
- 		return;
-@@ -2136,7 +2139,6 @@ static void nvme_pci_disable(struct nvme_dev *dev)
- {
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+ 	/* Forcibly unquiesce queues to avoid blocking dispatch */
+-	if (ctrl->admin_q)
++	if (ctrl->admin_q && !blk_queue_dying(ctrl->admin_q))
+ 		blk_mq_unquiesce_queue(ctrl->admin_q);
  
--	nvme_release_cmb(dev);
- 	pci_free_irq_vectors(pdev);
- 
- 	if (pci_is_enabled(pdev)) {
-@@ -2595,6 +2597,7 @@ static void nvme_remove(struct pci_dev *pdev)
- 	nvme_stop_ctrl(&dev->ctrl);
- 	nvme_remove_namespaces(&dev->ctrl);
- 	nvme_dev_disable(dev, true);
-+	nvme_release_cmb(dev);
- 	nvme_free_host_mem(dev);
- 	nvme_dev_remove_admin(dev);
- 	nvme_free_queues(dev, 0);
+ 	list_for_each_entry(ns, &ctrl->namespaces, list)
 -- 
 2.20.1
 
