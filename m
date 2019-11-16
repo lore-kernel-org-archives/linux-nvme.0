@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F34BFC432C3
-	for <linux-nvme@archiver.kernel.org>; Sat, 16 Nov 2019 15:42:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3B35C33C8C
+	for <linux-nvme@archiver.kernel.org>; Sat, 16 Nov 2019 15:42:31 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C34B120815
-	for <linux-nvme@archiver.kernel.org>; Sat, 16 Nov 2019 15:42:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C2DA220700
+	for <linux-nvme@archiver.kernel.org>; Sat, 16 Nov 2019 15:42:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="G06X6lf5";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="TVfMaCZc"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C34B120815
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="H/TKpML8";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="P1RKbQTj"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C2DA220700
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,37 +26,38 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=KOf78aM5SvELJmESzGXZ5Zm0fPid5r3rIvCtpZ8izrk=; b=G06X6lf5QJi28/
-	FyPIbuD7Lwqc6OLr9/zDB9tnwZ0lKDUeyv6PO5qFSkzrjPbL6EKGnArjvDntHJI9bZsE7L4khQ5mQ
-	t3NgCquDZzzuynJg+zEpqb8xjLKwHusNHDzt+S+SZXbRkO3p3eDq02NSqfKb5yllh+tpsiAKUHJ9+
-	j/sHTX9H8B6v6hE2ENmLHUsu4XW6O/PxfL4XJUJVYNnMbjfBPD88FItzrqM+wO9dhaCiqqtgDXqWg
-	7JlC1jFx49z9NnbU0EZnrymkfOveei3hvyOcMZz95ybi45QhBCHQfmLBWWYpxEUOUTD/sTMj8TCu+
-	ubsk6dXAgjsBYSVK0xIA==;
+	List-Owner; bh=NN+2XEHs9WDcLc6wu3jVA2oeQ3bCOf4s8X8J5XoP9rc=; b=H/TKpML8W7Zih5
+	mnsbRi0ICqkeWBauzRHKbzgKu6ZQeYcAbhBxOdg3vuPfAspntS/kspSRV3dxQLt2qfz1qPmFuGoV3
+	ZIlu/G3C7KninjfCMQGaroqzMZVKi2VdpQU152Pwh3EuPZzfylNJazn4KRQQjTk74uOGMtP0Dp2PZ
+	wrWstY4XQkZiNvmnXXKsU7VlwFpJoChXB1FzubSQcQbV/7yXYA32cd7Us2NZ3Cwjl387A/aUM09Sg
+	kn+lijUyE34T3RXV2B3rMis7GOk3mhzjcH9mqYDcb/TpAl3+ppTV8rQ38Lw2LnibA2te7VxBPpeUg
+	uBK2tmfCWg03ydXQgd5A==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iW0DJ-0007ag-9j; Sat, 16 Nov 2019 15:42:17 +0000
+	id 1iW0DU-0007or-W1; Sat, 16 Nov 2019 15:42:29 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iW0DC-0007Uf-Pa
+ id 1iW0DD-0007V6-BX
  for linux-nvme@lists.infradead.org; Sat, 16 Nov 2019 15:42:12 +0000
 Received: from sasha-vm.mshome.net (unknown [50.234.116.4])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id C90892075E;
- Sat, 16 Nov 2019 15:42:09 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id CC51D2082E;
+ Sat, 16 Nov 2019 15:42:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1573918930;
- bh=Qu4UXCaOZOleywbTOQooncLWSu1yX+qQ4EtAGc3XE4c=;
+ s=default; t=1573918931;
+ bh=+5WDG++5xSQuxpiwkJ1J9wYvQqH+k4jLnKBFQ/nlJIE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=TVfMaCZcp/C5cr4yZQe+mE2Xj3pRVEM6afsnqHMWn3/JNWdtWgRKT4c6cWMBd6M4H
- Oau0VHSRCYqmfGVHQAAeHaDKyjpndlRwWExLi+f3AQTYP+K2uhPxxbeLiZTR74tsgl
- 8QResSjiYLnu7AfT2NnlN/VhXnL0uNXY8duyK/hA=
+ b=P1RKbQTjvb6I2NNQ9JWoQftmIXz7VOXPmr7gbrRJk4XNNzHssLYpUx8arqVWUBxzI
+ 6FObe5xmC4M8kM/QzG+ldb3fvmGsLg3+lS6qQQJ6Xlp4d/7TvXAfNI7b7zfqOQaW0O
+ WDlROR09eGAGA2Eh/eoqpc17GgnoAHR3GqYvaR+M=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 057/237] nvmet-fcloop: suppress a compiler warning
-Date: Sat, 16 Nov 2019 10:38:12 -0500
-Message-Id: <20191116154113.7417-57-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 058/237] nvme-pci: fix hot removal during error
+ handling
+Date: Sat, 16 Nov 2019 10:38:13 -0500
+Message-Id: <20191116154113.7417-58-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191116154113.7417-1-sashal@kernel.org>
 References: <20191116154113.7417-1-sashal@kernel.org>
@@ -64,8 +65,8 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191116_074210_845223_65DC6F4E 
-X-CRM114-Status: GOOD (  12.18  )
+X-CRM114-CacheID: sfid-20191116_074211_426808_E6825DB6 
+X-CRM114-Status: GOOD (  12.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,48 +78,53 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Bart Van Assche <bvanassche@acm.org>, linux-nvme@lists.infradead.org,
- James Smart <james.smart@broadcom.com>
+Cc: Keith Busch <keith.busch@intel.com>, Sasha Levin <sashal@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Bart Van Assche <bvanassche@acm.org>
+From: Keith Busch <keith.busch@intel.com>
 
-[ Upstream commit 1216e9ef18b84f4fb5934792368fb01eb3540520 ]
+[ Upstream commit cb4bfda62afa25b4eee3d635d33fccdd9485dd7c ]
 
-Building with W=1 enables the compiler warning -Wimplicit-fallthrough=3. That
-option does not recognize the fall-through comment in the fcloop driver. Add
-a fall-through comment that is recognized for -Wimplicit-fallthrough=3. This
-patch avoids that the compiler reports the following warning when building
-with W=1:
+A removal waits for the reset_work to complete. If a surprise removal
+occurs around the same time as an error triggered controller reset, and
+reset work happened to dispatch a command to the removed controller, the
+command won't be recovered since the timeout work doesn't do anything
+during error recovery. We wouldn't want to wait for timeout handling
+anyway, so this patch fixes this by disabling the controller and killing
+admin queues prior to syncing with the reset_work.
 
-drivers/nvme/target/fcloop.c:647:6: warning: this statement may fall through [-Wimplicit-fallthrough=]
-   if (op == NVMET_FCOP_READDATA)
-      ^
-
-Signed-off-by: Bart Van Assche <bvanassche@acm.org>
-Reviewed-by: James Smart <james.smart@broadcom.com>
+Signed-off-by: Keith Busch <keith.busch@intel.com>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/target/fcloop.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/nvme/host/pci.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
-index 5251689a1d9ac..291f4121f516a 100644
---- a/drivers/nvme/target/fcloop.c
-+++ b/drivers/nvme/target/fcloop.c
-@@ -648,6 +648,7 @@ fcloop_fcp_op(struct nvmet_fc_target_port *tgtport,
- 			break;
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index a64a8bca0d5b9..9479c0db08f62 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2583,13 +2583,12 @@ static void nvme_remove(struct pci_dev *pdev)
+ 	struct nvme_dev *dev = pci_get_drvdata(pdev);
  
- 		/* Fall-Thru to RSP handling */
-+		/* FALLTHRU */
+ 	nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DELETING);
+-
+-	cancel_work_sync(&dev->ctrl.reset_work);
+ 	pci_set_drvdata(pdev, NULL);
  
- 	case NVMET_FCOP_RSP:
- 		if (fcpreq) {
+ 	if (!pci_device_is_present(pdev)) {
+ 		nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DEAD);
+ 		nvme_dev_disable(dev, true);
++		nvme_dev_remove_admin(dev);
+ 	}
+ 
+ 	flush_work(&dev->ctrl.reset_work);
 -- 
 2.20.1
 
