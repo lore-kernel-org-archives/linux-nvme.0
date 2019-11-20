@@ -6,17 +6,17 @@ X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF44EC432C3
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 Nov 2019 18:49:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EDFBC432C3
+	for <linux-nvme@archiver.kernel.org>; Wed, 20 Nov 2019 18:51:24 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A4513206CB
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 Nov 2019 18:49:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3360520721
+	for <linux-nvme@archiver.kernel.org>; Wed, 20 Nov 2019 18:51:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="NVX2ZfQz"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A4513206CB
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="bPz4T1tB"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3360520721
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
@@ -24,37 +24,36 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=SgVXsRM8nyq8ICljSRkYNbIhlxVgL9zei0pShmBmFlY=; b=NVX2ZfQzNTPOEx
-	c0J1dMow75d6b1peQ72o8BJurSYCQI5wBY99beldwn+3zj5PP0naSuExU0Dx30WKnen2rA2qlWY/e
-	kURQed4VthcdfcNQzmxrVI02bUvSyKYBl9Nxvq+oS9ydI5udrSTFXkhYLOvL57FED9engvtFPBSg5
-	tjcM9BHaDx8GDOoTOmF3smtEgJQ/E1nX1pZLoBYk8ZiMEdosKz3rILgcZJnqtizWz6wrlW7WEdCer
-	RZ0pykAKWy6VIWC9PdMBN1/pDCTKMV2QV3FwVOomPyv9QNK4tMc959u9Z6xCFrGB3jWVE2+5CkreW
-	moDGXVBkzYq1Phy7s97A==;
+	List-Owner; bh=SHPkmNe4mOlvW1ULn+Fe6ivsR0Sbo+1o0tdoi973pNk=; b=bPz4T1tBkWKJJ7
+	6FpdMT8e+uJjrLsisWzH/n/xa9zNpYbyBM5UirXTmgtccJwkGbE6W5+KqFeYsTLIrf/138YUhE6kW
+	Zei/6i+L4aQ4lpO7cJ+e7182NoHGuGRnmj+IzUuIVcbE5c6xXxBXyRzBFv31prmkHq8lqj/RutME8
+	2WZ9Vau09QJnHVC7Dbnwe9nix9ghkXdYlwX+ZvmKo21hLEB/e/GrUZRQoUIZ4Td3paO4rV7duwrt5
+	PSDzRQ/zwYI2O1/1Etf4SbL6D5cBG4qFiKKTtZAMUwhEoBL/ibcVGmYVsQsQCtgL3kQ50G6ZVkBBa
+	mKRxoiPJSiiBtynBGF9A==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iXV2G-0002RQ-Bo; Wed, 20 Nov 2019 18:49:04 +0000
-Received: from verein.lst.de ([213.95.11.211])
- by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iXV2D-0002QZ-I1
- for linux-nvme@lists.infradead.org; Wed, 20 Nov 2019 18:49:02 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 9D4C768B05; Wed, 20 Nov 2019 19:48:59 +0100 (CET)
-Date: Wed, 20 Nov 2019 19:48:59 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Akinobu Mita <akinobu.mita@gmail.com>
-Subject: Re: [PATCH v2 2/2] nvme: hwmon: add quirk to avoid changing
- temperature threshold
-Message-ID: <20191120184859.GB12322@lst.de>
-References: <1573746001-20979-1-git-send-email-akinobu.mita@gmail.com>
- <1573746001-20979-3-git-send-email-akinobu.mita@gmail.com>
+	id 1iXV4V-0003wp-2M; Wed, 20 Nov 2019 18:51:23 +0000
+Received: from hch by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red
+ Hat Linux)) id 1iXV4T-0003wa-Jn; Wed, 20 Nov 2019 18:51:21 +0000
+Date: Wed, 20 Nov 2019 10:51:21 -0800
+From: Christoph Hellwig <hch@infradead.org>
+To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+Subject: Re: [PATCH] nvmet: make ctrl-id configurable
+Message-ID: <20191120185121.GA697@infradead.org>
+References: <20191103181343.3011-1-chaitanya.kulkarni@wdc.com>
+ <409804f3-158b-cc3e-9b04-6499bfe1638d@mellanox.com>
+ <3381ACB3-3ACC-4124-8925-09CED68BA11E@onestopsystems.com>
+ <b79e612f-4b49-a80f-bc34-e672ae98c1af@mellanox.com>
+ <B500B4ED-DF25-41F3-83F8-6E239718564A@onestopsystems.com>
+ <c8472575-1041-c44e-e26a-1201161c22c6@broadcom.com>
+ <802cb171-34de-65cc-75c5-83ef7c200dc4@grimberg.me>
+ <3D590371-4C4F-4355-B36E-7795FB218FC6@onestopsystems.com>
+ <2f3ea2c4-f59a-22e3-ed09-91cf737818ea@grimberg.me>
+ <BYAPR04MB5749590C4171F548680DEB7686760@BYAPR04MB5749.namprd04.prod.outlook.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1573746001-20979-3-git-send-email-akinobu.mita@gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191120_104901_751022_FD8C1934 
-X-CRM114-Status: UNSURE (   6.05  )
-X-CRM114-Notice: Please train this message.
+In-Reply-To: <BYAPR04MB5749590C4171F548680DEB7686760@BYAPR04MB5749.namprd04.prod.outlook.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,18 +65,18 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
- Jens Axboe <axboe@fb.com>, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Guenter Roeck <linux@roeck-us.net>
+Cc: Mark Ruijter <MRuijter@onestopsystems.com>,
+ Max Gurtovoy <maxg@mellanox.com>, Sagi Grimberg <sagi@grimberg.me>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ James Smart <james.smart@broadcom.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Looks good,
-
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+The min/max approach looks sensible to me, at least with some good
+documentation on how to use multiple Linux systems to implement
+a single subsystem.
 
 _______________________________________________
 Linux-nvme mailing list
