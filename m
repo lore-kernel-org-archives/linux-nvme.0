@@ -7,75 +7,128 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C91E6C432C0
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Nov 2019 19:31:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A2D1C432C0
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Nov 2019 20:17:00 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9BB08206D7
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Nov 2019 19:31:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C9F4A20672
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Nov 2019 20:16:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="dDI6bqya";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="C+aazRjx"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9BB08206D7
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="JQtsn2U8";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="diCIWI2L";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="fFkTIz6/"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C9F4A20672
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Mime-Version:References:In-Reply-To:
-	Date:To:From:Subject:Message-ID:Reply-To:Cc:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=VLPVGxRLg1XEyZ//JjhVv1DMb5P9iFvX/KaIsvfMqp4=; b=dDI6bqyak+d8vl
-	UqIASU9HuLvi9DY3NY7JlnNxyvPwh5s2gWJxCqEvEOWFC4kuAyNt9sMgqzYuK2VT8d6nCYSKLJp4y
-	/z5sqYHCFq9uIdMkyfBRcr9OLpR1vRmxeC0ox9E/yTLyGqbVjTo75QfQgg4UmHPvjNhsEtCZLpRXA
-	QV8WiGHIvrS7MAUi8R9+m7LfkSaF4VxaW8I1lf2kcBmrq/BrjsUPq7acV3/d06ABhTzoT8AgdsKJV
-	jvLbh7qTwoBfGFf05/UzPt6M2Ko6+TOUBC5K15BglJg7oONpikdeY65RrSCH1w2IzGywFj+nddpKB
-	dBOQ1ZjdYal6XA/+xQGg==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date
+	:Subject:To:From:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+	List-Owner; bh=+rXIQGsp41R/x18mk6wIzjfoaPQVi3gKRlu/MsTR0OQ=; b=JQtsn2U8LoN/to
+	JSaaU4pDHF/HJJh8ixnwGH8RaHMcT1sCTBzWydWgXYx/0SHv4QgXvrUEdma9kdk86kLp+kSX5nPMG
+	R76AmwGAGrlR4qW+LI64CXcGpzjqz6LdMb7xrk0nG4eQOjbwVVb8ijxmNpVF3n2+GXZ9b4T7v8GQq
+	RUAYJLzZml237dVnsWHf4XiteM1HDuVfax9hmlHTE4zkIkSEwbMDtxgUgMiMrSZnsJqjYXxVXpsBe
+	IgYLXDaRkd23cbuRyXI5WmB8eIhwrmwAvxhLAhGSZ88ASOEYX/ejiY/dBv0dlfpIup5mYwDbwUKPG
+	/AkxtOYYOutLBxIp3ErQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iXsB8-0008HW-RI; Thu, 21 Nov 2019 19:31:46 +0000
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]
- helo=us-smtp-1.mimecast.com)
+	id 1iXssq-00010T-1e; Thu, 21 Nov 2019 20:16:56 +0000
+Received: from esa5.hgst.iphmx.com ([216.71.153.144])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iXsB6-0008HB-Cj
- for linux-nvme@lists.infradead.org; Thu, 21 Nov 2019 19:31:45 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574364703;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ib5rcoCmtPuK/g17wBn0ECB7i9m87M7k1aLliVmkRPA=;
- b=C+aazRjxLPbK9rVUBP4Tmil/uycS2VqXqzkv+tCJTwS7kx5hx2O9bwEYCFeNEkJmyLjnHq
- lBjLt5hMQBxO+JDjK9a3tMZvTBaOBiI8lqdBWAG1GrKpp6tDY/CpBo/ZvbLSjS2aE1D0Gt
- VyByiguCBD6s4vpYv7ZWJo1HBXVqjq4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-50-V4UynWf8MY6bHgL8h9q3Gg-1; Thu, 21 Nov 2019 14:31:41 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB36B801E58
- for <linux-nvme@lists.infradead.org>; Thu, 21 Nov 2019 19:31:40 +0000 (UTC)
-Received: from emilne (unknown [10.18.25.205])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 88CAD6683F
- for <linux-nvme@lists.infradead.org>; Thu, 21 Nov 2019 19:31:40 +0000 (UTC)
-Message-ID: <aa5ab9ccface65cba94340384f5f790b0944de2e.camel@redhat.com>
-Subject: Re: [PATCH] nvme-fc: fix double-free scenarios on hw queues
-From: "Ewan D. Milne" <emilne@redhat.com>
-To: linux-nvme@lists.infradead.org
-Date: Thu, 21 Nov 2019 14:31:40 -0500
-In-Reply-To: <20191121175937.19615-1-jsmart2021@gmail.com>
-References: <20191121175937.19615-1-jsmart2021@gmail.com>
-Mime-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: V4UynWf8MY6bHgL8h9q3Gg-1
-X-Mimecast-Spam-Score: 0
+ id 1iXssm-0000zo-Ef
+ for linux-nvme@lists.infradead.org; Thu, 21 Nov 2019 20:16:54 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1574367413; x=1605903413;
+ h=from:to:subject:date:message-id:references:
+ content-transfer-encoding:mime-version;
+ bh=T9X1tGH1FTUemUjbx17h+p4GSWn56/evJYBWZm0Txns=;
+ b=diCIWI2L0WNJ6RUDUU9T9ySyihvCBZg27vHP6ecMXfsPG85SXQV5hquj
+ fH9L9KDobpx+Du1KQLXUhWt8WRdRMROPxe3a3Edn1ySda+V7zTyeH1iBL
+ Jgb2YZi5Ua3XO//wySP5Uxh282Zj+w8GfdEzhXbmMHV20pJh0QiCgASON
+ 7S6XJEv6PCKmMclh4Nn5gPzUD9qcnuekE5UdCjjaM7UPgyEqFOrwlh2Ol
+ 2r7tfggAPiN1S9K80+QnHzWHwz3I1RlAIobcauMkGo+C6nd1uTT/onf8d
+ siP++KtargHw8NEYLqze/f95gr87b5nJZL/vlQxbM4S6ekSma4rIthFkS w==;
+IronPort-SDR: zxrxYjVMMujLGL2DFP1g0/Mf6gvaT7BzfyJminu0yzSYd4bDQtvLzXJEzickvo3PMYc5fJjqWa
+ d4wj3BI6t6k/vC3R/ASw/SbKpuEAj1Ds1PjiFnCpPNwKnM1IlqWgODbS/udinLwpTKQytNuZHK
+ dPR5o4foaiPKg+8OYwaK6D5eVxjJ422dVsu9YQtKpEzlwGWdkLYdFVgD3C0l4zFyFmuc1IgG2z
+ jwEwcrbhea+rzv/acOFKvX0b8ImJnqiauN5tjpR3uyFFVmaUGU3CKTb/S+KnnXZ8GwGa0C6EZE
+ 75g=
+X-IronPort-AV: E=Sophos;i="5.69,227,1571673600"; d="scan'208";a="124444894"
+Received: from mail-co1nam03lp2059.outbound.protection.outlook.com (HELO
+ NAM03-CO1-obe.outbound.protection.outlook.com) ([104.47.40.59])
+ by ob1.hgst.iphmx.com with ESMTP; 22 Nov 2019 04:16:50 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ux781UA+JAqz8woE3aYt5ZXKdQAFqWYI0xWLDzrBXKHKbQKDXS/tcfeTki4/+qWynBynNvhbaT+1s5JgzJHHNrcTp9DkD43QUdre4P/6avGvYicp/lposWqRJcxs9q/wqyPI8ENFUOMazyA3gm2ZneA5zI4sPotwEBPZXOeykDGCyvPsKYYDhia4FFrSKxXX2z8PEmvBvfqnh7NaYuenTnM/QB96KwwNYgTdrPWP3cl4OK6XqaJGgZCh+t6uzXgEtvNA8u6UdeHdbCtrqX3jBSQXKJntU9eeRBEyInL1EaL9dWHmz2kg048H1dc5jHAvVCtt9Ad5zXZv2kMkFV+WLA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BZGJcDtsLYS3KWx96OmVpdoKk3cK+7kLBeAhTljns2k=;
+ b=TpOWFFDTIH2K/5xaZey5S4wgKiRc9GXjpDSUuxL2VoWOTsR+NSsQv2VplLgSNv/0Hz+rgZ36wTkiziAGJXECGT9QYyb9sG1iy0B17mP0RvOCc4Cosy5zqyFLqtiZW39Ke9piXPbWz2YxWPJhoK5lMzW5lf59jCafCkli0dmpSKSqsigaUy7ku8UBHffJPrLQVLT8I21AjrGNo1BtytcIWyptuSIZfyVoaZgcD4knmbf7L/5YRSuuRgYDfJ1eC1jIAaq5B+y/r9URL4cmW2j+hSwyetEHzGjAyVLbrcF7MqsVgg0qfQOCOynqWWoMWPHbULYz56Ts8IzrXrznXu/fMw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BZGJcDtsLYS3KWx96OmVpdoKk3cK+7kLBeAhTljns2k=;
+ b=fFkTIz6/zSDbpIBIGRJwphEd+LXUG2O9ZSaV88ZXqhLeXuNhujo0Ha7sDaO4T9w/SRHOSNo8R3AeGy/l9t0eGbjKR2FY33G1XVtJkxfnChf0C6jbQh5jH+Ef+XOIUZzIcvK09vlgKHtENe3J1txKFKxM2omCDTHs04t9evv1EYs=
+Received: from BYAPR04MB5749.namprd04.prod.outlook.com (20.179.57.21) by
+ BYAPR04MB6184.namprd04.prod.outlook.com (20.178.234.221) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2474.18; Thu, 21 Nov 2019 20:16:47 +0000
+Received: from BYAPR04MB5749.namprd04.prod.outlook.com
+ ([fe80::6066:cd5d:206:5e04]) by BYAPR04MB5749.namprd04.prod.outlook.com
+ ([fe80::6066:cd5d:206:5e04%6]) with mapi id 15.20.2474.019; Thu, 21 Nov 2019
+ 20:16:47 +0000
+From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+To: James Smart <jsmart2021@gmail.com>, "linux-nvme@lists.infradead.org"
+ <linux-nvme@lists.infradead.org>
+Subject: Re: [PATCH] nvme: add error message on mismatching controller ids
+Thread-Topic: [PATCH] nvme: add error message on mismatching controller ids
+Thread-Index: AQHVoJVIZokE9SAtKkuCy+NNm3g3WQ==
+Date: Thu, 21 Nov 2019 20:16:46 +0000
+Message-ID: <BYAPR04MB5749300C95DFB14D882000DF864E0@BYAPR04MB5749.namprd04.prod.outlook.com>
+References: <20191121175810.19501-1-jsmart2021@gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Chaitanya.Kulkarni@wdc.com; 
+x-originating-ip: [199.255.45.62]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 1f4af306-7880-4f0d-1c71-08d76ebfbc20
+x-ms-traffictypediagnostic: BYAPR04MB6184:
+x-microsoft-antispam-prvs: <BYAPR04MB6184CEDDDBC1172B2AA86EEF864E0@BYAPR04MB6184.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:660;
+x-forefront-prvs: 0228DDDDD7
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(4636009)(136003)(366004)(346002)(396003)(39860400002)(376002)(199004)(189003)(229853002)(478600001)(14454004)(6436002)(316002)(3846002)(9686003)(14444005)(2501003)(81166006)(8676002)(110136005)(52536014)(7696005)(76116006)(6116002)(6246003)(76176011)(446003)(71190400001)(71200400001)(66946007)(6506007)(7736002)(15650500001)(305945005)(66556008)(53546011)(186003)(99286004)(86362001)(25786009)(81156014)(74316002)(33656002)(8936002)(55016002)(66066001)(5660300002)(256004)(26005)(66476007)(102836004)(2906002)(66446008)(64756008);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:BYAPR04MB6184;
+ H:BYAPR04MB5749.namprd04.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: eOidmHqXd8RYwTa6j9nbVcUAz4vQiIRAw31Rxk+wHEFH0NWmNyKIhbArVWbkNKVAy+sF0YmFNZ70FV4FstjVyI8xTD7BuSRiJFAsxOhAFP0RTmxit1uxBxGH43gA41e6XFahGMWjQO5KB4wh6vG2VlpI8se3CUQJ6ErDCYDCABdcmVCJbSUhCddd/7bl94tS6JEElgq2ybWP5RpaZCdgWvlhMq8GXf+ddK9IVuFkm+jbqSTTCMVd8/nTdQUKefAxGyUVv6P8I5k85HDh1H2jXe/lwkmhe/olnORn6DzEhNTYauqr34QWkcenVQ23ZqXT/oc7sPLc4B4IRd1VcJoXaSDD4ToOd/NOFfEB1y4+2timNx+QFNitYBbrJWx7oxLu26L/mCYgfgM/5YlH4NyRLw8r51bJ5eNvZRPzs5wTAMLaKQFqV7CCZLLT7zzeq6wo
+x-ms-exchange-transport-forked: True
+MIME-Version: 1.0
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1f4af306-7880-4f0d-1c71-08d76ebfbc20
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Nov 2019 20:16:46.9045 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 0fZY/qSncmHIDdIOBzkyoXiMxmZPhyGhYAtYgQMrpM2lStxumZkd+T0usdJW5V8P02D+Zi2PMfreslwhJWKKxFLD9vAhFVJ8JAPeHcFSY2w=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB6184
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191121_113144_501557_9FD8B168 
-X-CRM114-Status: GOOD (  23.72  )
+X-CRM114-CacheID: sfid-20191121_121652_584113_B2B38F6C 
+X-CRM114-Status: GOOD (  15.74  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,73 +145,65 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, 2019-11-21 at 09:59 -0800, James Smart wrote:
-> If an error occurs on one of the ios used for creating an
-> association, the creating routine has error paths that are
-> invoked by the command failure and the error paths will free
-> up the controller resources created to that point.
-> 
-> But... the io was ultimately determined by an asynchronous
-> completion routine that detected the error and which
-> unconditionally invokes the error_recovery path which calls
-> delete_association. Delete association deletes all outstanding
-> io then tears down the controller resources. So the
-> create_association thread can be running in parallel with
-> the error_recovery thread. What was seen was the LLDD received
-> a call to delete a queue, causing the LLDD to do a free of a
-> resource, then the transport called the delete queue again
-> causing the driver to repeat the free call. The second free
-> routine corrupted the allocator. The transport shouldn't be
-> making the duplicate call, and the delete queue is just one
-> of the resources being freed.
-> 
-> To fix, it is realized that the create_association path is
-> completely serialized with one command at a time. So the
-> failed io completion will always be seen by the create_association
-> path and as of the failure, there are no ios to terminate and there
-> is no reason to be manipulating queue freeze states, etc.
-> The serialized condition stays true until the controller is
-> transitioned to the LIVE state. Thus the fix is to change the
-> error recovery path to check the controller state and only
-> invoke the teardown path if not already in the CONNECTING state.
-> 
+Looks good to me, just one nit with the commit message
+and can be applied at the time of applying patch.
+
+Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+
+On 11/21/2019 09:58 AM, James Smart wrote:
+> We've seen a few devices that return different controller
+> id's to the Fabric Connect command vs the Identify(controller)
+> command. It's currently hard to identify this failure by
+> existing error messages. It comes across as a (re)connect
+> attempt in the transport that fails with a -22 (-EINVAL)
+> status. The issue is compounded by older kernels not having
+> the controller id check or had the identify command overwrite
+> the fabrics controller id value before it checked. Both resulted
+> in cases where the devices appeared fine until more recent kernels.
+>
+> Clarify the reject by adding an error message on controller
+> id mismatches.
+
+When I applied this patch found that there is still some room
+so we can get to the 72 columns (unless it is done with some purpose)
+for the commit message, I've just adjusted the lines without changing 
+any description :-
+
+We've seen a few devices that return different controller id's to the
+Fabric Connect command vs the Identify(controller) command. It's
+currently hard to identify this failure by existing error messages.
+It comes across as a (re)connect attempt in the transport that fails
+with a -22 (-EINVAL) status. The issue is compounded by older kernels
+not having the controller id check or had the identify command
+overwrite the fabrics controller id value before it checked. Both
+resulted in cases where the devices appeared fine until more recent
+kernels.
+
+Clarify the reject by adding an error message on controller id
+mismatches.
+
+>
 > Signed-off-by: James Smart <jsmart2021@gmail.com>
 > ---
->  drivers/nvme/host/fc.c | 18 +++++++++++++++---
->  1 file changed, 15 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> index 679a721ae229..2acb850bf9f4 100644
-> --- a/drivers/nvme/host/fc.c
-> +++ b/drivers/nvme/host/fc.c
-> @@ -2910,10 +2910,22 @@ nvme_fc_reconnect_or_delete(struct nvme_fc_ctrl *ctrl, int status)
->  static void
->  __nvme_fc_terminate_io(struct nvme_fc_ctrl *ctrl)
->  {
-> -	nvme_stop_keep_alive(&ctrl->ctrl);
-> +	/*
-> +	 * if state is connecting - the error occurred as part of a
-> +	 * reconnect attempt. The create_association error paths will
-> +	 * clean up any outstanding io.
-> +	 *
-> +	 * if it's a different state - ensure all pending io is
-> +	 * terminated. Given this can delay while waiting for the
-> +	 * aborted io to return, we recheck adapter state below
-> +	 * before changing state.
-> +	 */
-> +	if (ctrl->ctrl.state != NVME_CTRL_CONNECTING) {
-> +		nvme_stop_keep_alive(&ctrl->ctrl);
->  
-> -	/* will block will waiting for io to terminate */
-> -	nvme_fc_delete_association(ctrl);
-> +		/* will block will waiting for io to terminate */
-> +		nvme_fc_delete_association(ctrl);
-> +	}
->  
->  	if (ctrl->ctrl.state != NVME_CTRL_CONNECTING &&
->  	    !nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING))
-
-Reviewed-by: Ewan D. Milne <emilne@redhat.com>
+>   drivers/nvme/host/core.c | 4 ++++
+>   1 file changed, 4 insertions(+)
+>
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 9696404a6182..c272afb084d1 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -2824,6 +2824,10 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+>   		 * admin connect
+>   		 */
+>   		if (ctrl->cntlid != le16_to_cpu(id->cntlid)) {
+> +			dev_err(ctrl->device,
+> +				"Mismatching cntlid: Connect %u vs Identify "
+> +				"%u, rejecting\n",
+> +				ctrl->cntlid, le16_to_cpu(id->cntlid));
+>   			ret = -EINVAL;
+>   			goto out_free;
+>   		}
+>
 
 
 _______________________________________________
