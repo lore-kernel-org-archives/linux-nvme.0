@@ -8,17 +8,17 @@ X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 010EEC432C3
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Nov 2019 17:58:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70BFEC432C3
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Nov 2019 17:59:52 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C6D3B20658
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Nov 2019 17:58:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 39DAC20672
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Nov 2019 17:59:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="lnnurSV8";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="svsYn2yu"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C6D3B20658
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="fRFnlX7X";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TfZ0Nzz/"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 39DAC20672
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -27,59 +27,58 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	References:List-Owner; bh=BA7D/fG3XQZPs/34jdu/RiVimWkfK1IdKQ4thukypGI=; b=lnn
-	urSV8kzfQuYMGdGkzAMR67fIv0gGHafvWP0EPR7YqXNXrXVfTju8Doq8CG7GSEQe1iNZDTiZA56uL
-	HOGvJLo2WjdCVcR5LJPFO6gFz0Hs9HUsrOSlkKraVqhQc09ej6lZadyJBJ0F9GaSUW9368gzZfhp+
-	6XiXXUV7j3QMR2xTMAsZf5tC82aQ46hmLnDnzxWEA9DQ/0/QG1Jtg2mKgzhfTZ2ohpcfkg0pWF8v0
-	Ag+r0V57f68C7rSb6K18xRv0CdIxmAT62MZu5WWeNjOVvPu6qlKbYL0Hjy532yWL0iQ8bpIEkzpe7
-	T1y69vuRdP20OqZme/yaBeasiP/OYow==;
+	References:List-Owner; bh=wgXbbEKnZdp0oaVvPyKhmrY/hosB9/OzggI1r0M+evI=; b=fRF
+	nlX7XRB22Wyl8IKq9If42GQGdEG5RRcuh4yWVWkF62leihuWcvtZiSS+llIAzVK4lYpDnk8lvl2ow
+	CDSxTiw9wvt2C7gkkjbAJHOcsz2gFFnobW2v9iHpQDoc1sz+D2G9ti1l6GEzD1sauGeK9l0pU6lP2
+	CX/wp0NWD6RQUWPDDiYztViRwQShc5P8X7dQuC4BVdvLLK23GhfPUU+hasoaPNY6WdJbav59eqSS5
+	b0fPZKkX8v2XjtnbsNftRqLm89rcUyi3VKaMMaHLm3WkocdqTMOVGDG8YxXktoen7NySjx59eIldf
+	juRljJPdbmtgwuEn8nglv+Y2TqjRumg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iXqil-0008Qw-L6; Thu, 21 Nov 2019 17:58:23 +0000
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442])
+	id 1iXqkA-0000ES-8O; Thu, 21 Nov 2019 17:59:50 +0000
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iXqij-0008QO-4B
- for linux-nvme@lists.infradead.org; Thu, 21 Nov 2019 17:58:22 +0000
-Received: by mail-wr1-x442.google.com with SMTP id 4so2231980wro.7
- for <linux-nvme@lists.infradead.org>; Thu, 21 Nov 2019 09:58:20 -0800 (PST)
+ id 1iXqk7-0000E2-9Q
+ for linux-nvme@lists.infradead.org; Thu, 21 Nov 2019 17:59:48 +0000
+Received: by mail-wr1-x441.google.com with SMTP id n1so5518993wra.10
+ for <linux-nvme@lists.infradead.org>; Thu, 21 Nov 2019 09:59:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id;
- bh=C3rnyKvJ3sxB3k5fso7yk0LDsxs+BBdpRzygcWDyCxQ=;
- b=svsYn2yuIApITWEcT+m6YlOa4jjSUdaDEIhb9peuuDR8pp8YvS4SiEklpofe0kOCLk
- LJSlzHkqoQXJh8b6S4T22HjKs93iY+aN5qxFGZxkzg1tAZZOiysHgoKR0XmH+4Vk4FCb
- KA+Hm0vn3n5b8YB787mtyMLmp9IWyUCjbQudmTeLBxIcQ+0tVVYobwp+NBkxhZ8tD30h
- YbbOcN4S9lLTNNvrjScDR0LFr2oXONshvFO/h/m2KcWLBfHgd89VyAOCm4pJf+ow/DRG
- qcXFaXnYfKA72Oxcd2FEpdqDowbM33ui4Lu3tNtfGccK/89P8Z8uQTWkBURvkKnvhqRf
- w4Ng==
+ bh=4TIeXD2zcUlhfsTSS9GTK25VQMizljeJp9l5nsyRE2E=;
+ b=TfZ0Nzz/InAORKxh2r4Xi86dbaHnbN2rj4/1NzogNfGvLVXfeTyCVL4jUjHvO24LdS
+ FZMvESiqaXkBzWvN6qihoyF9ZpxWMH0CcB7I+hiu7DtAYRSNwFMVNyxESjKgYyTu8kSU
+ PeGzDWUmsBkmpPAPlwH4pxdoeqitruC66phiuPhI6iTNH9RCAZodHEt9sJbEsZ3D7XV0
+ vqrIXkQy+Hg2ijw3wVN4NYibdreVlNGtTvl4WhJbX+PGBf2kZpkIZk3HBl+KmCPg/aBV
+ MDq+Z0/o04hCe3LRJSYnUJrxwWNOugBA41xayCCeOrfqz0pWOP5qGHXz/wzEjnUPfZfa
+ JKgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=C3rnyKvJ3sxB3k5fso7yk0LDsxs+BBdpRzygcWDyCxQ=;
- b=seWo4bmM812ZChf4Nh5WaGMheEU0XyZ4zbSSY68c8Rv7LKmPFkPvU/xEYmcWpwRjmf
- NLf5jIYJXJPs7Wpr2lr4dFhw172dYuZItazsoeD6o5FDSpTzR4nawbxhKKpa8II20wAX
- zqBExV1ExjHvFsCQrrAssVtqqD7LKP94SmFxzKj9J4A5+xhm1d5HaCFsR7o5bg2V45JD
- iSDgiRSIA5fug9/PyTQhsdzsS3Ry94zvsNL/6UjgZ85VN+vwLaoPwPPU6AwfAvDHFRhB
- 3eGOlYRKVP9p5syqpb1TPMT1K/GS5/yLMaEwsw8SVWInCCkgwEyoRMh0lQYBmJ4c2LTA
- DNuw==
-X-Gm-Message-State: APjAAAVTpjSQxS1XDtoG/SDrKt4/KcHD6+Tk2pgTB2F4g8vRcwTygRIv
- NoL4wZ4AfWM2iqUmewhwTNe5517o
-X-Google-Smtp-Source: APXvYqxrbRCnLCiYVOgXA2qIEN2jSdJpnEJJQLFQXKC3dOVjSJRfj8xGDMaaqVSy6az7bQo8fRiV+A==
-X-Received: by 2002:adf:979a:: with SMTP id s26mr12700302wrb.92.1574359098846; 
- Thu, 21 Nov 2019 09:58:18 -0800 (PST)
+ bh=4TIeXD2zcUlhfsTSS9GTK25VQMizljeJp9l5nsyRE2E=;
+ b=L8Vdf/lc2aY54elo7FNbVYLvGyifN6M8jfeZrYPbOOtstWRH7eVGTf67j5a6/oVdu+
+ t8afuIrQTc1ISNIXEDgOW7goS9a/efzjLXyL8zSiR2L//X+hEEF2ZEHqfkIhXmawSikI
+ WSjwpEiorOnpyNoo7R6smqvDNt00sUxqtM0eoIqqkO6pvfEAn0E1jJ2QKu/VS25AIJgw
+ jEengrC+1OtswJ1nFGLocoxNWof7p2vI8SkGwrUs8IfL6PrWrs3iQNmd270Q8lFXxzac
+ 7pQsOOBTVdU+7eHwjLCj30ACqHPI6G9l4FVHaxgfo7/CqvJCe8tWJrlIJ/VwOputNy3X
+ B2ww==
+X-Gm-Message-State: APjAAAWh+9es99uKPAssMlQ7bN1/GLauMrlj3yDoEJK2t7RaBcG93nI5
+ jNVSIKlhFR1OyJ5ZEtZAdxGa4Zd7
+X-Google-Smtp-Source: APXvYqzuwZ/tgrHPOs4eBr3DSohsZ9wV6XG/YaTv2xqBLGP+zCjd57iO6uATc/MASIuzTObCwgIh+g==
+X-Received: by 2002:a5d:5391:: with SMTP id d17mr13287754wrv.382.1574359185738; 
+ Thu, 21 Nov 2019 09:59:45 -0800 (PST)
 Received: from os42.localdomain ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id q5sm401738wmc.27.2019.11.21.09.58.17
+ by smtp.gmail.com with ESMTPSA id w17sm4378530wrt.45.2019.11.21.09.59.44
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Thu, 21 Nov 2019 09:58:18 -0800 (PST)
+ Thu, 21 Nov 2019 09:59:45 -0800 (PST)
 From: James Smart <jsmart2021@gmail.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH] nvme: add error message on mismatching controller ids
-Date: Thu, 21 Nov 2019 09:58:10 -0800
-Message-Id: <20191121175810.19501-1-jsmart2021@gmail.com>
+Subject: [PATCH] nvme-fc: fix double-free scenarios on hw queues
+Date: Thu, 21 Nov 2019 09:59:37 -0800
+Message-Id: <20191121175937.19615-1-jsmart2021@gmail.com>
 X-Mailer: git-send-email 2.13.7
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191121_095821_168018_0155B38F 
-X-CRM114-Status: UNSURE (   9.76  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20191121_095947_332323_48712E1E 
+X-CRM114-Status: GOOD (  19.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,39 +97,70 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-We've seen a few devices that return different controller
-id's to the Fabric Connect command vs the Identify(controller)
-command. It's currently hard to identify this failure by
-existing error messages. It comes across as a (re)connect
-attempt in the transport that fails with a -22 (-EINVAL)
-status. The issue is compounded by older kernels not having
-the controller id check or had the identify command overwrite
-the fabrics controller id value before it checked. Both resulted
-in cases where the devices appeared fine until more recent kernels.
+If an error occurs on one of the ios used for creating an
+association, the creating routine has error paths that are
+invoked by the command failure and the error paths will free
+up the controller resources created to that point.
 
-Clarify the reject by adding an error message on controller
-id mismatches.
+But... the io was ultimately determined by an asynchronous
+completion routine that detected the error and which
+unconditionally invokes the error_recovery path which calls
+delete_association. Delete association deletes all outstanding
+io then tears down the controller resources. So the
+create_association thread can be running in parallel with
+the error_recovery thread. What was seen was the LLDD received
+a call to delete a queue, causing the LLDD to do a free of a
+resource, then the transport called the delete queue again
+causing the driver to repeat the free call. The second free
+routine corrupted the allocator. The transport shouldn't be
+making the duplicate call, and the delete queue is just one
+of the resources being freed.
+
+To fix, it is realized that the create_association path is
+completely serialized with one command at a time. So the
+failed io completion will always be seen by the create_association
+path and as of the failure, there are no ios to terminate and there
+is no reason to be manipulating queue freeze states, etc.
+The serialized condition stays true until the controller is
+transitioned to the LIVE state. Thus the fix is to change the
+error recovery path to check the controller state and only
+invoke the teardown path if not already in the CONNECTING state.
 
 Signed-off-by: James Smart <jsmart2021@gmail.com>
 ---
- drivers/nvme/host/core.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/nvme/host/fc.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 9696404a6182..c272afb084d1 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2824,6 +2824,10 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
- 		 * admin connect
- 		 */
- 		if (ctrl->cntlid != le16_to_cpu(id->cntlid)) {
-+			dev_err(ctrl->device,
-+				"Mismatching cntlid: Connect %u vs Identify "
-+				"%u, rejecting\n",
-+				ctrl->cntlid, le16_to_cpu(id->cntlid));
- 			ret = -EINVAL;
- 			goto out_free;
- 		}
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 679a721ae229..2acb850bf9f4 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -2910,10 +2910,22 @@ nvme_fc_reconnect_or_delete(struct nvme_fc_ctrl *ctrl, int status)
+ static void
+ __nvme_fc_terminate_io(struct nvme_fc_ctrl *ctrl)
+ {
+-	nvme_stop_keep_alive(&ctrl->ctrl);
++	/*
++	 * if state is connecting - the error occurred as part of a
++	 * reconnect attempt. The create_association error paths will
++	 * clean up any outstanding io.
++	 *
++	 * if it's a different state - ensure all pending io is
++	 * terminated. Given this can delay while waiting for the
++	 * aborted io to return, we recheck adapter state below
++	 * before changing state.
++	 */
++	if (ctrl->ctrl.state != NVME_CTRL_CONNECTING) {
++		nvme_stop_keep_alive(&ctrl->ctrl);
+ 
+-	/* will block will waiting for io to terminate */
+-	nvme_fc_delete_association(ctrl);
++		/* will block will waiting for io to terminate */
++		nvme_fc_delete_association(ctrl);
++	}
+ 
+ 	if (ctrl->ctrl.state != NVME_CTRL_CONNECTING &&
+ 	    !nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING))
 -- 
 2.13.7
 
