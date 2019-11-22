@@ -1,93 +1,73 @@
-Return-Path: <SRS0=O3HW=ZN=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=ia7R=ZO=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 973DEC432C0
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Nov 2019 20:31:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C544DC432C0
+	for <linux-nvme@archiver.kernel.org>; Fri, 22 Nov 2019 05:55:13 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 672FB20643
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Nov 2019 20:31:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9995F20659
+	for <linux-nvme@archiver.kernel.org>; Fri, 22 Nov 2019 05:55:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="aZdDpZ6U";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="DkP4+YSu"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 672FB20643
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="PV4D9rka";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="gDkCmR+v"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9995F20659
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
-	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=N4XgtwcM00bgjMWNNlVpHaejOuxCETLhsZsgMxZL7Z8=; b=aZdDpZ6UUHuavm
-	leaUGeGvgdjzYNbWFBviix2JjX1G/+xKSq0kfwJKYfPTpXHDOhnxa9S+CaFPGPL1Qrqh+O2WDK5U4
-	aXrSJ/kyMcaqcKZdBeGoV1dUWzwUjSq5SefTXwqShBz6DsSfELcYpgEQjH4DcJvRQlQ/JzQnCY7NR
-	QUL9Od5Zwf0BLr8lQGOOmRZkbqwyun6AAI5PTn7eFTN8e9xgC5D0xEJN9TMsJCWAjqnSOOZHDWr83
-	in1dc3edCuRMMs1qWaeR1TiO9dXIvbZdRQK2b/Faca0txbomVBaAX3spb9F5GvW2ZWmgKBP0mndLb
-	7Pix8kN9dBvoMUmAFG2w==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=MjCcPv0OBdJ6qTRCzqPuPScQV7K9oxT56y7NuLfpInk=; b=PV4D9rkaV8Wjxc
+	owdfmhWY8M3s2LKpbBXZL6CVUiB2gpsWup6i9pbidCBIRh0SSZrYfDEt4QPn9u03e+DGmtrooMgTq
+	LmS/65M1FIgsQvi0Di03yGUdeszs3xF15rj84uu1VuN9B6FjJFvn2/vX8AM6VvIKV+LrkuLg4a3Od
+	PUfUkxeszdqtCSlo4Zn1x72j9in5sQzuzVcwV7iaM8DfdDd/DW+E3f1FIkiC6a2NQx4KDkdBC/iHO
+	6pBnpEyYJfCzB1ud7xu87tzviBL5sb8J1cRhNlMyfBLBWH902n+ZNwADuWW8e8aD3rMV7D/jXA7yr
+	tUGqXU04em77QUP+QMTw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iXt7E-0007Gj-Nf; Thu, 21 Nov 2019 20:31:48 +0000
-Received: from esa4.hgst.iphmx.com ([216.71.154.42])
+	id 1iY1uN-0006cq-AV; Fri, 22 Nov 2019 05:55:07 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iXt7C-0007G8-91
- for linux-nvme@lists.infradead.org; Thu, 21 Nov 2019 20:31:47 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1574368306; x=1605904306;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=6VsFOvqrjwA4VFqgWzxN46ZnEL5ubbv9DJAHXmkuypg=;
- b=DkP4+YSu1DxG+7dlBfOd5V42XWhIIFebaQMzwZMBgU8rilLpUMjn8NgE
- 7/2+HObTXArmBwuaF7fMwgy1gaKl7EpqTGiolL7XFYmmsNjUoAN70c7Wk
- 8WVsdcmlQM58uCoWQY9lGdVcJz9KXWd21RZyVVUjMXlXWtYmn44lWI9vy
- dScDqi8Vg51SWgBU4Chcvj0z+5nSE4QGVDtp5aXv85iXzs4VyUaTaYDWr
- 4gTlM80/dggc6V7XyAxGOqCgvs9l2+xF0t3oL+UR6qyNE2pcXfxdCJ0eq
- d0LmV8UHxth4yIm8FiNr7vka2iPucQqCTusxu1+kCw/23MIv1n1of37+G g==;
-IronPort-SDR: 9ABJAqvoGI7gTznh2iD9GKvRGr/ixrU+y0JVo708zM+WyUSehvI4mCrTR9o/Uz4a/AsSl7zvxi
- /DCiHPTx4Bwrbt5pAT+w3o96ffCrVFmjUMfTitA0IWzKfebOdgLk5NMgOXnUXjjgT+Onps/Y0r
- jKzJnlS5ni5jQzrq+BAcO4Pm0MHTLaBKYtYMGPhbzWiN5BXlsV8GyzG8xb13wqR0g7+1g+LwKr
- 18zSsIlvQf5PGr6PZqpnwCSl3v3OwgzoFaH2zgtYcObFAi6MHpLSKaENngzTP8OV0fOKV1kNXV
- mos=
-X-IronPort-AV: E=Sophos;i="5.69,227,1571673600"; d="scan'208";a="123677413"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 22 Nov 2019 04:31:43 +0800
-IronPort-SDR: HsPkXaTyyDY/Wgc6oIdRSBZuZkmG1ou7sk/HazFnYW5My62Vs1gpRBt24EDc3psQKVtLz655Xc
- cMz/IPqKhUDXwVqFm44JbJ60ZpIZocB+7xYCH27CT/fxHteLSWrgmrlg9t796ahxB/OGJ8lSlI
- fUYe0PWchQsBsFDHVuBWITJQL+fv5QamOhH9+RDTozeRtgCglf1tDDQN5Qmc7qls3inCKHLMgZ
- Qdlgwl44tT8WaDavGOoqwMftnEtTgp0RugwfB3SLTIPx1B5Rxd/dax8LEJG4kwgnKoxI5evpNo
- S0rXwNXjU/DEjEfN6uSG9DHz
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Nov 2019 12:26:30 -0800
-IronPort-SDR: yjwwwMiGVxUf9O/iWsa/SUQGCNgJnPnf0TwehICLyN90ccxLTNLXnoUEmOS5MPe8P5vrfkOz+N
- p9wvzR3e8e8+e26WNBJ6zwL9vZhtS1c4Intr88hPetFUhfp/69E8Dtk54C5akOhe/YlTjVb8KL
- t3TJr8lz4aiYKxZlD7ajSJcmpIpDVXtuWmWFSXU2ryt6W46K3SNd/aeqrnQu7CQB4sFmTGm5t4
- DctGoQKxjLW3RwoRiDVuPHgmqkEgsB6+DHMbxou63zzGBUCBKuYvnyr4Aw9B9oc81chCsItjyy
- Xmo=
-WDCIronportException: Internal
-Received: from iouring.labspan.wdc.com (HELO iouring.sc.wdc.com)
- ([10.6.138.107])
- by uls-op-cesaip02.wdc.com with ESMTP; 21 Nov 2019 12:31:43 -0800
-From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-To: linux-nvme@lists.infradead.org
-Subject: [PATCH] nvmet: check sscanf value for subsys serial attr
-Date: Thu, 21 Nov 2019 12:31:42 -0800
-Message-Id: <20191121203142.537-1-chaitanya.kulkarni@wdc.com>
-X-Mailer: git-send-email 2.22.1
+ id 1iY1pJ-0000aX-PH
+ for linux-nvme@lists.infradead.org; Fri, 22 Nov 2019 05:49:56 +0000
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
+ [73.47.72.35])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 2D5ED20715;
+ Fri, 22 Nov 2019 05:49:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1574401793;
+ bh=Smc+SDEVTfEWL5NOxF34mfrKvlk+wJEXkakcFVrRcyg=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=gDkCmR+vbCm7UZzSxZrLHsrHznIZcahCLzKo3PdwG4IDJOaEbYNy5hanbG2VEQsxP
+ QZltmQUmfRGZ7knwLHZF8CDI5Q8lwIwLYqTm1qGBwWwpgfY2FMiOeZbOdo6GXC8rJI
+ sXQ8RJybBZfzMQjRqpPiYSB1gONL3hRoGXPnwINU=
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 040/219] nvme: provide fallback for discard alloc
+ failure
+Date: Fri, 22 Nov 2019 00:46:12 -0500
+Message-Id: <20191122054911.1750-33-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191122054911.1750-1-sashal@kernel.org>
+References: <20191122054911.1750-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191121_123146_353780_849DEB30 
-X-CRM114-Status: UNSURE (   9.75  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20191121_214953_915008_641F212E 
+X-CRM114-Status: GOOD (  17.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,43 +79,141 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Sasha Levin <sashal@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ Keith Busch <keith.busch@intel.com>, Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-For nvmet in configfs.c we check return values for all the sscanf()
-calls. Add similar check into the nvmet_subsys_attr_serial_store().
+From: Jens Axboe <axboe@kernel.dk>
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+[ Upstream commit cb5b7262b011cfb793519bf97e54dff5282da23c ]
+
+When boxes are run near (or to) OOM, we have a problem with the discard
+page allocation in nvme. If we fail allocating the special page, we
+return busy, and it'll get retried. But since ordering is honored for
+dispatch requests, we can keep retrying this same IO and failing. Behind
+that IO could be requests that want to free memory, but they never get
+the chance.
+
+Allocate a fixed discard page per controller for a safe fallback, and use
+that if the initial allocation fails.
+
+Signed-off-by: Jens Axboe <axboe@kernel.dk>
+Reviewed-by: Keith Busch <keith.busch@intel.com>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/target/configfs.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/nvme/host/core.c | 41 ++++++++++++++++++++++++++++++++++------
+ drivers/nvme/host/nvme.h |  3 +++
+ 2 files changed, 38 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index 98613a45bd3b..cc1fd36bf71e 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -853,12 +853,14 @@ static ssize_t nvmet_subsys_attr_serial_store(struct config_item *item,
- 					      const char *page, size_t count)
- {
- 	struct nvmet_subsys *subsys = to_subsys(item);
-+	int ret = 0;
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 5d0f99bcc987f..ced70d37e0f9b 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -551,9 +551,19 @@ static blk_status_t nvme_setup_discard(struct nvme_ns *ns, struct request *req,
+ 	struct nvme_dsm_range *range;
+ 	struct bio *bio;
  
- 	down_write(&nvmet_config_sem);
--	sscanf(page, "%llx\n", &subsys->serial);
-+	if (sscanf(page, "%llx\n", &subsys->serial) != 1)
-+		ret = -EINVAL;
- 	up_write(&nvmet_config_sem);
+-	range = kmalloc_array(segments, sizeof(*range), GFP_ATOMIC);
+-	if (!range)
+-		return BLK_STS_RESOURCE;
++	range = kmalloc_array(segments, sizeof(*range),
++				GFP_ATOMIC | __GFP_NOWARN);
++	if (!range) {
++		/*
++		 * If we fail allocation our range, fallback to the controller
++		 * discard page. If that's also busy, it's safe to return
++		 * busy, as we know we can make progress once that's freed.
++		 */
++		if (test_and_set_bit_lock(0, &ns->ctrl->discard_page_busy))
++			return BLK_STS_RESOURCE;
++
++		range = page_address(ns->ctrl->discard_page);
++	}
  
--	return count;
-+	return ret ? ret : count;
+ 	__rq_for_each_bio(bio, req) {
+ 		u64 slba = nvme_block_nr(ns, bio->bi_iter.bi_sector);
+@@ -568,7 +578,10 @@ static blk_status_t nvme_setup_discard(struct nvme_ns *ns, struct request *req,
+ 	}
+ 
+ 	if (WARN_ON_ONCE(n != segments)) {
+-		kfree(range);
++		if (virt_to_page(range) == ns->ctrl->discard_page)
++			clear_bit_unlock(0, &ns->ctrl->discard_page_busy);
++		else
++			kfree(range);
+ 		return BLK_STS_IOERR;
+ 	}
+ 
+@@ -653,8 +666,13 @@ void nvme_cleanup_cmd(struct request *req)
+ 				blk_rq_bytes(req) >> ns->lba_shift);
+ 	}
+ 	if (req->rq_flags & RQF_SPECIAL_PAYLOAD) {
+-		kfree(page_address(req->special_vec.bv_page) +
+-		      req->special_vec.bv_offset);
++		struct nvme_ns *ns = req->rq_disk->private_data;
++		struct page *page = req->special_vec.bv_page;
++
++		if (page == ns->ctrl->discard_page)
++			clear_bit_unlock(0, &ns->ctrl->discard_page_busy);
++		else
++			kfree(page_address(page) + req->special_vec.bv_offset);
+ 	}
  }
- CONFIGFS_ATTR(nvmet_subsys_, attr_serial);
+ EXPORT_SYMBOL_GPL(nvme_cleanup_cmd);
+@@ -3551,6 +3569,7 @@ static void nvme_free_ctrl(struct device *dev)
+ 	ida_simple_remove(&nvme_instance_ida, ctrl->instance);
+ 	kfree(ctrl->effects);
+ 	nvme_mpath_uninit(ctrl);
++	kfree(ctrl->discard_page);
  
+ 	if (subsys) {
+ 		mutex_lock(&subsys->lock);
+@@ -3592,6 +3611,14 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 	memset(&ctrl->ka_cmd, 0, sizeof(ctrl->ka_cmd));
+ 	ctrl->ka_cmd.common.opcode = nvme_admin_keep_alive;
+ 
++	BUILD_BUG_ON(NVME_DSM_MAX_RANGES * sizeof(struct nvme_dsm_range) >
++			PAGE_SIZE);
++	ctrl->discard_page = alloc_page(GFP_KERNEL);
++	if (!ctrl->discard_page) {
++		ret = -ENOMEM;
++		goto out;
++	}
++
+ 	ret = ida_simple_get(&nvme_instance_ida, 0, 0, GFP_KERNEL);
+ 	if (ret < 0)
+ 		goto out;
+@@ -3629,6 +3656,8 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ out_release_instance:
+ 	ida_simple_remove(&nvme_instance_ida, ctrl->instance);
+ out:
++	if (ctrl->discard_page)
++		__free_page(ctrl->discard_page);
+ 	return ret;
+ }
+ EXPORT_SYMBOL_GPL(nvme_init_ctrl);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 2653e1f4196d5..cc4273f119894 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -238,6 +238,9 @@ struct nvme_ctrl {
+ 	u16 maxcmd;
+ 	int nr_reconnects;
+ 	struct nvmf_ctrl_options *opts;
++
++	struct page *discard_page;
++	unsigned long discard_page_busy;
+ };
+ 
+ struct nvme_subsystem {
 -- 
-2.22.1
+2.20.1
 
 
 _______________________________________________
