@@ -2,95 +2,63 @@ Return-Path: <SRS0=zMYu=ZQ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-9.7 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21BA0C432C0
-	for <linux-nvme@archiver.kernel.org>; Sun, 24 Nov 2019 15:18:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF971C432C0
+	for <linux-nvme@archiver.kernel.org>; Sun, 24 Nov 2019 16:39:13 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E81BB2068F
-	for <linux-nvme@archiver.kernel.org>; Sun, 24 Nov 2019 15:17:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id AC5D92075E
+	for <linux-nvme@archiver.kernel.org>; Sun, 24 Nov 2019 16:39:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="NncYrYWz";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jpx1440Y"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E81BB2068F
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="bpriDppn"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AC5D92075E
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=ipQV1q6rvj+AUTcGYcxJZpzUEZC9NdWBuo2rWkrErLM=; b=NncYrYWzfMQBtTR3o2qAsZNr5
-	9/Rr11/H/VAJ46jcraABpbVI6AWFZQm+N5EI4FQv/bQOb5S6p9NpczBMzdbeqxpWPYYOSkLP2eFNo
-	JsHOktmHuFif/nGx/huB/mykwSwLqUqPVMF39ZK52HP8qTwru41ooG6mZRUfp5eefVzeOUUHGTTNO
-	B4pEvtsQSdIGLZJrmdShYJlCi+Jqr2+SY7zCwnwDbWomQLY9h3TlrFDjCcoBkYRne5EkqtAS+L1J3
-	Om1vOtqkA2WGy0UyxyQditQ3d5WhF00QOHCUNIwioksYZVvqSzju47fr1ZFw7HqWUBL7ORgk+s18w
-	Ak6VWNjOw==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Cc:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
+	In-Reply-To:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Owner;
+	bh=vZWyPNopcOXTQll4amCsbofMxEU/oxFf1bVpXY9Vffg=; b=bpriDppnP4uOguYSIiLtu5/nLt
+	I4XpAvrM6JjqHdbHldWrhzYOZp6AZRKC/t7Mu96g5fIXsxvPMN/qEkd9n775TPJJv/lqx6b7ei1HM
+	g/HEafC38XCx86F6iE1xK7W0b5FDjRY2EZDIzirYYc/aiUJvjzCV3lYyyjrWKb7Wxg3aq1tcPcBhN
+	eTddrBRAVuQzC4A3aD2W0Nyjhq+xRYTUc+CZG4O7ek1mvCHYo+ZgOUhbPsNqsKQm5OjI9ZC8CoNdY
+	pHToGJw1CaLgPyatKJPDKPdjzkvdXl3XkXX8SWLQqbMhx/oaJ7cV19xyP0Fz3LSm/bf8PDE4xW9Dw
+	TAXitMKA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iYteA-0007zp-0x; Sun, 24 Nov 2019 15:17:58 +0000
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242])
- by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iYte7-0007yb-9k
- for linux-nvme@lists.infradead.org; Sun, 24 Nov 2019 15:17:56 +0000
-Received: by mail-oi1-x242.google.com with SMTP id n14so10788550oie.13
- for <linux-nvme@lists.infradead.org>; Sun, 24 Nov 2019 07:17:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=5C9fcZplZbhqVRMPmr2V23XeMRp4oEU3og0P7QEerd4=;
- b=Jpx1440YYqzexRpdjA3SiAXYclFcRW+1AfgPguF0jIkyAvx6JHX8y+wllMlbcSgDco
- eK2aFQg70ozNQNHxITEOvlqPDYLnndXq9eeXtS4Oi1Z8oBPuAZMLjB4TEa+V3ptHcNG6
- e0hCF5JuyilIJRpYC8aMsh4Lf5ExTN3ISK1ulc9fzIgZ7F/HQITN2iDR6i933R4h6llG
- 7oMm6hcdle9fL/RUJhFwLps0dU5tvK4Nh9N5kFbRk1wOnr2ebRLzeTyVJugqrWcGYdVY
- Vkx3FdnZaoBHvR4vkWkyksMbdAHh+QJApDTek7WBJxQHySdHoVoXT37KH6PJSmMgAosL
- jqNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=5C9fcZplZbhqVRMPmr2V23XeMRp4oEU3og0P7QEerd4=;
- b=C7OCqA8Aq3kXiLXRH+FflnGdx7eV1M1SwcOyJay7exbJe6Kc/oKiZ8C9y8G5ixsyHN
- v4GJ9MIPbuUfQQQpAJ/zLVUDuuMZtARGnNy2L3aQ4k5vjVX+J4wkVm8ccBMZdZeIph70
- tmtVeBtwyW4bS3J7rOO8Sl9MlAGaGLY0MicAJsZVSxxpdTgPLstYJfUId26ml8EGp0SA
- WtY1IRktdAFih1VrHW+D5MJX9FlxlaNk373Shraie+drAhpDtHvBdY6aebUEGLBy3ysd
- YrAxMz1gjsayvYTukEaf0EXqZlGYVG4z/V7Kwv7YMQVqgv5CqtKaKBIUSkr5B+lLPNuu
- CMfQ==
-X-Gm-Message-State: APjAAAUSj0H2/SUvcWSbkT6dm8ZiI7Kr//RM/LF9clQBuk4G+luRVUxg
- 0TuPI5SVyjilNIBE5tEam4Q=
-X-Google-Smtp-Source: APXvYqyo788a2sh7C+EcGrnmfMQbs2nuTW/CVkvqD52t1x6QsdY3JKPC2qKdW9qWYn5up2z8JtTfBw==
-X-Received: by 2002:aca:d78a:: with SMTP id o132mr20032815oig.79.1574608669287; 
- Sun, 24 Nov 2019 07:17:49 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- v7sm1548686oie.51.2019.11.24.07.17.47
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 24 Nov 2019 07:17:48 -0800 (PST)
-Subject: Re: [PATCH 2/8] ACPI: thermal: switch to use <linux/temperature.h>
- helpers
-To: Akinobu Mita <akinobu.mita@gmail.com>, linux-nvme@lists.infradead.org,
- linux-hwmon@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <1574604530-9024-1-git-send-email-akinobu.mita@gmail.com>
- <1574604530-9024-3-git-send-email-akinobu.mita@gmail.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Message-ID: <00fff683-d0e2-67ae-83e3-c472fdbe9e1d@roeck-us.net>
-Date: Sun, 24 Nov 2019 07:17:46 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <1574604530-9024-3-git-send-email-akinobu.mita@gmail.com>
-Content-Language: en-US
+	id 1iYuui-0005t6-UW; Sun, 24 Nov 2019 16:39:08 +0000
+Received: from mail-il-dmz.mellanox.com ([193.47.165.129] helo=mellanox.co.il)
+ by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1iYuuc-0005pK-PB
+ for linux-nvme@lists.infradead.org; Sun, 24 Nov 2019 16:39:04 +0000
+Received: from Internal Mail-Server by MTLPINE1 (envelope-from
+ israelr@mellanox.com)
+ with ESMTPS (AES256-SHA encrypted); 24 Nov 2019 18:38:49 +0200
+Received: from rsws50.mtr.labs.mlnx (rsws50.mtr.labs.mlnx [10.209.40.61])
+ by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id xAOGcm6L029897;
+ Sun, 24 Nov 2019 18:38:49 +0200
+From: Israel Rukshin <israelr@mellanox.com>
+To: Linux-nvme <linux-nvme@lists.infradead.org>,
+ Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
+ James Smart <jsmart2021@gmail.com>, Keith Busch <kbusch@kernel.org>
+Subject: [PATCH 3/3] nvmet-loop: Avoid preallocating big SGL for data
+Date: Sun, 24 Nov 2019 18:38:32 +0200
+Message-Id: <1574613512-5943-4-git-send-email-israelr@mellanox.com>
+X-Mailer: git-send-email 1.8.4.3
+In-Reply-To: <1574613512-5943-1-git-send-email-israelr@mellanox.com>
+References: <1574613512-5943-1-git-send-email-israelr@mellanox.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191124_071755_341599_2573319D 
-X-CRM114-Status: GOOD (  20.06  )
+X-CRM114-CacheID: sfid-20191124_083903_225737_A51E7FE4 
+X-CRM114-Status: UNSURE (   9.99  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,105 +70,78 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Jens Axboe <axboe@fb.com>, Amit Kucheria <amit.kucheria@verdurent.com>,
- Jean Delvare <jdelvare@suse.com>, Sagi Grimberg <sagi@grimberg.me>,
- Sujith Thomas <sujith.thomas@intel.com>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Eduardo Valentin <edubezval@gmail.com>, Keith Busch <kbusch@kernel.org>,
- Darren Hart <dvhart@infradead.org>, Zhang Rui <rui.zhang@intel.com>,
- Christoph Hellwig <hch@lst.de>, Andy Shevchenko <andy@infradead.org>
+Cc: Israel Rukshin <israelr@mellanox.com>, Max Gurtovoy <maxg@mellanox.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/24/19 6:08 AM, Akinobu Mita wrote:
-> This switches the ACPI thermal zone driver to use celsius_to_deci_kelvin()
-> and deci_kelvin_to_celsius() in <linux/temperature.h> instead of helpers
-> in <linux/thermal.h>.
-> 
-> This is preparation for centralizing the kelvin to/from Celsius conversion
-> helpers in <linux/temprature.h>.
-> 
-s/temprature/temperature/
+nvme_loop_create_io_queues() preallocates a big buffer for the IO SGL based
+on SG_CHUNK_SIZE.
 
-Looks like this applies to all patches.
+Modern DMA engines are often capable of dealing with very big segments so
+the SG_CHUNK_SIZE is often too big. SG_CHUNK_SIZE results in a static 4KB
+SGL allocation per command.
 
-> Cc: Sujith Thomas <sujith.thomas@intel.com>
-> Cc: Darren Hart <dvhart@infradead.org>
-> Cc: Andy Shevchenko <andy@infradead.org>
-> Cc: Zhang Rui <rui.zhang@intel.com>
-> Cc: Eduardo Valentin <edubezval@gmail.com>
-> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
-> Cc: Amit Kucheria <amit.kucheria@verdurent.com>
-> Cc: Jean Delvare <jdelvare@suse.com>
-> Cc: Guenter Roeck <linux@roeck-us.net>
-> Cc: Keith Busch <kbusch@kernel.org>
-> Cc: Jens Axboe <axboe@fb.com>
-> Cc: Christoph Hellwig <hch@lst.de>
-> Cc: Sagi Grimberg <sagi@grimberg.me>
-> Signed-off-by: Akinobu Mita <akinobu.mita@gmail.com>
-> ---
->   drivers/acpi/thermal.c | 15 +++++++++------
->   1 file changed, 9 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/acpi/thermal.c b/drivers/acpi/thermal.c
-> index d831a61..bd9b6eb 100644
-> --- a/drivers/acpi/thermal.c
-> +++ b/drivers/acpi/thermal.c
-> @@ -297,7 +297,9 @@ static int acpi_thermal_trips_update(struct acpi_thermal *tz, int flag)
->   			if (crt == -1) {
->   				tz->trips.critical.flags.valid = 0;
->   			} else if (crt > 0) {
-> -				unsigned long crt_k = CELSIUS_TO_DECI_KELVIN(crt);
-> +				unsigned long crt_k =
-> +					celsius_to_deci_kelvin(crt);
-> +
+If a controller has lots of deep queues, preallocation for the sg list can
+consume substantial amounts of memory. For nvmet-loop, nr_hw_queues can be
+128 and each queue's depth 128. This means the resulting preallocation
+for the data SGL is 128*128*4K = 64MB per controller.
 
->   				/*
->   				 * Allow override critical threshold
->   				 */
-> @@ -333,7 +335,7 @@ static int acpi_thermal_trips_update(struct acpi_thermal *tz, int flag)
->   		if (psv == -1) {
->   			status = AE_SUPPORT;
->   		} else if (psv > 0) {
-> -			tmp = CELSIUS_TO_DECI_KELVIN(psv);
-> +			tmp = celsius_to_deci_kelvin(psv);
->   			status = AE_OK;
->   		} else {
->   			status = acpi_evaluate_integer(tz->device->handle,
-> @@ -413,7 +415,7 @@ static int acpi_thermal_trips_update(struct acpi_thermal *tz, int flag)
->   					break;
->   				if (i == 1)
->   					tz->trips.active[0].temperature =
-> -						CELSIUS_TO_DECI_KELVIN(act);
-> +						celsius_to_deci_kelvin(act);
->   				else
->   					/*
->   					 * Don't allow override higher than
-> @@ -421,9 +423,9 @@ static int acpi_thermal_trips_update(struct acpi_thermal *tz, int flag)
->   					 */
->   					tz->trips.active[i - 1].temperature =
->   						(tz->trips.active[i - 2].temperature <
-> -						CELSIUS_TO_DECI_KELVIN(act) ?
-> +						celsius_to_deci_kelvin(act) ?
->   						tz->trips.active[i - 2].temperature :
-> -						CELSIUS_TO_DECI_KELVIN(act));
-> +						celsius_to_deci_kelvin(act));
->   				break;
->   			} else {
->   				tz->trips.active[i].temperature = tmp;
-> @@ -1087,7 +1089,8 @@ static int acpi_thermal_add(struct acpi_device *device)
->   	INIT_WORK(&tz->thermal_check_work, acpi_thermal_check_fn);
->   
->   	pr_info(PREFIX "%s [%s] (%ld C)\n", acpi_device_name(device),
-> -		acpi_device_bid(device), DECI_KELVIN_TO_CELSIUS(tz->temperature));
-> +		acpi_device_bid(device),
-> +		deci_kelvin_to_celsius(tz->temperature));
->   	goto end;
->   
->   free_memory:
-> 
+Switch to runtime allocation for SGL for lists longer than 2 entries. This
+is the approach used by NVMe PCI so it should be reasonable for NVMeOF as
+well. Runtime SGL allocation has always been the case for the legacy I/O
+path so this is nothing new.
+
+Signed-off-by: Israel Rukshin <israelr@mellanox.com>
+Reviewed-by: Max Gurtovoy <maxg@mellanox.com>
+---
+ drivers/nvme/target/loop.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index 856eb06..dae31bf 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -76,7 +76,7 @@ static void nvme_loop_complete_rq(struct request *req)
+ {
+ 	struct nvme_loop_iod *iod = blk_mq_rq_to_pdu(req);
+ 
+-	sg_free_table_chained(&iod->sg_table, SG_CHUNK_SIZE);
++	sg_free_table_chained(&iod->sg_table, NVME_INLINE_SG_CNT);
+ 	nvme_complete_rq(req);
+ }
+ 
+@@ -156,7 +156,7 @@ static blk_status_t nvme_loop_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 		iod->sg_table.sgl = iod->first_sgl;
+ 		if (sg_alloc_table_chained(&iod->sg_table,
+ 				blk_rq_nr_phys_segments(req),
+-				iod->sg_table.sgl, SG_CHUNK_SIZE))
++				iod->sg_table.sgl, NVME_INLINE_SG_CNT))
+ 			return BLK_STS_RESOURCE;
+ 
+ 		iod->req.sg = iod->sg_table.sgl;
+@@ -340,7 +340,7 @@ static int nvme_loop_configure_admin_queue(struct nvme_loop_ctrl *ctrl)
+ 	ctrl->admin_tag_set.reserved_tags = 2; /* connect + keep-alive */
+ 	ctrl->admin_tag_set.numa_node = NUMA_NO_NODE;
+ 	ctrl->admin_tag_set.cmd_size = sizeof(struct nvme_loop_iod) +
+-		SG_CHUNK_SIZE * sizeof(struct scatterlist);
++		NVME_INLINE_SG_CNT * sizeof(struct scatterlist);
+ 	ctrl->admin_tag_set.driver_data = ctrl;
+ 	ctrl->admin_tag_set.nr_hw_queues = 1;
+ 	ctrl->admin_tag_set.timeout = ADMIN_TIMEOUT;
+@@ -514,7 +514,7 @@ static int nvme_loop_create_io_queues(struct nvme_loop_ctrl *ctrl)
+ 	ctrl->tag_set.numa_node = NUMA_NO_NODE;
+ 	ctrl->tag_set.flags = BLK_MQ_F_SHOULD_MERGE;
+ 	ctrl->tag_set.cmd_size = sizeof(struct nvme_loop_iod) +
+-		SG_CHUNK_SIZE * sizeof(struct scatterlist);
++		NVME_INLINE_SG_CNT * sizeof(struct scatterlist);
+ 	ctrl->tag_set.driver_data = ctrl;
+ 	ctrl->tag_set.nr_hw_queues = ctrl->ctrl.queue_count - 1;
+ 	ctrl->tag_set.timeout = NVME_IO_TIMEOUT;
+-- 
+1.8.3.1
 
 
 _______________________________________________
