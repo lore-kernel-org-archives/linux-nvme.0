@@ -8,17 +8,17 @@ X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F038C43215
-	for <linux-nvme@archiver.kernel.org>; Sun, 24 Nov 2019 14:09:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8BA1C432C0
+	for <linux-nvme@archiver.kernel.org>; Sun, 24 Nov 2019 14:10:11 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 649C32075E
-	for <linux-nvme@archiver.kernel.org>; Sun, 24 Nov 2019 14:09:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7AF272073F
+	for <linux-nvme@archiver.kernel.org>; Sun, 24 Nov 2019 14:10:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ZHmWjVwa";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lNhNJTaV"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 649C32075E
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="DN0FkvFG";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tOYyBixa"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7AF272073F
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -28,64 +28,64 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	In-Reply-To:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Owner;
-	bh=lcwC74LnEI8dqdwXRTRlS0hYcpu1adTw2662gCrsZos=; b=ZHmWjVwa1eRVOfAjPYwGXv0AkX
-	g7w3gu84FxHLZ5EShWXXPWmJ4yIHLtd46hJsDGUwG75MeSe2ANlvG+kaWCWxos+B0lvUmyPis4Y1a
-	WJ1/Rl/2wALEoXBTNjtPZmLwXFoBC0VmK+npPDwX7WclfkSu5FYBr8weEqEB5u9G2lDiCvyOtmPRM
-	STZx6W5mEXR9M1tuwldzEzRBiEciC+p+RpR2QjAzyvgYU12fpKvIyWadVKH5PIpqa6t/D/8ruQ08u
-	wDwMcoq4UCIKywpUt0Dqq2NRVxZSVX8KZ9y74Z25zAQ/kRBrpBhnCSC20SWgPQP5+RV0Hti0A/WEC
-	vCzFJj4Q==;
+	bh=Tw89vQ98Y8SaCfW2XGgb6aFwbleStAcZLhJwY+owNOw=; b=DN0FkvFGyfANqTAsCKjOXuHkCX
+	PchBdk6I8drKc18mMZXr7an3NovWbKCJmB8GQiUZK+U8JIdO394J8TqK45Omc5IivsdT5+Nom5emM
+	VBjYZF3Yo/usUpCgV4ZVBI90JuyObvCn8N0ncp+oi1ySItOhJsvMI1MXZZIzztYtFbdadKyFvfl/f
+	2OzLk132QphBjHku0UoA7M7mi99A5RM4n/1OhkBQntYPToR5wrvqPf/DMXgniC5lQY6TH+VdUiHmr
+	4IkIhusyw3KSzLW0e2+aH9GxTKjXSQ3eclJ4rlNR9I9IMS2BkD5JrxWEpdicHe7v13sft+ETfTXMK
+	xTNWGeRg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iYsaC-0003lG-V5; Sun, 24 Nov 2019 14:09:48 +0000
-Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044])
+	id 1iYsaV-0003ym-Pq; Sun, 24 Nov 2019 14:10:08 +0000
+Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iYsZr-0003Pa-73
- for linux-nvme@lists.infradead.org; Sun, 24 Nov 2019 14:09:30 +0000
-Received: by mail-pj1-x1044.google.com with SMTP id bo14so5258893pjb.1
- for <linux-nvme@lists.infradead.org>; Sun, 24 Nov 2019 06:09:25 -0800 (PST)
+ id 1iYsZv-0003VL-O8
+ for linux-nvme@lists.infradead.org; Sun, 24 Nov 2019 14:09:37 +0000
+Received: by mail-pj1-x1042.google.com with SMTP id gc1so5248370pjb.8
+ for <linux-nvme@lists.infradead.org>; Sun, 24 Nov 2019 06:09:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=GqKt6zdWfZywezSW3C4ZkPtud9ch/0Uh/6q3QjZGy/0=;
- b=lNhNJTaVbOYkgvALBg5TYxMoq8zHMyfVOu3sxGp7bmwZFD7wBp4Y1O15pm8Oz3YqTT
- QHYl3RYDZUBvL4JRBlICIV4t5EAUfVooVi999U9O8IpccoBPzz2Tx6DytcNdG+wYBDh/
- 5HqaVGDNHbEEDib3zIf4hSbQmCkO2umeNYEMmqBmKQruaVQIFMyzbfA0zl7tFlQWip9N
- Hdbm5rsD48oZ64JjDYvAsyVCipezgtYHBNNPi8JLYzwRhdaG4hOzCBR0S5fig4zc4rHD
- +rdOHy/VgFex1Eqdp9H7p+E4YXM/KtNYUNlHkOnZf81/IPH+SkxfHIXoPV/oUn7WDBTM
- WjpA==
+ bh=SVtnbt2w8p1WjmEYI/RfZYho5p/l6mhZ+FEaY9XVk9c=;
+ b=tOYyBixaF5cpNMF8ZO7JnE6N1EtCAZ75u7z42W4hABZwe+DAWLHZc634bLtAHRXXHd
+ TB9DxYSIAu9yTKUTxpfIjmdsEfaTAvlElIA2ZC+kC67lmVZBH1R+ncjMNJve5x0kRuwx
+ bFRAB7t+ABuPSvFKh2te4qkm/oIzhUl9d+Z743wlfc+IfcwSZ9bMcRX31RU5XlMejDDQ
+ P7VGrC+t+YIZcgMpIC/bxT0sMiZyAqgKd9fgJ3zSgbdgCCE0F/orDI89ghBjQg6tkij5
+ BXYQ81S0DWGo9K5+VLrq3Wuy3U1wi2Vjc4A9H2edizEiiWKInP91OPLvd6kM7XlsD3hR
+ 0I0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=GqKt6zdWfZywezSW3C4ZkPtud9ch/0Uh/6q3QjZGy/0=;
- b=PsSgAmyaAYNSVUAHWIooDWaHM91IoT1MJgT7MOnJ8zdhxNV8zygCLx/OJx+nnz+YlJ
- eh2tQuVXoveQyrtEpm5qOcB11aN5zRRmRuFgP50A9aqJT+IQZ7bKnCEyqjXAv8ER3DRq
- xCWnpvXhg5B3VTxB9khFET086C6q5Om9fCHa00s2gh0lLmrdcLP/6COb0trhFGFy0rH3
- 5+Do7Z8UrAJ/i65yKoCmy3/59Gx2gGAVjWzvIX/JPeh6PPaWus8fhz4G/lJurBRrAd70
- IQuhFdkfQkrO+idmJjQyrrkaGpKqzDmyH9IMBxh/CzotoegZwtDqsfejPMbPM1MqZo38
- VJOA==
-X-Gm-Message-State: APjAAAUntSZsSKAMojnK4ksdunlEQ2Q9EG+vnuEIngM300KTvaCdw3/P
- ochYkyA/DKzOLtNfuz9YRp5dz/C14eU=
-X-Google-Smtp-Source: APXvYqyk+tVzVqLTp1q5GIHaF/zWFrbxTxJ6dlTdJpNb8Ke8+dFQc2bkHdcu0WkqO7ewXlbG9toS4A==
-X-Received: by 2002:a17:90a:c56:: with SMTP id
- u22mr31571968pje.24.1574604563465; 
- Sun, 24 Nov 2019 06:09:23 -0800 (PST)
+ bh=SVtnbt2w8p1WjmEYI/RfZYho5p/l6mhZ+FEaY9XVk9c=;
+ b=fyoIj/hA5LPt4eCkMCH7AwynvCsucVfnmsNLMwFk+Ez97ytWiuBReff1zD/QsOpqQD
+ 6J6cWBFwzgiV+kYNwTihN8hPRhg6gN+QnP7j5uVnXW3knogQcdCgeuzgF5ncOdf3joQc
+ 3eYr+HvNs5KnYWudKENxNylqkdUPHceVyFtZ3FcVS4hmtKX8/+j1d0qFQ8VWMQUwoj/O
+ /Ow+0YWSr9s9CbPuW7KtoTtemHeASLF5KkmtgTf6DLetwYYI65yAcNkM33eXMkRZd5kL
+ D07W2OCQMqroSmltq9eCDNKzRYUkSYNH/9uFyHVzVcahNWDEAn/iWWsbvLVx4y7N9UpO
+ vsOA==
+X-Gm-Message-State: APjAAAUa6OzzBt1x6fz5MyTvg61pP4GuJxGqZkJWAFSiQmtMcF485jwG
+ 2eR87Yd8r6D/ln09MM4D3Gd/nIyJNDI=
+X-Google-Smtp-Source: APXvYqxhgSSnEyAEssT9mHzY0Xl6B6xR3rhtdCcR/L7wxpVcIjm+OFIVSR2lzjjR7O5c30UgpLP8kw==
+X-Received: by 2002:a17:90a:9705:: with SMTP id
+ x5mr31569174pjo.37.1574604568908; 
+ Sun, 24 Nov 2019 06:09:28 -0800 (PST)
 Received: from localhost.localdomain ([240f:34:212d:1:368e:e048:68f1:84e7])
- by smtp.gmail.com with ESMTPSA id a3sm4816326pgh.91.2019.11.24.06.09.18
+ by smtp.gmail.com with ESMTPSA id a3sm4816326pgh.91.2019.11.24.06.09.23
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Sun, 24 Nov 2019 06:09:22 -0800 (PST)
+ Sun, 24 Nov 2019 06:09:28 -0800 (PST)
 From: Akinobu Mita <akinobu.mita@gmail.com>
 To: linux-nvme@lists.infradead.org, linux-hwmon@vger.kernel.org,
  linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 3/8] platform/x86: asus-wmi: switch to use
+Subject: [PATCH 4/8] platform/x86: intel_menlow: switch to use
  <linux/temperature.h> helpers
-Date: Sun, 24 Nov 2019 23:08:45 +0900
-Message-Id: <1574604530-9024-4-git-send-email-akinobu.mita@gmail.com>
+Date: Sun, 24 Nov 2019 23:08:46 +0900
+Message-Id: <1574604530-9024-5-git-send-email-akinobu.mita@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1574604530-9024-1-git-send-email-akinobu.mita@gmail.com>
 References: <1574604530-9024-1-git-send-email-akinobu.mita@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191124_060927_311465_3A7065C3 
-X-CRM114-Status: GOOD (  13.64  )
+X-CRM114-CacheID: sfid-20191124_060932_031680_A8865449 
+X-CRM114-Status: GOOD (  13.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,12 +111,12 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The asus-wmi driver doesn't implement the thermal device functionality
-directly, so including <linux/thermal.h> just for DECI_KELVIN_TO_CELSIUS()
-is a bit odd.
+This switches the intel_menlow driver to use deci_kelvin_to_celsius() and
+celsius_to_deci_kelvin() in <linux/temperature.h> instead of helpers in
+<linux/thermal.h>.
 
-This switches the asus-wmi driver to use deci_kelvin_to_millicelsius() in
-<linux/temperature.h>.
+This is preparation for centralizing the kelvin to/from Celsius conversion
+helpers in <linux/temprature.h>.
 
 Cc: Sujith Thomas <sujith.thomas@intel.com>
 Cc: Darren Hart <dvhart@infradead.org>
@@ -133,34 +133,36 @@ Cc: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>
 Signed-off-by: Akinobu Mita <akinobu.mita@gmail.com>
 ---
- drivers/platform/x86/asus-wmi.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ drivers/platform/x86/intel_menlow.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-index 821b08e..6a1a2f9 100644
---- a/drivers/platform/x86/asus-wmi.c
-+++ b/drivers/platform/x86/asus-wmi.c
-@@ -33,7 +33,7 @@
- #include <linux/seq_file.h>
- #include <linux/platform_data/x86/asus-wmi.h>
- #include <linux/platform_device.h>
--#include <linux/thermal.h>
-+#include <linux/temperature.h>
- #include <linux/acpi.h>
- #include <linux/dmi.h>
+diff --git a/drivers/platform/x86/intel_menlow.c b/drivers/platform/x86/intel_menlow.c
+index b102f6d..6313591 100644
+--- a/drivers/platform/x86/intel_menlow.c
++++ b/drivers/platform/x86/intel_menlow.c
+@@ -302,8 +302,10 @@ static ssize_t aux_show(struct device *dev, struct device_attribute *dev_attr,
+ 	int result;
  
-@@ -1512,9 +1512,8 @@ static ssize_t asus_hwmon_temp1(struct device *dev,
- 	if (err < 0)
- 		return err;
+ 	result = sensor_get_auxtrip(attr->handle, idx, &value);
++	if (result)
++		return result;
  
--	value = DECI_KELVIN_TO_CELSIUS((value & 0xFFFF)) * 1000;
--
--	return sprintf(buf, "%d\n", value);
-+	return sprintf(buf, "%ld\n",
-+		       deci_kelvin_to_millicelsius(value & 0xFFFF));
+-	return result ? result : sprintf(buf, "%lu", DECI_KELVIN_TO_CELSIUS(value));
++	return sprintf(buf, "%ld", deci_kelvin_to_celsius(value));
  }
  
- /* Fan1 */
+ static ssize_t aux0_show(struct device *dev,
+@@ -332,8 +334,8 @@ static ssize_t aux_store(struct device *dev, struct device_attribute *dev_attr,
+ 	if (value < 0)
+ 		return -EINVAL;
+ 
+-	result = sensor_set_auxtrip(attr->handle, idx, 
+-				    CELSIUS_TO_DECI_KELVIN(value));
++	result = sensor_set_auxtrip(attr->handle, idx,
++				    celsius_to_deci_kelvin(value));
+ 	return result ? result : count;
+ }
+ 
 -- 
 2.7.4
 
