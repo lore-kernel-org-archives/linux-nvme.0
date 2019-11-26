@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8950C432C3
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Nov 2019 16:39:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50471C432C0
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Nov 2019 16:47:55 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7CB1D2080F
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Nov 2019 16:39:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 2181C2071A
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Nov 2019 16:47:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="sYn5PuCo"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7CB1D2080F
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="eVYpZMEd"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2181C2071A
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
@@ -25,36 +25,32 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=EtAHbjs6bwvu55XHUfa4F0BCvpfFN2B2u7RKR89kyhc=; b=sYn5PuCom36bes
-	QskJfAFqlibQUZKBwZsPwasq5UEjbY3W7IAJnoenBvGP2jqeEsmc48a0MTvozr2JS9JB68VYBhvja
-	orIy4Fw7ch0Vfay8OUfps8Mb1V/qUyQXWI3tRgS6gOZgVDEXBW6qPABeWvuecM1USCHuPGUt6ymEU
-	ybo4WWe7HAHUi3jDX5jETayi5ZgSQC5f+x2wxrrfX3udWKqK+5tQ4H780uwxvSdwk24aQA/bn/Asi
-	mboIOqhAjXyb+DfakzA6G7rn9tJfm70uFPBZKaZ6PgHBHU3bctM2DUu8C32Y0JqHE4pUYQyLx0bYE
-	vhssJIBWW1w3icPrJ7zQ==;
+	List-Owner; bh=b0LRktr7LXUep3TgkyLF/si1FFOuYRE8ENOAGkQQpMA=; b=eVYpZMEdUofV06
+	ChqdOa8WhbFJAzGYKvdEguQt7pBlehNduJj9d9rLOiVCjt2D4+owESUCAjDBDYMXPiSgD+liUX4ai
+	l6woWlmuaFHmKdb3fdNdTOoRnISVwNLz1FGjops8I4DYOkvZZypRArWkhkRir3TJHsUg91ljTK4aX
+	hN9W0E8SVk/94OituuTEmnSWKJoa/c8M7qIMFyQu/eKeabP046gCAN5IQEn75copqTZt1udKzPBCO
+	KxoBbvR3eU78kLx0VEh/x5wuTtMRXmGZy/0P6V5mEYPkIu9guYzWh+8ZINikR65qs6ZK1pc4aUrCE
+	eWMHwFOHRkKPZ45Iy3+w==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iZds8-0007jr-Mf; Tue, 26 Nov 2019 16:39:28 +0000
-Received: from verein.lst.de ([213.95.11.211])
- by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iZds5-0007jU-CN
- for linux-nvme@lists.infradead.org; Tue, 26 Nov 2019 16:39:27 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id A48B668C4E; Tue, 26 Nov 2019 17:39:22 +0100 (CET)
-Date: Tue, 26 Nov 2019 17:39:22 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH] nvme: always treat DNR status as no-retryable
-Message-ID: <20191126163922.GA7946@lst.de>
-References: <20191126133749.72267-1-hare@suse.de>
- <20191126161532.GB2906@redsun51.ssa.fujisawa.hgst.com>
- <3186d79f-910a-18f6-dcae-080b370bcab3@suse.de>
+	id 1iZe0H-0002vW-Lg; Tue, 26 Nov 2019 16:47:53 +0000
+Received: from hch by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red
+ Hat Linux)) id 1iZe0G-0002vL-5O; Tue, 26 Nov 2019 16:47:52 +0000
+Date: Tue, 26 Nov 2019 08:47:52 -0800
+From: Christoph Hellwig <hch@infradead.org>
+To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+Subject: Re: [PATCH 1/2] nvme: remove unused return code from nvme_alloc_ns
+Message-ID: <20191126164752.GA10487@infradead.org>
+References: <20191125160612.3542-1-edmund.nadolski@intel.com>
+ <20191125160612.3542-2-edmund.nadolski@intel.com>
+ <1ca1b4c3-8c42-c728-d987-18821f83088a@suse.de>
+ <221e4352-7fab-abea-9f43-2cd1df60dbaa@intel.com>
+ <20191125170644.GA1639@redsun51.ssa.fujisawa.hgst.com>
+ <BYAPR04MB5749859E2636E3FCF355769386450@BYAPR04MB5749.namprd04.prod.outlook.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <3186d79f-910a-18f6-dcae-080b370bcab3@suse.de>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191126_083926_261172_951B1261 
-X-CRM114-Status: GOOD (  11.71  )
+In-Reply-To: <BYAPR04MB5749859E2636E3FCF355769386450@BYAPR04MB5749.namprd04.prod.outlook.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,37 +62,34 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- linux-nvme@lists.infradead.org, Sagi Grimberg <sagi@grimberg.me>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Keith Busch <kbusch@kernel.org>, "Nadolski,
+ Edmund" <edmund.nadolski@intel.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ Johannes Thumshirn <jthumshirn@suse.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gVHVlLCBOb3YgMjYsIDIwMTkgYXQgMDU6MzQ6MjFQTSArMDEwMCwgSGFubmVzIFJlaW5lY2tl
-IHdyb3RlOgo+IE9uIDExLzI2LzE5IDU6MTUgUE0sIEtlaXRoIEJ1c2NoIHdyb3RlOgo+PiBPbiBU
-dWUsIE5vdiAyNiwgMjAxOSBhdCAwMjozNzo0OVBNICswMTAwLCBIYW5uZXMgUmVpbmVja2Ugd3Jv
-dGU6Cj4+PiBJZiB0aGUgRE5SIGJpdCBpcyBzZXQgaW4gdGhlIGNvbW1hbmQgc3RhdHVzIHdlIHNo
-b3VsZCBub3QgcmV0cnkKPj4+IHRoZSBjb21tYW5kLCBpcnJlc3BlY3RpdmUgb2Ygd2hhdCB0aGUg
-YWN0dWFsIHN0YXR1cyBpcy4KPj4+IFNvIG1hcCBpdCBkaXJlY3RseSB0byBCTEtfU1RTX1RBUkdF
-VCB0byBpbmZvcm0gdXBwZXIgbGF5ZXJzIHRvCj4+PiBub3QgcmV0cnkgdGhlIGNvbW1hbmQsIG5v
-dCBldmVuIG9uIGFub3RoZXIgcGF0aC4KPj4KPj4gV2h5IGNhbid0IGEgRE5SIGVycm9yIGJlIHBh
-dGggc3BlY2lmaWMsIGxpa2UgaWYgSSBkZXRhY2ggYSBuYW1lc3BhY2UKPj4gZnJvbSBvbmUgb2Yg
-dGhlIGNvbnRyb2xsZXJzPwo+PiAgIAo+IEkndmUgZGlzY3Vzc2VkIHRoZSB2ZXJ5IHNhbWUgcXVl
-c3Rpb24gd2l0aCBGcmVkIEtuaWdodCwgYW5kIGFjY29yZGluZyB0byAKPiBoaW0gdGhlICdETlIn
-IGJpdCBpcyBfY29tbWFuZF8gc3BlY2lmaWMsIGllIF90aGlzIHBhcnRpY3VsYXIgY29tbWFuZF8g
-Cj4gc2hvdWxkIG5vdCBiZSByZXRyaWVkLgo+IEFueSBldmVudHVhbCBhbHRlcm5hdGl2ZSBwYXRo
-IHNob3VsZCBub3QgYmUgY29uc2lkZXJlZC4KClRvIHF1b3RlIGZyb20gdGhlIHNwZWM6CgoiRG8g
-Tm90IFJldHJ5IChETlIpOiBJZiBzZXQgdG8g4oCYMeKAmSwgaW5kaWNhdGVzIHRoYXQgaWYgdGhl
-IHNhbWUgY29tbWFuZCBpcwpyZS1zdWJtaXR0ZWQgdG8gYW55IGNvbnRyb2xsZXIgaW4gdGhlIE5W
-TSBzdWJzeXN0ZW0sIHRoZW4gdGhhdCByZS1zdWJtaXR0ZWQKY29tbWFuZCBpcyBleHBlY3RlZCB0
-byBmYWlsLiBJZiBjbGVhcmVkIHRvIOKAmDDigJksIGluZGljYXRlcyB0aGF0IHRoZSBzYW1lCmNv
-bW1hbmQgbWF5IHN1Y2NlZWQgaWYgcmV0cmllZC4iCgpTbyB5ZXMsIHdlIHNob3VsZCBnZW5lcmFs
-bHkgbm90IHN1Ym1pdCBpdCBvbiBhbm90aGVyIHBhdGgsIHdoaWNoIGlzIGluCmZhY3Qgd2hhdCB3
-ZSBhbHJlYWR5IGRvIGlmIHlvdSBsb29rIGF0IG52bWVfY29tcGxldGVfcnEgYW5kCm52bWVfcmVx
-X25lZWRzX3JldHJ5LgoKQmVzaWRlcyBub3Qgbm90IG5lZWRpbmcgdGhlIEJMS19TVFNfVEFSR0VU
-IHJlbWFwIHRoYXQgcmVtYXAgYWxzbyBpcyBhCmhvcnJpYmxlIGJhZCBpZGVhIGdpdmVuIHRoYXQg
-aXMgbG9zZXMgd2F5IHRvbyBtdWNoIGluZm9ybWF0aW9uLgoKX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KbGludXgtbnZtZSBtYWlsaW5nIGxpc3QKbGludXgt
-bnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxt
-YW4vbGlzdGluZm8vbGludXgtbnZtZQo=
+On Tue, Nov 26, 2019 at 04:01:11AM +0000, Chaitanya Kulkarni wrote:
+> On 11/25/2019 09:07 AM, Keith Busch wrote:
+> > It would be informative to just log the error that occurred so we have
+> > something indicating why an expected namespace wasn't created. Otherwise,
+> > I can't think of anything else the caller should do in response to an
+> > error in this path.
+> 
+> Please do this, shouldn't be ignoring return value completely at first
+> place.
+
+Well, what would you do instead?  We call nvme_alloc_ns during the
+initial probe and every reset / recan.  If we fail to allocate a
+controller for whatever reason we'd much rather still have a working
+controller with at least the admin queue and maybe other namespaces
+rather than shutting everything down.  So just logging a message
+inside nvme_alloc_ns as suggested by Keith sounds like a good idea to
+me.
+
+_______________________________________________
+linux-nvme mailing list
+linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
