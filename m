@@ -2,54 +2,62 @@ Return-Path: <SRS0=Q2qb=ZS=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED93FC432C0
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Nov 2019 20:28:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43D0AC432C0
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Nov 2019 22:27:19 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BCCF720863
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Nov 2019 20:28:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 113FD2071E
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Nov 2019 22:27:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="APYgqwWz"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BCCF720863
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linutronix.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="deIhzXos"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 113FD2071E
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:To:From
-	:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
+	:From:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=+OTFV37k4idkh8yW12iHWv3/Yx1T81GurOcDJCX3H2I=; b=APYgqwWzB0bMYa
-	FXPkA/1AFCkAyl2yCHzxdBrYSL20xJrsbss8nAtMPN9Jnt9gnZTZo8KEY+y83L2JEYGaqe+97ZEq2
-	OQdgqVQB+65xMZP5LmPGM4RNvFjbRqS1QfTryuxNkgbOZor9V5u0+nLbfzOrtUJORFzDVYbzoOrTc
-	TWa0CB/zNAwMwqGra2lAIod5z1rjqYwzwj0Uw168UIhbV/Wt8l5Rscu9Ji2+E7/aVr4TK1XApKFjB
-	+YoLOicDhyF2kHMdYQph/TdYZx1/ne5a5ayi6dp0zNDMkZyG1XmFmc+In25vymm0Bgx7tS/fTKd0y
-	7cSMc8q4rcYsfP+L7TAA==;
+	List-Owner; bh=sc67Kds7/49gzPyFkyzIhnUn61iUxUzBrEFS0zCoGGc=; b=deIhzXos9ua44R
+	STQ0G3GqEBumSMTqS+qISx4GnyLr6czhj5fXDcJIhrdLBlKrgek2/ivJ3aRr99V3wXkbZR/1E4k4P
+	+dXqHaSuJlocqsQ9AajmYrUIlK0O1FNCqV4mz9dAd4rv86DMmMcTfH/j2rTtpEtsNL2t12LgYNvvI
+	HMM34jazEzmSzu2zrfD477wxI+O5XAbxBOoJIduiarqg3toWFc+n6M5Qnd/ItU/8niXNMP87RkVxF
+	dDkJNB4dck0ifzj6vRs5QTEr5a+4Ao9kzloUhByRAH5zwgRZXMJfOM0Fvhs+tS6gq5ObgQzKVYrZq
+	KG0Z39i57QpbdeLM7gsQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iZhRd-00008a-VC; Tue, 26 Nov 2019 20:28:21 +0000
-Received: from galois.linutronix.de ([2a0a:51c0:0:12e:550::1])
+	id 1iZjIi-0007RZ-JZ; Tue, 26 Nov 2019 22:27:16 +0000
+Received: from mga07.intel.com ([134.134.136.100])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iZhRb-00007c-4D
- for linux-nvme@lists.infradead.org; Tue, 26 Nov 2019 20:28:20 +0000
-Received: from bigeasy by Galois.linutronix.de with local (Exim 4.80)
- (envelope-from <bigeasy@linutronix.de>)
- id 1iZhRW-0005U9-4y; Tue, 26 Nov 2019 21:28:14 +0100
-Date: Tue, 26 Nov 2019 21:28:14 +0100
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: linux-nvme@lists.infradead.org
-Subject: [RFC] nvme-pci does not disable interrupt-source in threaded mode
-Message-ID: <20191126202814.vrfezzu6eon7tbf6@linutronix.de>
+ id 1iZjIg-0007R3-9I
+ for linux-nvme@lists.infradead.org; Tue, 26 Nov 2019 22:27:15 +0000
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 26 Nov 2019 14:27:13 -0800
+X-IronPort-AV: E=Sophos;i="5.69,247,1571727600"; d="scan'208";a="211562920"
+Received: from unknown (HELO caliente.lm.intel.com) ([10.232.116.67])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 26 Nov 2019 14:27:12 -0800
+From: Edmund Nadolski <edmund.nadolski@intel.com>
+To: edmund.nadolski@intel.com, linux-nvme@lists.infradead.org,
+ kbusch@kernel.org
+Subject: [PATCH v2 0/1] A few code cleanups
+Date: Tue, 26 Nov 2019 15:26:31 -0700
+Message-Id: <20191126222632.2446-1-edmund.nadolski@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191126_122819_308021_DBDAFEB0 
-X-CRM114-Status: UNSURE (   7.99  )
+X-CRM114-CacheID: sfid-20191126_142714_366958_BC76A78B 
+X-CRM114-Status: UNSURE (   5.84  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -62,44 +70,24 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Thomas Gleixner <tglx@linutronix.de>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From drivers/nvme/host/pci.c:
-| static int queue_request_irq(struct nvme_queue *nvmeq)
-| {
-|         struct pci_dev *pdev = to_pci_dev(nvmeq->dev->dev);
-|         int nr = nvmeq->dev->ctrl.instance;
-| 
-|         if (use_threaded_interrupts) {
-|                 return pci_request_irq(pdev, nvmeq->cq_vector, nvme_irq_check,
-|                                 nvme_irq, nvmeq, "nvme%dq%d", nr, nvmeq->qid);
+This patchset adds a few simple cleanups to the nvme code.
 
-nvme_irq_check() checks if an interrupt is pending and does not disable
-interrupt source if the interrupt is pending. It simply wakes the thread.
-This works because the MSI-IRQ-controller is handled as edge and it does
-not re-trigger. Should the IRQ fallback to non-MSI it would become LEVEL
-and will keep the IRQ-line asserted so the threaded handler will no be reached.
+v2:
+ Emit informational message when an error occurs.
 
-One of these should be done:
-- remove "use_threaded_interrupts" and rely simply on the "threadirqs"
-  kernel command line.
-- Let nvme_irq_check() disable the IRQ-source and nvme_irq() should
-  enable it again once done.
-- Pass IRQF_ONESHOT as irqflags.
+Edmund Nadolski (1):
+  nvme: remove unused return code from nvme_alloc_ns
 
-Side note:
- msix_request_rcd_irq() (drivers/infiniband/hw/hfi1/msix.c) provides also
- both handlers and (according to the comment) receive_context_interrupt()
- disables the source before waking the thread. This one is fine and I
- did not find more users of pci_request_irq() providing both handlers.
+ drivers/nvme/host/core.c | 18 ++++++++----------
+ 1 file changed, 8 insertions(+), 10 deletions(-)
 
-Sebastian
+-- 
+2.20.1
 
 _______________________________________________
 linux-nvme mailing list
