@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7F2BC432C3
-	for <linux-nvme@archiver.kernel.org>; Wed, 27 Nov 2019 09:40:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EE66C432C0
+	for <linux-nvme@archiver.kernel.org>; Wed, 27 Nov 2019 09:41:14 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A8ECD20678
-	for <linux-nvme@archiver.kernel.org>; Wed, 27 Nov 2019 09:40:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0D87F20678
+	for <linux-nvme@archiver.kernel.org>; Wed, 27 Nov 2019 09:41:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="KJpwMfbQ";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="JlwvyvZd"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A8ECD20678
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="OHa8QDxg";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="f2Mzdu0q"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0D87F20678
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,69 +26,69 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=402NLd41jk3iTiWIFx4kRg9ZQmmMOpPX1+h3MFX9nzQ=; b=KJpwMfbQOwAoHq
-	ftuylEIQMXb6KH5y+2+V2QOycKrpuJBzkszCU0aYvPdBCVTaLcvmCdq/EUUVQGJyfnSwTk8Lc+Cap
-	XzRI0S08+hICRrcENLMe3C4dujjFKGGUgl56wTQgwJwt4nYSGH80T2hG44ydEcfIkcyKFuWDrdXFu
-	STTt3nqS8RY0kjWciRe7oIKGIOjpvkTmN02gSLhuxWBf0N0lDmgrSIXWqmPcsNV4eY0Krx//5UK5t
-	OMJSOB2mYnneIWEoUEbO6/m2J2i+E0zfllIqEadQjrAhYKzjE2g8BRbaDH5ivk8hBEmLc2+tzlSkv
-	Y7xp9x2YUesOChPgqIxQ==;
+	List-Owner; bh=z0LmWVyK0sjDqGgezzDlhgL5KgwqLXrj71F3+u69NFs=; b=OHa8QDxgB6glf6
+	HToMfJQlLd2JD3cWmBCdFdQfoCzJS0DyeCQ3F9ae7EA/N0QJZ2ZYLM1G9Hpi9uVzdNu0nkdSycc5I
+	2YBpZ9eHRmSRsJLVGr8LX0hoKQeXyGHMscci2IA8dwnWprUkUNl03UZjMqoppmtpU7R36chKGJLwl
+	mdaUsc/GB4Hgcl4wEjW7He2A4dV+bVjZmHEhMJhDvyJHJvL61N2rwxodr5cKYh4BmfOaHX/Tzp05L
+	fE+DYEQ7OSnrv2eC5WOD8JGdMiAbPp+uoC61pG5vJ0cEhXbvmI9QHcgbmXSy3LR/JQoWNqSBsqwt5
+	ZDqsd3AISExgGVqzm0Sw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iZtoc-0004iS-8x; Wed, 27 Nov 2019 09:40:54 +0000
+	id 1iZtos-0004x1-OR; Wed, 27 Nov 2019 09:41:11 +0000
 Received: from esa5.hgst.iphmx.com ([216.71.153.144])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iZtoN-0004Xa-UL
- for linux-nvme@lists.infradead.org; Wed, 27 Nov 2019 09:40:41 +0000
+ id 1iZtoQ-0004Ye-Sm
+ for linux-nvme@lists.infradead.org; Wed, 27 Nov 2019 09:40:43 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1574847641; x=1606383641;
+ t=1574847644; x=1606383644;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=wXsOzqGLQPVXzdMf4UsJJcx1wfrmwDtItXTgiTMNCLE=;
- b=JlwvyvZd+zt8PZNmXxJx6uM98UlWJZwvnD6GvVO97bCL13qshnMW8EQo
- H2gTYUfNgyT1G1k3iEt53lqak1zq4xmxG2wb6cWQBYaFObzjYPOCGhe0a
- BucWX9yg0ScnGt89B3nL3sZLuItNNZfbfq+b78nwAp4Mb382WCS5JyCgs
- ZmuwrITV6srwfXY1jwxwIO7t46jaoCjHzKyKhzh8I0inql+Hx9J4iB17u
- YpCapykT1OGAvG8HmJTNkWVS4B4KerSXjxO20WexS9ncYe+jnN7QUHUld
- TNGhZU9MZbrvB08eHW2psadoN21cIB+x/AeCSBXn5OciUBuX7PumLhgJu w==;
-IronPort-SDR: iDja7x66ywWqcBl0ZD7MYbZ5BPm0FOjfuacQp3KHVeyOqWG2Xxor5LPgTVlY8NdXN1Kj1VCqJJ
- YvESvTnd1awhjNbfTnnvsuHWBrajhQ7FjstasnkZpB+u0xpCasvqEl9/v9zuWR/r/42nso9nCX
- ktQqVBaxScKbt3YIZHZSf8nRN3hkLRIqIoMb57c8ugFkwffJVivdeVA57QS6AE6zs/dYLd5Mbc
- b4btqwnsEWRIBigXFIljrFHcnrC93RVULXlhuCcGHfuOtAkvkz0bVbsbBB8uhCu4Htiw6TbCN6
- I3Y=
-X-IronPort-AV: E=Sophos;i="5.69,249,1571673600"; d="scan'208";a="124872966"
+ bh=u5Rp1s+uhJYi2VR1VgQiWGHGoB393C6fNqXqD/2qq9A=;
+ b=f2Mzdu0q3TrrBX3RG4t52AMDWk9MLClKCRQo4jM1hk8skJSn0A7HvorZ
+ b9nIEKVJeLz2X4+HpXEIsroJyAYuB224n9a7r17eqNb+Z0ZO+oyCzIhfC
+ 1SJsI6c/b4pgEr89qThfLCwsWUGIqyrbbriHPnQ0src5qVdo115YWfHNd
+ fec9bikj9Jl8LnMLKdzw6SfT16gqWQftW4uzDnnl69co25pIWYnIM0rMX
+ ktuc3yh84paIL276UGflp9g/KrYlTqCP28rzgT2/Gt97FTCadzSdkrj5G
+ 8CBaBnC18k03Ut4RVSAJDsWbcfhpekhWBk+0hS74EA4/7euP1HBFLSTl9 A==;
+IronPort-SDR: NKB8V2bDuQTmtU4RnWso3sgGtnvMl+QqFtSZucV6/1uwvkV3UaRP+q/mT2mfYd6HLU9OqQSvyU
+ AwXB2MgCkBRsjwpc46UsrHFRtnbWWZ05NxOe4QC+cCbwkXIIBlCgdvkQRumPvUMam/aN7rIy3o
+ wTsDX9dcz8tf81ZUDXMzPEHP0EFOg5COp1G78xl0x7yKDQVN5BwfUKjFiUh3LWsZiuT/+tQH/u
+ 7akVDvODL0fAlAhdCUOVaAJtH4tNr3/8rbm0jjAUV/jGt5T/TPFggiEP5mh2AerK/zkwgoG2UY
+ Qx4=
+X-IronPort-AV: E=Sophos;i="5.69,249,1571673600"; d="scan'208";a="124872969"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 27 Nov 2019 17:40:40 +0800
-IronPort-SDR: OEioWWDAXAXJ6uAQEs9yo8na9PclD5eK4103IyIjcGtVLOXjFiE7sdOqnFQkWX3aiz1dR7DNLm
- Y81+IKat6/mib/h0snGqkkTr858i4Uy6MeTdKphPmvS1bczywZ9ApwFon1UE8Wcmn3uTfvnFHn
- BJqRPuAiD8XNrWNjWM9+TY/XBXsYtVM5AGGkbAzCxd5isc18Dvo/cQm9VHwLjbfGYpaHcgWgHi
- vW6pycPQ9y/xdRWrZh9a8wdQACfWuC4ColkecR5RrKOFXmoSNdVo4AZeaJcKjEZca0lRzIZB+g
- 414sa5fqgm6/V4CWLTQvEaOJ
+ by ob1.hgst.iphmx.com with ESMTP; 27 Nov 2019 17:40:43 +0800
+IronPort-SDR: X3I3ToTm4GNI9auMJu4/I0ALy3fABoQGq52/BhIfG9b6uq3P34yyGAV1sdThp6krNPd3ERNzlU
+ qH/iQzeIuwfRw1pXYeaEP1jqaTcpyHcuzSEHY1RB82s08zjXvv2k5WE15oVEnl8AnheraI61v7
+ LI2aiYDjgLAi328YlbU0YBtlGRKU0p7Ow2wPMjdI0zDVRB6Zp4nyr3O8HdwnfBqRcQPip8Tqy5
+ /pF2IG4/d6JNRsrtHgZVlOCu8bxUugOMUrrlvH9koCHwqBhxfwxvkhJqSnNTdNZ4HucQ4um1Xa
+ +W8/MCrddIfE8LgUSzGO6OoT
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2019 01:35:38 -0800
-IronPort-SDR: 1k/3NYkRLXJXwAsQzK7UUAXg+98B30JE6LtIF+EurDTJjAO2VJrs3h0ok+ypMxwNhWd84FqyEA
- bP/Deuc3oXjEe4r140J8ZiSdroKT41yV5IscK0ehC9fKLRSTcwGdUpK4Ueq7DC5j/V/7YPfemy
- FkH1lBUIdwtjoxFDjnbFghTekcP2oc1xXtwyt0+5h6zUWvPz8gxF7Oc6Pr26Q08E2C9R0oR4Nu
- McWJRrPuGfoBTICg0fDA6zUoRJO4SBj/opr+u9nZM4fsLFDuxntZaBam/v+GBOMfS4ZalHW/sU
- 9V4=
+ 27 Nov 2019 01:35:41 -0800
+IronPort-SDR: QsYU/UMRAbRtXfR1w+PxLKnYFa/qCDZ51HQ5usgKCtb3dd4DEZcORWxaoG4HjUk/e1REg4odL0
+ isb9i02GHl9r5PjaC/B8jkSVpGrXUlj3+ftklukgKd/zg9pZnPMasdQn6jprqZf1wUZeZxQA5t
+ oo3jLI9ULqtG3vyCd0wQv2pjEHlM8uA+vNt606R06xOBzufVSdRkCdICEK/C5VEZ1d8UVmK1de
+ zyfOzFztZCPvaAlWgruabhu8VcGxhrDGUFW//83/RR5O9P0UtiL4Z1nbQ6KEeu23I6YMglCDk4
+ D+E=
 WDCIronportException: Internal
 Received: from iouring.labspan.wdc.com (HELO iouring.sc.wdc.com)
  ([10.6.138.107])
- by uls-op-cesaip01.wdc.com with ESMTP; 27 Nov 2019 01:40:39 -0800
+ by uls-op-cesaip01.wdc.com with ESMTP; 27 Nov 2019 01:40:42 -0800
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH V3 1/3] nvmet: make ctrl-id configurable
-Date: Wed, 27 Nov 2019 01:40:32 -0800
-Message-Id: <20191127094034.12334-2-chaitanya.kulkarni@wdc.com>
+Subject: [PATCH V4 2/3] nvmet: make ctrl model configurable
+Date: Wed, 27 Nov 2019 01:40:33 -0800
+Message-Id: <20191127094034.12334-3-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.22.1
 In-Reply-To: <20191127094034.12334-1-chaitanya.kulkarni@wdc.com>
 References: <20191127094034.12334-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191127_014039_986536_033FCE09 
-X-CRM114-Status: GOOD (  16.28  )
+X-CRM114-CacheID: sfid-20191127_014042_966940_F2C38D8A 
+X-CRM114-Status: GOOD (  16.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,176 +100,195 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: hch@lst.de, Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Cc: Mark Ruijter <MRuijter@onestopsystems.com>, hch@lst.de,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+From: Mark Ruijter <MRuijter@onestopsystems.com>
+
 This patch adds a new target subsys attribute which allows user to
-optionally specify target controller IDs which then used in the
+optionally specify model name which then used in the
 nvmet_execute_identify_ctrl() to fill up the nvme_id_ctrl structure.
 
-For example, when using a cluster setup with two nodes, with a dual
-ported NVMe drive and exporting the drive from both the nodes,
-The connection to the host fails due to the same controller ID and
-results in the following error message:-
+The default value for the model is set to "Linux" for backward
+compatibility.
 
-"nvme nvmeX: Duplicate cntlid XXX with nvmeX, rejecting"
-
-With this patch now user can partition the controller IDs for each
-subsystem by setting up the cntlid_min and cntlid_max. These values
-will be used at the time of the controller ID creation. By partitioning
-the ctrl-ids for each subsystem results in the unique ctrl-id space
-which avoids the collision.
-
-When new attribute is not specified target will fall back to original
-cntlid calculation method.
-
+Signed-off-by: Mark Ruijter <MRuijter@onestopsystems.com>
+[use macro for default model, coding style fixes]
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 ---
+Changes from V3:-
+
+1, Update commit description with additional changes on the top of
+   original patch.
+2. Reduce the size of the lock in nvmet_subsys_attr_model_store().
+3. Don't initialize subsys->model = NULL nvmet_subsys_alloc().
+
 Changes from V2:-
 
-1. Reduce the size of the lock for sscanf for cntlid_min and cntlid_max.
-2. Remove the common show and store function for cntlid.
-3. Move cntlid_min and cntlid_max check into the store function. 
-4. Update the patch description.
-5. Move check for valid cntlid_[min|max] parameter into configfs
-   respective store function.
+1. Use if else pattern than ternary operators.
+2. Change the name nvmet_subsys_model() -> nvmet_model_number().
+3. Introduce nvmet_is_ascii() to filter the model characters.
+4. Change tmp -> tmp_model in nvmet_subsys_attr_model_store().
 
 Changes from V1:-
 
-1. Add cntlid max and min configfs attributes.
-2. Use simple if .. else statements instead of ternary operators.
+1. Don't allocate memory for default subsys model,
+2. Use helper to get the default model string from ctrl->subsys in the
+   nvmet_execute_identify_ctrl() and nvmet_subsys_attr_model()_show.
+   Later is needed so that nvmetcli can display default value Linux
+   when the model is not set from the user.
+3. Get rid of the extra variable c in the nvmet_subsys_attr_model_store()
+   and replace for with while loop without loosing the code redability.
 ---
- drivers/nvme/target/configfs.c | 72 ++++++++++++++++++++++++++++++++++
- drivers/nvme/target/core.c     |  5 ++-
- drivers/nvme/target/nvmet.h    |  2 +
- 3 files changed, 77 insertions(+), 2 deletions(-)
+ drivers/nvme/target/admin-cmd.c | 12 +++++++--
+ drivers/nvme/target/configfs.c  | 46 +++++++++++++++++++++++++++++++++
+ drivers/nvme/target/core.c      |  1 +
+ drivers/nvme/target/nvmet.h     |  4 +++
+ 4 files changed, 61 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 56c21b501185..613e715dc7d3 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -312,12 +312,20 @@ static void nvmet_execute_get_log_page(struct nvmet_req *req)
+ 	nvmet_req_complete(req, NVME_SC_INVALID_FIELD | NVME_SC_DNR);
+ }
+ 
++const char *nvmet_model_number(struct nvmet_subsys *subsys)
++{
++	if (subsys->model)
++		return subsys->model;
++
++	return NVMET_DEFAULT_CTRL_MODEL;
++}
++
+ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
+ {
++	const char *model = nvmet_model_number(req->sq->ctrl->subsys);
+ 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
+ 	struct nvme_id_ctrl *id;
+ 	u16 status = 0;
+-	const char model[] = "Linux";
+ 
+ 	id = kzalloc(sizeof(*id), GFP_KERNEL);
+ 	if (!id) {
+@@ -332,7 +340,7 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
+ 	memset(id->sn, ' ', sizeof(id->sn));
+ 	bin2hex(id->sn, &ctrl->subsys->serial,
+ 		min(sizeof(ctrl->subsys->serial), sizeof(id->sn) / 2));
+-	memcpy_and_pad(id->mn, sizeof(id->mn), model, sizeof(model) - 1, ' ');
++	memcpy_and_pad(id->mn, sizeof(id->mn), model, strlen(model), ' ');
+ 	memcpy_and_pad(id->fr, sizeof(id->fr),
+ 		       UTS_RELEASE, strlen(UTS_RELEASE), ' ');
+ 
 diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index 98613a45bd3b..772a74a7d969 100644
+index 772a74a7d969..4dea77a7da3e 100644
 --- a/drivers/nvme/target/configfs.c
 +++ b/drivers/nvme/target/configfs.c
-@@ -862,10 +862,82 @@ static ssize_t nvmet_subsys_attr_serial_store(struct config_item *item,
+@@ -932,12 +932,58 @@ static ssize_t nvmet_subsys_attr_cntlid_max_store(struct config_item *item,
  }
- CONFIGFS_ATTR(nvmet_subsys_, attr_serial);
+ CONFIGFS_ATTR(nvmet_subsys_, attr_cntlid_max);
  
-+static ssize_t nvmet_subsys_attr_cntlid_min_show(struct config_item *item,
-+						 char *page)
++static ssize_t nvmet_subsys_attr_model_show(struct config_item *item,
++					    char *page)
 +{
-+	return snprintf(page, PAGE_SIZE, "%u\n", to_subsys(item)->cntlid_min);
++	struct nvmet_subsys *subsys = to_subsys(item);
++
++	return snprintf(page, PAGE_SIZE, "%s\n",
++			nvmet_model_number(subsys));
 +}
 +
-+static ssize_t nvmet_subsys_attr_cntlid_min_store(struct config_item *item,
-+						  const char *page, size_t cnt)
++/* See Section 1.5 of NVMe 1.4 */
++static bool nvmet_is_ascii(const char c)
 +{
-+	int ret = -EINVAL;
-+	u16 cntlid_min;
++	return c >= 0x20 && c <= 0x7e;
++}
 +
-+	if (sscanf(page, "%hu\n", &cntlid_min) != 1)
-+		return ret;
++static ssize_t nvmet_subsys_attr_model_store(struct config_item *item,
++					     const char *page, size_t count)
++{
++	struct nvmet_subsys *subsys = to_subsys(item);
++	int pos = 0, len;
++	char *tmp_model;
 +
-+	if (cntlid_min == 0) {
-+		pr_info("specified cntlid_min = 0 is not allowed\n");
-+		return ret;
++	len = strcspn(page, "\n");
++	if (!len)
++		return -EINVAL;
++
++	for (pos = 0; pos < len; pos++) {
++		if (!nvmet_is_ascii(page[pos]))
++			return -EINVAL;
 +	}
++
++	tmp_model = kstrndup(page, len, GFP_KERNEL);
++	if (!tmp_model)
++		return -ENOMEM;
 +
 +	down_write(&nvmet_config_sem);
-+	if (cntlid_min >= to_subsys(item)->cntlid_max) {
-+		pr_info("specified cntlid_min is >= current cntlid_max\n");
-+		goto out;
-+	}
-+
-+	ret = 0;
-+	to_subsys(item)->cntlid_min = cntlid_min;
-+out:
++	kfree(subsys->model);
++	subsys->model = tmp_model;
 +	up_write(&nvmet_config_sem);
 +
-+	return ret ? ret : cnt;
-+}
-+CONFIGFS_ATTR(nvmet_subsys_, attr_cntlid_min);
-+
-+static ssize_t nvmet_subsys_attr_cntlid_max_show(struct config_item *item,
-+						 char *page)
-+{
-+	return snprintf(page, PAGE_SIZE, "%u\n", to_subsys(item)->cntlid_max);
++	return count;
 +}
 +
-+static ssize_t nvmet_subsys_attr_cntlid_max_store(struct config_item *item,
-+						  const char *page, size_t cnt)
-+{
-+	int ret = -EINVAL;
-+	u16 cntlid_max;
-+
-+	if (sscanf(page, "%hu\n", &cntlid_max) != 1)
-+		return ret;
-+
-+	if (cntlid_max == 0) {
-+		pr_info("specified cntlid_max = 0 is not allowed\n");
-+		return ret;
-+	}
-+
-+	down_write(&nvmet_config_sem);
-+	if (cntlid_max <= to_subsys(item)->cntlid_min) {
-+		pr_info("specified cntlid_max is <= current cntlid_min\n");
-+		goto out;
-+	}
-+
-+	ret = 0;
-+	to_subsys(item)->cntlid_max = cntlid_max;
-+out:
-+	up_write(&nvmet_config_sem);
-+
-+	return ret ? ret : cnt;
-+}
-+CONFIGFS_ATTR(nvmet_subsys_, attr_cntlid_max);
++CONFIGFS_ATTR(nvmet_subsys_, attr_model);
 +
  static struct configfs_attribute *nvmet_subsys_attrs[] = {
  	&nvmet_subsys_attr_attr_allow_any_host,
  	&nvmet_subsys_attr_attr_version,
  	&nvmet_subsys_attr_attr_serial,
-+	&nvmet_subsys_attr_attr_cntlid_min,
-+	&nvmet_subsys_attr_attr_cntlid_max,
+ 	&nvmet_subsys_attr_attr_cntlid_min,
+ 	&nvmet_subsys_attr_attr_cntlid_max,
++	&nvmet_subsys_attr_attr_model,
  	NULL,
  };
  
 diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 28438b833c1b..387628ec7e37 100644
+index 387628ec7e37..c041d88ed3ea 100644
 --- a/drivers/nvme/target/core.c
 +++ b/drivers/nvme/target/core.c
-@@ -1268,7 +1268,7 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
- 		goto out_free_cqs;
+@@ -1436,6 +1436,7 @@ static void nvmet_subsys_free(struct kref *ref)
+ 	WARN_ON_ONCE(!list_empty(&subsys->namespaces));
  
- 	ret = ida_simple_get(&cntlid_ida,
--			     NVME_CNTLID_MIN, NVME_CNTLID_MAX,
-+			     subsys->cntlid_min, subsys->cntlid_max,
- 			     GFP_KERNEL);
- 	if (ret < 0) {
- 		status = NVME_SC_CONNECT_CTRL_BUSY | NVME_SC_DNR;
-@@ -1416,7 +1416,8 @@ struct nvmet_subsys *nvmet_subsys_alloc(const char *subsysnqn,
- 		kfree(subsys);
- 		return ERR_PTR(-ENOMEM);
- 	}
--
-+	subsys->cntlid_min = NVME_CNTLID_MIN;
-+	subsys->cntlid_max = NVME_CNTLID_MAX;
- 	kref_init(&subsys->ref);
+ 	kfree(subsys->subsysnqn);
++	kfree(subsys->model);
+ 	kfree(subsys);
+ }
  
- 	mutex_init(&subsys->lock);
 diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 46df45e837c9..6492d12e626a 100644
+index 6492d12e626a..c54ce5f66f09 100644
 --- a/drivers/nvme/target/nvmet.h
 +++ b/drivers/nvme/target/nvmet.h
-@@ -211,6 +211,8 @@ struct nvmet_subsys {
- 	struct list_head	namespaces;
- 	unsigned int		nr_namespaces;
- 	unsigned int		max_nsid;
-+	u16			cntlid_min;
-+	u16			cntlid_max;
+@@ -23,6 +23,7 @@
+ #define NVMET_ASYNC_EVENTS		4
+ #define NVMET_ERROR_LOG_SLOTS		128
+ #define NVMET_NO_ERROR_LOC		((u16)-1)
++#define NVMET_DEFAULT_CTRL_MODEL	"Linux"
  
- 	struct list_head	ctrls;
+ /*
+  * Supported optional AENs:
+@@ -224,6 +225,7 @@ struct nvmet_subsys {
+ 	u64			ver;
+ 	u64			serial;
+ 	char			*subsysnqn;
++	char			*model;
  
+ 	struct config_group	group;
+ 
+@@ -489,6 +491,8 @@ u16 nvmet_bdev_flush(struct nvmet_req *req);
+ u16 nvmet_file_flush(struct nvmet_req *req);
+ void nvmet_ns_changed(struct nvmet_subsys *subsys, u32 nsid);
+ 
++const char *nvmet_model_number(struct nvmet_subsys *subsys);
++
+ static inline u32 nvmet_rw_len(struct nvmet_req *req)
+ {
+ 	return ((u32)le16_to_cpu(req->cmd->rw.length) + 1) <<
 -- 
 2.22.1
 
