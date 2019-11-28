@@ -2,22 +2,21 @@ Return-Path: <SRS0=mBQh=ZU=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62303C432C0
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 Nov 2019 03:41:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6CA3C432C0
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 Nov 2019 03:48:30 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3598E215A5
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 Nov 2019 03:41:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8514A2166E
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 Nov 2019 03:48:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="TzuR13Am";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kw44o29Y"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3598E215A5
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="R//NyQh9";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="lkGKVQVE"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8514A2166E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,46 +25,46 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=PS3y4JtMq04/9/1Y279b9V4Mb9kovwRk7cNTC8JpxBI=; b=TzuR13AmkBgpIv
-	t9i3TkofG+M2cIHRy7kOoFN8K17f17xeJWorxQxWoM4oevwqo92bf6EEZdLA6NTi4g6FABsZW5ZLr
-	pNkaYEkaD29Ap9Fq9qNUL/zIj+pZV+W4c38lpVGgEU8691Kx5AQ4X0DLrhSYVR6fso7tDtugvriB9
-	CpIk3YFIfeJo21ZiuWDJhkU0F0SM7VKHgHkk3lhxLm2suKKLLiZ4oHKurwVNuT1/RwUgKKJGHTwps
-	aziSu7mTgEdK/YZPHHW8YD0VseQq8WNZc2KQ2/D688jBFKZdpOgm4c8DFsc07aiTjPyGS5C/oQMBU
-	npFsO+5FgOVkktqt60Zw==;
+	List-Owner; bh=GV/N7Un6W4OleOTuRh0zWOimFVtT94ohm6JS8gJy1NI=; b=R//NyQh9EBo5Gr
+	0I2rNIZBOWv/kedxtbY9U0bOttpbdUws8JxmdJUfnl+ZbKAmDxdTvNjmb1Fk83jSjNbWC9qVUK44k
+	pUnVXmUz1bww8bnht48C7jInKOmc/G0/SZ23hdMHG9tHNRMVko6hcaYvOyfDmnjc2s2xxeqfq9XOy
+	7Q2eOivq4AUSrmlFLMz1Zq9mgSuTkeFnajRSypsm9kLNWuhKQNhZ3P3+GNHA/+JhcCyjiNi49hh0K
+	898dcze4v+wTcGsfkBxOYNBKUSeFPUMbORDMBeK8D3li9dB76EG49hqQMw++PydmBJLsYi1p5Wxl0
+	T9i+xI12QC7xQm5bEcLw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iaAg7-00068L-8H; Thu, 28 Nov 2019 03:41:15 +0000
+	id 1iaAn6-0008D1-Oa; Thu, 28 Nov 2019 03:48:28 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iaAg4-000681-RG
- for linux-nvme@lists.infradead.org; Thu, 28 Nov 2019 03:41:14 +0000
+ id 1iaAn3-0008CP-GT
+ for linux-nvme@lists.infradead.org; Thu, 28 Nov 2019 03:48:26 +0000
 Received: from redsun51.ssa.fujisawa.hgst.com (unknown [199.255.47.7])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 39A3F2084D;
- Thu, 28 Nov 2019 03:41:11 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 10B59206E0;
+ Thu, 28 Nov 2019 03:48:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1574912472;
- bh=AiYXx/jWE8SwRfBMa7/s351MP5blNXWqLjj6R1B080k=;
+ s=default; t=1574912905;
+ bh=V3JWH1+tUSeB5z/HyEiTtK/uQ815oYx/suoWx805sAU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Kw44o29YSGuwFfQ3VNhqAAcxwJNdugE6kamA0um/qkK26pNVe1DAPhqenNR/CDaPd
- SN3MS5Ow1dqiw+0WTTnBZnlG5XhbDUJ8H3XUHOAtGf7Vz6ynCSUbn/Cf+dRiPswhgb
- 6KuenACwBzi+l6kgHWNIJTR/tuSj06FecsXqyu5g=
-Date: Thu, 28 Nov 2019 12:41:08 +0900
+ b=lkGKVQVE9hsZZ4qIa3AQf9NkU7pNw7i8xf9C6uy66g1tfte/oZA9+zjCifiOMqq2f
+ iH64NRFZ1s+nZGSZQDV4M2YIVCbKXvncQysGg256olHinYj1QwYFDGCKiwB15XsZVB
+ KBLem80UMfqmgpiymBMi1XptRbH7h6ZcfQXzakuE=
+Date: Thu, 28 Nov 2019 12:48:17 +0900
 From: Keith Busch <kbusch@kernel.org>
-To: Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH 1/4] PCI/MSI: Export __pci_msix_desc_mask_irq
-Message-ID: <20191128034108.GB1738@redsun51.ssa.fujisawa.hgst.com>
+To: Ming Lei <ming.lei@redhat.com>
+Subject: Re: [PATCH 2/4] nvme/pci: Mask legacy and MSI in threaded handler
+Message-ID: <20191128034817.GC1738@redsun51.ssa.fujisawa.hgst.com>
 References: <20191127175824.1929-1-kbusch@kernel.org>
- <20191127175824.1929-2-kbusch@kernel.org>
- <0eaff815-22ca-0c77-0122-9d0c5ae80f58@grimberg.me>
+ <20191127175824.1929-3-kbusch@kernel.org>
+ <20191128033956.GD3277@ming.t460p>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <0eaff815-22ca-0c77-0122-9d0c5ae80f58@grimberg.me>
+In-Reply-To: <20191128033956.GD3277@ming.t460p>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191127_194112_904364_18FA4A4A 
-X-CRM114-Status: GOOD (  15.96  )
+X-CRM114-CacheID: sfid-20191127_194825_570137_D282DABE 
+X-CRM114-Status: GOOD (  12.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,48 +76,40 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: bigeasy@linutronix.de, helgaas@kernel.org, hch@lst.de,
- linux-nvme@lists.infradead.org, ming.lei@redhat.com
+Cc: sagi@grimberg.me, bigeasy@linutronix.de, linux-nvme@lists.infradead.org,
+ helgaas@kernel.org, Thomas Gleixner <tglx@linutronix.de>, hch@lst.de
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Nov 27, 2019 at 06:42:06PM -0800, Sagi Grimberg wrote:
-> > Export the fast msix mask so that drivers may use these in timing
-> > sensitive contexts.
-> > 
-> > Signed-off-by: Keith Busch <kbusch@kernel.org>
-> > ---
-> >   drivers/pci/msi.c | 1 +
-> >   1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/drivers/pci/msi.c b/drivers/pci/msi.c
-> > index 0884bedcfc7a..9e866929f4b0 100644
-> > --- a/drivers/pci/msi.c
-> > +++ b/drivers/pci/msi.c
-> > @@ -225,6 +225,7 @@ u32 __pci_msix_desc_mask_irq(struct msi_desc *desc, u32 flag)
-> >   	return mask_bits;
-> >   }
-> > +EXPORT_SYMBOL_GPL(__pci_msix_desc_mask_irq);
-> >   static void msix_mask_irq(struct msi_desc *desc, u32 flag)
-> >   {
-> > 
+On Thu, Nov 28, 2019 at 11:39:56AM +0800, Ming Lei wrote:
+> On Thu, Nov 28, 2019 at 02:58:22AM +0900, Keith Busch wrote:
+> > @@ -1502,6 +1524,11 @@ static int queue_request_irq(struct nvme_queue *nvmeq)
+> >  	int nr = nvmeq->dev->ctrl.instance;
+> >  
+> >  	if (use_threaded_interrupts) {
+> > +		/* MSI and Legacy use the same NVMe IRQ masking */
+> > +		if (!pdev->msix_enabled)
+> > +			return pci_request_irq(pdev, nvmeq->cq_vector,
+> > +				nvme_irq_check_msi, nvme_irq_thread_msi,
+> > +				nvmeq, "nvme%dq%d", nr, nvmeq->qid);
+> >  		return pci_request_irq(pdev, nvmeq->cq_vector, nvme_irq_check,
+> >  				nvme_irq, nvmeq, "nvme%dq%d", nr, nvmeq->qid);
 > 
-> Nice!
-> 
-> but why not export msix_mask_irq?
+> Just wondering why don't do that for misx_enabled, and according to
+> document of request_threaded_irq(), the handler is supposed to
+> disable the device's interrupt:
 
-Only because __pci_msix_desc_mask_irq() was already defined in a public
-header. :)
+MSI-x is handled in patch 3/4. I just split the two since the mechanisms
+they use to mask interrupts are very different from each other.
  
-> Is it possible that this what made the irqpoll patch I sent
-> to cause a performance hit? I used disable_irq_nosync...
+> 923aa4c378f9("PCI/MSI: Set IRQCHIP_ONESHOT_SAFE for PCI-MSI irqchips"),
+> then the question is that if interrupt mask is needed.
 
-I think so, yes, that's a relatively costly operation and would have a
-measurable performance hit if called frequently. The exception might be
-if you can setup a test such that irqpoll always observes completions
-such that it rarely or never has to unmask interrupts.
+We don't want to use IRQF_ONESHOT for our MSI interrupts because that
+will write to the MSI mask config register, which is a costly non-posted
+transaction. The NVMe specific way uses much faster posted writes.
 
 _______________________________________________
 linux-nvme mailing list
