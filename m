@@ -2,21 +2,21 @@ Return-Path: <SRS0=mcGk=ZW=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3426CC432C0
-	for <linux-nvme@archiver.kernel.org>; Sat, 30 Nov 2019 17:02:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6EC1C432C0
+	for <linux-nvme@archiver.kernel.org>; Sat, 30 Nov 2019 18:10:36 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F2B602082E
-	for <linux-nvme@archiver.kernel.org>; Sat, 30 Nov 2019 17:02:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9D6E82082E
+	for <linux-nvme@archiver.kernel.org>; Sat, 30 Nov 2019 18:10:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="DYIKTSUi";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="ErFLvVeg"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F2B602082E
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="d/a7yF6O";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="O5REh3Hu"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9D6E82082E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,48 +25,46 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=uMI6iEZ0nKYnjE4m70FHYuZVCgQk/HD6sFRVvtLRd2g=; b=DYIKTSUieHlTzW
-	Nj7j1bVIA/5qkvKUnDHHcciFV1GzZgB3msx8oHoSN0G/xuQsJN9RH+2zQqCmKhoxKKklI2QzlcqqX
-	qI9+tAMgwj7I1zVWdFA/S/OGfpHxwh9yPpmM4hFVxVxow82NV2OTyX/emaIy4f8OH3BZOgYN2MSxM
-	2qwktW7gcmE1ZMLVz5dDIUUV8fdRh10GgizxQlaMoK6BWWyvumn6Xt2fZ65UukWBy0Mh2yvAm9Bvu
-	ovY8W4n79rjVU63ZaGFYXqn3kdB0OK/hDNeLGWruul3jfiZg0BVutdUlOgyKMYmu7HzkyNu1JE3iF
-	PH27j8sD2zvbQWB+hMUA==;
+	List-Owner; bh=IZpqdYkKr3iSsJ9Na0pv+XQXLSM8gsij1Ej+Fw3sZ8U=; b=d/a7yF6Ol2zYCJ
+	fi2aHhOqrtXuwhKTdbkccbGPhrOPHoWF5SW6jaME3OIBi8blyqv7m1OLx3I3YiLsyifzdYn2p0kZE
+	vTtH/6FqrCBEztb2vwF0S5UiGugaQMpft7gSy8sbYzMCxTChsQfBolzOZiHmrDdK+JOtRouyW3tqw
+	gJg/YzVGTfif5E2gTqt5qvnBPzIKRxLZefWtP76QUs9bm1lZUPtTy1CgqPpeVHwjR0aZs0P4o7gXz
+	Ibz7I4uWQLvVHeHoJIxybH2rGsm1bBFKMjvLmdBCdrM3eNinqnAVYQq5wPsGTq10cRLnZHEKKlzxs
+	Pkjq1rwC/nMA3CThupng==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1ib68g-0005ks-UZ; Sat, 30 Nov 2019 17:02:34 +0000
+	id 1ib7CR-000116-MZ; Sat, 30 Nov 2019 18:10:31 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ib68c-0005kb-9m
- for linux-nvme@lists.infradead.org; Sat, 30 Nov 2019 17:02:32 +0000
+ id 1ib7CO-00010c-H0
+ for linux-nvme@lists.infradead.org; Sat, 30 Nov 2019 18:10:29 +0000
 Received: from redsun51.ssa.fujisawa.hgst.com (unknown [199.255.47.7])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 410B82073C;
- Sat, 30 Nov 2019 17:02:28 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id D0EC72075A;
+ Sat, 30 Nov 2019 18:10:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1575133349;
- bh=4Z03Qq4Ko/UGElYVw5HFhFaBxkzGUvCLQACF5HtJHys=;
+ s=default; t=1575137427;
+ bh=RVRF3pwWh41xQRM9pTXcv3/JoZI+2tVe922JMkZykNc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ErFLvVegdbPkqxODcTwcFbriUOI277vNdhc24MwLNCWjoEEGs77aedpF/GSuFQFax
- eLHYXRa/in+Y4z9GD6EyLfxMbhNn5KQCj4YHp7ap8xWEYPoYBHD6EstRc4r10IZZFn
- k468Vt9azCR9ErzbITGgHcJRMytFbThYQrgSP7NM=
-Date: Sun, 1 Dec 2019 02:02:22 +0900
+ b=O5REh3HuT3f2E7BLgekH7zghxS4xNNpwu9hmwc3VPqQmSvPRBAMmJGmpxJoykv4iQ
+ d1SBBj1hvsyPf8q6M6DJZ/mzwnRJlHVa5ZsxjGEiuxDHBDKeYDDJ7KmII4XdsWpmuZ
+ bbDWUTA5KHURtkFP+bRrrZjiQRBMeHVhJjfqjFNQ=
+Date: Sun, 1 Dec 2019 03:10:20 +0900
 From: Keith Busch <kbusch@kernel.org>
 To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: Re: [PATCH 0/4] nvme: Threaded interrupt handling improvements
-Message-ID: <20191130170222.GA5273@redsun51.ssa.fujisawa.hgst.com>
+Subject: Re: [PATCH 4/4] nvme/pci: Spin threaded interrupt completions
+Message-ID: <20191130181020.GB5273@redsun51.ssa.fujisawa.hgst.com>
 References: <20191127175824.1929-1-kbusch@kernel.org>
- <20191129094640.6fq6wcxmfi4fwnlw@linutronix.de>
- <20191129162719.GA47681@C02WT3WMHTD6.lpcnextlight.net>
- <20191129170545.axnykbrabigzcghs@linutronix.de>
+ <20191127175824.1929-5-kbusch@kernel.org>
+ <20191129091302.bngxlcsbexiktqbk@linutronix.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191129170545.axnykbrabigzcghs@linutronix.de>
+In-Reply-To: <20191129091302.bngxlcsbexiktqbk@linutronix.de>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191130_090230_366708_3B2A43C5 
-X-CRM114-Status: UNSURE (   8.34  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20191130_101028_594848_1BEB4247 
+X-CRM114-Status: GOOD (  11.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,15 +83,34 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Nov 29, 2019 at 06:05:45PM +0100, Sebastian Andrzej Siewior wrote:
-> Ach okay. But I wouldn't consider it as a "bug" if your threaded handler
-> returns IRQ_HANDLED and requires a longer period of time. Thsi seems
-> fine to me.
-> The SDHCI driver has a case where the interrupt thread waits for another
-> interrupt (from its primary handler) in order to make progress.
+On Fri, Nov 29, 2019 at 10:13:02AM +0100, Sebastian Andrzej Siewior wrote:
+> On 2019-11-28 02:58:24 [+0900], Keith Busch wrote:
+> > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> > index 571b33b69c5f..9ec0933eb120 100644
+> > --- a/drivers/nvme/host/pci.c
+> > +++ b/drivers/nvme/host/pci.c
+> > @@ -1042,9 +1042,15 @@ static irqreturn_t nvme_irq(int irq, void *data)
+> >  	return ret;
+> >  }
+> >  
+> > +static void nvme_irq_spin(int irq, void *data)
+> > +{
+> > +	while (nvme_irq(irq, data) != IRQ_NONE)
+> > +		cond_resched();
+> > +}
+> 
+> That interrupt thread runs at SCHED_FIFO prio 50 by default. You will
+> not get anything with a lower priority running (including SCHED_OTHER).
+> You won't get preempted by another FIFO thread at prio 50 so I *think*
+> that cond_rechsched() won't let you schedule another task/IRQ thread
+> running at prio 50 either.
 
-Yes, that uses a driver specific way to handle that. This patch series
-provides nvme specific handling for long running irq threads.
+Hm, if we're really spinning here, the current alternative is that
+we'd run a cpu 100% in irq context, which has its own problems. If the
+interrupt thread has other scheduler issues, I think that indicates
+yet another task needs to handle completions. Perhaps escalate to the
+irq_poll solution Sagi advocated for if the threaded handler observes
+need_resched() is true.
 
 _______________________________________________
 linux-nvme mailing list
