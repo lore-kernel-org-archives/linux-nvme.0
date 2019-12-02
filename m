@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 908B2C432C0
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 Dec 2019 14:48:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4E1EC432C3
+	for <linux-nvme@archiver.kernel.org>; Mon,  2 Dec 2019 14:48:41 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 620222073C
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 Dec 2019 14:48:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7768B2073C
+	for <linux-nvme@archiver.kernel.org>; Mon,  2 Dec 2019 14:48:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="O7G6EC3O"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 620222073C
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="gvqNNW5Q"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7768B2073C
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,40 +25,40 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=He/azRqGf/CI4bOKWW9ttIy30xMUqIVrpmVC+RZ0CLk=; b=O7G6EC3OC/DYUQ
-	Ppg5w1danAT4EfHflzd8vaa22xg5ERDvAiJ+SKj1Xgnl9gQ7QzFwFVyDzbrS7LqELfi7+dwOXBiSE
-	AN2SJl6KYsTrduIamwpUmSIdSjfkI3q/ZMMF24jRU1431NC6fvfqhfwqeBE6fdkBalOGYbc5Hc35+
-	SMcW3G6yiupTiArw0RlNQqkyuTVGhWuizXg16TnTp9dH0re8tI6VPg8N64YJD7dbYkUZFd3dJBl71
-	ma5juRFdYedX7kaUumacKbrRw3Cr799Gml90cevWAsllFZEqOgrja4RZWdM1KNnF0z3UV47EzdUKa
-	HY3IH7m3weBnCui6UdIQ==;
+	List-Owner; bh=HtIS4Kf8nCzcZRXOWsj+OBb+D4BsT+f9s25mh1/uoBE=; b=gvqNNW5Qo6UxV9
+	zRxxyo4LKFSdYA/L7RQ/PexkJQXC1U7UkmaAQMlS/kpmc47PSubt3gchucLHfDJZ0JvvH1OirjNem
+	+YUzHbKh5wJibTZkTMorbbvcvqiNrkYsLF11E3GjqZOBCRo3A2C/uhTMK6tF9xB9I5+EE2RShw5sP
+	I1zMW59gG72MCriPnWOwXtlBqdmOozBkRIZVc76C3lzuWmpobJs1fCQ3WVF8cyY78Sw5qVm91JykA
+	PRpHHummlCFCg+G36TxqFeHRDOz3KzF7jAAvxld0X0TQ0evcs3GpgUQNqX7jCWN9uUlGDpYJWdUzT
+	WbY54GsGOzcUQ7gov9gw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1ibn00-0005Vr-EN; Mon, 02 Dec 2019 14:48:28 +0000
+	id 1ibn0B-0005dd-12; Mon, 02 Dec 2019 14:48:39 +0000
 Received: from mail-il-dmz.mellanox.com ([193.47.165.129] helo=mellanox.co.il)
  by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ibmzx-0005S0-9Q
- for linux-nvme@lists.infradead.org; Mon, 02 Dec 2019 14:48:27 +0000
+ id 1ibmzx-0005S6-Bc
+ for linux-nvme@lists.infradead.org; Mon, 02 Dec 2019 14:48:28 +0000
 Received: from Internal Mail-Server by MTLPINE1 (envelope-from
  maxg@mellanox.com)
  with ESMTPS (AES256-SHA encrypted); 2 Dec 2019 16:48:13 +0200
 Received: from mtr-vdi-031.wap.labs.mlnx. (mtr-vdi-031.wap.labs.mlnx
  [10.209.102.136])
- by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id xB2EmC1s004689;
- Mon, 2 Dec 2019 16:48:12 +0200
+ by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id xB2EmC1w004689;
+ Mon, 2 Dec 2019 16:48:13 +0200
 From: Max Gurtovoy <maxg@mellanox.com>
 To: linux-nvme@lists.infradead.org, kbusch@kernel.org, hch@lst.de,
  sagi@grimberg.me, martin.petersen@oracle.com
-Subject: [PATCH 04/16] nvme-fabrics: Allow user enabling metadata/T10-PI
- support
-Date: Mon,  2 Dec 2019 16:48:00 +0200
-Message-Id: <20191202144812.147686-6-maxg@mellanox.com>
+Subject: [PATCH 08/16] block: Add a BIP_MAPPED_INTEGRITY check to complete_fn
+Date: Mon,  2 Dec 2019 16:48:04 +0200
+Message-Id: <20191202144812.147686-10-maxg@mellanox.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191202144812.147686-1-maxg@mellanox.com>
 References: <20191202144812.147686-1-maxg@mellanox.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191202_064825_719733_2A0CFFA9 
-X-CRM114-Status: GOOD (  10.97  )
+X-CRM114-CacheID: sfid-20191202_064825_821809_9D60ABDE 
+X-CRM114-Status: UNSURE (   6.43  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,96 +79,31 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Israel Rukshin <israelr@mellanox.com>
 
-Preparation for adding metadata (T10-PI) over fabric support. This will
-allow end-to-end protection information passthrough and validation for
-NVMe over Fabric.
+This check is needed in case some other layer did the reftag remapping
+(e.g. in NVMe/RDMA the initiator controller performs the remapping so
+target side shouldn't map it again).
 
 Signed-off-by: Israel Rukshin <israelr@mellanox.com>
 Reviewed-by: Max Gurtovoy <maxg@mellanox.com>
 ---
- drivers/nvme/host/core.c    |  3 ++-
- drivers/nvme/host/fabrics.c | 11 +++++++++++
- drivers/nvme/host/fabrics.h |  3 +++
- 3 files changed, 16 insertions(+), 1 deletion(-)
+ block/t10-pi.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 3c1516fc5288..1ce15bddf390 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1860,7 +1860,8 @@ static int __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
- 		 * controller.
- 		 */
- 		if (ns->ctrl->ops->flags & NVME_F_METADATA_SUPPORTED) {
--			if (ns->ctrl->ops->flags & NVME_F_FABRICS ||
-+			if ((ns->ctrl->ops->flags & NVME_F_FABRICS &&
-+			     ns->ctrl->opts->pi_enable) ||
- 			    !(ns->features & NVME_NS_EXT_LBAS))
- 				ns->features |= NVME_NS_DIX_SUPPORTED;
- 		}
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 74b8818ac9a1..c09230e18980 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -612,6 +612,7 @@ static const match_table_t opt_tokens = {
- 	{ NVMF_OPT_NR_WRITE_QUEUES,	"nr_write_queues=%d"	},
- 	{ NVMF_OPT_NR_POLL_QUEUES,	"nr_poll_queues=%d"	},
- 	{ NVMF_OPT_TOS,			"tos=%d"		},
-+	{ NVMF_OPT_PI_ENABLE,		"pi_enable"		},
- 	{ NVMF_OPT_ERR,			NULL			}
- };
+diff --git a/block/t10-pi.c b/block/t10-pi.c
+index f4907d941f03..92f86f00bcad 100644
+--- a/block/t10-pi.c
++++ b/block/t10-pi.c
+@@ -193,6 +193,10 @@ static void t10_pi_type1_complete(struct request *rq, unsigned int nr_bytes)
+ 		struct bio_vec iv;
+ 		struct bvec_iter iter;
  
-@@ -634,6 +635,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 	opts->hdr_digest = false;
- 	opts->data_digest = false;
- 	opts->tos = -1; /* < 0 == use transport default */
-+	opts->pi_enable = false;
- 
- 	options = o = kstrdup(buf, GFP_KERNEL);
- 	if (!options)
-@@ -867,6 +869,15 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 			}
- 			opts->tos = token;
- 			break;
-+#ifdef CONFIG_BLK_DEV_INTEGRITY
-+		case NVMF_OPT_PI_ENABLE:
-+			if (opts->discovery_nqn) {
-+				pr_debug("Ignoring pi_enable value for discovery controller\n");
-+				break;
-+			}
-+			opts->pi_enable = true;
++		/* Already remapped? */
++		if (bip->bip_flags & BIP_MAPPED_INTEGRITY)
 +			break;
-+#endif
- 		default:
- 			pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
- 				p);
-diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-index a0ec40ab62ee..773f74873a9e 100644
---- a/drivers/nvme/host/fabrics.h
-+++ b/drivers/nvme/host/fabrics.h
-@@ -56,6 +56,7 @@ enum {
- 	NVMF_OPT_NR_WRITE_QUEUES = 1 << 17,
- 	NVMF_OPT_NR_POLL_QUEUES = 1 << 18,
- 	NVMF_OPT_TOS		= 1 << 19,
-+	NVMF_OPT_PI_ENABLE	= 1 << 20,
- };
- 
- /**
-@@ -89,6 +90,7 @@ enum {
-  * @nr_write_queues: number of queues for write I/O
-  * @nr_poll_queues: number of queues for polling I/O
-  * @tos: type of service
-+ * @pi_enable: Enable metadata (T10-PI) support
-  */
- struct nvmf_ctrl_options {
- 	unsigned		mask;
-@@ -111,6 +113,7 @@ struct nvmf_ctrl_options {
- 	unsigned int		nr_write_queues;
- 	unsigned int		nr_poll_queues;
- 	int			tos;
-+	bool			pi_enable;
- };
- 
- /*
++
+ 		bip_for_each_vec(iv, bip, iter) {
+ 			void *p, *pmap;
+ 			unsigned int j;
 -- 
 2.16.3
 
