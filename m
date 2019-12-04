@@ -2,97 +2,84 @@ Return-Path: <SRS0=IJIS=Z2=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_ADSP_ALL,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B62AC43603
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Dec 2019 10:10:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18DD0C43603
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Dec 2019 10:22:23 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D0EEA2077B
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Dec 2019 10:10:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id DB8F4206DB
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Dec 2019 10:22:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="L3zj5hg8";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b="omyvp8X4"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D0EEA2077B
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=amazon.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ejburUIT";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iUPrPS3K"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DB8F4206DB
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:
-	References:Message-ID:Date:Subject:To:From:Reply-To:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=UCz3JqL5j1j5ChYfH7V1CeIKfxWoX7lLegWVoBVZzBs=; b=L3zj5hg8iGr5i8
-	HvrekrOtgFm8BfcPnpsHSBHKAFg9avMZRuA4R99JVEbhMprBFlr/zr2MyMTquSvtMtsP6Vzwse7aG
-	zTZi3Q+nzeLKllfVLwAFhJRpNLJjcVuKm5W9etoyDkLI6V4TyeLyUMqZRBM7+8mYvjheARl/THtob
-	PEtleIjoBvietw/hqlUTGrcwJ8xtD9qWiK6vk7g12yMUZDdzm4hMe98uTZUMQsVM/10tG6V6P29f3
-	BSxIH/tQX4JdS7vqKkEOS5uQIz2fhv3eUtcT9VDDDlwu85StuYEtbYEVe9bYkk/ood7PPLivGz3IG
-	aB+yJHcqGZRmrINnirFg==;
+	List-Owner; bh=kniZdGUaBaKft6mvWRpT3Aqk8f+m6sPnOedT6hGNxMk=; b=ejburUITmbi0Lx
+	UHEhEv4NUm5Z7MLXd8dLtVjIRIqg6FvYUtjzcNm+/Mjfacn7uKn50y1dnAts8NmcZTffiwPw8ly9V
+	HmY9Ce3poD48IJQhc8MIgStYp5wvljb61VSw8AcYRbXMCwkVoUoud2G0k93YZTx7ypL/lKzogSQ0F
+	Ls+fCh+HIEnZ5VJ80tWDU8l3An5IRf6Z5z8AbZ0XqukNLgQzsuNWnGjjmQFWzLiwCk5uZefceBvE1
+	vHj/Q97IPllbpVNM4VAbqN8GZUti5FJI9ZxDxR2tCMvMrtV9qMQqEJu8NOjPTIlq3uPystzvA20mm
+	Sn3kZ99+8kCNGClxKbTg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1icRbz-0005yq-9C; Wed, 04 Dec 2019 10:10:23 +0000
-Received: from smtp-fw-2101.amazon.com ([72.21.196.25])
+	id 1icRnZ-0002hX-2w; Wed, 04 Dec 2019 10:22:21 +0000
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]
+ helo=us-smtp-1.mimecast.com)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1icRbt-0005qA-Er
- for linux-nvme@lists.infradead.org; Wed, 04 Dec 2019 10:10:19 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
- t=1575454218; x=1606990218;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:mime-version: content-transfer-encoding;
- bh=fQcLV/9TxY4vRmBx4wKOVzImS4+ssTrQWoceGlrA4+M=;
- b=omyvp8X4W64UV2bkbgJ2tFi9pxn+0Il77Q+hmlLD03+X+Wy1PXQFttZx
- KeAT5xbCNQ8d1pjJUGyg1Eu71G5LGvoBAmgDWoaz0IzfUPob0lgGG7Bg8
- 3wsPLXDEkoone9quPncQvjUOPVdrE+OQkicON/N1B2wcItvAgBQTkIKWI A=;
-IronPort-SDR: sioRnTsKW2Q002NZvQpp3/ylNi0/vaXJP+993D/ivSsFMoht/lNCJBNWco+cieKgsYT+9kEtqZ
- JfA069Tip9Fw==
-X-IronPort-AV: E=Sophos;i="5.69,277,1571702400"; 
-   d="scan'208";a="7055100"
-Received: from iad6-co-svc-p1-lb1-vlan2.amazon.com (HELO
- email-inbound-relay-2a-8549039f.us-west-2.amazon.com) ([10.124.125.2])
- by smtp-border-fw-out-2101.iad2.amazon.com with ESMTP;
- 04 Dec 2019 10:10:09 +0000
-Received: from EX13MTAUEA001.ant.amazon.com
- (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
- by email-inbound-relay-2a-8549039f.us-west-2.amazon.com (Postfix) with ESMTPS
- id 0E3D8A1F0B; Wed,  4 Dec 2019 10:10:08 +0000 (UTC)
-Received: from EX13D02EUC003.ant.amazon.com (10.43.164.10) by
- EX13MTAUEA001.ant.amazon.com (10.43.61.243) with Microsoft SMTP Server (TLS)
- id 15.0.1367.3; Wed, 4 Dec 2019 10:10:07 +0000
-Received: from EX13D02EUC001.ant.amazon.com (10.43.164.92) by
- EX13D02EUC003.ant.amazon.com (10.43.164.10) with Microsoft SMTP Server (TLS)
- id 15.0.1367.3; Wed, 4 Dec 2019 10:10:06 +0000
-Received: from EX13D02EUC001.ant.amazon.com ([10.43.164.92]) by
- EX13D02EUC001.ant.amazon.com ([10.43.164.92]) with mapi id 15.00.1367.000;
- Wed, 4 Dec 2019 10:10:06 +0000
-From: "Sironi, Filippo" <sironi@amazon.de>
+ id 1icRnV-0002fk-Qv
+ for linux-nvme@lists.infradead.org; Wed, 04 Dec 2019 10:22:19 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575454934;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4yxeX5GrrYaamzL4Iw2VaskwdcINELyV8FcI704EwgE=;
+ b=iUPrPS3KBgLLiHp892xFSnoLi3shqlIgl+bW8bykfqVv5RYRPWeTm8hRME93+7x9qvgyeG
+ i2BsEs2oTPUpu7nyeozGEANF1Nc+Dti6l3g1lu+SlyUzAtWPXG2F0IzYhameDTUGK+/jJ6
+ O2mk6nOk/md4Qa1Mx0z8VNuJF9LY07s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-213-o-Up9yDDNi2PMlUFhLBSCg-1; Wed, 04 Dec 2019 05:22:08 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F036E18A6EC0;
+ Wed,  4 Dec 2019 10:22:06 +0000 (UTC)
+Received: from ming.t460p (ovpn-8-17.pek2.redhat.com [10.72.8.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A11CF5D6AE;
+ Wed,  4 Dec 2019 10:22:00 +0000 (UTC)
+Date: Wed, 4 Dec 2019 18:21:55 +0800
+From: Ming Lei <ming.lei@redhat.com>
 To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCHv2 2/2] nvme/pci: Mask device interrupts for threaded
- handlers
-Thread-Topic: [PATCHv2 2/2] nvme/pci: Mask device interrupts for threaded
- handlers
-Thread-Index: AQHVqV8ShGY41+2Kok2clw5A6JZfgKepw0GA
-Date: Wed, 4 Dec 2019 10:10:05 +0000
-Message-ID: <1646A1C5-C2E3-46CD-9269-115601132C4B@amazon.de>
-References: <20191202222058.2096-1-kbusch@kernel.org>
- <20191202222058.2096-3-kbusch@kernel.org>
-In-Reply-To: <20191202222058.2096-3-kbusch@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.43.166.133]
-Content-ID: <98B3B4CE439E704FAEDF67C1096C2A74@amazon.com>
+Subject: Re: [RFC PATCH 1/3] nvme/pci: Poll the cq in the primary irq handler
+Message-ID: <20191204102155.GC5958@ming.t460p>
+References: <20191202222206.2225-1-kbusch@kernel.org>
+ <20191202222206.2225-2-kbusch@kernel.org>
+ <20191203100930.r76fiu3s5hlbrlxu@linutronix.de>
+ <20191203111626.GA86476@C02WT3WMHTD6.lpcnextlight.net>
 MIME-Version: 1.0
+In-Reply-To: <20191203111626.GA86476@C02WT3WMHTD6.lpcnextlight.net>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: o-Up9yDDNi2PMlUFhLBSCg-1
+X-Mimecast-Spam-Score: 0
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191204_021017_634710_165D76E0 
-X-CRM114-Status: GOOD (  16.81  )
+X-CRM114-CacheID: sfid-20191204_022217_946440_EAEBAD9A 
+X-CRM114-Status: GOOD (  15.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,122 +91,45 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "sagi@grimberg.me" <sagi@grimberg.me>,
- "bigeasy@linutronix.de" <bigeasy@linutronix.de>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "ming.lei@redhat.com" <ming.lei@redhat.com>,
- "helgaas@kernel.org" <helgaas@kernel.org>,
- "tglx@linutronix.de" <tglx@linutronix.de>, "hch@lst.de" <hch@lst.de>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, hch@lst.de,
+ linux-nvme@lists.infradead.org, sagi@grimberg.me
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-> On 2. Dec 2019, at 23:20, Keith Busch <kbusch@kernel.org> wrote:
+On Tue, Dec 03, 2019 at 04:16:26AM -0700, Keith Busch wrote:
+> On Tue, Dec 03, 2019 at 11:09:30AM +0100, Sebastian Andrzej Siewior wrote:
+> > On 2019-12-03 07:22:04 [+0900], Keith Busch wrote:
+> > > The nvme threaded interrupt handler reduces CPU time spent in hard irq
+> > > context, but waking it increases latency for low queue depth workloads.
+> > > 
+> > > Poll the completion queue once from the primary handler and wake the
+> > > thread only if more completions remain after. Since there is a window
+> > > of time where the threaded and primary handlers may run simultaneously,
+> > > add a new nvmeq flag so that the two can synchronize which owns processing
+> > > the queue.
+> > 
+> > It depends on what you mean by "run simultaneously" but it sounds like
+> > this does not happen.
+> > 
+> > The primary handler disables the interrupt source and returns
+> > IRQ_WAKE_THREAD. From now on, the primary handler won't fire (unless it
+> > is a shared handler and someone else gets an interrupt).
 > 
-> Local interrupts are reenabled when the nvme irq thread is woken, so
-> subsequent MSI or a level triggered interrupts may restart the nvme irq
-> check while the thread handler is running. This unnecessarily spends CPU
-> cycles and potentially triggers spurious interrupt detection, disabling
-> our nvme irq.
+> The driver won't share these interrupts, despite some wierd pci
+> host bridges that force sharing among  other devices (ex: see the
+> only user of handle_untracked_irq). That isn't what I was considering
+> though.
 > 
-> Prevent the controller from sending future messages. For legacy and MSI,
-> use the nvme interrupt mask/clear registers. For MSIx, use the quick
-> control mask function.
-> 
-> Signed-off-by: Keith Busch <kbusch@kernel.org>
-> ---
-> drivers/nvme/host/pci.c | 28 ++++++++++++++++++++++++----
-> 1 file changed, 24 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 0590640ba62c..4022a872d29c 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -13,8 +13,10 @@
-> #include <linux/init.h>
-> #include <linux/interrupt.h>
-> #include <linux/io.h>
-> +#include <linux/irq.h>
-> #include <linux/mm.h>
-> #include <linux/module.h>
-> +#include <linux/msi.h>
-> #include <linux/mutex.h>
-> #include <linux/once.h>
-> #include <linux/pci.h>
-> @@ -1036,12 +1038,29 @@ static irqreturn_t nvme_irq(int irq, void *data)
-> 	return ret;
-> }
-> 
-> +static irqreturn_t nvme_irq_thread(int irq, void *data)
-> +{
-> +	struct nvme_queue *nvmeq = data;
-> +
-> +	nvme_irq(irq, data);
-> +	if (to_pci_dev(nvmeq->dev->dev)->msix_enabled)
-> +		__pci_msix_desc_mask_irq(irq_get_msi_desc(irq), 0);
-> +	else
-> +		writel(1 << nvmeq->cq_vector, nvmeq->dev->bar + NVME_REG_INTMC);
-> +	return IRQ_HANDLED;
-> +}
-> +
-> static irqreturn_t nvme_irq_check(int irq, void *data)
-> {
-> 	struct nvme_queue *nvmeq = data;
-> -	if (nvme_cqe_pending(nvmeq))
-> -		return IRQ_WAKE_THREAD;
-> -	return IRQ_NONE;
-> +
-> +	if (!nvme_cqe_pending(nvmeq))
-> +		return IRQ_NONE;
-> +	if (to_pci_dev(nvmeq->dev->dev)->msix_enabled)
-> +		__pci_msix_desc_mask_irq(irq_get_msi_desc(irq), 1);
+> It's true the controller won't send new MSIs once masked, but my
+> concern is for MSIs on the wire that pass that MMIO mask write.
 
-Have you considered that __pci_msix_desc_mask_irq will cause
-a trap from guest to hypervisor mode when running virtualized?
+Could you explain a bit what is the 'MSIs on the wire'? And where is it
+from?
 
-> +	else
-> +		writel(1 << nvmeq->cq_vector, nvmeq->dev->bar + NVME_REG_INTMS);
-
-What's stopping us from always using this method?
-
-> +	return IRQ_WAKE_THREAD;
-> }
-> 
-> /*
-> @@ -1499,7 +1518,8 @@ static int queue_request_irq(struct nvme_queue *nvmeq)
-> 
-> 	if (use_threaded_interrupts) {
-> 		return pci_request_irq(pdev, nvmeq->cq_vector, nvme_irq_check,
-> -				nvme_irq, nvmeq, "nvme%dq%d", nr, nvmeq->qid);
-> +				nvme_irq_thread, nvmeq, "nvme%dq%d", nr,
-> +				nvmeq->qid);
-> 	} else {
-> 		return pci_request_irq(pdev, nvmeq->cq_vector, nvme_irq,
-> 				NULL, nvmeq, "nvme%dq%d", nr, nvmeq->qid);
-> -- 
-> 2.21.0
-> 
-> 
-> _______________________________________________
-> linux-nvme mailing list
-> linux-nvme@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
-
-
-
-
-Amazon Development Center Germany GmbH
-Krausenstr. 38
-10117 Berlin
-Geschaeftsfuehrung: Christian Schlaeger, Ralf Herbrich
-Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
-Sitz: Berlin
-Ust-ID: DE 289 237 879
-
-
+Thanks,
+Ming
 
 
 _______________________________________________
