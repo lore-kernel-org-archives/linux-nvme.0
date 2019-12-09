@@ -2,163 +2,76 @@ Return-Path: <SRS0=+L2C=Z7=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EB7BC43603
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Dec 2019 13:22:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DA26C43603
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Dec 2019 15:30:31 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 08D2520726
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Dec 2019 13:22:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 23F502068E
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Dec 2019 15:30:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="knZxGVxC";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=dell.com header.i=@dell.com header.b="xI/M/HkV";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=Dell.onmicrosoft.com header.i=@Dell.onmicrosoft.com header.b="MlV/wPfo"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 08D2520726
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=Dell.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="GGXxYAHZ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 23F502068E
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kioxia.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
-	Message-ID:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
+	Message-ID:Date:Subject:To:From:Reply-To:Cc:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=0WC/ydtpIx6aR2I4N/mX7NAYTv9ElM57YaFJR6EWbHk=; b=knZxGVxCGK02ye
-	dmFaAzzA0ypalUxNDE72VUFM6Jw98drwa1pFz9KSHL8tOVwve6dEEgM1EXAAVVUiM6tV0WXx+qmwx
-	XCkjLIofmWohhzRrDlwKjjJqmpbRBNUxEY/0Ha6kRnodNxP/uREL+CvCRkuy9GlZO7Ahoc/o/joDH
-	ltwNtkCLAWx6994x+FHdUoXBG7nRg8Kg3sYHbOQnld4ZCJ9xm4N7ZtfYSjbHOsubJjRW4GkYp+/NB
-	hh40zqHHVr4vWIpvtBmGCZiz/jH6bgLKY6grWp6AigI4ga3PytLpNn2QCqZk+rv/PMeAsd77GD3XV
-	t1/LoWUR8o4JHAx8tzrQ==;
+	List-Owner; bh=TOEBzq/QW5x647CRMk3BHYimvQwDjjQa9GFv4kmqoEU=; b=GGXxYAHZsC4A4X
+	03lFISQGZV8uuTuGgFf1FBPqdqLGwcJkCzVSFi2DWYRdbDxTbQWjPr+dfxxUswABLheNlgL8rRDW5
+	DN0a2o98fSQN11+SX/iEcuf7jA+2B+Odtz3Tp1oedaX7IeyDw5liop3iKPsdSyJ+VqN+hiUycrLHu
+	wZnEav8AzsF9t/yMCzIY+GQ2PiBWbI2F/WPuyVAbs+L8ptf/cF3a1UX004Nbp8ckKLtaajJUy7Svg
+	AhlZG/+c06wd4hAlAsL2zGsPfXmZD7GY4QIm93J7A3Rm/fYbDzGM1WVSsQMacPD+iL3ZKxItPcVU0
+	hW9dQJUjKDWftvs1+OEA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1ieIz6-0003BR-1P; Mon, 09 Dec 2019 13:21:56 +0000
-Received: from mx0a-00154904.pphosted.com ([148.163.133.20])
+	id 1ieKzS-0007ih-Qn; Mon, 09 Dec 2019 15:30:26 +0000
+Received: from ip-12-0-68-226-us.kioxia.com ([12.0.68.226]
+ helo=SJSMAIL01.us.kioxia.com)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ieIz0-0003Ab-Am
- for linux-nvme@lists.infradead.org; Mon, 09 Dec 2019 13:21:53 +0000
-Received: from pps.filterd (m0170389.ppops.net [127.0.0.1])
- by mx0a-00154904.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xB9DKWgB001644; Mon, 9 Dec 2019 08:21:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=smtpout1;
- bh=oUTlVgKazHI+CDPH1+ajgQU9D6j7vX7nxGK9vI/horY=;
- b=xI/M/HkV7k+qalSylp34KEWrh3YBRKSKc94HFWWcSs5VuXjAqwlJKctoZQeu/sOiIhy/
- bIMYYikPcgyHu4Lq+ymuD56LvZZc8TuiAzs9tfx1hw4txkeibSmBIFy2ijeLUk8+fx85
- dlmm8TJS1CuGUcJeMzUOGUsbGU9zD4EprY6RHd1ba4AwKtudSrqv3841P4MDydwdfyC/
- ddhnQRyMZIqPcljbT/lN5DTyd9Nw7XnTmuTqR6DHxeF+BVTdoq6Eg3TBqunC2ewF3Dws
- WVRTJNuH13/9wh/gjJ4Q8QGZF68VTQ8V1kH/nMFZE7k8uEwKY3TLHgxeAB3i3+A81JWA xQ== 
-Received: from mx0b-00154901.pphosted.com (mx0b-00154901.pphosted.com
- [67.231.157.37])
- by mx0a-00154904.pphosted.com with ESMTP id 2wr8yppwmq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 09 Dec 2019 08:21:34 -0500
-Received: from pps.filterd (m0134318.ppops.net [127.0.0.1])
- by mx0a-00154901.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xB9DIdL2039908; Mon, 9 Dec 2019 08:21:33 -0500
-Received: from nam02-sn1-obe.outbound.protection.outlook.com
- (mail-sn1nam02lp2056.outbound.protection.outlook.com [104.47.36.56])
- by mx0a-00154901.pphosted.com with ESMTP id 2wr7khejyk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 09 Dec 2019 08:21:33 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PY/GQEUQp8c9X7rDyLjTPb1m0JJKf0coKcZexQPMuNaO00O2viys+9BbDSw1G9HgHTpwpFH3mQbstUH0beUXUVvxstgXmu4IAPu43z8Jide1lmsMTv4HwpdhiXZXoWY3FqaSJiebt4ddWu9T6q+fRfa2H95l1IX4rE7WK6D603b+slk7A+QZBz32x1AVj057SaC+P5n7+MP9BBLkKqi9C4aMKda73pYCWRk2foYvAfmvcKQtkJYO/q9SyBWxU6Oxowk/KnrJxPNen9mH1rFZODny1RlUGPnsxOU76Ncqb9ipKb3piNPM/SYSOjJuD56EuYNpKNXDfQH9S0hRucYA/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oUTlVgKazHI+CDPH1+ajgQU9D6j7vX7nxGK9vI/horY=;
- b=UYJOijJ/7dmAuPjsG88S/CCc4vhCsP5tRnMB2zLg7PET/Lxv4hm6Lcd0n5x5YXZQjECZiveQ9jdN/AT9XK1/ZbTzHslghYIGbJrM5ldVuNHqQMIDRnPkvND7WB7GgojYlh8fKmZQwunEcFTzdSTtt0NaSx1SM9vc2ZjSdvoS3exvSnp0/ACW4enOxT2lsRcTWRL6CxMKl7bgfzniXPtred97jcJUVc4wsSDPiWRF9NGZgdfrd2F575XZXgFt0ofLqbp1B+FdkGb23YB2kn615v0yIDqRWsSPbby2j1LhYTM1j8UYCkrzR1ULopZw72DK7G0JnrgvvluwvyJGQlGIOw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=dell.com; dmarc=pass action=none header.from=dell.com;
- dkim=pass header.d=dell.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Dell.onmicrosoft.com; 
- s=selector1-Dell-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oUTlVgKazHI+CDPH1+ajgQU9D6j7vX7nxGK9vI/horY=;
- b=MlV/wPfoeCuJX3KJLGxpbhku/xZs2iolJAPmZ2A6bBqzYB4ovBoa5aTJmuhHsnEcptc4JmoPtNsjLCajfzfgpjMsEYkZjGotwl5pSkiNURDegAen1IWP9+x9YP166MHUZHQ5tOX+F7pYd079TRbNMxpPZxW+5vcfGbM5j8NjGdQ=
-Received: from MWHPR19MB1487.namprd19.prod.outlook.com (10.175.2.8) by
- MWHPR19MB0143.namprd19.prod.outlook.com (10.164.206.34) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2516.17; Mon, 9 Dec 2019 13:21:31 +0000
-Received: from MWHPR19MB1487.namprd19.prod.outlook.com
- ([fe80::885f:1a1e:735e:2848]) by MWHPR19MB1487.namprd19.prod.outlook.com
- ([fe80::885f:1a1e:735e:2848%7]) with mapi id 15.20.2516.018; Mon, 9 Dec 2019
- 13:21:31 +0000
-From: "Engel, Amit" <Amit.Engel@Dell.com>
-To: Christoph Hellwig <hch@infradead.org>
-Subject: RE: [PATCH] nvmet: Fix req->data_len size in case of
- nvme_admin_get_features cmd, fid 0x81
-Thread-Topic: [PATCH] nvmet: Fix req->data_len size in case of
- nvme_admin_get_features cmd, fid 0x81
-Thread-Index: AQHVq0SSKymplKMKN0aeBJFB2LvYNqerNsmAgABUG6CABkWEkA==
-Date: Mon, 9 Dec 2019 13:21:31 +0000
-Message-ID: <MWHPR19MB1487371362F731AE4A6FD768EE580@MWHPR19MB1487.namprd19.prod.outlook.com>
-References: <20191205081541.55962-1-amit.engel@emc.com>
- <20191205083325.GA855@infradead.org>
- <MWHPR19MB1487C34E6A3487475B480C88EE5C0@MWHPR19MB1487.namprd19.prod.outlook.com>
-In-Reply-To: <MWHPR19MB1487C34E6A3487475B480C88EE5C0@MWHPR19MB1487.namprd19.prod.outlook.com>
+ id 1ieKzP-0007gA-K3
+ for linux-nvme@lists.infradead.org; Mon, 09 Dec 2019 15:30:26 +0000
+Received: from SJSMAIL01.us.kioxia.com (10.90.133.90) by
+ SJSMAIL01.us.kioxia.com (10.90.133.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1779.2; Mon, 9 Dec 2019 07:30:14 -0800
+Received: from SJSMAIL01.us.kioxia.com ([fe80::8056:cf5f:fb1f:e123]) by
+ SJSMAIL01.us.kioxia.com ([fe80::8056:cf5f:fb1f:e123%3]) with mapi id
+ 15.01.1779.004; Mon, 9 Dec 2019 07:30:14 -0800
+From: Victor Gladkov <Victor.Gladkov@kioxia.com>
+To: Hannes Reinecke <hare@suse.de>, Sagi Grimberg <sagi@grimberg.me>, "James
+ Smart" <james.smart@broadcom.com>, "linux-nvme@lists.infradead.org"
+ <linux-nvme@lists.infradead.org>
+Subject: RE: [PATCH] nvme-fabrics: reject I/O to offline device
+Thread-Topic: [PATCH] nvme-fabrics: reject I/O to offline device
+Thread-Index: AdWoHEM2hZCp1trGT5CqiIXVszcBJgBiTd2AAAZbKjAAHmVugAAOa+zgAGeWsYAALWm8AABQExWAACdLqzA=
+Date: Mon, 9 Dec 2019 15:30:14 +0000
+Message-ID: <d7953accf06e418a893b9cc6017b981a@kioxia.com>
+References: <2caa40133c444771b706406b928ad88a@kioxia.com>
+ <78d980de-b2b8-bd47-fc3f-20314653598e@broadcom.com>
+ <c625b332ee124b038da1ae59b02f4e21@kioxia.com>
+ <9a73a895-7d6b-21e9-9008-816117be1ff4@broadcom.com>
+ <ac9b5d7192fb49ac9bdf19dd35be0ab2@kioxia.com>
+ <4963e813-0d99-4890-804a-cd4c9c660607@broadcom.com>
+ <ae027c0c-45ab-d412-11f3-39dcf3217434@grimberg.me>
+ <e009d8fe-74ec-8c87-30ec-b1ac657b2aa8@suse.de>
+In-Reply-To: <e009d8fe-74ec-8c87-30ec-b1ac657b2aa8@suse.de>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Enabled=True;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Owner=Amit.Engel@emc.com;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SetDate=2019-12-05T13:35:55.6354196Z;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Name=External Public;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Application=Microsoft Azure
- Information Protection;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Extended_MSFT_Method=Manual;
- aiplabel=External Public
-x-originating-ip: [152.62.109.209]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: b694de3e-d868-4063-e023-08d77caab4cb
-x-ms-traffictypediagnostic: MWHPR19MB0143:
-x-microsoft-antispam-prvs: <MWHPR19MB01436E318A13000CF543D8DEEE580@MWHPR19MB0143.namprd19.prod.outlook.com>
-x-exotenant: 2khUwGVqB6N9v58KS13ncyUmMJd8q4
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-forefront-prvs: 02462830BE
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(39860400002)(376002)(396003)(366004)(346002)(136003)(13464003)(189003)(199004)(7502003)(8676002)(81166006)(305945005)(81156014)(86362001)(4326008)(5660300002)(229853002)(8936002)(6916009)(54906003)(2906002)(71200400001)(71190400001)(52536014)(186003)(26005)(53546011)(6506007)(9686003)(76116006)(478600001)(66476007)(7696005)(66946007)(64756008)(66446008)(55016002)(33656002)(66556008)(316002)(786003);
- DIR:OUT; SFP:1101; SCL:1; SRVR:MWHPR19MB0143;
- H:MWHPR19MB1487.namprd19.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: Dell.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: lZo+N9VXbpxmZuE4uuHdQFOfwXPhUMAk68EnzMNJgSvplDH1VhY6uywktywaA6SLypXd/XMLaNSUtJQqhV39PHtYEQZsbBz7gIuQNpDSTOh0/lTd6AOiz7AIr9xJXpsIGpZ4AS6qljXzZCh4tS7U1PnWMn2aExFobnpToEXpuNOsfiqX60pfEyeecKOJ+cNqmu2sk4rw4JdpzMiJYTXPXuQkX40bUy7CqpVSSnKxTUShet8wP69r5whzd+OH5MnJ4svC5Ldwxx2nTCcxXMN7QJwIEUUVnwXcR8YeE8pzZhydje4LOl9VfEPCaHtebI2ZWiRBwSx3XHyk9FYR5sABoXrigK/5E8ULLvArsBgzJ4I4PejCG43X8EyYSXxo/TRKHLn0SobZlgYrrSXHb2G9LbNuU2Rj4gjUr0vb+q/nLytkkSsfRkB/vn3epOMNerzcgJUvjUeAO2bUERYyDUOta1NYrrBKYRAEB/LYyvml3tNk2pwEnM5JRYpSGgy6cUepTWDA4r/E7jUq3wLGLYzWyg==
-x-ms-exchange-transport-forked: True
+x-originating-ip: [10.93.66.127]
 MIME-Version: 1.0
-X-OriginatorOrg: Dell.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b694de3e-d868-4063-e023-08d77caab4cb
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Dec 2019 13:21:31.4589 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 945c199a-83a2-4e80-9f8c-5a91be5752dd
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: bfgWYdz3QiQLXNID/RlWRTvUpSVgUGKtzB57NIaragQvSGEWu7ls/UQBz8TWD0TY0bNqoDYeSzbDnX2XSDKFHg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR19MB0143
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-12-09_04:2019-12-09,2019-12-09 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- adultscore=0 bulkscore=0 mlxscore=0 malwarescore=0 phishscore=0
- suspectscore=0 clxscore=1015 spamscore=0 priorityscore=1501
- impostorscore=0 mlxlogscore=885 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-1910280000 definitions=main-1912090115
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=896
- impostorscore=0
- priorityscore=1501 malwarescore=0 bulkscore=0 spamscore=0 clxscore=1015
- adultscore=0 suspectscore=0 mlxscore=0 phishscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-1910280000
- definitions=main-1912090116
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191209_052150_377035_43B4216D 
-X-CRM114-Status: GOOD (  14.57  )
+X-CRM114-CacheID: sfid-20191209_073023_670348_9FD794A2 
+X-CRM114-Status: GOOD (  21.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -170,49 +83,131 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "sagi@grimberg.me" <sagi@grimberg.me>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi, 
-
-Did you receive my latest patch fix for the below bug?
-
-Thanks
-Amit
-
------Original Message-----
-From: Engel, Amit 
-Sent: Thursday, December 5, 2019 3:36 PM
-To: Christoph Hellwig
-Cc: sagi@grimberg.me; linux-nvme@lists.infradead.org
-Subject: RE: [PATCH] nvmet: Fix req->data_len size in case of nvme_admin_get_features cmd, fid 0x81
-
-Ok, please ignore my previous patches from earlier today.
-I just sent a new patch based on nvme-5.5 "Add helper function 'nvmet_feature_data_len' to calculate the required data_len"
-
-Please let me know what you think
-
-Thanks
-Amit Engel
-
------Original Message-----
-From: Christoph Hellwig <hch@infradead.org>
-Sent: Thursday, December 5, 2019 10:33 AM
-To: Engel, Amit
-Cc: sagi@grimberg.me; linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] nvmet: Fix req->data_len size in case of nvme_admin_get_features cmd, fid 0x81
-
-
-[EXTERNAL EMAIL] 
-
-->data_len is gone in latest mainline, instead
-nvmet_execute_get_features check the transfer_len.  But your general scheme should apply there.  I think a little nvmet_feature_data_len helper to calculate the required length would be nice, similar to what we do for read/write commands or log pages.
-
-_______________________________________________
-linux-nvme mailing list
-linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+T24gMTIvOC8xOSAxNDoxOCBQTSwgSGFubmVzIFJlaW5lY2tlIHdyb3RlOg0KPiANCj4gT24gMTIv
+Ni8xOSAxMToxOCBQTSwgU2FnaSBHcmltYmVyZyB3cm90ZToNCj4gPg0KPiA+Pj4gLS0tDQo+ID4+
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9udm1lL2hvc3QvZmFicmljcy5jDQo+ID4+PiBiL2RyaXZl
+cnMvbnZtZS9ob3N0L2ZhYnJpY3MuYyBpbmRleCA3NGI4ODE4Li5iNThhYmMxIDEwMDY0NA0KPiA+
+Pj4gLS0tIGEvZHJpdmVycy9udm1lL2hvc3QvZmFicmljcy5jDQo+ID4+PiArKysgYi9kcml2ZXJz
+L252bWUvaG9zdC9mYWJyaWNzLmMNCj4gPj4+IEBAIC01NDksNiArNTQ5LDggQEAgYmxrX3N0YXR1
+c190IG52bWZfZmFpbF9ub25yZWFkeV9jb21tYW5kKHN0cnVjdA0KPiA+Pj4gbnZtZV9jdHJsICpj
+dHJsLA0KPiA+Pj4gwqAgew0KPiA+Pj4gwqDCoMKgwqDCoMKgwqDCoCBpZiAoY3RybC0+c3RhdGUg
+IT0gTlZNRV9DVFJMX0RFTEVUSU5HICYmDQo+ID4+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+Y3RybC0+c3RhdGUgIT0gTlZNRV9DVFJMX0RFQUQgJiYNCj4gPj4+ICvCoMKgwqDCoMKgwqDCoMKg
+wqDCoCAhKGN0cmwtPnN0YXRlID09IE5WTUVfQ1RSTF9DT05ORUNUSU5HICYmDQo+ID4+PiArwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCAoKGt0aW1lX2dldF9ucygpIC0gcnEtPnN0YXJ0X3RpbWVfbnMp
+ID4NCj4gPj4+IGppZmZpZXNfdG9fbnNlY3MocnEtPnRpbWVvdXQpKSkgJiYNCj4gPj4+IMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCAhYmxrX25vcmV0cnlfcmVxdWVzdChycSkgJiYgIShycS0+Y21k
+X2ZsYWdzICYNCj4gPj4+IFJFUV9OVk1FX01QQVRIKSkNCj4gPj4+IMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgIHJldHVybiBCTEtfU1RTX1JFU09VUkNFOw0KPiA+Pj4NCj4gPj4NCj4g
+Pj4gRGlkIHlvdSB0ZXN0IHRoaXMgdG8gZW5zdXJlIGl0J3MgZG9pbmcgd2hhdCB5b3UgZXhwZWN0
+LiBJJ20gbm90IHN1cmUNCj4gPj4gdGhhdCBhbGwgdGhlIHRpbWVycyBhcmUgc2V0IHJpZ2h0IGF0
+IHRoaXMgcG9pbnQuIE1vc3QgSS9PJ3MgdGltZW91dA0KPiA+PiBmcm9tIGEgZGVhZGxpbmUgdGlt
+ZSBzdGFtcGVkIGF0IGJsa19tcV9zdGFydF9yZXF1ZXN0KCkuIEJ1dCB0aGF0DQo+ID4+IHJvdXRp
+bmUgaXMgYWN0dWFsbHkgY2FsbGVkIGJ5IHRoZSB0cmFuc3BvcnRzIHBvc3QgdGhlDQo+ID4+IG52
+bWZfY2hlY2tfcmVhZHkvZmFpbF9ub25yZWFkeSBjYWxscy7CoCBFLmcuIHRoZSBpbyBpcyBub3Qg
+eWV0IGluDQo+ID4+IGZsaWdodCwgdGh1cyBxdWV1ZWQsIGFuZCB0aGUgYmxrLW1xIGludGVybmFs
+IHF1ZXVpbmcgZG9lc24ndCBjb3VudA0KPiA+PiBhZ2FpbnN0IHRoZSBpbyB0aW1lb3V0LsKgIEkg
+Y2FuJ3Qgc2VlIGFueXRoaW5nIHRoYXQgZ3VhcmFudGVlcw0KPiA+PiBzdGFydF90aW1lX25zIGlz
+IHNldC4NCj4gPg0KPiA+IEknbSBub3Qgc3VyZSB0aGlzIGJlaGF2aW9yIGZvciBmYWlsaW5nIEkv
+TyBhbHdheXMgZGVzaXJlZD8gc29tZQ0KPiA+IGNvbnN1bWVycyB3b3VsZCBhY3R1YWxseSBub3Qg
+d2FudCB0aGUgSS9PIHRvIGZhaWwgcHJlbWF0dXJlbHkgaWYgd2UNCj4gPiBhcmUgbm90IG11bHRp
+cGF0aGluZy4uLg0KPiA+DQo+ID4gSSB0aGluayB3ZSBuZWVkIGEgZmFpbF9mYXN0X3RtbyBzZXQg
+aW4gd2hlbiBlc3RhYmxpc2hpbmcgdGhlDQo+ID4gY29udHJvbGxlciB0byBnZXQgaXQgcmlnaHQu
+DQo+ID4NCj4gQWdyZWVkLiBUaGlzIHdob2xlIHBhdGNoIGxvb2tzIGxpa2Ugc29tZW9uZSBpcyB0
+cnlpbmcgdG8gcmVpbXBsZW1lbnQNCj4gZmFzdF9pb19mYWlsX3RtbyAvIGRldl9sb3NzX3Rtby4N
+Cj4gQXMgd2UncmUgbW92aW5nIGludG8gdW5yZWxpYWJsZSBmYWJyaWNzIEkgZ3Vlc3Mgd2UnbGwg
+bmVlZCBhIHNpbWlsYXIgbWVjaGFuaXNtLg0KPiANCj4gQ2hlZXJzLA0KPiANCj4gSGFubmVzDQoN
+Cg0KRm9sbG93aW5nIHlvdXIgc3VnZ2VzdGlvbnMsIEkgYWRkZWQgYSBuZXcgc2Vzc2lvbiBwYXJh
+bWV0ZXIgY2FsbGVkICJmYXN0X2ZhaWxfdG1vIi4gDQpUaGUgdGltZW91dCBpcyBtZWFzdXJlZCBp
+biBzZWNvbmRzIGZyb20gdGhlIGNvbnRyb2xsZXIgcmVjb25uZWN0LCBhbnkgY29tbWFuZCBiZXlv
+bmQgdGhhdCB0aW1lb3V0IGlzIHJlamVjdGVkLiANClRoZSBuZXcgcGFyYW1ldGVyIHZhbHVlIG1h
+eSBiZSBwYXNzZWQgZHVyaW5nIOKAmGNvbm5lY3TigJksIGFuZCBpdHMgZGVmYXVsdCB2YWx1ZSBp
+cyAzMCBzZWNvbmRzLiANCkEgdmFsdWUgb2YgLTEgbWVhbnMgbm8gdGltZW91dCAoaW4gc2ltaWxh
+ciB0byBjdXJyZW50IGJlaGF2aW9yKS4NCg0KLS0tDQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9udm1l
+L2hvc3QvZmFicmljcy5jIGIvZHJpdmVycy9udm1lL2hvc3QvZmFicmljcy5jDQppbmRleCA3NGI4
+ODE4Li5lZDZiOTExIDEwMDY0NA0KLS0tIGEvZHJpdmVycy9udm1lL2hvc3QvZmFicmljcy5jDQor
+KysgYi9kcml2ZXJzL252bWUvaG9zdC9mYWJyaWNzLmMNCkBAIC00MDYsNiArNDA2LDcgQEANCiAJ
+fQ0KDQogCWN0cmwtPmNudGxpZCA9IGxlMTZfdG9fY3B1KHJlcy51MTYpOw0KKwljdHJsLT5zdGFy
+dF9yZWNvbm5lY3RfbnMgPSBrdGltZV9nZXRfbnMoKTsNCg0KIG91dF9mcmVlX2RhdGE6DQogCWtm
+cmVlKGRhdGEpOw0KQEAgLTQ3NCw4ICs0NzUsMTIgQEANCiBib29sIG52bWZfc2hvdWxkX3JlY29u
+bmVjdChzdHJ1Y3QgbnZtZV9jdHJsICpjdHJsKQ0KIHsNCiAJaWYgKGN0cmwtPm9wdHMtPm1heF9y
+ZWNvbm5lY3RzID09IC0xIHx8DQotCSAgICBjdHJsLT5ucl9yZWNvbm5lY3RzIDwgY3RybC0+b3B0
+cy0+bWF4X3JlY29ubmVjdHMpDQorCSAgICBjdHJsLT5ucl9yZWNvbm5lY3RzIDwgY3RybC0+b3B0
+cy0+bWF4X3JlY29ubmVjdHMpew0KKwkJaWYoY3RybC0+bnJfcmVjb25uZWN0cyA9PSAwKQ0KKwkJ
+CWN0cmwtPnN0YXJ0X3JlY29ubmVjdF9ucyA9IGt0aW1lX2dldF9ucygpOw0KKw0KIAkJcmV0dXJu
+IHRydWU7DQorCX0NCg0KIAlyZXR1cm4gZmFsc2U7DQogfQ0KQEAgLTU0OSw2ICs1NTQsOCBAQA0K
+IHsNCiAJaWYgKGN0cmwtPnN0YXRlICE9IE5WTUVfQ1RSTF9ERUxFVElORyAmJg0KIAkgICAgY3Ry
+bC0+c3RhdGUgIT0gTlZNRV9DVFJMX0RFQUQgJiYNCisgICAgICAgICAgICAhKGN0cmwtPnN0YXRl
+ID09IE5WTUVfQ1RSTF9DT05ORUNUSU5HICYmIGN0cmwtPm9wdHMtPmZhaWxfZmFzdF90bW9fbnMg
+Pj0gMCAmJg0KKyAgICAgICAgICAgICgoa3RpbWVfZ2V0X25zKCkgLSBjdHJsLT5zdGFydF9yZWNv
+bm5lY3RfbnMpID4gIGN0cmwtPm9wdHMtPmZhaWxfZmFzdF90bW9fbnMpKSAmJg0KIAkgICAgIWJs
+a19ub3JldHJ5X3JlcXVlc3QocnEpICYmICEocnEtPmNtZF9mbGFncyAmIFJFUV9OVk1FX01QQVRI
+KSkNCiAJCXJldHVybiBCTEtfU1RTX1JFU09VUkNFOw0KDQpAQCAtNjEyLDYgKzYxOSw3IEBADQog
+CXsgTlZNRl9PUFRfTlJfV1JJVEVfUVVFVUVTLAkibnJfd3JpdGVfcXVldWVzPSVkIgl9LA0KIAl7
+IE5WTUZfT1BUX05SX1BPTExfUVVFVUVTLAkibnJfcG9sbF9xdWV1ZXM9JWQiCX0sDQogCXsgTlZN
+Rl9PUFRfVE9TLAkJCSJ0b3M9JWQiCQl9LA0KKwl7IE5WTUZfT1BUX0ZBSUxfRkFTVF9UTU8sCSJm
+YWlsX2Zhc3RfdG1vPSVkIgl9LA0KIAl7IE5WTUZfT1BUX0VSUiwJCQlOVUxMCQkJfQ0KIH07DQoN
+CkBAIC02MjMsNiArNjMxLDcgQEANCiAJaW50IHRva2VuLCByZXQgPSAwOw0KIAlzaXplX3QgbnFu
+bGVuICA9IDA7DQogCWludCBjdHJsX2xvc3NfdG1vID0gTlZNRl9ERUZfQ1RSTF9MT1NTX1RNTzsN
+CisJaW50IGZhaWxfZmFzdF90bW8gPSBOVk1GX0RFRl9GQUlMX0ZBU1RfVE1POw0KIAl1dWlkX3Qg
+aG9zdGlkOw0KDQogCS8qIFNldCBkZWZhdWx0cyAqLw0KQEAgLTc1MSw2ICs3NjAsMTYgQEANCiAJ
+CQkJcHJfd2FybigiY3RybF9sb3NzX3RtbyA8IDAgd2lsbCByZWNvbm5lY3QgZm9yZXZlclxuIik7
+DQogCQkJY3RybF9sb3NzX3RtbyA9IHRva2VuOw0KIAkJCWJyZWFrOw0KKwkJY2FzZSBOVk1GX09Q
+VF9GQUlMX0ZBU1RfVE1POg0KKwkJCWlmIChtYXRjaF9pbnQoYXJncywgJnRva2VuKSkgew0KKwkJ
+CQlyZXQgPSAtRUlOVkFMOw0KKwkJCQlnb3RvIG91dDsNCisJCQl9DQorDQorCQkJaWYgKHRva2Vu
+IDwgMCkNCisJCQkJcHJfd2FybigiZmFpbF9mYXN0X3RtbyA8IDAsIEkvTyB3aWxsIHdhaXQgZm9y
+IHJlY29ubmVjdC9sb3NzIGNvbnRyb2xsZXJcbiIpOw0KKwkJCWZhaWxfZmFzdF90bW8gPSB0b2tl
+bjsNCisJCQlicmVhazsNCiAJCWNhc2UgTlZNRl9PUFRfSE9TVE5RTjoNCiAJCQlpZiAob3B0cy0+
+aG9zdCkgew0KIAkJCQlwcl9lcnIoImhvc3RucW4gYWxyZWFkeSB1c2VyLWFzc2lnbmVkOiAlc1xu
+IiwNCkBAIC04ODcsNiArOTA2LDExIEBADQogCQlvcHRzLT5tYXhfcmVjb25uZWN0cyA9IERJVl9S
+T1VORF9VUChjdHJsX2xvc3NfdG1vLA0KIAkJCQkJCW9wdHMtPnJlY29ubmVjdF9kZWxheSk7DQoN
+CisJaWYgKGZhaWxfZmFzdF90bW8gPCAwKQ0KKwkJb3B0cy0+ZmFpbF9mYXN0X3Rtb19ucyA9IC0x
+Ow0KKwllbHNlDQorCQlvcHRzLT5mYWlsX2Zhc3RfdG1vX25zID0gZmFpbF9mYXN0X3RtbyAqIE5T
+RUNfUEVSX1NFQzsNCisNCiAJaWYgKCFvcHRzLT5ob3N0KSB7DQogCQlrcmVmX2dldCgmbnZtZl9k
+ZWZhdWx0X2hvc3QtPnJlZik7DQogCQlvcHRzLT5ob3N0ID0gbnZtZl9kZWZhdWx0X2hvc3Q7DQpA
+QCAtOTg1LDcgKzEwMDksNyBAQA0KICNkZWZpbmUgTlZNRl9BTExPV0VEX09QVFMJKE5WTUZfT1BU
+X1FVRVVFX1NJWkUgfCBOVk1GX09QVF9OUl9JT19RVUVVRVMgfCBcDQogCQkJCSBOVk1GX09QVF9L
+QVRPIHwgTlZNRl9PUFRfSE9TVE5RTiB8IFwNCiAJCQkJIE5WTUZfT1BUX0hPU1RfSUQgfCBOVk1G
+X09QVF9EVVBfQ09OTkVDVCB8XA0KLQkJCQkgTlZNRl9PUFRfRElTQUJMRV9TUUZMT1cpDQorCQkJ
+CSBOVk1GX09QVF9ESVNBQkxFX1NRRkxPV3xOVk1GX09QVF9GQUlMX0ZBU1RfVE1PKQ0KDQogc3Rh
+dGljIHN0cnVjdCBudm1lX2N0cmwgKg0KIG52bWZfY3JlYXRlX2N0cmwoc3RydWN0IGRldmljZSAq
+ZGV2LCBjb25zdCBjaGFyICpidWYpDQpAQCAtMTE5OCw3ICsxMjIyLDYgQEANCiAJY2xhc3NfZGVz
+dHJveShudm1mX2NsYXNzKTsNCiAJbnZtZl9ob3N0X3B1dChudm1mX2RlZmF1bHRfaG9zdCk7DQoN
+Ci0JQlVJTERfQlVHX09OKHNpemVvZihzdHJ1Y3QgbnZtZl9jb21tb25fY29tbWFuZCkgIT0gNjQp
+Ow0KIAlCVUlMRF9CVUdfT04oc2l6ZW9mKHN0cnVjdCBudm1mX2Nvbm5lY3RfY29tbWFuZCkgIT0g
+NjQpOw0KIAlCVUlMRF9CVUdfT04oc2l6ZW9mKHN0cnVjdCBudm1mX3Byb3BlcnR5X2dldF9jb21t
+YW5kKSAhPSA2NCk7DQogCUJVSUxEX0JVR19PTihzaXplb2Yoc3RydWN0IG52bWZfcHJvcGVydHlf
+c2V0X2NvbW1hbmQpICE9IDY0KTsNCg0KZGlmZiAtLWdpdCBhL2RyaXZlcnMvbnZtZS9ob3N0L2Zh
+YnJpY3MuaCBiL2RyaXZlcnMvbnZtZS9ob3N0L2ZhYnJpY3MuaA0KaW5kZXggOTNmMDhkNy4uMjM1
+Yzc2NyAxMDA2NDQNCi0tLSBhL2RyaXZlcnMvbnZtZS9ob3N0L2ZhYnJpY3MuaA0KKysrIGIvZHJp
+dmVycy9udm1lL2hvc3QvZmFicmljcy5oDQpAQCAtMTUsNiArMTUsOCBAQA0KICNkZWZpbmUgTlZN
+Rl9ERUZfUkVDT05ORUNUX0RFTEFZCTEwDQogLyogZGVmYXVsdCB0byA2MDAgc2Vjb25kcyBvZiBy
+ZWNvbm5lY3QgYXR0ZW1wdHMgYmVmb3JlIGdpdmluZyB1cCAqLw0KICNkZWZpbmUgTlZNRl9ERUZf
+Q1RSTF9MT1NTX1RNTwkJNjAwDQorLyogZGVmYXVsdCB0byAzMCBzZWNvbmRzIG9mIGZhaWwgZmFz
+dCBJTyBjb21tYW5kcyAgKi8NCisjZGVmaW5lIE5WTUZfREVGX0ZBSUxfRkFTVF9UTU8JCTMwDQoN
+CiAvKg0KICAqIERlZmluZSBhIGhvc3QgYXMgc2VlbiBieSB0aGUgdGFyZ2V0LiAgV2UgYWxsb2Nh
+dGUgb25lIGF0IGJvb3QsIGJ1dCBhbHNvDQpAQCAtNTYsNiArNTgsNyBAQA0KIAlOVk1GX09QVF9O
+Ul9XUklURV9RVUVVRVMgPSAxIDw8IDE3LA0KIAlOVk1GX09QVF9OUl9QT0xMX1FVRVVFUyA9IDEg
+PDwgMTgsDQogCU5WTUZfT1BUX1RPUwkJPSAxIDw8IDE5LA0KKwlOVk1GX09QVF9GQUlMX0ZBU1Rf
+VE1PCT0gMSA8PCAyMCwNCiB9Ow0KDQogLyoqDQpAQCAtODksNiArOTIsNyBAQA0KICAqIEBucl93
+cml0ZV9xdWV1ZXM6IG51bWJlciBvZiBxdWV1ZXMgZm9yIHdyaXRlIEkvTw0KICAqIEBucl9wb2xs
+X3F1ZXVlczogbnVtYmVyIG9mIHF1ZXVlcyBmb3IgcG9sbGluZyBJL08NCiAgKiBAdG9zOiB0eXBl
+IG9mIHNlcnZpY2UNCisgKiBAZmFzdF9mYWlsX3Rtb19uczogRmFzdCBJL08gZmFpbCB0aW1lb3V0
+IGluIG5hbm9zZWNvbmRzOw0KICAqLw0KIHN0cnVjdCBudm1mX2N0cmxfb3B0aW9ucyB7DQogCXVu
+c2lnbmVkCQltYXNrOw0KQEAgLTExMSw2ICsxMTUsNyBAQA0KIAl1bnNpZ25lZCBpbnQJCW5yX3dy
+aXRlX3F1ZXVlczsNCiAJdW5zaWduZWQgaW50CQlucl9wb2xsX3F1ZXVlczsNCiAJaW50CQkJdG9z
+Ow0KKwl1NjQJCQlmYWlsX2Zhc3RfdG1vX25zOw0KIH07DQoNCiAvKg0KDQpkaWZmIC0tZ2l0IGEv
+ZHJpdmVycy9udm1lL2hvc3QvbnZtZS5oIGIvZHJpdmVycy9udm1lL2hvc3QvbnZtZS5oDQppbmRl
+eCAzNGFjNzljLi45YjVmNmQ5IDEwMDY0NA0KLS0tIGEvZHJpdmVycy9udm1lL2hvc3QvbnZtZS5o
+DQorKysgYi9kcml2ZXJzL252bWUvaG9zdC9udm1lLmgNCkBAIC0yODIsNiArMjgyLDcgQEANCiAJ
+dTE2IGljZG9mZjsNCiAJdTE2IG1heGNtZDsNCiAJaW50IG5yX3JlY29ubmVjdHM7DQorCXU2NCBz
+dGFydF9yZWNvbm5lY3RfbnM7DQogCXN0cnVjdCBudm1mX2N0cmxfb3B0aW9ucyAqb3B0czsNCg0K
+IAlzdHJ1Y3QgcGFnZSAqZGlzY2FyZF9wYWdlOw0KDQotLS0NClJlZ2FyZHMsDQpWaWN0b3INCl9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmxpbnV4LW52bWUg
+bWFpbGluZyBsaXN0CmxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMu
+aW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
