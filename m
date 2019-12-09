@@ -2,76 +2,64 @@ Return-Path: <SRS0=+L2C=Z7=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DA26C43603
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Dec 2019 15:30:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 049E2C43603
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Dec 2019 17:56:50 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 23F502068E
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Dec 2019 15:30:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id CDE1E24656
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Dec 2019 17:56:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="GGXxYAHZ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 23F502068E
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kioxia.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="SCJCmm0i";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yk2bS9My"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CDE1E24656
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
-	Message-ID:Date:Subject:To:From:Reply-To:Cc:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=TOEBzq/QW5x647CRMk3BHYimvQwDjjQa9GFv4kmqoEU=; b=GGXxYAHZsC4A4X
-	03lFISQGZV8uuTuGgFf1FBPqdqLGwcJkCzVSFi2DWYRdbDxTbQWjPr+dfxxUswABLheNlgL8rRDW5
-	DN0a2o98fSQN11+SX/iEcuf7jA+2B+Odtz3Tp1oedaX7IeyDw5liop3iKPsdSyJ+VqN+hiUycrLHu
-	wZnEav8AzsF9t/yMCzIY+GQ2PiBWbI2F/WPuyVAbs+L8ptf/cF3a1UX004Nbp8ckKLtaajJUy7Svg
-	AhlZG/+c06wd4hAlAsL2zGsPfXmZD7GY4QIm93J7A3Rm/fYbDzGM1WVSsQMacPD+iL3ZKxItPcVU0
-	hW9dQJUjKDWftvs1+OEA==;
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
+	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=rqrosUdtJOLY6wtOiGGcnDvFkaLMjHsI9idNfXd4Jko=; b=SCJCmm0iNuWxS+
+	ge5kDkQon1Ii+l8o2JS3P8cthgYSTmq7786NOjWyfosSIo1TatfjG45YJ4OIa0tfNC6AHo5ZVZyTU
+	x9uTFW6a5DNapBB0VITWHq+k4+GTgTbQf5s7hBjifO2FeVVg1beLwWBmhCUdOIS9aly2HvWFHJpj9
+	0GDF8VzXWGSsSVr+3StzXY8EOemGVnaYjBRIRm00xx3ZSHvid+fhbxvZYVrY6E/C/eMMlkIk6N/9o
+	DiGCfZ70kzvn24+be9FlyHoe9gfH8ZNT55j3I5isebVm8sA1XxSaGM4rB8jd0IERtH1JbLSmX6GRt
+	riMap+6mOS+76WfZHb9w==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1ieKzS-0007ih-Qn; Mon, 09 Dec 2019 15:30:26 +0000
-Received: from ip-12-0-68-226-us.kioxia.com ([12.0.68.226]
- helo=SJSMAIL01.us.kioxia.com)
+	id 1ieNH4-0005oD-59; Mon, 09 Dec 2019 17:56:46 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ieKzP-0007gA-K3
- for linux-nvme@lists.infradead.org; Mon, 09 Dec 2019 15:30:26 +0000
-Received: from SJSMAIL01.us.kioxia.com (10.90.133.90) by
- SJSMAIL01.us.kioxia.com (10.90.133.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1779.2; Mon, 9 Dec 2019 07:30:14 -0800
-Received: from SJSMAIL01.us.kioxia.com ([fe80::8056:cf5f:fb1f:e123]) by
- SJSMAIL01.us.kioxia.com ([fe80::8056:cf5f:fb1f:e123%3]) with mapi id
- 15.01.1779.004; Mon, 9 Dec 2019 07:30:14 -0800
-From: Victor Gladkov <Victor.Gladkov@kioxia.com>
-To: Hannes Reinecke <hare@suse.de>, Sagi Grimberg <sagi@grimberg.me>, "James
- Smart" <james.smart@broadcom.com>, "linux-nvme@lists.infradead.org"
- <linux-nvme@lists.infradead.org>
-Subject: RE: [PATCH] nvme-fabrics: reject I/O to offline device
-Thread-Topic: [PATCH] nvme-fabrics: reject I/O to offline device
-Thread-Index: AdWoHEM2hZCp1trGT5CqiIXVszcBJgBiTd2AAAZbKjAAHmVugAAOa+zgAGeWsYAALWm8AABQExWAACdLqzA=
-Date: Mon, 9 Dec 2019 15:30:14 +0000
-Message-ID: <d7953accf06e418a893b9cc6017b981a@kioxia.com>
-References: <2caa40133c444771b706406b928ad88a@kioxia.com>
- <78d980de-b2b8-bd47-fc3f-20314653598e@broadcom.com>
- <c625b332ee124b038da1ae59b02f4e21@kioxia.com>
- <9a73a895-7d6b-21e9-9008-816117be1ff4@broadcom.com>
- <ac9b5d7192fb49ac9bdf19dd35be0ab2@kioxia.com>
- <4963e813-0d99-4890-804a-cd4c9c660607@broadcom.com>
- <ae027c0c-45ab-d412-11f3-39dcf3217434@grimberg.me>
- <e009d8fe-74ec-8c87-30ec-b1ac657b2aa8@suse.de>
-In-Reply-To: <e009d8fe-74ec-8c87-30ec-b1ac657b2aa8@suse.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.93.66.127]
+ id 1ieNGw-0005jk-VZ
+ for linux-nvme@lists.infradead.org; Mon, 09 Dec 2019 17:56:42 +0000
+Received: from redsun51.ssa.fujisawa.hgst.com (unknown [199.255.47.7])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 1A44D2080D;
+ Mon,  9 Dec 2019 17:56:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1575914198;
+ bh=5/4wTXvId2+mpf8jkt9WCNniBC99Y5Yi10xTbeald5I=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Yk2bS9MyZqW+dwju+q64sOoi/f5A0A5F0uEJ5BRFDBi3U2kFM9RsmWhUFYgcw0uoL
+ Z40nraUs6BNvQrnsP6x6xSqOtTTFDTy60K+S1buP/+GoGaWuYBA9BTsMXeeR49Wozq
+ 2hKrNOV7pM5rhaJy+rEoF1nT0F6myqbz7TOD0NWs=
+From: Keith Busch <kbusch@kernel.org>
+To: linux-nvme@lists.infradead.org
+Subject: [PATCHv3 0/4] nvme pci interrupt handling improvements
+Date: Tue, 10 Dec 2019 02:56:18 +0900
+Message-Id: <20191209175622.1964-1-kbusch@kernel.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191209_073023_670348_9FD794A2 
-X-CRM114-Status: GOOD (  21.50  )
+X-CRM114-CacheID: sfid-20191209_095639_037462_4617774E 
+X-CRM114-Status: GOOD (  10.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,131 +71,59 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: sagi@grimberg.me, bigeasy@linutronix.de, ming.lei@redhat.com,
+ Keith Busch <kbusch@kernel.org>, tglx@linutronix.de, hch@lst.de
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMTIvOC8xOSAxNDoxOCBQTSwgSGFubmVzIFJlaW5lY2tlIHdyb3RlOg0KPiANCj4gT24gMTIv
-Ni8xOSAxMToxOCBQTSwgU2FnaSBHcmltYmVyZyB3cm90ZToNCj4gPg0KPiA+Pj4gLS0tDQo+ID4+
-PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9udm1lL2hvc3QvZmFicmljcy5jDQo+ID4+PiBiL2RyaXZl
-cnMvbnZtZS9ob3N0L2ZhYnJpY3MuYyBpbmRleCA3NGI4ODE4Li5iNThhYmMxIDEwMDY0NA0KPiA+
-Pj4gLS0tIGEvZHJpdmVycy9udm1lL2hvc3QvZmFicmljcy5jDQo+ID4+PiArKysgYi9kcml2ZXJz
-L252bWUvaG9zdC9mYWJyaWNzLmMNCj4gPj4+IEBAIC01NDksNiArNTQ5LDggQEAgYmxrX3N0YXR1
-c190IG52bWZfZmFpbF9ub25yZWFkeV9jb21tYW5kKHN0cnVjdA0KPiA+Pj4gbnZtZV9jdHJsICpj
-dHJsLA0KPiA+Pj4gwqAgew0KPiA+Pj4gwqDCoMKgwqDCoMKgwqDCoCBpZiAoY3RybC0+c3RhdGUg
-IT0gTlZNRV9DVFJMX0RFTEVUSU5HICYmDQo+ID4+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-Y3RybC0+c3RhdGUgIT0gTlZNRV9DVFJMX0RFQUQgJiYNCj4gPj4+ICvCoMKgwqDCoMKgwqDCoMKg
-wqDCoCAhKGN0cmwtPnN0YXRlID09IE5WTUVfQ1RSTF9DT05ORUNUSU5HICYmDQo+ID4+PiArwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCAoKGt0aW1lX2dldF9ucygpIC0gcnEtPnN0YXJ0X3RpbWVfbnMp
-ID4NCj4gPj4+IGppZmZpZXNfdG9fbnNlY3MocnEtPnRpbWVvdXQpKSkgJiYNCj4gPj4+IMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCAhYmxrX25vcmV0cnlfcmVxdWVzdChycSkgJiYgIShycS0+Y21k
-X2ZsYWdzICYNCj4gPj4+IFJFUV9OVk1FX01QQVRIKSkNCj4gPj4+IMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIHJldHVybiBCTEtfU1RTX1JFU09VUkNFOw0KPiA+Pj4NCj4gPj4NCj4g
-Pj4gRGlkIHlvdSB0ZXN0IHRoaXMgdG8gZW5zdXJlIGl0J3MgZG9pbmcgd2hhdCB5b3UgZXhwZWN0
-LiBJJ20gbm90IHN1cmUNCj4gPj4gdGhhdCBhbGwgdGhlIHRpbWVycyBhcmUgc2V0IHJpZ2h0IGF0
-IHRoaXMgcG9pbnQuIE1vc3QgSS9PJ3MgdGltZW91dA0KPiA+PiBmcm9tIGEgZGVhZGxpbmUgdGlt
-ZSBzdGFtcGVkIGF0IGJsa19tcV9zdGFydF9yZXF1ZXN0KCkuIEJ1dCB0aGF0DQo+ID4+IHJvdXRp
-bmUgaXMgYWN0dWFsbHkgY2FsbGVkIGJ5IHRoZSB0cmFuc3BvcnRzIHBvc3QgdGhlDQo+ID4+IG52
-bWZfY2hlY2tfcmVhZHkvZmFpbF9ub25yZWFkeSBjYWxscy7CoCBFLmcuIHRoZSBpbyBpcyBub3Qg
-eWV0IGluDQo+ID4+IGZsaWdodCwgdGh1cyBxdWV1ZWQsIGFuZCB0aGUgYmxrLW1xIGludGVybmFs
-IHF1ZXVpbmcgZG9lc24ndCBjb3VudA0KPiA+PiBhZ2FpbnN0IHRoZSBpbyB0aW1lb3V0LsKgIEkg
-Y2FuJ3Qgc2VlIGFueXRoaW5nIHRoYXQgZ3VhcmFudGVlcw0KPiA+PiBzdGFydF90aW1lX25zIGlz
-IHNldC4NCj4gPg0KPiA+IEknbSBub3Qgc3VyZSB0aGlzIGJlaGF2aW9yIGZvciBmYWlsaW5nIEkv
-TyBhbHdheXMgZGVzaXJlZD8gc29tZQ0KPiA+IGNvbnN1bWVycyB3b3VsZCBhY3R1YWxseSBub3Qg
-d2FudCB0aGUgSS9PIHRvIGZhaWwgcHJlbWF0dXJlbHkgaWYgd2UNCj4gPiBhcmUgbm90IG11bHRp
-cGF0aGluZy4uLg0KPiA+DQo+ID4gSSB0aGluayB3ZSBuZWVkIGEgZmFpbF9mYXN0X3RtbyBzZXQg
-aW4gd2hlbiBlc3RhYmxpc2hpbmcgdGhlDQo+ID4gY29udHJvbGxlciB0byBnZXQgaXQgcmlnaHQu
-DQo+ID4NCj4gQWdyZWVkLiBUaGlzIHdob2xlIHBhdGNoIGxvb2tzIGxpa2Ugc29tZW9uZSBpcyB0
-cnlpbmcgdG8gcmVpbXBsZW1lbnQNCj4gZmFzdF9pb19mYWlsX3RtbyAvIGRldl9sb3NzX3Rtby4N
-Cj4gQXMgd2UncmUgbW92aW5nIGludG8gdW5yZWxpYWJsZSBmYWJyaWNzIEkgZ3Vlc3Mgd2UnbGwg
-bmVlZCBhIHNpbWlsYXIgbWVjaGFuaXNtLg0KPiANCj4gQ2hlZXJzLA0KPiANCj4gSGFubmVzDQoN
-Cg0KRm9sbG93aW5nIHlvdXIgc3VnZ2VzdGlvbnMsIEkgYWRkZWQgYSBuZXcgc2Vzc2lvbiBwYXJh
-bWV0ZXIgY2FsbGVkICJmYXN0X2ZhaWxfdG1vIi4gDQpUaGUgdGltZW91dCBpcyBtZWFzdXJlZCBp
-biBzZWNvbmRzIGZyb20gdGhlIGNvbnRyb2xsZXIgcmVjb25uZWN0LCBhbnkgY29tbWFuZCBiZXlv
-bmQgdGhhdCB0aW1lb3V0IGlzIHJlamVjdGVkLiANClRoZSBuZXcgcGFyYW1ldGVyIHZhbHVlIG1h
-eSBiZSBwYXNzZWQgZHVyaW5nIOKAmGNvbm5lY3TigJksIGFuZCBpdHMgZGVmYXVsdCB2YWx1ZSBp
-cyAzMCBzZWNvbmRzLiANCkEgdmFsdWUgb2YgLTEgbWVhbnMgbm8gdGltZW91dCAoaW4gc2ltaWxh
-ciB0byBjdXJyZW50IGJlaGF2aW9yKS4NCg0KLS0tDQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9udm1l
-L2hvc3QvZmFicmljcy5jIGIvZHJpdmVycy9udm1lL2hvc3QvZmFicmljcy5jDQppbmRleCA3NGI4
-ODE4Li5lZDZiOTExIDEwMDY0NA0KLS0tIGEvZHJpdmVycy9udm1lL2hvc3QvZmFicmljcy5jDQor
-KysgYi9kcml2ZXJzL252bWUvaG9zdC9mYWJyaWNzLmMNCkBAIC00MDYsNiArNDA2LDcgQEANCiAJ
-fQ0KDQogCWN0cmwtPmNudGxpZCA9IGxlMTZfdG9fY3B1KHJlcy51MTYpOw0KKwljdHJsLT5zdGFy
-dF9yZWNvbm5lY3RfbnMgPSBrdGltZV9nZXRfbnMoKTsNCg0KIG91dF9mcmVlX2RhdGE6DQogCWtm
-cmVlKGRhdGEpOw0KQEAgLTQ3NCw4ICs0NzUsMTIgQEANCiBib29sIG52bWZfc2hvdWxkX3JlY29u
-bmVjdChzdHJ1Y3QgbnZtZV9jdHJsICpjdHJsKQ0KIHsNCiAJaWYgKGN0cmwtPm9wdHMtPm1heF9y
-ZWNvbm5lY3RzID09IC0xIHx8DQotCSAgICBjdHJsLT5ucl9yZWNvbm5lY3RzIDwgY3RybC0+b3B0
-cy0+bWF4X3JlY29ubmVjdHMpDQorCSAgICBjdHJsLT5ucl9yZWNvbm5lY3RzIDwgY3RybC0+b3B0
-cy0+bWF4X3JlY29ubmVjdHMpew0KKwkJaWYoY3RybC0+bnJfcmVjb25uZWN0cyA9PSAwKQ0KKwkJ
-CWN0cmwtPnN0YXJ0X3JlY29ubmVjdF9ucyA9IGt0aW1lX2dldF9ucygpOw0KKw0KIAkJcmV0dXJu
-IHRydWU7DQorCX0NCg0KIAlyZXR1cm4gZmFsc2U7DQogfQ0KQEAgLTU0OSw2ICs1NTQsOCBAQA0K
-IHsNCiAJaWYgKGN0cmwtPnN0YXRlICE9IE5WTUVfQ1RSTF9ERUxFVElORyAmJg0KIAkgICAgY3Ry
-bC0+c3RhdGUgIT0gTlZNRV9DVFJMX0RFQUQgJiYNCisgICAgICAgICAgICAhKGN0cmwtPnN0YXRl
-ID09IE5WTUVfQ1RSTF9DT05ORUNUSU5HICYmIGN0cmwtPm9wdHMtPmZhaWxfZmFzdF90bW9fbnMg
-Pj0gMCAmJg0KKyAgICAgICAgICAgICgoa3RpbWVfZ2V0X25zKCkgLSBjdHJsLT5zdGFydF9yZWNv
-bm5lY3RfbnMpID4gIGN0cmwtPm9wdHMtPmZhaWxfZmFzdF90bW9fbnMpKSAmJg0KIAkgICAgIWJs
-a19ub3JldHJ5X3JlcXVlc3QocnEpICYmICEocnEtPmNtZF9mbGFncyAmIFJFUV9OVk1FX01QQVRI
-KSkNCiAJCXJldHVybiBCTEtfU1RTX1JFU09VUkNFOw0KDQpAQCAtNjEyLDYgKzYxOSw3IEBADQog
-CXsgTlZNRl9PUFRfTlJfV1JJVEVfUVVFVUVTLAkibnJfd3JpdGVfcXVldWVzPSVkIgl9LA0KIAl7
-IE5WTUZfT1BUX05SX1BPTExfUVVFVUVTLAkibnJfcG9sbF9xdWV1ZXM9JWQiCX0sDQogCXsgTlZN
-Rl9PUFRfVE9TLAkJCSJ0b3M9JWQiCQl9LA0KKwl7IE5WTUZfT1BUX0ZBSUxfRkFTVF9UTU8sCSJm
-YWlsX2Zhc3RfdG1vPSVkIgl9LA0KIAl7IE5WTUZfT1BUX0VSUiwJCQlOVUxMCQkJfQ0KIH07DQoN
-CkBAIC02MjMsNiArNjMxLDcgQEANCiAJaW50IHRva2VuLCByZXQgPSAwOw0KIAlzaXplX3QgbnFu
-bGVuICA9IDA7DQogCWludCBjdHJsX2xvc3NfdG1vID0gTlZNRl9ERUZfQ1RSTF9MT1NTX1RNTzsN
-CisJaW50IGZhaWxfZmFzdF90bW8gPSBOVk1GX0RFRl9GQUlMX0ZBU1RfVE1POw0KIAl1dWlkX3Qg
-aG9zdGlkOw0KDQogCS8qIFNldCBkZWZhdWx0cyAqLw0KQEAgLTc1MSw2ICs3NjAsMTYgQEANCiAJ
-CQkJcHJfd2FybigiY3RybF9sb3NzX3RtbyA8IDAgd2lsbCByZWNvbm5lY3QgZm9yZXZlclxuIik7
-DQogCQkJY3RybF9sb3NzX3RtbyA9IHRva2VuOw0KIAkJCWJyZWFrOw0KKwkJY2FzZSBOVk1GX09Q
-VF9GQUlMX0ZBU1RfVE1POg0KKwkJCWlmIChtYXRjaF9pbnQoYXJncywgJnRva2VuKSkgew0KKwkJ
-CQlyZXQgPSAtRUlOVkFMOw0KKwkJCQlnb3RvIG91dDsNCisJCQl9DQorDQorCQkJaWYgKHRva2Vu
-IDwgMCkNCisJCQkJcHJfd2FybigiZmFpbF9mYXN0X3RtbyA8IDAsIEkvTyB3aWxsIHdhaXQgZm9y
-IHJlY29ubmVjdC9sb3NzIGNvbnRyb2xsZXJcbiIpOw0KKwkJCWZhaWxfZmFzdF90bW8gPSB0b2tl
-bjsNCisJCQlicmVhazsNCiAJCWNhc2UgTlZNRl9PUFRfSE9TVE5RTjoNCiAJCQlpZiAob3B0cy0+
-aG9zdCkgew0KIAkJCQlwcl9lcnIoImhvc3RucW4gYWxyZWFkeSB1c2VyLWFzc2lnbmVkOiAlc1xu
-IiwNCkBAIC04ODcsNiArOTA2LDExIEBADQogCQlvcHRzLT5tYXhfcmVjb25uZWN0cyA9IERJVl9S
-T1VORF9VUChjdHJsX2xvc3NfdG1vLA0KIAkJCQkJCW9wdHMtPnJlY29ubmVjdF9kZWxheSk7DQoN
-CisJaWYgKGZhaWxfZmFzdF90bW8gPCAwKQ0KKwkJb3B0cy0+ZmFpbF9mYXN0X3Rtb19ucyA9IC0x
-Ow0KKwllbHNlDQorCQlvcHRzLT5mYWlsX2Zhc3RfdG1vX25zID0gZmFpbF9mYXN0X3RtbyAqIE5T
-RUNfUEVSX1NFQzsNCisNCiAJaWYgKCFvcHRzLT5ob3N0KSB7DQogCQlrcmVmX2dldCgmbnZtZl9k
-ZWZhdWx0X2hvc3QtPnJlZik7DQogCQlvcHRzLT5ob3N0ID0gbnZtZl9kZWZhdWx0X2hvc3Q7DQpA
-QCAtOTg1LDcgKzEwMDksNyBAQA0KICNkZWZpbmUgTlZNRl9BTExPV0VEX09QVFMJKE5WTUZfT1BU
-X1FVRVVFX1NJWkUgfCBOVk1GX09QVF9OUl9JT19RVUVVRVMgfCBcDQogCQkJCSBOVk1GX09QVF9L
-QVRPIHwgTlZNRl9PUFRfSE9TVE5RTiB8IFwNCiAJCQkJIE5WTUZfT1BUX0hPU1RfSUQgfCBOVk1G
-X09QVF9EVVBfQ09OTkVDVCB8XA0KLQkJCQkgTlZNRl9PUFRfRElTQUJMRV9TUUZMT1cpDQorCQkJ
-CSBOVk1GX09QVF9ESVNBQkxFX1NRRkxPV3xOVk1GX09QVF9GQUlMX0ZBU1RfVE1PKQ0KDQogc3Rh
-dGljIHN0cnVjdCBudm1lX2N0cmwgKg0KIG52bWZfY3JlYXRlX2N0cmwoc3RydWN0IGRldmljZSAq
-ZGV2LCBjb25zdCBjaGFyICpidWYpDQpAQCAtMTE5OCw3ICsxMjIyLDYgQEANCiAJY2xhc3NfZGVz
-dHJveShudm1mX2NsYXNzKTsNCiAJbnZtZl9ob3N0X3B1dChudm1mX2RlZmF1bHRfaG9zdCk7DQoN
-Ci0JQlVJTERfQlVHX09OKHNpemVvZihzdHJ1Y3QgbnZtZl9jb21tb25fY29tbWFuZCkgIT0gNjQp
-Ow0KIAlCVUlMRF9CVUdfT04oc2l6ZW9mKHN0cnVjdCBudm1mX2Nvbm5lY3RfY29tbWFuZCkgIT0g
-NjQpOw0KIAlCVUlMRF9CVUdfT04oc2l6ZW9mKHN0cnVjdCBudm1mX3Byb3BlcnR5X2dldF9jb21t
-YW5kKSAhPSA2NCk7DQogCUJVSUxEX0JVR19PTihzaXplb2Yoc3RydWN0IG52bWZfcHJvcGVydHlf
-c2V0X2NvbW1hbmQpICE9IDY0KTsNCg0KZGlmZiAtLWdpdCBhL2RyaXZlcnMvbnZtZS9ob3N0L2Zh
-YnJpY3MuaCBiL2RyaXZlcnMvbnZtZS9ob3N0L2ZhYnJpY3MuaA0KaW5kZXggOTNmMDhkNy4uMjM1
-Yzc2NyAxMDA2NDQNCi0tLSBhL2RyaXZlcnMvbnZtZS9ob3N0L2ZhYnJpY3MuaA0KKysrIGIvZHJp
-dmVycy9udm1lL2hvc3QvZmFicmljcy5oDQpAQCAtMTUsNiArMTUsOCBAQA0KICNkZWZpbmUgTlZN
-Rl9ERUZfUkVDT05ORUNUX0RFTEFZCTEwDQogLyogZGVmYXVsdCB0byA2MDAgc2Vjb25kcyBvZiBy
-ZWNvbm5lY3QgYXR0ZW1wdHMgYmVmb3JlIGdpdmluZyB1cCAqLw0KICNkZWZpbmUgTlZNRl9ERUZf
-Q1RSTF9MT1NTX1RNTwkJNjAwDQorLyogZGVmYXVsdCB0byAzMCBzZWNvbmRzIG9mIGZhaWwgZmFz
-dCBJTyBjb21tYW5kcyAgKi8NCisjZGVmaW5lIE5WTUZfREVGX0ZBSUxfRkFTVF9UTU8JCTMwDQoN
-CiAvKg0KICAqIERlZmluZSBhIGhvc3QgYXMgc2VlbiBieSB0aGUgdGFyZ2V0LiAgV2UgYWxsb2Nh
-dGUgb25lIGF0IGJvb3QsIGJ1dCBhbHNvDQpAQCAtNTYsNiArNTgsNyBAQA0KIAlOVk1GX09QVF9O
-Ul9XUklURV9RVUVVRVMgPSAxIDw8IDE3LA0KIAlOVk1GX09QVF9OUl9QT0xMX1FVRVVFUyA9IDEg
-PDwgMTgsDQogCU5WTUZfT1BUX1RPUwkJPSAxIDw8IDE5LA0KKwlOVk1GX09QVF9GQUlMX0ZBU1Rf
-VE1PCT0gMSA8PCAyMCwNCiB9Ow0KDQogLyoqDQpAQCAtODksNiArOTIsNyBAQA0KICAqIEBucl93
-cml0ZV9xdWV1ZXM6IG51bWJlciBvZiBxdWV1ZXMgZm9yIHdyaXRlIEkvTw0KICAqIEBucl9wb2xs
-X3F1ZXVlczogbnVtYmVyIG9mIHF1ZXVlcyBmb3IgcG9sbGluZyBJL08NCiAgKiBAdG9zOiB0eXBl
-IG9mIHNlcnZpY2UNCisgKiBAZmFzdF9mYWlsX3Rtb19uczogRmFzdCBJL08gZmFpbCB0aW1lb3V0
-IGluIG5hbm9zZWNvbmRzOw0KICAqLw0KIHN0cnVjdCBudm1mX2N0cmxfb3B0aW9ucyB7DQogCXVu
-c2lnbmVkCQltYXNrOw0KQEAgLTExMSw2ICsxMTUsNyBAQA0KIAl1bnNpZ25lZCBpbnQJCW5yX3dy
-aXRlX3F1ZXVlczsNCiAJdW5zaWduZWQgaW50CQlucl9wb2xsX3F1ZXVlczsNCiAJaW50CQkJdG9z
-Ow0KKwl1NjQJCQlmYWlsX2Zhc3RfdG1vX25zOw0KIH07DQoNCiAvKg0KDQpkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9udm1lL2hvc3QvbnZtZS5oIGIvZHJpdmVycy9udm1lL2hvc3QvbnZtZS5oDQppbmRl
-eCAzNGFjNzljLi45YjVmNmQ5IDEwMDY0NA0KLS0tIGEvZHJpdmVycy9udm1lL2hvc3QvbnZtZS5o
-DQorKysgYi9kcml2ZXJzL252bWUvaG9zdC9udm1lLmgNCkBAIC0yODIsNiArMjgyLDcgQEANCiAJ
-dTE2IGljZG9mZjsNCiAJdTE2IG1heGNtZDsNCiAJaW50IG5yX3JlY29ubmVjdHM7DQorCXU2NCBz
-dGFydF9yZWNvbm5lY3RfbnM7DQogCXN0cnVjdCBudm1mX2N0cmxfb3B0aW9ucyAqb3B0czsNCg0K
-IAlzdHJ1Y3QgcGFnZSAqZGlzY2FyZF9wYWdlOw0KDQotLS0NClJlZ2FyZHMsDQpWaWN0b3INCl9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmxpbnV4LW52bWUg
-bWFpbGluZyBsaXN0CmxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMu
-aW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
+Here's the next revision to nvme pci interrupt handling. The series is
+attempting to address two issues that have been recently raised:
+
+  1. The nvme driver makes it possible to soft lockup a CPU due to high
+     utilization in irq context. This is most prevalent when multiple
+     CPUs are driving a single hardware queue on one or more controllers.
+
+  2. The threaded handler left interrupts unmasked, which breaks when
+     used with level triggered interrupts, or unnecessarily runs
+     in interrupt context when edge interrupts occur frequently.
+
+Both issues are addressed by always configuring nvme interrupts to
+run the threaded handler with interrupts disabled. A hybrid approch
+to handling nvme completions in hard irq context and thread context is
+introduced so that there should not be a performance impact from removing
+the nvme.use_threaded_interrupts option.
+
+The series appears to be a win or no impact on performance from what I
+can test. I would be greatful to hear if others can confirm this with
+other hardware.
+
+I've dropped the fast MSIx masking. While I believe it's safe to skip
+flushing the memory write, I think this series mitigates the impact of
+the read back by ensuring the ratio of memory reads to IO is low enough
+to be negligable (AFAICT on hardware available to me).
+
+I've changed the exit condition for the polling nvme irq thread to
+break out of the loop if we've wrapped the completion queue. Other irq
+threads may be affinitized to the same CPU, so we need to schedule out
+at some point, but I've been told multiple times that need_resched()
+or cond_resched() won't work as desired from the thread's fifo priority.
+
+Keith Busch (4):
+  nvme/pci: Disable interrupts for threaded handler
+  nvme/pci: Complete commands from primary handler
+  nvme/pci: Remove use_threaded_interrupts
+  nvme/pci: Poll threaded completions
+
+ drivers/nvme/host/pci.c | 56 ++++++++++++++++++++++++++---------------
+ 1 file changed, 36 insertions(+), 20 deletions(-)
+
+-- 
+2.21.0
+
+
+_______________________________________________
+linux-nvme mailing list
+linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
