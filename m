@@ -1,72 +1,76 @@
-Return-Path: <SRS0=hdrt=2A=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=peCB=2B=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EB47C2D0BF
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Dec 2019 21:35:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 812BAC43603
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Dec 2019 02:35:06 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 51EF32467C
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Dec 2019 21:35:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3FEB82073B
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Dec 2019 02:35:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="pRPXGEJa";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="E3DImD2Z"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 51EF32467C
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ca297zlT"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3FEB82073B
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kioxia.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=sxXh1zFlv9KMMkf6MHz3XBtWu7kjih8b/3gPg2vOQXM=; b=pRPXGEJaYw+XSs
-	8MFW3hgXwLSG9cQJDaEg+uNKEV4Qa5BZ/EeTkUnkrzIyHGrMjdb6UempOY3yw42f2+NgA3rZBNCMt
-	RvPBtp/v1sjYON1CopUDpf8Y5eWKVfg/J5Px3P5KQKzaA9slIJFH+y67NxUwGamQ3wZJpv8IxIgPy
-	V3zWSdOLWDA21kLmDKWrlQDhiEFkCxD6iw1mRQlRPJfJfIxh9IQygq4RgeuZTp0n2KTnK0XBEMRzp
-	9YUgg6KxMGHKYL1xMknipAJh1MSQBtMqPCEO2O4MXQNObl9RLfjA80EzTY8FIEaHO+8KfzNhfovAQ
-	Z1H6zZX0jvDfvZrbF9CQ==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:To
+	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=vVbW3FEAw7nw2jSuB4No6Q/rbVtDhFnApuqpFYsqwss=; b=ca297zlTIZNZdG
+	xWzub9rENEWdnt9jn/M502dIuJJe6Il4K9MFPxzU41cpTIweMot0dgZ/pHYYZ+mlR2v34r5aWJUm7
+	xjSqyqgzxrURb7PrjcjPztE+XIBikDPkWyNh3H9m9AkNAPakwnZIGZN2z+vAvJwzi7jyVQKDhj0tT
+	27gox/a53QLCWtK9H6lDwtqKji9WwDfDNHU98BPGIVhUWrKb4PxLbL+8KkPbCIQJvJhjaYR2h3Y0v
+	EjHIbS9KAltgWoO/FSYOEg4tftxhuZ5k1i9PqhlJgSZYshtARgRNOOo+il/Rxw4lB3KZeid94qjWj
+	1a7R/7ed6+PUo9qGkWHg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1ienAT-00054U-M2; Tue, 10 Dec 2019 21:35:41 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1ierq7-0004lm-Nd; Wed, 11 Dec 2019 02:34:59 +0000
+Received: from mo-csw1514.securemx.jp ([210.130.202.153]
+ helo=mo-csw.securemx.jp)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ienA1-0004ET-6v
- for linux-nvme@lists.infradead.org; Tue, 10 Dec 2019 21:35:16 +0000
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
- [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id BB43122464;
- Tue, 10 Dec 2019 21:35:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1576013712;
- bh=hVLwqxTTnoHu9vdi6vsWB0Jc9NYZCRbLQz1JUSevkes=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=E3DImD2Zuyy3dDXzY8j74sRoXjqrAhvegB9hbAnvbuuA5zPib3Bpl3yqnD7YAOrnG
- YfEpeyygqwA/5YWWey9+661q8TzXfupe/i8rltZ9kW+kjoanOqjHH7ZI2xJLYiFvYl
- iFn6GziJxeiiuCWoj0FYY37e/SsxDun5NhK4tHZ0=
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 140/177] nvme: Discard workaround for
- non-conformant devices
-Date: Tue, 10 Dec 2019 16:31:44 -0500
-Message-Id: <20191210213221.11921-140-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191210213221.11921-1-sashal@kernel.org>
-References: <20191210213221.11921-1-sashal@kernel.org>
+ id 1ierq4-0004ky-Ie
+ for linux-nvme@lists.infradead.org; Wed, 11 Dec 2019 02:34:58 +0000
+Received: by mo-csw.securemx.jp (mx-mo-csw1514) id xBB2YMFe019359;
+ Wed, 11 Dec 2019 11:34:23 +0900
+X-Iguazu-Qid: 34tMQJyII1go4Zgmp7
+X-Iguazu-QSIG: v=2; s=0; t=1576031662; q=34tMQJyII1go4Zgmp7;
+ m=ISw0x4fuHYyUyr3yEYu6Cb7tqY7Q8V2kAgcalyMrW6k=
+Received: from imx2.toshiba.co.jp (imx2.toshiba.co.jp [106.186.93.51])
+ by relay.securemx.jp (mx-mr1510) id xBB2YHDC026491;
+ Wed, 11 Dec 2019 11:34:17 +0900
+Received: from enc01.localdomain ([106.186.93.100])
+ by imx2.toshiba.co.jp  with ESMTP id xBB2YG7s011965;
+ Wed, 11 Dec 2019 11:34:16 +0900 (JST)
+Received: from hop001.toshiba.co.jp ([133.199.164.63])
+ by enc01.localdomain  with ESMTP id xBB2YGIZ014826;
+ Wed, 11 Dec 2019 11:34:16 +0900
+From: <tsutomu.owa@kioxia.com>
+To: <linux-nvme@lists.infradead.org>, <sagi@grimberg.me>, <kbusch@kernel.org>, 
+ <hch@infradead.org>
+Subject: [RFC PATCH 0/5] to add more nvme reset functions
+Thread-Topic: [RFC PATCH 0/5] to add more nvme reset functions
+Thread-Index: AdWvyPOIQs9Y1uTsTWmA/qAYXNTemQ==
+Date: Wed, 11 Dec 2019 02:34:15 +0000
+X-TSB-HOP: ON
+Message-ID: <346d379a5f9940dcba60242d2d9e119a@tgxml778.toshiba.local>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [133.118.176.119]
+msscp.transfermailtomossagent: 103
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191210_133513_551833_CB5839F2 
-X-CRM114-Status: GOOD (  11.17  )
+X-CRM114-CacheID: sfid-20191210_183456_822697_D9406061 
+X-CRM114-Status: UNSURE (   5.45  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,71 +82,35 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Sasha Levin <sashal@kernel.org>,
- linux-nvme@lists.infradead.org, Eduard Hasenleithner <eduard@hasenleithner.at>
+Cc: tsutomu.owa@kioxia.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Eduard Hasenleithner <eduard@hasenleithner.at>
+Hi Sagi, Christoph, Keith,
 
-[ Upstream commit 530436c45ef2e446c12538a400e465929a0b3ade ]
+This series of patch is to add support for nvme reset functions
+described in NVM-Express specification 1.4 "7.3.2 Controller Level Reset" 
+(conventional hot reset, link down reset and function level reset)
+and "7.3.3 Queue Level" (queue level reset).
 
-Users observe IOMMU related errors when performing discard on nvme from
-non-compliant nvme devices reading beyond the end of the DMA mapped
-ranges to discard.
+This series applies cleanly on top of linux-5.5-rc1. 
 
-Two different variants of this behavior have been observed: SM22XX
-controllers round up the read size to a multiple of 512 bytes, and Phison
-E12 unconditionally reads the maximum discard size allowed by the spec
-(256 segments or 4kB).
+I'm still wondoring
+	- if it's ok to export functions from drivers/pci.
+	- if it would be better not to use CONFIG_NVME_PCI_RESET
+	  and/or CONFIG_NVME_QUELE_LEVEL_RESET as these are noisy
+	  and these features are based on specification anyway...
+	- what is the best way to export nvme_pci_* functions in
+	  drivers/nvme/host/pci.c to drivers/nvme/host/core.c.
 
-Make nvme_setup_discard unconditionally allocate the maximum DSM buffer
-so the driver DMA maps a memory range that will always succeed.
+Any comments would be highly appreciated.
 
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=202665 many
-Signed-off-by: Eduard Hasenleithner <eduard@hasenleithner.at>
-[changelog, use existing define, kernel coding style]
-Signed-off-by: Keith Busch <kbusch@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/nvme/host/core.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+It would be greate if this patch goes into mainline eventually.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index c4ff4f079448e..d4944d038a3ff 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -551,8 +551,14 @@ static blk_status_t nvme_setup_discard(struct nvme_ns *ns, struct request *req,
- 	struct nvme_dsm_range *range;
- 	struct bio *bio;
- 
--	range = kmalloc_array(segments, sizeof(*range),
--				GFP_ATOMIC | __GFP_NOWARN);
-+	/*
-+	 * Some devices do not consider the DSM 'Number of Ranges' field when
-+	 * determining how much data to DMA. Always allocate memory for maximum
-+	 * number of segments to prevent device reading beyond end of buffer.
-+	 */
-+	static const size_t alloc_size = sizeof(*range) * NVME_DSM_MAX_RANGES;
-+
-+	range = kzalloc(alloc_size, GFP_ATOMIC | __GFP_NOWARN);
- 	if (!range) {
- 		/*
- 		 * If we fail allocation our range, fallback to the controller
-@@ -593,7 +599,7 @@ static blk_status_t nvme_setup_discard(struct nvme_ns *ns, struct request *req,
- 
- 	req->special_vec.bv_page = virt_to_page(range);
- 	req->special_vec.bv_offset = offset_in_page(range);
--	req->special_vec.bv_len = sizeof(*range) * segments;
-+	req->special_vec.bv_len = alloc_size;
- 	req->rq_flags |= RQF_SPECIAL_PAYLOAD;
- 
- 	return BLK_STS_OK;
--- 
-2.20.1
-
+thanks in advance.
+-- owa
 
 _______________________________________________
 linux-nvme mailing list
