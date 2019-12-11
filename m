@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-0.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6AA6C43603
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Dec 2019 15:29:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C059C43603
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Dec 2019 15:32:12 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A5C8122B48
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Dec 2019 15:29:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 16C71208C3
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Dec 2019 15:32:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="SEOaGly7";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j5C0uyFc"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A5C8122B48
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="dQ1/4n+I";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i+0FmpCV"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 16C71208C3
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,60 +26,59 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
 	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=CzjZsmkSVGG9ru9ibW6N8G62prTuZJy5dBYJ0a7hWKU=; b=SEOaGly7fjNsum
-	gSP8IKN9h7IC8uC7ZKrJ9G0U3ac7iObmAcWVRTw1th/9uGG999YZNZtCtkPgnI53nDmLhyJNp2Ecp
-	amGPp+XBkOXqWaF5MIa9dG3R803xXHUJtc4LjvjbMgv2ZbNyLBxUuPtaOrxV4SLkiISqQcH2iDRWV
-	45pNRZlCu8uMGSx+PtCwSmGT8XXHgrnc1rRHVdild3gAJKoJyluoF0WRHFCTEco+RiEV++KAv1Lnb
-	CoRzeILu5Pl7XmHNvUyCU7S6qUrG7RMcbHp5z2Ff1cZnlWIhMIffqc09AHNuVidEq5COtv9iBCimP
-	4aDEdD43YbUob+Ze3g9w==;
+	List-Owner; bh=kqndFrQRiILOrfUVIJfJajCvZDnCVIYFpxcmsce1zLA=; b=dQ1/4n+IrFPfy1
+	Dv0TkoBk4zrgt29ZdPNCMfZkjjbS71sjkjkgELzu2KYkH2/Xlsi0U4ZM3LjAt9Z54sYsNwDC9RZZY
+	79ucNCxFl3EHE5auc3xCH26uVZfKk5Q1Dso2inbAPda03MAhLUNWmJJ8Jd8eIqdydy5142/yVroam
+	34UUsL6nP8JM8EXdK7lEnSYRHdHqqCQXhO9NVdeiaD0O1oibFb4Ui58kxd/GQvlQ+1w5Wsq/WewNS
+	oFb2wKy/ECwhKb46ZLNcM02ZeNTFc99HF0ckr78ZU+uuMSHQmk3z+PwyoKLNtpSWfVjiTM9IUDWqg
+	z9mCddDnx9vtjK+JNXwQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1if3vb-0005ii-1t; Wed, 11 Dec 2019 15:29:27 +0000
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042])
+	id 1if3yE-0007nY-Mc; Wed, 11 Dec 2019 15:32:10 +0000
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1if3vX-0005i2-NE
- for linux-nvme@lists.infradead.org; Wed, 11 Dec 2019 15:29:24 +0000
-Received: by mail-pj1-x1042.google.com with SMTP id w23so9077680pjd.2
- for <linux-nvme@lists.infradead.org>; Wed, 11 Dec 2019 07:29:23 -0800 (PST)
+ id 1if3yC-0007mz-UH
+ for linux-nvme@lists.infradead.org; Wed, 11 Dec 2019 15:32:10 +0000
+Received: by mail-pg1-x541.google.com with SMTP id s64so4212496pgb.9
+ for <linux-nvme@lists.infradead.org>; Wed, 11 Dec 2019 07:32:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pfDhDYFuoXDrqHRE8i/08ZQEyfFGj50C9cMmD8Jy2MA=;
- b=j5C0uyFcwXKjxMT2bhJ14CbB+fZCEQxShkK6p3Cf93qQ6BpSTKh005B5VD2g3OiyqF
- /wNRFMf+eDpSe4TXNqE6yRjbz6RybfTWfb6JvF2sgW3j1ebFqzHfH+knhZW5LWMcLU9Q
- PPkMZlifZ3WANqTGfezf8poByuNPftyfj2T8ipV3B9YeSB8ICKW5MsA6kddHfyed3zGU
- vic5lX9Flai49PViVVxoFnEQJ1pk/ccakyFpoYFqPpU1m9xHZDAyiQ7nU9kNfJZthfG6
- 7ElzzegodjoKVuaP+P5wut6UEuDXichyFzp4GyPgvDzsqKx4ZybnxVzEt/Nh+yrpsJgq
- kRqw==
+ :cc; bh=p+UAPggfsHMu2hFz0NBTkqa2kv+TjIeundnroZjYfRQ=;
+ b=i+0FmpCViNvInrmecmJ8i6R+1Ufzx50kWEgF1ULO5Y/9CJ+rZxzfqUnXlEbwQYrNt4
+ Iv1n5ncNxZRNNpLFmN+OnXFBWvDDh6pY73qn7GqDGnKrvOW17oqucM6KRgmQJW0acOK2
+ w/lI2CW6sFO+5h3Ld6gry2Te9P2rIgAzvpaEp2oR2V8huertU0W6vFv6YD+GyDMwVlAt
+ AxLlTZbQZ/0dHInrrgdZxBZ4MDvWqT2TLOK6QP5zGRoLd2OJtyurY/P05yt8J8V7R92E
+ Y+MgiRVTIbCRqRj+eb9qac/Jbz+S4uvC2nEQWqMBTCNULh1OxrAEWsG31dvPRWum2dnH
+ Qi+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=pfDhDYFuoXDrqHRE8i/08ZQEyfFGj50C9cMmD8Jy2MA=;
- b=CnuGSHV1Idf0jh+dx7jCjcdvHfIJSG1k8ScYAzoC9dHM93pGq5EvqfETE5hErE2t/U
- CaS74cmDiTZO7ZlU6nKH815C/9j+NHJ+Q297rIb1i61d7EAmf5ONfETRJYvJLYBjpNUN
- 3FRdjpz8qLPCQvLtdqq0/BygxdofWtoq54rjSx6gDpHF+ahO0D8/ft3vqi5U85MSvjFd
- gW1VODwTvCJaf9yGWluGL+7UB+pdtDhodLD+bnTdls0SUh1/StVV+60G6o3Ar/eP0+3/
- EWIsWf5siE4vFJ02gD0KC6BuV38RZkHVbdAjcmuoJsDPSgi/fVw52uB+gV8vnSjjNm3/
- 60Lg==
-X-Gm-Message-State: APjAAAXv8LSqnM+/iQjOdctfZRGOL07awwF4nG/IDvHoRjxXY0XdtyxT
- HQ30ZfzkTuFsewAB0IpIstrQqh0LJt4SogkyAwI=
-X-Google-Smtp-Source: APXvYqwlR/tF5FA23iHp/eaMoUPuaCaCPBgDqm77FVGRFefN3YELGs3EmpG2NGeQvAJUc/yD31OEVyNePT/dpDkApsU=
-X-Received: by 2002:a17:90a:b10b:: with SMTP id
- z11mr4272497pjq.132.1576078162498; 
- Wed, 11 Dec 2019 07:29:22 -0800 (PST)
+ bh=p+UAPggfsHMu2hFz0NBTkqa2kv+TjIeundnroZjYfRQ=;
+ b=fDTAWKXbBQw8qeQ/BP7kYySz9l8RMx4CMhXuge34+EKNU8KwPYyQuD6EKZ4ppU0Tac
+ nk6LqUw0KAx2/Zh/ina0xDm1SkMpGtEL4K7BOtBn4esWZerYIyjYDv2phuK6ukByXq0p
+ 7uhnbKlPDetefdSePtxzwzTP5+comj/4FqyLa2zPtGfGSh/dupYZS/0YlTylflqVIxZQ
+ dvCWqMBm6dC4vQyxMuETLGvVbd585CHuKH+Q8gOtiXXaX12Cb+ltl/m0HDPTfh2oXlUn
+ OqBZm7zb1lOodoW+dQe2bMsYlFuvSIF4rJ9y2qC1YL1YVmUV7gSOJPQ7XYHq5hjJeSpZ
+ pvAA==
+X-Gm-Message-State: APjAAAXbovYtTdnOOCI7djbwe5fvZHS8nBOZj+f6L4vXqOylFd5wNgi7
+ AAP3WPr0GAwDTBB9/PSNwDfNyTEkZ92GLdBTMpU=
+X-Google-Smtp-Source: APXvYqyCFB+DRw4z7MaU08fIr+Pce9/ZvY0VsbXU7kdzcOrMS3l4Tfsjbogj2wZ4yk2WVuVWgmYDU0mq/Ion5fRBIZc=
+X-Received: by 2002:a62:1a09:: with SMTP id a9mr4417883pfa.64.1576078328144;
+ Wed, 11 Dec 2019 07:32:08 -0800 (PST)
 MIME-Version: 1.0
 References: <1576075099-3441-1-git-send-email-akinobu.mita@gmail.com>
- <1576075099-3441-3-git-send-email-akinobu.mita@gmail.com>
-In-Reply-To: <1576075099-3441-3-git-send-email-akinobu.mita@gmail.com>
+ <1576075099-3441-4-git-send-email-akinobu.mita@gmail.com>
+In-Reply-To: <1576075099-3441-4-git-send-email-akinobu.mita@gmail.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Wed, 11 Dec 2019 17:29:12 +0200
-Message-ID: <CAHp75Vfq4KqNAGY4ivveR7D0Z1fA1EOFT+oL9+f+Ak2jikCTVg@mail.gmail.com>
-Subject: Re: [PATCH v3 02/12] ACPI: thermal: switch to use <linux/units.h>
- helpers
+Date: Wed, 11 Dec 2019 17:31:58 +0200
+Message-ID: <CAHp75VfSUafrg82WcfUA4LhSFaNQSgZp39oVQGD=M124urC=xA@mail.gmail.com>
+Subject: Re: [PATCH v3 03/12] platform/x86: asus-wmi: switch to use
+ <linux/units.h> helpers
 To: Akinobu Mita <akinobu.mita@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191211_072923_756366_75802A9D 
-X-CRM114-Status: GOOD (  11.83  )
+X-CRM114-CacheID: sfid-20191211_073208_978721_0E02521F 
+X-CRM114-Status: GOOD (  12.74  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,38 +109,34 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On Wed, Dec 11, 2019 at 4:39 PM Akinobu Mita <akinobu.mita@gmail.com> wrote:
 >
-> This switches the ACPI thermal zone driver to use celsius_to_deci_kelvin(),
-> deci_kelvin_to_celsius(), and deci_kelvin_to_millicelsius_with_offset() in
-> <linux/units.h> instead of helpers in <linux/thermal.h>.
+> The asus-wmi driver doesn't implement the thermal device functionality
+> directly, so including <linux/thermal.h> just for DECI_KELVIN_TO_CELSIUS()
+> is a bit odd.
 >
-> This is preparation for centralizing the kelvin to/from Celsius conversion
-> helpers in <linux/units.h>.
+> This switches the asus-wmi driver to use deci_kelvin_to_millicelsius() in
+> <linux/units.h>.
 
->  #include <linux/reboot.h>
->  #include <linux/device.h>
->  #include <linux/thermal.h>
-
+> @@ -33,7 +33,7 @@
+>  #include <linux/seq_file.h>
+>  #include <linux/platform_data/x86/asus-wmi.h>
+>  #include <linux/platform_device.h>
+> -#include <linux/thermal.h>
 > +#include <linux/units.h>
-
-Can we try to keep *some* order, i.e. put this after acpi.h below?
-
 >  #include <linux/acpi.h>
->  #include <linux/workqueue.h>
->  #include <linux/uaccess.h>
+>  #include <linux/dmi.h>
 
->                         } else if (crt > 0) {
-> -                               unsigned long crt_k = CELSIUS_TO_DECI_KELVIN(crt);
-> +                               unsigned long crt_k =
-> +                                       celsius_to_deci_kelvin(crt);
+Similar comment about ordering. Can we move it to the end after dmi.h?
 
-It used to be one line, why do two?
+> -       return sprintf(buf, "%d\n", value);
 
->         pr_info(PREFIX "%s [%s] (%ld C)\n", acpi_device_name(device),
-> -               acpi_device_bid(device), DECI_KELVIN_TO_CELSIUS(tz->temperature));
-> +               acpi_device_bid(device),
-> +               deci_kelvin_to_celsius(tz->temperature));
+> +       return sprintf(buf, "%ld\n",
 
-Ditto.
+%d -> %ld must be explained in the commit message (e.g. "due to
+function returned type).
+
+> +                      deci_kelvin_to_millicelsius(value & 0xFFFF));
+
+I prefer to have this in one line.
 
 -- 
 With Best Regards,
