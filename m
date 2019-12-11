@@ -8,17 +8,17 @@ X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E141C43603
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Dec 2019 14:41:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBCB2C2D0C6
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Dec 2019 14:41:36 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3BBC8222C4
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Dec 2019 14:41:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9F3242173E
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Dec 2019 14:41:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Uvrv5PZK";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GfB0dMl6"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3BBC8222C4
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="G9mLAmCb";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jH82xtrY"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9F3242173E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -28,64 +28,64 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	In-Reply-To:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Owner;
-	bh=sTtClo0QRyMGmp8GvVbjJLUhlgJppbnZ2kS+/hXbWuk=; b=Uvrv5PZKjM15AnBj30fYXIw/Pk
-	ywjB8RnJAbYZJY3WFW4uHuHTVyVsnPGmjxXcF/W33r3CEORtX46Pg2EfBr+IRmbrlvyVkPVvNwSIP
-	bQghOvU5d8wziM/8IRdCYugIG6GtBHPDx40EiS/317LwTT9H68mVgiDfcdcz6GyVI6PK+FtosmzXl
-	oggoBFUN6K7nsIO6YunPS/S1vAPPT7FkxLaQnU5SWmlihxqvJcP11WTLvPVQ53skpnuQGuDjH5FMh
-	w+2VKuOtIlYDRB5Y9YzcVtiO5MO/p1qsLPSz2B7a+ZJIP8ixekIhkfB7JipWDOcYYgFiu2UI55Xhh
-	W4OuajyA==;
+	bh=YG8mszRx6hHMxbnCeqGuo1rjiFfaAMsg1peoJ5ofDZM=; b=G9mLAmCb90vtjmX4vP/OBoYz9q
+	bOyJH7xYgLyMmCHqgENJd0YJIImIDeNuoTdajSynms0PCwAAgT2OwfYiJVldoMU6j5z5iFofipVAy
+	jZlZ40ju37G9uiUKdJVY+qaNXqJ6YlWTymGq2R7ihYc+3Ksp9GveTcJriLdGMvTaYR+nk42722gDe
+	ujW1DBu9iP6rzYOTc8ump7YWFIyi2QCnDj8o+g9REYVnahX0fiDhY15IBLIccERF5zimGWV8sf2P1
+	2AhlM7D1AeZztoN9x/qEB5slfgE8vyzHAMw8H59ZMCGkV0ihFxrUmAjHIwqifq/8ALKs+Gklc4bs2
+	pPs5+/pA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1if3B1-0000od-IJ; Wed, 11 Dec 2019 14:41:19 +0000
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441])
+	id 1if3BF-0000yH-Tk; Wed, 11 Dec 2019 14:41:33 +0000
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1if39X-00072G-Rp
- for linux-nvme@lists.infradead.org; Wed, 11 Dec 2019 14:40:03 +0000
-Received: by mail-pf1-x441.google.com with SMTP id p14so1916464pfn.4
- for <linux-nvme@lists.infradead.org>; Wed, 11 Dec 2019 06:39:47 -0800 (PST)
+ id 1if39c-00075w-IJ
+ for linux-nvme@lists.infradead.org; Wed, 11 Dec 2019 14:40:16 +0000
+Received: by mail-pf1-x442.google.com with SMTP id h14so1900827pfe.10
+ for <linux-nvme@lists.infradead.org>; Wed, 11 Dec 2019 06:39:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=GhXVAnhaL3dF2Pk0jAZjmHL842tdRou+nNjmrun5mDI=;
- b=GfB0dMl66LMji7iSDluDDgU95hFyrbLyBDa8g9R6tZQrYvzznr7sbD0EI+zx9PZa2a
- UPcDzuUIfU+mXjTqpj1nB/cZRBTziPKDINSxpV160A8qKLUskV7icNyoDpzGtFJ/W4WG
- 2iBDG2uBtjRDggXzegIdkZ21vawseCOf6qaPFh0AlPaij/VqPMZ1PrqwB4igUsER3fw9
- MGwC4Bw2o1XiM61vnkvQn/3OuFljldg0RPznpVhmrQCbj2V20rgrMUe4mQ5FtASiBaVH
- t8gKx1S12ypjJZhGV6bC07NGCq71O6eQQkdVJ3Dpwjy0E0oVLRZkOjg1ya4ol/N4tXPC
- gHUA==
+ bh=3VEcdWQti206JWCDW3qI0BTxZ1lYQXCJ5XH3cd981NQ=;
+ b=jH82xtrYMxhgUcHQRPKqjw7ZKlvPgF+xBtcnxGsL7fh4pjdfao/pZu4Q6upvCNHIh1
+ a+G4WLTV+T+1yx2XyKqc1y8xCv1StbbjpoaBkIg8NeB3ZaZgozkM7fploPXJ9z4wTfQ+
+ Ee3DwRsSc0ZQHdjw5TCUYZzZjT/bppcgvXa+XIdYMuUnfrK1g7Ezy9pFVmVYZ5xkzhyz
+ fcFVbP3jXuwNeaeDXX7CkGxikmhPQRcLVgS21AwByB3NK8Gi6kZ+6aaemxXGyHfeFQBX
+ Jt2PbVWKRidv9CFTbWklTCKJjHPNRfVDQKtXDW3IQIf1C5PkhEmElEAQpjPQPl7rnVYf
+ OMLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=GhXVAnhaL3dF2Pk0jAZjmHL842tdRou+nNjmrun5mDI=;
- b=hwpm09dZ1hW9bxshD8dd4f56xhp5Gv1E4BY87NaRI/RN0pWP/PLn5ckJIIsHTl38Mr
- C3JjYVnmI35uCSL/3ldUy+nIGHi5R1em0z5mRueDlxATcVMIci/d0kvDQ3AqfaaKVutB
- fHml9I7PcEgV9/BmlO2lh0FCe3oHpbMJY7uyBUK1bRwdva4ofyGvyUgxzWufW3/aRdMe
- Wvhci5L6VKTCXUfn1NEHrTdocuTaQJ2mZjsC1IGnU/l8D6I2XvGgs9bSlq+Gt6/W1bau
- LIqXv7Ai0H5Mx4evcYyvMFpdJiDGNCPqPdxvQWjBRiY6P4iKlezL0JZhyYvVkTflSCQf
- jimQ==
-X-Gm-Message-State: APjAAAWSj1ElH7ILde2LQcH9Bom+ub/WM2Pi1OfNY3OYwHVZNIm56qnc
- PX0ozsRA7YRqbMcPtyNAH3g0+ZMsabA=
-X-Google-Smtp-Source: APXvYqwSkDQsttnam5DXc1gmHwbz0oD5Nrbbl83FHdZwnnYrsoV2z/G3N/ntf8aYY+yXSPtKkfWXnQ==
-X-Received: by 2002:a62:1883:: with SMTP id 125mr4054521pfy.166.1576075186342; 
- Wed, 11 Dec 2019 06:39:46 -0800 (PST)
+ bh=3VEcdWQti206JWCDW3qI0BTxZ1lYQXCJ5XH3cd981NQ=;
+ b=BZtksE6IlF6jqMv8Med4Zkc97JvQrXw6r9GOqF9cT4RTDcA8F9c/PurTH/6lBtQvIi
+ NlWoDJBdPaucdsBsxELgPFaJmL03BqOsEz5n+izuP2imV6TX6CVHIdjS/YGKAW3aM3vN
+ 7hCiv8bYKfoAzNNqCcd2kEx0P9hJM3YVtiEmDAQIzS6HE1ocnTC5uWDUlzjojDPA+EJO
+ bYU9Ggw9zow0aVv0O3t006pfn9qvWwHcamLy/kxl6cSh6+0qc6TfztYfImqxj+BgNDRK
+ kE3vKYnse5dNialPxDrTaF6c/fRzIFz9oJ8RTydjVD+LXEZOFKn72nhFOrf3sPv+fTqS
+ sQ4w==
+X-Gm-Message-State: APjAAAXiBwQ8zH0/c/RKd1UhFim/b8yrzFZCy0vsfU568QsW6krl+0+K
+ cMIfl/8xBN/s64u3mupfPrOFQAl2w/8=
+X-Google-Smtp-Source: APXvYqwgEvnp2ndBwiIE94Wh4cRVzfCw2QFRf/3PG5eerLtk1/YgeA2uxE8wypG49aWWT3GbeFUcFg==
+X-Received: by 2002:a63:fd43:: with SMTP id m3mr4566724pgj.164.1576075190151; 
+ Wed, 11 Dec 2019 06:39:50 -0800 (PST)
 Received: from localhost.localdomain ([240f:34:212d:1:368e:e048:68f1:84e7])
- by smtp.gmail.com with ESMTPSA id q11sm3444239pff.111.2019.12.11.06.39.42
+ by smtp.gmail.com with ESMTPSA id q11sm3444239pff.111.2019.12.11.06.39.46
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Wed, 11 Dec 2019 06:39:45 -0800 (PST)
+ Wed, 11 Dec 2019 06:39:49 -0800 (PST)
 From: Akinobu Mita <akinobu.mita@gmail.com>
 To: linux-nvme@lists.infradead.org, linux-hwmon@vger.kernel.org,
  linux-pm@vger.kernel.org, linux-wireless@vger.kernel.org,
  linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 11/12] thermal: armada: remove unused TO_MCELSIUS macro
-Date: Wed, 11 Dec 2019 23:38:18 +0900
-Message-Id: <1576075099-3441-12-git-send-email-akinobu.mita@gmail.com>
+Subject: [PATCH v3 12/12] iio: adc: qcom-vadc-common: use <linux/units.h>
+ helpers
+Date: Wed, 11 Dec 2019 23:38:19 +0900
+Message-Id: <1576075099-3441-13-git-send-email-akinobu.mita@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1576075099-3441-1-git-send-email-akinobu.mita@gmail.com>
 References: <1576075099-3441-1-git-send-email-akinobu.mita@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191211_063947_919479_B6FC75DC 
-X-CRM114-Status: UNSURE (   9.91  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20191211_063952_621557_403028FC 
+X-CRM114-Status: GOOD (  13.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,40 +97,73 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Zhang Rui <rui.zhang@intel.com>, Daniel Lezcano <daniel.lezcano@linaro.org>,
- Akinobu Mita <akinobu.mita@gmail.com>,
- Amit Kucheria <amit.kucheria@verdurent.com>
+Cc: Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+ Lars-Peter Clausen <lars@metafoo.de>, Akinobu Mita <akinobu.mita@gmail.com>,
+ Jonathan Cameron <jic23@kernel.org>, Hartmut Knaack <knaack.h@gmx.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This removes unused TO_MCELSIUS() macro.
+This switches the qcom-vadc-common to use milli_kelvin_to_millicelsius()
+in <linux/units.h>.
 
-Cc: Zhang Rui <rui.zhang@intel.com>
-Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc: Amit Kucheria <amit.kucheria@verdurent.com>
+Cc: Jonathan Cameron <jic23@kernel.org>
+Cc: Hartmut Knaack <knaack.h@gmx.de>
+Cc: Lars-Peter Clausen <lars@metafoo.de>
+Cc: Peter Meerwald-Stadler <pmeerw@pmeerw.net>
 Signed-off-by: Akinobu Mita <akinobu.mita@gmail.com>
 ---
 * New patch from v3
 
- drivers/thermal/armada_thermal.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/iio/adc/qcom-vadc-common.c | 6 +++---
+ drivers/iio/adc/qcom-vadc-common.h | 1 -
+ 2 files changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/thermal/armada_thermal.c b/drivers/thermal/armada_thermal.c
-index 709a22f..fc6dc10 100644
---- a/drivers/thermal/armada_thermal.c
-+++ b/drivers/thermal/armada_thermal.c
-@@ -21,8 +21,6 @@
+diff --git a/drivers/iio/adc/qcom-vadc-common.c b/drivers/iio/adc/qcom-vadc-common.c
+index dcd7fb5..2bb78d1 100644
+--- a/drivers/iio/adc/qcom-vadc-common.c
++++ b/drivers/iio/adc/qcom-vadc-common.c
+@@ -6,6 +6,7 @@
+ #include <linux/log2.h>
+ #include <linux/err.h>
+ #include <linux/module.h>
++#include <linux/units.h>
  
- #include "thermal_core.h"
+ #include "qcom-vadc-common.h"
  
--#define TO_MCELSIUS(c)			((c) * 1000)
--
- /* Thermal Manager Control and Status Register */
- #define PMU_TDC0_SW_RST_MASK		(0x1 << 1)
- #define PMU_TM_DISABLE_OFFS		0
+@@ -236,8 +237,7 @@ static int qcom_vadc_scale_die_temp(const struct vadc_linear_graph *calib_graph,
+ 		voltage = 0;
+ 	}
+ 
+-	voltage -= KELVINMIL_CELSIUSMIL;
+-	*result_mdec = voltage;
++	*result_mdec = milli_kelvin_to_millicelsius(voltage);
+ 
+ 	return 0;
+ }
+@@ -325,7 +325,7 @@ static int qcom_vadc_scale_hw_calib_die_temp(
+ {
+ 	*result_mdec = qcom_vadc_scale_code_voltage_factor(adc_code,
+ 				prescale, data, 2);
+-	*result_mdec -= KELVINMIL_CELSIUSMIL;
++	*result_mdec = milli_kelvin_to_millicelsius(*result_mdec);
+ 
+ 	return 0;
+ }
+diff --git a/drivers/iio/adc/qcom-vadc-common.h b/drivers/iio/adc/qcom-vadc-common.h
+index bbb1fa0..e074902a 100644
+--- a/drivers/iio/adc/qcom-vadc-common.h
++++ b/drivers/iio/adc/qcom-vadc-common.h
+@@ -38,7 +38,6 @@
+ #define VADC_AVG_SAMPLES_MAX			512
+ #define ADC5_AVG_SAMPLES_MAX			16
+ 
+-#define KELVINMIL_CELSIUSMIL			273150
+ #define PMIC5_CHG_TEMP_SCALE_FACTOR		377500
+ #define PMIC5_SMB_TEMP_CONSTANT			419400
+ #define PMIC5_SMB_TEMP_SCALE_FACTOR		356
 -- 
 2.7.4
 
