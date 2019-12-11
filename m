@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-0.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C059C43603
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Dec 2019 15:32:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AB51C43603
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Dec 2019 15:34:52 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 16C71208C3
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Dec 2019 15:32:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1016A24656
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Dec 2019 15:34:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="dQ1/4n+I";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i+0FmpCV"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 16C71208C3
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="WEAUYGqW";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="saTYAymW"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1016A24656
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,59 +26,58 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
 	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=kqndFrQRiILOrfUVIJfJajCvZDnCVIYFpxcmsce1zLA=; b=dQ1/4n+IrFPfy1
-	Dv0TkoBk4zrgt29ZdPNCMfZkjjbS71sjkjkgELzu2KYkH2/Xlsi0U4ZM3LjAt9Z54sYsNwDC9RZZY
-	79ucNCxFl3EHE5auc3xCH26uVZfKk5Q1Dso2inbAPda03MAhLUNWmJJ8Jd8eIqdydy5142/yVroam
-	34UUsL6nP8JM8EXdK7lEnSYRHdHqqCQXhO9NVdeiaD0O1oibFb4Ui58kxd/GQvlQ+1w5Wsq/WewNS
-	oFb2wKy/ECwhKb46ZLNcM02ZeNTFc99HF0ckr78ZU+uuMSHQmk3z+PwyoKLNtpSWfVjiTM9IUDWqg
-	z9mCddDnx9vtjK+JNXwQ==;
+	List-Owner; bh=JmWRzmLPzjk3C1oU+xaPcFe3CEt7e83kPDC0SnW799E=; b=WEAUYGqWQXY6PV
+	sZx/XliVR52fTCWuzUCPmr71BVmNTt5guSHyVCr4reJvYDcLVZs3kYK9f+eCLDf5tI+3Nmt9jSwy6
+	3QFSdTYFboPK+ns71uTegXLh1tzeNOVfkz685ZUNtviU2L7P64uD+L+3fFIBgp8Qf0AFZEEmqFVx8
+	5wzCS7LVx8O5TAgsIBjILck+WLlaEZbKN1O7vB8osmYAXzOQDsMr18e8AylJTVS1S8FcfDoc5ex1M
+	q2Z1eZFFumCLx2izmEE2lss9ZtT0lunSHWONi6Z2uJVa/ovGzbvTUkYx5pJDJo8OGWWj6IfludPRg
+	F5KiSFF09a5rJS2C5Tag==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1if3yE-0007nY-Mc; Wed, 11 Dec 2019 15:32:10 +0000
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541])
+	id 1if40o-0000Yr-8i; Wed, 11 Dec 2019 15:34:50 +0000
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1if3yC-0007mz-UH
- for linux-nvme@lists.infradead.org; Wed, 11 Dec 2019 15:32:10 +0000
-Received: by mail-pg1-x541.google.com with SMTP id s64so4212496pgb.9
- for <linux-nvme@lists.infradead.org>; Wed, 11 Dec 2019 07:32:08 -0800 (PST)
+ id 1if40l-0000Xs-GB
+ for linux-nvme@lists.infradead.org; Wed, 11 Dec 2019 15:34:49 +0000
+Received: by mail-pf1-x444.google.com with SMTP id s18so1974345pfd.8
+ for <linux-nvme@lists.infradead.org>; Wed, 11 Dec 2019 07:34:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=p+UAPggfsHMu2hFz0NBTkqa2kv+TjIeundnroZjYfRQ=;
- b=i+0FmpCViNvInrmecmJ8i6R+1Ufzx50kWEgF1ULO5Y/9CJ+rZxzfqUnXlEbwQYrNt4
- Iv1n5ncNxZRNNpLFmN+OnXFBWvDDh6pY73qn7GqDGnKrvOW17oqucM6KRgmQJW0acOK2
- w/lI2CW6sFO+5h3Ld6gry2Te9P2rIgAzvpaEp2oR2V8huertU0W6vFv6YD+GyDMwVlAt
- AxLlTZbQZ/0dHInrrgdZxBZ4MDvWqT2TLOK6QP5zGRoLd2OJtyurY/P05yt8J8V7R92E
- Y+MgiRVTIbCRqRj+eb9qac/Jbz+S4uvC2nEQWqMBTCNULh1OxrAEWsG31dvPRWum2dnH
- Qi+Q==
+ :cc; bh=HVbcFREEaAqSDDWDOprFJiM+U7AawLPMDqSvqgEPZVM=;
+ b=saTYAymWtQJVo2xDI5CVVPD7OFscZvr3OmDkn9R98p/K2QPfrErbyRBfLSWuDw82Je
+ o5ei0YTQ5fgmkh7BZCrXIsR8OBZyO/sfNZyPb/2FHmifAkGNyAGukafSKofRjuTXMFXl
+ WMQxGPuD9wxK4yLU1VhNzWYYmxihNPVzCRYgjRidEsjCXlEHWzI7tLoB4bV+Tg3p4Myq
+ VXt9uBaV6jd+hJ6IiKy+pcyDX7aXRViVdLgvrrtrP2D7MFxBpcCNbOct/mx5x6fZqNzY
+ wB9Y8YH11zoDDTXPnrVGiEROE/KKqb2trAGgVZw0dOKu3YAS5kWfyPCL9O/gC/FZ67Mj
+ Od8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=p+UAPggfsHMu2hFz0NBTkqa2kv+TjIeundnroZjYfRQ=;
- b=fDTAWKXbBQw8qeQ/BP7kYySz9l8RMx4CMhXuge34+EKNU8KwPYyQuD6EKZ4ppU0Tac
- nk6LqUw0KAx2/Zh/ina0xDm1SkMpGtEL4K7BOtBn4esWZerYIyjYDv2phuK6ukByXq0p
- 7uhnbKlPDetefdSePtxzwzTP5+comj/4FqyLa2zPtGfGSh/dupYZS/0YlTylflqVIxZQ
- dvCWqMBm6dC4vQyxMuETLGvVbd585CHuKH+Q8gOtiXXaX12Cb+ltl/m0HDPTfh2oXlUn
- OqBZm7zb1lOodoW+dQe2bMsYlFuvSIF4rJ9y2qC1YL1YVmUV7gSOJPQ7XYHq5hjJeSpZ
- pvAA==
-X-Gm-Message-State: APjAAAXbovYtTdnOOCI7djbwe5fvZHS8nBOZj+f6L4vXqOylFd5wNgi7
- AAP3WPr0GAwDTBB9/PSNwDfNyTEkZ92GLdBTMpU=
-X-Google-Smtp-Source: APXvYqyCFB+DRw4z7MaU08fIr+Pce9/ZvY0VsbXU7kdzcOrMS3l4Tfsjbogj2wZ4yk2WVuVWgmYDU0mq/Ion5fRBIZc=
-X-Received: by 2002:a62:1a09:: with SMTP id a9mr4417883pfa.64.1576078328144;
- Wed, 11 Dec 2019 07:32:08 -0800 (PST)
+ bh=HVbcFREEaAqSDDWDOprFJiM+U7AawLPMDqSvqgEPZVM=;
+ b=Nq2QRijB2v2GRzE+MDa8y9cNM5RusWb9RpENtFqtQgnefenRxX/fNg9SybOw9t9WQW
+ ECYaokBUzHRlfGrNimtheGJsldPElpTUMyL8HGIA9gnRgReG6Uvrz9znzp/XfkrLP3HD
+ T03So8SuNYxm2w9MybQ0Rpdlhw7MV7TftH09/y2cs7IJgkIwB+Xtv1MyD83irvPOpgh2
+ I5GVCCvWXML/zxNB0G8wyYPMkwGzc/GUYTfqFh6L7TGelE5WLH9fSYDhQQc+AIvffFFY
+ 8OJEIbyPTyOLRfkBqGSkwMm2EiSyFVTZQ7UmPorSl8e4YKATXhR3+Mbfc+oPWuL565vY
+ PaEA==
+X-Gm-Message-State: APjAAAU/zbmQsEXnvfMvSJsp7GC70lMkzcAApeIqJXa1/ebN14uW0SEZ
+ V8R5XtvKAkuZ/GT2C0PgqDEQU1ks2nwRw/tnmKs=
+X-Google-Smtp-Source: APXvYqzJ499NHPqVSLLyDUscDbmBddDHmzhr28AkkyOZGKxqfxHIirybt8amARCuiU4PKcyZgP8Qc63k0WPAFrMp7QU=
+X-Received: by 2002:a62:1944:: with SMTP id 65mr4526218pfz.151.1576078486945; 
+ Wed, 11 Dec 2019 07:34:46 -0800 (PST)
 MIME-Version: 1.0
 References: <1576075099-3441-1-git-send-email-akinobu.mita@gmail.com>
- <1576075099-3441-4-git-send-email-akinobu.mita@gmail.com>
-In-Reply-To: <1576075099-3441-4-git-send-email-akinobu.mita@gmail.com>
+In-Reply-To: <1576075099-3441-1-git-send-email-akinobu.mita@gmail.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Wed, 11 Dec 2019 17:31:58 +0200
-Message-ID: <CAHp75VfSUafrg82WcfUA4LhSFaNQSgZp39oVQGD=M124urC=xA@mail.gmail.com>
-Subject: Re: [PATCH v3 03/12] platform/x86: asus-wmi: switch to use
- <linux/units.h> helpers
+Date: Wed, 11 Dec 2019 17:34:37 +0200
+Message-ID: <CAHp75VcsfbkG7n6FHkpnPN0sG_PdKg_iKS7VGfATxuPVYU5jcQ@mail.gmail.com>
+Subject: Re: [PATCH v3 00/12] add header file for kelvin to/from Celsius
+ conversion helpers
 To: Akinobu Mita <akinobu.mita@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191211_073208_978721_0E02521F 
-X-CRM114-Status: GOOD (  12.74  )
+X-CRM114-CacheID: sfid-20191211_073447_540627_ED77323C 
+X-CRM114-Status: GOOD (  18.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,53 +89,130 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-hwmon@vger.kernel.org, Amit Kucheria <amit.kucheria@verdurent.com>,
- Jean Delvare <jdelvare@suse.com>, Sagi Grimberg <sagi@grimberg.me>,
- Linux PM <linux-pm@vger.kernel.org>, linux-iio <linux-iio@vger.kernel.org>,
+Cc: Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+ Stanislaw Gruszka <sgruszka@redhat.com>, linux-iio <linux-iio@vger.kernel.org>,
+ Linux NVMe Mailinglist <linux-nvme@lists.infradead.org>,
+ Luca Coelho <luciano.coelho@intel.com>,
+ Peter Meerwald-Stadler <pmeerw@pmeerw.net>, Christoph Hellwig <hch@lst.de>,
+ Amit Kucheria <amit.kucheria@verdurent.com>,
+ Lars-Peter Clausen <lars@metafoo.de>, Sagi Grimberg <sagi@grimberg.me>,
  Sujith Thomas <sujith.thomas@intel.com>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Darren Hart <dvhart@infradead.org>,
+ Zhang Rui <rui.zhang@intel.com>, Guenter Roeck <linux@roeck-us.net>,
+ Jean Delvare <jdelvare@suse.com>, Johannes Berg <johannes.berg@intel.com>,
+ Linux PM <linux-pm@vger.kernel.org>,
+ Intel Linux Wireless <linuxwifi@intel.com>, Jens Axboe <axboe@fb.com>,
+ Keith Busch <kbusch@kernel.org>, Kalle Valo <kvalo@codeaurora.org>,
+ linux-hwmon@vger.kernel.org,
  "open list:TI WILINK WIRELES..." <linux-wireless@vger.kernel.org>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux NVMe Mailinglist <linux-nvme@lists.infradead.org>,
- Jens Axboe <axboe@fb.com>, Guenter Roeck <linux@roeck-us.net>,
- Keith Busch <kbusch@kernel.org>, Darren Hart <dvhart@infradead.org>,
- Zhang Rui <rui.zhang@intel.com>, Christoph Hellwig <hch@lst.de>,
+ Jonathan Cameron <jic23@kernel.org>, Hartmut Knaack <knaack.h@gmx.de>,
  Andy Shevchenko <andy@infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Dec 11, 2019 at 4:39 PM Akinobu Mita <akinobu.mita@gmail.com> wrote:
+On Wed, Dec 11, 2019 at 4:38 PM Akinobu Mita <akinobu.mita@gmail.com> wrote:
 >
-> The asus-wmi driver doesn't implement the thermal device functionality
-> directly, so including <linux/thermal.h> just for DECI_KELVIN_TO_CELSIUS()
-> is a bit odd.
+> There are several helper macros to convert kelvin to/from Celsius in
+> <linux/thermal.h> for thermal drivers.  These are useful for any other
+> drivers or subsystems, but it's odd to include <linux/thermal.h> just for
+> the helpers.
 >
-> This switches the asus-wmi driver to use deci_kelvin_to_millicelsius() in
-> <linux/units.h>.
+> This adds a new <linux/units.h> that provides the equivalent inline
+> functions for any drivers or subsystems, and switches all the users of
+> conversion helpers in <linux/thermal.h> to use <linux/units.h>
+> helpers.
+>
 
-> @@ -33,7 +33,7 @@
->  #include <linux/seq_file.h>
->  #include <linux/platform_data/x86/asus-wmi.h>
->  #include <linux/platform_device.h>
-> -#include <linux/thermal.h>
-> +#include <linux/units.h>
->  #include <linux/acpi.h>
->  #include <linux/dmi.h>
+Thank you for an update.
 
-Similar comment about ordering. Can we move it to the end after dmi.h?
+For non-commented patches
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-> -       return sprintf(buf, "%d\n", value);
+> * v3
+> - rename new header name from <linux/temperature.h> to <linux/units.h>
+> - add milli_kelvin_to_millicelsius() and millicelsius_to_milli_kelvin() and
+>   use them for implementing other helpers
+> - add MILLIDEGREE_PER_DEGREE and MILLIDEGREE_PER_DECIDEGREE and replace
+>   the hardcoded constants
+> - add kelvin_to_celsius() and celsius_to_kelvin() in <linux/units.h>
+> - add Reviewed-by tags
+> - switch iwlegacy driver to use <linux/units.h> helpers
+> - switch iwlwifi driver to use <linux/units.h> helpers
+> - remove unused TO_MCELSIUS macro in armada thermal driver
+> - switch qcom-vadc-common module to use <linux/units.h> helpers
+>
+> * v2
+> - add deci_kelvin_to_millicelsius_with_offset() in linux/temperature.h
+> - stop including linux/temperature.h from linux/thermal.h
+> - include <linux/temperature.h> explicitly from thermal drivers
+> - fix s/temprature/temperature/ typo in commit log
+> - use deci_kelvin_to_millicelsius_with_offset() in ACPI thermal zone driver
+> - don't mix up another fix (format string for cellsius value)
+> - add Acked-by and Reviewed-by tags
+>
+> Akinobu Mita (12):
+>   add helpers for kelvin to/from Celsius conversion
+>   ACPI: thermal: switch to use <linux/units.h> helpers
+>   platform/x86: asus-wmi: switch to use <linux/units.h> helpers
+>   platform/x86: intel_menlow: switch to use <linux/units.h> helpers
+>   thermal: int340x: switch to use <linux/units.h> helpers
+>   thermal: intel_pch: switch to use <linux/units.h> helpers
+>   nvme: hwmon: switch to use <linux/units.h> helpers
+>   thermal: remove kelvin to/from Celsius conversion helpers from
+>     <linux/thermal.h>
+>   wireless: iwlegacy: use <linux/units.h> helpers
+>   wireless: iwlwifi: use <linux/units.h> helpers
+>   thermal: armada: remove unused TO_MCELSIUS macro
+>   iio: adc: qcom-vadc-common: use <linux/units.h> helpers
+>
+>  drivers/acpi/thermal.c                             | 36 +++++-----
+>  drivers/iio/adc/qcom-vadc-common.c                 |  6 +-
+>  drivers/iio/adc/qcom-vadc-common.h                 |  1 -
+>  drivers/net/wireless/intel/iwlegacy/4965-mac.c     |  3 +-
+>  drivers/net/wireless/intel/iwlegacy/4965.c         | 11 +--
+>  drivers/net/wireless/intel/iwlegacy/common.h       |  3 -
+>  drivers/net/wireless/intel/iwlwifi/dvm/dev.h       |  5 --
+>  drivers/net/wireless/intel/iwlwifi/dvm/devices.c   |  6 +-
+>  drivers/nvme/host/hwmon.c                          | 13 ++--
+>  drivers/platform/x86/asus-wmi.c                    |  7 +-
+>  drivers/platform/x86/intel_menlow.c                |  9 ++-
+>  drivers/thermal/armada_thermal.c                   |  2 -
+>  .../intel/int340x_thermal/int340x_thermal_zone.c   |  7 +-
+>  drivers/thermal/intel/intel_pch_thermal.c          |  3 +-
+>  include/linux/thermal.h                            | 11 ---
+>  include/linux/units.h                              | 84 ++++++++++++++++++++++
+>  16 files changed, 139 insertions(+), 68 deletions(-)
+>  create mode 100644 include/linux/units.h
+>
+> Cc: Sujith Thomas <sujith.thomas@intel.com>
+> Cc: Darren Hart <dvhart@infradead.org>
+> Cc: Andy Shevchenko <andy@infradead.org>
+> Cc: Zhang Rui <rui.zhang@intel.com>
+> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
+> Cc: Amit Kucheria <amit.kucheria@verdurent.com>
+> Cc: Jean Delvare <jdelvare@suse.com>
+> Cc: Guenter Roeck <linux@roeck-us.net>
+> Cc: Keith Busch <kbusch@kernel.org>
+> Cc: Jens Axboe <axboe@fb.com>
+> Cc: Christoph Hellwig <hch@lst.de>
+> Cc: Sagi Grimberg <sagi@grimberg.me>
+> Cc: Kalle Valo <kvalo@codeaurora.org>
+> Cc: Stanislaw Gruszka <sgruszka@redhat.com>
+> Cc: Johannes Berg <johannes.berg@intel.com>
+> Cc: Emmanuel Grumbach <emmanuel.grumbach@intel.com>
+> Cc: Luca Coelho <luciano.coelho@intel.com>
+> Cc: Intel Linux Wireless <linuxwifi@intel.com>
+> Cc: Jonathan Cameron <jic23@kernel.org>
+> Cc: Hartmut Knaack <knaack.h@gmx.de>
+> Cc: Lars-Peter Clausen <lars@metafoo.de>
+> Cc: Peter Meerwald-Stadler <pmeerw@pmeerw.net>
+> --
+> 2.7.4
+>
 
-> +       return sprintf(buf, "%ld\n",
-
-%d -> %ld must be explained in the commit message (e.g. "due to
-function returned type).
-
-> +                      deci_kelvin_to_millicelsius(value & 0xFFFF));
-
-I prefer to have this in one line.
 
 -- 
 With Best Regards,
