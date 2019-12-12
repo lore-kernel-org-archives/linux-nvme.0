@@ -2,21 +2,21 @@ Return-Path: <SRS0=hCdm=2C=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B343C43603
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Dec 2019 23:55:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D0E9C43603
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Dec 2019 23:55:31 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E1244206B7
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Dec 2019 23:55:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1DC01206B7
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Dec 2019 23:55:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Lf/KJOri"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E1244206B7
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="l0jlvFOd"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1DC01206B7
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,31 +25,31 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:Subject:MIME-Version:References:
 	In-Reply-To:Message-Id:Date:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=U+ThFZqAmppj2ON/lJfFMxshAXAkFv8xsLRLE5hFFTY=; b=Lf/KJOri6zOOFO
-	YkcQ1aHmVGBzeyepVCfRxGvfsg2uuQseJKGN1YKTVpMcb1Cdc/O3cah5FcSL50ljutg9sOInuo0Js
-	W1jh3pxuKW9Z65WlqQw6hOzFYgqZ683Kf7l+QoVWvcJDidkTwfhktdul9KamFChh4yGWyrPXl00UH
-	QKwPIeMajGuZg/tYzlPxyRVjxvOEqvKCGZl7ie2Zz57IShYnUa4sVhAnlAzw/ZbYYOEX52BouRf/s
-	JsyNiYKe+WBhkvMZ1MBtx8wuOWPU4LKW2USzE2wosCFp+e/tgsAGzcd9FzdIieRA65jRAje/bggIF
-	p9YQi/OXXs3xt+tybr4A==;
+	List-Owner; bh=HXS0AhGyrTNDzna3YEgKSQ5wOQ7vLvS2PZb1oS0arnk=; b=l0jlvFOdG5xx3Y
+	wa52dIXaRQzaGKqo71l+sLE7zMJG5+lyzPTX8LXMT+YcL87vFh++4gI3EjJ4fJeMuwBJbdKuj0tOn
+	/kZDLvrlYY3lS32MXp8+HQJU7LIBpJbkf50bC1OF8twT1etwz67d9Fd4KOEiPkqPRG7j+k0XfjpwO
+	o4kF1xZ8E2AcjqFzEPddL7m4ZBy0mTtehFX7l+OrkVCwGj2QN1W/x/H6hXtnpFa5HacfpwAz7yPK7
+	gXkX7+8M1iLyrd55zjgRR8S9qrXpnX5c16LGY7Y5B1Mkb4kozuCQ2+jLBX22iJc2xHKVxWUaCKVlJ
+	9nVgasg2pFBGo07uRXDA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1ifYId-0005GL-8N; Thu, 12 Dec 2019 23:55:15 +0000
+	id 1ifYIq-0005Zt-Kq; Thu, 12 Dec 2019 23:55:28 +0000
 Received: from ale.deltatee.com ([207.54.116.67])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ifYI1-0003dw-Al
+ id 1ifYI1-0003dv-Ao
  for linux-nvme@lists.infradead.org; Thu, 12 Dec 2019 23:54:38 +0000
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
- id 1ifYHt-0004ZH-IU; Thu, 12 Dec 2019 16:54:34 -0700
+ id 1ifYHt-0004ZF-IM; Thu, 12 Dec 2019 16:54:32 -0700
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
  (envelope-from <gunthorp@deltatee.com>)
- id 1ifYHn-0005qH-MM; Thu, 12 Dec 2019 16:54:23 -0700
+ id 1ifYHn-0005qB-Dr; Thu, 12 Dec 2019 16:54:23 -0700
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org,
 	linux-nvme@lists.infradead.org
-Date: Thu, 12 Dec 2019 16:54:13 -0700
-Message-Id: <20191212235418.22396-5-logang@deltatee.com>
+Date: Thu, 12 Dec 2019 16:54:11 -0700
+Message-Id: <20191212235418.22396-3-logang@deltatee.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191212235418.22396-1-logang@deltatee.com>
 References: <20191212235418.22396-1-logang@deltatee.com>
@@ -57,16 +57,15 @@ MIME-Version: 1.0
 X-SA-Exim-Connect-IP: 172.16.1.31
 X-SA-Exim-Rcpt-To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  hch@lst.de, sagi@grimberg.me, kbusch@kernel.org, axboe@fb.com,
- maxg@mellanox.com, sbates@raithlin.com, Chaitanya.Kulkarni@wdc.com,
- chaitanya.kulkarni@wdc.com, logang@deltatee.com
+ Chaitanya.Kulkarni@wdc.com, maxg@mellanox.com, sbates@raithlin.com,
+ logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v10 4/9] nvmet-passthru: Introduce NVMet passthru Kconfig
- option
+Subject: [PATCH v10 2/9] nvme: Create helper function to obtain command effects
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191212_155437_367562_C55CBC15 
-X-CRM114-Status: GOOD (  11.28  )
+X-CRM114-CacheID: sfid-20191212_155437_367290_62B0D95A 
+X-CRM114-Status: GOOD (  10.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,7 +78,7 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
+ Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
  Stephen Bates <sbates@raithlin.com>, Jens Axboe <axboe@fb.com>,
  Keith Busch <kbusch@kernel.org>, Max Gurtovoy <maxg@mellanox.com>,
  Logan Gunthorpe <logang@deltatee.com>, Christoph Hellwig <hch@lst.de>
@@ -88,39 +87,76 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Separate the code to obtain command effects from the code
+to start a passthru request and open code nvme_known_admin_effects()
+in the new helper.
 
-This patch updates KConfig file for the NVMeOF target where we add new
-option so that user can selectively enable/disable passthru code.
+The new helper function will be necessary for nvmet passthru
+code to determine if we need to change out of interrupt context
+to handle the effects.
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-[logang@deltatee.com: fixed some of the wording in the help message]
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 ---
- drivers/nvme/target/Kconfig | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/nvme/host/core.c | 39 ++++++++++++++++++++++-----------------
+ 1 file changed, 22 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/nvme/target/Kconfig b/drivers/nvme/target/Kconfig
-index d7f48c0fb311..2478cb5a932d 100644
---- a/drivers/nvme/target/Kconfig
-+++ b/drivers/nvme/target/Kconfig
-@@ -15,6 +15,16 @@ config NVME_TARGET
- 	  To configure the NVMe target you probably want to use the nvmetcli
- 	  tool from http://git.infradead.org/users/hch/nvmetcli.git.
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index f71566129d08..1cd325a8cf05 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1298,22 +1298,8 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
+ 			metadata, meta_len, lower_32_bits(io.slba), NULL, 0);
+ }
  
-+config NVME_TARGET_PASSTHRU
-+	bool "NVMe Target Passthrough support"
-+	depends on NVME_CORE
-+	depends on NVME_TARGET
-+	help
-+	  This enables target side NVMe passthru controller support for the
-+	  NVMe Over Fabrics protocol. It allows for hosts to manage and
-+	  directly access an actual NVMe controller residing on the target
-+	  side, incuding executing Vendor Unique Commands.
+-static u32 nvme_known_admin_effects(u8 opcode)
+-{
+-	switch (opcode) {
+-	case nvme_admin_format_nvm:
+-		return NVME_CMD_EFFECTS_CSUPP | NVME_CMD_EFFECTS_LBCC |
+-					NVME_CMD_EFFECTS_CSE_MASK;
+-	case nvme_admin_sanitize_nvm:
+-		return NVME_CMD_EFFECTS_CSE_MASK;
+-	default:
+-		break;
+-	}
+-	return 0;
+-}
+-
+-static u32 nvme_passthru_start(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+-								u8 opcode)
++static u32 nvme_command_effects(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
++				u8 opcode)
+ {
+ 	u32 effects = 0;
+ 
+@@ -1329,7 +1315,26 @@ static u32 nvme_passthru_start(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 
+ 	if (ctrl->effects)
+ 		effects = le32_to_cpu(ctrl->effects->acs[opcode]);
+-	effects |= nvme_known_admin_effects(opcode);
 +
- config NVME_TARGET_LOOP
- 	tristate "NVMe loopback device support"
- 	depends on NVME_TARGET
++	switch (opcode) {
++	case nvme_admin_format_nvm:
++		effects |= NVME_CMD_EFFECTS_CSUPP | NVME_CMD_EFFECTS_LBCC |
++			NVME_CMD_EFFECTS_CSE_MASK;
++		break;
++	case nvme_admin_sanitize_nvm:
++		effects |= NVME_CMD_EFFECTS_CSE_MASK;
++		break;
++	default:
++		break;
++	}
++
++	return effects;
++}
++
++static u32 nvme_passthru_start(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
++			       u8 opcode)
++{
++	u32 effects = nvme_command_effects(ctrl, ns, opcode);
+ 
+ 	/*
+ 	 * For simplicity, IO to all namespaces is quiesced even if the command
 -- 
 2.20.1
 
