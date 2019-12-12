@@ -6,16 +6,16 @@ X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A49DEC43603
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Dec 2019 00:40:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FAB9C43603
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Dec 2019 00:45:11 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 72D86214D8
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Dec 2019 00:40:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id DD5C5208C3
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Dec 2019 00:45:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="CgQrn9XK"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 72D86214D8
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Zck+0tX3"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DD5C5208C3
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,63 +24,59 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=gGXq4N3AqnAdxoXZ9peCG8bgmWN29yGw1Ag63jrcukU=; b=CgQrn9XKY4XBRVNsoxRhBp83F
-	mByYgizGKSGkkyirHymm2wbhi6TdvXt9UWu/SWeA3FT9p6+sZAi3n9vuTQeQe/9yF0rv7dHR+fCkZ
-	x4J8ujik5yJ46CEJyKNJ/5NOy7Si8jpxYNuBrRUQUDNqXo36Zwc09Z3GL1QlPazMQHQYDbxup7OZs
-	m01oJnG/xsUOMACi2GPD9f8B3mdDxu98JsGI9UlQVb/MZyKExyjvkOULygBAEKGT2yLPeUpXhZNnV
-	oKko36xZ9suG5LRXBWTdLlxw7wlpyd4oYqJmFgeM1dTEdne/03QOpZ1NipPthqdkFJcTZoKNTvgza
-	aIZeJSbzw==;
+	 bh=dqBCBR7DoLST8cNz26zXEg/o2gmVmI26GvvkkDREMn4=; b=Zck+0tX338v/Wr2Y59ZEKrubP
+	4xkyFxe/W0EG6NqUHH277gud+wVLm32OC6vX9cEIRGaZm+gT+xfcq8N3gIzaM9Ie4uSAWzvurstr+
+	TWekrAQ6HLYr7MMIOOpY3Ntd7cG12Sie/DiGZfCWDeCCrbExN7PEK69d92l+ja098I66bu9JJnkfC
+	xkG9PM811kjzRRstjSCThFwvroaag4SnSDQeOG4/y5CIGLaZaYkHHJgajJSGa+CiwuNAOC1hgCiVQ
+	yYWfCDVaSRdyL17tv6D9kv6u18McShl1zxVCnj+02IyDTYp9mRt8FbD5rq1rWA6igVhcElbZ7S4gm
+	56v5a0QGQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1ifCXG-0003GU-5L; Thu, 12 Dec 2019 00:40:54 +0000
-Received: from mail-ot1-f42.google.com ([209.85.210.42])
+	id 1ifCbN-000581-QP; Thu, 12 Dec 2019 00:45:09 +0000
+Received: from mail-yw1-f67.google.com ([209.85.161.67])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ifCXD-0003Ft-J2
- for linux-nvme@lists.infradead.org; Thu, 12 Dec 2019 00:40:53 +0000
-Received: by mail-ot1-f42.google.com with SMTP id h20so622776otn.5
- for <linux-nvme@lists.infradead.org>; Wed, 11 Dec 2019 16:40:50 -0800 (PST)
+ id 1ifCbL-0004mw-0G
+ for linux-nvme@lists.infradead.org; Thu, 12 Dec 2019 00:45:08 +0000
+Received: by mail-yw1-f67.google.com with SMTP id l22so128597ywc.8
+ for <linux-nvme@lists.infradead.org>; Wed, 11 Dec 2019 16:45:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=IvIp8KPcKjmD2RTVhtH/qV7INQ6sQfMJU0EUhBElf5s=;
- b=oBZBVGTRnLTLV8ZQDYTJN8nTD18SYdEgeIMyA+bSrYDrNX84uNqBICd0r+HZ+zSzMJ
- eKTZvUDhQKHjzAKEFIZWFkDbKV7j1TBDDCxpZA0PWBk90AVS1yTLplRJxO94MXGvSYnn
- Cu1fwINsggcbXQ4XFJi8+vETl3uK97uYJEr9hJmYbwIGcj6zxsFz9AijjYvviDhQL1bq
- 2tANbtFaWm4ChrO6DpFYYq/YWksys1w21p0u7WLNB57jEeoUupY+10QMtfeh57rcmzjP
- YTkhN/r+SAIK8mjRNInFtwnFRerDXbDvKaXHWyzx3saH52o2usSzE7EYv6+zBPb9+bz1
- ZDvg==
-X-Gm-Message-State: APjAAAVmesE1rptvJsCz8wf9aIYUCLnUf+htQw9IlK/AFD2nqqcja6EM
- ezn3zky54NWcP12kH+RttVIqqhD0
-X-Google-Smtp-Source: APXvYqyK8KKpyNL6B9vQpfrOJGRf6yAfkAE/UvPQaBbxPPyz2cXu/MNSC08818hVl8draLvNJ2JIXQ==
-X-Received: by 2002:a05:6830:1e75:: with SMTP id
- m21mr4819124otr.36.1576111249997; 
- Wed, 11 Dec 2019 16:40:49 -0800 (PST)
+ bh=M1dWnt0Kk4Y7tAj31l3w0L+51+osWtY/ouyxYghfj40=;
+ b=t9UYPD2cz4JUdmT/7ol/yEk1LCdHnySsXlGBEVg6DaWo9uCR8tt0yphsHC6slFkjBs
+ ih33uLp279Frvh7B7Bq5nmNjnUQiEgFi9NxG10w8F0RomCmGFyGg7SIIEhobdrOI33ao
+ MiQEpaDrfls9302EMuOKKk+9LLjb5PHyxMP3is5GEAKTZ6X4wUIAd2Ub1zLkkIMQIACZ
+ dq8VwcmFRbsjkNsoXGd4D2SjijiXTANoDj4nAv1dQxru2ScFYEf+G8JVZjbG1pdgHnGN
+ vsrvOC5WcYXtvk+S12/d2ri/Sjf+LIk838QOg5uVpisPW+duC9EUo7gxkcoOr8Qflmzl
+ E+rQ==
+X-Gm-Message-State: APjAAAVg5PkBwb5bhtfjQ8RdnTWaeTZxr2qw5EITXi4EfkPoHcwvbZNl
+ 9qMKvjshNNLwEScpHd0I5Hy2HK5A
+X-Google-Smtp-Source: APXvYqw5u+c2bCxtCJgR/NCu/yVGYPgTNNbR2EEyIu6v+BRRYBN3E1ue62ynzRtg0HouOw+hCE4h7A==
+X-Received: by 2002:a9d:338:: with SMTP id 53mr4945524otv.197.1576111504553;
+ Wed, 11 Dec 2019 16:45:04 -0800 (PST)
 Received: from ?IPv6:2600:1700:65a0:78e0:514:7862:1503:8e4d?
  ([2600:1700:65a0:78e0:514:7862:1503:8e4d])
- by smtp.gmail.com with ESMTPSA id r24sm1513685ota.61.2019.12.11.16.40.48
+ by smtp.gmail.com with ESMTPSA id w203sm1454858oia.12.2019.12.11.16.45.03
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 11 Dec 2019 16:40:49 -0800 (PST)
-Subject: Re: [PATCHv3 2/4] nvme/pci: Complete commands from primary handler
-To: Keith Busch <kbusch@kernel.org>
-References: <20191209175622.1964-1-kbusch@kernel.org>
- <20191209175622.1964-3-kbusch@kernel.org>
- <6d55a705-6a43-5b47-166c-5d2b458fd6a5@grimberg.me>
- <20191210202506.GA26810@redsun51.ssa.fujisawa.hgst.com>
- <c58e2cb5-e03c-c56f-8c67-a791ac1eb2c6@grimberg.me>
- <20191211173532.GB493@redsun51.ssa.fujisawa.hgst.com>
+ Wed, 11 Dec 2019 16:45:03 -0800 (PST)
+Subject: Re: [PATCH V3 1/3] nvmet: make ctrl-id configurable
+To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
+ linux-nvme@lists.infradead.org
+References: <20191127094034.12334-1-chaitanya.kulkarni@wdc.com>
+ <20191127094034.12334-2-chaitanya.kulkarni@wdc.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <79442e8d-719a-7510-deea-cc23694fdec0@grimberg.me>
-Date: Wed, 11 Dec 2019 16:40:47 -0800
+Message-ID: <b08812b4-8fa7-d814-cce2-2d8248c233ae@grimberg.me>
+Date: Wed, 11 Dec 2019 16:45:02 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191211173532.GB493@redsun51.ssa.fujisawa.hgst.com>
+In-Reply-To: <20191127094034.12334-2-chaitanya.kulkarni@wdc.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191211_164051_623901_0AB52174 
-X-CRM114-Status: GOOD (  10.61  )
+X-CRM114-CacheID: sfid-20191211_164507_051406_40C1B55E 
+X-CRM114-Status: GOOD (  10.73  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,37 +88,28 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: bigeasy@linutronix.de, ming.lei@redhat.com, tglx@linutronix.de,
- linux-nvme@lists.infradead.org, hch@lst.de
+Cc: hch@lst.de
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
->>>> If I have say 24 (or more) devices with a queue mapped to a cpu, and we
->>>> happen to just reap in the primary handler for all devices, all the time,
->>>> are we safe from cpu lockup?
->>>
->>> I can't readily test that scenario, but I'm skeptical a workload
->>> can keep the primary handler running without ever seeing it return
->>> IRQ_WAKE_THREAD. If that is really a problem, we can mitigate it by
->>> limiting the number of CQEs the primary handler may process.
->>
->> Theoretically speaking, even if you limit to 1 cqe, the universe can
->> align such that you will always reap in the primary handler right?
-> 
-> Perhaps theoretically, though testing the limits of reason.
+> +static ssize_t nvmet_subsys_attr_cntlid_max_store(struct config_item *item,
+> +						  const char *page, size_t cnt)
+> +{
+> +	int ret = -EINVAL;
+> +	u16 cntlid_max;
+> +
+> +	if (sscanf(page, "%hu\n", &cntlid_max) != 1)
+> +		return ret;
+> +
+> +	if (cntlid_max == 0) {
+> +		pr_info("specified cntlid_max = 0 is not allowed\n");
+> +		return ret;
+> +	}
 
-I know, maybe we should handle it when/if this really becomes a
-problem...
-
->> So if we have this optimization, perhaps something else in the irq
->> infrastructure should take care of cpu lockup prevention?
-> 
-> Perhaps we can cycle the effective_affinity through the smp_affinity?
-
-Not sure I follow your thoughts.
+Check not exceeds unsigned short max value?
 
 _______________________________________________
 linux-nvme mailing list
