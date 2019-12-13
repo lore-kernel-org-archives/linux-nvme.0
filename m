@@ -1,71 +1,92 @@
-Return-Path: <SRS0=hCdm=2C=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=jPKm=2D=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DF28C43603
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Dec 2019 23:57:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9ADB4C43603
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Dec 2019 00:52:59 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5794D206E2
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Dec 2019 23:57:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6AD7A206E2
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Dec 2019 00:52:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="pQTjZEUq"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5794D206E2
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Wxx2mDFq";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WRdEqXGg"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6AD7A206E2
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Subject:MIME-Version:References:
-	In-Reply-To:Message-Id:Date:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=pyv/VBG/Lrue14pRWdQj0iA3SCG0PkyFrZNhWJgF+94=; b=pQTjZEUqcLl9lw
-	Xu3kvZGKChiJA1yc8ZmvM2wuCsHsgzVuv1Bp9N24mJ+dIed+funG7x2OyW/Rmin+vclhs160JBD9y
-	1T9IeINZOGRzGp1+lxVPZHYpqAlP2ahMYmo0WdKFVzyHrrwDPtY0ydhRPtTumvcUnl6Grgo0yEdnV
-	9KaHcr7y1cXDzhPT/wuqXb9OdfEYLTqOzIOrsgC46Sy0YmiY/1ypupsjMeIPnB7DGJ7CwC0+KviFZ
-	PaxPNL9hIrhbJBBnuPcOk+bVWCKhOAukCzFCe+6m4yb9reCz21XzdmgN3AhLejDDQopIU2GqsJ93W
-	6W9As3hMTsIC+ufBGMDQ==;
+	List-Owner; bh=zQE7QAgZLAQNYg06sj1+6SjYeLEkATPcn1WJojOHMtQ=; b=Wxx2mDFqiYalrk
+	e44kpWSpsEVgXtmmqGF/64JiQNtm94W5A4cduOULJiU/tkGjnbKTQ5H7LLrp6UCucVUdCk+LwbSUc
+	cNNYK74T6pevZkTXDaDNH5eSMDgSDwCMS0/0VhtBf/cu8XuzF0PBvb007bEqvcumtA7bQvoW7fHOK
+	RFFrHM3H0J8ral/Bmyp8NizvuzkCqbgUDKvPV5IPTTgOqu62gBhsI3G/rOp10USqzKfTMzaKrziWe
+	OBPIhzeF+83J4K/cbirPGHqJAxTuB+6B0ZBMKtIjE0+Nifa+yogJSbiQFMBwbNRcVGDcBDx0Yj5rO
+	Qm1qCinXF4fRN2NjCJ1A==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1ifYKU-0008CQ-4Y; Thu, 12 Dec 2019 23:57:10 +0000
-Received: from ale.deltatee.com ([207.54.116.67])
+	id 1ifZCQ-0007TX-1i; Fri, 13 Dec 2019 00:52:54 +0000
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]
+ helo=us-smtp-delivery-1.mimecast.com)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ifYI7-0003kE-3f
- for linux-nvme@lists.infradead.org; Thu, 12 Dec 2019 23:54:45 +0000
-Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
- by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
- id 1ifYHt-0004ZL-IS; Thu, 12 Dec 2019 16:54:42 -0700
-Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
- (envelope-from <gunthorp@deltatee.com>)
- id 1ifYHo-0005qT-4g; Thu, 12 Dec 2019 16:54:24 -0700
-From: Logan Gunthorpe <logang@deltatee.com>
-To: linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Date: Thu, 12 Dec 2019 16:54:17 -0700
-Message-Id: <20191212235418.22396-9-logang@deltatee.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191212235418.22396-1-logang@deltatee.com>
-References: <20191212235418.22396-1-logang@deltatee.com>
+ id 1ifZCM-0007SQ-OP
+ for linux-nvme@lists.infradead.org; Fri, 13 Dec 2019 00:52:52 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576198369;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yTa596pRnxsTbOIWtNuG1hw2bBiDPaolhZ9HkyeTN3A=;
+ b=WRdEqXGgTRe8Vz4KxqOFQRLyiiAd496BWTppxZfKJhyxR586qiHDWxVyOkeJiBtxE+sOAj
+ j5CaepvkvYb1ROT8KRSLOfcZ+CJFBqvCOIV60Zo/rSi+X3NHqH2ypRzQ79so+rfBBTZI0Z
+ vcmrhJtsg3er/1RCVrEIV2cFDvGT0hE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-279-3dUa16TNOviyDogake-DzA-1; Thu, 12 Dec 2019 19:52:47 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 238C91005510;
+ Fri, 13 Dec 2019 00:52:46 +0000 (UTC)
+Received: from ming.t460p (ovpn-8-21.pek2.redhat.com [10.72.8.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4F30B1001925;
+ Fri, 13 Dec 2019 00:52:39 +0000 (UTC)
+Date: Fri, 13 Dec 2019 08:52:35 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCHv3 2/4] nvme/pci: Complete commands from primary handler
+Message-ID: <20191213005235.GA30695@ming.t460p>
+References: <20191209175622.1964-1-kbusch@kernel.org>
+ <20191209175622.1964-3-kbusch@kernel.org>
+ <6d55a705-6a43-5b47-166c-5d2b458fd6a5@grimberg.me>
+ <20191210202506.GA26810@redsun51.ssa.fujisawa.hgst.com>
+ <c58e2cb5-e03c-c56f-8c67-a791ac1eb2c6@grimberg.me>
+ <20191211173532.GB493@redsun51.ssa.fujisawa.hgst.com>
+ <79442e8d-719a-7510-deea-cc23694fdec0@grimberg.me>
+ <20191212010240.GA29574@redsun51.ssa.fujisawa.hgst.com>
+ <20191212225552.GB24463@ming.t460p>
+ <20191212233039.GA69218@C02WT3WMHTD6>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 172.16.1.31
-X-SA-Exim-Rcpt-To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- hch@lst.de, sagi@grimberg.me, kbusch@kernel.org, axboe@fb.com,
- maxg@mellanox.com, sbates@raithlin.com, logang@deltatee.com,
- Chaitanya.Kulkarni@wdc.com, chaitanya.kulkarni@wdc.com
-X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v10 8/9] nvmet-passthru: Add enable/disable helpers
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+In-Reply-To: <20191212233039.GA69218@C02WT3WMHTD6>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: 3dUa16TNOviyDogake-DzA-1
+X-Mimecast-Spam-Score: 0
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191212_155443_562947_68AD5D00 
-X-CRM114-Status: GOOD (  16.83  )
+X-CRM114-CacheID: sfid-20191212_165250_894782_F26D3C51 
+X-CRM114-Status: GOOD (  13.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,232 +98,48 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
- Stephen Bates <sbates@raithlin.com>, Jens Axboe <axboe@fb.com>,
- Keith Busch <kbusch@kernel.org>, Max Gurtovoy <maxg@mellanox.com>,
- Logan Gunthorpe <logang@deltatee.com>, Christoph Hellwig <hch@lst.de>
+Cc: bigeasy@linutronix.de, tglx@linutronix.de, Sagi Grimberg <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org, hch@lst.de
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This patch adds helper functions which are used in the NVMeOF configfs
-when the user is configuring the passthru subsystem. Here we ensure
-that only one subsys is assigned to each nvme_ctrl by using an xarray
-on the cntlid.
+On Thu, Dec 12, 2019 at 04:30:39PM -0700, Keith Busch wrote:
+> On Fri, Dec 13, 2019 at 06:55:52AM +0800, Ming Lei wrote:
+> > On Thu, Dec 12, 2019 at 10:02:40AM +0900, Keith Busch wrote:
+> > > On Wed, Dec 11, 2019 at 04:40:47PM -0800, Sagi Grimberg wrote:
+> > > > > Perhaps we can cycle the effective_affinity through the smp_affinity?
+> > > > 
+> > > > Not sure I follow your thoughts.
+> > > 
+> > > The only way the nvme driver's interrupt handler can saturate a
+> > > cpu requires the smp_affinity have multiple online cpus set. The
+> > 
+> > As Sagi mentioned, there can be 24 drives, each drive can be 1:1
+> > mapping, so each CPU may have to handle interrupts from 24 drives/queues,
+> > then the CPU may become slower compared with the 24 hardware/queues.
+> 
+> If it's 1:1 queue:cpu, then it doesn't matter how many devices you
+> have. Processes can't submit commands on that cpu while that cpu
+> is servicing device interrupts, but the device can't send interrupts
+> if processes can't submit commands.
+> 
 
-The subsystem's version number is overridden by the passed through
-controller's version. However, if that version is less than 1.2.1,
-then we bump the advertised version to that and print a warning
-in dmesg.
+OK, but still not sure it is good to cycle the effective_affinity through the
+smp_affinity:
 
-Based-on-a-patch-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
----
- drivers/nvme/target/configfs.c |  3 ++
- drivers/nvme/target/core.c     | 10 +++-
- drivers/nvme/target/nvmet.h    | 12 +++++
- drivers/nvme/target/passthru.c | 87 ++++++++++++++++++++++++++++++++++
- 4 files changed, 111 insertions(+), 1 deletion(-)
+1) the top half(primary interrupt handler) still might saturate the CPU
 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index 98613a45bd3b..354d43fab8db 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -828,6 +828,9 @@ static ssize_t nvmet_subsys_attr_version_store(struct config_item *item,
- 	int major, minor, tertiary = 0;
- 	int ret;
- 
-+	/* passthru subsystems use the underlying controller's version */
-+	if (nvmet_passthru_ctrl(subsys))
-+		return -EINVAL;
- 
- 	ret = sscanf(page, "%d.%d.%d\n", &major, &minor, &tertiary);
- 	if (ret != 2 && ret != 3)
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 248818f378e3..1d4fc8779c67 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -518,6 +518,12 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
- 
- 	mutex_lock(&subsys->lock);
- 	ret = 0;
-+
-+	if (nvmet_passthru_ctrl(subsys)) {
-+		pr_info("cannot enable both passthru and regular namespaces for a single subsystem");
-+		goto out_unlock;
-+	}
-+
- 	if (ns->enabled)
- 		goto out_unlock;
- 
-@@ -1396,7 +1402,7 @@ struct nvmet_subsys *nvmet_subsys_alloc(const char *subsysnqn,
- 	if (!subsys)
- 		return ERR_PTR(-ENOMEM);
- 
--	subsys->ver = NVME_VS(1, 3, 0); /* NVMe 1.3.0 */
-+	subsys->ver = NVMET_DEFAULT_VS;
- 	/* generate a random serial number as our controllers are ephemeral: */
- 	get_random_bytes(&subsys->serial, sizeof(subsys->serial));
- 
-@@ -1437,6 +1443,8 @@ static void nvmet_subsys_free(struct kref *ref)
- 
- 	WARN_ON_ONCE(!list_empty(&subsys->namespaces));
- 
-+	nvmet_passthru_subsys_free(subsys);
-+
- 	kfree(subsys->subsysnqn);
- 	kfree(subsys);
- }
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 37fc30d2a2c4..9e7d492aedbd 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -20,6 +20,8 @@
- #include <linux/blkdev.h>
- #include <linux/radix-tree.h>
- 
-+#define NVMET_DEFAULT_VS		NVME_VS(1, 3, 0)
-+
- #define NVMET_ASYNC_EVENTS		4
- #define NVMET_ERROR_LOG_SLOTS		128
- #define NVMET_NO_ERROR_LOC		((u16)-1)
-@@ -230,6 +232,7 @@ struct nvmet_subsys {
- 
- #ifdef CONFIG_NVME_TARGET_PASSTHRU
- 	struct nvme_ctrl	*passthru_ctrl;
-+	char			*passthru_ctrl_path;
- #endif /* CONFIG_NVME_TARGET_PASSTHRU */
- };
- 
-@@ -511,6 +514,9 @@ static inline u32 nvmet_dsm_len(struct nvmet_req *req)
- }
- 
- #ifdef CONFIG_NVME_TARGET_PASSTHRU
-+void nvmet_passthru_subsys_free(struct nvmet_subsys *subsys);
-+int nvmet_passthru_ctrl_enable(struct nvmet_subsys *subsys);
-+void nvmet_passthru_ctrl_disable(struct nvmet_subsys *subsys);
- u16 nvmet_parse_passthru_admin_cmd(struct nvmet_req *req);
- u16 nvmet_setup_passthru_command(struct nvmet_req *req);
- static inline struct nvme_ctrl *nvmet_passthru_ctrl(struct nvmet_subsys *subsys)
-@@ -518,6 +524,12 @@ static inline struct nvme_ctrl *nvmet_passthru_ctrl(struct nvmet_subsys *subsys)
- 	return subsys->passthru_ctrl;
- }
- #else /* CONFIG_NVME_TARGET_PASSTHRU */
-+static inline void nvmet_passthru_subsys_free(struct nvmet_subsys *subsys)
-+{
-+}
-+static inline void nvmet_passthru_ctrl_disable(struct nvmet_subsys *subsys)
-+{
-+}
- static inline u16 nvmet_parse_passthru_admin_cmd(struct nvmet_req *req)
- {
- 	return 0;
-diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
-index 01127bfa6c8a..0705f4ff8b16 100644
---- a/drivers/nvme/target/passthru.c
-+++ b/drivers/nvme/target/passthru.c
-@@ -11,6 +11,11 @@
- #include "../host/nvme.h"
- #include "nvmet.h"
- 
-+/*
-+ * xarray to maintain one passthru subsystem per nvme controller.
-+ */
-+static DEFINE_XARRAY(passthru_subsystems);
-+
- static void nvmet_passthru_execute_cmd_work(struct work_struct *w)
- {
- 	struct nvmet_req *req = container_of(w, struct nvmet_req, p.work);
-@@ -346,3 +351,85 @@ u16 nvmet_parse_passthru_admin_cmd(struct nvmet_req *req)
- 		return NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
- 	}
- }
-+
-+int nvmet_passthru_ctrl_enable(struct nvmet_subsys *subsys)
-+{
-+	struct nvme_ctrl *ctrl;
-+	int ret = -EINVAL;
-+	void *old;
-+
-+	mutex_lock(&subsys->lock);
-+	if (!subsys->passthru_ctrl_path)
-+		goto out_unlock;
-+	if (subsys->passthru_ctrl)
-+		goto out_unlock;
-+
-+	if (subsys->nr_namespaces) {
-+		pr_info("cannot enable both passthru and regular namespaces for a single subsystem");
-+		goto out_unlock;
-+	}
-+
-+	ctrl = nvme_ctrl_get_by_path(subsys->passthru_ctrl_path);
-+	if (IS_ERR(ctrl)) {
-+		ret = PTR_ERR(ctrl);
-+		pr_err("failed to open nvme controller %s\n",
-+		       subsys->passthru_ctrl_path);
-+
-+		goto out_unlock;
-+	}
-+
-+	old = xa_cmpxchg(&passthru_subsystems, ctrl->cntlid, NULL,
-+			 subsys, GFP_KERNEL);
-+	if (xa_is_err(old)) {
-+		ret = xa_err(old);
-+		goto out_put_ctrl;
-+	}
-+
-+	if (old)
-+		goto out_put_ctrl;
-+
-+	subsys->passthru_ctrl = ctrl;
-+	subsys->ver = ctrl->vs;
-+
-+	if (subsys->ver < NVME_VS(1, 2, 1)) {
-+		pr_warn("nvme controller version is too old: %d.%d.%d, advertising 1.2.1\n",
-+			(int)NVME_MAJOR(subsys->ver),
-+			(int)NVME_MINOR(subsys->ver),
-+			(int)NVME_TERTIARY(subsys->ver));
-+		subsys->ver = NVME_VS(1, 2, 1);
-+	}
-+
-+	mutex_unlock(&subsys->lock);
-+	return 0;
-+
-+out_put_ctrl:
-+	nvme_put_ctrl(ctrl);
-+out_unlock:
-+	mutex_unlock(&subsys->lock);
-+	return ret;
-+}
-+
-+static void __nvmet_passthru_ctrl_disable(struct nvmet_subsys *subsys)
-+{
-+	if (subsys->passthru_ctrl) {
-+		xa_erase(&passthru_subsystems, subsys->passthru_ctrl->cntlid);
-+		nvme_put_ctrl(subsys->passthru_ctrl);
-+	}
-+	subsys->passthru_ctrl = NULL;
-+	subsys->ver = NVMET_DEFAULT_VS;
-+}
-+
-+void nvmet_passthru_ctrl_disable(struct nvmet_subsys *subsys)
-+{
-+	mutex_lock(&subsys->lock);
-+	__nvmet_passthru_ctrl_disable(subsys);
-+	mutex_unlock(&subsys->lock);
-+}
-+
-+void nvmet_passthru_subsys_free(struct nvmet_subsys *subsys)
-+{
-+	mutex_lock(&subsys->lock);
-+	__nvmet_passthru_ctrl_disable(subsys);
-+	kfree(subsys->passthru_ctrl_path);
-+	mutex_unlock(&subsys->lock);
-+}
--- 
-2.20.1
+1) task migration isn't cheap from one CPU to another one
+
+2) in theory we only need to do that when one interrupt target CPU is saturated,
+but changing thread's affinity has to be done beforehand, so this way may hurt
+performance when the CPU is never saturated. I believe that should be usual case.
+
+
+Thanks,
+Ming
 
 
 _______________________________________________
