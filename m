@@ -1,83 +1,91 @@
-Return-Path: <SRS0=jPKm=2D=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=GgRz=2F=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 367C3C43603
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Dec 2019 22:31:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 761D9C2D0CC
+	for <linux-nvme@archiver.kernel.org>; Sun, 15 Dec 2019 05:17:10 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0D28B20706
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Dec 2019 22:31:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3B19F21D7E
+	for <linux-nvme@archiver.kernel.org>; Sun, 15 Dec 2019 05:17:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="djaJd888"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0D28B20706
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="cXD3arij";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f/OUThot"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3B19F21D7E
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=DJzBTxyotj4L88xnMcsEZUKQn+Lrt9u24W0gdo1Ttw8=; b=djaJd888xq6E9PfVgWrE0k2mr
-	O8EtpTKMU+uamGXiLqMkMV3pvIxC+M+vAWZQ2wRrHwvJMrvSHqD2h5mTcWaLfkx+4FwylCjWGbGUt
-	Fv9eeMrOiOkk7hVM2+5JkwSTo7R4FAr9dsPOzLeJLDOYGvpJM8AlMFa4OFaTZ9J25JP9N/Z4sLStd
-	8U+UqyIyS0VeMNCnMH9DcqpUaZM6aQ8Aih1ONa5lBKMco0B0oco7cmf1Kz+p1DRJc0teYT523IIT6
-	1E9Ghxp8KVfWvyPvq+ph1y+nBHUHuqnIE/h1TaYGTGq5vv+nQzy0jD6PoymeQ13dYX+xOMcURmrWa
-	Od6ln1ubA==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Cc:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
+	In-Reply-To:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Owner;
+	bh=gIANP3O4eG1g+9VWm7EHYHy0SYfeTidgll2AXN0A68g=; b=cXD3arijbp3e43L4MAShNqj/d6
+	cBD7fRYNk2yqnQJP8rLCVlMBhK8JDHa/w2MpYFmThYhCSg8crdDtz8CBNUAH/ZYn5zmBEGkh7jsI4
+	+XSV7xtDyx9nyDzZAHba5M13QSxZtro6zGZXsklIO6pea2yuFVGhG+TgUZHq3AzhZF89anAyMs5Kt
+	2++X1Boy936MhdbPjez/DzzkQ9BxX3fzR28fycGmeAY8/N3XEFn3+tNRj849B7BJQ7PnLL5tJ2ZqB
+	NeopM1HxGJZXT5Ve4YsiZlDhhU6WUEdR9cpTBMhYVbQPqGWy8Cisj/qGMG9NWgCWiYYzpRMOCZvV1
+	v8t1x/1A==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1ifs06-0002vF-99; Fri, 13 Dec 2019 20:57:26 +0000
-Received: from mail-oi1-f194.google.com ([209.85.167.194])
+	id 1igMH8-0001e8-Pa; Sun, 15 Dec 2019 05:17:02 +0000
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ifs03-0002ub-P5
- for linux-nvme@lists.infradead.org; Fri, 13 Dec 2019 20:57:25 +0000
-Received: by mail-oi1-f194.google.com with SMTP id v140so1908804oie.0
- for <linux-nvme@lists.infradead.org>; Fri, 13 Dec 2019 12:57:23 -0800 (PST)
+ id 1igMH3-0001ac-2I
+ for linux-nvme@lists.infradead.org; Sun, 15 Dec 2019 05:16:58 +0000
+Received: by mail-pg1-x542.google.com with SMTP id q127so1726035pga.4
+ for <linux-nvme@lists.infradead.org>; Sat, 14 Dec 2019 21:16:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=+ni+XvUfeKyfzr2yd/pJZb0s5CL2FQmAH0qUgXjirMQ=;
+ b=f/OUThotWQpXaPGbzZ5R2FFLQ9ZUuy00n1PH97c9VUEl75bjGc9e0sh4S8N0ybzh2n
+ qMJB8Bm9YAiCGqFwp3vDbHJ0xpZ8jEdF/uLy4Alyt3KKPeEo7fQwbL4cnyGigGd5bc8u
+ GtiocPYRjuw8KZon5ULZi9jVlmgPoADTR2ntVtsAUdxzVQq/7iWq5Meu4KkHjL8w60FI
+ iBeFKiN4y48MNQW7DYPIU/98OSOoGsJXtRB8hq4I65KzxdtwjprvTSRnZarEskRf5+by
+ /tVG6bXx5Qn/RUBGtMlwu/9C7yUUCmvHm/Bhsa/AihPo04Ym0Xqdn8C+FjS5DQuavmxk
+ ymsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Jf/837oSh0CkTryg80qBtLRZ2mWIHAzxh7hJGnxEmyA=;
- b=REVLcmAy7XmFOHas+LRxk+J77hQXg302VppGa5Ie0JIyknYL/qa+1R/vbCF/HF3TwW
- OBu72+R4zKbSDDMBYchrekMTx4S10GQsvQkl5RLlVJBySArPZc9YWx0YYI2Cv7FbRfkI
- C9ZU/AVb5hM8YB643FmakNLcHf4wSHUc7K5emxJ03/qlyRBUXBWY8W0J+VgqPdf9cO3k
- jr/k/a6JP/11lnA360NTbjwLItuZV73z+4FBXxsef7L+1df9ryXbhsJlx/yq00YJjtYj
- XTtW/h17JCcJMUw6U0LdrWfdbP3SWFePK83xTICulMNfg7EiAsr9spYSHgJXc8k7B2T6
- 2GPQ==
-X-Gm-Message-State: APjAAAULiVbeDXuANhgEnQeuHy8i1GauUGsfiuWbb4JhEfrcG3FAMRLV
- onGQeVcKAU3XGg98nn7AYs4=
-X-Google-Smtp-Source: APXvYqwbS0fvBVbVRPwbsA2XqbGwGBwk5M9zOCBl1o/skVv3Hcrr3DibOgqshdbMRygVm/VYnmbufw==
-X-Received: by 2002:aca:1a10:: with SMTP id a16mr8185478oia.9.1576270642344;
- Fri, 13 Dec 2019 12:57:22 -0800 (PST)
-Received: from ?IPv6:2600:1700:65a0:78e0:514:7862:1503:8e4d?
- ([2600:1700:65a0:78e0:514:7862:1503:8e4d])
- by smtp.gmail.com with ESMTPSA id z91sm3744017ota.53.2019.12.13.12.57.20
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 13 Dec 2019 12:57:21 -0800 (PST)
-Subject: Re: [PATCH] nvme: fix REQ_NVME_MPATH retry logic
-To: "Meneghini, John" <John.Meneghini@netapp.com>,
- Keith Busch <kbusch@kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "hch@lst.de" <hch@lst.de>, Hannes Reinecke <hare@suse.de>
-References: <CA37C39A-183B-40FF-9033-DE0AC320E098@netapp.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <11a7a51c-43ee-b4e7-28dd-ec403de87365@grimberg.me>
-Date: Fri, 13 Dec 2019 12:57:19 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <CA37C39A-183B-40FF-9033-DE0AC320E098@netapp.com>
-Content-Language: en-US
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=+ni+XvUfeKyfzr2yd/pJZb0s5CL2FQmAH0qUgXjirMQ=;
+ b=Ag6+d8U2SG2EKKvibzSA8J25KlRplMqshgmFcCBKjf3RlWD52KEvC3YXN9cgEaO5jE
+ PmvpvFQZgTP/jcSpfDHZBCfWAqykTtMH1WnRaMUOL2ascMf3FRRD9ij1TFMUYtVPmjDp
+ 8yh1iTtDtUnZjmQor53aSDWdNScYBnVKewUDOIJjD+s46IVwtVrfgr01lvc+500LI08w
+ 4JSQeH1RrciXvoM+AgIj8Z/5qyJoMkGN84UCNdvX3g4rmvf2QZFjtbZA8w1LXdGMpgfa
+ 3TdUHLc/h7DaVXF4YdkzqR3IyTzOX26AIoq1tthhEb6N6z2ttDnzTBizOaacfDyzyyex
+ o9Ow==
+X-Gm-Message-State: APjAAAXOjGhsweBR71kHjek5U7+hPUQzyx3gPbcCiM3eDonZ7+X4yVTL
+ hIYIAf5liYh4pI4ZFyltOxq6l3rFKlo=
+X-Google-Smtp-Source: APXvYqxRB7OPbFfVEFAxX9HKfb1NP04PbmHKjMIQqfZChZstN8X4ZFRN9baeNaRgyvH4MwVUoPUBEw==
+X-Received: by 2002:a63:d544:: with SMTP id v4mr9985261pgi.288.1576387015843; 
+ Sat, 14 Dec 2019 21:16:55 -0800 (PST)
+Received: from localhost.localdomain ([240f:34:212d:1:368e:e048:68f1:84e7])
+ by smtp.gmail.com with ESMTPSA id u10sm16596528pgg.41.2019.12.14.21.16.50
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+ Sat, 14 Dec 2019 21:16:55 -0800 (PST)
+From: Akinobu Mita <akinobu.mita@gmail.com>
+To: linux-nvme@lists.infradead.org, linux-hwmon@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-wireless@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ akpm@linux-foundation.org
+Subject: [PATCH v4 02/12] ACPI: thermal: switch to use <linux/units.h> helpers
+Date: Sun, 15 Dec 2019 14:16:05 +0900
+Message-Id: <1576386975-7941-3-git-send-email-akinobu.mita@gmail.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1576386975-7941-1-git-send-email-akinobu.mita@gmail.com>
+References: <1576386975-7941-1-git-send-email-akinobu.mita@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191213_125723_817323_0614CA2E 
-X-CRM114-Status: GOOD (  12.41  )
+X-CRM114-CacheID: sfid-20191214_211657_112167_1E09BDAD 
+X-CRM114-Status: GOOD (  16.55  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,32 +97,196 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Cc: Amit Kucheria <amit.kucheria@verdurent.com>,
+ Jean Delvare <jdelvare@suse.com>, Sagi Grimberg <sagi@grimberg.me>,
+ Sujith Thomas <sujith.thomas@intel.com>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Akinobu Mita <akinobu.mita@gmail.com>, Jens Axboe <axboe@fb.com>,
+ Guenter Roeck <linux@roeck-us.net>, Keith Busch <kbusch@kernel.org>,
+ Darren Hart <dvhart@infradead.org>, Zhang Rui <rui.zhang@intel.com>,
+ Christoph Hellwig <hch@lst.de>, Andy Shevchenko <andy@infradead.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+This switches the ACPI thermal zone driver to use celsius_to_deci_kelvin(),
+deci_kelvin_to_celsius(), and deci_kelvin_to_millicelsius_with_offset() in
+<linux/units.h> instead of helpers in <linux/thermal.h>.
 
-> From: John Meneghini <johnm@netapp.com>
-> 
->   - Make nvme_complete_rq error handling logic
->     equivalent between single and multipath controllers.
+This is preparation for centralizing the kelvin to/from Celsius conversion
+helpers in <linux/units.h>.
 
-The commit message should explain what breaks and what this
-is fixing.
+Cc: Sujith Thomas <sujith.thomas@intel.com>
+Cc: Darren Hart <dvhart@infradead.org>
+Cc: Andy Shevchenko <andy@infradead.org>
+Cc: Zhang Rui <rui.zhang@intel.com>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc: Amit Kucheria <amit.kucheria@verdurent.com>
+Cc: Jean Delvare <jdelvare@suse.com>
+Cc: Guenter Roeck <linux@roeck-us.net>
+Cc: Keith Busch <kbusch@kernel.org>
+Cc: Jens Axboe <axboe@fb.com>
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>
+Signed-off-by: Akinobu Mita <akinobu.mita@gmail.com>
+---
+* v4
+- change include order
+- keep the line over 80 characters because this change doesn't make it longer
 
->   - Non-multipathing related nvme errors will
->     be retried on the same controller.
+ drivers/acpi/thermal.c | 34 ++++++++++++++++++----------------
+ 1 file changed, 18 insertions(+), 16 deletions(-)
 
-Any specific reason why we shouldn't? Or in other words,
-what is the harm of doing it if we have another path?
+diff --git a/drivers/acpi/thermal.c b/drivers/acpi/thermal.c
+index d831a61..19067a5 100644
+--- a/drivers/acpi/thermal.c
++++ b/drivers/acpi/thermal.c
+@@ -27,6 +27,7 @@
+ #include <linux/acpi.h>
+ #include <linux/workqueue.h>
+ #include <linux/uaccess.h>
++#include <linux/units.h>
+ 
+ #define PREFIX "ACPI: "
+ 
+@@ -172,7 +173,7 @@ struct acpi_thermal {
+ 	struct acpi_handle_list devices;
+ 	struct thermal_zone_device *thermal_zone;
+ 	int tz_enabled;
+-	int kelvin_offset;
++	int kelvin_offset;	/* in millidegrees */
+ 	struct work_struct thermal_check_work;
+ };
+ 
+@@ -297,7 +298,8 @@ static int acpi_thermal_trips_update(struct acpi_thermal *tz, int flag)
+ 			if (crt == -1) {
+ 				tz->trips.critical.flags.valid = 0;
+ 			} else if (crt > 0) {
+-				unsigned long crt_k = CELSIUS_TO_DECI_KELVIN(crt);
++				unsigned long crt_k = celsius_to_deci_kelvin(crt);
++
+ 				/*
+ 				 * Allow override critical threshold
+ 				 */
+@@ -333,7 +335,7 @@ static int acpi_thermal_trips_update(struct acpi_thermal *tz, int flag)
+ 		if (psv == -1) {
+ 			status = AE_SUPPORT;
+ 		} else if (psv > 0) {
+-			tmp = CELSIUS_TO_DECI_KELVIN(psv);
++			tmp = celsius_to_deci_kelvin(psv);
+ 			status = AE_OK;
+ 		} else {
+ 			status = acpi_evaluate_integer(tz->device->handle,
+@@ -413,7 +415,7 @@ static int acpi_thermal_trips_update(struct acpi_thermal *tz, int flag)
+ 					break;
+ 				if (i == 1)
+ 					tz->trips.active[0].temperature =
+-						CELSIUS_TO_DECI_KELVIN(act);
++						celsius_to_deci_kelvin(act);
+ 				else
+ 					/*
+ 					 * Don't allow override higher than
+@@ -421,9 +423,9 @@ static int acpi_thermal_trips_update(struct acpi_thermal *tz, int flag)
+ 					 */
+ 					tz->trips.active[i - 1].temperature =
+ 						(tz->trips.active[i - 2].temperature <
+-						CELSIUS_TO_DECI_KELVIN(act) ?
++						celsius_to_deci_kelvin(act) ?
+ 						tz->trips.active[i - 2].temperature :
+-						CELSIUS_TO_DECI_KELVIN(act));
++						celsius_to_deci_kelvin(act));
+ 				break;
+ 			} else {
+ 				tz->trips.active[i].temperature = tmp;
+@@ -519,7 +521,7 @@ static int thermal_get_temp(struct thermal_zone_device *thermal, int *temp)
+ 	if (result)
+ 		return result;
+ 
+-	*temp = DECI_KELVIN_TO_MILLICELSIUS_WITH_OFFSET(tz->temperature,
++	*temp = deci_kelvin_to_millicelsius_with_offset(tz->temperature,
+ 							tz->kelvin_offset);
+ 	return 0;
+ }
+@@ -624,7 +626,7 @@ static int thermal_get_trip_temp(struct thermal_zone_device *thermal,
+ 
+ 	if (tz->trips.critical.flags.valid) {
+ 		if (!trip) {
+-			*temp = DECI_KELVIN_TO_MILLICELSIUS_WITH_OFFSET(
++			*temp = deci_kelvin_to_millicelsius_with_offset(
+ 				tz->trips.critical.temperature,
+ 				tz->kelvin_offset);
+ 			return 0;
+@@ -634,7 +636,7 @@ static int thermal_get_trip_temp(struct thermal_zone_device *thermal,
+ 
+ 	if (tz->trips.hot.flags.valid) {
+ 		if (!trip) {
+-			*temp = DECI_KELVIN_TO_MILLICELSIUS_WITH_OFFSET(
++			*temp = deci_kelvin_to_millicelsius_with_offset(
+ 				tz->trips.hot.temperature,
+ 				tz->kelvin_offset);
+ 			return 0;
+@@ -644,7 +646,7 @@ static int thermal_get_trip_temp(struct thermal_zone_device *thermal,
+ 
+ 	if (tz->trips.passive.flags.valid) {
+ 		if (!trip) {
+-			*temp = DECI_KELVIN_TO_MILLICELSIUS_WITH_OFFSET(
++			*temp = deci_kelvin_to_millicelsius_with_offset(
+ 				tz->trips.passive.temperature,
+ 				tz->kelvin_offset);
+ 			return 0;
+@@ -655,7 +657,7 @@ static int thermal_get_trip_temp(struct thermal_zone_device *thermal,
+ 	for (i = 0; i < ACPI_THERMAL_MAX_ACTIVE &&
+ 		tz->trips.active[i].flags.valid; i++) {
+ 		if (!trip) {
+-			*temp = DECI_KELVIN_TO_MILLICELSIUS_WITH_OFFSET(
++			*temp = deci_kelvin_to_millicelsius_with_offset(
+ 				tz->trips.active[i].temperature,
+ 				tz->kelvin_offset);
+ 			return 0;
+@@ -672,7 +674,7 @@ static int thermal_get_crit_temp(struct thermal_zone_device *thermal,
+ 	struct acpi_thermal *tz = thermal->devdata;
+ 
+ 	if (tz->trips.critical.flags.valid) {
+-		*temperature = DECI_KELVIN_TO_MILLICELSIUS_WITH_OFFSET(
++		*temperature = deci_kelvin_to_millicelsius_with_offset(
+ 				tz->trips.critical.temperature,
+ 				tz->kelvin_offset);
+ 		return 0;
+@@ -692,7 +694,7 @@ static int thermal_get_trend(struct thermal_zone_device *thermal,
+ 
+ 	if (type == THERMAL_TRIP_ACTIVE) {
+ 		int trip_temp;
+-		int temp = DECI_KELVIN_TO_MILLICELSIUS_WITH_OFFSET(
++		int temp = deci_kelvin_to_millicelsius_with_offset(
+ 					tz->temperature, tz->kelvin_offset);
+ 		if (thermal_get_trip_temp(thermal, trip, &trip_temp))
+ 			return -EINVAL;
+@@ -1043,9 +1045,9 @@ static void acpi_thermal_guess_offset(struct acpi_thermal *tz)
+ {
+ 	if (tz->trips.critical.flags.valid &&
+ 	    (tz->trips.critical.temperature % 5) == 1)
+-		tz->kelvin_offset = 2731;
++		tz->kelvin_offset = 273100;
+ 	else
+-		tz->kelvin_offset = 2732;
++		tz->kelvin_offset = 273200;
+ }
+ 
+ static void acpi_thermal_check_fn(struct work_struct *work)
+@@ -1087,7 +1089,7 @@ static int acpi_thermal_add(struct acpi_device *device)
+ 	INIT_WORK(&tz->thermal_check_work, acpi_thermal_check_fn);
+ 
+ 	pr_info(PREFIX "%s [%s] (%ld C)\n", acpi_device_name(device),
+-		acpi_device_bid(device), DECI_KELVIN_TO_CELSIUS(tz->temperature));
++		acpi_device_bid(device), deci_kelvin_to_celsius(tz->temperature));
+ 	goto end;
+ 
+ free_memory:
+-- 
+2.7.4
 
->   - Avoid gratuitous controller reset while
->     handling BLK_STS_IOERR when REQ_NVME_MPATH is set.
-
-This should change nvme_failover_req, not change the behavior by not
-calling it. Requires an explanation what is broken with the existing
-behavior.
 
 _______________________________________________
 linux-nvme mailing list
