@@ -5,20 +5,20 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 761D9C2D0CC
-	for <linux-nvme@archiver.kernel.org>; Sun, 15 Dec 2019 05:17:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CFD4C2D0CC
+	for <linux-nvme@archiver.kernel.org>; Sun, 15 Dec 2019 05:17:15 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3B19F21D7E
-	for <linux-nvme@archiver.kernel.org>; Sun, 15 Dec 2019 05:17:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 55B0C21D7E
+	for <linux-nvme@archiver.kernel.org>; Sun, 15 Dec 2019 05:17:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="cXD3arij";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f/OUThot"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3B19F21D7E
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ISAsEkIS";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FPmAVeP2"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 55B0C21D7E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -28,64 +28,65 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	In-Reply-To:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Owner;
-	bh=gIANP3O4eG1g+9VWm7EHYHy0SYfeTidgll2AXN0A68g=; b=cXD3arijbp3e43L4MAShNqj/d6
-	cBD7fRYNk2yqnQJP8rLCVlMBhK8JDHa/w2MpYFmThYhCSg8crdDtz8CBNUAH/ZYn5zmBEGkh7jsI4
-	+XSV7xtDyx9nyDzZAHba5M13QSxZtro6zGZXsklIO6pea2yuFVGhG+TgUZHq3AzhZF89anAyMs5Kt
-	2++X1Boy936MhdbPjez/DzzkQ9BxX3fzR28fycGmeAY8/N3XEFn3+tNRj849B7BJQ7PnLL5tJ2ZqB
-	NeopM1HxGJZXT5Ve4YsiZlDhhU6WUEdR9cpTBMhYVbQPqGWy8Cisj/qGMG9NWgCWiYYzpRMOCZvV1
-	v8t1x/1A==;
+	bh=WgATYfTEZd82+8y00ol8UUDiIjC9R2OiJOZj6Xe4w0U=; b=ISAsEkISvINPieu4cWxilDirv/
+	e8+kEBhAWZht0Tu6bj+kQhqaVzfvBEj+/1kkvUa2w6vRQOM7DWxorLaBgatoBTXhk+JMbfr2kL1jV
+	Cr0ZcDP72SATxpj7NEGJ9ss0sSWl7Kg059uQIhiK97ABf/pwsEfYl8g2OQgAD9KnBU/84lH858EfS
+	uzB6rsP/MoUec2GHkC8lmfXXy6M0ZHbE2hqn8xdYlglRW3Zk2n2ak0sDgovmv597NIoVWOlk8Kf3i
+	ctUhsmh7Abw/ryWTT4HM7Ty2UzZ6yqLdtMttjriedsHi9wxLg7VDGReKllMYoV/QSNfNSfWmzrc8f
+	y6PbBO3Q==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1igMH8-0001e8-Pa; Sun, 15 Dec 2019 05:17:02 +0000
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542])
+	id 1igMHH-0001n4-9C; Sun, 15 Dec 2019 05:17:11 +0000
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1igMH3-0001ac-2I
- for linux-nvme@lists.infradead.org; Sun, 15 Dec 2019 05:16:58 +0000
-Received: by mail-pg1-x542.google.com with SMTP id q127so1726035pga.4
- for <linux-nvme@lists.infradead.org>; Sat, 14 Dec 2019 21:16:56 -0800 (PST)
+ id 1igMH8-0001ep-To
+ for linux-nvme@lists.infradead.org; Sun, 15 Dec 2019 05:17:04 +0000
+Received: by mail-pf1-x442.google.com with SMTP id h14so1859938pfe.10
+ for <linux-nvme@lists.infradead.org>; Sat, 14 Dec 2019 21:17:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=+ni+XvUfeKyfzr2yd/pJZb0s5CL2FQmAH0qUgXjirMQ=;
- b=f/OUThotWQpXaPGbzZ5R2FFLQ9ZUuy00n1PH97c9VUEl75bjGc9e0sh4S8N0ybzh2n
- qMJB8Bm9YAiCGqFwp3vDbHJ0xpZ8jEdF/uLy4Alyt3KKPeEo7fQwbL4cnyGigGd5bc8u
- GtiocPYRjuw8KZon5ULZi9jVlmgPoADTR2ntVtsAUdxzVQq/7iWq5Meu4KkHjL8w60FI
- iBeFKiN4y48MNQW7DYPIU/98OSOoGsJXtRB8hq4I65KzxdtwjprvTSRnZarEskRf5+by
- /tVG6bXx5Qn/RUBGtMlwu/9C7yUUCmvHm/Bhsa/AihPo04Ym0Xqdn8C+FjS5DQuavmxk
- ymsg==
+ bh=s9X4iPd0KnMa5KIyBgavR+hocptaY6HIdK2blzLDzaA=;
+ b=FPmAVeP2mdUVq6DwLRYvd9CvKLYcTHemjyCqjRrlXZl9WEmrF1z0xAHiQoxS9gc67/
+ zhyEge0e40HIR579wURSSHamNti6CIEe7Gosq5ThBuDc4iSqL+Bqd0yPAIjDCq9rnlI6
+ 8PwmLVKxAwFVNQtYO4DHbtwS8NuO/oTO8cTsrj17hfr0YVizOwfT7bcMGxj581fLb4fF
+ Q+EBHdUwJJKg5IUx05aEP4gRRpMp/8AI+/qxNIwj/N2wI5FJzbeULUdGFDd3Js5WUsL0
+ hgFLna4w1PwiOvokEp3QJXp1owK24s/6XM+zZMa90nP8X+GQhl06fAkKxNhLc4Orehyf
+ TpZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=+ni+XvUfeKyfzr2yd/pJZb0s5CL2FQmAH0qUgXjirMQ=;
- b=Ag6+d8U2SG2EKKvibzSA8J25KlRplMqshgmFcCBKjf3RlWD52KEvC3YXN9cgEaO5jE
- PmvpvFQZgTP/jcSpfDHZBCfWAqykTtMH1WnRaMUOL2ascMf3FRRD9ij1TFMUYtVPmjDp
- 8yh1iTtDtUnZjmQor53aSDWdNScYBnVKewUDOIJjD+s46IVwtVrfgr01lvc+500LI08w
- 4JSQeH1RrciXvoM+AgIj8Z/5qyJoMkGN84UCNdvX3g4rmvf2QZFjtbZA8w1LXdGMpgfa
- 3TdUHLc/h7DaVXF4YdkzqR3IyTzOX26AIoq1tthhEb6N6z2ttDnzTBizOaacfDyzyyex
- o9Ow==
-X-Gm-Message-State: APjAAAXOjGhsweBR71kHjek5U7+hPUQzyx3gPbcCiM3eDonZ7+X4yVTL
- hIYIAf5liYh4pI4ZFyltOxq6l3rFKlo=
-X-Google-Smtp-Source: APXvYqxRB7OPbFfVEFAxX9HKfb1NP04PbmHKjMIQqfZChZstN8X4ZFRN9baeNaRgyvH4MwVUoPUBEw==
-X-Received: by 2002:a63:d544:: with SMTP id v4mr9985261pgi.288.1576387015843; 
- Sat, 14 Dec 2019 21:16:55 -0800 (PST)
+ bh=s9X4iPd0KnMa5KIyBgavR+hocptaY6HIdK2blzLDzaA=;
+ b=X4MKCniBlaj5coGjrxYreLwEz7WCHqYQkuQzhg1WM15oI9Csf9AVQPL0Xb5vturg4r
+ DGxdCa6cEBMCaiVPWEPwWmDeoV/lGy4xvta+wST3D22g6F5exZzaNODXhMc0eIQMHv9b
+ mMfUv+u6BWGd3YRjvhLgNJ0jtbkL7uGk1+mwzeUrt8qYtPyxPh8gqBZe0LSyeGT4hIkC
+ uCL+hgVbM76rYb0wpTYSFgnO3/hQgfsfXHeIFVHt97b91dVeWvQHBBPnDCXqN48XKdi+
+ +fgbd9fhqVaUjmVksE8EXr+USRK8pyoURZ6lTHHITh6QdyyOtummHYYUXqy0VCJKakRt
+ FhPA==
+X-Gm-Message-State: APjAAAXtC7PM3HrN4DE3lrjyWvt8+9ynfIrmDBX8JEbUakSdyHdso7V1
+ zsBiKlWovBSDD0uig3ffbH2Lb61UP3E=
+X-Google-Smtp-Source: APXvYqwaYLWaptacVXVwa4TActC1oLxGg8wUZKowyGri7WYpGP5PtlqW2c8tyhGBSdvFWauo1nBjCw==
+X-Received: by 2002:a63:a53:: with SMTP id z19mr10191253pgk.267.1576387021783; 
+ Sat, 14 Dec 2019 21:17:01 -0800 (PST)
 Received: from localhost.localdomain ([240f:34:212d:1:368e:e048:68f1:84e7])
- by smtp.gmail.com with ESMTPSA id u10sm16596528pgg.41.2019.12.14.21.16.50
+ by smtp.gmail.com with ESMTPSA id u10sm16596528pgg.41.2019.12.14.21.16.56
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Sat, 14 Dec 2019 21:16:55 -0800 (PST)
+ Sat, 14 Dec 2019 21:17:01 -0800 (PST)
 From: Akinobu Mita <akinobu.mita@gmail.com>
 To: linux-nvme@lists.infradead.org, linux-hwmon@vger.kernel.org,
  linux-pm@vger.kernel.org, linux-wireless@vger.kernel.org,
  linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
  akpm@linux-foundation.org
-Subject: [PATCH v4 02/12] ACPI: thermal: switch to use <linux/units.h> helpers
-Date: Sun, 15 Dec 2019 14:16:05 +0900
-Message-Id: <1576386975-7941-3-git-send-email-akinobu.mita@gmail.com>
+Subject: [PATCH v4 03/12] platform/x86: asus-wmi: switch to use
+ <linux/units.h> helpers
+Date: Sun, 15 Dec 2019 14:16:06 +0900
+Message-Id: <1576386975-7941-4-git-send-email-akinobu.mita@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1576386975-7941-1-git-send-email-akinobu.mita@gmail.com>
 References: <1576386975-7941-1-git-send-email-akinobu.mita@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191214_211657_112167_1E09BDAD 
-X-CRM114-Status: GOOD (  16.55  )
+X-CRM114-CacheID: sfid-20191214_211702_985013_607B2CDE 
+X-CRM114-Status: GOOD (  13.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,12 +112,14 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This switches the ACPI thermal zone driver to use celsius_to_deci_kelvin(),
-deci_kelvin_to_celsius(), and deci_kelvin_to_millicelsius_with_offset() in
-<linux/units.h> instead of helpers in <linux/thermal.h>.
+The asus-wmi driver doesn't implement the thermal device functionality
+directly, so including <linux/thermal.h> just for DECI_KELVIN_TO_CELSIUS()
+is a bit odd.
 
-This is preparation for centralizing the kelvin to/from Celsius conversion
-helpers in <linux/units.h>.
+This switches the asus-wmi driver to use deci_kelvin_to_millicelsius() in
+<linux/units.h>.
+
+The format string is changed from %d to %ld due to function returned type.
 
 Cc: Sujith Thomas <sujith.thomas@intel.com>
 Cc: Darren Hart <dvhart@infradead.org>
@@ -130,160 +133,42 @@ Cc: Keith Busch <kbusch@kernel.org>
 Cc: Jens Axboe <axboe@fb.com>
 Cc: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>
+Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 Signed-off-by: Akinobu Mita <akinobu.mita@gmail.com>
 ---
 * v4
 - change include order
-- keep the line over 80 characters because this change doesn't make it longer
 
- drivers/acpi/thermal.c | 34 ++++++++++++++++++----------------
- 1 file changed, 18 insertions(+), 16 deletions(-)
+ drivers/platform/x86/asus-wmi.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/acpi/thermal.c b/drivers/acpi/thermal.c
-index d831a61..19067a5 100644
---- a/drivers/acpi/thermal.c
-+++ b/drivers/acpi/thermal.c
-@@ -27,6 +27,7 @@
+diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+index 821b08e..b254f9f 100644
+--- a/drivers/platform/x86/asus-wmi.c
++++ b/drivers/platform/x86/asus-wmi.c
+@@ -33,9 +33,9 @@
+ #include <linux/seq_file.h>
+ #include <linux/platform_data/x86/asus-wmi.h>
+ #include <linux/platform_device.h>
+-#include <linux/thermal.h>
  #include <linux/acpi.h>
- #include <linux/workqueue.h>
- #include <linux/uaccess.h>
+ #include <linux/dmi.h>
 +#include <linux/units.h>
  
- #define PREFIX "ACPI: "
+ #include <acpi/battery.h>
+ #include <acpi/video.h>
+@@ -1512,9 +1512,8 @@ static ssize_t asus_hwmon_temp1(struct device *dev,
+ 	if (err < 0)
+ 		return err;
  
-@@ -172,7 +173,7 @@ struct acpi_thermal {
- 	struct acpi_handle_list devices;
- 	struct thermal_zone_device *thermal_zone;
- 	int tz_enabled;
--	int kelvin_offset;
-+	int kelvin_offset;	/* in millidegrees */
- 	struct work_struct thermal_check_work;
- };
- 
-@@ -297,7 +298,8 @@ static int acpi_thermal_trips_update(struct acpi_thermal *tz, int flag)
- 			if (crt == -1) {
- 				tz->trips.critical.flags.valid = 0;
- 			} else if (crt > 0) {
--				unsigned long crt_k = CELSIUS_TO_DECI_KELVIN(crt);
-+				unsigned long crt_k = celsius_to_deci_kelvin(crt);
-+
- 				/*
- 				 * Allow override critical threshold
- 				 */
-@@ -333,7 +335,7 @@ static int acpi_thermal_trips_update(struct acpi_thermal *tz, int flag)
- 		if (psv == -1) {
- 			status = AE_SUPPORT;
- 		} else if (psv > 0) {
--			tmp = CELSIUS_TO_DECI_KELVIN(psv);
-+			tmp = celsius_to_deci_kelvin(psv);
- 			status = AE_OK;
- 		} else {
- 			status = acpi_evaluate_integer(tz->device->handle,
-@@ -413,7 +415,7 @@ static int acpi_thermal_trips_update(struct acpi_thermal *tz, int flag)
- 					break;
- 				if (i == 1)
- 					tz->trips.active[0].temperature =
--						CELSIUS_TO_DECI_KELVIN(act);
-+						celsius_to_deci_kelvin(act);
- 				else
- 					/*
- 					 * Don't allow override higher than
-@@ -421,9 +423,9 @@ static int acpi_thermal_trips_update(struct acpi_thermal *tz, int flag)
- 					 */
- 					tz->trips.active[i - 1].temperature =
- 						(tz->trips.active[i - 2].temperature <
--						CELSIUS_TO_DECI_KELVIN(act) ?
-+						celsius_to_deci_kelvin(act) ?
- 						tz->trips.active[i - 2].temperature :
--						CELSIUS_TO_DECI_KELVIN(act));
-+						celsius_to_deci_kelvin(act));
- 				break;
- 			} else {
- 				tz->trips.active[i].temperature = tmp;
-@@ -519,7 +521,7 @@ static int thermal_get_temp(struct thermal_zone_device *thermal, int *temp)
- 	if (result)
- 		return result;
- 
--	*temp = DECI_KELVIN_TO_MILLICELSIUS_WITH_OFFSET(tz->temperature,
-+	*temp = deci_kelvin_to_millicelsius_with_offset(tz->temperature,
- 							tz->kelvin_offset);
- 	return 0;
- }
-@@ -624,7 +626,7 @@ static int thermal_get_trip_temp(struct thermal_zone_device *thermal,
- 
- 	if (tz->trips.critical.flags.valid) {
- 		if (!trip) {
--			*temp = DECI_KELVIN_TO_MILLICELSIUS_WITH_OFFSET(
-+			*temp = deci_kelvin_to_millicelsius_with_offset(
- 				tz->trips.critical.temperature,
- 				tz->kelvin_offset);
- 			return 0;
-@@ -634,7 +636,7 @@ static int thermal_get_trip_temp(struct thermal_zone_device *thermal,
- 
- 	if (tz->trips.hot.flags.valid) {
- 		if (!trip) {
--			*temp = DECI_KELVIN_TO_MILLICELSIUS_WITH_OFFSET(
-+			*temp = deci_kelvin_to_millicelsius_with_offset(
- 				tz->trips.hot.temperature,
- 				tz->kelvin_offset);
- 			return 0;
-@@ -644,7 +646,7 @@ static int thermal_get_trip_temp(struct thermal_zone_device *thermal,
- 
- 	if (tz->trips.passive.flags.valid) {
- 		if (!trip) {
--			*temp = DECI_KELVIN_TO_MILLICELSIUS_WITH_OFFSET(
-+			*temp = deci_kelvin_to_millicelsius_with_offset(
- 				tz->trips.passive.temperature,
- 				tz->kelvin_offset);
- 			return 0;
-@@ -655,7 +657,7 @@ static int thermal_get_trip_temp(struct thermal_zone_device *thermal,
- 	for (i = 0; i < ACPI_THERMAL_MAX_ACTIVE &&
- 		tz->trips.active[i].flags.valid; i++) {
- 		if (!trip) {
--			*temp = DECI_KELVIN_TO_MILLICELSIUS_WITH_OFFSET(
-+			*temp = deci_kelvin_to_millicelsius_with_offset(
- 				tz->trips.active[i].temperature,
- 				tz->kelvin_offset);
- 			return 0;
-@@ -672,7 +674,7 @@ static int thermal_get_crit_temp(struct thermal_zone_device *thermal,
- 	struct acpi_thermal *tz = thermal->devdata;
- 
- 	if (tz->trips.critical.flags.valid) {
--		*temperature = DECI_KELVIN_TO_MILLICELSIUS_WITH_OFFSET(
-+		*temperature = deci_kelvin_to_millicelsius_with_offset(
- 				tz->trips.critical.temperature,
- 				tz->kelvin_offset);
- 		return 0;
-@@ -692,7 +694,7 @@ static int thermal_get_trend(struct thermal_zone_device *thermal,
- 
- 	if (type == THERMAL_TRIP_ACTIVE) {
- 		int trip_temp;
--		int temp = DECI_KELVIN_TO_MILLICELSIUS_WITH_OFFSET(
-+		int temp = deci_kelvin_to_millicelsius_with_offset(
- 					tz->temperature, tz->kelvin_offset);
- 		if (thermal_get_trip_temp(thermal, trip, &trip_temp))
- 			return -EINVAL;
-@@ -1043,9 +1045,9 @@ static void acpi_thermal_guess_offset(struct acpi_thermal *tz)
- {
- 	if (tz->trips.critical.flags.valid &&
- 	    (tz->trips.critical.temperature % 5) == 1)
--		tz->kelvin_offset = 2731;
-+		tz->kelvin_offset = 273100;
- 	else
--		tz->kelvin_offset = 2732;
-+		tz->kelvin_offset = 273200;
+-	value = DECI_KELVIN_TO_CELSIUS((value & 0xFFFF)) * 1000;
+-
+-	return sprintf(buf, "%d\n", value);
++	return sprintf(buf, "%ld\n",
++		       deci_kelvin_to_millicelsius(value & 0xFFFF));
  }
  
- static void acpi_thermal_check_fn(struct work_struct *work)
-@@ -1087,7 +1089,7 @@ static int acpi_thermal_add(struct acpi_device *device)
- 	INIT_WORK(&tz->thermal_check_work, acpi_thermal_check_fn);
- 
- 	pr_info(PREFIX "%s [%s] (%ld C)\n", acpi_device_name(device),
--		acpi_device_bid(device), DECI_KELVIN_TO_CELSIUS(tz->temperature));
-+		acpi_device_bid(device), deci_kelvin_to_celsius(tz->temperature));
- 	goto end;
- 
- free_memory:
+ /* Fan1 */
 -- 
 2.7.4
 
