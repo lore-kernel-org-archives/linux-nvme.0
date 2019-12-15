@@ -5,20 +5,20 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 268AEC2D0CB
-	for <linux-nvme@archiver.kernel.org>; Sun, 15 Dec 2019 05:17:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C714DC43603
+	for <linux-nvme@archiver.kernel.org>; Sun, 15 Dec 2019 05:18:05 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F09192253D
-	for <linux-nvme@archiver.kernel.org>; Sun, 15 Dec 2019 05:17:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9044B21D7E
+	for <linux-nvme@archiver.kernel.org>; Sun, 15 Dec 2019 05:18:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="G+F79Wcg";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bQvf50Mv"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F09192253D
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="odnNaxlk";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NC5Q3xlh"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9044B21D7E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -28,65 +28,65 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	In-Reply-To:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Owner;
-	bh=FsLpMnIM0Ml5VuXK3OCaPSZ7ApydU0e6WAeNLTV3YuY=; b=G+F79WcgRtOSQ2NARwuW5F/syD
-	BIiYMsPZmZKwYBQQ7tKatv5OZH+ylnI0or7hfxaHR5HHZfE/yJhih67m5dAWO/rOWgBaVXDFUANjc
-	8Mff/GNVjLDoCm0iwRKtnmQc/VLSKLMhpVuvLDTwtKUi3Xvf8g0NHAs+AS3qOrrWZWdzoMpMIN4rL
-	RyQ54/olpJK7pLheeH9aADxTk1mWBLhBdY1Ay8T6EjkSD2zxqNgmWDp6E2wKo7ExBJb6/3zPAfK7Q
-	Ou7le2jbaeriVzqACT9QQUN+/GtCXvCoMbUU4DuljQ8oIXg5OcE1V/SRPZ/FO7F7VZ/RUx4N42d2M
-	gxBnNobw==;
+	bh=HRJe9v3Uy9DFupWJ4MjbiV720xlQ5Ag/eGGwNUNg1MA=; b=odnNaxlk9Pt1zTQuL+snf85vua
+	v1CLK3uWvk828YfAipEL3iLRcye5rTwTf96cKV+gPE5dr0aE8C7NprvTwgMSj8B80Q3z8B1f/FJHT
+	7LSZ+gxcAnomk5299TcZDpqtPS5TtX8QD9ohOc1OYbG00OiXGkWU3srZpg1W74UmOT1bynYo5l8Fd
+	moSSbso++hRS2eA/1Uzf2+GiEk2kSOm86ePf+VtsxSVUYXq8oZ19xnv2ccBPNUXB0nZeEWjQZaP2B
+	iSSKPCB5Vkt/fzYzJiOJI9oUH030mr9jUHJ3SwceZf/+M6oC8olO40nAtdoz7xuwE6VdW/2ZUj/xY
+	HFYrNuZA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1igMHm-0002Gp-NT; Sun, 15 Dec 2019 05:17:42 +0000
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542])
+	id 1igMI6-0002WZ-AL; Sun, 15 Dec 2019 05:18:02 +0000
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1igMHK-0001pq-06
- for linux-nvme@lists.infradead.org; Sun, 15 Dec 2019 05:17:16 +0000
-Received: by mail-pg1-x542.google.com with SMTP id z124so1704276pgb.13
- for <linux-nvme@lists.infradead.org>; Sat, 14 Dec 2019 21:17:13 -0800 (PST)
+ id 1igMHQ-0001vj-9F
+ for linux-nvme@lists.infradead.org; Sun, 15 Dec 2019 05:17:31 +0000
+Received: by mail-pj1-x1044.google.com with SMTP id ca19so1521208pjb.8
+ for <linux-nvme@lists.infradead.org>; Sat, 14 Dec 2019 21:17:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=HoM44YO7jKpFM5Bt686W03V+vIzdOR1TWUFJVxsK0iw=;
- b=bQvf50MvBu50bzcy5vOGO4uBYMf9uKla1LUKwxCJkyto5/NGMdf3Tp91MzlfL6sBET
- UfJH9M5g0IhJWYBxQR3K2+zKcF8+fIfQbNn+U7Q/bO5oZGY7JJicPp13WCP49M2D1xZ5
- 4pMI9mLCDH1Qrx09uoA9y5Di16KiupsO7XuXUUC90JSJaXmRY0XGJePvIwZ62u1YmLP9
- UR1lezZtd6rQnu3n0XftzclCqSsnTRT5UMe5bZFvV+9Lg4iJDykx6336E/FzikHd+NUi
- 6GKCu9ETSkaLNyn1vRk/sIVbMQHLuKvweESCi9ro4XeddFzJS1kvkligms8YTC0+aX0M
- s/AA==
+ bh=dFlnRv0hadsugtVajyHRe0JC+tPOCVnj6GsrCbBgD3o=;
+ b=NC5Q3xlhCVYDD/m31UtBzIc7GqULlCKQs5ldsS8eMSO7ocTrRah48V7JueoBaZjRfF
+ dFYazkMieceVvYDQVsuOkcDgcQgV+R2s3QkTvDH852AG/HAOg/6bmXHwqA+hQrAtvcTY
+ B/45nLwULGUuOdCwfUMpOuU0WmNIRaRqaEEXgijAWVFt0CCjv1PAXYcA+jkp2IDrAGBN
+ zKWV0O1HL9cnFQ8NQnCN/BvouZMcLq7yOazxwoBEjJMZ//2o82FHAP0v2bFXLdAqt0Lk
+ 34CbQTdrvH938tKYyDddbbw1RfXz1UJTkIppwnsQSEyG1kyk26wdD9HbuxJJgfkJsY5Y
+ 3Wvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=HoM44YO7jKpFM5Bt686W03V+vIzdOR1TWUFJVxsK0iw=;
- b=sZIihSKjkE3xKMEONkcD6s0VT0/Aln0XMOIHYhA1VLsrI5vAy296TsDzm3oZIy3Ay9
- hdQn6bJLpzLVxLrM86sBP7XToDOTW+TK2HOTEfYEpRSB0zp+kyns0YooGSeQ7dsjjpVw
- ozTiMzYhV0M+wHu8iap+WBhwOiI/0H1KdifUGe+TElhFWRqRAp5+mWsKZ8Nj7HbKUi/J
- oSeu5OEV+whL7sOaWQa3kXDJ5QjMpqyYODkKxZswzcybrVExgIbksZo8pTpXuhO2eEpq
- RZw9QHjbojxULz9kS+byQfEajTyS02PUoh6VaPJzGItFMool3HYy7pRHPz4UsorPOPBA
- AIxw==
-X-Gm-Message-State: APjAAAVZI2rfOha7C+CYy9/ZRo0eI6KUitbZUrMdaj9FZKvqRJgx7mQp
- cine9BIGHrYirzObOOcdwHcQyPSamW4=
-X-Google-Smtp-Source: APXvYqxw27ngbpk0CKdXZvBZxaaAZi+AM67S8O8H2tETPVHPLmfGtOrWh4fm4fGLIcNlgSc4KcQahg==
-X-Received: by 2002:a63:5162:: with SMTP id r34mr10283755pgl.227.1576387033003; 
- Sat, 14 Dec 2019 21:17:13 -0800 (PST)
+ bh=dFlnRv0hadsugtVajyHRe0JC+tPOCVnj6GsrCbBgD3o=;
+ b=AI/kqGRPgxMWkv/v6+cBlA7dvnK55g2seEEq9hg37FzmsgMbu2WB5WLeGbhdYdCCYE
+ AFxf6xu8G4xjMI7M+QPxMb2VGjwJ73bDAkCzqdNa8BFAdigJuNgY670BR0nNLggZ2AQK
+ /+Eg9A+JiZWPE+ioNTIE1x2wc82mcKB3xXLj4IFtttcG2+cB02A4Qvs2ENaiog/fbx97
+ RJsjmKt6kb+zHBkUpyTTrEOBxCzHL6CQLyOkKIy1JrhKoznYM1vjiAlVXmuPKIWF3qbL
+ TR1lVpVxDwGxHqH2A5PnImRKVd5kzWbloiTWuySbXsrsOBwb7V0GfGMJAeGhhTRfKYMC
+ fV+Q==
+X-Gm-Message-State: APjAAAX4DGfLZZYJiiL75AR+AU+6U/4Rn5Suq4iTDyE9w05z2bTB0xhK
+ hE9aoTcAg49I/AdF68D1NoMabUR3Ock=
+X-Google-Smtp-Source: APXvYqwbGw831TCHknZkFd89BpDoeV5W4jcrJR7PjtyCCgpjaIW4I9/0mOvOtFg2s6Cbv4FQ3LiZFQ==
+X-Received: by 2002:a17:90a:f84:: with SMTP id 4mr10440876pjz.74.1576387038837; 
+ Sat, 14 Dec 2019 21:17:18 -0800 (PST)
 Received: from localhost.localdomain ([240f:34:212d:1:368e:e048:68f1:84e7])
- by smtp.gmail.com with ESMTPSA id u10sm16596528pgg.41.2019.12.14.21.17.07
+ by smtp.gmail.com with ESMTPSA id u10sm16596528pgg.41.2019.12.14.21.17.13
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Sat, 14 Dec 2019 21:17:12 -0800 (PST)
+ Sat, 14 Dec 2019 21:17:18 -0800 (PST)
 From: Akinobu Mita <akinobu.mita@gmail.com>
 To: linux-nvme@lists.infradead.org, linux-hwmon@vger.kernel.org,
  linux-pm@vger.kernel.org, linux-wireless@vger.kernel.org,
  linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
  akpm@linux-foundation.org
-Subject: [PATCH v4 05/12] thermal: int340x: switch to use <linux/units.h>
+Subject: [PATCH v4 06/12] thermal: intel_pch: switch to use <linux/units.h>
  helpers
-Date: Sun, 15 Dec 2019 14:16:08 +0900
-Message-Id: <1576386975-7941-6-git-send-email-akinobu.mita@gmail.com>
+Date: Sun, 15 Dec 2019 14:16:09 +0900
+Message-Id: <1576386975-7941-7-git-send-email-akinobu.mita@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1576386975-7941-1-git-send-email-akinobu.mita@gmail.com>
 References: <1576386975-7941-1-git-send-email-akinobu.mita@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191214_211714_117590_69364C14 
-X-CRM114-Status: GOOD (  14.15  )
+X-CRM114-CacheID: sfid-20191214_211720_375596_560D7D9C 
+X-CRM114-Status: GOOD (  14.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,9 +112,9 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This switches the int340x thermal zone driver to use
-deci_kelvin_to_millicelsius() and millicelsius_to_deci_kelvin() in
-<linux/units.h> instead of helpers in <linux/thermal.h>.
+This switches the intel pch thermal driver to use
+deci_kelvin_to_millicelsius() in <linux/units.h> instead of helpers in
+<linux/thermal.h>.
 
 This is preparation for centralizing the kelvin to/from Celsius conversion
 helpers in <linux/units.h>.
@@ -137,48 +137,30 @@ Signed-off-by: Akinobu Mita <akinobu.mita@gmail.com>
 * v4
 - add Reviewed-by tag
 
- drivers/thermal/intel/int340x_thermal/int340x_thermal_zone.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/thermal/intel/intel_pch_thermal.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/thermal/intel/int340x_thermal/int340x_thermal_zone.c b/drivers/thermal/intel/int340x_thermal/int340x_thermal_zone.c
-index 75484d6..4322132 100644
---- a/drivers/thermal/intel/int340x_thermal/int340x_thermal_zone.c
-+++ b/drivers/thermal/intel/int340x_thermal/int340x_thermal_zone.c
-@@ -8,6 +8,7 @@
- #include <linux/init.h>
+diff --git a/drivers/thermal/intel/intel_pch_thermal.c b/drivers/thermal/intel/intel_pch_thermal.c
+index 4f0bb8f..b118611 100644
+--- a/drivers/thermal/intel/intel_pch_thermal.c
++++ b/drivers/thermal/intel/intel_pch_thermal.c
+@@ -13,6 +13,7 @@
+ #include <linux/pci.h>
  #include <linux/acpi.h>
  #include <linux/thermal.h>
 +#include <linux/units.h>
- #include "int340x_thermal_zone.h"
+ #include <linux/pm.h>
  
- static int int340x_thermal_get_zone_temp(struct thermal_zone_device *zone,
-@@ -34,7 +35,7 @@ static int int340x_thermal_get_zone_temp(struct thermal_zone_device *zone,
- 		*temp = (unsigned long)conv_temp * 10;
- 	} else
- 		/* _TMP returns the temperature in tenths of degrees Kelvin */
--		*temp = DECI_KELVIN_TO_MILLICELSIUS(tmp);
-+		*temp = deci_kelvin_to_millicelsius(tmp);
+ /* Intel PCH thermal Device IDs */
+@@ -92,7 +93,7 @@ static void pch_wpt_add_acpi_psv_trip(struct pch_thermal_device *ptd,
+ 		if (ACPI_SUCCESS(status)) {
+ 			unsigned long trip_temp;
  
- 	return 0;
- }
-@@ -116,7 +117,7 @@ static int int340x_thermal_set_trip_temp(struct thermal_zone_device *zone,
- 
- 	snprintf(name, sizeof(name), "PAT%d", trip);
- 	status = acpi_execute_simple_method(d->adev->handle, name,
--			MILLICELSIUS_TO_DECI_KELVIN(temp));
-+			millicelsius_to_deci_kelvin(temp));
- 	if (ACPI_FAILURE(status))
- 		return -EIO;
- 
-@@ -163,7 +164,7 @@ static int int340x_thermal_get_trip_config(acpi_handle handle, char *name,
- 	if (ACPI_FAILURE(status))
- 		return -EIO;
- 
--	*temp = DECI_KELVIN_TO_MILLICELSIUS(r);
-+	*temp = deci_kelvin_to_millicelsius(r);
- 
- 	return 0;
- }
+-			trip_temp = DECI_KELVIN_TO_MILLICELSIUS(r);
++			trip_temp = deci_kelvin_to_millicelsius(r);
+ 			if (trip_temp) {
+ 				ptd->psv_temp = trip_temp;
+ 				ptd->psv_trip_id = *nr_trips;
 -- 
 2.7.4
 
