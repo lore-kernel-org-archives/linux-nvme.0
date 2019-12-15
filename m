@@ -5,20 +5,21 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17643C43603
-	for <linux-nvme@archiver.kernel.org>; Sun, 15 Dec 2019 05:25:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E489C43603
+	for <linux-nvme@archiver.kernel.org>; Sun, 15 Dec 2019 05:38:36 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C8FB52072B
-	for <linux-nvme@archiver.kernel.org>; Sun, 15 Dec 2019 05:25:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 2A52D22B48
+	for <linux-nvme@archiver.kernel.org>; Sun, 15 Dec 2019 05:38:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="SAWQM2IP";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Id8NfdTF"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C8FB52072B
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="u6t0/EZx";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DqsKeoIM";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="erojmZQu"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2A52D22B48
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -28,66 +29,80 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	In-Reply-To:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Owner;
-	bh=OL+Ga4SUTgYYp+1fhbloegXpLnDc9qjySepzqqtzqJg=; b=SAWQM2IPnbvssbioNeHVH5hXl7
-	k1wZGuOxcPR8B/8ie8YxS7EiLf7oByIOOlnoy4Xktbi5nnjQ84XSUKuCbQMlPz+DFqtVtYC8/VjE3
-	NTEQLO3Q0pQ77gdpRPBhCbJM/B4b2oYi/oRoZrftt1wTeviP9OvQM6QBwZ6vMF9+6R+h2CGrbVmi6
-	ZFFXCoQEP2uIlqYqpkLYSlItV3YwqdGrOa8E2dnNv1dUHyXmQ/BtPI25i4xBQT+KfOOoe4CgIHVLi
-	mN7ZZ63/laKeXv2DlGQQNYjdQLB7QeAvqvDNkHT/O5dj/03FzXIgbH1SE7PKE2qmzdZIMqHt6w2R0
-	fOfSexUg==;
+	bh=CAIXkap0c4GlHndSgsqbWQXTKCrEo/Teok+503Yzh8g=; b=u6t0/EZxXriLuxcwwmUYiR6dM+
+	BnPgOV443sRfxyWmupChFPIjHhZZU5+PwxB61BlOzAuGbhKSl/jzwz8cy1zXrK0KhzUlj+uizN38T
+	3JG9d7r1rHOoCherkql0KzzQQLSZ+hTzTVXTEI0TllcyVlkSY7gY1GeVI3oozSiykK11ZWs1vYPQy
+	s8PyYWaBuzzJFdZ40LF9HqGxSCmzjUqnyeccEVyWSIHt653Jfio3saA9fxN6ygCq1u/PnoDTuzpBZ
+	FKrZOSDHTWGopHYLfx3CSQTnD7Yz95qUBgH/OSBdAK7NeD9oIq2DtUa1m54+ybQGJe3aCAAcnh9yf
+	Ls+MSICA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1igMOw-0005rE-Mg; Sun, 15 Dec 2019 05:25:06 +0000
-Received: from mail-vs1-xe43.google.com ([2607:f8b0:4864:20::e43])
+	id 1igMby-0001hH-BI; Sun, 15 Dec 2019 05:38:34 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1igMOt-0005ND-Rs
- for linux-nvme@lists.infradead.org; Sun, 15 Dec 2019 05:25:05 +0000
-Received: by mail-vs1-xe43.google.com with SMTP id y195so2166628vsy.5
- for <linux-nvme@lists.infradead.org>; Sat, 14 Dec 2019 21:25:03 -0800 (PST)
+ id 1igMbx-0001fa-5P
+ for linux-nvme@bombadil.infradead.org; Sun, 15 Dec 2019 05:38:33 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=References:In-Reply-To:Message-Id:Date:
+ Subject:Cc:To:From:Sender:Reply-To:MIME-Version:Content-Type:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=o0nAQcnsb+T5h9bhgeYIzbak+OeGPv1PHTKsTeCIoXY=; b=DqsKeoIMFHPqTYZ3yLQoMNPJb
+ T3P8onOAeyrYED/uM3DDUv7RFW35b/AwB+BW8q8UhQtZt7GkfT0OuWsdCCny3QwOqt9GQLyhlw6Ga
+ QqNqr9Un88J392iNwfsvYh2Fqxj4J/9uYT9qmpjJIhp5HxMX+OTI2Zf2DDwujkBe5eRQOZV0ss9iS
+ uI+6JrbGG06Xl2f0o4Am4V96PIDM+cM2KNNKeVplAh2NgA7QdoK2qU0Ad0IcPrO8mlQnIaOBtP6uu
+ c11jb7UYcuhvKqi5sfVUm4yG8Q0P5uRYw6zQhLYzUhyS3QDjsbqhUAblubQXAQ03XRUTrcgCmVOyh
+ WCPAi/Liw==;
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443])
+ by casper.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1igMID-0006OD-PC
+ for linux-nvme@lists.infradead.org; Sun, 15 Dec 2019 05:18:14 +0000
+Received: by mail-pf1-x443.google.com with SMTP id s18so3759244pfd.8
+ for <linux-nvme@lists.infradead.org>; Sat, 14 Dec 2019 21:17:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=iJPFiDdoTrBrSdqjTpE+VPFHmC8ax0pLThG7IGKangk=;
- b=Id8NfdTFPUPB+fc7GWUtnaZycNxT1n/743f1r4mmprU8vigdUiO+qwV5Rrz9bb5cvS
- JFpw4kpX7F7iUhfnq57t+ScMl4f95d3tqi8LeBRCdyGMExAcUz/W8rfHTPc1pfSrXXti
- PMZTllluPehaVveLsU7xboTHQ5CkDcPhifUoApxdDmxQ0gAQqd5oYjDFsEAUunFDK7mP
- TgcWBy3rf9x/fCIN+Yd/BB4jRXSBr+guHfyatZ7v7cIomD3n8NclP80repjcNSP2ECzf
- CQnlPaqXdr5iEeQn0VfsxWvGaI4UFf1hAQLbeaaVRYg/4hB/8zQGjBw3kzQd6RWBhlRU
- G1hQ==
+ bh=o0nAQcnsb+T5h9bhgeYIzbak+OeGPv1PHTKsTeCIoXY=;
+ b=erojmZQu2yIt3sG10pk8q7D162SAcRjxoBKbUaHuIhQ9qCS8Ovsrir9CSC6ymhCozZ
+ FqJbFyL+b7YifQFa/0j7JxpknZq8Q2X9TeL1mjAJCnQEZo0ZaUgUDC3SmpcLnC97qrcz
+ 6+zdTV3ejXQXKXZW4bWUv3pwgL4xdnBcdl4GiSkW2HOo6e+sUTG07tQiiOZOVyEKlvGZ
+ 8LWNoxfJfejbBmxVEhjyX3vtC9aLJQopm1lxsyysNlSrJnFGkIcEn/CigYEybtUr7B++
+ WTxENH/IzJk+aDB4t8OozPOkKfLmn3HRsMt9cVmg1exjUHP4KQqCK1sXC5J6ExTdjFWA
+ aPRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=iJPFiDdoTrBrSdqjTpE+VPFHmC8ax0pLThG7IGKangk=;
- b=YQo9Y3rmgWGdreytui9cisBcXnaV4yaUyFuVEZOGwfIhr3dH/T7rveAeCP0tWC7dZx
- VSCTmM7IhdScgQ8FvSMEl72J+mnsACg/mFlcS0rIlbIJCZIcZPsT0N2xGOCidQolAEuh
- hEMO6G5Ks9TiQyzpUWHStXTpzLYVxes0FaDQAyPxx+7o/86IGqjTpWjF6dr6RXGQh4rq
- N7PLxcLNvLSqyKRS7eN3fvvcOliskGrom0gXvKwx7N1atXs53HETRbet9GZnhDcMza0J
- H8G1z/WrIBu8XOFS4Z317GvGFD6S1u7iYx4HtY6Ony5nj8uJOYA6rtaBlj/NBoDh+jwe
- PGhw==
-X-Gm-Message-State: APjAAAWRfTx/5db6Gy5hNbLD31OIWaCPzGTASFPyjf77VjJkYLW+7BSm
- /IMibcKIL7e1GMEj8ydocf/aJd7NBto=
-X-Google-Smtp-Source: APXvYqxTG4dxeNv2aoSLu1cumiV7gAuV9hcPKvGjbWfymM/Tqr7q01DvKziXiVpBQtLaPO5sHG9+HQ==
-X-Received: by 2002:a17:902:bd8e:: with SMTP id
- q14mr9152361pls.199.1576387062386; 
- Sat, 14 Dec 2019 21:17:42 -0800 (PST)
+ bh=o0nAQcnsb+T5h9bhgeYIzbak+OeGPv1PHTKsTeCIoXY=;
+ b=rkjXRAnHrH7jM9ZW2kU8qsyEEpBXp/Bijh2FTWLbSMG5eMeOzhg4tjOzk3/dDtwri2
+ VFdhof5Io9T+7GqL4L0dYhz1E96lObyXQk9ryJFvrtTnnPwqcPt05ZipdHMcgidQUEDq
+ DXfpYqxK0v7D1fBCio7N8iDRdKojKSPEBSOT4/VdYwQv5ro5t4FmAISelJF9s61uOs1e
+ F1DqPtO4fe7q01jdDN2JkyGAJdsrU7BXqD7K11PETE8iCHpJSZJ+5P5z9lZiEBefWKCj
+ UB07QiiZqsZ8O1OTo6UvldtwTO93PWquqIvijW3f/OZemxQ+hhLK6hk3gj0/aNn+gZS9
+ sk+Q==
+X-Gm-Message-State: APjAAAVeSAcJCjH0zCMEIE7AjtS8Tpa5Ll6kJGdQGq/k0v8f8yyItShh
+ jqT1lShwVQ/UrGMTbxBfB1s9lXplcxo=
+X-Google-Smtp-Source: APXvYqxoUa7OEVWIs7gSylEoHGyOHkaN4si8hTmYB1eDQDWpbT6CBXJiWnAxrimODPovU2iUuCMwpg==
+X-Received: by 2002:a63:7705:: with SMTP id s5mr9996843pgc.379.1576387058498; 
+ Sat, 14 Dec 2019 21:17:38 -0800 (PST)
 Received: from localhost.localdomain ([240f:34:212d:1:368e:e048:68f1:84e7])
- by smtp.gmail.com with ESMTPSA id u10sm16596528pgg.41.2019.12.14.21.17.38
+ by smtp.gmail.com with ESMTPSA id u10sm16596528pgg.41.2019.12.14.21.17.34
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Sat, 14 Dec 2019 21:17:41 -0800 (PST)
+ Sat, 14 Dec 2019 21:17:37 -0800 (PST)
 From: Akinobu Mita <akinobu.mita@gmail.com>
 To: linux-nvme@lists.infradead.org, linux-hwmon@vger.kernel.org,
  linux-pm@vger.kernel.org, linux-wireless@vger.kernel.org,
  linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
  akpm@linux-foundation.org
-Subject: [PATCH v4 11/12] thermal: armada: remove unused TO_MCELSIUS macro
-Date: Sun, 15 Dec 2019 14:16:14 +0900
-Message-Id: <1576386975-7941-12-git-send-email-akinobu.mita@gmail.com>
+Subject: [PATCH v4 10/12] iwlwifi: use <linux/units.h> helpers
+Date: Sun, 15 Dec 2019 14:16:13 +0900
+Message-Id: <1576386975-7941-11-git-send-email-akinobu.mita@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1576386975-7941-1-git-send-email-akinobu.mita@gmail.com>
 References: <1576386975-7941-1-git-send-email-akinobu.mita@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191214_212503_930005_4579CF59 
-X-CRM114-Status: UNSURE (   9.69  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20191215_051809_930335_8EB446D7 
+X-CRM114-Status: GOOD (  13.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,42 +114,84 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Zhang Rui <rui.zhang@intel.com>, Daniel Lezcano <daniel.lezcano@linaro.org>,
- Akinobu Mita <akinobu.mita@gmail.com>,
- Amit Kucheria <amit.kucheria@verdurent.com>
+Cc: Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+ Johannes Berg <johannes.berg@intel.com>,
+ Intel Linux Wireless <linuxwifi@intel.com>,
+ Akinobu Mita <akinobu.mita@gmail.com>, Luca Coelho <luciano.coelho@intel.com>,
+ Kalle Valo <kvalo@codeaurora.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This removes unused TO_MCELSIUS() macro.
+This switches the iwlwifi driver to use celsius_to_kelvin() and
+kelvin_to_celsius() in <linux/units.h>.
 
-Cc: Zhang Rui <rui.zhang@intel.com>
-Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc: Amit Kucheria <amit.kucheria@verdurent.com>
+Cc: Kalle Valo <kvalo@codeaurora.org>
+Cc: Johannes Berg <johannes.berg@intel.com>
+Cc: Emmanuel Grumbach <emmanuel.grumbach@intel.com>
+Cc: Luca Coelho <luciano.coelho@intel.com>
+Cc: Intel Linux Wireless <linuxwifi@intel.com>
 Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Acked-by: Luca Coelho <luciano.coelho@intel.com>
 Signed-off-by: Akinobu Mita <akinobu.mita@gmail.com>
 ---
 * v4
-- add Reviewed-by tag
+- add Reviewed-by and Acked-by tags
+- remove "wireless: " in the title
 
- drivers/thermal/armada_thermal.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/net/wireless/intel/iwlwifi/dvm/dev.h     | 5 -----
+ drivers/net/wireless/intel/iwlwifi/dvm/devices.c | 6 ++++--
+ 2 files changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/thermal/armada_thermal.c b/drivers/thermal/armada_thermal.c
-index 709a22f..fc6dc10 100644
---- a/drivers/thermal/armada_thermal.c
-+++ b/drivers/thermal/armada_thermal.c
-@@ -21,8 +21,6 @@
+diff --git a/drivers/net/wireless/intel/iwlwifi/dvm/dev.h b/drivers/net/wireless/intel/iwlwifi/dvm/dev.h
+index be5ef4c..8d83800 100644
+--- a/drivers/net/wireless/intel/iwlwifi/dvm/dev.h
++++ b/drivers/net/wireless/intel/iwlwifi/dvm/dev.h
+@@ -237,11 +237,6 @@ struct iwl_sensitivity_ranges {
+ 	u16 nrg_th_cca;
+ };
  
- #include "thermal_core.h"
- 
--#define TO_MCELSIUS(c)			((c) * 1000)
 -
- /* Thermal Manager Control and Status Register */
- #define PMU_TDC0_SW_RST_MASK		(0x1 << 1)
- #define PMU_TM_DISABLE_OFFS		0
+-#define KELVIN_TO_CELSIUS(x) ((x)-273)
+-#define CELSIUS_TO_KELVIN(x) ((x)+273)
+-
+-
+ /******************************************************************************
+  *
+  * Functions implemented in core module which are forward declared here
+diff --git a/drivers/net/wireless/intel/iwlwifi/dvm/devices.c b/drivers/net/wireless/intel/iwlwifi/dvm/devices.c
+index dc3f197..d42bc46 100644
+--- a/drivers/net/wireless/intel/iwlwifi/dvm/devices.c
++++ b/drivers/net/wireless/intel/iwlwifi/dvm/devices.c
+@@ -10,6 +10,8 @@
+  *
+  *****************************************************************************/
+ 
++#include <linux/units.h>
++
+ /*
+  * DVM device-specific data & functions
+  */
+@@ -345,7 +347,7 @@ static s32 iwl_temp_calib_to_offset(struct iwl_priv *priv)
+ static void iwl5150_set_ct_threshold(struct iwl_priv *priv)
+ {
+ 	const s32 volt2temp_coef = IWL_5150_VOLTAGE_TO_TEMPERATURE_COEFF;
+-	s32 threshold = (s32)CELSIUS_TO_KELVIN(CT_KILL_THRESHOLD_LEGACY) -
++	s32 threshold = (s32)celsius_to_kelvin(CT_KILL_THRESHOLD_LEGACY) -
+ 			iwl_temp_calib_to_offset(priv);
+ 
+ 	priv->hw_params.ct_kill_threshold = threshold * volt2temp_coef;
+@@ -381,7 +383,7 @@ static void iwl5150_temperature(struct iwl_priv *priv)
+ 	vt = le32_to_cpu(priv->statistics.common.temperature);
+ 	vt = vt / IWL_5150_VOLTAGE_TO_TEMPERATURE_COEFF + offset;
+ 	/* now vt hold the temperature in Kelvin */
+-	priv->temperature = KELVIN_TO_CELSIUS(vt);
++	priv->temperature = kelvin_to_celsius(vt);
+ 	iwl_tt_handler(priv);
+ }
+ 
 -- 
 2.7.4
 
