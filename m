@@ -7,63 +7,86 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3C19C43603
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Dec 2019 08:37:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50A16C43603
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Dec 2019 08:58:21 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 86671207FF
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Dec 2019 08:37:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id F27B92072D
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Dec 2019 08:58:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="rtqbJFtV"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 86671207FF
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=bitland.com.cn
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="YVzQT6ox";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="lWUi3Gqs"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F27B92072D
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Cc:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	References:List-Owner; bh=VaeywJkXEnp8jJczOlzRW4IHcNjH/Bi95u0rdHo6pU4=; b=rtq
-	bJFtVDGuYegXXpYy3/Gg4lkE7G6t0DXiWO7OuTaF1waQdD8Yu5JFJynRsq8mtAkp+u0QJqL4d9s4a
-	dNefDwTGI5CPB53LB/OjSeF7av7ytIlvgRWe553dxfnYwXWSfjBC14E+x4oUpEj5bDXbGFlcLaaI8
-	gtIn6Gu5hLwZMTTd2L+vBECkHqsuiNZSx/o9tcVZayR/WuftJm0vwlRe0xiu2hTEHdri9f0ICc9CD
-	dU4EBejEFS/eGoQkbhJx8hFH6aUMAZI+Klri+0D3/H1OLoeJ1Z3tcG07Uao9PYJxZ+fWTvothIhTJ
-	epRlbgUqwYZUSrm1IYSzcuKhQ4S/jFw==;
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
+	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=3cqHKYza/6jUsEFdyEhiq6VV6GLCsY311AHAHQeDBDY=; b=YVzQT6oxOWFQOW
+	fG1tO5rdZ3PptwiinzXjOjDujxxZaR46qqPJVZWgD4izTe0MMhx3faKhS3viTqwJiD4tNrDGVLnwE
+	E3OyRltDcFRsdlrtd9ksltblwreOh+k5wVo5XxRrQYWEmBFyqr9FKobxfiJOmabrMnxCsilmkXicG
+	YgAPB0gn/rTrLrU2stqR8YBnj5QWU1EIJvId16RhsH2IJil4BKMjXURwSml6SVAGcLXiPXYYwKe8Q
+	izmZwv8FMTzfkShkNj51dZnMLm3koYAFWkA8fihwix+f6w45TFBVxGYnUwCsu0J5CWoJjhHWTjpgo
+	F3D0gzuGtZUXXhYXmt/A==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1ih8Lt-0007RV-O0; Tue, 17 Dec 2019 08:37:09 +0000
-Received: from smtpbguseast3.qq.com ([54.243.244.52])
+	id 1ih8gL-00077i-4P; Tue, 17 Dec 2019 08:58:17 +0000
+Received: from esa5.hgst.iphmx.com ([216.71.153.144])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ih8Lo-0007Oa-Sv
- for linux-nvme@lists.infradead.org; Tue, 17 Dec 2019 08:37:07 +0000
-X-QQ-mid: bizesmtp24t1576571691t7r7xrsr
-Received: from wuxy.com (unknown [183.62.170.245])
- by esmtp10.qq.com (ESMTP) with 
- id ; Tue, 17 Dec 2019 16:34:43 +0800 (CST)
-X-QQ-SSF: 01400000002000Z0WK40000A0000000
-X-QQ-FEAT: mJep2VbaKxbBTqLacDfKO4WISokeKXELn+ZwA41XZ5LPjvf2S0xAsDt6KLAP3
- cxBadapbGqQa/Jn946ifkrkP/7DXr78G2L0SQEaUIWpuYdVN0hctJzdvnYuzfKRypk6uKI6
- Bw3hRrvlbggiQsERASLUvZqcYKi0HdtjT8xuU0gux19Sf5hEdvHQP4epm1YNcbUMP3g160s
- x8MBybLGCffV3bOd+NWyjIFYPM5QuTTZ8hVshxi5rOy02JuP9PNhKndlbRfm/+1wWd97vnR
- aw4YmK2SyAHKLccRJqNtWWP93oC6xYxl8oZfcmST2bnTnlbx/riiZ7f2g9GyItpKfIsTRqh
- M3UmuKpqbs1/hjhAmo=
-X-QQ-GoodBg: 2
-From: wuxy@bitland.com.cn
-To: kbusch@kernel.org, axboe@fb.com, sagi@grimberg.me,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- evgreen@chromium.org, rajatja@google.com
-Subject: [PATCH] nvme: Add quirk for "SAMSUNG MZALQ128HBHQ-000L2"
-Date: Tue, 17 Dec 2019 16:34:30 +0800
-Message-Id: <20191217083430.3269-1-wuxy@bitland.com.cn>
-X-Mailer: git-send-email 2.17.1
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:bitland.com.cn:qybgforeign:qybgforeign6
-X-QQ-Bgrelay: 1
+ id 1ih8gJ-00077B-11
+ for linux-nvme@lists.infradead.org; Tue, 17 Dec 2019 08:58:16 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1576573095; x=1608109095;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=JXzOhfCmY8Z1wfV4mprMZytG1SkASRpAbwM2wsAtBgc=;
+ b=lWUi3GqsU6oDuIXIMiXkGk4smIopF8ks8eCl/395Ifyfz1OKkgQICsR1
+ 4vNENXPi4oJC2ynN1P7LH190J4Scxx2FmTaZiouIEuf4JeVa2I7YaCQe9
+ +0EvUcktGzGAwSqvD41ZjvIYNWFGsn3Fcahr0SfCmb0+PjitQ8qt8Vsx4
+ oDWci+TMb2tL4m7RyFFvNEw4ksN6ox9zV5M2+Bq0aIZ67zz+MpARaHnk2
+ UtY4ANeZp729BSFQm6JqVN0g5sn6BnDZE34J553lvTyolhQk4i8UNyQF6
+ 6EzlducD81z+m3MG1X0qUSceOvN0i0z+ka0pVNFwGW9jO4jlabajvysWt g==;
+IronPort-SDR: dYTqjgnuVtR98wM6lk4GuvWIQtprZFbwJcToxSYTeb5RjFRBdBgfDT1VXRUThPIh9Ba+BrCedc
+ /KUpMAr0YXy2aYkX+o1Wk2BZ9rxHpKyycR7RuGszXKtY52+FMFrNZJhkVd2zx27JrAfP9cdwS7
+ bNCd350Kunkk0XIPQgfpd6JpcSmbWe+sxML/q8LGoCIi2/lCtICHlJt4469PzypJBoX4ERHAzw
+ sRB6ahya+5IqSu/berSz6H5L9+1JASbwLbxJ9gB7Bkx/+mCh7R8xzfL6MFrX1i39XQDqasGG8T
+ Cdc=
+X-IronPort-AV: E=Sophos;i="5.69,324,1571673600"; d="scan'208";a="126299491"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 17 Dec 2019 16:58:11 +0800
+IronPort-SDR: jvuBaIH0T4Om1Pplx/KgAFhk+iYB8wlaIj557dTb8fpKZfAftzgniURoe6Q247HyQhzqDFpm+r
+ T34sXEGmJWj5rlIBEnpAb3kK3GFv2Zzu21KzBN8sRdnH28iKS7pHe2mpBRTgadOLP3601JmD9a
+ JqA173nsvjX2flnpx17h2vFOw9GCWF1XwSQOBb6NyPQpK2y2r3oTqkd5gwpVyUNP0c5fpLPuxn
+ ju013NnJ1K5Vv65La27iclVKDtq2AFzn/tzUPHKGqCefNowTlTJYbjXxydbiUS/nC0QqQQTxTq
+ xxghfLkGEDcGDhU+2mH1GW2Q
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Dec 2019 00:52:14 -0800
+IronPort-SDR: Dy9E565Nk8rSJsb1hPaqY/OZNX+KnP7GfBpPB30C7QRLupzXM/WVCtjTCjjZ7R+fvTag2kAKgp
+ z2W85sqRoMOcuMUlRS5cckvo9P6gZfdcdqGqY+T7FwxjUBtfHtdXGuPK1e53lym/4Kvfg07GOM
+ 1Y/klJTgNLWx5u16YIeUf14aGQiQHS2uUyUx6rrSc0+J29SogB73RlGQ/z0mewMkba9hO98FXD
+ msV+WQlUl0UOHEGPLjWYpANbiZAz1nsyhcQ0TkzCd7iU1zfE9ZKaV7KH6Zp8l/uPP0lF0eofpc
+ /Og=
+WDCIronportException: Internal
+Received: from iouring.labspan.wdc.com (HELO iouring.sc.wdc.com)
+ ([10.6.138.107])
+ by uls-op-cesaip02.wdc.com with ESMTP; 17 Dec 2019 00:58:11 -0800
+From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+To: linux-nvme@lists.infradead.org
+Subject: [PATCH] nvmet: access nr_namespaces under subsys lock
+Date: Tue, 17 Dec 2019 00:58:11 -0800
+Message-Id: <20191217085811.29684-1-chaitanya.kulkarni@wdc.com>
+X-Mailer: git-send-email 2.22.1
+MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191217_003705_060368_6553674B 
-X-CRM114-Status: UNSURE (   9.77  )
+X-CRM114-CacheID: sfid-20191217_005815_074770_B2A0EB4A 
+X-CRM114-Status: UNSURE (   9.32  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -76,55 +99,39 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: wuxy <wuxy@bitland.corp-partner.google.com>, wuxy@bitland.com.cn
-MIME-Version: 1.0
+Cc: hch@lst.de, Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
+ sagi@grimberg.me
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: wuxy <wuxy@bitland.corp-partner.google.com>
+The subsystem increments the number of namespaces which is protected by
+the subsys->lock under nvmet_ns_enable(). Use a similar lock when
+decrementing the same variable in nvmet_ns_disable().
 
-Samsung SSD with model number:SAMSUNG MZALQ128HBHQ-000L2 has no response
-when doing the "suspend/resume" test.This patch applied
-NVME_QUIRK_SIMPLE_SUSPEND to fix this issue.Run the 2500 cycles
-"suspend/resume" test after applying this patch and the issue can not
-be reproduced again.Co-work with Samsung,they will fix this issue
-in future firmware.
-
-BUG= https://partnerissuetracker.corp.google.com/issues/144257635
-TEST= run 2500 cycles "suspend/resume" test,the result is passed.
-
-Signed-off-by: Xingyu Wu <wuxy@bitland.corp-partner.google.com>
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 ---
- drivers/nvme/host/core.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/nvme/target/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 667f18f465be..d16d12abec50 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2414,6 +2414,16 @@ static const struct nvme_core_quirk_entry core_quirks[] = {
- 		.vid = 0x14a4,
- 		.fr = "22301111",
- 		.quirks = NVME_QUIRK_SIMPLE_SUSPEND,
-+	},
-+	{
-+		/*
-+		 * This Samsung SSD encountered no repsonse issue when
-+		 * running suspend to idle test.
-+		 * Samsung will fix this issue in future firmware.
-+		 */
-+		.vid = 0x144d,
-+		.mn = "SAMSUNG MZALQ128HBHQ-000L2",
-+		.quirks = NVME_QUIRK_SIMPLE_SUSPEND,
- 	}
- };
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 28438b833c1b..706a7d50821a 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -611,9 +611,9 @@ void nvmet_ns_disable(struct nvmet_ns *ns)
+ 	wait_for_completion(&ns->disable_done);
+ 	percpu_ref_exit(&ns->ref);
  
++	subsys->nr_namespaces--;
+ 	mutex_lock(&subsys->lock);
+ 
+-	subsys->nr_namespaces--;
+ 	nvmet_ns_changed(subsys, ns->nsid);
+ 	nvmet_ns_dev_disable(ns);
+ out_unlock:
 -- 
-2.17.1
-
-
+2.22.1
 
 
 _______________________________________________
