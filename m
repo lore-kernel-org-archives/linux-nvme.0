@@ -2,131 +2,91 @@ Return-Path: <SRS0=PPGx=2I=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B584C43603
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Dec 2019 01:03:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21B83C43603
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Dec 2019 03:59:14 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E5A9D206D3
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Dec 2019 01:03:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E651520715
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Dec 2019 03:59:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="DiGwFq1+";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="Ws0w+1SH";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="Ei+/sbMx"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E5A9D206D3
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="KOOHK6xc";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="qPx5skow"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E651520715
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:To
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
 	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=xivHZ2VGl4TOx5oz5OlGNhO/Kh2oNKA6WkEa6LMSrcc=; b=DiGwFq1+VmPSJl
-	ea0fSG2YlU08ebrXYOnXPYcTvPr3+lumMcXihiQ/NnpC52E4HEeGdbIJQPa6siZR8SxR4JU9BCYmv
-	S5dwc7fx7IjO9lFArc3X3DqjZwQBbbGWL6nQw5orxCaK5aG5VD10m70tWwxDa6yFr5VXxracxt77M
-	wxPyqAhP9onSUDa8mvVjcgP6ibqdw5oCwIVD6HChec3BPVPFAqtvA8dA8dDYBzDU+fudY3MZ3olU0
-	4CyTTXGQTNQyBAWCvwEmx2EzbBziD3/kAR0PdCOakFWgGgJfMM8Em/jubgXcr2ikLv88aC8h5ag/B
-	qJQRoU4g8ocjE8VdD77Q==;
+	List-Owner; bh=YL4nbuLe0Vyt1u0VfA9WoLjhJBuBjUk0HanOJkhq59o=; b=KOOHK6xcX/9NUR
+	8tQozNjTNPq2E7BxD0Rlufb4MVqpr3RFaAEAx7lVWyNJb7RJ4WsnHHY/yriEDa6EFcuVSzitPcap6
+	A5tg/fxPtptrZo94iqHhlzYhjvlq0DI9Y4TEqAo1XUjOHzVciUfn5zqK6lGUpvMc1UgQVDvRhUvjS
+	oUD8AxZ+q61iBKnLeATIuK0zCof35wUEV7jpHomKixFBeVhyLr1jkVmkhLIICM5Tsn8mJYEvM0pV4
+	lRuEb9P4ODYu0A8Ewih6dS0+KL2khRxLEHz/Kr8jpQ2BWsHq/ytLZMZVDbzD3GyrXKJYQlZaLZH+c
+	SNygjdzIuHjJuuv+p/oA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1ihNkR-00059K-RT; Wed, 18 Dec 2019 01:03:31 +0000
-Received: from esa4.hgst.iphmx.com ([216.71.154.42])
+	id 1ihQUQ-0001Nw-LW; Wed, 18 Dec 2019 03:59:10 +0000
+Received: from esa5.hgst.iphmx.com ([216.71.153.144])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ihNkO-00058l-OQ
- for linux-nvme@lists.infradead.org; Wed, 18 Dec 2019 01:03:30 +0000
+ id 1ihQUM-0001NE-BD
+ for linux-nvme@lists.infradead.org; Wed, 18 Dec 2019 03:59:09 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1576631008; x=1608167008;
- h=from:to:cc:subject:date:message-id:
- content-transfer-encoding:mime-version;
- bh=+vpeGyQWUaPoaMDiw5eEa0RagOPFW/cTTwDuT2inJiA=;
- b=Ws0w+1SHtbcpGcYcTsuLg1B9AppaxqfAYJhlnQPyZKHfcwADabEPteI0
- sH+iCtdnNOd3IsbTuRD1nnbyXJNp0DbvBBmw3l1cevimqr4KBImwhifrO
- ZxTyo/H6Ooei0+87OCd0xXTdAVxxuhu0EuKM/FcBwLwDwC6kdV7bnxlv/
- JnZPTZouvhKXq0Nmpm2Od+ae2yKeGOKhgxo5FxDQBF6DXKEVnOAK1ZTGW
- EfXrZfxyALA3Zx0hiStvZZP8h5vtGInMJ0uyfGiVbu2Pg52SHVB3aqIWk
- NJhCYRcbykvcDbc0AG4EltkK3SH03khQ5jV6eHMQh3JhIsx6pHvqU9L0o Q==;
-IronPort-SDR: 79sxCJrpOvkppt1EIYw/3n/pfcNwP0nCYwf+oQ02fzaJBhqHcJygQcus3SNealHHDpMiw/aVNz
- HxOAoK0r9AKgi/5PIQVDdN0eewtXn1vlgx16VM1KDLIwzFPDbI1mb7bWIRj4+x67uvfCH8Wuvj
- rsiYsEQ6D6qYcs7WPSHBeRwcGyA7Wcwqvma5C+05DvU1Z9qFX9S6TU7HR7GreNOshJiFrbodk/
- v8vi269CJyapwnN7soRcJjAy9BA56g/7R8yb1QQcUVWHXj10US4JiCMdZbU3BctWVVVkuVf3RF
- Ea0=
-X-IronPort-AV: E=Sophos;i="5.69,327,1571673600"; d="scan'208";a="125584544"
-Received: from mail-dm6nam11lp2172.outbound.protection.outlook.com (HELO
- NAM11-DM6-obe.outbound.protection.outlook.com) ([104.47.57.172])
- by ob1.hgst.iphmx.com with ESMTP; 18 Dec 2019 09:03:20 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=b9It5Scl4wszS0rCV6Au/Fr19JAx940jefpqkpR3qxkepk5HcD4NMZRgklCSL3LFJg94td0wgpCjIiO625J3YIyAOzKog84JpYa3owxuGEliubg5qLdzABN9oUla/pnFdkptGuuDXFXrtJC0IYoSP6S664nqtpUFz4hSUB5dsm7uj4cLIETXH/ouvMlrCY4MRqaK+Nnz8GfPISljYHhxynONHrPCuc+suszAi8K4zwqQD8J8kPWMKalbZ35T1y6S4Kj+nGZPhpq33g0dD7xvow3p/yFuyKhjFQubwKSZQAmF+tfhocLmZCET+bEqN9L8w1ylp0/b5XukYu2MenKAsw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+vpeGyQWUaPoaMDiw5eEa0RagOPFW/cTTwDuT2inJiA=;
- b=ck6wsARSescPyuqmEWZ1JeSnUsE1UfsZseHv0oQlvzmAcBQNE7opqQYKh3s9QzT9SR2vB/w/igepyjzQ2fiF8syoW5n5PQxD/Wt8pmBXrFyY0PbqKzkzkzD2alpt8R3sU/lvmCNtUogI3lNFp4P2ShUKhTK5ZUW9kKgZhgO4LJ5fsybBrkjtMU/L22pVnOFHxg0E/KmsmSWrDW97/F1rI5wvZY8GRtkZFSwAoEBtEylSqL3wnu9FUAgXTt3bh6kcS0c7fiOODD+o9n/xQRIMWDXpVr4BcWiFIhNZyJyliRpLHxrs5Nulv2Ym3wtLXNpkPJAegK9yJAxManv7dFLqVQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+vpeGyQWUaPoaMDiw5eEa0RagOPFW/cTTwDuT2inJiA=;
- b=Ei+/sbMx2ean53tl2NY9zqX2CyPHEeHWkaoptWbZQCdSc+OpzLvMxsLN6sYKgcJSV0eni0Ch2H1M/htO4cwFqCYQICBPciDb3Y1rjiGO3NmTerA+1o8LezicrmHhX0W/Qu1a4U9rgwO3HWOQeV/V4n54/GgP1HHT2oABjWTBD2w=
-Received: from BYAPR04MB5656.namprd04.prod.outlook.com (20.179.58.95) by
- BYAPR04MB6199.namprd04.prod.outlook.com (20.178.235.21) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2538.18; Wed, 18 Dec 2019 01:03:19 +0000
-Received: from BYAPR04MB5656.namprd04.prod.outlook.com
- ([fe80::e9c7:7465:ee42:c2ae]) by BYAPR04MB5656.namprd04.prod.outlook.com
- ([fe80::e9c7:7465:ee42:c2ae%7]) with mapi id 15.20.2538.019; Wed, 18 Dec 2019
- 01:03:19 +0000
-From: Jeffrey Lien <Jeff.Lien@wdc.com>
-To: Keith Busch <kbusch@kernel.org>
-Subject: NVMe CLI Doc Regen
-Thread-Topic: NVMe CLI Doc Regen
-Thread-Index: AdW1Pu77WhASuiIvSieALdRluH8oFA==
-Date: Wed, 18 Dec 2019 01:03:19 +0000
-Message-ID: <BYAPR04MB5656D3C483431C89188A3C22EA530@BYAPR04MB5656.namprd04.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Jeff.Lien@wdc.com; 
-x-originating-ip: [199.255.45.60]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: b59dffea-fe57-4313-6e01-08d783561289
-x-ms-traffictypediagnostic: BYAPR04MB6199:
-x-microsoft-antispam-prvs: <BYAPR04MB6199197D4993F3C5DB4FED3BEA530@BYAPR04MB6199.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:5236;
-x-forefront-prvs: 0255DF69B9
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(136003)(39860400002)(396003)(366004)(376002)(346002)(199004)(189003)(8936002)(81156014)(478600001)(26005)(316002)(8676002)(4326008)(33656002)(76116006)(4744005)(6506007)(71200400001)(52536014)(7696005)(3480700005)(186003)(9686003)(6916009)(66556008)(2906002)(66476007)(66946007)(64756008)(66446008)(86362001)(5660300002)(55016002)(81166006);
- DIR:OUT; SFP:1102; SCL:1; SRVR:BYAPR04MB6199;
- H:BYAPR04MB5656.namprd04.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 8/d6iDeccN76YkAfGYUTShkDb0K4O7+0nCzZAobXBrLfd6AZcwgVJgCasLfBLVPXv1Y7+CWpW0VhhIuyJZhMgZFfnGDPq5/ZsfVPhIuNaCgUpV5BN4X2wT/Wg3GrE3zvSpiCxlzxPQGX4syfMjEATUexPLnlvtlDxCf20qtykZkiX6eithRJ6SnX4+BnzKiAuW1n3acOhmKtisrSrhyq492CVJpwZSq0DNefZ0ns1Ljhpq9pwABSRchMMqWNs/jtA378BaITL5tDnIY2x59r4ruPENjPK1yMidI45B2+Za2XYsy7CMdzeA0SK3DE3UJlDl/ars2dlXDNpKDkmKW+4BAOHa57DoAIqdT8I8DM5NOHwT89x/ZvKvIyTT0uMCd0xuP+8zmrJLhID3sgDUN+qbLhh8uqJwH+P20QLAvJoZw+yxMLJonG+qKLbCfb3BGI
-x-ms-exchange-transport-forked: True
+ t=1576641546; x=1608177546;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=KDDegN2bhIGDG4aEx7UlQxaiDcI9bj8s4uw+gptXxo8=;
+ b=qPx5skowAYHr9OmYj5gtLU+iwz2CxfqpOCTb+mt2uA6iVYdDLaS6BPwT
+ MvkqZhwVfIiz7XvjXUvxQ7d0cUjWbwgCbcPIi53ML4Xpv9xyvABsftRCQ
+ 5RytLPRZily7GsKEy4ieioPX0KOlzZnF2+Gi7/va/o+UjavVl68QeM8Zr
+ zLVo33nmzvr65rtnCrVSvyp6x4PWac+DeiIvSNlvhSQw2jL8NcEwD35P8
+ akvnaDPX04FXRtQRKVnGKmQEye4hbMBhvKU1/nL3cMgrjPlujc7Emg6Mi
+ IghU5PBy3nSgxWI4jAPapTqpudEsLm0BTl2Vi6WeQDHtvMHPtEVXxf/iy Q==;
+IronPort-SDR: gQ6vl0R5jvLi5fa1jjQPF6eUFKgLdzaFXTMX6l7j+93GJ7NFSwQzo4ERPxH+oW6l4LkybFp9QM
+ uiSN5LWrz7hINcWpSlxJ4iOwSdWdzgbbLatSgFrMuuKf4fJ/USN/eE9E/BlAQTEFTrfWsLR1Ns
+ n1Z43jSsMBvyOSLHcl+H4/wseKKaGHy7EvTlqMEvF6Z02J7VFDe8h/folaQABwQP8QlKSzm2Nx
+ +eq+GbMWm8ug/+c1x4b5SCk825vQmNVi1D5Ay8O0PePUqRFFwPSYwa8ONlDi/0plrue6jTXgpU
+ U7Q=
+X-IronPort-AV: E=Sophos;i="5.69,328,1571673600"; d="scan'208";a="126377149"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 18 Dec 2019 11:59:03 +0800
+IronPort-SDR: AFkbLJ7lYIwmA3JnaNn5kJX6VGoqP7rzt3mF2uhFSoMUt07C65J0WA5ux3RtIVhQauvao4/flN
+ wDPlxVVXQKuf6cAZ4/OZAHujIc9Ab8tPOJkf4UVB7Ag1cPRdJZD4ntXchE7fspKpPK1XNm46m+
+ 6QdGGxklY/sZxtzvLPKppQ3pjUNpXvXrGSM8v9PYQVH68g6YsxFuJjRqA8s0mf/GggX/32xCVy
+ BkQ5b0CzudjiQInE2E+DjXuH+dZH1m8GY+evy+Xj/G9MgnEnY3GweoZSWM2tY+jpuleBBjrmDf
+ 36ZHN9Zl2Kj6N3wLUcXQTROL
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Dec 2019 19:53:26 -0800
+IronPort-SDR: qRAYpbhYfg8+Wq9PG/klSSJmDhAqdp86NkB7YIvMJ2BjJPIse650Kj2LL62NKEd8mMP8XPgh7S
+ zuRPnktajIubxcf2eKGvYl2b2VXFbt9R8c3NbhREO0iHOfq4Z+eAjQBfLM9h1YeED4SBrMGxyj
+ leX4iIWsJA50WgkHZe6dyahbNcrHpHOfeeXq+8XpgGK2pRBE6QvDxT5eILNJ6KZhwdlNyyy67l
+ kBDO3UfE5x5YykOioOdytg9fSbXwdsmQvIb57l9wwWcx2jFqq8wZQfnbjsdAI5wAu4TEuytjA0
+ DqU=
+WDCIronportException: Internal
+Received: from iouring.labspan.wdc.com (HELO iouring.sc.wdc.com)
+ ([10.6.138.107])
+ by uls-op-cesaip01.wdc.com with ESMTP; 17 Dec 2019 19:59:03 -0800
+From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+To: linux-nvme@lists.infradead.org
+Subject: [PATCH RESEND] nvmet: update AEN list and array at one place
+Date: Tue, 17 Dec 2019 19:59:04 -0800
+Message-Id: <20191218035904.3735-1-chaitanya.kulkarni@wdc.com>
+X-Mailer: git-send-email 2.22.1
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b59dffea-fe57-4313-6e01-08d783561289
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Dec 2019 01:03:19.6417 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: f5h+o0+sJmQeONjWA994g9aFrgvKIOJiKhBSqXeYpBW60PlZxmBJjQJ84ruf7r3L2BB38U6xRZwh7QJZzwk+ew==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB6199
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191217_170328_859433_2D88E381 
-X-CRM114-Status: UNSURE (   6.66  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20191217_195906_423953_5FF6C966 
+X-CRM114-Status: GOOD (  16.11  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,34 +98,134 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-nvme <linux-nvme@lists.infradead.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
+ Johannes Thumshirn <jthumshirn@suse.de>, hch@lst.de, dwagner@suse.de,
+ sagi@grimberg.me
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+From: Daniel Wagner <dwagner@suse.de>
 
-Keith,
-I added a new wdc plugin command (vs-telemetry-controller-option) in the la=
-st pull request and need the new doc files generated.=A0 Could you do a reg=
-en of the Documentation files?=A0 =
+All async events are enqueued via nvmet_add_async_event() which
+updates the ctrl->async_event_cmds[] array and additionally an struct
+nvmet_async_event is added to the ctrl->async_events list.
 
-If you want me to build and include them in the pull request next time, jus=
-t let me know.=A0=A0 =A0
+Under normal operations the nvmet_async_event_work() updates again the
+ctrl->async_event_cmds and removes the corresponding struct
+nvmet_async_event from the list again. Though nvmet_sq_destroy() could
+be called which calles nvmet_async_events_free() which only updates
+the ctrl->async_event_cmds[] array.
 
-Thanks
+Add a new function nvmet_async_events_process() which processes the
+async events and updates both array and the list. With this we avoid
+having two places where the array and list are modified.
 
-Jeff Lien
-Linux Device Driver Development
-Device Host Apps and Drivers
-jeff.lien@wdc.com
-o: 507-322-2416 (ext. 23-2416)
-m: 507-273-9124
+When the status value is set != NVME_SC_SUCCESS that implies
+nvmet_async_events_process() is called from free events context.
+In this case after clearing the aen present on the ctrl->async_list we
+also loop over ctrl->async_event_cmds[] for any requests posted by the
+host for which we don't have the AEN in the ctrl->async_events list.
 
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>
+Cc: Johannes Thumshirn <jthumshirn@suse.de>
+Signed-off-by: Daniel Wagner <dwagner@suse.de>
+[chaitanya.kulkarni@wdc.com
+ * Added the code to loop over and clear out outstanding requests
+   present in the ctrl->async_event_cmds[] for which aen is not
+   generated.
+ * Update patch description and title to fit kernel log style.
+]
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+---
+ drivers/nvme/target/core.c | 53 +++++++++++++++++++++-----------------
+ 1 file changed, 30 insertions(+), 23 deletions(-)
 
-
-
-
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 28438b833c1b..53c83f84aa32 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -129,27 +129,8 @@ static u32 nvmet_async_event_result(struct nvmet_async_event *aen)
+ 	return aen->event_type | (aen->event_info << 8) | (aen->log_page << 16);
+ }
+ 
+-static void nvmet_async_events_free(struct nvmet_ctrl *ctrl)
+-{
+-	struct nvmet_req *req;
+-
+-	while (1) {
+-		mutex_lock(&ctrl->lock);
+-		if (!ctrl->nr_async_event_cmds) {
+-			mutex_unlock(&ctrl->lock);
+-			return;
+-		}
+-
+-		req = ctrl->async_event_cmds[--ctrl->nr_async_event_cmds];
+-		mutex_unlock(&ctrl->lock);
+-		nvmet_req_complete(req, NVME_SC_INTERNAL | NVME_SC_DNR);
+-	}
+-}
+-
+-static void nvmet_async_event_work(struct work_struct *work)
++static void nvmet_async_events_process(struct nvmet_ctrl *ctrl, u16 status)
+ {
+-	struct nvmet_ctrl *ctrl =
+-		container_of(work, struct nvmet_ctrl, async_event_work);
+ 	struct nvmet_async_event *aen;
+ 	struct nvmet_req *req;
+ 
+@@ -159,18 +140,44 @@ static void nvmet_async_event_work(struct work_struct *work)
+ 				struct nvmet_async_event, entry);
+ 		if (!aen || !ctrl->nr_async_event_cmds) {
+ 			mutex_unlock(&ctrl->lock);
+-			return;
++			break;
+ 		}
+ 
+ 		req = ctrl->async_event_cmds[--ctrl->nr_async_event_cmds];
+-		nvmet_set_result(req, nvmet_async_event_result(aen));
++		if (status == 0)
++			nvmet_set_result(req, nvmet_async_event_result(aen));
+ 
+ 		list_del(&aen->entry);
+ 		kfree(aen);
+ 
+ 		mutex_unlock(&ctrl->lock);
+-		nvmet_req_complete(req, 0);
++		nvmet_req_complete(req, status);
+ 	}
++
++	if (!status)
++		return;
++
++	mutex_lock(&ctrl->lock);
++	while (ctrl->nr_async_event_cmds) {
++		req = ctrl->async_event_cmds[--ctrl->nr_async_event_cmds];
++		mutex_unlock(&ctrl->lock);
++		nvmet_req_complete(req, status);
++		mutex_lock(&ctrl->lock);
++	}
++	mutex_unlock(&ctrl->lock);
++}
++
++static void nvmet_async_events_free(struct nvmet_ctrl *ctrl)
++{
++	nvmet_async_events_process(ctrl, NVME_SC_INTERNAL | NVME_SC_DNR);
++}
++
++static void nvmet_async_event_work(struct work_struct *work)
++{
++	struct nvmet_ctrl *ctrl =
++		container_of(work, struct nvmet_ctrl, async_event_work);
++
++	nvmet_async_events_process(ctrl, 0);
+ }
+ 
+ void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
+-- 
+2.22.1
 
 
 _______________________________________________
