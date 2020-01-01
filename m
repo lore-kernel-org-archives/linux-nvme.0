@@ -2,136 +2,66 @@ Return-Path: <SRS0=dhu5=2W=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B0BDC2D0C0
-	for <linux-nvme@archiver.kernel.org>; Wed,  1 Jan 2020 03:27:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EA3FC2D0DC
+	for <linux-nvme@archiver.kernel.org>; Wed,  1 Jan 2020 16:45:20 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F049C206CC
-	for <linux-nvme@archiver.kernel.org>; Wed,  1 Jan 2020 03:27:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D587D206E6
+	for <linux-nvme@archiver.kernel.org>; Wed,  1 Jan 2020 16:45:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ONUtiurT";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="ocxT3jRc";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="pjaXuMY2"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F049C206CC
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="dDb6Kmyk"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D587D206E6
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kioxia.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date
-	:Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	List-Owner; bh=RJYUj5WAIyy/fqjRznwtTtWPK06atrqhJO3qY8+HCkg=; b=ONUtiurTQNCyMm
-	+2mQajTuAkFEMmMFj9J/UQAy3B3U7wuCojlyD2l2gQMOTI1swDt0u5eXZQFHWr/d38kKxnuy9WlQn
-	IbI17zp1zaLhybVFF5s6PZPxNJVu9LZcOjyeOjfVsapXJJdzTMIPPTeje49whzJ2yMtbMCiaiTc0G
-	f42ac5BdMQFeNlTjLFFp7JSj7UGpCURhiL7AwwW7SdrDUN3nQEUMx9mHUgFz55U1yG0quHoFzAElo
-	bgLrB2+QRlVkv/8k02oaQFlwCfcL/hYeyUSPu/MDdWTJL7j9wbPueSqI+BysHqMVyALUW3arUp+LL
-	RH3Gim5FDtiGAQraQJrQ==;
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:To
+	:From:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=m8cAF1rXhdzjfXwcBnlkQNELfS7YRG3V+Et74h/LPJQ=; b=dDb6KmykZWKbuC
+	uLR9Q/PEF4QWFBsWBB4gTamfhnlYjCytIvAuPCYd11zRLzHnyZmxAKTVoSLNkAp5UwZyLXmeJEL9A
+	H9xXd2lopF1q4/oHu31oIi76zLzPiVahedQNcfR5bxNIIXwgnlz93xMqeF7q238wxS38bNVYNe0R0
+	GMumHSQPUtbh0onh8hZJDo0pcaCY/vIBEiwq+RQeESr2XpJPrXGW9I729p623EfHogOtCSmR5U+5v
+	gmw34W92ncCXZB9R/2PzcV/SFqnXKkYff8R8UsUO6Sdd27tikS2OLRC1TsmY2DWDbbHcnijTBl4k/
+	ZMYIkIdB8+hUNdZIwGFw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1imUf5-0004z1-7z; Wed, 01 Jan 2020 03:27:07 +0000
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
+	id 1imh7R-0007W8-Ss; Wed, 01 Jan 2020 16:45:13 +0000
+Received: from ip-12-0-68-226-us.kioxia.com ([12.0.68.226]
+ helo=SJSMAIL01.us.kioxia.com)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1imUf2-0004yi-S4
- for linux-nvme@lists.infradead.org; Wed, 01 Jan 2020 03:27:06 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1577849224; x=1609385224;
- h=from:to:cc:subject:date:message-id:references:
- content-transfer-encoding:mime-version;
- bh=4tWaDeVt2dAXOgoyHNpnVKd4oN8rpdLKPk9FLKqy3Fg=;
- b=ocxT3jRcnrlUwJEPgXXpgUVJpfNZXgzzFgi6PO+uBHvKrmt07ju+uvIa
- bRW7ESdEPbno/FhLT0UDBTWGzcidr1cw0CmiznEzKri9ElSZqgF4cSz69
- AfU5UTFUSskZaHqXhYktpspdvevOTNJBqjq2T93f07fSHeR+tZmKeiAmC
- DbIWcimeFvUJeatIL/lP2e0M2zO2/sKwIGK+K9mkuU+zET2oS9cqhUKbG
- AkRyq+CXHC5rxLVCHFF76WWmc5JirwYPNlZ+9GCRHWawfVYJ0YAqhy8hI
- 3wFmcckf4H0ImxopKE9TJHdOdV2ZANIl8fJEWpyE93RLzhzHake3pKK6i w==;
-IronPort-SDR: yqtZfSbQGnWASr1pX8FScLgGaNr6cV1X5nJMNV7GVZ+sv6DmbIP1HWTMASJbw6VknsO9tBRXqj
- i2UlckgbVlpEtIMB2Vp7hJNlD2IGaJX9HxuOn4v4wcAjT7fW7F0mKPVLzagehcswhnRh3AxMCS
- U2sCOKHKajT22waifblj31sQveI89of8agchdjWYWzPOZQIdYE0d28mguBsTCaNRbBeDDJdf8Y
- Kh2nT0YMC8S0pwTMC+20lBhS1FTFXxYojpH2gO/zQdB2QOZjJ6An9UWz31CmKsQXnlpwjXCYjk
- Z0Q=
-X-IronPort-AV: E=Sophos;i="5.69,381,1571673600"; d="scan'208";a="234267960"
-Received: from mail-mw2nam10lp2109.outbound.protection.outlook.com (HELO
- NAM10-MW2-obe.outbound.protection.outlook.com) ([104.47.55.109])
- by ob1.hgst.iphmx.com with ESMTP; 01 Jan 2020 11:27:02 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dm6OYQ4JkWHJbJzh66wd13u5Ru7iNJxLbQS0vqSVy7SVdpEfOXq28SWtU1FxgB+84WG8Ox+VqKtVTDWTvKu/9EAvSVEZ7U+SQF83cvBnDV2sU27tQwDNcUIgHuwWnuUkTQdenJml765cG43YBDR2bNMw1Olc0fsij7LLeIED5atgmS6WKC0xbUTlJ/Z/Fe3ggUe84S54lKNqoQnjJLgVO0jbdB7uiCQtDR1Acjn8Yzprmg8rARWUqRlKcLVxgNI6yQULypgyfGqkmLs1BuegZVawo2RIgdzBZmN/lGW9gCQxYiSRk6PiRO58xJGvPafYQ3fyFr9GK/W3d9OTWt4c/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4tWaDeVt2dAXOgoyHNpnVKd4oN8rpdLKPk9FLKqy3Fg=;
- b=auFlmZh1442jEA3+ZuclW8eBURzdCpg6EKAZA4nsxJrj3bO1ppQW0m+2vdyo5Qlut9v//Yg9SBUSwcq02VPmRuI5NCat4rtJAy5QCWkZp3J33xHkUOUDxTnEhO9UePX3YwBPdJNthBJatUSRoNc1lttgfuo9Sa4PdmyrT7f1ToJ1eDAOXNXUmxkbfxfOqxbMZOlvhMkKWxeWjB4fMPexgZiX/ZFc9r8tGUfoJsSWz9UiRPSVK+Zvp+5ZF4NXs5J9Zz9DOoEfNsGqCB8+lZORUoTxheUK31ONAY0CsGn1w272JEhtrWT81JgyiXItE6aEusgF2r6ZQ91Oc4GeG6S43A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4tWaDeVt2dAXOgoyHNpnVKd4oN8rpdLKPk9FLKqy3Fg=;
- b=pjaXuMY2MzSJhz1amQZMiU31XDBvCOv1bKxsbBwfYbNkmjbug36x/Z5DJeq6Scy1InkUTByJd/XhLkyECVWkWwXCfk4WtOAJEt2tpGNMampnZz4WRRyy6SMJKvoNEE7uhWcdcnIhApN4zQSYbXBiLDG61+ioIhA71v1hItsJunM=
-Received: from BYAPR04MB5749.namprd04.prod.outlook.com (20.179.57.21) by
- BYAPR04MB5862.namprd04.prod.outlook.com (20.179.58.79) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2602.10; Wed, 1 Jan 2020 03:27:00 +0000
-Received: from BYAPR04MB5749.namprd04.prod.outlook.com
- ([fe80::a8ea:4ba9:cb57:e90f]) by BYAPR04MB5749.namprd04.prod.outlook.com
- ([fe80::a8ea:4ba9:cb57:e90f%5]) with mapi id 15.20.2602.010; Wed, 1 Jan 2020
- 03:26:59 +0000
-From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-To: "Singh, Balbir" <sblbir@amazon.com>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "=linux-block@vger.kernel.org"
- <=linux-block@vger.kernel.org>, "linux-nvme@lists.infradead.org"
- <linux-nvme@lists.infradead.org>
-Subject: Re: [RFC PATCH 1/5] block/genhd: Notify udev about capacity change
-Thread-Topic: [RFC PATCH 1/5] block/genhd: Notify udev about capacity change
-Thread-Index: AQHVuTJSbECLIM1il0K+YWQEXBwT7Q==
-Date: Wed, 1 Jan 2020 03:26:59 +0000
-Message-ID: <BYAPR04MB5749C2F13BD6F6C15509FE8586210@BYAPR04MB5749.namprd04.prod.outlook.com>
-References: <20191223014056.17318-1-sblbir@amazon.com>
- <e452f6a638fe09f065b9e4cd1c25d5d3a2f29e5a.camel@amazon.com>
+ id 1imh7N-0006eO-Fn
+ for linux-nvme@lists.infradead.org; Wed, 01 Jan 2020 16:45:12 +0000
+Received: from SJSMAIL01.us.kioxia.com (10.90.133.90) by
+ SJSMAIL01.us.kioxia.com (10.90.133.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1779.2; Wed, 1 Jan 2020 08:45:02 -0800
+Received: from SJSMAIL01.us.kioxia.com ([fe80::65fa:7220:c1b7:572e]) by
+ SJSMAIL01.us.kioxia.com ([fe80::65fa:7220:c1b7:572e%3]) with mapi id
+ 15.01.1779.004; Wed, 1 Jan 2020 08:45:02 -0800
+From: Victor Gladkov <Victor.Gladkov@kioxia.com>
+To: Sagi Grimberg <sagi@grimberg.me>, James Smart <james.smart@broadcom.com>, 
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: [PATCH v2] nvme-fabrics: reject I/O to offline device
+Thread-Topic: [PATCH v2] nvme-fabrics: reject I/O to offline device
+Thread-Index: AdXAws2i7K3jkb2QTo+39ruHWzRzNw==
+Date: Wed, 1 Jan 2020 16:45:02 +0000
+Message-ID: <49c2e737f21b4c2795de71c8d8d578ee@kioxia.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Chaitanya.Kulkarni@wdc.com; 
-x-originating-ip: [2605:e000:3e45:f500:218d:d9ca:f71d:c5c4]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 74ee8643-b92e-49e0-0ea5-08d78e6a765a
-x-ms-traffictypediagnostic: BYAPR04MB5862:
-x-microsoft-antispam-prvs: <BYAPR04MB586278B05ECA40AEA83B218C86210@BYAPR04MB5862.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:2958;
-x-forefront-prvs: 02698DF457
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(376002)(346002)(136003)(39860400002)(366004)(396003)(199004)(189003)(66476007)(66446008)(71200400001)(53546011)(4326008)(64756008)(66556008)(86362001)(558084003)(7696005)(186003)(6506007)(5660300002)(52536014)(478600001)(76116006)(66946007)(8676002)(55016002)(9686003)(316002)(8936002)(81156014)(33656002)(81166006)(54906003)(110136005)(2906002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:BYAPR04MB5862;
- H:BYAPR04MB5749.namprd04.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: qnJjab+Qphngc4S8HXAhI5hdipbD5IW5wupEfa8MRaC2XNZU9LAZqWIryRRbZOesvTrlmzyUREg1ImMx64HKbyotAug8dPFHOv1m3sl04E+RJRskKEusk7Y4DXZny5s/0+NvqmRa9nI0wm6o8rRULMdE04Ps4U3+KU60lethjSIgBKTiscEhCDAu8Ix4ddZSnDP+WIh91YCxNYIOUN23nQMF6BPD6NMSMM4ns7PXF16PTFrU3crgSe0JomFZR1heGyqneWN8SmPesMQW1v0cMzzDecLKv/tzYNCvjgWidlgl6wtqdfE5ir4vWh6ZKOGnB6TyNW9lZ77tuCjByB7FhZOmUXEhFsUDE3OF8w4ymv3vagsCuwQbVa0NQTtsCacusg6yrTVJ5d6inO5gNHgootdA6k5b+x6ZsZiEK3199E49kXjuCG5B3RKS94mcO5/P
-x-ms-exchange-transport-forked: True
+x-originating-ip: [10.93.66.127]
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 74ee8643-b92e-49e0-0ea5-08d78e6a765a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Jan 2020 03:26:59.7366 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: xUva14W6FG2AZmeMdBDDde7pROo/zpa9YnZ/0j/FP6rKZXqbOLtjFT/DTK0vUjxZJ1pSayxd8VMjeKjCKASTtEhZqLM0lVlWlEWtrIT1kpE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB5862
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20191231_192705_000283_9D5339AA 
-X-CRM114-Status: UNSURE (   7.08  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200101_084509_530387_8656CFFE 
+X-CRM114-Status: GOOD (  12.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,23 +73,249 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "axboe@kernel.dk" <axboe@kernel.dk>, "Sangaraju,
- Someswarudu" <ssomesh@amazon.com>, "jejb@linux.ibm.com" <jejb@linux.ibm.com>,
- "hch@lst.de" <hch@lst.de>, "mst@redhat.com" <mst@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 12/22/19 5:53 PM, Singh, Balbir wrote:
-> I messed up with linux-block ML address, I can resend with the right address
-> if needed. My apologies
-> 
-> Balbir Singh.
+Issue Description:
+Commands get stuck while Host NVMe controller (TCP or RDMA) is in reconnect state. 
+NVMe controller enters into reconnect state when it loses connection with the target. It tries to reconnect every 10 seconds (default) until successful reconnection or until reconnect time-out is reached. The default reconnect time out is 10 minutes.
+This behavior is different than ISCSI where Commands during reconnect state returns with the following error: "rejecting I/O to offline device"
 
+Fix Description:
+Following your suggestions:
+1. Add a new session parameter called "fast_fail_tmo". 
+	The timeout is measured in seconds from the controller reconnect, any command beyond that timeout is rejected. 
+	The new parameter value may be passed during 'connect', and its default value is 30 seconds. 
+	A value of 0 means no timeout (in similar to current behavior).
+2. Add a controller flag of "failfast_expired".
+3. Add dedicated delayed_work that update the "failfast_expired" controller flag.
+4. When entering CONNECTING, schedule the delayed_work based on failfast timeout value. 
+	If transition out of CONNECTING, terminate delayed work item and ensure failfast_expired is false.
+	If delayed work item expires: set "failfast_expired" flag to true.
+5. Update nvmf_fail_nonready_command() with check the "failfast_expired" controller flag.
 
-Unless you have sent it already and I totally missed it,
-if you are planning to resend can you please also add a cover-letter ?
+branch nvme/for-5.5
+---------------------------------
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 2a84e14..8e30e03 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -93,6 +93,8 @@
+ static void nvme_put_subsystem(struct nvme_subsystem *subsys);
+ static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
+ 					   unsigned nsid);
++static void nvme_start_failfast_work(struct nvme_ctrl *ctrl);
++static void nvme_stop_failfast_work(struct nvme_ctrl *ctrl);
+  static void nvme_set_queue_dying(struct nvme_ns *ns)
+ {
+@@ -339,6 +341,8 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+ 		case NVME_CTRL_CONNECTING:
+ 			changed = true;
+ 			/* FALLTHRU */
++			if(old_state == NVME_CTRL_CONNECTING)
++				nvme_stop_failfast_work(ctrl);
+ 		default:
+ 			break;
+ 		}
+@@ -359,6 +363,7 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+ 		case NVME_CTRL_RESETTING:
+ 			changed = true;
+ 			/* FALLTHRU */
++			nvme_start_failfast_work(ctrl);
+ 		default:
+ 			break;
+ 		}
+@@ -1033,6 +1038,36 @@ void nvme_stop_keep_alive(struct nvme_ctrl *ctrl)
+ }
+ EXPORT_SYMBOL_GPL(nvme_stop_keep_alive);
+ +static void nvme_failfast_work(struct work_struct *work)
++{
++	struct nvme_ctrl *ctrl = container_of(to_delayed_work(work),
++			struct nvme_ctrl, failfast_work);
++
++	spin_lock_irq(&ctrl->lock);
++	if (ctrl->state == NVME_CTRL_CONNECTING) {
++		set_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags);
++		dev_info(ctrl->device, "failfast expired set for controller %s\n", ctrl->opts->subsysnqn);
++	}
++	spin_unlock_irq(&ctrl->lock);
++}
++
++static void nvme_start_failfast_work(struct nvme_ctrl *ctrl)
++{
++	if (unlikely(ctrl->opts->fail_fast_tmo == 0))
++		return;
++
++	schedule_delayed_work(&ctrl->failfast_work, ctrl->opts->fail_fast_tmo * HZ);
++}
++
++static void nvme_stop_failfast_work(struct nvme_ctrl *ctrl)
++{
++	if (unlikely(ctrl->opts->fail_fast_tmo == 0))
++		return;
++
++	cancel_delayed_work_sync(&ctrl->failfast_work);
++	clear_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags);
++}
++
+ static int nvme_identify_ctrl(struct nvme_ctrl *dev, struct nvme_id_ctrl **id)
+ {
+ 	struct nvme_command c = { };
+@@ -3979,6 +4014,7 @@ void nvme_stop_ctrl(struct nvme_ctrl *ctrl)
+ {
+ 	nvme_mpath_stop(ctrl);
+ 	nvme_stop_keep_alive(ctrl);
++	nvme_stop_failfast_work(ctrl);
+ 	flush_work(&ctrl->async_event_work);
+ 	cancel_work_sync(&ctrl->fw_act_work);
+ }
+@@ -4043,6 +4079,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 	int ret;
+ 	ctrl->state = NVME_CTRL_NEW;
++	clear_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags);
+ 	spin_lock_init(&ctrl->lock);
+ 	mutex_init(&ctrl->scan_lock);
+ 	INIT_LIST_HEAD(&ctrl->namespaces);
+@@ -4057,6 +4094,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 	init_waitqueue_head(&ctrl->state_wq);
+ 	INIT_DELAYED_WORK(&ctrl->ka_work, nvme_keep_alive_work);
++	INIT_DELAYED_WORK(&ctrl->failfast_work, nvme_failfast_work);
+ 	memset(&ctrl->ka_cmd, 0, sizeof(ctrl->ka_cmd));
+ 	ctrl->ka_cmd.common.opcode = nvme_admin_keep_alive;
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 74b8818..e952e5d 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -549,6 +549,7 @@ blk_status_t nvmf_fail_nonready_command(struct nvme_ctrl *ctrl,
+ {
+ 	if (ctrl->state != NVME_CTRL_DELETING &&
+ 	    ctrl->state != NVME_CTRL_DEAD &&
++	    !test_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags) &&
+ 	    !blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
+ 		return BLK_STS_RESOURCE;
+@@ -612,6 +613,7 @@ bool __nvmf_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
+ 	{ NVMF_OPT_NR_WRITE_QUEUES,	"nr_write_queues=%d"	},
+ 	{ NVMF_OPT_NR_POLL_QUEUES,	"nr_poll_queues=%d"	},
+ 	{ NVMF_OPT_TOS,			"tos=%d"		},
++	{ NVMF_OPT_FAIL_FAST_TMO,	"fail_fast_tmo=%d"	},
+ 	{ NVMF_OPT_ERR,			NULL			}
+ };
+@@ -630,6 +632,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 	opts->nr_io_queues = num_online_cpus();
+ 	opts->reconnect_delay = NVMF_DEF_RECONNECT_DELAY;
+ 	opts->kato = NVME_DEFAULT_KATO;
++	opts->fail_fast_tmo = NVMF_DEF_FAIL_FAST_TMO;
+ 	opts->duplicate_connect = false;
+ 	opts->hdr_digest = false;
+ 	opts->data_digest = false;
+@@ -751,6 +754,17 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 				pr_warn("ctrl_loss_tmo < 0 will reconnect forever\n");
+ 			ctrl_loss_tmo = token;
+ 			break;
++		case NVMF_OPT_FAIL_FAST_TMO:
++			if (match_int(args, &token)) {
++				ret = -EINVAL;
++				goto out;
++			}
++
++			if (token)
++				pr_warn("fail_fast_tmo != 0, I/O will failed on reconnect controller after %d sec\n", token);
++
++			opts->fail_fast_tmo  = token;
++			break;
+ 		case NVMF_OPT_HOSTNQN:
+ 			if (opts->host) {
+ 				pr_err("hostnqn already user-assigned: %s\n",
+@@ -881,11 +895,14 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 		opts->nr_poll_queues = 0;
+ 		opts->duplicate_connect = true;
+ 	}
+-	if (ctrl_loss_tmo < 0)
++	if (ctrl_loss_tmo < 0){
+ 		opts->max_reconnects = -1;
+-	else
++	}else{
+ 		opts->max_reconnects = DIV_ROUND_UP(ctrl_loss_tmo,
+ 						opts->reconnect_delay);
++		if(ctrl_loss_tmo < opts->fail_fast_tmo)
++			pr_warn("failfast tmo (%d) larger than controller loss tmo (%d)\n", opts->fail_fast_tmo, ctrl_loss_tmo);
++	}
+
+ 	if (!opts->host) {
+ 		kref_get(&nvmf_default_host->ref);
+@@ -985,7 +1002,7 @@ void nvmf_free_options(struct nvmf_ctrl_options *opts)
+ #define NVMF_ALLOWED_OPTS	(NVMF_OPT_QUEUE_SIZE | NVMF_OPT_NR_IO_QUEUES | \
+ 				 NVMF_OPT_KATO | NVMF_OPT_HOSTNQN | \
+ 				 NVMF_OPT_HOST_ID | NVMF_OPT_DUP_CONNECT |\
+-				 NVMF_OPT_DISABLE_SQFLOW)
++				 NVMF_OPT_DISABLE_SQFLOW|NVMF_OPT_FAIL_FAST_TMO)
+
+static struct nvme_ctrl *
+nvmf_create_ctrl(struct device *dev, const char *buf)
+diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+index a0ec40a..fd8c7dd 100644
+--- a/drivers/nvme/host/fabrics.h
++++ b/drivers/nvme/host/fabrics.h
+@@ -15,6 +15,8 @@
+ #define NVMF_DEF_RECONNECT_DELAY	10
+/* default to 600 seconds of reconnect attempts before giving up */
+ #define NVMF_DEF_CTRL_LOSS_TMO		600
++/* default to 0: don't fail fast IO commands  */
++#define NVMF_DEF_FAIL_FAST_TMO		0
+
+/*
+  * Define a host as seen by the target.  We allocate one at boot, but also
+@@ -56,6 +58,7 @@ enum {
+ 	NVMF_OPT_NR_WRITE_QUEUES = 1 << 17,
+ 	NVMF_OPT_NR_POLL_QUEUES = 1 << 18,
+ 	NVMF_OPT_TOS		= 1 << 19,
++	NVMF_OPT_FAIL_FAST_TMO	= 1 << 20,
+ };
+/**
+@@ -89,6 +92,7 @@ enum {
+  * @nr_write_queues: number of queues for write I/O
+  * @nr_poll_queues: number of queues for polling I/O
+  * @tos: type of service
++ * @fast_fail_tmo: Fast I/O fail timeout in seconds;
+  */
+ struct nvmf_ctrl_options {
+ 	unsigned		mask;
+@@ -111,6 +115,7 @@ struct nvmf_ctrl_options {
+ 	unsigned int		nr_write_queues;
+ 	unsigned int		nr_poll_queues;
+ 	int			tos;
++	unsigned int	fail_fast_tmo;
+ };
+
+ /*
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 1024fec..b6a199e 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -256,6 +256,7 @@ struct nvme_ctrl {
+ 	struct work_struct scan_work;
+ 	struct work_struct async_event_work;
+ 	struct delayed_work ka_work;
++	struct delayed_work failfast_work;
+ 	struct nvme_command ka_cmd;
+ 	struct work_struct fw_act_work;
+ 	unsigned long events;
+@@ -289,6 +290,8 @@ struct nvme_ctrl {
+ 	u16 icdoff;
+ 	u16 maxcmd;
+ 	int nr_reconnects;
++	unsigned long flags;
++#define NVME_CTRL_FAILFAST_EXPIRED	0
+ 	struct nvmf_ctrl_options *opts;
+
+ 	struct page *discard_page;
+
+-----------------
+Regards,
+Victor
+
 
 _______________________________________________
 linux-nvme mailing list
