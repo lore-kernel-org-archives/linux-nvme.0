@@ -2,136 +2,85 @@ Return-Path: <SRS0=0+fG=2Y=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-13.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2895BC2D0CE
-	for <linux-nvme@archiver.kernel.org>; Fri,  3 Jan 2020 06:16:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED07DC2D0C2
+	for <linux-nvme@archiver.kernel.org>; Fri,  3 Jan 2020 18:16:58 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BCE59217F4
-	for <linux-nvme@archiver.kernel.org>; Fri,  3 Jan 2020 06:16:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9A3AB2085B
+	for <linux-nvme@archiver.kernel.org>; Fri,  3 Jan 2020 18:16:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="WDTxYqru";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="KIsNqote";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="Dgm0KCAQ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BCE59217F4
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ARKBU979";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NrZgkeGV"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9A3AB2085B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date
-	:Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	List-Owner; bh=xnLgzR/s8R2WkLRbVbHaeZc+r9X6L0fV4uDdnxCWYkU=; b=WDTxYqruYK3N9o
-	aG7P4xVZTMPLqil87fQOamQv6JmipWVYNmOtLJABM6nQvwtq0Shbkw6V0FHYZGi0eyhL+PqIDjyzd
-	1AzRUGLewsvFLma+sqhYtezgKNtpX/aSwZ/oolUEKOVu8/jOCVCsb38Mi7BkdbvWFldw3sLeFoUth
-	sqM8pHOlx3CNtofqeRTFuFmoFzSMM4tEA6bl2UdfbbzWTCU0JG/zhF3si86SeSjiBYp0F9/lOEk4g
-	ocgxRDeJCXWkYOZSkY7QxXl13V7+sg5PhcHj8syoMnn0Gw7OmF8I6s61rqVRJ9s24UBwvmyuEn+Tv
-	TFahsv0ZTsJS54h6NPrA==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=YQPR28lNw04m7ILsosDNn0H/8CTNgg/yQ3oBdR9Xefk=; b=ARKBU979zGNuXeyM5s0HOB/Me
+	ac6NHpvGm4iSfT1or6DxYZszWtzJ0ngGlOujt4wC/JIemr+9ai46qoouz3oFFI6yTU3l4Dlyj+jSI
+	icbr+5AGiQl0GOzaqoW3BsnIGHUrN8GhJjreeXVAep0OySin5iELarA5z/Li78aaIT6cikwerir+v
+	HKNPQUcjbLUHQPDSC6DnZbuaxYk0bZkzSz6RIBka7D8oh/30Xn7u+y8bldHkHKJQ/b9j/eJ1YT5SK
+	xAHKwuKMlscEn1o1mxgQQDx+M4zX/93rZF5EyNM08S5tJ0umsx5+/BzMdGskjZoPnOpjbqzbbe/UR
+	mBiVcfHgA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1inGGR-0005dL-CR; Fri, 03 Jan 2020 06:16:51 +0000
-Received: from esa6.hgst.iphmx.com ([216.71.154.45])
+	id 1inRVG-0003Xt-6c; Fri, 03 Jan 2020 18:16:54 +0000
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]
+ helo=us-smtp-1.mimecast.com)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1inGGO-0005c1-8M
- for linux-nvme@lists.infradead.org; Fri, 03 Jan 2020 06:16:49 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1578032209; x=1609568209;
- h=from:to:cc:subject:date:message-id:references:
- content-transfer-encoding:mime-version;
- bh=3BykkbwY0/+hWZ1HCPfrTm7/hx4CMew5HKiNlOeHEQ4=;
- b=KIsNqote0znz3SGr1pWEDNJvY8AgAshSBeaTnhf7nUiik2CdsNK9lZgj
- ncbmR9MCdgj4Dl56l2pUbrhPQQg+nLNjW+roCLu1CXNP6xvtDsEBDoFl7
- r/MUu72DyAxP+pj0ImVyC95I1zGS+BRpkViv5943sNx58qHzEn6WVpTvL
- a1WWzs1otw8rsEnz9O89sfzwno+aldkKv3MaPUQkLamJ0Vu3nlRf6d4UJ
- tfBGA4AUQmhHJ+lRr837bAxKNkSGW3hcG8WnwGWYz6fels7L4nK2boZcd
- 231x9OTvH4AiA3+vT16bKrFw/MkdlIfwExhUILgOCKZ26GpsoL+cmhbrU w==;
-IronPort-SDR: BAQUOTBsbivz+hOSvQIkiE0F2giY4ePtjLtw5YXtoBL3uh7gaLv/4mzrQviGt6H5Qc09VMm7cP
- xQ9RtbYa29K0U2CMdgCoNSjX+NRefWtwfNWVYMC6OeOH4CzcwfU9FUSi+HiLieMW7au4boFSyT
- 2spNgk6m07S+kQbkaeNP0bZp/PnO+NzHXNS/a8hakvVkCO4A/lDkKKeRgv9c5Vu6wZi3e5v3Xg
- rRIWZHNsv1KaXGsa4rNhCT6ICOi1nfDcsEgsFHXDocxesJevQ/GT2GclYts3XDzsK4FDzKRHxz
- MyM=
-X-IronPort-AV: E=Sophos;i="5.69,389,1571673600"; d="scan'208";a="128216119"
-Received: from mail-mw2nam10lp2100.outbound.protection.outlook.com (HELO
- NAM10-MW2-obe.outbound.protection.outlook.com) ([104.47.55.100])
- by ob1.hgst.iphmx.com with ESMTP; 03 Jan 2020 14:16:41 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ctmKqQLU3VtWwWyfL+5J/UDY9BFVxWWJBYBZrSwiuiXK+L5mwiU29vqi7xpABp2vQPiaU4pE9VqvI8jKhgvpIpnq7vv2JDLfGbFJCItsa/4UN8ZWpYAkvkFwiYYfc+Ka0ONU78pe9W3xkqWUAcRx2cjRzACHqdQSj/89hd/IUEPg+2E+BHeNXfQgUvgLTmp0yOdOvvjD2G0rqQH4zh2ww4Md1BAnqUBv1tYh0R0XXaM/L04jE7wP/EqwVGY/nkb738qPgsFMApveeZruq3aun2r4Sx6U2BsmQxhhLAWq1Bod2GWsTi9rr1mD13hWDfrxphdpppSk0u7iCH/Cw124sA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lFTSLtxL+pKEKPF8QYG5iILAJFh5HqZfhjwpw7QV/IE=;
- b=EuUNViihD96HPgeX5y+k1Q1V38Ztor9oNDfbekIGVpuWy+wur2jHESThfQr0BN2WB7R9eWWNVeLth8n+wiLoGje+KebAC9wZJUu60yeV0Pce8+7+NnfWz3f1UhtqvGZgKBDgte8bGWKq4FEG+Lxgm1y5WBKLxjvedGSxI7U3Sqav2/kB92gk8psNHK3l0gu3mS2am15jvu2gCI6sQ4jVWEBllGq5Ken2KAvVsmv8+lLQUs8E84DuSUkrdWtQku0CmgRN9DzsKEE4Lb+Ks2Jo8/hMA/gPcNVxCsHijHOVcCdwv2lykLCwhI2OWcEglp8CGe2zS3PQvi5KweM0jInjNQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lFTSLtxL+pKEKPF8QYG5iILAJFh5HqZfhjwpw7QV/IE=;
- b=Dgm0KCAQwlKgFTZk+Z+F59q1B4IByuL8OOreCX1YuID9IEMGowUBXHHXVeAFC0uczTVAwyKXXwTPWkA0tZ921QFk+/De9cLo1r08OhauUwakqxAYaEC31b2nph9kexZHwX7RwjUzEGMjXU3LRpoVk02os1Z6SfiIY/PTJ4bN1wE=
-Received: from BYAPR04MB5749.namprd04.prod.outlook.com (20.179.57.21) by
- BYAPR04MB6088.namprd04.prod.outlook.com (20.178.234.74) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2602.12; Fri, 3 Jan 2020 06:16:39 +0000
-Received: from BYAPR04MB5749.namprd04.prod.outlook.com
- ([fe80::a8ea:4ba9:cb57:e90f]) by BYAPR04MB5749.namprd04.prod.outlook.com
- ([fe80::a8ea:4ba9:cb57:e90f%5]) with mapi id 15.20.2602.010; Fri, 3 Jan 2020
- 06:16:39 +0000
-From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-To: Balbir Singh <sblbir@amazon.com>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "linux-block@vger.kernel.org"
- <linux-block@vger.kernel.org>, "linux-nvme@lists.infradead.org"
- <linux-nvme@lists.infradead.org>
-Subject: Re: [resend v1 1/5] block/genhd: Notify udev about capacity change
-Thread-Topic: [resend v1 1/5] block/genhd: Notify udev about capacity change
-Thread-Index: AQHVwUG9qzxAaxFzwka5YkVHh6Dxxg==
-Date: Fri, 3 Jan 2020 06:16:39 +0000
-Message-ID: <BYAPR04MB5749EE1549B30FCECEC1154B86230@BYAPR04MB5749.namprd04.prod.outlook.com>
-References: <20200102075315.22652-1-sblbir@amazon.com>
- <20200102075315.22652-2-sblbir@amazon.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Chaitanya.Kulkarni@wdc.com; 
-x-originating-ip: [199.255.45.62]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 266f1800-e0c7-4fa3-7e22-08d790147ed5
-x-ms-traffictypediagnostic: BYAPR04MB6088:
-x-microsoft-antispam-prvs: <BYAPR04MB60882842113B8F114D2B325086230@BYAPR04MB6088.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 0271483E06
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(346002)(39860400002)(366004)(396003)(136003)(376002)(189003)(199004)(55016002)(81156014)(81166006)(33656002)(4326008)(478600001)(9686003)(8936002)(8676002)(26005)(71200400001)(5660300002)(66946007)(186003)(66476007)(66556008)(64756008)(52536014)(66446008)(2906002)(7696005)(53546011)(6506007)(54906003)(76116006)(316002)(110136005)(86362001);
- DIR:OUT; SFP:1102; SCL:1; SRVR:BYAPR04MB6088;
- H:BYAPR04MB5749.namprd04.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: S02XEImNXratMrw4kJxuKj8f5tIwFjC/bDYtasryNxVaOFF4TS1l9EPs4OrqYOTQbQRdtDfgVDQ/FI46Lwtc4M9ls4kQXirSPmsFTpmef9OItTI3mBSwHy0M4ryZu9+P1aqHXvZWvnKmMWPufk99ZB7KCBtDP8tptwNSZkd6tzbDIbYm2rlORoXnSWV5kVkMWIlmBb7A4MKbj+JFFJg3Y7R2YYBW1YJJkZNFQ+aFvFLFGIqV1scLywqZyInJVtEaD9kswvGit49rFeLPyBADIREE/nxhvZyuaiMISHjM164ghdR9tQ4XjGQLDDEe+mbdpFA57pWmMC27WWQt6N6SrEfMZHCac9HoxU8DPhd4WdFzO651lmla2Gn4CqQIw+/hRajystC6DzkbGe3SRK0NoxJCpwGuKblgJzHaUedWByphZs8HFFvYw5E9htUFHWgr
-x-ms-exchange-transport-forked: True
+ id 1inRVB-0003XT-D6
+ for linux-nvme@lists.infradead.org; Fri, 03 Jan 2020 18:16:51 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578075406;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=q8hst8VJb0ER58d4vgYWhCEur45DxW5reC5MYhmtC6g=;
+ b=NrZgkeGVht98sg7BzZYAg4ydcgExaMM6Z1LPnI6uSwrFRu911KZSeDrlUzHthqkhWVXHRs
+ OeWc/Y59+wRvZB07JKh8sHH39boSeKmIy0c78ac9No11LLrBC+aZjiWPc4JbDz1sUa6DsY
+ j4J2T6d/1BejHW7Q0y2y0EZsWJP/RWY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-50-7zuU1ulQN8OAV_I9fjjb-g-1; Fri, 03 Jan 2020 13:14:47 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED714DB62;
+ Fri,  3 Jan 2020 18:14:46 +0000 (UTC)
+Received: from [10.10.120.226] (ovpn-120-226.rdu2.redhat.com [10.10.120.226])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 428E78466A;
+ Fri,  3 Jan 2020 18:14:46 +0000 (UTC)
+Subject: Re: [PATCH 3/4] Use systemd-generated hostid if no hostid is
+ configured
+To: Andy Lutomirski <luto@kernel.org>, linux-nvme@lists.infradead.org
+References: <cover.1576726427.git.luto@kernel.org>
+ <b4feb87b30edfb30998a2b42de3b1e0618203700.1576726427.git.luto@kernel.org>
+From: David Milburn <dmilburn@redhat.com>
+Message-ID: <7ae79adc-896c-f007-dcf8-3cff84b3bc02@redhat.com>
+Date: Fri, 3 Jan 2020 12:14:45 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 266f1800-e0c7-4fa3-7e22-08d790147ed5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jan 2020 06:16:39.6961 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: BJSzvi4TeV5gwBjkoTJ5icjd8Ssy+mEpIkXgYVmGpqol6hT0iVBy2MzOCtpXEf12EVRWfbQ8j0Xp6T1K3vIdFaLDfLsmrrmCjc+jXmknalw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB6088
+In-Reply-To: <b4feb87b30edfb30998a2b42de3b1e0618203700.1576726427.git.luto@kernel.org>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: 7zuU1ulQN8OAV_I9fjjb-g-1
+X-Mimecast-Spam-Score: 0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200102_221648_353706_D6037928 
-X-CRM114-Status: GOOD (  13.38  )
+X-CRM114-CacheID: sfid-20200103_101649_522219_F5B2D3EF 
+X-CRM114-Status: GOOD (  24.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,98 +92,228 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "axboe@kernel.dk" <axboe@kernel.dk>,
- "ssomesh@amazon.com" <ssomesh@amazon.com>,
- "jejb@linux.ibm.com" <jejb@linux.ibm.com>, "hch@lst.de" <hch@lst.de>,
- "mst@redhat.com" <mst@redhat.com>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 01/01/2020 11:53 PM, Balbir Singh wrote:
-> Allow block/genhd to notify user space (via udev) about disk size changes
-> using a new helper disk_set_capacity(), which is a wrapper on top
-> of set_capacity(). disk_set_capacity() will only notify via udev if
-> the current capacity or the target capacity is not zero.
->
-> Suggested-by: Christoph Hellwig<hch@lst.de>
-> Signed-off-by: Someswarudu Sangaraju<ssomesh@amazon.com>
-> Signed-off-by: Balbir Singh<sblbir@amazon.com>
+Hello Andy,
+
+On 12/19/2019 09:31 PM, Andy Lutomirski wrote:
+> This is just like the hostnqn support.  It adds a show-hostid command
+> for introspection.
+> 
+> Signed-off-by: Andy Lutomirski <luto@kernel.org>
 > ---
+>   Documentation/nvme-show-hostid.txt | 29 +++++++++++++++
+>   fabrics.c                          | 57 ++++++++++++++++++++++++++----
+>   fabrics.h                          |  1 +
+>   nvme-builtin.h                     |  1 +
+>   nvme.c                             | 15 ++++++++
+>   5 files changed, 96 insertions(+), 7 deletions(-)
+>   create mode 100644 Documentation/nvme-show-hostid.txt
+> 
+> diff --git a/Documentation/nvme-show-hostid.txt b/Documentation/nvme-show-hostid.txt
+> new file mode 100644
+> index 000000000000..52bdc8a1f480
+> --- /dev/null
+> +++ b/Documentation/nvme-show-hostid.txt
+> @@ -0,0 +1,29 @@
+> +nvme-show-hostid(1)
+> +===================
+> +
+> +NAME
+> +----
+> +nvme-show-hostid - Generate a host NVMe ID
+> +
 
-Since disk_set_capacity(() is on the same line as set_capacity()
-we should follow the same convention, which is :-
+I pulled the latest nvme-cli and applied your patch set
 
-1. Avoid exporting symbol.
-2. Mark new function in-line.
+https://github.com/linux-nvme/nvme-cli
 
-Unless there is a very specific reason for breaking the pattern.
+Seems to work on Fedora 31
 
-Why not this (totally untested but easy convey above comment)
-on the top of this patch ?
+$ nvme show-hostnqn
+nqn.2019-10.us.luto:sd_id128_app:a9e4b2c8953340988142e32ca6d67922
 
-# git diff
-diff --git a/block/genhd.c b/block/genhd.c
-index 94faec98607b..ff6268970ddc 100644
---- a/block/genhd.c
-+++ b/block/genhd.c
-@@ -46,25 +46,6 @@ static void disk_add_events(struct gendisk *disk);
-  static void disk_del_events(struct gendisk *disk);
-  static void disk_release_events(struct gendisk *disk);
+$ nvme show-hostid
+f467779d-1940-4659-b200-74278899b2ca
 
--/*
-- * Set disk capacity and notify if the size is not currently
-- * zero and will not be set to zero
-- */
--void disk_set_capacity(struct gendisk *disk, sector_t size)
--{
--       sector_t capacity = get_capacity(disk);
--
--       set_capacity(disk, size);
--       if (capacity != 0 && size != 0) {
--               char *envp[] = { "RESIZE=1", NULL };
--
--               kobject_uevent_env(&disk_to_dev(disk)->kobj, 
-KOBJ_CHANGE, envp);
--       }
--}
--
--EXPORT_SYMBOL_GPL(disk_set_capacity);
--
--
-  void part_inc_in_flight(struct request_queue *q, struct hd_struct 
-*part, int rw)
-  {
-         if (queue_is_mq(q))
-diff --git a/include/linux/genhd.h b/include/linux/genhd.h
-index d5e87d7cc357..5e595a28f893 100644
---- a/include/linux/genhd.h
-+++ b/include/linux/genhd.h
-@@ -469,6 +469,22 @@ static inline void set_capacity(struct gendisk 
-*disk, sector_t size)
-         disk->part0.nr_sects = size;
-  }
+Thanks,
+David
 
-+/*
-+ * Set disk capacity and notify if the size is not currently
-+ * zero and will not be set to zero
-+ */
-+static inline void disk_set_capacity(struct gendisk *disk, sector_t size)
-+{
-+       sector_t capacity = get_capacity(disk);
-+
-+       set_capacity(disk, size);
-+       if (capacity != 0 && size != 0) {
-+               char *envp[] = { "RESIZE=1", NULL };
-+
-+               kobject_uevent_env(&disk_to_dev(disk)->kobj, 
-KOBJ_CHANGE, envp);
-+       }
-+}
-+
-  #ifdef CONFIG_SOLARIS_X86_PARTITION
 
+> +SYNOPSIS
+> +--------
+> +[verse]
+> +'nvme show-hostid'
+> +
+> +DESCRIPTION
+> +-----------
+> +Show the host ID configured for the system.  If /etc/nvme/hostid is
+> +not present and systemd application-specific machine IDs are available,
+> +this will show the systemd-generated host ID for the system.
+> +
+> +OPTIONS
+> +-------
+> +No options needed
+> +
+> +EXAMPLES
+> +--------
+> +nvme show-hostid
+> +
+> +NVME
+> +----
+> +Part of the nvme-user suite
+> diff --git a/fabrics.c b/fabrics.c
+> index 4448416f9855..7c5b7efd5270 100644
+> --- a/fabrics.c
+> +++ b/fabrics.c
+> @@ -46,6 +46,7 @@
+>   #ifdef HAVE_SYSTEMD
+>   #include <systemd/sd-id128.h>
+>   #define NVME_HOSTNQN_ID SD_ID128_MAKE(c7,f4,61,81,12,be,49,32,8c,83,10,6f,9d,dd,d8,6b)
+> +#define NVME_HOSTID_ID SD_ID128_MAKE(df,66,bf,ec,f7,e4,21,0e,46,27,ac,a8,f2,8f,3b,98)
+>   #endif
+>   
+>   #define NVMF_HOSTID_SIZE	36
+> @@ -728,11 +729,11 @@ static int nvmf_hostnqn_load(void)
+>   	return cfg.hostnqn != NULL;
+>   }
+>   
+> -static int nvmf_hostid_file(void)
+> +static char *hostid_read_file(void)
+>   {
+>   	FILE *f;
+>   	char hostid[NVMF_HOSTID_SIZE + 1];
+> -	int ret = false;
+> +	char *ret = NULL;
+>   
+>   	f = fopen(PATH_NVMF_HOSTID, "r");
+>   	if (f == NULL)
+> @@ -741,16 +742,58 @@ static int nvmf_hostid_file(void)
+>   	if (fgets(hostid, sizeof(hostid), f) == NULL)
+>   		goto out;
+>   
+> -	cfg.hostid = strdup(hostid);
+> -	if (!cfg.hostid)
+> -		goto out;
+> +	ret = strdup(hostid);
+> +
+>   
+> -	ret = true;
+>   out:
+>   	fclose(f);
+>   	return ret;
+>   }
+>   
+> +static char *hostid_generate_systemd(void)
+> +{
+> +#if defined(LIBUUID) && defined(HAVE_SYSTEMD)
+> +	sd_id128_t id;
+> +	char uuidstr[37];
+> +	char *ret;
+> +
+> +	if (sd_id128_get_machine_app_specific(NVME_HOSTID_ID, &id) < 0)
+> +		return NULL;
+> +
+> +	uuid_unparse_lower(id.bytes, uuidstr);
+> +
+> +	if (asprintf(&ret, "%s\n", uuidstr) == -1)
+> +		ret = NULL;
+> +
+> +	return ret;
+> +#else
+> +	return NULL;
+> +#endif
+> +}
+> +
+> +/* returns an allocated string or NULL */
+> +char *hostid_read(void)
+> +{
+> +	char *ret;
+> +
+> +	ret = hostid_read_file();
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = hostid_generate_systemd();
+> +	if (ret)
+> +		return ret;
+> +
+> +	return NULL;
+> +}
+> +
+> +static int nvmf_hostid_load(void)
+> +{
+> +	cfg.hostid = hostid_read();
+> +
+> +	return cfg.hostid != NULL;
+> +}
+> +
+>   static int
+>   add_bool_argument(char **argstr, int *max_len, char *arg_str, bool arg)
+>   {
+> @@ -829,7 +872,7 @@ static int build_options(char *argstr, int max_len, bool discover)
+>   	    add_argument(&argstr, &max_len, "trsvcid", cfg.trsvcid) ||
+>   	    ((cfg.hostnqn || nvmf_hostnqn_load()) &&
+>   		    add_argument(&argstr, &max_len, "hostnqn", cfg.hostnqn)) ||
+> -	    ((cfg.hostid || nvmf_hostid_file()) &&
+> +	    ((cfg.hostid || nvmf_hostid_load()) &&
+>   		    add_argument(&argstr, &max_len, "hostid", cfg.hostid)) ||
+>   	    (!discover &&
+>   	      add_int_argument(&argstr, &max_len, "nr_io_queues",
+> diff --git a/fabrics.h b/fabrics.h
+> index b8e53f492b53..64aede897535 100644
+> --- a/fabrics.h
+> +++ b/fabrics.h
+> @@ -4,6 +4,7 @@
+>   #define NVMF_DEF_DISC_TMO	30
+>   
+>   extern char *hostnqn_read(void);
+> +extern char *hostid_read(void);
+>   
+>   extern int discover(const char *desc, int argc, char **argv, bool connect);
+>   extern int connect(const char *desc, int argc, char **argv);
+> diff --git a/nvme-builtin.h b/nvme-builtin.h
+> index bfb907dff9ef..907d470cbeac 100644
+> --- a/nvme-builtin.h
+> +++ b/nvme-builtin.h
+> @@ -71,6 +71,7 @@ COMMAND_LIST(
+>   	ENTRY("disconnect-all", "Disconnect from all connected NVMeoF subsystems", disconnect_all_cmd)
+>   	ENTRY("gen-hostnqn", "Generate NVMeoF host NQN", gen_hostnqn_cmd)
+>   	ENTRY("show-hostnqn", "Show NVMeoF host NQN", show_hostnqn_cmd)
+> +	ENTRY("show-hostid", "Show NVMeoF host ID", show_hostid_cmd)
+>   	ENTRY("dir-receive", "Submit a Directive Receive command, return results", dir_receive)
+>   	ENTRY("dir-send", "Submit a Directive Send command, return results", dir_send)
+>   	ENTRY("virt-mgmt", "Manage Flexible Resources between Primary and Secondary Controller ", virtual_mgmt)
+> diff --git a/nvme.c b/nvme.c
+> index 0c23eee8a477..d81f8226b84d 100644
+> --- a/nvme.c
+> +++ b/nvme.c
+> @@ -4771,6 +4771,21 @@ static int show_hostnqn_cmd(int argc, char **argv, struct command *command, stru
+>   	}
+>   }
+>   
+> +static int show_hostid_cmd(int argc, char **argv, struct command *command, struct plugin *plugin)
+> +{
+> +	char *hostid;
+> +
+> +	hostid = hostid_read();
+> +	if (hostid) {
+> +		fputs(hostid, stdout);
+> +		free(hostid);
+> +		return 0;
+> +	} else {
+> +		fprintf(stderr, "hostid is not available -- generate /etc/nvme/hostid\n");
+> +		return -ENOENT;
+> +	}
+> +}
+> +
+>   static int discover_cmd(int argc, char **argv, struct command *command, struct plugin *plugin)
+>   {
+>   	const char *desc = "Send Get Log Page request to Discovery Controller.";
+> 
 
 
 _______________________________________________
