@@ -2,93 +2,90 @@ Return-Path: <SRS0=Ii44=26=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8757C33CA1
-	for <linux-nvme@archiver.kernel.org>; Thu,  9 Jan 2020 05:05:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 901CEC32771
+	for <linux-nvme@archiver.kernel.org>; Thu,  9 Jan 2020 05:05:19 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7309B206ED
-	for <linux-nvme@archiver.kernel.org>; Thu,  9 Jan 2020 05:05:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 62982206ED
+	for <linux-nvme@archiver.kernel.org>; Thu,  9 Jan 2020 05:05:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="IgNozIaw";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="fHsYTfPJ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7309B206ED
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="MjRma+29";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="egoxWxpH"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 62982206ED
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=326lXHwhDAlM0ISlKF6gBbpRyyNYjfVvw/YSzycCfRs=; b=IgNozIawHeG/PY
-	i4IYF+ORA4tGqt/kIgjjE6L0xy1FiE6OYhrWU47ExFnyhVyMvcDGbeO9i7ptC013DjGDIfhPv1hfd
-	QyqbYF+Hgqd0pc17WePzSf9hGqZ7dsKxviQURR4M/jp07vFkTN3/0jDJ8aOGH7Tou3k6jh8/5qW4+
-	KHrlgtat73oR6sxxcNufjNADcYDELgBhyovgM2SIKFyLhdCHxmlB7fwBlLFcDvAy6S6ek0J47CiOE
-	QhkpMnEHo1Jpf886mO5BxjLBOOvJSwTxJoNuwV2ai9LmmbWTjv+FX1vtjbeAvaxCkVqXpeUsjw0eE
-	OQYmsxR9sMq+0wVKvCNg==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
+	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=bS6QEasLVOyt8uPamOVCyN+OxlKBqzQcwR7/iTapijQ=; b=MjRma+29pnEf9X
+	CgXbU8EYv9JDZpw+OhmfT4p+vlI5DQh6cztOCzMklOH23NUpqFRzEyvoXxWJv7ZSXPzaQEgo/MxFJ
+	GSIxI3jv3J5c7FB9fd8XvWCrqzmXeXRb4WN3HtS9oAP8f7qcNZF86JTd1uzcjq/4So273ViImdr9X
+	IYe/0l3NOPG5QbRiO3gYkIa4fMp/oIBeVVngqpa6yf+ffcGj6YxudtsdLEPRHxwWKNTnSUiXzhHWJ
+	gricYr2XbRKUHZ0ud9Qfeo6F+M0saRAmjX7EYdrewTIJgJkNqAZi3loxQ+w3oDS2qjWg8gn33Qd8b
+	vBxjNv9h9xm0gR7NH/tg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1ipQ0E-0004VE-8N; Thu, 09 Jan 2020 05:05:02 +0000
+	id 1ipQ0R-0005pu-PY; Thu, 09 Jan 2020 05:05:15 +0000
 Received: from esa6.hgst.iphmx.com ([216.71.154.45])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ipQ0A-0004Tx-N0
- for linux-nvme@lists.infradead.org; Thu, 09 Jan 2020 05:04:59 +0000
+ id 1ipQ0C-0004Tx-2J
+ for linux-nvme@lists.infradead.org; Thu, 09 Jan 2020 05:05:01 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1578546299; x=1610082299;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=hA176hSIwOQe5LvU8gVRDvEgHSteDEOwP2pp7QzzH50=;
- b=fHsYTfPJ/gR08CDxEymjm8+ZNWnWDnApiRFckav+mKqActR23Qiha70k
- m05WvMwjA7f7yINnKLTHRC7AHM1bTkpY4Gu0u3DzqkDTyh+IAX7YwpWFW
- 8rF46egWvxQ4uEJFCG1v+Y/gKdQMn27cWhF7yuc4Eesp2IxVKVYhCzoOI
- qxWzTHklEizpUsZ72gD8LmkGKu8/axJC1fG0iIdvgwR+vj3Wn07s6gTti
- bDyFd77dpzTgZ3hXcvctKN5c2Vie17bS9BpEX6R7pVbNQuiLSlUqxj2cp
- nPAyVadfZfuckj1Pu4PCDKMFPsezeQPgUoC9tRCqbxIRMCFQDFNWyrzmY w==;
-IronPort-SDR: iUF0K+8a4bzbb9I6mieAFY+t81AwNKnvcIld9SqUYLlqHtwpR6vtYGKxmbfi02JTSvO0TRTsfY
- DjS2LpcDd2MZHm8FwUFL1fhpFzIzsMf3xR9iV38GVbIUYKwxQyfOHuIgpAnhNxq/cefr1EBIJz
- iSbo+V06CfScnQIcQYqkC6/VG7on4/wxdIfM9UQEcjN20VcwItev8jh9TH4IT5y/LN2Ehym4ft
- UiOndInbPWCN4KTAv87UWK5LtIXVqchaxehkz2fd4XYjmu8jwpTBfO4S69kUn/PbzXn3FL+b5o
- YNI=
-X-IronPort-AV: E=Sophos;i="5.69,412,1571673600"; d="scan'208";a="128585951"
+ t=1578546300; x=1610082300;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=HCjAywswqovhdsPys+Bvgm9UingQFPrVMVUk4cpO9ao=;
+ b=egoxWxpHxG7GnuAcBdxUyaYIWdQjaOcm6Wqq3AnQlZe+fhgehcinOcdd
+ GCpjirPnL2x1kIApdGcc01S8M+zDXOVm8kExRLlqEcQ7uaG5oyUS3+mlE
+ qgYfbjWWbCbOgWn5VEbovonWlFvb4UiYiYQv4iN/196+m+7c0JLQ0TBwg
+ aiDUef+566K2mhhECQNEgCkze1SJ/zxL8iZ2obatOrsvPXEkNgvdBCjVw
+ P21u1dXHycU3hYn002wyxo89P/8AI1moZk8IAcuPGtO5K6gEjUXUr+JJo
+ M5iB8uOWDx6pMpZfgFjiavKDhxoGLyxkyoaJ+bODwtZGzWNwMQn/w+hQm Q==;
+IronPort-SDR: HZcC21pmCWHaM3E9vQfaZ73WEumVQLXXaadDjZChEM3ju+xiFt5yQ3VtEAMPC/vKRIZMuyYYMO
+ gY1C2AyPyAf5f5YUNhB37yrxaukBZYy6v/mAN1D4h9lBUG9W08FTsG9MuvjBBwydWvt1Nqh0Me
+ lC6wgEq74A16Nthi6EguDH+ppO0/zBz3teEcP9yUjYK90lrYhgbl/mW4i45jGrA8We4tQmGCFZ
+ yaG/VQda0InMgcb8uvfVqbDwVcHs/7CySAV5u47su8N33xDPJiv+QLtMxYx31XPg69IiozC3ef
+ tIc=
+X-IronPort-AV: E=Sophos;i="5.69,412,1571673600"; d="scan'208";a="128585946"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 09 Jan 2020 13:04:51 +0800
-IronPort-SDR: c2B0bkzQ18G6P5Cw5uX1fq9Oer1MRG24qXkXX5GIcRd89sFgL5basDlYPTv/GQRcP5t8a46/xE
- 15sTAhgXWgXbnriaxFN46UQcb9EmTmA6xsz9CTIUX6l9gZdBIJyTktTYfYnZHrt82od4GQUFzh
- FyFyfERgFVG2qM7+iM4t0y+8Q0N4cWhbuoIeHuAyxQM1mykAR2b2j/FFamvlTGffovfFvd1gU+
- eSinTYJUsE9/STUW563hQeIZU2s9Ib44gcjirnZbaKmmYU0YA5B3bsZnW0mtHAoeDGqesr0zyf
- DsnszwWHnEOvLKtV+frstTVV
+IronPort-SDR: dSlAbul/LWr37STuRRH4FUoK7p6HO9SB1nZ8RBZ8rvz7V8QFRKroNLTcVAneX65VqjKKiWxc4S
+ uwRayBZxqRAOmv7YDCjGbmGUSHBgazPcB21QB3fjVe3pOO7x/+v9oWB+3I+C0j3iitEbYIkCNG
+ co67RyeNCkCc2wfBuPRPc9Lc5suMNvZscmKnpIZLskkjYI6WMhSkjKND3fViQenN5fMxCzIOwg
+ D7AKW/JAc7bYwpeSeECUnOlrzw2PPls8L4bigGptDz4T63Q1bdWAY+EL2PTMIS9JMLLoX1A6O1
+ Y/3NSN4nRMdaL6Kb1ijspyqB
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jan 2020 20:58:38 -0800
-IronPort-SDR: zqz1/PHUJ4KymCiG8O4DTqjUB4QLr2/xYOg5SfoXLsGd/0IxV4rp2h/djeYZAvkOiARd1QWLne
- aGckJcdS5HW9TRkg/D5u+UiYTZrvXKEwjIsSf5Dk9yHM4i+wpDMWKW78NJ3gknqgn8BcyIY9ff
- cKTBuGx7TtlXg33Ib23USpC9bMhGEJeKNEhDrDOq82Pqs5fTlzOVc1iI2/+6lkiXqrsmhdfPMU
- kwY0ELcrkS0ppioqZN8M9Jj50b7Gwik3pzD9INemetcqVvdvJMZQ7QSj0mLs5VifpK/aAOP1bV
- wsw=
+ 08 Jan 2020 20:58:37 -0800
+IronPort-SDR: Z/uOLLKC+Cpv51VX5HUfM6+Cy4GVhFu/k/tRfo2cortgOfwKTcHd8r7+Y/11BfFKgFXhejQ4pj
+ WP6hjq+ArDltEqcVYUH30sjH8D+0wLEa9IIdKl9l5NWE/xskNb4Lw6ovC0drr+I2QMnUSw+Y1p
+ 7JA1+uGL7KXzFgtcAD2hWIsf79rZqoGIAjZzJJyRQqJaPmSxd+xAclMmXOmgKI68zMiqwYQuIn
+ cuwW94chP8lXMtUI4nC82NONUlm2L0/l9+U/uNC4Q+hH5yzV/W9B/r5xuw/ujTk/tn1IUEJyXa
+ aFY=
 WDCIronportException: Internal
 Received: from iouring.labspan.wdc.com (HELO iouring.sc.wdc.com)
  ([10.6.138.107])
- by uls-op-cesaip02.wdc.com with ESMTP; 08 Jan 2020 21:04:51 -0800
+ by uls-op-cesaip02.wdc.com with ESMTP; 08 Jan 2020 21:04:50 -0800
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH RESEND 1/2] nvmetcli: allow setting of the cntlid[min|max]
-Date: Wed,  8 Jan 2020 21:04:47 -0800
-Message-Id: <20200109050448.5758-2-chaitanya.kulkarni@wdc.com>
+Subject: [PATCH RESEND 0/2] nvmetcli: make model and ctrl-id configurable
+Date: Wed,  8 Jan 2020 21:04:46 -0800
+Message-Id: <20200109050448.5758-1-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.22.1
-In-Reply-To: <20200109050448.5758-1-chaitanya.kulkarni@wdc.com>
-References: <20200109050448.5758-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200108_210458_789829_C26AF881 
-X-CRM114-Status: UNSURE (   9.06  )
+X-CRM114-CacheID: sfid-20200108_210500_143832_B7279038 
+X-CRM114-Status: UNSURE (   6.91  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -108,49 +105,18 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This patch allows users to set the subsystem's cntlid min and
-cntlid max.
+Hi,
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
----
- nvmetcli | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+This patch series allows users to set the subsys model and ctrl-id
+fields.
 
-diff --git a/nvmetcli b/nvmetcli
-index 3d8c16e..4fdac53 100755
---- a/nvmetcli
-+++ b/nvmetcli
-@@ -155,6 +155,8 @@ class UISubsystemNode(UINode):
-     ui_desc_attr = {
-         'allow_any_host': ('string', 'Allow access by any host if set to 1'),
-         'serial': ('string', 'Export serial number to hosts'),
-+        'cntlid_min': ('number', 'Set min ctrl id'),
-+        'cntlid_max': ('number', 'Set max ctrl id'),
-         'version': ('string', 'Export version number to hosts'),
-     }
- 
-@@ -172,6 +174,21 @@ class UISubsystemNode(UINode):
-         info.append("allow_any=" +
-                     self.cfnode.get_attr("attr", "allow_any_host"))
-         info.append("serial=" + self.cfnode.get_attr("attr", "serial"))
-+
-+        try:
-+            cntlid_min = str(self.cfnode.get_attr("attr", "cntlid_min"))
-+        except Exception as e:
-+            cntlid_min = "n/a"
-+        if cntlid_min != "n/a":
-+            info.append("cntlid_min=" + cntlid_min)
-+
-+        try:
-+            cntlid_max = str(self.cfnode.get_attr("attr", "cntlid_max"))
-+        except Exception as e:
-+            cntlid_max = "n/a"
-+        if cntlid_max != "n/a":
-+            info.append("cntlid_max=" + cntlid_max)
-+
-         return (", ".join(info), True)
- 
- 
+Chaitanya Kulkarni (2):
+  nvmetcli: allow setting of the cntlid[min|max]
+  nvmetcli: allow setting of the subsystem model
+
+ nvmetcli | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+
 -- 
 2.22.1
 
