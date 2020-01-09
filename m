@@ -2,83 +2,130 @@ Return-Path: <SRS0=Ii44=26=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D008CC32771
-	for <linux-nvme@archiver.kernel.org>; Thu,  9 Jan 2020 10:19:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71363C32771
+	for <linux-nvme@archiver.kernel.org>; Thu,  9 Jan 2020 10:38:17 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A1ABF206ED
-	for <linux-nvme@archiver.kernel.org>; Thu,  9 Jan 2020 10:19:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 411A520673
+	for <linux-nvme@archiver.kernel.org>; Thu,  9 Jan 2020 10:38:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="dErI6jcE";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=owltronix-com.20150623.gappssmtp.com header.i=@owltronix-com.20150623.gappssmtp.com header.b="uYzxlv0M"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A1ABF206ED
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=owltronix.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="U1eu6zK3";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=Mellanox.com header.i=@Mellanox.com header.b="JWHjHHZw"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 411A520673
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=hNCa5wG1EsXhnA6T/sp9Gh5MOCA/hHM3PM6+gKr02HA=; b=dErI6jcEpfXFlQ
-	eHPSrxFBiLjn4dVjeMXBKIH8YM8qpPgDreNXgBqDWksntIc/EsNXuWkU90gG5jsELnejabgQMjjnC
-	l3k/hqPIvqfMc2BOxDU3jSgFD0JeEGPmQIqpbcM4/Qzek0xAmmUPU8SkTcjrg8kLR19cr1Nw0YdDO
-	Qiv5sAuBVEk5Qmk5y7DEteqeqIG51yncN/sUkY7drf9fqVfwnEiGHuoTWzOqR3SPJleqIeN3xlKJa
-	9ggKwIrdxLJWZL/NEx7ghkAvUtX6gwttMLpdkIC4fWgY9vUFkEf0CIOc++YWxLJmjiYmnYBDArwIe
-	COwDS6sJT1sFmjhjWwng==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=eLhskOmb0dPpAVHRNDKr/dWLYc5pUxlNUha3zksM1x8=; b=U1eu6zK3RZTIE6IYgkqAfDR7f
+	jfjzwNfduES1ThRG3CwyQF/sU6Kqp1XucLIUAIyct8l5c0wDVzAXEYCQJMzfKThRKsEJHTumJY8/z
+	HOfOI2JxTqWza5iarIatXEL91qX/GOe3DQX643Gm8u44V1NaMDDW/irphTvAc/IlIC1JgziNEzCMg
+	HYd14sD98+TsAJ8HTeR6uS9PD/a3U9/kFQnHEPQA9FdKVyCCcwoSCA+MEGL39LTQjP1T4wa7leN1q
+	P8DpCzFbZSF7Mcb05P73NObmtcwoCnkfPBGSD5zWH8VzWWsy0Qhvlfg7fG2DHOvcVO27Anzv/fCcG
+	qooEunmaQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1ipUun-0002C7-FM; Thu, 09 Jan 2020 10:19:45 +0000
-Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142])
+	id 1ipVCg-0002pa-KY; Thu, 09 Jan 2020 10:38:14 +0000
+Received: from mail-am6eur05on2041.outbound.protection.outlook.com
+ ([40.107.22.41] helo=EUR05-AM6-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ipUuk-0002AE-LB
- for linux-nvme@lists.infradead.org; Thu, 09 Jan 2020 10:19:44 +0000
-Received: by mail-lf1-x142.google.com with SMTP id n25so4807839lfl.0
- for <linux-nvme@lists.infradead.org>; Thu, 09 Jan 2020 02:19:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=owltronix-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yc4QpQbWMkHB15aVjvX5Uf8UyPL+iSSMmYHHhc2yIwo=;
- b=uYzxlv0MH3lWrOqNXTAMC4nSdMn9kXVD7TITYZVX48fhAILr+2N98aficvb6pw7P8p
- 0gxJxLCckWdMKiUatQOJ0Nh5o8Xp7tu7YWcluC8wIQj7ZAa7FvXvMolQGh0gMSGueuh6
- oAbECXOL8iUN6kDN+PdXcAstydIMeZCq+cmGmT6MLgXss5c8N0Rgz689E6tMxquB/HoK
- m/NGGSky1xcDkq+0suKtbTwkebL2+gjO51iEwBBnMoV5ZHhAKdD/pkK+M8IBEwJM5UGe
- P11aPxWK1Di+Y9gCax0lRgRyMwlj52m8QVGfQM9Eh59vwTjDUaR1/LCLBqMJoDlIO3p+
- nNtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=yc4QpQbWMkHB15aVjvX5Uf8UyPL+iSSMmYHHhc2yIwo=;
- b=ZnAuc4Js6mbXOxT56tUfTqszRYLM+UGnIH0fCDMEeznGl6pw59XeYAWBHgp1Qaq0w2
- V0kiVYUkCS2VoaJ14uRu8rkAFYUn2mV+GacWgQnAsu/BBiml1oHfyahWtLDHzervQOgp
- 6Dk7TRr8n4Mp/AzmHCJ3BcBOynO1eb+I6hqf9Dij0JiuL1JRZ06MuW7AawszFOtj9+2O
- 65rW1ZiZ+bH6B+WqjI1VJBVX6BEvnmCm59Hbt17wAJqF10XxjogJ7wSGjxpWNvKZB/9B
- HfKa4o8NZbIyuAf09Ful0q4cRwNW+QUgx7RbxLWex2NIxrUS9KwRgphFAeS0kmw1l6Y7
- +rIg==
-X-Gm-Message-State: APjAAAW9wEae4Hmq69dQDkusxUoBSOqgeoz17wvuJWR/M3CNuAeFOZ8s
- AHsc34tKQGuWL+uk9H94elQG5h0f4a6M8lKxZElCIQ==
-X-Google-Smtp-Source: APXvYqxmGTVUfoDgWWWDW+R4ESIx2uJCdDcI1Lqi+Tz0MO4cyGhe0CQU0VdfHQ5e1HYKYj1OvVtzWjMUcdBgFrHWbCU=
-X-Received: by 2002:a19:850a:: with SMTP id h10mr5795499lfd.89.1578565176867; 
- Thu, 09 Jan 2020 02:19:36 -0800 (PST)
+ id 1ipVCd-0002mX-Ss
+ for linux-nvme@lists.infradead.org; Thu, 09 Jan 2020 10:38:13 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fS0PFX0mDejalsyIkn/mJIurRjtfkXyb0wb/sWI51Bf7RxufDJ19D3RyAZ5O4AA0OLwZYZMtGMiYM1AWY9+niksA2FiH+5eYyv0uqkiRDp47j6E4CsBM5PEnExp6pjKiv9VdUcBrl4utAh7LhI32dLf+canuRciez9urexRwXqGzyKZg2LWPlWdp4Fbo93JNrQ+LXwoa03QG+ObbrRVMW9eKlbDW6M+ucAJ+64id6QPu0qkN3zXCJvrMeHUl/O7ZoeAdICZ/4HVslHdXNszgnH4b8+kaFGnj4G+j1jWNkOW9reco89AiGQYh/Z5iEHMZq2vTl/d+EoBQ6qnF4lT1Hg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yf5YV1/HaYu0J5hyfMgVekleIr7hFZqMucG+EuP1WVk=;
+ b=ZuY8VPO5AmLi2PB8jH3HlbEJLCkBGqtsOz/fJmH+IPL6+38cjaHyGJUa/yRPud5YOwQqETBgI1/YqYotdyy7s1Z+8cfYJ1gaSZuPA2Ai5eW+H0mLrC5uvY1k60o4aiislnpW9Ojx6FtqpDGTzG2FU8V6K/ibFfbIsWPMOZEyA1S9YdZik9YoOwUMBOiZR5mBsuAOcnEhaTmhsY2RmKBRWCepdRZrPrrt7KeOUytsb9XvC52SMdfM+PU1gRYNlgzHIkPpwusWl1CgLEujyYc5/R6xKAuC9y9RJ7tTh2CfINFs9V3zE+qf38wKu7z5ZyAAZJtWplkcZ0+Mp52Gp3m/bA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 193.47.165.251) smtp.rcpttodomain=kernel.dk smtp.mailfrom=mellanox.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=mellanox.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yf5YV1/HaYu0J5hyfMgVekleIr7hFZqMucG+EuP1WVk=;
+ b=JWHjHHZwm/95OOvCqyLjvUEYJ386xdfX1ed5U5z/litkk1Y7F99fzxwYoECSyTk2Mvq6rs/beUyo8J+PgoDgw2K1u8o8PNYadK5kPzp7sYQFb5z4I1vxZe+M44pxXPiKeg+bKNSHWIJtSFqvE+1PV3MyzJxDLU//klO6Kmw5+Zk=
+Received: from AM0PR05CA0076.eurprd05.prod.outlook.com (2603:10a6:208:136::16)
+ by DB7PR05MB6169.eurprd05.prod.outlook.com (2603:10a6:10:81::29) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2623.10; Thu, 9 Jan
+ 2020 10:38:08 +0000
+Received: from AM5EUR03FT052.eop-EUR03.prod.protection.outlook.com
+ (2a01:111:f400:7e08::204) by AM0PR05CA0076.outlook.office365.com
+ (2603:10a6:208:136::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2623.9 via Frontend
+ Transport; Thu, 9 Jan 2020 10:38:08 +0000
+Authentication-Results: spf=pass (sender IP is 193.47.165.251)
+ smtp.mailfrom=mellanox.com; kernel.dk; dkim=none (message not signed)
+ header.d=none;kernel.dk; dmarc=pass action=none header.from=mellanox.com;
+Received-SPF: Pass (protection.outlook.com: domain of mellanox.com designates
+ 193.47.165.251 as permitted sender)
+ receiver=protection.outlook.com; 
+ client-ip=193.47.165.251; helo=mtlcas13.mtl.com;
+Received: from mtlcas13.mtl.com (193.47.165.251) by
+ AM5EUR03FT052.mail.protection.outlook.com (10.152.17.161) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.2602.11 via Frontend Transport; Thu, 9 Jan 2020 10:38:08 +0000
+Received: from MTLCAS13.mtl.com (10.0.8.78) by mtlcas13.mtl.com (10.0.8.78)
+ with Microsoft SMTP Server (TLS) id 15.0.1178.4; Thu, 9 Jan 2020 12:38:07
+ +0200
+Received: from MTLCAS01.mtl.com (10.0.8.71) by MTLCAS13.mtl.com (10.0.8.78)
+ with Microsoft SMTP Server (TLS) id 15.0.1178.4 via Frontend Transport; Thu,
+ 9 Jan 2020 12:38:07 +0200
+Received: from [10.223.0.100] (10.223.0.100) by MTLCAS01.mtl.com (10.0.8.71)
+ with Microsoft SMTP Server (TLS) id 14.3.468.0; Thu, 9 Jan 2020 12:38:05
+ +0200
+Subject: Re: [PATCH 01/15] nvme: Introduce namespace features flag
+To: "Martin K. Petersen" <martin.petersen@oracle.com>
+References: <20200106133736.123038-1-maxg@mellanox.com>
+ <20200106133736.123038-3-maxg@mellanox.com> <yq1imllz5l4.fsf@oracle.com>
+From: Max Gurtovoy <maxg@mellanox.com>
+Message-ID: <87553ee2-74f4-8eb9-dd07-552f2637dab8@mellanox.com>
+Date: Thu, 9 Jan 2020 12:38:05 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-References: <BYAPR04MB5749B4DC50C43EE845A04612865A0@BYAPR04MB5749.namprd04.prod.outlook.com>
- <BYAPR04MB5749EDD9E5928E769413B38086520@BYAPR04MB5749.namprd04.prod.outlook.com>
-In-Reply-To: <BYAPR04MB5749EDD9E5928E769413B38086520@BYAPR04MB5749.namprd04.prod.outlook.com>
-From: Hans Holmberg <hans@owltronix.com>
-Date: Thu, 9 Jan 2020 11:19:25 +0100
-Message-ID: <CANr-nt0=C+1v=1MU6eNhX0-X4CEvc7D2UEF02oRMNHraQ1FRow@mail.gmail.com>
-Subject: Re: [LSF/MM/BFP ATTEND] [LSF/MM/BFP TOPIC] Storage: add blktrace
- extension support
-To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+In-Reply-To: <yq1imllz5l4.fsf@oracle.com>
+Content-Language: en-US
+X-Originating-IP: [10.223.0.100]
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:193.47.165.251; IPV:; CTRY:IL; EFV:NLI;
+ SFV:NSPM;
+ SFS:(10009020)(4636009)(346002)(39860400002)(136003)(376002)(396003)(189003)(199004)(107886003)(336012)(5660300002)(36756003)(70206006)(2906002)(4326008)(53546011)(6916009)(356004)(16526019)(54906003)(16576012)(8676002)(70586007)(31686004)(86362001)(186003)(81166006)(81156014)(8936002)(36906005)(316002)(2616005)(31696002)(478600001)(4744005)(26005)(3940600001);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:DB7PR05MB6169; H:mtlcas13.mtl.com; FPR:;
+ SPF:Pass; LANG:en; PTR:InfoDomainNonexistent; MX:1; A:1; 
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b572f681-92e8-4e1c-eb44-08d794f00490
+X-MS-TrafficTypeDiagnostic: DB7PR05MB6169:
+X-Microsoft-Antispam-PRVS: <DB7PR05MB6169561107A1EE6069E3D36AB6390@DB7PR05MB6169.eurprd05.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-Forefront-PRVS: 02778BF158
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ev7y5Qe/NJxLlXSE4mR7mtLKwuifmiDK5tHt54YhRqu7UlT6Uf6me8odLktClYMFHphMm7JkA6oFa0INKLF2Xxw6WeGJ3HVrBamBuqil6lxkjF0KK4ijnlUkv/GZHqukZqMxNzMo8emmj7RIlB5mCryo40vsn+U6L7Xc5Ez7LGzBAhK5Gn2XFtJY1VxM2xzkqpqJ4WBllprpBnqDKLmmtL6O9X4k0F6DPO02g8GjJGxs66McshuiLKHSvaKyd8bz9bDMm9tD8Jske6Nh2hDhXFusFQajKoZNztfIgftSLBXNMiRDTiSM/rOR/1WaKOu8OOAWLM2CnWbChTp2h7Zm5aweov2toTy2wcohWdxlRLowNAOe+J4RHiEd7zd0M5gUy5g0KYGss+RvOoq9jyfJTRJtqVhiKt0RZrPg+9yetnTR5werKy67VY2dkp775Lc8tA6DpcPkniAL5dhmiLDSYrZ5tFYd8stVgfoKxlKvVv8+Kg2Fyny3tHrebaMImnIA
+X-OriginatorOrg: Mellanox.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jan 2020 10:38:08.4241 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b572f681-92e8-4e1c-eb44-08d794f00490
+X-MS-Exchange-CrossTenant-Id: a652971c-7d2e-4d9b-a6a4-d149256f461b
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a652971c-7d2e-4d9b-a6a4-d149256f461b; Ip=[193.47.165.251];
+ Helo=[mtlcas13.mtl.com]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR05MB6169
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200109_021942_704130_A9B36AEC 
-X-CRM114-Status: GOOD (  18.11  )
+X-CRM114-CacheID: sfid-20200109_023812_031070_FBD61F22 
+X-CRM114-Status: UNSURE (   9.77  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,142 +137,43 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "axboe@kernel.dk" <axboe@kernel.dk>, Ming Lei <ming.lei@redhat.com>,
- "linux-btrace@vger.kernel.org" <linux-btrace@vger.kernel.org>,
- "Theodore Y. Ts'o" <tytso@mit.edu>, Bart Van Assche <bvanassche@acm.org>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Damien Le Moal <Damien.LeMoal@wdc.com>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Christoph Hellwig <hch@lst.de>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-ide@vger.kernel.org" <linux-ide@vger.kernel.org>,
- Hannes Reinecke <hare@suse.de>, Johannes Thumshirn <jthumshirn@suse.de>,
- Keith Busch <kbusch@kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
- Omar Sandoval <osandov@fb.com>, Matias Bjorling <Matias.Bjorling@wdc.com>
-Content-Type: text/plain; charset="us-ascii"
+Cc: axboe@kernel.dk, sagi@grimberg.me, vladimirk@mellanox.com,
+ shlomin@mellanox.com, israelr@mellanox.com, linux-nvme@lists.infradead.org,
+ idanb@mellanox.com, oren@mellanox.com, kbusch@kernel.org, hch@lst.de
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Dec 19, 2019 at 6:50 AM Chaitanya Kulkarni
-<Chaitanya.Kulkarni@wdc.com> wrote:
+
+On 1/9/2020 5:11 AM, Martin K. Petersen wrote:
+> Max,
 >
-> Adding Damien to this thread.
-> On 12/10/2019 10:17 PM, Chaitanya Kulkarni wrote:
-> > Hi,
-> >
-> > * Background:-
-> > -----------------------------------------------------------------------
-> >
-> > Linux Kernel Block layer now supports new Zone Management operations
-> > (REQ_OP_ZONE_[OPEN/CLOSE/FINISH] [1]).
-> >
-> > These operations are added mainly to support NVMe Zoned Namespces
-> > (ZNS) [2]. We are adding support for ZNS in Linux Kernel Block layer,
-> > user-space tools (sys-utils/nvme-cli), NVMe driver, File Systems,
-> > Device-mapper in order to support these devices in the field.
-> >
-> > Over the years Linux kernel block layer tracing infrastructure
-> > has proven to be not only extremely useful but essential for:-
-> >
-> > 1. Debugging the problems in the development of kernel block drivers.
-> > 2. Solving the issues at the customer sites.
-> > 3. Speeding up the development for the file system developers.
-> > 4. Finding the device-related issues on the fly without modifying
-> >      the kernel.
-> > 5. Building white box test-cases around the complex areas in the
-> >      linux-block layer.
-> >
-> > * Problem with block layer tracing infrastructure:-
-> > -----------------------------------------------------------------------
-> >
-> > If blktrace is such a great tool why we need this session for ?
-> >
-> > Existing blktrace infrastructure lacks the number of free bits that are
-> > available to track the new trace category. With the addition of new
-> > REQ_OP_ZONE_XXX we need more bits to expand the blktrace so that we can
-> > track more number of requests.
+>> +#define NVME_NS_DIX_SUPPORTED	(1 << 1)
+>> +#define NVME_NS_DIF_SUPPORTED	(1 << 2)
+> Not so keen on the DIF/DIX terminology in this context.
 
-In addition to tracing the zone operations, it would be greatly
-beneficial to add tracing(and blktrace support) for the reported zone
-states.
-I did something similar[5] for pblk and open channel chunk states, and
-that proved invaluable when figuring out whether the disk or pblk was
-broken.
+Martin,
 
-In pblk the reported chunk state transitions are traced along with the
-expected zone transitions (based on io and management commands
-submitted).
+how about:
 
-[5] https://www.lkml.org/lkml/2018/8/29/457
++#define NVME_NS_PI_HOST_SUPPORTED (1 << 1)
++#define NVME_NS_PI_CTRL_SUPPORTED (1 << 2)
 
-Thanks!
-Hans
-
-> >
-> > * Current state of the work:-
-> > -----------------------------------------------------------------------
-> >
-> > RFC implementations [3] has been posted with the addition of new IOCTLs
-> > which is far from the production so that it can provide a basis to get
-> > the discussion started.
-> >
-> > This RFC implementation provides:-
-> > 1. Extended bits to track new trace categories.
-> > 2. Support for tracing per trace priorities.
-> > 3. Support for priority mask.
-> > 4. New IOCTLs so that user-space tools can setup the extensions.
-> > 5. Ability to track the integrity fields.
-> > 6. blktrace and blkparse implementation which supports the above
-> >      mentioned features.
-> >
-> > Bart and Martin has suggested changes which I've incorporated in the RFC
-> > revisions.
-> >
-> > * What we will discuss in the proposed session ?
-> > -----------------------------------------------------------------------
-> >
-> > I'd like to propose a session for Storage track to go over the following
-> > discussion points:-
-> >
-> > 1. What is the right approach to move this work forward?
-> > 2. What are the other information bits we need to add which will help
-> >      kernel community to speed up the development and improve tracing?
-> > 3. What are the other tracepoints we need to add in the block layer
-> >      to improve the tracing?
-> > 4. What are device driver callbacks tracing we can add in the block
-> >      layer?
-> > 5. Since polling is becoming popular what are the new tracepoints
-> >      we need to improve debugging ?
-> >
-> >
-> > * Required Participants:-
-> > -----------------------------------------------------------------------
-> >
-> > I'd like to invite block layer, device drivers and file system
-> > developers to:-
-> >
-> > 1. Share their opinion on the topic.
-> > 2. Share their experience and any other issues with blktrace
-> >      infrastructure.
-> > 3. Uncover additional details that are missing from this proposal.
-> >
-> > Regards,
-> > Chaitanya
-> >
-> > References :-
-> >
-> > [1] https://www.spinics.net/lists/linux-block/msg46043.html
-> > [2] https://nvmexpress.org/new-nvmetm-specification-defines-zoned-
-> > namespaces-zns-as-go-to-industry-technology/
-> > [3] https://www.spinics.net/lists/linux-btrace/msg01106.html
-> >       https://www.spinics.net/lists/linux-btrace/msg01002.html
-> >       https://www.spinics.net/lists/linux-btrace/msg01042.html
-> >       https://www.spinics.net/lists/linux-btrace/msg00880.html
-> >
+>
+> DIF as a term was obsoleted long ago in T10. The proper term is
+> Protection Information which you also use throughout these changes. We
+> have lots of DIF references in the kernel for hysterical raisins. But
+> let's not create new ones.
+>
+> DIX is a spec I wrote to describe how controllers could exchange T10
+> Protection Information with a host. It's specific to SCSI and although
+> DIX is referenced in the NVMe spec, it would not be accurate to describe
+> the NVMe features using the term DIX.
+>
+> So I'm in agreement with Keith that this should be named using more
+> descriptive terms such as NVME_NS_PI, NVME_NS_CONTIGUOUS_PI,
+> NVME_NS_SEPARATE_PI, or similar.
 >
 
 _______________________________________________
