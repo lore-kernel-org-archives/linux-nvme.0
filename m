@@ -6,17 +6,17 @@ X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93F8DC3F68F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DB31C32771
 	for <linux-nvme@archiver.kernel.org>; Sun, 12 Jan 2020 09:41:03 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5BCB421744
+	by mail.kernel.org (Postfix) with ESMTPS id 3242821569
 	for <linux-nvme@archiver.kernel.org>; Sun, 12 Jan 2020 09:41:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="U/PFQyE5";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=Mellanox.com header.i=@Mellanox.com header.b="a0cRnOnk"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5BCB421744
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="uSLV8da2";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=Mellanox.com header.i=@Mellanox.com header.b="Cjs6dIBP"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3242821569
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,27 +25,27 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=xJdATV1LqJx1mvI4HFv66t78B26QfkoLiEPfFhg1ydg=; b=U/PFQyE5NCecaY+zI9WMRxt1m
-	RSIGFw8ogI5LfAzxNGjiPomrTzlmKaZXjUAqbWuKiar5ThoqtpRn8saLOPaDhheMVvplcKz3B8+k/
-	N9YhSoY2MuBlVUXinsbTv285M/vRe1Fvvjmk7JDYI4ElwO7lD8NaTASxgK5rAjFfNNBQgwUUWTZUN
-	Qp4s4OzxhPRdHp9srXcgwYX/6PPILT2f20njt/6ZFTvzpaJw+THeALOoFP1FcKsPlWimwmVFlaSlO
-	m7f8g7GGNqL+h7IjzgkwaLE+fHMvK8Ypxmcb4GehVcQIab2+Soa+SMTUZPhsRqnyzdF3gfmeweuKN
-	CZ9CTd2rg==;
+	 bh=xJdATV1LqJx1mvI4HFv66t78B26QfkoLiEPfFhg1ydg=; b=uSLV8da2tELbLMzOaSh054RTM
+	pvp86GaVnV72j+zRM0hsDHdvurjqWVjsxqOy+Sf8q32WXvA3ggsWoozo90ZliSExm+WDqs1H6lFJh
+	2IRB8SUkyySCO3s2B5ERY/X5W5J5lwT6Bu+zZsuiedGGSsLQefgBK4lj/lgQ2BOMTEYYlT2mvTo0g
+	0bEUZAaz7T64j3gyvgon2brah8GFKAjtiuncg/f5TaSmLcGtyfpcQdUknAhMOQ3M4UA4A3p+Vr+Lj
+	gAjag4vjSmybW3R+2mCEOu/m/D4ClwKQV9JWuKxzMCmIOpst8omNp9fRkceiroAT4h3L4P/Pr3ZAx
+	z7CQyc4VA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iqZjr-0000pX-15; Sun, 12 Jan 2020 09:40:55 +0000
-Received: from mail-eopbgr140051.outbound.protection.outlook.com
- ([40.107.14.51] helo=EUR01-VE1-obe.outbound.protection.outlook.com)
+	id 1iqZju-0000ru-OP; Sun, 12 Jan 2020 09:40:58 +0000
+Received: from mail-eopbgr50049.outbound.protection.outlook.com ([40.107.5.49]
+ helo=EUR03-VE1-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iqZjn-0000oO-8r
+ id 1iqZjn-0000oP-7I
  for linux-nvme@lists.infradead.org; Sun, 12 Jan 2020 09:40:53 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lYJ6wGxQXliLUI9qB9Bl5RyRCx618cTBYzvxqYcvXMNi2txMgNydUR3A2nH1cDm+J0oHBdNcKW23vAkSr/H4pf+77tJIXnS/5SibcfBGdWMkxvw3RhiOj1yRApU9500vsA1s95BJd8l1vbb3yA992Ater+Qqs9TsYdMJUMe3uJ3DLFXqb7bngnw3C7vTy+gThTQBTx3q9XxIX4Mb3H5YEB0VFJXbjfyeSiYHr/7G6ckDSK5nRMublLCsID6cYpmrXI1C6fYLgpc3a994CX6zoHUzHmtz/ZdKER09BarsNDVXpqUQLflblcPAAKHsV/8na6Qtx12fgnlJQUuwaEiAxA==
+ b=epoEV1Zqpn83MQ3dza7VdiTpcj5QBidXdcxoNMPsKUdMBreB1JH3FKmXtk0qHL7sgpTvECvokUIXGS3qsnkIRn+Gg/C853h3hrfA72LcRv6/BPRDxEqllwK81HRiZ/bqQd+++4zVgJQDauHJfh0uPEEPauhL4TaWKWpK8gBYRq15c45+3Arzih0SghFfY6sEhb0qJXtdtGNr1BT0FdWShnrmLBx4c7wmsIY4xHsZi10xrVzPah0pvFsDWBmRxgSNmzBMxDHnNIjUTgxUFlxpY2LhvfhImmNf5gCmfWPVf/y+PGvpY25v5pCnnKofuTOVI5oR/gVXfITCZp6Ui9FJ8A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
  bh=aJBPlsxDAUert7aJk0OexSnrFdjDajRiu2rNhZcZTCw=;
- b=DMLdBK8UKLk2CQZGWkHNdlUyyVEjLw3IFx9FnA9Evvol32wXsiJfvTpu9DPz3KPEwOetUUvFn59G9rpKc32cRweaS646wRxaQT3nVZDU6Xaxsm+COumcyyCNFmF/fLXuml1lSWnDRz0auGtQOJzCTHWy7q5rigKVD6/kZ/G4xVJUcT3i4BK2mauq50BV/AiC24CO0ll1f7BbFu+7VbE7PSEuNwYoo7xLCsZoBmGbLogkAOrs2V9rGYgfbDnhTmNfqFG/feOTDgTyr1r2BC7Ro48uqZuS5zqCJCPwDBQG1WLLa/JZQep+DWrlTFJiUitk+ooFDZcwqoF3LinPoo77ZQ==
+ b=KYTSKykurNtHSoLra60ZFILQ8wQPYYq4rZQfMN1Hgp4QNQMDbBs02WsGwSDYWdh0TbvuMJdir9oGLt66Olgc1QCWWAP/h08iWMslDQOLTFymJiVa8z15OpwdO35upXlANfvEgRd2JiLjCZLdiRKrxsJUaOZjb60vDMWNiX0TaV4LUoHdskPX+6Mr7QJFUe9ojmHR67DlefELVpWA4SIXDNjXJ0eMtX5mNRI9NA9KfN/2W7yvgF/foRvnWhgzP5MmN8SzFCv9Uv+QwC9as6nJemD40MXTDCeCbXvFQmimikX2d8dWYvS+Ph7St3HN8zdKygLnUc9gxLGPSn636oeWjw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  193.47.165.251) smtp.rcpttodomain=kernel.dk smtp.mailfrom=mellanox.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=mellanox.com;
@@ -54,17 +54,17 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
  bh=aJBPlsxDAUert7aJk0OexSnrFdjDajRiu2rNhZcZTCw=;
- b=a0cRnOnkVbQaz2ZfuEYK4eD3ELr7K+/E+N+eELjyD6bvlc7IYNiktZEfzfrQl0XwdIOxbl+qecoP/JPNAIls/Z8405ifHif9KntpIj/4QIc/yjyA/3tnleasBvYTSjkvYkePlAzmuP5GH0yWZ/D9SaziajJeSgPFo4PqGpe/3lg=
-Received: from HE1PR05CA0268.eurprd05.prod.outlook.com (2603:10a6:3:fc::20) by
- AM0PR0502MB3793.eurprd05.prod.outlook.com (2603:10a6:208:20::32) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2623.10; Sun, 12 Jan
- 2020 09:40:41 +0000
+ b=Cjs6dIBP1QL4jKkHbpwU4vHOT38RsvddNIk1xtqPTeo/+OMVROUe2wWvhXF4qR6xqg6ZrbIJVthHGKBvVGhKjNEci6/g7VXlvZ3T/xIIZY7oG5Vaf27ozGq0PioExG/woXrf+EOlXdU97L77n+OhiK1b+zWQixvGOXYnzgCJKOM=
+Received: from HE1PR05CA0278.eurprd05.prod.outlook.com (2603:10a6:3:fc::30) by
+ VI1PR05MB4638.eurprd05.prod.outlook.com (2603:10a6:802:67::22) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2623.12; Sun, 12 Jan 2020 09:40:41 +0000
 Received: from AM5EUR03FT004.eop-EUR03.prod.protection.outlook.com
- (2a01:111:f400:7e08::207) by HE1PR05CA0268.outlook.office365.com
- (2603:10a6:3:fc::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2623.9 via Frontend
- Transport; Sun, 12 Jan 2020 09:40:40 +0000
+ (2a01:111:f400:7e08::207) by HE1PR05CA0278.outlook.office365.com
+ (2603:10a6:3:fc::30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2623.10 via Frontend
+ Transport; Sun, 12 Jan 2020 09:40:41 +0000
 Authentication-Results: spf=pass (sender IP is 193.47.165.251)
  smtp.mailfrom=mellanox.com; kernel.dk; dkim=none (message not signed)
  header.d=none;kernel.dk; dmarc=pass action=none header.from=mellanox.com;
@@ -75,15 +75,15 @@ Received-SPF: Pass (protection.outlook.com: domain of mellanox.com designates
 Received: from mtlcas13.mtl.com (193.47.165.251) by
  AM5EUR03FT004.mail.protection.outlook.com (10.152.16.163) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.2602.11 via Frontend Transport; Sun, 12 Jan 2020 09:40:40 +0000
+ 15.20.2602.11 via Frontend Transport; Sun, 12 Jan 2020 09:40:41 +0000
 Received: from MTLCAS13.mtl.com (10.0.8.78) by mtlcas13.mtl.com (10.0.8.78)
- with Microsoft SMTP Server (TLS) id 15.0.1178.4; Sun, 12 Jan 2020 11:40:39
+ with Microsoft SMTP Server (TLS) id 15.0.1178.4; Sun, 12 Jan 2020 11:40:40
  +0200
 Received: from MTLCAS01.mtl.com (10.0.8.71) by MTLCAS13.mtl.com (10.0.8.78)
  with Microsoft SMTP Server (TLS) id 15.0.1178.4 via Frontend Transport; Sun,
  12 Jan 2020 11:40:39 +0200
 Received: from [10.223.0.100] (10.223.0.100) by MTLCAS01.mtl.com (10.0.8.71)
- with Microsoft SMTP Server (TLS) id 14.3.468.0; Sun, 12 Jan 2020 11:40:31
+ with Microsoft SMTP Server (TLS) id 14.3.468.0; Sun, 12 Jan 2020 11:40:35
  +0200
 Subject: Re: [PATCH 01/15] nvme: Introduce namespace features flag
 To: Keith Busch <kbusch@kernel.org>
@@ -92,8 +92,8 @@ References: <20200106133736.123038-1-maxg@mellanox.com>
  <87553ee2-74f4-8eb9-dd07-552f2637dab8@mellanox.com>
  <20200109162625.GB1032473@chuupie.wdl.wdc.com>
 From: Max Gurtovoy <maxg@mellanox.com>
-Message-ID: <84cdf570-4fee-3396-ca4b-762cf3af6815@mellanox.com>
-Date: Sun, 12 Jan 2020 11:40:31 +0200
+Message-ID: <8d054ad9-7f66-9808-7b84-524446a4d0ac@mellanox.com>
+Date: Sun, 12 Jan 2020 11:40:35 +0200
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.1
 MIME-Version: 1.0
@@ -104,28 +104,28 @@ X-EOPAttributedMessage: 0
 X-MS-Office365-Filtering-HT: Tenant
 X-Forefront-Antispam-Report: CIP:193.47.165.251; IPV:; CTRY:IL; EFV:NLI;
  SFV:NSPM;
- SFS:(10009020)(4636009)(346002)(376002)(39850400004)(136003)(396003)(189003)(199004)(36906005)(86362001)(5660300002)(6916009)(54906003)(31686004)(316002)(16576012)(4326008)(478600001)(26005)(356004)(2906002)(16526019)(186003)(53546011)(2616005)(81166006)(81156014)(107886003)(8676002)(31696002)(36756003)(8936002)(70586007)(70206006)(336012)(3940600001);
- DIR:OUT; SFP:1101; SCL:1; SRVR:AM0PR0502MB3793; H:mtlcas13.mtl.com; FPR:;
- SPF:Pass; LANG:en; PTR:InfoDomainNonexistent; MX:1; A:1; 
+ SFS:(10009020)(4636009)(396003)(39850400004)(376002)(136003)(346002)(199004)(189003)(16576012)(5660300002)(316002)(36906005)(107886003)(2906002)(8936002)(2616005)(4326008)(478600001)(6916009)(54906003)(31686004)(356004)(70206006)(70586007)(86362001)(81156014)(8676002)(31696002)(81166006)(53546011)(36756003)(186003)(336012)(16526019)(26005)(3940600001);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR05MB4638; H:mtlcas13.mtl.com; FPR:;
+ SPF:Pass; LANG:en; PTR:InfoDomainNonexistent; A:1; MX:1; 
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5a9308fa-8267-4b5c-5238-08d797437cb2
-X-MS-TrafficTypeDiagnostic: AM0PR0502MB3793:
-X-Microsoft-Antispam-PRVS: <AM0PR0502MB3793FAD802B8B026846C36B2B63A0@AM0PR0502MB3793.eurprd05.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: cb08c375-e36f-4251-27e0-08d797437d30
+X-MS-TrafficTypeDiagnostic: VI1PR05MB4638:
+X-Microsoft-Antispam-PRVS: <VI1PR05MB463856A00EF05C855C43A77FB63A0@VI1PR05MB4638.eurprd05.prod.outlook.com>
 X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
 X-Forefront-PRVS: 02801ACE41
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0+x2NF0Z3JA1mdiuTktCdbhbNaAvBG5gKrlTVTbGBcgjER+9dxyDomQ/RDmdl8zk2pRNcpLsPD9gvN4isC/zP6zc6WoZfV3V1Q+p+4xy5Z/V3Aa8Q1VOkOvT0ggh63oSXQm2Cp9DC7hegYFBXhy+vFonMc8HX4puqpb1fpKL76hWvvgF4ClELOmB141GyUfhA4J1EtQN7eJLCC9PmSxph38SrhBUx8RB4mSpCENCOXmdjNGQuLqNxmQfmSkJq2MJRhKD/0UHOBPZ54Se5WzA7nwXOhayn9HiKBjOnbyBlMtkS4LZ8R7r9t97ryawbgKBNKfHSwM9V4NwAwQ5tln+b39EsEcckfeAcPJaYSpQoW6sHB6m7s2VKaFHiSqoFte6T+PHkGMrj2+fO/G/4iaDuuwL/h4cqvCno82PLbW/guAiObFeRqGgiC0OCEsTzRRhPpa454thpglwy3jrJ9zDcwW82ZeSE5ZX6okQ4GS3t96SK1z2qpZMut/DGXnGiUDG
+X-Microsoft-Antispam-Message-Info: qbSGf4+Bn5ZbHbYGlq+JcX9P7V9R5Ry2wla5XaCE2t/FqlhfUdxdCpPcGqjgjueyZCNW6MJ9PlHoGN7/sYqV3v2kBg+61WpAv+7ySii9AGDdPGq7NY03s6Rj/MMexjyKlR73L2WZpq1/vitLvJwV8qJaXT2hOCWD/aOklqCEsa7SKSYekdMWBrV04EcFblu5SZlWcmWiqRHvlcSdP+JrGLnvkgk4u15DdwOQvv8lyqVAGrPlEnF8Kbca/ZtXekU35m4QTDJdTOgSv0rO4foFN4LMeKt0WjF4Sbgbn3IVisCmfcAm6EyC4wM5dBRUGcnhEJF1dSvS+7eDXHjWQbCpMneA7WxDVyb0ygOhLK/5t2jeGwFPPNNfoZ/KSkpC9wZnUzy0HRUCr8i1bXiBgQQH70B70Ulf0QZgPrlOHh9PsJrcFJuXINRyzSWr8HtKsERQqsVLgPn7QFo6tZQnMQMZEH0zn04IzS0IPK/wVwUDZpW8sOXt20QENKXwXkmC6+Ew
 X-OriginatorOrg: Mellanox.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2020 09:40:40.4166 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5a9308fa-8267-4b5c-5238-08d797437cb2
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2020 09:40:41.2393 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: cb08c375-e36f-4251-27e0-08d797437d30
 X-MS-Exchange-CrossTenant-Id: a652971c-7d2e-4d9b-a6a4-d149256f461b
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a652971c-7d2e-4d9b-a6a4-d149256f461b; Ip=[193.47.165.251];
  Helo=[mtlcas13.mtl.com]
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR0502MB3793
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR05MB4638
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200112_014051_525266_6E79A6C1 
+X-CRM114-CacheID: sfid-20200112_014051_526696_354720FD 
 X-CRM114-Status: GOOD (  10.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
