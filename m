@@ -6,76 +6,85 @@ X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1E65C33CAF
-	for <linux-nvme@archiver.kernel.org>; Fri, 17 Jan 2020 01:13:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A118BC33CB1
+	for <linux-nvme@archiver.kernel.org>; Fri, 17 Jan 2020 16:46:24 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 88CAE20728
-	for <linux-nvme@archiver.kernel.org>; Fri, 17 Jan 2020 01:13:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6951F2064C
+	for <linux-nvme@archiver.kernel.org>; Fri, 17 Jan 2020 16:46:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="YDfgZo9R"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 88CAE20728
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="AgY/84eB";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="Nm41WcUO"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6951F2064C
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=0dddFkq652X8hczY3XQnO2lwvW2K8/UFwNuBsMoc3OI=; b=YDfgZo9RB2kW5BHyu1dwVOjtx
-	xTRMd1HZZuEn/14CklmKcoAUG8feoAcVVCh7Ub40bPs17bxAYz8RFZST5QF7Rg9pZ37AStmeZlP+R
-	wGorSAtl7wfg85UlRNzbk+524qzXB8d86AIR/r5zXmskod14XWOryAkLQUbbxMlBpAgJ6PylkN+es
-	vSKZ83LBeAc5eTbLeXOHMgYMZaitpFRJnssMRXlfPBYk5QqCawUpg+FbcHFjHYdIWXUcX0TFTUNVl
-	npO92Uu58h9RJlDl8RDbiXE38R8f1ehLy8dzHCsY72L37TBkzDTuQxxnbehuvhebdedIT0LPGn9So
-	ijfwywk3w==;
+	 bh=/Gb0FH083+gXysvnmhJmO81KHrYyeflVh65zepInCBI=; b=AgY/84eB97Hq1xLooefFqMhuW
+	Z5uDhZskyFp5Cm2jMY1P+1rhhRK5lFZnhZhdbBJLN+H5tos54r0FxuClAccv3g8EvgqC6poVD+QPz
+	yHq1mEVT4t5iHv+6MADUelhCJs/u8o2mpAFEfKTmj6Sk98UeM+4jl8wIhj8xfbbSk6a5R2RGSn4yL
+	9zsflAoWInUs6PAVufBbSVPptbDTr7rJ31dr4Ru5g7xgSFf0FYAwplhhc6/tsUy3xLfZ4/t0ZuOFx
+	FSLCnDLdZkq9rPfWoF4hmEHHhvBrXb73KS7fyPLWIw0s1tAlqt+++93vKmlboEk0dyWq5fKofgXc0
+	DAuPyiMAQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1isGCQ-0000AE-Tz; Fri, 17 Jan 2020 01:13:22 +0000
-Received: from mail-wm1-f46.google.com ([209.85.128.46])
+	id 1isUlI-0007XE-AI; Fri, 17 Jan 2020 16:46:20 +0000
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1isGCN-00009i-3z
- for linux-nvme@lists.infradead.org; Fri, 17 Jan 2020 01:13:22 +0000
-Received: by mail-wm1-f46.google.com with SMTP id u2so5855159wmc.3
- for <linux-nvme@lists.infradead.org>; Thu, 16 Jan 2020 17:13:18 -0800 (PST)
+ id 1isUlC-0007Wr-Ew
+ for linux-nvme@lists.infradead.org; Fri, 17 Jan 2020 16:46:18 +0000
+Received: by mail-pl1-x642.google.com with SMTP id b22so10063917pls.12
+ for <linux-nvme@lists.infradead.org>; Fri, 17 Jan 2020 08:46:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=oZyVdSEnLXgaW6Tob+nEyDNlC+TBXa24w9Vl0+FvGg8=;
+ b=Nm41WcUOgk91f8u6Gd3bq//utd0CjkOWZ95hbxjjg1+4HzLoCueXVB5WI8yJeqZGyh
+ gC4N9BF6Q44wls88m4d11hU0jheJIvmw5o/ggqcm0tbwKr/vk95CAVCD6NjoXQFyaHQx
+ XgJlCaPd2CJUedeYKwE4E9sQzBP2NL3c5D/aY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=7Uj7SwLQPVsveQQNfvPv8y0OGq9xTb7IWwg9YoF/ReM=;
- b=nHri1Tle6wEjt2YVPuY+OeqNHmKvhZUxE+ZM4vn2vxxGa+gGXS3QUEIbO4mtlgaKNu
- orS3wzlHKXUwXHZcKcrAvnfzIJc54xOiP2n6O/EBTO3gLy05iL3IGi/jonQ2oqKLD68O
- mK1p/QK9OGbw81GcEWF3vFBXNHeb+Gil5+Y7h3bruYmJvkBrnvKSgbMlCTndGA4XXw/N
- 87ybomDVKBkK01GClf0TS1u0tfEuQvCjaUxkchh8i6Vj6fAOJCtmcr0D3vc9d+Ir9PRg
- ob1IVxeFUfN5o9/c2t1kf9Kh8jh33QvaU/ICT+SCuCm62KPon5U43wX5AcXZMjdbz+dG
- MNEw==
-X-Gm-Message-State: APjAAAUm3U41BNn0IUtfG2hERpKBqEDZsAv/E1igl/QqTf5qjvuyIr0x
- dyKyfoyxFGZgBZGknE3NaW6NukRZ
-X-Google-Smtp-Source: APXvYqy+3wy652RixrOGq1s5UNrztUPqUR4kFMB909opZXte0R5UnVjeiyhtBMQVyCRbQEQoWPP3SQ==
-X-Received: by 2002:a1c:740b:: with SMTP id p11mr1893587wmc.78.1579223596660; 
- Thu, 16 Jan 2020 17:13:16 -0800 (PST)
-Received: from [192.168.1.114]
- (162-195-240-247.lightspeed.sntcca.sbcglobal.net. [162.195.240.247])
- by smtp.gmail.com with ESMTPSA id o129sm7203722wmb.1.2020.01.16.17.13.14
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 16 Jan 2020 17:13:15 -0800 (PST)
-Subject: Re: [PATCH 0/2] nvme-tcp: Set SO_PRIORITY for all sockets
-To: "Wunderlich, Mark" <mark.wunderlich@intel.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <BYAPR11MB2712E7D933721CA54EB18365E5360@BYAPR11MB2712.namprd11.prod.outlook.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <675e24bb-8a91-6612-887a-2a0a38a57cda@grimberg.me>
-Date: Thu, 16 Jan 2020 17:13:05 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=oZyVdSEnLXgaW6Tob+nEyDNlC+TBXa24w9Vl0+FvGg8=;
+ b=Hbj1ye+Hl1gjyptq1NLqziWCrV0JSPbqBONTecYNAA1pECYWU/dO5wTtu5qfsoegGC
+ GNbKJQhWdhKr7bOaCOb9yI4YStwOfI4vgt7epFAqxjDydASBxy5duVHXWmakgM1lSJcm
+ E0fNUyzWNzkDfoVwjYwJx6VdjBCX9znzeFvS7nYPropVVg4P+6Bb098V8WCEqBiHZL/3
+ QFZauRg5z9XrxbhuUllZ6/EEbcfUqGot9nmt1Z/E1e71mb8lWJJteRijeok+w1bUjkmM
+ kNKxdwz4VaX2vh023DKGwQ/44NrS4as0HkRpI5I2qdlKp8r2tb+D31xvPEtjZP+nq2Rz
+ iKWg==
+X-Gm-Message-State: APjAAAUYiE8o+SAz2sysNEXlNdc6aJrz+/CKYDXrV/95ZRqKtKbM25ey
+ NqlAScfdhy1fAYndRQV5w1x0Vg==
+X-Google-Smtp-Source: APXvYqyn8Tgg4a6YHLjC9xKj+TbZGba9UyCPoG1/GTK4hF8qlKMrC2kfFDuEfw4XQVKne2Xy7J3xig==
+X-Received: by 2002:a17:902:b785:: with SMTP id
+ e5mr39713895pls.327.1579279573673; 
+ Fri, 17 Jan 2020 08:46:13 -0800 (PST)
+Received: from [10.69.45.46] ([192.19.223.252])
+ by smtp.gmail.com with ESMTPSA id d4sm7421606pjz.12.2020.01.17.08.46.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Jan 2020 08:46:12 -0800 (PST)
+Subject: Re: [PATCH 13/15] nvmet: Add metadata/T10-PI support
+To: Max Gurtovoy <maxg@mellanox.com>, linux-nvme@lists.infradead.org,
+ kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, martin.petersen@oracle.com
+References: <20200106133736.123038-1-maxg@mellanox.com>
+ <20200106133736.123038-15-maxg@mellanox.com>
+From: James Smart <james.smart@broadcom.com>
+Message-ID: <ae42f71d-689c-3f75-3a80-9fc4bea1427b@broadcom.com>
+Date: Fri, 17 Jan 2020 08:46:10 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-In-Reply-To: <BYAPR11MB2712E7D933721CA54EB18365E5360@BYAPR11MB2712.namprd11.prod.outlook.com>
+In-Reply-To: <20200106133736.123038-15-maxg@mellanox.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200116_171319_161338_433DAC6E 
-X-CRM114-Status: GOOD (  18.54  )
+X-CRM114-CacheID: sfid-20200117_084614_504390_02241BA1 
+X-CRM114-Status: GOOD (  10.35  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,109 +96,34 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Cc: axboe@kernel.dk, vladimirk@mellanox.com, idanb@mellanox.com,
+ israelr@mellanox.com, shlomin@mellanox.com, oren@mellanox.com
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Mark,
+On 1/6/2020 5:37 AM, Max Gurtovoy wrote:
+> From: Israel Rukshin <israelr@mellanox.com>
+>
+> Expose the namespace metadata format when PI is enabled. The user needs
+> to enable the capability per subsystem and per port. The other metadata
+> properties are taken from the namespace/bdev.
+>
+> Usage example:
+> echo 1 > /config/nvmet/subsystems/${NAME}/attr_pi_enable
+> echo 1 > /config/nvmet/ports/${PORT_NUM}/param_pi_enable
+>
+>
 
-> Host and target patch series to allow setting socket priority.
-> Enables ability to associate all sockets related to NVMf TCP
-> traffic to a priority group that will perform optimized
-> network processing for this traffic class. Maintain initial
-> default priority of zero, only setting socket priority when
-> module option set to non-zero value, when optimized
-> network processing conditions exist.
-> 
-> Basic performance measurements for io_uring, pvsync2, and libaio
-> show benefit of improved lower latency performance when enhanced
-> processing support is triggered via socket priority.
-> 
-> The data gathered using infradead branch nvme-5.5-rc.  Data shows
-> Existing OS baseline performance without patch applied to both host
-> and target,  performance when patch applied and priority value set but
-> no support for enhanced traffic processing exists,  and finally when
-> patch applied and some form of advanced traffic processing exists
-> such as symmetric queueing.
-> 
-> The patches were defined to allow for any priority value to be used
-> to support future flexibility to specify any unique value for optional
-> advanced network processing.  If having this flexibility is reviewed as
-> not beneficial to the community at this time, then the desired option
-> would be to set the default module priority to non-zero, to always
-> allow for advanced network traffic processing if possible.  But data
-> does show a slight performance dip when the priority is set when
-> there is no advanced network support available.
+Mind adding a core routine, callable by a transport, to set the 
+pi_enable attribute on the port ?
 
-I think we can keep the special mode in a modparam for the time being,
-especially given that other configuration is needed as well. The fact
-that there is a small delta if adq is not enabled but so_priority is
-set is acceptable, and if this option is used we can assume the user
-relies on adq anyhow.
+Also - I don't know that all block sizes, metadata sizes, and DIF types 
+are supported by the port. Should these registration be "capabilities" 
+lists ?
 
-> All data gathered using 48 I/O queues and 48 poll queues established
-> Between host and target.
-
-I'm assuming that overall IOPs/throughput on a multithreaded workload
-also improved (when not capped by the single Optane device).
-
->  Host busy_poll value set at 5000.  Target
-> busy_read value set at 60000.
-
-This shouldn't make a difference for nvme-tcp which overrides busy
-polling for its own blk_poll hook.
-
->  Single Optane device used.
-> 
-> IO_URING:
-> Baseline:  No patches applied
-> QueueDepth/Batch    IOPS(K)    Avg. Latency(usec)    99.99(usec)
-> 1/1    24.2    40.90    70.14
-> 32/8  194    156.88   441
-> 
-> Patch added, priority=1, But enhanced processing not available:
-> 1/1    22     43.16    77.31
-> 32/8  222     137.89    277
-> 
-> Patch added, priority=1, enhanced NIC processing added
-> 1/1    30.9    32.01    59.64
-> 32/8   259     119.26    174
-> 
-> PVSYNC2:
-> Baseline:  No patches applied
-> 1/1    24.3    40.85    80.38
-> 32/8   24.3    40.84   73.21
-> 
-> Patch added, priority=1:
-> 1/1    23.1    42.87    79.36
-> 32/8   23.1    43     79.36
-> 
-> Patch added, priority=1, enhanced NIC processing added
-> 1/1    31.3     31.69    62.20
-> 32/8   31.3    31.63   62.20
-
-No need to report 32/8 for pvsync2
-
-> 
-> LIBAIO:
-> Baseline:  No patches applied
-> 1/1    26.2    37.67    77.31
-> 32/8   139    220.10   807
-> 
-> Patch added, priority=1:
-> 1/1    24.6    40    78.33
-> 32/8   138    220.91   791
-> 
-> Patch added, priority=1, enhanced NIC processing added
-> 1/1    28     34.03    69.12
-> 32/8   278    90.77    139
-
-Given how trivial the patch set is with the obvious improvement,
-I say we should take it as is.
-
-For the series:
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+-- james
 
 _______________________________________________
 linux-nvme mailing list
