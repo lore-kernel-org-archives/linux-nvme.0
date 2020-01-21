@@ -2,61 +2,98 @@ Return-Path: <SRS0=JmHd=3K=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=0.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_ADSP_ALL,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76279C2D0CE
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 Jan 2020 19:30:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8843FC2D0CE
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 Jan 2020 19:52:46 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4C0A92073A
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 Jan 2020 19:30:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1BA0324656
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 Jan 2020 19:52:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="EA/gAdx/"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4C0A92073A
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="JRJI4F0+";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="m9q3IEtj"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1BA0324656
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=amazon.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
-	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=5InZx0uooSgMdaQgY9JD5wsc7MAJS4DFtqpZ9CigDnA=; b=EA/gAdx/9y7+Gl
-	qJ4VNJmn/5wpC65oJC3ewKYUWg1aD7sJHYXLONp0isvA/BxnJ7hBwKpZ+UraP1VcLlNyVpsro0mo5
-	/jHO4/drmrwSpqBXSJsAF67tRMEDJWkZrKfZs84shRjJxZyCo2Q9ufy3CbclYRVMeL1lDaQFJDzEK
-	pJ+ZrlBoygfoTpoOaHjjTRnhzlVW8GBBlZPNVYPLqNdHW5Id0hirSeR33rAIrr3c6HayLPt1Mdm1d
-	mVinOw55ycg+2ZxG6ka7iedOO9SjRTyyIhxPvbFZffXBZFpfSG5CLGv0oevj3EcyNlR7ZunMoP6Bf
-	hCzVXZqHgINuIoTWmkNg==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:
+	References:Message-ID:Date:Subject:To:From:Reply-To:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=MIV2ozLYnnOlNOkVlnvb0sb5lXo/HljYFHkShqMkp+k=; b=JRJI4F0+FQFFKv
+	LDVncVJGT38S3MdWEY6MyNADBhVv8+BMgowI0dIdss9JjnFSTUX+oSf0IvsHhXrDE0UihLHbT3drz
+	zKb0VllNAMTOl+VJNJaqBEGhsLSZFxsJI+Ou3nFkbIxKSQxGbLUrZr9QwDdSvxHWte0TS30YDc0nq
+	Z7Mn3DmAdWG/siQ8ggfdPbVJ+gIWmM+J48tl2RyRMWbRvW+pV2inIWCHmzG2YPDaBQE0VkSSKdUZl
+	wjW0RICIu2drfidl5awiR4Z2XoyjNyzhiiCQc1b1jqsFsUfb+/LJwU9VKVohwhSybRG0Y7whxr7ul
+	UYkJ63ekxSkVwmAjQTJw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1itzEI-0008DA-Kg; Tue, 21 Jan 2020 19:30:26 +0000
-Received: from mga04.intel.com ([192.55.52.120])
+	id 1itzZk-0006xQ-DS; Tue, 21 Jan 2020 19:52:36 +0000
+Received: from smtp-fw-9102.amazon.com ([207.171.184.29])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1itzE9-0008CI-9s
- for linux-nvme@lists.infradead.org; Tue, 21 Jan 2020 19:30:24 +0000
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 21 Jan 2020 11:30:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,347,1574150400"; d="scan'208";a="259183320"
-Received: from jderrick-mobl.amr.corp.intel.com ([10.232.115.161])
- by fmsmga002.fm.intel.com with ESMTP; 21 Jan 2020 11:30:15 -0800
-From: Jon Derrick <jonathan.derrick@intel.com>
-To: <linux-nvme@lists.infradead.org>
-Subject: [PATCH] nvme/pci: Add sleep quirk for Samsung and Toshiba drives
-Date: Tue, 21 Jan 2020 12:30:12 -0700
-Message-Id: <20200121193012.29360-1-jonathan.derrick@intel.com>
-X-Mailer: git-send-email 2.20.1
+ id 1itzZW-0006kv-EQ
+ for linux-nvme@lists.infradead.org; Tue, 21 Jan 2020 19:52:27 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+ t=1579636343; x=1611172343;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=XmzH6UUhf2fq7wRQ6JDGuAiXl76NE0nd9fhU95gyxxs=;
+ b=m9q3IEtjv4VAW8lc3PWK+1jquXikc21Xc0VE9vlIlMFOfVT8l/N0qY14
+ lINRI0DOjNnQWidLshr7hP7bSXt+Bu6qgw68R9qvgGKpMH5Wy/tNVrF+A
+ ac8t820Dh0Ka9Ooc4ovdnx0/4lw+jsf6GMLt2GuT7L/XJOYrE+WZBAmLz M=;
+IronPort-SDR: cUrWtJYzh5SkjSAWnROiY1GCaVFVcrwkJBLQYslWMGOqBtqCnoh+iGPltozsC/AFszrvhLxt4b
+ VZ6W6RyVqaPQ==
+X-IronPort-AV: E=Sophos;i="5.70,347,1574121600"; d="scan'208";a="20200140"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO
+ email-inbound-relay-2b-4ff6265a.us-west-2.amazon.com) ([10.47.23.38])
+ by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP;
+ 21 Jan 2020 19:52:09 +0000
+Received: from EX13MTAUWB001.ant.amazon.com
+ (pdx4-ws-svc-p6-lb7-vlan3.pdx.amazon.com [10.170.41.166])
+ by email-inbound-relay-2b-4ff6265a.us-west-2.amazon.com (Postfix) with ESMTPS
+ id 9F5ECA05E3; Tue, 21 Jan 2020 19:52:07 +0000 (UTC)
+Received: from EX13D11UWB002.ant.amazon.com (10.43.161.20) by
+ EX13MTAUWB001.ant.amazon.com (10.43.161.249) with Microsoft SMTP Server (TLS)
+ id 15.0.1367.3; Tue, 21 Jan 2020 19:52:07 +0000
+Received: from EX13D01UWB002.ant.amazon.com (10.43.161.136) by
+ EX13D11UWB002.ant.amazon.com (10.43.161.20) with Microsoft SMTP Server (TLS)
+ id 15.0.1367.3; Tue, 21 Jan 2020 19:52:07 +0000
+Received: from EX13D01UWB002.ant.amazon.com ([10.43.161.136]) by
+ EX13d01UWB002.ant.amazon.com ([10.43.161.136]) with mapi id 15.00.1367.000;
+ Tue, 21 Jan 2020 19:52:07 +0000
+From: "Singh, Balbir" <sblbir@amazon.com>
+To: "hch@lst.de" <hch@lst.de>
+Subject: Re: [resend v1 4/5] drivers/nvme/host/core.c: Convert to use
+ disk_set_capacity
+Thread-Topic: [resend v1 4/5] drivers/nvme/host/core.c: Convert to use
+ disk_set_capacity
+Thread-Index: AQHVwUG1iZmE8Pm/G0CenFe4gZ349afc0u0AgAQUfoCAFL6VAA==
+Date: Tue, 21 Jan 2020 19:52:06 +0000
+Message-ID: <40580ebc0991c4ffc3be67d60aeaf269703854ac.camel@amazon.com>
+References: <20200102075315.22652-1-sblbir@amazon.com>
+ <20200102075315.22652-5-sblbir@amazon.com>
+ <BYAPR04MB57490FFCC025A88F4D97D40A86220@BYAPR04MB5749.namprd04.prod.outlook.com>
+ <1b88bedc6d5435fa7154f3356fa3f1a3e6888ded.camel@amazon.com>
+ <20200108150447.GC10975@lst.de>
+In-Reply-To: <20200108150447.GC10975@lst.de>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.43.160.8]
+Content-ID: <6425CB2DE728D54BA14C729788634425@amazon.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200121_113017_355546_94501C15 
-X-CRM114-Status: GOOD (  11.60  )
+X-CRM114-CacheID: sfid-20200121_115222_526948_94DB9E94 
+X-CRM114-Status: GOOD (  18.53  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,60 +105,45 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Shyjumon N <shyjumon.n@intel.com>, Sagi Grimberg <sagi@grimberg.me>,
- Jens Axboe <axboe@fb.com>, Edmund Nadolski <edmund.nadolski@intel.com>,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Jon Derrick <jonathan.derrick@intel.com>
+Cc: "axboe@kernel.dk" <axboe@kernel.dk>,
+ "Chaitanya.Kulkarni@wdc.com" <Chaitanya.Kulkarni@wdc.com>,
+ "mst@redhat.com" <mst@redhat.com>, "jejb@linux.ibm.com" <jejb@linux.ibm.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, "Sangaraju,
+ Someswarudu" <ssomesh@amazon.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: shyjumon <shyjumon.n@intel.com>
+On Wed, 2020-01-08 at 16:04 +0100, hch@lst.de wrote:
+> On Mon, Jan 06, 2020 at 12:46:26AM +0000, Singh, Balbir wrote:
+> > On Sat, 2020-01-04 at 22:27 +0000, Chaitanya Kulkarni wrote:
+> > > Quick question here if user executes nvme ns-rescan /dev/nvme1
+> > > will following code result in triggering uevent(s) for
+> > > the namespace(s( for which there is no change in the size ?
+> > > 
+> > > If so is that an expected behavior ?
+> > > 
+> > 
+> > My old code had a check to see if old_capacity != new_capacity as well.
+> > I can redo those bits if needed.
+> > 
+> > The expected behaviour is not clear, but the functionality is not broken,
+> > user
+> > space should be able to deal with a resize event where the previous
+> > capacity
+> > == new capacity IMHO.
+> 
+> I think it makes sense to not bother with a notification unless there
+> is an actual change.
 
-From: Shyjumon N <shyjumon.n@intel.com>
+[Sorry for the delayed response, just back from LCA]
 
-The Samsung SSD SM981/PM981 and Toshiba SSD KBG40ZNT256G on the Lenovo
-C640 platform experience runtime resume issues when the SSDs are kept in
-sleep/suspend mode for long time.
+Agreed!
 
-This patch applies the 'Simple Suspend' quirk to these configurations.
-With this patch, the issue had not been observed in a 1+ day test.
-
-Signed-off-by: Jon Derrick <jonathan.derrick@intel.com>
-[jonathan.derrick: fix up commit message]
-Signed-off-by: Shyjumon N <shyjumon.n@intel.com>
----
- drivers/nvme/host/pci.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index d37dcc1b629e..4f7770fe2f41 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2733,6 +2733,18 @@ static unsigned long check_vendor_combination_bug(struct pci_dev *pdev)
- 		    (dmi_match(DMI_BOARD_NAME, "PRIME B350M-A") ||
- 		     dmi_match(DMI_BOARD_NAME, "PRIME Z370-A")))
- 			return NVME_QUIRK_NO_APST;
-+	} else if ((pdev->vendor == 0x144d && (pdev->device == 0xa801 ||
-+		    pdev->device == 0xa808 || pdev->device == 0xa809)) ||
-+		   (pdev->vendor == 0x1e0f && pdev->device == 0x0001)) {
-+		/*
-+		 * Forcing to use host managed nvme power settings for
-+		 * lowest idle power with quick resume latency on
-+		 * Samsung and Toshiba SSDs based on suspend behavior
-+		 * on Coffee Lake board for LENOVO C640
-+		 */
-+		if ((dmi_match(DMI_BOARD_VENDOR, "LENOVO")) &&
-+		     dmi_match(DMI_BOARD_NAME, "LNVNB161216"))
-+			return NVME_QUIRK_SIMPLE_SUSPEND;
- 	}
- 
- 	return 0;
--- 
-2.20.1
-
-
+Balbir Singh
 _______________________________________________
 linux-nvme mailing list
 linux-nvme@lists.infradead.org
