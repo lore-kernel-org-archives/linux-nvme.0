@@ -1,23 +1,23 @@
-Return-Path: <SRS0=TgIa=3N=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=2bM9=3O=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAD35C2D0DB
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jan 2020 18:55:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E8AEC2D0DB
+	for <linux-nvme@archiver.kernel.org>; Sat, 25 Jan 2020 21:24:08 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 97D6C2075D
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Jan 2020 18:55:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 294422071A
+	for <linux-nvme@archiver.kernel.org>; Sat, 25 Jan 2020 21:24:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="pIXexam1";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="Eb141/gt"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 97D6C2075D
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="owRtQ71k"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 294422071A
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
@@ -25,47 +25,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=z/kGNOfvV1eqMSiszsqtjN6V4KH8U8nkOHIHnW0cUe8=; b=pIXexam1X8GFam
-	fEtDwBPaa0Pq4yGEJ4tsgNaWxBQ26V6+s/QZtVVfIc4Ix1u989XAoT0L+aDCNQtcxDhvxnGF28ZqN
-	Zyb2A36DpKJcOJUBpQ0jocWdHEzOLInLUt54db0eJLXWswWRvv8sKMtzlBpC3n5F7Tacfnmtsl8+F
-	/MRDVDkuKMCxRrvLKfaAPOHXO9PXx6ML5P6D4m6ffdAdUlnQEbBIcY0tRwtaQq3rYLhMxzyIKdoGH
-	xSZ38WbQYxmIjPgoHMEXp/qrJZKdIZMZknCGIvz5CeYb+jwumLZhmrvmP6tVD26nrtFu4HpK1goCB
-	HsGoborgXq/Km4lIyv5Q==;
+	List-Owner; bh=e+mQCm5PqiUgNQisG5h49wjXYb2hcZmHZUDZPit+R2M=; b=owRtQ71kFn1oxz
+	VdCs/ScFX8p0L0ImQtQmLNh4M0Lj4usMYL/W6l1eLTK012NQiCXnw5UmaxSzX/HRGXwQxpT39COUf
+	NFw4a3EMoM8eFlR1650xGQ1spA4tHtNXJ5rsbw/URkSq5H55I6tvmfTTWJ3b3KO6M8shrPJ5LSbSK
+	KK6/VtYva1eXbxqeQlBlBInQnVniKu1sXJO4x2w/U2ut2iLkuSScvJk8wY7BQxu2cIFBxvLCKGjQv
+	b73jCi090J3EiX4ceJwZwCmX5LfqnQ+LbMTkC6yQVY8eKwt77f4slOcXe5TgRMUUZeEYnP6ggYJtX
+	o3wNlr4+FWADV4WbKPXw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iv47a-0005c1-2r; Fri, 24 Jan 2020 18:55:58 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1ivSuR-0006vV-Nw; Sat, 25 Jan 2020 21:24:03 +0000
+Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iv47W-0005bY-Rr
- for linux-nvme@lists.infradead.org; Fri, 24 Jan 2020 18:55:55 +0000
-Received: from redsun51.ssa.fujisawa.hgst.com (unknown [199.255.47.7])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id BBD142071E;
- Fri, 24 Jan 2020 18:55:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1579892154;
- bh=VF/P1XLyPeJ9789Simk5B+Mim1fdd2St/+v4QH4gK9c=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Eb141/gtVZLzgGBVjX1CHO46c0DULQwJIjpKw/BHcr7x0Oxvfs8LNz6bv5NKzYuXN
- p3n2Oj8ecnpG8LFU6HC+p6+PqhR3DjvGhWN6d6QtyPn4jTXwFt5W2v/7BzUwztauEd
- kJYZp1OhsdPVPSQn8GWapgU0bk54+g23r0UnjL78=
-Date: Sat, 25 Jan 2020 03:55:47 +0900
-From: Keith Busch <kbusch@kernel.org>
+ id 1ivSuN-0006uf-CZ
+ for linux-nvme@lists.infradead.org; Sat, 25 Jan 2020 21:24:01 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 3A8C668BFE; Sat, 25 Jan 2020 22:23:52 +0100 (CET)
+Date: Sat, 25 Jan 2020 22:23:52 +0100
+From: Christoph Hellwig <hch@lst.de>
 To: Sagi Grimberg <sagi@grimberg.me>
 Subject: Re: [PATCH] nvmet: fix dsm failure when payload does not match sgl
  descriptor
-Message-ID: <20200124185547.GC19243@redsun51.ssa.fujisawa.hgst.com>
+Message-ID: <20200125212352.GA5407@lst.de>
 References: <20200124173942.2744-1-sagi@grimberg.me>
- <20200124182855.GA19243@redsun51.ssa.fujisawa.hgst.com>
- <bf79cb37-41c1-b604-3e3a-64fbe51ee105@grimberg.me>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <bf79cb37-41c1-b604-3e3a-64fbe51ee105@grimberg.me>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20200124173942.2744-1-sagi@grimberg.me>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200124_105554_920209_A538453F 
-X-CRM114-Status: GOOD (  12.87  )
+X-CRM114-CacheID: sfid-20200125_132359_579342_51829CFF 
+X-CRM114-Status: GOOD (  14.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,30 +65,48 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Dakshaja Uppalapati <dakshaja@chelsio.com>, Christoph Hellwig <hch@lst.de>,
- linux-nvme@lists.infradead.org
+Cc: Keith Busch <kbusch@kernel.org>, Dakshaja Uppalapati <dakshaja@chelsio.com>,
+ Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jan 24, 2020 at 10:35:18AM -0800, Sagi Grimberg wrote:
+On Fri, Jan 24, 2020 at 09:39:42AM -0800, Sagi Grimberg wrote:
+> The host is allowed to pass the controller an sgl describing a buffer
+> that is larger than the dsm payload itself, allow it when executing
+> dsm.
 > 
-> > > The host is allowed to pass the controller an sgl describing a buffer
-> > > that is larger than the dsm payload itself, allow it when executing
-> > > dsm.
-> > > 
-> > > Reported-by: Dakshaja Uppalapati <dakshaja@chelsio.com>
-> > > Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
-> > 
-> > Thanks, applied for 5.6.
+> Reported-by: Dakshaja Uppalapati <dakshaja@chelsio.com>
+> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+> ---
+>  drivers/nvme/target/core.c        | 12 ++++++++++++
+>  drivers/nvme/target/io-cmd-bdev.c |  2 +-
+>  drivers/nvme/target/io-cmd-file.c |  2 +-
+>  drivers/nvme/target/nvmet.h       |  1 +
+>  4 files changed, 15 insertions(+), 2 deletions(-)
 > 
-> Thanks Keith, this needs to be also in 5.5 as there the regression
-> was introduced, maybe add a tag on the commit?
+> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+> index 28438b833c1b..9217c824620f 100644
+> --- a/drivers/nvme/target/core.c
+> +++ b/drivers/nvme/target/core.c
+> @@ -938,6 +938,18 @@ bool nvmet_check_data_len(struct nvmet_req *req, size_t data_len)
+>  }
+>  EXPORT_SYMBOL_GPL(nvmet_check_data_len);
+>  
+> +bool nvmet_check_data_len_lte(struct nvmet_req *req, size_t data_len)
+> +{
+> +	if (unlikely(data_len > req->transfer_len)) {
+> +		req->error_loc = offsetof(struct nvme_common_command, dptr);
+> +		nvmet_req_complete(req, NVME_SC_SGL_INVALID_DATA | NVME_SC_DNR);
+> +		return false;
+> +	}
+> +
+> +	return true;
+> +}
+> +EXPORT_SYMBOL_GPL(nvmet_check_data_len_lte);
 
-Oh, is there an appropriate fixes tag? At this late point, though, I think
-we should let stable pick it up in the 5.6 merge. Maybe we can sneak it
-in if there's an rc8.
+Why would this need an export??
 
 _______________________________________________
 linux-nvme mailing list
