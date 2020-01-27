@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-3.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	URIBL_BLOCKED,URIBL_DBL_ABUSE_MALW,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFE4FC2D0DB
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Jan 2020 16:37:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2072C2D0DB
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Jan 2020 16:37:46 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C34E4214D8
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Jan 2020 16:37:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B5B42206D4
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Jan 2020 16:37:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="PRHOUt/2";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="ovm0vapz"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C34E4214D8
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Cz/K2z+Y";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="j5t9r+9u"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B5B42206D4
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,44 +26,45 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=TJXzEDuNfrljZ7oMUBI5AsplLOsRNIu2mAcLudfbd7s=; b=PRHOUt/2lsOgXE
-	8x3nk2cKZ0qPGwhTXwxGOzR4d4kKmJFdjBl3otsHwOh2QWK+rOOmaplPv1sUPmaTFc5Wa+1X9utpU
-	R2uvbdG0dmJFEhP/Bfk1cZ+99EjDmxHO9WYDqRmqtIm08p6lAbXO7T31rPF3ZYJ4lL+Z4ExeE4eee
-	57u0QmFqRsTx5A2O3JYATDEPYweXmOLpQGE3pvabEyssTpJ5upiXbwRWbitpjrlxqvwRzsFJLvT13
-	ZJbuasPb+URByuY6cf/GBPITw3AjjKgsiROP/mn12UL9JyFVNpW9p6lLir96leur4Xw97mPjiBUjB
-	yYRYaIK8rzDecYGuCTuw==;
+	List-Owner; bh=nMZeFjvy+ty8WgnmPmoJ9H/CCQ3cJ6xxK0ASJREkF/g=; b=Cz/K2z+YefeoAd
+	4G43FgA0i5S6CpFOqFtlbjUm42mSzKl7pw8HQXZrbEa6lHivAIGSH1kRTV4uV6uYzZDpEM81usrwL
+	LWlrFylgvGSCqquoaVg3QxGxmzKMljdE/EcSMWSS7JrOCwHm6TEpoFFX4O9wIYXRXZOPk5FFZs0bH
+	KswuiPiB1Od/vLCdhr0HylqlQrwekPIJaZeoxAy8I1VogLRRPXnqWLq5bHNWAUk82XePebBUFI0Xd
+	BfMiUN4vvQ+uF7sewt+4Gc341Y0dJqF54wx+AsTjHYgbaoNIKS3mikt6z+5SoBumAx2tLnx93yFIb
+	PyG8YPQduXgC5cABTdDQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iw7Nk-0002pZ-PA; Mon, 27 Jan 2020 16:37:00 +0000
+	id 1iw7OR-0003ui-Ju; Mon, 27 Jan 2020 16:37:43 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iw7Ni-0002os-U7
- for linux-nvme@lists.infradead.org; Mon, 27 Jan 2020 16:37:00 +0000
+ id 1iw7OO-0003uL-JU
+ for linux-nvme@lists.infradead.org; Mon, 27 Jan 2020 16:37:41 +0000
 Received: from redsun51.ssa.fujisawa.hgst.com (unknown [199.255.47.7])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 9C77F206D4;
- Mon, 27 Jan 2020 16:36:55 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id CC674206D4;
+ Mon, 27 Jan 2020 16:37:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1580143016;
- bh=ntyWU1KIi38AW81EQsFzIxBr6ahMVg4xHn85/tev4OQ=;
+ s=default; t=1580143060;
+ bh=YUAYh2KXzQQSaYMFnrWwnL6HIPAkLdtS4FiFSPVJI2Y=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ovm0vapzessZYM7dZ51vQ3ZQve4zqc8CiCIW/50pZP27bt3vjuHaXEFBLswquBN2p
- l6dcS07Ip5xEJr2isIylxpcAoQB7XPpw0fi9hrk0YVPz/iOIKbgtzqtLbwSZyB/27g
- wa2lhm7T9yOQ6GBemUrmivatFdSdA5E/JYj963yo=
-Date: Tue, 28 Jan 2020 01:36:51 +0900
+ b=j5t9r+9ufzpSYqyAz3rWZhq00kznRK9q+4ixXrr0ly9ynQgxamFEOQeNAeakxIKH8
+ kvVp1vg6POZKwOeeAlNWkVi0/oW9K5GgEgtWknR1iMsTyNnzzGbBbEL/PMUR3wyGLW
+ wS9Fcw2sZKBZ8aCLxo9yw2HBGHUwprFAQZ6lezAc=
+Date: Tue, 28 Jan 2020 01:37:37 +0900
 From: Keith Busch <kbusch@kernel.org>
-To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Subject: Re: [PATCH] nvmet: configfs code cleanup
-Message-ID: <20200127163651.GA17848@redsun51.ssa.fujisawa.hgst.com>
-References: <20200126203544.4819-1-chaitanya.kulkarni@wdc.com>
+To: Sagi Grimberg <sagi@grimberg.me>
+Subject: Re: [PATCH v2] nvmet: fix dsm failure when payload does not match
+ sgl descriptor
+Message-ID: <20200127163737.GB17848@redsun51.ssa.fujisawa.hgst.com>
+References: <20200127072328.7653-1-sagi@grimberg.me>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200126203544.4819-1-chaitanya.kulkarni@wdc.com>
+In-Reply-To: <20200127072328.7653-1-sagi@grimberg.me>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200127_083658_994053_45281530 
-X-CRM114-Status: UNSURE (   8.49  )
+X-CRM114-CacheID: sfid-20200127_083740_657761_BB1E2B1A 
+X-CRM114-Status: UNSURE (   9.90  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -76,20 +77,24 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: hch@lst.de, linux-nvme@lists.infradead.org, sagi@grimberg.me
+Cc: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Jan 26, 2020 at 12:35:44PM -0800, Chaitanya Kulkarni wrote:
-> This is a pure code cleanup patch which does not change any
-> functionality. This patch removes the extra lines, get rid of
-> else which is duplicate for return.
+On Sun, Jan 26, 2020 at 11:23:28PM -0800, Sagi Grimberg wrote:
+> The host is allowed to pass the controller an sgl describing a buffer
+> that is larger than the dsm payload itself, allow it when executing
+> dsm.
 > 
-> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+> Reported-by: Dakshaja Uppalapati <dakshaja@chelsio.com>
+> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+> ---
+> Changes from v1:
+> - remove redundant symbol export
 
-Applied for-5.6, thanks.
+Thanks, rebased for-5.6 with this version.
 
 _______________________________________________
 linux-nvme mailing list
