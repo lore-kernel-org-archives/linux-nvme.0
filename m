@@ -1,131 +1,92 @@
-Return-Path: <SRS0=UxdA=3Q=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=IFMZ=3R=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=0.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,URIBL_DBL_ABUSE_MALW,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_DBL_ABUSE_MALW,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B94BEC2D0DB
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Jan 2020 17:18:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACE10C32771
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jan 2020 01:44:24 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 910B121739
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Jan 2020 17:18:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 73CA4214AF
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jan 2020 01:44:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Pk0wLC55";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=Mellanox.com header.i=@Mellanox.com header.b="CXPO5D2t"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 910B121739
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="k6goP8/U";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="ccg/oqwG"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 73CA4214AF
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=X70JCrtskBGpeA2NchFv8xtWVKQ7f5DDp1SvO+bLuLg=; b=Pk0wLC55lW3xxp/yQKgYQaXLT
-	/x6CvmiLjX3VseBvroTl7b5nOwTeAbaYergVrRn862KnkQ4nSK1Cc6mGiR360mxvKf9wAorMNKZxT
-	t15jEeFtlMtDaqE0tz+GXW/U3Eb1wU5uC3W3dLhSJL4K3Tvl9A3V5bWsFc9pBXRuEyG9JpDbMZaUp
-	DUdLcaneBVH7vQup7FWoEQg5w8e/ZbxQBhvAKfVqLIKclAz66le/3jiL9Ii5HAFdEX4toqBz6GUdf
-	YKTVimj2FF225nooqqX8ZbSwAKq6IcFmGsnlCPZawPNCT01cfXfu60WGHclnkwF1c1jPLAWt9Vf6b
-	WltmH4fsQ==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
+	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=L8Y+lIaA3DveybPC6uO/5KiOTm5/8xFKOLXoYGKpbXw=; b=k6goP8/U5WdHUh
+	8jvBxJdu8EObchGWpp6nUx2H/S3lxHVaPVLi3UWzfVIt97AyPslQGqov3Fdh+7UReVu8IRc/ONlcj
+	96zn4MbGdsbpNZqUDdYe3EUpuvYaotPtQ+ypn/EDkEJNqPprSRy9ss54inGxkk1mrUiPCDahWI3EB
+	8utW2atrQZ1K2XKOTic04R2I29uVaIbKDWPDrnqGm7XteZGHSaxrk/ES+ydH26sijSwMFlwW2gxTk
+	ETljXQEeImt+p1eUafnRu1ytMFQlfmMnLUyMN4im+ZdwM8okG+htXHRjAw5etzdiqZGu3nX0o8RHz
+	xkvM5kGpJvQMsPyRe99g==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iw81N-0001a4-Fh; Mon, 27 Jan 2020 17:17:57 +0000
-Received: from mail-am6eur05on2086.outbound.protection.outlook.com
- ([40.107.22.86] helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+	id 1iwFvR-0007Ev-Cf; Tue, 28 Jan 2020 01:44:21 +0000
+Received: from esa4.hgst.iphmx.com ([216.71.154.42])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iw81K-0001YT-7S
- for linux-nvme@lists.infradead.org; Mon, 27 Jan 2020 17:17:56 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gXA+LxiDOCsi9Le8Fjqz+VJ1sV6+/1ufpOlHEOGHEfJlBCY1yb7tvLK/k26kdK0TJhOE0s8xTYeodD2wuDxiGlsV9AsMS4Ld3aN27gajVC/vWOXuUc10ffNmKtG4ZEPhRF6gnOdxhRm0MSRUnjpyHGZRYWrZZZQdR7YuLUehtVa4LJPse81n9Nx2Sx8N2q5zGojGPUsHEvk9AvJKRXEGO8CI/tVuq07GIcwlIq24YUoSKLe+96eNpdVW9ueQHLjiCYZ/o9kSDyaF8iMqa9hdRRmy1i+mNICFUWq2wjjHkB8+g0klvWAUAnCC5AGXvfNGbIhP/1KkQhD+xs/8G1alSQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tBGCsKcXjOQtuGXjff4Vq1TNlvwbbuLqmlcq1Rh2vgs=;
- b=RZuNbWhQF18re6MSquypqdyT1gbduRyt5oNqyrGUd/lLnm6gbCL3u6d6Tgc6wnSRN21dLIjNYvSY+LhoPb4xqomjOzSOhnQ9MOOg+HuJx1RP/7eh8fnD4e0tReuGoPGU79SuSB0IsaOXTkxZ8QoNHW+R3DrlLkkbgqcyxPavcl/23a+bm8skCPXUEKukE2MTTT9V+OoWKpr4+nNPl/DqjcBBagsk2Qwmm1jiZ7uZ0pg9il+WfBNB+7kowLQgwehn8awOIoHen3UCwDcaIbolBHlIuY4QJpONfvhpuTILOi+7kiCt/3P08nwBP0GhSJ6cNv5aWRLyZTu+XDfgagFLSA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 193.47.165.251) smtp.rcpttodomain=kernel.dk smtp.mailfrom=mellanox.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=mellanox.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tBGCsKcXjOQtuGXjff4Vq1TNlvwbbuLqmlcq1Rh2vgs=;
- b=CXPO5D2tyjlmr4vRvt2HJNnG/Xj7eh2bQ3h9shY9DABy4GklDgySSHvfVbHyveAeKPIEPSbaLHr9SV7TBkF8nF1tFwbQ5otjh4VfJv8NcX2ng59ld3r/uKO9xtAKKQLPtD2bQ8w1AH+X0uwCDLc17+ekkFICo6ETC3f48dj7EYk=
-Received: from AM6PR0502CA0048.eurprd05.prod.outlook.com
- (2603:10a6:20b:56::25) by VI1PR0502MB3983.eurprd05.prod.outlook.com
- (2603:10a6:803:1a::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2665.24; Mon, 27 Jan
- 2020 17:17:49 +0000
-Received: from DB5EUR03FT055.eop-EUR03.prod.protection.outlook.com
- (2a01:111:f400:7e0a::203) by AM6PR0502CA0048.outlook.office365.com
- (2603:10a6:20b:56::25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2665.20 via Frontend
- Transport; Mon, 27 Jan 2020 17:17:49 +0000
-Authentication-Results: spf=pass (sender IP is 193.47.165.251)
- smtp.mailfrom=mellanox.com; kernel.dk; dkim=none (message not signed)
- header.d=none;kernel.dk; dmarc=pass action=none header.from=mellanox.com;
-Received-SPF: Pass (protection.outlook.com: domain of mellanox.com designates
- 193.47.165.251 as permitted sender)
- receiver=protection.outlook.com; 
- client-ip=193.47.165.251; helo=mtlcas13.mtl.com;
-Received: from mtlcas13.mtl.com (193.47.165.251) by
- DB5EUR03FT055.mail.protection.outlook.com (10.152.21.30) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.2665.18 via Frontend Transport; Mon, 27 Jan 2020 17:17:49 +0000
-Received: from MTLCAS13.mtl.com (10.0.8.78) by mtlcas13.mtl.com (10.0.8.78)
- with Microsoft SMTP Server (TLS) id 15.0.1178.4; Mon, 27 Jan 2020 19:17:48
- +0200
-Received: from MTLCAS01.mtl.com (10.0.8.71) by MTLCAS13.mtl.com (10.0.8.78)
- with Microsoft SMTP Server (TLS) id 15.0.1178.4 via Frontend Transport; Mon,
- 27 Jan 2020 19:17:48 +0200
-Received: from [10.223.0.100] (10.223.0.100) by MTLCAS01.mtl.com (10.0.8.71)
- with Microsoft SMTP Server (TLS) id 14.3.468.0; Mon, 27 Jan 2020 19:17:30
- +0200
-Subject: Re: [PATCH 13/15] nvmet: Add metadata/T10-PI support
-To: "Martin K. Petersen" <martin.petersen@oracle.com>
-References: <20200106133736.123038-1-maxg@mellanox.com>
- <20200106133736.123038-15-maxg@mellanox.com> <yq1sgkpxqf5.fsf@oracle.com>
-From: Max Gurtovoy <maxg@mellanox.com>
-Message-ID: <99c92a01-be7b-fd47-3d28-b75e5372c3a6@mellanox.com>
-Date: Mon, 27 Jan 2020 19:17:30 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ id 1iwFvO-0007EV-Ak
+ for linux-nvme@lists.infradead.org; Tue, 28 Jan 2020 01:44:20 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1580175858; x=1611711858;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=25QxtmqtTUVqJ3tZQk1D99g/KgrDq/OeGN2Z4V8O4sA=;
+ b=ccg/oqwGxOGDuIFl7FY5SwozCmmZh0kFsd01nBoNGJl+GOQfc5bhkGB4
+ QeLTyQ4XsNOUMNqU01o+iRJqsa5BHk5nYxyaHPZOpXVBtxmi8H9WGSd11
+ 4MIrTiKWkd+QaapcQx792T86g5EgCFy2X3L1+2ud+08YiNcYutjyl3hjY
+ CAogCq4FnvHBKWzMo4yvjj4Zwh4KyjmTUpb4H0qVE///sEpagMfOAKMBR
+ XnjBnEiP0Sfv9o6MigL4DcSR9uN/ZYtWc1rjUkIafyCOa9ebdAHbJE5z3
+ Zep9xYBvFJvh8P4HJmOMV8Ln2LRUrzo6g16vSq3hMgb5n3gqekJadyExn A==;
+IronPort-SDR: KtcAlLoRrbGrYUz0mmogIvioSEjOmSxvNB1vXd1aM1xqsIa1riASVnTb+tlvo3ccsSqTWr/Ypw
+ MG19Y0AcMnn+LAjOqlAnvZqpFrtDLtT8aP8WNZojEgG3ZktXZ4VN0ftRFQOSi0Hfe8n/WSGcV6
+ VO+9VtLNWGC8uUNGyAd/Uuwl0Sp79Y43w00AePEwaOAy2kCx63U9hO6e6q+THHl7s4v3zWX82n
+ 9BxYSiLB4rbfcazOC+aufCcfT/QuKU0a7gjlX/gt5Zfwc1gPh6VlLaIvMzBVBNUsgEn0GYjRtZ
+ 6Eg=
+X-IronPort-AV: E=Sophos;i="5.70,372,1574092800"; d="scan'208";a="128535191"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 28 Jan 2020 09:44:15 +0800
+IronPort-SDR: pfXjHh2SP01l4/va7+uPJKGPGMgs1DLWvcNj1vsH2mXkwis9IhZmOwjkVGylA+FqP250br5E2l
+ TYWras0o7s5mfx8dZzZU3wwM+ljoF0hOWWr32gq6dpUCv1sj+Zp4XQmV2FfUabLHIPc/izJvns
+ qZYcYIWInemvo2P3sANKkTaRj2dikfcweoStRZrFPtQlIexjzuIK+0H1gw5pbX8XYEjfyuBiu1
+ ykkWvGLE4sDaYmKkQxQXW6+t6+iI7930OqDZeExCP6qxV0HFc7TdSrzlgJFBS+Rj8jjJiO5kKq
+ vdNKLcT37yxcWyYQWKTI0VHC
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jan 2020 17:37:31 -0800
+IronPort-SDR: nYJyy3ZuLAhrIY3S55Fh5UfkS60L531FCYpTXAA9D+bYm3TEHEdmtAX249gbLYUVRm+2KV2Gv3
+ g7ryvklurRdxJheghqG8kHtDo+EO39jUzYPR5ZI9IFm7r9JguGvzWIJopAt2oxIcWb7v6KHK8m
+ agu7PvN0lY1LlmiN4aQpnctNSJ7+1XoeQ3wrNeLZw7dr4g2TqO192rNr2erRNFE9SuWar5IZE8
+ hw1N4j5bjRO8k+54TkrBL+sFqBSz8jLrbTS5S5kAmy2cLjrPrX3GrB/TdIS439VKJRTin1lYWm
+ qQA=
+WDCIronportException: Internal
+Received: from iouring.labspan.wdc.com (HELO iouring.sc.wdc.com)
+ ([10.6.138.107])
+ by uls-op-cesaip01.wdc.com with ESMTP; 27 Jan 2020 17:44:15 -0800
+From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+To: linux-nvme@lists.infradead.org
+Subject: [PATCH V2] nvmet: allow block device to use buffered I/O
+Date: Mon, 27 Jan 2020 17:44:09 -0800
+Message-Id: <20200128014409.6824-1-chaitanya.kulkarni@wdc.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-In-Reply-To: <yq1sgkpxqf5.fsf@oracle.com>
-Content-Language: en-US
-X-Originating-IP: [10.223.0.100]
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:193.47.165.251; IPV:; CTRY:IL; EFV:NLI;
- SFV:NSPM;
- SFS:(10009020)(4636009)(396003)(136003)(39860400002)(376002)(346002)(199004)(189003)(70586007)(336012)(8676002)(8936002)(478600001)(54906003)(2616005)(26005)(31686004)(356004)(316002)(31696002)(16576012)(86362001)(81156014)(4326008)(81166006)(36756003)(107886003)(53546011)(5660300002)(6916009)(186003)(16526019)(70206006)(2906002)(3940600001);
- DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR0502MB3983; H:mtlcas13.mtl.com; FPR:;
- SPF:Pass; LANG:en; PTR:InfoDomainNonexistent; A:1; MX:1; 
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b4f22520-d5fb-4134-e9ce-08d7a34cd5be
-X-MS-TrafficTypeDiagnostic: VI1PR0502MB3983:
-X-Microsoft-Antispam-PRVS: <VI1PR0502MB3983CD889CAE23F7F221DBE9B60B0@VI1PR0502MB3983.eurprd05.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-Forefront-PRVS: 02951C14DC
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: tZiW4NWB6UW+nKxjpuTweL9uVWO3MT2zMNBB1O89V36bR3dXhGxc6b8qxfEGASLQqduZ8fsSdglLm+Wxtho4xwbAhH/VOwaNcobkV+jPs3lyxov3wKkN+/5ghLjsBaDzpATgXn9sHtjJ73V6s2vO9SPAOTXJKWbn1ThDLsOCB9f8dAx0of9RS9Xn7ylzaGLe4eRpS4jSjn3IgHK6gPQTzjfuTWg1GXho3qkUCInbBsk5LKLynwoDV2n8LaRThVI4P21CUcrD0IpxAzAJapgczSVdMmtIsSY3e8fcCb/BgMT6rGn5xwMjW3xCMCrsqmaIUbh1+qeD1Si5BVjCId6V2cdkaAkPIyFwkQhcY4rmZabXHNA2IVRPbX9TVs89VpXMukmS9N9e9kBKRBMjh3HqIBZJfKtDlSfbAui5KiVA5sMKaB9zbzq1v6FeyEPW3lafxsoHAxXCguhkgUH9I5CedRJa9m3yOjrnOJ2W6ZEB9uZWWgwETBArXjq8Ee2VOGbK
-X-OriginatorOrg: Mellanox.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2020 17:17:49.3313 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b4f22520-d5fb-4134-e9ce-08d7a34cd5be
-X-MS-Exchange-CrossTenant-Id: a652971c-7d2e-4d9b-a6a4-d149256f461b
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a652971c-7d2e-4d9b-a6a4-d149256f461b; Ip=[193.47.165.251];
- Helo=[mtlcas13.mtl.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0502MB3983
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200127_091754_505967_0A534D3E 
-X-CRM114-Status: GOOD (  13.70  )
+X-CRM114-CacheID: sfid-20200127_174418_413090_852E958F 
+X-CRM114-Status: GOOD (  16.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,58 +98,209 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: axboe@kernel.dk, sagi@grimberg.me, vladimirk@mellanox.com,
- shlomin@mellanox.com, israelr@mellanox.com, linux-nvme@lists.infradead.org,
- idanb@mellanox.com, oren@mellanox.com, kbusch@kernel.org, hch@lst.de
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: hch@lst.de, Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
+ sagi@grimberg.me
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Ck9uIDEvOS8yMDIwIDU6MjQgQU0sIE1hcnRpbiBLLiBQZXRlcnNlbiB3cm90ZToKPiBNYXgsCgoK
-TWFydGluLAoKCj4KPj4gLQkvKiBubyBsaW1pdCBvbiBkYXRhIHRyYW5zZmVyIHNpemVzIGZvciBu
-b3cgKi8KPj4gLQlpZC0+bWR0cyA9IDA7Cj4+ICsJLyogTGltaXQgTURUUyBmb3IgbWV0YWRhdGEg
-Y2FwYWJsZSBjb250cm9sbGVycyAoYXNzdW1lIG1wc21pbiBpcyA0aykgKi8KPj4gKwlpZC0+bWR0
-cyA9IGN0cmwtPnBpX3N1cHBvcnQgPyBpbG9nMihOVk1FVF9UMTBfUElfTUFYX0tCX1NaID4+IDIp
-IDogMDsKPiBbLi4uXQo+Cj4+ICsjZGVmaW5lIE5WTUVUX1QxMF9QSV9NQVhfS0JfU1ogMTI4Cj4g
-V2hlcmUgZG9lcyB0aGlzIGxpbWl0IGNvbWUgZnJvbT8KClRoaXMgaXMgY29taW5nIGZyb20gZmV3
-IHJlYXNvbnM6CgoxLiBJbiB0aGUgY3VycmVudCBkcml2ZXIgaW1wbGVtZW50YXRpb24gb2YgdGhl
-IGliX2NvcmUgKFJETUEpIHdlIGFyZSAKbGltaXRlZCB0byAxTUIgSU8gZm9yIFQxMC1ESUYgb2Zm
-bG9hZCBzbyB3ZSBuZWVkIHRvIGxpbWl0IHRoZSBtZHRzIAphbnl3YXkuIEZvciB0aGF0LCBJIHdh
-bnQgdG8gYWRkIGEgY3RybC0+b3BzLT5nZXRfY3RybF9tZHRzKGN0cmwpLgoKMi4gVGhlcmUgaXMg
-c29tZSB1bmNsZWFyICh0byBtZSkgYmVoYXZpb3IgaW4gdGhlIGJsb2NrIGxheWVyIHJlZ2FyZGlu
-ZyAKc3BsaXR0aW5nIGludGVncml0eSBiaW9zLiBXZSBnZXQgZ3VhcmQgZXJyb3Igb3ZlciB0aGUg
-ZmFicmljIHRyYW5zYWN0aW9uIAppbiBjYXNlIHdlIG5lZWQgdG8gc3BsaXQgYSBiaW8gKHRoZSBl
-cnJvciBpcyBhdCB0aGUgdGFyZ2V0IHNpZGUpLiBJJ20gCmRlYnVnZ2luZyBpdCBhbmQgZm91bmQg
-cG90ZW50aWFsIGJ1ZyB0aGF0IEkgZml4ZWQgdXNpbmc6CgpAQCAtMzc4LDYgKzM3OCwxMiBAQCB2
-b2lkIGJpb19pbnRlZ3JpdHlfYWR2YW5jZShzdHJ1Y3QgYmlvICpiaW8sIAp1bnNpZ25lZCBpbnQg
-Ynl0ZXNfZG9uZSkKCiDCoMKgwqDCoMKgwqDCoCBiaXAtPmJpcF9pdGVyLmJpX3NlY3RvciArPSBi
-eXRlc19kb25lID4+IDk7CiDCoMKgwqDCoMKgwqDCoCBidmVjX2l0ZXJfYWR2YW5jZShiaXAtPmJp
-cF92ZWMsICZiaXAtPmJpcF9pdGVyLCBieXRlcyk7CisKK8KgwqDCoMKgwqDCoCBpZiAoc3BsaXQg
-JiYgYmlwLT5iaXBfaXRlci5iaV9idmVjX2RvbmUpIHsKK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgYmlwLT5iaXBfdmVjW2JpcC0+YmlwX2l0ZXIuYmlfaWR4XS5idl9sZW4gLT0gCmJpcC0+
-YmlwX2l0ZXIuYmlfYnZlY19kb25lOworwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBiaXAt
-PmJpcF92ZWNbYmlwLT5iaXBfaXRlci5iaV9pZHhdLmJ2X29mZnNldCArPSAKYmlwLT5iaXBfaXRl
-ci5iaV9idmVjX2RvbmU7CivCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJpcC0+YmlwX2l0
-ZXIuYmlfYnZlY19kb25lID0gMDsKK8KgwqDCoMKgwqDCoCB9CiDCoH0KCmJ1dCB1bmZvcnR1bmF0
-ZWx5IGl0IGhlbHBlZCBvbmx5IGlmIHdlIHNwbGl0IHRoZSBiaW8gb25jZS4gSW4gY2FzZSB3ZSAK
-c3BsaXQgaXQgbW9yZSB0aGFuIG9uY2UsIHdlIGdldCB0byBndWFyZCBjaGVjayBlcnJvciBhZ2Fp
-bi4KCm1heWJlIHlvdSBoYXZlIGFuIGlkZWEgaG93IHRvIG92ZXJjb21lIHRoaXMgPwoKCjMuIFRo
-ZSBtYXhpbXVtX2ludGVncml0eV9zZWdtZW50cyA9IDEgZm9yIE5WTWUgZGV2aWNlcywgc28gd2Ug
-Y2FuIHVzZSAKNDA5Ni84PTUxMiBpbnRlZ3JpdHkgc2VjdG9ycyBiZWZvcmUgcmVhY2hpbmcgdGhl
-IGxpbWl0IG9mIAptYXhfaW50ZWdyaXR5X3NlZ21lbnRzLiBUaGlzIGxlYWRzIHRvIG1kdHM9NiAo
-MjU2S0IpIGlmIHRoZSBicz01MTIgLiBJJ20gCmFmcmFpZCB0aGF0IHdlIG1pZ2h0IGhhdmUgaXNz
-dWVzIHdpdGggdGhlIGZhY3QgdGhhdCB0aGUgdGFyZ2V0IHByb3Rfc2dsIAogPiAxIGFuZCB0aGUg
-TlZNZSBkcml2ZXIgc2V0IG1heGltdW1faW50ZWdyaXR5X3NlZ21lbnRzID0gMS4KCgpUaGVyZWZv
-cmUsIEkgc3VnZ2VzdCB0byBsaW1pdCB0aGUgbWR0cyBwZXIgdHJhbnNwb3J0IChhbmQgaW50ZXJu
-YWxseSAKY2hlY2sgaWYgdGhpcyBjdHJsIGlzIHBpX2VuYWJsZWQpLgoKCkFsbCB0aGUgYWJvdmUg
-aXMgaGFwcGVuaW5nIHdoZW4gdXNpbmcgc3VibWl0X2JpbyAtLT4gLi4uIC0tPiBiaW9fc3BsaXQg
-CmZ1bmN0aW9uIHRoYXQgY2FsbCBiaW9fYWR2YW5jZSBhcyB3ZWxsICh0aGF0IGlzIGNhbGxlZCBm
-cm9tIGNvbXBsZXRpb24gCmNvbnRleHQgYXMgd2VsbCkuIFRoaXMgcGF0aCBpcyBub3QgdXNlZCBp
-biBsb2NhbCBOVk1lIElPLgoKSW4gdGhlIGxvY2FsIE5WTWUgSU8gKGUuZyB1c2luZyBGSU8gYXBw
-bGljYXRpb24pLCB0aGVyZSBpcyBubyBjYWxsIHRvIApiaW9fc3BsaXQvYmlvX2FkdmFuY2UgaW4g
-dGhlIHN1Ym1pc3Npb24gZmxvdywgYW5kIHRoZXJlIGlzIG9ubHkgb25lIGNhbGwgCnRvIGJpb19h
-ZHZhbmNlIGluIHRoZSBjb21wbGV0aW9uIGZsb3cuCgoKLU1heC4KCgpfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpsaW51eC1udm1lIG1haWxpbmcgbGlzdAps
-aW51eC1udm1lQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9saW51eC1udm1lCg==
+NVMeOF target already has a support to execute requests in the
+buffered I/O mode with file backend. This patch allows block devices to
+be used with file backend code so that buffered I/O parameter can be set
+for a block device backed namespace when newly introduce configfs
+parameter backeend. The new file defaults to the blockio user can switch
+between "blockio" and "fileio" strings to enable the file backend for
+the block device when buffered_io set to 1.
+
+Following is the performance improvement when backend=fileio and
+buffere_dio=1 :-
+
+Device_path = /dev/nullb0, I/O type = randread.
+
+With this patch and buffered I/O = 0, use_vfs=0 :
+  read: IOPS=198k, BW=772MiB/s (809MB/s)(45.2GiB/60002msec)
+  read: IOPS=198k, BW=774MiB/s (811MB/s)(45.3GiB/60002msec)
+  read: IOPS=197k, BW=771MiB/s (808MB/s)(45.2GiB/60002msec)
+
+With this patch and buffered I/O = 1, use_vfs=1:
+  read: IOPS=979k, BW=3825MiB/s (4010MB/s)(224GiB/60002msec)
+  read: IOPS=983k, BW=3841MiB/s (4028MB/s)(225GiB/60003msec)
+  read: IOPS=980k, BW=3828MiB/s (4014MB/s)(224GiB/60002msec)
+
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+---
+ drivers/nvme/target/configfs.c    | 42 +++++++++++++++++++++++++++++++
+ drivers/nvme/target/core.c        |  7 +++++-
+ drivers/nvme/target/io-cmd-bdev.c |  3 +++
+ drivers/nvme/target/io-cmd-file.c | 23 ++++++++++++-----
+ drivers/nvme/target/nvmet.h       |  6 +++++
+ 5 files changed, 74 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index 98613a45bd3b..61973c047e13 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -545,6 +545,47 @@ static ssize_t nvmet_ns_buffered_io_store(struct config_item *item,
+ 
+ CONFIGFS_ATTR(nvmet_ns_, buffered_io);
+ 
++static ssize_t nvmet_ns_backend_show(struct config_item *item, char *page)
++{
++	if (to_nvmet_ns(item)->backend == FILEIO)
++		return sprintf(page, "fileio\n");
++
++	return sprintf(page, "blockio\n");
++}
++
++static ssize_t nvmet_ns_backend_store(struct config_item *item,
++		const char *page, size_t count)
++{
++	struct nvmet_ns *ns = to_nvmet_ns(item);
++	unsigned int len;
++	int ret;
++
++	mutex_lock(&ns->subsys->lock);
++	if (ns->enabled) {
++		ret = -EBUSY;
++		goto out_unlock;
++	}
++
++	ret = -EINVAL;
++	len = strcspn(page, "\n");
++	if (!len)
++		goto out_unlock;
++
++	if (memcmp("fileio", page, strlen("fileio")) == 0)
++		ns->backend = FILEIO;
++	else if (memcmp("blockio", page, strlen("blockio")) == 0)
++		ns->backend = BLOCKIO;
++	else
++		goto out_unlock;
++
++	ret = count;
++out_unlock:
++	mutex_unlock(&ns->subsys->lock);
++	return ret;
++}
++
++CONFIGFS_ATTR(nvmet_ns_, backend);
++
+ static struct configfs_attribute *nvmet_ns_attrs[] = {
+ 	&nvmet_ns_attr_device_path,
+ 	&nvmet_ns_attr_device_nguid,
+@@ -552,6 +593,7 @@ static struct configfs_attribute *nvmet_ns_attrs[] = {
+ 	&nvmet_ns_attr_ana_grpid,
+ 	&nvmet_ns_attr_enable,
+ 	&nvmet_ns_attr_buffered_io,
++	&nvmet_ns_attr_backend,
+ #ifdef CONFIG_PCI_P2PDMA
+ 	&nvmet_ns_attr_p2pmem,
+ #endif
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 28438b833c1b..a8da15cf468d 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -526,8 +526,13 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
+ 		goto out_unlock;
+ 
+ 	ret = nvmet_bdev_ns_enable(ns);
+-	if (ret == -ENOTBLK)
++	if (!ret)
++		pr_info("using the blockio backend\n");
++	else if (ret == -ENOTBLK) {
+ 		ret = nvmet_file_ns_enable(ns);
++		if (!ret)
++			pr_info("using the fileio backend\n");
++	}
+ 	if (ret)
+ 		goto out_unlock;
+ 
+diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+index b6fca0e421ef..2b6744d2c37d 100644
+--- a/drivers/nvme/target/io-cmd-bdev.c
++++ b/drivers/nvme/target/io-cmd-bdev.c
+@@ -51,6 +51,9 @@ int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
+ {
+ 	int ret;
+ 
++	if (ns->backend == FILEIO)
++		return -ENOTBLK;
++
+ 	ns->bdev = blkdev_get_by_path(ns->device_path,
+ 			FMODE_READ | FMODE_WRITE, NULL);
+ 	if (IS_ERR(ns->bdev)) {
+diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
+index caebfce06605..4d130b863f59 100644
+--- a/drivers/nvme/target/io-cmd-file.c
++++ b/drivers/nvme/target/io-cmd-file.c
+@@ -29,7 +29,9 @@ void nvmet_file_ns_disable(struct nvmet_ns *ns)
+ 
+ int nvmet_file_ns_enable(struct nvmet_ns *ns)
+ {
++	fmode_t mode = FMODE_READ | FMODE_WRITE;
+ 	int flags = O_RDWR | O_LARGEFILE;
++	struct block_device *bdev;
+ 	struct kstat stat;
+ 	int ret;
+ 
+@@ -49,12 +51,21 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
+ 		goto err;
+ 
+ 	ns->size = stat.size;
+-	/*
+-	 * i_blkbits can be greater than the universally accepted upper bound,
+-	 * so make sure we export a sane namespace lba_shift.
+-	 */
+-	ns->blksize_shift = min_t(u8,
+-			file_inode(ns->file)->i_blkbits, 12);
++	if (ns->size == 0 && ns->backend == FILEIO) {
++		bdev = blkdev_get_by_path(ns->device_path, mode, NULL);
++		if (IS_ERR(bdev))
++			goto err;
++		ns->size = i_size_read(bdev->bd_inode);
++		ns->blksize_shift = blksize_bits(bdev_logical_block_size(bdev));
++		blkdev_put(bdev, mode);
++	} else {
++		/*
++		 * i_blkbits can be greater than the universally accepted upper
++		 * bound, so make sure we export a sane namespace lba_shift.
++		 */
++		ns->blksize_shift = min_t(u8,
++				file_inode(ns->file)->i_blkbits, 12);
++	}
+ 
+ 	ns->bvec_cache = kmem_cache_create("nvmet-bvec",
+ 			NVMET_MAX_MPOOL_BVEC * sizeof(struct bio_vec),
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 46df45e837c9..b8e66ea37154 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -49,6 +49,11 @@
+ #define IPO_IATTR_CONNECT_SQE(x)	\
+ 	(cpu_to_le32(offsetof(struct nvmf_connect_command, x)))
+ 
++enum nvmet_ns_backend {
++	BLOCKIO,
++	FILEIO
++};
++
+ struct nvmet_ns {
+ 	struct list_head	dev_link;
+ 	struct percpu_ref	ref;
+@@ -73,6 +78,7 @@ struct nvmet_ns {
+ 	struct completion	disable_done;
+ 	mempool_t		*bvec_pool;
+ 	struct kmem_cache	*bvec_cache;
++	enum nvmet_ns_backend	backend;
+ 
+ 	int			use_p2pmem;
+ 	struct pci_dev		*p2p_dev;
+-- 
+2.22.1
+
+
+_______________________________________________
+linux-nvme mailing list
+linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
