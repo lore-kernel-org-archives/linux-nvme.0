@@ -2,83 +2,93 @@ Return-Path: <SRS0=KTZ6=3S=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_DBL_ABUSE_MALW,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,URIBL_DBL_ABUSE_MALW,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2474FC2D0DB
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jan 2020 15:30:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 232F3C2D0DB
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jan 2020 23:29:42 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E6306206F0
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jan 2020 15:30:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E43BB206D5
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jan 2020 23:29:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="JiMV4t4p";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=yadro.com header.i=@yadro.com header.b="ivOD8oT0"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E6306206F0
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=yadro.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Jp+pqMMO";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="HRYW7ZjN"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E43BB206D5
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-ID:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=UsIfVOvRpfLX6FSQNCi3GMkhOpan08CnAZqGUf1iFgI=; b=JiMV4t4pebsWXZ
-	vQs57Kr3ImiANmsv3Dexv6q1h/WGagrOqzopXEmAATI+VkaPWkuSWlZoBD5Y3g2unTiq5B6YQl1Pw
-	mrQX4b0A+9//ytMVmmOxKFsIva6He/WTt8hmnm3QUQkHp4h5dnUGzIJI++UtRASxDOWLe38qf8jP0
-	lCOe114N5cUKF3IJO2kNcV69iF9f3S74Q1Fre4N3ej8XuXRIlK43xDkSCsfgitQ++yk9Cx22UnG27
-	VEA8bdbgxRvxD2U2LfqjNnndfCJgMI/aT72S4KKwTfmoZ1UqIG+VnEgBGz+GhegZzk8IY0zas5QIb
-	jCCV/59XZdOi89Uiry+A==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
+	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=YQvRTQexTNWZVkQ7kS1rhjmIfkBXCBwd/IblOC/Bnys=; b=Jp+pqMMOisy1a4
+	0nt++haCB/MC6i5tXdYlwRX5unUWNXhYxebA3Z+sf4ncXNwy9b6HYixhitH7Hmsws0H0XuIn4aB55
+	YAyvtbqPehuAPa98vSp/7yLaCI8vlw3JcIHnCFu3WY38/oukAMz8qO8vAO9temsQyjabWlu1g1sLF
+	iGHmB7jscQIUwgv+9iSak8Gc+xQeZfGfSZjxrYS3fn8V4HtXh2PnJTws4IhMF0niKNUsANHJG3J+2
+	Vf2Fx2wnEmEGuJR0fRomGpT/2qd9v+bwY/WGwBIemZc36/NWdzrDRS3IxBi/0xVGgZCDNcSg4MMzk
+	GPOtX0vojstNC2EfW33w==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iwpIJ-0002wk-MV; Wed, 29 Jan 2020 15:30:19 +0000
-Received: from mta-02.yadro.com ([89.207.88.252] helo=mta-01.yadro.com)
+	id 1iwwm7-0002d2-Qy; Wed, 29 Jan 2020 23:29:35 +0000
+Received: from esa6.hgst.iphmx.com ([216.71.154.45])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iwpIF-0002l2-1E
- for linux-nvme@lists.infradead.org; Wed, 29 Jan 2020 15:30:17 +0000
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id EF00547645;
- Wed, 29 Jan 2020 15:30:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- content-type:content-type:content-transfer-encoding:mime-version
- :references:in-reply-to:x-mailer:message-id:date:date:subject
- :subject:from:from:received:received:received; s=mta-01; t=
- 1580311806; x=1582126207; bh=xeKBFhwWSTTwej2sxwygwuCy4WQRim+mRqk
- 7q7AVbHg=; b=ivOD8oT0wqkQfyf7JCqW7gE7dYEncKIpuN+hu/DT/2lENcSfQYc
- hGZVLStWZWiw2pKagoh1VdLmC9/KeVa4dk+f3/X7jsLpxHua3bGcng920eJG9bZH
- JyM3pDXD3WT4el8xczW7NcSy2DSTJOmtpQEP0u5bz9Ewy83p/SJt+GVo=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UfTyEeKG9cAF; Wed, 29 Jan 2020 18:30:06 +0300 (MSK)
-Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
- [172.17.10.102])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id A730F47621;
- Wed, 29 Jan 2020 18:29:55 +0300 (MSK)
-Received: from NB-148.yadro.com (172.17.15.136) by T-EXCH-02.corp.yadro.com
- (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Wed, 29
- Jan 2020 18:29:55 +0300
-From: Sergei Miroshnichenko <s.miroshnichenko@yadro.com>
-To: <linux-pci@vger.kernel.org>
-Subject: [PATCH v7 25/26] nvme-pci: Handle movable BARs
-Date: Wed, 29 Jan 2020 18:29:36 +0300
-Message-ID: <20200129152937.311162-26-s.miroshnichenko@yadro.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200129152937.311162-1-s.miroshnichenko@yadro.com>
-References: <20200129152937.311162-1-s.miroshnichenko@yadro.com>
+ id 1iwwm4-0002aI-Mb
+ for linux-nvme@lists.infradead.org; Wed, 29 Jan 2020 23:29:34 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1580340573; x=1611876573;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=smzJ9aLrfZQAYLsAFApydMD2EtHWMA2/FV/r3qlGdVQ=;
+ b=HRYW7ZjN1Mgu0HmFQ4BdcN2Hg8EYkAIRhxXA17vDRCB2c1k+tmU9+ngJ
+ +GDAo6sr36Kv4ABAFZA25/oCshsSYzKR0whJZXWJBfqQ5N9WNBKP2eT7y
+ sWJZ4nTpOvtDUhahNL9BPSX8iC/iFvvpXo8BDb1RYCDke4xLueLl5Xmhw
+ hUd8iDlSY94v0CSpEz8TguoBITmV+lGEdJLZ+7gqzpuYPbszz97THk+XZ
+ ocnNTWkGav7/OsDIKFEixnE52EHLtg7j9Dn1vI9h3I0hERlHkfdrVt+Y1
+ ymPcZ72RNYtTiqZ2huiIKaz3qvkhV4YFDQKcTOrCaiqE0d2a88mRFQO9z w==;
+IronPort-SDR: 9+m7cQPZLIKChpRCATMa9UzG5A28VAOJvJulTYLe7ZxgngLLl0Pi6/ck8fVPhJ6YHQJruNt2+k
+ 5lFKiFPidlkJRbV5sTNWqudTBTAkVD0OwT+rjYHu1RizBrkafoH1pl87hoLPx4CsGgvKLdFTEg
+ H4BgKjqQwv+qYLeWtNefr1zN59/EnqYQ0AI2ivu1Km+NgAD1HNEr1A3b0lL8NpftaUbku/T2lS
+ zGQLlt0youJTCVMiRM0p3v5vd/wcX0rwkZzLnUY115jzVNunVthSppTqHFgsZ9OpQRfR/OWU44
+ C4Y=
+X-IronPort-AV: E=Sophos;i="5.70,379,1574092800"; d="scan'208";a="130160257"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 30 Jan 2020 07:29:24 +0800
+IronPort-SDR: 2jAzkTljErnGrpUQijcpN3+PC02F9IhtsC3nBcCBBZ7U2cUrI91DDRZT0Qfi+wj8d1ClZI27JS
+ OyQq1CDewHnQ2AF8uyGe8mBEm/WRpHlJ/Rn+9qJKpbKKu+s9Tva9PjbS71qM6nsjcwtz0fGzO8
+ 1arGHdpGlSnllPI8Zz9NAG+KpBthqoFcXWZAfwoeq86F3IITeZeU5l74A4iPPvnYGVLYarJFVs
+ kouvAHJtcjqWrYgeTwrId6Zlvy21ATMGVsb+iAk2gaOdgMf6gyHNdrChgMQuuuoE2m3i1caDef
+ qEyEvJ8b0AQ571EU/z1Yyqsw
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jan 2020 15:22:36 -0800
+IronPort-SDR: liBZ+o5bt2p6wTYvaZcxXBghRE4XJlqf98IhZuF8dDoPxuEMVI0jeCl63SHUJySWZsOkPxT3XH
+ 7QjiaXBZd0nSazaK5yZ9JamH0N8zviNAzVkOQpQ8ZTMd6G9zaeTERnHZWQ7on8czrnn61gIIER
+ AZhvyK7TdsC5hugdqRWQ1HNpURnqs0zWNMCgcsOag4jAXkZtBmyf/PYPLLVu5x+9DWezSnHmqg
+ BD6qMpNZP6JelVSwJxP5nNy0Rc0H1/RWqq4K1zFCRzze9WDyUyCb5dwdHKRO5skdAYqV/i/UyU
+ 87Y=
+WDCIronportException: Internal
+Received: from iouring.labspan.wdc.com (HELO iouring.sc.wdc.com)
+ ([10.6.138.107])
+ by uls-op-cesaip01.wdc.com with ESMTP; 29 Jan 2020 15:29:24 -0800
+From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+To: linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Subject: [PATCH 0/5 blktest] nvme: add cntlid and model testcases
+Date: Wed, 29 Jan 2020 15:29:16 -0800
+Message-Id: <20200129232921.11771-1-chaitanya.kulkarni@wdc.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-X-Originating-IP: [172.17.15.136]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-02.corp.yadro.com (172.17.10.102)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200129_073015_441174_0C136FEA 
-X-CRM114-Status: GOOD (  13.31  )
+X-CRM114-CacheID: sfid-20200129_152932_777672_3201823B 
+X-CRM114-Status: UNSURE (   8.47  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,107 +100,142 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sergei Miroshnichenko <s.miroshnichenko@yadro.com>,
- linux-nvme@lists.infradead.org, linux@yadro.com,
- Bjorn Helgaas <helgaas@kernel.org>, Stefan Roese <sr@denx.de>,
- Christoph Hellwig <hch@lst.de>
+Cc: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hotplugged devices can affect the existing ones by moving their BARs. The
-PCI subsystem will inform the NVME driver about this by invoking the
-.rescan_prepare() and .rescan_done() hooks, so the BARs can by re-mapped.
+This is a small patch-series which adds two new testcases for
+setting up controller IDs and model from configfs.
 
-Tested under the "randrw" mode of the fio tool, and when using an NVME
-drive as a root filesystem storage. Before the hotplugging:
+Regards,
+Chaitanya
 
-  % sudo cat /proc/iomem
-  ...
-                3fe800000000-3fe8007fffff : PCI Bus 0020:0b
-                  3fe800000000-3fe8007fffff : PCI Bus 0020:18
-                    3fe800000000-3fe8000fffff : 0020:18:00.0
-                      3fe800000000-3fe8000fffff : nvme
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-                    3fe800100000-3fe80017ffff : 0020:18:00.0
-  ...
 
-Then another NVME drive was hot-added, so BARs of the 0020:18:00.0 are
-moved:
+Chaitanya Kulkarni (5):
+  nvme: allow target subsys set cntlid min/max
+  nvme: test target cntlid min cntlid max
+  nvme: allow target subsys set model
+  nvme: test target model attribute
+  nvme: make new testcases backward compatible
 
-  % sudo cat /proc/iomem
-    ...
-                3fe800000000-3fe800ffffff : PCI Bus 0020:0b
-                  3fe800000000-3fe8007fffff : PCI Bus 0020:10
-                    3fe800000000-3fe800003fff : 0020:10:00.0
-                      3fe800000000-3fe800003fff : nvme
-                    3fe800010000-3fe80001ffff : 0020:10:00.0
-                  3fe800800000-3fe800ffffff : PCI Bus 0020:18
-                    3fe800800000-3fe8008fffff : 0020:18:00.0
-                      3fe800800000-3fe8008fffff : nvme
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-                    3fe800900000-3fe80097ffff : 0020:18:00.0
-    ...
+ tests/nvme/033     | 61 ++++++++++++++++++++++++++++++++++++++++++++
+ tests/nvme/033.out |  4 +++
+ tests/nvme/034     | 63 ++++++++++++++++++++++++++++++++++++++++++++++
+ tests/nvme/034.out |  3 +++
+ tests/nvme/rc      | 24 ++++++++++++++++++
+ 5 files changed, 155 insertions(+)
+ create mode 100755 tests/nvme/033
+ create mode 100644 tests/nvme/033.out
+ create mode 100755 tests/nvme/034
+ create mode 100644 tests/nvme/034.out
 
-During the rescanning, both READ and WRITE speeds drop to zero for a while
-due to driver's pause, then restore.
+Test Log :-
 
-Cc: linux-nvme@lists.infradead.org
-Cc: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Sergei Miroshnichenko <s.miroshnichenko@yadro.com>
----
- drivers/nvme/host/pci.c | 21 ++++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
+Without cntlid_min/max and model patches :-
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 365a2ddbeaa7..42976c13d3f7 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1644,7 +1644,7 @@ static int nvme_remap_bar(struct nvme_dev *dev, unsigned long size)
- {
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 
--	if (size <= dev->bar_mapped_size)
-+	if (dev->bar && size <= dev->bar_mapped_size)
- 		return 0;
- 	if (size > pci_resource_len(pdev, 0))
- 		return -ENOMEM;
-@@ -3049,6 +3049,23 @@ static void nvme_error_resume(struct pci_dev *pdev)
- 	flush_work(&dev->ctrl.reset_work);
- }
- 
-+static void nvme_rescan_prepare(struct pci_dev *pdev)
-+{
-+	struct nvme_dev *dev = pci_get_drvdata(pdev);
-+
-+	nvme_dev_disable(dev, false);
-+	nvme_dev_unmap(dev);
-+	dev->bar = NULL;
-+}
-+
-+static void nvme_rescan_done(struct pci_dev *pdev)
-+{
-+	struct nvme_dev *dev = pci_get_drvdata(pdev);
-+
-+	nvme_dev_map(dev);
-+	nvme_reset_ctrl_sync(&dev->ctrl);
-+}
-+
- static const struct pci_error_handlers nvme_err_handler = {
- 	.error_detected	= nvme_error_detected,
- 	.slot_reset	= nvme_slot_reset,
-@@ -3126,6 +3143,8 @@ static struct pci_driver nvme_driver = {
- #endif
- 	.sriov_configure = pci_sriov_configure_simple,
- 	.err_handler	= &nvme_err_handler,
-+	.rescan_prepare	= nvme_rescan_prepare,
-+	.rescan_done	= nvme_rescan_done,
- };
- 
- static int __init nvme_init(void)
+nvme/002 (create many subsystems and test discovery)         [passed]
+    runtime  15.246s  ...  15.053s
+nvme/003 (test if we're sending keep-alives to a discovery controller) [passed]
+    runtime  10.057s  ...  10.063s
+./check: no group or test named nvme/0004
+nvme/005 (reset local loopback target)                       [not run]
+    nvme_core module does not have parameter multipath
+nvme/006 (create an NVMeOF target with a block device-backed ns) [passed]
+    runtime  0.057s  ...  0.065s
+nvme/007 (create an NVMeOF target with a file-backed ns)     [passed]
+    runtime  0.036s  ...  0.038s
+nvme/008 (create an NVMeOF host with a block device-backed ns) [passed]
+    runtime  1.233s  ...  1.240s
+nvme/009 (create an NVMeOF host with a file-backed ns)       [passed]
+    runtime  1.203s  ...  1.208s
+nvme/014 (flush a NVMeOF block device-backed ns)             [passed]
+    runtime  14.572s  ...  16.051s
+nvme/015 (unit test for NVMe flush for file backed ns)       [passed]
+    runtime  13.584s  ...  13.948s
+nvme/016 (create/delete many NVMeOF block device-backed ns and test discovery) [passed]
+    runtime  9.877s  ...  10.750s
+nvme/017 (create/delete many file-ns and test discovery)     [passed]
+    runtime  18.902s  ...  15.584s
+nvme/019 (test NVMe DSM Discard command on NVMeOF block-device ns) [passed]
+    runtime  1.217s  ...  1.237s
+nvme/020 (test NVMe DSM Discard command on NVMeOF file-backed ns) [passed]
+    runtime  1.204s  ...  1.193s
+nvme/021 (test NVMe list command on NVMeOF file-backed ns)   [passed]
+    runtime  1.204s  ...  1.195s
+nvme/022 (test NVMe reset command on NVMeOF file-backed ns)  [passed]
+    runtime    ...  1.334s
+nvme/023 (test NVMe smart-log command on NVMeOF block-device ns) [passed]
+    runtime  1.218s  ...  1.231s
+nvme/024 (test NVMe smart-log command on NVMeOF file-backed ns) [passed]
+    runtime  1.207s  ...  1.196s
+nvme/025 (test NVMe effects-log command on NVMeOF file-backed ns) [passed]
+    runtime  1.191s  ...  1.195s
+nvme/026 (test NVMe ns-descs command on NVMeOF file-backed ns) [passed]
+    runtime  1.192s  ...  1.196s
+nvme/027 (test NVMe ns-rescan command on NVMeOF file-backed ns) [passed]
+    runtime  1.211s  ...  1.191s
+nvme/028 (test NVMe list-subsys command on NVMeOF file-backed ns) [passed]
+    runtime  1.204s  ...  1.211s
+nvme/033 (Test NVMeOF target cntlid[min|max] attributes)     [not run]
+    attr_cntlid_[min|max] not found
+nvme/034 (Test NVMeOF target model attribute)                [not run]
+    attr_cntlid_model not found
+
+With cntlid_min/max and model patches :-
+
+nvme/002 (create many subsystems and test discovery)         [passed]
+    runtime  15.053s  ...  11.918s
+nvme/003 (test if we're sending keep-alives to a discovery controller) [passed]
+    runtime  10.063s  ...  10.058s
+./check: no group or test named nvme/0004
+nvme/005 (reset local loopback target)                       [not run]
+    nvme_core module does not have parameter multipath
+nvme/006 (create an NVMeOF target with a block device-backed ns) [passed]
+    runtime  0.065s  ...  0.065s
+nvme/007 (create an NVMeOF target with a file-backed ns)     [passed]
+    runtime  0.038s  ...  0.036s
+nvme/008 (create an NVMeOF host with a block device-backed ns) [passed]
+    runtime  1.240s  ...  1.239s
+nvme/009 (create an NVMeOF host with a file-backed ns)       [passed]
+    runtime  1.208s  ...  1.207s
+nvme/014 (flush a NVMeOF block device-backed ns)             [passed]
+    runtime  16.051s  ...  15.345s
+nvme/015 (unit test for NVMe flush for file backed ns)       [passed]
+    runtime  13.948s  ...  13.977s
+nvme/016 (create/delete many NVMeOF block device-backed ns and test discovery) [passed]
+    runtime  10.750s  ...  9.698s
+nvme/017 (create/delete many file-ns and test discovery)     [passed]
+    runtime  15.584s  ...  15.514s
+nvme/019 (test NVMe DSM Discard command on NVMeOF block-device ns) [passed]
+    runtime  1.237s  ...  1.232s
+nvme/020 (test NVMe DSM Discard command on NVMeOF file-backed ns) [passed]
+    runtime  1.193s  ...  1.192s
+nvme/021 (test NVMe list command on NVMeOF file-backed ns)   [passed]
+    runtime  1.195s  ...  1.195s
+nvme/022 (test NVMe reset command on NVMeOF file-backed ns)  [passed]
+    runtime  1.334s  ...  1.340s
+nvme/023 (test NVMe smart-log command on NVMeOF block-device ns) [passed]
+    runtime  1.231s  ...  1.218s
+nvme/024 (test NVMe smart-log command on NVMeOF file-backed ns) [passed]
+    runtime  1.196s  ...  1.205s
+nvme/025 (test NVMe effects-log command on NVMeOF file-backed ns) [passed]
+    runtime  1.195s  ...  1.191s
+nvme/026 (test NVMe ns-descs command on NVMeOF file-backed ns) [passed]
+    runtime  1.196s  ...  1.186s
+nvme/027 (test NVMe ns-rescan command on NVMeOF file-backed ns) [passed]
+    runtime  1.191s  ...  1.192s
+nvme/028 (test NVMe list-subsys command on NVMeOF file-backed ns) [passed]
+    runtime  1.211s  ...  1.187s
+nvme/033 (Test NVMeOF target cntlid[min|max] attributes)     [passed]
+    runtime  1.213s  ...  1.200s
+nvme/034 (Test NVMeOF target model attribute)                [passed]
+    runtime  1.223s  ...  1.204s
+
+
 -- 
-2.24.1
+2.22.1
 
 
 _______________________________________________
