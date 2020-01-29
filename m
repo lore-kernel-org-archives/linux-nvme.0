@@ -1,106 +1,84 @@
 Return-Path: <SRS0=KTZ6=3S=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-X-Spam-Level: *
-X-Spam-Status: No, score=1.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,URIBL_DBL_ABUSE_MALW autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Level: 
+X-Spam-Status: No, score=-7.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_DBL_ABUSE_MALW,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A1ADC33C9E
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jan 2020 02:34:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2474FC2D0DB
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jan 2020 15:30:26 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4AFEA207FF
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jan 2020 02:34:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E6306206F0
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jan 2020 15:30:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="EGBE7dcA";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="CRM0Iywu"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4AFEA207FF
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="JiMV4t4p";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=yadro.com header.i=@yadro.com header.b="ivOD8oT0"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E6306206F0
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=yadro.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:In-Reply-To:
-	Date:References:From:Subject:To:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-ID:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Gtzp8ABHYHK0n3XS9pMsjGB3HyxhWEol4hOIaBNqnwM=; b=EGBE7dcApon1jN
-	mdl7MYffLeIphqa3x63JdxEVXhCi02OvG2THVpe+g4JTY+NHG8B1o/Cvap2CUa2Ze3AWCShb+muLs
-	WDVIRgHOriTaO2+tPzg0surbGubJiIiwJNd7FdboFsKJJ2JMXtzh5DaROUk37sz6/1iP+PbMKbB1l
-	UHwqS6OzRCWjdAyP+IxzZQROuNYbPYEK64oAn5gpDy/2qdZByHH8KrH9pjESZHkNrIv/I9e0x+JNM
-	ybUJgoYpEiKNWVo7RW7j+MXazhymDXX6JnOmUL4153aJaf5smyGKQLHrcqrD6e5ZvWf47ingzAHT0
-	50rVAw7pK/xjfqcRWHaQ==;
+	List-Owner; bh=UsIfVOvRpfLX6FSQNCi3GMkhOpan08CnAZqGUf1iFgI=; b=JiMV4t4pebsWXZ
+	vQs57Kr3ImiANmsv3Dexv6q1h/WGagrOqzopXEmAATI+VkaPWkuSWlZoBD5Y3g2unTiq5B6YQl1Pw
+	mrQX4b0A+9//ytMVmmOxKFsIva6He/WTt8hmnm3QUQkHp4h5dnUGzIJI++UtRASxDOWLe38qf8jP0
+	lCOe114N5cUKF3IJO2kNcV69iF9f3S74Q1Fre4N3ej8XuXRIlK43xDkSCsfgitQ++yk9Cx22UnG27
+	VEA8bdbgxRvxD2U2LfqjNnndfCJgMI/aT72S4KKwTfmoZ1UqIG+VnEgBGz+GhegZzk8IY0zas5QIb
+	jCCV/59XZdOi89Uiry+A==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iwdBJ-0002CA-9h; Wed, 29 Jan 2020 02:34:17 +0000
-Received: from userp2120.oracle.com ([156.151.31.85])
+	id 1iwpIJ-0002wk-MV; Wed, 29 Jan 2020 15:30:19 +0000
+Received: from mta-02.yadro.com ([89.207.88.252] helo=mta-01.yadro.com)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iwdBG-0002Bd-1T
- for linux-nvme@lists.infradead.org; Wed, 29 Jan 2020 02:34:15 +0000
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00T2WxHO111356;
- Wed, 29 Jan 2020 02:33:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=to : cc : subject :
- from : references : date : in-reply-to : message-id : mime-version :
- content-type; s=corp-2019-08-05;
- bh=vRZ9IMeJi6N/rUoL25r46Tnp7wBRn1/l8H/25AfcG1w=;
- b=CRM0IywuPA0EFlagh3izHmTXD4+df6RPO2KPpPrZBqVqB9EJMsi6UPu7Jqg8e72novra
- nbrYzmLpGD32hgLSNTSFMND1pTjJn5Vo7L6WkPkBRdurDP+ii/atSvIhnwnA/Oe+7nqJ
- toNRVMgGlMMvC6TyFRlaz3666+T0moBiqLAIkdi9cG+TB5A6C6y2avz4wcMTl92jXNoY
- DBCYMwMA+JJSzR7HryIA3AC4w3zcQcUrrk12oN/Ha0aInhog9+pUoI/6ZqRmxAzM53is
- JpXmwrCR/a2ifzWn6PhZpYAb21YnEbr61/5dHzCFh0PhwIjbp+5e+MvQjcfQqjSuID4S 2Q== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2120.oracle.com with ESMTP id 2xreara2jq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 29 Jan 2020 02:33:49 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00T2XeRE008751;
- Wed, 29 Jan 2020 02:33:48 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3020.oracle.com with ESMTP id 2xtmr5x7u0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 29 Jan 2020 02:33:48 +0000
-Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 00T2WsRF022713;
- Wed, 29 Jan 2020 02:32:55 GMT
-Received: from ca-mkp.ca.oracle.com (/10.159.214.123)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 28 Jan 2020 18:32:54 -0800
-To: Max Gurtovoy <maxg@mellanox.com>
-Subject: Re: [PATCH 13/15] nvmet: Add metadata/T10-PI support
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-Organization: Oracle Corporation
-References: <20200106133736.123038-1-maxg@mellanox.com>
- <20200106133736.123038-15-maxg@mellanox.com>
- <yq1sgkpxqf5.fsf@oracle.com>
- <99c92a01-be7b-fd47-3d28-b75e5372c3a6@mellanox.com>
-Date: Tue, 28 Jan 2020 21:32:51 -0500
-In-Reply-To: <99c92a01-be7b-fd47-3d28-b75e5372c3a6@mellanox.com> (Max
- Gurtovoy's message of "Mon, 27 Jan 2020 19:17:30 +0200")
-Message-ID: <yq14kwf8018.fsf@oracle.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1.92 (gnu/linux)
+ id 1iwpIF-0002l2-1E
+ for linux-nvme@lists.infradead.org; Wed, 29 Jan 2020 15:30:17 +0000
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id EF00547645;
+ Wed, 29 Jan 2020 15:30:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ content-type:content-type:content-transfer-encoding:mime-version
+ :references:in-reply-to:x-mailer:message-id:date:date:subject
+ :subject:from:from:received:received:received; s=mta-01; t=
+ 1580311806; x=1582126207; bh=xeKBFhwWSTTwej2sxwygwuCy4WQRim+mRqk
+ 7q7AVbHg=; b=ivOD8oT0wqkQfyf7JCqW7gE7dYEncKIpuN+hu/DT/2lENcSfQYc
+ hGZVLStWZWiw2pKagoh1VdLmC9/KeVa4dk+f3/X7jsLpxHua3bGcng920eJG9bZH
+ JyM3pDXD3WT4el8xczW7NcSy2DSTJOmtpQEP0u5bz9Ewy83p/SJt+GVo=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id UfTyEeKG9cAF; Wed, 29 Jan 2020 18:30:06 +0300 (MSK)
+Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
+ [172.17.10.102])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id A730F47621;
+ Wed, 29 Jan 2020 18:29:55 +0300 (MSK)
+Received: from NB-148.yadro.com (172.17.15.136) by T-EXCH-02.corp.yadro.com
+ (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Wed, 29
+ Jan 2020 18:29:55 +0300
+From: Sergei Miroshnichenko <s.miroshnichenko@yadro.com>
+To: <linux-pci@vger.kernel.org>
+Subject: [PATCH v7 25/26] nvme-pci: Handle movable BARs
+Date: Wed, 29 Jan 2020 18:29:36 +0300
+Message-ID: <20200129152937.311162-26-s.miroshnichenko@yadro.com>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200129152937.311162-1-s.miroshnichenko@yadro.com>
+References: <20200129152937.311162-1-s.miroshnichenko@yadro.com>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9514
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1911140001 definitions=main-2001290020
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9514
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
- definitions=main-2001290020
+X-Originating-IP: [172.17.15.136]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-02.corp.yadro.com (172.17.10.102)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200128_183414_169064_F7D94C43 
-X-CRM114-Status: GOOD (  19.04  )
+X-CRM114-CacheID: sfid-20200129_073015_441174_0C136FEA 
+X-CRM114-Status: GOOD (  13.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,51 +90,108 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: axboe@kernel.dk, sagi@grimberg.me,
- "Martin K. Petersen" <martin.petersen@oracle.com>, shlomin@mellanox.com,
- israelr@mellanox.com, vladimirk@mellanox.com, linux-nvme@lists.infradead.org,
- idanb@mellanox.com, oren@mellanox.com, kbusch@kernel.org, hch@lst.de
+Cc: Sergei Miroshnichenko <s.miroshnichenko@yadro.com>,
+ linux-nvme@lists.infradead.org, linux@yadro.com,
+ Bjorn Helgaas <helgaas@kernel.org>, Stefan Roese <sr@denx.de>,
+ Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hotplugged devices can affect the existing ones by moving their BARs. The
+PCI subsystem will inform the NVME driver about this by invoking the
+.rescan_prepare() and .rescan_done() hooks, so the BARs can by re-mapped.
 
-Max,
+Tested under the "randrw" mode of the fio tool, and when using an NVME
+drive as a root filesystem storage. Before the hotplugging:
 
-> 2. There is some unclear (to me) behavior in the block layer regarding
-> splitting integrity bios. We get guard error over the fabric
-> transaction in case we need to split a bio (the error is at the target
-> side).
->
-> maybe you have an idea how to overcome this ?
+  % sudo cat /proc/iomem
+  ...
+                3fe800000000-3fe8007fffff : PCI Bus 0020:0b
+                  3fe800000000-3fe8007fffff : PCI Bus 0020:18
+                    3fe800000000-3fe8000fffff : 0020:18:00.0
+                      3fe800000000-3fe8000fffff : nvme
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+                    3fe800100000-3fe80017ffff : 0020:18:00.0
+  ...
 
-I'm working on bringing our data integrity qualification tooling up on
-an upstream kernel. The tooling has been stuck in the past for a while
-and consequently I haven't tripped over this yet. Will get there soon.
+Then another NVME drive was hot-added, so BARs of the 0020:18:00.0 are
+moved:
 
-> 3. The maximum_integrity_segments = 1 for NVMe devices, so we can use
-> 4096/8=512 integrity sectors before reaching the limit of
-> max_integrity_segments. This leads to mdts=6 (256KB) if the bs=512
-> . I'm afraid that we might have issues with the fact that the target
-> prot_sgl 1 and the NVMe driver set maximum_integrity_segments = 1.
+  % sudo cat /proc/iomem
+    ...
+                3fe800000000-3fe800ffffff : PCI Bus 0020:0b
+                  3fe800000000-3fe8007fffff : PCI Bus 0020:10
+                    3fe800000000-3fe800003fff : 0020:10:00.0
+                      3fe800000000-3fe800003fff : nvme
+                    3fe800010000-3fe80001ffff : 0020:10:00.0
+                  3fe800800000-3fe800ffffff : PCI Bus 0020:18
+                    3fe800800000-3fe8008fffff : 0020:18:00.0
+                      3fe800800000-3fe8008fffff : nvme
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+                    3fe800900000-3fe80097ffff : 0020:18:00.0
+    ...
 
-> Therefore, I suggest to limit the mdts per transport (and internally
-> check if this ctrl is pi_enabled).
+During the rescanning, both READ and WRITE speeds drop to zero for a while
+due to driver's pause, then restore.
 
-Makes sense. That's kind of what I was fishing for when I asked where
-this came from.
+Cc: linux-nvme@lists.infradead.org
+Cc: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Sergei Miroshnichenko <s.miroshnichenko@yadro.com>
+---
+ drivers/nvme/host/pci.c | 21 ++++++++++++++++++++-
+ 1 file changed, 20 insertions(+), 1 deletion(-)
 
-> All the above is happening when using submit_bio --> ... --> bio_split
-> function that call bio_advance as well (that is called from completion
-> context as well). This path is not used in local NVMe IO.
-
-The splitting approach has changed since we cut our last production
-kernel. Can't rule out regressions in this area, although I would have
-hoped that blktests had caught them.
-
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 365a2ddbeaa7..42976c13d3f7 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1644,7 +1644,7 @@ static int nvme_remap_bar(struct nvme_dev *dev, unsigned long size)
+ {
+ 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+ 
+-	if (size <= dev->bar_mapped_size)
++	if (dev->bar && size <= dev->bar_mapped_size)
+ 		return 0;
+ 	if (size > pci_resource_len(pdev, 0))
+ 		return -ENOMEM;
+@@ -3049,6 +3049,23 @@ static void nvme_error_resume(struct pci_dev *pdev)
+ 	flush_work(&dev->ctrl.reset_work);
+ }
+ 
++static void nvme_rescan_prepare(struct pci_dev *pdev)
++{
++	struct nvme_dev *dev = pci_get_drvdata(pdev);
++
++	nvme_dev_disable(dev, false);
++	nvme_dev_unmap(dev);
++	dev->bar = NULL;
++}
++
++static void nvme_rescan_done(struct pci_dev *pdev)
++{
++	struct nvme_dev *dev = pci_get_drvdata(pdev);
++
++	nvme_dev_map(dev);
++	nvme_reset_ctrl_sync(&dev->ctrl);
++}
++
+ static const struct pci_error_handlers nvme_err_handler = {
+ 	.error_detected	= nvme_error_detected,
+ 	.slot_reset	= nvme_slot_reset,
+@@ -3126,6 +3143,8 @@ static struct pci_driver nvme_driver = {
+ #endif
+ 	.sriov_configure = pci_sriov_configure_simple,
+ 	.err_handler	= &nvme_err_handler,
++	.rescan_prepare	= nvme_rescan_prepare,
++	.rescan_done	= nvme_rescan_done,
+ };
+ 
+ static int __init nvme_init(void)
 -- 
-Martin K. Petersen	Oracle Linux Engineering
+2.24.1
+
 
 _______________________________________________
 linux-nvme mailing list
