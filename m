@@ -1,91 +1,106 @@
-Return-Path: <SRS0=IFMZ=3R=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=KTZ6=3S=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_DBL_ABUSE_MALW,URIBL_SBL,URIBL_SBL_A,USER_AGENT_SANE_1 autolearn=ham
+X-Spam-Level: *
+X-Spam-Status: No, score=1.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,URIBL_DBL_ABUSE_MALW autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6918C33C9E
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jan 2020 11:54:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A1ADC33C9E
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jan 2020 02:34:22 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9112D21739
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Jan 2020 11:54:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4AFEA207FF
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Jan 2020 02:34:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="m6mRh2QM"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9112D21739
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=didiglobal.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="EGBE7dcA";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="CRM0Iywu"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4AFEA207FF
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:In-Reply-To:
+	Date:References:From:Subject:To:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=U2LQd/g8cK09uz9PCJkALmCP6YHAR6/ZoAcpSQ52Dwg=; b=m6mRh2QMO/uQL3
-	5Ut3YmzNfgefkSCsMpQZ15Ny3z/rbH/cJnVTS3iH6FPmce+b7IdxpuwtXtvEz+IPmoqkPKZEtgW1Z
-	/zF2Im/up2tXktMKnT1r18di0hVBvMVCVi1Ur8znxZLnQ+/Y4KJ9LPwpuJUY/Y2/m9c231gflmTrp
-	RA01w4aOphcSwusObPIcVZbcnzedstu8TxTqJgsg1C0EhKhmnIlSmCJJMh7UfZ1TJSzxyVL7RRQUA
-	hM5WwTViaOA2S24WMYQgaVkp+ga6Rl8AlZJkAq1BkmQTc6BsbN0p+AnVC1Terwc4NrO49tDsktUXz
-	3cARQSjWflEWKetC7R8g==;
+	List-Owner; bh=Gtzp8ABHYHK0n3XS9pMsjGB3HyxhWEol4hOIaBNqnwM=; b=EGBE7dcApon1jN
+	mdl7MYffLeIphqa3x63JdxEVXhCi02OvG2THVpe+g4JTY+NHG8B1o/Cvap2CUa2Ze3AWCShb+muLs
+	WDVIRgHOriTaO2+tPzg0surbGubJiIiwJNd7FdboFsKJJ2JMXtzh5DaROUk37sz6/1iP+PbMKbB1l
+	UHwqS6OzRCWjdAyP+IxzZQROuNYbPYEK64oAn5gpDy/2qdZByHH8KrH9pjESZHkNrIv/I9e0x+JNM
+	ybUJgoYpEiKNWVo7RW7j+MXazhymDXX6JnOmUL4153aJaf5smyGKQLHrcqrD6e5ZvWf47ingzAHT0
+	50rVAw7pK/xjfqcRWHaQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1iwPRS-0002f5-9I; Tue, 28 Jan 2020 11:54:02 +0000
-Received: from mx2.didichuxing.com ([36.110.17.22] helo=bsf02.didichuxing.com)
- by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat
- Linux)) id 1iwPRK-0002VY-VL
- for linux-nvme@lists.infradead.org; Tue, 28 Jan 2020 11:53:58 +0000
-X-ASG-Debug-ID: 1580212431-0e410828158777d0001-VMfPqL
-Received: from mail.didiglobal.com (localhost [172.20.36.204]) by
- bsf02.didichuxing.com with ESMTP id LgdgU1CFZIDZquNQ;
- Tue, 28 Jan 2020 19:53:51 +0800 (CST)
-X-Barracuda-Envelope-From: zhangweiping@didiglobal.com
-Received: from 192.168.3.9 (172.22.50.20) by BJSGEXMBX03.didichuxing.com
- (172.20.15.133) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 28 Jan
- 2020 19:53:51 +0800
-Date: Tue, 28 Jan 2020 19:53:50 +0800
-From: Weiping Zhang <zhangweiping@didiglobal.com>
-To: <axboe@kernel.dk>, <tj@kernel.org>, <hch@lst.de>, <bvanassche@acm.org>,
- <keith.busch@intel.com>, <minwoo.im.dev@gmail.com>, <tglx@linutronix.de>,
- <edmund.nadolski@intel.com>
-Subject: [PATCH v4 5/5] nvme: add support weighted round robin queue
-Message-ID: <07208789e2010bbf9a509df96a4523e03a498d87.1580211965.git.zhangweiping@didiglobal.com>
-X-ASG-Orig-Subj: [PATCH v4 5/5] nvme: add support weighted round robin queue
-Mail-Followup-To: axboe@kernel.dk, tj@kernel.org, hch@lst.de,
- bvanassche@acm.org, keith.busch@intel.com, minwoo.im.dev@gmail.com,
- tglx@linutronix.de, edmund.nadolski@intel.com,
- linux-block@vger.kernel.org, cgroups@vger.kernel.org,
- linux-nvme@lists.infradead.org
-References: <cover.1580211965.git.zhangweiping@didiglobal.com>
+	id 1iwdBJ-0002CA-9h; Wed, 29 Jan 2020 02:34:17 +0000
+Received: from userp2120.oracle.com ([156.151.31.85])
+ by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1iwdBG-0002Bd-1T
+ for linux-nvme@lists.infradead.org; Wed, 29 Jan 2020 02:34:15 +0000
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00T2WxHO111356;
+ Wed, 29 Jan 2020 02:33:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=to : cc : subject :
+ from : references : date : in-reply-to : message-id : mime-version :
+ content-type; s=corp-2019-08-05;
+ bh=vRZ9IMeJi6N/rUoL25r46Tnp7wBRn1/l8H/25AfcG1w=;
+ b=CRM0IywuPA0EFlagh3izHmTXD4+df6RPO2KPpPrZBqVqB9EJMsi6UPu7Jqg8e72novra
+ nbrYzmLpGD32hgLSNTSFMND1pTjJn5Vo7L6WkPkBRdurDP+ii/atSvIhnwnA/Oe+7nqJ
+ toNRVMgGlMMvC6TyFRlaz3666+T0moBiqLAIkdi9cG+TB5A6C6y2avz4wcMTl92jXNoY
+ DBCYMwMA+JJSzR7HryIA3AC4w3zcQcUrrk12oN/Ha0aInhog9+pUoI/6ZqRmxAzM53is
+ JpXmwrCR/a2ifzWn6PhZpYAb21YnEbr61/5dHzCFh0PhwIjbp+5e+MvQjcfQqjSuID4S 2Q== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2120.oracle.com with ESMTP id 2xreara2jq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 29 Jan 2020 02:33:49 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00T2XeRE008751;
+ Wed, 29 Jan 2020 02:33:48 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by aserp3020.oracle.com with ESMTP id 2xtmr5x7u0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 29 Jan 2020 02:33:48 +0000
+Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 00T2WsRF022713;
+ Wed, 29 Jan 2020 02:32:55 GMT
+Received: from ca-mkp.ca.oracle.com (/10.159.214.123)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 28 Jan 2020 18:32:54 -0800
+To: Max Gurtovoy <maxg@mellanox.com>
+Subject: Re: [PATCH 13/15] nvmet: Add metadata/T10-PI support
+From: "Martin K. Petersen" <martin.petersen@oracle.com>
+Organization: Oracle Corporation
+References: <20200106133736.123038-1-maxg@mellanox.com>
+ <20200106133736.123038-15-maxg@mellanox.com>
+ <yq1sgkpxqf5.fsf@oracle.com>
+ <99c92a01-be7b-fd47-3d28-b75e5372c3a6@mellanox.com>
+Date: Tue, 28 Jan 2020 21:32:51 -0500
+In-Reply-To: <99c92a01-be7b-fd47-3d28-b75e5372c3a6@mellanox.com> (Max
+ Gurtovoy's message of "Mon, 27 Jan 2020 19:17:30 +0200")
+Message-ID: <yq14kwf8018.fsf@oracle.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1.92 (gnu/linux)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <cover.1580211965.git.zhangweiping@didiglobal.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Originating-IP: [172.22.50.20]
-X-ClientProxiedBy: BJEXCAS01.didichuxing.com (172.20.36.235) To
- BJSGEXMBX03.didichuxing.com (172.20.15.133)
-X-Barracuda-Connect: localhost[172.20.36.204]
-X-Barracuda-Start-Time: 1580212431
-X-Barracuda-URL: https://bsf02.didichuxing.com:443/cgi-mod/mark.cgi
-X-Virus-Scanned: by bsmtpd at didichuxing.com
-X-Barracuda-Scan-Msg-Size: 16129
-X-Barracuda-BRTS-Status: 1
-X-Barracuda-Bayes: INNOCENT GLOBAL 0.0000 1.0000 -2.0210
-X-Barracuda-Spam-Score: -2.02
-X-Barracuda-Spam-Status: No,
- SCORE=-2.02 using global scores of TAG_LEVEL=1000.0
- QUARANTINE_LEVEL=1000.0 KILL_LEVEL=1000.0 tests=
-X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.79617
- Rule breakdown below
- pts rule name              description
- ---- ---------------------- --------------------------------------------------
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9514
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1911140001 definitions=main-2001290020
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9514
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
+ definitions=main-2001290020
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200128_035355_905173_B9098F08 
-X-CRM114-Status: GOOD (  19.79  )
+X-CRM114-CacheID: sfid-20200128_183414_169064_F7D94C43 
+X-CRM114-Status: GOOD (  19.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,490 +112,51 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-block@vger.kernel.org, cgroups@vger.kernel.org,
- linux-nvme@lists.infradead.org
+Cc: axboe@kernel.dk, sagi@grimberg.me,
+ "Martin K. Petersen" <martin.petersen@oracle.com>, shlomin@mellanox.com,
+ israelr@mellanox.com, vladimirk@mellanox.com, linux-nvme@lists.infradead.org,
+ idanb@mellanox.com, oren@mellanox.com, kbusch@kernel.org, hch@lst.de
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This patch enalbe Weithed Round Robin if nvme device support it.
-We add four module parameters wrr_urgent_queues, wrr_high_queeus,
-wrr_medium_queues, wrr_low_queues to control the number of queues for
-specified priority. If device doesn't support WRR, all these four
-parameters will be forced reset to 0. If device support WRR, but
-all of these four parameters are 0, nvme dirver will not enable WRR
-when set CC.EN to 1.
 
-Now nvme support five types hardware queue:
-poll:		if io was marked for poll
-wrr_low:	weighted round robin low
-wrr_medium:	weighted round robin medium
-wrr_high:	weighted round robin high
-wrr_urgent:	weighted round robin urgent
-read:		io read, if blkcg's wrr is none and the io is not poll
-defaut:		for write/flush, if blkcg's wrr is none and is not poll
+Max,
 
-The read, default and poll submission queue's priority is medium, when
-nvme's wrr was enabled.
+> 2. There is some unclear (to me) behavior in the block layer regarding
+> splitting integrity bios. We get guard error over the fabric
+> transaction in case we need to split a bio (the error is at the target
+> side).
+>
+> maybe you have an idea how to overcome this ?
 
-Test result:
+I'm working on bringing our data integrity qualification tooling up on
+an upstream kernel. The tooling has been stuck in the past for a while
+and consequently I haven't tripped over this yet. Will get there soon.
 
-CPU:    Intel(R) Xeon(R) Platinum 8160 CPU @ 2.10GHz
-NVME:   Intel SSDPE2KX020T8 P4510 2TB
+> 3. The maximum_integrity_segments = 1 for NVMe devices, so we can use
+> 4096/8=512 integrity sectors before reaching the limit of
+> max_integrity_segments. This leads to mdts=6 (256KB) if the bs=512
+> . I'm afraid that we might have issues with the fact that the target
+> prot_sgl 1 and the NVMe driver set maximum_integrity_segments = 1.
 
-[root@tmp-201812-d1802-818396173 low]# nvme show-regs /dev/nvme0n1
-cap     : 2078030fff
-version : 10200
-intms   : 0
-intmc   : 0
-cc      : 460801
-csts    : 1
-nssr    : 0
-aqa     : 1f001f
-asq     : 5f7cc08000
-acq     : 5f5ac23000
-cmbloc  : 0
-cmbsz   : 0
+> Therefore, I suggest to limit the mdts per transport (and internally
+> check if this ctrl is pi_enabled).
 
-Run fio-1, fio-2, fio-3 in parallel,
+Makes sense. That's kind of what I was fishing for when I asked where
+this came from.
 
-For RR(round robin) these three fio nearly get same iops or bps,
-if we set blkio.wrr for different priority, the WRR "high" will
-get more iops/bps than "medium" and "low".
+> All the above is happening when using submit_bio --> ... --> bio_split
+> function that call bio_advance as well (that is called from completion
+> context as well). This path is not used in local NVMe IO.
 
-RR:
-fio-1: echo "259:0 none" > /sys/fs/cgroup/blkio/high/blkio.wrr
-fio-2: echo "259:0 none" > /sys/fs/cgroup/blkio/medium/blkio.wrr
-fio-3: echo "259:0 none" > /sys/fs/cgroup/blkio/low/blkio.wrr
+The splitting approach has changed since we cut our last production
+kernel. Can't rule out regressions in this area, although I would have
+hoped that blktests had caught them.
 
-WRR:
-fio-1: echo "259:0 high" > /sys/fs/cgroup/blkio/high/blkio.wrr
-fio-2: echo "259:0 medium" > /sys/fs/cgroup/blkio/medium/blkio.wrr
-fio-3: echo "259:0 low" > /sys/fs/cgroup/blkio/low/blkio.wrr
-
-Test script:
-https://github.com/dublio/nvme-wrr/blob/master/test_wrr.sh
-
-Test result:
-randread             (RR)IOPS        (RR)latency     (WRR)IOPS       (WRR)latency
---------------------------------------------------------------------------------
-randread_high        217474          3528.49         404451          1897.17
-randread_medium      217473          3528.56         202349          3793.54
-randread_low         217978          3520.98         67419           11386.43
-
-randwrite            (RR)IOPS        (RR)latency     (WRR)IOPS       (WRR)latency
---------------------------------------------------------------------------------
-randwrite_high       144946          5295.34         277401          2766.66
-randwrite_medium     144861          5296.85         138710          5532.28
-randwrite_low        145105          5289.36         46316           16569.54
-
-read                 (RR)BW          (RR)latency     (WRR)BW         (WRR)latency
---------------------------------------------------------------------------------
-read_high            956191          410823.48       1790273         219427.11
-read_medium          920096          426887.25       897644          437760.17
-read_low             928076          423248.05       302899          1297195.34
-
-write                (RR)BW          (RR)latency     (WRR)BW         (WRR)latency
---------------------------------------------------------------------------------
-write_high           737211          532359.31       1194013         328970.70
-write_medium         759052          516902.66       600626          653876.69
-write_low            782348          501309.47       203754          1928779.39
-
-Signed-off-by: Weiping Zhang <zhangweiping@didiglobal.com>
----
- drivers/nvme/host/nvme.h  |   1 +
- drivers/nvme/host/pci.c   | 230 +++++++++++++++++++++++++++++++++++++---------
- include/linux/interrupt.h |   2 +-
- include/linux/nvme.h      |   2 +
- 4 files changed, 193 insertions(+), 42 deletions(-)
-
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index a1df74f2eed3..4ebbefe4281d 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -250,6 +250,7 @@ struct nvme_ctrl {
- 	unsigned int shutdown_timeout;
- 	unsigned int kato;
- 	bool subsystem;
-+	bool wrr_enabled;
- 	unsigned long quirks;
- 	struct nvme_id_power_state psd[32];
- 	struct nvme_effects_log *effects;
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 1002f3f0349c..0c3bea9e7d83 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -78,6 +78,22 @@ static unsigned int poll_queues;
- module_param(poll_queues, uint, 0644);
- MODULE_PARM_DESC(poll_queues, "Number of queues to use for polled IO.");
- 
-+static int wrr_low_queues;
-+module_param(wrr_low_queues, int, 0644);
-+MODULE_PARM_DESC(wrr_low_queues, "Number of WRR low queues.");
-+
-+static int wrr_medium_queues;
-+module_param(wrr_medium_queues, int, 0644);
-+MODULE_PARM_DESC(wrr_medium_queues, "Number of WRR medium queues.");
-+
-+static int wrr_high_queues;
-+module_param(wrr_high_queues, int, 0644);
-+MODULE_PARM_DESC(wrr_high_queues, "Number of WRR high queues.");
-+
-+static int wrr_urgent_queues;
-+module_param(wrr_urgent_queues, int, 0644);
-+MODULE_PARM_DESC(wrr_urgent_queues, "Number of WRR urgent queues.");
-+
- struct nvme_dev;
- struct nvme_queue;
- 
-@@ -209,6 +225,14 @@ struct nvme_iod {
- 	struct scatterlist *sg;
- };
- 
-+static inline bool nvme_is_wrr_allocated(struct nvme_dev *dev)
-+{
-+	return dev->io_queues[HCTX_TYPE_WRR_LOW] +
-+		dev->io_queues[HCTX_TYPE_WRR_MEDIUM] +
-+		dev->io_queues[HCTX_TYPE_WRR_HIGH] +
-+		dev->io_queues[HCTX_TYPE_WRR_URGENT] > 0;
-+}
-+
- static unsigned int max_io_queues(void)
- {
- 	return num_possible_cpus() + read_queues + poll_queues;
-@@ -1131,19 +1155,24 @@ static int adapter_alloc_cq(struct nvme_dev *dev, u16 qid,
- }
- 
- static int adapter_alloc_sq(struct nvme_dev *dev, u16 qid,
--						struct nvme_queue *nvmeq)
-+				struct nvme_queue *nvmeq, int wrr_flag)
- {
- 	struct nvme_ctrl *ctrl = &dev->ctrl;
- 	struct nvme_command c;
- 	int flags = NVME_QUEUE_PHYS_CONTIG;
- 
--	/*
--	 * Some drives have a bug that auto-enables WRRU if MEDIUM isn't
--	 * set. Since URGENT priority is zeroes, it makes all queues
--	 * URGENT.
--	 */
--	if (ctrl->quirks & NVME_QUIRK_MEDIUM_PRIO_SQ)
--		flags |= NVME_SQ_PRIO_MEDIUM;
-+
-+	if (!dev->ctrl.wrr_enabled && !nvme_is_wrr_allocated(dev)) {
-+		/*
-+		 * Some drives have a bug that auto-enables WRRU if MEDIUM isn't
-+		 * set. Since URGENT priority is zeroes, it makes all queues
-+		 * URGENT.
-+		 */
-+		if (ctrl->quirks & NVME_QUIRK_MEDIUM_PRIO_SQ)
-+			flags |= NVME_SQ_PRIO_MEDIUM;
-+	} else {
-+		flags |= wrr_flag;
-+	}
- 
- 	/*
- 	 * Note: we (ab)use the fact that the prp fields survive if no data
-@@ -1513,11 +1542,51 @@ static void nvme_init_queue(struct nvme_queue *nvmeq, u16 qid)
- 	wmb(); /* ensure the first interrupt sees the initialization */
- }
- 
--static int nvme_create_queue(struct nvme_queue *nvmeq, int qid, bool polled)
-+static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
- {
- 	struct nvme_dev *dev = nvmeq->dev;
--	int result;
- 	u16 vector = 0;
-+	int start, end, result, wrr_flag;
-+	bool polled = false;
-+	enum hctx_type type;
-+
-+	/* 0 for admain queue, io queue index >= 1 */
-+	start = 1;
-+	/* get hardware context type base on qid */
-+	for (type = HCTX_TYPE_DEFAULT; type < HCTX_MAX_TYPES; type++) {
-+		end = start + dev->io_queues[type] - 1;
-+		if (qid >= start && qid <= end)
-+			break;
-+		start = end + 1;
-+	}
-+
-+	if (type == HCTX_TYPE_POLL)
-+		polled = true;
-+
-+	if (dev->ctrl.wrr_enabled && nvme_is_wrr_allocated(dev)) {
-+		/* set read,poll,default to medium by default */
-+		switch (type) {
-+		case HCTX_TYPE_WRR_LOW:
-+			wrr_flag = NVME_SQ_PRIO_LOW;
-+			break;
-+		case HCTX_TYPE_WRR_MEDIUM:
-+		case HCTX_TYPE_POLL:
-+		case HCTX_TYPE_DEFAULT:
-+		case HCTX_TYPE_READ:
-+			wrr_flag = NVME_SQ_PRIO_MEDIUM;
-+			break;
-+		case HCTX_TYPE_WRR_HIGH:
-+			wrr_flag = NVME_SQ_PRIO_HIGH;
-+			break;
-+		case HCTX_TYPE_WRR_URGENT:
-+			wrr_flag = NVME_SQ_PRIO_URGENT;
-+			break;
-+		default:
-+			return -EINVAL;
-+		}
-+	} else {
-+		wrr_flag = NVME_SQ_PRIO_IGNORE;
-+	}
- 
- 	clear_bit(NVMEQ_DELETE_ERROR, &nvmeq->flags);
- 
-@@ -1534,7 +1603,7 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid, bool polled)
- 	if (result)
- 		return result;
- 
--	result = adapter_alloc_sq(dev, qid, nvmeq);
-+	result = adapter_alloc_sq(dev, qid, nvmeq, wrr_flag);
- 	if (result < 0)
- 		return result;
- 	if (result)
-@@ -1704,7 +1773,7 @@ static int nvme_pci_configure_admin_queue(struct nvme_dev *dev)
- 
- static int nvme_create_io_queues(struct nvme_dev *dev)
- {
--	unsigned i, max, rw_queues;
-+	unsigned i, max;
- 	int ret = 0;
- 
- 	for (i = dev->ctrl.queue_count; i <= dev->max_qid; i++) {
-@@ -1715,17 +1784,8 @@ static int nvme_create_io_queues(struct nvme_dev *dev)
- 	}
- 
- 	max = min(dev->max_qid, dev->ctrl.queue_count - 1);
--	if (max != 1 && dev->io_queues[HCTX_TYPE_POLL]) {
--		rw_queues = dev->io_queues[HCTX_TYPE_DEFAULT] +
--				dev->io_queues[HCTX_TYPE_READ];
--	} else {
--		rw_queues = max;
--	}
--
- 	for (i = dev->online_queues; i <= max; i++) {
--		bool polled = i > rw_queues;
--
--		ret = nvme_create_queue(&dev->queues[i], i, polled);
-+		ret = nvme_create_queue(&dev->queues[i], i);
- 		if (ret)
- 			break;
- 	}
-@@ -2006,7 +2066,9 @@ static int nvme_setup_host_mem(struct nvme_dev *dev)
- static void nvme_calc_irq_sets(struct irq_affinity *affd, unsigned int nrirqs)
- {
- 	struct nvme_dev *dev = affd->priv;
--	unsigned int nr_read_queues;
-+	unsigned int nr_total, nr, nr_read, nr_default;
-+	unsigned int nr_wrr_urgent, nr_wrr_high, nr_wrr_medium, nr_wrr_low;
-+	unsigned int nr_sets;
- 
- 	/*
- 	 * If there is no interupt available for queues, ensure that
-@@ -2019,20 +2081,75 @@ static void nvme_calc_irq_sets(struct irq_affinity *affd, unsigned int nrirqs)
- 	 * If 'read_queues' > 0, ensure it leaves room for at least one write
- 	 * queue.
- 	 */
--	if (!nrirqs || nrirqs == 1) {
-+	if (!nrirqs)
- 		nrirqs = 1;
--		nr_read_queues = 0;
--	} else if (read_queues >= nrirqs) {
--		nr_read_queues = nrirqs - 1;
--	} else {
--		nr_read_queues = read_queues;
--	}
- 
--	dev->io_queues[HCTX_TYPE_DEFAULT] = nrirqs - nr_read_queues;
--	affd->set_size[HCTX_TYPE_DEFAULT] = nrirqs - nr_read_queues;
--	dev->io_queues[HCTX_TYPE_READ] = nr_read_queues;
--	affd->set_size[HCTX_TYPE_READ] = nr_read_queues;
--	affd->nr_sets = nr_read_queues ? 2 : 1;
-+	nr_total = nrirqs;
-+
-+	nr_read = nr_wrr_urgent = nr_wrr_high = nr_wrr_medium = nr_wrr_low = 0;
-+
-+	/* set default to 1, add all the rest queue to default at last */
-+	nr = nr_default = 1;
-+	nr_sets = 1;
-+	nr_total -= nr;
-+	if (!nr_total)
-+		goto done;
-+
-+	/* read queues */
-+	nr_sets++;
-+	nr_read = nr = read_queues > nr_total ? nr_total : read_queues;
-+	nr_total -= nr;
-+	if (!nr_total)
-+		goto done;
-+
-+	/* wrr low queues */
-+	nr_sets++;
-+	nr_wrr_low = nr = wrr_low_queues > nr_total ? nr_total : wrr_low_queues;
-+	nr_total -= nr;
-+	if (!nr_total)
-+		goto done;
-+
-+	/* wrr medium queues */
-+	nr_sets++;
-+	nr_wrr_medium = nr =
-+		wrr_medium_queues > nr_total ? nr_total : wrr_medium_queues;
-+	nr_total -= nr;
-+	if (!nr_total)
-+		goto done;
-+
-+	/* wrr high queues */
-+	nr_sets++;
-+	nr_wrr_high = nr =
-+		wrr_high_queues > nr_total ? nr_total : wrr_high_queues;
-+	nr_total -= nr;
-+	if (!nr_total)
-+		goto done;
-+
-+	/* wrr urgent queues */
-+	nr_sets++;
-+	nr_wrr_urgent = nr =
-+		wrr_urgent_queues > nr_total ? nr_total : wrr_urgent_queues;
-+	nr_total -= nr;
-+	if (!nr_total)
-+		goto done;
-+
-+	/* add all the rest queue to default */
-+	nr_default += nr_total;
-+
-+done:
-+	dev->io_queues[HCTX_TYPE_DEFAULT] = nr_default;
-+	affd->set_size[HCTX_TYPE_DEFAULT] = nr_default;
-+	dev->io_queues[HCTX_TYPE_READ] = nr_read;
-+	affd->set_size[HCTX_TYPE_READ] = nr_read;
-+	dev->io_queues[HCTX_TYPE_WRR_LOW] = nr_wrr_low;
-+	affd->set_size[HCTX_TYPE_WRR_LOW] = nr_wrr_low;
-+	dev->io_queues[HCTX_TYPE_WRR_MEDIUM] = nr_wrr_medium;
-+	affd->set_size[HCTX_TYPE_WRR_MEDIUM] = nr_wrr_medium;
-+	dev->io_queues[HCTX_TYPE_WRR_HIGH] = nr_wrr_high;
-+	affd->set_size[HCTX_TYPE_WRR_HIGH] = nr_wrr_high;
-+	dev->io_queues[HCTX_TYPE_WRR_URGENT] = nr_wrr_urgent;
-+	affd->set_size[HCTX_TYPE_WRR_URGENT] = nr_wrr_urgent;
-+	affd->nr_sets = nr_sets;
- }
- 
- static int nvme_setup_irqs(struct nvme_dev *dev, unsigned int nr_io_queues)
-@@ -2061,6 +2178,10 @@ static int nvme_setup_irqs(struct nvme_dev *dev, unsigned int nr_io_queues)
- 	/* Initialize for the single interrupt case */
- 	dev->io_queues[HCTX_TYPE_DEFAULT] = 1;
- 	dev->io_queues[HCTX_TYPE_READ] = 0;
-+	dev->io_queues[HCTX_TYPE_WRR_LOW] = 0;
-+	dev->io_queues[HCTX_TYPE_WRR_MEDIUM] = 0;
-+	dev->io_queues[HCTX_TYPE_WRR_HIGH] = 0;
-+	dev->io_queues[HCTX_TYPE_WRR_URGENT] = 0;
- 
- 	/*
- 	 * Some Apple controllers require all queues to use the
-@@ -2162,10 +2283,16 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 		nvme_suspend_io_queues(dev);
- 		goto retry;
- 	}
--	dev_info(dev->ctrl.device, "%d/%d/%d default/read/poll queues\n",
-+
-+	dev_info(dev->ctrl.device, "%d/%d/%d/%d/%d/%d/%d "
-+			"default/read/poll/low/medium/high/urgent queues\n",
- 					dev->io_queues[HCTX_TYPE_DEFAULT],
- 					dev->io_queues[HCTX_TYPE_READ],
--					dev->io_queues[HCTX_TYPE_POLL]);
-+					dev->io_queues[HCTX_TYPE_POLL],
-+					dev->io_queues[HCTX_TYPE_WRR_LOW],
-+					dev->io_queues[HCTX_TYPE_WRR_MEDIUM],
-+					dev->io_queues[HCTX_TYPE_WRR_HIGH],
-+					dev->io_queues[HCTX_TYPE_WRR_URGENT]);
- 	return 0;
- }
- 
-@@ -2251,9 +2378,7 @@ static void nvme_dev_add(struct nvme_dev *dev)
- 	if (!dev->ctrl.tagset) {
- 		dev->tagset.ops = &nvme_mq_ops;
- 		dev->tagset.nr_hw_queues = dev->online_queues - 1;
--		dev->tagset.nr_maps = 2; /* default + read */
--		if (dev->io_queues[HCTX_TYPE_POLL])
--			dev->tagset.nr_maps++;
-+		dev->tagset.nr_maps = HCTX_MAX_TYPES;
- 		dev->tagset.timeout = NVME_IO_TIMEOUT;
- 		dev->tagset.numa_node = dev_to_node(dev->dev);
- 		dev->tagset.queue_depth =
-@@ -2688,7 +2813,30 @@ static int nvme_pci_get_address(struct nvme_ctrl *ctrl, char *buf, int size)
- 
- static void nvme_pci_get_ams(struct nvme_ctrl *ctrl, u32 *ams)
- {
--	*ams = NVME_CC_AMS_RR;
-+	/* if deivce doesn't support WRR, force reset wrr queues to 0 */
-+	if (!NVME_CAP_AMS_WRRU(ctrl->cap)) {
-+		wrr_low_queues = 0;
-+		wrr_medium_queues = 0;
-+		wrr_high_queues = 0;
-+		wrr_urgent_queues = 0;
-+
-+		*ams = NVME_CC_AMS_RR;
-+		ctrl->wrr_enabled = false;
-+		return;
-+	}
-+
-+	/*
-+	 * if device support WRR and all wrr queues are  0, don't enable
-+	 * device's WRR.
-+	 */
-+	if ((wrr_low_queues + wrr_medium_queues + wrr_high_queues +
-+				wrr_urgent_queues) > 0) {
-+		*ams = NVME_CC_AMS_WRRU;
-+		ctrl->wrr_enabled = true;
-+	} else {
-+		*ams = NVME_CC_AMS_RR;
-+		ctrl->wrr_enabled = false;
-+	}
- }
- 
- static const struct nvme_ctrl_ops nvme_pci_ctrl_ops = {
-diff --git a/include/linux/interrupt.h b/include/linux/interrupt.h
-index c5fe60ec6b84..eec8a5fc0922 100644
---- a/include/linux/interrupt.h
-+++ b/include/linux/interrupt.h
-@@ -273,7 +273,7 @@ struct irq_affinity_notify {
- 	void (*release)(struct kref *ref);
- };
- 
--#define	IRQ_AFFINITY_MAX_SETS  4
-+#define	IRQ_AFFINITY_MAX_SETS  7
- 
- /**
-  * struct irq_affinity - Description for automatic irq affinity assignements
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 6fe9121e4d27..695a7bb5b5d8 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -127,6 +127,7 @@ enum {
- };
- 
- #define NVME_CAP_MQES(cap)	((cap) & 0xffff)
-+#define NVME_CAP_AMS_WRRU(cap)	((cap) & (1 << 17))
- #define NVME_CAP_TIMEOUT(cap)	(((cap) >> 24) & 0xff)
- #define NVME_CAP_STRIDE(cap)	(((cap) >> 32) & 0xf)
- #define NVME_CAP_NSSRC(cap)	(((cap) >> 36) & 0x1)
-@@ -895,6 +896,7 @@ enum {
- 	NVME_SQ_PRIO_HIGH	= (1 << 1),
- 	NVME_SQ_PRIO_MEDIUM	= (2 << 1),
- 	NVME_SQ_PRIO_LOW	= (3 << 1),
-+	NVME_SQ_PRIO_IGNORE	= NVME_SQ_PRIO_URGENT,
- 	NVME_FEAT_ARBITRATION	= 0x01,
- 	NVME_FEAT_POWER_MGMT	= 0x02,
- 	NVME_FEAT_LBA_RANGE	= 0x03,
 -- 
-2.14.1
-
+Martin K. Petersen	Oracle Linux Engineering
 
 _______________________________________________
 linux-nvme mailing list
