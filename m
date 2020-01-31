@@ -1,81 +1,69 @@
-Return-Path: <SRS0=3CeD=3T=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=aqmC=3U=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-X-Spam-Level: *
-X-Spam-Status: No, score=1.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MISSING_HEADERS,
-	SPF_HELO_NONE,SPF_PASS,URIBL_DBL_ABUSE_MALW,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Level: 
+X-Spam-Status: No, score=0.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	URIBL_DBL_ABUSE_MALW,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3793FC35240
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Jan 2020 22:51:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8F85C2D0DB
+	for <linux-nvme@archiver.kernel.org>; Fri, 31 Jan 2020 00:47:44 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0BD8220708
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Jan 2020 22:51:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B252A2082E
+	for <linux-nvme@archiver.kernel.org>; Fri, 31 Jan 2020 00:47:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="SzH4yJBt"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0BD8220708
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="lNyecHTH";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="b3G+kS4e"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B252A2082E
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:References:
-	From:Subject:Reply-To:To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=JIXHxSlmpawkQcp7K3m2qpPrwmeeGUpokAkejCinBiU=; b=SzH4yJBtZtwBv4Tk2pRyFhZp2
-	aMq8HwgdJSUGLJhvCs8AHRerkYgAnv5ZBDiHjN/3GOajbh8tOe2lB26Iw0ZaOEtzScgoKy7bQmwjX
-	O8Wo/mg9tdFzyr4Hs0bCl35ifrjmRMJLzqesVhFPclqlQ9y2zpxsqMh4aesP1Ev2zKNFJjXRoTa4q
-	PQo8HdhxEumXpDIt589Ytfgr8GQNsCIQ8Q5PcgupfVcKNUapMztzBXmHTwzlPAM254BRSBtfL1w7Q
-	0L1WBovUTUyNKlgAXFSNIUwFj0EMxK4rULwFJLH8bqhKOo/DTvwC5S6TRmb0RcODITwRt0kfZfiPV
-	T8vPJHFyg==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=7xGee+SCMR97wAgGZVeodCxqo2pZ8PsCqAE/4BGSFKM=; b=lNyecHTHqO9PCR
+	fBH4p0rB8jRzJ4sIEC7v7fmIf8de/2vbETSlZK5hxmDtqpJmC1FIB95Drpdegbi0iaH9TLU7Ulbvl
+	Gu29iemXvL41ugiYI++dB9+hu10sRExD7ITpGHFBApUgd7tePC5kr0oDov3GyFVKGocTUgIAjXVvm
+	CwQ6Xy9JV4AUeZPezmnlUL8tkgT1Wo3Oq4UnIyg7xSdF417nYOShllV8gNhCGpsHpkzgXrweFqJAG
+	wJMTb1PNfBV1yvUPeauJ0N4D9vLO+YN8ldzG68r2YF6Wzh9Jyfq3TOtgbxT7ZO+eyaDZJLECBgroq
+	OGIg/GYNa8ROVavWMHQw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1ixIeh-0000Aj-IO; Thu, 30 Jan 2020 22:51:23 +0000
-Received: from mail-wr1-f65.google.com ([209.85.221.65])
+	id 1ixKTF-0006sS-I1; Fri, 31 Jan 2020 00:47:41 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ixIee-0000AI-4u
- for linux-nvme@lists.infradead.org; Thu, 30 Jan 2020 22:51:21 +0000
-Received: by mail-wr1-f65.google.com with SMTP id m16so6184136wrx.11
- for <linux-nvme@lists.infradead.org>; Thu, 30 Jan 2020 14:51:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:references:cc:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6Kw6Kifu2FwqPjEnk51SW0O79d7dN1mmNGOzNItUwQ8=;
- b=UgmOD6ww0+9DJcND05LgaA9gJEm/UNrU9sa/ppel/7ISBVLETr4PqcOxiV3F3oGKyO
- HBjZGxwIxWSZvj+tSC5ROqZ7QBI2I3W4eVogB0DpISOdEWKsgl6F8lQ5Yj3DLooeJKn+
- 9PCtIfDFILHCdXS6B6NRfR5gcFjoltkPx2jnvuxVif0ZbHoPNWlez+5aWZtamoQhN8qs
- 0YFMzhMG+1fBWS033jmlhhaqsTdB3P6AtulX/NzT4gtoaXunVp+UoG9nSX9eCCPNVLkR
- Y7xO7FliPjOglvaf+dRNuxnVx6YiKDcbpnnu7rrpwCzcNsIPB97eKN4yzjmG2iRDSc2K
- KaZQ==
-X-Gm-Message-State: APjAAAVuWblvGmB2A5drCN4hUE95A1/uquuGtJ75upZ5Kq/BKTDZ0uaq
- lVv2jSEwPwr99gpSiCkGB0s=
-X-Google-Smtp-Source: APXvYqwI1bTxu9HMbapD91tAUcIGrAD2t1c9BPm6m59Q28/p+WBapLuc2MJsD0CUTDsoqBxOJb5xRg==
-X-Received: by 2002:adf:ebc6:: with SMTP id v6mr7823640wrn.75.1580424676467;
- Thu, 30 Jan 2020 14:51:16 -0800 (PST)
-Received: from ?IPv6:2600:1700:65a0:78e0:514:7862:1503:8e4d?
- ([2600:1700:65a0:78e0:514:7862:1503:8e4d])
- by smtp.gmail.com with ESMTPSA id 21sm7994235wmo.8.2020.01.30.14.51.14
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 30 Jan 2020 14:51:15 -0800 (PST)
-Subject: Re: [PATCH 0/2] nvme-tcp: Set SO_PRIORITY for all sockets
-From: Sagi Grimberg <sagi@grimberg.me>
-References: <BYAPR11MB2712E7D933721CA54EB18365E5360@BYAPR11MB2712.namprd11.prod.outlook.com>
- <675e24bb-8a91-6612-887a-2a0a38a57cda@grimberg.me>
-Message-ID: <a82b08e9-75bd-e14b-7d30-7414df1c90c4@grimberg.me>
-Date: Thu, 30 Jan 2020 14:51:13 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ id 1ixKTC-0006sB-I8
+ for linux-nvme@lists.infradead.org; Fri, 31 Jan 2020 00:47:39 +0000
+Received: from redsun51.ssa.fujisawa.hgst.com (unknown [199.255.47.7])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 627B32082E;
+ Fri, 31 Jan 2020 00:47:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1580431657;
+ bh=s425SEisWVOstD1mKM0ETPlkMWCbmZeBo+APkXW+3FM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=b3G+kS4eSWLePfM76U6J1MF8MlV7MH3WNwQ1juSAK8hUTMWd1U6bTW3Nj6DJ5CuSo
+ 8Olc6jim2IbA4qkMjiA4fPAZonWy8RZ7LOGY7l75bXFMYPO9Rbq1wdCG2BUKXmAzIf
+ hE0FBto8ZkFViATUZJOjfyWgc9W0VzyAeXSsWWxg=
+Date: Fri, 31 Jan 2020 09:47:33 +0900
+From: Keith Busch <kbusch@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH] nvme-pci: remove nvmeq->tags
+Message-ID: <20200131004733.GA8673@redsun51.ssa.fujisawa.hgst.com>
+References: <20200130184024.338264-1-hch@lst.de>
 MIME-Version: 1.0
-In-Reply-To: <675e24bb-8a91-6612-887a-2a0a38a57cda@grimberg.me>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20200130184024.338264-1-hch@lst.de>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200130_145120_186569_803B316B 
-X-CRM114-Status: UNSURE (   8.94  )
+X-CRM114-CacheID: sfid-20200130_164738_620599_3BBB9350 
+X-CRM114-Status: UNSURE (   9.73  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -88,18 +76,21 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, "Wunderlich,
- Mark" <mark.wunderlich@intel.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Cc: Edmund Nadolski <edmund.nadolski@intel.com>, linux-nvme@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Keith,
+On Thu, Jan 30, 2020 at 07:40:24PM +0100, Christoph Hellwig wrote:
+> There is no real need to have a pointer to the tagset in
+> struct nvme_queue, as we only need it in a single place, and that place
+> can derive the used tagset from the device and qid trivially.  This
+> fixes a problem with stale pointer exposure when tagsets are reset,
+> and also shrinks the nvme_queue structure.  It also matches what most
+> other transports have done since day 1.
 
-Unless there is any other feedback, I suggest we queue it for
-5.6 perhaps?
+Thanks, applied for-5.6.
 
 _______________________________________________
 linux-nvme mailing list
