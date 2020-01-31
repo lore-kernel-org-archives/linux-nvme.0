@@ -7,17 +7,17 @@ X-Spam-Status: No, score=0.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	URIBL_DBL_ABUSE_MALW,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2B78C2D0DB
-	for <linux-nvme@archiver.kernel.org>; Fri, 31 Jan 2020 00:48:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7ADC8C2D0DB
+	for <linux-nvme@archiver.kernel.org>; Fri, 31 Jan 2020 00:48:29 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C4F8820CC7
-	for <linux-nvme@archiver.kernel.org>; Fri, 31 Jan 2020 00:48:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4C5822082E
+	for <linux-nvme@archiver.kernel.org>; Fri, 31 Jan 2020 00:48:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="l282ABGx";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="KFHhH0r2"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C4F8820CC7
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="syLyzEzi";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="l2RsxGpB"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4C5822082E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,44 +26,47 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=6QwygBX+lywBklDS+urKynC9mV4ENTc+nmFwWZIHlT8=; b=l282ABGx6CNl06
-	S+q6oy5sq9x0Lp0hXgZe+6sZSsffOaXewYLtV8LZlaKBmE4MrP8vs/8wLG6bVL1c4LFld5HYsRPNE
-	+TCkE6fsNDbR5zOfR5nNaM2Wtw7mfjKq0vGpDaharncVI12v54ZAtre7RqdbkOagw1jicUcFoOmsm
-	a7r2nLH0i66SzEBgNJxbMMnWuaGd/jhxABZOIDni0aaAZzS+CZCkQwFI3y7Ma/jIpyTiR7PzZcZ0q
-	FiXWL+eEFfOjzqz0miXPXo7s7GA7snkRgtyA8Hywy7r/tVenewXSJwliZiq3MImGyIy6Ok0HbZAcG
-	VjDoGW46LptVaVGn3LVw==;
+	List-Owner; bh=5q0hHCe1czBxhK06W5gFjBmaXM2NTnBKh0WQt1jEJF0=; b=syLyzEziUuDdhe
+	YveyGqTXTYuJqMzKu/ov72ZBGmKxTyf9t7ZYdrPMZWsHBqlZzepmK1V4LDfDciJyyO89ejhi987ks
+	1YM6xseCe5lIdcM5p2EdbFGzWul1wcYwVAO0Cy0tHC2yszdmPsE8aZlHftJUngJDGG72q5ihMf3Zt
+	VciBiduUxVsQ13j5A3QJ1IvrS1/tAcVLHKiUsFKhemvBhDWwsBUAkHjSRQ8Dto+nEIsP7Zw70HjHZ
+	LtrwBo1LuVdp/tAPd4tlViJ+Hn1PvJFUm0gS0283gJiS1SER95z9Mo1r+xRb3IGBzNE5FkUUCHL+d
+	VTmMqbIFMroCtTY1SLLw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1ixKTc-000737-Fs; Fri, 31 Jan 2020 00:48:04 +0000
+	id 1ixKTz-0007Eu-8J; Fri, 31 Jan 2020 00:48:27 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1ixKTZ-00072Z-Dk
- for linux-nvme@lists.infradead.org; Fri, 31 Jan 2020 00:48:02 +0000
+ id 1ixKTt-0007EE-GL
+ for linux-nvme@lists.infradead.org; Fri, 31 Jan 2020 00:48:25 +0000
 Received: from redsun51.ssa.fujisawa.hgst.com (unknown [199.255.47.7])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 6D3FE2082E;
- Fri, 31 Jan 2020 00:48:00 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 4F7922082E;
+ Fri, 31 Jan 2020 00:48:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1580431681;
- bh=jMDUj9pCId6R8yBXK+eT1TGw89WTlxMPppzAwwUFjUQ=;
+ s=default; t=1580431701;
+ bh=TQDrnxfydARlwryZCN8QfAITTjsDqH2ymdE8fF/67DQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KFHhH0r2R0Qh4SSpw0hz94n8RKtbGm5aoI/XyCETRKWjBKLggWNzqKr7l3yNfPEc5
- iXmtGkPD1V4D7Vz0RoNsuwtxYN1VusB94eLRm1IuSt7edPKyLcWJSTXAjkGXrI59N8
- EfmaAbEpqfJ3j0LiBltOvFYYk33dXe9YMtKbAWuI=
-Date: Fri, 31 Jan 2020 09:47:58 +0900
+ b=l2RsxGpBRDquBZ1DSSrCTtCgMGKyESb3nL2/LdFIUXrGM/WwvFUMjJWNZD9e3QAnK
+ GMzSS+zUiE1dos+bXOucJefpkbtlHht6p4/yc2RiAWZa7eEtRipGS15w3ETLexdmEY
+ Bl+/d99LA6j+bJ5GEddw2+tDNCiTz0Dj1a0OIJrM=
+Date: Fri, 31 Jan 2020 09:48:18 +0900
 From: Keith Busch <kbusch@kernel.org>
-To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Subject: Re: [PATCH 0/4] nvmet: misc model, ctrl-id and AEN fixes
-Message-ID: <20200131004758.GB8673@redsun51.ssa.fujisawa.hgst.com>
-References: <20200130182934.6109-1-chaitanya.kulkarni@wdc.com>
+To: Sagi Grimberg <sagi@grimberg.me>
+Subject: Re: [PATCH 0/2] nvme-tcp: Set SO_PRIORITY for all sockets
+Message-ID: <20200131004818.GC8673@redsun51.ssa.fujisawa.hgst.com>
+References: <BYAPR11MB2712E7D933721CA54EB18365E5360@BYAPR11MB2712.namprd11.prod.outlook.com>
+ <675e24bb-8a91-6612-887a-2a0a38a57cda@grimberg.me>
+ <a82b08e9-75bd-e14b-7d30-7414df1c90c4@grimberg.me>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200130182934.6109-1-chaitanya.kulkarni@wdc.com>
+In-Reply-To: <a82b08e9-75bd-e14b-7d30-7414df1c90c4@grimberg.me>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200130_164801_476023_90404B6C 
-X-CRM114-Status: GOOD (  10.38  )
+X-CRM114-CacheID: sfid-20200130_164821_577050_EC65BA56 
+X-CRM114-Status: UNSURE (   8.59  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,21 +78,20 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: hch@lst.de, linux-nvme@lists.infradead.org, sagi@grimberg.me
+Cc: "Wunderlich, Mark" <mark.wunderlich@intel.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jan 30, 2020 at 10:29:30AM -0800, Chaitanya Kulkarni wrote:
-> Hi,
+On Thu, Jan 30, 2020 at 02:51:13PM -0800, Sagi Grimberg wrote:
+> Keith,
 > 
-> This is a small patch series that allows users to configure the model
-> and controller ID. Also, patch #3 has a fix for missing sscanf check
-> in the nvmet_subsys_attr_serial_store() where patch #4 provides a fix
-> to clear out the async event for which AEN is not generated.
+> Unless there is any other feedback, I suggest we queue it for
+> 5.6 perhaps?
 
-Thanks, applied for-5.6
+Sounds good, queued up for-5.6.
 
 _______________________________________________
 linux-nvme mailing list
