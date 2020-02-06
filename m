@@ -8,17 +8,17 @@ X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F5B6C35247
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Feb 2020 19:14:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41EC6C35247
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Feb 2020 19:14:20 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 057B621741
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Feb 2020 19:14:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id F30B621741
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Feb 2020 19:14:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="A/M6lXEV";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gvi6JM0A"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 057B621741
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="mihHmq13";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FJDWu++4"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F30B621741
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -28,61 +28,61 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	In-Reply-To:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Owner;
-	bh=vQ2ZeSquH9ELwqk0c7uZJS47rkIOWDyl07CdXGvHFlU=; b=A/M6lXEVn7zChcz7LnHMSZUE8K
-	3odSCwVjNeWTqqXnb0d5LGoL84GQ8z6NbAzAP3fvjyyxmROeGOYY/pwoNfoXrR/bzM05NBB72yaVw
-	FMzHAzJjx2MKclYLgIMXDhnolGZiS5qiT9UmMHME0qjIzhPmHbpbvJnpUIieMc2+1w7ha3XhmZng0
-	OEduXuitO2yfnZvOtCPTAyqETZSVZ2YJZYVD05Ksv4th2MxGC6ABDjd/KzkHajDg+atHrI0qkTMBF
-	ArgufxxVZ79DLck5AFTpII7j/0H58g/gq/pms1btyq1oCut7Lie+gBN6b77lnnUFkACjP73MhNMMp
-	Vy5nTZhQ==;
+	bh=4Q5DNPSdaFzxZKjlqo+/hTOAWdeVevgu7sfuC4vTmrw=; b=mihHmq13KiyUhPw0ArAsQHVR2v
+	XWPS/6mqBOOepMLpcMQf0hZ3YTytJOeFxOC947H/je0vNoAg4QaZ3fXoIHbEumJFyo7qh472Bn4Z7
+	CLJEnt+9WsHxtjZjTG2odnFFVVfbxn2UZ3CWtP0hJ3bAKPrtzTQVGm3dQ3Tlp6wF0mPqOsyjV8fSy
+	X9DqkRveKTi1UZNrxEQI2aqEGLmNkQtIe2je9l+XklkbOQB5qoCv26xOqYQzaCzDq9lG8G8OMP/DC
+	gPUaSwp6lB5s2tLkhXs5WU7xMt7sitEaIcHiGMLwJYKFigAGOgY6n81Jcef0Fj3vcNFPKY+hWXzck
+	4AABI1Ow==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1izmbE-0005yd-L2; Thu, 06 Feb 2020 19:14:04 +0000
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542])
+	id 1izmbM-00065i-SX; Thu, 06 Feb 2020 19:14:12 +0000
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1izmb8-0005um-2l
+ id 1izmb8-0005uk-0i
  for linux-nvme@lists.infradead.org; Thu, 06 Feb 2020 19:13:59 +0000
-Received: by mail-pg1-x542.google.com with SMTP id z124so3200175pgb.13
- for <linux-nvme@lists.infradead.org>; Thu, 06 Feb 2020 11:13:52 -0800 (PST)
+Received: by mail-pf1-x441.google.com with SMTP id j9so3589787pfa.8
+ for <linux-nvme@lists.infradead.org>; Thu, 06 Feb 2020 11:13:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=N7AAMTSp/MWp4hgOr+tstKj35eRbZ/xZXTcKyTYB/70=;
- b=Gvi6JM0AK+EbSijngXvYTlyp8YF9QLzx/HOk0+6EuHDLscGKmAHyEzqq83O2crxMnZ
- poyfM3BxmGrY1eAJQ3xyB3UtVcmyHizt6UXO6TqQ6XNEaO/Uob0TkHpEtct+YLHPwIfS
- QnWpkrpDjKHOVw/4BsvbJPvd8mSEcUjmSGHy/hhEbG4xer0IJlNcz4eMeKN4NcIw6/gJ
- X7yHy+TQVvG7IHu7Uc7lw3FLDVTLATfEEQrrroXnEWSpYVHO8dyI9fV4ZzTwNKjQel8j
- ZuN/b7mdV92MJSaZUj0Ksb86ETK3aCI5Niu1+TnqTxSR/ui2lRDNTk0Trglh1JanBy3Z
- uoVQ==
+ bh=uwJPc1n0DEVDHa2k2BYGLogln5Pk0hurhZ9J+5NzUg8=;
+ b=FJDWu++47+WjXXQs+NNc5TWgTPu5DHv1K3sAW9O1KwBQfnFa/7cQCiuBklOyo3AwD+
+ uhYzsd0ESAasVMHqnVY3HHfwe5x5KTBoB/NNwReu1O876yfjgo+ZfkuPPE7A+LrWvp1k
+ lpETgI5AxvlMI5mYPb0dsx9qLp2h94SDUXXgHfjuRxUX2evGwoCMvMmi1fXvFxnfTVfP
+ RZXIzjuBMQ6eRWTRjczFnvjoRNkb50exY3hDTEJAwQdbkyj3lDjoJKVrKib+FClT4zA1
+ SVgtbeBjGj4E5CTlkb7bh4g3PowmsS55FRRcg5tfyjxb1rLFY5hKOADyXzCuZ0yoosLk
+ 8+nA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=N7AAMTSp/MWp4hgOr+tstKj35eRbZ/xZXTcKyTYB/70=;
- b=J1wrz/J5W9u8qG/UHq8y3PkDywwxVfu9+ojcvthAZrTLUS2Ex1sUvxoJ7tS9hWbvuy
- V4EEwQPx5c7smqmddsJmMCGTgJUnzKqOAD1T57oZFszinDGQxzUVeMrEzeAcruPaWNrb
- Kxo0I2zj5wqZ7qUIWAA4OFAoVtQgP6BQyWbOMEI9LPtFrR9jxEXFY7fACzAERqNbRhO9
- f8nChrPvIUcLcONsY30r14pcad/X05MaOsB39cUXlLTCRkN1h774KvXwYpFZreUXFIOO
- Eiqy20l6y/UZDopF2wK7wJzEdZ8P6Gs6O9EttG35HRJ+bgomN1K3r5DCIIEUm+f2XsHp
- PuAA==
-X-Gm-Message-State: APjAAAXiEXXJclUmTAvJXRRCRzjRCzaY5wZuEvl4Z7KjnPxJaSn7BI1d
- y9D81wvXB/xfVP6PmAou9Y43hkrq
-X-Google-Smtp-Source: APXvYqzvxAUjmkfPiRMiISEKOVQO/ZC9m+YqTaoiaKd5gPr4Uc+G/+dD+Vrp6vwd6TDvwGq2Jj0d0A==
-X-Received: by 2002:a63:fa0b:: with SMTP id y11mr5190293pgh.137.1581016431545; 
- Thu, 06 Feb 2020 11:13:51 -0800 (PST)
+ bh=uwJPc1n0DEVDHa2k2BYGLogln5Pk0hurhZ9J+5NzUg8=;
+ b=mubEZHW2VLVJ4A954RGDIZVehxjwWgBgBYMkwbku8u4+VnfBkLo95CPAZly6AT2kd9
+ o0N/+h6JOq5wbaarTa6OeDXHh1IK/A14/1Tb6ELCi9IO3oAWCH/QnbSVr2Jh5QDkDlt5
+ WD23JSd3tkz04kR/X9ncueSIXF30X/ZTH5Zv7aImtz3Bigl7N5qaVtBbiGPtkfvNoWpc
+ tctg+9pw+Gz287P3Jy1Tky+45WXY1F87pZIAmZGunUw3dio4L0K1nicXNHjGY3vezCgo
+ E+gpio/dkmQQx2Ilm8xpGh3aMwLNIXBjjMnymm70lvX/e6NpJr+b3u4KO+BnvCSN/cha
+ xpyA==
+X-Gm-Message-State: APjAAAV3b9hM3q+aY3MXNUMwjAJQ5ZULCspwDqKTf7iT5slyb1o7d1vp
+ 0y7yGpN/0bS7xP6R0wFdXsbLT9Rk
+X-Google-Smtp-Source: APXvYqySpIWF2g0vfY5DSnGfzOiSk03AtjVOOkEZAy6YyDsbstSbqJR/2N47BdCZL2jA0r89+/Xtsw==
+X-Received: by 2002:a63:3751:: with SMTP id g17mr5363506pgn.150.1581016430644; 
+ Thu, 06 Feb 2020 11:13:50 -0800 (PST)
 Received: from os42.localdomain ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id n15sm147297pfq.168.2020.02.06.11.13.50
+ by smtp.gmail.com with ESMTPSA id n15sm147297pfq.168.2020.02.06.11.13.49
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Thu, 06 Feb 2020 11:13:51 -0800 (PST)
+ Thu, 06 Feb 2020 11:13:50 -0800 (PST)
 From: James Smart <jsmart2021@gmail.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH 2/2] nvme-rdma/nvme-tcp: Move err_work to nvme_reset_wq
-Date: Thu,  6 Feb 2020 11:13:42 -0800
-Message-Id: <20200206191342.10190-3-jsmart2021@gmail.com>
+Subject: [PATCH 1/2] nvme: move keep alive processing to nvme-wq
+Date: Thu,  6 Feb 2020 11:13:41 -0800
+Message-Id: <20200206191342.10190-2-jsmart2021@gmail.com>
 X-Mailer: git-send-email 2.13.7
 In-Reply-To: <20200206191342.10190-1-jsmart2021@gmail.com>
 References: <20200206191342.10190-1-jsmart2021@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200206_111358_118719_34C193D4 
-X-CRM114-Status: GOOD (  12.67  )
+X-CRM114-CacheID: sfid-20200206_111358_060798_DE38E721 
+X-CRM114-Status: GOOD (  13.74  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,50 +103,69 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-With keep alive processing being moved to nvme_wq, it potentially creates
-a conflicting position with err_work also processing on nvme_wq and needing
-to flush/stop keep alives.
+Delayed keep alive work is queued on system workqueue and may be cancelled
+via nvme_stop_keep_alive from nvme-reset-wq, nvme-fc-wq or nvme-wq.
 
-To avoid issues, schedule err_work on nvme_reset_wq. It looks like this is
-not only a good thing for keep alives, but also brings the transports in
-line with the RESETTING state and processing work relative to RESETTING
-on nvme_reset_wq.
+Check_flush_dependency detects mismatched attributes between the work-queue
+context used to cancel the keep alive work and system-wq. Specifically
+system-wq does not have the WQ_MEM_RECLAIM flag, whereas the contexts used
+to cancel keep alive work have WQ_MEM_RECLAIM flag.
 
-This change is made to both nvme-rdma and nvme-tcp which have like code.
+Example warning:
+
+  workqueue: WQ_MEM_RECLAIM nvme-reset-wq:nvme_fc_reset_ctrl_work [nvme_fc]
+	is flushing !WQ_MEM_RECLAIM events:nvme_keep_alive_work [nvme_core]
+
+To avoid the flags mismatch, move keep alive work to nvme-wq.
 
 Signed-off-by: Nigel Kirkland <nigel.kirkland@broadcom.com>
 Signed-off-by: James Smart <jsmart2021@gmail.com>
 ---
- drivers/nvme/host/rdma.c | 2 +-
- drivers/nvme/host/tcp.c  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/nvme/host/core.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 2a47c6c5007e..3e85c5cacefd 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1088,7 +1088,7 @@ static void nvme_rdma_error_recovery(struct nvme_rdma_ctrl *ctrl)
- 	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RESETTING))
- 		return;
- 
--	queue_work(nvme_wq, &ctrl->err_work);
-+	queue_work(nvme_reset_wq, &ctrl->err_work);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 6ec03507da68..303b308fde52 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -66,8 +66,8 @@ MODULE_PARM_DESC(streams, "turn on support for Streams write directives");
+  * nvme_reset_wq - hosts nvme reset works
+  * nvme_delete_wq - hosts nvme delete works
+  *
+- * nvme_wq will host works such are scan, aen handling, fw activation,
+- * keep-alive error recovery, periodic reconnects etc. nvme_reset_wq
++ * nvme_wq will host works such as scan, aen handling, fw activation,
++ * keep-alive, periodic reconnects etc. nvme_reset_wq
+  * runs reset works which also flush works hosted on nvme_wq for
+  * serialization purposes. nvme_delete_wq host controller deletion
+  * works which flush reset works for serialization.
+@@ -974,7 +974,7 @@ static void nvme_keep_alive_end_io(struct request *rq, blk_status_t status)
+ 		startka = true;
+ 	spin_unlock_irqrestore(&ctrl->lock, flags);
+ 	if (startka)
+-		schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
++		queue_delayed_work(nvme_wq, &ctrl->ka_work, ctrl->kato * HZ);
  }
  
- static void nvme_rdma_wr_error(struct ib_cq *cq, struct ib_wc *wc,
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 6d43b23a0fc8..a28f9144954c 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -422,7 +422,7 @@ static void nvme_tcp_error_recovery(struct nvme_ctrl *ctrl)
- 	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
+ static int nvme_keep_alive(struct nvme_ctrl *ctrl)
+@@ -1004,7 +1004,7 @@ static void nvme_keep_alive_work(struct work_struct *work)
+ 		dev_dbg(ctrl->device,
+ 			"reschedule traffic based keep-alive timer\n");
+ 		ctrl->comp_seen = false;
+-		schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
++		queue_delayed_work(nvme_wq, &ctrl->ka_work, ctrl->kato * HZ);
+ 		return;
+ 	}
+ 
+@@ -1021,7 +1021,7 @@ static void nvme_start_keep_alive(struct nvme_ctrl *ctrl)
+ 	if (unlikely(ctrl->kato == 0))
  		return;
  
--	queue_work(nvme_wq, &to_tcp_ctrl(ctrl)->err_work);
-+	queue_work(nvme_reset_wq, &to_tcp_ctrl(ctrl)->err_work);
+-	schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
++	queue_delayed_work(nvme_wq, &ctrl->ka_work, ctrl->kato * HZ);
  }
  
- static int nvme_tcp_process_nvme_cqe(struct nvme_tcp_queue *queue,
+ void nvme_stop_keep_alive(struct nvme_ctrl *ctrl)
 -- 
 2.13.7
 
