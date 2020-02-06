@@ -2,87 +2,61 @@ Return-Path: <SRS0=EBwi=32=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41EC6C35247
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Feb 2020 19:14:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86BE0C35247
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Feb 2020 20:17:43 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F30B621741
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Feb 2020 19:14:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 54AF021741
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Feb 2020 20:17:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="mihHmq13";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FJDWu++4"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F30B621741
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="UviEMokY"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 54AF021741
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Cc:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
-	In-Reply-To:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Owner;
-	bh=4Q5DNPSdaFzxZKjlqo+/hTOAWdeVevgu7sfuC4vTmrw=; b=mihHmq13KiyUhPw0ArAsQHVR2v
-	XWPS/6mqBOOepMLpcMQf0hZ3YTytJOeFxOC947H/je0vNoAg4QaZ3fXoIHbEumJFyo7qh472Bn4Z7
-	CLJEnt+9WsHxtjZjTG2odnFFVVfbxn2UZ3CWtP0hJ3bAKPrtzTQVGm3dQ3Tlp6wF0mPqOsyjV8fSy
-	X9DqkRveKTi1UZNrxEQI2aqEGLmNkQtIe2je9l+XklkbOQB5qoCv26xOqYQzaCzDq9lG8G8OMP/DC
-	gPUaSwp6lB5s2tLkhXs5WU7xMt7sitEaIcHiGMLwJYKFigAGOgY6n81Jcef0Fj3vcNFPKY+hWXzck
-	4AABI1Ow==;
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
+	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=8hIfczzpo9DQ5beUVHOY7fsLzlvBYO7Y9iM9viiFDB4=; b=UviEMokYTcJ8gK
+	tg4n68Fmx5+5moVdVgt+dfnyUEozq89pBADoUtURBl+zOr/joLfKlXDe5zmHi5JBjGPG9mGPpwl4v
+	jvpKC23yswppWobmzX7fNXU/kTSqPkLQRjqZf6ltEZR9amswZarEQ8ykf4oZdxv69vh8BgKAR1gry
+	Sx8NzPfzudXZPUTE7S/TKhIrKNGWGF023I8Sht/AKkaFchrTDqjUNIGdLOSusvxSu4jnId+jFIwqD
+	djQ7N5iW+L7cZwZbgr78ZdZ0UmZqIfsKULg6PjWvmxQVEQpZNK6Dd22LuINjuKytKl0rpdgqCy0nt
+	nZ3A1wmGRPKpEm6f0GQw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1izmbM-00065i-SX; Thu, 06 Feb 2020 19:14:12 +0000
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441])
+	id 1iznak-0004o3-ND; Thu, 06 Feb 2020 20:17:38 +0000
+Received: from mga02.intel.com ([134.134.136.20])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1izmb8-0005uk-0i
- for linux-nvme@lists.infradead.org; Thu, 06 Feb 2020 19:13:59 +0000
-Received: by mail-pf1-x441.google.com with SMTP id j9so3589787pfa.8
- for <linux-nvme@lists.infradead.org>; Thu, 06 Feb 2020 11:13:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=uwJPc1n0DEVDHa2k2BYGLogln5Pk0hurhZ9J+5NzUg8=;
- b=FJDWu++47+WjXXQs+NNc5TWgTPu5DHv1K3sAW9O1KwBQfnFa/7cQCiuBklOyo3AwD+
- uhYzsd0ESAasVMHqnVY3HHfwe5x5KTBoB/NNwReu1O876yfjgo+ZfkuPPE7A+LrWvp1k
- lpETgI5AxvlMI5mYPb0dsx9qLp2h94SDUXXgHfjuRxUX2evGwoCMvMmi1fXvFxnfTVfP
- RZXIzjuBMQ6eRWTRjczFnvjoRNkb50exY3hDTEJAwQdbkyj3lDjoJKVrKib+FClT4zA1
- SVgtbeBjGj4E5CTlkb7bh4g3PowmsS55FRRcg5tfyjxb1rLFY5hKOADyXzCuZ0yoosLk
- 8+nA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=uwJPc1n0DEVDHa2k2BYGLogln5Pk0hurhZ9J+5NzUg8=;
- b=mubEZHW2VLVJ4A954RGDIZVehxjwWgBgBYMkwbku8u4+VnfBkLo95CPAZly6AT2kd9
- o0N/+h6JOq5wbaarTa6OeDXHh1IK/A14/1Tb6ELCi9IO3oAWCH/QnbSVr2Jh5QDkDlt5
- WD23JSd3tkz04kR/X9ncueSIXF30X/ZTH5Zv7aImtz3Bigl7N5qaVtBbiGPtkfvNoWpc
- tctg+9pw+Gz287P3Jy1Tky+45WXY1F87pZIAmZGunUw3dio4L0K1nicXNHjGY3vezCgo
- E+gpio/dkmQQx2Ilm8xpGh3aMwLNIXBjjMnymm70lvX/e6NpJr+b3u4KO+BnvCSN/cha
- xpyA==
-X-Gm-Message-State: APjAAAV3b9hM3q+aY3MXNUMwjAJQ5ZULCspwDqKTf7iT5slyb1o7d1vp
- 0y7yGpN/0bS7xP6R0wFdXsbLT9Rk
-X-Google-Smtp-Source: APXvYqySpIWF2g0vfY5DSnGfzOiSk03AtjVOOkEZAy6YyDsbstSbqJR/2N47BdCZL2jA0r89+/Xtsw==
-X-Received: by 2002:a63:3751:: with SMTP id g17mr5363506pgn.150.1581016430644; 
- Thu, 06 Feb 2020 11:13:50 -0800 (PST)
-Received: from os42.localdomain ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id n15sm147297pfq.168.2020.02.06.11.13.49
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Thu, 06 Feb 2020 11:13:50 -0800 (PST)
-From: James Smart <jsmart2021@gmail.com>
-To: linux-nvme@lists.infradead.org
-Subject: [PATCH 1/2] nvme: move keep alive processing to nvme-wq
-Date: Thu,  6 Feb 2020 11:13:41 -0800
-Message-Id: <20200206191342.10190-2-jsmart2021@gmail.com>
-X-Mailer: git-send-email 2.13.7
-In-Reply-To: <20200206191342.10190-1-jsmart2021@gmail.com>
-References: <20200206191342.10190-1-jsmart2021@gmail.com>
+ id 1iznai-0004nU-1P
+ for linux-nvme@lists.infradead.org; Thu, 06 Feb 2020 20:17:37 +0000
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 06 Feb 2020 12:17:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,410,1574150400"; d="scan'208";a="220558663"
+Received: from jderrick-mobl.amr.corp.intel.com ([10.232.115.22])
+ by orsmga007.jf.intel.com with ESMTP; 06 Feb 2020 12:17:31 -0800
+From: Jon Derrick <jonathan.derrick@intel.com>
+To: <linux-nvme@lists.infradead.org>
+Subject: [PATCH v2] nvme/pci: Add sleep quirk for Samsung and Toshiba drives
+Date: Thu,  6 Feb 2020 13:17:25 -0700
+Message-Id: <20200206201725.313163-1-jonathan.derrick@intel.com>
+X-Mailer: git-send-email 2.24.1
+MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200206_111358_060798_DE38E721 
-X-CRM114-Status: GOOD (  13.74  )
+X-CRM114-CacheID: sfid-20200206_121736_133086_DCD209A2 
+X-CRM114-Status: GOOD (  11.84  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,80 +68,58 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: James Smart <jsmart2021@gmail.com>, sagi@grimberg.me,
- Nigel Kirkland <nigel.kirkland@broadcom.com>, maxg@mellanox.com,
- mark.wunderlich@intel.com, hch@lst.de
-MIME-Version: 1.0
+Cc: Shyjumon N <shyjumon.n@intel.com>, Sagi Grimberg <sagi@grimberg.me>,
+ Jens Axboe <axboe@fb.com>, Edmund Nadolski <edmund.nadolski@intel.com>,
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Jon Derrick <jonathan.derrick@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Delayed keep alive work is queued on system workqueue and may be cancelled
-via nvme_stop_keep_alive from nvme-reset-wq, nvme-fc-wq or nvme-wq.
+From: Shyjumon N <shyjumon.n@intel.com>
 
-Check_flush_dependency detects mismatched attributes between the work-queue
-context used to cancel the keep alive work and system-wq. Specifically
-system-wq does not have the WQ_MEM_RECLAIM flag, whereas the contexts used
-to cancel keep alive work have WQ_MEM_RECLAIM flag.
+The Samsung SSD SM981/PM981 and Toshiba SSD KBG40ZNT256G on the Lenovo
+C640 platform experience runtime resume issues when the SSDs are kept in
+sleep/suspend mode for long time.
 
-Example warning:
+This patch applies the 'Simple Suspend' quirk to these configurations.
+With this patch, the issue had not been observed in a 1+ day test.
 
-  workqueue: WQ_MEM_RECLAIM nvme-reset-wq:nvme_fc_reset_ctrl_work [nvme_fc]
-	is flushing !WQ_MEM_RECLAIM events:nvme_keep_alive_work [nvme_core]
-
-To avoid the flags mismatch, move keep alive work to nvme-wq.
-
-Signed-off-by: Nigel Kirkland <nigel.kirkland@broadcom.com>
-Signed-off-by: James Smart <jsmart2021@gmail.com>
+Reviewed-by: Jon Derrick <jonathan.derrick@intel.com>
+Signed-off-by: Shyjumon N <shyjumon.n@intel.com>
 ---
- drivers/nvme/host/core.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+V2: Rebased
+Added my reviewed-by
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 6ec03507da68..303b308fde52 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -66,8 +66,8 @@ MODULE_PARM_DESC(streams, "turn on support for Streams write directives");
-  * nvme_reset_wq - hosts nvme reset works
-  * nvme_delete_wq - hosts nvme delete works
-  *
-- * nvme_wq will host works such are scan, aen handling, fw activation,
-- * keep-alive error recovery, periodic reconnects etc. nvme_reset_wq
-+ * nvme_wq will host works such as scan, aen handling, fw activation,
-+ * keep-alive, periodic reconnects etc. nvme_reset_wq
-  * runs reset works which also flush works hosted on nvme_wq for
-  * serialization purposes. nvme_delete_wq host controller deletion
-  * works which flush reset works for serialization.
-@@ -974,7 +974,7 @@ static void nvme_keep_alive_end_io(struct request *rq, blk_status_t status)
- 		startka = true;
- 	spin_unlock_irqrestore(&ctrl->lock, flags);
- 	if (startka)
--		schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
-+		queue_delayed_work(nvme_wq, &ctrl->ka_work, ctrl->kato * HZ);
- }
- 
- static int nvme_keep_alive(struct nvme_ctrl *ctrl)
-@@ -1004,7 +1004,7 @@ static void nvme_keep_alive_work(struct work_struct *work)
- 		dev_dbg(ctrl->device,
- 			"reschedule traffic based keep-alive timer\n");
- 		ctrl->comp_seen = false;
--		schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
-+		queue_delayed_work(nvme_wq, &ctrl->ka_work, ctrl->kato * HZ);
- 		return;
+ drivers/nvme/host/pci.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 610f380352de..46fa1acf3aee 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2726,6 +2726,18 @@ static unsigned long check_vendor_combination_bug(struct pci_dev *pdev)
+ 		    (dmi_match(DMI_BOARD_NAME, "PRIME B350M-A") ||
+ 		     dmi_match(DMI_BOARD_NAME, "PRIME Z370-A")))
+ 			return NVME_QUIRK_NO_APST;
++	} else if ((pdev->vendor == 0x144d && (pdev->device == 0xa801 ||
++		    pdev->device == 0xa808 || pdev->device == 0xa809)) ||
++		   (pdev->vendor == 0x1e0f && pdev->device == 0x0001)) {
++		/*
++		 * Forcing to use host managed nvme power settings for
++		 * lowest idle power with quick resume latency on
++		 * Samsung and Toshiba SSDs based on suspend behavior
++		 * on Coffee Lake board for LENOVO C640
++		 */
++		if ((dmi_match(DMI_BOARD_VENDOR, "LENOVO")) &&
++		     dmi_match(DMI_BOARD_NAME, "LNVNB161216"))
++			return NVME_QUIRK_SIMPLE_SUSPEND;
  	}
  
-@@ -1021,7 +1021,7 @@ static void nvme_start_keep_alive(struct nvme_ctrl *ctrl)
- 	if (unlikely(ctrl->kato == 0))
- 		return;
- 
--	schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
-+	queue_delayed_work(nvme_wq, &ctrl->ka_work, ctrl->kato * HZ);
- }
- 
- void nvme_stop_keep_alive(struct nvme_ctrl *ctrl)
+ 	return 0;
 -- 
-2.13.7
+2.24.1
 
 
 _______________________________________________
