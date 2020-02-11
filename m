@@ -7,125 +7,87 @@ X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19064C352A3
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Feb 2020 10:13:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E363C352A3
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Feb 2020 12:29:30 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DF99E20842
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Feb 2020 10:13:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3B9D020714
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Feb 2020 12:29:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="TgzIuFor";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=Mellanox.com header.i=@Mellanox.com header.b="TG+2XKgr"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DF99E20842
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="rrvyv5iu";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BFTjRH5T";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="M3kfThOU"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3B9D020714
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=AxRvNtsaLBkOuff6UVdaN3r1cDqYGmk2Q92WKRyV7ww=; b=TgzIuForq1gQ8XYhu40axJFos
-	IPWUEqHiwylpzzSlpPXga3IaJAF9IojMNilM4eJIJdFZZ2Eejig/s7PkoVMsJCO2ogAnJtMBXJGV9
-	WPKuO8k68Fyc4kvU/YSHY7o5CQBCrTsMC4cXqI4K6pLio0wmjQx0aLTGCrq7tCX81AcATMFEXzRNp
-	vo1RQLAI1KHLGz0bIkKZo+KdYYiLgOyh8P0saOEsDVs2hEJn7rB07zc6w10TrQDQ38G9kxImf8aO5
-	CPsYlUItvD8BPFS1TUrMrFPuhIvEq4XHroUJTxeQkVS79jc6dbYpHkRoHsm5k33Cs+G8oFUWhYPac
-	MMxcBWlww==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=+GexDAGK8uEzFaQjVyD4ccx4ux4dG1rLvwva/mIR6OE=; b=rrvyv5iu2k7cjA
+	IJiP0TxHOBdDuWn6qm5vC18AVU16ou9bjJWNFg5lPOx/7VPPTFhkAhyYngVm8S1uRXLAXne36l6Pk
+	PiNWXuzikM9NenfjkQMTnKklWc8nuVQQm7/S1SZO2T3vyJVycSg6SR7Zqg9Fs5oypu93zshaT9D9c
+	XP8OSr9bckWp9hUpDBgaImFo6PFypGZ3SX9jzuppQCFC2gSLzwfll1qexcDYSLPLesqjfKmRwvveW
+	iqVSMrrq0sk01YSPmO+KF+Zf8tfpjA/Mk9Nmx5mCCZrRIi40ko3nb7rGl8MPwn3LF8vp178uDMWdf
+	7sgRrn3wTgGbl1nxnxPw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j1SXN-0001Bo-Gv; Tue, 11 Feb 2020 10:13:01 +0000
-Received: from mail-eopbgr70087.outbound.protection.outlook.com ([40.107.7.87]
- helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+	id 1j1UfL-0004Yb-7V; Tue, 11 Feb 2020 12:29:23 +0000
+Received: from merlin.infradead.org ([2001:8b0:10b:1231::1])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j1SXK-0001BL-JK
- for linux-nvme@lists.infradead.org; Tue, 11 Feb 2020 10:13:00 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PnZn8f4243q8w22oLmyg25xwmhDuK29RFaC0iC9lCzaSx8lD9i0Sv/Zfkrsvyubv/kecP+4PN9l4Ycj616CSAMA9ZytCbri+T7Aar3q4UJT2DPExzngOmfDDCfPYskoUr6yZui+c5oV2OmUPPklODfXFikRA9uWvH5UtH346w127tfEO9Zl6HsMnF11iO09AYidy6Zw+nxyXuURIMFCc/iKpOBR4ufWZbLKh8FHRecj4uASBJyCuCyqXUisNtTva9+TNVnsQWx5FLFhBdVSoWt591jCIuenfms2iNo6eoyXT+3/W7LbV0s/NmRKyteTNLmpZBT7TAVhW7FSGrQUkPA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ocC+fRQiSZhZto27wNSKE6akxa+pu4wZp9dR2hT6Uok=;
- b=CiGhNMofigOWbyUav8Ul5KqHokFdwPpOnQheAyvKnl+qw5Pv9ArBJlF5ImSDPqnuR6/dCreyOsFH8yAxKp230hitKnGefrw+E/cQ4/OZfOzfiUdWO+UGJaimQO92IOu4bqiyeJB25w5OB0Jc4n0tRt+uTc2jCvTCpHeXHJYoaYRfgeqftylu29zUOf0KRxz4C/HKhvCIZDQWbf6XC6epD3aLKNoV20vTR3qWcuvOXqrgk7V50H0Psk6kqfq1luLpgpvCQrFXgeqVuJ7f5CigldXqe2FOApDjJQ7fMdUzoYkTMvqnGc7lfThCuBykyGqmT0KoO8YVDXefrENfRW0kUQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 193.47.165.251) smtp.rcpttodomain=broadcom.com smtp.mailfrom=mellanox.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=mellanox.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ocC+fRQiSZhZto27wNSKE6akxa+pu4wZp9dR2hT6Uok=;
- b=TG+2XKgrBaxlFgyFPv5bVYKpFFB/HWQaUyhFmKJ75bWvHnYZZGou/c1LzaX9piwDtws1uU9K7zt7vIdj0OjAOVYaEvMqN/XWwkqfwfvgvtpT/hBQ/hIfreQgAtdlhKpnDnXGvpiwgh62Ki5UQuvYnaxTk4bc9Etfx+/LODP5OxU=
-Received: from DB6PR0501CA0032.eurprd05.prod.outlook.com (2603:10a6:4:67::18)
- by DB8PR05MB6698.eurprd05.prod.outlook.com (2603:10a6:10:132::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2707.25; Tue, 11 Feb
- 2020 10:12:49 +0000
-Received: from VE1EUR03FT028.eop-EUR03.prod.protection.outlook.com
- (2a01:111:f400:7e09::209) by DB6PR0501CA0032.outlook.office365.com
- (2603:10a6:4:67::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2707.21 via Frontend
- Transport; Tue, 11 Feb 2020 10:12:49 +0000
-Authentication-Results: spf=pass (sender IP is 193.47.165.251)
- smtp.mailfrom=mellanox.com; broadcom.com; dkim=none (message not signed)
- header.d=none;broadcom.com; dmarc=pass action=none header.from=mellanox.com;
-Received-SPF: Pass (protection.outlook.com: domain of mellanox.com designates
- 193.47.165.251 as permitted sender)
- receiver=protection.outlook.com; 
- client-ip=193.47.165.251; helo=mtlcas13.mtl.com;
-Received: from mtlcas13.mtl.com (193.47.165.251) by
- VE1EUR03FT028.mail.protection.outlook.com (10.152.18.88) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.2665.18 via Frontend Transport; Tue, 11 Feb 2020 10:12:49 +0000
-Received: from MTLCAS13.mtl.com (10.0.8.78) by mtlcas13.mtl.com (10.0.8.78)
- with Microsoft SMTP Server (TLS) id 15.0.1178.4; Tue, 11 Feb 2020 12:12:47
- +0200
-Received: from MTLCAS01.mtl.com (10.0.8.71) by MTLCAS13.mtl.com (10.0.8.78)
- with Microsoft SMTP Server (TLS) id 15.0.1178.4 via Frontend Transport; Tue,
- 11 Feb 2020 12:12:47 +0200
-Received: from [10.223.0.100] (10.223.0.100) by MTLCAS01.mtl.com (10.0.8.71)
- with Microsoft SMTP Server (TLS) id 14.3.468.0; Tue, 11 Feb 2020 12:12:46
- +0200
-Subject: Re: [PATCH 2/2] nvme-rdma/nvme-tcp: Move err_work to nvme_reset_wq
-To: Christoph Hellwig <hch@lst.de>, James Smart <jsmart2021@gmail.com>
-References: <20200206191342.10190-1-jsmart2021@gmail.com>
- <20200206191342.10190-3-jsmart2021@gmail.com> <20200210170442.GB19584@lst.de>
-From: Max Gurtovoy <maxg@mellanox.com>
-Message-ID: <ec482da7-1794-eea1-555c-31c76e792e4d@mellanox.com>
-Date: Tue, 11 Feb 2020 12:12:46 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.2
+ id 1j1UfI-0004UH-1B
+ for linux-nvme@bombadil.infradead.org; Tue, 11 Feb 2020 12:29:20 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:In-Reply-To:
+ Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+ Sender:Reply-To:Content-ID:Content-Description;
+ bh=uHEOjUhMWrW6Y0OTSi8s083JPpT8Ksjs/CTyJdEAW5w=; b=BFTjRH5TV42T37w/CeRt1eiZBJ
+ I3W5avXDiWYPaHl2rBDPZ3Cu1tdhA2V+FcvUgExUWOT7uBlcwW3YZ1DkbDQkotFJsJYdZpXzCEu1O
+ E0Y/f4LxDMrYt8znwORAfX5sESWAS7MC94tVkXNmQ50qWOSaXLzEaI/f3jwS27Eu5udeawyk1Y4uW
+ ofO/i8WsUfjIpgAIXBwQUY+DHSIep8bcvJvHIC07CmOO/EKEg0o9FqEblL1Sgp1lJfKy+BIpbMWgo
+ 5wLI3m7GjuxwD048Hw62i1Oz1NxjERHz63grdTeyVH7Xm+VSxEMSTHdLkdwP8dQO7Mg+Xv+HGvgkz
+ Di3lz72Q==;
+Received: from us-smtp-1.mimecast.com ([207.211.31.81])
+ by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1j1UfF-00034h-Lh
+ for linux-nvme@lists.infradead.org; Tue, 11 Feb 2020 12:29:18 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581424139;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uHEOjUhMWrW6Y0OTSi8s083JPpT8Ksjs/CTyJdEAW5w=;
+ b=M3kfThOUHI/kXl0TOr92OH7TlC+ooNgMLiqeM6aW+oULOabM1AYust0rLJrHSHViGm3/qQ
+ dVfLJsNjcf9Ic5EjxEIOpHxDo9VVg7rI+BSjOlfaYyb78pm8zcCZaqL6EJ9WfMSFRQOaV7
+ 72ahClClsmcQT4uqBaBVj8MvMsic/Kw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-11-tbZMTi2APfmrcMiAbIN50A-1; Tue, 11 Feb 2020 07:28:48 -0500
+X-MC-Unique: tbZMTi2APfmrcMiAbIN50A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1557800D5E;
+ Tue, 11 Feb 2020 12:28:46 +0000 (UTC)
+Received: from ming.t460p (ovpn-8-17.pek2.redhat.com [10.72.8.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 10B0B5C120;
+ Tue, 11 Feb 2020 12:28:32 +0000 (UTC)
+Date: Tue, 11 Feb 2020 20:28:21 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Tim Walker <tim.t.walker@seagate.com>
+Subject: Re: [LSF/MM/BPF TOPIC] NVMe HDD
+Message-ID: <20200211122821.GA29811@ming.t460p>
+References: <CANo=J14resJ4U1nufoiDq+ULd0k-orRCsYah8Dve-y8uCjA62Q@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200210170442.GB19584@lst.de>
-Content-Language: en-US
-X-Originating-IP: [10.223.0.100]
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:193.47.165.251; IPV:; CTRY:IL; EFV:NLI;
- SFV:NSPM;
- SFS:(10009020)(4636009)(346002)(376002)(39860400002)(396003)(136003)(189003)(199004)(16576012)(316002)(53546011)(36906005)(86362001)(478600001)(31696002)(31686004)(26005)(2616005)(336012)(5660300002)(36756003)(70586007)(70206006)(54906003)(110136005)(81166006)(81156014)(8676002)(186003)(356004)(2906002)(16526019)(8936002)(4326008)(3940600001);
- DIR:OUT; SFP:1101; SCL:1; SRVR:DB8PR05MB6698; H:mtlcas13.mtl.com; FPR:;
- SPF:Pass; LANG:en; PTR:InfoDomainNonexistent; MX:1; A:1; 
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 77c732cc-7a6f-4cbc-2e30-08d7aedaf2aa
-X-MS-TrafficTypeDiagnostic: DB8PR05MB6698:
-X-Microsoft-Antispam-PRVS: <DB8PR05MB669814347ABBF1FD5DAE9F80B6180@DB8PR05MB6698.eurprd05.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
-X-Forefront-PRVS: 0310C78181
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: U//ky26V16VdSInNHZ7Z3xzwhLcqsFJXqG5TGdKa3fjtczO0fcx1MGiN4x0qaeaW7arraMt1Y3JkYaz/fMG/Y7Y+BN/UYWWrUiVp0My32Q4g+BLLo+zA/gPKf0E2QWodoy6+RC3xCYmCXZoNSvkwQx0+faL33+Fa+jcyqX7ndz5SKtkE/0fJShKqgQlfiyHvb0Dsha9RGrOyOCftm1LdPvtsooxzBfDJP3KjuCNlab+sxjhEeP1XIi0hYkvrrz7JXGp7arCj9+UmYvETaCJLRk8tKwOi3T1OI+3+U7N1lnbOQb4tjFC+bbCZMKujrMzg/4M/S9K9wyP1lqcXbTEbxaK2lNKt6lPnBuQdKvpVK7eyWZcgrKvi79Iq39IGNZy6SYlgCUBN2tDJ/5O8T8HDe0u4dsktJvGDxXMnAXA6APd4/WmwKNYJV8MrvBF6GaKX3imVGfEp5rLDT1Rb6AZpTQxRXVaYFa5ykDqapeGH0TC6Uz6EvvvhwFeY7XiUkian
-X-OriginatorOrg: Mellanox.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2020 10:12:49.1335 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 77c732cc-7a6f-4cbc-2e30-08d7aedaf2aa
-X-MS-Exchange-CrossTenant-Id: a652971c-7d2e-4d9b-a6a4-d149256f461b
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a652971c-7d2e-4d9b-a6a4-d149256f461b; Ip=[193.47.165.251];
- Helo=[mtlcas13.mtl.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR05MB6698
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200211_021258_637246_1053F873 
-X-CRM114-Status: GOOD (  10.76  )
+Content-Disposition: inline
+In-Reply-To: <CANo=J14resJ4U1nufoiDq+ULd0k-orRCsYah8Dve-y8uCjA62Q@mail.gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,47 +99,47 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Nigel Kirkland <nigel.kirkland@broadcom.com>, mark.wunderlich@intel.com,
- sagi@grimberg.me, linux-nvme@lists.infradead.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-scsi <linux-scsi@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-On 2/10/2020 7:04 PM, Christoph Hellwig wrote:
-> On Thu, Feb 06, 2020 at 11:13:42AM -0800, James Smart wrote:
->> With keep alive processing being moved to nvme_wq, it potentially creates
->> a conflicting position with err_work also processing on nvme_wq and needing
->> to flush/stop keep alives.
->>
->> To avoid issues, schedule err_work on nvme_reset_wq. It looks like this is
->> not only a good thing for keep alives, but also brings the transports in
->> line with the RESETTING state and processing work relative to RESETTING
->> on nvme_reset_wq.
->>
->> This change is made to both nvme-rdma and nvme-tcp which have like code.
-> Shouldn't we move both in one patch to create a regression in one
-> cycle while fixing the other one?
-
-Yup, seems like these should be squashed.
-
-James,
-
-did you run some testing for RDMA/tcp that will trigger this code ?
-
-Fio + port toggling for example ?
-
-or brutally "killing" target during traffic that will cause timeouts to 
-IOs ?
-
-
->
-> Otherwise this looks good:
->
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-
-_______________________________________________
-linux-nvme mailing list
-linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+T24gTW9uLCBGZWIgMTAsIDIwMjAgYXQgMDI6MjA6MTBQTSAtMDUwMCwgVGltIFdhbGtlciB3cm90
+ZToKPiBCYWNrZ3JvdW5kOgo+IAo+IE5WTWUgc3BlY2lmaWNhdGlvbiBoYXMgaGFyZGVuZWQgb3Zl
+ciB0aGUgZGVjYWRlIGFuZCBub3cgTlZNZSBkZXZpY2VzCj4gYXJlIHdlbGwgaW50ZWdyYXRlZCBp
+bnRvIG91ciBjdXN0b21lcnPigJkgc3lzdGVtcy4gQXMgd2UgbG9vayBmb3J3YXJkLAo+IG1vdmlu
+ZyBIRERzIHRvIHRoZSBOVk1lIGNvbW1hbmQgc2V0IGVsaW1pbmF0ZXMgdGhlIFNBUyBJT0MgYW5k
+IGRyaXZlcgo+IHN0YWNrLCBjb25zb2xpZGF0aW5nIG9uIGEgc2luZ2xlIGFjY2VzcyBtZXRob2Qg
+Zm9yIHJvdGF0aW9uYWwgYW5kCj4gc3RhdGljIHN0b3JhZ2UgdGVjaG5vbG9naWVzLiBQQ0llLU5W
+TWUgb2ZmZXJzIG5lYXItU0FUQSBpbnRlcmZhY2UKPiBjb3N0cywgZmVhdHVyZXMgYW5kIHBlcmZv
+cm1hbmNlIHN1aXRhYmxlIGZvciBoaWdoLWNhcCBIRERzLCBhbmQKPiBvcHRpbWFsIGludGVyb3Bl
+cmFiaWxpdHkgZm9yIHN0b3JhZ2UgYXV0b21hdGlvbiwgdGllcmluZywgYW5kCj4gbWFuYWdlbWVu
+dC4gV2Ugd2lsbCBzaGFyZSBzb21lIGVhcmx5IGNvbmNlcHR1YWwgcmVzdWx0cyBhbmQgcHJvcG9z
+ZWQKPiBzYWxpZW50IGRlc2lnbiBnb2FscyBhbmQgY2hhbGxlbmdlcyBzdXJyb3VuZGluZyBhbiBO
+Vk1lIEhERC4KCkhERC4gcGVyZm9ybWFuY2UgaXMgdmVyeSBzZW5zaXRpdmUgdG8gSU8gb3JkZXIu
+IENvdWxkIHlvdSBwcm92aWRlIHNvbWUKYmFja2dyb3VuZCBpbmZvIGFib3V0IE5WTWUgSEREPyBT
+dWNoIGFzOgoKLSBudW1iZXIgb2YgaHcgcXVldWVzCi0gaHcgcXVldWUgZGVwdGgKLSB3aWxsIE5W
+TWUgc29ydC9tZXJnZSBJTyBhbW9uZyBhbGwgU1FzIG9yIG5vdD8KCj4gCj4gCj4gRGlzY3Vzc2lv
+biBQcm9wb3NhbDoKPiAKPiBXZeKAmWQgbGlrZSB0byBzaGFyZSBvdXIgdmlld3MgYW5kIHNvbGlj
+aXQgaW5wdXQgb246Cj4gCj4gLVdoYXQgTGludXggc3RvcmFnZSBzdGFjayBhc3N1bXB0aW9ucyBk
+byB3ZSBuZWVkIHRvIGJlIGF3YXJlIG9mIGFzIHdlCj4gZGV2ZWxvcCB0aGVzZSBkZXZpY2VzIHdp
+dGggZHJhc3RpY2FsbHkgZGlmZmVyZW50IHBlcmZvcm1hbmNlCj4gY2hhcmFjdGVyaXN0aWNzIHRo
+YW4gdHJhZGl0aW9uYWwgTkFORD8gRm9yIGV4YW1wbGUsIHdoYXQgc2NoZWR1bGFyIG9yCj4gZGV2
+aWNlIGRyaXZlciBsZXZlbCBjaGFuZ2VzIHdpbGwgYmUgbmVlZGVkIHRvIGludGVncmF0ZSBOVk1l
+IEhERHM/CgpJTyBtZXJnZSBpcyBvZnRlbiBpbXBvcnRhbnQgZm9yIEhERC4gSU8gbWVyZ2UgaXMg
+dXN1YWxseSB0cmlnZ2VyZWQgd2hlbgoucXVldWVfcnEoKSByZXR1cm5zIFNUU19SRVNPVVJDRSwg
+c28gZmFyIHRoaXMgY29uZGl0aW9uIHdvbid0IGJlCnRyaWdnZXJlZCBmb3IgTlZNZSBTU0QuCgpB
+bHNvIGJsay1tcSBraWxscyBCREkgcXVldWUgY29uZ2VzdGlvbiBhbmQgaW9jIGJhdGNoaW5nLCBh
+bmQgY2F1c2VzCndyaXRlYmFjayBwZXJmb3JtYW5jZSByZWdyZXNzaW9uWzFdWzJdLgoKV2hhdCBJ
+IGFtIHRoaW5raW5nIGlzIHRoYXQgaWYgd2UgbmVlZCB0byBzd2l0Y2ggdG8gdXNlIGluZGVwZW5k
+ZW50IElPCnBhdGggZm9yIGhhbmRsaW5nIFNTRCBhbmQgSERELiBJTywgZ2l2ZW4gdGhlIHR3byBt
+ZWRpdW1zIGFyZSBzbwpkaWZmZXJlbnQgZnJvbSBwZXJmb3JtYW5jZSB2aWV3cG9pbnQuCgpbMV0g
+aHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtc2NzaS9QaW5lLkxOWC40LjQ0TDAuMTkwOTE4
+MTIxMzE0MS4xNTA3LTEwMDAwMEBpb2xhbnRoZS5yb3dsYW5kLm9yZy8KWzJdIGh0dHBzOi8vbG9y
+ZS5rZXJuZWwub3JnL2xpbnV4LXNjc2kvMjAxOTEyMjYwODM3MDYuR0ExNzk3NEBtaW5nLnQ0NjBw
+LwoKClRoYW5rcywgCk1pbmcKCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwpsaW51eC1udm1lIG1haWxpbmcgbGlzdApsaW51eC1udm1lQGxpc3RzLmluZnJh
+ZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51
+eC1udm1lCg==
