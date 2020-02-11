@@ -2,23 +2,22 @@ Return-Path: <SRS0=McG4=37=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31943C35242
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Feb 2020 17:54:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87AE8C3B187
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Feb 2020 18:20:07 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0DA6C20578
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Feb 2020 17:54:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 54E63208C3
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Feb 2020 18:20:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="tuIO2/wP";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="URZXOhGb"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0DA6C20578
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="EsgtX0Uo";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K0GPZfSU"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 54E63208C3
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -27,68 +26,68 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=t4tg1ezNUPZrMSAxQA9RhySHJeMxnuQYEMhKFfIlHqQ=; b=tuIO2/wP5/l+an46cmeJCkv5S
-	E+4yE7EnSlnVwD1e1WMsm+CBZVdleyJxawOzDGgx/Bv5Zu8HIcmabF7gq7CRAgg7Iu97t7T7W3lu+
-	TpX3seIc2Rq7tcYxTtd0fZ8MHt/OLzyOzR8nKpp0it4BJHVEdjqBemurEUzdzekgreRXMSpTrAqvd
-	uYABti/hiFpW5rZE/ypWHsd4NyIOv1Uiw4n6saHdedQln4Ce07R0tFYsT//moeHIs/+MmmhP0XL/8
-	xZ8zqIFVu1ivNcDN9WUeee0Rl4MRZn7uXJRIA7P0c/M5+FNl2tHQ40qyU2REgA+tjj02pa0a4hogf
-	vGI42J1vQ==;
+	 bh=Y4KzsFS0XZkriD6KSVtcWLfeH53ivxox6cEUgK05EmU=; b=EsgtX0UoX1eJIsT5NBa/iRl7d
+	vHZu4UO0PoczUcImFotpSI80zvhKcah8yXOr71iHQUrhOCvUSyJtJjwfI9taB+C87hNd7gbqRV2uF
+	AwejgM6MFvMftS4gQlY26yJ4imqR0XCz8K5wtzDgFSsSGgJ+krOdMPsOzh50VIETanQVT77+Tf+Ok
+	OUV5/oQHa/BMCyctgl3rV11H5fDyI7mKSMpDbi8ncjq5zz6+6G1SvUpDRs4e1IN9KAj9x63vyBJnK
+	SYC1RsCMaaRioRQ/9/CCTeuwAzgg+DXHql1sIH7/EQ0remN2XHbJorrVQOnEPfj5CYhOkFTccdVP7
+	6Dp88BkcA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j1Zjy-0003xh-Ja; Tue, 11 Feb 2020 17:54:30 +0000
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342])
+	id 1j1a8e-0006yX-RP; Tue, 11 Feb 2020 18:20:00 +0000
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j1Zgd-0001Dw-Go
- for linux-nvme@lists.infradead.org; Tue, 11 Feb 2020 17:51:05 +0000
-Received: by mail-wm1-x342.google.com with SMTP id t14so4712509wmi.5
- for <linux-nvme@lists.infradead.org>; Tue, 11 Feb 2020 09:51:03 -0800 (PST)
+ id 1j1ZlZ-0006ZD-LW
+ for linux-nvme@lists.infradead.org; Tue, 11 Feb 2020 17:56:11 +0000
+Received: by mail-pf1-x441.google.com with SMTP id s1so5835235pfh.10
+ for <linux-nvme@lists.infradead.org>; Tue, 11 Feb 2020 09:56:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=MN5sKfTiG7ig08rXYRMdP4PWGX5zNXkIcrTojsMv9jw=;
- b=URZXOhGbbPt1Qj9XMqnnLTXqLvN4v7jhDVZ4w0Ig1Io2YBlTZiu2qdGI5oP7hX08z2
- WdumR1vYVV9XqowQaFVwhM8sJzPXVlRSi1bFYBKTwABCFkeQBTLhZ4hg0Coz5wWekx4s
- 78QYmCRzdwoo8nLm3AhwZgNgBF5aHnq7Uuc5Zzn172UDv1G2sxf/sS1ZIFj4JB4tLd23
- FyGZlfa8hfGI3c5MymsS5mlQ2aQZA/ropwrEtILxw6em8hWYcFB6p2Wu5CuWG2IyqXU2
- SRn0jD3sCTlndRVIdBnCBfDzbWw518PLr/D6/JVcnEOx4O1CJuaKeLHUTn+8cBwYVsBG
- DaQA==
+ bh=nxyR688pDq8caOzKNAVkWBmaTWa4mFR0rWSoTMGHAm4=;
+ b=K0GPZfSU5RlWw8qhc1h3BDjvFEmi6pwXcsy8IuxR3yE9NS8F36a+M8SS8hffW1M1WY
+ DhYD/VVFFk53oj5wqhnfVqU5NBTs7iuei4EWG9SsTBotdhaW+Kclw7GrNI3qKa36wN2y
+ VW6KzWLX3XbyxUJ0xZHoMyO33nT+hWVot/+mSjBpBd6N+Nfe/EpaLa93aCXMNuUUBmf+
+ Sc9xYmMSi3R3NcvQa0z3GykyoFLUyi9YP6B4doMRpTXG2EzYPB+NH8ADke2dbovsD2hP
+ /ZRcEYei291SCKT/N36zB+25I+3pHjoVSem5Rq/XPyL1dFA0ijUPr+1vnZ0frGvPHjHu
+ IYpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=MN5sKfTiG7ig08rXYRMdP4PWGX5zNXkIcrTojsMv9jw=;
- b=jPDhiAZhzP+1cdfx6ipir9J1c/nqWiyGpXaI7zG7mfIwrc+pSAUeB7yxKp4d4kHa8l
- rVMgNPxqYokX9f/5yPN+hP4Ir2rMM4uFYv2TKEJgxFs3cIGFaDiZvs32PAoju2eYPlFJ
- weBNSiltC3c5Gl2S+5F7TTgKOTxDsRxG4GPMc5y0ERq3VxSqogbdgUNONIrVFA6YDDcJ
- UZjEDRh5dUHCSyYdMJTzGaVQ0gyDSXmQoLfEoAHEyzZ9XWhObyC/r4N1qE8pJS8Sp3O8
- LD4QRlL6lNMNdFwGFU1kfGzdz3hnocrGjEQJURtGQYgqMcH3UrH84M9dowUreiiQWp3I
- PItQ==
-X-Gm-Message-State: APjAAAWAL5qIORf/JTOFYto892ffa10IOHlKy4SPEe05CndQf3FYD0V7
- eXIMIjYSJfSJGe+8yP5lsnM=
-X-Google-Smtp-Source: APXvYqz+Is5vIfoqhcK3Xdbx5Vn0mZb7GDQG7eRX5BpnsmEpA8h6R+ZWYRJSWG9Xe0uHBwQh5nCE7w==
-X-Received: by 2002:a7b:c932:: with SMTP id h18mr6750991wml.171.1581443461882; 
- Tue, 11 Feb 2020 09:51:01 -0800 (PST)
+ bh=nxyR688pDq8caOzKNAVkWBmaTWa4mFR0rWSoTMGHAm4=;
+ b=GhCiBx2O8tN4Jy5cRPKPTZjzNJ83MKqrTyb4H9MJcdix+t56UHiHOEJemv6Rn6aZB5
+ dEoSZdiqBSiuys2Cz6ldWYWc8Rlsl4SLbllHIYvRvPoWKuzsNrCwb/EEtXcAqK9TKx57
+ /SleJXvbyC9KAjoC4DIh4y4abepE524LzA9BHmA8IOwXun25kqFduS2CY+gmc7u5Q1Py
+ h/LLISx3GYDDRHy36cvWcZGxJh6xnBWneMn4VX3LiMyKdVQ5eIuk+7PSzXLPyFORV4lT
+ P9wStJHRK1jBtTM8j/qkuhMh392td8zww4dn33XGEoSM3jrFVlUfj5GSBC5IF83HqCWo
+ 77vQ==
+X-Gm-Message-State: APjAAAUfND5e9rPsM3iQ7ofFmNKqpdHE8gNuYPyF7afSWazOlOpwoLes
+ 62ml8ye29KaKkOPTum/cAO4=
+X-Google-Smtp-Source: APXvYqzSEcqKd9c5RY+3BQhCFvIyDQkMKb1FZ6r2wPbfK8Ni/Lygs5/tyufQYycaPx8sC5+7gVSQuQ==
+X-Received: by 2002:a63:6704:: with SMTP id b4mr4423447pgc.424.1581443768740; 
+ Tue, 11 Feb 2020 09:56:08 -0800 (PST)
 Received: from [10.69.45.46] ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id z4sm5967969wrt.47.2020.02.11.09.50.59
+ by smtp.gmail.com with ESMTPSA id x11sm4974422pfn.53.2020.02.11.09.56.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Feb 2020 09:51:01 -0800 (PST)
-Subject: Re: [PATCH 1/2] nvme: move keep alive processing to nvme-wq
-To: Keith Busch <kbusch@kernel.org>
+ Tue, 11 Feb 2020 09:56:08 -0800 (PST)
+Subject: Re: [PATCH 2/2] nvme-rdma/nvme-tcp: Move err_work to nvme_reset_wq
+To: Max Gurtovoy <maxg@mellanox.com>, Christoph Hellwig <hch@lst.de>
 References: <20200206191342.10190-1-jsmart2021@gmail.com>
- <20200206191342.10190-2-jsmart2021@gmail.com>
- <20200211030037.GA20916@redsun51.ssa.fujisawa.hgst.com>
+ <20200206191342.10190-3-jsmart2021@gmail.com> <20200210170442.GB19584@lst.de>
+ <ec482da7-1794-eea1-555c-31c76e792e4d@mellanox.com>
 From: James Smart <jsmart2021@gmail.com>
-Message-ID: <19893b35-3bcc-e96c-496d-a6cf85d29bda@gmail.com>
-Date: Tue, 11 Feb 2020 09:50:58 -0800
+Message-ID: <35b81d7a-3783-c81b-a45b-f22260671444@gmail.com>
+Date: Tue, 11 Feb 2020 09:56:06 -0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.2
 MIME-Version: 1.0
-In-Reply-To: <20200211030037.GA20916@redsun51.ssa.fujisawa.hgst.com>
+In-Reply-To: <ec482da7-1794-eea1-555c-31c76e792e4d@mellanox.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200211_095103_568284_335BE247 
-X-CRM114-Status: GOOD (  13.95  )
+X-CRM114-CacheID: sfid-20200211_095609_749524_31B13897 
+X-CRM114-Status: GOOD (  14.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,45 +99,47 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: sagi@grimberg.me, linux-nvme@lists.infradead.org,
- Nigel Kirkland <nigel.kirkland@broadcom.com>, maxg@mellanox.com,
- mark.wunderlich@intel.com, hch@lst.de
+Cc: Nigel Kirkland <nigel.kirkland@broadcom.com>, mark.wunderlich@intel.com,
+ sagi@grimberg.me, linux-nvme@lists.infradead.org
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/10/2020 7:00 PM, Keith Busch wrote:
-> On Thu, Feb 06, 2020 at 11:13:41AM -0800, James Smart wrote:
->> Delayed keep alive work is queued on system workqueue and may be cancelled
->> via nvme_stop_keep_alive from nvme-reset-wq, nvme-fc-wq or nvme-wq.
->>
->> Check_flush_dependency detects mismatched attributes between the work-queue
->> context used to cancel the keep alive work and system-wq. Specifically
->> system-wq does not have the WQ_MEM_RECLAIM flag, whereas the contexts used
->> to cancel keep alive work have WQ_MEM_RECLAIM flag.
->>
->> Example warning:
->>
->>    workqueue: WQ_MEM_RECLAIM nvme-reset-wq:nvme_fc_reset_ctrl_work [nvme_fc]
->> 	is flushing !WQ_MEM_RECLAIM events:nvme_keep_alive_work [nvme_core]
->>
->> To avoid the flags mismatch, move keep alive work to nvme-wq.
->>
->> Signed-off-by: Nigel Kirkland <nigel.kirkland@broadcom.com>
->> Signed-off-by: James Smart <jsmart2021@gmail.com>
+On 2/11/2020 2:12 AM, Max Gurtovoy wrote:
 > 
-> Hi James,
+> On 2/10/2020 7:04 PM, Christoph Hellwig wrote:
+>> On Thu, Feb 06, 2020 at 11:13:42AM -0800, James Smart wrote:
+>>> With keep alive processing being moved to nvme_wq, it potentially 
+>>> creates
+>>> a conflicting position with err_work also processing on nvme_wq and 
+>>> needing
+>>> to flush/stop keep alives.
+>>>
+>>> To avoid issues, schedule err_work on nvme_reset_wq. It looks like 
+>>> this is
+>>> not only a good thing for keep alives, but also brings the transports in
+>>> line with the RESETTING state and processing work relative to RESETTING
+>>> on nvme_reset_wq.
+>>>
+>>> This change is made to both nvme-rdma and nvme-tcp which have like code.
+>> Shouldn't we move both in one patch to create a regression in one
+>> cycle while fixing the other one?
 > 
-> I'd like to include this in the next 5.6-rc pull, but just want to
-> clarify attribution: the author should be the first sign-off, so
-> should I amend the author to Nigel or move his sign-off below yours?
-> 
-> Thanks,
-> Keith
-> 
+> Yup, seems like these should be squashed.
 
-either of us as author is fine. so just pull it and have Nigel be author.
+note: see the v2 posted yesterday.
+
+> 
+> James,
+> 
+> did you run some testing for RDMA/tcp that will trigger this code ?
+
+The testing of the keepalive movement was all in FC. FC already has it's 
+calls from either nvme_reset_wq or nvme_delete_wq.
+
+For RDMA/TCP - it was not tested. It was by code inspection and looking 
+at who calls the keepalive cancellation calls.
 
 -- james
 
