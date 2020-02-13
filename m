@@ -2,131 +2,105 @@ Return-Path: <SRS0=WUqE=4B=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDE30C352A3
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Feb 2020 05:12:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2075DC2BA83
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Feb 2020 06:53:47 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B9C2C2168B
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Feb 2020 05:12:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E595120848
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Feb 2020 06:53:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="u7kPp/cE";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="u5lBnpSJ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B9C2C2168B
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=samsung.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="GC3Q19I0"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E595120848
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:References:MIME-Version:Message-ID:Date
-	:Subject:In-Reply-To:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=GuibGSAU+CuCMmURVhAjmeauBarZTRHXosL7WRUv5ck=; b=u7kPp/cEq+mduf
-	xDvKQelGgffcLGiVTRWK/lcOrecXSXiv+kZCU/BXLYahFDmIQAWR8NN1hnn7Nr+VE9rvIUvfHtD4c
-	4hTxCiNjDrWeqdNzHj1XPQNAeE6/CDIiW26qr5GKc/EpKjzv8QU2PCj7uTXyVOktG5qb50mI16EQI
-	Je9cPRA5gZNuHB9XO8QitpRv4Z5cMXcwAMhN2MTlYEpnRzulFZP9AVL8l0DoTX44W/8KbJHOr8sqg
-	XDG62i9iBOgtwk/NsjjO80/TIpplnvBniy1pcamLK+Jv76ObeyjDMKh7WOClgH2F3tCLUAEZL+5GJ
-	y1ckBWRwlNhgi32kof6A==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
+	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
+	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=PcCntvrUS3rkBGvs/6A4FCMEL57b3+UvALx2t4Ogk38=; b=GC3Q19I0Q2T1/u
+	hC6v+A9xi3g+fDWiSB204oJ1rfNQofdiw0gsrlUURJ6gRH5mGMGh/dq7sl2A5XREI+IVF/GdtUzJe
+	6QqHIukLUrGfuXv3oBL2LGsCKwUqqwpQc9d5eRFAe/e9sGd2IYeQXB8P1uwbgOLzMvcnHslzVcHg6
+	Pb8ybVAUn3ZrkltsA8bs3u8FyNR9S4gPBgD3eL1RDG0bPibuTsfTak0aS1IoO83LC3xvYxDTAU/vG
+	nH1yYT5N+OQfz9vs5Z1Ggxv7XJUyijVDuLxa8PagyN2zIEtUAQYAeZV7ervymYCn94HsVGeXKFYlD
+	jE6/hq5ZDW39lgmQnSRw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j26n9-00042T-D1; Thu, 13 Feb 2020 05:11:59 +0000
-Received: from mailout2.samsung.com ([203.254.224.25])
+	id 1j28NZ-0003aU-Tm; Thu, 13 Feb 2020 06:53:41 +0000
+Received: from mx2.suse.de ([195.135.220.15])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j26n4-000422-Ly
- for linux-nvme@lists.infradead.org; Thu, 13 Feb 2020 05:11:57 +0000
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
- by mailout2.samsung.com (KnoxPortal) with ESMTP id
- 20200213051134epoutp0222a7b8dfa0a091391d3bbddf78227805~y3irWBO2L3034230342epoutp02j
- for <linux-nvme@lists.infradead.org>; Thu, 13 Feb 2020 05:11:34 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
- 20200213051134epoutp0222a7b8dfa0a091391d3bbddf78227805~y3irWBO2L3034230342epoutp02j
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1581570694;
- bh=LD0NhM7y3cpbQdt0YrXSH37uTv9dnrwqWqjFEW9+JOw=;
- h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
- b=u5lBnpSJzU5BQF7vWzmK8JGyca3sVA4cypjDFlzE07p1bOqZ6SHxBT2DsUBZaIRX8
- kcJ6Gt73nXQAu2tWuX7Q4SZbqZQEbO6K19GLEb4KG37aC/r6UCzgBx55hg3H78b+g8
- KfjQZxlB9zf8TdaswF8LVtOMU2X7WZHTcMrH7Vy4=
-Received: from epsmges5p3new.samsung.com (unknown [182.195.42.75]) by
- epcas5p4.samsung.com (KnoxPortal) with ESMTP id
- 20200213051134epcas5p42726869588349c499b8c3da045a165d0~y3irDD3OG2644726447epcas5p4e;
- Thu, 13 Feb 2020 05:11:34 +0000 (GMT)
-Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
- epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 31.DF.19629.68AD44E5; Thu, 13 Feb 2020 14:11:34 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
- epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200213051133epcas5p1da9cdfd3276be99b7a6cad8ec05393d9~y3iqGyF6q2731627316epcas5p1G;
- Thu, 13 Feb 2020 05:11:33 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
- epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20200213051133epsmtrp2ddcf86fe0bc32abb8d8f1f4e86dcca0d~y3iqFrcAi2721027210epsmtrp2k;
- Thu, 13 Feb 2020 05:11:33 +0000 (GMT)
-X-AuditID: b6c32a4b-32dff70000014cad-f0-5e44da86608a
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
- epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 60.CD.10238.58AD44E5; Thu, 13 Feb 2020 14:11:33 +0900 (KST)
-Received: from joshik02 (unknown [107.111.93.135]) by epsmtip2.samsung.com
- (KnoxPortal) with ESMTPA id
- 20200213051130epsmtip2e44f26578a9cf2d1ffa37ac049172c9c~y3inF-sfn1334813348epsmtip2Z;
- Thu, 13 Feb 2020 05:11:30 +0000 (GMT)
-From: <joshi.k@samsung.com>
-To: "'Chaitanya Kulkarni'" <Chaitanya.Kulkarni@wdc.com>,
- <linux-block@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
- <linux-nvme@lists.infradead.org>, <dm-devel@redhat.com>,
- <lsf-pc@lists.linux-foundation.org>
-In-Reply-To: <BYAPR04MB5749820C322B40C7DBBBCA02863F0@BYAPR04MB5749.namprd04.prod.outlook.com>
-Subject: RE: [LSF/MM/BFP ATTEND] [LSF/MM/BFP TOPIC] Storage: Copy Offload
-Date: Thu, 13 Feb 2020 10:41:28 +0530
-Message-ID: <00d001d5e22c$0ebf63c0$2c3e2b40$@samsung.com>
+ id 1j28NW-0003ZQ-Qx
+ for linux-nvme@lists.infradead.org; Thu, 13 Feb 2020 06:53:40 +0000
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 5C39DAE34;
+ Thu, 13 Feb 2020 06:53:35 +0000 (UTC)
+Subject: Re: [PATCH] nvme-multipath: do not reset controller on unknown status
+To: Christoph Hellwig <hch@lst.de>
+References: <20200212134140.105817-1-hare@suse.de>
+ <20200212175317.GA5813@lst.de>
+From: Hannes Reinecke <hare@suse.de>
+Openpgp: preference=signencrypt
+Autocrypt: addr=hare@suse.de; prefer-encrypt=mutual; keydata=
+ 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
+ azzYF4VRJsdl+d0MCaSy8mUh
+Message-ID: <88fffa65-7c1d-8b14-e4d2-e4b5e2eb00a8@suse.de>
+Date: Thu, 13 Feb 2020 07:53:34 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 15.0
-Thread-Index: AQIQ/CJV9ObV4J6sH2oJT57LwF4MMQFeJX7Op5dpB3A=
-Content-Language: en-us
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUhTURjGOffe3V3FxXVavimEjb40sqIPTl9aFHTCoP6MKG3UbUa61m5m
- ZpFRyLQsWxm6IstKUWnVjPUxZ7ZaEs0wbWlTI0vT1L5mRWpmbtfA/37veZ7nnPeBw9HKcjac
- 26XdJ+i16mQVG8hYH0fNnJPlWZMwr6sxBFe0nWbx+W8DNDa19DLY/uWCDH+wjFC4qthI4bIK
- J4Wzn9dT2DnymcVGx2uE7Z7ZuKikU45PNN1jcXWvncaltX8pnJf1k8ZnDG4KvzD9YXHFH4zL
- PlK433VJhnseJqycRBpfxZNjl1sZ0liXSizl2SypvHaEnG0uRcT2JpMlBd4fLGly3aXI904P
- Q6ztuXJivfpJRr5Wu1ly6k45IpXPM0i/ZcrG4M2By3cIybv2C/q5sdsCkzzuW3JdOzlgbpyW
- ib7G5qAADviF8N3Vw+agQE7J2xB4znympMGLwGWy0tLwC0FNbgf1P2I9/UgmCXYEObmVY64u
- NKpUyXwulo+AfHefXwjlmxHcMNT4L6b5HzSY866wPlcAvxXyhzyjAseF8OugrWiy75jhp0Pb
- 8RHkYwW/BN6f/S2XOBieFXYwPqb5GGjOP8dKPBtKrvTS0nqRYPM6/UuE8kvhVdFNWvKEwSfn
- E7lvB+Cvc1DYN8JIgTUw4HgslzgEemrvjHE49H+xsxKLMNjqpKWwAUFTZuFYOA5eVg1T0gsT
- IHeow18GeAUYspSSZSq8NXbKJA6D9oJrY0yg1XyVykNTTeO6mcZ1M43rZhrX4TJiytFkQSem
- aARxkW6BVkiLEdUpYqpWE7N9T4oF+X9wdPw9ZHmx3oF4DqmCFDXdqxOUMvV+MT3FgYCjVaGK
- sKOjR4od6vSDgn5Poj41WRAdKIJjVGEKo8y9Rclr1PuE3YKgE/T/VYoLCM9Em5UrEhtWrTT/
- XLbJFo2+tdTXNV1sn6GLu8EMcprDh2y19d61Fwue0Ycj0xZH1rSUWuY+yTkYcju6u8z8LmhS
- 1AMxIbJ7oZEbKOnS15+kVEEN2tBi3YbqTRavIf6XM3/i3vvJ6UMZDW+H408IH2bMcu08p6lO
- fLg3OOlpQV0xlRalYsQk9fxoWi+q/wFVqumPvQMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFuphleLIzCtJLcpLzFFi42LZdlhJXrf1lkucQc8JAYvVd/vZLKZ9+Mls
- Mev2axaLve9ms1o83vSfyWLPoklMFitXH2Wy6Dx9gcni6P+3bBaTDl1jtNh7S9ti/rKn7Bbd
- 13ewWex7vZfZYvnxf0wWE9q+MltM7LjKZHFu1h82i9V/LCxWPmOy+HxmHqvFq/1xDmIel694
- ezQvuMPicflsqcemVZ1sHpuX1HtMvrGc0WP3zQY2jxmfvrB5XD+zncnj49NbLB7bHvaye2xb
- /JLV4/2+q2wefVtWMXpsPl3t8XmTXIBgFJdNSmpOZllqkb5dAlfGu8YvjAVfXCo+zZnD1sDY
- b9XFyMkhIWAisa3/IGsXIxeHkMBuRolLz98yQyTEJZqv/WCHsIUlVv57zg5R9JRRYk5TDwtI
- gk1AWmLq1TfMIAkRgTuMEntObQerYhboYJHYu2kCM0TLOkaJm2v3M4K0cArESkz9fYupi5GD
- Q1jAU+LufEmQMIuAqsTdlv9gJbwClhKPJkOs5hUQlDg58wnYNmYBA4n7hzpYIWxtiWULX0Od
- qiCx+9NRsLiIgJXElfnrmSFqxCVeHj3CPoFReBaSUbOQjJqFZNQsJC0LGFlWMUqmFhTnpucW
- GxYY5qWW6xUn5haX5qXrJefnbmIEpxEtzR2Ml5fEH2IU4GBU4uGVfO0cJ8SaWFZcmXuIUYKD
- WUmEV7wRKMSbklhZlVqUH19UmpNafIhRmoNFSZz3ad6xSCGB9MSS1OzU1ILUIpgsEwenVANj
- dtZNV+usnonP1pzzj83wXpDVNOOP8WXN5G+q92Xrfte+D14hb7ohpn1dHL/H3tc1p9JW/fIX
- 7ebZod4wcWnuyubrwkyPrXuOuy99HmxZeOKzI8PX04wz94ZrWFhPaYyPur3LJ3FZW6+zUKLF
- nqvr/2/T0T4TrT5lxcr+nEWrfudff7PysHyIEktxRqKhFnNRcSIASXR7jB8DAAA=
-X-CMS-MailID: 20200213051133epcas5p1da9cdfd3276be99b7a6cad8ec05393d9
-X-Msg-Generator: CA
-CMS-TYPE: 105P
-X-CMS-RootMailID: 20200107181551epcas5p4f47eeafd807c28a26b4024245c4e00ab
-References: <CGME20200107181551epcas5p4f47eeafd807c28a26b4024245c4e00ab@epcas5p4.samsung.com>
- <BYAPR04MB5749820C322B40C7DBBBCA02863F0@BYAPR04MB5749.namprd04.prod.outlook.com>
+In-Reply-To: <20200212175317.GA5813@lst.de>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200212_211155_079218_B84DF8DC 
-X-CRM114-Status: GOOD (  24.56  )
+X-CRM114-CacheID: sfid-20200212_225339_164344_56922261 
+X-CRM114-Status: GOOD (  29.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,251 +112,86 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: axboe@kernel.dk, frederick.knight@netapp.com, msnitzer@redhat.com,
- bvanassche@acm.org, "'Martin
- K. Petersen'" <martin.petersen@oracle.com>, javier@javigon.com,
- 'Stephen Bates' <sbates@raithlin.com>, roland@purestorage.com,
- 'Keith Busch' <kbusch@kernel.org>, mpatocka@redhat.com, hare@suse.de,
- joshi.k@samsung.com, rwheeler@redhat.com, 'Christoph	Hellwig' <hch@lst.de>,
- 'Matias Bjorling' <Matias.Bjorling@wdc.com>, zach.brown@ni.com
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Keith Busch <keith.busch@intel.com>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org, John Managhini <john.meneghini@netapp.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-I am very keen on this topic.
-I've been doing some work for "NVMe simple copy", and would like to discuss
-and solicit opinion of community on the following:
-
-- Simple-copy, unlike XCOPY and P2P, is limited to copy within a single
-namespace. Some of the problems that original XCOPY work [2] faced may not
-be applicable for simple-copy, e.g. split of single copy due to differing
-device-specific limits.
-Hope I'm not missing something in thinking so?
-
-- [Block I/O] Async interface (through io-uring or AIO) so that multiple
-copy operations can be queued.
-
-- [File I/O to user-space] I think it may make sense to extend
-copy_file_range API to do in-device copy as well.
-
-- [F2FS] GC of F2FS may leverage the interface. Currently it uses
-page-cache, which is fair. But, for relatively cold/warm data (if that needs
-to be garbage-collected anyway), it can rather bypass the Host and skip
-running into a scenario when something (useful) gets thrown out of cache.
-
-- [ZNS] ZNS users (kernel or user-space) would be log-structured, and will
-benefit from internal copy. But failure scenarios (partial copy,
-write-pointer position) need to be discussed.
-
-Thanks,
-Kanchan
-
-> -----Original Message-----
-> From: linux-nvme [mailto:linux-nvme-bounces@lists.infradead.org] On Behalf
-> Of Chaitanya Kulkarni
-> Sent: Tuesday, January 7, 2020 11:44 PM
-> To: linux-block@vger.kernel.org; linux-scsi@vger.kernel.org; linux-
-> nvme@lists.infradead.org; dm-devel@redhat.com; lsf-pc@lists.linux-
-> foundation.org
-> Cc: axboe@kernel.dk; msnitzer@redhat.com; bvanassche@acm.org; Martin K.
-> Petersen <martin.petersen@oracle.com>; Matias Bjorling
-> <Matias.Bjorling@wdc.com>; Stephen Bates <sbates@raithlin.com>;
-> roland@purestorage.com; mpatocka@redhat.com; hare@suse.de; Keith Busch
-> <kbusch@kernel.org>; rwheeler@redhat.com; Christoph Hellwig <hch@lst.de>;
-> frederick.knight@netapp.com; zach.brown@ni.com
-> Subject: [LSF/MM/BFP ATTEND] [LSF/MM/BFP TOPIC] Storage: Copy Offload
-> =
-
-> Hi all,
-> =
-
-> * Background :-
-> -----------------------------------------------------------------------
-> =
-
-> Copy offload is a feature that allows file-systems or storage devices to
-be
-> instructed to copy files/logical blocks without requiring involvement of
-the local
-> CPU.
-> =
-
-> With reference to the RISC-V summit keynote [1] single threaded
-performance is
-> limiting due to Denard scaling and multi-threaded performance is slowing
-down
-> due Moore's law limitations. With the rise of SNIA Computation Technical
-> Storage Working Group (TWG) [2], offloading computations to the device or
-> over the fabrics is becoming popular as there are several solutions
-available [2].
-> One of the common operation which is popular in the kernel and is not
-merged
-> yet is Copy offload over the fabrics or on to the device.
-> =
-
-> * Problem :-
-> -----------------------------------------------------------------------
-> =
-
-> The original work which is done by Martin is present here [3]. The latest
-work
-> which is posted by Mikulas [4] is not merged yet. These two approaches are
-> totally different from each other. Several storage vendors discourage
-mixing
-> copy offload requests with regular READ/WRITE I/O. Also, the fact that the
-> operation fails if a copy request ever needs to be split as it traverses
-the stack it
-> has the unfortunate side-effect of preventing copy offload from working in
-> pretty much every common deployment configuration out there.
-> =
-
-> * Current state of the work :-
-> -----------------------------------------------------------------------
-> =
-
-> With [3] being hard to handle arbitrary DM/MD stacking without splitting
-the
-> command in two, one for copying IN and one for copying OUT. Which is then
-> demonstrated by the [4] why [3] it is not a suitable candidate. Also, with
-[4]
-> there is an unresolved problem with the two-command approach about how to
-> handle changes to the DM layout between an IN and OUT operations.
-> =
-
-> * Why Linux Kernel Storage System needs Copy Offload support now ?
-> -----------------------------------------------------------------------
-> =
-
-> With the rise of the SNIA Computational Storage TWG and solutions [2],
-existing
-> SCSI XCopy support in the protocol, recent advancement in the Linux Kernel
-File
-> System for Zoned devices (Zonefs [5]), Peer to Peer DMA support in the
-Linux
-> Kernel mainly for NVMe devices [7] and eventually NVMe Devices and
-subsystem
-> (NVMe PCIe/NVMeOF) will benefit from Copy offload operation.
-> =
-
-> With this background we have significant number of use-cases which are
-strong
-> candidates waiting for outstanding Linux Kernel Block Layer Copy Offload
-> support, so that Linux Kernel Storage subsystem can to address previously
-> mentioned problems [1] and allow efficient offloading of the data related
-> operations. (Such as move/copy etc.)
-> =
-
-> For reference following is the list of the use-cases/candidates waiting
-for Copy
-> Offload support :-
-> =
-
-> 1. SCSI-attached storage arrays.
-> 2. Stacking drivers supporting XCopy DM/MD.
-> 3. Computational Storage solutions.
-> 7. File systems :- Local, NFS and Zonefs.
-> 4. Block devices :- Distributed, local, and Zoned devices.
-> 5. Peer to Peer DMA support solutions.
-> 6. Potentially NVMe subsystem both NVMe PCIe and NVMeOF.
-> =
-
-> * What we will discuss in the proposed session ?
-> -----------------------------------------------------------------------
-> =
-
-> I'd like to propose a session to go over this topic to understand :-
-> =
-
-> 1. What are the blockers for Copy Offload implementation ?
-> 2. Discussion about having a file system interface.
-> 3. Discussion about having right system call for user-space.
-> 4. What is the right way to move this work forward ?
-> 5. How can we help to contribute and move this work forward ?
-> =
-
-> * Required Participants :-
-> -----------------------------------------------------------------------
-> =
-
-> I'd like to invite block layer, device drivers and file system developers
-to:-
-> =
-
-> 1. Share their opinion on the topic.
-> 2. Share their experience and any other issues with [4].
-> 3. Uncover additional details that are missing from this proposal.
-> =
-
-> Required attendees :-
-> =
-
-> Martin K. Petersen
-> Jens Axboe
-> Christoph Hellwig
-> Bart Van Assche
-> Stephen Bates
-> Zach Brown
-> Roland Dreier
-> Ric Wheeler
-> Trond Myklebust
-> Mike Snitzer
-> Keith Busch
-> Sagi Grimberg
-> Hannes Reinecke
-> Frederick Knight
-> Mikulas Patocka
-> Matias Bj=F8rling
-> =
-
-> [1]https://protect2.fireeye.com/url?k=3D22656b2d-7fb63293-2264e062-
-> 0cc47a31ba82-2308b42828f59271&u=3Dhttps://content.riscv.org/wp-
-> content/uploads/2018/12/A-New-Golden-Age-for-Computer-Architecture-
-> History-Challenges-and-Opportunities-David-Patterson-.pdf
-> [2] https://protect2.fireeye.com/url?k=3D44e3336c-19306ad2-44e2b823-
-> 0cc47a31ba82-70c015d1b0aaeb3f&u=3Dhttps://www.snia.org/computational
-> https://protect2.fireeye.com/url?k=3Da366c2dc-feb59b62-a3674993-
-> 0cc47a31ba82-
-> 20bc672ec82b62b3&u=3Dhttps://www.napatech.com/support/resources/solution
-> -descriptions/napatech-smartnic-solution-for-hardware-offload/
->       https://protect2.fireeye.com/url?k=3D90febdca-cd2de474-90ff3685-
-> 0cc47a31ba82-
-> 277b6b09d36e6567&u=3Dhttps://www.eideticom.com/products.html
-> https://protect2.fireeye.com/url?k=3D4195e835-1c46b18b-4194637a-
-> 0cc47a31ba82-
-> a11a4c2e4f0d8a58&u=3Dhttps://www.xilinx.com/applications/data-
-> center/computational-storage.html
-> [3] git://git.kernel.org/pub/scm/linux/kernel/git/mkp/linux.git xcopy [4]
-> https://protect2.fireeye.com/url?k=3D455ff23c-188cab82-455e7973-
-> 0cc47a31ba82-e8e6695611f4cc1f&u=3Dhttps://www.spinics.net/lists/linux-
-> block/msg00599.html
-> [5] https://lwn.net/Articles/793585/
-> [6] https://protect2.fireeye.com/url?k=3D08eb17f6-55384e48-08ea9cb9-
-> 0cc47a31ba82-1b80cd012aa4f6a3&u=3Dhttps://nvmexpress.org/new-nvmetm-
-> specification-defines-zoned-
-> namespaces-zns-as-go-to-industry-technology/
-> [7] https://protect2.fireeye.com/url?k=3D54b372ee-09602b50-54b2f9a1-
-> 0cc47a31ba82-ea67c60915bfd63b&u=3Dhttps://github.com/sbates130272/linux-
-> p2pmem
-> [8] https://protect2.fireeye.com/url?k=3D30c2303c-6d116982-30c3bb73-
-> 0cc47a31ba82-95f0ddc1afe635fe&u=3Dhttps://kernel.dk/io_uring.pdf
-> =
-
-> Regards,
-> Chaitanya
-> =
-
-> _______________________________________________
-> linux-nvme mailing list
-> linux-nvme@lists.infradead.org
-> https://protect2.fireeye.com/url?k=3Dd145dc5a-8c9685e4-d1445715-
-> 0cc47a31ba82-
-> 3bf90c648f67ccdd&u=3Dhttp://lists.infradead.org/mailman/listinfo/linux-nv=
-me
-
-
-
-_______________________________________________
-linux-nvme mailing list
-linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+T24gMi8xMi8yMCA2OjUzIFBNLCBDaHJpc3RvcGggSGVsbHdpZyB3cm90ZToKPiBPbiBXZWQsIEZl
+YiAxMiwgMjAyMCBhdCAwMjo0MTo0MFBNICswMTAwLCBIYW5uZXMgUmVpbmVja2Ugd3JvdGU6Cj4+
+IFdlJ3JlIHNlZWluZyBvY2Nhc2lvbmFsIGNvbnRyb2xsZXIgcmVzZXRzIGR1cmluZyBzdHJhaWdo
+dCBJL08sCj4+IGJ1dCBvbmx5IHdoZW4gbXVsdGlwYXRoIGlzIGFjdGl2ZS4KPj4gVGhlIHByb2Js
+ZW0gaGVyZSBpcyB0aGUgbnZtZS1tdWx0aXBhdGggd2lsbCByZXNldCB0aGUgY29udHJvbGxlcgo+
+PiBvbiBldmVyeSB1bmtub3duIHN0YXR1cywgd2hpY2ggcmVhbGx5IGlzIGFuIG9kZCBiZWhhdmlv
+dXIsIHNlZWluZwo+PiB0aGF0IHRoZSBob3N0IGFscmVhZHkgcmVjZWl2ZWQgYSBwZXJmZWN0bHkg
+Z29vZCBzdGF0dXM7IGl0J3MganVzdAo+PiB0aGF0IGl0J3Mgbm90IHNtYXJ0IGVub3VnaCB0byB1
+bmRlcnN0YW5kIGl0Lgo+PiBBbmQgcmVzZXR0aW5nIHdvdWxkbid0IGhlbHAgYXQgYWxsOyB0aGUg
+ZXJyb3Igc3RhdHVzIHdpbGwgY29udGludWUKPj4gdG8gYmUgcmVjZWl2ZWQuCj4+IFNvIHdlIHNo
+b3VsZCByYXRoZXIgcGFzcyB1cCBhbnkgdW5rbm93biBlcnJvciB0byB0aGUgZ2VuZXJpYwo+PiBy
+b3V0aW5lcyBhbmQgbGV0IHRoZW0gZGVhbCB3aXRoIHRoaXMgc2l0dWF0aW9uLgo+IAo+IFdoYXQg
+dW5rbm93biBzdGF0dXMgZG8geW91IHNlZT8KPiAKPj4KPj4gU2lnbmVkLW9mZi1ieTogSGFubmVz
+IFJlaW5lY2tlIDxoYXJlQHN1c2UuZGU+Cj4+IENjOiBKb2huIE1hbmFnaGluaSA8am9obi5tZW5l
+Z2hpbmlAbmV0YXBwLmNvbT4KPj4gLS0tCj4+ICBkcml2ZXJzL252bWUvaG9zdC9jb3JlLmMgICAg
+ICB8ICA0ICsrLS0KPj4gIGRyaXZlcnMvbnZtZS9ob3N0L211bHRpcGF0aC5jIHwgMTggKysrKysr
+KysrKy0tLS0tLS0tCj4+ICBkcml2ZXJzL252bWUvaG9zdC9udm1lLmggICAgICB8ICAyICstCj4+
+ICAzIGZpbGVzIGNoYW5nZWQsIDEzIGluc2VydGlvbnMoKyksIDExIGRlbGV0aW9ucygtKQo+Pgo+
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9udm1lL2hvc3QvY29yZS5jIGIvZHJpdmVycy9udm1lL2hv
+c3QvY29yZS5jCj4+IGluZGV4IDVkYzMyYjcyZTdmYS4uZWRiMDgxNzgxYWU3IDEwMDY0NAo+PiAt
+LS0gYS9kcml2ZXJzL252bWUvaG9zdC9jb3JlLmMKPj4gKysrIGIvZHJpdmVycy9udm1lL2hvc3Qv
+Y29yZS5jCj4+IEBAIC0yOTMsOCArMjkzLDggQEAgdm9pZCBudm1lX2NvbXBsZXRlX3JxKHN0cnVj
+dCByZXF1ZXN0ICpyZXEpCj4+ICAJaWYgKHVubGlrZWx5KHN0YXR1cyAhPSBCTEtfU1RTX09LICYm
+IG52bWVfcmVxX25lZWRzX3JldHJ5KHJlcSkpKSB7Cj4+ICAJCWlmICgocmVxLT5jbWRfZmxhZ3Mg
+JiBSRVFfTlZNRV9NUEFUSCkgJiYKPj4gIAkJICAgIGJsa19wYXRoX2Vycm9yKHN0YXR1cykpIHsK
+Pj4gLQkJCW52bWVfZmFpbG92ZXJfcmVxKHJlcSk7Cj4+IC0JCQlyZXR1cm47Cj4+ICsJCQlpZiAo
+bnZtZV9mYWlsb3Zlcl9yZXEocmVxKSkKPj4gKwkJCQlyZXR1cm47Cj4gCj4gVGhpcyByZWFkcyB3
+ZWlyZCwgd2h5IG5vdDoKPiAKPiAJCWlmICgocmVxLT5jbWRfZmxhZ3MgJiBSRVFfTlZNRV9NUEFU
+SCkgJiYKPiAJCSAgICBibGtfcGF0aF9lcnJvcihzdGF0dXMpICYmIG52bWVfZmFpbG92ZXJfcmVx
+KHJlcSkpCj4gCQkJcmV0dXJuOwo+IAo+ID8KPiAKPiBCdXQgc2VlIGJlbG93LCB3aXRoIHlvdXIg
+dXBkYXRlZCBjaGVja3MgKGFzc3VtaW5nIHRoaXMgbWFrZXMgc2Vuc2UKPiBhcyB3ZSBuZWVkIG1v
+cmUgZXhwbGFuYXRpb24pIHdlIGRvbid0IGV2ZW4gbmVlZCB0aGUgYmxrX3BhdGhfZXJyb3IKPiBj
+YWxsLgo+IAo+PiAtdm9pZCBudm1lX2ZhaWxvdmVyX3JlcShzdHJ1Y3QgcmVxdWVzdCAqcmVxKQo+
+PiArYm9vbCBudm1lX2ZhaWxvdmVyX3JlcShzdHJ1Y3QgcmVxdWVzdCAqcmVxKQo+PiAgewo+PiAg
+CXN0cnVjdCBudm1lX25zICpucyA9IHJlcS0+cS0+cXVldWVkYXRhOwo+PiAgCXUxNiBzdGF0dXMg
+PSBudm1lX3JlcShyZXEpLT5zdGF0dXM7Cj4+ICAJdW5zaWduZWQgbG9uZyBmbGFnczsKPj4gKwli
+b29sIGhhbmRsZWQgPSBmYWxzZTsKPj4gIAo+PiAgCXNwaW5fbG9ja19pcnFzYXZlKCZucy0+aGVh
+ZC0+cmVxdWV1ZV9sb2NrLCBmbGFncyk7Cj4+ICAJYmxrX3N0ZWFsX2Jpb3MoJm5zLT5oZWFkLT5y
+ZXF1ZXVlX2xpc3QsIHJlcSk7Cj4+ICAJc3Bpbl91bmxvY2tfaXJxcmVzdG9yZSgmbnMtPmhlYWQt
+PnJlcXVldWVfbG9jaywgZmxhZ3MpOwo+PiAtCWJsa19tcV9lbmRfcmVxdWVzdChyZXEsIDApOwo+
+IAo+IFlvdSBjYW4ndCBqdXN0IHN0ZWFsIHRoZSBiaW9zIHdpdGhvdXQgY29tcGxldGluZyB0aGUg
+cmVxdWVzdC4KPiAKQWguIFRydWUuCgo+PiAgCj4+ICAJc3dpdGNoIChzdGF0dXMgJiAweDdmZikg
+ewo+PiAgCWNhc2UgTlZNRV9TQ19BTkFfVFJBTlNJVElPTjoKPj4gQEAgLTg4LDExICs4OCwxMyBA
+QCB2b2lkIG52bWVfZmFpbG92ZXJfcmVxKHN0cnVjdCByZXF1ZXN0ICpyZXEpCj4+ICAJCSAqIG1h
+cmsgdGhlIHRoZSBwYXRoIGFzIHBlbmRpbmcgYW5kIGtpY2sgb2YgYSByZS1yZWFkIG9mIHRoZSBB
+TkEKPj4gIAkJICogbG9nIHBhZ2UgQVNBUC4KPj4gIAkJICovCj4+ICsJCWJsa19tcV9lbmRfcmVx
+dWVzdChyZXEsIDApOwo+PiAgCQludm1lX21wYXRoX2NsZWFyX2N1cnJlbnRfcGF0aChucyk7Cj4+
+ICAJCWlmIChucy0+Y3RybC0+YW5hX2xvZ19idWYpIHsKPj4gIAkJCXNldF9iaXQoTlZNRV9OU19B
+TkFfUEVORElORywgJm5zLT5mbGFncyk7Cj4+ICAJCQlxdWV1ZV93b3JrKG52bWVfd3EsICZucy0+
+Y3RybC0+YW5hX3dvcmspOwo+PiAgCQl9Cj4+ICsJCWhhbmRsZWQgPSB0cnVlOwo+PiAgCQlicmVh
+azsKPj4gIAljYXNlIE5WTUVfU0NfSE9TVF9QQVRIX0VSUk9SOgo+PiAgCWNhc2UgTlZNRV9TQ19I
+T1NUX0FCT1JURURfQ01EOgo+PiBAQCAtMTAwLDE4ICsxMDIsMTggQEAgdm9pZCBudm1lX2ZhaWxv
+dmVyX3JlcShzdHJ1Y3QgcmVxdWVzdCAqcmVxKQo+PiAgCQkgKiBUZW1wb3JhcnkgdHJhbnNwb3J0
+IGRpc3J1cHRpb24gaW4gdGFsa2luZyB0byB0aGUgY29udHJvbGxlci4KPj4gIAkJICogVHJ5IHRv
+IHNlbmQgb24gYSBuZXcgcGF0aC4KPj4gIAkJICovCj4+ICsJCWJsa19tcV9lbmRfcmVxdWVzdChy
+ZXEsIDApOwo+PiAgCQludm1lX21wYXRoX2NsZWFyX2N1cnJlbnRfcGF0aChucyk7Cj4+ICsJCWhh
+bmRsZWQgPSB0cnVlOwo+PiAgCQlicmVhazsKPj4gIAlkZWZhdWx0Ogo+PiAtCQkvKgo+PiAtCQkg
+KiBSZXNldCB0aGUgY29udHJvbGxlciBmb3IgYW55IG5vbi1BTkEgZXJyb3IgYXMgd2UgZG9uJ3Qg
+a25vdwo+PiAtCQkgKiB3aGF0IGNhdXNlZCB0aGUgZXJyb3IuCj4+IC0JCSAqLwo+PiAtCQludm1l
+X3Jlc2V0X2N0cmwobnMtPmN0cmwpOwo+PiArCQkvKiBEZWxlZ2F0ZSB0byBjb21tb24gZXJyb3Ig
+aGFuZGxpbmcgKi8KPj4gIAkJYnJlYWs7Cj4+ICAJfQo+PiAgCj4+IC0Ja2Jsb2NrZF9zY2hlZHVs
+ZV93b3JrKCZucy0+aGVhZC0+cmVxdWV1ZV93b3JrKTsKPj4gKwlpZiAoaGFuZGxlZCkKPj4gKwkJ
+a2Jsb2NrZF9zY2hlZHVsZV93b3JrKCZucy0+aGVhZC0+cmVxdWV1ZV93b3JrKTsKPj4gKwlyZXR1
+cm4gaGFuZGxlZDsKPiAKPiBJIHRoaW5rIHlvdSBjYW4gZGVmZXIgdGhlIGJsa19tcV9lbmRfcmVx
+dWVzdCB0byBoZXJlIGFzIHdlbGwuICBUaGVuCj4ganVzdCByZXR1cm4gZmFsc2UgZnJvbSB0aGUg
+ZGVmYXVsdCBjYXNlIGFuZCB5b3UgZG9uJ3QgbmVlZCB0aGUgaGFuZGxlZAo+IHZhcmlhYmxlLgo+
+IAo+IFNvIGluIHRoZSBlbmQgdGhpcyBzaG91bGQgYmUgc29tZXRoaW5nIGxpa2UgdGhpczoKPiAK
+WyAuLiBdCk1heWJlIHdpdGhvdXQgdGhlIGJ0cmZzIGJpdHMgOi0pCgpJJ2xsIGdpdmUgaXQgYSBz
+cGluLgoKQ2hlZXJzLAoKSGFubmVzCi0tIApEci4gSGFubmVzIFJlaW5lY2tlCQkgICAgICAgICAg
+IEtlcm5lbCBTdG9yYWdlIEFyY2hpdGVjdApoYXJlQHN1c2UuZGUJCQkgICAgICAgICAgICAgICAg
+ICArNDkgOTExIDc0MDUzIDY4OApTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgs
+IE1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZwpIUkIgMzY4MDkgKEFHIE7DvHJuYmVyZyks
+IEdGOiBGZWxpeCBJbWVuZMO2cmZmZXIKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCmxpbnV4LW52bWUgbWFpbGluZyBsaXN0CmxpbnV4LW52bWVAbGlzdHMu
+aW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZv
+L2xpbnV4LW52bWUK
