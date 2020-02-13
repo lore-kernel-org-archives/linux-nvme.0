@@ -2,21 +2,21 @@ Return-Path: <SRS0=WUqE=4B=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9CC4C2BA83
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Feb 2020 17:03:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD3F4C352A3
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Feb 2020 19:51:23 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 98E01218AC
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Feb 2020 17:03:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 771E12086A
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Feb 2020 19:51:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="D2U6YYwl";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="VV4LoRV9"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 98E01218AC
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="WTKNSWha";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="iCiUv1cE"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 771E12086A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,47 +25,47 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=zBUF0aE1pFhqBlLnhVd5+seovGH5tnZe2xVENIARIQg=; b=D2U6YYwl3uXd71
-	uJsNoqn28vIi42RXuqb/vRX8L9+oWOjNE1RnRu6Mi+ZcjQeNVr6NDM52If63s7RA1BJYkgmHPw3Mr
-	0jHjZDkj74FhIGGPj/TMcolnwfDYgPu/wKM1wdzwpwXqJ4LMYIgfO8uovTg4wRmRMMrir3oGYFJ6P
-	TfU1gUyd9LA70Ixh00RXJnemC0h9hXzVioXMYxAxcl0gbf3IyJATFtc2MAFa2BUGeS+6JLLir3uhD
-	f+I7uQNM3YwcDlEAg0R29rWk+Qc+pQnP3BndHrf88owZeOrc51LLrF177Lx5zwGwSjBfF2PBZcRPv
-	SA7xYVj7wPNQyoJQEmKA==;
+	List-Owner; bh=SRpc8ZQlwOZgv9/YAI1SIaXJgC2FylSxOA7+kQHQGBE=; b=WTKNSWha4mrDUK
+	+KDMT5/X5c8M+LVoskqLiC7V5i4zTGiIr5iFX8X6q5gbL3iDCD4D5PJzV+3B6vgDfLSxAFSsx4vA1
+	hKnoVa7cSqivmskFzs/6H2EChUrC/ekHLqsK/EF24wJxeKDpMMrMlPkbwDipNO1F4LP1NZAEwM9Bs
+	Z5XSN42WzLEqi0UpYPvRIWEYqlRBB98qU/GYkJDyxvoFG7dz8PsLxECmxfd22jXkq5MalRO31R385
+	lzVrWlw4AABuSgq4B00EGPcgH4PBenEC5BDFYrCX6hCHY6wiyAaWOGoBtM8yk1+DzmCYxa250JPHH
+	K8ZSWYJsbDiKfG34WXlA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j2HtO-0004IV-J6; Thu, 13 Feb 2020 17:03:10 +0000
+	id 1j2KW5-00063Q-NJ; Thu, 13 Feb 2020 19:51:17 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j2HtM-0004IB-4V
- for linux-nvme@lists.infradead.org; Thu, 13 Feb 2020 17:03:09 +0000
+ id 1j2KW3-00062s-5z
+ for linux-nvme@lists.infradead.org; Thu, 13 Feb 2020 19:51:16 +0000
 Received: from redsun51.ssa.fujisawa.hgst.com (unknown [199.255.47.7])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id B3092206DB;
- Thu, 13 Feb 2020 17:03:04 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id A1489206DB;
+ Thu, 13 Feb 2020 19:51:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581613385;
- bh=tj8oWrMjvpzrTNVtrQ+xRVVkFV0SrHR5ddgrMqS0S9k=;
+ s=default; t=1581623474;
+ bh=Xqbq2haBuZFkDYjZmsV4yATrit/Qz2AEyZkfCyM1khw=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=VV4LoRV9KDvQZz4rhEsXhaay7CgUYn/gmyQvfVfKbR9MTamE0O3zAzlzHcyjnqU0x
- JunwrSOpq5N1eTVsj3pvQpOxMis/exF/24u+uSuAgJwVMeiTIAW0pa8LPKdU9Q2BDb
- Sj+NR6DGfa/jG6NyFRibju8PJgfJH7XxQs+4DZy0=
-Date: Fri, 14 Feb 2020 02:02:58 +0900
+ b=iCiUv1cEhk9VwBol7PtJap7ex5wIeg5ldTR+g0vDrDf4ZXUVibPHJxmw8z0OsPtP4
+ 3sDi51kklI4zP5HGQ5GjBfBHOb/TbuhsXDlniCFor44vp8ZUureEQ/Ir07YM2O7TyV
+ sSG00Eyn9qbz3BCSD2kSR7827Jm6gkeT/WqVN19E=
+Date: Fri, 14 Feb 2020 04:51:06 +0900
 From: Keith Busch <kbusch@kernel.org>
-To: Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH] nvme-multipath: do not reset controller on unknown status
-Message-ID: <20200213170258.GC7634@redsun51.ssa.fujisawa.hgst.com>
-References: <20200212134140.105817-1-hare@suse.de>
- <20200212175317.GA5813@lst.de>
- <6d4d18e3-c3a1-7d93-5abf-1ae46e18ca8c@grimberg.me>
- <3345c55f-3a42-315b-1d62-20f9aaab296e@suse.de>
+To: Christoph Hellwig <hch@infradead.org>
+Subject: Re: [PATCH] nvme: fix uninitialized-variable warning
+Message-ID: <20200213195106.GA8256@redsun51.ssa.fujisawa.hgst.com>
+References: <20200107214215.935781-1-arnd@arndb.de>
+ <20200130150451.GA25427@infradead.org>
+ <CAK8P3a0EgfQkrSr77jE12Wm_NKemEZ1rFZLMcVhkAuu1cwOOWQ@mail.gmail.com>
+ <20200130154815.GA2463@infradead.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <3345c55f-3a42-315b-1d62-20f9aaab296e@suse.de>
+In-Reply-To: <20200130154815.GA2463@infradead.org>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200213_090308_196538_A9B4F358 
-X-CRM114-Status: GOOD (  12.67  )
+X-CRM114-CacheID: sfid-20200213_115115_244774_7F76D146 
+X-CRM114-Status: GOOD (  16.34  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,31 +77,49 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <keith.busch@intel.com>,
- John Managhini <john.meneghini@netapp.com>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>
+Cc: Oleksandr Natalenko <oleksandr@redhat.com>,
+ Bart Van Assche <bvanassche@acm.org>, Arnd Bergmann <arnd@arndb.de>,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ linux-nvme@lists.infradead.org, Jens Axboe <axboe@fb.com>,
+ Marta Rybczynska <mrybczyn@kalray.eu>, Hannes Reinecke <hare@suse.de>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Feb 13, 2020 at 08:02:20AM +0100, Hannes Reinecke wrote:
-> But this is precisely the case I'm arguing against here.
-> One of the lessons learned from SCSI is that reset only makes sense if
-> the system misbehaves and resetting it would make this error go away.
+On Thu, Jan 30, 2020 at 07:48:15AM -0800, Christoph Hellwig wrote:
+> On Thu, Jan 30, 2020 at 04:36:48PM +0100, Arnd Bergmann wrote:
+> > > This one is just gross.  I think we'll need to find some other fix
+> > > that doesn't obsfucate the code as much.
+> > 
+> > Initializing the nvme_result in nvme_features() would do it, as would
+> > setting it in the error path in __nvme_submit_sync_cmd() -- either
+> > way the compiler cannot be confused about whether it is initialized
+> > later on.
 > 
-> Receiving a status code which we don't know about does _not_ fall into
-> this category; the very fact that we have a status code proves that the
-> system does _not_ misbehave.
->
-> So what exactly will be resolved by resetting?
-> There actually is a fair chance that we'll be getting the very same
-> error again...
+> Given that this is outside the hot path we can just zero the whole
+> structure before submitting the I/O.
 
-I agree, the types of issues a reset may resolve don't seem applicable
-if we're actually getting response. Is there even a single defined NVMe
-status code where a reset would be an appropriate escalation?
+I think this should be okay:
+
+---
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 7f05deada7f4..4aeed750dab2 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1165,8 +1165,8 @@ static int nvme_identify_ns(struct nvme_ctrl *ctrl,
+ static int nvme_features(struct nvme_ctrl *dev, u8 op, unsigned int fid,
+ 		unsigned int dword11, void *buffer, size_t buflen, u32 *result)
+ {
++	union nvme_result res = { 0 };
+ 	struct nvme_command c;
+-	union nvme_result res;
+ 	int ret;
  
+ 	memset(&c, 0, sizeof(c));
+--
 
 _______________________________________________
 linux-nvme mailing list
