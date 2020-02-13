@@ -6,17 +6,17 @@ X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2B69C2BA83
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Feb 2020 16:30:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9CC4C2BA83
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Feb 2020 17:03:14 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A53D6217F4
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Feb 2020 16:30:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 98E01218AC
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Feb 2020 17:03:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Xm5bBiGr";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="0rnNxsBF"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A53D6217F4
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="D2U6YYwl";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="VV4LoRV9"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 98E01218AC
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,52 +25,47 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=805Tlh03L6fxeH6aX6vDc0TyI/N/n19IDMNCxxLivps=; b=Xm5bBiGrTp1hsu
-	5tMljhBGg0fwRBCd3W/aIdTqGVDLgvGDUUP8Rr9U3qwmTI5wLpnGsC8C8YBNnYl8s3QnzZrz6Hdwo
-	w8LUQT9o6qN6S2haV57GxkW9QmfIcIjsSr8vushMbu9hQz9QmpPGuS/aBBKwcVA6Q1I4ZfvzM3LVH
-	p2amnp5m3z5c7b57bLAidR//yfDowG82cKQLACcxyQjqMNj988A5NHBbOd50x7/V6bPWPZIYARY48
-	dUUiiRtJdxWRwp5W/08mW35N8GnbNXXJq8r480Vfd3R/XxWH73DAhzSzJnubsNGsJQ57SoVhsKaib
-	yDD3Ay2s6FJ2gfwzpJ4Q==;
+	List-Owner; bh=zBUF0aE1pFhqBlLnhVd5+seovGH5tnZe2xVENIARIQg=; b=D2U6YYwl3uXd71
+	uJsNoqn28vIi42RXuqb/vRX8L9+oWOjNE1RnRu6Mi+ZcjQeNVr6NDM52If63s7RA1BJYkgmHPw3Mr
+	0jHjZDkj74FhIGGPj/TMcolnwfDYgPu/wKM1wdzwpwXqJ4LMYIgfO8uovTg4wRmRMMrir3oGYFJ6P
+	TfU1gUyd9LA70Ixh00RXJnemC0h9hXzVioXMYxAxcl0gbf3IyJATFtc2MAFa2BUGeS+6JLLir3uhD
+	f+I7uQNM3YwcDlEAg0R29rWk+Qc+pQnP3BndHrf88owZeOrc51LLrF177Lx5zwGwSjBfF2PBZcRPv
+	SA7xYVj7wPNQyoJQEmKA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j2HO4-0005Z3-9a; Thu, 13 Feb 2020 16:30:48 +0000
+	id 1j2HtO-0004IV-J6; Thu, 13 Feb 2020 17:03:10 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j2HO1-0005YF-90
- for linux-nvme@lists.infradead.org; Thu, 13 Feb 2020 16:30:46 +0000
+ id 1j2HtM-0004IB-4V
+ for linux-nvme@lists.infradead.org; Thu, 13 Feb 2020 17:03:09 +0000
 Received: from redsun51.ssa.fujisawa.hgst.com (unknown [199.255.47.7])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id F3DB5217F4;
- Thu, 13 Feb 2020 16:30:43 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id B3092206DB;
+ Thu, 13 Feb 2020 17:03:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581611444;
- bh=nsWJZz/XRgp46cV0agCDAmZPkwPwLp1ic2dkZW13uMI=;
+ s=default; t=1581613385;
+ bh=tj8oWrMjvpzrTNVtrQ+xRVVkFV0SrHR5ddgrMqS0S9k=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=0rnNxsBFGlcfGbSG5+CPtnSIx21akwCBsUsO6wdm8O34Z+ufB7LBXP/sU8jM1/IAI
- qPlyr6r7813v+7XU0QhXvqwNLFInRY775lp723vSXcB+xNbXJchlbi7zjiPjNIn0aK
- HTV6p84oCg8+9UkaAdadR9A6sOBb1urepBHIDXvI=
-Date: Fri, 14 Feb 2020 01:30:38 +0900
+ b=VV4LoRV9KDvQZz4rhEsXhaay7CgUYn/gmyQvfVfKbR9MTamE0O3zAzlzHcyjnqU0x
+ JunwrSOpq5N1eTVsj3pvQpOxMis/exF/24u+uSuAgJwVMeiTIAW0pa8LPKdU9Q2BDb
+ Sj+NR6DGfa/jG6NyFRibju8PJgfJH7XxQs+4DZy0=
+Date: Fri, 14 Feb 2020 02:02:58 +0900
 From: Keith Busch <kbusch@kernel.org>
-To: Ming Lei <ming.lei@redhat.com>
-Subject: Re: [LSF/MM/BPF TOPIC] NVMe HDD
-Message-ID: <20200213163038.GB7634@redsun51.ssa.fujisawa.hgst.com>
-References: <CANo=J14resJ4U1nufoiDq+ULd0k-orRCsYah8Dve-y8uCjA62Q@mail.gmail.com>
- <20200211122821.GA29811@ming.t460p>
- <CANo=J14iRK8K3bc1g3rLBp=QTLZQak0DcHkvgZS2f=xO_HFgxQ@mail.gmail.com>
- <BYAPR04MB5816AA843E63FFE2EA1D5D23E71B0@BYAPR04MB5816.namprd04.prod.outlook.com>
- <20200212220328.GB25314@ming.t460p>
- <BYAPR04MB581622DDD1B8B56CEFF3C23AE71A0@BYAPR04MB5816.namprd04.prod.outlook.com>
- <20200213075348.GA9144@ming.t460p>
- <BYAPR04MB58160C04182D5FE3A15842BBE71A0@BYAPR04MB5816.namprd04.prod.outlook.com>
- <20200213083413.GC9144@ming.t460p>
+To: Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH] nvme-multipath: do not reset controller on unknown status
+Message-ID: <20200213170258.GC7634@redsun51.ssa.fujisawa.hgst.com>
+References: <20200212134140.105817-1-hare@suse.de>
+ <20200212175317.GA5813@lst.de>
+ <6d4d18e3-c3a1-7d93-5abf-1ae46e18ca8c@grimberg.me>
+ <3345c55f-3a42-315b-1d62-20f9aaab296e@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200213083413.GC9144@ming.t460p>
+In-Reply-To: <3345c55f-3a42-315b-1d62-20f9aaab296e@suse.de>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200213_083045_337440_D447BAB9 
-X-CRM114-Status: GOOD (  10.38  )
+X-CRM114-CacheID: sfid-20200213_090308_196538_A9B4F358 
+X-CRM114-Status: GOOD (  12.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,33 +77,31 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- Damien Le Moal <Damien.LeMoal@wdc.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Tim Walker <tim.t.walker@seagate.com>, linux-scsi <linux-scsi@vger.kernel.org>
+Cc: Keith Busch <keith.busch@intel.com>,
+ John Managhini <john.meneghini@netapp.com>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Feb 13, 2020 at 04:34:13PM +0800, Ming Lei wrote:
-> On Thu, Feb 13, 2020 at 08:24:36AM +0000, Damien Le Moal wrote:
-> > Got it. And since queue full will mean no more tags, submission will block
-> > on get_request() and there will be no chance in the elevator to merge
-> > anything (aside from opportunistic merging in plugs), isn't it ?
-> > So I guess NVMe HDDs will need some tuning in this area.
+On Thu, Feb 13, 2020 at 08:02:20AM +0100, Hannes Reinecke wrote:
+> But this is precisely the case I'm arguing against here.
+> One of the lessons learned from SCSI is that reset only makes sense if
+> the system misbehaves and resetting it would make this error go away.
 > 
-> scheduler queue depth is usually 2 times of hw queue depth, so requests
-> ar usually enough for merging.
-> 
-> For NVMe, there isn't ns queue depth, such as scsi's device queue depth,
-> meantime the hw queue depth is big enough, so no chance to trigger merge.
+> Receiving a status code which we don't know about does _not_ fall into
+> this category; the very fact that we have a status code proves that the
+> system does _not_ misbehave.
+>
+> So what exactly will be resolved by resetting?
+> There actually is a fair chance that we'll be getting the very same
+> error again...
 
-Most NVMe devices contain a single namespace anyway, so the shared tag
-queue depth is effectively the ns queue depth, and an NVMe HDD should
-advertise queue count and depth capabilities orders of magnitude lower
-than what we're used to with nvme SSDs. That should get merging and
-BLK_STS_DEV_RESOURCE handling to occur as desired, right?
+I agree, the types of issues a reset may resolve don't seem applicable
+if we're actually getting response. Is there even a single defined NVMe
+status code where a reset would be an appropriate escalation?
+ 
 
 _______________________________________________
 linux-nvme mailing list
