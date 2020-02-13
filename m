@@ -2,86 +2,138 @@ Return-Path: <SRS0=WUqE=4B=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91A8AC2BA83
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Feb 2020 07:54:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB7F6C2BA83
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Feb 2020 08:24:49 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 633552168B
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Feb 2020 07:54:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B8F2120873
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Feb 2020 08:24:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="uHbXs7Oi";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XzYHmt85"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 633552168B
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="k9t9omgF";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="HZajUilN";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="zOcuAk0E"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B8F2120873
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=TIJKbOADBFBzcBXvmRf21UWxG8ZKdT9D6u/MGHAsmyg=; b=uHbXs7OiXHilsD
-	3uD5ZqBrjIpYQ6Me5IDodcAwNMSemYQuKXMuk0/jJRdPvoF6Q8Ma9JcEyT/tCpVWkLhSvoyG7a5G9
-	XqGTJGt4cbR9sPJ/tYh4KJuzKoq+5OnlYF4MiyOibTvUdduvb8pm8WZ4E4PVw9QZuP4fY+08quuw2
-	Gx80Y7OWVL/6JwaPvUDpRUJxfdtgSD0Q7wiVMaudSvnIVEPBwPm42ANbE0ryhpxyi0hcPVhFy3opN
-	g3nDGE3zHyP9Em4jBGqxFCzqyT3F65PkXr+JL9BTHG9l8Z9HXD6E7f7sn/Q5DL3oqZstkGig+aJkb
-	uDUZQxvnd4MPSsMhOKsQ==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date
+	:Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+	List-Owner; bh=XvpqeIlC1iFznjE0cVZjg9F+QWBUrHHLKd7licMk4dg=; b=k9t9omgFvcusnf
+	/tmEun/JfIhweN68Pm3/BZdvWrNi13g9wr/MQpzMXYXqDWbojFBowvFFvn3FsbT02IILjvH9erk+w
+	kmJE09az5LWSOB/LyOaNJzI8eLb3B/Yye2LwortA4GtOBY8tzlkC9EKMIvHjHH62L4ubHo6iocs0O
+	r8PQbuo8dgJI/zAOdxlV2CtzTgCpyw9VuibRFMhPiscuJUnYqAvwPQNtm6m3iIdh86d9DomNLaNx0
+	V0rJT83Xw4WeQxvDFVuD6pdKeLJMdrAvsUj3MBbe1nEkf9uAZnyfWQWlB1s6JdF1gTrh95fywWNrB
+	mLZunzTmPeOdfwYCpWog==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j29K5-00079h-Mu; Thu, 13 Feb 2020 07:54:09 +0000
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]
- helo=us-smtp-1.mimecast.com)
+	id 1j29ni-0001R6-1x; Thu, 13 Feb 2020 08:24:46 +0000
+Received: from esa1.hgst.iphmx.com ([68.232.141.245])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j29K0-00078s-GA
- for linux-nvme@lists.infradead.org; Thu, 13 Feb 2020 07:54:08 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581580442;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DhtNmiDUJW+7rS6fmiAxhTic8+FFuDLHqobM66ey41E=;
- b=XzYHmt85CLGjb4zvKXvGWh1VaWIc3/lUyRe50NnHKFeTGMgQVYvfO4DHocgaJSpL/ngf94
- EEC3CYTZB/Be5yQEkgKC7AtGNWtHIDOT3wYOXl8Cn5bdzKfb+F6YbPtU/mWaMlVWvSOhKB
- /PcG473M9HQlH2qsGESK3SMFnvftrIg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-398-djjvqUcvMreLcUHNiznM5A-1; Thu, 13 Feb 2020 02:53:59 -0500
-X-MC-Unique: djjvqUcvMreLcUHNiznM5A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0DD2101FC66;
- Thu, 13 Feb 2020 07:53:58 +0000 (UTC)
-Received: from ming.t460p (ovpn-8-17.pek2.redhat.com [10.72.8.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1DA425DA7B;
- Thu, 13 Feb 2020 07:53:52 +0000 (UTC)
-Date: Thu, 13 Feb 2020 15:53:48 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Damien Le Moal <Damien.LeMoal@wdc.com>
+ id 1j29nf-0001QA-5I
+ for linux-nvme@lists.infradead.org; Thu, 13 Feb 2020 08:24:45 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1581582282; x=1613118282;
+ h=from:to:cc:subject:date:message-id:references:
+ content-transfer-encoding:mime-version;
+ bh=KcoeF3+MqiVotAIAYNT67UtQ9zStRzWTYcSVsBAhEM4=;
+ b=HZajUilNaYeEUw7lGkxzkzsOyHTHZ/A+8NCiWza/u5VrtNQItwCt8OzO
+ rnT9Hm5CosSYAVuSM3E5qOQUk+8/5N8dJLd5frYkqtShA2FvamCKISliL
+ 9mdTLUpE0ZxNztCAZgCZqe74W1OTiD1ufKM561bpBCb4ulw6WjexhxZvE
+ J2YrxS8U0MzrVham8bknlXpkKESE4WSlPRhzSE0nSTThgVdTx+jI9Z3H9
+ yvBCMigNPnub1BBS5+EF24+MuLPCVuQHLhU/BjliXsTcv1fCs4jJgz3kg
+ tsw91ChBC2jCe3kaBpAtvIbPp2lHOJTnXl4xLi2AC9NNonHOZpx1A8w+6 w==;
+IronPort-SDR: PNh0+mk6DXxv1ySCnle+X9+FaGVPzrJHFgpPbPIYP5Q301acFMG8AEwNyXjSvOcITzddi92hoa
+ GufcfXb8egj5Vwmr+L1eaHE4uohEOM6m9r16q/sCkYdwIeNNzW0PWoe9rm+hs473IX7wZYPLG9
+ YBcjxcZwMxrQeA91Vw1FTGDpDgKH/Ly/KcYTeLE5a3D44cJZeKLpDzC7ep3RsKStT+KLWe+gBL
+ sF48KVt7yf2halMMH4dvHPXUHg+6MwJvS9A71mQCBPJ3QRHRdlaof4YI3XIwFQE8ATegYHba2Y
+ H84=
+X-IronPort-AV: E=Sophos;i="5.70,436,1574092800"; d="scan'208";a="237775322"
+Received: from mail-dm6nam11lp2169.outbound.protection.outlook.com (HELO
+ NAM11-DM6-obe.outbound.protection.outlook.com) ([104.47.57.169])
+ by ob1.hgst.iphmx.com with ESMTP; 13 Feb 2020 16:24:36 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GM3xJ5HqTOGg7c7HzuCjzMcUOa5DyBW03zfHCiicbUmTOoHJCwGnQoU1jGNwWS7js9zhVBaueT/JkOFWolefD7AtWDTF6+IZTraNlNDHniyWTwzUB0SeKoxM8eCxjW2kLG/TZz4yGv7WNMAe40iUon++Z8Ry08PkyMpCjhXm2fsjuWj2WevmARAEYqfBSJEZDnP9K/cHR1wKp30s+TrfDA+1MEFgkrJUAPmf6v11uc68MlPdHZxmFgecbbFGHe663nm+YHFSkBs+jkTkDleutkp8yJjg+Lk3hD7q23vlkze2O89KnSHII/uDVnL+BcOCbrwlFRbICD5pjCRXLtQDxg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BTiKf+gB4qHy8Wic1CPhNYRXqSWbMDl6iNWoup3WZHU=;
+ b=Xm1zT/nOEcJlSud70iiBm8eoTm6sRDwwrEWprcaE4F6lVmNV5HPnKShmJ04Lss9O3laL8ru4mGG6B5Sx42Gf5o8ViSsaCUKdZZFC9hsc6n0LXUoFtx/fhBN4RJg5vRXAdME05MzE+zntu8fRsNRn2KfiW4UX5XJVs5JNDNsL6vU4mglKeRiIDHfqzg31/A8dcbw64k0iO7/JQS54IesJmjJPTdBlxGVMAb5UtR4naxDbnSrP+YOe1A5hB1Q7vOxftd9YGRVY5c1kjgWg7OsTEjG+TupIXBFcAC2UmvYJPSDfauuTwIneldHfgTri4lY4Vh612Rj6Nx6MOe6vnfa8aA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BTiKf+gB4qHy8Wic1CPhNYRXqSWbMDl6iNWoup3WZHU=;
+ b=zOcuAk0EhhM5p/tFBbASMzuNt2vSJC6evv6olgZ0wzKAeyV0ixCTcWCFeyJqQfOhpHe3YWtOR8I88goy87KwdUzSaZPmswYowPl8V1Ih0NuklQBVcObusdjRprV1BWfv61SLFwCfZ7Y/kRuaOxjJJW1J6+TrLoek9FoA1DPbFmU=
+Received: from BYAPR04MB5816.namprd04.prod.outlook.com (20.179.59.16) by
+ BYAPR04MB5190.namprd04.prod.outlook.com (20.178.51.146) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2707.29; Thu, 13 Feb 2020 08:24:36 +0000
+Received: from BYAPR04MB5816.namprd04.prod.outlook.com
+ ([fe80::cd8e:d1de:e661:a61]) by BYAPR04MB5816.namprd04.prod.outlook.com
+ ([fe80::cd8e:d1de:e661:a61%5]) with mapi id 15.20.2707.030; Thu, 13 Feb 2020
+ 08:24:36 +0000
+From: Damien Le Moal <Damien.LeMoal@wdc.com>
+To: Ming Lei <ming.lei@redhat.com>
 Subject: Re: [LSF/MM/BPF TOPIC] NVMe HDD
-Message-ID: <20200213075348.GA9144@ming.t460p>
+Thread-Topic: [LSF/MM/BPF TOPIC] NVMe HDD
+Thread-Index: AQHV4EctI/0h/tDOq0WOdKN0iYUQSA==
+Date: Thu, 13 Feb 2020 08:24:36 +0000
+Message-ID: <BYAPR04MB58160C04182D5FE3A15842BBE71A0@BYAPR04MB5816.namprd04.prod.outlook.com>
 References: <CANo=J14resJ4U1nufoiDq+ULd0k-orRCsYah8Dve-y8uCjA62Q@mail.gmail.com>
  <20200211122821.GA29811@ming.t460p>
  <CANo=J14iRK8K3bc1g3rLBp=QTLZQak0DcHkvgZS2f=xO_HFgxQ@mail.gmail.com>
  <BYAPR04MB5816AA843E63FFE2EA1D5D23E71B0@BYAPR04MB5816.namprd04.prod.outlook.com>
  <20200212220328.GB25314@ming.t460p>
  <BYAPR04MB581622DDD1B8B56CEFF3C23AE71A0@BYAPR04MB5816.namprd04.prod.outlook.com>
+ <20200213075348.GA9144@ming.t460p>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Damien.LeMoal@wdc.com; 
+x-originating-ip: [199.255.47.9]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 949aca89-f8b6-42f6-9158-08d7b05e2946
+x-ms-traffictypediagnostic: BYAPR04MB5190:
+x-microsoft-antispam-prvs: <BYAPR04MB5190897EC6E418D025AB8E2DE71A0@BYAPR04MB5190.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:3173;
+x-forefront-prvs: 031257FE13
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(4636009)(396003)(376002)(346002)(136003)(366004)(39860400002)(199004)(189003)(81166006)(316002)(53546011)(7696005)(8936002)(81156014)(966005)(6506007)(8676002)(4326008)(86362001)(6916009)(478600001)(52536014)(76116006)(66556008)(66476007)(91956017)(54906003)(66946007)(2906002)(55016002)(71200400001)(26005)(33656002)(66446008)(64756008)(9686003)(186003)(5660300002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:BYAPR04MB5190;
+ H:BYAPR04MB5816.namprd04.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: rhlbNBoq4GaQLoD+yYenanwjqUF6tV9cW/4n1bfGob9eloN7q1zhm84BbHFgFHOVyhBfqWZY7fq7A47k9FbSv4YLh47MdBtzTlUJV4uFl5WbpUjCBYeWpzovHvpiSpwnNh/FGjCXhrD3znBYs1ctLLZHt2KnnGNkplhfmWxlejooiaZorvndsD+C7XJE6H6fYJsQXDTMneiQvHToqkck55oTBJy16uLpBgo1QDEvfRaF8SILdmIDTWOl4Py+arWuGUuvveNuCRM8jO+x+BkV8Q/7t9zYKE3UpTWXUWn8Kd75ns20SgyNfXo0VeyxdlgVYfRteeNm9qD/l/hFpzHtgODfGW9fsU+JN6YkCQES9F1eFF2xJe7Jh1leuAwPD3T/Bjojw6+PYytIT8XLmR+6cmhv1T66xIl1y+7nNYxfZ7buD3T9L8JgwAnQ8v1Z0Mym3kFKiRDc7h7hwEoAeeTWkIeVYSzjNUOLSiTNTBJnBttFJnJP99P1G/7gWV+m0iPcCLxQi1cA/XQ3dnv1WoftYQ==
+x-ms-exchange-antispam-messagedata: zYm/VR0RJav12+/qKBUetzonqs+dow9J7m2+wYHjQ64B3c9Zf+Fj/RYV9A+MIwFdBSUEB9MK6BtQ8iTx6h0F+RccZ7miCein6G+Gjq17MMMD23D2C9YFq5aFF9o4+XGYvkhIp3KGkLTeZjo+gcd4kA==
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <BYAPR04MB581622DDD1B8B56CEFF3C23AE71A0@BYAPR04MB5816.namprd04.prod.outlook.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 949aca89-f8b6-42f6-9158-08d7b05e2946
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Feb 2020 08:24:36.0230 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 43EPe00/HRDM3yTPYJF3XfUJ6VIKHqpI8dZbAX7FrGy0Ovn0uPZGZo/9dWnsBWkciXOblp/iFW9XS/LRshkTLA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB5190
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200212_235404_620773_FB4C3DEC 
-X-CRM114-Status: GOOD (  29.46  )
+X-CRM114-CacheID: sfid-20200213_002443_260906_F4311A44 
+X-CRM114-Status: GOOD (  21.11  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,131 +148,197 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
  "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
  Tim Walker <tim.t.walker@seagate.com>, linux-scsi <linux-scsi@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: quoted-printable
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gVGh1LCBGZWIgMTMsIDIwMjAgYXQgMDI6NDA6NDFBTSArMDAwMCwgRGFtaWVuIExlIE1vYWwg
-d3JvdGU6Cj4gTWluZywKPiAKPiBPbiAyMDIwLzAyLzEzIDc6MDMsIE1pbmcgTGVpIHdyb3RlOgo+
-ID4gT24gV2VkLCBGZWIgMTIsIDIwMjAgYXQgMDE6NDc6NTNBTSArMDAwMCwgRGFtaWVuIExlIE1v
-YWwgd3JvdGU6Cj4gPj4gT24gMjAyMC8wMi8xMiA0OjAxLCBUaW0gV2Fsa2VyIHdyb3RlOgo+ID4+
-PiBPbiBUdWUsIEZlYiAxMSwgMjAyMCBhdCA3OjI4IEFNIE1pbmcgTGVpIDxtaW5nLmxlaUByZWRo
-YXQuY29tPiB3cm90ZToKPiA+Pj4+Cj4gPj4+PiBPbiBNb24sIEZlYiAxMCwgMjAyMCBhdCAwMjoy
-MDoxMFBNIC0wNTAwLCBUaW0gV2Fsa2VyIHdyb3RlOgo+ID4+Pj4+IEJhY2tncm91bmQ6Cj4gPj4+
-Pj4KPiA+Pj4+PiBOVk1lIHNwZWNpZmljYXRpb24gaGFzIGhhcmRlbmVkIG92ZXIgdGhlIGRlY2Fk
-ZSBhbmQgbm93IE5WTWUgZGV2aWNlcwo+ID4+Pj4+IGFyZSB3ZWxsIGludGVncmF0ZWQgaW50byBv
-dXIgY3VzdG9tZXJz4oCZIHN5c3RlbXMuIEFzIHdlIGxvb2sgZm9yd2FyZCwKPiA+Pj4+PiBtb3Zp
-bmcgSEREcyB0byB0aGUgTlZNZSBjb21tYW5kIHNldCBlbGltaW5hdGVzIHRoZSBTQVMgSU9DIGFu
-ZCBkcml2ZXIKPiA+Pj4+PiBzdGFjaywgY29uc29saWRhdGluZyBvbiBhIHNpbmdsZSBhY2Nlc3Mg
-bWV0aG9kIGZvciByb3RhdGlvbmFsIGFuZAo+ID4+Pj4+IHN0YXRpYyBzdG9yYWdlIHRlY2hub2xv
-Z2llcy4gUENJZS1OVk1lIG9mZmVycyBuZWFyLVNBVEEgaW50ZXJmYWNlCj4gPj4+Pj4gY29zdHMs
-IGZlYXR1cmVzIGFuZCBwZXJmb3JtYW5jZSBzdWl0YWJsZSBmb3IgaGlnaC1jYXAgSEREcywgYW5k
-Cj4gPj4+Pj4gb3B0aW1hbCBpbnRlcm9wZXJhYmlsaXR5IGZvciBzdG9yYWdlIGF1dG9tYXRpb24s
-IHRpZXJpbmcsIGFuZAo+ID4+Pj4+IG1hbmFnZW1lbnQuIFdlIHdpbGwgc2hhcmUgc29tZSBlYXJs
-eSBjb25jZXB0dWFsIHJlc3VsdHMgYW5kIHByb3Bvc2VkCj4gPj4+Pj4gc2FsaWVudCBkZXNpZ24g
-Z29hbHMgYW5kIGNoYWxsZW5nZXMgc3Vycm91bmRpbmcgYW4gTlZNZSBIREQuCj4gPj4+Pgo+ID4+
-Pj4gSERELiBwZXJmb3JtYW5jZSBpcyB2ZXJ5IHNlbnNpdGl2ZSB0byBJTyBvcmRlci4gQ291bGQg
-eW91IHByb3ZpZGUgc29tZQo+ID4+Pj4gYmFja2dyb3VuZCBpbmZvIGFib3V0IE5WTWUgSEREPyBT
-dWNoIGFzOgo+ID4+Pj4KPiA+Pj4+IC0gbnVtYmVyIG9mIGh3IHF1ZXVlcwo+ID4+Pj4gLSBodyBx
-dWV1ZSBkZXB0aAo+ID4+Pj4gLSB3aWxsIE5WTWUgc29ydC9tZXJnZSBJTyBhbW9uZyBhbGwgU1Fz
-IG9yIG5vdD8KPiA+Pj4+Cj4gPj4+Pj4KPiA+Pj4+Pgo+ID4+Pj4+IERpc2N1c3Npb24gUHJvcG9z
-YWw6Cj4gPj4+Pj4KPiA+Pj4+PiBXZeKAmWQgbGlrZSB0byBzaGFyZSBvdXIgdmlld3MgYW5kIHNv
-bGljaXQgaW5wdXQgb246Cj4gPj4+Pj4KPiA+Pj4+PiAtV2hhdCBMaW51eCBzdG9yYWdlIHN0YWNr
-IGFzc3VtcHRpb25zIGRvIHdlIG5lZWQgdG8gYmUgYXdhcmUgb2YgYXMgd2UKPiA+Pj4+PiBkZXZl
-bG9wIHRoZXNlIGRldmljZXMgd2l0aCBkcmFzdGljYWxseSBkaWZmZXJlbnQgcGVyZm9ybWFuY2UK
-PiA+Pj4+PiBjaGFyYWN0ZXJpc3RpY3MgdGhhbiB0cmFkaXRpb25hbCBOQU5EPyBGb3IgZXhhbXBs
-ZSwgd2hhdCBzY2hlZHVsYXIgb3IKPiA+Pj4+PiBkZXZpY2UgZHJpdmVyIGxldmVsIGNoYW5nZXMg
-d2lsbCBiZSBuZWVkZWQgdG8gaW50ZWdyYXRlIE5WTWUgSEREcz8KPiA+Pj4+Cj4gPj4+PiBJTyBt
-ZXJnZSBpcyBvZnRlbiBpbXBvcnRhbnQgZm9yIEhERC4gSU8gbWVyZ2UgaXMgdXN1YWxseSB0cmln
-Z2VyZWQgd2hlbgo+ID4+Pj4gLnF1ZXVlX3JxKCkgcmV0dXJucyBTVFNfUkVTT1VSQ0UsIHNvIGZh
-ciB0aGlzIGNvbmRpdGlvbiB3b24ndCBiZQo+ID4+Pj4gdHJpZ2dlcmVkIGZvciBOVk1lIFNTRC4K
-PiA+Pj4+Cj4gPj4+PiBBbHNvIGJsay1tcSBraWxscyBCREkgcXVldWUgY29uZ2VzdGlvbiBhbmQg
-aW9jIGJhdGNoaW5nLCBhbmQgY2F1c2VzCj4gPj4+PiB3cml0ZWJhY2sgcGVyZm9ybWFuY2UgcmVn
-cmVzc2lvblsxXVsyXS4KPiA+Pj4+Cj4gPj4+PiBXaGF0IEkgYW0gdGhpbmtpbmcgaXMgdGhhdCBp
-ZiB3ZSBuZWVkIHRvIHN3aXRjaCB0byB1c2UgaW5kZXBlbmRlbnQgSU8KPiA+Pj4+IHBhdGggZm9y
-IGhhbmRsaW5nIFNTRCBhbmQgSERELiBJTywgZ2l2ZW4gdGhlIHR3byBtZWRpdW1zIGFyZSBzbwo+
-ID4+Pj4gZGlmZmVyZW50IGZyb20gcGVyZm9ybWFuY2Ugdmlld3BvaW50Lgo+ID4+Pj4KPiA+Pj4+
-IFsxXSBodHRwczovL3VybGRlZmVuc2UucHJvb2Zwb2ludC5jb20vdjIvdXJsP3U9aHR0cHMtM0Ff
-X2xvcmUua2VybmVsLm9yZ19saW51eC0yRHNjc2lfUGluZS5MTlguNC40NEwwLjE5MDkxODEyMTMx
-NDEuMTUwNy0yRDEwMDAwMC00MGlvbGFudGhlLnJvd2xhbmQub3JnXyZkPUR3SUZhUSZjPUlHRGxn
-MGxEMGItbmVibUpKMEtwOEEmcj1OVzFYMHlSSE5ORWx1WjhzT0dYQnhDYlFKWlBXY0lrUFQwVXkz
-eW5Wc0ZVJm09cFNuSHB0X3VRUTczSlY0VklRZzFDX1BWQWNMdnFCQnRteXhRSHdXakdTTSZzPXRz
-bkZQOGJRSUFxN0c2NkI3NUxUZTN2bzRLMTRIYkw5SkpLc3hsX0xQQXcmZT0KPiA+Pj4+IFsyXSBo
-dHRwczovL3VybGRlZmVuc2UucHJvb2Zwb2ludC5jb20vdjIvdXJsP3U9aHR0cHMtM0FfX2xvcmUu
-a2VybmVsLm9yZ19saW51eC0yRHNjc2lfMjAxOTEyMjYwODM3MDYuR0ExNzk3NC00MG1pbmcudDQ2
-MHBfJmQ9RHdJRmFRJmM9SUdEbGcwbEQwYi1uZWJtSkowS3A4QSZyPU5XMVgweVJITk5FbHVaOHNP
-R1hCeENiUUpaUFdjSWtQVDBVeTN5blZzRlUmbT1wU25IcHRfdVFRNzNKVjRWSVFnMUNfUFZBY0x2
-cUJCdG15eFFId1dqR1NNJnM9R0p3U3hYdGNfcVpIS25yVHFTYnl0VWp1UnJyUWdacHZWM2J4WllG
-REhlNCZlPQo+ID4+Pj4KPiA+Pj4+Cj4gPj4+PiBUaGFua3MsCj4gPj4+PiBNaW5nCj4gPj4+Pgo+
-ID4+Pgo+ID4+PiBJIHdvdWxkIGV4cGVjdCB0aGUgZHJpdmUgd291bGQgc3VwcG9ydCBhIHJlYXNv
-bmFibGUgbnVtYmVyIG9mIHF1ZXVlcwo+ID4+PiBhbmQgYSByZWxhdGl2ZWx5IGRlZXAgcXVldWUg
-ZGVwdGgsIG1vcmUgaW4gbGluZSB3aXRoIE5WTWUgcHJhY3RpY2VzCj4gPj4+IHRoYW4gU0FTIEhE
-RCdzIHR5cGljYWwgMTI4LiBCdXQgaXQgcHJvYmFibHkgZG9lc24ndCBtYWtlIHNlbnNlIHRvCj4g
-Pj4+IHF1ZXVlIHVwIHRob3VzYW5kcyBvZiBjb21tYW5kcyBvbiBzb21ldGhpbmcgYXMgc2xvdyBh
-cyBhbiBIREQsIGFuZAo+ID4+PiBtYW55IGN1c3RvbWVycyBrZWVwIHF1ZXVlcyA8IDMyIGZvciBs
-YXRlbmN5IG1hbmFnZW1lbnQuCj4gPj4KPiA+PiBFeHBvc2luZyBhbiBIREQgdGhyb3VnaCBtdWx0
-aXBsZS1xdWV1ZXMgZWFjaCB3aXRoIGEgaGlnaCBxdWV1ZSBkZXB0aCBpcwo+ID4+IHNpbXBseSBh
-c2tpbmcgZm9yIHRyb3VibGVzLiBDb21tYW5kcyB3aWxsIGVuZCB1cCBzcGVuZGluZyBzbyBtdWNo
-IHRpbWUKPiA+PiBzaXR0aW5nIGluIHRoZSBxdWV1ZXMgdGhhdCB0aGV5IHdpbGwgdGltZW91dC4g
-VGhpcyBjYW4gYWxyZWFkeSBiZSBvYnNlcnZlZAo+ID4+IHdpdGggdGhlIHNtYXJ0cHFpIFNBUyBI
-QkEgd2hpY2ggZXhwb3NlcyBzaW5nbGUgZHJpdmVzIGFzIG11bHRpcXVldWUgYmxvY2sKPiA+PiBk
-ZXZpY2VzIHdpdGggaGlnaCBxdWV1ZSBkZXB0aC4gRXhlcmNpc2luZyB0aGVzZSBkcml2ZXMgaGVh
-dmlseSBsZWFkcyB0bwo+ID4+IHRob3VzYW5kcyBvZiBjb21tYW5kcyBiZWluZyBxdWV1ZWQgYW5k
-IHRvIHRpbWVvdXRzLiBJdCBpcyBmYWlybHkgZWFzeSB0bwo+ID4+IHRyaWdnZXIgdGhpcyB3aXRo
-b3V0IGEgbWFudWFsIGNoYW5nZSB0byB0aGUgUUQuIFRoaXMgaXMgb24gbXkgdG8tZG8gbGlzdCBv
-Zgo+ID4+IGZpeGVzIGZvciBzb21lIHRpbWUgbm93IChsYWNraW5nIHRpbWUgdG8gZG8gaXQpLgo+
-ID4gCj4gPiBKdXN0IHdvbmRlcmluZyB3aHkgc21hcnRwcWkgU0FTIHdvbid0IHNldCBvbmUgcHJv
-cGVyIC5jbWRfcGVyX2x1biBmb3IKPiA+IGF2b2lkaW5nIHRoZSBpc3N1ZSwgbG9va3MgdGhlIGRy
-aXZlciBzaW1wbHkgYXNzaWducyAuY2FuX3F1ZXVlIHRvIGl0LAo+ID4gdGhlbiBpdCBpc24ndCBz
-dHJhbmdlIHRvIHNlZSB0aGUgdGltZW91dCBpc3N1ZS4gSWYgLmNhbl9xdWV1ZSBpcyBhIGJpdAo+
-ID4gYmlnLCBIREQuIGlzIGVhc2lseSBzYXR1cmF0ZWQgdG9vIGxvbmcuCj4gPiAKPiA+Pgo+ID4+
-IE5WTWUgSEREcyBuZWVkIHRvIGhhdmUgYW4gaW50ZXJmYWNlIHNldHVwIHRoYXQgbWF0Y2ggdGhl
-aXIgc3BlZWQsIHRoYXQgaXMsCj4gPj4gc29tZXRoaW5nIGxpa2UgYSBTQVMgaW50ZXJmYWNlOiAq
-c2luZ2xlKiBxdWV1ZSBwYWlyIHdpdGggYSBtYXggUUQgb2YgMjU2IG9yCj4gPj4gbGVzcyBkZXBl
-bmRpbmcgb24gd2hhdCB0aGUgZHJpdmUgY2FuIHRha2UuIFRoZWlyIGlzIG5vIFRBU0tfU0VUX0ZV
-TEwKPiA+PiBub3RpZmljYXRpb24gb24gTlZNZSwgc28gdGhyb3R0bGluZyBoYXMgdG8gY29tZSBm
-cm9tIHRoZSBtYXggUUQgb2YgdGhlIFNRLAo+ID4+IHdoaWNoIHRoZSBkcml2ZSB3aWxsIGFkdmVy
-dGlzZSB0byB0aGUgaG9zdC4KPiA+Pgo+ID4+PiBNZXJnZSBhbmQgZWxldmF0b3IgYXJlIGltcG9y
-dGFudCB0byBIREQgcGVyZm9ybWFuY2UuIEkgZG9uJ3QgYmVsaWV2ZQo+ID4+PiBOVk1lIHNob3Vs
-ZCBhdHRlbXB0IHRvIG1lcmdlL3NvcnQgYWNyb3NzIFNRcy4gQ2FuIE5WTWUgbWVyZ2Uvc29ydAo+
-ID4+PiB3aXRoaW4gYSBTUSB3aXRob3V0IGRyaXZpbmcgbGFyZ2UgZGlmZmVyZW5jZXMgYmV0d2Vl
-biBTU0QgJiBIREQgZGF0YQo+ID4+PiBwYXRocz8KPiA+Pgo+ID4+IEFzIGZhciBhcyBJIGtub3cs
-IHRoZXJlIGlzIG5vIG1lcmdpbmcgZ29pbmcgb24gb25jZSByZXF1ZXN0cyBhcmUgcGFzc2VkIHRv
-Cj4gPj4gdGhlIGRyaXZlciBhbmQgYWRkZWQgdG8gYW4gU1EuIFNvIHRoaXMgaXMgYmVzaWRlIHRo
-ZSBwb2ludC4KPiA+PiBUaGUgY3VycmVudCBkZWZhdWx0IGJsb2NrIHNjaGVkdWxlciBmb3IgTlZN
-ZSBTU0RzIGlzICJub25lIi4gVGhpcyBpcwo+ID4+IGRlY2lkZWQgYmFzZWQgb24gdGhlIG51bWJl
-ciBvZiBxdWV1ZXMgb2YgdGhlIGRldmljZS4gRm9yIE5WTWUgZHJpdmVzIHRoYXQKPiA+PiBoYXZl
-IG9ubHkgYSBzaW5nbGUgcXVldWUgKkFORCogdGhlIFFVRVVFX0ZMQUdfTk9OUk9UIGZsYWcgY2xl
-YXJlZCBpbiB0aGVpcgo+ID4+IHJlcXVlc3QgcXVldWUgd2lsbCBjYW4gZmFsbGJhY2sgdG8gdGhl
-IGRlZmF1bHQgc3Bpbm5pbmcgcnVzdCBtcS1kZWFkbGluZQo+ID4+IGVsZXZhdG9yLiBUaGF0IHdp
-bGwgYWNoaWV2ZSBjb21tYW5kIG1lcmdpbmcgYW5kIExCQSBvcmRlcmluZyBuZWVkZWQgZm9yCj4g
-Pj4gZ29vZCBwZXJmb3JtYW5jZSBvbiBIRERzLgo+ID4gCj4gPiBtcS1kZWFkbGluZSBiYXNpY2Fs
-bHkgd29uJ3QgbWVyZ2UgSU8gaWYgU1RTX1JFU09VUkNFIGlzbid0IHJldHVybmVkIGZyb20KPiA+
-IC5xdWV1ZV9ycSgpLCBvciBibGtfbXFfZ2V0X2Rpc3BhdGNoX2J1ZGdldCBhbHdheXMgcmV0dXJu
-IHRydWUuIE5WTWUncwo+ID4gLnF1ZXVlX3JxKCkgYmFzaWNhbGx5IGFsd2F5cyByZXR1cm5zIFNU
-U19PSy4KPiAKPiBJIGFtIGNvbmZ1c2VkOiB3aGVuIGFuIGVsZXZhdG9yIGlzIHNldCwgLT5xdWV1
-ZV9ycSgpIGlzIGNhbGxlZCBmb3IgcmVxdWVzdHMKPiBvYnRhaW5lZCBmcm9tIHRoZSBlbGV2YXRv
-ciAod2l0aCBlLT50eXBlLT5vcHMuZGlzcGF0Y2hfcmVxdWVzdCgpKSwgYWZ0ZXIKPiB0aGUgcmVx
-dWVzdHMgd2VudCB0aHJvdWdoIGl0LiBBbmQgbWVyZ2luZyB3aWxsIGhhcHBlbiBhdCB0aGF0IHN0
-YWdlIHdoZW4KPiBuZXcgcmVxdWVzdHMgYXJlIGluc2VydGVkIGluIHRoZSBlbGV2YXRvci4KCldo
-ZW4gcmVxdWVzdCBpcyBxdWV1ZWQgdG8gbGxkIHZpYSAucXVldWVfcnEoKSwgdGhlIHJlcXVlc3Qg
-aGFzIGJlZW4KcmVtb3ZlZCBmcm9tIHNjaGVkdWxlciBxdWV1ZS4gQW5kIElPIG1lcmdlIGlzIGp1
-c3QgZG9uZSBpbnNpZGUgb3IKYWdhaW5zdCBzY2hlZHVsZXIgcXVldWUuCgo+IAo+IElmIHRoZSAt
-PnF1ZXVlX3JxKCkgcmV0dXJucyBCTEtfU1RTX1JFU09VUkNFIG9yIEJMS19TVFNfREVWX1JFU09V
-UkNFLCB0aGUKPiByZXF1ZXN0IGlzIGluZGVlZCByZXF1ZXVlZCB3aGljaCBvZmZlciBtb3JlIGNo
-YW5jZXMgb2YgZnVydGhlciBtZXJnaW5nLCBidXQKPiB0aGF0IGlzIG5vdCB0aGUgc2FtZSBhcyBu
-byBtZXJnaW5nIGhhcHBlbmluZy4KPiBBbSBJIG1pc3NpbmcgeW91ciBwb2ludCBoZXJlID8KCkJM
-S19TVFNfUkVTT1VSQ0Ugb3IgQkxLX1NUU19ERVZfUkVTT1VSQ0Ugb3IgZ2V0dGluZyBubyBidWRn
-ZXQgY2FuIGJlCnRob3VnaHQgYXMgZGV2aWNlIHNhdHVyYXRpb24gZmVlZGJhY2ssIHRoZW4gbW9y
-ZSByZXF1ZXN0cyBjYW4gYmUKZ2F0aGVyZWQgaW4gc2NoZWR1bGVyIHF1ZXVlIHNpbmNlIHdlIGRv
-bid0IGRlcXVldWUgcmVxdWVzdCBmcm9tCnNjaGVkdWxlciBxdWV1ZSB3aGVuIHRoYXQgaGFwcGVu
-cywgdGhlbiBJTyBtZXJnZSBpcyBwb3NzaWJsZS4KCldpdGhvdXQgYW55IGRldmljZSBzYXR1cmF0
-aW9uIGZlZWRiYWNrIGZyb20gZHJpdmVyLCBibG9jayBsYXllciBqdXN0CmRlcXVldWVzIHJlcXVl
-c3QgZnJvbSBzY2hlZHVsZXIgcXVldWUgd2l0aCBzYW1lIHNwZWVkIG9mIHN1Ym1pc3Npb24gdG8K
-aGFyZHdhcmUsIHRoZW4gbm8gSU8gY2FuIGJlIG1lcmdlZC4KCklmIHlvdSBvYnNlcnZlIHNlcXVl
-bnRpYWwgSU8gb24gTlZNZSBQQ0ksIHlvdSB3aWxsIHNlZSBubyBJTyBtZXJnZQpiYXNpY2FsbHku
-CgogClRoYW5rcywKTWluZwoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCmxpbnV4LW52bWUgbWFpbGluZyBsaXN0CmxpbnV4LW52bWVAbGlzdHMuaW5mcmFk
-ZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4
-LW52bWUK
+On 2020/02/13 16:54, Ming Lei wrote:
+> On Thu, Feb 13, 2020 at 02:40:41AM +0000, Damien Le Moal wrote:
+>> Ming,
+>>
+>> On 2020/02/13 7:03, Ming Lei wrote:
+>>> On Wed, Feb 12, 2020 at 01:47:53AM +0000, Damien Le Moal wrote:
+>>>> On 2020/02/12 4:01, Tim Walker wrote:
+>>>>> On Tue, Feb 11, 2020 at 7:28 AM Ming Lei <ming.lei@redhat.com> wrote:
+>>>>>>
+>>>>>> On Mon, Feb 10, 2020 at 02:20:10PM -0500, Tim Walker wrote:
+>>>>>>> Background:
+>>>>>>>
+>>>>>>> NVMe specification has hardened over the decade and now NVMe devices
+>>>>>>> are well integrated into our customers=92 systems. As we look forwa=
+rd,
+>>>>>>> moving HDDs to the NVMe command set eliminates the SAS IOC and driv=
+er
+>>>>>>> stack, consolidating on a single access method for rotational and
+>>>>>>> static storage technologies. PCIe-NVMe offers near-SATA interface
+>>>>>>> costs, features and performance suitable for high-cap HDDs, and
+>>>>>>> optimal interoperability for storage automation, tiering, and
+>>>>>>> management. We will share some early conceptual results and proposed
+>>>>>>> salient design goals and challenges surrounding an NVMe HDD.
+>>>>>>
+>>>>>> HDD. performance is very sensitive to IO order. Could you provide so=
+me
+>>>>>> background info about NVMe HDD? Such as:
+>>>>>>
+>>>>>> - number of hw queues
+>>>>>> - hw queue depth
+>>>>>> - will NVMe sort/merge IO among all SQs or not?
+>>>>>>
+>>>>>>>
+>>>>>>>
+>>>>>>> Discussion Proposal:
+>>>>>>>
+>>>>>>> We=92d like to share our views and solicit input on:
+>>>>>>>
+>>>>>>> -What Linux storage stack assumptions do we need to be aware of as =
+we
+>>>>>>> develop these devices with drastically different performance
+>>>>>>> characteristics than traditional NAND? For example, what schedular =
+or
+>>>>>>> device driver level changes will be needed to integrate NVMe HDDs?
+>>>>>>
+>>>>>> IO merge is often important for HDD. IO merge is usually triggered w=
+hen
+>>>>>> .queue_rq() returns STS_RESOURCE, so far this condition won't be
+>>>>>> triggered for NVMe SSD.
+>>>>>>
+>>>>>> Also blk-mq kills BDI queue congestion and ioc batching, and causes
+>>>>>> writeback performance regression[1][2].
+>>>>>>
+>>>>>> What I am thinking is that if we need to switch to use independent IO
+>>>>>> path for handling SSD and HDD. IO, given the two mediums are so
+>>>>>> different from performance viewpoint.
+>>>>>>
+>>>>>> [1] https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lore.kern=
+el.org_linux-2Dscsi_Pine.LNX.4.44L0.1909181213141.1507-2D100000-40iolanthe.=
+rowland.org_&d=3DDwIFaQ&c=3DIGDlg0lD0b-nebmJJ0Kp8A&r=3DNW1X0yRHNNEluZ8sOGXB=
+xCbQJZPWcIkPT0Uy3ynVsFU&m=3DpSnHpt_uQQ73JV4VIQg1C_PVAcLvqBBtmyxQHwWjGSM&s=
+=3DtsnFP8bQIAq7G66B75LTe3vo4K14HbL9JJKsxl_LPAw&e=3D
+>>>>>> [2] https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lore.kern=
+el.org_linux-2Dscsi_20191226083706.GA17974-40ming.t460p_&d=3DDwIFaQ&c=3DIGD=
+lg0lD0b-nebmJJ0Kp8A&r=3DNW1X0yRHNNEluZ8sOGXBxCbQJZPWcIkPT0Uy3ynVsFU&m=3DpSn=
+Hpt_uQQ73JV4VIQg1C_PVAcLvqBBtmyxQHwWjGSM&s=3DGJwSxXtc_qZHKnrTqSbytUjuRrrQgZ=
+pvV3bxZYFDHe4&e=3D
+>>>>>>
+>>>>>>
+>>>>>> Thanks,
+>>>>>> Ming
+>>>>>>
+>>>>>
+>>>>> I would expect the drive would support a reasonable number of queues
+>>>>> and a relatively deep queue depth, more in line with NVMe practices
+>>>>> than SAS HDD's typical 128. But it probably doesn't make sense to
+>>>>> queue up thousands of commands on something as slow as an HDD, and
+>>>>> many customers keep queues < 32 for latency management.
+>>>>
+>>>> Exposing an HDD through multiple-queues each with a high queue depth is
+>>>> simply asking for troubles. Commands will end up spending so much time
+>>>> sitting in the queues that they will timeout. This can already be obse=
+rved
+>>>> with the smartpqi SAS HBA which exposes single drives as multiqueue bl=
+ock
+>>>> devices with high queue depth. Exercising these drives heavily leads to
+>>>> thousands of commands being queued and to timeouts. It is fairly easy =
+to
+>>>> trigger this without a manual change to the QD. This is on my to-do li=
+st of
+>>>> fixes for some time now (lacking time to do it).
+>>>
+>>> Just wondering why smartpqi SAS won't set one proper .cmd_per_lun for
+>>> avoiding the issue, looks the driver simply assigns .can_queue to it,
+>>> then it isn't strange to see the timeout issue. If .can_queue is a bit
+>>> big, HDD. is easily saturated too long.
+>>>
+>>>>
+>>>> NVMe HDDs need to have an interface setup that match their speed, that=
+ is,
+>>>> something like a SAS interface: *single* queue pair with a max QD of 2=
+56 or
+>>>> less depending on what the drive can take. Their is no TASK_SET_FULL
+>>>> notification on NVMe, so throttling has to come from the max QD of the=
+ SQ,
+>>>> which the drive will advertise to the host.
+>>>>
+>>>>> Merge and elevator are important to HDD performance. I don't believe
+>>>>> NVMe should attempt to merge/sort across SQs. Can NVMe merge/sort
+>>>>> within a SQ without driving large differences between SSD & HDD data
+>>>>> paths?
+>>>>
+>>>> As far as I know, there is no merging going on once requests are passe=
+d to
+>>>> the driver and added to an SQ. So this is beside the point.
+>>>> The current default block scheduler for NVMe SSDs is "none". This is
+>>>> decided based on the number of queues of the device. For NVMe drives t=
+hat
+>>>> have only a single queue *AND* the QUEUE_FLAG_NONROT flag cleared in t=
+heir
+>>>> request queue will can fallback to the default spinning rust mq-deadli=
+ne
+>>>> elevator. That will achieve command merging and LBA ordering needed for
+>>>> good performance on HDDs.
+>>>
+>>> mq-deadline basically won't merge IO if STS_RESOURCE isn't returned from
+>>> .queue_rq(), or blk_mq_get_dispatch_budget always return true. NVMe's
+>>> .queue_rq() basically always returns STS_OK.
+>>
+>> I am confused: when an elevator is set, ->queue_rq() is called for reque=
+sts
+>> obtained from the elevator (with e->type->ops.dispatch_request()), after
+>> the requests went through it. And merging will happen at that stage when
+>> new requests are inserted in the elevator.
+> =
+
+> When request is queued to lld via .queue_rq(), the request has been
+> removed from scheduler queue. And IO merge is just done inside or
+> against scheduler queue.
+
+Yes, for incoming new BIOs, not for requests passed to the LLD.
+
+>> If the ->queue_rq() returns BLK_STS_RESOURCE or BLK_STS_DEV_RESOURCE, the
+>> request is indeed requeued which offer more chances of further merging, =
+but
+>> that is not the same as no merging happening.
+>> Am I missing your point here ?
+> =
+
+> BLK_STS_RESOURCE or BLK_STS_DEV_RESOURCE or getting no budget can be
+> thought as device saturation feedback, then more requests can be
+> gathered in scheduler queue since we don't dequeue request from
+> scheduler queue when that happens, then IO merge is possible.
+> =
+
+> Without any device saturation feedback from driver, block layer just
+> dequeues request from scheduler queue with same speed of submission to
+> hardware, then no IO can be merged.
+
+Got it. And since queue full will mean no more tags, submission will block
+on get_request() and there will be no chance in the elevator to merge
+anything (aside from opportunistic merging in plugs), isn't it ?
+So I guess NVMe HDDs will need some tuning in this area.
+
+> =
+
+> If you observe sequential IO on NVMe PCI, you will see no IO merge
+> basically.
+> =
+
+>  =
+
+> Thanks,
+> Ming
+> =
+
+> =
+
+
+
+-- =
+
+Damien Le Moal
+Western Digital Research
+
+_______________________________________________
+linux-nvme mailing list
+linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
