@@ -2,106 +2,73 @@ Return-Path: <SRS0=WUqE=4B=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 398ECC3B18B
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Feb 2020 15:38:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2961C3B18B
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Feb 2020 15:51:20 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E27702073C
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Feb 2020 15:38:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C79B8217F4
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Feb 2020 15:51:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="nwo1Qwhh"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E27702073C
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="F4uQlbAq";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="OaiiyRaG"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C79B8217F4
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
-	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
-	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=wjX+OvcjALVCREV1kqw8+ycdPlH/VxZ12VNrpPCjLf4=; b=nwo1QwhhZG+AHX
-	5HHhe1+rgccbhhgDZvxLsIzym3bN4SlHKzrqmBzXR0BJzSq2hl0eavV2W/3gXEj51sLBERB/pQx4E
-	s+Qx8jA75DvgMXInEo3p4AqWiIMhmMaQ6qnwFAMU32Dw6lzr2wO/lq1CGj339jEI1WX4sHlqeDL57
-	3tec3ef4eAgzv1xPXDXla6FEBCgWGwZIFagcfMGrw44mDfkXH/JZA5W5Vn5VCYnn5KTBHfSVORTJX
-	CIyzWjEGFrNF3mcBurw64WapuAhmLSI6JPIcQ2jcUMbuXrmkQWWoIuZtZGjcB6i1Lqrtascl7Knt6
-	gHb+624f4wabr1npFY7A==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=WyMKOOU7qKkobOhjHKHsvcEkNqt++btNaULfhM+S180=; b=F4uQlbAqC3wta5
+	kD41T/Yr1c/2PxU5U9upQX4iDbbiV+lRGQGzbJeeVbszkQ/RjQEipAHZkjVqRUuNTnXDbwzhi2MN5
+	DPgY/UZAbF5r/x8c6yjJSwep69yvKqPc8zY/Bfw778vJPahWb4W+WlDVp7D61oJUGykzkUddkfjcu
+	JZEfmxTCV0lu8wNO2GmVLE4kJAfSFTgHW3TeFBf13w6G5L1WinvfojLIqM86FccrbLFUNILjbQw+V
+	7dkiJM08qwjuM3C5NZI6bsumkv6AZtBFpdoNquwzyANzETyTVKTlvt3T7Kd/x9WyawWLqEvEuX0+B
+	o4sRBwq3HHV6T4/tBk3g==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j2GZZ-0002Ad-CJ; Thu, 13 Feb 2020 15:38:37 +0000
-Received: from mx2.suse.de ([195.135.220.15])
+	id 1j2Glq-0000Jq-E2; Thu, 13 Feb 2020 15:51:18 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j2GZQ-0001yw-EB
- for linux-nvme@lists.infradead.org; Thu, 13 Feb 2020 15:38:30 +0000
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id B0F3AAF62;
- Thu, 13 Feb 2020 15:38:24 +0000 (UTC)
-Subject: Re: Case-sensitive host NQN
-To: Christoph Hellwig <hch@lst.de>
-References: <4973fdd4-8a6c-1218-8f82-5413d3fec37f@suse.de>
- <20200212173529.GA5648@lst.de> <055b0c4e-905a-7f3f-d5eb-595e127d423b@suse.de>
- <20200212175556.GA6014@lst.de>
-From: Hannes Reinecke <hare@suse.de>
-Openpgp: preference=signencrypt
-Autocrypt: addr=hare@suse.de; prefer-encrypt=mutual; keydata=
- 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
- azzYF4VRJsdl+d0MCaSy8mUh
-Message-ID: <918ac705-7390-900e-7e79-8df71541f266@suse.de>
-Date: Thu, 13 Feb 2020 16:38:24 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ id 1j2Gln-0000JM-N5
+ for linux-nvme@lists.infradead.org; Thu, 13 Feb 2020 15:51:16 +0000
+Received: from redsun51.ssa.fujisawa.hgst.com (unknown [199.255.47.7])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 7C9DB2073C;
+ Thu, 13 Feb 2020 15:51:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1581609074;
+ bh=hPbEdIOgMXZRnPwtjWjoyg/6z4TPyZVqJ1mvmuDEsnk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=OaiiyRaGNXOKKjVlCnjzhVrT9esLEpzGH5oWw8VXiqdpcQ/QUZoWbJM3Q+qXOFp4B
+ reveBUtXw46zbDquKU2YYN57cWGAMiU072smBxnCgqjZnRrqsUDofM3Vqu8wr/l4Rj
+ NpDu1DOegg64/HVGbO/3Fr6TOJNw7YTgGuKzBnZY=
+Date: Fri, 14 Feb 2020 00:51:07 +0900
+From: Keith Busch <kbusch@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v1 2/2] nvme-pci: Convert to PCI_VDEVICE() macro for
+ Apple devices
+Message-ID: <20200213155107.GA7634@redsun51.ssa.fujisawa.hgst.com>
+References: <20200212103220.80680-1-andriy.shevchenko@linux.intel.com>
+ <20200212103220.80680-2-andriy.shevchenko@linux.intel.com>
+ <20200212173901.GB5708@lst.de>
+ <20200212203418.GW10400@smile.fi.intel.com>
+ <20200212204000.GA6343@redsun51.ssa.fujisawa.hgst.com>
+ <20200213085215.GX10400@smile.fi.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20200212175556.GA6014@lst.de>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20200213085215.GX10400@smile.fi.intel.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200213_073828_762399_8DF73569 
-X-CRM114-Status: GOOD (  14.93  )
+X-CRM114-CacheID: sfid-20200213_075115_776120_FB059653 
+X-CRM114-Status: GOOD (  14.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,30 +80,42 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Keith Busch <keith.busch@wdc.com>, Sagi Grimberg <sagi@grimberg.me>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Leif Liddy <leif.liddy@gmail.com>, linux-nvme@lists.infradead.org,
+ Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMi8xMi8yMCA2OjU1IFBNLCBDaHJpc3RvcGggSGVsbHdpZyB3cm90ZToKPiBPbiBXZWQsIEZl
-YiAxMiwgMjAyMCBhdCAwNjo1MTo1NFBNICswMTAwLCBIYW5uZXMgUmVpbmVja2Ugd3JvdGU6Cj4+
-IElFIHdlIHdvdWxkIGJlIHBlcmZlY3RseSB3aXRoaW4gdGhlIHNwZWMgdG8gY29udmVydCB0aGUg
-bnFuIHRvIGVnIGxvd2VyY2FzZSAKPj4gd2hlbiByZWFkaW5nIGl0IGZyb20gL2V0Yy9udm1lL2hv
-c3RucW4uCj4gCj4gV2UgY291bGQsIGJ1dCB3aHkgd291bGQgd2U/ICBDYXNlIHNlbnNpdGl2aXR5
-IGlzIGEgY29tcGxldGUgcGFpbiBhbmQKPiBhdm9pZGluZyBpdCB3aGVyZXZlciB3ZSBjYW4gaXMg
-YSBnb29kIHRoaW5nLgo+IApCZWNhdXNlIHRoZSBVVUlEIHJlYWxseSBpcyBhIG51bWJlciwgYW5k
-IGhlbmNlIG9uZSB3b3VsZCBhc3N1bWUgdGhhdCBpdAp3b3VsZG4ndCBiZSBhZmZlY3RlZCBmcm9t
-IGNhc2Ugc2Vuc2l0aXZ0eS4KCkJ1dCBpZiB0aGUgY29uc2Vuc3VzIGlzIHRoYXQgd2UgZG8gbm90
-IHR3aWRkbGUgd2l0aCBpdCB3ZSBzaG91bGQgYmUKZG9jdW1lbnRpbmcgaXQgc29tZXdoZXJlICht
-YXliZSBpbiBhIGNvbW1lbnQgaW4gdGhlIGF1dG8tZ2VuZXJhdGVkCi9ldGMvbnZtZS9ob3N0bnFu
-KSBzbyBhcyB0byBhdm9pZCBzdXJwcmlzZXMgb3Igc3VwcG9ydCBjYWxscyBsYXRlciBvbi4KCkNo
-ZWVycywKCkhhbm5lcwotLSAKRHIuIEhhbm5lcyBSZWluZWNrZQkJICAgICAgICAgICBLZXJuZWwg
-U3RvcmFnZSBBcmNoaXRlY3QKaGFyZUBzdXNlLmRlCQkJICAgICAgICAgICAgICAgICAgKzQ5IDkx
-MSA3NDA1MyA2ODgKU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJILCBNYXhmZWxk
-c3RyLiA1LCA5MDQwOSBOw7xybmJlcmcKSFJCIDM2ODA5IChBRyBOw7xybmJlcmcpLCBHRjogRmVs
-aXggSW1lbmTDtnJmZmVyCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpsaW51eC1udm1lIG1haWxpbmcgbGlzdApsaW51eC1udm1lQGxpc3RzLmluZnJhZGVh
-ZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1u
-dm1lCg==
+On Thu, Feb 13, 2020 at 10:52:15AM +0200, Andy Shevchenko wrote:
+> On Thu, Feb 13, 2020 at 05:40:00AM +0900, Keith Busch wrote:
+> > On Wed, Feb 12, 2020 at 10:34:18PM +0200, Andy Shevchenko wrote:
+> > > On Wed, Feb 12, 2020 at 06:39:01PM +0100, Christoph Hellwig wrote:
+> > > > On Wed, Feb 12, 2020 at 12:32:19PM +0200, Andy Shevchenko wrote:
+> > > > > Like for Intel devices use PCI_VDEVICE() macro to describe
+> > > > > Apple devices.
+> > > > 
+> > > > This actually makes the code longer
+> > > 
+> > > I didn't get this. How? The code is for sure shorter.
+> > 
+> > What metric are we using? The diff stat says longer.
+> 
+> I actually read *the code*. Blank lines and comments are being added for better
+> grouping.
+> 
+> Since you cut off the patch itself I can't simple point out what exactly has
+> been done.
+
+Well, including it here would be irrelevant to "the code is for sure
+shorter" when we can empirically measure *that* point. I'm not the one
+who made this about long vs short in the first place, but if you want
+to switch the discussion to the content, then great. I personally value
+clarity over brevity anyway.
+
+_______________________________________________
+linux-nvme mailing list
+linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
