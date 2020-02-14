@@ -6,17 +6,17 @@ X-Spam-Status: No, score=-5.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F164FC2BA83
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 Feb 2020 14:26:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49365C2BA83
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 Feb 2020 14:29:56 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C48622187F
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 Feb 2020 14:26:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1A97F2187F
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 Feb 2020 14:29:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="il6rgdfP";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tfz30crt"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C48622187F
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="V+Kkwox+";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="N9UeXtEj"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1A97F2187F
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,46 +25,44 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=wnwcm8M508YlmfFcyXj+2lqBzNm8XiammvwE/+WnYLA=; b=il6rgdfPbqjmWO
-	kSOdHSt5y4k1F2+0cRrKJWyhwRWWrddlQ5pbttmow7VmxLcpJiurPNLdU5eGVInRVxEZyTrBDJpPN
-	j+cXOUCT6eGBUHnXUn7wJyG874KChSrGCBc37vcQphVnsUqRVbyhbZAF6z63gAosxX/WQClaEw+5F
-	9fkczMv2VxMT9JpRZoBAm2ZRjtphwHlZqUP6yd4Cw5Tyu+InaPoU7NAsylDv797irVXcIe2ZZ9ei+
-	oax0GLUx5THOK9PyxIEijvrZ+YLZjLU6Lcf7Nmyn1F/cUWP3tOXxI8RUppxTAybZTMASMPTlto35e
-	kOBrzcNBUU6q9+5nzr6A==;
+	List-Owner; bh=nl3lLqFQhydWQQ4s20dmS32QZJuxKiqoFQbQKZPKHe4=; b=V+Kkwox+2TY8Hr
+	s6awzpyN5peEtwmNIhw62t6ROfviJR0+xyUUjEOeqwRWrzqfwMjSkO5jVXRerU1ZzWXeSTip7s1QZ
+	TCVtvdJeEtuiqQZHrNKMb06OyKej8Me6Ov6YM/2LyE3RXsAaZNkOA4kuf4mA9GssBLvpmcCdK2uwC
+	DDnrMq0wolTi7gCrbTyyjVv6qi6FW3h0QWhi+IzjeKJAXmHq6C/a1NHB6v8iVpHA+Hj0zW/VXy8W/
+	Qo56gx2Q1k7eVyfky2LgNbLpkJoy+EIP8QR1jy4FotIGAx8w5c2+jJO6RgOpVmJvfsev/IANIf7wZ
+	ozhTwgc6BZzBAR1v1cZQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j2bvU-0000Vv-Jp; Fri, 14 Feb 2020 14:26:40 +0000
+	id 1j2byc-0000s7-A5; Fri, 14 Feb 2020 14:29:54 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j2bvS-0000VR-Uc
- for linux-nvme@lists.infradead.org; Fri, 14 Feb 2020 14:26:40 +0000
+ id 1j2bya-0000rl-3w
+ for linux-nvme@lists.infradead.org; Fri, 14 Feb 2020 14:29:53 +0000
 Received: from redsun51.ssa.fujisawa.hgst.com (unknown [199.255.47.7])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id D084B206B6;
- Fri, 14 Feb 2020 14:26:37 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 414BD2168B;
+ Fri, 14 Feb 2020 14:29:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581690398;
- bh=tzYAU2owoKqUd1Mbm9le2aYFYypvgk67z2U604NQ06s=;
+ s=default; t=1581690591;
+ bh=BV0TVDmo7Y2EP/tkJUOPVFfO9ED38vm0i1ntGPQTCDU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Tfz30crtlGdcnXCLZVCVEzkD5Ifm/uSI88GiQQXQpniyOum7fgWYaV+YV6lk5qNvK
- 84uSN//Ri2FA5u4ZUYi5dc8bsuCAJAuX1AlL4i3I/tOHa/ovRJ3z31OZN24FmNQJKN
- 24cIPFc7yku9OZTLV/DGnaAdxhQAEEVCN+4ybDUs=
-Date: Fri, 14 Feb 2020 23:26:35 +0900
+ b=N9UeXtEjyttE5eQ/u1CbjLbwN1a15I9iGXN5ZUuEHp5zXwwxtAu/nreQv5N++e0je
+ NNUSGHmYgzveuRU0AaDt1aLuNHOU/TEaE+9TqcwBxbh//MzSOYgY0BDV8wsMPQQ62C
+ dO2kM5qIKTh1JTge0uCU3RCZ9G2/xehwTegIz228=
+Date: Fri, 14 Feb 2020 23:29:48 +0900
 From: Keith Busch <kbusch@kernel.org>
-To: Yi Zhang <yi.zhang@redhat.com>
-Subject: Re: [PATCH] nvme: fix the parameter order for nvme_get_log in
- nvme_get_fw_slot_info
-Message-ID: <20200214142635.GB9819@redsun51.ssa.fujisawa.hgst.com>
-References: <20200214104802.29209-1-yi.zhang@redhat.com>
+To: Sagi Grimberg <sagi@grimberg.me>
+Subject: Re: [PATCH 1/2] fabrics: ignore hostnqn file if its empty
+Message-ID: <20200214142948.GC9819@redsun51.ssa.fujisawa.hgst.com>
+References: <20200212200158.14237-1-sagi@grimberg.me>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200214104802.29209-1-yi.zhang@redhat.com>
+In-Reply-To: <20200212200158.14237-1-sagi@grimberg.me>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200214_062639_005964_405B49E4 
-X-CRM114-Status: UNSURE (   9.12  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200214_062952_179941_83AA81B4 
+X-CRM114-Status: GOOD (  10.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,24 +74,23 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: dmilburn@redhat.com, sujith_pandel@dell.com, hch@lst.de,
- linux-nvme@lists.infradead.org, emilne@redhat.com
+Cc: linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Feb 14, 2020 at 06:48:02PM +0800, Yi Zhang wrote:
-> nvme fw-activate operation will get bellow warning log,
-> fix it by update the parameter order
+On Wed, Feb 12, 2020 at 12:01:57PM -0800, Sagi Grimberg wrote:
+> If we read an empty string from /etc/nvme/hostnqn we should
+> ignore it instead of passing an empty string to the
+> driver resulting in the error:
 > 
-> [  113.231513] nvme nvme0: Get FW SLOT INFO log error
+> nvme_fabrics: unknown parameter or missing value 'hostnqn=' in ctrl creation request
 > 
-> Fixes: 0e98719b0e4b ("nvme: simplify the API for getting log pages")
-> Reported-by: Sujith Pandel <sujith_pandel@dell.com>
-> Signed-off-by: Yi Zhang <yi.zhang@redhat.com>
+> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
 
-Oops, thanks for the fix. Applied to nvme-5.6-rc.
+
+Thanks, both patches applied.
 
 _______________________________________________
 linux-nvme mailing list
