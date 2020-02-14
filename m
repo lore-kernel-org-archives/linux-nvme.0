@@ -6,17 +6,17 @@ X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91B64C3B1A1
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 Feb 2020 16:15:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 262ABC3B1A1
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 Feb 2020 16:16:08 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4FC06246EB
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 Feb 2020 16:15:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D616F246AA
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 Feb 2020 16:16:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Wh/Ds4cF";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="1myXzaQC"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4FC06246EB
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="hW2GIyrf";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="F+xLyT3Y"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D616F246AA
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,39 +25,38 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Mi1vGER+xV4BQWxU4jGDk838T361wimWrZnqZZNaMwo=; b=Wh/Ds4cF/5Uihn
-	AIdoA9XFx2krwSAt6bhb+gTIMVvnpuZLNnjVmen8bOUdlve/RPIYdozuLervNleBoJqCrnvp3X8Az
-	uEFSfArwuxiz9aRR3Q/S39X/7eS1xCRQeWW5Kvo+ALF7DqIuRtS8nyTFWxe+mnAf2PMQqzW9VpAfN
-	kW26HsX5TbL1BXwI3/xGuNZuvdly0lP8ZNN9PPEi9nbW/fbisczE1R5QpRAhMuBmfSq4xk3RPlkTv
-	LyC5RZbfDksWMF5AJQSbst0A6XPhwYQQBPtYEBDISfv5ia3WHKMuFns9iC0lBxeVZdf3gFcMz3tmk
-	ZY7UVu0trUvmoJRXGlgg==;
+	List-Owner; bh=WX2UgWe64f0AHOqnPfY9jC2ImQ7UpwLzrZYemXcz07A=; b=hW2GIyrf7lwoph
+	JBE3BYIqmCl7C3FPVpipANYCNY5dyJlKtgDSffHhy+Go3T9OwFZjQEEfypmyc2XJ5a2CLTOdcXbCZ
+	J36dXdiFO0yxxly9+9yAjDeg5JOLB34YtUtWvfi1YpFag4BM8TKQ4GxBmvCkjxtmILRb0+GkM6VSt
+	OFYG3uKDfKUkQCGhPp6j4cwFGE/rt/oDsCCKABN1e2D+axkZuVznDO3bfbdPXXVinxU2vae6eVaTD
+	briI0zF1JsQ4uJxlAf/gSOCF0cBrE2bbhOi3Qps80MdPKTnj7hksiFinCxrlK2Lg1HXQ+SIWUKKO2
+	bt0fghPVFUvVoRscRSTQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j2dd6-00088N-52; Fri, 14 Feb 2020 16:15:48 +0000
+	id 1j2ddM-0008Jt-D4; Fri, 14 Feb 2020 16:16:04 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j2dNi-000541-S9
- for linux-nvme@lists.infradead.org; Fri, 14 Feb 2020 15:59:57 +0000
+ id 1j2dNj-000558-Uw
+ for linux-nvme@lists.infradead.org; Fri, 14 Feb 2020 15:59:58 +0000
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 3D81D206D7;
- Fri, 14 Feb 2020 15:59:53 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id A114024654;
+ Fri, 14 Feb 2020 15:59:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1581695994;
- bh=AQyN84R5YGMyWpb9NCPcHNHXXRYjZNMbDO4ty2yJ4Is=;
+ s=default; t=1581695995;
+ bh=9Ctd1fmVcttbjX+dX5w5TzwYoyTQbQ9VFRC0ZOZZ1FI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=1myXzaQCBquvr4kSfPOZIT8AXZop47nK/smy0zbm9Lw6xEL3tg0sToZmMmqto3rxF
- 4zgL9xsTA4ehPAIzRpoYB5GGg61hQhpiyRwwLgXWeSCB6vIS++7OdlSQ5Adf/H/xr/
- FCbXitb73nr9LBv8YH1FkZdwNJsUjujYvajPWJh0=
+ b=F+xLyT3YmmqNaFNt0PMyTiwKfpxI2FV8VMfbqiDCrAYgVk6WVFjguYqW2NSiaqZIC
+ +vAVKwaACAucY3bk9Tkb2Vn/LanSfsaA8XHM7PNfuI6Z7i0ilAsqLbpnR27WDJvxzP
+ 9WCIN9GEg94ggBV79sdfZAhE6g38nFTKb5w28FRI=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.5 514/542] nvmet: fix dsm failure when payload does
- not match sgl descriptor
-Date: Fri, 14 Feb 2020 10:48:26 -0500
-Message-Id: <20200214154854.6746-514-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.5 515/542] nvme-pci: remove nvmeq->tags
+Date: Fri, 14 Feb 2020 10:48:27 -0500
+Message-Id: <20200214154854.6746-515-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214154854.6746-1-sashal@kernel.org>
 References: <20200214154854.6746-1-sashal@kernel.org>
@@ -65,8 +64,8 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200214_075954_963392_3DFD4857 
-X-CRM114-Status: GOOD (  12.84  )
+X-CRM114-CacheID: sfid-20200214_075956_112644_BFDFF7B9 
+X-CRM114-Status: GOOD (  13.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,96 +77,106 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- Dakshaja Uppalapati <dakshaja@chelsio.com>, linux-nvme@lists.infradead.org,
- Keith Busch <kbusch@kernel.org>, Max Gurtovoy <maxg@mellanox.com>,
- Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, Sasha Levin <sashal@kernel.org>,
+ Edmund Nadolski <edmund.nadolski@intel.com>, Christoph Hellwig <hch@lst.de>,
+ linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Sagi Grimberg <sagi@grimberg.me>
+From: Christoph Hellwig <hch@lst.de>
 
-[ Upstream commit b716e6889c95f64ba32af492461f6cc9341f3f05 ]
+[ Upstream commit cfa27356f835dc7755192e7b941d4f4851acbcc7 ]
 
-The host is allowed to pass the controller an sgl describing a buffer
-that is larger than the dsm payload itself, allow it when executing
-dsm.
+There is no real need to have a pointer to the tagset in
+struct nvme_queue, as we only need it in a single place, and that place
+can derive the used tagset from the device and qid trivially.  This
+fixes a problem with stale pointer exposure when tagsets are reset,
+and also shrinks the nvme_queue structure.  It also matches what most
+other transports have done since day 1.
 
-Reported-by: Dakshaja Uppalapati <dakshaja@chelsio.com>
-Reviewed-by: Christoph Hellwig <hch@lst.de>,
-Reviewed-by: Max Gurtovoy <maxg@mellanox.com>
-Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+Reported-by: Edmund Nadolski <edmund.nadolski@intel.com>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/target/core.c        | 11 +++++++++++
- drivers/nvme/target/io-cmd-bdev.c |  2 +-
- drivers/nvme/target/io-cmd-file.c |  2 +-
- drivers/nvme/target/nvmet.h       |  1 +
- 4 files changed, 14 insertions(+), 2 deletions(-)
+ drivers/nvme/host/pci.c | 23 ++++++++---------------
+ 1 file changed, 8 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 35810a0a8d212..461987f669c50 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -939,6 +939,17 @@ bool nvmet_check_data_len(struct nvmet_req *req, size_t data_len)
- }
- EXPORT_SYMBOL_GPL(nvmet_check_data_len);
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 365a2ddbeaa76..da392b50f73e7 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -167,7 +167,6 @@ struct nvme_queue {
+ 	 /* only used for poll queues: */
+ 	spinlock_t cq_poll_lock ____cacheline_aligned_in_smp;
+ 	volatile struct nvme_completion *cqes;
+-	struct blk_mq_tags **tags;
+ 	dma_addr_t sq_dma_addr;
+ 	dma_addr_t cq_dma_addr;
+ 	u32 __iomem *q_db;
+@@ -376,29 +375,17 @@ static int nvme_admin_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
  
-+bool nvmet_check_data_len_lte(struct nvmet_req *req, size_t data_len)
+ 	WARN_ON(hctx_idx != 0);
+ 	WARN_ON(dev->admin_tagset.tags[0] != hctx->tags);
+-	WARN_ON(nvmeq->tags);
+ 
+ 	hctx->driver_data = nvmeq;
+-	nvmeq->tags = &dev->admin_tagset.tags[0];
+ 	return 0;
+ }
+ 
+-static void nvme_admin_exit_hctx(struct blk_mq_hw_ctx *hctx, unsigned int hctx_idx)
+-{
+-	struct nvme_queue *nvmeq = hctx->driver_data;
+-
+-	nvmeq->tags = NULL;
+-}
+-
+ static int nvme_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
+ 			  unsigned int hctx_idx)
+ {
+ 	struct nvme_dev *dev = data;
+ 	struct nvme_queue *nvmeq = &dev->queues[hctx_idx + 1];
+ 
+-	if (!nvmeq->tags)
+-		nvmeq->tags = &dev->tagset.tags[hctx_idx];
+-
+ 	WARN_ON(dev->tagset.tags[hctx_idx] != hctx->tags);
+ 	hctx->driver_data = nvmeq;
+ 	return 0;
+@@ -948,6 +935,13 @@ static inline void nvme_ring_cq_doorbell(struct nvme_queue *nvmeq)
+ 		writel(head, nvmeq->q_db + nvmeq->dev->db_stride);
+ }
+ 
++static inline struct blk_mq_tags *nvme_queue_tagset(struct nvme_queue *nvmeq)
 +{
-+	if (unlikely(data_len > req->transfer_len)) {
-+		req->error_loc = offsetof(struct nvme_common_command, dptr);
-+		nvmet_req_complete(req, NVME_SC_SGL_INVALID_DATA | NVME_SC_DNR);
-+		return false;
-+	}
-+
-+	return true;
++	if (!nvmeq->qid)
++		return nvmeq->dev->admin_tagset.tags[0];
++	return nvmeq->dev->tagset.tags[nvmeq->qid - 1];
 +}
 +
- int nvmet_req_alloc_sgl(struct nvmet_req *req)
+ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq, u16 idx)
  {
- 	struct pci_dev *p2p_dev = NULL;
-diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
-index b6fca0e421ef1..ea0e596be15dc 100644
---- a/drivers/nvme/target/io-cmd-bdev.c
-+++ b/drivers/nvme/target/io-cmd-bdev.c
-@@ -280,7 +280,7 @@ static void nvmet_bdev_execute_discard(struct nvmet_req *req)
- 
- static void nvmet_bdev_execute_dsm(struct nvmet_req *req)
- {
--	if (!nvmet_check_data_len(req, nvmet_dsm_len(req)))
-+	if (!nvmet_check_data_len_lte(req, nvmet_dsm_len(req)))
+ 	volatile struct nvme_completion *cqe = &nvmeq->cqes[idx];
+@@ -972,7 +966,7 @@ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq, u16 idx)
  		return;
+ 	}
  
- 	switch (le32_to_cpu(req->cmd->dsm.attributes)) {
-diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
-index caebfce066056..cd5670b83118f 100644
---- a/drivers/nvme/target/io-cmd-file.c
-+++ b/drivers/nvme/target/io-cmd-file.c
-@@ -336,7 +336,7 @@ static void nvmet_file_dsm_work(struct work_struct *w)
- 
- static void nvmet_file_execute_dsm(struct nvmet_req *req)
- {
--	if (!nvmet_check_data_len(req, nvmet_dsm_len(req)))
-+	if (!nvmet_check_data_len_lte(req, nvmet_dsm_len(req)))
- 		return;
- 	INIT_WORK(&req->f.work, nvmet_file_dsm_work);
- 	schedule_work(&req->f.work);
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 46df45e837c95..eda28b22a2c87 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -374,6 +374,7 @@ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
- 		struct nvmet_sq *sq, const struct nvmet_fabrics_ops *ops);
- void nvmet_req_uninit(struct nvmet_req *req);
- bool nvmet_check_data_len(struct nvmet_req *req, size_t data_len);
-+bool nvmet_check_data_len_lte(struct nvmet_req *req, size_t data_len);
- void nvmet_req_complete(struct nvmet_req *req, u16 status);
- int nvmet_req_alloc_sgl(struct nvmet_req *req);
- void nvmet_req_free_sgl(struct nvmet_req *req);
+-	req = blk_mq_tag_to_rq(*nvmeq->tags, cqe->command_id);
++	req = blk_mq_tag_to_rq(nvme_queue_tagset(nvmeq), cqe->command_id);
+ 	trace_nvme_sq(req, cqe->sq_head, nvmeq->sq_tail);
+ 	nvme_end_request(req, cqe->status, cqe->result);
+ }
+@@ -1572,7 +1566,6 @@ static const struct blk_mq_ops nvme_mq_admin_ops = {
+ 	.queue_rq	= nvme_queue_rq,
+ 	.complete	= nvme_pci_complete_rq,
+ 	.init_hctx	= nvme_admin_init_hctx,
+-	.exit_hctx      = nvme_admin_exit_hctx,
+ 	.init_request	= nvme_init_request,
+ 	.timeout	= nvme_timeout,
+ };
 -- 
 2.20.1
 
