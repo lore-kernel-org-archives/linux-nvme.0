@@ -1,84 +1,83 @@
-Return-Path: <SRS0=8N39=4E=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=Iolv=4F=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F36CC76199
-	for <linux-nvme@archiver.kernel.org>; Sun, 16 Feb 2020 08:10:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B600BC7619F
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 Feb 2020 11:56:13 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 46FEE206E2
-	for <linux-nvme@archiver.kernel.org>; Sun, 16 Feb 2020 08:10:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7D0D120801
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 Feb 2020 11:56:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="I2Y5Kv8v";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VmKAFLhp"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 46FEE206E2
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="BqCsSjaH";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="V8SQMpo2"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7D0D120801
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=2b/7U2fXhh8ZdeI2XWxFKCx+V3dY3+ja7e5gT4mUqv0=; b=I2Y5Kv8v4HxpOC
-	xeeiJGevkTvZj+mlZYCFd1QF71tYSajB1LIwj38xB0AcpVxwxw2SIv7VgdpbSHo2fHQhr/ltHIA6Q
-	5Y6jmfhYnzeyy2X5uajQzjzoPSIWBES5LG1q0pnLtCCE2NTnTjbGxHvojTRIzQL/JCmS0JK5p0b8w
-	fsfL0axUNe1l4jTL9WuLhhz40Qa2F8rD8YRoAs4KDI2FNjZ2OaDD4NmdJ37TP3FcJW7hZsZkOJ3gH
-	2rm8bp0qoxmPA+oacmQkG2FJkiDAa6FT3qsHeRWE2sIdArEqoByh2jdIx7RDYeGlPMmsTnx5pnvzK
-	C8ZnI6mw2vZpMGefQreQ==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:Cc:
+	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
+	MIME-Version:Message-Id:Date:Subject:To:From:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+	References:List-Owner; bh=/cO68cWnxZLpu58vnGyIdn7hZr3KjrEAk2RW4H+UQ9g=; b=BqC
+	sSjaH2wZtUyjjiTMefI2CeUMSBdMBNZb3x0y/ZTD0A1NSzownchm5fAqYx1fvlxbbfNqjOa1qOnPy
+	W0JCEWv3E64L6+i7rQTaQiPdnpY7Kt/IWVg3fh6gmBAAp94uNWJWlE5MIJS6Ldvosfa/tgtiNGtJ7
+	45R/bLFmz9/64c+UKswv5Y3sz9L17JVut2z/QKNZMJLD5cTJgGuh1894pHciwEQvIhzoyBcsbzN5O
+	F7XxHg+XS7FHrvKCUr154jrzjXz3ODtqvdWnktDvMPDaBzKRPzPUM+b7ZfDYCrK1BTej84WEZacyK
+	p02dTCHSVWZH8r19rUXIuTY1lKj8Mbg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j3Ezx-0008CP-Ak; Sun, 16 Feb 2020 08:09:53 +0000
-Received: from mail-qt1-x841.google.com ([2607:f8b0:4864:20::841])
+	id 1j3f0T-0000pI-Lp; Mon, 17 Feb 2020 11:56:09 +0000
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j3Ezt-0008BU-Uu
- for linux-nvme@lists.infradead.org; Sun, 16 Feb 2020 08:09:51 +0000
-Received: by mail-qt1-x841.google.com with SMTP id d9so9996731qte.12
- for <linux-nvme@lists.infradead.org>; Sun, 16 Feb 2020 00:09:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=dNEzfTwUBmfbDmP8jHrIogG2oGgC1+4D3raZbBbSc2I=;
- b=VmKAFLhpDtAwHFCSjp+NzMIgHyhm7krjkidskFg0N+Fgdz3R8JDO3b8ne9kX2NFKY+
- N/GybcS2uUJYFLbORG6aDUumIctsLO+Be5ocFLSryqNoTi+9rDFflc5gpxK+RKw1+Io/
- n88bkYbb9GtMZ/vk5gE20Oue9ZjRBfLFFDCNBLu+HP1A2TycZn6CtUMlARKRH4vGlG4M
- ig34rD5d25IBzbXpRYhrTD01cJRhTk9nw4VwW4ldj26nRlASBkqDb3QHKjwIJg6/eOCD
- MMD6AR29nHG9e3OxFlZGf9E7wRVQhM5ujrZu534Vpv+52f9/1EdXj4e0dwx5Bp2ei4oZ
- JmRg==
+ id 1j3f0P-0000nq-9S
+ for linux-nvme@lists.infradead.org; Mon, 17 Feb 2020 11:56:07 +0000
+Received: by mail-wr1-x443.google.com with SMTP id g3so19344701wrs.12
+ for <linux-nvme@lists.infradead.org>; Mon, 17 Feb 2020 03:56:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=yF0P9wDxyFWDFuyJ5CtBgV3diKtXFyslbtY9psnK0LM=;
+ b=V8SQMpo2eclZjR9LBzjkmAr9QgyvUq9cnj3YHXiz599PoZezOcm2hw5883FJZ9rhQf
+ zpfYT+1kTharVfTa6qL0kWbtiN7huH/QXYPcAySH1ZeHaq+qcRxEHmC0YN1cqvrQqb8b
+ XWG1QGvclRgimZ95gZlxPlBix6V44Rk3rcDxg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=dNEzfTwUBmfbDmP8jHrIogG2oGgC1+4D3raZbBbSc2I=;
- b=VZ5kiZcFHL5XBqe7lh1s4TXAxHWRTZcBilwS6C9e69WachFxwrc8ssMh05hYlQu21q
- RP+7DnhY13Z2K79yqqTCKSlDu72oDf9Ikrnid/cEopgkWXwHgR4MR0ar2ZZYhfwSVJYc
- sB9exBHznYx65Cwa1nK4tBZNwjoNuX6Wt0Gexe9LN7URyqvRGvCox/pJYpYee/KM+zyV
- 39o+c/YXEPc1DL1O7mHl4M8j6hvsHJpIUySl9yEZAsEtvfOnQBlh43OQOUmDEqm8Kt1H
- gfhNluqybPVGU+wogFw0DBlpSYaaYcifKtJyXI/xGegfmvtOS7eOtvWfwUNjxMi9ZlHg
- JbTg==
-X-Gm-Message-State: APjAAAVb3hHuyGxR1Lr3LlztOg3gh4Md5vLHOA9ohPf2e7/7dNFgZP2c
- hC8x7nEmP94P/aSCrifSPJ6S7EA39TWXfmDViZs=
-X-Google-Smtp-Source: APXvYqyWsEgZR3nj4ltlF/cwwuK/9RC88Bxi124aJCUSlJQqix+GJMRtc5vW2gcs32HrxaV4C+AM8gxZqKNu36C+0WQ=
-X-Received: by 2002:ac8:47cc:: with SMTP id d12mr9206563qtr.246.1581840585855; 
- Sun, 16 Feb 2020 00:09:45 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=yF0P9wDxyFWDFuyJ5CtBgV3diKtXFyslbtY9psnK0LM=;
+ b=pC8D0LvVJn5AxxEdHq/MV8LSLK/vxqP6aQIZNJ5Tp5f+OoqoO+ANPpOkAIViXeUtn/
+ XIXcm8o2G96q3WZio/fL1LNaTJTP7XxjTWyOiKICRRJWzAYLDY0ZQf1fTHgLjUp5T11/
+ xEQb2Ve1ZOUQegiZaVLAW4MnnrNON1/Xyb7bV6wPnz7qlizihJiTlqVfPleO/C7OCKGm
+ B0qSER2aGgEbHOfVaB84/CaL8PtYlVu7rrnf5Ur3IPyiBZ2vwh91Pk1cn80+/fhEj2Ta
+ RH6PKxhtxI7nGgAs0ezHmWI/3QUnnWPftsNCCF31Lp5a7BCB6YjQmKupuqAdPrEt7QMm
+ cxgg==
+X-Gm-Message-State: APjAAAWXrcfxnlbHZXKQVTk2XO6/OC+aY1DhHgUo0o+4xziS3KfqPvcu
+ nYD3MSCgKcJCqOeDcmSHd2ylKw==
+X-Google-Smtp-Source: APXvYqwvB/G/591E88LlaJ8rJ1vacGNNqk7G2bihkjdczRBIXXtaS1eoQCoc0h4o5nfYq0e5OkOgMg==
+X-Received: by 2002:adf:fe83:: with SMTP id l3mr22762418wrr.41.1581940559503; 
+ Mon, 17 Feb 2020 03:55:59 -0800 (PST)
+Received: from dhcp-10-123-20-32.dhcp.broadcom.net ([192.19.234.250])
+ by smtp.gmail.com with ESMTPSA id i4sm311571wmd.23.2020.02.17.03.55.56
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 17 Feb 2020 03:55:58 -0800 (PST)
+From: Kashyap Desai <kashyap.desai@broadcom.com>
+To: linux-scsi@vger.kernel.org
+Subject: [RFC PATCH] megaraid_sas : threaded irq hybrid polling
+Date: Mon, 17 Feb 2020 17:25:33 +0530
+Message-Id: <1581940533-13795-1-git-send-email-kashyap.desai@broadcom.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-References: <cover.1580786525.git.zhangweiping@didiglobal.com>
- <20200204154200.GA5831@redsun51.ssa.fujisawa.hgst.com>
-In-Reply-To: <20200204154200.GA5831@redsun51.ssa.fujisawa.hgst.com>
-From: Weiping Zhang <zwp10758@gmail.com>
-Date: Sun, 16 Feb 2020 16:09:34 +0800
-Message-ID: <CAA70yB5qAj8YnNiPVD5zmPrrTr0A0F3v2cC6t2S1Fb0kiECLfw@mail.gmail.com>
-Subject: Re: [PATCH v5 0/4] Add support Weighted Round Robin for blkcg and nvme
-To: Keith Busch <kbusch@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200216_000950_024321_82582078 
-X-CRM114-Status: GOOD (  30.35  )
+X-CRM114-CacheID: sfid-20200217_035605_338679_CB449F37 
+X-CRM114-Status: GOOD (  19.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,106 +89,228 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Jens Axboe <axboe@kernel.dk>, Bart Van Assche <bvanassche@acm.org>,
- linux-nvme@lists.infradead.org, Ming Lei <ming.lei@redhat.com>,
- linux-block@vger.kernel.org, Minwoo Im <minwoo.im.dev@gmail.com>,
- cgroups@vger.kernel.org, Tejun Heo <tj@kernel.org>, "Nadolski,
- Edmund" <edmund.nadolski@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
- Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: axboe@kernel.dk, martin.petersen@oracle.com, sumanesh.samanta@broadcom.com,
+ linux-nvme@lists.infradead.org, ming.lei@redhat.com, kbusch@kernel.org,
+ Kashyap Desai <kashyap.desai@broadcom.com>
+Content-Type: multipart/mixed; boundary="===============1335575872235492676=="
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-S2VpdGggQnVzY2ggPGtidXNjaEBrZXJuZWwub3JnPiDkuo4yMDIw5bm0MuaciDTml6Xlkajkuowg
-5LiL5Y2IMTE6NDLlhpnpgZPvvJoKPgo+IE9uIFR1ZSwgRmViIDA0LCAyMDIwIGF0IDExOjMwOjQ1
-QU0gKzA4MDAsIFdlaXBpbmcgWmhhbmcgd3JvdGU6Cj4gPiBUaGlzIHNlcmllcyB0cnkgdG8gYWRk
-IFdlaWdodGVkIFJvdW5kIFJvYmluIGZvciBibG9jayBjZ3JvdXAgYW5kIG52bWUKPiA+IGRyaXZl
-ci4gV2hlbiBtdWx0aXBsZSBjb250YWluZXJzIHNoYXJlIGEgc2luZ2xlIG52bWUgZGV2aWNlLCB3
-ZSB3YW50Cj4gPiB0byBwcm90ZWN0IElPIGNyaXRpY2FsIGNvbnRhaW5lciBmcm9tIG5vdCBiZSBp
-bnRlcmZlcm5jZWQgYnkgb3RoZXIKPiA+IGNvbnRhaW5lcnMuIFdlIGFkZCBibGtpby53cnIgaW50
-ZXJmYWNlIHRvIHVzZXIgdG8gY29udHJvbCB0aGVpciBJTwo+ID4gcHJpb3JpdHkuIFRoZSBibGtp
-by53cnIgYWNjZXB0IGZpdmUgbGV2ZWwgcHJpb3JpdGllcywgd2hpY2ggY29udGFpbnMKPiA+ICJ1
-cmdlbnQiLCAiaGlnaCIsICJtZWRpdW0iLCAibG93IiBhbmQgIm5vbmUiLCB0aGUgIm5vbmUiIGlz
-IHVzZWQgZm9yCj4gPiBkaXNhYmxlIFdSUiBmb3IgdGhpcyBjZ3JvdXAuCj4KSGkgQnVzaCwKCj4g
-VGhlIE5WTWUgcHJvdG9jb2wgcmVhbGx5IGRvZXNuJ3QgZGVmaW5lIFdSUiB0byBiZSBhIG1lY2hh
-bmlzbSB0byBtaXRpZ2F0ZQo+IGludGVyZmVyZW5jZSwgdGhvdWdoLiBJdCBkZWZpbmVzIGNyZWRp
-dHMgYW1vbmcgdGhlIHdlaWdodGVkIHF1ZXVlcwo+IG9ubHkgZm9yIGNvbW1hbmQgZmV0Y2hpbmcs
-IGFuZCBhbiB1cmdlbnQgc3RyaWN0IHByaW9yaXR5IGNsYXNzIHRoYXQKPiBzdGFydmVzIHRoZSBy
-ZXN0LiBJdCBoYXMgbm90aGluZyB0byBkbyB3aXRoIGhvdyB0aGUgY29udHJvbGxlciBzaG91bGQK
-PiBwcmlvcml0aXplIGNvbXBsZXRpb24gb2YgdGhvc2UgY29tbWFuZHMsIGV2ZW4gaWYgaXQgbWF5
-IGJlIHJlYXNvbmFibGUgdG8KPiBhc3N1bWUgaW5mbHVlbmNpbmcgd2hlbiB0aGUgY29tbWFuZCBp
-cyBmZXRjaGVkIHNob3VsZCBhZmZlY3QgaXRzCj4gY29tcGxldGlvbi4KPgpUaGFua3MgeW91ciBm
-ZWVkYmFjaywgdGhlIGZpbyB0ZXN0IHJlc3VsdCBvbiBXUlIgc2hvd3MgdGhhdCwgdGhlIGhpZ2gt
-d3JyLWZpbwpnZXQgbW9yZSBiYW5kd2lkdGgvaW9wcyBhbmQgbG93IGxhdGVuY3kuIEkgdGhpbmsg
-aXQncyBhIGdvb2QgZmVhdHVyZQpmb3IgdGhlIGNhc2UKdGhhdCBydW4gbXVsdGlwbGUgd29ya2xv
-YWQgd2l0aCBkaWZmZXJlbnQgcHJpb3JpdHksIGVzcGVjaWFsbHkgZm9yCmNvbnRhaW5lciBjb2xv
-Y2F0aW9uLgoKPiBPbiB0aGUgIndlaWdodGVkIiBzdHJpY3QgcHJpb3JpdHksIHRoZXJlJ3Mgbm90
-aGluZyBzZXBhcmF0aW5nICJoaWdoIgo+IGZyb20gImxvdyIgb3RoZXIgdGhhbiB0aGUgbmFtZTog
-dGhlICJzZXQgZmVhdHVyZXMiIGNyZWRpdCBhc3NpZ25tZW50Cj4gY2FuIGludmVydCB3aGljaCBx
-dWV1ZXMgaGF2ZSBoaWdoZXIgY29tbWFuZCBmZXRjaCByYXRlcyBzdWNoIHRoYXQgdGhlCj4gImxv
-dyIgaXMgZmF2b3VyZWQgb3ZlciB0aGUgImhpZ2giLgo+CklmIHRoZXJlIGlzIG5vIGxpbWl0YXRp
-b24gaW4gdGhlIGhhcmR3YXJlIGNvbnRyb2xsZXIsIHdlIGNhbiBhZGQgbW9yZQpjaGVja2luZyBp
-bgoic2V0IGZlYXR1cmUgY29tbWFuZCIuIEkgdGhpbmsgbW9zdGx5IHBlb3BsZSB3b24ndCBnaXZl
-ICJsb3ciIG1vcmUKY3JlZGl0cyB0aGFuICJoaWdoIiwKaXQgcmVhbGx5IGRvZXMgbm90IG1ha2Ug
-c2Vuc2UuCgo+IFRoZXJlJ3Mgbm8gcHJvdGVjdGlvbiBhZ2FpbnN0IHRoZSAidXJnZW50IiBjbGFz
-cyBzdGFydmluZyBvdGhlcnM6IG5vcm1hbAo+IElPIHdpbGwgdGltZW91dCBhbmQgdHJpZ2dlciBy
-ZXBlYXRlZCBjb250cm9sbGVyIHJlc2V0cywgd2hpbGUgcG9sbGVkIElPCj4gd2lsbCBjb25zdW1l
-IDEwMCUgb2YgQ1BVIGN5Y2xlcyB3aXRob3V0IG1ha2luZyBhbnkgcHJvZ3Jlc3MgaWYgd2UgbWFr
-ZQo+IHRoaXMgdHlwZSBvZiBxdWV1ZSBhdmFpbGFibGUgd2l0aG91dCBhbnkgYWRkaXRpb25hbCBj
-b2RlIHRvIGVuc3VyZSB0aGUKPiBob3N0IGJlaGF2ZXMuLgo+CkkgdGhpbmsgd2UgY2FuIGp1c3Qg
-ZGlzYWJsZSBpdCBpbiB0aGUgc29mdHdhcmUgbGF5ZXIgLCBhY3R1YWxseSwgSSBoYXZlIG5vIHJl
-YWwKYXBwbGljYXRpb24gbmVlZCB0aGlzLgoKPiBPbiB0aGUgZHJpdmVyIGltcGxlbWVudGF0aW9u
-LCB0aGUgbnVtYmVyIG9mIG1vZHVsZSBwYXJhbWV0ZXJzIGJlaW5nCj4gYWRkZWQgaGVyZSBpcyBw
-cm9ibGVtYXRpYy4gV2UgYWxyZWFkeSBoYXZlIDIgc3BlY2lhbCBjbGFzc2VzIG9mIHF1ZXVlcywK
-PiBhbmQgZGVmaW5pbmcgdGhpcyBhdCB0aGUgbW9kdWxlIGxldmVsIGlzIGNvbnNpZGVyZWQgdG9v
-IGNvYXJzZSB3aGVuCj4gdGhlIHN5c3RlbSBoYXMgZGlmZmVyZW50IGRldmljZXMgb24gb3Bwb3Np
-dGUgZW5kcyBvZiB0aGUgY2FwYWJpbGl0eQo+IHNwZWN0cnVtLiBGb3IgZXhhbXBsZSwgdXNlcnMg
-d2FudCBwb2xsZWQgcXVldWVzIGZvciB0aGUgZmFzdCBkZXZpY2VzLAo+IGFuZCBub25lIGZvciB0
-aGUgc2xvd2VyIHRpZXIuIFdlIGp1c3QgZG9uJ3QgaGF2ZSBhIGdvb2QgbWVjaGFuaXNtIHRvCj4g
-ZGVmaW5lIHBlci1jb250cm9sbGVyIHJlc291cmNlcywgYW5kIG1vcmUgcXVldWUgY2xhc3NlcyB3
-aWxsIG1ha2UgdGhpcwo+IHByb2JsZW0gd29yc2UuCj4KV2UgY2FuIGFkZCBhIG5ldyAic3RyaW5n
-IiBtb2R1bGUgcGFyYW1ldGVyLCB3aGljaCBjb250YWlucyBhIG1vZGVsIG51bWJlciwKaW4gbW9z
-dCBjYXNlcywgdGhlIHNhdmUgcHJvZHVjdCB3aXRoIGEgY29tbW9uIHByZWZpeCBtb2RlbCBudW1i
-ZXIsIHNvCmluIHRoaXMgd2F5Cm52bWUgY2FuIGRpc3Rpbmd1aXNoIHRoZSBkaWZmZXJlbnQgcGVy
-Zm9ybWFuY2UgZGV2aWNlcyhoaWduIG9yIGxvdyBlbmQpLgpCZWZvcmUgY3JlYXRlIGlvIHF1ZXVl
-LCBudm1lIGRyaXZlciBjYW4gZ2V0IHRoZSBkZXZpY2UncyBNb2RlbCBudW1iZXIoNDAgQnl0ZXMp
-LAp0aGVuIG52bWUgZHJpdmVyIGNhbiBjb21wYXJlIGRldmljZSdzIG1vZGVsIG51bWJlciB3aXRo
-IG1vZHVsZSBwYXJhbWV0ZXIsIHRvCmRlY2lkZSBob3cgbWFueSBpbyBxdWV1ZXMgZm9yIGVhY2gg
-ZGlzazsKCi8qIGlmIG1vZGVsX251bWJlciBpcyBNT0RFTF9BTlksIHRoZXNlIHBhcmFtZXRlcnMg
-d2lsbCBiZSBhcHBsaWVkIHRvCmFsbCBudm1lIGRldmljZXMuICovCmNoYXIgZGV2X2lvX3F1ZXVl
-c1sxMDI0XSA9ICJtb2RlbF9udW1iZXI9TU9ERUxfQU5ZLApwb2xsPTAscmVhZD0wLHdycl9sb3c9
-MCx3cnJfbWVkaXVtPTAsd3JyX2hpZ2g9MCx3cnJfdXJnZW50PTAiOwovKiB0aGVzZSBwYXJhbXRl
-cnMgb25seSBhZmZlY3QgbnZtZSBkaXNrIHdob3NlIG1vZGVsIG51bWJlciBpcyAiWFhYIiAqLwpj
-aGFyIGRldl9pb19xdWV1ZXNbMTAyNF0gPSAibW9kZWxfbnVtYmVyPVhYWCwKcG9sbD0xLHJlYWQ9
-Mix3cnJfbG93PTMsd3JyX21lZGl1bT00LHdycl9oaWdoPTUsd3JyX3VyZ2VudD0wOyI7CgpzdHJ1
-Y3QgZGV2X2lvX3F1ZXVlcyB7CiAgICAgICAgY2hhciBtb2RlbF9udW1iZXJbNDBdOwogICAgICAg
-IHVuc2lnbmVkIGludCBwb2xsOwogICAgICAgIHVuc2dpbmVkIGludCByZWFkOwogICAgICAgIHVu
-c2lnbmVkIGludCB3cnJfbG93OwogICAgICAgIHVuc2lnbmVkIGludCB3cnJfbWVkaXVtOwogICAg
-ICAgIHVuc2lnbmVkIGludCB3cnJfaGlnaDsKICAgICAgICB1bnNpZ25lZCBpbnQgd3JyX3VyZ2Vu
-dDsKfTsKCldlIGNhbiB1c2UgdGhlc2UgdHdvIHZhcmlhYmxlIHRvIHN0b3JlIGlvIHF1ZXVlIGNv
-bmZpZ3VyYXRpb25zOgoKLyogZGVmYXVsdCB2YWx1ZXMgZm9yIHRoZSBhbGwgZGlzaywgZXhjZXB0
-IHdob3NlIG1vZGVsIG51bWJlciBpcyBub3QKaW4gaW9fcXVldWVzX2NmZyAqLwpzdHJ1Y3QgZGV2
-X2lvX3F1ZXVlcyBpb19xdWV1ZXNfZGVmID0ge307CgovKiB1c2VyIGRlZmluZWQgdmFsdWVzIGZv
-ciBhIHNwZWNpZmljIG1vZGVsIG51bWJlciAqLwpzdHJ1Y3QgZGV2X2lvX3F1ZXVlcyBpb19xdWV1
-ZXNfY2ZnID0ge307CgpJZiB3ZSBuZWVkIG11bHRpcGxlIGNvbmZpZ3VyYXRpb25zKCA+IDIpLCB3
-ZSBjYW4gYWxzbyBleHRlbmQKZGV2X2lvX3F1ZXVlcyB0byBzdXBwb3J0IGl0LgoKPiBPbiB0aGUg
-YmxrLW1xIHNpZGUsIHRoaXMgaW1wbGVtZW50YXRpb24gZG9lc24ndCB3b3JrIHdpdGggdGhlIElP
-Cj4gc2NoZWR1bGVycy4gSWYgb25lIGlzIGluIHVzZSwgcmVxdWVzdHMgbWF5IGJlIHJlb3JkZXJl
-ZCBzdWNoIHRoYXQgYQo+IHJlcXVlc3Qgb24geW91ciBoaWdoLXByaW9yaXR5IGhjdHggbWF5IGJl
-IGRpc3BhdGNoZWQgbGF0ZXIgdGhhbiBtb3JlCj4gcmVjZW50IG9uZXMgYXNzb2NpYXRlZCB3aXRo
-IGxvd2VyIHByaW9yaXR5LiBJIGRvbid0IHRoaW5rIHRoYXQncyB3aGF0Cj4geW91J2Qgd2FudCB0
-byBoYXBwZW4sIHNvIHByaW9yaXR5IHNob3VsZCBiZSBjb25zaWRlcmVkIHdpdGggc2NoZWR1bGVy
-cwo+IHRvby4KPgpDdXJyZW50bHksIG52bWUgZG9lcyBub3QgdXNlIGlvIHNjaGVkdWxlciBieSBk
-ZWZhbHV0LCBpZiB1c2VyIHdhbnQgdG8gbWFrZQp3cnIgY29tcGF0aWJsZSB3aXRoIGlvIHNjaGVk
-dWxlciwgd2UgY2FuIGFkZCBvdGhlciBwYXRjaGVzIHRvIGhhbmRsZSB0aGlzLgoKPiBCdXQgcmVh
-bGx5LCB0aG91Z2gsIE5WTWUncyBXUlIgaXMgdG9vIGhlYXZ5IHdlaWdodCBhbmQgZGlmZmljdWx0
-IHRvIHVzZS4KPiBUaGUgdGVjaGluY2FsIHdvcmsgZ3JvdXAgY2FuIGNvbWUgdXAgd2l0aCBzb21l
-dGhpbmcgYmV0dGVyLCBidXQgaXQgbG9va3MKPiBsaWtlIHRoZXkndmUgbG9zdCBpbnRlcmVzdCBp
-biBUUEFSIDQwMTEgKG5vIGRpc2N1c3Npb24gaW4gMiB5ZWFycywgYWZhaWNzKS4KCkZvciB0aGUg
-dGVzdCByZXN1bHQsIEkgdGhpbmsgaXQncyBhIHVzZWZ1bCBmZWF0dXJlLgpJdCByZWFsbHkgZ2l2
-ZXMgaGlnaCBwcmlvcml0eSBhcHBsaWNhdGlvbnMgaGlnaCBpb3BzL2JhbmR3aXRoIGFuZCBsb3cg
-bGF0ZW5jeSwKYW5kIGl0IG1ha2VzIHNvZnR3YXJlIHZlcnkgdGhpbiBhbmQgc2ltcGxlLgoKX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KbGludXgtbnZtZSBt
-YWlsaW5nIGxpc3QKbGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5p
-bmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
+--===============1335575872235492676==
+Content-Type: text/plain; charset=yes
+Content-Transfer-Encoding: 8bit
+
+High performance HBAs under scsi layer can reach more than 3.0M IOPs.
+MegaRaid Aero controller can achieve to 3.3M IOPs.In future there may be requirement to reach 6.0+ M IOPs.
+One of the key bottlenecks is serving interrupts for each IO completion.
+Block layer has interface blk_poll which can be used as zero interrupt poll queue.
+Extending blk_poll to scsi mid layer helps and I was able to get max IOPs same as nvme <poll_queues> interface.
+
+blk_poll is currently merged with io_uring interface and it requires application change to adopt blk_poll.
+
+This RFC covers the logic of handling irq polling in driver using threaded ISR interface.
+Changes in this RFC is described as below -
+
+- Use Threaded ISR interface.
+- Primary ISR handler runs from h/w interrupt context.
+- Secondary ISR handler runs from thread context.
+- Driver will drain reply queue from Primary ISR handler for every interrupt it receives.
+- Primary handler will decide to call Secondary handler or not.
+  This interface can be optimized later, if driver or block layer keep submission and completion stats per each h/w queue.
+  Current megaraid_sas driver is single h/w queue based, so I have picked below decision maker.
+  If per scsi device has outstanding command more than 8, mark that msix index as “attempt_irq_poll”.
+- Every time secondary ISR handler runs, primary handler will disable IRQ.
+  Once secondary handler completes the task, it will re-enable IRQ.
+  If there is no completion, let's wait for some time and retry polling as enable/disable irq is expensive operation.
+  Without this wait in threaded IRQ polling, we will not allow submitter to use CPU and pump more IO.
+
+NVME driver is also trying something similar to reduce ISR overhead.
+Discussion started in Dec-2019.
+https://lore.kernel.org/linux-nvme/20191209175622.1964-1-kbusch@kernel.org/
+
+
+Signed-off-by: Kashyap Desai <kashyap.desai@broadcom.com>
+---
+
+ drivers/scsi/megaraid/megaraid_sas.h        |  3 ++
+ drivers/scsi/megaraid/megaraid_sas_base.c   | 11 +++--
+ drivers/scsi/megaraid/megaraid_sas_fusion.c | 73 +++++++++++++++++++++++++++++
+ 3 files changed, 83 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/scsi/megaraid/megaraid_sas.h b/drivers/scsi/megaraid/megaraid_sas.h
+index 83d8c4c..f4f898a 100644
+--- a/drivers/scsi/megaraid/megaraid_sas.h
++++ b/drivers/scsi/megaraid/megaraid_sas.h
+@@ -2212,6 +2212,7 @@ struct megasas_irq_context {
+ 	struct irq_poll irqpoll;
+ 	bool irq_poll_scheduled;
+ 	bool irq_line_enable;
++	bool attempt_irq_poll;
+ };
+ 
+ struct MR_DRV_SYSTEM_INFO {
+@@ -2709,4 +2710,6 @@ int megasas_adp_reset_wait_for_ready(struct megasas_instance *instance,
+ 				     int ocr_context);
+ int megasas_irqpoll(struct irq_poll *irqpoll, int budget);
+ void megasas_dump_fusion_io(struct scsi_cmnd *scmd);
++irqreturn_t megasas_irq_check_fusion(int irq, void *devp);
++irqreturn_t megasas_irq_fusion_thread(int irq, void *devp);
+ #endif				/*LSI_MEGARAID_SAS_H */
+diff --git a/drivers/scsi/megaraid/megaraid_sas_base.c b/drivers/scsi/megaraid/megaraid_sas_base.c
+index fd4b5ac..6120bd0 100644
+--- a/drivers/scsi/megaraid/megaraid_sas_base.c
++++ b/drivers/scsi/megaraid/megaraid_sas_base.c
+@@ -5585,7 +5585,7 @@ megasas_setup_irqs_ioapic(struct megasas_instance *instance)
+ static int
+ megasas_setup_irqs_msix(struct megasas_instance *instance, u8 is_probe)
+ {
+-	int i, j;
++	int i, j, ret;
+ 	struct pci_dev *pdev;
+ 
+ 	pdev = instance->pdev;
+@@ -5596,9 +5596,12 @@ megasas_setup_irqs_msix(struct megasas_instance *instance, u8 is_probe)
+ 		instance->irq_context[i].MSIxIndex = i;
+ 		snprintf(instance->irq_context[i].name, MEGASAS_MSIX_NAME_LEN, "%s%u-msix%u",
+ 			"megasas", instance->host->host_no, i);
+-		if (request_irq(pci_irq_vector(pdev, i),
+-			instance->instancet->service_isr, 0, instance->irq_context[i].name,
+-			&instance->irq_context[i])) {
++		ret = request_threaded_irq(pci_irq_vector(pdev, i), 
++				megasas_irq_check_fusion,
++				megasas_irq_fusion_thread, IRQF_ONESHOT ,
++				instance->irq_context[i].name, 
++				&instance->irq_context[i]);
++		if (ret) {
+ 			dev_err(&instance->pdev->dev,
+ 				"Failed to register IRQ for vector %d.\n", i);
+ 			for (j = 0; j < i; j++)
+diff --git a/drivers/scsi/megaraid/megaraid_sas_fusion.c b/drivers/scsi/megaraid/megaraid_sas_fusion.c
+index f3b36fd..5000c36 100644
+--- a/drivers/scsi/megaraid/megaraid_sas_fusion.c
++++ b/drivers/scsi/megaraid/megaraid_sas_fusion.c
+@@ -371,6 +371,7 @@ megasas_get_msix_index(struct megasas_instance *instance,
+ 		       struct megasas_cmd_fusion *cmd,
+ 		       u8 data_arms)
+ {
++	struct megasas_irq_context *irq_ctx;
+ 	int sdev_busy;
+ 
+ 	/* nr_hw_queue = 1 for MegaRAID */
+@@ -391,6 +392,12 @@ megasas_get_msix_index(struct megasas_instance *instance,
+ 	else
+ 		cmd->request_desc->SCSIIO.MSIxIndex =
+ 			instance->reply_map[raw_smp_processor_id()];
++	
++	irq_ctx = &instance->irq_context[cmd->request_desc->SCSIIO.MSIxIndex];
++
++	/* More outstanding IOs, so let's attempt polling on this reply queue.*/	
++	if (sdev_busy > data_arms * MR_DEVICE_HIGH_IOPS_DEPTH)
++		irq_ctx->attempt_irq_poll = true;
+ }
+ 
+ /**
+@@ -2754,6 +2761,7 @@ megasas_build_ldio_fusion(struct megasas_instance *instance,
+ 	u16 ld;
+ 	u32 start_lba_lo, start_lba_hi, device_id, datalength = 0;
+ 	u32 scsi_buff_len;
++	struct megasas_irq_context *irq_ctx;
+ 	struct MPI2_RAID_SCSI_IO_REQUEST *io_request;
+ 	struct IO_REQUEST_INFO io_info;
+ 	struct fusion_context *fusion;
+@@ -3101,6 +3109,7 @@ megasas_build_syspd_fusion(struct megasas_instance *instance,
+ 	u16 pd_index = 0;
+ 	u16 os_timeout_value;
+ 	u16 timeout_limit;
++	struct megasas_irq_context *irq_ctx;
+ 	struct MR_DRV_RAID_MAP_ALL *local_map_ptr;
+ 	struct RAID_CONTEXT	*pRAID_Context;
+ 	struct MR_PD_CFG_SEQ_NUM_SYNC *pd_sync;
+@@ -3817,6 +3826,70 @@ static irqreturn_t megasas_isr_fusion(int irq, void *devp)
+ 			? IRQ_HANDLED : IRQ_NONE;
+ }
+ 
++/*
++ * megasas_irq_fusion_thread: 
++ */
++irqreturn_t megasas_irq_fusion_thread(int irq, void *devp)
++{
++	int total_count = 0, num_completed = 0;
++	struct megasas_irq_context *irq_context = devp;
++	struct megasas_instance *instance = irq_context->instance;
++
++	do {	
++		num_completed = complete_cmd_fusion(instance, irq_context->MSIxIndex, irq_context);
++
++		/* If there is no completion, let's sleep and poll once again
++		 * since enable/disable irq is expensive operation.
++		 * It will not help polling without any sleep since submission and 
++		 * completion happens on the same cpu.
++		 * Polling in tight loop blocks activity on submission.  
++		 */
++		if (!num_completed) {
++			usleep_range(2, 20);
++			num_completed = complete_cmd_fusion(instance, irq_context->MSIxIndex, irq_context);
++		}
++
++		total_count += num_completed;
++	} while (num_completed && total_count < instance->cur_can_queue);
++	
++	irq_context->attempt_irq_poll = false;
++	enable_irq(irq_context->os_irq);
++
++	return IRQ_HANDLED;
++}
++
++/*
++ * megasas_irq_check_fusion: 
++ *
++ * For threaded interrupts, this handler will be called and its job is to 
++ * complete command in first attempt before it calls threaded isr handler.
++ *
++ * Threaded ISR handler will be called if there is a prediction of more
++ * completion pending. 
++ */
++irqreturn_t megasas_irq_check_fusion(int irq, void *devp)
++{
++	irqreturn_t ret;
++	struct megasas_irq_context *irq_context = devp;
++	struct megasas_instance *instance = irq_context->instance;
++
++	if (instance->mask_interrupts)
++		return IRQ_NONE;
++
++	/* First attempt from primary handler */
++	ret = megasas_isr_fusion(irq, devp);
++
++	/* Primary handler predict more IO in completion queue,
++ 	 * so let's use threaded irq poll.
++ 	 */	
++	if (!irq_context->attempt_irq_poll)
++		return IRQ_HANDLED;
++
++	disable_irq_nosync(irq_context->os_irq);
++	return IRQ_WAKE_THREAD;
++}
++
++
+ /**
+  * build_mpt_mfi_pass_thru - builds a cmd fo MFI Pass thru
+  * @instance:			Adapter soft state
+-- 
+2.9.5
+
+
+
+--===============1335575872235492676==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+linux-nvme mailing list
+linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
+
+--===============1335575872235492676==--
