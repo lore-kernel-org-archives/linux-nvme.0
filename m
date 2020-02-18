@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8FB5C34031
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Feb 2020 21:43:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ED4BC34031
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Feb 2020 21:44:05 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id ADD2A206E2
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Feb 2020 21:43:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 2F7BB206E2
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Feb 2020 21:44:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="p4trZpR3";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="OZFHbHyg"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ADD2A206E2
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="b23LCgOD";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="JAXRhbDx"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2F7BB206E2
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,69 +26,69 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=wegHutWpfuTwgEiMceSUlVv4juGcrnIE/n6yg2KTNIA=; b=p4trZpR36xopT9
-	RgRdsgz5Z2pJ5K6gd4oaKqJ0JVuvYSLU2bdkfaDDV8QF4nB/3IS4KgYcn5oNJavm3WCUrNBiYiPWr
-	0QInm4duvPUTairzFCBgN9PzBzU51sdv9irkb+JoIxzUkTMKRIK60tUCrSxV9t6+ZGprvzF52SB6u
-	H9Z7M7eFJ6JxzUEZS09YlvEJFZRWuLj2Ha+tQBx9FH2iIF/Woz2s9IA9S501PE3NrH0L9Zyw1avuZ
-	JReWRGdDlCZ6u5vAXaM9JykkrTZPFvkDeBLB51Lx/UKXVTBPGYGZ22gJPtxnUnKnb6z3O6gJTsQo3
-	UY/cF43DuFNLkzUsqJCw==;
+	List-Owner; bh=TwyNXV/tzbin2O7f3JvszsV4kJwVD5DtA+HuID8PmDs=; b=b23LCgODXftWeL
+	MAZwxlpHlx+xu4g/DnYex9T7xpKWhytQerRJQRl+z6xNmZhPH0APMFDw+nIZbXqNtqju71tp8EaWy
+	8UJ5LE8CoYiyg9/AvLaW4pZ1lQV0itR3U2KXR9JXUZr0p7BoouUd4Oa7kpMzS+90n0YOF4zkWAvCu
+	d1EjPtwuX4R4Bi7edjfjSq4ZOLzKIuit4fjJ/45kkNoCR8OdPJRxz4GjVOk5hjBP9xscnoe7DztLs
+	vrVp6UwUsXyBQWCo5AsQzm8ph3szAM+/eZhBsdLHCxDcuYOuN2u0fIt63Gl+2WriPnMykpADj9UUS
+	8X0b/wwgHHdSJq0rhCgg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j4Aeo-000573-Fx; Tue, 18 Feb 2020 21:43:54 +0000
+	id 1j4Aev-0005Ep-MI; Tue, 18 Feb 2020 21:44:01 +0000
 Received: from esa6.hgst.iphmx.com ([216.71.154.45])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j4Aek-00051t-M8
- for linux-nvme@lists.infradead.org; Tue, 18 Feb 2020 21:43:52 +0000
+ id 1j4Ael-00054b-UT
+ for linux-nvme@lists.infradead.org; Tue, 18 Feb 2020 21:43:53 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1582062230; x=1613598230;
+ t=1582062232; x=1613598232;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=PdG4uEKAoMp23zw1+Q2SXlG2zv1uLm77dknlCexFhSc=;
- b=OZFHbHygHX7Jjxcppddehr7Kk6gMi3OwtwKo5Sl0FPkv9k+n09C396gC
- zFr+T60Tb5UaoZsiNfPBjI8q/RBJifGtU84DBWBuKXN88ozsarBuIYri9
- frWaQyNyyNLyL6lXmwzL76r6goD8rHNJKDtIe/winTocE3Ov/7B6iOjXQ
- Rda3HRpCIa7GDJYXEUn3qIrtpnKbPw2LjtqVGi1fsu49MljdoyYcxWYeH
- jQeI+8FihddOVQhq5eAweekgGylm3Yzr+5KGKypEq6EW8AGlRhNW+UnRj
- yXCDdlzlG7OQBVED7ckog4Thwi2M+ysZtEi3NI0oKSbFjDoMyQFP5xh0W A==;
-IronPort-SDR: /5dFhTtNfSDt8z2N7gvDck9muDf9y2J39t8kUflx/ts9V8OkmUo++Hv+6bFh+7WFE2hGeGfQ3P
- VNmNEqsWttpqgOqepomf07Qsb6Iy60a5REbKnyZfGGaqo/M4/oIwuyaKV3lZOoLTsYjc+DkvWn
- 3N/tlkaFFFHvV5ndanvGLmTJcvTbzBMecDtbmaBGh2pZpoRCxBeSofoD4HQlg+WuOfqUbLgLIg
- 0YjIs4Qa6cIoODvFk+jCL4NegmpT8J9T3duZ7p5wp2lGYkuDB0TUD8f5G+L4z4ki39yZi2YLg7
- umY=
-X-IronPort-AV: E=Sophos;i="5.70,458,1574092800"; d="scan'208";a="131570913"
+ bh=K2VbdB51okANtg0cnPnu9LORb/UQUUqsuZZ4Tw4t4c4=;
+ b=JAXRhbDx6GJt7NqGT4XlO3qrWL6NgR7A+3ImJmxgZUZ0qrT7or+LsbNC
+ I3Njw5CzqL6Cu3y2UpNDF3kZTwT/7nTfwI/ax6Ya8Hok607TaX9hSa14O
+ nwlREYuHONUyITNGZG9M/B1v9r/+q0rqADPINqVCz9cIpJf5fEQmS4QXT
+ 9N6Uhl/L83gk38rEx67ekrb/TmF8P6VN/aCkUaDrMrSu/OBGENZnuogR7
+ KkRMH7vMbYDH+HLKSgbxT5K0RQR2AdA1S41KPZc7ivZWSH49JeFevYsa6
+ c0kiMi0tYNoFkhZIJ+vUrE/QSw7qDWXeHfrNwAWuKEnSO6rrWc1Zlje1S Q==;
+IronPort-SDR: 8nzOwdS8zGMYKRibj/ZX926tJeKcjGTuJSOXHyIv+hzt4XOyzNNoxuE8wwrVtbEUKxDNW7fDj8
+ 1y5YW19SzNA85HqauEX3KhdQ3VdFcEDltzW43UfmnKDU5negWbaBX0Bpgd7JsnbdDeMKIOcEUL
+ slUqJdqHML5x2yVWE5A8enN5RMRfSWV3gokimCd0dOeUcdiPpiabOlqdYsNW2lnp5NI1Sx2uwn
+ 5EaekQqGKVjbl7vbcI27E8urqlpHNJFh8Mk9Zr8WDzTv93/IYjQ2b0UucdIy4c94UKMJcljpCX
+ c+k=
+X-IronPort-AV: E=Sophos;i="5.70,458,1574092800"; d="scan'208";a="131570917"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 19 Feb 2020 05:43:46 +0800
-IronPort-SDR: VhiBTcC/+E9tCQ8ftIaAmT0PuVUhZehrvhri9xlRT5MxxO+tMDQqVnjN4zSjff5NNc6aBILLYu
- zJhPoZubuV0s/htnUqlZcrs5oBvOGSdS5MaGflC6Twp4ydd5um8Xhp97VldmpIQm0W451BB+h4
- t21/3LDKncWYoucwKRvslixJhTls+FgUOXj4ELvVUZWVI9r+D3MeIkkU/FtM7UtkQ5O/aBSVMp
- IE1B5xgYaQsGIobq2BIwA6eQ328T4sCH8qvggvULMYLKv7Ep/J/RAFgQcVFWj14wasnklrFKWL
- rhi84ir3wjBTJ9w7EZLdVmve
+ by ob1.hgst.iphmx.com with ESMTP; 19 Feb 2020 05:43:51 +0800
+IronPort-SDR: qhIqz8Qix3+9Mu2o1GVjiCm1if9g6Cy6+0Axub4PbS7zeeYNl0gP8vRtX7caPRXtlaYMfDvyNF
+ vcZmzFVvyXpp0rtjRBOm1VHe2GvsnNUA6DFAx6ruj6BQ4Iai4DzOb0JIET6KVPH7xvUGCCOIqv
+ pz9qjBI3eaByMggCHiio3EMBnGYmVr0sHZ1TpOLHW43Qo9y/NdSGNrb0gqW5SU5EknXVdAOTns
+ h0kyC+X+/urKuJj6X8+ReLb6kaROaPxzPNvd+iE/WseracqGtGi/Rzp986mwoJx8RVDURwQCmq
+ GzwsrlxFr14vIuHPrPBefsxb
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Feb 2020 13:36:24 -0800
-IronPort-SDR: jhz016RcCU3EftTqFvldKvJ+VQgN19EjA3KSfJNTRZ+ScWmJe2f7SpLTgyKGuCBPychQGgXdE/
- 2ybJbTVuN7gDpcTPKFBcghB/+IMEqxwrWZ5a5+jXRLhtOq9u6hkrLy4f7eHB9FiClX8QB/QqjF
- P/gvsV4P0t4JRibFQv8yRumabwQmlC7Q8fb/5qw41wKTY5AoYjo2NIlE7tbkwC0fAmrLoodZG8
- oiXzRQuebrbcwvC0zy3kCb0j2uM5mwMECoCPemlcNKga3ObZ+nwyYNDm6X0j1LWtkGZEP1d7tU
- Nks=
+ 18 Feb 2020 13:36:29 -0800
+IronPort-SDR: hphGJAt/yQpC1ESwVb/0TfIaLO9SPshrlmMfRjk67J9m/dPm+cZi1rPaqBKNafragNkyVkC8yn
+ OdOewaKOIe2lW2E6xKfG220JLKag9y4dwHTapKj5w8/kvvqBOdud2Hov4NigyZ095BuyE+++CX
+ 45yyq4WjzPuIphGjbbJHNOPd7rFiCj7uXabE0ALxDSK6mWv29QZIoHJbT7rHH81uhVSshcLatG
+ wLJiHpVhALiizNA2up3+d5kcIGFdFBAR27GKOYNkJMwmH4BC/p6eF11CEczC0IW/Vvt3bd77vb
+ dFc=
 WDCIronportException: Internal
 Received: from iouring.labspan.wdc.com (HELO iouring.sc.wdc.com)
  ([10.6.138.107])
- by uls-op-cesaip01.wdc.com with ESMTP; 18 Feb 2020 13:43:45 -0800
+ by uls-op-cesaip01.wdc.com with ESMTP; 18 Feb 2020 13:43:50 -0800
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH 1/4] nvmet: use nvmet_feat_data_len consistently
-Date: Tue, 18 Feb 2020 13:43:35 -0800
-Message-Id: <20200218214338.25088-2-chaitanya.kulkarni@wdc.com>
+Subject: [PATCH 2/4] nvmet: add support for set-feat-timestamp cmd
+Date: Tue, 18 Feb 2020 13:43:36 -0800
+Message-Id: <20200218214338.25088-3-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20200218214338.25088-1-chaitanya.kulkarni@wdc.com>
 References: <20200218214338.25088-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200218_134350_815700_B311491D 
-X-CRM114-Status: GOOD (  13.19  )
+X-CRM114-CacheID: sfid-20200218_134352_073890_406A37BC 
+X-CRM114-Status: GOOD (  12.77  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,28 +107,74 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This is a preparation patch which makes admin-cmd.c to use newly added
-nvmet_feat_data_len() helper consistently in nvmet_execute_set_features
-and nvmet_execute_get_features when checking the data length.
+This patch allows host to use set-feature command to set the timestamp
+value in the target controller.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 ---
- drivers/nvme/target/admin-cmd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/target/admin-cmd.c | 20 ++++++++++++++++++++
+ drivers/nvme/target/nvmet.h     |  3 +++
+ 2 files changed, 23 insertions(+)
 
 diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 19f949570625..f6374cd5e938 100644
+index f6374cd5e938..ebb595480422 100644
 --- a/drivers/nvme/target/admin-cmd.c
 +++ b/drivers/nvme/target/admin-cmd.c
-@@ -735,7 +735,7 @@ static void nvmet_execute_set_features(struct nvmet_req *req)
- 	u32 cdw10 = le32_to_cpu(req->cmd->common.cdw10);
- 	u16 status = 0;
- 
--	if (!nvmet_check_data_len(req, 0))
-+	if (!nvmet_check_data_len(req, nvmet_feat_data_len(req, cdw10)))
- 		return;
- 
+@@ -29,6 +29,8 @@ static u32 nvmet_feat_data_len(struct nvmet_req *req, u32 cdw10)
  	switch (cdw10 & 0xff) {
+ 	case NVME_FEAT_HOST_ID:
+ 		return sizeof(req->sq->ctrl->hostid);
++	case NVME_FEAT_TIMESTAMP:
++		return sizeof(req->sq->ctrl->ts);
+ 	default:
+ 		return 0;
+ 	}
+@@ -729,6 +731,21 @@ u16 nvmet_set_feat_async_event(struct nvmet_req *req, u32 mask)
+ 	return 0;
+ }
+ 
++static u16 nvmet_set_feat_ts(struct nvmet_req *req)
++{
++	u16 status;
++	__le64 ts;
++
++	status = nvmet_copy_from_sgl(req, 0, &ts, sizeof(ts));
++	if (status)
++		goto out;
++
++	req->sq->ctrl->ts = le64_to_cpu(ts);
++	req->sq->ctrl->local_ts = ktime_to_ms(ktime_get_real());
++out:
++	return status;
++}
++
+ static void nvmet_execute_set_features(struct nvmet_req *req)
+ {
+ 	struct nvmet_subsys *subsys = req->sq->ctrl->subsys;
+@@ -755,6 +772,9 @@ static void nvmet_execute_set_features(struct nvmet_req *req)
+ 	case NVME_FEAT_WRITE_PROTECT:
+ 		status = nvmet_set_feat_write_protect(req);
+ 		break;
++	case NVME_FEAT_TIMESTAMP:
++		status = nvmet_set_feat_ts(req);
++		break;
+ 	default:
+ 		req->error_loc = offsetof(struct nvme_common_command, cdw10);
+ 		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 42ba2ddd9e96..a3ecc269ebb9 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -173,6 +173,9 @@ struct nvmet_ctrl {
+ 	u16			cntlid;
+ 	u32			kato;
+ 
++	u64			ts;
++	u64			local_ts;
++
+ 	struct nvmet_port	*port;
+ 
+ 	u32			aen_enabled;
 -- 
 2.22.1
 
