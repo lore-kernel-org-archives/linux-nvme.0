@@ -1,83 +1,126 @@
-Return-Path: <SRS0=Iolv=4F=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=tyJo=4G=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B600BC7619F
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 Feb 2020 11:56:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C300EC34026
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Feb 2020 15:55:22 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7D0D120801
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 Feb 2020 11:56:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8D2F8207FD
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Feb 2020 15:55:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="BqCsSjaH";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="V8SQMpo2"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7D0D120801
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="j1XaHb10";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=seagate.com header.i=@seagate.com header.b="Pd8TlXxr";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=seagate.com header.i=@seagate.com header.b="Ona4IlGE"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8D2F8207FD
+Authentication-Results: mail.kernel.org; dmarc=fail (p=reject dis=none) header.from=seagate.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:Cc:
-	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	MIME-Version:Message-Id:Date:Subject:To:From:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	References:List-Owner; bh=/cO68cWnxZLpu58vnGyIdn7hZr3KjrEAk2RW4H+UQ9g=; b=BqC
-	sSjaH2wZtUyjjiTMefI2CeUMSBdMBNZb3x0y/ZTD0A1NSzownchm5fAqYx1fvlxbbfNqjOa1qOnPy
-	W0JCEWv3E64L6+i7rQTaQiPdnpY7Kt/IWVg3fh6gmBAAp94uNWJWlE5MIJS6Ldvosfa/tgtiNGtJ7
-	45R/bLFmz9/64c+UKswv5Y3sz9L17JVut2z/QKNZMJLD5cTJgGuh1894pHciwEQvIhzoyBcsbzN5O
-	F7XxHg+XS7FHrvKCUr154jrzjXz3ODtqvdWnktDvMPDaBzKRPzPUM+b7ZfDYCrK1BTej84WEZacyK
-	p02dTCHSVWZH8r19rUXIuTY1lKj8Mbg==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=12nwFgtJ4k0anF6zewjRkgwOJsutoCpVc1kr6c9Xkf0=; b=j1XaHb1080ohpI
+	jru6PsiZt4d6k/BzOnVtk1M74A3GL4v8lftH5qwCz4QfjO65wff5/d1gBVxgoxLHNWor5boLhpg/o
+	b166PIbHRPyjQfnr8vhoq3F4dgJsX1RsGdUxAKWSzMDq48oWjSaikbBrcAtHc+ochZcw2/Ol6gQXz
+	4prm+NxDmDG1LObr8ZyzyQnfQhxjaQTlCrP6SdrcZ151afOS24GVCNDHFWNaMV+5II0mkoXE3IT8g
+	klP4Cb/h3U7MNoO7nLoI9mulm0B7JDNc0IP2H3qGNThz7u/BqL1xXPOsfwgeywcxA0CF/irfEtA/y
+	Q6jMJFx9M/siaamwy3Mg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j3f0T-0000pI-Lp; Mon, 17 Feb 2020 11:56:09 +0000
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443])
+	id 1j45DR-0004ra-Jy; Tue, 18 Feb 2020 15:55:17 +0000
+Received: from mx0b-00003501.pphosted.com ([67.231.152.68])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j3f0P-0000nq-9S
- for linux-nvme@lists.infradead.org; Mon, 17 Feb 2020 11:56:07 +0000
-Received: by mail-wr1-x443.google.com with SMTP id g3so19344701wrs.12
- for <linux-nvme@lists.infradead.org>; Mon, 17 Feb 2020 03:56:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yF0P9wDxyFWDFuyJ5CtBgV3diKtXFyslbtY9psnK0LM=;
- b=V8SQMpo2eclZjR9LBzjkmAr9QgyvUq9cnj3YHXiz599PoZezOcm2hw5883FJZ9rhQf
- zpfYT+1kTharVfTa6qL0kWbtiN7huH/QXYPcAySH1ZeHaq+qcRxEHmC0YN1cqvrQqb8b
- XWG1QGvclRgimZ95gZlxPlBix6V44Rk3rcDxg=
+ id 1j45DN-0004mZ-GS
+ for linux-nvme@lists.infradead.org; Tue, 18 Feb 2020 15:55:15 +0000
+Received: from pps.filterd (m0075032.ppops.net [127.0.0.1])
+ by mx0b-00003501.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 01IFlvXE018949
+ for <linux-nvme@lists.infradead.org>; Tue, 18 Feb 2020 10:55:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seagate.com;
+ h=mime-version :
+ references : in-reply-to : from : date : message-id : subject : to : cc :
+ content-type; s=proofpoint;
+ bh=kSDqbBAaWJOPcd7RVa5GGBLqUbqCfZEQDaf8+NwB1Nc=;
+ b=Pd8TlXxrRMOfmLTHuJsp2iJVyPTeke5+u0mwVxNXf+bKYpNlKQ2PwniZy8NOzupiV7dq
+ tNzJLOM5TnpewPQNA/ttBAuowmjz8MqhaUS3CUr4I4W/W/3LgXRkMr/iHH92HcuVbF9T
+ xIHqI03bScVyktpfGp1E902Koz1iK4e8rDzw/xga1pnGnxqiAIXl83UZltbxxPaGo+tV
+ Zm19QrO4PLKa4xg3hmYxFEy7Q9fW/aX0MTNx0PnmBAhTL2E812PkXNYiMuHY3lzyxD0C
+ neP1cfO/meSy1IjFye62pA+O1Wx0LMkIa3pKYE27evlXwBo3B2gKZXEE/dzyPt6ObHnp YA== 
+Authentication-Results: seagate.com;
+ dkim=pass header.d=seagate.com header.s=google
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71])
+ by mx0b-00003501.pphosted.com with ESMTP id 2y8598uhp0-2
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <linux-nvme@lists.infradead.org>; Tue, 18 Feb 2020 10:55:09 -0500
+Received: by mail-wr1-f71.google.com with SMTP id w6so11026930wrm.16
+ for <linux-nvme@lists.infradead.org>; Tue, 18 Feb 2020 07:55:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seagate.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=kSDqbBAaWJOPcd7RVa5GGBLqUbqCfZEQDaf8+NwB1Nc=;
+ b=Ona4IlGEcWZfh6ckDkpNYiNAcM2nQ7bwfAeS48H8KPa2P0iukl4xAXOENVc/XNfbrn
+ afmuQNGns01izKW0uYNYYIfCtdkYzZxwtAbcUBQzl3HjMoJxZ7jm7BEKW+DILBxfTLpT
+ w0h07QcLENsXoz3Omv9EeIxaHIThy3KPJzWqPXj1BHhrRCV18cn8LhgZs8WRT428OUt2
+ 3JXrKNcIAWrUp1YAN1a5QG/0xKYJkyYVSsp5d7FM50esKgIk0gmnKrj77yAKYjgUqKzT
+ fuXxdo0J7ApMUdMGmiL8JXHuVHddwvPhzf6yobCQtWTQzVrQzvjwmGDiQkIt2O/PRWcM
+ tB8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yF0P9wDxyFWDFuyJ5CtBgV3diKtXFyslbtY9psnK0LM=;
- b=pC8D0LvVJn5AxxEdHq/MV8LSLK/vxqP6aQIZNJ5Tp5f+OoqoO+ANPpOkAIViXeUtn/
- XIXcm8o2G96q3WZio/fL1LNaTJTP7XxjTWyOiKICRRJWzAYLDY0ZQf1fTHgLjUp5T11/
- xEQb2Ve1ZOUQegiZaVLAW4MnnrNON1/Xyb7bV6wPnz7qlizihJiTlqVfPleO/C7OCKGm
- B0qSER2aGgEbHOfVaB84/CaL8PtYlVu7rrnf5Ur3IPyiBZ2vwh91Pk1cn80+/fhEj2Ta
- RH6PKxhtxI7nGgAs0ezHmWI/3QUnnWPftsNCCF31Lp5a7BCB6YjQmKupuqAdPrEt7QMm
- cxgg==
-X-Gm-Message-State: APjAAAWXrcfxnlbHZXKQVTk2XO6/OC+aY1DhHgUo0o+4xziS3KfqPvcu
- nYD3MSCgKcJCqOeDcmSHd2ylKw==
-X-Google-Smtp-Source: APXvYqwvB/G/591E88LlaJ8rJ1vacGNNqk7G2bihkjdczRBIXXtaS1eoQCoc0h4o5nfYq0e5OkOgMg==
-X-Received: by 2002:adf:fe83:: with SMTP id l3mr22762418wrr.41.1581940559503; 
- Mon, 17 Feb 2020 03:55:59 -0800 (PST)
-Received: from dhcp-10-123-20-32.dhcp.broadcom.net ([192.19.234.250])
- by smtp.gmail.com with ESMTPSA id i4sm311571wmd.23.2020.02.17.03.55.56
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 17 Feb 2020 03:55:58 -0800 (PST)
-From: Kashyap Desai <kashyap.desai@broadcom.com>
-To: linux-scsi@vger.kernel.org
-Subject: [RFC PATCH] megaraid_sas : threaded irq hybrid polling
-Date: Mon, 17 Feb 2020 17:25:33 +0530
-Message-Id: <1581940533-13795-1-git-send-email-kashyap.desai@broadcom.com>
-X-Mailer: git-send-email 1.8.3.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=kSDqbBAaWJOPcd7RVa5GGBLqUbqCfZEQDaf8+NwB1Nc=;
+ b=E+mYe8PlDiBmFyYsLXEjGiLn4Tb5TcWZZTqqJXe1f711dQjJTgVeSSC5eUU/mVdS+p
+ 98YQE97l4EkViJPLo8qcd/ffdy5UQ7h7SxU1xu6xUsp+s4UNWwQ3gBa6SivZKAbha4jV
+ odk4nV7qaLsVFTKt4zoKTu+TAIJb2B5pHjS0x2aiuNrvlktItJSadZCZ0dLNbyK7tPJZ
+ H5wjZDeZ/6hURLMzakw2ONrFNHylBaaLHOfIYUfroxHoCOm+NqUkGemhMvBfJyiiPlb2
+ tv6clOiCRUBMMySqhe1OUdmTS4+hqbzwFD6UwYFPt+0bPzSsoe96K4I7UjWv6zi9rc5q
+ 12cQ==
+X-Gm-Message-State: APjAAAXxAs7u1jIPQIJO2SM4ahPGXWOKocC9LSj7K42Iv2oNUcbb61rF
+ 5olw3eCID9MwRTI2u5PeOVhjjPp0pfHLZBRzKVDFsV/EsqfFGG468tj215aHVN6jbofiNeCMGgf
+ UnANkgHkVdux821yysf1AYvaO/DZ7MslwvBAUq6HWU6c+VsekopZYsF5eMt66070po8rI
+X-Received: by 2002:a7b:c152:: with SMTP id z18mr3848792wmi.70.1582041306539; 
+ Tue, 18 Feb 2020 07:55:06 -0800 (PST)
+X-Google-Smtp-Source: APXvYqx7kjtcwQBU6hxW2ktpZzuRb16b7GW1dpbZK+0FbadMiM6j4qD6QT740JsUZrXMIpAxofZZ3R6I5bUS+Tr8rZ8=
+X-Received: by 2002:a7b:c152:: with SMTP id z18mr3848736wmi.70.1582041306110; 
+ Tue, 18 Feb 2020 07:55:06 -0800 (PST)
 MIME-Version: 1.0
+References: <CANo=J14resJ4U1nufoiDq+ULd0k-orRCsYah8Dve-y8uCjA62Q@mail.gmail.com>
+ <20200211122821.GA29811@ming.t460p>
+ <CANo=J14iRK8K3bc1g3rLBp=QTLZQak0DcHkvgZS2f=xO_HFgxQ@mail.gmail.com>
+ <BYAPR04MB5816AA843E63FFE2EA1D5D23E71B0@BYAPR04MB5816.namprd04.prod.outlook.com>
+ <yq1blq3rxzj.fsf@oracle.com>
+ <CANo=J16cDBUDWdV7tdY33UO0UT0t-g7jRfMVTxZpePvLew7Mxg@mail.gmail.com>
+ <yq1r1yzqfyb.fsf@oracle.com> <2d66bb0b-29ca-6888-79ce-9e3518ee4b61@suse.de>
+ <20200214144007.GD9819@redsun51.ssa.fujisawa.hgst.com>
+ <d043a58d-6584-1792-4433-ac2cc39526ca@suse.de>
+ <20200214170514.GA10757@redsun51.ssa.fujisawa.hgst.com>
+In-Reply-To: <20200214170514.GA10757@redsun51.ssa.fujisawa.hgst.com>
+From: Tim Walker <tim.t.walker@seagate.com>
+Date: Tue, 18 Feb 2020 10:54:54 -0500
+Message-ID: <CANo=J17Rve2mMLb_yJNFK5m8wt5Wi4c+b=-a5BJ5kW3RaWuQVg@mail.gmail.com>
+Subject: Re: [LSF/MM/BPF TOPIC] NVMe HDD
+To: Keith Busch <kbusch@kernel.org>
+X-Proofpoint-PolicyRoute: Outbound
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-02-18_04:2020-02-18,
+ 2020-02-18 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 mlxscore=0
+ mlxlogscore=999 spamscore=0 suspectscore=1 lowpriorityscore=0 adultscore=0
+ bulkscore=0 phishscore=0 clxscore=1015 malwarescore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
+ definitions=main-2002180119
+X-Proofpoint-Spam-Policy: Default Domain Policy
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200217_035605_338679_CB449F37 
-X-CRM114-Status: GOOD (  19.75  )
+X-CRM114-CacheID: sfid-20200218_075513_675291_5EB2022B 
+X-CRM114-Status: GOOD (  29.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,228 +132,113 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: axboe@kernel.dk, martin.petersen@oracle.com, sumanesh.samanta@broadcom.com,
- linux-nvme@lists.infradead.org, ming.lei@redhat.com, kbusch@kernel.org,
- Kashyap Desai <kashyap.desai@broadcom.com>
-Content-Type: multipart/mixed; boundary="===============1335575872235492676=="
+Cc: Damien Le Moal <Damien.LeMoal@wdc.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ linux-scsi <linux-scsi@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ Ming Lei <ming.lei@redhat.com>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ Hannes Reinecke <hare@suse.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
---===============1335575872235492676==
-Content-Type: text/plain; charset=yes
-Content-Transfer-Encoding: 8bit
+On Fri, Feb 14, 2020 at 12:05 PM Keith Busch <kbusch@kernel.org> wrote:
+>
+> On Fri, Feb 14, 2020 at 05:04:25PM +0100, Hannes Reinecke wrote:
+> > On 2/14/20 3:40 PM, Keith Busch wrote:
+> > > On Fri, Feb 14, 2020 at 08:32:57AM +0100, Hannes Reinecke wrote:
+> > > > On 2/13/20 5:17 AM, Martin K. Petersen wrote:
+> > > > > People often artificially lower the queue depth to avoid timeouts. The
+> > > > > default timeout is 30 seconds from an I/O is queued. However, many
+> > > > > enterprise applications set the timeout to 3-5 seconds. Which means that
+> > > > > with deep queues you'll quickly start seeing timeouts if a drive
+> > > > > temporarily is having issues keeping up (media errors, excessive spare
+> > > > > track seeks, etc.).
+> > > > >
+> > > > > Well-behaved devices will return QF/TSF if they have transient resource
+> > > > > starvation or exceed internal QoS limits. QF will cause the SCSI stack
+> > > > > to reduce the number of I/Os in flight. This allows the drive to recover
+> > > > > from its congested state and reduces the potential of application and
+> > > > > filesystem timeouts.
+> > > > >
+> > > > This may even be a chance to revisit QoS / queue busy handling.
+> > > > NVMe has this SQ head pointer mechanism which was supposed to handle
+> > > > this kind of situations, but to my knowledge no-one has been
+> > > > implementing it.
+> > > > Might be worthwhile revisiting it; guess NVMe HDDs would profit from that.
+> > >
+> > > We don't need that because we don't allocate enough tags to potentially
+> > > wrap the tail past the head. If you can allocate a tag, the queue is not
+> > > full. And convesely, no tag == queue full.
+> > >
+> > It's not a problem on our side.
+> > It's a problem on the target/controller side.
+> > The target/controller might have a need to throttle I/O (due to QoS settings
+> > or competing resources from other hosts), but currently no means of
+> > signalling that to the host.
+> > Which, incidentally, is the underlying reason for the DNR handling
+> > discussion we had; NetApp tried to model QoS by sending "Namespace not
+> > ready" without the DNR bit set, which of course is a totally different
+> > use-case as the typical 'Namespace not ready' response we get (with the DNR
+> > bit set) when a namespace was unmapped.
+> >
+> > And that is where SQ head pointer updates comes in; it would allow the
+> > controller to signal back to the host that it should hold off sending I/O
+> > for a bit.
+> > So this could / might be used for NVMe HDDs, too, which also might have a
+> > need to signal back to the host that I/Os should be throttled...
+>
+> Okay, I see. I think this needs a new nvme AER notice as Martin
+> suggested. The desired host behavior is simiilar to what we do with a
+> "firmware activation notice" where we temporarily quiesce new requests
+> and reset IO timeouts for previously dispatched requests. Perhaps tie
+> this to the CSTS.PP register as well.
+Hi all-
 
-High performance HBAs under scsi layer can reach more than 3.0M IOPs.
-MegaRaid Aero controller can achieve to 3.3M IOPs.In future there may be requirement to reach 6.0+ M IOPs.
-One of the key bottlenecks is serving interrupts for each IO completion.
-Block layer has interface blk_poll which can be used as zero interrupt poll queue.
-Extending blk_poll to scsi mid layer helps and I was able to get max IOPs same as nvme <poll_queues> interface.
+With regards to our discussion on queue depths, it's common knowledge
+that an HDD choses commands from its internal command queue to
+optimize performance. The HDD looks at things like the current
+actuator position, current media rotational position, power
+constraints, command age, etc to choose the best next command to
+service. A large number of commands in the queue gives the HDD a
+better selection of commands from which to choose to maximize
+throughput/IOPS/etc but at the expense of the added latency due to
+commands sitting in the queue.
 
-blk_poll is currently merged with io_uring interface and it requires application change to adopt blk_poll.
+NVMe doesn't allow us to pull commands randomly from the SQ, so the
+HDD should attempt to fill its internal queue from the various SQs,
+according to the SQ servicing policy, so it can have a large number of
+commands to choose from for its internal command processing
+optimization.
 
-This RFC covers the logic of handling irq polling in driver using threaded ISR interface.
-Changes in this RFC is described as below -
+It seems to me that the host would want to limit the total number of
+outstanding commands to an NVMe HDD for the same latency reasons they
+are frequently limited today. If we assume the HDD would have a
+relatively deep (perhaps 256) internal queue (which is deeper than
+most latency-sensitive customers would want to run) then the SQ would
+be empty most of the time. To me it seems that only when the host's
+number of outstanding commands fell below the threshold should the
+host add commands to the SQ. Since the drive internal command queue
+would not be full, the HDD would immediately pull the commands from
+the SQ and put them into its internal command queue.
 
-- Use Threaded ISR interface.
-- Primary ISR handler runs from h/w interrupt context.
-- Secondary ISR handler runs from thread context.
-- Driver will drain reply queue from Primary ISR handler for every interrupt it receives.
-- Primary handler will decide to call Secondary handler or not.
-  This interface can be optimized later, if driver or block layer keep submission and completion stats per each h/w queue.
-  Current megaraid_sas driver is single h/w queue based, so I have picked below decision maker.
-  If per scsi device has outstanding command more than 8, mark that msix index as “attempt_irq_poll”.
-- Every time secondary ISR handler runs, primary handler will disable IRQ.
-  Once secondary handler completes the task, it will re-enable IRQ.
-  If there is no completion, let's wait for some time and retry polling as enable/disable irq is expensive operation.
-  Without this wait in threaded IRQ polling, we will not allow submitter to use CPU and pump more IO.
+I can't think of any advantage to running a deep SQ in this scenario.
 
-NVME driver is also trying something similar to reduce ISR overhead.
-Discussion started in Dec-2019.
-https://lore.kernel.org/linux-nvme/20191209175622.1964-1-kbusch@kernel.org/
+When the host requests to delete a SQ the HDD should abort the
+commands it is holding in its internal queue that came from the SQ to
+be deleted, then delete the SQ.
 
+Best regards,
+-Tim
 
-Signed-off-by: Kashyap Desai <kashyap.desai@broadcom.com>
----
-
- drivers/scsi/megaraid/megaraid_sas.h        |  3 ++
- drivers/scsi/megaraid/megaraid_sas_base.c   | 11 +++--
- drivers/scsi/megaraid/megaraid_sas_fusion.c | 73 +++++++++++++++++++++++++++++
- 3 files changed, 83 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/scsi/megaraid/megaraid_sas.h b/drivers/scsi/megaraid/megaraid_sas.h
-index 83d8c4c..f4f898a 100644
---- a/drivers/scsi/megaraid/megaraid_sas.h
-+++ b/drivers/scsi/megaraid/megaraid_sas.h
-@@ -2212,6 +2212,7 @@ struct megasas_irq_context {
- 	struct irq_poll irqpoll;
- 	bool irq_poll_scheduled;
- 	bool irq_line_enable;
-+	bool attempt_irq_poll;
- };
- 
- struct MR_DRV_SYSTEM_INFO {
-@@ -2709,4 +2710,6 @@ int megasas_adp_reset_wait_for_ready(struct megasas_instance *instance,
- 				     int ocr_context);
- int megasas_irqpoll(struct irq_poll *irqpoll, int budget);
- void megasas_dump_fusion_io(struct scsi_cmnd *scmd);
-+irqreturn_t megasas_irq_check_fusion(int irq, void *devp);
-+irqreturn_t megasas_irq_fusion_thread(int irq, void *devp);
- #endif				/*LSI_MEGARAID_SAS_H */
-diff --git a/drivers/scsi/megaraid/megaraid_sas_base.c b/drivers/scsi/megaraid/megaraid_sas_base.c
-index fd4b5ac..6120bd0 100644
---- a/drivers/scsi/megaraid/megaraid_sas_base.c
-+++ b/drivers/scsi/megaraid/megaraid_sas_base.c
-@@ -5585,7 +5585,7 @@ megasas_setup_irqs_ioapic(struct megasas_instance *instance)
- static int
- megasas_setup_irqs_msix(struct megasas_instance *instance, u8 is_probe)
- {
--	int i, j;
-+	int i, j, ret;
- 	struct pci_dev *pdev;
- 
- 	pdev = instance->pdev;
-@@ -5596,9 +5596,12 @@ megasas_setup_irqs_msix(struct megasas_instance *instance, u8 is_probe)
- 		instance->irq_context[i].MSIxIndex = i;
- 		snprintf(instance->irq_context[i].name, MEGASAS_MSIX_NAME_LEN, "%s%u-msix%u",
- 			"megasas", instance->host->host_no, i);
--		if (request_irq(pci_irq_vector(pdev, i),
--			instance->instancet->service_isr, 0, instance->irq_context[i].name,
--			&instance->irq_context[i])) {
-+		ret = request_threaded_irq(pci_irq_vector(pdev, i), 
-+				megasas_irq_check_fusion,
-+				megasas_irq_fusion_thread, IRQF_ONESHOT ,
-+				instance->irq_context[i].name, 
-+				&instance->irq_context[i]);
-+		if (ret) {
- 			dev_err(&instance->pdev->dev,
- 				"Failed to register IRQ for vector %d.\n", i);
- 			for (j = 0; j < i; j++)
-diff --git a/drivers/scsi/megaraid/megaraid_sas_fusion.c b/drivers/scsi/megaraid/megaraid_sas_fusion.c
-index f3b36fd..5000c36 100644
---- a/drivers/scsi/megaraid/megaraid_sas_fusion.c
-+++ b/drivers/scsi/megaraid/megaraid_sas_fusion.c
-@@ -371,6 +371,7 @@ megasas_get_msix_index(struct megasas_instance *instance,
- 		       struct megasas_cmd_fusion *cmd,
- 		       u8 data_arms)
- {
-+	struct megasas_irq_context *irq_ctx;
- 	int sdev_busy;
- 
- 	/* nr_hw_queue = 1 for MegaRAID */
-@@ -391,6 +392,12 @@ megasas_get_msix_index(struct megasas_instance *instance,
- 	else
- 		cmd->request_desc->SCSIIO.MSIxIndex =
- 			instance->reply_map[raw_smp_processor_id()];
-+	
-+	irq_ctx = &instance->irq_context[cmd->request_desc->SCSIIO.MSIxIndex];
-+
-+	/* More outstanding IOs, so let's attempt polling on this reply queue.*/	
-+	if (sdev_busy > data_arms * MR_DEVICE_HIGH_IOPS_DEPTH)
-+		irq_ctx->attempt_irq_poll = true;
- }
- 
- /**
-@@ -2754,6 +2761,7 @@ megasas_build_ldio_fusion(struct megasas_instance *instance,
- 	u16 ld;
- 	u32 start_lba_lo, start_lba_hi, device_id, datalength = 0;
- 	u32 scsi_buff_len;
-+	struct megasas_irq_context *irq_ctx;
- 	struct MPI2_RAID_SCSI_IO_REQUEST *io_request;
- 	struct IO_REQUEST_INFO io_info;
- 	struct fusion_context *fusion;
-@@ -3101,6 +3109,7 @@ megasas_build_syspd_fusion(struct megasas_instance *instance,
- 	u16 pd_index = 0;
- 	u16 os_timeout_value;
- 	u16 timeout_limit;
-+	struct megasas_irq_context *irq_ctx;
- 	struct MR_DRV_RAID_MAP_ALL *local_map_ptr;
- 	struct RAID_CONTEXT	*pRAID_Context;
- 	struct MR_PD_CFG_SEQ_NUM_SYNC *pd_sync;
-@@ -3817,6 +3826,70 @@ static irqreturn_t megasas_isr_fusion(int irq, void *devp)
- 			? IRQ_HANDLED : IRQ_NONE;
- }
- 
-+/*
-+ * megasas_irq_fusion_thread: 
-+ */
-+irqreturn_t megasas_irq_fusion_thread(int irq, void *devp)
-+{
-+	int total_count = 0, num_completed = 0;
-+	struct megasas_irq_context *irq_context = devp;
-+	struct megasas_instance *instance = irq_context->instance;
-+
-+	do {	
-+		num_completed = complete_cmd_fusion(instance, irq_context->MSIxIndex, irq_context);
-+
-+		/* If there is no completion, let's sleep and poll once again
-+		 * since enable/disable irq is expensive operation.
-+		 * It will not help polling without any sleep since submission and 
-+		 * completion happens on the same cpu.
-+		 * Polling in tight loop blocks activity on submission.  
-+		 */
-+		if (!num_completed) {
-+			usleep_range(2, 20);
-+			num_completed = complete_cmd_fusion(instance, irq_context->MSIxIndex, irq_context);
-+		}
-+
-+		total_count += num_completed;
-+	} while (num_completed && total_count < instance->cur_can_queue);
-+	
-+	irq_context->attempt_irq_poll = false;
-+	enable_irq(irq_context->os_irq);
-+
-+	return IRQ_HANDLED;
-+}
-+
-+/*
-+ * megasas_irq_check_fusion: 
-+ *
-+ * For threaded interrupts, this handler will be called and its job is to 
-+ * complete command in first attempt before it calls threaded isr handler.
-+ *
-+ * Threaded ISR handler will be called if there is a prediction of more
-+ * completion pending. 
-+ */
-+irqreturn_t megasas_irq_check_fusion(int irq, void *devp)
-+{
-+	irqreturn_t ret;
-+	struct megasas_irq_context *irq_context = devp;
-+	struct megasas_instance *instance = irq_context->instance;
-+
-+	if (instance->mask_interrupts)
-+		return IRQ_NONE;
-+
-+	/* First attempt from primary handler */
-+	ret = megasas_isr_fusion(irq, devp);
-+
-+	/* Primary handler predict more IO in completion queue,
-+ 	 * so let's use threaded irq poll.
-+ 	 */	
-+	if (!irq_context->attempt_irq_poll)
-+		return IRQ_HANDLED;
-+
-+	disable_irq_nosync(irq_context->os_irq);
-+	return IRQ_WAKE_THREAD;
-+}
-+
-+
- /**
-  * build_mpt_mfi_pass_thru - builds a cmd fo MFI Pass thru
-  * @instance:			Adapter soft state
 -- 
-2.9.5
-
-
-
---===============1335575872235492676==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+Tim Walker
+Product Design Systems Engineering, Seagate Technology
+(303) 775-3770
 
 _______________________________________________
 linux-nvme mailing list
 linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
-
---===============1335575872235492676==--
