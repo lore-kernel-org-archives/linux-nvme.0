@@ -7,88 +7,52 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 912CDC34031
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Feb 2020 21:44:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E40CC34031
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Feb 2020 23:02:11 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2BBCE206E2
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Feb 2020 21:44:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id ACC99207FD
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Feb 2020 23:02:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Q0WSWmtD";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="ffiO7Tsi"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2BBCE206E2
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="THOgtySu"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ACC99207FD
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=sucs.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=0T1gcFoWKoPimMsuwVGsdz9HDuBdQqDtqCppeCZMTpU=; b=Q0WSWmtDSx+zZX
-	BZMJxradqmZpKt3vqdZci9XRh5eW4GmBaWyFF3CGKqcA2wMYSvhCAp1hcy9Xo4VKUJcm0aYwDvuhT
-	/FsBwmpNrFum0HPF1yCxZij/nbe8Qz1Ho5tIZnW4Pa5bCNVWpOCpHhxlTUi7Q0VE0eWnAsC08cV3d
-	5eAhR4iegv8htdBDxuTt70gtwLdfuXvUvg6oPNjeuJxosXe/uruQqhUQS0Z3hbbG4Qzn/LTCbZ4sU
-	qqUrjDx5PigxKxLPo2drpgSnEKkKd1FhO+uccT0JHUCEB8OHC4Yxpn2yQw3Nyw9a23yh0qChbdllp
-	Dj4+zXOJqjOTGPWEwrpA==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
+	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=Uu07Hry9sOCxOvP+t7Z/QXeFUF9RaW4sUW4nrP5sYJs=; b=THOgtySuU0QHrd
+	TY0VPTlhf6IwPCaKGFF+14fDi/fm29IkfTtKEHwSQLaLvIinmov3DcDNGswR0psCCvW6NStV8GEwk
+	v023Gb9SmE5a56YhcwZ+jbTefsS++lSFlE3aHbCftMdLnok3omemv8biFRLtLEATMY4Q79O5hJZ0L
+	SizRjUvPmKvazakf54yMfSXh5W53XSl6VhZ3T3j4nCSEVKIRMmoeCydmf3U6tlq9JmAQMcP0J+MpK
+	RtpS0fZ1FeooNGHYkT+5gNRI8AFJ57cKSDlo7fu33r+P3n9dh+AvhJLSAL9F+wAEdRXaTnBBEDLJ2
+	bqpwLB1+UxUFAZ3JHnzg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j4AfL-0005bE-U3; Tue, 18 Feb 2020 21:44:27 +0000
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
+	id 1j4BsS-0007Uj-4y; Tue, 18 Feb 2020 23:02:04 +0000
+Received: from silver.sucs.swan.ac.uk ([137.44.10.1])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j4Aez-0005If-GI
- for linux-nvme@lists.infradead.org; Tue, 18 Feb 2020 21:44:07 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1582062245; x=1613598245;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=b/hvjxQxVaW7bfKfsY4a1aNN63eHpVhV3rtMy1bQ4r8=;
- b=ffiO7TsiEVt5a14/G7rBT40ZcEOvufnOSbWvX14Rb76uXWHka1EYpK2f
- MDtRUp1NivRmkTCydh/SjkHwwLA+/n1NRpyKo3Nk5ysfkp9Wg2C7ku1z1
- pp5gaE3yPWV/u/4JD1fYg+P5UCyULeRnewfcz4rzGkxcT01MsR4GDwHt6
- rsx0ytJgsS9v5iahD8CSeTAXY73zHM3dk3tSw5L6bOSg5h6GgdQ0fKHDI
- xeS8ynO5OBmASINe+7+qPh4znCGZyaPse59y5Wtby0cyRmQNteDJcnTuF
- FT8sfX4LkBxr2EzZHmEmx/C7Nj60pw2tcrFbM92af1lSy+jTVo+u0Z9wu A==;
-IronPort-SDR: TB48j7ZigLeWd490k6SVpuZf81e1040r1tyUFNU1POwOH4fPm55SHi1RPVgXbNb+kuQm4YUpDf
- +8YO5p6gkYSuaq2d3mZnTdGudjUjbCPRU5lv9zlxf+R2rLzQnc2tq4c/Neqi5Hg9jxdC0Taih+
- 0EofmEYXTMuKMvxDcS1HP4DABYb7EicpNcRQckgD5BKfc/FSH9mLB1Ko3JGOjXzS0EMS6ZLcGo
- 9eX7W6DFyr9jgYL9/3ro6nCeeH1aRCf5bpqhaqKuclynZX3RwbNEgNKpEMpU894faO1wpmmRmV
- akM=
-X-IronPort-AV: E=Sophos;i="5.70,458,1574092800"; d="scan'208";a="238221712"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 19 Feb 2020 05:44:01 +0800
-IronPort-SDR: Bsr0oS97FjIBT0myshG0ZT1/O778M10bgxoe24tny5nbiaakRaQ9klK4eGBj13ed4748K4nH/l
- IPHJlnrLEy+bsEcs6uGXWADOsr9vmsmgzycGB50lRKmu5jCGRVPQDrBaIl0JuM8T62cP2HaRwo
- 0nZERtPf9LsyxEB3ec/9GpmFfH3cODkl9KjPavKtxYbygB8i7BxAZg33ri0ICQqqCWcGCHZ8I3
- shd1+FyzXYLnbv5LWSrr7ldqVHEpEHgFlyxP/dvGB6B75xIZjzl+wsfumvRYEKRN0Db6i6Nbjo
- zXaaLcu+E0T1IvpNz37ZfYFz
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Feb 2020 13:36:40 -0800
-IronPort-SDR: ILRd/o7XPjGSCrcbBMYLLe+Q/SEzTQ5LaCyVxyo1lXjRw089iomzOmGSCxtiaybsB7uU53VGLe
- 7Ffti6Mc8Tees4C8SFQBGJRJmqlc73V4jrHxLlQrTaTDhUcFZmvzbsTfIN1X33agAHrnDFiQ0o
- Xerkjs/X9sH17wDul51IZ0xRYXvz39vRonKrmruBzbd3LCpcf9VfLm7omEHlDOf5iJyQ4CRdj9
- YoNN3IPRIo1pDj2puxXP8KOIdwADp0g0E/EecRH1g9sW3byO6MPAOj6W5IzmsydSHqLLA4TB7w
- aoU=
-WDCIronportException: Internal
-Received: from iouring.labspan.wdc.com (HELO iouring.sc.wdc.com)
- ([10.6.138.107])
- by uls-op-cesaip01.wdc.com with ESMTP; 18 Feb 2020 13:44:01 -0800
-From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-To: linux-nvme@lists.infradead.org
-Subject: [PATCH 4/4] nvmet: update ctrl oncs values for timestamp
-Date: Tue, 18 Feb 2020 13:43:38 -0800
-Message-Id: <20200218214338.25088-5-chaitanya.kulkarni@wdc.com>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20200218214338.25088-1-chaitanya.kulkarni@wdc.com>
-References: <20200218214338.25088-1-chaitanya.kulkarni@wdc.com>
+ id 1j4BsO-0007Tu-Ac
+ for linux-nvme@lists.infradead.org; Tue, 18 Feb 2020 23:02:03 +0000
+Received: from [95.146.247.173] (helo=localhost.localdomain)
+ by silver.sucs.swan.ac.uk with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
+ (envelope-from <edmund@sucs.org>)
+ id 1j4Bs3-0007x8-MQ; Tue, 18 Feb 2020 23:01:39 +0000
+From: Edmund Merrow-Smith <edmund@sucs.org>
+To: kbusch@kernel.org
+Subject: [PATCH] drivers: NVME: host: core.c: Fixed some coding style issues.
+Date: Tue, 18 Feb 2020 23:01:31 +0000
+Message-Id: <20200218230131.12135-1-edmund@sucs.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200218_134405_605988_36B51ADD 
-X-CRM114-Status: GOOD (  10.74  )
+X-CRM114-CacheID: sfid-20200218_150200_641692_83E3B116 
+X-CRM114-Status: GOOD (  14.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,38 +64,435 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: kbusch@kernel.org, hch@lst.de,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>, sagi@grimberg.me
+Cc: Edmund Merrow-Smith <edmund@sucs.org>, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Now that we support the timestamp feature, update controller ONCS
-field so that host driver can set timestamp from
-nvme_init_identify() -> nvme_configure_timestamp().
+Fixed a number of style issues highlighted by scripts/checkpatch.pl.
+Mostly whitespace issues, implied int warnings,
+trailing semicolons and line length issues.
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Signed-off-by: Edmund Merrow-Smith <edmund@sucs.org>
 ---
- drivers/nvme/target/admin-cmd.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 142 ++++++++++++++++++++-------------------
+ 1 file changed, 72 insertions(+), 70 deletions(-)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 17411d70d4d4..39ecfe8c99a0 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -410,7 +410,8 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
- 	id->nn = cpu_to_le32(ctrl->subsys->max_nsid);
- 	id->mnan = cpu_to_le32(NVMET_MAX_NAMESPACES);
- 	id->oncs = cpu_to_le16(NVME_CTRL_ONCS_DSM |
--			NVME_CTRL_ONCS_WRITE_ZEROES);
-+			       NVME_CTRL_ONCS_WRITE_ZEROES |
-+			       NVME_CTRL_ONCS_TIMESTAMP);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index ada59df642d2..420d19689a62 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -92,7 +92,7 @@ static struct class *nvme_subsys_class;
+ static int nvme_revalidate_disk(struct gendisk *disk);
+ static void nvme_put_subsystem(struct nvme_subsystem *subsys);
+ static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
+-					   unsigned nsid);
++					   unsigned int nsid);
  
- 	/* XXX: don't report vwc if the underlying device is write through */
- 	id->vwc = NVME_CTRL_VWC_PRESENT;
+ static void nvme_set_queue_dying(struct nvme_ns *ns)
+ {
+@@ -482,7 +482,7 @@ static inline void nvme_clear_nvme_request(struct request *req)
+ struct request *nvme_alloc_request(struct request_queue *q,
+ 		struct nvme_command *cmd, blk_mq_req_flags_t flags, int qid)
+ {
+-	unsigned op = nvme_is_write(cmd) ? REQ_OP_DRV_OUT : REQ_OP_DRV_IN;
++	unsigned int op = nvme_is_write(cmd) ? REQ_OP_DRV_OUT : REQ_OP_DRV_IN;
+ 	struct request *req;
+ 
+ 	if (qid == NVME_QID_ANY) {
+@@ -571,7 +571,7 @@ static int nvme_configure_directives(struct nvme_ctrl *ctrl)
+ 		return 0;
+ 	}
+ 
+-	ctrl->nr_streams = min_t(unsigned, ctrl->nssa, BLK_MAX_WRITE_HINTS - 1);
++	ctrl->nr_streams = min_t(unsigned int, ctrl->nssa, BLK_MAX_WRITE_HINTS - 1);
+ 	dev_info(ctrl->device, "Using %u streams\n", ctrl->nr_streams);
+ 	return 0;
+ }
+@@ -819,8 +819,8 @@ static void nvme_execute_rq_polled(struct request_queue *q,
+  * if the result is positive, it's an NVM Express status code
+  */
+ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+-		union nvme_result *result, void *buffer, unsigned bufflen,
+-		unsigned timeout, int qid, int at_head,
++		union nvme_result *result, void *buffer, unsigned int bufflen,
++		unsigned int timeout, int qid, int at_head,
+ 		blk_mq_req_flags_t flags, bool poll)
+ {
+ 	struct request *req;
+@@ -855,7 +855,7 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+ EXPORT_SYMBOL_GPL(__nvme_submit_sync_cmd);
+ 
+ int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+-		void *buffer, unsigned bufflen)
++		void *buffer, unsigned int bufflen)
+ {
+ 	return __nvme_submit_sync_cmd(q, cmd, NULL, buffer, bufflen, 0,
+ 			NVME_QID_ANY, 0, 0, false);
+@@ -863,7 +863,7 @@ int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+ EXPORT_SYMBOL_GPL(nvme_submit_sync_cmd);
+ 
+ static void *nvme_add_user_metadata(struct bio *bio, void __user *ubuf,
+-		unsigned len, u32 seed, bool write)
++		unsigned int len, u32 seed, bool write)
+ {
+ 	struct bio_integrity_payload *bip;
+ 	int ret = -ENOMEM;
+@@ -898,8 +898,8 @@ static void *nvme_add_user_metadata(struct bio *bio, void __user *ubuf,
+ 
+ static int nvme_submit_user_cmd(struct request_queue *q,
+ 		struct nvme_command *cmd, void __user *ubuffer,
+-		unsigned bufflen, void __user *meta_buffer, unsigned meta_len,
+-		u32 meta_seed, u64 *result, unsigned timeout)
++		unsigned int bufflen, void __user *meta_buffer, unsigned int meta_len,
++		u32 meta_seed, u64 *result, unsigned int timeout)
+ {
+ 	bool write = nvme_is_write(cmd);
+ 	struct nvme_ns *ns = q->queuedata;
+@@ -924,8 +924,8 @@ static int nvme_submit_user_cmd(struct request_queue *q,
+ 		bio = req->bio;
+ 		bio->bi_disk = disk;
+ 		if (disk && meta_buffer && meta_len) {
+-			meta = nvme_add_user_metadata(bio, meta_buffer, meta_len,
+-					meta_seed, write);
++			meta = nvme_add_user_metadata(bio, meta_buffer,
++					meta_len, meta_seed, write);
+ 			if (IS_ERR(meta)) {
+ 				ret = PTR_ERR(meta);
+ 				goto out_unmap;
+@@ -983,8 +983,8 @@ static int nvme_keep_alive(struct nvme_ctrl *ctrl)
+ {
+ 	struct request *rq;
+ 
+-	rq = nvme_alloc_request(ctrl->admin_q, &ctrl->ka_cmd, BLK_MQ_REQ_RESERVED,
+-			NVME_QID_ANY);
++	rq = nvme_alloc_request(ctrl->admin_q, &ctrl->ka_cmd,
++			BLK_MQ_REQ_RESERVED, NVME_QID_ANY);
+ 	if (IS_ERR(rq))
+ 		return PTR_ERR(rq);
+ 
+@@ -1055,7 +1055,7 @@ static int nvme_identify_ctrl(struct nvme_ctrl *dev, struct nvme_id_ctrl **id)
+ 	return error;
+ }
+ 
+-static int nvme_identify_ns_descs(struct nvme_ctrl *ctrl, unsigned nsid,
++static int nvme_identify_ns_descs(struct nvme_ctrl *ctrl, unsigned int nsid,
+ 		struct nvme_ns_ids *ids)
+ {
+ 	struct nvme_command c = { };
+@@ -1127,7 +1127,8 @@ static int nvme_identify_ns_descs(struct nvme_ctrl *ctrl, unsigned nsid,
+ 	return status;
+ }
+ 
+-static int nvme_identify_ns_list(struct nvme_ctrl *dev, unsigned nsid, __le32 *ns_list)
++static int nvme_identify_ns_list(struct nvme_ctrl *dev,
++		unsigned int nsid, __le32 *ns_list)
+ {
+ 	struct nvme_command c = { };
+ 
+@@ -1252,7 +1253,7 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
+ {
+ 	struct nvme_user_io io;
+ 	struct nvme_command c;
+-	unsigned length, meta_len;
++	unsigned int length, meta_len;
+ 	void __user *metadata;
+ 
+ 	if (copy_from_user(&io, uio, sizeof(io)))
+@@ -1384,7 +1385,7 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ {
+ 	struct nvme_passthru_cmd cmd;
+ 	struct nvme_command c;
+-	unsigned timeout = 0;
++	unsigned int timeout = 0;
+ 	u32 effects;
+ 	u64 result;
+ 	int status;
+@@ -1432,7 +1433,7 @@ static int nvme_user_cmd64(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ {
+ 	struct nvme_passthru_cmd64 cmd;
+ 	struct nvme_command c;
+-	unsigned timeout = 0;
++	unsigned int timeout = 0;
+ 	u32 effects;
+ 	int status;
+ 
+@@ -1462,8 +1463,8 @@ static int nvme_user_cmd64(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 	effects = nvme_passthru_start(ctrl, ns, cmd.opcode);
+ 	status = nvme_submit_user_cmd(ns ? ns->queue : ctrl->admin_q, &c,
+ 			(void __user *)(uintptr_t)cmd.addr, cmd.data_len,
+-			(void __user *)(uintptr_t)cmd.metadata, cmd.metadata_len,
+-			0, &cmd.result, timeout);
++			(void __user *)(uintptr_t)cmd.metadata,
++			cmd.metadata_len, 0, &cmd.result, timeout);
+ 	nvme_passthru_end(ctrl, effects);
+ 
+ 	if (status >= 0) {
+@@ -1949,7 +1950,7 @@ static int nvme_pr_command(struct block_device *bdev, u32 cdw10,
+ }
+ 
+ static int nvme_pr_register(struct block_device *bdev, u64 old,
+-		u64 new, unsigned flags)
++		u64 new, unsigned int flags)
+ {
+ 	u32 cdw10;
+ 
+@@ -1963,7 +1964,7 @@ static int nvme_pr_register(struct block_device *bdev, u64 old,
+ }
+ 
+ static int nvme_pr_reserve(struct block_device *bdev, u64 key,
+-		enum pr_type type, unsigned flags)
++		enum pr_type type, unsigned int flags)
+ {
+ 	u32 cdw10;
+ 
+@@ -1988,7 +1989,8 @@ static int nvme_pr_clear(struct block_device *bdev, u64 key)
+ 	return nvme_pr_command(bdev, cdw10, key, 0, nvme_cmd_resv_register);
+ }
+ 
+-static int nvme_pr_release(struct block_device *bdev, u64 key, enum pr_type type)
++static int nvme_pr_release(struct block_device *bdev, u64 key,
++		enum pr_type type)
+ {
+ 	u32 cdw10 = nvme_pr_type(type) << 8 | (key ? 1 << 3 : 0);
+ 	return nvme_pr_command(bdev, cdw10, key, 0, nvme_cmd_resv_release);
+@@ -2025,14 +2027,14 @@ EXPORT_SYMBOL_GPL(nvme_sec_submit);
+ #endif /* CONFIG_BLK_SED_OPAL */
+ 
+ static const struct block_device_operations nvme_fops = {
+-	.owner		= THIS_MODULE,
+-	.ioctl		= nvme_ioctl,
+-	.compat_ioctl	= nvme_ioctl,
+-	.open		= nvme_open,
+-	.release	= nvme_release,
+-	.getgeo		= nvme_getgeo,
+-	.revalidate_disk= nvme_revalidate_disk,
+-	.pr_ops		= &nvme_pr_ops,
++	.owner		 = THIS_MODULE,
++	.ioctl		 = nvme_ioctl,
++	.compat_ioctl	 = nvme_ioctl,
++	.open		 = nvme_open,
++	.release	 = nvme_release,
++	.getgeo		 = nvme_getgeo,
++	.revalidate_disk = nvme_revalidate_disk,
++	.pr_ops		 = &nvme_pr_ops,
+ };
+ 
+ #ifdef CONFIG_NVME_MULTIPATH
+@@ -2119,7 +2121,7 @@ int nvme_enable_ctrl(struct nvme_ctrl *ctrl)
+ 	 * path in the future to accomodate architectures with differing
+ 	 * kernel and IO page sizes.
+ 	 */
+-	unsigned dev_page_min, page_shift = 12;
++	unsigned int dev_page_min, page_shift = 12;
+ 	int ret;
+ 
+ 	ret = ctrl->ops->reg_read64(ctrl, NVME_REG_CAP, &ctrl->cap);
+@@ -2259,7 +2261,7 @@ static int nvme_configure_apst(struct nvme_ctrl *ctrl)
+ 	 * can set ps_max_latency_us to zero to turn off APST.
+ 	 */
+ 
+-	unsigned apste;
++	unsigned int apste;
+ 	struct nvme_feat_auto_pst *table;
+ 	u64 max_lat_us = 0;
+ 	int max_ps = -1;
+@@ -2448,13 +2450,13 @@ static bool quirk_matches(const struct nvme_id_ctrl *id,
+ 		string_matches(id->fr, q->fr, sizeof(id->fr));
+ }
+ 
+-static void nvme_init_subnqn(struct nvme_subsystem *subsys, struct nvme_ctrl *ctrl,
+-		struct nvme_id_ctrl *id)
++static void nvme_init_subnqn(struct nvme_subsystem *subsys,
++		struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+ {
+ 	size_t nqnlen;
+ 	int off;
+ 
+-	if(!(ctrl->quirks & NVME_QUIRK_IGNORE_DEV_SUBNQN)) {
++	if (!(ctrl->quirks & NVME_QUIRK_IGNORE_DEV_SUBNQN)) {
+ 		nqnlen = strnlen(id->subnqn, NVMF_NQN_SIZE);
+ 		if (nqnlen > 0 && nqnlen < NVMF_NQN_SIZE) {
+ 			strlcpy(subsys->subnqn, id->subnqn, NVMF_NQN_SIZE);
+@@ -2557,7 +2559,7 @@ static ssize_t subsys_##field##_show(struct device *dev,		\
+ 	return sprintf(buf, "%.*s\n",					\
+ 		       (int)sizeof(subsys->field), subsys->field);	\
+ }									\
+-static SUBSYS_ATTR_RO(field, S_IRUGO, subsys_##field##_show);
++static SUBSYS_ATTR_RO(field, S_IRUGO, subsys_##field##_show)
+ 
+ nvme_subsys_show_str_function(model);
+ nvme_subsys_show_str_function(serial);
+@@ -2857,8 +2859,7 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 		 */
+ 		if (ctrl->cntlid != le16_to_cpu(id->cntlid)) {
+ 			dev_err(ctrl->device,
+-				"Mismatching cntlid: Connect %u vs Identify "
+-				"%u, rejecting\n",
++				"Mismatching cntlid: Connect %u vs Identify %u, rejecting\n",
+ 				ctrl->cntlid, le16_to_cpu(id->cntlid));
+ 			ret = -EINVAL;
+ 			goto out_free;
+@@ -2891,7 +2892,7 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 	ret = nvme_configure_apst(ctrl);
+ 	if (ret < 0)
+ 		return ret;
+-	
++
+ 	ret = nvme_configure_timestamp(ctrl);
+ 	if (ret < 0)
+ 		return ret;
+@@ -3159,28 +3160,28 @@ const struct attribute_group *nvme_ns_id_attr_groups[] = {
+ 	NULL,
+ };
+ 
+-#define nvme_show_str_function(field)						\
+-static ssize_t  field##_show(struct device *dev,				\
+-			    struct device_attribute *attr, char *buf)		\
+-{										\
+-        struct nvme_ctrl *ctrl = dev_get_drvdata(dev);				\
+-        return sprintf(buf, "%.*s\n",						\
+-		(int)sizeof(ctrl->subsys->field), ctrl->subsys->field);		\
+-}										\
+-static DEVICE_ATTR(field, S_IRUGO, field##_show, NULL);
++#define nvme_show_str_function(field)					\
++static ssize_t  field##_show(struct device *dev,			\
++			    struct device_attribute *attr, char *buf)	\
++{									\
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);			\
++	return sprintf(buf, "%.*s\n",					\
++		(int)sizeof(ctrl->subsys->field), ctrl->subsys->field);	\
++}									\
++static DEVICE_ATTR(field, S_IRUGO, field##_show, NULL)
+ 
+ nvme_show_str_function(model);
+ nvme_show_str_function(serial);
+ nvme_show_str_function(firmware_rev);
+ 
+-#define nvme_show_int_function(field)						\
+-static ssize_t  field##_show(struct device *dev,				\
+-			    struct device_attribute *attr, char *buf)		\
+-{										\
+-        struct nvme_ctrl *ctrl = dev_get_drvdata(dev);				\
+-        return sprintf(buf, "%d\n", ctrl->field);	\
+-}										\
+-static DEVICE_ATTR(field, S_IRUGO, field##_show, NULL);
++#define nvme_show_int_function(field)					\
++static ssize_t  field##_show(struct device *dev,			\
++			    struct device_attribute *attr, char *buf)	\
++{									\
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);			\
++	return sprintf(buf, "%d\n", ctrl->field);			\
++}									\
++static DEVICE_ATTR(field, S_IRUGO, field##_show, NULL)
+ 
+ nvme_show_int_function(cntlid);
+ nvme_show_int_function(numa_node);
+@@ -3223,7 +3224,7 @@ static ssize_t nvme_sysfs_show_state(struct device *dev,
+ 		[NVME_CTRL_DEAD]	= "dead",
+ 	};
+ 
+-	if ((unsigned)ctrl->state < ARRAY_SIZE(state_name) &&
++	if ((unsigned int)ctrl->state < ARRAY_SIZE(state_name) &&
+ 	    state_name[ctrl->state])
+ 		return sprintf(buf, "%s\n", state_name[ctrl->state]);
+ 
+@@ -3295,7 +3296,7 @@ static const struct attribute_group *nvme_dev_attr_groups[] = {
+ };
+ 
+ static struct nvme_ns_head *__nvme_find_ns_head(struct nvme_subsystem *subsys,
+-		unsigned nsid)
++		unsigned int nsid)
+ {
+ 	struct nvme_ns_head *h;
+ 
+@@ -3327,7 +3328,7 @@ static int __nvme_check_ids(struct nvme_subsystem *subsys,
+ }
+ 
+ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
+-		unsigned nsid, struct nvme_id_ns *id)
++		unsigned int nsid, struct nvme_id_ns *id)
+ {
+ 	struct nvme_ns_head *head;
+ 	size_t size = sizeof(*head);
+@@ -3384,7 +3385,7 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
+ 	return ERR_PTR(ret);
+ }
+ 
+-static int nvme_init_ns_head(struct nvme_ns *ns, unsigned nsid,
++static int nvme_init_ns_head(struct nvme_ns *ns, unsigned int nsid,
+ 		struct nvme_id_ns *id)
+ {
+ 	struct nvme_ctrl *ctrl = ns->ctrl;
+@@ -3435,7 +3436,8 @@ static int ns_cmp(void *priv, struct list_head *a, struct list_head *b)
+ 	return nsa->head->ns_id - nsb->head->ns_id;
+ }
+ 
+-static struct nvme_ns *nvme_find_get_ns(struct nvme_ctrl *ctrl, unsigned nsid)
++static struct nvme_ns *nvme_find_get_ns(struct nvme_ctrl *ctrl,
++		unsigned int nsid)
+ {
+ 	struct nvme_ns *ns, *ret = NULL;
+ 
+@@ -3613,7 +3615,7 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+ 	nvme_put_ns(ns);
+ }
+ 
+-static void nvme_validate_ns(struct nvme_ctrl *ctrl, unsigned nsid)
++static void nvme_validate_ns(struct nvme_ctrl *ctrl, unsigned int nsid)
+ {
+ 	struct nvme_ns *ns;
+ 
+@@ -3627,7 +3629,7 @@ static void nvme_validate_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ }
+ 
+ static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
+-					unsigned nsid)
++					unsigned int nsid)
+ {
+ 	struct nvme_ns *ns, *next;
+ 	LIST_HEAD(rm_list);
+@@ -3644,12 +3646,12 @@ static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
+ 
+ }
+ 
+-static int nvme_scan_ns_list(struct nvme_ctrl *ctrl, unsigned nn)
++static int nvme_scan_ns_list(struct nvme_ctrl *ctrl, unsigned int nn)
+ {
+ 	struct nvme_ns *ns;
+ 	__le32 *ns_list;
+-	unsigned i, j, nsid, prev = 0;
+-	unsigned num_lists = DIV_ROUND_UP_ULL((u64)nn, 1024);
++	unsigned int i, j, nsid, prev = 0;
++	unsigned int num_lists = DIV_ROUND_UP_ULL((u64)nn, 1024);
+ 	int ret = 0;
+ 
+ 	ns_list = kzalloc(NVME_IDENTIFY_DATA_SIZE, GFP_KERNEL);
+@@ -3685,9 +3687,9 @@ static int nvme_scan_ns_list(struct nvme_ctrl *ctrl, unsigned nn)
+ 	return ret;
+ }
+ 
+-static void nvme_scan_ns_sequential(struct nvme_ctrl *ctrl, unsigned nn)
++static void nvme_scan_ns_sequential(struct nvme_ctrl *ctrl, unsigned int nn)
+ {
+-	unsigned i;
++	unsigned int i;
+ 
+ 	for (i = 1; i <= nn; i++)
+ 		nvme_validate_ns(ctrl, i);
+@@ -3725,7 +3727,7 @@ static void nvme_scan_work(struct work_struct *work)
+ 	struct nvme_ctrl *ctrl =
+ 		container_of(work, struct nvme_ctrl, scan_work);
+ 	struct nvme_id_ctrl *id;
+-	unsigned nn;
++	unsigned int nn;
+ 
+ 	/* No tagset on a live ctrl means IO queues could not created */
+ 	if (ctrl->state != NVME_CTRL_LIVE || !ctrl->tagset)
 -- 
-2.22.1
+2.20.1
 
 
 _______________________________________________
