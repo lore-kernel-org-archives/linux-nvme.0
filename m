@@ -2,21 +2,21 @@ Return-Path: <SRS0=nRQ2=4H=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2A07C34047
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Feb 2020 14:59:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C39AEC34047
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Feb 2020 14:59:32 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A7F0B207FD
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Feb 2020 14:59:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 934A6207FD
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Feb 2020 14:59:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="WpOtbyL2"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A7F0B207FD
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="FIdjB3fe"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 934A6207FD
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,35 +25,36 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=qESzmMuCYHuQWj7uNt585OxSR4rn4ueIlxYjMyDOsGk=; b=WpOtbyL2qU6SQf
-	kIASMmzr2GkiuY5o0AXSp3xoQgZ82FkiiA7xLR3yeq1EV7dc643L/XPaVzZjuLaAwSHhxlIjjnALQ
-	KOvTButja0jNY714C+INgYIdRNt/D/sqIucgUTGN+YiPxlzyPxi5H56JFVwXjnzSQ4/TDBR+pUybn
-	HRaaWOBdmhYJIEvpCfj7niKCHDm15HyUWCMkC/HgKom/huc+jv8wpD+C2O5KOX/H3YKEM7v+UPpBq
-	MK3FaV77SMDBkKgvMNrqPQ8VqKOZN91E78N+unkPsJsTxDyV2pC7tleLX+fy4znekAjGt3sPOgJGP
-	TPH0ExhFbZn2NKLJkotg==;
+	List-Owner; bh=G+DC2Z1PkgPAH6dINes670X9YarwJmjejJcPGlfXdcA=; b=FIdjB3fe9pwChk
+	CLmBX+gsjhyXF47KeLUm5/x3DX+hw6n6fBfYBqCdpm5BlHO+fkvpMt/n1iQribWlH8BpdekarMqNy
+	T4wEbqWYYJtlOk04tzD2YwxORu+LQSiq+n78SbzkHdXbdUnK/1x66Jg4dhBKo4E2kPQPMytbq23Tg
+	X0FEUL3cLMWAHUXSVxi5XdVBpuDPAuD8HdkpUj6qJbep22UwVkWQACa/qclMHJfYcPY/ge2ngELAE
+	wPTsZ9JwwOL5sPQTYrEjkBFhLSccsVVkXLj36gQbbGkmVYwmFh8N++n0rYG3MEYyD2RSKOJakrkdQ
+	dFHQbUSeBISUceZFdZGg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j4Qom-0001e5-AZ; Wed, 19 Feb 2020 14:59:16 +0000
+	id 1j4Qoz-0001tJ-HQ; Wed, 19 Feb 2020 14:59:29 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j4Qoj-0001dN-6C
- for linux-nvme@lists.infradead.org; Wed, 19 Feb 2020 14:59:14 +0000
+ id 1j4Qos-0001mi-TY
+ for linux-nvme@lists.infradead.org; Wed, 19 Feb 2020 14:59:24 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 8242468B20; Wed, 19 Feb 2020 15:59:07 +0100 (CET)
-Date: Wed, 19 Feb 2020 15:59:07 +0100
+ id 0434E68C4E; Wed, 19 Feb 2020 15:59:21 +0100 (CET)
+Date: Wed, 19 Feb 2020 15:59:20 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH 0/4] nvmet: add set feature based timestamp support
-Message-ID: <20200219145907.GA17748@lst.de>
+To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Subject: Re: [PATCH 1/4] nvmet: use nvmet_feat_data_len consistently
+Message-ID: <20200219145920.GB17748@lst.de>
 References: <20200218214338.25088-1-chaitanya.kulkarni@wdc.com>
- <20200218231007.GA18306@redsun51.ssa.fujisawa.hgst.com>
+ <20200218214338.25088-2-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200218231007.GA18306@redsun51.ssa.fujisawa.hgst.com>
+In-Reply-To: <20200218214338.25088-2-chaitanya.kulkarni@wdc.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200219_065913_383194_FCCB27D8 
-X-CRM114-Status: GOOD (  10.42  )
+X-CRM114-CacheID: sfid-20200219_065923_113779_1E87FF09 
+X-CRM114-Status: UNSURE (   8.98  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,24 +66,23 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: sagi@grimberg.me, linux-nvme@lists.infradead.org,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>, hch@lst.de
+Cc: kbusch@kernel.org, hch@lst.de, linux-nvme@lists.infradead.org,
+ sagi@grimberg.me
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Feb 19, 2020 at 08:10:07AM +0900, Keith Busch wrote:
-> The last three ought to be a single patch IMO since those should really
-> from an inseparable package deal for this feature.
+On Tue, Feb 18, 2020 at 01:43:35PM -0800, Chaitanya Kulkarni wrote:
+> This is a preparation patch which makes admin-cmd.c to use newly added
+> nvmet_feat_data_len() helper consistently in nvmet_execute_set_features
+> and nvmet_execute_get_features when checking the data length.
+> 
+> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
-Agreed.
+Looks good,
 
-> As to why we'd support this feature, the spec says "The use of the
-> Timestamp is outside the scope of this specification". Is there anything
-> interesting we can do with this?
-
-I can't really think of why this is useful either..
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
 _______________________________________________
 linux-nvme mailing list
