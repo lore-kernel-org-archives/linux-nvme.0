@@ -2,117 +2,89 @@ Return-Path: <SRS0=sGEd=4I=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9809AC11D10
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 Feb 2020 17:17:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C47FEC11D0C
+	for <linux-nvme@archiver.kernel.org>; Thu, 20 Feb 2020 17:41:23 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4B91124672
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 Feb 2020 17:17:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 99FE520722
+	for <linux-nvme@archiver.kernel.org>; Thu, 20 Feb 2020 17:41:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="KKcgq8LN";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=netapp.onmicrosoft.com header.i=@netapp.onmicrosoft.com header.b="I1EvyanV"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4B91124672
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=netapp.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="M1k3cORZ";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="NLfMqBOS"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 99FE520722
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:
-	References:Message-ID:Date:Subject:To:From:Reply-To:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=R8ewaRBsqIiNU/tTUux+A34QcTwNbGxmM2zJ2UT8Iqg=; b=KKcgq8LNWaaKg1
-	LRURZiy9SDJzhsm0H5L0dpaVHtctBEqQ76QOAcN1XtoUkAvEiBQZtfkG7mg1XCzx5xds8jnuFo7g4
-	u/QJkkHU+S/CZy/rUpG0Df69K5XVbpoGygg+yg7I1LyedAaL4QeJP8h0m70WwOR0mYm4Kn3X7vAPf
-	k/oMvQcEOZ05q2pbvCSv45C50UGY7flgj/lzZgoLGBwHEqcEVSsVYYhsQb/YaiT+OrTUIjWfCrkDR
-	wRMK6GbNsbgviKzotoCpbxoshhqH1dZtkMBpDZAeumRiprDxxRsmgBmsJaliA/EU89I0xyNxMm0dF
-	MrVfSrC8u6XtK+MAEsJw==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=U8BZhz3InjuxQvmdByK73XpLDmg+o+CFw1NNPj5z0aM=; b=M1k3cORZXj6KVVY1hM6H/XN0Z
+	yk4UtUqIy7HgWxQ8MdrTQxJkxiWR/g0k4pqmNtwcW8/irrUZU3HH7CQGFSSRwFICyeLoNFXs78bpL
+	1Flm6v/G9xwC5GVmLg6BVyLzx9+/InqDNykoIZ8x1e1nm3yOo5EGYzh10xAlpBQJPYffZu5/ubLK5
+	hFbnQDxfzbBZ7SwVzNCPRHLYxpfdj6/SGabvfeN7cR9krAjrwiEwR3uThUp3SOxzkqESTzljJmm27
+	7KiLixnVqo2lhOit6jjUCOrhNPtXCcrzHWHOm3MUxApl+q6AIxAdytohiO6E2w0yrGJ9NAcNJughv
+	wwIUg2L3Q==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j4pS8-0008JC-3j; Thu, 20 Feb 2020 17:17:32 +0000
-Received: from mail-cys01nam02on0626.outbound.protection.outlook.com
- ([2a01:111:f400:fe45::626]
- helo=NAM02-CY1-obe.outbound.protection.outlook.com)
+	id 1j4pp8-0007Cd-Eh; Thu, 20 Feb 2020 17:41:18 +0000
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j4pS4-0008Ik-Lr
- for linux-nvme@lists.infradead.org; Thu, 20 Feb 2020 17:17:31 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TgXnR5RJRcWSGSsRqbtHInHVcLXwr8bVpVNxq7PTj3o9lA1OxJrjfReVXK76UtGIQF2LGc5juE5Psi/wRyA3hGlD4AnixU0PLwhkdwvwGUEMkcZA0h4MpRdj4XG/j6denLDkjjuCa1I9doKYKbsXLZBIJxEP3Tbi45RFvbuz/6ELnvF1LcFqAl0bzCZuL38F1tHzs7EGMmKofJynJO3lMwXaP3BaaORnemfKgjTVoWO8IWckl0jGMthqVsivxw/PWuLx0hgrZ1ThokkGzJ/SARD7phiGxRHDwmdxgtTAYXl4ZiqkncIXyJTrhSwKOyIZ81Mjcrdn+SrOaPWsnmSW9g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=acA2UiccCYCfUrD4z17GkD1HTIQWSEwxts73Id7DC2E=;
- b=FyPHeY+Z/TK47+m8bcqFqTXHnzWorcNfv+j58zlf484f8qrgqQ0hvf6NM5egBKQLmzVT6WL2qLmoFtY65S33dFvjEXeBxeGCcEM1ItR/lX4zG2xEQ/fs0feO3dxfdElo8BhtKOcRH/IcoKL8hmr5hizNgIRq+ATA5Je4/L1cp3j339oupKiN6y+fQv1WiVXGOtLgUIIxbZ8BP6/3miIrcFqdQAfbacMMWocEo2Qn7ai5m/UKmtAs3vmqpMe/Ps20gnl0PnRsSCxqH1fkdwI06K+Li8OvPi6YlnGssEJ31icdR3g3xU6o2OpM0bH1UVOC3sRshC7VnGIsYd545KLTSw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=netapp.com; dmarc=pass action=none header.from=netapp.com;
- dkim=pass header.d=netapp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=netapp.onmicrosoft.com; s=selector1-netapp-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=acA2UiccCYCfUrD4z17GkD1HTIQWSEwxts73Id7DC2E=;
- b=I1EvyanVoju0MizFCktaedz5RWUwUtF7hmFhbmW8ilU6M288DpPpe9uCW/34JFjTnXEO+6PyWOGSkkNZKnygJx9ucK1ZabFvfku+T7Ximi7EX0QR/OsTdfockRI/HeOriIFLyoXpqAp4DDDcqiUonvIYqtBmrZrxANL6tAHqiBg=
-Received: from BN7PR06MB3811.namprd06.prod.outlook.com (52.132.217.14) by
- BN7PR06MB5314.namprd06.prod.outlook.com (20.176.179.141) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2729.25; Thu, 20 Feb 2020 17:17:26 +0000
-Received: from BN7PR06MB3811.namprd06.prod.outlook.com
- ([fe80::fc4a:9b42:e2db:5ebb]) by BN7PR06MB3811.namprd06.prod.outlook.com
- ([fe80::fc4a:9b42:e2db:5ebb%3]) with mapi id 15.20.2729.033; Thu, 20 Feb 2020
- 17:17:25 +0000
-From: "Meneghini, John" <John.Meneghini@netapp.com>
-To: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH] nvme-multipath: do not reset on unknown status
-Thread-Topic: [PATCH] nvme-multipath: do not reset on unknown status
-Thread-Index: AQHV5/2PqYkeE5X3R0qtHkiG+ngvBKgkSscA//+0qAA=
-Date: Thu, 20 Feb 2020 17:17:25 +0000
-Message-ID: <4F3D65FB-8894-4E0D-8D67-0379B537E914@netapp.com>
-References: <20200220145241.12982-1-kbusch@kernel.org>
- <20200220164704.GA13560@lst.de>
-In-Reply-To: <20200220164704.GA13560@lst.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Microsoft-MacOutlook/10.21.0.200113
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=John.Meneghini@netapp.com; 
-x-originating-ip: [216.240.30.11]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 4c18dfdf-ef87-4a38-477d-08d7b628c186
-x-ms-traffictypediagnostic: BN7PR06MB5314:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BN7PR06MB5314AD68589FEEF2BBC405F4E4130@BN7PR06MB5314.namprd06.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:416;
-x-forefront-prvs: 031996B7EF
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(4636009)(396003)(136003)(39840400004)(366004)(376002)(346002)(189003)(199004)(8676002)(76116006)(91956017)(55236004)(53546011)(6506007)(6486002)(66946007)(81166006)(4326008)(478600001)(66556008)(66476007)(64756008)(66446008)(2906002)(81156014)(8936002)(2616005)(86362001)(186003)(5660300002)(316002)(107886003)(110136005)(54906003)(71200400001)(33656002)(36756003)(6512007)(26005);
- DIR:OUT; SFP:1101; SCL:1; SRVR:BN7PR06MB5314;
- H:BN7PR06MB3811.namprd06.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: netapp.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: zhr6cq0uNh2XrsLlUxNBocHSn4USBFOPAbJ35ynsdCyrumG7iupmZFNV/z4OW771Z1vXskQqIxeAgTjcyINRC5oD2qqlMLPeeAiv3BbcvNSoerND4Yif/e5DvXdUEWRg1myOAsjNX6OYvdJ7wkBFhSgvXcYiSVGMpucIXlQeQYG0j7hMleVEfVWqSpVOXjlezQIBW9a3o1iESlGcSbgCMaXPBxdzgxqel2emlNny4gCcgG5IJBpzlohbi2F8KRiQRqTr1RZ9elDr5/R3rMpvP/ZAhGzU2PICs8Sa4ZAm17Cnq7JC3oxSirZpi9R+jBbmwliRoAVjenZDXbb+WrplsqbxPb5Ea6sYOApQYT1O7ise14e5NoidrwgWrdIp0mA/zor+7h1QoWu/a8EuvOrTJ8xJHcG5vX2FG2p4p9ycW++PTu6TaFBuuhyxuSmpoSE3
-x-ms-exchange-antispam-messagedata: Lmb2jnUlWHrLoNJUTxQ+lFqQmh2s8ZCgNL2G4hY/b9o4XqxZGqm9lsKgNi6a/yFFv/E198Q844GnB1kddFEDk8a86bsRmsCnTti9+WtKqmjVCKDD0GRXUXY263jWX/8KCGAktwPmyWI/lcVBU+3j4A==
-Content-ID: <FD665F3CCB22E64E8C77C96A9116C6B3@namprd06.prod.outlook.com>
+ id 1j4pp6-0007CK-Ku
+ for linux-nvme@lists.infradead.org; Thu, 20 Feb 2020 17:41:18 +0000
+Received: by mail-pf1-x444.google.com with SMTP id x185so2261113pfc.5
+ for <linux-nvme@lists.infradead.org>; Thu, 20 Feb 2020 09:41:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=Wodw456ejIrfJkRjf0MQxtsMUWx0NjJODOLMswGTCvs=;
+ b=NLfMqBOSaRJSnSW/GE6xXhY/+AWLtc6diE0cR9qTJG+4I1oO4OXtayhTkW6TFQVxAF
+ i5AaJNXbYPMk6691YEcxS1HPrRrB1idaM3fNQCe/eTbKd0qOYAO3QS05hPTfTuMTn13C
+ 5Jjfc6F+gFko0AKYBWut7t7nAPu9IwD3U1kco=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=Wodw456ejIrfJkRjf0MQxtsMUWx0NjJODOLMswGTCvs=;
+ b=YH/2T4El1jX/BviNtXxVswdNW8tpGd6Vc9YugH7wJcIywesCJde+Wx3j8R2HUbwvE5
+ tCLbVkRIZAq4TqpryXBoZvzrZUXbj/oru9BopdzprSxsh+sjza7KpBqH9t574KpgdQKi
+ vHqgUvkNJ5w/wzvhqchi7HuaOJO42FsRDzZyChQCSIECDSRy+p/mub3cDnG2NNDOFl4F
+ D99vg49pIBixVUHMdTwAfL03yhvnRuwyUj3i6TZyBS+VkAw0LZro1qJzaD9pigQXCMwH
+ rpMiBqeC5JDL1rm5QcdGKxiWhBBQCT3C4B3tEeECCwprym6WxwYzFZZll05++cxY3hw1
+ j26A==
+X-Gm-Message-State: APjAAAUSS3Nr420R2i7ZkJ+uSnaYYo6oDgiH/CVXFEHC0Sr6TrTX7H6N
+ 2qU5ZwHR1FivZ+5M4qztoOYp9w==
+X-Google-Smtp-Source: APXvYqwAXw/IykK10+ew8RS84KOicqrCKY9PBz6/920VkzDy8qWk/SUXse8YVA9JIGzfzRNdp0v15w==
+X-Received: by 2002:aa7:9546:: with SMTP id w6mr32634879pfq.66.1582220475690; 
+ Thu, 20 Feb 2020 09:41:15 -0800 (PST)
+Received: from [10.69.45.46] ([192.19.223.252])
+ by smtp.gmail.com with ESMTPSA id u126sm191718pfu.182.2020.02.20.09.41.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Feb 2020 09:41:15 -0800 (PST)
+Subject: Re: [PATCH v3] nvme-fabrics: reject I/O to offline device
+To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@infradead.org>,
+ Victor Gladkov <Victor.Gladkov@kioxia.com>
+References: <2d77d20698b14aa6ae261a71d239c50b@kioxia.com>
+ <20200219152849.GB13942@infradead.org>
+ <7ac74c23-db96-56e0-ad6e-24bb4df1934b@grimberg.me>
+From: James Smart <james.smart@broadcom.com>
+Message-ID: <f1d99912-d177-85ce-7ebd-4863cdcb2a36@broadcom.com>
+Date: Thu, 20 Feb 2020 09:41:13 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-OriginatorOrg: netapp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4c18dfdf-ef87-4a38-477d-08d7b628c186
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Feb 2020 17:17:25.6025 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4b0911a0-929b-4715-944b-c03745165b3a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: n1OJznj12Wd39ZNEasevrbHgXIY1ogi1U8ntyihnXrg8SW01ZFM+D5+Xz0jlNab3WPoAGjHRjcfNegGI3gx6UQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR06MB5314
+In-Reply-To: <7ac74c23-db96-56e0-ad6e-24bb4df1934b@grimberg.me>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200220_091728_744107_D1F675DB 
-X-CRM114-Status: GOOD (  16.02  )
+X-CRM114-CacheID: sfid-20200220_094116_688926_6396B772 
+X-CRM114-Status: GOOD (  15.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,136 +96,44 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "Meneghini, John" <John.Meneghini@netapp.com>,
- "sagi@grimberg.me" <sagi@grimberg.me>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "hare@suse.de" <hare@suse.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ Mike Snitzer <snitzer@redhat.com>, Hannes Reinecke <hare@suse.de>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/20/20, 11:47 AM, "Christoph Hellwig" <hch@lst.de> wrote:
-    
-    This pretty much looks like my edited version of Hanne's patch with
-    John's changelog and your edits..
-
-That's because it is!
-    
-    >               if ((req->cmd_flags & REQ_NVME_MPATH) &&
-    > +                 nvme_failover_req(req))
-    > -                 blk_path_error(status)) {
-    > -                     nvme_failover_req(req);
-    > +                 nvme_failover_req(req))
-    
-    This conditional could now fit onto a single line.
-    
-    Otherwise this looks fine to me.
-  
-Here's another copy of the version I sent to Kieth, with the new commit message.
-
-From: John Meneghini <johnm@netapp.com>
-
-The nvme multipath error handling defaults to controller reset if the
-error is unknown. There are, however, no existing nvme status codes that
-indicate a reset should be used, and resetting causes unnecessary
-disruption to the rest of IO.
-
-Change nvme's error handling to first check if failover should happen.
-If not, let the normal error handling take over rather than reset the
-controller.
-
-Signed-off-by: John Meneghini <johnm@netapp.com>
-[changelog]
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/core.c      |  4 +---
- drivers/nvme/host/multipath.c | 22 ++++++++++------------
- drivers/nvme/host/nvme.h      |  5 +++--
- 3 files changed, 14 insertions(+), 17 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 84914223c537..e1696fcf0f8b 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -291,9 +291,7 @@ void nvme_complete_rq(struct request *req)
-                nvme_req(req)->ctrl->comp_seen = true;
- 
-        if (unlikely(status != BLK_STS_OK && nvme_req_needs_retry(req))) {
--               if ((req->cmd_flags & REQ_NVME_MPATH) &&
--                   blk_path_error(status)) {
--                       nvme_failover_req(req);
-+               if ((req->cmd_flags & REQ_NVME_MPATH) && nvme_failover_req(req)) {
-                        return;
-                }
- 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 797c18337d96..8a1697f7986b 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -64,18 +64,12 @@ void nvme_set_disk_name(char *disk_name, struct nvme_ns *ns,
-        }
- }
- 
--void nvme_failover_req(struct request *req)
-+bool nvme_failover_req(struct request *req)
- {
-        struct nvme_ns *ns = req->q->queuedata;
--       u16 status = nvme_req(req)->status;
-        unsigned long flags;
- 
--       spin_lock_irqsave(&ns->head->requeue_lock, flags);
--       blk_steal_bios(&ns->head->requeue_list, req);
--       spin_unlock_irqrestore(&ns->head->requeue_lock, flags);
--       blk_mq_end_request(req, 0);
--
--       switch (status & 0x7ff) {
-+       switch (nvme_req(req)->status & 0x7ff) {
-        case NVME_SC_ANA_TRANSITION:
-        case NVME_SC_ANA_INACCESSIBLE:
-        case NVME_SC_ANA_PERSISTENT_LOSS:
-@@ -104,14 +98,18 @@ void nvme_failover_req(struct request *req)
-                break;
-        default:
-                /*
--                * Reset the controller for any non-ANA error as we don't know
--                * what caused the error.
-+                * This was a non-ANA error so follow the normal error path.
-                 */
--               nvme_reset_ctrl(ns->ctrl);
--               break;
-+               return false;
-        }
-
-void nvme_kick_requeue_lists(struct nvme_ctrl *ctrl)
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 1024fec7914c..d800b9a51c2c 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -550,7 +550,7 @@ void nvme_mpath_wait_freeze(struct nvme_subsystem *subsys);
- void nvme_mpath_start_freeze(struct nvme_subsystem *subsys);
- void nvme_set_disk_name(char *disk_name, struct nvme_ns *ns,
-                        struct nvme_ctrl *ctrl, int *flags);
--void nvme_failover_req(struct request *req);
-+bool nvme_failover_req(struct request *req);
- void nvme_kick_requeue_lists(struct nvme_ctrl *ctrl);
- int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl,struct nvme_ns_head *head);
- void nvme_mpath_add_disk(struct nvme_ns *ns, struct nvme_id_ns *id);
-@@ -599,8 +599,9 @@ static inline void nvme_set_disk_name(char *disk_name, struct nvme_ns *ns,
-        sprintf(disk_name, "nvme%dn%d", ctrl->instance, ns->head->instance);
- }
- 
--static inline void nvme_failover_req(struct request *req)
-+static inline bool nvme_failover_req(struct request *req)
- {
-+       return false;
- }
- static inline void nvme_kick_requeue_lists(struct nvme_ctrl *ctrl)
- {
--- 
-2.21.0
-
-_______________________________________________
-linux-nvme mailing list
-linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+T24gMi8yMC8yMDIwIDEyOjM0IEFNLCBTYWdpIEdyaW1iZXJnIHdyb3RlOgo+Cj4+PiArc3RhdGlj
+IHZvaWQgbnZtZV9mYWlsZmFzdF93b3JrKHN0cnVjdCB3b3JrX3N0cnVjdCAqd29yaykKPj4+ICt7
+Cj4+PiArwqDCoMKgIHN0cnVjdCBudm1lX2N0cmwgKmN0cmwgPSBjb250YWluZXJfb2YodG9fZGVs
+YXllZF93b3JrKHdvcmspLAo+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc3RydWN0IG52bWVf
+Y3RybCwgZmFpbGZhc3Rfd29yayk7Cj4+PiArCj4+PiArwqDCoMKgIHNwaW5fbG9ja19pcnEoJmN0
+cmwtPmxvY2spOwo+Pj4gK8KgwqDCoCBpZiAoY3RybC0+c3RhdGUgPT0gTlZNRV9DVFJMX0NPTk5F
+Q1RJTkcpIHsKPj4+ICvCoMKgwqDCoMKgwqDCoCBzZXRfYml0KE5WTUVfQ1RSTF9GQUlMRkFTVF9F
+WFBJUkVELCAmY3RybC0+ZmxhZ3MpOwo+Pj4gK8KgwqDCoMKgwqDCoMKgIGRldl9pbmZvKGN0cmwt
+PmRldmljZSwgImZhaWxmYXN0IGV4cGlyZWQgc2V0IGZvciBjb250cm9sbGVyIAo+Pj4gJXNcbiIs
+IGN0cmwtPm9wdHMtPnN1YnN5c25xbik7Cj4+Cj4+IFBsZWFzZSBicmVhayB1cCB0aGUgbGluZS4K
+Pj4KPj4gQnV0IGxvb2tpbmcgYXQgdGhlIHVzZSBvZiBOVk1FX0NUUkxfRkFJTEZBU1RfRVhQSVJF
+RCwgaXQgYWxtb3N0IHNlZW1zCj4+IGxpa2UgdGhpcyBpcyBhbm90aGVyIGNvbnRyb2xsZXIgc3Rh
+dGU/Cj4KPiBJdCBhY3R1YWxseSBpcyBhIGNvbnRyb2xsZXIgc3RhdGUuIHRoaXMgaXMganVzdCBh
+ZGRpbmcgYW5vdGhlciBzdGF0ZQo+IHdpdGhvdXQgcmVhbGx5IGZpdHRpbmcgaXQgaW50byB0aGUg
+c3RhdGUgbWFjaGluZS4gSSdkIHBlcnNvbmFsbHkKPiB3b3VsZCB3YW50IHRoYXQgdG8gaGFwcGVu
+LCBidXQgSSBrbm93IEphbWVzIGhhZCBzb21lIHJlamVjdHMgb24KPiB0aGlzLgoKSSBkb24ndCBi
+ZWxpZXZlIGl0cyBhIGNvbnRyb2xsZXIgc3RhdGUgLSByYXRoZXIgYW4gYXR0cmlidXRlLCByZWxh
+dGl2ZSAKdG8gd2l0aGluIHRoZSBDb25uZWN0aW5nIHN0YXRlICh3aGljaCBtYXkgYmUgaW4gdGhl
+IHByb2Nlc3Mgb2YgCnJldHJ5aW5nKSwgd2hlcmUgaW5zdGVhZCBvZiBidXN5aW5nIGFueSBpbyBy
+ZXF1ZXN0IHRoYXQgbWF5IGJlIHJlY2VpdmVkLCAKd2Ugc3RhcnQgdG8gZmFpbCB0aGVtLsKgwqDC
+oCBJIGRvbid0IHNlZSB0aGlzIHRpbWUgd2luZG93IGFzIHNvbWV0aGluZyB0aGUgCmNvbnRyb2xs
+ZXIgaGFzIHRvIGFjdHVhbGx5IHRyYW5zaXRpb24gdGhyb3VnaCAtIG1lYW5pbmcgd2UgYXJlbid0
+IApyZWNvbm5lY3Rpbmcgd2hpbGUgaW4gdGhpcyBzdGF0ZS4KCgo+Cj4gQWxzbywgSSBzdGlsbCBz
+YXkgdGhhdCBpdHMgZGVmYXVsdCBjaGFuZ2VzIHRoZSBleGlzdGluZyBiZWhhdmlvciB3aGljaAo+
+IGlzIHNvbWV0aGluZyB3ZSB3YW50IHRvIGF2b2lkLgoKSSB0aG91Z2h0IHRoZSBsYXN0IHBhdGNo
+IHdhcyB0aGUgc2FtZSBhcyBleGlzdGluZyBiZWhhdmlvciAoZS5nLiBkZWZhdWx0IAp0bW8gaXMg
+MCwgYW5kIGlmIDAsIHRoZSB0aW1lciwgd2hpY2ggc2V0cyB0aGUgbm93LWZhaWwgZmxhZywgbmV2
+ZXIgZ2V0cyAKc2NoZWR1bGVkKS4KCmluIHRoZSBsYXN0IHJldmlldywgSSB3YXMgZXhwbG9yaW5n
+IHRoZSBvcHRpb24gaWYgd2UgZGlkIHdhbnQgdG8gY2hhbmdlIAp0aGUgZGVmYXVsdCwgYXMgdGhl
+IGRlZmF1bHQgaXMgYSByYXRoZXIgbG9uZyB3YWl0IChJIGRpZCB2YWNpbGF0ZSkuwqAgQnV0IApJ
+J20gZmluZSB3aXRoIGtlZXBpbmcgdGhpbmdzIHRoZSBzYW1lLgoKLS0gamFtZXMKCgpfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpsaW51eC1udm1lIG1haWxp
+bmcgbGlzdApsaW51eC1udm1lQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJh
+ZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1udm1lCg==
