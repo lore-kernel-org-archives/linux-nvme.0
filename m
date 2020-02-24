@@ -5,19 +5,18 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9E6DC11D2F
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2020 16:50:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18436C11D2F
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2020 16:50:28 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B5C6A20637
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2020 16:50:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id CED9D20836
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2020 16:50:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="nqK/W2zd";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="wemBRgmY"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B5C6A20637
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="aYVCV5pS"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CED9D20836
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,52 +25,41 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=hyNsw87/qhseO6MGdFWpz8KwniJTSpw0UTjxzJ9HOQY=; b=nqK/W2zd4SNBpa
-	UHx3iK2/FOVQrYffZbF6YdF8owV0tFCJBGTwYQ0sEg4HAUrRvCKNLVxydKe7VA7GfGi6x1ArCJX9L
-	AvuJANcNbT7yjbUdN2B9ff1I0fJJRS1EpMyrg7NVAahOC4Pj6NfHHUaFwJnFOF7NMfqX1FEnlTKxH
-	DrOO0i9fWnyxvRluqPAAO6lqiBwWY1Swte2SLrI/l6m+eVwotJd6jyZ4qbFJJl84V+kjWuuutkp6S
-	zgVqQS09TnGjcgxej9LtEnBdLLQI79l9XZZip/Au/UxgZyFgZc9fjcVc9mFuJhaTufm3xhby9BCCN
-	lrvZIVFe3jak2WoumOpw==;
+	List-Owner; bh=+WOx+/d9MfplM57/NxCO+5ilCYhiJnBTMJGTPfWCklY=; b=aYVCV5pSfFpbhS
+	HdIIc5tgyR1r9hbU97+n+W7HaRMLgqX6NeFCYQC0bBVlbb1X9Pu0pWuCezECqbr7tiF58iqk8h8eR
+	9+M9WyoTzP6JkQUCrKd85xUiJOjjMePsPByCBVgTGt+naQWCamXuG0CV0NlykbdyZXo+kh+V/iKV8
+	hp0iazHtfG+HnMNj3lKeIkYmvaKSgD2Nj4nBkYRnHwPa7Qf9OGKoVL64DN1Yqpnxg8LBEi9BmmG90
+	ES1fAicI/DdFIEZdoXlZNfTvJdLXxNa43vkwixGT5a8fKXvwlZD+ujZU7sbUNM+54rsG4HD9WhYnC
+	EMtMI8kQvgxfvBwekOgA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j6Gvf-0004bQ-Ev; Mon, 24 Feb 2020 16:49:59 +0000
-Received: from merlin.infradead.org ([205.233.59.134])
- by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j6Grp-0001N3-79
- for linux-nvme@bombadil.infradead.org; Mon, 24 Feb 2020 16:46:01 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-Type:Content-ID:Content-Description;
- bh=yVRnZj3xe4MwFR3lsOKsGSK/hpdhLjxFlZ2NryNq75Y=; b=wemBRgmYHpuulvLgkwPfzqF3F0
- TJLG8tl21aeJZmB7FRnzvhlTOVxM8GwWhILtBfvrxGfCrDypb6Yv+56JzYsRrVx7FAVvu8Id6wh/k
- 9oF3HvlrY/s+I5A1XteQc5abfVBqx45wUHpPEIulMRpsBodYBHzpuJdOIIMXaFPXSbegZvTR6Y1jM
- zP87JjAuxAwMN7tmeY6TUp+ZMUCC9uxN5Fr8GHh6FREjLaCizun/hsYeC2lN4NliM5+95snBgTcR9
- JMcVHsHirNGdgHCDvVNkhJvVLGqIwlAriuIxiuGLA1czbafHBMUhzbI0GrABZRQtlavFvv4yYksMg
- g1TkOVeQ==;
+	id 1j6Gw4-00063j-JC; Mon, 24 Feb 2020 16:50:24 +0000
 Received: from mail-il-dmz.mellanox.com ([193.47.165.129] helo=mellanox.co.il)
- by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j6Grl-0002Eb-6o
- for linux-nvme@lists.infradead.org; Mon, 24 Feb 2020 16:46:00 +0000
-Received: from Internal Mail-Server by MTLPINE1 (envelope-from
+ by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1j6Grj-0001E7-H6
+ for linux-nvme@lists.infradead.org; Mon, 24 Feb 2020 16:46:02 +0000
+Received: from Internal Mail-Server by MTLPINE2 (envelope-from
  maxg@mellanox.com)
- with ESMTPS (AES256-SHA encrypted); 24 Feb 2020 18:45:46 +0200
+ with ESMTPS (AES256-SHA encrypted); 24 Feb 2020 18:45:45 +0200
 Received: from mtr-vdi-031.wap.labs.mlnx. (mtr-vdi-031.wap.labs.mlnx
  [10.209.102.136])
- by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 01OGji9Y013647;
- Mon, 24 Feb 2020 18:45:46 +0200
+ by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 01OGji9S013647;
+ Mon, 24 Feb 2020 18:45:45 +0200
 From: Max Gurtovoy <maxg@mellanox.com>
 To: linux-nvme@lists.infradead.org, sagi@grimberg.me,
  linux-rdma@vger.kernel.org, kbusch@kernel.org, hch@lst.de,
  martin.petersen@oracle.com
-Subject: [PATCH 12/19] nvmet: Rename nvmet_check_data_len to
- nvmet_check_transfer_len
-Date: Mon, 24 Feb 2020 18:45:37 +0200
-Message-Id: <20200224164544.219438-14-maxg@mellanox.com>
+Subject: [PATCH 06/19] nvme: Introduce NVME_INLINE_PROT_SG_CNT
+Date: Mon, 24 Feb 2020 18:45:31 +0200
+Message-Id: <20200224164544.219438-8-maxg@mellanox.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200224164544.219438-1-maxg@mellanox.com>
 References: <20200224164544.219438-1-maxg@mellanox.com>
 MIME-Version: 1.0
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20200224_084555_958434_71C98077 
+X-CRM114-Status: UNSURE (   7.43  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,272 +80,35 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Israel Rukshin <israelr@mellanox.com>
 
-The function doesn't check only the data length, because the transfer
-length includes also the metadata length in some cases. This is
-preparation for adding metadata (T10-PI) support.
+SGL size of PI metadata is usually small. Thus, 1 inline sg should
+cover most cases. The macro will be used for pre-allocate a single SGL
+entry for protection information. The preallocation of small inline SGLs
+depends on SG_CHAIN capability so if the ARCH doesn't support SG_CHAIN,
+use the runtime allocation for the SGL. This patch is a preparation for
+adding metadata (T10-PI) over fabric support.
 
 Signed-off-by: Israel Rukshin <israelr@mellanox.com>
 Reviewed-by: Max Gurtovoy <maxg@mellanox.com>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
 ---
- drivers/nvme/target/admin-cmd.c   | 14 +++++++-------
- drivers/nvme/target/core.c        |  6 +++---
- drivers/nvme/target/discovery.c   |  8 ++++----
- drivers/nvme/target/fabrics-cmd.c |  8 ++++----
- drivers/nvme/target/io-cmd-bdev.c |  6 +++---
- drivers/nvme/target/io-cmd-file.c |  6 +++---
- drivers/nvme/target/nvmet.h       |  2 +-
- 7 files changed, 25 insertions(+), 25 deletions(-)
+ drivers/nvme/host/nvme.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 19f9495..d446813 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -294,7 +294,7 @@ static void nvmet_execute_get_log_page_ana(struct nvmet_req *req)
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index af8e10a..d0bfa2b 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -30,8 +30,10 @@
  
- static void nvmet_execute_get_log_page(struct nvmet_req *req)
- {
--	if (!nvmet_check_data_len(req, nvmet_get_log_page_len(req->cmd)))
-+	if (!nvmet_check_transfer_len(req, nvmet_get_log_page_len(req->cmd)))
- 		return;
+ #ifdef CONFIG_ARCH_NO_SG_CHAIN
+ #define  NVME_INLINE_SG_CNT  0
++#define  NVME_INLINE_PROT_SG_CNT  0
+ #else
+ #define  NVME_INLINE_SG_CNT  2
++#define  NVME_INLINE_PROT_SG_CNT  1
+ #endif
  
- 	switch (req->cmd->get_log_page.lid) {
-@@ -620,7 +620,7 @@ static void nvmet_execute_identify_desclist(struct nvmet_req *req)
- 
- static void nvmet_execute_identify(struct nvmet_req *req)
- {
--	if (!nvmet_check_data_len(req, NVME_IDENTIFY_DATA_SIZE))
-+	if (!nvmet_check_transfer_len(req, NVME_IDENTIFY_DATA_SIZE))
- 		return;
- 
- 	switch (req->cmd->identify.cns) {
-@@ -649,7 +649,7 @@ static void nvmet_execute_identify(struct nvmet_req *req)
-  */
- static void nvmet_execute_abort(struct nvmet_req *req)
- {
--	if (!nvmet_check_data_len(req, 0))
-+	if (!nvmet_check_transfer_len(req, 0))
- 		return;
- 	nvmet_set_result(req, 1);
- 	nvmet_req_complete(req, 0);
-@@ -735,7 +735,7 @@ static void nvmet_execute_set_features(struct nvmet_req *req)
- 	u32 cdw10 = le32_to_cpu(req->cmd->common.cdw10);
- 	u16 status = 0;
- 
--	if (!nvmet_check_data_len(req, 0))
-+	if (!nvmet_check_transfer_len(req, 0))
- 		return;
- 
- 	switch (cdw10 & 0xff) {
-@@ -801,7 +801,7 @@ static void nvmet_execute_get_features(struct nvmet_req *req)
- 	u32 cdw10 = le32_to_cpu(req->cmd->common.cdw10);
- 	u16 status = 0;
- 
--	if (!nvmet_check_data_len(req, nvmet_feat_data_len(req, cdw10)))
-+	if (!nvmet_check_transfer_len(req, nvmet_feat_data_len(req, cdw10)))
- 		return;
- 
- 	switch (cdw10 & 0xff) {
-@@ -868,7 +868,7 @@ void nvmet_execute_async_event(struct nvmet_req *req)
- {
- 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
- 
--	if (!nvmet_check_data_len(req, 0))
-+	if (!nvmet_check_transfer_len(req, 0))
- 		return;
- 
- 	mutex_lock(&ctrl->lock);
-@@ -887,7 +887,7 @@ void nvmet_execute_keep_alive(struct nvmet_req *req)
- {
- 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
- 
--	if (!nvmet_check_data_len(req, 0))
-+	if (!nvmet_check_transfer_len(req, 0))
- 		return;
- 
- 	pr_debug("ctrl %d update keep-alive timer for %d secs\n",
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 192b9ef..ce29db3 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -940,9 +940,9 @@ void nvmet_req_uninit(struct nvmet_req *req)
- }
- EXPORT_SYMBOL_GPL(nvmet_req_uninit);
- 
--bool nvmet_check_data_len(struct nvmet_req *req, size_t data_len)
-+bool nvmet_check_transfer_len(struct nvmet_req *req, size_t len)
- {
--	if (unlikely(data_len != req->transfer_len)) {
-+	if (unlikely(len != req->transfer_len)) {
- 		req->error_loc = offsetof(struct nvme_common_command, dptr);
- 		nvmet_req_complete(req, NVME_SC_SGL_INVALID_DATA | NVME_SC_DNR);
- 		return false;
-@@ -950,7 +950,7 @@ bool nvmet_check_data_len(struct nvmet_req *req, size_t data_len)
- 
- 	return true;
- }
--EXPORT_SYMBOL_GPL(nvmet_check_data_len);
-+EXPORT_SYMBOL_GPL(nvmet_check_transfer_len);
- 
- bool nvmet_check_data_len_lte(struct nvmet_req *req, size_t data_len)
- {
-diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
-index 0c2274b..40cf0b6 100644
---- a/drivers/nvme/target/discovery.c
-+++ b/drivers/nvme/target/discovery.c
-@@ -171,7 +171,7 @@ static void nvmet_execute_disc_get_log_page(struct nvmet_req *req)
- 	u16 status = 0;
- 	void *buffer;
- 
--	if (!nvmet_check_data_len(req, data_len))
-+	if (!nvmet_check_transfer_len(req, data_len))
- 		return;
- 
- 	if (req->cmd->get_log_page.lid != NVME_LOG_DISC) {
-@@ -244,7 +244,7 @@ static void nvmet_execute_disc_identify(struct nvmet_req *req)
- 	const char model[] = "Linux";
- 	u16 status = 0;
- 
--	if (!nvmet_check_data_len(req, NVME_IDENTIFY_DATA_SIZE))
-+	if (!nvmet_check_transfer_len(req, NVME_IDENTIFY_DATA_SIZE))
- 		return;
- 
- 	if (req->cmd->identify.cns != NVME_ID_CNS_CTRL) {
-@@ -298,7 +298,7 @@ static void nvmet_execute_disc_set_features(struct nvmet_req *req)
- 	u32 cdw10 = le32_to_cpu(req->cmd->common.cdw10);
- 	u16 stat;
- 
--	if (!nvmet_check_data_len(req, 0))
-+	if (!nvmet_check_transfer_len(req, 0))
- 		return;
- 
- 	switch (cdw10 & 0xff) {
-@@ -324,7 +324,7 @@ static void nvmet_execute_disc_get_features(struct nvmet_req *req)
- 	u32 cdw10 = le32_to_cpu(req->cmd->common.cdw10);
- 	u16 stat = 0;
- 
--	if (!nvmet_check_data_len(req, 0))
-+	if (!nvmet_check_transfer_len(req, 0))
- 		return;
- 
- 	switch (cdw10 & 0xff) {
-diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-cmd.c
-index feef15c..52a6f70 100644
---- a/drivers/nvme/target/fabrics-cmd.c
-+++ b/drivers/nvme/target/fabrics-cmd.c
-@@ -12,7 +12,7 @@ static void nvmet_execute_prop_set(struct nvmet_req *req)
- 	u64 val = le64_to_cpu(req->cmd->prop_set.value);
- 	u16 status = 0;
- 
--	if (!nvmet_check_data_len(req, 0))
-+	if (!nvmet_check_transfer_len(req, 0))
- 		return;
- 
- 	if (req->cmd->prop_set.attrib & 1) {
-@@ -41,7 +41,7 @@ static void nvmet_execute_prop_get(struct nvmet_req *req)
- 	u16 status = 0;
- 	u64 val = 0;
- 
--	if (!nvmet_check_data_len(req, 0))
-+	if (!nvmet_check_transfer_len(req, 0))
- 		return;
- 
- 	if (req->cmd->prop_get.attrib & 1) {
-@@ -156,7 +156,7 @@ static void nvmet_execute_admin_connect(struct nvmet_req *req)
- 	struct nvmet_ctrl *ctrl = NULL;
- 	u16 status = 0;
- 
--	if (!nvmet_check_data_len(req, sizeof(struct nvmf_connect_data)))
-+	if (!nvmet_check_transfer_len(req, sizeof(struct nvmf_connect_data)))
- 		return;
- 
- 	d = kmalloc(sizeof(*d), GFP_KERNEL);
-@@ -223,7 +223,7 @@ static void nvmet_execute_io_connect(struct nvmet_req *req)
- 	u16 qid = le16_to_cpu(c->qid);
- 	u16 status = 0;
- 
--	if (!nvmet_check_data_len(req, sizeof(struct nvmf_connect_data)))
-+	if (!nvmet_check_transfer_len(req, sizeof(struct nvmf_connect_data)))
- 		return;
- 
- 	d = kmalloc(sizeof(*d), GFP_KERNEL);
-diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
-index c0337d0..6e74fdf 100644
---- a/drivers/nvme/target/io-cmd-bdev.c
-+++ b/drivers/nvme/target/io-cmd-bdev.c
-@@ -173,7 +173,7 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
- 	sector_t sector;
- 	int op, i;
- 
--	if (!nvmet_check_data_len(req, nvmet_rw_data_len(req)))
-+	if (!nvmet_check_transfer_len(req, nvmet_rw_data_len(req)))
- 		return;
- 
- 	if (!req->sg_cnt) {
-@@ -234,7 +234,7 @@ static void nvmet_bdev_execute_flush(struct nvmet_req *req)
- {
- 	struct bio *bio = &req->b.inline_bio;
- 
--	if (!nvmet_check_data_len(req, 0))
-+	if (!nvmet_check_transfer_len(req, 0))
- 		return;
- 
- 	bio_init(bio, req->inline_bvec, ARRAY_SIZE(req->inline_bvec));
-@@ -326,7 +326,7 @@ static void nvmet_bdev_execute_write_zeroes(struct nvmet_req *req)
- 	sector_t nr_sector;
- 	int ret;
- 
--	if (!nvmet_check_data_len(req, 0))
-+	if (!nvmet_check_transfer_len(req, 0))
- 		return;
- 
- 	sector = le64_to_cpu(write_zeroes->slba) <<
-diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
-index ffbba88..6b098df 100644
---- a/drivers/nvme/target/io-cmd-file.c
-+++ b/drivers/nvme/target/io-cmd-file.c
-@@ -232,7 +232,7 @@ static void nvmet_file_execute_rw(struct nvmet_req *req)
- {
- 	ssize_t nr_bvec = req->sg_cnt;
- 
--	if (!nvmet_check_data_len(req, nvmet_rw_data_len(req)))
-+	if (!nvmet_check_transfer_len(req, nvmet_rw_data_len(req)))
- 		return;
- 
- 	if (!req->sg_cnt || !nr_bvec) {
-@@ -276,7 +276,7 @@ static void nvmet_file_flush_work(struct work_struct *w)
- 
- static void nvmet_file_execute_flush(struct nvmet_req *req)
- {
--	if (!nvmet_check_data_len(req, 0))
-+	if (!nvmet_check_transfer_len(req, 0))
- 		return;
- 	INIT_WORK(&req->f.work, nvmet_file_flush_work);
- 	schedule_work(&req->f.work);
-@@ -366,7 +366,7 @@ static void nvmet_file_write_zeroes_work(struct work_struct *w)
- 
- static void nvmet_file_execute_write_zeroes(struct nvmet_req *req)
- {
--	if (!nvmet_check_data_len(req, 0))
-+	if (!nvmet_check_transfer_len(req, 0))
- 		return;
- 	INIT_WORK(&req->f.work, nvmet_file_write_zeroes_work);
- 	schedule_work(&req->f.work);
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 846d1de..d2273c7 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -391,7 +391,7 @@ static inline bool nvmet_aen_bit_disabled(struct nvmet_ctrl *ctrl, u32 bn)
- bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
- 		struct nvmet_sq *sq, const struct nvmet_fabrics_ops *ops);
- void nvmet_req_uninit(struct nvmet_req *req);
--bool nvmet_check_data_len(struct nvmet_req *req, size_t data_len);
-+bool nvmet_check_transfer_len(struct nvmet_req *req, size_t len);
- bool nvmet_check_data_len_lte(struct nvmet_req *req, size_t data_len);
- void nvmet_req_complete(struct nvmet_req *req, u16 status);
- int nvmet_req_alloc_sgl(struct nvmet_req *req);
+ extern struct workqueue_struct *nvme_wq;
 -- 
 1.8.3.1
 
