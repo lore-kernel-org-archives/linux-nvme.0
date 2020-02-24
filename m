@@ -7,16 +7,17 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 998EAC11D2F
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2020 16:49:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9E6DC11D2F
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2020 16:50:04 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6C4B220637
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2020 16:49:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B5C6A20637
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2020 16:50:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="kYBrUClq"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6C4B220637
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="nqK/W2zd";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="wemBRgmY"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B5C6A20637
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,40 +26,52 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=RkIXB6ur7VEK6qjUN51Qu41fQV6DsdnqiTfbstcC4p4=; b=kYBrUClqsuaZdI
-	cOFPXHZTgaBzUcL0Lrk0PGshSl7yzO7lAzpmLJDDIPbmBGr4s3FyUcwGoGfxQ95CfaS+l7KJ9wX6V
-	sRTwTarcX1U275MCqISW68MW6ivASm0uVzz6dDC22qlE9q5IarKDKTKX6ihO+jVATOupHaZ8HRu58
-	+cjhUwrBQui8821gQsXKV6VTOVwabO+TMRfr4OWve5tBrctxkXpGrW7CZAhoYz4QMDbcUqRMSDj67
-	DwQTeSjdzbGTGkmDIXJTW4v3MUEdis+josfLdzoWPw4CorLuFeahKZOQS//b1DxGhR8D35vNB9/B4
-	cH+75xTyThhLxYDRLIxQ==;
+	List-Owner; bh=hyNsw87/qhseO6MGdFWpz8KwniJTSpw0UTjxzJ9HOQY=; b=nqK/W2zd4SNBpa
+	UHx3iK2/FOVQrYffZbF6YdF8owV0tFCJBGTwYQ0sEg4HAUrRvCKNLVxydKe7VA7GfGi6x1ArCJX9L
+	AvuJANcNbT7yjbUdN2B9ff1I0fJJRS1EpMyrg7NVAahOC4Pj6NfHHUaFwJnFOF7NMfqX1FEnlTKxH
+	DrOO0i9fWnyxvRluqPAAO6lqiBwWY1Swte2SLrI/l6m+eVwotJd6jyZ4qbFJJl84V+kjWuuutkp6S
+	zgVqQS09TnGjcgxej9LtEnBdLLQI79l9XZZip/Au/UxgZyFgZc9fjcVc9mFuJhaTufm3xhby9BCCN
+	lrvZIVFe3jak2WoumOpw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j6GvO-0004JU-Dg; Mon, 24 Feb 2020 16:49:42 +0000
+	id 1j6Gvf-0004bQ-Ev; Mon, 24 Feb 2020 16:49:59 +0000
+Received: from merlin.infradead.org ([205.233.59.134])
+ by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1j6Grp-0001N3-79
+ for linux-nvme@bombadil.infradead.org; Mon, 24 Feb 2020 16:46:01 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:MIME-Version:
+ References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-Type:Content-ID:Content-Description;
+ bh=yVRnZj3xe4MwFR3lsOKsGSK/hpdhLjxFlZ2NryNq75Y=; b=wemBRgmYHpuulvLgkwPfzqF3F0
+ TJLG8tl21aeJZmB7FRnzvhlTOVxM8GwWhILtBfvrxGfCrDypb6Yv+56JzYsRrVx7FAVvu8Id6wh/k
+ 9oF3HvlrY/s+I5A1XteQc5abfVBqx45wUHpPEIulMRpsBodYBHzpuJdOIIMXaFPXSbegZvTR6Y1jM
+ zP87JjAuxAwMN7tmeY6TUp+ZMUCC9uxN5Fr8GHh6FREjLaCizun/hsYeC2lN4NliM5+95snBgTcR9
+ JMcVHsHirNGdgHCDvVNkhJvVLGqIwlAriuIxiuGLA1czbafHBMUhzbI0GrABZRQtlavFvv4yYksMg
+ g1TkOVeQ==;
 Received: from mail-il-dmz.mellanox.com ([193.47.165.129] helo=mellanox.co.il)
- by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j6Grj-0001E4-43
- for linux-nvme@lists.infradead.org; Mon, 24 Feb 2020 16:46:01 +0000
-Received: from Internal Mail-Server by MTLPINE2 (envelope-from
+ by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1j6Grl-0002Eb-6o
+ for linux-nvme@lists.infradead.org; Mon, 24 Feb 2020 16:46:00 +0000
+Received: from Internal Mail-Server by MTLPINE1 (envelope-from
  maxg@mellanox.com)
- with ESMTPS (AES256-SHA encrypted); 24 Feb 2020 18:45:47 +0200
+ with ESMTPS (AES256-SHA encrypted); 24 Feb 2020 18:45:46 +0200
 Received: from mtr-vdi-031.wap.labs.mlnx. (mtr-vdi-031.wap.labs.mlnx
  [10.209.102.136])
- by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 01OGji9b013647;
+ by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 01OGji9Y013647;
  Mon, 24 Feb 2020 18:45:46 +0200
 From: Max Gurtovoy <maxg@mellanox.com>
 To: linux-nvme@lists.infradead.org, sagi@grimberg.me,
  linux-rdma@vger.kernel.org, kbusch@kernel.org, hch@lst.de,
  martin.petersen@oracle.com
-Subject: [PATCH 15/19] nvmet: Add metadata/T10-PI support
-Date: Mon, 24 Feb 2020 18:45:40 +0200
-Message-Id: <20200224164544.219438-17-maxg@mellanox.com>
+Subject: [PATCH 12/19] nvmet: Rename nvmet_check_data_len to
+ nvmet_check_transfer_len
+Date: Mon, 24 Feb 2020 18:45:37 +0200
+Message-Id: <20200224164544.219438-14-maxg@mellanox.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200224164544.219438-1-maxg@mellanox.com>
 References: <20200224164544.219438-1-maxg@mellanox.com>
 MIME-Version: 1.0
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200224_084555_588697_DF7529B6 
-X-CRM114-Status: GOOD (  13.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,241 +92,272 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Israel Rukshin <israelr@mellanox.com>
 
-Expose the namespace metadata format when PI is enabled. The user needs
-to enable the capability per subsystem and per port. The other metadata
-properties are taken from the namespace/bdev.
-
-Usage example:
-echo 1 > /config/nvmet/subsystems/${NAME}/attr_pi_enable
-echo 1 > /config/nvmet/ports/${PORT_NUM}/param_pi_enable
+The function doesn't check only the data length, because the transfer
+length includes also the metadata length in some cases. This is
+preparation for adding metadata (T10-PI) support.
 
 Signed-off-by: Israel Rukshin <israelr@mellanox.com>
 Reviewed-by: Max Gurtovoy <maxg@mellanox.com>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
 ---
- drivers/nvme/target/admin-cmd.c   | 19 ++++++++++--
- drivers/nvme/target/configfs.c    | 61 +++++++++++++++++++++++++++++++++++++++
- drivers/nvme/target/fabrics-cmd.c | 11 +++++++
- drivers/nvme/target/nvmet.h       | 26 +++++++++++++++++
- 4 files changed, 115 insertions(+), 2 deletions(-)
+ drivers/nvme/target/admin-cmd.c   | 14 +++++++-------
+ drivers/nvme/target/core.c        |  6 +++---
+ drivers/nvme/target/discovery.c   |  8 ++++----
+ drivers/nvme/target/fabrics-cmd.c |  8 ++++----
+ drivers/nvme/target/io-cmd-bdev.c |  6 +++---
+ drivers/nvme/target/io-cmd-file.c |  6 +++---
+ drivers/nvme/target/nvmet.h       |  2 +-
+ 7 files changed, 25 insertions(+), 25 deletions(-)
 
 diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index c4ad0dd..ebb6873 100644
+index 19f9495..d446813 100644
 --- a/drivers/nvme/target/admin-cmd.c
 +++ b/drivers/nvme/target/admin-cmd.c
-@@ -432,9 +432,13 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
+@@ -294,7 +294,7 @@ static void nvmet_execute_get_log_page_ana(struct nvmet_req *req)
  
- 	strlcpy(id->subnqn, ctrl->subsys->subsysnqn, sizeof(id->subnqn));
- 
--	/* Max command capsule size is sqe + single page of in-capsule data */
-+	/*
-+	 * Max command capsule size is sqe + single page of in-capsule data.
-+	 * Disable inline data for Metadata capable controllers.
-+	 */
- 	id->ioccsz = cpu_to_le32((sizeof(struct nvme_command) +
--				  req->port->inline_data_size) / 16);
-+				  req->port->inline_data_size *
-+				  !ctrl->pi_support) / 16);
- 	/* Max response capsule size is cqe */
- 	id->iorcsz = cpu_to_le32(sizeof(struct nvme_completion) / 16);
- 
-@@ -464,6 +468,7 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
- 
- static void nvmet_execute_identify_ns(struct nvmet_req *req)
+ static void nvmet_execute_get_log_page(struct nvmet_req *req)
  {
-+	struct nvmet_ctrl *ctrl = req->sq->ctrl;
- 	struct nvmet_ns *ns;
- 	struct nvme_id_ns *id;
+-	if (!nvmet_check_data_len(req, nvmet_get_log_page_len(req->cmd)))
++	if (!nvmet_check_transfer_len(req, nvmet_get_log_page_len(req->cmd)))
+ 		return;
+ 
+ 	switch (req->cmd->get_log_page.lid) {
+@@ -620,7 +620,7 @@ static void nvmet_execute_identify_desclist(struct nvmet_req *req)
+ 
+ static void nvmet_execute_identify(struct nvmet_req *req)
+ {
+-	if (!nvmet_check_data_len(req, NVME_IDENTIFY_DATA_SIZE))
++	if (!nvmet_check_transfer_len(req, NVME_IDENTIFY_DATA_SIZE))
+ 		return;
+ 
+ 	switch (req->cmd->identify.cns) {
+@@ -649,7 +649,7 @@ static void nvmet_execute_identify(struct nvmet_req *req)
+  */
+ static void nvmet_execute_abort(struct nvmet_req *req)
+ {
+-	if (!nvmet_check_data_len(req, 0))
++	if (!nvmet_check_transfer_len(req, 0))
+ 		return;
+ 	nvmet_set_result(req, 1);
+ 	nvmet_req_complete(req, 0);
+@@ -735,7 +735,7 @@ static void nvmet_execute_set_features(struct nvmet_req *req)
+ 	u32 cdw10 = le32_to_cpu(req->cmd->common.cdw10);
  	u16 status = 0;
-@@ -520,6 +525,16 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
  
- 	id->lbaf[0].ds = ns->blksize_shift;
+-	if (!nvmet_check_data_len(req, 0))
++	if (!nvmet_check_transfer_len(req, 0))
+ 		return;
  
-+	if (ctrl->pi_support && nvmet_ns_has_pi(ns)) {
-+		id->dpc = NVME_NS_DPC_PI_FIRST | NVME_NS_DPC_PI_LAST |
-+			  NVME_NS_DPC_PI_TYPE1 | NVME_NS_DPC_PI_TYPE2 |
-+			  NVME_NS_DPC_PI_TYPE3;
-+		id->mc = NVME_NS_MC_META_EXT;
-+		id->dps = ns->prot_type;
-+		id->flbas = NVME_NS_FLBAS_META_EXT;
-+		id->lbaf[0].ms = ns->ms;
-+	}
-+
- 	if (ns->readonly)
- 		id->nsattr |= (1 << 0);
- 	nvmet_put_namespace(ns);
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index 7aa1078..19bf240 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -248,6 +248,36 @@ static ssize_t nvmet_param_inline_data_size_store(struct config_item *item,
+ 	switch (cdw10 & 0xff) {
+@@ -801,7 +801,7 @@ static void nvmet_execute_get_features(struct nvmet_req *req)
+ 	u32 cdw10 = le32_to_cpu(req->cmd->common.cdw10);
+ 	u16 status = 0;
  
- CONFIGFS_ATTR(nvmet_, param_inline_data_size);
+-	if (!nvmet_check_data_len(req, nvmet_feat_data_len(req, cdw10)))
++	if (!nvmet_check_transfer_len(req, nvmet_feat_data_len(req, cdw10)))
+ 		return;
  
-+#ifdef CONFIG_BLK_DEV_INTEGRITY
-+static ssize_t nvmet_param_pi_enable_show(struct config_item *item,
-+		char *page)
-+{
-+	struct nvmet_port *port = to_nvmet_port(item);
-+
-+	return snprintf(page, PAGE_SIZE, "%d\n", port->pi_enable);
-+}
-+
-+static ssize_t nvmet_param_pi_enable_store(struct config_item *item,
-+		const char *page, size_t count)
-+{
-+	struct nvmet_port *port = to_nvmet_port(item);
-+	bool val;
-+
-+	if (strtobool(page, &val))
-+		return -EINVAL;
-+
-+	if (port->enabled) {
-+		pr_err("Disable port before setting pi_enable value.\n");
-+		return -EACCES;
-+	}
-+
-+	port->pi_enable = val;
-+	return count;
-+}
-+
-+CONFIGFS_ATTR(nvmet_, param_pi_enable);
-+#endif
-+
- static ssize_t nvmet_addr_trtype_show(struct config_item *item,
- 		char *page)
+ 	switch (cdw10 & 0xff) {
+@@ -868,7 +868,7 @@ void nvmet_execute_async_event(struct nvmet_req *req)
  {
-@@ -987,6 +1017,31 @@ static ssize_t nvmet_subsys_attr_model_store(struct config_item *item,
+ 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
+ 
+-	if (!nvmet_check_data_len(req, 0))
++	if (!nvmet_check_transfer_len(req, 0))
+ 		return;
+ 
+ 	mutex_lock(&ctrl->lock);
+@@ -887,7 +887,7 @@ void nvmet_execute_keep_alive(struct nvmet_req *req)
+ {
+ 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
+ 
+-	if (!nvmet_check_data_len(req, 0))
++	if (!nvmet_check_transfer_len(req, 0))
+ 		return;
+ 
+ 	pr_debug("ctrl %d update keep-alive timer for %d secs\n",
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 192b9ef..ce29db3 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -940,9 +940,9 @@ void nvmet_req_uninit(struct nvmet_req *req)
  }
- CONFIGFS_ATTR(nvmet_subsys_, attr_model);
+ EXPORT_SYMBOL_GPL(nvmet_req_uninit);
  
-+#ifdef CONFIG_BLK_DEV_INTEGRITY
-+static ssize_t nvmet_subsys_attr_pi_enable_show(struct config_item *item,
-+						char *page)
-+{
-+	return snprintf(page, PAGE_SIZE, "%d\n", to_subsys(item)->pi_support);
-+}
-+
-+static ssize_t nvmet_subsys_attr_pi_enable_store(struct config_item *item,
-+						 const char *page, size_t count)
-+{
-+	struct nvmet_subsys *subsys = to_subsys(item);
-+	bool pi_enable;
-+
-+	if (strtobool(page, &pi_enable))
-+		return -EINVAL;
-+
-+	down_write(&nvmet_config_sem);
-+	subsys->pi_support = pi_enable;
-+	up_write(&nvmet_config_sem);
-+
-+	return count;
-+}
-+CONFIGFS_ATTR(nvmet_subsys_, attr_pi_enable);
-+#endif
-+
- static struct configfs_attribute *nvmet_subsys_attrs[] = {
- 	&nvmet_subsys_attr_attr_allow_any_host,
- 	&nvmet_subsys_attr_attr_version,
-@@ -994,6 +1049,9 @@ static ssize_t nvmet_subsys_attr_model_store(struct config_item *item,
- 	&nvmet_subsys_attr_attr_cntlid_min,
- 	&nvmet_subsys_attr_attr_cntlid_max,
- 	&nvmet_subsys_attr_attr_model,
-+#ifdef CONFIG_BLK_DEV_INTEGRITY
-+	&nvmet_subsys_attr_attr_pi_enable,
-+#endif
- 	NULL,
- };
+-bool nvmet_check_data_len(struct nvmet_req *req, size_t data_len)
++bool nvmet_check_transfer_len(struct nvmet_req *req, size_t len)
+ {
+-	if (unlikely(data_len != req->transfer_len)) {
++	if (unlikely(len != req->transfer_len)) {
+ 		req->error_loc = offsetof(struct nvme_common_command, dptr);
+ 		nvmet_req_complete(req, NVME_SC_SGL_INVALID_DATA | NVME_SC_DNR);
+ 		return false;
+@@ -950,7 +950,7 @@ bool nvmet_check_data_len(struct nvmet_req *req, size_t data_len)
  
-@@ -1289,6 +1347,9 @@ static void nvmet_port_release(struct config_item *item)
- 	&nvmet_attr_addr_trsvcid,
- 	&nvmet_attr_addr_trtype,
- 	&nvmet_attr_param_inline_data_size,
-+#ifdef CONFIG_BLK_DEV_INTEGRITY
-+	&nvmet_attr_param_pi_enable,
-+#endif
- 	NULL,
- };
+ 	return true;
+ }
+-EXPORT_SYMBOL_GPL(nvmet_check_data_len);
++EXPORT_SYMBOL_GPL(nvmet_check_transfer_len);
  
+ bool nvmet_check_data_len_lte(struct nvmet_req *req, size_t data_len)
+ {
+diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
+index 0c2274b..40cf0b6 100644
+--- a/drivers/nvme/target/discovery.c
++++ b/drivers/nvme/target/discovery.c
+@@ -171,7 +171,7 @@ static void nvmet_execute_disc_get_log_page(struct nvmet_req *req)
+ 	u16 status = 0;
+ 	void *buffer;
+ 
+-	if (!nvmet_check_data_len(req, data_len))
++	if (!nvmet_check_transfer_len(req, data_len))
+ 		return;
+ 
+ 	if (req->cmd->get_log_page.lid != NVME_LOG_DISC) {
+@@ -244,7 +244,7 @@ static void nvmet_execute_disc_identify(struct nvmet_req *req)
+ 	const char model[] = "Linux";
+ 	u16 status = 0;
+ 
+-	if (!nvmet_check_data_len(req, NVME_IDENTIFY_DATA_SIZE))
++	if (!nvmet_check_transfer_len(req, NVME_IDENTIFY_DATA_SIZE))
+ 		return;
+ 
+ 	if (req->cmd->identify.cns != NVME_ID_CNS_CTRL) {
+@@ -298,7 +298,7 @@ static void nvmet_execute_disc_set_features(struct nvmet_req *req)
+ 	u32 cdw10 = le32_to_cpu(req->cmd->common.cdw10);
+ 	u16 stat;
+ 
+-	if (!nvmet_check_data_len(req, 0))
++	if (!nvmet_check_transfer_len(req, 0))
+ 		return;
+ 
+ 	switch (cdw10 & 0xff) {
+@@ -324,7 +324,7 @@ static void nvmet_execute_disc_get_features(struct nvmet_req *req)
+ 	u32 cdw10 = le32_to_cpu(req->cmd->common.cdw10);
+ 	u16 stat = 0;
+ 
+-	if (!nvmet_check_data_len(req, 0))
++	if (!nvmet_check_transfer_len(req, 0))
+ 		return;
+ 
+ 	switch (cdw10 & 0xff) {
 diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-cmd.c
-index 52a6f70..799de18 100644
+index feef15c..52a6f70 100644
 --- a/drivers/nvme/target/fabrics-cmd.c
 +++ b/drivers/nvme/target/fabrics-cmd.c
-@@ -197,6 +197,17 @@ static void nvmet_execute_admin_connect(struct nvmet_req *req)
- 		goto out;
- 	}
+@@ -12,7 +12,7 @@ static void nvmet_execute_prop_set(struct nvmet_req *req)
+ 	u64 val = le64_to_cpu(req->cmd->prop_set.value);
+ 	u16 status = 0;
  
-+	if (ctrl->subsys->pi_support && ctrl->port->pi_enable) {
-+		if (ctrl->port->pi_capable) {
-+			ctrl->pi_support = true;
-+			pr_info("controller %d T10-PI enabled\n", ctrl->cntlid);
-+		} else {
-+			ctrl->pi_support = false;
-+			pr_warn("T10-PI is not supported on controller %d\n",
-+				ctrl->cntlid);
-+		}
-+	}
-+
- 	uuid_copy(&ctrl->hostid, &d->hostid);
+-	if (!nvmet_check_data_len(req, 0))
++	if (!nvmet_check_transfer_len(req, 0))
+ 		return;
  
- 	status = nvmet_install_queue(ctrl, req);
+ 	if (req->cmd->prop_set.attrib & 1) {
+@@ -41,7 +41,7 @@ static void nvmet_execute_prop_get(struct nvmet_req *req)
+ 	u16 status = 0;
+ 	u64 val = 0;
+ 
+-	if (!nvmet_check_data_len(req, 0))
++	if (!nvmet_check_transfer_len(req, 0))
+ 		return;
+ 
+ 	if (req->cmd->prop_get.attrib & 1) {
+@@ -156,7 +156,7 @@ static void nvmet_execute_admin_connect(struct nvmet_req *req)
+ 	struct nvmet_ctrl *ctrl = NULL;
+ 	u16 status = 0;
+ 
+-	if (!nvmet_check_data_len(req, sizeof(struct nvmf_connect_data)))
++	if (!nvmet_check_transfer_len(req, sizeof(struct nvmf_connect_data)))
+ 		return;
+ 
+ 	d = kmalloc(sizeof(*d), GFP_KERNEL);
+@@ -223,7 +223,7 @@ static void nvmet_execute_io_connect(struct nvmet_req *req)
+ 	u16 qid = le16_to_cpu(c->qid);
+ 	u16 status = 0;
+ 
+-	if (!nvmet_check_data_len(req, sizeof(struct nvmf_connect_data)))
++	if (!nvmet_check_transfer_len(req, sizeof(struct nvmf_connect_data)))
+ 		return;
+ 
+ 	d = kmalloc(sizeof(*d), GFP_KERNEL);
+diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+index c0337d0..6e74fdf 100644
+--- a/drivers/nvme/target/io-cmd-bdev.c
++++ b/drivers/nvme/target/io-cmd-bdev.c
+@@ -173,7 +173,7 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
+ 	sector_t sector;
+ 	int op, i;
+ 
+-	if (!nvmet_check_data_len(req, nvmet_rw_data_len(req)))
++	if (!nvmet_check_transfer_len(req, nvmet_rw_data_len(req)))
+ 		return;
+ 
+ 	if (!req->sg_cnt) {
+@@ -234,7 +234,7 @@ static void nvmet_bdev_execute_flush(struct nvmet_req *req)
+ {
+ 	struct bio *bio = &req->b.inline_bio;
+ 
+-	if (!nvmet_check_data_len(req, 0))
++	if (!nvmet_check_transfer_len(req, 0))
+ 		return;
+ 
+ 	bio_init(bio, req->inline_bvec, ARRAY_SIZE(req->inline_bvec));
+@@ -326,7 +326,7 @@ static void nvmet_bdev_execute_write_zeroes(struct nvmet_req *req)
+ 	sector_t nr_sector;
+ 	int ret;
+ 
+-	if (!nvmet_check_data_len(req, 0))
++	if (!nvmet_check_transfer_len(req, 0))
+ 		return;
+ 
+ 	sector = le64_to_cpu(write_zeroes->slba) <<
+diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
+index ffbba88..6b098df 100644
+--- a/drivers/nvme/target/io-cmd-file.c
++++ b/drivers/nvme/target/io-cmd-file.c
+@@ -232,7 +232,7 @@ static void nvmet_file_execute_rw(struct nvmet_req *req)
+ {
+ 	ssize_t nr_bvec = req->sg_cnt;
+ 
+-	if (!nvmet_check_data_len(req, nvmet_rw_data_len(req)))
++	if (!nvmet_check_transfer_len(req, nvmet_rw_data_len(req)))
+ 		return;
+ 
+ 	if (!req->sg_cnt || !nr_bvec) {
+@@ -276,7 +276,7 @@ static void nvmet_file_flush_work(struct work_struct *w)
+ 
+ static void nvmet_file_execute_flush(struct nvmet_req *req)
+ {
+-	if (!nvmet_check_data_len(req, 0))
++	if (!nvmet_check_transfer_len(req, 0))
+ 		return;
+ 	INIT_WORK(&req->f.work, nvmet_file_flush_work);
+ 	schedule_work(&req->f.work);
+@@ -366,7 +366,7 @@ static void nvmet_file_write_zeroes_work(struct work_struct *w)
+ 
+ static void nvmet_file_execute_write_zeroes(struct nvmet_req *req)
+ {
+-	if (!nvmet_check_data_len(req, 0))
++	if (!nvmet_check_transfer_len(req, 0))
+ 		return;
+ 	INIT_WORK(&req->f.work, nvmet_file_write_zeroes_work);
+ 	schedule_work(&req->f.work);
 diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index ff34d7a..ef231fd 100644
+index 846d1de..d2273c7 100644
 --- a/drivers/nvme/target/nvmet.h
 +++ b/drivers/nvme/target/nvmet.h
-@@ -145,6 +145,8 @@ struct nvmet_port {
- 	bool				enabled;
- 	int				inline_data_size;
- 	const struct nvmet_fabrics_ops	*tr_ops;
-+	bool				pi_capable;
-+	bool				pi_enable;
- };
- 
- static inline struct nvmet_port *to_nvmet_port(struct config_item *item)
-@@ -204,6 +206,7 @@ struct nvmet_ctrl {
- 	spinlock_t		error_lock;
- 	u64			err_counter;
- 	struct nvme_error_slot	slots[NVMET_ERROR_LOG_SLOTS];
-+	bool			pi_support;
- };
- 
- struct nvmet_subsys_model {
-@@ -233,6 +236,7 @@ struct nvmet_subsys {
- 	u64			ver;
- 	u64			serial;
- 	char			*subsysnqn;
-+	bool			pi_support;
- 
- 	struct config_group	group;
- 
-@@ -513,6 +517,28 @@ static inline u32 nvmet_rw_data_len(struct nvmet_req *req)
- 			req->ns->blksize_shift;
- }
- 
-+#ifdef CONFIG_BLK_DEV_INTEGRITY
-+static inline u32 nvmet_rw_prot_len(struct nvmet_req *req)
-+{
-+	return ((u32)le16_to_cpu(req->cmd->rw.length) + 1) * req->ns->ms;
-+}
-+
-+static inline bool nvmet_ns_has_pi(struct nvmet_ns *ns)
-+{
-+	return ns->prot_type && ns->ms == sizeof(struct t10_pi_tuple);
-+}
-+#else
-+static inline u32 nvmet_rw_prot_len(struct nvmet_req *req)
-+{
-+	return 0;
-+}
-+
-+static inline bool nvmet_ns_has_pi(struct nvmet_ns *ns)
-+{
-+	return false;
-+}
-+#endif /* CONFIG_BLK_DEV_INTEGRITY */
-+
- static inline u32 nvmet_dsm_len(struct nvmet_req *req)
- {
- 	return (le32_to_cpu(req->cmd->dsm.nr) + 1) *
+@@ -391,7 +391,7 @@ static inline bool nvmet_aen_bit_disabled(struct nvmet_ctrl *ctrl, u32 bn)
+ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
+ 		struct nvmet_sq *sq, const struct nvmet_fabrics_ops *ops);
+ void nvmet_req_uninit(struct nvmet_req *req);
+-bool nvmet_check_data_len(struct nvmet_req *req, size_t data_len);
++bool nvmet_check_transfer_len(struct nvmet_req *req, size_t len);
+ bool nvmet_check_data_len_lte(struct nvmet_req *req, size_t data_len);
+ void nvmet_req_complete(struct nvmet_req *req, u16 status);
+ int nvmet_req_alloc_sgl(struct nvmet_req *req);
 -- 
 1.8.3.1
 
