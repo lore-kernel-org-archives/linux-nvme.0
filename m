@@ -2,138 +2,61 @@ Return-Path: <SRS0=1xwY=4M=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07CAFC3567B
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2020 10:55:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C6D6C35671
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2020 14:09:43 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CE3052080D
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2020 10:55:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id DC9A12072D
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2020 14:09:42 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="m0eTy/TN";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="LOVcDR4d";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="NglzPWXa"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CE3052080D
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ERxmzr2c"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DC9A12072D
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date
-	:Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:Cc:
+	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
+	MIME-Version:Date:Message-ID:Subject:From:To:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	List-Owner; bh=lzFZjVyU/oQVc2Y9mIvxPO/rubhgXJdKO4M0z3Vbwp0=; b=m0eTy/TNlHIXQ2
-	d4xFrocZrJo0xAXVJMb8nIv+GwBXpsPJSYvzQlX9H1ywIJwWxYlKF7kQtS0SA5im4D7BwHDgUUqI4
-	2+DyUlfvCnqItNspy5UpVS42k5hVJNAQhGqxjCSpBzYYOzsNhExsX5gHvKL5SJBcsHjGQNCvl2Vap
-	HsJGhkqrXn8/aR2zbjaMt2DZzwawAA0o8VQ1lYB3x6nTn9FN0I50rSgaJXz/wLGvhoTk6IOiNgDSf
-	fSbtMME5HaVfigVenIhRbL3T8CJ5z9j9+biUcxvsW+YiAEaXP+dfMSoh0JxsdkyN9UaHc1j9jtQaz
-	YPz+m5LHJB7r1mVDZ8SQ==;
+	References:List-Owner; bh=C6hZPWaMCwti5nCDwbzFYd7ONDo7h5PCYjcS8aoZOKU=; b=ERx
+	mzr2c+3/1n4O0Kg3BsEFmwxbsUOkwN/u0L3M3He9ge42nB62nIPpkMtE2FJ+Eb13cTLJ6IWq/xXzJ
+	w7C4L5v0XpYzO7Sf48mhPwaG1ZqV5ZgjIYYD/+LbtwJWwjTX9bEjowoS4E4b3Y5+TrEjPOrOAqneu
+	GSJoHMDzJI0NNwH5agOWuOQZ0tv/PK9sBBrWtW79QURRgHq14rL9iihj1B5VNpkJzcXIKYa6OklRW
+	0Cgkv9mfRZo+B8O/UGwKNIiZqxcc6pCHUulyO824iOlLNJllkOPu+uWVazCp7n3+JqpqWAYklflN0
+	bP04U+gs+oDxyA5bZrClgBiUARlg59Q==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j6BOb-00079Q-25; Mon, 24 Feb 2020 10:55:29 +0000
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
+	id 1j6EQU-0004rS-Pp; Mon, 24 Feb 2020 14:09:38 +0000
+Received: from mx3.molgen.mpg.de ([141.14.17.11] helo=mx1.molgen.mpg.de)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j6BOV-00077F-Ab
- for linux-nvme@lists.infradead.org; Mon, 24 Feb 2020 10:55:27 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1582541723; x=1614077723;
- h=from:to:cc:subject:date:message-id:references:
- content-transfer-encoding:mime-version;
- bh=nC1a6/cSIvtdc/gsHBTB7x7DDExnR9oMUOhcGr54Ncg=;
- b=LOVcDR4dleTTPAE7obuTs4g4ZJb0DmPVCIx9EtJasvITNSgtbx5voBjo
- 3yZ3oHY28TgZIIB+8X2o61xlPKhSu4INHwqtUPe/qTayW9ZXBnGhlJkpk
- g3edvL4iB6GjIvXGmjNET9aMWLZqAnsBX1yF+Ko7WIOSy+WWu6+tO1Xpi
- 2OF4iF1mKJts6iLU+4t+d4A1VUp1IDazf84AN8HZu/gPnY3AHy/8XiGRR
- Uj2eUGoi+GPqVk3QavxcuFaSoLLqL68k8+O2geDP8krbbr/LeFGFyT0yH
- G/MoL4GvQpnhxRBLBwbKTmK0diCe7iXuEl64FKGnLsfso0hFN107nyZKD g==;
-IronPort-SDR: CbT2iZ/FiSZ1ez9QrDY2apkD2kx4XvEHckGYK0hjBJQBCZ/JqeN24QQbWVhnyQgQwp62NJGfvF
- jWbmQ3v5AWRQP/nx2X6Cg31KCE56f96zZFgumjmzlfdhPdBjxFfG3YXBr3NsT0Jb5tz7MqQoXT
- fyTYjyPbHgMvCAxvgwRfSGNUg+SaTDhdRCmdFuRMIAmbZMoOXnfJCkPGtQkZSbGVJAYiZuH6i+
- P2rZS3gr8LyoJjNKau5e6GmkcdWDca8lzmv2Sr59ZGuHUhDKbbtKmcidknjhywnzD5NO5KwKCj
- DXQ=
-X-IronPort-AV: E=Sophos;i="5.70,479,1574092800"; d="scan'208";a="238708632"
-Received: from mail-dm6nam11lp2174.outbound.protection.outlook.com (HELO
- NAM11-DM6-obe.outbound.protection.outlook.com) ([104.47.57.174])
- by ob1.hgst.iphmx.com with ESMTP; 24 Feb 2020 18:55:12 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oZg3noPuFkZoGgyN7eZp3zqj1BdAI5MDla8CxvVXClDSdbHg0eFUVgV95R9HSrCJsb9XsSfBfv3pL4nzwH3F+aQvP51FxVuAbe+HPQFacvjujHXtlT/WR5RL6+LmnB/2AXmkpYt5J9ETLt7hnaalBgLZSyz+W6Fw9zQGyQETsFm1pYF1LMtFzc69bz3QstR6Mh0XimQaf8mc6JRSaUneosAPovGugCUvFgCDlH5umFSaiGKK2Ch9mGk1aTNxdx65viVLIHjxj7kBDCWnLZf0YpbKy/RJTiPZxU7aRi6NSMqw6cMnXqbxISvH8MTUcERyO6fDJrK6WFkjfRQRvpMPTg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nC1a6/cSIvtdc/gsHBTB7x7DDExnR9oMUOhcGr54Ncg=;
- b=MCtcgcqKDt+ZrcFTwPBRlCk8XjK14g2+8BSf8XzOYlHFCDALFqGcVVpR6LEJyb1KrtPA71UxukBzh0sVvrosgyeSWeiDh/+OSikvBCJ0zdg7WG/Wdqjke/Lqklo4+cMLWBNmPeSvpOa/GfsLV5N1VmxsqaRXg/5cuZm0Agv/LMnWCZoHgymzuIyhkHjRmVwaWuHvx7JZeV/TRtlpF5V5qu0DolY5B0jGO6QY6ZfYLvksu3qughZfsdXVnLvLbCsNYXNpwgXt0laKGDzBfqL8aMJiOvDdSuvhZRy1fTX5dEkqWxsn8P98b23TEZyoh0SgMVXzzDJ/812ctJdKBkPQyw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nC1a6/cSIvtdc/gsHBTB7x7DDExnR9oMUOhcGr54Ncg=;
- b=NglzPWXa/O9Q4vWluFgXzTc2aWB1PtZklmNF0lFZWCa9yAwrK4lfHrLQhDsUYH4gLFkB/JAjw/Iwkiwt7Cv7vf3q59kMasKTE4wytT339mXY3udJ+g5EgjdoUEQ6TMR0sG1AVc0qEZVvKNzBMt9RP5GfhOe4J3ywQmS6AZmxOqA=
-Received: from BYAPR04MB5749.namprd04.prod.outlook.com (2603:10b6:a03:106::21)
- by BYAPR04MB5509.namprd04.prod.outlook.com (2603:10b6:a03:e4::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2750.17; Mon, 24 Feb
- 2020 10:55:11 +0000
-Received: from BYAPR04MB5749.namprd04.prod.outlook.com
- ([fe80::fdf8:bd6f:b33d:c2df]) by BYAPR04MB5749.namprd04.prod.outlook.com
- ([fe80::fdf8:bd6f:b33d:c2df%3]) with mapi id 15.20.2750.021; Mon, 24 Feb 2020
- 10:55:11 +0000
-From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Keith Busch
- <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Christoph
- Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH v1] nvme-pci: Move enumeration by class to be last in the
- table
-Thread-Topic: [PATCH v1] nvme-pci: Move enumeration by class to be last in the
- table
-Thread-Index: AQHV6viVOi6fJoYN80eVViOFE2F7hQ==
-Date: Mon, 24 Feb 2020 10:55:11 +0000
-Message-ID: <BYAPR04MB57492B2B9BDC41C0EC58810886EC0@BYAPR04MB5749.namprd04.prod.outlook.com>
-References: <20200224093823.17534-1-andriy.shevchenko@linux.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Chaitanya.Kulkarni@wdc.com; 
-x-originating-ip: [71.6.111.190]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 59b66002-16db-4ca0-1b1e-08d7b918052a
-x-ms-traffictypediagnostic: BYAPR04MB5509:
-x-microsoft-antispam-prvs: <BYAPR04MB55095EC17E74F0DECD42723E86EC0@BYAPR04MB5509.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:3968;
-x-forefront-prvs: 032334F434
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(376002)(346002)(136003)(366004)(396003)(39860400002)(199004)(189003)(2906002)(4744005)(5660300002)(52536014)(9686003)(8676002)(4326008)(186003)(86362001)(81156014)(81166006)(316002)(110136005)(8936002)(26005)(6506007)(53546011)(478600001)(71200400001)(55016002)(33656002)(7696005)(66446008)(76116006)(66946007)(64756008)(66476007)(66556008);
- DIR:OUT; SFP:1102; SCL:1; SRVR:BYAPR04MB5509;
- H:BYAPR04MB5749.namprd04.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: e4JZHKv2ax0+kx0hGmSCdgNEkJxO9wUmfkTURsgaGHzFdwBxqQZksP7/YBSo5aJxzHrl9/E4wTrvwQs/zOGlXdZ/JBtq2ikufuwAsmrPZ4qPsRZMZWyeiRj/lGvgBxikUDckIxm+Q3VVz6ra7A4zvv41Jz4fI3tJVA1d3tf5TL1M2p0MFNq1Ex7jMSTEUrkfmPUxMQ8kxYTfsvjpwb/OWO+hd6mUR59lU+8q1UJxTS3E5P8L/GXaXZMCWlUwf0gqD7EOnPgZ5HRiIolQG2qHxT/0qcru3ehwvgOGfCqOGAAbBRNiOVyFxpwwj/zSBTNVGx9IGqO8WUTZRm/oyO8rbox2Xc/kGE0ysYt3JHwKnJe4E/xk/optxwwLdTkmMZhBmMOuWl1EYAnVyZt54UdBooSamZ0L5xZThW8kl0DAstCxKyZqHGRZ5UTtgjgNzfKY
-x-ms-exchange-antispam-messagedata: 2OKr3mg+w7dvILmXNDK7s1Pwqqv7ffVpeNUlpUy/ouIK7xoI2S3CtlgLPQ258OeOYL17wwP1Yf3eM/x40j8Zi/yOViE3BvzPhOIKISpnuJezmI0bTzBVoHp84N8lZW1Y1YrPUEABdlK+/5usmGH6ug==
-x-ms-exchange-transport-forked: True
+ id 1j6EQR-0004oA-6S
+ for linux-nvme@lists.infradead.org; Mon, 24 Feb 2020 14:09:37 +0000
+Received: from hypnotoad.molgen.mpg.de (hypnotoad.molgen.mpg.de [141.14.18.16])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: pmenzel)
+ by mx.molgen.mpg.de (Postfix) with ESMTPSA id 736FE20643C40;
+ Mon, 24 Feb 2020 15:09:18 +0100 (CET)
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Hans de Goede <hdegoede@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>, LKML <linux-kernel@vger.kernel.org>
+From: Paul Menzel <pmenzel@molgen.mpg.de>
+Subject: [PATCH] Initialize ATA before graphics
+Message-ID: <041f4abd-f894-b990-b320-bf0aab4242f2@molgen.mpg.de>
+Date: Mon, 24 Feb 2020 15:09:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 59b66002-16db-4ca0-1b1e-08d7b918052a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Feb 2020 10:55:11.2154 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: WLvXNSR8aINbbhDpTqmmdHX4CEuuris4OlGiEjF7sUW6b26HKoYCJF+fYPngnjcApWg8PH+uxucXlB/Pemcz+7B1gQyLpnFmMpn8zLNohPU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB5509
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200224_025523_466699_53CDE669 
-X-CRM114-Status: GOOD (  10.07  )
+X-CRM114-CacheID: sfid-20200224_060935_542824_71AA4C56 
+X-CRM114-Status: GOOD (  15.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,31 +68,196 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-ide@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-nvme@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============1618365050184465044=="
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Looks good.
+This is a cryptographically signed message in MIME format.
 
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+--===============1618365050184465044==
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256; boundary="------------ms020501020505050405070104"
 
-On 2/24/20 1:55 AM, Andy Shevchenko wrote:
-> It's unusual that we have enumeration by class in the middle of the table.
-> It might potentially be problematic in the future if we add another entry
-> after it.
->
-> So, move class matching entry to be the last in the ID table.
->
-> While here, group Apple devices together with an additional comment line.
->
-> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+This is a cryptographically signed message in MIME format.
+
+--------------ms020501020505050405070104
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+From: Arjan van de Ven <arjan@linux.intel.com>
+Date: Thu, 2 Jun 2016 23:36:32 -0500
+
+ATA init is the long pole in the boot process, and its asynchronous.
+Move the graphics init after it, so that ATA and graphics initialize
+in parallel.
+
+Signed-off-by: Paul Menzel <pmenzel@molgen.mpg.de>
+---
+
+1.  Taken from Clear Linux: https://github.com/clearlinux-pkgs/linux/comm=
+its/master/0110-Initialize-ata-before-graphics.patch
+2.  Arjan, can you please add your Signed-off-by line?
+
+ drivers/Makefile | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/Makefile b/drivers/Makefile
+index aaef17c..d08f3a3 100644
+--- a/drivers/Makefile
++++ b/drivers/Makefile
+@@ -58,15 +58,8 @@ obj-y                                +=3D char/
+ # iommu/ comes before gpu as gpu are using iommu controllers
+ obj-y                          +=3D iommu/
+=20
+-# gpu/ comes after char for AGP vs DRM startup and after iommu
+-obj-y                          +=3D gpu/
+-
+ obj-$(CONFIG_CONNECTOR)                +=3D connector/
+=20
+-# i810fb and intelfb depend on char/agp/
+-obj-$(CONFIG_FB_I810)           +=3D video/fbdev/i810/
+-obj-$(CONFIG_FB_INTEL)          +=3D video/fbdev/intelfb/
+-
+ obj-$(CONFIG_PARPORT)          +=3D parport/
+ obj-$(CONFIG_NVM)              +=3D lightnvm/
+ obj-y                          +=3D base/ block/ misc/ mfd/ nfc/
+@@ -79,6 +72,14 @@ obj-$(CONFIG_IDE)            +=3D ide/
+ obj-y                          +=3D scsi/
+ obj-y                          +=3D nvme/
+ obj-$(CONFIG_ATA)              +=3D ata/
++
++# gpu/ comes after char for AGP vs DRM startup and after iommu
++obj-y                          +=3D gpu/
++
++# i810fb and intelfb depend on char/agp/
++obj-$(CONFIG_FB_I810)           +=3D video/fbdev/i810/
++obj-$(CONFIG_FB_INTEL)          +=3D video/fbdev/intelfb/
++
+ obj-$(CONFIG_TARGET_CORE)      +=3D target/
+ obj-$(CONFIG_MTD)              +=3D mtd/
+ obj-$(CONFIG_SPI)              +=3D spi/
+--=20
+https://clearlinux.org
 
 
+--------------ms020501020505050405070104
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCC
+EFowggUSMIID+qADAgECAgkA4wvV+K8l2YEwDQYJKoZIhvcNAQELBQAwgYIxCzAJBgNVBAYT
+AkRFMSswKQYDVQQKDCJULVN5c3RlbXMgRW50ZXJwcmlzZSBTZXJ2aWNlcyBHbWJIMR8wHQYD
+VQQLDBZULVN5c3RlbXMgVHJ1c3QgQ2VudGVyMSUwIwYDVQQDDBxULVRlbGVTZWMgR2xvYmFs
+Um9vdCBDbGFzcyAyMB4XDTE2MDIyMjEzMzgyMloXDTMxMDIyMjIzNTk1OVowgZUxCzAJBgNV
+BAYTAkRFMUUwQwYDVQQKEzxWZXJlaW4genVyIEZvZXJkZXJ1bmcgZWluZXMgRGV1dHNjaGVu
+IEZvcnNjaHVuZ3NuZXR6ZXMgZS4gVi4xEDAOBgNVBAsTB0RGTi1QS0kxLTArBgNVBAMTJERG
+Ti1WZXJlaW4gQ2VydGlmaWNhdGlvbiBBdXRob3JpdHkgMjCCASIwDQYJKoZIhvcNAQEBBQAD
+ggEPADCCAQoCggEBAMtg1/9moUHN0vqHl4pzq5lN6mc5WqFggEcVToyVsuXPztNXS43O+FZs
+FVV2B+pG/cgDRWM+cNSrVICxI5y+NyipCf8FXRgPxJiZN7Mg9mZ4F4fCnQ7MSjLnFp2uDo0p
+eQcAIFTcFV9Kltd4tjTTwXS1nem/wHdN6r1ZB+BaL2w8pQDcNb1lDY9/Mm3yWmpLYgHurDg0
+WUU2SQXaeMpqbVvAgWsRzNI8qIv4cRrKO+KA3Ra0Z3qLNupOkSk9s1FcragMvp0049ENF4N1
+xDkesJQLEvHVaY4l9Lg9K7/AjsMeO6W/VRCrKq4Xl14zzsjz9AkH4wKGMUZrAcUQDBHHWekC
+AwEAAaOCAXQwggFwMA4GA1UdDwEB/wQEAwIBBjAdBgNVHQ4EFgQUk+PYMiba1fFKpZFK4OpL
+4qIMz+EwHwYDVR0jBBgwFoAUv1kgNgB5oKAia4zV8mHSuCzLgkowEgYDVR0TAQH/BAgwBgEB
+/wIBAjAzBgNVHSAELDAqMA8GDSsGAQQBga0hgiwBAQQwDQYLKwYBBAGBrSGCLB4wCAYGZ4EM
+AQICMEwGA1UdHwRFMEMwQaA/oD2GO2h0dHA6Ly9wa2kwMzM2LnRlbGVzZWMuZGUvcmwvVGVs
+ZVNlY19HbG9iYWxSb290X0NsYXNzXzIuY3JsMIGGBggrBgEFBQcBAQR6MHgwLAYIKwYBBQUH
+MAGGIGh0dHA6Ly9vY3NwMDMzNi50ZWxlc2VjLmRlL29jc3ByMEgGCCsGAQUFBzAChjxodHRw
+Oi8vcGtpMDMzNi50ZWxlc2VjLmRlL2NydC9UZWxlU2VjX0dsb2JhbFJvb3RfQ2xhc3NfMi5j
+ZXIwDQYJKoZIhvcNAQELBQADggEBAIcL/z4Cm2XIVi3WO5qYi3FP2ropqiH5Ri71sqQPrhE4
+eTizDnS6dl2e6BiClmLbTDPo3flq3zK9LExHYFV/53RrtCyD2HlrtrdNUAtmB7Xts5et6u5/
+MOaZ/SLick0+hFvu+c+Z6n/XUjkurJgARH5pO7917tALOxrN5fcPImxHhPalR6D90Bo0fa3S
+PXez7vTXTf/D6OWST1k+kEcQSrCFWMBvf/iu7QhCnh7U3xQuTY+8npTD5+32GPg8SecmqKc2
+2CzeIs2LgtjZeOJVEqM7h0S2EQvVDFKvaYwPBt/QolOLV5h7z/0HJPT8vcP9SpIClxvyt7bP
+ZYoaorVyGTkwggWNMIIEdaADAgECAgwcOtRQhH7u81j4jncwDQYJKoZIhvcNAQELBQAwgZUx
+CzAJBgNVBAYTAkRFMUUwQwYDVQQKEzxWZXJlaW4genVyIEZvZXJkZXJ1bmcgZWluZXMgRGV1
+dHNjaGVuIEZvcnNjaHVuZ3NuZXR6ZXMgZS4gVi4xEDAOBgNVBAsTB0RGTi1QS0kxLTArBgNV
+BAMTJERGTi1WZXJlaW4gQ2VydGlmaWNhdGlvbiBBdXRob3JpdHkgMjAeFw0xNjExMDMxNTI0
+NDhaFw0zMTAyMjIyMzU5NTlaMGoxCzAJBgNVBAYTAkRFMQ8wDQYDVQQIDAZCYXllcm4xETAP
+BgNVBAcMCE11ZW5jaGVuMSAwHgYDVQQKDBdNYXgtUGxhbmNrLUdlc2VsbHNjaGFmdDEVMBMG
+A1UEAwwMTVBHIENBIC0gRzAyMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnhx4
+59Lh4WqgOs/Md04XxU2yFtfM15ZuJV0PZP7BmqSJKLLPyqmOrADfNdJ5PIGBto2JBhtRRBHd
+G0GROOvTRHjzOga95WOTeura79T21FWwwAwa29OFnD3ZplQs6HgdwQrZWNi1WHNJxn/4mA19
+rNEBUc5urSIpZPvZi5XmlF3v3JHOlx3KWV7mUteB4pwEEfGTg4npPAJbp2o7arxQdoIq+Pu2
+OsvqhD7Rk4QeaX+EM1QS4lqd1otW4hE70h/ODPy1xffgbZiuotWQLC6nIwa65Qv6byqlIX0q
+Zuu99Vsu+r3sWYsL5SBkgecNI7fMJ5tfHrjoxfrKl/ErTAt8GQIDAQABo4ICBTCCAgEwEgYD
+VR0TAQH/BAgwBgEB/wIBATAOBgNVHQ8BAf8EBAMCAQYwKQYDVR0gBCIwIDANBgsrBgEEAYGt
+IYIsHjAPBg0rBgEEAYGtIYIsAQEEMB0GA1UdDgQWBBTEiKUH7rh7qgwTv9opdGNSG0lwFjAf
+BgNVHSMEGDAWgBST49gyJtrV8UqlkUrg6kviogzP4TCBjwYDVR0fBIGHMIGEMECgPqA8hjpo
+dHRwOi8vY2RwMS5wY2EuZGZuLmRlL2dsb2JhbC1yb290LWcyLWNhL3B1Yi9jcmwvY2Fjcmwu
+Y3JsMECgPqA8hjpodHRwOi8vY2RwMi5wY2EuZGZuLmRlL2dsb2JhbC1yb290LWcyLWNhL3B1
+Yi9jcmwvY2FjcmwuY3JsMIHdBggrBgEFBQcBAQSB0DCBzTAzBggrBgEFBQcwAYYnaHR0cDov
+L29jc3AucGNhLmRmbi5kZS9PQ1NQLVNlcnZlci9PQ1NQMEoGCCsGAQUFBzAChj5odHRwOi8v
+Y2RwMS5wY2EuZGZuLmRlL2dsb2JhbC1yb290LWcyLWNhL3B1Yi9jYWNlcnQvY2FjZXJ0LmNy
+dDBKBggrBgEFBQcwAoY+aHR0cDovL2NkcDIucGNhLmRmbi5kZS9nbG9iYWwtcm9vdC1nMi1j
+YS9wdWIvY2FjZXJ0L2NhY2VydC5jcnQwDQYJKoZIhvcNAQELBQADggEBABLpeD5FygzqOjj+
+/lAOy20UQOGWlx0RMuPcI4nuyFT8SGmK9lD7QCg/HoaJlfU/r78ex+SEide326evlFAoJXIF
+jVyzNltDhpMKrPIDuh2N12zyn1EtagqPL6hu4pVRzcBpl/F2HCvtmMx5K4WN1L1fmHWLcSap
+dhXLvAZ9RG/B3rqyULLSNN8xHXYXpmtvG0VGJAndZ+lj+BH7uvd3nHWnXEHC2q7iQlDUqg0a
+wIqWJgdLlx1Q8Dg/sodv0m+LN0kOzGvVDRCmowBdWGhhusD+duKV66pBl+qhC+4LipariWaM
+qK5ppMQROATjYeNRvwI+nDcEXr2vDaKmdbxgDVwwggWvMIIEl6ADAgECAgweKlJIhfynPMVG
+/KIwDQYJKoZIhvcNAQELBQAwajELMAkGA1UEBhMCREUxDzANBgNVBAgMBkJheWVybjERMA8G
+A1UEBwwITXVlbmNoZW4xIDAeBgNVBAoMF01heC1QbGFuY2stR2VzZWxsc2NoYWZ0MRUwEwYD
+VQQDDAxNUEcgQ0EgLSBHMDIwHhcNMTcxMTE0MTEzNDE2WhcNMjAxMTEzMTEzNDE2WjCBizEL
+MAkGA1UEBhMCREUxIDAeBgNVBAoMF01heC1QbGFuY2stR2VzZWxsc2NoYWZ0MTQwMgYDVQQL
+DCtNYXgtUGxhbmNrLUluc3RpdHV0IGZ1ZXIgbW9sZWt1bGFyZSBHZW5ldGlrMQ4wDAYDVQQL
+DAVNUElNRzEUMBIGA1UEAwwLUGF1bCBNZW56ZWwwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAw
+ggEKAoIBAQDIh/UR/AX/YQ48VWWDMLTYtXjYJyhRHMc81ZHMMoaoG66lWB9MtKRTnB5lovLZ
+enTIUyPsCrMhTqV9CWzDf6v9gOTWVxHEYqrUwK5H1gx4XoK81nfV8oGV4EKuVmmikTXiztGz
+peyDmOY8o/EFNWP7YuRkY/lPQJQBeBHYq9AYIgX4StuXu83nusq4MDydygVOeZC15ts0tv3/
+6WmibmZd1OZRqxDOkoBbY3Djx6lERohs3IKS6RKiI7e90rCSy9rtidJBOvaQS9wvtOSKPx0a
++2pAgJEVzZFjOAfBcXydXtqXhcpOi2VCyl+7+LnnTz016JJLsCBuWEcB3kP9nJYNAgMBAAGj
+ggIxMIICLTAJBgNVHRMEAjAAMA4GA1UdDwEB/wQEAwIF4DAdBgNVHSUEFjAUBggrBgEFBQcD
+AgYIKwYBBQUHAwQwHQYDVR0OBBYEFHM0Mc3XjMLlhWpp4JufRELL4A/qMB8GA1UdIwQYMBaA
+FMSIpQfuuHuqDBO/2il0Y1IbSXAWMCAGA1UdEQQZMBeBFXBtZW56ZWxAbW9sZ2VuLm1wZy5k
+ZTB9BgNVHR8EdjB0MDigNqA0hjJodHRwOi8vY2RwMS5wY2EuZGZuLmRlL21wZy1nMi1jYS9w
+dWIvY3JsL2NhY3JsLmNybDA4oDagNIYyaHR0cDovL2NkcDIucGNhLmRmbi5kZS9tcGctZzIt
+Y2EvcHViL2NybC9jYWNybC5jcmwwgc0GCCsGAQUFBwEBBIHAMIG9MDMGCCsGAQUFBzABhido
+dHRwOi8vb2NzcC5wY2EuZGZuLmRlL09DU1AtU2VydmVyL09DU1AwQgYIKwYBBQUHMAKGNmh0
+dHA6Ly9jZHAxLnBjYS5kZm4uZGUvbXBnLWcyLWNhL3B1Yi9jYWNlcnQvY2FjZXJ0LmNydDBC
+BggrBgEFBQcwAoY2aHR0cDovL2NkcDIucGNhLmRmbi5kZS9tcGctZzItY2EvcHViL2NhY2Vy
+dC9jYWNlcnQuY3J0MEAGA1UdIAQ5MDcwDwYNKwYBBAGBrSGCLAEBBDARBg8rBgEEAYGtIYIs
+AQEEAwYwEQYPKwYBBAGBrSGCLAIBBAMGMA0GCSqGSIb3DQEBCwUAA4IBAQCQs6bUDROpFO2F
+Qz2FMgrdb39VEo8P3DhmpqkaIMC5ZurGbbAL/tAR6lpe4af682nEOJ7VW86ilsIJgm1j0ueY
+aOuL8jrN4X7IF/8KdZnnNnImW3QVni6TCcc+7+ggci9JHtt0IDCj5vPJBpP/dKXLCN4M+exl
+GXYpfHgxh8gclJPY1rquhQrihCzHfKB01w9h9tWZDVMtSoy9EUJFhCXw7mYUsvBeJwZesN2B
+fndPkrXx6XWDdU3S1LyKgHlLIFtarLFm2Hb5zAUR33h+26cN6ohcGqGEEzgIG8tXS8gztEaj
+1s2RyzmKd4SXTkKR3GhkZNVWy+gM68J7jP6zzN+cMYIDmjCCA5YCAQEwejBqMQswCQYDVQQG
+EwJERTEPMA0GA1UECAwGQmF5ZXJuMREwDwYDVQQHDAhNdWVuY2hlbjEgMB4GA1UECgwXTWF4
+LVBsYW5jay1HZXNlbGxzY2hhZnQxFTATBgNVBAMMDE1QRyBDQSAtIEcwMgIMHipSSIX8pzzF
+RvyiMA0GCWCGSAFlAwQCAQUAoIIB8TAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqG
+SIb3DQEJBTEPFw0yMDAyMjQxNDA5MThaMC8GCSqGSIb3DQEJBDEiBCCaon7+8v02J3APh+S7
+gaR91avgMZ+mqRMXI+nJH/ElyzBsBgkqhkiG9w0BCQ8xXzBdMAsGCWCGSAFlAwQBKjALBglg
+hkgBZQMEAQIwCgYIKoZIhvcNAwcwDgYIKoZIhvcNAwICAgCAMA0GCCqGSIb3DQMCAgFAMAcG
+BSsOAwIHMA0GCCqGSIb3DQMCAgEoMIGJBgkrBgEEAYI3EAQxfDB6MGoxCzAJBgNVBAYTAkRF
+MQ8wDQYDVQQIDAZCYXllcm4xETAPBgNVBAcMCE11ZW5jaGVuMSAwHgYDVQQKDBdNYXgtUGxh
+bmNrLUdlc2VsbHNjaGFmdDEVMBMGA1UEAwwMTVBHIENBIC0gRzAyAgweKlJIhfynPMVG/KIw
+gYsGCyqGSIb3DQEJEAILMXygejBqMQswCQYDVQQGEwJERTEPMA0GA1UECAwGQmF5ZXJuMREw
+DwYDVQQHDAhNdWVuY2hlbjEgMB4GA1UECgwXTWF4LVBsYW5jay1HZXNlbGxzY2hhZnQxFTAT
+BgNVBAMMDE1QRyBDQSAtIEcwMgIMHipSSIX8pzzFRvyiMA0GCSqGSIb3DQEBAQUABIIBAJ4p
+oDlyN4m+v1gAozadNHNAY4+zLRgDfHfvpyZsUjfPCihtGDrJn2yoalCpIbWK63hpft2ZATuS
+voWGeq1NQXOCw167n6SEn5hs7GXdf27wI2si0jTnImHnlV1Kh9C5Osn3x40Bo0vZlXhAUGwz
+UJoeYnIugyNKY+imv3d/PLfFtQxoXzSuEFRWJS5OkMaFfc8vev5igQJFF04Oq5VDRqGgRpgK
+MRM9AXGR4CXLW44dtVav7lU8EHz60ftYL1h/d09Fgid9flR+YdA7hf2yfhInbo1wiJylKnAO
+LFoEdQcc5NiJsx4KlNJp6Gr4nhFmJhYD0Tzk/Wub0M35HqgMx4cAAAAAAAA=
+--------------ms020501020505050405070104--
+
+
+--===============1618365050184465044==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 linux-nvme mailing list
 linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
+
+--===============1618365050184465044==--
+
