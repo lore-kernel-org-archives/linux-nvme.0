@@ -2,63 +2,57 @@ Return-Path: <SRS0=1xwY=4M=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18436C11D2F
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2020 16:50:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B243C11D2F
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2020 17:06:46 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CED9D20836
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2020 16:50:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5EDC921744
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2020 17:06:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="aYVCV5pS"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CED9D20836
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Ab1fVMqV"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5EDC921744
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=+WOx+/d9MfplM57/NxCO+5ilCYhiJnBTMJGTPfWCklY=; b=aYVCV5pSfFpbhS
-	HdIIc5tgyR1r9hbU97+n+W7HaRMLgqX6NeFCYQC0bBVlbb1X9Pu0pWuCezECqbr7tiF58iqk8h8eR
-	9+M9WyoTzP6JkQUCrKd85xUiJOjjMePsPByCBVgTGt+naQWCamXuG0CV0NlykbdyZXo+kh+V/iKV8
-	hp0iazHtfG+HnMNj3lKeIkYmvaKSgD2Nj4nBkYRnHwPa7Qf9OGKoVL64DN1Yqpnxg8LBEi9BmmG90
-	ES1fAicI/DdFIEZdoXlZNfTvJdLXxNa43vkwixGT5a8fKXvwlZD+ujZU7sbUNM+54rsG4HD9WhYnC
-	EMtMI8kQvgxfvBwekOgA==;
+	List-Owner; bh=DZXsqzc0itQ4ohv+j5LRnSRgp6JENdvDobIcUJhzpLM=; b=Ab1fVMqViGNciu
+	X2Zm/gTjlsSVjzSJsjUofeoheB77+p3vGkiOa9n/m2ldtNJUq6P1wan+Om1uKPAQobyMw056H2MeO
+	0vRc09zGPC73JZzkQvFfUa7I1lm7rbgu7ybaFmKKH1ehtOCTICvhtsXWnyyxdJlbx4uUhz5SxAx6m
+	pH0j+ODOC7WbbHjWSlm0CtYt9f3TUo4Z3xNvwYnsMdjIE2NM8TJkiDUef2jc9SlMHD2FAao/MI/Xo
+	zVZiRTwCTcuT4+D2gWpkEB5XhCzP9JlA/1hbmdz1iFGSfOB3LOopVZF4zToMbqu8sAbHLtsa/Kgv+
+	dh2qiWBcbj4M5twcPMYw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j6Gw4-00063j-JC; Mon, 24 Feb 2020 16:50:24 +0000
-Received: from mail-il-dmz.mellanox.com ([193.47.165.129] helo=mellanox.co.il)
- by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j6Grj-0001E7-H6
- for linux-nvme@lists.infradead.org; Mon, 24 Feb 2020 16:46:02 +0000
-Received: from Internal Mail-Server by MTLPINE2 (envelope-from
- maxg@mellanox.com)
- with ESMTPS (AES256-SHA encrypted); 24 Feb 2020 18:45:45 +0200
-Received: from mtr-vdi-031.wap.labs.mlnx. (mtr-vdi-031.wap.labs.mlnx
- [10.209.102.136])
- by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 01OGji9S013647;
- Mon, 24 Feb 2020 18:45:45 +0200
-From: Max Gurtovoy <maxg@mellanox.com>
-To: linux-nvme@lists.infradead.org, sagi@grimberg.me,
- linux-rdma@vger.kernel.org, kbusch@kernel.org, hch@lst.de,
- martin.petersen@oracle.com
-Subject: [PATCH 06/19] nvme: Introduce NVME_INLINE_PROT_SG_CNT
-Date: Mon, 24 Feb 2020 18:45:31 +0200
-Message-Id: <20200224164544.219438-8-maxg@mellanox.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20200224164544.219438-1-maxg@mellanox.com>
-References: <20200224164544.219438-1-maxg@mellanox.com>
+	id 1j6HBp-0000JS-Uz; Mon, 24 Feb 2020 17:06:41 +0000
+Received: from verein.lst.de ([213.95.11.211])
+ by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1j6HBm-0000B7-Lw
+ for linux-nvme@lists.infradead.org; Mon, 24 Feb 2020 17:06:40 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id AF90A68B20; Mon, 24 Feb 2020 18:06:32 +0100 (CET)
+Date: Mon, 24 Feb 2020 18:06:32 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Rupesh Girase <rgirase@redhat.com>
+Subject: Re: [PATCH] nvme: log additional message for controller status
+Message-ID: <20200224170632.GA7064@lst.de>
+References: <1582561924-8017-1-git-send-email-rgirase@redhat.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <1582561924-8017-1-git-send-email-rgirase@redhat.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200224_084555_958434_71C98077 
-X-CRM114-Status: UNSURE (   7.43  )
+X-CRM114-CacheID: sfid-20200224_090638_890281_4FC86D64 
+X-CRM114-Status: UNSURE (   7.36  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -71,47 +65,24 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: axboe@kernel.dk, vladimirk@mellanox.com, shlomin@mellanox.com,
- israelr@mellanox.com, idanb@mellanox.com, maxg@mellanox.com
+Cc: kbusch@kernel.org, axboe@fb.com, hch@lst.de, linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Israel Rukshin <israelr@mellanox.com>
+On Mon, Feb 24, 2020 at 10:02:04PM +0530, Rupesh Girase wrote:
+> 	Logging the controller fatal and ready status would help to
+> 	identfy if issue lies within kernel nvme subsytem or
+> 	controller is unhealthy.
+> 
+> Signed-off-by: Rupesh Girase <rgirase@redhat.com>
 
-SGL size of PI metadata is usually small. Thus, 1 inline sg should
-cover most cases. The macro will be used for pre-allocate a single SGL
-entry for protection information. The preallocation of small inline SGLs
-depends on SG_CHAIN capability so if the ARCH doesn't support SG_CHAIN,
-use the runtime allocation for the SGL. This patch is a preparation for
-adding metadata (T10-PI) over fabric support.
+There should be no tabs before the commit message.
 
-Signed-off-by: Israel Rukshin <israelr@mellanox.com>
-Reviewed-by: Max Gurtovoy <maxg@mellanox.com>
-Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
----
- drivers/nvme/host/nvme.h | 2 ++
- 1 file changed, 2 insertions(+)
+Otherwise this looks good:
 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index af8e10a..d0bfa2b 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -30,8 +30,10 @@
- 
- #ifdef CONFIG_ARCH_NO_SG_CHAIN
- #define  NVME_INLINE_SG_CNT  0
-+#define  NVME_INLINE_PROT_SG_CNT  0
- #else
- #define  NVME_INLINE_SG_CNT  2
-+#define  NVME_INLINE_PROT_SG_CNT  1
- #endif
- 
- extern struct workqueue_struct *nvme_wq;
--- 
-1.8.3.1
-
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
 _______________________________________________
 linux-nvme mailing list
