@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0392BC11D2F
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2020 16:46:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3994BC11D2F
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2020 16:46:27 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BC75E20637
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2020 16:46:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0196D20637
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Feb 2020 16:46:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="oAFihzsT"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BC75E20637
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ZTa+pqZa"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0196D20637
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,40 +25,41 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=b5diJYWmzBhHMQMTlPN7y6B6Go524MpIcgPHQdsy+HE=; b=oAFihzsTB41CuN
-	m5Bs5OBJ5UZVibw43brTLVTygaGfCiM9sO2/Au5tZXbRe5iY5IEgRk0/zGcn0JyO5ziI5kaxo/fiC
-	KoKmUcYFUsEmf3Ao6r1F+jREeOiE1CiOx0DhfnOEwEdtC2LB8Xc0Sahg6AGP9nWtH6SB0thy6Fly5
-	t/tqahnyHgNdCtSCv1QpxnWIyL/ry/ZguQ5xA8iUwqgbPuzlpfv3YHQkkyQBZnAETROd26HxdZLgr
-	n2SUEcMmM9N70r/5WBSLmKg5dxyrdnrjRyOhN3VkTjrcM3RGiBv1Lul3hQ7cZ+flKIoKD4FJIovAh
-	kDSfXfgcEgG4QCPCxlDg==;
+	List-Owner; bh=UeFkCx+diz9OHQNfp7GNBebBm4CGijQlOyM4bET5Q+4=; b=ZTa+pqZaEc4DDQ
+	t2mjJvhKqRYd/ihxVI9DGqdldrJ3AYvCy4CqCfUK/+gHZZT5XySyzqiEscopU2r+mJGdRQj5deisN
+	OBgbDCEXopLoTBFBsTLj5KzZXBYvdR5cYqXmI0Z10IGR5H7jN/iMeVBV5iEQejLxEf815PBoujgva
+	2gi3G/JQzoBMlU4qxYm4pC0daIH9hipTVobp8Cl76dDW/2tzKgKUEG9q47kgKaTzp9bXf1qEo1zW1
+	gYmHAxOCCUhKebA8F95v/Wn3qxSfhUmcCrPvcPQS9vvJ1h90oVS8V2TS8+9G62kPDdp1sh9b1zs0o
+	JAewUoM92eqfIO/h9Wag==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j6Gry-0001UL-FM; Mon, 24 Feb 2020 16:46:10 +0000
+	id 1j6GsB-0001fY-7g; Mon, 24 Feb 2020 16:46:23 +0000
 Received: from mail-il-dmz.mellanox.com ([193.47.165.129] helo=mellanox.co.il)
  by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j6Gri-0001E5-UW
- for linux-nvme@lists.infradead.org; Mon, 24 Feb 2020 16:45:57 +0000
-Received: from Internal Mail-Server by MTLPINE2 (envelope-from
+ id 1j6Grj-0001E9-46
+ for linux-nvme@lists.infradead.org; Mon, 24 Feb 2020 16:45:59 +0000
+Received: from Internal Mail-Server by MTLPINE1 (envelope-from
  maxg@mellanox.com)
- with ESMTPS (AES256-SHA encrypted); 24 Feb 2020 18:45:45 +0200
+ with ESMTPS (AES256-SHA encrypted); 24 Feb 2020 18:45:46 +0200
 Received: from mtr-vdi-031.wap.labs.mlnx. (mtr-vdi-031.wap.labs.mlnx
  [10.209.102.136])
- by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 01OGji9N013647;
- Mon, 24 Feb 2020 18:45:45 +0200
+ by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 01OGji9X013647;
+ Mon, 24 Feb 2020 18:45:46 +0200
 From: Max Gurtovoy <maxg@mellanox.com>
 To: linux-nvme@lists.infradead.org, sagi@grimberg.me,
  linux-rdma@vger.kernel.org, kbusch@kernel.org, hch@lst.de,
  martin.petersen@oracle.com
-Subject: [PATCH 01/19] nvme: Introduce namespace features flag
-Date: Mon, 24 Feb 2020 18:45:26 +0200
-Message-Id: <20200224164544.219438-3-maxg@mellanox.com>
+Subject: [PATCH 11/19] nvmet: Rename nvmet_rw_len to nvmet_rw_data_len
+Date: Mon, 24 Feb 2020 18:45:36 +0200
+Message-Id: <20200224164544.219438-13-maxg@mellanox.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200224164544.219438-1-maxg@mellanox.com>
 References: <20200224164544.219438-1-maxg@mellanox.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200224_084555_384445_5C83D162 
-X-CRM114-Status: GOOD (  11.64  )
+X-CRM114-CacheID: sfid-20200224_084555_581555_A512DDB9 
+X-CRM114-Status: UNSURE (   9.15  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,116 +80,59 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Israel Rukshin <israelr@mellanox.com>
 
-Centralize all the integrity checks to one place and make the code more
-readable.
+The function doesn't add the metadata length (only data length is
+calculated). This is preparation for adding metadata (T10-PI) support.
 
-Suggested-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Max Gurtovoy <maxg@mellanox.com>
 Signed-off-by: Israel Rukshin <israelr@mellanox.com>
+Reviewed-by: Max Gurtovoy <maxg@mellanox.com>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
 ---
- drivers/nvme/host/core.c | 39 ++++++++++++++++++++++++++-------------
- drivers/nvme/host/nvme.h |  5 ++++-
- 2 files changed, 30 insertions(+), 14 deletions(-)
+ drivers/nvme/target/io-cmd-bdev.c | 2 +-
+ drivers/nvme/target/io-cmd-file.c | 2 +-
+ drivers/nvme/target/nvmet.h       | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 8491422..3a754e0 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -209,11 +209,6 @@ static int nvme_delete_ctrl_sync(struct nvme_ctrl *ctrl)
- 	return ret;
- }
+diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+index 97131e2..c0337d0 100644
+--- a/drivers/nvme/target/io-cmd-bdev.c
++++ b/drivers/nvme/target/io-cmd-bdev.c
+@@ -173,7 +173,7 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
+ 	sector_t sector;
+ 	int op, i;
  
--static inline bool nvme_ns_has_pi(struct nvme_ns *ns)
--{
--	return ns->pi_type && ns->ms == sizeof(struct t10_pi_tuple);
--}
--
- static blk_status_t nvme_error_status(u16 status)
+-	if (!nvmet_check_data_len(req, nvmet_rw_len(req)))
++	if (!nvmet_check_data_len(req, nvmet_rw_data_len(req)))
+ 		return;
+ 
+ 	if (!req->sg_cnt) {
+diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
+index cd5670b..ffbba88 100644
+--- a/drivers/nvme/target/io-cmd-file.c
++++ b/drivers/nvme/target/io-cmd-file.c
+@@ -232,7 +232,7 @@ static void nvmet_file_execute_rw(struct nvmet_req *req)
  {
- 	switch (status & 0x7ff) {
-@@ -715,7 +710,8 @@ static inline blk_status_t nvme_setup_rw(struct nvme_ns *ns,
- 		 * namespace capacity to zero to prevent any I/O.
- 		 */
- 		if (!blk_integrity_rq(req)) {
--			if (WARN_ON_ONCE(!nvme_ns_has_pi(ns)))
-+			if (WARN_ON_ONCE(!(ns->features &
-+					   NVME_NS_MD_CTRL_SUPPORTED)))
- 				return BLK_STS_NOTSUPP;
- 			control |= NVME_RW_PRINFO_PRACT;
- 		}
-@@ -1277,7 +1273,7 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
- 	meta_len = (io.nblocks + 1) * ns->ms;
- 	metadata = (void __user *)(uintptr_t)io.metadata;
+ 	ssize_t nr_bvec = req->sg_cnt;
  
--	if (ns->ext) {
-+	if (ns->features & NVME_NS_EXT_LBAS) {
- 		length += meta_len;
- 		meta_len = 0;
- 	} else if (meta_len) {
-@@ -1807,10 +1803,10 @@ static void nvme_update_disk_info(struct gendisk *disk,
- 	blk_queue_io_min(disk->queue, phys_bs);
- 	blk_queue_io_opt(disk->queue, io_opt);
+-	if (!nvmet_check_data_len(req, nvmet_rw_len(req)))
++	if (!nvmet_check_data_len(req, nvmet_rw_data_len(req)))
+ 		return;
  
--	if (ns->ms && !ns->ext &&
--	    (ns->ctrl->ops->flags & NVME_F_METADATA_SUPPORTED))
-+	if (ns->features & NVME_NS_MD_HOST_SUPPORTED)
- 		nvme_init_integrity(disk, ns->ms, ns->pi_type);
--	if ((ns->ms && !nvme_ns_has_pi(ns) && !blk_get_integrity(disk)) ||
-+	if ((ns->ms && !(ns->features & NVME_NS_MD_CTRL_SUPPORTED) &&
-+	     !blk_get_integrity(disk)) ||
- 	    ns->lba_shift > PAGE_SHIFT)
- 		capacity = 0;
+ 	if (!req->sg_cnt || !nr_bvec) {
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 562819c..846d1de 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -506,7 +506,7 @@ void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
+ u16 nvmet_file_flush(struct nvmet_req *req);
+ void nvmet_ns_changed(struct nvmet_subsys *subsys, u32 nsid);
  
-@@ -1840,12 +1836,29 @@ static void __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
- 		ns->lba_shift = 9;
- 	ns->noiob = le16_to_cpu(id->noiob);
- 	ns->ms = le16_to_cpu(id->lbaf[id->flbas & NVME_NS_FLBAS_LBA_MASK].ms);
--	ns->ext = ns->ms && (id->flbas & NVME_NS_FLBAS_META_EXT);
-+	ns->features = 0;
- 	/* the PI implementation requires metadata equal t10 pi tuple size */
--	if (ns->ms == sizeof(struct t10_pi_tuple))
-+	if (ns->ms == sizeof(struct t10_pi_tuple)) {
- 		ns->pi_type = id->dps & NVME_NS_DPS_PI_MASK;
--	else
-+		if (ns->pi_type)
-+			ns->features |= NVME_NS_MD_CTRL_SUPPORTED;
-+	} else {
- 		ns->pi_type = 0;
-+	}
-+
-+	if (ns->ms) {
-+		if (id->flbas & NVME_NS_FLBAS_META_EXT)
-+			ns->features |= NVME_NS_EXT_LBAS;
-+
-+		/*
-+		 * For PCI, Extended logical block will be generated by the
-+		 * controller.
-+		 */
-+		if (ns->ctrl->ops->flags & NVME_F_METADATA_SUPPORTED) {
-+			if (!(ns->features & NVME_NS_EXT_LBAS))
-+				ns->features |= NVME_NS_MD_HOST_SUPPORTED;
-+		}
-+	}
- 
- 	if (ns->noiob)
- 		nvme_set_chunk_size(ns);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 1024fec..fea20f1 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -381,8 +381,11 @@ struct nvme_ns {
- 	u16 ms;
- 	u16 sgs;
- 	u32 sws;
--	bool ext;
- 	u8 pi_type;
-+	unsigned long features;
-+#define NVME_NS_EXT_LBAS		(1 << 0)
-+#define NVME_NS_MD_HOST_SUPPORTED	(1 << 1)
-+#define NVME_NS_MD_CTRL_SUPPORTED	(1 << 2)
- 	unsigned long flags;
- #define NVME_NS_REMOVING	0
- #define NVME_NS_DEAD     	1
+-static inline u32 nvmet_rw_len(struct nvmet_req *req)
++static inline u32 nvmet_rw_data_len(struct nvmet_req *req)
+ {
+ 	return ((u32)le16_to_cpu(req->cmd->rw.length) + 1) <<
+ 			req->ns->blksize_shift;
 -- 
 1.8.3.1
 
