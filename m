@@ -6,16 +6,16 @@ X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9E8AC4BA2D
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Feb 2020 23:11:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF03AC4BA2D
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Feb 2020 23:12:17 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B8C81222C2
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Feb 2020 23:11:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A2CD9222C2
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Feb 2020 23:12:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="MI3gNkIn"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B8C81222C2
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="oKzHPWl4"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A2CD9222C2
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,60 +24,60 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=z1fMvao11i+d0UZrbIxXcd2/3fEWA/mH8uzwOCutGXo=; b=MI3gNkIncmtx/vOwpURWJ64zb
-	GZD/Xv2qAydiRagXcRhMDyBBZdacqv2YQQhK6r3bjysnv9cwu8nVWKacn0eU2XWdLB+S/4ZmgGvdl
-	pLxm6h4uKyGlgovySdumQNV/wJ6SE1e0lkvAyvv1iU5dKmDjyXw7jc7kFzp6eE/TKFJlGs8+rBuZg
-	irnhc2E2jkqaEUorbWxkH3TXbxDQB4iV/YCyo2jElsU89oBtSkC5xrxSX9k7hOAtzGPS78yNymCXz
-	fkrrT7+TMopnSXK++yo6MsIiYOCE3ryaSRjZ3XL8hOtHM6lW/Y0hSeOAdK8EuQEbZciOxkPXx6cLC
-	gwP7JY6MA==;
+	 bh=zLaVwzRqmU49YXXOQGQiZ5SGWnUDYA7RO0s7uF3wpyo=; b=oKzHPWl40NSxZI2rqx6Zbb+1f
+	1IAyvmG6NTs3yy+3lSn9MK3D5QrtY5unhKZYDQJzpczNHtGejp6tzaAi8qhpa81k4GnCk2T0pXi7U
+	W1pC3orXVOq4ewf1pfNKITL0GUFCJR2DbcH2vncnaghq/qNTLisl3HbPDPYRvP58PGcYxnlql5tJD
+	Z4yoQZoQ44DXjPjwmmw4O8HMOtOeJkTy/GEcfMJa2W9B1t5VHD6WQdvGvRXqwUuhTbITHGvWrLiyO
+	lKp7UfeqmI5+4kyLSI/phAvJ7lQLXinvcPmNYkIEodWFzXrqZtJKQJvGbCuHSwm9n38mJjBjEuwim
+	GO8QsUWPg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j75pc-00009R-H4; Wed, 26 Feb 2020 23:11:08 +0000
-Received: from mail-oi1-f196.google.com ([209.85.167.196])
+	id 1j75qh-000305-NK; Wed, 26 Feb 2020 23:12:15 +0000
+Received: from mail-ot1-f66.google.com ([209.85.210.66])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j75pS-0008Q3-8y
- for linux-nvme@lists.infradead.org; Wed, 26 Feb 2020 23:10:59 +0000
-Received: by mail-oi1-f196.google.com with SMTP id c16so1367239oic.3
- for <linux-nvme@lists.infradead.org>; Wed, 26 Feb 2020 15:10:57 -0800 (PST)
+ id 1j75qd-0002kt-BO
+ for linux-nvme@lists.infradead.org; Wed, 26 Feb 2020 23:12:15 +0000
+Received: by mail-ot1-f66.google.com with SMTP id p8so1103959oth.10
+ for <linux-nvme@lists.infradead.org>; Wed, 26 Feb 2020 15:12:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
- b=c9LPtf1gLSLdMVojAjm4UHY09saSl2K8AclC1Zp4WUcppD4q2VixePKHn3fMqQrvPn
- kt5FmTGZUq6slYU5h1dtKo7B+BjeFpFqKWsEh0a5n37z8qPjvu5wvJ/97wW4fiM1KHkm
- dd6j7cv4KnCU4WT8KGER9ndvPqqHcz9glnvaYQonPZPPir34diA7sxYC/dZ9J4O8SPF8
- otq38EqBroE9dsIsR7xoXyQybGYdXf41ghO/pqpdi2VDo1kepMkdkFSiqP9TFM5y1c7G
- 1IdL7r41jpDp33zM+FsCCD+3zv5QLEcurF9GQ4mTMiAJUB235UpPJ+WouzQeyOp7w71R
- M4pA==
-X-Gm-Message-State: APjAAAXpDzoBEZK8or7rDgFRvoia13LSZsfIc7dm1ud81Ona7rGBn/mT
- Di2++sPIyUh0F6Do/kt3dIg=
-X-Google-Smtp-Source: APXvYqzFFaZnvuDMnLAnxgWtgqkbNHcFeK+i8qkfD0Kv/zYfIHC7sD29HRx/eDwD6eIQZAV6h3GE/w==
-X-Received: by 2002:aca:3f43:: with SMTP id m64mr1069015oia.165.1582758657360; 
- Wed, 26 Feb 2020 15:10:57 -0800 (PST)
+ bh=xT/4YHu6eXt57o062HOZgaUM2lsiqS+nuNgzgWv1QG8=;
+ b=YNSvVp95OJ3cB5xyiBKMC8bz2qtD3SOQQgFA7cxWaMsExR6f3LgSVE9S8IepIzf9zP
+ CV3ttjUbf8KIO20bUM3RaYSDI287rG++R1kjMDn0jGk7h7KDcVnapmTHqANyoCHbA0TO
+ KPll3MLLZIKWvhET3N5JgRdlSHPFdthZz9fbXcCQYIZ/4WoAkHY9ITAuCqxCP6lGhYNN
+ hqfd7XlVy1tG0ggX48GhwHOhBMAKqi5hpC3Zf17rYjzdOfTA40rVCh8GLAGjD4rXJ30m
+ 27E+GU+qUD/vj74lBOW2eNZ3u85ZLFISqLVMozK7jxp3Q0/7ZzjOH/4oWOCdLnaC7JtW
+ jctw==
+X-Gm-Message-State: APjAAAVKWLOrxVcQg/8YoFLloKPnFHCG0DQCGh7LlhpO/3nZ+R7g8jqK
+ JqNg7VF/ZSkyA2foFLOABds=
+X-Google-Smtp-Source: APXvYqyjxPkX16QhKV9RUQjlv9snQckBzObEW4Lp2XOmmkq3Rrz8VlOnaA+0LZGkemt8F7aKcz4HMw==
+X-Received: by 2002:a9d:6a53:: with SMTP id h19mr1038729otn.120.1582758730729; 
+ Wed, 26 Feb 2020 15:12:10 -0800 (PST)
 Received: from ?IPv6:2600:1700:65a0:78e0:514:7862:1503:8e4d?
  ([2600:1700:65a0:78e0:514:7862:1503:8e4d])
- by smtp.gmail.com with ESMTPSA id z3sm98874oia.46.2020.02.26.15.10.55
+ by smtp.gmail.com with ESMTPSA id c10sm1264405otl.77.2020.02.26.15.12.09
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 26 Feb 2020 15:10:56 -0800 (PST)
-Subject: Re: [PATCH v11 3/9] nvme: Move nvme_passthru_[start|end]() calls to
- common helper
+ Wed, 26 Feb 2020 15:12:10 -0800 (PST)
+Subject: Re: [PATCH v11 4/9] nvmet-passthru: Introduce NVMet passthru Kconfig
+ option
 To: Logan Gunthorpe <logang@deltatee.com>, linux-kernel@vger.kernel.org,
  linux-nvme@lists.infradead.org
 References: <20200220203652.26734-1-logang@deltatee.com>
- <20200220203652.26734-4-logang@deltatee.com>
+ <20200220203652.26734-5-logang@deltatee.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <b39e6dee-1175-64b7-61e2-27a25bb93d97@grimberg.me>
-Date: Wed, 26 Feb 2020 15:10:54 -0800
+Message-ID: <d1cc35d6-faa3-42bf-ef44-dcf8ac7791f9@grimberg.me>
+Date: Wed, 26 Feb 2020 15:12:08 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200220203652.26734-4-logang@deltatee.com>
+In-Reply-To: <20200220203652.26734-5-logang@deltatee.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200226_151058_344583_5917CBCD 
-X-CRM114-Status: GOOD (  10.23  )
+X-CRM114-CacheID: sfid-20200226_151213_758685_5A7AE4A1 
+X-CRM114-Status: GOOD (  12.53  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,7 +98,18 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+
+> +config NVME_TARGET_PASSTHRU
+> +	bool "NVMe Target Passthrough support"
+> +	depends on NVME_CORE
+> +	depends on NVME_TARGET
+> +	help
+> +	  This enables target side NVMe passthru controller support for the
+> +	  NVMe Over Fabrics protocol. It allows for hosts to manage and
+> +	  directly access an actual NVMe controller residing on the target
+> +	  side, incuding executing Vendor Unique Commands.
+
+If unsure, say N ?
 
 _______________________________________________
 linux-nvme mailing list
