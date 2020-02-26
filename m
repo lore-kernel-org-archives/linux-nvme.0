@@ -2,103 +2,95 @@ Return-Path: <SRS0=MxcY=4O=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7237EC4BA24
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Feb 2020 21:46:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDB76C4BA24
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Feb 2020 21:49:40 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 46AC921D7E
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Feb 2020 21:46:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id AB9B024670
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Feb 2020 21:49:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="uuoMq933";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="fuzRGw6V"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 46AC921D7E
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="PnLyXtnK";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="HsMHKB2j"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AB9B024670
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:References:Subject:To:From:Date:
-	Message-ID:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=nzBtU7HmdCNXvKws2eWPy+VbjOVnxfH6eElC+3lVr+o=; b=uuoMq933IERa8eoALsFBqZhL0
-	+KcHGkca+OdHb0KfWMpVAClfmI0wzl1qnwXLIYa7eQqu7DxM27a8Wx9uHITmxatYqAQFnrTq2yJUu
-	NxYEx+040xjWiwWR9u1+5ToD6yxTUHt7uppTTN356l+yZrJlqAaoHsBCRJjlHsqMupKF4ZBaS+GEL
-	PQT5zffxKQWNAC2qNzJQ2nWbzu5Jd6+R1ib4qRbTCFLRbuWcLWqJCRZuTiOSI6/YVW12jEHVvccJw
-	ZiLzC4rp1M4g3nKGWmscKyEAXtNIJ1vSfwNPGm8e+0tniS3V2S/MNAlad03ZV2G7HKuhAquPDuMv9
-	3VonAE5SA==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:List-Subscribe:List-Help:
+	List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:Subject:To:
+	From:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=raxI1ed6ma2LmKGbHAIZoyJ8APj9hG41Y231oWcEU94=; b=PnLyXtnKvEYAeT
+	20NEcJNMx4xeb6JUDbXqH0xppO69P4O4KKaHxfn9DuAnOBQuo2cBPkJBdAVLW+7VvDQsIoAUk4/L/
+	UHv0h/IStTN2BtvI3CPkBaAzGZMciJAila4G2q9binlBZTb3/T19eXnhwRKMJYlybjeUuFTo8C+JF
+	S+cYoMad7QVT3uvZxuebOjkytNECmwOJDbyODXS+rkrsoVGSiiMAroc6ZFQujJyYyhVf2G3ib3Xul
+	s3r7xs8fnH07Di7RmJCQFpWOww1rp4cFSViUFkW/GV7TfWBv2h1w74EjPwX0n4+I5nX+n5cfp24D2
+	bOYahvBtWan78hIjQcyg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j74Vv-0006dC-8d; Wed, 26 Feb 2020 21:46:43 +0000
-Received: from userp2120.oracle.com ([156.151.31.85])
+	id 1j74Yk-0007AJ-VB; Wed, 26 Feb 2020 21:49:38 +0000
+Received: from userp2130.oracle.com ([156.151.31.86])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j74Vs-0006cs-HG
- for linux-nvme@lists.infradead.org; Wed, 26 Feb 2020 21:46:41 +0000
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01QLgcpw138768;
- Wed, 26 Feb 2020 21:46:38 GMT
+ id 1j74Yj-00079y-9Z
+ for linux-nvme@lists.infradead.org; Wed, 26 Feb 2020 21:49:38 +0000
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01QLhWOs059301
+ for <linux-nvme@lists.infradead.org>; Wed, 26 Feb 2020 21:49:36 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=mime-version :
- message-id : date : from : to : cc : subject : references : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=3h7pNn4bPM+iSmiA/LXavCVRHaA1GDTR2cY0EbOV6go=;
- b=fuzRGw6V+OUYvMFbmC2djtumPK5KNnU5k9nBVuWw0TVFXlWWOpqgLgzAcTZgtLmn5zdM
- ERJp/thpK4CpKBHJBRZi4ALbEfH9MhbrzvQ+mGh25ZzfcgYzdWV5XUJva1Or3HNjSwX4
- sXQjLe3JS5iDSydds3CmbMgTDUs7bJl3MrfBWfJNRHGEKVd8MYBXdmPTI3iWLRJ0aUKM
- Se1hCtOTm15kav7AWw5/jVzeX3U/tq0823oZdXIakVvVxblaaTULOadjaX1hYR4sZVaH
- 6VVnZ9XdMc/OiXaLocur8Hg/vk5s4xGdzwKj0mIyrWaCCrvODsyCkjbRXREAM/eR6ANt rw== 
+ h=from : to : subject : date : message-id; s=corp-2020-01-29;
+ bh=TFBh6oL6EQ6PSdi6PBIr3cunZdFK5hmPVaaEHcNJCfo=;
+ b=HsMHKB2jcoVZPP2DHcXchXEhr8tkoof7SKcNpig75iKzO8JA5q8Q8LEeGi+/55J/ABhA
+ x5TckYMm0H67kG2NqNKyZQDQDQSAAiDC0Q65Ss8teVqmaZucHWTrAjJc/XRAKNDurw5Y
+ CXD3xVc5ZkKv7BQg/EA2AZWoockLWPUJkdhqx7Vkvi/YkWe2rBY34tKzB+QRPR6lDIoW
+ hz7WEHGAIm3r5qsvrFHrt/xp8SHj9K3IDcc7Qyr07wqK9RDV7WtFniGJGqtRSfSE3cZR
+ ugFLopTgc4SmenIpqvCLjjlqX/5vfsy/25gCZv2c7bOG3fvv7I4PtorW2LHFyVNsyDmD bA== 
 Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2120.oracle.com with ESMTP id 2ydct36jp0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 26 Feb 2020 21:46:38 +0000
+ by userp2130.oracle.com with ESMTP id 2ydcsnek5p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+ for <linux-nvme@lists.infradead.org>; Wed, 26 Feb 2020 21:49:36 +0000
 Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01QLiBXj012990;
- Wed, 26 Feb 2020 21:46:38 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by userp3020.oracle.com with ESMTP id 2ydj4jk35s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 26 Feb 2020 21:46:38 +0000
-Received: from abhmp0022.oracle.com (abhmp0022.oracle.com [141.146.116.28])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 01QLkbm5018810;
- Wed, 26 Feb 2020 21:46:37 GMT
-X-ANTIVIRUS-STATUS: Clean
-Received: from [10.154.173.100] (/10.154.173.100) by default (Oracle Beehive
- Gateway v4.0) with ESMTP ; Wed, 26 Feb 2020 13:45:58 -0800
-X-ANTIVIRUS: Avast (VPS 200225-0, 02/25/2020), Outbound message
-USER-AGENT: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-Content-Language: en-US
-MIME-Version: 1.0
-Message-ID: <a72471a6-788f-2ac6-64b1-1c80d1ff5621@oracle.com>
-Date: Wed, 26 Feb 2020 21:45:54 +0000 (UTC)
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01QLiBt3013045
+ for <linux-nvme@lists.infradead.org>; Wed, 26 Feb 2020 21:49:36 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by userp3020.oracle.com with ESMTP id 2ydj4jk8cy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+ for <linux-nvme@lists.infradead.org>; Wed, 26 Feb 2020 21:49:36 +0000
+Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 01QLnZS5025349
+ for <linux-nvme@lists.infradead.org>; Wed, 26 Feb 2020 21:49:35 GMT
+Received: from ca-ldom147.us.oracle.com (/10.129.68.131)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 26 Feb 2020 13:49:35 -0800
 From: Bijan Mottahedeh <bijan.mottahedeh@oracle.com>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: nvme_poll() CQ processing
-References: <143eb9f1-7f17-591a-4302-a86ea1114e87@oracle.com>
- <20200226202309.GA24127@redsun51.ssa.fujisawa.hgst.com>
-In-Reply-To: <20200226202309.GA24127@redsun51.ssa.fujisawa.hgst.com>
+To: linux-nvme@lists.infradead.org
+Subject: [PATCH 1/1] nvme-pci: Hold cq_poll_lock while completing CQEs
+Date: Wed, 26 Feb 2020 13:49:22 -0800
+Message-Id: <1582753762-47774-1-git-send-email-bijan.mottahedeh@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9543
  signatures=668685
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- phishscore=0 suspectscore=2
+ phishscore=0 suspectscore=3
  spamscore=0 adultscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
  definitions=main-2002260127
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9543
  signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- lowpriorityscore=0 bulkscore=0
- impostorscore=0 spamscore=0 priorityscore=1501 malwarescore=0 adultscore=0
- phishscore=0 mlxlogscore=999 mlxscore=0 suspectscore=2 clxscore=1011
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ malwarescore=0 bulkscore=0
+ lowpriorityscore=0 mlxlogscore=999 phishscore=0 spamscore=0 adultscore=0
+ suspectscore=3 impostorscore=0 clxscore=1015 priorityscore=1501
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
  definitions=main-2002260127
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200226_134640_612710_F96227E6 
-X-CRM114-Status: GOOD (  15.82  )
+X-CRM114-CacheID: sfid-20200226_134937_371140_10929D27 
+X-CRM114-Status: GOOD (  15.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,37 +102,45 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-nvme@lists.infradead.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMi8yNi8yMDIwIDEyOjIzIFBNLCBLZWl0aCBCdXNjaCB3cm90ZToKPiBPbiBXZWQsIEZlYiAy
-NiwgMjAyMCBhdCAxMToyMDoxOUFNIC0wODAwLCBCaWphbiBNb3R0YWhlZGVoIHdyb3RlOgo+PiBB
-IHNpbXBsZXIgdGhlb3JldGljYWwgZXhhbXBsZSB3aXRoIHR3byB0aHJlYWRzOgo+Pgo+PiBUaHJl
-YWQgMSBzdWJtaXRzIGVub3VnaCBJL08gdG8gZmlsbCB0aGUgQ1EKPj4gVGhyZWFkIDEgdGhlbiBw
-cm9jZXNzZXMgdHdvIENRRXMsIHR3byBibG9jayBsYXllciB0YWdzIGJlY29tZSBhdmFpbGFibGUu
-Cj4+IFRocmVhZCAxIGlzIHByZWVtcHRlZCBieSB0aHJlYWQgMi4KPj4gVGhyZWFkIDIgc3VibWl0
-cyB0d28gSS9Pcy4KPj4gVGhyZWFkIDIgcHJvY2Vzc2VzIHRoZSB0d28gQ1FFcyB3aGljaCBpdCBv
-d25zLgo+PiBUaHJlYWQgMiBzdWJtaXRzIHR3byBtb3JlIEkvT3MuCj4+IFRob3NlIENRRXMgb3Zl
-cndyaXRlIHRoZSBuZXh0IHR3byBDUUVzIHRoYXQgd2lsbCBiZSBwcm9jZXNzZWQgYnkgdGhyZWFk
-IDEuCj4+Cj4+IFR3byBvZiB0aHJlYWQgMSdzIElPcyB3aWxsIG5vdCByZWNlaXZlIGEgY29tcGxl
-dGlvbi7CoCBUd28gb2YgdGhyZWFkIDIncyBJT3MKPj4gd2lsbCByZWNlaXZlIHR3byBjb21wbGV0
-aW9ucy4KPj4KPj4gSnVzdCBhcyBhIHdvcmthcm91bmQsIEkgaGVsZCBjcV9wb2xsX2xvY2sgd2hp
-bGUgY29tcGxldGluZyB0aGUgQ1FFcyBhbmQgc2VlCj4+IG5vIGVycm9ycy4KPiBUaGFuayB5b3Ug
-Zm9yIHRoZSBub3RpY2UgYW5kIHRoZSBhbmF5bHNpcy4gSSBiZWxpZXZlIHlvdSBhcmUgY29ycmVj
-dCwgd2UKPiBuZWVkIHRvIGF2b2lkIHNjaGVkdWxpbmcgdGhlIHRocmVhZCBpZiBpdCBoYXMgY3Fl
-J3MgdG8gY29tcGxldGUsCj4gb3RoZXJ3aXNlIGFub3RoZXIgbWF5IGZyZWUgZW5vdWdoIHRhZ3Mg
-b3V0IG9mIG9yZGVyLCBhbGxvd2luZyBhIHF1ZXVlCj4gd3JhcC4KPgo+IFlvdXIgd29yay1hcm91
-bmQgc291bmRzIG9rYXkgdG8gbWUgZm9yIGltbWVkaWF0ZSBpbmNsdXNpb24gYW5kIGZvciBzdGFi
-bGUuCj4gV291bGQgeW91IGxpa2UgdG8gc2VuZCB0aGUgcGF0Y2g/Cj4KPiBMb25nZXIgdGVybSwg
-d2Ugc2hvdWxkIGdldCByaWQgb2YgdGhpcyB0d28tcGFzcyBjb21wbGV0aW9uLiBJdCB3YXMKPiBk
-b25lIHRoYXQgd2F5IHdoZW4gc3VibWl0IGFuZCBjb21wbGV0ZSB3ZXJlIHVzaW5nIHRoZSBzYW1l
-IHNwaW5sb2NrLCBzbwo+IHJlZHVjaW5nIHRoZSBjcml0aWNhbCBzZWN0aW9uIHdhcyBoZWxwZnVs
-LCBidXQgd2UgZG9uJ3QgbmVlZCB0aGF0Cj4gYW55bW9yZS4KU3VyZSwgSSdsbCBzZW5kIG9uZSBp
-biBhIGJpdC4gSSB1c2VkIHlvdXIgd29yZGluZyBmb3IgdGhlIGNvbW1lbnRzIGlmIAp0aGF0J3Mg
-b2suCgotLWJpamFuCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpsaW51eC1udm1lIG1haWxpbmcgbGlzdApsaW51eC1udm1lQGxpc3RzLmluZnJhZGVhZC5v
-cmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1udm1l
-Cg==
+Avoid scheduling a polling thread if it has cqe's to complete, otherwise
+another thread may free enough tags out of order, allowing a queue wrap.
+
+This is an interim solution. Longer term, the two-pass completion should
+be fixed.  It was done that way when submit and complete processing were
+using the same spinlock, so reducing the critical section was helpful,
+but that's not needed anymore.
+
+Signed-off-by: Bijan Mottahedeh <bijan.mottahedeh@oracle.com>
+---
+ drivers/nvme/host/pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index ace4dd9..d3f23d6 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1078,9 +1078,9 @@ static int nvme_poll(struct blk_mq_hw_ctx *hctx)
+ 
+ 	spin_lock(&nvmeq->cq_poll_lock);
+ 	found = nvme_process_cq(nvmeq, &start, &end, -1);
++	nvme_complete_cqes(nvmeq, start, end);
+ 	spin_unlock(&nvmeq->cq_poll_lock);
+ 
+-	nvme_complete_cqes(nvmeq, start, end);
+ 	return found;
+ }
+ 
+-- 
+1.8.3.1
+
+
+_______________________________________________
+linux-nvme mailing list
+linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
