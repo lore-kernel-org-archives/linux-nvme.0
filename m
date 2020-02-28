@@ -2,92 +2,87 @@ Return-Path: <SRS0=58/p=4Q=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67275C3F2D2
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 Feb 2020 17:03:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 297CEC3F2CD
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Feb 2020 18:45:32 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3AD3D24690
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 Feb 2020 17:03:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id F1D2D24677
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Feb 2020 18:45:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="q/Uz8e/i";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel-dk.20150623.gappssmtp.com header.i=@kernel-dk.20150623.gappssmtp.com header.b="agTPnjlH"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3AD3D24690
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="oY9XmNr9";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QWNH2JBy"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F1D2D24677
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
-	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
-	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=IV4qDYtow2ewd2y7NHfCv1crK3XYuMoPc6aLyX43oBo=; b=q/Uz8e/ipYZww1
-	fsxoVk7O0VVTebZO//VAoO5MaWb/5cPSrLxD6CWD6+YdoIY1ah92IjOdzOMlhBiHAUoXdzYG6BGLE
-	gMYsIEMBiqbou8olDNKGStihf13wZYphcyj6ztA/uErlqi9JeXNf5cZgAgPVbifShvLD8zl8mlNqs
-	DlVh9WZLWB1E5VTOMoYkrQ288KtEtccX+8AJlOvC7u6jq0+5LwsjvRSGldAX+ugYqjBnSvmSaazxq
-	Dw+2aCjUOuN6NUJrOV0pJNC1IpzGFM27m86ZRL8Kt/iM3jyrKXT5IdZgjtGiaYnmQrHreP/bu3lR2
-	1q2qiRaP4TrveKIHbo4w==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:To:From
+	:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=FxHBjXzCpdm3/lQohfD+Itx5KTSfAEVKVahjqd5ceTA=; b=oY9XmNr9XyVzTx
+	dgH7NN+Q8+eaYG+hsRIlS89ac5/WYpTY9REnk4brj8VHJAV/Osq8W05f9xdRHG6J3zwQ2wjMOeFfk
+	SBhUT/uj2a6IyPbJcyIjDjp/gstQ0HODumWnYfP1DZl/rf+x+QctCyCqs25exhwkIVE+fMA37SF3K
+	QM5gm8CceAF8WMsxuNAGiF5WvzdAuAGh5+UzJ+q631R9qyDn2U2HS2G8/An9mrqKmNdjNTiQ4TKj4
+	XZAv5oBpboDc2sGWNicEObwm81E90cWnMN21ntLZJ5aJt0K1Qb/KMh056n5jRT2UOjOdoTQ0M9uqJ
+	NH04yX381NPluGOwHtTg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j7j2Y-0007WQ-3z; Fri, 28 Feb 2020 17:03:06 +0000
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444])
+	id 1j7kdc-0003U9-DX; Fri, 28 Feb 2020 18:45:28 +0000
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j7j2U-0007Vy-V3
- for linux-nvme@lists.infradead.org; Fri, 28 Feb 2020 17:03:05 +0000
-Received: by mail-pf1-x444.google.com with SMTP id j9so2008737pfa.8
- for <linux-nvme@lists.infradead.org>; Fri, 28 Feb 2020 09:03:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=XqJMW0uarmXjOrHbVaCNctKuR0JmMvgFV8iwsHWpKVs=;
- b=agTPnjlHc2P9jodD9XIr0XLqdiUgpGgBak+poHC9A9ZynQIVb9GOtGNd0y2kD1NRgZ
- tO/XKStWcIA8BIB0t0vxxBeN26fwNK0yYMeaGMFqxcau+4zwmq61k3SvJXwi/nB7MGym
- ZZ/j35HQ1mRlTXCI/Vs18jzbY/mqjvMVfeJpSexz1MoYK/IkdkMHkU7SAJ8hPR5lNteb
- REYSPsW4Y1NRSgFYMLUiLrMnJrnTNBl0ZaoBwbh7QOZ9Z8znPg2NzPTWjEVGq2WlOJfH
- v6VgTRlHY+uZkC3BrnH9dsNZzFvNx3Rvw3bNYBP1YtjWixku9RfJ2npBZcmCm7P7bgDY
- d38w==
+ id 1j7kdY-0003Te-9i
+ for linux-nvme@lists.infradead.org; Fri, 28 Feb 2020 18:45:25 +0000
+Received: by mail-wm1-x342.google.com with SMTP id f15so4292581wml.3
+ for <linux-nvme@lists.infradead.org>; Fri, 28 Feb 2020 10:45:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+ :user-agent; bh=FyK45DjQnht/q/10E6OWlDiPVugKRhmvRmdrOAQ4uMc=;
+ b=QWNH2JByPLUf5LRLc0OVat87M/c2mDQezJnTh3eKfmBoKmrOLz1T5cJbjmHHtlKnO/
+ w7Z571UQMcj4/XbAy889ZdP7/geRj+VzvnoeN0t+U01qkelUUs1NrR5BLd3sApe+37gC
+ 06RXqyzxv8YxYx6u6akJAOOYJ6zf/Y0ei8BVpOzdG/bgpEpBO+xMi4URPbFPKofdu+Qs
+ ejIpA3xltSZKrW0wcYzvu1bfITDGL1Obw4ugaqkICvCE7NHKp7JATYE4vPoMkEPmpu1g
+ zHWA6ssQwC8AG0eJPTmohTbPxbk4rGM9g/4Ip/6HGNleMh28vZb3IhFHZhePWlInX8YZ
+ Yb8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=XqJMW0uarmXjOrHbVaCNctKuR0JmMvgFV8iwsHWpKVs=;
- b=HVOgaESxkjtWfU5GbrSkagM8kfdPEkodVilFHz46kZsixF9ZE2lHT7H9ST7He/CM8G
- VClYArbLEXTcFnogmeUFU3KwWeuOUck15Mgu6GcpCz+r/fPzFkG/07ljsUN0E0Wp+U0j
- 4l9JGph7v4q4wZGPC2VQ55KNl+QA6Hh2vjFcAxAggvCk9xuiXPwMEgw0mQ6m/SBDI821
- HFdAMyWksmBp7bE2CRIqIJr7u4/vStt/zizAJBbq9gr4yYuQVFOgROFFYVQ+tDE/WzQ5
- 0iBR7s/JbnybDqphplUHhQc4kksQeND5QfITwnKIkIFz4TSMeSSCfhetCIZjUSFIPfUO
- Vmmg==
-X-Gm-Message-State: APjAAAVjm8VIyQp99JKiH7SAnJZ0vX+cOqq+OOBveXLjjvIIVeDucnyX
- fkqejpQ+L19opjPv/KXLqzvPL9cNWGAx3Q==
-X-Google-Smtp-Source: APXvYqzChmnP2s+Jpso2hg5QExYHP3Wcgo9HQ9eZh9bYLhgLEOgsq+yiXtRoMaJAGjnj1+I529TTDw==
-X-Received: by 2002:a62:547:: with SMTP id 68mr5316558pff.217.1582909381776;
- Fri, 28 Feb 2020 09:03:01 -0800 (PST)
-Received: from ?IPv6:2600:380:7462:705e:7897:92be:72b7:47d8?
- ([2600:380:7462:705e:7897:92be:72b7:47d8])
- by smtp.gmail.com with ESMTPSA id 26sm2949746pjk.3.2020.02.28.09.03.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Feb 2020 09:03:01 -0800 (PST)
-Subject: Re: [GIT PULL] nvme polling fix
-To: Keith Busch <kbusch@kernel.org>
-References: <20200228170058.GA2044@redsun51.ssa.fujisawa.hgst.com>
-From: Jens Axboe <axboe@kernel.dk>
-Message-ID: <a17e0cc8-76ba-b4a6-e8e1-9475a1c20024@kernel.dk>
-Date: Fri, 28 Feb 2020 10:02:57 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:user-agent;
+ bh=FyK45DjQnht/q/10E6OWlDiPVugKRhmvRmdrOAQ4uMc=;
+ b=OBN2wF5ioJAWyCPThbhqW1BazT/nu2hZyysCrVsm4KFWp2Fhi9XglINtpHr9AXmKVC
+ MYFe26w39wKzM45KfcsdWvBS1uNtbX5l94NoXznh45tACX3svELkli7dTYto8z1kfaNX
+ 3hC6aWJpm006h0NYxguf0vc6mURoIixoZalT0XB8VzvC6iAx9z+SVjRhidQkLNJASYB8
+ B3M1nojw6M2DfR+y0c8u3E9sojWRUy+AHbZwZeNpywmGZsEjHQWXvAkz9CmOTGo9v+VS
+ fu7ewHAvrV2jQEptUDh/CdYGFy2PfcHNg2kbOtFynsaWZVl6jKCboP6jzDvk1U3ABp7n
+ 0nRA==
+X-Gm-Message-State: APjAAAU4W2A8MVTTroN6ozhu6RBZAAadCSdPmPx+cnikUOOFD9rnK2km
+ fuUEU9Qbw3thrEKb97H1dsCmhxo=
+X-Google-Smtp-Source: APXvYqzPfli1SD8Xk4ml3v57LTn+bJQ12y41FrQMeC2q+Wf0UEgqEf8sgMw1imGNzVo9rA8t6XHy5g==
+X-Received: by 2002:a1c:f71a:: with SMTP id v26mr6180524wmh.85.1582915522149; 
+ Fri, 28 Feb 2020 10:45:22 -0800 (PST)
+Received: from avx2 ([46.53.251.159])
+ by smtp.gmail.com with ESMTPSA id b21sm3261291wmd.37.2020.02.28.10.45.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 28 Feb 2020 10:45:21 -0800 (PST)
+Date: Fri, 28 Feb 2020 21:45:19 +0300
+From: Alexey Dobriyan <adobriyan@gmail.com>
+To: kbusch@kernel.org, axboe@fb.com, hch@lst.de, sagi@grimberg.me
+Subject: [PATCH] nvme-pci: slimmer CQ head update
+Message-ID: <20200228184519.GA2281@avx2>
 MIME-Version: 1.0
-In-Reply-To: <20200228170058.GA2044@redsun51.ssa.fujisawa.hgst.com>
-Content-Language: en-US
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200228_090303_139117_186A0AFB 
-X-CRM114-Status: GOOD (  13.73  )
+X-CRM114-CacheID: sfid-20200228_104524_340528_09D7941E 
+X-CRM114-Status: UNSURE (   8.93  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,37 +94,58 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: hch@lst.de, linux-nvme@lists.infradead.org, sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/28/20 10:00 AM, Keith Busch wrote:
-> The following changes since commit cae740a04b4d6d5166f19ee5faf04ea2a1f34b3d:
-> 
->   blk-mq: Remove some unused function arguments (2020-02-26 10:34:41 -0700)
-> 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git nvme-5.6-rc4
-> 
-> for you to fetch changes up to 9515743bfb39c61aaf3d4f3219a645c8d1fe9a0e:
-> 
->   nvme-pci: Hold cq_poll_lock while completing CQEs (2020-02-28 01:32:14 +0900)
-> 
-> ----------------------------------------------------------------
-> Bijan Mottahedeh (1):
->       nvme-pci: Hold cq_poll_lock while completing CQEs
-> 
->  drivers/nvme/host/pci.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+Update CQ head with pre-increment operator. This saves subtraction of 1
+and a few registers.
 
-Pulled, thanks.
+Also update phase with "^= 1". This generates only one RMW instruction.
 
--- 
-Jens Axboe
+	ffffffff815ba150 <nvme_update_cq_head>:
+	ffffffff815ba150:       0f b7 47 70             movzx  eax,WORD PTR [rdi+0x70]
+	ffffffff815ba154:       83 c0 01                add    eax,0x1
+	ffffffff815ba157:       66 89 47 70             mov    WORD PTR [rdi+0x70],ax
+	ffffffff815ba15b:       66 3b 47 68             cmp    ax,WORD PTR [rdi+0x68]
+	ffffffff815ba15f:       74 01                   je     ffffffff815ba162 <nvme_update_cq_head+0x12>
+	ffffffff815ba161:       c3                      ret
+	ffffffff815ba162:       31 c0                   xor    eax,eax
+	ffffffff815ba164:       80 77 74 01      ===>   xor    BYTE PTR [rdi+0x74],0x1
+	ffffffff815ba168:       66 89 47 70             mov    WORD PTR [rdi+0x70],ax
+	ffffffff815ba16c:       c3                      ret
 
+
+	add/remove: 0/0 grow/shrink: 0/3 up/down: 0/-119 (-119)
+	Function                                     old     new   delta
+	nvme_poll                                    690     678     -12
+	nvme_dev_disable                            1230    1177     -53
+	nvme_irq                                     613     559     -54
+
+Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
+---
+
+ drivers/nvme/host/pci.c |    6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -982,11 +982,9 @@ static void nvme_complete_cqes(struct nvme_queue *nvmeq, u16 start, u16 end)
+ 
+ static inline void nvme_update_cq_head(struct nvme_queue *nvmeq)
+ {
+-	if (nvmeq->cq_head == nvmeq->q_depth - 1) {
++	if (++nvmeq->cq_head == nvmeq->q_depth) {
+ 		nvmeq->cq_head = 0;
+-		nvmeq->cq_phase = !nvmeq->cq_phase;
+-	} else {
+-		nvmeq->cq_head++;
++		nvmeq->cq_phase ^= 1;
+ 	}
+ }
+ 
 
 _______________________________________________
 linux-nvme mailing list
