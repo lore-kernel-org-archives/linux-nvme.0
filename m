@@ -2,61 +2,102 @@ Return-Path: <SRS0=58/p=4Q=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,TVD_RCVD_SPACE_BRACKET,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFC8AC3F2D1
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 Feb 2020 10:39:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEEECC3F2D1
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Feb 2020 12:53:08 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 83672246A8
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 Feb 2020 10:39:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5FE4120665
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Feb 2020 12:53:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="DUY5LM7n"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 83672246A8
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="RfsDVzYi";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=dell.com header.i=@dell.com header.b="FJCGHoeY"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5FE4120665
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=dell.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=p3lMnGzg7bEogKqqzZSUYIZmQrSqM8Ozj4KW8YmEO28=; b=DUY5LM7n2HQd9Hq0VMi3DC/YP
-	7pHV2UhdhBbtNZgYMh+5JpYXzvd5XTIJAIlfdIZYhCoPp5KMisOd2QYRaRTRd0BusEESufWH4Az9B
-	760BNj7zK+sgr9YV6LGgEPktu6YUs+oIiA89ESREiJTCp/E3myPsYiYrzaoucYE+tlE/TvXnLmmDs
-	IVZjufkQFgattQUrCZ4DuUtOoJizwLjeDMmPj4eIFHPnLsqcu79wb4YUFOfBE5YxMDV75VtqytOXL
-	NSTulQ+yB1I8WC0kTRocmuHK0VgK1l1yUphsh4+QOUlwtDTE4T69T0Sa6tW4Xo/icvTsrBLADGKn8
-	92S0ClqMA==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Cc:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+	References:List-Owner; bh=QW0rYBE4G7dw/n+idnAWOWNsOkAcdHBa84yUXPn+0FU=; b=Rfs
+	DVzYiotvI/yAzkjiz/a0C6N8jPZhOcy+rTX3cOTmkQX0Z6O7t8xYg/l5chvEg2Jrt0LOlK0X+7OZc
+	u0XmrRpzswwK92pDP+2elOynKKeANpDK23i2iC4lUm2grdAvXTHCYCoLfOcgi5BBFef2FfsAG0ULK
+	KKYm2LjTVaoQsAGv81O7zxgjNvAbZXWw/7p5XE9Nry6acOFH4TknPUj0IAodgIfkALtlh6o8UqWfQ
+	L19OJKwQWBY9TWgPTIldl2K4uoPgSMDPCAwQtA14p4OJ3ON7QSllKOjVk3Pbnyc5kUdwnpf8UJBCJ
+	SZE4+Mfkfd0DOMxBczJRjmXl2AHAC0g==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j7d3f-00018z-UL; Fri, 28 Feb 2020 10:39:51 +0000
-Received: from mx2.suse.de ([195.135.220.15])
+	id 1j7f8X-0003vO-8C; Fri, 28 Feb 2020 12:53:01 +0000
+Received: from mx0b-00154904.pphosted.com ([148.163.137.20])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j7d3d-00018M-1H
- for linux-nvme@lists.infradead.org; Fri, 28 Feb 2020 10:39:50 +0000
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 7DACDAD93;
- Fri, 28 Feb 2020 10:39:43 +0000 (UTC)
-Subject: Re: [PATCH RFC] nvme/fc: sq flow control
-To: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <keith.busch@wdc.com>
-References: <20200225235956.28475-1-hare@suse.de>
- <913efdfd-6899-08c7-90bb-36f2d33f1e92@grimberg.me>
-From: Hannes Reinecke <hare@suse.de>
-Message-ID: <012a534d-d4bd-d4da-0267-d9b0e9db4d33@suse.de>
-Date: Fri, 28 Feb 2020 11:39:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <913efdfd-6899-08c7-90bb-36f2d33f1e92@grimberg.me>
-Content-Language: en-US
+ id 1j7f8S-0003pz-O0
+ for linux-nvme@lists.infradead.org; Fri, 28 Feb 2020 12:52:58 +0000
+Received: from pps.filterd (m0170395.ppops.net [127.0.0.1])
+ by mx0b-00154904.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 01SClfwt014890; Fri, 28 Feb 2020 07:52:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com;
+ h=from : to : cc : subject : date : message-id; s=smtpout1;
+ bh=OLxgFBeqsFjKcX3DIRHUfWBVxVFRFadiaZ45hMDwmmw=;
+ b=FJCGHoeYICY9p7yKw234PB3xi7Yjn+hVM5wrCf0yIYKygJ+kMDCU/uJj1Cm2MFtEXuks
+ YupBJP8ZrWpmCK3WoiOIvvLgeL94r1EQ8mR74L8+m29FWB6H0FYc5zi9D8NTMB5tPPuc
+ HliADSMORES6jamYaQNH6O+Kf5ZF2gl7Hrz00sJ8SD9pV0lhoLFmX69p443tTZoc3gfI
+ EDET6XLKzVcp7qWcXtWm7xdVDW3jWAVjPR4MEmzKWGHQvyROn6Jg2PfYxvHYTdnMapgb
+ EtCd6hHge5kV+GE5/NjgLJYkLRGAAfIstXXMLOrFjJHnbUFMfuouwiuYm83Hqgac04xD xg== 
+Received: from mx0b-00154901.pphosted.com (mx0b-00154901.pphosted.com
+ [67.231.157.37])
+ by mx0b-00154904.pphosted.com with ESMTP id 2yepw3ah64-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 28 Feb 2020 07:52:50 -0500
+Received: from pps.filterd (m0144104.ppops.net [127.0.0.1])
+ by mx0b-00154901.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 01SCnADC161952; Fri, 28 Feb 2020 07:52:50 -0500
+Received: from mailuogwhop.emc.com (mailuogwhop-nat.lss.emc.com
+ [168.159.213.141] (may be forged))
+ by mx0b-00154901.pphosted.com with ESMTP id 2yepwrs888-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 28 Feb 2020 07:52:50 -0500
+Received: from emc.com (localhost [127.0.0.1])
+ by mailuogwprd05.lss.emc.com (Sentrion-MTA-4.3.1/Sentrion-MTA-4.3.0) with
+ ESMTP id 01SCqnO6008432; Fri, 28 Feb 2020 07:52:49 -0500
+Received: from mailsyshubprd06.lss.emc.com ([mailsyshubprd06.lss.emc.com
+ [10.253.24.24]]) by mailuogwprd05.lss.emc.com with ESMTP id 01SCqbeQ008361 ; 
+ Fri, 28 Feb 2020 07:52:37 -0500
+Received: from vd-amite.xiolab.lab.emc.com (vd-amite.xiolab.lab.emc.com
+ [10.64.137.6])
+ by mailsyshubprd06.lss.emc.com (Sentrion-MTA-4.3.1/Sentrion-MTA-4.3.0) with
+ ESMTP id 01SCqZBB010384; Fri, 28 Feb 2020 07:52:36 -0500
+From: amit.engel@dell.com
+To: sagi@grimberg.me, linux-nvme@lists.infradead.org
+Subject: [PATCH] nvmet: return Invalid Field error on set features cmd fid 07h
+Date: Fri, 28 Feb 2020 14:52:14 +0200
+Message-Id: <20200228125214.100729-1-amit.engel@dell.com>
+X-Mailer: git-send-email 2.16.5
+X-Sentrion-Hostname: mailuogwprd05.lss.emc.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-02-28_04:2020-02-26,
+ 2020-02-28 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 malwarescore=0
+ phishscore=0 clxscore=1015 bulkscore=0 spamscore=0 adultscore=0
+ impostorscore=0 mlxscore=0 lowpriorityscore=0 priorityscore=1501
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2002280104
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 phishscore=0
+ mlxscore=0 lowpriorityscore=0 spamscore=0 impostorscore=0 adultscore=0
+ clxscore=1015 mlxlogscore=999 malwarescore=0 bulkscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
+ definitions=main-2002280104
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200228_023949_225974_D364A45A 
-X-CRM114-Status: GOOD (  24.61  )
+X-CRM114-CacheID: sfid-20200228_045256_968230_2CC24770 
+X-CRM114-Status: GOOD (  13.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,59 +109,53 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-nvme@lists.infradead.org, James Smart <james.smart@broadcom.com>,
- Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
- John Meneghini <john.meneghini@netapp.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Amit Engel <Amit.Engel@dell.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMi8yNy8yMCAxMjo0NSBBTSwgU2FnaSBHcmltYmVyZyB3cm90ZToKPiAKPj4gQXMgcGVyIE5W
-TWUtb0Ygc3BlYyBzcSBmbG93IGNvbnRyb2wgaXMgYWN0dWFsbHkgbWFuZGF0b3J5LCBhbmQgd2Ug
-c2hvdWxkCj4+IGJlIGltcGxlbWVudGluZyBpdCB0byBhdm9pZCB0aGUgY29udHJvbGxlciB0byBy
-ZXR1cm4gYSBmYXRhbCBzdGF0dXMKPj4gZXJyb3IsIGFuZCB0cnkgdG8gcGxheSBuaWNlbHkgd2l0
-aCBjb250cm9sbGVycyB1c2luZyBzcSBmbG93IGNvbnRyb2wKPj4gdG8gaW1wbGVtZW50IFFvUy4K
-PiAKPiBIYW5uZXMsCj4gCj4gQ2FuIHlvdSBwbGVhc2UgY2xhcmlmeSB3aHkgdGhlIGluZGl2aWR1
-YWwgdHJhbnNwb3J0cyBhcmVuJ3Qgc3VmZmljaWVudAo+IGZvciB0aGlzIFFvUyBmZWF0dXJlIHlv
-dSBhcmUgdGFsa2luZyBhYm91dD8KPiAKPiBJZiB3ZSBsb29rIGF0IHRoZSB0cmFuc3BvcnRzIGxh
-bmRzY2FwZSwgZWFjaCB0cmFuc3BvcnQgaGFzIGEgY3JlZGl0Cj4gbWVjaGFuaXNtIHRoYXQgY2Fu
-IHRocm90dGxlIGJ1bGsgZGF0YSB0cmFuc2ZlcnMuIEluIEZDIGV4Y2hhbmdlcyB0aGUKPiB0YXJn
-ZXQgaXMgaW4gY29udHJvbCBwdWxsaW5nIGRhdGEgZnJvbSB0aGUgaG9zdCB3aXRoIHhmZXJfcmVh
-ZHksCj4gSW4gUkRNQSB0aGUgdGFyZ2V0IGRlY2lkZXMgd2hlbiB0byBpc3N1ZSByZG1hX3JlYWQs
-IGFuZCBpbiBUQ1AgdGhlCj4gdGFyZ2V0IGRlY2lkZXMgd2hlbiB0byBpc3N1ZSBSMlQuCj4gCj4g
-VGhlc2UgYXJlIGFsbCBjcmVkaXRzIHRoYXQgZ2l2ZSB0aGUgY29udHJvbCB0byB0aGUgdGFyZ2V0
-IHRvCj4gYmFjay1wcmVzc3VyZSB0aGUgaG9zdC4gTm93IGlmIHRoZSB0YXJnZXQgZG9lc24ndCB3
-YW50IHRoZSBob3N0IHRvIHNlbmQKPiBtb3JlIGNvbW1hbmRzLCBpdCBjYW4gdGhyb3R0bGUgc2Vu
-ZGluZyBjb21wbGV0aW9ucyB0aHVzIGNvbnRyb2xsaW5nIHRoZQo+IHBhY2UuCj4gClllcywgdGhh
-dCdzIHRydWUuIEhvd2V2ZXIsIHdoZW4gdXNpbmcgdGhpcyBtZWNoYW5pc20gaXQgcmVxdWlyZXMg
-dGhlIAp0YXJnZXQgdG8gYWxyZWFkeSBhbGxvY2F0ZSByZXNvdXJjZXMgdG8gaG9sZCB0aGUgZmly
-c3QgcGFydCBvZiB0aGUgCnRyYW5zZmVyLCBpZSB0aGUgY29tbWFuZCBzdHJ1Y3R1cmUgaXRzZWxm
-IHdpbGwgaGF2ZSB0byBiZSBhbGxvY2F0ZWQgYXQgCnRoZSB0YXJnZXQuClNvIHdpdGggdGhpcyBt
-ZXRob2Qgd2UnbGwgaGF2ZSBpc3N1ZXMgd2hlbiB0aGUgdGFyZ2V0IGdvZXMgb3V0IG9mIG1lbW9y
-eSAKZHVlIHRvIGhpZ2ggdHJhZmZpYywgYXMgbm90IGFsbCBkcml2ZXJzIGFyZSBjb2RlZCBjYXJl
-ZnVsbHkgdG8gYXZvaWQgCm1lbW9yeSBhbGxvY2F0aW9uIGluIHRoZSBJL08gcGF0aC4KVGhlIG90
-aGVyIHByb2JsZW0gd2UgaGF2ZSBvbiBGQyBpcyB0aGF0IHRoZSBTQU4gY2FycmllcyBhbiBpbnRl
-cm5hbCAKdGltZW91dCAoUkFUT1YsIHJlc291cmNlIGFsbG9jYXRpb24gdGltZW91dCksIGR1cmlu
-ZyB3aGljaCBhIHRyYW5zYWN0aW9uIApuZWVkcyB0byBiZSBjb21wbGV0ZWQuIFNvIGFueSBkZWxh
-eSBpbiBzZW5kaW5nIFJUUyBldGMgY2Fubm90IGV4Y2VlZCAKdGhpcyB2YWx1ZS4KSG93ZXZlciwg
-dGhlIHJlYWwgcHJvYmxlbSBpcyB0aGF0IHdlJ3JlIHVuYWJsZSB0byBkZXRlY3QgYSBjb25mb3Jt
-YW50IAppbXBsZW1lbnRhdGlvbi4gUGVyIGRlZmF1bHQgd2UgZG8gbm90IGRpc2FibGUgZmxvdyBj
-b250cm9sLCBhbmQgZG8gbm90IApsb29rIGZvciBTUSBIZWFkIHVwZGF0ZXMuIFNvIGlmIHdlIHJ1
-biBhZ2FpbnN0IGEgY29uZm9ybWFudCB0YXJnZXQgd2hpY2ggCmRlY2lkZXMgdG8gYmxvY2sgSS9P
-IGJ5IG5vdCByZXR1cm5pbmcgU1EgSGVhZCB1cGRhdGVzIHRoZSBjb250cm9sbGVyIAp3aWxsIGV2
-ZW50dWFsbHkgdGVybWluYXRlIHRoZSB0cmFuc3BvcnQgY29ubmVjdGlvbiB3aXRoIG5vIGluZGlj
-YXRpb24gYXMgCnRvIHdoeSB0aGUgcmVzZXQgaGFwcGVuZWQuCgo+IEkgbXVzdCBzYXkgdGhhdCBy
-ZXR1cm5pbmcgQkxLX1NUU19SRVNPVVJDRSBmb3IgaG9zdCBtYW5hZ2VkIFNRX0hFQUQgaXMgYQo+
-IGJpdCBhd2t3YXJkIGluIG15IG1pbmQsIGJ1dCB0aGF0IGp1c3Qgb25lJ3Mgb3Bpbmlvbiwgd2hh
-dCBkbyBvdGhlcnMgaGF2ZQo+IHRvIHNheT8KCldoYXQgd291bGQgYmUgdGhlIGFsdGVybmF0aXZl
-PwpSZWR1Y2luZyB0aGUgcXVldWUgc2l6ZSBmb3IgdGhlIGhhcmR3YXJlIHF1ZXVlIHNlZW1zIGEg
-Yml0IGV4Y2Vzc2l2ZSwgCmJ1dCBJJ20gb3BlbiB0byBoYXZlIGEgZGlmZmVyZW50IHJldHVybiBj
-b2RlIGhlcmUuCgpDaGVlcnMsCgpIYW5uZXMKLS0gCkRyLiBIYW5uZXMgUmVpbmVja2UgICAgICAg
-ICAgICBUZWFtbGVhZCBTdG9yYWdlICYgTmV0d29ya2luZwpoYXJlQHN1c2UuZGUgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgKzQ5IDkxMSA3NDA1MyA2ODgKU1VTRSBTb2Z0d2FyZSBTb2x1
-dGlvbnMgR21iSCwgTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnCkhSQiAzNjgwOSAoQUcg
-TsO8cm5iZXJnKSwgR2VzY2jDpGZ0c2bDvGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZlcgoKX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KbGludXgtbnZtZSBtYWls
-aW5nIGxpc3QKbGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZy
-YWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
+From: Amit Engel <amit.engel@dell.com>
+
+If the value specified in NCQR and NSQR fields (0's based) is 65,535
+the controller should return an error of Invalid field in command
+
+Signed-off-by: Amit Engel <Amit.Engel@dell.com>
+---
+ drivers/nvme/target/admin-cmd.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 19f949570625..94b0ac923e99 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -733,6 +733,9 @@ static void nvmet_execute_set_features(struct nvmet_req *req)
+ {
+ 	struct nvmet_subsys *subsys = req->sq->ctrl->subsys;
+ 	u32 cdw10 = le32_to_cpu(req->cmd->common.cdw10);
++	u32 cdw11 = le32_to_cpu(req->cmd->common.cdw11);
++	u16 ncqr = (cdw11 >> 16) & 0xffff;
++	u16 nsqr = cdw11 & 0xffff;
+ 	u16 status = 0;
+ 
+ 	if (!nvmet_check_data_len(req, 0))
+@@ -740,6 +743,10 @@ static void nvmet_execute_set_features(struct nvmet_req *req)
+ 
+ 	switch (cdw10 & 0xff) {
+ 	case NVME_FEAT_NUM_QUEUES:
++		if (ncqr == 0xffff || nsqr == 0xffff) {
++			status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
++			break;
++		}
+ 		nvmet_set_result(req,
+ 			(subsys->max_qid - 1) | ((subsys->max_qid - 1) << 16));
+ 		break;
+-- 
+2.16.5
+
+
+_______________________________________________
+linux-nvme mailing list
+linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
