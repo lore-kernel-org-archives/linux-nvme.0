@@ -2,138 +2,168 @@ Return-Path: <SRS0=isN7=4S=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D86F2C3F2C6
-	for <linux-nvme@archiver.kernel.org>; Sun,  1 Mar 2020 02:01:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F85AC3F2D1
+	for <linux-nvme@archiver.kernel.org>; Sun,  1 Mar 2020 04:47:55 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 84850222C2
-	for <linux-nvme@archiver.kernel.org>; Sun,  1 Mar 2020 02:01:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id DB41D21744
+	for <linux-nvme@archiver.kernel.org>; Sun,  1 Mar 2020 04:47:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="iXK+N6YN";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="Qrc10WEi";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="JtrkBpE4"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 84850222C2
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="GV2Pn3Iy";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=dell.com header.i=@dell.com header.b="h/ZxHwkY";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=Dell.onmicrosoft.com header.i=@Dell.onmicrosoft.com header.b="DGvdgnEh"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DB41D21744
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=Dell.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date
-	:Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	List-Owner; bh=CMI6FUeenBVp1dzsLoe6LyCSx9kjxUZMqa/EDw1M6zc=; b=iXK+N6YNfY2hGS
-	LXRfJ3dxbMUZTbPUX+DCDTAMrxdim3rQwQZlgSlFaUYt8MfyWP9mLD7Wt7hDyJK5S04rwUUuntFkU
-	iABtZHBg6/aNaTELTHa2fbUBVYBPR5Iw8KC1YGYG/zfjUTlJm/CWYg4QDxH/5GPd1oBSUtPBsn9Hz
-	XaBBWWKaY9h4FbswUXP6i/eP5Pu/MeYkMHsRY19fmC7DnZrEkURx4enDWOUMR2BQV3y9wouVSIoeb
-	1iN1R4NfkspsCaR2mnwJ91ACVzWvsIZDoN/0bN59hQRLDNcBJobnffeot+GbnG/I1Nud7SyI+Nqlg
-	cSdcDOYrDd/TRMpZn2uw==;
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
+	Message-ID:Date:Subject:To:From:Reply-To:Cc:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=vfQICkAlw1rnlofZwNJ2FwDHi+AntBYkQWGa934ts7Q=; b=GV2Pn3Iy/njb6r
+	kl+8BpfkDKWTPbj2pV/TeDmZu8p3Ib/AgjjWQU+N/9VW7KAVv1/QmhB7nsFw0lmxwYbgPe5kxiIeF
+	qn8xDxI3mxPSiad9CsQpXXUgeFKzlMFwDdQn5ZOqEGtq6pej4QCKHX8jTYniDvZe8DwC/UTedcsRo
+	D3SU+9Nwu2C2dHYT3S0UKx2zzqpo5FtEgK0iJHj+YMpUgz72d01H1snXkGTelr5bLQfubn8Vl6jjp
+	b/ZorGQZBbUyL2fo3EbMFcbg00HM3wf19fX3SO+sN95QRSN57bR/WgaPFvsTMv6932xbUYgHDoCto
+	Vr7m4kEnf1qnFxNDIAsQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j8Dv1-0000cf-Fp; Sun, 01 Mar 2020 02:01:23 +0000
-Received: from esa6.hgst.iphmx.com ([216.71.154.45])
+	id 1j8GW3-0002R0-RY; Sun, 01 Mar 2020 04:47:47 +0000
+Received: from mx0b-00154904.pphosted.com ([148.163.137.20])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j8Duy-0000cB-RI
- for linux-nvme@lists.infradead.org; Sun, 01 Mar 2020 02:01:22 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1583028081; x=1614564081;
- h=from:to:cc:subject:date:message-id:references:
- content-transfer-encoding:mime-version;
- bh=p3NUnq7+goAE+p4i6WEz4Jyb1QmtbD/PFYkq8IdPASo=;
- b=Qrc10WEijvS4AM1tF2euYgdvbGg7HYgg9H4i4jd87eYkXydQs9U6Rv/j
- whrZAqkF54RUZPn7rn4ydTAww1xIzHrXIt5Y0y6hd94QVKoHPG2SnSHb1
- 960a3z31l2zhz5ldG+0NFBVhLhGoskVUUmGPpxFzqGyvr0v1w9rgmeJsA
- qvi5Bky4tTsbHI39GnYUtmn7DKICWXFDRWCzU+Fg2D38fa8KdPrXBpavk
- mAS5RUzqohUC819BpwdUqzZOs1gKAYAlHzL4sPitQJ/kwxdX5Q8tUIbDW
- aSRzNVT2CmIrSOs+iorNc4QiwrF4H0Qx1C5N7xtceoTAO6b/cuw7UzZnH g==;
-IronPort-SDR: wLRr6LamsSd8y30YAAPRxsdQETpyYJ3RPiflzsOqOjnYW+A5aHZ+IvzeUucGYu2J7nJ7S5Cnq/
- gObFJOY68JaL/Z0mkENmxRCJJT9aZLMhlP26iS6hXvAqXOyr73VkyHyY80kCvl5LWrJSgscg0E
- /sMILGSJDSi8DibGNyNPnTkNuliIesTdjy4rq69h4csMoVmtozjH7bSNZnHVKSD1l/FJZ1mfFU
- tKZ0X3K7ZjjjCGpVvbHaBNpbSYf2Cg7tnUjjaR7t30Zw/oJWV4ZDcAzZzV9zen+pyCoJwCFM+t
- Mxo=
-X-IronPort-AV: E=Sophos;i="5.70,502,1574092800"; d="scan'208";a="132528117"
-Received: from mail-mw2nam10lp2102.outbound.protection.outlook.com (HELO
- NAM10-MW2-obe.outbound.protection.outlook.com) ([104.47.55.102])
- by ob1.hgst.iphmx.com with ESMTP; 01 Mar 2020 10:01:08 +0800
+ id 1j8GW0-0002QV-GT
+ for linux-nvme@lists.infradead.org; Sun, 01 Mar 2020 04:47:46 +0000
+Received: from pps.filterd (m0170395.ppops.net [127.0.0.1])
+ by mx0b-00154904.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0214fb4m006398; Sat, 29 Feb 2020 23:47:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com;
+ h=from : to : subject :
+ date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=smtpout1;
+ bh=D2vErFER4OF535mNxjT7MqO5yd4kPdo/vXm6dDgAOK4=;
+ b=h/ZxHwkYMETE8nfTtOn+fqYO42K+FVGYUHVQxa+q0oM9T7292c4tJYav+o+Dek0d58VS
+ haE6PcCyZIzOLB+tAgufquk76ObQQt+wWe9YUtHYbj7EHdbi4U7KLDzL5I0s8drStyNW
+ DxH6FNg05/fft+al/KNiMthRrdL10IKEoBU+t9OxI50pwGII+tzn7yHV3g/iEzLJNCgh
+ coTdd/fHC97nP2QCymfUpVW2CnYPQaJyKlQhlQdGkPpDSpKc1G1TRYpDuEVMEaXmimwF
+ UbvMNit7TNtVkA4sVKWacHnCoJqH6RcQSSSNeMFLoZew7rtv25sQ/IqjhnpOn50JFQlt /w== 
+Received: from mx0a-00154901.pphosted.com (mx0b-00154901.pphosted.com
+ [67.231.157.37])
+ by mx0b-00154904.pphosted.com with ESMTP id 2yfngw1jt8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 29 Feb 2020 23:47:29 -0500
+Received: from pps.filterd (m0089484.ppops.net [127.0.0.1])
+ by mx0b-00154901.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0214iirR082996; Sat, 29 Feb 2020 23:47:28 -0500
+Received: from nam11-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11lp2170.outbound.protection.outlook.com [104.47.58.170])
+ by mx0b-00154901.pphosted.com with ESMTP id 2yfn9fqmfg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Sat, 29 Feb 2020 23:47:28 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kqnqM6ofREIVGel5Ea1Lr1L1+M8jMlteS87Lf9Gm7D3r86LiC9udeG6jtsd5YAwdrsMLaH3ybxUX9QyR2QkM+vN//RE4LFi2CIGM8nIFKY2wjhOXMor0y7g13lnGJZl/Zeu5rdtViiBXXziPJdwO71akLwmAeQJTxX2f2jmq698Zsm0UAziw/cbm7kAAXYyhbIRreaXbcjCl1o+eBZ4KGLFEqDwY01sJK9skPqWMsb74LkHQdz/kumYZNLYdCHJlAX5NDkwQV11HOvrxrN+HnUU5rE3hT1DesNMXwS5rzxoU7VjbCEEvqgMY2bx2ORFeLHZyGtQ9Ifhu39rZ8XkdoQ==
+ b=CXXlntz4rsIpQQhDxEqEl8Yl0CWKn7uN1lxqDW6E14YkXt3Q9YWh7U7C0ocjguGvkOSOHcVmLlMqI6aJZ6uoQ0s7XlZLR3H1CuAbah0VBzw0BwE9mduNSS12Kc8kF7LDFNnbV4CNvfSJiICJPe77XC4DwBMqIN52NKkXNZ7jG4avWKiG/1ldVXa+1oDYk77GElqxUO6/YElQNZVRgGrVmTanXzR8SjgtZD4W+X/uk7AkCfrkd2L1IQ09JxSeLjebfTZixYJTfYzhT0QT7rrdWKLmb3B+fp7cP8VhljSZxlqqnjagfe++ODLr6PBrUWi43hMXKl7U7X69TZBxX/51Qg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9yz8V0mtHeZaZpikD8TZPmq6BFxKa31Mb/NMcehKPzg=;
- b=AlenQ7rHxWHWufMOqk4QaK92lI0vS01PbktrHWgFGWGnENDLlzR6PO+A25jIJd8vBZN4WhKsuhIseXWsrylL+NsjZFsXm60MXefeoKRSwHUxWGyZb9/3G55xeLwqpsvG8oWdIJD63GzU1W6ANyXxQ3MRNXCospZTAjRXCRzpeWfsU4xpWxwYnpMojSyz01QFLbLh2MBkYoIhUrVNQ6rNpn5sqdVZrFarQQsS9qJNzVKj6Du3b+EAdfz2scOfabEg2RclU8IsCNx3PY/vvw8r046XjnOfg+zdsXRrKcqTp458AIiBge90pohVrufTzO///22iTWKFL7eiTpNQYo4jSA==
+ bh=D2vErFER4OF535mNxjT7MqO5yd4kPdo/vXm6dDgAOK4=;
+ b=VLdiGNH5gGT2ktoDqRaQagqLYIH/OdOUN/Dh/mZdtunz+KWCi5uS1IS2mvAitxJyipuLT0nzDsSOPAAWMmzbNYiwcLuaysv8DIpozB4NtIU+3T7xB/YVoxtmdH9d74cBd6EgGyzdYqXysLan25az6HdwuCLxj76jFdf4tAE0frCLCR8wAHUG0fF9geAkjIPwz5FXkXRRzTaqjAqQv1dMgGr0yAnPejILSypA4jjVD0oT3vhiAa83g8d1gIi+sKCidZcEWCx4tJ3p3We51SENSOvO7e2CJYbWZp8B8LdtyxSw+/dLUV7EkmpshkUAD8YRXgK8kyvazgsX3Fq2mKWVQQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ smtp.mailfrom=dell.com; dmarc=pass action=none header.from=dell.com;
+ dkim=pass header.d=dell.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Dell.onmicrosoft.com; 
+ s=selector1-Dell-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9yz8V0mtHeZaZpikD8TZPmq6BFxKa31Mb/NMcehKPzg=;
- b=JtrkBpE4XRsRrXnspEbSQmLLRVncEOfQyJwgH7xv4ZDuNHemRy3Bdm3b5HfA0yJvJDIz5Ik8xhFeh/JrngAN9Yb5W7MJmGE8bdgtK/2SBkZTWiPNkSgSTa2NyTm8neVA5idK09/gkHzQkGHQWLpdlocABZcYjhd3osWeNIrZnUk=
-Received: from BYAPR04MB5749.namprd04.prod.outlook.com (2603:10b6:a03:106::21)
- by BYAPR04MB5333.namprd04.prod.outlook.com (2603:10b6:a03:c2::27)
+ bh=D2vErFER4OF535mNxjT7MqO5yd4kPdo/vXm6dDgAOK4=;
+ b=DGvdgnEh191VUblEUpIq7f9WAZMXF3osYVyXODHPT+AzlyTmz8wRzieXeD2S11B9uFlAbCGQk64mwhFU3mYINrMxp3Vr0HZOHGP5/qDjYbiN3TGUF5WawVYiHCHeB80GlXo/egEEzajCdannboqd9TXSKFTYD64v1QBPxNtV8hw=
+Received: from MN2PR19MB3005.namprd19.prod.outlook.com (2603:10b6:208:109::21)
+ by MN2PR19MB3054.namprd19.prod.outlook.com (2603:10b6:208:10a::29)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2772.14; Sun, 1 Mar
- 2020 02:01:06 +0000
-Received: from BYAPR04MB5749.namprd04.prod.outlook.com
- ([fe80::fdf8:bd6f:b33d:c2df]) by BYAPR04MB5749.namprd04.prod.outlook.com
- ([fe80::fdf8:bd6f:b33d:c2df%3]) with mapi id 15.20.2772.019; Sun, 1 Mar 2020
- 02:01:05 +0000
-From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-To: Josh Triplett <josh@joshtriplett.org>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
- <sagi@grimberg.me>
-Subject: Re: [PATCH] nvme: Check for readiness more quickly, to speed up boot
- time
-Thread-Topic: [PATCH] nvme: Check for readiness more quickly, to speed up boot
- time
-Thread-Index: AQHV7qtY5m6g7a4cOEmKX4VCzFI0fA==
-Date: Sun, 1 Mar 2020 02:01:05 +0000
-Message-ID: <BYAPR04MB5749363E3AC8C583F5CB076786E60@BYAPR04MB5749.namprd04.prod.outlook.com>
-References: <20200229025228.GA203607@localhost>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2772.18; Sun, 1 Mar
+ 2020 04:47:27 +0000
+Received: from MN2PR19MB3005.namprd19.prod.outlook.com
+ ([fe80::d23:2a41:b2d:8d0d]) by MN2PR19MB3005.namprd19.prod.outlook.com
+ ([fe80::d23:2a41:b2d:8d0d%6]) with mapi id 15.20.2772.018; Sun, 1 Mar 2020
+ 04:47:27 +0000
+From: "Engel, Amit" <Amit.Engel@Dell.com>
+To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>, Sagi Grimberg
+ <sagi@grimberg.me>, "linux-nvme@lists.infradead.org"
+ <linux-nvme@lists.infradead.org>
+Subject: RE: [PATCH] nvmet: return Invalid Field error on set features cmd fid
+ 07h
+Thread-Topic: [PATCH] nvmet: return Invalid Field error on set features cmd
+ fid 07h
+Thread-Index: AQHV7jYu9hHtmmwPV0u08Dbpj70rj6gzLI1g
+Date: Sun, 1 Mar 2020 04:47:26 +0000
+Message-ID: <MN2PR19MB30058A102F30C99029F1FC38EEE60@MN2PR19MB3005.namprd19.prod.outlook.com>
+References: <20200228125214.100729-1-amit.engel@dell.com>
+ <6653e6ab-0fb4-7cb9-e759-eecaef4eddbd@grimberg.me>
+ <BYAPR04MB57499DC82E126AEAD6682B3C86E60@BYAPR04MB5749.namprd04.prod.outlook.com>
+In-Reply-To: <BYAPR04MB57499DC82E126AEAD6682B3C86E60@BYAPR04MB5749.namprd04.prod.outlook.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Chaitanya.Kulkarni@wdc.com; 
-x-originating-ip: [199.255.45.62]
+msip_labels: MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Enabled=True;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Owner=Amit.Engel@emc.com;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SetDate=2020-03-01T04:47:25.3082464Z;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Name=External Public;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Application=Microsoft Azure
+ Information Protection;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Extended_MSFT_Method=Manual;
+ aiplabel=External Public
+x-originating-ip: [80.246.141.133]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: faea1525-f000-4ef5-7505-08d7bd84670a
-x-ms-traffictypediagnostic: BYAPR04MB5333:
-x-microsoft-antispam-prvs: <BYAPR04MB53333DB2F5C7DB868638487186E60@BYAPR04MB5333.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-ms-office365-filtering-correlation-id: cd31b4e9-8c80-4cba-f30a-08d7bd9ba454
+x-ms-traffictypediagnostic: MN2PR19MB3054:
+x-microsoft-antispam-prvs: <MN2PR19MB30541C408E0201CCB56755BCEEE60@MN2PR19MB3054.namprd19.prod.outlook.com>
+x-exotenant: 2khUwGVqB6N9v58KS13ncyUmMJd8q4
+x-ms-oob-tlc-oobclassifiers: OLM:1775;
 x-forefront-prvs: 0329B15C8A
 x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(136003)(396003)(39860400002)(346002)(366004)(376002)(199004)(189003)(33656002)(2906002)(71200400001)(478600001)(9686003)(55016002)(110136005)(54906003)(8936002)(186003)(76116006)(4326008)(66946007)(8676002)(66476007)(81156014)(81166006)(66556008)(86362001)(6506007)(7696005)(26005)(66446008)(52536014)(53546011)(64756008)(316002)(5660300002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:BYAPR04MB5333;
- H:BYAPR04MB5749.namprd04.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
+ SFS:(10009020)(4636009)(366004)(39860400002)(396003)(136003)(346002)(376002)(189003)(199004)(5660300002)(8676002)(9686003)(478600001)(55016002)(53546011)(26005)(81156014)(81166006)(71200400001)(52536014)(8936002)(186003)(86362001)(6506007)(66476007)(66556008)(2906002)(316002)(66946007)(64756008)(110136005)(786003)(4744005)(7696005)(66446008)(33656002)(76116006);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:MN2PR19MB3054;
+ H:MN2PR19MB3005.namprd19.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: Dell.com does not designate
+ permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 0Fk/SZiJL0k25JQ4iymZ0tl+RvWnE1x+j5F8X3LjvBeW9rn7G5HTwn0VNx+7Lh/IkuYX7fdrTxszOIbk7sAtD2FF+1TFAY2PSfPVGkJSEMyRllJz0+V5fmF0PtDYcXJFcMNHJKzI6YF9Eii/dujgivITIyTf1Bkmgp4zQ06i0wmpmxyUNAcwa8t0J2XNU49U04adkQd0YOFqd4j9wLFRtLrtzAVSwLNkB/0S9G23oy4rmxLKrZWniMrlubOiYNTf/X4+LU81Lf/VQbDKlQCCIIZO1OhVu2qoTk6yEZ8mMx/zR7oMKRzZXQXDlbjMLg5k4PhmaHpA/2Ve5owrADSWXye4kjCRv4Zi3uZRdJjhohv9+kgZh59wf/q/egsnjYshlqLonJCsninTtn3D8dwf+8WprcGtm+ZF4YD34wv3hznLWnmQnOynS3HusZPU2jf0
-x-ms-exchange-antispam-messagedata: W0nmT6bxdf1B7FyjcxGDFV053XY4RqsrUKJHPK8vDlHTuxfNRVdgBuDT/5qTMFgvXWw3LItieCg7AChrB8MNRRkgqbKphuSF+pRlGa7XjelK5KnoPm07bsYP7KrOxYQ6udblIVX/HmDMKridFWI0Yw==
+x-microsoft-antispam-message-info: rbtsqwItrej4Y8a3YxCwUPRuq2eCyCg3x2rJWyJ2vsIfW+RKC9XshZBycTldZLZxkxq2T14chi8ESqkeFVhDcAsygiwWIc5/1PovqAJXhziDeyhNoBZOnk9Y3g6hQVEAyIrIvXTqU0jp4KBGjbN0MkUWdUsPQcHkAAkXnjz06ux5Oso2QE2EbDwbCiTT4/HTrzh/r/J1RTr3YnejpHxCbXO5xSDO1Dk+HtKOwwq0zR3GJcBOrTe+v+0Hzpf1//syV72FHqdBelXZpRja9rFnn1O0GPgJFhoCYRi/R8uNAg1m5v0ES50H+SreL5CNISzUpD1IR2iHxFsSanD5am0l3JDT+YqdqLLIh2SpTiDDe2apdN/hcRNo3DFO229J0bDd/ZvZhXJUd7MwVdR35p82To9k7KFrI/LyPO9zOQ2QbgxKnPy/deFYZqVID8OSLhV4
+x-ms-exchange-antispam-messagedata: EVxpuHLV0OiyaXlzEte7JduyUHhh/CnN43rHL6UmgV+Fr+P14wjWUGnlf8ygwGl2zsBW9quglQ9+j/gf4+jXFvdQp7WCjb6dDS6/r9hOWx1M+mZKVW7kXYXbeQP+RV5N+UD9oLBGGEfb7BPWCYFi0w==
 x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: faea1525-f000-4ef5-7505-08d7bd84670a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Mar 2020 02:01:05.7226 (UTC)
+X-OriginatorOrg: Dell.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cd31b4e9-8c80-4cba-f30a-08d7bd9ba454
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Mar 2020 04:47:26.8537 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-id: 945c199a-83a2-4e80-9f8c-5a91be5752dd
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: C+G+8ygP+IHfT7dOLobsy5gXLo8UoZqP07G1Ml5JpqlrwuNy3XVVOMxlwO4hVN2rKYIjbiskEG0tqZPGMG7UWY9opqco6DbRCKSowX7Kv5I=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB5333
+X-MS-Exchange-CrossTenant-userprincipalname: BwkjHcHTqGeBDp2S9u3WN+p++g6ERMu5tMGmoUfvDsROMnaBuSCYu81I3V9xa5Uqvp2iSw+UoZ5m+UfRh9t4Lw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR19MB3054
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-02-29_09:2020-02-28,
+ 2020-02-29 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 mlxscore=0
+ suspectscore=0 bulkscore=0 priorityscore=1501 spamscore=0 adultscore=0
+ mlxlogscore=999 impostorscore=0 lowpriorityscore=0 clxscore=1011
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2003010037
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ phishscore=0
+ lowpriorityscore=0 priorityscore=1501 mlxscore=0 adultscore=0 bulkscore=0
+ malwarescore=0 mlxlogscore=999 clxscore=1015 suspectscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2003010036
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200229_180121_286004_52B2B480 
-X-CRM114-Status: GOOD (  17.71  )
+X-CRM114-CacheID: sfid-20200229_204744_769334_3BD95B2A 
+X-CRM114-Status: GOOD (  12.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,126 +175,27 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Nit:- please have a look at the patch subject line and make
-sure it is not exceeding the required length.
+Thank you
 
-One question though, have you seen similar kind of performance 
-improvements when system is booted ?
-
-I took some numbers and couldn't see similar benefit. See [1] :-
-
-Without :-
-
-714.532560-714.456099 = .076461
-721.189886-721.110845 = .079041
-727.836938-727.765572 = .071366
-734.589886-734.519779 = .070107
-741.244296-741.173503 = .070793
-
-With this patch :-
-
-805.549656-805.461924 = .087732
-812.199549-812.124364 = .075185
-818.868111-818.793779 = .074332
-825.636130-825.554311 = .081819
-832.287043-832.205882 = .081161
-
-Regards,
-Chaitanya
-
-[1] Detail log :-
-
-Without this patch :-
-
-[  714.456099] nvme_init 3133
-[  714.458501] nvme nvme0: pci function 0000:61:00.0
-[  714.532560] nvme nvme0: 32/0/0 default/read/poll queues
-[  721.110845] nvme_init 3133
-[  721.114112] nvme nvme0: pci function 0000:61:00.0
-[  721.189886] nvme nvme0: 32/0/0 default/read/poll queues
-[  727.765572] nvme_init 3133
-[  727.767814] nvme nvme0: pci function 0000:61:00.0
-[  727.836938] nvme nvme0: 32/0/0 default/read/poll queues
-[  734.519779] nvme_init 3133
-[  734.522099] nvme nvme0: pci function 0000:61:00.0
-[  734.589886] nvme nvme0: 32/0/0 default/read/poll queues
-[  741.173503] nvme_init 3133
-[  741.176089] nvme nvme0: pci function 0000:61:00.0
-[  741.244296] nvme nvme0: 32/0/0 default/read/poll queues
-
-With this patch :-
-
-[  805.461924] nvme_init 3133
-[  805.464521] nvme nvme0: pci function 0000:61:00.0
-[  805.549656] nvme nvme0: 32/0/0 default/read/poll queues
-[  812.124364] nvme_init 3133
-[  812.126975] nvme nvme0: pci function 0000:61:00.0
-[  812.199549] nvme nvme0: 32/0/0 default/read/poll queues
-[  818.793779] nvme_init 3133
-[  818.796581] nvme nvme0: pci function 0000:61:00.0
-[  818.868111] nvme nvme0: 32/0/0 default/read/poll queues
-[  825.554311] nvme_init 3133
-[  825.556551] nvme nvme0: pci function 0000:61:00.0
-[  825.636130] nvme nvme0: 32/0/0 default/read/poll queues
-[  832.205882] nvme_init 3133
-[  832.208934] nvme nvme0: pci function 0000:61:00.0
-[  832.287043] nvme nvme0: 32/0/0 default/read/poll queues
+-----Original Message-----
+From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com> 
+Sent: Sunday, March 1, 2020 2:30 AM
+To: Sagi Grimberg; Engel, Amit; linux-nvme@lists.infradead.org
+Subject: Re: [PATCH] nvmet: return Invalid Field error on set features cmd fid 07h
 
 
-On 02/28/2020 06:52 PM, Josh Triplett wrote:
-> After initialization, nvme_wait_ready checks for readiness every 100ms,
-> even though the drive may be ready far sooner than that. This delays
-> system boot by hundreds of milliseconds. Reduce the delay, checking for
-> readiness every millisecond instead.
->
-> Boot-time tests on an AWS c5.12xlarge:
->
-> Before:
-> [    0.546936] initcall nvme_init+0x0/0x5b returned 0 after 37 usecs
-> ...
-> [    0.764178] nvme nvme0: 2/0/0 default/read/poll queues
-> [    0.768424]  nvme0n1: p1
-> [    0.774132] EXT4-fs (nvme0n1p1): mounted filesystem with ordered data mode. Opts: (null)
-> [    0.774146] VFS: Mounted root (ext4 filesystem) on device 259:1.
-> ...
-> [    0.788141] Run /sbin/init as init process
->
-> After:
-> [    0.537088] initcall nvme_init+0x0/0x5b returned 0 after 37 usecs
-> ...
-> [    0.543457] nvme nvme0: 2/0/0 default/read/poll queues
-> [    0.548473]  nvme0n1: p1
-> [    0.554339] EXT4-fs (nvme0n1p1): mounted filesystem with ordered data mode. Opts: (null)
-> [    0.554344] VFS: Mounted root (ext4 filesystem) on device 259:1.
-> ...
-> [    0.567931] Run /sbin/init as init process
->
-> Signed-off-by: Josh Triplett <josh@joshtriplett.org>
-> ---
->   drivers/nvme/host/core.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index a4d8c90ee7cc..04174a40b9b0 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -2074,7 +2074,7 @@ static int nvme_wait_ready(struct nvme_ctrl *ctrl, u64 cap, bool enabled)
->   		if ((csts & NVME_CSTS_RDY) == bit)
->   			break;
->
-> -		msleep(100);
-> +		usleep_range(1000, 2000);
->   		if (fatal_signal_pending(current))
->   			return -EINTR;
->   		if (time_after(jiffies, timeout)) {
->
+[EXTERNAL EMAIL] 
+
+Sent out a patch with following comments and appropriate history.
+
+On 02/28/2020 12:33 PM, Sagi Grimberg wrote:
+> I meant that here we only declare, assignment should go to where these 
+> are used.
 
 
 _______________________________________________
