@@ -2,91 +2,139 @@ Return-Path: <SRS0=ymBk=4T=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C5F7C3F2D1
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 Mar 2020 03:30:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43A45C3F2D1
+	for <linux-nvme@archiver.kernel.org>; Mon,  2 Mar 2020 03:31:02 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 38C5E22B48
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 Mar 2020 03:30:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0D77A24672
+	for <linux-nvme@archiver.kernel.org>; Mon,  2 Mar 2020 03:31:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="JK9XUqon";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="RP/i8ZcF"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 38C5E22B48
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="l2cUqVs1";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="CW1pxJXC";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="fmVuXIF1"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0D77A24672
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
-	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=bjga4XFTJVgExulC13Wf/CVy/MI7b9FWXzoD7i1G+ps=; b=JK9XUqon2afq6I
-	4chiU5Wowd0K7eXN4Ee/1nuKiTU/M/QFqiJ0YA34EyVlPGg4bQU10J2T54fLLgYNk6vs9chbaz2Ge
-	xdWIJ+SmnfLcmidnbQq0BzmW6utyI2mADayQZWhxYKQF3W/KABva7ejKIDLGda35bqucRKCrNdqTf
-	IS1IK+OQQvyFCyXM+DjIRYJK1DmQVwNI48mHeAJtaLuTO5ZFEnWpIGbKAR9hPdwSz7SvFQAxGJWUH
-	kIx7Vmdu3Hv+x1qDuC6omwGZxkE3KorzbFpS8KrLmeOXRg1behXOhr1Ufz+fJRrD/lvVxKgah8DBh
-	Z7u41MruJQCYY2gKOLsA==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date
+	:Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+	List-Owner; bh=BY4ZEmzs28F6eYIxehPxg8GCFQrcqY/vI8ZQU/Snr6Y=; b=l2cUqVs1LQaOCg
+	j1s3fSeDdxaGtqVThos2PrSYZlruUZ3x1Fq5QlxdzOcOIIuY6+Onfwl5XoqG5x/REyTRbp6jxaBoJ
+	xwTh7jNz4rOjQuY54ZQhG5jV40qUa25Nb+nmslLmmUXTrvre76V3GatO+RNiN5CAqZu4beEkCLCdA
+	ATJnN1Ct7uyhkxjCsN3ui459SM4Y2rv3P+2CQAg0RFEo4qBf6IurCgpIWZuk94lHhtf+Tqh93L+44
+	pU/Ot4VcoI5CtFLQEWBG13KIUhAmHC1FFPp+g4XtWMNKmOtVtp6ghhf5l0+7rtyXKLUuAcy1/wMIB
+	YFQWFVSDpZ8kjz2349bQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j8bn2-0003mh-0N; Mon, 02 Mar 2020 03:30:44 +0000
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
+	id 1j8bnG-00041K-QK; Mon, 02 Mar 2020 03:30:58 +0000
+Received: from esa4.hgst.iphmx.com ([216.71.154.42])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j8bmy-0003kb-Hg
- for linux-nvme@lists.infradead.org; Mon, 02 Mar 2020 03:30:42 +0000
+ id 1j8bnB-0003x1-Hd
+ for linux-nvme@lists.infradead.org; Mon, 02 Mar 2020 03:30:55 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1583119840; x=1614655840;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=fyl+mormd7+O+jKnN9UayHfBtj0LmVi32xHEjEdwLdM=;
- b=RP/i8ZcFE2KGmJDISqUHS+8T/3Kp8bluXCAUGctFY+estJEgFA6Fgmt4
- dBSahbcPVk0Gyq1lRU6Y2Pz12SHZpbFHbzIdtVFGDQcDx32g+shkUhw9n
- ujo4J5za4S2sIONYS6il/VFZpop/F/0RZ40RzebEpKGY3NCNywNjNm25b
- SW/7Vr2gEZ3rXUDzq9WhlxgJJ8F8c2vgIaLUu9IAuuJm1AalFbUIOJ0VH
- 9/VkG5ArOYRxN5BOIOOYh5ELZzL3iNVTc5cE0kz6Kv+TbME2IUXfAmfhd
- sA92FjIUoxytblN7Wy68e9EC1OQ8cFwswyLnmdeYyK+ONQnruYVKr6uOZ g==;
-IronPort-SDR: UfTcdao5xgN19lBSrvfR8WAiWery0TXfXNy8DQODVnyyXgXwIPWZMlbTOEOQuM3SC7P153xZ+S
- peLSumM+BOXspieYtdVOmKmtyN2DaIptd+z1bJD3NDbAt9/ckx/Cv9tPq2I9LV6EWf2XHeNLoJ
- r2oCtKI+nM/WM2AcPMawGPpvS0Yo/EIl3PdgcjImqdAuOM0B9QiYPwh6nWcwzr6DKHoZICd78t
- qznDHOuzbSaacH4Dn4KougYXvy8WrLjMS3S42VDiIvf5S0dupuusniRaoFe9o0SknkYILhn1Lx
- y/o=
-X-IronPort-AV: E=Sophos;i="5.70,506,1574092800"; d="scan'208";a="239326480"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 02 Mar 2020 11:30:31 +0800
-IronPort-SDR: Aai4n/FmZM6EXNakLeJ0/m6qrq8mIHeqbBLYS1l6KIS7s77egFJ5LQEhiZ7SAMJK4jtBgowzgc
- MV3XfOqXxj6Zelz/ole/aInvh6jynwnaRnAUgJ6naWz1Yp2Bb9GrubeXE6sNhluTBQ9ya8H5Fb
- pvdI1jnKr5bOJOZ6FawX4jFMjvnRX5DWGY0wAFs24VtCkRQ9BRfA7rprecEn73iEBkUjBAvKJx
- mIq7zdnN9eTmj696fZ4HaK7r/FUqYTiWZky7PfD1faEu1Xf215IHNWS4ubloe+OHt8HWqLfZcS
- HNNk0UZZc2yLT8kXpU+bTcIV
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Mar 2020 19:22:26 -0800
-IronPort-SDR: 3Okn6yVTEjPPKGPz15G/0mJOeBAemNAKdqXixRVSXnRj7RL8yh2Ass1JhWKdTywXsTWyfK392p
- K5n0Ge7o5rB9glWAHKNfXRoxS1WtTW2fkkG0f90TVJBdkEiFYYiaVwBH/+YEzgb5VRKDxAtxvP
- dhnjFNyD0HMEdnttt75+tYFZJ2R0jkTHi28fbsDXb6XhgmnwnmuRf9D+jZVABtSRwLtd4Qw/F5
- TqC6iNBQfWd1NIarn5p1FsyK06CqmqQ0iEFJaB7GEfvZjtPUp8uTE8FZfo9zBCVHp0UPqYK3KT
- Pk8=
-WDCIronportException: Internal
-Received: from iouring.labspan.wdc.com (HELO iouring.sc.wdc.com)
- ([10.6.138.107])
- by uls-op-cesaip01.wdc.com with ESMTP; 01 Mar 2020 19:30:32 -0800
-From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-To: linux-nvme@lists.infradead.org
-Subject: [PATCH V4] nvme-fabrics: reject I/O to offline device
-Date: Sun,  1 Mar 2020 19:30:04 -0800
-Message-Id: <20200302033004.19474-1-chaitanya.kulkarni@wdc.com>
-X-Mailer: git-send-email 2.24.0
+ t=1583119853; x=1614655853;
+ h=from:to:cc:subject:date:message-id:references:
+ content-transfer-encoding:mime-version;
+ bh=E620ZeHN9+Z72n9pStFn1ifZvqWe+j3kiWmBfcCyVsE=;
+ b=CW1pxJXCIi+NDs4YL0iKUmTODafCiisc6WcByip+4FF8o97CWFZw5Rym
+ ytUP92YXfZALnFkISVqjB3OAhW9Mu+8E1pEgIVCRymITrrRAOYlZzx6RW
+ 8eUuFXLPnHjzJ69m/KBcvBt8ZCAo8ghsXXOGfLrlBvfIhZjujb6M0ILEv
+ 5GISIB8Ec6E4eHcbevtjRrtSO8MTiyVpkX8ftureVesFayocm1LvLyw2C
+ Twd5PnWpka2rhgadgOtFAaUHc3tJun4DIG903kWSqUSmCil9vGnU+2Wnj
+ jz4SrZAGgRgKRom/Uuo8kCUO+ZrguvjoKYUcUjVAmmOkv70leFrIReloN w==;
+IronPort-SDR: gaB/s+wj2YCj9cqeHuBjQGrbVz+YkVFHWAFk2gYQweEDQPHtr1Vobf6+d4+jrJJ+t4LkejhFeb
+ cgiafx8gHLF+tAofrV8TkKnvXQVvGwHwEU/6SNqA9B7h0hHvrReDAwf6iRTv9tcKMYnQy08U1N
+ PyU+fcWpiCzanhzlwBWxxmbNxkM1PR9KX2S2KZxkpOaY32HKOxGyloJ+qLu3om7BZkLXxVmd7I
+ u7RQkXnk4H7lOjSbFHmDk0FM+w+TKLaD7zI+7PSTVqv8b8wALOXgMADBFwCr0gRdRqg5utRZmL
+ X3E=
+X-IronPort-AV: E=Sophos;i="5.70,506,1574092800"; d="scan'208";a="131116400"
+Received: from mail-bn7nam10lp2101.outbound.protection.outlook.com (HELO
+ NAM10-BN7-obe.outbound.protection.outlook.com) ([104.47.70.101])
+ by ob1.hgst.iphmx.com with ESMTP; 02 Mar 2020 11:30:51 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fAgcb9uwk5ZMIAVKV93tsp58risVBDac0VzYTwP1/yEjhuh4Gs/LH8iUjFNWk+3f2QFzUTtQzl1fmaiYtJPrakhcadJHgtnK1cBnWFXoI9YcfpaqIM2d4A8YKHbggUJMaM3QbacnYF4qm0jt2ClfFSHcBxxzaMTkdBep8DvAtxzI9FJtvd+XFjzwcPl3D3AXpTkIiDyEM1oYdfCQsee56TbDtgvgV5ccJ7olg/He/VwyVYS26IIIGJ6Wl3731fuBTV86wjZU93PCo6SH3ffCs6dxCEChgfDc+Qqp1fy2Y+v2pGqppyfwqnYUCz5HPD+C5BejYj0FlLCakk22Xmi5Mg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=E620ZeHN9+Z72n9pStFn1ifZvqWe+j3kiWmBfcCyVsE=;
+ b=Jqtky2mFPZAzumRlk2wOIzyQaxC+nhWcZWsrQw6XlIBo8a5wdST+loP02uOViZZxnibXTDJ9mr4qAQzrgu4BHDsiVS50+K7JtxvB6xzEKn5ksMypewYA4c/TfZsTlUHYB+ToGGesfllze0BE9N2cgwswzgWnX2YZUFK5SmV5rBu0nD62Hr6sRmueB+KULVlJWfsjf3PiCvmNPTYyPUAyWYOuygyoVJXt82kA5aphB6JUckJYxFMxdx9BwrlL3go7RPSVnHBkrvzh2k24gyiO57u4CyNvFT6G9DC5kKUfbOZX/qmdRKhxATkLabbW60p/kehKp5ROQG99XvJTKvmMJg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=E620ZeHN9+Z72n9pStFn1ifZvqWe+j3kiWmBfcCyVsE=;
+ b=fmVuXIF1WjpYWXwuIZ0/uxLX+b3vNcyH3zAVFKRadU2khY0vtbR8i5HDR79xfvjmlkY/FAJCbe44JRlaO+aJ8yxGyDSSS90b8fnxCahlGjBXxye55VekARYnRX5xg7S/fVQZq1sT64yYCtsCDyw3FE6VznkPCyq47Hew0j4vUBg=
+Received: from BYAPR04MB5749.namprd04.prod.outlook.com (2603:10b6:a03:106::21)
+ by BYAPR04MB4679.namprd04.prod.outlook.com (2603:10b6:a03:5d::28)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2772.15; Mon, 2 Mar
+ 2020 03:30:49 +0000
+Received: from BYAPR04MB5749.namprd04.prod.outlook.com
+ ([fe80::fdf8:bd6f:b33d:c2df]) by BYAPR04MB5749.namprd04.prod.outlook.com
+ ([fe80::fdf8:bd6f:b33d:c2df%3]) with mapi id 15.20.2772.019; Mon, 2 Mar 2020
+ 03:30:49 +0000
+From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+To: Victor Gladkov <Victor.Gladkov@kioxia.com>, James Smart
+ <james.smart@broadcom.com>, Sagi Grimberg <sagi@grimberg.me>, Christoph
+ Hellwig <hch@infradead.org>
+Subject: Re: [PATCH v3] nvme-fabrics: reject I/O to offline device
+Thread-Topic: [PATCH v3] nvme-fabrics: reject I/O to offline device
+Thread-Index: AdXbcCoP3Iz9GTcSQ9G2kH7D3alHRw==
+Date: Mon, 2 Mar 2020 03:30:49 +0000
+Message-ID: <BYAPR04MB57496DB7A3905FBC85A75B6786E70@BYAPR04MB5749.namprd04.prod.outlook.com>
+References: <2d77d20698b14aa6ae261a71d239c50b@kioxia.com>
+ <20200219152849.GB13942@infradead.org>
+ <7ac74c23-db96-56e0-ad6e-24bb4df1934b@grimberg.me>
+ <f1d99912-d177-85ce-7ebd-4863cdcb2a36@broadcom.com>
+ <57375a469831480faa022a5593dcc96d@kioxia.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Chaitanya.Kulkarni@wdc.com; 
+x-originating-ip: [199.255.45.62]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 2850f63a-a32b-4264-b28e-08d7be5a1a31
+x-ms-traffictypediagnostic: BYAPR04MB4679:
+x-microsoft-antispam-prvs: <BYAPR04MB4679C1DF814439CA59EFC85C86E70@BYAPR04MB4679.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:6430;
+x-forefront-prvs: 033054F29A
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(4636009)(346002)(376002)(396003)(366004)(136003)(39860400002)(199004)(189003)(2906002)(66946007)(55016002)(52536014)(186003)(9686003)(8936002)(86362001)(33656002)(478600001)(66556008)(66476007)(71200400001)(26005)(6506007)(81156014)(53546011)(81166006)(8676002)(7696005)(54906003)(110136005)(316002)(4326008)(64756008)(5660300002)(76116006)(66446008);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:BYAPR04MB4679;
+ H:BYAPR04MB5749.namprd04.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: nP6ZVEfV/22k/LX0Ek4JoP78T1ElFXSGMizOxfEvzfjMIoDSl/0nTYZL9PSKMS7HGGBIvDMudbM9J6OIU3pFicDeL2gsaStQmnI89oSfx8y6tkz3nQf3rhsFEXgrEfqiLqlkt2DaSHDZEidetDEngFyWYhtlVV7MqhLE7B/NwXVlE7vP2Hjej9PW9YExdSCgE1Ts5tvm5EMYuH2dZg9FxJT5BFDgpAXVSbSLMwErWUCIQh1AIdY+nTwfQjve/7Nsxffuj7xb0V8vc06UkPTC/mj661uSuqDy2vdrZ7jreR4zAkZRL6U6GFo2m3Nn0kNKC0bjJJt8DKFmn06hcmpmgF4DmJjNPIAovbb7MfdZhWXL+Q4F7mEoGEFLlNYlu+1EVR5rdqPgrROikQEI8pOROp8bwkzrE3AEBINGlXVaSbdlQ6s/Qzzt8W3tH2HFqS/W
+x-ms-exchange-antispam-messagedata: 09JBI2pQgzh5WBzqHGNg6Ysqm4OzsTGiaJbi/CzJhgjKWdaYLd27RhmB/Z59aDIMe/waB6pimYciyicvy2XhBJlR+NEM5Pd3OPoF1zWKd+ESmYd388u5qrPCv0qU4oq9CMDMpe7TrYIsvRZu88cnQQ==
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2850f63a-a32b-4264-b28e-08d7be5a1a31
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Mar 2020 03:30:49.1133 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: yhmUlWICjRZy5JVfn81cy7o0VeIxFgymZorkm50I4bI4gTcuaUwIZWjkXyQPmM2LTkWB7Xiu7vL09imkIbGic6lS3zG3UgZ2zVUQSxFVP6Y=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB4679
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200301_193040_628652_68131E62 
-X-CRM114-Status: GOOD (  23.10  )
+X-CRM114-CacheID: sfid-20200301_193053_632048_7415CDD0 
+X-CRM114-Status: GOOD (  11.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,348 +146,46 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: sagi@grimberg.me, snitzer@redhat.com,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>, james.smart@broadcom.com,
- Victor.Gladkov@kioxia.com, hare@suse.de, hch@lst.de
+Cc: Mike Snitzer <snitzer@redhat.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ Hannes Reinecke <hare@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Victor Gladkov <victor.gladkov@kioxia.com>
+When reviewing this patch I found a bug, along with some
+general kernel style fixes. Sent out updated version V4
+please have a look.
 
-Commands get stuck while Host NVMe controller (TCP or RDMA) is in
-reconnect state. NVMe controller enters into reconnect state when it
-loses connection with the target. It tries to reconnect every 10
-seconds (default) until successful reconnection or until reconnect
-time-out is reached. The default reconnect time out is 10 minutes.
-
-To fix this long delay due to the default timeout we introduce new
-session parameter "fast_io_fail_tmo". The timeout is measured in
-seconds from the controller reconnect, any command beyond that timeout
-is rejected. The new parameter value may be passed during 'connect'.
-The default value of 0 means no timeout (similar to current behavior).
-
-We add a new controller NVME_CTRL_FAILFAST_EXPIRED and respective
-delayed work that updates the NVME_CTRL_FAILFAST_EXPIRED flag.
-
-When the controller is entering the CONNECTING state, we schedule the
-delayed_work based on failfast timeout value. If the transition is out
-of CONNECTING, terminate delayed work item and ensure failfast_expired
-is false. If delayed work item expires then set
-"NVME_CTRL_FAILFAST_EXPIRED" flag to true.
-
-We also update nvmf_fail_nonready_command() and nvme_available_path()
-functions with check the "NVME_CTRL_FAILFAST_EXPIRED" controller flag.
-
-Signed-off-by: Victor Gladkov <victor.gladkov@kioxia.com>
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
----
-Changes From V3:
-
-1. BUG_FIX: Fix a bug in nvme_start_failfast_work() amd 
-   nvme_stop_failfast_work() when accessing ctrl->opts as it will fail
-   for PCIe transport when is called nvme_change_ctrl_state()
-   from nvme_reset_work(), since we don't set the ctrl->opts for
-   PCIe transport.
-2. Line wrap in nvme_start_failfast_work(), nvme_parse_option() and
-   for macro NVMF_ALLOWED_OPTS definition.
-3. Just like all the state change code add a switch for newly
-   added state handling outside of the state machine in
-   nvme_state_change().
-4. nvme_available_path() add /* fallthru */ after if..break inside
-   switch which is under list_for_each_entry_rcu().
-5. Align newly added member nvmf_ctrl_options fast_io_fail_tmp.
-6. Fix the tabs before if in nvme_available_path() and line wrap
-   for the same.
-7. In nvme_failfast_work() use state != NVME_CTRL_CONNECTING
-   instead of == to get rid of the parentheses and avoid char > 80.
-8. Get rid of the ";" at the end of the comment for @fast_io_fail_tmp.
-9. Change the commit log style to match the one we have in the NVMe
-   repo.
-
-Changes from V2:
-
-1. Several coding style and small fixes.
-2. Fix the comment for NVMF_DEF_FAIL_FAST_TMO.
-3. Don't call functionality from the state machine.
-4. Rename fast_fail_tmo -> fast_io_fail_tmo to match SCSI
-   semantics.
-
-Changes from V1:
-
-1. Add a new session parameter called "fast_fail_tmo". The timeout
-   is measured in seconds from the controller reconnect, any command
-   beyond that timeout is rejected. The new parameter value may be
-   passed during 'connect', and its default value is 30 seconds. 
-   A value of 0 means no timeout (similar to current behavior).
-2. Add a controller flag of "failfast_expired".
-3. Add dedicated delayed_work that update the "failfast_expired" 
-   controller flag.
-4. When entering CONNECTING, schedule the delayed_work based on
-   failfast timeout value. If transition out of CONNECTING, terminate
-   delayed work item and ensure failfast_expired is false.
-   If delayed work item expires: set "failfast_expired" flag to true.
-5. Update nvmf_fail_nonready_command() with check the
-   "failfast_expired" controller flag.
----
- drivers/nvme/host/core.c      | 53 +++++++++++++++++++++++++++++++++--
- drivers/nvme/host/fabrics.c   | 32 +++++++++++++++++----
- drivers/nvme/host/fabrics.h   |  5 ++++
- drivers/nvme/host/multipath.c |  6 +++-
- drivers/nvme/host/nvme.h      |  3 ++
- 5 files changed, 90 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 84914223c537..fb7b3ce2a271 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -136,6 +136,39 @@ int nvme_try_sched_reset(struct nvme_ctrl *ctrl)
- }
- EXPORT_SYMBOL_GPL(nvme_try_sched_reset);
- 
-+static void nvme_failfast_work(struct work_struct *work)
-+{
-+	struct nvme_ctrl *ctrl = container_of(to_delayed_work(work),
-+			struct nvme_ctrl, failfast_work);
-+
-+	spin_lock_irq(&ctrl->lock);
-+	if (ctrl->state != NVME_CTRL_CONNECTING)
-+		goto out;
-+
-+	set_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags);
-+	dev_info(ctrl->device, "failfast expired set for controller %s\n",
-+		ctrl->opts->subsysnqn);
-+	nvme_kick_requeue_lists(ctrl);
-+out:
-+	spin_unlock_irq(&ctrl->lock);
-+}
-+
-+static inline void nvme_start_failfast_work(struct nvme_ctrl *ctrl)
-+{
-+	if (!ctrl->opts || ctrl->opts->fast_io_fail_tmo == 0)
-+		return;
-+	schedule_delayed_work(&ctrl->failfast_work,
-+			      ctrl->opts->fast_io_fail_tmo * HZ);
-+}
-+
-+static inline void nvme_stop_failfast_work(struct nvme_ctrl *ctrl)
-+{
-+	if (!ctrl->opts || ctrl->opts->fast_io_fail_tmo == 0)
-+		return;
-+	cancel_delayed_work_sync(&ctrl->failfast_work);
-+	clear_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags);
-+}
-+
- int nvme_reset_ctrl(struct nvme_ctrl *ctrl)
- {
- 	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
-@@ -395,8 +428,21 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- 	}
- 
- 	spin_unlock_irqrestore(&ctrl->lock, flags);
--	if (changed && ctrl->state == NVME_CTRL_LIVE)
--		nvme_kick_requeue_lists(ctrl);
-+	if (changed) {
-+		switch (ctrl->state) {
-+		case NVME_CTRL_LIVE:
-+			nvme_kick_requeue_lists(ctrl);
-+			if (old_state == NVME_CTRL_CONNECTING)
-+				nvme_stop_failfast_work(ctrl);
-+			break;
-+		case NVME_CTRL_CONNECTING:
-+			if (old_state == NVME_CTRL_RESETTING)
-+				nvme_start_failfast_work(ctrl);
-+			break;
-+		default:
-+			break;
-+		}
-+	}
- 	return changed;
- }
- EXPORT_SYMBOL_GPL(nvme_change_ctrl_state);
-@@ -3992,6 +4038,7 @@ void nvme_stop_ctrl(struct nvme_ctrl *ctrl)
- {
- 	nvme_mpath_stop(ctrl);
- 	nvme_stop_keep_alive(ctrl);
-+	nvme_stop_failfast_work(ctrl);
- 	flush_work(&ctrl->async_event_work);
- 	cancel_work_sync(&ctrl->fw_act_work);
- }
-@@ -4056,6 +4103,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	int ret;
- 
- 	ctrl->state = NVME_CTRL_NEW;
-+	clear_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags);
- 	spin_lock_init(&ctrl->lock);
- 	mutex_init(&ctrl->scan_lock);
- 	INIT_LIST_HEAD(&ctrl->namespaces);
-@@ -4070,6 +4118,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	init_waitqueue_head(&ctrl->state_wq);
- 
- 	INIT_DELAYED_WORK(&ctrl->ka_work, nvme_keep_alive_work);
-+	INIT_DELAYED_WORK(&ctrl->failfast_work, nvme_failfast_work);
- 	memset(&ctrl->ka_cmd, 0, sizeof(ctrl->ka_cmd));
- 	ctrl->ka_cmd.common.opcode = nvme_admin_keep_alive;
- 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 74b8818ac9a1..7f54e7e4f528 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -549,6 +549,7 @@ blk_status_t nvmf_fail_nonready_command(struct nvme_ctrl *ctrl,
- {
- 	if (ctrl->state != NVME_CTRL_DELETING &&
- 	    ctrl->state != NVME_CTRL_DEAD &&
-+	    !test_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags) &&
- 	    !blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
- 		return BLK_STS_RESOURCE;
- 
-@@ -612,6 +613,7 @@ static const match_table_t opt_tokens = {
- 	{ NVMF_OPT_NR_WRITE_QUEUES,	"nr_write_queues=%d"	},
- 	{ NVMF_OPT_NR_POLL_QUEUES,	"nr_poll_queues=%d"	},
- 	{ NVMF_OPT_TOS,			"tos=%d"		},
-+	{ NVMF_OPT_FAIL_FAST_TMO,	"fast_io_fail_tmo=%d"	},
- 	{ NVMF_OPT_ERR,			NULL			}
- };
- 
-@@ -631,6 +633,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 	opts->reconnect_delay = NVMF_DEF_RECONNECT_DELAY;
- 	opts->kato = NVME_DEFAULT_KATO;
- 	opts->duplicate_connect = false;
-+	opts->fast_io_fail_tmo = NVMF_DEF_FAIL_FAST_TMO;
- 	opts->hdr_digest = false;
- 	opts->data_digest = false;
- 	opts->tos = -1; /* < 0 == use transport default */
-@@ -751,6 +754,19 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 				pr_warn("ctrl_loss_tmo < 0 will reconnect forever\n");
- 			ctrl_loss_tmo = token;
- 			break;
-+		case NVMF_OPT_FAIL_FAST_TMO:
-+			if (match_int(args, &token)) {
-+				ret = -EINVAL;
-+				goto out;
-+			}
-+
-+			if (token)
-+				pr_warn("fail_fast_tmo != 0, I/O will fail on"
-+					" reconnect controller after %d sec\n",
-+					token);
-+
-+			opts->fast_io_fail_tmo = token;
-+			break;
- 		case NVMF_OPT_HOSTNQN:
- 			if (opts->host) {
- 				pr_err("hostnqn already user-assigned: %s\n",
-@@ -881,11 +897,14 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 		opts->nr_poll_queues = 0;
- 		opts->duplicate_connect = true;
- 	}
--	if (ctrl_loss_tmo < 0)
-+	if (ctrl_loss_tmo < 0) {
- 		opts->max_reconnects = -1;
--	else
--		opts->max_reconnects = DIV_ROUND_UP(ctrl_loss_tmo,
--						opts->reconnect_delay);
-+	} else {
-+		if (ctrl_loss_tmo < opts->fast_io_fail_tmo)
-+			pr_warn("failfast tmo (%d) larger than controller "
-+				"loss tmo (%d)\n",
-+				opts->fast_io_fail_tmo, ctrl_loss_tmo);
-+	}
- 
- 	if (!opts->host) {
- 		kref_get(&nvmf_default_host->ref);
-@@ -984,8 +1003,9 @@ EXPORT_SYMBOL_GPL(nvmf_free_options);
- #define NVMF_REQUIRED_OPTS	(NVMF_OPT_TRANSPORT | NVMF_OPT_NQN)
- #define NVMF_ALLOWED_OPTS	(NVMF_OPT_QUEUE_SIZE | NVMF_OPT_NR_IO_QUEUES | \
- 				 NVMF_OPT_KATO | NVMF_OPT_HOSTNQN | \
--				 NVMF_OPT_HOST_ID | NVMF_OPT_DUP_CONNECT |\
--				 NVMF_OPT_DISABLE_SQFLOW)
-+				 NVMF_OPT_HOST_ID | NVMF_OPT_DUP_CONNECT | \
-+				 NVMF_OPT_DISABLE_SQFLOW | \
-+				 NVMF_OPT_FAIL_FAST_TMO)
- 
- static struct nvme_ctrl *
- nvmf_create_ctrl(struct device *dev, const char *buf)
-diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-index a0ec40ab62ee..a078ddea9429 100644
---- a/drivers/nvme/host/fabrics.h
-+++ b/drivers/nvme/host/fabrics.h
-@@ -15,6 +15,8 @@
- #define NVMF_DEF_RECONNECT_DELAY	10
- /* default to 600 seconds of reconnect attempts before giving up */
- #define NVMF_DEF_CTRL_LOSS_TMO		600
-+/* default is 0: the fail fast mechanism is disable  */
-+#define NVMF_DEF_FAIL_FAST_TMO		0
- 
- /*
-  * Define a host as seen by the target.  We allocate one at boot, but also
-@@ -56,6 +58,7 @@ enum {
- 	NVMF_OPT_NR_WRITE_QUEUES = 1 << 17,
- 	NVMF_OPT_NR_POLL_QUEUES = 1 << 18,
- 	NVMF_OPT_TOS		= 1 << 19,
-+	NVMF_OPT_FAIL_FAST_TMO	= 1 << 20,
- };
- 
- /**
-@@ -89,6 +92,7 @@ enum {
-  * @nr_write_queues: number of queues for write I/O
-  * @nr_poll_queues: number of queues for polling I/O
-  * @tos: type of service
-+ * @fast_io_fail_tmo: Fast I/O fail timeout in seconds
-  */
- struct nvmf_ctrl_options {
- 	unsigned		mask;
-@@ -111,6 +115,7 @@ struct nvmf_ctrl_options {
- 	unsigned int		nr_write_queues;
- 	unsigned int		nr_poll_queues;
- 	int			tos;
-+	unsigned int		fast_io_fail_tmo;
- };
- 
- /*
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 797c18337d96..7bccdad52a78 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -281,9 +281,13 @@ static bool nvme_available_path(struct nvme_ns_head *head)
- 
- 	list_for_each_entry_rcu(ns, &head->list, siblings) {
- 		switch (ns->ctrl->state) {
-+		case NVME_CTRL_CONNECTING:
-+			if (test_bit(NVME_CTRL_FAILFAST_EXPIRED,
-+				     &ns->ctrl->flags))
-+				break;
-+			/* fallthru */
- 		case NVME_CTRL_LIVE:
- 		case NVME_CTRL_RESETTING:
--		case NVME_CTRL_CONNECTING:
- 			/* fallthru */
- 			return true;
- 		default:
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 1024fec7914c..b6a199eaac68 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -256,6 +256,7 @@ struct nvme_ctrl {
- 	struct work_struct scan_work;
- 	struct work_struct async_event_work;
- 	struct delayed_work ka_work;
-+	struct delayed_work failfast_work;
- 	struct nvme_command ka_cmd;
- 	struct work_struct fw_act_work;
- 	unsigned long events;
-@@ -289,6 +290,8 @@ struct nvme_ctrl {
- 	u16 icdoff;
- 	u16 maxcmd;
- 	int nr_reconnects;
-+	unsigned long flags;
-+#define NVME_CTRL_FAILFAST_EXPIRED	0
- 	struct nvmf_ctrl_options *opts;
- 
- 	struct page *discard_page;
--- 
-2.22.1
+On 02/26/2020 12:53 AM, Victor Gladkov wrote:
+> Refactoring according the last reviews:
+> - Move call functionality out the state machine.
+> - Break long lines
+> - Change parameter name from " fast_fail_tmo" to " fast_io_fail_tmo"
+> -----------------------------------------
+> Commands get stuck while Host NVMe controller (TCP or RDMA) is in
+> reconnect state. NVMe controller enters into reconnect state when it loses
+> connection with the target. It tries to reconnect every 10 seconds
+> (default) until successful reconnection or until reconnect time-out is
+> reached. The default reconnect time out is 10 minutes.
+>
+> 1. Add a new session parameter called "fast_io_fail_tmo".
+> The timeout is measured in seconds from the controller reconnect,
+> any command beyond that timeout is rejected.
+> The new parameter value may be passed during 'connect'.
+> Default value of 0 means no timeout (in similar to current behavior).
+> 2. Add a controller flag of "NVME_CTRL_FAILFAST_EXPIRED".
+> 3. Add dedicated delayed_work that update the "NVME_CTRL_FAILFAST_EXPIRED"
+> controller flag.
+> 4. When entering CONNECTING, schedule the delayed_work based on
+> failfast timeout value. If transition out of CONNECTING, terminate
+> delayed work item and ensure failfast_expired is false. If delayed work
+> item expires: set "NVME_CTRL_FAILFAST_EXPIRED" flag to true.
+> 5. Update nvmf_fail_nonready_command() and nvme_available_path()
+> functions with check the "NVME_CTRL_FAILFAST_EXPIRED" controller flag.
+>
+> Signed-off-by: Victor Gladkov < victor.gladkov at kioxia.com>
 
 
 _______________________________________________
