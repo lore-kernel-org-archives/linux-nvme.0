@@ -2,20 +2,21 @@ Return-Path: <SRS0=Ayoq=4V=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E064BC3F2D1
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Mar 2020 16:01:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43F67C3F2CE
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Mar 2020 16:05:26 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B1B072166E
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Mar 2020 16:01:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 15C232166E
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Mar 2020 16:05:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="EPO0tjG9"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B1B072166E
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="tc6kHqGh"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 15C232166E
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,36 +25,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=2UWp/1z+SHjPPpKzrjf2z9xpY23df8e8VuVSamoCgi8=; b=EPO0tjG99ZPp2B
-	wUQPbQnKYJBSox94hax9z1mMNo9EFA4rWXOCP/9eVxvNqiLs9X0fS3rzuCQMjaNTnkSJtDjC2QKds
-	I4f84AttT4ux0Pn8WoQ54Y2wiuDAk8eoWuUXFmeaxSBfY6iu7hlW19xcdRqLrgeMYAnB/oVETu/k+
-	3PjOrfPCGNNR7MYr4f1Tg1qz5kM2empdLkkT7rqv34g92369+zGeCw5R53CmK3+gLMtVArgpfIoZw
-	ns/nxjtUQWFRNUv3hjUPv5DOnVr23NnWMAbBy9VXuPqrFOJ8tZD1VL5Cf2mqdRSNIHg/vVHgoOWjp
-	+APZnqhZY/jdonhXeA5Q==;
+	List-Owner; bh=NADQ/nG6FpcSlCR5h526sTpiwhdHhZF5q6BNQx4EeaY=; b=tc6kHqGhMYHlAp
+	ypmK6SJbKnqVfa42PFulXQt7ha2+yvn3fKho3QB700p551zt72Ff6uFOmyAK4baR4SkFbgzyLwE6v
+	viaSJ42DrWjWS9tJyaKsDfzWBOsJRWjDqcOwVMCbfxla4zltQ0DMNRbMjlvTbu9bUPq8dtqP5m5Z4
+	s9hwoXB0xyNrYru+N2X7t3XpE66PBVAB2QJwr+SiG5CxbNl27UyPB6OKodrXqQxrjbGv3Se9J4nLC
+	Cvsx0u8mBYQR7bmITDOtCBvgHfYvOj2QAgfDr2GQJZv2UUVFwSnt3V+J/DP8D+6lklgkB062t+EWR
+	7tt1CFwTD139uQ+WP8rQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j9WSQ-0006UF-8N; Wed, 04 Mar 2020 16:01:14 +0000
+	id 1j9WWR-0008GU-Nu; Wed, 04 Mar 2020 16:05:23 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j9WSM-0006T2-RF
- for linux-nvme@lists.infradead.org; Wed, 04 Mar 2020 16:01:12 +0000
+ id 1j9WWP-0008G8-F5
+ for linux-nvme@lists.infradead.org; Wed, 04 Mar 2020 16:05:22 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 90D3868B20; Wed,  4 Mar 2020 17:01:05 +0100 (CET)
-Date: Wed, 4 Mar 2020 17:01:05 +0100
+ id CEAEF68BE1; Wed,  4 Mar 2020 17:05:18 +0100 (CET)
+Date: Wed, 4 Mar 2020 17:05:18 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Max Gurtovoy <maxg@mellanox.com>
-Subject: Re: [PATCH 2/3] nvmet-rdma: Implement set_mdts controller op
-Message-ID: <20200304160105.GA10897@lst.de>
-References: <20200304153935.101063-1-maxg@mellanox.com>
- <20200304153935.101063-2-maxg@mellanox.com>
+To: Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH 1/2] nvme-pci: Remove tag from process cq
+Message-ID: <20200304160518.GA11029@lst.de>
+References: <20200302194616.2432-1-kbusch@kernel.org>
+ <20200302194616.2432-2-kbusch@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200304153935.101063-2-maxg@mellanox.com>
+In-Reply-To: <20200302194616.2432-2-kbusch@kernel.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200304_080111_032015_142646CC 
-X-CRM114-Status: UNSURE (   6.75  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200304_080521_657922_75E1F5A8 
+X-CRM114-Status: GOOD (  16.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,21 +65,55 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: sagi@grimberg.me, Chaitanya.Kulkarni@wdc.com, bharat@chelsio.com,
- nirranjan@chelsio.com, linux-nvme@lists.infradead.org, krishna2@chelsio.com,
- jgg@mellanox.com, kbusch@kernel.org, hch@lst.de
+Cc: bijan.mottahedeh@oracle.com, hch@lst.de, linux-nvme@lists.infradead.org,
+ sagi@grimberg.me
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Mar 04, 2020 at 05:39:34PM +0200, Max Gurtovoy wrote:
-> Set the maximal data transfer size to be 1MB (currently mdts is
-> unlimited). This will allow calculating the amount of MR's that
-> one ctrl should allocate to fulfill it's capabilities.
+On Mon, Mar 02, 2020 at 11:46:15AM -0800, Keith Busch wrote:
+> The only user for tagged completion was for timeout handling. That user,
+> though, really only cares if the timed out command is completed, which
+> we can safely check within the timeout handler.
+> 
+> Remove the tag check to simplify completion handling.
+> 
+> Signed-off-by: Keith Busch <kbusch@kernel.org>
+> ---
+>  drivers/nvme/host/pci.c | 22 +++++++++++-----------
+>  1 file changed, 11 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index da392b50f73e..db84283f2a5a 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -991,14 +991,13 @@ static inline void nvme_update_cq_head(struct nvme_queue *nvmeq)
+>  }
+>  
+>  static inline int nvme_process_cq(struct nvme_queue *nvmeq, u16 *start,
+> -				  u16 *end, unsigned int tag)
+> +				  u16 *end)
+>  {
+>  	int found = 0;
+>  
+>  	*start = nvmeq->cq_head;
+>  	while (nvme_cqe_pending(nvmeq)) {
+> -		if (tag == -1U || nvmeq->cqes[nvmeq->cq_head].command_id == tag)
+> -			found++;
+> +		++found;
 
-Do we reall need an op for this vs just setting the field in
-nvme_rdma_create_ctrl?
+Any reason for moving from found++ to ++found?  I always find the infix
+notation a little odd when there is no need for it, but that is just a
+personal preference.
+
+>  	 */
+> -	if (nvme_poll_irqdisable(nvmeq, req->tag)) {
+> +	if (nvme_poll_irqdisable(nvmeq) &&
+> +	    blk_mq_request_completed(req)) {
+
+Do we need to check the nvme_poll_irqdisable value here?  If it got
+completed by other means we should be fine too, shouldn't we?
 
 _______________________________________________
 linux-nvme mailing list
