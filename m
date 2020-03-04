@@ -2,21 +2,21 @@ Return-Path: <SRS0=Ayoq=4V=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47704C3F2CE
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Mar 2020 16:31:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D63C3C3F2CE
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Mar 2020 16:32:07 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 03F5E20732
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Mar 2020 16:31:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A27682146E
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Mar 2020 16:32:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="HVVAyieW"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 03F5E20732
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="rok3in1H"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A27682146E
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,38 +25,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=8g9bAyFAJdc8kBWU/sVX4bk5hABi00ocgOyZvmnnBao=; b=HVVAyieWVNCgQM
-	4Yk5X0Z0ls3mVvrFX/h6tSpz2x+1AeF8CDKx2OKhK7xLvzuYi6fprP9DBXCeTbsOi8mcPcL3pTOtH
-	67YxZbhNDJ3ntiOkBKVM7q54FnRzdSIUbiml5v1BNGX3+lv9L34dbTxEewZew4sg0flLZsHVKOirT
-	qHWjx3MJIIDHlVjFxULRziZinik4HnnGGE23emk7q11PATVHx88IZssllnW1MbMKcrlcVIh4sxjqC
-	AWlaVSQR+jM+8Wjp4956krvdzkUCN+KIMUisnzjUq50XTbr+YmBTH6bFF1IPh1CjcOrIkhZCtttlP
-	taI6YT0ufXKVL7sO7UkQ==;
+	List-Owner; bh=LGpmcT5veagO6kbVphzOmsyBe965vY6x7/99keMalJE=; b=rok3in1H0IoU04
+	8dDVAcTFuYxFF+v1eNnpEYTFm82BhbH4SUVuT/UotVoTjjSJFD7KK5MrHVPFbPhmhtjEwLW3YvmBW
+	+J0lqs2FXykvym4IyYiWb2noMFUj1wHirTnlfw/qe4qTWGnEXc3MVlGV+kvJZ3Wf9kyV3JSe0ml/g
+	7H4SksZX7Pz/1M4ZznQi7jjOphOcx/kLQ6X9iuKtvUDhpZPQonHOJE+kOHbcKUkGGilbaSLes4mcM
+	RJJOcUIVa1sV/U1Ylvr8Iz5RED3X/dtdpPrvHS0pf8AXW+LU1j93iiTPoW1xiS2GZWP9BEaJPx2Ic
+	0DuQIzZOT4+sFhO/7vHA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j9WvH-0008K9-0b; Wed, 04 Mar 2020 16:31:03 +0000
+	id 1j9WwG-0000T9-H8; Wed, 04 Mar 2020 16:32:04 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j9Wua-0006XF-7c
- for linux-nvme@lists.infradead.org; Wed, 04 Mar 2020 16:30:21 +0000
+ id 1j9Ww7-0000J0-Q8
+ for linux-nvme@lists.infradead.org; Wed, 04 Mar 2020 16:31:57 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 407E868B20; Wed,  4 Mar 2020 17:30:18 +0100 (CET)
-Date: Wed, 4 Mar 2020 17:30:17 +0100
+ id C38E068B20; Wed,  4 Mar 2020 17:31:53 +0100 (CET)
+Date: Wed, 4 Mar 2020 17:31:53 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Max Gurtovoy <maxg@mellanox.com>
-Subject: Re: [PATCH 2/3] nvmet-rdma: Implement set_mdts controller op
-Message-ID: <20200304163017.GB11727@lst.de>
+Subject: Re: [PATCH 1/3] nvmet: Add mdts setting op for controllers
+Message-ID: <20200304163153.GA11846@lst.de>
 References: <20200304153935.101063-1-maxg@mellanox.com>
- <20200304153935.101063-2-maxg@mellanox.com> <20200304160105.GA10897@lst.de>
- <2e4190bc-a12a-5eaa-af53-01889f2fbb42@mellanox.com>
- <20200304161812.GA11453@lst.de>
- <265567a5-56d7-4d82-48a9-496bfb25a97b@mellanox.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <265567a5-56d7-4d82-48a9-496bfb25a97b@mellanox.com>
+In-Reply-To: <20200304153935.101063-1-maxg@mellanox.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200304_083020_449786_2CAEB040 
-X-CRM114-Status: GOOD (  10.85  )
+X-CRM114-CacheID: sfid-20200304_083156_023892_C0A9A50A 
+X-CRM114-Status: UNSURE (   8.19  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,42 +67,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: sagi@grimberg.me, Chaitanya.Kulkarni@wdc.com, bharat@chelsio.com,
  nirranjan@chelsio.com, linux-nvme@lists.infradead.org, krishna2@chelsio.com,
- jgg@mellanox.com, kbusch@kernel.org, Christoph Hellwig <hch@lst.de>
+ jgg@mellanox.com, kbusch@kernel.org, hch@lst.de
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Mar 04, 2020 at 06:26:15PM +0200, Max Gurtovoy wrote:
->
-> On 3/4/2020 6:18 PM, Christoph Hellwig wrote:
->> On Wed, Mar 04, 2020 at 06:15:55PM +0200, Max Gurtovoy wrote:
->>> On 3/4/2020 6:01 PM, Christoph Hellwig wrote:
->>>> On Wed, Mar 04, 2020 at 05:39:34PM +0200, Max Gurtovoy wrote:
->>>>> Set the maximal data transfer size to be 1MB (currently mdts is
->>>>> unlimited). This will allow calculating the amount of MR's that
->>>>> one ctrl should allocate to fulfill it's capabilities.
->>>> Do we reall need an op for this vs just setting the field in
->>>> nvme_rdma_create_ctrl?
->>> This is target side :)
->>>
->>> But we can add it to .add_port and limit/set it thorough configfs as we do
->>> for inline_data_size (with default of 1MB).
->>>
->>> Let me know what's preferred.
->> I'm always in favor of avoiding indirect function calls if we can.  But
->> I don't think we need a configfs interface, just do add_port for now.
->
-> wait, I forgot that this will not be compatible with adding MD/T10-PI 
-> (under review) since a port might have a pi-ctrl and non-pi-ctrl.
->
-> So better to have it per controller as in this series..
+On Wed, Mar 04, 2020 at 05:39:33PM +0200, Max Gurtovoy wrote:
+> Some transports, such as RDMA, would like to set the Maximum Data
+> Transfer Size (MDTS) according to device/port/ctrl characteristics.
+> This will enable the transport to set the optimal MDTS according to
+> controller needs and device capabilities. Add a new nvmet transport
+> op that is called during ctrl identification. This will not effect
+> transports that don't set this option.
+> 
+> Signed-off-by: Max Gurtovoy <maxg@mellanox.com>
+> Signed-off-by: Israel Rukshin <israelr@mellanox.com>
 
-Oh well, let's go ahead with your version and I'll see if I can clean
-this up later.  I really hate the model of having callbacks for every
-little setting as in the SCSI target code, as it leads to a real
-mess.  But this is an obious fix, and we also want to get the PI code
-in ASAP, so I'd rather not hold it back.
+Looks good,
+
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
 _______________________________________________
 linux-nvme mailing list
