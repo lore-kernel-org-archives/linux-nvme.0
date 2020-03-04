@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-9.7 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 429E5C3F2D1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4B68C3F2CE
 	for <linux-nvme@archiver.kernel.org>; Wed,  4 Mar 2020 15:39:53 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E654820870
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Mar 2020 15:39:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B674C20870
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Mar 2020 15:39:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="YRTE4VdE"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E654820870
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="peHDD4ld"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B674C20870
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,39 +25,39 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=qVKXLAFj+hkSTeCQF2IFkE8XK6EiPDx3mtoNXpgLXNM=; b=YRTE4VdE4Rf9J0
-	z55tWozgao0PrHYWYDk2D4yJgNxqKQ5m4VYEt2/KPKSv9fOCMxFYloNfMBBebSlF8TTtogtULC6Dc
-	ck85jxZoQjdzDkWUqVYCUafuzc5BjDChr0+5F7k656keCBM6ifeuJALk4ApCNFaTOZN7xRj5hddQ7
-	riCZmAsERGnUnWn3bEOc87kq63fjGl6+Ss0tqmoA9D2eHReGWt1ebqKMETB9NGzSdiRh4g+R7OLOF
-	TBEgdHaZG7lbRt1f+MlCOoPNTh/nUCm5BW1sMw6MZaI8wigX1izZag14zhLfmbAhalPfdH/6trl3a
-	ECTD0jL/MkRmtV49KUBg==;
+	List-Owner; bh=eo4pOPXOc8S7gg91puKBBIFVSGwttYKu+Si+xKPLLZQ=; b=peHDD4ld7qhxeE
+	vZBd63Qv7Ceh7ppKesgQcvfbpEIbUxbrg5nKf6seexBHTRpj9G0r8iCDdkzSIm8ufEG3aK90bf5/k
+	p38/ae4WVvbwa2bg1xKTvR4FSnZbHLX6xvIDZQ+yYvK53Z7aPz19HZcwhj4LsDLf2Sxnn0n1KAR//
+	tOBQs//T/jRiFyhFuNiXC44velXReVXIUpkW/dT09XuUuciKQTn3t345/N1MuNVe7NXHVIJfA+L8T
+	XR2jEEpnnSv4scpVSCOT8RyDEDjZOdY/EHps7V8A4HDblmrGZV1WdHR3eGlftWDsFxX49hC+pV2Yw
+	ldh0rWDJ1LThmrb4a/ag==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j9W7i-0004sW-0v; Wed, 04 Mar 2020 15:39:50 +0000
+	id 1j9W7j-0004uc-Sk; Wed, 04 Mar 2020 15:39:51 +0000
 Received: from mail-il-dmz.mellanox.com ([193.47.165.129] helo=mellanox.co.il)
  by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j9W7e-0004rG-9G
+ id 1j9W7e-0004rH-9J
  for linux-nvme@lists.infradead.org; Wed, 04 Mar 2020 15:39:48 +0000
-Received: from Internal Mail-Server by MTLPINE2 (envelope-from
+Received: from Internal Mail-Server by MTLPINE1 (envelope-from
  maxg@mellanox.com)
  with ESMTPS (AES256-SHA encrypted); 4 Mar 2020 17:39:35 +0200
 Received: from mtr-vdi-031.wap.labs.mlnx. (mtr-vdi-031.wap.labs.mlnx
  [10.209.102.136])
- by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 024FdZrK032385;
+ by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 024FdZrJ032385;
  Wed, 4 Mar 2020 17:39:35 +0200
 From: Max Gurtovoy <maxg@mellanox.com>
 To: jgg@mellanox.com, linux-nvme@lists.infradead.org, sagi@grimberg.me,
  hch@lst.de, kbusch@kernel.org, Chaitanya.Kulkarni@wdc.com
-Subject: [PATCH 3/3] nvmet-rdma: allocate RW ctxs according to mdts
-Date: Wed,  4 Mar 2020 17:39:35 +0200
-Message-Id: <20200304153935.101063-3-maxg@mellanox.com>
+Subject: [PATCH 2/3] nvmet-rdma: Implement set_mdts controller op
+Date: Wed,  4 Mar 2020 17:39:34 +0200
+Message-Id: <20200304153935.101063-2-maxg@mellanox.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200304153935.101063-1-maxg@mellanox.com>
 References: <20200304153935.101063-1-maxg@mellanox.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200304_073946_737267_EDC75903 
-X-CRM114-Status: UNSURE (   9.40  )
+X-CRM114-CacheID: sfid-20200304_073946_746160_2B0A4FBC 
+X-CRM114-Status: UNSURE (   7.82  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -77,47 +77,48 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Current nvmet-rdma code allocates MR pool budget based on queue size,
-assuming both host and target use the same "max_pages_per_mr" count.
-After limiting the mdts value for RDMA controllers, we know the factor
-of maximum MR's per IO operation. Thus, make sure MR pool will be
-sufficient for the required IO depth and IO size.
+Set the maximal data transfer size to be 1MB (currently mdts is
+unlimited). This will allow calculating the amount of MR's that
+one ctrl should allocate to fulfill it's capabilities.
 
-That is, say host's SQ size is 100, then the MR pool budget allocated
-currently at target will also be 100 MRs. But 100 IO WRITE Requests
-with 256 sg_count(IO size above 1MB) require 200 MRs when target's
-"max_pages_per_mr" is 128.
-
-Reported-by: Krishnamraju Eraparaju <krishna2@chelsio.com>
 Signed-off-by: Max Gurtovoy <maxg@mellanox.com>
 ---
- drivers/nvme/target/rdma.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/nvme/target/rdma.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 5ba76d2..a6c9d11 100644
+index 37d262a..5ba76d2 100644
 --- a/drivers/nvme/target/rdma.c
 +++ b/drivers/nvme/target/rdma.c
-@@ -976,7 +976,7 @@ static int nvmet_rdma_create_queue_ib(struct nvmet_rdma_queue *queue)
- {
- 	struct ib_qp_init_attr qp_attr;
- 	struct nvmet_rdma_device *ndev = queue->dev;
--	int comp_vector, nr_cqe, ret, i;
-+	int comp_vector, nr_cqe, ret, i, factor;
+@@ -30,6 +30,7 @@
+ #define NVMET_RDMA_DEFAULT_INLINE_DATA_SIZE	PAGE_SIZE
+ #define NVMET_RDMA_MAX_INLINE_SGE		4
+ #define NVMET_RDMA_MAX_INLINE_DATA_SIZE		max_t(int, SZ_16K, PAGE_SIZE)
++#define NVMET_RDMA_MAX_MDTS			8
  
- 	/*
- 	 * Spread the io queues across completion vectors,
-@@ -1009,7 +1009,9 @@ static int nvmet_rdma_create_queue_ib(struct nvmet_rdma_queue *queue)
- 	qp_attr.qp_type = IB_QPT_RC;
- 	/* +1 for drain */
- 	qp_attr.cap.max_send_wr = queue->send_queue_size + 1;
--	qp_attr.cap.max_rdma_ctxs = queue->send_queue_size;
-+	factor = rdma_rw_mr_factor(ndev->device, queue->cm_id->port_num,
-+				   1 << NVMET_RDMA_MAX_MDTS);
-+	qp_attr.cap.max_rdma_ctxs = queue->send_queue_size * factor;
- 	qp_attr.cap.max_send_sge = max(ndev->device->attrs.max_sge_rd,
- 					ndev->device->attrs.max_send_sge);
+ struct nvmet_rdma_cmd {
+ 	struct ib_sge		sge[NVMET_RDMA_MAX_INLINE_SGE + 1];
+@@ -1602,6 +1603,12 @@ static void nvmet_rdma_disc_port_addr(struct nvmet_req *req,
+ 	}
+ }
  
++static u8 nvmet_rdma_set_mdts(struct nvmet_ctrl *ctrl)
++{
++	/* Assume mpsmin == device_page_size == 4KB */
++	return NVMET_RDMA_MAX_MDTS;
++}
++
+ static const struct nvmet_fabrics_ops nvmet_rdma_ops = {
+ 	.owner			= THIS_MODULE,
+ 	.type			= NVMF_TRTYPE_RDMA,
+@@ -1612,6 +1619,7 @@ static void nvmet_rdma_disc_port_addr(struct nvmet_req *req,
+ 	.queue_response		= nvmet_rdma_queue_response,
+ 	.delete_ctrl		= nvmet_rdma_delete_ctrl,
+ 	.disc_traddr		= nvmet_rdma_disc_port_addr,
++	.set_mdts		= nvmet_rdma_set_mdts,
+ };
+ 
+ static void nvmet_rdma_remove_one(struct ib_device *ib_device, void *client_data)
 -- 
 1.8.3.1
 
