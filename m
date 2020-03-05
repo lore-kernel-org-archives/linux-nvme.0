@@ -2,91 +2,137 @@ Return-Path: <SRS0=uiYz=4W=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+X-Spam-Status: No, score=-5.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EA3AC3F2D1
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Mar 2020 01:32:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F07B4C3F2D1
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Mar 2020 01:55:51 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6445720866
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Mar 2020 01:32:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id BFB572073D
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Mar 2020 01:55:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="KJIUXKwl";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=osandov-com.20150623.gappssmtp.com header.i=@osandov-com.20150623.gappssmtp.com header.b="B6FDQgsc"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6445720866
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=osandov.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="uHcsEeOR";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="TZXOXVd0";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="AXjcDR3J"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BFB572073D
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=dNxnODpz4jr/gX/nGZknFdu0JTID5RF435Egmq6Bnew=; b=KJIUXKwli7KJY5
-	B+PJXEzrX/q/AnGYhy+TYjFzHkikKzV+MieGpQgj9BdT7y/01B94/9g6OAdmY6tAL/JYdacLuXEa8
-	WJmwGIoafYJ6hWB/t7GHvf6l8QdAsCuui22EWB25lwrlP8xk6stVaaB//ieFqOvbsZo6CcA6otsYl
-	vqBSd51rOcoRLaWeyy0I6RQM9zjXcLaARxEX0POgtkuYz6gq02hODO8dcb79+gh3U9BzxOZ3SdJUg
-	aUml7ycaYZZoqOvcrXIz3LqfNLYFDzzg25kqWkgiaphESpJWjvVi261JIxGpauJ8wbJ+SmHQEC3GC
-	Aheix8/qUovOcg/YXkIQ==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date
+	:Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+	List-Owner; bh=KX+eGC2BiM5du76AFqIpI0yMVqIhX/nMgjyaERmdG9M=; b=uHcsEeORvj5Hj3
+	6LqT27WXZEvM48vt8+deLH68pEUy1vI5+/5fuU1ngPbhmA4eEWbaeXK9q3uwlpTNIWvOCq55ouktH
+	1PjuyPbGm02kB6m88KGrgqURR4fPbEnOMQfZJ6DzctwGFkpkwxUgn2053AABVKK7SvryNras0nctY
+	ePeYQD2Tm07zYkfTBo75kAFigqfqI5RI+TlbB77aOFD3MCcRXNnItO9Ds2BDm0R7D1oJidR3JwnEw
+	sS8H5XDQOPMmoiD9UUnPP65dMzoSuO9Je1sFj+ANo9uMcrQP2sUVOB7GLvVu2XGgJogA5ql4cZIwU
+	41q48ox0A//0yigABdDQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1j9fNW-0000u0-BB; Thu, 05 Mar 2020 01:32:46 +0000
-Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044])
+	id 1j9fjq-00009u-1X; Thu, 05 Mar 2020 01:55:50 +0000
+Received: from esa2.hgst.iphmx.com ([68.232.143.124])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j9fNT-0000tL-Bz
- for linux-nvme@lists.infradead.org; Thu, 05 Mar 2020 01:32:44 +0000
-Received: by mail-pj1-x1044.google.com with SMTP id l8so1756211pjy.1
- for <linux-nvme@lists.infradead.org>; Wed, 04 Mar 2020 17:32:43 -0800 (PST)
+ id 1j9fjm-000095-NS
+ for linux-nvme@lists.infradead.org; Thu, 05 Mar 2020 01:55:48 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1583373351; x=1614909351;
+ h=from:to:cc:subject:date:message-id:references:
+ content-transfer-encoding:mime-version;
+ bh=iMmWTI7ZTIOCfPjo9tr3Crvd6PsV++FDzVou/J8g370=;
+ b=TZXOXVd0SWuZxp9v3QdNH1Jzt3ByzXAdVD/BliJErpyTkUOd1tMKOFaV
+ C2W2Pd2jy77yTO0npo1/RlkqSDKcDPs5JiXH8083R/pySC6p76TlQdJFg
+ cqW4RTQHxl9xFDdcPQ+Y85+kjyXOU4vpjwf1H00N8yYUmpnPFXALMemtH
+ wPrnEIaxuxZJY2Aptfs2j/dRHOwoG/82jYMTkGgZytUP9L2jUxKPTK/cO
+ KJFk4oHe+HyHTaMbhyOTvlL/ekGD++c4uZ2twO2+o4iWPtATz7JFJIFQm
+ UEGoN1uJPjtlzwfIjOWrVnpZjivz2XCgeCBd/RuaUNhcNdhcv9vVjdvMV Q==;
+IronPort-SDR: Tx3jjGXNQ4hmlkNvf+kKNjPkziaGxfKonO3VhalQQpEj1touO0T7HV4kOC+UwYlHMGhoQWvK6b
+ +G3kpHpDvMEhjebDWUtHps03ZHJ8AN9oMEQxb7EpIPfMc0r5+SuUJV+YDkoa2dx0GuHoA1bDqX
+ Y4+hfmme3Bcox2keusCkDSyq1nOs8VmXLeT/jh678bnHfomujVicUvXtXjEeknr+Uql6UObPLV
+ lCTuxjmIKGUxyqi2hu2DnuOFYJfNIMC08k4Uq6xX3mu036V9IdIMvYL4SnjXHh6RdKbcq9G3u9
+ QcA=
+X-URL-LookUp-ScanningError: 1
+X-IronPort-AV: E=Sophos;i="5.70,516,1574092800"; d="scan'208";a="233479560"
+Received: from mail-bn8nam11lp2171.outbound.protection.outlook.com (HELO
+ NAM11-BN8-obe.outbound.protection.outlook.com) ([104.47.58.171])
+ by ob1.hgst.iphmx.com with ESMTP; 05 Mar 2020 09:55:36 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mW8zEaRkjKH/8pCXMJPMXFv4F+96Rqd1iFDL+UDvixn3mX1Y6CezxFceW4l/7Gh8GUyzZBhsR7tPvf7vrkT70KG1gt7n0+0AikK/ZcAZBeRu6UkzwvMsXwh3SSXFSCI8tk6S/ybuCsYIxH/hoYWjHwSGtBBAJkrl9rzbYPjfgUJaCCQtd6VEA6vnjAM40+L0DmTTVMfTnesDPZnxtAFT+Gvd+57qdPBu0p5yuI2jVcifZWybxibJzmCzND++9XfFcH19Yv4UIU8Qv8+3V9OcImbkSkcnJo4Z1ToyCPsHoR/U7e1vd85P/wH91ZZGlQiFBeZkOyF7ueGUmnzGJOJsOw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CnlRr+MFcMrIcaL2v1345SWBHDUZzZ9xSEQ40ZT0Nr8=;
+ b=h01vJJIuAP4xpOWQ8TM9you+u/aDeAQE99AP8g6UM5J/+Qpvrbo0/dtsTKoPExB1Y72gcvwkAdR4aWaZb4/wdwnvyvoZMh9l3kr/pcsnV/Yfm90svkzzI+GaWZcsyQ3wPjuFVISnqhiqTzSqPjgKTw+KZ0FDnMftg0tn/mLyHMQfJy2bcPgdTg9s5hqcTeog2w+y2XTZY/Ah9Yls/Gch8o1mkPpTsqMPiwER/1MkzqnLULGAm/01miv6P4FTr6Q5+lmeetYGQhIPsjvNPFd/7EKgVJxFM4Dr06XRO7GB0ZHfDS/VejMCHX0iHOjIC3P5MhC24tiVUoInfOBRLxc6VQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=osandov-com.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=nwxPFZEgGm11LzXMpujG1wPjJC/1DwOKVtUkVXRUzU8=;
- b=B6FDQgsc5Di9w6Ee/h4bm0Vqvi19NC4Z0jZ9Xyw2MLAxzFadmBUrK6O4p9PAKl+CMw
- QGWF2PsP3DT73Lx11XKs91hR6qg1sf5U+IgLb6cZo2lGbc9u5NZ+5F6Xp9ZifB+I0sbI
- 8cNkgrOaS5xtjkUQG1/Ati3fPt7SOmJuoMvvVYtQ6RPGDBhBjTi+q9To7wG1rsTiaq00
- T3zUbouArrMUSBaWrpYtL/Uw9hPodXEDtvzXQw3aNuRzyOujO8WnZLeLoPOwGmA9AmKR
- kFjw+HRjxGAC4iMm8UV1zWhsqFV4JH27U65n6fZHxeCGazUgasKAGdExG5HKCQ+LLQeG
- TzkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=nwxPFZEgGm11LzXMpujG1wPjJC/1DwOKVtUkVXRUzU8=;
- b=fOgxh0U7ELtWbQcPWkaZJy8TvMKoY6MOzd9t3K4hXhB6Ye7jSj/BTiFymER6afUPVN
- DFr/FdQ4U2xM+HkvBb1QiyAyDhqV60u6axUOm+NrZclscDP2uzzzMsGWw+Hl5yXovfXB
- k4GTJdbukLlk0lRdZv9/7W09FMsyoWFhiw1JdraIasAhPMQnXQwFDAGSyEa1LjsMe7h2
- 1YJGsyJUEjWu6GXfbJ+BmSVzUBZV3nx9GiK9qAVEVB5NqbK26U5s3DbYGuVRQK7EFOqg
- y3MKTkHRZpIByiazF/RfI/NDtrCzn+lOOuisALjoqHQneLsKvEIOROdDBNNJhDY8+uwV
- fXwA==
-X-Gm-Message-State: ANhLgQ0hobdFU0nXQ9BRr1XH1DyUyxP/alSoGzV0TwIny7gv3SjOVXqk
- sav1KPERJfU3XjX4tTZoMk7y0A==
-X-Google-Smtp-Source: ADFU+vtElY8w+ZmRXAghnthJ3g79718sNeIGHlH7lBnBlLwJwAqVpwiunF08EKg8w1kzRgIkAlMuJg==
-X-Received: by 2002:a17:90b:3586:: with SMTP id
- mm6mr5714748pjb.147.1583371962448; 
- Wed, 04 Mar 2020 17:32:42 -0800 (PST)
-Received: from vader ([2601:602:8b80:8e0:e6a7:a0ff:fe0b:c9a8])
- by smtp.gmail.com with ESMTPSA id 188sm25812591pfa.62.2020.03.04.17.32.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Mar 2020 17:32:41 -0800 (PST)
-Date: Wed, 4 Mar 2020 17:32:41 -0800
-From: Omar Sandoval <osandov@osandov.com>
-To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Subject: Re: [PATCH blktests V2 1/3] nvme: allow target to set cntlid min/max
- & model
-Message-ID: <20200305013241.GB293405@vader>
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CnlRr+MFcMrIcaL2v1345SWBHDUZzZ9xSEQ40ZT0Nr8=;
+ b=AXjcDR3JvvZPkAacenrQNKbrfYtf4v7j3n3Jt5bTZddpUPasQbUWGmMJV/lrJuKOnUTKGb/9huItsZt53ragE057vadIvmI0DzBOkPxalKS8icS1G7TTjwgyw81yK5cTsL2Zug6ks9aZf+21CCNnNqwDaDU3wbONFlnbntqdq8k=
+Received: from BYAPR04MB5749.namprd04.prod.outlook.com (2603:10b6:a03:106::21)
+ by BYAPR04MB4456.namprd04.prod.outlook.com (2603:10b6:a03:55::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2772.18; Thu, 5 Mar
+ 2020 01:55:34 +0000
+Received: from BYAPR04MB5749.namprd04.prod.outlook.com
+ ([fe80::fdf8:bd6f:b33d:c2df]) by BYAPR04MB5749.namprd04.prod.outlook.com
+ ([fe80::fdf8:bd6f:b33d:c2df%3]) with mapi id 15.20.2772.019; Thu, 5 Mar 2020
+ 01:55:34 +0000
+From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+To: Omar Sandoval <osandov@osandov.com>
+Subject: Re: [PATCH blktests V2 2/3] nvme: test target cntlid min cntlid max
+Thread-Topic: [PATCH blktests V2 2/3] nvme: test target cntlid min cntlid max
+Thread-Index: AQHV46CnUYWA/RKS506wmXbMEL7y+g==
+Date: Thu, 5 Mar 2020 01:55:34 +0000
+Message-ID: <BYAPR04MB5749175ACC439858A47FB6F686E20@BYAPR04MB5749.namprd04.prod.outlook.com>
 References: <20200215013831.6715-1-chaitanya.kulkarni@wdc.com>
- <20200215013831.6715-2-chaitanya.kulkarni@wdc.com>
+ <20200215013831.6715-3-chaitanya.kulkarni@wdc.com>
+ <20200305013010.GA293405@vader>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Chaitanya.Kulkarni@wdc.com; 
+x-originating-ip: [199.255.45.62]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 2817a18d-2356-4aed-d93d-08d7c0a84b57
+x-ms-traffictypediagnostic: BYAPR04MB4456:
+x-microsoft-antispam-prvs: <BYAPR04MB44562AAA24865D10FCB08C1886E20@BYAPR04MB4456.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-forefront-prvs: 03333C607F
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10001)(10019020)(4636009)(136003)(39860400002)(366004)(396003)(346002)(376002)(189003)(199004)(9686003)(86362001)(64756008)(55016002)(81166006)(8936002)(478600001)(316002)(4326008)(66556008)(6916009)(5660300002)(33656002)(71200400001)(54906003)(8676002)(81156014)(66476007)(66446008)(26005)(7696005)(66946007)(2906002)(186003)(6506007)(76116006)(53546011)(52536014)(4744005);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:BYAPR04MB4456;
+ H:BYAPR04MB5749.namprd04.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: LH/c/TTrU5Y+A/HWfp3JQkLK358DPye5VMOWYOaJxjnYkOOoQR7f6SUe0QR6xwk0jL37N2wXrYpLnouGEqXl2st0lad+Nym4bkIjy4ToGSLas4eg0XX75JMFvDUSoMhNTTxNcYk+GL2YstLkLarqhOKC0ASLKZDjrDoA9qKHLip56fk/9bcTGQqaVEHXw+Y1LT/dpcPrvpKYsKNrYPzA4Hw84ml7F7r2/n8SPKhOuSt/bMqlPEtdAqknBRsBaKYBbZcT9dwSs98y7mbKVMUQ8LSL2UPtcvuXFjxQfCLb5paqB/rPK8fhcEHckJf2ydEniZUefQfLsRRBU2DVIJ/fIGpezQaVjOTThniaRf4iuRpqFtzV9VMFYQnJZAOFquUtyiFlh85BK+r0v9YGhilQQzrPQaqaTLeeoheB8GvsuxnoI29xYlOST16loiLoRGoDidyLK97FHQMJCqynOOm96q376U3CIt1NaRHqDfSPTIAOIgjHKtRuiKOgSKrZJrpSMHGa857rYBYnZ2kUDSE3nJjF7qNQQlKBwbUjsnELnqsRDUpase1JqhOai8iMttK0GJ7/PNMdb2MFKhGaGkZXVw==
+x-ms-exchange-antispam-messagedata: wwzkYWikQPRwmvPm4lXO2XcDZ5bJIgKr8kjtmtFM3pH+0z0hBbJRDdyMgWwIkJL0Io5EDtVhRiLyKPyn9MQJHZJXRfj8YkXFTEBv3fJ6tqfxXhN5zPYTlvNAojyX7sX6GXfyIG0nNmR4vRckmLPAcw==
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200215013831.6715-2-chaitanya.kulkarni@wdc.com>
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2817a18d-2356-4aed-d93d-08d7c0a84b57
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Mar 2020 01:55:34.5632 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: mIqoeiPsVHUQr/E4CoNqHq8RxTl9+OrdPaQuGIScKbuRq3K8uksCAD0EyLbbpK359ZJ2/N1WpsOR8L5dawCXjDcAHZ2pwDdIom72K1won5A=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB4456
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200304_173243_413015_73B1B7F4 
-X-CRM114-Status: GOOD (  15.45  )
+X-CRM114-CacheID: sfid-20200304_175546_804492_C4CEB43A 
+X-CRM114-Status: GOOD (  10.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,57 +144,30 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-block@vger.kernel.org, osandov@fb.com, linux-nvme@lists.infradead.org
+Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "osandov@fb.com" <osandov@fb.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Feb 14, 2020 at 05:38:29PM -0800, Chaitanya Kulkarni wrote:
-> This patch updates helper function create_nvmet_subsystem() to handle
-> newly introduced model, cntlid_min and cntlid_max attributes.
-> Also, this adds SKIP reason when attributes are not found in the
-> configfs.
-> 
-> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-> ---
->  tests/nvme/rc | 25 +++++++++++++++++++++++++
->  1 file changed, 25 insertions(+)
-> 
-> diff --git a/tests/nvme/rc b/tests/nvme/rc
-> index 40f0413..e4b57cb 100644
-> --- a/tests/nvme/rc
-> +++ b/tests/nvme/rc
-> @@ -121,11 +121,36 @@ _create_nvmet_subsystem() {
->  	local nvmet_subsystem="$1"
->  	local blkdev="$2"
->  	local uuid=$3
-> +	local cntlid_min=$4
-> +	local cntlid_max=$5
-> +	local model=$6
->  	local cfs_path="${NVMET_CFS}/subsystems/${nvmet_subsystem}"
->  
->  	mkdir -p "${cfs_path}"
->  	echo 1 > "${cfs_path}/attr_allow_any_host"
-> +
-> +	if [ $# -eq 5 ]; then
+On 03/04/2020 05:30 PM, Omar Sandoval wrote:
+>> +	 _create_nvmet_subsystem "${SUBSYS_NAME}" "${LOOP_DEV}" \
+>> >+		"91fdba0d-f87b-4c25-b80f-db7be1418b9e" ${cid_min} ${cid_max}
+>> >+}
+> Sorry, I wasn't ignoring these patches, they just made me realize that
+> we really do need a way to skip a test from the test function itself, so
+> I wanted to implement that first. Could you try rebasing on my skip-test
+> branch (https://github.com/osandov/blktests/tree/skip-test) and
+> reworking this so you don't have to split the setup between requires()
+> and test()?
+>
 
-I still don't like that we ignore this if we also pass the model.
-Instead, just make this
+Sure, thanks for adding this, will send an updated series.
 
-if [[ -n $cntlid ]]
+>> >
 
-Then the caller can pass an empty argument if they want it ignored.
-
-> +		if [ -f "${cfs_path}"/attr_cntlid_min ]; then
-> +			echo "${cntlid_min}" > "${cfs_path}"/attr_cntlid_min
-> +			echo "${cntlid_max}" > "${cfs_path}"/attr_cntlid_max
-> +		else
-> +			SKIP_REASON="attr_cntlid_[min|max] not found"
-> +			rmdir "${cfs_path}"
-> +			return 1
-> +		fi
-> +	fi
 
 _______________________________________________
 linux-nvme mailing list
