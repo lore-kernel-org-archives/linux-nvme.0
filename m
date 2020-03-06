@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7FABC10DCE
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Mar 2020 09:20:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EC91C10DCE
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Mar 2020 09:21:08 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9D96C2072A
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Mar 2020 09:20:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3F6D02072A
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Mar 2020 09:21:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Qi3u8Zjm"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9D96C2072A
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="f4LeOSMT"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3F6D02072A
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,27 +25,27 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
 	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
 	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=7cMw2Rz3wUHywmympXAhatzJduZqGa7YyD9WajYg+/U=; b=Qi3u8ZjmyGf7nf
-	y2PvPYlc55LmEMcX6hXP2774FzsH02Vs5wCaADv2WL0iF4s/oQoBguw9T3Jmc+R2QKTFXn1+D+wZX
-	5J8CXIp2yIpuK1a92wAWN4B6C8WYyzufGAnEvbZjtkLe0bIQt3RVEQ+JvbKMT5w3vxTlqAyry5qSg
-	FK/cjeSCK9HUWwsQG1plTBoAFvuN16RiPx1CqZQLPQudvy478K5KmXO/35bF/SSTm1xuiTMGi8uME
-	3qoQud/phbYCFH+nBdXGBDXE/EPqBMmXtgRRRLhfAcCmAOVAAJn5Q6+PdzvJGT+nwM3BAP8aCN31L
-	3pbuBDg5YjEKXqV6QWAg==;
+	List-Owner; bh=tGVsST1NdDjgRwGuM7R9kA/Ku/3/gDwm5PPpfE9OUQ4=; b=f4LeOSMTujUiHO
+	ce1ARMLDcFfSm9SOpqxe+B2mtMT7kvfashy0a5hwS7oNJ0uhwaVPYdHbpdYTnAO5wrUji0c5tNsiQ
+	mvLkd67t9iItkhu3M1FgNSd7oIXEG1yIulHBmFa+ufUyFuxE4hf7KxjqwYMAvjdOsxRF59JIJ2g8h
+	Bk9JDrpfHd6PkiwTCTyldZzPZboFwl/BfxknDdjowtvSswal0liC5gEHBEQ+/rJF2RH8HPmm7cw39
+	r3vxF9lpf/Q8KfoM4A10h6fbWjX7TXo+SMcnYYjG+sXZ+QY1UwWweSW+eNgPycnjeVan0jHybDSB2
+	tNVQTicpmgVG60/EVHuw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jA99p-0000pX-N8; Fri, 06 Mar 2020 09:20:37 +0000
+	id 1jA9AH-000123-Vs; Fri, 06 Mar 2020 09:21:05 +0000
 Received: from mx2.suse.de ([195.135.220.15])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jA99l-0000lK-1H
- for linux-nvme@lists.infradead.org; Fri, 06 Mar 2020 09:20:35 +0000
+ id 1jA9AE-00011j-Jw
+ for linux-nvme@lists.infradead.org; Fri, 06 Mar 2020 09:21:04 +0000
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id C77A0B021;
- Fri,  6 Mar 2020 09:20:31 +0000 (UTC)
-Subject: Re: [PATCH 24/29] lpfc: Refactor Send LS Request support
+ by mx2.suse.de (Postfix) with ESMTP id 47C13ADE8;
+ Fri,  6 Mar 2020 09:21:01 +0000 (UTC)
+Subject: Re: [PATCH 25/29] lpfc: Refactor Send LS Abort support
 To: James Smart <jsmart2021@gmail.com>, linux-nvme@lists.infradead.org
 References: <20200205183753.25959-1-jsmart2021@gmail.com>
- <20200205183753.25959-25-jsmart2021@gmail.com>
+ <20200205183753.25959-26-jsmart2021@gmail.com>
 From: Hannes Reinecke <hare@suse.de>
 Openpgp: preference=signencrypt
 Autocrypt: addr=hare@suse.de; prefer-encrypt=mutual; keydata=
@@ -91,16 +91,16 @@ Autocrypt: addr=hare@suse.de; prefer-encrypt=mutual; keydata=
  ZtWlhGRERnDH17PUXDglsOA08HCls0PHx8itYsjYCAyETlxlLApXWdVl9YVwbQpQ+i693t/Y
  PGu8jotn0++P19d3JwXW8t6TVvBIQ1dRZHx1IxGLMn+CkDJMOmHAUMWTAXX2rf5tUjas8/v2
  azzYF4VRJsdl+d0MCaSy8mUh
-Message-ID: <1c072286-4c7f-7906-24eb-bdda0a7760ec@suse.de>
-Date: Fri, 6 Mar 2020 10:20:31 +0100
+Message-ID: <dd3de351-2e19-d1ac-5be2-4a124b6bafc3@suse.de>
+Date: Fri, 6 Mar 2020 10:21:00 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <20200205183753.25959-25-jsmart2021@gmail.com>
+In-Reply-To: <20200205183753.25959-26-jsmart2021@gmail.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200306_012034_490404_B31D7BE1 
-X-CRM114-Status: GOOD (  14.58  )
+X-CRM114-CacheID: sfid-20200306_012102_940448_01D9E6CE 
+X-CRM114-Status: GOOD (  15.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,23 +118,28 @@ Content-Transfer-Encoding: base64
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMi81LzIwIDc6MzcgUE0sIEphbWVzIFNtYXJ0IHdyb3RlOgo+IEN1cnJlbnRseSwgdGhlIGFi
-aWxpdHkgdG8gc2VuZCBhbiBOVk1FIExTIHJlcXVlc3QgaXMgbGltaXRlZCB0byB0aGUgbnZtZQo+
-IChob3N0KSBzaWRlIG9mIHRoZSBkcml2ZXIuICBJbiBwcmVwYXJhdGlvbiBvZiBib3RoIHRoZSBu
-dm1lIGFuZCBudm1ldCBzaWRlcwo+IHN1cHBvcnQgU2VuZCBMUyBSZXF1ZXN0LCByZXdvcmsgdGhl
-IGV4aXN0aW5nIHNlbmQgbHNfcmVxIGFuZCBsc19yZXEKPiBjb21wbGV0aW9uIHJvdXRpbmVzIHN1
-Y2ggdGhhdCB0aGVyZSBpcyBjb21tb24gY29kZSB0aGF0IGNhbiBiZSB1c2VkIGJ5Cj4gYm90aCBz
-aWRlcy4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBQYXVsIEVseSA8cGF1bC5lbHlAYnJvYWRjb20uY29t
-Pgo+IFNpZ25lZC1vZmYtYnk6IEphbWVzIFNtYXJ0IDxqc21hcnQyMDIxQGdtYWlsLmNvbT4KPiAt
-LS0KPiAgZHJpdmVycy9zY3NpL2xwZmMvbHBmY19udm1lLmMgfCAyODkgKysrKysrKysrKysrKysr
-KysrKysrKysrKy0tLS0tLS0tLS0tLS0tLS0tCj4gIGRyaXZlcnMvc2NzaS9scGZjL2xwZmNfbnZt
-ZS5oIHwgIDEzICsrCj4gIDIgZmlsZXMgY2hhbmdlZCwgMTg0IGluc2VydGlvbnMoKyksIDExOCBk
-ZWxldGlvbnMoLSkKPiAKUmV2aWV3ZWQtYnk6IEhhbm5lcyBSZWluZWNrZSA8aGFyZUBzdXNlLmRl
-PgoKQ2hlZXJzLAoKSGFubmVzCi0tIApEci4gSGFubmVzIFJlaW5lY2tlCQkgICAgICAgICAgIEtl
-cm5lbCBTdG9yYWdlIEFyY2hpdGVjdApoYXJlQHN1c2UuZGUJCQkgICAgICAgICAgICAgICAgICAr
-NDkgOTExIDc0MDUzIDY4OApTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgsIE1h
-eGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZwpIUkIgMzY4MDkgKEFHIE7DvHJuYmVyZyksIEdG
-OiBGZWxpeCBJbWVuZMO2cmZmZXIKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCmxpbnV4LW52bWUgbWFpbGluZyBsaXN0CmxpbnV4LW52bWVAbGlzdHMuaW5m
-cmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xp
-bnV4LW52bWUK
+T24gMi81LzIwIDc6MzcgUE0sIEphbWVzIFNtYXJ0IHdyb3RlOgo+IFNlbmQgTFMgQWJvcnQgc3Vw
+cG9ydCBpcyBuZWVkZWQgd2hlbiBTZW5kIExTIFJlcXVlc3QgaXMgc3VwcG9ydGVkLgo+IAo+IEN1
+cnJlbnRseSwgdGhlIGFiaWxpdHkgdG8gYWJvcnQgYW4gTlZNRSBMUyByZXF1ZXN0IGlzIGxpbWl0
+ZWQgdG8gdGhlIG52bWUKPiAoaG9zdCkgc2lkZSBvZiB0aGUgZHJpdmVyLiAgSW4gcHJlcGFyYXRp
+b24gb2YgYm90aCB0aGUgbnZtZSBhbmQgbnZtZXQgc2lkZXMKPiBzdXBwb3J0aW5nIFNlbmQgTFMg
+QWJvcnQsIHJld29yayB0aGUgZXhpc3RpbmcgbHNfcmVxIGFib3J0IHJvdXRpbmVzIHN1Y2gKPiB0
+aGF0IHRoZXJlIGlzIGNvbW1vbiBjb2RlIHRoYXQgY2FuIGJlIHVzZWQgYnkgYm90aCBzaWRlcy4K
+PiAKPiBXaGlsZSByZWZhY3RvcmluZyBpdCB3YXMgc2VlbiB0aGUgbG9naWMgaW4gdGhlIGFib3J0
+IHJvdXRpbmUgd2FzIGluY29ycmVjdC4KPiBJdCBhdHRlbXB0ZWQgdG8gYWJvcnQgYWxsIE5WTUUg
+TFMncyBvbiB0aGUgaW5kaWNhdGVkIHBvcnQuIEFzIHN1Y2gsIHRoZQo+IHJvdXRpbmUgd2FzIHJl
+d29ya2VkIHRvIGFib3J0IG9ubHkgdGhlIE5WTUUgTFMgcmVxdWVzdCB0aGF0IHdhcyBzcGVjaWZp
+ZWQuCj4gCj4gU2lnbmVkLW9mZi1ieTogUGF1bCBFbHkgPHBhdWwuZWx5QGJyb2FkY29tLmNvbT4K
+PiBTaWduZWQtb2ZmLWJ5OiBKYW1lcyBTbWFydCA8anNtYXJ0MjAyMUBnbWFpbC5jb20+Cj4gLS0t
+Cj4gIGRyaXZlcnMvc2NzaS9scGZjL2xwZmNfbnZtZS5jIHwgMTI1ICsrKysrKysrKysrKysrKysr
+KysrKysrKystLS0tLS0tLS0tLS0tLS0tLQo+ICBkcml2ZXJzL3Njc2kvbHBmYy9scGZjX252bWUu
+aCB8ICAgMiArCj4gIDIgZmlsZXMgY2hhbmdlZCwgNzcgaW5zZXJ0aW9ucygrKSwgNTAgZGVsZXRp
+b25zKC0pCj4gClJldmlld2VkLWJ5OiBIYW5uZXMgUmVpbmVja2UgPGhhcmVAc3VzZS5kZT4KCkNo
+ZWVycywKCkhhbm5lcwotLSAKRHIuIEhhbm5lcyBSZWluZWNrZQkJICAgICAgICAgICBLZXJuZWwg
+U3RvcmFnZSBBcmNoaXRlY3QKaGFyZUBzdXNlLmRlCQkJICAgICAgICAgICAgICAgICAgKzQ5IDkx
+MSA3NDA1MyA2ODgKU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJILCBNYXhmZWxk
+c3RyLiA1LCA5MDQwOSBOw7xybmJlcmcKSFJCIDM2ODA5IChBRyBOw7xybmJlcmcpLCBHRjogRmVs
+aXggSW1lbmTDtnJmZmVyCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fXwpsaW51eC1udm1lIG1haWxpbmcgbGlzdApsaW51eC1udm1lQGxpc3RzLmluZnJhZGVh
+ZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1u
+dm1lCg==
