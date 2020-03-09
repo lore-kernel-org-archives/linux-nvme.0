@@ -2,135 +2,67 @@ Return-Path: <SRS0=ldP/=42=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32C10C10F25
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Mar 2020 22:17:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B222C10F25
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Mar 2020 22:47:48 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 00B9824654
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Mar 2020 22:17:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E367F2253D
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Mar 2020 22:47:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="FWyPjJlI";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=intel.onmicrosoft.com header.i=@intel.onmicrosoft.com header.b="iXhVb8pS"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 00B9824654
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="dDpNELpF";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z8C7VKCQ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E367F2253D
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
-	Message-ID:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=o8ugy+al9RBevblyT35YMYDKsuJs0snGn4zFlzzHgWU=; b=FWyPjJlIuT6rrG
-	BhnOKU7qLnq8L980i3x4W2cGI1A5o4h/1H/DhwRKblx8kCIVGAHqc50S4dS5mL2v/4xMdRcMZe8IO
-	ZTATdZzMijxt91UjnMMdajGpKtiVy6eUyTe1ZhizJWxd0QBEOL8+EGO5+bENq4MiQv0QB9rhw3tce
-	gtmcqEDsV28M6V1LgNvMgBARpt1M/uiNjlOwgaxD9h75yBkD9y9zO6tfbVen/usc5MnOfONcfhW8/
-	+32KUQPNDUVsb7yDbE0xms51Za5/4Z2BisSTT/jsNLxG3YNDnQ6W2r6ZP1HuaxGNEmTLlO8TsLIBf
-	Xa/lICkVHxAuWKJkLbHQ==;
+	List-Owner; bh=kunW1xFqQTn+2mN9KEEXEXLPh/H7p0Wi4Gn7aMqIkNs=; b=dDpNELpFoKQsjn
+	WExDYViXOKY1fBRVjs/5ELpuK5OasBwbwqnEWmG+ev7I9NFKkGTRLmkksTK7oLiaAbDhpwI1Z+pnt
+	vvwn7ya7oAKKcihK1KjcQr4P5ITmL1fvkceqytM00JvVhACz7dOxWlVq8tb/yOFwiwPShO5Oz0QHu
+	vx8J6y0py2CvlB0TqM4FwpJYIxXKPxUyQJ+bIM50jlUo1M1IEzzfMJNxmvDB3r7SI9poOkWYT90fb
+	CNtI3Md7QCdbK/AfIyo9wkgGgsRRg8eCXsCrEDy8dc/YGfRaTOgDpK3s9IZZipnbydRGN0MfLrL4p
+	pO5v1/yyYOOwQF6Od67g==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jBQid-0003p6-Ve; Mon, 09 Mar 2020 22:17:51 +0000
-Received: from mga14.intel.com ([192.55.52.115])
+	id 1jBRBY-0007ef-CB; Mon, 09 Mar 2020 22:47:44 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jBQia-0003oP-Ib
- for linux-nvme@lists.infradead.org; Mon, 09 Mar 2020 22:17:50 +0000
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 09 Mar 2020 15:17:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,534,1574150400"; d="scan'208";a="235733841"
-Received: from fmsmsx106.amr.corp.intel.com ([10.18.124.204])
- by fmsmga008.fm.intel.com with ESMTP; 09 Mar 2020 15:17:47 -0700
-Received: from fmsmsx163.amr.corp.intel.com (10.18.125.72) by
- FMSMSX106.amr.corp.intel.com (10.18.124.204) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Mon, 9 Mar 2020 15:17:47 -0700
-Received: from FMSEDG001.ED.cps.intel.com (10.1.192.133) by
- fmsmsx163.amr.corp.intel.com (10.18.125.72) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Mon, 9 Mar 2020 15:17:47 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.108)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server (TLS) id
- 14.3.439.0; Mon, 9 Mar 2020 15:17:47 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mKsvBmWp2cwYOgWlf/uMNF1nW0d3mv6npEPoP6+kGSf35JEnByeeTzXochjD3JcWZc/qHq2kURC1FSUI6SLA7bH6sX1eGn/lKQVaQVOYa1a41+y3v//bPShqI+L7ap+MzSAzhMQIad6hzKoCZwhSydqEuEdxfMfsr1dcn1sOl1zh/9hB8V9LhCUYfKfVaPenLdtMM1F0aO+8YKevBCUrxVT6+i9XMgYCnlbdhxKPDvHKFLrv5toZGeyAEySkYsE9z57dm/qjFCN14WUbDf5mRS0NA0vdHgUFcfWbfMBrX+9pbWVJhttRFuDFz85YIDPpqvNSIYL1IDIbN85hrtF6KQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=C/l00dLACp9nlaPmVWvu7IXFaVVMoPqXWGz3edMBXcA=;
- b=FZ839Meh22IOwLcz7p734+x4m/uhuFkV/xTjfVFpsRnvAPg9AgSdK0RsIMymm4SHIl7uRxbzT6spjxIYDtZ2oLxrXTB6GtsvAgc5VDQmzgqrya+Y6oKk8s9xp6BmZDvgE8Dw28saCsy/JquqgS3/ePckz0pXe02GudSBYyvpaJjKq9bXpe4nCyMY2VO0C7Bzj1I+W+KcU73ATr7KqgBTkxp+Gi9162SSv6ooSdtxrh0EBR3oN9iKDi5LNOsjPTCbZM8olwceLCpqW8CsUw6JMKNeqfdhkVXWqNgRMBH6ue7wXfP5HQC7zmrQc7snpoKeH5AkzTwE144FReBM2+qfmQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=C/l00dLACp9nlaPmVWvu7IXFaVVMoPqXWGz3edMBXcA=;
- b=iXhVb8pSbZYCa00VdVWaLfCRHDj4LAN2ZsDy5PYWIXlv3w0Gv8ngVW+rcpRaAdmz2Bs1uv0dWTsBJatvUDFRFAOsZUfdcmuHEoY8xIqcAQmCYBnIHgkoVfNX9MkRQR2rmKj0D+ui6iwNmNel+FmAqYVBTTczS5JYUw5MENY/NFs=
-Received: from CY4PR11MB1351.namprd11.prod.outlook.com (2603:10b6:903:26::9)
- by CY4PR11MB1927.namprd11.prod.outlook.com (2603:10b6:903:120::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.14; Mon, 9 Mar
- 2020 22:17:44 +0000
-Received: from CY4PR11MB1351.namprd11.prod.outlook.com
- ([fe80::c109:7bc1:25ae:53cc]) by CY4PR11MB1351.namprd11.prod.outlook.com
- ([fe80::c109:7bc1:25ae:53cc%12]) with mapi id 15.20.2793.013; Mon, 9 Mar 2020
- 22:17:44 +0000
-From: "Wunderlich, Mark" <mark.wunderlich@intel.com>
-To: Sagi Grimberg <sagi@grimberg.me>, "linux-nvme@lists.infradead.org"
- <linux-nvme@lists.infradead.org>
-Subject: RE: Sighting: Use of 'disable_sqflow' option shows drastic reduced
- I/O rate for small Queue Depths
-Thread-Topic: Sighting: Use of 'disable_sqflow' option shows drastic reduced
- I/O rate for small Queue Depths
-Thread-Index: AQHV9kmB1xPGOrsi90S3+8np2DlTQ6hAxXtA
-Date: Mon, 9 Mar 2020 22:17:44 +0000
-Message-ID: <CY4PR11MB1351F639D6B6582D5EEBA74DE5FE0@CY4PR11MB1351.namprd11.prod.outlook.com>
-References: <CY4PR11MB1351F4B992E207DCFD610FE6E5FE0@CY4PR11MB1351.namprd11.prod.outlook.com>
- <79eb6f31-1c65-7920-5e66-8ee9a6e81aae@grimberg.me>
-In-Reply-To: <79eb6f31-1c65-7920-5e66-8ee9a6e81aae@grimberg.me>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-reaction: no-action
-dlp-version: 11.2.0.6
-dlp-product: dlpe-windows
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=mark.wunderlich@intel.com; 
-x-originating-ip: [134.134.136.219]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d079800f-3bbc-4b27-92fa-08d7c477b111
-x-ms-traffictypediagnostic: CY4PR11MB1927:
-x-microsoft-antispam-prvs: <CY4PR11MB1927DE6FEFF6DCB5CAE47C1CE5FE0@CY4PR11MB1927.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 0337AFFE9A
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(39860400002)(366004)(376002)(136003)(346002)(396003)(189003)(199004)(5660300002)(66556008)(7696005)(52536014)(76116006)(86362001)(110136005)(66946007)(316002)(64756008)(33656002)(66476007)(66446008)(9686003)(26005)(81156014)(81166006)(71200400001)(8936002)(186003)(55016002)(2906002)(8676002)(4326008)(6506007)(478600001);
- DIR:OUT; SFP:1102; SCL:1; SRVR:CY4PR11MB1927;
- H:CY4PR11MB1351.namprd11.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:3; A:1; 
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: rl1EzBXR1d/eozSKlwqbxAVopR1ztxc+imBR8z8abzKiBqBBgGOhVYrBMSaz/vTXLe5x6oXFgZHWaSMqIn1M+BkgcB8DqTutY6CCwSzFhHJ73Jdj+ZdXa7clQAiEUapum06msUGRxhspxlszyUhw+eS5wGQ5wgXkjyV+TCgPhek4KIhTnfzPm1lQ+ZrTEHKVOX9wJrQBswXpDc+Dv/9mexnqvTYCgk6bwRjNCwSOpPmLT8JUBkkIowBV78x3CVm+ipPKAHMR2GLdg6OLyeqT4/wR50rBxc2DE3Fjlm2VUDryDMAYkCfGJeOuEmGHeKgNMn+sI1EMTEgnLnciTBTP2VWy0bVTg9QPTVZuKCYEvqFFtlYN6T0vmI1q154qIB4EWukpaMEkDcT9VM1lTskMSlvbyDJPHBoPHDf5xbPCGeQP8OjWC0Q13+/nzHmUJxcX
-x-ms-exchange-antispam-messagedata: fTO+kLUaDpNy57Ol/Se4pExNJvyFb/fKgabLbsCJ7j261d4OV5wiFi6pIwMhfqBt47CPIj5GnmnuZA8P56eD3plQdo8WmNXX4HT1QT15khBJqOGHHWc/CJ+mwQuQdD8KD7+nmsehzbNdwY2feguvJw==
-x-ms-exchange-transport-forked: True
+ id 1jBRBV-0007dy-AB
+ for linux-nvme@lists.infradead.org; Mon, 09 Mar 2020 22:47:42 +0000
+Received: from redsun51.ssa.fujisawa.hgst.com (unknown [199.255.47.7])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id E11CF2253D;
+ Mon,  9 Mar 2020 22:47:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1583794060;
+ bh=SvsAGjNrMt59HZKZwYTJbI6BFHNnRlH51P7BxtYmZ3M=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Z8C7VKCQieDunJUdX2ah84ZZwFzZ3tAcR7sK8DhVq0HkMz/373rv7R8RcECcfMDBf
+ OBPDhFTiH+BmKulO9RL8LJ4KyRSIV29f3TnoBh+Uj5o42c2MgNf8ijeaFEhj3ta3BH
+ G/NzEIjSMhZgYuhiGydwYzeU74vgs+LQSV/w04CI=
+Date: Tue, 10 Mar 2020 07:47:37 +0900
+From: Keith Busch <kbusch@kernel.org>
+To: Bijan Mottahedeh <bijan.mottahedeh@oracle.com>
+Subject: Re: I/O performance with block sizes > 128k
+Message-ID: <20200309224737.GA15411@redsun51.ssa.fujisawa.hgst.com>
+References: <321f0a4b-8a75-8cae-2d77-34ad712225d3@oracle.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: d079800f-3bbc-4b27-92fa-08d7c477b111
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Mar 2020 22:17:44.6296 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: OtenkxEaitiEzvXTXo7YhxlqJLbSKbE1vTY2EW8JVY5b6b/+JY0Uy1m28DZfwLhqvKL8zM6H56DBUf7ZSK0DAFmGHtzKRs649Hhz4VObMt0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR11MB1927
-X-OriginatorOrg: intel.com
+Content-Disposition: inline
+In-Reply-To: <321f0a4b-8a75-8cae-2d77-34ad712225d3@oracle.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200309_151748_682580_F0A6F37D 
-X-CRM114-Status: GOOD (  16.42  )
+X-CRM114-CacheID: sfid-20200309_154741_373979_5817E30D 
+X-CRM114-Status: GOOD (  15.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,63 +74,76 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Jens Axboe <axboe@kernel.dk>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-nvme@lists.infradead.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> There is a problem that I see with nvmet-tcp target usage of msg flags with the SUCCESS flag optimization.
+On Mon, Mar 09, 2020 at 02:49:10PM -0700, Bijan Mottahedeh wrote:
+> I'm seeing a sizeable drop in perf with polled fio tests for block sizes >
+> 128k:
+> =
 
-> Does this patch solve the issue?
+> filename=3D/dev/nvme0n1
+> rw=3Drandread
+> direct=3D1
+> time_based=3D1
+> randrepeat=3D1
+> gtod_reduce=3D1
+> =
 
-This does improve things.  For queue depth of 1 now see ~49K, but the rate is not constant.  FIO output will at times show the IOPS rate drop down low then back up.  Also, a test run for queue depth of 32, and batch of 8 shows lower performance now vs. without this fix.  Before ~287K, now ~249K.  This got me thinking why would this be, in relation to 'disable_sqflow'.
+> fio --readonly --ioengine=3Dio_uring --iodepth 1024 --fixedbufs --hipri
+> --numjob
+> =
 
-Because the send data frame could be the last in the batch, much like the response or r2t frame, it made sense to integrate into your suggested logic for setting the flag to add that for 'last_in_batch'.  So modified to be the following.  This results in a good steady performance for queue depth of 1, and what appears to be a slight performance improvement for larger queue depths.  All good!
+> The problem seems to be related to switching from prp_small_pool to
+> prp_page_pool; the former is optimized for I/O between 4k and 128k.
+> =
 
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index cbff1038bdb3..7b2027cdd715 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -525,7 +525,8 @@ static int nvmet_try_send_data_pdu(struct nvmet_tcp_cmd *cmd)
-        return 1;
- }
+> Expanding the small pool size to cover up to 256k increases the
+> performance.=A0 I'm not sure however if this is the proper and general fi=
+x.=A0
+> For one thing, expanding the pool size bumps the numbers for a short burst
+> test (10 sec) but the numbers drop again significantly during a longer
+> test.=A0 The behavior is not unique to io_uring either.=A0 Included below=
+ are a
+> couple of 256k fio pvsync2 tests as well.
 
--static int nvmet_try_send_data(struct nvmet_tcp_cmd *cmd)
-+static int nvmet_try_send_data(struct nvmet_tcp_cmd *cmd,
-+               bool last_in_batch)
+I am surprised you're seeing such a drop just from the prp pool used.
+
+What CPU architecture are you using? Reason I ask: the driver allocates
+PAGE_SIZE for the large prp pool, but we really want ctrl->page_size
+(always 4k). If your CPU architecture has a PAGE_SIZE larger than 4k,
+could you try the following?
+
+---
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index da392b50f73e..6ed07164d1e7 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2458,7 +2458,7 @@ static int nvme_disable_prepare_reset(struct nvme_dev=
+ *dev, bool shutdown)
+ static int nvme_setup_prp_pools(struct nvme_dev *dev)
  {
-        struct nvmet_tcp_queue *queue = cmd->queue;
-        int ret;
-@@ -533,9 +534,16 @@ static int nvmet_try_send_data(struct nvmet_tcp_cmd *cmd)
-        while (cmd->cur_sg) {
-                struct page *page = sg_page(cmd->cur_sg);
-                u32 left = cmd->cur_sg->length - cmd->offset;
-+               int flags = MSG_DONTWAIT;
-+
-+               if (cmd->wbytes_done + left < cmd->req.transfer_len ||
-+                       (!last_in_batch && cmd->queue->send_list_len))
-+                       flags |= MSG_MORE;
-+               else if (queue->nvme_sq.sqhd_disabled)
-+                       flags |= MSG_EOR;
+ 	dev->prp_page_pool =3D dma_pool_create("prp list page", dev->dev,
+-						PAGE_SIZE, PAGE_SIZE, 0);
++						4096, 4096, 0);
+ 	if (!dev->prp_page_pool)
+ 		return -ENOMEM;
+ =
 
-                ret = kernel_sendpage(cmd->queue->sock, page, cmd->offset,
--                                       left, MSG_DONTWAIT | MSG_MORE);
-+                                       left, flags);
-                if (ret <= 0)
-                        return ret;
+--
+ =
 
-@@ -670,7 +678,7 @@ static int nvmet_tcp_try_send_one(struct nvmet_tcp_queue *queue,
-        }
+> A related question, is it required for dma pool allocations to use
+> GFP_ATOMIC?=A0 Looks they can only be called from nvme_queue_rq().Just as=
+ a
+> test, I changed the flag to GFP_NOWAIT, and that seems to be ok.
 
-        if (cmd->state == NVMET_TCP_SEND_DATA) {
--               ret = nvmet_try_send_data(cmd);
-+               ret = nvmet_try_send_data(cmd, last_in_batch);
-                if (ret <= 0)
-                        goto done_send;
-        }
+Yes, the atomic alloc is left over from a time when this happened under
+a spinlock. NOWAIT should be fine here.
 
---- Mark
 _______________________________________________
 linux-nvme mailing list
 linux-nvme@lists.infradead.org
