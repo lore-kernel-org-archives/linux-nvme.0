@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00493C18E5A
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Mar 2020 16:56:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19FD5C10F27
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Mar 2020 16:57:58 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C633E222C3
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Mar 2020 16:56:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E068D21D7E
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Mar 2020 16:57:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="QaBTZ5Fh"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C633E222C3
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="me349UZg"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E068D21D7E
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,35 +25,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=JWurlnGz9xaTdokkQUV9UoxZBIFWdzEaIoj4WjzHtZY=; b=QaBTZ5FhrUprgY
-	u6QYqRuNwJTVFDITGbWBiPumwsrUlLbiXw+CYtPQGyo5Xqn8G+vvebth2Uh3n3Rb/K5xtVnTMg131
-	+o0meJbovcbmrXQsOi6cN8pEdYq1uqt7k0ZeHTx0u185RVr2U/LRgj7HxhhxVpKBE/MArMm+sGkcm
-	H6eCZvVyFioJtF+yzo1g6lNB2YVMVGWGYI8ghXIGskWWXZ2Hb25yB/3iK/pb6Vs9pSkxhNn22lvcW
-	xGITsRpOWvNisyzX6tT5N+AVRSUtAY8SBBRrPollUDpXofzphy7kXJmNdIoNhUgWQRJ2Fm5a3h/Q1
-	bxGURBD041kbO6ISugRg==;
+	List-Owner; bh=UDVAsv76Xf7u1cCNS95wma/Q89zn24Fh37Wc93I8+nM=; b=me349UZg1k+9XW
+	EEwlGvCJabdBwCVH4xYFRgtfi3AolFFtWC3ZM/R1V+QFTCR2OKEmPNHer1y9BQiKPwGal52l7ZTKx
+	ORLH+0TvCzvnSUip+ruHr8Rpq4tB7W5m6Hqhd54Y1ugDfafq49RmiIxwjOqQJh/4bsqe4lKFME1f8
+	5YuRZBa3J94ZZQoSBiWG6y0L5BFb3FJD+amB2XThzEO8HlNridS8teDzYeVL/vnab5m9IezRVKZBL
+	vJ3cH9pR40hMwhppMZouZJ7Ov76yj0y3yGdPMKgY420LhVNv2GFaDjFzml4Lb4gDmTd2qJh6Komq+
+	PDVVK7hrJZCUbnANH0Xg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jBiBP-0002XH-Qo; Tue, 10 Mar 2020 16:56:43 +0000
+	id 1jBiCa-0002tC-IN; Tue, 10 Mar 2020 16:57:56 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jBiBI-0002Oh-7A
- for linux-nvme@lists.infradead.org; Tue, 10 Mar 2020 16:56:37 +0000
+ id 1jBiCW-0002sq-Uq
+ for linux-nvme@lists.infradead.org; Tue, 10 Mar 2020 16:57:55 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id C03CF68BE1; Tue, 10 Mar 2020 17:56:33 +0100 (CET)
-Date: Tue, 10 Mar 2020 17:56:33 +0100
+ id 22ABF68BE1; Tue, 10 Mar 2020 17:57:51 +0100 (CET)
+Date: Tue, 10 Mar 2020 17:57:50 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCHv2 1/3] nvme-pci: Remove tag from process cq
-Message-ID: <20200310165633.GA7114@lst.de>
+Subject: Re: [PATCHv2 2/3] nvme-pci: Remove two-pass completions
+Message-ID: <20200310165750.GB7114@lst.de>
 References: <20200304181246.481835-1-kbusch@kernel.org>
- <20200304181246.481835-2-kbusch@kernel.org>
+ <20200304181246.481835-3-kbusch@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200304181246.481835-2-kbusch@kernel.org>
+In-Reply-To: <20200304181246.481835-3-kbusch@kernel.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200310_095636_405612_6A8DC6F4 
-X-CRM114-Status: UNSURE (   7.15  )
+X-CRM114-CacheID: sfid-20200310_095754_058847_03344562 
+X-CRM114-Status: UNSURE (   7.87  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -73,12 +73,16 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Mar 04, 2020 at 10:12:44AM -0800, Keith Busch wrote:
-> The only user for tagged completion was for timeout handling. That user,
-> though, really only cares if the timed out command is completed, which
-> we can safely check within the timeout handler.
+On Wed, Mar 04, 2020 at 10:12:45AM -0800, Keith Busch wrote:
+> Completion handling had been done in two steps: find all new completions
+> under a lock, then handle those completions outside the lock. This was
+> done to make the locked section as short as possible so that other
+> threads using the same lock wait less time.
 > 
-> Remove the tag check to simplify completion handling.
+> The driver no longer shares locks during completion, and is in fact
+> lockless for interrupt driven queues, so the optimization no longer
+> serves its original purpose. Replace the two-pass completion queue
+> handler with a single pass that completes entries immediately.
 > 
 > Signed-off-by: Keith Busch <kbusch@kernel.org>
 
