@@ -6,17 +6,17 @@ X-Spam-Status: No, score=-4.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F62CC10DCE
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Mar 2020 20:52:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20598C10DCE
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Mar 2020 20:54:02 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 19CC5222C3
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Mar 2020 20:52:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D92AA222C3
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Mar 2020 20:54:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="lU01sNnb";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="fZUtX49t"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 19CC5222C3
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="jENEbCg9";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="z5ts/8eC"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D92AA222C3
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,43 +25,43 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=pj8xP7rdEVOdXY3LSKqV6BMfbbW4kTKYxt8z06N+n2M=; b=lU01sNnbicbUt/
-	gRr7HU67Onao/BXhGgXPJY8HAdxccB5SEFUoBAqjDaanuWFukesmYVAW10gTH/rXNtgTt7KnQ9scw
-	tgXqMe8QXQCeb74w9PyXyz+t32ngWHcNbJ05rRYEdscCyjvPnoVxQh0GBgjd7W27vr/i3oO52fShD
-	VS4uhvDyedDg4/0CkLClTH7G71+lzVx5RiuciNZ30YcZ5o7Rev0MRhV+jxQXW/gBrLu0s7yagq2Of
-	hCopx07glL1eM4SclAY7omI/bn8CrQak3oGASWI59l2ldcIuWY6Uy+EjWceLSKI6a/YgmmnuUf6ha
-	otKYaxwwomJhajU7GE8w==;
+	List-Owner; bh=2kBueSyT9lG9u+91NSseY2SZDFgalHAZIgloEKJ0a58=; b=jENEbCg9SJ5b9d
+	e4pKFlRwbaly5vS0NXRd9V4f6R96PM/w0jNAy1UX7U1qgx8DcFnDswg9QZ/xZWp266u382GIrksL3
+	V8BYDrf2rX4u2W0AlG9PNfUp2Vv2UBFjYm2ScjESx6UsiCrAJfIj/65h14N2/IImPHijA4YbNzsKo
+	jjq9wBhJIh/SonrQkUynRW3O4mXxPEO2agGWdwndHQXap81BbhpwV5yHnEsoZtqPoO17NvVLV9Yv7
+	W5P2gg4Dg7ovw5ANaFURJ8/SghLJxjPdX7lgFYxFmkiGreVA9EOoGT4c/ite34COjr97OpLwA4X/y
+	Q7lv0+lDOdoTKiVqNhpQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jBls0-0001p6-Px; Tue, 10 Mar 2020 20:52:56 +0000
+	id 1jBlt1-00022A-Hv; Tue, 10 Mar 2020 20:53:59 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jBlrx-0001oZ-R1
- for linux-nvme@lists.infradead.org; Tue, 10 Mar 2020 20:52:55 +0000
+ id 1jBlsz-00021m-8H
+ for linux-nvme@lists.infradead.org; Tue, 10 Mar 2020 20:53:58 +0000
 Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id DBF16215A4;
- Tue, 10 Mar 2020 20:52:51 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 9EF19222C3;
+ Tue, 10 Mar 2020 20:53:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1583873572;
- bh=yai84RkOrWCBvQy+zjhigd14iq991isTYtyMhYUlZgk=;
+ s=default; t=1583873636;
+ bh=bF6sSIodPU9nAapKOpH16NP9C35Bj2zaGPjUSgdj/Fs=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fZUtX49tnW/xV99wsmydjeyXpLzUCELOq/5dBgKPpCbbsueLh3muM6/FOZhgsPOf8
- yrHdHnGcAUZBpAGG+qetcSyYjOpZa7n8S7UyNceA0wkXvgsOsT1jPAtXK9mkXiIhfy
- kyHMEb2WLEExdTPWRoyxndnuguduqq2xC09pHmPo=
-Date: Tue, 10 Mar 2020 13:52:49 -0700
+ b=z5ts/8eCTS+kYPLr399Csg8kP3tlna2QZQKdkCiwjQmXaE4foAMrojjftzpJe8DGW
+ QswuGCL4yMRooOHpreMWG6sMsfIP2Q5tBve9RvVg9B3SWg5dW2eOJkemReoLXXZn9Y
+ QwCsaPu2kbOTtOAXSEPjWGQqnLHpED5HvJ/jmtZc=
+Date: Tue, 10 Mar 2020 13:53:54 -0700
 From: Keith Busch <kbusch@kernel.org>
-To: Max Gurtovoy <maxg@mellanox.com>
-Subject: Re: [PATCH V3 1/3] nvmet: Add get_mdts op for controllers
-Message-ID: <20200310205249.GA604509@dhcp-10-100-145-180.wdl.wdc.com>
-References: <20200308105505.14305-1-maxg@mellanox.com>
+To: Sagi Grimberg <sagi@grimberg.me>
+Subject: Re: [PATCH 1/2] nvme-tcp: move send failure to nvme_tcp_try_send
+Message-ID: <20200310205354.GB604509@dhcp-10-100-145-180.wdl.wdc.com>
+References: <20200226004324.10694-1-sagi@grimberg.me>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200308105505.14305-1-maxg@mellanox.com>
+In-Reply-To: <20200226004324.10694-1-sagi@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200310_135253_910016_2F3E4A13 
-X-CRM114-Status: UNSURE (   9.53  )
+X-CRM114-CacheID: sfid-20200310_135357_314912_439AEF8B 
+X-CRM114-Status: UNSURE (   9.23  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -74,28 +74,19 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: sagi@grimberg.me, vladimirk@mellanox.com, bharat@chelsio.com,
- nirranjan@chelsio.com, linux-nvme@lists.infradead.org, shlomin@mellanox.com,
- jgg@mellanox.com, krishna2@chelsio.com, hch@lst.de, bvanassche@acm.org
+Cc: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Mar 08, 2020 at 12:55:03PM +0200, Max Gurtovoy wrote:
-> Some transports, such as RDMA, would like to set the Maximum Data
-> Transfer Size (MDTS) according to device/port/ctrl characteristics.
-> This will enable the transport to set the optimal MDTS according to
-> controller needs and device capabilities. Add a new nvmet transport
-> op that is called during ctrl identification. This will not effect
-> transports that don't implement this option. The return value of the new
-> op is according to the NVMe spec definition for MDTS.
+On Tue, Feb 25, 2020 at 04:43:23PM -0800, Sagi Grimberg wrote:
+> Consolidate the request failure handling code to where
+> it is being fetched (nvme_tcp_try_send).
 > 
-> Signed-off-by: Max Gurtovoy <maxg@mellanox.com>
-> Signed-off-by: Israel Rukshin <israelr@mellanox.com>
-> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
 
-Series queued up for 5.7.
+Added to 5.7, thanks.
 
 _______________________________________________
 linux-nvme mailing list
