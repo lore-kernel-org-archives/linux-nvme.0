@@ -2,105 +2,69 @@ Return-Path: <SRS0=tokg=44=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D674DC10DCE
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Mar 2020 00:54:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79A7BC10DCE
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Mar 2020 01:27:13 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 84F6120663
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Mar 2020 00:54:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 291F1205ED
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Mar 2020 01:27:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="jTIP92XT";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="MIxbfbkQ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 84F6120663
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="daz1v5mD";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="n2qu5ZMj"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 291F1205ED
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=3k/3CAqOEdV+FRuz19C2lw4XsNvK9Bp7NrwYt3xuvs8=; b=jTIP92XTbqA4xu5CU/ey5Vehc
-	RfDrAV/MKQMJeZoKJZjvfTkbYCNPYN0QUAKX8KDmuDJwiHgcap5DOrHb7QapgQMWYPqPZp/O08mqi
-	5GVGubgDhahbnofshlLlPvrnc66AJzIxaJbe1i6nfrjH0+Pxa2K6J5grVQGxoNX/2TWoibt+FX4NC
-	0ooi/E6xM0aBqVNzCamSSywM4HfFJbHxyQ5U113wITs8EdQqwBBf/Rj2pxS07A5vkBZH4Ye3ctaI9
-	omZdop1Dzo+eyMvEHhC7gHKpQDiMCaLgej0a0udSRWhzzQ3Vzo7K1IzVdLYQqNMovd9aE3GZzutgH
-	AKF9L5sOw==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=DBV4t+L/iLbTeGgJsbFLbyI9AJ3jEK3TXu/NYbtDUhM=; b=daz1v5mDDyUOl/
+	92xalUaxCEYY46U34nkkrU2te3Vz6amRyaTn8jSLYGkVPIqfdt/msMCmC5h2Ky6EOAQqV+fs5sMOA
+	Q+lJhPzOFUyTAp8N2U1IDwBwu2yh247AADjA6qemF5uhl7hV2vIrisCJmrVi3eUzX5JOBq9YgV0PU
+	p5GioQDb0snwEXeBPSX7uqFr1W/+argrXyFBbz1GrWWWX+XjuKjVmappTYx0MI4E//k3+/w80TjsR
+	mqgXS7yM04igy/h4w+17fZ9uj3OkY4r7JLtdf1s9b5gKpEJl/1O/9TVhpc7Ijj/pZYccLULY7CCOg
+	mFGTGkPJK0OUp8G0jN2A==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jBpdq-0002Px-1F; Wed, 11 Mar 2020 00:54:34 +0000
-Received: from aserp2120.oracle.com ([141.146.126.78])
+	id 1jBq9L-0007Vl-PZ; Wed, 11 Mar 2020 01:27:07 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jBpdm-0002PI-7l
- for linux-nvme@lists.infradead.org; Wed, 11 Mar 2020 00:54:32 +0000
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02B0qpWR012436;
- Wed, 11 Mar 2020 00:54:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=C5h1JJ1ecSZ9ODaOC/WwU2rmCvhG5J0EdllSMCCA7rg=;
- b=MIxbfbkQEyQDJHXOWjyoDb0vaskWdxhyqKqTspx2P/uZyCY7UvIqmRovS0eNU/PakOkT
- GeALiHp3WR2LHVxFZZ1Ejs0VFdGCHB79OJBmAYZF4IIw0e1LlCdx+UCyX1UqdVv7yMoH
- Gx85psqkIaGT2kMUJDkd6KAf5P9govT5lB03MJ0R/yQcCT541N7DjhVt4oB9KL/iFDV3
- BUj9pwGbJ1NgNTrspKFwWvliWC2tV2I1HHR3nHPyNIDs/93uRsesNRbE6H61FhXZHmNc
- PL+zie3jNMKlAxOnUmYlTpMGl4XSC9F/NUyyt9V57Lc/oVJEO9QkVhmFz0lO6Zk+8INe lQ== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2120.oracle.com with ESMTP id 2yp9v63ss6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 11 Mar 2020 00:54:08 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02B0ksPx062035;
- Wed, 11 Mar 2020 00:52:08 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3020.oracle.com with ESMTP id 2yp8nx2apg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 11 Mar 2020 00:52:08 +0000
-Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 02B0q6ql016703;
- Wed, 11 Mar 2020 00:52:06 GMT
-Received: from [10.154.112.130] (/10.154.112.130)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 10 Mar 2020 17:52:06 -0700
+ id 1jBq9I-0007V9-R2
+ for linux-nvme@lists.infradead.org; Wed, 11 Mar 2020 01:27:06 +0000
+Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 1A5EB205ED;
+ Wed, 11 Mar 2020 01:27:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1583890023;
+ bh=2WR/XqFjKZdY2vFOsxiWU+HrbFRF/jZWdWnBW9PIM1A=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=n2qu5ZMjZ/ua3UaMuscAtWnOjJ394g6iuaEDZOnuby+NqxAVmCNj0d1qagqjyFvUC
+ pLql8hv3NPnzwZOFim7pH89/evbV5iKMCbKcuAxV5gvUNIXVPjlRIW7ULmBJOqKrkw
+ 2sJTt3C7L2gpMenESxWaB6eU2BLVru5Q+2w0tM9g=
+Date: Tue, 10 Mar 2020 18:27:01 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Bijan Mottahedeh <bijan.mottahedeh@oracle.com>
 Subject: Re: I/O performance with block sizes > 128k
-To: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@infradead.org>
+Message-ID: <20200311012701.GF604509@dhcp-10-100-145-180.wdl.wdc.com>
 References: <321f0a4b-8a75-8cae-2d77-34ad712225d3@oracle.com>
  <20200310170818.GA28008@infradead.org>
  <20200310194421.GB17237@redsun51.ssa.fujisawa.hgst.com>
-From: Bijan Mottahedeh <bijan.mottahedeh@oracle.com>
-Message-ID: <3971720d-d05d-9a08-cb5e-6396df70a8b2@oracle.com>
-Date: Tue, 10 Mar 2020 17:52:02 -0700
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ <3971720d-d05d-9a08-cb5e-6396df70a8b2@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <20200310194421.GB17237@redsun51.ssa.fujisawa.hgst.com>
-Content-Language: en-US
-X-Antivirus: Avast (VPS 200310-0, 03/10/2020), Outbound message
-X-Antivirus-Status: Clean
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9556
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- mlxscore=0 phishscore=0
- spamscore=0 malwarescore=0 adultscore=0 suspectscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
- definitions=main-2003110001
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9556
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- spamscore=0 mlxscore=0
- priorityscore=1501 lowpriorityscore=0 bulkscore=0 mlxlogscore=999
- phishscore=0 adultscore=0 clxscore=1015 impostorscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
- definitions=main-2003110002
+Content-Disposition: inline
+In-Reply-To: <3971720d-d05d-9a08-cb5e-6396df70a8b2@oracle.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200310_175430_362512_F2CDF786 
-X-CRM114-Status: GOOD (  14.48  )
+X-CRM114-CacheID: sfid-20200310_182704_899852_A568C5F6 
+X-CRM114-Status: GOOD (  15.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,45 +76,82 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Jens Axboe <axboe@kernel.dk>, linux-nvme@lists.infradead.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Christoph Hellwig <hch@infradead.org>, Jens Axboe <axboe@kernel.dk>,
+ linux-nvme@lists.infradead.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMy8xMC8yMDIwIDEyOjQ0IFBNLCBLZWl0aCBCdXNjaCB3cm90ZToKPiBPbiBUdWUsIE1hciAx
-MCwgMjAyMCBhdCAxMDowODoxOEFNIC0wNzAwLCBDaHJpc3RvcGggSGVsbHdpZyB3cm90ZToKPj4g
-T24gTW9uLCBNYXIgMDksIDIwMjAgYXQgMDI6NDk6MTBQTSAtMDcwMCwgQmlqYW4gTW90dGFoZWRl
-aCB3cm90ZToKPj4+IEknbSBzZWVpbmcgYSBzaXplYWJsZSBkcm9wIGluIHBlcmYgd2l0aCBwb2xs
-ZWQgZmlvIHRlc3RzIGZvciBibG9jayBzaXplcyA+Cj4+PiAxMjhrOgo+PiBUcnkgdXNpbmcgYSBj
-b250cm9sbGVyIHdpdGggU0dMIHN1cHBvcnQuICBOVk1lIFBSUCB1bmZvcnR1bmF0ZWx5IGFyZQo+
-PiBhIGNvbXBsZXRlbHkgYnJhaW4gZGVhZCBzY2hlbWUgb25jZSB5b3UgdXNlIG5vbi10aW55IEkv
-TyBzaXplcyAoCj4+IGFuZCBhY3R1YWxseSByZWFsbHkgcGFpbmZ1bCBldmVuIGZvciB0aG9zZSBm
-b3Igb3RoZXIgcmVhc29ucykuCj4gU0dMIHdvdWxkIHJlYWxseSBoZWxwIGlmIHlvdSBoYXZlIHBo
-eWlzY2FsIGNvbnRpbnVpdHksIGFuZCBuZXZlciBuZWVkcwo+IHRvIGFsbG9jYXRlIGZyb20gdGhl
-IGRtYSBwb29scy4gSWYgbW9zdCBwYWdlcyBpbiB0aGUgdHJhbnNmZXIgYXJlIG5vdAo+IHBoeXNp
-Y2FsbHkgY29udGlndW91cywgdGhvdWdoLCBQUlAgaXMgc3RpbGwgbW9yZSBtZW1vcnkgZWZmaWNp
-ZW50LiBCdXQKPiB5ZXMsIHRoZSBQUlAgZm9ybWF0IGlzIC4uLiB1bmlxdWUuIDopClNvIHdpdGgg
-U0dMIHlvdSBjYW4gcG90ZW50aWFsbHkgYnlwYXNzIGRtYSBwb29sIGFsbG9jYXRpb24gYnV0IHdp
-dGggUFJQIAp5b3UgYWx3YXlzIGhhdmUgdG8gcmVnYXJkbGVzcyBvZiBjb250aWd1aXR5PwoKPgo+
-IEZXSVcsIEkgY291bGRuJ3QgbWVhc3VyZSBhIHBlcmZvcm1hbmNlIGRyb3Agb24gcmVhbCBoYXJk
-d2FyZSBjb21wYXJpbmcKPiB0aGUgbGFyZ2UgcG9vbCB2cyB0aGUgc21hbGwgb25lLgoKSSB0b29r
-IG91dCBteSB3b3JrYXJvdW5kLgoKSSBjYW4ndCBzZWUgYSBiaWcgZHJvcCBvbiBoL3cgd2l0aCAy
-NTZrIGVpdGhlcjsgaG93ZXZlciwgSSBjYW4ndCBwdXNoIAp0aGUgdGVzdHMgZmFyIGVub3VnaCBi
-ZWNhdXNlIHRoZXkgaGFuZyBkZXBlbmRpbmcgb24gdGhlIG51bWJlciBvZiBmaW8gCmpvYnMgYW5k
-IGlvZGVwdGguCgpUaGV5IHNlZW0gdG8gYmUgc3R1Y2sgaW4gYW4gaW9fdXJpbmcgcG9sbCBsb29w
-OgoKIMKgwqDCoCA1OC45MSXCoCBba2VybmVsXcKgwqDCoMKgwqDCoMKgwqDCoCBba10gYmxrX3Bv
-bGwKIMKgwqDCoCAyNy4wMSXCoCBba2VybmVsXcKgwqDCoMKgwqDCoMKgwqDCoCBba10gaW9faW9w
-b2xsX2dldGV2ZW50cwogwqDCoMKgwqAgOC41NiXCoCBba2VybmVsXcKgwqDCoMKgwqDCoMKgwqDC
-oCBba10gYmxrZGV2X2lvcG9sbAoKSSBoYWQgdG8ga2lsbCB0aGUgZmlvIGpvYnMgYW5kIGdvdCBh
-IGJ1bmNoIG9mIHRoaXMgb3V0cHV0OgoKSm9iczogMTAzIChmPTEwMyk6IApbcig0KSxfKDEpLHIo
-MTIpLF8oMSkscigyKSxfKDEpLHIoMTApLF8oMSkscigyKSxfKDEpLHIoMSksXygxKSxyKDcpLF8o
-MSkscigxKSxfKDIpLHIoMTYpLF8oMSkscig1KSxfKDEpLHIoNiksXygyKSxyKDIpLF8oMSkscigy
-KSxfKDEpLHIoMiksXygxKSxyKDMpLF8oMSkscig5KSxfKDEpLHIoNCksXygyKSxyKDUpLF8oMSks
-cigzKSxfKDEpLHIoMSksXygxKSxyKDQpLF8oMikscigyKV1bMGZpbzogCmpvYiAnZmlvdGVzdCcg
-KHN0YXRlPTUpIGhhc24ndCBleGl0ZWQgaW4gMzAwIHNlY29uZHMsIGl0IGFwcGVhcnMgdG8gYmUg
-CnN0dWNrLiBEb2luZyBmb3JjZWZ1bCBleGl0IG9mIHRoaXMgam9iLgoKSG9wZWZ1bGx5IEplbnMg
-Y2FuIGNvbW1lbnQgd2hhdCB0aGlzIG1lYW5zLgoKLS1iaWphbgoKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KbGludXgtbnZtZSBtYWlsaW5nIGxpc3QKbGlu
-dXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21h
-aWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
+On Tue, Mar 10, 2020 at 05:52:02PM -0700, Bijan Mottahedeh wrote:
+> On 3/10/2020 12:44 PM, Keith Busch wrote:
+> > On Tue, Mar 10, 2020 at 10:08:18AM -0700, Christoph Hellwig wrote:
+> > > On Mon, Mar 09, 2020 at 02:49:10PM -0700, Bijan Mottahedeh wrote:
+> > > > I'm seeing a sizeable drop in perf with polled fio tests for block =
+sizes >
+> > > > 128k:
+> > > Try using a controller with SGL support.  NVMe PRP unfortunately are
+> > > a completely brain dead scheme once you use non-tiny I/O sizes (
+> > > and actually really painful even for those for other reasons).
+> > SGL would really help if you have phyiscal continuity, and never needs
+> > to allocate from the dma pools. If most pages in the transfer are not
+> > physically contiguous, though, PRP is still more memory efficient. But
+> > yes, the PRP format is ... unique. :)
+>
+> So with SGL you can potentially bypass dma pool allocation but with PRP y=
+ou
+> always have to regardless of contiguity?
+
+Yes, if the payload can be expressed as a single address range, an
+SGL capable controller can describe that in the NVMe command without
+allocating a scatter list payload to accompany the command.
+
+The maximum length of a PRP is 4k. If you're transferring 256k per
+command, that will require at least 64 PRP entries regardless of the
+number of ranges in the DMA mapped scatter-list.
+
+> > FWIW, I couldn't measure a performance drop on real hardware comparing
+> > the large pool vs the small one.
+> =
+
+> I took out my workaround.
+> =
+
+> I can't see a big drop on h/w with 256k either; however, I can't push the
+> tests far enough because they hang depending on the number of fio jobs and
+> iodepth.
+> =
+
+> They seem to be stuck in an io_uring poll loop:
+> =
+
+> =A0=A0=A0 58.91%=A0 [kernel]=A0=A0=A0=A0=A0=A0=A0=A0=A0 [k] blk_poll
+> =A0=A0=A0 27.01%=A0 [kernel]=A0=A0=A0=A0=A0=A0=A0=A0=A0 [k] io_iopoll_get=
+events
+> =A0=A0=A0=A0 8.56%=A0 [kernel]=A0=A0=A0=A0=A0=A0=A0=A0=A0 [k] blkdev_iopo=
+ll
+
+That looks pretty normal for polled io.
+ =
+
+> I had to kill the fio jobs and got a bunch of this output:
+> =
+
+> Jobs: 103 (f=3D103): [r(4),_(1),r(12),_(1),r(2),_(1),r(10),_(1),r(2),_(1)=
+,r(1),_(1),r(7),_(1),r(1),_(2),r(16),_(1),r(5),_(1),r(6),_(2),r(2),_(1),r(2=
+),_(1),r(2),_(1),r(3),_(1),r(9),_(1),r(4),_(2),r(5),_(1),r(3),_(1),r(1),_(1=
+),r(4),_(2),r(2)][0fio:
+> job 'fiotest' (state=3D5) hasn't exited in 300 seconds, it appears to be
+> stuck. Doing forceful exit of this job.
+> =
+
+> Hopefully Jens can comment what this means.
+
+What kernel are you using? A bug observed with multiple threads polling
+the same queue was just fixed in the 5.6-rc5 release (also in 5.5.8,
+5.4.24 stables).
+
+_______________________________________________
+linux-nvme mailing list
+linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
