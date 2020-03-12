@@ -2,83 +2,50 @@ Return-Path: <SRS0=qcAl=45=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C1C9C10DCE
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Mar 2020 23:05:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FA20C10DCE
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Mar 2020 23:06:54 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E2F78206F1
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Mar 2020 23:05:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 04292206F1
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Mar 2020 23:06:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="aEXOYWXD"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E2F78206F1
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="FGkjN5km"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 04292206F1
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=PF2kZq6GqKclzflieGHri/xof7yo3F+HgWGyyJ9RIAQ=; b=aEXOYWXD7FNpkdmHrFmzDG64e
-	PuYAHIABW8TxRdAd13KEV51j5Hp5jjkUJoTtAY4vnlzjT5195ljkdSdcIQqcLg7yMSbC8/2ZtTPk4
-	G2uiMU9VejDQOGFvEzJnCXzPhbTMxUL6rAyyzknmqaSo6ugVDxxC1p6hEgtmiTg+q5BlBTFBcA70C
-	164zCaM91kEM+DD8gvn1Lv626GEiUYYiHRscCaDeDF56TaBoWR+vq9qT9UHQDHjcX4L+3igZs1qMW
-	kQiX8xSAhupy3enVKg2Pq8seXhlWuqDFuMwRwH+snBohzLNcA9xeJnexlb0InMXEAVxVO5ukCU6jt
-	+UG8eQegw==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
+	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=T1GLkHjXgmP7sZAItvwb6k/v69AYa7VFdvBn67R+YZU=; b=FGkjN5kmlSZ/4H
+	nTPwQiMke1OaaHcY6Q3+mv8A84LytaKncc1ftvjuHRmZij0JBlkjHL+whkv4aOxWFO/Rntv8yEZXM
+	4NT/VhUCvlGnF9qP/iTXMXfwjRpGc025cR8puIfYUJ9zz5ENLA5jLBZTRmOECqH0cKnIApOLXiukd
+	iYjNnY7zBtZWN9d0FyZIRN7yTpdvmNl0C9osD6HYJb35j7GIDylddXiKgGhCHrWMXSHbEEUd4UY3n
+	nuGch+Rl9urf0zlgQLuWyFovK8bbG5MHv/M9qxsRQO58H0GDojM7IDjQjc4LdE7lyjrLhlazWYVzL
+	koluRdayfutzvNOEggOg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jCWtG-0003PD-Aj; Thu, 12 Mar 2020 23:05:22 +0000
-Received: from mail-ot1-f66.google.com ([209.85.210.66])
- by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jCWtC-0003Or-TR
- for linux-nvme@lists.infradead.org; Thu, 12 Mar 2020 23:05:20 +0000
-Received: by mail-ot1-f66.google.com with SMTP id s15so8142791otq.8
- for <linux-nvme@lists.infradead.org>; Thu, 12 Mar 2020 16:05:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=nSxS8LX9MOW/A/TfZjRR8Nxv6krTxQB/MSVVluB+cto=;
- b=dbWsKJlaYyaFBSYI7P1iMwQL386soaT6mXEwoDWo6yTs5Ef3wYWIzsFRBFW1mMIiYc
- B5gscoAmZZpp43M7ix+882GjsIYAjnbI5bDyRsEerj3DKCKTZX/i4pJ/kKKsqvzLPU8k
- QPyLlOt/sy8opHjV7g4emCHoihsFnai7woDK0ygCPOhSpBKmjDaupA28xc3zfgZXecVi
- rh+kGo24WBq6G6uvYrklgHp0oFgjjR/oixixWbCYEapX+CQhvxKlZyDWmtsw+U7dG1Sp
- c330vOoN3yvHR+pvrzoSZm/rfhziW1rNrmjWMrh6b3HAMcHkAiHQOA2upsbxJqPxw8rb
- DdZQ==
-X-Gm-Message-State: ANhLgQ3t6Vcki7HvxM6BeJrZ7+UNcgq1RrPh68NvAiVF3SAyMSnizYoX
- admg9MtA8XFKYasrHwtQ30w=
-X-Google-Smtp-Source: ADFU+vssHafRNIq1meAJlNYNceW8OhvndwuWBfV1gQZT4S6Q87jDrtKjdpgsKZ6f3JgCQ/a90+/0jg==
-X-Received: by 2002:a9d:3f8:: with SMTP id f111mr8795225otf.204.1584054317566; 
- Thu, 12 Mar 2020 16:05:17 -0700 (PDT)
-Received: from ?IPv6:2600:1700:65a0:78e0:c47a:8519:9343:83b8?
- ([2600:1700:65a0:78e0:c47a:8519:9343:83b8])
- by smtp.gmail.com with ESMTPSA id w5sm9667108otj.39.2020.03.12.16.05.15
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 12 Mar 2020 16:05:16 -0700 (PDT)
-Subject: Re: [PATCH 2/2] nvmet-tcp: optimize tcp stack TX when data digest is
- used
-To: "Wunderlich, Mark" <mark.wunderlich@intel.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <20200312062603.2572-1-sagi@grimberg.me>
- <20200312062603.2572-2-sagi@grimberg.me>
- <CY4PR11MB13516CE3B702DC7EF4B25D7CE5FD0@CY4PR11MB1351.namprd11.prod.outlook.com>
+	id 1jCWuh-0003dH-KF; Thu, 12 Mar 2020 23:06:51 +0000
+Received: from [2600:1700:65a0:78e0:c47a:8519:9343:83b8]
+ (helo=sagi-Latitude-E7470.lbits)
+ by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jCWuf-0003d3-DV; Thu, 12 Mar 2020 23:06:50 +0000
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <181b1f41-8831-0015-5622-8fd23e74d872@grimberg.me>
-Date: Thu, 12 Mar 2020 16:05:08 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Firefox/60.0 Thunderbird/60.9.0
+To: linux-nvme@lists.infradead.org
+Subject: [PATCH v2 1/2] nvmet-tcp: set MSG_MORE only if we actually have more
+ to send
+Date: Thu, 12 Mar 2020 16:06:38 -0700
+Message-Id: <20200312230639.13946-1-sagi@grimberg.me>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <CY4PR11MB13516CE3B702DC7EF4B25D7CE5FD0@CY4PR11MB1351.namprd11.prod.outlook.com>
-Content-Language: en-US
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200312_160518_950673_EF9ED437 
-X-CRM114-Status: GOOD (  10.12  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,21 +57,77 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>,
+ Mark Wunderlich <mark.wunderlich@intel.com>, Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+When we send PDU data, we want to optimize the tcp stack
+operation if we have more data to send. So when we set MSG_MORE
+when:
+- We have more fragments coming in the batch, or
+- We have a more data to send in this PDU
+- We don't have a data digest trailer
+- We optimize with the SUCCESS flag and omit the NVMe completion
+  (used if sq_head pointer update is disabled)
 
->> +	if (!last_in_batch && cmd->queue->send_list_len)
->> +		flags |= MSG_MORE;
-> 
-> Should this actually be:  msg.msg_flags |= MSG_MORE;
+This addresses a regression in QD=1 with SUCCESS flag optimization
+as we unconditionally set MSG_MORE when we didn't actually have
+more data to send.
 
-You're right, this was left uncommited in my branch...
+Fixes: 70583295388a ("nvmet-tcp: implement C2HData SUCCESS optimization")
+Reported-by: Mark Wunderlich <mark.wunderlich@intel.com>
+Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+---
+- No changes from v1
 
-Will send a v2, thanks
+ drivers/nvme/target/tcp.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index 1f4322ee7dbe..e5d000f12059 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -525,7 +525,7 @@ static int nvmet_try_send_data_pdu(struct nvmet_tcp_cmd *cmd)
+ 	return 1;
+ }
+ 
+-static int nvmet_try_send_data(struct nvmet_tcp_cmd *cmd)
++static int nvmet_try_send_data(struct nvmet_tcp_cmd *cmd, bool last_in_batch)
+ {
+ 	struct nvmet_tcp_queue *queue = cmd->queue;
+ 	int ret;
+@@ -533,9 +533,15 @@ static int nvmet_try_send_data(struct nvmet_tcp_cmd *cmd)
+ 	while (cmd->cur_sg) {
+ 		struct page *page = sg_page(cmd->cur_sg);
+ 		u32 left = cmd->cur_sg->length - cmd->offset;
++		int flags = MSG_DONTWAIT;
++
++		if ((!last_in_batch && cmd->queue->send_list_len) ||
++		    cmd->wbytes_done + left < cmd->req.transfer_len ||
++		    queue->data_digest || !queue->nvme_sq.sqhd_disabled)
++			flags |= MSG_MORE;
+ 
+ 		ret = kernel_sendpage(cmd->queue->sock, page, cmd->offset,
+-					left, MSG_DONTWAIT | MSG_MORE);
++					left, flags);
+ 		if (ret <= 0)
+ 			return ret;
+ 
+@@ -666,7 +672,7 @@ static int nvmet_tcp_try_send_one(struct nvmet_tcp_queue *queue,
+ 	}
+ 
+ 	if (cmd->state == NVMET_TCP_SEND_DATA) {
+-		ret = nvmet_try_send_data(cmd);
++		ret = nvmet_try_send_data(cmd, last_in_batch);
+ 		if (ret <= 0)
+ 			goto done_send;
+ 	}
+-- 
+2.20.1
+
 
 _______________________________________________
 linux-nvme mailing list
