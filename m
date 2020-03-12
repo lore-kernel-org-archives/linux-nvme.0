@@ -2,50 +2,87 @@ Return-Path: <SRS0=qcAl=45=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EEE7C1975A
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Mar 2020 06:26:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6388BC10DCE
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Mar 2020 06:29:22 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5219820663
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Mar 2020 06:26:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3827020575
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Mar 2020 06:29:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Hdl7CmgC"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5219820663
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="kVHe8YIY"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3827020575
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
-	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=b8u5XzBS+R+Z9nWknb/rWI6u/rsByvt2HxWFfdfEyGs=; b=Hdl7CmgCjx7QuJ
-	Iud1Wx2sl9DxyfUObAeOiwruEhtBtzaue2buemWXs73W7hR0rqm8wfFMoW7bo7MNiA2qtNyIzI6Pk
-	zJut1/Ob6QgAulOLVothD65U9nctl4rJWwcXnLPOW6ITWtlwZVMLodzwXax2WG59yBLGXO7MnRlVD
-	ztvtS9TdmE2HFPpwEVG+sjOQc/u5OecVT0ncz6B34wUgf5vsICQISA6HeeG0fcUiy9Ib13RJtZQAX
-	MWMSPHToUUQpLYI+EFjQtTXLdlF1xoRfiMbE99X1JAm+Qr53uA/meaxS9jcpfBmTGj35insulYaEb
-	2k3wSTXqCxLdmtGvQyzw==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=rvGEELyTs3iKYIX4f2zsfe3So/2u79e7UlNvbr/U67E=; b=kVHe8YIYqK3sn5mklTf3f7wUq
+	UbFFe6hC3mM6qQFbJ5sX7CY2RgZ765frREoL0XwxSqv011yWWutdqQvEjUNF0E9wzWVMs7otoR230
+	qyfw0QhHIgPLxQENQO4Igd8rlHJ6WmIefHxl5Syag7LRORbTRs1sxib0PXiaY4bLc/AiOP+iwIJ9/
+	QXwDZ3lqrnwsdbSChgyOeqpFhkfgbICxARfOhbNcyPI1CFPEj10VM8XrXYc0Vq+qWNmpbdJ8a0FbD
+	9EXBIZGzvTQ0adJ4YeukZqHVBR1Hac90FA1K4JV9N+KdDTlMEFhBRgjqY4Vt4P2gRLK7j8v3ltDG7
+	uAZxpj+Uw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jCHIG-0002dO-1s; Thu, 12 Mar 2020 06:26:08 +0000
-Received: from [2601:647:4802:9070:c47a:8519:9343:83b8]
- (helo=bombadil.infradead.org)
- by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jCHIC-0002be-J6; Thu, 12 Mar 2020 06:26:04 +0000
+	id 1jCHLM-0003Nh-1B; Thu, 12 Mar 2020 06:29:20 +0000
+Received: from mail-pl1-f180.google.com ([209.85.214.180])
+ by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jCHLJ-0003NO-Uo
+ for linux-nvme@lists.infradead.org; Thu, 12 Mar 2020 06:29:19 +0000
+Received: by mail-pl1-f180.google.com with SMTP id h11so2240832plk.7
+ for <linux-nvme@lists.infradead.org>; Wed, 11 Mar 2020 23:29:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=7ZZBTpwy5DCCSGOfEQI52YEt8ot3+GPBq1U0zKeqde4=;
+ b=Fc563IUWMgYqpK8vlzWd9e8vYOuvY6zS6yYxymg12uF1PbqQ85dose7XbdZ2+nJVrx
+ hJRn+SCDA6nvhTFBrHptkEG5hGKzBEZcIBm39JQciOULJrK7rdhXLAPPD6AUnLdFm86z
+ MmrzY1sQwERmGfePpzJ7YvsgROTBDEeZGUJhNZCtUwCmEwFJxGAZ6HSCKqsRZJCebC8N
+ rCyQU1H0Em69Vrtt4Hng9BMYpEpBKiNw+NGP+fxdYf4Ms6kWxpJ7MJg8qiujj9NSkrVV
+ FrjXq13yVJXxS3C59Bs0UGT9Q0Z5gYpOj0t2BFOJY9py8F/7abdywz//1NeTNqAYS2q/
+ KLsw==
+X-Gm-Message-State: ANhLgQ1UbGp369Hi1EJ9L1eshW0a+QcQAvSoWgwH05iHDKdlppOEvO5I
+ Bi1UFs7y5FumhHiUt3sKw2LOvfY4
+X-Google-Smtp-Source: ADFU+vtem1PfkIonYw37ggt3S6Kkh/HtY0wGSm7wqFLLz4bq6+Knb2D+COnKgh7RQs9AZGK518X9rA==
+X-Received: by 2002:a17:90a:3aee:: with SMTP id
+ b101mr2557658pjc.52.1583994556989; 
+ Wed, 11 Mar 2020 23:29:16 -0700 (PDT)
+Received: from ?IPv6:2601:647:4802:9070:c47a:8519:9343:83b8?
+ ([2601:647:4802:9070:c47a:8519:9343:83b8])
+ by smtp.gmail.com with ESMTPSA id q21sm55419110pff.105.2020.03.11.23.29.15
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 11 Mar 2020 23:29:16 -0700 (PDT)
+Subject: Re: Sighting: Use of 'disable_sqflow' option shows drastic reduced
+ I/O rate for small Queue Depths
+To: "Wunderlich, Mark" <mark.wunderlich@intel.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+References: <CY4PR11MB1351F4B992E207DCFD610FE6E5FE0@CY4PR11MB1351.namprd11.prod.outlook.com>
+ <79eb6f31-1c65-7920-5e66-8ee9a6e81aae@grimberg.me>
+ <CY4PR11MB1351F639D6B6582D5EEBA74DE5FE0@CY4PR11MB1351.namprd11.prod.outlook.com>
+ <7ad247fc-4c42-2712-c324-d257505eb0d0@grimberg.me>
+ <5732ea78-3b36-890d-70b8-e91edbebae47@grimberg.me>
+ <CY4PR11MB13510BE7F01EC5B803E6DA56E5FD0@CY4PR11MB1351.namprd11.prod.outlook.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-To: linux-nvme@lists.infradead.org
-Subject: [PATCH 1/2] nvmet-tcp: set MSG_MORE only if we actually have more to
- send
-Date: Wed, 11 Mar 2020 23:26:02 -0700
-Message-Id: <20200312062603.2572-1-sagi@grimberg.me>
-X-Mailer: git-send-email 2.20.1
+Message-ID: <33277ae2-d55c-dc02-8993-08231178135b@grimberg.me>
+Date: Wed, 11 Mar 2020 23:29:14 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Firefox/60.0 Thunderbird/60.9.0
 MIME-Version: 1.0
+In-Reply-To: <CY4PR11MB13510BE7F01EC5B803E6DA56E5FD0@CY4PR11MB1351.namprd11.prod.outlook.com>
+Content-Language: en-US
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20200311_232917_996635_57989CBE 
+X-CRM114-Status: GOOD (  13.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,75 +94,30 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>,
- Mark Wunderlich <mark.wunderlich@intel.com>, Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="us-ascii"
+Cc: Jens Axboe <axboe@kernel.dk>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When we send PDU data, we want to optimize the tcp stack
-operation if we have more data to send. So when we set MSG_MORE
-when:
-- We have more fragments coming in the batch, or
-- We have a more data to send in this PDU
-- We don't have a data digest trailer
-- We optimize with the SUCCESS flag and omit the NVMe completion
-  (used if sq_head pointer update is disabled)
 
-This addresses a regression in QD=1 with SUCCESS flag optimization
-as we unconditionally set MSG_MORE when we didn't actually have
-more data to send.
+> Yes, I modified the 'if' conditions a bit and testing does not show need for setting MSG_EOR.
+> 
+> New if condition used:
+> +               if (cmd->wbytes_done + left < cmd->req.transfer_len ||   /* more data in this xfer to send */
+> +                       !queue->nvme_sq.sqhd_disabled || /* then a response frame is coming */
+> +                       (!last_in_batch && cmd->queue->send_list_len))  /* more requests to process in this batch window */
+> +                       flags |= MSG_MORE;
+> 
+> For queue depth = 1 at times I will still see IOPS rate dip below the high but recover quickly.  And I do not see this on every run.  And it seems to be more frequent when testing a ramdisk, not a real nvme device.  But for the most part this greatly improves the original issue I reported.
 
-Fixes: 70583295388a ("nvmet-tcp: implement C2HData SUCCESS optimization")
-Reported-by: Mark Wunderlich <mark.wunderlich@intel.com>
-Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
----
- drivers/nvme/target/tcp.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+Thanks, sent a patch for this.
 
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 1f4322ee7dbe..e5d000f12059 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -525,7 +525,7 @@ static int nvmet_try_send_data_pdu(struct nvmet_tcp_cmd *cmd)
- 	return 1;
- }
- 
--static int nvmet_try_send_data(struct nvmet_tcp_cmd *cmd)
-+static int nvmet_try_send_data(struct nvmet_tcp_cmd *cmd, bool last_in_batch)
- {
- 	struct nvmet_tcp_queue *queue = cmd->queue;
- 	int ret;
-@@ -533,9 +533,15 @@ static int nvmet_try_send_data(struct nvmet_tcp_cmd *cmd)
- 	while (cmd->cur_sg) {
- 		struct page *page = sg_page(cmd->cur_sg);
- 		u32 left = cmd->cur_sg->length - cmd->offset;
-+		int flags = MSG_DONTWAIT;
-+
-+		if ((!last_in_batch && cmd->queue->send_list_len) ||
-+		    cmd->wbytes_done + left < cmd->req.transfer_len ||
-+		    queue->data_digest || !queue->nvme_sq.sqhd_disabled)
-+			flags |= MSG_MORE;
- 
- 		ret = kernel_sendpage(cmd->queue->sock, page, cmd->offset,
--					left, MSG_DONTWAIT | MSG_MORE);
-+					left, flags);
- 		if (ret <= 0)
- 			return ret;
- 
-@@ -666,7 +672,7 @@ static int nvmet_tcp_try_send_one(struct nvmet_tcp_queue *queue,
- 	}
- 
- 	if (cmd->state == NVMET_TCP_SEND_DATA) {
--		ret = nvmet_try_send_data(cmd);
-+		ret = nvmet_try_send_data(cmd, last_in_batch);
- 		if (ret <= 0)
- 			goto done_send;
- 	}
--- 
-2.20.1
+For the short dip you see at times, does it happen when you
+use sync/pvsync2 io engines?
 
+Maybe this could be related to some NIC effects like adaptive moderation 
+or LRO?
 
 _______________________________________________
 linux-nvme mailing list
