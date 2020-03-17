@@ -1,137 +1,97 @@
-Return-Path: <SRS0=px+9=5B=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=JSXe=5C=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45BF1C0044D
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Mar 2020 18:44:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F39A2C18E5B
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Mar 2020 09:31:49 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0C66B20674
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Mar 2020 18:44:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A7CE5206EC
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Mar 2020 09:31:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="XWySDs5v";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=Mellanox.com header.i=@Mellanox.com header.b="eT49s5nI"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0C66B20674
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ae8JCEZI"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A7CE5206EC
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=zurich.ibm.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=ZBRdbnfKiKLaU2XVhChnpNXnYYf1yEaud6OuS68U9WE=; b=XWySDs5v7/itH+Al8eUC/ESEV
-	V/k8JLEuBubL+wSxVL8WKiUbLmq3Y/p+GS0da+i1PjY37urUk8ZhgP0l9NbYbL8DKwi4VcV+9W9/V
-	wtwJQPFhQMmpZLNrrCqD+mkMe3ZmuRS6TjxFeNHOGf//9cTRMe6CcyeBQn8ASesqvwwy3l0QPdZVK
-	ybs7AabXenz4VfkFmbvJg4Oh5Z0u4vO6pDqb6rI64QUVs56pDpNnjT5NnRLXKMJpALzZnwsRVzGKD
-	YqvKbR29IV1Mx/gxFFzqIwdviuvJ+sDl5F4jKT5WKkjnIe9857V5RcZgm4fmL7n1odcXIyyuGP5dC
-	Bw29QYSZA==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:Message-Id:References:MIME-Version:Date
+	:To:From:Subject:In-Reply-To:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=Ac21Vm113Xvsmhd31dMhcupNXYWSo+g3jaMHz3cQ820=; b=ae8JCEZI/blXNT
+	JQ9Ah/gJq9g8OsbMqnMovPr7n+ufCmcX498YusUciGMnJw8zBbDtXc59Dhm7QFzNwC5w5zxmEzgu3
+	AY2eTITWObuP1LqnHGOeh2eiv4UL6bVpsdZtKbQ3YeAqEETKiZwB7/lWSu8wyknX8XpldRJnrfXTm
+	bWGOESqCQJx4/Aj0y3QbADD+sPTaxb/hLmdOnyuR9BO1rxo1pJjONghmgzavknF0HxiIlCM1YvL1p
+	wsEnwaulM1F1PmZ86HFd3S3+8KktkPSOt+5E/uYh33SCMkNQhGka1s9pszrOxk43/mB8KiLZ3W2uz
+	QXspVrI7f591FfBdVTvQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jDuii-0002ti-Ma; Mon, 16 Mar 2020 18:44:12 +0000
-Received: from mail-eopbgr70074.outbound.protection.outlook.com ([40.107.7.74]
- helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+	id 1jE8Ze-0002Ft-05; Tue, 17 Mar 2020 09:31:46 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jDuif-0002st-5w
- for linux-nvme@lists.infradead.org; Mon, 16 Mar 2020 18:44:11 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IYavtYi7zdoCBleMvr+geQTNX6FUR+07mDBal4xLfyMEKWhBBZ9H1t1RSXUzKLrxIZ54otf6yct3PhAJ7rk1UJDlm94v8TGMDFi/jBcRWHOcw0lffN8nI5ZONwGbSCGhvgKFIK9pgflQD8y0Z9T2deUMzILggb9UGvZuMF1ieqQtnvq2N2Md8lU6k/iJR8YzFT6bV3dhsfmKlVGOQbpHOlpW/07d2w3S9u8cX6jbaf0LyaSb+MNgC1728vI7LmPqK19APP+QE3JxKuLOW6iXn6Nnp4I7Y2AxHVE16QXqc37ZyMFgPTqHk8PRC9nLnPpvcaB+fb41qaSimFy5VryDdA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8s+JBq6Ta7RboolijoQt7tb5QpAesLZJp7/kc2AvXKE=;
- b=P4ag68t0pAWpkpA7pB55HXrrFAjyPFsz/6IlrG/cj9/Ui+wnzZKMqnIFZBdRZAt7jfSzBvEw+aZOjuhIn+6/Uanhl6zKczocag0pfoc3hArZ1SMyOYL2rw9/2UDxAUThBEhVrmBLtaS4RvSBQbI4KQSOqdNoW2pIhoWzwc9mWdOOeWM9Um5t6vrzwWIt3XLamMOz+7IAB1P27kLVQ2tSdtTTge0Im8A8MH8lj8+1SFbYrtNvc5bmqxnDKkOWkbRrSPBukxIp14m/soP/OIoUp/9UDZAS9NzQvfEsyVxkWYeKhURmKx9WUvzdtpEH6X0+QFqFiQj4+2iJW5kcEVq7HQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 193.47.165.251) smtp.rcpttodomain=lst.de smtp.mailfrom=mellanox.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=mellanox.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8s+JBq6Ta7RboolijoQt7tb5QpAesLZJp7/kc2AvXKE=;
- b=eT49s5nIarGYrFqhmHZSdeGJ/teLIqrJ1r5pXB6mO46/E1fstc8A68PbDX+Nfq+wOQ1zym0j0I80G0xU8rNpSUurTCyDtdZ65eUauuq+X/T5yrSf4kVinHlVzQD+8oAO/2lMUy0aiB1yuuAOz3tJL193qsR+UmFIyxT7fSRtORU=
-Received: from AM6PR05CA0036.eurprd05.prod.outlook.com (2603:10a6:20b:2e::49)
- by DB7PR05MB5833.eurprd05.prod.outlook.com (2603:10a6:10:87::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2814.21; Mon, 16 Mar
- 2020 18:44:04 +0000
-Received: from AM5EUR03FT016.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:20b:2e:cafe::8d) by AM6PR05CA0036.outlook.office365.com
- (2603:10a6:20b:2e::49) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2814.21 via Frontend
- Transport; Mon, 16 Mar 2020 18:44:04 +0000
-Authentication-Results: spf=pass (sender IP is 193.47.165.251)
- smtp.mailfrom=mellanox.com; lst.de; dkim=none (message not signed)
- header.d=none;lst.de; dmarc=pass action=none header.from=mellanox.com;
-Received-SPF: Pass (protection.outlook.com: domain of mellanox.com designates
- 193.47.165.251 as permitted sender)
- receiver=protection.outlook.com; 
- client-ip=193.47.165.251; helo=mtlcas13.mtl.com;
-Received: from mtlcas13.mtl.com (193.47.165.251) by
- AM5EUR03FT016.mail.protection.outlook.com (10.152.16.142) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.2814.13 via Frontend Transport; Mon, 16 Mar 2020 18:44:03 +0000
-Received: from MTLCAS13.mtl.com (10.0.8.78) by mtlcas13.mtl.com (10.0.8.78)
- with Microsoft SMTP Server (TLS) id 15.0.1178.4; Mon, 16 Mar 2020 20:43:57
- +0200
-Received: from MTLCAS01.mtl.com (10.0.8.71) by MTLCAS13.mtl.com (10.0.8.78)
- with Microsoft SMTP Server (TLS) id 15.0.1178.4 via Frontend Transport; Mon,
- 16 Mar 2020 20:43:57 +0200
-Received: from [172.27.13.25] (172.27.13.25) by MTLCAS01.mtl.com (10.0.8.71)
- with Microsoft SMTP Server (TLS) id 14.3.468.0; Mon, 16 Mar 2020 20:43:11
- +0200
-Subject: Re: [PATCH 1/4] nvme-rdma: Fix warning at nvme_rdma_setup_ctrl
-To: Sagi Grimberg <sagi@grimberg.me>, Israel Rukshin <israelr@mellanox.com>,
- Linux-nvme <linux-nvme@lists.infradead.org>, Christoph Hellwig <hch@lst.de>
-References: <1583938849-5787-1-git-send-email-israelr@mellanox.com>
- <1583938849-5787-2-git-send-email-israelr@mellanox.com>
- <974e3bd2-3282-5703-eba6-bc2675c98c8e@grimberg.me>
- <e15f12ab-bf40-423d-956a-199897a5b3f5@mellanox.com>
- <328e8c24-aadd-1a3a-0523-15dc352bd8ec@grimberg.me>
- <10b7614e-7e3f-095b-5c79-942a9d0593ba@mellanox.com>
- <ce753ba5-1e7e-a25d-f584-db73397cab06@grimberg.me>
-From: Max Gurtovoy <maxg@mellanox.com>
-Message-ID: <57d67526-c08c-2f4e-f4a3-77292657e045@mellanox.com>
-Date: Mon, 16 Mar 2020 20:43:10 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ id 1jE8Za-0002F0-Q9
+ for linux-nvme@lists.infradead.org; Tue, 17 Mar 2020 09:31:44 +0000
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 02H9NNYT120078
+ for <linux-nvme@lists.infradead.org>; Tue, 17 Mar 2020 05:31:35 -0400
+Received: from smtp.notes.na.collabserv.com (smtp.notes.na.collabserv.com
+ [158.85.210.119])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2ytb2166dr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <linux-nvme@lists.infradead.org>; Tue, 17 Mar 2020 05:31:32 -0400
+Received: from localhost
+ by smtp.notes.na.collabserv.com with smtp.notes.na.collabserv.com ESMTP
+ for <linux-nvme@lists.infradead.org> from <BMT@zurich.ibm.com>;
+ Tue, 17 Mar 2020 09:31:30 -0000
+Received: from us1b3-smtp05.a3dr.sjc01.isc4sb.com (10.122.203.183)
+ by smtp.notes.na.collabserv.com (10.122.182.123) with
+ smtp.notes.na.collabserv.com ESMTP; Tue, 17 Mar 2020 09:31:25 -0000
+Received: from us1b3-mail162.a3dr.sjc03.isc4sb.com ([10.160.174.187])
+ by us1b3-smtp05.a3dr.sjc01.isc4sb.com
+ with ESMTP id 2020031709312372-264063 ;
+ Tue, 17 Mar 2020 09:31:23 +0000 
+In-Reply-To: <20200316162008.GA7001@chelsio.com>
+Subject: Re: broken CRCs at NVMeF target with SIW & NVMe/TCP transports
+From: "Bernard Metzler" <BMT@zurich.ibm.com>
+To: "Krishnamraju Eraparaju" <krishna2@chelsio.com>
+Date: Tue, 17 Mar 2020 09:31:23 +0000
 MIME-Version: 1.0
-In-Reply-To: <ce753ba5-1e7e-a25d-f584-db73397cab06@grimberg.me>
-Content-Language: en-US
-X-Originating-IP: [172.27.13.25]
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:193.47.165.251; IPV:; CTRY:IL; EFV:NLI;
- SFV:NSPM;
- SFS:(10009020)(4636009)(346002)(39860400002)(396003)(136003)(376002)(199004)(46966005)(70206006)(70586007)(53546011)(8936002)(2906002)(31696002)(86362001)(186003)(478600001)(110136005)(16576012)(36906005)(16526019)(316002)(36756003)(356004)(26005)(336012)(31686004)(5660300002)(2616005)(8676002)(81166006)(81156014)(47076004)(3940600001);
- DIR:OUT; SFP:1101; SCL:1; SRVR:DB7PR05MB5833; H:mtlcas13.mtl.com; FPR:;
- SPF:Pass; LANG:en; PTR:InfoDomainNonexistent; A:1; 
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e643ac8a-3650-4f81-e6fc-08d7c9d9ffeb
-X-MS-TrafficTypeDiagnostic: DB7PR05MB5833:
-X-Microsoft-Antispam-PRVS: <DB7PR05MB5833AE75F7C77A672D870247B6F90@DB7PR05MB5833.eurprd05.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:935;
-X-Forefront-PRVS: 03449D5DD1
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: D8q02AqxlC4YtOMoyUTzY5FPwHWcgvnLGoD2s/h5r+UQ2RW1nnGGYSg7xUKa33Tf/BlKANb5hEz0xaCmRSU7CKMLV/fWgjxXU43f95DJgvFGgw6Erhzau9wAyg/5uLgqcZGxPUjw5tnuDDHtIXGoQCdAL/h7d8BcRUMne8ggxZiAcCtw6XIOctjFdG0J2jhwKOGQOOIiW1N6JJTtGJzMjPAb/J7dsdwCndQXcQCa9ZcNVruB05Ic3u0HdPFm1lTfHlj1K23TyJ3tG790vFolvoRmiC3S1/p8NF6lrX+WU9649aQIOFpu7Kj3Fq/xpq6MO42F6WCDt7CqJz5oqYDRxJk5kTIpNahpvYwKhIPy+0DbQ9eY3OZvFQ9+3uvECt4HdsnQ+M5uTwLbp85nVX6ZvLGVdNpQNZN+oooPEXHB9U23+PAktW7DktKRLC+ti3+fjjf9PqUmRINkOhVJN9VNatH+STMLb4v9MjImoF1vCxg0hsWSs/rUERH2K97G2n2PAKzasbJGeiEKxKNwGFxdxd8rwrLUwH8e8Byj8XLUNks=
-X-OriginatorOrg: Mellanox.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Mar 2020 18:44:03.3179 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e643ac8a-3650-4f81-e6fc-08d7c9d9ffeb
-X-MS-Exchange-CrossTenant-Id: a652971c-7d2e-4d9b-a6a4-d149256f461b
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a652971c-7d2e-4d9b-a6a4-d149256f461b; Ip=[193.47.165.251];
- Helo=[mtlcas13.mtl.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR05MB5833
+Sensitivity: 
+Importance: Normal
+X-Priority: 3 (Normal)
+References: <20200316162008.GA7001@chelsio.com>
+X-Mailer: IBM iNotes ($HaikuForm 1054.1) | IBM Domino Build
+ SCN1812108_20180501T0841_FP62 November 04, 2019 at 09:47
+X-KeepSent: 1E443249:92333F66-0025852E:002FF389;
+ type=4; name=$KeepSent
+X-LLNOutbound: False
+X-Disclaimed: 61547
+X-TNEFEvaluated: 1
+x-cbid: 20031709-3975-0000-0000-000001E93232
+X-IBM-SpamModules-Scores: BY=0.067541; FL=0; FP=0; FZ=0; HX=0; KW=0; PH=0;
+ SC=0.399202; ST=0; TS=0; UL=0; ISC=; MB=0.005233
+X-IBM-SpamModules-Versions: BY=3.00012763; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000293; SDB=6.01348900; UDB=6.00719409; IPR=6.01131308; 
+ MB=3.00031260; MTD=3.00000008; XFM=3.00000015; UTC=2020-03-17 09:31:30
+X-IBM-AV-DETECTION: SAVI=unsuspicious REMOTE=unsuspicious XFE=unused
+X-IBM-AV-VERSION: SAVI=2020-03-17 04:52:51 - 6.00011128
+x-cbparentid: 20031709-3976-0000-0000-0000359854A8
+Message-Id: <OF1E443249.92333F66-ON0025852E.002FF389-0025852E.00345020@notes.na.collabserv.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.645
+ definitions=2020-03-17_02:2020-03-12,
+ 2020-03-17 signatures=0
+X-Proofpoint-Spam-Reason: safe
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200316_114409_775704_2DE5C621 
-X-CRM114-Status: GOOD (  14.52  )
+X-CRM114-CacheID: sfid-20200317_023142_973901_A8672EC7 
+X-CRM114-Status: GOOD (  14.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,51 +103,123 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: sagi@grimberg.me, linux-rdma@vger.kernel.org,
+ Potnuri Bharat Teja <bharat@chelsio.com>, Nirranjan
+ Kirubaharan <nirranjan@chelsio.com>, linux-nvme@lists.infradead.org, hch@lst.de
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Ck9uIDMvMTYvMjAyMCA2OjQzIFBNLCBTYWdpIEdyaW1iZXJnIHdyb3RlOgo+Cj4+Pj4+PiBkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9udm1lL2hvc3QvcmRtYS5jIGIvZHJpdmVycy9udm1lL2hvc3QvcmRt
-YS5jCj4+Pj4+PiBpbmRleCBkNjAyMmZhLi41N2Y5MDMxIDEwMDY0NAo+Pj4+Pj4gLS0tIGEvZHJp
-dmVycy9udm1lL2hvc3QvcmRtYS5jCj4+Pj4+PiArKysgYi9kcml2ZXJzL252bWUvaG9zdC9yZG1h
-LmMKPj4+Pj4+IEBAIC0xMDg0LDggKzEwODQsMTIgQEAgc3RhdGljIGludCBudm1lX3JkbWFfc2V0
-dXBfY3RybChzdHJ1Y3QgCj4+Pj4+PiBudm1lX3JkbWFfY3RybCAqY3RybCwgYm9vbCBuZXcpCj4+
-Pj4+PiDCoCDCoMKgwqDCoMKgIGNoYW5nZWQgPSBudm1lX2NoYW5nZV9jdHJsX3N0YXRlKCZjdHJs
-LT5jdHJsLCAKPj4+Pj4+IE5WTUVfQ1RSTF9MSVZFKTsKPj4+Pj4+IMKgwqDCoMKgwqAgaWYgKCFj
-aGFuZ2VkKSB7Cj4+Pj4+PiAtwqDCoMKgwqDCoMKgwqAgLyogc3RhdGUgY2hhbmdlIGZhaWx1cmUg
-aXMgb2sgaWYgd2UncmUgaW4gREVMRVRJTkcgc3RhdGUgKi8KPj4+Pj4+IC3CoMKgwqDCoMKgwqDC
-oCBXQVJOX09OX09OQ0UoY3RybC0+Y3RybC5zdGF0ZSAhPSBOVk1FX0NUUkxfREVMRVRJTkcpOwo+
-Pj4+Pj4gK8KgwqDCoMKgwqDCoMKgIC8qCj4+Pj4+PiArwqDCoMKgwqDCoMKgwqDCoCAqIHN0YXRl
-IGNoYW5nZSBmYWlsdXJlIGlzIG9rIGlmIHdlJ3JlIGluIERFTEVUSU5HIHN0YXRlLAo+Pj4+Pj4g
-K8KgwqDCoMKgwqDCoMKgwqAgKiB1bmxlc3Mgd2UncmUgZHVyaW5nIGNyZWF0aW9uIG9mIGEgbmV3
-IGNvbnRyb2xsZXIgdG8KPj4+Pj4+ICvCoMKgwqDCoMKgwqDCoMKgICogYXZvaWQgdXNlIGFmdGVy
-IGZyZWUgKGN0cmwgcmVmY291bnQgaXMgbm90IHRha2VuIHlldCkuCj4+Pj4+PiArwqDCoMKgwqDC
-oMKgwqDCoCAqLwo+Pj4+Pj4gK8KgwqDCoMKgwqDCoMKgIFdBUk5fT05fT05DRShjdHJsLT5jdHJs
-LnN0YXRlICE9IE5WTUVfQ1RSTF9ERUxFVElORyB8fCAKPj4+Pj4+IG5ldyk7Cj4+Pj4+Cj4+Pj4+
-IFdoYXQgc3RhdGUgYXJlIHdlIGluIGlmIG5vdCBERUxFVElORyBpbiB0aGlzIGNhc2U/Cj4+Pj4K
-Pj4+PiBXZSBhcmUgaW4gREVMRVRJTkcgc3RhdGUuCj4+Pj4KPj4+PiBXaXRoIHRoaXMgY2hhbmdl
-IGFueSBzdGF0ZSBmYWlsdXJlIHRyaWdnZXJzIGEgd2FybmluZyAoaW5jbHVkaW5nIAo+Pj4+IERF
-TEVUSU5HKSBpZiBuZXcgaXMgdHJ1ZS4KPj4+Pgo+Pj4+IEluIG15IHRlc3QgSSB3YXMgaW4gREVM
-RVRJTkcgc3RhdGUgYW5kIHdpdGggbmV3ID09IHRydWUKPj4+Pgo+Pj4+IFRyeWluZyB0byBjaGFu
-Z2Ugc3RhdGUgZnJvbSBERUxFVElORyB0byBMSVZFIGlzIG5vdCBhbGxvd2VkIGF0IHRoZSAKPj4+
-PiBzdGF0ZSBtYWNoaW5lLgo+Pj4KPj4+IFdoeSBkbyB3ZSBuZWVkIGEgd2FybmluZyBvbiB0aGF0
-Pwo+Pgo+PiBGaXJzdCwgdGhlIGNvbW1lbnQgInN0YXRlIGNoYW5nZSBmYWlsdXJlIGlzIG9rIGlm
-IHdlJ3JlIGluIERFTEVUSU5HIAo+PiBzdGF0ZSIgaXMgd3JvbmcuCj4KPiBUaGUgV0FSTl9PTl9P
-TkNFIGlzIGRlc2lnbmVkIHRvIGluZGljYXRlIHRoYXQgd2UgZmFpbGVkIHRvIHRyYW5zaXRpb24K
-PiB0aGUgc3RhdGUgYnV0IHdlIGRvbid0IHVuZGVyc3RhbmQgd2h5LiBJcyB0aGF0IHRoZSBjYXNl
-IGhlcmU/Cj4KPj4gU3RhdGUgY2hhbmdlIGZhaWx1cmUgc2hvdWxkIG5vdCBoYXBwZW4gd2hlbiBj
-cmVhdGluZyBhIG5ldyAKPj4gY29udHJvbGxlciwgYmVjYXVzZSBpdCBtYXkgbGVhZCB0byBjb250
-cm9sbGVyIHVzZSBhZnRlciBmcmVlLgo+Cj4gU28gd2UgbmVlZCB0byBmaXggdGhhdCwgYnV0IHRo
-ZSB3YXJuaW5nIHNob3VsZCBiZSBwcmludGVkIG9ubHkgd2hlbgo+IHdlIGdldCBhbiB1bmV4cGVj
-dGVkIGJlaGF2aW9yIGZyb20gdGhlIGZsb3cgcGVyc3BlY3RpdmUuCj4KPj4gU2Vjb25kLCB0aGUg
-d2FybmluZyBhbHJlYWR5IGV4aXN0cyBzbyBJIGFtIG9ubHkgZml4aW5nIGl0Lgo+Cj4gSSBkb24n
-dCB1bmRlcnN0YW5kIHdoYXQgdGhpcyBpcyBmaXhpbmcuCgptYXliZSB3ZSBzaG91bGQgcmUtb3Jk
-ZXIgdGhlIHBhdGNoZXMuCgpJc3JhZWwgZml4ZWQgdGhlIHVzZSBhZnRlciBmcmVlIGJ1ZyBpbiB0
-aGlzIHNlcmllcy4KCkluIGNhc2Ugb2YgIm5ldyIgd2UgY2FuJ3QgZmFpbCBtb3ZpbmcgdG8gTlZN
-RV9DVFJMX0xJVkUgbm93IGF0IGFsbCAKKHBhdGNoIDQvNCkuCgpXZSBkb24ndCBhbGxvdyBkaXNj
-b25uZWN0IGR1cmluZyBpbml0aWFsIGNvbm5lY3Rpb24gZXN0YWJsaXNobWVudC4KCgoKX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KbGludXgtbnZtZSBtYWls
-aW5nIGxpc3QKbGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZy
-YWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
+-----"Krishnamraju Eraparaju" <krishna2@chelsio.com> wrote: -----
+
+>To: "Bernard Metzler" <BMT@zurich.ibm.com>, sagi@grimberg.me,
+>hch@lst.de
+>From: "Krishnamraju Eraparaju" <krishna2@chelsio.com>
+>Date: 03/16/2020 05:20PM
+>Cc: linux-nvme@lists.infradead.org, linux-rdma@vger.kernel.org,
+>"Nirranjan Kirubaharan" <nirranjan@chelsio.com>, "Potnuri Bharat
+>Teja" <bharat@chelsio.com>
+>Subject: [EXTERNAL] broken CRCs at NVMeF target with SIW & NVMe/TCP
+>transports
+>
+>I'm seeing broken CRCs at NVMeF target while running the below
+>program
+>at host. Here RDMA transport is SoftiWARP, but I'm also seeing the
+>same issue with NVMe/TCP aswell.
+>
+>It appears to me that the same buffer is being rewritten by the
+>application/ULP before getting the completion for the previous
+>requests.
+>getting the completion for the previous requests. HW based
+>HW based trasports(like iw_cxgb4) are not showing this issue because
+>they copy/DMA and then compute the CRC on copied buffer.
+>
+
+Thanks Krishna!
+
+Yes, I see those errors as well. For TCP/NVMeF, I see it if
+the data digest is enabled, which is functional similar to
+have CRC enabled for iWarp. This appears to be your suggested
+'-G' command line switch during TCP connect.
+
+For SoftiWarp at host side and iWarp hardware at target side,
+CRC gets enabled. Then I see that problem at host side for
+SEND type work requests: A page of data referenced by the
+SEND gets sometimes modified by the ULP after CRC computation
+and before the data gets handed over (copied) to TCP via
+kernel_sendmsg(), and far before the ULP reaps a work
+completion for that SEND. So the ULP sometimes touches the
+buffer after passing ownership to the provider, and before
+getting it back by a matching work completion.
+
+With siw and CRC switched off, this issue goes undetected,
+since TCP copies the buffer at some point in time, and
+only computes its TCP/IP checksum on a stable copy, or
+typically even offloaded.
+
+Another question is if it is possible that we are finally
+placing stale data, or if closing the file recovers the
+error by re-sending affected data. With my experiments,
+until now I never detected broken file content after
+file close. 
+
+
+Thanks,
+Bernard.
+
+
+
+>Please share your thoughts/comments/suggestions on this.
+>
+>Commands used:
+>--------------
+>#nvme connect -t tcp -G -a 102.1.1.6 -s 4420 -n nvme-ram0  ==> for
+>NVMe/TCP
+>#nvme connect -t rdma -a 102.1.1.6 -s 4420 -n nvme-ram0 ==> for
+>SoftiWARP
+>#mkfs.ext3 -F /dev/nvme0n1 (issue occuring frequency is more with
+>ext3
+>than ext4)
+>#mount /dev/nvme0n1 /mnt
+>#Then run the below program:
+>#include <stdlib.h>
+>#include <stdio.h>
+>#include <string.h>
+>#include <unistd.h>
+>
+>int main() {
+>	int i;
+>	char* line1 = "123";
+>	FILE* fp;
+>	while(1) {
+>		fp = fopen("/mnt/tmp.txt", "w");
+>		setvbuf(fp, NULL, _IONBF, 0);
+>		for (i=0; i<100000; i++)
+>		     if ((fwrite(line1, 1, strlen(line1), fp) !=
+>strlen(line1)))
+>			exit(1);
+>
+>		if (fclose(fp) != 0)
+>			exit(1);
+>	}
+>return 0;
+>}
+>
+>DMESG at NVMe/TCP Target:
+>[  +5.119267] nvmet_tcp: queue 2: cmd 83 pdu (6) data digest error:
+>recv
+>0xb1acaf93 expected 0xcd0b877d
+>[  +0.000017] nvmet: ctrl 1 fatal error occurred!
+>
+>
+>Thanks,
+>Krishna.
+>
+>
+
+
+_______________________________________________
+linux-nvme mailing list
+linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
