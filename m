@@ -2,91 +2,133 @@ Return-Path: <SRS0=JSXe=5C=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70F8FC1975A
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Mar 2020 20:36:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15092C2BB1D
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Mar 2020 21:57:09 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 482BD20714
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Mar 2020 20:36:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D75B120724
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Mar 2020 21:57:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="mF0xZbv1";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WSQMDhyH"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 482BD20714
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ZUOR6Us7";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=Mellanox.com header.i=@Mellanox.com header.b="hAdL4K/3"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D75B120724
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:To:References:Message-Id:Date:
-	In-Reply-To:From:Subject:Mime-Version:Reply-To:Content-ID:Content-Description
-	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=uRXOseL6vlEaVVxpgy0xlQXaGgBZvtBsl4GeYImsFvM=; b=mF0xZbv1HgIY7E
-	GOV/Vwug6dnOgEnIw5kXbxmS9bUxJuvgAwNO+QVqWtjrlY5Jq0GAiIA1fqet04lZwZarOgRjqRVlI
-	WlOSi27wcA+NwkKvZgXZ/6bYKajkrz2EbEa8xT+RWuSZ/S/5P2VkbmakJcp7q3dmyLpmRiMTSOZrS
-	VrAJytwyj7qZUceqxOBIuQ6JoHVJinBjrglbblD35TUjFlu4NSimCfPj1TAzfShwN5zDlULbVRF7X
-	h3m3REEM6O8sR3e0dydyKeB2Tvm4fgPz9iyHT0qyvFFGu0G0GvekPLYKJn5bmQMHFISpktP2WgU77
-	4Px4UB53hEen3ZPt1Dcw==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=zDuaxfZLW42Og/7kbVG7tRyBK/gUDqB4p+RmPnZUcVU=; b=ZUOR6Us75VqggA4NfHV1FtPSe
+	eWQw1Y5ZCF8nPBTwpg8kXfZHoJR+mNfH8qeH+8b/3jES45z0d7C1X/eMEg+FORF+2m2cU6/h6mRWe
+	N5Aw5ieyqoxMON3KiSBCoh9gLM51MAQhaoVJZr177D8mm09tIG9+Bv5fVb5azxaiO7nGSuVc3Mu26
+	kgedydzWuCJnRRlwfjhDzcEBxSoGH9oJXfGbwqJepPGgehZhb8QSrfeGUzBE5NCa9PIaVNX7uugKa
+	sJNpFZU4UqTprnXyOG40W1U0vUzIIat+qVgY+s0Emxi+UVf0n2GlHTNUoPpHdZW1T/5vKMNmEvvT1
+	qxdE09YDQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jEIwo-0003B4-00; Tue, 17 Mar 2020 20:36:22 +0000
-Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844])
+	id 1jEKCu-0002lv-4s; Tue, 17 Mar 2020 21:57:04 +0000
+Received: from mail-eopbgr90089.outbound.protection.outlook.com ([40.107.9.89]
+ helo=FRA01-MR2-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jEIwl-0003Ak-9c
- for linux-nvme@lists.infradead.org; Tue, 17 Mar 2020 20:36:21 +0000
-Received: by mail-qt1-x844.google.com with SMTP id l20so18766668qtp.4
- for <linux-nvme@lists.infradead.org>; Tue, 17 Mar 2020 13:36:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=NRL+rFj8iTOXMxbcEI6wvpftyj7DZ5j4v32M1+NFYz0=;
- b=WSQMDhyHN+/0MJbaYkq4Nghj60ImuG7mERlSFPrjIgquOdtwsK6Z1R2PPXxmcr6Nl2
- lAoYGKVgg63o3evSBw7tfJ94dXyJWb2uYk5//CgungQQBLKvRT1zeeCWXhOzi1iKr/pF
- 3aOQ1WF/TXSFgHtKMRaJ9K3fevhYcbexd8NzEWZ97R4fGlXgvJpB9apaRW62oNFbe4jh
- j62d3d8bbPFAanJfE5xSE+pt2HxC+7qRLv8DN+fJmuWZcmlWVnJ1tUKaWsuZO30Muppw
- bbAt6OGFbuCNbv87LdfnzoheZIaASCCkRhyuA9rfuzuY/4nUVVXxsSSPL9JMHq9DIxnf
- EjmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=NRL+rFj8iTOXMxbcEI6wvpftyj7DZ5j4v32M1+NFYz0=;
- b=HRD3DgEMIuWxBfwga6bhmAet3XNEloCgn+8LzxtmyvfCZe+jmhcLLSaSd5dV2JK0EK
- DrIP8ILzd1+Gz1fMaD4Ed68+6B/b7sntlcanVgEzdGY3P3wD5wCKtNja6FyRtrUJxKak
- uhOyG9K+5NT1DMjaJw9oJ0Yyru1ELtSbzv6Xv0smWSFJs+WDn/MI2RpEerZLXMOtSNri
- E97ngJMrriC/szI6h1sui0oKtMjtKlm7qPP4x2IIsFitM+V0+9jdVzCHT5s0ykrARnbr
- 4EyVwjWBGLGevfa8jP1pMhps4hC2BDZZdgrlaghvzerlUSoO/qvAEZwiDASowmX4B0e9
- DDgA==
-X-Gm-Message-State: ANhLgQ2xqKu3q6Cjth1WeO7f5iKkEJOmVQ/XvoapiqlORecex/0jc2qE
- i625ctZjV6vhcmRgWJ10JeU=
-X-Google-Smtp-Source: ADFU+vtepzx1nqFPpsAM1U4n9aVqgkBQ20MS/lvDaO4zzom9Iwd8wrko+hb9mVO00F+G3+nBZ3IsUw==
-X-Received: by 2002:aed:3244:: with SMTP id y62mr1077946qtd.242.1584477377608; 
- Tue, 17 Mar 2020 13:36:17 -0700 (PDT)
-Received: from anon-dhcp-153.1015granger.net
- (c-68-61-232-219.hsd1.mi.comcast.net. [68.61.232.219])
- by smtp.gmail.com with ESMTPSA id f93sm3010515qtd.26.2020.03.17.13.36.15
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 17 Mar 2020 13:36:16 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.11\))
-Subject: Re: [PATCH 4/5] IB/core: cache the CQ completion vector
-From: Chuck Lever <chucklever@gmail.com>
-In-Reply-To: <078fd456-b1bc-a103-070b-d1a8ea6bff9c@mellanox.com>
-Date: Tue, 17 Mar 2020 16:36:14 -0400
-Message-Id: <82D6A70B-A201-4592-A031-F8EC581C0123@gmail.com>
+ id 1jEKCp-0002kv-Oc
+ for linux-nvme@lists.infradead.org; Tue, 17 Mar 2020 21:57:02 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dO+ABR8atUPp71iBhU6SGbTK5bf7NvI9ibbFMt+U2zNeQ32pfxmzpqyks0UfkoiGKbHHsuEP/YFczPMzkn563b/luVAj/kVNh3cZwzQg+XA2FB/jyO74FxhN/CyH+2Q/eACaiGorbxAekBRapZtaAKgWBFZEGHgtFfj1VpCwp9JGa2LOIZbstaJm7ePqQ5Pxv0CwGZ0yxH4UR6cQwWkowJwxWbkxkCf3lOZ3BnF61UxJP9mpCkIP2+JlxRMMmJnDUXENuLE97Gshj4os6rtIjNyE+xzjMweeNzvOtyOIZQ2kRg1pDhcRtUq4Xlx4O+43euOAMsjCqpB0XcXNX/tQsw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LCOV0b9sx1SlfGSKVGBSA+gLRUuwd3Z017RAawaOGSE=;
+ b=Yh6QkEezrT2BKuAPrD3gH7dpzKQP73ETDUqXUjeM8DhD7mMPK17ArQqNKUzcC3Fz87ueoDIyQMV9SEgagPwSKxR0p3QdGhfg+66ldzk1fGh/XPg8BPphYqkTfW6d8825GORiFRc/DZIDuSh9Vkt7ideJnkblkLfxJHYocc64eqxstyo45T8NoME9gC7uaq+BPvO2YjaxJ2PHAR7PGMOEf9Pyw2imjaUrY2TxkqgnFyEVTm92BNTi38tMxxzCg7ZmMbgcEX/v/00okD7ydxxm1cAkgbULWX6au+9Eq6qLpxcgXzkLZjBh4qf9C7ieP30Pv0kca02+n71ffWHS2QCpZw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 193.47.165.251) smtp.rcpttodomain=redhat.com smtp.mailfrom=mellanox.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=mellanox.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LCOV0b9sx1SlfGSKVGBSA+gLRUuwd3Z017RAawaOGSE=;
+ b=hAdL4K/3o49qFaJmcEtDHVLknudBVidL5dFjaW6q7i5yoZuF8fOvTJnhcN+GfQAxNc8HW7/QmbxqvorD8FVVe7sMPCJzxjStdJcUBt9P1PJH7TBWu2WpSZTFFfevzIrxBle64Aw3y3OQ2SUdQwqwQxSAMoZvh1pUhOeK4qZydmA=
+Received: from VI1PR0701CA0068.eurprd07.prod.outlook.com
+ (2603:10a6:800:5f::30) by PR1PR05MB5483.eurprd05.prod.outlook.com
+ (2603:10a6:102:c::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2814.13; Tue, 17 Mar
+ 2020 21:56:40 +0000
+Received: from VE1EUR03FT022.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:800:5f:cafe::1b) by VI1PR0701CA0068.outlook.office365.com
+ (2603:10a6:800:5f::30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2835.12 via Frontend
+ Transport; Tue, 17 Mar 2020 21:56:40 +0000
+Authentication-Results: spf=pass (sender IP is 193.47.165.251)
+ smtp.mailfrom=mellanox.com; redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=pass action=none header.from=mellanox.com;
+Received-SPF: Pass (protection.outlook.com: domain of mellanox.com designates
+ 193.47.165.251 as permitted sender)
+ receiver=protection.outlook.com; 
+ client-ip=193.47.165.251; helo=mtlcas13.mtl.com;
+Received: from mtlcas13.mtl.com (193.47.165.251) by
+ VE1EUR03FT022.mail.protection.outlook.com (10.152.18.64) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.2814.13 via Frontend Transport; Tue, 17 Mar 2020 21:56:38 +0000
+Received: from MTLCAS13.mtl.com (10.0.8.78) by mtlcas13.mtl.com (10.0.8.78)
+ with Microsoft SMTP Server (TLS) id 15.0.1178.4; Tue, 17 Mar 2020 23:56:37
+ +0200
+Received: from MTLCAS01.mtl.com (10.0.8.71) by MTLCAS13.mtl.com (10.0.8.78)
+ with Microsoft SMTP Server (TLS) id 15.0.1178.4 via Frontend Transport; Tue,
+ 17 Mar 2020 23:56:36 +0200
+Received: from [172.27.14.181] (172.27.14.181) by MTLCAS01.mtl.com (10.0.8.71)
+ with Microsoft SMTP Server (TLS) id 14.3.468.0;
+ Tue, 17 Mar 2020 23:56:17 +0200
+Subject: Re: [PATCH 1/5] IB/core: add a simple SRQ set per PD
+To: Jason Gunthorpe <jgg@mellanox.com>
 References: <20200317134030.152833-1-maxg@mellanox.com>
- <20200317134030.152833-5-maxg@mellanox.com>
- <448195E1-CE26-4658-8106-91BAFF115853@gmail.com>
- <078fd456-b1bc-a103-070b-d1a8ea6bff9c@mellanox.com>
-To: Max Gurtovoy <maxg@mellanox.com>
-X-Mailer: Apple Mail (2.3445.104.11)
+ <20200317134030.152833-2-maxg@mellanox.com> <20200317135518.GG3351@unreal>
+ <46bb23ed-2941-2eaa-511a-3d0f3b09a9ed@mellanox.com>
+ <20200317181036.GX13183@mellanox.com>
+ <290500dc-7a89-2326-2abf-1ab9f613162e@mellanox.com>
+ <20200317184338.GY13183@mellanox.com>
+From: Max Gurtovoy <maxg@mellanox.com>
+Message-ID: <d2e06706-4671-aeab-1c7e-c5bf0f3c65a4@mellanox.com>
+Date: Tue, 17 Mar 2020 23:56:16 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <20200317184338.GY13183@mellanox.com>
+Content-Language: en-US
+X-Originating-IP: [172.27.14.181]
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:193.47.165.251; IPV:; CTRY:IL; EFV:NLI;
+ SFV:NSPM;
+ SFS:(10009020)(4636009)(376002)(136003)(39860400002)(396003)(346002)(199004)(46966005)(336012)(16526019)(81156014)(26005)(186003)(31696002)(8676002)(86362001)(2616005)(81166006)(107886003)(37006003)(6862004)(2906002)(6636002)(54906003)(16576012)(4326008)(70586007)(356004)(53546011)(478600001)(31686004)(8936002)(316002)(36906005)(36756003)(70206006)(47076004)(5660300002)(3940600001);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:PR1PR05MB5483; H:mtlcas13.mtl.com; FPR:;
+ SPF:Pass; LANG:en; PTR:InfoDomainNonexistent; A:1; 
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6ef0a246-ff5d-445e-6d43-08d7cabe11dd
+X-MS-TrafficTypeDiagnostic: PR1PR05MB5483:
+X-Microsoft-Antispam-PRVS: <PR1PR05MB548323DD6E59370B79C54844B6F60@PR1PR05MB5483.eurprd05.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-Forefront-PRVS: 0345CFD558
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: +/7+PfaPqTV4zAGoqp22Qi0rr1SpV1JVlxRgCFml/LBC8VYPwvShtgs27NGCsms/Q0WbCOCw/lga1/mxGZz3q3hUFI2lqdGI2sOwPvDG9NeeyYAIjSkEMLK3HKsix/zFt37+kiOCGtFI9uWD5txnbZoQ1Q/+6TXFffucr/cTUTVM+Ah0OQowH4v8R7tyYwh027jiEVL+OOARJdSMaudqRt68O0d99oR/g56r/Syqi4La4JWpLij5/aiiu5VRK7KhrqPUwqGghSFqM8WF3+ui6MV8yM60ZH9Lz3rHNjynljtkJVQZtoYmi/t1ywF/NvVaz9PKJdwLiP8VFnNdEvd1G6CFnHMH4cca8+5MX+9NkbYQ9gEdaqgwglOZZylsZB6INJsmqpdNQr+magWNm7OeaJq2SXjCMsBgfQotViu5/AuSu4sp4HYYJ4gKdghrqKBNPfdP0Huo2cDHenHLOOiFPg16S41TuO3Fhm6Fp35A/+RXABL3QpvUDqfgqW8EhHtfea9962KIEs/xIf9WNuKRhnHinKTTl1cg5jdpwaWXby0=
+X-OriginatorOrg: Mellanox.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2020 21:56:38.6373 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6ef0a246-ff5d-445e-6d43-08d7cabe11dd
+X-MS-Exchange-CrossTenant-Id: a652971c-7d2e-4d9b-a6a4-d149256f461b
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a652971c-7d2e-4d9b-a6a4-d149256f461b; Ip=[193.47.165.251];
+ Helo=[mtlcas13.mtl.com]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR1PR05MB5483
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200317_133619_361862_47ADF117 
-X-CRM114-Status: GOOD (  20.66  )
+X-CRM114-CacheID: sfid-20200317_145701_332988_280B6158 
+X-CRM114-Status: GOOD (  16.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,119 +142,56 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: loberman@redhat.com, bvanassche@acm.org, vladimirk@mellanox.com,
  idanb@mellanox.com, linux-rdma@vger.kernel.org, shlomin@mellanox.com,
- linux-nvme@lists.infradead.org, leonro@mellanox.com, dledford@redhat.com,
- jgg@mellanox.com, Oren Duer <oren@mellanox.com>, kbusch@kernel.org, hch@lst.de,
+ linux-nvme@lists.infradead.org, Leon Romanovsky <leonro@mellanox.com>,
+ dledford@redhat.com, oren@mellanox.com, kbusch@kernel.org, hch@lst.de,
  sagi@grimberg.me
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-> On Mar 17, 2020, at 11:41 AM, Max Gurtovoy <maxg@mellanox.com> wrote:
-> 
-> 
-> On 3/17/2020 5:19 PM, Chuck Lever wrote:
->> Hi Max-
->> 
->>> On Mar 17, 2020, at 9:40 AM, Max Gurtovoy <maxg@mellanox.com> wrote:
->>> 
->>> In some cases, e.g. when using ib_alloc_cq_any, one would like to know
->>> the completion vector that eventually assigned to the CQ. Cache this
->>> value during CQ creation.
->> I'm confused by the mention of the ib_alloc_cq_any() API here.
-> 
-> Can't the user use ib_alloc_cq_any() and still want to know what is the final comp vector for his needs ?
-
-If your caller cares about the final cv value, then it should not use
-the _any API. The point of _any is that the caller really does not care,
-the cv value is hidden because it is not consequential. Your design
-breaks that assumption/contract.
-
-
->> Is your design somehow dependent on the way the current ib_alloc_cq_any()
->> selects comp_vectors? The contract for _any() is that it is an API for
->> callers that simply do not care about what comp_vector is chosen. There's
->> no guarantee that the _any() comp_vector allocator will continue to use
->> round-robin in the future, for instance.
-> 
-> it's fine. I just want to make sure that I'll spread the SRQ's equally.
-
-The _any algorithm is simplistic, it spreads cvs for the system as a whole.
-All devices, all callers. You're going to get some bad degenerate cases
-as soon as you have multiple users of the SRQ facility.
-
-So, you really want to have a more specialized comp_vector selector for
-the SRQ facility; one that is careful to spread cvs per device, independent
-of the global allocator, which is good enough for normal cases.
-
-I think your tests perform well simply because there was no other contender
-for comp_vectors on your test system.
-
-
->> If you want to guarantee that there is an SRQ for each comp_vector and a
->> comp_vector for each SRQ, stick with a CQ allocation API that enables
->> explicit selection of the comp_vector value, and cache that value in the
->> caller, not in the core data structures.
-> 
-> I'm Ok with that as well. This is exactly what we do in the nvmf/rdma but I wanted to stick also with the SRP target approach.
-> 
-> Bart,
-> 
-> Any objection to remove the call for ib_alloc_cq_any() from ib_srpt and use ib_alloc_cq() ?
-> 
-> 
->> 
->> 
->>> Signed-off-by: Max Gurtovoy <maxg@mellanox.com>
->>> ---
->>> drivers/infiniband/core/cq.c | 1 +
->>> include/rdma/ib_verbs.h      | 1 +
->>> 2 files changed, 2 insertions(+)
->>> 
->>> diff --git a/drivers/infiniband/core/cq.c b/drivers/infiniband/core/cq.c
->>> index 4f25b24..a7cbf52 100644
->>> --- a/drivers/infiniband/core/cq.c
->>> +++ b/drivers/infiniband/core/cq.c
->>> @@ -217,6 +217,7 @@ struct ib_cq *__ib_alloc_cq_user(struct ib_device *dev, void *private,
->>> 	cq->device = dev;
->>> 	cq->cq_context = private;
->>> 	cq->poll_ctx = poll_ctx;
->>> +	cq->comp_vector = comp_vector;
->>> 	atomic_set(&cq->usecnt, 0);
->>> 
->>> 	cq->wc = kmalloc_array(IB_POLL_BATCH, sizeof(*cq->wc), GFP_KERNEL);
->>> diff --git a/include/rdma/ib_verbs.h b/include/rdma/ib_verbs.h
->>> index fc8207d..0d61772 100644
->>> --- a/include/rdma/ib_verbs.h
->>> +++ b/include/rdma/ib_verbs.h
->>> @@ -1558,6 +1558,7 @@ struct ib_cq {
->>> 	struct ib_device       *device;
->>> 	struct ib_ucq_object   *uobject;
->>> 	ib_comp_handler   	comp_handler;
->>> +	u32			comp_vector;
->>> 	void                  (*event_handler)(struct ib_event *, void *);
->>> 	void                   *cq_context;
->>> 	int               	cqe;
->>> -- 
->>> 1.8.3.1
->>> 
->> --
->> Chuck Lever
->> chucklever@gmail.com
->> 
->> 
->> 
-
---
-Chuck Lever
-chucklever@gmail.com
-
-
-
-
-_______________________________________________
-linux-nvme mailing list
-linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+Ck9uIDMvMTcvMjAyMCA4OjQzIFBNLCBKYXNvbiBHdW50aG9ycGUgd3JvdGU6Cj4gT24gVHVlLCBN
+YXIgMTcsIDIwMjAgYXQgMDg6MjQ6MzBQTSArMDIwMCwgTWF4IEd1cnRvdm95IHdyb3RlOgo+PiBP
+biAzLzE3LzIwMjAgODoxMCBQTSwgSmFzb24gR3VudGhvcnBlIHdyb3RlOgo+Pj4gT24gVHVlLCBN
+YXIgMTcsIDIwMjAgYXQgMDY6Mzc6NTdQTSArMDIwMCwgTWF4IEd1cnRvdm95IHdyb3RlOgo+Pj4K
+Pj4+Pj4+ICsjaW5jbHVkZSA8cmRtYS9pYl92ZXJicy5oPgo+Pj4+Pj4gKwo+Pj4+Pj4gK3N0cnVj
+dCBpYl9zcnEgKnJkbWFfc3JxX2dldChzdHJ1Y3QgaWJfcGQgKnBkKTsKPj4+Pj4+ICt2b2lkIHJk
+bWFfc3JxX3B1dChzdHJ1Y3QgaWJfcGQgKnBkLCBzdHJ1Y3QgaWJfc3JxICpzcnEpOwo+Pj4+PiBB
+dCB0aGUgZW5kLCBpdCBpcyBub3QgZ2V0L3B1dCBzZW1hbnRpY3MgYnV0IG1vcmUgYWRkL3JlbW92
+ZS4KPj4+PiBzcnEgPSByZG1hX3NycV9hZGQgPwo+Pj4+Cj4+Pj4gcmRtYV9zcnFfcmVtb3ZlKHBk
+LCBzcnEpID8KPj4+Pgo+Pj4+IERvZXNuJ3Qgc2VlbXMgcmlnaHQgdG8gbWUuCj4+Pj4KPj4+PiBM
+ZXRzIG1ha2UgaXQgc2ltcGxlLiBGb3IgYXNraW5nIGEgU1JRIGZyb20gdGhlIFBEIHNldCBsZXRz
+IHVzZSByZG1hX3NycV9nZXQKPj4+PiBhbmQgcmV0dXJuaW5nIHRvIHdlJ2xsIHVzZSByZG1hX3Ny
+cV9wdXQuCj4+PiBJcyB0aGVyZSByZWZlcmVuY2UgY291dGluZyBoZXJlPyBnZXQvcHV0IHNob3Vs
+ZCBiZSByZXN0cmljdGVkIHRvCj4+PiByZWZjb3VudGluZyBBUElzLCBJTUhPLgo+PiBJJ3ZlIGFk
+ZGVkIGEgY291bnRlciAocGQtPnNycXNfdXNlZCkgdGhhdCBMZW9uIGFza2VkIHRvIHJlbW92ZSAu
+Cj4+Cj4+IFRoZXJlIGlzIG5vIGNhbGwgdG8ga3JlZiBnZXQvcHV0IGhlcmUuCj4gSSBkaWRuJ3Qg
+bG9vayBjbG9zZWx5LCBhbnkga2luZCBvZiByZWZjb3VudCBzY2hlbWUgaXMgcmVhc29uYWJsZSwg
+YnV0Cj4gaWYgYWRkIGlzIHN1cHBvc2VkIHRvIGNyZWF0ZSBhIG5ldyBzcnEgdGhlbiB0aGF0IGlz
+bid0ICdnZXQnLi4KCk5vLCB3ZSBkb24ndCBjcmVhdGUgbmV3IHNycSBkdXJpbmcgdGhlICJnZXQi
+LiBXZSBjcmVhdGUgYSBzZXQgdXNpbmcgCiJyZG1hX3NycV9zZXRfaW5pdCIuCgoiZ2V0IiB3aWxs
+IHNpbXBsZSBwdWxsIHNvbWUgc3JxIGZyb20gdGhlIHNldCBhbmQgInB1dCIgd2lsbCBwdXNoIGl0
+IGJhY2suCgo+Cj4+IERvIHlvdSBwcmVmZXIgdGhhdCBJJ2xsIGNoYW5nZSBpdCB0byBiZSBhcnJh
+eSBpbiBQRDogInN0cnVjdAo+PiBpYl9zcnHCoMKgwqDCoMKgwqDCoMKgwqDCoCAqKnNycXM7IiA/
+Cj4gTm90IHBhcnRpY3VsYXJseS4uCj4KPiBJdCBhY3R1YWxseSBmZWVscyBhIGJpdCB3ZWlyZCwg
+c2hvdWxkIHRoZXJlIGJlIHNvbWUgbnVtYS1uZXNzIGludm9sdmVkCj4gaGVyZSBzbyB0aGF0IHRo
+ZSBTUlEgd2l0aCBtZW1vcnkgb24gdGhlIG5vZGUgdGhhdCBpcyBnb2luZyB0byBiZQo+IHBvbGxp
+bmcgaXQgaXMgcmV0dXJuZWQ/CgpNYXliZSB0aGlzIHdpbGwgYmUgdGhlIG5leHQgaW1wcm92ZW1l
+bnQuIEJ1dCBmb3Igbm93IHRoZSByZWNlaXZlIGJ1ZmZlcnMgCmFyZSBhbGxvY2F0ZWQgYnkgdGhl
+IFVMUC4KClRoZSBpZGVhIGlzIHRvIHNwcmVhZCB0aGUgU1JRcyBhcyBtdWNoIGFzIHBvc3NpYmxl
+IGFzIHdlIGRvIGZvciBRUC9DUSB0byAKcmVhY2ggYWxtb3N0IHRoZSBzYW1lIHBlcmZvcm1hbmNl
+LgoKSW4gY2FzZSBvZiAxIFNSUSB3ZSBjYW4ndCByZWFjaCBnb29kIHBlcmZvcm1hbmNlIHNpbmNl
+IG1hbnkgcmVzb3VyY2VzIAphbmQgY29yZXMgYXJlIHJhY2luZyBmb3IgMSByZXNvdXJjZXMuCgpJ
+biBjYXNlIG9mIHJlZ3VsYXIgUlEgd2UgYWxsb2NhdGUgbWFueSBidWZmZXJzIHRoYXQgbW9zdCBv
+ZiB0aGUgdGltZSBhcmUgCmlkbGUuCgpJZiB3ZSdsbCBzcHJlYWQgU1JRcyBmb3IgYWxsIGNvcmVz
+L3ZlY3RvcnMgd2UgaGF2ZSB3ZSdsbCBnZXQgZ3JlYXQgcGVyZiAKd2l0aCBzYXZpbmcgcmVzb3Vy
+Y2VzIHRoYXQgbWlnaHQgYmUgY3JpdGljYWwgaW4gTVEgVUxQcyBhcyBOVk1mL1NSUCAKdGFyZ2V0
+cyB0aGF0IG1pZ2h0IHNlcnZlIGh1bmRyZWRzIGluaXRpYXRvcnMgd2l0aCBodW5kcmVkcyBvZiBx
+dWV1ZXMgZWFjaC4KCgo+Cj4+IEFuZCB1cGRhdGUgaWJfYWxsb2NfcGQgQVBJIHRvIGdldCBwZF9h
+dHRycyBhbmQgYWxsb2NhdGUgdGhlIGFycmF5IGR1cmluZyBQRAo+PiBhbGxvY2F0aW9uID8KPiBU
+aGUgQVBJIGlzIGEgYml0IG1vcmUgY29tcG9zYWJsZSBpZiB0aGluZ3MgY2FuIGNhbiBiZSBkb25l
+IGFzCj4gZm9sbG93aW5nIGZ1bmN0aW9uIGNhbGxzIGFyZSBkb25lIHRoYXQgd2F5Li4gSSBkb24n
+dCBsaWtlIHRoZSBnaWFudAo+IG11bHRpcGxleG9yIHN0cnVjdHMgaW4gZ2VuZXJhbAo+Cj4gSmFz
+b24KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmxpbnV4
+LW52bWUgbWFpbGluZyBsaXN0CmxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8v
+bGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
