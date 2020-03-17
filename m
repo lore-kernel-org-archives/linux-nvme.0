@@ -2,95 +2,81 @@ Return-Path: <SRS0=JSXe=5C=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA58FC10F29
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Mar 2020 16:29:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AB32C18E5B
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Mar 2020 16:39:52 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4FA0520663
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Mar 2020 16:29:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1DE7020738
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Mar 2020 16:39:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="XY+1BN4e"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4FA0520663
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=zurich.ibm.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="MEyww7WK"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1DE7020738
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Subject:Message-Id:References:
-	MIME-Version:Date:To:From:In-Reply-To:Reply-To:Content-ID:Content-Description
-	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=+r0rJlTxnL1U9H672B3Mlo6AkTbhhbbq+UYkRPQM9Jk=; b=XY+1BN4esppxsZ
-	C5HbxGIYmU9JipJin31zYFrrYGPPUq/8HcWUhj9OHTpcWBwxAhznf822LFs4inKPlmfK4ZSVO0xW2
-	HJ1FDTIJRKdwtaGkPJS6EvyZ3hL0ZzNx+VLKxQHKLRlz3Rzn7gvgroSAwk2a8bsgvzsqKpag7juJI
-	PTCKZMNjvHaTPstf3Pw8fnP4P6vAiD+XrdSkMeIRhO6C5OztgRU3JQvNkjuIyGf27wrYfcSRJbb3P
-	j6BzuyJ3yeMjQYXsoOD2gvIgDFvinyNwFtnyahpwTkk9sEBXlrQeR9IKoX3WXCL/0JKOoraL2aCeg
-	ysqwzWye85oNt/7Y7ffQ==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=p9ssX4cE3CsRBmyjvbc8GcCzNYn+od6NAEbeTqP4ET0=; b=MEyww7WKo1uUdcSbRbvcpM8xe
+	CHU/8IHjYh93gwA7lN1DGBk5YGgl2VnIPuioS3wA+NRiDxryIGNb481tOqTlYE/9cfIK98g0vwyE2
+	BYBcoDD/5TkXtvRTtmpXAMjW4KXo41sZ1PzRtml+1ut/Z4fEF2hdDaqpyQsiYWoR5tNNpm3wa287P
+	Z3Cb/F684yJ+fRUKpev97qTdvsRSzD5lBNlr4/ulXa1yiR4w9Ir2RqtQOW2yztMYSbTYqWyWVWDJj
+	dkSZUsy4hPr5vIBksdvLT0KYRmGxnleSIVrHDSa8FTDGlzZpjgl4S83XjltfXCgFB2+DFqZmODb8D
+	ynmQohuTg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jEF66-0008Mu-PY; Tue, 17 Mar 2020 16:29:42 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1jEFFt-0004PI-Kl; Tue, 17 Mar 2020 16:39:49 +0000
+Received: from mail-pf1-f176.google.com ([209.85.210.176])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jEF62-0008MA-V7
- for linux-nvme@lists.infradead.org; Tue, 17 Mar 2020 16:29:40 +0000
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 02HGKCKM125351
- for <linux-nvme@lists.infradead.org>; Tue, 17 Mar 2020 12:29:38 -0400
-Received: from smtp.notes.na.collabserv.com (smtp.notes.na.collabserv.com
- [192.155.248.66])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2yrubpa2w6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <linux-nvme@lists.infradead.org>; Tue, 17 Mar 2020 12:29:38 -0400
-Received: from localhost
- by smtp.notes.na.collabserv.com with smtp.notes.na.collabserv.com ESMTP
- for <linux-nvme@lists.infradead.org> from <BMT@zurich.ibm.com>;
- Tue, 17 Mar 2020 16:29:35 -0000
-Received: from us1a3-smtp03.a3.dal06.isc4sb.com (10.106.154.98)
- by smtp.notes.na.collabserv.com (10.106.227.127) with
- smtp.notes.na.collabserv.com ESMTP; Tue, 17 Mar 2020 16:29:28 -0000
-Received: from us1a3-mail162.a3.dal06.isc4sb.com ([10.146.71.4])
- by us1a3-smtp03.a3.dal06.isc4sb.com
- with ESMTP id 2020031716292879-851182 ;
- Tue, 17 Mar 2020 16:29:28 +0000 
-In-Reply-To: <a8e7b61a-b238-2cc3-d3c8-743ad1f8c8ee@grimberg.me>
-From: "Bernard Metzler" <BMT@zurich.ibm.com>
-To: "Sagi Grimberg" <sagi@grimberg.me>
-Date: Tue, 17 Mar 2020 16:29:28 +0000
-MIME-Version: 1.0
-Sensitivity: 
-Importance: Normal
-X-Priority: 3 (Normal)
-References: <a8e7b61a-b238-2cc3-d3c8-743ad1f8c8ee@grimberg.me>,
+ id 1jEFFp-0004ON-KE
+ for linux-nvme@lists.infradead.org; Tue, 17 Mar 2020 16:39:48 +0000
+Received: by mail-pf1-f176.google.com with SMTP id z5so12258218pfn.5
+ for <linux-nvme@lists.infradead.org>; Tue, 17 Mar 2020 09:39:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=D8YKEpilntC6PLM52SDOesP+siUQz9f0pY/yd7M7yZs=;
+ b=pNYa2AhpF9yAQsYfbz9/lhgXWg6WvoMKmnqrcB1q/gFAuFyEqQNge5CjIPtvA1iZGS
+ Sf27Rarv8QRmYbV+h8swoMnmeZaUzf/+ACQY8abX0/3rldpoEytY6JTFwWJ9yzQ8GfQ0
+ zTU4c86WywdlZEAJuUL3Q9JW5wo+bClms5iVArO2pTp/ZtaeQfRgVS2O9YVgSpQlLSaz
+ UGWzH6UXjtslAl1frnAObcJsjEkvQgsI5h9GNrTugTVVsvObFE5vpAnTTdHoN1WJZWbm
+ 2en0GCj8isc8m6VGYflolQ3ah0Iz+e8hLEt2f/ZIIoZ749KOEXdUWr/msC4YEBH5+bMz
+ aeOg==
+X-Gm-Message-State: ANhLgQ2EqBP3Dh7olGIksyuoaeSZwWlqBvMp2KpkUfGggfLRZhZPLkv8
+ hQtDokBxv6UC9F0AAHFZuws=
+X-Google-Smtp-Source: ADFU+vst0PWpw3o8HeyxJqN6Qrl1fz4MuzhJCYFQDBvMYy9P+adoxekZihnV7W1X+NAW65fpg/EWjg==
+X-Received: by 2002:aa7:9839:: with SMTP id q25mr6161796pfl.2.1584463180925;
+ Tue, 17 Mar 2020 09:39:40 -0700 (PDT)
+Received: from ?IPv6:2601:647:4802:9070:29c1:6aa4:fe4b:2f81?
+ ([2601:647:4802:9070:29c1:6aa4:fe4b:2f81])
+ by smtp.gmail.com with ESMTPSA id 189sm3795672pfw.203.2020.03.17.09.39.39
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 17 Mar 2020 09:39:40 -0700 (PDT)
+Subject: Re: broken CRCs at NVMeF target with SIW & NVMe/TCP transports
+To: Bernard Metzler <BMT@zurich.ibm.com>
+References: <a8e7b61a-b238-2cc3-d3c8-743ad1f8c8ee@grimberg.me>
  <20200316162008.GA7001@chelsio.com> <20200317124533.GB12316@lst.de>
-X-Mailer: IBM iNotes ($HaikuForm 1054.1) | IBM Domino Build
- SCN1812108_20180501T0841_FP62 November 04, 2019 at 09:47
-X-LLNOutbound: False
-X-Disclaimed: 32371
-X-TNEFEvaluated: 1
-x-cbid: 20031716-4409-0000-0000-000002410316
-X-IBM-SpamModules-Scores: BY=0; FL=0; FP=0; FZ=0; HX=0; KW=0; PH=0;
- SC=0.40962; ST=0; TS=0; UL=0; ISC=; MB=0.000002
-X-IBM-SpamModules-Versions: BY=3.00012765; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000293; SDB=6.01349039; UDB=6.00719492; IPR=6.01131448; 
- MB=3.00031266; MTD=3.00000008; XFM=3.00000015; UTC=2020-03-17 16:29:34
-X-IBM-AV-DETECTION: SAVI=unsuspicious REMOTE=unsuspicious XFE=unused
-X-IBM-AV-VERSION: SAVI=2020-03-17 09:56:09 - 6.00011129
-x-cbparentid: 20031716-4410-0000-0000-000057BC6368
-Message-Id: <OFB2589549.AD31F8B8-ON0025852E.005A969A-0025852E.005A96A3@notes.na.collabserv.com>
-Subject: RE: broken CRCs at NVMeF target with SIW & NVMe/TCP transports
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.645
- definitions=2020-03-17_06:2020-03-17,
- 2020-03-17 signatures=0
-X-Proofpoint-Spam-Reason: safe
+ <OFB2589549.AD31F8B8-ON0025852E.005A969A-0025852E.005A96A3@notes.na.collabserv.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <70b13212-faa6-d634-8beb-55ba39891d7f@grimberg.me>
+Date: Tue, 17 Mar 2020 09:39:39 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Firefox/60.0 Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <OFB2589549.AD31F8B8-ON0025852E.005A969A-0025852E.005A96A3@notes.na.collabserv.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200317_092939_011548_89EBA8AC 
-X-CRM114-Status: UNSURE (   8.80  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200317_093946_814394_B405E16A 
+X-CRM114-Status: GOOD (  11.55  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,59 +89,32 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: linux-rdma@vger.kernel.org, Potnuri Bharat Teja <bharat@chelsio.com>,
- Nirranjan
- Kirubaharan <nirranjan@chelsio.com>, linux-nvme@lists.infradead.org,
+ Nirranjan Kirubaharan <nirranjan@chelsio.com>, linux-nvme@lists.infradead.org,
  Krishnamraju Eraparaju <krishna2@chelsio.com>, Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
------"Sagi Grimberg" <sagi@grimberg.me> wrote: -----
 
->To: "Christoph Hellwig" <hch@lst.de>, "Krishnamraju Eraparaju"
-><krishna2@chelsio.com>
->From: "Sagi Grimberg" <sagi@grimberg.me>
->Date: 03/17/2020 05:04PM
->Cc: "Bernard Metzler" <BMT@zurich.ibm.com>,
->linux-nvme@lists.infradead.org, linux-rdma@vger.kernel.org,
->"Nirranjan Kirubaharan" <nirranjan@chelsio.com>, "Potnuri Bharat
->Teja" <bharat@chelsio.com>
->Subject: [EXTERNAL] Re: broken CRCs at NVMeF target with SIW &
->NVMe/TCP transports
->
->> On Mon, Mar 16, 2020 at 09:50:10PM +0530, Krishnamraju Eraparaju
->wrote:
->>>
->>> I'm seeing broken CRCs at NVMeF target while running the below
->program
->>> at host. Here RDMA transport is SoftiWARP, but I'm also seeing the
->>> same issue with NVMe/TCP aswell.
->>>
->>> It appears to me that the same buffer is being rewritten by the
->>> application/ULP before getting the completion for the previous
->requests.
->>> getting the completion for the previous requests. HW based
->>> HW based trasports(like iw_cxgb4) are not showing this issue
->because
->>> they copy/DMA and then compute the CRC on copied buffer.
->> 
->> For TCP we can set BDI_CAP_STABLE_WRITES.  For RDMA I don't think
->that
->> is a good idea as pretty much all RDMA block drivers rely on the
->> DMA behavior above.  The answer is to bounce buffer the data in
->> SoftiWARP / SoftRoCE.
->
->We already do, see nvme_alloc_ns.
->
->
+>>> For TCP we can set BDI_CAP_STABLE_WRITES.  For RDMA I don't think
+>> that
+>>> is a good idea as pretty much all RDMA block drivers rely on the
+>>> DMA behavior above.  The answer is to bounce buffer the data in
+>>> SoftiWARP / SoftRoCE.
+>>
+>> We already do, see nvme_alloc_ns.
+>>
+>>
+> 
+> Krishna was getting the issue when testing TCP/NVMeF with -G
+> during connect. That enables data digest and STABLE_WRITES
+> I think. So to me it seems we don't get stable pages, but
+> pages which are touched after handover to the provider.
 
-Krishna was getting the issue when testing TCP/NVMeF with -G
-during connect. That enables data digest and STABLE_WRITES
-I think. So to me it seems we don't get stable pages, but
-pages which are touched after handover to the provider.
-
-
+Non of the transports modifies the data at any point, both will
+scan it to compute crc. So surely this is coming from the fs,
+Krishna does this happen with xfs as well?
 
 _______________________________________________
 linux-nvme mailing list
