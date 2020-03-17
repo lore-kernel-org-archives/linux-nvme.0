@@ -2,62 +2,119 @@ Return-Path: <SRS0=JSXe=5C=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
+	MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D265CC10F29
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Mar 2020 13:42:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5C5AC18E5B
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Mar 2020 13:55:37 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8526820770
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Mar 2020 13:42:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8D444205ED
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Mar 2020 13:55:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="LAOMwB/A"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8526820770
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="DAKSKqDa";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=Mellanox.com header.i=@Mellanox.com header.b="np1tc7Tc"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8D444205ED
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=97Z+uWYZ5TNvMrHQM/HC3/SVPI3R+xIXtCrxRFskSjc=; b=LAOMwB/AwIkPRK
-	06L3uO2DAx77KtxWvYGR7inc+hSZYIMSCQBwe8oSMUNyOB+rDoMfxw/AtK5gFaxJT7FuDBqs6O7kO
-	mrlQBcr9/lQiYM4LbawyCiT8lQyTEQofmE0FxthHLlZM0tViwSAP+Kt3Pmt5dowwblGPDxshOvvjE
-	NuHI0Svq6+R5qPMcobtNXu04lO7+jeLB9xMqBL/sm6o8fUw+/vrv9/hKym/ZM0JIJ9O329EhAoMpN
-	iwzbqgGNoPoMIO1oopGC2kLZl3gq9A+9CwiPDEFnzINJkIbWpLuFNfIDxtGtW/Otw+JNlOWaNfBdE
-	NlcezOfukz6gnSlzDB9Q==;
+	List-Owner; bh=KtckInsLsyJ4sU9UP2Bvwvt0IwOtl6dTCCU2M325ba8=; b=DAKSKqDaB865sB
+	V7x1AsnlQxtT0drDXDX4Ii1W86FrA4qxSQbW674x9JAxOseXEGOfyG1564gKen8GLIurYi1eb+tPC
+	XFXv/W0e0HyDLzfAvee7I6R5AmKQQ6+yPHqQEa/1/NOGaehZPM77ieNat6m6c3z0Bzg2Ka45wN8nV
+	5mDfVR8NHS+QAwtJ4xYdTeXfCjuDBZR5qIxh3Sr1lEeo3aoI/pbb/CRN/cYC0lNyPy85eYRBlo3CF
+	d9p0iMAUawz5yMqsyBL7wJ1/11597jEyUseiGT3mkpeN8p/O9HbVQKVzqdBNNTAu3hSs4ut7t5wuz
+	so8cOYbka5KVEkz0y2hA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jECU2-0002Tz-31; Tue, 17 Mar 2020 13:42:14 +0000
-Received: from mail-il-dmz.mellanox.com ([193.47.165.129] helo=mellanox.co.il)
- by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jECSU-0000aB-0R
- for linux-nvme@lists.infradead.org; Tue, 17 Mar 2020 13:41:00 +0000
-Received: from Internal Mail-Server by MTLPINE1 (envelope-from
- maxg@mellanox.com)
- with ESMTPS (AES256-SHA encrypted); 17 Mar 2020 15:40:31 +0200
-Received: from mtr-vdi-031.wap.labs.mlnx. (mtr-vdi-031.wap.labs.mlnx
- [10.209.102.136])
- by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 02HDeUhg028750;
- Tue, 17 Mar 2020 15:40:31 +0200
-From: Max Gurtovoy <maxg@mellanox.com>
-To: linux-nvme@lists.infradead.org, sagi@grimberg.me, hch@lst.de,
- loberman@redhat.com, bvanassche@acm.org, linux-rdma@vger.kernel.org
-Subject: [PATCH 5/5] RDMA/srpt: use SRQ per completion vector
-Date: Tue, 17 Mar 2020 15:40:30 +0200
-Message-Id: <20200317134030.152833-6-maxg@mellanox.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20200317134030.152833-1-maxg@mellanox.com>
+	id 1jECgu-0008R8-Cy; Tue, 17 Mar 2020 13:55:32 +0000
+Received: from mail-eopbgr50073.outbound.protection.outlook.com ([40.107.5.73]
+ helo=EUR03-VE1-obe.outbound.protection.outlook.com)
+ by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jECgr-0008Pe-Nk
+ for linux-nvme@lists.infradead.org; Tue, 17 Mar 2020 13:55:31 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=R9yFu9isIg/6W3leIeSV14Uxsl/rNAwVuTSM5B1A6z9URxg3oK86n0hJ4+2bTEbsDhW8SP1SSprIgKx7du+EThN5YA8LjVaBLHkpukaKffLCzwtmoaBsCnnxpNBKVTmRVnCuK4b/JhxLae8mJqJfOSsnf5d7NcDMOkuXnChrnRFZep9jZ9OKOsINL9CH+aTNCAwNrQlciYt9CPOz16QggckrQhOL6sMlEW5CB9UCRaPgmPH302FciZgsmFY2V6sSvTeselIUpF8CkLSl+Aa0DcoYjYsaIPefAg0Xv4fNs6Zly6Zh4D3cWXPkHascvSQ3u9BJ5k6VZFq6abhvLO0AdA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rFT6+HHXVEoYukrvO8Wm2VfJe1B7JBgxggF4zzHWQ30=;
+ b=Tv/M692yGVGe93myWNOHiIuzrtK8XjWZ1UHMhAqLPw3jV9QIU++jTs7XbLhWME4MVdfp1Qz+fkKD6Uahfi2udShDAdwWpdgC+bot9XM4Cx+5Uy5E2joaMFrfHxqTZXRJdwf8Uz4b/kOzBGTbgiNTVtxvQcd3gX4fLgdoSSz+O7nX0/VhrfrP37NVkFKG+jNlZyvJ93+ilFbHdz6IEVsXL3q/bEur+x1n8jaksAa1WSJSZ/YaSbNvCPD55S2z9NOsFEJwmriXbtjtBBbJOHrqSEy7pWwOE4YalaCcnR6r8ckZL4FXbx3O8SmDCMDH7AK2vqDnXGNf1gAbCmh0mHBKwg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
+ dkim=pass header.d=mellanox.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rFT6+HHXVEoYukrvO8Wm2VfJe1B7JBgxggF4zzHWQ30=;
+ b=np1tc7Tc3FTmkBex8R7JU8eCbVDwhUerwOvnozEVyyfb9SHJX9GHbf60QzCKT2cX8gE11qPv6MgPk/kiOAYNf0CqU/YhSr2seqefDgfIU8W0tSx1gHZALZI8Ee9HB2nnCLn7azFxqJHNBc5UPMzvVXvxg7dpECGh9hgvQJM6vyE=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=leonro@mellanox.com; 
+Received: from AM6PR05MB6408.eurprd05.prod.outlook.com (20.179.5.215) by
+ AM6PR05MB5638.eurprd05.prod.outlook.com (20.178.93.208) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2814.22; Tue, 17 Mar 2020 13:55:20 +0000
+Received: from AM6PR05MB6408.eurprd05.prod.outlook.com
+ ([fe80::c99f:9130:561f:dea0]) by AM6PR05MB6408.eurprd05.prod.outlook.com
+ ([fe80::c99f:9130:561f:dea0%3]) with mapi id 15.20.2814.021; Tue, 17 Mar 2020
+ 13:55:20 +0000
+Date: Tue, 17 Mar 2020 15:55:18 +0200
+From: Leon Romanovsky <leonro@mellanox.com>
+To: Max Gurtovoy <maxg@mellanox.com>
+Subject: Re: [PATCH 1/5] IB/core: add a simple SRQ set per PD
+Message-ID: <20200317135518.GG3351@unreal>
 References: <20200317134030.152833-1-maxg@mellanox.com>
+ <20200317134030.152833-2-maxg@mellanox.com>
+Content-Disposition: inline
+In-Reply-To: <20200317134030.152833-2-maxg@mellanox.com>
+X-ClientProxiedBy: AM4PR0101CA0051.eurprd01.prod.exchangelabs.com
+ (2603:10a6:200:41::19) To AM6PR05MB6408.eurprd05.prod.outlook.com
+ (2603:10a6:20b:b8::23)
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost (2a00:a040:183:2d::393) by
+ AM4PR0101CA0051.eurprd01.prod.exchangelabs.com (2603:10a6:200:41::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2814.18 via Frontend
+ Transport; Tue, 17 Mar 2020 13:55:20 +0000
+X-Originating-IP: [2a00:a040:183:2d::393]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 9cefc1f7-f6ee-4bba-9052-08d7ca7ad4e3
+X-MS-TrafficTypeDiagnostic: AM6PR05MB5638:|AM6PR05MB5638:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR05MB56383B11679CA8C0C199DAA0B0F60@AM6PR05MB5638.eurprd05.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2582;
+X-Forefront-PRVS: 0345CFD558
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10009020)(7916004)(4636009)(39860400002)(366004)(136003)(396003)(346002)(376002)(199004)(6636002)(1076003)(33716001)(316002)(33656002)(52116002)(6496006)(478600001)(66556008)(66946007)(81156014)(8676002)(6486002)(9686003)(2906002)(6862004)(5660300002)(186003)(16526019)(81166006)(4326008)(86362001)(8936002)(107886003)(66476007);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:AM6PR05MB5638;
+ H:AM6PR05MB6408.eurprd05.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; 
+Received-SPF: None (protection.outlook.com: mellanox.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: u2bRZb7nRpoWsEHtvAjV6WLtmOksUtst3AtmP9lZcQpogLeOp+9IMTK6OqJWL0w5WZ3zimDsRqGqtUd5+VgW7pqVVuJN9xi8TXuWyM1wGd+cH/QotF93F5Eim+Er2d7ZxziiwR5AjAKV/AcZUl52HaX9FxmkkzCqOykvVHCBHHK1dfJM7to+s22aCCKv9cpTtCUxrT26q6zM9wV5pyR4Z4GePrKGMJEfANhb7D5TqIiO83K5mReWeL9T7gZDImA56VZs5L7Yj0PT9Vtr+3kexiv+tO9iuKUibMiGIqVgA/ihP/YDueZTGKGm/QFOIwRzRUagw6DAotMEGJTFaf3Rc+/HEl0+t+asc2ZsHdQoybOQ14T0SVceWT3sQZbetuUzE/+ktjZpj17grIGu1SsvpD0IlXB/Epfg3hfIhNFGVF5S742OJq/yfj+MIWY+IaJF
+X-MS-Exchange-AntiSpam-MessageData: A+GaHkPSxnTCkeRLMcZqCPfGRVjMR7qNMvZAQ2RGlPRTUvu73e9yUxQ2Hj9qQx5qlSK60akDz2VfnctmoIDUmfHRhGlq27VcthtnTD01bPB53PCHQ7DL2a6Zj1RJwLEtBE9swIyLhdPG3Txpo3qbkqjH/pcDXZXvEMk9RPhkkxo=
+X-OriginatorOrg: Mellanox.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9cefc1f7-f6ee-4bba-9052-08d7ca7ad4e3
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2020 13:55:20.4887 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: a652971c-7d2e-4d9b-a6a4-d149256f461b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EMAZ0kd7ROuPBQs1g8agkSUHmV1Z8wH84g+lDhJt5g1bGrgiif0SCtjjt3eRY12AzPTrbXT4X9vzzhFu+pKgNQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR05MB5638
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200317_064047_312059_6C644C43 
-X-CRM114-Status: GOOD (  15.72  )
+X-CRM114-CacheID: sfid-20200317_065529_786363_CEB4268B 
+X-CRM114-Status: GOOD (  21.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,386 +126,220 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: vladimirk@mellanox.com, shlomin@mellanox.com, leonro@mellanox.com,
- dledford@redhat.com, jgg@mellanox.com, oren@mellanox.com, kbusch@kernel.org,
- Max Gurtovoy <maxg@mellanox.com>, idanb@mellanox.com
+Cc: loberman@redhat.com, bvanassche@acm.org, vladimirk@mellanox.com,
+ shlomin@mellanox.com, linux-rdma@vger.kernel.org,
+ linux-nvme@lists.infradead.org, idanb@mellanox.com, dledford@redhat.com,
+ jgg@mellanox.com, oren@mellanox.com, kbusch@kernel.org, hch@lst.de,
+ sagi@grimberg.me
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-In order to save resource allocation and utilize the completion
-locality in a better way (compared to SRQ per device that exist
-today), allocate Shared Receive Queues (SRQs) per completion vector.
-Associate each created channel with an appropriate SRQ according to the
-completion vector index. This association will reduce the lock
-contention in the fast path (compared to SRQ per device solution) and
-increase the locality in memory buffers.
+On Tue, Mar 17, 2020 at 03:40:26PM +0200, Max Gurtovoy wrote:
+> ULP's can use this API to create/destroy SRQ's with the same
+> characteristics for implementing a logic that aimed to save resources
+> without significant performance penalty (e.g. create SRQ per completion
+> vector and use shared receive buffers for multiple controllers of the
+> ULP).
+>
+> Signed-off-by: Max Gurtovoy <maxg@mellanox.com>
+> ---
+>  drivers/infiniband/core/Makefile  |  2 +-
+>  drivers/infiniband/core/srq_set.c | 78 +++++++++++++++++++++++++++++++++++++++
+>  drivers/infiniband/core/verbs.c   |  4 ++
+>  include/rdma/ib_verbs.h           |  5 +++
+>  include/rdma/srq_set.h            | 18 +++++++++
+>  5 files changed, 106 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/infiniband/core/srq_set.c
+>  create mode 100644 include/rdma/srq_set.h
+>
+> diff --git a/drivers/infiniband/core/Makefile b/drivers/infiniband/core/Makefile
+> index d1b14887..1d3eaec 100644
+> --- a/drivers/infiniband/core/Makefile
+> +++ b/drivers/infiniband/core/Makefile
+> @@ -12,7 +12,7 @@ ib_core-y :=			packer.o ud_header.o verbs.o cq.o rw.o sysfs.o \
+>  				roce_gid_mgmt.o mr_pool.o addr.o sa_query.o \
+>  				multicast.o mad.o smi.o agent.o mad_rmpp.o \
+>  				nldev.o restrack.o counters.o ib_core_uverbs.o \
+> -				trace.o
+> +				trace.o srq_set.o
 
-Signed-off-by: Max Gurtovoy <maxg@mellanox.com>
----
- drivers/infiniband/ulp/srpt/ib_srpt.c | 169 +++++++++++++++++++++++++---------
- drivers/infiniband/ulp/srpt/ib_srpt.h |  26 +++++-
- 2 files changed, 148 insertions(+), 47 deletions(-)
+Why did you call it "srq_set.c" and not "srq.c"?
 
-diff --git a/drivers/infiniband/ulp/srpt/ib_srpt.c b/drivers/infiniband/ulp/srpt/ib_srpt.c
-index 9855274..34869b7 100644
---- a/drivers/infiniband/ulp/srpt/ib_srpt.c
-+++ b/drivers/infiniband/ulp/srpt/ib_srpt.c
-@@ -811,6 +811,31 @@ static bool srpt_test_and_set_cmd_state(struct srpt_send_ioctx *ioctx,
- }
- 
- /**
-+ * srpt_srq_post_recv - post an initial IB receive request for SRQ
-+ * @srq: SRPT SRQ context.
-+ * @ioctx: Receive I/O context pointer.
-+ */
-+static int srpt_srq_post_recv(struct srpt_srq *srq, struct srpt_recv_ioctx *ioctx)
-+{
-+	struct srpt_device *sdev = srq->sdev;
-+	struct ib_sge list;
-+	struct ib_recv_wr wr;
-+
-+	BUG_ON(!srq);
-+	list.addr = ioctx->ioctx.dma + ioctx->ioctx.offset;
-+	list.length = srp_max_req_size;
-+	list.lkey = sdev->lkey;
-+
-+	ioctx->ioctx.cqe.done = srpt_recv_done;
-+	wr.wr_cqe = &ioctx->ioctx.cqe;
-+	wr.next = NULL;
-+	wr.sg_list = &list;
-+	wr.num_sge = 1;
-+
-+	return ib_post_srq_recv(srq->ibsrq, &wr, NULL);
-+}
-+
-+/**
-  * srpt_post_recv - post an IB receive request
-  * @sdev: SRPT HCA pointer.
-  * @ch: SRPT RDMA channel.
-@@ -823,6 +848,7 @@ static int srpt_post_recv(struct srpt_device *sdev, struct srpt_rdma_ch *ch,
- 	struct ib_recv_wr wr;
- 
- 	BUG_ON(!sdev);
-+	BUG_ON(!ch);
- 	list.addr = ioctx->ioctx.dma + ioctx->ioctx.offset;
- 	list.length = srp_max_req_size;
- 	list.lkey = sdev->lkey;
-@@ -834,7 +860,7 @@ static int srpt_post_recv(struct srpt_device *sdev, struct srpt_rdma_ch *ch,
- 	wr.num_sge = 1;
- 
- 	if (sdev->use_srq)
--		return ib_post_srq_recv(sdev->srq, &wr, NULL);
-+		return ib_post_srq_recv(ch->srq->ibsrq, &wr, NULL);
- 	else
- 		return ib_post_recv(ch->qp, &wr, NULL);
- }
-@@ -1820,7 +1846,8 @@ static int srpt_create_ch_ib(struct srpt_rdma_ch *ch)
- 					SRPT_MAX_SG_PER_WQE);
- 	qp_init->port_num = ch->sport->port;
- 	if (sdev->use_srq) {
--		qp_init->srq = sdev->srq;
-+		ch->srq = sdev->srqs[ch->cq->comp_vector % sdev->srq_count];
-+		qp_init->srq = ch->srq->ibsrq;
- 	} else {
- 		qp_init->cap.max_recv_wr = ch->rq_size;
- 		qp_init->cap.max_recv_sge = min(attrs->max_recv_sge,
-@@ -1878,6 +1905,8 @@ static int srpt_create_ch_ib(struct srpt_rdma_ch *ch)
- 
- static void srpt_destroy_ch_ib(struct srpt_rdma_ch *ch)
- {
-+	if (ch->srq)
-+		ch->srq = NULL;
- 	ib_destroy_qp(ch->qp);
- 	ib_free_cq(ch->cq);
- }
-@@ -3018,20 +3047,75 @@ static struct se_wwn *srpt_lookup_wwn(const char *name)
- 	return wwn;
- }
- 
--static void srpt_free_srq(struct srpt_device *sdev)
-+static void srpt_free_srq(struct srpt_srq *srq)
- {
--	if (!sdev->srq)
--		return;
- 
--	ib_destroy_srq(sdev->srq);
--	srpt_free_ioctx_ring((struct srpt_ioctx **)sdev->ioctx_ring, sdev,
--			     sdev->srq_size, sdev->req_buf_cache,
-+	srpt_free_ioctx_ring((struct srpt_ioctx **)srq->ioctx_ring, srq->sdev,
-+			     srq->sdev->srq_size, srq->sdev->req_buf_cache,
- 			     DMA_FROM_DEVICE);
-+	rdma_srq_put(srq->sdev->pd, srq->ibsrq);
-+	kfree(srq);
-+
-+}
-+
-+static void srpt_free_srqs(struct srpt_device *sdev)
-+{
-+	int i;
-+
-+	if (!sdev->srqs)
-+		return;
-+
-+	for (i = 0; i < sdev->srq_count; i++)
-+		srpt_free_srq(sdev->srqs[i]);
- 	kmem_cache_destroy(sdev->req_buf_cache);
--	sdev->srq = NULL;
-+	rdma_srq_set_destroy(sdev->pd);
-+	kfree(sdev->srqs);
-+	sdev->srqs = NULL;
- }
- 
--static int srpt_alloc_srq(struct srpt_device *sdev)
-+static struct srpt_srq *srpt_alloc_srq(struct srpt_device *sdev)
-+{
-+	struct srpt_srq	*srq;
-+	int i, ret;
-+
-+	srq = kzalloc(sizeof(*srq), GFP_KERNEL);
-+	if (!srq) {
-+		pr_debug("failed to allocate SRQ context\n");
-+		return ERR_PTR(-ENOMEM);
-+	}
-+
-+	srq->ibsrq = rdma_srq_get(sdev->pd);
-+	if (!srq) {
-+		ret = -EAGAIN;
-+		goto free_srq;
-+	}
-+
-+	srq->ioctx_ring = (struct srpt_recv_ioctx **)
-+		srpt_alloc_ioctx_ring(sdev, sdev->srq_size,
-+				      sizeof(*srq->ioctx_ring[0]),
-+				      sdev->req_buf_cache, 0, DMA_FROM_DEVICE);
-+	if (!srq->ioctx_ring) {
-+		ret = -ENOMEM;
-+		goto put_srq;
-+	}
-+
-+	srq->sdev = sdev;
-+
-+	for (i = 0; i < sdev->srq_size; ++i) {
-+		INIT_LIST_HEAD(&srq->ioctx_ring[i]->wait_list);
-+		srpt_srq_post_recv(srq, srq->ioctx_ring[i]);
-+	}
-+
-+	return srq;
-+
-+put_srq:
-+	rdma_srq_put(sdev->pd, srq->ibsrq);
-+free_srq:
-+	kfree(srq);
-+	return ERR_PTR(ret);
-+}
-+
-+static int srpt_alloc_srqs(struct srpt_device *sdev)
- {
- 	struct ib_srq_init_attr srq_attr = {
- 		.event_handler = srpt_srq_event,
-@@ -3041,46 +3125,45 @@ static int srpt_alloc_srq(struct srpt_device *sdev)
- 		.srq_type = IB_SRQT_BASIC,
- 	};
- 	struct ib_device *device = sdev->device;
--	struct ib_srq *srq;
--	int i;
-+	int i, j, ret;
- 
--	WARN_ON_ONCE(sdev->srq);
--	srq = ib_create_srq(sdev->pd, &srq_attr);
--	if (IS_ERR(srq)) {
--		pr_debug("ib_create_srq() failed: %ld\n", PTR_ERR(srq));
--		return PTR_ERR(srq);
--	}
-+	WARN_ON_ONCE(sdev->srqs);
-+	sdev->srqs = kcalloc(sdev->srq_count, sizeof(*sdev->srqs), GFP_KERNEL);
-+	if (!sdev->srqs)
-+		return -ENOMEM;
- 
--	pr_debug("create SRQ #wr= %d max_allow=%d dev= %s\n", sdev->srq_size,
--		 sdev->device->attrs.max_srq_wr, dev_name(&device->dev));
-+	pr_debug("create SRQ set #wr= %d max_allow=%d dev= %s\n",
-+		 sdev->srq_size, sdev->device->attrs.max_srq_wr,
-+		 dev_name(&device->dev));
-+
-+	ret = rdma_srq_set_init(sdev->pd, sdev->srq_count, &srq_attr);
-+	if (ret)
-+		goto out_free;
- 
- 	sdev->req_buf_cache = kmem_cache_create("srpt-srq-req-buf",
- 						srp_max_req_size, 0, 0, NULL);
- 	if (!sdev->req_buf_cache)
--		goto free_srq;
-+		goto out_free_set;
- 
--	sdev->ioctx_ring = (struct srpt_recv_ioctx **)
--		srpt_alloc_ioctx_ring(sdev, sdev->srq_size,
--				      sizeof(*sdev->ioctx_ring[0]),
--				      sdev->req_buf_cache, 0, DMA_FROM_DEVICE);
--	if (!sdev->ioctx_ring)
--		goto free_cache;
-+	for (i = 0; i < sdev->srq_count; i++) {
-+		sdev->srqs[i] = srpt_alloc_srq(sdev);
-+		if (IS_ERR(sdev->srqs[i]))
-+			goto free_srq;
-+	}
- 
- 	sdev->use_srq = true;
--	sdev->srq = srq;
--
--	for (i = 0; i < sdev->srq_size; ++i) {
--		INIT_LIST_HEAD(&sdev->ioctx_ring[i]->wait_list);
--		srpt_post_recv(sdev, NULL, sdev->ioctx_ring[i]);
--	}
- 
- 	return 0;
- 
--free_cache:
--	kmem_cache_destroy(sdev->req_buf_cache);
--
- free_srq:
--	ib_destroy_srq(srq);
-+	for (j = 0; j < i; j++)
-+		srpt_free_srq(sdev->srqs[j]);
-+	kmem_cache_destroy(sdev->req_buf_cache);
-+out_free_set:
-+	rdma_srq_set_destroy(sdev->pd);
-+out_free:
-+	kfree(sdev->srqs);
-+	sdev->srqs = NULL;
- 	return -ENOMEM;
- }
- 
-@@ -3090,10 +3173,10 @@ static int srpt_use_srq(struct srpt_device *sdev, bool use_srq)
- 	int ret = 0;
- 
- 	if (!use_srq) {
--		srpt_free_srq(sdev);
-+		srpt_free_srqs(sdev);
- 		sdev->use_srq = false;
--	} else if (use_srq && !sdev->srq) {
--		ret = srpt_alloc_srq(sdev);
-+	} else if (use_srq && !sdev->srqs) {
-+		ret = srpt_alloc_srqs(sdev);
- 	}
- 	pr_debug("%s(%s): use_srq = %d; ret = %d\n", __func__,
- 		 dev_name(&device->dev), sdev->use_srq, ret);
-@@ -3127,6 +3210,8 @@ static void srpt_add_one(struct ib_device *device)
- 	sdev->lkey = sdev->pd->local_dma_lkey;
- 
- 	sdev->srq_size = min(srpt_srq_size, sdev->device->attrs.max_srq_wr);
-+	sdev->srq_count = min(sdev->device->num_comp_vectors,
-+			      sdev->device->attrs.max_srq);
- 
- 	srpt_use_srq(sdev, sdev->port[0].port_attrib.use_srq);
- 
-@@ -3204,7 +3289,7 @@ static void srpt_add_one(struct ib_device *device)
- 	if (sdev->cm_id)
- 		ib_destroy_cm_id(sdev->cm_id);
- err_ring:
--	srpt_free_srq(sdev);
-+	srpt_free_srqs(sdev);
- 	ib_dealloc_pd(sdev->pd);
- free_dev:
- 	kfree(sdev);
-@@ -3255,7 +3340,7 @@ static void srpt_remove_one(struct ib_device *device, void *client_data)
- 	for (i = 0; i < sdev->device->phys_port_cnt; i++)
- 		srpt_release_sport(&sdev->port[i]);
- 
--	srpt_free_srq(sdev);
-+	srpt_free_srqs(sdev);
- 
- 	ib_dealloc_pd(sdev->pd);
- 
-diff --git a/drivers/infiniband/ulp/srpt/ib_srpt.h b/drivers/infiniband/ulp/srpt/ib_srpt.h
-index 2e1a698..a637d4f 100644
---- a/drivers/infiniband/ulp/srpt/ib_srpt.h
-+++ b/drivers/infiniband/ulp/srpt/ib_srpt.h
-@@ -42,6 +42,7 @@
- #include <rdma/ib_verbs.h>
- #include <rdma/ib_sa.h>
- #include <rdma/ib_cm.h>
-+#include <rdma/srq_set.h>
- #include <rdma/rdma_cm.h>
- #include <rdma/rw.h>
- 
-@@ -56,6 +57,7 @@
- #define SRP_SERVICE_NAME_PREFIX		"SRP.T10:"
- 
- struct srpt_nexus;
-+struct srpt_srq;
- 
- enum {
- 	/*
-@@ -255,6 +257,7 @@ enum rdma_ch_state {
- /**
-  * struct srpt_rdma_ch - RDMA channel
-  * @nexus:         I_T nexus this channel is associated with.
-+ * @srq:           SRQ that this channel is associated with (if use_srq=True).
-  * @qp:            IB queue pair used for communicating over this channel.
-  * @ib_cm:	   See below.
-  * @ib_cm.cm_id:   IB CM ID associated with the channel.
-@@ -295,6 +298,7 @@ enum rdma_ch_state {
-  */
- struct srpt_rdma_ch {
- 	struct srpt_nexus	*nexus;
-+	struct srpt_srq		*srq;
- 	struct ib_qp		*qp;
- 	union {
- 		struct {
-@@ -432,17 +436,29 @@ struct srpt_port {
- };
- 
- /**
-+ * struct srpt_srq - SRQ (shared receive queue) context for SRPT
-+ * @ibsrq:         verbs SRQ pointer.
-+ * @ioctx_ring:    Per SRQ ring.
-+ * @sdev:          backpointer to the HCA information.
-+ */
-+struct srpt_srq {
-+	struct ib_srq		*ibsrq;
-+	struct srpt_recv_ioctx	**ioctx_ring;
-+	struct srpt_device	*sdev;
-+};
-+
-+/**
-  * struct srpt_device - information associated by SRPT with a single HCA
-  * @device:        Backpointer to the struct ib_device managed by the IB core.
-  * @pd:            IB protection domain.
-  * @lkey:          L_Key (local key) with write access to all local memory.
-- * @srq:           Per-HCA SRQ (shared receive queue).
-  * @cm_id:         Connection identifier.
-- * @srq_size:      SRQ size.
-+ * @srqs:          SRQ's array.
-+ * @srq_count:     SRQs array size.
-+ * @srq_size:      SRQ size for each in SRQ the array.
-  * @sdev_mutex:	   Serializes use_srq changes.
-  * @use_srq:       Whether or not to use SRQ.
-  * @req_buf_cache: kmem_cache for @ioctx_ring buffers.
-- * @ioctx_ring:    Per-HCA SRQ.
-  * @event_handler: Per-HCA asynchronous IB event handler.
-  * @list:          Node in srpt_dev_list.
-  * @port:          Information about the ports owned by this HCA.
-@@ -451,13 +467,13 @@ struct srpt_device {
- 	struct ib_device	*device;
- 	struct ib_pd		*pd;
- 	u32			lkey;
--	struct ib_srq		*srq;
- 	struct ib_cm_id		*cm_id;
-+	struct srpt_srq		**srqs;
-+	int			srq_count;
- 	int			srq_size;
- 	struct mutex		sdev_mutex;
- 	bool			use_srq;
- 	struct kmem_cache	*req_buf_cache;
--	struct srpt_recv_ioctx	**ioctx_ring;
- 	struct ib_event_handler	event_handler;
- 	struct list_head	list;
- 	struct srpt_port        port[];
--- 
-1.8.3.1
+>
+>  ib_core-$(CONFIG_SECURITY_INFINIBAND) += security.o
+>  ib_core-$(CONFIG_CGROUP_RDMA) += cgroup.o
+> diff --git a/drivers/infiniband/core/srq_set.c b/drivers/infiniband/core/srq_set.c
+> new file mode 100644
+> index 0000000..d143561
+> --- /dev/null
+> +++ b/drivers/infiniband/core/srq_set.c
+> @@ -0,0 +1,78 @@
+> +// SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB
+> +/*
+> + * Copyright (c) 2020 Mellanox Technologies. All rights reserved.
+> + */
+> +
+> +#include <rdma/srq_set.h>
+> +
+> +struct ib_srq *rdma_srq_get(struct ib_pd *pd)
+> +{
+> +	struct ib_srq *srq;
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&pd->srq_lock, flags);
+> +	srq = list_first_entry_or_null(&pd->srqs, struct ib_srq, pd_entry);
+> +	if (srq) {
+> +		list_del(&srq->pd_entry);
+> +		pd->srqs_used++;
 
+I don't see any real usage of srqs_used.
+
+> +	}
+> +	spin_unlock_irqrestore(&pd->srq_lock, flags);
+> +
+> +	return srq;
+> +}
+> +EXPORT_SYMBOL(rdma_srq_get);
+> +
+> +void rdma_srq_put(struct ib_pd *pd, struct ib_srq *srq)
+> +{
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&pd->srq_lock, flags);
+> +	list_add(&srq->pd_entry, &pd->srqs);
+> +	pd->srqs_used--;
+> +	spin_unlock_irqrestore(&pd->srq_lock, flags);
+> +}
+> +EXPORT_SYMBOL(rdma_srq_put);
+> +
+> +int rdma_srq_set_init(struct ib_pd *pd, int nr,
+> +		struct ib_srq_init_attr *srq_attr)
+> +{
+> +	struct ib_srq *srq;
+> +	unsigned long flags;
+> +	int ret, i;
+> +
+> +	for (i = 0; i < nr; i++) {
+> +		srq = ib_create_srq(pd, srq_attr);
+> +		if (IS_ERR(srq)) {
+> +			ret = PTR_ERR(srq);
+> +			goto out;
+> +		}
+> +
+> +		spin_lock_irqsave(&pd->srq_lock, flags);
+> +		list_add_tail(&srq->pd_entry, &pd->srqs);
+> +		spin_unlock_irqrestore(&pd->srq_lock, flags);
+> +	}
+> +
+> +	return 0;
+> +out:
+> +	rdma_srq_set_destroy(pd);
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL(rdma_srq_set_init);
+> +
+> +void rdma_srq_set_destroy(struct ib_pd *pd)
+> +{
+> +	struct ib_srq *srq;
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&pd->srq_lock, flags);
+> +	while (!list_empty(&pd->srqs)) {
+> +		srq = list_first_entry(&pd->srqs, struct ib_srq, pd_entry);
+> +		list_del(&srq->pd_entry);
+> +
+> +		spin_unlock_irqrestore(&pd->srq_lock, flags);
+> +		ib_destroy_srq(srq);
+> +		spin_lock_irqsave(&pd->srq_lock, flags);
+> +	}
+> +	spin_unlock_irqrestore(&pd->srq_lock, flags);
+> +}
+> +EXPORT_SYMBOL(rdma_srq_set_destroy);
+> diff --git a/drivers/infiniband/core/verbs.c b/drivers/infiniband/core/verbs.c
+> index e62c9df..6950abf 100644
+> --- a/drivers/infiniband/core/verbs.c
+> +++ b/drivers/infiniband/core/verbs.c
+> @@ -272,6 +272,9 @@ struct ib_pd *__ib_alloc_pd(struct ib_device *device, unsigned int flags,
+>  	pd->__internal_mr = NULL;
+>  	atomic_set(&pd->usecnt, 0);
+>  	pd->flags = flags;
+> +	pd->srqs_used = 0;
+> +	spin_lock_init(&pd->srq_lock);
+> +	INIT_LIST_HEAD(&pd->srqs);
+>
+>  	pd->res.type = RDMA_RESTRACK_PD;
+>  	rdma_restrack_set_task(&pd->res, caller);
+> @@ -340,6 +343,7 @@ void ib_dealloc_pd_user(struct ib_pd *pd, struct ib_udata *udata)
+>  		pd->__internal_mr = NULL;
+>  	}
+>
+> +	WARN_ON_ONCE(pd->srqs_used > 0);
+
+It can be achieved by WARN_ON_ONCE(!list_empty(&pd->srqs))
+
+>  	/* uverbs manipulates usecnt with proper locking, while the kabi
+>  	   requires the caller to guarantee we can't race here. */
+>  	WARN_ON(atomic_read(&pd->usecnt));
+> diff --git a/include/rdma/ib_verbs.h b/include/rdma/ib_verbs.h
+> index 1f779fa..fc8207d 100644
+> --- a/include/rdma/ib_verbs.h
+> +++ b/include/rdma/ib_verbs.h
+> @@ -1517,6 +1517,10 @@ struct ib_pd {
+>
+>  	u32			unsafe_global_rkey;
+>
+> +	spinlock_t		srq_lock;
+> +	int			srqs_used;
+> +	struct list_head	srqs;
+> +
+>  	/*
+>  	 * Implementation details of the RDMA core, don't use in drivers:
+>  	 */
+> @@ -1585,6 +1589,7 @@ struct ib_srq {
+>  	void		       *srq_context;
+>  	enum ib_srq_type	srq_type;
+>  	atomic_t		usecnt;
+> +	struct list_head	pd_entry; /* srq set entry */
+>
+>  	struct {
+>  		struct ib_cq   *cq;
+> diff --git a/include/rdma/srq_set.h b/include/rdma/srq_set.h
+> new file mode 100644
+> index 0000000..834c4c6
+> --- /dev/null
+> +++ b/include/rdma/srq_set.h
+> @@ -0,0 +1,18 @@
+> +/* SPDX-License-Identifier: (GPL-2.0 OR Linux-OpenIB) */
+> +/*
+> + * Copyright (c) 2020 Mellanox Technologies. All rights reserved.
+> + */
+> +
+> +#ifndef _RDMA_SRQ_SET_H
+> +#define _RDMA_SRQ_SET_H 1
+
+"1" is not needed.
+
+> +
+> +#include <rdma/ib_verbs.h>
+> +
+> +struct ib_srq *rdma_srq_get(struct ib_pd *pd);
+> +void rdma_srq_put(struct ib_pd *pd, struct ib_srq *srq);
+
+At the end, it is not get/put semantics but more add/remove.
+
+Thanks
+
+> +
+> +int rdma_srq_set_init(struct ib_pd *pd, int nr,
+> +		struct ib_srq_init_attr *srq_attr);
+> +void rdma_srq_set_destroy(struct ib_pd *pd);
+> +
+> +#endif /* _RDMA_SRQ_SET_H */
+> --
+> 1.8.3.1
+>
 
 _______________________________________________
 linux-nvme mailing list
