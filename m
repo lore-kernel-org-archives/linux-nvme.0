@@ -3,80 +3,124 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AB32C18E5B
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Mar 2020 16:39:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3EE1C2BB1D
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Mar 2020 18:10:54 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1DE7020738
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Mar 2020 16:39:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 97DE920735
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Mar 2020 18:10:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="MEyww7WK"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1DE7020738
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ByKJWTlI";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=Mellanox.com header.i=@Mellanox.com header.b="q9fgMX8W"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 97DE920735
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=p9ssX4cE3CsRBmyjvbc8GcCzNYn+od6NAEbeTqP4ET0=; b=MEyww7WKo1uUdcSbRbvcpM8xe
-	CHU/8IHjYh93gwA7lN1DGBk5YGgl2VnIPuioS3wA+NRiDxryIGNb481tOqTlYE/9cfIK98g0vwyE2
-	BYBcoDD/5TkXtvRTtmpXAMjW4KXo41sZ1PzRtml+1ut/Z4fEF2hdDaqpyQsiYWoR5tNNpm3wa287P
-	Z3Cb/F684yJ+fRUKpev97qTdvsRSzD5lBNlr4/ulXa1yiR4w9Ir2RqtQOW2yztMYSbTYqWyWVWDJj
-	dkSZUsy4hPr5vIBksdvLT0KYRmGxnleSIVrHDSa8FTDGlzZpjgl4S83XjltfXCgFB2+DFqZmODb8D
-	ynmQohuTg==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=l91TopFEqlcEHgHZDCawwNIQ8TwoaQIxUkUNlYfYV2c=; b=ByKJWTlI4EvTGd
+	qfc4gJjr/D3FJ7A5EFqPneQCj+/MqpbOKk4ceNvVFbt3Df/3Ih7t1/+E42kopDeZmVWskGNlssqU9
+	wzhOm/iOqGu7k37Zf3Z5TLrWwtffR+BPTzPzlWXEoClOwjCO6UyL9Ct2+CdQDMSKl8YhMKaYt5IL+
+	5QVBOzOEWcHkXnNm3GDUZvSQuYkTLY4AT6LdvTo/b6KlrQaFUMm2dSPxfs/kxZUQ0gyxeiz8LImw6
+	F5ir7KYBmL8i9yarUQZMyLvET178mEyuWtCYJs1agrpi5LWxCLEbnJJll23jrTgYOJ6AxzqTlLhYe
+	w3qy9C3Y2zXazFVxO9dw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jEFFt-0004PI-Kl; Tue, 17 Mar 2020 16:39:49 +0000
-Received: from mail-pf1-f176.google.com ([209.85.210.176])
+	id 1jEGfx-0000Ac-Ip; Tue, 17 Mar 2020 18:10:49 +0000
+Received: from mail-am6eur05on2052.outbound.protection.outlook.com
+ ([40.107.22.52] helo=EUR05-AM6-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jEFFp-0004ON-KE
- for linux-nvme@lists.infradead.org; Tue, 17 Mar 2020 16:39:48 +0000
-Received: by mail-pf1-f176.google.com with SMTP id z5so12258218pfn.5
- for <linux-nvme@lists.infradead.org>; Tue, 17 Mar 2020 09:39:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=D8YKEpilntC6PLM52SDOesP+siUQz9f0pY/yd7M7yZs=;
- b=pNYa2AhpF9yAQsYfbz9/lhgXWg6WvoMKmnqrcB1q/gFAuFyEqQNge5CjIPtvA1iZGS
- Sf27Rarv8QRmYbV+h8swoMnmeZaUzf/+ACQY8abX0/3rldpoEytY6JTFwWJ9yzQ8GfQ0
- zTU4c86WywdlZEAJuUL3Q9JW5wo+bClms5iVArO2pTp/ZtaeQfRgVS2O9YVgSpQlLSaz
- UGWzH6UXjtslAl1frnAObcJsjEkvQgsI5h9GNrTugTVVsvObFE5vpAnTTdHoN1WJZWbm
- 2en0GCj8isc8m6VGYflolQ3ah0Iz+e8hLEt2f/ZIIoZ749KOEXdUWr/msC4YEBH5+bMz
- aeOg==
-X-Gm-Message-State: ANhLgQ2EqBP3Dh7olGIksyuoaeSZwWlqBvMp2KpkUfGggfLRZhZPLkv8
- hQtDokBxv6UC9F0AAHFZuws=
-X-Google-Smtp-Source: ADFU+vst0PWpw3o8HeyxJqN6Qrl1fz4MuzhJCYFQDBvMYy9P+adoxekZihnV7W1X+NAW65fpg/EWjg==
-X-Received: by 2002:aa7:9839:: with SMTP id q25mr6161796pfl.2.1584463180925;
- Tue, 17 Mar 2020 09:39:40 -0700 (PDT)
-Received: from ?IPv6:2601:647:4802:9070:29c1:6aa4:fe4b:2f81?
- ([2601:647:4802:9070:29c1:6aa4:fe4b:2f81])
- by smtp.gmail.com with ESMTPSA id 189sm3795672pfw.203.2020.03.17.09.39.39
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 17 Mar 2020 09:39:40 -0700 (PDT)
-Subject: Re: broken CRCs at NVMeF target with SIW & NVMe/TCP transports
-To: Bernard Metzler <BMT@zurich.ibm.com>
-References: <a8e7b61a-b238-2cc3-d3c8-743ad1f8c8ee@grimberg.me>
- <20200316162008.GA7001@chelsio.com> <20200317124533.GB12316@lst.de>
- <OFB2589549.AD31F8B8-ON0025852E.005A969A-0025852E.005A96A3@notes.na.collabserv.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <70b13212-faa6-d634-8beb-55ba39891d7f@grimberg.me>
-Date: Tue, 17 Mar 2020 09:39:39 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Firefox/60.0 Thunderbird/60.9.0
+ id 1jEGfu-00009l-Mi
+ for linux-nvme@lists.infradead.org; Tue, 17 Mar 2020 18:10:47 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KuCgyByGySZKMtKOjjHZ6hE1sb5nMv96K1uF5uU3SbesziywT82/V5Eq610mnNkVyw8Af0Fie0wGDgcqB7CZp+mQx91bKjI99K6AkWDkbWbAEOoKRqZIAz+2CKFGntIiX9ONrSqrhPxPSzON0MUBX/ta5WOr96u5x7tk8ftw5ZGfURlrPfRWODCxlNW3b2IofYpWgd4WP9JFaC0z76CdviZ0Qc42q6OaQxfTv4FLaC5KGrfZE5qWqMBDX9iGbf6I0OEUY42AtgHZ9esKrCvhl5aMVHnPEcwnw1aHtORpOXA2bSxTlim/iUL8IjddDP3PaeLeEWvT5OJbKL8/LjjD5g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ghq074pjdmHC6oixQevInihWIDb0OlwNz3X0RDphByo=;
+ b=AMXUcnE9sMM6p9BHFbE4yMM6ukRRmhk4Uedyd0M0sPMVN7eujA7qkz9R4ZbR6wbMYJXbEsTL7S4S/qJMUn5VYjYY7ubO1tcg/f3fLiG/CsD4CE8dy68b+SgIYcQnLrB152FcBl81mFJOxB4oNUoCBauB2uJ4g+scWuk551Gf9wQEcT2YWzyVlW7YuAcHWNUgeS7+u496nOuyavINM85+OpUEqyvHCiuJg+FkLe6C3+7YTY1sZ59ohfIF3mWYPlPs1UTSSBqEGOXbxR2ApldfXPLGT+4QTzyHbmLXoAXvfK+udrha6jcDjW2Zu7e/iDTkgXK2fmfv4y+rf2cW1XjYrQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
+ dkim=pass header.d=mellanox.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ghq074pjdmHC6oixQevInihWIDb0OlwNz3X0RDphByo=;
+ b=q9fgMX8WtWdKxeFGA9XKHJzd5ZNpLlcKER3+WZ4IdR2wki6qAJkM2G+mZ5JT4TJpGi7oShxVib+774FsfPl/p/9QDKW+33Uw/ZEyU2QkGhX6jSj5AhMid3vpO/UDiv0ALjJCk28swjND/WU6n5z4bgX5CVn3l+rxW0RxdeA+DjI=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=jgg@mellanox.com; 
+Received: from VI1PR05MB4141.eurprd05.prod.outlook.com (52.133.14.15) by
+ VI1PR05MB6589.eurprd05.prod.outlook.com (20.179.25.212) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2814.18; Tue, 17 Mar 2020 18:10:40 +0000
+Received: from VI1PR05MB4141.eurprd05.prod.outlook.com
+ ([fe80::18d2:a9ea:519:add3]) by VI1PR05MB4141.eurprd05.prod.outlook.com
+ ([fe80::18d2:a9ea:519:add3%7]) with mapi id 15.20.2814.021; Tue, 17 Mar 2020
+ 18:10:39 +0000
+Date: Tue, 17 Mar 2020 15:10:36 -0300
+From: Jason Gunthorpe <jgg@mellanox.com>
+To: Max Gurtovoy <maxg@mellanox.com>
+Subject: Re: [PATCH 1/5] IB/core: add a simple SRQ set per PD
+Message-ID: <20200317181036.GX13183@mellanox.com>
+References: <20200317134030.152833-1-maxg@mellanox.com>
+ <20200317134030.152833-2-maxg@mellanox.com>
+ <20200317135518.GG3351@unreal>
+ <46bb23ed-2941-2eaa-511a-3d0f3b09a9ed@mellanox.com>
+Content-Disposition: inline
+In-Reply-To: <46bb23ed-2941-2eaa-511a-3d0f3b09a9ed@mellanox.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: MN2PR14CA0026.namprd14.prod.outlook.com
+ (2603:10b6:208:23e::31) To VI1PR05MB4141.eurprd05.prod.outlook.com
+ (2603:10a6:803:44::15)
 MIME-Version: 1.0
-In-Reply-To: <OFB2589549.AD31F8B8-ON0025852E.005A969A-0025852E.005A96A3@notes.na.collabserv.com>
-Content-Language: en-US
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (142.68.57.212) by
+ MN2PR14CA0026.namprd14.prod.outlook.com (2603:10b6:208:23e::31) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2814.16 via Frontend
+ Transport; Tue, 17 Mar 2020 18:10:39 +0000
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)	(envelope-from
+ <jgg@mellanox.com>)	id 1jEGfk-0007Km-8V; Tue, 17 Mar 2020 15:10:36 -0300
+X-Originating-IP: [142.68.57.212]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 341e701e-e82f-4685-b29c-08d7ca9e7ff3
+X-MS-TrafficTypeDiagnostic: VI1PR05MB6589:|VI1PR05MB6589:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <VI1PR05MB6589E17DABC05B7F0372EF17CFF60@VI1PR05MB6589.eurprd05.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-Forefront-PRVS: 0345CFD558
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10009020)(4636009)(366004)(376002)(39860400002)(346002)(136003)(396003)(199004)(37006003)(33656002)(478600001)(2906002)(86362001)(81166006)(4744005)(9746002)(9786002)(8676002)(5660300002)(316002)(186003)(81156014)(26005)(8936002)(52116002)(4326008)(6862004)(6636002)(107886003)(66556008)(36756003)(1076003)(66946007)(2616005)(66476007)(24400500001);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR05MB6589;
+ H:VI1PR05MB4141.eurprd05.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; 
+Received-SPF: None (protection.outlook.com: mellanox.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 4rE3t22D/5W6sy9ktaqk8nI8paF9HJuMDsAzM/r4pW1FsAPRLb4erYOp0J1ZWgN5DfgJoeacJ/Tt7nk5vKSsWdeoVcxMZn42JJZSe+R4zwq9NRa0wfXHErmzAl9EPjDzCFA7YYFECKwDwFz25zlSWAwiiRjWR+Bob4sJUULfL+JaF9biHzoroBdErrXUzO73FOhhsWaRnZmDsa2ZU37zn7sKKnn4vXoB+90VgOzthxnmGQEnJQjhYjrN1PIHwNaSklRYeaTrkW/mMkT7XLcM0tk98tqmvZ8GKmm+yW2+gPVJGeGD07jdAOTMc2KQnZtSS2cx1j02HxdkseWiy2GqR1vqUbuNHJMhPLX0HjMzPgSokntTBdmuTrUvufAhmRVfpC9jcMZPONKP97LoiKl4HFtRSe037g9xzO3M8Qwk847zRKETGCbBlOhHET17p9y8o/+qeemO3Ka70s//YBz6Aab2ydP4RXdLYVTg5Ni2KJpAxDytr4eH/aaXk0RNqIBp
+X-MS-Exchange-AntiSpam-MessageData: OZMAahtjmEzNU1mJaqBIukoEKRYxUfZ7Dpq4wxwfrIRZybW2jWGHQd/fChBJdiiUE/oJUkfH277yo3s/iqdtWCW3p+Dq0a7nYP5m71o/XM7JFwMliBQvn7pWrIeooAHHuSJpOyHpqvtm/xnQeOtBoQ==
+X-OriginatorOrg: Mellanox.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 341e701e-e82f-4685-b29c-08d7ca9e7ff3
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2020 18:10:39.8124 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: a652971c-7d2e-4d9b-a6a4-d149256f461b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zKGjPDVrufP/+tfxzehGNgwDCpLSvvP4elOnD5mm+oV3ShB42BLn6TjmKq2N8oHuCCuR+/J0b9A2NLTqcMIfdw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR05MB6589
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200317_093946_814394_B405E16A 
-X-CRM114-Status: GOOD (  11.55  )
+X-CRM114-CacheID: sfid-20200317_111046_798305_AE09F151 
+X-CRM114-Status: UNSURE (   8.15  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,33 +132,37 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-rdma@vger.kernel.org, Potnuri Bharat Teja <bharat@chelsio.com>,
- Nirranjan Kirubaharan <nirranjan@chelsio.com>, linux-nvme@lists.infradead.org,
- Krishnamraju Eraparaju <krishna2@chelsio.com>, Christoph Hellwig <hch@lst.de>
+Cc: loberman@redhat.com, bvanassche@acm.org, vladimirk@mellanox.com,
+ idanb@mellanox.com, linux-rdma@vger.kernel.org, shlomin@mellanox.com,
+ linux-nvme@lists.infradead.org, Leon Romanovsky <leonro@mellanox.com>,
+ dledford@redhat.com, oren@mellanox.com, kbusch@kernel.org, hch@lst.de,
+ sagi@grimberg.me
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Tue, Mar 17, 2020 at 06:37:57PM +0200, Max Gurtovoy wrote:
 
->>> For TCP we can set BDI_CAP_STABLE_WRITES.  For RDMA I don't think
->> that
->>> is a good idea as pretty much all RDMA block drivers rely on the
->>> DMA behavior above.  The answer is to bounce buffer the data in
->>> SoftiWARP / SoftRoCE.
->>
->> We already do, see nvme_alloc_ns.
->>
->>
+> > > +#include <rdma/ib_verbs.h>
+> > > +
+> > > +struct ib_srq *rdma_srq_get(struct ib_pd *pd);
+> > > +void rdma_srq_put(struct ib_pd *pd, struct ib_srq *srq);
+> > At the end, it is not get/put semantics but more add/remove.
 > 
-> Krishna was getting the issue when testing TCP/NVMeF with -G
-> during connect. That enables data digest and STABLE_WRITES
-> I think. So to me it seems we don't get stable pages, but
-> pages which are touched after handover to the provider.
+> srq = rdma_srq_add ?
+> 
+> rdma_srq_remove(pd, srq) ?
+> 
+> Doesn't seems right to me.
+> 
+> Lets make it simple. For asking a SRQ from the PD set lets use rdma_srq_get
+> and returning to we'll use rdma_srq_put.
 
-Non of the transports modifies the data at any point, both will
-scan it to compute crc. So surely this is coming from the fs,
-Krishna does this happen with xfs as well?
+Is there reference couting here? get/put should be restricted to
+refcounting APIs, IMHO.
+
+Jason
 
 _______________________________________________
 linux-nvme mailing list
