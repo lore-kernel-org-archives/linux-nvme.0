@@ -2,67 +2,80 @@ Return-Path: <SRS0=JSXe=5C=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 205F4C2BB1D
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Mar 2020 15:43:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22107C10F29
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Mar 2020 16:04:08 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DED8220714
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Mar 2020 15:43:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id ED48B20724
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Mar 2020 16:04:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="EWdFc+AU";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="z4RDNg/j"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DED8220714
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="T/2914+R"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ED48B20724
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=rDgkOB8RNvtUgrqph1T1v4MH5+Kq0wg2hsHepxl/vtE=; b=EWdFc+AU5cJVdj
-	q48zY7rzFJHjz611X1Xlk3v7UZr3oUh3ZK+SDDISB4Xd3Djf7+zHE8BRFjcl8/pQHHSd9BN4nNp9b
-	0A6SgA3Z2MVzJflt1MDrdmNIv5vd+/icW9vaMLlsdZsi2YZvTWipmDMdlpqfbo77Hf68d/ffJHWwr
-	hg1r/d1QwGb6hxAgLHf2tFj/gb9GCj9MthliIbWtLy1Ysc3bdOxO2I0SI7xgLeA59ZmkZYYGwhTjO
-	TkJ/BgMWlGVkAI4E4g4AYTVBQ48h/Ka103riyJT+TJA+JqsHKUorlYIkOkAW52Z6vglXr1ALpSCss
-	vxaZjwGzc4PC6Bm1Ki4g==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=MhON0GqNFqik4SPg+N9vOLlsyHQGwi+OxdPVYqVB68s=; b=T/2914+RqrqHiXd72bkTV/BAV
+	7uPUqD/xlImMlLO7P0MoMdaP0q26oMkT4nqwttXSIgt2nsUKHZ8vRDQlJkl/EHeGrqkJ60povhdbC
+	vAmkj0lTMr0omdxx13oBU0I2OaP8s8qht4dd45Ti0UC72vd++71gUJm0suhFiVt5sZwzx7fbUmvxx
+	9j3sw9ulO1heURdbJrpqqf41uRYo+9QLT/qpkfcWEmwmAvVq0ZtwHlgpeA+0kq8yjHf7bcLJszX46
+	f/IgSdpCYiNsK/9SKauOWTSb2OgTz2uoC3ePADTNL3+wLYGMn8fGdZTrK40pR4639G1r2JaqhjewT
+	S40E26tlw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jEENk-0005oO-Hm; Tue, 17 Mar 2020 15:43:52 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1jEEhI-0007bq-Jn; Tue, 17 Mar 2020 16:04:04 +0000
+Received: from mail-pf1-f171.google.com ([209.85.210.171])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jEENi-0005nr-BV
- for linux-nvme@lists.infradead.org; Tue, 17 Mar 2020 15:43:51 +0000
-Received: from redsun51.ssa.fujisawa.hgst.com (unknown [199.255.47.7])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 098E120714;
- Tue, 17 Mar 2020 15:43:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1584459829;
- bh=3M6KQ+x/xS3b9actzvjEtiSqxHD+FssQ/SJMBjO96DM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=z4RDNg/j8xNMU4GKgnD8q+wVtufDQchEqw5q4MftWja5Hh2cyJd0f3SxKXwfi7W6C
- S/6v7whedviS9T5cTpBV2mEa7gjORKGgiWKkkQAv31wlSg9H/RzLPRnqqvMpIVbQAk
- k/EYSilHOaA3qM3fojeBHgV8yaX0YxUWwmDYcW44=
-Date: Wed, 18 Mar 2020 00:43:43 +0900
-From: Keith Busch <kbusch@kernel.org>
-To: masahiro31.yamada@kioxia.com
-Subject: Re: [PATCH V2] nvme: Add compat_ioctl handler for NVME_IOCTL_SUBMIT_IO
-Message-ID: <20200317154343.GA29084@redsun51.ssa.fujisawa.hgst.com>
-References: <92c670379c264775b8bb28a2bd3b380b@TGXML281.toshiba.local>
+ id 1jEEhF-0007bK-RQ
+ for linux-nvme@lists.infradead.org; Tue, 17 Mar 2020 16:04:03 +0000
+Received: by mail-pf1-f171.google.com with SMTP id n7so12208671pfn.0
+ for <linux-nvme@lists.infradead.org>; Tue, 17 Mar 2020 09:04:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=zaqmSU7pVQacdkrogINHa+leDGYLEH4AwcN6oMad/6c=;
+ b=VVh1hQUz9w7VbxrifFicw1QIb9K2iRWqGWHdUrw5wRfwF8ROuV5fGW7pHbvk5p3EyN
+ KLc9roQu/TW09TARVfuzqYvIhBEkeT6vs7jlqIGKd0zIJLezKwerV3Ll8D4QGyMHHziv
+ OyNkN/H/I9R1qlYyTcUypl8aPT6I0oJGsiVlfeigzQrmHOh5oglF5gBoOvvuhwTE+8s5
+ yla1bckbIj3sqGZ6PNQgS9MlLHlP+24DLksLRp/PLnAJuUz1bIoiUGCQJ4gAQUE3mmkb
+ SHtNIEEZxEz/LdM5NG2DWTQtepTMfJyhwGwR9qabD2ZbTrtesAr1Hah/6HbzpKGqSTed
+ A6Ig==
+X-Gm-Message-State: ANhLgQ0odgQGYe5GHLRXUvBXUtDAcr18tC3No9KIf/AvSj54pI0bzWoh
+ UMUFECWiCrNmto5qKT857gHFop+H
+X-Google-Smtp-Source: ADFU+vs/2udCc4tTHwUfkYFVi59jpBl7zqx4RQRkghOcbVmJvmxBzJ6ZkSLewMeseYC5EqKZkOeWEA==
+X-Received: by 2002:a63:be49:: with SMTP id g9mr5911104pgo.30.1584461040531;
+ Tue, 17 Mar 2020 09:04:00 -0700 (PDT)
+Received: from ?IPv6:2601:647:4802:9070:29c1:6aa4:fe4b:2f81?
+ ([2601:647:4802:9070:29c1:6aa4:fe4b:2f81])
+ by smtp.gmail.com with ESMTPSA id b133sm3239806pga.43.2020.03.17.09.03.59
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 17 Mar 2020 09:03:59 -0700 (PDT)
+Subject: Re: broken CRCs at NVMeF target with SIW & NVMe/TCP transports
+To: Christoph Hellwig <hch@lst.de>,
+ Krishnamraju Eraparaju <krishna2@chelsio.com>
+References: <20200316162008.GA7001@chelsio.com> <20200317124533.GB12316@lst.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <a8e7b61a-b238-2cc3-d3c8-743ad1f8c8ee@grimberg.me>
+Date: Tue, 17 Mar 2020 09:03:58 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Firefox/60.0 Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <92c670379c264775b8bb28a2bd3b380b@TGXML281.toshiba.local>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20200317124533.GB12316@lst.de>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200317_084350_434100_112C7B88 
-X-CRM114-Status: GOOD (  11.08  )
+X-CRM114-CacheID: sfid-20200317_090401_886785_E8690F57 
+X-CRM114-Status: GOOD (  13.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,34 +87,33 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: axboe@fb.com, linux-kernel@vger.kernel.org, hch@lst.de,
- linux-nvme@lists.infradead.org, sagi@grimberg.me
-Content-Type: text/plain; charset="us-ascii"
+Cc: linux-rdma@vger.kernel.org, Bernard Metzler <BMT@zurich.ibm.com>,
+ Potnuri Bharat Teja <bharat@chelsio.com>,
+ Nirranjan Kirubaharan <nirranjan@chelsio.com>, linux-nvme@lists.infradead.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Mar 05, 2020 at 11:13:29AM +0000, masahiro31.yamada@kioxia.com wrote:
-> Currently 32 bit application gets ENOTTY when it calls
-> compat_ioctl with NVME_IOCTL_SUBMIT_IO in 64 bit kernel.
-> 
-> The cause is that the results of sizeof(struct nvme_user_io),
-> which is used to define NVME_IOCTL_SUBMIT_IO,
-> are not same between 32 bit compiler and 64 bit compiler.
-> 
-> * 32 bit: the result of sizeof nvme_user_io is 44.
-> * 64 bit: the result of sizeof nvme_user_io is 48.
-> 
-> 64 bit compiler seems to add 32 bit padding for multiple of 8 bytes.
-> 
-> This patch adds a compat_ioctl handler.
-> The handler replaces NVME_IOCTL_SUBMIT_IO32 with NVME_IOCTL_SUBMIT_IO
-> in case 32 bit application calls compat_ioctl for submit in 64 bit kernel.
-> Then, it calls nvme_ioctl as usual.
-> 
-> Signed-off-by: Masahiro Yamada (KIOXIA) <masahiro31.yamada@kioxia.com>
 
-Thank you, applied for 5.7.
+> On Mon, Mar 16, 2020 at 09:50:10PM +0530, Krishnamraju Eraparaju wrote:
+>>
+>> I'm seeing broken CRCs at NVMeF target while running the below program
+>> at host. Here RDMA transport is SoftiWARP, but I'm also seeing the
+>> same issue with NVMe/TCP aswell.
+>>
+>> It appears to me that the same buffer is being rewritten by the
+>> application/ULP before getting the completion for the previous requests.
+>> getting the completion for the previous requests. HW based
+>> HW based trasports(like iw_cxgb4) are not showing this issue because
+>> they copy/DMA and then compute the CRC on copied buffer.
+> 
+> For TCP we can set BDI_CAP_STABLE_WRITES.  For RDMA I don't think that
+> is a good idea as pretty much all RDMA block drivers rely on the
+> DMA behavior above.  The answer is to bounce buffer the data in
+> SoftiWARP / SoftRoCE.
+
+We already do, see nvme_alloc_ns.
 
 _______________________________________________
 linux-nvme mailing list
