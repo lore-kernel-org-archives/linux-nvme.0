@@ -1,133 +1,121 @@
-Return-Path: <SRS0=JSXe=5C=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=qC0g=5D=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75C6CC2BB1D
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Mar 2020 23:27:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25F3BC10DCE
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Mar 2020 06:47:37 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3CFC120674
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Mar 2020 23:27:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id ED84820724
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Mar 2020 06:47:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="bg7mzt4u";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=Mellanox.com header.i=@Mellanox.com header.b="Iw0ra1Lq"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3CFC120674
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ZOlcYGdP";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=Mellanox.com header.i=@Mellanox.com header.b="S65Fi3GB"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ED84820724
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=6qhLdoz48roWcKsXq7MR4Dgep42HVHSw9jkbACGaQVc=; b=bg7mzt4u6iWnAcZSgkh8+CQB2
-	ZGoMkVJlOkEOxvkA7G46R5Cgvkssj4mWAHMhCDDXSStg+PCbVwUwKmAwF46MZEyEM7lYTz9vbE+kL
-	fYKtwmOabXpm39/Z+3veDDJKsDZgoYprCnbWeLWSMUHb4ud4Lnatf6fAQcO1oGPHi2qcYpTXVwr0b
-	Fl0O9/vRvhCCdestGgcNmW90iPpI/qMNo1Sh4lX16FRavmD0ttKVsKyW9L3mpSfMWnx7rImGEhXMe
-	kwoyBWlvijidWbBwr10pjQ9P0vTmv/t5BULbANM/eOKpezOJY6GXK1Wy1zxaDnCn/so5CKBdW2TnK
-	VkCY99Fyg==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=Mh7mo1VzmGSm7t9FipM1feJo4XGYXb8hUmkci8catiM=; b=ZOlcYGdPSVq4XG
+	2iAi3ZaadtxXkjEJBjKkbLuP9LqhQ6O1XsDLPZ52f1qNV5CHgUlqtwXOjccKTbQYRZQQnSpZv0/9R
+	Rgn5R6TWApphni4IJJke+zklUJkXjg47KwDCqR0YIgyqBD+3O9H5wcs71HJonPn3VKbdcloNVwpm1
+	Yz8Ysf9GO762PSnLsqYIAxq7ys6vc1RiWPyiRl51QzXKCRa2tCmuwNZey0fu4QPHl/uoG3zPN9TMs
+	J6pndS10505uVf4v2T6Nr1xf+aver8uWxI/QIige5I0Y0AzbM35qZOXJm2g8zWKpnMGXO0r/djE8l
+	c8foQJcAP/wxbe0DRGXg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jELbt-0002jt-9j; Tue, 17 Mar 2020 23:26:57 +0000
-Received: from mail-eopbgr130079.outbound.protection.outlook.com
- ([40.107.13.79] helo=EUR01-HE1-obe.outbound.protection.outlook.com)
+	id 1jESUF-0003Y9-Sx; Wed, 18 Mar 2020 06:47:31 +0000
+Received: from mail-eopbgr150055.outbound.protection.outlook.com
+ ([40.107.15.55] helo=EUR01-DB5-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jELbr-0002im-4N
- for linux-nvme@lists.infradead.org; Tue, 17 Mar 2020 23:26:56 +0000
+ id 1jESUD-0003Xp-3U
+ for linux-nvme@lists.infradead.org; Wed, 18 Mar 2020 06:47:30 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FL49s44ywdChzD2gkDjDHF0WWfEIeWDmvJC8wG5y77mx2RQvRmYkc/4w+fi7/JwpbjdXNL5fLmZrWabzQM7/H98rh78KLTh/1i2aLlsbO8FfvRD9PlWvTL8e6IXYnQs0EEgvqWmt6HS0CXbex41qIVGNSjvM+cGVVJby5LQRywsKh/HinF77YlP87INhCgO72lwLrhHJgg+34YgkV4rDQ2qDyOU+fmWBbQ2ZMM1V6nT/dy4evIUPVg+yA7nX21irQ11I6a00hdREUjazPcQZe/DBjEwY0YQzoiK2ZJp5pF6LATQps9HdGABE1GDiuzO8k6zUqHMRVlu4UFq1Z+iztA==
+ b=lEPVpGWaFubFDeseQ9cAFO290ewoDIcpg5bCjDa2lIYx0ZlBhgKDYhwIVN9915OisTBhmgICKLZw7b53TRrYz7zHoJ6jQUQBiH2aC4PRwXpwVMCqKQZZWmbqq1+R5qmhmoYCc4YImZu6vfwQTgUTdVxDoKQzG24LiGCtXxECbF6WsnStba8D+Q7ZRIRKG7X0zi4WUwe3TDAAY3DQwyyZnEpFcyW+Vgi2AslwnT6oXXNNyajd18n9vvBZDPx/sSr82r1tRICtL+C/xQ5+tCR2d/xsOL/qojnOUZ68e43YcTs5fvmJrrQ7q/LVo9EyKRYjgfb31130MyVjBlgR19fnlA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k4tUj3LswrW1UZM0em054v56iZjKUiswrcnfGM3WBY0=;
- b=akbaqu1J5A9i+RPah2mdqqt6iclZQvheOIpEwloApJJbBbbvDLqf9m3pSknkDUnyZtBWsB8CFN4gDEvBzC2ouG2c/yihd2jhbbzmBvtnW28lY0OkaUL4CbTN/I+NQ/N+TP5YRuywDYHyJk2bjgso/kyWGp60IMRnoTkOex5yUv61ebciInli02WviVwmJ08KKp3WWWVrWgtDjMbnZPOSwVoTGIbhR9wjMMm97m2HAK29QHI4eI5oReqZxVVeo+/aOtMrC39rYeP6ZQ6S56c8hBdOyieypdAGKb90VRuApGOqv+fSwHcvACFd0WgvjeBpuIYeRp+VEsyXgGyxjB0Pdw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 193.47.165.251) smtp.rcpttodomain=redhat.com smtp.mailfrom=mellanox.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=mellanox.com;
- dkim=none (message not signed); arc=none
+ bh=cdCYOu+RC3qvSNwD6MBrLxGmNQOX2sqQHLS9JTl8Pgo=;
+ b=g5ZBmepm1So9tuB8vy2bJEB1NDvskWi/VVckdI8xw0QFIUqdm9NMbithYe2YxuF4McJPmGUBNHU+VF1cmZUIBSJeH8oYJ2aEV3WNFA9fCK62C7kYEjF/rqvhPAWZQRHM8up6nOeJB4UAAlICk0qfcxfSlguQhwZz5qUh+5BZ6oR30m4Zn3Z4mod9C+nuNn3REoAMlHgQRJE/oLjQJjB/yhSAZD3yi/GhsRrtT4prpWa+Sr+5R+I5BuF5B5kJvu8dH5WactBDfll1l1pev+IZ96wBsLtQdll8c4lEVXrKTMVlN9YnXrGTlHytOY0nowRCCAxGc5HWOgwGlMPls1Thqw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
+ dkim=pass header.d=mellanox.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k4tUj3LswrW1UZM0em054v56iZjKUiswrcnfGM3WBY0=;
- b=Iw0ra1LqlJ64F/n1jmSpoEfrqUL3evzdFOqBtynq/hQxbgBBF2tdjACWBWRtQ2lUapZCtUe33yzaDjYD7ByxRRC/IcDPKErcj6rUxSlq2OS/CEcBHQUpjMaJKkqnWrPkicp5FbcyUU2+9JZLPNla8UxvNc6hXYIKrNRVUIt8ikY=
-Received: from DB8PR06CA0018.eurprd06.prod.outlook.com (2603:10a6:10:100::31)
- by VI1PR05MB6013.eurprd05.prod.outlook.com (2603:10a6:803:e6::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2814.21; Tue, 17 Mar
- 2020 23:26:47 +0000
-Received: from DB5EUR03FT034.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:10:100:cafe::3d) by DB8PR06CA0018.outlook.office365.com
- (2603:10a6:10:100::31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2814.19 via Frontend
- Transport; Tue, 17 Mar 2020 23:26:47 +0000
-Authentication-Results: spf=pass (sender IP is 193.47.165.251)
- smtp.mailfrom=mellanox.com; redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=pass action=none header.from=mellanox.com;
-Received-SPF: Pass (protection.outlook.com: domain of mellanox.com designates
- 193.47.165.251 as permitted sender)
- receiver=protection.outlook.com; 
- client-ip=193.47.165.251; helo=mtlcas13.mtl.com;
-Received: from mtlcas13.mtl.com (193.47.165.251) by
- DB5EUR03FT034.mail.protection.outlook.com (10.152.20.87) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.2814.13 via Frontend Transport; Tue, 17 Mar 2020 23:26:46 +0000
-Received: from MTLCAS13.mtl.com (10.0.8.78) by mtlcas13.mtl.com (10.0.8.78)
- with Microsoft SMTP Server (TLS) id 15.0.1178.4; Wed, 18 Mar 2020 01:26:45
- +0200
-Received: from MTLCAS01.mtl.com (10.0.8.71) by MTLCAS13.mtl.com (10.0.8.78)
- with Microsoft SMTP Server (TLS) id 15.0.1178.4 via Frontend Transport; Wed,
- 18 Mar 2020 01:26:45 +0200
-Received: from [172.27.14.181] (172.27.14.181) by MTLCAS01.mtl.com (10.0.8.71)
- with Microsoft SMTP Server (TLS) id 14.3.468.0;
- Wed, 18 Mar 2020 01:26:19 +0200
-Subject: Re: [PATCH 4/5] IB/core: cache the CQ completion vector
-To: Bart Van Assche <bvanassche@acm.org>, Chuck Lever <chucklever@gmail.com>
+ bh=cdCYOu+RC3qvSNwD6MBrLxGmNQOX2sqQHLS9JTl8Pgo=;
+ b=S65Fi3GBwnYphFAs2goPxKxahgafAhn7Fe9AMCu6yApvaHbm83801M3itiadGOHtoQNlTRvWGgN1zbAYG4fr64Ewz0eiKv27GuXi8nM2/Q/PsE5XfoUBxEiPOhRtWRiBeB26O9gzy/LLsyul85jNFqv5N5hqYzs1SCC9L32ZhHU=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=leonro@mellanox.com; 
+Received: from AM6PR05MB6408.eurprd05.prod.outlook.com (20.179.5.215) by
+ AM6PR05MB6133.eurprd05.prod.outlook.com (20.179.3.144) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2814.14; Wed, 18 Mar 2020 06:47:26 +0000
+Received: from AM6PR05MB6408.eurprd05.prod.outlook.com
+ ([fe80::c99f:9130:561f:dea0]) by AM6PR05MB6408.eurprd05.prod.outlook.com
+ ([fe80::c99f:9130:561f:dea0%3]) with mapi id 15.20.2814.021; Wed, 18 Mar 2020
+ 06:47:26 +0000
+Date: Wed, 18 Mar 2020 08:47:24 +0200
+From: Leon Romanovsky <leonro@mellanox.com>
+To: Max Gurtovoy <maxg@mellanox.com>
+Subject: Re: [PATCH 1/5] IB/core: add a simple SRQ set per PD
+Message-ID: <20200318064724.GP3351@unreal>
 References: <20200317134030.152833-1-maxg@mellanox.com>
- <20200317134030.152833-5-maxg@mellanox.com>
- <448195E1-CE26-4658-8106-91BAFF115853@gmail.com>
- <078fd456-b1bc-a103-070b-d1a8ea6bff9c@mellanox.com>
- <caa4b25d-c669-8a3f-e4d1-88f8d3a4f345@acm.org>
-From: Max Gurtovoy <maxg@mellanox.com>
-Message-ID: <dadff64e-802b-72aa-71c8-a92595fc41d0@mellanox.com>
-Date: Wed, 18 Mar 2020 01:26:18 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ <20200317134030.152833-2-maxg@mellanox.com>
+ <20200317135518.GG3351@unreal>
+ <46bb23ed-2941-2eaa-511a-3d0f3b09a9ed@mellanox.com>
+Content-Disposition: inline
+In-Reply-To: <46bb23ed-2941-2eaa-511a-3d0f3b09a9ed@mellanox.com>
+X-ClientProxiedBy: PR2P264CA0019.FRAP264.PROD.OUTLOOK.COM (2603:10a6:101::31)
+ To AM6PR05MB6408.eurprd05.prod.outlook.com
+ (2603:10a6:20b:b8::23)
 MIME-Version: 1.0
-In-Reply-To: <caa4b25d-c669-8a3f-e4d1-88f8d3a4f345@acm.org>
-Content-Language: en-US
-X-Originating-IP: [172.27.14.181]
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:193.47.165.251; IPV:; CTRY:IL; EFV:NLI;
- SFV:NSPM;
- SFS:(10009020)(4636009)(136003)(346002)(376002)(396003)(39860400002)(199004)(46966005)(110136005)(16576012)(316002)(54906003)(336012)(26005)(186003)(16526019)(31696002)(70206006)(5660300002)(86362001)(70586007)(36756003)(2616005)(53546011)(478600001)(81166006)(81156014)(47076004)(8936002)(356004)(8676002)(2906002)(4744005)(31686004)(107886003)(4326008)(3940600001);
- DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR05MB6013; H:mtlcas13.mtl.com; FPR:;
- SPF:Pass; LANG:en; PTR:InfoDomainNonexistent; A:1; 
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost (2a00:a040:183:2d::393) by
+ PR2P264CA0019.FRAP264.PROD.OUTLOOK.COM (2603:10a6:101::31) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2835.18 via Frontend Transport; Wed, 18 Mar 2020 06:47:26 +0000
+X-Originating-IP: [2a00:a040:183:2d::393]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 529f2495-2d10-4a28-d58e-08d7cacaa974
-X-MS-TrafficTypeDiagnostic: VI1PR05MB6013:
-X-Microsoft-Antispam-PRVS: <VI1PR05MB6013576B8C0B91396B6AEF61B6F60@VI1PR05MB6013.eurprd05.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1751;
-X-Forefront-PRVS: 0345CFD558
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 78748429-4e54-44b8-d45a-08d7cb083877
+X-MS-TrafficTypeDiagnostic: AM6PR05MB6133:|AM6PR05MB6133:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR05MB6133BC68E5E85AA9C12D84ECB0F70@AM6PR05MB6133.eurprd05.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
+X-Forefront-PRVS: 03468CBA43
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10009020)(7916004)(4636009)(396003)(136003)(366004)(39860400002)(346002)(376002)(199004)(81166006)(6486002)(81156014)(1076003)(8676002)(8936002)(33716001)(33656002)(86362001)(16526019)(186003)(316002)(6496006)(52116002)(66476007)(66946007)(478600001)(6636002)(53546011)(2906002)(107886003)(9686003)(4326008)(5660300002)(6862004)(66556008);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:AM6PR05MB6133;
+ H:AM6PR05MB6408.eurprd05.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; 
+Received-SPF: None (protection.outlook.com: mellanox.com does not designate
+ permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 28+DKMKtaAc5ib7GgFXY7t/ZE3164LoletpTjARYsFEfXsdpHfrfC9BffP9JnjhgoHHMON3EdI0kL0vXDPgAF9EFyqgB92ebCWZYMaPc8yKgACY1BRle40F94FpSz+O/txevKE82LoPg4+1nrSC9Wh41lAvbKZJDjyi8VlrF7A3Nhk6P3TswTJch0NSB57ZgqaPhYH+SRuHZYR4FYHEFuDDpjEz/FeJfaf8L2/xF96o/xYIPRpr1m79jjZXHMPMx2VzbTjww4OFzcGcaNgaBf2KGSaHa1qvvDimDgN9WU2124w5IPHcJ2egNMgCF/dx8jCE0RIgWyuddVSCFYViif0/tBqhkhsy6f2hjucIdyN8Lzxmu2CMvakWnYobzPjYLsb2ygdlc0tnKMNEUOP2rhhYrH4PjHz3IRyiOTd78Juu7HhVmRcmZjMCbPWHqlndgK65MFRMi3NSyZ3ljd6I7UtUacVyt7MuQFtX/xXb2v+VupRF+pmnwiPpoUoozeL8aK2iBxU1S6dy/y1bGdpGWlU1HuNvG21rHqRG7yYldfsw=
+X-Microsoft-Antispam-Message-Info: rFZGUItNovrguKx/KMRRZhSPDnwTd7LaGFB9DbBWkZE3ydjRbC5vFWLuA5EvvAzBzIT4LlL6fO69IDuK9MP3jJ/PkeZV8aKK3vJn/brd1aaG6XXZcp+QXOKC/LRhyC2cRqWcezk9ssWOxIpo/SPk2Kr7pKRSV4qdi+JtXELMBFUfsE9L12VWDOWO5lr5uqZfFHWdGbx6guPM7mlJGdg3nGPw7EKKv295NtOtsWhrsWrBZ5MaUGtHHSDf3SMVFqdBkY9vtiVQaP0vwearXHz20vmKlmCyWazxGNd/uyi+25Dmi5ezw5HdXaMt1AcDLaedGf6l6rkjGYkmkZU5JFUZ6s7XdSPN8E52FyfsEwdMcPqGjNto5+nw+3Zll9omGdGwS12x8SxrEibnURs9qSnUQa+iOkKprHUvToZZiAQPO/rxezlKRhd0hs80m1il12pF
+X-MS-Exchange-AntiSpam-MessageData: UhB36T0XX/QgttM6XZ55Kuroq7GbFhTcfl0KE3klOJL1ridHwBnbNKcJnHFh8mZ0nibhIgYPrTCdCsaKxEURxrB0fHfqaDj1R0Ar77NItDxnOz8vasEn8tOqY6c6qyHEytgl2aytpcMxxRnpecnUxqK3afjYYcDjz5/ov4ahf5E=
 X-OriginatorOrg: Mellanox.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2020 23:26:46.9543 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 529f2495-2d10-4a28-d58e-08d7cacaa974
+X-MS-Exchange-CrossTenant-Network-Message-Id: 78748429-4e54-44b8-d45a-08d7cb083877
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2020 06:47:26.5517 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: a652971c-7d2e-4d9b-a6a4-d149256f461b
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a652971c-7d2e-4d9b-a6a4-d149256f461b; Ip=[193.47.165.251];
- Helo=[mtlcas13.mtl.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR05MB6013
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /hB7oRh50ah1Ym/Oca/3/ljw5eNK+7NTO8pkErKGO4eAMPUJl0LuqmNekNYwgr1I8C7ofhA9CSzZY4gh3fsNAg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR05MB6133
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200317_162655_177761_137D394D 
-X-CRM114-Status: GOOD (  11.46  )
+X-CRM114-CacheID: sfid-20200317_234729_209448_2954616B 
+X-CRM114-Status: GOOD (  15.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,42 +127,54 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: loberman@redhat.com, sagi@grimberg.me, vladimirk@mellanox.com,
- idanb@mellanox.com, linux-rdma@vger.kernel.org, shlomin@mellanox.com,
- linux-nvme@lists.infradead.org, leonro@mellanox.com, dledford@redhat.com,
- jgg@mellanox.com, Oren Duer <oren@mellanox.com>, kbusch@kernel.org, hch@lst.de
+Cc: loberman@redhat.com, bvanassche@acm.org, vladimirk@mellanox.com,
+ shlomin@mellanox.com, linux-rdma@vger.kernel.org,
+ linux-nvme@lists.infradead.org, idanb@mellanox.com, dledford@redhat.com,
+ jgg@mellanox.com, oren@mellanox.com, kbusch@kernel.org, hch@lst.de,
+ sagi@grimberg.me
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-On 3/18/2020 12:50 AM, Bart Van Assche wrote:
-> On 2020-03-17 08:41, Max Gurtovoy wrote:
->> On 3/17/2020 5:19 PM, Chuck Lever wrote:
->>> If you want to guarantee that there is an SRQ for each comp_vector and a
->>> comp_vector for each SRQ, stick with a CQ allocation API that enables
->>> explicit selection of the comp_vector value, and cache that value in the
->>> caller, not in the core data structures.
->> I'm Ok with that as well. This is exactly what we do in the nvmf/rdma
->> but I wanted to stick also with the SRP target approach.
->>
->> Any objection to remove the call for ib_alloc_cq_any() from ib_srpt and
->> use ib_alloc_cq() ?
-> Hi Max,
+On Tue, Mar 17, 2020 at 06:37:57PM +0200, Max Gurtovoy wrote:
 >
-> Wasn't that call introduced by Chuck (see also commit 20cf4e026730
-> ("rdma: Enable ib_alloc_cq to spread work over a device's comp_vectors")
-> # v5.4)? Anyway, I'm fine with the proposed change.
-
-Yes this was introduced by Chuck, but no contract is broken :)
-
-I'll update srpt in V2.
-
-
-> Thanks,
+> On 3/17/2020 3:55 PM, Leon Romanovsky wrote:
+> > On Tue, Mar 17, 2020 at 03:40:26PM +0200, Max Gurtovoy wrote:
+> > > ULP's can use this API to create/destroy SRQ's with the same
+> > > characteristics for implementing a logic that aimed to save resources
+> > > without significant performance penalty (e.g. create SRQ per completion
+> > > vector and use shared receive buffers for multiple controllers of the
+> > > ULP).
+> > >
+> > > Signed-off-by: Max Gurtovoy <maxg@mellanox.com>
+> > > ---
+> > >   drivers/infiniband/core/Makefile  |  2 +-
+> > >   drivers/infiniband/core/srq_set.c | 78 +++++++++++++++++++++++++++++++++++++++
+> > >   drivers/infiniband/core/verbs.c   |  4 ++
+> > >   include/rdma/ib_verbs.h           |  5 +++
+> > >   include/rdma/srq_set.h            | 18 +++++++++
+> > >   5 files changed, 106 insertions(+), 1 deletion(-)
+> > >   create mode 100644 drivers/infiniband/core/srq_set.c
+> > >   create mode 100644 include/rdma/srq_set.h
+> > >
+> > > diff --git a/drivers/infiniband/core/Makefile b/drivers/infiniband/core/Makefile
+> > > index d1b14887..1d3eaec 100644
+> > > --- a/drivers/infiniband/core/Makefile
+> > > +++ b/drivers/infiniband/core/Makefile
+> > > @@ -12,7 +12,7 @@ ib_core-y :=			packer.o ud_header.o verbs.o cq.o rw.o sysfs.o \
+> > >   				roce_gid_mgmt.o mr_pool.o addr.o sa_query.o \
+> > >   				multicast.o mad.o smi.o agent.o mad_rmpp.o \
+> > >   				nldev.o restrack.o counters.o ib_core_uverbs.o \
+> > > -				trace.o
+> > > +				trace.o srq_set.o
+> > Why did you call it "srq_set.c" and not "srq.c"?
 >
-> Bart.
+> because it's not a SRQ API but SRQ-set API.
+
+I would say that it is SRQ-pool and not SRQ-set API.
+
+Thanks
 
 _______________________________________________
 linux-nvme mailing list
