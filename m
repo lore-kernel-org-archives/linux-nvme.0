@@ -2,83 +2,135 @@ Return-Path: <SRS0=qC0g=5D=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44A37C4332B
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Mar 2020 21:41:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC960C4332D
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Mar 2020 21:48:16 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1440820752
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Mar 2020 21:41:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id BAC2720768
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Mar 2020 21:48:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="AJ3/u7FA";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="vP8aRORd"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1440820752
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="TUShs/Rr";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="YLZvVD9u";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="y11q4v1P"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BAC2720768
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Cc:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date
+	:Subject:To:From:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	References:List-Owner; bh=zKJ5bewWXRDmuhfwDRurfI/Ke6r1cOR26DdLMxxjsPw=; b=AJ3
-	/u7FAIikDgxJm81T0TMPI0hPSwBhy3SKf9271WgSVb1/qCub+9tB44/TRpA23cTY8R7BnPvQ+jjyE
-	mr2IUl3k42X9dsl3f99A1IcSdSydU0ZufC32KdFbgEeJHBJBC97+sv0q9JIch/f5uyvbYyX9ijqrz
-	MnZlpT/d2pQaVyqv66Gl9dIH5loKWKN9iGcK2nxbA7Go5Yt2l+OKdsprxhVI9CXHPVyTDDDC87OkD
-	vD7z89QHixlJxufS/XKdkCzR652nl1Po8ODujwITDQxfMktLjv9AZAVbNgxORiDsbV69pBJs/QHD6
-	8HGW1H7Z8nCa4U5Z87oLNmykD9aOrZA==;
+	List-Owner; bh=4MQW23AIW1Bz9jhnSsk+/QKoeedP5K3XR5C9WRmiY4w=; b=TUShs/RrCvcegj
+	JLca/pAvHckrdvqW4yc4PbX9nSfgldq+Z55hzcV2I3neolZ4HRzrk+gPEb1Sb2qHIQwIK3YmihwR4
+	SnW6PKWm5JKq3Ya2DARF5AFSKPtC95jzSTL75hoz9tfIhhXC/71b5odm51p9hkYSoIUWr573a4A0t
+	pnVxrbExpMI1qFw5DC2Sqoqz6K1a38EW0lqm1u8K/BpnDEVvSUvTrOpe0bZYUBqbl/D2Re7BZrSDE
+	Pq2k+VRTSZiHz4aBuDojiWTcvzW+Jsdtgr5Hxa5gBOYwnBBOFYhhFqCBLrCI6HqlZ8GNW6Pyi4UM5
+	FIvvgVCQVPQz5c0QL+iA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jEgRI-0002YH-5y; Wed, 18 Mar 2020 21:41:24 +0000
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443])
+	id 1jEgXv-0005cA-Gv; Wed, 18 Mar 2020 21:48:15 +0000
+Received: from esa5.hgst.iphmx.com ([216.71.153.144])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jEgRF-0002XJ-8B
- for linux-nvme@lists.infradead.org; Wed, 18 Mar 2020 21:41:22 +0000
-Received: by mail-wr1-x443.google.com with SMTP id v11so288740wrm.9
- for <linux-nvme@lists.infradead.org>; Wed, 18 Mar 2020 14:41:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=svaBa+2qy2xUm5Zo6EIp6m5XVnp6d6f/tr6lHnhCp2c=;
- b=vP8aRORdHjiE+aERahSeO1GB5G5P2MbyBxBMaXteanunenZSDVSoAk2OXY45DoE0Z2
- CCKfd1wVGWJpWthpMaxxib6tgpLLWY25bpSvdXCn3GPD74oYC6H+XERkPwHCNe4pR5kf
- AcKvH14VzLF9uJEKHfG80HqI4oAOq29liLPajn4+hVMWNZRRcbFzNlubyXJTs4V/Bmx4
- KI1F+Ug7foYKaOKKUWtLUiZDsEyp/mrXtA1oc7ggJ3xxOG5aWUHJb1xqzm+/PSYJKHak
- r1R9K02SllCwqE+VqBCg36aZDfvNyFy4pK7bm7RqBB8TtYDPOUxIUnZREvMV9SCxJY1a
- hcOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=svaBa+2qy2xUm5Zo6EIp6m5XVnp6d6f/tr6lHnhCp2c=;
- b=b80eFYZyBOtcv8Y4VuxxM+0SxofOISrn8yGmsdDQVwyjUuKhd986njiEIP//q0ieHs
- O59xmbG8fDdi0NQw7Urdrx7600ufWDujtaR/OG1rqJi/oNA+k2GtLsZUpF1IRhWJJZxD
- fJSeZT9QvM7z6XN4LPcKtGWCrS0vj73Y/jUrsC2V1W6+wwjdD1kf+Wg3cs3hQv5NaqeT
- e8TPNge5FGmUR5HaCn7+AGWPymDBCUwTrAWEvA/4oAxGaref4JaTtVZ6GwpRA8kwB6v0
- YMQvjCwcFW5qhC5GcRHZENRwp+pozS+oKAWFLa0d4XvgUCTDEaFP6vwjK5zv1ZLXccUl
- DaBw==
-X-Gm-Message-State: ANhLgQ1IYWLlpEeMZ/DC80sJ1zGsXGWZQmd7P+bQ6bUk/aoXeTzNm41A
- FzrGZUMs1rnHruAJryJhxjJ135sn
-X-Google-Smtp-Source: ADFU+vud+NrOuseZPr4vj9dAxhUvCVbmLQyCdye/ifFAEVPaUiTdPB15oon2/m9tkPNvOOwhV6oLPQ==
-X-Received: by 2002:adf:eb0c:: with SMTP id s12mr6336400wrn.293.1584567679242; 
- Wed, 18 Mar 2020 14:41:19 -0700 (PDT)
-Received: from localhost.localdomain.localdomain ([192.19.228.250])
- by smtp.gmail.com with ESMTPSA id d21sm196317wrb.51.2020.03.18.14.41.17
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 18 Mar 2020 14:41:18 -0700 (PDT)
-From: James Smart <jsmart2021@gmail.com>
-To: linux-nvme@lists.infradead.org
-Subject: [PATCH] nvme-fcloop: Fix deallocation of working context
-Date: Wed, 18 Mar 2020 14:41:12 -0700
-Message-Id: <20200318214112.18317-1-jsmart2021@gmail.com>
-X-Mailer: git-send-email 2.16.4
+ id 1jEgXt-0005bo-7u
+ for linux-nvme@lists.infradead.org; Wed, 18 Mar 2020 21:48:14 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1584568094; x=1616104094;
+ h=from:to:subject:date:message-id:references:
+ content-transfer-encoding:mime-version;
+ bh=zZ+jUOPcEy6wCJIPsqPjLFQ0D1unxOfgYegCPOVCFZM=;
+ b=YLZvVD9uO8a00yi9RZagIshhsGGH0d7E4gtSXRiGCiPoLcopasKNSQos
+ 9doqEKbt6beB+1GRxA8JklcJRv9hs+ARK43IAwdWCaNa1j3WHSX8ImlQE
+ 23Oedh0g4t5kndr4rtWL1kK4HjIL4+Ql3tsh6GS0gzribCVi5ddgbCDLO
+ La1/ZXwJeunmlKLX4i5MWqWTWDV1eiXxDcNRiCIY4fy3ZG8deqHGW+Wv4
+ 9z0H83lM0q+I3YojlwH22gyolF8o4Omz35t00s7k8oGlXXs5/cElhq8pA
+ vEB5d1O8caZ+FKp1CNSjKZlYLAW7J6NcikpiFeAO45AdkB9cZ6CfJHuEL Q==;
+IronPort-SDR: lhyluZxYNZ/QCFVNu3wQHmjMjgYhyBjEfXKm8tce0QsJrNsVXa5denmUrmaiz2fQDLF5puVHon
+ UqqC7zrxm0WtKDVPf0bxggqgZU1P4oLF3Orqfzp+VuK1MyG5WevglHTcML2SsRcl/O97mwrQRK
+ cZ0cJKIgvWqCwuLbDYbMMmTUy66PUMmSkKABBQJWhuetdPFwPf2/ZLjpSKflfg8nV34RdcVm39
+ Hsa7KRcpJwdnFDsbzo0/LaL/x+YF0AQ+cSGXxo27sqqoMRiKESksTvW554OmMMU56jFeMuAfuZ
+ CSc=
+X-IronPort-AV: E=Sophos;i="5.70,569,1574092800"; d="scan'208";a="133339011"
+Received: from mail-mw2nam12lp2041.outbound.protection.outlook.com (HELO
+ NAM12-MW2-obe.outbound.protection.outlook.com) ([104.47.66.41])
+ by ob1.hgst.iphmx.com with ESMTP; 19 Mar 2020 05:48:13 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZfwvXkZvxp0kVt1q2YuDqOGM1KJTIguS2oGR1yMlT0x3GYgIIvGevHkHr8qFcef98OZWSv+szY9g5aiTtCDprNFnEI7WF4PW3R0XGA6YZI0uYPGheVPVCPAi34fVVg4GXtMS+gXxw/JuMR4+EoqmemF92UoH111z3e3nUoo+TRZ8pj6wQqpeerHHHH1+l2uO2kvB7Mxdu18ywYvo2VJ0BLrPdDWhBhlQHgByU/sD0e/fQqko/xcwBPr7g24v9bJ5soev+5298fLqokyPp9u3ilvfDMR/Ko6mlXgQEaeTeERn87vK1+paY6LA9LynWiAQW4PSjUiWB/JxNXy6hakIvw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zZ+jUOPcEy6wCJIPsqPjLFQ0D1unxOfgYegCPOVCFZM=;
+ b=MTJt1do+o0O3F/uOGCoUXOqPOPipp98eSeLBMu4YOZzhYeFxeX716EkEINuCHBp94YJz1zhw+NsdVDNzYHkIa+L8VUMR3lC2TokLETDbDUwatRiYtOSb9dvpHQURDWpZubKpQmcSPorSLQm7G5pdYBE3AJlAdZns0DzLdRiLroA1LVBdXZZlKxY9OoN8OmMdVGeoheswxYw7KypQ/WNKlgD3i65hqaieXDkJKDOBL+eYH1aKPnyTqZagSvtTHX2hRQpMuLlI8cpZkQ/xQUxxVAjPlZHFOlhG3VcDXrsBNPQ2L4n5Cmqp4DTAteoDRa8N43wdtNl8KMF8n247JV39mA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zZ+jUOPcEy6wCJIPsqPjLFQ0D1unxOfgYegCPOVCFZM=;
+ b=y11q4v1PbmlJoKcP+5i+MlT9sRVW6b58w106DRYa7fpWlUvWIeOhYPDUREzscrhqjEuBiemNAeiXyDY44CsYCHSiLzybW0Q/ddFkUe5seAe8KrySTeCHLcD/t59IAhwN93HI5AJBz8wbQIyqvxzre+YI66l3dFWLQ6PDjtp5eJY=
+Received: from DM6PR04MB5754.namprd04.prod.outlook.com (2603:10b6:5:16c::24)
+ by DM6PR04MB4540.namprd04.prod.outlook.com (2603:10b6:5:26::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2814.22; Wed, 18 Mar
+ 2020 21:48:11 +0000
+Received: from DM6PR04MB5754.namprd04.prod.outlook.com
+ ([fe80::c0fb:7c35:bcd2:fd28]) by DM6PR04MB5754.namprd04.prod.outlook.com
+ ([fe80::c0fb:7c35:bcd2:fd28%2]) with mapi id 15.20.2814.021; Wed, 18 Mar 2020
+ 21:48:11 +0000
+From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+To: James Smart <jsmart2021@gmail.com>, "linux-nvme@lists.infradead.org"
+ <linux-nvme@lists.infradead.org>
+Subject: Re: [PATCH] nvmet-fc: fix typo in comment
+Thread-Topic: [PATCH] nvmet-fc: fix typo in comment
+Thread-Index: AQHV/W3vZhG9txVaTU6ZuJLqHvGsMQ==
+Date: Wed, 18 Mar 2020 21:48:10 +0000
+Message-ID: <DM6PR04MB57543DE32AF438A84008314086F70@DM6PR04MB5754.namprd04.prod.outlook.com>
+References: <20200318214043.18211-1-jsmart2021@gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Chaitanya.Kulkarni@wdc.com; 
+x-originating-ip: [199.255.45.62]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 081e3636-702b-488f-586f-08d7cb860dad
+x-ms-traffictypediagnostic: DM6PR04MB4540:
+x-microsoft-antispam-prvs: <DM6PR04MB454062C32198C3229346E35B86F70@DM6PR04MB4540.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:1247;
+x-forefront-prvs: 03468CBA43
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(4636009)(346002)(39860400002)(396003)(376002)(366004)(136003)(199004)(558084003)(26005)(8676002)(110136005)(86362001)(5660300002)(81156014)(55016002)(7696005)(9686003)(8936002)(52536014)(81166006)(478600001)(66446008)(64756008)(2906002)(53546011)(6506007)(66946007)(71200400001)(186003)(316002)(76116006)(66476007)(66556008)(91956017)(33656002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:DM6PR04MB4540;
+ H:DM6PR04MB5754.namprd04.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; 
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Pt+hUKWUsfvOP4/SxKzGnG9MAUdtqEnMH5w0M2YUf6p80N875NVL0TKhoMYvgJh5STrdaUI56DDIfvw+46buEPy5F/XwqrBtwfSSGSCYlSaGt52DGqGmroor1epnD5EuEWqffn/3IMWULLWE6DHWg/v4c7ZIgVI2HmaldO71UFHDMsTGgKC5nMlzgFSa/KENvp6a18XAQvonGB+Oy7NR2NW6dAQ2WPMmtoRzrFnDr4LGxCB99EmwDIbhJfTAl+CAJFYBzLohsGSbaSHwWQPkrlAwpNTwfwa3/X1mn/YlIakblPyIWz7G7NVLOqXj7aDew0Btdh4H/6tLjpIEruT8a0T87wxSDoIsM5DFqcV5m4Mw5G+cLkTN06qLoAfmr5qIWpoaCHrRL9oM431TsBrfLlmUftJQnDq/9fycQmaQApfJh/y+Mm9RaS/5/8Wnudor
+x-ms-exchange-antispam-messagedata: yKvb+0Yw6tdstmSeEMEl+uDArFAJnVeudAYftg9qVl9K1hV0zd8udPZbV0r3iETzDqsSC5wSqzmUG4JHPTZzSZCGrayh3yg1dKvs5oXGVnNN4UHuNToq5ypzSd5zLvM1fxWpbXojZuGnZj9QSDcuow==
+x-ms-exchange-transport-forked: True
+MIME-Version: 1.0
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 081e3636-702b-488f-586f-08d7cb860dad
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Mar 2020 21:48:11.0035 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 5aYJit3nStvUM5j0+BcXBsuq60YO4z8u0qcoKab3rOVgN8xXe2WAiSJE1dxjcRw/PCC6PetFWfxTZXW8+HkI9K50mK7LJ4bOks2faa6hEE4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB4540
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200318_144121_293880_4A9D6E7D 
-X-CRM114-Status: GOOD (  14.44  )
+X-CRM114-CacheID: sfid-20200318_144813_369328_64A95876 
+X-CRM114-Status: UNSURE (   7.94  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,181 +142,22 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: James Smart <jsmart2021@gmail.com>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-There's been a longstanding bug of LS completions which freed ls
-op's, particularly the disconnect LS, while executing on a work
-context that is in the memory being free. Not a good thing to do.
+On 03/18/2020 02:41 PM, James Smart wrote:
+> Fix typo in comment: about should be abort
+>
+> Signed-off-by: James Smart<jsmart2021@gmail.com>
+> Reviewed-by: Sagi Grimberg<sagi@grimberg.me>
+> Reviewed-by: Himanshu Madhani<hmadhani@marvell.com>
+> Reviewed-by: Hannes Reinecke<hare@suse.de>
 
-Rework LS handling to make callbacks in the rport context
-rather than the ls_request context.
+Looks good.
 
-Signed-off-by: James Smart <jsmart2021@gmail.com>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
----
- drivers/nvme/target/fcloop.c | 76 ++++++++++++++++++++++++++++++--------------
- 1 file changed, 52 insertions(+), 24 deletions(-)
-
-diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
-index 1c50af6219f3..9861fcea39f6 100644
---- a/drivers/nvme/target/fcloop.c
-+++ b/drivers/nvme/target/fcloop.c
-@@ -198,10 +198,13 @@ struct fcloop_lport_priv {
- };
- 
- struct fcloop_rport {
--	struct nvme_fc_remote_port *remoteport;
--	struct nvmet_fc_target_port *targetport;
--	struct fcloop_nport *nport;
--	struct fcloop_lport *lport;
-+	struct nvme_fc_remote_port	*remoteport;
-+	struct nvmet_fc_target_port	*targetport;
-+	struct fcloop_nport		*nport;
-+	struct fcloop_lport		*lport;
-+	spinlock_t			lock;
-+	struct list_head		ls_list;
-+	struct work_struct		ls_work;
- };
- 
- struct fcloop_tport {
-@@ -224,11 +227,10 @@ struct fcloop_nport {
- };
- 
- struct fcloop_lsreq {
--	struct fcloop_tport		*tport;
- 	struct nvmefc_ls_req		*lsreq;
--	struct work_struct		work;
- 	struct nvmefc_tgt_ls_req	tgt_ls_req;
- 	int				status;
-+	struct list_head		ls_list; /* fcloop_rport->ls_list */
- };
- 
- struct fcloop_rscn {
-@@ -292,21 +294,32 @@ fcloop_delete_queue(struct nvme_fc_local_port *localport,
- {
- }
- 
--
--/*
-- * Transmit of LS RSP done (e.g. buffers all set). call back up
-- * initiator "done" flows.
-- */
- static void
--fcloop_tgt_lsrqst_done_work(struct work_struct *work)
-+fcloop_rport_lsrqst_work(struct work_struct *work)
- {
--	struct fcloop_lsreq *tls_req =
--		container_of(work, struct fcloop_lsreq, work);
--	struct fcloop_tport *tport = tls_req->tport;
--	struct nvmefc_ls_req *lsreq = tls_req->lsreq;
-+	struct fcloop_rport *rport =
-+		container_of(work, struct fcloop_rport, ls_work);
-+	struct fcloop_lsreq *tls_req;
- 
--	if (!tport || tport->remoteport)
--		lsreq->done(lsreq, tls_req->status);
-+	spin_lock(&rport->lock);
-+	for (;;) {
-+		tls_req = list_first_entry_or_null(&rport->ls_list,
-+				struct fcloop_lsreq, ls_list);
-+		if (!tls_req)
-+			break;
-+
-+		list_del(&tls_req->ls_list);
-+		spin_unlock(&rport->lock);
-+
-+		tls_req->lsreq->done(tls_req->lsreq, tls_req->status);
-+		/*
-+		 * callee may free memory containing tls_req.
-+		 * do not reference lsreq after this.
-+		 */
-+
-+		spin_lock(&rport->lock);
-+	}
-+	spin_unlock(&rport->lock);
- }
- 
- static int
-@@ -319,17 +332,18 @@ fcloop_ls_req(struct nvme_fc_local_port *localport,
- 	int ret = 0;
- 
- 	tls_req->lsreq = lsreq;
--	INIT_WORK(&tls_req->work, fcloop_tgt_lsrqst_done_work);
-+	INIT_LIST_HEAD(&tls_req->ls_list);
- 
- 	if (!rport->targetport) {
- 		tls_req->status = -ECONNREFUSED;
--		tls_req->tport = NULL;
--		schedule_work(&tls_req->work);
-+		spin_lock(&rport->lock);
-+		list_add_tail(&rport->ls_list, &tls_req->ls_list);
-+		spin_unlock(&rport->lock);
-+		schedule_work(&rport->ls_work);
- 		return ret;
- 	}
- 
- 	tls_req->status = 0;
--	tls_req->tport = rport->targetport->private;
- 	ret = nvmet_fc_rcv_ls_req(rport->targetport, &tls_req->tgt_ls_req,
- 				 lsreq->rqstaddr, lsreq->rqstlen);
- 
-@@ -337,18 +351,28 @@ fcloop_ls_req(struct nvme_fc_local_port *localport,
- }
- 
- static int
--fcloop_xmt_ls_rsp(struct nvmet_fc_target_port *tport,
-+fcloop_xmt_ls_rsp(struct nvmet_fc_target_port *targetport,
- 			struct nvmefc_tgt_ls_req *tgt_lsreq)
- {
- 	struct fcloop_lsreq *tls_req = tgt_ls_req_to_lsreq(tgt_lsreq);
- 	struct nvmefc_ls_req *lsreq = tls_req->lsreq;
-+	struct fcloop_tport *tport = targetport->private;
-+	struct nvme_fc_remote_port *remoteport = tport->remoteport;
-+	struct fcloop_rport *rport;
- 
- 	memcpy(lsreq->rspaddr, tgt_lsreq->rspbuf,
- 		((lsreq->rsplen < tgt_lsreq->rsplen) ?
- 				lsreq->rsplen : tgt_lsreq->rsplen));
-+
- 	tgt_lsreq->done(tgt_lsreq);
- 
--	schedule_work(&tls_req->work);
-+	if (remoteport) {
-+		rport = remoteport->private;
-+		spin_lock(&rport->lock);
-+		list_add_tail(&rport->ls_list, &tls_req->ls_list);
-+		spin_unlock(&rport->lock);
-+		schedule_work(&rport->ls_work);
-+	}
- 
- 	return 0;
- }
-@@ -834,6 +858,7 @@ fcloop_remoteport_delete(struct nvme_fc_remote_port *remoteport)
- {
- 	struct fcloop_rport *rport = remoteport->private;
- 
-+	flush_work(&rport->ls_work);
- 	fcloop_nport_put(rport->nport);
- }
- 
-@@ -1136,6 +1161,9 @@ fcloop_create_remote_port(struct device *dev, struct device_attribute *attr,
- 	rport->nport = nport;
- 	rport->lport = nport->lport;
- 	nport->rport = rport;
-+	spin_lock_init(&rport->lock);
-+	INIT_WORK(&rport->ls_work, fcloop_rport_lsrqst_work);
-+	INIT_LIST_HEAD(&rport->ls_list);
- 
- 	return count;
- }
--- 
-2.16.4
-
+Reviewed-by: Chiatanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
 _______________________________________________
 linux-nvme mailing list
