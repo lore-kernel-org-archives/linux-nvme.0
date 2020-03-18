@@ -2,118 +2,131 @@ Return-Path: <SRS0=qC0g=5D=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E032EC10DCE
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Mar 2020 06:54:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AED09C10DCE
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Mar 2020 09:39:47 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9ACB420724
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Mar 2020 06:54:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7B30720674
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Mar 2020 09:39:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="cUggebW6";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=Mellanox.com header.i=@Mellanox.com header.b="snyBK6Ie"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9ACB420724
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="BPrM33z7";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=Mellanox.com header.i=@Mellanox.com header.b="QDOhVidB"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7B30720674
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
-	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=nBVdAB3UOg8w8+kty54Llw/Fe0X0l9UQ8W81eNMLFnA=; b=cUggebW61Bo7Fh
-	wvh2b2YDIsGvJRs2AjUybbtcqwjCLXpMUtOu5NzdERgg49/x4jIZUEl87Ko6bgEzp4mDPU3cPAFyR
-	e0sximoe5Vx/mQCqzS+8Jo8rduehvGT+1k9isEhEeKgVS7A/XeTaWBZf2ePa4zPFl9cgZmKOtQfq+
-	3kHrJNLoBvxSYOR8Mk4kKWoPHnXkBFPQvis4ozIzi8ezxzCosKT93O1aVnClF5qEQrnC3iYfOu5eo
-	uPumb2NmN/vq6A/qnboN0aNb1gm8WyeyH30rkAZ7hVLqA+NyYeSnciNkqeSZUHBRYFrPGYYz47d7O
-	CoWMeMQ/xnLi0A9JMShA==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=6qdFsvzMLH8QNg/S/GsVpS8O6Lxy3r1oHpWm95gaApY=; b=BPrM33z7n2csP6+qoYcnZhNiY
+	C8Qz0C+hEyLOR+oo6TG5705FOh6STtXmuGUmfw9xFckETpQOQNJ1UVhiBJXI84s3Luvt5LSyYqOdo
+	swgO89G11E1enk2YyNbFQRf9gMbYH68IKyQ4FZ3Y33Ylx6E1MS2axt4pfj6BRhavoIUefgJ/QFV67
+	fCp6YEp6ypz91IMwhNIfFu8psV5AP1ZshiqHejN+DokoYjwoFD2a2O6xpr9J5wxZmtbY57BiFrC4X
+	QkM0lKoYdMG6pjfJYSQ+i/66Li6YteRYALUDamVO2ccd5M0meCba/uvkKsTbWp65VnoZ9f96DKMQ0
+	Sowrz8NYQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jESac-0005Y1-Cd; Wed, 18 Mar 2020 06:54:06 +0000
-Received: from mail-eopbgr10052.outbound.protection.outlook.com ([40.107.1.52]
- helo=EUR02-HE1-obe.outbound.protection.outlook.com)
+	id 1jEVAs-0008HC-5g; Wed, 18 Mar 2020 09:39:42 +0000
+Received: from mail-am6eur05on2061c.outbound.protection.outlook.com
+ ([2a01:111:f400:7e1b::61c]
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jESaY-0005XN-Hu
- for linux-nvme@lists.infradead.org; Wed, 18 Mar 2020 06:54:04 +0000
+ id 1jEVAn-0008GW-Mi
+ for linux-nvme@lists.infradead.org; Wed, 18 Mar 2020 09:39:40 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jHnq+kVhFGnUEcDawMQ4rXYEqZ2aUb385RwKvfRFP7KCk/Njd13FK4xqdRl9luHCO1OGxAxD2HIYzwcvMrd8OYq9QbTfCP7Dr5UdEqCt5wXDAWPc+ZSHXkwffFrG2wQrAAgemnoRyvm8Qa30og9FRqqUO64D5YIQUa3AjX8yIeUOdfa0DQWkt79zsNNrAw3Dh8nLrxjhCxUgK5zS6jbArfVTbvsDGZU8F2Tc8owNVVG4lx60CDEjvPhdWs07aYix66EXDbHpS6wWitmqJB9Fa/JJF2+CKMvsmiEs0i3puMHmWvFS1UazgVnSTFWdWK8SdymM64UI/q7ZhUAIVjvX4g==
+ b=ir3mIixVZf1ab4sS2s24lxVINoMFJrXD7Demj5Hf6M0y8aGkxfzP50Wx8Qc4DxkIfbKBYdz+/5WfG6kkZPba0jfOGfv9kNp5+Gg3mIFaNz9zOEUjnGBdDQYJ7lCb4A/av1iNnlcGK8gZdX0hubFCxtDbDEG/T+VO5elMzz1C7IZZ7szsjeCBhCQzu6FSWPKSn+CgB5YeU9uTwiMKZ0KVQ6WHbNfDAxkn15HxLgRyRO18qAHpFKTGHAew5nSWoyvvaZt5PCzTv5uBeb4bD2nHpPqMyoHLN6h6m5chfjzz7JjJBwZifkWSU8FYyp5M+YZbwryeOTHjJkbzW0ynrf3uMA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2kyAfmRvZnTYHz8UcV11hZPEC6TDUg/L9OU0qLVzhzE=;
- b=d1Vu4FaM1vT9i57N3TI7M16CHyNOIBnKCYV/gkFHwe9N34JecE8psWQawvZjKU/dhh0ZIYIXEM8XoXxT7LAIDKu/KnmK7Bc5OpTFzqwKChKXDfZPzkkpDOD5pz68+y97NeSZgMR0U96FRONV6dcQ6xgYwjL72MrO4tslx/uap+R5p2LA4//IUYBs0MyFUGU52Iuo463Ekqe7QqiXyYPnpNEob3uNMtt7TYxzQsnkhisYWUH/Td6RQxk5xDKfWZhhNYhWm79Mv+eufFDayaBgcSdT10f2KnOmKH48rWK/hwbJU+2O7mvcX/Wz3dRH3KJXBNRlJ9+aAy1kPTlCMmjFIg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
- dkim=pass header.d=mellanox.com; arc=none
+ bh=R7Sm69Ceh0+hq5hyeMYdVuP5YKwc0JPmBc2p8EwwGvo=;
+ b=lHfHQbmfwW0+TZKKLsLGyx5rFHoBbHKXufQOoaiTaKQPeKeWsZiimOvfnkNVoiAnvKp1WX1jMFrj0Ze1SrNaQ7fddfV4bZcXDKUI9Dohw8jCmN3xLGftCm7BmefhPojzOO+4Glbv6XZG02dFujGzqYip13t48EToTGlHLdTzwsgcA/4ly0psTPYyvPMfBYG3FDR716j8MkD4v4ZDtkQRBNepPxtcU2p/4aUQGN3/oTW2PZC+u4awK+poyhxhJuO8C+OFA0JXqV2vnm8UT/2PPNfValHVED9hqrjw9dJzDDw3lf/XyMEJYL3plpIKjRFOs2JkkWVYXytf5UUl2rUTeA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 193.47.165.251) smtp.rcpttodomain=redhat.com smtp.mailfrom=mellanox.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=mellanox.com;
+ dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2kyAfmRvZnTYHz8UcV11hZPEC6TDUg/L9OU0qLVzhzE=;
- b=snyBK6Ie0XwC7+GL11zLCGA7cxz2k7gMXSxvdmd7fOgVusJaxgfCGXwbyAe3lZA3U+zj0go6ky9T/CVczpYr35H+h0ytj+hzpcVHiO5av0vCvRUjWa+ETya9xtfP/cS1gS6b+0mc5FRu4YjDGtbCHNTd+QnGLLOWFT6akxeSLKo=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=leonro@mellanox.com; 
-Received: from AM6PR05MB6408.eurprd05.prod.outlook.com (20.179.5.215) by
- AM6PR05MB4200.eurprd05.prod.outlook.com (52.135.160.144) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2814.22; Wed, 18 Mar 2020 06:53:58 +0000
-Received: from AM6PR05MB6408.eurprd05.prod.outlook.com
- ([fe80::c99f:9130:561f:dea0]) by AM6PR05MB6408.eurprd05.prod.outlook.com
- ([fe80::c99f:9130:561f:dea0%3]) with mapi id 15.20.2814.021; Wed, 18 Mar 2020
- 06:53:58 +0000
-Date: Wed, 18 Mar 2020 08:53:55 +0200
-From: Leon Romanovsky <leonro@mellanox.com>
-To: Max Gurtovoy <maxg@mellanox.com>
+ bh=R7Sm69Ceh0+hq5hyeMYdVuP5YKwc0JPmBc2p8EwwGvo=;
+ b=QDOhVidBnHnTUUNBY8qM8EMOeOwlGsFtphv2oTLnyqTugo+AbdrAVUh5P1nqdrZBkrjffJpSb8lxoCQti1Cf2V4/Nht+9G0ggEJJlgHSl4tH7o4jH2PSOCwb2rbSLIxW6pg5jT+25mo/aDsnYArPgQPrpOtiEHiaygJ/fjQvHWc=
+Received: from DBBPR09CA0019.eurprd09.prod.outlook.com (2603:10a6:10:c0::31)
+ by AM7PR05MB7073.eurprd05.prod.outlook.com (2603:10a6:20b:1a5::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2835.18; Wed, 18 Mar
+ 2020 09:39:33 +0000
+Received: from DB5EUR03FT006.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:10:c0:cafe::40) by DBBPR09CA0019.outlook.office365.com
+ (2603:10a6:10:c0::31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2814.19 via Frontend
+ Transport; Wed, 18 Mar 2020 09:39:33 +0000
+Authentication-Results: spf=pass (sender IP is 193.47.165.251)
+ smtp.mailfrom=mellanox.com; redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=pass action=none header.from=mellanox.com;
+Received-SPF: Pass (protection.outlook.com: domain of mellanox.com designates
+ 193.47.165.251 as permitted sender)
+ receiver=protection.outlook.com; 
+ client-ip=193.47.165.251; helo=mtlcas13.mtl.com;
+Received: from mtlcas13.mtl.com (193.47.165.251) by
+ DB5EUR03FT006.mail.protection.outlook.com (10.152.20.106) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.2814.13 via Frontend Transport; Wed, 18 Mar 2020 09:39:33 +0000
+Received: from MTLCAS13.mtl.com (10.0.8.78) by mtlcas13.mtl.com (10.0.8.78)
+ with Microsoft SMTP Server (TLS) id 15.0.1178.4; Wed, 18 Mar 2020 11:39:31
+ +0200
+Received: from MTLCAS01.mtl.com (10.0.8.71) by MTLCAS13.mtl.com (10.0.8.78)
+ with Microsoft SMTP Server (TLS) id 15.0.1178.4 via Frontend Transport; Wed,
+ 18 Mar 2020 11:39:31 +0200
+Received: from [172.27.15.134] (172.27.15.134) by MTLCAS01.mtl.com (10.0.8.71)
+ with Microsoft SMTP Server (TLS) id 14.3.468.0;
+ Wed, 18 Mar 2020 11:39:29 +0200
 Subject: Re: [PATCH 3/5] nvmet-rdma: use SRQ per completion vector
-Message-ID: <20200318065355.GQ3351@unreal>
+To: Leon Romanovsky <leonro@mellanox.com>
 References: <20200317134030.152833-1-maxg@mellanox.com>
- <20200317134030.152833-4-maxg@mellanox.com>
-Content-Disposition: inline
-In-Reply-To: <20200317134030.152833-4-maxg@mellanox.com>
-X-ClientProxiedBy: PR3P189CA0022.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:102:52::27) To AM6PR05MB6408.eurprd05.prod.outlook.com
- (2603:10a6:20b:b8::23)
+ <20200317134030.152833-4-maxg@mellanox.com> <20200318065355.GQ3351@unreal>
+From: Max Gurtovoy <maxg@mellanox.com>
+Message-ID: <1c551706-0938-61b4-793a-fa751b0d4f94@mellanox.com>
+Date: Wed, 18 Mar 2020 11:39:22 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost (2a00:a040:183:2d::393) by
- PR3P189CA0022.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:52::27) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2814.21 via Frontend Transport; Wed, 18 Mar 2020 06:53:57 +0000
-X-Originating-IP: [2a00:a040:183:2d::393]
-X-MS-PublicTrafficType: Email
+In-Reply-To: <20200318065355.GQ3351@unreal>
+Content-Language: en-US
+X-Originating-IP: [172.27.15.134]
+X-EOPAttributedMessage: 0
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 635ef51e-e853-4dae-7161-08d7cb0921b0
-X-MS-TrafficTypeDiagnostic: AM6PR05MB4200:|AM6PR05MB4200:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR05MB42004E37D7D6DDD57EDE0061B0F70@AM6PR05MB4200.eurprd05.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-Forefront-Antispam-Report: CIP:193.47.165.251; IPV:; CTRY:IL; EFV:NLI;
+ SFV:NSPM;
+ SFS:(10009020)(4636009)(346002)(376002)(396003)(136003)(39860400002)(199004)(46966005)(54906003)(186003)(6636002)(47076004)(16526019)(2616005)(107886003)(37006003)(4326008)(8936002)(6862004)(31686004)(81166006)(16576012)(26005)(316002)(2906002)(31696002)(30864003)(36756003)(86362001)(478600001)(81156014)(53546011)(8676002)(356004)(6666004)(5660300002)(70586007)(336012)(70206006)(21314003)(3940600001);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:AM7PR05MB7073; H:mtlcas13.mtl.com; FPR:;
+ SPF:Pass; LANG:en; PTR:InfoDomainNonexistent; A:1; 
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 117a5d72-315c-4913-a849-08d7cb20441f
+X-MS-TrafficTypeDiagnostic: AM7PR05MB7073:
+X-Microsoft-Antispam-PRVS: <AM7PR05MB7073D9E53E27FD147C334F9CB6F70@AM7PR05MB7073.eurprd05.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-Forefront-PRVS: 03468CBA43
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10009020)(7916004)(4636009)(376002)(39860400002)(366004)(136003)(396003)(346002)(199004)(6636002)(5660300002)(33656002)(81166006)(6862004)(107886003)(8676002)(81156014)(8936002)(33716001)(66946007)(52116002)(86362001)(6496006)(9686003)(4326008)(6486002)(66476007)(66556008)(30864003)(478600001)(2906002)(316002)(186003)(1076003)(16526019)(21314003);
- DIR:OUT; SFP:1101; SCL:1; SRVR:AM6PR05MB4200;
- H:AM6PR05MB6408.eurprd05.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; 
-Received-SPF: None (protection.outlook.com: mellanox.com does not designate
- permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: piBYFQodVnp0NMXecQQKCoL+Bu1Ykwpx/cW5LSJlsFpM+Ikau+/2YUBy6mGpGvO720H3eLZglfa8hqZKi5wT5xrEM6+ukJzylgqEOVtQDjJqYQJbV/959Vzo1s3v+2uPMu06ggiRRCwlf2rHCHbVJMTDg8Oo/DJBIthIh0ey7dz9N0klZPEUVi8uCJNGH4mB9RIA4zK73/+HmHG2+jx/bJ1SOABGS5lHPVepL/0tnOkllOaWl4WEJzdns7NoUE8OZpWECgN21n2xBNthYpdvH9+9uRgelrqKlt0L6qAeCAzy/GCNpU/1PIwdOIPUCWJgbiXKfelwMCLbespzg7K4DJHVmlkNYNa2EKsoxxLCfK+vM+ZJJrQOvL8ozLPb/jaEdj6dykrkIeuENVkhb+cmoO3DKYl3Ehyt3a+aATUQgyJPG6wb43u4fSXXjBDCCOHGFtYz8WaK+oD10rqXNe8+vdf/0H0cyKtwFO2xMEEznJE=
-X-MS-Exchange-AntiSpam-MessageData: OifVJGDOuG3eQoYrNHAs0LcOgIzw3AoYQGc2rmKYkI1ODpZkhJyDd+Nr7fgKJ2VLvhtQzTUW8HBpTbqXsOVsPcvZzNveqM3T6LySFnSbafVYCkqEqyZYOzlDwG8sRda4RNbohcWBjIApdndrinEHdYaV+tVWztGSF29N6ewWWYc=
+X-Microsoft-Antispam-Message-Info: p1cUmJyPuMT3Z4F/scjowxXclCq5axu1NIFDi1B2cKRhk9+KSpNTM5aW196EesiAWcazakeEKwleV/8mjGUv4Jqs342ZqmFrTG8qCsies4CueNQMxtrguBqYBIo++fSdbQUwf+y0bZY17inBKQ0cQsAhNkJsSLtcZr/yyEPzx2kzkH9bHnrEmMPM2v4W556+O6dw1fHg8p4IQQb71BreYIonkAHWpmlBj0X2XAUmNbEk+8r9OD82PF55JOJ+6UKUjZzPomF0UVzBcyK5rG+9D2A94jdClvm8oSjsgPQtvArcPTSd/RJskiDqNCFYFV4fBTVOXIZ11eNTofm8XZAWyzqXz7e8+inE8nDRYpngeB+gE1eSDFmVUAgkrkZ6AvcNqmx55LMknzZcfAo5uOPYNl3mpJ0SxU8fjm7dMYeXgYCi3jJ4ZxJjOKH/UJDVUP0/WnkNjhJpF/CI3P+Hva/O4j4IUo92IP6t3oX4+thq7IvX5vcWbCSdhVizNDOcx7HtNR87oPWWPmlAQeact21DJvo/nXumn3Sl9FCCY9nvJt62tKnpvQBMolH4gn0pazcF
 X-OriginatorOrg: Mellanox.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 635ef51e-e853-4dae-7161-08d7cb0921b0
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2020 06:53:57.9268 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2020 09:39:33.5959 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 117a5d72-315c-4913-a849-08d7cb20441f
 X-MS-Exchange-CrossTenant-Id: a652971c-7d2e-4d9b-a6a4-d149256f461b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aKhKTnrXWHlUU33V5Wc0voqXANWe7Ox7GS0JszUN/5LRjYGlQiE/75ikBP+Vq0tiMSnZBSaiaizH036K8EgcvQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR05MB4200
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a652971c-7d2e-4d9b-a6a4-d149256f461b; Ip=[193.47.165.251];
+ Helo=[mtlcas13.mtl.com]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR05MB7073
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200317_235402_769786_F2F2F55F 
-X-CRM114-Status: GOOD (  23.14  )
+X-CRM114-CacheID: sfid-20200318_023938_339697_13D368AA 
+X-CRM114-Status: GOOD (  18.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,420 +143,430 @@ Cc: loberman@redhat.com, bvanassche@acm.org, vladimirk@mellanox.com,
  linux-nvme@lists.infradead.org, idanb@mellanox.com, dledford@redhat.com,
  jgg@mellanox.com, oren@mellanox.com, kbusch@kernel.org, hch@lst.de,
  sagi@grimberg.me
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Mar 17, 2020 at 03:40:28PM +0200, Max Gurtovoy wrote:
-> In order to save resource allocation and utilize the completion
-> locality in a better way (compared to SRQ per device that exist today),
-> allocate Shared Receive Queues (SRQs) per completion vector. Associate
-> each created QP/CQ with an appropriate SRQ according to the queue index.
-> This association will reduce the lock contention in the fast path
-> (compared to SRQ per device solution) and increase the locality in
-> memory buffers. Add new module parameter for SRQ size to adjust it
-> according to the expected load. User should make sure the size is >= 256
-> to avoid lack of resources.
->
-> Signed-off-by: Max Gurtovoy <maxg@mellanox.com>
-> ---
->  drivers/nvme/target/rdma.c | 204 +++++++++++++++++++++++++++++++++------------
->  1 file changed, 153 insertions(+), 51 deletions(-)
->
-> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-> index 04062af..f560257 100644
-> --- a/drivers/nvme/target/rdma.c
-> +++ b/drivers/nvme/target/rdma.c
-> @@ -18,6 +18,7 @@
->  #include <asm/unaligned.h>
->
->  #include <rdma/ib_verbs.h>
-> +#include <rdma/srq_set.h>
->  #include <rdma/rdma_cm.h>
->  #include <rdma/rw.h>
->
-> @@ -31,6 +32,8 @@
->  #define NVMET_RDMA_MAX_INLINE_SGE		4
->  #define NVMET_RDMA_MAX_INLINE_DATA_SIZE		max_t(int, SZ_16K, PAGE_SIZE)
->
-> +struct nvmet_rdma_srq;
-> +
->  struct nvmet_rdma_cmd {
->  	struct ib_sge		sge[NVMET_RDMA_MAX_INLINE_SGE + 1];
->  	struct ib_cqe		cqe;
-> @@ -38,7 +41,7 @@ struct nvmet_rdma_cmd {
->  	struct scatterlist	inline_sg[NVMET_RDMA_MAX_INLINE_SGE];
->  	struct nvme_command     *nvme_cmd;
->  	struct nvmet_rdma_queue	*queue;
-> -	struct ib_srq		*srq;
-> +	struct nvmet_rdma_srq   *nsrq;
->  };
->
->  enum {
-> @@ -80,6 +83,7 @@ struct nvmet_rdma_queue {
->  	struct ib_cq		*cq;
->  	atomic_t		sq_wr_avail;
->  	struct nvmet_rdma_device *dev;
-> +	struct nvmet_rdma_srq   *nsrq;
->  	spinlock_t		state_lock;
->  	enum nvmet_rdma_queue_state state;
->  	struct nvmet_cq		nvme_cq;
-> @@ -97,17 +101,24 @@ struct nvmet_rdma_queue {
->
->  	int			idx;
->  	int			host_qid;
-> +	int			comp_vector;
->  	int			recv_queue_size;
->  	int			send_queue_size;
->
->  	struct list_head	queue_list;
->  };
->
-> +struct nvmet_rdma_srq {
-> +	struct ib_srq            *srq;
-> +	struct nvmet_rdma_cmd    *cmds;
-> +	struct nvmet_rdma_device *ndev;
-> +};
-> +
->  struct nvmet_rdma_device {
->  	struct ib_device	*device;
->  	struct ib_pd		*pd;
-> -	struct ib_srq		*srq;
-> -	struct nvmet_rdma_cmd	*srq_cmds;
-> +	struct nvmet_rdma_srq	**srqs;
-> +	int			srq_count;
->  	size_t			srq_size;
->  	struct kref		ref;
->  	struct list_head	entry;
-> @@ -119,6 +130,16 @@ struct nvmet_rdma_device {
->  module_param_named(use_srq, nvmet_rdma_use_srq, bool, 0444);
->  MODULE_PARM_DESC(use_srq, "Use shared receive queue.");
->
-> +static int srq_size_set(const char *val, const struct kernel_param *kp);
-> +static const struct kernel_param_ops srq_size_ops = {
-> +	.set = srq_size_set,
-> +	.get = param_get_int,
-> +};
-> +
-> +static int nvmet_rdma_srq_size = 1024;
-> +module_param_cb(srq_size, &srq_size_ops, &nvmet_rdma_srq_size, 0644);
-> +MODULE_PARM_DESC(srq_size, "set Shared Receive Queue (SRQ) size, should >= 256 (default: 1024)");
-> +
 
-Why do you need this? Do you expect users to change this parameter for
-every different workload?
+On 3/18/2020 8:53 AM, Leon Romanovsky wrote:
+> On Tue, Mar 17, 2020 at 03:40:28PM +0200, Max Gurtovoy wrote:
+>> In order to save resource allocation and utilize the completion
+>> locality in a better way (compared to SRQ per device that exist today),
+>> allocate Shared Receive Queues (SRQs) per completion vector. Associate
+>> each created QP/CQ with an appropriate SRQ according to the queue index.
+>> This association will reduce the lock contention in the fast path
+>> (compared to SRQ per device solution) and increase the locality in
+>> memory buffers. Add new module parameter for SRQ size to adjust it
+>> according to the expected load. User should make sure the size is >= 256
+>> to avoid lack of resources.
+>>
+>> Signed-off-by: Max Gurtovoy <maxg@mellanox.com>
+>> ---
+>>   drivers/nvme/target/rdma.c | 204 +++++++++++++++++++++++++++++++++------------
+>>   1 file changed, 153 insertions(+), 51 deletions(-)
+>>
+>> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+>> index 04062af..f560257 100644
+>> --- a/drivers/nvme/target/rdma.c
+>> +++ b/drivers/nvme/target/rdma.c
+>> @@ -18,6 +18,7 @@
+>>   #include <asm/unaligned.h>
+>>
+>>   #include <rdma/ib_verbs.h>
+>> +#include <rdma/srq_set.h>
+>>   #include <rdma/rdma_cm.h>
+>>   #include <rdma/rw.h>
+>>
+>> @@ -31,6 +32,8 @@
+>>   #define NVMET_RDMA_MAX_INLINE_SGE		4
+>>   #define NVMET_RDMA_MAX_INLINE_DATA_SIZE		max_t(int, SZ_16K, PAGE_SIZE)
+>>
+>> +struct nvmet_rdma_srq;
+>> +
+>>   struct nvmet_rdma_cmd {
+>>   	struct ib_sge		sge[NVMET_RDMA_MAX_INLINE_SGE + 1];
+>>   	struct ib_cqe		cqe;
+>> @@ -38,7 +41,7 @@ struct nvmet_rdma_cmd {
+>>   	struct scatterlist	inline_sg[NVMET_RDMA_MAX_INLINE_SGE];
+>>   	struct nvme_command     *nvme_cmd;
+>>   	struct nvmet_rdma_queue	*queue;
+>> -	struct ib_srq		*srq;
+>> +	struct nvmet_rdma_srq   *nsrq;
+>>   };
+>>
+>>   enum {
+>> @@ -80,6 +83,7 @@ struct nvmet_rdma_queue {
+>>   	struct ib_cq		*cq;
+>>   	atomic_t		sq_wr_avail;
+>>   	struct nvmet_rdma_device *dev;
+>> +	struct nvmet_rdma_srq   *nsrq;
+>>   	spinlock_t		state_lock;
+>>   	enum nvmet_rdma_queue_state state;
+>>   	struct nvmet_cq		nvme_cq;
+>> @@ -97,17 +101,24 @@ struct nvmet_rdma_queue {
+>>
+>>   	int			idx;
+>>   	int			host_qid;
+>> +	int			comp_vector;
+>>   	int			recv_queue_size;
+>>   	int			send_queue_size;
+>>
+>>   	struct list_head	queue_list;
+>>   };
+>>
+>> +struct nvmet_rdma_srq {
+>> +	struct ib_srq            *srq;
+>> +	struct nvmet_rdma_cmd    *cmds;
+>> +	struct nvmet_rdma_device *ndev;
+>> +};
+>> +
+>>   struct nvmet_rdma_device {
+>>   	struct ib_device	*device;
+>>   	struct ib_pd		*pd;
+>> -	struct ib_srq		*srq;
+>> -	struct nvmet_rdma_cmd	*srq_cmds;
+>> +	struct nvmet_rdma_srq	**srqs;
+>> +	int			srq_count;
+>>   	size_t			srq_size;
+>>   	struct kref		ref;
+>>   	struct list_head	entry;
+>> @@ -119,6 +130,16 @@ struct nvmet_rdma_device {
+>>   module_param_named(use_srq, nvmet_rdma_use_srq, bool, 0444);
+>>   MODULE_PARM_DESC(use_srq, "Use shared receive queue.");
+>>
+>> +static int srq_size_set(const char *val, const struct kernel_param *kp);
+>> +static const struct kernel_param_ops srq_size_ops = {
+>> +	.set = srq_size_set,
+>> +	.get = param_get_int,
+>> +};
+>> +
+>> +static int nvmet_rdma_srq_size = 1024;
+>> +module_param_cb(srq_size, &srq_size_ops, &nvmet_rdma_srq_size, 0644);
+>> +MODULE_PARM_DESC(srq_size, "set Shared Receive Queue (SRQ) size, should >= 256 (default: 1024)");
+>> +
+> Why do you need this? Do you expect users to change this parameter for
+> every different workload?
+
+No. I want to help users to control their memory consumption that is 
+very important in systems/storage-nodes with limited resources, instead 
+of setting a values that might be over-consuming for them.
+
+>
+>
+>>   static DEFINE_IDA(nvmet_rdma_queue_ida);
+>>   static LIST_HEAD(nvmet_rdma_queue_list);
+>>   static DEFINE_MUTEX(nvmet_rdma_queue_mutex);
+>> @@ -139,6 +160,17 @@ static int nvmet_rdma_alloc_rsp(struct nvmet_rdma_device *ndev,
+>>
+>>   static const struct nvmet_fabrics_ops nvmet_rdma_ops;
+>>
+>> +static int srq_size_set(const char *val, const struct kernel_param *kp)
+>> +{
+>> +	int n = 0, ret;
+>> +
+>> +	ret = kstrtoint(val, 10, &n);
+>> +	if (ret != 0 || n < 256)
+>> +		return -EINVAL;
+>> +
+>> +	return param_set_int(val, kp);
+>> +}
+>> +
+>>   static int num_pages(int len)
+>>   {
+>>   	return 1 + (((len - 1) & PAGE_MASK) >> PAGE_SHIFT);
+>> @@ -462,8 +494,8 @@ static int nvmet_rdma_post_recv(struct nvmet_rdma_device *ndev,
+>>   		cmd->sge[0].addr, cmd->sge[0].length,
+>>   		DMA_FROM_DEVICE);
+>>
+>> -	if (cmd->srq)
+>> -		ret = ib_post_srq_recv(cmd->srq, &cmd->wr, NULL);
+>> +	if (cmd->nsrq)
+>> +		ret = ib_post_srq_recv(cmd->nsrq->srq, &cmd->wr, NULL);
+>>   	else
+>>   		ret = ib_post_recv(cmd->queue->cm_id->qp, &cmd->wr, NULL);
+>>
+>> @@ -841,30 +873,82 @@ static void nvmet_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc)
+>>   	nvmet_rdma_handle_command(queue, rsp);
+>>   }
+>>
+>> -static void nvmet_rdma_destroy_srq(struct nvmet_rdma_device *ndev)
+>> +static void nvmet_rdma_destroy_srq(struct nvmet_rdma_srq *nsrq)
+>> +{
+>> +	nvmet_rdma_free_cmds(nsrq->ndev, nsrq->cmds, nsrq->ndev->srq_size, false);
+>> +	rdma_srq_put(nsrq->ndev->pd, nsrq->srq);
+>> +
+>> +	kfree(nsrq);
+>> +}
+>> +
+>> +static void nvmet_rdma_destroy_srqs(struct nvmet_rdma_device *ndev)
+>>   {
+>> -	if (!ndev->srq)
+>> +	int i;
+>> +
+>> +	if (!ndev->srqs)
+>>   		return;
+>>
+>> -	nvmet_rdma_free_cmds(ndev, ndev->srq_cmds, ndev->srq_size, false);
+>> -	ib_destroy_srq(ndev->srq);
+>> +	for (i = 0; i < ndev->srq_count; i++)
+>> +		nvmet_rdma_destroy_srq(ndev->srqs[i]);
+>> +
+>> +	rdma_srq_set_destroy(ndev->pd);
+>> +	kfree(ndev->srqs);
+>> +	ndev->srqs = NULL;
+>> +	ndev->srq_count = 0;
+>> +	ndev->srq_size = 0;
+>>   }
+>>
+>> -static int nvmet_rdma_init_srq(struct nvmet_rdma_device *ndev)
+>> +static struct nvmet_rdma_srq *
+>> +nvmet_rdma_init_srq(struct nvmet_rdma_device *ndev)
+>>   {
+>> -	struct ib_srq_init_attr srq_attr = { NULL, };
+>> +	size_t srq_size = ndev->srq_size;
+>> +	struct nvmet_rdma_srq *nsrq;
+>>   	struct ib_srq *srq;
+>> -	size_t srq_size;
+>>   	int ret, i;
+>>
+>> -	srq_size = 4095;	/* XXX: tune */
+>> +	nsrq = kzalloc(sizeof(*nsrq), GFP_KERNEL);
+>> +	if (!nsrq)
+>> +		return ERR_PTR(-ENOMEM);
+>>
+>> -	srq_attr.attr.max_wr = srq_size;
+>> -	srq_attr.attr.max_sge = 1 + ndev->inline_page_count;
+>> -	srq_attr.attr.srq_limit = 0;
+>> -	srq_attr.srq_type = IB_SRQT_BASIC;
+>> -	srq = ib_create_srq(ndev->pd, &srq_attr);
+>> -	if (IS_ERR(srq)) {
+>> +	srq = rdma_srq_get(ndev->pd);
+>> +	if (!srq) {
+>> +		ret = -EAGAIN;
+>> +		goto out_free_nsrq;
+>> +	}
+>> +
+>> +	nsrq->cmds = nvmet_rdma_alloc_cmds(ndev, srq_size, false);
+>> +	if (IS_ERR(nsrq->cmds)) {
+>> +		ret = PTR_ERR(nsrq->cmds);
+>> +		goto out_put_srq;
+>> +	}
+>> +
+>> +	nsrq->srq = srq;
+>> +	nsrq->ndev = ndev;
+>> +
+>> +	for (i = 0; i < srq_size; i++) {
+>> +		nsrq->cmds[i].nsrq = nsrq;
+>> +		ret = nvmet_rdma_post_recv(ndev, &nsrq->cmds[i]);
+>> +		if (ret)
+>> +			goto out_free_cmds;
+>> +	}
+>> +
+>> +	return nsrq;
+>> +
+>> +out_free_cmds:
+>> +	nvmet_rdma_free_cmds(ndev, nsrq->cmds, srq_size, false);
+>> +out_put_srq:
+>> +	rdma_srq_put(ndev->pd, srq);
+>> +out_free_nsrq:
+>> +	kfree(nsrq);
+>> +	return ERR_PTR(ret);
+>> +}
+>> +
+>> +static int nvmet_rdma_init_srqs(struct nvmet_rdma_device *ndev)
+>> +{
+>> +	struct ib_srq_init_attr srq_attr = { NULL, };
+>> +	int i, ret;
+>> +
+>> +	if (!ndev->device->attrs.max_srq_wr || !ndev->device->attrs.max_srq) {
+>>   		/*
+>>   		 * If SRQs aren't supported we just go ahead and use normal
+>>   		 * non-shared receive queues.
+>> @@ -873,31 +957,44 @@ static int nvmet_rdma_init_srq(struct nvmet_rdma_device *ndev)
+>>   		return 0;
+>>   	}
+>>
+>> -	ndev->srq_cmds = nvmet_rdma_alloc_cmds(ndev, srq_size, false);
+>> -	if (IS_ERR(ndev->srq_cmds)) {
+>> -		ret = PTR_ERR(ndev->srq_cmds);
+>> -		goto out_destroy_srq;
+>> -	}
+>> +	ndev->srq_size = min(ndev->device->attrs.max_srq_wr,
+>> +			     nvmet_rdma_srq_size);
+>> +	ndev->srq_count = min(ndev->device->num_comp_vectors,
+>> +			      ndev->device->attrs.max_srq);
+>>
+>> -	ndev->srq = srq;
+>> -	ndev->srq_size = srq_size;
+>> +	ndev->srqs = kcalloc(ndev->srq_count, sizeof(*ndev->srqs), GFP_KERNEL);
+>> +	if (!ndev->srqs)
+>> +		return -ENOMEM;
+>>
+>> -	for (i = 0; i < srq_size; i++) {
+>> -		ndev->srq_cmds[i].srq = srq;
+>> -		ret = nvmet_rdma_post_recv(ndev, &ndev->srq_cmds[i]);
+>> -		if (ret)
+>> -			goto out_free_cmds;
+>> +	srq_attr.attr.max_wr = ndev->srq_size;
+>> +	srq_attr.attr.max_sge = 2;
+>> +	srq_attr.attr.srq_limit = 0;
+>> +	srq_attr.srq_type = IB_SRQT_BASIC;
+>> +	ret = rdma_srq_set_init(ndev->pd, ndev->srq_count, &srq_attr);
+>> +	if (ret)
+>> +		goto err_free;
+>> +
+>> +	for (i = 0; i < ndev->srq_count; i++) {
+>> +		ndev->srqs[i] = nvmet_rdma_init_srq(ndev);
+>> +		if (IS_ERR(ndev->srqs[i]))
+>> +			goto err_srq;
+>>   	}
+>>
+>>   	return 0;
+>>
+>> -out_free_cmds:
+>> -	nvmet_rdma_free_cmds(ndev, ndev->srq_cmds, ndev->srq_size, false);
+>> -out_destroy_srq:
+>> -	ib_destroy_srq(srq);
+>> +err_srq:
+>> +	while (--i >= 0)
+>> +		nvmet_rdma_destroy_srq(ndev->srqs[i]);
+>> +	rdma_srq_set_destroy(ndev->pd);
+>> +err_free:
+>> +	kfree(ndev->srqs);
+>> +	ndev->srqs = NULL;
+>> +	ndev->srq_count = 0;
+>> +	ndev->srq_size = 0;
+>>   	return ret;
+>>   }
+>>
+>> +
+>>   static void nvmet_rdma_free_dev(struct kref *ref)
+>>   {
+>>   	struct nvmet_rdma_device *ndev =
+>> @@ -907,7 +1004,7 @@ static void nvmet_rdma_free_dev(struct kref *ref)
+>>   	list_del(&ndev->entry);
+>>   	mutex_unlock(&device_list_mutex);
+>>
+>> -	nvmet_rdma_destroy_srq(ndev);
+>> +	nvmet_rdma_destroy_srqs(ndev);
+>>   	ib_dealloc_pd(ndev->pd);
+>>
+>>   	kfree(ndev);
+>> @@ -953,7 +1050,7 @@ static void nvmet_rdma_free_dev(struct kref *ref)
+>>   		goto out_free_dev;
+>>
+>>   	if (nvmet_rdma_use_srq) {
+>> -		ret = nvmet_rdma_init_srq(ndev);
+>> +		ret = nvmet_rdma_init_srqs(ndev);
+>>   		if (ret)
+>>   			goto out_free_pd;
+>>   	}
+>> @@ -977,14 +1074,8 @@ static int nvmet_rdma_create_queue_ib(struct nvmet_rdma_queue *queue)
+>>   {
+>>   	struct ib_qp_init_attr qp_attr;
+>>   	struct nvmet_rdma_device *ndev = queue->dev;
+>> -	int comp_vector, nr_cqe, ret, i;
+>> +	int nr_cqe, ret, i;
+>>
+>> -	/*
+>> -	 * Spread the io queues across completion vectors,
+>> -	 * but still keep all admin queues on vector 0.
+>> -	 */
+>> -	comp_vector = !queue->host_qid ? 0 :
+>> -		queue->idx % ndev->device->num_comp_vectors;
+>>
+>>   	/*
+>>   	 * Reserve CQ slots for RECV + RDMA_READ/RDMA_WRITE + RDMA_SEND.
+>> @@ -992,7 +1083,7 @@ static int nvmet_rdma_create_queue_ib(struct nvmet_rdma_queue *queue)
+>>   	nr_cqe = queue->recv_queue_size + 2 * queue->send_queue_size;
+>>
+>>   	queue->cq = ib_alloc_cq(ndev->device, queue,
+>> -			nr_cqe + 1, comp_vector,
+>> +			nr_cqe + 1, queue->comp_vector,
+>>   			IB_POLL_WORKQUEUE);
+>>   	if (IS_ERR(queue->cq)) {
+>>   		ret = PTR_ERR(queue->cq);
+>> @@ -1014,8 +1105,8 @@ static int nvmet_rdma_create_queue_ib(struct nvmet_rdma_queue *queue)
+>>   	qp_attr.cap.max_send_sge = max(ndev->device->attrs.max_sge_rd,
+>>   					ndev->device->attrs.max_send_sge);
+>>
+>> -	if (ndev->srq) {
+>> -		qp_attr.srq = ndev->srq;
+>> +	if (queue->nsrq) {
+>> +		qp_attr.srq = queue->nsrq->srq;
+>>   	} else {
+>>   		/* +1 for drain */
+>>   		qp_attr.cap.max_recv_wr = 1 + queue->recv_queue_size;
+>> @@ -1034,7 +1125,7 @@ static int nvmet_rdma_create_queue_ib(struct nvmet_rdma_queue *queue)
+>>   		 __func__, queue->cq->cqe, qp_attr.cap.max_send_sge,
+>>   		 qp_attr.cap.max_send_wr, queue->cm_id);
+>>
+>> -	if (!ndev->srq) {
+>> +	if (!queue->nsrq) {
+>>   		for (i = 0; i < queue->recv_queue_size; i++) {
+>>   			queue->cmds[i].queue = queue;
+>>   			ret = nvmet_rdma_post_recv(ndev, &queue->cmds[i]);
+>> @@ -1070,7 +1161,7 @@ static void nvmet_rdma_free_queue(struct nvmet_rdma_queue *queue)
+>>   	nvmet_sq_destroy(&queue->nvme_sq);
+>>
+>>   	nvmet_rdma_destroy_queue_ib(queue);
+>> -	if (!queue->dev->srq) {
+>> +	if (!queue->nsrq) {
+>>   		nvmet_rdma_free_cmds(queue->dev, queue->cmds,
+>>   				queue->recv_queue_size,
+>>   				!queue->host_qid);
+>> @@ -1182,13 +1273,22 @@ static int nvmet_rdma_cm_reject(struct rdma_cm_id *cm_id,
+>>   		goto out_destroy_sq;
+>>   	}
+>>
+>> +	/*
+>> +	 * Spread the io queues across completion vectors,
+>> +	 * but still keep all admin queues on vector 0.
+>> +	 */
+>> +	queue->comp_vector = !queue->host_qid ? 0 :
+>> +		queue->idx % ndev->device->num_comp_vectors;
+>> +
+>>   	ret = nvmet_rdma_alloc_rsps(queue);
+>>   	if (ret) {
+>>   		ret = NVME_RDMA_CM_NO_RSC;
+>>   		goto out_ida_remove;
+>>   	}
+>>
+>> -	if (!ndev->srq) {
+>> +	if (ndev->srqs) {
+>> +		queue->nsrq = ndev->srqs[queue->comp_vector % ndev->srq_count];
+>> +	} else {
+>>   		queue->cmds = nvmet_rdma_alloc_cmds(ndev,
+>>   				queue->recv_queue_size,
+>>   				!queue->host_qid);
+>> @@ -1209,10 +1309,12 @@ static int nvmet_rdma_cm_reject(struct rdma_cm_id *cm_id,
+>>   	return queue;
+>>
+>>   out_free_cmds:
+>> -	if (!ndev->srq) {
+>> +	if (!queue->nsrq) {
+>>   		nvmet_rdma_free_cmds(queue->dev, queue->cmds,
+>>   				queue->recv_queue_size,
+>>   				!queue->host_qid);
+>> +	} else {
+>> +		queue->nsrq = NULL;
+> I have no idea if it right or not, but the logic seems strange.
+> If queue->nsrq exists, you nullify the pointer, is it done on purpose?
+
+Yes. nsrq is a pointer taken from ndev->srqs and was allocated by the 
+device.
 
 
->  static DEFINE_IDA(nvmet_rdma_queue_ida);
->  static LIST_HEAD(nvmet_rdma_queue_list);
->  static DEFINE_MUTEX(nvmet_rdma_queue_mutex);
-> @@ -139,6 +160,17 @@ static int nvmet_rdma_alloc_rsp(struct nvmet_rdma_device *ndev,
 >
->  static const struct nvmet_fabrics_ops nvmet_rdma_ops;
+> Thanks
 >
-> +static int srq_size_set(const char *val, const struct kernel_param *kp)
-> +{
-> +	int n = 0, ret;
-> +
-> +	ret = kstrtoint(val, 10, &n);
-> +	if (ret != 0 || n < 256)
-> +		return -EINVAL;
-> +
-> +	return param_set_int(val, kp);
-> +}
-> +
->  static int num_pages(int len)
->  {
->  	return 1 + (((len - 1) & PAGE_MASK) >> PAGE_SHIFT);
-> @@ -462,8 +494,8 @@ static int nvmet_rdma_post_recv(struct nvmet_rdma_device *ndev,
->  		cmd->sge[0].addr, cmd->sge[0].length,
->  		DMA_FROM_DEVICE);
->
-> -	if (cmd->srq)
-> -		ret = ib_post_srq_recv(cmd->srq, &cmd->wr, NULL);
-> +	if (cmd->nsrq)
-> +		ret = ib_post_srq_recv(cmd->nsrq->srq, &cmd->wr, NULL);
->  	else
->  		ret = ib_post_recv(cmd->queue->cm_id->qp, &cmd->wr, NULL);
->
-> @@ -841,30 +873,82 @@ static void nvmet_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc)
->  	nvmet_rdma_handle_command(queue, rsp);
->  }
->
-> -static void nvmet_rdma_destroy_srq(struct nvmet_rdma_device *ndev)
-> +static void nvmet_rdma_destroy_srq(struct nvmet_rdma_srq *nsrq)
-> +{
-> +	nvmet_rdma_free_cmds(nsrq->ndev, nsrq->cmds, nsrq->ndev->srq_size, false);
-> +	rdma_srq_put(nsrq->ndev->pd, nsrq->srq);
-> +
-> +	kfree(nsrq);
-> +}
-> +
-> +static void nvmet_rdma_destroy_srqs(struct nvmet_rdma_device *ndev)
->  {
-> -	if (!ndev->srq)
-> +	int i;
-> +
-> +	if (!ndev->srqs)
->  		return;
->
-> -	nvmet_rdma_free_cmds(ndev, ndev->srq_cmds, ndev->srq_size, false);
-> -	ib_destroy_srq(ndev->srq);
-> +	for (i = 0; i < ndev->srq_count; i++)
-> +		nvmet_rdma_destroy_srq(ndev->srqs[i]);
-> +
-> +	rdma_srq_set_destroy(ndev->pd);
-> +	kfree(ndev->srqs);
-> +	ndev->srqs = NULL;
-> +	ndev->srq_count = 0;
-> +	ndev->srq_size = 0;
->  }
->
-> -static int nvmet_rdma_init_srq(struct nvmet_rdma_device *ndev)
-> +static struct nvmet_rdma_srq *
-> +nvmet_rdma_init_srq(struct nvmet_rdma_device *ndev)
->  {
-> -	struct ib_srq_init_attr srq_attr = { NULL, };
-> +	size_t srq_size = ndev->srq_size;
-> +	struct nvmet_rdma_srq *nsrq;
->  	struct ib_srq *srq;
-> -	size_t srq_size;
->  	int ret, i;
->
-> -	srq_size = 4095;	/* XXX: tune */
-> +	nsrq = kzalloc(sizeof(*nsrq), GFP_KERNEL);
-> +	if (!nsrq)
-> +		return ERR_PTR(-ENOMEM);
->
-> -	srq_attr.attr.max_wr = srq_size;
-> -	srq_attr.attr.max_sge = 1 + ndev->inline_page_count;
-> -	srq_attr.attr.srq_limit = 0;
-> -	srq_attr.srq_type = IB_SRQT_BASIC;
-> -	srq = ib_create_srq(ndev->pd, &srq_attr);
-> -	if (IS_ERR(srq)) {
-> +	srq = rdma_srq_get(ndev->pd);
-> +	if (!srq) {
-> +		ret = -EAGAIN;
-> +		goto out_free_nsrq;
-> +	}
-> +
-> +	nsrq->cmds = nvmet_rdma_alloc_cmds(ndev, srq_size, false);
-> +	if (IS_ERR(nsrq->cmds)) {
-> +		ret = PTR_ERR(nsrq->cmds);
-> +		goto out_put_srq;
-> +	}
-> +
-> +	nsrq->srq = srq;
-> +	nsrq->ndev = ndev;
-> +
-> +	for (i = 0; i < srq_size; i++) {
-> +		nsrq->cmds[i].nsrq = nsrq;
-> +		ret = nvmet_rdma_post_recv(ndev, &nsrq->cmds[i]);
-> +		if (ret)
-> +			goto out_free_cmds;
-> +	}
-> +
-> +	return nsrq;
-> +
-> +out_free_cmds:
-> +	nvmet_rdma_free_cmds(ndev, nsrq->cmds, srq_size, false);
-> +out_put_srq:
-> +	rdma_srq_put(ndev->pd, srq);
-> +out_free_nsrq:
-> +	kfree(nsrq);
-> +	return ERR_PTR(ret);
-> +}
-> +
-> +static int nvmet_rdma_init_srqs(struct nvmet_rdma_device *ndev)
-> +{
-> +	struct ib_srq_init_attr srq_attr = { NULL, };
-> +	int i, ret;
-> +
-> +	if (!ndev->device->attrs.max_srq_wr || !ndev->device->attrs.max_srq) {
->  		/*
->  		 * If SRQs aren't supported we just go ahead and use normal
->  		 * non-shared receive queues.
-> @@ -873,31 +957,44 @@ static int nvmet_rdma_init_srq(struct nvmet_rdma_device *ndev)
->  		return 0;
->  	}
->
-> -	ndev->srq_cmds = nvmet_rdma_alloc_cmds(ndev, srq_size, false);
-> -	if (IS_ERR(ndev->srq_cmds)) {
-> -		ret = PTR_ERR(ndev->srq_cmds);
-> -		goto out_destroy_srq;
-> -	}
-> +	ndev->srq_size = min(ndev->device->attrs.max_srq_wr,
-> +			     nvmet_rdma_srq_size);
-> +	ndev->srq_count = min(ndev->device->num_comp_vectors,
-> +			      ndev->device->attrs.max_srq);
->
-> -	ndev->srq = srq;
-> -	ndev->srq_size = srq_size;
-> +	ndev->srqs = kcalloc(ndev->srq_count, sizeof(*ndev->srqs), GFP_KERNEL);
-> +	if (!ndev->srqs)
-> +		return -ENOMEM;
->
-> -	for (i = 0; i < srq_size; i++) {
-> -		ndev->srq_cmds[i].srq = srq;
-> -		ret = nvmet_rdma_post_recv(ndev, &ndev->srq_cmds[i]);
-> -		if (ret)
-> -			goto out_free_cmds;
-> +	srq_attr.attr.max_wr = ndev->srq_size;
-> +	srq_attr.attr.max_sge = 2;
-> +	srq_attr.attr.srq_limit = 0;
-> +	srq_attr.srq_type = IB_SRQT_BASIC;
-> +	ret = rdma_srq_set_init(ndev->pd, ndev->srq_count, &srq_attr);
-> +	if (ret)
-> +		goto err_free;
-> +
-> +	for (i = 0; i < ndev->srq_count; i++) {
-> +		ndev->srqs[i] = nvmet_rdma_init_srq(ndev);
-> +		if (IS_ERR(ndev->srqs[i]))
-> +			goto err_srq;
->  	}
->
->  	return 0;
->
-> -out_free_cmds:
-> -	nvmet_rdma_free_cmds(ndev, ndev->srq_cmds, ndev->srq_size, false);
-> -out_destroy_srq:
-> -	ib_destroy_srq(srq);
-> +err_srq:
-> +	while (--i >= 0)
-> +		nvmet_rdma_destroy_srq(ndev->srqs[i]);
-> +	rdma_srq_set_destroy(ndev->pd);
-> +err_free:
-> +	kfree(ndev->srqs);
-> +	ndev->srqs = NULL;
-> +	ndev->srq_count = 0;
-> +	ndev->srq_size = 0;
->  	return ret;
->  }
->
-> +
->  static void nvmet_rdma_free_dev(struct kref *ref)
->  {
->  	struct nvmet_rdma_device *ndev =
-> @@ -907,7 +1004,7 @@ static void nvmet_rdma_free_dev(struct kref *ref)
->  	list_del(&ndev->entry);
->  	mutex_unlock(&device_list_mutex);
->
-> -	nvmet_rdma_destroy_srq(ndev);
-> +	nvmet_rdma_destroy_srqs(ndev);
->  	ib_dealloc_pd(ndev->pd);
->
->  	kfree(ndev);
-> @@ -953,7 +1050,7 @@ static void nvmet_rdma_free_dev(struct kref *ref)
->  		goto out_free_dev;
->
->  	if (nvmet_rdma_use_srq) {
-> -		ret = nvmet_rdma_init_srq(ndev);
-> +		ret = nvmet_rdma_init_srqs(ndev);
->  		if (ret)
->  			goto out_free_pd;
->  	}
-> @@ -977,14 +1074,8 @@ static int nvmet_rdma_create_queue_ib(struct nvmet_rdma_queue *queue)
->  {
->  	struct ib_qp_init_attr qp_attr;
->  	struct nvmet_rdma_device *ndev = queue->dev;
-> -	int comp_vector, nr_cqe, ret, i;
-> +	int nr_cqe, ret, i;
->
-> -	/*
-> -	 * Spread the io queues across completion vectors,
-> -	 * but still keep all admin queues on vector 0.
-> -	 */
-> -	comp_vector = !queue->host_qid ? 0 :
-> -		queue->idx % ndev->device->num_comp_vectors;
->
->  	/*
->  	 * Reserve CQ slots for RECV + RDMA_READ/RDMA_WRITE + RDMA_SEND.
-> @@ -992,7 +1083,7 @@ static int nvmet_rdma_create_queue_ib(struct nvmet_rdma_queue *queue)
->  	nr_cqe = queue->recv_queue_size + 2 * queue->send_queue_size;
->
->  	queue->cq = ib_alloc_cq(ndev->device, queue,
-> -			nr_cqe + 1, comp_vector,
-> +			nr_cqe + 1, queue->comp_vector,
->  			IB_POLL_WORKQUEUE);
->  	if (IS_ERR(queue->cq)) {
->  		ret = PTR_ERR(queue->cq);
-> @@ -1014,8 +1105,8 @@ static int nvmet_rdma_create_queue_ib(struct nvmet_rdma_queue *queue)
->  	qp_attr.cap.max_send_sge = max(ndev->device->attrs.max_sge_rd,
->  					ndev->device->attrs.max_send_sge);
->
-> -	if (ndev->srq) {
-> -		qp_attr.srq = ndev->srq;
-> +	if (queue->nsrq) {
-> +		qp_attr.srq = queue->nsrq->srq;
->  	} else {
->  		/* +1 for drain */
->  		qp_attr.cap.max_recv_wr = 1 + queue->recv_queue_size;
-> @@ -1034,7 +1125,7 @@ static int nvmet_rdma_create_queue_ib(struct nvmet_rdma_queue *queue)
->  		 __func__, queue->cq->cqe, qp_attr.cap.max_send_sge,
->  		 qp_attr.cap.max_send_wr, queue->cm_id);
->
-> -	if (!ndev->srq) {
-> +	if (!queue->nsrq) {
->  		for (i = 0; i < queue->recv_queue_size; i++) {
->  			queue->cmds[i].queue = queue;
->  			ret = nvmet_rdma_post_recv(ndev, &queue->cmds[i]);
-> @@ -1070,7 +1161,7 @@ static void nvmet_rdma_free_queue(struct nvmet_rdma_queue *queue)
->  	nvmet_sq_destroy(&queue->nvme_sq);
->
->  	nvmet_rdma_destroy_queue_ib(queue);
-> -	if (!queue->dev->srq) {
-> +	if (!queue->nsrq) {
->  		nvmet_rdma_free_cmds(queue->dev, queue->cmds,
->  				queue->recv_queue_size,
->  				!queue->host_qid);
-> @@ -1182,13 +1273,22 @@ static int nvmet_rdma_cm_reject(struct rdma_cm_id *cm_id,
->  		goto out_destroy_sq;
->  	}
->
-> +	/*
-> +	 * Spread the io queues across completion vectors,
-> +	 * but still keep all admin queues on vector 0.
-> +	 */
-> +	queue->comp_vector = !queue->host_qid ? 0 :
-> +		queue->idx % ndev->device->num_comp_vectors;
-> +
->  	ret = nvmet_rdma_alloc_rsps(queue);
->  	if (ret) {
->  		ret = NVME_RDMA_CM_NO_RSC;
->  		goto out_ida_remove;
->  	}
->
-> -	if (!ndev->srq) {
-> +	if (ndev->srqs) {
-> +		queue->nsrq = ndev->srqs[queue->comp_vector % ndev->srq_count];
-> +	} else {
->  		queue->cmds = nvmet_rdma_alloc_cmds(ndev,
->  				queue->recv_queue_size,
->  				!queue->host_qid);
-> @@ -1209,10 +1309,12 @@ static int nvmet_rdma_cm_reject(struct rdma_cm_id *cm_id,
->  	return queue;
->
->  out_free_cmds:
-> -	if (!ndev->srq) {
-> +	if (!queue->nsrq) {
->  		nvmet_rdma_free_cmds(queue->dev, queue->cmds,
->  				queue->recv_queue_size,
->  				!queue->host_qid);
-> +	} else {
-> +		queue->nsrq = NULL;
-
-I have no idea if it right or not, but the logic seems strange.
-If queue->nsrq exists, you nullify the pointer, is it done on purpose?
-
-Thanks
-
->  	}
->  out_free_responses:
->  	nvmet_rdma_free_rsps(queue);
-> --
-> 1.8.3.1
->
+>>   	}
+>>   out_free_responses:
+>>   	nvmet_rdma_free_rsps(queue);
+>> --
+>> 1.8.3.1
+>>
 
 _______________________________________________
 linux-nvme mailing list
