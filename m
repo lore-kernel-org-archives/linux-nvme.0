@@ -2,62 +2,86 @@ Return-Path: <SRS0=qC0g=5D=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DF51C10DCE
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Mar 2020 16:15:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 405F6C5ACD6
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Mar 2020 16:49:19 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D255D20663
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Mar 2020 16:15:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 120A720714
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Mar 2020 16:49:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="P/Eh7aqg"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D255D20663
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="I4NKljGO"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 120A720714
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=fwQR3KjienyryecmzJ3mWfiyZbBa+diIUcdcX2rdToY=; b=P/Eh7aqgq9WZ1J
-	W2JLSl0FlCvs8mk/Srf5hAXkPQBSgLkmCUWy3FN2y3t4QOALmuhBIXKDS+C6RWdb6LGtgEqWQObCv
-	ZRDfrECsyq9/fhWpWvNBMTswO2K0zeKIPcjBwNOWcWcEecdpdyREz6xhM5apLWHIBuZla3JcOzTD2
-	T25cOTiLZmviJH4nPyuk8eQvTcPOpV0ff1rjc7IdWqBpQTB7TYQir7HyUOXGrcKIsu31EG3zXNSov
-	8OLrp9OT7+ktccBXnM58gzwMX4HxTkFSIUkiQy2hL/vZ9rF8CdKe6Pti7HcGELqc0OUgyIesLYdRy
-	GBH0zI0GvYPWM0kFN4sw==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=Bfs7W+ptbZKu5DJTfAPPrFK3hmmQOE6lqGHIbkrnWyM=; b=I4NKljGO3rU162RYjBcum1/Oz
+	0Z6aejMQouEZRsj8Frichq5DuP4YNEqOXOqcqMOqkdfrFwvi7VlZzetl6bXaQEHLY5GKkoIzFS7zB
+	+KILxcIFk+irAr7CfrVn3LVzkLY4eH4AQByTuFOaqPGmuvS8uD6/gjuGFgthO3Sdlf1unTTwJOom3
+	MVz0+vIfnlbSnF3s/G5+vwvsoOoDB5hPhJysE+HbKqL1URqsuYcEGWxc6Xw4yunNCXnXXUZhD4h5n
+	xbvA4AWcSp4xyn2N/n/IYG8ooH7lKof7a04xzQVJMxIX1goqd37Ruc9KfFa4/yxBK86D7bJWGe/x+
+	AbChlr0HA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jEbM3-0006PG-VS; Wed, 18 Mar 2020 16:15:39 +0000
-Received: from mail-il-dmz.mellanox.com ([193.47.165.129] helo=mellanox.co.il)
- by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jEaDp-0001wE-Oy
- for linux-nvme@lists.infradead.org; Wed, 18 Mar 2020 15:03:09 +0000
-Received: from Internal Mail-Server by MTLPINE2 (envelope-from
- maxg@mellanox.com)
- with ESMTPS (AES256-SHA encrypted); 18 Mar 2020 17:02:57 +0200
-Received: from mtr-vdi-031.wap.labs.mlnx. (mtr-vdi-031.wap.labs.mlnx
- [10.209.102.136])
- by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 02IF2vEL008733;
- Wed, 18 Mar 2020 17:02:57 +0200
-From: Max Gurtovoy <maxg@mellanox.com>
-To: linux-nvme@lists.infradead.org, sagi@grimberg.me, hch@lst.de,
- loberman@redhat.com, bvanassche@acm.org, linux-rdma@vger.kernel.org
-Subject: [PATCH v2 1/5] IB/core: add a simple SRQ pool per PD
-Date: Wed, 18 Mar 2020 17:02:53 +0200
-Message-Id: <20200318150257.198402-2-maxg@mellanox.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20200318150257.198402-1-maxg@mellanox.com>
-References: <20200318150257.198402-1-maxg@mellanox.com>
+	id 1jEbsZ-0000Do-HR; Wed, 18 Mar 2020 16:49:15 +0000
+Received: from mail-pf1-f193.google.com ([209.85.210.193])
+ by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jEbsV-0000D7-IN
+ for linux-nvme@lists.infradead.org; Wed, 18 Mar 2020 16:49:13 +0000
+Received: by mail-pf1-f193.google.com with SMTP id d25so6177844pfn.6
+ for <linux-nvme@lists.infradead.org>; Wed, 18 Mar 2020 09:49:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=/G3r/xeCxGZTAlVzP2ub1+8AEE5sUfY+MvfaFPM87ow=;
+ b=JRVl6EBeyy+g2NmjJLc36vJ0xDSuRQGUsQCSwpBuUw4f8F9sj5QhdDiv1I5KVyIg3R
+ wxYVfRajl2Lbbar4MdwgdTx2z6dbN31zchVwcsOeSaUJOz/+3Pz1sjVgcwnV+FoAgqyi
+ cPA3h1/v8Yq4+bSZysihwBjVAjTKBTHUX3M2HM8bwtsdGcrWKmiD8ERfo/El2Eh85lZx
+ zk54k2R4iZ2bw7YS0ACmBJvT1vwMULndzFVqlVBIsc/x+HCZ/EBWn9f/rRnEC1sEzAWa
+ lj7fMJm/ROUvuIA5OHluWeWbRlPWwLbrpH7kpgbx3FXS89j+OW+ECEKTBnQ1+EdkRofr
+ nHkw==
+X-Gm-Message-State: ANhLgQ2LZ7gc365dPm3y0FCD/vkvQuwPo9iSIcKBPKDuMu+5x6BSdn+C
+ 2i8d5DFNINeDI4zFDw8GwNU=
+X-Google-Smtp-Source: ADFU+vvwR+K0XSg40QhsT41OAeaL5MRi1vcoN72jKymd26IUNJ5jsDPS3mCfVQMpyI5Jogbg4ZHdrA==
+X-Received: by 2002:a62:6244:: with SMTP id w65mr5291995pfb.89.1584550149943; 
+ Wed, 18 Mar 2020 09:49:09 -0700 (PDT)
+Received: from ?IPv6:2601:647:4802:9070:dc11:3a20:fec0:f648?
+ ([2601:647:4802:9070:dc11:3a20:fec0:f648])
+ by smtp.gmail.com with ESMTPSA id f8sm7070999pfd.57.2020.03.18.09.49.08
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 18 Mar 2020 09:49:09 -0700 (PDT)
+Subject: Re: broken CRCs at NVMeF target with SIW & NVMe/TCP transports
+To: Krishnamraju Eraparaju <krishna2@chelsio.com>
+References: <a8e7b61a-b238-2cc3-d3c8-743ad1f8c8ee@grimberg.me>
+ <20200316162008.GA7001@chelsio.com> <20200317124533.GB12316@lst.de>
+ <OFB2589549.AD31F8B8-ON0025852E.005A969A-0025852E.005A96A3@notes.na.collabserv.com>
+ <70b13212-faa6-d634-8beb-55ba39891d7f@grimberg.me>
+ <20200317191743.GA22065@chelsio.com>
+ <38f79fb7-841a-9faa-e1f8-2de4b9f21118@grimberg.me>
+ <20200317203152.GA14946@chelsio.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <3f42f881-0309-b86a-4b70-af23c58960fc@grimberg.me>
+Date: Wed, 18 Mar 2020 09:49:07 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Firefox/60.0 Thunderbird/60.9.0
 MIME-Version: 1.0
+In-Reply-To: <20200317203152.GA14946@chelsio.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200318_080306_243510_96EA64CF 
-X-CRM114-Status: GOOD (  13.48  )
+X-CRM114-CacheID: sfid-20200318_094911_606365_C5033F60 
+X-CRM114-Status: GOOD (  14.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,195 +93,44 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: rgirase@redhat.com, vladimirk@mellanox.com, shlomin@mellanox.com,
- leonro@mellanox.com, dledford@redhat.com, jgg@mellanox.com, oren@mellanox.com,
- kbusch@kernel.org, Max Gurtovoy <maxg@mellanox.com>, idanb@mellanox.com
-Content-Type: text/plain; charset="us-ascii"
+Cc: linux-rdma@vger.kernel.org, Potnuri Bharat Teja <bharat@chelsio.com>,
+ Nirranjan Kirubaharan <nirranjan@chelsio.com>, linux-nvme@lists.infradead.org,
+ Bernard Metzler <BMT@zurich.ibm.com>, Christoph Hellwig <hch@lst.de>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-ULP's can use this API to create/destroy SRQ's with the same
-characteristics for implementing a logic that aimed to save resources
-without significant performance penalty (e.g. create SRQ per completion
-vector and use shared receive buffers for multiple controllers of the
-ULP).
 
-Signed-off-by: Max Gurtovoy <maxg@mellanox.com>
----
- drivers/infiniband/core/Makefile   |  2 +-
- drivers/infiniband/core/srq_pool.c | 75 ++++++++++++++++++++++++++++++++++++++
- drivers/infiniband/core/verbs.c    |  3 ++
- include/rdma/ib_verbs.h            |  4 ++
- include/rdma/srq_pool.h            | 18 +++++++++
- 5 files changed, 101 insertions(+), 1 deletion(-)
- create mode 100644 drivers/infiniband/core/srq_pool.c
- create mode 100644 include/rdma/srq_pool.h
+>> Thanks Krishna,
+>>
+>> I assume that this makes the issue go away?
+>> --
+>> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+>> index 11e10fe1760f..cc93e1949b2c 100644
+>> --- a/drivers/nvme/host/tcp.c
+>> +++ b/drivers/nvme/host/tcp.c
+>> @@ -889,7 +889,7 @@ static int nvme_tcp_try_send_data(struct
+>> nvme_tcp_request *req)
+>>                          flags |= MSG_MORE;
+>>
+>>                  /* can't zcopy slab pages */
+>> -               if (unlikely(PageSlab(page))) {
+>> +               if (unlikely(PageSlab(page)) || queue->data_digest) {
+>>                          ret = sock_no_sendpage(queue->sock, page,
+>> offset, len,
+>>                                          flags);
+>>                  } else {
+>> --
+> 
+> Unfortunately, issue is still occuring with this patch also.
+> 
+> Looks like the integrity of the data buffer right after the CRC
+> computation(data digest) is what causing this issue, despite the
+> buffer being sent via sendpage or no_sendpage.
 
-diff --git a/drivers/infiniband/core/Makefile b/drivers/infiniband/core/Makefile
-index d1b14887..ca377b0 100644
---- a/drivers/infiniband/core/Makefile
-+++ b/drivers/infiniband/core/Makefile
-@@ -12,7 +12,7 @@ ib_core-y :=			packer.o ud_header.o verbs.o cq.o rw.o sysfs.o \
- 				roce_gid_mgmt.o mr_pool.o addr.o sa_query.o \
- 				multicast.o mad.o smi.o agent.o mad_rmpp.o \
- 				nldev.o restrack.o counters.o ib_core_uverbs.o \
--				trace.o
-+				trace.o srq_pool.o
- 
- ib_core-$(CONFIG_SECURITY_INFINIBAND) += security.o
- ib_core-$(CONFIG_CGROUP_RDMA) += cgroup.o
-diff --git a/drivers/infiniband/core/srq_pool.c b/drivers/infiniband/core/srq_pool.c
-new file mode 100644
-index 0000000..68321f0
---- /dev/null
-+++ b/drivers/infiniband/core/srq_pool.c
-@@ -0,0 +1,75 @@
-+// SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB
-+/*
-+ * Copyright (c) 2020 Mellanox Technologies. All rights reserved.
-+ */
-+
-+#include <rdma/srq_pool.h>
-+
-+struct ib_srq *rdma_srq_pool_get(struct ib_pd *pd)
-+{
-+	struct ib_srq *srq;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&pd->srq_lock, flags);
-+	srq = list_first_entry_or_null(&pd->srqs, struct ib_srq, pd_entry);
-+	if (srq)
-+		list_del(&srq->pd_entry);
-+	spin_unlock_irqrestore(&pd->srq_lock, flags);
-+
-+	return srq;
-+}
-+EXPORT_SYMBOL(rdma_srq_pool_get);
-+
-+void rdma_srq_pool_put(struct ib_pd *pd, struct ib_srq *srq)
-+{
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&pd->srq_lock, flags);
-+	list_add(&srq->pd_entry, &pd->srqs);
-+	spin_unlock_irqrestore(&pd->srq_lock, flags);
-+}
-+EXPORT_SYMBOL(rdma_srq_pool_put);
-+
-+int rdma_srq_pool_init(struct ib_pd *pd, int nr,
-+		struct ib_srq_init_attr *srq_attr)
-+{
-+	struct ib_srq *srq;
-+	unsigned long flags;
-+	int ret, i;
-+
-+	for (i = 0; i < nr; i++) {
-+		srq = ib_create_srq(pd, srq_attr);
-+		if (IS_ERR(srq)) {
-+			ret = PTR_ERR(srq);
-+			goto out;
-+		}
-+
-+		spin_lock_irqsave(&pd->srq_lock, flags);
-+		list_add_tail(&srq->pd_entry, &pd->srqs);
-+		spin_unlock_irqrestore(&pd->srq_lock, flags);
-+	}
-+
-+	return 0;
-+out:
-+	rdma_srq_pool_destroy(pd);
-+	return ret;
-+}
-+EXPORT_SYMBOL(rdma_srq_pool_init);
-+
-+void rdma_srq_pool_destroy(struct ib_pd *pd)
-+{
-+	struct ib_srq *srq;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&pd->srq_lock, flags);
-+	while (!list_empty(&pd->srqs)) {
-+		srq = list_first_entry(&pd->srqs, struct ib_srq, pd_entry);
-+		list_del(&srq->pd_entry);
-+
-+		spin_unlock_irqrestore(&pd->srq_lock, flags);
-+		ib_destroy_srq(srq);
-+		spin_lock_irqsave(&pd->srq_lock, flags);
-+	}
-+	spin_unlock_irqrestore(&pd->srq_lock, flags);
-+}
-+EXPORT_SYMBOL(rdma_srq_pool_destroy);
-diff --git a/drivers/infiniband/core/verbs.c b/drivers/infiniband/core/verbs.c
-index e62c9df..0bb69d2 100644
---- a/drivers/infiniband/core/verbs.c
-+++ b/drivers/infiniband/core/verbs.c
-@@ -272,6 +272,8 @@ struct ib_pd *__ib_alloc_pd(struct ib_device *device, unsigned int flags,
- 	pd->__internal_mr = NULL;
- 	atomic_set(&pd->usecnt, 0);
- 	pd->flags = flags;
-+	spin_lock_init(&pd->srq_lock);
-+	INIT_LIST_HEAD(&pd->srqs);
- 
- 	pd->res.type = RDMA_RESTRACK_PD;
- 	rdma_restrack_set_task(&pd->res, caller);
-@@ -340,6 +342,7 @@ void ib_dealloc_pd_user(struct ib_pd *pd, struct ib_udata *udata)
- 		pd->__internal_mr = NULL;
- 	}
- 
-+	WARN_ON_ONCE(!list_empty(&pd->srqs));
- 	/* uverbs manipulates usecnt with proper locking, while the kabi
- 	   requires the caller to guarantee we can't race here. */
- 	WARN_ON(atomic_read(&pd->usecnt));
-diff --git a/include/rdma/ib_verbs.h b/include/rdma/ib_verbs.h
-index 1f779fa..1dcfefb 100644
---- a/include/rdma/ib_verbs.h
-+++ b/include/rdma/ib_verbs.h
-@@ -1517,6 +1517,9 @@ struct ib_pd {
- 
- 	u32			unsafe_global_rkey;
- 
-+	spinlock_t		srq_lock;
-+	struct list_head	srqs;
-+
- 	/*
- 	 * Implementation details of the RDMA core, don't use in drivers:
- 	 */
-@@ -1585,6 +1588,7 @@ struct ib_srq {
- 	void		       *srq_context;
- 	enum ib_srq_type	srq_type;
- 	atomic_t		usecnt;
-+	struct list_head	pd_entry; /* srq pool entry */
- 
- 	struct {
- 		struct ib_cq   *cq;
-diff --git a/include/rdma/srq_pool.h b/include/rdma/srq_pool.h
-new file mode 100644
-index 0000000..ee83896
---- /dev/null
-+++ b/include/rdma/srq_pool.h
-@@ -0,0 +1,18 @@
-+/* SPDX-License-Identifier: (GPL-2.0 OR Linux-OpenIB) */
-+/*
-+ * Copyright (c) 2020 Mellanox Technologies. All rights reserved.
-+ */
-+
-+#ifndef _RDMA_SRQ_POOL_H
-+#define _RDMA_SRQ_POOL_H
-+
-+#include <rdma/ib_verbs.h>
-+
-+struct ib_srq *rdma_srq_pool_get(struct ib_pd *pd);
-+void rdma_srq_pool_put(struct ib_pd *pd, struct ib_srq *srq);
-+
-+int rdma_srq_pool_init(struct ib_pd *pd, int nr,
-+		struct ib_srq_init_attr *srq_attr);
-+void rdma_srq_pool_destroy(struct ib_pd *pd);
-+
-+#endif /* _RDMA_SRQ_POOL_H */
--- 
-1.8.3.1
-
+I assume this happens with iSCSI as well? There is nothing special
+we are doing with respect to digest.
 
 _______________________________________________
 linux-nvme mailing list
