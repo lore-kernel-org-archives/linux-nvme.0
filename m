@@ -6,90 +6,99 @@ X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18B43C4332E
-	for <linux-nvme@archiver.kernel.org>; Thu, 19 Mar 2020 02:33:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7F80C4332D
+	for <linux-nvme@archiver.kernel.org>; Thu, 19 Mar 2020 04:02:27 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C65A820768
-	for <linux-nvme@archiver.kernel.org>; Thu, 19 Mar 2020 02:33:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7991420753
+	for <linux-nvme@archiver.kernel.org>; Thu, 19 Mar 2020 04:02:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="DjkqWRrC";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel-dk.20150623.gappssmtp.com header.i=@kernel-dk.20150623.gappssmtp.com header.b="WZxieGRu"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C65A820768
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="pc0kQYH4"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7991420753
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=acm.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
-	Message-ID:From:References:To:Subject:Reply-To:Cc:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Owner;
-	bh=0PIYY05PAX1/8qP5sr5kfKdtOj9seLlWlcAIJMHpjBY=; b=DjkqWRrCEugIa3K6ZSGUYYFPrK
-	1xuYZgYlYTI7Qa4CbBbBTkro71M/ZOJyTwZyqciJgleHn9MCZ/hnouYyF1mgOWfOAxoXFU656VEbM
-	oxbMIqnH0s+z+cV/HcDllS46ujkuxMAQsmf536BisIIEFKpfWxPw8Xe16umazS8JpxbMpfldC+fPb
-	llsVCqbZXq7xgE0UmeinaL3b5ef1Ofp4yP1z16C8edx6S94kDdhps7/KsGH9RDz7fmWlJmwLglDy6
-	O5bbhWoUwoTfQAenRiLruT7g8t48DG75SKOR9vKoc5WWuG6/NtbT3DUTgV5mTmG/ummPq7HKxO5QT
-	WIcLoOLw==;
+	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
+	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=S9Hqf7Mda3C0tY1JNnu075Jh1hjeRK/kA3HepwpicS4=; b=pc0kQYH4emMF7M
+	TspeBVhtrfF587P2eb1NnI437yIpD4DMMcqsboM4pRLmm7hXcVM1TiwD7Pq8a6H6VL1Ouz/RL8SID
+	ULmjhpvhcSrK9ZbJzOxEDC3/3WmJQqN96Y0bSi1uykUlhhv0qfI4LaaOq0WCFPDhG+FEHmVt8mphI
+	gNp/FWsQr5LzZd0/JUl9ySbGQ8jvCZ8EJ2jP68UHZ0IGvEf7gjTprBM1qy4Nas69z+Q4rCIgvTlYE
+	kmoDvOUrFQpikXpLKWSVwHeOfbkTPd9+ADkMmnP7q4z9v50oLJAtIXdAEplrWzDqO/VXRrMkA8TgW
+	4q0jFLCT53xxlI83jLjA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jEkzq-0006HT-Rv; Thu, 19 Mar 2020 02:33:22 +0000
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541])
+	id 1jEmNy-0003bJ-4G; Thu, 19 Mar 2020 04:02:22 +0000
+Received: from mail-pf1-f195.google.com ([209.85.210.195])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jEkzm-0006GP-GM
- for linux-nvme@lists.infradead.org; Thu, 19 Mar 2020 02:33:20 +0000
-Received: by mail-pg1-x541.google.com with SMTP id 7so372828pgr.2
- for <linux-nvme@lists.infradead.org>; Wed, 18 Mar 2020 19:33:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20150623.gappssmtp.com; s=20150623;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=EjNVr9kFH7X30sMQJNTPUOYsjcy43wz9zEQJSbFTct4=;
- b=WZxieGRujikBim2qam4pIwU7e/9eF4+fkH5NeJ5q+Vtvt5sYaYvF1NWMNTQHn/RCrk
- i6u8zQ3l3La6ZdTyk7K47ZcRROSYo75Te5+ttVrYVGNICaQ28XB3FUf7T182RKhEjJFW
- hWFrRk5t8xzTq3iUxIsmEHdfY1MkjI1XgbQwWL8tVdnVDFCO4Wy5kY81JWX2MNDXNdtV
- 2r9PhIE52EyTMYHHV0jDRd8ZdX0q5X1rdA2ZFl8P8nqAYgUarmWIbPu1WLPUE8pJYAJw
- zLNPdZ1pFSu3CwsdMS8knbtXiolSrYaJf1d6IpT6k8ISR+OQzdacnckt0584DiBOo1kk
- RXFA==
+ id 1jEmNv-0003aR-Gl
+ for linux-nvme@lists.infradead.org; Thu, 19 Mar 2020 04:02:20 +0000
+Received: by mail-pf1-f195.google.com with SMTP id b72so658885pfb.11
+ for <linux-nvme@lists.infradead.org>; Wed, 18 Mar 2020 21:02:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=EjNVr9kFH7X30sMQJNTPUOYsjcy43wz9zEQJSbFTct4=;
- b=tVlo/Elaum6qCtg8zufttMO29iWBa3MpMXaLDwxE52X6BAFMCj9onYoq6hmfTnfosp
- SSq8n3oJnJCYl0G/J7bem0EOei+qYgo7H3huOrv85xCMJhfUV6/0sUtdrtgEtVamIwDN
- 2rt/U+ALPwdD4oDripRpPYYcusIOQr3qj0gRieb2v8SFmKl2Pw96zjSvM758Ggv1wZVr
- fQ7fZv04kwOy4cfaTtjQBIfcnX/FrRSIdR6S42OOlbO3JrNohxUzc2QRMSoXCw6VmYX5
- 0Mp2kamr44LmZAzN6RUF/JLBu8Cn/1j79lMz3aQK51rYccNIKrwh6VXZtULfq3VUTHS/
- /rpg==
-X-Gm-Message-State: ANhLgQ1Rcu+hoKO8fYWOEzt/1/rpQ02xYKnCl/F+kNSJ5iJ/OA6XXAKs
- P2aWmHsbPSdWpve5f15w8L9NLPzOJlPKlA==
-X-Google-Smtp-Source: ADFU+vtz7WrmweFNNYyorhHQKr/MzlOa8y488KkXa+sklGKGHmGLv5sdYhmbKn98CgXina7J0BHUjA==
-X-Received: by 2002:a63:1547:: with SMTP id 7mr840741pgv.353.1584585196556;
- Wed, 18 Mar 2020 19:33:16 -0700 (PDT)
-Received: from [192.168.1.188] ([66.219.217.145])
- by smtp.gmail.com with ESMTPSA id f23sm257799pjp.35.2020.03.18.19.33.14
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=CS6j/dj+b0UdPfXca74cRX59NxtxC7h0wAYHH2FNfHA=;
+ b=PWPc8t5KISq1zHvlIJyuFXYoyhNKFuYrkWXCwcdx6pDL6PxBbtkkawUyFkYXLn5iEy
+ 21mVtK/WuVNPe/qXecPC/VKus/8ix+vh18i1spme9TZq0ukaLrz0yYjXMENnFzpFDsgj
+ YzAnpnaZk0pvEDkex4h8yFOuZLS9/JsjLVQJMByi7qmiI6llmlhxTKMRB2HY5XTjTGHB
+ tBzZzLex1K9eiWAfP/qDCZ4Rm3HRRgWXTTKO0craO/XnCRS5jKrNHNOfEvo8Ah1nR5H0
+ ERxWoLev870UVTEyYaEdBtmMbV/EEbW2BF/KfqpX7cPPdefESbFUSh1aMvZmzD1N8UkC
+ x2lA==
+X-Gm-Message-State: ANhLgQ0CnPcal9Rf4c9+KHcP61L3DcaVY2GhNgGcq8oK0eb4UWOYjOB0
+ D4YYLdQM9wPt8ieVhe+kkFhn6LoaxyM=
+X-Google-Smtp-Source: ADFU+vusO1JaNVfvuDAODDqmien8P0AqPsSWq6bSkBcLJkLuDhxFX8vcFUALvEyvUbWHGJg/U/6FSw==
+X-Received: by 2002:a63:9dc2:: with SMTP id i185mr1208717pgd.240.1584590536968; 
+ Wed, 18 Mar 2020 21:02:16 -0700 (PDT)
+Received: from ?IPv6:2601:647:4000:d7:84b7:c685:175f:6f9b?
+ ([2601:647:4000:d7:84b7:c685:175f:6f9b])
+ by smtp.gmail.com with ESMTPSA id fz3sm403037pjb.41.2020.03.18.21.02.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Mar 2020 19:33:15 -0700 (PDT)
-Subject: Re: Sighting: Kernel fault with large write (512k) and io_uring
-To: Sagi Grimberg <sagi@grimberg.me>,
- "Wunderlich, Mark" <mark.wunderlich@intel.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <MW3PR11MB4684AEE8587BFCC0A9F41DE4E5F70@MW3PR11MB4684.namprd11.prod.outlook.com>
- <4eaa3e21-833d-f6ec-3b14-58dd2022a381@grimberg.me>
-From: Jens Axboe <axboe@kernel.dk>
-Message-ID: <a09f5d36-63f8-ceaf-da3e-743ca88dd537@kernel.dk>
-Date: Wed, 18 Mar 2020 20:33:14 -0600
+ Wed, 18 Mar 2020 21:02:15 -0700 (PDT)
+Subject: Re: [PATCH v2 0/5] nvmet-rdma/srpt: SRQ per completion vector
+To: Max Gurtovoy <maxg@mellanox.com>, linux-nvme@lists.infradead.org,
+ sagi@grimberg.me, hch@lst.de, loberman@redhat.com, linux-rdma@vger.kernel.org
+References: <20200318150257.198402-1-maxg@mellanox.com>
+From: Bart Van Assche <bvanassche@acm.org>
+Autocrypt: addr=bvanassche@acm.org; prefer-encrypt=mutual; keydata=
+ mQENBFSOu4oBCADcRWxVUvkkvRmmwTwIjIJvZOu6wNm+dz5AF4z0FHW2KNZL3oheO3P8UZWr
+ LQOrCfRcK8e/sIs2Y2D3Lg/SL7qqbMehGEYcJptu6mKkywBfoYbtBkVoJ/jQsi2H0vBiiCOy
+ fmxMHIPcYxaJdXxrOG2UO4B60Y/BzE6OrPDT44w4cZA9DH5xialliWU447Bts8TJNa3lZKS1
+ AvW1ZklbvJfAJJAwzDih35LxU2fcWbmhPa7EO2DCv/LM1B10GBB/oQB5kvlq4aA2PSIWkqz4
+ 3SI5kCPSsygD6wKnbRsvNn2mIACva6VHdm62A7xel5dJRfpQjXj2snd1F/YNoNc66UUTABEB
+ AAG0JEJhcnQgVmFuIEFzc2NoZSA8YnZhbmFzc2NoZUBhY20ub3JnPokBOQQTAQIAIwUCVI67
+ igIbAwcLCQgHAwIBBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFcPTXFzhAJ8QkH/1AdXblKL65M
+ Y1Zk1bYKnkAb4a98LxCPm/pJBilvci6boefwlBDZ2NZuuYWYgyrehMB5H+q+Kq4P0IBbTqTa
+ jTPAANn62A6jwJ0FnCn6YaM9TZQjM1F7LoDX3v+oAkaoXuq0dQ4hnxQNu792bi6QyVdZUvKc
+ macVFVgfK9n04mL7RzjO3f+X4midKt/s+G+IPr4DGlrq+WH27eDbpUR3aYRk8EgbgGKvQFdD
+ CEBFJi+5ZKOArmJVBSk21RHDpqyz6Vit3rjep7c1SN8s7NhVi9cjkKmMDM7KYhXkWc10lKx2
+ RTkFI30rkDm4U+JpdAd2+tP3tjGf9AyGGinpzE2XY1K5AQ0EVI67igEIAKiSyd0nECrgz+H5
+ PcFDGYQpGDMTl8MOPCKw/F3diXPuj2eql4xSbAdbUCJzk2ETif5s3twT2ER8cUTEVOaCEUY3
+ eOiaFgQ+nGLx4BXqqGewikPJCe+UBjFnH1m2/IFn4T9jPZkV8xlkKmDUqMK5EV9n3eQLkn5g
+ lco+FepTtmbkSCCjd91EfThVbNYpVQ5ZjdBCXN66CKyJDMJ85HVr5rmXG/nqriTh6cv1l1Js
+ T7AFvvPjUPknS6d+BETMhTkbGzoyS+sywEsQAgA+BMCxBH4LvUmHYhpS+W6CiZ3ZMxjO8Hgc
+ ++w1mLeRUvda3i4/U8wDT3SWuHcB3DWlcppECLkAEQEAAYkBHwQYAQIACQUCVI67igIbDAAK
+ CRBxXD01xc4QCZ4dB/0QrnEasxjM0PGeXK5hcZMT9Eo998alUfn5XU0RQDYdwp6/kMEXMdmT
+ oH0F0xB3SQ8WVSXA9rrc4EBvZruWQ+5/zjVrhhfUAx12CzL4oQ9Ro2k45daYaonKTANYG22y
+ //x8dLe2Fv1By4SKGhmzwH87uXxbTJAUxiWIi1np0z3/RDnoVyfmfbbL1DY7zf2hYXLLzsJR
+ mSsED/1nlJ9Oq5fALdNEPgDyPUerqHxcmIub+pF0AzJoYHK5punqpqfGmqPbjxrJLPJfHVKy
+ goMj5DlBMoYqEgpbwdUYkH6QdizJJCur4icy8GUNbisFYABeoJ91pnD4IGei3MTdvINSZI5e
+Message-ID: <64006872-53be-d7fa-831f-a1e79302038e@acm.org>
+Date: Wed, 18 Mar 2020 21:02:13 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <4eaa3e21-833d-f6ec-3b14-58dd2022a381@grimberg.me>
+In-Reply-To: <20200318150257.198402-1-maxg@mellanox.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200318_193318_599599_D2509BE4 
-X-CRM114-Status: GOOD (  12.59  )
+X-CRM114-CacheID: sfid-20200318_210219_552909_4D9F87EE 
+X-CRM114-Status: GOOD (  10.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,51 +110,30 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Cc: rgirase@redhat.com, vladimirk@mellanox.com, shlomin@mellanox.com,
+ leonro@mellanox.com, dledford@redhat.com, jgg@mellanox.com, oren@mellanox.com,
+ kbusch@kernel.org, idanb@mellanox.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/18/20 7:12 PM, Sagi Grimberg wrote:
->> If I turn on FIO verification options ( --do_verify=1 --verify=crc32c ) I see the following fault for same 512k write I/O pattern:
->>
->> [ 4850.021884] BUG: stack guard page was hit at 00000000291034b3 (stack is 0000000040c9cc3e..00000000e65d9875)
->> [ 4850.022471] kernel stack overflow (page fault): 0000 [#1] SMP PTI
->> [ 4850.022829] CPU: 3 PID: 3744 Comm: fio Tainted: G           O      5.5.0-rc2stable+ #56
->> [ 4850.023298] Hardware name: Dell Inc. PowerEdge R740/00WGD1, BIOS 1.4.9 06/29/2018
->> [ 4850.023742] RIP: 0010:memcpy_erms+0x6/0x10
->> [ 4850.023982] Code: cc cc cc cc eb 1e 0f 1f 00 48 89 f8 48 89 d1 48 c1 e9 03 83 e2 07 f3 48 a5 89 d1 f3 a4 c3 66 0f 1f 44 00 00 48 89 f8 48 89 d1 <f3> a4 c3 0f 1f 80 00 00 00 00 48 89 f8 48 83 fa 20 72 7e 40 38 fe
->> [ 4850.025087] RSP: 0018:ffffb8ec09557b68 EFLAGS: 00010206
->> [ 4850.025392] RAX: ffff943ef5c2d840 RBX: ffff943ee9216500 RCX: 00000000000003e0
->> [ 4850.025808] RDX: 0000000000000800 RSI: ffffb8ec09558000 RDI: ffff943ef5c2dc60
->> [ 4850.026225] RBP: 0000000000080000 R08: ffffb8ec09557bd8 R09: 0000000000000080
->> [ 4850.026640] R10: ffffffffffffffc0 R11: 0000000000000000 R12: 0000000000000000
->> [ 4850.027056] R13: ffffb8ec09557be0 R14: ffffb8ec09557bb8 R15: 0000000000080000
->> [ 4850.027472] FS:  00007f5db8053700(0000) GS:ffff943eff040000(0000) knlGS:0000000000000000
->> [ 4850.027944] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->> [ 4850.028279] CR2: ffffb8ec09558000 CR3: 000000203a052006 CR4: 00000000007606e0
->> [ 4850.028695] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
->> [ 4850.029111] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
->> [ 4850.029527] PKRU: 55555554
->> [ 4850.029684] Call Trace:
->> [ 4850.029834]  io_setup_async_io+0x51/0xc0
->> [ 4850.030065]  io_write+0xe4/0x220
->> [ 4850.030256]  ? get_page_from_freelist+0x43f/0x1220
->> [ 4850.030538]  io_issue_sqe+0x419/0xac0
->> [ 4850.030752]  io_queue_sqe+0x13b/0x620
->> [ 4850.030967]  ? kmem_cache_alloc_bulk+0x32/0x230
-> 
-> This one looks related to io_uring and not nvme.
-> 
-> Jens?
+On 2020-03-18 08:02, Max Gurtovoy wrote:
+> I used RoCE link layer. For SRP, I used 1 server with RoCE loopback connection
+> (results are not mentioned below) for testing. Hopefully I'll get a tested-by
+> signature and feedback from Laurence and Rupesh on the SRP part during the review
+> process.
 
-Looks like you're running 5.5-rc2, which is a somewhat odd choice. I'd
-love to see if this reproduces in 5.5 as released, or current 5.6-rc6. I
-think this looks like an issue that was fixed previously.
+Hi Max,
 
--- 
-Jens Axboe
+The MAD code in ib_srpt is not triggered when using RoCE. Please also
+test SRP over IB.
 
+Additionally, how does this patch series affect SRP performance?
+
+Thanks,
+
+Bart.
 
 _______________________________________________
 linux-nvme mailing list
