@@ -2,126 +2,88 @@ Return-Path: <SRS0=OxAA=5E=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10B0FC4332D
-	for <linux-nvme@archiver.kernel.org>; Thu, 19 Mar 2020 13:54:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77F51C4332B
+	for <linux-nvme@archiver.kernel.org>; Thu, 19 Mar 2020 14:08:57 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CFE1E20663
-	for <linux-nvme@archiver.kernel.org>; Thu, 19 Mar 2020 13:54:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4B1F52137B
+	for <linux-nvme@archiver.kernel.org>; Thu, 19 Mar 2020 14:08:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="kt7GQlIF";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=Mellanox.com header.i=@Mellanox.com header.b="iavV5eIa"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CFE1E20663
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="RDNpZI92";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="NzNbbUsP"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4B1F52137B
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=dG1v8+uepTMIzf1eVdSj6N3d7/Xm/O+Wdn+zehzCuF0=; b=kt7GQlIFU0zA4B
-	3q9VuWlJBUAJX/H6OzkPHETwDsVNksISGaxEYtWA2IuS7dMBdrr/Dzmh2WGOdQ8M8ZV7hz3lpwN85
-	z1vlY8ric7bnC0g8IUwoPf1dPADnOsKNK1XG7lMZLOa0p9C5sJnSzD9dU2job4rj3QQV5w/bg+E9z
-	DZ5vnefC6w7xX0PqhKDvTqF/RLXZopeUAJipjmlS9n+Wt83g85CZ3PW6Ss2SU5WNaV/RIX2/ghpdo
-	SWwMZ5eAoaSUIk1M37pUeZ8DMgiV242/EqKF7r7dSx9V37VRbbsVDjCWli9rK2B68L10vDWa0krGg
-	QcYeHDhIU4fgowvz21dw==;
+	List-Owner; bh=tN0R7oZFxJuk/Bds/V+do8dpfboryAtzcHmBPKX/keM=; b=RDNpZI9210VBNY
+	nxEp30pV1L+B3OQFjwrtPIxUbYaFfl+FlcXoiKnLuV8CZDEJ2HkZ45o8QeRvglFLdDWCWXdXe4v2U
+	0k7KSaanm7ttgBQyke6EtRVwmpYB3TBqnGXXVrI+hLAl2JkT5FvLVGjQ58td7zv21GXYBpBEA21hy
+	DmyuS64pPyycuchaPhyxNgbxYtrsVj/Mmus+1WeWMxrDrszlWSmtXQOqnjnWLH0eZC/L0JhjzUTYg
+	xdz2RS2fURaUbxp7oANDbVqXUKKYjKk8hCuXjXf7rrjc1dGe1ZKgeAVwYNAg+9HU4UDAjlkkbBpy3
+	NVLZWi/fH4t3Vc5r6tfQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jEvcd-00017m-44; Thu, 19 Mar 2020 13:54:07 +0000
-Received: from mail-eopbgr150047.outbound.protection.outlook.com
- ([40.107.15.47] helo=EUR01-DB5-obe.outbound.protection.outlook.com)
+	id 1jEvqv-0007YA-LZ; Thu, 19 Mar 2020 14:08:53 +0000
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jEvcZ-00017B-R4
- for linux-nvme@lists.infradead.org; Thu, 19 Mar 2020 13:54:05 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DjZzcj+TqZb9GcVNfGaXbrLjC1V+c3Kpwwiqtmc0XKJjA4HoTYYCm/TMaKjKvloUAG7kyD+FMybBercngbOaw446PnSEEf0NAs5JeB+2qqhwB2eH8Tnq5Q/0zAMO+KOMNbYPq9HcOe/NGKvTMJ5ebzJN7n1PkfvF5D0rgx56XJAqlPvx6JfqyVOXW1axQM02INTs/hvR4ZrWujhzzMrElbPgLCIDDR+vGDNXrDCqfw4ZRizh4qgG/ExfIeePIxXQPFkkKp+PQq4LNJoeVTaVGQxD9c7UaQ7jCfQ2Q1UfoS7MSu82NwbCxeHflWqiIUziPR2sWzH8mkGocGgy+wH6Og==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j4rCbFSeHaAhrILgIORU7FJ6Ux83uyJHyHnKjNx1xnA=;
- b=ZXYa9d7r8Nav8YNWWvJB6uZMyLF51AaplRTL6c3nwKmvsHxqRfo82oCEBx/KuHQwE35a00dgoCMhfQeZDsewpNrxwwj1ijVRWnkidVewRVhuEN+3rI5/uPlWrMeipuFBhBp5hNv5C5vJg4h/R3X7+tz4DO7U/0xxgtCn5J8pQJeffN+zgGRyO/pSygp0iaH9Y80386EFoYnNAzzIsBDWR5LL7gbW54rDCIcDM4CVf1z4LCPGte98YxX6C8Yi+Pc6caEo5IY+qHp2Hd3L01/2I0Y8VJPyeZdw9eVzR22L0d7TpiWuldqJw+OQmmZnUcDkj26wCNXeer38Qi4u9zk3pA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
- dkim=pass header.d=mellanox.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j4rCbFSeHaAhrILgIORU7FJ6Ux83uyJHyHnKjNx1xnA=;
- b=iavV5eIaRUORe2KRjaxOIc4F8UH00idwlXKbm181s+3MOoZYVKbiiftPnhp57Kysn6pAIMqHNcMhWZAlcVki8eN7Y+zPhiTkP8yKIAKRLmxIa/VtmRFrrOva26brZa4buNCv9GN617zoT4WreGZTIw85fjcihz988HPtuRAOyOo=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=jgg@mellanox.com; 
-Received: from VI1PR05MB4141.eurprd05.prod.outlook.com (52.133.14.15) by
- VI1PR05MB6382.eurprd05.prod.outlook.com (20.179.27.206) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2835.18; Thu, 19 Mar 2020 13:54:00 +0000
-Received: from VI1PR05MB4141.eurprd05.prod.outlook.com
- ([fe80::18d2:a9ea:519:add3]) by VI1PR05MB4141.eurprd05.prod.outlook.com
- ([fe80::18d2:a9ea:519:add3%7]) with mapi id 15.20.2814.025; Thu, 19 Mar 2020
- 13:54:00 +0000
-Date: Thu, 19 Mar 2020 10:53:56 -0300
-From: Jason Gunthorpe <jgg@mellanox.com>
-To: Max Gurtovoy <maxg@mellanox.com>
-Subject: Re: [PATCH v2 3/5] nvmet-rdma: use SRQ per completion vector
-Message-ID: <20200319135356.GZ13183@mellanox.com>
+ id 1jEvqt-0007Xc-6F
+ for linux-nvme@lists.infradead.org; Thu, 19 Mar 2020 14:08:52 +0000
+Received: by mail-wr1-x444.google.com with SMTP id w16so3130952wrv.13
+ for <linux-nvme@lists.infradead.org>; Thu, 19 Mar 2020 07:08:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linuxfoundation.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=99K2Gw3OyNC688bY0UbsB4VsbokKiE/LOqor4VmBdao=;
+ b=NzNbbUsPHbl3jpzp+5eJSeEd92Hj76Z9w0lKlIO6KF3ap/PviXDMp+1zcCAJpuFDWF
+ 33y0qfJutWvtLXKQgG2y/m20jqhIat0vAXXtJ5uvFpaohYkeZUFkNOtB9oi5aNzjFp9h
+ f9kU7z6171wUTxX4R3fmFGy6KYGmo8yzZwgFU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=99K2Gw3OyNC688bY0UbsB4VsbokKiE/LOqor4VmBdao=;
+ b=UprYc/0VrH1A1vr4AzUvORWF+2Qe2H3GYZ6V61YEhMDV4dCDZLdRe40S5DgO36svHl
+ xEVtIbgvtSPRTMehyA8dN5dDMLESxlePrSTh/nJiRfTz1rOhh55psT9e03K9VWWfkhpR
+ KJx8VcL4PvR3IYJs+I26pSh9zHKIoRe0nfc/v9qa1Pd9nxiUVSNOu+DZt0VJ0ZhQVxcj
+ VlAPw/3ahVMa8X+4jUVP7ooKguwrdqYwV4dBjx9fwJ6QmEUQbIxymViyx233TT7Ntn75
+ HYxYFk6XjHcOkUsccAI6BScWXSH7GBNt0z51gWd3vnKHZakNlZ3kk2dJyXvhY96F+HTY
+ /yaw==
+X-Gm-Message-State: ANhLgQ32QYDznwi2gvuA5gcxlqLsH0bo2uEBEyYIv/obAk+Ef2SrwRzy
+ owyt8Yq/nfE95Z2E7eC5JYvvMQ==
+X-Google-Smtp-Source: ADFU+vubzEV76oU1jJKRuuzpLgfRjDsA9/unbxRRyZDLkthpW3WE2Ye4dY/IF7WdPlNRrP35EEsr7Q==
+X-Received: by 2002:adf:e9d2:: with SMTP id l18mr4474483wrn.400.1584626928770; 
+ Thu, 19 Mar 2020 07:08:48 -0700 (PDT)
+Received: from chatter.i7.local ([45.67.14.0])
+ by smtp.gmail.com with ESMTPSA id j39sm3880051wre.11.2020.03.19.07.08.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Mar 2020 07:08:46 -0700 (PDT)
+Date: Thu, 19 Mar 2020 10:08:39 -0400
+From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To: Jason Gunthorpe <jgg@mellanox.com>
+Subject: Re: [PATCH v2 2/5] nvmet-rdma: add srq pointer to rdma_cmd
+Message-ID: <20200319140839.7a2opbgqpenlrtlj@chatter.i7.local>
 References: <20200318150257.198402-1-maxg@mellanox.com>
- <20200318150257.198402-4-maxg@mellanox.com>
- <d72e0312-1dfd-460e-bc83-49699d86dd64@acm.org>
- <5623419a-39e6-6090-4ae2-d4725a8b9740@mellanox.com>
- <20200319115654.GV13183@mellanox.com>
- <0b11c26f-d3de-faf5-5609-c290ea46ed9c@mellanox.com>
-Content-Disposition: inline
-In-Reply-To: <0b11c26f-d3de-faf5-5609-c290ea46ed9c@mellanox.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: MN2PR05CA0011.namprd05.prod.outlook.com
- (2603:10b6:208:c0::24) To VI1PR05MB4141.eurprd05.prod.outlook.com
- (2603:10a6:803:44::15)
+ <20200318150257.198402-3-maxg@mellanox.com>
+ <20200318233258.GR13183@mellanox.com>
+ <1a79f626-c358-2941-4e8e-492f5f7de133@mellanox.com>
+ <20200319115431.GU13183@mellanox.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (142.68.57.212) by
- MN2PR05CA0011.namprd05.prod.outlook.com (2603:10b6:208:c0::24) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2835.11 via Frontend Transport; Thu, 19 Mar 2020 13:53:59 +0000
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)	(envelope-from
- <jgg@mellanox.com>)	id 1jEvcS-0006YX-O5; Thu, 19 Mar 2020 10:53:56 -0300
-X-Originating-IP: [142.68.57.212]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: d810e7b3-2b44-4a13-c1c7-08d7cc0cf9cc
-X-MS-TrafficTypeDiagnostic: VI1PR05MB6382:|VI1PR05MB6382:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR05MB63828EA77783173E5216A063CFF40@VI1PR05MB6382.eurprd05.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-Forefront-PRVS: 0347410860
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10009020)(4636009)(39860400002)(376002)(396003)(346002)(366004)(136003)(199004)(4326008)(66946007)(66476007)(9786002)(6862004)(9746002)(478600001)(558084003)(26005)(186003)(52116002)(2616005)(1076003)(2906002)(6636002)(86362001)(81166006)(5660300002)(33656002)(37006003)(81156014)(316002)(66556008)(8676002)(36756003)(8936002)(24400500001);
- DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR05MB6382;
- H:VI1PR05MB4141.eurprd05.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; 
-Received-SPF: None (protection.outlook.com: mellanox.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 8ecRMMB59QTHK7/JwA6NpD9T+pRQlWyaISc4B230EDVLjQFiB4dmXEvIoBRRuhK+9HGUmK6tgfVxeAUQpS/cFp0pOT6SIVRVG/XF5Grv/hbJTFFW7BNmS07HM7+jlK90FkbkXfXNgyv7CAkXfDwSK3B04Oz5JJJoFFzIBwwxQ5/HOn0PTeGKbxIB7U88laiuNH5RUgtmPKDThvswTYVqKsnjM4mMYg908XCvlOHNDZbMEaqhj8C19P0LgM1XUhjnTGYdotqgRHoU9eSRdAInlZB4teR7+MufY2Vb8BA9oUeSAHodwPVPB5Nt0RoeyE+T02Gydl66O2sXGf2IxsPGtgtY2dUFIKNZjsubuv50lMPS/6URiFow3qOTk32N7IeghhLIYBbxfd+YerbmFxAYa2xWl6qnWgPdwO2lRwwWnIB2oLbv5l0KTGn3k00kLdYPZW33Vf7hytTkIXkdSfAK4QgxVLuxf9ScMO9hulis9TGg0chCPVi4RBskCmIF6+vB
-X-MS-Exchange-AntiSpam-MessageData: ea7UjBS5zHF4WR0ONRye884+UfHCWf+RRWM6IDtYeFUV9wnYLgiijpfHRp1+M/usrfM3SCY8Zw/ibX8CCET8DlmZL7ncSomAToHlOsL75S4fghhpvj/X8OQNEzGEFVjMaxHOifNUqoUZCTHDUy08pA==
-X-OriginatorOrg: Mellanox.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d810e7b3-2b44-4a13-c1c7-08d7cc0cf9cc
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2020 13:54:00.0792 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: a652971c-7d2e-4d9b-a6a4-d149256f461b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zUv6w1AAjl3QJBlUVyKflrM/y77ahqw0BxLQdnYSdMCYL4bjs/GWeIJjFjW59fqCDp0i6xEZNyS3szOwz+0JCw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR05MB6382
+Content-Disposition: inline
+In-Reply-To: <20200319115431.GU13183@mellanox.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200319_065403_884021_112ED012 
-X-CRM114-Status: UNSURE (   6.12  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200319_070851_236655_9519B18A 
+X-CRM114-Status: GOOD (  14.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,26 +95,48 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: loberman@redhat.com, Bart Van Assche <bvanassche@acm.org>,
- vladimirk@mellanox.com, idanb@mellanox.com, linux-rdma@vger.kernel.org,
+Cc: loberman@redhat.com, bvanassche@acm.org, vladimirk@mellanox.com,
+ idanb@mellanox.com, linux-rdma@vger.kernel.org, rgirase@redhat.com,
  shlomin@mellanox.com, linux-nvme@lists.infradead.org, leonro@mellanox.com,
- dledford@redhat.com, oren@mellanox.com, kbusch@kernel.org, rgirase@redhat.com,
- hch@lst.de, sagi@grimberg.me
+ dledford@redhat.com, oren@mellanox.com, kbusch@kernel.org,
+ Max Gurtovoy <maxg@mellanox.com>, hch@lst.de, sagi@grimberg.me
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Mar 19, 2020 at 02:48:20PM +0200, Max Gurtovoy wrote:
+On Thu, Mar 19, 2020 at 08:54:31AM -0300, Jason Gunthorpe wrote:
+> > > Max, how are you sending these emails, and why don't they thread
+> > > properly on patchworks:
+> > > 
+> > > https://patchwork.kernel.org/project/linux-rdma/list/?series=258271
+> > > 
+> > > This patch is missing from the series
+> > > 
+> > > v1 had the same issue
+> > > 
+> > > Very strange. Can you fix it?
+> > 
+> > I'm using "git send-email".
+> > 
+> > Should I use some special flags or CC another email for it ?
+> > 
+> > How do you suggest sending patches so we'll see it on patchworks ?
+> 
+> I looked at these mails and they seem properly threaded/etc.
+> 
+> I've added Konstantin, perhaps he knows why patchworks is acting
+> weird here?
 
-> Nevertheless, this situation is better from the current SRQ per HCA
-> implementation.
+Not sure. Everything appears to be properly threaded. I see 2/5 arriving 
+at precisely the same time as the cover letter, so 2/5 probably got 
+processed before 0/5. I have no idea if that actually matters to 
+patchwork -- a whole bunch of series would break if arrival ordering was 
+that important. At least I assume that would be the case.
 
-nvme/srp/etc already use srq? I see it in the target but not initiator?
+I'll check with upstream.
 
-Just worried about breaking some weird target somewhere
-
-Jason
+-K
 
 _______________________________________________
 linux-nvme mailing list
