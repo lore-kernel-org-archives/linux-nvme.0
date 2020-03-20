@@ -2,81 +2,87 @@ Return-Path: <SRS0=dgXS=5F=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F268FC4332B
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Mar 2020 20:42:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12E72C4332D
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Mar 2020 20:49:39 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BEEC820724
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Mar 2020 20:42:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D07A620409
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Mar 2020 20:49:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="FvHs+76P";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CS2/6+vl"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BEEC820724
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="NEYaLxZ6"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D07A620409
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:To:From:Reply-To:Cc:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=DRmAMPl+C+MVV3Kb4TI9vGruqsDExKicaB1iTKh4Vl8=; b=FvHs+76PM4LUHs
-	9H7qccY/knNnXMo6ML6Ep/R9e7a9UumxHOxJtVr/Qv6u6lQjxrI9MNWpa/M4tX9Nut1+UwzapcUGa
-	HsKLxvdbZbG6gepIgq8JVUvQ7ec4S+gMwHy8I+RU0+hkoMLvXCYVYYQYvM7ke/kwSWd97MRhxig1B
-	B+GWc+5hiFukx02lohY9arGEMQLUg/J9R3znr3z9mQL+RqxupV9T5EMrJuXstqiChz4qWY6pWmTpf
-	ofO8lXi4deTkFQIvDmYoKG90L0Nt7R9UCN+ZfBVrKuX1wlYTo7RyqPyudy7b3/qXBVT4a9tCfNI91
-	MfVFkEp8EznXXVYHzTww==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=JenAtLnJBJzEx39/BC8RKDq8voCPPE8ai7Dheqtl/1I=; b=NEYaLxZ6y7ei/VjoMajzfiWGe
+	4To2ma3+aP55K142dkMl9ZoPeVzDHXQ5isws0JWpgZt4ZL7u6PGUITEqhC0vtYeBz+Xs8jAKf4iVB
+	0zAyzCTuNrHQ8Aa1pcw+d7cAijnJVClbME3mHxksm6zHWZamt0BgcyL4W2AHk9OMv4tPLovOBbmXH
+	vF4AJerYKaQGYQsUXgtcjuRajUEXBsOCWtX/B26AfnmgN6OXCNxu/oVlOp4w1QlOt0N7hJw+WXGnG
+	+PWcFuLF9zSo5esSkgRNMtMUiuRhgHYlx4FoVaxxG56tEnxXmTsoGLw7qHvHhxSFURdaCQwPeL0Tc
+	TVvM/Pogw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jFOTd-0008Uj-Af; Fri, 20 Mar 2020 20:42:45 +0000
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74])
+	id 1jFOaH-0002PL-51; Fri, 20 Mar 2020 20:49:37 +0000
+Received: from mail-wr1-f48.google.com ([209.85.221.48])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jFOSx-0007u5-HM
- for linux-nvme@lists.infradead.org; Fri, 20 Mar 2020 20:42:08 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584736922;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GHTFdewOSa6ExpsiH20++OYTIzKUgfFmPBm33jtmMiM=;
- b=CS2/6+vlWpgZGGwj9kUFiLa+iNoZSB1rxAdhLpi+NRv7n2R0MEeH7bPNfd27gDIPg0ECNT
- eRttKfXJsJGQmT+O5d2sYTtElIgBcCQWEGGxdsjfee026rPpDcnoTthA8kizIMeUGWgW9Q
- fGocYHQtFxBVBZ44XGf7FDdw7vmT1tc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-63-ly9CsD0uPxWsINsrEUh8Jw-1; Fri, 20 Mar 2020 16:39:51 -0400
-X-MC-Unique: ly9CsD0uPxWsINsrEUh8Jw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFF2C800D4E
- for <linux-nvme@lists.infradead.org>; Fri, 20 Mar 2020 20:39:50 +0000 (UTC)
-Received: from sulaco.redhat.com (unknown [10.3.128.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7211290817
- for <linux-nvme@lists.infradead.org>; Fri, 20 Mar 2020 20:39:50 +0000 (UTC)
-From: Tony Asleson <tasleson@redhat.com>
-To: linux-nvme@lists.infradead.org
-Subject: [PATCH 3/6] nvme.py: Explicit close is redundant
-Date: Fri, 20 Mar 2020 15:39:43 -0500
-Message-Id: <20200320203946.37338-4-tasleson@redhat.com>
-In-Reply-To: <20200320203946.37338-1-tasleson@redhat.com>
-References: <20200320203946.37338-1-tasleson@redhat.com>
+ id 1jFOaD-0002OX-9x
+ for linux-nvme@lists.infradead.org; Fri, 20 Mar 2020 20:49:35 +0000
+Received: by mail-wr1-f48.google.com with SMTP id h6so9111914wrs.6
+ for <linux-nvme@lists.infradead.org>; Fri, 20 Mar 2020 13:49:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=odGQ2hQgXyuroa90B5vjBwZ7z7ei2Hr/GxAMeid1ZH8=;
+ b=XsPJYSVekQ5T63lMytd2CPPdsvaom7bAeR4pLu/fAWqYVx80blGg2O4MUgDD49lwOS
+ f0y/gZbWL2ysewIbly5DspSiKrCvFg2iUFwKHKUaoWntTI+rPQGEQAq3flyvysq4+XHW
+ il6OYiGVVrCYtAhEWY8Lm4ZR8LG2SJSTh22xrZnmC0AyIzhNt2s7VNcBbAGd9Pb5/qT1
+ p14SEMcAM2D7YPMxMm/t4QJUlzltHvCv1xNzyu8VntoMM7syJ2N4Tv5sdWzcwMyx/FI9
+ 9nXhSg7416wsgAP152U4U/sE0xmIlpX/ZsyNyn6p2VPToz9ieWcgVZOmTDNgZDTxTVnm
+ NcOQ==
+X-Gm-Message-State: ANhLgQ2PCL9khnfmD7G4CxzKHG+aa0bGJjM85IX4td9bDREhKBVExKTJ
+ cXEP9cknzLpASnuS56m7c6e2UHoI
+X-Google-Smtp-Source: ADFU+vvPCN8W93w/UXwiY5NIerSxTt+y669GCRGqUK+Jar3v1M3uTqBgmF5GSDgm6wMkIsTDRpBM0A==
+X-Received: by 2002:adf:dd10:: with SMTP id a16mr5140930wrm.26.1584737371342; 
+ Fri, 20 Mar 2020 13:49:31 -0700 (PDT)
+Received: from ?IPv6:2601:647:4802:9070:b9e4:7d48:9c27:2b02?
+ ([2601:647:4802:9070:b9e4:7d48:9c27:2b02])
+ by smtp.gmail.com with ESMTPSA id f9sm9883254wrc.71.2020.03.20.13.49.28
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 20 Mar 2020 13:49:30 -0700 (PDT)
+Subject: Re: broken CRCs at NVMeF target with SIW & NVMe/TCP transports
+To: Krishnamraju Eraparaju <krishna2@chelsio.com>
+References: <a8e7b61a-b238-2cc3-d3c8-743ad1f8c8ee@grimberg.me>
+ <20200316162008.GA7001@chelsio.com> <20200317124533.GB12316@lst.de>
+ <OFB2589549.AD31F8B8-ON0025852E.005A969A-0025852E.005A96A3@notes.na.collabserv.com>
+ <70b13212-faa6-d634-8beb-55ba39891d7f@grimberg.me>
+ <20200317191743.GA22065@chelsio.com>
+ <38f79fb7-841a-9faa-e1f8-2de4b9f21118@grimberg.me>
+ <20200317203152.GA14946@chelsio.com>
+ <3f42f881-0309-b86a-4b70-af23c58960fc@grimberg.me>
+ <20200320143544.GA5539@chelsio.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <87bfe03d-baad-1166-14a1-6eba1739fde4@grimberg.me>
+Date: Fri, 20 Mar 2020 13:49:25 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Firefox/60.0 Thunderbird/60.9.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20200320143544.GA5539@chelsio.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200320_134203_655903_B9799191 
-X-CRM114-Status: UNSURE (   9.60  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200320_134933_350534_BC8AF7A1 
+X-CRM114-Status: GOOD (  15.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,34 +94,33 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
+Cc: linux-rdma@vger.kernel.org, Potnuri Bharat Teja <bharat@chelsio.com>,
+ Nirranjan Kirubaharan <nirranjan@chelsio.com>, linux-nvme@lists.infradead.org,
+ Bernard Metzler <BMT@zurich.ibm.com>, Christoph Hellwig <hch@lst.de>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-One of the benefits of using 'with' statement for open files is the
-close is going to be called regardless of what happens.
 
-Signed-off-by: Tony Asleson <tasleson@redhat.com>
----
- nvmet/nvme.py | 1 -
- 1 file changed, 1 deletion(-)
+>> I assume this happens with iSCSI as well? There is nothing special
+>> we are doing with respect to digest.
+> 
+> I don't see this issue with iscsi-tcp.
+> 
+> May be blk-mq is causing this issue? I assume iscsi-tcp does not have
+> blk_mq support yet upstream to verify with blk_mq enabled.
+> I tried on Ubuntu 19.10(which is based on Linux kernel 5.3), note that
+> RHEL does not support DataDigest.
+> 
+> The reason that I'm seeing this issue only with NVMe(tcp/softiwarp) &
+> iSER(softiwarp) is becuase of NVMeF&ISER using blk-mq?
+> 
+> Anyhow, I see the content of the page is being updated by upper layers
+> while the tranport driver is computing CRC on that page content and
+> this needs a fix.
 
-diff --git a/nvmet/nvme.py b/nvmet/nvme.py
-index 0647ddc..55c3930 100644
---- a/nvmet/nvme.py
-+++ b/nvmet/nvme.py
-@@ -302,7 +302,6 @@ class Root(CFSNode):
-             f.write("\n")
-             f.flush()
-             os.fsync(f.fileno())
--            f.close()
- 
-         os.rename(savefile + ".temp", savefile)
- 
--- 
-2.25.1
-
+Krishna, do you happen to run with nvme multipath enabled?
 
 _______________________________________________
 linux-nvme mailing list
