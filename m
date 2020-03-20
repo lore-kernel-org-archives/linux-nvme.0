@@ -2,132 +2,119 @@ Return-Path: <SRS0=dgXS=5F=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98E00C4332D
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Mar 2020 13:22:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F87AC4332E
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Mar 2020 14:28:09 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 69C7920776
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Mar 2020 13:22:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 248392070A
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Mar 2020 14:28:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="MpFGx5N/";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=Mellanox.com header.i=@Mellanox.com header.b="Sb/HU79K"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 69C7920776
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Zb50PXng";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=Mellanox.com header.i=@Mellanox.com header.b="Wbmfi380"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 248392070A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=ESNMATsZNs/W2TjluAhZ+tGZkoW49YJjZLG1rjkyJn0=; b=MpFGx5N/BXY7OXzycrbIdlnyx
-	8nhIJZo7vh+qcskYMWbSgTUdW0jQxoeIrl/XsYDs/Q5PRsBrtQ496onG+7vWN8V/4cxD/nxc4C0gZ
-	XL6CSi8YOA45WZ8XWpDDwrQwcTy0/6R8yImjQjf1V0G/Yy7BnG0c1BWj52YBVLB67NUVKpcXzrkXd
-	gS60jSkCW7BmrM1chonravlxklXnaZwspMcAP+1EIWjcrNARRvhUBeIMn9ii9dSSzkv/sE4TcObNe
-	2oht2ijZm3gPLn2tIUEMKacX4k84XqpBORiCdPoZXMlT6JABe0vf/MKp9Q6RtqMv8h0+rPJsO7PrT
-	LKUucGE+g==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=fWnoOhv8vAJl+ryIoWSG+RkpE7DykFcRRUfNTVk8rwo=; b=Zb50PXngpuCtkN
+	77ndcHTHBGe57LAB18NiKXXqOKnZlvTG/+BQmxLi45RHie/8LSECSbo6Nad+P1CpBoXBhRmxNzWBc
+	5ygoNCb3omLbpwD4x2AEw1E/usHYoMzzNq8TbPGULcuhLxxwTQ1K9mQw19NKLBPnar27ojM5/Z4N6
+	jC48mBjsiF43udCEKsZkpiV4sGdXboPdBoMvaer0Jwnn+iabgXCCtRHqWFXJ3uUKIlTRsxNZHyund
+	Qyc7c3Vp2aSijHN7hYPDJu0bF4XTZU/6/VFbGfwlg3tdL/V4PzrcgC3c2M/y/nTqE6O5HhCqgqB4a
+	Lw+b7OtgspD+k/NcCoMQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jFHbJ-0001vc-Rh; Fri, 20 Mar 2020 13:22:13 +0000
-Received: from mail-eopbgr40066.outbound.protection.outlook.com ([40.107.4.66]
- helo=EUR03-DB5-obe.outbound.protection.outlook.com)
+	id 1jFId1-0003np-TB; Fri, 20 Mar 2020 14:28:03 +0000
+Received: from mail-eopbgr150057.outbound.protection.outlook.com
+ ([40.107.15.57] helo=EUR01-DB5-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jFHbH-0001ua-QQ
- for linux-nvme@lists.infradead.org; Fri, 20 Mar 2020 13:22:13 +0000
+ id 1jFIcx-0003mq-Vp
+ for linux-nvme@lists.infradead.org; Fri, 20 Mar 2020 14:28:02 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bifQwc6esdCWrE7OqDqKrJ8wMh9WytpATDR75K5lyiL6Rc5tOAhRCoJHze5d01Qil/MRFfxQB/47WfKDu/0KVngmjc9HUkqC8TY91jNScOWb6EdeT6Ea4fOUfu2ATeW02wpBYPsquY4EX5wPN2nvRelOiPD98ZUcXYe1xwnfNzuMA1H0JroNAy2wezXWm+LeG+7ZZd9QsfzewGSoYQEC0ob4oUy2D4gJPFAkbQURFP1hSzokpsSRmHFvzJ2j95qSH3wVFbsSrvPH+45JM7klrbTg+y+RTcmaxIkx0ncdlNBalbkY5Z0FSrZF6ulQ/Eh1z3ItMzJ4VUrBzvtcC80vvA==
+ b=dGHUcT8nJS0RCkeol+l6peyiLECDS8Vf7woCs9+kB3A6ivaX59cpk9XtktpFbeTqxlRMnrW8aAn5r2cxtfk3qR6+8zoAS7qKYK3ZXYQuh75MV8Jz22z3TyR9DFG5RRXxbPrsb6BY86PGRvRTEULtrzuDtnELp1y+tXq6NfwJvhw8xugItlIJppzMsXLARutmNx6BPciAm56zMALTcxPSc0Z9wO5NvgCRRa5vbQ2gUYx+KEeO5DYC5/JJLkipk1LlUZhlCNoZbBHviVCBR5byqwjxdlhC6OzmQYYhuMTR14+Yr6bmN9EHg249llJedbpcUHVIJC67kbSjSaQ4nCcSYQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=v0K72E0GV6h1qM3Ob6LPzD9pP+ikH1EdXwO4qTOeWoY=;
- b=ej2oojIMB52iYQn32lYAuSAts+QeyXtwx8b0AUp0AWkFKKx8UpvXHrYKgqj5yHYn+JZBIHTGTcehbqy8bTlfIki3pf2aoiZwW9XOatCemRVUv6eY9YIO2t3spVfc2vTSW6HIflMGvekbGn80Cn6VBLorAfTKBqA4Kg5GQVw0LUtz27yO2Gm1tkxMTvDES+BDSKncXwk5W2Z0lXUUM5qP2Va+63o/H53jpJcu7k9MzZdXDcpuBpvqUe2OuXgyQpnrez2h845DRMz1lN+nkud105EwPrYdHKq8pYkvmub6xhybd6R06Y34ROsVra4Ysx7ub6PFHxxqnrzprVMNNvV61g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 193.47.165.251) smtp.rcpttodomain=redhat.com smtp.mailfrom=mellanox.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=mellanox.com;
- dkim=none (message not signed); arc=none
+ bh=qFFHkQtJYW9bs8afAh3vXLmxD/2w7SWGt315wVxhBoU=;
+ b=Q7iORRLM1xulY084/u6+i9AjCIGpJVYtTEY1x+qlD3ouIpbrjwI0MxXCRAL7Ia9wfRdIgOMWDFTu+h6ubLxqtqJIcnhO3xGa5EG6jpx2EhAbEbY8eHPKL8Kvht2ky2prqYfCP1Sfl685E4NV0+6AnTCZJdaisag5U2rMjlTIsXqSPjMaQ0MrGkBPYqEw9y9vN2taWwPnSMsdIZ+iLGfqiLsM/na0fNs0QXGht70OIAWL+1XDeJ4L8jcXAUsawb4qGg2MXzoMlRAy+OVLn7sVzKlCfCGhkEyNFvaL7iJ2s3EUvVTvUx5cpWaMn8oArHHK9VN+a3eDKmgwpgKun2PMkQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
+ dkim=pass header.d=mellanox.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=v0K72E0GV6h1qM3Ob6LPzD9pP+ikH1EdXwO4qTOeWoY=;
- b=Sb/HU79KzwtU+bUWEkBDoMnJsWwslIlYUp8x8D+7D04a4VQPfTaJk55QUvQtRhPHUQq2O5PZkyz1rBxKhqPVxN+JpL1Hfjvgsh1cyrFGbeE2cWH2oldbzyzeuOzxkd186/9sVu5lmCTkvfk46YBoDup4RRIvadeXsI8otNOoy5I=
-Received: from AM6PR04CA0024.eurprd04.prod.outlook.com (2603:10a6:20b:92::37)
- by AM0PR0502MB3745.eurprd05.prod.outlook.com (2603:10a6:208:24::25)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2835.20; Fri, 20 Mar
- 2020 13:21:59 +0000
-Received: from VE1EUR03FT039.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:20b:92:cafe::1d) by AM6PR04CA0024.outlook.office365.com
- (2603:10a6:20b:92::37) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2835.19 via Frontend
- Transport; Fri, 20 Mar 2020 13:21:59 +0000
-Authentication-Results: spf=pass (sender IP is 193.47.165.251)
- smtp.mailfrom=mellanox.com; redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=pass action=none header.from=mellanox.com;
-Received-SPF: Pass (protection.outlook.com: domain of mellanox.com designates
- 193.47.165.251 as permitted sender)
- receiver=protection.outlook.com; 
- client-ip=193.47.165.251; helo=mtlcas13.mtl.com;
-Received: from mtlcas13.mtl.com (193.47.165.251) by
- VE1EUR03FT039.mail.protection.outlook.com (10.152.19.196) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.2814.13 via Frontend Transport; Fri, 20 Mar 2020 13:21:58 +0000
-Received: from MTLCAS13.mtl.com (10.0.8.78) by mtlcas13.mtl.com (10.0.8.78)
- with Microsoft SMTP Server (TLS) id 15.0.1178.4; Fri, 20 Mar 2020 15:21:57
- +0200
-Received: from MTLCAS01.mtl.com (10.0.8.71) by MTLCAS13.mtl.com (10.0.8.78)
- with Microsoft SMTP Server (TLS) id 15.0.1178.4 via Frontend Transport; Fri,
- 20 Mar 2020 15:21:57 +0200
-Received: from [172.27.0.96] (172.27.0.96) by MTLCAS01.mtl.com (10.0.8.71)
- with Microsoft SMTP Server (TLS) id 14.3.468.0; Fri, 20 Mar 2020 15:21:53
- +0200
+ bh=qFFHkQtJYW9bs8afAh3vXLmxD/2w7SWGt315wVxhBoU=;
+ b=Wbmfi3800xjR8a5NYFxS+YG7RNQy1mkBnZXsWSyVtBKFmW0cYvkBXqW2Fw1ZnJ98baeXod+LTmtBhYvB4oP45zGOZbb9bTYGqm6LmY81QCveIY/ddWI6+94QubP+bJ1oMaQtlVPh1bHacHcc+Z48/G56Ti69ICjnsC4m0atlhFc=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=leonro@mellanox.com; 
+Received: from AM6PR05MB6408.eurprd05.prod.outlook.com (20.179.5.215) by
+ AM6PR05MB4455.eurprd05.prod.outlook.com (52.135.167.24) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2835.20; Fri, 20 Mar 2020 14:27:52 +0000
+Received: from AM6PR05MB6408.eurprd05.prod.outlook.com
+ ([fe80::c99f:9130:561f:dea0]) by AM6PR05MB6408.eurprd05.prod.outlook.com
+ ([fe80::c99f:9130:561f:dea0%3]) with mapi id 15.20.2814.021; Fri, 20 Mar 2020
+ 14:27:52 +0000
+Date: Fri, 20 Mar 2020 16:27:50 +0200
+From: Leon Romanovsky <leonro@mellanox.com>
+To: Sagi Grimberg <sagi@grimberg.me>
 Subject: Re: [PATCH v2 1/5] IB/core: add a simple SRQ pool per PD
-To: Sagi Grimberg <sagi@grimberg.me>, <linux-nvme@lists.infradead.org>,
- <hch@lst.de>, <loberman@redhat.com>, <bvanassche@acm.org>,
- <linux-rdma@vger.kernel.org>
+Message-ID: <20200320142750.GE514123@unreal>
 References: <20200318150257.198402-1-maxg@mellanox.com>
  <20200318150257.198402-2-maxg@mellanox.com>
  <b37caf65-a084-6ed2-2ee9-8a51a6e9b79d@grimberg.me>
-From: Max Gurtovoy <maxg@mellanox.com>
-Message-ID: <bfdb2827-84c6-3053-6191-76e1fff84445@mellanox.com>
-Date: Fri, 20 Mar 2020 15:21:42 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
-MIME-Version: 1.0
+Content-Disposition: inline
 In-Reply-To: <b37caf65-a084-6ed2-2ee9-8a51a6e9b79d@grimberg.me>
-Content-Language: en-US
-X-Originating-IP: [172.27.0.96]
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:193.47.165.251; IPV:; CTRY:IL; EFV:NLI;
- SFV:NSPM;
- SFS:(10009020)(4636009)(199004)(46966005)(4326008)(36756003)(2616005)(47076004)(26005)(186003)(356004)(2906002)(5660300002)(498600001)(6666004)(16526019)(81156014)(31686004)(336012)(53546011)(8676002)(16576012)(110136005)(31696002)(36906005)(54906003)(86362001)(81166006)(70586007)(8936002)(70206006)(3940600001);
- DIR:OUT; SFP:1101; SCL:1; SRVR:AM0PR0502MB3745; H:mtlcas13.mtl.com; FPR:;
- SPF:Pass; LANG:en; PTR:InfoDomainNonexistent; A:1; 
+X-ClientProxiedBy: PR2P264CA0006.FRAP264.PROD.OUTLOOK.COM (2603:10a6:101::18)
+ To AM6PR05MB6408.eurprd05.prod.outlook.com
+ (2603:10a6:20b:b8::23)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost (2a00:a040:183:2d::393) by
+ PR2P264CA0006.FRAP264.PROD.OUTLOOK.COM (2603:10a6:101::18) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2835.15 via Frontend Transport; Fri, 20 Mar 2020 14:27:52 +0000
+X-Originating-IP: [2a00:a040:183:2d::393]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 38235008-f945-45ce-e9ee-08d7ccd1ab0b
-X-MS-TrafficTypeDiagnostic: AM0PR0502MB3745:
-X-Microsoft-Antispam-PRVS: <AM0PR0502MB37457BB6C564F7C469FB1128B6F50@AM0PR0502MB3745.eurprd05.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: a1ffbea5-bd36-4fcc-01ee-08d7ccdadfd1
+X-MS-TrafficTypeDiagnostic: AM6PR05MB4455:|AM6PR05MB4455:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR05MB44554DE7C04691B226A51987B0F50@AM6PR05MB4455.eurprd05.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-Forefront-PRVS: 03484C0ABF
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10009020)(4636009)(7916004)(136003)(346002)(39860400002)(366004)(396003)(376002)(199004)(86362001)(8676002)(6486002)(1076003)(33716001)(66556008)(33656002)(9686003)(66946007)(66476007)(186003)(6496006)(8936002)(2906002)(52116002)(6916009)(478600001)(316002)(16526019)(81166006)(5660300002)(4326008)(81156014);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:AM6PR05MB4455;
+ H:AM6PR05MB6408.eurprd05.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; 
+Received-SPF: None (protection.outlook.com: mellanox.com does not designate
+ permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: isA+lKQw54aP+gQHIKTupQJNJaV1k91QBvl4iL8dG8IJYu4IEb8J6JoPpiI/4nzaWNXm0h1CK7KIi0UA2e/m/n1kMZlJSe+TggnqpbzOGB8kZeACkkIIqrzGqwljJa5lxDk2BP/h4SkltVgjskUDpkM+dI0kYg4jadY0rATmbEJo8+4UDfszmzBBj0JT3g2SkCNaHSnF2DrhVFthWNNsygARYGyVPpc/10fo+W2COObR72ysYiVdEwtV7krOZYnHfZ5xIHkya2snyudLdmsAiSLMqG0oNRQPEb5l6JQQ9sCRu480hvCgT7VSH/0zCYhiyuTE4+Iqyftfw3AToN5UooVxVJ6k0ldBeQzVUV7RZAVN3DmWu+/11NaFxZN12+4e0yqHYul6Wn0dksSoBHRxVfz3JT+UWv6G41bxIOdyTaX43aKV9YQgtYVCxYaqhIoBGlBP1sAz1t9CznKQK929xaqGT1Q7AiNeHctTgPym0PG0bWys0aKbH9HVM223nfJ7GnRK/Ir38dkHbgmoy5b3BV3b11zGHJE2WbBLeA/gVJ8=
+X-Microsoft-Antispam-Message-Info: 7W9wnCs8+B81/JPPVU4kluFw4X9ScZyfp7x2Rc+iair8QXHpeVj4t+wcUsnB//R6CmXJHqELctYp7d6gD9QRYWlWiV4l8xlvEsU6QS8xGUktvc1Dq9wjs9WMPVPyzYe+WnOvU+BV+KNFWi/8qbZ++iHS2g62ex7vxovMCJdLoQPFIchiROGtMpZVRL9HHm+sN2lWqzweHw67VNRYcZ7AOvoMwC9R8MIc7FOr3WliiJsM0klmCK4sG4aQsne+SkO3VwnNnoMyITyQr9cigYHNgdf/0jExVlcfD15shk2Wvi7Ca+yWQH9fIWwJl/snCbZv0rcxxws8c6eQZ57BB6oqb1tofOv9o8M2qm8rLUf+pD2mXSRyyJtlSdRTjff/9wXq092n5tsFPvRjWlpYwC6FFkqO9K4u2DnHV7vRK3E++LkfjuOQbFfAGRvRYLZ5uGmi
+X-MS-Exchange-AntiSpam-MessageData: HhBISl9+Vw5Ix5ex97WzMydevC4pnNKAqab8RLBrnztJWMDjuQtZZ/0P1h8N2RguzcFvrVHkOqifuUhkmuIzAXDXHusPRaPTeDbGl2ruK8YP7F+vfUTgr+Cg4PLrcxU7iWPtzDc+4Yt/GlJ/zLoQpwvYD+Hd7r9IysBeOK9YGYc=
 X-OriginatorOrg: Mellanox.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2020 13:21:58.4369 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 38235008-f945-45ce-e9ee-08d7ccd1ab0b
+X-MS-Exchange-CrossTenant-Network-Message-Id: a1ffbea5-bd36-4fcc-01ee-08d7ccdadfd1
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2020 14:27:52.7427 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: a652971c-7d2e-4d9b-a6a4-d149256f461b
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a652971c-7d2e-4d9b-a6a4-d149256f461b; Ip=[193.47.165.251];
- Helo=[mtlcas13.mtl.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR0502MB3745
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sIbAIt0qDOb5Sv8CAWqm2vKZD34q5kOVmxNKaFYtWtmSS2HGXNrG5jIJnGGne/zmHivFN5DmEBmJRSw/dKREXA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR05MB4455
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200320_062211_859098_AC4258BF 
-X-CRM114-Status: GOOD (  14.08  )
+X-CRM114-CacheID: sfid-20200320_072800_028742_27CD4D03 
+X-CRM114-Status: GOOD (  13.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,42 +126,48 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: rgirase@redhat.com, vladimirk@mellanox.com, shlomin@mellanox.com,
- leonro@mellanox.com, dledford@redhat.com, jgg@mellanox.com, oren@mellanox.com,
- kbusch@kernel.org, idanb@mellanox.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: loberman@redhat.com, bvanassche@acm.org, vladimirk@mellanox.com,
+ shlomin@mellanox.com, linux-rdma@vger.kernel.org, rgirase@redhat.com,
+ linux-nvme@lists.infradead.org, idanb@mellanox.com, dledford@redhat.com,
+ jgg@mellanox.com, oren@mellanox.com, kbusch@kernel.org,
+ Max Gurtovoy <maxg@mellanox.com>, hch@lst.de
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Ck9uIDMvMjAvMjAyMCA3OjU5IEFNLCBTYWdpIEdyaW1iZXJnIHdyb3RlOgo+Cj4+IFVMUCdzIGNh
-biB1c2UgdGhpcyBBUEkgdG8gY3JlYXRlL2Rlc3Ryb3kgU1JRJ3Mgd2l0aCB0aGUgc2FtZQo+PiBj
-aGFyYWN0ZXJpc3RpY3MgZm9yIGltcGxlbWVudGluZyBhIGxvZ2ljIHRoYXQgYWltZWQgdG8gc2F2
-ZSByZXNvdXJjZXMKPj4gd2l0aG91dCBzaWduaWZpY2FudCBwZXJmb3JtYW5jZSBwZW5hbHR5IChl
-LmcuIGNyZWF0ZSBTUlEgcGVyIGNvbXBsZXRpb24KPj4gdmVjdG9yIGFuZCB1c2Ugc2hhcmVkIHJl
-Y2VpdmUgYnVmZmVycyBmb3IgbXVsdGlwbGUgY29udHJvbGxlcnMgb2YgdGhlCj4+IFVMUCkuCj4K
-PiBUaGVyZSBpcyBhbG1vc3Qgbm8gbG9naWMgaW4gaGVyZS4gSXMgdGhlcmUgYSByZWFsIHBvaW50
-IGluIGhhdmluZwo+IGluIHRoZSB3YXkgaXQgaXM/Cj4KPiBXaGF0IGlzIHRoZSBwb2ludCBvZiBj
-cmVhdGluZyBhIHBvb2wsIGdldHRpbmcgYWxsIHRoZSBzcnFzLCBtYW5hZ2UKPiBpbiB0aGUgdWxw
-IChpbiBhbiBhcnJheSksIHB1dHRpbmcgYmFjaywgYW5kIGRlc3Ryb3kgYXMgYSBwb29sPwo+Cj4g
-SSdkIGV4cGVjdCB0byBoYXZlIGEgcmVmY291bnQgZm9yIGVhY2ggcXAgcmVmZXJlbmNpbmcgYSBz
-cnEgZnJvbSB0aGUKPiBwb29sLCBhbmQgYWxzbyB0aGF0IHRoZSBwb29sIHdvdWxkIG1hbmFnZSB0
-aGUgc3JxcyB0aGVtc2VsdmVzLgo+Cj4gc3JxcyBhcmUgbG9uZyBsaXZlZCByZXNvdXJjZXMsIHVu
-bGlrZSBtcnMgd2hpY2ggYXJlIHRha2VuIGFuZCByZXN0b3JlZAo+IHRvIHRoZSBwb29sIG9uIGEg
-cGVyIEkvTyBiYXNpcy4uLgo+Cj4gSXRzIG5vdCB0aGF0IEkgaGF0ZSBpdCBvciBzb21ldGhpbmcs
-IGp1c3Qgbm90IGNsZWFyIHRvIG1lIGhvdyB1c2VmdWwgaXQKPiBpcyB0byBoYXZlIGluIHRoaXMg
-Zm9ybS4uLgoKU2FnaSwKCkl0J3Mgc3VycHJpc2luZyB0byBtZSBzaW5jZSBpbiBteSBWMSB0d28g
-eWVhcnMgYWdvIEkgc2VudCBhIHB1cmUgCm52bWV0L1JETUEgaW1wbGVtZW50YXRpb24gYW5kIG5v
-IHNycV9wb29sIGluIHRoZXJlLgoKQW5kIHlvdSBoYXZlIGFza2VkIHRvIGFkZCBhIHNycV9wb29s
-IGluIHRoZSByZXZpZXcuCgpBbHNvIEkgd2FzIGFza2VkIHRvIGFkZCBhbm90aGVyIGltcGxlbWVu
-dGF0aW9uIHdpdGggdGhpcyBBUEkgZm9yIGFub3RoZXIgClVMUCBiYWNrIHRoZW4gYW5kIEkgZGlk
-bid0IGhhdmUgdGhlIGNhcGFjaXR5IGZvciBpdC4KCk5vdyBJJ3ZlIGRvbmUgYm90aCBOVk1mIGFu
-ZCBTUlAgdGFyZ2V0wqAgaW1wbGVtZW50YXRpb24gd2l0aCB0aGUgU1JRIHBvb2wuCgpJJ20gb2sg
-d2l0aCByZW1vdmluZy91cGdyYWRpbmcgdGhlIHBvb2wgaW4gYSB3YXkgZXZlcnlvbmUgd291bGQg
-YmUgaGFwcHkuCgpJJ20gb2sgd2l0aCByZW1vdmluZyB0aGUgU1JQIGltcGxlbWVudGF0aW9uIGlm
-IGl0J3Mgbm90IG5lZWRlZC4KCkkganVzdCB3YW50IHRvIGFkZCB0aGlzIGZlYXR1cmUgdG8gTlZN
-ZiB0YXJnZXQgNS43IHJlbGVhc2UuCgpTbyBwbGVhc2UgZGVjaWRlIG9uIHRoZSBpbXBsZW1lbnRh
-dGlvbiBhbmQgSSdsbCBzZW5kIHRoZSBwYXRjaGVzLgoKLU1heC4KCgpfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpsaW51eC1udm1lIG1haWxpbmcgbGlzdAps
-aW51eC1udm1lQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9saW51eC1udm1lCg==
+On Thu, Mar 19, 2020 at 10:59:33PM -0700, Sagi Grimberg wrote:
+>
+> > ULP's can use this API to create/destroy SRQ's with the same
+> > characteristics for implementing a logic that aimed to save resources
+> > without significant performance penalty (e.g. create SRQ per completion
+> > vector and use shared receive buffers for multiple controllers of the
+> > ULP).
+>
+> There is almost no logic in here. Is there a real point in having
+> in the way it is?
+>
+> What is the point of creating a pool, getting all the srqs, manage
+> in the ulp (in an array), putting back, and destroy as a pool?
+>
+> I'd expect to have a refcount for each qp referencing a srq from the
+> pool, and also that the pool would manage the srqs themselves.
+>
+> srqs are long lived resources, unlike mrs which are taken and restored
+> to the pool on a per I/O basis...
+>
+> Its not that I hate it or something, just not clear to me how useful it
+> is to have in this form...
+
+Sagi,
+
+Why do we need such complexity of referencing to the QPs?
+This SRQ pool is intended for the kernel users whom we trust and we don't expect
+that QP will be destroyed before SRQ.
+
+Thanks
+
+_______________________________________________
+linux-nvme mailing list
+linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
