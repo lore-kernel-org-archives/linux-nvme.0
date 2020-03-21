@@ -2,92 +2,87 @@ Return-Path: <SRS0=c63/=5G=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32280C4332B
-	for <linux-nvme@archiver.kernel.org>; Sat, 21 Mar 2020 01:15:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 903ACC4332B
+	for <linux-nvme@archiver.kernel.org>; Sat, 21 Mar 2020 02:34:55 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DF5EC2072D
-	for <linux-nvme@archiver.kernel.org>; Sat, 21 Mar 2020 01:15:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4585020753
+	for <linux-nvme@archiver.kernel.org>; Sat, 21 Mar 2020 02:34:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="BUF10RhX";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel-dk.20150623.gappssmtp.com header.i=@kernel-dk.20150623.gappssmtp.com header.b="2IRvBaPE"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DF5EC2072D
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="XW/k4tYf";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="H60RQnZi"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4585020753
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
-	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
-	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=o7SShKxaLBd2xpWO6BNwEQiAZ0F77xlibNFvj4OV7DY=; b=BUF10RhXCKdCbI
-	xIESULIFrqfqtXi5VZSaPWFVxhY0XIdcujCxUUDSORm6gtOTUmov5ak/SN/FSMxfhdyHtOP1qRj/G
-	Y/6MgEG4BVTE95TQIPsKM/VKmP90aceUOnerw5pmU1lt1y4/KFWu0T0DCyTy0fylzC07ksHTYXq0l
-	iBPD1UH+MFyB9N4Dt5N5ljPiWxBHWO38AceKK43CwsjcvB/wpPh6Q3NAX8XGEjrzhKG4Qe//1XBxx
-	5X+DWXaaNl5yrlSff2HhkqaeObLDJqZpJ4/sOnaD8eYWEpoSEfKWa4Pa4UnlZUCW+357EhWXpkxUw
-	pxhejOD3r8h1ONsTD66g==;
+	Content-Transfer-Encoding:Content-Type:Reply-To:List-Subscribe:List-Help:
+	List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date
+	:Message-ID:From:References:To:Subject:Cc:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=Fgc5yLePRw+aZY8IMsdjRNFacuiSf45y26VhIzsP1r8=; b=XW/k4tYfjSfrGM
+	5j0fhGr+Is0KLk3ByTJVPaYJQCTws6Rpc7qhc/Xbh3Sd8QxWxp/uAURKwTDnIgoC+whdSeywP7nJ8
+	IRbPAcMGyCo8U/5YcydL98Ro3O8WaFU0glH4Kder8Nm0cpRiMVv7sTRmKD5vxoNr2u1A9x3bY1oQq
+	dl9Y0C4d0+bjraoThCYdNQPTwvrLw9Hm1nJnAZpmK40tbZJWDWLeEpQf8GXQ8hkMtwDW8iGejvuUA
+	+n0hLUc6bKau3ebCHPFi6Yc/Mo0lPGycbXRZ/gK415smp0OSsbaoFZHni4885Zi5MR2LqRsYofkBS
+	O1PN2Whu5h+Xa38dHokw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jFSj7-0002UP-MT; Sat, 21 Mar 2020 01:15:01 +0000
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e])
+	id 1jFTyN-0005EO-Bn; Sat, 21 Mar 2020 02:34:51 +0000
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jFSj4-0002TL-1R
- for linux-nvme@lists.infradead.org; Sat, 21 Mar 2020 01:14:59 +0000
-Received: by mail-pg1-x52e.google.com with SMTP id h8so3926297pgs.9
- for <linux-nvme@lists.infradead.org>; Fri, 20 Mar 2020 18:14:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=VBomDpdx/r0fitEc1KkIhvhmlIkWC23w/fn5JIwmCYs=;
- b=2IRvBaPE2bbicH54q0oyTmsxYA3MC8N9op10r9hNCVVPX5KGRa7b5/mEWTphcT278H
- OEkYOfU7ieqkmfSmsMudIkSsxgZehN6z7YxEtLVyQZT1Tm8NtiOidnt5dZlO/kg+SBPy
- BObZ+KZ+wOZOxRbgSQ9YPXnmOs2f1PFfe+Zdz1DirgxRhqfjSp1RAtmSBF6RXvzA7V1U
- F72USdLXG9PSdyFimv8umGB8zN6zBFGYbKmbx4O2J/dVe/rIgIY7guslF/Hmap5SxSh6
- xKk9Tm0H1pi2eIbXXkkoFELqTKW9dl2AdtmVfcNul2Y1pqRiNGUZEvyEvmP62JNy+4OD
- 4xxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=VBomDpdx/r0fitEc1KkIhvhmlIkWC23w/fn5JIwmCYs=;
- b=jE5y8rgPNBo9uKN/y9pmXl6NyiCOlkCI8HsQDjU19RrvMJZla+LW+HfUtD5D5J9m7C
- u8C3TOcvY0Ll5k6okyRqwxFHax2uJ9jjFBYCdPqDYZp8eAEyJRHWeIeAGNrGcLefT4Ui
- IAnlZUJUVvk8K6V4u7M6JvsXxA2FUrffs95tClMON/zrzp2b6nrTQjl40gELr9QdfmjF
- wbPBM/8zpX6kAGPutNUElCb9wQ6544E9ErP31QlID89LAAlTuhGgifNZVTWG6EmGGx0G
- mT+zdqSWyx6z9r0sgJBqcXZnaXZrXeOdCB35qod57/MSE153giJTXclGHhv7yJGzYGSy
- U08Q==
-X-Gm-Message-State: ANhLgQ2Ane0Q6zYd54PGPJxOp85x8Vex4IaYEU9J6dKTo8/Sm0DQukBQ
- s4LtS28KmT454yZOiMXRnRAB2OsHpoAi9Q==
-X-Google-Smtp-Source: ADFU+vsLxrMGpFZRfLGQo9iqGZMLa5d/js5IEPhrpnRAEPr9UgDH/vTRpy3qRyJPbdmdqLCU2SlTMA==
-X-Received: by 2002:a62:76d1:: with SMTP id
- r200mr12888517pfc.298.1584753295352; 
- Fri, 20 Mar 2020 18:14:55 -0700 (PDT)
-Received: from [192.168.1.188] ([66.219.217.145])
- by smtp.gmail.com with ESMTPSA id k24sm6509327pgm.61.2020.03.20.18.14.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Mar 2020 18:14:54 -0700 (PDT)
-Subject: Re: [GIT PULL] linux-nvme 5.6rc
-To: Keith Busch <kbusch@kernel.org>
-References: <20200320234344.GA20291@redsun51.ssa.fujisawa.hgst.com>
-From: Jens Axboe <axboe@kernel.dk>
-Message-ID: <5e39d86a-d023-792e-6efd-13752ddc00d8@kernel.dk>
-Date: Fri, 20 Mar 2020 19:14:53 -0600
+ id 1jFTyK-0005Dx-5M
+ for linux-nvme@lists.infradead.org; Sat, 21 Mar 2020 02:34:50 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1584758086;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VnlIalUpjuvJ7w79v3lFc51FFVyPgI4bc8UTEY54Ebk=;
+ b=H60RQnZiu8gll0+vB5b/QHVc1KQuzcE7ACrCNkUoPFow5kcA6aH+4cnpWWVqy5jToBT/gB
+ XUYQXIqJljTPBfvmWx/psaC8+NIxiD8Qk3T5Jabq7ZzVJYBaWCkR0x0bqt7Iyp/05YOVrm
+ 7k+bSdfLCpECu3Um16xmIr8rdnIDq5I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-366-nKnx8tSWMuKxG8xatsvkJQ-1; Fri, 20 Mar 2020 22:34:41 -0400
+X-MC-Unique: nKnx8tSWMuKxG8xatsvkJQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E4B58DB20
+ for <linux-nvme@lists.infradead.org>; Sat, 21 Mar 2020 02:34:40 +0000 (UTC)
+Received: from [10.3.128.7] (unknown [10.3.128.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 72FC019756
+ for <linux-nvme@lists.infradead.org>; Sat, 21 Mar 2020 02:34:40 +0000 (UTC)
+Subject: Re: [PATCH 6/6] test_nvmet.py: Use string.ascii_lowercase
+To: linux-nvme@lists.infradead.org
+References: <20200320203946.37338-1-tasleson@redhat.com>
+ <20200320203946.37338-7-tasleson@redhat.com>
+ <BYAPR04MB4965153A921BBBBE14A2636286F20@BYAPR04MB4965.namprd04.prod.outlook.com>
+From: Tony Asleson <tasleson@redhat.com>
+Organization: Red Hat
+Message-ID: <ac0fcffc-ed25-28d5-413e-8a5a9bd46b91@redhat.com>
+Date: Fri, 20 Mar 2020 21:34:39 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200320234344.GA20291@redsun51.ssa.fujisawa.hgst.com>
+In-Reply-To: <BYAPR04MB4965153A921BBBBE14A2636286F20@BYAPR04MB4965.namprd04.prod.outlook.com>
 Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200320_181458_139547_14813C54 
-X-CRM114-Status: UNSURE (   8.82  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200320_193448_398502_61AFF92C 
+X-CRM114-Status: GOOD (  10.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,20 +94,44 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: hch@lst.de, linux-nvme@lists.infradead.org, sagi@grimberg.me
+Reply-To: tasleson@redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/20/20 5:43 PM, Keith Busch wrote:
-> Two late nvme fabrics fixes for 5.6: a double free with the rdma
-> transport, and a regression fix for tcp; please pull.
+On 3/20/20 8:12 PM, Chaitanya Kulkarni wrote:
+> On 03/20/2020 01:42 PM, Tony Asleson wrote:
+>> This exists for both py2 & py3.
+>>
+>> Signed-off-by: Tony Asleson<tasleson@redhat.com>
+> 
+> Can commit message be more descriptive here ?
 
-Pulled, thanks.
+Sure, how about
 
--- 
-Jens Axboe
+
+test_nvmet.py: test_invalid_input fails on python 3
+
+When you run attempt to run 'make test' on a system using python 3 the
+unit test test_invalid_input fails with:
+
+Traceback (most recent call last):
+  File "/someuser/projects/nvmetcli/nvmet/test_nvmet.py", line 395, in
+test_invalid_input
+    for i in range(l))
+  File "/someuser/projects/nvmetcli/nvmet/test_nvmet.py", line 395, in
+<genexpr>
+    for i in range(l))
+AttributeError: module 'string' has no attribute 'lowercase'
+
+Python 3 does not have 'string.lowercase' ref.
+https://docs.python.org/3/library/string.html
+
+Both python 2 and python 3 have "string.ascii_lowercase".  Use it
+instead so that the code works for both python 2 and python 3.
+
+ref. https://docs.python.org/2/library/string.html
 
 
 _______________________________________________
