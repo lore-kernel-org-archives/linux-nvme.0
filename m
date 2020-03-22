@@ -2,58 +2,61 @@ Return-Path: <SRS0=x4Ox=5H=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46944C4332B
-	for <linux-nvme@archiver.kernel.org>; Sun, 22 Mar 2020 18:00:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD9F2C4332E
+	for <linux-nvme@archiver.kernel.org>; Sun, 22 Mar 2020 18:00:28 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 182CC2072E
-	for <linux-nvme@archiver.kernel.org>; Sun, 22 Mar 2020 18:00:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A5BA72072E
+	for <linux-nvme@archiver.kernel.org>; Sun, 22 Mar 2020 18:00:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="UNCaQgsI"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 182CC2072E
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="t7slUJ4x"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A5BA72072E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:MIME-Version:Cc:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	References:List-Owner; bh=9lQNRk0y77po1Bj1liFlmn5vUD9LoI8ZRtAHB+9KHY0=; b=UNC
-	aQgsIve4D5ibTUYLnxctvrFmUKuYOxLxJ45VD/NloykfpUy76SrZC5t2bdOza6VU4No4g1z4chSuG
-	++idzsKN4IHCnFI3oIHfhUIXUakCSbVjWB5xP5UQvb22Ws/WM6poN+jNXCtzArcycpQbsYYfyfoF1
-	sPau55citCtSxiS/nnsW1Es4Hm1YoORThPtnhrBKlHmjZBDcplUqK9MWkM35WVhXILWX8+1aa+Dh1
-	dhGyG0wGjGXa5dkzRb9nBAKD0S6g1q2GUo1QAr+4PsQshPQgTiQoQUhSZxpq0WU46a6vyIQ+5pKKA
-	Wj+zS8rkW0+369nGJ//igBb767DQGMA==;
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
+	In-Reply-To:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Owner;
+	bh=wS+sBfiAJbUzRmMWE6gjYrQBKN0rQCCmLHQH1D8pYF0=; b=t7slUJ4x3nHChmSP9iK6l1poMk
+	poexDn0VbX4yg9UJMPPqAwdSHB9OKyPpoGTq2JUHe7PD5c1JMzuq0GilYryPaeoGiPwHarQ8KCTbJ
+	eA+7kW4FFrI739Zu8DNPyW5StUVcT0TLzJL8TXk+UG2h2HZ38dJdKCk3FoX1mQaDr6ytG/y3F5J9t
+	1pWj+fmTdF7Vs7FvEI0rVyWTXmd4/jLINH0omwhmGm8x9zWLfT8s4B/NwF55rLkiUp6ZrY7MQRSbq
+	KO6W/6BVJFaTKXFI4qcuL0eB67JmpQh2WixuBL2GBIhoZ7JysrkoW7DWfXlibG+VznzKEYvfp1g6i
+	3TQDChiA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jG4tV-0007dY-QE; Sun, 22 Mar 2020 18:00:17 +0000
+	id 1jG4td-0007qc-99; Sun, 22 Mar 2020 18:00:25 +0000
 Received: from mail-il-dmz.mellanox.com ([193.47.165.129] helo=mellanox.co.il)
  by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jG4tK-0006Z0-4U
- for linux-nvme@lists.infradead.org; Sun, 22 Mar 2020 18:00:08 +0000
-Received: from Internal Mail-Server by MTLPINE2 (envelope-from
+ id 1jG4tK-0006Z8-8p
+ for linux-nvme@lists.infradead.org; Sun, 22 Mar 2020 18:00:10 +0000
+Received: from Internal Mail-Server by MTLPINE1 (envelope-from
  israelr@mellanox.com)
  with ESMTPS (AES256-SHA encrypted); 22 Mar 2020 19:59:57 +0200
 Received: from rsws50.mtr.labs.mlnx (rsws50.mtr.labs.mlnx [10.209.40.61])
- by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 02MHxvS9004810;
+ by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 02MHxvSA004810;
  Sun, 22 Mar 2020 19:59:57 +0200
 From: Israel Rukshin <israelr@mellanox.com>
 To: Linux-nvme <linux-nvme@lists.infradead.org>,
  Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
-Subject: [PATCH 0/6 V2] nvme: Fixes for deleting a ctrl before it was created
-Date: Sun, 22 Mar 2020 19:59:43 +0200
-Message-Id: <1584899989-14623-1-git-send-email-israelr@mellanox.com>
+Subject: [PATCH 1/6] nvme: Remove unused return code from nvme_delete_ctrl_sync
+Date: Sun, 22 Mar 2020 19:59:44 +0200
+Message-Id: <1584899989-14623-2-git-send-email-israelr@mellanox.com>
 X-Mailer: git-send-email 1.8.4.3
+In-Reply-To: <1584899989-14623-1-git-send-email-israelr@mellanox.com>
+References: <1584899989-14623-1-git-send-email-israelr@mellanox.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200322_110006_594789_C7F3CB70 
-X-CRM114-Status: UNSURE (   8.40  )
+X-CRM114-CacheID: sfid-20200322_110006_751448_7ADD9C9C 
+X-CRM114-Status: UNSURE (   7.70  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -74,41 +77,45 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The patchset starts with small cleanups, continue with the fixs and ends
-with adding new warnings.
-Calling nvme_sysfs_delete() when the controller is in the middle of
-creation may cause several bugs. If the controller is in NEW state we
-remove delete_controller file and don't delete the controller. The user
-will not be able to use nvme disconnect command on that controller again,
-although the controller may be active. Other bugs may happen if the
-controller is in the middle of create_ctrl callback and
-nvme_do_delete_ctrl() starts. For example, freeing I/O tagset at
-nvme_do_delete_ctrl() before it was created or controller use after free
-at create_ctrl callback.
+The return code of nvme_delete_ctrl_sync is never used, so change it to
+void.
 
-Changes from v1:
- - Added Reviewed-by signatures
- - Patches reordering
- - New patches (2/6 and 3/6)
- - Split to 2 WARN_ON_ONCE (Patches 5/6 and 6/6)
+Signed-off-by: Israel Rukshin <israelr@mellanox.com>
+Reviewed-by: Max Gurtovoy <maxg@mellanox.com>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+---
+ drivers/nvme/host/core.c | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
-Israel Rukshin (6):
-  nvme: Remove unused return code from nvme_delete_ctrl_sync
-  nvme-pci: Make nvme_pci_free_ctrl symmetric to nvme_probe
-  nvme: Fix ctrl use-after-free during sysfs deletion
-  nvme: Fix controller creation races with teardown flow
-  nvme-rdma: Add warning on state change failure at nvme_rdma_setup_ctrl
-  nvme-tcp: Add warning on state change failure at nvme_tcp_setup_ctrl
-
- drivers/nvme/host/core.c   | 18 ++++++++++--------
- drivers/nvme/host/fc.c     |  3 ---
- drivers/nvme/host/nvme.h   |  1 +
- drivers/nvme/host/pci.c    | 10 ++++------
- drivers/nvme/host/rdma.c   |  9 ++++++---
- drivers/nvme/host/tcp.c    |  9 ++++++---
- drivers/nvme/target/loop.c |  3 ---
- 7 files changed, 27 insertions(+), 26 deletions(-)
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 68e7c75..a461220 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -192,21 +192,16 @@ int nvme_delete_ctrl(struct nvme_ctrl *ctrl)
+ }
+ EXPORT_SYMBOL_GPL(nvme_delete_ctrl);
+ 
+-static int nvme_delete_ctrl_sync(struct nvme_ctrl *ctrl)
++static void nvme_delete_ctrl_sync(struct nvme_ctrl *ctrl)
+ {
+-	int ret = 0;
+-
+ 	/*
+ 	 * Keep a reference until nvme_do_delete_ctrl() complete,
+ 	 * since ->delete_ctrl can free the controller.
+ 	 */
+ 	nvme_get_ctrl(ctrl);
+-	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_DELETING))
+-		ret = -EBUSY;
+-	if (!ret)
++	if (nvme_change_ctrl_state(ctrl, NVME_CTRL_DELETING))
+ 		nvme_do_delete_ctrl(ctrl);
+ 	nvme_put_ctrl(ctrl);
+-	return ret;
+ }
+ 
+ static inline bool nvme_ns_has_pi(struct nvme_ns *ns)
 -- 
 1.8.3.1
 
