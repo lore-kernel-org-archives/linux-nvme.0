@@ -2,81 +2,78 @@ Return-Path: <SRS0=HgRT=5J=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.7 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90D0DC43331
-	for <linux-nvme@archiver.kernel.org>; Tue, 24 Mar 2020 18:15:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95EADC2BAEE
+	for <linux-nvme@archiver.kernel.org>; Tue, 24 Mar 2020 18:23:25 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 58FC320714
-	for <linux-nvme@archiver.kernel.org>; Tue, 24 Mar 2020 18:15:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6DF2220714
+	for <linux-nvme@archiver.kernel.org>; Tue, 24 Mar 2020 18:23:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="dcrJ2S2t";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UIbyYmfk"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 58FC320714
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="lWXKl8ps";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cgIZmNF/"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6DF2220714
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Reply-To:List-Subscribe:List-Help:
-	List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Date:Message-ID:
-	Subject:From:To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=fF91+1UwVgXMqV5YIgIsR0fnthDJ6s+Zu2HJqUDYh9Y=; b=dcrJ2S2tvADf5M
-	+XHfJKGa/fTmS4cOZ6ETK4eGalIxY8513j3Sknay4DwIYwtCpWikJJvye55RDAhKSm5kQpcL7SOBs
-	kwXoeHAAAo8G6EkY3hC+3TE5SghmzhNzGllfn8FNky9dIegS1iFn8X6vU2o4fNSVZs9/lwGuZdeTW
-	i4Xt6PRAGhpCyylkJIbE1bgZbppdy+j7fCZZ+Ps46Y/yg1iWTenYCa9badea9cVkUUUn80a24ISqZ
-	rXXzBzJEeQDKuOPQ4VzS1JkhwCAE4Wlt4UBYel+61cDHZ6sYa1LDirAMO7FJrcUvW7BjDMNo8kVHE
-	eIyqtGojLa8kP0cl63Gg==;
+	List-Owner; bh=N/HTrArJCkLm45vhH43cN/keI21WuMbzFNijhdxO7MA=; b=lWXKl8psXIrx0o
+	wJ8T+VAKuKvCUp0CkLKEohn3yrvf0geLqPXVvSPgGMVgztpronZYkubyj9G3sGVQxgk4N0/viASB5
+	eWBcPoko0VVWQf1hOGzD8R8UXS2ldhPPI6pSvsUnnYRGWb7Q0cOf/cMIRsItFTOAMYTpf0vvSAlvn
+	kzAiHHTLXFoDVTXDK9xFn+IoBPkR3nkLN2xOHgB5JNTeEAxu04WL1tgilYHlVVyI568QbLbJG3/GF
+	38wcq++cHmEJZieWKIr5APrVgCKZem5gPTdHry3qXzNEDQAwHgezy0pdZXva06NH15nsU9VsRJS8G
+	tc19OPMAWI1cuCmmzRPg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jGo5j-0005A1-Fw; Tue, 24 Mar 2020 18:15:55 +0000
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74])
+	id 1jGoCx-00005d-JK; Tue, 24 Mar 2020 18:23:23 +0000
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jGo5g-00059T-OQ
- for linux-nvme@lists.infradead.org; Tue, 24 Mar 2020 18:15:54 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585073750;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:mime-version:mime-version:
- content-type:content-type: content-transfer-encoding:content-transfer-encoding;
- bh=MoP25aDlrJ2QCWYbM5B25jb4lNBN6wOWoA+fE5dRXiI=;
- b=UIbyYmfkzEgiXUZEHgDm+ukXLl9vjEMvmRRXdub4GDCqNLjwguH4G3ybV0doXLX9fZW8Wn
- NRV5FsKDP7Ix/9fUTmexCP5BDf3TTLwTPMH31n5ieW5jeIs4qutNhGcLbrJs0NS9Ie+4WC
- ZQFM126uu43OUr/VaFuIPVyP/CFctiI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-308-tyCi_Tt-MQyXTcEtNzMp0Q-1; Tue, 24 Mar 2020 14:15:46 -0400
-X-MC-Unique: tyCi_Tt-MQyXTcEtNzMp0Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E880685EE85
- for <linux-nvme@lists.infradead.org>; Tue, 24 Mar 2020 18:15:40 +0000 (UTC)
-Received: from [10.3.128.7] (unknown [10.3.128.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6A50B9F4B
- for <linux-nvme@lists.infradead.org>; Tue, 24 Mar 2020 18:15:40 +0000 (UTC)
-To: linux-nvme@lists.infradead.org
-From: Tony Asleson <tasleson@redhat.com>
-Subject: nvmet and stable API
-Organization: Red Hat
-Message-ID: <d4060208-ec69-3211-277c-d151be302555@redhat.com>
-Date: Tue, 24 Mar 2020 13:15:39 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ id 1jGoCw-00005F-0S
+ for linux-nvme@lists.infradead.org; Tue, 24 Mar 2020 18:23:23 +0000
+Received: by mail-pf1-x42e.google.com with SMTP id z25so5387208pfa.5
+ for <linux-nvme@lists.infradead.org>; Tue, 24 Mar 2020 11:23:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=s6d1Xk28wFSHFffu7rm7BObFA7LDIiN8Ht5kHAWECW0=;
+ b=cgIZmNF/NI5bWyUiC9OB6CqtRektR29coGi9kW54sqBxB/pFkrbXM1tJN+oUHqeYKH
+ R6DkvWSXgohZ4D030AodNBGk0uqvC9MhWYf945nNuOdoSoJ4JZKFff/K2uLUpWvMoBws
+ UqIwhlJfSzRC+Daflpl3rBv/IOoehdqwD22/iKt7LsWoNz8PYzqS3ihxMlofCLDTU47W
+ VZ5JziPVHbOkKzKZU8Uzyccry26KoUyrmSNRjtG3f57OG/DzoGPqI8lMT/0i9I3FjtTJ
+ 2sTaD0qEBcDzI60I856REqMcjNP+715DqY+SzXuj3xiAPTSqvyEGDJock476jxHp/qOQ
+ BqDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=s6d1Xk28wFSHFffu7rm7BObFA7LDIiN8Ht5kHAWECW0=;
+ b=AbFyR8Q6kSEi/xUb719bLtX8lyIOaoDm2f8sJZGDuaLT/yVDBs5xCi3YWcsIqVhNSc
+ /XCDsgsxX7MwOkexyWJhfZh4MM+YPREGpcsvTV3Nt2AaTl++zvX515FOK4EYqJAED/L3
+ HGONBskffpkMM/tXE0LIVM8f1FRpu0iFR0ahM4oN/piABoZdAF9lEvGU/sYGIoUtlt+I
+ obFJLKHDYEn4DRiStWPkyvvZ5ATpLGdKoqFfx2AXhzW/Vhio3raArL9WF8MNL6ZcoXhe
+ 8EKBJkC4SiLq/ocRyVQasgfydeaZ6D2OAeN+bEmdADXdYVIrRUXsb5zlTIT+dDbyI0vB
+ DzMw==
+X-Gm-Message-State: ANhLgQ1B8AQlk341DmNs6aTGg3Jfz65WrghdO/O0y6pkMoI02/LeZIbh
+ KF05Gq5ckFdD3SYpdeV9lxMTZc/vOt3W4/r8g2XipEaZhASVhw==
+X-Google-Smtp-Source: ADFU+vtZ0QUe67/L6Z1HauGHu9jDfpwV+O9jpu7xtZDvWXsxqZgp70zNQh6DztxUUhXIBwTysXYxpVTXHlqlX/wgaWc=
+X-Received: by 2002:aa7:958f:: with SMTP id z15mr29896087pfj.130.1585074200698; 
+ Tue, 24 Mar 2020 11:23:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Tue, 24 Mar 2020 20:23:13 +0200
+Message-ID: <CAHp75VdqyTYcHzgTnRpUjh4qS0D2h_BWXicvjixWK=7MngXWwQ@mail.gmail.com>
+Subject: nvmem: core: use device_register and device_unregister
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200324_111552_872254_3B0F299D 
-X-CRM114-Status: UNSURE (   7.25  )
+X-CRM114-CacheID: sfid-20200324_112322_052704_FCF4F161 
+X-CRM114-Status: UNSURE (   3.96  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -89,25 +86,26 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: tasleson@redhat.com
+Cc: Linux NVMe Mailinglist <linux-nvme@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-With the existing functionality of nvmetcli in that you can
-save/restore/clear/ls and use interactively seems to indicate that if
-you want to programmaticlly change the state of targets that you need to
-use the python code that is available in nvmet which is used by the CLI.
- Is this a correct assumption, that nvmet is an API for external python
-programs to use?
+I suddenly stumbled over
+commit be6ca6a7ec4c8d6dd9fe712a798d32a7c19cb04a (dd/driver-core-testing)
+Author: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Date:   Tue Mar 24 17:15:58 2020 +0000
 
-The block tests in https://github.com/osandov/blktests.git seem to
-indicate that going straight to configfs is the API?
+   nvmem: core: use device_register and device_unregister
 
-Thanks,
-Tony
+in driver-core-next.
 
+I have a question, isn't dev_dbg() there is the reason of split?
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 _______________________________________________
 linux-nvme mailing list
