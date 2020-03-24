@@ -6,17 +6,17 @@ X-Spam-Status: No, score=-5.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9B34C41621
-	for <linux-nvme@archiver.kernel.org>; Tue, 24 Mar 2020 16:20:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35B4EC43331
+	for <linux-nvme@archiver.kernel.org>; Tue, 24 Mar 2020 16:20:41 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B077120774
-	for <linux-nvme@archiver.kernel.org>; Tue, 24 Mar 2020 16:20:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 090D82073E
+	for <linux-nvme@archiver.kernel.org>; Tue, 24 Mar 2020 16:20:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Ic3gPNuE";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="WOYFWwNj"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B077120774
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="WBq14Q8O";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="0WJf2kZ3"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 090D82073E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,45 +25,44 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=/yE1ENu8TDpwK8sRvOpOZgE0VHTZWxWuAXr38ssyyxw=; b=Ic3gPNuEUDAcGK
-	e9b7M5H2SEjZPXOsBgM+WASTUL4SdMmXE4pdO2bZOzE77ePvef1EDTfUTqOgwC3o/KIK0bRxrHUgq
-	Y7jnd0+Jf95ic+FEz84JcKSdU3h2sKWhXXH/KyJJKTJlqPRLqkiJ2OFpoxKKJOmebSBEIaXyR9P57
-	BYkAzSb4ru2tBDifXwq4HrI85ZpFItzJIjCcKWiVDyoZ6N/BRn1+gFZawtMIb0au+xLKr+oFT9oua
-	qJsGsZJ2hPEi58OPKULEigQPFNjdPKQUHyew+n7zwowGEf3e1f8b8cfYQkD0GV4o2YfuTCgaePVh4
-	eHUWrHIX4eGaBuMgCqXA==;
+	List-Owner; bh=m9AdpVVYcBA5Mhma9aRqckWcZb0qqCnG9EO4iCStSJM=; b=WBq14Q8Olh/Ed+
+	9X5obDutVIlePJXXu5h1tOIUOtagRkA3vw1qLyg/vRQxSy3/rG/a/wQTAxpBRrGIlbOBgdKu9Waw3
+	DVlfc6uxqygdf6b4SFne4/gpBJcjUB6MUi5p66f7f3ZnqaJiANGCGlTjRsMii8FdiVlmqRWL/rUL9
+	nWJdjJCjkKDa8HJpmvVPsWKFJR/x8pa4dva2TGOcLNuasLTpe2mIKCZonpJFoyYO7ixT7+SZFAuqQ
+	At/xGXjzg7Wn6kLb/oLNL0Zeak5KCs/dDOhxahfk9AMhzo1aQKE/wd9lj0XuLpYhkhXBikRZoCWz/
+	GY53kfDfpSusevY8eZ9g==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jGmHW-0003Gs-Jd; Tue, 24 Mar 2020 16:19:58 +0000
+	id 1jGmI9-0004iG-VI; Tue, 24 Mar 2020 16:20:37 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jGmHT-0003GD-U0
- for linux-nvme@lists.infradead.org; Tue, 24 Mar 2020 16:19:57 +0000
+ id 1jGmI8-0004he-3j
+ for linux-nvme@lists.infradead.org; Tue, 24 Mar 2020 16:20:37 +0000
 Received: from redsun51.ssa.fujisawa.hgst.com (unknown [199.255.47.7])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id CD9332073E;
- Tue, 24 Mar 2020 16:19:54 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 1531F2073E;
+ Tue, 24 Mar 2020 16:20:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1585066795;
- bh=Nzgytqci/pFQzaoBhNiViqBoPCaW8cS5sUxfpWRKEIs=;
+ s=default; t=1585066835;
+ bh=qGI8shyX0mcDqQKmGNvD4oXC5Q9IgR2cQc+prDbBC2Y=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WOYFWwNjBDnnDf2cIS7e2tNfO94mb0OiK6c2GF8rfpcUt04pbRLkXAJa6semGwBER
- CpI3Ah3M/4bVs7c2PkYwt/p/fKI+kMc5NvJI/of1R5uhH5VTU1VIw4c9Yz83JNGWSu
- dLgJxHN4vpgZDhY21Sh34hJRXuOUhiH2fWZn7BXE=
-Date: Wed, 25 Mar 2020 01:19:52 +0900
+ b=0WJf2kZ3gOs16rDm+KBUe1ksMsArcLquuviZdbsW5ZrdfUPbMRsw0/0tdTtKE9PwJ
+ nZ9PcDpmPZngRCorVbmC1fC7Pqj9rRC5uYNeQ9VJIzCsn1WF3iP5Mq3tCw+dyvCpDi
+ /v1I2jbqGgUfDlEmKtVKuyAycGIeaBs/acmDYRM0=
+Date: Wed, 25 Mar 2020 01:20:32 +0900
 From: Keith Busch <kbusch@kernel.org>
 To: Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH v2] nvme-tcp: don't poll a non-live queue
-Message-ID: <20200324161952.GB30956@redsun51.ssa.fujisawa.hgst.com>
-References: <20200323234352.23753-1-sagi@grimberg.me>
+Subject: Re: [PATCH] nvme-tcp: fix possible crash in write_zeroes processing
+Message-ID: <20200324162032.GC30956@redsun51.ssa.fujisawa.hgst.com>
+References: <20200323220630.14900-1-sagi@grimberg.me>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200323234352.23753-1-sagi@grimberg.me>
+In-Reply-To: <20200323220630.14900-1-sagi@grimberg.me>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200324_091955_991100_F66F1AF1 
-X-CRM114-Status: UNSURE (   8.06  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200324_092036_175050_6C57CED1 
+X-CRM114-Status: GOOD (  10.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,18 +75,22 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
- Mark Wunderlich <mark.wunderlich@intel.com>, Christoph Hellwig <hch@lst.de>,
- linux-nvme@lists.infradead.org
+ Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Mar 23, 2020 at 04:43:52PM -0700, Sagi Grimberg wrote:
-> In error recovery we might be removing the queue so check we
-> can actually poll before we do.
+On Mon, Mar 23, 2020 at 03:06:30PM -0700, Sagi Grimberg wrote:
+> We cannot look at blk_rq_payload_bytes without first checking
+> that the request has a mappable physical segments first (e.g.
+> blk_rq_nr_phys_segments(rq) != 0) and only then to take the
+> request payload bytes. This caused us to send a wrong sgl to
+> the target or even dereference a non-existing buffer in case
+> we actually got to the data send sequence (if it was in-capsule).
 > 
-> Reported-by: Mark Wunderlich <mark.wunderlich@intel.com>
+> Reported-by: Tony Asleson <tasleson@redhat.com>
+> Suggested-by: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
 > Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
 
 Applied for 5.6, thanks.
