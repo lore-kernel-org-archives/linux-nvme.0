@@ -2,61 +2,82 @@ Return-Path: <SRS0=GoWw=5K=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D2BAC10DCE
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Mar 2020 00:29:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A26F0C54FCF
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Mar 2020 06:54:38 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0EBC520719
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Mar 2020 00:29:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6BE3C2051A
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Mar 2020 06:54:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="XFtFssHa"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0EBC520719
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=draconx.ca
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="jK0BOjrF"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6BE3C2051A
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
-	:From:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=lkSaop4DiYzYiRQlnJXfr+zQrlTEtbeR1gRgdKsBze8=; b=XFtFssHaMwdrov
-	HC8FqgcLTwR+g4gRAPygohKWOiVpw6zN1kaZNfBofvNXau/8bBwuQhBRpHaRg02gm+DphgGHCqNsD
-	RM45kiHBj2DWfz1qPnwfX5j61ULUOGaftZWFj3vysBnb+gwbbtZfKSltZ6E0Tkj1Ks63OOpd3mQWR
-	qKQnMyl704KS+0vM4m9veiXp7qdjXs6IRMRsS5vZ41aKxSyv1SQ0PeJIuIYQjsoY7zN56VTBzEP08
-	8yGntR4YKq57bCxeEmMehLoHlAthOk/fc06+fUK9P6fdWw2QOE2UwQgcPTsTjONdawQ+NHal14sia
-	hlronfdt6uqfO1QFTztA==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=z1fMvao11i+d0UZrbIxXcd2/3fEWA/mH8uzwOCutGXo=; b=jK0BOjrFJTh/lJuTggiC2uMYi
+	GmFA0tVFEBWFS7fE7jZ1lU84dwk370WAFhjtk7XdrJzOpPIQOCuTM8nMgMjbIQi/aQ4gA1m1OP5Vz
+	9HjbaBmi5w2ZiypBmJMFn1DN68S7GrjxdIpsVxc3lQPtrUFovJC5Yo/Ae7x/jBr1+5yaBPG+oenPS
+	6oQ/Bb1vwL6a3fB8N84EE9x6AWx3lFRFrCeoK1rv5pAoPcNIcU1G7SUaIUL/EC6GgIq9rV//AlilG
+	O70OHG0LaZcYDiSfH/SS893hZBWiBrv1zGICx9Ppn6sB1uNYW+uwtfqpaXWEZLLLMwSRZWRfIBi2V
+	MwMRDhxdA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jGtvN-0002aR-TJ; Wed, 25 Mar 2020 00:29:37 +0000
-Received: from mta01.start.ca ([162.250.196.97])
+	id 1jGzvu-0007fk-2V; Wed, 25 Mar 2020 06:54:34 +0000
+Received: from mail-pf1-f193.google.com ([209.85.210.193])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jGtvK-0002Zq-Nx
- for linux-nvme@lists.infradead.org; Wed, 25 Mar 2020 00:29:36 +0000
-Received: from mta01.start.ca (localhost [127.0.0.1])
- by mta01.start.ca (Postfix) with ESMTP id 7F76D4266E;
- Tue, 24 Mar 2020 20:29:21 -0400 (EDT)
-Received: from localhost (dhcp-24-53-240-163.cable.user.start.ca
- [24.53.240.163])
- by mta01.start.ca (Postfix) with ESMTPS id 5527941F7F;
- Tue, 24 Mar 2020 20:29:18 -0400 (EDT)
-From: Nick Bowler <nbowler@draconx.ca>
-To: linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] nvme: Fix NVME_IOCTL_ADMIN_CMD compat address handling.
-Date: Tue, 24 Mar 2020 20:28:48 -0400
-Message-Id: <20200325002847.2140-1-nbowler@draconx.ca>
-X-Mailer: git-send-email 2.24.1
+ id 1jGzvq-0007et-DQ
+ for linux-nvme@lists.infradead.org; Wed, 25 Mar 2020 06:54:31 +0000
+Received: by mail-pf1-f193.google.com with SMTP id z65so578632pfz.8
+ for <linux-nvme@lists.infradead.org>; Tue, 24 Mar 2020 23:54:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
+ b=ICrXq7zgt0oTkGGAS2XXUobz0BS4iDgc7dzOaH6Qzm1oQR1GPeQywEQxt2nzzFrw58
+ EQvEzvDUDGsC4/7u+Fka9d6hHFdhdanpEtN9eKXVUSDnyMtIlumZF2iwn2TWql455twV
+ QjyAkQDeawjiLNcEXf9BDCI9N1BKvzom0lQRXKQMifpKDgDhmH7FieZP0zACvSPEjgkg
+ vQjsqhCL6hnd83WXZmY+ZLB3QJs3WUH9WnaL0qPmXvK8UXyNPY+CdEPNGv5AkWSp8to/
+ I1gG2E0r5a69no0ThJU2FWnFnPSl1D0J+gVS5xQaflnQmzgmwLSuXSd8OpvZsfsGPnBy
+ 5QhQ==
+X-Gm-Message-State: ANhLgQ1PKx7L/k2GzAtJAezLzVSnStCqgs86F8KDiigIhWKXlrEBBrsI
+ Z18PvLnyq170k38FNzU368k6/iT7
+X-Google-Smtp-Source: ADFU+vtqAA+ZcKesRR85r91znskVBcG7r9sIy6O4bu/R57o2CmhXpR57NnKSl/coUPcrm8LEMkJKOQ==
+X-Received: by 2002:a62:1a03:: with SMTP id a3mr1852118pfa.171.1585119268930; 
+ Tue, 24 Mar 2020 23:54:28 -0700 (PDT)
+Received: from ?IPv6:2601:647:4802:9070:2c87:e6f8:1c11:1d73?
+ ([2601:647:4802:9070:2c87:e6f8:1c11:1d73])
+ by smtp.gmail.com with ESMTPSA id p22sm6705140pgn.73.2020.03.24.23.54.27
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 24 Mar 2020 23:54:28 -0700 (PDT)
+Subject: Re: [PATCH] nvme: Fix NVME_IOCTL_ADMIN_CMD compat address handling.
+To: Nick Bowler <nbowler@draconx.ca>, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20200325002847.2140-1-nbowler@draconx.ca>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <3eed9434-d1af-b0d9-e972-ddd393d1ab4b@grimberg.me>
+Date: Tue, 24 Mar 2020 23:54:26 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Firefox/60.0 Thunderbird/60.9.0
 MIME-Version: 1.0
-X-Virus-Scanned: ClamAV using ClamSMTP
+In-Reply-To: <20200325002847.2140-1-nbowler@draconx.ca>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200324_172934_843740_0AD9B286 
-X-CRM114-Status: GOOD (  12.38  )
+X-CRM114-CacheID: sfid-20200324_235430_454495_3F9E9322 
+X-CRM114-Status: UNSURE (   8.78  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,72 +89,12 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On a real 32-bit kernel, the upper bits of userspace addresses passed
-to NVME_IOCTL_ADMIN_CMD via the nvme_passthru_cmd structure are silently
-ignored by the nvme driver.
-
-However on a 64-bit kernel running a compat task, these upper bits are
-not ignored and are in fact required to be zero for the ioctl to work.
-
-Unfortunately, this difference matters.  32-bit smartctl submits garbage
-in these upper bits because it seems the pointer value it puts into the
-nvme_passthru_cmd structure is sign extended.  This works fine on a real
-32-bit kernel but fails on a 64-bit one because (at least on my setup)
-the addresses smartctl uses are consistently above 2G.  For example:
-
-  # smartctl -x /dev/nvme0n1p1
-  smartctl 7.1 2019-12-30 r5022 [x86_64-linux-5.5.11] (local build)
-  Copyright (C) 2002-19, Bruce Allen, Christian Franke, www.smartmontools.org
-
-  Read NVMe Identify Controller failed: NVME_IOCTL_ADMIN_CMD: Bad address
-
-Since changing 32-bit kernels to actually check all of the submitted
-address bits now would break existing userspace, this patch fixes the
-problem by explicitly zeroing the upper bits in the compat case.  This
-enables 32-bit smartctl to work on a 64-bit kernel.
-
-Signed-off-by: Nick Bowler <nbowler@draconx.ca>
----
- drivers/nvme/host/core.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index a4d8c90ee7cc..afb7b76d1d8a 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -6,6 +6,7 @@
- 
- #include <linux/blkdev.h>
- #include <linux/blk-mq.h>
-+#include <linux/compat.h>
- #include <linux/delay.h>
- #include <linux/errno.h>
- #include <linux/hdreg.h>
-@@ -1412,6 +1413,16 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	if (cmd.timeout_ms)
- 		timeout = msecs_to_jiffies(cmd.timeout_ms);
- 
-+	if (in_compat_syscall()) {
-+		/*
-+		 * On real 32-bit kernels this implementation ignores the
-+		 * upper bits of address fields so we must replicate that
-+		 * behaviour in the compat case.
-+		 */
-+		cmd.addr = (compat_uptr_t)cmd.addr;
-+		cmd.metadata = (compat_uptr_t)cmd.metadata;
-+	}
-+
- 	effects = nvme_passthru_start(ctrl, ns, cmd.opcode);
- 	status = nvme_submit_user_cmd(ns ? ns->queue : ctrl->admin_q, &c,
- 			(void __user *)(uintptr_t)cmd.addr, cmd.data_len,
--- 
-2.24.1
-
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
 _______________________________________________
 linux-nvme mailing list
