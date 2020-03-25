@@ -2,86 +2,66 @@ Return-Path: <SRS0=GoWw=5K=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75561C2D0E5
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Mar 2020 20:48:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 031FEC43331
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Mar 2020 22:15:16 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id AB6EE206F8
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Mar 2020 20:48:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C28952070A
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Mar 2020 22:15:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="RYMifSYi";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=draconx-ca.20150623.gappssmtp.com header.i=@draconx-ca.20150623.gappssmtp.com header.b="T368gTjF"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AB6EE206F8
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=draconx.ca
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="up0UoIHR";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="ThWkLZMA"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C28952070A
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
-	References:In-Reply-To:MIME-Version:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=I7AWFLBJ3CKqHj3LxCfAEthcxQ6ddrJnTfe1TsBG4D0=; b=RYMifSYiHxNNMW
-	ndq13UxIkHLWTfupzteY7awxAJrJL397LUVPwq9fdR4GYCxUaMJ/JTIHRKaTbO+2LTtQlRLbZYkaW
-	MfFoJb+KWw6Fpx6V6MGuHKfjSUR5sRoE9TxXjzn6KKkt1xqlxRanwBq4N1OUmo3d+JK4mUguRi/Vu
-	LwlwL1SFPXF/vW5gLseoik8ivul1oyb35GqMsPHKBxfheQbbM3/yo4nfl675ys/FNvYnFJKGVKekZ
-	KD1mxBQTn0ZZ7SN38RYQkcMowi2bt6iphBUImtJ/tIyHXGOAXuz9d4I52/1oCs6kN/9eEeaAbjsws
-	t31zB9dHbv34V5NqRI6Q==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:To:From
+	:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=YixPO1sEQ68n0nPzExpp/LnoRT1fZqDsEJdIJkVd184=; b=up0UoIHRa1tU3i
+	j/oc23qBe2nIokk5aByeXqqe5iO3sLIGxl7rK09IrfYpiO3ziRmJgbjajBCAbnXA/VeIu8wg09+Uy
+	2U7bmEnVCNgETJt3plh32doeNJ0dobDXEvrIVi1dyrgIKWQR9fMwDUWxZBwq5EclD7Z+vre7R9e7k
+	BlYevxRmYpl/mMN+7VvuSy8ajecz7dpSUS0gerXITMrbZluwuDOc7ytmci9K4rNkhpMcDf/5N7o8r
+	6QqxCPPDlfnOLjvNa1NdmN3roEKMLxrY5P58R0ZMOBM2YqHEJsp47jMa2dJQJhpBzlUKT6NhnOpVi
+	nKpnnRCP0KKdQGcWBKKQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jHCx0-0004wl-9Q; Wed, 25 Mar 2020 20:48:34 +0000
-Received: from mail-yb1-xb44.google.com ([2607:f8b0:4864:20::b44])
+	id 1jHEIp-0006jU-GP; Wed, 25 Mar 2020 22:15:11 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jHCw3-00040w-Kf
- for linux-nvme@lists.infradead.org; Wed, 25 Mar 2020 20:47:37 +0000
-Received: by mail-yb1-xb44.google.com with SMTP id r16so1958217ybs.13
- for <linux-nvme@lists.infradead.org>; Wed, 25 Mar 2020 13:47:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=draconx-ca.20150623.gappssmtp.com; s=20150623;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=AWwQ/MdaFzRK4+oXN2BrrbghUCKIcq6WVRGHgMwSMoQ=;
- b=T368gTjF0aOe98QD4dHhs2rTWG344V2Rf/iyJgNKx9THKEYXDkjl02/dGNDLFtM7nj
- 04M2gV8pQJGD25wSdx29quKI7fxZR9fUUKbpW27ht+0gBDDe0BIeegT9DIUVnzvFKq+f
- TK7HereiGXj+g+xSgBISbCOFKRPOoqQGgv0mN1Bnl+DwR+4x3JUA4SbzhYHLPIqMZr3n
- YqHroq+UvejoVIWB9Hjk4hVnRHq+3gDFm1YUUr/936N2tqcTYb9+aDrA+N+W8hKLasE5
- xkAu6agUKCXW/GEnFUbu8Q6Y0lZN1NOvF68kQevsg/Oda31qEY8rO/vKj9QFb9zzFIf+
- Sbzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=AWwQ/MdaFzRK4+oXN2BrrbghUCKIcq6WVRGHgMwSMoQ=;
- b=pRhWqyVUi7jvqxhzxT3wYcGbTZVcwQpQvYE5DuSbIpRrdbtelg/1nNxsDFH2CChcx3
- aa7RO7eTAPZHLLjgZz5oqMPhy2+bbZ2W7TuZgELw4Sxhij37543jh+3PJUnWS3DcsxkF
- LFKiehDwRcXUCdSIL6MS6y5FEDoAVOYlfo5QsyTXHwZXSMnYRCrkM6FIKHhmGyTDJse3
- 3AFS3nkbFxO5try/WjGDfjrh3xAUfFi+lxBoHL0eSu9PiR3u0ZaGef9KRXRjGoqSAuRe
- EBBwXjzzuF0d/BIr2CGaH+FI6mYUlsoY9zzpvcNTXSU3PKnpSobJ3mqPzr9EnV4Er94M
- fsgQ==
-X-Gm-Message-State: ANhLgQ2NVePABxYu8EO+rnhzLAPNxcGYXMI0KOSyjpyj83SJ94HsAqHu
- s/Td0wZGWRXGxxo3U+fsMsjYx/DdvqKxuyf05cmaQQ==
-X-Google-Smtp-Source: ADFU+vs1XgkR9lF2quFpA7PJRkEYrsc6qyGubhJKxmGaZZzqqGv+ibNMhD1nbGqx2C3wRh2J97JIomt72sdIrlmtTZA=
-X-Received: by 2002:a25:bbcd:: with SMTP id c13mr8893628ybk.9.1585169253378;
- Wed, 25 Mar 2020 13:47:33 -0700 (PDT)
+ id 1jHEIm-0006VE-Ij
+ for linux-nvme@lists.infradead.org; Wed, 25 Mar 2020 22:15:10 +0000
+Received: from redsun51.ssa.fujisawa.hgst.com (unknown [199.255.47.7])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 55FA12070A;
+ Wed, 25 Mar 2020 22:15:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1585174508;
+ bh=iPzX250sIz/l6sCxMfw8NKIJdbWhNzsQIhEG5vm65Qw=;
+ h=Date:From:To:Cc:Subject:From;
+ b=ThWkLZMAW45rdg2byvRZfiGICLj8qZIdYnrh6j7dF/mXmvEqe4QC9p2e9qvSf3vr1
+ kFVWqvge2fvEOgQ8WYOYTJrarFfZKbqiWOEJpUxbejUAk7z5nGnc/7OsH9igozJFQN
+ joDk4HnMOjXfEkk9mYmPXpUrzqeN0+VrgpW0npj8=
+Date: Thu, 26 Mar 2020 07:15:04 +0900
+From: Keith Busch <kbusch@kernel.org>
+To: axboe@kernel.dk
+Subject: [GIT PULL] nvme 5.7
+Message-ID: <20200325221504.GC4960@redsun51.ssa.fujisawa.hgst.com>
 MIME-Version: 1.0
-Received: by 2002:a25:1941:0:0:0:0:0 with HTTP; Wed, 25 Mar 2020 13:47:32
- -0700 (PDT)
-X-Originating-IP: [216.191.245.228]
-In-Reply-To: <20200325204343.GB4960@redsun51.ssa.fujisawa.hgst.com>
-References: <20200325002847.2140-1-nbowler@draconx.ca>
- <20200325191103.GA6495@infradead.org>
- <20200325204343.GB4960@redsun51.ssa.fujisawa.hgst.com>
-From: Nick Bowler <nbowler@draconx.ca>
-Date: Wed, 25 Mar 2020 16:47:32 -0400
-Message-ID: <CADyTPEyKyEc1fx6wRGJAT_QctgMcrB1SWP_9-QdewXU3xYGumw@mail.gmail.com>
-Subject: Re: [PATCH] nvme: Fix NVME_IOCTL_ADMIN_CMD compat address handling.
-To: Keith Busch <kbusch@kernel.org>
+Content-Disposition: inline
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200325_134735_713088_A9C2BAB2 
-X-CRM114-Status: GOOD (  11.10  )
+X-CRM114-CacheID: sfid-20200325_151508_678692_02A81451 
+X-CRM114-Status: GOOD (  11.87  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,32 +73,128 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Christoph Hellwig <hch@infradead.org>, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org
+Cc: hch@lst.de, linux-nvme@lists.infradead.org, sagi@grimberg.me
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2020-03-25, Keith Busch <kbusch@kernel.org> wrote:
-> On Wed, Mar 25, 2020 at 12:11:03PM -0700, Christoph Hellwig wrote:
->> A couple of comments:
->>
->> No need for the "." the end of the subject line.
->>
->> I also think you should just talk of the nvme_user_cmd function,
->> as that also is used for the NVME_IOCTL_IO_CMD ioctl.  Also there now
->> is a nvme_user_cmd64 variant that needs the same fix, can you also
->> include that?
->
-> Yes, this patch should get those cases too.
->
-> I unstaged this patch for now, could you send a v2 with the suggestions?
+Hi Jens
 
-Will do.
+This is our first nvme 5.7 pull request, a collection of miscellaneous
+fixes, cleanups, and minor improvements. Please pull.
 
-Cheers,
-  Nick
+And just a heads up, I will be out for the majority of the this
+development cycle, so Christoph agreed to handle nvme patches for the
+rest of the 5.7 release.
+
+The following changes since commit 8b614cb8f1dcac8ca77cf4dd85f46ef3055f8238:
+
+  Merge tag '5.6-rc4-smb3-fixes' of git://git.samba.org/sfrench/cifs-2.6 (2020-03-03 17:31:19 -0600)
+
+are available in the Git repository at:
+
+  git://git.infradead.org/nvme.git nvme-5.7-rc1
+
+for you to fetch changes up to 43fcd9e1eae87c3235b8077f97bc6a286c3ae59b:
+
+  nvme: cleanup namespace identifier reporting in nvme_init_ns_head (2020-03-26 04:51:56 +0900)
+
+----------------------------------------------------------------
+Alexey Dobriyan (1):
+      nvme-pci: slimmer CQ head update
+
+Amit Engel (1):
+      nvmet: check ncqr & nsqr for set-features cmd
+
+Chaitanya Kulkarni (4):
+      nvmet: configfs code cleanup
+      nvmet: make ctrl-id configurable
+      nvmet: check sscanf value for subsys serial attr
+      nvme: code cleanup nvme_identify_ns_desc()
+
+Christoph Hellwig (3):
+      nvme: refactor nvme_identify_ns_descs error handling
+      nvme: rename __nvme_find_ns_head to nvme_find_ns_head
+      nvme: cleanup namespace identifier reporting in nvme_init_ns_head
+
+Edmund Nadolski (1):
+      nvme: remove unused return code from nvme_alloc_ns
+
+Israel Rukshin (8):
+      nvme: Use nvme_state_terminal helper
+      nvme: Remove unused return code from nvme_delete_ctrl_sync
+      nvme-pci: Re-order nvme_pci_free_ctrl
+      nvme: Fix ctrl use-after-free during sysfs deletion
+      nvme: Make nvme_uninit_ctrl symmetric to nvme_init_ctrl
+      nvme: Fix controller creation races with teardown flow
+      nvme-rdma: Add warning on state change failure at nvme_rdma_setup_ctrl
+      nvme-tcp: Add warning on state change failure at nvme_tcp_setup_ctrl
+
+Jean Delvare (1):
+      nvme: Don't deter users from enabling hwmon support
+
+John Meneghini (1):
+      nvme-multipath: do not reset on unknown status
+
+Josh Triplett (1):
+      nvme: Check for readiness more quickly, to speed up boot time
+
+Keith Busch (3):
+      nvme-pci: Remove tag from process cq
+      nvme-pci: Remove two-pass completions
+      nvme-pci: Simplify nvme_poll_irqdisable
+
+Mark Ruijter (1):
+      nvmet: make ctrl model configurable
+
+Max Gurtovoy (5):
+      nvme-pci: properly print controller address
+      nvmet: Add get_mdts op for controllers
+      nvmet-rdma: Implement get_mdts controller op
+      nvmet-rdma: allocate RW ctxs according to mdts
+      nvme: release ida resources
+
+Rupesh Girase (1):
+      nvme: log additional message for controller status
+
+Sagi Grimberg (7):
+      nvme: expose hostnqn via sysfs for fabrics controllers
+      nvme: expose hostid via sysfs for fabrics controllers
+      nvme-tcp: optimize queue io_cpu assignment for multiple queue maps
+      nvmet-tcp: fix maxh2cdata icresp parameter
+      nvme-tcp: move send failure to nvme_tcp_try_send
+      nvme-tcp: break from io_work loop if recv failed
+      nvmet-tcp: optimize tcp stack TX when data digest is used
+
+Takashi Iwai (1):
+      nvme-fabrics: Use scnprintf() for avoiding potential buffer overflow
+
+Wunderlich, Mark (2):
+      nvme-tcp: Set SO_PRIORITY for all host sockets
+      nvmet-tcp: set SO_PRIORITY for accepted sockets
+
+masahiro31.yamada@kioxia.com (1):
+      nvme: Add compat_ioctl handler for NVME_IOCTL_SUBMIT_IO
+
+ drivers/nvme/host/Kconfig       |   2 -
+ drivers/nvme/host/core.c        | 255 ++++++++++++++++++++++++----------------
+ drivers/nvme/host/fabrics.c     |   8 +-
+ drivers/nvme/host/fc.c          |   3 -
+ drivers/nvme/host/multipath.c   |  21 ++--
+ drivers/nvme/host/nvme.h        |   6 +-
+ drivers/nvme/host/pci.c         |  91 +++++---------
+ drivers/nvme/host/rdma.c        |   9 +-
+ drivers/nvme/host/tcp.c         | 120 +++++++++++++++----
+ drivers/nvme/target/admin-cmd.c |  34 +++++-
+ drivers/nvme/target/configfs.c  | 146 +++++++++++++++++++++--
+ drivers/nvme/target/core.c      |   9 +-
+ drivers/nvme/target/loop.c      |   3 -
+ drivers/nvme/target/nvmet.h     |  11 ++
+ drivers/nvme/target/rdma.c      |  15 ++-
+ drivers/nvme/target/tcp.c       |  35 +++++-
+ 16 files changed, 533 insertions(+), 235 deletions(-)
+
 
 _______________________________________________
 linux-nvme mailing list
