@@ -4,95 +4,101 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-8.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87144C43331
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 Mar 2020 18:32:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E7A6C43331
+	for <linux-nvme@archiver.kernel.org>; Thu, 26 Mar 2020 19:03:03 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4E1172070A
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 Mar 2020 18:32:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6E56220719
+	for <linux-nvme@archiver.kernel.org>; Thu, 26 Mar 2020 19:03:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="u3SI/L5H";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="B1dkhvtI"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4E1172070A
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="lgsfJJyw";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="cs8SvRtU"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6E56220719
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Mime-Version:References:In-Reply-To:
-	Date:To:From:Subject:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=BX1+sQmI+PpZ00xy/DHMJLPW5Lsn4miFy5VQKJGBt1A=; b=u3SI/L5HNvaRty
-	JdhaQz3DaCluCB0QzXqwaEgM2Jb7+PpgW/pAok2NyvnH0jx3q/lA/RI6W4hvfyM4m6FaCYnwCdcEF
-	flFVNEsvZodwHWSy7FcYm7cVl1uy2xhRoo2p59KzRRMqS1OX9uz3m22bq0jr5UnOriti1Ad/80+W2
-	jBgYq9PG7zR/5/QrM+4tSqG/R6qyuVaF3B5a/5oyJybyQDEfi/S/FcsitZjKl+CJKSaUtklBfE/TE
-	SV7c6OljLcq8k6nDnzbC+15VDsyfoBuYHtm78SivryamnNWHIaoBpnHekg0+W+LabKr8S/k1nF+xj
-	LY/QhEckumx3hTIJI6FQ==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=I9D3OPu3fTaAHPa5BoxIn3y1BRfj0vmLifJsQsTLRxk=; b=lgsfJJywSP7qM0Mo6u92zoPwx
+	TIG6BB7eSljlgGjPiuaixJHjs+q4wPppkd2yHpzefPg1BihRCs7DXHcav7h8egQFt509ZF86s5cZ1
+	3UERhYbKeTheyUMe5Wt/jGxkG+mPME6qQZhWwHnXhCpemHYiTXCec7jrRfy8K5kxW5lpVCfOiTUfg
+	Ba3lFUM5qtVSx1MrLgixi8k/wx69cM+MvIr+dN3U3GLPJT5YBNJPwCillI4BowXf19M4Ovqx+hl9e
+	s+kdip17XnJRXmiUE/S57wzRkAiif7DPPuV8Ddv/zXaBh2RhVstKvD5kCWLcGgJkGUH8Fh/jtm1Wk
+	RanfbIv+Q==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jHXIV-0000lf-FL; Thu, 26 Mar 2020 18:32:07 +0000
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74])
+	id 1jHXmN-0003nW-Os; Thu, 26 Mar 2020 19:02:59 +0000
+Received: from userp2130.oracle.com ([156.151.31.86])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jHXIR-0000lB-Vf
- for linux-nvme@lists.infradead.org; Thu, 26 Mar 2020 18:32:05 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585247522;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jzicgUBoLjfdaD8wgouwFuiwKfyI8RLjyqr/hx3xpQQ=;
- b=B1dkhvtIVU9fLyP/U2b5dJjuSQ5sOZI3T6gnSkH4rt/sDJc+AQLlE9aO8oIther1WNU8+w
- MYFIEkZf+RFSPMIIzIdg/d5mKvXTdBu5ZEHVloScDaw2Nn/JYNIs/Ubgt4ru+pgmj4mReU
- 58ywujHPVMOqMrtEPO/AYcK69o/NZTQ=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-131-DUsr_YisNv6F1fiEGpwmRw-1; Thu, 26 Mar 2020 14:29:59 -0400
-X-MC-Unique: DUsr_YisNv6F1fiEGpwmRw-1
-Received: by mail-qv1-f69.google.com with SMTP id s7so5494505qvl.21
- for <linux-nvme@lists.infradead.org>; Thu, 26 Mar 2020 11:29:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=jzicgUBoLjfdaD8wgouwFuiwKfyI8RLjyqr/hx3xpQQ=;
- b=VtWg2Aa+CDzc5HM2MtzzulYSOl6FH+/WEnBUgrdNpZM4L6KZziOmDWdyY63LcNKmoD
- CSkSgxDI9G+yogffnECQRw2et1tgmh+2DGtiKzh1I5Vyj4sycGBSZVrFYVDaoCJxbPWH
- iWc+RhV4pigPHcsMyFr3C5WekF8ZoEGwf8AHeMFhjUW4sz8Yg6oqLaAf1w8IIfkTAILS
- Gj5NWfSym5DdqUEHZy16k8b5CRO2rHJWOHDSzOSbnAGkPomFDMuGv6/XBiKRtgztRi0o
- noh5NhcpA2MkvZbEzXVxr+C7dtdzCuciOZp0E6a1qFy/g4MwoKDJb3x8ygDrnw9KZEn1
- IWcQ==
-X-Gm-Message-State: ANhLgQ35WIV95N3UlSayE63yRGUoxZKOA4om1RrZXBPGmpl2CXmP5WMr
- 4EEk5ZLx1RM8X/X9uAOoPSjio216tD1Nqr5IsgwZ1dArK5MzlTKyTmDgasGBmxO9qpehjo/jgLw
- PR+VxnQLZGwLhejbRB0wd1Sg/cwo=
-X-Received: by 2002:aed:37c4:: with SMTP id j62mr9714764qtb.279.1585247398342; 
- Thu, 26 Mar 2020 11:29:58 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vvDz1sYDn0EreLqFQ+rJA1SZoV41dE7xjIGXxOgbWNJY34FbbBT4oSmpWI8WuBh9sZafau88g==
-X-Received: by 2002:aed:37c4:: with SMTP id j62mr9714713qtb.279.1585247397742; 
- Thu, 26 Mar 2020 11:29:57 -0700 (PDT)
-Received: from loberhel7laptop ([2600:6c64:4e80:f1:4a17:2cf9:6a8a:f150])
- by smtp.gmail.com with ESMTPSA id j50sm2149868qta.42.2020.03.26.11.29.56
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 26 Mar 2020 11:29:57 -0700 (PDT)
-Message-ID: <62fefed0e5d459563dfd3e0e027ceef529dce803.camel@redhat.com>
-Subject: Re: [PATCH v4 1/1] nvmet-rdma: use SRQ per completion vector
-From: Laurence Oberman <loberman@redhat.com>
-To: Max Gurtovoy <maxg@mellanox.com>, linux-nvme@lists.infradead.org, 
- kbusch@kernel.org, hch@lst.de, sagi@grimberg.me
-Date: Thu, 26 Mar 2020 14:29:51 -0400
-In-Reply-To: <20200326181512.58053-1-maxg@mellanox.com>
-References: <20200326181512.58053-1-maxg@mellanox.com>
-X-Mailer: Evolution 3.28.5 (3.28.5-5.el7)
-Mime-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ id 1jHXmK-0003n9-TD
+ for linux-nvme@lists.infradead.org; Thu, 26 Mar 2020 19:02:58 +0000
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02QIxGGQ107135;
+ Thu, 26 Mar 2020 19:02:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=HnhgyfyTEYP+g67N7SKOyVgdInqQpj+G4OIIfUW8N9I=;
+ b=cs8SvRtU8qsGLhnx/aYIxDJoFhNq5NjYJhgLV8bu9QBHiwcAvS6OrKK1GQKfVQNJmoQp
+ t4TNYqiTDY9MwZnCedP43wFcxO6pZY+odJuAUwttgLfH2xlxo8raegeez67HrZ1MMidz
+ laNJTgKbwvR4Eg9Vv5czgrGq3KlkdsoXY2iYFM8xNPl0DQmg1YmovhkK/PCYngdD0uQW
+ KimzMV4P3+Jtmw+RCaTnzSTMbetSrXG7vQXcpms8CLcnY3OkWSgZgAMDDfX3kasqGhXV
+ RGq4mzWPg1iG/lq8evGlOvErK7jNzqiNrKAUTHGYVjpFScBj5CKvOfIqypdralEyaiDc Lg== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2130.oracle.com with ESMTP id 2ywabrhqgn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 26 Mar 2020 19:02:52 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02QIucx2082982;
+ Thu, 26 Mar 2020 19:00:51 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by aserp3020.oracle.com with ESMTP id 30073e7mwm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 26 Mar 2020 19:00:51 +0000
+Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 02QJ0oFl006748;
+ Thu, 26 Mar 2020 19:00:50 GMT
+Received: from [10.154.135.52] (/10.154.135.52)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Thu, 26 Mar 2020 12:00:50 -0700
+Subject: Re: [PATCH] nvme-fcloop: Fix deallocation of working context
+To: James Smart <jsmart2021@gmail.com>, linux-nvme@lists.infradead.org
+References: <20200318214112.18317-1-jsmart2021@gmail.com>
+From: Himanshu Madhani <himanshu.madhani@oracle.com>
+Organization: Oracle Corporation
+Message-ID: <be54696d-bda7-097a-a69d-119d86309529@oracle.com>
+Date: Thu, 26 Mar 2020 14:00:47 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
+MIME-Version: 1.0
+In-Reply-To: <20200318214112.18317-1-jsmart2021@gmail.com>
+Content-Language: en-US
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9572
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ adultscore=0
+ suspectscore=2 mlxscore=0 phishscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2003260141
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9572
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ suspectscore=2
+ lowpriorityscore=0 malwarescore=0 phishscore=0 priorityscore=1501
+ clxscore=1015 adultscore=0 mlxscore=0 mlxlogscore=999 bulkscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2003260141
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200326_113204_173195_2CB56817 
-X-CRM114-Status: GOOD (  26.04  )
+X-CRM114-CacheID: sfid-20200326_120257_079657_7D6FB819 
+X-CRM114-Status: GOOD (  24.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,433 +110,182 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: shlomin@mellanox.com, jgg@mellanox.com, bvanassche@acm.org
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, 2020-03-26 at 20:15 +0200, Max Gurtovoy wrote:
-> In order to save resource allocation and utilize the completion
-> locality in a better way (compared to SRQ per device that exist
-> today),
-> allocate Shared Receive Queues (SRQs) per completion vector.
-> Associate
-> each created QP/CQ with an appropriate SRQ according to the queue
-> index.
-> This association will reduce the lock contention in the fast path
-> (compared to SRQ per device solution) and increase the locality in
-> memory buffers. Add new module parameter for SRQ size to adjust it
-> according to the expected load. User should make sure the size is >=
-> 256
-> to avoid lack of resources. Also reduce the debug level of "last WQE
-> reached" event that is raised when a QP is using SRQ during
-> destruction
-> process to relief the log.
+On 3/18/2020 4:41 PM, James Smart wrote:
+> There's been a longstanding bug of LS completions which freed ls
+> op's, particularly the disconnect LS, while executing on a work
+> context that is in the memory being free. Not a good thing to do.
 > 
-> Signed-off-by: Max Gurtovoy <maxg@mellanox.com>
+> Rework LS handling to make callbacks in the rport context
+> rather than the ls_request context.
+> 
+> Signed-off-by: James Smart <jsmart2021@gmail.com>
+> Reviewed-by: Hannes Reinecke <hare@suse.de>
 > ---
+>   drivers/nvme/target/fcloop.c | 76 ++++++++++++++++++++++++++++++--------------
+>   1 file changed, 52 insertions(+), 24 deletions(-)
 > 
-> changes from V3:
->  - remove redundent NULL assingment (Sagi)
->  - reduce log level for last wqe reached event
-> changes from V1 + V2:
->  - removed SRQ pool
->  - removed SRP target implementation
-> 
-> ---
->  drivers/nvme/target/rdma.c | 176 ++++++++++++++++++++++++++++++++++-
-> ----------
->  1 file changed, 134 insertions(+), 42 deletions(-)
-> 
-> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-> index 9e1b8c6..dc8a969 100644
-> --- a/drivers/nvme/target/rdma.c
-> +++ b/drivers/nvme/target/rdma.c
-> @@ -34,6 +34,8 @@
->  /* Assume mpsmin == device_page_size == 4KB */
->  #define NVMET_RDMA_MAX_MDTS			8
->  
-> +struct nvmet_rdma_srq;
-> +
->  struct nvmet_rdma_cmd {
->  	struct ib_sge		sge[NVMET_RDMA_MAX_INLINE_SGE + 1];
->  	struct ib_cqe		cqe;
-> @@ -41,6 +43,7 @@ struct nvmet_rdma_cmd {
->  	struct scatterlist	inline_sg[NVMET_RDMA_MAX_INLINE_SGE];
->  	struct nvme_command     *nvme_cmd;
->  	struct nvmet_rdma_queue	*queue;
-> +	struct nvmet_rdma_srq   *nsrq;
->  };
->  
->  enum {
-> @@ -82,6 +85,7 @@ struct nvmet_rdma_queue {
->  	struct ib_cq		*cq;
->  	atomic_t		sq_wr_avail;
->  	struct nvmet_rdma_device *dev;
-> +	struct nvmet_rdma_srq   *nsrq;
->  	spinlock_t		state_lock;
->  	enum nvmet_rdma_queue_state state;
->  	struct nvmet_cq		nvme_cq;
-> @@ -99,17 +103,24 @@ struct nvmet_rdma_queue {
->  
->  	int			idx;
->  	int			host_qid;
-> +	int			comp_vector;
->  	int			recv_queue_size;
->  	int			send_queue_size;
->  
->  	struct list_head	queue_list;
->  };
->  
-> +struct nvmet_rdma_srq {
-> +	struct ib_srq            *srq;
-> +	struct nvmet_rdma_cmd    *cmds;
-> +	struct nvmet_rdma_device *ndev;
-> +};
-> +
->  struct nvmet_rdma_device {
->  	struct ib_device	*device;
->  	struct ib_pd		*pd;
-> -	struct ib_srq		*srq;
-> -	struct nvmet_rdma_cmd	*srq_cmds;
-> +	struct nvmet_rdma_srq	**srqs;
-> +	int			srq_count;
->  	size_t			srq_size;
->  	struct kref		ref;
->  	struct list_head	entry;
-> @@ -121,6 +132,16 @@ struct nvmet_rdma_device {
->  module_param_named(use_srq, nvmet_rdma_use_srq, bool, 0444);
->  MODULE_PARM_DESC(use_srq, "Use shared receive queue.");
->  
-> +static int srq_size_set(const char *val, const struct kernel_param
-> *kp);
-> +static const struct kernel_param_ops srq_size_ops = {
-> +	.set = srq_size_set,
-> +	.get = param_get_int,
-> +};
-> +
-> +static int nvmet_rdma_srq_size = 1024;
-> +module_param_cb(srq_size, &srq_size_ops, &nvmet_rdma_srq_size,
-> 0644);
-> +MODULE_PARM_DESC(srq_size, "set Shared Receive Queue (SRQ) size,
-> should >= 256 (default: 1024)");
-> +
->  static DEFINE_IDA(nvmet_rdma_queue_ida);
->  static LIST_HEAD(nvmet_rdma_queue_list);
->  static DEFINE_MUTEX(nvmet_rdma_queue_mutex);
-> @@ -141,6 +162,17 @@ static int nvmet_rdma_alloc_rsp(struct
-> nvmet_rdma_device *ndev,
->  
->  static const struct nvmet_fabrics_ops nvmet_rdma_ops;
->  
-> +static int srq_size_set(const char *val, const struct kernel_param
-> *kp)
-> +{
-> +	int n = 0, ret;
-> +
-> +	ret = kstrtoint(val, 10, &n);
-> +	if (ret != 0 || n < 256)
-> +		return -EINVAL;
-> +
-> +	return param_set_int(val, kp);
-> +}
-> +
->  static int num_pages(int len)
->  {
->  	return 1 + (((len - 1) & PAGE_MASK) >> PAGE_SHIFT);
-> @@ -464,8 +496,8 @@ static int nvmet_rdma_post_recv(struct
-> nvmet_rdma_device *ndev,
->  		cmd->sge[0].addr, cmd->sge[0].length,
->  		DMA_FROM_DEVICE);
->  
-> -	if (ndev->srq)
-> -		ret = ib_post_srq_recv(ndev->srq, &cmd->wr, NULL);
-> +	if (cmd->nsrq)
-> +		ret = ib_post_srq_recv(cmd->nsrq->srq, &cmd->wr, NULL);
->  	else
->  		ret = ib_post_recv(cmd->queue->cm_id->qp, &cmd->wr,
-> NULL);
->  
-> @@ -843,23 +875,40 @@ static void nvmet_rdma_recv_done(struct ib_cq
-> *cq, struct ib_wc *wc)
->  	nvmet_rdma_handle_command(queue, rsp);
->  }
->  
-> -static void nvmet_rdma_destroy_srq(struct nvmet_rdma_device *ndev)
-> +static void nvmet_rdma_destroy_srq(struct nvmet_rdma_srq *nsrq)
-> +{
-> +	nvmet_rdma_free_cmds(nsrq->ndev, nsrq->cmds, nsrq->ndev-
-> >srq_size,
-> +			     false);
-> +	ib_destroy_srq(nsrq->srq);
-> +
-> +	kfree(nsrq);
-> +}
-> +
-> +static void nvmet_rdma_destroy_srqs(struct nvmet_rdma_device *ndev)
->  {
-> -	if (!ndev->srq)
-> +	int i;
-> +
-> +	if (!ndev->srqs)
->  		return;
->  
-> -	nvmet_rdma_free_cmds(ndev, ndev->srq_cmds, ndev->srq_size,
-> false);
-> -	ib_destroy_srq(ndev->srq);
-> +	for (i = 0; i < ndev->srq_count; i++)
-> +		nvmet_rdma_destroy_srq(ndev->srqs[i]);
-> +
-> +	kfree(ndev->srqs);
->  }
->  
-> -static int nvmet_rdma_init_srq(struct nvmet_rdma_device *ndev)
-> +static struct nvmet_rdma_srq *
-> +nvmet_rdma_init_srq(struct nvmet_rdma_device *ndev)
->  {
->  	struct ib_srq_init_attr srq_attr = { NULL, };
-> +	size_t srq_size = ndev->srq_size;
-> +	struct nvmet_rdma_srq *nsrq;
->  	struct ib_srq *srq;
-> -	size_t srq_size;
->  	int ret, i;
->  
-> -	srq_size = 4095;	/* XXX: tune */
-> +	nsrq = kzalloc(sizeof(*nsrq), GFP_KERNEL);
-> +	if (!nsrq)
-> +		return ERR_PTR(-ENOMEM);
->  
->  	srq_attr.attr.max_wr = srq_size;
->  	srq_attr.attr.max_sge = 1 + ndev->inline_page_count;
-> @@ -867,35 +916,71 @@ static int nvmet_rdma_init_srq(struct
-> nvmet_rdma_device *ndev)
->  	srq_attr.srq_type = IB_SRQT_BASIC;
->  	srq = ib_create_srq(ndev->pd, &srq_attr);
->  	if (IS_ERR(srq)) {
-> -		/*
-> -		 * If SRQs aren't supported we just go ahead and use
-> normal
-> -		 * non-shared receive queues.
-> -		 */
-> -		pr_info("SRQ requested but not supported.\n");
-> -		return 0;
-> +		ret = PTR_ERR(srq);
-> +		goto out_free;
->  	}
->  
-> -	ndev->srq_cmds = nvmet_rdma_alloc_cmds(ndev, srq_size, false);
-> -	if (IS_ERR(ndev->srq_cmds)) {
-> -		ret = PTR_ERR(ndev->srq_cmds);
-> +	nsrq->cmds = nvmet_rdma_alloc_cmds(ndev, srq_size, false);
-> +	if (IS_ERR(nsrq->cmds)) {
-> +		ret = PTR_ERR(nsrq->cmds);
->  		goto out_destroy_srq;
->  	}
->  
-> -	ndev->srq = srq;
-> -	ndev->srq_size = srq_size;
-> +	nsrq->srq = srq;
-> +	nsrq->ndev = ndev;
->  
->  	for (i = 0; i < srq_size; i++) {
-> -		ret = nvmet_rdma_post_recv(ndev, &ndev->srq_cmds[i]);
-> +		nsrq->cmds[i].nsrq = nsrq;
-> +		ret = nvmet_rdma_post_recv(ndev, &nsrq->cmds[i]);
->  		if (ret)
->  			goto out_free_cmds;
->  	}
->  
-> -	return 0;
-> +	return nsrq;
->  
->  out_free_cmds:
-> -	nvmet_rdma_free_cmds(ndev, ndev->srq_cmds, ndev->srq_size,
-> false);
-> +	nvmet_rdma_free_cmds(ndev, nsrq->cmds, srq_size, false);
->  out_destroy_srq:
->  	ib_destroy_srq(srq);
-> +out_free:
-> +	kfree(nsrq);
-> +	return ERR_PTR(ret);
-> +}
-> +
-> +static int nvmet_rdma_init_srqs(struct nvmet_rdma_device *ndev)
-> +{
-> +	int i, ret;
-> +
-> +	if (!ndev->device->attrs.max_srq_wr || !ndev->device-
-> >attrs.max_srq) {
-> +		/*
-> +		 * If SRQs aren't supported we just go ahead and use
-> normal
-> +		 * non-shared receive queues.
-> +		 */
-> +		pr_info("SRQ requested but not supported.\n");
-> +		return 0;
-> +	}
-> +
-> +	ndev->srq_size = min(ndev->device->attrs.max_srq_wr,
-> +			     nvmet_rdma_srq_size);
-> +	ndev->srq_count = min(ndev->device->num_comp_vectors,
-> +			      ndev->device->attrs.max_srq);
-> +
-> +	ndev->srqs = kcalloc(ndev->srq_count, sizeof(*ndev->srqs),
-> GFP_KERNEL);
-> +	if (!ndev->srqs)
-> +		return -ENOMEM;
-> +
-> +	for (i = 0; i < ndev->srq_count; i++) {
-> +		ndev->srqs[i] = nvmet_rdma_init_srq(ndev);
-> +		if (IS_ERR(ndev->srqs[i]))
-> +			goto err_srq;
-> +	}
-> +
-> +	return 0;
-> +
-> +err_srq:
-> +	while (--i >= 0)
-> +		nvmet_rdma_destroy_srq(ndev->srqs[i]);
-> +	kfree(ndev->srqs);
->  	return ret;
->  }
->  
-> @@ -908,7 +993,7 @@ static void nvmet_rdma_free_dev(struct kref *ref)
->  	list_del(&ndev->entry);
->  	mutex_unlock(&device_list_mutex);
->  
-> -	nvmet_rdma_destroy_srq(ndev);
-> +	nvmet_rdma_destroy_srqs(ndev);
->  	ib_dealloc_pd(ndev->pd);
->  
->  	kfree(ndev);
-> @@ -954,7 +1039,7 @@ static void nvmet_rdma_free_dev(struct kref
-> *ref)
->  		goto out_free_dev;
->  
->  	if (nvmet_rdma_use_srq) {
-> -		ret = nvmet_rdma_init_srq(ndev);
-> +		ret = nvmet_rdma_init_srqs(ndev);
->  		if (ret)
->  			goto out_free_pd;
->  	}
-> @@ -978,14 +1063,7 @@ static int nvmet_rdma_create_queue_ib(struct
-> nvmet_rdma_queue *queue)
->  {
->  	struct ib_qp_init_attr qp_attr;
->  	struct nvmet_rdma_device *ndev = queue->dev;
-> -	int comp_vector, nr_cqe, ret, i, factor;
+> diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
+> index 1c50af6219f3..9861fcea39f6 100644
+> --- a/drivers/nvme/target/fcloop.c
+> +++ b/drivers/nvme/target/fcloop.c
+> @@ -198,10 +198,13 @@ struct fcloop_lport_priv {
+>   };
+>   
+>   struct fcloop_rport {
+> -	struct nvme_fc_remote_port *remoteport;
+> -	struct nvmet_fc_target_port *targetport;
+> -	struct fcloop_nport *nport;
+> -	struct fcloop_lport *lport;
+> +	struct nvme_fc_remote_port	*remoteport;
+> +	struct nvmet_fc_target_port	*targetport;
+> +	struct fcloop_nport		*nport;
+> +	struct fcloop_lport		*lport;
+> +	spinlock_t			lock;
+> +	struct list_head		ls_list;
+> +	struct work_struct		ls_work;
+>   };
+>   
+>   struct fcloop_tport {
+> @@ -224,11 +227,10 @@ struct fcloop_nport {
+>   };
+>   
+>   struct fcloop_lsreq {
+> -	struct fcloop_tport		*tport;
+>   	struct nvmefc_ls_req		*lsreq;
+> -	struct work_struct		work;
+>   	struct nvmefc_tgt_ls_req	tgt_ls_req;
+>   	int				status;
+> +	struct list_head		ls_list; /* fcloop_rport->ls_list */
+>   };
+>   
+>   struct fcloop_rscn {
+> @@ -292,21 +294,32 @@ fcloop_delete_queue(struct nvme_fc_local_port *localport,
+>   {
+>   }
+>   
 > -
-> -	/*
-> -	 * Spread the io queues across completion vectors,
-> -	 * but still keep all admin queues on vector 0.
-> -	 */
-> -	comp_vector = !queue->host_qid ? 0 :
-> -		queue->idx % ndev->device->num_comp_vectors;
-> +	int nr_cqe, ret, i, factor;
->  
->  	/*
->  	 * Reserve CQ slots for RECV + RDMA_READ/RDMA_WRITE +
-> RDMA_SEND.
-> @@ -993,7 +1071,7 @@ static int nvmet_rdma_create_queue_ib(struct
-> nvmet_rdma_queue *queue)
->  	nr_cqe = queue->recv_queue_size + 2 * queue->send_queue_size;
->  
->  	queue->cq = ib_alloc_cq(ndev->device, queue,
-> -			nr_cqe + 1, comp_vector,
-> +			nr_cqe + 1, queue->comp_vector,
->  			IB_POLL_WORKQUEUE);
->  	if (IS_ERR(queue->cq)) {
->  		ret = PTR_ERR(queue->cq);
-> @@ -1017,8 +1095,8 @@ static int nvmet_rdma_create_queue_ib(struct
-> nvmet_rdma_queue *queue)
->  	qp_attr.cap.max_send_sge = max(ndev->device->attrs.max_sge_rd,
->  					ndev->device-
-> >attrs.max_send_sge);
->  
-> -	if (ndev->srq) {
-> -		qp_attr.srq = ndev->srq;
-> +	if (queue->nsrq) {
-> +		qp_attr.srq = queue->nsrq->srq;
->  	} else {
->  		/* +1 for drain */
->  		qp_attr.cap.max_recv_wr = 1 + queue->recv_queue_size;
-> @@ -1037,7 +1115,7 @@ static int nvmet_rdma_create_queue_ib(struct
-> nvmet_rdma_queue *queue)
->  		 __func__, queue->cq->cqe, qp_attr.cap.max_send_sge,
->  		 qp_attr.cap.max_send_wr, queue->cm_id);
->  
-> -	if (!ndev->srq) {
-> +	if (!queue->nsrq) {
->  		for (i = 0; i < queue->recv_queue_size; i++) {
->  			queue->cmds[i].queue = queue;
->  			ret = nvmet_rdma_post_recv(ndev, &queue-
-> >cmds[i]);
-> @@ -1073,7 +1151,7 @@ static void nvmet_rdma_free_queue(struct
-> nvmet_rdma_queue *queue)
->  	nvmet_sq_destroy(&queue->nvme_sq);
->  
->  	nvmet_rdma_destroy_queue_ib(queue);
-> -	if (!queue->dev->srq) {
-> +	if (!queue->nsrq) {
->  		nvmet_rdma_free_cmds(queue->dev, queue->cmds,
->  				queue->recv_queue_size,
->  				!queue->host_qid);
-> @@ -1185,13 +1263,23 @@ static int nvmet_rdma_cm_reject(struct
-> rdma_cm_id *cm_id,
->  		goto out_destroy_sq;
->  	}
->  
-> +	/*
-> +	 * Spread the io queues across completion vectors,
-> +	 * but still keep all admin queues on vector 0.
-> +	 */
-> +	queue->comp_vector = !queue->host_qid ? 0 :
-> +		queue->idx % ndev->device->num_comp_vectors;
+> -/*
+> - * Transmit of LS RSP done (e.g. buffers all set). call back up
+> - * initiator "done" flows.
+> - */
+>   static void
+> -fcloop_tgt_lsrqst_done_work(struct work_struct *work)
+> +fcloop_rport_lsrqst_work(struct work_struct *work)
+>   {
+> -	struct fcloop_lsreq *tls_req =
+> -		container_of(work, struct fcloop_lsreq, work);
+> -	struct fcloop_tport *tport = tls_req->tport;
+> -	struct nvmefc_ls_req *lsreq = tls_req->lsreq;
+> +	struct fcloop_rport *rport =
+> +		container_of(work, struct fcloop_rport, ls_work);
+> +	struct fcloop_lsreq *tls_req;
+>   
+> -	if (!tport || tport->remoteport)
+> -		lsreq->done(lsreq, tls_req->status);
+> +	spin_lock(&rport->lock);
+> +	for (;;) {
+> +		tls_req = list_first_entry_or_null(&rport->ls_list,
+> +				struct fcloop_lsreq, ls_list);
+> +		if (!tls_req)
+> +			break;
 > +
+> +		list_del(&tls_req->ls_list);
+> +		spin_unlock(&rport->lock);
 > +
->  	ret = nvmet_rdma_alloc_rsps(queue);
->  	if (ret) {
->  		ret = NVME_RDMA_CM_NO_RSC;
->  		goto out_ida_remove;
->  	}
->  
-> -	if (!ndev->srq) {
-> +	if (ndev->srqs) {
-> +		queue->nsrq = ndev->srqs[queue->comp_vector % ndev-
-> >srq_count];
-> +	} else {
->  		queue->cmds = nvmet_rdma_alloc_cmds(ndev,
->  				queue->recv_queue_size,
->  				!queue->host_qid);
-> @@ -1212,7 +1300,7 @@ static int nvmet_rdma_cm_reject(struct
-> rdma_cm_id *cm_id,
->  	return queue;
->  
->  out_free_cmds:
-> -	if (!ndev->srq) {
-> +	if (!queue->nsrq) {
->  		nvmet_rdma_free_cmds(queue->dev, queue->cmds,
->  				queue->recv_queue_size,
->  				!queue->host_qid);
-> @@ -1238,6 +1326,10 @@ static void nvmet_rdma_qp_event(struct
-> ib_event *event, void *priv)
->  	case IB_EVENT_COMM_EST:
->  		rdma_notify(queue->cm_id, event->event);
->  		break;
-> +	case IB_EVENT_QP_LAST_WQE_REACHED:
-> +		pr_debug("received last WQE reached event for
-> queue=0x%p\n",
-> +			 queue);
-> +		break;
->  	default:
->  		pr_err("received IB QP event: %s (%d)\n",
->  		       ib_event_msg(event->event), event->event);
+> +		tls_req->lsreq->done(tls_req->lsreq, tls_req->status);
+> +		/*
+> +		 * callee may free memory containing tls_req.
+> +		 * do not reference lsreq after this.
+> +		 */
+> +
+> +		spin_lock(&rport->lock);
+> +	}
+> +	spin_unlock(&rport->lock);
+>   }
+>   
+>   static int
+> @@ -319,17 +332,18 @@ fcloop_ls_req(struct nvme_fc_local_port *localport,
+>   	int ret = 0;
+>   
+>   	tls_req->lsreq = lsreq;
+> -	INIT_WORK(&tls_req->work, fcloop_tgt_lsrqst_done_work);
+> +	INIT_LIST_HEAD(&tls_req->ls_list);
+>   
+>   	if (!rport->targetport) {
+>   		tls_req->status = -ECONNREFUSED;
+> -		tls_req->tport = NULL;
+> -		schedule_work(&tls_req->work);
+> +		spin_lock(&rport->lock);
+> +		list_add_tail(&rport->ls_list, &tls_req->ls_list);
+> +		spin_unlock(&rport->lock);
+> +		schedule_work(&rport->ls_work);
+>   		return ret;
+>   	}
+>   
+>   	tls_req->status = 0;
+> -	tls_req->tport = rport->targetport->private;
+>   	ret = nvmet_fc_rcv_ls_req(rport->targetport, &tls_req->tgt_ls_req,
+>   				 lsreq->rqstaddr, lsreq->rqstlen);
+>   
+> @@ -337,18 +351,28 @@ fcloop_ls_req(struct nvme_fc_local_port *localport,
+>   }
+>   
+>   static int
+> -fcloop_xmt_ls_rsp(struct nvmet_fc_target_port *tport,
+> +fcloop_xmt_ls_rsp(struct nvmet_fc_target_port *targetport,
+>   			struct nvmefc_tgt_ls_req *tgt_lsreq)
+>   {
+>   	struct fcloop_lsreq *tls_req = tgt_ls_req_to_lsreq(tgt_lsreq);
+>   	struct nvmefc_ls_req *lsreq = tls_req->lsreq;
+> +	struct fcloop_tport *tport = targetport->private;
+> +	struct nvme_fc_remote_port *remoteport = tport->remoteport;
+> +	struct fcloop_rport *rport;
+>   
+>   	memcpy(lsreq->rspaddr, tgt_lsreq->rspbuf,
+>   		((lsreq->rsplen < tgt_lsreq->rsplen) ?
+>   				lsreq->rsplen : tgt_lsreq->rsplen));
+> +
+>   	tgt_lsreq->done(tgt_lsreq);
+>   
+> -	schedule_work(&tls_req->work);
+> +	if (remoteport) {
+> +		rport = remoteport->private;
+> +		spin_lock(&rport->lock);
+> +		list_add_tail(&rport->ls_list, &tls_req->ls_list);
+> +		spin_unlock(&rport->lock);
+> +		schedule_work(&rport->ls_work);
+> +	}
+>   
+>   	return 0;
+>   }
+> @@ -834,6 +858,7 @@ fcloop_remoteport_delete(struct nvme_fc_remote_port *remoteport)
+>   {
+>   	struct fcloop_rport *rport = remoteport->private;
+>   
+> +	flush_work(&rport->ls_work);
+>   	fcloop_nport_put(rport->nport);
+>   }
+>   
+> @@ -1136,6 +1161,9 @@ fcloop_create_remote_port(struct device *dev, struct device_attribute *attr,
+>   	rport->nport = nport;
+>   	rport->lport = nport->lport;
+>   	nport->rport = rport;
+> +	spin_lock_init(&rport->lock);
+> +	INIT_WORK(&rport->ls_work, fcloop_rport_lsrqst_work);
+> +	INIT_LIST_HEAD(&rport->ls_list);
+>   
+>   	return count;
+>   }
+> 
 
-Max 
-I will test this.
-Is this against latest 5.6
+Looks Good.
 
+Reviewed-by: Himanshu Madhani <himanshu.madhani@oracle.com>
 
 _______________________________________________
 linux-nvme mailing list
