@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-9.7 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7404FC43331
-	for <linux-nvme@archiver.kernel.org>; Fri, 27 Mar 2020 17:19:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E32ADC43331
+	for <linux-nvme@archiver.kernel.org>; Fri, 27 Mar 2020 17:19:35 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 44F6B206DB
-	for <linux-nvme@archiver.kernel.org>; Fri, 27 Mar 2020 17:19:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B5BCC206DB
+	for <linux-nvme@archiver.kernel.org>; Fri, 27 Mar 2020 17:19:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="DgM/xGeP";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="lDLLkxMb"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 44F6B206DB
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="QUpExzus";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="V7Bmc8AK"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B5BCC206DB
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,55 +26,54 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=6428Ck2GsJNsZNHxZTVwA6EfKYTs0JP6jf8wQ3eaXeg=; b=DgM/xGePYMn9Xk
-	7OBm5+5Tbuz5YfiwwHC0XAlkmQsJRRaUXxPaO2N3WYFpVJTrQiD0BTLtDxbcWJL4juKmoNNSmzt4Y
-	eU3jbSqrGyZODy9nxgnmxBEXMNBwX72VQgsIwn4t11V3BBop3U+a0OPKoR3o6Cx0yRJ940cg62KsG
-	uQDrEPVuPqctxu4J7EQxbiRJbRss8fchB+zW7mI7qZIZXRtN74wMqj/F94OUKtCcfaAvEXLkqa2RO
-	w9gsQWwN2hhYhlLlzo5C7epSGz409s6bhQi6ZN1BySZ784n29Qnq/qfZgtVO0qCeSe5G6332s1S8S
-	nemg9b31XQIaarvZ7+tA==;
+	List-Owner; bh=ThO2FSlXrEO50U0CISPUxVlsFFbc11dm6fB7vDfekc8=; b=QUpExzusw3fmda
+	cl0rSWJs8zfPr3EjgufijxjS155W/HyyPJnCqWGJnK/GvMwHfNN+svCy+bm7dLlQ8ddJRRkA+6dXv
+	yOQ9ncJFS5Yh0EZw0PyCbVe8bm9GA6mlumvWOgnLWp+A6v4vVNN6rg9Bbe0IfNCPDWPpyO7nUTfxK
+	c4X9yNe1JrwE+RwHHfcA8z/mfzwnsjT/6PGKbnnuNBz/PunzzXL4LC4AEHQAOE8rkbP2uEwOfveri
+	2FmuTE1J4nONBIQxEMTqT/yXBdTLnoFfyrZqyGwusOIhOdLXMySmDlhOQDPpWenMZN05GQdRAm2Gx
+	i7zNRU7KrGHeYWHD5edw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jHsdZ-0002I0-62; Fri, 27 Mar 2020 17:19:17 +0000
+	id 1jHsdo-0002cv-BJ; Fri, 27 Mar 2020 17:19:32 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jHsaV-00086T-Mj
- for linux-nvme@bombadil.infradead.org; Fri, 27 Mar 2020 17:16:07 +0000
+ id 1jHsaY-00088d-QE
+ for linux-nvme@bombadil.infradead.org; Fri, 27 Mar 2020 17:16:10 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=dgRXieEy93Rq4Ca9cHkiXnjbARHgf9KltI6FeYL3SRM=; b=lDLLkxMbPfeV/ciKoCB3tguXP+
- VYYVbhSGFFqfRyXBfkmklopii2zFcelDTc8tQT0Rvi2C9X9Ui0nGZ+3+5ZWEOl6CImT0057vljp4w
- 6pfpXWE+J7O0skhhxCJ/2cVC5Csm+W4lEiC0c9pYIN2/PAhrsPztRBN8pyxbXllXcLTYTHQZVY5FP
- kQjgBfvgS556fmqhTpmWZALORqoyzhw7yzrSHYlPqcGy4631rna9q+7vpF4xAk9xqq34TIHux9UZ7
- dGRP7SGUAhBQ5pDS3koVuegJuJAfFKXD1c+75C3us8LJ/8KvdRAdu4tJwVH7QE9h2dK9ounzPs2/A
- k8SKffww==;
+ bh=hu2Wa4H9ZLH7/3RaUbI9C2uU80uzEF43R6x6AZENCXA=; b=V7Bmc8AKsih4/ByY/o92h5xL3r
+ RM9nR7KZJduEphnpaVUF9bxarkrwk1Q+WpKFMCqZdhijIzQDwpYjyt9bwh9UtzC34T6h1I6kZCyMm
+ kagGYoUh6pMSp+90t7y/x4fwHknEQVSlWgU5v2jIajJVdYCxdE36rtteM2pBx39kjvy+3ueykdZAU
+ lMx9T5DiQh856VmS1+6w8MPd8v/z/Ok4BDCtUVk0F7drq9+6AgMrQbau6R/y+D0XX+QpqkvzoDar2
+ w8do2THI6eFQGiFuOJ3VB/YlZ+Q2jPD60oQtp2d13jA957J8EF2KOm7P9+Pesa9N+P4/YSZlil7tA
+ cQBPT//A==;
 Received: from mail-il-dmz.mellanox.com ([193.47.165.129] helo=mellanox.co.il)
  by casper.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jHsaO-0005Dl-4k
- for linux-nvme@lists.infradead.org; Fri, 27 Mar 2020 17:16:06 +0000
+ id 1jHsaN-0005Ds-S1
+ for linux-nvme@lists.infradead.org; Fri, 27 Mar 2020 17:16:09 +0000
 Received: from Internal Mail-Server by MTLPINE1 (envelope-from
  maxg@mellanox.com)
- with ESMTPS (AES256-SHA encrypted); 27 Mar 2020 20:15:46 +0300
+ with ESMTPS (AES256-SHA encrypted); 27 Mar 2020 20:15:47 +0300
 Received: from mtr-vdi-031.wap.labs.mlnx. (mtr-vdi-031.wap.labs.mlnx
  [10.209.102.136])
- by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 02RHFjj8004869;
- Fri, 27 Mar 2020 20:15:46 +0300
+ by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 02RHFjjE004869;
+ Fri, 27 Mar 2020 20:15:47 +0300
 From: Max Gurtovoy <maxg@mellanox.com>
 To: linux-nvme@lists.infradead.org, kbusch@kernel.org, hch@lst.de,
  sagi@grimberg.me, martin.petersen@oracle.com, jsmart2021@gmail.com,
  linux-rdma@vger.kernel.org
-Subject: [PATCH 05/17] nvme-fabrics: Allow user enabling metadata/T10-PI
- support
-Date: Fri, 27 Mar 2020 20:15:33 +0300
-Message-Id: <20200327171545.98970-7-maxg@mellanox.com>
+Subject: [PATCH 11/17] nvmet: Rename nvmet_rw_len to nvmet_rw_data_len
+Date: Fri, 27 Mar 2020 20:15:39 +0300
+Message-Id: <20200327171545.98970-13-maxg@mellanox.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200327171545.98970-1-maxg@mellanox.com>
 References: <20200327171545.98970-1-maxg@mellanox.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200327_171600_765103_A11CC470 
-X-CRM114-Status: GOOD (  12.76  )
+X-CRM114-CacheID: sfid-20200327_171600_750122_B274AB16 
+X-CRM114-Status: GOOD (  10.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,96 +95,59 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Israel Rukshin <israelr@mellanox.com>
 
-Preparation for adding metadata (T10-PI) over fabric support. This will
-allow end-to-end protection information passthrough and validation for
-NVMe over Fabric.
+The function doesn't add the metadata length (only data length is
+calculated). This is preparation for adding metadata (T10-PI) support.
 
 Signed-off-by: Israel Rukshin <israelr@mellanox.com>
 Reviewed-by: Max Gurtovoy <maxg@mellanox.com>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
 ---
- drivers/nvme/host/core.c    |  3 ++-
- drivers/nvme/host/fabrics.c | 11 +++++++++++
- drivers/nvme/host/fabrics.h |  3 +++
- 3 files changed, 16 insertions(+), 1 deletion(-)
+ drivers/nvme/target/io-cmd-bdev.c | 2 +-
+ drivers/nvme/target/io-cmd-file.c | 2 +-
+ drivers/nvme/target/nvmet.h       | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 2feb7fb..0b4d847 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1900,7 +1900,8 @@ static int __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
- 		 * controller.
- 		 */
- 		if (ns->ctrl->ops->flags & NVME_F_METADATA_SUPPORTED) {
--			if (ns->ctrl->ops->flags & NVME_F_FABRICS ||
-+			if ((ns->ctrl->ops->flags & NVME_F_FABRICS &&
-+			     ns->ctrl->opts->pi_enable) ||
- 			    !(ns->features & NVME_NS_EXT_LBAS))
- 				ns->features |= NVME_NS_MD_HOST_SUPPORTED;
- 		}
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 2a6c819..38f4213 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -612,6 +612,7 @@ bool __nvmf_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
- 	{ NVMF_OPT_NR_WRITE_QUEUES,	"nr_write_queues=%d"	},
- 	{ NVMF_OPT_NR_POLL_QUEUES,	"nr_poll_queues=%d"	},
- 	{ NVMF_OPT_TOS,			"tos=%d"		},
-+	{ NVMF_OPT_PI_ENABLE,		"pi_enable"		},
- 	{ NVMF_OPT_ERR,			NULL			}
- };
+diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+index bdf611f..1669483 100644
+--- a/drivers/nvme/target/io-cmd-bdev.c
++++ b/drivers/nvme/target/io-cmd-bdev.c
+@@ -173,7 +173,7 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
+ 	sector_t sector;
+ 	int op, i;
  
-@@ -634,6 +635,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 	opts->hdr_digest = false;
- 	opts->data_digest = false;
- 	opts->tos = -1; /* < 0 == use transport default */
-+	opts->pi_enable = false;
+-	if (!nvmet_check_data_len(req, nvmet_rw_len(req)))
++	if (!nvmet_check_data_len(req, nvmet_rw_data_len(req)))
+ 		return;
  
- 	options = o = kstrdup(buf, GFP_KERNEL);
- 	if (!options)
-@@ -867,6 +869,15 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 			}
- 			opts->tos = token;
- 			break;
-+#ifdef CONFIG_BLK_DEV_INTEGRITY
-+		case NVMF_OPT_PI_ENABLE:
-+			if (opts->discovery_nqn) {
-+				pr_debug("Ignoring pi_enable value for discovery controller\n");
-+				break;
-+			}
-+			opts->pi_enable = true;
-+			break;
-+#endif
- 		default:
- 			pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
- 				p);
-diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-index a0ec40a..773f748 100644
---- a/drivers/nvme/host/fabrics.h
-+++ b/drivers/nvme/host/fabrics.h
-@@ -56,6 +56,7 @@ enum {
- 	NVMF_OPT_NR_WRITE_QUEUES = 1 << 17,
- 	NVMF_OPT_NR_POLL_QUEUES = 1 << 18,
- 	NVMF_OPT_TOS		= 1 << 19,
-+	NVMF_OPT_PI_ENABLE	= 1 << 20,
- };
+ 	if (!req->sg_cnt) {
+diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
+index cd5670b..ffbba88 100644
+--- a/drivers/nvme/target/io-cmd-file.c
++++ b/drivers/nvme/target/io-cmd-file.c
+@@ -232,7 +232,7 @@ static void nvmet_file_execute_rw(struct nvmet_req *req)
+ {
+ 	ssize_t nr_bvec = req->sg_cnt;
  
- /**
-@@ -89,6 +90,7 @@ enum {
-  * @nr_write_queues: number of queues for write I/O
-  * @nr_poll_queues: number of queues for polling I/O
-  * @tos: type of service
-+ * @pi_enable: Enable metadata (T10-PI) support
-  */
- struct nvmf_ctrl_options {
- 	unsigned		mask;
-@@ -111,6 +113,7 @@ struct nvmf_ctrl_options {
- 	unsigned int		nr_write_queues;
- 	unsigned int		nr_poll_queues;
- 	int			tos;
-+	bool			pi_enable;
- };
+-	if (!nvmet_check_data_len(req, nvmet_rw_len(req)))
++	if (!nvmet_check_data_len(req, nvmet_rw_data_len(req)))
+ 		return;
  
- /*
+ 	if (!req->sg_cnt || !nr_bvec) {
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index f5f93d4..923c452 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -507,7 +507,7 @@ void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
+ u16 nvmet_file_flush(struct nvmet_req *req);
+ void nvmet_ns_changed(struct nvmet_subsys *subsys, u32 nsid);
+ 
+-static inline u32 nvmet_rw_len(struct nvmet_req *req)
++static inline u32 nvmet_rw_data_len(struct nvmet_req *req)
+ {
+ 	return ((u32)le16_to_cpu(req->cmd->rw.length) + 1) <<
+ 			req->ns->blksize_shift;
 -- 
 1.8.3.1
 
