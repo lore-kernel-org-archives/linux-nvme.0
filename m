@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-9.7 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7090C43331
-	for <linux-nvme@archiver.kernel.org>; Fri, 27 Mar 2020 17:17:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14CDEC43331
+	for <linux-nvme@archiver.kernel.org>; Fri, 27 Mar 2020 17:17:25 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9EEFD20578
-	for <linux-nvme@archiver.kernel.org>; Fri, 27 Mar 2020 17:17:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A655420578
+	for <linux-nvme@archiver.kernel.org>; Fri, 27 Mar 2020 17:17:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="XWKWnufl";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ogYvnL66"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9EEFD20578
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="SdvPqdZR";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="qB8LRsWc"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A655420578
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,47 +26,47 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=wMzwKE5qO+1v5ydDAq150gNrR/Ac8mScX/lHUu8xMi4=; b=XWKWnufluzEMrd
-	kWrBTrB1P4g2R4bpvic3e29b/kVCeByGRpEVUo3bsOCUS7UO1pO0DND9pgvZixEIuJaLIUrBiaTUI
-	wXaon1l5gFCKlJWTGshtCKNpwku0BBAkOYRA7oXlWl73UDDAUM8QxKfL9JUBdkctZcZR/aN1iQvZY
-	1YmitOpi9sEw60CDJUSvy4uBQ22WcFtp7eUnB8dSDfbRMoim8tWPhwFd2IkQjSj8A7fZsedgME6bU
-	qh1DSCmL3D6UmXhyFGCN8Klzd7C90pvf3PbmN1aSbk45WDCoidegXIzIy48TzCru5Un0qUQ0Tqjtf
-	YGWg1U4U0K43/j5TLLCQ==;
+	List-Owner; bh=y6PmBJnQpcewHsbmSXOQ6L3tkMtsCdpI1YWStmhqm5c=; b=SdvPqdZR6SZX4o
+	Iwj76GdIwI8trVOZDSE0dQHxggQueUocg/N5zbMqhK1kaLv9DyhTwvI+xc9dGi9reo6m8VVmvhuy6
+	gHsGoeFUTGuaEngpBWtrVe5zvOGLvMOo+lr83e6a6G10oPdmrJJEIS0ntVnTeVaef8YyOIWt1PvQl
+	NYWyrMphh9q8wr76gk3YfnfP5kK36OZEXv0ppWebxj3/kC7R/AvPnhnqwAA4YH/IHR8vDuqiVvaiI
+	+dTTLk5Ui7nEnVd10Z7VMtPdHnb53fYLra3+sdbfUN+wu9Bj/+xQ3k1PinoUACrOfdv36BxQ936fc
+	ZAPB9lTpCilTwLehw9ag==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jHsbR-0000M3-Jf; Fri, 27 Mar 2020 17:17:05 +0000
+	id 1jHsbf-0000iL-R4; Fri, 27 Mar 2020 17:17:19 +0000
 Received: from merlin.infradead.org ([205.233.59.134])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jHsaO-0007wu-Tj
+ id 1jHsaP-00080j-Q5
  for linux-nvme@bombadil.infradead.org; Fri, 27 Mar 2020 17:16:01 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=07oOdgzoBc72xOTKaYKRkDxjEdHzX1GaoIggGtRwoX4=; b=ogYvnL66T3qScqgOCXy7pIAMgB
- 70NBtUc5QbAbAuCRm/JF12DLPGQW8N+RUTRBtDU+wH0iOWaTCNvrznilcyhJ9zKKrrXdx9ywAp8zd
- buBB+FGBDjuX6pGJXDJJM0fF19zMv1L9cZmTXs5YwPxyc8KSPVjYelQPLEI/x6D0S0m5LGWRJYuPr
- i/p6hY1Kt5+XsOF0BB/89SBETQDyHyDZUeN+c0bag8MPWkBOTrfqqUf5SbC2WGmhtxUZ2XFlHaLUq
- eC+5CluxDBDqhKK4JFnpsUfBcmCNMYvh+c6uQ3LzyV4OaLJJxxFGVjk8Gq0b7n/5NhrgBRURWqXcL
- hQEFGP9w==;
+ bh=+lUcFq22VJG5kbp2M+OTqhV6DuUOi7C+vVCRZCxiXHE=; b=qB8LRsWcLYs5AUKxLihNETiaUC
+ z+YLNV1N00t1aH6gpbdQwyVcNmcbc0w1aaMl5PYJbkSTh++CBPBgBlDmC1XTOSW50ASrWRUWUJbQY
+ 6t9RFb6CqeAeVKYFWUO3FJytluDN0Q10PDmAuNPXNsgKzB+gdO9qXI/5L/91X7XcvjIQFZo273/VA
+ VE0mJD3FZrPe9VCSB+6B0CDbErG7nuvPw99BbDdas3qjzoiZXlJDFNmEI6P7EJkwBkSnj6v3N0Joe
+ EaL3r4B/NWCi/mQsW1npVJZEsEtUV8LSrJ9yFSlmBPQo6T0fzSgH88h4FPJN7y+jsfsBfLKQQGw4C
+ V2QOUXpw==;
 Received: from mail-il-dmz.mellanox.com ([193.47.165.129] helo=mellanox.co.il)
  by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jHsaL-00082v-Cm
- for linux-nvme@lists.infradead.org; Fri, 27 Mar 2020 17:15:59 +0000
-Received: from Internal Mail-Server by MTLPINE1 (envelope-from
+ id 1jHsaL-000820-J1
+ for linux-nvme@lists.infradead.org; Fri, 27 Mar 2020 17:16:00 +0000
+Received: from Internal Mail-Server by MTLPINE2 (envelope-from
  maxg@mellanox.com)
- with ESMTPS (AES256-SHA encrypted); 27 Mar 2020 20:15:48 +0300
+ with ESMTPS (AES256-SHA encrypted); 27 Mar 2020 20:15:47 +0300
 Received: from mtr-vdi-031.wap.labs.mlnx. (mtr-vdi-031.wap.labs.mlnx
  [10.209.102.136])
- by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 02RHFjjK004869;
- Fri, 27 Mar 2020 20:15:48 +0300
+ by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 02RHFjjD004869;
+ Fri, 27 Mar 2020 20:15:47 +0300
 From: Max Gurtovoy <maxg@mellanox.com>
 To: linux-nvme@lists.infradead.org, kbusch@kernel.org, hch@lst.de,
  sagi@grimberg.me, martin.petersen@oracle.com, jsmart2021@gmail.com,
  linux-rdma@vger.kernel.org
-Subject: [PATCH 17/17] nvmet-rdma: Add metadata/T10-PI support
-Date: Fri, 27 Mar 2020 20:15:45 +0300
-Message-Id: <20200327171545.98970-19-maxg@mellanox.com>
+Subject: [PATCH 10/17] nvmet: add metadata characteristics for a namespace
+Date: Fri, 27 Mar 2020 20:15:38 +0300
+Message-Id: <20200327171545.98970-12-maxg@mellanox.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200327171545.98970-1-maxg@mellanox.com>
 References: <20200327171545.98970-1-maxg@mellanox.com>
@@ -90,393 +90,80 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-For capable HCAs (e.g. ConnectX-5/ConnectX-6) this will allow end-to-end
-protection information passthrough and validation for NVMe over RDMA
-transport. Metadata support was implemented over the new RDMA signature
-verbs API.
+From: Israel Rukshin <israelr@mellanox.com>
+
+Fill those namespace fields from the block device format for adding
+metadata (T10-PI) over fabric support with block devices.
 
 Signed-off-by: Israel Rukshin <israelr@mellanox.com>
 Signed-off-by: Max Gurtovoy <maxg@mellanox.com>
+Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
 ---
- drivers/nvme/target/rdma.c | 245 +++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 227 insertions(+), 18 deletions(-)
+ drivers/nvme/target/io-cmd-bdev.c | 22 ++++++++++++++++++++++
+ drivers/nvme/target/nvmet.h       |  3 +++
+ 2 files changed, 25 insertions(+)
 
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 9e1b8c6..ec250bd 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -33,6 +33,7 @@
- 
- /* Assume mpsmin == device_page_size == 4KB */
- #define NVMET_RDMA_MAX_MDTS			8
-+#define NVMET_RDMA_MAX_MD_MDTS			5
- 
- struct nvmet_rdma_cmd {
- 	struct ib_sge		sge[NVMET_RDMA_MAX_INLINE_SGE + 1];
-@@ -57,6 +58,7 @@ struct nvmet_rdma_rsp {
- 	struct nvmet_rdma_queue	*queue;
- 
- 	struct ib_cqe		read_cqe;
-+	struct ib_cqe		write_cqe;
- 	struct rdma_rw_ctx	rw;
- 
- 	struct nvmet_req	req;
-@@ -132,6 +134,9 @@ struct nvmet_rdma_device {
- static void nvmet_rdma_send_done(struct ib_cq *cq, struct ib_wc *wc);
- static void nvmet_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc);
- static void nvmet_rdma_read_data_done(struct ib_cq *cq, struct ib_wc *wc);
-+#ifdef CONFIG_BLK_DEV_INTEGRITY
-+static void nvmet_rdma_write_data_done(struct ib_cq *cq, struct ib_wc *wc);
-+#endif
- static void nvmet_rdma_qp_event(struct ib_event *event, void *priv);
- static void nvmet_rdma_queue_disconnect(struct nvmet_rdma_queue *queue);
- static void nvmet_rdma_free_rsp(struct nvmet_rdma_device *ndev,
-@@ -389,6 +394,10 @@ static int nvmet_rdma_alloc_rsp(struct nvmet_rdma_device *ndev,
- 
- 	/* Data In / RDMA READ */
- 	r->read_cqe.done = nvmet_rdma_read_data_done;
-+#ifdef CONFIG_BLK_DEV_INTEGRITY
-+	/* Data Out / RDMA WRITE */
-+	r->write_cqe.done = nvmet_rdma_write_data_done;
-+#endif
- 	return 0;
- 
- out_free_rsp:
-@@ -498,6 +507,138 @@ static void nvmet_rdma_process_wr_wait_list(struct nvmet_rdma_queue *queue)
- 	spin_unlock(&queue->rsp_wr_wait_lock);
- }
- 
-+#ifdef CONFIG_BLK_DEV_INTEGRITY
-+static u16 nvmet_rdma_check_pi_status(struct ib_mr *sig_mr)
-+{
-+	struct ib_mr_status mr_status;
-+	int ret;
-+	u16 status = 0;
-+
-+	ret = ib_check_mr_status(sig_mr, IB_MR_CHECK_SIG_STATUS, &mr_status);
-+	if (ret) {
-+		pr_err("ib_check_mr_status failed, ret %d\n", ret);
-+		return NVME_SC_INVALID_PI;
-+	}
-+
-+	if (mr_status.fail_status & IB_MR_CHECK_SIG_STATUS) {
-+		switch (mr_status.sig_err.err_type) {
-+		case IB_SIG_BAD_GUARD:
-+			status = NVME_SC_GUARD_CHECK;
-+			break;
-+		case IB_SIG_BAD_REFTAG:
-+			status = NVME_SC_REFTAG_CHECK;
-+			break;
-+		case IB_SIG_BAD_APPTAG:
-+			status = NVME_SC_APPTAG_CHECK;
-+			break;
-+		}
-+		pr_err("PI error found type %d expected 0x%x vs actual 0x%x\n",
-+		       mr_status.sig_err.err_type,
-+		       mr_status.sig_err.expected,
-+		       mr_status.sig_err.actual);
-+	}
-+
-+	return status;
-+}
-+
-+static void nvmet_rdma_set_sig_domain(struct blk_integrity *bi,
-+		struct nvme_command *cmd, struct ib_sig_domain *domain,
-+		u16 control)
-+{
-+	domain->sig_type = IB_SIG_TYPE_T10_DIF;
-+	domain->sig.dif.bg_type = IB_T10DIF_CRC;
-+	domain->sig.dif.pi_interval = 1 << bi->interval_exp;
-+	domain->sig.dif.ref_tag = le32_to_cpu(cmd->rw.reftag);
-+
-+	/*
-+	 * At the moment we hard code those, but in the future
-+	 * we will take them from cmd.
-+	 */
-+	domain->sig.dif.apptag_check_mask = 0xffff;
-+	domain->sig.dif.app_escape = true;
-+	domain->sig.dif.ref_escape = true;
-+	if (control & NVME_RW_PRINFO_PRCHK_REF)
-+		domain->sig.dif.ref_remap = true;
-+}
-+
-+static void nvmet_rdma_set_sig_attrs(struct nvmet_req *req,
-+				     struct ib_sig_attrs *sig_attrs)
-+{
-+	struct nvme_command *cmd = req->cmd;
-+	struct blk_integrity *bi = bdev_get_integrity(req->ns->bdev);
-+	u16 control = le16_to_cpu(cmd->rw.control);
-+
-+	WARN_ON(bi == NULL);
-+
-+	memset(sig_attrs, 0, sizeof(*sig_attrs));
-+
-+	if (control & NVME_RW_PRINFO_PRACT) {
-+		/* for WRITE_INSERT/READ_STRIP no wire domain */
-+		sig_attrs->wire.sig_type = IB_SIG_TYPE_NONE;
-+		nvmet_rdma_set_sig_domain(bi, cmd, &sig_attrs->mem, control);
-+		/* Clear the PRACT bit since HCA will generate/verify the PI */
-+		control &= ~NVME_RW_PRINFO_PRACT;
-+		cmd->rw.control = cpu_to_le16(control);
-+		/* PI is added by the HW */
-+		req->transfer_len += req->md_len;
-+	} else {
-+		/* for WRITE_PASS/READ_PASS both wire/memory domains exist */
-+		nvmet_rdma_set_sig_domain(bi, cmd, &sig_attrs->wire, control);
-+		nvmet_rdma_set_sig_domain(bi, cmd, &sig_attrs->mem, control);
-+	}
-+
-+	if (control & NVME_RW_PRINFO_PRCHK_REF)
-+		sig_attrs->check_mask |= IB_SIG_CHECK_REFTAG;
-+	if (control & NVME_RW_PRINFO_PRCHK_GUARD)
-+		sig_attrs->check_mask |= IB_SIG_CHECK_GUARD;
-+	if (control & NVME_RW_PRINFO_PRCHK_APP)
-+		sig_attrs->check_mask |= IB_SIG_CHECK_APPTAG;
-+}
-+#else
-+static u16 nvmet_rdma_check_pi_status(struct ib_mr *sig_mr)
-+{
-+	return 0;
-+}
-+
-+static void nvmet_rdma_set_sig_attrs(struct nvmet_req *req,
-+				     struct ib_sig_attrs *sig_attrs)
-+{
-+}
-+#endif /* CONFIG_BLK_DEV_INTEGRITY */
-+
-+static int nvmet_rdma_rw_ctx_init(struct nvmet_rdma_rsp *rsp, u64 addr, u32 key,
-+				  struct ib_sig_attrs *sig_attrs)
-+{
-+	struct rdma_cm_id *cm_id = rsp->queue->cm_id;
-+	struct nvmet_req *req = &rsp->req;
-+	int ret;
-+
-+	if (req->use_md)
-+		ret = rdma_rw_ctx_signature_init(&rsp->rw, cm_id->qp,
-+			cm_id->port_num, req->sg, req->sg_cnt, req->md_sg,
-+			req->md_sg_cnt, sig_attrs, addr, key,
-+			nvmet_data_dir(req));
-+	else
-+		ret = rdma_rw_ctx_init(&rsp->rw, cm_id->qp, cm_id->port_num,
-+				       req->sg, req->sg_cnt, 0, addr, key,
-+				       nvmet_data_dir(req));
-+
-+	return ret;
-+}
-+
-+static void nvmet_rdma_rw_ctx_destroy(struct nvmet_rdma_rsp *rsp)
-+{
-+	struct rdma_cm_id *cm_id = rsp->queue->cm_id;
-+	struct nvmet_req *req = &rsp->req;
-+
-+	if (req->use_md)
-+		rdma_rw_ctx_destroy_signature(&rsp->rw, cm_id->qp,
-+			cm_id->port_num, req->sg, req->sg_cnt, req->md_sg,
-+			req->md_sg_cnt, nvmet_data_dir(req));
-+	else
-+		rdma_rw_ctx_destroy(&rsp->rw, cm_id->qp, cm_id->port_num,
-+				    req->sg, req->sg_cnt, nvmet_data_dir(req));
-+}
- 
- static void nvmet_rdma_release_rsp(struct nvmet_rdma_rsp *rsp)
+diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+index ea0e596..bdf611f 100644
+--- a/drivers/nvme/target/io-cmd-bdev.c
++++ b/drivers/nvme/target/io-cmd-bdev.c
+@@ -50,6 +50,9 @@ void nvmet_bdev_set_limits(struct block_device *bdev, struct nvme_id_ns *id)
+ int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
  {
-@@ -505,11 +646,8 @@ static void nvmet_rdma_release_rsp(struct nvmet_rdma_rsp *rsp)
- 
- 	atomic_add(1 + rsp->n_rdma, &queue->sq_wr_avail);
- 
--	if (rsp->n_rdma) {
--		rdma_rw_ctx_destroy(&rsp->rw, queue->cm_id->qp,
--				queue->cm_id->port_num, rsp->req.sg,
--				rsp->req.sg_cnt, nvmet_data_dir(&rsp->req));
--	}
-+	if (rsp->n_rdma)
-+		nvmet_rdma_rw_ctx_destroy(rsp);
- 
- 	if (rsp->req.sg != rsp->cmd->inline_sg)
- 		nvmet_req_free_sgl(&rsp->req);
-@@ -564,11 +702,16 @@ static void nvmet_rdma_queue_response(struct nvmet_req *req)
- 		rsp->send_wr.opcode = IB_WR_SEND;
- 	}
- 
--	if (nvmet_rdma_need_data_out(rsp))
--		first_wr = rdma_rw_ctx_wrs(&rsp->rw, cm_id->qp,
--				cm_id->port_num, NULL, &rsp->send_wr);
--	else
-+	if (nvmet_rdma_need_data_out(rsp)) {
-+		if (rsp->req.use_md)
-+			first_wr = rdma_rw_ctx_wrs(&rsp->rw, cm_id->qp,
-+					cm_id->port_num, &rsp->write_cqe, NULL);
-+		else
-+			first_wr = rdma_rw_ctx_wrs(&rsp->rw, cm_id->qp,
-+					cm_id->port_num, NULL, &rsp->send_wr);
-+	} else {
- 		first_wr = &rsp->send_wr;
-+	}
- 
- 	nvmet_rdma_post_recv(rsp->queue->dev, rsp->cmd);
- 
-@@ -587,15 +730,14 @@ static void nvmet_rdma_read_data_done(struct ib_cq *cq, struct ib_wc *wc)
- 	struct nvmet_rdma_rsp *rsp =
- 		container_of(wc->wr_cqe, struct nvmet_rdma_rsp, read_cqe);
- 	struct nvmet_rdma_queue *queue = cq->cq_context;
-+	u16 status = 0;
- 
- 	WARN_ON(rsp->n_rdma <= 0);
- 	atomic_add(rsp->n_rdma, &queue->sq_wr_avail);
--	rdma_rw_ctx_destroy(&rsp->rw, queue->cm_id->qp,
--			queue->cm_id->port_num, rsp->req.sg,
--			rsp->req.sg_cnt, nvmet_data_dir(&rsp->req));
- 	rsp->n_rdma = 0;
- 
- 	if (unlikely(wc->status != IB_WC_SUCCESS)) {
-+		nvmet_rdma_rw_ctx_destroy(rsp);
- 		nvmet_req_uninit(&rsp->req);
- 		nvmet_rdma_release_rsp(rsp);
- 		if (wc->status != IB_WC_WR_FLUSH_ERR) {
-@@ -606,9 +748,59 @@ static void nvmet_rdma_read_data_done(struct ib_cq *cq, struct ib_wc *wc)
- 		return;
- 	}
- 
--	rsp->req.execute(&rsp->req);
-+	if (rsp->req.use_md)
-+		status = nvmet_rdma_check_pi_status(rsp->rw.reg->mr);
-+	nvmet_rdma_rw_ctx_destroy(rsp);
-+
-+	if (unlikely(status))
-+		nvmet_req_complete(&rsp->req, status);
-+	else
-+		rsp->req.execute(&rsp->req);
- }
- 
-+#ifdef CONFIG_BLK_DEV_INTEGRITY
-+static void nvmet_rdma_write_data_done(struct ib_cq *cq, struct ib_wc *wc)
-+{
-+	struct nvmet_rdma_rsp *rsp =
-+		container_of(wc->wr_cqe, struct nvmet_rdma_rsp, write_cqe);
-+	struct nvmet_rdma_queue *queue = cq->cq_context;
-+	struct rdma_cm_id *cm_id = rsp->queue->cm_id;
-+	u16 status;
-+
-+	WARN_ON(rsp->n_rdma <= 0);
-+	atomic_add(rsp->n_rdma, &queue->sq_wr_avail);
-+	rsp->n_rdma = 0;
-+
-+	if (unlikely(wc->status != IB_WC_SUCCESS)) {
-+		nvmet_rdma_rw_ctx_destroy(rsp);
-+		nvmet_req_uninit(&rsp->req);
-+		nvmet_rdma_release_rsp(rsp);
-+		if (wc->status != IB_WC_WR_FLUSH_ERR) {
-+			pr_info("RDMA WRITE for CQE 0x%p failed with status %s (%d).\n",
-+				wc->wr_cqe, ib_wc_status_msg(wc->status),
-+				wc->status);
-+			nvmet_rdma_error_comp(queue);
-+		}
-+		return;
-+	}
-+
-+	/*
-+	 * Upon RDMA completion check the signature status
-+	 * - if succeeded send good NVMe response
-+	 * - if failed send bad NVMe response with appropriate error
-+	 */
-+	status = nvmet_rdma_check_pi_status(rsp->rw.reg->mr);
-+	if (unlikely(status))
-+		rsp->req.cqe->status = cpu_to_le16(status << 1);
-+	nvmet_rdma_rw_ctx_destroy(rsp);
-+
-+	if (unlikely(ib_post_send(cm_id->qp, &rsp->send_wr, NULL))) {
-+		pr_err("sending cmd response failed\n");
-+		nvmet_rdma_release_rsp(rsp);
-+	}
-+}
-+#endif /* CONFIG_BLK_DEV_INTEGRITY */
-+
- static void nvmet_rdma_use_inline_sg(struct nvmet_rdma_rsp *rsp, u32 len,
- 		u64 off)
- {
-@@ -663,9 +855,9 @@ static u16 nvmet_rdma_map_sgl_inline(struct nvmet_rdma_rsp *rsp)
- static u16 nvmet_rdma_map_sgl_keyed(struct nvmet_rdma_rsp *rsp,
- 		struct nvme_keyed_sgl_desc *sgl, bool invalidate)
- {
--	struct rdma_cm_id *cm_id = rsp->queue->cm_id;
- 	u64 addr = le64_to_cpu(sgl->addr);
- 	u32 key = get_unaligned_le32(sgl->key);
-+	struct ib_sig_attrs sig_attrs;
  	int ret;
++#ifdef CONFIG_BLK_DEV_INTEGRITY
++	struct blk_integrity *bi;
++#endif
  
- 	rsp->req.transfer_len = get_unaligned_le24(sgl->length);
-@@ -674,13 +866,14 @@ static u16 nvmet_rdma_map_sgl_keyed(struct nvmet_rdma_rsp *rsp,
- 	if (!rsp->req.transfer_len)
- 		return 0;
- 
-+	if (rsp->req.use_md)
-+		nvmet_rdma_set_sig_attrs(&rsp->req, &sig_attrs);
-+
- 	ret = nvmet_req_alloc_sgl(&rsp->req);
- 	if (unlikely(ret < 0))
- 		goto error_out;
- 
--	ret = rdma_rw_ctx_init(&rsp->rw, cm_id->qp, cm_id->port_num,
--			rsp->req.sg, rsp->req.sg_cnt, 0, addr, key,
--			nvmet_data_dir(&rsp->req));
-+	ret = nvmet_rdma_rw_ctx_init(rsp, addr, key, &sig_attrs);
- 	if (unlikely(ret < 0))
- 		goto error_out;
- 	rsp->n_rdma += ret;
-@@ -959,6 +1152,9 @@ static void nvmet_rdma_free_dev(struct kref *ref)
- 			goto out_free_pd;
+ 	ns->bdev = blkdev_get_by_path(ns->device_path,
+ 			FMODE_READ | FMODE_WRITE, NULL);
+@@ -64,6 +67,25 @@ int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
  	}
- 
-+	port->pi_capable = ndev->device->attrs.device_cap_flags &
-+			IB_DEVICE_INTEGRITY_HANDOVER ? true : false;
+ 	ns->size = i_size_read(ns->bdev->bd_inode);
+ 	ns->blksize_shift = blksize_bits(bdev_logical_block_size(ns->bdev));
 +
- 	list_add(&ndev->entry, &device_list);
- out_unlock:
- 	mutex_unlock(&device_list_mutex);
-@@ -1025,6 +1221,10 @@ static int nvmet_rdma_create_queue_ib(struct nvmet_rdma_queue *queue)
- 		qp_attr.cap.max_recv_sge = 1 + ndev->inline_page_count;
- 	}
- 
-+	if (queue->port->pi_capable && queue->port->pi_enable &&
-+	    queue->host_qid)
-+		qp_attr.create_flags |= IB_QP_CREATE_INTEGRITY_EN;
-+
- 	ret = rdma_create_qp(queue->cm_id, ndev->pd, &qp_attr);
- 	if (ret) {
- 		pr_err("failed to create_qp ret= %d\n", ret);
-@@ -1169,6 +1369,7 @@ static int nvmet_rdma_cm_reject(struct rdma_cm_id *cm_id,
- 	INIT_WORK(&queue->release_work, nvmet_rdma_release_queue_work);
- 	queue->dev = ndev;
- 	queue->cm_id = cm_id;
-+	queue->port = cm_id->context;
- 
- 	spin_lock_init(&queue->state_lock);
- 	queue->state = NVMET_RDMA_Q_CONNECTING;
-@@ -1287,7 +1488,6 @@ static int nvmet_rdma_queue_connect(struct rdma_cm_id *cm_id,
- 		ret = -ENOMEM;
- 		goto put_device;
- 	}
--	queue->port = cm_id->context;
- 
- 	if (queue->host_qid == 0) {
- 		/* Let inflight controller teardown complete */
-@@ -1609,6 +1809,15 @@ static void nvmet_rdma_disc_port_addr(struct nvmet_req *req,
- 
- static u8 nvmet_rdma_get_mdts(const struct nvmet_ctrl *ctrl)
- {
-+	struct nvmet_port *port = ctrl->port;
-+	struct rdma_cm_id *cm_id = port->priv;
-+
-+	if (ctrl->pi_support) {
-+		u32 max_pages = rdma_rw_fr_page_list_len(cm_id->device, true);
-+
-+		return min(ilog2(max_pages), NVMET_RDMA_MAX_MD_MDTS);
++	ns->md_type = 0;
++	ns->ms = 0;
++#ifdef CONFIG_BLK_DEV_INTEGRITY
++	bi = bdev_get_integrity(ns->bdev);
++	if (bi) {
++		ns->ms = bi->tuple_size;
++		if (bi->profile == &t10_pi_type1_crc)
++			ns->md_type = NVME_NS_DPS_PI_TYPE1;
++		else if (bi->profile == &t10_pi_type3_crc)
++			ns->md_type = NVME_NS_DPS_PI_TYPE3;
++		else
++			/* Unsupported metadata type */
++			ns->ms = 0;
 +	}
 +
- 	return NVMET_RDMA_MAX_MDTS;
++	pr_debug("ms %d md_type %d\n", ns->ms, ns->md_type);
++#endif
++
+ 	return 0;
  }
  
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 8c75667..f5f93d4 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -19,6 +19,7 @@
+ #include <linux/rcupdate.h>
+ #include <linux/blkdev.h>
+ #include <linux/radix-tree.h>
++#include <linux/t10-pi.h>
+ 
+ #define NVMET_ASYNC_EVENTS		4
+ #define NVMET_ERROR_LOG_SLOTS		128
+@@ -77,6 +78,8 @@ struct nvmet_ns {
+ 
+ 	int			use_p2pmem;
+ 	struct pci_dev		*p2p_dev;
++	int			md_type;
++	int			ms;
+ };
+ 
+ static inline struct nvmet_ns *to_nvmet_ns(struct config_item *item)
 -- 
 1.8.3.1
 
