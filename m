@@ -2,22 +2,22 @@ Return-Path: <SRS0=Br1a=5M=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-9.7 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20BBEC43331
-	for <linux-nvme@archiver.kernel.org>; Fri, 27 Mar 2020 17:19:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18EADC43331
+	for <linux-nvme@archiver.kernel.org>; Fri, 27 Mar 2020 17:20:00 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DBE06206DB
-	for <linux-nvme@archiver.kernel.org>; Fri, 27 Mar 2020 17:19:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id BCCF2206DB
+	for <linux-nvme@archiver.kernel.org>; Fri, 27 Mar 2020 17:19:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ieARGiD+";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="jNeNRAJw"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DBE06206DB
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="AH6b/pzG";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="oORT/8t7"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BCCF2206DB
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,54 +26,54 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=M3gGSydTL1RI1JDRIM9N/9MEMsaGpyTHw2503cxIOeA=; b=ieARGiD+T4OVCG
-	Z7PRID0usUvrNXPIdh25DMRY8T+yoMiceQ+XeWTBySShDgW47PTmVW+oDmQAhtVhgvfEJdrrMQTE4
-	Jq/8w2p/bIglW5GNfhMN8zrFvv4I1pRgB9Ba21/3c8wpWcyF+Q7PKq2GyBg3UbfErRQlVgz6a3/X6
-	frvLQCXaR6hmBAj9OQiIzMt0ItE+hMh/hZ/Ne7PjX0xb5OMoImTNoHSNhcaqQrYVrINKaDVPrkZ69
-	CsASzQ4C/gdYYojQRxFQltxI0D5MCTcD33SuLbzjX6wQ+jIxRL6ko+lyISBWC3wQUKst8yX/hTDJ1
-	Lx1WtGx5Hq0vjNIov1jw==;
+	List-Owner; bh=mnN3Dk851b7hikj1GbwRnvsoGEGcYpxwhPQdUf22K04=; b=AH6b/pzGuSN/NC
+	4UhttfpUZy+WhT4/g0XrE/BONyaGkHn7YaHXne/8xm9255bQjrYxcbFGgTioV/7xBAi0fy55SemdD
+	wzNWM1vIUcEuemETBdDKOChFLS5XoN7/Ber7ymTzEL8Ld1ehqIK49a/Rmd2GBwhenEkoLrLfiUm+1
+	X9IJfXdSR+gkq5CgWq/IP/hEn6o/LMw6/29FmlCU/v3XMF4yH2Z/NSl5Zg8kHWJps1V1ZJbQaD3Tf
+	2oEKgqyKz4aFJQSpIsgpEPgxbULdGtphKgCUwJIxSRK/9rHlBWZEvII3nY6cD/g94OXI5eq3Ah41O
+	jvbLwLgIjJYPQInW8arg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jHse0-0002o5-RT; Fri, 27 Mar 2020 17:19:44 +0000
+	id 1jHseC-0002w7-3X; Fri, 27 Mar 2020 17:19:56 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jHsaV-00086I-CF
- for linux-nvme@bombadil.infradead.org; Fri, 27 Mar 2020 17:16:07 +0000
+ id 1jHsaW-00086e-6m
+ for linux-nvme@bombadil.infradead.org; Fri, 27 Mar 2020 17:16:08 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=ABEOv9NOfEzp+nizJZV8tR2XojLLhtJAcOmi7BUi+vk=; b=jNeNRAJw5B8rm26rg/PEfZ7jy1
- Bp+f6ZF8dDLfewbEQrZqIOcnSqkifZ8dyMlnX7DWS58O0uqU71hevoSrRc/pcqPsjOWpB8MJlqrXQ
- GEpcOU4m9ejyJLQKT7TIqOFaV5c4ZC7sfEbmU471cEzDxgfO39/T0ki1TCCOgPe0THL8tQSEH89W4
- TONpWbSHcZGpxqjMtl8NhNt0vbc0hG1/+A1bNHLQ7Pn1IBeI49DXc2yOW0a0YkbN5BcnnWWNCkjZQ
- zuS5DEaWDYJJfRGDoyhPz0hmXh5HS3A7+NoVx19yehyX05GfCE8XA6zVOkaKPEzLSxLj5QFwVfTW8
- ua3T71PQ==;
+ bh=bEroAyPFVBkKFFho22YfcDwOCTRbkXiOzNWwoom6d6w=; b=oORT/8t7rwX7bkLsP0skIpyusN
+ 5I8CNjE+qNL24UXdI8psxfmeIoCvEgZjr4snFtE7kvC1EzF10vzwrwemHot1mwXhSRRYCW9lndQm4
+ Pw10od3nAIlokVkAJxr51X1wzoLgX4z+nReLxkKZDr2Okp7SJAxJtG40CTm3M0RpzMs6CGkAcC4kJ
+ R4J5znps8VnutM4/6+O6uTm7ezQcEohBfA5iGSbk+CeK+NJJTi35/dwDfcyk4QHXM7r9UeLb8BtjJ
+ n76fPiRZKTliqGCatHaBhT1StXcvmZC/gxC5jZJlm3IUFjSrn+yOMJNsPfNGeYAbbdzmxPr1k5nQ8
+ 4cXWDuSQ==;
 Received: from mail-il-dmz.mellanox.com ([193.47.165.129] helo=mellanox.co.il)
  by casper.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jHsaN-0005Do-9Z
+ id 1jHsaN-0005Dk-GI
  for linux-nvme@lists.infradead.org; Fri, 27 Mar 2020 17:16:06 +0000
 Received: from Internal Mail-Server by MTLPINE1 (envelope-from
  maxg@mellanox.com)
  with ESMTPS (AES256-SHA encrypted); 27 Mar 2020 20:15:46 +0300
 Received: from mtr-vdi-031.wap.labs.mlnx. (mtr-vdi-031.wap.labs.mlnx
  [10.209.102.136])
- by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 02RHFjj3004869;
+ by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 02RHFjj5004869;
  Fri, 27 Mar 2020 20:15:46 +0300
 From: Max Gurtovoy <maxg@mellanox.com>
 To: linux-nvme@lists.infradead.org, kbusch@kernel.org, hch@lst.de,
  sagi@grimberg.me, martin.petersen@oracle.com, jsmart2021@gmail.com,
  linux-rdma@vger.kernel.org
-Subject: [PATCH 1/1] nvme-cli/fabrics: Add pi_enable param to connect cmd
-Date: Fri, 27 Mar 2020 20:15:28 +0300
-Message-Id: <20200327171545.98970-2-maxg@mellanox.com>
+Subject: [PATCH 02/17] nvme: Add has_md field to the nvme_req structure
+Date: Fri, 27 Mar 2020 20:15:30 +0300
+Message-Id: <20200327171545.98970-4-maxg@mellanox.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200327171545.98970-1-maxg@mellanox.com>
 References: <20200327171545.98970-1-maxg@mellanox.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200327_171600_103046_0C828F93 
-X-CRM114-Status: GOOD (  11.50  )
+X-CRM114-CacheID: sfid-20200327_171600_272714_F1107DE9 
+X-CRM114-Status: GOOD (  12.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,71 +95,59 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Israel Rukshin <israelr@mellanox.com>
 
-Added 'pi_enable' to 'connect' command so users can enable metadata support.
+Transport drivers will use this field to determine if the request has
+metadata.
 
-usage examples:
-nvme connect --pi_enable --transport=rdma --traddr=10.0.1.1 --nqn=test-nvme
-nvme connect -p -t rdma -a 10.0.1.1 -n test_nvme
-
+Signed-off-by: Max Gurtovoy <maxg@mellanox.com>
 Signed-off-by: Israel Rukshin <israelr@mellanox.com>
-Reviewed-by: Max Gurtovoy <maxg@mellanox.com>
 ---
- fabrics.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 6 ++++--
+ drivers/nvme/host/nvme.h | 1 +
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/fabrics.c b/fabrics.c
-index a112f76..1b5b3f7 100644
---- a/fabrics.c
-+++ b/fabrics.c
-@@ -78,6 +78,7 @@ static struct config {
- 	int  disable_sqflow;
- 	int  hdr_digest;
- 	int  data_digest;
-+	int  pi_enable;
- 	bool persistent;
- 	bool quiet;
- } cfg = { NULL };
-@@ -851,7 +852,9 @@ static int build_options(char *argstr, int max_len, bool discover)
- 	    add_bool_argument(&argstr, &max_len, "disable_sqflow",
- 				cfg.disable_sqflow) ||
- 	    add_bool_argument(&argstr, &max_len, "hdr_digest", cfg.hdr_digest) ||
--	    add_bool_argument(&argstr, &max_len, "data_digest", cfg.data_digest))
-+	    add_bool_argument(&argstr, &max_len, "data_digest",
-+				cfg.data_digest) ||
-+	    add_bool_argument(&argstr, &max_len, "pi_enable", cfg.pi_enable))
- 		return -EINVAL;
- 
- 	return 0;
-@@ -980,6 +983,13 @@ retry:
- 		p += len;
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index f3a184f..f34ff34 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -461,6 +461,7 @@ static inline void nvme_clear_nvme_request(struct request *req)
+ 	if (!(req->rq_flags & RQF_DONTPREP)) {
+ 		nvme_req(req)->retries = 0;
+ 		nvme_req(req)->flags = 0;
++		nvme_req(req)->has_md = false;
+ 		req->rq_flags |= RQF_DONTPREP;
  	}
+ }
+@@ -694,6 +695,8 @@ static inline blk_status_t nvme_setup_rw(struct nvme_ns *ns,
+ 		nvme_assign_write_stream(ctrl, req, &control, &dsmgmt);
  
-+	if (cfg.pi_enable) {
-+		len = sprintf(p, ",pi_enable");
-+		if (len < 0)
-+			return -EINVAL;
-+		p += len;
-+	}
-+
- 	switch (e->trtype) {
- 	case NVMF_TRTYPE_RDMA:
- 	case NVMF_TRTYPE_TCP:
-@@ -1259,6 +1269,7 @@ int discover(const char *desc, int argc, char **argv, bool connect)
- 		OPT_INT("tos",             'T', &cfg.tos,             "type of service"),
- 		OPT_FLAG("hdr_digest",     'g', &cfg.hdr_digest,      "enable transport protocol header digest (TCP transport)"),
- 		OPT_FLAG("data_digest",    'G', &cfg.data_digest,     "enable transport protocol data digest (TCP transport)"),
-+		OPT_FLAG("pi_enable",      'p', &cfg.pi_enable,       "enable metadata (T10-PI) support (default false)"),
- 		OPT_INT("nr-io-queues",    'i', &cfg.nr_io_queues,    "number of io queues to use (default is core count)"),
- 		OPT_INT("nr-write-queues", 'W', &cfg.nr_write_queues, "number of write queues to use (default 0)"),
- 		OPT_INT("nr-poll-queues",  'P', &cfg.nr_poll_queues,  "number of poll queues to use (default 0)"),
-@@ -1319,6 +1330,7 @@ int connect(const char *desc, int argc, char **argv)
- 		OPT_FLAG("disable-sqflow",    'd', &cfg.disable_sqflow,    "disable controller sq flow control (default false)"),
- 		OPT_FLAG("hdr-digest",        'g', &cfg.hdr_digest,        "enable transport protocol header digest (TCP transport)"),
- 		OPT_FLAG("data-digest",       'G', &cfg.data_digest,       "enable transport protocol data digest (TCP transport)"),
-+		OPT_FLAG("pi_enable",         'p', &cfg.pi_enable,         "enable metadata (T10-PI) support (default false)"),
- 		OPT_END()
- 	};
+ 	if (ns->ms) {
++		nvme_req(req)->has_md =
++			ns->features & NVME_NS_MD_CTRL_SUPPORTED;
+ 		/*
+ 		 * If formated with metadata, the block layer always provides a
+ 		 * metadata buffer if CONFIG_BLK_DEV_INTEGRITY is enabled.  Else
+@@ -701,8 +704,7 @@ static inline blk_status_t nvme_setup_rw(struct nvme_ns *ns,
+ 		 * namespace capacity to zero to prevent any I/O.
+ 		 */
+ 		if (!blk_integrity_rq(req)) {
+-			if (WARN_ON_ONCE(!(ns->features &
+-					   NVME_NS_MD_CTRL_SUPPORTED)))
++			if (WARN_ON_ONCE(!nvme_req(req)->has_md))
+ 				return BLK_STS_NOTSUPP;
+ 			control |= NVME_RW_PRINFO_PRACT;
+ 		}
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 83296d0..a353255 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -139,6 +139,7 @@ struct nvme_request {
+ 	u8			flags;
+ 	u16			status;
+ 	struct nvme_ctrl	*ctrl;
++	bool			has_md;
+ };
  
+ /*
 -- 
 1.8.3.1
 
