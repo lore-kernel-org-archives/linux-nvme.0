@@ -2,91 +2,121 @@ Return-Path: <SRS0=yNQM=5Q=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3062C2D0EE
-	for <linux-nvme@archiver.kernel.org>; Tue, 31 Mar 2020 10:27:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EE97C43331
+	for <linux-nvme@archiver.kernel.org>; Tue, 31 Mar 2020 10:37:34 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 57D08208E0
-	for <linux-nvme@archiver.kernel.org>; Tue, 31 Mar 2020 10:27:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 67EDF20772
+	for <linux-nvme@archiver.kernel.org>; Tue, 31 Mar 2020 10:37:33 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="k/XlVFJu";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BNREeNvN"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 57D08208E0
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linaro.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="HvehZZa8";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b="CzqQ64UK"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 67EDF20772
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=yandex.ru
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:To:References:Message-Id:Date:
-	In-Reply-To:From:Subject:Mime-Version:Reply-To:Content-ID:Content-Description
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
+	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
 	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=y7cbO0uONJE828O3IMDpdfliKarRjOq0wSG2d/x7LHQ=; b=k/XlVFJusmfbSt
-	yhunAEgceQYKei4gmOtY9zS7l5s9/Ka1Cox/CmjO6OYzKWiFFwxggCRy8IJKAxiVK4Zs8nGFhUoQe
-	Cnth6HNRorapRSqU3R0wgIC9clEs8CUw8dvpVv9TWg34VxNukpqJPbgd/oqOnUD+5S7LFVRA2gW3q
-	xq2VulS/g6TkGgjSsvHW7yQblrwmY98OUYLaJ4rnq5lNXdYpz7bWP8/fA6jMYoWMfpT4qTvHKhwyi
-	kW+X+f7ogZI5+/DU00AXsMnqQqi7oheJbeY/WepA6oj1DT/+11QCHbHIhRwPElVVvhI/xUrFJDdEq
-	LOK2+XcYdFJLEVSTSJjQ==;
+	List-Owner; bh=VYpJ0iRQIzBaH8KoX0/vzSfNeYQ0RYQAddoW7Fp/oqc=; b=HvehZZa8P7YIcU
+	ZokGBNAvfrdEfu0I7IWlZZmD3eW/6LugMO79EecCpIWM9jm1EhLZbAqU5vNFosnt8OhZxfGgOneCt
+	/pxCBrzLIuVq3wpe1l2yrIpUISc2fHsJSLcaomn2RuBX5K5sCd8LFMNY9I+btqx/Gez+tIhRh46AW
+	mEKxzPoSSMr5BL4G+K8vIpbjLKhv6rn/4JTirm9tfx6AT2J2QH93rPa3vYOWkfW3eikFDmgsSFdnA
+	kFPnlQzepWesy5ujrFRF6oLmmwgyAeSV4Z04XwUmlqpfw24J1YSvJsEOjtEzoI77aUve11hWMfDsv
+	Wai5UiqzjORWcfuW98bA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jJE7c-0000pT-NI; Tue, 31 Mar 2020 10:27:52 +0000
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342])
+	id 1jJEGx-0004Gb-RG; Tue, 31 Mar 2020 10:37:31 +0000
+Received: from forward100p.mail.yandex.net ([77.88.28.100])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jJE7W-0000ni-2E
- for linux-nvme@lists.infradead.org; Tue, 31 Mar 2020 10:27:48 +0000
-Received: by mail-wm1-x342.google.com with SMTP id i19so1983312wmb.0
- for <linux-nvme@lists.infradead.org>; Tue, 31 Mar 2020 03:27:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=O4fIR3uoc5tVQMLd54nQw5z05MiLWlZQFph3hoh5hlM=;
- b=BNREeNvNYwgfnw6nTJqmTLlP6Ea59Qm5Qn9DlWzIViFO3TYt8sSdmxxdNLK1HWoYhr
- EEVgwsusv7KukwJhgMKIXZfFxJYtQO3HNis6RMwQx5eaUw24hmzKLlSi5i340BJIvyUw
- 3UO6IGaAHT9Wthrglu4j6CEdAPPSSY3E/4aIGksvtJAwRjWuZxmDfMI5XcjYMsFhlGBG
- U3K4rtw1sC7/dokiyiCS22py0flzcgUHorFO8UoxUKRbEBSkajxJWP4kV4EqxZxmiqjb
- uxhGvDruvvKjg5dixW/8hWDYchtK+krYB9BkZSOyRmpjIazTKIyehYAarmvrj3XVJf2+
- mw0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=O4fIR3uoc5tVQMLd54nQw5z05MiLWlZQFph3hoh5hlM=;
- b=KpG4GDh0GC/vAfh2V0x3DDtjGp7ZykpeWyhD6nz0JfaVpCSCfZ8TDzGPOPwjsQ9QZh
- KQNCIWMMHMKT/W4bmo0SypHtHSFbIShb2vaoe1gGdDuYSBET0KzDs4OMJYUtZxT30qYh
- CGEgnIbBZkhScEZI/vROnOYIIdqhSpZFXyMinzFap68A8p0hlTMaBOThwFfysqXVUSBX
- u7R2FQ3m6fszIQC57UeQRAtk6ZZAIlge81gStSOPVwRYXCnspi0Vfq19oObi/ka/nreF
- fiKMxnIQu3F/XzvIp0th5A5EIkiuzDoj6vqVIICBDeTXB1Nc+rS+Mk+jblMTfKOKANf0
- 7a2w==
-X-Gm-Message-State: ANhLgQ0DsDFmdJKeLTN/9i4rov2VdcZIJst/L12txWFsouJ6qeJ9rDWf
- Y1LWi/kA1/FyOnbhMy30YPDaBw==
-X-Google-Smtp-Source: ADFU+vuT8ZO2RI6CGCdp6V7ksxQiTdvtGPwc5+AD46tpl705hKR8Q0bVvOvO3nAs4slrRNYfPEPmPA==
-X-Received: by 2002:a05:600c:204:: with SMTP id
- 4mr2599467wmi.112.1585650463503; 
- Tue, 31 Mar 2020 03:27:43 -0700 (PDT)
-Received: from [192.168.0.102] ([84.33.138.35])
- by smtp.gmail.com with ESMTPSA id k204sm3405860wma.17.2020.03.31.03.27.42
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 31 Mar 2020 03:27:42 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.11\))
-Subject: Re: [PATCH v5 0/4] Add support Weighted Round Robin for blkcg and nvme
-From: Paolo Valente <paolo.valente@linaro.org>
-In-Reply-To: <CAA70yB62_6JD_8dJTGPjnjJfyJSa1xqiCVwwNYtsTCUXQR5uCA@mail.gmail.com>
-Date: Tue, 31 Mar 2020 12:29:05 +0200
-Message-Id: <7CD57B83-F067-4918-878C-BAC413C6A2B3@linaro.org>
-References: <cover.1580786525.git.zhangweiping@didiglobal.com>
- <20200204154200.GA5831@redsun51.ssa.fujisawa.hgst.com>
- <CAA70yB5qAj8YnNiPVD5zmPrrTr0A0F3v2cC6t2S1Fb0kiECLfw@mail.gmail.com>
- <CAA70yB62_6JD_8dJTGPjnjJfyJSa1xqiCVwwNYtsTCUXQR5uCA@mail.gmail.com>
-To: Weiping Zhang <zwp10758@gmail.com>
-X-Mailer: Apple Mail (2.3445.104.11)
+ id 1jJEGt-0004FL-MW
+ for linux-nvme@lists.infradead.org; Tue, 31 Mar 2020 10:37:30 +0000
+Received: from mxback17g.mail.yandex.net (mxback17g.mail.yandex.net
+ [IPv6:2a02:6b8:0:1472:2741:0:8b7:317])
+ by forward100p.mail.yandex.net (Yandex) with ESMTP id E3D2459800D5;
+ Tue, 31 Mar 2020 13:37:17 +0300 (MSK)
+Received: from sas1-5ebd8269dbc4.qloud-c.yandex.net
+ (sas1-5ebd8269dbc4.qloud-c.yandex.net [2a02:6b8:c14:3611:0:640:5ebd:8269])
+ by mxback17g.mail.yandex.net (mxback/Yandex) with ESMTP id PYUQBnmyq3-bHwGoI85;
+ Tue, 31 Mar 2020 13:37:17 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
+ t=1585651037; bh=FoPOsMmy5sCv8tAjbGh7geJCv5PdqIiR4AUbZL/AuLo=;
+ h=In-Reply-To:Cc:From:Date:References:To:Subject:Message-ID;
+ b=CzqQ64UKL1gyz7DLBzDjRQjolVhtSMXFBNB3aus+rSOBddpPMxxm/yHwsdYOf7YuI
+ QYSDgM4zUT+E6TgxKHIYx/qr0S9h5oOOXjqLPZrlAP6eyTtcNGCWZnijwlvCoY5Z8f
+ ILBXyHlPY9LYDOqPJX0wYjkVSYfpp9aWU1qCMBvQ=
+Authentication-Results: mxback17g.mail.yandex.net;
+ dkim=pass header.i=@yandex.ru
+Received: by sas1-5ebd8269dbc4.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
+ id GgmG7FpGfL-bGWm67d3; Tue, 31 Mar 2020 13:37:16 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Subject: Re: nvme: Duplicate cntlid error
+To: linux-nvme <linux-nvme@lists.infradead.org>
+References: <3cfc539a-07ba-3757-073e-dc81f9c0c824@yandex.ru>
+ <2d02e844-5700-64e9-26dc-50b3958d2ab5@grimberg.me>
+From: Alex Talker <alextalker@yandex.ru>
+Autocrypt: addr=alextalker@yandex.ru; keydata=
+ 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
+ yQTUMqxFHn/a+cp+b7wLpLIJSg==
+Message-ID: <00875be1-c0bd-9b25-efa3-4236421678b7@yandex.ru>
+Date: Tue, 31 Mar 2020 13:37:18 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
+MIME-Version: 1.0
+In-Reply-To: <2d02e844-5700-64e9-26dc-50b3958d2ab5@grimberg.me>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200331_032746_139321_403F8E74 
-X-CRM114-Status: GOOD (  20.16  )
+X-CRM114-CacheID: sfid-20200331_033728_238867_3D8DC6FA 
+X-CRM114-Status: GOOD (  10.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,172 +128,39 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Jens Axboe <axboe@kernel.dk>, Bart Van Assche <bvanassche@acm.org>,
- linux-nvme@lists.infradead.org, Ming Lei <ming.lei@redhat.com>,
- linux-block@vger.kernel.org, Tejun Heo <tj@kernel.org>,
- Minwoo Im <minwoo.im.dev@gmail.com>, cgroups@vger.kernel.org,
- Keith Busch <kbusch@kernel.org>, "Nadolski,
- Edmund" <edmund.nadolski@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
- Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: maxg@mellanox.com, Sagi Grimberg <sagi@grimberg.me>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-> Il giorno 31 mar 2020, alle ore 08:17, Weiping Zhang <zwp10758@gmail.com> ha scritto:
-> 
->>> On the driver implementation, the number of module parameters being
->>> added here is problematic. We already have 2 special classes of queues,
->>> and defining this at the module level is considered too coarse when
->>> the system has different devices on opposite ends of the capability
->>> spectrum. For example, users want polled queues for the fast devices,
->>> and none for the slower tier. We just don't have a good mechanism to
->>> define per-controller resources, and more queue classes will make this
->>> problem worse.
->>> 
->> We can add a new "string" module parameter, which contains a model number,
->> in most cases, the save product with a common prefix model number, so
->> in this way
->> nvme can distinguish the different performance devices(hign or low end).
->> Before create io queue, nvme driver can get the device's Model number(40 Bytes),
->> then nvme driver can compare device's model number with module parameter, to
->> decide how many io queues for each disk;
->> 
->> /* if model_number is MODEL_ANY, these parameters will be applied to
->> all nvme devices. */
->> char dev_io_queues[1024] = "model_number=MODEL_ANY,
->> poll=0,read=0,wrr_low=0,wrr_medium=0,wrr_high=0,wrr_urgent=0";
->> /* these paramters only affect nvme disk whose model number is "XXX" */
->> char dev_io_queues[1024] = "model_number=XXX,
->> poll=1,read=2,wrr_low=3,wrr_medium=4,wrr_high=5,wrr_urgent=0;";
->> 
->> struct dev_io_queues {
->>        char model_number[40];
->>        unsigned int poll;
->>        unsgined int read;
->>        unsigned int wrr_low;
->>        unsigned int wrr_medium;
->>        unsigned int wrr_high;
->>        unsigned int wrr_urgent;
->> };
->> 
->> We can use these two variable to store io queue configurations:
->> 
->> /* default values for the all disk, except whose model number is not
->> in io_queues_cfg */
->> struct dev_io_queues io_queues_def = {};
->> 
->> /* user defined values for a specific model number */
->> struct dev_io_queues io_queues_cfg = {};
->> 
->> If we need multiple configurations( > 2), we can also extend
->> dev_io_queues to support it.
->> 
-> 
-> Hi Maintainers,
-> 
-> If we add patch to support these queue count at controller level,
-> instead moudle level,
-> shall we add WRR ?
-> 
-> Recently I do some cgroup io weight testing,
-> https://github.com/dublio/iotrack/wiki/cgroup-io-weight-test
-> I think a proper io weight policy
-> should consider high weight cgroup's iops, latency and also take whole
-> disk's throughput
-> into account, that is to say, the policy should do more carfully trade
-> off between cgroup's
-> IO performance and whole disk's throughput. I know one policy cannot
-> do all things perfectly,
-> but from the test result nvme-wrr can work well.
-> 
-> From the following test result, nvme-wrr work well for both cgroup's
-> latency, iops, and whole
-> disk's throughput.
-> 
-> Notes:
-> blk-iocost: only set qos.model, not set percentage latency.
-> nvme-wrr: set weight by:
->    h=64;m=32;l=8;ab=0; nvme set-feature /dev/nvme1n1 -f 1 -v $(printf
-> "0x%x\n" $(($ab<<0|$l<<8|$m<<16|$h<<24)))
->    echo "$major:$minor high" > /sys/fs/cgroup/test1/io.wrr
->    echo "$major:$minor low" > /sys/fs/cgroup/test2/io.wrr
-> 
-> 
-> Randread vs Randread:
-> cgroup.test1.weight : cgroup.test2.weight = 8 : 1
-> high weight cgroup test1: randread, fio: numjobs=8, iodepth=32, bs=4K
-> low  weight cgroup test2: randread, fio: numjobs=8, iodepth=32, bs=4K
-> 
-> test case         bw         iops       rd_avg_lat   wr_avg_lat
-> rd_p99_lat   wr_p99_lat
-> =======================================================================================
-> bfq_test1         767226     191806     1333.30      0.00
-> 536.00       0.00
-> bfq_test2         94607      23651      10816.06     0.00
-> 610.00       0.00
-> iocost_test1      1457718    364429     701.76       0.00
-> 1630.00      0.00
-> iocost_test2      1466337    366584     697.62       0.00
-> 1613.00      0.00
-> none_test1        1456585    364146     702.22       0.00
-> 1646.00      0.00
-> none_test2        1463090    365772     699.12       0.00
-> 1613.00      0.00
-> wrr_test1         2635391    658847     387.94       0.00
-> 1236.00      0.00
-> wrr_test2         365428     91357      2801.00      0.00
-> 5537.00      0.00
-> 
-> https://github.com/dublio/iotrack/wiki/cgroup-io-weight-test#215-summary-fio-output
-> 
-> 
-
-Glad to see that BFQ meets weights.  Sad to see how it is suffering in
-terms of IOPS on your system.
-
-Good job with your scheduler!
-
-However, as for I/O control, the hard-to-control cases are not the
-ones with constantly-full deep queues.  BFQ complexity stems from the
-need to control also the tough cases.  An example is sync I/O with
-I/O depth one against async I/O.  On the other hand, those use cases
-may not be of interest for your scheduler.
-
-Thanks,
-Paolo
-
-> Randread vs Seq Write:
-> cgroup.test1.weight : cgroup.test2.weight = 8 : 1
-> high weight cgroup test1: randread, fio: numjobs=8, iodepth=32, bs=4K
-> low  weight cgroup test2: seq write, fio: numjobs=1, iodepth=32, bs=256K
-> 
-> test case      bw         iops       rd_avg_lat   wr_avg_lat
-> rd_p99_lat   wr_p99_lat
-> =======================================================================================
-> bfq_test1      814327     203581     1256.19      0.00         593.00       0.00
-> bfq_test2      104758     409        0.00         78196.32     0.00
->     1052770.00
-> iocost_test1   270467     67616      3784.02      0.00         9371.00      0.00
-> iocost_test2   1541575    6021       0.00         5313.02      0.00
->     6848.00
-> none_test1     271708     67927      3767.01      0.00         9502.00      0.00
-> none_test2     1541951    6023       0.00         5311.50      0.00
->     6848.00
-> wrr_test1      775005     193751     1320.17      0.00         4112.00      0.00
-> wrr_test2      1198319    4680       0.00         6835.30      0.00
->     8847.00
-> 
-> 
-> https://github.com/dublio/iotrack/wiki/cgroup-io-weight-test#225-summary-fio-output
-> 
-> Thanks
-> Weiping
-
-
-_______________________________________________
-linux-nvme mailing list
-linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+CjMvMzEvMjAyMCA5OjQ1IEFNLCBTYWdpIEdyaW1iZXJnIHdyb3RlOgo+Cj4+IFVzaW5nIEZlZG9y
+YSAzMSBhcyBhIGhvc3QgSSdtIHRyeWluZyB0byBjb25uZWN0IHRvIDIgbm9kZXMgdGhhdCBob3N0
+Cj4+IHN1YnN5c3RlbSB3aXRoIG9uZSBhbmQgdGhlIHNhbWUgTlFOLgo+PiBTbyB3aGVuIEkgY2Fs
+bDoKPj4gwqAgbnZtZSBjb25uZWN0IC10IHJkbWEgLWEgMTAuMjEuMC4xIC1uCj4+IG5xbi4yMDIw
+LTAzLmNvbS5leGFtcGxlOnN1YnN5c3RlbTAKPj4gwqAgZGV2aWNlIG52bWUwIHN1Y2Nlc3NmdWxs
+eSBhbGxvY2F0ZWQgYnV0IHdoZW4gdGhlbiBJIGNhbGw6Cj4+IMKgIG52bWUgY29ubmVjdCAtdCBy
+ZG1hIC1hIDEwLjIwLjAuMSAtbgo+PiBucW4uMjAyMC0wMy5jb20uZXhhbXBsZTpzdWJzeXN0ZW0w
+Cj4+IMKgIEkgZ2V0IGFuIGVycm9yOgo+PiDCoCBbMjM5MzU1LjY2MTUyN10gbnZtZSBudm1lMTog
+RHVwbGljYXRlIGNudGxpZCAxIHdpdGggbnZtZTAsIHJlamVjdGluZwo+PiDCoCB3aGF0IGNvdWxk
+IGJlIHRoZSBwcm9ibGVtPwo+PiBGZXcgbW9udGhzIGJlZm9yZSBJIGNoZWNrZWQgY29ubmVjdGlv
+biB0byBhIHNpbmdsZSBub2RlIHZpYSBmZXcgcG9ydHMKPj4gYW5kIGl0IHdvcmtlZCBvdXQganVz
+dCBmaW5lCj4+IGJ1dCBhdHRlbXB0IG9mIEguQS4gc2V0dXAgZmFpbHMgaGVyZS4KPgo+IFlvdXIg
+c3Vic3lzdGVtIHByZXNlbnQgdHdvIGNvbnRyb2xsZXJzIHdpdGggdGhlIHNhbWUgY29udHJvbGxl
+ciBpZCwgdGhhdAo+IGlzIGEgdmlvbGF0aW9uIG9mIHRoZSBzcGVjLCBhbmQgd2UgcHJvcGVybHkg
+cmVqZWN0IHN1Y2ggY29udHJvbGxlcnMuCj4KPiBJbiB1cHN0cmVhbSBjb2RlLCB5b3UgY2FuIHNw
+ZWNpZnkgYSBjbnRsaWQgbWluL21heCByYW5nZSBzdWNoIHRoYXQgaWYKPiB5b3UgYXJlIHRyeWlu
+ZyB0byBwbGF5IGdhbWVzIHdpdGggZGlmZmVyZW50IGxpbnV4IHRhcmdldHMgYXMgYSBzaW5nbGUK
+PiBzdWJzeXN0ZW0geW91IHdvbid0IHZpb2xhdGUgdGhlIHNwZWMuCgpUbyBzdW1tYXJpemUgcHJv
+YmxlbSBpcyB0aGF0IGNudGxpZCBpcyBhdXRvbWF0aWNhbGx5IGFsbG9jYXRlZCBpbnNpZGUKdGhl
+IHRhcmdldCBkcml2ZXIKCnBlci1jb25uZWN0aW9uIGJ1dCBzaW5jZSB0aGVyZSdzIG5vIHN5bmNo
+cm9uaXphdGlvbiBiZXR3ZWVuIHRoZSBub2RlcywKZWFjaCBub2RlIGNvdW50cyBzZXBhcmF0ZWx5
+CgphbmQgdGhhdCdzIHdoeSB0aGUgbnVtYmVycyBtYXkgY2xhc2gsIHJpZ2h0PwoKSSd2ZSBjaGVj
+a2VkIGFuZCB0aGUgcGF0Y2gKaHR0cHM6Ly9naXRodWIuY29tL3RvcnZhbGRzL2xpbnV4L2NvbW1p
+dC85NGEzOWQ2MWY4MGZjZDY3OWRlYmRhMTFlMWNhMDJiODhkOTBlNjdlCmlzIGluIGZhY3QgYXZh
+aWxhYmxlIG9ubHkgdXBzdHJlYW0KCmJ1dCBub3QgaW4gYW55IE1MTlggT0ZFRCBkcml2ZXIgYmFj
+ay1wb3J0LiBEb2VzIE1lbGxhbm94IGhhcyBwbGFucyB0bwppbmNsdWRlIHRoaXMgZmVhdHVyZSBp
+biBuZXh0IHJlbGVhc2U/CgoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCmxpbnV4LW52bWUgbWFpbGluZyBsaXN0CmxpbnV4LW52bWVAbGlzdHMuaW5mcmFk
+ZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4
+LW52bWUK
