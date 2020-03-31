@@ -2,93 +2,83 @@ Return-Path: <SRS0=yNQM=5Q=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18754C43331
-	for <linux-nvme@archiver.kernel.org>; Tue, 31 Mar 2020 00:21:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BB01C43331
+	for <linux-nvme@archiver.kernel.org>; Tue, 31 Mar 2020 06:17:28 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D6186206F5
-	for <linux-nvme@archiver.kernel.org>; Tue, 31 Mar 2020 00:21:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D3894206EB
+	for <linux-nvme@archiver.kernel.org>; Tue, 31 Mar 2020 06:17:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="F0IyktWx"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D6186206F5
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="h9E3mVlt";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gtnzYGc0"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D3894206EB
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=SqnkCe+zTo9SQOwdqr46pQGWCBg4vNyNca7800Dq8+4=; b=F0IyktWxN8HUYAimPhHX2gw+A
-	GlGPq5ZRLOIFHgej5/FoNE9ksQRykn86TqKAacgeiHJDtKhvyYVtN6JE0L257VNpXF4A1d7TFGPfC
-	zDWyAnIp8mgQXfHKYYCVy963MmGhca3P3dRTUMhcfyGjeGwHDUjfceE3Z3tehUPZqOSQGmPaH2HZc
-	GGB2VUZ+oe80wbBvrQHwI1Nt53UfgZzMpuD8J93+0Zc0+dzx9rR7Gaaqjlw7jrga8aentpPG4yQaA
-	3n3yM9et2+NKVOvWzS3zzEo4mjnRddIgXGIzWjP58zSryS9oq8/z+tCLGIA0gwY8XPBlO72qifU93
-	h9lxHnTrQ==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=8vERtNwYDOv/rDmecMQRsTWtKI1r7GHtPjyETe89YXo=; b=h9E3mVltvfLf8Q
+	dsOaYXVJ6P24IiCKWd+4KfstSJA4sqlq4iG/VsTKVjdeUf+VxdYIVYuZpjsW8k+vUqKzTxRN+7Hc1
+	JLUEHw+Kom/EZPMaKVWGlLpRylkwY4pVM15soi3U8IMUucH/Hs/v3bBaPHTK4RcPLYVmx5uZ9mUt4
+	SdHUNYPdrR3ta/qxCY6iV52apjvcdf6QVvOnEYQjLB/z33PxVj58WEXS9WC8At9CBxyOa/P1b/sG1
+	WKl7+yd60cYMAY6oak6gVchU4NHYqm2vmV6aEXRfyi8IpCEv5IDkxoPEdQx0uhKp1vNohsQQNH1nk
+	QUBxW+nkrQ5bCD7110xA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jJ4ex-0000aO-Sp; Tue, 31 Mar 2020 00:21:39 +0000
-Received: from mail-pl1-f196.google.com ([209.85.214.196])
+	id 1jJADC-0002tn-Fo; Tue, 31 Mar 2020 06:17:22 +0000
+Received: from mail-qk1-x744.google.com ([2607:f8b0:4864:20::744])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jJ4ev-0000Zq-03
- for linux-nvme@lists.infradead.org; Tue, 31 Mar 2020 00:21:38 +0000
-Received: by mail-pl1-f196.google.com with SMTP id e1so7420327plt.9
- for <linux-nvme@lists.infradead.org>; Mon, 30 Mar 2020 17:21:34 -0700 (PDT)
+ id 1jJAD8-0002t9-Uw
+ for linux-nvme@lists.infradead.org; Tue, 31 Mar 2020 06:17:20 +0000
+Received: by mail-qk1-x744.google.com with SMTP id u4so21804109qkj.13
+ for <linux-nvme@lists.infradead.org>; Mon, 30 Mar 2020 23:17:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=WIxxK39yFs5OEp2hoQ/hVPAMvH8Vwu0fOy3U41jNDI4=;
+ b=gtnzYGc01I61h4c7FPRTBKTYrGmeLJqPOxWQilD4KbLcH5GwVg/Uuv7hhK9eqxoldh
+ gjL/pGOzzxVQMvQ/LcYJhqqsc8wDXhhftxFsch/8i5eoD8Q2dw3TiI5w9VXjtVwEX5uR
+ ChUk3p8MIb5NoNxjV0sPR1r0huoWCYmshLRjSHiXCSUV8j9ma4mpP/0xj48nz3tusZ/c
+ jz1NULPB1/cd+In7xBAVsHPDhZALLJwJDFNetP9lBc6qt32VxOWsLU+DWt89fx/OElCA
+ +ISoWCYB7YSrFXcLmSbmztf9s9ctzTbv2gX4R+UhivVqvU1hgVwu0gV0lmTMYCks40gT
+ AFxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=IBD1zv+VwoMpzzZCZ+mLT+H97SjaIu0EGZcIMb0vaj8=;
- b=eoJSVh2PMOBPlyU7C/6N+V3gJ0IO+DdiE+7Ru5W/XTCO6hIW2L8DPT0oaNVWdXGw5+
- Z0cFI9Ac/TzlVm6AhzNTCCZv07kftOOvxqPJ+FD5h+C/eAababiqwblvq4qyfoZ+hnUn
- fTPtEX+Bxdfh+/iBugWrVh8Po9cPxJwiNdfnPCfJUF8g6om2+1o3iBzd/wDusnBFa3J7
- zzRU6ptZIdO6BpXKbEdVRJvBxbjTFnRYiiATQe/2JSDkJA5BtwykQSqbanCXL9ONW0hU
- qvqnuM+KYSMXzUlqD7NODXn/dGHMSxiaheTZJ/GNjKZIMCAPkU1BIJIcVnyk4aR38dXe
- iUnQ==
-X-Gm-Message-State: AGi0PuYVktXJMu7BJkyX0SVtKHzx6560oK3dYUvHAjJFGk2zFXV15A/v
- Wsk8cYR8pQeoNMx7C1QdHa8=
-X-Google-Smtp-Source: APiQypIx22oi9vyzW/AmZhBJwfH3AdFIQgGvey5lpNqC2jSOhu1CqGceCIzn42WeCfwFXTUd3T/eOw==
-X-Received: by 2002:a17:90b:1944:: with SMTP id
- nk4mr757485pjb.70.1585614094173; 
- Mon, 30 Mar 2020 17:21:34 -0700 (PDT)
-Received: from ?IPv6:2601:647:4802:9070:b015:431e:549a:54d?
- ([2601:647:4802:9070:b015:431e:549a:54d])
- by smtp.gmail.com with ESMTPSA id x3sm10995594pfp.167.2020.03.30.17.21.32
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 30 Mar 2020 17:21:33 -0700 (PDT)
-Subject: Re: NULL pointer dereference in nvmet_rdma_queue_disconnect during
- bond failover
-To: Alex Lyakas <alex@zadara.com>
-References: <F7E28AA1609E4FC495B5E8D4250E7DEF@alyakaslap>
- <90599926-b7ec-8431-a7aa-c44fde08b5c4@grimberg.me>
- <ec4fb8df-98c4-fffc-7581-5245c397d16c@mellanox.com>
- <66ACE500178B47D6B39F23FE98D22363@alyakaslap>
- <b6443a7c-4be6-3dbc-0535-a8ded3261c50@mellanox.com>
- <8ab1fa5e-2d67-5128-93b5-2f32704869e4@grimberg.me>
- <28046c97-c271-dff4-5252-4b5668c7bfb7@grimberg.me>
- <B3E9005C4E4645628157970AE2A385C4@alyakaslap>
- <fbcd59ef-9c48-4e1a-4802-1cae33c5f671@grimberg.me>
- <d7caa73f-b939-41f5-793a-c9b74880f246@grimberg.me>
- <5fee46b0-0516-766a-5b1a-7114a164c9ae@grimberg.me>
- <CAOcd+r15zrG-uMuZ2M3JjOTODV9fX3qcXPW000jbp1mtc7_R-Q@mail.gmail.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <5f439f61-338f-4f37-2b13-d3b743c32409@grimberg.me>
-Date: Mon, 30 Mar 2020 17:21:31 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Firefox/60.0 Thunderbird/60.9.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=WIxxK39yFs5OEp2hoQ/hVPAMvH8Vwu0fOy3U41jNDI4=;
+ b=AT7pbKVryLpe42m1FqH/iHUoJDJ1CfkqC94a6gY4kXEufmGr/RevZD9/J84aaO2yDC
+ jCt63R4Qb4KYoCbEvZZ6Q9a+Ok0NIzBWkztPwxIOtmXLm15yOVVMJpOzde5DqSBIIx3H
+ mi18I8IDdMTnKeQdv4OzBaVgCjFrU1t7OE+qaka/XJeYjV4XAtPe0oZlVbny4sPkATzB
+ W29Qmz+VVvThWAv+LCg42ijZdX6I4nFTyCxQPVLUoExHxOr+sdzdtOM64Qpi+Aa/WW8E
+ X+a+6unSPZY1TVF/yzBjF0ADpHwvAwcw2Hf3aZ05i8X/HhfOwc139lUi/UM/Zxj5Ajhn
+ SJUw==
+X-Gm-Message-State: ANhLgQ1tVOd4kInA/uERils+hv6fPNW+9zw5LYa5e+aZBFTPwBxisa2/
+ v3dVSpdGe/2KOEF38/CzCnCawNZnILHPnxTFqno=
+X-Google-Smtp-Source: ADFU+vvimfZGmVLQxjvf61mux56f6SGLVtWGf9mUsRFBg9JeB4PpjjH593/kiVxo4oDb2kCxZul1ifV79Wa5PbBquUc=
+X-Received: by 2002:ae9:ee01:: with SMTP id i1mr3517974qkg.498.1585635437494; 
+ Mon, 30 Mar 2020 23:17:17 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAOcd+r15zrG-uMuZ2M3JjOTODV9fX3qcXPW000jbp1mtc7_R-Q@mail.gmail.com>
-Content-Language: en-US
+References: <cover.1580786525.git.zhangweiping@didiglobal.com>
+ <20200204154200.GA5831@redsun51.ssa.fujisawa.hgst.com>
+ <CAA70yB5qAj8YnNiPVD5zmPrrTr0A0F3v2cC6t2S1Fb0kiECLfw@mail.gmail.com>
+In-Reply-To: <CAA70yB5qAj8YnNiPVD5zmPrrTr0A0F3v2cC6t2S1Fb0kiECLfw@mail.gmail.com>
+From: Weiping Zhang <zwp10758@gmail.com>
+Date: Tue, 31 Mar 2020 14:17:06 +0800
+Message-ID: <CAA70yB62_6JD_8dJTGPjnjJfyJSa1xqiCVwwNYtsTCUXQR5uCA@mail.gmail.com>
+Subject: Re: [PATCH v5 0/4] Add support Weighted Round Robin for blkcg and nvme
+To: Keith Busch <kbusch@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200330_172137_040837_D5DD5573 
-X-CRM114-Status: GOOD (  26.50  )
+X-CRM114-CacheID: sfid-20200330_231719_000775_44F38EAB 
+X-CRM114-Status: GOOD (  19.00  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,348 +90,149 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Shlomi Nimrodi <shlomin@mellanox.com>, tomwu@mellanox.com,
- Israel Rukshin <israelr@mellanox.com>,
- linux-nvme <linux-nvme@lists.infradead.org>, Max Gurtovoy <maxg@mellanox.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Bart Van Assche <bvanassche@acm.org>,
+ linux-nvme@lists.infradead.org, Ming Lei <ming.lei@redhat.com>,
+ linux-block@vger.kernel.org, Minwoo Im <minwoo.im.dev@gmail.com>,
+ cgroups@vger.kernel.org, Tejun Heo <tj@kernel.org>, "Nadolski,
+ Edmund" <edmund.nadolski@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hey Alex,
+> > On the driver implementation, the number of module parameters being
+> > added here is problematic. We already have 2 special classes of queues,
+> > and defining this at the module level is considered too coarse when
+> > the system has different devices on opposite ends of the capability
+> > spectrum. For example, users want polled queues for the fast devices,
+> > and none for the slower tier. We just don't have a good mechanism to
+> > define per-controller resources, and more queue classes will make this
+> > problem worse.
+> >
+> We can add a new "string" module parameter, which contains a model number,
+> in most cases, the save product with a common prefix model number, so
+> in this way
+> nvme can distinguish the different performance devices(hign or low end).
+> Before create io queue, nvme driver can get the device's Model number(40 Bytes),
+> then nvme driver can compare device's model number with module parameter, to
+> decide how many io queues for each disk;
+>
+> /* if model_number is MODEL_ANY, these parameters will be applied to
+> all nvme devices. */
+> char dev_io_queues[1024] = "model_number=MODEL_ANY,
+> poll=0,read=0,wrr_low=0,wrr_medium=0,wrr_high=0,wrr_urgent=0";
+> /* these paramters only affect nvme disk whose model number is "XXX" */
+> char dev_io_queues[1024] = "model_number=XXX,
+> poll=1,read=2,wrr_low=3,wrr_medium=4,wrr_high=5,wrr_urgent=0;";
+>
+> struct dev_io_queues {
+>         char model_number[40];
+>         unsigned int poll;
+>         unsgined int read;
+>         unsigned int wrr_low;
+>         unsigned int wrr_medium;
+>         unsigned int wrr_high;
+>         unsigned int wrr_urgent;
+> };
+>
+> We can use these two variable to store io queue configurations:
+>
+> /* default values for the all disk, except whose model number is not
+> in io_queues_cfg */
+> struct dev_io_queues io_queues_def = {};
+>
+> /* user defined values for a specific model number */
+> struct dev_io_queues io_queues_cfg = {};
+>
+> If we need multiple configurations( > 2), we can also extend
+> dev_io_queues to support it.
+>
 
->>> Alex, Max? did you retest this?
->>
->> Raising this from the ashes...
->>
->> Alex, did you test this patch?
-> 
-> Raising from the ashes!
-> 
-> In short: this patch fixes the issue!
+Hi Maintainers,
 
-Thanks for following up..
+If we add patch to support these queue count at controller level,
+instead moudle level,
+shall we add WRR ?
 
-> 
-> More details:
-> 
-> This patch doesn't apply on kernel 5.2. Moreover, I believe this patch
-> is incomplete, because nvmet_rdma_find_get_device() needs to be fixed
-> to treat cm_id->context as "struct nvmet_rdma_port" and not as "struct
-> nvmet_port".
+Recently I do some cgroup io weight testing,
+https://github.com/dublio/iotrack/wiki/cgroup-io-weight-test
+I think a proper io weight policy
+should consider high weight cgroup's iops, latency and also take whole
+disk's throughput
+into account, that is to say, the policy should do more carfully trade
+off between cgroup's
+IO performance and whole disk's throughput. I know one policy cannot
+do all things perfectly,
+but from the test result nvme-wrr can work well.
 
-Does patch [1] apply on kernel 5.2?
+From the following test result, nvme-wrr work well for both cgroup's
+latency, iops, and whole
+disk's throughput.
 
-> However, since we are working with kernel modules from Mellanox OFED,
-> I tried applying this patch on OFED 4.7. I discovered that it already
-> has almost everything this patch introduces. Like "struct
-> nvmet_rdma_port" and the refactoring of nvmet_rdma_add_port into
-> nvmet_rdma_enable_port, and nvmet_rdma_remove_port to
-> nvmet_rdma_disable_port. I ended up with this patch [1].
-> 
-> Tested bond failover, and cm_id is destroyed and re-created as expected [2]
-> 
-> Israel, Max and other Mellanox folks: can we have this fix in OFED 4.9?
-> 
+Notes:
+blk-iocost: only set qos.model, not set percentage latency.
+nvme-wrr: set weight by:
+    h=64;m=32;l=8;ab=0; nvme set-feature /dev/nvme1n1 -f 1 -v $(printf
+"0x%x\n" $(($ab<<0|$l<<8|$m<<16|$h<<24)))
+    echo "$major:$minor high" > /sys/fs/cgroup/test1/io.wrr
+    echo "$major:$minor low" > /sys/fs/cgroup/test2/io.wrr
 
-For MOFED issues you can follow-up with Max and Israel offline. If you
-can test upstream or even 5.2 stable that would be beneficial as I can
-add your Tested-by tag.
 
-Thanks.
+Randread vs Randread:
+cgroup.test1.weight : cgroup.test2.weight = 8 : 1
+high weight cgroup test1: randread, fio: numjobs=8, iodepth=32, bs=4K
+low  weight cgroup test2: randread, fio: numjobs=8, iodepth=32, bs=4K
 
-[1]:
---
-Author: Sagi Grimberg <sagi@grimberg.me>
-Date:   Wed Jul 3 15:33:01 2019 -0700
+test case         bw         iops       rd_avg_lat   wr_avg_lat
+rd_p99_lat   wr_p99_lat
+=======================================================================================
+bfq_test1         767226     191806     1333.30      0.00
+536.00       0.00
+bfq_test2         94607      23651      10816.06     0.00
+610.00       0.00
+iocost_test1      1457718    364429     701.76       0.00
+1630.00      0.00
+iocost_test2      1466337    366584     697.62       0.00
+1613.00      0.00
+none_test1        1456585    364146     702.22       0.00
+1646.00      0.00
+none_test2        1463090    365772     699.12       0.00
+1613.00      0.00
+wrr_test1         2635391    658847     387.94       0.00
+1236.00      0.00
+wrr_test2         365428     91357      2801.00      0.00
+5537.00      0.00
 
-     nvmet-rdma: fix bonding failover possible NULL deref
+https://github.com/dublio/iotrack/wiki/cgroup-io-weight-test#215-summary-fio-output
 
-     RDMA_CM_EVENT_ADDR_CHANGE event occur in the case of bonding failover
-     on normal as well as on listening cm_ids. Hence this event will
-     immediately trigger a NULL dereference trying to disconnect a queue
-     for a cm_id that actually belongs to the port.
 
-     To fix this we provide a different handler for the listener cm_ids
-     that will defer a work to disable+(re)enable the port which essentially
-     destroys and setups another listener cm_id
+Randread vs Seq Write:
+cgroup.test1.weight : cgroup.test2.weight = 8 : 1
+high weight cgroup test1: randread, fio: numjobs=8, iodepth=32, bs=4K
+low  weight cgroup test2: seq write, fio: numjobs=1, iodepth=32, bs=256K
 
-     Reported-by: Alex Lyakas <alex@zadara.com>
-     Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+test case      bw         iops       rd_avg_lat   wr_avg_lat
+rd_p99_lat   wr_p99_lat
+=======================================================================================
+bfq_test1      814327     203581     1256.19      0.00         593.00       0.00
+bfq_test2      104758     409        0.00         78196.32     0.00
+     1052770.00
+iocost_test1   270467     67616      3784.02      0.00         9371.00      0.00
+iocost_test2   1541575    6021       0.00         5313.02      0.00
+     6848.00
+none_test1     271708     67927      3767.01      0.00         9502.00      0.00
+none_test2     1541951    6023       0.00         5311.50      0.00
+     6848.00
+wrr_test1      775005     193751     1320.17      0.00         4112.00      0.00
+wrr_test2      1198319    4680       0.00         6835.30      0.00
+     8847.00
 
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 9e1b8c61f54e..8dac89b7aa12 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -105,6 +105,13 @@ struct nvmet_rdma_queue {
-         struct list_head        queue_list;
-  };
 
-+struct nvmet_rdma_port {
-+       struct nvmet_port       *nport;
-+       struct sockaddr_storage addr;
-+       struct rdma_cm_id       *cm_id;
-+       struct delayed_work     repair_work;
-+};
-+
-  struct nvmet_rdma_device {
-         struct ib_device        *device;
-         struct ib_pd            *pd;
-@@ -1272,6 +1279,7 @@ static int nvmet_rdma_cm_accept(struct rdma_cm_id 
-*cm_id,
-  static int nvmet_rdma_queue_connect(struct rdma_cm_id *cm_id,
-                 struct rdma_cm_event *event)
-  {
-+       struct nvmet_rdma_port *port = cm_id->context;
-         struct nvmet_rdma_device *ndev;
-         struct nvmet_rdma_queue *queue;
-         int ret = -EINVAL;
-@@ -1287,7 +1295,7 @@ static int nvmet_rdma_queue_connect(struct 
-rdma_cm_id *cm_id,
-                 ret = -ENOMEM;
-                 goto put_device;
-         }
--       queue->port = cm_id->context;
-+       queue->port = port->nport;
+https://github.com/dublio/iotrack/wiki/cgroup-io-weight-test#225-summary-fio-output
 
-         if (queue->host_qid == 0) {
-                 /* Let inflight controller teardown complete */
-@@ -1412,7 +1420,7 @@ static void nvmet_rdma_queue_connect_fail(struct 
-rdma_cm_id *cm_id,
-  static int nvmet_rdma_device_removal(struct rdma_cm_id *cm_id,
-                 struct nvmet_rdma_queue *queue)
-  {
--       struct nvmet_port *port;
-+       struct nvmet_rdma_port *port;
-
-         if (queue) {
-                 /*
-@@ -1431,7 +1439,7 @@ static int nvmet_rdma_device_removal(struct 
-rdma_cm_id *cm_id,
-          * cm_id destroy. use atomic xchg to make sure
-          * we don't compete with remove_port.
-          */
--       if (xchg(&port->priv, NULL) != cm_id)
-+       if (xchg(&port->cm_id, NULL) != cm_id)
-                 return 0;
-
-         /*
-@@ -1462,6 +1470,13 @@ static int nvmet_rdma_cm_handler(struct 
-rdma_cm_id *cm_id,
-                 nvmet_rdma_queue_established(queue);
-                 break;
-         case RDMA_CM_EVENT_ADDR_CHANGE:
-+               if (!queue) {
-+                       struct nvmet_rdma_port *port = cm_id->context;
-+
-+                       schedule_delayed_work(&port->repair_work, 0);
-+                       break;
-+               }
-+               /* FALLTHROUGH */
-         case RDMA_CM_EVENT_DISCONNECTED:
-         case RDMA_CM_EVENT_TIMEWAIT_EXIT:
-                 nvmet_rdma_queue_disconnect(queue);
-@@ -1504,42 +1519,19 @@ static void nvmet_rdma_delete_ctrl(struct 
-nvmet_ctrl *ctrl)
-         mutex_unlock(&nvmet_rdma_queue_mutex);
-  }
-
--static int nvmet_rdma_add_port(struct nvmet_port *port)
-+static void nvmet_rdma_disable_port(struct nvmet_rdma_port *port)
-  {
--       struct rdma_cm_id *cm_id;
--       struct sockaddr_storage addr = { };
--       __kernel_sa_family_t af;
--       int ret;
-+       struct rdma_cm_id *cm_id = xchg(&port->cm_id, NULL);
-
--       switch (port->disc_addr.adrfam) {
--       case NVMF_ADDR_FAMILY_IP4:
--               af = AF_INET;
--               break;
--       case NVMF_ADDR_FAMILY_IP6:
--               af = AF_INET6;
--               break;
--       default:
--               pr_err("address family %d not supported\n",
--                               port->disc_addr.adrfam);
--               return -EINVAL;
--       }
--
--       if (port->inline_data_size < 0) {
--               port->inline_data_size = 
-NVMET_RDMA_DEFAULT_INLINE_DATA_SIZE;
--       } else if (port->inline_data_size > 
-NVMET_RDMA_MAX_INLINE_DATA_SIZE) {
--               pr_warn("inline_data_size %u is too large, reducing to 
-%u\n",
--                       port->inline_data_size,
--                       NVMET_RDMA_MAX_INLINE_DATA_SIZE);
--               port->inline_data_size = NVMET_RDMA_MAX_INLINE_DATA_SIZE;
--       }
-+       if (cm_id)
-+               rdma_destroy_id(cm_id);
-+}
-
--       ret = inet_pton_with_scope(&init_net, af, port->disc_addr.traddr,
--                       port->disc_addr.trsvcid, &addr);
--       if (ret) {
--               pr_err("malformed ip/port passed: %s:%s\n",
--                       port->disc_addr.traddr, port->disc_addr.trsvcid);
--               return ret;
--       }
-+static int nvmet_rdma_enable_port(struct nvmet_rdma_port *port)
-+{
-+       struct sockaddr *addr = (struct sockaddr *)&port->addr;
-+       struct rdma_cm_id *cm_id;
-+       int ret;
-
-         cm_id = rdma_create_id(&init_net, nvmet_rdma_cm_handler, port,
-                         RDMA_PS_TCP, IB_QPT_RC);
-@@ -1558,23 +1550,19 @@ static int nvmet_rdma_add_port(struct nvmet_port 
-*port)
-                 goto out_destroy_id;
-         }
-
--       ret = rdma_bind_addr(cm_id, (struct sockaddr *)&addr);
-+       ret = rdma_bind_addr(cm_id, addr);
-         if (ret) {
--               pr_err("binding CM ID to %pISpcs failed (%d)\n",
--                       (struct sockaddr *)&addr, ret);
-+               pr_err("binding CM ID to %pISpcs failed (%d)\n", addr, ret);
-                 goto out_destroy_id;
-         }
-
-         ret = rdma_listen(cm_id, 128);
-         if (ret) {
--               pr_err("listening to %pISpcs failed (%d)\n",
--                       (struct sockaddr *)&addr, ret);
-+               pr_err("listening to %pISpcs failed (%d)\n", addr, ret);
-                 goto out_destroy_id;
-         }
-
--       pr_info("enabling port %d (%pISpcs)\n",
--               le16_to_cpu(port->disc_addr.portid), (struct sockaddr 
-*)&addr);
--       port->priv = cm_id;
-+       port->cm_id = cm_id;
-         return 0;
-
-  out_destroy_id:
-@@ -1582,18 +1570,92 @@ static int nvmet_rdma_add_port(struct nvmet_port 
-*port)
-         return ret;
-  }
-
--static void nvmet_rdma_remove_port(struct nvmet_port *port)
-+static void nvmet_rdma_repair_port_work(struct work_struct *w)
-  {
--       struct rdma_cm_id *cm_id = xchg(&port->priv, NULL);
-+       struct nvmet_rdma_port *port = container_of(to_delayed_work(w),
-+                       struct nvmet_rdma_port, repair_work);
-+       int ret;
-
--       if (cm_id)
--               rdma_destroy_id(cm_id);
-+       nvmet_rdma_disable_port(port);
-+       ret = nvmet_rdma_enable_port(port);
-+       if (ret)
-+               schedule_delayed_work(&port->repair_work, 5 * HZ);
-+}
-+
-+static int nvmet_rdma_add_port(struct nvmet_port *nport)
-+{
-+       struct nvmet_rdma_port *port;
-+       __kernel_sa_family_t af;
-+       int ret;
-+
-+       port = kzalloc(sizeof(*port), GFP_KERNEL);
-+       if (!port)
-+               return -ENOMEM;
-+
-+       nport->priv = port;
-+       port->nport = nport;
-+       INIT_DELAYED_WORK(&port->repair_work, nvmet_rdma_repair_port_work);
-+
-+       switch (nport->disc_addr.adrfam) {
-+       case NVMF_ADDR_FAMILY_IP4:
-+               af = AF_INET;
-+               break;
-+       case NVMF_ADDR_FAMILY_IP6:
-+               af = AF_INET6;
-+               break;
-+       default:
-+               pr_err("address family %d not supported\n",
-+                               nport->disc_addr.adrfam);
-+               ret = -EINVAL;
-+               goto out_free_port;
-+       }
-+
-+       if (nport->inline_data_size < 0) {
-+               nport->inline_data_size = 
-NVMET_RDMA_DEFAULT_INLINE_DATA_SIZE;
-+       } else if (nport->inline_data_size > 
-NVMET_RDMA_MAX_INLINE_DATA_SIZE) {
-+               pr_warn("inline_data_size %u is too large, reducing to 
-%u\n",
-+                       nport->inline_data_size,
-+                       NVMET_RDMA_MAX_INLINE_DATA_SIZE);
-+               nport->inline_data_size = NVMET_RDMA_MAX_INLINE_DATA_SIZE;
-+       }
-+
-+       ret = inet_pton_with_scope(&init_net, af, nport->disc_addr.traddr,
-+                       nport->disc_addr.trsvcid, &port->addr);
-+       if (ret) {
-+               pr_err("malformed ip/port passed: %s:%s\n",
-+                       nport->disc_addr.traddr, nport->disc_addr.trsvcid);
-+               goto out_free_port;
-+       }
-+
-+       ret = nvmet_rdma_enable_port(port);
-+       if(ret)
-+               goto out_free_port;
-+
-+       pr_info("enabling port %d (%pISpcs)\n",
-+               le16_to_cpu(nport->disc_addr.portid),
-+               (struct sockaddr *)&port->addr);
-+
-+       return 0;
-+
-+out_free_port:
-+       kfree(port);
-+       return ret;
-+}
-+
-+static void nvmet_rdma_remove_port(struct nvmet_port *nport)
-+{
-+       struct nvmet_rdma_port *port = nport->priv;
-+
-+       cancel_delayed_work_sync(&port->repair_work);
-+       nvmet_rdma_disable_port(port);
-+       kfree(port);
-  }
-
-  static void nvmet_rdma_disc_port_addr(struct nvmet_req *req,
--               struct nvmet_port *port, char *traddr)
-+               struct nvmet_port *nport, char *traddr)
-  {
--       struct rdma_cm_id *cm_id = port->priv;
-+       struct nvmet_rdma_port *port = nport->priv;
-+       struct rdma_cm_id *cm_id = port->cm_id;
-
-         if (inet_addr_is_any((struct sockaddr 
-*)&cm_id->route.addr.src_addr)) {
-                 struct nvmet_rdma_rsp *rsp =
-@@ -1603,7 +1665,7 @@ static void nvmet_rdma_disc_port_addr(struct 
-nvmet_req *req,
-
-                 sprintf(traddr, "%pISc", addr);
-         } else {
--               memcpy(traddr, port->disc_addr.traddr, NVMF_TRADDR_SIZE);
-+               memcpy(traddr, nport->disc_addr.traddr, NVMF_TRADDR_SIZE);
-         }
-  }
---
+Thanks
+Weiping
 
 _______________________________________________
 linux-nvme mailing list
