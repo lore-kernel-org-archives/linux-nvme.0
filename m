@@ -2,23 +2,23 @@ Return-Path: <SRS0=yNQM=5Q=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-6.7 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6329BC2D0EE
-	for <linux-nvme@archiver.kernel.org>; Tue, 31 Mar 2020 16:54:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95C69C43331
+	for <linux-nvme@archiver.kernel.org>; Tue, 31 Mar 2020 16:54:49 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 35F1B206CC
-	for <linux-nvme@archiver.kernel.org>; Tue, 31 Mar 2020 16:54:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 49925206CC
+	for <linux-nvme@archiver.kernel.org>; Tue, 31 Mar 2020 16:54:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="gq2cVEuo";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ri3JxcEL"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 35F1B206CC
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="HTag6ngk";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HhaT3E8H"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 49925206CC
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -28,61 +28,61 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	In-Reply-To:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Owner;
-	bh=gHRvu/utAWjz2aOKlYVW6yO28HOx9jWdBjXuMQC9Fe0=; b=gq2cVEuo1KDrp4zOaXIncqRJA7
-	vbP3KYSybtQHEBjQJcFzHxBkBtnb+GmQ17SpFxRABKSa6l5Z+bqXPO/T1kJ/BBqXhosBnEY01m6/q
-	0qAT7uqs0NkBoJIXQidpHgcmiQ4OfI798Rua47vsqn8hiLR5UgVXbVxGIP+nScjkJaYZnKeZQz2F3
-	U0SMF6iQDI4ev3qC2RdSUcxPpuMR5bwfDlrUTz1WD8RLrBm8iznv+GB/DyDEMoVK6uYRkrWxFce4O
-	kSPeAZr+MywaDvrrdL0v0PpMdiyThhY6w+dITOZXlbdwtUAsQewYrzSGFcgBeBf/EnvJgFdVJN0Fj
-	q66tjL/Q==;
+	bh=+5Ijk64tY0Pb8hMCHySw9xipeIMczUS7QYL6lnhZzSk=; b=HTag6ngkw4bx/AamRP0iqX4Fxz
+	AVfQ+7aQ8n4r/hY46Yz3iLjczRMCZs1RGFWB5ObbBDxNdK4xPcZEi1yX0sla44bpnAwijEDrSV+M8
+	mmWUznmRlHi30edLkd00ds/bKr+MdcOY5xyxIKYEGnawnByQSUlNOJX5ugmDD/9dbVG4LnHkvX7NF
+	axKWca1JfIyx8OmpC4lPPbojQV9fkwMe/SfmIh6veiF/PiO98nA7WHJxzGlUimT2C5lG91WveTHY1
+	jyqolEVbADdAN0vPdSHLqxpxj1+BlXc8ZV7I9rjlvWCmGe3WmRE3iTMKPYTlZ0sJ9Vn6InkWhhe7v
+	gv7SnRCw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jJK9p-00078r-3e; Tue, 31 Mar 2020 16:54:33 +0000
+	id 1jJKA1-0007Ib-0h; Tue, 31 Mar 2020 16:54:45 +0000
 Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jJK69-0004oS-Nr
- for linux-nvme@lists.infradead.org; Tue, 31 Mar 2020 16:50:58 +0000
-Received: by mail-wr1-x441.google.com with SMTP id m17so26861941wrw.11
- for <linux-nvme@lists.infradead.org>; Tue, 31 Mar 2020 09:50:45 -0700 (PDT)
+ id 1jJK6B-0004ps-BJ
+ for linux-nvme@lists.infradead.org; Tue, 31 Mar 2020 16:51:00 +0000
+Received: by mail-wr1-x441.google.com with SMTP id 65so26939818wrl.1
+ for <linux-nvme@lists.infradead.org>; Tue, 31 Mar 2020 09:50:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=XEzjVX6knY45SNQlybQiT9vnoGN3Xsn0cX05O/Tc1HY=;
- b=Ri3JxcELVsEXCyhNZVU55cyBpYuZ4S6TV0Tq1QxzlwgnlaghKcpkPboLeoeJqbtJ72
- xbxCHjzKPrNAZk+UeCPGtS9mMQ7p11vj0IK2ftVkUnioPcuAtgCmKkGHUnsfHcucIDCg
- UPEkd5lk8fycwUZWHcznK7vcWt+qeAvPQzLPqHK1ZH/+9gFKR2XncAIBAxX8XY4YZ/9H
- Z3CUr9Mc3uRqXmbWGIjJ/xhO8LvmuD+fXrZJP4G51iEtVm+ytAcPnYH/4qOktG1W/7xX
- Tq41QGMiBGoLh2N5eiCWXi6yi6/qY6UYloYUYYzJTdTjSLZZ241OnkCoil14xBCwFzFv
- oS6Q==
+ bh=qdt4v+RDssF6y/KaFGASkhrMEhaIfL3d81g1ZJOlMoU=;
+ b=HhaT3E8HDMJvzJCbkyPb3/12oFzS1tmU0Yoixn4qU0kCUOyZFZeofBuZb6yJbDivJV
+ ak2F9NzhDwGJPdlc8O7s4H6WO5nQ1Kp9z6fCO4hgr2zkpGlEMJx5/x0r3F7RODBMJuPc
+ oY8yhuCJm4dmcGuo6jYS9vdPFUatiRdJPS6dD43rXvzVyPsSseyIJJOVNkLh/ykbjscw
+ M6ywZcXz+EMziVJt8OtScx1wRn66iRJEgsmK/mLzOKizTnIQipb/1IEUFp1MQQAQTglI
+ lsPTpUgqOBIphRi5k8G+FnCJdPSYzy/SkoEIBNf7fGl3Vx8adiaFaRjyN4hk9HCqA8O9
+ isVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=XEzjVX6knY45SNQlybQiT9vnoGN3Xsn0cX05O/Tc1HY=;
- b=OdqaEiRX7dL/aAh1BbO8kUQdZczQKQ/g4Tbe6+2PuWu/UIBCAu11+9IjY3qvAPDeps
- ziRmK02LfOlmfiUKyD51lmYbpX+cRc6Mtr34AJBC7WgGDDd2Jwc+8vGdSMfluvzHZ2bp
- 3RAiUd4jrE0jQuDmBj/egM8vf0tz3yRmx5AcfSEb4VKZ2xg7+oeTbfghGbWXyHbb3AYK
- A1Nk7INNAgFLK1lIofu57GVdYa0X85UOy/Owy8npr5+xZqlkuxF0nl1b8cZVkRLEH4x0
- nAWhYAkS8nz01ztXGALSdD8ZluPBZg6p72P+y40gQv2EWD+uv/UlpszNF9X51xMQiIWe
- pehQ==
-X-Gm-Message-State: ANhLgQ32HY4op29vGRfQQDA65H0HWOwsKPxoXU6GZec4tmFt77EEBFaB
- 4Fi23OyINJ9oAz+DAutsQXSmuz4F
-X-Google-Smtp-Source: ADFU+vvTLuAYWOAzb06AeLQYv3qt9jNTYtb40gZfpkVeymTg2ntihPtyad4qvPsFWG+yeokUGw9+bA==
-X-Received: by 2002:a5d:414f:: with SMTP id c15mr23475747wrq.60.1585673444208; 
- Tue, 31 Mar 2020 09:50:44 -0700 (PDT)
+ bh=qdt4v+RDssF6y/KaFGASkhrMEhaIfL3d81g1ZJOlMoU=;
+ b=CqUKIGDRUEfMX96i28ybLCKHlgh8N7YHu/p2l4QVnDyrmTYvlgJDJcgUcAAqgpMYTy
+ 1AwWQIKuccxfLrihTFe8W6RCO14dI9vlvVnAC/iwrDHqJpxYV7tdpxOXZHAKADjRXvaj
+ dSCBa4REHPNzBGxs2k4Wbg16Ogie9VJyt/6SQEt00WSbIEk6F4ZRhWj+SsmJfkHvE1q3
+ zzLcInz9sUoHflQQ5CivfXwo+cy43mAsa3Q+x5NEijn/NhDGRg0QppAkSbc0uw1451O/
+ 18tHMoeJzdF1gHKdJn2+nz6w7wDywb3wsRmS6CcmXCqiXSlRsarxAqyEgaOoLZzvdMX9
+ 3Lfg==
+X-Gm-Message-State: ANhLgQ3v8fEoNuRS+DcaN+/GYvBztBO8q+BqPxyzQE3fBQUhpvVv90Nm
+ eEzFP6cvx4p8V3/J655mBwfMWdPZ
+X-Google-Smtp-Source: ADFU+vshVr4MsIMAvS6CtZk42hxXqn93nZNf9B6NGyQSI2bwyubQ9DUW2a7u80nqr02MZhQZD3WLJg==
+X-Received: by 2002:adf:ab5d:: with SMTP id r29mr23286066wrc.158.1585673445786; 
+ Tue, 31 Mar 2020 09:50:45 -0700 (PDT)
 Received: from localhost.localdomain.localdomain ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id r14sm2711582wmg.0.2020.03.31.09.50.42
+ by smtp.gmail.com with ESMTPSA id r14sm2711582wmg.0.2020.03.31.09.50.44
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 31 Mar 2020 09:50:43 -0700 (PDT)
+ Tue, 31 Mar 2020 09:50:45 -0700 (PDT)
 From: James Smart <jsmart2021@gmail.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH v2 15/26] nvme-fcloop: refactor to enable target to host LS
-Date: Tue, 31 Mar 2020 09:50:00 -0700
-Message-Id: <20200331165011.15819-16-jsmart2021@gmail.com>
+Subject: [PATCH v2 16/26] nvme-fcloop: add target to host LS request support
+Date: Tue, 31 Mar 2020 09:50:01 -0700
+Message-Id: <20200331165011.15819-17-jsmart2021@gmail.com>
 X-Mailer: git-send-email 2.16.4
 In-Reply-To: <20200331165011.15819-1-jsmart2021@gmail.com>
 References: <20200331165011.15819-1-jsmart2021@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200331_095045_817756_19C3B2C7 
-X-CRM114-Status: GOOD (  13.55  )
+X-CRM114-CacheID: sfid-20200331_095047_454047_E2599B2C 
+X-CRM114-Status: GOOD (  16.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,97 +101,227 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Currently nvmefc-loop only sends LS's from host to target.
-Slightly rework data structures and routine names to reflect this
-path. Allows a straight-forward conversion to be used by ls's
-from target to host.
+Add support for performing LS requests from target to host.
+Include sending request from targetport, reception into host,
+host sending ls rsp.
 
 Signed-off-by: James Smart <jsmart2021@gmail.com>
 Reviewed-by: Hannes Reinecke <hare@suse.de>
-
 ---
-v2:
-  moved location of new field lsdir for better alignment
----
- drivers/nvme/target/fcloop.c | 19 +++++++++++++------
- 1 file changed, 13 insertions(+), 6 deletions(-)
+ drivers/nvme/target/fcloop.c | 130 +++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 118 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
-index 6533f4196005..9a3ce0cc31db 100644
+index 9a3ce0cc31db..809f11c5d560 100644
 --- a/drivers/nvme/target/fcloop.c
 +++ b/drivers/nvme/target/fcloop.c
-@@ -226,9 +226,15 @@ struct fcloop_nport {
+@@ -208,10 +208,13 @@ struct fcloop_rport {
+ };
+ 
+ struct fcloop_tport {
+-	struct nvmet_fc_target_port *targetport;
+-	struct nvme_fc_remote_port *remoteport;
+-	struct fcloop_nport *nport;
+-	struct fcloop_lport *lport;
++	struct nvmet_fc_target_port	*targetport;
++	struct nvme_fc_remote_port	*remoteport;
++	struct fcloop_nport		*nport;
++	struct fcloop_lport		*lport;
++	spinlock_t			lock;
++	struct list_head		ls_list;
++	struct work_struct		ls_work;
+ };
+ 
+ struct fcloop_nport {
+@@ -226,11 +229,6 @@ struct fcloop_nport {
  	u32 port_id;
  };
  
-+enum {
-+	H2T	= 0,
-+	T2H	= 1,
-+};
-+
+-enum {
+-	H2T	= 0,
+-	T2H	= 1,
+-};
+-
  struct fcloop_lsreq {
  	struct nvmefc_ls_req		*lsreq;
  	struct nvmefc_ls_rsp		ls_rsp;
-+	int				lsdir;	/* H2T or T2H */
- 	int				status;
- 	struct list_head		ls_list; /* fcloop_rport->ls_list */
- };
-@@ -323,7 +329,7 @@ fcloop_rport_lsrqst_work(struct work_struct *work)
- }
- 
- static int
--fcloop_ls_req(struct nvme_fc_local_port *localport,
-+fcloop_h2t_ls_req(struct nvme_fc_local_port *localport,
- 			struct nvme_fc_remote_port *remoteport,
- 			struct nvmefc_ls_req *lsreq)
- {
-@@ -331,6 +337,7 @@ fcloop_ls_req(struct nvme_fc_local_port *localport,
+@@ -337,7 +335,6 @@ fcloop_h2t_ls_req(struct nvme_fc_local_port *localport,
  	struct fcloop_rport *rport = remoteport->private;
  	int ret = 0;
  
-+	tls_req->lsdir = H2T;
+-	tls_req->lsdir = H2T;
  	tls_req->lsreq = lsreq;
  	INIT_LIST_HEAD(&tls_req->ls_list);
  
-@@ -351,7 +358,7 @@ fcloop_ls_req(struct nvme_fc_local_port *localport,
+@@ -351,8 +348,9 @@ fcloop_h2t_ls_req(struct nvme_fc_local_port *localport,
+ 	}
+ 
+ 	tls_req->status = 0;
+-	ret = nvmet_fc_rcv_ls_req(rport->targetport, NULL, &tls_req->ls_rsp,
+-				 lsreq->rqstaddr, lsreq->rqstlen);
++	ret = nvmet_fc_rcv_ls_req(rport->targetport, rport,
++				  &tls_req->ls_rsp,
++				  lsreq->rqstaddr, lsreq->rqstlen);
+ 
+ 	return ret;
+ }
+@@ -384,6 +382,99 @@ fcloop_h2t_xmt_ls_rsp(struct nvmet_fc_target_port *targetport,
+ 	return 0;
  }
  
- static int
--fcloop_xmt_ls_rsp(struct nvmet_fc_target_port *targetport,
-+fcloop_h2t_xmt_ls_rsp(struct nvmet_fc_target_port *targetport,
- 			struct nvmefc_ls_rsp *lsrsp)
++static void
++fcloop_tport_lsrqst_work(struct work_struct *work)
++{
++	struct fcloop_tport *tport =
++		container_of(work, struct fcloop_tport, ls_work);
++	struct fcloop_lsreq *tls_req;
++
++	spin_lock(&tport->lock);
++	for (;;) {
++		tls_req = list_first_entry_or_null(&tport->ls_list,
++				struct fcloop_lsreq, ls_list);
++		if (!tls_req)
++			break;
++
++		list_del(&tls_req->ls_list);
++		spin_unlock(&tport->lock);
++
++		tls_req->lsreq->done(tls_req->lsreq, tls_req->status);
++		/*
++		 * callee may free memory containing tls_req.
++		 * do not reference lsreq after this.
++		 */
++
++		spin_lock(&tport->lock);
++	}
++	spin_unlock(&tport->lock);
++}
++
++static int
++fcloop_t2h_ls_req(struct nvmet_fc_target_port *targetport, void *hosthandle,
++			struct nvmefc_ls_req *lsreq)
++{
++	struct fcloop_lsreq *tls_req = lsreq->private;
++	struct fcloop_tport *tport = targetport->private;
++	int ret = 0;
++
++	/*
++	 * hosthandle should be the dst.rport value.
++	 * hosthandle ignored as fcloop currently is
++	 * 1:1 tgtport vs remoteport
++	 */
++	tls_req->lsreq = lsreq;
++	INIT_LIST_HEAD(&tls_req->ls_list);
++
++	if (!tport->remoteport) {
++		tls_req->status = -ECONNREFUSED;
++		spin_lock(&tport->lock);
++		list_add_tail(&tport->ls_list, &tls_req->ls_list);
++		spin_unlock(&tport->lock);
++		schedule_work(&tport->ls_work);
++		return ret;
++	}
++
++	tls_req->status = 0;
++	ret = nvme_fc_rcv_ls_req(tport->remoteport, &tls_req->ls_rsp,
++				 lsreq->rqstaddr, lsreq->rqstlen);
++
++	return ret;
++}
++
++static int
++fcloop_t2h_xmt_ls_rsp(struct nvme_fc_local_port *localport,
++			struct nvme_fc_remote_port *remoteport,
++			struct nvmefc_ls_rsp *lsrsp)
++{
++	struct fcloop_lsreq *tls_req = ls_rsp_to_lsreq(lsrsp);
++	struct nvmefc_ls_req *lsreq = tls_req->lsreq;
++	struct fcloop_rport *rport = remoteport->private;
++	struct nvmet_fc_target_port *targetport = rport->targetport;
++	struct fcloop_tport *tport;
++
++	memcpy(lsreq->rspaddr, lsrsp->rspbuf,
++		((lsreq->rsplen < lsrsp->rsplen) ?
++				lsreq->rsplen : lsrsp->rsplen));
++	lsrsp->done(lsrsp);
++
++	if (targetport) {
++		tport = targetport->private;
++		spin_lock(&tport->lock);
++		list_add_tail(&tport->ls_list, &tls_req->ls_list);
++		spin_unlock(&tport->lock);
++		schedule_work(&tport->ls_work);
++	}
++
++	return 0;
++}
++
++static void
++fcloop_t2h_host_release(void *hosthandle)
++{
++	/* host handle ignored for now */
++}
++
+ /*
+  * Simulate reception of RSCN and converting it to a initiator transport
+  * call to rescan a remote port.
+@@ -775,6 +866,12 @@ fcloop_h2t_ls_abort(struct nvme_fc_local_port *localport,
  {
- 	struct fcloop_lsreq *tls_req = ls_rsp_to_lsreq(lsrsp);
-@@ -762,7 +769,7 @@ fcloop_fcp_req_release(struct nvmet_fc_target_port *tgtport,
  }
  
++static void
++fcloop_t2h_ls_abort(struct nvmet_fc_target_port *targetport,
++			void *hosthandle, struct nvmefc_ls_req *lsreq)
++{
++}
++
  static void
--fcloop_ls_abort(struct nvme_fc_local_port *localport,
-+fcloop_h2t_ls_abort(struct nvme_fc_local_port *localport,
+ fcloop_fcp_abort(struct nvme_fc_local_port *localport,
  			struct nvme_fc_remote_port *remoteport,
- 				struct nvmefc_ls_req *lsreq)
+@@ -874,6 +971,7 @@ fcloop_targetport_delete(struct nvmet_fc_target_port *targetport)
  {
-@@ -880,9 +887,9 @@ static struct nvme_fc_port_template fctemplate = {
- 	.remoteport_delete	= fcloop_remoteport_delete,
- 	.create_queue		= fcloop_create_queue,
- 	.delete_queue		= fcloop_delete_queue,
--	.ls_req			= fcloop_ls_req,
-+	.ls_req			= fcloop_h2t_ls_req,
+ 	struct fcloop_tport *tport = targetport->private;
+ 
++	flush_work(&tport->ls_work);
+ 	fcloop_nport_put(tport->nport);
+ }
+ 
+@@ -891,6 +989,7 @@ static struct nvme_fc_port_template fctemplate = {
  	.fcp_io			= fcloop_fcp_req,
--	.ls_abort		= fcloop_ls_abort,
-+	.ls_abort		= fcloop_h2t_ls_abort,
+ 	.ls_abort		= fcloop_h2t_ls_abort,
  	.fcp_abort		= fcloop_fcp_abort,
++	.xmt_ls_rsp		= fcloop_t2h_xmt_ls_rsp,
  	.max_hw_queues		= FCLOOP_HW_QUEUES,
  	.max_sgl_segments	= FCLOOP_SGL_SEGS,
-@@ -897,7 +904,7 @@ static struct nvme_fc_port_template fctemplate = {
- 
- static struct nvmet_fc_target_template tgttemplate = {
- 	.targetport_delete	= fcloop_targetport_delete,
--	.xmt_ls_rsp		= fcloop_xmt_ls_rsp,
-+	.xmt_ls_rsp		= fcloop_h2t_xmt_ls_rsp,
- 	.fcp_op			= fcloop_fcp_op,
+ 	.max_dif_sgl_segments	= FCLOOP_SGL_SEGS,
+@@ -909,6 +1008,9 @@ static struct nvmet_fc_target_template tgttemplate = {
  	.fcp_abort		= fcloop_tgt_fcp_abort,
  	.fcp_req_release	= fcloop_fcp_req_release,
+ 	.discovery_event	= fcloop_tgt_discovery_evt,
++	.ls_req			= fcloop_t2h_ls_req,
++	.ls_abort		= fcloop_t2h_ls_abort,
++	.host_release		= fcloop_t2h_host_release,
+ 	.max_hw_queues		= FCLOOP_HW_QUEUES,
+ 	.max_sgl_segments	= FCLOOP_SGL_SEGS,
+ 	.max_dif_sgl_segments	= FCLOOP_SGL_SEGS,
+@@ -917,6 +1019,7 @@ static struct nvmet_fc_target_template tgttemplate = {
+ 	.target_features	= 0,
+ 	/* sizes of additional private data for data structures */
+ 	.target_priv_sz		= sizeof(struct fcloop_tport),
++	.lsrqst_priv_sz		= sizeof(struct fcloop_lsreq),
+ };
+ 
+ static ssize_t
+@@ -1266,6 +1369,9 @@ fcloop_create_target_port(struct device *dev, struct device_attribute *attr,
+ 	tport->nport = nport;
+ 	tport->lport = nport->lport;
+ 	nport->tport = tport;
++	spin_lock_init(&tport->lock);
++	INIT_WORK(&tport->ls_work, fcloop_tport_lsrqst_work);
++	INIT_LIST_HEAD(&tport->ls_list);
+ 
+ 	return count;
+ }
 -- 
 2.16.4
 
