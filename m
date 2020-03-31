@@ -8,83 +8,83 @@ X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 290E3C43331
-	for <linux-nvme@archiver.kernel.org>; Tue, 31 Mar 2020 16:55:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91E6DC43331
+	for <linux-nvme@archiver.kernel.org>; Tue, 31 Mar 2020 16:55:48 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B45C9206CC
-	for <linux-nvme@archiver.kernel.org>; Tue, 31 Mar 2020 16:55:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 488D4206CC
+	for <linux-nvme@archiver.kernel.org>; Tue, 31 Mar 2020 16:55:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="YQt5V3QM";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i+lLu+b5"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B45C9206CC
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="afq2DCwL";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NLfa9HEy"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 488D4206CC
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=+AuO0QBgc1DpXhLFtRrAI+Sub3s280q8MP1SHdQZiD8=; b=YQt5V3QMgJ35cP
-	f8qNK+xBzaqWz/MBIgj3f3kzNOPdSRljnqnROf+l859vhwB8fN2S3BU0Z5lQk4m8bX5zrvMs/UmT6
-	KMUWGvagyo7wMfmQTFklkC5qk+GF7ANLgzyxk94VAUr8S4aIUBryUIWDoMMKiHEAunXT0Asujbhnf
-	EJHhDgrwPAQZSuTdO+N2S69mg97o6gDqkXk6nr69hm+QqAmS4udorZCpV+hk7GfVsX7sU8mdcYgDe
-	sVvVgPcp9b6jM67zUfKyZKrqvj6fbNwfUbLPba0yogYO5fwamdi/bH538317+BOESqSi4DSEh7xqH
-	5VTLzqTqzeh4ezNHdwKQ==;
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Cc:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
+	In-Reply-To:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Owner;
+	bh=lv0BkYz3uIYu5oNbvijygDJd7Ke//QJEI6CEOIRQ9Lg=; b=afq2DCwLIW/7ykc9C2U2SW7enV
+	qrAAtWisIMerPvcXVXo+YwQ4H8078ApEC09shcdeehO6d2Wa28iV6MEbGDdAuZ/WEAg5BM9R+MnAa
+	LvmRngBA012biyc1BmwtUlACvbZjCuMYqJYW8wGTtU3ze4gb3Sb7TYDF6vICGYc3a3rikBd8Ha1gg
+	1GCgxIzWO5Gw+QUYKp6rmLLSDrMqRpkeid7jj5CXE966SJC7M1FdiS4iGH/YGx7zFXGzfXZq7X0c2
+	ZI+hDfAfHh5pYyMVIx1iqsdF7BHB5Fm0pk8TDsi/fznGoVgmbAwA1eGXyn4zlC1KB/t3r3lWpN61L
+	aGmZBvBA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jJKAl-0001aG-0Z; Tue, 31 Mar 2020 16:55:31 +0000
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+	id 1jJKAx-0001ta-Ve; Tue, 31 Mar 2020 16:55:43 +0000
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jJK6E-0004r1-4j
- for linux-nvme@lists.infradead.org; Tue, 31 Mar 2020 16:51:05 +0000
-Received: by mail-wr1-x42e.google.com with SMTP id t7so26874712wrw.12
- for <linux-nvme@lists.infradead.org>; Tue, 31 Mar 2020 09:50:49 -0700 (PDT)
+ id 1jJK6H-0004tV-F2
+ for linux-nvme@lists.infradead.org; Tue, 31 Mar 2020 16:51:12 +0000
+Received: by mail-wm1-x344.google.com with SMTP id j19so3618239wmi.2
+ for <linux-nvme@lists.infradead.org>; Tue, 31 Mar 2020 09:50:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Iod8V94A6HS3d5mHwu3s490gJJE/bgzz4xjk7yBFn8s=;
- b=i+lLu+b5Wxy5VelUWn+cGEKunyRuE9Pxyz/Hyxo8PLX8rixRsXQ5MC/GY2TV+bHAkL
- JaTYrRosQwSSfylnCZd/lF60whl7tbVktbU55LQKdn68Tn4VXptzgBI5LdUJZCxV5E42
- 7Lskw2/g9KakDXTKhnBmzbOcjB7L8OkRQ8O0F8iXR08zSS7XvFoWc/2Xx2bpDdhUj6Da
- pvsXUf+6YCsA37fTlSqFCoPweZkRF3b/hfH8P1DJ8ErZo+wylc8jqpfJnta3XKt3hvCD
- w6NELDd4HQ/ELDDnoGUVFNVUdYUaJ6MGCgdQg3xJHSw+XdVtXLD7cEDCP8+rEn4RvzYp
- hGHA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=c6BPr7OBdagMyYWik2LaK1jsSaHSj6G+dg/aUa+QiMo=;
+ b=NLfa9HEyrWJPv9jlnzjdLmy1POmF2TMtdNRv1VEnAOm6nMYn/U65trOhDFlzSIup6b
+ Lx3okCh50+ubbLamY4ZFGUBE6x8UPzJpSVtpDbeKVWdrU+fgUxo+edwyI+0YBg6tm6kA
+ pMSMOK9PoUjJLlyQJum/m9lvNZrMyfB5cqWawViuCUlM+GmSqJQ9TXA55ceDimjZ61eg
+ KnSt4BTmyAXwq74iO8YMphOunevogXr4+8jp+9pxvWTX57IJTlkiAjT2/6+DMVe5pF1m
+ FxIXaz/EfoCTvUbHyzLZQTSoKpSI62seiLVBgleYJ7rVK0irR2ONhjj2FsmbdFU3Kj+v
+ n9yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Iod8V94A6HS3d5mHwu3s490gJJE/bgzz4xjk7yBFn8s=;
- b=Xa8m8ePPhaX8cKVMPZs309nRGbxdPa+ZPUuIeZj5qxkvSRJDAkhA5KspwClzfqR5ul
- Vt50cib0YjzDq/ZL0BPTCqxP4bVVgyE7VxhHOH0m7aY2vcLlj5vDVcgn+0U3yad5BC3A
- cVo7Wxlzkl8h5yWoFikUBScZl5RbzlLf4K36qNTBwzA7Yak/Q//dUUvAf4kKiUKis4K1
- y8u0U051uZj7aV0rq0iEJxNfy2n4xfmguadG4/thVAulrInu1e0oVoUIP+rwz6A5JfH3
- JSwi7Rn/WBNVLmEwoj+NGbR96jVXU8nD6UFIJATHeRdL5ZYt4gn8qHk7eY+nTa4j27lG
- l46A==
-X-Gm-Message-State: ANhLgQ00+rYrZjioSNh6BWl6kOyjOX5rBxz7qq7lp93cx96WU3Qd3B7l
- grsaj4EUWbydVp3aQWvkyjWjG5we
-X-Google-Smtp-Source: ADFU+vtEtUUVS4iD4X9SIe/RR7erPqEdae7zSgxGj5MI1IJto8+KnJNuYhRUa46FFVluH95G35uVlg==
-X-Received: by 2002:a05:6000:114f:: with SMTP id
- d15mr22374701wrx.143.1585673447583; 
- Tue, 31 Mar 2020 09:50:47 -0700 (PDT)
+ :references;
+ bh=c6BPr7OBdagMyYWik2LaK1jsSaHSj6G+dg/aUa+QiMo=;
+ b=LXx+/Kwny5ql8flKJ/BT3WO57jTwEjUavWro/RwQnayR7K1QZNAAl+7fYtH2peqIbw
+ KG/4zUNoSRQmeeRwm+wjMjtDFHzXcDmdH7SlSSCgDAJbk8E/jGr21oos28mjZlhT6lkp
+ 9hwf0Ooc/aqwyPx53bIplXeLnApUAYr04EXmpqSwOAQ8dzheInzz0iTQxu5dpiszXqH8
+ HuQkkg7z613F7BYvpkAQEnrtKhNkdDP6ZFkImT++8hRuqNE+cP0pcjg1KbVANtXRCKjM
+ q6qputOdfT5uYszB4xHDGUPR/hs/DxtthcjP1ZQuWedzClvCMeioK/aaaFXxpcgkMwMI
+ bjPQ==
+X-Gm-Message-State: ANhLgQ1U/FO/rQn28cRNdnCWlNkUVOcLKeLLJmlnXwA9Nov0rlomH+B9
+ 6//7sbWjvLb4LlkVBoN4rpL+anvi
+X-Google-Smtp-Source: ADFU+vvd7UuB5q0IKMmiGUVeWdbxSjx2FLy2aJ3u4L9Qctecbnt0n929MkG3qukosYhbJihDQZeWMA==
+X-Received: by 2002:a05:600c:552:: with SMTP id
+ k18mr4132804wmc.180.1585673451357; 
+ Tue, 31 Mar 2020 09:50:51 -0700 (PDT)
 Received: from localhost.localdomain.localdomain ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id r14sm2711582wmg.0.2020.03.31.09.50.46
+ by smtp.gmail.com with ESMTPSA id r14sm2711582wmg.0.2020.03.31.09.50.47
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 31 Mar 2020 09:50:47 -0700 (PDT)
+ Tue, 31 Mar 2020 09:50:50 -0700 (PDT)
 From: James Smart <jsmart2021@gmail.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH v2 17/26] lpfc: Refactor lpfc nvme headers
-Date: Tue, 31 Mar 2020 09:50:02 -0700
-Message-Id: <20200331165011.15819-18-jsmart2021@gmail.com>
+Subject: [PATCH v2 18/26] lpfc: Refactor nvmet_rcv_ctx to create
+ lpfc_async_xchg_ctx
+Date: Tue, 31 Mar 2020 09:50:03 -0700
+Message-Id: <20200331165011.15819-19-jsmart2021@gmail.com>
 X-Mailer: git-send-email 2.16.4
 In-Reply-To: <20200331165011.15819-1-jsmart2021@gmail.com>
 References: <20200331165011.15819-1-jsmart2021@gmail.com>
-MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200331_095050_237226_7F6BB1D7 
-X-CRM114-Status: GOOD (  24.28  )
+X-CRM114-CacheID: sfid-20200331_095053_688662_88E29A79 
+X-CRM114-Status: GOOD (  16.33  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,309 +97,537 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: James Smart <jsmart2021@gmail.com>, Paul Ely <paul.ely@broadcom.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-QSBsb3Qgb2YgZmlsZXMgaW4gbHBmYyBpbmNsdWRlIG52bWUgaGVhZGVycywgYnVpbGRpbmcgdXAg
-cmVsYXRpb25zaGlwcyB0aGF0CnJlcXVpcmUgYSBmaWxlIHRvIGNoYW5nZSBmb3IgaXRzIGhlYWRl
-cnMgd2hlbiB0aGVyZSBpcyBubyBvdGhlciBjaGFuZ2UKbmVjZXNzYXJ5LiBJdCB3b3VsZCBiZSBi
-ZXR0ZXIgdG8gbG9jYWxpemUgdGhlIG52bWUgaGVhZGVycy4KClRoZXJlIGlzIGFsc28gbm8gbmVl
-ZCBmb3Igc2VwYXJhdGUgbnZtZSAoaW5pdGlhdG9yKSBhbmQgbnZtZXQgKHRndCkKaGVhZGVyIGZp
-bGVzLgoKUmVmYWN0b3IgdGhlIGluY2x1c2lvbiBvZiBudm1lIGhlYWRlcnMgc28gdGhhdCBhbGwg
-bnZtZSBpdGVtcyBhcmUKaW5jbHVkZWQgYnkgbHBmY19udm1lLmgKCk1lcmdlIGxwZmNfbnZtZXQu
-aCBpbnRvIGxwZmNfbnZtZS5oIHNvIHRoYXQgdGhlcmUgaXMgYSBzaW5nbGUgaGVhZGVyIHVzZWQK
-YnkgYm90aCB0aGUgbnZtZSBhbmQgbnZtZXQgc2lkZXMuIFRoaXMgcHJlcGFyZXMgZm9yIHN0cnVj
-dHVyZSBzaGFyaW5nCmJldHdlZW4gdGhlIHR3byByb2xlcy4gUHJlcCB0byBhZGQgc2hhcmVkIGZ1
-bmN0aW9uIHByb3RvdHlwZXMgZm9yIHVwY29taW5nCnNoYXJlZCByb3V0aW5lcy4KClNpZ25lZC1v
-ZmYtYnk6IFBhdWwgRWx5IDxwYXVsLmVseUBicm9hZGNvbS5jb20+ClNpZ25lZC1vZmYtYnk6IEph
-bWVzIFNtYXJ0IDxqc21hcnQyMDIxQGdtYWlsLmNvbT4KUmV2aWV3ZWQtYnk6IEhhbm5lcyBSZWlu
-ZWNrZSA8aGFyZUBzdXNlLmRlPgotLS0KIGRyaXZlcnMvc2NzaS9scGZjL2xwZmNfYXR0ci5jICAg
-ICAgfCAgIDMgLQogZHJpdmVycy9zY3NpL2xwZmMvbHBmY19jdC5jICAgICAgICB8ICAgMSAtCiBk
-cml2ZXJzL3Njc2kvbHBmYy9scGZjX2RlYnVnZnMuYyAgIHwgICAzIC0KIGRyaXZlcnMvc2NzaS9s
-cGZjL2xwZmNfaGJhZGlzYy5jICAgfCAgIDIgLQogZHJpdmVycy9zY3NpL2xwZmMvbHBmY19pbml0
-LmMgICAgICB8ICAgMyAtCiBkcml2ZXJzL3Njc2kvbHBmYy9scGZjX21lbS5jICAgICAgIHwgICA0
-IC0KIGRyaXZlcnMvc2NzaS9scGZjL2xwZmNfbnBvcnRkaXNjLmMgfCAgIDIgLQogZHJpdmVycy9z
-Y3NpL2xwZmMvbHBmY19udm1lLmMgICAgICB8ICAgMyAtCiBkcml2ZXJzL3Njc2kvbHBmYy9scGZj
-X252bWUuaCAgICAgIHwgMTQ3ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysKIGRy
-aXZlcnMvc2NzaS9scGZjL2xwZmNfbnZtZXQuYyAgICAgfCAgIDUgLS0KIGRyaXZlcnMvc2NzaS9s
-cGZjL2xwZmNfbnZtZXQuaCAgICAgfCAxNTggLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLQogZHJpdmVycy9zY3NpL2xwZmMvbHBmY19zbGkuYyAgICAgICB8ICAgMyAtCiAxMiBm
-aWxlcyBjaGFuZ2VkLCAxNDcgaW5zZXJ0aW9ucygrKSwgMTg3IGRlbGV0aW9ucygtKQogZGVsZXRl
-IG1vZGUgMTAwNjQ0IGRyaXZlcnMvc2NzaS9scGZjL2xwZmNfbnZtZXQuaAoKZGlmZiAtLWdpdCBh
-L2RyaXZlcnMvc2NzaS9scGZjL2xwZmNfYXR0ci5jIGIvZHJpdmVycy9zY3NpL2xwZmMvbHBmY19h
-dHRyLmMKaW5kZXggNDZmNTZmMzBmNzdlLi5lZDU5YjEyYjM3MDUgMTAwNjQ0Ci0tLSBhL2RyaXZl
-cnMvc2NzaS9scGZjL2xwZmNfYXR0ci5jCisrKyBiL2RyaXZlcnMvc2NzaS9scGZjL2xwZmNfYXR0
-ci5jCkBAIC0zNyw4ICszNyw2IEBACiAjaW5jbHVkZSA8c2NzaS9zY3NpX3RyYW5zcG9ydF9mYy5o
-PgogI2luY2x1ZGUgPHNjc2kvZmMvZmNfZnMuaD4KIAotI2luY2x1ZGUgPGxpbnV4L252bWUtZmMt
-ZHJpdmVyLmg+Ci0KICNpbmNsdWRlICJscGZjX2h3NC5oIgogI2luY2x1ZGUgImxwZmNfaHcuaCIK
-ICNpbmNsdWRlICJscGZjX3NsaS5oIgpAQCAtNDgsNyArNDYsNiBAQAogI2luY2x1ZGUgImxwZmMu
-aCIKICNpbmNsdWRlICJscGZjX3Njc2kuaCIKICNpbmNsdWRlICJscGZjX252bWUuaCIKLSNpbmNs
-dWRlICJscGZjX252bWV0LmgiCiAjaW5jbHVkZSAibHBmY19sb2dtc2cuaCIKICNpbmNsdWRlICJs
-cGZjX3ZlcnNpb24uaCIKICNpbmNsdWRlICJscGZjX2NvbXBhdC5oIgpkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9zY3NpL2xwZmMvbHBmY19jdC5jIGIvZHJpdmVycy9zY3NpL2xwZmMvbHBmY19jdC5jCmlu
-ZGV4IDU4YjM1YTE0NDJjMS4uZGM0OGVkYjQwOWIxIDEwMDY0NAotLS0gYS9kcml2ZXJzL3Njc2kv
-bHBmYy9scGZjX2N0LmMKKysrIGIvZHJpdmVycy9zY3NpL2xwZmMvbHBmY19jdC5jCkBAIC00NCw3
-ICs0NCw2IEBACiAjaW5jbHVkZSAibHBmY19kaXNjLmgiCiAjaW5jbHVkZSAibHBmYy5oIgogI2lu
-Y2x1ZGUgImxwZmNfc2NzaS5oIgotI2luY2x1ZGUgImxwZmNfbnZtZS5oIgogI2luY2x1ZGUgImxw
-ZmNfbG9nbXNnLmgiCiAjaW5jbHVkZSAibHBmY19jcnRuLmgiCiAjaW5jbHVkZSAibHBmY192ZXJz
-aW9uLmgiCmRpZmYgLS1naXQgYS9kcml2ZXJzL3Njc2kvbHBmYy9scGZjX2RlYnVnZnMuYyBiL2Ry
-aXZlcnMvc2NzaS9scGZjL2xwZmNfZGVidWdmcy5jCmluZGV4IDgxOTMzNWIxNmMyZS4uMDI0MjA1
-ODhkZGQxIDEwMDY0NAotLS0gYS9kcml2ZXJzL3Njc2kvbHBmYy9scGZjX2RlYnVnZnMuYworKysg
-Yi9kcml2ZXJzL3Njc2kvbHBmYy9scGZjX2RlYnVnZnMuYwpAQCAtMzksOCArMzksNiBAQAogI2lu
-Y2x1ZGUgPHNjc2kvc2NzaV90cmFuc3BvcnRfZmMuaD4KICNpbmNsdWRlIDxzY3NpL2ZjL2ZjX2Zz
-Lmg+CiAKLSNpbmNsdWRlIDxsaW51eC9udm1lLWZjLWRyaXZlci5oPgotCiAjaW5jbHVkZSAibHBm
-Y19odzQuaCIKICNpbmNsdWRlICJscGZjX2h3LmgiCiAjaW5jbHVkZSAibHBmY19zbGkuaCIKQEAg
-LTUwLDcgKzQ4LDYgQEAKICNpbmNsdWRlICJscGZjLmgiCiAjaW5jbHVkZSAibHBmY19zY3NpLmgi
-CiAjaW5jbHVkZSAibHBmY19udm1lLmgiCi0jaW5jbHVkZSAibHBmY19udm1ldC5oIgogI2luY2x1
-ZGUgImxwZmNfbG9nbXNnLmgiCiAjaW5jbHVkZSAibHBmY19jcnRuLmgiCiAjaW5jbHVkZSAibHBm
-Y192cG9ydC5oIgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9zY3NpL2xwZmMvbHBmY19oYmFkaXNjLmMg
-Yi9kcml2ZXJzL3Njc2kvbHBmYy9scGZjX2hiYWRpc2MuYwppbmRleCBkY2M4OTk5YzZhNjguLjAw
-MGEyNmQ0NmY1NCAxMDA2NDQKLS0tIGEvZHJpdmVycy9zY3NpL2xwZmMvbHBmY19oYmFkaXNjLmMK
-KysrIGIvZHJpdmVycy9zY3NpL2xwZmMvbHBmY19oYmFkaXNjLmMKQEAgLTM2LDggKzM2LDYgQEAK
-ICNpbmNsdWRlIDxzY3NpL3Njc2lfdHJhbnNwb3J0X2ZjLmg+CiAjaW5jbHVkZSA8c2NzaS9mYy9m
-Y19mcy5oPgogCi0jaW5jbHVkZSA8bGludXgvbnZtZS1mYy1kcml2ZXIuaD4KLQogI2luY2x1ZGUg
-ImxwZmNfaHc0LmgiCiAjaW5jbHVkZSAibHBmY19ody5oIgogI2luY2x1ZGUgImxwZmNfbmwuaCIK
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvc2NzaS9scGZjL2xwZmNfaW5pdC5jIGIvZHJpdmVycy9zY3Np
-L2xwZmMvbHBmY19pbml0LmMKaW5kZXggNWE2MDU3NzNkZDBhLi45OTRhZjU1NDdhYjMgMTAwNjQ0
-Ci0tLSBhL2RyaXZlcnMvc2NzaS9scGZjL2xwZmNfaW5pdC5jCisrKyBiL2RyaXZlcnMvc2NzaS9s
-cGZjL2xwZmNfaW5pdC5jCkBAIC01MCw4ICs1MCw2IEBACiAjaW5jbHVkZSA8c2NzaS9zY3NpX3Rj
-cS5oPgogI2luY2x1ZGUgPHNjc2kvZmMvZmNfZnMuaD4KIAotI2luY2x1ZGUgPGxpbnV4L252bWUt
-ZmMtZHJpdmVyLmg+Ci0KICNpbmNsdWRlICJscGZjX2h3NC5oIgogI2luY2x1ZGUgImxwZmNfaHcu
-aCIKICNpbmNsdWRlICJscGZjX3NsaS5oIgpAQCAtNjEsNyArNTksNiBAQAogI2luY2x1ZGUgImxw
-ZmMuaCIKICNpbmNsdWRlICJscGZjX3Njc2kuaCIKICNpbmNsdWRlICJscGZjX252bWUuaCIKLSNp
-bmNsdWRlICJscGZjX252bWV0LmgiCiAjaW5jbHVkZSAibHBmY19sb2dtc2cuaCIKICNpbmNsdWRl
-ICJscGZjX2NydG4uaCIKICNpbmNsdWRlICJscGZjX3Zwb3J0LmgiCmRpZmYgLS1naXQgYS9kcml2
-ZXJzL3Njc2kvbHBmYy9scGZjX21lbS5jIGIvZHJpdmVycy9zY3NpL2xwZmMvbHBmY19tZW0uYwpp
-bmRleCA3MDgyMjc5ZTRjMDEuLjcyNmY2NjE5MjMwZiAxMDA2NDQKLS0tIGEvZHJpdmVycy9zY3Np
-L2xwZmMvbHBmY19tZW0uYworKysgYi9kcml2ZXJzL3Njc2kvbHBmYy9scGZjX21lbS5jCkBAIC0z
-MSw4ICszMSw2IEBACiAjaW5jbHVkZSA8c2NzaS9zY3NpX3RyYW5zcG9ydF9mYy5oPgogI2luY2x1
-ZGUgPHNjc2kvZmMvZmNfZnMuaD4KIAotI2luY2x1ZGUgPGxpbnV4L252bWUtZmMtZHJpdmVyLmg+
-Ci0KICNpbmNsdWRlICJscGZjX2h3NC5oIgogI2luY2x1ZGUgImxwZmNfaHcuaCIKICNpbmNsdWRl
-ICJscGZjX3NsaS5oIgpAQCAtNDEsOCArMzksNiBAQAogI2luY2x1ZGUgImxwZmNfZGlzYy5oIgog
-I2luY2x1ZGUgImxwZmMuaCIKICNpbmNsdWRlICJscGZjX3Njc2kuaCIKLSNpbmNsdWRlICJscGZj
-X252bWUuaCIKLSNpbmNsdWRlICJscGZjX252bWV0LmgiCiAjaW5jbHVkZSAibHBmY19jcnRuLmgi
-CiAjaW5jbHVkZSAibHBmY19sb2dtc2cuaCIKIApkaWZmIC0tZ2l0IGEvZHJpdmVycy9zY3NpL2xw
-ZmMvbHBmY19ucG9ydGRpc2MuYyBiL2RyaXZlcnMvc2NzaS9scGZjL2xwZmNfbnBvcnRkaXNjLmMK
-aW5kZXggYTAyNGU1YTM5MThmLi44MWY0YmExYzI0YjQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvc2Nz
-aS9scGZjL2xwZmNfbnBvcnRkaXNjLmMKKysrIGIvZHJpdmVycy9zY3NpL2xwZmMvbHBmY19ucG9y
-dGRpc2MuYwpAQCAtMzIsOCArMzIsNiBAQAogI2luY2x1ZGUgPHNjc2kvc2NzaV90cmFuc3BvcnRf
-ZmMuaD4KICNpbmNsdWRlIDxzY3NpL2ZjL2ZjX2ZzLmg+CiAKLSNpbmNsdWRlIDxsaW51eC9udm1l
-LWZjLWRyaXZlci5oPgotCiAjaW5jbHVkZSAibHBmY19odzQuaCIKICNpbmNsdWRlICJscGZjX2h3
-LmgiCiAjaW5jbHVkZSAibHBmY19zbGkuaCIKZGlmZiAtLWdpdCBhL2RyaXZlcnMvc2NzaS9scGZj
-L2xwZmNfbnZtZS5jIGIvZHJpdmVycy9zY3NpL2xwZmMvbHBmY19udm1lLmMKaW5kZXggZjZjODk2
-M2M5MTVkLi4yMWYyMjgyYjI2YmEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvc2NzaS9scGZjL2xwZmNf
-bnZtZS5jCisrKyBiL2RyaXZlcnMvc2NzaS9scGZjL2xwZmNfbnZtZS5jCkBAIC0zNiw5ICszNiw2
-IEBACiAjaW5jbHVkZSA8c2NzaS9zY3NpX3RyYW5zcG9ydF9mYy5oPgogI2luY2x1ZGUgPHNjc2kv
-ZmMvZmNfZnMuaD4KIAotI2luY2x1ZGUgPGxpbnV4L252bWUuaD4KLSNpbmNsdWRlIDxsaW51eC9u
-dm1lLWZjLWRyaXZlci5oPgotI2luY2x1ZGUgPGxpbnV4L252bWUtZmMuaD4KICNpbmNsdWRlICJs
-cGZjX3ZlcnNpb24uaCIKICNpbmNsdWRlICJscGZjX2h3NC5oIgogI2luY2x1ZGUgImxwZmNfaHcu
-aCIKZGlmZiAtLWdpdCBhL2RyaXZlcnMvc2NzaS9scGZjL2xwZmNfbnZtZS5oIGIvZHJpdmVycy9z
-Y3NpL2xwZmMvbHBmY19udm1lLmgKaW5kZXggNTkzYzQ4ZmY2MzRlLi40YzFlN2U2OGQ0YjYgMTAw
-NjQ0Ci0tLSBhL2RyaXZlcnMvc2NzaS9scGZjL2xwZmNfbnZtZS5oCisrKyBiL2RyaXZlcnMvc2Nz
-aS9scGZjL2xwZmNfbnZtZS5oCkBAIC0yMSw2ICsyMSwxMSBAQAogICogaW5jbHVkZWQgd2l0aCB0
-aGlzIHBhY2thZ2UuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICoKICAqKioq
-KioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
-KioqKioqKi8KIAorLyogUmVxdWlyZWQgaW5jbHVzaW9ucyBmcm9tIGRpc3Ryby4gKi8KKyNpbmNs
-dWRlIDxsaW51eC9udm1lLmg+CisjaW5jbHVkZSA8bGludXgvbnZtZS1mYy1kcml2ZXIuaD4KKyNp
-bmNsdWRlIDxsaW51eC9udm1lLWZjLmg+CisKICNkZWZpbmUgTFBGQ19OVk1FX0RFRkFVTFRfU0VH
-UwkJKDY0ICsgMSkJLyogMjU2SyBJT3MgKi8KIAogI2RlZmluZSBMUEZDX05WTUVfRVJTUF9MRU4J
-CTB4MjAKQEAgLTc0LDMgKzc5LDE0NSBAQCBzdHJ1Y3QgbHBmY19udm1lX3Jwb3J0IHsKIHN0cnVj
-dCBscGZjX252bWVfZmNwcmVxX3ByaXYgewogCXN0cnVjdCBscGZjX2lvX2J1ZiAqbnZtZV9idWY7
-CiB9OworCisKKyNkZWZpbmUgTFBGQ19OVk1FVF9ERUZBVUxUX1NFR1MJCSg2NCArIDEpCS8qIDI1
-NksgSU9zICovCisjZGVmaW5lIExQRkNfTlZNRVRfUlFFX01JTl9QT1NUCQkxMjgKKyNkZWZpbmUg
-TFBGQ19OVk1FVF9SUUVfREVGX1BPU1QJCTUxMgorI2RlZmluZSBMUEZDX05WTUVUX1JRRV9ERUZf
-Q09VTlQJMjA0OAorI2RlZmluZSBMUEZDX05WTUVUX1NVQ0NFU1NfTEVOCQkxMgorCisjZGVmaW5l
-IExQRkNfTlZNRVRfTVJRX0FVVE8JCTAKKyNkZWZpbmUgTFBGQ19OVk1FVF9NUlFfTUFYCQkxNgor
-CisjZGVmaW5lIExQRkNfTlZNRVRfV0FJVF9UTU8JCSg1ICogTVNFQ19QRVJfU0VDKQorCisvKiBV
-c2VkIGZvciBOVk1FIFRhcmdldCAqLworc3RydWN0IGxwZmNfbnZtZXRfdGd0cG9ydCB7CisJc3Ry
-dWN0IGxwZmNfaGJhICpwaGJhOworCXN0cnVjdCBjb21wbGV0aW9uICp0cG9ydF91bnJlZ19jbXA7
-CisKKwkvKiBTdGF0cyBjb3VudGVycyAtIGxwZmNfbnZtZXRfdW5zb2xfbHNfYnVmZmVyICovCisJ
-YXRvbWljX3QgcmN2X2xzX3JlcV9pbjsKKwlhdG9taWNfdCByY3ZfbHNfcmVxX291dDsKKwlhdG9t
-aWNfdCByY3ZfbHNfcmVxX2Ryb3A7CisJYXRvbWljX3QgeG10X2xzX2Fib3J0OworCWF0b21pY190
-IHhtdF9sc19hYm9ydF9jbXBsOworCisJLyogU3RhdHMgY291bnRlcnMgLSBscGZjX252bWV0X3ht
-dF9sc19yc3AgKi8KKwlhdG9taWNfdCB4bXRfbHNfcnNwOworCWF0b21pY190IHhtdF9sc19kcm9w
-OworCisJLyogU3RhdHMgY291bnRlcnMgLSBscGZjX252bWV0X3htdF9sc19yc3BfY21wICovCisJ
-YXRvbWljX3QgeG10X2xzX3JzcF9lcnJvcjsKKwlhdG9taWNfdCB4bXRfbHNfcnNwX2Fib3J0ZWQ7
-CisJYXRvbWljX3QgeG10X2xzX3JzcF94Yl9zZXQ7CisJYXRvbWljX3QgeG10X2xzX3JzcF9jbXBs
-OworCisJLyogU3RhdHMgY291bnRlcnMgLSBscGZjX252bWV0X3Vuc29sX2ZjcF9idWZmZXIgKi8K
-KwlhdG9taWNfdCByY3ZfZmNwX2NtZF9pbjsKKwlhdG9taWNfdCByY3ZfZmNwX2NtZF9vdXQ7CisJ
-YXRvbWljX3QgcmN2X2ZjcF9jbWRfZHJvcDsKKwlhdG9taWNfdCByY3ZfZmNwX2NtZF9kZWZlcjsK
-KwlhdG9taWNfdCB4bXRfZmNwX3JlbGVhc2U7CisKKwkvKiBTdGF0cyBjb3VudGVycyAtIGxwZmNf
-bnZtZXRfeG10X2ZjcF9vcCAqLworCWF0b21pY190IHhtdF9mY3BfZHJvcDsKKwlhdG9taWNfdCB4
-bXRfZmNwX3JlYWRfcnNwOworCWF0b21pY190IHhtdF9mY3BfcmVhZDsKKwlhdG9taWNfdCB4bXRf
-ZmNwX3dyaXRlOworCWF0b21pY190IHhtdF9mY3BfcnNwOworCisJLyogU3RhdHMgY291bnRlcnMg
-LSBscGZjX252bWV0X3htdF9mY3Bfb3BfY21wICovCisJYXRvbWljX3QgeG10X2ZjcF9yc3BfeGJf
-c2V0OworCWF0b21pY190IHhtdF9mY3BfcnNwX2NtcGw7CisJYXRvbWljX3QgeG10X2ZjcF9yc3Bf
-ZXJyb3I7CisJYXRvbWljX3QgeG10X2ZjcF9yc3BfYWJvcnRlZDsKKwlhdG9taWNfdCB4bXRfZmNw
-X3JzcF9kcm9wOworCisJLyogU3RhdHMgY291bnRlcnMgLSBscGZjX252bWV0X3htdF9mY3BfYWJv
-cnQgKi8KKwlhdG9taWNfdCB4bXRfZmNwX3hyaV9hYm9ydF9jcWU7CisJYXRvbWljX3QgeG10X2Zj
-cF9hYm9ydDsKKwlhdG9taWNfdCB4bXRfZmNwX2Fib3J0X2NtcGw7CisJYXRvbWljX3QgeG10X2Fi
-b3J0X3NvbDsKKwlhdG9taWNfdCB4bXRfYWJvcnRfdW5zb2w7CisJYXRvbWljX3QgeG10X2Fib3J0
-X3JzcDsKKwlhdG9taWNfdCB4bXRfYWJvcnRfcnNwX2Vycm9yOworCisJLyogU3RhdHMgY291bnRl
-cnMgLSBkZWZlciBJTyAqLworCWF0b21pY190IGRlZmVyX2N0eDsKKwlhdG9taWNfdCBkZWZlcl9m
-b2Q7CisJYXRvbWljX3QgZGVmZXJfd3FmdWxsOworfTsKKworc3RydWN0IGxwZmNfbnZtZXRfY3R4
-X2luZm8geworCXN0cnVjdCBsaXN0X2hlYWQgbnZtZXRfY3R4X2xpc3Q7CisJc3BpbmxvY2tfdAlu
-dm1ldF9jdHhfbGlzdF9sb2NrOyAvKiBsb2NrIHBlciBDUFUgKi8KKwlzdHJ1Y3QgbHBmY19udm1l
-dF9jdHhfaW5mbyAqbnZtZXRfY3R4X25leHRfY3B1OworCXN0cnVjdCBscGZjX252bWV0X2N0eF9p
-bmZvICpudm1ldF9jdHhfc3RhcnRfY3B1OworCXVpbnQxNl90CW52bWV0X2N0eF9saXN0X2NudDsK
-KwljaGFyIHBhZFsxNl07ICAvKiBwYWQgdG8gYSBjYWNoZS1saW5lICovCit9OworCisvKiBUaGlz
-IHJldHJpZXZlcyB0aGUgY29udGV4dCBpbmZvIGFzc29jaWF0ZWQgd2l0aCB0aGUgc3BlY2lmaWVk
-IGNwdSAvIG1ycSAqLworI2RlZmluZSBscGZjX2dldF9jdHhfbGlzdChwaGJhLCBjcHUsIG1ycSkg
-IFwKKwkocGhiYS0+c2xpNF9oYmEubnZtZXRfY3R4X2luZm8gKyAoKGNwdSAqIHBoYmEtPmNmZ19u
-dm1ldF9tcnEpICsgbXJxKSkKKworc3RydWN0IGxwZmNfbnZtZXRfcmN2X2N0eCB7CisJdW5pb24g
-eworCQlzdHJ1Y3QgbnZtZWZjX2xzX3JzcCBsc19yc3A7CisJCXN0cnVjdCBudm1lZmNfdGd0X2Zj
-cF9yZXEgZmNwX3JlcTsKKwl9IGN0eDsKKwlzdHJ1Y3QgbGlzdF9oZWFkIGxpc3Q7CisJc3RydWN0
-IGxwZmNfaGJhICpwaGJhOworCXN0cnVjdCBscGZjX2lvY2JxICp3cWVxOworCXN0cnVjdCBscGZj
-X2lvY2JxICphYm9ydF93cWVxOworCXNwaW5sb2NrX3QgY3R4bG9jazsgLyogcHJvdGVjdCBmbGFn
-IGFjY2VzcyAqLworCXVpbnQzMl90IHNpZDsKKwl1aW50MzJfdCBvZmZzZXQ7CisJdWludDE2X3Qg
-b3hpZDsKKwl1aW50MTZfdCBzaXplOworCXVpbnQxNl90IGVudHJ5X2NudDsKKwl1aW50MTZfdCBj
-cHU7CisJdWludDE2X3QgaWR4OworCXVpbnQxNl90IHN0YXRlOworCS8qIFN0YXRlcyAqLworI2Rl
-ZmluZSBMUEZDX05WTUVUX1NURV9MU19SQ1YJCTEKKyNkZWZpbmUgTFBGQ19OVk1FVF9TVEVfTFNf
-QUJPUlQJCTIKKyNkZWZpbmUgTFBGQ19OVk1FVF9TVEVfTFNfUlNQCQkzCisjZGVmaW5lIExQRkNf
-TlZNRVRfU1RFX1JDVgkJNAorI2RlZmluZSBMUEZDX05WTUVUX1NURV9EQVRBCQk1CisjZGVmaW5l
-IExQRkNfTlZNRVRfU1RFX0FCT1JUCQk2CisjZGVmaW5lIExQRkNfTlZNRVRfU1RFX0RPTkUJCTcK
-KyNkZWZpbmUgTFBGQ19OVk1FVF9TVEVfRlJFRQkJMHhmZgorCXVpbnQxNl90IGZsYWc7CisjZGVm
-aW5lIExQRkNfTlZNRVRfSU9fSU5QCQkweDEgIC8qIElPIGlzIGluIHByb2dyZXNzIG9uIGV4Y2hh
-bmdlICovCisjZGVmaW5lIExQRkNfTlZNRVRfQUJPUlRfT1AJCTB4MiAgLyogQWJvcnQgV1FFIGlz
-c3VlZCBvbiBleGNoYW5nZSAqLworI2RlZmluZSBMUEZDX05WTUVUX1hCVVNZCQkweDQgIC8qIFhC
-IGJpdCBzZXQgb24gSU8gY21wbCAqLworI2RlZmluZSBMUEZDX05WTUVUX0NUWF9STFMJCTB4OCAg
-LyogY3R4IGZyZWUgcmVxdWVzdGVkICovCisjZGVmaW5lIExQRkNfTlZNRVRfQUJUU19SQ1YJCTB4
-MTAgIC8qIEFCVFMgcmVjZWl2ZWQgb24gZXhjaGFuZ2UgKi8KKyNkZWZpbmUgTFBGQ19OVk1FVF9D
-VFhfUkVVU0VfV1EJCTB4MjAgIC8qIGN0eCByZXVzZWQgdmlhIFdRICovCisjZGVmaW5lIExQRkNf
-TlZNRVRfREVGRVJfV1FGVUxMCQkweDQwICAvKiBXYWl0aW5nIG9uIGEgZnJlZSBXUUUgKi8KKyNk
-ZWZpbmUgTFBGQ19OVk1FVF9UTk9USUZZCQkweDgwICAvKiBub3RpZnkgdHJhbnNwb3J0IG9mIGFi
-dHMgKi8KKwlzdHJ1Y3QgcnFiX2RtYWJ1ZiAqcnFiX2J1ZmZlcjsKKwlzdHJ1Y3QgbHBmY19udm1l
-dF9jdHhidWYgKmN0eGJ1ZjsKKwlzdHJ1Y3QgbHBmY19zbGk0X2hkd19xdWV1ZSAqaGR3cTsKKwor
-I2lmZGVmIENPTkZJR19TQ1NJX0xQRkNfREVCVUdfRlMKKwl1aW50NjRfdCB0c19pc3JfY21kOwor
-CXVpbnQ2NF90IHRzX2NtZF9udm1lOworCXVpbnQ2NF90IHRzX252bWVfZGF0YTsKKwl1aW50NjRf
-dCB0c19kYXRhX3dxcHV0OworCXVpbnQ2NF90IHRzX2lzcl9kYXRhOworCXVpbnQ2NF90IHRzX2Rh
-dGFfbnZtZTsKKwl1aW50NjRfdCB0c19udm1lX3N0YXR1czsKKwl1aW50NjRfdCB0c19zdGF0dXNf
-d3FwdXQ7CisJdWludDY0X3QgdHNfaXNyX3N0YXR1czsKKwl1aW50NjRfdCB0c19zdGF0dXNfbnZt
-ZTsKKyNlbmRpZgorfTsKKworCisvKiByb3V0aW5lcyBmb3VuZCBpbiBscGZjX252bWUuYyAqLwor
-CisvKiByb3V0aW5lcyBmb3VuZCBpbiBscGZjX252bWV0LmMgKi8KZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvc2NzaS9scGZjL2xwZmNfbnZtZXQuYyBiL2RyaXZlcnMvc2NzaS9scGZjL2xwZmNfbnZtZXQu
-YwppbmRleCA0N2I5ODNlZGRiYjIuLjhkOTkxNDY2OTcwZiAxMDA2NDQKLS0tIGEvZHJpdmVycy9z
-Y3NpL2xwZmMvbHBmY19udm1ldC5jCisrKyBiL2RyaXZlcnMvc2NzaS9scGZjL2xwZmNfbnZtZXQu
-YwpAQCAtMzYsMTAgKzM2LDYgQEAKICNpbmNsdWRlIDxzY3NpL3Njc2lfdHJhbnNwb3J0X2ZjLmg+
-CiAjaW5jbHVkZSA8c2NzaS9mYy9mY19mcy5oPgogCi0jaW5jbHVkZSA8bGludXgvbnZtZS5oPgot
-I2luY2x1ZGUgPGxpbnV4L252bWUtZmMtZHJpdmVyLmg+Ci0jaW5jbHVkZSA8bGludXgvbnZtZS1m
-Yy5oPgotCiAjaW5jbHVkZSAibHBmY192ZXJzaW9uLmgiCiAjaW5jbHVkZSAibHBmY19odzQuaCIK
-ICNpbmNsdWRlICJscGZjX2h3LmgiCkBAIC01MCw3ICs0Niw2IEBACiAjaW5jbHVkZSAibHBmYy5o
-IgogI2luY2x1ZGUgImxwZmNfc2NzaS5oIgogI2luY2x1ZGUgImxwZmNfbnZtZS5oIgotI2luY2x1
-ZGUgImxwZmNfbnZtZXQuaCIKICNpbmNsdWRlICJscGZjX2xvZ21zZy5oIgogI2luY2x1ZGUgImxw
-ZmNfY3J0bi5oIgogI2luY2x1ZGUgImxwZmNfdnBvcnQuaCIKZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-c2NzaS9scGZjL2xwZmNfbnZtZXQuaCBiL2RyaXZlcnMvc2NzaS9scGZjL2xwZmNfbnZtZXQuaApk
-ZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggZjAxOTZmM2VmOTBkLi4wMDAwMDAwMDAwMDAK
-LS0tIGEvZHJpdmVycy9zY3NpL2xwZmMvbHBmY19udm1ldC5oCisrKyAvZGV2L251bGwKQEAgLTEs
-MTU4ICswLDAgQEAKLS8qKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
-KioqKioqKioqKioqKioqKioqKioqKioqCi0gKiBUaGlzIGZpbGUgaXMgcGFydCBvZiB0aGUgRW11
-bGV4IExpbnV4IERldmljZSBEcml2ZXIgZm9yICAgICAgICAgKgotICogRmlicmUgQ2hhbm5lbCBI
-b3N0IEJ1cyBBZGFwdGVycy4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICoKLSAqIENv
-cHlyaWdodCAoQykgMjAxNy0yMDE5IEJyb2FkY29tLiBBbGwgUmlnaHRzIFJlc2VydmVkLiBUaGUg
-dGVybSAqCi0gKiDigJxCcm9hZGNvbeKAnSByZWZlcnMgdG8gQnJvYWRjb20gSW5jLiBhbmQvb3Ig
-aXRzIHN1YnNpZGlhcmllcy4gICAgICoKLSAqIENvcHlyaWdodCAoQykgMjAwNC0yMDE2IEVtdWxl
-eC4gIEFsbCByaWdodHMgcmVzZXJ2ZWQuICAgICAgICAgICAqCi0gKiBFTVVMRVggYW5kIFNMSSBh
-cmUgdHJhZGVtYXJrcyBvZiBFbXVsZXguICAgICAgICAgICAgICAgICAgICAgICAgKgotICogd3d3
-LmJyb2FkY29tLmNvbSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICoKLSAqIFBvcnRpb25zIENvcHlyaWdodCAoQykgMjAwNC0yMDA1IENocmlzdG9waCBIZWxs
-d2lnICAgICAgICAgICAgICAqCi0gKiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKgotICogVGhpcyBwcm9ncmFtIGlzIGZyZWUg
-c29mdHdhcmU7IHlvdSBjYW4gcmVkaXN0cmlidXRlIGl0IGFuZC9vciAgICoKLSAqIG1vZGlmeSBp
-dCB1bmRlciB0aGUgdGVybXMgb2YgdmVyc2lvbiAyIG9mIHRoZSBHTlUgR2VuZXJhbCAgICAgICAq
-Ci0gKiBQdWJsaWMgTGljZW5zZSBhcyBwdWJsaXNoZWQgYnkgdGhlIEZyZWUgU29mdHdhcmUgRm91
-bmRhdGlvbi4gICAgKgotICogVGhpcyBwcm9ncmFtIGlzIGRpc3RyaWJ1dGVkIGluIHRoZSBob3Bl
-IHRoYXQgaXQgd2lsbCBiZSB1c2VmdWwuICoKLSAqIEFMTCBFWFBSRVNTIE9SIElNUExJRUQgQ09O
-RElUSU9OUywgUkVQUkVTRU5UQVRJT05TIEFORCAgICAgICAgICAqCi0gKiBXQVJSQU5USUVTLCBJ
-TkNMVURJTkcgQU5ZIElNUExJRUQgV0FSUkFOVFkgT0YgTUVSQ0hBTlRBQklMSVRZLCAgKgotICog
-RklUTkVTUyBGT1IgQSBQQVJUSUNVTEFSIFBVUlBPU0UsIE9SIE5PTi1JTkZSSU5HRU1FTlQsIEFS
-RSAgICAgICoKLSAqIERJU0NMQUlNRUQsIEVYQ0VQVCBUTyBUSEUgRVhURU5UIFRIQVQgU1VDSCBE
-SVNDTEFJTUVSUyBBUkUgSEVMRCAqCi0gKiBUTyBCRSBMRUdBTExZIElOVkFMSUQuICBTZWUgdGhl
-IEdOVSBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlIGZvciAgKgotICogbW9yZSBkZXRhaWxzLCBhIGNv
-cHkgb2Ygd2hpY2ggY2FuIGJlIGZvdW5kIGluIHRoZSBmaWxlIENPUFlJTkcgICoKLSAqIGluY2x1
-ZGVkIHdpdGggdGhpcyBwYWNrYWdlLiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAqCi0gKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
-KioqKioqKioqKioqKioqKiovCi0KLSNkZWZpbmUgTFBGQ19OVk1FVF9ERUZBVUxUX1NFR1MJCSg2
-NCArIDEpCS8qIDI1NksgSU9zICovCi0jZGVmaW5lIExQRkNfTlZNRVRfUlFFX01JTl9QT1NUCQkx
-MjgKLSNkZWZpbmUgTFBGQ19OVk1FVF9SUUVfREVGX1BPU1QJCTUxMgotI2RlZmluZSBMUEZDX05W
-TUVUX1JRRV9ERUZfQ09VTlQJMjA0OAotI2RlZmluZSBMUEZDX05WTUVUX1NVQ0NFU1NfTEVOCQkx
-MgotCi0jZGVmaW5lIExQRkNfTlZNRVRfTVJRX0FVVE8JCTAKLSNkZWZpbmUgTFBGQ19OVk1FVF9N
-UlFfTUFYCQkxNgotCi0jZGVmaW5lIExQRkNfTlZNRVRfV0FJVF9UTU8JCSg1ICogTVNFQ19QRVJf
-U0VDKQotCi0vKiBVc2VkIGZvciBOVk1FIFRhcmdldCAqLwotc3RydWN0IGxwZmNfbnZtZXRfdGd0
-cG9ydCB7Ci0Jc3RydWN0IGxwZmNfaGJhICpwaGJhOwotCXN0cnVjdCBjb21wbGV0aW9uICp0cG9y
-dF91bnJlZ19jbXA7Ci0KLQkvKiBTdGF0cyBjb3VudGVycyAtIGxwZmNfbnZtZXRfdW5zb2xfbHNf
-YnVmZmVyICovCi0JYXRvbWljX3QgcmN2X2xzX3JlcV9pbjsKLQlhdG9taWNfdCByY3ZfbHNfcmVx
-X291dDsKLQlhdG9taWNfdCByY3ZfbHNfcmVxX2Ryb3A7Ci0JYXRvbWljX3QgeG10X2xzX2Fib3J0
-OwotCWF0b21pY190IHhtdF9sc19hYm9ydF9jbXBsOwotCi0JLyogU3RhdHMgY291bnRlcnMgLSBs
-cGZjX252bWV0X3htdF9sc19yc3AgKi8KLQlhdG9taWNfdCB4bXRfbHNfcnNwOwotCWF0b21pY190
-IHhtdF9sc19kcm9wOwotCi0JLyogU3RhdHMgY291bnRlcnMgLSBscGZjX252bWV0X3htdF9sc19y
-c3BfY21wICovCi0JYXRvbWljX3QgeG10X2xzX3JzcF9lcnJvcjsKLQlhdG9taWNfdCB4bXRfbHNf
-cnNwX2Fib3J0ZWQ7Ci0JYXRvbWljX3QgeG10X2xzX3JzcF94Yl9zZXQ7Ci0JYXRvbWljX3QgeG10
-X2xzX3JzcF9jbXBsOwotCi0JLyogU3RhdHMgY291bnRlcnMgLSBscGZjX252bWV0X3Vuc29sX2Zj
-cF9idWZmZXIgKi8KLQlhdG9taWNfdCByY3ZfZmNwX2NtZF9pbjsKLQlhdG9taWNfdCByY3ZfZmNw
-X2NtZF9vdXQ7Ci0JYXRvbWljX3QgcmN2X2ZjcF9jbWRfZHJvcDsKLQlhdG9taWNfdCByY3ZfZmNw
-X2NtZF9kZWZlcjsKLQlhdG9taWNfdCB4bXRfZmNwX3JlbGVhc2U7Ci0KLQkvKiBTdGF0cyBjb3Vu
-dGVycyAtIGxwZmNfbnZtZXRfeG10X2ZjcF9vcCAqLwotCWF0b21pY190IHhtdF9mY3BfZHJvcDsK
-LQlhdG9taWNfdCB4bXRfZmNwX3JlYWRfcnNwOwotCWF0b21pY190IHhtdF9mY3BfcmVhZDsKLQlh
-dG9taWNfdCB4bXRfZmNwX3dyaXRlOwotCWF0b21pY190IHhtdF9mY3BfcnNwOwotCi0JLyogU3Rh
-dHMgY291bnRlcnMgLSBscGZjX252bWV0X3htdF9mY3Bfb3BfY21wICovCi0JYXRvbWljX3QgeG10
-X2ZjcF9yc3BfeGJfc2V0OwotCWF0b21pY190IHhtdF9mY3BfcnNwX2NtcGw7Ci0JYXRvbWljX3Qg
-eG10X2ZjcF9yc3BfZXJyb3I7Ci0JYXRvbWljX3QgeG10X2ZjcF9yc3BfYWJvcnRlZDsKLQlhdG9t
-aWNfdCB4bXRfZmNwX3JzcF9kcm9wOwotCi0JLyogU3RhdHMgY291bnRlcnMgLSBscGZjX252bWV0
-X3htdF9mY3BfYWJvcnQgKi8KLQlhdG9taWNfdCB4bXRfZmNwX3hyaV9hYm9ydF9jcWU7Ci0JYXRv
-bWljX3QgeG10X2ZjcF9hYm9ydDsKLQlhdG9taWNfdCB4bXRfZmNwX2Fib3J0X2NtcGw7Ci0JYXRv
-bWljX3QgeG10X2Fib3J0X3NvbDsKLQlhdG9taWNfdCB4bXRfYWJvcnRfdW5zb2w7Ci0JYXRvbWlj
-X3QgeG10X2Fib3J0X3JzcDsKLQlhdG9taWNfdCB4bXRfYWJvcnRfcnNwX2Vycm9yOwotCi0JLyog
-U3RhdHMgY291bnRlcnMgLSBkZWZlciBJTyAqLwotCWF0b21pY190IGRlZmVyX2N0eDsKLQlhdG9t
-aWNfdCBkZWZlcl9mb2Q7Ci0JYXRvbWljX3QgZGVmZXJfd3FmdWxsOwotfTsKLQotc3RydWN0IGxw
-ZmNfbnZtZXRfY3R4X2luZm8gewotCXN0cnVjdCBsaXN0X2hlYWQgbnZtZXRfY3R4X2xpc3Q7Ci0J
-c3BpbmxvY2tfdAludm1ldF9jdHhfbGlzdF9sb2NrOyAvKiBsb2NrIHBlciBDUFUgKi8KLQlzdHJ1
-Y3QgbHBmY19udm1ldF9jdHhfaW5mbyAqbnZtZXRfY3R4X25leHRfY3B1OwotCXN0cnVjdCBscGZj
-X252bWV0X2N0eF9pbmZvICpudm1ldF9jdHhfc3RhcnRfY3B1OwotCXVpbnQxNl90CW52bWV0X2N0
-eF9saXN0X2NudDsKLQljaGFyIHBhZFsxNl07ICAvKiBwYWQgdG8gYSBjYWNoZS1saW5lICovCi19
-OwotCi0vKiBUaGlzIHJldHJpZXZlcyB0aGUgY29udGV4dCBpbmZvIGFzc29jaWF0ZWQgd2l0aCB0
-aGUgc3BlY2lmaWVkIGNwdSAvIG1ycSAqLwotI2RlZmluZSBscGZjX2dldF9jdHhfbGlzdChwaGJh
-LCBjcHUsIG1ycSkgIFwKLQkocGhiYS0+c2xpNF9oYmEubnZtZXRfY3R4X2luZm8gKyAoKGNwdSAq
-IHBoYmEtPmNmZ19udm1ldF9tcnEpICsgbXJxKSkKLQotc3RydWN0IGxwZmNfbnZtZXRfcmN2X2N0
-eCB7Ci0JdW5pb24gewotCQlzdHJ1Y3QgbnZtZWZjX2xzX3JzcCBsc19yc3A7Ci0JCXN0cnVjdCBu
-dm1lZmNfdGd0X2ZjcF9yZXEgZmNwX3JlcTsKLQl9IGN0eDsKLQlzdHJ1Y3QgbGlzdF9oZWFkIGxp
-c3Q7Ci0Jc3RydWN0IGxwZmNfaGJhICpwaGJhOwotCXN0cnVjdCBscGZjX2lvY2JxICp3cWVxOwot
-CXN0cnVjdCBscGZjX2lvY2JxICphYm9ydF93cWVxOwotCXNwaW5sb2NrX3QgY3R4bG9jazsgLyog
-cHJvdGVjdCBmbGFnIGFjY2VzcyAqLwotCXVpbnQzMl90IHNpZDsKLQl1aW50MzJfdCBvZmZzZXQ7
-Ci0JdWludDE2X3Qgb3hpZDsKLQl1aW50MTZfdCBzaXplOwotCXVpbnQxNl90IGVudHJ5X2NudDsK
-LQl1aW50MTZfdCBjcHU7Ci0JdWludDE2X3QgaWR4OwotCXVpbnQxNl90IHN0YXRlOwotCS8qIFN0
-YXRlcyAqLwotI2RlZmluZSBMUEZDX05WTUVUX1NURV9MU19SQ1YJCTEKLSNkZWZpbmUgTFBGQ19O
-Vk1FVF9TVEVfTFNfQUJPUlQJCTIKLSNkZWZpbmUgTFBGQ19OVk1FVF9TVEVfTFNfUlNQCQkzCi0j
-ZGVmaW5lIExQRkNfTlZNRVRfU1RFX1JDVgkJNAotI2RlZmluZSBMUEZDX05WTUVUX1NURV9EQVRB
-CQk1Ci0jZGVmaW5lIExQRkNfTlZNRVRfU1RFX0FCT1JUCQk2Ci0jZGVmaW5lIExQRkNfTlZNRVRf
-U1RFX0RPTkUJCTcKLSNkZWZpbmUgTFBGQ19OVk1FVF9TVEVfRlJFRQkJMHhmZgotCXVpbnQxNl90
-IGZsYWc7Ci0jZGVmaW5lIExQRkNfTlZNRVRfSU9fSU5QCQkweDEgIC8qIElPIGlzIGluIHByb2dy
-ZXNzIG9uIGV4Y2hhbmdlICovCi0jZGVmaW5lIExQRkNfTlZNRVRfQUJPUlRfT1AJCTB4MiAgLyog
-QWJvcnQgV1FFIGlzc3VlZCBvbiBleGNoYW5nZSAqLwotI2RlZmluZSBMUEZDX05WTUVUX1hCVVNZ
-CQkweDQgIC8qIFhCIGJpdCBzZXQgb24gSU8gY21wbCAqLwotI2RlZmluZSBMUEZDX05WTUVUX0NU
-WF9STFMJCTB4OCAgLyogY3R4IGZyZWUgcmVxdWVzdGVkICovCi0jZGVmaW5lIExQRkNfTlZNRVRf
-QUJUU19SQ1YJCTB4MTAgIC8qIEFCVFMgcmVjZWl2ZWQgb24gZXhjaGFuZ2UgKi8KLSNkZWZpbmUg
-TFBGQ19OVk1FVF9DVFhfUkVVU0VfV1EJCTB4MjAgIC8qIGN0eCByZXVzZWQgdmlhIFdRICovCi0j
-ZGVmaW5lIExQRkNfTlZNRVRfREVGRVJfV1FGVUxMCQkweDQwICAvKiBXYWl0aW5nIG9uIGEgZnJl
-ZSBXUUUgKi8KLSNkZWZpbmUgTFBGQ19OVk1FVF9UTk9USUZZCQkweDgwICAvKiBub3RpZnkgdHJh
-bnNwb3J0IG9mIGFidHMgKi8KLQlzdHJ1Y3QgcnFiX2RtYWJ1ZiAqcnFiX2J1ZmZlcjsKLQlzdHJ1
-Y3QgbHBmY19udm1ldF9jdHhidWYgKmN0eGJ1ZjsKLQlzdHJ1Y3QgbHBmY19zbGk0X2hkd19xdWV1
-ZSAqaGR3cTsKLQotI2lmZGVmIENPTkZJR19TQ1NJX0xQRkNfREVCVUdfRlMKLQl1aW50NjRfdCB0
-c19pc3JfY21kOwotCXVpbnQ2NF90IHRzX2NtZF9udm1lOwotCXVpbnQ2NF90IHRzX252bWVfZGF0
-YTsKLQl1aW50NjRfdCB0c19kYXRhX3dxcHV0OwotCXVpbnQ2NF90IHRzX2lzcl9kYXRhOwotCXVp
-bnQ2NF90IHRzX2RhdGFfbnZtZTsKLQl1aW50NjRfdCB0c19udm1lX3N0YXR1czsKLQl1aW50NjRf
-dCB0c19zdGF0dXNfd3FwdXQ7Ci0JdWludDY0X3QgdHNfaXNyX3N0YXR1czsKLQl1aW50NjRfdCB0
-c19zdGF0dXNfbnZtZTsKLSNlbmRpZgotfTsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvc2NzaS9scGZj
-L2xwZmNfc2xpLmMgYi9kcml2ZXJzL3Njc2kvbHBmYy9scGZjX3NsaS5jCmluZGV4IDY0MDAyYjBj
-YjAyZC4uYjIzMmJlODFiYmQyIDEwMDY0NAotLS0gYS9kcml2ZXJzL3Njc2kvbHBmYy9scGZjX3Ns
-aS5jCisrKyBiL2RyaXZlcnMvc2NzaS9scGZjL2xwZmNfc2xpLmMKQEAgLTM5LDggKzM5LDYgQEAK
-ICNpbmNsdWRlIDxhc20vc2V0X21lbW9yeS5oPgogI2VuZGlmCiAKLSNpbmNsdWRlIDxsaW51eC9u
-dm1lLWZjLWRyaXZlci5oPgotCiAjaW5jbHVkZSAibHBmY19odzQuaCIKICNpbmNsdWRlICJscGZj
-X2h3LmgiCiAjaW5jbHVkZSAibHBmY19zbGkuaCIKQEAgLTUwLDcgKzQ4LDYgQEAKICNpbmNsdWRl
-ICJscGZjLmgiCiAjaW5jbHVkZSAibHBmY19zY3NpLmgiCiAjaW5jbHVkZSAibHBmY19udm1lLmgi
-Ci0jaW5jbHVkZSAibHBmY19udm1ldC5oIgogI2luY2x1ZGUgImxwZmNfY3J0bi5oIgogI2luY2x1
-ZGUgImxwZmNfbG9nbXNnLmgiCiAjaW5jbHVkZSAibHBmY19jb21wYXQuaCIKLS0gCjIuMTYuNAoK
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmxpbnV4LW52
-bWUgbWFpbGluZyBsaXN0CmxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlz
-dHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
+To support FC-NVME-2 support (actually FC-NVME (rev 1) with Ammendment 1),
+both the nvme (host) and nvmet (controller/target) sides will need to be
+able to receive LS requests.  Currently, this support is in the nvmet side
+only. To prepare for both sides supporting LS receive, rename
+lpfc_nvmet_rcv_ctx to lpfc_async_xchg_ctx and commonize the definition.
+
+Signed-off-by: Paul Ely <paul.ely@broadcom.com>
+Signed-off-by: James Smart <jsmart2021@gmail.com>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+---
+ drivers/scsi/lpfc/lpfc.h         |   2 +-
+ drivers/scsi/lpfc/lpfc_crtn.h    |   1 -
+ drivers/scsi/lpfc/lpfc_debugfs.c |   2 +-
+ drivers/scsi/lpfc/lpfc_init.c    |   2 +-
+ drivers/scsi/lpfc/lpfc_nvme.h    |   7 +--
+ drivers/scsi/lpfc/lpfc_nvmet.c   | 109 ++++++++++++++++++++-------------------
+ drivers/scsi/lpfc/lpfc_sli.c     |   2 +-
+ 7 files changed, 63 insertions(+), 62 deletions(-)
+
+diff --git a/drivers/scsi/lpfc/lpfc.h b/drivers/scsi/lpfc/lpfc.h
+index 04d73e2be373..8b0d8f390034 100644
+--- a/drivers/scsi/lpfc/lpfc.h
++++ b/drivers/scsi/lpfc/lpfc.h
+@@ -143,7 +143,7 @@ struct lpfc_dmabuf {
+ 
+ struct lpfc_nvmet_ctxbuf {
+ 	struct list_head list;
+-	struct lpfc_nvmet_rcv_ctx *context;
++	struct lpfc_async_xchg_ctx *context;
+ 	struct lpfc_iocbq *iocbq;
+ 	struct lpfc_sglq *sglq;
+ 	struct work_struct defer_work;
+diff --git a/drivers/scsi/lpfc/lpfc_crtn.h b/drivers/scsi/lpfc/lpfc_crtn.h
+index 25d3dd39bc05..dc76729f8864 100644
+--- a/drivers/scsi/lpfc/lpfc_crtn.h
++++ b/drivers/scsi/lpfc/lpfc_crtn.h
+@@ -24,7 +24,6 @@ typedef int (*node_filter)(struct lpfc_nodelist *, void *);
+ 
+ struct fc_rport;
+ struct fc_frame_header;
+-struct lpfc_nvmet_rcv_ctx;
+ void lpfc_down_link(struct lpfc_hba *, LPFC_MBOXQ_t *);
+ void lpfc_sli_read_link_ste(struct lpfc_hba *);
+ void lpfc_dump_mem(struct lpfc_hba *, LPFC_MBOXQ_t *, uint16_t, uint16_t);
+diff --git a/drivers/scsi/lpfc/lpfc_debugfs.c b/drivers/scsi/lpfc/lpfc_debugfs.c
+index 02420588ddd1..9e87b8ccc8e6 100644
+--- a/drivers/scsi/lpfc/lpfc_debugfs.c
++++ b/drivers/scsi/lpfc/lpfc_debugfs.c
+@@ -1032,7 +1032,7 @@ lpfc_debugfs_nvmestat_data(struct lpfc_vport *vport, char *buf, int size)
+ {
+ 	struct lpfc_hba   *phba = vport->phba;
+ 	struct lpfc_nvmet_tgtport *tgtp;
+-	struct lpfc_nvmet_rcv_ctx *ctxp, *next_ctxp;
++	struct lpfc_async_xchg_ctx *ctxp, *next_ctxp;
+ 	struct nvme_fc_local_port *localport;
+ 	struct lpfc_fc4_ctrl_stat *cstat;
+ 	struct lpfc_nvme_lport *lport;
+diff --git a/drivers/scsi/lpfc/lpfc_init.c b/drivers/scsi/lpfc/lpfc_init.c
+index 994af5547ab3..14964e8300d4 100644
+--- a/drivers/scsi/lpfc/lpfc_init.c
++++ b/drivers/scsi/lpfc/lpfc_init.c
+@@ -1038,7 +1038,7 @@ static int
+ lpfc_hba_down_post_s4(struct lpfc_hba *phba)
+ {
+ 	struct lpfc_io_buf *psb, *psb_next;
+-	struct lpfc_nvmet_rcv_ctx *ctxp, *ctxp_next;
++	struct lpfc_async_xchg_ctx *ctxp, *ctxp_next;
+ 	struct lpfc_sli4_hdw_queue *qp;
+ 	LIST_HEAD(aborts);
+ 	LIST_HEAD(nvme_aborts);
+diff --git a/drivers/scsi/lpfc/lpfc_nvme.h b/drivers/scsi/lpfc/lpfc_nvme.h
+index 4c1e7e68d4b6..25eebc362121 100644
+--- a/drivers/scsi/lpfc/lpfc_nvme.h
++++ b/drivers/scsi/lpfc/lpfc_nvme.h
+@@ -163,13 +163,14 @@ struct lpfc_nvmet_ctx_info {
+ #define lpfc_get_ctx_list(phba, cpu, mrq)  \
+ 	(phba->sli4_hba.nvmet_ctx_info + ((cpu * phba->cfg_nvmet_mrq) + mrq))
+ 
+-struct lpfc_nvmet_rcv_ctx {
++struct lpfc_async_xchg_ctx {
+ 	union {
+-		struct nvmefc_ls_rsp ls_rsp;
+ 		struct nvmefc_tgt_fcp_req fcp_req;
+-	} ctx;
++	} hdlrctx;
+ 	struct list_head list;
+ 	struct lpfc_hba *phba;
++	struct nvmefc_ls_req *ls_req;
++	struct nvmefc_ls_rsp ls_rsp;
+ 	struct lpfc_iocbq *wqeq;
+ 	struct lpfc_iocbq *abort_wqeq;
+ 	spinlock_t ctxlock; /* protect flag access */
+diff --git a/drivers/scsi/lpfc/lpfc_nvmet.c b/drivers/scsi/lpfc/lpfc_nvmet.c
+index 8d991466970f..ded7f973cad4 100644
+--- a/drivers/scsi/lpfc/lpfc_nvmet.c
++++ b/drivers/scsi/lpfc/lpfc_nvmet.c
+@@ -52,22 +52,22 @@
+ #include "lpfc_debugfs.h"
+ 
+ static struct lpfc_iocbq *lpfc_nvmet_prep_ls_wqe(struct lpfc_hba *,
+-						 struct lpfc_nvmet_rcv_ctx *,
++						 struct lpfc_async_xchg_ctx *,
+ 						 dma_addr_t rspbuf,
+ 						 uint16_t rspsize);
+ static struct lpfc_iocbq *lpfc_nvmet_prep_fcp_wqe(struct lpfc_hba *,
+-						  struct lpfc_nvmet_rcv_ctx *);
++						  struct lpfc_async_xchg_ctx *);
+ static int lpfc_nvmet_sol_fcp_issue_abort(struct lpfc_hba *,
+-					  struct lpfc_nvmet_rcv_ctx *,
++					  struct lpfc_async_xchg_ctx *,
+ 					  uint32_t, uint16_t);
+ static int lpfc_nvmet_unsol_fcp_issue_abort(struct lpfc_hba *,
+-					    struct lpfc_nvmet_rcv_ctx *,
++					    struct lpfc_async_xchg_ctx *,
+ 					    uint32_t, uint16_t);
+ static int lpfc_nvmet_unsol_ls_issue_abort(struct lpfc_hba *,
+-					   struct lpfc_nvmet_rcv_ctx *,
++					   struct lpfc_async_xchg_ctx *,
+ 					   uint32_t, uint16_t);
+ static void lpfc_nvmet_wqfull_flush(struct lpfc_hba *, struct lpfc_queue *,
+-				    struct lpfc_nvmet_rcv_ctx *);
++				    struct lpfc_async_xchg_ctx *);
+ static void lpfc_nvmet_fcp_rqst_defer_work(struct work_struct *);
+ 
+ static void lpfc_nvmet_process_rcv_fcp_req(struct lpfc_nvmet_ctxbuf *ctx_buf);
+@@ -216,10 +216,10 @@ lpfc_nvmet_cmd_template(void)
+ }
+ 
+ #if (IS_ENABLED(CONFIG_NVME_TARGET_FC))
+-static struct lpfc_nvmet_rcv_ctx *
++static struct lpfc_async_xchg_ctx *
+ lpfc_nvmet_get_ctx_for_xri(struct lpfc_hba *phba, u16 xri)
+ {
+-	struct lpfc_nvmet_rcv_ctx *ctxp;
++	struct lpfc_async_xchg_ctx *ctxp;
+ 	unsigned long iflag;
+ 	bool found = false;
+ 
+@@ -238,10 +238,10 @@ lpfc_nvmet_get_ctx_for_xri(struct lpfc_hba *phba, u16 xri)
+ 	return NULL;
+ }
+ 
+-static struct lpfc_nvmet_rcv_ctx *
++static struct lpfc_async_xchg_ctx *
+ lpfc_nvmet_get_ctx_for_oxid(struct lpfc_hba *phba, u16 oxid, u32 sid)
+ {
+-	struct lpfc_nvmet_rcv_ctx *ctxp;
++	struct lpfc_async_xchg_ctx *ctxp;
+ 	unsigned long iflag;
+ 	bool found = false;
+ 
+@@ -262,7 +262,8 @@ lpfc_nvmet_get_ctx_for_oxid(struct lpfc_hba *phba, u16 oxid, u32 sid)
+ #endif
+ 
+ static void
+-lpfc_nvmet_defer_release(struct lpfc_hba *phba, struct lpfc_nvmet_rcv_ctx *ctxp)
++lpfc_nvmet_defer_release(struct lpfc_hba *phba,
++			struct lpfc_async_xchg_ctx *ctxp)
+ {
+ 	lockdep_assert_held(&ctxp->ctxlock);
+ 
+@@ -298,7 +299,7 @@ lpfc_nvmet_xmt_ls_rsp_cmp(struct lpfc_hba *phba, struct lpfc_iocbq *cmdwqe,
+ {
+ 	struct lpfc_nvmet_tgtport *tgtp;
+ 	struct nvmefc_ls_rsp *rsp;
+-	struct lpfc_nvmet_rcv_ctx *ctxp;
++	struct lpfc_async_xchg_ctx *ctxp;
+ 	uint32_t status, result;
+ 
+ 	status = bf_get(lpfc_wcqe_c_status, wcqe);
+@@ -330,7 +331,7 @@ lpfc_nvmet_xmt_ls_rsp_cmp(struct lpfc_hba *phba, struct lpfc_iocbq *cmdwqe,
+ 	}
+ 
+ out:
+-	rsp = &ctxp->ctx.ls_rsp;
++	rsp = &ctxp->ls_rsp;
+ 
+ 	lpfc_nvmeio_data(phba, "NVMET LS  CMPL: xri x%x stat x%x result x%x\n",
+ 			 ctxp->oxid, status, result);
+@@ -364,7 +365,7 @@ void
+ lpfc_nvmet_ctxbuf_post(struct lpfc_hba *phba, struct lpfc_nvmet_ctxbuf *ctx_buf)
+ {
+ #if (IS_ENABLED(CONFIG_NVME_TARGET_FC))
+-	struct lpfc_nvmet_rcv_ctx *ctxp = ctx_buf->context;
++	struct lpfc_async_xchg_ctx *ctxp = ctx_buf->context;
+ 	struct lpfc_nvmet_tgtport *tgtp;
+ 	struct fc_frame_header *fc_hdr;
+ 	struct rqb_dmabuf *nvmebuf;
+@@ -416,7 +417,7 @@ lpfc_nvmet_ctxbuf_post(struct lpfc_hba *phba, struct lpfc_nvmet_ctxbuf *ctx_buf)
+ 		size = nvmebuf->bytes_recv;
+ 		sid = sli4_sid_from_fc_hdr(fc_hdr);
+ 
+-		ctxp = (struct lpfc_nvmet_rcv_ctx *)ctx_buf->context;
++		ctxp = (struct lpfc_async_xchg_ctx *)ctx_buf->context;
+ 		ctxp->wqeq = NULL;
+ 		ctxp->offset = 0;
+ 		ctxp->phba = phba;
+@@ -490,7 +491,7 @@ lpfc_nvmet_ctxbuf_post(struct lpfc_hba *phba, struct lpfc_nvmet_ctxbuf *ctx_buf)
+ #ifdef CONFIG_SCSI_LPFC_DEBUG_FS
+ static void
+ lpfc_nvmet_ktime(struct lpfc_hba *phba,
+-		 struct lpfc_nvmet_rcv_ctx *ctxp)
++		 struct lpfc_async_xchg_ctx *ctxp)
+ {
+ 	uint64_t seg1, seg2, seg3, seg4, seg5;
+ 	uint64_t seg6, seg7, seg8, seg9, seg10;
+@@ -699,7 +700,7 @@ lpfc_nvmet_xmt_fcp_op_cmp(struct lpfc_hba *phba, struct lpfc_iocbq *cmdwqe,
+ {
+ 	struct lpfc_nvmet_tgtport *tgtp;
+ 	struct nvmefc_tgt_fcp_req *rsp;
+-	struct lpfc_nvmet_rcv_ctx *ctxp;
++	struct lpfc_async_xchg_ctx *ctxp;
+ 	uint32_t status, result, op, start_clean, logerr;
+ #ifdef CONFIG_SCSI_LPFC_DEBUG_FS
+ 	uint32_t id;
+@@ -708,7 +709,7 @@ lpfc_nvmet_xmt_fcp_op_cmp(struct lpfc_hba *phba, struct lpfc_iocbq *cmdwqe,
+ 	ctxp = cmdwqe->context2;
+ 	ctxp->flag &= ~LPFC_NVMET_IO_INP;
+ 
+-	rsp = &ctxp->ctx.fcp_req;
++	rsp = &ctxp->hdlrctx.fcp_req;
+ 	op = rsp->op;
+ 
+ 	status = bf_get(lpfc_wcqe_c_status, wcqe);
+@@ -827,8 +828,8 @@ static int
+ lpfc_nvmet_xmt_ls_rsp(struct nvmet_fc_target_port *tgtport,
+ 		      struct nvmefc_ls_rsp *rsp)
+ {
+-	struct lpfc_nvmet_rcv_ctx *ctxp =
+-		container_of(rsp, struct lpfc_nvmet_rcv_ctx, ctx.ls_rsp);
++	struct lpfc_async_xchg_ctx *ctxp =
++		container_of(rsp, struct lpfc_async_xchg_ctx, ls_rsp);
+ 	struct lpfc_hba *phba = ctxp->phba;
+ 	struct hbq_dmabuf *nvmebuf =
+ 		(struct hbq_dmabuf *)ctxp->rqb_buffer;
+@@ -918,8 +919,8 @@ lpfc_nvmet_xmt_fcp_op(struct nvmet_fc_target_port *tgtport,
+ 		      struct nvmefc_tgt_fcp_req *rsp)
+ {
+ 	struct lpfc_nvmet_tgtport *lpfc_nvmep = tgtport->private;
+-	struct lpfc_nvmet_rcv_ctx *ctxp =
+-		container_of(rsp, struct lpfc_nvmet_rcv_ctx, ctx.fcp_req);
++	struct lpfc_async_xchg_ctx *ctxp =
++		container_of(rsp, struct lpfc_async_xchg_ctx, hdlrctx.fcp_req);
+ 	struct lpfc_hba *phba = ctxp->phba;
+ 	struct lpfc_queue *wq;
+ 	struct lpfc_iocbq *nvmewqeq;
+@@ -1052,8 +1053,8 @@ lpfc_nvmet_xmt_fcp_abort(struct nvmet_fc_target_port *tgtport,
+ 			 struct nvmefc_tgt_fcp_req *req)
+ {
+ 	struct lpfc_nvmet_tgtport *lpfc_nvmep = tgtport->private;
+-	struct lpfc_nvmet_rcv_ctx *ctxp =
+-		container_of(req, struct lpfc_nvmet_rcv_ctx, ctx.fcp_req);
++	struct lpfc_async_xchg_ctx *ctxp =
++		container_of(req, struct lpfc_async_xchg_ctx, hdlrctx.fcp_req);
+ 	struct lpfc_hba *phba = ctxp->phba;
+ 	struct lpfc_queue *wq;
+ 	unsigned long flags;
+@@ -1114,8 +1115,8 @@ lpfc_nvmet_xmt_fcp_release(struct nvmet_fc_target_port *tgtport,
+ 			   struct nvmefc_tgt_fcp_req *rsp)
+ {
+ 	struct lpfc_nvmet_tgtport *lpfc_nvmep = tgtport->private;
+-	struct lpfc_nvmet_rcv_ctx *ctxp =
+-		container_of(rsp, struct lpfc_nvmet_rcv_ctx, ctx.fcp_req);
++	struct lpfc_async_xchg_ctx *ctxp =
++		container_of(rsp, struct lpfc_async_xchg_ctx, hdlrctx.fcp_req);
+ 	struct lpfc_hba *phba = ctxp->phba;
+ 	unsigned long flags;
+ 	bool aborting = false;
+@@ -1157,8 +1158,8 @@ lpfc_nvmet_defer_rcv(struct nvmet_fc_target_port *tgtport,
+ 		     struct nvmefc_tgt_fcp_req *rsp)
+ {
+ 	struct lpfc_nvmet_tgtport *tgtp;
+-	struct lpfc_nvmet_rcv_ctx *ctxp =
+-		container_of(rsp, struct lpfc_nvmet_rcv_ctx, ctx.fcp_req);
++	struct lpfc_async_xchg_ctx *ctxp =
++		container_of(rsp, struct lpfc_async_xchg_ctx, hdlrctx.fcp_req);
+ 	struct rqb_dmabuf *nvmebuf = ctxp->rqb_buffer;
+ 	struct lpfc_hba *phba = ctxp->phba;
+ 	unsigned long iflag;
+@@ -1564,7 +1565,7 @@ lpfc_sli4_nvmet_xri_aborted(struct lpfc_hba *phba,
+ #if (IS_ENABLED(CONFIG_NVME_TARGET_FC))
+ 	uint16_t xri = bf_get(lpfc_wcqe_xa_xri, axri);
+ 	uint16_t rxid = bf_get(lpfc_wcqe_xa_remote_xid, axri);
+-	struct lpfc_nvmet_rcv_ctx *ctxp, *next_ctxp;
++	struct lpfc_async_xchg_ctx *ctxp, *next_ctxp;
+ 	struct lpfc_nvmet_tgtport *tgtp;
+ 	struct nvmefc_tgt_fcp_req *req = NULL;
+ 	struct lpfc_nodelist *ndlp;
+@@ -1650,7 +1651,7 @@ lpfc_sli4_nvmet_xri_aborted(struct lpfc_hba *phba,
+ 				 "NVMET ABTS RCV: xri x%x CPU %02x rjt %d\n",
+ 				 xri, raw_smp_processor_id(), 0);
+ 
+-		req = &ctxp->ctx.fcp_req;
++		req = &ctxp->hdlrctx.fcp_req;
+ 		if (req)
+ 			nvmet_fc_rcv_fcp_abort(phba->targetport, req);
+ 	}
+@@ -1663,7 +1664,7 @@ lpfc_nvmet_rcv_unsol_abort(struct lpfc_vport *vport,
+ {
+ #if (IS_ENABLED(CONFIG_NVME_TARGET_FC))
+ 	struct lpfc_hba *phba = vport->phba;
+-	struct lpfc_nvmet_rcv_ctx *ctxp, *next_ctxp;
++	struct lpfc_async_xchg_ctx *ctxp, *next_ctxp;
+ 	struct nvmefc_tgt_fcp_req *rsp;
+ 	uint32_t sid;
+ 	uint16_t oxid, xri;
+@@ -1696,7 +1697,7 @@ lpfc_nvmet_rcv_unsol_abort(struct lpfc_vport *vport,
+ 		lpfc_printf_log(phba, KERN_INFO, LOG_NVME_ABTS,
+ 				"6319 NVMET Rcv ABTS:acc xri x%x\n", xri);
+ 
+-		rsp = &ctxp->ctx.fcp_req;
++		rsp = &ctxp->hdlrctx.fcp_req;
+ 		nvmet_fc_rcv_fcp_abort(phba->targetport, rsp);
+ 
+ 		/* Respond with BA_ACC accordingly */
+@@ -1770,7 +1771,7 @@ lpfc_nvmet_rcv_unsol_abort(struct lpfc_vport *vport,
+ 		if (ctxp->flag & LPFC_NVMET_TNOTIFY) {
+ 			/* Notify the transport */
+ 			nvmet_fc_rcv_fcp_abort(phba->targetport,
+-					       &ctxp->ctx.fcp_req);
++					       &ctxp->hdlrctx.fcp_req);
+ 		} else {
+ 			cancel_work_sync(&ctxp->ctxbuf->defer_work);
+ 			spin_lock_irqsave(&ctxp->ctxlock, iflag);
+@@ -1798,7 +1799,7 @@ lpfc_nvmet_rcv_unsol_abort(struct lpfc_vport *vport,
+ 
+ static void
+ lpfc_nvmet_wqfull_flush(struct lpfc_hba *phba, struct lpfc_queue *wq,
+-			struct lpfc_nvmet_rcv_ctx *ctxp)
++			struct lpfc_async_xchg_ctx *ctxp)
+ {
+ 	struct lpfc_sli_ring *pring;
+ 	struct lpfc_iocbq *nvmewqeq;
+@@ -1849,7 +1850,7 @@ lpfc_nvmet_wqfull_process(struct lpfc_hba *phba,
+ #if (IS_ENABLED(CONFIG_NVME_TARGET_FC))
+ 	struct lpfc_sli_ring *pring;
+ 	struct lpfc_iocbq *nvmewqeq;
+-	struct lpfc_nvmet_rcv_ctx *ctxp;
++	struct lpfc_async_xchg_ctx *ctxp;
+ 	unsigned long iflags;
+ 	int rc;
+ 
+@@ -1863,7 +1864,7 @@ lpfc_nvmet_wqfull_process(struct lpfc_hba *phba,
+ 		list_remove_head(&wq->wqfull_list, nvmewqeq, struct lpfc_iocbq,
+ 				 list);
+ 		spin_unlock_irqrestore(&pring->ring_lock, iflags);
+-		ctxp = (struct lpfc_nvmet_rcv_ctx *)nvmewqeq->context2;
++		ctxp = (struct lpfc_async_xchg_ctx *)nvmewqeq->context2;
+ 		rc = lpfc_sli4_issue_wqe(phba, ctxp->hdwq, nvmewqeq);
+ 		spin_lock_irqsave(&pring->ring_lock, iflags);
+ 		if (rc == -EBUSY) {
+@@ -1875,7 +1876,7 @@ lpfc_nvmet_wqfull_process(struct lpfc_hba *phba,
+ 		if (rc == WQE_SUCCESS) {
+ #ifdef CONFIG_SCSI_LPFC_DEBUG_FS
+ 			if (ctxp->ts_cmd_nvme) {
+-				if (ctxp->ctx.fcp_req.op == NVMET_FCOP_RSP)
++				if (ctxp->hdlrctx.fcp_req.op == NVMET_FCOP_RSP)
+ 					ctxp->ts_status_wqput = ktime_get_ns();
+ 				else
+ 					ctxp->ts_data_wqput = ktime_get_ns();
+@@ -1941,7 +1942,7 @@ lpfc_nvmet_unsol_ls_buffer(struct lpfc_hba *phba, struct lpfc_sli_ring *pring,
+ #if (IS_ENABLED(CONFIG_NVME_TARGET_FC))
+ 	struct lpfc_nvmet_tgtport *tgtp;
+ 	struct fc_frame_header *fc_hdr;
+-	struct lpfc_nvmet_rcv_ctx *ctxp;
++	struct lpfc_async_xchg_ctx *ctxp;
+ 	uint32_t *payload;
+ 	uint32_t size, oxid, sid, rc;
+ 
+@@ -1964,7 +1965,7 @@ lpfc_nvmet_unsol_ls_buffer(struct lpfc_hba *phba, struct lpfc_sli_ring *pring,
+ 	size = bf_get(lpfc_rcqe_length,  &nvmebuf->cq_event.cqe.rcqe_cmpl);
+ 	sid = sli4_sid_from_fc_hdr(fc_hdr);
+ 
+-	ctxp = kzalloc(sizeof(struct lpfc_nvmet_rcv_ctx), GFP_ATOMIC);
++	ctxp = kzalloc(sizeof(struct lpfc_async_xchg_ctx), GFP_ATOMIC);
+ 	if (ctxp == NULL) {
+ 		atomic_inc(&tgtp->rcv_ls_req_drop);
+ 		lpfc_printf_log(phba, KERN_ERR, LOG_NVME_IOERR,
+@@ -1995,7 +1996,7 @@ lpfc_nvmet_unsol_ls_buffer(struct lpfc_hba *phba, struct lpfc_sli_ring *pring,
+ 	 * lpfc_nvmet_xmt_ls_rsp_cmp should free the allocated ctxp.
+ 	 */
+ 	atomic_inc(&tgtp->rcv_ls_req_in);
+-	rc = nvmet_fc_rcv_ls_req(phba->targetport, NULL, &ctxp->ctx.ls_rsp,
++	rc = nvmet_fc_rcv_ls_req(phba->targetport, NULL, &ctxp->ls_rsp,
+ 				 payload, size);
+ 
+ 	lpfc_printf_log(phba, KERN_INFO, LOG_NVME_DISC,
+@@ -2029,7 +2030,7 @@ static void
+ lpfc_nvmet_process_rcv_fcp_req(struct lpfc_nvmet_ctxbuf *ctx_buf)
+ {
+ #if (IS_ENABLED(CONFIG_NVME_TARGET_FC))
+-	struct lpfc_nvmet_rcv_ctx *ctxp = ctx_buf->context;
++	struct lpfc_async_xchg_ctx *ctxp = ctx_buf->context;
+ 	struct lpfc_hba *phba = ctxp->phba;
+ 	struct rqb_dmabuf *nvmebuf = ctxp->rqb_buffer;
+ 	struct lpfc_nvmet_tgtport *tgtp;
+@@ -2073,7 +2074,7 @@ lpfc_nvmet_process_rcv_fcp_req(struct lpfc_nvmet_ctxbuf *ctx_buf)
+ 	 * A buffer has already been reposted for this IO, so just free
+ 	 * the nvmebuf.
+ 	 */
+-	rc = nvmet_fc_rcv_fcp_req(phba->targetport, &ctxp->ctx.fcp_req,
++	rc = nvmet_fc_rcv_fcp_req(phba->targetport, &ctxp->hdlrctx.fcp_req,
+ 				  payload, ctxp->size);
+ 	/* Process FCP command */
+ 	if (rc == 0) {
+@@ -2220,7 +2221,7 @@ lpfc_nvmet_unsol_fcp_buffer(struct lpfc_hba *phba,
+ 			    uint64_t isr_timestamp,
+ 			    uint8_t cqflag)
+ {
+-	struct lpfc_nvmet_rcv_ctx *ctxp;
++	struct lpfc_async_xchg_ctx *ctxp;
+ 	struct lpfc_nvmet_tgtport *tgtp;
+ 	struct fc_frame_header *fc_hdr;
+ 	struct lpfc_nvmet_ctxbuf *ctx_buf;
+@@ -2304,7 +2305,7 @@ lpfc_nvmet_unsol_fcp_buffer(struct lpfc_hba *phba,
+ 
+ 	sid = sli4_sid_from_fc_hdr(fc_hdr);
+ 
+-	ctxp = (struct lpfc_nvmet_rcv_ctx *)ctx_buf->context;
++	ctxp = (struct lpfc_async_xchg_ctx *)ctx_buf->context;
+ 	spin_lock_irqsave(&phba->sli4_hba.t_active_list_lock, iflag);
+ 	list_add_tail(&ctxp->list, &phba->sli4_hba.t_active_ctx_list);
+ 	spin_unlock_irqrestore(&phba->sli4_hba.t_active_list_lock, iflag);
+@@ -2460,7 +2461,7 @@ lpfc_nvmet_unsol_fcp_event(struct lpfc_hba *phba,
+  **/
+ static struct lpfc_iocbq *
+ lpfc_nvmet_prep_ls_wqe(struct lpfc_hba *phba,
+-		       struct lpfc_nvmet_rcv_ctx *ctxp,
++		       struct lpfc_async_xchg_ctx *ctxp,
+ 		       dma_addr_t rspbuf, uint16_t rspsize)
+ {
+ 	struct lpfc_nodelist *ndlp;
+@@ -2582,9 +2583,9 @@ lpfc_nvmet_prep_ls_wqe(struct lpfc_hba *phba,
+ 
+ static struct lpfc_iocbq *
+ lpfc_nvmet_prep_fcp_wqe(struct lpfc_hba *phba,
+-			struct lpfc_nvmet_rcv_ctx *ctxp)
++			struct lpfc_async_xchg_ctx *ctxp)
+ {
+-	struct nvmefc_tgt_fcp_req *rsp = &ctxp->ctx.fcp_req;
++	struct nvmefc_tgt_fcp_req *rsp = &ctxp->hdlrctx.fcp_req;
+ 	struct lpfc_nvmet_tgtport *tgtp;
+ 	struct sli4_sge *sgl;
+ 	struct lpfc_nodelist *ndlp;
+@@ -2928,7 +2929,7 @@ static void
+ lpfc_nvmet_sol_fcp_abort_cmp(struct lpfc_hba *phba, struct lpfc_iocbq *cmdwqe,
+ 			     struct lpfc_wcqe_complete *wcqe)
+ {
+-	struct lpfc_nvmet_rcv_ctx *ctxp;
++	struct lpfc_async_xchg_ctx *ctxp;
+ 	struct lpfc_nvmet_tgtport *tgtp;
+ 	uint32_t result;
+ 	unsigned long flags;
+@@ -2997,7 +2998,7 @@ static void
+ lpfc_nvmet_unsol_fcp_abort_cmp(struct lpfc_hba *phba, struct lpfc_iocbq *cmdwqe,
+ 			       struct lpfc_wcqe_complete *wcqe)
+ {
+-	struct lpfc_nvmet_rcv_ctx *ctxp;
++	struct lpfc_async_xchg_ctx *ctxp;
+ 	struct lpfc_nvmet_tgtport *tgtp;
+ 	unsigned long flags;
+ 	uint32_t result;
+@@ -3078,7 +3079,7 @@ static void
+ lpfc_nvmet_xmt_ls_abort_cmp(struct lpfc_hba *phba, struct lpfc_iocbq *cmdwqe,
+ 			    struct lpfc_wcqe_complete *wcqe)
+ {
+-	struct lpfc_nvmet_rcv_ctx *ctxp;
++	struct lpfc_async_xchg_ctx *ctxp;
+ 	struct lpfc_nvmet_tgtport *tgtp;
+ 	uint32_t result;
+ 
+@@ -3119,7 +3120,7 @@ lpfc_nvmet_xmt_ls_abort_cmp(struct lpfc_hba *phba, struct lpfc_iocbq *cmdwqe,
+ 
+ static int
+ lpfc_nvmet_unsol_issue_abort(struct lpfc_hba *phba,
+-			     struct lpfc_nvmet_rcv_ctx *ctxp,
++			     struct lpfc_async_xchg_ctx *ctxp,
+ 			     uint32_t sid, uint16_t xri)
+ {
+ 	struct lpfc_nvmet_tgtport *tgtp;
+@@ -3214,7 +3215,7 @@ lpfc_nvmet_unsol_issue_abort(struct lpfc_hba *phba,
+ 
+ static int
+ lpfc_nvmet_sol_fcp_issue_abort(struct lpfc_hba *phba,
+-			       struct lpfc_nvmet_rcv_ctx *ctxp,
++			       struct lpfc_async_xchg_ctx *ctxp,
+ 			       uint32_t sid, uint16_t xri)
+ {
+ 	struct lpfc_nvmet_tgtport *tgtp;
+@@ -3340,7 +3341,7 @@ lpfc_nvmet_sol_fcp_issue_abort(struct lpfc_hba *phba,
+ 
+ static int
+ lpfc_nvmet_unsol_fcp_issue_abort(struct lpfc_hba *phba,
+-				 struct lpfc_nvmet_rcv_ctx *ctxp,
++				 struct lpfc_async_xchg_ctx *ctxp,
+ 				 uint32_t sid, uint16_t xri)
+ {
+ 	struct lpfc_nvmet_tgtport *tgtp;
+@@ -3405,7 +3406,7 @@ lpfc_nvmet_unsol_fcp_issue_abort(struct lpfc_hba *phba,
+ 
+ static int
+ lpfc_nvmet_unsol_ls_issue_abort(struct lpfc_hba *phba,
+-				struct lpfc_nvmet_rcv_ctx *ctxp,
++				struct lpfc_async_xchg_ctx *ctxp,
+ 				uint32_t sid, uint16_t xri)
+ {
+ 	struct lpfc_nvmet_tgtport *tgtp;
+diff --git a/drivers/scsi/lpfc/lpfc_sli.c b/drivers/scsi/lpfc/lpfc_sli.c
+index b232be81bbd2..730a8ea4ad94 100644
+--- a/drivers/scsi/lpfc/lpfc_sli.c
++++ b/drivers/scsi/lpfc/lpfc_sli.c
+@@ -19913,7 +19913,7 @@ lpfc_sli4_issue_wqe(struct lpfc_hba *phba, struct lpfc_sli4_hdw_queue *qp,
+ 		    struct lpfc_iocbq *pwqe)
+ {
+ 	union lpfc_wqe128 *wqe = &pwqe->wqe;
+-	struct lpfc_nvmet_rcv_ctx *ctxp;
++	struct lpfc_async_xchg_ctx *ctxp;
+ 	struct lpfc_queue *wq;
+ 	struct lpfc_sglq *sglq;
+ 	struct lpfc_sli_ring *pring;
+-- 
+2.16.4
+
+
+_______________________________________________
+linux-nvme mailing list
+linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
