@@ -2,72 +2,80 @@ Return-Path: <SRS0=eYyw=5R=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0828C43331
-	for <linux-nvme@archiver.kernel.org>; Wed,  1 Apr 2020 20:43:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2135FC43331
+	for <linux-nvme@archiver.kernel.org>; Wed,  1 Apr 2020 21:03:45 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 929EC20784
-	for <linux-nvme@archiver.kernel.org>; Wed,  1 Apr 2020 20:43:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C9DB92054F
+	for <linux-nvme@archiver.kernel.org>; Wed,  1 Apr 2020 21:03:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="VR7nj9hh";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="d06gCX/P"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 929EC20784
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="LvZRMA8+"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C9DB92054F
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Oinhx1D+Bxo+LTTNiG7j+/SJEpVP9uSLxCFE1Acar0k=; b=VR7nj9hhLxEoAv
-	mq/9zwtxSpUqrU1henJ8KUz1pG30W8KyGpGq8MI+eVCFEwo/CLlQbCKXrWV6pho0Hv3/2gKNV0fZx
-	p64qsJHVCHp8RofuXnuZYoYhwRnvUFUGdVRqUoIyrYYIpMeHvb7UuwrWdoOpf01sdF3IlJeQq+2Fs
-	A4wKLpU3QiSQSffuL1HLxdT9NpecpVlNlNf1QKyxg9lg0P84FI5+mopQ/J4tXovMbJNoOo+AhUq7J
-	TrUuOKdtQbhupWFTsxrnFeU4wdwCQULOYfqSJKdZXt++bxryitsVg2pIiaM4kYGA+oaz/hr3VMgZ8
-	44HNJ6WwRLc/gmGT70Kg==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=0VxATzuUwVrm8/WhVZaGQ//T9oT5IM07UHycmlhM8f4=; b=LvZRMA8+iyOXqs+BgtzXrvmqS
+	2BHwyOxP2KnQnRvl9U9S5sKAw7yDA0EvBaMIpZjR39NL0KxSXJNV9cRv4kZmGG25CXFIcV7IzyDR2
+	wNdsYzildCL1ygKXe+5qBgYEf3E1h/Rzbzs8z0nVVveCb2Z2Pv1O9jplWJnizbwjczuxIs31r0M8n
+	B+4aMtRmzx6pBiYTppR2pVNWWFOeTAS+fB5U0MKCEACRGqW0MYUBoH/o8gcI2nocypmYjyrwtbo5Z
+	h41STVFzWaLAg+qUQh0lIgdPO6qrbhLpb7gjXdVVaxKfkBaTmjudBCqvtvD06hj5Z53xa0NWCWrE3
+	PQbss4xnw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jJkDB-0006gV-MT; Wed, 01 Apr 2020 20:43:45 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1jJkWT-00017P-QK; Wed, 01 Apr 2020 21:03:41 +0000
+Received: from mail-pf1-f172.google.com ([209.85.210.172])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jJkD9-0006gC-HZ
- for linux-nvme@lists.infradead.org; Wed, 01 Apr 2020 20:43:44 +0000
-Received: from redsun51.ssa.fujisawa.hgst.com (unknown [199.255.47.7])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id B4E6A20784;
- Wed,  1 Apr 2020 20:43:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1585773823;
- bh=+x6ISKCPt3l2GHxP2YUa+4FUFuEaRZZZe42OGiQSjvc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=d06gCX/PLbakmPtdqgeY/i+g/bT15qDiWenn3BLVJO6Ac2OTWApIRDqyG+5soHQUP
- T03kp9GfnQphB37lq2bVCnco2MUbhxyXVim5VJ6Z04L9G+pSovD3KV7z9hu/vZ7dNd
- 0953nPuAfApicfFo06P/5lZlTEI1tTXQO4jSIczU=
-Date: Thu, 2 Apr 2020 05:43:36 +0900
-From: Keith Busch <kbusch@kernel.org>
-To: Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH rfc 2/2] fabrics: allow user to pass hostname instead of
- traddr
-Message-ID: <20200401204336.GA16884@redsun51.ssa.fujisawa.hgst.com>
-References: <20200324090324.24459-1-sagi@grimberg.me>
- <20200324090324.24459-3-sagi@grimberg.me>
- <20200401193908.GB1144965@dhcp-10-100-145-180.wdl.wdc.com>
- <66d26b09-7a9f-cd2c-c2c4-e7e311271f5d@grimberg.me>
+ id 1jJkWR-000171-1z
+ for linux-nvme@lists.infradead.org; Wed, 01 Apr 2020 21:03:40 +0000
+Received: by mail-pf1-f172.google.com with SMTP id a13so645992pfa.2
+ for <linux-nvme@lists.infradead.org>; Wed, 01 Apr 2020 14:03:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=+v9LO0PwQe6Ft1NLRrSLGyqcFqGPKid4a5ONC0PjlLE=;
+ b=AD4hcccNczJ8C08xegIE0PR68GjNpSu1beubabN33my8N+dWVlATgHiUdUvAxiIb4J
+ yaIR9lauy5q4u1bd1SM/OkVqsNRwqOMhWWyzvRSUwenxYXJXS6z5YAzVAsdkzKqe1Rxb
+ ctwbI7v4AAHYhNLqrzUanJ8NTGOAvNWMhQtPnMKJ04OfFbKuReAJbNZf8sjXnnI8aGKW
+ 8lJKvKACI/26eiY+eohgxWmLjDlWdIe49Wfe9lupVqfy4emKKUcmldHm1stJzGSYJuxH
+ 7c1C9eVpwkWe4A/WcGMgFLnKjxLBSATkAmsYc4tB/H+rGDpvlTCKtc6rfKhWVWaMcCZq
+ WqtA==
+X-Gm-Message-State: ANhLgQ1VNfr41asW4fGC3HGygzlEzFFe5SaeMrlkg/nGzDLHd+xAJ0Yp
+ 7XoRtgN1cpGWS+pQoeP7LXxwnD1O
+X-Google-Smtp-Source: ADFU+vuYURrPoCGUHxLKck4ZhtcY15bvz5H4z2U8KHXKejUS6hjQUzYqcfSr9IARDslrrJmPaTTJfQ==
+X-Received: by 2002:aa7:953b:: with SMTP id c27mr25702441pfp.201.1585775017502; 
+ Wed, 01 Apr 2020 14:03:37 -0700 (PDT)
+Received: from ?IPv6:2601:647:4802:9070:a836:db4c:a7ac:3d7c?
+ ([2601:647:4802:9070:a836:db4c:a7ac:3d7c])
+ by smtp.gmail.com with ESMTPSA id x27sm2218573pff.200.2020.04.01.14.03.36
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 01 Apr 2020 14:03:36 -0700 (PDT)
+Subject: Re: nvmet: Kernel oops during nvmetcli 'make test'
+To: tasleson@redhat.com, linux-nvme@lists.infradead.org
+References: <bce98bfa-5740-d184-ac47-6ff1c1c97b30@redhat.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <72e71b0a-9878-4ce7-3f75-9e9f612ab20b@grimberg.me>
+Date: Wed, 1 Apr 2020 14:03:35 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Firefox/60.0 Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <66d26b09-7a9f-cd2c-c2c4-e7e311271f5d@grimberg.me>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <bce98bfa-5740-d184-ac47-6ff1c1c97b30@redhat.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200401_134343_606545_97CD8115 
-X-CRM114-Status: GOOD (  20.44  )
+X-CRM114-CacheID: sfid-20200401_140339_096255_512B002E 
+X-CRM114-Status: GOOD (  11.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,62 +87,33 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-nvme@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Apr 01, 2020 at 01:33:40PM -0700, Sagi Grimberg wrote:
-> 
-> > > Some users would like to use well known hostnames instead
-> > > of remembering ip addresses. So, allow users to pass --hostname
-> > > and we will attempt to resolve against the DNS.
-> > > 
-> > > Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
-> > > ---
-> > >   fabrics.c | 75 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
-> > >   1 file changed, 75 insertions(+)
-> > > 
-> > > diff --git a/fabrics.c b/fabrics.c
-> > > index a7d628b1f0c9..7bd95c4b0d10 100644
-> > > --- a/fabrics.c
-> > > +++ b/fabrics.c
-> > > @@ -33,6 +33,10 @@
-> > >   #include <sys/stat.h>
-> > >   #include <stddef.h>
-> > > +#include <sys/types.h>
-> > > +#include <arpa/inet.h>
-> > > +#include <netdb.h>
-> > > +
-> > >   #include "util/parser.h"
-> > >   #include "nvme-ioctl.h"
-> > >   #include "nvme-status.h"
-> > > @@ -60,6 +64,7 @@ static struct config {
-> > >   	char *nqn;
-> > >   	char *transport;
-> > >   	char *traddr;
-> > > +	char *hostname;
-> > >   	char *trsvcid;
-> > >   	char *host_traddr;
-> > >   	char *hostnqn;
-> > > @@ -857,6 +862,54 @@ static int build_options(char *argstr, int max_len, bool discover)
-> > >   	return 0;
-> > >   }
-> > 
-> > The code looks fine.
-> > 
-> > I realize 'hostname' in this context is referring to the remote host and
-> > resolves the target's transport address, but it just sounds potentially
-> > confusing given we have "host_traddr". I'm not sure of a better name,
-> > though, so if this is normal convention, then okay.
-> 
-> We could do it like ssh that can accept either IP or hostname (we check
-> if string is IP and if not, resort to name resolution)
-> 
-> Is that preferable?
 
-Yah, that option sounds more appealing to me.
+> (gdb) l *(nvmet_referral_release+0x14)
+> 0x32e4 is in nvmet_referral_release (drivers/nvme/target/configfs.c:978).
+> 
+> 973 static void nvmet_referral_release(struct config_item *item)
+> 974 {
+> 975         struct nvmet_port *parent =
+> to_nvmet_port(item->ci_parent->ci_parent);
+
+This looks like a typo, I think we need:
+--
+@@ -1064,7 +1064,7 @@ static ssize_t nvmet_referral_enable_show(struct 
+config_item *item,
+  static ssize_t nvmet_referral_enable_store(struct config_item *item,
+                 const char *page, size_t count)
+  {
+-       struct nvmet_port *parent = 
+to_nvmet_port(item->ci_parent->ci_parent);
++       struct nvmet_port *parent = to_nvmet_port(item->ci_parent);
+         struct nvmet_port *port = to_nvmet_port(item);
+         bool enable;
+--
 
 _______________________________________________
 linux-nvme mailing list
