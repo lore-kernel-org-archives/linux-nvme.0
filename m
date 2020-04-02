@@ -2,50 +2,78 @@ Return-Path: <SRS0=DaKL=5S=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58E81C43331
-	for <linux-nvme@archiver.kernel.org>; Thu,  2 Apr 2020 15:48:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B43AAC2BA12
+	for <linux-nvme@archiver.kernel.org>; Thu,  2 Apr 2020 15:54:55 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 20D622063A
-	for <linux-nvme@archiver.kernel.org>; Thu,  2 Apr 2020 15:48:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7AFFC20757
+	for <linux-nvme@archiver.kernel.org>; Thu,  2 Apr 2020 15:54:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="edfFV2zO"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 20D622063A
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="TzzzXtZN";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fBhOcwVB"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7AFFC20757
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
-	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:From:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=nTBiia0aF4N6RMKzQiXX4jij+ZKc4t19bncnP2ALOOw=; b=edfFV2zOTpBAqa
-	xNF1tHb5L8+KIE6IFlgHy0ZwjMwxwoghRpnVn4/b4YE2hjK17ovcdJq69x1UI9UYF6CNHpNyMiDkp
-	0LnyNXBwX9Skpr1nXpg0ajEwI0jgk4n7qKr52mrYjQ1xScRPcmO1FDGjQO7Q8b0frRFpbtF5DGbdb
-	Zo9/LuKP1GycCQs4S3V/2dRejJjZuk4cdqFqrr3lVzl1v9FKh/EhQHzaEju6qnyPsT4DkD3b08m7Y
-	Qt+b1J+xNhBxlZX0F+rvfsR5yXGhOA27843kwtQUrS6M+59dPxqVLLwsuFkumc5+t+NzHgYQMEraj
-	Ncu4Si+u/VbDQEdTixrw==;
+	List-Owner; bh=vHvMLt0NJQ/pGe9nw6pOrd1rRO7GVTd9hch9Ll/JjLA=; b=TzzzXtZNF/nkQF
+	QwAsPE7ZOvRczlM7SQF0uGQ8yyDPPqbYUquSqx9aEQ+M8QvVnMTYerzxBrAx9km3wk8xJ92UsF5Q9
+	duR1mliqNV5jZZqrzkyB4trRLEVAaiNLnNW6J/5p+TWrZxorIHJbJFlKJe3IdymCEcvozg0mIVUaV
+	0tFjeROJUmPYf02wJKE2/fTOF5t99mZUQ/Qoezv+LHgblh5cRy9AmMPEHl/3zGVswWSjWb7ynW90+
+	DaNRu36LJm6BymRe8s+XdTbzt02KJZHLrhgToKu73WN7L1hqdZmBsdG98s/mHzFLd4wwu3vTVF0bj
+	21W1lYPlWzqGQ1CpFYbg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jK25P-0007KA-Fw; Thu, 02 Apr 2020 15:48:55 +0000
-Received: from [2601:647:4802:9070:a836:db4c:a7ac:3d7c]
- (helo=bombadil.infradead.org)
- by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jK25N-0007JY-VV; Thu, 02 Apr 2020 15:48:54 +0000
-From: Sagi Grimberg <sagi@grimberg.me>
-To: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
- Keith Busch <kbusch@kernel.org>
-Subject: [PATCH v2] nvmet-rdma: fix bonding failover possible NULL deref
-Date: Thu,  2 Apr 2020 08:48:53 -0700
-Message-Id: <20200402154853.14108-1-sagi@grimberg.me>
-X-Mailer: git-send-email 2.20.1
+	id 1jK2BB-0002Q3-EX; Thu, 02 Apr 2020 15:54:53 +0000
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]
+ helo=us-smtp-delivery-1.mimecast.com)
+ by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jK2B8-0002PU-El
+ for linux-nvme@lists.infradead.org; Thu, 02 Apr 2020 15:54:52 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585842888;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=mjOpjxsJgNYE2GY0FPnvZU+SKXoI6hkMyF5DUxRHhbA=;
+ b=fBhOcwVBGZfJrWwAyD5Daiy/mK/vNFbce7oBv2RldAbzDQg2ARyTKuqtJsSWl9lx68WQI6
+ 13f/aqYzplw5ka/r98qth10HnODYzysYUAPNlVtC+/EBQsf+hFnA3ZIx8sudDrhWm3uJrt
+ 5Fuo9K5mrwHlHdW4D9rW65eyWGKecGw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-484-QNCaFWDGMEi2tMvm9gEILA-1; Thu, 02 Apr 2020 11:54:47 -0400
+X-MC-Unique: QNCaFWDGMEi2tMvm9gEILA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 502AE13FD
+ for <linux-nvme@lists.infradead.org>; Thu,  2 Apr 2020 15:54:46 +0000 (UTC)
+Received: from sulaco.redhat.com (unknown [10.3.128.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8A7D499E16
+ for <linux-nvme@lists.infradead.org>; Thu,  2 Apr 2020 15:54:44 +0000 (UTC)
+From: Tony Asleson <tasleson@redhat.com>
+To: linux-nvme@lists.infradead.org
+Subject: [PATCH] nvmetcli: Allow different devices for make test
+Date: Thu,  2 Apr 2020 10:54:43 -0500
+Message-Id: <20200402155443.91120-1-tasleson@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20200402_085450_571537_DF6686A6 
+X-CRM114-Status: GOOD (  11.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,320 +85,150 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Max Gurtovoy <maxg@mellanox.com>, Alex Lyakas <alex@zadara.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-RDMA_CM_EVENT_ADDR_CHANGE event occur in the case of bonding failover
-on normal as well as on listening cm_ids. Hence this event will
-immediately trigger a NULL dereference trying to disconnect a queue
-for a cm_id that actually belongs to the port.
+The test_nvmet.py by default uses /dev/ram0 and /dev/ram1 for 2 of the
+unit tests.  Add env. variable to allow user to specify different devices
+or files.  Additionally, skip these unit tests that require devices/files
+if they are not present.  Update README too.
 
-To fix this we provide a different handler for the listener cm_ids
-that will defer a work to disable+(re)enable the port which essentially
-destroys and setups another listener cm_id
+$ sudo make test
+......s...s.
+----------------------------------------------------------------------
+Ran 12 tests in 0.043s
 
-Reported-by: Alex Lyakas <alex@zadara.com>
-Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+OK (skipped=2)
+Name                  Stmts   Miss  Cover
+-----------------------------------------
+nvmet/__init__.py         1      0   100%
+nvmet/nvme.py           517    237    54%
+nvmet/test_nvmet.py     276     63    77%
+-----------------------------------------
+TOTAL                   794    300    62%
+
+$ sudo NVMET_TEST_DEVICES="/dev/sdc,/dev/sdd" make test
+............
+----------------------------------------------------------------------
+Ran 12 tests in 0.124s
+
+OK
+Name                  Stmts   Miss  Cover
+-----------------------------------------
+nvmet/__init__.py         1      0   100%
+nvmet/nvme.py           517    100    81%
+nvmet/test_nvmet.py     276      4    99%
+-----------------------------------------
+TOTAL                   794    104    87%
+
+Signed-off-by: Tony Asleson <tasleson@redhat.com>
 ---
-Changes from v1:
-- Fix nvmet_rdma_find_get_device wrong cm_id->context dereference
+ README              |  5 ++++-
+ nvmet/test_nvmet.py | 26 ++++++++++++++++++++++----
+ 2 files changed, 26 insertions(+), 5 deletions(-)
 
- drivers/nvme/target/rdma.c | 175 +++++++++++++++++++++++++------------
- 1 file changed, 119 insertions(+), 56 deletions(-)
-
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 9e1b8c61f54e..fd71cfe5c5d6 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -105,6 +105,13 @@ struct nvmet_rdma_queue {
- 	struct list_head	queue_list;
- };
+diff --git a/README b/README
+index 5a4ecd1..44f1c33 100644
+--- a/README
++++ b/README
+@@ -47,7 +47,10 @@ Testing
+ -------
+ nvmetcli comes with a testsuite that tests itself and the kernel configfs
+ interface for the NVMe target.  To run it make sure you have nose2 and
+-the coverage plugin for it installed and simple run 'make test'.
++the coverage plugin for it installed and simple run 'make test'.  To run all
++the tests you also need some test block devices or files.  Default is to
++use /dev/ram0 and /dev/ram1.  You can override default with environmental
++variable eg. NVMET_TEST_DEVICES="/dev/sdk,/dev/sdj" make test .
  
-+struct nvmet_rdma_port {
-+	struct nvmet_port	*nport;
-+	struct sockaddr_storage addr;
-+	struct rdma_cm_id	*cm_id;
-+	struct delayed_work	repair_work;
-+};
+ Development
+ -----------------
+diff --git a/nvmet/test_nvmet.py b/nvmet/test_nvmet.py
+index aae4a86..f8ec232 100644
+--- a/nvmet/test_nvmet.py
++++ b/nvmet/test_nvmet.py
+@@ -1,9 +1,22 @@
+ 
++import os
+ import random
++import stat
+ import string
+ import unittest
+ import nvmet.nvme as nvme
+ 
++# Default test devices are ram disks, but allow user to specify different
++# block devices or files.
++NVMET_TEST_DEVICES = os.getenv("NVMET_TEST_DEVICES",
++                               "/dev/ram0,/dev/ram1").split(',')
 +
- struct nvmet_rdma_device {
- 	struct ib_device	*device;
- 	struct ib_pd		*pd;
-@@ -917,7 +924,8 @@ static void nvmet_rdma_free_dev(struct kref *ref)
- static struct nvmet_rdma_device *
- nvmet_rdma_find_get_device(struct rdma_cm_id *cm_id)
- {
--	struct nvmet_port *port = cm_id->context;
-+	struct nvmet_rdma_port *port = cm_id->context;
-+	struct nvmet_port *nport = port->nport;
- 	struct nvmet_rdma_device *ndev;
- 	int inline_page_count;
- 	int inline_sge_count;
-@@ -934,17 +942,17 @@ nvmet_rdma_find_get_device(struct rdma_cm_id *cm_id)
- 	if (!ndev)
- 		goto out_err;
- 
--	inline_page_count = num_pages(port->inline_data_size);
-+	inline_page_count = num_pages(nport->inline_data_size);
- 	inline_sge_count = max(cm_id->device->attrs.max_sge_rd,
- 				cm_id->device->attrs.max_recv_sge) - 1;
- 	if (inline_page_count > inline_sge_count) {
- 		pr_warn("inline_data_size %d cannot be supported by device %s. Reducing to %lu.\n",
--			port->inline_data_size, cm_id->device->name,
-+			nport->inline_data_size, cm_id->device->name,
- 			inline_sge_count * PAGE_SIZE);
--		port->inline_data_size = inline_sge_count * PAGE_SIZE;
-+		nport->inline_data_size = inline_sge_count * PAGE_SIZE;
- 		inline_page_count = inline_sge_count;
- 	}
--	ndev->inline_data_size = port->inline_data_size;
-+	ndev->inline_data_size = nport->inline_data_size;
- 	ndev->inline_page_count = inline_page_count;
- 	ndev->device = cm_id->device;
- 	kref_init(&ndev->ref);
-@@ -1272,6 +1280,7 @@ static int nvmet_rdma_cm_accept(struct rdma_cm_id *cm_id,
- static int nvmet_rdma_queue_connect(struct rdma_cm_id *cm_id,
- 		struct rdma_cm_event *event)
- {
-+	struct nvmet_rdma_port *port = cm_id->context;
- 	struct nvmet_rdma_device *ndev;
- 	struct nvmet_rdma_queue *queue;
- 	int ret = -EINVAL;
-@@ -1287,7 +1296,7 @@ static int nvmet_rdma_queue_connect(struct rdma_cm_id *cm_id,
- 		ret = -ENOMEM;
- 		goto put_device;
- 	}
--	queue->port = cm_id->context;
-+	queue->port = port->nport;
- 
- 	if (queue->host_qid == 0) {
- 		/* Let inflight controller teardown complete */
-@@ -1412,7 +1421,7 @@ static void nvmet_rdma_queue_connect_fail(struct rdma_cm_id *cm_id,
- static int nvmet_rdma_device_removal(struct rdma_cm_id *cm_id,
- 		struct nvmet_rdma_queue *queue)
- {
--	struct nvmet_port *port;
-+	struct nvmet_rdma_port *port;
- 
- 	if (queue) {
- 		/*
-@@ -1431,7 +1440,7 @@ static int nvmet_rdma_device_removal(struct rdma_cm_id *cm_id,
- 	 * cm_id destroy. use atomic xchg to make sure
- 	 * we don't compete with remove_port.
- 	 */
--	if (xchg(&port->priv, NULL) != cm_id)
-+	if (xchg(&port->cm_id, NULL) != cm_id)
- 		return 0;
- 
- 	/*
-@@ -1462,6 +1471,13 @@ static int nvmet_rdma_cm_handler(struct rdma_cm_id *cm_id,
- 		nvmet_rdma_queue_established(queue);
- 		break;
- 	case RDMA_CM_EVENT_ADDR_CHANGE:
-+		if (!queue) {
-+			struct nvmet_rdma_port *port = cm_id->context;
 +
-+			schedule_delayed_work(&port->repair_work, 0);
-+			break;
-+		}
-+		/* FALLTHROUGH */
- 	case RDMA_CM_EVENT_DISCONNECTED:
- 	case RDMA_CM_EVENT_TIMEWAIT_EXIT:
- 		nvmet_rdma_queue_disconnect(queue);
-@@ -1504,42 +1520,19 @@ static void nvmet_rdma_delete_ctrl(struct nvmet_ctrl *ctrl)
- 	mutex_unlock(&nvmet_rdma_queue_mutex);
- }
- 
--static int nvmet_rdma_add_port(struct nvmet_port *port)
-+static void nvmet_rdma_disable_port(struct nvmet_rdma_port *port)
- {
--	struct rdma_cm_id *cm_id;
--	struct sockaddr_storage addr = { };
--	__kernel_sa_family_t af;
--	int ret;
-+	struct rdma_cm_id *cm_id = xchg(&port->cm_id, NULL);
- 
--	switch (port->disc_addr.adrfam) {
--	case NVMF_ADDR_FAMILY_IP4:
--		af = AF_INET;
--		break;
--	case NVMF_ADDR_FAMILY_IP6:
--		af = AF_INET6;
--		break;
--	default:
--		pr_err("address family %d not supported\n",
--				port->disc_addr.adrfam);
--		return -EINVAL;
--	}
--
--	if (port->inline_data_size < 0) {
--		port->inline_data_size = NVMET_RDMA_DEFAULT_INLINE_DATA_SIZE;
--	} else if (port->inline_data_size > NVMET_RDMA_MAX_INLINE_DATA_SIZE) {
--		pr_warn("inline_data_size %u is too large, reducing to %u\n",
--			port->inline_data_size,
--			NVMET_RDMA_MAX_INLINE_DATA_SIZE);
--		port->inline_data_size = NVMET_RDMA_MAX_INLINE_DATA_SIZE;
--	}
-+	if (cm_id)
-+		rdma_destroy_id(cm_id);
-+}
- 
--	ret = inet_pton_with_scope(&init_net, af, port->disc_addr.traddr,
--			port->disc_addr.trsvcid, &addr);
--	if (ret) {
--		pr_err("malformed ip/port passed: %s:%s\n",
--			port->disc_addr.traddr, port->disc_addr.trsvcid);
--		return ret;
--	}
-+static int nvmet_rdma_enable_port(struct nvmet_rdma_port *port)
-+{
-+	struct sockaddr *addr = (struct sockaddr *)&port->addr;
-+	struct rdma_cm_id *cm_id;
-+	int ret;
- 
- 	cm_id = rdma_create_id(&init_net, nvmet_rdma_cm_handler, port,
- 			RDMA_PS_TCP, IB_QPT_RC);
-@@ -1558,23 +1551,19 @@ static int nvmet_rdma_add_port(struct nvmet_port *port)
- 		goto out_destroy_id;
- 	}
- 
--	ret = rdma_bind_addr(cm_id, (struct sockaddr *)&addr);
-+	ret = rdma_bind_addr(cm_id, addr);
- 	if (ret) {
--		pr_err("binding CM ID to %pISpcs failed (%d)\n",
--			(struct sockaddr *)&addr, ret);
-+		pr_err("binding CM ID to %pISpcs failed (%d)\n", addr, ret);
- 		goto out_destroy_id;
- 	}
- 
- 	ret = rdma_listen(cm_id, 128);
- 	if (ret) {
--		pr_err("listening to %pISpcs failed (%d)\n",
--			(struct sockaddr *)&addr, ret);
-+		pr_err("listening to %pISpcs failed (%d)\n", addr, ret);
- 		goto out_destroy_id;
- 	}
- 
--	pr_info("enabling port %d (%pISpcs)\n",
--		le16_to_cpu(port->disc_addr.portid), (struct sockaddr *)&addr);
--	port->priv = cm_id;
-+	port->cm_id = cm_id;
- 	return 0;
- 
- out_destroy_id:
-@@ -1582,18 +1571,92 @@ static int nvmet_rdma_add_port(struct nvmet_port *port)
- 	return ret;
- }
- 
--static void nvmet_rdma_remove_port(struct nvmet_port *port)
-+static void nvmet_rdma_repair_port_work(struct work_struct *w)
- {
--	struct rdma_cm_id *cm_id = xchg(&port->priv, NULL);
-+	struct nvmet_rdma_port *port = container_of(to_delayed_work(w),
-+			struct nvmet_rdma_port, repair_work);
-+	int ret;
- 
--	if (cm_id)
--		rdma_destroy_id(cm_id);
-+	nvmet_rdma_disable_port(port);
-+	ret = nvmet_rdma_enable_port(port);
-+	if (ret)
-+		schedule_delayed_work(&port->repair_work, 5 * HZ);
-+}
++def test_devices_present():
++    return len([x for x in NVMET_TEST_DEVICES
++                if os.path.exists(x) and
++                (stat.S_ISBLK(os.stat(x).st_mode) or os.path.isfile(x))]) >= 2
 +
-+static int nvmet_rdma_add_port(struct nvmet_port *nport)
-+{
-+	struct nvmet_rdma_port *port;
-+	__kernel_sa_family_t af;
-+	int ret;
-+
-+	port = kzalloc(sizeof(*port), GFP_KERNEL);
-+	if (!port)
-+		return -ENOMEM;
-+
-+	nport->priv = port;
-+	port->nport = nport;
-+	INIT_DELAYED_WORK(&port->repair_work, nvmet_rdma_repair_port_work);
-+
-+	switch (nport->disc_addr.adrfam) {
-+	case NVMF_ADDR_FAMILY_IP4:
-+		af = AF_INET;
-+		break;
-+	case NVMF_ADDR_FAMILY_IP6:
-+		af = AF_INET6;
-+		break;
-+	default:
-+		pr_err("address family %d not supported\n",
-+				nport->disc_addr.adrfam);
-+		ret = -EINVAL;
-+		goto out_free_port;
-+	}
-+
-+	if (nport->inline_data_size < 0) {
-+		nport->inline_data_size = NVMET_RDMA_DEFAULT_INLINE_DATA_SIZE;
-+	} else if (nport->inline_data_size > NVMET_RDMA_MAX_INLINE_DATA_SIZE) {
-+		pr_warn("inline_data_size %u is too large, reducing to %u\n",
-+			nport->inline_data_size,
-+			NVMET_RDMA_MAX_INLINE_DATA_SIZE);
-+		nport->inline_data_size = NVMET_RDMA_MAX_INLINE_DATA_SIZE;
-+	}
-+
-+	ret = inet_pton_with_scope(&init_net, af, nport->disc_addr.traddr,
-+			nport->disc_addr.trsvcid, &port->addr);
-+	if (ret) {
-+		pr_err("malformed ip/port passed: %s:%s\n",
-+			nport->disc_addr.traddr, nport->disc_addr.trsvcid);
-+		goto out_free_port;
-+	}
-+
-+	ret = nvmet_rdma_enable_port(port);
-+	if(ret)
-+		goto out_free_port;
-+
-+	pr_info("enabling port %d (%pISpcs)\n",
-+		le16_to_cpu(nport->disc_addr.portid),
-+		(struct sockaddr *)&port->addr);
-+
-+	return 0;
-+
-+out_free_port:
-+	kfree(port);
-+	return ret;
-+}
-+
-+static void nvmet_rdma_remove_port(struct nvmet_port *nport)
-+{
-+	struct nvmet_rdma_port *port = nport->priv;
-+
-+	cancel_delayed_work_sync(&port->repair_work);
-+	nvmet_rdma_disable_port(port);
-+	kfree(port);
- }
  
- static void nvmet_rdma_disc_port_addr(struct nvmet_req *req,
--		struct nvmet_port *port, char *traddr)
-+		struct nvmet_port *nport, char *traddr)
- {
--	struct rdma_cm_id *cm_id = port->priv;
-+	struct nvmet_rdma_port *port = nport->priv;
-+	struct rdma_cm_id *cm_id = port->cm_id;
+ class TestNvmet(unittest.TestCase):
+     def test_subsystem(self):
+@@ -101,6 +114,8 @@ class TestNvmet(unittest.TestCase):
+             n.delete()
+         self.assertEqual(len(list(s.namespaces)), 0)
  
- 	if (inet_addr_is_any((struct sockaddr *)&cm_id->route.addr.src_addr)) {
- 		struct nvmet_rdma_rsp *rsp =
-@@ -1603,7 +1666,7 @@ static void nvmet_rdma_disc_port_addr(struct nvmet_req *req,
++    @unittest.skipUnless(test_devices_present(),
++                         "Devices %s not available or suitable" % ','.join(NVMET_TEST_DEVICES))
+     def test_namespace_attrs(self):
+         root = nvme.Root()
+         root.clear_existing()
+@@ -116,7 +131,7 @@ class TestNvmet(unittest.TestCase):
+         self.assertRaises(nvme.CFSError, n.set_enable, 1)
  
- 		sprintf(traddr, "%pISc", addr);
- 	} else {
--		memcpy(traddr, port->disc_addr.traddr, NVMF_TRADDR_SIZE);
-+		memcpy(traddr, nport->disc_addr.traddr, NVMF_TRADDR_SIZE);
- 	}
- }
+         # now set a path and enable
+-        n.set_attr('device', 'path', '/dev/ram0')
++        n.set_attr('device', 'path', NVMET_TEST_DEVICES[0])
+         n.set_enable(1)
+         self.assertTrue(n.get_enable())
  
+@@ -125,7 +140,7 @@ class TestNvmet(unittest.TestCase):
+ 
+         # test that we can't write to attrs while enabled
+         self.assertRaises(nvme.CFSError, n.set_attr, 'device', 'path',
+-                          '/dev/ram1')
++                          NVMET_TEST_DEVICES[1])
+         self.assertRaises(nvme.CFSError, n.set_attr, 'device', 'nguid',
+                           '15f7767b-50e7-4441-949c-75b99153dea7')
+ 
+@@ -403,6 +418,9 @@ class TestNvmet(unittest.TestCase):
+         self.assertRaises(nvme.CFSError, nvme.Port,
+                           portid=1 << 17, mode='create')
+ 
++    @unittest.skipUnless(test_devices_present(),
++                         "Devices %s not available or suitable" % ','.join(
++                             NVMET_TEST_DEVICES))
+     def test_save_restore(self):
+         root = nvme.Root()
+         root.clear_existing()
+@@ -416,7 +434,7 @@ class TestNvmet(unittest.TestCase):
+         s2.set_attr('attr', 'allow_any_host', 1)
+ 
+         n = nvme.Namespace(s, nsid=42, mode='create')
+-        n.set_attr('device', 'path', '/dev/ram0')
++        n.set_attr('device', 'path', NVMET_TEST_DEVICES[0])
+         n.set_enable(1)
+ 
+         nguid = n.get_attr('device', 'nguid')
+@@ -454,7 +472,7 @@ class TestNvmet(unittest.TestCase):
+ 
+         # and check everything is still the same
+         self.assertTrue(n.get_enable())
+-        self.assertEqual(n.get_attr('device', 'path'), '/dev/ram0')
++        self.assertEqual(n.get_attr('device', 'path'), NVMET_TEST_DEVICES[0])
+         self.assertEqual(n.get_attr('device', 'nguid'), nguid)
+ 
+         self.assertEqual(p.get_attr('addr', 'trtype'), 'loop')
 -- 
-2.20.1
+2.25.1
 
 
 _______________________________________________
