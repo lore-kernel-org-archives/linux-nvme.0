@@ -2,133 +2,126 @@ Return-Path: <SRS0=VV3U=5V=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CC31C2D0F4
-	for <linux-nvme@archiver.kernel.org>; Sun,  5 Apr 2020 11:11:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12B1AC2BA15
+	for <linux-nvme@archiver.kernel.org>; Sun,  5 Apr 2020 14:44:00 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D71A220672
-	for <linux-nvme@archiver.kernel.org>; Sun,  5 Apr 2020 11:11:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 87EE220672
+	for <linux-nvme@archiver.kernel.org>; Sun,  5 Apr 2020 14:43:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="K8bN16Dv";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=Mellanox.com header.i=@Mellanox.com header.b="EB1yNBoS"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D71A220672
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="O+XM4Yi3";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=Mellanox.com header.i=@Mellanox.com header.b="rtTsE4Jy"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 87EE220672
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
-	Message-ID:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=RMZOVTSb8Lz8+wYn0DeAbuypVl7WgBG6PUW2E8ZVx70=; b=K8bN16DvxSNW6n
-	u1J+PhArF0O4U0jJc8yhRxwoweui3m+8S/EZjVk82ZQ1Avxwoda7AVZIFz/CQEO422D8/Wf0qnj6y
-	xVH9MlZSBGlvFpIHfJCzjF0GOFpDAbsqoaktAKVlwADV/mwlPpOSQt45A1vT/zFm0LkI7VflV4MiT
-	yAQHJZMw5eBCMsWsJtechre658dvWc+Imc/LqyJ51di0luhgwZOwDbEjokts6IZDVLXRYmCxo/DtI
-	PmXFVQD7cvLa/dNitEYs1RkTjt+neXmxm4lhpfTLZncctGRd44Y0WH/7q+8DXx7N5I2/m3SbG3ZPP
-	RnHrto4WhH3ByqDtv+sw==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=fwj4mGccOfhsWun0RHUlpzFXgRiuY/r1rhYO/6uMw44=; b=O+XM4Yi3BNoqYkOIkNMzrRmAd
+	cnPLRdz++YCSSit4TECFbTz7TqBuVh4q99OQs4vSdUPBJVKUvxAvpQTDiAohk36RHqYnM6wad8cv6
+	lfwZuIlnh0QYilDlNb5CES266ZXnF8E9Hk3B2AqEYvnjEbSgIzbouHerHUfoclFB+RQZJczkRFtbh
+	/PCYgOkqODodqGQ9JItTaVwPkDM3Z5BJVEwZiV+VC8Y2V5jeG2r9+8v73/Y9iUjl3L/o8lo/l3yMf
+	m+YyWJTl2W6yEyqKOdNHOsDn5eaNOM3qi6auzATagRiLEorWFRMVcJ7LWFC3jBmpt6Jtg/SJDm5Ni
+	Jpb+p2mgA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jL3BO-0003WN-AB; Sun, 05 Apr 2020 11:11:18 +0000
-Received: from mail-eopbgr70053.outbound.protection.outlook.com ([40.107.7.53]
- helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+	id 1jL6V8-0007VO-Ke; Sun, 05 Apr 2020 14:43:54 +0000
+Received: from mail-eopbgr40073.outbound.protection.outlook.com ([40.107.4.73]
+ helo=EUR03-DB5-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jL3BL-0003VR-7k
- for linux-nvme@lists.infradead.org; Sun, 05 Apr 2020 11:11:16 +0000
+ id 1jL6V5-0007Uq-Pz
+ for linux-nvme@lists.infradead.org; Sun, 05 Apr 2020 14:43:53 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LouJbtdVkABhvIsRcem/vztB4ECmBUomzcL+iPRKvveiPdEPOD7755r2fl5elzxtg6JKUph6TRKZcXahSyNClABT+hX7TxY6F7XftOqRRDI52GCNXrt2kt8x44ak9ATP3RHh+EmeIoOOC7ppqCTYurHslb7daRg9qXs4XajmZIBu6mEcCyKL6FxGXal4coqLeOmOCSdKlMgyGmN3HyAYdHpzPdcRub8DInTpefPNbdmFjwaOeGkT9afGd5+9rHlhmlSMl9VkYQib6MRFfftYjG/zPi44M5f6MvB2WcLTV5jVB5Dzg0DY5l40yfMx3CU5ZugWNgstBwCxfMXfNvdMlg==
+ b=QGrKAPpG7dbGB2acQnvr+PZd82jo57t3UXn44HKm1kzLz35zltfCrd5Ppl5BZrO9mP898JJ7gXB2lBX6qGsjLy5DgAAl9R5j+Ty1VBVMoNmdxzMkk4VXGnEfubTADOljm+CCZb7mCb7XLB3DChGPYNZZ/4PtdE4Ca+nm+4pMb/LOZ4bmzbJUGAjaplAzY3PhGL8CI4OahZlyrq0oa6aTPYwKvrLay4w0GnTRO3Z/2+UEE8AHINWfC0HiX4kLRYnf9TVbvdgpLlwgpCzEtGHW5k4R90BiN1c9bTJuTCH8nCkKDRMlDQvRAsQbET+vRiGsS6yf5IZr9hcyQDn03Wq6QQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DXAoCK59bKHeoHlJdZWPIo0t6oBluViGsmpNYuTAQJE=;
- b=nCCWxjexhrJhOqFqW5NRhu+sLGnjF5ZrS/JSJSL78IYJNR7Y4Mb4/UjaH9oJHDszatujkLhSWI+i6nU2BegQ+QlJTGx0QDYdZgrqYobAw+Bc3gfowUtLHFnm7H1aUboSCH/Nlmfk304zcC2AkFAiEl944Hsq6IR54ykZNI4i9X84iGDUzRAKOzq8DJH0XR4n8veKTAUV+wkjPuIL1MH/qd+8g0wcycqiDmmDUDrFeWYr9lLGKK6LnlHamAuITwc0Ce/XdYXCs54mSb4gIgdpW4vmJrNeOiOfquYSbALGYkicR7BUggpuT65HI3+XZ0wW0rs8LOTi3IflHuyKB66rjA==
+ bh=+SJhDMeXoiRbUZ0v/okcRcuNP0rPPl1Qi75qIoT3hOw=;
+ b=PgxuR68jjLevh++yK55dBbsch47I/BQ7X/vORCJsAoD5oMQEBcpmbJI2oa/CPe8JibU3aUHxu+gSMz4Go0sQeL3FHQnTfDB6QeDsYbuaatz5Yxm/DexTMAOh5AfbC0KqcXl0bJLrqal/O5R3bCCF+1VLejLkp3BUrlCQYkXZtnoJNiJms423Ko+7Ro0nYDw2bsjdFWwgkal75zdKNVwhIBaz+wR046tfo5tt+XPvXyTL6pfxA6g4kYxWFTJbeIJ4MtAt3FAc4kD15fFq5XPXQkJrPdMp+ZAZnOZMEL0aTGkSoHu19U0tGaSp/rmYom9u2LNd0u8Y3BT6e/p2XkB/eQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
  dkim=pass header.d=mellanox.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DXAoCK59bKHeoHlJdZWPIo0t6oBluViGsmpNYuTAQJE=;
- b=EB1yNBoSeDQQ+S6HJyY71RvSmUxBfMj26pnLtS9u2VeSUKV0ibSx8lgM+8Hf9l/mbXTywvsNhrErRpLVeVhkef4qQkdNTRyHuCvl9iSTf0Oe+/emm5oSsXcvpqbixtr7nkLwn1MANp5RdI1y9VYRP1Dhkukg3qaG+8aCL3K3xps=
-Received: from AM0PR0502MB3777.eurprd05.prod.outlook.com
- (2603:10a6:208:1e::23) by AM0PR0502MB3665.eurprd05.prod.outlook.com
- (2603:10a6:208:1d::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2878.15; Sun, 5 Apr
- 2020 11:11:10 +0000
-Received: from AM0PR0502MB3777.eurprd05.prod.outlook.com
- ([fe80::65e6:5bf4:b844:8465]) by AM0PR0502MB3777.eurprd05.prod.outlook.com
- ([fe80::65e6:5bf4:b844:8465%3]) with mapi id 15.20.2878.018; Sun, 5 Apr 2020
- 11:11:10 +0000
-From: Shlomi Nimrodi <shlomin@mellanox.com>
-To: Sagi Grimberg <sagi@grimberg.me>, Max Gurtovoy <maxg@mellanox.com>, Alex
- Lyakas <alex@zadara.com>
-Subject: RE: NULL pointer dereference in nvmet_rdma_queue_disconnect during
- bond failover
-Thread-Topic: NULL pointer dereference in nvmet_rdma_queue_disconnect during
- bond failover
-Thread-Index: AQHVMZ7Ogx7dWH66H0uk966533Hhaaa5ffCAgA3xrYCAAZPIgIAAxKgAgBvgE4CARLtPAIE4xPMAgABZB4CAA7k3AIAAY2CAgAAFCICABG+IwA==
-Date: Sun, 5 Apr 2020 11:11:09 +0000
-Message-ID: <AM0PR0502MB3777EDEFC698146A753DA0E3D7C50@AM0PR0502MB3777.eurprd05.prod.outlook.com>
-References: <F7E28AA1609E4FC495B5E8D4250E7DEF@alyakaslap>
- <90599926-b7ec-8431-a7aa-c44fde08b5c4@grimberg.me>
- <ec4fb8df-98c4-fffc-7581-5245c397d16c@mellanox.com>
- <66ACE500178B47D6B39F23FE98D22363@alyakaslap>
- <b6443a7c-4be6-3dbc-0535-a8ded3261c50@mellanox.com>
- <8ab1fa5e-2d67-5128-93b5-2f32704869e4@grimberg.me>
- <28046c97-c271-dff4-5252-4b5668c7bfb7@grimberg.me>
- <B3E9005C4E4645628157970AE2A385C4@alyakaslap>
- <fbcd59ef-9c48-4e1a-4802-1cae33c5f671@grimberg.me>
- <d7caa73f-b939-41f5-793a-c9b74880f246@grimberg.me>
- <5fee46b0-0516-766a-5b1a-7114a164c9ae@grimberg.me>
- <CAOcd+r15zrG-uMuZ2M3JjOTODV9fX3qcXPW000jbp1mtc7_R-Q@mail.gmail.com>
- <5f439f61-338f-4f37-2b13-d3b743c32409@grimberg.me>
- <CAOcd+r2JSYfL66a6yLO6KDTFHo3XcNW=4mZnqAw_Wz-wQ1=ULQ@mail.gmail.com>
- <c43c581a-a2b6-62fd-340a-b20c7ca25b88@mellanox.com>
- <8cc74e5f-f005-415a-e67f-0486b3999f71@grimberg.me>
-In-Reply-To: <8cc74e5f-f005-415a-e67f-0486b3999f71@grimberg.me>
-Accept-Language: en-US
+ bh=+SJhDMeXoiRbUZ0v/okcRcuNP0rPPl1Qi75qIoT3hOw=;
+ b=rtTsE4JySezrxs+xqYElUnZfYFvHhJsATC6LvG6Le8NwhlwvK0qI0RtdrpJFQONkFwjuEuUwphDGTiGOc2X1QMik2gdFFzhqLECCF9BVQWNLCSnqDlo61LStGSb0PVITcj1VDjZWDq5iwPzGa41CMLaQ724EBe9KZMqXqLhEFQE=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=israelr@mellanox.com; 
+Received: from AM0PR0502MB3905.eurprd05.prod.outlook.com
+ (2603:10a6:208:1b::23) by AM0PR0502MB3891.eurprd05.prod.outlook.com
+ (2603:10a6:208:1b::26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2856.20; Sun, 5 Apr
+ 2020 14:43:47 +0000
+Received: from AM0PR0502MB3905.eurprd05.prod.outlook.com
+ ([fe80::1cc3:ec98:a1f:befd]) by AM0PR0502MB3905.eurprd05.prod.outlook.com
+ ([fe80::1cc3:ec98:a1f:befd%2]) with mapi id 15.20.2878.021; Sun, 5 Apr 2020
+ 14:43:47 +0000
+Subject: Re: [PATCH] nvmet-rdma: Fix double free of rdma queue
+To: Sagi Grimberg <sagi@grimberg.me>, Max Gurtovoy <maxg@mellanox.com>,
+ Linux-nvme <linux-nvme@lists.infradead.org>, Christoph Hellwig <hch@lst.de>
+References: <1585477302-4307-1-git-send-email-israelr@mellanox.com>
+ <39a9e27b-51fa-6c87-8e5f-17f4f7318bd0@grimberg.me>
+ <05c7907c-9c43-2a2b-c760-bff0364892d9@mellanox.com>
+ <f356a0d4-2e05-f629-ebab-a55e7e0c369b@grimberg.me>
+ <b5111042-d90a-0c48-6fe0-3cceca1b75a2@mellanox.com>
+ <edbcdf17-ef8c-f937-bea6-b5bdffb7b202@grimberg.me>
+From: Israel Rukshin <israelr@mellanox.com>
+Message-ID: <69eadde6-7d93-cf61-9e98-f34c9f55924d@mellanox.com>
+Date: Sun, 5 Apr 2020 17:43:43 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
+In-Reply-To: <edbcdf17-ef8c-f937-bea6-b5bdffb7b202@grimberg.me>
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=shlomin@mellanox.com; 
-x-originating-ip: [85.250.232.18]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: f708ff97-62f8-4648-4db7-08d7d9520b9b
-x-ms-traffictypediagnostic: AM0PR0502MB3665:|AM0PR0502MB3665:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <AM0PR0502MB3665375F0837D9F203B882E3D7C50@AM0PR0502MB3665.eurprd05.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 03648EFF89
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM0PR0502MB3777.eurprd05.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(10009020)(4636009)(136003)(396003)(376002)(39860400002)(366004)(346002)(55016002)(71200400001)(66556008)(52536014)(316002)(2906002)(81156014)(26005)(186003)(86362001)(110136005)(54906003)(8676002)(6506007)(4326008)(107886003)(9686003)(66446008)(64756008)(76116006)(8936002)(5660300002)(4744005)(81166006)(478600001)(53546011)(7696005)(66946007)(66476007)(33656002);
- DIR:OUT; SFP:1101; 
-received-spf: None (protection.outlook.com: mellanox.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 2D/jzs6cy1Qu0Fku47HztwicgwqMMXRbj2EkNEw4ebM1qyLcmaEK7xPmYYQqnu1ctKBQUNVmSiBQdQetwmuUWfVtnCfhQjI+cjaCWvd1PSwxpQPzoBwIynxGUwTE2PFfv2WlmbwvtlmtCijiSOGKikkh2I2BVBhGIExuI+uLZk6rRi3CZFuABiTux7wM7Y7gSAdGyCSH34HlC+ztjoclIoqA5Fl2jw5pu9YrXp3IrvgK+SRxddfDq14h6uiA7+VKPsGIShygunqC4+UxL4kV3tJ5ffwHbh/8n9BNyNn3KNeSXKIIUnRHKED7w9EfFEEkVM/8VKqhigqS814oZwxfwZjdH4eR9TntJBfM5VPZHOMpyAl0LtQgjpXmNTIqjEMSFDTERiaE394Ptbt9CoYPtBILEJsjq+0XmRq6xNQ5LQsbAvBROOch1D3JKRr2czjv
-x-ms-exchange-antispam-messagedata: IfqEpNpgR1qQmWzO0olTsbuX1M0RzZcy/vCdRKbJ4E92nHm9B6/yjchE9HycVZWHSc9+P9wvDlgTG30W2rxekax2uZEV1ReZPDrhIKxe6ctdrK5CRLd6f8o4eeJri/+tjz7CDTiunRDhVjmD/lrReQ==
+X-ClientProxiedBy: AM4P190CA0014.EURP190.PROD.OUTLOOK.COM
+ (2603:10a6:200:56::24) To AM0PR0502MB3905.eurprd05.prod.outlook.com
+ (2603:10a6:208:1b::23)
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.14.112] (79.180.195.128) by
+ AM4P190CA0014.EURP190.PROD.OUTLOOK.COM (2603:10a6:200:56::24) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2878.15 via Frontend Transport; Sun, 5 Apr 2020 14:43:46 +0000
+X-Originating-IP: [79.180.195.128]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 86484d66-d4f3-4b4d-3917-08d7d96fbf64
+X-MS-TrafficTypeDiagnostic: AM0PR0502MB3891:|AM0PR0502MB3891:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM0PR0502MB38917BCF4CC1EFEB13012FD0D7C50@AM0PR0502MB3891.eurprd05.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2150;
+X-Forefront-PRVS: 03648EFF89
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM0PR0502MB3905.eurprd05.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(10009020)(4636009)(376002)(346002)(366004)(396003)(136003)(39860400002)(478600001)(66946007)(36756003)(110136005)(2616005)(956004)(5660300002)(2906002)(16526019)(316002)(16576012)(53546011)(66556008)(66476007)(186003)(26005)(81166006)(31686004)(86362001)(31696002)(6666004)(6486002)(8676002)(81156014)(4326008)(8936002)(107886003)(52116002);
+ DIR:OUT; SFP:1101; 
+Received-SPF: None (protection.outlook.com: mellanox.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: W9t2qtZA7GXMaLmy+wSQKTuhLExeBWXvtLe4MyecTcdTau/eKs89h3nyuUWLyXFbFA2558xc2CkzjHvkyznSr8XX+2tjQ6RuF4QYvaH267Lj9KmHfZQzqowL8v3UEK+fY0CjkRKg06JsNGA5Qr0a5JtP9ORQSmpx2YhyBHJiPRgAWfoULBz0OIpSsFC2GBfYu0WH6qdL6IjLLxEm1CgNCHiHm18Vf1XxS367IHw1eS+K8hWRvv9L0jr4n3BMwjbFrfEOQ1rEEZ8mihBVVE6ZM0EV6uvGbqgFS5kAPs+UdOL6F3d2RBNl6+8qWAZ3GYP4VCFCLA0xrx9qGxRH/2kyCS8ApQFPR2ePe1oHRyJsPgnNQ2NLFQjjmh3J4skqcBnwU7j8NtSf7SrXIq7hKNnQ/+g44FteKyitq1MBiQi58h2nV3CWRCAvdA0Jf+cquqaz
+X-MS-Exchange-AntiSpam-MessageData: fG1d+WvVXmGf0LNm3hAaSjAArvFgBvIMdRs9H92ITkU6J2sXTad812tM7y3c4jp6i8a7XYeZy8vTVL6CyWajU18w2BNjmrdktpI5KzSXXxf6szlzg2kDmRA7r/6wqfgLnYYGBCjx/qVQMou/6ZG5MQ==
 X-OriginatorOrg: Mellanox.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f708ff97-62f8-4648-4db7-08d7d9520b9b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Apr 2020 11:11:10.0078 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a652971c-7d2e-4d9b-a6a4-d149256f461b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Jw4noHfLH9PMMBHfZLJnvKNdVjegi4y1sk8QUrP4rAoQF+Dhq4AYXWkSzOcIaSUAPDnt8+PiLmc8x3Us+h1o4g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR0502MB3665
+X-MS-Exchange-CrossTenant-Network-Message-Id: 86484d66-d4f3-4b4d-3917-08d7d96fbf64
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Apr 2020 14:43:47.3637 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: a652971c-7d2e-4d9b-a6a4-d149256f461b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ECafokabHqqHK9thwH3EB0HnnZXULOQYSt5dfUlrjpAYjF6es/TuWFRMr8OsktF0A1mb4BTTcYmHVnbIj/BgGw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR0502MB3891
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200405_041115_613724_68350191 
-X-CRM114-Status: UNSURE (   7.00  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200405_074351_922839_8108A527 
+X-CRM114-Status: GOOD (  20.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,53 +133,71 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Tom Wu <tomwu@mellanox.com>, Nitzan Carmi <nitzanc@mellanox.com>,
- linux-nvme <linux-nvme@lists.infradead.org>,
- Israel Rukshin <israelr@mellanox.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Shlomi Nimrodi <shlomin@mellanox.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-++
-
------Original Message-----
-From: Sagi Grimberg <sagi@grimberg.me> 
-Sent: Thursday, April 2, 2020 18:27
-To: Max Gurtovoy <maxg@mellanox.com>; Alex Lyakas <alex@zadara.com>
-Cc: Tom Wu <tomwu@mellanox.com>; Israel Rukshin <israelr@mellanox.com>; linux-nvme <linux-nvme@lists.infradead.org>; Shlomi Nimrodi <shlomin@mellanox.com>
-Subject: Re: NULL pointer dereference in nvmet_rdma_queue_disconnect during bond failover
-
-
->> This patch did not apply to latest 5.2 (5.2.21). All of 10 hunks 
->> failed.
-
-It applies on branch linux-5.2.y in the stable tree. What are you using?
-
->> I applied it manually, and also handled cm_id->context in 
->> nvmet_rdma_find_get_device as I mentioned earlier. I am attaching the 
->> patch that I tested on kernel 5.2.21 (target side). I confirm that 
->> this patch fixes the bond failover issue.
->>
->> Tested-by: Alex Lyakas <alex@zadara.com>
-
-Cool.
-
->>
->> Max, will this help to deliver this fix upstream, so that we can get 
->> it in MOFED 4.9?
->>
->> Thanks,
->> Alex.
-> 
-> Alex,
-> 
-> Thanks for testing this.
-> 
-> Waiting for Sagi's official rebased version for doing full review.
-
-I'll send a patch...
-_______________________________________________
-linux-nvme mailing list
-linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+T24gMy8zMS8yMDIwIDk6NDIgQU0sIFNhZ2kgR3JpbWJlcmcgd3JvdGU6Cj4KPgo+IE9uIDMvMzAv
+MjAgMjozNyBBTSwgSXNyYWVsIFJ1a3NoaW4gd3JvdGU6Cj4+IE9uIDMvMzAvMjAyMCAxMTo1NiBB
+TSwgU2FnaSBHcmltYmVyZyB3cm90ZToKPj4+Cj4+Pj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9u
+dm1lL3RhcmdldC9yZG1hLmMgYi9kcml2ZXJzL252bWUvdGFyZ2V0L3JkbWEuYwo+Pj4+Pj4gaW5k
+ZXggMzdkMjYyYS4uNTkyMDllMyAxMDA2NDQKPj4+Pj4+IC0tLSBhL2RyaXZlcnMvbnZtZS90YXJn
+ZXQvcmRtYS5jCj4+Pj4+PiArKysgYi9kcml2ZXJzL252bWUvdGFyZ2V0L3JkbWEuYwo+Pj4+Pj4g
+QEAgLTEzODAsMTMgKzEzODAsMTQgQEAgc3RhdGljIHZvaWQgCj4+Pj4+PiBudm1ldF9yZG1hX3F1
+ZXVlX2Nvbm5lY3RfZmFpbChzdHJ1Y3QgcmRtYV9jbV9pZCAqY21faWQsCj4+Pj4+PiDCoCB7Cj4+
+Pj4+PiDCoMKgwqDCoMKgIFdBUk5fT05fT05DRShxdWV1ZS0+c3RhdGUgIT0gTlZNRVRfUkRNQV9R
+X0NPTk5FQ1RJTkcpOwo+Pj4+Pj4gwqAgK8KgwqDCoCBwcl9lcnIoImZhaWxlZCB0byBjb25uZWN0
+IHF1ZXVlICVkXG4iLCBxdWV1ZS0+aWR4KTsKPj4+Pj4+ICsKPj4+Pj4+IMKgwqDCoMKgwqAgbXV0
+ZXhfbG9jaygmbnZtZXRfcmRtYV9xdWV1ZV9tdXRleCk7Cj4+Pj4+PiAtwqDCoMKgIGlmICghbGlz
+dF9lbXB0eSgmcXVldWUtPnF1ZXVlX2xpc3QpKQo+Pj4+Pj4gK8KgwqDCoCBpZiAoIWxpc3RfZW1w
+dHkoJnF1ZXVlLT5xdWV1ZV9saXN0KSkgewo+Pj4+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgIGxpc3Rf
+ZGVsX2luaXQoJnF1ZXVlLT5xdWV1ZV9saXN0KTsKPj4+Pj4+ICvCoMKgwqDCoMKgwqDCoCBzY2hl
+ZHVsZV93b3JrKCZxdWV1ZS0+cmVsZWFzZV93b3JrKTsKPj4+Pj4KPj4+Pj4gVGhpcyBoYXMgYSBo
+aWRkZW4gYXNzdW1wdGlvbiB0aGF0IHRoZSBjb25uZWN0IGhhbmRsZXIgYWxyZWFkeQo+Pj4+PiBz
+Y2hlZHVsZWQgdGhlIHJlbGVhc2UuCj4+Pj4+Cj4+Pj4+IFdoeSBkb24ndCB3ZSBzaW1wbHkgbm90
+IHF1ZXVlIHRoZSByZWxlYXNlX3dvcmsgaW4gdGhlIGFjY2VwdAo+Pj4+PiBmYWlsdXJlIGFuZCBy
+ZXR1cm4gYSBuZWdhdGl2ZSBzdGF0dXMgY29kZSB0byBpbXBsaWNpdGx5IHJlbW92ZSB0aGUKPj4+
+Pj4gY21faWQ/IHRoaXMgd2F5IHdlIHdpbGwgbmV2ZXIgc2VlIGFueSBjbSBldmVudHMgYW5kIHdl
+IGRvbid0Cj4+Pj4+IG5lZWQgdG8gaGFuZGxlIGl0Lgo+Pj4+Cj4+Pj4gVGhpcyBjaGFuZ2VzIHRo
+ZSBmbG93IGJ1dCBJIGd1ZXNzIHdlIGNhbiBjaGVjayB0aGlzIG91dC4KPj4+Pgo+Pj4+IEJ1dCBz
+dGlsbCwgdGhpcyBmbG93IGNhbiBiZSBjYWxsZWQgZnJvbSAzIGRpZmZlcmVudCBldmVudHMgCj4+
+Pj4gKFJETUFfQ01fRVZFTlRfUkVKRUNURUQsIFJETUFfQ01fRVZFTlRfVU5SRUFDSEFCTEUsIAo+
+Pj4+IFJETUFfQ01fRVZFTlRfQ09OTkVDVF9FUlJPUikgc28gSSBwcmVmZXIgdG8gbG9jYXRlIHRo
+ZSAKPj4+PiBzY2hlZHVsZV93b3JrIHVuZGVyIHRoZSAiaWYiLgo+Pj4KPj4+IFRoaXMgaWYgaXMg
+b25seSBjaGVja2VkIGluIGNvbm5lY3QgZXJyb3IuIEFueXdheSwgaWYgeW91IGZlZWwgdGhhdAo+
+Pj4gdGhpcyBmbG93IGlzIHJhY3ksIHBlcmhhcHMgaW1wbGVtZW50IGEgcHJvcGVyIHNlcmlhbGl6
+YXRpb24sIGluc3RlYWQKPj4+IG9mIGNoZWNraW5nIGEgcmFuZG9tICJpZiIgdGhhdCBtYWtlcyB0
+aGUgcmVhZGVyIHRoaW5rIHdoeSBhcmUgdGhleQo+Pj4gZXZlbiByZWxhdGVkLgo+Pgo+PiBUaGlz
+ICJpZiIgaXMgZXhhY3RseSBsaWtlIHdlIGFyZSBkb2luZyBhdCBudm1ldF9yZG1hX3F1ZXVlX2Rp
+c2Nvbm5lY3QoKS4KPgo+IFlvdSdyZSByaWdodC4KPgo+PiBBbGwgdGhlIG90aGVyIHBsYWNlcyBi
+ZWZvcmUgY2FsbGluZyBfX252bWV0X3JkbWFfcXVldWVfZGlzY29ubmVjdCgpIAo+PiBkZWxldGUg
+dGhlIHF1ZXVlIGZyb20gdGhlIGxpc3QuCj4+Cj4+IFNvIEkgZ3Vlc3MgbXkgY2hhbmdlIGFsc28g
+cHJvdGVjdCB1cyBmcm9tIHJhY2VzIHdpdGggCj4+IG52bWV0X3JkbWFfZGVsZXRlX2N0cmwvbnZt
+ZXRfcmRtYV9yZW1vdmVfb25lLgo+Pgo+PiBCZXNpZGUgdGhhdCwgd2h5IGRvIHdlIG5lZWQgdG8g
+Y2hlY2sgaWYgdGhlIGxpc3QgaXMgbm90IGVtcHR5IGJlZm9yZSAKPj4gcmVtb3ZpbmcgaXQgZnJv
+bSB0aGUgbGlzdCBhdCBudm1ldF9yZG1hX3F1ZXVlX2Nvbm5lY3RfZmFpbCgpPwo+Pgo+PiBJIGRv
+bid0IHNlZSBhIHJlYXNvbiB3aHkgdG8gcmVtb3ZlIG9ubHkgdGhlIHF1ZXVlIGZyb20gdGhlIGxp
+c3QgCj4+IHdpdGhvdXQgc2NoZWR1bGUgdGhlIHJlbGVhc2Ugd29yay4KPgo+IFRoYXQgaXMgZmlu
+ZSB3aXRoIG1lLCBhc3N1bWluZyB3ZSBoYXZlIGEgcHJvcGVyIGNvbW1lbnQuCj4KPiBCdXQgaWYg
+d2UgdGFrZSBhIHN0ZXAgYmFjaywgbnZtZXRfcmRtYV9jcmVhdGVfcXVldWVfaWIgZG9lcyBub3Qg
+Y3JlYXRlCj4gdGhlIGNtX2lkLCBzbyB3aHkgc2hvdWxkIGRlc3Ryb3lfcXVldWVfaWIgZGVzdHJv
+eSBpdD8KPgpUaGlzIGlzIGJlY2F1c2Ugd2UgY2FuJ3QgZGVzdHJveSB0aGUgUVAgYmVmb3JlIGRl
+c3Ryb3lpbmcgdGhlIGNtX2lkLgoKWW91IGNhbiBsb29rIGF0IHRoZSBmb2xsb3dpbmcgY29tbWl0
+IGZyb20gaWJfaXNlcnQ6ICIxOWUyMDkwIAppc2VyLXRhcmdldDogRml4IGNvbm5lY3RlZF9oYW5k
+bGVyICsgdGVhcmRvd24gZmxvdyByYWNlIgoKSW4gb3JkZXIgdG8gYXZvaWQgZnJlZWluZyBudm1l
+dCByZG1hIHF1ZXVlcyB3aGlsZSBoYW5kbGluZyByZG1hX2NtIApldmVudHMsIHdlIGRlc3Ryb3kg
+dGhlIHFwIGFuZCB0aGUgcXVldWUgYWZ0ZXIKCmRlc3Ryb3lpbmcgdGhlIGNtX2lkIHdoaWNoIGd1
+YXJhbnRlZXMgdGhhdCBhbGwgcmRtYV9jbSBldmVudHMgYXJlIGRvbmUuCgo+IFdoYXQgaWYgd2Ug
+bWFkZSBkZXN0cm95aW5nIHRoZSBjbV9pZCBpbiByZWxlYXNlX3dvcmsgKG91dCBvZiAKPiBudm1l
+dF9yZG1hX2ZyZWVfcXVldWUpIGFuZCBoYXZlIHRoZSBhY2NlcHQgZXJyb3IgcGF0aCByZXR1cm4g
+YSBub3JtYWwKPiBuZWdhdGl2ZSByZXQgdG8gaW1wbGljaXRseSBkZXN0cm95IHRoZSBjbV9pZD8K
+V2UgY2FuJ3QgZGVzdHJveSB0aGUgY21faWQgYXQgcmVsZWFzZV93b3JrIGFmdGVyIGNhbGxpbmcg
+dG8gCm52bWV0X3JkbWFfZnJlZV9xdWV1ZSAoSSBhbSBub3Qgc3VyZSB0aGF0IHdlIGNhbiBkZXN0
+cm95IGl0IGJlZm9yZSAKY2FsbGluZyBudm1ldF9yZG1hX2ZyZWVfcXVldWUpLgo+Cj4gSW4gYSBz
+ZW5zZSwgdGhhdCB3b3VsZCBtYWtlIHRoZSBiZWhhdmlvciBzeW1tZXRyaWMuIFRob3VnaHRzPwpT
+bywgd2UgY2FuJ3QgbWFrZSBpdCBzeW1tZXRyaWMuCgpfX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fXwpsaW51eC1udm1lIG1haWxpbmcgbGlzdApsaW51eC1udm1l
+QGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9saW51eC1udm1lCg==
