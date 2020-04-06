@@ -3,20 +3,20 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.7 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16CB4C2BA17
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Apr 2020 16:35:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC121C2BA17
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Apr 2020 16:36:51 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 96C8A20BED
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Apr 2020 16:35:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id AB15E24964
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Apr 2020 16:36:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ErFWxWAw";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="uJY7EWcM"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 96C8A20BED
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Nv/GlI+5";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="V15qO9KA"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AB15E24964
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,45 +25,44 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=uk4ajzB7nXTj0HcxXxCecMrTJM/E1eHdfxNz5wUy0y8=; b=ErFWxWAwrnuV+M
-	pTmApfXJU+eAkJXRkvuZgubjyaq2NhM3ynvVmFSOQ2JLZmJIWSh0ugSHnfRkVYPZyI0kjOWEuZRAy
-	nrJSdrrAJhGxYn+qSZe2dXKsWNwFReSpnMH6o/BE5nayN9ciJrNOsn/QbzwCj1f/xsYn8TvQh/JT+
-	ms5C0g1uRkTbTYbooOqs7NIebs45dvDMcFecbuxuUeG4HOY+rBc5y08MuTxhgCPn23KNWxoxvXbSz
-	etCx7tsq8oJ3eN1BWtFifgDbAkfODtLn/5qVXyT00sxHeGBvCEKkJWCHf4cSv9ADTgxVoY7ZA480a
-	6hYiIDcUV5EIeuFauRWQ==;
+	List-Owner; bh=a35/OB5KT3/GBn95b3PCviCA9CZMtCMJePIQowtGSuQ=; b=Nv/GlI+5oBtuYY
+	V1YTRnrPpotYwpVxMqaqXXbQssSwNJTuFLXmBFTemnmTyB1IkS5t4QIjcD/vYlkyvSmDWB4cw1eZP
+	ffUiO2zICkULoeWJFv4IeSlal78R/0z6WS8PBswtyoWsxXVX3EbBYIG1+QxDNTwD6PrO7dgsV6rNc
+	DaL39qpVV9LquJyvhOKl7irM5Wqqsq/DLvvvGLiFG7bhO6leq9l6EkH5ysPzS0VHg0Wn6eFdo0lrK
+	saOPy84tMCngukrtMn7R1/pjmqrhAuJeUqg5tCFltWdNE837xh9KoypmyDN0cLk9AA5JoteRCx9NZ
+	L8irrMplpVSg88/OCgpw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jLUiM-0008Lv-ER; Mon, 06 Apr 2020 16:35:10 +0000
+	id 1jLUjx-0000WC-Pr; Mon, 06 Apr 2020 16:36:49 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jLUiJ-0007Zu-BP
- for linux-nvme@lists.infradead.org; Mon, 06 Apr 2020 16:35:08 +0000
+ id 1jLUju-0000Vp-G7
+ for linux-nvme@lists.infradead.org; Mon, 06 Apr 2020 16:36:47 +0000
 Received: from redsun51.ssa.fujisawa.hgst.com (unknown [199.255.47.7])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id CC40F20BED;
- Mon,  6 Apr 2020 16:35:05 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 9C5AD24964;
+ Mon,  6 Apr 2020 16:36:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1586190906;
- bh=FXhlJMWkEz3beCpOATybgDdTXfGcwBpV/RDgh/J/wtU=;
+ s=default; t=1586191006;
+ bh=DsC3eeaxA5lbSQq8MAjr0mMo4dej95vWUGj2DZK/6+A=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=uJY7EWcMhntHpofOoJEujXjD1LOHx4ioXSQVK6tqfBHY6671qEyWHeNB3Dwpsjikk
- RfYzPY3Bnn7vFH3ayHweinlQShausWZM4jTHmI7mHxMkkRGVcJvPyCJljHMciRqgA6
- CghNDfsaF3iBMZT73sQwPEe1NKHsoEme4vaDDx60=
-Date: Tue, 7 Apr 2020 01:35:00 +0900
+ b=V15qO9KAs/fpEMa9TSn7BjxF4bmISCjHIp9HfpFrlF7Sxm51akHAyuUndhA8nUC5x
+ dm0wiWN8LolEP+UZNCKKlNVFjdXTpshhLWq86GJMGcmOVvgYgmEbFOetAqO3UD0Zqr
+ leWNRUFnz80YJPqAmaVe/H345AZBh+cSIqJ/HZ/0=
+Date: Tue, 7 Apr 2020 01:36:43 +0900
 From: Keith Busch <kbusch@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 3/5] nvme: factor out a nvme_ns_remove_by_nsid helper
-Message-ID: <20200406163500.GA26845@redsun51.ssa.fujisawa.hgst.com>
+Subject: Re: a few more namespace scanning cleanups
+Message-ID: <20200406163643.GB26845@redsun51.ssa.fujisawa.hgst.com>
 References: <20200406121352.1151026-1-hch@lst.de>
- <20200406121352.1151026-4-hch@lst.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200406121352.1151026-4-hch@lst.de>
+In-Reply-To: <20200406121352.1151026-1-hch@lst.de>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200406_093507_442966_B703DAC7 
-X-CRM114-Status: UNSURE (   7.63  )
+X-CRM114-CacheID: sfid-20200406_093646_560442_FD841016 
+X-CRM114-Status: UNSURE (   6.46  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -82,13 +81,7 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Apr 06, 2020 at 02:13:50PM +0200, Christoph Hellwig wrote:
-> Factor out a pice of deeply indented and logicaly separate piece of code
-> from nvme_scan_ns_list.
-
-s/pice/piece
-
-Patch looks good,
+Looks good to me. For the reset of the series:
 
 Reviewed-by: Keith Busch <kbusch@kernel.org>
 
