@@ -2,93 +2,133 @@ Return-Path: <SRS0=zNed=5Y=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40DC2C2D0EA
-	for <linux-nvme@archiver.kernel.org>; Wed,  8 Apr 2020 04:17:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D187C2D0EA
+	for <linux-nvme@archiver.kernel.org>; Wed,  8 Apr 2020 05:24:40 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 06B4B2074F
-	for <linux-nvme@archiver.kernel.org>; Wed,  8 Apr 2020 04:17:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id F12F020692
+	for <linux-nvme@archiver.kernel.org>; Wed,  8 Apr 2020 05:24:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="SZYBo6yE";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="J9Vin9Wx"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 06B4B2074F
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="PpGp6x7i";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="A9h5/eMR";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="HjxwzTSs"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F12F020692
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=J1NpYYenuiWIZ+kr7f2PkcVfRkKRPf6tL3gPUCcd50A=; b=SZYBo6yERejLQE
-	w+X9fQHWTmW5oe6RWuDbzm/s6LpUaBD3t5GV7i+HcDM7VONAxyakdhEVwaLjUSyQJDbyPUs6ROzdJ
-	jjGuW5qTjVgg1D1aInPWcYeYmfyv9oO/MvVu7W9fkrm2h5wPOrtJWrRVZCPNGOF6b1ztUk2hHIY+1
-	kTgOaKllcheJ2Mhjjjk5Z6gbRVL2RuL5H3pMlx2cAnad0WV3NKdNdCsLOMsl6Ow15uQhonUs9byNE
-	srhn9fnPkyfRP5J1AzUOewCVi+056DChOn6BxprV1Km4S1iDCqDkvKrRlG5YB5uTs57D2Xncjlnaj
-	nUCK1GawANGLjQJn7Tzg==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date
+	:Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+	List-Owner; bh=ARijoWseMMR7ynPSycpLHAZEsandlXLYQVWBIlJiAAQ=; b=PpGp6x7i7ZzNNq
+	Z00OT0zKYUp44ZMZ3Fv4gfUtNGMrhgTIY6FcBjqRpN/JRXifKE4Xt72vDBulZZCtqav9/SQNVcXxR
+	ojddWw+jdfgotZDCXhHF2cERnix6Hdf0mP4cka/bsk4sEzkJdep0roPWlsXZoXhI0RYMS2FUBn/D9
+	Nn44BdGA9r+kj0Xka/7jttTzHxQnrTzWqYuZjeCXVXXNfgUbqpUZqgdWO5EF0Ea1Aorkew/+Xe6g3
+	+EBo6nR47UNnFm3n0sEDOLjnlNwkmpg81Y41DRWdBtg0Iqlj1NRBFRSNYltDsT9Ske1D2zUhkeOZ1
+	kqcULm5Iqd3EuywOHJpg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jM295-0001zN-7c; Wed, 08 Apr 2020 04:16:59 +0000
-Received: from esa6.hgst.iphmx.com ([216.71.154.45])
+	id 1jM3CU-0005Gb-NL; Wed, 08 Apr 2020 05:24:34 +0000
+Received: from esa5.hgst.iphmx.com ([216.71.153.144])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jM28u-0001ip-6w
- for linux-nvme@lists.infradead.org; Wed, 08 Apr 2020 04:16:51 +0000
+ id 1jM3CS-0005Fx-BD
+ for linux-nvme@lists.infradead.org; Wed, 08 Apr 2020 05:24:33 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1586319408; x=1617855408;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=nsV+avJbm6nRfvInPjU6S6jndiW7tihwT3tCaAPB2m0=;
- b=J9Vin9Wx2eyIix6kUs7tSMcvYjcWL+odPtIO2DqUtaRl6Fek7R94XOF9
- onWAnR4bQuUbK9+RA46kAf9LceRNGIDjK9QGBCCL0cXg8TzwMeElhvKsA
- czVZCvz+oPRYqSoSpTmMZ/wDKe0SIdLqnscKJ4SWkrGAODVvFtE/W03Vw
- lDdg5DS48qYEyS0wXuWwd7fUv1XCSpatja92OAH3HWBLfbFHoNJdQA80a
- iYWSnbEu42qGkbgfWs+km8I6iYveLjSkwVgK3iNda4JldywPHfLYB6bDr
- me09leFdeMnz27eFyAIRk64siJN3JlSBg7W3UaI9HjpCpThVOzqxk+nS8 A==;
-IronPort-SDR: jFRyEWPc+PECaOp6Pj1Kj2mYK6RMMXEGADL2SZj6m0mt4gIC+kkSFz1TJYK2ZQG2lU+sCZQGYa
- iYa36QhKF7H1z7pUPfKUXuxAl7aczAyEtb0ohuhlaytcWWyGMXZ3V5qcZiYJNhRbn6f+Co9fkE
- JkqK77FqvyjD46qrxhNGGWDjP0Mcss6oAuANEl7cQA2rSdJkwp8x+2bHBhHpJR4GvIFBaGsMpU
- bRhBN2m5fCxEKB+mqez9mkaa+O+mTDUOZ/4HbNLMAvFHQODoM/tT03SoBbRM/K/xsy0cHKBlHh
- +6o=
-X-IronPort-AV: E=Sophos;i="5.72,357,1580745600"; d="scan'208";a="136283908"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 08 Apr 2020 12:16:48 +0800
-IronPort-SDR: 9qdEmy/Xb8d8ioPe7Wubfr7i7K1wqevN/G2nkP/dkir9h81Z4EjnyEHC7NI+jFXkgOPVoBbbae
- XmEmv3mWvhkV3ZHjkIEgYj6yrx5HGeqs2uwhs1n3Is92UXxrF9ZVuj81dAnwo3js8KLfuVjf26
- ItUSIc87HmnFbzRaq0u+U8p3hRIskNFCAy9EDuOYk4FMgG8wmdGwo6FXwbMfq67lbc5erCGFZB
- ik+XQNP+08UPW7bHhQdyOEfVyUFfuTApllUHLUhyuLfv/Y16I7r7kbTSbEstpU49HboxXOikE2
- r94dkvGIqpB1ITU7qSSl4vLo
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Apr 2020 21:07:29 -0700
-IronPort-SDR: yO/SorZeNx5vojVUVlh1qjcO7L1xhu5oZ35VXyHBObN2WTfHTa3o7ByWqfWimX/FWEFbEMOyhc
- y7GBa5EEQ4VldjtZuSgoVsNSRY1qplEffbIH6LS8uK/emAqhSS+2D0E4M9AacK962ddyHtcGU1
- 5ANtzolzU6GOVHiwga+ifOwxsEnok4wxhdqUMaF37wQh8e9PfoQVkZNox9GPvTrozLLoHKT1Qf
- 09c/aplHvsjbvEVWHaq3yTUg26YzW0ya1YRyL3d6amOlRMmZoTx6SnIC1ErWfkZuU2lx6NIa7j
- mp4=
-WDCIronportException: Internal
-Received: from iouring.labspan.wdc.com (HELO iouring.sc.wdc.com)
- ([10.6.138.107])
- by uls-op-cesaip01.wdc.com with ESMTP; 07 Apr 2020 21:16:47 -0700
-From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-To: linux-nvme@lists.infradead.org
-Subject: [PATCH V2 2/2] nvmet: add per ns thread to generate AEN
-Date: Tue,  7 Apr 2020 21:16:33 -0700
-Message-Id: <20200408041633.20632-3-chaitanya.kulkarni@wdc.com>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20200408041633.20632-1-chaitanya.kulkarni@wdc.com>
+ t=1586323473; x=1617859473;
+ h=from:to:cc:subject:date:message-id:references:
+ content-transfer-encoding:mime-version;
+ bh=XWeW+8HM8MGRjtJiqrzCwCkgezEwFTLsriAKJAbBWjw=;
+ b=A9h5/eMRgNyNbeAP1vgSev4zlbnpqurC36TBtZSUtgC2Ne8jp7mAxVfE
+ e/6plEipNsDnDi6cDIb6XPvdwZWszui3+Xqf2MYQbBri8Qafv+7mZ+ecA
+ sjGThrs3/NglOUeXeMIQQyRIQ5A5w+WSosL2cIuqxyn21dyWNZE6OU5Vk
+ TyOGvmOZW5LPbf8+EcSW97EDbNQ25h66T/kQAaoYLmkgtG4l/ZaPv0R68
+ ifA/pJSPGbvLflyIXspja12EVkhi97xjOcE+hj5L0n+Ce9nt/k3VExC+2
+ blvC9VW6a6gm3DxiM5rk5RmWQiUAUAbz8eGyBCLTCwrKF7cwcnEmFmtPJ Q==;
+IronPort-SDR: DRn+h5+VDh6JAnre+OuBJtMfXFS8A2E4rSkxagSq5iwPZ4AlZWdL4xNWY3JfV1wDzo+snDDPyD
+ mPpUI0WOQzT90MhLQINQO9VHyqPjqf5uCTJV1VbfkXugnPhqbeeZUTjoN0NJZYQ1/1hjWXTdZL
+ KxcspgWmdNZTkF1/oOUVTCC3p1K56FHm8kM4qv2GPD26AgKMYTWPxAQnXOdh7VWZUlXjNLt4vX
+ t+KVlCmKet2AFdTVUrkWID2N7Nn3ZPfHmMd+RfLBpdeQ0DUuQsIHM078uvvDX3mM/Gxxqt6KeO
+ b5c=
+X-IronPort-AV: E=Sophos;i="5.72,357,1580745600"; d="scan'208";a="135151614"
+Received: from mail-dm6nam12lp2177.outbound.protection.outlook.com (HELO
+ NAM12-DM6-obe.outbound.protection.outlook.com) ([104.47.59.177])
+ by ob1.hgst.iphmx.com with ESMTP; 08 Apr 2020 13:24:30 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=U8GTzX7gnah+w4ZU0rEV/dZkbuuDEuVxuGHzEwKC6RGTx/4/RrfFZHYvzzKiQPeTin9FIaTe6LQWQaoP84f1pQZvzoE3E/vlEoEp3IIXXFuJVAr58mNe4IJaZS+u3jdb10nYcov8htnAg68wd+c2+aahRR8r+niiFFz7N703HrWMVNENh5GVLjtXnMWot9kd2TepYdForhklJGmYpucfcFyeAtjwRUHBOEyGDO/5ej6hzqXfPCPjA0HV07jOSLMBItiWiw2A3n/ImlND2wimeiAZ/s2TAdoSnUmPV4z79iQFmFRveEnjGRb4cN1oZLqFI84rUxTzn48tk0y3yi/FhQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XWeW+8HM8MGRjtJiqrzCwCkgezEwFTLsriAKJAbBWjw=;
+ b=YnSxQTlL420leh3ce+vnRSUulT4IO1n+UWYsDovsBI7osZlYmTenNUt8hlcI2ix7zzCJ8KSoKftZzFZ5SK4JhCThxNFGewa8lNCy85qYthKSgCcQoFUP4ykEq+sQiYnLSEG3n+vt22vs+1UcPKae28fZGXXRihlfJqnkJ83czwL0mQEM01YxyVbZc8yQimdOXCBWqinaMbMjZTclpOOitz4chCh2g17aBkkirmljwd6SEbI828LrfZvWoLH1O2Tc9N57HGIP06lIdFFzg58xDKVv3LHJRqYg5hF69qnF9RBlkRnciVgnpHhhiyym7TqQL+b+lkpmk7N+ia2Mr6t1MA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XWeW+8HM8MGRjtJiqrzCwCkgezEwFTLsriAKJAbBWjw=;
+ b=HjxwzTSsNq54491GPdwXhkTEO9qneKpkt/ywwHPnqcYd2O9PASchopJHlJtDPx5NuSxXw+MG/bTR1gXJWUM7drualllaUPt9goFyiOuFvkKEXHnv5SuHYJN5bzsdh0ZCqvWJXVc81G1FQS56UsdZ//ht5wRWDO08AnmejZLNmyQ=
+Received: from SN6PR04MB4973.namprd04.prod.outlook.com (2603:10b6:805:91::30)
+ by SN6PR04MB4671.namprd04.prod.outlook.com (2603:10b6:805:ad::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2878.20; Wed, 8 Apr
+ 2020 05:24:28 +0000
+Received: from SN6PR04MB4973.namprd04.prod.outlook.com
+ ([fe80::b0f4:a811:73dd:6c4e]) by SN6PR04MB4973.namprd04.prod.outlook.com
+ ([fe80::b0f4:a811:73dd:6c4e%5]) with mapi id 15.20.2878.018; Wed, 8 Apr 2020
+ 05:24:28 +0000
+From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+To: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: [PATCH V2 0/2] nvmet: add revalidate support
+Thread-Topic: [PATCH V2 0/2] nvmet: add revalidate support
+Thread-Index: AQHWDVx/Ivpp2bCu4Eeu7LJYE0doqw==
+Date: Wed, 8 Apr 2020 05:24:27 +0000
+Message-ID: <SN6PR04MB497396578538E4E839DC489C86C00@SN6PR04MB4973.namprd04.prod.outlook.com>
 References: <20200408041633.20632-1-chaitanya.kulkarni@wdc.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Chaitanya.Kulkarni@wdc.com; 
+x-originating-ip: [199.255.45.4]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: ef9f2725-ee76-4efd-04b7-08d7db7d1be2
+x-ms-traffictypediagnostic: SN6PR04MB4671:
+x-microsoft-antispam-prvs: <SN6PR04MB4671554F7D56B928176B8D4986C00@SN6PR04MB4671.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-forefront-prvs: 0367A50BB1
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR04MB4973.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(10019020)(4636009)(136003)(396003)(39860400002)(366004)(346002)(376002)(6916009)(66946007)(54906003)(64756008)(81156014)(66556008)(76116006)(81166007)(52536014)(66476007)(2906002)(86362001)(33656002)(91956017)(66446008)(53546011)(316002)(71200400001)(5660300002)(26005)(4326008)(7696005)(9686003)(6506007)(8936002)(4744005)(8676002)(55016002)(186003)(478600001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: HZ8dehasimml+ECdCOFIwptpwXEEivPOk+Wbw6ypSF5hQPcJm4pAUCORJM+npQNCVRKVvdNnslrjNJgqojBzXL7zMk7Zv4UgqyQuShy8/3Hnkf6cAJiXcOJu8862NAsfONszgzwLmsJzxPdvpPNiFIX8LKSQ2iPYSP04L2k2+Q3r+JG95P3+DibQah4Xx5IRTpYZ1Ucbp/xVsUg+HCeXnWZnEYVfTYmppimDT5nUFJv8nmfcsqvhqNtrRhUGbn1IPR7HkfZzjgfv48s4yPGizKFCmt6cK5uWz1jCHQleaH4QgK3PUHluZT9VhXtTg/w+YbAafMtVdZLJLR6OrfXSTbr8n1F4fr3QI8K8Z0ktjDTRBaPprjcgBf3Ejmi1e9/tJmp2Lmmwf4KfHGEm+6kcQg5OhP+P7CIZCpdvJsYP9t5K5nUXnZfgxN+7EfVU6bpP
+x-ms-exchange-antispam-messagedata: 349f2SMSB/+l2p+BRy+UzZZ2giU+sUT8yu41Ssca2GxcZWD0dk8cJdE67wau3Hx99cE4sFVCzwWzjwziQ932vF7Dz5sce5syT1LaGrO2I3CSN5pJKeseMdHTyI4VivAnkOcsGzXYqhSWofbonn9yig==
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ef9f2725-ee76-4efd-04b7-08d7db7d1be2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Apr 2020 05:24:28.0057 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: gZEbIbCRpxpJErdoaUC+OYq8Zfu1cI6f9/T6VvJjH2xeFI1PasKYJ5ljxQS5yFbx45Hm1T9qvbWJh+OwHnHmqHwJrmQycrM2b38jKdlN07c=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR04MB4671
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200407_211648_310968_B6D2748B 
-X-CRM114-Status: GOOD (  17.29  )
+X-CRM114-CacheID: sfid-20200407_222432_508283_3AD1AE36 
+X-CRM114-Status: GOOD (  13.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,189 +140,40 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: ailiop@suse.com, hch@lst.de,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>, sagi@grimberg.me
+Cc: "ailiop@suse.com" <ailiop@suse.com>, "hch@lst.de" <hch@lst.de>,
+ "sagi@grimberg.me" <sagi@grimberg.me>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The change of size detection on the target should generate the AEN to
-the host. Right now there is no mechanism that allows us to add
-callbacks for the block and file backend so that we will get the
-notification for change of the size for block device and file backend.
-This patch adds a simple per namespace thread that checks for the size
-change and generates AEN when needed.
+On 4/7/20 9:16 PM, Chaitanya Kulkarni wrote:
+> Hi,
+>
+> This patch series adds support for the NVMeOF target bdev-ns and
+> file-ns size re-validation.
+>
+> The first patch adds bdev/file backend revalidation helpers which
+> was posted by Anthony Iliopoulos. I've fixed the comments posted on V1
+> by keeping the authorship of the patch.
+>
+> The 2nd patch is needed since the change of size detection on the target
+> should generate the AEN to the host. Right now there is no mechanism
+> that allows us to add callbacks for the block and file backend so that
+> we will get the notification (if anyone knows please let me know, I'll
+> be happy rework this series). So this just adds a simple per namespace
+> thread which checks for the size change and generates AEN when needed.
+>
+> I'm open to use different thread model.
+>
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
----
- drivers/nvme/target/admin-cmd.c   |  5 +----
- drivers/nvme/target/core.c        | 34 +++++++++++++++++++++++++++++++
- drivers/nvme/target/io-cmd-bdev.c |  9 +++++++-
- drivers/nvme/target/io-cmd-file.c | 15 +++++++++-----
- drivers/nvme/target/nvmet.h       |  6 ++++--
- 5 files changed, 57 insertions(+), 12 deletions(-)
+FYI I've generated this series on Linus's Linux 5.6-rc6 tag as my nvme
+git repo
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index ba01d8e6e9c9..1e4ce77f1ac4 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -468,10 +468,7 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
- 	if (!ns)
- 		goto done;
- 
--	if (ns->bdev)
--		nvmet_bdev_ns_revalidate(ns);
--	else
--		nvmet_file_ns_revalidate(ns);
-+	nvmet_ns_revalidate(ns);
- 
- 	/*
- 	 * nuse = ncap = nsze isn't always true, but we have no way to find
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 576de773b4db..d851b8da0ef0 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -9,6 +9,7 @@
- #include <linux/rculist.h>
- #include <linux/pci-p2pdma.h>
- #include <linux/scatterlist.h>
-+#include <linux/delay.h>
- 
- #define CREATE_TRACE_POINTS
- #include "trace.h"
-@@ -514,6 +515,33 @@ static void nvmet_p2pmem_ns_add_p2p(struct nvmet_ctrl *ctrl,
- 		ns->nsid);
- }
- 
-+bool nvmet_ns_revalidate(struct nvmet_ns *ns)
-+{
-+	if (ns->bdev)
-+		return nvmet_bdev_ns_revalidate(ns);
-+
-+	return nvmet_file_ns_revalidate(ns);
-+}
-+
-+static int nvmet_ns_resize_thread(void *data)
-+{
-+	struct nvmet_ns *ns = (struct nvmet_ns *) data;
-+
-+	while (!kthread_should_park()) {
-+		if (nvmet_ns_revalidate(ns)) {
-+			mutex_lock(&ns->subsys->lock);
-+			nvmet_ns_changed(ns->subsys, ns->nsid);
-+			mutex_unlock(&ns->subsys->lock);
-+		}
-+		schedule();
-+		/* XXX: use better sleep wakeup mechanism */
-+		msleep(100);
-+	}
-+
-+	kthread_parkme();
-+	return 0;
-+}
-+
- int nvmet_ns_enable(struct nvmet_ns *ns)
- {
- 	struct nvmet_subsys *subsys = ns->subsys;
-@@ -572,6 +600,10 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
- 
- 	nvmet_ns_changed(subsys, ns->nsid);
- 	ns->enabled = true;
-+	ns->resize_thread = kthread_create(nvmet_ns_resize_thread, ns,
-+					  "nvmet_ns_resize%s/%d",
-+					  ns->device_path, ns->nsid);
-+	wake_up_process(ns->resize_thread);
- 	ret = 0;
- out_unlock:
- 	mutex_unlock(&subsys->lock);
-@@ -593,6 +625,8 @@ void nvmet_ns_disable(struct nvmet_ns *ns)
- 	if (!ns->enabled)
- 		goto out_unlock;
- 
-+	kthread_park(ns->resize_thread);
-+	kthread_stop(ns->resize_thread);
- 	ns->enabled = false;
- 	list_del_rcu(&ns->dev_link);
- 	if (ns->nsid == subsys->max_nsid)
-diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
-index 0427e040e3dd..e4791e57d397 100644
---- a/drivers/nvme/target/io-cmd-bdev.c
-+++ b/drivers/nvme/target/io-cmd-bdev.c
-@@ -75,9 +75,16 @@ void nvmet_bdev_ns_disable(struct nvmet_ns *ns)
- 	}
- }
- 
--void nvmet_bdev_ns_revalidate(struct nvmet_ns *ns)
-+bool nvmet_bdev_ns_revalidate(struct nvmet_ns *ns)
- {
-+	bool change;
-+
-+	mutex_lock(&ns->subsys->lock);
-+	change = ns->size != i_size_read(ns->bdev->bd_inode) ? true : false;
- 	ns->size = i_size_read(ns->bdev->bd_inode);
-+	mutex_unlock(&ns->subsys->lock);
-+
-+	return change;
- }
- 
- static u16 blk_to_nvme_status(struct nvmet_req *req, blk_status_t blk_sts)
-diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
-index 14364383d2fe..01d3d150585d 100644
---- a/drivers/nvme/target/io-cmd-file.c
-+++ b/drivers/nvme/target/io-cmd-file.c
-@@ -80,15 +80,20 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
- 	return ret;
- }
- 
--void nvmet_file_ns_revalidate(struct nvmet_ns *ns)
-+bool nvmet_file_ns_revalidate(struct nvmet_ns *ns)
- {
-+	struct path *f_path = &ns->file->f_path;
-+	bool change = false;
- 	struct kstat stat;
- 
--	if (vfs_getattr(&ns->file->f_path, &stat, STATX_SIZE,
--			AT_STATX_FORCE_SYNC))
--		return;
-+	mutex_lock(&ns->subsys->lock);
-+	if (vfs_getattr(f_path, &stat, STATX_SIZE, AT_STATX_FORCE_SYNC) == 0) {
-+		change = ns->size != stat.size ? true : false;
-+		ns->size = stat.size;
-+	}
-+	mutex_unlock(&ns->subsys->lock);
- 
--	ns->size = stat.size;
-+	return change;
- }
- 
- static void nvmet_file_init_bvec(struct bio_vec *bv, struct scatterlist *sg)
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index a3ffdcca4efb..3236eae00cae 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -54,6 +54,7 @@ struct nvmet_ns {
- 	struct percpu_ref	ref;
- 	struct block_device	*bdev;
- 	struct file		*file;
-+	struct task_struct	*resize_thread;
- 	bool			readonly;
- 	u32			nsid;
- 	u32			blksize_shift;
-@@ -487,8 +488,9 @@ void nvmet_file_ns_disable(struct nvmet_ns *ns);
- u16 nvmet_bdev_flush(struct nvmet_req *req);
- u16 nvmet_file_flush(struct nvmet_req *req);
- void nvmet_ns_changed(struct nvmet_subsys *subsys, u32 nsid);
--void nvmet_bdev_ns_revalidate(struct nvmet_ns *ns);
--void nvmet_file_ns_revalidate(struct nvmet_ns *ns);
-+bool nvmet_bdev_ns_revalidate(struct nvmet_ns *ns);
-+bool nvmet_file_ns_revalidate(struct nvmet_ns *ns);
-+bool nvmet_ns_revalidate(struct nvmet_ns *ns);
- 
- static inline u32 nvmet_rw_len(struct nvmet_req *req)
- {
--- 
-2.22.1
+is messed up. If everything looks okay I'll re-base and send V3 on nvme tree
+
+tomorrow.
+
 
 
 _______________________________________________
