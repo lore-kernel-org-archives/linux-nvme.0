@@ -2,84 +2,48 @@ Return-Path: <SRS0=zNed=5Y=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6ADBC2D0EA
-	for <linux-nvme@archiver.kernel.org>; Wed,  8 Apr 2020 05:55:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D8D9C2D0EA
+	for <linux-nvme@archiver.kernel.org>; Wed,  8 Apr 2020 06:21:40 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A8F51206C0
-	for <linux-nvme@archiver.kernel.org>; Wed,  8 Apr 2020 05:55:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 2574E20747
+	for <linux-nvme@archiver.kernel.org>; Wed,  8 Apr 2020 06:21:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="sthTSq70"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A8F51206C0
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="mrVysXkk"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2574E20747
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=v85zN6xrLLK53NW9d/FYP2KlxNKoRZY3D2v5vBG/byU=; b=sthTSq7027iQXNurtj7kQMp9y
-	NY5l4/jAAiH6ixHnXywyLMzzFf7HTaaDljcf4pdtD11uN6OkaoWuZa9HJHlgLgRejxrDI017pjMGz
-	YghkKI+Xeuc8LDNKJ+YrZvl6U+SxxrOYh/HpkTUc36EMfcQmCIQo7k+oqwzlntJelWKnDRJs9PD8j
-	ctlynmyf6U3vu9ffpSkxSTTzCbVINPcSTGYzXGxSiQP0w99c9zCCYfFz0isUYN9NcnlrNLbVU35eE
-	eCAC4Gepz8Go6jjqDx7uvnkVDS0naKR6PsWBZwekiXdIjNVCoEB3rIW/4TZxmMNQAQsPtEDGYZ7Un
-	h882mIdBA==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:To:From
+	:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=Y4pcWFhwoUyFJ5npMDurSE4F78Thw7aIzDqjmRo8X80=; b=mrVysXkkbqCEuQ
+	xT6KIIlD1M9bsjUoxQ8A9wcTqPiTdocAWvU/QgsohSUxwk5YfsODGH9yhPdpLXvoGShWmPCYZKoA8
+	bWAqNhlQXLraGVNxc/8z32NBX9SQWsiXPu29y6IPoTCNJF/PDXcfAAAhPe/BrA2qZyRUKEELDQ38E
+	+d4dHdeSh+c/j2O/scnhGGqPpzQ8mKUz1rHdbM1+2vRbss07IKPxISHBTjrZrsCOydxkDYW/aMR67
+	R22rfHl2m77aDnwd8eobe7JUUo3a/xxcqk52lYwihtr9vqXl1fIGa1Wl510ZMQHpF4iC3rdpookMP
+	6S4wdQdmBnBcU/NCSb7Q==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jM3gM-0008Fw-KX; Wed, 08 Apr 2020 05:55:26 +0000
-Received: from mail-pf1-f193.google.com ([209.85.210.193])
- by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jM3gJ-0008FT-EN
- for linux-nvme@lists.infradead.org; Wed, 08 Apr 2020 05:55:24 +0000
-Received: by mail-pf1-f193.google.com with SMTP id r14so1910991pfl.12
- for <linux-nvme@lists.infradead.org>; Tue, 07 Apr 2020 22:55:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=bz0IuQ1nWg5HCB8OzRfyXvo5j9OsCDWBkIoYVvvmz4o=;
- b=S1aStS9KTh96o3REtjmA7SgdYb+IPEoFVPQfacB9ijRC+9Tx1TnohoYANEvi54Nqna
- rlP+mneqnI3goaoMpxjvyl+oVwWNLYmjONxfujb5NFn9z4gJEEwMu2iqfHdo6Rpb2ITU
- bEQwH3tkMpg7Fr2P0+CKRBfxlK548PDkxbXmNxLc9+GKhpDPU1WLJlIE6wawLezlWKk0
- Gg0ZoUNv9F/nfvMc+h90Lj8yYpIgfKOpZudhgQB5v/pqo6YBEQf87GfS76DHNWnmr/PL
- gGIFb5hTgctnNb8TXDugkp2V15ql7RUWdknAOccIKGhkT/4gtO9KmqpquJa+E4R++rls
- FS2w==
-X-Gm-Message-State: AGi0PualLy3n6vhhVsDBqSGwlCDhRWtA/wnZPTvaYEJmAeCqrc9sYdjI
- oTV1QQDK/kxmB3YmfEAhj1EQYE73
-X-Google-Smtp-Source: APiQypLIIBdRoL6YD7r8CBtvfRiSaP2HFt2E7k/PSAIupgNKxmqiVwXvCE7Zw9a2Imk4afSve1SKxQ==
-X-Received: by 2002:a62:a10f:: with SMTP id b15mr323920pff.192.1586325322649; 
- Tue, 07 Apr 2020 22:55:22 -0700 (PDT)
-Received: from ?IPv6:2601:647:4802:9070:8f:36a3:3e4a:9e?
- ([2601:647:4802:9070:8f:36a3:3e4a:9e])
- by smtp.gmail.com with ESMTPSA id l9sm3285640pjl.20.2020.04.07.22.55.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Apr 2020 22:55:21 -0700 (PDT)
-Subject: Re: [PATCH V2 2/2] nvmet: add per ns thread to generate AEN
-To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "hch@lst.de" <hch@lst.de>
-References: <20200408041633.20632-1-chaitanya.kulkarni@wdc.com>
- <20200408041633.20632-3-chaitanya.kulkarni@wdc.com>
- <5e54afaa-7de5-a89e-5740-88df15c52bba@grimberg.me>
- <SN6PR04MB4973BC935AE3BFD4CE874D9B86C00@SN6PR04MB4973.namprd04.prod.outlook.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <f3f226be-0bda-5d5d-69b3-a0f3478ce51e@grimberg.me>
-Date: Tue, 7 Apr 2020 22:55:20 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Firefox/68.0 Thunderbird/68.4.1
+	id 1jM45f-00080G-Un; Wed, 08 Apr 2020 06:21:35 +0000
+Received: from [2001:4bb8:180:5765:65b6:f11e:f109:b151] (helo=localhost)
+ by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jM45d-0007zu-PY; Wed, 08 Apr 2020 06:21:34 +0000
+Date: Wed, 8 Apr 2020 08:21:31 +0200
+From: Christoph Hellwig <hch@infradead.org>
+To: axboe@kernel.dk
+Subject: [GIT PULL] nvme fixes for 5.7
+Message-ID: <20200408062131.GA212017@infradead.org>
 MIME-Version: 1.0
-In-Reply-To: <SN6PR04MB4973BC935AE3BFD4CE874D9B86C00@SN6PR04MB4973.namprd04.prod.outlook.com>
-Content-Language: en-US
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200407_225523_482660_751AC28E 
-X-CRM114-Status: GOOD (  15.39  )
+Content-Disposition: inline
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,41 +55,60 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "ailiop@suse.com" <ailiop@suse.com>
+Cc: kbusch@kernel.org, linux-block@vger.kernel.org, sagi@grimberg.me,
+ linux-nvme@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+The following changes since commit 458ef2a25e0cbdc216012aa2b9cf549d64133b08:
 
->> On 4/7/20 9:16 PM, Chaitanya Kulkarni wrote:
->>> The change of size detection on the target should generate the AEN to
->>> the host. Right now there is no mechanism that allows us to add
->>> callbacks for the block and file backend so that we will get the
->>> notification for change of the size for block device and file backend.
->>> This patch adds a simple per namespace thread that checks for the size
->>> change and generates AEN when needed.
->> kthread? per ns?! I really don't think this is the way to go Chaitanya..
-> 
-> I hacked it up quickly, may be we can use a global kthread which does period
-> 
-> susbsys and ns scan, but AEN needs to be issued to the host either way.
+  Merge tag 'x86-timers-2020-03-30' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip (2020-03-30 19:55:39 -0700)
 
-Seems like such an overkill to dedicate a full kthread for this...
+are available in the Git repository at:
 
-But maybe it won't be such a strange thing to dedicate a maintenance
-thread that would do stuff like this. My main issue with his is that it
-is polling which to me seems like a band-aid really...
+  git://git.infradead.org/nvme.git nvme-5.7
 
->> I'd suggest to expose a revalidate configfs attribute and have nvmetcli
->> install a udev rule that triggers a write to this attribute. Balbir
->> already got the udev notification for disk resize (see
->> set_capacity_revalidate_and_notify).
-> 
-> Okay we can do that. So you are saying generate the AEN from configs
-> attribute.
+for you to fetch changes up to 21f9024355e58772ec5d7fc3534aa5e29d72a8b6:
 
-Yes.. that won't work for file backed namespaces though...
+  nvmet-rdma: fix double free of rdma queue (2020-04-07 18:33:45 +0200)
+
+----------------------------------------------------------------
+Israel Rukshin (2):
+      nvme-rdma: Replace comma with a semicolon
+      nvmet-rdma: fix double free of rdma queue
+
+James Smart (3):
+      nvme-fcloop: fix deallocation of working context
+      nvmet-fc: fix typo in comment
+      nvme-fc: Revert "add module to ops template to allow module references"
+
+Nick Bowler (1):
+      nvme: fix compat address handling in several ioctls
+
+Sagi Grimberg (7):
+      nvme-tcp: fix possible crash in write_zeroes processing
+      nvme-tcp: don't poll a non-live queue
+      nvme-tcp: fix possible crash in recv error flow
+      nvme: inherit stable pages constraint in the mpath stack device
+      nvmet: fix NULL dereference when removing a referral
+      nvmet-rdma: fix bonding failover possible NULL deref
+      nvme: fix deadlock caused by ANA update wrong locking
+
+ drivers/nvme/host/core.c        |  34 +++++--
+ drivers/nvme/host/fc.c          |  14 +--
+ drivers/nvme/host/multipath.c   |   4 +-
+ drivers/nvme/host/rdma.c        |   2 +-
+ drivers/nvme/host/tcp.c         |  18 ++--
+ drivers/nvme/target/configfs.c  |  10 +-
+ drivers/nvme/target/fc.c        |   2 +-
+ drivers/nvme/target/fcloop.c    |  77 ++++++++++-----
+ drivers/nvme/target/rdma.c      | 205 +++++++++++++++++++++++++++-------------
+ drivers/scsi/lpfc/lpfc_nvme.c   |   2 -
+ drivers/scsi/qla2xxx/qla_nvme.c |   1 -
+ include/linux/nvme-fc-driver.h  |   4 -
+ 12 files changed, 242 insertions(+), 131 deletions(-)
 
 _______________________________________________
 linux-nvme mailing list
