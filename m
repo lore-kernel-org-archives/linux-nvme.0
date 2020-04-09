@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E33CC2BA2B
-	for <linux-nvme@archiver.kernel.org>; Thu,  9 Apr 2020 16:10:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 081FEC2BA2B
+	for <linux-nvme@archiver.kernel.org>; Thu,  9 Apr 2020 16:11:12 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1EBDB218AC
-	for <linux-nvme@archiver.kernel.org>; Thu,  9 Apr 2020 16:10:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id CB7A2217D8
+	for <linux-nvme@archiver.kernel.org>; Thu,  9 Apr 2020 16:11:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="BramyU0k";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="ml7KgmNU"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1EBDB218AC
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="GqsrjQ/c";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="1wwN3CC8"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CB7A2217D8
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,45 +26,45 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=3sam+yQwb8qMJM/cPQM34s3id97bo7WALOtTuJc71nY=; b=BramyU0k1SW7mn
-	day6Hjl+phii15TAjrfSRCI9ZMimboSYY42jn7OWBHzaqIA/Mz9c/D7JoWMdj0kiGbcehbGwXWm/d
-	OdfR1s7EakiVpd1IDcGYXTxYSD6PRpIp4jI5aNCnste1h5FAZRLNhM7pkI+dB1lfpc1lBImcA0Xq4
-	QA9nTpCTz8kG6NvO9vNkbS8nLMJCQTFiolSm8cEcb0QxP/CfiNvHqDWrIHoiGumc+W9AeTKWmBQ0x
-	QCoGGW8fWHnb72W3z0Oh7Q27gN4ZdtW4UIbMei9m0z1wAxok71GVIMoV9w+eIwxXdMdNI81xc1dhP
-	WmqbnY97KkCsXRZik5ew==;
+	List-Owner; bh=ZosXdN+JYlHLJnpXgWYLFmQUpm4JX3bVNWkgApkTRB4=; b=GqsrjQ/c0S4r2L
+	dWHxMw9tjvWnoYkH2txWiG6iW0FhKA4SPFClNH/26AuonZ2GTQSDLknGBHk7OUkCPFaDDR1koTTBH
+	bGTI4u+7F1iC77CEttDKLoJfI1zjuLf/8K7Bj7RUr7HVsJLO+8AgMfNPOSQMJxelDu4ards0wvuSL
+	woqL/9qoHo7vqjsHN0vdxdW83YLJJtIc2SkWfw/fsSatktx5tcPgV7VZZ1HUM8Apb0K2BDwnZ3bgV
+	PRt9jrq6jhsV2Mo1eafTd5/FjVa96MRNCjOFyDHYW2giaPFmGwxJJTSNhuig5iUh5lnmAgsKEXdmj
+	E3eQMa2Ewikdc+psCw6w==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jMZlW-0005Pf-B0; Thu, 09 Apr 2020 16:10:54 +0000
+	id 1jMZlk-0005bE-7B; Thu, 09 Apr 2020 16:11:08 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jMZju-0001TJ-W7
+ id 1jMZjv-0001UM-Q8
  for linux-nvme@lists.infradead.org; Thu, 09 Apr 2020 16:09:17 +0000
 Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 5BE8420CC7;
+ by mail.kernel.org (Postfix) with ESMTPSA id DD89221473;
  Thu,  9 Apr 2020 16:09:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1586448554;
- bh=7wZDV1Fda3nvYv290wSdkhttxpQXJEfpVVBJYIff/v8=;
+ s=default; t=1586448555;
+ bh=HCj2eIM9bg9muDmeWTdzXlZUR0nmPusTzVvxkfL0e0M=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ml7KgmNUub+plOhGvHVfiYwj8fkgiQqbd0ZVQnbR7aBg/dsUTA/DahpDLXgbpYAD3
- DvCcTNaesJ92BiJjD4QhnqzJcO0EofRQd2u82IrN59r9Tu4mOjop0JPD5DF0cPRjOt
- Kez7nbbIfQjahkqPl9GOyHw5RT4aOwHGBDvUyDT8=
+ b=1wwN3CC8kgLX/Um9Ei0K6LyAitr6Szqi6ip1TaFI490eNU8Q1Fz09nNCxavYveIR+
+ ilEceMtjtMfrzuw/wuHw+GwksnwZRYtzOlHUBItr2uqkSHFTtbQgKhogUHWRa1f6jm
+ 4xVuGqOWI2BiipeNboTIY8AD+g1QO5mcEhQS9aiw=
 From: Keith Busch <kbusch@kernel.org>
 To: linux-nvme@lists.infradead.org,
 	hch@lst.de,
 	sagi@grimberg.me
-Subject: [PATCH 09/10] nvme: revalidate namespace stream parameters
-Date: Thu,  9 Apr 2020 09:09:07 -0700
-Message-Id: <20200409160908.1889471-10-kbusch@kernel.org>
+Subject: [PATCH 10/10] nvme: consolodate io settings
+Date: Thu,  9 Apr 2020 09:09:08 -0700
+Message-Id: <20200409160908.1889471-11-kbusch@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200409160908.1889471-1-kbusch@kernel.org>
 References: <20200409160908.1889471-1-kbusch@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200409_090915_063145_0294CFFA 
-X-CRM114-Status: GOOD (  11.41  )
+X-CRM114-CacheID: sfid-20200409_090915_882066_F60900B8 
+X-CRM114-Status: GOOD (  10.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,101 +82,73 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The stream parameters are based on the currently formatted logical block
-size. Recheck these parameters on namespace revalidation so the
-registered constraints will be accurate.
+The stream parameters indicating optimal io settings were just getting
+overwritten later. Rearrange the settings so the streams parameters can
+be preserved if provided.
 
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- drivers/nvme/host/core.c | 54 ++++++++++++++++++++--------------------
- 1 file changed, 27 insertions(+), 27 deletions(-)
+ drivers/nvme/host/core.c | 21 +++++++++------------
+ 1 file changed, 9 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index f80d65bb4308..e9f71a4c6b89 100644
+index e9f71a4c6b89..9d521f198ce7 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1810,6 +1810,32 @@ static bool nvme_ns_ids_equal(struct nvme_ns_ids *a, struct nvme_ns_ids *b)
+@@ -1810,7 +1810,8 @@ static bool nvme_ns_ids_equal(struct nvme_ns_ids *a, struct nvme_ns_ids *b)
  		memcmp(&a->eui64, &b->eui64, sizeof(a->eui64)) == 0;
  }
  
-+static int nvme_setup_streams_ns(struct nvme_ctrl *ctrl, struct nvme_ns *ns)
-+{
-+	struct streams_directive_params s;
-+	int ret;
-+
-+	if (!ctrl->nr_streams)
-+		return 0;
-+
-+	ret = nvme_get_stream_params(ctrl, &s, ns->head->ns_id);
-+	if (ret)
-+		return ret;
-+
-+	ns->sws = le32_to_cpu(s.sws);
-+	ns->sgs = le16_to_cpu(s.sgs);
-+
-+	if (ns->sws) {
-+		unsigned int bs = 1 << ns->lba_shift;
-+
-+		blk_queue_io_min(ns->queue, bs * ns->sws);
-+		if (ns->sgs)
-+			blk_queue_io_opt(ns->queue, bs * ns->sws * ns->sgs);
-+	}
-+
-+	return 0;
-+}
-+
- static void nvme_update_disk_info(struct gendisk *disk,
- 		struct nvme_ns *ns, struct nvme_id_ns *id)
- {
-@@ -1824,6 +1850,7 @@ static void nvme_update_disk_info(struct gendisk *disk,
- 	blk_mq_freeze_queue(disk->queue);
- 	blk_integrity_unregister(disk);
- 
-+	nvme_setup_streams_ns(ns->ctrl, ns);
- 	if (id->nabo == 0) {
- 		/*
- 		 * Bit 1 indicates whether NAWUPF is defined for this namespace
-@@ -3545,32 +3572,6 @@ static struct nvme_ns *nvme_find_get_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 	return ret;
- }
- 
 -static int nvme_setup_streams_ns(struct nvme_ctrl *ctrl, struct nvme_ns *ns)
--{
--	struct streams_directive_params s;
--	int ret;
--
--	if (!ctrl->nr_streams)
--		return 0;
--
--	ret = nvme_get_stream_params(ctrl, &s, ns->head->ns_id);
--	if (ret)
--		return ret;
--
--	ns->sws = le32_to_cpu(s.sws);
--	ns->sgs = le16_to_cpu(s.sgs);
--
--	if (ns->sws) {
++static int nvme_setup_streams_ns(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
++				 u32 *phys_bs, u32 *io_opt)
+ {
+ 	struct streams_directive_params s;
+ 	int ret;
+@@ -1826,11 +1827,9 @@ static int nvme_setup_streams_ns(struct nvme_ctrl *ctrl, struct nvme_ns *ns)
+ 	ns->sgs = le16_to_cpu(s.sgs);
+ 
+ 	if (ns->sws) {
 -		unsigned int bs = 1 << ns->lba_shift;
 -
 -		blk_queue_io_min(ns->queue, bs * ns->sws);
--		if (ns->sgs)
++		*phys_bs = ns->sws * (1 << ns->lba_shift);
+ 		if (ns->sgs)
 -			blk_queue_io_opt(ns->queue, bs * ns->sws * ns->sgs);
--	}
--
--	return 0;
--}
--
- static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- {
- 	struct nvme_ns *ns;
-@@ -3614,7 +3615,6 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 	ret = nvme_init_ns_head(ns, nsid, id);
- 	if (ret)
- 		goto out_free_id;
--	nvme_setup_streams_ns(ctrl, ns);
- 	nvme_set_disk_name(disk_name, ns, ctrl, &flags);
++			*io_opt = *phys_bs * ns->sgs;
+ 	}
  
- 	disk = alloc_disk_node(0, node);
+ 	return 0;
+@@ -1850,7 +1849,8 @@ static void nvme_update_disk_info(struct gendisk *disk,
+ 	blk_mq_freeze_queue(disk->queue);
+ 	blk_integrity_unregister(disk);
+ 
+-	nvme_setup_streams_ns(ns->ctrl, ns);
++	atomic_bs = phys_bs = io_opt = bs;
++	nvme_setup_streams_ns(ns->ctrl, ns, &phys_bs, &io_opt);
+ 	if (id->nabo == 0) {
+ 		/*
+ 		 * Bit 1 indicates whether NAWUPF is defined for this namespace
+@@ -1861,16 +1861,13 @@ static void nvme_update_disk_info(struct gendisk *disk,
+ 			atomic_bs = (1 + le16_to_cpu(id->nawupf)) * bs;
+ 		else
+ 			atomic_bs = (1 + ns->ctrl->subsys->awupf) * bs;
+-	} else {
+-		atomic_bs = bs;
+ 	}
+-	phys_bs = bs;
+-	io_opt = bs;
++
+ 	if (id->nsfeat & (1 << 4)) {
+ 		/* NPWG = Namespace Preferred Write Granularity */
+-		phys_bs *= 1 + le16_to_cpu(id->npwg);
++		phys_bs = bs * (1 + le16_to_cpu(id->npwg));
+ 		/* NOWS = Namespace Optimal Write Size */
+-		io_opt *= 1 + le16_to_cpu(id->nows);
++		io_opt = bs * (1 + le16_to_cpu(id->nows));
+ 	}
+ 
+ 	blk_queue_logical_block_size(disk->queue, bs);
 -- 
 2.24.1
 
