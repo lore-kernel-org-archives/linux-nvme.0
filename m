@@ -2,86 +2,84 @@ Return-Path: <SRS0=viL0=52=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53D7EC2BA2B
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 Apr 2020 09:57:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62752C2BA2B
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 Apr 2020 09:57:38 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 251852064A
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 Apr 2020 09:57:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id CFD1D2064A
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 Apr 2020 09:57:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="SGv/ts/v"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 251852064A
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=didichuxing.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="b1e3IGFq"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CFD1D2064A
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=didiglobal.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=W/mb5ywX0ZJeWZaVIlA/Tz8gy0IpE5lWcoLzzxgTXUA=; b=SGv/ts/vEdvUZE
-	RIgyQ8xMMw/nPMlTU7siNjuMRGlAPp0eGrQrfrW+mPE5KevVEnKR0LMiN6FDLnyJ0DAH8CIb8DpKP
-	YSw2tgVbNuUDjGDuVrFe3SHVRHrLFaxYYrliCH3h62Pq+pUP/tA8LUsdrC0WL0jLLbVj6qNvvqFNE
-	ZvKDB8MDr7vE3PhEnMoCddoQ+BBD5cLnNjtPNU3u2koC1C2UD6r60p90e3a3ViivYldTVyfG3sgkW
-	9wP4YxMJcT/sHWTeLtfSUj2pJRXOEq8K+AFTDNPgREOZ5O1d1O4/zOlDa6CO1e11CKH9gcROMZonE
-	RtcvaQzBUVqULCNj5ABg==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:To:From
+	:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=KV2fz9pUQuan5ut3Akc1ZO9mlkD8jbF+7HPiZa5DWww=; b=b1e3IGFqam0uO3
+	9SPR4I9cAfBGinDzSPqjNtmirOPY1dCpYZZyhK52MnbUIxcSkob2PiJj//H8Dtvo0maeRHmoTiEkh
+	FleVJcKlZOrlNTGtRndjpHXIhf8oXUwZWz98VEzqID7XxNKXNwfoCGIUqeHayEtNWkq3P2abSL77e
+	42FQ6ClxTWP710tjVAgYN2Gm55OWVJf1IJAMQO5yTuxoNu0Yc5oflkKq9b7ekP8V8jphcSuQdLcy7
+	AGPizbbjPJEdlN3O9UUU6ovQtTB2uKZ70326yCqx+jUYGqaKyabyrAnX6+Rz8VXUBwGNKnIQB723V
+	8xiNc4hrbVwuyGyCMXhQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jMqP9-00051p-6c; Fri, 10 Apr 2020 09:56:55 +0000
-Received: from mx2.didichuxing.com ([36.110.17.22] helo=bsf01.didichuxing.com)
- by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat
- Linux)) id 1jMqP5-0004vA-0Z
- for linux-nvme@lists.infradead.org; Fri, 10 Apr 2020 09:56:53 +0000
-X-ASG-Debug-ID: 1586512596-0e4088309a73ad10001-VMfPqL
-Received: from mail.didiglobal.com (localhost [172.20.36.244]) by
- bsf01.didichuxing.com with ESMTP id CyEDTr7iYTe0msHO;
- Fri, 10 Apr 2020 17:56:36 +0800 (CST)
+	id 1jMqPn-0005YT-J7; Fri, 10 Apr 2020 09:57:35 +0000
+Received: from mx2.didiglobal.com ([111.202.154.82] helo=bsf02.didichuxing.com)
+ by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jMqPl-0005MW-65
+ for linux-nvme@lists.infradead.org; Fri, 10 Apr 2020 09:57:34 +0000
+X-ASG-Debug-ID: 1586512649-0e410863a0508900001-VMfPqL
+Received: from mail.didiglobal.com (localhost [172.20.36.175]) by
+ bsf02.didichuxing.com with ESMTP id z8ODZacewmSbly4k;
+ Fri, 10 Apr 2020 17:57:29 +0800 (CST)
 X-Barracuda-Envelope-From: zhangweiping@didiglobal.com
 Received: from 192.168.3.9 (172.22.50.20) by BJSGEXMBX03.didichuxing.com
  (172.20.15.133) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 10 Apr
- 2020 17:56:36 +0800
-Date: Fri, 10 Apr 2020 17:56:31 +0800
-From: weiping zhang <zhangweiping@didichuxing.com>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH 1/2] nvme: make sure write/poll_queues less or equal then
- cpu count
-Message-ID: <20200410095619.GA4128@192.168.3.9>
-X-ASG-Orig-Subj: Re: [PATCH 1/2] nvme: make sure write/poll_queues less or
- equal then cpu count
-References: <cover.1586447291.git.zhangweiping@didiglobal.com>
- <134d9a5fbcf54c1efb8ffa33a5439cd48094925c.1586447291.git.zhangweiping@didiglobal.com>
- <20200409172250.GA1889561@dhcp-10-100-145-180.wdl.wdc.com>
+ 2020 17:57:29 +0800
+Date: Fri, 10 Apr 2020 17:57:24 +0800
+From: Weiping Zhang <zhangweiping@didiglobal.com>
+To: <hch@infradead.org>, <axboe@kernel.dk>, <kbusch@kernel.org>,
+ <sagi@grimberg.me>
+Subject: [PATCH] nvme: align io queue count with allocted nvme_queue in
+ nvme_probe
+Message-ID: <20200410095719.GA4393@192.168.3.9>
+X-ASG-Orig-Subj: [PATCH] nvme: align io queue count with allocted nvme_queue in
+ nvme_probe
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200409172250.GA1889561@dhcp-10-100-145-180.wdl.wdc.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
 X-Originating-IP: [172.22.50.20]
 X-ClientProxiedBy: BJEXCAS06.didichuxing.com (172.20.36.207) To
  BJSGEXMBX03.didichuxing.com (172.20.15.133)
-X-Barracuda-Connect: localhost[172.20.36.244]
-X-Barracuda-Start-Time: 1586512596
-X-Barracuda-URL: https://bsf01.didichuxing.com:443/cgi-mod/mark.cgi
+X-Barracuda-Connect: localhost[172.20.36.175]
+X-Barracuda-Start-Time: 1586512649
+X-Barracuda-URL: https://bsf02.didichuxing.com:443/cgi-mod/mark.cgi
 X-Virus-Scanned: by bsmtpd at didichuxing.com
-X-Barracuda-Scan-Msg-Size: 1229
+X-Barracuda-Scan-Msg-Size: 2042
 X-Barracuda-BRTS-Status: 1
-X-Barracuda-Bayes: INNOCENT GLOBAL 0.0000 1.0000 -2.0210
-X-Barracuda-Spam-Score: -2.02
+X-Barracuda-Bayes: INNOCENT GLOBAL 0.0014 1.0000 -2.0121
+X-Barracuda-Spam-Score: -2.01
 X-Barracuda-Spam-Status: No,
- SCORE=-2.02 using global scores of TAG_LEVEL=1000.0
+ SCORE=-2.01 using global scores of TAG_LEVEL=1000.0
  QUARANTINE_LEVEL=1000.0 KILL_LEVEL=1000.0 tests=
 X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.81088
  Rule breakdown below
  pts rule name              description
  ---- ---------------------- --------------------------------------------------
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200410_025651_247753_11EDD681 
-X-CRM114-Status: GOOD (  10.43  )
+X-CRM114-CacheID: sfid-20200410_025733_414331_9BAA2FBB 
+X-CRM114-Status: UNSURE (   8.26  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,43 +91,72 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: hch@infradead.org, axboe@kernel.dk, linux-nvme@lists.infradead.org,
- sagi@grimberg.me, Weiping Zhang <zhangweiping@didiglobal.com>
+Cc: linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Apr 09, 2020 at 10:22:50AM -0700, Keith Busch wrote:
-> On Thu, Apr 09, 2020 at 11:57:35PM +0800, Weiping Zhang wrote:
-> > Check module parameter write/poll_queues before use, if user
-> > change them to larger than system cpu count, it will trigger a
-> > warning.
-> > 
-> > Reproduce:
-> > 
-> > echo $((`nproc`+1)) > /sys/module/nvme/parameters/write_queues
-> > echo 1 > /sys/block/nvme0n1/device/reset_controller
-> 
-> I don't think it is safe to allow these parameters to be runtime writeable
-> with the current code: the driver allocates space for queues during probe,
-> so you may end up with out of bounds access if you increase the number
-> of queues the driver creates after that.
+Since the commit 147b27e4bd0 "nvme-pci: allocate device queues storage space at probe"
+nvme_alloc_queue will not alloc struct nvme_queue any more.
+If user change write/poll_queues to larger than the number of
+allocated queue in nvme_probe, nvme_alloc_queue will touch
+the memory out of boundary.
 
-Yes, if user change these parameter larger than the number allocated in
-nvme_probe, then nvme_create_io_queues->nvme_alloc_queue will touch the
-memory out of boundary.
+Signed-off-by: Weiping Zhang <zhangweiping@didiglobal.com>
+---
+ drivers/nvme/host/pci.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-I think we allow user change it dynamically, just make sure the total
-io queue count will not larger than allocated.
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 4e79e412b276..cc10258e578e 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -89,6 +89,7 @@ static bool __nvme_disable_io_queues(struct nvme_dev *dev, u8 opcode);
+  */
+ struct nvme_dev {
+ 	struct nvme_queue *queues;
++	int nr_allocated_queue;
+ 	struct blk_mq_tag_set tagset;
+ 	struct blk_mq_tag_set admin_tagset;
+ 	u32 __iomem *dbs;
+@@ -2074,6 +2075,8 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 	unsigned long size;
+ 
+ 	nr_io_queues = max_io_queues();
++	if (nr_io_queues > dev->nr_allocated_queue - 1)
++		nr_io_queues = dev->nr_allocated_queue - 1;
+ 
+ 	/*
+ 	 * If tags are shared with admin queue (Apple bug), then
+@@ -2742,7 +2745,7 @@ static void nvme_async_probe(void *data, async_cookie_t cookie)
+ 
+ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ {
+-	int node, result = -ENOMEM;
++	int node, nr_queue, result = -ENOMEM;
+ 	struct nvme_dev *dev;
+ 	unsigned long quirks = id->driver_data;
+ 	size_t alloc_size;
+@@ -2755,11 +2758,14 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	if (!dev)
+ 		return -ENOMEM;
+ 
+-	dev->queues = kcalloc_node(max_queue_count(), sizeof(struct nvme_queue),
++	nr_queue = max_queue_count();
++	dev->queues = kcalloc_node(nr_queue, sizeof(struct nvme_queue),
+ 					GFP_KERNEL, node);
+ 	if (!dev->queues)
+ 		goto free;
+ 
++	dev->nr_allocated_queue = nr_queue;
++
+ 	dev->dev = get_device(&pdev->dev);
+ 	pci_set_drvdata(pdev, dev);
+ 
+-- 
+2.18.1
 
-If user really want to adjust io queue when use multiple tagset map,
-they need set enough queue when load nvme moduler. Then they can
-tune the queue count for each tag map.
-
-I send a seperate patch to fix this.
-
-Thanks
 
 _______________________________________________
 linux-nvme mailing list
