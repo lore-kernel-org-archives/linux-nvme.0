@@ -1,123 +1,84 @@
-Return-Path: <SRS0=UuiE=54=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=eVk/=55=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C5D4C2BA2B
-	for <linux-nvme@archiver.kernel.org>; Sun, 12 Apr 2020 12:38:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ED25C2BB85
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Apr 2020 01:02:09 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3CDC4206E9
-	for <linux-nvme@archiver.kernel.org>; Sun, 12 Apr 2020 12:38:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id AF77720692
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Apr 2020 01:02:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="qgcuj+G/";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=Mellanox.com header.i=@Mellanox.com header.b="t7gp7g4A"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3CDC4206E9
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="R4wDqiSP";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jU0SQIGH"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AF77720692
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=rAeQiAaAWPN45sLd4I3A0jnU8D0pMYabsKr8KDXuZxs=; b=qgcuj+G/DG8RmtiIKTZpkdOmX
-	S5mkT+NU4VCGkSRKGUcje2dwKdpygRYyqOAObKiRxvOqjuIlZqvyEU5GQGifka5MZ9zd5HvQAigr7
-	jDDGvi4BnOg7tbt57rgYoem4A7ZiwbONWsp0yK6tdgvokWLA1QKz+wTkU3b0RJLJXuHIB8+rTszs1
-	b6DuuMcoG6KWYvU1lQx6UeQjQAzN16MuBXl8ESsFyfjIn55FuUQhZeK/PoVSWsauPBdcnq7hPBbgm
-	Ih2QminVpHJnDJ9J0GnZ3BpvH5/olAhw2tEPF8PGTty1bVpMKEDXk/GLAhwMSDpCXnyrTqiIfHaAf
-	GO5S5TeNA==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
+	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=/IzajULDZuz7RYRMG4O6i9mkurPaphIksrB8/PbJ7nQ=; b=R4wDqiSP/Av2QI
+	sVx/X0sLoUJBBCCdkQLAqrkEabnVE8zMqgalBm/UhniaSvJSInnx1NhgRyQBb9bMot8XsvekKE4mD
+	FyaDv2R3Pjuf+8jzkJPfdzBJvVnyj24tq1iZNb54JMYO4Srn0C/nINN730If1fNj3t9ngpX0WmXrA
+	7WtNB+LCcFkGi3ephkIdHwGkAQG+TYJVtTXcHyv+rYyzWoDFE/zz45VTeKHxk0aFwPEBuhnPuoW+j
+	vlFJOQuz+Y5wHKXqNrDggf7DBAsXghkw5zm3zOXZnwg/O+dzV4aN3ut4i8cfyI94RkzIn3eiPdThE
+	6VTwzUhEpYkEb9d2E8Zw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jNbsh-0006RW-1s; Sun, 12 Apr 2020 12:38:35 +0000
-Received: from mail-eopbgr70072.outbound.protection.outlook.com ([40.107.7.72]
- helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+	id 1jNnUB-0001BQ-DZ; Mon, 13 Apr 2020 01:02:03 +0000
+Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jNbsc-0006Qy-Kd
- for linux-nvme@lists.infradead.org; Sun, 12 Apr 2020 12:38:32 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ck9i8id1HPewcqdiGcy0BQha7TctvJKmCjfKu2XvnIJ2+TBquwWzmFZqeUeLBHmSUvdFvU51iaEu5qPVqdtMJr0Xpaxi8b3Rv80umQiIDtvB2KS6cvi/RGcZ2sRGTT6DnRMb5P4VLMAi9GDnWkMmVj8ox/O3ZKua4FeBYkxOcgzxw4JRl0v5LpI8IBgVdfto0krbBPayzU8nMhL27iyVorIn7j1MMixOZzuXB3jY5ZawVf/nVZ/iZ5SLV/la7A1KigVe/TbhOJMvtELVSxJgB9flGIXzPmlFqeFS9HcVyVcfg7boIshnQvNycPI8h11IBqHEU/ncNkijZ/KJtWiprQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tmkVjsR+BiPmwRJMZ1vn/afFkzu5g4oNE/fou2hpr8k=;
- b=DGZm/XinODKON4wYspN7kVOMAE6J/0tzTHXCAdvFimASDb/ScSu1YDoY/7dXQcQ3e6ZYsJQsUdoSG2zH7IG9r0PwinGBGlm+jUCAGeA3GG2KUa7X/a/8XTgng/roJUIuqiadvyQF/a2xaShXUMW5xj5N58ZUFpCwaBeI/rpQndR1n54qFmEfTB3kbojBwMY3sxn/3vVBjC3P+SFRzFmp/7IsCPgjAWTy6j0LSnVMjr9dCC5ThO14SakKfvENZAA0lKrWNkTTQ4D7RNUWslhA8HPFLd3GKDIn18znBXRXD2yLieATTQUwaFNI6CD+WLS75x7pQtkx7DHPkn5LS57lmQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
- dkim=pass header.d=mellanox.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tmkVjsR+BiPmwRJMZ1vn/afFkzu5g4oNE/fou2hpr8k=;
- b=t7gp7g4AE9dvXNDpAE7rueJDzFxA6isaoFVEWFdVBqzrIB8sovgypvXjBq+P43/t/rQZF6kU9isfrI9eG7lLDTuu2RD2IWQLqq1fwayyL/urBfdX57ykb/v2zo8OOZI+R141LybcwUffJ35ztSDsq2DsatL9/sxAYWthSBD9oz0=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=maxg@mellanox.com; 
-Received: from AM0PR05MB5810.eurprd05.prod.outlook.com (2603:10a6:208:11f::18)
- by AM0PR05MB6452.eurprd05.prod.outlook.com (2603:10a6:208:141::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2878.16; Sun, 12 Apr
- 2020 12:38:22 +0000
-Received: from AM0PR05MB5810.eurprd05.prod.outlook.com
- ([fe80::408a:27c1:55f8:eed4]) by AM0PR05MB5810.eurprd05.prod.outlook.com
- ([fe80::408a:27c1:55f8:eed4%5]) with mapi id 15.20.2900.026; Sun, 12 Apr 2020
- 12:38:22 +0000
+ id 1jNnU8-0001Au-Ox
+ for linux-nvme@lists.infradead.org; Mon, 13 Apr 2020 01:02:02 +0000
+Received: by mail-qk1-x741.google.com with SMTP id l25so8089804qkk.3
+ for <linux-nvme@lists.infradead.org>; Sun, 12 Apr 2020 18:01:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=0EIElHZo9/YBqgYEI8t/ATelyjokRdxM2844iKkVQG4=;
+ b=jU0SQIGHO2QGKEVwNyqlsrKRnLMVWtiqa8ECvzfZgyzQGtE0QAIWeojoY8Vov78+vx
+ cK0tv07R0g7ZqCuyi3TJRvLxr8uxSLrdLhw1IIHXz2iJh7xiSsjaCjwSN+8cItJyPqDZ
+ mGHBEl9XDxrgUuFDJPUKLhVyEhW7ajThJrYgxyyLmVGUJsoPB3Fcih0m9LlBRI5fOeZm
+ w0OZ2VmnyPjctJwBaqdfvdql7G4x03irMzZ7M55H644owDaQteGPGDH8OLJpECC6ILQS
+ GAGtSa+yHgl4zF/Ezg7kX7E4dsEZUi+iFUi+OUNjng0o2EBjFvxQ22736Ufrvyd7wRcY
+ y42w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=0EIElHZo9/YBqgYEI8t/ATelyjokRdxM2844iKkVQG4=;
+ b=C0WQ18mW2ZzjRayxL43BKjU0yd7cYl5Y4lH+ezLiOvzUua/7KzcUYYFMgFL+wuBh7E
+ gzrdUL6ZZif26mYK3yGPS+a/f8SCl+JiyqiGHKp3NquCyRw2tsyhEpnaPlVwL42qsc9Y
+ FEDUjWY880lM8z4VqlS4EaOdifpmwhtdCGSoyrN/bZgk/5TAdEJjwz74r6K+RQ5qIVrZ
+ N6x9APTJ9hqqP+mH6Sxszo1zrAv4M+DPprt2b2+xbu4QLuiLMBJTLOYMc0y/i1C4nFkL
+ pYNQ4hUHYhvN5MGGeSVujGXU5NSPaNqhmDiwpFt4vCqTlSgbdgu1pWp6hUb2az4EzMl/
+ sH2A==
+X-Gm-Message-State: AGi0PuaTbtzn3JYVa87zTj/DtaRsIEvHjnlfzzVBMK7/3NXkRaT+mbCv
+ 56Ey5pTafHay78hQs4veJJnxmzfXbbwgizQ8cMU=
+X-Google-Smtp-Source: APiQypLl9IscPIdF/KUIkuYkEwJgSBDiMoEPNigzM2j0XUz0KTNO9JEg74pL4JeDMhE8RZ3/aOqbEkdVHB/bhFBV4qA=
+X-Received: by 2002:a37:bf06:: with SMTP id p6mr14337250qkf.477.1586739716241; 
+ Sun, 12 Apr 2020 18:01:56 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200410095719.GA4393@192.168.3.9>
+ <188ad279-9211-9dca-3e6c-b5718ae6fc80@mellanox.com>
+In-Reply-To: <188ad279-9211-9dca-3e6c-b5718ae6fc80@mellanox.com>
+From: Weiping Zhang <zwp10758@gmail.com>
+Date: Mon, 13 Apr 2020 09:01:44 +0800
+Message-ID: <CAA70yB63bHGcFOzKPrLz+-bjHoEMQWiZEpFyoZ72rzDy9ZaO3Q@mail.gmail.com>
 Subject: Re: [PATCH] nvme: align io queue count with allocted nvme_queue in
  nvme_probe
-To: Weiping Zhang <zhangweiping@didiglobal.com>, hch@infradead.org,
- axboe@kernel.dk, kbusch@kernel.org, sagi@grimberg.me
-References: <20200410095719.GA4393@192.168.3.9>
-From: Max Gurtovoy <maxg@mellanox.com>
-Message-ID: <188ad279-9211-9dca-3e6c-b5718ae6fc80@mellanox.com>
-Date: Sun, 12 Apr 2020 15:38:13 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-In-Reply-To: <20200410095719.GA4393@192.168.3.9>
-Content-Language: en-US
-X-ClientProxiedBy: AM4PR0202CA0013.eurprd02.prod.outlook.com
- (2603:10a6:200:89::23) To AM0PR05MB5810.eurprd05.prod.outlook.com
- (2603:10a6:208:11f::18)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [10.0.0.3] (217.132.177.164) by
- AM4PR0202CA0013.eurprd02.prod.outlook.com (2603:10a6:200:89::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2900.15 via Frontend
- Transport; Sun, 12 Apr 2020 12:38:21 +0000
-X-Originating-IP: [217.132.177.164]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: f21deb0e-801c-4c50-4be2-08d7dede6331
-X-MS-TrafficTypeDiagnostic: AM0PR05MB6452:
-X-Microsoft-Antispam-PRVS: <AM0PR05MB645271DB7449A0FCF80D605FB6DC0@AM0PR05MB6452.eurprd05.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:983;
-X-Forefront-PRVS: 0371762FE7
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM0PR05MB5810.eurprd05.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(10009020)(4636009)(39860400002)(136003)(396003)(366004)(376002)(346002)(36756003)(8936002)(66946007)(6486002)(2906002)(16576012)(316002)(8676002)(81156014)(2616005)(956004)(6666004)(5660300002)(4326008)(31696002)(31686004)(26005)(478600001)(86362001)(53546011)(52116002)(66476007)(66556008)(16526019)(186003);
- DIR:OUT; SFP:1101; 
-Received-SPF: None (protection.outlook.com: mellanox.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Vu8m2sPUfAoO9SI02VADn5OTDBeKj33vdcMQwglqrP85MWvVpG/ootG68WiHs765g4CE2TucwvipYPSF38vuAZQZR1r4dU/aAqwW7V8t9gRhbcMIGioS97Whr1GbjEMmgO74EeJmaWUM1TcTpdXdgv5bTTZCI9hgA22DfyS9TnqR3OHJkxcKF4PRTlnC6LlyaWA1GYqZkiMrtaOcRvezaAmVT5tM+tSjgXbMRkjpNNhbDn3eAODsrLBzSGahAhTVhybpk3xzWCsSaP7RPYAiC3Intkfc0qcuQW6FzwA/q1JM3DSHOQo8iOHfuGWQWxB2B1ZE8Jb0IjduLPyP60kXWZbJce0WrZuRwOVnWTARo9fgq5GcPTcV4Jrene572682FFqbX0Y6p7FoIxpnj1DAZfTp87p1J/roe5vSpIdH/i99KK3F6HDpUlg1hQzF0hP4
-X-MS-Exchange-AntiSpam-MessageData: qf8kg7tAk0UVlkq3ejnrWI4BoXmet07eLxfe0ep/9be/XNAmXwmdDqT6r7p7I3/QEL8m1dLNfeTA8wVTu7/+WZHCHadNakXgEnqbEQKa79bVkDwvPtxtgarWhv/1yg56lXcfLfds9ShmbnwjfWvEGw==
-X-OriginatorOrg: Mellanox.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f21deb0e-801c-4c50-4be2-08d7dede6331
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Apr 2020 12:38:22.7283 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: a652971c-7d2e-4d9b-a6a4-d149256f461b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zKzlzQPwXeslyQuTVXz0Bot4SlM0nw579JyM+yQAdLrr4YyBiuGl88Y4t2l/FCz0+vsRSgULjgVIRlfOC9gO6w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR05MB6452
+To: Max Gurtovoy <maxg@mellanox.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200412_053830_770672_D451D826 
-X-CRM114-Status: GOOD (  18.94  )
+X-CRM114-CacheID: sfid-20200412_180200_836589_68B03D5D 
+X-CRM114-Status: GOOD (  22.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,96 +90,172 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-nvme@lists.infradead.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Jens Axboe <axboe@kernel.dk>, sagi@grimberg.me,
+ Weiping Zhang <zhangweiping@didiglobal.com>, linux-nvme@lists.infradead.org,
+ Christoph Hellwig <hch@infradead.org>, Keith Busch <kbusch@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-aGksCgpob3cgYWJvdXQgdGhlIGZvbGxvd2luZyBtaW5vciB1cGRhdGU6CgpkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9udm1lL2hvc3QvcGNpLmMgYi9kcml2ZXJzL252bWUvaG9zdC9wY2kuYwppbmRleCA0
-ZTc5ZTQxLi40NmFiMjhiIDEwMDY0NAotLS0gYS9kcml2ZXJzL252bWUvaG9zdC9wY2kuYworKysg
-Yi9kcml2ZXJzL252bWUvaG9zdC9wY2kuYwpAQCAtODksNiArODksNyBAQAogwqAgKi8KIMKgc3Ry
-dWN0IG52bWVfZGV2IHsKIMKgwqDCoMKgwqDCoMKgIHN0cnVjdCBudm1lX3F1ZXVlICpxdWV1ZXM7
-CivCoMKgwqDCoMKgwqAgaW50IG5yX2FsbG9jYXRlZF9xdWV1ZTsKIMKgwqDCoMKgwqDCoMKgIHN0
-cnVjdCBibGtfbXFfdGFnX3NldCB0YWdzZXQ7CiDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3QgYmxrX21x
-X3RhZ19zZXQgYWRtaW5fdGFnc2V0OwogwqDCoMKgwqDCoMKgwqAgdTMyIF9faW9tZW0gKmRiczsK
-QEAgLTIwOSwxNSArMjEwLDE1IEBAIHN0cnVjdCBudm1lX2lvZCB7CiDCoMKgwqDCoMKgwqDCoCBz
-dHJ1Y3Qgc2NhdHRlcmxpc3QgKnNnOwogwqB9OwoKLXN0YXRpYyB1bnNpZ25lZCBpbnQgbWF4X2lv
-X3F1ZXVlcyh2b2lkKQorc3RhdGljIHVuc2lnbmVkIGludCBucl9kZXZfaW9fcXVldWVzKHN0cnVj
-dCBudm1lX2RldiAqZGV2KQogwqB7Ci3CoMKgwqDCoMKgwqAgcmV0dXJuIG51bV9wb3NzaWJsZV9j
-cHVzKCkgKyB3cml0ZV9xdWV1ZXMgKyBwb2xsX3F1ZXVlczsKK8KgwqDCoMKgwqDCoCByZXR1cm4g
-ZGV2LT5ucl9hbGxvY2F0ZWRfcXVldWUgLSAxOwogwqB9CgogwqBzdGF0aWMgdW5zaWduZWQgaW50
-IG1heF9xdWV1ZV9jb3VudCh2b2lkKQogwqB7CiDCoMKgwqDCoMKgwqDCoCAvKiBJTyBxdWV1ZXMg
-KyBhZG1pbiBxdWV1ZSAqLwotwqDCoMKgwqDCoMKgIHJldHVybiAxICsgbWF4X2lvX3F1ZXVlcygp
-OworwqDCoMKgwqDCoMKgIHJldHVybiAxICsgbnVtX3Bvc3NpYmxlX2NwdXMoKSArIHdyaXRlX3F1
-ZXVlcyArIHBvbGxfcXVldWVzOwogwqB9CgogwqBzdGF0aWMgaW5saW5lIHVuc2lnbmVkIGludCBu
-dm1lX2RiYnVmX3NpemUodTMyIHN0cmlkZSkKQEAgLTIwNzMsNyArMjA3NCw3IEBAIHN0YXRpYyBp
-bnQgbnZtZV9zZXR1cF9pb19xdWV1ZXMoc3RydWN0IG52bWVfZGV2ICpkZXYpCiDCoMKgwqDCoMKg
-wqDCoCBpbnQgcmVzdWx0LCBucl9pb19xdWV1ZXM7CiDCoMKgwqDCoMKgwqDCoCB1bnNpZ25lZCBs
-b25nIHNpemU7CgotwqDCoMKgwqDCoMKgIG5yX2lvX3F1ZXVlcyA9IG1heF9pb19xdWV1ZXMoKTsK
-K8KgwqDCoMKgwqDCoCBucl9pb19xdWV1ZXMgPSBucl9kZXZfaW9fcXVldWVzKGRldik7CgogwqDC
-oMKgwqDCoMKgwqAgLyoKIMKgwqDCoMKgwqDCoMKgwqAgKiBJZiB0YWdzIGFyZSBzaGFyZWQgd2l0
-aCBhZG1pbiBxdWV1ZSAoQXBwbGUgYnVnKSwgdGhlbgpAQCAtMjc0Miw3ICsyNzQzLDcgQEAgc3Rh
-dGljIHZvaWQgbnZtZV9hc3luY19wcm9iZSh2b2lkICpkYXRhLCAKYXN5bmNfY29va2llX3QgY29v
-a2llKQoKIMKgc3RhdGljIGludCBudm1lX3Byb2JlKHN0cnVjdCBwY2lfZGV2ICpwZGV2LCBjb25z
-dCBzdHJ1Y3QgcGNpX2RldmljZV9pZCAKKmlkKQogwqB7Ci3CoMKgwqDCoMKgwqAgaW50IG5vZGUs
-IHJlc3VsdCA9IC1FTk9NRU07CivCoMKgwqDCoMKgwqAgaW50IG5vZGUsIG5yX3F1ZXVlcywgcmVz
-dWx0ID0gLUVOT01FTTsKIMKgwqDCoMKgwqDCoMKgIHN0cnVjdCBudm1lX2RldiAqZGV2OwogwqDC
-oMKgwqDCoMKgwqAgdW5zaWduZWQgbG9uZyBxdWlya3MgPSBpZC0+ZHJpdmVyX2RhdGE7CiDCoMKg
-wqDCoMKgwqDCoCBzaXplX3QgYWxsb2Nfc2l6ZTsKQEAgLTI3NTUsMTEgKzI3NTYsMTQgQEAgc3Rh
-dGljIGludCBudm1lX3Byb2JlKHN0cnVjdCBwY2lfZGV2ICpwZGV2LCAKY29uc3Qgc3RydWN0IHBj
-aV9kZXZpY2VfaWQgKmlkKQogwqDCoMKgwqDCoMKgwqAgaWYgKCFkZXYpCiDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIC1FTk9NRU07CgotwqDCoMKgwqDCoMKgIGRldi0+cXVl
-dWVzID0ga2NhbGxvY19ub2RlKG1heF9xdWV1ZV9jb3VudCgpLCBzaXplb2Yoc3RydWN0IApudm1l
-X3F1ZXVlKSwKLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgR0ZQX0tFUk5FTCwgbm9kZSk7CivCoMKgwqDC
-oMKgwqAgbnJfcXVldWVzID3CoCBtYXhfcXVldWVfY291bnQoKTsKK8KgwqDCoMKgwqDCoCBkZXYt
-PnF1ZXVlcyA9IGtjYWxsb2Nfbm9kZShucl9xdWV1ZXMsIHNpemVvZihzdHJ1Y3QgbnZtZV9xdWV1
-ZSksCivCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgR0ZQX0tFUk5FTCwgbm9kZSk7CiDCoMKgwqDCoMKgwqDCoCBpZiAoIWRl
-di0+cXVldWVzKQogwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGdvdG8gZnJlZTsKCivC
-oMKgwqDCoMKgwqAgZGV2LT5ucl9hbGxvY2F0ZWRfcXVldWUgPSBucl9xdWV1ZXM7CisKIMKgwqDC
-oMKgwqDCoMKgIGRldi0+ZGV2ID0gZ2V0X2RldmljZSgmcGRldi0+ZGV2KTsKIMKgwqDCoMKgwqDC
-oMKgIHBjaV9zZXRfZHJ2ZGF0YShwZGV2LCBkZXYpOwoKCi1NYXgKCk9uIDQvMTAvMjAyMCAxMjo1
-NyBQTSwgV2VpcGluZyBaaGFuZyB3cm90ZToKPiBTaW5jZSB0aGUgY29tbWl0IDE0N2IyN2U0YmQw
-ICJudm1lLXBjaTogYWxsb2NhdGUgZGV2aWNlIHF1ZXVlcyBzdG9yYWdlIHNwYWNlIGF0IHByb2Jl
-Igo+IG52bWVfYWxsb2NfcXVldWUgd2lsbCBub3QgYWxsb2Mgc3RydWN0IG52bWVfcXVldWUgYW55
-IG1vcmUuCj4gSWYgdXNlciBjaGFuZ2Ugd3JpdGUvcG9sbF9xdWV1ZXMgdG8gbGFyZ2VyIHRoYW4g
-dGhlIG51bWJlciBvZgo+IGFsbG9jYXRlZCBxdWV1ZSBpbiBudm1lX3Byb2JlLCBudm1lX2FsbG9j
-X3F1ZXVlIHdpbGwgdG91Y2gKPiB0aGUgbWVtb3J5IG91dCBvZiBib3VuZGFyeS4KPgo+IFNpZ25l
-ZC1vZmYtYnk6IFdlaXBpbmcgWmhhbmcgPHpoYW5nd2VpcGluZ0BkaWRpZ2xvYmFsLmNvbT4KPiAt
-LS0KPiAgIGRyaXZlcnMvbnZtZS9ob3N0L3BjaS5jIHwgMTAgKysrKysrKystLQo+ICAgMSBmaWxl
-IGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKPgo+IGRpZmYgLS1naXQg
-YS9kcml2ZXJzL252bWUvaG9zdC9wY2kuYyBiL2RyaXZlcnMvbnZtZS9ob3N0L3BjaS5jCj4gaW5k
-ZXggNGU3OWU0MTJiMjc2Li5jYzEwMjU4ZTU3OGUgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9udm1l
-L2hvc3QvcGNpLmMKPiArKysgYi9kcml2ZXJzL252bWUvaG9zdC9wY2kuYwo+IEBAIC04OSw2ICs4
-OSw3IEBAIHN0YXRpYyBib29sIF9fbnZtZV9kaXNhYmxlX2lvX3F1ZXVlcyhzdHJ1Y3QgbnZtZV9k
-ZXYgKmRldiwgdTggb3Bjb2RlKTsKPiAgICAqLwo+ICAgc3RydWN0IG52bWVfZGV2IHsKPiAgIAlz
-dHJ1Y3QgbnZtZV9xdWV1ZSAqcXVldWVzOwo+ICsJaW50IG5yX2FsbG9jYXRlZF9xdWV1ZTsKPiAg
-IAlzdHJ1Y3QgYmxrX21xX3RhZ19zZXQgdGFnc2V0Owo+ICAgCXN0cnVjdCBibGtfbXFfdGFnX3Nl
-dCBhZG1pbl90YWdzZXQ7Cj4gICAJdTMyIF9faW9tZW0gKmRiczsKPiBAQCAtMjA3NCw2ICsyMDc1
-LDggQEAgc3RhdGljIGludCBudm1lX3NldHVwX2lvX3F1ZXVlcyhzdHJ1Y3QgbnZtZV9kZXYgKmRl
-dikKPiAgIAl1bnNpZ25lZCBsb25nIHNpemU7Cj4gICAKPiAgIAlucl9pb19xdWV1ZXMgPSBtYXhf
-aW9fcXVldWVzKCk7Cj4gKwlpZiAobnJfaW9fcXVldWVzID4gZGV2LT5ucl9hbGxvY2F0ZWRfcXVl
-dWUgLSAxKQo+ICsJCW5yX2lvX3F1ZXVlcyA9IGRldi0+bnJfYWxsb2NhdGVkX3F1ZXVlIC0gMTsK
-PiAgIAo+ICAgCS8qCj4gICAJICogSWYgdGFncyBhcmUgc2hhcmVkIHdpdGggYWRtaW4gcXVldWUg
-KEFwcGxlIGJ1ZyksIHRoZW4KPiBAQCAtMjc0Miw3ICsyNzQ1LDcgQEAgc3RhdGljIHZvaWQgbnZt
-ZV9hc3luY19wcm9iZSh2b2lkICpkYXRhLCBhc3luY19jb29raWVfdCBjb29raWUpCj4gICAKPiAg
-IHN0YXRpYyBpbnQgbnZtZV9wcm9iZShzdHJ1Y3QgcGNpX2RldiAqcGRldiwgY29uc3Qgc3RydWN0
-IHBjaV9kZXZpY2VfaWQgKmlkKQo+ICAgewo+IC0JaW50IG5vZGUsIHJlc3VsdCA9IC1FTk9NRU07
-Cj4gKwlpbnQgbm9kZSwgbnJfcXVldWUsIHJlc3VsdCA9IC1FTk9NRU07Cj4gICAJc3RydWN0IG52
-bWVfZGV2ICpkZXY7Cj4gICAJdW5zaWduZWQgbG9uZyBxdWlya3MgPSBpZC0+ZHJpdmVyX2RhdGE7
-Cj4gICAJc2l6ZV90IGFsbG9jX3NpemU7Cj4gQEAgLTI3NTUsMTEgKzI3NTgsMTQgQEAgc3RhdGlj
-IGludCBudm1lX3Byb2JlKHN0cnVjdCBwY2lfZGV2ICpwZGV2LCBjb25zdCBzdHJ1Y3QgcGNpX2Rl
-dmljZV9pZCAqaWQpCj4gICAJaWYgKCFkZXYpCj4gICAJCXJldHVybiAtRU5PTUVNOwo+ICAgCj4g
-LQlkZXYtPnF1ZXVlcyA9IGtjYWxsb2Nfbm9kZShtYXhfcXVldWVfY291bnQoKSwgc2l6ZW9mKHN0
-cnVjdCBudm1lX3F1ZXVlKSwKPiArCW5yX3F1ZXVlID0gbWF4X3F1ZXVlX2NvdW50KCk7Cj4gKwlk
-ZXYtPnF1ZXVlcyA9IGtjYWxsb2Nfbm9kZShucl9xdWV1ZSwgc2l6ZW9mKHN0cnVjdCBudm1lX3F1
-ZXVlKSwKPiAgIAkJCQkJR0ZQX0tFUk5FTCwgbm9kZSk7Cj4gICAJaWYgKCFkZXYtPnF1ZXVlcykK
-PiAgIAkJZ290byBmcmVlOwo+ICAgCj4gKwlkZXYtPm5yX2FsbG9jYXRlZF9xdWV1ZSA9IG5yX3F1
-ZXVlOwo+ICsKPiAgIAlkZXYtPmRldiA9IGdldF9kZXZpY2UoJnBkZXYtPmRldik7Cj4gICAJcGNp
-X3NldF9kcnZkYXRhKHBkZXYsIGRldik7Cj4gICAKCl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCmxpbnV4LW52bWUgbWFpbGluZyBsaXN0CmxpbnV4LW52bWVA
-bGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2xpbnV4LW52bWUK
+On Sun, Apr 12, 2020 at 8:38 PM Max Gurtovoy <maxg@mellanox.com> wrote:
+>
+Hi Max,
+
+> hi,
+>
+> how about the following minor update:
+>
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 4e79e41..46ab28b 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -89,6 +89,7 @@
+>    */
+>   struct nvme_dev {
+>          struct nvme_queue *queues;
+> +       int nr_allocated_queue;
+>          struct blk_mq_tag_set tagset;
+>          struct blk_mq_tag_set admin_tagset;
+>          u32 __iomem *dbs;
+> @@ -209,15 +210,15 @@ struct nvme_iod {
+>          struct scatterlist *sg;
+>   };
+>
+> -static unsigned int max_io_queues(void)
+> +static unsigned int nr_dev_io_queues(struct nvme_dev *dev)
+>   {
+> -       return num_possible_cpus() + write_queues + poll_queues;
+> +       return dev->nr_allocated_queue - 1;
+>   }
+>
+>   static unsigned int max_queue_count(void)
+>   {
+>          /* IO queues + admin queue */
+> -       return 1 + max_io_queues();
+> +       return 1 + num_possible_cpus() + write_queues + poll_queues;
+>   }
+>
+>   static inline unsigned int nvme_dbbuf_size(u32 stride)
+> @@ -2073,7 +2074,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+>          int result, nr_io_queues;
+>          unsigned long size;
+>
+> -       nr_io_queues = max_io_queues();
+> +       nr_io_queues = nr_dev_io_queues(dev);
+>
+It may have some problem when user decrease queue count for multiple tagset map.
+For example, there are total 128 IO and 96 cpus(system),
+insmod nvme write_queues=32
+nvme_probe will allocate 129(128io + 1 admin), nr_allocated_queue=129;
+and then user decrease queue count
+echo 2 > /sys/module/nvme/parameters/write_queues
+echo 1 > /sys/block/nvme0n1/device/reset_controller.
+nvme_setup_io_queues should use
+96(num_possible_cpus) + 2(write_queues) instead of 129(nr_allocated_queue).
+
+>          /*
+>           * If tags are shared with admin queue (Apple bug), then
+> @@ -2742,7 +2743,7 @@ static void nvme_async_probe(void *data,
+> async_cookie_t cookie)
+>
+>   static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id
+> *id)
+>   {
+> -       int node, result = -ENOMEM;
+> +       int node, nr_queues, result = -ENOMEM;
+>          struct nvme_dev *dev;
+>          unsigned long quirks = id->driver_data;
+>          size_t alloc_size;
+> @@ -2755,11 +2756,14 @@ static int nvme_probe(struct pci_dev *pdev,
+> const struct pci_device_id *id)
+>          if (!dev)
+>                  return -ENOMEM;
+>
+> -       dev->queues = kcalloc_node(max_queue_count(), sizeof(struct
+> nvme_queue),
+> -                                       GFP_KERNEL, node);
+> +       nr_queues =  max_queue_count();
+> +       dev->queues = kcalloc_node(nr_queues, sizeof(struct nvme_queue),
+> +                                  GFP_KERNEL, node);
+>          if (!dev->queues)
+>                  goto free;
+>
+> +       dev->nr_allocated_queue = nr_queues;
+> +
+>          dev->dev = get_device(&pdev->dev);
+>          pci_set_drvdata(pdev, dev);
+>
+>
+> -Max
+>
+> On 4/10/2020 12:57 PM, Weiping Zhang wrote:
+> > Since the commit 147b27e4bd0 "nvme-pci: allocate device queues storage space at probe"
+> > nvme_alloc_queue will not alloc struct nvme_queue any more.
+> > If user change write/poll_queues to larger than the number of
+> > allocated queue in nvme_probe, nvme_alloc_queue will touch
+> > the memory out of boundary.
+> >
+> > Signed-off-by: Weiping Zhang <zhangweiping@didiglobal.com>
+> > ---
+> >   drivers/nvme/host/pci.c | 10 ++++++++--
+> >   1 file changed, 8 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> > index 4e79e412b276..cc10258e578e 100644
+> > --- a/drivers/nvme/host/pci.c
+> > +++ b/drivers/nvme/host/pci.c
+> > @@ -89,6 +89,7 @@ static bool __nvme_disable_io_queues(struct nvme_dev *dev, u8 opcode);
+> >    */
+> >   struct nvme_dev {
+> >       struct nvme_queue *queues;
+> > +     int nr_allocated_queue;
+> >       struct blk_mq_tag_set tagset;
+> >       struct blk_mq_tag_set admin_tagset;
+> >       u32 __iomem *dbs;
+> > @@ -2074,6 +2075,8 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+> >       unsigned long size;
+> >
+> >       nr_io_queues = max_io_queues();
+> > +     if (nr_io_queues > dev->nr_allocated_queue - 1)
+> > +             nr_io_queues = dev->nr_allocated_queue - 1;
+> >
+> >       /*
+> >        * If tags are shared with admin queue (Apple bug), then
+> > @@ -2742,7 +2745,7 @@ static void nvme_async_probe(void *data, async_cookie_t cookie)
+> >
+> >   static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+> >   {
+> > -     int node, result = -ENOMEM;
+> > +     int node, nr_queue, result = -ENOMEM;
+> >       struct nvme_dev *dev;
+> >       unsigned long quirks = id->driver_data;
+> >       size_t alloc_size;
+> > @@ -2755,11 +2758,14 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+> >       if (!dev)
+> >               return -ENOMEM;
+> >
+> > -     dev->queues = kcalloc_node(max_queue_count(), sizeof(struct nvme_queue),
+> > +     nr_queue = max_queue_count();
+> > +     dev->queues = kcalloc_node(nr_queue, sizeof(struct nvme_queue),
+> >                                       GFP_KERNEL, node);
+> >       if (!dev->queues)
+> >               goto free;
+> >
+> > +     dev->nr_allocated_queue = nr_queue;
+> > +
+> >       dev->dev = get_device(&pdev->dev);
+> >       pci_set_drvdata(pdev, dev);
+> >
+>
+> _______________________________________________
+> linux-nvme mailing list
+> linux-nvme@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
+
+Thanks
+
+_______________________________________________
+linux-nvme mailing list
+linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
