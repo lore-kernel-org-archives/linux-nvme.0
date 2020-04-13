@@ -2,85 +2,66 @@ Return-Path: <SRS0=eVk/=55=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5895C352B6
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Apr 2020 12:00:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7992C2BA19
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Apr 2020 14:15:51 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BA20F2073E
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Apr 2020 12:00:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id AE50C20776
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Apr 2020 14:15:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="YYHN5HTS";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MeT3tRyV"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BA20F2073E
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Tfij7vvB";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cc2GAdH6"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AE50C20776
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=8ruUhw4slkYYP2HjDBibHY70NIkaSnLcbBXZtvjxR/g=; b=YYHN5HTSM06zCq
-	jcRO6iH1+wA47HSPJdZzYkeE4OvbwAQVztXaKQS+BFB29t8neqNwyaArpuUztMnev2BjvTxwzilpI
-	C4mehs+JPcYAEFIiYC3VE+i77zOcuOFDtLdG0QfdPA8NZDUaR5ojU/tXb/f/aNJaAOmhsSnLeVGu/
-	p4ANbHssmxJE/U00T6pTkkshaINru2Pp9uz9tGlTOPjS8mp68ap1tqPb8Aiqj2ZpFhTSnuvqQ3R5R
-	0VZxKxSXXkeeNIaaaljmotpVyTsWayLTCT3sIxbC015a50IW43qtxmSU66Blh2q0j8cO+OxvL9wlA
-	/p5r9tsiCkU95t+TQTdQ==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
+	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=KE8/QELv8E0gDeeZq22eWoasj75zPuTxdR5a8uIqUBU=; b=Tfij7vvBNOSM4g
+	IMKNaTr4+e5rBNXiVLjVF8+yi0zjZaMsBMMx2pgeKWzhp4K3KlcdyuI+JHl2EYKApWfOtfejAjZZg
+	KWhj6giewFOWbiMCx8kA16tqIwCieSY8phw/JLp+aRS5r5V/wQlK2Az8I0crzYl6b3pQkyYk+uf1Z
+	2Qm7+0TOkp5a4XRCTxn7MBGyqbZE7p1EIq2emu8ABOxRcpDGA8LM0SqhLfS4BtwgudtH9MD02MSMi
+	K672p/R/ZmcQLdGfrcmLUDBwXF592apGmy2o5/8/ofz288pal/LQA2aAKcAQnCbIxpNCmROPBOTmP
+	ffNiUKdvWPfHtUp7V0RA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jNxlg-0007VD-Jr; Mon, 13 Apr 2020 12:00:48 +0000
-Received: from mail-qt1-x842.google.com ([2607:f8b0:4864:20::842])
+	id 1jNzsK-0006M9-Bv; Mon, 13 Apr 2020 14:15:48 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jNxld-0007Ur-Hz
- for linux-nvme@lists.infradead.org; Mon, 13 Apr 2020 12:00:47 +0000
-Received: by mail-qt1-x842.google.com with SMTP id i19so3943776qtp.13
- for <linux-nvme@lists.infradead.org>; Mon, 13 Apr 2020 05:00:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3y+EECPx7Rv3jNEFbHiCz39qxzc00CLHxDSwLPLNJFY=;
- b=MeT3tRyVRtWUC0U/7KPtJhGtFoFnLOyGPdyJu2LYdUWLQlD7yJCTL8c7kRpdU7MOTx
- H0+vSdJJdVLm8F3jeakdCa1cmFFhvrviW6CA21RMySqd0CnF9yLCZgAv4vxZZ0/lSWoY
- +I6bt1sKYAZESAq+pwWpY+XwDKIy904PAvlS0uBzxPUP6HG8itstAAs+RJoMA7K+5BLT
- /zL7bA7LjhXCXjlNA8+D6VlYg/D1wLQfeH8MCHhbp8EZQ9jB01Hlq4sbAB9U3zwbyYZU
- dvQSXsZgaYcvFW+u22YtxqffhuqtyOovHF5GumlPPFzVNTmEFD+t+l7TPWZRrNknB+qi
- dJIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3y+EECPx7Rv3jNEFbHiCz39qxzc00CLHxDSwLPLNJFY=;
- b=QfcIKYJ20qBah+DRpRqE7hjVxJTbY9oPyJucfapCwCdm7OopnWszWkyCjdRUXhqxC1
- b8SGNX1qPa3X0YYWwOVwe2zZUUMvMKkHVuSxeFoT6E4D1fk+LyZt26RpNnU4MYD6w49d
- 99CJ8SIW7haIvQvKnJJb9RttNX05EbEjLiT6og2uoyH2U4FFAj3DlH8LG3AYTytvjH3o
- 0KaCwrGZAkAzJ5/8Vs85leqlO19pkbgYXQGGxCNBOa7pPdVA9bJPMOj9qeEpZUymofdw
- p4XxPf0AC24Y1X1IiGTNVo4e4EKAbbGWfjPbsoVn6mdatJO995KenovrqD518qpM+IFH
- Pegw==
-X-Gm-Message-State: AGi0PuZXVGUwxX4JjlkUbZyFirtZvu1D0yB69CyvoKHOlr3XFEV6aMn+
- OiVuCXWwyMINRq/8ubiMiBzwhg3YMamqoLuSBgM=
-X-Google-Smtp-Source: APiQypK2JTWmtbYGe6kcgk39t3T+ArtXOoKhjwxQy0dkKXKHjLGG5aMs0V7q2U2NAsZoVCWE9pYo3J44AgCPZXum4Bw=
-X-Received: by 2002:ac8:36e9:: with SMTP id b38mr6038972qtc.234.1586779244149; 
- Mon, 13 Apr 2020 05:00:44 -0700 (PDT)
+ id 1jNzsF-0006Li-RW
+ for linux-nvme@lists.infradead.org; Mon, 13 Apr 2020 14:15:45 +0000
+Received: from localhost (unknown [213.57.247.131])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 417A92073E;
+ Mon, 13 Apr 2020 14:15:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1586787342;
+ bh=p4H0mbNsqUXCc+rVKfiFXeEwB+ggGqgRm+g9Z3fEcEY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Cc2GAdH6dnHe8KR4lpmbGMf5sORxwT0GEUnUKFd8hZi3eGW5HejVhjHLQKnx3hrkQ
+ N8IFris9OuI3EAyBxcks0qgFRnqc1Vi+1oYi7SScdH6CD1/6DU0YCBtHWoawpVE5UX
+ t3k8dWDqrsJV4BbxHVbO3BkqmcK/PWt1HfJPSvhw=
+From: Leon Romanovsky <leon@kernel.org>
+To: Doug Ledford <dledford@redhat.com>,
+	Jason Gunthorpe <jgg@mellanox.com>
+Subject: [PATCH rdma-next v2 0/7] Add Enhanced Connection Established (ECE)
+Date: Mon, 13 Apr 2020 17:15:31 +0300
+Message-Id: <20200413141538.935574-1-leon@kernel.org>
+X-Mailer: git-send-email 2.25.2
 MIME-Version: 1.0
-References: <20200410095719.GA4393@192.168.3.9>
- <188ad279-9211-9dca-3e6c-b5718ae6fc80@mellanox.com>
- <CAA70yB63bHGcFOzKPrLz+-bjHoEMQWiZEpFyoZ72rzDy9ZaO3Q@mail.gmail.com>
- <66add5c2-62b9-5c2d-977b-0499834b2b7a@mellanox.com>
-In-Reply-To: <66add5c2-62b9-5c2d-977b-0499834b2b7a@mellanox.com>
-From: Weiping Zhang <zwp10758@gmail.com>
-Date: Mon, 13 Apr 2020 20:00:33 +0800
-Message-ID: <CAA70yB7bkeSwQVjJ5rjGS3HxZtkraUY1FX9ZMHXH8FO6a-8omw@mail.gmail.com>
-Subject: Re: [PATCH] nvme: align io queue count with allocted nvme_queue in
- nvme_probe
-To: Max Gurtovoy <maxg@mellanox.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200413_050045_594936_09CEF0FB 
-X-CRM114-Status: GOOD (  22.91  )
+X-CRM114-CacheID: sfid-20200413_071543_909943_C80539FE 
+X-CRM114-Status: UNSURE (   9.23  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,105 +73,72 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Jens Axboe <axboe@kernel.dk>, sagi@grimberg.me,
- Weiping Zhang <zhangweiping@didiglobal.com>, linux-nvme@lists.infradead.org,
- Christoph Hellwig <hch@infradead.org>, Keith Busch <kbusch@kernel.org>
+Cc: rds-devel@oss.oracle.com, Bart Van Assche <bvanassche@acm.org>,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>, linux-rdma@vger.kernel.org,
+ netdev@vger.kernel.org, Santosh Shilimkar <santosh.shilimkar@oracle.com>,
+ linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+ Leon Romanovsky <leonro@mellanox.com>, target-devel@vger.kernel.org,
+ Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Sagi Grimberg <sagi@grimberg.me>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Apr 13, 2020 at 5:37 PM Max Gurtovoy <maxg@mellanox.com> wrote:
->
->
-> On 4/13/2020 4:01 AM, Weiping Zhang wrote:
-> > On Sun, Apr 12, 2020 at 8:38 PM Max Gurtovoy <maxg@mellanox.com> wrote:
-> > Hi Max,
-> >
-> >> hi,
-> >>
-> >> how about the following minor update:
-> >>
-> >> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> >> index 4e79e41..46ab28b 100644
-> >> --- a/drivers/nvme/host/pci.c
-> >> +++ b/drivers/nvme/host/pci.c
-> >> @@ -89,6 +89,7 @@
-> >>     */
-> >>    struct nvme_dev {
-> >>           struct nvme_queue *queues;
-> >> +       int nr_allocated_queue;
-> >>           struct blk_mq_tag_set tagset;
-> >>           struct blk_mq_tag_set admin_tagset;
-> >>           u32 __iomem *dbs;
-> >> @@ -209,15 +210,15 @@ struct nvme_iod {
-> >>           struct scatterlist *sg;
-> >>    };
-> >>
-> >> -static unsigned int max_io_queues(void)
-> >> +static unsigned int nr_dev_io_queues(struct nvme_dev *dev)
-> >>    {
-> >> -       return num_possible_cpus() + write_queues + poll_queues;
-> >> +       return dev->nr_allocated_queue - 1;
-> >>    }
-> >>
-> >>    static unsigned int max_queue_count(void)
-> >>    {
-> >>           /* IO queues + admin queue */
-> >> -       return 1 + max_io_queues();
-> >> +       return 1 + num_possible_cpus() + write_queues + poll_queues;
-> >>    }
-> >>
-> >>    static inline unsigned int nvme_dbbuf_size(u32 stride)
-> >> @@ -2073,7 +2074,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
-> >>           int result, nr_io_queues;
-> >>           unsigned long size;
-> >>
-> >> -       nr_io_queues = max_io_queues();
-> >> +       nr_io_queues = nr_dev_io_queues(dev);
-> >>
-> > It may have some problem when user decrease queue count for multiple tagset map.
-> > For example, there are total 128 IO and 96 cpus(system),
-> > insmod nvme write_queues=32
-> > nvme_probe will allocate 129(128io + 1 admin), nr_allocated_queue=129;
-> > and then user decrease queue count
-> > echo 2 > /sys/module/nvme/parameters/write_queues
-> > echo 1 > /sys/block/nvme0n1/device/reset_controller.
-> > nvme_setup_io_queues should use
-> > 96(num_possible_cpus) + 2(write_queues) instead of 129(nr_allocated_queue).
->
-> Any change that you will try to do (increase/decrease) will not effect.
->
-> If you want it to effect, you need to make nvme_probe to run.
->
-> I don't see a value only for making the code not to crash but not really
-> effect the queue count.
->
-> write_queues and poll queues shouldn't be writable IMO.
->
-I think we can keep it writeable, the user case is that setup as many io
-queues as possible when load nvme module, then change queue count
-for each tag set map dynamically.
+From: Leon Romanovsky <leonro@mellanox.com>
 
-> Since nvme_dbbuf_dma_alloc/nvme_dbbuf_dma_free also call
-> max_queue_count() that uses writable module params.
->
-> we can save this values locally or make it read-only param.
+Changelog:
+ v2:
+ * Rebased on latest rdma-next and removed already accepted patches.
+ * Updated all rdma_reject in-kernel users to provide reject reason.
+ v1: Dropped field_avail patch in favor of mass conversion to use function
+     which already exists in the kernel code.
+ https://lore.kernel.org/lkml/20200310091438.248429-1-leon@kernel.org
+ v0: https://lore.kernel.org/lkml/20200305150105.207959-1-leon@kernel.org
 
-It's not safe to use max_queue_count() for these two function,
-and there is also a problem in nvme_dbbuf_dma_alloc,
-static int nvme_dbbuf_dma_alloc(struct nvme_dev *dev)
-{
-        unsigned int mem_size = nvme_dbbuf_size(dev->db_stride);
+Enhanced Connection Established or ECE is new negotiation scheme
+introduced in IBTA v1.4 to exchange extra information about nodes
+capabilities and later negotiate them at the connection establishment
+phase.
 
-        if (dev->dbbuf_dbs)
-                return 0;
-it does not aware queue count was changed or not.
+The RDMA-CM messages (REQ, REP, SIDR_REQ and SIDR_REP) were extended
+to carry two fields, one new and another gained new functionality:
+ * VendorID is a new field that indicates that common subset of vendor
+   option bits are supported as indicated by that VendorID.
+ * AttributeModifier already exists, but overloaded to indicate which
+   vendor options are supported by this VendorID.
 
-But it can be fixed by
-unsigned int mem_size = nvme_dev->nr_allocated_queue * 8 * dev->db_stride;
+This is kernel part of such functionality which is responsible to get data
+from librdmacm and properly create and handle RDMA-CM messages.
 
 Thanks
+
+Leon Romanovsky (7):
+  RDMA/cm: Add Enhanced Connection Establishment (ECE) bits
+  RDMA/uapi: Add ECE definitions to UCMA
+  RDMA/ucma: Extend ucma_connect to receive ECE parameters
+  RDMA/ucma: Deliver ECE parameters through UCMA events
+  RDMA/cm: Send and receive ECE parameter over the wire
+  RDMA/cma: Connect ECE to rdma_accept
+  RDMA/cma: Provide ECE reject reason
+
+ drivers/infiniband/core/cm.c            | 41 ++++++++++++++++---
+ drivers/infiniband/core/cma.c           | 52 ++++++++++++++++++++++---
+ drivers/infiniband/core/cma_priv.h      |  1 +
+ drivers/infiniband/core/ucma.c          | 40 +++++++++++++++----
+ drivers/infiniband/ulp/isert/ib_isert.c |  4 +-
+ drivers/infiniband/ulp/srpt/ib_srpt.c   |  2 +-
+ drivers/nvme/target/rdma.c              |  2 +-
+ include/rdma/ib_cm.h                    | 10 ++++-
+ include/rdma/ibta_vol1_c12.h            |  6 +++
+ include/rdma/rdma_cm.h                  | 18 ++++++++-
+ include/uapi/rdma/rdma_user_cm.h        | 15 ++++++-
+ net/rds/ib_cm.c                         |  2 +-
+ 12 files changed, 167 insertions(+), 26 deletions(-)
+
+--
+2.25.2
+
 
 _______________________________________________
 linux-nvme mailing list
