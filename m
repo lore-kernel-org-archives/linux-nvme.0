@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D64DC38A29
-	for <linux-nvme@archiver.kernel.org>; Sat, 18 Apr 2020 14:42:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03F76C3A5A9
+	for <linux-nvme@archiver.kernel.org>; Sat, 18 Apr 2020 14:42:21 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1553C22202
-	for <linux-nvme@archiver.kernel.org>; Sat, 18 Apr 2020 14:42:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id BBEFE221F4
+	for <linux-nvme@archiver.kernel.org>; Sat, 18 Apr 2020 14:42:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="qh67OPZv";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="krCH+S0N"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1553C22202
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="mG3rDU/O";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="WGnBdYe4"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BBEFE221F4
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,39 +26,39 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Pga7vDBQWRQtC/QSRHyxqhX2GrobnsPLWMy7amIbUJ8=; b=qh67OPZvJiR0hi
-	t076oE/5uU+U0TW4OqvQdF+3h+vdMfl2fIV4kNC+E0jloLu7FPb4B7F2J+2LJH/obqjF9dqnu0uIC
-	V/66TeokVrqM/f9YvOvSiBexBwIYoWD46wULxWtzBP71OoQ1NUrMHYyo3cMzittAbfS4i7Gd+XZF+
-	2m57l1+SvDyn1kKtj4LJ7Vx4mfZGpPoNHL5b7TPmrZkGC27MV/e8KQF57rGZHEuKx60a/lR+OnrxD
-	68f4SsdxQ79wZWakkuityt9B2Hhb3nQgbPfHUpOruaazywDmkXKBezAaNbi8NCMZ6JdEajUsn8/W4
-	kd9qScgLgvO4ATG6ewxg==;
+	List-Owner; bh=9rUEQS+grKUUAICIsJCMVDcJA2qyDTd7PHDybg5FlMM=; b=mG3rDU/OCNDhG7
+	S2RM+OosIwIzUNB1ReyZnm9V3nCL9nSFsNCX7XIQZkiW969J66Evk6HiBOHndj8MQkVMNYm9vRNHr
+	lfHTIWW5aqZKBTheYBZAtC4lnTBn/Mr8Gw5iArGuJftb+pvqpplsceRnaLej9BRyQdIfZQAQ2iLhr
+	XW+3hfynVJJGWw4svtvtvYk+hIwDi4PyzIeVnwsc/3aMFk8T7S42f0yUQ7froxbTsh4HQwjPx78mp
+	sG58QhsWHlnOt2PwXQkWrfN7ikuDnLaLZXxdMOtWKG8Fo6E8iUVcRwLL6NOz46QViHUHr6Hbfddxc
+	9qb8FBppIYfghIegKX/g==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jPofQ-0008FG-S5; Sat, 18 Apr 2020 14:42:00 +0000
+	id 1jPofd-0008Pb-E0; Sat, 18 Apr 2020 14:42:15 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jPoeZ-0007Nq-9L
- for linux-nvme@lists.infradead.org; Sat, 18 Apr 2020 14:41:09 +0000
+ id 1jPoef-0007V1-26
+ for linux-nvme@lists.infradead.org; Sat, 18 Apr 2020 14:41:14 +0000
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 42A5521D7E;
- Sat, 18 Apr 2020 14:41:05 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 5D8B322202;
+ Sat, 18 Apr 2020 14:41:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1587220866;
- bh=LLQXHmgmDWfRRwnjm/MV0EgMgOLIQUwx5mlM/0UZwUU=;
+ s=default; t=1587220872;
+ bh=/wjEcidzZHShNwnxxS64gx2IXXTX7QTd31cbCKTc5lE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=krCH+S0NvFvv8RR8e0+zTUQJnibFt5YanT7Z804VuAwC9W296ZxujqWn3Ubt33xWc
- AHLc28oMHJTgRGc5hd88+IYjp/aXpx/69tyROtjHtYxRm265pmu0kPHLYujaHOwOXr
- y0mHCZG78IlHOFKuSjHy6TDcvR5uRVFHYKYcb5Sc=
+ b=WGnBdYe4N/gXHlmX+rBqJggDMbqg06LDWKF/+bpLT73TpjwwXmITs+kW+dQKGRMUM
+ BzTJ+vjCw4EPsP2neJPVRBPCYVcI5iGXTejscxdZQ7nBO+Iw5uj5iEM26cEi9+11qu
+ bY8zo23upw13CxuJy/Aan376Jv2gS19fYWpGwcdk=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 15/78] nvme-tcp: fix possible crash in
- write_zeroes processing
-Date: Sat, 18 Apr 2020 10:39:44 -0400
-Message-Id: <20200418144047.9013-15-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 20/78] nvme: fix deadlock caused by ANA update
+ wrong locking
+Date: Sat, 18 Apr 2020 10:39:49 -0400
+Message-Id: <20200418144047.9013-20-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200418144047.9013-1-sashal@kernel.org>
 References: <20200418144047.9013-1-sashal@kernel.org>
@@ -66,8 +66,8 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200418_074107_405235_3A1370EF 
-X-CRM114-Status: GOOD (  12.23  )
+X-CRM114-CacheID: sfid-20200418_074113_135981_AEB5C937 
+X-CRM114-Status: GOOD (  13.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,8 +80,7 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: Sasha Levin <sashal@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
- Tony Asleson <tasleson@redhat.com>, linux-nvme@lists.infradead.org,
+ linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>,
  Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
@@ -90,69 +89,68 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Sagi Grimberg <sagi@grimberg.me>
 
-[ Upstream commit 25e5cb780e62bde432b401f312bb847edc78b432 ]
+[ Upstream commit 657f1975e9d9c880fa13030e88ba6cc84964f1db ]
 
-We cannot look at blk_rq_payload_bytes without first checking
-that the request has a mappable physical segments first (e.g.
-blk_rq_nr_phys_segments(rq) != 0) and only then to take the
-request payload bytes. This caused us to send a wrong sgl to
-the target or even dereference a non-existing buffer in case
-we actually got to the data send sequence (if it was in-capsule).
+The deadlock combines 4 flows in parallel:
+- ns scanning (triggered from reconnect)
+- request timeout
+- ANA update (triggered from reconnect)
+- I/O coming into the mpath device
 
-Reported-by: Tony Asleson <tasleson@redhat.com>
-Suggested-by: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+(1) ns scanning triggers disk revalidation -> update disk info ->
+    freeze queue -> but blocked, due to (2)
+
+(2) timeout handler reference the g_usage_counter - > but blocks in
+    the transport .timeout() handler, due to (3)
+
+(3) the transport timeout handler (indirectly) calls nvme_stop_queue() ->
+    which takes the (down_read) namespaces_rwsem - > but blocks, due to (4)
+
+(4) ANA update takes the (down_write) namespaces_rwsem -> calls
+    nvme_mpath_set_live() -> which synchronize the ns_head srcu
+    (see commit 504db087aacc) -> but blocks, due to (5)
+
+(5) I/O came into nvme_mpath_make_request -> took srcu_read_lock ->
+    direct_make_request > blk_queue_enter -> but blocked, due to (1)
+
+==> the request queue is under freeze -> deadlock.
+
+The fix is making ANA update take a read lock as the namespaces list
+is not manipulated, it is just the ns and ns->head that are being
+updated (which is protected with the ns->head lock).
+
+Fixes: 0d0b660f214dc ("nvme: add ANA support")
 Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/tcp.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ drivers/nvme/host/multipath.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 244984420b41b..11e84ed4de361 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -164,16 +164,14 @@ static inline bool nvme_tcp_async_req(struct nvme_tcp_request *req)
- static inline bool nvme_tcp_has_inline_data(struct nvme_tcp_request *req)
- {
- 	struct request *rq;
--	unsigned int bytes;
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index aed6354cb2717..56caddeabb5e5 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -510,7 +510,7 @@ static int nvme_update_ana_state(struct nvme_ctrl *ctrl,
+ 	if (!nr_nsids)
+ 		return 0;
  
- 	if (unlikely(nvme_tcp_async_req(req)))
- 		return false; /* async events don't have a request */
+-	down_write(&ctrl->namespaces_rwsem);
++	down_read(&ctrl->namespaces_rwsem);
+ 	list_for_each_entry(ns, &ctrl->namespaces, list) {
+ 		unsigned nsid = le32_to_cpu(desc->nsids[n]);
  
- 	rq = blk_mq_rq_from_pdu(req);
--	bytes = blk_rq_payload_bytes(rq);
- 
--	return rq_data_dir(rq) == WRITE && bytes &&
--		bytes <= nvme_tcp_inline_data_size(req->queue);
-+	return rq_data_dir(rq) == WRITE && req->data_len &&
-+		req->data_len <= nvme_tcp_inline_data_size(req->queue);
+@@ -521,7 +521,7 @@ static int nvme_update_ana_state(struct nvme_ctrl *ctrl,
+ 		if (++n == nr_nsids)
+ 			break;
+ 	}
+-	up_write(&ctrl->namespaces_rwsem);
++	up_read(&ctrl->namespaces_rwsem);
+ 	return 0;
  }
  
- static inline struct page *nvme_tcp_req_cur_page(struct nvme_tcp_request *req)
-@@ -2090,7 +2088,9 @@ static blk_status_t nvme_tcp_map_data(struct nvme_tcp_queue *queue,
- 
- 	c->common.flags |= NVME_CMD_SGL_METABUF;
- 
--	if (rq_data_dir(rq) == WRITE && req->data_len &&
-+	if (!blk_rq_nr_phys_segments(rq))
-+		nvme_tcp_set_sg_null(c);
-+	else if (rq_data_dir(rq) == WRITE &&
- 	    req->data_len <= nvme_tcp_inline_data_size(queue))
- 		nvme_tcp_set_sg_inline(queue, c, req->data_len);
- 	else
-@@ -2117,7 +2117,8 @@ static blk_status_t nvme_tcp_setup_cmd_pdu(struct nvme_ns *ns,
- 	req->data_sent = 0;
- 	req->pdu_len = 0;
- 	req->pdu_sent = 0;
--	req->data_len = blk_rq_payload_bytes(rq);
-+	req->data_len = blk_rq_nr_phys_segments(rq) ?
-+				blk_rq_payload_bytes(rq) : 0;
- 	req->curr_bio = rq->bio;
- 
- 	if (rq_data_dir(rq) == WRITE &&
 -- 
 2.20.1
 
