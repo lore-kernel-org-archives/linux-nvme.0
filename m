@@ -4,19 +4,19 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30193C38A30
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Apr 2020 16:47:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B9A4C38A30
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Apr 2020 16:47:39 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F0DCA2082E
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Apr 2020 16:47:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 142532082E
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Apr 2020 16:47:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="GowfWmxJ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F0DCA2082E
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="LIm6w0Ms"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 142532082E
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,31 +25,31 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:Subject:MIME-Version:References:
 	In-Reply-To:Message-Id:Date:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=TFpHzDp9ed/RCzzrdWq3TYax7tHCarpQsgSxgo/IKHE=; b=GowfWmxJe6eoGx
-	CAjKw/DZd9ySo7VmvCu+5fyCvvVkFHDNZAZFQTKWDu2f7wPUVl461qTJTzmNHMgvwKJ1pRIkdR1qg
-	P+KHLA6JZrz7aMBOuHMak2VbINwMGDxSl9nsEJQ4WUYBxd6j0EaastasgZFj12cpdA0cpQyZbkO0L
-	ZLFDASSDFRe0KkQIiK6jfdNkQmCt8InPj3uMr+5M8AH4YGCfgAZ3+fGQ6ug2yPwoNDHoAXtc7hFbe
-	8wgIQack/HB92n9jOCWavb7Gi4tXmjtr9VXZTOWNynQKgg7M8t4yKCUIBtnQ6X/TBkukWaCC0Fr+L
-	Bc9JfPoR7FXyYE+BHjTQ==;
+	List-Owner; bh=XmsSRBWohCfNz+TLtXrf1muEK0NbJ61H92Wy3dXOJI8=; b=LIm6w0MsoIQvdD
+	b/U9cIMGrl+khFdSEggsUFDbaAAXmMAEFtviLsGxOxr1w0OFYiXVX/IWLbY/Rx2iFCrtR4Bwpcyc4
+	0vKKyvK8cjjETe58Cx3Nh6+PNi8SbBybRDx4FJALzRfKlQWhVylUXi+ecE1T2ypLbTQxSzWcrSgPM
+	hTT229Keif2lGVgHouLjNo3QcuiwynyJDQG6S1qfqTxIP5oPUEs1T6eZj7lIf9qZKnT+M/gEBZuL9
+	FIFAqufaML4EWHwZ8JbIjLoRHmYDnu9RrCoAXR+8ywIjI2JqOnm0WoNkduW8I19HY3qUKNh+9a0QV
+	QQKrs0X8ovotrNAnDr4Q==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jQZZo-0000Un-51; Mon, 20 Apr 2020 16:47:20 +0000
+	id 1jQZa2-0000jp-Ci; Mon, 20 Apr 2020 16:47:34 +0000
 Received: from ale.deltatee.com ([207.54.116.67])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jQZZk-0000RA-KF
- for linux-nvme@lists.infradead.org; Mon, 20 Apr 2020 16:47:18 +0000
+ id 1jQZZk-0000RX-LR
+ for linux-nvme@lists.infradead.org; Mon, 20 Apr 2020 16:47:19 +0000
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
- id 1jQZZb-0008F5-BL; Mon, 20 Apr 2020 10:47:08 -0600
+ id 1jQZZb-0008F1-BL; Mon, 20 Apr 2020 10:47:12 -0600
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
  (envelope-from <gunthorp@deltatee.com>)
- id 1jQZZa-0005do-92; Mon, 20 Apr 2020 10:47:06 -0600
+ id 1jQZZZ-0005dc-RX; Mon, 20 Apr 2020 10:47:05 -0600
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org,
 	linux-nvme@lists.infradead.org
-Date: Mon, 20 Apr 2020 10:46:56 -0600
-Message-Id: <20200420164700.21620-6-logang@deltatee.com>
+Date: Mon, 20 Apr 2020 10:46:52 -0600
+Message-Id: <20200420164700.21620-2-logang@deltatee.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200420164700.21620-1-logang@deltatee.com>
 References: <20200420164700.21620-1-logang@deltatee.com>
@@ -60,12 +60,13 @@ X-SA-Exim-Rcpt-To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  Chaitanya.Kulkarni@wdc.com, maxg@mellanox.com, sbates@raithlin.com,
  logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v12 5/9] nvme-core: Introduce nvme_ctrl_get_by_path()
+Subject: [PATCH v12 1/9] nvme-core: Clear any SGL flags in passthru commands
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200420_094716_660520_1143D8D4 
-X-CRM114-Status: GOOD (  12.74  )
+X-CRM114-CacheID: sfid-20200420_094716_725601_225CF911 
+X-CRM114-Status: UNSURE (   8.99  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,82 +88,30 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvme_ctrl_get_by_path() is analagous to blkdev_get_by_path() except it
-gets a struct nvme_ctrl from the path to its char dev (/dev/nvme0).
-It makes use of filp_open() to open the file and uses the private
-data to obtain a pointer to the struct nvme_ctrl. If the fops of the
-file do not match, -EINVAL is returned.
-
-The purpose of this function is to support NVMe-OF target passthru.
+The host driver should decide whether to use SGLs or PRPs and they
+currently assume the flags are cleared after the call to
+nvme_setup_cmd(). However, passed-through commands may erroneously
+set these bits; so clear them for all cases.
 
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
-Reviewed-by: Max Gurtovoy <maxg@mellanox.com>
 Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/host/core.c | 31 +++++++++++++++++++++++++++++++
- drivers/nvme/host/nvme.h |  9 +++++++++
- 2 files changed, 40 insertions(+)
+ drivers/nvme/host/core.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 1e2062c341c5..1f3ef53bb8b4 100644
+index 91c1bd659947..f5283b300e87 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -4303,6 +4303,37 @@ void nvme_sync_queues(struct nvme_ctrl *ctrl)
- }
- EXPORT_SYMBOL_GPL(nvme_sync_queues);
- 
-+#ifdef CONFIG_NVME_TARGET_PASSTHRU
-+/*
-+ * The exports that follow within this ifdef are only for
-+ * use by the nvmet-passthru and should not be used for
-+ * other things.
-+ */
-+
-+struct nvme_ctrl *nvme_ctrl_get_by_path(const char *path)
-+{
-+	struct nvme_ctrl *ctrl;
-+	struct file *f;
-+
-+	f = filp_open(path, O_RDWR, 0);
-+	if (IS_ERR(f))
-+		return ERR_CAST(f);
-+
-+	if (f->f_op != &nvme_dev_fops) {
-+		ctrl = ERR_PTR(-EINVAL);
-+		goto out_close;
-+	}
-+
-+	ctrl = f->private_data;
-+	nvme_get_ctrl(ctrl);
-+
-+out_close:
-+	filp_close(f, NULL);
-+	return ctrl;
-+}
-+EXPORT_SYMBOL_GPL(nvme_ctrl_get_by_path);
-+#endif /* CONFIG_NVME_TARGET_PASSTHRU */
-+
- /*
-  * Check we didn't inadvertently grow the command structure sizes:
-  */
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 2e04a36296d9..9195dd97b61b 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -689,4 +689,13 @@ void nvme_hwmon_init(struct nvme_ctrl *ctrl);
- static inline void nvme_hwmon_init(struct nvme_ctrl *ctrl) { }
- #endif
- 
-+#ifdef CONFIG_NVME_TARGET_PASSTHRU
-+/*
-+ * The exports that follow within this ifdef are only for
-+ * use by the nvmet-passthru and should not be used for
-+ * other things.
-+ */
-+struct nvme_ctrl *nvme_ctrl_get_by_path(const char *path);
-+#endif /* CONFIG_NVME_TARGET_PASSTHRU */
-+
- #endif /* _NVME_H */
+@@ -756,6 +756,8 @@ blk_status_t nvme_setup_cmd(struct nvme_ns *ns, struct request *req,
+ 	case REQ_OP_DRV_IN:
+ 	case REQ_OP_DRV_OUT:
+ 		memcpy(cmd, nvme_req(req)->cmd, sizeof(*cmd));
++		/* passthru commands should let the driver set the SGL flags */
++		cmd->common.flags &= ~NVME_CMD_SGL_ALL;
+ 		break;
+ 	case REQ_OP_FLUSH:
+ 		nvme_setup_flush(ns, cmd);
 -- 
 2.20.1
 
