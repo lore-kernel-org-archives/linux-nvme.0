@@ -4,19 +4,19 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B9A4C38A30
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Apr 2020 16:47:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3334CC3815B
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Apr 2020 16:47:56 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 142532082E
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Apr 2020 16:47:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E9DBC2082E
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Apr 2020 16:47:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="LIm6w0Ms"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 142532082E
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="kdmwWVnQ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E9DBC2082E
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,31 +25,31 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:Subject:MIME-Version:References:
 	In-Reply-To:Message-Id:Date:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=XmsSRBWohCfNz+TLtXrf1muEK0NbJ61H92Wy3dXOJI8=; b=LIm6w0MsoIQvdD
-	b/U9cIMGrl+khFdSEggsUFDbaAAXmMAEFtviLsGxOxr1w0OFYiXVX/IWLbY/Rx2iFCrtR4Bwpcyc4
-	0vKKyvK8cjjETe58Cx3Nh6+PNi8SbBybRDx4FJALzRfKlQWhVylUXi+ecE1T2ypLbTQxSzWcrSgPM
-	hTT229Keif2lGVgHouLjNo3QcuiwynyJDQG6S1qfqTxIP5oPUEs1T6eZj7lIf9qZKnT+M/gEBZuL9
-	FIFAqufaML4EWHwZ8JbIjLoRHmYDnu9RrCoAXR+8ywIjI2JqOnm0WoNkduW8I19HY3qUKNh+9a0QV
-	QQKrs0X8ovotrNAnDr4Q==;
+	List-Owner; bh=zKsSJ7WiO/owiTlXTBMf7WkgBBFiL0Tb1OtJF8bLR5w=; b=kdmwWVnQnU4CQm
+	cKxA//KkKTpw8lRcruHl3Tma+JI5+aOqNL5QTSF0jP2rKhgBOqmJjkIw/GClHjyr3ZPGzm6JOl5u1
+	9QAnkV0CdmjrbThUCPKuukSnwTOEVybb5KqvSxfvFebeMk9e1Pynb1dsVUNxorf2HyQRwqrpI6MjV
+	EvcptT0SY4cHV5eTv1fRx/i5mpDG0RDwyw7Fx7tjfyfLjWsCUSXCq7zHkRI/X4XCQ55RwzzaxNizX
+	qKuJquzDTBZZ9m5qcHtwEny9NQ3elFmISCobFdMhJ9DbtncNWL7RFl/G99a5MZbZT4EsqX9C3Rk7A
+	UiQCVPGz5CHDeEYcsReQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jQZa2-0000jp-Ci; Mon, 20 Apr 2020 16:47:34 +0000
+	id 1jQZaJ-00018p-Lq; Mon, 20 Apr 2020 16:47:51 +0000
 Received: from ale.deltatee.com ([207.54.116.67])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jQZZk-0000RX-LR
+ id 1jQZZl-0000RY-2I
  for linux-nvme@lists.infradead.org; Mon, 20 Apr 2020 16:47:19 +0000
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
- id 1jQZZb-0008F1-BL; Mon, 20 Apr 2020 10:47:12 -0600
+ id 1jQZZb-0008F6-BS; Mon, 20 Apr 2020 10:47:12 -0600
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
  (envelope-from <gunthorp@deltatee.com>)
- id 1jQZZZ-0005dc-RX; Mon, 20 Apr 2020 10:47:05 -0600
+ id 1jQZZa-0005dr-C1; Mon, 20 Apr 2020 10:47:06 -0600
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org,
 	linux-nvme@lists.infradead.org
-Date: Mon, 20 Apr 2020 10:46:52 -0600
-Message-Id: <20200420164700.21620-2-logang@deltatee.com>
+Date: Mon, 20 Apr 2020 10:46:57 -0600
+Message-Id: <20200420164700.21620-7-logang@deltatee.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200420164700.21620-1-logang@deltatee.com>
 References: <20200420164700.21620-1-logang@deltatee.com>
@@ -57,16 +57,15 @@ MIME-Version: 1.0
 X-SA-Exim-Connect-IP: 172.16.1.31
 X-SA-Exim-Rcpt-To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  hch@lst.de, sagi@grimberg.me, kbusch@kernel.org, axboe@fb.com,
- Chaitanya.Kulkarni@wdc.com, maxg@mellanox.com, sbates@raithlin.com,
- logang@deltatee.com
+ maxg@mellanox.com, sbates@raithlin.com, logang@deltatee.com,
+ Chaitanya.Kulkarni@wdc.com, chaitanya.kulkarni@wdc.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v12 1/9] nvme-core: Clear any SGL flags in passthru commands
+Subject: [PATCH v12 6/9] nvme: Export existing nvme core functions
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200420_094716_725601_225CF911 
-X-CRM114-Status: UNSURE (   8.99  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200420_094717_107082_2AE0F09D 
+X-CRM114-Status: GOOD (  10.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,7 +78,7 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
  Stephen Bates <sbates@raithlin.com>, Jens Axboe <axboe@fb.com>,
  Keith Busch <kbusch@kernel.org>, Max Gurtovoy <maxg@mellanox.com>,
  Logan Gunthorpe <logang@deltatee.com>, Christoph Hellwig <hch@lst.de>
@@ -88,30 +87,89 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The host driver should decide whether to use SGLs or PRPs and they
-currently assume the flags are cleared after the call to
-nvme_setup_cmd(). However, passed-through commands may erroneously
-set these bits; so clear them for all cases.
+Export nvme_put_ns(), nvme_command_effects(), nvme_execute_passthru_rq()
+and nvme_find_get_ns() for use in the nvmet passthru code.
 
+The exports are conditional on CONFIG_NVME_TARGET_PASSTHRU.
+
+Based-on-a-patch-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+Reviewed-by: Max Gurtovoy <maxg@mellanox.com>
 Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/host/core.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/nvme/host/core.c | 14 +++++++++-----
+ drivers/nvme/host/nvme.h |  5 +++++
+ 2 files changed, 14 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 91c1bd659947..f5283b300e87 100644
+index 1f3ef53bb8b4..6dfc7d90ce87 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -756,6 +756,8 @@ blk_status_t nvme_setup_cmd(struct nvme_ns *ns, struct request *req,
- 	case REQ_OP_DRV_IN:
- 	case REQ_OP_DRV_OUT:
- 		memcpy(cmd, nvme_req(req)->cmd, sizeof(*cmd));
-+		/* passthru commands should let the driver set the SGL flags */
-+		cmd->common.flags &= ~NVME_CMD_SGL_ALL;
- 		break;
- 	case REQ_OP_FLUSH:
- 		nvme_setup_flush(ns, cmd);
+@@ -457,7 +457,7 @@ static void nvme_free_ns(struct kref *kref)
+ 	kfree(ns);
+ }
+ 
+-static void nvme_put_ns(struct nvme_ns *ns)
++void nvme_put_ns(struct nvme_ns *ns)
+ {
+ 	kref_put(&ns->kref, nvme_free_ns);
+ }
+@@ -890,8 +890,8 @@ static void *nvme_add_user_metadata(struct bio *bio, void __user *ubuf,
+ 	return ERR_PTR(ret);
+ }
+ 
+-static u32 nvme_command_effects(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+-				u8 opcode)
++u32 nvme_command_effects(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
++			 u8 opcode)
+ {
+ 	u32 effects = 0;
+ 
+@@ -976,7 +976,7 @@ static void nvme_passthru_end(struct nvme_ctrl *ctrl, u32 effects)
+ 		nvme_queue_scan(ctrl);
+ }
+ 
+-static void nvme_execute_passthru_rq(struct request *rq)
++void nvme_execute_passthru_rq(struct request *rq)
+ {
+ 	struct nvme_command *cmd = nvme_req(rq)->cmd;
+ 	struct nvme_ctrl *ctrl = nvme_req(rq)->ctrl;
+@@ -3530,7 +3530,7 @@ static int ns_cmp(void *priv, struct list_head *a, struct list_head *b)
+ 	return nsa->head->ns_id - nsb->head->ns_id;
+ }
+ 
+-static struct nvme_ns *nvme_find_get_ns(struct nvme_ctrl *ctrl, unsigned nsid)
++struct nvme_ns *nvme_find_get_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ {
+ 	struct nvme_ns *ns, *ret = NULL;
+ 
+@@ -4309,6 +4309,10 @@ EXPORT_SYMBOL_GPL(nvme_sync_queues);
+  * use by the nvmet-passthru and should not be used for
+  * other things.
+  */
++EXPORT_SYMBOL_GPL(nvme_put_ns);
++EXPORT_SYMBOL_GPL(nvme_command_effects);
++EXPORT_SYMBOL_GPL(nvme_execute_passthru_rq);
++EXPORT_SYMBOL_GPL(nvme_find_get_ns);
+ 
+ struct nvme_ctrl *nvme_ctrl_get_by_path(const char *path)
+ {
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 9195dd97b61b..76b4aa8f35e1 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -695,6 +695,11 @@ static inline void nvme_hwmon_init(struct nvme_ctrl *ctrl) { }
+  * use by the nvmet-passthru and should not be used for
+  * other things.
+  */
++void nvme_put_ns(struct nvme_ns *ns);
++u32 nvme_command_effects(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
++			 u8 opcode);
++void nvme_execute_passthru_rq(struct request *rq);
++struct nvme_ns *nvme_find_get_ns(struct nvme_ctrl *ctrl, unsigned int nsid);
+ struct nvme_ctrl *nvme_ctrl_get_by_path(const char *path);
+ #endif /* CONFIG_NVME_TARGET_PASSTHRU */
+ 
 -- 
 2.20.1
 
