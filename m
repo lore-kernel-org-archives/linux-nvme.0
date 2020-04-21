@@ -6,16 +6,16 @@ X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 575C6C54FCC
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 Apr 2020 18:04:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B33F1C54FC9
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 Apr 2020 18:10:52 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 309D8206D5
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 Apr 2020 18:04:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 89365206D5
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 Apr 2020 18:10:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="H3eIsKke"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 309D8206D5
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="DI8HIrBL"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 89365206D5
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,28 +24,27 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Y6avX0KPgR+iJh6vIW1UtvgAT530wTPT423NOT+/8f0=; b=H3eIsKkejAhOt6
-	4H9utDQTEEW/9BYba7sqLIv4s4phxUmaPxa4XVxiuNeT8wgVa4qgpxs4+ncar4tHyY45263oH1Ud8
-	C6kyzQLzj/xulcoiJSfdwQuIS902GoW+kXzc/1uGZHY2ihVpj95NYnMETbB9tCdVK8O9wsKhjbdKz
-	ROJLSfkrfa71xJF8sL4fEQ4yfNojT7jW3M6S56VDLeXmT2b5EVkWHdXJuUhP0uF+HGp67v/a5XX8M
-	3HhpoodohEY7Otw48PRFQEx7kqRUkxMgvufo+MYWkcOQCg3/ZYipPSwmN7z9SrUx4jlDPiHygmD3u
-	ibuIopAsWWt4pyGo7h7w==;
+	List-Owner; bh=4maPj31ih8/0MbhKtcBPt+MXJAgMq9dm7jJ9muqEQdo=; b=DI8HIrBL9O7D0c
+	xE2Ra8ApDnshKfv1iwXceDHzzTWdXnDtKR1fdT+2pPXwYJKnpdfhpZTL0sPRIxBpOcC3bxdpdCv67
+	Ph26TrCAusF9IuTGmgbVnkq5oHDaDMz7m52BYbUAUNBaCmQSRVFIJx6LFZRAsMGV2tuqwg4LPlIaR
+	qucgFwvt0Q7AjXavXuMpaOiA3YmAycfdvnrJQeTY4yXk2OAV8tbymbS9JubmQccnYpZPc8CH84cjF
+	steAy9TuD5J2aGH6Tla/7pN0EwqBLjRW/5waPu1KLHYXK0aouomhlYxnH0DISIhs3GyG0FaOm1ydk
+	hrdoEfNd5LUycz7IxzOw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jQxFu-0000bB-IX; Tue, 21 Apr 2020 18:04:22 +0000
+	id 1jQxM9-0006hU-CN; Tue, 21 Apr 2020 18:10:49 +0000
 Received: from hch by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red
- Hat Linux)) id 1jQxFs-0000aK-DU; Tue, 21 Apr 2020 18:04:20 +0000
-Date: Tue, 21 Apr 2020 11:04:20 -0700
+ Hat Linux)) id 1jQxM7-0006hF-62; Tue, 21 Apr 2020 18:10:47 +0000
+Date: Tue, 21 Apr 2020 11:10:47 -0700
 From: Christoph Hellwig <hch@infradead.org>
-To: Max Gurtovoy <maxg@mellanox.com>
-Subject: Re: [RFC 3/6] nvme: Introduce max_meta_segments ctrl and ops attribute
-Message-ID: <20200421180420.GC31265@infradead.org>
+To: James Smart <jsmart2021@gmail.com>
+Subject: Re: [RFC 4/6] nvme: Add t_flags and pi_blkszs ctrl and ops attributes
+Message-ID: <20200421181047.GD31265@infradead.org>
 References: <20200224184859.20995-1-jsmart2021@gmail.com>
- <20200224184859.20995-4-jsmart2021@gmail.com>
- <7e85bcc2-cba8-4795-5c15-f7a586d339ac@mellanox.com>
+ <20200224184859.20995-5-jsmart2021@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <7e85bcc2-cba8-4795-5c15-f7a586d339ac@mellanox.com>
+In-Reply-To: <20200224184859.20995-5-jsmart2021@gmail.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,44 +56,47 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Israel Rukshin <israelr@mellanox.com>, James Smart <jsmart2021@gmail.com>,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+Cc: linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Feb 25, 2020 at 11:49:36AM +0200, Max Gurtovoy wrote:
-> 
-> On 2/24/2020 8:48 PM, James Smart wrote:
-> > This patch was originally posted by Max Gurtovoy <maxg@mellanox.com>
-> > 
-> > This patch doesn't change any logic, and is needed as a preparation
-> > for adding PI support for fabrics drivers.
-> > 
-> > This patch parameterizes the number of sgl segments supported for
-> > a separate metadata buffer.
-> > 
-> > The parameter is added to the nvme_ctrl_ops struct and the nvme_ctrl_ops
-> > struct. nvme_init_ctrl() was modified to initialize the controller
-> > value from the ops value. It was done in this manner such that if the
-> > transport supports a singular/unchanged value, it can be set in the ops
-> > struct and no other code is necessary. However, if the transport must
-> > set the value on a per-controller basis, likely due to differents in the
-> > host transport hardware, it can directly modify the field in the ctrl
-> > struct.
-> 
-> I don't think we need to add a ops for that and override it per ctrl if
-> needed later on.
-> 
-> And if a new op is preferred, please add a callback (see bellow).
-> 
-> Btw,
-> 
-> This was already reviewed by Sagi and Marting so it would be nice to leave
-> it as-is (or maybe only rename it to max_metadata_segments).
+So I like moving the flags to the controller, but I'd just name the field
+features.  Can we split any logic changes in the PI setup into a separate
+patch or multiple patches (the pi_blksz is probably another one, and we
+should only add that with an actual user).  Also please follow the normal
+comment style.
 
-I have to say I prefer your simpler version as well.
+> +	NVME_F_FABRICS			= 1 << 0,
+> +	NVME_F_PCI_P2PDMA		= 1 << 1,
+> +
+> +	/* Metadata requires use of a separate blk_integrity_rq buffer */
+> +	NVME_F_METADATA_SUPPORTED	= 1 << 8,
+> +
+> +	/*
+> +	 * The PI types supported by the host transport, if it participates
+> +	 * in PI checking or can insert/strip PI on behalf of the OS.
+> +	 */
+> +	NVME_F_PI_TYPE_MASK		= 0x7 << 9,
+> +	NVME_F_PI_TYPE1_PROTECTION	= 1 << 9,
+> +	NVME_F_PI_TYPE2_PROTECTION	= 1 << 10,
+> +	NVME_F_PI_TYPE3_PROTECTION	= 1 << 11,
+> +
+> +	/* Indicates that the host transport can insert/strip PI for
+> +	 * presentation to the controller. I.E. OS does not have metadata/PI.
+> +	 * Transport will insert PI/meta on TX and strip PI/meta on RX.
+> +	 * Similar to PRACT=1.
+> +	 */
+> +	NVME_F_PI_TXINSERT_RXSTRIP	= 1 << 12,
+
+None of the NVME_F_PI_* flags are actually used in this patch, so I
+don't think they should be added here.
+
+> +	unsigned int flags;		/* see enum nvme_transport_flags */
+
+And I think we should just initialize them in the controller, and avoid
+duplicating them in the flags.
 
 _______________________________________________
 linux-nvme mailing list
