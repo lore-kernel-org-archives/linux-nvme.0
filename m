@@ -2,84 +2,84 @@ Return-Path: <SRS0=t83a=6I=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3587CC2BA1A
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Apr 2020 04:25:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6D02C2BA1A
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Apr 2020 04:33:35 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 078F92076C
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Apr 2020 04:25:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 776C120700
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Apr 2020 04:33:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="AvLLpas7";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n5Fd7M/Y"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 078F92076C
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="B7MsoaCn"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 776C120700
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=didiglobal.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:
-	In-Reply-To:References:MIME-Version:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=BqTEuJHalM15rkoRL7tEzSI9uRGGngHJ7mMOzdLgARw=; b=AvLLpas76/daWl
-	RXd7XLBJzbzZjodOomMgU4x66r+sDA3iHd/b4Vts05TCOtludwHlo0U3NwEvoRSg+r6cOADKcG3RH
-	KU8MQBwGcfCESSBhS8cylFOvMrZZ2b9yW/XTlvQEdx0jdHX03mN43dbty7fEbd+BpL/vfPieTCwhV
-	gv6Bbj1DW+kfgKpkGVPrXGAlhws6qipOtP6yTSb8ZdMLIRI9Ng9R120UeeWsXAoflq8QCDRPfpEMu
-	B2Wj/8oArobxqCq9W4pkBXrrnsph09dW4QhThF4+DitbOAAuzMY0j8lPoVNU3fC6OhfRayu6OTAP5
-	UqjHLhrQDv2cD5vZ3zXw==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:To:From
+	:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=EiVWfieP4H347MlsZ6T0SVoMBMF0npdPRTSGw5tARhY=; b=B7MsoaCnw1tDnr
+	rcqv8vVCuqE6ONDD5TSsr6u3HdAdRWaVCtvPlZxYvB/OPXTalYc7OCBfMHY5cFsHmZ/Nto0uWLQgR
+	KADBTLQa7/e96buJMHE7+bY0t+Lq0zjvqmdhuPf4SGCzVdvUJrBVEke1JmQ91IuIMO6lNMuWN6S28
+	0rxXyQF6+gqkU+NwDA2Sl77Qiw2PqRscK7JYC699gKweRdR4BlMFnyEcgT4Z6NaTaL/5w/HQ4HyCu
+	g0kMk78aIOidVjZddBgrgIWxbpl0K4KHoiuRGiA+eGkEKScU4UQZtg5ZbCFtZl1jKy07J0n0Ed/ev
+	yvFmc3joBczGTznlSD+g==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jRpuC-0000oC-44; Fri, 24 Apr 2020 04:25:36 +0000
-Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743])
+	id 1jRq1t-0004Zg-DY; Fri, 24 Apr 2020 04:33:33 +0000
+Received: from mx1.didichuxing.com ([111.202.154.82]
+ helo=bsf01.didichuxing.com)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jRpu8-0000n1-NK
- for linux-nvme@lists.infradead.org; Fri, 24 Apr 2020 04:25:34 +0000
-Received: by mail-qk1-x743.google.com with SMTP id l78so8973842qke.7
- for <linux-nvme@lists.infradead.org>; Thu, 23 Apr 2020 21:25:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SzDMX1vGV+H1HNqu9t2ozN0RBVpZO4r+hHsPSKSvqHQ=;
- b=n5Fd7M/YMHJ1uNgAqoU+tCCidUJJB/dySswnCY/iTi+BcfUNebnyxaQA2c0cWZc1hv
- gGBXJkBTgP/B6qRyGta8JivmEoIbiXwmcIjg/ZnE/ILzVKljZcZazngGoufw2UYE3gEF
- dhfTRAQNvVTbDmU/biZmNTjFEofqwPkEznA77hNihfdyzNE3D0aUrWAEakLZsztt9NbX
- ohz97E0WImaenizdcsnYGuHKuGrViejg0NkmlwbWNpo/i9fZdo8qA9Bj8Jup0mCAsfRY
- vm1CpTfQR3Tpv6iSB6Fewt/6rm+f7kYQjgWZw1QcNU+PjwwGfgldOcuvLHB4iaNvTV9r
- ChRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=SzDMX1vGV+H1HNqu9t2ozN0RBVpZO4r+hHsPSKSvqHQ=;
- b=NN1ZB3hPJxiaTnWvVmXJHKHxdFM+rF/R2/t0OfKybdBrgq3PLr8KuIie75Pb08qLeV
- //mzdsNRnpwJ0omKu5OOw67KOtC/qwJOIYUqmDG5gLno59C7UPu18OEZaNI1B99DAgr2
- rJf9bkJ3CLONhYwp3ctR8HmrIuW2lLzKNLvXmhoBCXC21kXRau7ilLTEbbVlTW/mzzh/
- rHMiGpKefymcRPyIy4nE/Gd7/dc82U3LwsQzLGAi+tD48iPueaxd/tU8ip+v+cFiauyg
- FvcYdhxNGmYWh/Lx6GjKk7bPj56ee6jeVkRL8Dvw1psUbT/Zc44vI13FVGBBQ8TGDOiF
- Mn6A==
-X-Gm-Message-State: AGi0PubiJiw6Y2jRL0YxvXKPnr/a6h6stZ4t7+frqihPDnOgQ6W0uAue
- J/M5P2eVju4iwHiDYEuGW+QkJ2X9uTgHSEXoP4Y=
-X-Google-Smtp-Source: APiQypJ80si3r23rIID+Muhr073kzItC3A2eiQPbs/60tKUyB7VKuiwM45eLq6cTPfoTRgZemPuzS5gKoibjJQmDjRA=
-X-Received: by 2002:a37:8c05:: with SMTP id o5mr7212096qkd.498.1587702330366; 
- Thu, 23 Apr 2020 21:25:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200423075938.GA11215@192.168.3.9>
- <de3cdc57-a97a-f800-26dd-f9439f97bba5@mellanox.com>
-In-Reply-To: <de3cdc57-a97a-f800-26dd-f9439f97bba5@mellanox.com>
-From: Weiping Zhang <zwp10758@gmail.com>
-Date: Fri, 24 Apr 2020 12:25:19 +0800
-Message-ID: <CAA70yB6iHXRjr-dYWQKh7UP2-vmA8rk-7=h3DprvQENFqn3YFA@mail.gmail.com>
-Subject: Re: [PATCH v2] nvme: align io queue count with allocted nvme_queue in
+ id 1jRq1p-0004VQ-HX
+ for linux-nvme@lists.infradead.org; Fri, 24 Apr 2020 04:33:32 +0000
+X-ASG-Debug-ID: 1587702787-0e4088442c3a85f0001-VMfPqL
+Received: from mail.didiglobal.com (localhost [172.20.36.175]) by
+ bsf01.didichuxing.com with ESMTP id bkweaZKRSpxQ8a0n;
+ Fri, 24 Apr 2020 12:33:07 +0800 (CST)
+X-Barracuda-Envelope-From: zhangweiping@didiglobal.com
+Received: from 192.168.3.9 (172.22.50.20) by BJSGEXMBX03.didichuxing.com
+ (172.20.15.133) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 24 Apr
+ 2020 12:33:06 +0800
+Date: Fri, 24 Apr 2020 12:33:02 +0800
+From: Weiping Zhang <zhangweiping@didiglobal.com>
+To: <hch@infradead.org>, <axboe@kernel.dk>, <kbusch@kernel.org>,
+ <sagi@grimberg.me>, <maxg@mellanox.com>
+Subject: [PATCH v3] nvme: align io queue count with allocted nvme_queue in
  nvme_probe
-To: Max Gurtovoy <maxg@mellanox.com>
+Message-ID: <20200424043258.GA5512@192.168.3.9>
+X-ASG-Orig-Subj: [PATCH v3] nvme: align io queue count with allocted
+ nvme_queue in nvme_probe
+MIME-Version: 1.0
+Content-Disposition: inline
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Originating-IP: [172.22.50.20]
+X-ClientProxiedBy: BJEXCAS01.didichuxing.com (172.20.36.235) To
+ BJSGEXMBX03.didichuxing.com (172.20.15.133)
+X-Barracuda-Connect: localhost[172.20.36.175]
+X-Barracuda-Start-Time: 1587702787
+X-Barracuda-URL: https://bsf01.didichuxing.com:443/cgi-mod/mark.cgi
+X-Virus-Scanned: by bsmtpd at didichuxing.com
+X-Barracuda-Scan-Msg-Size: 8740
+X-Barracuda-BRTS-Status: 1
+X-Barracuda-Bayes: INNOCENT GLOBAL 0.0000 1.0000 -2.0210
+X-Barracuda-Spam-Score: -2.02
+X-Barracuda-Spam-Status: No,
+ SCORE=-2.02 using global scores of TAG_LEVEL=1000.0
+ QUARANTINE_LEVEL=1000.0 KILL_LEVEL=1000.0 tests=
+X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.81391
+ Rule breakdown below
+ pts rule name              description
+ ---- ---------------------- --------------------------------------------------
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200423_212532_759890_8B2B16A5 
-X-CRM114-Status: GOOD (  26.93  )
+X-CRM114-CacheID: sfid-20200423_213330_710135_F4D16E20 
+X-CRM114-Status: GOOD (  17.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,126 +91,265 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Jens Axboe <axboe@kernel.dk>, sagi@grimberg.me,
- Weiping Zhang <zhangweiping@didiglobal.com>, linux-nvme@lists.infradead.org,
- Christoph Hellwig <hch@infradead.org>, Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Apr 23, 2020 at 6:25 PM Max Gurtovoy <maxg@mellanox.com> wrote:
->
->
-> On 4/23/2020 10:59 AM, Weiping Zhang wrote:
-> > Since the commit 147b27e4bd0 "nvme-pci: allocate device queues storage space at probe"
-> > nvme_alloc_queue will not alloc struct nvme_queue any more.
-> > If user change write/poll_queues to larger than the number of
-> > allocated queue in nvme_probe, nvme_alloc_queue will touch
-> > the memory out of boundary.
-> >
-> > This patch add nr_allocated_queues for struct nvme_dev to record how
-> > many queues alloctaed in nvme_probe, then nvme driver will not use
-> > more queues than nr_allocated_queues when user update queue count
-> > and do a controller reset.
-> >
-> > Since global module parameter can be changed at rumtime, so it's not
-> > safe to use these two parameter directly in the following functions:
-> > nvme_dbbuf_dma_alloc
-> > nvme_dbbuf_dma_free
-> > nvme_calc_irq_sets
-> > nvme_setup_io_queues
-> >
-> > This patch also add nr_write_queues, nr_poll_queues for
-> > struct nvme_dev and io_queues_reload for struct nvme_ctrl, that allow
-> > per-controller reload module parmater when reset controller. The nvme
-> > driver will not reload module parameter(write/poll_queues) by default
-> > when reset controller. If user want to reload them, they should enable
-> > it by echo 1 > /sys/block/<nvme_disk>/device/io_queues_reload.
-> >
-> > By now, nvme pci driver allow user change io queue count for each
-> > type(write, read, poll) within nr_allocated_queue, that's to say, if
-> > user want to change queue dynamically by reset controller, they should
-> > setup io queues as many as possiable when laod nvme module, and then
-> > tune io queue count for each type.
->
-> typo: laod --> load
->
-OK, fix it in V3.
->
-> > Signed-off-by: Weiping Zhang <zhangweiping@didiglobal.com>
-> > ---
-> > Changes since V1:
-> >   * don't use module parameter nvme_dbbuf_dma_free, nvme_dbbuf_dma_alloc
-> >       and nvme_calc_irq_sets.
-> >   * add per-controller sysfs file io_queues_reload to enable/disable
-> >       reload global module parameter.
-> >
-> >   drivers/nvme/host/core.c | 29 +++++++++++++++++++++
-> >   drivers/nvme/host/nvme.h |  1 +
-> >   drivers/nvme/host/pci.c  | 55 +++++++++++++++++++++++-----------------
-> >   3 files changed, 62 insertions(+), 23 deletions(-)
-> >
-> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> > index dfb064b4334f..80172192a9d8 100644
-> > --- a/drivers/nvme/host/core.c
-> > +++ b/drivers/nvme/host/core.c
-> > @@ -3357,6 +3357,34 @@ static ssize_t nvme_sysfs_show_address(struct device *dev,
-> >   }
-> >   static DEVICE_ATTR(address, S_IRUGO, nvme_sysfs_show_address, NULL);
-> >
-> > +static ssize_t nvme_sysfs_io_queues_reload_show(struct device *dev,
-> > +                                      struct device_attribute *attr,
-> > +                                      char *buf)
-> > +{
-> > +     struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-> > +
-> > +     return snprintf(buf, PAGE_SIZE, "%d\n",
-> > +             ctrl->io_queues_reload ? 1 : 0);
-> > +}
-> > +
-> > +static ssize_t nvme_sysfs_io_queues_reload_store(struct device *dev,
-> > +                             struct device_attribute *attr, const char *buf,
-> > +                             size_t count)
-> > +{
-> > +     struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-> > +     bool val;
-> > +
-> > +     if (kstrtobool(buf, &val))
-> > +             return -EINVAL;
-> > +     ctrl->io_queues_reload = val;
-> > +
-> > +     return count;
-> > +}
-> > +
-> > +static DEVICE_ATTR(io_queues_reload, S_IRUGO | S_IWUSR,
-> > +             nvme_sysfs_io_queues_reload_show,
-> > +             nvme_sysfs_io_queues_reload_store);
-> > +
-> >   static struct attribute *nvme_dev_attrs[] = {
-> >       &dev_attr_reset_controller.attr,
-> >       &dev_attr_rescan_controller.attr,
-> > @@ -3374,6 +3402,7 @@ static struct attribute *nvme_dev_attrs[] = {
-> >       &dev_attr_sqsize.attr,
-> >       &dev_attr_hostnqn.attr,
-> >       &dev_attr_hostid.attr,
-> > +     &dev_attr_io_queues_reload.attr,
-> >       NULL
-> >   };
->
-> Well for fabrics controllers it doesn't mean anything.
->
-> maybe we can do it non-visible for fabrics ?
->
+Since the commit 147b27e4bd0 "nvme-pci: allocate device queues storage space at probe"
+nvme_alloc_queue will not alloc struct nvme_queue any more.
+If user change write/poll_queues to larger than the number of
+allocated queue in nvme_probe, nvme_alloc_queue will touch
+the memory out of boundary.
 
-Make sense, fix in v3.
+This patch add nr_allocated_queues for struct nvme_dev to record how
+many queues alloctaed in nvme_probe, then nvme driver will not use
+more queues than nr_allocated_queues when user update queue count
+and do a controller reset.
 
-Thanks
+Since global module parameter can be changed at rumtime, so it's not
+safe to use these two parameter directly in the following functions:
+nvme_dbbuf_dma_alloc
+nvme_dbbuf_dma_free
+nvme_calc_irq_sets
+nvme_setup_io_queues
 
-> _______________________________________________
-> linux-nvme mailing list
-> linux-nvme@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+This patch also add nr_write_queues, nr_poll_queues for
+struct nvme_dev and io_queues_reload for struct nvme_ctrl, that allow
+per-controller reload module parmater when reset controller. The nvme
+driver will not reload module parameter(write/poll_queues) by default
+when reset controller. If user want to reload them, they should enable
+it by echo 1 > /sys/block/<nvme_disk>/device/io_queues_reload.
+
+By now, nvme pci driver allow user change io queue count for each
+type(write, read, poll) within nr_allocated_queue, that's to say, if
+user want to change queue dynamically by reset controller, they should
+setup io queues as many as possiable when load nvme module, and then
+tune io queue count for each type.
+
+Signed-off-by: Weiping Zhang <zhangweiping@didiglobal.com>
+---
+Changes since V2:
+ * fix typo in commit message.
+ * don't show /sys/block/<nvme_disk>/device/io_queues_reload for fabric.
+
+Changes since V1:
+ * don't use module parameter nvme_dbbuf_dma_free, nvme_dbbuf_dma_alloc
+        and nvme_calc_irq_sets.
+ * add per-controller sysfs file io_queues_reload to enable/disable
+        reload global module parameter.
+
+ drivers/nvme/host/core.c | 31 ++++++++++++++++++++++
+ drivers/nvme/host/nvme.h |  1 +
+ drivers/nvme/host/pci.c  | 55 +++++++++++++++++++++++-----------------
+ 3 files changed, 64 insertions(+), 23 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index dfb064b4334f..3a7dc797b1ee 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3357,6 +3357,34 @@ static ssize_t nvme_sysfs_show_address(struct device *dev,
+ }
+ static DEVICE_ATTR(address, S_IRUGO, nvme_sysfs_show_address, NULL);
+ 
++static ssize_t nvme_sysfs_io_queues_reload_show(struct device *dev,
++					 struct device_attribute *attr,
++					 char *buf)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++
++	return snprintf(buf, PAGE_SIZE, "%d\n",
++		ctrl->io_queues_reload ? 1 : 0);
++}
++
++static ssize_t nvme_sysfs_io_queues_reload_store(struct device *dev,
++				struct device_attribute *attr, const char *buf,
++				size_t count)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++	bool val;
++
++	if (kstrtobool(buf, &val))
++		return -EINVAL;
++	ctrl->io_queues_reload = val;
++
++	return count;
++}
++
++static DEVICE_ATTR(io_queues_reload, S_IRUGO | S_IWUSR,
++		nvme_sysfs_io_queues_reload_show,
++		nvme_sysfs_io_queues_reload_store);
++
+ static struct attribute *nvme_dev_attrs[] = {
+ 	&dev_attr_reset_controller.attr,
+ 	&dev_attr_rescan_controller.attr,
+@@ -3374,6 +3402,7 @@ static struct attribute *nvme_dev_attrs[] = {
+ 	&dev_attr_sqsize.attr,
+ 	&dev_attr_hostnqn.attr,
+ 	&dev_attr_hostid.attr,
++	&dev_attr_io_queues_reload.attr,
+ 	NULL
+ };
+ 
+@@ -3391,6 +3420,8 @@ static umode_t nvme_dev_attrs_are_visible(struct kobject *kobj,
+ 		return 0;
+ 	if (a == &dev_attr_hostid.attr && !ctrl->opts)
+ 		return 0;
++	if (a == &dev_attr_io_queues_reload.attr && ctrl->opts)
++		return 0;
+ 
+ 	return a->mode;
+ }
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index f3ab17778349..50b6392b9a33 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -260,6 +260,7 @@ struct nvme_ctrl {
+ 	struct work_struct fw_act_work;
+ 	unsigned long events;
+ 	bool created;
++	bool io_queues_reload;
+ 
+ #ifdef CONFIG_NVME_MULTIPATH
+ 	/* asymmetric namespace access: */
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 4e79e412b276..00f7c93d73c9 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -89,6 +89,9 @@ static bool __nvme_disable_io_queues(struct nvme_dev *dev, u8 opcode);
+  */
+ struct nvme_dev {
+ 	struct nvme_queue *queues;
++	int nr_allocated_queue;
++	int nr_write_queues;
++	int nr_poll_queues;
+ 	struct blk_mq_tag_set tagset;
+ 	struct blk_mq_tag_set admin_tagset;
+ 	u32 __iomem *dbs;
+@@ -209,25 +212,14 @@ struct nvme_iod {
+ 	struct scatterlist *sg;
+ };
+ 
+-static unsigned int max_io_queues(void)
++static inline unsigned int nvme_dbbuf_size(struct nvme_dev *dev)
+ {
+-	return num_possible_cpus() + write_queues + poll_queues;
+-}
+-
+-static unsigned int max_queue_count(void)
+-{
+-	/* IO queues + admin queue */
+-	return 1 + max_io_queues();
+-}
+-
+-static inline unsigned int nvme_dbbuf_size(u32 stride)
+-{
+-	return (max_queue_count() * 8 * stride);
++	return (dev->nr_allocated_queue * 8 * dev->db_stride);
+ }
+ 
+ static int nvme_dbbuf_dma_alloc(struct nvme_dev *dev)
+ {
+-	unsigned int mem_size = nvme_dbbuf_size(dev->db_stride);
++	unsigned int mem_size = nvme_dbbuf_size(dev);
+ 
+ 	if (dev->dbbuf_dbs)
+ 		return 0;
+@@ -252,7 +244,7 @@ static int nvme_dbbuf_dma_alloc(struct nvme_dev *dev)
+ 
+ static void nvme_dbbuf_dma_free(struct nvme_dev *dev)
+ {
+-	unsigned int mem_size = nvme_dbbuf_size(dev->db_stride);
++	unsigned int mem_size = nvme_dbbuf_size(dev);
+ 
+ 	if (dev->dbbuf_dbs) {
+ 		dma_free_coherent(dev->dev, mem_size,
+@@ -1991,7 +1983,7 @@ static int nvme_setup_host_mem(struct nvme_dev *dev)
+ static void nvme_calc_irq_sets(struct irq_affinity *affd, unsigned int nrirqs)
+ {
+ 	struct nvme_dev *dev = affd->priv;
+-	unsigned int nr_read_queues;
++	unsigned int nr_read_queues, nr_write_queues = dev->nr_write_queues;
+ 
+ 	/*
+ 	 * If there is no interupt available for queues, ensure that
+@@ -2007,12 +1999,12 @@ static void nvme_calc_irq_sets(struct irq_affinity *affd, unsigned int nrirqs)
+ 	if (!nrirqs) {
+ 		nrirqs = 1;
+ 		nr_read_queues = 0;
+-	} else if (nrirqs == 1 || !write_queues) {
++	} else if (nrirqs == 1 || !nr_write_queues) {
+ 		nr_read_queues = 0;
+-	} else if (write_queues >= nrirqs) {
++	} else if (nr_write_queues >= nrirqs) {
+ 		nr_read_queues = 1;
+ 	} else {
+-		nr_read_queues = nrirqs - write_queues;
++		nr_read_queues = nrirqs - nr_write_queues;
+ 	}
+ 
+ 	dev->io_queues[HCTX_TYPE_DEFAULT] = nrirqs - nr_read_queues;
+@@ -2036,7 +2028,7 @@ static int nvme_setup_irqs(struct nvme_dev *dev, unsigned int nr_io_queues)
+ 	 * Poll queues don't need interrupts, but we need at least one IO
+ 	 * queue left over for non-polled IO.
+ 	 */
+-	this_p_queues = poll_queues;
++	this_p_queues = dev->nr_poll_queues;
+ 	if (this_p_queues >= nr_io_queues) {
+ 		this_p_queues = nr_io_queues - 1;
+ 		irq_queues = 1;
+@@ -2073,7 +2065,17 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 	int result, nr_io_queues;
+ 	unsigned long size;
+ 
+-	nr_io_queues = max_io_queues();
++	/* reload io queue count from module paramters write/poll_queues */
++	if (dev->ctrl.io_queues_reload) {
++		dev->nr_write_queues = write_queues;
++		dev->nr_poll_queues = poll_queues;
++		nr_io_queues = num_possible_cpus() + dev->nr_write_queues +
++				dev->nr_poll_queues;
++		if (nr_io_queues > dev->nr_allocated_queue - 1)
++			nr_io_queues = dev->nr_allocated_queue - 1;
++	} else {
++		nr_io_queues = dev->nr_allocated_queue - 1;
++	}
+ 
+ 	/*
+ 	 * If tags are shared with admin queue (Apple bug), then
+@@ -2742,7 +2744,7 @@ static void nvme_async_probe(void *data, async_cookie_t cookie)
+ 
+ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ {
+-	int node, result = -ENOMEM;
++	int node, nr_queue, result = -ENOMEM;
+ 	struct nvme_dev *dev;
+ 	unsigned long quirks = id->driver_data;
+ 	size_t alloc_size;
+@@ -2755,11 +2757,18 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	if (!dev)
+ 		return -ENOMEM;
+ 
+-	dev->queues = kcalloc_node(max_queue_count(), sizeof(struct nvme_queue),
++	dev->nr_write_queues = write_queues;
++	dev->nr_poll_queues = poll_queues;
++	/* IO queues + admin queue */
++	nr_queue = dev->nr_write_queues + dev->nr_poll_queues +
++		num_possible_cpus() + 1;
++	dev->queues = kcalloc_node(nr_queue, sizeof(struct nvme_queue),
+ 					GFP_KERNEL, node);
+ 	if (!dev->queues)
+ 		goto free;
+ 
++	dev->nr_allocated_queue = nr_queue;
++
+ 	dev->dev = get_device(&pdev->dev);
+ 	pci_set_drvdata(pdev, dev);
+ 
+-- 
+2.18.1
+
 
 _______________________________________________
 linux-nvme mailing list
