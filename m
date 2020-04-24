@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4141EC55186
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Apr 2020 07:14:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4AB5C55186
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Apr 2020 07:54:13 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0B67D20767
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Apr 2020 07:14:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B40CC20704
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Apr 2020 07:54:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="gGCYrk8+"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0B67D20767
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="eZEmqqJX"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B40CC20704
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,36 +25,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=6UawW8ACcuMCQtbdLRkL4Y6XW7Cv1+oPQ6n3ysDwRoM=; b=gGCYrk8+dER9t3
-	3NWoY93DplgIDLazvi6hn17mb7IujhDBPh5eR6cjBHV33IVhXPcodDvwRd3MEUXS1qiI1/9trMi4A
-	oGi75XO22vSRwZ3kz7uPbrNTA0IgyAtFDj6q4KCrCWmx3/FVmCHneZuXm16ggwHiRMc0dR8jmTasu
-	g0RFOPgNV8eoj6Biv4xgpF9WWxxGxQ0C2M2PcPhVzndMjpqyupA4o6JAvmsSHq4wkLLRURvcQk2em
-	QQV6PgKMCjInnS5b252V1UwKcvfmErSznypY78BuQRTSEILesQa9pPoV3Lmi7eExzdurPp7wPwjfO
-	BPHZv4NZyE73evTGbCSw==;
+	List-Owner; bh=pwRVobfzgSh0l/xyGcgHsgyjMTWB8bb2o9juh6XSids=; b=eZEmqqJXXWGv8D
+	gdxK95Dlx3d6b02UkLBfZXviKdSu7BM3NCwaCjJkr+gdmRkVeGFFHILEwZnx3RimfE6gTi47R8ffM
+	V0jctXzxHOIg/hJVRPdGlklnDLK3TGN3/OO6M+kbW21uCRpbDhH322pnN/gwePcd6405Xo9cCJVep
+	syW+dMJMgb7b2Hk6gSK8qo6Zx2IvKVmNpGmG8CBvff6+VXy49ZUzzwN1TjgaHAlcW3UazI19V61nb
+	7pMnq+lfOQOKEOfRkKG9FPxph+waj0tLN1aBUtiPlEBkkYVoxW+M8rPbdyZqJuWHOAdSw8uxvA/2g
+	EXHOki1pkhYE2/ewlJHw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jRsXn-0005fK-2s; Fri, 24 Apr 2020 07:14:39 +0000
+	id 1jRtA0-0003g1-Vd; Fri, 24 Apr 2020 07:54:08 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jRsXk-0005eN-J9
- for linux-nvme@lists.infradead.org; Fri, 24 Apr 2020 07:14:37 +0000
+ id 1jRt9z-0003fP-6p
+ for linux-nvme@lists.infradead.org; Fri, 24 Apr 2020 07:54:08 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 723C768CEE; Fri, 24 Apr 2020 09:14:33 +0200 (CEST)
-Date: Fri, 24 Apr 2020 09:14:33 +0200
+ id C99B568CEE; Fri, 24 Apr 2020 09:54:03 +0200 (CEST)
+Date: Fri, 24 Apr 2020 09:54:03 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Max Gurtovoy <maxg@mellanox.com>
-Subject: Re: [PATCH 14/17] nvmet: Add metadata/T10-PI support
-Message-ID: <20200424071433.GE24059@lst.de>
+Subject: Re: [PATCH 15/17] nvmet: Add metadata support for block devices
+Message-ID: <20200424075403.GA24906@lst.de>
 References: <20200327171545.98970-1-maxg@mellanox.com>
- <20200327171545.98970-16-maxg@mellanox.com> <20200421153045.GE10837@lst.de>
- <0c6caf5b-693b-74af-670e-7df9c7f9c829@mellanox.com>
+ <20200327171545.98970-17-maxg@mellanox.com> <20200421153339.GF10837@lst.de>
+ <3992e1fd-efad-0679-7817-f004b40cdc76@mellanox.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <0c6caf5b-693b-74af-670e-7df9c7f9c829@mellanox.com>
+In-Reply-To: <3992e1fd-efad-0679-7817-f004b40cdc76@mellanox.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200424_001436_774142_46C4C1C8 
-X-CRM114-Status: GOOD (  10.61  )
+X-CRM114-CacheID: sfid-20200424_005407_403351_09026C19 
+X-CRM114-Status: UNSURE (   9.08  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,45 +72,44 @@ Cc: axboe@kernel.dk, jsmart2021@gmail.com, sagi@grimberg.me,
  israelr@mellanox.com, vladimirk@mellanox.com, linux-nvme@lists.infradead.org,
  idanb@mellanox.com, jgg@mellanox.com, oren@mellanox.com, kbusch@kernel.org,
  Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Apr 23, 2020 at 03:39:38PM +0300, Max Gurtovoy wrote:
->>> +	if (ctrl->subsys->pi_support && ctrl->port->pi_enable) {
->>> +		if (ctrl->port->pi_capable) {
->>> +			ctrl->pi_support = true;
->>> +			pr_info("controller %d T10-PI enabled\n", ctrl->cntlid);
->>> +		} else {
->>> +			ctrl->pi_support = false;
->>> +			pr_warn("T10-PI is not supported on controller %d\n",
->>> +				ctrl->cntlid);
->>> +		}
->> I think the printks are a little verbose.  Also why can we set
->> ctrl->port->pi_enable if ctrl->port->pi_capable is false?  Shoudn't
->> we reject that earlier?  In that case this could simply become:
+On Thu, Apr 23, 2020 at 08:25:24PM +0300, Max Gurtovoy wrote:
+>
+> On 4/21/2020 6:33 PM, Christoph Hellwig wrote:
+>> On Fri, Mar 27, 2020 at 08:15:43PM +0300, Max Gurtovoy wrote:
+>>> -	if (!nvmet_check_transfer_len(req, nvmet_rw_data_len(req)))
+>>> +	if (!nvmet_check_transfer_len(req,
+>>> +				      nvmet_rw_data_len(req) + req->md_len))
+>> Shouldn't we also calculate the actual metadata length on the fly here?
+>
+> we calculate it during nvmet_init_req.
+
+Indeed.  =
+
+
+>
 >>
->> 	ctrl->pi_support = ctrl->subsys->pi_support && ctrl->port->pi_enable;
+>>>   	blk_start_plug(&plug);
+>>> +	if (req->use_md)
+>> Can't we use a non-NULL req->md_sg or non-null req->md_sg_cnt as a
+>> metadata supported indicator and remove the use_md flag?  Maybe wrap
+>> them in a helper function that also checks for blk integrity support
+>> using IS_ENABLED and we can skip the stubs as well.
 >
-> for that we'll need to check pi_capable during add_port process and disable 
-> pi_enable bit if user set it.
+> I'll replace it with:
+>
+> static inline bool nvmet_req_has_pi(struct nvmet_req *req)
+> {
+> =A0=A0=A0=A0=A0=A0=A0 return req->sq->ctrl->pi_support && nvmet_ns_has_pi=
+(req->ns);
+> }
 
-Which seems pretty sensible.  In fact I think the configfs write for
-pi enable should fail if we don't have the capability.
-
-> User should set it before enable the port (this will always succeed).
->
-> I'll make this change as well.
->
-> re the verbosity, sometimes I get many requests from users to get 
-> indication for some features.
->
-> We can remove this as well if needed.
-
-I'd rather keep debug prints silent.  You could add a verbose mode
-in nvmetcli that prints all the settings applied if that helps these
-users.
+Actually I think you can simply check for a non-0 md_len, as we always
+set them at the same time.
 
 _______________________________________________
 linux-nvme mailing list
