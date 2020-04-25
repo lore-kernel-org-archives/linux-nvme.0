@@ -2,86 +2,104 @@ Return-Path: <SRS0=uXiZ=6J=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 809EFC55186
-	for <linux-nvme@archiver.kernel.org>; Sat, 25 Apr 2020 05:59:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3E17C55191
+	for <linux-nvme@archiver.kernel.org>; Sat, 25 Apr 2020 17:34:43 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 55BC020728
-	for <linux-nvme@archiver.kernel.org>; Sat, 25 Apr 2020 05:59:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7D8AF20728
+	for <linux-nvme@archiver.kernel.org>; Sat, 25 Apr 2020 17:34:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="TwlFm5q6";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="eTcBNBFJ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 55BC020728
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="uJBH5zNh"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7D8AF20728
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=acm.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
-	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=Z4lpSkXEUpyyKY7asv+CMUfTEm7Q8ckZoWR6VKE8zmE=; b=TwlFm5q6ZPoPtt
-	iqohq0aur3DijmyEnaokh7bIfBSN6Xeaga31s2hwtx1IlTspLbrAeoSek0WkWF8cqipqRFR3aXU0b
-	NM8oEXn5ZsEo3PW5kSmqnTkWzCnpVsGFt/75wp1UGqwRxq+AtCoAeQSHVthNu0WfkwZjaz2WtL5Iv
-	SwqXH3kMgr7zoPkg0Uk11Ta7RbU68eZCtPcV7Wi0VxOqWhCi+JRZXfgE6gZ29CNHMvKvKjz0CpWsv
-	a/7O9zauAgyv9cVzjWhE1qZrxnJ/jdNcL7moEFNp6AnRpOGFOUwQMw9aDUEgcJjtIBgpEmskZ5hur
-	juCCjEUoBtmsJuUQwdrQ==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
+	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
+	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=8Rf6XcYWpFm/ekEqBuVIGzr3cflpfwKwc3F1aROsDEw=; b=uJBH5zNhCiieS6
+	vbmH/dn7FbyOXcmw4jzxBhU5qZpkoCdCfZC3brHM/ZetoUAeWecTI56FNDldc7/cS6gzmFe7OpQ6P
+	hknEj10eRcNkFGJtLv/5IZOxtFzmWBfEhfXo6p3yv3CR0KBd1v6UAdb9NJehH2VONJ6ctYyb9WBLz
+	mTGRwCrh3j4hf5dxVCPYWY8Ni9mHLGUKDBYVXdjZs0b51CRaTXQQiyCCwK2gXySrkCvTkKoB1YPff
+	o4FR4TNnS6GHeGt9aJDR21hF8Kw7+eFNs6t04Y7EdjBJRThXUvs4YScDsN1BdHABunqjc5a7k7onP
+	5IQ5CIaWr7aU6IJi1Z8Q==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jSDqC-0005Qx-K6; Sat, 25 Apr 2020 05:59:04 +0000
-Received: from esa4.hgst.iphmx.com ([216.71.154.42])
+	id 1jSOhJ-0000nN-KD; Sat, 25 Apr 2020 17:34:37 +0000
+Received: from mail-pf1-f193.google.com ([209.85.210.193])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jSDqA-0005Py-4y
- for linux-nvme@lists.infradead.org; Sat, 25 Apr 2020 05:59:03 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1587794341; x=1619330341;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=f88zJtz6qKg3ZbqWvWLwEDqecvtvWXr/RF7ttGsKQpc=;
- b=eTcBNBFJyFXesvus3geiU5KTGnsXcfTOxcH8R/tiAAFd9CRRJFXV97Kf
- 7f44hNkSbfpEPnUqMmbW2jWhDXe/YyRqUNypMgALufwKZ08rY7Ss0DbMg
- FgOBIgohQzNjRf13ehUzn4/nFjqW2FwmMVxTftSOOX7CEWTZFfSw+FSAT
- Bbbywulj1QTgT0eL/xigV/qwyp7AOhnUrgR67sZsv3V6fcu2fVCEulV0U
- 4/+Xyt4U1lEvppJTa4H6zmETMyhPlh39dqcuwtOp9bzhS+EdUWDN7ckqp
- /eyxw80ND3YWW5qcp6C/bE4y6+h4dxg32S75YAHwFRP9cNXvWU0D/0xXz w==;
-IronPort-SDR: RtN0WxgufZF0P23sap+45uUR5d3KySCZk8QBB3PmqYyd6COqs06QzUTkP6BS49lfNirrKaqN7x
- cxhuEOIv/ptTdW9eSQiM7Ck7BW1Zk+78cVsr32zzQ017dnjDHwBs46V7IEZenWFZXnFQ9bjK6C
- ta34ijTbb7CI9RL/IdItuKSkI3lJF8ntqlORw5aM57G/J2jBWK5KtVsCLvA0IG4JeTu5d/6aeH
- XH2fRImvE7sE6SvOuYbfwYUsoi3hXdgobmw05fwF8jCXP6353aCuo3ReDgnnPdR7dtCE5fDFG8
- xoA=
-X-IronPort-AV: E=Sophos;i="5.73,314,1583164800"; d="scan'208";a="136134435"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 25 Apr 2020 13:58:58 +0800
-IronPort-SDR: vFphpmEWM/5PM390Znw2OMsk/HXZmZAGKo8EojwbuozH+v1V2lQUkSu5f6+HmdQ3USO7htF6Bx
- SDmFRFaKwA9PL2dHjJvzerysUuyOfDGsA=
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Apr 2020 22:49:44 -0700
-IronPort-SDR: gtELtMkbwknISrGRtktdLBaInrJbikm3T094hyo9YkAh9R3W6Igkg5hPLlmicUw/Xug3hNI5YD
- SWlAH3QO+Onw==
-WDCIronportException: Internal
-Received: from iouring.labspan.wdc.com (HELO iouring.sc.wdc.com)
- ([10.6.138.107])
- by uls-op-cesaip02.wdc.com with ESMTP; 24 Apr 2020 22:58:58 -0700
-From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-To: linux-nvme@lists.infradead.org
-Subject: [PATCH nvme-cli] nvme: fix asprintf return value check
-Date: Fri, 24 Apr 2020 22:58:52 -0700
-Message-Id: <20200425055852.2921-1-chaitanya.kulkarni@wdc.com>
-X-Mailer: git-send-email 2.24.0
+ id 1jSOhE-0000lg-TQ
+ for linux-nvme@lists.infradead.org; Sat, 25 Apr 2020 17:34:34 +0000
+Received: by mail-pf1-f193.google.com with SMTP id 18so6430592pfx.6
+ for <linux-nvme@lists.infradead.org>; Sat, 25 Apr 2020 10:34:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=7yCqD+rRRBkYGW0z/wTNjDeYQaMCpKpzTiPX36S7yQ8=;
+ b=oXRkDCragtCb/xJZxVieB7cczAVb7XVDIMvqGA7umK9ytlWuIfsTT0vhtzDyDCmp+o
+ +pWh953EPSLbPfrKm/KKUaEbY71cvrXP6heingMVzFEwBEdU+iUAeFwbYMBcHrGPvxt1
+ wVT5tI8Q1AAm73SSNtzUU0+/Vof6O1AVujnYt0qmDfYM4P7DroAk+T1W2eh3OcyD8zUc
+ 0wOA7W8WIhx5+kHdnaZe7ZLr+e/r0pj3qSjVP1epmRLbjvUWnH7t9zc5f5+9aN1plbEb
+ Ai0WEB8BDLZ81offsZgn1S7uWETaw3oP7RXkr1cPJZYiHXQ5W6CAptbyzJVqvpBGy/hD
+ nxxA==
+X-Gm-Message-State: AGi0PuZpeH5N2r41ZgifSX1+1vlHtH6tjaeUr0pRIsAkzLLyDQu/5MDJ
+ W8fP1/OvcLoN4eBWdfs1oZWK/BW/QaQ=
+X-Google-Smtp-Source: APiQypJ7DK/CXkJ34hRCJq1RYAqa9ANrVrlBvvkj75LUqiH28BOt5qdb0RI2UbAlWQuvsFfJGjMZaQ==
+X-Received: by 2002:a63:b20f:: with SMTP id x15mr135266pge.298.1587836071105; 
+ Sat, 25 Apr 2020 10:34:31 -0700 (PDT)
+Received: from ?IPv6:2601:647:4000:d7:9817:f6ce:d8be:3e60?
+ ([2601:647:4000:d7:9817:f6ce:d8be:3e60])
+ by smtp.gmail.com with ESMTPSA id 185sm9031790pfv.9.2020.04.25.10.34.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 25 Apr 2020 10:34:30 -0700 (PDT)
+Subject: Re: [PATCH nvme-cli] nvme: fix asprintf return value check
+To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
+ linux-nvme@lists.infradead.org
+References: <20200425055852.2921-1-chaitanya.kulkarni@wdc.com>
+From: Bart Van Assche <bvanassche@acm.org>
+Autocrypt: addr=bvanassche@acm.org; prefer-encrypt=mutual; keydata=
+ mQENBFSOu4oBCADcRWxVUvkkvRmmwTwIjIJvZOu6wNm+dz5AF4z0FHW2KNZL3oheO3P8UZWr
+ LQOrCfRcK8e/sIs2Y2D3Lg/SL7qqbMehGEYcJptu6mKkywBfoYbtBkVoJ/jQsi2H0vBiiCOy
+ fmxMHIPcYxaJdXxrOG2UO4B60Y/BzE6OrPDT44w4cZA9DH5xialliWU447Bts8TJNa3lZKS1
+ AvW1ZklbvJfAJJAwzDih35LxU2fcWbmhPa7EO2DCv/LM1B10GBB/oQB5kvlq4aA2PSIWkqz4
+ 3SI5kCPSsygD6wKnbRsvNn2mIACva6VHdm62A7xel5dJRfpQjXj2snd1F/YNoNc66UUTABEB
+ AAG0JEJhcnQgVmFuIEFzc2NoZSA8YnZhbmFzc2NoZUBhY20ub3JnPokBOQQTAQIAIwUCVI67
+ igIbAwcLCQgHAwIBBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFcPTXFzhAJ8QkH/1AdXblKL65M
+ Y1Zk1bYKnkAb4a98LxCPm/pJBilvci6boefwlBDZ2NZuuYWYgyrehMB5H+q+Kq4P0IBbTqTa
+ jTPAANn62A6jwJ0FnCn6YaM9TZQjM1F7LoDX3v+oAkaoXuq0dQ4hnxQNu792bi6QyVdZUvKc
+ macVFVgfK9n04mL7RzjO3f+X4midKt/s+G+IPr4DGlrq+WH27eDbpUR3aYRk8EgbgGKvQFdD
+ CEBFJi+5ZKOArmJVBSk21RHDpqyz6Vit3rjep7c1SN8s7NhVi9cjkKmMDM7KYhXkWc10lKx2
+ RTkFI30rkDm4U+JpdAd2+tP3tjGf9AyGGinpzE2XY1K5AQ0EVI67igEIAKiSyd0nECrgz+H5
+ PcFDGYQpGDMTl8MOPCKw/F3diXPuj2eql4xSbAdbUCJzk2ETif5s3twT2ER8cUTEVOaCEUY3
+ eOiaFgQ+nGLx4BXqqGewikPJCe+UBjFnH1m2/IFn4T9jPZkV8xlkKmDUqMK5EV9n3eQLkn5g
+ lco+FepTtmbkSCCjd91EfThVbNYpVQ5ZjdBCXN66CKyJDMJ85HVr5rmXG/nqriTh6cv1l1Js
+ T7AFvvPjUPknS6d+BETMhTkbGzoyS+sywEsQAgA+BMCxBH4LvUmHYhpS+W6CiZ3ZMxjO8Hgc
+ ++w1mLeRUvda3i4/U8wDT3SWuHcB3DWlcppECLkAEQEAAYkBHwQYAQIACQUCVI67igIbDAAK
+ CRBxXD01xc4QCZ4dB/0QrnEasxjM0PGeXK5hcZMT9Eo998alUfn5XU0RQDYdwp6/kMEXMdmT
+ oH0F0xB3SQ8WVSXA9rrc4EBvZruWQ+5/zjVrhhfUAx12CzL4oQ9Ro2k45daYaonKTANYG22y
+ //x8dLe2Fv1By4SKGhmzwH87uXxbTJAUxiWIi1np0z3/RDnoVyfmfbbL1DY7zf2hYXLLzsJR
+ mSsED/1nlJ9Oq5fALdNEPgDyPUerqHxcmIub+pF0AzJoYHK5punqpqfGmqPbjxrJLPJfHVKy
+ goMj5DlBMoYqEgpbwdUYkH6QdizJJCur4icy8GUNbisFYABeoJ91pnD4IGei3MTdvINSZI5e
+Message-ID: <3dda409b-bb72-1019-5ce8-e22781d45ba3@acm.org>
+Date: Sat, 25 Apr 2020 10:34:28 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <20200425055852.2921-1-chaitanya.kulkarni@wdc.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200424_225902_279428_27BFDA50 
-X-CRM114-Status: UNSURE (   9.82  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200425_103432_952559_A9A52880 
+X-CRM114-Status: GOOD (  12.87  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,42 +111,39 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: kbusch@kernel.org, Kev Dorman <kdorman036@gmail.com>,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Cc: kbusch@kernel.org, Kev Dorman <kdorman036@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The asprintf(3) function resturns -1 on error not 1. Fix that.
+On 2020-04-24 22:58, Chaitanya Kulkarni wrote:
+> diff --git a/nvme-topology.c b/nvme-topology.c
+> index e938f23..4dbadce 100644
+> --- a/nvme-topology.c
+> +++ b/nvme-topology.c
+> @@ -357,9 +357,9 @@ static int verify_legacy_ns(struct nvme_namespace *n)
+>  		char tmp_address[64] = "";
+>  		legacy_get_pci_bdf(path, tmp_address);
+>  		if (tmp_address[0]) {
+> -			if (asprintf(&n->ctrl->transport, "pcie") != 1)
+> +			if (asprintf(&n->ctrl->transport, "pcie") == -1)
+>  				return -1;
+> -			if (asprintf(&n->ctrl->address, "%s", tmp_address) != 1)
+> +			if (asprintf(&n->ctrl->address, "%s", tmp_address) == -1)
+>  				return -1;
+>  		}
+>  	}
 
-Fixes a032a481d74 ("nvme: fix compiler warnings")
+How about using "< 0" to check for errors? I think that's a more widely
+used approach to check for errors than checking for "== -1".
 
-Suggested-by: Kev Dorman <kdorman036@gmail.com>
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
----
- nvme-topology.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Will a memory leak occur if the first asprintf() call succeeds and the
+second asprintf() call fails?
 
-diff --git a/nvme-topology.c b/nvme-topology.c
-index e938f23..4dbadce 100644
---- a/nvme-topology.c
-+++ b/nvme-topology.c
-@@ -357,9 +357,9 @@ static int verify_legacy_ns(struct nvme_namespace *n)
- 		char tmp_address[64] = "";
- 		legacy_get_pci_bdf(path, tmp_address);
- 		if (tmp_address[0]) {
--			if (asprintf(&n->ctrl->transport, "pcie") != 1)
-+			if (asprintf(&n->ctrl->transport, "pcie") == -1)
- 				return -1;
--			if (asprintf(&n->ctrl->address, "%s", tmp_address) != 1)
-+			if (asprintf(&n->ctrl->address, "%s", tmp_address) == -1)
- 				return -1;
- 		}
- 	}
--- 
-2.22.1
+Thanks,
 
+Bart.
 
 _______________________________________________
 linux-nvme mailing list
