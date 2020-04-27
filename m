@@ -2,88 +2,130 @@ Return-Path: <SRS0=LwVW=6L=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBE9AC55199
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Apr 2020 12:35:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58A97C54FCB
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Apr 2020 13:53:10 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 882A720575
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Apr 2020 12:35:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 29BE3206BF
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Apr 2020 13:53:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="THVr4QrV";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="Xzq65Uim"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 882A720575
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Xx4GOFhY";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=Mellanox.com header.i=@Mellanox.com header.b="m0FpuKmk"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 29BE3206BF
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
-	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=PmKxYeO4q5iZME4GiekylbBnRsi0kncUzrF4URPAuB8=; b=THVr4QrVyPVWO4
-	pT1zs+pa2tewcONa/KyhGBBWdM4U4PVFOeqMWE9o8FvP0CEKIe34dqK8cVFQcJfhcTc17OxjVE7uA
-	yY7GBPOpWqklfVAxhLFBUEAsDPO7KhaqWvF1waffxp/GPAxibF6ND+fvkh+151CCfd67kYkgVaqgZ
-	vLqri2fRhpkx8GDohkOT1eyuWkphIPEXx3eMa22nDhgZ7g3+eddyfZ6BqbrVp0XN56MydjMQ670kO
-	A7y7Krjjk84IA/PAbnOV6LurTIFfjJhZLz66P+5fclGWPNCdBPFgqQipoUO90ky2XMqS679W2CvtS
-	/IvgMr00K57yV/2zEK9A==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=+WQbZaP+ZT2v2+V4+OA/fJcGceFw9siUfrB7Kd10hp8=; b=Xx4GOFhYX4TCbF/3kjLFKIIKJ
+	057DHU2ame5DjXHWN/xyxq8TFvTpx3gIxVYmxIuDviKODG2uWD0J31Fcy6K+1KWowc7HQNKizxd+K
+	Y8hhNhqSbvH1uY/c7GIeWUTBWKrsQWYiPTDVwi42YKtxXmhWrahLLG/vxcqv9ZpuMCIqtyI+15XPc
+	D25wFgAeVriVtfobF1UwSRcCz+Zu20kDGqiirkpc4Jgl7X1h0yXLZE5YbYgZlwIGAtld5LLFWyoqt
+	gwjOc97YP+mZinC8gZ+iXqptiyM4ekTcllZiP8EaPdMkjp4f/ZZrSv62/VzvGvVSLkfAvBkAXUDb1
+	k9/uGJzcA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jT2yP-0006lx-UY; Mon, 27 Apr 2020 12:34:57 +0000
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
+	id 1jT4C1-0004M5-Jh; Mon, 27 Apr 2020 13:53:05 +0000
+Received: from mail-eopbgr00074.outbound.protection.outlook.com ([40.107.0.74]
+ helo=EUR02-AM5-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jT2yN-0006kW-4p
- for linux-nvme@lists.infradead.org; Mon, 27 Apr 2020 12:34:56 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1587990894; x=1619526894;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=VFhl5pd1bt6CpJr4PfxQxrl9uO26lhYUX26RETwc4cw=;
- b=Xzq65UimawuJ77zGzKMappairV8EVHBXhC7zkDikB7h1QMVfnUxP0ljb
- Uo1ijgNDBpcixQxAtW+JVThSBaj42Ic0+Zy6PfzpORrcXNYHTj0v2x7tF
- Eqfl34QcGPGIg69sHIHahY+aakjIsft4CH3UjYXabBWrMbp0qpls2qptB
- Hgu41Z2o8OZOaYJTnsGowVrigbepVj6z6l0tA8AoiD8aaI7gx2aDEY4k8
- GZ8P8Nr4IU3r1M9pLWtmZKOcVHcivwoA/bh7+niDOl6ukdaP59zSJKrEW
- RhWUCc3lAy84tbp422qh4DOLHMusoEbqZanmy5D9gTdJD49HwoKTpZmMt g==;
-IronPort-SDR: HaoYwIFyc4OqVJjvqjhRzc8nUcGKUx3jOgtKS4OusPjXqAsPk5z+l0MDM7E4hrxu1p7UbUksos
- RFfnykPDwSlZlvAeGmnxmRZXeb6nwoU2ldmDo5PuUALkJJmPZjYhY6EvyXmR6+KomAPiGWj1mW
- B4pTmmF8e6gKbdianunRUwvTeLBvFekmMDby/CA1CSRJNnPyNrHvZy6lU872DLMLcSyIhHVkv6
- CXcx5ieWkpXLyzCSZKNuCt6rO0sLYDkrpoxfRVwi8QB4dtipt0gQ4MUu0iScgAuUrvDrcVi/EU
- KnU=
-X-IronPort-AV: E=Sophos;i="5.73,324,1583164800"; d="scan'208";a="245018832"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 27 Apr 2020 20:34:51 +0800
-IronPort-SDR: +m6ajJH9rmnPEkcoE4do01VQL+ZvouqsIl9fvfW0G1SRwy8ucEtyQmNlFzC/M8Hu4Q5LZjCm29
- +VKQoW6vL+b1AQLqJa3Sw9iLcNNndUPaQ=
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Apr 2020 05:25:32 -0700
-IronPort-SDR: joVpwLHLD6k+JizYgH/iGyPlWfrkPSlUPtw35O+L9V3zdtYTZtit5oZ5/epw7Pjc43LN0IvG4Z
- Dz+PMn7H5Bzw==
-WDCIronportException: Internal
-Received: from th5m0yyf2.ad.shared (HELO localhost.hgst.com) ([10.86.56.126])
- by uls-op-cesaip01.wdc.com with ESMTP; 27 Apr 2020 05:34:46 -0700
-From: Niklas Cassel <niklas.cassel@wdc.com>
-To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Igor Konopko <igor.j.konopko@intel.com>,
- =?UTF-8?q?Matias=20Bj=C3=B8rling?= <mb@lightnvm.io>,
- =?UTF-8?q?Javier=20Gonz=C3=A1lez?= <javier@cnexlabs.com>
-Subject: [PATCH] nvme: prevent double free in nvme_alloc_ns() error handling
-Date: Mon, 27 Apr 2020 14:34:41 +0200
-Message-Id: <20200427123443.520469-1-niklas.cassel@wdc.com>
-X-Mailer: git-send-email 2.25.3
+ id 1jT4By-0004KV-Oo
+ for linux-nvme@lists.infradead.org; Mon, 27 Apr 2020 13:53:04 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hHJMciY/d+PWIfTu6tvgZnsAnfqea+Mgs2p71HqhlcvZKaERBypoCUuK2YYZ+Kq6sOzKDLif2PEig8nzEFoyJ4AI6yHjLxp1O1SLi5Xs8o06SeJl3LRLGCWg5k0PjUses7IhqJcehhLJuxGyemXLqOKQHrvzl4LVjqDnJAQTooHCHskBKByoE92681/BrcKwlblUYyovH1i9fgqAEV4MJS2p9o2wg8x5TrwGYdZSvo2R3Ds2hG9JYEqyeU3aUlGXv1KRHTvPBobCo6/ntiCAWgpD6dR5Dbt4qiihiug+cr2BO7b3UgADqA5Q4nVvNzbRvpu4FTTNUs4W5A5gdZW7ZQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4iSaiElOOiNei5elLBkbTFT+/U3joTtvBkgl7ZEW5Sg=;
+ b=Iismh/Bh+4Cs1zlm450YGGl8Br+O+DZcDxBpqyJUXy37vEcm4rOCflAXmBDm8qks9ZgW3IIZWaF5pfUvuclLLIa4zF90iVaKweZjSODbRgAVIzdx/cuaY3MQIbYYQPrtyhVPGG+TlEEq8cLWvGCaTVf7UQwvD9t1hEz1H6N2LBeW/cTiQJaILMluZLIPATJg+FSxGi6vWY4rFVbeP4hHrx6Jta/nHc1U0ELsEWDZi5WXI09qxLZ1myLOSxt+n+DMuzWicg7yd/TCb839sOHPOvmGb4PBcW8PKknr4f222hRnqJoj9O1JUDLKF/O8opCWO745GHjVQcPiRPcUTcYZoA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
+ dkim=pass header.d=mellanox.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4iSaiElOOiNei5elLBkbTFT+/U3joTtvBkgl7ZEW5Sg=;
+ b=m0FpuKmkuu0q/+G3GxW83AxnR33YoP3+k3u6qboE3QUjVK9i9H6r0w4HgPR2h74GwUjVmAiZGekOYflPXtAeYnQVB8OXqJxtM3dKwW2gHjhFs3mHxpEzNCvCbT8PHayl2GqB4aBuVUvj6E1EMfUugAXb+z0RuEcwAE2axy3LXEk=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=maxg@mellanox.com; 
+Received: from AM0PR05MB5810.eurprd05.prod.outlook.com (2603:10a6:208:11f::18)
+ by AM0PR05MB5025.eurprd05.prod.outlook.com (2603:10a6:208:c6::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.22; Mon, 27 Apr
+ 2020 13:52:57 +0000
+Received: from AM0PR05MB5810.eurprd05.prod.outlook.com
+ ([fe80::408a:27c1:55f8:eed4]) by AM0PR05MB5810.eurprd05.prod.outlook.com
+ ([fe80::408a:27c1:55f8:eed4%5]) with mapi id 15.20.2937.020; Mon, 27 Apr 2020
+ 13:52:57 +0000
+Subject: Re: [PATCH 05/17] nvme-fabrics: Allow user enabling metadata/T10-PI
+ support
+To: Christoph Hellwig <hch@lst.de>
+References: <20200327171545.98970-1-maxg@mellanox.com>
+ <20200327171545.98970-7-maxg@mellanox.com> <20200421151747.GA10837@lst.de>
+ <54c05d2d-2ea5-bf58-455f-91efa085aa9b@mellanox.com>
+ <70f40e49-d9d7-68fe-6a63-a73fabcd146d@gmail.com>
+ <172c1860-bebe-04b2-a9ab-2c03c7cfbf18@mellanox.com>
+ <20200423055447.GB9486@lst.de>
+ <639d6edd-ffa6-f08a-9fa2-047ca97c47ee@mellanox.com>
+ <20200424070647.GB24059@lst.de>
+ <7ff771eb-078e-7eb1-d363-11f96b78eb64@mellanox.com>
+ <20200427060411.GA16186@lst.de>
+From: Max Gurtovoy <maxg@mellanox.com>
+Message-ID: <2c6f172a-7923-6531-8d19-f8c496964b9d@mellanox.com>
+Date: Mon, 27 Apr 2020 16:52:52 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+In-Reply-To: <20200427060411.GA16186@lst.de>
+Content-Language: en-US
+X-ClientProxiedBy: AM3PR07CA0126.eurprd07.prod.outlook.com
+ (2603:10a6:207:8::12) To AM0PR05MB5810.eurprd05.prod.outlook.com
+ (2603:10a6:208:11f::18)
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [10.0.0.3] (89.139.203.251) by
+ AM3PR07CA0126.eurprd07.prod.outlook.com (2603:10a6:207:8::12) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2958.7 via Frontend Transport; Mon, 27 Apr 2020 13:52:54 +0000
+X-Originating-IP: [89.139.203.251]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: e17af611-3145-404b-13ff-08d7eab24a1a
+X-MS-TrafficTypeDiagnostic: AM0PR05MB5025:|AM0PR05MB5025:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM0PR05MB5025A9D0663D9DA443DBBFB3B6AF0@AM0PR05MB5025.eurprd05.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-Forefront-PRVS: 0386B406AA
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM0PR05MB5810.eurprd05.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(39860400002)(376002)(346002)(396003)(366004)(136003)(6916009)(316002)(66946007)(66476007)(16576012)(478600001)(66556008)(26005)(107886003)(36756003)(5660300002)(31696002)(4326008)(52116002)(81156014)(6486002)(8676002)(186003)(86362001)(2906002)(8936002)(31686004)(16526019)(956004)(53546011)(2616005);
+ DIR:OUT; SFP:1101; 
+Received-SPF: None (protection.outlook.com: mellanox.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: htv0gW1xn7Wwxz9JaqpfqVWsVh7LusQFqkFmk5XxtKReRwzZud/2uyDvJ4ke514PSq81Grr9cXq3twYOHDZLnBXgykQv/VrMxqWi31CA6jf+dWvgoUTzyvZ8MiBXtD2ldLgSiAxlpSHBMlahB9dgLSLHKZ9qF0K2kEY4Mtya6sBnEUchHMi1fL397WFrft8pt5lGWYyqT72gTd4e699lbPW33TanBpo2IJ0xX9b1EmBPLrnvKxct6ckZWd5DI/XpzOYSQQ6mYjgydxI/cAWW2PELIvD89/vdzRdqPDpuJ4OKdEGOQ7y/0QYAMdGisSEYL7nYIE2XTBVRxpnzTHkcWxTPHLDQB0gQU84K1nFovWfpHnaWR+xIFtdim/H7tjYMMvosH4M/4wrjwmAL7Y+5spmda2f9JgB7QprV7Sf08NilxxT5+WaD65atDGXRcrrK
+X-MS-Exchange-AntiSpam-MessageData: 2sX8azS0epajk2GrGARvZFuphK4ePfiMswj5vs7QtutPuf9st29GYfEV//ZL7+M2rrLuoa5x9a/njQSRhRjIiG6/ynIaIcs4dEY5w9YX2W1/Z+ssG8+vbLrkH3147/8GItLBV7D99Kz2bsH6Jp9ORQ3dxMtFQp3ubbycWEJuzUiocyrFNNMEyESjwYTrbjDEsOvmdmV4tA0MgD2bF8vbvy4LlY0hgeBFJ+s/ANPW98scBODsuT/SSDs8+k4w4Uex2cUd6UPghff8+ELDLHlYbzJ3x9VyM10/I2vEpmmfN39NJzLxDti1yLCNBAhlOhNa1IKdMgyY/HX9Qgpj6Pj6NfHpbhUzVf4ix0Kve5vixx0+oJCixoQtqn85tk24voq4A9BOL0LAJOrqL+Zo0dgCq80aAbj0dgtGXTUoALX01DUsTdEGGbSFfaPSAsyLwBqzxdUd535eENVr/hBvssW6QpH/msMk5uKMtbpYWG7hg/hQEzok1IAcIjhqVXr1nwzIcaR0jQOBNXx+nExa3Z79tVcOcPSWOwZD7PQHPIoUFh+Ghjkur+RvvgerdALQrk7MWup2iMqydBE/0XFDyvpyEPrYX2UxyshNjnG6STvddSqdhhyQ5TzHqxHD4ac+JrR33i0n459flRJTNiCWxl9Cl7pJD2E6YetFhRb0HcQIVXDnJdhbvVpMMWYzSFz6aeovc4/LRHrXq3U8b0r5p2WSukmkUTrG2yK1i0ilWlMHQPpeWw5qzhhorLgCYE/A8dJ6pKxFs2hrBLmc7dY0wj5wCDDPKjTagj+qVpDcxDRNKYE=
+X-OriginatorOrg: Mellanox.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e17af611-3145-404b-13ff-08d7eab24a1a
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2020 13:52:56.8583 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: a652971c-7d2e-4d9b-a6a4-d149256f461b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fWI3NWj5acVBa89BzMKRpPT2mZQ872UkdHDZuYyuLxt75OyQoOgVbw45bMe9h8Phhc9265Bk/UZl5iWscziBhQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR05MB5025
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200427_053455_196779_8E58BE51 
-X-CRM114-Status: GOOD (  10.21  )
+X-CRM114-CacheID: sfid-20200427_065302_808639_D29D4B13 
+X-CRM114-Status: GOOD (  11.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,48 +137,41 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Jens Axboe <axboe@kernel.dk>, Niklas Cassel <niklas.cassel@wdc.com>,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: axboe@kernel.dk, James Smart <jsmart2021@gmail.com>, sagi@grimberg.me,
+ martin.petersen@oracle.com, shlomin@mellanox.com, linux-rdma@vger.kernel.org,
+ israelr@mellanox.com, vladimirk@mellanox.com, linux-nvme@lists.infradead.org,
+ idanb@mellanox.com, jgg@mellanox.com, oren@mellanox.com, kbusch@kernel.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When jumping to the out_put_disk label, we will call put_disk(), which will
-trigger a call to disk_release(), which calls blk_put_queue().
 
-Later in the cleanup code, we do blk_cleanup_queue(), which will also call
-blk_put_queue().
+On 4/27/2020 9:04 AM, Christoph Hellwig wrote:
+> On Sun, Apr 26, 2020 at 12:48:18PM +0300, Max Gurtovoy wrote:
+>>> I see no reason not to support a simple Format NVM for our fabrics target
+>>> implementation.  But that isn't the point - you don't really need Format
+>>> as you can also control it from configfs in your series.  So for the
+>>> initial version I don't think we need Format NVM, but I don't mind
+>>> adding it later.
+>> so we're ok with passing -p in nvme-cli during connect command ?
+> PI should be enable by default.  We can think of a hook disabling it,
+> but please keep it at the end of the series.
 
-Putting the queue twice is incorrect, and will generate a KASAN splat.
+but the default format on NVMe pci drives is without metadata and to 
+enable it we do an NVM format command.
 
-Set the disk->queue pointer to NULL, before calling put_disk(), so that the
-first call to blk_put_queue() will not free the queue.
+So for this model we need to do some action to enable T10/Metadata.
 
-The second call to blk_put_queue() uses another pointer to the same queue,
-so this call will still free the queue.
+Regular users will usually use default configuration and are not aware 
+of the pros/cons with adding the metadata (resources/performance/etc..).
 
-Fixes: 85136c010285 ("lightnvm: simplify geometry enumeration")
-Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
----
- drivers/nvme/host/core.c | 2 ++
- 1 file changed, 2 insertions(+)
+Also adding module param as we did in iSER is less flexible than having 
+a flag per controller in the CLI.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 91c1bd659947..f2adea96b04c 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3642,6 +3642,8 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 
- 	return;
-  out_put_disk:
-+	/* prevent double queue cleanup */
-+	ns->disk->queue = NULL;
- 	put_disk(ns->disk);
-  out_unlink_ns:
- 	mutex_lock(&ctrl->subsys->lock);
--- 
-2.25.3
+I'll think about another option that will replace -p in connect command 
+(the only one I can think of now is always "on" as suggested...)
+
 
 
 _______________________________________________
