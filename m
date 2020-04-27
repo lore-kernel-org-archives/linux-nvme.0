@@ -2,83 +2,67 @@ Return-Path: <SRS0=LwVW=6L=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11E8EC4CECC
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Apr 2020 18:24:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 921B8C4CECC
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Apr 2020 18:54:56 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D6D4720775
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Apr 2020 18:24:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6A3C3208FE
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Apr 2020 18:54:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="MU1PtD0J";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=yadro.com header.i=@yadro.com header.b="QnmAsel2"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D6D4720775
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=yadro.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="WoXIWjbQ";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="brT4dH7V"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6A3C3208FE
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-ID:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=7ORQCqIf3XcYNEnbQaOlaRig0TMNfFrca1JC30PbHQM=; b=MU1PtD0J9dt1db
-	Cjs1FdF9EY69f9SEt1Z3tS+i6xGRkNYdLxbt3oVQ9xeX1Pw7T21SA3onopVU2iIQyz+rB4I2RcjPe
-	iLpjzaE/IkF274qQ7Rr+lR/NTxhBI4kfpak/Rc3yt2kkkKQsOx/93v1CbtrbPydwWg4nzrIGadDL7
-	PmuOrZuwSvV1Z7sX7irPDYzVJEgjcryQT1x/CpdGPYPtCap2Zvm00pMKrwOM1BetTUwNJ56AF5Aey
-	C2hQ+ASDvEc040VrzhtKfMx/ZX5sZ2DHoU6+L4PIwNcvWoB5eQ9ZlbnbnDSbaCiGw4qPLdxeZchDC
-	JjBdF10P4Phf71aFcrOQ==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
+	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=Pakb8oP7/2RkWqkw4yH99oc0oaHgIy34mfWHphB6wLQ=; b=WoXIWjbQJIvsjl
+	bDtP1IhhzvVhWzKQPzK3kegT8LmAGFKwSaZ7NoCchaEiphPV6iBOW1mY6GNsgf75aSf3nVPYryXCk
+	HNjvfkZaWX8ZeuYpPSCVzLrGmoDPZFAAIR05BNhtwYiLXTTnKyeIzzyI98diskOnfmMR/S/ChIMjH
+	/IlKU8owNToO2L/TD9XTLWSoWaVNKQbpBonrJl5Io8A6n63Wrqd5MxiBa0kt6YxyRSUErio8Y/Y65
+	EemglMUqdbyMzOUbZjL8//txL11O+0kf4xRMu+zdB6oruMQReO0lrYf1AH5XzL49Aovc2IfpvTeTc
+	UDa0RpoYpoK+OUNAO4RQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jT8Qn-0005pm-Uq; Mon, 27 Apr 2020 18:24:37 +0000
-Received: from mta-02.yadro.com ([89.207.88.252] helo=mta-01.yadro.com)
+	id 1jT8u6-0005AQ-3q; Mon, 27 Apr 2020 18:54:54 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jT8Qk-0005my-Ts
- for linux-nvme@lists.infradead.org; Mon, 27 Apr 2020 18:24:36 +0000
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 173A34C873;
- Mon, 27 Apr 2020 18:24:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- content-type:content-type:content-transfer-encoding:mime-version
- :references:in-reply-to:x-mailer:message-id:date:date:subject
- :subject:from:from:received:received:received; s=mta-01; t=
- 1588011866; x=1589826267; bh=XWnGvO8ktpelEda1UJ2vFsTVS/m7jUDs3Rq
- T8f+H9RQ=; b=QnmAsel2jmPdUMIeMWLjd7p2sdOP7rZkLXCfXbmAbNd70yDXRUl
- HAjTUBAKx5iXq4wR44YWL/Bf4/ZrJJdPmp5/x+0LwhdJY9i66bI+CRC2V2RGbfBL
- QA0o75CQtudUozi3KTYv4ncHBMLuL+ZNmNfPYRDgf+Cnqhb51CXiWqxY=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id KXLWPppr9UDR; Mon, 27 Apr 2020 21:24:26 +0300 (MSK)
-Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
- [172.17.10.102])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ id 1jT8u3-00059V-0E
+ for linux-nvme@lists.infradead.org; Mon, 27 Apr 2020 18:54:52 +0000
+Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 01A764C850;
- Mon, 27 Apr 2020 21:24:13 +0300 (MSK)
-Received: from NB-148.yadro.com (172.17.15.136) by T-EXCH-02.corp.yadro.com
- (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Mon, 27
- Apr 2020 21:24:15 +0300
-From: Sergei Miroshnichenko <s.miroshnichenko@yadro.com>
-To: <linux-pci@vger.kernel.org>
-Subject: [PATCH v8 24/24] nvme-pci: Handle movable BARs
-Date: Mon, 27 Apr 2020 21:23:58 +0300
-Message-ID: <20200427182358.2067702-25-s.miroshnichenko@yadro.com>
+ by mail.kernel.org (Postfix) with ESMTPSA id 0218620775;
+ Mon, 27 Apr 2020 18:54:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1588013690;
+ bh=tbZCnuRBKlyP2Fl6SOSgnsqjhNQyVhSDD2byO5UNCrU=;
+ h=From:To:Cc:Subject:Date:From;
+ b=brT4dH7Vg1NoW9MTzdN88kLBfgWe28kFSJPzEbNEYcTeQuMB9O4vFVORXHTNgpbbD
+ PGnimT0lD3y1mR+gZ0yNTT8epdn9d+y9oG3ezpDXfqiTvp93X5OHfa5zxySvoB/tWL
+ 5h6Ajm1zrlU1WVArAiLvbfy56BCvxzaMlSV+4n1Q=
+From: Keith Busch <kbusch@kernel.org>
+To: linux-nvme@lists.infradead.org,
+	hch@lst.de,
+	sagi@grimberg.me
+Subject: [PATCH] nvme-pci: remove last_sq_tail
+Date: Mon, 27 Apr 2020 11:54:46 -0700
+Message-Id: <20200427185446.2139232-1-kbusch@kernel.org>
 X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200427182358.2067702-1-s.miroshnichenko@yadro.com>
-References: <20200427182358.2067702-1-s.miroshnichenko@yadro.com>
 MIME-Version: 1.0
-X-Originating-IP: [172.17.15.136]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-02.corp.yadro.com (172.17.10.102)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200427_112435_322765_149CF697 
-X-CRM114-Status: GOOD (  13.46  )
+X-CRM114-CacheID: sfid-20200427_115451_063363_D4C09DB8 
+X-CRM114-Status: GOOD (  12.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,109 +74,87 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Rajat Jain <rajatja@google.com>, Andy Lavr <andy.lavr@gmail.com>,
- David Laight <David.Laight@ACULAB.COM>, linux@yadro.com,
- Sergei Miroshnichenko <s.miroshnichenko@yadro.com>,
- linux-nvme@lists.infradead.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Lukas Wunner <lukas@wunner.de>, Bjorn Helgaas <helgaas@kernel.org>,
- Stefan Roese <sr@denx.de>, Christoph Hellwig <hch@lst.de>,
- Ard Biesheuvel <ardb@kernel.org>
+Cc: Keith Busch <kbusch@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hot-added devices can affect the existing ones by moving their BARs. The
-PCI subsystem will inform the NVME driver about this by invoking the
-.rescan_prepare() and .rescan_done() hooks, so the BARs can by re-mapped.
+The nvme driver does not have enough tags to wrap the queue, and blk-mq
+will no longer call commit_rqs() when there are no new submissions to
+notify.
 
-Tested under the "randrw" mode of the fio tool, and when using an NVME
-drive as a root filesystem storage. Before the hot-adding:
-
-  % sudo cat /proc/iomem
-  ...
-                3fe800000000-3fe8007fffff : PCI Bus 0020:0b
-                  3fe800000000-3fe8007fffff : PCI Bus 0020:18
-                    3fe800000000-3fe8000fffff : 0020:18:00.0
-                      3fe800000000-3fe8000fffff : nvme
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-                    3fe800100000-3fe80017ffff : 0020:18:00.0
-  ...
-
-Then another NVME drive was hot-added, so BARs of the 0020:18:00.0 are
-moved:
-
-  % sudo cat /proc/iomem
-    ...
-                3fe800000000-3fe800ffffff : PCI Bus 0020:0b
-                  3fe800000000-3fe8007fffff : PCI Bus 0020:10
-                    3fe800000000-3fe800003fff : 0020:10:00.0
-                      3fe800000000-3fe800003fff : nvme
-                    3fe800010000-3fe80001ffff : 0020:10:00.0
-                  3fe800800000-3fe800ffffff : PCI Bus 0020:18
-                    3fe800800000-3fe8008fffff : 0020:18:00.0
-                      3fe800800000-3fe8008fffff : nvme
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-                    3fe800900000-3fe80097ffff : 0020:18:00.0
-    ...
-
-During the rescanning, both READ and WRITE speeds drop to zero for a while
-due to driver's pause, then restore.
-
-Cc: linux-nvme@lists.infradead.org
-Cc: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Sergei Miroshnichenko <s.miroshnichenko@yadro.com>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- drivers/nvme/host/pci.c | 21 ++++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
+ drivers/nvme/host/pci.c | 23 ++++-------------------
+ 1 file changed, 4 insertions(+), 19 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 4e79e412b276..677ded2d4dd4 100644
+index 4e79e412b276..8ebcf40f04fe 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -1621,7 +1621,7 @@ static int nvme_remap_bar(struct nvme_dev *dev, unsigned long size)
- {
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 
--	if (size <= dev->bar_mapped_size)
-+	if (dev->bar && size <= dev->bar_mapped_size)
- 		return 0;
- 	if (size > pci_resource_len(pdev, 0))
- 		return -ENOMEM;
-@@ -3032,6 +3032,23 @@ static void nvme_error_resume(struct pci_dev *pdev)
- 	flush_work(&dev->ctrl.reset_work);
+@@ -173,7 +173,6 @@ struct nvme_queue {
+ 	u16 q_depth;
+ 	u16 cq_vector;
+ 	u16 sq_tail;
+-	u16 last_sq_tail;
+ 	u16 cq_head;
+ 	u16 qid;
+ 	u8 cq_phase;
+@@ -446,24 +445,11 @@ static int nvme_pci_map_queues(struct blk_mq_tag_set *set)
+ 	return 0;
  }
  
-+static void nvme_rescan_prepare(struct pci_dev *pdev)
-+{
-+	struct nvme_dev *dev = pci_get_drvdata(pdev);
-+
-+	nvme_dev_disable(dev, false);
-+	nvme_dev_unmap(dev);
-+	dev->bar = NULL;
-+}
-+
-+static void nvme_rescan_done(struct pci_dev *pdev)
-+{
-+	struct nvme_dev *dev = pci_get_drvdata(pdev);
-+
-+	nvme_dev_map(dev);
-+	nvme_reset_ctrl_sync(&dev->ctrl);
-+}
-+
- static const struct pci_error_handlers nvme_err_handler = {
- 	.error_detected	= nvme_error_detected,
- 	.slot_reset	= nvme_slot_reset,
-@@ -3110,6 +3127,8 @@ static struct pci_driver nvme_driver = {
- #endif
- 	.sriov_configure = pci_sriov_configure_simple,
- 	.err_handler	= &nvme_err_handler,
-+	.rescan_prepare	= nvme_rescan_prepare,
-+	.rescan_done	= nvme_rescan_done,
- };
+-/*
+- * Write sq tail if we are asked to, or if the next command would wrap.
+- */
+-static inline void nvme_write_sq_db(struct nvme_queue *nvmeq, bool write_sq)
++static inline void nvme_write_sq_db(struct nvme_queue *nvmeq)
+ {
+-	if (!write_sq) {
+-		u16 next_tail = nvmeq->sq_tail + 1;
+-
+-		if (next_tail == nvmeq->q_depth)
+-			next_tail = 0;
+-		if (next_tail != nvmeq->last_sq_tail)
+-			return;
+-	}
+-
+ 	if (nvme_dbbuf_update_and_check_event(nvmeq->sq_tail,
+ 			nvmeq->dbbuf_sq_db, nvmeq->dbbuf_sq_ei))
+ 		writel(nvmeq->sq_tail, nvmeq->q_db);
+-	nvmeq->last_sq_tail = nvmeq->sq_tail;
+ }
  
- static int __init nvme_init(void)
+ /**
+@@ -480,7 +466,8 @@ static void nvme_submit_cmd(struct nvme_queue *nvmeq, struct nvme_command *cmd,
+ 	       cmd, sizeof(*cmd));
+ 	if (++nvmeq->sq_tail == nvmeq->q_depth)
+ 		nvmeq->sq_tail = 0;
+-	nvme_write_sq_db(nvmeq, write_sq);
++	if (write_sq)
++		nvme_write_sq_db(nvmeq);
+ 	spin_unlock(&nvmeq->sq_lock);
+ }
+ 
+@@ -489,8 +476,7 @@ static void nvme_commit_rqs(struct blk_mq_hw_ctx *hctx)
+ 	struct nvme_queue *nvmeq = hctx->driver_data;
+ 
+ 	spin_lock(&nvmeq->sq_lock);
+-	if (nvmeq->sq_tail != nvmeq->last_sq_tail)
+-		nvme_write_sq_db(nvmeq, true);
++	nvme_write_sq_db(nvmeq);
+ 	spin_unlock(&nvmeq->sq_lock);
+ }
+ 
+@@ -1489,7 +1475,6 @@ static void nvme_init_queue(struct nvme_queue *nvmeq, u16 qid)
+ 	struct nvme_dev *dev = nvmeq->dev;
+ 
+ 	nvmeq->sq_tail = 0;
+-	nvmeq->last_sq_tail = 0;
+ 	nvmeq->cq_head = 0;
+ 	nvmeq->cq_phase = 1;
+ 	nvmeq->q_db = &dev->dbs[qid * 2 * dev->db_stride];
 -- 
 2.24.1
 
