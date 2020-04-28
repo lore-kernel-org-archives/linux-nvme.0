@@ -2,63 +2,67 @@ Return-Path: <SRS0=qSsZ=6M=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C32FC83001
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Apr 2020 14:15:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A006C83000
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Apr 2020 14:22:07 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 22786206D7
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Apr 2020 14:15:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id BF3E9206D9
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Apr 2020 14:22:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="lkaJUUWL"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 22786206D7
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="LQIrdY8g";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="tBZ4BBts"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BF3E9206D9
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=24PvqsheSGaefzPoKoU0clHvKY8lZdlC9Saio1W5D7o=; b=lkaJUUWLymOM3j
-	jeyvPJmV9z8qUmUKT0o/HZcb4HGiy8dyMf9we/MFELBI6CS8HjI0lp8x/uK0PY9gbYepc/4shbHox
-	0C1LpZsyZitj295BOgTdo3OCi1m4bmvhZaWflykZ9rdfB+ECXCCcNoACEKdsLVjc4jM+eZnzkb3rC
-	pLxGDgKZhuePA84gWnority9oZth4Id7D+CvGi9gt19E5sRlLswkfievM1RcDzi0BuSaGeGadY0n2
-	aOa8sjgUrK2dJ7JGJaRGg2QiH7qV/uShgGWMJ2CeZkX2LbhuIjrcjOurs+UXWQkmVlWkUP96lp/TO
-	Reqvhm8uqrUKcrlfuuCA==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
+	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=9bkbtS6rLIvMNLZpXvUvsnpWvtUR5fY68PHpfsxQNJg=; b=LQIrdY8gPWX1wb
+	zEia5eh4Oo/0iU5ETafhmHmpvqAwTV7RoxK6Kfz3lte3IgRRNW1oYPvOcGrOIa8cW4JCRTKKwqCIG
+	sYSw8QatlFOV2NrfTi+2nHk0lqGA6nSIOSsFOG4Z1jBpyloTajU04Mbc6rLNU2Om+RRSHYIck8Jxt
+	qoS1M6OGI7Sa4/dag2uMsXvpJ8e4DXffH46ahMrPpdHtZ9G+YJQOumUZb9ThQT4y/EyKwhi3lXnAY
+	Qyg//PSpdr+IwQh9YwAUmkbyuHrLOD7bpbhktkMdgRa2gVwnKCLGl0OF+rMZ9jCiM7QbtpEFk1HpN
+	1S9EwGUaeDz4FdJqMVBw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jTR1V-0001NU-BC; Tue, 28 Apr 2020 14:15:45 +0000
-Received: from mail-il-dmz.mellanox.com ([193.47.165.129] helo=mellanox.co.il)
- by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jTQ1Z-0003JJ-Qi
- for linux-nvme@lists.infradead.org; Tue, 28 Apr 2020 13:11:53 +0000
-Received: from Internal Mail-Server by MTLPINE1 (envelope-from
- maxg@mellanox.com)
- with ESMTPS (AES256-SHA encrypted); 28 Apr 2020 16:11:36 +0300
-Received: from mtr-vdi-031.wap.labs.mlnx. (mtr-vdi-031.wap.labs.mlnx
- [10.209.102.136])
- by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 03SDBZYv028635;
- Tue, 28 Apr 2020 16:11:36 +0300
-From: Max Gurtovoy <maxg@mellanox.com>
-To: maxg@mellanox.com, linux-nvme@lists.infradead.org, kbusch@kernel.org,
- hch@lst.de, sagi@grimberg.me, martin.petersen@oracle.com,
- jsmart2021@gmail.com, axboe@kernel.dk
-Subject: [PATCH 02/15] nvme: introduce NVME_NS_METADATA_SUPPORTED flag
-Date: Tue, 28 Apr 2020 16:11:22 +0300
-Message-Id: <20200428131135.211521-3-maxg@mellanox.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20200428131135.211521-1-maxg@mellanox.com>
-References: <20200428131135.211521-1-maxg@mellanox.com>
+	id 1jTR7c-00056Q-He; Tue, 28 Apr 2020 14:22:04 +0000
+Received: from mail.kernel.org ([198.145.29.99])
+ by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jTR7a-00055Q-31
+ for linux-nvme@lists.infradead.org; Tue, 28 Apr 2020 14:22:03 +0000
+Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 2C899206D7;
+ Tue, 28 Apr 2020 14:22:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1588083721;
+ bh=FAH9CFfX1nwE2EiYYo02OGTkBldwFLaHs0XG4pvV9CE=;
+ h=From:To:Cc:Subject:Date:From;
+ b=tBZ4BBtsfs+P9yGojvcqHsQCMq9de8OC0dB0p8e1mF7ZJCcwKxzOqJiF4nQIZH+XW
+ PyQAClLj4VCPsWmp6c88IHeKveE9vs7pgoZ/vX2iIx0xyvHJj85jl+qOwwkA2efXv6
+ 4ufA9bCxLPERF/F9TJnPHA0tazmrzCMsP3qYt64E=
+From: Keith Busch <kbusch@kernel.org>
+To: linux-nvme@lists.infradead.org,
+	hch@lst.de,
+	sagi@grimberg.me
+Subject: [PATCHv2] nvme-pci: remove volatile cqes
+Date: Tue, 28 Apr 2020 07:21:56 -0700
+Message-Id: <20200428142156.2269926-1-kbusch@kernel.org>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200428_061146_306639_65E82018 
-X-CRM114-Status: GOOD (  11.86  )
+X-CRM114-CacheID: sfid-20200428_072202_148389_8169B3E3 
+X-CRM114-Status: GOOD (  10.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,105 +74,60 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: vladimirk@mellanox.com, shlomin@mellanox.com, israelr@mellanox.com,
- idanb@mellanox.com, oren@mellanox.com, nitzanc@mellanox.com
+Cc: Keith Busch <kbusch@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This is a preparation for adding support for metadata in fabric
-controllers. New flag will imply that NVMe namespace supports getting
-metadata that was originally generated by host's block layer.
+The completion queue entry is not volatile once the phase is confirmed.
+Remove the volatile keywords and check the phase using the appropriate
+READ_ONCE() accessor, allowing the compiler to optimize the remaining
+completion path.
 
-Signed-off-by: Max Gurtovoy <maxg@mellanox.com>
-Reviewed-by: Israel Rukshin <israelr@mellanox.com>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- drivers/nvme/host/core.c | 41 ++++++++++++++++++++++++++++++++++-------
- drivers/nvme/host/nvme.h |  1 +
- 2 files changed, 35 insertions(+), 7 deletions(-)
+v1->v2: Split long line into a more readable format (Christoph)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 02130d3..2f419de 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1880,13 +1880,27 @@ static void nvme_update_disk_info(struct gendisk *disk,
- 	blk_queue_io_min(disk->queue, phys_bs);
- 	blk_queue_io_opt(disk->queue, io_opt);
- 
--	if (ns->ms && !(ns->features & NVME_NS_EXT_LBAS) &&
--	    (ns->ctrl->ops->flags & NVME_F_METADATA_SUPPORTED))
--		nvme_init_integrity(disk, ns->ms, ns->pi_type);
--	if ((ns->ms && !nvme_ns_has_pi(ns) && !blk_get_integrity(disk)) ||
--	    ns->lba_shift > PAGE_SHIFT)
-+	/*
-+	 * The block layer can't support LBA sizes larger than the page size
-+	 * yet, so catch this early and don't allow block I/O.
-+	 */
-+	if (ns->lba_shift > PAGE_SHIFT)
- 		capacity = 0;
- 
-+	/*
-+	 * Register a metadata profile for PI, or the plain non-integrity NVMe
-+	 * metadata masquerading as Type 0 if supported, otherwise reject block
-+	 * I/O to namespaces with metadata except when the namespace supports
-+	 * PI, as it can strip/insert in that case.
-+	 */
-+	if (ns->ms) {
-+		if (IS_ENABLED(CONFIG_BLK_DEV_INTEGRITY) &&
-+		    (ns->features & NVME_NS_METADATA_SUPPORTED))
-+			nvme_init_integrity(disk, ns->ms, ns->pi_type);
-+		else if (!nvme_ns_has_pi(ns))
-+			capacity = 0;
-+	}
+ drivers/nvme/host/pci.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 8ebcf40f04fe..eef5d6ab7565 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -166,7 +166,7 @@ struct nvme_queue {
+ 	void *sq_cmds;
+ 	 /* only used for poll queues: */
+ 	spinlock_t cq_poll_lock ____cacheline_aligned_in_smp;
+-	volatile struct nvme_completion *cqes;
++	struct nvme_completion *cqes;
+ 	dma_addr_t sq_dma_addr;
+ 	dma_addr_t cq_dma_addr;
+ 	u32 __iomem *q_db;
+@@ -908,8 +908,9 @@ static void nvme_pci_complete_rq(struct request *req)
+ /* We read the CQE phase first to check if the rest of the entry is valid */
+ static inline bool nvme_cqe_pending(struct nvme_queue *nvmeq)
+ {
+-	return (le16_to_cpu(nvmeq->cqes[nvmeq->cq_head].status) & 1) ==
+-			nvmeq->cq_phase;
++	struct nvme_completion *hcqe = &nvmeq->cqes[nvmeq->cq_head];
 +
- 	set_capacity_revalidate_and_notify(disk, capacity, false);
++	return (le16_to_cpu(READ_ONCE(hcqe->status)) & 1) == nvmeq->cq_phase;
+ }
  
- 	nvme_config_discard(disk, ns);
-@@ -1921,14 +1935,27 @@ static void __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
+ static inline void nvme_ring_cq_doorbell(struct nvme_queue *nvmeq)
+@@ -930,7 +931,7 @@ static inline struct blk_mq_tags *nvme_queue_tagset(struct nvme_queue *nvmeq)
  
- 	ns->features = 0;
- 	ns->ms = le16_to_cpu(id->lbaf[id->flbas & NVME_NS_FLBAS_LBA_MASK].ms);
--	if (ns->ms && (id->flbas & NVME_NS_FLBAS_META_EXT))
--		ns->features |= NVME_NS_EXT_LBAS;
- 	/* the PI implementation requires metadata equal t10 pi tuple size */
- 	if (ns->ms == sizeof(struct t10_pi_tuple))
- 		ns->pi_type = id->dps & NVME_NS_DPS_PI_MASK;
- 	else
- 		ns->pi_type = 0;
+ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq, u16 idx)
+ {
+-	volatile struct nvme_completion *cqe = &nvmeq->cqes[idx];
++	struct nvme_completion *cqe = &nvmeq->cqes[idx];
+ 	struct request *req;
  
-+	if (ns->ms) {
-+		if (id->flbas & NVME_NS_FLBAS_META_EXT)
-+			ns->features |= NVME_NS_EXT_LBAS;
-+
-+		/*
-+		 * For PCI, Extended logical block will be generated by the
-+		 * controller. Non-extended format can be generated by the
-+		 * block layer.
-+		 */
-+		if (ns->ctrl->ops->flags & NVME_F_METADATA_SUPPORTED) {
-+			if (!(ns->features & NVME_NS_EXT_LBAS))
-+				ns->features |= NVME_NS_METADATA_SUPPORTED;
-+		}
-+	}
-+
- 	if (iob)
- 		blk_queue_chunk_sectors(ns->queue, rounddown_pow_of_two(iob));
- 	nvme_update_disk_info(disk, ns, id);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 110577c7..0dda145 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -366,6 +366,7 @@ struct nvme_ns_head {
- 
- enum nvme_ns_features {
- 	NVME_NS_EXT_LBAS = 1 << 0, /* support extended LBA format */
-+	NVME_NS_METADATA_SUPPORTED = 1 << 1, /* support getting generated md */
- };
- 
- struct nvme_ns {
+ 	if (unlikely(cqe->command_id >= nvmeq->q_depth)) {
 -- 
-1.8.3.1
+2.24.1
 
 
 _______________________________________________
