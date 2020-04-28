@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B507C83006
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Apr 2020 13:12:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9419CC83006
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Apr 2020 13:12:28 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 36EA5206A1
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Apr 2020 13:12:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5ED24206A1
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Apr 2020 13:12:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="DeTOHwxt"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 36EA5206A1
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="mm0Kth00"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5ED24206A1
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,40 +25,41 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=O7PMpwU25Gy50rPzlwx9U/kY4mHfyaDCIRq+JRLhWF4=; b=DeTOHwxt0yXvSn
-	7FabMYc52qIz/f9zB2l0R1CVJJGt6hjXtLRMhWs7YVDFYFX77moFtqo22tEINzMibOL66noUpfcdI
-	VrWkhpMVm2S2+/9yo6D2ZikFkLgRoiXcKpp4mAU5PzQTqp9aGmdgF8E2wC6PErY0OCVjQlr5uIyIz
-	N73S6cUHUpwBvnzH2fF9diRo0G/ktkT33C16FTznd0bY7/CwMUSUoXAQda8++lQtqx21t+O49G363
-	AzSgwWeFESpMf8crFnsL8rxw2BZHYvHFIp0XMWzm3WkqgWHN1+adrEb2ZDlRks+GniloHThYK/Zgk
-	HHTlP+nFXMTcWAo7OjwA==;
+	List-Owner; bh=zFTEaqDKvtIN2Xn+nbKSWOHEqjGPsi344M9ZkzrCxCc=; b=mm0Kth00ScCT2K
+	fJgrtJ5qzxEARdre1IRx5ex1/kPW+9AjeLdPfPi2OGuIMl73ifwootH0WfJgVvprpID1OuajAzoex
+	np9KIUow3+gJIjeba58A4LaJNiHPldO58bgFlzbMp7gKFeer7DG/DK71yZueVxsejurTtCQ0Snp6B
+	Xy65C1zOgerV7Pq7vItiQoqdMlBhnemWvlijJEyfFsdst8zql4FMs0dZK6TQ1sSKO/hbWNass/CjM
+	VmsTghXvV3GdHgv66DPa9yxUF9trjowUzJgKdhpzHylN/auSVy6i193eS7M6tooxLLDEiIl81oVmv
+	U9rr2zhz6/NpM0T+egPg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jTQ1y-0003ee-TH; Tue, 28 Apr 2020 13:12:10 +0000
+	id 1jTQ2C-0003q1-9p; Tue, 28 Apr 2020 13:12:24 +0000
 Received: from mail-il-dmz.mellanox.com ([193.47.165.129] helo=mellanox.co.il)
  by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jTQ1Y-0003I4-T2
- for linux-nvme@lists.infradead.org; Tue, 28 Apr 2020 13:11:47 +0000
+ id 1jTQ1Y-0003I1-Rd
+ for linux-nvme@lists.infradead.org; Tue, 28 Apr 2020 13:11:48 +0000
 Received: from Internal Mail-Server by MTLPINE2 (envelope-from
  maxg@mellanox.com)
  with ESMTPS (AES256-SHA encrypted); 28 Apr 2020 16:11:36 +0300
 Received: from mtr-vdi-031.wap.labs.mlnx. (mtr-vdi-031.wap.labs.mlnx
  [10.209.102.136])
- by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 03SDBZZ0028635;
+ by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 03SDBZYu028635;
  Tue, 28 Apr 2020 16:11:36 +0300
 From: Max Gurtovoy <maxg@mellanox.com>
 To: maxg@mellanox.com, linux-nvme@lists.infradead.org, kbusch@kernel.org,
  hch@lst.de, sagi@grimberg.me, martin.petersen@oracle.com,
  jsmart2021@gmail.com, axboe@kernel.dk
-Subject: [PATCH 05/15] nvme: introduce max_integrity_segments ctrl attribute
-Date: Tue, 28 Apr 2020 16:11:25 +0300
-Message-Id: <20200428131135.211521-6-maxg@mellanox.com>
+Subject: [PATCH 01/15] nvme: introduce namespace features flag
+Date: Tue, 28 Apr 2020 16:11:21 +0300
+Message-Id: <20200428131135.211521-2-maxg@mellanox.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200428131135.211521-1-maxg@mellanox.com>
 References: <20200428131135.211521-1-maxg@mellanox.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200428_061145_349921_D2AE3189 
-X-CRM114-Status: GOOD (  10.30  )
+X-CRM114-CacheID: sfid-20200428_061145_299861_DE778135 
+X-CRM114-Status: UNSURE (   8.64  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,88 +78,76 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This patch doesn't change any logic, and is needed as a preparation
-for adding PI support for fabrics drivers that will use an extended
-LBA format for metadata and will support more than 1 integrity segment.
+Replace the specific ext boolean (that implies on extended LBA format)
+with a feature in the new namespace features flag. This is a preparation
+for adding more namespace features (such as metadata specific features).
 
 Signed-off-by: Max Gurtovoy <maxg@mellanox.com>
-Signed-off-by: Israel Rukshin <israelr@mellanox.com>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Israel Rukshin <israelr@mellanox.com>
 ---
- drivers/nvme/host/core.c | 11 +++++++----
- drivers/nvme/host/nvme.h |  1 +
- drivers/nvme/host/pci.c  |  6 ++++++
- 3 files changed, 14 insertions(+), 4 deletions(-)
+ drivers/nvme/host/core.c | 8 +++++---
+ drivers/nvme/host/nvme.h | 6 +++++-
+ 2 files changed, 10 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index dd59de0..b437655 100644
+index dfb064b4..02130d3 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1688,7 +1688,8 @@ static int nvme_getgeo(struct block_device *bdev, struct hd_geometry *geo)
- }
+@@ -1302,7 +1302,7 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
+ 	meta_len = (io.nblocks + 1) * ns->ms;
+ 	metadata = nvme_to_user_ptr(io.metadata);
  
- #ifdef CONFIG_BLK_DEV_INTEGRITY
--static void nvme_init_integrity(struct gendisk *disk, u16 ms, u8 pi_type)
-+static void nvme_init_integrity(struct gendisk *disk, u16 ms, u8 pi_type,
-+				u32 max_integrity_segments)
- {
- 	struct blk_integrity integrity;
+-	if (ns->ext) {
++	if (ns->features & NVME_NS_EXT_LBAS) {
+ 		length += meta_len;
+ 		meta_len = 0;
+ 	} else if (meta_len) {
+@@ -1880,7 +1880,7 @@ static void nvme_update_disk_info(struct gendisk *disk,
+ 	blk_queue_io_min(disk->queue, phys_bs);
+ 	blk_queue_io_opt(disk->queue, io_opt);
  
-@@ -1711,10 +1712,11 @@ static void nvme_init_integrity(struct gendisk *disk, u16 ms, u8 pi_type)
- 	}
- 	integrity.tuple_size = ms;
- 	blk_integrity_register(disk, &integrity);
--	blk_queue_max_integrity_segments(disk->queue, 1);
-+	blk_queue_max_integrity_segments(disk->queue, max_integrity_segments);
- }
- #else
--static void nvme_init_integrity(struct gendisk *disk, u16 ms, u8 pi_type)
-+static void nvme_init_integrity(struct gendisk *disk, u16 ms, u8 pi_type,
-+				u32 max_integrity_segments)
- {
- }
- #endif /* CONFIG_BLK_DEV_INTEGRITY */
-@@ -1890,7 +1892,8 @@ static void nvme_update_disk_info(struct gendisk *disk,
- 	if (ns->ms) {
- 		if (IS_ENABLED(CONFIG_BLK_DEV_INTEGRITY) &&
- 		    (ns->features & NVME_NS_METADATA_SUPPORTED))
--			nvme_init_integrity(disk, ns->ms, ns->pi_type);
-+			nvme_init_integrity(disk, ns->ms, ns->pi_type,
-+					    ns->ctrl->max_integrity_segments);
- 		else if (!nvme_ns_has_pi(ns))
- 			capacity = 0;
- 	}
+-	if (ns->ms && !ns->ext &&
++	if (ns->ms && !(ns->features & NVME_NS_EXT_LBAS) &&
+ 	    (ns->ctrl->ops->flags & NVME_F_METADATA_SUPPORTED))
+ 		nvme_init_integrity(disk, ns->ms, ns->pi_type);
+ 	if ((ns->ms && !nvme_ns_has_pi(ns) && !blk_get_integrity(disk)) ||
+@@ -1919,8 +1919,10 @@ static void __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
+ 	else
+ 		iob = nvme_lba_to_sect(ns, le16_to_cpu(id->noiob));
+ 
++	ns->features = 0;
+ 	ns->ms = le16_to_cpu(id->lbaf[id->flbas & NVME_NS_FLBAS_LBA_MASK].ms);
+-	ns->ext = ns->ms && (id->flbas & NVME_NS_FLBAS_META_EXT);
++	if (ns->ms && (id->flbas & NVME_NS_FLBAS_META_EXT))
++		ns->features |= NVME_NS_EXT_LBAS;
+ 	/* the PI implementation requires metadata equal t10 pi tuple size */
+ 	if (ns->ms == sizeof(struct t10_pi_tuple))
+ 		ns->pi_type = id->dps & NVME_NS_DPS_PI_MASK;
 diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index f60ca01..a9c3d82 100644
+index f3ab177..110577c7 100644
 --- a/drivers/nvme/host/nvme.h
 +++ b/drivers/nvme/host/nvme.h
-@@ -229,6 +229,7 @@ struct nvme_ctrl {
- 	u32 page_size;
- 	u32 max_hw_sectors;
- 	u32 max_segments;
-+	u32 max_integrity_segments;
- 	u16 crdt[3];
- 	u16 oncs;
- 	u16 oacs;
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 4e79e41..fad9e78 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2553,6 +2553,12 @@ static void nvme_reset_work(struct work_struct *work)
- 		goto out;
- 	}
+@@ -364,6 +364,10 @@ struct nvme_ns_head {
+ #endif
+ };
  
-+	/*
-+	 * We do not support an SGL for metadata (yet), so we are limited to a
-+	 * single integrity segment for the separate metadata pointer.
-+	 */
-+	dev->ctrl.max_integrity_segments = 1;
++enum nvme_ns_features {
++	NVME_NS_EXT_LBAS = 1 << 0, /* support extended LBA format */
++};
 +
- 	result = nvme_init_identify(&dev->ctrl);
- 	if (result)
- 		goto out;
+ struct nvme_ns {
+ 	struct list_head list;
+ 
+@@ -383,8 +387,8 @@ struct nvme_ns {
+ 	u16 ms;
+ 	u16 sgs;
+ 	u32 sws;
+-	bool ext;
+ 	u8 pi_type;
++	unsigned long features;
+ 	unsigned long flags;
+ #define NVME_NS_REMOVING	0
+ #define NVME_NS_DEAD     	1
 -- 
 1.8.3.1
 
