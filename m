@@ -2,72 +2,69 @@ Return-Path: <SRS0=qSsZ=6M=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97BF8C83002
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Apr 2020 00:32:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12C23C83001
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Apr 2020 00:34:55 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 67E772070B
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Apr 2020 00:32:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C0F8F2070B
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Apr 2020 00:34:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="KMATJo/W"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 67E772070B
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="DfFM4C6Y"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C0F8F2070B
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=BS4bylHaJWTDNk1VR747b332acEj/tnyyU5gqTJWj2M=; b=KMATJo/Wv0eYDQ
-	ztk7qfd0OTszbupq4CV2JIP8RWT4oqPjclFAHGtpQ2O0i+EmWM7QHynigYQOhWukSWD8xebX5X8St
-	OTNthXBWElBi2u+GeQoHfp7kmk68sPjHn8E8ULBkZ/mVYBz8mEqj0/9GeqVJCRP430ghcxEoHn67s
-	GrDJsFvG6dJLH5jQIlE1h0l3yH7lcmp5w4a4/HlvGHyiegf+cIN9yCiPje+G83cFpXMM+lEAtKPUk
-	FBvK/bJigFufjpn33h+l/JzutxPhh/g2x53WxQ9jj72ZrHAn/qjF3iPCJNo5Q7JYqFGjzDQMU1RkR
-	STMtQOLY8wTjtDMAMqUQ==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
+	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=5X7SD88YXeafa0i97SgDRfKVsi0ySuRbo9sQ+1b2sNo=; b=DfFM4C6YBWKqTk
+	sfIqAFpopxOgKCwqGi7/Q5sLrQy70Ro6JBNYnFSG0tL7nrmQZK0JFXeXI0bH2ZeLsPwm7ZoT8G6ly
+	RAkB9jQN67hDQ8zfgeiMfn+Y1wSL2G1EhkSnh5f+frGEjSPJq6W3JeG95nDS88AZ76zzKsDgVLd5O
+	3XzwZ0/yyYVvKIP5pzDw/vF41KLLvbumv1gbT6churu6+J1zhSysnIw3YZrru+cDmgCvFlqmDJpcB
+	mHqfSv9sh+BylRB+qHEtHnzNluhduafaI7rHPBZktcxHzKHYdqI1SkxL/oXhYrgnHqQL5Trfd3fYq
+	h0cIvrUACDC1Oj/wjRbQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jTEBE-0000lp-55; Tue, 28 Apr 2020 00:32:56 +0000
-Received: from mga06.intel.com ([134.134.136.31])
+	id 1jTED7-00023N-Fb; Tue, 28 Apr 2020 00:34:53 +0000
+Received: from mga12.intel.com ([192.55.52.136])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jTEB9-0000iQ-Hv
- for linux-nvme@lists.infradead.org; Tue, 28 Apr 2020 00:32:52 +0000
-IronPort-SDR: jwMasN3MXOpIeZQPw3Eqfryr/6ETTtFyQf0AfE5kxLE8mgmtDMh0skRZ5vOq6mOA5AwCQTBGDM
- UKCTuNiOnvGA==
+ id 1jTED4-0000iO-SO
+ for linux-nvme@lists.infradead.org; Tue, 28 Apr 2020 00:34:52 +0000
+IronPort-SDR: 1nrXiSMspLOggU5QVPc30Fk718qMp8BL8o/jFpcnMHrDDWBVngr55McSXhyrPGC4yftnOx7MwZ
+ E4F9oQXDaeHA==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Apr 2020 17:32:50 -0700
-IronPort-SDR: S6siCG9eoW2gDi2go+lBLTfZ0I6oOsSrhS7as1w04pGxOS2bxIxLT4+UTXar1EAtw952ZV1v7r
- GTUljKNc4dnA==
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Apr 2020 17:32:49 -0700
+IronPort-SDR: lBQl9HB+Bjlc4ebtztBGRLJrNoDj+JSiAJk5fsXKUOGRNmgqvn0zEzFk1Tu7dEYA7LmXv6D9mr
+ GHn4do8gGo+Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,325,1583222400"; d="scan'208";a="367331794"
+X-IronPort-AV: E=Sophos;i="5.73,325,1583222400"; d="scan'208";a="404503975"
 Received: from linux.intel.com ([10.54.29.200])
- by fmsmga001.fm.intel.com with ESMTP; 27 Apr 2020 17:32:49 -0700
+ by orsmga004.jf.intel.com with ESMTP; 27 Apr 2020 17:32:49 -0700
 Received: from debox1-hc.jf.intel.com (debox1-hc.jf.intel.com [10.54.75.159])
- by linux.intel.com (Postfix) with ESMTP id C52EB58081E;
+ by linux.intel.com (Postfix) with ESMTP id B16885807CA;
  Mon, 27 Apr 2020 17:32:49 -0700 (PDT)
 From: "David E. Box" <david.e.box@linux.intel.com>
 To: rjw@rjwysocki.net, lenb@kernel.org, bhelgaas@google.com, kbusch@kernel.org,
  axboe@fb.com, hch@lst.de, sagi@grimberg.me
-Subject: [PATCH 2/2] drivers/nvme: Add support for ACPI StorageD3Enable
- property
-Date: Mon, 27 Apr 2020 17:32:14 -0700
-Message-Id: <20200428003214.3764-3-david.e.box@linux.intel.com>
+Subject: [PATCH 0/2] Add support for StorageD3Enable _DSD property
+Date: Mon, 27 Apr 2020 17:32:12 -0700
+Message-Id: <20200428003214.3764-1-david.e.box@linux.intel.com>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200428003214.3764-1-david.e.box@linux.intel.com>
-References: <20200428003214.3764-1-david.e.box@linux.intel.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200427_173251_635679_37F1F782 
-X-CRM114-Status: GOOD (  12.33  )
+X-CRM114-CacheID: sfid-20200427_173450_928060_1B629AA6 
+X-CRM114-Status: GOOD (  10.73  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,10 +76,9 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-acpi@vger.kernel.org,
- "David E. Box" <david.e.box@linux.intel.com>,
- Dan Williams <dan.j.williams@intel.com>
+Cc: linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, "David E. Box" <david.e.box@linux.intel.com>,
+ linux-pci@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
@@ -98,35 +94,24 @@ To make it easier for drivers to choose, these platforms may supply a
 special "StorageD3Enable" _DSD property under the root port that the device
 is attached to. If supplied, the driver must use D3 in order for the
 platform to realize the deepest power savings in suspend-to-idle.
+    
+The first patch adds the new _DSD GUID and fowards the property through the
+pci/acpi layer to the pci device.
 
-Add check of StorageD3Enable property during probe to use D3 as specified
-by platform firmware.
+The second patch adds support for the property to the nvme driver.
 
-Acked-by: Dan Williams <dan.j.williams@intel.com>
-Link: https://docs.microsoft.com/en-us/windows-hardware/design/component-guidelines/power-management-for-storage-hardware-devices-intro
-Signed-off-by: David E. Box <david.e.box@linux.intel.com>
----
- drivers/nvme/host/pci.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+David E. Box (2):
+  pci: Add ACPI StorageD3Enable _DSD support
+  drivers/nvme: Add support for ACPI StorageD3Enable property
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 4e79e412b276..4d67735975f6 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2777,6 +2777,13 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 
- 	quirks |= check_vendor_combination_bug(pdev);
- 
-+	/*
-+	 * Platform requires storage device to use D3 for kernel managed
-+	 * suspend.
-+	 */
-+	if (pdev->storage_d3)
-+		quirks |= NVME_QUIRK_SIMPLE_SUSPEND;
-+
- 	/*
- 	 * Double check that our mempool alloc size will cover the biggest
- 	 * command we support.
+ drivers/acpi/property.c |  3 +++
+ drivers/nvme/host/pci.c |  7 ++++++
+ drivers/pci/pci-acpi.c  | 47 +++++++++++++++++++++++++++++++++++++++++
+ drivers/pci/pci.c       |  6 ++++++
+ drivers/pci/pci.h       |  4 ++++
+ include/linux/pci.h     |  1 +
+ 6 files changed, 68 insertions(+)
+
 -- 
 2.20.1
 
