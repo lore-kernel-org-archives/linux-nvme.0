@@ -4,18 +4,19 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80AFEC83000
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Apr 2020 00:05:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93985C83000
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Apr 2020 00:07:22 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 210ED20737
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Apr 2020 00:05:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6160F20737
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Apr 2020 00:07:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="mX+UYFn8"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 210ED20737
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="cMvDFmG4"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6160F20737
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,58 +25,57 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=z1fMvao11i+d0UZrbIxXcd2/3fEWA/mH8uzwOCutGXo=; b=mX+UYFn8XPRFT6UwHuv53sJGA
-	eYW+uzz5xig8m3r09MEltJskAWmlPXaD5QY8fJdo909LOj5vjlZmAqgWhSot/sWqgIdghOCc9OQ2o
-	/ess5QkCA6iRFAFTu9zMVmqmM0t7UCfTvUePfCnXnpe5Ub1dkHo2yrZtju9Qa4JusD2h9/rnct11E
-	S+k9PxjXxRMNkcEDaGjF0QA4vNAYvyM//h4fuyoHDj3xqUdQqU9XOl0jq3NKf+93pUw+c6SQuBwz/
-	hUama86vZ7GvdeGAfAIHwBHoRAQBXl9jC7faYHv00Nawz1cFSec0fGYpQ9jR3qxHqCWD880YB63++
-	69VXNC2nQ==;
+	 bh=z1fMvao11i+d0UZrbIxXcd2/3fEWA/mH8uzwOCutGXo=; b=cMvDFmG4RwaMbLGf2ztLoEMxt
+	eNaPrUkuzlXhMwozSIXoUY23qD9XrES2wz/G38vqu/7ecr1KEJ7txUB3QISZtLZuDnAcE2DFzrXSo
+	v2oO2Ib6sq6hQzg8tJ0N00wxiMugcvyfOH7isQvRj8yUG5Xtk2GCf6RnAxeUjVSpDLAc9UP17Gz57
+	Bl6butb+sJiRP1LArW3etJ9gmYZhhEyLc3j/BLXjoLXbRzlYCSnT8AddwTvEEbAoWwcr7b+amGDEA
+	5g0HXYS2n1+2LweEaDOPlTAgTYttVffeqGMRQsv5A4cBe+dvXAwaDNej9pYTIJDxL4noNHXD8S6eW
+	Vuq96HFjg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jTaDh-0004kg-67; Wed, 29 Apr 2020 00:04:57 +0000
-Received: from mail-wm1-f65.google.com ([209.85.128.65])
+	id 1jTaG0-0007kp-4c; Wed, 29 Apr 2020 00:07:20 +0000
+Received: from mail-wr1-f47.google.com ([209.85.221.47])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jTaDd-0004kI-Ku
- for linux-nvme@lists.infradead.org; Wed, 29 Apr 2020 00:04:55 +0000
-Received: by mail-wm1-f65.google.com with SMTP id r26so45511wmh.0
- for <linux-nvme@lists.infradead.org>; Tue, 28 Apr 2020 17:04:52 -0700 (PDT)
+ id 1jTaFx-0007eo-Vk
+ for linux-nvme@lists.infradead.org; Wed, 29 Apr 2020 00:07:19 +0000
+Received: by mail-wr1-f47.google.com with SMTP id f13so358672wrm.13
+ for <linux-nvme@lists.infradead.org>; Tue, 28 Apr 2020 17:07:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
  bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
- b=FwfpMVNows71FCROdEkOGolhBir7I2c22sY1vqvCE9RFqVfzvJU7VhuIngmhG7KgCH
- 1+B5YhVlYghmNHTIamZREqwgZDmMYMopxXmXiIpZzcCEgq1yep/QiRGS1KGgzlkVR8Xc
- rbD4UzCFRnLWoI9RCZo4M8Z/MbDwRjtR1H+H6pUzfdlNVNbiand8l3puABtCnD7MGy5V
- fyZIOynJ5m6LiFxB2W/853E0xOYkXFB9Vwvzf4J4orRw3MrIaChU7/K9PUZ/HBc8MfMQ
- sDKk2wTE3l3GXCZZ51yxshfYEnpGNw6/EpmJAYqxV2GS//5+oF0vlgdjmOPFVxJHqD8U
- hWUA==
-X-Gm-Message-State: AGi0Pubk1bu27lMFw+f2Awr/JlHxoXjFvxeFMSx2zGcMSFkr/SlR8qUU
- 4aGYkSff/3o9ZhyHq1NsF+olXJis
-X-Google-Smtp-Source: APiQypJ1Nb6sU5/3egj7sibIzfG+tCfYiSKuuQigPYfrZ/z3l4fuQaMDVJa2sEVNe9BvRu0xWmDgEg==
-X-Received: by 2002:a7b:c1c4:: with SMTP id a4mr69987wmj.86.1588118690980;
- Tue, 28 Apr 2020 17:04:50 -0700 (PDT)
+ b=K95GmB0SdNCKcG5HnUmd8Sa+QccGLU9EGkNWh6AOaAkF+vN+J4QnFOn4osPoXIE/3L
+ 76x1jO/lK2KcYO2INA+hFq+6tgFUJ2aTupko6ic//LAh40dS8ISfb7W3pXo7YY0sBHmS
+ zQW97PLfCNTAvh+GbI0ftQMxppzZHs6yQWHZNNOxp3klmbLADjYmew6QXuuLOFB7OEEf
+ 27UhwCpb1WIJbqjDDmWzN85kgTaxqdygBLdBom2aGuLhF0HRw6rfHjI90mLbyK4tiMUJ
+ j9fXN4TqR+Dbr1RY1bGUUYCei3isR33Rtu/sEmvSKyT98NfAImHN5w9N8E8uMiKuEkpz
+ G6GA==
+X-Gm-Message-State: AGi0Pubs3KBXms23GxpHWuSy0d2qqnkKYCOOHW6RikgKEB/84/hudr+2
+ ucNHZejzcj6N+4dAMee6p7NDn3nT
+X-Google-Smtp-Source: APiQypL+ytgy3sOT6vQUn2OMnaWMN7RKyr6DbK+7JjJv2E0rvPVD2FRT5E5BrNF7eN+KecGrxpbOtA==
+X-Received: by 2002:adf:f54c:: with SMTP id j12mr33828709wrp.183.1588118836384; 
+ Tue, 28 Apr 2020 17:07:16 -0700 (PDT)
 Received: from ?IPv6:2601:647:4802:9070:5185:4503:ed8e:c2bb?
  ([2601:647:4802:9070:5185:4503:ed8e:c2bb])
- by smtp.gmail.com with ESMTPSA id c1sm28764822wrc.4.2020.04.28.17.04.49
+ by smtp.gmail.com with ESMTPSA id b66sm5361357wmh.12.2020.04.28.17.07.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Apr 2020 17:04:50 -0700 (PDT)
-Subject: Re: [PATCH] nvmet: remove unused variable
-To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
- linux-nvme@lists.infradead.org
-References: <20200425193909.7145-1-chaitanya.kulkarni@wdc.com>
+ Tue, 28 Apr 2020 17:07:15 -0700 (PDT)
+Subject: Re: [PATCHv2] nvme-pci: remove volatile cqes
+To: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org, hch@lst.de
+References: <20200428142156.2269926-1-kbusch@kernel.org>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <a72a5cbe-0bb8-7413-706d-cdf47356c58b@grimberg.me>
-Date: Tue, 28 Apr 2020 17:04:42 -0700
+Message-ID: <d7c959c4-4b74-6def-1328-60cf0846270a@grimberg.me>
+Date: Tue, 28 Apr 2020 17:07:13 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Firefox/68.0 Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200425193909.7145-1-chaitanya.kulkarni@wdc.com>
+In-Reply-To: <20200428142156.2269926-1-kbusch@kernel.org>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200428_170453_687862_4ED058FC 
-X-CRM114-Status: UNSURE (   7.89  )
+X-CRM114-CacheID: sfid-20200428_170718_020254_5D1B18EE 
+X-CRM114-Status: UNSURE (   7.67  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
