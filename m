@@ -2,49 +2,62 @@ Return-Path: <SRS0=VrRv=6P=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0435C4724C
-	for <linux-nvme@archiver.kernel.org>; Fri,  1 May 2020 13:08:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E5A7C4724C
+	for <linux-nvme@archiver.kernel.org>; Fri,  1 May 2020 13:10:13 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C1E632071E
-	for <linux-nvme@archiver.kernel.org>; Fri,  1 May 2020 13:08:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 05DFA2166E
+	for <linux-nvme@archiver.kernel.org>; Fri,  1 May 2020 13:10:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="MiDwk483"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C1E632071E
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="YIGx7lRI"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 05DFA2166E
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
-	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=GSVDnDw3L8V81Ay7RUFD+2x2eFDLCbnkROBqy3VTTdQ=; b=MiDwk483z3q+Fa
-	YHbTk/BMpXX+DoXxb0BnjtxPQ+QUwnWrtN5FGoiZy1s3gi9J6djAXUq9YJP36PROe7iNevgjvwSvF
-	7smc2kpjb5EhGnzH8/j1NR6QJnXEY1QfX0GX1hZPMQ33FWF0tFHtwao/X8ZZQyqAh16HtGf+k4PYX
-	V/uqx6Nkc5U/qcm7XGOJwya9eGDc2dmXCF8SQfqbS4z3OzZMhqSOMD+Q3njeZbWw94zouxFcLt8cc
-	LhhCZYspFvihVAk9LBVSoOXoVVKPwGbkoeym+oHTP3Kpqq6faldGrATqd6TbBG6w1sOBvQ+phh4At
-	ZacnlHk+DetP97ojLzUQ==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=bWyXyJb8xskUoS28a69TzXq+SPQlQTeJzr/tdQBxQkM=; b=YIGx7lRIgwY62s
+	UbYPS5pKq9h1uODxYmn44paockVo3u1EQIwfMEgFYwZD0tX5hhdqbEakH2VuCMQGE1wkwOerGPdOm
+	e8q2YFtfTVLR6ni/JXK9OG9Nw43kOQBZaZCoPa7b1MIU1IAObpJRHQHq7U6HpbWpvfM6y/zVX3weO
+	8K7gjrq3+3C35kwmdDd4CxzKMRXRuulBIFg0Y4r9nethrG9IxQ0NW+BxQ/OF03xinVuNeIQ+Bo/Yb
+	i+H7sSoT4mMtvVqo7pCCxEU6xGvheDGm9IHpHq8uRPPnmXbg2IhbuKQ2Dw5ZOX20kHhYpQWqou+Mz
+	iILk1ADe9Lh9Acmhs94w==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jUVP3-0006ZU-VB; Fri, 01 May 2020 13:08:29 +0000
-Received: from [2001:4bb8:18c:10bd:c70:4a89:bc61:2] (helo=localhost)
- by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jUVP2-0006Z6-1N; Fri, 01 May 2020 13:08:28 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: kbusch@kernel.org,
-	sagi@grimberg.me
-Subject: [PATCH] nvme-multipath: stop using ->queuedata
-Date: Fri,  1 May 2020 15:08:25 +0200
-Message-Id: <20200501130825.2627529-1-hch@lst.de>
-X-Mailer: git-send-email 2.26.2
+	id 1jUVQf-0000Dt-Vh; Fri, 01 May 2020 13:10:09 +0000
+Received: from verein.lst.de ([213.95.11.211])
+ by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jUVQc-0007mz-My
+ for linux-nvme@lists.infradead.org; Fri, 01 May 2020 13:10:08 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 9444168BFE; Fri,  1 May 2020 15:10:01 +0200 (CEST)
+Date: Fri, 1 May 2020 15:10:01 +0200
+From: "hch@lst.de" <hch@lst.de>
+To: "Williams, Dan J" <dan.j.williams@intel.com>
+Subject: Re: [PATCH 0/2] Add support for StorageD3Enable _DSD property
+Message-ID: <20200501131001.GA6600@lst.de>
+References: <20200428003214.3764-1-david.e.box@linux.intel.com>
+ <20200428051312.GB17146@lst.de>
+ <de052d30cc881ac67f9410b50b0760ee5bf9a623.camel@linux.intel.com>
+ <20200428142247.GB5439@lst.de>
+ <de2d78556fcb10f97364201256ac8f342a58eb75.camel@linux.intel.com>
+ <296064bbcf702744bf603932c9d849307db2e5b7.camel@intel.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <296064bbcf702744bf603932c9d849307db2e5b7.camel@intel.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20200501_061006_926188_A6E8D53C 
+X-CRM114-Status: GOOD (  14.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,44 +69,44 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-nvme@lists.infradead.org
+Cc: "sagi@grimberg.me" <sagi@grimberg.me>,
+ "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+ "rjw@rjwysocki.net" <rjw@rjwysocki.net>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "axboe@fb.com" <axboe@fb.com>,
+ "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+ "david.e.box@linux.intel.com" <david.e.box@linux.intel.com>,
+ "kbusch@kernel.org" <kbusch@kernel.org>,
+ "bhelgaas@google.com" <bhelgaas@google.com>, "hch@lst.de" <hch@lst.de>,
+ "lenb@kernel.org" <lenb@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvme-multipath already uses the gendisk private data, not need to
-also set up the request_queue queuedata and use it in one place only.
+On Wed, Apr 29, 2020 at 05:20:09AM +0000, Williams, Dan J wrote:
+> > The platform can know which pm policies will save the most power. But
+> > since the solution doesn't apply to all PCIe devices (despite BIOS
+> > specifying it that way) I'll withdraw this patch. Thanks.
+> 
+> Wait, why withdraw? In this case the platform is unfortunately
+> preventing the standard driver from making a proper determination. So
+> while I agree that it's not the BIOSes job, when the platform actively
+> prevents proper operation due to some ill conceived non-standard
+> platform property what is Linux left to do on these systems?
+> 
+> The *patch* is not trying to overrule NVME, and the best I can say is
+> that the Intel Linux team was not in the loop when this was being
+> decided between the platform BIOS implemenation and  whomever  thought
+> they could just publish random ACPI properties that impacted NVME
+> operation [1].
+> 
+> So now David is trying to get these platform unbroken because they are
+> already shipping with this b0rkage.
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- drivers/nvme/host/multipath.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 9f2844935fdfa..5f5537d0a024f 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -294,7 +294,7 @@ static bool nvme_available_path(struct nvme_ns_head *head)
- static blk_qc_t nvme_ns_head_make_request(struct request_queue *q,
- 		struct bio *bio)
- {
--	struct nvme_ns_head *head = q->queuedata;
-+	struct nvme_ns_head *head = bio->bi_disk->private_data;
- 	struct device *dev = disk_to_dev(head->disk);
- 	struct nvme_ns *ns;
- 	blk_qc_t ret = BLK_QC_T_NONE;
-@@ -378,7 +378,6 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
- 	q = blk_alloc_queue(nvme_ns_head_make_request, ctrl->numa_node);
- 	if (!q)
- 		goto out;
--	q->queuedata = head;
- 	blk_queue_flag_set(QUEUE_FLAG_NONROT, q);
- 	/* set to a default value for 512 until disk is validated */
- 	blk_queue_logical_block_size(q, 512);
--- 
-2.26.2
-
+So can we please clearly mark this as a quirk and warn in the kernel
+log about a buggy BIOS?
 
 _______________________________________________
 linux-nvme mailing list
