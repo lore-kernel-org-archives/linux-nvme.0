@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-5.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18CAAC4724C
-	for <linux-nvme@archiver.kernel.org>; Fri,  1 May 2020 13:20:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E975AC4724C
+	for <linux-nvme@archiver.kernel.org>; Fri,  1 May 2020 13:20:45 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DC59920757
-	for <linux-nvme@archiver.kernel.org>; Fri,  1 May 2020 13:20:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B854620757
+	for <linux-nvme@archiver.kernel.org>; Fri,  1 May 2020 13:20:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="iO+qUjra"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DC59920757
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="q6XoQ50U"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B854620757
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,35 +25,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=JdGzColvVDzkceZiZJyD123clGOLIsZEy4cl97NE+zk=; b=iO+qUjraBc7jqQ
-	W5Z6FBE0ufJb6ZcOozVGrTM08k1G5itF6T5bpdT3QsnFM5+Fv2mvT2/OBVR8OFPIulgWoGfaIZssg
-	02M3tg5JNNX2OSivLlmSBZE7pz9l/9+Q7LG3mpJxZk+O+yBiUAdBatRkSjt9atxsYIgMVXtoKajiC
-	TcSdG9nM8WrxGr/c+S7/0T8CJmv81oLlRrILeKcoFcYXNXx0TtWW4Zo//N8KN5O0nnZfz1JoHNCTU
-	46oSxbBo1AFV8o/FtVfcAI1EDevBnsy/36Jw92i8pcDZ5qejcDHYF2etoWKAxaaWnI37WHw6Agz/p
-	2fBUPHljG/afQqCpSWLw==;
+	List-Owner; bh=UHz+wqrmasq4xtr88yaWLM35t8q9KISI8+5pylR1q7M=; b=q6XoQ50U8HuFIy
+	lCc85eO3XHTnV6T0ndt0IET2jxNRpvm4ghmhIukADxyJBcMRqi3MRXIyiB3lKl+pYp79u6Bq2yohw
+	tQat27xdkgfLBkenPVaa1NTYYJifQ0wE1vb0t6T82zcQLFAGYA4n4Q9SqE/ff8gM9FGZqAlIDMBik
+	lGicdBa9H4D365dgsT+sYAqU5Tu+UxRBs/uXaF0xk/4lgm4yMxatFfROLiNp7/brnXd9kgRS+c/Q1
+	bGHkJ8y5HP7/NWeOwz3Jq3J0chpZqY332f6Dq6R39L3FQUuY9ZyHj0qEJBaT1+riO0yRiRh5wjUB3
+	4IU/bHrpQ3VK/gB211Nw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jUVaS-0008Sw-9c; Fri, 01 May 2020 13:20:16 +0000
+	id 1jUVat-0000LM-Qs; Fri, 01 May 2020 13:20:43 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jUVaP-0008SF-MY
- for linux-nvme@lists.infradead.org; Fri, 01 May 2020 13:20:14 +0000
+ id 1jUVao-0000JV-HI
+ for linux-nvme@lists.infradead.org; Fri, 01 May 2020 13:20:42 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id B912A68BFE; Fri,  1 May 2020 15:20:10 +0200 (CEST)
-Date: Fri, 1 May 2020 15:20:10 +0200
+ id 9BEC068BFE; Fri,  1 May 2020 15:20:36 +0200 (CEST)
+Date: Fri, 1 May 2020 15:20:36 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Max Gurtovoy <maxg@mellanox.com>
-Subject: Re: [PATCH 01/15] nvme: introduce namespace features flag
-Message-ID: <20200501132010.GA7197@lst.de>
+Subject: Re: [PATCH 02/15] nvme: introduce NVME_NS_METADATA_SUPPORTED flag
+Message-ID: <20200501132036.GB7197@lst.de>
 References: <20200428131135.211521-1-maxg@mellanox.com>
- <20200428131135.211521-2-maxg@mellanox.com>
+ <20200428131135.211521-3-maxg@mellanox.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200428131135.211521-2-maxg@mellanox.com>
+In-Reply-To: <20200428131135.211521-3-maxg@mellanox.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200501_062013_887236_6EA795A4 
-X-CRM114-Status: UNSURE (   7.52  )
+X-CRM114-CacheID: sfid-20200501_062038_731080_E3D936AA 
+X-CRM114-Status: UNSURE (   7.89  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -75,10 +75,10 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Apr 28, 2020 at 04:11:21PM +0300, Max Gurtovoy wrote:
-> Replace the specific ext boolean (that implies on extended LBA format)
-> with a feature in the new namespace features flag. This is a preparation
-> for adding more namespace features (such as metadata specific features).
+On Tue, Apr 28, 2020 at 04:11:22PM +0300, Max Gurtovoy wrote:
+> This is a preparation for adding support for metadata in fabric
+> controllers. New flag will imply that NVMe namespace supports getting
+> metadata that was originally generated by host's block layer.
 > 
 > Signed-off-by: Max Gurtovoy <maxg@mellanox.com>
 > Reviewed-by: Israel Rukshin <israelr@mellanox.com>
