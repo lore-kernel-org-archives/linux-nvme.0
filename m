@@ -1,4 +1,4 @@
-Return-Path: <SRS0=L5xI=6O=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=VrRv=6P=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
@@ -6,76 +6,53 @@ X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD687C47247
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Apr 2020 23:36:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7F97C4724C
+	for <linux-nvme@archiver.kernel.org>; Fri,  1 May 2020 07:33:09 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 94F2C20774
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Apr 2020 23:36:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8E40E2071C
+	for <linux-nvme@archiver.kernel.org>; Fri,  1 May 2020 07:33:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="nd7flYCI"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 94F2C20774
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="hyjYyDA3"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8E40E2071C
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=z1fMvao11i+d0UZrbIxXcd2/3fEWA/mH8uzwOCutGXo=; b=nd7flYCIy3Hvvy3BsfHnOJUgg
-	jTvZFHbm8F6F4VGjLKLO/LRJ00ZDPD0hJfc2NLQBPMtkF3PT86aIJl3Y2TTLQKdY41kscKxpCTpru
-	BIQc9RpPXSbehl80FB/JL21ibe+4a34PcFVBHYDJ9UgpJYb1uCrMuCQ6SqlQWCxU21YRGsrV+Pcv5
-	j5dImioNk5oU3LnMW6YxNzIj4mCYikSBNQxEs+W2wGaOgwGfGngNBmwZxK9S+GpdPN7sOEyjmjzsP
-	AaOtxW0H6s26gX7GNMHL6WUtISJ+mSWErzWFZDf5aSajLa2R6jGeMq1SslX4bLbgqoUlODGFT3EcY
-	yPNF162XQ==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=8vVBv7IUSS1K45T3KqGiiAFIrqh6U+1S+PULHQnuo4I=; b=hyjYyDA3ysnCxU
+	IgcNUpZWalu3J/HCXaJweZGk0QncPDB13+oVYThfJH9wauSYTzXrDrMp5fi1zK17/abPwqo8vGbm4
+	FAMeYmC3QJtEpaVh8iw46D9JbVliJ2OXM5BAiEuudIJ1bm+LZbOHY0HPRchQer7gxobbjDN/yjFjr
+	geaKMN+mEq0TQgHs1qPY6lDLay4PEibTOO15IUgvS6DK0ODTmz5czCeT92wNTZCaoWYJGMOvCaQXK
+	Haxyh1Yck2XGaphLhpU71BwYKoxD32DGNfNlWF42qEuxViVDUkoT3f6wY3pHvuYlEUCy+hHEt/YIz
+	UQqbudo62GW5TADAqfpQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jUIjT-0005sv-D6; Thu, 30 Apr 2020 23:36:43 +0000
-Received: from mail-pf1-f196.google.com ([209.85.210.196])
+	id 1jUQAS-0001ds-PD; Fri, 01 May 2020 07:33:04 +0000
+Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jUIjQ-0005sc-5L
- for linux-nvme@lists.infradead.org; Thu, 30 Apr 2020 23:36:41 +0000
-Received: by mail-pf1-f196.google.com with SMTP id p25so735117pfn.11
- for <linux-nvme@lists.infradead.org>; Thu, 30 Apr 2020 16:36:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
- b=DWqfSYU0hHA+tXYvRPH3cS1t+U3V2ucOGKa4Ipdtl8vTCke/ShH+F+XaCYmO8tFpsj
- +hcrcL26HFQaUKxbwiNwZQVPZ9UqxLPx9+Sj4gcsPx64s1mNP5rraNalQphr/UJE1u/f
- n/6r/k4RCBsPiWTwFJ2wuBEuAK5LnPKe4Na+e32qjqFMUdFdMbiGFuP1nAnSCKd28Qjr
- Ur78OqokFd2iVcJWZEFX9nfup7GC9P/06W3rGFnEiPsykJJemudeRSBylDoeZc2Dn3z3
- B06F9FhJmM2ijRJaO4MuZlRFlV4ydFbP0VAbgb4zRfJCr2oW9SarCibyUyNb1zXut2HE
- mAMA==
-X-Gm-Message-State: AGi0PuZzh4L8B9YZgO2aY55MxQd+Gnta/DIDwr+7s1XGq2EkJ8h0jIer
- 5vX6o5U9U6gI6Q8d0Lta/t7u9gqd
-X-Google-Smtp-Source: APiQypJTAjwNEGBlPF+x5FJ7MtX+jIFw0XeVUGM3ijMwNkTDWPNvDrB7Jm5n2P6/Uosx7PyDzwfakQ==
-X-Received: by 2002:a63:e64d:: with SMTP id p13mr1373939pgj.240.1588289798728; 
- Thu, 30 Apr 2020 16:36:38 -0700 (PDT)
-Received: from ?IPv6:2601:647:4802:9070:7c3c:3588:d5ec:d94e?
- ([2601:647:4802:9070:7c3c:3588:d5ec:d94e])
- by smtp.gmail.com with ESMTPSA id a129sm741280pfb.102.2020.04.30.16.36.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Apr 2020 16:36:37 -0700 (PDT)
-Subject: Re: [PATCH] nvme: flush scan work on passthrough commands
-To: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org, hch@lst.de
-References: <20200429203123.31302-1-kbusch@kernel.org>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <0e813bf1-ee6b-aa06-d3e7-80ee5e35df84@grimberg.me>
-Date: Thu, 30 Apr 2020 16:36:36 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Firefox/68.0 Thunderbird/68.7.0
+ id 1jUQAQ-0001cZ-0l
+ for linux-nvme@lists.infradead.org; Fri, 01 May 2020 07:33:03 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 4A94968D07; Fri,  1 May 2020 09:32:56 +0200 (CEST)
+Date: Fri, 1 May 2020 09:32:56 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH 15/15] nvme: avoid gcc-10 zero-length-bounds warning
+Message-ID: <20200501073256.GA23452@lst.de>
+References: <20200430213101.135134-1-arnd@arndb.de>
+ <20200430213101.135134-16-arnd@arndb.de>
 MIME-Version: 1.0
-In-Reply-To: <20200429203123.31302-1-kbusch@kernel.org>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20200430213101.135134-16-arnd@arndb.de>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200430_163640_199150_24990F09 
-X-CRM114-Status: UNSURE (   7.97  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200501_003302_217076_A82692D6 
+X-CRM114-Status: GOOD (  12.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,12 +64,35 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Israel Rukshin <israelr@mellanox.com>,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ James Smart <james.smart@broadcom.com>, Jens Axboe <axboe@fb.com>,
+ Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>,
+ Max Gurtovoy <maxg@mellanox.com>, Ming Lei <ming.lei@redhat.com>,
+ Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+On Thu, Apr 30, 2020 at 11:30:57PM +0200, Arnd Bergmann wrote:
+> When CONFIG_ARCH_NO_SG_CHAIN is set, op->sgl[0] cannot be dereferenced,
+> as gcc-10 now points out:
+> 
+> drivers/nvme/host/fc.c: In function 'nvme_fc_init_request':
+> drivers/nvme/host/fc.c:1774:29: warning: array subscript 0 is outside the bounds of an interior zero-length array 'struct scatterlist[0]' [-Wzero-length-bounds]
+>  1774 |  op->op.fcp_req.first_sgl = &op->sgl[0];
+>       |                             ^~~~~~~~~~~
+> drivers/nvme/host/fc.c:98:21: note: while referencing 'sgl'
+>    98 |  struct scatterlist sgl[NVME_INLINE_SG_CNT];
+>       |                     ^~~
+> 
+> I don't know if this is a legitimate warning or a false-positive.
+> If this is just a false alarm, the warning is easily suppressed
+> by interpreting the array as a pointer.
+
+This looks like a surpression to be, but then again I find the new
+code actually cleaner, so I'm fine with it :)
 
 _______________________________________________
 linux-nvme mailing list
