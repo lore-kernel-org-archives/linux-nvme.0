@@ -2,64 +2,69 @@ Return-Path: <SRS0=qmg+=6S=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8F1FC47257
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 May 2020 17:00:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AB0EC3A5A9
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 May 2020 18:18:43 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A7B40206D7
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 May 2020 17:00:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id F290D20705
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 May 2020 18:18:42 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="QlscFOjS"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A7B40206D7
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="g1NPKTDy";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="mweWcg/7"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F290D20705
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ZwDtSZDgbxpPCBlrCgUjMi8oy82QpG6r1VR82lU/5e4=; b=QlscFOjS/m25Vl
-	VvTq+nWvQyrokeqHpYAAPI6GPzayjtl3oH+XXy0M2fex3LwTEsPX/EEm/jdvnJoGgWp8AGJLMgyBx
-	x2NPmcjdpA6f+TFAIpkf5rII9QAeXI44bomgg9v8J6SHSF/NrUfhs1zLzlfvL9NAy7fWekuliOrDe
-	8JFOVyuSDcjD9Emg62g9XASkuZeeBZ7fCXv0/E/7nCt+ZIF/Hz/FrMfouQM0duqClAmx415A6ORfK
-	jnlVXD6DYVskk7vUEsPzfDGNFjviE9zNZ3j6krDaSZcn5SRBn2LeCHCSpbLxmMx4lHkj42UEEQB4U
-	n0qNXPkJ7zbQ16jS/Khw==;
+	List-Owner; bh=wRhI8sjpfj5lW/fNDoh+SFY2Z/RP1vLFq2Ry3ncx/ps=; b=g1NPKTDyQ4qzDu
+	yC7coBqh4AFMhLfKvC3GFHexZtUUmF0bG4iO5PFbkmZJySdr7RDnzLTh2jjkQEIEB1YccaB+JPYoi
+	Si4q6Kvo2jTJy/ZUAk5mec7aHuinabOZmTaCbwszXKeIIg9pij+d8rklVUTzs2UgK1LPYh8EBuuGM
+	IbzrF7dq47GTGkW/FkvNGlP3P8P8ePJAdAjwcY/CU420GPpnRyRTZPtmqzNRWlw+3qaVLP32ptLPU
+	UESGDsO32k/3EAHlhRkw8jjShDv8XN7b1HlspQ+FAwtS0ZyYboAGJn8EpwYGnjx1q/xsasF+EhWd3
+	I1cQkrhDGDj0TXV0UlLw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jVeS6-00060N-GL; Mon, 04 May 2020 17:00:22 +0000
-Received: from mail-il-dmz.mellanox.com ([193.47.165.129] helo=mellanox.co.il)
- by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jVdTo-0000z1-Tu
- for linux-nvme@lists.infradead.org; Mon, 04 May 2020 15:58:06 +0000
-Received: from Internal Mail-Server by MTLPINE2 (envelope-from
- maxg@mellanox.com)
- with ESMTPS (AES256-SHA encrypted); 4 May 2020 18:57:57 +0300
-Received: from mtr-vdi-031.wap.labs.mlnx. (mtr-vdi-031.wap.labs.mlnx
- [10.209.102.136])
- by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 044FvtCP017882;
- Mon, 4 May 2020 18:57:57 +0300
-From: Max Gurtovoy <maxg@mellanox.com>
-To: maxg@mellanox.com, linux-nvme@lists.infradead.org, kbusch@kernel.org,
- hch@lst.de, sagi@grimberg.me, martin.petersen@oracle.com,
- jsmart2021@gmail.com, axboe@kernel.dk
-Subject: [PATCH 13/16] nvme: add Metadata Capabilities enumerations
-Date: Mon,  4 May 2020 18:57:52 +0300
-Message-Id: <20200504155755.221125-14-maxg@mellanox.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20200504155755.221125-1-maxg@mellanox.com>
-References: <20200504155755.221125-1-maxg@mellanox.com>
+	id 1jVffq-0000tv-BV; Mon, 04 May 2020 18:18:38 +0000
+Received: from mail.kernel.org ([198.145.29.99])
+ by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jVffm-0000tC-L3
+ for linux-nvme@lists.infradead.org; Mon, 04 May 2020 18:18:36 +0000
+Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 142B820661;
+ Mon,  4 May 2020 18:18:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1588616314;
+ bh=U7NrlTtZGJ/ze2uiB5FejyGDxTZBN2BQ8uU0DGla7yE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=mweWcg/71B6I6ZsNuVuTN2qEG5CJeNoUR/1szNdqlUwZN2nX/RPDMKq7tnnbYF2i5
+ zLRwUjurrReSHZIhwnlydLx7/U4NItK4zRD3PUKTVZNCZv1x8J82vBa56ffD4DTEIM
+ T9ayRWepGQObWbmhfn5jk+12q5470gyEEksic5LA=
+Date: Mon, 4 May 2020 11:18:32 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH 3/3] nvme-pci: reshuffle nvme_queue members
+Message-ID: <20200504181832.GA2278084@dhcp-10-100-145-180.wdl.wdc.com>
+References: <20200427235243.2268765-1-kbusch@kernel.org>
+ <20200427235243.2268765-3-kbusch@kernel.org>
+ <20200501125704.GC5197@lst.de>
+ <20200501150815.GA22665@redsun51.ssa.fujisawa.hgst.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200501150815.GA22665@redsun51.ssa.fujisawa.hgst.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200504_085805_406623_16D8A94E 
-X-CRM114-Status: UNSURE (   6.20  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200504_111834_710363_C39BFDA1 
+X-CRM114-Status: GOOD (  13.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,46 +76,31 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: vladimirk@mellanox.com, shlomin@mellanox.com, israelr@mellanox.com,
- idanb@mellanox.com, oren@mellanox.com, nitzanc@mellanox.com
+Cc: sagi@grimberg.me, linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Israel Rukshin <israelr@mellanox.com>
+On Sat, May 02, 2020 at 12:08:15AM +0900, Keith Busch wrote:
+> On Fri, May 01, 2020 at 02:57:04PM +0200, Christoph Hellwig wrote:
+> > On Mon, Apr 27, 2020 at 04:52:43PM -0700, Keith Busch wrote:
+> > > All the io path hot members can fit within the first 64-bytes, which is
+> > > a common cacheline. Order the members of this struct so those members
+> > > fit in and align to that window.
+> > 
+> > Do we even want to share a cacheline for the submission vs completion
+> > path?  I know other places try to keep the deliberately separate.
+> 
+> We usually complete on the same CPU that submitted, so it appears
+> beneficial to fit both sides in the same line. I'll try it out both
+> ways, though I don't think I'll be able to measure a difference.
 
-The enumerations will be used to expose the namespace metadata format by
-the target.
-
-Suggested-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Israel Rukshin <israelr@mellanox.com>
-Signed-off-by: Max Gurtovoy <maxg@mellanox.com>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
----
- include/linux/nvme.h | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 3d5189f..57c1b6b 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -412,6 +412,12 @@ enum {
- 	NVME_NS_DPS_PI_TYPE3	= 3,
- };
- 
-+/* Identify Namespace Metadata Capabilities (MC): */
-+enum {
-+	NVME_MC_EXTENDED_LBA	= (1 << 0),
-+	NVME_MC_METADATA_PTR	= (1 << 1),
-+};
-+
- struct nvme_ns_id_desc {
- 	__u8 nidt;
- 	__u8 nidl;
--- 
-1.8.3.1
-
+If there are more cpus than queues, there is a real benefit to
+separating submit and complete into different cache lines, otherwise
+they invalidate each other when submissions occur on cpus different than
+completions. The extra space provides more flexibility arranging the
+struct, so I'll experiment with that a bit more.
 
 _______________________________________________
 linux-nvme mailing list
