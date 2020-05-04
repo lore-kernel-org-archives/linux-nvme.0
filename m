@@ -2,68 +2,63 @@ Return-Path: <SRS0=qmg+=6S=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73041C3A5A9
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 May 2020 14:43:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D7E0C47257
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 May 2020 15:58:16 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 46CD220752
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 May 2020 14:43:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 433B720721
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 May 2020 15:58:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="GgtRiDIg";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="zOZrBhuM"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 46CD220752
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Qaqy2lH3"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 433B720721
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=OUBHPN3+6Nk4hIbKL+vQJF9cV1RxxtbC1z5HgabO5Lc=; b=GgtRiDIgOVTR++
-	d+fhVO/UTo2AFjmgdVRrQv1soGC2qLrUTA+8t88VuF8FXscueMDMjCms6tmiWr518nWojPDtETVlg
-	T4I65ocGZojuphvs9s5iDTszRktrg2jxxUTNe9KChzcFANOzQmpRZNla8qahLzmK/3yGq1eBOkPPe
-	QH1aURyNjTV2tSj4mGW5VDLUMs1M59ss7IbKt+FJ8FJj7IcahLm23uTtoiblSRuq5zk53gAZHEj7y
-	D545ySus0dCyObqLbS5WzzZ9sPIt3E9wEavNCt8qo/aSJhkjeMzYnasoj3V0Ab9eL7xI1DX4etSfv
-	rjTCJ5hRrbgI6tN5/8TA==;
+	List-Owner; bh=LuxUhdxmv+krnABqpVRYNCjpigjSc+d99dNA49oGUew=; b=Qaqy2lH3h3r+mO
+	1CnGJRmvBOox1nQZpJZKcNXvDtj904FFPeK316Lo9inUVU+Jp+afYCPaDPxfPy0JornwFEwFroWUk
+	VhFFM48hv/uSsQ5aQXRQDdVOJmriv7itr9ivNnm9ZGVAvgnljr7/sj0e6Fu5hlXLx2ITg0IR5lu3f
+	W9Kd7nyxFjTlWuWeXTaURKCFAQ7uOIoQvj9CseuLRiVLnV+ADDNaPOjV2lukUNsCpTUALV1MfNqom
+	sVoNKuduYkn+xxYDS1wUAb1RwzrurSwNjRuOTSpUepfXzbTC5bGfFRmx3sCpee8dw3cTRzgODgDqS
+	wyle+Q7QYZrzQnzsO9kg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jVcJR-0007ak-UJ; Mon, 04 May 2020 14:43:17 +0000
-Received: from mail.kernel.org ([198.145.29.99])
- by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jVcJP-0007aM-IU
- for linux-nvme@lists.infradead.org; Mon, 04 May 2020 14:43:16 +0000
-Received: from redsun51.ssa.fujisawa.hgst.com (unknown [199.255.47.7])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 800322078C;
- Mon,  4 May 2020 14:43:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1588603394;
- bh=GI4o3j/j7V+tSsHBWjzTEiwrtLDcn36StHVbZXAqss4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=zOZrBhuM+vOBfe2wfaOwG4Bo6DbCQtaQqpAcjMehbJm83tqy0NeNZVCoC+0zUU6H7
- ldU+0Bvdg37k+8f/aayarl9Z5D076Rfn09zX8XrlqUtrZM0Pz1L2Cd5kjEw6GOFrsU
- 3t8TjVFy5p5uE1P4mK//2nmMy9n3Nhym1GZnRMFU=
-Date: Mon, 4 May 2020 23:43:07 +0900
-From: Keith Busch <kbusch@kernel.org>
-To: Weiping Zhang <zhangweiping@didiglobal.com>
-Subject: Re: [PATCH v4] nvme: align io queue count with allocted nvme_queue
- in nvme_probe
-Message-ID: <20200504144307.GA27747@redsun51.ssa.fujisawa.hgst.com>
-References: <20200502072937.GA12656@192.168.3.9>
+	id 1jVdTu-00014r-Js; Mon, 04 May 2020 15:58:10 +0000
+Received: from mail-il-dmz.mellanox.com ([193.47.165.129] helo=mellanox.co.il)
+ by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jVdTo-0000yz-Tu
+ for linux-nvme@lists.infradead.org; Mon, 04 May 2020 15:58:08 +0000
+Received: from Internal Mail-Server by MTLPINE2 (envelope-from
+ maxg@mellanox.com)
+ with ESMTPS (AES256-SHA encrypted); 4 May 2020 18:57:56 +0300
+Received: from mtr-vdi-031.wap.labs.mlnx. (mtr-vdi-031.wap.labs.mlnx
+ [10.209.102.136])
+ by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 044FvtCJ017882;
+ Mon, 4 May 2020 18:57:56 +0300
+From: Max Gurtovoy <maxg@mellanox.com>
+To: maxg@mellanox.com, linux-nvme@lists.infradead.org, kbusch@kernel.org,
+ hch@lst.de, sagi@grimberg.me, martin.petersen@oracle.com,
+ jsmart2021@gmail.com, axboe@kernel.dk
+Subject: [PATCH 07/16] nvme: introduce NVME_INLINE_METADATA_SG_CNT
+Date: Mon,  4 May 2020 18:57:46 +0300
+Message-Id: <20200504155755.221125-8-maxg@mellanox.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20200504155755.221125-1-maxg@mellanox.com>
+References: <20200504155755.221125-1-maxg@mellanox.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200502072937.GA12656@192.168.3.9>
-User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200504_074315_628073_1D3F8422 
-X-CRM114-Status: UNSURE (   6.02  )
+X-CRM114-CacheID: sfid-20200504_085805_413041_15749F94 
+X-CRM114-Status: UNSURE (   7.56  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -76,16 +71,48 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: hch@infradead.org, axboe@kernel.dk, sagi@grimberg.me,
- linux-nvme@lists.infradead.org
+Cc: vladimirk@mellanox.com, shlomin@mellanox.com, israelr@mellanox.com,
+ idanb@mellanox.com, oren@mellanox.com, nitzanc@mellanox.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Looks good to me
+From: Israel Rukshin <israelr@mellanox.com>
 
-Reviewed-by: Keith Busch <kbusch@kernel.org>
+SGL size of metadata is usually small. Thus, 1 inline sg should cover
+most cases. The macro will be used for pre-allocate a single SGL entry
+for metadata. The preallocation of small inline SGLs depends on SG_CHAIN
+capability so if the ARCH doesn't support SG_CHAIN, use the runtime
+allocation for the SGL. This patch is a preparation for adding metadata
+(T10-PI) over fabric support.
+
+Signed-off-by: Israel Rukshin <israelr@mellanox.com>
+Signed-off-by: Max Gurtovoy <maxg@mellanox.com>
+Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+---
+ drivers/nvme/host/nvme.h | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 6c7e76c..7c2e6d4 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -31,8 +31,10 @@
+ 
+ #ifdef CONFIG_ARCH_NO_SG_CHAIN
+ #define  NVME_INLINE_SG_CNT  0
++#define  NVME_INLINE_METADATA_SG_CNT  0
+ #else
+ #define  NVME_INLINE_SG_CNT  2
++#define  NVME_INLINE_METADATA_SG_CNT  1
+ #endif
+ 
+ extern struct workqueue_struct *nvme_wq;
+-- 
+1.8.3.1
+
 
 _______________________________________________
 linux-nvme mailing list
