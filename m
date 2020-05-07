@@ -2,75 +2,67 @@ Return-Path: <SRS0=DRq2=6V=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C166C38A2A
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 May 2020 18:06:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD31BC38A2A
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 May 2020 19:00:47 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4D6092063A
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 May 2020 18:06:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A4BDE2083B
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 May 2020 19:00:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="MnAzoGgU";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="u3TyEd4s"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4D6092063A
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="DDDAmo8d";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="qn6cRKwY"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A4BDE2083B
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=bRAChPkygaze0idYCi4/WKbxylc573r6MykC9wnPIDY=; b=MnAzoGgUsCNx/o
-	zuLW2t36cz+yjswAzJ4AneOabdmracnVjcjVOKGC/UqaBAYsIG00oFuxeeJIGerNemA9SbKTi9FJ1
-	D1GMAkYoB/I5UuJntpT/p+HopLYJ+PB7DGEu7LsUkYDZy5t4ggBPLimtKk6pfQwzwHuSH7DVEau34
-	o8rq42wMDIwUWl2uGdnHDfpi1eO00NbqUVRVeE8jRJiWcFq3gMRGFoDyt7+z9QT9/G78FrB/mI68R
-	evP6B8+XNaTQxk249eJbNZpjoH39XN6Vpdzew1ka2AFwfALhpTkLVrUl0/s2g1TLRS6nvlxOZq0EW
-	6doGWKiSif7mcoSurq+g==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:To:From
+	:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=IXP5mu81MyXoSJmuHuxeJBszlVhTLHfn6NdyadYq/H0=; b=DDDAmo8dHTFjY1
+	ZCzrae4Ypgxwq0x9FmbU7C5rm/R65orV4NElFNKcPA5wlYFQ3s+rVso34OoVxFjw4zLlwSPnpj3DD
+	7BlmPVu5FEnj6nkJNMYw0ZqrefjwIm7Twbb5tR8jgSekVX2rKswnOHNyqUCiaCvBthnXoyC//txuy
+	mgPIkkMUKClQlsNTAxk+7pd0yf3OEIRDhv462zAGINbGLqdZRucvfCUuQ5G5xwetTv2WllrU4IUNQ
+	cZ6MQL+XXl2B8zWTnLGs4cNm9k4IuVYZeU+Hprmpip/C8v7Zw3ooKKo4OgMW+oMIpkK659gNnW8nV
+	pUlvuCtuoDDYQSZ23Eqw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jWkuX-0008CN-QK; Thu, 07 May 2020 18:06:17 +0000
+	id 1jWllD-0006MM-Oy; Thu, 07 May 2020 19:00:43 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jWkuV-0008Bv-3D
- for linux-nvme@lists.infradead.org; Thu, 07 May 2020 18:06:16 +0000
-Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
+ id 1jWlkw-0006DI-FR
+ for linux-nvme@lists.infradead.org; Thu, 07 May 2020 19:00:29 +0000
+Received: from embeddedor (unknown [189.207.59.248])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 22CA92063A;
- Thu,  7 May 2020 18:06:14 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 672612083B;
+ Thu,  7 May 2020 19:00:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1588874774;
- bh=PedUbcgYSxuQJpROW/LFA3PKBYTK3G8vtMFuFeAeIj0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=u3TyEd4sZR/tydUcRApNeh+RHnCrAj3Nz8pV3ozGXvn4Y/6F+j9SfSnh1fa1PjgZV
- 0NZuSBv3MEyP6vBimd5Hvy3lpfLlq/vX19bS1l8hSazqolLkBKAUUbx6cec3u0gSEz
- RN25otOj0LmDFHDCMF1Rkv5NWKjr34bWK+hKmnFg=
-Date: Thu, 7 May 2020 11:06:12 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Will Deacon <will@kernel.org>
-Subject: Re: [PATCH] nvme-pci: slimmer CQ head update
-Message-ID: <20200507180612.GD2621480@dhcp-10-100-145-180.wdl.wdc.com>
-References: <efc85e9a-93a6-989b-b8d7-db83b5d74b96@huawei.com>
- <6673a108-c572-12ff-7ddd-b88147829615@huawei.com>
- <4dae5990-e81b-8b33-dafc-ee47e4f06b6a@arm.com>
- <e1643b53-d362-0b5e-573f-72f0ea249ebf@huawei.com>
- <20200507142352.GA2621422@dhcp-10-100-145-180.wdl.wdc.com>
- <8b297620-c72b-2184-36cb-032f5cfda05c@huawei.com>
- <20200507153506.GA2621480@dhcp-10-100-145-180.wdl.wdc.com>
- <9e04eebc-a55b-ac7e-3cb3-9c65f084ee6c@arm.com>
- <20200507173545.GC2621480@dhcp-10-100-145-180.wdl.wdc.com>
- <20200507174429.GA4466@willie-the-truck>
+ s=default; t=1588878025;
+ bh=R5UAo0X2wUIkcPu2bAHYaMr9+zALVRcFirsDyRQuvAA=;
+ h=Date:From:To:Cc:Subject:From;
+ b=qn6cRKwYPaaWKY02MVF/8V8omrkz4xrVRvn2mw1GgLEW7gI9lUssG9pLlKKk2VhXv
+ 5lnk1EO5WSRyv2MHzvSJVPLTRNEPsu7qB/FSmbaEWWBcjh6O7k+szJmk8I8vkNwwhZ
+ wlNH83fi8M3q2rmCoHlvy3jMpsr/dYfz/ln8iMIc=
+Date: Thu, 7 May 2020 14:04:52 -0500
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+Subject: [PATCH] lightnvm: Replace zero-length array with flexible-array
+Message-ID: <20200507190452.GA15449@embeddedor>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200507174429.GA4466@willie-the-truck>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200507_110615_156567_DD3AA851 
-X-CRM114-Status: GOOD (  18.27  )
+X-CRM114-CacheID: sfid-20200507_120026_675443_3B0E3A03 
+X-CRM114-Status: GOOD (  14.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,52 +74,80 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: sagi@grimberg.me, John Garry <john.garry@huawei.com>,
- linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>, axboe@fb.com,
- Robin Murphy <robin.murphy@arm.com>, Alexey Dobriyan <adobriyan@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, May 07, 2020 at 06:44:29PM +0100, Will Deacon wrote:
-> On Thu, May 07, 2020 at 10:35:45AM -0700, Keith Busch wrote:
-> > 
-> > Yeah, that might be something to consider. If that's the case, then it
-> > should be reproducible with a different vendor's nvme controller.
-> > 
-> > If the behavior is unique to this particular nvme model, then it would
-> > sound like the controller is creating a CQE in multiple memory writes
-> > either high-to-low, or with Relaxed Ordering enabled in the TLPs.
-> 
-> [disclaimer: I don't know anything about nvme, so this might be way off! I
-> know a bit about the Arm memory model though, so I can help with that side.]
-> 
-> Are you sure there's an ordering requirement? My reading of the quote
-> from the spec is that "last write" just means the final write, not
-> necessarily the word at the highest address.
+The current codebase makes use of the zero-length array language
+extension to the C90 standard, but the preferred mechanism to declare
+variable-length types such as these ones is a flexible array member[1][2],
+introduced in C99:
 
-Oh, NVMe's phase bit is located in the last word of a completion entry,
-so the final write of a completion entry must be the highest address of
-that entry.
+struct foo {
+        int stuff;
+        struct boo array[];
+};
+
+By making use of the mechanism above, we will get a compiler warning
+in case the flexible array does not occur last in the structure, which
+will help us prevent some kind of undefined behavior bugs from being
+inadvertently introduced[3] to the codebase from now on.
+
+Also, notice that, dynamic memory allocations won't be affected by
+this change:
+
+"Flexible array members have incomplete type, and so the sizeof operator
+may not be applied. As a quirk of the original implementation of
+zero-length arrays, sizeof evaluates to zero."[1]
+
+sizeof(flexible-array-member) triggers a warning because flexible array
+members have incomplete type[1]. There are some instances of code in
+which the sizeof operator is being incorrectly/erroneously applied to
+zero-length arrays and the result is zero. Such instances may be hiding
+some bugs. So, this work (flexible-array member conversions) will also
+help to get completely rid of those sorts of issues.
+
+This issue was found with the help of Coccinelle.
+
+[1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
+[2] https://github.com/KSPP/linux/issues/21
+[3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
+
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+---
+ drivers/nvme/host/lightnvm.c |    2 +-
+ include/linux/nvme.h         |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
+index ec46693f6b64..3002bf972c6b 100644
+--- a/drivers/nvme/host/lightnvm.c
++++ b/drivers/nvme/host/lightnvm.c
+@@ -171,7 +171,7 @@ struct nvme_nvm_bb_tbl {
+ 	__le32	tdresv;
+ 	__le32	thresv;
+ 	__le32	rsvd2[8];
+-	__u8	blk[0];
++	__u8	blk[];
+ };
  
-> > But if some other interaction with the arm memory model is suspect, I'm
-> > not sure how to confirm or debug.
-> 
-> From what you described, it sounds like the flow should go something like:
-> 
->   <Read the word of the CQE containing the updated Phase Tag Bit>
->   dma_rmb();
->   <Read the other words of the CQE>
-> 
-> How easy is it to check if that sort of thing is being followed?
+ struct nvme_nvm_id20_addrf {
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 3d5189f46cb1..6ee80a44ed4f 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -1177,7 +1177,7 @@ struct nvmf_disc_rsp_page_hdr {
+ 	__le64		numrec;
+ 	__le16		recfmt;
+ 	__u8		resv14[1006];
+-	struct nvmf_disc_rsp_page_entry entries[0];
++	struct nvmf_disc_rsp_page_entry entries[];
+ };
+ 
+ enum {
 
-We don't have such a barrier in the driver. The phase must be written
-last, so having it visible to the CPU was supposed to guarantee previous
-DMA writes are also visible. Is this not the case?
-
-FWIW, most NVMe controllers create the entire 16-byte CQE with a single
-DMA write.
 
 _______________________________________________
 linux-nvme mailing list
