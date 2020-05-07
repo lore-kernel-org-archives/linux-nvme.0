@@ -2,60 +2,75 @@ Return-Path: <SRS0=DRq2=6V=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A112C38A24
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 May 2020 14:03:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6481CC38A2A
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 May 2020 14:23:59 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E4AB22082E
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 May 2020 14:03:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 298262075E
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 May 2020 14:23:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="imjnGK+P"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E4AB22082E
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="X+PgiBaR";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="T7wSlNEn"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 298262075E
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Cc:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	References:List-Owner; bh=VNTYU5s2t01IKC99gyw3FrRSM2Ku3FEd7JIqdKeYJN8=; b=imj
-	nGK+POasn8W+JCq6xOp3TKIpB20OmhDd5zoEWvuPfX763XIcCONwcfHkJzPcw0w2T9kRTbpzlbv84
-	WnkwMAXzNzygelxv8VfZ23ZotLUaqtPNIVUdlF53pSp0PX/5Rh3TUYoPqSqY/t/C+0nLeIB1M+1Gx
-	wmLx4qwfHAd+y1e2cEat0vV9yzlG55kDkRacTua3vKlhWobT+/dTKbl8XVGbRVB6K4/G6V0opzkfH
-	nXRHYLCIAvA75Xe4vwGoPdqYQMmLRkRJNbMmbxU28winnYTE7Y2MP7TmffhfzN/XZVpDqDRjn2Spb
-	WLb1bWOVkHEzk1dMl3YVCYXoYXFuWPQ==;
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=2R8MOi6FqIjwiyFK+3NmWdMoLBqOdlU5UzaE4Ycb0sA=; b=X+PgiBaR+T6Ll2
+	Vy9n7STizYmDH3xH2KfhHss33qwVc8xL7d3WZ6eZSD9lkm5hwxVJ6uzVO19RZa0g3cc0iJFV38M/X
+	7GGjY1xWP9sfq9Rw4MO5gMGE7zWk+I5rgIxaqd6GPx7W66vRCCVZDYR1RZvLkh7E8fn7bhMKcj0K9
+	KQVgwJpQKCYf0zjHVuZ28Gpvw3GU8DadvI06YXejLAtehzACSkfSnb89Oztq5SXDKsLQObFjRIY8v
+	SjxegVhjcDO0BsSRlzkAcxw6MidhCm+z7KPQTBjcJzMfhkPi1wkxgEVD6mXvGnC2AxX2ama2Q+nZf
+	GPZG6eYtydTZ2mE7txMw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jWh7B-0007J0-TC; Thu, 07 May 2020 14:03:05 +0000
-Received: from mail-il-dmz.mellanox.com ([193.47.165.129] helo=mellanox.co.il)
- by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jWh6k-0006oU-Hv
- for linux-nvme@lists.infradead.org; Thu, 07 May 2020 14:02:42 +0000
-Received: from Internal Mail-Server by MTLPINE2 (envelope-from
- yorayz@mellanox.com)
- with ESMTPS (AES256-SHA encrypted); 7 May 2020 17:02:26 +0300
-Received: from dev-l-vrt-071.mtl.labs.mlnx (dev-l-vrt-071.mtl.labs.mlnx
- [10.134.71.1])
- by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 047E2QSS022772;
- Thu, 7 May 2020 17:02:26 +0300
-From: Yoray Zack <yorayz@mellanox.com>
-To: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>
-Subject: [PATCH 0/3] Add nvme-tcp hpda support
-Date: Thu,  7 May 2020 17:02:01 +0300
-Message-Id: <1588860124-40089-1-git-send-email-yorayz@mellanox.com>
-X-Mailer: git-send-email 1.8.3.1
+	id 1jWhRN-0006IB-Ps; Thu, 07 May 2020 14:23:57 +0000
+Received: from mail.kernel.org ([198.145.29.99])
+ by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jWhRL-0006Hp-1W
+ for linux-nvme@lists.infradead.org; Thu, 07 May 2020 14:23:56 +0000
+Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id E607520735;
+ Thu,  7 May 2020 14:23:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1588861434;
+ bh=qfrepwu4z7mJ+qRPTYrVlfX9JavW3sOZRDQYLN7PCWk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=T7wSlNEnGO/RrSVzNoVMm070trpybufTNzQcgMsbukHCEKVsu0P4EojFvFITkb1cL
+ pbmsPQqQkjnNuoTXXnKYRdZ8LS5/rMlJYya4x2/SJ/UdR4gxUBG7gaZQK0Pr4CBbTx
+ K/7OG5eRWvUclPAPsu65COs8xd007aAVBjRKLhs4=
+Date: Thu, 7 May 2020 07:23:52 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: John Garry <john.garry@huawei.com>
+Subject: Re: [PATCH] nvme-pci: slimmer CQ head update
+Message-ID: <20200507142352.GA2621422@dhcp-10-100-145-180.wdl.wdc.com>
+References: <20200506132429.GA21451@avx2>
+ <2ecb88b5-b585-52ed-bb84-5b486868743a@huawei.com>
+ <20200506143519.GA570@lst.de>
+ <4155a814-798c-0c7e-5433-daf719c0345c@huawei.com>
+ <20200506163104.GD12919@willie-the-truck>
+ <3453193c-424b-1e4c-16be-279088612c68@arm.com>
+ <efc85e9a-93a6-989b-b8d7-db83b5d74b96@huawei.com>
+ <6673a108-c572-12ff-7ddd-b88147829615@huawei.com>
+ <4dae5990-e81b-8b33-dafc-ee47e4f06b6a@arm.com>
+ <e1643b53-d362-0b5e-573f-72f0ea249ebf@huawei.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <e1643b53-d362-0b5e-573f-72f0ea249ebf@huawei.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200507_070239_170872_CB09C931 
-X-CRM114-Status: UNSURE (   7.36  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200507_072355_099565_F4F13D99 
+X-CRM114-Status: GOOD (  13.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,36 +82,46 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Yoray Zack <yorayz@mellanox.com>, Boris Pismenny <borisp@mellanox.com>,
- linux-nvme@lists.infradead.org
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: sagi@grimberg.me, Robin Murphy <robin.murphy@arm.com>,
+ linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>, axboe@fb.com,
+ Will Deacon <will@kernel.org>, Alexey Dobriyan <adobriyan@gmail.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Given the padding defined by user-space, the host driver will
-send the requested hpda to the target which will support that
-on nvme/tcp c2h capsules. The host will parse the capsules
-according to the padding.
+On Thu, May 07, 2020 at 02:55:37PM +0100, John Garry wrote:
+> On 07/05/2020 12:04, Robin Murphy wrote:
+> > > [=A0 177.132810] DMA-API: nvme 0000:85:00.0: device driver tries to
+> > > free DMA memor
+> > > y it has not allocated [device address=3D0x00000000ef371000]
+> > > [size=3D4096 bytes]
+> > [...]
+> > > [=A0 177.276322]=A0 debug_dma_unmap_page+0x6c/0x78
+> > > [=A0 177.280487]=A0 nvme_unmap_data+0x7c/0x23c
+> > > [=A0 177.284305]=A0 nvme_pci_complete_rq+0x28/0x58
+> > =
 
-The request hpda is 0's based value in units of dwords in the range 0  to 31
-(e.g., values 0, 1, and 2 correspond to 4 byte, 8 byte, and 12 byte alignment)).
+> > OK, so there's clearly something amiss there. I would have suggested
+> > next sticking the SMMU in passthrough to help focus on the DMA API
+> > debugging, but since that "DMA address" looks suspiciously like a
+> > physical address rather than an IOVA, I suspect that things might
+> > suddenly appear to be working fine if you do...
+> =
 
-Yoray Zack (3):
-  nvme-fabrics: Add support for padding alignment (pda) option on tcp
-  nvme-tcp: Add target padding support
-  nvme-tcp: Add Host hpda support
+> OK, seems sensible. However it looks like this guy triggers the issue:
+> =
 
- drivers/nvme/host/fabrics.c | 14 ++++++++++++++
- drivers/nvme/host/fabrics.h |  4 ++++
- drivers/nvme/host/tcp.c     | 21 +++++++++++++++++++--
- drivers/nvme/target/tcp.c   | 24 ++++++++++++++----------
- 4 files changed, 51 insertions(+), 12 deletions(-)
+> 324b494c2862 nvme-pci: Remove two-pass completions
+> =
 
--- 
-1.8.3.1
+> With carrying the revert of $subject, it's a quick bisect to that patch.
 
+That's weird. Do you see this with different nvme controllers? Does your
+controller write the phase bit before writing the command id in the cqe?
+Asking because this looks like we're seeing an older command id in the
+cqe, and the only thing that patch you've bisected should do is remove a
+delay between observing the new phase and reading the command id.
 
 _______________________________________________
 linux-nvme mailing list
