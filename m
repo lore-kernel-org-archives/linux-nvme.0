@@ -2,90 +2,75 @@ Return-Path: <SRS0=DRq2=6V=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DDB3C38A24
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 May 2020 16:59:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2BC9C38A24
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 May 2020 17:35:56 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1A6F32075E
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 May 2020 16:59:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C2F6920735
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 May 2020 17:35:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="VgG3SDri"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1A6F32075E
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=All-Bits.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="VG8T84TG";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="1G0Xa2fY"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C2F6920735
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
-	Message-ID:Date:Subject:To:From:Reply-To:Cc:Content-ID:Content-Description:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=fegPrF+QK04b8MCoGxY1a/3YBf1n+CccKPUqO5hjVJo=; b=VgG3SDrie11huq
-	YIUQzgxwSQ+YEJz5DW4TUYjGzVbC/mxwAFQDI4wubbTYqD2rEs8ag/kWDn1v4fgwm9x1ucKOHAzPp
-	7dvHcsyMlPpwnl7rEHuDpICDoMx17iwt6tYaKL6KoqzhbLYGXXEguPy1JZx65A6Sp+H87XHwFy/T6
-	xTP1QZcFBzWCmovt89uvwjgJ6IYUEVgePyQLM67nvT0GnL4mnNNTC2yhV/riG9EA76dmgWPbKy7ez
-	lQOkbkwqISjgpNWzXSu6Ekk6v1eQaWhdGoeytV3BgkRFQ4DLV1liYlX6WYEc9ulgNpwxo5LXVO2g6
-	hjp21cXfVfkvqREtsb4A==;
+	List-Owner; bh=WSyH/+/vP+SPEbaTY6lYrKJN0C7Y7y4noZlmbKg1AsM=; b=VG8T84TGwU0NwA
+	fIZnS4D38jFTURPA+GLUkHDw9f99T0tb1L0uAJq1RZnxfwYqi3MVpSALerCv6rX4V698otTigan5w
+	bpwg2qXcPRapXdLI7gcx4lEK9qusn3BfDOI3rBkOyk6R73JOTklcXntJP8wBu2J4tC29sEVA9u9Le
+	3eOJ6z9hCu/B+Iu6GiClacZjGOo7r8FQk387wYVpgkMSlMCCImKcauIfAHv5MpIrGvxnQq9ywv/ym
+	HHAhjS0RI8BiWzNnxVsftl2O+B/orD6BeFbkxxCIXZ6x9RK3/ReKBCoWMK/XA75FsL35a05ISYhOR
+	uUEnX/lBOd4eIUubIm5A==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jWjrS-0000tJ-OT; Thu, 07 May 2020 16:59:02 +0000
-Received: from smtp.cryptz.com ([24.229.7.147])
+	id 1jWkR5-0000NU-2m; Thu, 07 May 2020 17:35:51 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jWjrP-0000s0-GO
- for linux-nvme@lists.infradead.org; Thu, 07 May 2020 16:59:00 +0000
-DKIM-Filter: OpenDKIM Filter v2.11.0 SMTP.Cryptz.com 49J06P5XtyzGsm16
-X-AllBits-MailScanner-eFa-Watermark: 1589475528.10925@A0JwuQSKUSnddyjRJdcYkA
-X-AllBits-MailScanner-eFa-From: galbitz@all-bits.com
-X-AllBits-MailScanner-eFa: Found to be clean
-X-AllBits-MailScanner-eFa-ID: 49J06F4XJ8zGslwB
-X-AllBits-MailScanner-eFa-Information: Please contact cryptz@cryptz.com for
- more information
-Received: from Mail.Cryptz.Com ([10.10.10.19] [10.10.10.19])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (no client certificate requested)
- by SMTP.Cryptz.com (MailScanner Milter) with SMTP id 49J06F4XJ8zGslwB;
- Thu,  7 May 2020 12:58:46 -0400 (EDT)
-DMARC-Filter: OpenDMARC Filter v1.3.2 SMTP.Cryptz.com 49J06F4XJ8zGslwB
-Authentication-Results: SMTP.Cryptz.com;
- dmarc=none (p=none dis=none) header.from=All-Bits.com
-Authentication-Results: SMTP.Cryptz.com;
- spf=fail smtp.mailfrom=GAlbitz@All-Bits.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 SMTP.Cryptz.com 49J06F4XJ8zGslwB
-Received: from FROST.PSC.Net (10.10.10.18) by GLAZE.PSC.Net (10.10.10.19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.595.3; Thu, 7 May 2020
- 12:58:44 -0400
-Received: from FROST.PSC.Net ([fe80::4988:c04c:dcc6:f34f]) by FROST.PSC.Net
- ([fe80::4988:c04c:dcc6:f34f%15]) with mapi id 15.02.0595.003; Thu, 7 May 2020
- 12:58:44 -0400
-From: Grant Albitz <GAlbitz@All-Bits.com>
-To: Sagi Grimberg <sagi@grimberg.me>, "linux-nvme@lists.infradead.org"
- <linux-nvme@lists.infradead.org>
-Subject: RE: NVMET Target with esxi 7
-Thread-Topic: NVMET Target with esxi 7
-Thread-Index: AQHWH72r2sq5DQXIv0Kj735jydy+waiTitUA//++XSqABquJ8IADJXEA///HtXA=
-Date: Thu, 7 May 2020 16:58:44 +0000
-Message-ID: <b06a4d85bd764d67bf81b9ef2f959bff@All-Bits.com>
-References: <a28d8b24ece54f8db6e21c78f0bb5aab@All-Bits.com>
- <711adc2d-dda7-d58f-0884-2c6578e6c333@mellanox.com>
- <4ae82f486cac431caa6928e56fe5e452@All-Bits.com>
- <f9460444e88440c280df5c277383dd73@All-Bits.com>
- <263971f2-dc9e-fc53-06e9-9c3c80ddb8e3@grimberg.me>
-In-Reply-To: <263971f2-dc9e-fc53-06e9-9c3c80ddb8e3@grimberg.me>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.10.10.21]
+ id 1jWkR2-0000K4-Ff
+ for linux-nvme@lists.infradead.org; Thu, 07 May 2020 17:35:49 +0000
+Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 89ABC20735;
+ Thu,  7 May 2020 17:35:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1588872948;
+ bh=rA0N4Z9UPwe3wnnMJ9FEvHFUflFumcOxL7XFOLgIG7U=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=1G0Xa2fYMarHIvSiv6NFwA33NBH9MJ9E9arplduTrrd1nhhT4EinCm8u7MOoADnNM
+ VdWCle2BhvR/E9haZe/HVnsyxMyGe0m73GDYqJ9N3q3POYdeKof+dhrB7S6WlW6YYa
+ M5vIY0CSukdcRMRWVU3P4F4D/JLY33XZ+G1kdJKY=
+Date: Thu, 7 May 2020 10:35:45 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH] nvme-pci: slimmer CQ head update
+Message-ID: <20200507173545.GC2621480@dhcp-10-100-145-180.wdl.wdc.com>
+References: <20200506163104.GD12919@willie-the-truck>
+ <3453193c-424b-1e4c-16be-279088612c68@arm.com>
+ <efc85e9a-93a6-989b-b8d7-db83b5d74b96@huawei.com>
+ <6673a108-c572-12ff-7ddd-b88147829615@huawei.com>
+ <4dae5990-e81b-8b33-dafc-ee47e4f06b6a@arm.com>
+ <e1643b53-d362-0b5e-573f-72f0ea249ebf@huawei.com>
+ <20200507142352.GA2621422@dhcp-10-100-145-180.wdl.wdc.com>
+ <8b297620-c72b-2184-36cb-032f5cfda05c@huawei.com>
+ <20200507153506.GA2621480@dhcp-10-100-145-180.wdl.wdc.com>
+ <9e04eebc-a55b-ac7e-3cb3-9c65f084ee6c@arm.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <9e04eebc-a55b-ac7e-3cb3-9c65f084ee6c@arm.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200507_095859_654803_73E0DAE8 
-X-CRM114-Status: UNSURE (   8.86  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200507_103548_571900_98FD7917 
+X-CRM114-Status: GOOD (  16.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,26 +82,45 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Cc: sagi@grimberg.me, John Garry <john.garry@huawei.com>,
+ linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>, axboe@fb.com,
+ Will Deacon <will@kernel.org>, Alexey Dobriyan <adobriyan@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thank you sagi, I am unfamiliar with fused commands and the concept, but I will look into it further. I appreciate the response, I can atleast stop trying for now =)
+On Thu, May 07, 2020 at 05:26:58PM +0100, Robin Murphy wrote:
+> On 2020-05-07 4:35 pm, Keith Busch wrote:
+> > On Thu, May 07, 2020 at 04:11:23PM +0100, John Garry wrote:
+> > 
+> > > [  885.344575] WARNING: CPU: 41 PID: 4565 at block/blk-mq.c:665  blk_mq_start_request+0xc4/0xcc
+> > 
+> > This warning appears to support my suspicion: the completion side is
+> > observing a new phase with a stale command id, and that command id was
+> > reallocated as a new request that we're still constructing at the time
+> > the double-completion occured.
+> > 
+> > Host software is supposed to be guaranteed the entire CQE is written
+> > once we see an updated phase, per spec: "If a Completion Queue
+> > Entry is constructed via multiple writes, the Phase Tag bit shall be
+> > updated in the last write of that Completion Queue Entry."
+> 
+> Hmm, that makes me wonder if there might be some interaction with the Arm
+> memory model here - if there are strict ordering requirements for things in
+> memory being observed, could we be missing appropriate barriers between
+> reads/writes of the various fields?
 
------Original Message-----
-From: Sagi Grimberg <sagi@grimberg.me> 
-Sent: Thursday, May 7, 2020 12:20 PM
-To: Grant Albitz <GAlbitz@All-Bits.com>; linux-nvme@lists.infradead.org
-Subject: Re: NVMET Target with esxi 7
+Yeah, that might be something to consider. If that's the case, then it
+should be reproducible with a different vendor's nvme controller.
 
->   Hello,
+If the behavior is unique to this particular nvme model, then it would
+sound like the controller is creating a CQE in multiple memory writes
+either high-to-low, or with Relaxed Ordering enabled in the TLPs.
 
-Hey Grant,
+But if some other interaction with the arm memory model is suspect, I'm
+not sure how to confirm or debug.
 
-> I was trying to configure vmware to connect to nvmet based target. I did not have much luck. VMwares official stance is a very small vendor list. I did see the recent additions such as metadata info. I was curious if anyone developing nvmet was willing/able to test nvmet as a datastore target for vmware to possibly add this functionality. At the moment I am not sure if there are a large number of reasons its not working or a very small check.
-
-The linux nvme target does not support fused commands so there is no support for VMware currently.
 _______________________________________________
 linux-nvme mailing list
 linux-nvme@lists.infradead.org
