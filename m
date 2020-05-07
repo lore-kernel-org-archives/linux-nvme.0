@@ -2,75 +2,72 @@ Return-Path: <SRS0=DRq2=6V=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6481CC38A2A
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 May 2020 14:23:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 862A2C38A24
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 May 2020 14:28:07 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 298262075E
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 May 2020 14:23:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4E98420B1F
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 May 2020 14:28:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="X+PgiBaR";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="T7wSlNEn"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 298262075E
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="FFqcQ1e6";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="BzaaMT2I"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4E98420B1F
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=2R8MOi6FqIjwiyFK+3NmWdMoLBqOdlU5UzaE4Ycb0sA=; b=X+PgiBaR+T6Ll2
-	Vy9n7STizYmDH3xH2KfhHss33qwVc8xL7d3WZ6eZSD9lkm5hwxVJ6uzVO19RZa0g3cc0iJFV38M/X
-	7GGjY1xWP9sfq9Rw4MO5gMGE7zWk+I5rgIxaqd6GPx7W66vRCCVZDYR1RZvLkh7E8fn7bhMKcj0K9
-	KQVgwJpQKCYf0zjHVuZ28Gpvw3GU8DadvI06YXejLAtehzACSkfSnb89Oztq5SXDKsLQObFjRIY8v
-	SjxegVhjcDO0BsSRlzkAcxw6MidhCm+z7KPQTBjcJzMfhkPi1wkxgEVD6mXvGnC2AxX2ama2Q+nZf
-	GPZG6eYtydTZ2mE7txMw==;
+	List-Owner; bh=Q9iYrCAkyGhtRGxQyLIotbZUG1CEgBJzXMuTQ2ajQPk=; b=FFqcQ1e6MHDlF8
+	oLrhxX1fcZGssCroCuf69ycsOxzzVad8TD8RetWq3iOCYO7FlidE5BqdlF2U1wDvEc+3NpP3m4tG6
+	URUhashVp0LI1rh6x3kBn7Jp7wIW/F8H+D3Tl6rSOkzzpV7lcESg0TCcXYP1OSlgpFKbElMDLFnVR
+	v506K5Jm9Ekoy5IAec+z/8Eyb5Ix69S2d/eBi5kcWZk7xMBqVwaX9+l/R21PgTmjtHo1d4FfskjlM
+	1jNQLqzZUOVs/JKPMBIPyzY+MXWRi10EETGx8wF9HO1Pc74wpvB1ErB+IaUXxp4b7bE4SgclZSBsL
+	Q06wLp6lpMKtqMe3xKYA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jWhRN-0006IB-Ps; Thu, 07 May 2020 14:23:57 +0000
+	id 1jWhVM-0001dN-Je; Thu, 07 May 2020 14:28:04 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jWhRL-0006Hp-1W
- for linux-nvme@lists.infradead.org; Thu, 07 May 2020 14:23:56 +0000
-Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ id 1jWhVH-0001XN-Rp
+ for linux-nvme@lists.infradead.org; Thu, 07 May 2020 14:28:01 +0000
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
+ [73.47.72.35])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id E607520735;
- Thu,  7 May 2020 14:23:53 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 5F0882083B;
+ Thu,  7 May 2020 14:27:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1588861434;
- bh=qfrepwu4z7mJ+qRPTYrVlfX9JavW3sOZRDQYLN7PCWk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=T7wSlNEnGO/RrSVzNoVMm070trpybufTNzQcgMsbukHCEKVsu0P4EojFvFITkb1cL
- pbmsPQqQkjnNuoTXXnKYRdZ8LS5/rMlJYya4x2/SJ/UdR4gxUBG7gaZQK0Pr4CBbTx
- K/7OG5eRWvUclPAPsu65COs8xd007aAVBjRKLhs4=
-Date: Thu, 7 May 2020 07:23:52 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: John Garry <john.garry@huawei.com>
-Subject: Re: [PATCH] nvme-pci: slimmer CQ head update
-Message-ID: <20200507142352.GA2621422@dhcp-10-100-145-180.wdl.wdc.com>
-References: <20200506132429.GA21451@avx2>
- <2ecb88b5-b585-52ed-bb84-5b486868743a@huawei.com>
- <20200506143519.GA570@lst.de>
- <4155a814-798c-0c7e-5433-daf719c0345c@huawei.com>
- <20200506163104.GD12919@willie-the-truck>
- <3453193c-424b-1e4c-16be-279088612c68@arm.com>
- <efc85e9a-93a6-989b-b8d7-db83b5d74b96@huawei.com>
- <6673a108-c572-12ff-7ddd-b88147829615@huawei.com>
- <4dae5990-e81b-8b33-dafc-ee47e4f06b6a@arm.com>
- <e1643b53-d362-0b5e-573f-72f0ea249ebf@huawei.com>
+ s=default; t=1588861679;
+ bh=H9NGpbmB4s+b6la1kpO6pyUowVzREBF2y2Ty2yUwlEo=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=BzaaMT2It4gAnarnAtzBQ7tipdVi4YwqCKkr/dLWc6vg5J7/TTdYbNiLXrwbpTELd
+ 5oK0MeLOGT2UDkYqZw2ut0D0EohAfNItG2MuboqzeNL3Fo8nKA6MJ7J8o2ypm0bRZf
+ hfg231BdZm2mrDBdXiTd5u6LHsS29vUwYEUFr3UQ=
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.6 26/50] nvme: prevent double free in
+ nvme_alloc_ns() error handling
+Date: Thu,  7 May 2020 10:27:02 -0400
+Message-Id: <20200507142726.25751-26-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200507142726.25751-1-sashal@kernel.org>
+References: <20200507142726.25751-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <e1643b53-d362-0b5e-573f-72f0ea249ebf@huawei.com>
+X-stable: review
+X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200507_072355_099565_F4F13D99 
-X-CRM114-Status: GOOD (  13.07  )
+X-CRM114-CacheID: sfid-20200507_072759_962649_0AB97824 
+X-CRM114-Status: GOOD (  10.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,46 +79,55 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: sagi@grimberg.me, Robin Murphy <robin.murphy@arm.com>,
- linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>, axboe@fb.com,
- Will Deacon <will@kernel.org>, Alexey Dobriyan <adobriyan@gmail.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Sasha Levin <sashal@kernel.org>, Niklas Cassel <niklas.cassel@wdc.com>,
+ Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, May 07, 2020 at 02:55:37PM +0100, John Garry wrote:
-> On 07/05/2020 12:04, Robin Murphy wrote:
-> > > [=A0 177.132810] DMA-API: nvme 0000:85:00.0: device driver tries to
-> > > free DMA memor
-> > > y it has not allocated [device address=3D0x00000000ef371000]
-> > > [size=3D4096 bytes]
-> > [...]
-> > > [=A0 177.276322]=A0 debug_dma_unmap_page+0x6c/0x78
-> > > [=A0 177.280487]=A0 nvme_unmap_data+0x7c/0x23c
-> > > [=A0 177.284305]=A0 nvme_pci_complete_rq+0x28/0x58
-> > =
+From: Niklas Cassel <niklas.cassel@wdc.com>
 
-> > OK, so there's clearly something amiss there. I would have suggested
-> > next sticking the SMMU in passthrough to help focus on the DMA API
-> > debugging, but since that "DMA address" looks suspiciously like a
-> > physical address rather than an IOVA, I suspect that things might
-> > suddenly appear to be working fine if you do...
-> =
+[ Upstream commit 132be62387c7a72a38872676c18b0dfae264adb8 ]
 
-> OK, seems sensible. However it looks like this guy triggers the issue:
-> =
+When jumping to the out_put_disk label, we will call put_disk(), which will
+trigger a call to disk_release(), which calls blk_put_queue().
 
-> 324b494c2862 nvme-pci: Remove two-pass completions
-> =
+Later in the cleanup code, we do blk_cleanup_queue(), which will also call
+blk_put_queue().
 
-> With carrying the revert of $subject, it's a quick bisect to that patch.
+Putting the queue twice is incorrect, and will generate a KASAN splat.
 
-That's weird. Do you see this with different nvme controllers? Does your
-controller write the phase bit before writing the command id in the cqe?
-Asking because this looks like we're seeing an older command id in the
-cqe, and the only thing that patch you've bisected should do is remove a
-delay between observing the new phase and reading the command id.
+Set the disk->queue pointer to NULL, before calling put_disk(), so that the
+first call to blk_put_queue() will not free the queue.
+
+The second call to blk_put_queue() uses another pointer to the same queue,
+so this call will still free the queue.
+
+Fixes: 85136c010285 ("lightnvm: simplify geometry enumeration")
+Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/nvme/host/core.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 652ca87dac949..fb4c35a430650 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3580,6 +3580,8 @@ static int nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 
+ 	return 0;
+  out_put_disk:
++	/* prevent double queue cleanup */
++	ns->disk->queue = NULL;
+ 	put_disk(ns->disk);
+  out_unlink_ns:
+ 	mutex_lock(&ctrl->subsys->lock);
+-- 
+2.20.1
+
 
 _______________________________________________
 linux-nvme mailing list
