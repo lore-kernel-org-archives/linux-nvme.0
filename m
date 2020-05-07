@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-9.7 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CE32C38A2A
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 May 2020 14:02:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E3F5C54E49
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 May 2020 14:02:58 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D6E902083B
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 May 2020 14:02:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 442852082E
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 May 2020 14:02:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="JHHvmWUB"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D6E902083B
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="NeZM7FH6"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 442852082E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,38 +26,38 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	In-Reply-To:Message-Id:Date:Subject:To:From:Reply-To:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Owner;
-	bh=P5hLat5Fwye9Nos5Je4z+/ghT3av9ZsA1dQJsyqLneA=; b=JHHvmWUB3BzT4oZFEh0wUMAlsz
-	fKcwjXGb3/9yTI2B9pg6r+OlW11FclvRagb9NJhR6pJg/v2ZaaZCGTSPFDtsrPl/no6q0IiRyruMD
-	SOTUa82JtUY5GuCSVNkBjd1q+TCBXKBx6BQC0bxxGWHEXccLsXv6H8ng5zPtLOme32XQ9SlzxHkAY
-	+Nr5pC/irbFbH1Pqz2DOH6FaKw4YWOJcj7UKwbtjqBMfjshQha2dnfOjtLDBwXrZOI46uP8DgBks4
-	iJ5Hwbt/Rr9kd4y4wbRqIGYpetcwLhu796KW0nNVwsKRR8L8q3GPw/i5SXWiIff9SQSO2DSG9jwM3
-	IsvC0n6g==;
+	bh=KtOHaT7jQF8n8iWd2B4/evnDzVHnq8ZTNOmvz07diHY=; b=NeZM7FH6OKCGtedbU4kKzNCrAZ
+	+CeT8CZnM9KZK1GOGZ8aUkLn/TzBcMXjT8iEv0IQwCYKevjkXDQfrX5IdfbJhN8maOhGMa9iFw1DI
+	3nOx+sjKy4K0X2PnvC19vrrou00SPFfoHUAqo2wXGP5h+085GV+DFgKLiXPKY7DaCJrEQuravOljE
+	p1N5lB2kk8nwC4MdoxoD8GnDibSRSmWSY6rfD2P3qIiPHLgukrU6dDcyyJ7UgoiHEMUh/X8r+auMk
+	zXqfOSnzkJcvDfLOqy5NeP/ue1as4HbBe9oVf4Am4e54s0kyck3GCFtQmGndD3DVW5bFDxj1f+s6e
+	19nGfCfA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jWh6t-0006wT-2n; Thu, 07 May 2020 14:02:47 +0000
+	id 1jWh70-00076p-FY; Thu, 07 May 2020 14:02:54 +0000
 Received: from mail-il-dmz.mellanox.com ([193.47.165.129] helo=mellanox.co.il)
  by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jWh6k-0006oW-EV
+ id 1jWh6k-0006oT-6C
  for linux-nvme@lists.infradead.org; Thu, 07 May 2020 14:02:42 +0000
-Received: from Internal Mail-Server by MTLPINE2 (envelope-from
+Received: from Internal Mail-Server by MTLPINE1 (envelope-from
  yorayz@mellanox.com)
  with ESMTPS (AES256-SHA encrypted); 7 May 2020 17:02:26 +0300
 Received: from dev-l-vrt-071.mtl.labs.mlnx (dev-l-vrt-071.mtl.labs.mlnx
  [10.134.71.1])
- by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 047E2QSU022772;
+ by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 047E2QSV022772;
  Thu, 7 May 2020 17:02:26 +0300
 From: Yoray Zack <yorayz@mellanox.com>
 To: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
  Christoph Hellwig <hch@lst.de>
-Subject: [PATCH 2/3] nvme-tcp: Add target padding support
-Date: Thu,  7 May 2020 17:02:03 +0300
-Message-Id: <1588860124-40089-3-git-send-email-yorayz@mellanox.com>
+Subject: [PATCH 3/3] nvme-tcp: Add Host hpda support
+Date: Thu,  7 May 2020 17:02:04 +0300
+Message-Id: <1588860124-40089-4-git-send-email-yorayz@mellanox.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1588860124-40089-1-git-send-email-yorayz@mellanox.com>
 References: <1588860124-40089-1-git-send-email-yorayz@mellanox.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200507_070239_073096_1876DF61 
-X-CRM114-Status: GOOD (  11.58  )
+X-CRM114-CacheID: sfid-20200507_070238_674421_5A20EFE5 
+X-CRM114-Status: GOOD (  12.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,97 +77,88 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Align the pdu in c2h capsules according to the icreq->hpda.
+1. Send the requested hpda to the target.
+
+2. Parse the recv nvme caps as having pdu alignment.
 
 Signed-off-by: Yoray Zack <yorayz@mellanox.com>
 ---
- drivers/nvme/target/tcp.c | 24 ++++++++++++++----------
- 1 file changed, 14 insertions(+), 10 deletions(-)
+ drivers/nvme/host/tcp.c | 21 +++++++++++++++++++--
+ 1 file changed, 19 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index f0da04e..9e15785 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -104,6 +104,7 @@ struct nvmet_tcp_queue {
- 	struct list_head	free_list;
- 	struct llist_head	resp_list;
- 	struct list_head	resp_send_list;
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index c15a921..42b3f06 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -81,6 +81,8 @@ struct nvme_tcp_queue {
+ 	void			*pdu;
+ 	int			pdu_remaining;
+ 	int			pdu_offset;
++	int			pda_remaining;
 +	int			pda;
- 	int			send_list_len;
- 	struct nvmet_tcp_cmd	*snd_cmd;
- 
-@@ -219,6 +220,11 @@ static inline u8 nvmet_tcp_hdgst_len(struct nvmet_tcp_queue *queue)
- 	return queue->hdr_digest ? NVME_TCP_DIGEST_LENGTH : 0;
+ 	size_t			data_remaining;
+ 	size_t			ddgst_remaining;
+ 	unsigned int		nr_cqe;
+@@ -423,6 +425,7 @@ static void nvme_tcp_init_recv_ctx(struct nvme_tcp_queue *queue)
+ 	queue->pdu_offset = 0;
+ 	queue->data_remaining = -1;
+ 	queue->ddgst_remaining = 0;
++	queue->pda_remaining = 0;
  }
  
-+static inline u8 nvmet_tcp_pda_size(struct nvmet_tcp_queue *queue)
-+{
-+	return queue->pda * 4;
-+}
-+
- static inline u8 nvmet_tcp_ddgst_len(struct nvmet_tcp_queue *queue)
- {
- 	return queue->data_digest ? NVME_TCP_DIGEST_LENGTH : 0;
-@@ -376,6 +382,7 @@ static void nvmet_setup_c2h_data_pdu(struct nvmet_tcp_cmd *cmd)
- 	struct nvmet_tcp_queue *queue = cmd->queue;
- 	u8 hdgst = nvmet_tcp_hdgst_len(cmd->queue);
- 	u8 ddgst = nvmet_tcp_ddgst_len(cmd->queue);
-+	u8 pda_size  = nvmet_tcp_pda_size(cmd->queue);
- 
- 	cmd->offset = 0;
- 	cmd->state = NVMET_TCP_SEND_DATA_PDU;
-@@ -384,9 +391,9 @@ static void nvmet_setup_c2h_data_pdu(struct nvmet_tcp_cmd *cmd)
- 	pdu->hdr.flags = NVME_TCP_F_DATA_LAST | (queue->nvme_sq.sqhd_disabled ?
- 						NVME_TCP_F_DATA_SUCCESS : 0);
- 	pdu->hdr.hlen = sizeof(*pdu);
--	pdu->hdr.pdo = pdu->hdr.hlen + hdgst;
-+	pdu->hdr.pdo = pdu->hdr.hlen + hdgst + pda_size;
- 	pdu->hdr.plen =
--		cpu_to_le32(pdu->hdr.hlen + hdgst +
-+		cpu_to_le32(pdu->hdr.hlen + hdgst + pda_size +
- 				cmd->req.transfer_len + ddgst);
- 	pdu->command_id = cmd->req.cqe->command_id;
- 	pdu->data_length = cpu_to_le32(cmd->req.transfer_len);
-@@ -505,7 +512,8 @@ static void nvmet_tcp_queue_response(struct nvmet_req *req)
- static int nvmet_try_send_data_pdu(struct nvmet_tcp_cmd *cmd)
- {
- 	u8 hdgst = nvmet_tcp_hdgst_len(cmd->queue);
--	int left = sizeof(*cmd->data_pdu) - cmd->offset + hdgst;
-+	u8 pda_size = nvmet_tcp_pda_size(cmd->queue);
-+	int left = sizeof(*cmd->data_pdu) - cmd->offset + hdgst + pda_size;
- 	int ret;
- 
- 	ret = kernel_sendpage(cmd->queue->sock, virt_to_page(cmd->data_pdu),
-@@ -787,12 +795,7 @@ static int nvmet_tcp_handle_icreq(struct nvmet_tcp_queue *queue)
- 		return -EPROTO;
+ static void nvme_tcp_error_recovery(struct nvme_ctrl *ctrl)
+@@ -474,6 +477,7 @@ static int nvme_tcp_handle_c2h_data(struct nvme_tcp_queue *queue,
  	}
  
--	if (icreq->hpda != 0) {
--		pr_err("queue %d: unsupported hpda %d\n", queue->idx,
--			icreq->hpda);
--		return -EPROTO;
--	}
--
-+	queue->pda = icreq->hpda;
- 	queue->hdr_digest = !!(icreq->digest & NVME_TCP_HDR_DIGEST_ENABLE);
- 	queue->data_digest = !!(icreq->digest & NVME_TCP_DATA_DIGEST_ENABLE);
- 	if (queue->hdr_digest || queue->data_digest) {
-@@ -1221,6 +1224,7 @@ static int nvmet_tcp_alloc_cmd(struct nvmet_tcp_queue *queue,
- 		struct nvmet_tcp_cmd *c)
- {
- 	u8 hdgst = nvmet_tcp_hdgst_len(queue);
-+	u8 pda_size = nvmet_tcp_pda_size(queue);
+ 	queue->data_remaining = le32_to_cpu(pdu->data_length);
++	queue->pda_remaining = queue->pda * 4;
  
- 	c->queue = queue;
- 	c->req.port = queue->port->nport;
-@@ -1238,7 +1242,7 @@ static int nvmet_tcp_alloc_cmd(struct nvmet_tcp_queue *queue,
- 	c->req.cqe = &c->rsp_pdu->cqe;
+ 	if (pdu->hdr.flags & NVME_TCP_F_DATA_SUCCESS &&
+ 	    unlikely(!(pdu->hdr.flags & NVME_TCP_F_DATA_LAST))) {
+@@ -646,6 +650,17 @@ static int nvme_tcp_recv_data(struct nvme_tcp_queue *queue, struct sk_buff *skb,
+ 	struct nvme_tcp_data_pdu *pdu = (void *)queue->pdu;
+ 	struct nvme_tcp_request *req;
+ 	struct request *rq;
++	size_t recv_pda;
++
++	if (queue->pda_remaining) {
++		recv_pda = min_t(size_t, *len, queue->pda_remaining);
++		queue->pda_remaining -= recv_pda;
++		*offset += recv_pda;
++		*len -= recv_pda;
++
++		if (queue->pda_remaining)
++			return 0;
++	}
  
- 	c->data_pdu = page_frag_alloc(&queue->pf_cache,
--			sizeof(*c->data_pdu) + hdgst, GFP_KERNEL | __GFP_ZERO);
-+			sizeof(*c->data_pdu) + hdgst + pda_size, GFP_KERNEL | __GFP_ZERO);
- 	if (!c->data_pdu)
- 		goto out_free_rsp;
+ 	rq = blk_mq_tag_to_rq(nvme_tcp_tagset(queue), pdu->command_id);
+ 	if (!rq) {
+@@ -1181,7 +1196,7 @@ static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
+ 	icreq->hdr.plen = cpu_to_le32(icreq->hdr.hlen);
+ 	icreq->pfv = cpu_to_le16(NVME_TCP_PFV_1_0);
+ 	icreq->maxr2t = 0; /* single inflight r2t supported */
+-	icreq->hpda = 0; /* no alignment constraint */
++	icreq->hpda = queue->pda;
+ 	if (queue->hdr_digest)
+ 		icreq->digest |= NVME_TCP_HDR_DIGEST_ENABLE;
+ 	if (queue->data_digest)
+@@ -1398,6 +1413,8 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
+ 	queue->data_remaining = 0;
+ 	queue->ddgst_remaining = 0;
+ 	queue->pdu_remaining = 0;
++	queue->pda_remaining = 0;
++	queue->pda = nctrl->opts->pda;
+ 	queue->pdu_offset = 0;
+ 	sk_set_memalloc(queue->sock->sk);
+ 
+@@ -2464,7 +2481,7 @@ static struct nvme_ctrl *nvme_tcp_create_ctrl(struct device *dev,
+ 			  NVMF_OPT_HOST_TRADDR | NVMF_OPT_CTRL_LOSS_TMO |
+ 			  NVMF_OPT_HDR_DIGEST | NVMF_OPT_DATA_DIGEST |
+ 			  NVMF_OPT_NR_WRITE_QUEUES | NVMF_OPT_NR_POLL_QUEUES |
+-			  NVMF_OPT_TOS,
++			  NVMF_OPT_TOS | NVMF_OPT_PDA,
+ 	.create_ctrl	= nvme_tcp_create_ctrl,
+ };
  
 -- 
 1.8.3.1
