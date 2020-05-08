@@ -2,146 +2,76 @@ Return-Path: <SRS0=GxYq=6W=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 822EAC47247
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 May 2020 15:51:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B26E5C4724C
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 May 2020 16:16:30 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 558312184D
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 May 2020 15:51:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8327C206B9
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 May 2020 16:16:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="oG57BiBc";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=fb.com header.i=@fb.com header.b="e0qMSmMB";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=fb.onmicrosoft.com header.i=@fb.onmicrosoft.com header.b="UGlqHM+B"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 558312184D
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=fb.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="O3GJ19Is";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="VvCuDbAI"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8327C206B9
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:Date:
-	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
-	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ewf7J5ey1MLEti5Kin/vfXi6FJZljVDgOp6lFt/Td9E=; b=oG57BiBcHWJmoH
-	Ys4ppRnJC6B10NP5satkMQPjLdpHs9A5yMa2zfVmyKiICeRduimwlDTld8RFCDosfHCO2sgXWPqW+
-	ZB+kADcVnGVCi3/XJjIGX6drHPIi3EEVlawc9Lh2gC6dqzOZM9qnMmlxfDwLQmKv5/wRX3EAtVWXY
-	f54NayOTOw/U3748JrYiIhW2u7ObrzcV5rfXP44frU8oCjNcqTBAIjV3X/4CgPM9MrXeKrAmpbZqj
-	lbg42ixGtmRWkXehfntNbEmSmS3doxVMOTCOz9Dglg29n5pTrmL7wmoWP8/mBjtY75ulDzWLTm6xf
-	ibsYstOJzrsP8691vFyg==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=c5ALsNZNVefMVaEgY4lpcZXWURl7URhhbaMS1WWwheg=; b=O3GJ19IsPb6hW5
+	tpYQh63CkvZg9XOj0/iXtYjWWsEYsUuA+xp0vaeKGMNX3r4onMnnMQDszu4hpCaPiSIpKEoaNd3bA
+	xDJQM7HK/t4Zme6SVS0vTXeLNTmRgSw9ZxbrhWIxI2lhuatVXYVDNHyL2jQvMjrnbSwwz9Py50nGX
+	tbS9TSuWnS2PXdAicCd0NkK/p6vdX8jUs4030QRAEkm4f+3rLNuLG9UUQ78SYmQT9jpaICcQmrmjc
+	tY9yQOD4msoc1hOZC+/plkUPbcrGKe2x6v4tD+4/eWxAGAH9YR8xj9+IwngelFD3qVMnOmvKcSHgv
+	GOsJSGlcBjT2oNfoZ0gQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jX5Hn-00069S-9z; Fri, 08 May 2020 15:51:39 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
+	id 1jX5fn-0004xd-9j; Fri, 08 May 2020 16:16:27 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jX5Hk-00068L-Bh
- for linux-nvme@lists.infradead.org; Fri, 08 May 2020 15:51:37 +0000
-Received: from pps.filterd (m0109331.ppops.net [127.0.0.1])
- by mx0a-00082601.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 048FpSqG017778; Fri, 8 May 2020 08:51:32 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
- h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=facebook;
- bh=45li5VpjgsibQZHJh4k/2TSz8mYX5CbiSyUqEUaoZTQ=;
- b=e0qMSmMBRvLyJFoDKsWyzaqG3su49pgTPVEj8M8gD1pVU+z1GOumTTNdm1hDld/aCp3m
- 55SvPEIKTd5MQHCA8zq/3N6v/JIabwNNM4k9+EVFdbfQ0chNx7Be4kjB+opAeEtj/k6G
- m1lUAWlVz8bJwRO7cYPP/FsWat4QaxqgUEw= 
-Received: from mail.thefacebook.com ([163.114.132.120])
- by mx0a-00082601.pphosted.com with ESMTP id 30vtcymaxj-2
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Fri, 08 May 2020 08:51:31 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (100.104.98.9) by
- o365-in.thefacebook.com (100.104.94.229) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1847.3; Fri, 8 May 2020 08:51:13 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AeI/lFZcyFqnAx2WIHOlPaG+sQ83Dbm5uxg3wFxkY30Hg3XLUoxOlt0W9MVPY6zWZV/+knxWb8s9XEY6JjSBQxnhnkHqX+KFXdp7qO3Jzp8ylMlhT4t1YFec69yH6QCy7o3tiQ3xgCbJeYmcFfVqSajMiJ3/kNH/81fGpbyzgb8waYogdHkoSYGyte0immQ/f9DgDoQqfGa/nkvANVV/XTUzzgMoObOuAtSa3GwMeTqTmeayaacTg1/tmh+kJfR6MRRW825+NNhFxQiFcbipF0smXCfDyYwd4ZbF2jbYB1SuexNmZHKdIiN4c3sRUfGhqpFgS/QVwiQunuvgeBGhJw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=45li5VpjgsibQZHJh4k/2TSz8mYX5CbiSyUqEUaoZTQ=;
- b=Zcz5RS8aQ9ot90j3LdK3VaXn0vQ9cR3Wbw5Q7nawNB8/AR7O5zASgIJupIHd2Ujw+OiUSMG3ZynmKyhaXnh4QFZ7rqZwlCdktRnTQb9PhS7c3wVTjYX+/SYBa1g//7zXluIqakuRmIF9DOnrkvBBPu1HkjIPtBZ/oMDDGxBo+cXpAYQMAdvNMfFlMkVeduekxGgycPkZVDy54/LaZ5Dy0sjS2CDKoHzdO6fNAM7Hc1tUdGSZ6iT4EoDdEjBKSC/PdZbtuPKxsKp3SisgtHdyUaxNgwcPPgQ57sEFvL8jq08r/D96F/HNOmp30KfntM+VeZrR+BxMzg7PjpVKplu8qQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
- header.d=fb.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
- s=selector2-fb-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=45li5VpjgsibQZHJh4k/2TSz8mYX5CbiSyUqEUaoZTQ=;
- b=UGlqHM+Bok4QsJUUqgz255BK0nVsY4wvNvez+NR1BzXLcw9edOMECI+kyCHOujvN6wSuBR8YLF3Kvrq2sFWrqsx+tLCXmpHNQLYMke6ZETFeH30uoUZFdrsYv4g28RbOdXTN3lT9GxJtrmomBRHygVryRZ7s2/orLtFp+uw7/JI=
-Authentication-Results: oracle.com; dkim=none (message not signed)
- header.d=none;oracle.com; dmarc=none action=none header.from=fb.com;
-Received: from BYAPR15MB2566.namprd15.prod.outlook.com (2603:10b6:a03:150::24)
- by BYAPR15MB3110.namprd15.prod.outlook.com (2603:10b6:a03:fe::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.28; Fri, 8 May
- 2020 15:51:12 +0000
-Received: from BYAPR15MB2566.namprd15.prod.outlook.com
- ([fe80::8da8:642b:d574:16d7]) by BYAPR15MB2566.namprd15.prod.outlook.com
- ([fe80::8da8:642b:d574:16d7%4]) with mapi id 15.20.2979.033; Fri, 8 May 2020
- 15:51:12 +0000
-Subject: Re: [GIT PULL] first batch of nvme updates for 5.8
-To: Christoph Hellwig <hch@infradead.org>
-References: <20200508154448.GA250683@infradead.org>
-From: Jens Axboe <axboe@fb.com>
-Message-ID: <7d4bf713-14b7-ba1b-0ad2-834409bdf637@fb.com>
-Date: Fri, 8 May 2020 09:51:09 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-In-Reply-To: <20200508154448.GA250683@infradead.org>
-Content-Language: en-US
-X-ClientProxiedBy: CH2PR07CA0031.namprd07.prod.outlook.com
- (2603:10b6:610:20::44) To BYAPR15MB2566.namprd15.prod.outlook.com
- (2603:10b6:a03:150::24)
+ id 1jX5fk-0004w0-3y
+ for linux-nvme@lists.infradead.org; Fri, 08 May 2020 16:16:25 +0000
+Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 2CEC1206B9;
+ Fri,  8 May 2020 16:16:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1588954583;
+ bh=hwJCAAbdcufl+vVPcJlNyZl8MJ2d6DW57Cahcc++qYQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=VvCuDbAIr8htgpLvFtAj2PFlbR4VpJkAd8UTBzK6JaBeZ5Xjkl4VQJmyyNMkIT/ZL
+ f6LrGT8eK9G2cFn4qL3uIbEJBROQzcqnVeOBkIhFa0zSlxKWqUy/zPIkuJ2Ha/SGQV
+ ITJsV5+VLUix6IVOctRBr0rDKjIePYSrvgJ6ALG4=
+Date: Fri, 8 May 2020 09:16:21 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: John Garry <john.garry@huawei.com>
+Subject: Re: [PATCH] nvme-pci: slimmer CQ head update
+Message-ID: <20200508161621.GB2622778@dhcp-10-100-145-180.wdl.wdc.com>
+References: <20200506163104.GD12919@willie-the-truck>
+ <3453193c-424b-1e4c-16be-279088612c68@arm.com>
+ <efc85e9a-93a6-989b-b8d7-db83b5d74b96@huawei.com>
+ <6673a108-c572-12ff-7ddd-b88147829615@huawei.com>
+ <4dae5990-e81b-8b33-dafc-ee47e4f06b6a@arm.com>
+ <e1643b53-d362-0b5e-573f-72f0ea249ebf@huawei.com>
+ <20200507142352.GA2621422@dhcp-10-100-145-180.wdl.wdc.com>
+ <8b297620-c72b-2184-36cb-032f5cfda05c@huawei.com>
+ <20200507153506.GA2621480@dhcp-10-100-145-180.wdl.wdc.com>
+ <6b573185-c6a5-501c-7db2-befacefa3701@huawei.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.159] (65.144.74.34) by
- CH2PR07CA0031.namprd07.prod.outlook.com (2603:10b6:610:20::44) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2979.29 via Frontend Transport; Fri, 8 May 2020 15:51:11 +0000
-X-Originating-IP: [65.144.74.34]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: cc124b8b-abd0-4bbc-2087-08d7f367a227
-X-MS-TrafficTypeDiagnostic: BYAPR15MB3110:
-X-Microsoft-Antispam-PRVS: <BYAPR15MB31108E9BBE582603AB7C533CC0A20@BYAPR15MB3110.namprd15.prod.outlook.com>
-X-FB-Source: Internal
-X-MS-Oob-TLC-OOBClassifiers: OLM:2399;
-X-Forefront-PRVS: 039735BC4E
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0A6AgbptG+k1xFmW+0UPaLuT7aaX5gBK5DWsBvIdfRk1lnzaym3NPqg4XjLi35VXs//dBGvWpfzMOhST8bP0X7RIcaAM0y/wErh2ouGB3+G9KNCXGgOpSS2dXJVEbgcv/fLJQPOQifDpFKwnmCjo9yvPmnTZTcNr0dkwW2F365VSv2863JYXvIzHql5NoG2FT24pAuf2uGBfHjKyZPfv3sd3CJygmnPlYWnZfwvbZ/+9k++MoGVmzk5wzQsdProjEoeEM2cXu/VWnSarp0vVmvuIE+q6MrZi5TIu1oFI/agCRaQ+kUQXuMqMYRHw20YzM1ldnwgp50yUJITB43f0E7HYuoPJYNsd3cE++LkwN5mOxt0LhKSSyPoehyuSpXVHf3gEFLbr1Axjo1VUqtTtIqC0gD+bpf57vQrlAb/1newBa2F9c7nU4K7kc0SaEG21S+1EyOr4WzLOGpLulVs8/62Cngr6jQMy6hhjBh5qrZEQ/N95dUBdo4zFFdn+l6HdjUmN+I9DKpSrYCXaL6iIpKdMAHyz8fNc6YOjtrcCbCnW78lA3qhtTnF0+qFY6L0W
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR15MB2566.namprd15.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(39860400002)(136003)(376002)(366004)(346002)(396003)(33430700001)(6486002)(956004)(15650500001)(33440700001)(16576012)(316002)(26005)(66476007)(52116002)(66556008)(2616005)(186003)(66946007)(53546011)(16526019)(54906003)(31696002)(478600001)(4744005)(5660300002)(2906002)(36756003)(83320400001)(83280400001)(83310400001)(83290400001)(8676002)(86362001)(6916009)(4326008)(83300400001)(31686004)(8936002)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: owpDATHBDn3x1TOwzisMC4VSs/5k4T9JomvXUvwDKDPYqFUzhjeb0yiqh6T8SDX8iTmLslcGBqEZqBIfDjo8pAV3Qx1Ul/rlxyeDTpoS+LwHr4IqWBE3IYW+IheGuynDiO0eFoibtE9CFxUnoMcVY8g0yW+Z4fiO89ZKpMyJcM4Ob6nXVvM+TXntkXCufla8fKukBHHdQTNk2THLsgjtJ8GrBIKZZoKEESpWq1wUaobngMtSbm3/lDkhw8S5nMAMXG5pMkW8HzKHE5hoVNBQhrOUC1rU9IQCdH2rKTX9IhVFDGdsETfabzWHMomCqxZ2Jjz17ZTKgto/NUwaV8lvAuzwoFoRTH5OKxgvf+4Jh/8Cvk+0gh6b2e8662GeW0rsi96/Owm5BQlHWpkNtgq1e1rITKMldtVFjM6YkB6t/aqoZpw/IYBUshQK+Ehsmbj1uIibRjktl5iasnhot5+l6JZtYyjGCdWX44P8ubutJHs=
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc124b8b-abd0-4bbc-2087-08d7f367a227
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2020 15:51:12.5078 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4ZCe7qfcZY7aP+lxPGh2fNrqvjgsXtt3uG2/XMjWZ3hfKNhjAXkIoMi9aaR2lJsH
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR15MB3110
-X-OriginatorOrg: fb.com
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.676
- definitions=2020-05-08_15:2020-05-08,
- 2020-05-08 signatures=0
-X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
- lowpriorityscore=0
- phishscore=0 adultscore=0 spamscore=0 impostorscore=0 priorityscore=1501
- clxscore=1011 suspectscore=0 bulkscore=0 mlxlogscore=999 mlxscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2005080138
-X-FB-Internal: deliver
+Content-Disposition: inline
+In-Reply-To: <6b573185-c6a5-501c-7db2-befacefa3701@huawei.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200508_085136_524610_80963BDD 
-X-CRM114-Status: GOOD (  13.81  )
+X-CRM114-CacheID: sfid-20200508_091624_195869_BB71C443 
+X-CRM114-Status: UNSURE (   9.69  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -153,33 +83,36 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org, "Martin K.
- Petersen" <martin.petersen@oracle.com>
+Cc: sagi@grimberg.me, Robin Murphy <robin.murphy@arm.com>,
+ linux-nvme@lists.infradead.org, Alexey Dobriyan <adobriyan@gmail.com>,
+ axboe@fb.com, Will Deacon <will@kernel.org>, Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/8/20 9:44 AM, Christoph Hellwig wrote:
-> Hi Jens,
-> 
-> here are the first 60+ nvme patches for Linux 5.8:
-> 
->  - NVMe over Fibre Channel protocol updates, which also reach over to
->    drivers/scsi/lpfc (James Smart)
->  - namespace revalidation support on the target (Anthony Iliopoulos)
->  - gcc zero length array fix (Arnd Bergmann)
->  - nvmet cleanups (Chaitanya Kulkarni)
->  - misc cleanups and fixes (me, Keith Busch, Sagi Grimberg)
->  - use a SRQ per completion vector (Max Gurtovoy)
->  - fix handling of runtime changes to the queue count (Weiping Zhang)
+On Thu, May 07, 2020 at 04:41:01PM +0100, John Garry wrote:
+> I have an FAE contact, who I can ask. That may take a few days.
 
-Pulled, thanks.
+John,
 
--- 
-Jens Axboe
+In the meantime could you see if the following resolves your
+observation?
 
+---
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index e13c370de830..8e96ec6eed61 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -989,6 +989,7 @@ static inline int nvme_process_cq(struct nvme_queue *nvmeq)
+ 
+ 	while (nvme_cqe_pending(nvmeq)) {
+ 		found++;
++		dma_rmb();
+ 		nvme_handle_cqe(nvmeq, nvmeq->cq_head);
+ 		nvme_update_cq_head(nvmeq);
+ 	}
+--
 
 _______________________________________________
 linux-nvme mailing list
