@@ -2,82 +2,67 @@ Return-Path: <SRS0=GxYq=6W=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 376ECC38A2A
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 May 2020 20:12:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6B60C38A2A
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 May 2020 21:00:40 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F3AA420CC7
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 May 2020 20:12:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 861202173E
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 May 2020 21:00:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="cvTpVqOG"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F3AA420CC7
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="BwGk0eUy";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="x2QE56J0"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 861202173E
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=orb/GNfT1sZ+RbD5J82hGkG0WDXuaFuJpd+UX82xz/M=; b=cvTpVqOGW9cjQWczBKarBz8GF
-	Mvb+AklDWspCBYQZ9kugzzCXXtFrjVoo3t5x6CI3JCbvUu3fVTE7rqV6tRxVVg5s5A7id/PmTXh9I
-	ZP8oAN9f3bNaTNUe/gNTS2gHOgBTfNEnK8LkrXDUp2JlOZA2R6vc2AY4jxLCOtyEM7I7Ubgg0NTLC
-	Wqgl2u6yqAIksz1YdXjY8Vi9ZBrz1F2PwWucLIo7C4FA2EJcSkC7xD1aGiSkbk6WmXsxyqOK0qnTi
-	hIOYlKHYqTAelAxvT5qI15ilR9dOqaVXY6VdAiRtNIDndPPuM+m0r3DjU/h2fOyqfBwf47oEJN5Hx
-	aWmoXHDYQ==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=Xb7TfD6iCC6mzU8iBBOrJ1XoXP9gWNaNV1ksizcZz/8=; b=BwGk0eUySx6JCi
+	kZgJLoRHorGgXq1dpLBwiIXH7bV7d9+yVy7Q15z2/sp/VvUBqPO0tZmuCgvrDnxRt5Ad841QcQnc2
+	TAQPANBWq9sasvBBTijqMpGI+GMu1ecUOdEr8e8oJabziUv5v9QFXjBdN+iobVLLRVwAdEdSAf2Qu
+	Rbjvtqog4gqgnkdaW7V8V2Ff3i+R7i+4hnpqgSfCzMOdHzhpCL1PnKw4p7uSesrNDUwGD6N6xY0QF
+	E/lBJfGWsfh8YlL/urMaq69zPAyJFiHCL/SeQgRg1qsXx0rxJhtvHSGnfoeC4bDG4mjz8CzcEn85A
+	hKab6ywj0fhkXamSZ9OQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jX9Me-000582-4B; Fri, 08 May 2020 20:12:56 +0000
-Received: from mail-pl1-f196.google.com ([209.85.214.196])
+	id 1jXA6n-0001SW-R9; Fri, 08 May 2020 21:00:37 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jX9Mb-00057X-Qy
- for linux-nvme@lists.infradead.org; Fri, 08 May 2020 20:12:55 +0000
-Received: by mail-pl1-f196.google.com with SMTP id t7so1221193plr.0
- for <linux-nvme@lists.infradead.org>; Fri, 08 May 2020 13:12:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6SRe/yASNzVcHeUTX7RGNicVJss864tWsTBoQgkbFb4=;
- b=hneN1NmE3/sraVp/liNPKJcOYrS5sj5OhzQLDT7+3FL2KnIDpqKuH8O3xMR6gx2tAy
- U+T90TDWLs5v8WWneOz6fI6ehnwMXa6eAMw1+J46zGsXte9/RdIsO9UeF1BERWJ+dHzu
- bbnBMC8LuHt5h20vs+8S7XsBEf9BHodUp3B6nkSmWGRXJHS5ISG+uCzfgNu+Zx9M4uZK
- W9WSLylkoNmsP3YE1M3su5UtlEpFPFbEkq+78x99dsD9kDcvufbUmxmaHFCyewcCgMxc
- PNUuIis/4ZwM8uQOf9AkHgZy/WuA5139mCGvgKUtNxj56jVPVeEOB0UUkF4fLT3PAR4w
- n/dA==
-X-Gm-Message-State: AGi0PubCrMjqRcs/f40KKYi1rzPzaTvkPWtxy8nW55Xs/ssRQRPzY0Gc
- 7k7AmTPB8vOcGNd8N7dI0Yw=
-X-Google-Smtp-Source: APiQypLTZyGm9NNVea7dNnoV/BIqQ5KIbqtvkYSoL2nzEaWnlcLtZI+Vp10rr3ETlY3aHdEYzmDX5Q==
-X-Received: by 2002:a17:90a:eac5:: with SMTP id
- ev5mr8223349pjb.173.1588968772522; 
- Fri, 08 May 2020 13:12:52 -0700 (PDT)
-Received: from ?IPv6:2601:647:4802:9070:bc73:49fb:3114:443?
- ([2601:647:4802:9070:bc73:49fb:3114:443])
- by smtp.gmail.com with ESMTPSA id d7sm2052353pfa.63.2020.05.08.13.12.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 May 2020 13:12:51 -0700 (PDT)
+ id 1jXA6m-0001SB-4L
+ for linux-nvme@lists.infradead.org; Fri, 08 May 2020 21:00:37 +0000
+Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 54A572173E;
+ Fri,  8 May 2020 21:00:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1588971635;
+ bh=NLlqr5MpbhQBQxQf5EupuOLOIwlCzSJ6TEwz9kdWdu8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=x2QE56J0hr8nB0idFoEe5h6/1haEw1otvcID5gjOAXxJvo1XvdbD9yyQPpm8FHmtX
+ vvr9APMWfjm1Wiih8TMb8VjRhsE3PMdpxH3ztl4w7hKa6zBzAUsxmsdxRbscl/ofBn
+ 4Ev4yYEHneUoHp77s+tjGJ1GfWXdqbged7R+6Suk=
+Date: Fri, 8 May 2020 14:00:33 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Sagi Grimberg <sagi@grimberg.me>
 Subject: Re: [PATCH] nvme-pci: dma read memory barrier for completions
-To: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org, hch@lst.de
+Message-ID: <20200508210033.GA2814530@dhcp-10-100-145-180.wdl.wdc.com>
 References: <20200508200406.2814437-1-kbusch@kernel.org>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <34740788-df94-d2e0-fa63-5568e379cdd9@grimberg.me>
-Date: Fri, 8 May 2020 13:12:50 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Firefox/68.0 Thunderbird/68.7.0
+ <34740788-df94-d2e0-fa63-5568e379cdd9@grimberg.me>
 MIME-Version: 1.0
-In-Reply-To: <20200508200406.2814437-1-kbusch@kernel.org>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <34740788-df94-d2e0-fa63-5568e379cdd9@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200508_131253_872245_3E717B56 
-X-CRM114-Status: UNSURE (   9.48  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200508_140036_191587_A511BA36 
+X-CRM114-Status: GOOD (  10.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,22 +74,29 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: John Garry <john.garry@huawei.com>, Will Deacon <will@kernel.org>
+Cc: John Garry <john.garry@huawei.com>, Will Deacon <will@kernel.org>,
+ hch@lst.de, linux-nvme@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-> Control dependencies do not guarantee load order across the condition,
-> allowing a CPU to predict and speculate memory reads.
+On Fri, May 08, 2020 at 01:12:50PM -0700, Sagi Grimberg wrote:
 > 
-> Commit 324b494c2862 inlined verifying a new completion with its
+> > Control dependencies do not guarantee load order across the condition,
+> > allowing a CPU to predict and speculate memory reads.
+> > 
+> > Commit 324b494c2862 inlined verifying a new completion with its
+> 
+> I think we need a "Fixes" tag to get it into stable 5.6.y right?
 
-I think we need a "Fixes" tag to get it into stable 5.6.y right?
+5.6 doesn't include the commit that reintroduced inline completion
+handling, so there's no stable this would apply to.
 
-Otherwise,
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+But really, the driver handled completions inline with the phase for
+most of its existence (3.3 - 4.17). It was only recently we had the
+split handling, so I'm not sure why its only an issue now unless
+more recent compilers and/or CPU made it more likely.
 
 _______________________________________________
 linux-nvme mailing list
