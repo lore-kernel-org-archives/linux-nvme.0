@@ -2,21 +2,21 @@ Return-Path: <SRS0=WsD/=62=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FE5CC2D0F7
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 May 2020 16:13:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51C6AC2D0F7
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 May 2020 16:14:18 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 04610206B7
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 May 2020 16:13:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1E989206B8
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 May 2020 16:14:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ZjIfeTa4"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 04610206B7
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="NpvR0hcj"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1E989206B8
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,36 +25,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=vkHrlja7kBltI9xp8ds/JRQXh+6yv5M3zfNznlMCJQM=; b=ZjIfeTa4cO4O9H
-	mFlSOOWL6Z+FcnkNIVJs/JVezi80p3BMuDH0Irbf82iABx52/eUV4b9OASr+WsFuMYFy+CHgvbDXX
-	1HffzVXzvW7LATG1ypz1VDXu7J/vs5Al9uXS8HoGCantVxovL/Hcff4nuVolTTP8HMTADz/D6dWWx
-	iLmf866xjb/2xoycPN+V94sGpPNZpaTOduoelDaQG0CdMuSjunGyImFWDmsgqW2071dYVCPPaQKZo
-	GZXKRgBkl71Ohp7YtYI5SMht2IiHDQk9aBLXPsIlfEzaYwBU33DTDMz8Byp7sQq5GVbuym+Y6Ycr1
-	ER6//dk+TwgS0+yafscg==;
+	List-Owner; bh=cpO0XRlFHt0/kiM0kWyoH2A7ra7+K+taHdQm9l7GSHQ=; b=NpvR0hcjGhDJI0
+	Q3dcjt3uYYs8s2Zb9TTVMZdLeI62mR4Van5v0pg90FVGmJLbolzFrd+1l70sVmLcFeaPr3GdJFEES
+	BJ2QfN1ChdfL/pZAWH7/3KpEUbMsYyRhMLfFboyHyU0QfODBm4HqovKBzRzkDprD6nLbcybe7JR7z
+	20kesUY+mSDA9gAGaxvjtDE9DSmvMqhCxaDt7eMdcfjPYXFpiMIabQN5UsWR+lSPAhaP80j+Cwdf5
+	Je07Q7/9+gESaBIVuWpH+FhNqek5Ppte4NxOacTehDFKhu3RoJ9A6XNmZjNrMp4U5Kinbnr3Nv2hw
+	RlY0XqKMqN31+L2glbTw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jYXXF-0003jU-1d; Tue, 12 May 2020 16:13:37 +0000
+	id 1jYXXs-00049w-0F; Tue, 12 May 2020 16:14:16 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jYXXC-0003j3-2Y
- for linux-nvme@lists.infradead.org; Tue, 12 May 2020 16:13:35 +0000
+ id 1jYXXp-000496-De
+ for linux-nvme@lists.infradead.org; Tue, 12 May 2020 16:14:14 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id DD6C568BEB; Tue, 12 May 2020 18:13:31 +0200 (CEST)
-Date: Tue, 12 May 2020 18:13:31 +0200
+ id 9157D68C65; Tue, 12 May 2020 18:14:11 +0200 (CEST)
+Date: Tue, 12 May 2020 18:14:11 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH 2/2] nvmet-tcp: set MSG_SENDPAGE_NOTLAST with MSG_MORE
- when we have more to send
-Message-ID: <20200512161331.GB6049@lst.de>
-References: <20200505052002.14924-1-sagi@grimberg.me>
- <20200505052002.14924-2-sagi@grimberg.me>
+To: Chen Zhou <chenzhou10@huawei.com>
+Subject: Re: [PATCH -next] nvmet: replace kstrndup() with kmemdup_nul()
+Message-ID: <20200512161411.GC6049@lst.de>
+References: <20200508115906.165223-1-chenzhou10@huawei.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200505052002.14924-2-sagi@grimberg.me>
+In-Reply-To: <20200508115906.165223-1-chenzhou10@huawei.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200512_091334_265006_B1884365 
-X-CRM114-Status: GOOD (  10.69  )
+X-CRM114-CacheID: sfid-20200512_091413_610590_5E513342 
+X-CRM114-Status: UNSURE (   7.59  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,22 +65,24 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Anil Vasudevan <anil.vasudevan@intel.com>,
- Mark Wunderlich <mark.wunderlich@intel.com>, Christoph Hellwig <hch@lst.de>,
- linux-nvme@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, hch@lst.de,
+ chaitanya.kulkarni@wdc.com, sagi@grimberg.me
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, May 04, 2020 at 10:20:02PM -0700, Sagi Grimberg wrote:
-> We can signal the stack that this is not the last page coming and the
-> stack can build a larger tso segment, so go ahead and use it.
+On Fri, May 08, 2020 at 07:59:06PM +0800, Chen Zhou wrote:
+> It is more efficient to use kmemdup_nul() if the size is known exactly.
+> 
+> The doc in kernel:
+> "Note: Use kmemdup_nul() instead if the size is known exactly."
+> 
+> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
 
-Applied to nvme-5.8.
+Thanks,
 
-Can you prepare a patch to add the missing MSG_EOR flag in
-nvmet_try_send_ddgst?
+applied to nvme-5.8.
 
 _______________________________________________
 linux-nvme mailing list
