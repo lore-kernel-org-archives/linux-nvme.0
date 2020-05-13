@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D409EC2D0F8
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 May 2020 06:31:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD605C2D0F8
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 May 2020 06:32:05 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 881EC206F5
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 May 2020 06:31:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5651D20718
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 May 2020 06:32:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="uHAjZcD7"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 881EC206F5
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="fk5clIIp"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5651D20718
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,23 +25,23 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=1cTZbfIM00bfGBj90hnZsM02GyDtebCYjSeKmKOlVR4=; b=uHAjZcD7Ty/leC
-	K9M+d+cI+M75kPp2eZNKHBiJHuxUqnFENJsa5qjRRYPpZOX0T2XLAz72boQK+g6+t84ZSEM2ggXVE
-	GMaWRnU980+ACE8XaYEiebluuNqIADQHmUb4KNQlFlmw+ccaBxveasU2USNBlYabpfEXi+RUY+QKb
-	NGID0NNuKWqAvJqQ0gzfn9oe2+/UKvw09NcEFZW8Oj/VSqsxde+r3yZJudqVIOAeeEpZStNZIdkWS
-	jupqnVmPoXww9zRvhvXsWbP9jSB0u9Q84NvH1vuHLErc5fuxVbevy0H9XKhqAsIIOe8oDz8w5WFuI
-	eY2LiRLS4NZtq2qQnYCw==;
+	List-Owner; bh=MySfmbXJ9lEuBuHpG34te3OUEd5NN6sPUNKsCxOjap8=; b=fk5clIIpd/GgpH
+	Zj7Mcbxdb3V2ZnWbAlyZW2W1f2Fz14g6nBN9MnL3Pxk+Ad6RJ87XcQwsujRMlCw+gmR+AV9C45fli
+	lhqp843OfFaNUQhlvUnec0PRGvec/rbMcVczkkTd44xs91gvngBLx/G8uqOhk2Hl911wnq0hutve/
+	m2f0krpPZ2Y1WnjKx0Hacg2d2mF5DuvRKDORVvH/6h387yuprlrt8NpYoUQTgczT6VJpwe7XXLX2f
+	s5DW28szXiimqz1kFrI7wQGCpQRcE3I/s/tcc6kKNm+b93pvRY7sj+fcMZlHgWtPWZG9rZz5fx5IP
+	XVgnuLYxNpveSJGd3yzA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jYkvp-00028g-Mf; Wed, 13 May 2020 06:31:53 +0000
+	id 1jYkvy-0002Gq-St; Wed, 13 May 2020 06:32:02 +0000
 Received: from [2001:4bb8:180:9d3f:c70:4a89:bc61:2] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jYks2-0004lp-2x; Wed, 13 May 2020 06:27:58 +0000
+ id 1jYks6-0004pR-63; Wed, 13 May 2020 06:28:02 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH 22/33] ipv6: add ip6_sock_set_v6only
-Date: Wed, 13 May 2020 08:26:37 +0200
-Message-Id: <20200513062649.2100053-23-hch@lst.de>
+Subject: [PATCH 23/33] ipv6: add ip6_sock_set_recverr
+Date: Wed, 13 May 2020 08:26:38 +0200
+Message-Id: <20200513062649.2100053-24-hch@lst.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200513062649.2100053-1-hch@lst.de>
 References: <20200513062649.2100053-1-hch@lst.de>
@@ -75,93 +75,76 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add a helper to directly set the IPV6_V6ONLY sockopt from kernel space
+Add a helper to directly set the IPV6_RECVERR sockopt from kernel space
 without going through a fake uaccess.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- include/net/ipv6.h        |  3 +++
- net/ipv6/ip6_udp_tunnel.c |  5 +----
- net/ipv6/ipv6_sockglue.c  | 11 +++++++++++
- net/sunrpc/svcsock.c      |  8 ++------
- 4 files changed, 17 insertions(+), 10 deletions(-)
+ include/net/ipv6.h       |  1 +
+ net/ipv6/ipv6_sockglue.c | 10 ++++++++++
+ net/rxrpc/local_object.c | 10 ++--------
+ 3 files changed, 13 insertions(+), 8 deletions(-)
 
 diff --git a/include/net/ipv6.h b/include/net/ipv6.h
-index 955badd1e8ffc..e24b59201a00d 100644
+index e24b59201a00d..69bc1651aaef8 100644
 --- a/include/net/ipv6.h
 +++ b/include/net/ipv6.h
-@@ -1174,4 +1174,7 @@ int ipv6_sock_mc_join_ssm(struct sock *sk, int ifindex,
- 			  const struct in6_addr *addr, unsigned int mode);
- int ipv6_sock_mc_drop(struct sock *sk, int ifindex,
+@@ -1176,5 +1176,6 @@ int ipv6_sock_mc_drop(struct sock *sk, int ifindex,
  		      const struct in6_addr *addr);
-+
-+int ip6_sock_set_v6only(struct sock *sk, bool val);
-+
- #endif /* _NET_IPV6_H */
-diff --git a/net/ipv6/ip6_udp_tunnel.c b/net/ipv6/ip6_udp_tunnel.c
-index 6523609516d25..bc4ee5cb14c8b 100644
---- a/net/ipv6/ip6_udp_tunnel.c
-+++ b/net/ipv6/ip6_udp_tunnel.c
-@@ -25,10 +25,7 @@ int udp_sock_create6(struct net *net, struct udp_port_cfg *cfg,
- 		goto error;
  
- 	if (cfg->ipv6_v6only) {
--		int val = 1;
--
--		err = kernel_setsockopt(sock, IPPROTO_IPV6, IPV6_V6ONLY,
--					(char *) &val, sizeof(val));
-+		err = ip6_sock_set_v6only(sock->sk, true);
- 		if (err < 0)
- 			goto error;
- 	}
+ int ip6_sock_set_v6only(struct sock *sk, bool val);
++void ip6_sock_set_recverr(struct sock *sk, bool val);
+ 
+ #endif /* _NET_IPV6_H */
 diff --git a/net/ipv6/ipv6_sockglue.c b/net/ipv6/ipv6_sockglue.c
-index 18d05403d3b52..f26224bb3e098 100644
+index f26224bb3e098..3c67626b6f5a9 100644
 --- a/net/ipv6/ipv6_sockglue.c
 +++ b/net/ipv6/ipv6_sockglue.c
-@@ -136,6 +136,17 @@ static bool setsockopt_needs_rtnl(int optname)
- 	return false;
+@@ -147,6 +147,16 @@ int ip6_sock_set_v6only(struct sock *sk, bool val)
  }
+ EXPORT_SYMBOL(ip6_sock_set_v6only);
  
-+int ip6_sock_set_v6only(struct sock *sk, bool val)
++void ip6_sock_set_recverr(struct sock *sk, bool val)
 +{
-+	if (inet_sk(sk)->inet_num)
-+		return -EINVAL;
 +	lock_sock(sk);
-+	sk->sk_ipv6only = val;
++	inet6_sk(sk)->recverr = val;
++	if (!val)
++		skb_queue_purge(&sk->sk_error_queue);
 +	release_sock(sk);
-+	return 0;
 +}
-+EXPORT_SYMBOL(ip6_sock_set_v6only);
++EXPORT_SYMBOL(ip6_sock_set_recverr);
 +
  static int do_ipv6_setsockopt(struct sock *sk, int level, int optname,
  		    char __user *optval, unsigned int optlen)
  {
-diff --git a/net/sunrpc/svcsock.c b/net/sunrpc/svcsock.c
-index 7a4f01c79e0f1..7fa7fedec3c5a 100644
---- a/net/sunrpc/svcsock.c
-+++ b/net/sunrpc/svcsock.c
-@@ -1328,7 +1328,6 @@ static struct svc_xprt *svc_create_socket(struct svc_serv *serv,
- 	struct sockaddr *newsin = (struct sockaddr *)&addr;
- 	int		newlen;
- 	int		family;
--	int		val;
- 	RPC_IFDEBUG(char buf[RPC_MAX_ADDRBUFLEN]);
+diff --git a/net/rxrpc/local_object.c b/net/rxrpc/local_object.c
+index 20236ddecd2ef..5e356a63aa791 100644
+--- a/net/rxrpc/local_object.c
++++ b/net/rxrpc/local_object.c
+@@ -107,7 +107,7 @@ static struct rxrpc_local *rxrpc_alloc_local(struct rxrpc_net *rxnet,
+ static int rxrpc_open_socket(struct rxrpc_local *local, struct net *net)
+ {
+ 	struct sock *usk;
+-	int ret, opt;
++	int ret;
  
- 	dprintk("svc: svc_create_socket(%s, %d, %s)\n",
-@@ -1364,11 +1363,8 @@ static struct svc_xprt *svc_create_socket(struct svc_serv *serv,
- 	 * getting requests from IPv4 remotes.  Those should
- 	 * be shunted to a PF_INET listener via rpcbind.
- 	 */
--	val = 1;
--	if (family == PF_INET6)
--		kernel_setsockopt(sock, SOL_IPV6, IPV6_V6ONLY,
--					(char *)&val, sizeof(val));
--
-+	if (family == PF_INET6 && IS_REACHABLE(CONFIG_IPV6))
-+		ip6_sock_set_v6only(sock->sk, true);
- 	if (type == SOCK_STREAM)
- 		sock->sk->sk_reuse = SK_CAN_REUSE; /* allow address reuse */
- 	error = kernel_bind(sock, sin, len);
+ 	_enter("%p{%d,%d}",
+ 	       local, local->srx.transport_type, local->srx.transport.family);
+@@ -157,13 +157,7 @@ static int rxrpc_open_socket(struct rxrpc_local *local, struct net *net)
+ 	switch (local->srx.transport.family) {
+ 	case AF_INET6:
+ 		/* we want to receive ICMPv6 errors */
+-		opt = 1;
+-		ret = kernel_setsockopt(local->socket, SOL_IPV6, IPV6_RECVERR,
+-					(char *) &opt, sizeof(opt));
+-		if (ret < 0) {
+-			_debug("setsockopt failed");
+-			goto error;
+-		}
++		ip6_sock_set_recverr(local->socket->sk, true);
+ 
+ 		/* Fall through and set IPv4 options too otherwise we don't get
+ 		 * errors from IPv4 packets sent through the IPv6 socket.
 -- 
 2.26.2
 
