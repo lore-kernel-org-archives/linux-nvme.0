@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC2E3CA90AF
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 May 2020 13:36:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C68F5CA90AF
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 May 2020 13:36:44 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9D58D2220C
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 May 2020 13:36:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9285A22259
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 May 2020 13:36:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="HYKbjK4p";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hmIIzXq+"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9D58D2220C
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Fc7ttSvY";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HyPMrQAV"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9285A22259
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,61 +26,61 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:Message-ID:Date:Content-ID:MIME-Version
 	:Subject:To:References:In-Reply-To:From:Reply-To:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=geKZZKlzeH6W8Pl2vDTepQDG6mxIVGz7jbqPhMnLbfw=; b=HYKbjK4p8YgUS3
-	vJGGjPKnE/tLc/6KnLK/BE95OhWu1UYT632HsrMkS5KEiWFbOSYiSDo+FlUhwllgZUEv1xK95qkyv
-	vEWzmWB8YadqPYQvEe1SUDQseLGSb2vhyKBKRFsiITiCtbq/3S4PaOmq/s+fS5IGNiDRnbFEo6WBV
-	PtGqt1WnZwDw1L3oDKWBFtb1pUxWlNfRK+2mSyWy0pKsakRIVg936UP+Mp6P1bgnFr74uLcRZuI9e
-	riYgHk7IHK32o39f3p9Sy0DV/0NsSrxDsRhjuPpTRXV5asvTVWrxqV9hi9yvAqXeRPBamU1+b9hNa
-	Z8lvdW/qyCO1Ks2BKsJw==;
+	List-Owner; bh=LbTAp0aGEaOKaIDRtU9/JK33yJawbEY8/kcy/aGadtw=; b=Fc7ttSvYCLSJDF
+	m0prMyMVoMTKQ2j9bpLr8mlkcgeEBY7USCwcmCrvGma2JJsuQaiNJ3bojGYYd4168+Co48xf2TVdf
+	gpDoKt0l+mJ91FglGgU0hG9SadlltPsvH9L6PQzlnDxOi2rSX1pnDKsF8P4yqKJ488nmgr7vweF/D
+	I2OOyoFEF9o5S8K/YOCm/vU0bhnCSQ8Nr26tf68hTTMqu0w0keAV2t0V/L+RsEmhAtco2ZLj62sKB
+	4jY25PGuj50r5nQ8T/UU0CdjsGMHVowZLYKqydv9QenyUhTRik6eRTIji+d4Ihx8K7LIeQnvFbfAy
+	jAR1FKmEjvyCwhYMVmeg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jYrPz-0005IF-G8; Wed, 13 May 2020 13:27:27 +0000
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]
- helo=us-smtp-delivery-1.mimecast.com)
+	id 1jYrOI-0004lp-Tn; Wed, 13 May 2020 13:25:42 +0000
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]
+ helo=us-smtp-1.mimecast.com)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jYrPw-0005G7-8T
- for linux-nvme@lists.infradead.org; Wed, 13 May 2020 13:27:25 +0000
+ id 1jYrOG-0004kp-Kz
+ for linux-nvme@lists.infradead.org; Wed, 13 May 2020 13:25:42 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589376443;
+ s=mimecast20190719; t=1589376338;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=OH0J8d3K3U+hQmWR8NPajZuhzGmc4mTANodrmCJL8cs=;
- b=hmIIzXq+0OW/u/cmfBWeH6p231chnMjtMPfCQaNvAGOxoX2Qcax5cyNVIiUg2aDGAuTf73
- hnbc/nB1iC43FXU/vr/+dQvjXgVxVKWLL3B4GgnBU3kdfbuvwuZ8vIH+iE8h0qUpChD/0h
- Ct+JEyFRWEOJiMD7IlPpNa6yzHVUECk=
+ bh=d/0WQiW+co/T0Lh806Aa2CF0lrVFjIjJV8t4w61WLTw=;
+ b=HyPMrQAVCoA9TwjWHmuIkLwMpDeZ0dvqnHvbnZM8NjUP2RYf/ned0zXjoc4OWWn1s2SNJB
+ VdvncxMmBAgjgiDU34hJrXnpYaP7YA7qo53JX1lBEkz0KHyuB+2Y6KmtraZXuDSiJs/Rp8
+ r9BQZUd97LjpY+QOHcCU0ugdURKGEII=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-417-iyWGfh95OW-O_Gj4FkwCgg-1; Wed, 13 May 2020 09:27:19 -0400
-X-MC-Unique: iyWGfh95OW-O_Gj4FkwCgg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-166-QSRiE1hJM-O7Lq496hJNkw-1; Wed, 13 May 2020 09:25:35 -0400
+X-MC-Unique: QSRiE1hJM-O7Lq496hJNkw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9855835B40;
- Wed, 13 May 2020 13:27:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 360CB18FE866;
+ Wed, 13 May 2020 13:25:30 +0000 (UTC)
 Received: from warthog.procyon.org.uk (ovpn-112-59.rdu2.redhat.com
  [10.10.112.59])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 811E61C92D;
- Wed, 13 May 2020 13:27:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 31ED9783B3;
+ Wed, 13 May 2020 13:25:19 +0000 (UTC)
 Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
  Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
  Kingdom.
  Registered in England and Wales under Company Registration No. 3798903
 From: David Howells <dhowells@redhat.com>
-In-Reply-To: <20200513062649.2100053-7-hch@lst.de>
-References: <20200513062649.2100053-7-hch@lst.de>
+In-Reply-To: <20200513062649.2100053-24-hch@lst.de>
+References: <20200513062649.2100053-24-hch@lst.de>
  <20200513062649.2100053-1-hch@lst.de>
 To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 06/33] net: add sock_set_timestamps
+Subject: Re: [PATCH 23/33] ipv6: add ip6_sock_set_recverr
 MIME-Version: 1.0
-Content-ID: <3124743.1589376425.1@warthog.procyon.org.uk>
-Date: Wed, 13 May 2020 14:27:05 +0100
-Message-ID: <3124744.1589376425@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-ID: <3124570.1589376319.1@warthog.procyon.org.uk>
+Date: Wed, 13 May 2020 14:25:19 +0100
+Message-ID: <3124571.1589376319@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200513_062724_376660_BD566A6E 
-X-CRM114-Status: UNSURE (   9.70  )
+X-CRM114-CacheID: sfid-20200513_062540_760762_02B61BE3 
+X-CRM114-Status: UNSURE (   9.59  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -113,7 +113,7 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 Christoph Hellwig <hch@lst.de> wrote:
 
-> Add a helper to directly set the SO_TIMESTAMP* sockopts from kernel space
+> Add a helper to directly set the IPV6_RECVERR sockopt from kernel space
 > without going through a fake uaccess.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
