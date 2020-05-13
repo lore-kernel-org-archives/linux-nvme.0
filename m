@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD58EC2D0F9
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 May 2020 06:29:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CA06C2D0F8
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 May 2020 06:30:12 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B53BB206A5
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 May 2020 06:29:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E81B7206A5
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 May 2020 06:30:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="IPTxPMX4"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B53BB206A5
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ckYcpMdz"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E81B7206A5
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,23 +25,23 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=1fGqLwVMfZ8klq9nz5hk0zFEVaUXKjf4YdSDu9JQclk=; b=IPTxPMX4E4JYm6
-	OfKHMPI7xUTVzv5cBDQkyV3BtasbgMmLwTJgtDp5p0vS3Mn2QFJIXkZBBAPLgVAI0s8ArXlFICBp7
-	FHgb81xtJEjMRlZ9GBPxUU5nSH4i2u/jgNMYtjFqSjcmR5daoPPZi/O8aL2SctAEombdjCNL6mjXB
-	csN1lzxnVAwaKV8fMwtOKycO7sR5w3Sp0xJWa1PcVaCICWZiNrR+h/k8NQo0WR4Du4gO8FVpBhDhR
-	xK/mvgtmJjMhchUibRnOn4AyOg+avUQ1r7s/w6I2y2monPhe6+ikc+vTyWYnjZxwyWt0txwlH+Hyr
-	JiwlNVIhvqGO6ZXSrqSg==;
+	List-Owner; bh=vUeEEasZWUuJFBIFOguEp8DjI2eapc0EOQ7wW+F47Q8=; b=ckYcpMdzA6NvfB
+	Ogy2tf6nPEWMtBE3QFu6u98GjoBMbvvc7qBvVU2GXznIrEryxW9L/i5hcLj5uTTTf57FLAgF5aDug
+	aeOryXUFHyKqNJNu3pjR9rldxWRJqEjdwAZZRP8nO3MsewbutldGmgOno7zlimFPC3n/XpjA5aph5
+	iux2XLsZoXFMgwevrDVFkDvUwHmp4Y2si7fL6XW+OoXNAgaoJayoVuPdYORHQfEThDbbns45+7dvh
+	EaSY4XC9HuDILNeZF635rZF44b+kpOq5Xmng1gxmLdJ+sYVyPRyfFU+Z4pqpSXEjy15kJd+58I7g3
+	q7bQ0Qptq6py+zzkgmZQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jYktv-0006XC-PT; Wed, 13 May 2020 06:29:55 +0000
+	id 1jYku8-0006iG-NT; Wed, 13 May 2020 06:30:08 +0000
 Received: from [2001:4bb8:180:9d3f:c70:4a89:bc61:2] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jYkra-0004KK-Q3; Wed, 13 May 2020 06:27:31 +0000
+ id 1jYkrd-0004NC-HA; Wed, 13 May 2020 06:27:33 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH 13/33] tcp: add tcp_sock_set_syncnt
-Date: Wed, 13 May 2020 08:26:28 +0200
-Message-Id: <20200513062649.2100053-14-hch@lst.de>
+Subject: [PATCH 14/33] tcp: add tcp_sock_set_user_timeout
+Date: Wed, 13 May 2020 08:26:29 +0200
+Message-Id: <20200513062649.2100053-15-hch@lst.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200513062649.2100053-1-hch@lst.de>
 References: <20200513062649.2100053-1-hch@lst.de>
@@ -75,70 +75,108 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add a helper to directly set the TCP_SYNCNT sockopt from kernel space
-without going through a fake uaccess.
+Add a helper to directly set the TCP_USER_TIMEOUT sockopt from kernel
+space without going through a fake uaccess.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/host/tcp.c |  9 +--------
- include/linux/tcp.h     |  1 +
- net/ipv4/tcp.c          | 12 ++++++++++++
- 3 files changed, 14 insertions(+), 8 deletions(-)
+ fs/ocfs2/cluster/tcp.c | 22 ++--------------------
+ include/linux/tcp.h    |  1 +
+ net/ipv4/tcp.c         |  8 ++++++++
+ net/sunrpc/xprtsock.c  |  3 +--
+ 4 files changed, 12 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index a8070f93fd0a0..8417eeb83fcd2 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1336,14 +1336,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
+diff --git a/fs/ocfs2/cluster/tcp.c b/fs/ocfs2/cluster/tcp.c
+index 7936e22e39f34..5776df10d11f9 100644
+--- a/fs/ocfs2/cluster/tcp.c
++++ b/fs/ocfs2/cluster/tcp.c
+@@ -1441,14 +1441,6 @@ static void o2net_rx_until_empty(struct work_struct *work)
+ 	sc_put(sc);
+ }
+ 
+-static int o2net_set_usertimeout(struct socket *sock)
+-{
+-	int user_timeout = O2NET_TCP_USER_TIMEOUT;
+-
+-	return kernel_setsockopt(sock, SOL_TCP, TCP_USER_TIMEOUT,
+-				(void *)&user_timeout, sizeof(user_timeout));
+-}
+-
+ static void o2net_initialize_handshake(void)
+ {
+ 	o2net_hand->o2hb_heartbeat_timeout_ms = cpu_to_be32(
+@@ -1629,12 +1621,7 @@ static void o2net_start_connect(struct work_struct *work)
  	}
  
- 	/* Single syn retry */
--	opt = 1;
--	ret = kernel_setsockopt(queue->sock, IPPROTO_TCP, TCP_SYNCNT,
--			(char *)&opt, sizeof(opt));
+ 	tcp_sock_set_nodelay(sc->sc_sock->sk, true);
+-
+-	ret = o2net_set_usertimeout(sock);
 -	if (ret) {
--		dev_err(nctrl->device,
--			"failed to set TCP_SYNCNT sock opt %d\n", ret);
--		goto err_sock;
+-		mlog(ML_ERROR, "set TCP_USER_TIMEOUT failed with %d\n", ret);
+-		goto out;
 -	}
-+	tcp_sock_set_syncnt(queue->sock->sk, 1);
++	tcp_sock_set_user_timeout(sock->sk, O2NET_TCP_USER_TIMEOUT);
  
- 	/* Set TCP no delay */
- 	tcp_sock_set_nodelay(queue->sock->sk, true);
+ 	o2net_register_callbacks(sc->sc_sock->sk, sc);
+ 
+@@ -1821,12 +1808,7 @@ static int o2net_accept_one(struct socket *sock, int *more)
+ 	new_sock->sk->sk_allocation = GFP_ATOMIC;
+ 
+ 	tcp_sock_set_nodelay(new_sock->sk, true);
+-
+-	ret = o2net_set_usertimeout(new_sock);
+-	if (ret) {
+-		mlog(ML_ERROR, "set TCP_USER_TIMEOUT failed with %d\n", ret);
+-		goto out;
+-	}
++	tcp_sock_set_user_timeout(new_sock->sk, O2NET_TCP_USER_TIMEOUT);
+ 
+ 	ret = new_sock->ops->getname(new_sock, (struct sockaddr *) &sin, 1);
+ 	if (ret < 0)
 diff --git a/include/linux/tcp.h b/include/linux/tcp.h
-index e7ab6da5111b5..77b832acf3398 100644
+index 77b832acf3398..69c988f84a184 100644
 --- a/include/linux/tcp.h
 +++ b/include/linux/tcp.h
-@@ -497,5 +497,6 @@ int tcp_skb_shift(struct sk_buff *to, struct sk_buff *from, int pcount,
- void tcp_sock_set_cork(struct sock *sk, bool on);
+@@ -498,5 +498,6 @@ void tcp_sock_set_cork(struct sock *sk, bool on);
  void tcp_sock_set_nodelay(struct sock *sk, bool on);
  void tcp_sock_set_quickack(struct sock *sk, int val);
-+int tcp_sock_set_syncnt(struct sock *sk, int val);
+ int tcp_sock_set_syncnt(struct sock *sk, int val);
++void tcp_sock_set_user_timeout(struct sock *sk, u32 val);
  
  #endif	/* _LINUX_TCP_H */
 diff --git a/net/ipv4/tcp.c b/net/ipv4/tcp.c
-index c681f43f0bb85..773b5cd366ab7 100644
+index 773b5cd366ab7..9a8d062b17a48 100644
 --- a/net/ipv4/tcp.c
 +++ b/net/ipv4/tcp.c
-@@ -2870,6 +2870,18 @@ void tcp_sock_set_quickack(struct sock *sk, int val)
+@@ -2882,6 +2882,14 @@ int tcp_sock_set_syncnt(struct sock *sk, int val)
  }
- EXPORT_SYMBOL(tcp_sock_set_quickack);
+ EXPORT_SYMBOL(tcp_sock_set_syncnt);
  
-+int tcp_sock_set_syncnt(struct sock *sk, int val)
++void tcp_sock_set_user_timeout(struct sock *sk, u32 val)
 +{
-+	if (val < 1 || val > MAX_TCP_SYNCNT)
-+		return -EINVAL;
-+
 +	lock_sock(sk);
-+	inet_csk(sk)->icsk_syn_retries = val;
++	inet_csk(sk)->icsk_user_timeout = val;
 +	release_sock(sk);
-+	return 0;
 +}
-+EXPORT_SYMBOL(tcp_sock_set_syncnt);
++EXPORT_SYMBOL(tcp_sock_set_user_timeout);
 +
  /*
   *	Socket option code for TCP.
   */
+diff --git a/net/sunrpc/xprtsock.c b/net/sunrpc/xprtsock.c
+index 3dc2d52371a0e..30d4c4fcd3e38 100644
+--- a/net/sunrpc/xprtsock.c
++++ b/net/sunrpc/xprtsock.c
+@@ -2115,8 +2115,7 @@ static void xs_tcp_set_socket_timeouts(struct rpc_xprt *xprt,
+ 			(char *)&keepcnt, sizeof(keepcnt));
+ 
+ 	/* TCP user timeout (see RFC5482) */
+-	kernel_setsockopt(sock, SOL_TCP, TCP_USER_TIMEOUT,
+-			(char *)&timeo, sizeof(timeo));
++	tcp_sock_set_user_timeout(sock->sk, timeo);
+ }
+ 
+ static void xs_tcp_set_connect_timeout(struct rpc_xprt *xprt,
 -- 
 2.26.2
 
