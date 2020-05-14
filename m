@@ -2,69 +2,70 @@ Return-Path: <SRS0=zrHs=64=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0A61C433E1
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 May 2020 16:22:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA71AC433E0
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 May 2020 17:31:27 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8FBC820671
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 May 2020 16:22:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 62264206D8
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 May 2020 17:31:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Ujqs7s81";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZKbjDYZW"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8FBC820671
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="H1UoZdWT"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 62264206D8
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=deltatee.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:Subject:MIME-Version:References:
+	In-Reply-To:Message-Id:Date:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=3NvG7Ap5u5uQYeVM0Eo7zLFC3ugH0ulGPTIofbDbIW4=; b=Ujqs7s81WsjwlA
-	WeFGWyJkT+udWZCB7t6FDArdQlOXr0tdnwceI44QEWQqpocQg8CAnLjSWCEcnkT94F7Qlgoh2/8at
-	CghuaIGj8wOfTj8KUprgtZU4C4KPP2uCbwwbdFNluBnIIp9DsPQe6ss+4ut1W1HnOzH6Kei66g9sB
-	knBJnaN2QPF2dDB4j4NQeaFtFrYxOvGAgnyW986UYiIFNLqguPKVJ2Yj71OEYOT24iL6Or/RZdrmm
-	NoWH8dQPONTQGIpUp8xT4bdc7zz6zZptJq0k4k1ELGWa2lfqF/2RFKkhKGiBe+6L+zJB8WsAqmB/L
-	oYWWknR9FxYptEOfd+6g==;
+	List-Owner; bh=TXZyQbhBdVXZ4LFWA5NW05IqSwMctzo7PlqLhHDluXQ=; b=H1UoZdWT4Q9RHT
+	zcjEgI5Uwi3Q7yYH65jtvlnWOwEpI+g6TJQ8llcGAMTPAheV5TxXj7N+h2ok2kNRncQEarI9z6A6z
+	q9l/029Q3tidX04WKYNaP1otXyFyuLzzHi3BXYfEyU3eiFZf9KNLjBsJUDxCoHJst4DunKMSC6WBD
+	Xv8CG4Ue85NWP+WNpliHIWTmYOn71jkb23j4FGvZGo/cl3hTNLEhcKuERKoUducy1bHWIi+LAwszu
+	cc+qIig1nlsSokLxhb4UpYfm0xijZX7G/m7YPVN3ZzZiZyoika8X65lF2H6vMF1sPBvSd5fqFw7Zw
+	3eX1XVXfUE1iiAVoMQMA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jZGdH-0005rR-Gg; Thu, 14 May 2020 16:22:51 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1jZHhX-0000d2-Jm; Thu, 14 May 2020 17:31:19 +0000
+Received: from ale.deltatee.com ([207.54.116.67])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jZGdF-0005r1-1K
- for linux-nvme@lists.infradead.org; Thu, 14 May 2020 16:22:50 +0000
-Received: from redsun51.ssa.fujisawa.hgst.com (unknown [199.255.47.7])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id D20BF20671;
- Thu, 14 May 2020 16:22:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1589473368;
- bh=Fte72Mbp/XZajmoLfK0TqqRBmILe0jrvJk7vfY2qFHY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ZKbjDYZWX8hARURlHDbWYHecqa1XxnFVVkhkUCMOw8CF9sy+LHNVS+N8oepswJ6YB
- hNIWOVU4xwe8omRZGZuPB4mWYp5d9p8CKhVy0JMX13l2jhjPzT3TljDZ1ismQIHpST
- gT+pj3r3APu5eZ9UYKzkJs1MWKf1rpVmRVOETSJg=
-Date: Fri, 15 May 2020 01:22:41 +0900
-From: Keith Busch <kbusch@kernel.org>
-To: Martin George <martinus.gpy@gmail.com>
-Subject: Re: [PATCH] fabrics: write reconnect_delay to fabrics device on
- connect
-Message-ID: <20200514162241.GA2847@redsun51.ssa.fujisawa.hgst.com>
-References: <20200511143715.2524-1-marting@netapp.com>
+ id 1jZHZh-0005It-9B
+ for linux-nvme@lists.infradead.org; Thu, 14 May 2020 17:23:17 +0000
+Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
+ by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
+ id 1jZHZV-00021o-Ty; Thu, 14 May 2020 11:23:06 -0600
+Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
+ (envelope-from <gunthorp@deltatee.com>)
+ id 1jZHZU-0001gu-B1; Thu, 14 May 2020 11:23:00 -0600
+From: Logan Gunthorpe <logang@deltatee.com>
+To: linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Date: Thu, 14 May 2020 11:22:46 -0600
+Message-Id: <20200514172253.6445-3-logang@deltatee.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200514172253.6445-1-logang@deltatee.com>
+References: <20200514172253.6445-1-logang@deltatee.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200511143715.2524-1-marting@netapp.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+X-SA-Exim-Connect-IP: 172.16.1.31
+X-SA-Exim-Rcpt-To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ hch@lst.de, sagi@grimberg.me, kbusch@kernel.org, axboe@fb.com,
+ Chaitanya.Kulkarni@wdc.com, maxg@mellanox.com, sbates@raithlin.com,
+ logang@deltatee.com
+X-SA-Exim-Mail-From: gunthorp@deltatee.com
+Subject: [PATCH v13 2/9] nvme: Create helper function to obtain command effects
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200514_092249_096484_7040BDC3 
-X-CRM114-Status: UNSURE (   7.67  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200514_102313_844734_3FD61CC0 
+X-CRM114-Status: GOOD (  11.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,18 +77,90 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Martin George <marting@netapp.com>, linux-nvme@lists.infradead.org
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+ Stephen Bates <sbates@raithlin.com>, Jens Axboe <axboe@fb.com>,
+ Keith Busch <kbusch@kernel.org>, Max Gurtovoy <maxg@mellanox.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, May 11, 2020 at 08:07:15PM +0530, Martin George wrote:
-> 
-> Though '--reconnect-delay' option is defined for connect, it
-> wasn't passed down to the kernel in connect_ctrl().
+Separate the code to obtain command effects from the code
+to start a passthru request and open code nvme_known_admin_effects()
+in the new helper.
 
-Applied, thanks.
+The new helper function will be necessary for nvmet passthru
+code to determine if we need to change out of interrupt context
+to handle the effects.
+
+Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+---
+ drivers/nvme/host/core.c | 39 ++++++++++++++++++++++-----------------
+ 1 file changed, 22 insertions(+), 17 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index d22859543e4b..5062a83c3634 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1317,22 +1317,8 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
+ 			metadata, meta_len, lower_32_bits(io.slba), NULL, 0);
+ }
+ 
+-static u32 nvme_known_admin_effects(u8 opcode)
+-{
+-	switch (opcode) {
+-	case nvme_admin_format_nvm:
+-		return NVME_CMD_EFFECTS_CSUPP | NVME_CMD_EFFECTS_LBCC |
+-					NVME_CMD_EFFECTS_CSE_MASK;
+-	case nvme_admin_sanitize_nvm:
+-		return NVME_CMD_EFFECTS_CSE_MASK;
+-	default:
+-		break;
+-	}
+-	return 0;
+-}
+-
+-static u32 nvme_passthru_start(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+-								u8 opcode)
++static u32 nvme_command_effects(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
++				u8 opcode)
+ {
+ 	u32 effects = 0;
+ 
+@@ -1348,7 +1334,26 @@ static u32 nvme_passthru_start(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 
+ 	if (ctrl->effects)
+ 		effects = le32_to_cpu(ctrl->effects->acs[opcode]);
+-	effects |= nvme_known_admin_effects(opcode);
++
++	switch (opcode) {
++	case nvme_admin_format_nvm:
++		effects |= NVME_CMD_EFFECTS_CSUPP | NVME_CMD_EFFECTS_LBCC |
++			NVME_CMD_EFFECTS_CSE_MASK;
++		break;
++	case nvme_admin_sanitize_nvm:
++		effects |= NVME_CMD_EFFECTS_CSE_MASK;
++		break;
++	default:
++		break;
++	}
++
++	return effects;
++}
++
++static u32 nvme_passthru_start(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
++			       u8 opcode)
++{
++	u32 effects = nvme_command_effects(ctrl, ns, opcode);
+ 
+ 	/*
+ 	 * For simplicity, IO to all namespaces is quiesced even if the command
+-- 
+2.20.1
+
 
 _______________________________________________
 linux-nvme mailing list
