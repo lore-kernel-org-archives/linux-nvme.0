@@ -2,74 +2,120 @@ Return-Path: <SRS0=zrHs=64=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B2E1C433E0
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 May 2020 08:29:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7833DC433DF
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 May 2020 08:48:32 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5C30A20675
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 May 2020 08:29:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4699D20575
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 May 2020 08:48:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="deE4yaas"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5C30A20675
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=ACULAB.COM
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="T47InH2A";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=Mellanox.com header.i=@Mellanox.com header.b="k68bRCQg"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4699D20575
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
-	Message-ID:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=rrqb2UdS7xXOtqcUx8aZDyTtTIs/hLMaLXOeujNl2jg=; b=deE4yaas8AtTzi
-	llSgf2JV/jYHQuIPqVoQWNAhZbbtwIzXKl4/A+PIh45f7PiJj5g24rNH8zqwaxADazA4j4HcDa+lD
-	nHTcvTC1HglOa7wxruwjGzCQ93FpKJbXpUnpGXf9asltBTiilGLNUjr619a7plmcWmO7C3bFlRVyK
-	tA6h2yhXKIEhcRYGJ/3+RyAhwra4ekSAsKMyKJRaQGZc6EDSFCo0WsY3ORPBDRke3KY/ORcKId9/p
-	ZIkMF9IkUI570zFssyTk71a2swFU7HCDhnhC3V2LKq+BQWKkOc1Xb0OtIcf/vqQ6ru2g5QczcohYo
-	9VyuupybCcIA4zBjF8WA==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=XTCUDqcaZWr64DkipJXbTgqx6T3w7u+arj1Rq0M092c=; b=T47InH2ADG7eEye9iR1X9GUzF
+	EL0FmMNHTWmBdBE5yacVN3CAARgbLhiY/qdRZ6ICQlHNwitHAjzJ+uK+XTvWBGszbsNEsdZNxuWe3
+	KP8bjf8817u3ZewKWFYHVqaWT+tfBquEiGFFmWJ5f2Qofyq8Wu4jzWFcEfR3+hvhXwd7L0ZJ8B0mz
+	gpuNZT2ZPhcTDDvxj+By3j4RWhhVXsRd/3wr24J3bbHn5oqtfY7CdWWQ8wABpRSRdxQmpPmYwp3GU
+	jQ6san/b+AhrHQknd2wrILHHgF4J7VUYnAuh2ChfKQ3qyoOjE4c5y09DpV+z/jV6+2H82jQ/k6YnY
+	q4A2+P33g==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jZ9FO-0001vQ-Fr; Thu, 14 May 2020 08:29:42 +0000
-Received: from eu-smtp-delivery-151.mimecast.com ([185.58.86.151])
+	id 1jZ9XY-0006Cx-TW; Thu, 14 May 2020 08:48:28 +0000
+Received: from mail-eopbgr80081.outbound.protection.outlook.com ([40.107.8.81]
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jZ9FK-0001iN-Oa
- for linux-nvme@lists.infradead.org; Thu, 14 May 2020 08:29:40 +0000
-Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-41-3XJ_vbSSOB-Mdnc0632Mfw-1; Thu, 14 May 2020 09:29:32 +0100
-X-MC-Unique: 3XJ_vbSSOB-Mdnc0632Mfw-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
- Server (TLS) id 15.0.1347.2; Thu, 14 May 2020 09:29:31 +0100
-Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
- AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000; 
- Thu, 14 May 2020 09:29:31 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Joe Perches' <joe@perches.com>, Christoph Hellwig <hch@lst.de>, "David S.
- Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>
-Subject: RE: remove kernel_setsockopt and kernel_getsockopt
-Thread-Topic: remove kernel_setsockopt and kernel_getsockopt
-Thread-Index: AQHWKU15LJmP4mOGDE2/GHhLszFt9KinP7aQ
-Date: Thu, 14 May 2020 08:29:30 +0000
-Message-ID: <756758e8f0e34e2e97db470609f5fbba@AcuMS.aculab.com>
-References: <20200513062649.2100053-1-hch@lst.de>
- <ecc165c33962d964d518c80de605af632eee0474.camel@perches.com>
-In-Reply-To: <ecc165c33962d964d518c80de605af632eee0474.camel@perches.com>
-Accept-Language: en-GB, en-US
+ id 1jZ9XV-0006CQ-P3
+ for linux-nvme@lists.infradead.org; Thu, 14 May 2020 08:48:27 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VNF5mYG+mf4FC/+TWFRh6tS38j74xbLznFtBCJIbVihoS+rka2/oxoC8PpDbrSegDqMKsDUFYEefKLvaovZm68QbylZ+sz68WLJT7whPcFiidAgQffyN6nRy8YusC915A2D69ttdfy8K19fZ+v0RPnVtWVB2RqSUUh6UJa9ljLwm6GW4MvzD/3KPBTswOOSAH5504TcU+ZhLPfomslO5YnvDtWjAX1OUqClOfsFMMwPRkqMq5WSnVWVBRzGa27uOQ5rsto0FVpAiJ9yZsmhs3nmW851uB/qz7mCAG5uqKvUzzo51nVQS0lJNzAoaCXs8ciJBa8npOZFrNPmNaRJfzQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=G9h8rDvmO0JbORXmYSZIfKLYAorHO+QI4HUgjuPiefs=;
+ b=BzVKLTL5TeANLTRZXqhX30kgyp2S40nLqbT4/SELPUhZg3XOIDzcPQ7qcCfTYHkgp1ws0Qnsn64daW65zciaBq13ejilqmMCT0NIR0MTd/oobmfKIxDA6YnIH4tquANsoUCfzffkfUDMsdb7Iu23M4p4bPB4RzDTHK9LA1FVliymlUxo5O+RDvfCPwSRYsFEPhxYZVXwRtFypJ+ZO0D9+oIRUB+phe3G6ugrPjV+si3raKg8Ow0bKBFpWR17UxAD2nr58FGrmZakLILSehxKpRE+OyFvVpuezsWfX+GMwFu71ZR0OdEZXqVqMYf3e+8/ZVmyp2sbeGXfUWVPmeXfaQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
+ dkim=pass header.d=mellanox.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=G9h8rDvmO0JbORXmYSZIfKLYAorHO+QI4HUgjuPiefs=;
+ b=k68bRCQgTZmw8uqJmx4P26FBCSJ2dPscgBBh7AJqUY5I/2tE1L7iXUL4GI7VjdhHmJvOHEyVNKHxJ8u1k8kdFhHIHq7acKVxYcntxf1VN/QG7q3Eg5BEwsH9850UeSpForssbS9edkioITbrTVnn+YrUm9+rM9k1tgEPBMNqAGQ=
+Authentication-Results: mellanox.com; dkim=none (message not signed)
+ header.d=none;mellanox.com; dmarc=none action=none header.from=mellanox.com;
+Received: from AM0PR05MB5810.eurprd05.prod.outlook.com (2603:10a6:208:11f::18)
+ by AM0PR05MB4548.eurprd05.prod.outlook.com (2603:10a6:208:ae::29)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.24; Thu, 14 May
+ 2020 08:48:23 +0000
+Received: from AM0PR05MB5810.eurprd05.prod.outlook.com
+ ([fe80::408a:27c1:55f8:eed4]) by AM0PR05MB5810.eurprd05.prod.outlook.com
+ ([fe80::408a:27c1:55f8:eed4%5]) with mapi id 15.20.2979.033; Thu, 14 May 2020
+ 08:48:22 +0000
+Subject: Re: [PATCH 09/16] nvme-rdma: add metadata/T10-PI support
+To: "Martin K. Petersen" <martin.petersen@oracle.com>
+References: <20200504155755.221125-1-maxg@mellanox.com>
+ <20200504155755.221125-10-maxg@mellanox.com> <yq1r1vnw74v.fsf@oracle.com>
+From: Max Gurtovoy <maxg@mellanox.com>
+Message-ID: <c7f3151e-a401-56f7-735f-476b01337b17@mellanox.com>
+Date: Thu, 14 May 2020 11:48:18 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+In-Reply-To: <yq1r1vnw74v.fsf@oracle.com>
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+X-ClientProxiedBy: AM0PR10CA0045.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:20b:150::25) To AM0PR05MB5810.eurprd05.prod.outlook.com
+ (2603:10a6:208:11f::18)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [10.0.0.3] (89.139.203.251) by
+ AM0PR10CA0045.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:150::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.24 via Frontend
+ Transport; Thu, 14 May 2020 08:48:20 +0000
+X-Originating-IP: [89.139.203.251]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 27b02613-9f65-409f-204d-08d7f7e38ef8
+X-MS-TrafficTypeDiagnostic: AM0PR05MB4548:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM0PR05MB45484E528EA7379B950AEDF6B6BC0@AM0PR05MB4548.eurprd05.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
+X-Forefront-PRVS: 040359335D
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: AwjdE7UMM+BsRJNEAPyaXQ/0glVjA4lFXUR1MPjRUWR1An5TvZxeulPet4U/U+ZIRwFmGYSAKI0G/x6DenkeSBIaAAeyAuXKX3bccMUV256Y0Egm0fGy8VHfWgU5taoqU2r1UmMiijSte5ftTTLFfZsiaCXWJqUiyHKhushYqOKGJOXp5MIFIwWuWVFITL6YGt5/iU0kuzpxb8d8xv2IQcg4g8nTbj0hJVULALjyDA+4foIjjZtsGTf3YMVAfvGHOjWuW0NPAcqfiXEmkNtbppWEfl257fpvdFdszOrtOIsYqDhq3swcr808+eUfaMeRRBFh2rFidcyzQFKkFVWVeNaQlE9tX9frenxVBx2ig8H+O1htTUhD+725+Ots7ph7l19ba9K+oA58RVQjSS/MUCV8Sv4naLznnOLda92smp+1DkOairDBSkoxdKknL7fWuC6YeOs6AeLyJ01pV5rmcBzKlp9MWyJTescLHDEUzN5s+DfkBCrX6zg/pM6EU9bk
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM0PR05MB5810.eurprd05.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(136003)(396003)(39860400002)(366004)(376002)(346002)(31686004)(2906002)(16526019)(36756003)(186003)(26005)(6486002)(478600001)(86362001)(5660300002)(6916009)(52116002)(8936002)(31696002)(66946007)(66556008)(66476007)(107886003)(4326008)(316002)(2616005)(8676002)(956004)(53546011)(16576012)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: fIJbIt3Mk5ZIIrhSiDEVcCwucrlICqb+ky4pC7hei3jK1ds+495KeBAS0tFlovio2mUFCKebJmAvuWRwG4LNrgXoty7MeK/VSOmFiuOuT7rQhmblw+8ry7fbCKSCcymZAnA0RoV2/bWOUsglfJZXvbMEen9FYq3QNE8v1MSKykuKJ+0a5wsNFezd1DsmFEt/pSVCZ1ix8p8x51yz+zxVf905l40hrvO9zPSxCA2ssVqdyTG0K/IJZbzSGBjiKVrGerH8iIHeKlf+9/Ig4IDWkGI6PST/x7BVbkwEVjynL356fPOt2SPzg/fo4nPgIuhSXNAvTX4XjUX+d/yRGWkwcxhVYLweGV+Yjg8M0KqI5O0oiuAuisQKcU5upMxKKwbxXlAfHkA6NUc3sev15/gPaBKS16QRS5tj3Mg/z3gZfsScMfLJk/QdDpMXeYq01oM6o7qovFLMqTj0B8MARSXXqKM3QSClJApaqDsGZjPrkYyxyCkJW5RubNnLpU4pOfcY
+X-OriginatorOrg: Mellanox.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 27b02613-9f65-409f-204d-08d7f7e38ef8
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 May 2020 08:48:22.8025 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: a652971c-7d2e-4d9b-a6a4-d149256f461b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EfTxOhO+tIYoQRio+oxC46OZYaGqGbgKOqs1fuHi9bfx80EYmmCGEeuui2TaGPvlWplDjmrRjUcXIAipQyKF1A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR05MB4548
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200514_012939_107163_88BD4D9F 
-X-CRM114-Status: GOOD (  14.36  )
+X-CRM114-CacheID: sfid-20200514_014825_813993_692945C9 
+X-CRM114-Status: GOOD (  12.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,72 +127,47 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
- Eric Dumazet <edumazet@google.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-sctp@vger.kernel.org" <linux-sctp@vger.kernel.org>,
- "target-devel@vger.kernel.org" <target-devel@vger.kernel.org>,
- "linux-afs@lists.infradead.org" <linux-afs@lists.infradead.org>,
- "drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>,
- "linux-cifs@vger.kernel.org" <linux-cifs@vger.kernel.org>,
- "rds-devel@oss.oracle.com" <rds-devel@oss.oracle.com>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- "cluster-devel@redhat.com" <cluster-devel@redhat.com>,
- Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "ceph-devel@vger.kernel.org" <ceph-devel@vger.kernel.org>,
- "linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
- Neil Horman <nhorman@tuxdriver.com>,
- Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>, Vlad
- Yasevich <vyasevich@gmail.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Jon Maloy <jmaloy@redhat.com>, Ying Xue <ying.xue@windriver.com>,
- "ocfs2-devel@oss.oracle.com" <ocfs2-devel@oss.oracle.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: axboe@kernel.dk, jsmart2021@gmail.com, sagi@grimberg.me,
+ vladimirk@mellanox.com, shlomin@mellanox.com, israelr@mellanox.com,
+ linux-nvme@lists.infradead.org, idanb@mellanox.com, oren@mellanox.com,
+ kbusch@kernel.org, nitzanc@mellanox.com, hch@lst.de
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Joe Perches
-> Sent: 13 May 2020 18:39
-> On Wed, 2020-05-13 at 08:26 +0200, Christoph Hellwig wrote:
-> > this series removes the kernel_setsockopt and kernel_getsockopt
-> > functions, and instead switches their users to small functions that
-> > implement setting (or in one case getting) a sockopt directly using
-> > a normal kernel function call with type safety and all the other
-> > benefits of not having a function call.
-> >
-> > In some cases these functions seem pretty heavy handed as they do
-> > a lock_sock even for just setting a single variable, but this mirrors
-> > the real setsockopt implementation - counter to that a few kernel
-> > drivers just set the fields directly already.
-> >
-> > Nevertheless the diffstat looks quite promising:
-> >
-> >  42 files changed, 721 insertions(+), 799 deletions(-)
-
-I missed this patch going through.
-Massive NACK.
-
-You need to export functions that do most of the socket options
-for all protocols.
-As well as REUSADDR and NODELAY SCTP has loads because a lot
-of stuff that should have been extra system calls got piled
-into setsockopt.
-
-An alternate solution would be to move the copy_to/from_user()
-into a wrapper function so that the kernel_[sg]etsockopt()
-functions would bypass them completely.
-
-	David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
-
-
-_______________________________________________
-linux-nvme mailing list
-linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+Ck9uIDUvMTQvMjAyMCA2OjAyIEFNLCBNYXJ0aW4gSy4gUGV0ZXJzZW4gd3JvdGU6Cj4gTWF4LAo+
+Cj4+ICtzdGF0aWMgdm9pZCBudm1lX3JkbWFfc2V0X3NpZ19kb21haW4oc3RydWN0IGJsa19pbnRl
+Z3JpdHkgKmJpLAo+PiArCQlzdHJ1Y3QgbnZtZV9jb21tYW5kICpjbWQsIHN0cnVjdCBpYl9zaWdf
+ZG9tYWluICpkb21haW4sCj4+ICsJCXUxNiBjb250cm9sKQo+PiArewo+PiArCWRvbWFpbi0+c2ln
+X3R5cGUgPSBJQl9TSUdfVFlQRV9UMTBfRElGOwo+PiArCWRvbWFpbi0+c2lnLmRpZi5iZ190eXBl
+ID0gSUJfVDEwRElGX0NSQzsKPj4gKwlkb21haW4tPnNpZy5kaWYucGlfaW50ZXJ2YWwgPSAxIDw8
+IGJpLT5pbnRlcnZhbF9leHA7Cj4+ICsJZG9tYWluLT5zaWcuZGlmLnJlZl90YWcgPSBsZTMyX3Rv
+X2NwdShjbWQtPnJ3LnJlZnRhZyk7Cj4+ICsJZG9tYWluLT5zaWcuZGlmLmFwcHRhZ19jaGVja19t
+YXNrID0gMHhmZmZmOwo+PiArCWRvbWFpbi0+c2lnLmRpZi5hcHBfZXNjYXBlID0gdHJ1ZTsKPj4g
+Kwlkb21haW4tPnNpZy5kaWYucmVmX2VzY2FwZSA9IHRydWU7Cj4+ICsJaWYgKGNvbnRyb2wgJiBO
+Vk1FX1JXX1BSSU5GT19QUkNIS19SRUYpCj4+ICsJCWRvbWFpbi0+c2lnLmRpZi5yZWZfcmVtYXAg
+PSB0cnVlOwo+PiArfQo+IFdoeSBhcmUgeW91IHNldHRpbmcgcmVmX2VzY2FwZT8gSW4gRElYIHRo
+YXQgbWVhbnMgdGhhdCBjaGVja2luZyB3aWxsCj4gb25seSBiZSBkaXNhYmxlZCBmb3IgYmxvY2tz
+IHRoYXQgaGF2ZSBhIHJlZiB0YWcgdmFsdWUgb2YgMHhmZmZmZmZmZgo+ICphbmQqIGFuIGFwcCB0
+YWcgdmFsdWUgb2YgMHhmZmZmLiBUaGF0J3Mgc3BlY2lmaWMgdG8gVHlwZSAzLiBXaGVyZWFzCj4g
+Ym90aCBUeXBlIDEgYW5kIFR5cGUgMiByZWx5IG9uIGJlaW5nIGFibGUgdG8gZGlzYWJsZSBjaGVj
+a2luZyBmb3IgYmxvY2tzCj4gd2l0aCBhbiBhcHAgdGFnIHZhbHVlIG9mIDB4ZmZmZiByZWdhcmRs
+ZXNzIG9mIHRoZSByZWYgdGFnIHZhbHVlLgoKClRoYW5rcyBmb3IgY2F0Y2hpbmcgdGhpcyBNYXJ0
+aW4uCgp3aWxsIHRoaXMgZml4IGl0IChwcm9iYWJseSBzaG91bGQgYmUgZml4ZWQgaW4gaXNlci9p
+c2VydCBhcyB3ZWxsKSA/CgoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvbnZtZS9ob3N0L3JkbWEuYyBi
+L2RyaXZlcnMvbnZtZS9ob3N0L3JkbWEuYwppbmRleCAwNWRiZWQzLi45YjlkMTFiIDEwMDY0NAot
+LS0gYS9kcml2ZXJzL252bWUvaG9zdC9yZG1hLmMKKysrIGIvZHJpdmVycy9udm1lL2hvc3QvcmRt
+YS5jCkBAIC0xMzM4LDkgKzEzMzgsMTAgQEAgc3RhdGljIHZvaWQgbnZtZV9yZG1hX3NldF9zaWdf
+ZG9tYWluKHN0cnVjdCAKYmxrX2ludGVncml0eSAqYmksCiDCoMKgwqDCoMKgwqDCoCBkb21haW4t
+PnNpZy5kaWYucmVmX3RhZyA9IGxlMzJfdG9fY3B1KGNtZC0+cncucmVmdGFnKTsKIMKgwqDCoMKg
+wqDCoMKgIGRvbWFpbi0+c2lnLmRpZi5hcHB0YWdfY2hlY2tfbWFzayA9IDB4ZmZmZjsKIMKgwqDC
+oMKgwqDCoMKgIGRvbWFpbi0+c2lnLmRpZi5hcHBfZXNjYXBlID0gdHJ1ZTsKLcKgwqDCoMKgwqDC
+oCBkb21haW4tPnNpZy5kaWYucmVmX2VzY2FwZSA9IHRydWU7CiDCoMKgwqDCoMKgwqDCoCBpZiAo
+Y29udHJvbCAmIE5WTUVfUldfUFJJTkZPX1BSQ0hLX1JFRikKIMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCBkb21haW4tPnNpZy5kaWYucmVmX3JlbWFwID0gdHJ1ZTsKK8KgwqDCoMKgwqDC
+oCBlbHNlCivCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGRvbWFpbi0+c2lnLmRpZi5yZWZf
+ZXNjYXBlID0gdHJ1ZTsKIMKgfQoKCgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KbGludXgtbnZtZSBtYWlsaW5nIGxpc3QKbGludXgtbnZtZUBsaXN0cy5p
+bmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8v
+bGludXgtbnZtZQo=
