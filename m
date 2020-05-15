@@ -2,76 +2,99 @@ Return-Path: <SRS0=rA+l=65=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F941C433E0
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 May 2020 08:14:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC757C433E0
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 May 2020 10:19:31 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D57FA20657
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 May 2020 08:14:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7541020709
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 May 2020 10:19:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="fN11o/J5"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D57FA20657
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=ACULAB.COM
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="sCai7Iq+";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="AOrQHDKh"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7541020709
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
-	Message-ID:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=GRrc9wyx2ZmYh2GvIDKVlbErSi9O5TQbIboUbBr4GxM=; b=fN11o/J5JLMSgG
-	LtdHOs4HBWTISKLtk4VV8LmeRiqjmD6eelJHkihScTcgMAWidXDFIl1PR19mRl1oBjqS2ngOq+wDJ
-	6zmBcHaJnXvJDpERw/dZBE+Qq53GX07A5iC5JrM3S9JHHPYXYu/KLfX8Ql6YWU9/xTLxCHotryzcA
-	NrW+ExveGl2ORLsAarXX1acu5vTkGHMm5vJf2sqnV2CPWehpJ3cububI3Nz21NTtT+jSJj8bzzpj6
-	fpC5WMwRLx+Nw5/8ktM+vNJ5HAAXqFf1ugzcJ18finODWS464VMIgB65XBJSorwp0LzgzsaJ0Ak5C
-	5uuBPxA5kWhJJj7N5a+g==;
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+	List-Owner; bh=lORmENiI+fzrTGOQHH1i9fz6jAeb2KQ7eaUNH9loy1U=; b=sCai7Iq+ccvqdV
+	bAGoAEsczMWoWo2dfCZnclbiTel14EpAYTuH5DkhY0lYVX8A5CVOfwT21SCPDVsN5XLjyCTbyNrvJ
+	Eiz1Jylcy/hfNnJJDzBUKm6PZdP07aWCbJEHB1yI9aGzWBDMCZ5bP/ruMqvJf5zPSOFytVaHROhS+
+	qzPHArwL+N55FZZHI+ufCvh3mSw6AcuHsyZH8EAyqxZB+iplDlxj367sIaFCEHhnCd2cdqyvn3usv
+	kMVEh9jn1ej5SOPuH/dARs3DDHchXvW0v+4usfiMC5cddD2ncWgfPJseKxS7BOKAnBeVU+LU1eTcC
+	RwKmEdVqh37TdrX1C3bQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jZVU6-00036X-1e; Fri, 15 May 2020 08:14:22 +0000
-Received: from eu-smtp-delivery-151.mimecast.com ([146.101.78.151])
+	id 1jZXR8-0004br-WC; Fri, 15 May 2020 10:19:27 +0000
+Received: from userp2130.oracle.com ([156.151.31.86])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jZVU3-000349-10
- for linux-nvme@lists.infradead.org; Fri, 15 May 2020 08:14:20 +0000
-Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-135-kgvmV9-GP7CT7oWXwAS8yw-1; Fri, 15 May 2020 09:14:08 +0100
-X-MC-Unique: kgvmV9-GP7CT7oWXwAS8yw-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
- Server (TLS) id 15.0.1347.2; Fri, 15 May 2020 09:14:07 +0100
-Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
- AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000; 
- Fri, 15 May 2020 09:14:07 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'David Miller' <davem@davemloft.net>
-Subject: RE: remove kernel_setsockopt and kernel_getsockopt
-Thread-Topic: remove kernel_setsockopt and kernel_getsockopt
-Thread-Index: AQHWKU15LJmP4mOGDE2/GHhLszFt9KinP7aQgAAO/ACAABIowIAAkWGAgADbQOA=
-Date: Fri, 15 May 2020 08:14:07 +0000
-Message-ID: <29428bc7a5344412be9f632bced8888d@AcuMS.aculab.com>
-References: <756758e8f0e34e2e97db470609f5fbba@AcuMS.aculab.com>
- <20200514101838.GA12548@lst.de>
- <a76440f7305c4653877ff2abff499f4e@AcuMS.aculab.com>
- <20200514.130357.1683454520750761365.davem@davemloft.net>
-In-Reply-To: <20200514.130357.1683454520750761365.davem@davemloft.net>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+ id 1jZXR7-0004bW-4K
+ for linux-nvme@lists.infradead.org; Fri, 15 May 2020 10:19:26 +0000
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04FA6aWf066361;
+ Fri, 15 May 2020 10:19:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : mime-version : content-type : in-reply-to;
+ s=corp-2020-01-29; bh=Sraec879HLM5mjkyogjFeEukkZwmyXPLKB47XiprxHQ=;
+ b=AOrQHDKhZmh7LCauki/I/L1zz5BtGRBDBykkJnK5poPnUy/7xKKy3L7uNzf0I57JLG61
+ pNt7KfFXAiKI7OllVQyWXCra2aY7vN8op9V4JPlTEyuy3viffgcmCAtIalCD0oC1fj76
+ tTFJijWEj5OYto0qQAf5r9ccW8dhk8/MI/QdF6Sipdx8nlzvJs5CWhEgFpWHCXdEaTnb
+ fY/YsfGDlz2TZN8WAMVvz+hHr4i0hhhizF5AKOYKYr0X2EBx4lyML2Yoe6Div6Vj8GLr
+ dGJGN/Ud2YZ6sJjdUGovMWPbRkGz9TRpkqgvz6rRsWEWPHMJhA9TVa+LmkkJiujJOx+y GQ== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2130.oracle.com with ESMTP id 3100yga5jy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 15 May 2020 10:19:16 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04FAEBC8192223;
+ Fri, 15 May 2020 10:19:16 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by userp3030.oracle.com with ESMTP id 3100yjqfnf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 15 May 2020 10:19:16 +0000
+Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 04FAJDdv007968;
+ Fri, 15 May 2020 10:19:13 GMT
+Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Fri, 15 May 2020 03:19:12 -0700
+Date: Fri, 15 May 2020 13:19:03 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: James Smart <james.smart@broadcom.com>, linux-nvme@lists.infradead.org
+Subject: [PATCH resend] scsi: lpfc: Fix a use after free in
+ lpfc_nvme_unsol_ls_handler()
+Message-ID: <20200515101903.GJ3041@kadam>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
+Content-Disposition: inline
+In-Reply-To: <yq1y2purqt1.fsf@oracle.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9621
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ malwarescore=0 bulkscore=0
+ phishscore=0 suspectscore=2 adultscore=0 mlxscore=0 mlxlogscore=903
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2005150089
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9621
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ lowpriorityscore=0 adultscore=0
+ cotscore=-2147483648 mlxscore=0 suspectscore=2 spamscore=0 impostorscore=0
+ mlxlogscore=931 malwarescore=0 clxscore=1011 phishscore=0 bulkscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2004280000 definitions=main-2005150088
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200515_011419_375687_031CDD74 
-X-CRM114-Status: UNSURE (   8.15  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200515_031925_256962_8C9F2470 
+X-CRM114-Status: GOOD (  15.69  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,58 +106,55 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "marcelo.leitner@gmail.com" <marcelo.leitner@gmail.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "edumazet@google.com" <edumazet@google.com>,
- "target-devel@vger.kernel.org" <target-devel@vger.kernel.org>,
- "linux-afs@lists.infradead.org" <linux-afs@lists.infradead.org>,
- "drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>,
- "linux-cifs@vger.kernel.org" <linux-cifs@vger.kernel.org>,
- "rds-devel@oss.oracle.com" <rds-devel@oss.oracle.com>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- "hch@lst.de" <hch@lst.de>,
- "cluster-devel@redhat.com" <cluster-devel@redhat.com>,
- "kuznet@ms2.inr.ac.ru" <kuznet@ms2.inr.ac.ru>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "joe@perches.com" <joe@perches.com>, "kuba@kernel.org" <kuba@kernel.org>,
- "ceph-devel@vger.kernel.org" <ceph-devel@vger.kernel.org>,
- "linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
- "nhorman@tuxdriver.com" <nhorman@tuxdriver.com>,
- "yoshfuji@linux-ipv6.org" <yoshfuji@linux-ipv6.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "vyasevich@gmail.com" <vyasevich@gmail.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "jmaloy@redhat.com" <jmaloy@redhat.com>,
- "linux-sctp@vger.kernel.org" <linux-sctp@vger.kernel.org>,
- "ying.xue@windriver.com" <ying.xue@windriver.com>,
- "ocfs2-devel@oss.oracle.com" <ocfs2-devel@oss.oracle.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Dick Kennedy <dick.kennedy@broadcom.com>,
+ linux-scsi@vger.kernel.org, "Martin K. Petersen" <martin.petersen@oracle.com>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>, kernel-janitors@vger.kernel.org,
+ Paul Ely <paul.ely@broadcom.com>, Hannes Reinecke <hare@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Looking at __sys_setsockopt() I noticed that the BPF intercept
-can also cause set_fs(KERNEL_DS) be set in order to pass a
-modified buffer into the actual setsockopt() code.
+The "axchg" pointer is dereferenced when we call the
+lpfc_nvme_unsol_ls_issue_abort() function.  It can't be either freed or
+NULL.
 
-If that functionality is to be kept then the underlying
-protocol specific code needs changing to accept a kernel buffer.
+Fixes: 3a8070c567aa ("lpfc: Refactor NVME LS receive handling")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+Reviewed-by: James Smart <james.smart@broadcom.com>
+---
+Resending to the NVMe list.  Added James' R-b.
 
-The 32bit compat code would also be a lot simpler if it could
-pass an kernel buffer through.
-At the moment it copies the modified buffer back out onto the
-user stack.
+Is there a way we could update MAINTAINERS so that ./get_maintainer.pl
+send these to the correct list?
 
-I'm sure there have been suggestions to remove that complete hack.
-Fixing the compat code would leave a kernel_[sg]et_sockopt() that
-still worked.
+ drivers/scsi/lpfc/lpfc_sli.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-	David
-
+diff --git a/drivers/scsi/lpfc/lpfc_sli.c b/drivers/scsi/lpfc/lpfc_sli.c
+index 38889cb6e1996..fcf51b4192d66 100644
+--- a/drivers/scsi/lpfc/lpfc_sli.c
++++ b/drivers/scsi/lpfc/lpfc_sli.c
+@@ -2895,14 +2895,14 @@ lpfc_nvme_unsol_ls_handler(struct lpfc_hba *phba, struct lpfc_iocbq *piocb)
+ 			(phba->nvmet_support) ? "T" : "I", ret);
+ 
+ out_fail:
+-	kfree(axchg);
 -
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
-
+ 	/* recycle receive buffer */
+ 	lpfc_in_buf_free(phba, &nvmebuf->dbuf);
+ 
+ 	/* If start of new exchange, abort it */
+-	if (fctl & FC_FC_FIRST_SEQ && !(fctl & FC_FC_EX_CTX))
++	if (axchg && (fctl & FC_FC_FIRST_SEQ) && !(fctl & FC_FC_EX_CTX))
+ 		lpfc_nvme_unsol_ls_issue_abort(phba, axchg, sid, oxid);
++
++	kfree(axchg);
+ }
+ 
+ /**
+-- 
+2.26.2
 
 _______________________________________________
 linux-nvme mailing list
