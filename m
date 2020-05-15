@@ -2,85 +2,58 @@ Return-Path: <SRS0=rA+l=65=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 654B6C433E0
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 May 2020 15:20:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C61E5C433E0
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 May 2020 15:25:14 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3BA8220671
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 May 2020 15:20:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3B72D20643
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 May 2020 15:25:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="m2Ae02Dd";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JQx63mMp"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3BA8220671
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="NoNEmhvB"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3B72D20643
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Message-ID:Date:Content-ID:MIME-Version
-	:Subject:To:References:In-Reply-To:From:Reply-To:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=oYzdjA2lefMQJ1ff+BNCrt49KXvmJkgnqliDfzCHOcE=; b=m2Ae02Dd8/WIOm
-	m/sLifTj18qA96PrZCNpMhmufAhMT7DJ2IVjbxW0CutroRdL5ak+OdqpcOmvPxIcpu6aAjvFfx08V
-	f/7CGX0BSMpYtrRr8b+ZZ0LB8n+gVKwrajFGvK95YPAh1CpxkrP++saSHq15ptY/1CK8ZVUGK7pDJ
-	UxbJAd20k9u3A9m+vkbsow/wbJ9wyhvbKMNk2lhV7mQSBqxlWAsrFmOA+I6OGfwuUby4IMYJeJhVy
-	oCeWaGoAaJ0o00Qzzt+P25REss1whkHi8rrxsxJOxMtkHXCIAnICY1PFTZuEWAhPpHoAX2u+9Rfr0
-	zC7bpazzeXHaK2DwVzQw==;
+	List-Owner; bh=gDHDVNp/PsfeSct2FEg6YsEbQLEHgUTZWJw2mTlUNVI=; b=NoNEmhvBY+BrKD
+	W4uEymS+l8jwAzj0/SAC1r8Yen0VGinT9HvhbvFP7Bl1X6dmL/hgA8mHyqKAfzeV2sqDKPjNJQmno
+	maA6rsd2cFbr4IB8Vt1g2223+n05q6TD+XBWjvcT+YZubsbjfbl6e6+0GDE5lco7/Fj6BvDC0IWx0
+	FWRYWrBrmB3Nb8sMde3eLagsGjPS8OPS4AdOSiS+ro+xoTKiR+88NNYinR5WIUOVkugeAsOhmYLJe
+	OywKTvgiCsJzrdo6tmGdVFVur330PJUupa/ohikNS+QW/u9h14TyN435skeCCUEUMNDkqdjSABuMW
+	o8qo+ryf+DBV2FtgNRTQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jZc8i-0001x9-TS; Fri, 15 May 2020 15:20:44 +0000
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]
- helo=us-smtp-1.mimecast.com)
+	id 1jZcCy-0005Tg-9I; Fri, 15 May 2020 15:25:08 +0000
+Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jZc8J-0001RO-B5
- for linux-nvme@lists.infradead.org; Fri, 15 May 2020 15:20:20 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589556017;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=GvjsS3e29gHaCC17oqlDDJSWYTuyGY6h8lvDFd/vxIw=;
- b=JQx63mMpD2UnUZ9uOSqFpHYK2G53z8u6YEsAcii/QnRVCv0jsjcm1lkPH+sIY6MoDN+0hv
- F9v/rrwFfe83LDsS2IGcjyb8Z6QG6OuKHUL7no1/qhqsKcjFs1W2WCP/ol5MSGDFiddQzj
- 684KlY3ca5DRx9DsOb7tCYZ1jwtn39w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-155-r5WCTqEIO1eiQ3eNdBeffQ-1; Fri, 15 May 2020 11:20:15 -0400
-X-MC-Unique: r5WCTqEIO1eiQ3eNdBeffQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5FB6189952E;
- Fri, 15 May 2020 15:20:12 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-112-95.rdu2.redhat.com
- [10.10.112.95])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 05F396AD10;
- Fri, 15 May 2020 15:20:03 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
- Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
- Kingdom.
- Registered in England and Wales under Company Registration No. 3798903
-From: David Howells <dhowells@redhat.com>
-In-Reply-To: <20200514062820.GC8564@lst.de>
+ id 1jZcCt-0004WG-7d; Fri, 15 May 2020 15:25:04 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id DCFD868C65; Fri, 15 May 2020 17:24:59 +0200 (CEST)
+Date: Fri, 15 May 2020 17:24:59 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: David Howells <dhowells@redhat.com>
+Subject: Re: [PATCH 27/33] sctp: export sctp_setsockopt_bindx
+Message-ID: <20200515152459.GA28995@lst.de>
 References: <20200514062820.GC8564@lst.de>
  <20200513062649.2100053-1-hch@lst.de> <20200513062649.2100053-28-hch@lst.de>
  <20200513180058.GB2491@localhost.localdomain>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 27/33] sctp: export sctp_setsockopt_bindx
+ <129070.1589556002@warthog.procyon.org.uk>
 MIME-Version: 1.0
-Content-ID: <129069.1589556002.1@warthog.procyon.org.uk>
-Date: Fri, 15 May 2020 16:20:02 +0100
-Message-ID: <129070.1589556002@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Content-Disposition: inline
+In-Reply-To: <129070.1589556002@warthog.procyon.org.uk>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200515_082019_491438_E3BBF7F4 
-X-CRM114-Status: GOOD (  13.95  )
+X-CRM114-CacheID: sfid-20200515_082503_464935_17D89C5A 
+X-CRM114-Status: GOOD (  16.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,13 +67,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
  linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- dhowells@redhat.com, linux-sctp@vger.kernel.org, target-devel@vger.kernel.org,
+ linux-sctp@vger.kernel.org, target-devel@vger.kernel.org,
  linux-afs@lists.infradead.org, drbd-dev@lists.linbit.com,
  linux-cifs@vger.kernel.org, rds-devel@oss.oracle.com,
- linux-rdma@vger.kernel.org, cluster-devel@redhat.com,
- Jakub Kicinski <kuba@kernel.org>, linux-block@vger.kernel.org,
- Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>, ceph-devel@vger.kernel.org,
- linux-nfs@vger.kernel.org, Neil Horman <nhorman@tuxdriver.com>,
+ linux-rdma@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
+ cluster-devel@redhat.com, Jakub Kicinski <kuba@kernel.org>,
+ linux-block@vger.kernel.org, Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
+ ceph-devel@vger.kernel.org, linux-nfs@vger.kernel.org,
+ Neil Horman <nhorman@tuxdriver.com>,
  Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>, netdev@vger.kernel.org,
  Vlad Yasevich <vyasevich@gmail.com>, Eric Dumazet <edumazet@google.com>,
  Jon Maloy <jmaloy@redhat.com>, Ying Xue <ying.xue@windriver.com>,
@@ -110,26 +84,29 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Christoph Hellwig <hch@lst.de> wrote:
-
-> > The advantage on using kernel_setsockopt here is that sctp module will
-> > only be loaded if dlm actually creates a SCTP socket.  With this
-> > change, sctp will be loaded on setups that may not be actually using
-> > it. It's a quite big module and might expose the system.
+On Fri, May 15, 2020 at 04:20:02PM +0100, David Howells wrote:
+> Christoph Hellwig <hch@lst.de> wrote:
 > 
-> True.  Not that the intent is to kill kernel space callers of setsockopt,
-> as I plan to remove the set_fs address space override used for it.
+> > > The advantage on using kernel_setsockopt here is that sctp module will
+> > > only be loaded if dlm actually creates a SCTP socket.  With this
+> > > change, sctp will be loaded on setups that may not be actually using
+> > > it. It's a quite big module and might expose the system.
+> > 
+> > True.  Not that the intent is to kill kernel space callers of setsockopt,
+> > as I plan to remove the set_fs address space override used for it.
+> 
+> For getsockopt, does it make sense to have the core kernel load optval/optlen
+> into a buffer before calling the protocol driver?  Then the driver need not
+> see the userspace pointer at all.
+> 
+> Similar could be done for setsockopt - allocate a buffer of the size requested
+> by the user inside the kernel and pass it into the driver, then copy the data
+> back afterwards.
 
-For getsockopt, does it make sense to have the core kernel load optval/optlen
-into a buffer before calling the protocol driver?  Then the driver need not
-see the userspace pointer at all.
-
-Similar could be done for setsockopt - allocate a buffer of the size requested
-by the user inside the kernel and pass it into the driver, then copy the data
-back afterwards.
-
-David
-
+I did look into that initially.  The problem is that tons of sockopts
+entirely ignore optlen and just use a fixed size.  So I fear that there
+could be tons of breakage if we suddently respect it.  Otherwise that
+would be a pretty nice way to handle the situation.
 
 _______________________________________________
 linux-nvme mailing list
