@@ -6,16 +6,16 @@ X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DBEB7C433DF
-	for <linux-nvme@archiver.kernel.org>; Sat, 16 May 2020 15:12:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43B6CC433E0
+	for <linux-nvme@archiver.kernel.org>; Sat, 16 May 2020 15:21:26 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id AB9B9206F4
-	for <linux-nvme@archiver.kernel.org>; Sat, 16 May 2020 15:12:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0D64B20756
+	for <linux-nvme@archiver.kernel.org>; Sat, 16 May 2020 15:21:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="X91oBg4D"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AB9B9206F4
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="RGJUaAPm"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0D64B20756
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=ACULAB.COM
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,41 +24,41 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
 	Message-ID:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=1oF3eRp+ZKPweV9rQRRAqgINVoqwG2dlIXpajPqg4aI=; b=X91oBg4DWsLmdu
-	q2Sy60l0izRsoU+umfh6vsuVXjLizJatgdY01DCERIperRGPirz5P3GmhNe1lykPRKzhD8QS0ux3c
-	UaW6DXo0lZyz3xpyGCa0HuQMeqOAEEQt65sSc2eADbIlt28u3FumR43pLgnke36I0ph36yr7HU4Oy
-	vHeEbQjSC4FmaEm+BO8R5CMv7wqMWn0YmYomu4dKEt3LfmLzktRrqoHr0n54z6sLS7WfR0+6lucHn
-	ookjZPH/cCQPVz0hHFwDlV5SvNYN6Rr4bWsDSdwCUX2Htiexqt9ivlmTidUThAINV1kvwsBifgHyB
-	8hq0czunwkMvZa36gwXQ==;
+	List-Owner; bh=NJJPlpmdVxwrJbAZ116TTP6MSMOI6zyPw5uEQMJ6eqc=; b=RGJUaAPmUMmlvI
+	HptiZL6pq5EEWBL7YHa0TxCG4lmwv8hwPQKAnqs3xpjEfn/HxRdSqgY5IsGqyCZWSloVj8PMEpMPd
+	93UznIBQjxBQltcFQqj1HBNVF4E9PwDH1k2QnOyp/IT0NibbNrRgQGTN7OYh9hFEEqhf2BDI7JOYK
+	k4gRy6vMtLAfZdNKyjV0ZYgZfA6bQUctD0rNQuoCW+Fmo0jEAvOU0zXW0gNpZV+0USPAkd4nUuwgx
+	qmSZVIXcvCO2TVLDEMSzo9xome4BYMwV2ACjNH0cxk3A1CDFmv/77+Do5RxYfIScFWvspTH5R8JJN
+	EMzZfqu9nNbnCvPJhukA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jZyTo-0000Cu-Hk; Sat, 16 May 2020 15:12:00 +0000
+	id 1jZycu-0006Q2-5f; Sat, 16 May 2020 15:21:24 +0000
 Received: from eu-smtp-delivery-151.mimecast.com ([207.82.80.151])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jZyTm-00009y-Cu
- for linux-nvme@lists.infradead.org; Sat, 16 May 2020 15:11:59 +0000
+ id 1jZycq-0006PO-C6
+ for linux-nvme@lists.infradead.org; Sat, 16 May 2020 15:21:21 +0000
 Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-182-psAgggZzN62zzCab8iGYhQ-1; Sat, 16 May 2020 16:11:41 +0100
-X-MC-Unique: psAgggZzN62zzCab8iGYhQ-1
+ TLS) by relay.mimecast.com with ESMTP id uk-mta-2-M-or8IPqO3ut6gEkeJwgCw-1;
+ Sat, 16 May 2020 16:21:16 +0100
+X-MC-Unique: M-or8IPqO3ut6gEkeJwgCw-1
 Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
  AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
- Server (TLS) id 15.0.1347.2; Sat, 16 May 2020 16:11:40 +0100
+ Server (TLS) id 15.0.1347.2; Sat, 16 May 2020 16:21:15 +0100
 Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
  AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000; 
- Sat, 16 May 2020 16:11:40 +0100
+ Sat, 16 May 2020 16:21:15 +0100
 From: David Laight <David.Laight@ACULAB.COM>
-To: 'David Howells' <dhowells@redhat.com>, Christoph Hellwig <hch@lst.de>
+To: 'Christoph Hellwig' <hch@lst.de>, David Howells <dhowells@redhat.com>
 Subject: RE: [PATCH 27/33] sctp: export sctp_setsockopt_bindx
 Thread-Topic: [PATCH 27/33] sctp: export sctp_setsockopt_bindx
-Thread-Index: AQHWKsxNyiOODFVfBEqdWGEpseVc56iq0duQ
-Date: Sat, 16 May 2020 15:11:40 +0000
-Message-ID: <05d946ae948946158dbfcbc07939b799@AcuMS.aculab.com>
+Thread-Index: AQHWKsz+yiOODFVfBEqdWGEpseVc56iq0wgA
+Date: Sat, 16 May 2020 15:21:15 +0000
+Message-ID: <c23030de384747ae83c6c0813bd4f1c0@AcuMS.aculab.com>
 References: <20200514062820.GC8564@lst.de>
  <20200513062649.2100053-1-hch@lst.de> <20200513062649.2100053-28-hch@lst.de>
  <20200513180058.GB2491@localhost.localdomain>
- <129070.1589556002@warthog.procyon.org.uk>
-In-Reply-To: <129070.1589556002@warthog.procyon.org.uk>
+ <129070.1589556002@warthog.procyon.org.uk> <20200515152459.GA28995@lst.de>
+In-Reply-To: <20200515152459.GA28995@lst.de>
 Accept-Language: en-GB, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -69,8 +69,8 @@ MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: aculab.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200516_081158_719348_C7D2381C 
-X-CRM114-Status: GOOD (  16.02  )
+X-CRM114-CacheID: sfid-20200516_082120_685258_BFC5BD84 
+X-CRM114-Status: GOOD (  20.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,55 +110,47 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: David Howells
-> Sent: 15 May 2020 16:20
-> Christoph Hellwig <hch@lst.de> wrote:
-> 
-> > > The advantage on using kernel_setsockopt here is that sctp module will
-> > > only be loaded if dlm actually creates a SCTP socket.  With this
-> > > change, sctp will be loaded on setups that may not be actually using
-> > > it. It's a quite big module and might expose the system.
+From: Christoph Hellwig
+> Sent: 15 May 2020 16:25
+> On Fri, May 15, 2020 at 04:20:02PM +0100, David Howells wrote:
+> > Christoph Hellwig <hch@lst.de> wrote:
 > >
-> > True.  Not that the intent is to kill kernel space callers of setsockopt,
-> > as I plan to remove the set_fs address space override used for it.
+> > > > The advantage on using kernel_setsockopt here is that sctp module will
+> > > > only be loaded if dlm actually creates a SCTP socket.  With this
+> > > > change, sctp will be loaded on setups that may not be actually using
+> > > > it. It's a quite big module and might expose the system.
+> > >
+> > > True.  Not that the intent is to kill kernel space callers of setsockopt,
+> > > as I plan to remove the set_fs address space override used for it.
+> >
+> > For getsockopt, does it make sense to have the core kernel load optval/optlen
+> > into a buffer before calling the protocol driver?  Then the driver need not
+> > see the userspace pointer at all.
+> >
+> > Similar could be done for setsockopt - allocate a buffer of the size requested
+> > by the user inside the kernel and pass it into the driver, then copy the data
+> > back afterwards.
 > 
-> For getsockopt, does it make sense to have the core kernel load optval/optlen
-> into a buffer before calling the protocol driver?  Then the driver need not
-> see the userspace pointer at all.
-> 
-> Similar could be done for setsockopt - allocate a buffer of the size requested
-> by the user inside the kernel and pass it into the driver, then copy the data
-> back afterwards.
+> I did look into that initially.  The problem is that tons of sockopts
+> entirely ignore optlen and just use a fixed size.  So I fear that there
+> could be tons of breakage if we suddently respect it.  Otherwise that
+> would be a pretty nice way to handle the situation.
 
-Yes, it also simplifies all the compat code.
-And there is a BPF test in setsockopt that also wants to
-pass on a kernel buffer.
+I'd guess that most application use the correct size for setsockopt().
+(Well, apart from using 4 instead of 1.)
 
-I'm willing to sit and write the patch.
-Quoting from a post I made later on Friday.
+It is certainly possible to always try to read in 64 bytes
+regardless of the supplied length, but handle the EFAULT case
+by shortening the buffer.
 
-Basically:
+Historically getsockopt() only wrote the length back.
+Treating 0 and garbage as (say) 4k and letting the protocol
+code set a shorten the copy to user might work.
+All short transfers would want to use an on-stack buffer,
+so slight oversizes could also be allowed for.
 
-This patch sequence (to be written) does the following:
-
-Patch 1: Change __sys_setsockopt() to allocate a kernel buffer,
-         copy the data into it then call set_fs(KERNEL_DS).
-         An on-stack buffer (say 64 bytes) will be used for
-         small transfers.
-
-Patch 2: The same for __sys_getsockopt().
-
-Patch 3: Compat setsockopt.
-
-Patch 4: Compat getsockopt.
-
-Patch 5: Remove the user copies from the global socket options code.
-
-Patches 6 to n-1; Remove the user copies from the per-protocol code.
-
-Patch n: Remove the set_fs(KERNEL_DS) from the entry points.
-
-This should be bisectable.
+OTOH if i did a getsockopt() with too short a length I wouldn't
+want the kernel to trash my program memory.
 
 	David
 
