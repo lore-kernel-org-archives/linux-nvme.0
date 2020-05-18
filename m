@@ -2,95 +2,88 @@ Return-Path: <SRS0=Nwsb=7A=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6995C433DF
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 May 2020 04:30:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BACBDC433E0
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 May 2020 04:30:55 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8A02920787
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 May 2020 04:30:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 75FDC20787
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 May 2020 04:30:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="pnbiPp1T";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="FBNqnGSM"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8A02920787
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="nWX/PJQS";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="ViEkSX7f"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 75FDC20787
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:Subject:To:From:Date:Message-ID:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=IsjNfS8Eem3vu7vaiFgOo+w/aQ6a7qH4foS/rePdMPc=; b=pnbiPp1TtrBwAc
-	AJDUEmRwZLRJMECgfR+pBS8b2I0y509fngiCus9MYl8ReXYMRjDJGQURt+c6kQIa3jftayF9TzUGF
-	EDrbzszXT50O5rSeP+p6BtZD2BwdSUMSXKUHlPCAn/bAalyj9+LVoI5nI8VCuY6h/ylCbOJvgIFpn
-	vykxhofnH9gE/kdoWLdehZjvxb138iXfbO450YeP5nXZTRxwT0yZRggQCMCODyxI9eaMgndUCyRr6
-	K1CqnKBbdvpp/MfkKZiMj2637ovoNyeu7TT+IUmNpJM2jE+1g2psbdCO5FwveHRZlgF8ULIGoQR+f
-	fpl+M2b0yuFptv6KfjaQ==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=culws760nl7UIy9pM8vJXgtldWcCez6EJ4H4ScXMjcw=; b=nWX/PJQSi0aa5M
+	ZrFpU2zLhvkekzYNPSn4CEKCCKXGtDaQoi+vuaVKCxmZA72irEdnQOZiAp8H+miiC3DmQP1wKvN2o
+	AqFhevc2/FeTpUxXeMO1JKQtoMbuA/TVsdpDz19+pzjnPo9LxDp+wvXv6rGvs8PTXof0J4S3Hz6j0
+	5+m65qqcVi64oTgWvApLR2c+xdlswn6+kj9NX+jA4VLLK7Ipn3jFZ3xuMB1lm6JpTWkMbVcXk/eD3
+	eXWP5hOUh0Xd8gEbsn6CcDmtXBhq+e9ockbNmOp2yR5JI1ss1sEsB3TgUpSceHTTcxL8x1YyijGLf
+	9YxkGjul4GI+0DbvUbKQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jaXQ3-0001NB-Hs; Mon, 18 May 2020 04:30:27 +0000
-Received: from aserp2120.oracle.com ([141.146.126.78])
+	id 1jaXQT-0001Ye-Gz; Mon, 18 May 2020 04:30:53 +0000
+Received: from esa1.hgst.iphmx.com ([68.232.141.245])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jaXPz-00085q-P5
- for linux-nvme@lists.infradead.org; Mon, 18 May 2020 04:30:25 +0000
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04I4Tid9067122;
- Mon, 18 May 2020 04:30:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=mime-version :
- message-id : date : from : to : cc : subject : content-type :
- content-transfer-encoding; s=corp-2020-01-29;
- bh=OveuMVbR4YSqctD5sYckSyi6w/OFAe1tz9kxqthg9V4=;
- b=FBNqnGSMo7kbvPIHzDKvOxMmy8ibusjHMAV402KF5b7EuEiR1Bzkf0Dn1Z2kx7cd0iGf
- hs2NhSj6byK8AWE7YNL+gWsRc0KuO2RtMsd0KTUUfIfdcG6YcV/GQdZwumd+MxK5PKcP
- qCgwvCbhAbTrMTEYq3ORtwmvhJT9wrem/jEZNfgJr4lvqtqZKz7qsKeFiM3YFR0QoSkC
- R17MIqs0Uw8NVGLc+XC2CjsXXY8HLBsKY8Z9eiSISr6mq5Juj0TJVkNQFFzHQS21Jsf9
- 5vE0ctH6WD0ebdrzZ3oAEfx5XBExa+gCs6ccGXXo5RG0SgA6Z/sbXS5BX6/m52lPP9Db cA== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2120.oracle.com with ESMTP id 31284kmf08-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 18 May 2020 04:30:15 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04I4T1Xw106569;
- Mon, 18 May 2020 04:30:15 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3020.oracle.com with ESMTP id 312sxpjr2m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 18 May 2020 04:30:14 +0000
-Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 04I4UALL028495;
- Mon, 18 May 2020 04:30:11 GMT
+ id 1jaXQQ-0001Xq-UV
+ for linux-nvme@lists.infradead.org; Mon, 18 May 2020 04:30:52 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1589776250; x=1621312250;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=lnxcCb2rDCzA2bTg+bPaCrZSiRoLtHRwGp6zgGSSsiA=;
+ b=ViEkSX7fSFc8JHHanXrPNR/l+Akp3EkM/rkqvU+OqaemAJDVhsRza/4I
+ 6OUrNz5pS+7fwr+ojJHOkto85lVci6FR3dB0xfh0vJqMXrCgigcP57H4B
+ HfCxAMBNQrhsQy1tqk4idjhnwam5brK+OAHLF9HmJ2bEphQhnFIqLbCh+
+ m/7qU6T+q6MAQoT4+veL7u1+GiNSuV4E5zIv2UAvUKMWaYVW44q4JT77h
+ cXFIMRSST54kQPwH8VOnrfZ1ac/vdfI3C6sPqwj7IeMXeZzc+2OuOJdkn
+ KokfYQ3mkt3zug61rrBAKcTDLQsTaInm8AQS7FMB7AsOooNJY19BKuOp1 w==;
+IronPort-SDR: T2YYies+DEet25mkBN7fIKjDPhiuUKU4Q8ysqsDOQR2QhzXmtoj5lmdz8LQ0MpyRfdPSec59n8
+ i+fGkjvIqQHsa+sfFubbkSt8K8AS1ueqS4vePdtBF/dJBSjGw2wZ13YZHZYu1LjPmOlQ50yFfC
+ JK+50i8g3DVNigqUVwszU2/HRwwtpJhkZ92djB2OeM+SNiFuL7QEQy+kq8SJAX9eU0aA4ooH7u
+ BMQJoSPDc8ymdMSpwmgmmcPcAJOPkJi0fNzkyvdo0kb9/X8m3ZpUYEWzuSz0MCBKKob7RYrFQt
+ b1A=
+X-IronPort-AV: E=Sophos;i="5.73,406,1583164800"; d="scan'208";a="246898178"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 18 May 2020 12:30:50 +0800
+IronPort-SDR: uplc+Kuzdhk0OU//jm1gS7oNPaxe2bgKk0KyAqXJN6JMBnTXt/qDBe5QJ5b+4iQ5k4A7hW+mW0
+ C7EnFmiEd7JcgVdpKoLE9/TOkhQbeBqxc=
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 May 2020 21:20:24 -0700
+IronPort-SDR: xOU+1UN7BjQjkGcW7y24MAYusR6jf9gD/1r1GWq9osfX8wJo++UlY3LUhdiSxsU38zUc+c26WC
+ InYC+LGmYRKA==
+WDCIronportException: Internal
+Received: from iouring.labspan.wdc.com (HELO iouring.sc.wdc.com)
+ ([10.6.138.107])
+ by uls-op-cesaip02.wdc.com with ESMTP; 17 May 2020 21:30:50 -0700
+From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+To: hch@lst.de,
+	sagi@grimberg.me
+Subject: [PATCH V3 1/3] nvmet: add helper to revalidate bdev and file ns
+Date: Sun, 17 May 2020 21:30:32 -0700
+Message-Id: <20200518043034.48277-2-chaitanya.kulkarni@wdc.com>
+X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20200518043034.48277-1-chaitanya.kulkarni@wdc.com>
+References: <20200518043034.48277-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
-Message-ID: <c77b0998-5112-4d6b-b51c-41d2b901009d@default>
-Date: Sun, 17 May 2020 21:30:10 -0700 (PDT)
-From: Dongli Zhang <dongli.zhang@oracle.com>
-To: <linux-nvme@lists.infradead.org>
-Subject: nvme double __blk_mq_complete_request() bugs
-X-Mailer: Zimbra on Oracle Beehive
-Content-Disposition: inline
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9624
- signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- phishscore=0 malwarescore=0
- mlxlogscore=779 bulkscore=0 mlxscore=0 suspectscore=4 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2005180040
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9624
- signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=4
- mlxscore=0
- cotscore=-2147483648 impostorscore=0 malwarescore=0 mlxlogscore=792
- lowpriorityscore=0 phishscore=0 spamscore=0 bulkscore=0 adultscore=0
- priorityscore=1501 clxscore=1011 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2004280000 definitions=main-2005180040
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200517_213023_912893_995D8486 
-X-CRM114-Status: GOOD (  12.03  )
+X-CRM114-CacheID: sfid-20200517_213050_986745_A39BCF7E 
+X-CRM114-Status: GOOD (  13.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,151 +95,52 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-block@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
+ linux-nvme@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
-
-This is to report the below page fault issue for nvme-loop.
-
-[  235.223975] ==================================================================
-[  235.224878] BUG: KASAN: null-ptr-deref in blk_mq_free_request+0x363/0x510
-[  235.225674] Write of size 4 at addr 0000000000000198 by task swapper/3/0
-[  235.226456] 
-[  235.226772] ==================================================================
-[  235.227633] BUG: kernel NULL pointer dereference, address: 0000000000000198
-[  235.228447] #PF: supervisor write access in kernel mode
-[  235.229062] #PF: error_code(0x0002) - not-present page
-[  235.229667] PGD 0 P4D 0 
-[  235.229976] Oops: 0002 [#1] SMP KASAN PTI
-[  235.230451] CPU: 3 PID: 0 Comm: swapper/3 Tainted: G    B             5.7.0-rc5+ #1
-[  235.231347] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org 04/01/2014
-[  235.232692] RIP: 0010:blk_mq_free_request+0x367/0x510
-[  235.233286] Code: 89 df 5b 5d 41 5c 41 5d 41 5e 41 5f e9 a2 dc ff ff 48 8d ba 98 01 00 00 be 04 00 00 00 48 89 14 24 e8 fd 69 9a ff 48 8b 14 24 <f0> ff 8a 98 01 00 00 e9 e2 fe ff ff 48 83 c4 08 48 89 ef be 03 00
-[  235.235503] RSP: 0018:ffff8881f7389be0 EFLAGS: 00010046
-[  235.236114] RAX: 0000000000000000 RBX: ffff8881f21b9680 RCX: ffffffff816e05b1
-[  235.236941] RDX: 0000000000000000 RSI: 0000000000000046 RDI: 0000000000000046
-[  235.237770] RBP: 0000000000000001 R08: fffffbfff0af5869 R09: fffffbfff0af5869
-[  235.238598] R10: ffffffff857ac347 R11: fffffbfff0af5868 R12: ffff8881f21b969c
-[  235.239424] R13: ffff8881f0f62738 R14: ffffe8ffffd884c0 R15: ffff8881f21b9698
-[  235.240255] FS:  0000000000000000(0000) GS:ffff8881f7380000(0000) knlGS:0000000000000000
-[  235.241192] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  235.241863] CR2: 0000000000000198 CR3: 00000001eb886004 CR4: 0000000000360ee0
-[  235.242695] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-[  235.243523] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-[  235.244349] Call Trace:
-[  235.244645]  <IRQ>
-[  235.244890]  blk_mq_complete_request+0x266/0x460
-[  235.245432]  nvmet_req_complete+0xd/0xb0
-[  235.245898]  iomap_dio_bio_end_io+0x336/0x480
-[  235.246409]  blk_update_request+0x320/0x960
-[  235.246904]  blk_mq_end_request+0x4e/0x4d0
-[  235.247391]  blk_mq_complete_request+0x266/0x460
-[  235.247937]  virtblk_done+0x164/0x300
-[  235.248372]  ? loop_queue_work.cold.44+0x5e/0x5e
-[  235.248915]  ? rcu_accelerate_cbs+0x5d/0x1a70
-[  235.249429]  ? virtqueue_get_used_addr+0x140/0x140
-[  235.249990]  vring_interrupt+0x16d/0x280
-[  235.250454]  __handle_irq_event_percpu+0xdd/0x470
-[  235.251010]  handle_irq_event_percpu+0x6e/0x130
-[  235.251544]  ? rcu_accelerate_cbs_unlocked+0x110/0x110
-[  235.252145]  ? __handle_irq_event_percpu+0x470/0x470
-[  235.252729]  ? _raw_spin_lock+0x75/0xd0
-[  235.253181]  ? _raw_write_lock+0xd0/0xd0
-[  235.253645]  handle_irq_event+0xc2/0x158
-[  235.254107]  handle_edge_irq+0x1e9/0x7a0
-[  235.254572]  do_IRQ+0x94/0x1e0
-[  235.254936]  common_interrupt+0xf/0xf
-[  235.255368]  </IRQ>
-[  235.255629] RIP: 0010:native_safe_halt+0xe/0x10
-[  235.256162] Code: e9 f2 fe ff ff 48 89 df e8 2f dc f8 fd eb a4 cc cc cc cc cc cc cc cc cc cc cc cc cc e9 07 00 00 00 0f 00 2d a4 7d 4a 00 fb f4 <c3> 90 e9 07 00 00 00 0f 00 2d 94 7d 4a 00 f4 c3 cc cc 41 56 41 55
-[  235.258314] RSP: 0018:ffff8881f61ffdd8 EFLAGS: 00000246 ORIG_RAX: ffffffffffffffde
-[  235.259194] RAX: ffffffff83bc59f0 RBX: dffffc0000000000 RCX: ffffffff83bc6639
-[  235.260022] RDX: 1ffff1103ec398e8 RSI: 0000000000000008 RDI: ffff8881f61cc740
-[  235.260850] RBP: 0000000000000003 R08: ffffed103ec398e9 R09: ffffed103ec398e9
-[  235.261681] R10: ffff8881f61cc747 R11: ffffed103ec398e8 R12: ffffffff84e5c4c0
-[  235.262508] R13: 0000000000000003 R14: 1ffff1103ec3ffc4 R15: 0000000000000000
-[  235.263338]  ? __cpuidle_text_start+0x8/0x8
-[  235.263832]  ? default_idle_call+0x29/0x60
-[  235.264315]  ? tsc_verify_tsc_adjust+0x68/0x1f0
-[  235.264849]  default_idle+0x1a/0x2b0
-[  235.265273]  do_idle+0x2fd/0x3b0
-[  235.265658]  ? arch_cpu_idle_exit+0x40/0x40
-[  235.266151]  ? schedule_idle+0x56/0x90
-[  235.266595]  cpu_startup_entry+0x14/0x20
-[  235.267057]  start_secondary+0x2a6/0x340
-[  235.267522]  ? set_cpu_sibling_map+0x1fb0/0x1fb0
-[  235.268066]  secondary_startup_64+0xb6/0xc0
-[  235.268561] Modules linked in:
-[  235.268929] CR2: 0000000000000198
-[  235.269330] ---[ end trace f8fa823705a3dbe7 ]---
-[  235.269875] RIP: 0010:blk_mq_free_request+0x367/0x510
-[  235.270466] Code: 89 df 5b 5d 41 5c 41 5d 41 5e 41 5f e9 a2 dc ff ff 48 8d ba 98 01 00 00 be 04 00 00 00 48 89 14 24 e8 fd 69 9a ff 48 8b 14 24 <f0> ff 8a 98 01 00 00 e9 e2 fe ff ff 48 83 c4 08 48 89 ef be 03 00
-[  235.272622] RSP: 0018:ffff8881f7389be0 EFLAGS: 00010046
-[  235.273230] RAX: 0000000000000000 RBX: ffff8881f21b9680 RCX: ffffffff816e05b1
-[  235.274063] RDX: 0000000000000000 RSI: 0000000000000046 RDI: 0000000000000046
-[  235.274890] RBP: 0000000000000001 R08: fffffbfff0af5869 R09: fffffbfff0af5869
-[  235.275717] R10: ffffffff857ac347 R11: fffffbfff0af5868 R12: ffff8881f21b969c
-[  235.276545] R13: ffff8881f0f62738 R14: ffffe8ffffd884c0 R15: ffff8881f21b9698
-[  235.277371] FS:  0000000000000000(0000) GS:ffff8881f7380000(0000) knlGS:0000000000000000
-[  235.278307] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  235.278977] CR2: 0000000000000198 CR3: 00000001eb886004 CR4: 0000000000360ee0
-[  235.279805] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-[  235.280632] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-[  235.281459] Kernel panic - not syncing: Fatal exception in interrupt
-[  235.282474] Kernel Offset: 0x400000 from 0xffffffff81000000 (relocation range: 0xffffffff80000000-0xffffffffbfffffff)
-[  235.283695] ---[ end Kernel panic - not syncing: Fatal exception in interrupt ]---
-
-
-This is because of double __blk_mq_complete_request() when resetting nvme-loop.
-
-# echo 1 > /sys/block/nvme1n1/device/nvme1/reset_controller
-
-
-                                                nvme_loop_queue_response()
-                                                -> nvme_end_request()
-                                                   -> blk_mq_complete_request()
-nvme_loop_reset_ctrl_work()
--> nvme_stop_queues(&ctrl->ctrl)
-   -> blk_mq_tagset_busy_iter(&ctrl->tag_set,
-            nvme_cancel_request, &ctrl->ctrl);
-      -> nvme_cancel_request(): state is not MQ_RQ_COMPLETE()
-         -> blk_mq_complete_request()
-            -> WRITE_ONCE(rq->state, MQ_RQ_COMPLETE);
-                                                      -> __blk_mq_complete_request()
-                                                         -> WRITE_ONCE(rq->state, MQ_RQ_COMPLETE);
-
-
-
-After code analysis, I think this is for nvme-pci as well.
-
-                                       nvme_process_cq()
-                                       -> nvme_handle_cqe()
-                                          -> nvme_end_request()
-                                             -> blk_mq_complete_request()
-nvme_reset_work()
--> nvme_dev_disable()
-   -> nvme_reap_pending_cqes()
-      -> nvme_process_cq()
-         -> nvme_handle_cqe()
-            -> nvme_end_request()
-               -> blk_mq_complete_request()
-                  -> __blk_mq_complete_request()
-                                                -> __blk_mq_complete_request()
-
-
-I did not check if nvme-tcp/nvme-fc/nvme-rdma would have the similar issue. Was
-there already any fix or discussion for above issue? That is, when resetting
-the device, a blk_mq_complete_request() is already in progress.
-
-Thank you very much!
-
-Dongli Zhang
-
-_______________________________________________
-linux-nvme mailing list
-linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+VGhpcyBwYXRjaCBhZGRzIGEgd3JhcHBlciBoZWxwZXIgdG8gaW5kaWNhdGUgc2l6ZSBjaGFuZ2Ug
+aW4gdGhlIGJkZXYgJgpmaWxlLWJhY2tlZCBuYW1lc3BhY2Ugd2hlbiByZXZhbGlkYXRpbmcgbnMu
+IFRoZSBuZXcgaGVscGVyCm52bWV0X25zX3JldmFsaWF0ZSgpIGNoZWNrcyB0aGUgc2l6ZSBjaGFu
+Z2QgYW5kIGdlbmVyYXRlcyBBRU4gaWYgc2l6ZQpjaGFuZ2UgaXMgZGV0ZWN0ZWQuIFRoaXMgaGVs
+cGVyIGlzIG5lZWRlZCBpbiBvcmRlciB0byBtaW5pbWl6ZSBjb2RlCnJlcGV0aXRpb24gaW4gdGhl
+IG5leHQgcGF0Y2ggZm9yIGNvbmZpZ2ZzLmMgYW5kIGV4aXN0aW5nIGFkbWluLWNtZC5jLiDCoAoK
+U2lnbmVkLW9mZi1ieTogQ2hhaXRhbnlhIEt1bGthcm5pIDxjaGFpdGFueWEua3Vsa2FybmlAd2Rj
+LmNvbT4KLS0tCiBkcml2ZXJzL252bWUvdGFyZ2V0L2FkbWluLWNtZC5jIHwgIDUgKy0tLS0KIGRy
+aXZlcnMvbnZtZS90YXJnZXQvY29yZS5jICAgICAgfCAxMCArKysrKysrKysrCiBkcml2ZXJzL252
+bWUvdGFyZ2V0L252bWV0LmggICAgIHwgIDEgKwogMyBmaWxlcyBjaGFuZ2VkLCAxMiBpbnNlcnRp
+b25zKCspLCA0IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvbnZtZS90YXJnZXQv
+YWRtaW4tY21kLmMgYi9kcml2ZXJzL252bWUvdGFyZ2V0L2FkbWluLWNtZC5jCmluZGV4IDRjNzlh
+YTgwNDg4Ny4uZjU0NGExNGU4YjVjIDEwMDY0NAotLS0gYS9kcml2ZXJzL252bWUvdGFyZ2V0L2Fk
+bWluLWNtZC5jCisrKyBiL2RyaXZlcnMvbnZtZS90YXJnZXQvYWRtaW4tY21kLmMKQEAgLTQ4Niwx
+MCArNDg2LDcgQEAgc3RhdGljIHZvaWQgbnZtZXRfZXhlY3V0ZV9pZGVudGlmeV9ucyhzdHJ1Y3Qg
+bnZtZXRfcmVxICpyZXEpCiAJaWYgKCFucykKIAkJZ290byBkb25lOwogCi0JaWYgKG5zLT5iZGV2
+KQotCQludm1ldF9iZGV2X25zX3JldmFsaWRhdGUobnMpOwotCWVsc2UKLQkJbnZtZXRfZmlsZV9u
+c19yZXZhbGlkYXRlKG5zKTsKKwludm1ldF9uc19yZXZhbGlkYXRlKG5zKTsKIAogCS8qCiAJICog
+bnVzZSA9IG5jYXAgPSBuc3plIGlzbid0IGFsd2F5cyB0cnVlLCBidXQgd2UgaGF2ZSBubyB3YXkg
+dG8gZmluZApkaWZmIC0tZ2l0IGEvZHJpdmVycy9udm1lL3RhcmdldC9jb3JlLmMgYi9kcml2ZXJz
+L252bWUvdGFyZ2V0L2NvcmUuYwppbmRleCBiNjg1Zjk5ZDU2YTEuLjliN2NiNjE0N2NhOCAxMDA2
+NDQKLS0tIGEvZHJpdmVycy9udm1lL3RhcmdldC9jb3JlLmMKKysrIGIvZHJpdmVycy9udm1lL3Rh
+cmdldC9jb3JlLmMKQEAgLTUxNCw2ICs1MTQsMTYgQEAgc3RhdGljIHZvaWQgbnZtZXRfcDJwbWVt
+X25zX2FkZF9wMnAoc3RydWN0IG52bWV0X2N0cmwgKmN0cmwsCiAJCW5zLT5uc2lkKTsKIH0KIAor
+dm9pZCBudm1ldF9uc19yZXZhbGlkYXRlKHN0cnVjdCBudm1ldF9ucyAqbnMpCit7CisJbG9mZl90
+IG9sZF9zaXplID0gbnMtPnNpemU7CisKKwlucy0+YmRldiA/IG52bWV0X2JkZXZfbnNfcmV2YWxp
+ZGF0ZShucykgOiBudm1ldF9maWxlX25zX3JldmFsaWRhdGUobnMpOworCisJaWYgKG9sZF9zaXpl
+ICE9IG5zLT5zaXplKQorCQludm1ldF9uc19jaGFuZ2VkKG5zLT5zdWJzeXMsIG5zLT5uc2lkKTsK
+K30KKwogaW50IG52bWV0X25zX2VuYWJsZShzdHJ1Y3QgbnZtZXRfbnMgKm5zKQogewogCXN0cnVj
+dCBudm1ldF9zdWJzeXMgKnN1YnN5cyA9IG5zLT5zdWJzeXM7CmRpZmYgLS1naXQgYS9kcml2ZXJz
+L252bWUvdGFyZ2V0L252bWV0LmggYi9kcml2ZXJzL252bWUvdGFyZ2V0L252bWV0LmgKaW5kZXgg
+M2Q5ODFlYjZlMTAwLi45M2UwYzJhYTNlNzEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvbnZtZS90YXJn
+ZXQvbnZtZXQuaAorKysgYi9kcml2ZXJzL252bWUvdGFyZ2V0L252bWV0LmgKQEAgLTUwMCw2ICs1
+MDAsNyBAQCB1MTYgbnZtZXRfZmlsZV9mbHVzaChzdHJ1Y3QgbnZtZXRfcmVxICpyZXEpOwogdm9p
+ZCBudm1ldF9uc19jaGFuZ2VkKHN0cnVjdCBudm1ldF9zdWJzeXMgKnN1YnN5cywgdTMyIG5zaWQp
+Owogdm9pZCBudm1ldF9iZGV2X25zX3JldmFsaWRhdGUoc3RydWN0IG52bWV0X25zICpucyk7CiBp
+bnQgbnZtZXRfZmlsZV9uc19yZXZhbGlkYXRlKHN0cnVjdCBudm1ldF9ucyAqbnMpOwordm9pZCBu
+dm1ldF9uc19yZXZhbGlkYXRlKHN0cnVjdCBudm1ldF9ucyAqbnMpOwogCiBzdGF0aWMgaW5saW5l
+IHUzMiBudm1ldF9yd19sZW4oc3RydWN0IG52bWV0X3JlcSAqcmVxKQogewotLSAKMi4yMi4xCgoK
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KbGludXgtbnZt
+ZSBtYWlsaW5nIGxpc3QKbGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0
+cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
