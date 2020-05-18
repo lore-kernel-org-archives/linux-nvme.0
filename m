@@ -4,56 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60667C433DF
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 May 2020 12:34:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7829FC433E1
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 May 2020 13:02:14 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2F58920787
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 May 2020 12:34:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 43C79207D3
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 May 2020 13:02:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="EqqqodGb"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2F58920787
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=rjwysocki.net
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="EGDus8nW";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CHNZdRZE"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 43C79207D3
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-ID:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=LgaqXv+RtAq+HKXz0XhEXSbPeGqdBcsTmJLWELpEIpk=; b=EqqqodGbL2R/u0
-	R9aRYS7mh8xeMg+7CqW8PBS+PaYe30l/LC1bRqP5jk3ivVI0w2aPZM23xfGLC+T+r4iuifQbhhXkM
-	ydc7tiQJi9Q5ZRbslQptipkNwnhfm/cXdm+53Ufb1hAymkAAKhfEedgbD+KHvYKWab7UHiyItBv3T
-	kZuu1WSLmIcqNvmNz5j28nhmGDLQvVYjWhdRb9N5rT4TNNBhpFLNC4Vzm1WEZtvS48kyZiuWZdQnz
-	7fI4F5/TUqdo2v6uBnkxaG8/3dfRT/S/49NjQqvjEiq0Qmw7jpOq7E4T0YVzM9ab5F4VizYe1DZY4
-	zzEw0hPBN5dqsDLgQuFA==;
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Cc:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+	References:List-Owner; bh=9Rd9rvCQsnbH2fDzLcXBqQKl1zs0nGpvZkjPlysdwqY=; b=EGD
+	us8nWP0Tz0AQFnnHuqQhHpqDmrowLm0bnSIeZF6V+v0HujQGVXAiJaEa0CvAdXwP7wsCd4gvfGFod
+	ZA6nwEZ7CnM5iMXhJxHVihcIyTJVqf8jp0WG3TuPRX8zqD9B6pVH3Su0Hf6XE93Jaip3vxqXtxMX1
+	qxRfImLYHkmj71a9lg2byku3E5Gyk/InGA5ZuMH5wTvZRnOWYnCo8kML9njtQBvgcKTi5pfhxHPUH
+	ITHIa9MqPdejtlQUYuU1pGh0hXW/bRE3AZiQwq+gmogUwkcw/ZbGDCOurXggs/2w/MgbW8CDPSHsn
+	TER8q3akSEKctGqPi0tpfrjgpcah7fA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jaeyg-0008Vq-23; Mon, 18 May 2020 12:34:42 +0000
-Received: from cloudserver094114.home.pl ([79.96.170.134])
+	id 1jafPE-0001Cj-Os; Mon, 18 May 2020 13:02:08 +0000
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]
+ helo=us-smtp-1.mimecast.com)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jaeyd-0008VG-HV
- for linux-nvme@lists.infradead.org; Mon, 18 May 2020 12:34:41 +0000
-Received: from 89-64-86-21.dynamic.chello.pl (89.64.86.21) (HELO
- kreacher.localnet)
- by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.415)
- id 240662dfe3aa87da; Mon, 18 May 2020 14:34:34 +0200
-From: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To: "David E. Box" <david.e.box@linux.intel.com>
-Subject: Re: [PATCH 1/2] pci: Add ACPI StorageD3Enable _DSD support
-Date: Mon, 18 May 2020 14:34:33 +0200
-Message-ID: <1967525.XL736rHnAO@kreacher>
-In-Reply-To: <20200428003214.3764-2-david.e.box@linux.intel.com>
-References: <20200428003214.3764-1-david.e.box@linux.intel.com>
- <20200428003214.3764-2-david.e.box@linux.intel.com>
-MIME-Version: 1.0
+ id 1jafPB-0001Bw-Pi
+ for linux-nvme@lists.infradead.org; Mon, 18 May 2020 13:02:07 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589806922;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:content-type:content-type;
+ bh=M+u6VgbOF1RarvweEEEx12r3udogOxkbGDdkfQayLxA=;
+ b=CHNZdRZELV5625H764s1ucGlKedGpS1DGR/p7jjodvTpwXZI1Blt3A471vRBXmVkclQunp
+ fCHsKLfKS268bJ9hItAjuhXKl6P4wCytY+mOCzflbK8QwD0V7ArJ/RSJ50uI/adUHzc6F3
+ L52NsQkK9FqoFwGL0gXh7HEtGmDe1C4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-156-SJJV6f9fNHqal6o8a9QhWw-1; Mon, 18 May 2020 09:02:01 -0400
+X-MC-Unique: SJJV6f9fNHqal6o8a9QhWw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B57E9107B7C8;
+ Mon, 18 May 2020 13:01:59 +0000 (UTC)
+Received: from hpz440.redhat.com (ovpn-112-213.phx2.redhat.com [10.3.112.213])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 32B767958C;
+ Mon, 18 May 2020 13:01:59 +0000 (UTC)
+From: David Milburn <dmilburn@redhat.com>
+To: linux-nvme@lists.infradead.org
+Subject: [PATCH v2] nvmet: nvmet_async_events_process always free async event
+ to avoid memleak
+Date: Mon, 18 May 2020 08:01:58 -0500
+Message-Id: <1589806918-9711-1-git-send-email-dmilburn@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200518_053439_744366_2772C601 
-X-CRM114-Status: GOOD (  22.83  )
+X-CRM114-CacheID: sfid-20200518_060205_911331_754CF492 
+X-CRM114-Status: GOOD (  10.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,122 +84,107 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: sagi@grimberg.me, linux-acpi@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, axboe@fb.com,
- kbusch@kernel.org, bhelgaas@google.com,
- Dan Williams <dan.j.williams@intel.com>, hch@lst.de, lenb@kernel.org
+Cc: hch@infradead.org, chaitanya.kulkarni@wdc.com, dwagner@suse.de
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tuesday, April 28, 2020 2:32:13 AM CEST David E. Box wrote:
-> NVMe storage power management during suspend-to-idle, particularly on
-> laptops, has been inconsistent with some devices working with D3 while
-> others must rely on NVMe APST in order for power savings to be realized.
-> Currently the default is to use APST unless quirked to do otherwise.
-> However newer platforms, like Intel Comet Lake systems, may require NVMe
-> drives to use D3 in order for the PCIe ports to be properly power managed.
-> To make it easier for drivers to choose, these platforms may supply a
-> special "StorageD3Enable" _DSD property under the root port that the device
-> is attached to. If supplied, the driver must use D3 in order for the
-> platform to realize the deepest power savings in suspend-to-idle.
-> 
-> Adds support for the _DSD to the pci/acpi layer.
-> 
-> Acked-by: Dan Williams <dan.j.williams@intel.com>
-> Link: https://docs.microsoft.com/en-us/windows-hardware/design/component-guidelines/power-management-for-storage-hardware-devices-intro
-> Signed-off-by: David E. Box <david.e.box@linux.intel.com>
-> ---
->  drivers/acpi/property.c |  3 +++
->  drivers/pci/pci-acpi.c  | 47 +++++++++++++++++++++++++++++++++++++++++
->  drivers/pci/pci.c       |  6 ++++++
->  drivers/pci/pci.h       |  4 ++++
->  include/linux/pci.h     |  1 +
->  5 files changed, 61 insertions(+)
-> 
-> diff --git a/drivers/acpi/property.c b/drivers/acpi/property.c
-> index e601c4511a8b..f09375ab40e4 100644
-> --- a/drivers/acpi/property.c
-> +++ b/drivers/acpi/property.c
-> @@ -45,6 +45,9 @@ static const guid_t prp_guids[] = {
->  	/* Thunderbolt GUID for WAKE_SUPPORTED: 6c501103-c189-4296-ba72-9bf5a26ebe5d */
->  	GUID_INIT(0x6c501103, 0xc189, 0x4296,
->  		  0xba, 0x72, 0x9b, 0xf5, 0xa2, 0x6e, 0xbe, 0x5d),
-> +	/* D3 Support for storage devivce: 5025030f-842f-4ab4-a561-99a5189762d0 */
-> +	GUID_INIT(0x5025030f, 0x842f, 0x4ab4,
-> +		  0xa5, 0x61, 0x99, 0xa5, 0x18, 0x97, 0x62, 0xd0),
->  };
->  
->  /* ACPI _DSD data subnodes GUID: dbb8e3e6-5886-4ba6-8795-1319f52a966b */
-> diff --git a/drivers/pci/pci-acpi.c b/drivers/pci/pci-acpi.c
-> index d21969fba6ab..5df249ebf022 100644
-> --- a/drivers/pci/pci-acpi.c
-> +++ b/drivers/pci/pci-acpi.c
-> @@ -972,6 +972,52 @@ static bool acpi_pci_bridge_d3(struct pci_dev *dev)
->  	return val == 1;
->  }
->  
-> +static bool acpi_pci_storage_d3(struct pci_dev *dev)
-> +{
-> +	const struct fwnode_handle *fwnode;
-> +	struct acpi_device *adev;
-> +	struct pci_dev *root;
-> +	acpi_handle handle;
-> +	acpi_status status;
-> +	u8 val;
-> +
-> +	/*
-> +	 * Look for _DSD property specifying that the storage device on
-> +	 * the port must use D3 to support deep platform power savings during
-> +	 * suspend-to-idle
-> +	 */
-> +	root = pci_find_pcie_root_port(dev);
-> +	if (!root)
-> +		return false;
-> +
-> +	adev = ACPI_COMPANION(&root->dev);
-> +	if (root == dev) {
-> +		/*
-> +		 * It is possible that the ACPI companion is not yet bound
-> +		 * for the root port so look it up manually here.
-> +		 */
-> +		if (!adev && !pci_dev_is_added(root))
-> +			adev = acpi_pci_find_companion(&root->dev);
-> +	}
-> +
-> +	if (!adev)
-> +		return false;
-> +
-> +	status = acpi_get_handle(adev->handle, "PXSX", &handle);
-> +	if (ACPI_FAILURE(status))
-> +		return false;
-> +
-> +	adev = acpi_bus_get_acpi_device(handle);
-> +	if (!adev)
-> +		return false;
-> +
-> +	fwnode = acpi_fwnode_handle(adev);
-> +	if (!fwnode_property_read_u8(fwnode, "StorageD3Enable", &val))
-> +		return val == 1;
-> +
-> +	return false;
-> +}
+nvmet_async_event may not be freed yet while processing events.
 
-Kind of orthogonal to what happens to the second patch in this series, I don't
-think that the PCI changes below are all needed.
+$ cat /sys/kernel/debug/kmemleak
+unreferenced object 0xffff888c1af2c000 (size 32):
+  comm "nvmetcli", pid 5164, jiffies 4295220864 (age 6829.924s)
+  hex dump (first 32 bytes):
+    28 01 82 3b 8b 88 ff ff 28 01 82 3b 8b 88 ff ff  (..;....(..;....
+    02 00 04 65 76 65 6e 74 5f 66 69 6c 65 00 00 00  ...event_file...
+  backtrace:
+    [<00000000217ae580>] nvmet_add_async_event+0x57/0x290 [nvmet]
+    [<0000000012aa2ea9>] nvmet_ns_changed+0x206/0x300 [nvmet]
+    [<00000000bb3fd52e>] nvmet_ns_disable+0x367/0x4f0 [nvmet]
+    [<00000000e91ca9ec>] nvmet_ns_free+0x15/0x180 [nvmet]
+    [<00000000a15deb52>] config_item_release+0xf1/0x1c0
+    [<000000007e148432>] configfs_rmdir+0x555/0x7c0
+    [<00000000f4506ea6>] vfs_rmdir+0x142/0x3c0
+    [<0000000000acaaf0>] do_rmdir+0x2b2/0x340
+    [<0000000034d1aa52>] do_syscall_64+0xa5/0x4d0
+    [<00000000211f13bc>] entry_SYSCALL_64_after_hwframe+0x6a/0xdf
 
-IMO it would be sufficient to export the function above, maybe as
-pci_acpi_storage_d3(), to drivers, so that they can call it directly as
-desired.
+Steps to Reproduce:
 
-Since _DSD return data are not allowed by the spec to change between
-subsequent invocations of it, the interested driver may call this function
-once at the device init time and quirk it accordingly if needed.
+target:
+1. nvmetcli restore rdma.json
 
-Cheers!
+client:
+2. nvme connect -t rdma -a $IP -s 4420 -n testnqn
 
+target:
+3. nvmetcli clear
+4. sleep 5 && nvmetcli restore rdma.json
+5. cat /sys/kernel/debug/kmemleak after 5 minutes
 
+Reported-by: Yi Zhang <yi.zhang@redhat.com>
+Based-on-a-patch-by: Christoph Hellwig <hch@infradead.org>
+Signed-off-by: David Milburn <dmilburn@redhatcom>
+---
+Changes from v1:
+ - Check async event list before freeing aen.
+
+ drivers/nvme/target/core.c | 23 +++++++++++++----------
+ 1 file changed, 13 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index b685f99d56a1..c9d74ebeaa7d 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -134,15 +134,10 @@ static void nvmet_async_events_process(struct nvmet_ctrl *ctrl, u16 status)
+ 	struct nvmet_async_event *aen;
+ 	struct nvmet_req *req;
+ 
+-	while (1) {
+-		mutex_lock(&ctrl->lock);
+-		aen = list_first_entry_or_null(&ctrl->async_events,
+-				struct nvmet_async_event, entry);
+-		if (!aen || !ctrl->nr_async_event_cmds) {
+-			mutex_unlock(&ctrl->lock);
+-			break;
+-		}
+-
++	mutex_lock(&ctrl->lock);
++	while (ctrl->nr_async_event_cmds && !list_empty(&ctrl->async_events)) {
++		aen = list_first_entry(&ctrl->async_events,
++				       struct nvmet_async_event, entry);
+ 		req = ctrl->async_event_cmds[--ctrl->nr_async_event_cmds];
+ 		if (status == 0)
+ 			nvmet_set_result(req, nvmet_async_event_result(aen));
+@@ -152,15 +147,23 @@ static void nvmet_async_events_process(struct nvmet_ctrl *ctrl, u16 status)
+ 
+ 		mutex_unlock(&ctrl->lock);
+ 		nvmet_req_complete(req, status);
++		mutex_lock(&ctrl->lock);
+ 	}
++	mutex_unlock(&ctrl->lock);
+ }
+ 
+ static void nvmet_async_events_free(struct nvmet_ctrl *ctrl)
+ {
++	struct nvmet_async_event *aen;
+ 	struct nvmet_req *req;
+ 
+ 	mutex_lock(&ctrl->lock);
+-	while (ctrl->nr_async_event_cmds) {
++	while (ctrl->nr_async_event_cmds && !list_empty(&ctrl->async_events)) {
++		aen = list_first_entry(&ctrl->async_events,
++				       struct nvmet_async_event, entry);
++		list_del(&aen->entry);
++		kfree(aen);
++	  
+ 		req = ctrl->async_event_cmds[--ctrl->nr_async_event_cmds];
+ 		mutex_unlock(&ctrl->lock);
+ 		nvmet_req_complete(req, NVME_SC_INTERNAL | NVME_SC_DNR);
+-- 
+2.18.1
 
 
 _______________________________________________
