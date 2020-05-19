@@ -2,58 +2,63 @@ Return-Path: <SRS0=SbN/=7B=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1380BC433DF
-	for <linux-nvme@archiver.kernel.org>; Tue, 19 May 2020 14:01:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8091C433E0
+	for <linux-nvme@archiver.kernel.org>; Tue, 19 May 2020 14:06:49 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CB3B2207FB
-	for <linux-nvme@archiver.kernel.org>; Tue, 19 May 2020 14:01:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 820F820829
+	for <linux-nvme@archiver.kernel.org>; Tue, 19 May 2020 14:06:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="C7TGVBXl"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CB3B2207FB
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="mLZ6HqSS"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 820F820829
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Date:Message-ID:To:Subject:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=OgQgE1xaQ7Gy0mcRcVHmqWUrG4SlglZFTOCkYd5mHsY=; b=C7TGVBXll1c9++KMSq6V9ShhJq
-	5bv/GxJBCGizIR+Yes175LedXYzxnqu5NrbRnVx3SdoPfOZrOlfyYfhpFnXcDUyyJyjTAwm2qyo04
-	kPdZBbEBbQXEuGNJy327bk/ar8fNF9I6zRktbt6aAzkb627p5juTEG5l7+FcNtmMI6qDxpljQ33NM
-	m9DRMyIodzCHp8o26sluOw5gapOAAg4kGFphe5qeFh+2sd99AnFE5qMh53nghvGiXjiCCZ0NdJly/
-	Aptu5dW7BPG7FATEHL5GGOmRESM6Snjyr7zodFbSrW75I7zleGKgntjut5GhDy0VC9GsSeoAC3h1J
-	Ok+136iA==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=7k161unmzy6XBJK4OFAOcD81RmWec0eonAAv/GrdZrQ=; b=mLZ6HqSS+lAwlv
+	n95DWyKzZvaXj1G1nWl8RPpjvz7jwdmJ/a80IH/wrs3nILC3hU8RjHOVrLsRgalywy3wx5vFtpp9J
+	1KTy3rGLiPrmKEC68oPQAq8hzsp4Ub2RJ2GbvChhip169RwkZC4TAENS1IIwU/L2M89BkQecExiQS
+	bRXJWAH4+l91NJ1SF/RH2qRpcPwaVjSQNwg9FG29yySB0PITVj5sN7N4bRylSYA7idQ/JnG66PR8U
+	gsv8CfmYM4nOuRtKaDMWzGhgO4rjApIWTeibSyK0F31RwwSVEwiTPjqMXfYB4B0UGeshNkmkmCAuH
+	HBuzXrTqsdt/leb85/PA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jb2ng-0005ZR-8U; Tue, 19 May 2020 14:00:56 +0000
-Received: from mx2.suse.de ([195.135.220.15])
- by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jb2nd-0005Yx-3c
- for linux-nvme@lists.infradead.org; Tue, 19 May 2020 14:00:54 +0000
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 4DE58ABE2;
- Tue, 19 May 2020 14:00:52 +0000 (UTC)
-From: Hannes Reinecke <hare@suse.de>
-Subject: RFC: FC-NVMe boot from SAN
-To: James Smart <james.smart@broadcom.com>
-Message-ID: <a3175c29-4fcc-ec4d-842b-d45645695ab0@suse.de>
-Date: Tue, 19 May 2020 16:00:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+	id 1jb2tJ-0001pE-EH; Tue, 19 May 2020 14:06:45 +0000
+Received: from mail-il-dmz.mellanox.com ([193.47.165.129] helo=mellanox.co.il)
+ by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jb2so-0001Q8-Sl
+ for linux-nvme@lists.infradead.org; Tue, 19 May 2020 14:06:21 +0000
+Received: from Internal Mail-Server by MTLPINE2 (envelope-from
+ maxg@mellanox.com)
+ with ESMTPS (AES256-SHA encrypted); 19 May 2020 17:06:04 +0300
+Received: from mtr-vdi-031.wap.labs.mlnx. (mtr-vdi-031.wap.labs.mlnx
+ [10.209.102.136])
+ by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 04JE63xr006590;
+ Tue, 19 May 2020 17:06:04 +0300
+From: Max Gurtovoy <maxg@mellanox.com>
+To: sagi@grimberg.me, linux-nvme@lists.infradead.org, kbusch@kernel.org,
+ hch@lst.de, martin.petersen@oracle.com, jsmart2021@gmail.com,
+ axboe@kernel.dk
+Subject: [PATCH 10/16] nvmet: add metadata characteristics for a namespace
+Date: Tue, 19 May 2020 17:05:57 +0300
+Message-Id: <20200519140603.166576-11-maxg@mellanox.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20200519140603.166576-1-maxg@mellanox.com>
+References: <20200519140603.166576-1-maxg@mellanox.com>
 MIME-Version: 1.0
-Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200519_070053_441588_129FA9F7 
-X-CRM114-Status: GOOD (  18.77  )
+X-CRM114-CacheID: sfid-20200519_070615_374803_25C64CC4 
+X-CRM114-Status: GOOD (  10.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,72 +70,94 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Robert Friend <rfriend@marvell.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: vladimirk@mellanox.com, shlomin@mellanox.com, israelr@mellanox.com,
+ idanb@mellanox.com, oren@mellanox.com, Max Gurtovoy <maxg@mellanox.com>,
+ nitzanc@mellanox.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-SGkgYWxsLAoKSSd2ZSBoYWQgZGlzY3Vzc2lvbnMgd2l0aCB2YXJpb3VzIHZlbmRvcnMgb24gaG93
-IHdlIGNvdWxkIGVuYWJsZSBGQy1OVk1lIApib290IGZyb20gU0FOLiBSYXRpb25hbGUgaXMgdGhh
-dCB0cmFkaXRpb25hbCBGQyBIQkFzIGhhdmUgaGFkIHRoZSAKY2FwYWJpbGl0aWVzIHRvIGJvb3Qg
-ZnJvbSBTQU4sIHNvIGZvciBmZWF0dXJlIHBhcml0eSBhbmQgY3VzdG9tZXIgCnJlcXVlc3RzIEZD
-LU5WTWUgSEJBcyB3b3VsZCBuZWVkIHRvIGJvb3QgZnJvbSBTQU4sIHRvby4KCldoaWxlIHRoaXMg
-aXMgbm90IGEgdGVjaG5pY2FsIHByb2JsZW0gKGp1c3QgYWRkIG52bWUtY2xpIHRvIHRoZSBpbml0
-cmQpLCAKdGhlIGFkbWluaXN0cmF0aXZlIHByb2JsZW0gb2YgY29ycmVjdGx5IHNldHRpbmcgdXAg
-dGhlIE5WTWUgY29udHJvbGxlciAKcmVtYWlucyBvcGVuLgoKRm9yIHRoZSBpbml0aWFsIGRpc2Nv
-dmVyeSBudm1lLWNsaSByZXF1aXJlcyBhIGhvc3QgTlFOIGFuZCBhIGhvc3QgSUQ7IAp0aGVzZSB2
-YWx1ZXMgZGVmaW5lIHdoaWNoIG5hbWVzcGFjZXMgd2lsbCBiZSB2aXNpYmxlIGZyb20gdGhlIHRh
-cmdldC4KV2hlbiBib290aW5nIGZyb20gU0FOIHdlIGhhdmUgdGhlIHByb2JsZW0gdGhhdCB0aGUg
-TlZNZSBjb25uZWN0aW9ucyBuZWVkIAp0byBiZSBlc3RhYmxpc2hlZCBmcm9tIHR3byBkaXN0aW5j
-dCBlbnZpcm9ubWVudHM6Ci0gVUVGSSBib290IGVudmlyb25tZW50IGZvciBjcmVhdGluZyB0aGUg
-aW5pdGlhbCBjb25uZWN0aW9uIGFuZCBsb2FkIHRoZSAKa2VybmVsIC8gYm9vdGxvYWRlcgotIExp
-bnV4IGRyYWN1dCwgZm9yIGNyZWF0aW5nIHRoZSBjb25uZWN0aW9uIGZvciB0aGUgcm9vdCBmcyBh
-bmQgYm9vdCB0aGUgCnN5c3RlbS4KCkFzIGl0IHN0YW5kcyB0aGVyZSBjdXJyZW50bHkgaXMgbm8g
-bWVjaGFuaXNtIHRvIHRyYW5zZmVyIHRoZSBOVk1lIApwYXJhbWV0ZXJzIGZyb20gb25lIGVudmly
-b25tZW50IHRvIHRoZSBvdGhlci4gWWV0IHRoZXNlIHBhcmFtZW50ZXJzIG5lZWQgCnRvIGJlIGlk
-ZW50aWNhbCAob3IgbmVlZCB0byByZXN1bHQgaW4gdGhlIHNhbWUgbmFtZXNwYWNlcyB0byBiZSB2
-aXNpYmxlKQpmb3IgYSBzdWNjZXNzZnVsIGJvb3QgZnJvbSBTQU4uCgpUbyBmYWNpbGl0YXRlIHRo
-aXMgaGVyZSdzIGEgcHJvcG9zYWwgaG93IHdlIGNvdWxkIGF0dGVtcHQgYm9vdCBmcm9tIFNBTjoK
-ClN0ZXAgMSkgUmVxdWlyZSB0aGUgYWRtaW4gdG8gcHJvdmlkZSBpZGVudGljYWwgcGFyYW1ldGVy
-cyBpbiBib3RoIAplbnZpcm9ubWVudHMuIFRoaXMgaXMgcHJldHR5IG9idmlvdXMsIGJ1dCB0aGVu
-IGl0IHdvdWxkIHJlcXVpcmUgdGhlIAphZG1pbiB0byBlaXRoZXIgdXNlIHRoZSBwYXJhbWV0ZXJz
-IGZyb20gdGhlIFVFRkkgYm9vdCBlbnZpcm9ubWVudCB0byAKY3JlYXRlIHRoZSAvZXRjL252bWUv
-aG9zdG5xbiBhbmQgL2V0Yy9ob3N0aWQgb24gdGhlIExpbnV4IHNpZGUsIG9yIHVzZSAKdGhlIExp
-bnV4IHBhcmFtZXRlcnMgdG8gaW5pdGlhbGl6ZSB0aGUgVUVGSSBib290IGVudmlyb21lbnQuCkFz
-IEkgY2FuJ3QgbWFrZSBhbnkgYXNzdW1wdGlvbnMgYWJvdXQgdGhlIGNhcGFiaWxpdGllcyBvZiB0
-aGUgVUVGSSBib290CmVudmlyb25tZW50IEkgY2Fubm90IG1ha2UgcmVjb21tZW5kYXRpb25zIGVp
-dGhlciB3YXkuClRoaXMgc3RlcCBoYXMgdGhlIGFkdmFudGFnZSBvZiByZXF1aXJpbmcgbGl0dGxl
-IHRvIG5vbmUgbW9kaWZpY2F0aW9ucwp0byB0aGUgZXhpc3RpbmcgdG9vbGluZywgYnV0IHRoZSBi
-aWcgZGlzYWR2YW50YWdlIG9mIHBsYWNpbmcgdGhlIGJ1cmRlbgpvbiB0aGUgYWRtaW4uCgpTdGVw
-IDIpIEFncmVlIG9uIGEgY29tbW9uIG1ldGhvZCBmb3IgZ2VuZXJhdGluZyB0aGUgTlZNZSBwYXJh
-bWV0ZXJzLgpGb3IgbnZtZS1jbGkgd2UgYWxyZWFkeSB1c2UgdGhlIHN5c3RlbSBVVUlEIHRvIGdl
-bmVyYXRlIAovZXRjL252bWUvaG9zdG5xbjsgd2UgY291bGQgc2ltaWxhcmx5IHVzZSB0aGUgc3lz
-dGVtIFVVSUQgdG8gZ2VuZXJhdGUgCi9ldGMvbnZtZS9ob3N0aWQsIHRvby4gUmVjb21tZW5kYXRp
-b24gdG8gdGhlIFVFRkkgYm9vdCBST00gdmVuZG9ycyB3b3VsZCBub3cKdG8gZm9sbG93IHN1aXQs
-IHJlc3VsdGluZyBpbiBpZGVudGljYWwgcGFyYW1ldGVycyBpbiBib3RoIGVudmlyb21lbnRzLgpU
-aGlzIGFnYWluIHJlcXVpcmVzIGJhc2ljYWxseSBubyBtb2RpZmljYXRpb25zIHRvIHRoZSBleGlz
-dGluZyB0b29saW5nLApidXQgaGFzIHRoZSBkcmF3YmFjayB0aGF0IG9uZSBjYW5ub3QgZWFzaWx5
-IGNoYW5nZSB0aGVzZSBwYXJhbWV0ZXJzLgoKU3RlcCAzKSBBZ3JlZSBvbiBhIHNldCBvZiBVRUZJ
-IGJvb3QgdmFyaWFibGVzIHRvIHN0b3JlIHRoZSBwYXJhbWV0ZXJzClVFRkkgYWxyZWFkeSBoYXMg
-YSBzZXQgb2YgdmFyaWFibGVzLCB3aGljaCB0byBteSBrbm93bGVkZ2UgY2FuIGJlIApjcmVhdGVk
-IGJ5IHRoZSBVRUZJIGJvb3QgUk9NIGFuZCBhcmUgcGVyc2lzdGVudCBiZXR3ZWVuIGJvdGggCmVu
-dmlyb25tZW50cywgcG9zc2libHkgZXZlbiBhY3Jvc3MgcmVib290cy4gUmVjb21tZW5kYXRpb24g
-aXMgdG8KYWdyZWUgb24gYSBzZXQgb2YgVUVGSSB2YXJpYWJsZXMgd2hpY2ggYXJlIGFjY2Vzc2li
-bGUgZnJvbSBib3RoIAplbnZpcm9ubWVudHMsIGFsbG93aW5nIHVzIHRvIHBhc3MgaW5mb3JtYXRp
-b24gYmFjayBhbmQgZm9ydGguClRoaXMgb2J2aW91c2x5IHJlcXVpcmVzIHRoZSBtb3N0IGludGVy
-YWN0aW9uLCBhbmQgYWxzbyBidXktaW4gZnJvbSB0aGUgClVFRkkgb3JnYW5pc2F0aW9uLCB0b28u
-CgpIZW5jZSBJIHdvdWxkIHByb3Bvc2UgdGhpcyBhcyB0aGUgZmluYWwgc3RlcCBvbmNlIFN0ZXAg
-MSkgYW5kIFN0ZXAgMikgCmhhdmUgYmVlbiBhZ3JlZWQgdXBvbi4KCkFzIHVzdWFsLCBmZWVkYmFj
-ayBhbmQgY29tbWVudHMgYXJlIHdlbGNvbWUuCgpBbmQgaWYgeW91IGZpbmQgdGhhdCB0aGUgbGlu
-dXggbnZtZSBtYWlsaW5nIGxpc3QgaXMgbm90IHRoZSBhcHByb3ByaWF0ZSAKdmVudWUgdG8gZGlz
-Y3VzcyB0aGlzIHBsZWFzZSBwb2ludCBtZSB0aGUgYSBiZXR0ZXIgc3VpdGVkIG9uZS4KCkNoZWVy
-cywKCkhhbm5lcwotLSAKRHIuIEhhbm5lcyBSZWluZWNrZSAgICAgICAgICAgIFRlYW1sZWFkIFN0
-b3JhZ2UgJiBOZXR3b3JraW5nCmhhcmVAc3VzZS5kZSAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICArNDkgOTExIDc0MDUzIDY4OApTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHbWJILCBNYXhm
-ZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcKSFJCIDM2ODA5IChBRyBOw7xybmJlcmcpLCBHZXNj
-aMOkZnRzZsO8aHJlcjogRmVsaXggSW1lbmTDtnJmZmVyCgpfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpsaW51eC1udm1lIG1haWxpbmcgbGlzdApsaW51eC1u
-dm1lQGxpc3RzLmluZnJhZGVhZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9saW51eC1udm1lCg==
+From: Israel Rukshin <israelr@mellanox.com>
+
+Fill those namespace fields from the block device format for adding
+metadata (T10-PI) over fabric support with block devices.
+
+Signed-off-by: Israel Rukshin <israelr@mellanox.com>
+Signed-off-by: Max Gurtovoy <maxg@mellanox.com>
+Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+---
+ drivers/nvme/target/io-cmd-bdev.c | 22 ++++++++++++++++++++++
+ drivers/nvme/target/nvmet.h       |  3 +++
+ 2 files changed, 25 insertions(+)
+
+diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+index 0427e04..45dc644 100644
+--- a/drivers/nvme/target/io-cmd-bdev.c
++++ b/drivers/nvme/target/io-cmd-bdev.c
+@@ -47,6 +47,22 @@ void nvmet_bdev_set_limits(struct block_device *bdev, struct nvme_id_ns *id)
+ 	id->nows = to0based(ql->io_opt / ql->logical_block_size);
+ }
+ 
++static void nvmet_bdev_ns_enable_integrity(struct nvmet_ns *ns)
++{
++	struct blk_integrity *bi = bdev_get_integrity(ns->bdev);
++
++	if (bi) {
++		ns->metadata_size = bi->tuple_size;
++		if (bi->profile == &t10_pi_type1_crc)
++			ns->pi_type = NVME_NS_DPS_PI_TYPE1;
++		else if (bi->profile == &t10_pi_type3_crc)
++			ns->pi_type = NVME_NS_DPS_PI_TYPE3;
++		else
++			/* Unsupported metadata type */
++			ns->metadata_size = 0;
++	}
++}
++
+ int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
+ {
+ 	int ret;
+@@ -64,6 +80,12 @@ int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
+ 	}
+ 	ns->size = i_size_read(ns->bdev->bd_inode);
+ 	ns->blksize_shift = blksize_bits(bdev_logical_block_size(ns->bdev));
++
++	ns->pi_type = 0;
++	ns->metadata_size = 0;
++	if (IS_ENABLED(CONFIG_BLK_DEV_INTEGRITY))
++		nvmet_bdev_ns_enable_integrity(ns);
++
+ 	return 0;
+ }
+ 
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 3d981eb..b9fb57b 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -19,6 +19,7 @@
+ #include <linux/rcupdate.h>
+ #include <linux/blkdev.h>
+ #include <linux/radix-tree.h>
++#include <linux/t10-pi.h>
+ 
+ #define NVMET_ASYNC_EVENTS		4
+ #define NVMET_ERROR_LOG_SLOTS		128
+@@ -77,6 +78,8 @@ struct nvmet_ns {
+ 
+ 	int			use_p2pmem;
+ 	struct pci_dev		*p2p_dev;
++	int			pi_type;
++	int			metadata_size;
+ };
+ 
+ static inline struct nvmet_ns *to_nvmet_ns(struct config_item *item)
+-- 
+1.8.3.1
+
+
+_______________________________________________
+linux-nvme mailing list
+linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
