@@ -5,18 +5,18 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AC3DC433E1
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 May 2020 19:57:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C83AC433E0
+	for <linux-nvme@archiver.kernel.org>; Wed, 20 May 2020 19:57:57 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 12E7B207F9
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 May 2020 19:57:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E5E07207D8
+	for <linux-nvme@archiver.kernel.org>; Wed, 20 May 2020 19:57:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ip5IC6Em"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 12E7B207F9
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="uI0yT/4u"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E5E07207D8
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,23 +25,23 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=gnyzWGogOw5RI7jEU6PusZvGqyBk5v7NKRp7bt1SGJ0=; b=ip5IC6EmXA5xC6
-	jVbk7z47MBMX8z7pkw/Kim4EwUmigDJzFfDFZW2pGUbEYTP9/UxCAjNkbXlTNM0LMKa305LBFuHw+
-	kweFSBZYcMuRXXpySGmA949xjH1hsY/7I5Auez65O4mPjLqL9u+3GfMEbHclFacElhQDbKdsQG6JT
-	3WvnzSQg4zKg+nP3cqPDi4JTAZLjdamSkiCVPt9l1icx5941O5aJtg38V+boGsJJ0595NmpeUnxyd
-	H6ddrf6gl6oa5+Cs8bCQ7VDdhyQlya2LLn32R5gp9ZEirfeZRdFiFCKJlKuhAv3t1xpzoLCiC8aCg
-	NEIc24DG+uePtm/2s/4A==;
+	List-Owner; bh=zUZT0i6BjZsHB4M4Ly1fY2kKCggaaAWxkiLuR5KRa5U=; b=uI0yT/4u7rAmkm
+	8xd44zwob2QwjCIjY4/oyA7iCmQxcM/FDci4AEe6syj1ZrdX4nKlokCZY2FL5bq/62j4MseMXRKg9
+	2C+1JPlLiJQyTtIcRrfhSR9OFLc7XaczclSTca9nmDjJjX2gWB6pYWZ6GcbcWlZ+ShGnjeMA7F0u/
+	A5cWN0ex0lCiVCDgs5fqiJjjXgA1X9AeDiFfeEnYfdKjazbtHG69hkJQ7LXJ41lS52twpnohbJL62
+	IdxZFKnEAxL8z+VE9UKo+rUxKQxrm0dO7PSFkSaEnNxAa3Ksdfmy2p/fjij4rjUuN3pcd131I9BXv
+	cJwpDsDcJs/ipWa9hpFQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jbUqW-0004ia-RU; Wed, 20 May 2020 19:57:44 +0000
+	id 1jbUqf-0004sA-MZ; Wed, 20 May 2020 19:57:53 +0000
 Received: from [2001:4bb8:188:1506:c70:4a89:bc61:2] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jbUoa-0002Xa-Uu; Wed, 20 May 2020 19:55:45 +0000
+ id 1jbUog-0002eo-6k; Wed, 20 May 2020 19:55:50 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH 12/33] tcp: add tcp_sock_set_cork
-Date: Wed, 20 May 2020 21:54:48 +0200
-Message-Id: <20200520195509.2215098-13-hch@lst.de>
+Subject: [PATCH 14/33] tcp: add tcp_sock_set_quickack
+Date: Wed, 20 May 2020 21:54:50 +0200
+Message-Id: <20200520195509.2215098-15-hch@lst.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200520195509.2215098-1-hch@lst.de>
 References: <20200520195509.2215098-1-hch@lst.de>
@@ -74,236 +74,127 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add a helper to directly set the TCP_CORK sockopt from kernel space
+Add a helper to directly set the TCP_QUICKACK sockopt from kernel space
 without going through a fake uaccess.  Cleanup the callers to avoid
 pointless wrappers now that this is a simple function call.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/block/drbd/drbd_int.h      | 14 --------
- drivers/block/drbd/drbd_receiver.c |  4 +--
- drivers/block/drbd/drbd_worker.c   |  6 ++--
- fs/cifs/transport.c                |  8 ++---
- include/linux/tcp.h                |  2 ++
- net/ipv4/tcp.c                     | 51 +++++++++++++++++++-----------
- net/rds/tcp_send.c                 |  9 ++----
- 7 files changed, 43 insertions(+), 51 deletions(-)
+ drivers/block/drbd/drbd_int.h      |  7 ------
+ drivers/block/drbd/drbd_receiver.c |  5 ++--
+ include/linux/tcp.h                |  1 +
+ net/ipv4/tcp.c                     | 39 ++++++++++++++++++++----------
+ 4 files changed, 29 insertions(+), 23 deletions(-)
 
 diff --git a/drivers/block/drbd/drbd_int.h b/drivers/block/drbd/drbd_int.h
-index aae99a2d7bd40..3550adc93c68b 100644
+index e24bba87c8e02..14345a87c7cc5 100644
 --- a/drivers/block/drbd/drbd_int.h
 +++ b/drivers/block/drbd/drbd_int.h
-@@ -1570,20 +1570,6 @@ extern void drbd_set_recv_tcq(struct drbd_device *device, int tcq_enabled);
+@@ -1570,13 +1570,6 @@ extern void drbd_set_recv_tcq(struct drbd_device *device, int tcq_enabled);
  extern void _drbd_clear_done_ee(struct drbd_device *device, struct list_head *to_be_freed);
  extern int drbd_connected(struct drbd_peer_device *);
  
--static inline void drbd_tcp_cork(struct socket *sock)
+-static inline void drbd_tcp_quickack(struct socket *sock)
 -{
--	int val = 1;
--	(void) kernel_setsockopt(sock, SOL_TCP, TCP_CORK,
+-	int val = 2;
+-	(void) kernel_setsockopt(sock, SOL_TCP, TCP_QUICKACK,
 -			(char*)&val, sizeof(val));
 -}
 -
--static inline void drbd_tcp_uncork(struct socket *sock)
--{
--	int val = 0;
--	(void) kernel_setsockopt(sock, SOL_TCP, TCP_CORK,
--			(char*)&val, sizeof(val));
--}
--
- static inline void drbd_tcp_nodelay(struct socket *sock)
- {
- 	int val = 1;
+ /* sets the number of 512 byte sectors of our virtual device */
+ void drbd_set_my_capacity(struct drbd_device *device, sector_t size);
+ 
 diff --git a/drivers/block/drbd/drbd_receiver.c b/drivers/block/drbd/drbd_receiver.c
-index c15e7083b13a6..55ea907ad33cb 100644
+index 20a5e94494acd..3a3f2b6a821f3 100644
 --- a/drivers/block/drbd/drbd_receiver.c
 +++ b/drivers/block/drbd/drbd_receiver.c
-@@ -6162,7 +6162,7 @@ void drbd_send_acks_wf(struct work_struct *ws)
- 	rcu_read_unlock();
- 
- 	if (tcp_cork)
--		drbd_tcp_cork(connection->meta.socket);
-+		tcp_sock_set_cork(connection->meta.socket->sk, true);
- 
- 	err = drbd_finish_peer_reqs(device);
- 	kref_put(&device->kref, drbd_destroy_device);
-@@ -6175,7 +6175,7 @@ void drbd_send_acks_wf(struct work_struct *ws)
- 	}
- 
- 	if (tcp_cork)
--		drbd_tcp_uncork(connection->meta.socket);
-+		tcp_sock_set_cork(connection->meta.socket->sk, false);
- 
- 	return;
+@@ -1223,7 +1223,7 @@ static int drbd_recv_header_maybe_unplug(struct drbd_connection *connection, str
+ 		 * quickly as possible, and let remote TCP know what we have
+ 		 * received so far. */
+ 		if (err == -EAGAIN) {
+-			drbd_tcp_quickack(connection->data.socket);
++			tcp_sock_set_quickack(connection->data.socket->sk, 2);
+ 			drbd_unplug_all_devices(connection);
+ 		}
+ 		if (err > 0) {
+@@ -4959,8 +4959,7 @@ static int receive_UnplugRemote(struct drbd_connection *connection, struct packe
+ {
+ 	/* Make sure we've acked all the TCP data associated
+ 	 * with the data requests being unplugged */
+-	drbd_tcp_quickack(connection->data.socket);
+-
++	tcp_sock_set_quickack(connection->data.socket->sk, 2);
+ 	return 0;
  }
-diff --git a/drivers/block/drbd/drbd_worker.c b/drivers/block/drbd/drbd_worker.c
-index 0dc019da1f8d0..2b89c9f2ca707 100644
---- a/drivers/block/drbd/drbd_worker.c
-+++ b/drivers/block/drbd/drbd_worker.c
-@@ -2098,7 +2098,7 @@ static void wait_for_work(struct drbd_connection *connection, struct list_head *
- 	if (uncork) {
- 		mutex_lock(&connection->data.mutex);
- 		if (connection->data.socket)
--			drbd_tcp_uncork(connection->data.socket);
-+			tcp_sock_set_cork(connection->data.socket->sk, false);
- 		mutex_unlock(&connection->data.mutex);
- 	}
  
-@@ -2153,9 +2153,9 @@ static void wait_for_work(struct drbd_connection *connection, struct list_head *
- 	mutex_lock(&connection->data.mutex);
- 	if (connection->data.socket) {
- 		if (cork)
--			drbd_tcp_cork(connection->data.socket);
-+			tcp_sock_set_cork(connection->data.socket->sk, true);
- 		else if (!uncork)
--			drbd_tcp_uncork(connection->data.socket);
-+			tcp_sock_set_cork(connection->data.socket->sk, false);
- 	}
- 	mutex_unlock(&connection->data.mutex);
- }
-diff --git a/fs/cifs/transport.c b/fs/cifs/transport.c
-index c97570eb2c180..99760063e0006 100644
---- a/fs/cifs/transport.c
-+++ b/fs/cifs/transport.c
-@@ -325,7 +325,6 @@ __smb_send_rqst(struct TCP_Server_Info *server, int num_rqst,
- 	size_t total_len = 0, sent, size;
- 	struct socket *ssocket = server->ssocket;
- 	struct msghdr smb_msg;
--	int val = 1;
- 	__be32 rfc1002_marker;
- 
- 	if (cifs_rdma_enabled(server)) {
-@@ -345,8 +344,7 @@ __smb_send_rqst(struct TCP_Server_Info *server, int num_rqst,
- 	}
- 
- 	/* cork the socket */
--	kernel_setsockopt(ssocket, SOL_TCP, TCP_CORK,
--				(char *)&val, sizeof(val));
-+	tcp_sock_set_cork(ssocket->sk, true);
- 
- 	for (j = 0; j < num_rqst; j++)
- 		send_length += smb_rqst_len(server, &rqst[j]);
-@@ -435,9 +433,7 @@ __smb_send_rqst(struct TCP_Server_Info *server, int num_rqst,
- 	}
- 
- 	/* uncork it */
--	val = 0;
--	kernel_setsockopt(ssocket, SOL_TCP, TCP_CORK,
--				(char *)&val, sizeof(val));
-+	tcp_sock_set_cork(ssocket->sk, false);
- 
- 	if ((total_len > 0) && (total_len != send_length)) {
- 		cifs_dbg(FYI, "partial send (wanted=%u sent=%zu): terminating session\n",
 diff --git a/include/linux/tcp.h b/include/linux/tcp.h
-index bf44e85d709dc..889eeb2256c2d 100644
+index 9e42c7fe50a8b..2eaf8320b9db0 100644
 --- a/include/linux/tcp.h
 +++ b/include/linux/tcp.h
-@@ -497,4 +497,6 @@ static inline u16 tcp_mss_clamp(const struct tcp_sock *tp, u16 mss)
- int tcp_skb_shift(struct sk_buff *to, struct sk_buff *from, int pcount,
- 		  int shiftlen);
+@@ -499,5 +499,6 @@ int tcp_skb_shift(struct sk_buff *to, struct sk_buff *from, int pcount,
  
-+void tcp_sock_set_cork(struct sock *sk, bool on);
-+
+ void tcp_sock_set_cork(struct sock *sk, bool on);
+ void tcp_sock_set_nodelay(struct sock *sk);
++void tcp_sock_set_quickack(struct sock *sk, int val);
+ 
  #endif	/* _LINUX_TCP_H */
 diff --git a/net/ipv4/tcp.c b/net/ipv4/tcp.c
-index 9700649963773..e6cf702e16d66 100644
+index a65f293a19fac..27b5e7a4e2ef9 100644
 --- a/net/ipv4/tcp.c
 +++ b/net/ipv4/tcp.c
-@@ -2801,6 +2801,37 @@ static void tcp_enable_tx_delay(void)
- 	}
+@@ -2856,6 +2856,31 @@ void tcp_sock_set_nodelay(struct sock *sk)
  }
+ EXPORT_SYMBOL(tcp_sock_set_nodelay);
  
-+/* When set indicates to always queue non-full frames.  Later the user clears
-+ * this option and we transmit any pending partial frames in the queue.  This is
-+ * meant to be used alongside sendfile() to get properly filled frames when the
-+ * user (for example) must write out headers with a write() call first and then
-+ * use sendfile to send out the data parts.
-+ *
-+ * TCP_CORK can be set together with TCP_NODELAY and it is stronger than
-+ * TCP_NODELAY.
-+ */
-+static void __tcp_sock_set_cork(struct sock *sk, bool on)
++static void __tcp_sock_set_quickack(struct sock *sk, int val)
 +{
-+	struct tcp_sock *tp = tcp_sk(sk);
++	if (!val) {
++		inet_csk_enter_pingpong_mode(sk);
++		return;
++	}
 +
-+	if (on) {
-+		tp->nonagle |= TCP_NAGLE_CORK;
-+	} else {
-+		tp->nonagle &= ~TCP_NAGLE_CORK;
-+		if (tp->nonagle & TCP_NAGLE_OFF)
-+			tp->nonagle |= TCP_NAGLE_PUSH;
-+		tcp_push_pending_frames(sk);
++	inet_csk_exit_pingpong_mode(sk);
++	if ((1 << sk->sk_state) & (TCPF_ESTABLISHED | TCPF_CLOSE_WAIT) &&
++	    inet_csk_ack_scheduled(sk)) {
++		inet_csk(sk)->icsk_ack.pending |= ICSK_ACK_PUSHED;
++		tcp_cleanup_rbuf(sk, 1);
++		if (!(val & 1))
++			inet_csk_enter_pingpong_mode(sk);
 +	}
 +}
 +
-+void tcp_sock_set_cork(struct sock *sk, bool on)
++void tcp_sock_set_quickack(struct sock *sk, int val)
 +{
 +	lock_sock(sk);
-+	__tcp_sock_set_cork(sk, on);
++	__tcp_sock_set_quickack(sk, val);
 +	release_sock(sk);
 +}
-+EXPORT_SYMBOL(tcp_sock_set_cork);
++EXPORT_SYMBOL(tcp_sock_set_quickack);
 +
  /*
   *	Socket option code for TCP.
   */
-@@ -2979,25 +3010,7 @@ static int do_tcp_setsockopt(struct sock *sk, int level,
+@@ -3096,19 +3121,7 @@ static int do_tcp_setsockopt(struct sock *sk, int level,
  		break;
  
- 	case TCP_CORK:
--		/* When set indicates to always queue non-full frames.
--		 * Later the user clears this option and we transmit
--		 * any pending partial frames in the queue.  This is
--		 * meant to be used alongside sendfile() to get properly
--		 * filled frames when the user (for example) must write
--		 * out headers with a write() call first and then use
--		 * sendfile to send out the data parts.
--		 *
--		 * TCP_CORK can be set together with TCP_NODELAY and it is
--		 * stronger than TCP_NODELAY.
--		 */
--		if (val) {
--			tp->nonagle |= TCP_NAGLE_CORK;
+ 	case TCP_QUICKACK:
+-		if (!val) {
+-			inet_csk_enter_pingpong_mode(sk);
 -		} else {
--			tp->nonagle &= ~TCP_NAGLE_CORK;
--			if (tp->nonagle&TCP_NAGLE_OFF)
--				tp->nonagle |= TCP_NAGLE_PUSH;
--			tcp_push_pending_frames(sk);
+-			inet_csk_exit_pingpong_mode(sk);
+-			if ((1 << sk->sk_state) &
+-			    (TCPF_ESTABLISHED | TCPF_CLOSE_WAIT) &&
+-			    inet_csk_ack_scheduled(sk)) {
+-				icsk->icsk_ack.pending |= ICSK_ACK_PUSHED;
+-				tcp_cleanup_rbuf(sk, 1);
+-				if (!(val & 1))
+-					inet_csk_enter_pingpong_mode(sk);
+-			}
 -		}
-+		__tcp_sock_set_cork(sk, val);
++		__tcp_sock_set_quickack(sk, val);
  		break;
  
- 	case TCP_KEEPIDLE:
-diff --git a/net/rds/tcp_send.c b/net/rds/tcp_send.c
-index 78a2554a44979..8c4d1d6e9249d 100644
---- a/net/rds/tcp_send.c
-+++ b/net/rds/tcp_send.c
-@@ -38,23 +38,18 @@
- #include "rds.h"
- #include "tcp.h"
- 
--static void rds_tcp_cork(struct socket *sock, int val)
--{
--	kernel_setsockopt(sock, SOL_TCP, TCP_CORK, (void *)&val, sizeof(val));
--}
--
- void rds_tcp_xmit_path_prepare(struct rds_conn_path *cp)
- {
- 	struct rds_tcp_connection *tc = cp->cp_transport_data;
- 
--	rds_tcp_cork(tc->t_sock, 1);
-+	tcp_sock_set_cork(tc->t_sock->sk, true);
- }
- 
- void rds_tcp_xmit_path_complete(struct rds_conn_path *cp)
- {
- 	struct rds_tcp_connection *tc = cp->cp_transport_data;
- 
--	rds_tcp_cork(tc->t_sock, 0);
-+	tcp_sock_set_cork(tc->t_sock->sk, false);
- }
- 
- /* the core send_sem serializes this with other xmit and shutdown */
+ #ifdef CONFIG_TCP_MD5SIG
 -- 
 2.26.2
 
