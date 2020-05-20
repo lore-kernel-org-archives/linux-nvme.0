@@ -4,19 +4,19 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66631C433E2
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 May 2020 19:57:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72757C433E2
+	for <linux-nvme@archiver.kernel.org>; Wed, 20 May 2020 19:57:30 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 03CDB207D8
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 May 2020 19:57:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3C5A2207E8
+	for <linux-nvme@archiver.kernel.org>; Wed, 20 May 2020 19:57:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="H1DUbkop"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 03CDB207D8
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="NsQEzxID"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3C5A2207E8
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,23 +25,23 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=nf3iNlBLPp8FycqOvQ+AfvBv3nzj9q/w8ZuS4PGJTVs=; b=H1DUbkopznOiit
-	AHl1uoynbxdYyt9n52wz5RpK1+s5jnWbZnU/+Epww/HwC1d5cAgXTBHR+XY1oc1jy/JitLyEWQrfw
-	0u5SP9tpvA+x4plMm4+byePonlO8E8J9gpltAGuAgFV/RgIC1eyEeV1xJSbPoNNGtCg+hCz2D9HFA
-	dJpb0QZ3SWj9x2+EE7QMezB870KQq2f2E47hfpdov2lyrjFTd0QRVbB6vyhG63gIAh5cGtj8kR1PG
-	geHhJjTaR3JogQbt6Q1poTFUJUmw/31GygDZxZczudz1q4t77I5q2EWLhvMuHddCYyMX8aDYm/L0V
-	/ol3L8SqH05oCV61TULg==;
+	List-Owner; bh=9RUIWvnNZ2KYPQfAwptjwyJ/h5puup0UPsULk7Qpww4=; b=NsQEzxIDnZHtWn
+	ShTvXLCerMBPw+DbbOCG5keIX40pm/zKFIIxIXzV5wDXcTlUtoa3K4oZWp1lyk1OperM+DOABpA+4
+	HHWR+PB59SflIFHvSgWGk7J6KQZSMqjrFWTlW3tENGJ0I6sM1hk21EqS9DagG1zvJJrqKEOtdQXI7
+	eOqx5myHEc5hym+pm7u5KkMfKcr1jC8yxFOXYhuply0Xm+v9Kk9r4KrEv7V6HDJ7J5/vxzb8JalFu
+	MNbWqVSlyFZrSf4M3Zvkmq328ETrLr4XtFn56PsmOEFYIQdAgFv6hiLq8nRSUZQ3eC73eSd9bh1cr
+	WWhK+qMmxDs6A9Ma5Siw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jbUq1-00047L-He; Wed, 20 May 2020 19:57:13 +0000
+	id 1jbUqE-0004Mk-Rm; Wed, 20 May 2020 19:57:26 +0000
 Received: from [2001:4bb8:188:1506:c70:4a89:bc61:2] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jbUoS-0002L3-E8; Wed, 20 May 2020 19:55:36 +0000
+ id 1jbUoV-0002Rc-8B; Wed, 20 May 2020 19:55:39 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH 09/33] net: add sock_set_keepalive
-Date: Wed, 20 May 2020 21:54:45 +0200
-Message-Id: <20200520195509.2215098-10-hch@lst.de>
+Subject: [PATCH 10/33] net: add sock_set_rcvbuf
+Date: Wed, 20 May 2020 21:54:46 +0200
+Message-Id: <20200520195509.2215098-11-hch@lst.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200520195509.2215098-1-hch@lst.de>
 References: <20200520195509.2215098-1-hch@lst.de>
@@ -74,109 +74,137 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add a helper to directly set the SO_KEEPALIVE sockopt from kernel space
+Add a helper to directly set the SO_RCVBUFFORCE sockopt from kernel space
 without going through a fake uaccess.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- fs/dlm/lowcomms.c     |  6 +-----
- include/net/sock.h    |  1 +
- net/core/sock.c       | 10 ++++++++++
- net/rds/tcp_listen.c  |  6 +-----
- net/sunrpc/xprtsock.c |  4 +---
- 5 files changed, 14 insertions(+), 13 deletions(-)
+ fs/dlm/lowcomms.c  |  7 +-----
+ include/net/sock.h |  1 +
+ net/core/sock.c    | 59 +++++++++++++++++++++++++---------------------
+ 3 files changed, 34 insertions(+), 33 deletions(-)
 
 diff --git a/fs/dlm/lowcomms.c b/fs/dlm/lowcomms.c
-index b79711d0aac72..b6e6dba281547 100644
+index b6e6dba281547..2822a430a2b49 100644
 --- a/fs/dlm/lowcomms.c
 +++ b/fs/dlm/lowcomms.c
-@@ -1142,11 +1142,7 @@ static struct socket *tcp_create_listen_sock(struct connection *con,
- 		con->sock = NULL;
- 		goto create_out;
- 	}
--	result = kernel_setsockopt(sock, SOL_SOCKET, SO_KEEPALIVE,
--				 (char *)&one, sizeof(one));
--	if (result < 0) {
--		log_print("Set keepalive failed: %d", result);
--	}
-+	sock_set_keepalive(sock->sk);
+@@ -1180,7 +1180,6 @@ static int sctp_listen_for_all(void)
+ 	struct socket *sock = NULL;
+ 	int result = -EINVAL;
+ 	struct connection *con = nodeid2con(0, GFP_NOFS);
+-	int bufsize = NEEDED_RMEM;
+ 	int one = 1;
  
- 	result = sock->ops->listen(sock, 5);
- 	if (result < 0) {
+ 	if (!con)
+@@ -1195,11 +1194,7 @@ static int sctp_listen_for_all(void)
+ 		goto out;
+ 	}
+ 
+-	result = kernel_setsockopt(sock, SOL_SOCKET, SO_RCVBUFFORCE,
+-				 (char *)&bufsize, sizeof(bufsize));
+-	if (result)
+-		log_print("Error increasing buffer space on socket %d", result);
+-
++	sock_set_rcvbuf(sock->sk, NEEDED_RMEM);
+ 	result = kernel_setsockopt(sock, SOL_SCTP, SCTP_NODELAY, (char *)&one,
+ 				   sizeof(one));
+ 	if (result < 0)
 diff --git a/include/net/sock.h b/include/net/sock.h
-index 99ef43508d2b5..dc08c176238fd 100644
+index dc08c176238fd..c997289aabbf9 100644
 --- a/include/net/sock.h
 +++ b/include/net/sock.h
-@@ -2691,6 +2691,7 @@ void sock_def_readable(struct sock *sk);
- int sock_bindtoindex(struct sock *sk, int ifindex);
- void sock_enable_timestamps(struct sock *sk);
+@@ -2693,6 +2693,7 @@ void sock_enable_timestamps(struct sock *sk);
  void sock_no_linger(struct sock *sk);
-+void sock_set_keepalive(struct sock *sk);
+ void sock_set_keepalive(struct sock *sk);
  void sock_set_priority(struct sock *sk, u32 priority);
++void sock_set_rcvbuf(struct sock *sk, int val);
  void sock_set_reuseaddr(struct sock *sk);
  void sock_set_sndtimeo(struct sock *sk, s64 secs);
+ 
 diff --git a/net/core/sock.c b/net/core/sock.c
-index e4a4dd2b3d8b3..728f5fb156a0c 100644
+index 728f5fb156a0c..3c6ebf952e9ad 100644
 --- a/net/core/sock.c
 +++ b/net/core/sock.c
-@@ -779,6 +779,16 @@ void sock_enable_timestamps(struct sock *sk)
+@@ -789,6 +789,35 @@ void sock_set_keepalive(struct sock *sk)
  }
- EXPORT_SYMBOL(sock_enable_timestamps);
+ EXPORT_SYMBOL(sock_set_keepalive);
  
-+void sock_set_keepalive(struct sock *sk)
++static void __sock_set_rcvbuf(struct sock *sk, int val)
++{
++	/* Ensure val * 2 fits into an int, to prevent max_t() from treating it
++	 * as a negative value.
++	 */
++	val = min_t(int, val, INT_MAX / 2);
++	sk->sk_userlocks |= SOCK_RCVBUF_LOCK;
++
++	/* We double it on the way in to account for "struct sk_buff" etc.
++	 * overhead.   Applications assume that the SO_RCVBUF setting they make
++	 * will allow that much actual data to be received on that socket.
++	 *
++	 * Applications are unaware that "struct sk_buff" and other overheads
++	 * allocate from the receive buffer during socket buffer allocation.
++	 *
++	 * And after considering the possible alternatives, returning the value
++	 * we actually used in getsockopt is the most desirable behavior.
++	 */
++	WRITE_ONCE(sk->sk_rcvbuf, max_t(int, val * 2, SOCK_MIN_RCVBUF));
++}
++
++void sock_set_rcvbuf(struct sock *sk, int val)
 +{
 +	lock_sock(sk);
-+	if (sk->sk_prot->keepalive)
-+		sk->sk_prot->keepalive(sk, true);
-+	sock_valbool_flag(sk, SOCK_KEEPOPEN, true);
++	__sock_set_rcvbuf(sk, val);
 +	release_sock(sk);
 +}
-+EXPORT_SYMBOL(sock_set_keepalive);
++EXPORT_SYMBOL(sock_set_rcvbuf);
 +
  /*
   *	This is meant for all protocols to use and covers goings on
   *	at the socket level. Everything here is generic.
-diff --git a/net/rds/tcp_listen.c b/net/rds/tcp_listen.c
-index bbb31b9c0b391..d8bd132769594 100644
---- a/net/rds/tcp_listen.c
-+++ b/net/rds/tcp_listen.c
-@@ -43,13 +43,9 @@ int rds_tcp_keepalive(struct socket *sock)
- 	/* values below based on xs_udp_default_timeout */
- 	int keepidle = 5; /* send a probe 'keepidle' secs after last data */
- 	int keepcnt = 5; /* number of unack'ed probes before declaring dead */
--	int keepalive = 1;
- 	int ret = 0;
+@@ -885,30 +914,7 @@ int sock_setsockopt(struct socket *sock, int level, int optname,
+ 		 * play 'guess the biggest size' games. RCVBUF/SNDBUF
+ 		 * are treated in BSD as hints
+ 		 */
+-		val = min_t(u32, val, sysctl_rmem_max);
+-set_rcvbuf:
+-		/* Ensure val * 2 fits into an int, to prevent max_t()
+-		 * from treating it as a negative value.
+-		 */
+-		val = min_t(int, val, INT_MAX / 2);
+-		sk->sk_userlocks |= SOCK_RCVBUF_LOCK;
+-		/*
+-		 * We double it on the way in to account for
+-		 * "struct sk_buff" etc. overhead.   Applications
+-		 * assume that the SO_RCVBUF setting they make will
+-		 * allow that much actual data to be received on that
+-		 * socket.
+-		 *
+-		 * Applications are unaware that "struct sk_buff" and
+-		 * other overheads allocate from the receive buffer
+-		 * during socket buffer allocation.
+-		 *
+-		 * And after considering the possible alternatives,
+-		 * returning the value we actually used in getsockopt
+-		 * is the most desirable behavior.
+-		 */
+-		WRITE_ONCE(sk->sk_rcvbuf,
+-			   max_t(int, val * 2, SOCK_MIN_RCVBUF));
++		__sock_set_rcvbuf(sk, min_t(u32, val, sysctl_rmem_max));
+ 		break;
  
--	ret = kernel_setsockopt(sock, SOL_SOCKET, SO_KEEPALIVE,
--				(char *)&keepalive, sizeof(keepalive));
--	if (ret < 0)
--		goto bail;
-+	sock_set_keepalive(sock->sk);
+ 	case SO_RCVBUFFORCE:
+@@ -920,9 +926,8 @@ int sock_setsockopt(struct socket *sock, int level, int optname,
+ 		/* No negative values (to prevent underflow, as val will be
+ 		 * multiplied by 2).
+ 		 */
+-		if (val < 0)
+-			val = 0;
+-		goto set_rcvbuf;
++		__sock_set_rcvbuf(sk, max(val, 0));
++		break;
  
- 	ret = kernel_setsockopt(sock, IPPROTO_TCP, TCP_KEEPCNT,
- 				(char *)&keepcnt, sizeof(keepcnt));
-diff --git a/net/sunrpc/xprtsock.c b/net/sunrpc/xprtsock.c
-index 845d0be805ece..30082cd039960 100644
---- a/net/sunrpc/xprtsock.c
-+++ b/net/sunrpc/xprtsock.c
-@@ -2110,7 +2110,6 @@ static void xs_tcp_set_socket_timeouts(struct rpc_xprt *xprt,
- 	struct sock_xprt *transport = container_of(xprt, struct sock_xprt, xprt);
- 	unsigned int keepidle;
- 	unsigned int keepcnt;
--	unsigned int opt_on = 1;
- 	unsigned int timeo;
- 
- 	spin_lock(&xprt->transport_lock);
-@@ -2122,8 +2121,7 @@ static void xs_tcp_set_socket_timeouts(struct rpc_xprt *xprt,
- 	spin_unlock(&xprt->transport_lock);
- 
- 	/* TCP Keepalive options */
--	kernel_setsockopt(sock, SOL_SOCKET, SO_KEEPALIVE,
--			(char *)&opt_on, sizeof(opt_on));
-+	sock_set_keepalive(sock->sk);
- 	kernel_setsockopt(sock, SOL_TCP, TCP_KEEPIDLE,
- 			(char *)&keepidle, sizeof(keepidle));
- 	kernel_setsockopt(sock, SOL_TCP, TCP_KEEPINTVL,
+ 	case SO_KEEPALIVE:
+ 		if (sk->sk_prot->keepalive)
 -- 
 2.26.2
 
