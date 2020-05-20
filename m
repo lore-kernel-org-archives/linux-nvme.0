@@ -4,18 +4,18 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87E59C433DF
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 May 2020 06:16:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D944C433DF
+	for <linux-nvme@archiver.kernel.org>; Wed, 20 May 2020 06:18:48 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4D00820748
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 May 2020 06:16:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id F2CF220748
+	for <linux-nvme@archiver.kernel.org>; Wed, 20 May 2020 06:18:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="KZbyxeU+"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4D00820748
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="TGxzu731"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F2CF220748
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,29 +24,32 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ScWWe5GzlO1AOWr2KytlHsT0gjkH/EosBWiVoY8+shI=; b=KZbyxeU+Hjo9l4
-	bROWX4Su8Otbmzza6BxrzEN29ADo/gG42wRJpypnnHM08G5dYXEOS2EVabFhfqmgkTtsN0649UX9C
-	u1/WYY/fzlP8sKp/q7SfIiUvUCPO5phEKAqMO10caN7Oy9O5jI23hgBLH/rUK64EDr2mcI7oEf14j
-	oeFoL1mKpvNxdvm9tb2mLnQFbvjAnGZeBh99d7dPg9CP9OIhs1Me0xF20zx7w/TepLIy4XLvczInt
-	wvrW2E1ivqf9N3NjallfegqEjC3ecvuYX1WSyZixWh7x6GSBdDPyJTeCwjvTnvSdNj2CKMhbvY8QH
-	qk3J1wpPIONASASdl7Wg==;
+	List-Owner; bh=gPSFCDYmeyFZStxetaJTJSM2k1VtiMqA+eFTgwRFWug=; b=TGxzu731g09V7q
+	M/q0IOMqgEqwBFcbeUud7CQmDvava+TCbAqKZsijz1PQ9j8Ya2WyLlOhNJ4DtyI8iwCJpWLgXT7SS
+	os1tsdtgckpY2ibyOt2lgIlLYwdQ39A4EZxu7CbgXutFs2R/Vu/kq7FaSnXdhXIO08QBu2WmP8WqD
+	8NzUncSsNwmoB7TAsGk2/C7MYwk/ngIVAfJP+vUBkNVtp4PLltb9EbrM3evpcuuw9DzYOZZqSGlk9
+	0IUBnNBnL6SfFkmUG8qg8OPsvTGPcwDoHaSGMU2US8vRzf+F/NJc+TD8N29FpRWboC0dsyVPTIp5M
+	56OWQBlVI81elxQ+80Gw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jbI1X-000880-Ji; Wed, 20 May 2020 06:16:15 +0000
+	id 1jbI3x-0008QT-TC; Wed, 20 May 2020 06:18:45 +0000
 Received: from hch by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red
- Hat Linux)) id 1jbI1V-00087Y-D4; Wed, 20 May 2020 06:16:13 +0000
-Date: Tue, 19 May 2020 23:16:13 -0700
+ Hat Linux)) id 1jbI3v-0008QA-UY; Wed, 20 May 2020 06:18:43 +0000
+Date: Tue, 19 May 2020 23:18:43 -0700
 From: Christoph Hellwig <hch@infradead.org>
 To: Sagi Grimberg <sagi@grimberg.me>
 Subject: Re: [PATCH v2 2/2] nvmet: avoid memleak by freeing any remaining
  aens in nvmet_async_events_free
-Message-ID: <20200520061613.GA18308@infradead.org>
+Message-ID: <20200520061843.GB18308@infradead.org>
 References: <1589828396-144513-1-git-send-email-dmilburn@redhat.com>
  <1589828396-144513-3-git-send-email-dmilburn@redhat.com>
  <388242d3-5ccc-d694-c7a0-ac489f63f26a@grimberg.me>
+ <ced87004-a580-853f-2a27-e3acb789637e@redhat.com>
+ <a47fb849-df48-1d7e-d34a-269257487393@grimberg.me>
+ <37746101-6300-4364-079d-c6850d2d55d5@grimberg.me>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <388242d3-5ccc-d694-c7a0-ac489f63f26a@grimberg.me>
+In-Reply-To: <37746101-6300-4364-079d-c6850d2d55d5@grimberg.me>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,29 +61,31 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: hch@infradead.org, David Milburn <dmilburn@redhat.com>,
- chaitanya.kulkarni@wdc.com, dwagner@suse.de, linux-nvme@lists.infradead.org
+Cc: hch@infradead.org, David Milburn <dmilburn@redhat.com>, dwagner@suse.de,
+ chaitanya.kulkarni@wdc.com, linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, May 19, 2020 at 01:33:17AM -0700, Sagi Grimberg wrote:
-> Something here looks wrong to me... There is no reason to free aens here...
+On Tue, May 19, 2020 at 01:51:38PM -0700, Sagi Grimberg wrote:
+> Umm, and this section needs to be removed now of course...
+> 
+> The loop here needs to be:
+> --
+>         mutex_lock(&ctrl->lock);
+>         while (ctrl->nr_async_event_cmds) {
+>                 aen = list_first_entry(&ctrl->async_events,
+>                                 struct nvmet_async_event, entry);
+>                 list_del(&aen->entry);
+>                 kfree(aen);
+>                 req = ctrl->async_event_cmds[--ctrl->nr_async_event_cmds];
+>         }
+>         mutex_unlock(&ctrl->lock);
+> --
 
-I think there is.  Remember we have two aen related resources:
-
- (1) the nvmet_req structures in ctrl->async_event_cmds.  One of these
-     exists for each command that the host has outstanding
- (2) the nvmet_async_event strutures hanging off ctrl->async_events.
-     One of these is added for each event that the target generates.
-
-So when the host usually only has a single aen command outstanding (like
-the Linux host) we might start having a pretty long list on the target
-for a while until all the roundtrips to deliver them have been
-completed, and if the admin queue gets shut down during that time we'll
-need to free them.
-
+->nr_async_event_cmds has nothing to do with the number of entries on
+->async_events
 
 _______________________________________________
 linux-nvme mailing list
