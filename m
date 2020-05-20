@@ -5,18 +5,18 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB14DC433E0
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 May 2020 20:01:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7B12C433DF
+	for <linux-nvme@archiver.kernel.org>; Wed, 20 May 2020 20:01:38 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5C1AE207D8
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 May 2020 20:01:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8977F207D8
+	for <linux-nvme@archiver.kernel.org>; Wed, 20 May 2020 20:01:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="p7W9XG59"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5C1AE207D8
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="K2yyUzCD"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8977F207D8
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,23 +25,23 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ldm8/DqKRikCqmXPawmlRDvImfRQHJL3w609l2EgtLk=; b=p7W9XG59MLfqEy
-	R2p+qzREBtJbPZif/mFHNfqtCPNLzaEZm/WEA7VZ9tJ8qba6Jc0WOPIhjIOsq87qIseRu2nhwMhpd
-	3gaNeZApjxqPSDbgn0HEbPGXjHfyANg8q2FXK69pE8/bEwcwxqYZ779zP7bSiM9jf4MwbuwXfDNdS
-	t+TxqDdJoawMBEw1aetauSs0UYlTZR6XYzuYN2yar9l9GyCwvcmigCXS1as9ByuCCYEDcC95yCz77
-	9xYRiN/EDiQ+DNCVo5pm5X/yn8nwCJX9Cnch09lMUP5jOfEcbg9e74wkp1Vdn5gxl2uxplfV5tjmx
-	agyaCsTj3v8vJ2BKYA9w==;
+	List-Owner; bh=Jix0teXM+iLO52OhARcJOZU93QfaaJ6YmfFPHWzAJi8=; b=K2yyUzCDIde+tn
+	RvkbJT/TAZuJysJxxfyJCXWIxBtBdVVVhDg9QKV4iFb8uqd9b4VJgkqcFvR/zjfxYtZsmHRi8o6ui
+	iuu9RnRUW0R/J3TsSGVPQtpDJwKd8FpNYiIJZ3XnpPi31zJiD23mZzKGLtItYKnr4b+oZgbaA2ijY
+	GFIdVKcKyAOnl/lnYmNodIbdwGpFr22kDWQNcdjyO9xDbczzmbo0czMBejOKfLHnlP8/N2uqwG2kn
+	rkDezLNdAuctCteZmvCJnV5y+ecTHWkI+nu0qirC4bRRVbnRlrBPsHL89Vbw5zYyQNq9yFZi/32M8
+	HrG1EnNbUuf2CfOVZkEQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jbUtk-0001kR-8T; Wed, 20 May 2020 20:01:04 +0000
+	id 1jbUuE-00029w-EB; Wed, 20 May 2020 20:01:34 +0000
 Received: from [2001:4bb8:188:1506:c70:4a89:bc61:2] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jbUpK-0003Nh-KO; Wed, 20 May 2020 19:56:31 +0000
+ id 1jbUpe-0003YI-PV; Wed, 20 May 2020 19:56:51 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH 28/33] ipv6: add ip6_sock_set_recvpktinfo
-Date: Wed, 20 May 2020 21:55:04 +0200
-Message-Id: <20200520195509.2215098-29-hch@lst.de>
+Subject: [PATCH 31/33] sctp: add sctp_sock_set_nodelay
+Date: Wed, 20 May 2020 21:55:07 +0200
+Message-Id: <20200520195509.2215098-32-hch@lst.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200520195509.2215098-1-hch@lst.de>
 References: <20200520195509.2215098-1-hch@lst.de>
@@ -74,64 +74,73 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add a helper to directly set the IPV6_RECVPKTINFO sockopt from kernel
-space without going through a fake uaccess.
+Add a helper to directly set the SCTP_NODELAY sockopt from kernel space
+without going through a fake uaccess.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- include/net/ipv6.h   |  7 +++++++
- net/sunrpc/svcsock.c | 10 ++--------
+ fs/dlm/lowcomms.c       | 10 ++--------
+ include/net/sctp/sctp.h |  7 +++++++
  2 files changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/include/net/ipv6.h b/include/net/ipv6.h
-index 80260cff7e0c0..79b68ee3820e7 100644
---- a/include/net/ipv6.h
-+++ b/include/net/ipv6.h
-@@ -1261,4 +1261,11 @@ static inline int ip6_sock_set_addr_preferences(struct sock *sk, bool val)
- 	return ret;
+diff --git a/fs/dlm/lowcomms.c b/fs/dlm/lowcomms.c
+index 69333728d871b..9f1c3cdc9d653 100644
+--- a/fs/dlm/lowcomms.c
++++ b/fs/dlm/lowcomms.c
+@@ -914,7 +914,6 @@ static int sctp_bind_addrs(struct connection *con, uint16_t port)
+ static void sctp_connect_to_sock(struct connection *con)
+ {
+ 	struct sockaddr_storage daddr;
+-	int one = 1;
+ 	int result;
+ 	int addr_len;
+ 	struct socket *sock;
+@@ -961,8 +960,7 @@ static void sctp_connect_to_sock(struct connection *con)
+ 	log_print("connecting to %d", con->nodeid);
+ 
+ 	/* Turn off Nagle's algorithm */
+-	kernel_setsockopt(sock, SOL_SCTP, SCTP_NODELAY, (char *)&one,
+-			  sizeof(one));
++	sctp_sock_set_nodelay(sock->sk);
+ 
+ 	/*
+ 	 * Make sock->ops->connect() function return in specified time,
+@@ -1176,7 +1174,6 @@ static int sctp_listen_for_all(void)
+ 	struct socket *sock = NULL;
+ 	int result = -EINVAL;
+ 	struct connection *con = nodeid2con(0, GFP_NOFS);
+-	int one = 1;
+ 
+ 	if (!con)
+ 		return -ENOMEM;
+@@ -1191,10 +1188,7 @@ static int sctp_listen_for_all(void)
+ 	}
+ 
+ 	sock_set_rcvbuf(sock->sk, NEEDED_RMEM);
+-	result = kernel_setsockopt(sock, SOL_SCTP, SCTP_NODELAY, (char *)&one,
+-				   sizeof(one));
+-	if (result < 0)
+-		log_print("Could not set SCTP NODELAY error %d\n", result);
++	sctp_sock_set_nodelay(sock->sk);
+ 
+ 	write_lock_bh(&sock->sk->sk_callback_lock);
+ 	/* Init con struct */
+diff --git a/include/net/sctp/sctp.h b/include/net/sctp/sctp.h
+index 3ab5c6bbb90bd..f8bcb75bb0448 100644
+--- a/include/net/sctp/sctp.h
++++ b/include/net/sctp/sctp.h
+@@ -615,4 +615,11 @@ static inline bool sctp_newsk_ready(const struct sock *sk)
+ 	return sock_flag(sk, SOCK_DEAD) || sk->sk_socket;
  }
  
-+static inline void ip6_sock_set_recvpktinfo(struct sock *sk)
++static inline void sctp_sock_set_nodelay(struct sock *sk)
 +{
 +	lock_sock(sk);
-+	inet6_sk(sk)->rxopt.bits.rxinfo = true;
++	sctp_sk(sk)->nodelay = true;
 +	release_sock(sk);
 +}
 +
- #endif /* _NET_IPV6_H */
-diff --git a/net/sunrpc/svcsock.c b/net/sunrpc/svcsock.c
-index a391892977cd2..e7a0037d9b56c 100644
---- a/net/sunrpc/svcsock.c
-+++ b/net/sunrpc/svcsock.c
-@@ -595,8 +595,6 @@ static struct svc_xprt_class svc_udp_class = {
- 
- static void svc_udp_init(struct svc_sock *svsk, struct svc_serv *serv)
- {
--	int err, level, optname, one = 1;
--
- 	svc_xprt_init(sock_net(svsk->sk_sock->sk), &svc_udp_class,
- 		      &svsk->sk_xprt, serv);
- 	clear_bit(XPT_CACHE_AUTH, &svsk->sk_xprt.xpt_flags);
-@@ -617,17 +615,13 @@ static void svc_udp_init(struct svc_sock *svsk, struct svc_serv *serv)
- 	switch (svsk->sk_sk->sk_family) {
- 	case AF_INET:
- 		ip_sock_set_pktinfo(svsk->sk_sock->sk);
--		return;
-+		break;
- 	case AF_INET6:
--		level = SOL_IPV6;
--		optname = IPV6_RECVPKTINFO;
-+		ip6_sock_set_recvpktinfo(svsk->sk_sock->sk);
- 		break;
- 	default:
- 		BUG();
- 	}
--	err = kernel_setsockopt(svsk->sk_sock, level, optname,
--					(char *)&one, sizeof(one));
--	dprintk("svc: kernel_setsockopt returned %d\n", err);
- }
- 
- /*
+ #endif /* __net_sctp_h__ */
 -- 
 2.26.2
 
