@@ -5,18 +5,18 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7D28C433E0
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 May 2020 20:00:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49A91C433E0
+	for <linux-nvme@archiver.kernel.org>; Wed, 20 May 2020 20:00:14 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6AA91207F9
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 May 2020 20:00:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E271B20823
+	for <linux-nvme@archiver.kernel.org>; Wed, 20 May 2020 20:00:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="FtrEbYwV"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6AA91207F9
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="LT/rnJjZ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E271B20823
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,23 +25,23 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=TWZAuYeVUeuuz1WzF/G4HDzW94wpHIrP95/2gCrJFnc=; b=FtrEbYwV/T1KC6
-	MZUqlzMWi9DR8nWw6zHIuUXgxt+T0vJyvoONpFvG52if2yMtqWrwY4sHu2H0JrXWEs34BhdeEBi7P
-	pptO2A+/QKhDaD2uEgLO8uPzYOY04iESV4kPPyXLhvx0ao4Af/HuWVjvk2NLKCC6kVn9icsO7yDo4
-	iWNAXVFLzt6xbht1sK4l6dKTRbpJ2WwP8A78MRg9Xcvem+xJkv2AWapwDQzPmih4iGWIyUXDcGmjM
-	qBizjm0P4rJRfPxZnTo9on29tbnViauiYibZs6i7aZn4GerST4Xz85R0hiiC1DCYdtDx0bDRWNQm+
-	lG2DgzI89S3INMgywIMw==;
+	List-Owner; bh=Qf2E+RDQ+rQAFUXopc7b8ztRx7tOKFcDn6fkO7nmRTg=; b=LT/rnJjZFl+gvv
+	5SLPi7SIOwWYXM/iO4zX6+ynHUTGn/O7W92yug8oRW0/CQSlTUKW2q6Vqv+iLTP+k6xC/vnhT61d5
+	NDY7XTPwVN2grEuahmHQcmq0PUaHv8mTRFEYPCCZzjsP+8gjoheFjenzPmYFAaw1z3UcHKmpLFOEv
+	gsxaae4TuIJDG/SLDeu73IieHqdrCo6i1c2kbvuDIyEXFtYWMZ+MSIL5rbGhp0BlBxd4B39Of7A7s
+	s+/jmiZFOGFtrTy573CpO6b/VhhDQC6My0hhPS0R//Y0cYKSUKNlis8jEQ1XkigS51BNEksR7EEvK
+	++EPkPUBFrq81qJgAP0w==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jbUse-0006yw-Pa; Wed, 20 May 2020 19:59:56 +0000
+	id 1jbUsr-0007BK-E9; Wed, 20 May 2020 20:00:09 +0000
 Received: from [2001:4bb8:188:1506:c70:4a89:bc61:2] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jbUp9-00039I-BR; Wed, 20 May 2020 19:56:19 +0000
+ id 1jbUpC-0003Ct-0A; Wed, 20 May 2020 19:56:22 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH 24/33] ipv4: add ip_sock_set_pktinfo
-Date: Wed, 20 May 2020 21:55:00 +0200
-Message-Id: <20200520195509.2215098-25-hch@lst.de>
+Subject: [PATCH 25/33] ipv6: add ip6_sock_set_v6only
+Date: Wed, 20 May 2020 21:55:01 +0200
+Message-Id: <20200520195509.2215098-26-hch@lst.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200520195509.2215098-1-hch@lst.de>
 References: <20200520195509.2215098-1-hch@lst.de>
@@ -74,63 +74,77 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add a helper to directly set the IP_PKTINFO sockopt from kernel
-space without going through a fake uaccess.
+Add a helper to directly set the IPV6_V6ONLY sockopt from kernel space
+without going through a fake uaccess.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- include/net/ip.h       | 1 +
- net/ipv4/ip_sockglue.c | 8 ++++++++
- net/sunrpc/svcsock.c   | 5 ++---
- 3 files changed, 11 insertions(+), 3 deletions(-)
+ include/net/ipv6.h        | 11 +++++++++++
+ net/ipv6/ip6_udp_tunnel.c |  5 +----
+ net/sunrpc/svcsock.c      |  6 +-----
+ 3 files changed, 13 insertions(+), 9 deletions(-)
 
-diff --git a/include/net/ip.h b/include/net/ip.h
-index d3649c49dd333..04ebe7bf54c6a 100644
---- a/include/net/ip.h
-+++ b/include/net/ip.h
-@@ -767,6 +767,7 @@ static inline bool inetdev_valid_mtu(unsigned int mtu)
- 
- void ip_sock_set_freebind(struct sock *sk);
- int ip_sock_set_mtu_discover(struct sock *sk, int val);
-+void ip_sock_set_pktinfo(struct sock *sk);
- void ip_sock_set_recverr(struct sock *sk);
- void ip_sock_set_tos(struct sock *sk, int val);
- 
-diff --git a/net/ipv4/ip_sockglue.c b/net/ipv4/ip_sockglue.c
-index a3c46ec95a756..55fd4794a7975 100644
---- a/net/ipv4/ip_sockglue.c
-+++ b/net/ipv4/ip_sockglue.c
-@@ -608,6 +608,14 @@ int ip_sock_set_mtu_discover(struct sock *sk, int val)
- }
- EXPORT_SYMBOL(ip_sock_set_mtu_discover);
- 
-+void ip_sock_set_pktinfo(struct sock *sk)
-+{
-+	lock_sock(sk);
-+	inet_sk(sk)->cmsg_flags |= IP_CMSG_PKTINFO;
-+	release_sock(sk);
-+}
-+EXPORT_SYMBOL(ip_sock_set_pktinfo);
+diff --git a/include/net/ipv6.h b/include/net/ipv6.h
+index 5fc3a9d7b053e..7d1cb9f0f5388 100644
+--- a/include/net/ipv6.h
++++ b/include/net/ipv6.h
+@@ -1176,4 +1176,15 @@ int ipv6_sock_mc_join_ssm(struct sock *sk, int ifindex,
+ 			  const struct in6_addr *addr, unsigned int mode);
+ int ipv6_sock_mc_drop(struct sock *sk, int ifindex,
+ 		      const struct in6_addr *addr);
 +
- /*
-  *	Socket option code for IP. This is the end of the line after any
-  *	TCP,UDP etc options on an IP socket.
++static inline int ip6_sock_set_v6only(struct sock *sk)
++{
++	if (inet_sk(sk)->inet_num)
++		return -EINVAL;
++	lock_sock(sk);
++	sk->sk_ipv6only = true;
++	release_sock(sk);
++	return 0;
++}
++
+ #endif /* _NET_IPV6_H */
+diff --git a/net/ipv6/ip6_udp_tunnel.c b/net/ipv6/ip6_udp_tunnel.c
+index 6523609516d25..2e0ad1bc84a83 100644
+--- a/net/ipv6/ip6_udp_tunnel.c
++++ b/net/ipv6/ip6_udp_tunnel.c
+@@ -25,10 +25,7 @@ int udp_sock_create6(struct net *net, struct udp_port_cfg *cfg,
+ 		goto error;
+ 
+ 	if (cfg->ipv6_v6only) {
+-		int val = 1;
+-
+-		err = kernel_setsockopt(sock, IPPROTO_IPV6, IPV6_V6ONLY,
+-					(char *) &val, sizeof(val));
++		err = ip6_sock_set_v6only(sock->sk);
+ 		if (err < 0)
+ 			goto error;
+ 	}
 diff --git a/net/sunrpc/svcsock.c b/net/sunrpc/svcsock.c
-index 6773dacc64d8e..7a805d165689c 100644
+index 7a805d165689c..a391892977cd2 100644
 --- a/net/sunrpc/svcsock.c
 +++ b/net/sunrpc/svcsock.c
-@@ -616,9 +616,8 @@ static void svc_udp_init(struct svc_sock *svsk, struct svc_serv *serv)
- 	/* make sure we get destination address info */
- 	switch (svsk->sk_sk->sk_family) {
- 	case AF_INET:
--		level = SOL_IP;
--		optname = IP_PKTINFO;
--		break;
-+		ip_sock_set_pktinfo(svsk->sk_sock->sk);
-+		return;
- 	case AF_INET6:
- 		level = SOL_IPV6;
- 		optname = IPV6_RECVPKTINFO;
+@@ -1328,7 +1328,6 @@ static struct svc_xprt *svc_create_socket(struct svc_serv *serv,
+ 	struct sockaddr *newsin = (struct sockaddr *)&addr;
+ 	int		newlen;
+ 	int		family;
+-	int		val;
+ 	RPC_IFDEBUG(char buf[RPC_MAX_ADDRBUFLEN]);
+ 
+ 	dprintk("svc: svc_create_socket(%s, %d, %s)\n",
+@@ -1364,11 +1363,8 @@ static struct svc_xprt *svc_create_socket(struct svc_serv *serv,
+ 	 * getting requests from IPv4 remotes.  Those should
+ 	 * be shunted to a PF_INET listener via rpcbind.
+ 	 */
+-	val = 1;
+ 	if (family == PF_INET6)
+-		kernel_setsockopt(sock, SOL_IPV6, IPV6_V6ONLY,
+-					(char *)&val, sizeof(val));
+-
++		ip6_sock_set_v6only(sock->sk);
+ 	if (type == SOCK_STREAM)
+ 		sock->sk->sk_reuse = SK_CAN_REUSE; /* allow address reuse */
+ 	error = kernel_bind(sock, sin, len);
 -- 
 2.26.2
 
