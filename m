@@ -2,57 +2,77 @@ Return-Path: <SRS0=IF7s=7D=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01D13C433E0
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 May 2020 08:42:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF19DC433E0
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 May 2020 09:06:31 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C706020738
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 May 2020 08:42:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A792120759
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 May 2020 09:06:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="m+9T0u27"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C706020738
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="rb8uIDDU"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A792120759
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=ACULAB.COM
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
+	Message-ID:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=hKkT2kaQT+gtAdkh79Yi0TLtbNGrUtKma6RzdA9RTwA=; b=m+9T0u27Pi0nX+
-	avNCRcnLohzd+R2ZCgl+2i5tFSKY4UhU52P6Yd0Y2RlYhwsA4zSTH+9sSvclVgbooM66D9AS8jSEY
-	kjIxiLfzUl960xI/cSx0HzuFu30cztIcCZQ8umZq6mOKWaLcfY53AOQ4hA89FPyiA9Brp35AH54uQ
-	O4FrV9Q0/M1QeE2oXDEmtmMnfxI8hgPGSfGvUnBPjFYIjc59nlxG2RJlo+N/utpOjfxTz5ZhqM0VN
-	8LlQWIF4PZG3dXhoJgYutsYiQi/EhMHUkQBdltMPvRwgsae8b/DtVaG42Dfkb27hpIG1ohxQx4OFj
-	uJ3gbP9UyZN6B3H+OgIg==;
+	List-Owner; bh=c1tZ2IsYleglw4vJxOxDzEaqPVktXQDUThjPivGnVEA=; b=rb8uIDDUSd9kTa
+	3WhoGzbqaukZxgWk/tT++AJh6ydaAjj45QCUdUCYgWpCD497B+lnrojsRp8H9lvGiqI0lBvSIuEr3
+	IOKaZILK7yyBUw8Oc9xRNfDtTUKZHibPHrMl29+0K70IEJurStBqxypjLhRDpZWcrYBpn6xHoZYCA
+	QlOBwKaHpG40lHwymXXT3TTkmbYRqToTrbn8lYXrd+HXp5LqvOE8VQcnATLfjmdf61P2/o1ELSDER
+	yHWrBNZSnFE4alWAgxOyaG3X/3MY3/RYB5+ST/WPXFN+vohC+26S8BG4lVC8j3pK9MaMVhWI/aoLs
+	OkcizZd1nAZRHSLPdz3g==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jbgmc-0002yr-3F; Thu, 21 May 2020 08:42:30 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1jbh9n-0002VW-Cz; Thu, 21 May 2020 09:06:27 +0000
+Received: from eu-smtp-delivery-151.mimecast.com ([207.82.80.151])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jbgma-0002yH-3C; Thu, 21 May 2020 08:42:29 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 1D9C368BEB; Thu, 21 May 2020 10:42:25 +0200 (CEST)
-Date: Thu, 21 May 2020 10:42:24 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>
-Subject: Re: [PATCH 32/33] net: add a new bind_add method
-Message-ID: <20200521084224.GA7859@lst.de>
+ id 1jbh9k-0002UP-Lc
+ for linux-nvme@lists.infradead.org; Thu, 21 May 2020 09:06:26 +0000
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mtapsc-2-5zY-0iRdNzGaTxwUZDYv5A-1; Thu, 21 May 2020 10:06:20 +0100
+X-MC-Unique: 5zY-0iRdNzGaTxwUZDYv5A-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Thu, 21 May 2020 10:06:19 +0100
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000; 
+ Thu, 21 May 2020 10:06:19 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Christoph Hellwig' <hch@lst.de>, Marcelo Ricardo Leitner
+ <marcelo.leitner@gmail.com>
+Subject: RE: [PATCH 31/33] sctp: add sctp_sock_set_nodelay
+Thread-Topic: [PATCH 31/33] sctp: add sctp_sock_set_nodelay
+Thread-Index: AQHWL0qynFLZF0CI80WcvwAESh6D26iyPrKg
+Date: Thu, 21 May 2020 09:06:19 +0000
+Message-ID: <0a6839ab0ba04fcf9b9c92784c9564aa@AcuMS.aculab.com>
 References: <20200520195509.2215098-1-hch@lst.de>
- <20200520195509.2215098-33-hch@lst.de>
- <20200520230025.GT2491@localhost.localdomain>
+ <20200520195509.2215098-32-hch@lst.de>
+ <20200520231001.GU2491@localhost.localdomain>
+ <20200520.162355.2212209708127373208.davem@davemloft.net>
+ <20200520233913.GV2491@localhost.localdomain> <20200521083442.GA7771@lst.de>
+In-Reply-To: <20200521083442.GA7771@lst.de>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200520230025.GT2491@localhost.localdomain>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200521_014228_283134_52843CA8 
-X-CRM114-Status: GOOD (  15.45  )
+X-CRM114-CacheID: sfid-20200521_020624_984529_CAEC9967 
+X-CRM114-Status: GOOD (  12.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,67 +84,68 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Eric Dumazet <edumazet@google.com>, linux-nvme@lists.infradead.org,
- linux-sctp@vger.kernel.org, target-devel@vger.kernel.org,
- linux-afs@lists.infradead.org, drbd-dev@lists.linbit.com,
- linux-cifs@vger.kernel.org, rds-devel@oss.oracle.com,
- linux-rdma@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
- cluster-devel@redhat.com, Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
- Jakub Kicinski <kuba@kernel.org>, ceph-devel@vger.kernel.org,
- linux-nfs@vger.kernel.org, Neil Horman <nhorman@tuxdriver.com>,
- Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>, netdev@vger.kernel.org,
- Vlad Yasevich <vyasevich@gmail.com>, linux-kernel@vger.kernel.org,
- Jon Maloy <jmaloy@redhat.com>, Ying Xue <ying.xue@windriver.com>,
- "David S. Miller" <davem@davemloft.net>, ocfs2-devel@oss.oracle.com
+Cc: "edumazet@google.com" <edumazet@google.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-sctp@vger.kernel.org" <linux-sctp@vger.kernel.org>,
+ "target-devel@vger.kernel.org" <target-devel@vger.kernel.org>,
+ "linux-afs@lists.infradead.org" <linux-afs@lists.infradead.org>,
+ "drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>,
+ "linux-cifs@vger.kernel.org" <linux-cifs@vger.kernel.org>,
+ "rds-devel@oss.oracle.com" <rds-devel@oss.oracle.com>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ "cluster-devel@redhat.com" <cluster-devel@redhat.com>,
+ "kuznet@ms2.inr.ac.ru" <kuznet@ms2.inr.ac.ru>,
+ "kuba@kernel.org" <kuba@kernel.org>,
+ "ceph-devel@vger.kernel.org" <ceph-devel@vger.kernel.org>,
+ "linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
+ "nhorman@tuxdriver.com" <nhorman@tuxdriver.com>,
+ "yoshfuji@linux-ipv6.org" <yoshfuji@linux-ipv6.org>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "vyasevich@gmail.com" <vyasevich@gmail.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "jmaloy@redhat.com" <jmaloy@redhat.com>,
+ "ying.xue@windriver.com" <ying.xue@windriver.com>,
+ David Miller <davem@davemloft.net>,
+ "ocfs2-devel@oss.oracle.com" <ocfs2-devel@oss.oracle.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, May 20, 2020 at 08:00:25PM -0300, Marcelo Ricardo Leitner wrote:
-> > +	if (err)
-> > +		return err;
-> > +
-> > +	lock_sock(sk);
-> > +	err = sctp_do_bind(sk, (union sctp_addr *)addr, af->sockaddr_len);
-> > +	if (!err)
-> > +		err = sctp_send_asconf_add_ip(sk, addr, 1);
+From: Christoph Hellwig
+> Sent: 21 May 2020 09:35
+> On Wed, May 20, 2020 at 08:39:13PM -0300, Marcelo Ricardo Leitner wrote:
+> > On Wed, May 20, 2020 at 04:23:55PM -0700, David Miller wrote:
+> > > From: Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>
+> > > Date: Wed, 20 May 2020 20:10:01 -0300
+> > >
+> > > > The duplication with sctp_setsockopt_nodelay() is quite silly/bad.
+> > > > Also, why have the 'true' hardcoded? It's what dlm uses, yes, but the
+> > > > API could be a bit more complete than that.
+> > >
+> > > The APIs are being designed based upon what in-tree users actually
+> > > make use of.  We can expand things later if necessary.
+> >
+> > Sometimes expanding things later can be though, thus why the worry.
+> > But ok, I get it. Thanks.
+> >
+> > The comment still applies, though. (re the duplication)
 > 
-> Some problems here.
-> - addr may contain a list of addresses
-> - the addresses, then, are not being validated
-> - sctp_do_bind may fail, on which it requires some undoing
->   (like sctp_bindx_add does)
-> - code duplication with sctp_setsockopt_bindx.
+> Where do you see duplication?
 
-sctp_do_bind and thus this function only support a single address, as
-that is the only thing that the DLM code requires.  I could move the
-user copy out of sctp_setsockopt_bindx and reuse that, but it is a
-rather rcane API.
+The whole thing just doesn't scale.
 
-> 
-> This patch will conflict with David's one,
-> [PATCH net-next] sctp: Pull the user copies out of the individual sockopt functions.
+As soon as you get to the slightly more complex requests
+like SCTP_INITMSG (which should probably be called to
+set the required number of data streams) you've either
+got replicated code or nested wrappers.
 
-Do you have a link?  A quick google search just finds your mail that
-I'm replying to.
+	David
 
-> (I'll finish reviewing it in the sequence)
-> 
-> AFAICT, this patch could reuse/build on his work in there. The goal is
-> pretty much the same and would avoid the issues above.
-> 
-> This patch could, then, point the new bind_add proto op to the updated
-> sctp_setsockopt_bindx almost directly.
-> 
-> Question then is: dlm never removes an addr from the bind list. Do we
-> want to add ops for both? Or one that handles both operations?
-> Anyhow, having the add operation but not the del seems very weird to
-> me.
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
 
-We generally only add operations for things that we actually use.
-bind_del is another logical op, but we can trivially add that when we
-need it.
 
 _______________________________________________
 linux-nvme mailing list
