@@ -2,81 +2,66 @@ Return-Path: <SRS0=Hg5O=7I=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A516C433E0
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 May 2020 07:13:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FFF4C433E1
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 May 2020 10:33:17 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1C28820870
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 May 2020 07:13:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1C4592084C
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 May 2020 10:33:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="j0VJhFtx";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JO3vhnYw"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1C28820870
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="qar2xlt/";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="qkE3vJD9"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1C4592084C
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
-	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Tay4ZqUrLLu5tw192gKuLNhuJH65V1pg/5JVLuntRmA=; b=j0VJhFtxZY50C7
-	SGusUhxPcE/eiStuN1vf0SYvMQN9lIZZKoOoRNffHRSjU4VaBOJdF4qVB8tSHvyOB/BZkk16L5J7O
-	Jyd5N7YTpIzdhxPogN6HZjpH/XINELlRpDULwHEK1irf1aKVyKnoe45A80+NM4k4hgJfUVlGT+UmO
-	MzpzPObdYm06hw+6zjVZtkximAnRRcZTBSyqKeEHV64YYQT8SWKABQajr+eUGdvWhKy0vncaADQ1/
-	P8IZc1e3bYxrJcFAZRpmh874MApsGzJ9ovvHu265nENE+l+50sKVGuKPQTwrAp2hcc4cCSNUBtQXb
-	stHfm1ibn86st8/HRSPg==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
+	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=iVWGJ2BGGnLWdDyRhQrMEqX9tpKUu+HQ2cqtIKXM7Ro=; b=qar2xlt/X7axxW
+	mlN9B9Ox22chppeQMbcu6zEDSHigflkUCMrJKHJ2CiPP+rs56MVizc0nu0liBwbmLHHyn0EkOuuik
+	7xT0Sx8ivO824ROsMQ06KJZLKsaQTubp9HkT80NCNQtvVBUKZNUzTpH1T6OYIEl25qzpi8Q2A4IcM
+	5cbuei1yEXCydK5VsilM5VfqaLWy2ehh7G6jmrbxVaI49hp3Ugj2AM7aEa7ikDdlx9+nsKerRPzyD
+	tJl1BjWaXhrr9tsKwANIgROX9AnptzUfk1eEILUv9ZhocPOT+2IZSBysTIC8QdQHHFEJmVdCxl+yz
+	n+aWWaHvUbIdt15GhaQg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jdTm4-0006Ve-TI; Tue, 26 May 2020 07:13:20 +0000
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]
- helo=us-smtp-delivery-1.mimecast.com)
+	id 1jdWtV-000873-4w; Tue, 26 May 2020 10:33:13 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jdTlw-0006Ub-NG
- for linux-nvme@lists.infradead.org; Tue, 26 May 2020 07:13:18 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590477185;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=WN2N/BApCYukmkn4MbWXrd3uuV84H0MyGafZbyYspsU=;
- b=JO3vhnYwOgg9JZ5JQL8N9oAuk+mTOco6vY143m5wTCLf8+rmNcuPg6imi1t/4jxUtCUiv0
- t4FfcY9Ecn3DZxvagwUQof+v3YTxo58zUtN1UKOCWu3AOMHeV9J5GkS84K2P7KCI0Eg5HH
- ht+xxgBLm+N+4Ecr5e3bbXZUGvk3Bco=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-123-0MO6C4EJPqafACJvQy18mg-1; Tue, 26 May 2020 03:13:04 -0400
-X-MC-Unique: 0MO6C4EJPqafACJvQy18mg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ id 1jdWtS-00085z-3t
+ for linux-nvme@lists.infradead.org; Tue, 26 May 2020 10:33:11 +0000
+Received: from localhost (unknown [213.57.247.131])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B36EA18FE860;
- Tue, 26 May 2020 07:13:01 +0000 (UTC)
-Received: from T590 (ovpn-12-134.pek2.redhat.com [10.72.12.134])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9839719D7C;
- Tue, 26 May 2020 07:12:53 +0000 (UTC)
-Date: Tue, 26 May 2020 15:12:49 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Dongli Zhang <dongli.zhang@oracle.com>
-Subject: Re: [PATCH 3/3] nvme-pci: make nvme reset more reliable
-Message-ID: <20200526071249.GA874504@T590>
-References: <20200520115655.729705-1-ming.lei@redhat.com>
- <20200520115655.729705-4-ming.lei@redhat.com>
- <9c5ac1e0-b5ca-0f54-5ee3-fd630dbdb8d4@oracle.com>
+ by mail.kernel.org (Postfix) with ESMTPSA id 1A27020776;
+ Tue, 26 May 2020 10:33:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1590489189;
+ bh=pq8On3WUlO+xI1ImWpqd/5ofHohCbw1G+yEvp3sHefs=;
+ h=From:To:Cc:Subject:Date:From;
+ b=qkE3vJD9pAkF3cpL6g/1BJ8bDOux9VE1YndQK4NqxcMh4hT2fmc40ZL5t9TsMrLkG
+ qbQSJclWxYQTHsvHpBI2AXOJrwu3R5UBhsw9393Ad6ubNcE9wVhHthIvjWc46dgnlQ
+ JIsvvXdejMOAtF4xzU3albNtewmk9ma1rOo0IF+Y=
+From: Leon Romanovsky <leon@kernel.org>
+To: Doug Ledford <dledford@redhat.com>,
+	Jason Gunthorpe <jgg@mellanox.com>
+Subject: [PATCH rdma-next v3 0/6] Add Enhanced Connection Established (ECE)
+Date: Tue, 26 May 2020 13:32:58 +0300
+Message-Id: <20200526103304.196371-1-leon@kernel.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <9c5ac1e0-b5ca-0f54-5ee3-fd630dbdb8d4@oracle.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200526_001312_835518_ACCE4FE5 
-X-CRM114-Status: GOOD (  26.59  )
+X-CRM114-CacheID: sfid-20200526_033310_198000_2FEE4A13 
+X-CRM114-Status: UNSURE (   9.64  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,111 +73,79 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- Alan Adamson <alan.adamson@oracle.com>, Keith Busch <kbusch@kernel.org>,
- Max Gurtovoy <maxg@mellanox.com>, Christoph Hellwig <hch@lst.de>
+Cc: rds-devel@oss.oracle.com, Bart Van Assche <bvanassche@acm.org>,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>, linux-rdma@vger.kernel.org,
+ netdev@vger.kernel.org, Santosh Shilimkar <santosh.shilimkar@oracle.com>,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ Christoph Hellwig <hch@lst.de>, Leon Romanovsky <leonro@mellanox.com>,
+ target-devel@vger.kernel.org, Danil Kipnis <danil.kipnis@cloud.ionos.com>,
+ Jakub Kicinski <kuba@kernel.org>, Jack Wang <jinpu.wang@cloud.ionos.com>,
+ "David S. Miller" <davem@davemloft.net>, Sagi Grimberg <sagi@grimberg.me>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, May 25, 2020 at 10:01:18PM -0700, Dongli Zhang wrote:
-> 
-> 
-> On 5/20/20 4:56 AM, Ming Lei wrote:
-> > During waiting for in-flight IO completion in reset handler, timeout
-> 
-> Does this indicate the window since nvme_start_queues() in nvme_reset_work(),
-> that is, just after the queues are unquiesced again?
+From: Leon Romanovsky <leonro@mellanox.com>
 
-Right, nvme_start_queues() starts to dispatch requests again, and
-nvme_wait_freeze() waits completion of all these in-flight IOs.
+Changelog:
+ v3:
+ * Rebased on top of ebd6e96b33a2 RDMA/ipoib: Remove can_sleep parameter from iboib_mcast_alloc
+ * Updated rdma_reject patch to include newly added RTR ulp
+ * Remove empty hunks added by rebase
+ * Changed signature of rdma_reject so kernel users will provide reason by themselves
+ * Squashed UAPI patch to other patches which add functionality
+ * Removed define of the IBTA reason from UAPI
+ v2: https://lore.kernel.org/linux-rdma/20200413141538.935574-1-leon@kernel.org/
+ * Rebased on latest rdma-next and removed already accepted patches.
+ * Updated all rdma_reject in-kernel users to provide reject reason.
+ v1: Dropped field_avail patch in favor of mass conversion to use function
+     which already exists in the kernel code.
+ https://lore.kernel.org/lkml/20200310091438.248429-1-leon@kernel.org
+ v0: https://lore.kernel.org/lkml/20200305150105.207959-1-leon@kernel.org
 
-> 
-> If v2 is required in the future, how about to mention the specific function to
-> that it would be much more easier to track the issue.
+Enhanced Connection Established or ECE is new negotiation scheme
+introduced in IBTA v1.4 to exchange extra information about nodes
+capabilities and later negotiate them at the connection establishment
+phase.
 
-Not sure it is needed, cause it is quite straightforward.
+The RDMA-CM messages (REQ, REP, SIDR_REQ and SIDR_REP) were extended
+to carry two fields, one new and another gained new functionality:
+ * VendorID is a new field that indicates that common subset of vendor
+   option bits are supported as indicated by that VendorID.
+ * AttributeModifier already exists, but overloaded to indicate which
+   vendor options are supported by this VendorID.
 
-> 
-> > or controller failure still may happen, then the controller is deleted
-> > and all inflight IOs are failed. This way is too violent.
-> > 
-> > Improve the reset handling by replacing nvme_wait_freeze with query
-> > & check controller. If all ns queues are frozen, the controller is reset
-> > successfully, otherwise check and see if the controller has been disabled.
-> > If yes, break from the current recovery and schedule a fresh new reset.
-> > 
-> > This way avoids to failing IO & removing controller unnecessarily.
-> > 
-> > Cc: Christoph Hellwig <hch@lst.de>
-> > Cc: Sagi Grimberg <sagi@grimberg.me>
-> > Cc: Keith Busch <kbusch@kernel.org>
-> > Cc: Max Gurtovoy <maxg@mellanox.com>
-> > Signed-off-by: Ming Lei <ming.lei@redhat.com>
-> > ---
-> >  drivers/nvme/host/pci.c | 37 ++++++++++++++++++++++++++++++-------
-> >  1 file changed, 30 insertions(+), 7 deletions(-)
-> > 
-> > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> > index ce0d1e79467a..b5aeed33a634 100644
-> > --- a/drivers/nvme/host/pci.c
-> > +++ b/drivers/nvme/host/pci.c
-> > @@ -24,6 +24,7 @@
-> >  #include <linux/io-64-nonatomic-lo-hi.h>
-> >  #include <linux/sed-opal.h>
-> >  #include <linux/pci-p2pdma.h>
-> > +#include <linux/delay.h>
-> >  
-> >  #include "trace.h"
-> >  #include "nvme.h"
-> > @@ -1235,9 +1236,6 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
-> >  	 * shutdown, so we return BLK_EH_DONE.
-> >  	 */
-> >  	switch (dev->ctrl.state) {
-> > -	case NVME_CTRL_CONNECTING:
-> > -		nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DELETING);
-> > -		/* fall through */
-> >  	case NVME_CTRL_DELETING:
-> >  		dev_warn_ratelimited(dev->ctrl.device,
-> >  			 "I/O %d QID %d timeout, disable controller\n",
-> > @@ -2393,7 +2391,8 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
-> >  		u32 csts = readl(dev->bar + NVME_REG_CSTS);
-> >  
-> >  		if (dev->ctrl.state == NVME_CTRL_LIVE ||
-> > -		    dev->ctrl.state == NVME_CTRL_RESETTING) {
-> > +		    dev->ctrl.state == NVME_CTRL_RESETTING ||
-> > +		    dev->ctrl.state == NVME_CTRL_CONNECTING) {
-> >  			freeze = true;
-> >  			nvme_start_freeze(&dev->ctrl);
-> >  		}
-> > @@ -2504,12 +2503,29 @@ static void nvme_remove_dead_ctrl(struct nvme_dev *dev)
-> >  		nvme_put_ctrl(&dev->ctrl);
-> >  }
-> >  
-> > +static bool nvme_wait_freeze_and_check(struct nvme_dev *dev)
-> > +{
-> > +	bool frozen;
-> > +
-> > +	while (true) {
-> > +		frozen = nvme_frozen(&dev->ctrl);
-> > +		if (frozen)
-> > +			break;
-> 
-> ... and how about to comment that the below is because of nvme timeout handler
-> as explained in another email (if v2 would be sent) so that it is not required
-> to query for "online_queues" with cscope :)
-> 
-> > +		if (!dev->online_queues)
-> > +			break;
-> > +		msleep(5);
+This is kernel part of such functionality which is responsible to get data
+from librdmacm and properly create and handle RDMA-CM messages.
 
-Fine.
+Thanks
 
+Leon Romanovsky (6):
+  RDMA/cm: Add Enhanced Connection Establishment (ECE) bits
+  RDMA/ucma: Extend ucma_connect to receive ECE parameters
+  RDMA/ucma: Deliver ECE parameters through UCMA events
+  RDMA/cm: Send and receive ECE parameter over the wire
+  RDMA/cma: Connect ECE to rdma_accept
+  RDMA/cma: Provide ECE reject reason
 
-Thanks,
-Ming
+ drivers/infiniband/core/cm.c            | 39 ++++++++++++++---
+ drivers/infiniband/core/cma.c           | 57 ++++++++++++++++++++++---
+ drivers/infiniband/core/cma_priv.h      |  1 +
+ drivers/infiniband/core/ucma.c          | 49 +++++++++++++++++----
+ drivers/infiniband/ulp/isert/ib_isert.c |  4 +-
+ drivers/infiniband/ulp/rtrs/rtrs-srv.c  |  2 +-
+ drivers/infiniband/ulp/srpt/ib_srpt.c   |  3 +-
+ drivers/nvme/target/rdma.c              |  3 +-
+ include/rdma/ib_cm.h                    |  9 +++-
+ include/rdma/ibta_vol1_c12.h            |  6 +++
+ include/rdma/rdma_cm.h                  |  9 +++-
+ include/uapi/rdma/rdma_user_cm.h        | 11 ++++-
+ net/rds/ib_cm.c                         |  4 +-
+ 13 files changed, 170 insertions(+), 27 deletions(-)
+
+--
+2.26.2
 
 
 _______________________________________________
