@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0F80C433DF
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 May 2020 05:16:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DBEAC433E1
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 May 2020 05:17:02 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A7E6920721
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 May 2020 05:16:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D939420721
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 May 2020 05:17:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="LiVW7yGZ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A7E6920721
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="LgN5tHy7"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D939420721
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,23 +25,23 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=SIVKwqWdSslqXS0EIPqZTHxI89GykhZZnPY/teTvcXU=; b=LiVW7yGZ6wI2QA
-	NUIHw/SMZaBPP0duTcctdMWOyFh6RUm22aUrf8yCGi5YY9B6YRjevd2sbqsKKsLOyTL1y2EQ7/U3P
-	9/BGwDnR/ElZfSqPrjlipntfwZicJdIszMvOqkFN/N8xvuGJcL2pVz9On7Y09LMhN3NZ0btCkHJK9
-	hPdYwW3bw3Nz0c66s8hDj+/S7oQsJ4LQ05VsjjuG9KrmMtNj6JZ1xsY6TfWOM18Q9tNbsI7LDaKTm
-	LIwKIfOSVFtiq2aF7pB+wuMKeysz4a/nHG1pYwHQFp5ngWEoeHy501fzJx8DyCHSxyA0QJ6fpd3sY
-	9IkSHaUnu4+VsCNjRl4A==;
+	List-Owner; bh=mzGKAyAlbrQfuG3U1CKvFGfgLLQx8Wgwoysz9Rx4vb4=; b=LgN5tHy7/eO9yW
+	MO20LDRdxDSglSQlA0j3ysQeyTOFC3ixHClUVRC/QsyGP5zpR4vAFw+MY0NJZaBsVmJ9dlpaaYOI3
+	G4GCKLWNX9bPaBgdYfs3zSQKyd0dYcOtmplH73U151SQiOny7rWUzkjaISpAi22/8FWmoDgxJW8Gk
+	17Yd6E0NS9J2khasowEhHRiKGrmr0maYkOv8ewpjLbA394S/I9nRjeu/fbH3NFXU/PPXUWXEXsSJt
+	qp/QqD8F9Kb8zTthGuyllgzi0rlggdGMqtZJBSLj+Uw0NZQcgFsuE0Fs6B3iK3IZ2uWIfeXmT0gqH
+	VzdMu63k++T5T5lzu1Jw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jeAuN-0007Ce-Hu; Thu, 28 May 2020 05:16:47 +0000
+	id 1jeAuZ-0007PO-M9; Thu, 28 May 2020 05:16:59 +0000
 Received: from p4fdb1ad2.dip0.t-ipconnect.de ([79.219.26.210] helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat
- Linux)) id 1jeArF-00027k-1K; Thu, 28 May 2020 05:13:33 +0000
+ Linux)) id 1jeArI-0002Bd-68; Thu, 28 May 2020 05:13:36 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH 16/28] tcp: add tcp_sock_set_keepintvl
-Date: Thu, 28 May 2020 07:12:24 +0200
-Message-Id: <20200528051236.620353-17-hch@lst.de>
+Subject: [PATCH 17/28] tcp: add tcp_sock_set_keepcnt
+Date: Thu, 28 May 2020 07:12:25 +0200
+Message-Id: <20200528051236.620353-18-hch@lst.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200528051236.620353-1-hch@lst.de>
 References: <20200528051236.620353-1-hch@lst.de>
@@ -72,84 +72,126 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add a helper to directly set the TCP_KEEPINTVL sockopt from kernel space
+Add a helper to directly set the TCP_KEEPCNT sockopt from kernel space
 without going through a fake uaccess.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
  include/linux/tcp.h   |  1 +
  net/ipv4/tcp.c        | 12 ++++++++++++
- net/rds/tcp_listen.c  |  4 +---
+ net/rds/tcp.h         |  2 +-
+ net/rds/tcp_listen.c  | 17 +++--------------
  net/sunrpc/xprtsock.c |  3 +--
- 4 files changed, 15 insertions(+), 5 deletions(-)
+ 5 files changed, 18 insertions(+), 17 deletions(-)
 
 diff --git a/include/linux/tcp.h b/include/linux/tcp.h
-index 5724dd84a85ed..1f9bada00faab 100644
+index 1f9bada00faab..9aac824c523cf 100644
 --- a/include/linux/tcp.h
 +++ b/include/linux/tcp.h
-@@ -499,6 +499,7 @@ int tcp_skb_shift(struct sk_buff *to, struct sk_buff *from, int pcount,
+@@ -498,6 +498,7 @@ int tcp_skb_shift(struct sk_buff *to, struct sk_buff *from, int pcount,
+ 		  int shiftlen);
  
  void tcp_sock_set_cork(struct sock *sk, bool on);
++int tcp_sock_set_keepcnt(struct sock *sk, int val);
  int tcp_sock_set_keepidle(struct sock *sk, int val);
-+int tcp_sock_set_keepintvl(struct sock *sk, int val);
+ int tcp_sock_set_keepintvl(struct sock *sk, int val);
  void tcp_sock_set_nodelay(struct sock *sk);
- void tcp_sock_set_quickack(struct sock *sk, int val);
- int tcp_sock_set_syncnt(struct sock *sk, int val);
 diff --git a/net/ipv4/tcp.c b/net/ipv4/tcp.c
-index bdf0ff9333514..7eb083e09786a 100644
+index 7eb083e09786a..15d47d5e79510 100644
 --- a/net/ipv4/tcp.c
 +++ b/net/ipv4/tcp.c
-@@ -2934,6 +2934,18 @@ int tcp_sock_set_keepidle(struct sock *sk, int val)
+@@ -2946,6 +2946,18 @@ int tcp_sock_set_keepintvl(struct sock *sk, int val)
  }
- EXPORT_SYMBOL(tcp_sock_set_keepidle);
+ EXPORT_SYMBOL(tcp_sock_set_keepintvl);
  
-+int tcp_sock_set_keepintvl(struct sock *sk, int val)
++int tcp_sock_set_keepcnt(struct sock *sk, int val)
 +{
-+	if (val < 1 || val > MAX_TCP_KEEPINTVL)
++	if (val < 1 || val > MAX_TCP_KEEPCNT)
 +		return -EINVAL;
 +
 +	lock_sock(sk);
-+	tcp_sk(sk)->keepalive_intvl = val * HZ;
++	tcp_sk(sk)->keepalive_probes = val;
 +	release_sock(sk);
 +	return 0;
 +}
-+EXPORT_SYMBOL(tcp_sock_set_keepintvl);
++EXPORT_SYMBOL(tcp_sock_set_keepcnt);
 +
  /*
   *	Socket option code for TCP.
   */
+diff --git a/net/rds/tcp.h b/net/rds/tcp.h
+index f6d75d8cb167a..bad9cf49d5657 100644
+--- a/net/rds/tcp.h
++++ b/net/rds/tcp.h
+@@ -70,7 +70,7 @@ struct socket *rds_tcp_listen_init(struct net *net, bool isv6);
+ void rds_tcp_listen_stop(struct socket *sock, struct work_struct *acceptor);
+ void rds_tcp_listen_data_ready(struct sock *sk);
+ int rds_tcp_accept_one(struct socket *sock);
+-int rds_tcp_keepalive(struct socket *sock);
++void rds_tcp_keepalive(struct socket *sock);
+ void *rds_tcp_listen_sock_def_readable(struct net *net);
+ 
+ /* tcp_recv.c */
 diff --git a/net/rds/tcp_listen.c b/net/rds/tcp_listen.c
-index 79f9adc008114..9ad555c48d15d 100644
+index 9ad555c48d15d..101cf14215a0b 100644
 --- a/net/rds/tcp_listen.c
 +++ b/net/rds/tcp_listen.c
-@@ -53,12 +53,10 @@ int rds_tcp_keepalive(struct socket *sock)
- 		goto bail;
+@@ -38,27 +38,19 @@
+ #include "rds.h"
+ #include "tcp.h"
  
- 	tcp_sock_set_keepidle(sock->sk, keepidle);
+-int rds_tcp_keepalive(struct socket *sock)
++void rds_tcp_keepalive(struct socket *sock)
+ {
+ 	/* values below based on xs_udp_default_timeout */
+ 	int keepidle = 5; /* send a probe 'keepidle' secs after last data */
+ 	int keepcnt = 5; /* number of unack'ed probes before declaring dead */
+-	int ret = 0;
+ 
+ 	sock_set_keepalive(sock->sk);
 -
+-	ret = kernel_setsockopt(sock, IPPROTO_TCP, TCP_KEEPCNT,
+-				(char *)&keepcnt, sizeof(keepcnt));
+-	if (ret < 0)
+-		goto bail;
+-
++	tcp_sock_set_keepcnt(sock->sk, keepcnt);
+ 	tcp_sock_set_keepidle(sock->sk, keepidle);
  	/* KEEPINTVL is the interval between successive probes. We follow
  	 * the model in xs_tcp_finish_connecting() and re-use keepidle.
  	 */
--	ret = kernel_setsockopt(sock, IPPROTO_TCP, TCP_KEEPINTVL,
--				(char *)&keepidle, sizeof(keepidle));
-+	tcp_sock_set_keepintvl(sock->sk, keepidle);
- bail:
- 	return ret;
+ 	tcp_sock_set_keepintvl(sock->sk, keepidle);
+-bail:
+-	return ret;
  }
+ 
+ /* rds_tcp_accept_one_path(): if accepting on cp_index > 0, make sure the
+@@ -140,10 +132,7 @@ int rds_tcp_accept_one(struct socket *sock)
+ 	new_sock->ops = sock->ops;
+ 	__module_get(new_sock->ops->owner);
+ 
+-	ret = rds_tcp_keepalive(new_sock);
+-	if (ret < 0)
+-		goto out;
+-
++	rds_tcp_keepalive(new_sock);
+ 	rds_tcp_tune(new_sock);
+ 
+ 	inet = inet_sk(new_sock->sk);
 diff --git a/net/sunrpc/xprtsock.c b/net/sunrpc/xprtsock.c
-index 473290f7c5c0a..5ca64e12af0c5 100644
+index 5ca64e12af0c5..0d3ec055bc12f 100644
 --- a/net/sunrpc/xprtsock.c
 +++ b/net/sunrpc/xprtsock.c
-@@ -2108,8 +2108,7 @@ static void xs_tcp_set_socket_timeouts(struct rpc_xprt *xprt,
- 	/* TCP Keepalive options */
+@@ -2109,8 +2109,7 @@ static void xs_tcp_set_socket_timeouts(struct rpc_xprt *xprt,
  	sock_set_keepalive(sock->sk);
  	tcp_sock_set_keepidle(sock->sk, keepidle);
--	kernel_setsockopt(sock, SOL_TCP, TCP_KEEPINTVL,
--			(char *)&keepidle, sizeof(keepidle));
-+	tcp_sock_set_keepintvl(sock->sk, keepidle);
- 	kernel_setsockopt(sock, SOL_TCP, TCP_KEEPCNT,
- 			(char *)&keepcnt, sizeof(keepcnt));
+ 	tcp_sock_set_keepintvl(sock->sk, keepidle);
+-	kernel_setsockopt(sock, SOL_TCP, TCP_KEEPCNT,
+-			(char *)&keepcnt, sizeof(keepcnt));
++	tcp_sock_set_keepcnt(sock->sk, keepcnt);
  
+ 	/* TCP user timeout (see RFC5482) */
+ 	tcp_sock_set_user_timeout(sock->sk, timeo);
 -- 
 2.26.2
 
