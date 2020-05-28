@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54F3DC433E0
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 May 2020 05:13:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EE07C433E0
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 May 2020 05:13:53 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 27CCD2089D
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 May 2020 05:13:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 31D432145D
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 May 2020 05:13:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="exSurAyo"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 27CCD2089D
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="A5Ro7ihm"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 31D432145D
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,23 +25,23 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=JhZSvylU5wsS7moa+TGOCX/rGyySnb4h2DaUrz2paMI=; b=exSurAyozjuEbO
-	ScI7l2Nvf/lmah0oMu7gPpITHqpTTiLmXlEsXtBNFPcmoKZ4VBEd1mU5lkZg+G4GA93NqlFY4RocE
-	olTI+kTsyCBLY3rU6oZ1mgBY0czLEL2D1DHLmuzKsuKXy0PLGarFRtRsnhXw6K7qr6WnpFDYLv/Jb
-	vp3TVMEMkNgXq31F4cqYP5h7kM8HF3pprThEWfqw/am0kcbxq/nq3+rDqGhSf5dI7SUeGBA7ihoh0
-	LsOjAZsZX30g2fGmp1SsS/6sltMgBfM89qUV8rco5IqZdAeTdKo8UwNVjQuTvYbTPHvy+RbZHl03w
-	hndIBRSbdElL/BdSLcdQ==;
+	List-Owner; bh=VsGWcw+5F7JG6OJYLyV8Tmmh8YypT680FAe5qqeshME=; b=A5Ro7ihmhLMioh
+	3LywcRBVCE0T2KR/BkdP8YRWKroXcnZG+EXktzgsbE2USoCWg0VhTc3KhQ4mhSw/NcFwauUtj96Sf
+	L39couXxUn+8xiuBVDpAo0OZJyIauqdgtR1+ESFF9v6hkIZTglJaF0S2eZm8sh9Lgv7pFQm5om/Mv
+	ij/LaSot5Y8N2KWXz/Q2rkhNleyWWbjZ73CIhVsfSI9CEK/NID4YpS+VrMzBWIR0VrPof5a1p49zc
+	r8xD5T+RYjEtMpF9U04teXo2aMwQZdTWLQzaI+h1L1LgA8/E0NLH0Nz+clKgLyqcE+rY2edpXNlZn
+	kEl/vpETFf6nDfjeXFoA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jeAr8-00022N-NW; Thu, 28 May 2020 05:13:26 +0000
+	id 1jeArV-0002QB-2u; Thu, 28 May 2020 05:13:49 +0000
 Received: from p4fdb1ad2.dip0.t-ipconnect.de ([79.219.26.210] helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat
- Linux)) id 1jeAqW-0001R3-Lf; Thu, 28 May 2020 05:12:49 +0000
+ Linux)) id 1jeAqZ-0001VO-HO; Thu, 28 May 2020 05:12:52 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH 03/28] net: add sock_set_priority
-Date: Thu, 28 May 2020 07:12:11 +0200
-Message-Id: <20200528051236.620353-4-hch@lst.de>
+Subject: [PATCH 04/28] net: add sock_set_sndtimeo
+Date: Thu, 28 May 2020 07:12:12 +0200
+Message-Id: <20200528051236.620353-5-hch@lst.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200528051236.620353-1-hch@lst.de>
 References: <20200528051236.620353-1-hch@lst.de>
@@ -58,118 +58,89 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: linux-cifs@vger.kernel.org, rds-devel@oss.oracle.com,
- cluster-devel@redhat.com, Sagi Grimberg <sagi@grimberg.me>,
- Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- Jon Maloy <jmaloy@redhat.com>, linux-rdma@vger.kernel.org,
- Eric Dumazet <edumazet@google.com>, target-devel@vger.kernel.org,
- tipc-discussion@lists.sourceforge.net, linux-nfs@vger.kernel.org,
- Ying Xue <ying.xue@windriver.com>, Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
- ceph-devel@vger.kernel.org, linux-afs@lists.infradead.org,
- ocfs2-devel@oss.oracle.com, drbd-dev@lists.linbit.com
+ cluster-devel@redhat.com, Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, Jon Maloy <jmaloy@redhat.com>,
+ linux-rdma@vger.kernel.org, Eric Dumazet <edumazet@google.com>,
+ target-devel@vger.kernel.org, tipc-discussion@lists.sourceforge.net,
+ linux-nfs@vger.kernel.org, Ying Xue <ying.xue@windriver.com>,
+ Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>, ceph-devel@vger.kernel.org,
+ linux-afs@lists.infradead.org, ocfs2-devel@oss.oracle.com,
+ drbd-dev@lists.linbit.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add a helper to directly set the SO_PRIORITY sockopt from kernel space
-without going through a fake uaccess.
+Add a helper to directly set the SO_SNDTIMEO_NEW sockopt from kernel
+space without going through a fake uaccess.  The interface is
+simplified to only pass the seconds value, as that is the only
+thing needed at the moment.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
-Acked-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/host/tcp.c   | 12 ++----------
- drivers/nvme/target/tcp.c | 18 ++++--------------
- include/net/sock.h        |  1 +
- net/core/sock.c           |  8 ++++++++
- 4 files changed, 15 insertions(+), 24 deletions(-)
+ fs/dlm/lowcomms.c  |  8 ++------
+ include/net/sock.h |  1 +
+ net/core/sock.c    | 11 +++++++++++
+ 3 files changed, 14 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index e72d87482eb78..a307972d33a02 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1362,16 +1362,8 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
+diff --git a/fs/dlm/lowcomms.c b/fs/dlm/lowcomms.c
+index b801e77e3e596..b4d491122814b 100644
+--- a/fs/dlm/lowcomms.c
++++ b/fs/dlm/lowcomms.c
+@@ -1035,7 +1035,6 @@ static void sctp_connect_to_sock(struct connection *con)
+ 	int result;
+ 	int addr_len;
+ 	struct socket *sock;
+-	struct __kernel_sock_timeval tv = { .tv_sec = 5, .tv_usec = 0 };
+ 
+ 	if (con->nodeid == 0) {
+ 		log_print("attempt to connect sock 0 foiled");
+@@ -1087,13 +1086,10 @@ static void sctp_connect_to_sock(struct connection *con)
+ 	 * since O_NONBLOCK argument in connect() function does not work here,
+ 	 * then, we should restore the default value of this attribute.
  	 */
- 	sock_no_linger(queue->sock->sk);
+-	kernel_setsockopt(sock, SOL_SOCKET, SO_SNDTIMEO_NEW, (char *)&tv,
+-			  sizeof(tv));
++	sock_set_sndtimeo(sock->sk, 5);
+ 	result = sock->ops->connect(sock, (struct sockaddr *)&daddr, addr_len,
+ 				   0);
+-	memset(&tv, 0, sizeof(tv));
+-	kernel_setsockopt(sock, SOL_SOCKET, SO_SNDTIMEO_NEW, (char *)&tv,
+-			  sizeof(tv));
++	sock_set_sndtimeo(sock->sk, 0);
  
--	if (so_priority > 0) {
--		ret = kernel_setsockopt(queue->sock, SOL_SOCKET, SO_PRIORITY,
--				(char *)&so_priority, sizeof(so_priority));
--		if (ret) {
--			dev_err(ctrl->ctrl.device,
--				"failed to set SO_PRIORITY sock opt, ret %d\n",
--				ret);
--			goto err_sock;
--		}
--	}
-+	if (so_priority > 0)
-+		sock_set_priority(queue->sock->sk, so_priority);
- 
- 	/* Set socket type of service */
- 	if (nctrl->opts->tos >= 0) {
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index e0801494b097f..f3088156d01da 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -1448,12 +1448,8 @@ static int nvmet_tcp_set_queue_sock(struct nvmet_tcp_queue *queue)
- 	 */
- 	sock_no_linger(sock->sk);
- 
--	if (so_priority > 0) {
--		ret = kernel_setsockopt(sock, SOL_SOCKET, SO_PRIORITY,
--				(char *)&so_priority, sizeof(so_priority));
--		if (ret)
--			return ret;
--	}
-+	if (so_priority > 0)
-+		sock_set_priority(sock->sk, so_priority);
- 
- 	/* Set socket type of service */
- 	if (inet->rcv_tos > 0) {
-@@ -1638,14 +1634,8 @@ static int nvmet_tcp_add_port(struct nvmet_port *nport)
- 		goto err_sock;
- 	}
- 
--	if (so_priority > 0) {
--		ret = kernel_setsockopt(port->sock, SOL_SOCKET, SO_PRIORITY,
--				(char *)&so_priority, sizeof(so_priority));
--		if (ret) {
--			pr_err("failed to set SO_PRIORITY sock opt %d\n", ret);
--			goto err_sock;
--		}
--	}
-+	if (so_priority > 0)
-+		sock_set_priority(port->sock->sk, so_priority);
- 
- 	ret = kernel_bind(port->sock, (struct sockaddr *)&port->addr,
- 			sizeof(port->addr));
+ 	if (result == -EINPROGRESS)
+ 		result = 0;
 diff --git a/include/net/sock.h b/include/net/sock.h
-index 6ed00bf009bbe..a3a43141a4be2 100644
+index a3a43141a4be2..9a7b9e98685ac 100644
 --- a/include/net/sock.h
 +++ b/include/net/sock.h
-@@ -2689,6 +2689,7 @@ static inline bool sk_dev_equal_l3scope(struct sock *sk, int dif)
- void sock_def_readable(struct sock *sk);
- 
+@@ -2691,5 +2691,6 @@ void sock_def_readable(struct sock *sk);
  void sock_no_linger(struct sock *sk);
-+void sock_set_priority(struct sock *sk, u32 priority);
+ void sock_set_priority(struct sock *sk, u32 priority);
  void sock_set_reuseaddr(struct sock *sk);
++void sock_set_sndtimeo(struct sock *sk, s64 secs);
  
  #endif	/* _SOCK_H */
 diff --git a/net/core/sock.c b/net/core/sock.c
-index f0f09524911c8..ceda1a9248b3e 100644
+index ceda1a9248b3e..d3b1d61e4f768 100644
 --- a/net/core/sock.c
 +++ b/net/core/sock.c
-@@ -729,6 +729,14 @@ void sock_no_linger(struct sock *sk)
+@@ -737,6 +737,17 @@ void sock_set_priority(struct sock *sk, u32 priority)
  }
- EXPORT_SYMBOL(sock_no_linger);
+ EXPORT_SYMBOL(sock_set_priority);
  
-+void sock_set_priority(struct sock *sk, u32 priority)
++void sock_set_sndtimeo(struct sock *sk, s64 secs)
 +{
 +	lock_sock(sk);
-+	sk->sk_priority = priority;
++	if (secs && secs < MAX_SCHEDULE_TIMEOUT / HZ - 1)
++		sk->sk_sndtimeo = secs * HZ;
++	else
++		sk->sk_sndtimeo = MAX_SCHEDULE_TIMEOUT;
 +	release_sock(sk);
 +}
-+EXPORT_SYMBOL(sock_set_priority);
++EXPORT_SYMBOL(sock_set_sndtimeo);
 +
  /*
   *	This is meant for all protocols to use and covers goings on
