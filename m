@@ -4,20 +4,20 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C78DC433E0
-	for <linux-nvme@archiver.kernel.org>; Sat, 30 May 2020 13:53:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06183C433DF
+	for <linux-nvme@archiver.kernel.org>; Sat, 30 May 2020 13:53:10 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 13EEA20715
-	for <linux-nvme@archiver.kernel.org>; Sat, 30 May 2020 13:53:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7318220715
+	for <linux-nvme@archiver.kernel.org>; Sat, 30 May 2020 13:53:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="HSZ1Hr7w";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="c18sGq5r"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 13EEA20715
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="n30VwXcX";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NhVixCgt"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7318220715
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,56 +26,56 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=YN15uEjQquUo1xhNFtZik77OE7lS/VStrSVlFBYhzEs=; b=HSZ1Hr7w0EpXDv
-	7SuiwNfTeIq5FEfEqSL3ITq1iP44iaFc4QMPL7uQtBxw5KNIt6in1Z90EW8YST6Db/i/VxLfTgR2W
-	OlYx4verSQ30EZJFabJP7vjpd55nOVhA7xw3nzLx6PF/2icoY8xV5njXk+xqVTvik8NeuYBh++4P7
-	iuerVSo/JDV/5dDu19klJpn+D80/liQojnhlAYLSz6VCGdiMYh8f2BvlVQBr6Z9IiaP7VwwjPYulm
-	X0Kz/42CtsX4dSy/w6sCarPtRxB8pDPVigCqD3cRaOe/7u97TW1+P077W6UFYkxPtqOP/gol0FkLy
-	Sg3ykyS5v6EYBTBaK4Mg==;
+	List-Owner; bh=gaQ8YNLSYOdBpRLMG0f4auxRHTG70AQdBbrNuws4TKw=; b=n30VwXcX2sYAE2
+	pYHA+dqlflIN1+xu8ljbokBMogTtEPpAyu86x1v2V0IZw8lg8xbScg7zx5KlCEgk0fRZeCRKY+6CU
+	C5mmjzYY7Ox/6AG5J3MdjbkbY/WENAvsIBwPy5Q3RlXaLrTpQaMj+G1LNAlfKzVuV+RusJxm6NuHp
+	h++Rgj1nm4lCInTpp9aYyOSMboJ0RyWGRXLKRLnY7BJwFAU/PQ1HFTAp73vlWxPjcC0RaQAAXeG+R
+	77kRGNaLNmp+Q95rxQ95jGgdN1ygFFSpIFAfq8DfjZtEAuAEkpPYCdaKrxO8imMljxo0aciF9SuWY
+	jSyMn4LgbPFb/u+Eh5Ig==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jf1uz-0006Lp-AH; Sat, 30 May 2020 13:52:57 +0000
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]
- helo=us-smtp-delivery-1.mimecast.com)
+	id 1jf1v7-0006T2-GE; Sat, 30 May 2020 13:53:05 +0000
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]
+ helo=us-smtp-1.mimecast.com)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jf1uv-0006I0-D2
- for linux-nvme@lists.infradead.org; Sat, 30 May 2020 13:52:54 +0000
+ id 1jf1uv-0006Ie-Jj
+ for linux-nvme@lists.infradead.org; Sat, 30 May 2020 13:52:55 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590846771;
+ s=mimecast20190719; t=1590846772;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5wxFB+oeJxY2LikvP01WxSw60v3LNNOG3VBVBlKjXSU=;
- b=c18sGq5rjEoHSyu9cHS1ySG7b3IDx5mf1tSNRf6uJFz78JmyJQf9nstXhaZB74Tg9+Z/g4
- oQSHUcRDDkBdNz287sJVqkV1Xh171t8HBQqnOzS+JIL7A+WXdcHjeO4NUvxO3Vu7x7OkIl
- ZMMUQ8jJuS3VRd9T9yiuNNpq+TcCGpE=
+ bh=RZFNt1hadCoJ/rVa7DrlrAla/TA2GyNDp9Z67ysi2po=;
+ b=NhVixCgtTaejxkvlaEzfxKTz4mlO9BN+v6IS+xPHGFDSrLf/reKYa7QS/NMdn5YQ7iudMx
+ PeehGxdb3CZQxxxdhLhlODaySbAju2YxdzoySb8EcJw62YqA0GNVIcSgysF6g4dUaHNOCu
+ unWCSZOhIEr4Cdjy35oByATFFt0Akxc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-63-HVVnf0XjPXiN6vtyHw4RfA-1; Sat, 30 May 2020 09:52:44 -0400
-X-MC-Unique: HVVnf0XjPXiN6vtyHw4RfA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-335-SWXZSZYCNpaanBJ931uwgA-1; Sat, 30 May 2020 09:52:38 -0400
+X-MC-Unique: SWXZSZYCNpaanBJ931uwgA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF2B38735C0;
- Sat, 30 May 2020 13:52:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2ACE1005512;
+ Sat, 30 May 2020 13:52:36 +0000 (UTC)
 Received: from localhost (ovpn-12-60.pek2.redhat.com [10.72.12.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 747252DE81;
- Sat, 30 May 2020 13:52:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0671A7B914;
+ Sat, 30 May 2020 13:52:32 +0000 (UTC)
 From: Ming Lei <ming.lei@redhat.com>
 To: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
  linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>
-Subject: [PATCH V2 2/3] nvme: add nvme_frozen
-Date: Sat, 30 May 2020 21:52:20 +0800
-Message-Id: <20200530135221.1152749-3-ming.lei@redhat.com>
+Subject: [PATCH V2 1/3] blk-mq: add API of blk_mq_queue_frozen
+Date: Sat, 30 May 2020 21:52:19 +0800
+Message-Id: <20200530135221.1152749-2-ming.lei@redhat.com>
 In-Reply-To: <20200530135221.1152749-1-ming.lei@redhat.com>
 References: <20200530135221.1152749-1-ming.lei@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200530_065253_519185_9C1D198D 
-X-CRM114-Status: GOOD (  11.46  )
+X-CRM114-CacheID: sfid-20200530_065253_732934_CD0CC173 
+X-CRM114-Status: GOOD (  12.20  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,11 +95,22 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add one new API of nvme_frozen(), reset handler may use this helper to
-query if all ns queues have been frozen completely. Meantime, the reset
-handler can check if there is new hardware failure happened. If yes, reset
-handler can break from current handling, and schedule a fresh new recovery,
-so deadlock or deleting controller & fail all IOs can be avoided.
+blk_mq_freeze_queue_wait() isn't very flexible for some case, such as
+error recovery: when blk_mq_freeze_queue_wait is called in error
+recovery handler, new problem may be triggered on this controller, so
+in-flight IO may not complete when blk_mq_freeze_queue_wait() is called.
+
+And error recovery is often run in single context, so dead lock may be
+triggered, because error recover handler can't move on.
+
+Add one new API of blk_mq_queue_frozen(), error recovery handler may
+use this helper to query if the queue has been frozen completely.
+Meantime, the error recovery handler can check if there is hardware
+failure happened. If yes, error recovery handler can break from current
+handling, and run a fresh new recovery, so deadlock can be avoided.
+
+This API will be used to improve error handling of nvme-pci's timeout
+handler.
 
 Cc: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>
@@ -107,47 +118,39 @@ Cc: Keith Busch <kbusch@kernel.org>
 Cc: Max Gurtovoy <maxg@mellanox.com>
 Signed-off-by: Ming Lei <ming.lei@redhat.com>
 ---
- drivers/nvme/host/core.c | 14 ++++++++++++++
- drivers/nvme/host/nvme.h |  1 +
- 2 files changed, 15 insertions(+)
+ block/blk-mq.c         | 6 ++++++
+ include/linux/blk-mq.h | 1 +
+ 2 files changed, 7 insertions(+)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index f3c037f5a9ba..469010607383 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -4243,6 +4243,20 @@ void nvme_wait_freeze(struct nvme_ctrl *ctrl)
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index a5ff8140e52c..dc4e73d7ad02 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -148,6 +148,12 @@ void blk_mq_freeze_queue_wait(struct request_queue *q)
  }
- EXPORT_SYMBOL_GPL(nvme_wait_freeze);
+ EXPORT_SYMBOL_GPL(blk_mq_freeze_queue_wait);
  
-+bool nvme_frozen(struct nvme_ctrl *ctrl)
++bool blk_mq_queue_frozen(struct request_queue *q)
 +{
-+	struct nvme_ns *ns;
-+	int ret = 0;
-+
-+	down_read(&ctrl->namespaces_rwsem);
-+	list_for_each_entry(ns, &ctrl->namespaces, list)
-+		ret += !blk_mq_queue_frozen(ns->queue);
-+	up_read(&ctrl->namespaces_rwsem);
-+
-+	return ret == 0;
++	return percpu_ref_is_zero(&q->q_usage_counter);
 +}
-+EXPORT_SYMBOL_GPL(nvme_frozen);
++EXPORT_SYMBOL_GPL(blk_mq_queue_frozen);
 +
- void nvme_start_freeze(struct nvme_ctrl *ctrl)
+ int blk_mq_freeze_queue_wait_timeout(struct request_queue *q,
+ 				     unsigned long timeout)
  {
- 	struct nvme_ns *ns;
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 2e04a36296d9..459e5952ff5f 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -508,6 +508,7 @@ void nvme_unfreeze(struct nvme_ctrl *ctrl);
- void nvme_wait_freeze(struct nvme_ctrl *ctrl);
- void nvme_wait_freeze_timeout(struct nvme_ctrl *ctrl, long timeout);
- void nvme_start_freeze(struct nvme_ctrl *ctrl);
-+bool nvme_frozen(struct nvme_ctrl *ctrl);
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index 43e38d21ca4a..1f867ad02c5c 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -518,6 +518,7 @@ void blk_freeze_queue_start(struct request_queue *q);
+ void blk_mq_freeze_queue_wait(struct request_queue *q);
+ int blk_mq_freeze_queue_wait_timeout(struct request_queue *q,
+ 				     unsigned long timeout);
++bool blk_mq_queue_frozen(struct request_queue *q);
  
- #define NVME_QID_ANY -1
- struct request *nvme_alloc_request(struct request_queue *q,
+ int blk_mq_map_queues(struct blk_mq_queue_map *qmap);
+ void blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set, int nr_hw_queues);
 -- 
 2.25.2
 
