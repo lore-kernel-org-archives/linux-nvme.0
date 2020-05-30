@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06183C433DF
-	for <linux-nvme@archiver.kernel.org>; Sat, 30 May 2020 13:53:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02606C433E0
+	for <linux-nvme@archiver.kernel.org>; Sat, 30 May 2020 13:53:25 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7318220715
-	for <linux-nvme@archiver.kernel.org>; Sat, 30 May 2020 13:53:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B65B320715
+	for <linux-nvme@archiver.kernel.org>; Sat, 30 May 2020 13:53:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="n30VwXcX";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NhVixCgt"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7318220715
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="hcIBlhFl";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QTpvQu7l"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B65B320715
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,56 +26,56 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=gaQ8YNLSYOdBpRLMG0f4auxRHTG70AQdBbrNuws4TKw=; b=n30VwXcX2sYAE2
-	pYHA+dqlflIN1+xu8ljbokBMogTtEPpAyu86x1v2V0IZw8lg8xbScg7zx5KlCEgk0fRZeCRKY+6CU
-	C5mmjzYY7Ox/6AG5J3MdjbkbY/WENAvsIBwPy5Q3RlXaLrTpQaMj+G1LNAlfKzVuV+RusJxm6NuHp
-	h++Rgj1nm4lCInTpp9aYyOSMboJ0RyWGRXLKRLnY7BJwFAU/PQ1HFTAp73vlWxPjcC0RaQAAXeG+R
-	77kRGNaLNmp+Q95rxQ95jGgdN1ygFFSpIFAfq8DfjZtEAuAEkpPYCdaKrxO8imMljxo0aciF9SuWY
-	jSyMn4LgbPFb/u+Eh5Ig==;
+	List-Owner; bh=HP6l8TNn34HzWqYeQSykDvdt/AIje8fDIXzBMPQh+Q0=; b=hcIBlhFlEJPDQO
+	B6k/fgFr2gv9aIuV6d/Gg4yVTy2BFT9WIityuRem2q32OkiZm0l6vHQl2OrFuumznD9s8eFvVg2+d
+	7yM+aKVSVL3zjA+NBFSczzmdOmE8RYWE6qvDG1w5zNCr69/eGJPLVAltNa+sY7lffPhaJaqx2OwOq
+	LwpOnXhNJLV6i1oFfNbfY8/4HOB4rPRuXbVFNS2U6+lo9Dpf/nY/dzs3WdeaQ7XnFPOzBW2zU+gSa
+	H+6pMDkhHjTCr0/pJgqnrH46tlzrhKfcpoe7DRmh58XEdCOXnL7E1XYfcfemAfEQb/sEtcHLLyiki
+	bsI6BRGePjHyCY5/0P+A==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jf1v7-0006T2-GE; Sat, 30 May 2020 13:53:05 +0000
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]
- helo=us-smtp-1.mimecast.com)
+	id 1jf1vN-0006gI-32; Sat, 30 May 2020 13:53:21 +0000
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]
+ helo=us-smtp-delivery-1.mimecast.com)
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jf1uv-0006Ie-Jj
- for linux-nvme@lists.infradead.org; Sat, 30 May 2020 13:52:55 +0000
+ id 1jf1uy-0006L9-Fp
+ for linux-nvme@lists.infradead.org; Sat, 30 May 2020 13:52:59 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590846772;
+ s=mimecast20190719; t=1590846775;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RZFNt1hadCoJ/rVa7DrlrAla/TA2GyNDp9Z67ysi2po=;
- b=NhVixCgtTaejxkvlaEzfxKTz4mlO9BN+v6IS+xPHGFDSrLf/reKYa7QS/NMdn5YQ7iudMx
- PeehGxdb3CZQxxxdhLhlODaySbAju2YxdzoySb8EcJw62YqA0GNVIcSgysF6g4dUaHNOCu
- unWCSZOhIEr4Cdjy35oByATFFt0Akxc=
+ bh=TNnr3qLTdHB28Ad+/AEnpk05q0jlMEs2ygmx4qV3lRM=;
+ b=QTpvQu7lyC6EykeGX28985pYx/fC9ZwTMis3uk2LxwQvn86LuFc3iJq8EDb7FJp7c5g6Da
+ e3QVUdloKbpLZhpgxCn8wvqhsCDVFco9jm2uDTw7VFtcamMgLq//UxNeD7gqxRKPCSW/4S
+ xghV++RC/9ZZK4cZkVBh591AJvyxlXE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-335-SWXZSZYCNpaanBJ931uwgA-1; Sat, 30 May 2020 09:52:38 -0400
-X-MC-Unique: SWXZSZYCNpaanBJ931uwgA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-212-lLoCN4SXMfKt5oYqy0ODtA-1; Sat, 30 May 2020 09:52:50 -0400
+X-MC-Unique: lLoCN4SXMfKt5oYqy0ODtA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2ACE1005512;
- Sat, 30 May 2020 13:52:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1EDFB18FE860;
+ Sat, 30 May 2020 13:52:49 +0000 (UTC)
 Received: from localhost (ovpn-12-60.pek2.redhat.com [10.72.12.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0671A7B914;
- Sat, 30 May 2020 13:52:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B04046ACF8;
+ Sat, 30 May 2020 13:52:45 +0000 (UTC)
 From: Ming Lei <ming.lei@redhat.com>
 To: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
  linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>
-Subject: [PATCH V2 1/3] blk-mq: add API of blk_mq_queue_frozen
-Date: Sat, 30 May 2020 21:52:19 +0800
-Message-Id: <20200530135221.1152749-2-ming.lei@redhat.com>
+Subject: [PATCH V2 3/3] nvme-pci: make nvme reset more reliable
+Date: Sat, 30 May 2020 21:52:21 +0800
+Message-Id: <20200530135221.1152749-4-ming.lei@redhat.com>
 In-Reply-To: <20200530135221.1152749-1-ming.lei@redhat.com>
 References: <20200530135221.1152749-1-ming.lei@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200530_065253_732934_CD0CC173 
-X-CRM114-Status: GOOD (  12.20  )
+X-CRM114-CacheID: sfid-20200530_065256_644420_4A6B747D 
+X-CRM114-Status: GOOD (  19.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,22 +95,19 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-blk_mq_freeze_queue_wait() isn't very flexible for some case, such as
-error recovery: when blk_mq_freeze_queue_wait is called in error
-recovery handler, new problem may be triggered on this controller, so
-in-flight IO may not complete when blk_mq_freeze_queue_wait() is called.
+During waiting for in-flight IO completion in reset handler, timeout
+or controller failure still may happen, then the controller is deleted
+and all inflight IOs are failed. This way is too violent: 1) the timeout
+may be triggered exactly during nvme_wait_freeze() after controller is
+recovered by one occasional event; 2) the claimed retry times isn't
+respected.
 
-And error recovery is often run in single context, so dead lock may be
-triggered, because error recover handler can't move on.
+Improve the reset handling by replacing nvme_wait_freeze with query
+& check controller. If all ns queues are frozen, the controller is reset
+successfully, otherwise check and see if the controller has been disabled.
+If yes, break from the current recovery and schedule a fresh new reset.
 
-Add one new API of blk_mq_queue_frozen(), error recovery handler may
-use this helper to query if the queue has been frozen completely.
-Meantime, the error recovery handler can check if there is hardware
-failure happened. If yes, error recovery handler can break from current
-handling, and run a fresh new recovery, so deadlock can be avoided.
-
-This API will be used to improve error handling of nvme-pci's timeout
-handler.
+This way avoids to failing IO & removing controller unnecessarily.
 
 Cc: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>
@@ -118,39 +115,159 @@ Cc: Keith Busch <kbusch@kernel.org>
 Cc: Max Gurtovoy <maxg@mellanox.com>
 Signed-off-by: Ming Lei <ming.lei@redhat.com>
 ---
- block/blk-mq.c         | 6 ++++++
- include/linux/blk-mq.h | 1 +
- 2 files changed, 7 insertions(+)
+ drivers/nvme/host/core.c |  3 ++-
+ drivers/nvme/host/nvme.h |  2 ++
+ drivers/nvme/host/pci.c  | 50 +++++++++++++++++++++++++++++++++-------
+ 3 files changed, 46 insertions(+), 9 deletions(-)
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index a5ff8140e52c..dc4e73d7ad02 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -148,6 +148,12 @@ void blk_mq_freeze_queue_wait(struct request_queue *q)
- }
- EXPORT_SYMBOL_GPL(blk_mq_freeze_queue_wait);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 469010607383..f4a00a85a47e 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -45,9 +45,10 @@ static unsigned char shutdown_timeout = 5;
+ module_param(shutdown_timeout, byte, 0644);
+ MODULE_PARM_DESC(shutdown_timeout, "timeout in seconds for controller shutdown");
  
-+bool blk_mq_queue_frozen(struct request_queue *q)
-+{
-+	return percpu_ref_is_zero(&q->q_usage_counter);
-+}
-+EXPORT_SYMBOL_GPL(blk_mq_queue_frozen);
+-static u8 nvme_max_retries = 5;
++u8 nvme_max_retries = 5;
+ module_param_named(max_retries, nvme_max_retries, byte, 0644);
+ MODULE_PARM_DESC(max_retries, "max number of retries a command may have");
++EXPORT_SYMBOL_GPL(nvme_max_retries);
+ 
+ static unsigned long default_ps_max_latency_us = 100000;
+ module_param(default_ps_max_latency_us, ulong, 0644);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 459e5952ff5f..ba4c84f16a0b 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -25,6 +25,8 @@ extern unsigned int nvme_io_timeout;
+ extern unsigned int admin_timeout;
+ #define ADMIN_TIMEOUT	(admin_timeout * HZ)
+ 
++extern u8 nvme_max_retries;
 +
- int blk_mq_freeze_queue_wait_timeout(struct request_queue *q,
- 				     unsigned long timeout)
- {
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 43e38d21ca4a..1f867ad02c5c 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -518,6 +518,7 @@ void blk_freeze_queue_start(struct request_queue *q);
- void blk_mq_freeze_queue_wait(struct request_queue *q);
- int blk_mq_freeze_queue_wait_timeout(struct request_queue *q,
- 				     unsigned long timeout);
-+bool blk_mq_queue_frozen(struct request_queue *q);
+ #define NVME_DEFAULT_KATO	5
+ #define NVME_KATO_GRACE		10
  
- int blk_mq_map_queues(struct blk_mq_queue_map *qmap);
- void blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set, int nr_hw_queues);
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index e13c370de830..9b75f1d855f9 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -24,6 +24,7 @@
+ #include <linux/io-64-nonatomic-lo-hi.h>
+ #include <linux/sed-opal.h>
+ #include <linux/pci-p2pdma.h>
++#include <linux/delay.h>
+ 
+ #include "trace.h"
+ #include "nvme.h"
+@@ -106,6 +107,7 @@ struct nvme_dev {
+ 	unsigned long bar_mapped_size;
+ 	struct work_struct remove_work;
+ 	struct mutex shutdown_lock;
++	int successive_shutdown;
+ 	bool subsystem;
+ 	u64 cmb_size;
+ 	bool cmb_use_sqes;
+@@ -1243,9 +1245,6 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ 	 * shutdown, so we return BLK_EH_DONE.
+ 	 */
+ 	switch (dev->ctrl.state) {
+-	case NVME_CTRL_CONNECTING:
+-		nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DELETING);
+-		/* fall through */
+ 	case NVME_CTRL_DELETING:
+ 		dev_warn_ratelimited(dev->ctrl.device,
+ 			 "I/O %d QID %d timeout, disable controller\n",
+@@ -2383,11 +2382,13 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+ 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+ 
+ 	mutex_lock(&dev->shutdown_lock);
++	dev->successive_shutdown++;
+ 	if (pci_is_enabled(pdev)) {
+ 		u32 csts = readl(dev->bar + NVME_REG_CSTS);
+ 
+ 		if (dev->ctrl.state == NVME_CTRL_LIVE ||
+-		    dev->ctrl.state == NVME_CTRL_RESETTING) {
++		    dev->ctrl.state == NVME_CTRL_RESETTING ||
++		    dev->ctrl.state == NVME_CTRL_CONNECTING) {
+ 			freeze = true;
+ 			nvme_start_freeze(&dev->ctrl);
+ 		}
+@@ -2498,12 +2499,34 @@ static void nvme_remove_dead_ctrl(struct nvme_dev *dev)
+ 		nvme_put_ctrl(&dev->ctrl);
+ }
+ 
++static bool nvme_wait_freeze_and_check(struct nvme_dev *dev)
++{
++	bool frozen;
++
++	while (true) {
++		frozen = nvme_frozen(&dev->ctrl);
++		if (frozen)
++			break;
++
++		/*
++		 * controller may has been shutdown because of new timeout, so
++		 * break from the loop and report the event to reset handler.
++		 */
++		if (!dev->online_queues)
++			break;
++		msleep(3);
++	}
++
++	return frozen;
++}
++
+ static void nvme_reset_work(struct work_struct *work)
+ {
+ 	struct nvme_dev *dev =
+ 		container_of(work, struct nvme_dev, ctrl.reset_work);
+ 	bool was_suspend = !!(dev->ctrl.ctrl_config & NVME_CC_SHN_NORMAL);
+ 	int result;
++	bool reset_done = true;
+ 
+ 	if (WARN_ON(dev->ctrl.state != NVME_CTRL_RESETTING)) {
+ 		result = -ENODEV;
+@@ -2600,23 +2623,34 @@ static void nvme_reset_work(struct work_struct *work)
+ 		nvme_free_tagset(dev);
+ 	} else {
+ 		nvme_start_queues(&dev->ctrl);
+-		nvme_wait_freeze(&dev->ctrl);
+-		nvme_dev_add(dev);
++		reset_done = nvme_wait_freeze_and_check(dev);
++		if (reset_done)
++			nvme_dev_add(dev);
+ 		nvme_unfreeze(&dev->ctrl);
+ 	}
+ 
+ 	/*
+ 	 * If only admin queue live, keep it to do further investigation or
+ 	 * recovery.
++	 *
++	 * Or we can't move on after retrying enough times.
+ 	 */
+-	if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_LIVE)) {
++	if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_LIVE) ||
++	    (!reset_done && dev->successive_shutdown >= nvme_max_retries)) {
+ 		dev_warn(dev->ctrl.device,
+ 			"failed to mark controller live state\n");
+ 		result = -ENODEV;
+ 		goto out;
+ 	}
+ 
+-	nvme_start_ctrl(&dev->ctrl);
++	/* New error happens during reset, so schedule a new reset */
++	if (!reset_done) {
++		dev_warn(dev->ctrl.device, "new error during reset\n");
++		nvme_reset_ctrl(&dev->ctrl);
++	} else {
++		dev->successive_shutdown = 0;
++		nvme_start_ctrl(&dev->ctrl);
++	}
+ 	return;
+ 
+  out_unlock:
 -- 
 2.25.2
 
