@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77ED1C433DF
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 Jun 2020 02:41:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 650D6C433DF
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 Jun 2020 02:42:05 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4543F2068D
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 Jun 2020 02:41:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3CC9D2068D
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 Jun 2020 02:42:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="KwpNYDmE";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="apeExU1/"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4543F2068D
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="qO2IGoHs";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="hGZhtpad"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3CC9D2068D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,63 +26,63 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Fs1tCgOVM+ztkeSnFASNMH+M4T4WBxeP3Vn9gAbjZbA=; b=KwpNYDmEoCn2i6
-	72zOok2sv+4GuoDqUR9e/HCrsHAh6tjgVSdNU4bGWv3EdSb3tYO8DPNqzpLw93tHys5kEZjw/OgVX
-	pq0GG9PAOCyn0fdjtQUTJAMp6nO2JZIJnWC8jNk9GEqcS4Tf3jfgQP+oTR8wU7YFZyDPi0FWcGR0m
-	p8RY9JOSjCLOhIcVxxbxBaHczzPQTmOKVEQJ2PrOtjynkiE5FphR0c9pb6V8VtGF630kzUvFmP+dI
-	awbAOui4vPZfOfLsfP4/zaWD/eNTAUBPD1VRVRhz59nNLoreIG8yJyF3eEc/qieTmttZuLDwUHOFV
-	aRynEaA+Nj3aLn7MPMnA==;
+	List-Owner; bh=5JKRcTZpcKcQP19HQBbKJL8oTuTEMYaPSoo4du8TUlo=; b=qO2IGoHsYC2mPT
+	LBD78CesjBcghigbBPQ3AjWZ26qFKj+nKOVe41pKMs0ZenHurxUm02vws3jMASEAmoilpdNFSRVwu
+	B3/ZEtTCj1cIfQS2YC08cn6/Mnvj10vDW/bCSE22k5HWRPHPY36pochu7siiNXoInIPqrW9VgrbQU
+	theOHFPbay44w2nRt32lU75k80KaUqtsc40s+XjnkrTFpFXKNqWlzSbV7Ic5QZVCzlLonE1ieDItL
+	wgY77KUccQkabXUOqMsaeJIIKrKS/Lbb35fpxFT4Om65q9LaJz4kwDGP193QiNuyQ0yQ7uJScEnAM
+	/ItxW40UUoFMSfjsNNoQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jfwsB-0004tG-67; Tue, 02 Jun 2020 02:41:51 +0000
-Received: from esa6.hgst.iphmx.com ([216.71.154.45])
+	id 1jfwsM-00052v-H0; Tue, 02 Jun 2020 02:42:02 +0000
+Received: from esa1.hgst.iphmx.com ([68.232.141.245])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jfwry-0004h0-13
- for linux-nvme@lists.infradead.org; Tue, 02 Jun 2020 02:41:46 +0000
+ id 1jfws5-0004o9-Gy
+ for linux-nvme@lists.infradead.org; Tue, 02 Jun 2020 02:41:56 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1591065698; x=1622601698;
+ t=1591065705; x=1622601705;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=bOJBAAW3CwUsq89p3TzonySceB/Ft9z91t+EHOHnV6c=;
- b=apeExU1/ZHXuJlh/M6wIBEe4e/GCFnoCgOtlkKC5MLA3IkN6Yuzs2wHd
- isHS1wi7Lnb9osrHm/Ic1CVjocAYVkJSkli4tYmsSA1d2QxX1hMr343DT
- ZiVG8XGvPbeX2PSXLN4pesqbXFRkKOPjX2Khz08V4BXifBbiAogx5tTtk
- FpHonLgB82GIGALsC+f7CdJntyX38xZKTZ+Yf4VYE5BvApEfQxF3RXv7A
- 104g3EH6vQoGKpr3SVQJHX6WMXAXpnYz3UO442+HvGL9awGpKQw7fJwrc
- 1p36ExYT6myLWxiL9hVk4yBtOUCx0ty6+dcYtBvDXczPmLiJTvB845XaF Q==;
-IronPort-SDR: EwFN029Lebg3AUEUenjFxhN8tJQhm+M6KsIsImiirqcukDLFPosGtwZYuoAnIdS4xcbcOYbgof
- MDBR+KrMJdmdDn/yRiZEmW5/hsh2dGwGfpfd8HKQ0ghbrGbBz0kxyTxl3Vqj/YhRac4mGxXl8H
- nvK0naNsQwOFtV+dr6BN1SHdltzYTCZHS+KXTyPyJEVK6FASXkcfypqEgsYsXPyTEfoDvNNqfV
- 4k3fA5PHwJRWkwpIOFTB78MyZxAzvq6zBwBZXeRX/zOT+DvX60/SwP7/ybuMyUuAzGePsESJOS
- N1M=
-X-IronPort-AV: E=Sophos;i="5.73,462,1583164800"; d="scan'208";a="140415809"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 02 Jun 2020 10:41:36 +0800
-IronPort-SDR: etQdHac9qV3zjLyGvgncmvN8v7slTEd0mTGvc1r0qmKlUszeYt5jRBIxarE1qq5zDTRhl61DbI
- w4m4by9j94lF2ONx2G7rqUAQECLo6lN/0=
+ bh=7mkqgr6TLzXdnYKpPKKVJr4CleYGHp4v8A2Jptz4IjM=;
+ b=hGZhtpado0+lVqe4Q4hzY3LKkZYqXEZnVqNVsK6aTVawi/3tHGLxJckG
+ 5KZ7hNdhR/0khx6kOwLV0QH1jfLUmsK/nlcEMHWA+wOS7cEl5iLYL20KV
+ t6ogYZ0yBuAAkK9QHMxcUxAiG4cq4s2hY5284q74q97i6/ILyDFerVPxF
+ IaImhacSexc2mzjLgkOkyyKl8TqnAMGxRcAPy1nnLBwS3S2yxA18siIUs
+ z97n0bW6HV3mJaehVrgZFvODZcR2Z7GQ4EdlsWETgVRGCSrPBDcdRX5sy
+ FD9JLLvpPwpI4IqZ7lesTXfcUkzZiAY/ZaHXZt6ux4wabu/4vFzCemR9P Q==;
+IronPort-SDR: LAF+uzF/heWAvohaqNZbUCeoSAR/+/F9hJ5oE/B71CLG0old44v5AQwoMjaOd21y9xwb9Dg/kX
+ O3YdzOdIzFYsdmuF9MhCd1H0VaypriUQRrcjy+gOBucCWoSIDg9VJsaXaT2yfTXld+9YqIy7tD
+ rspWRhU4yBoedVYJqV/qEGzA2Hl7C/DYeUeRz3D9JzLtqJwXVZEdgYlRV3tJbMhheizS40Tip2
+ OcUhWQq6Uldh1u5i4z1gl2A0I5WR/TRI4iy7i0tUegY0GIxA9B4P8SI0zxTkQvophNkwVElCqt
+ ZTM=
+X-IronPort-AV: E=Sophos;i="5.73,462,1583164800"; d="scan'208";a="248077884"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 02 Jun 2020 10:41:41 +0800
+IronPort-SDR: TP/2/P9t6ZLIXA9keBIamGj7aQFM8pow84+3elfCNti/15hEuJ41mdvJr1Yksfe/XkGVfrDZSm
+ WFbf15FSR/DoLOOizs/qcMXl6NLM0g4bc=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2020 19:30:43 -0700
-IronPort-SDR: NfszZ/1kiRjYv9GHFfLT5NtpdMvyBFhYG6so4mz35ebpPwibcCm+xpOv1FsI6l1v95R3Za5fzw
- U4rN/SXuvVmw==
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jun 2020 19:31:22 -0700
+IronPort-SDR: iSiYrZVCLQp1ICQAzcvO4miQVkXDIP5Zdt3MwjA2Uyvkeo+cpZoiwWTb4tGApDeKF5J7+j13nb
+ w9jeenqqO7BQ==
 WDCIronportException: Internal
 Received: from iouring.labspan.wdc.com (HELO iouring.sc.wdc.com)
  ([10.6.138.107])
- by uls-op-cesaip01.wdc.com with ESMTP; 01 Jun 2020 19:41:35 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 01 Jun 2020 19:41:41 -0700
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-nvme@lists.infradead.org
-Subject: [PATCH 3/4] nvme-pci: use unsigned for io queue depth
-Date: Mon,  1 Jun 2020 19:41:13 -0700
-Message-Id: <20200602024114.5153-4-chaitanya.kulkarni@wdc.com>
+Subject: [PATCH 4/4] nvme-pci: code cleanup for nvme_alloc_host_mem()
+Date: Mon,  1 Jun 2020 19:41:14 -0700
+Message-Id: <20200602024114.5153-5-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20200602024114.5153-1-chaitanya.kulkarni@wdc.com>
 References: <20200602024114.5153-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200601_194138_149015_506046E8 
-X-CRM114-Status: GOOD (  14.12  )
+X-CRM114-CacheID: sfid-20200601_194145_846102_014C4D24 
+X-CRM114-Status: GOOD (  10.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,86 +101,39 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The NVMe PCIe declares module parameter io_queue_depth as int. Change
-this to u16 as queue depth can never be negative. Now to reflect this
-update module parameter getter function from param_get_int() ->
-param_get_uint() and respective setter function with type of n changed
-from int to u16 with param_set_int() to param_set_ushort(). Finally
-update struct nvme_dev q_depth member to u16 and use u16 in min_t()
-when calculating dev->q_depth in the nvme_pci_enable() (since q_depth is
-now u16) and use unsigned int instead of int when calculating
-dev->tagset.queue_depth as target variable tagset->queue_depth is of type
-unsigned int in nvme_dev_add().
+Although use of for loop is preferred it is not a common practice to
+have 80 char long for loop initialization and comparison section.
+
+Use temp variables for calculating values and replace them in the
+for loop with size of all variables to set to u64 since preferred
+variable is declared as u64.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 ---
- drivers/nvme/host/pci.c | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+ drivers/nvme/host/pci.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index b307c06a783d..6bf8514bbbfb 100644
+index 6bf8514bbbfb..171185d75194 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -61,10 +61,10 @@ MODULE_PARM_DESC(sgl_threshold,
- static int io_queue_depth_set(const char *val, const struct kernel_param *kp);
- static const struct kernel_param_ops io_queue_depth_ops = {
- 	.set = io_queue_depth_set,
--	.get = param_get_int,
-+	.get = param_get_uint,
- };
+@@ -1922,12 +1922,12 @@ static int __nvme_alloc_host_mem(struct nvme_dev *dev, u64 preferred,
  
--static int io_queue_depth = 1024;
-+static unsigned int io_queue_depth = 1024;
- module_param_cb(io_queue_depth, &io_queue_depth_ops, &io_queue_depth, 0644);
- MODULE_PARM_DESC(io_queue_depth, "set io queue depth, should >= 2");
- 
-@@ -115,7 +115,7 @@ struct nvme_dev {
- 	unsigned max_qid;
- 	unsigned io_queues[HCTX_MAX_TYPES];
- 	unsigned int num_vecs;
--	int q_depth;
-+	u16 q_depth;
- 	int io_sqes;
- 	u32 db_stride;
- 	void __iomem *bar;
-@@ -151,13 +151,14 @@ struct nvme_dev {
- 
- static int io_queue_depth_set(const char *val, const struct kernel_param *kp)
+ static int nvme_alloc_host_mem(struct nvme_dev *dev, u64 min, u64 preferred)
  {
--	int n = 0, ret;
-+	int ret;
-+	u16 n;
+-	u32 chunk_size;
++	u64 min_chunk = min_t(u64, preferred, PAGE_SIZE * MAX_ORDER_NR_PAGES);
++	u64 hmminds = max_t(u32, dev->ctrl.hmminds * 4096, PAGE_SIZE * 2);
++	u64 chunk_size;
  
--	ret = kstrtoint(val, 10, &n);
-+	ret = kstrtou16(val, 10, &n);
- 	if (ret != 0 || n < 2)
- 		return -EINVAL;
- 
--	return param_set_int(val, kp);
-+	return param_set_ushort(val, kp);
- }
- 
- static inline unsigned int sq_idx(unsigned int qid, u32 stride)
-@@ -2250,8 +2251,8 @@ static void nvme_dev_add(struct nvme_dev *dev)
- 			dev->tagset.nr_maps++;
- 		dev->tagset.timeout = NVME_IO_TIMEOUT;
- 		dev->tagset.numa_node = dev_to_node(dev->dev);
--		dev->tagset.queue_depth =
--				min_t(int, dev->q_depth, BLK_MQ_MAX_DEPTH) - 1;
-+		dev->tagset.queue_depth = min_t(unsigned int, dev->q_depth,
-+						BLK_MQ_MAX_DEPTH) - 1;
- 		dev->tagset.cmd_size = sizeof(struct nvme_iod);
- 		dev->tagset.flags = BLK_MQ_F_SHOULD_MERGE;
- 		dev->tagset.driver_data = dev;
-@@ -2310,7 +2311,7 @@ static int nvme_pci_enable(struct nvme_dev *dev)
- 
- 	dev->ctrl.cap = lo_hi_readq(dev->bar + NVME_REG_CAP);
- 
--	dev->q_depth = min_t(int, NVME_CAP_MQES(dev->ctrl.cap) + 1,
-+	dev->q_depth = min_t(u16, NVME_CAP_MQES(dev->ctrl.cap) + 1,
- 				io_queue_depth);
- 	dev->ctrl.sqsize = dev->q_depth - 1; /* 0's based queue depth */
- 	dev->db_stride = 1 << NVME_CAP_STRIDE(dev->ctrl.cap);
+ 	/* start big and work our way down */
+-	for (chunk_size = min_t(u64, preferred, PAGE_SIZE * MAX_ORDER_NR_PAGES);
+-	     chunk_size >= max_t(u32, dev->ctrl.hmminds * 4096, PAGE_SIZE * 2);
+-	     chunk_size /= 2) {
++	for (chunk_size = min_chunk; chunk_size >= hmminds; chunk_size /= 2) {
+ 		if (!__nvme_alloc_host_mem(dev, preferred, chunk_size)) {
+ 			if (!min || dev->host_mem_size >= min)
+ 				return 0;
 -- 
 2.22.1
 
