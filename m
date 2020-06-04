@@ -2,23 +2,22 @@ Return-Path: <SRS0=P2Tb=7R=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD037C433DF
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Jun 2020 15:20:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3345EC433E0
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Jun 2020 15:38:56 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B0824206E6
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Jun 2020 15:20:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0654B206E6
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Jun 2020 15:38:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="agMOt54T";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="gpos+plQ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B0824206E6
-Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="E/9ZS+kX"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0654B206E6
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
@@ -26,64 +25,41 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=5q5oylWRCoHpNph1b+tJJBNqTgUGLxBY+OAk6/OKQME=; b=agMOt54TJZ8MAfBbczi3gwgMu
-	cmo2Ui2hnguABTQj8Vv2R74hNF6A/tksyktMxs9mipBdBHlq9yR1CxNNwDzTfb+kVDtXCGPGWOfh6
-	fNv63Mw9xTpcqIPli1ADtluzxmsu07S0E5EbmAIrRWEg47u9oN20SWsGFMkwaC06a3PEkkMj62Tx5
-	Dd/sMfzkSqcmN6g1XWdF1ivne+OWU4PVfvhcZlv5upcYAuHnojPY60dIcYmpnQhFhrEtfQN0lx5x1
-	9M5CGcflqPuP03pA51or1yXi+miIjDhNMdOFOH6FRgTJrCX7j68ifqUp8MOO6c5XlHFT/1VLn45w+
-	us1ej3I2Q==;
+	 bh=911njz/QLyrP1WDO1m+7HrSqZyCMeu7qaNw3kk9aYyk=; b=E/9ZS+kXA1qG5L9RuI2Kj6Zpe
+	NTfulLRqYUuMw0e3wcHOY36TdeNG1LeHsstLCU7zcT36a6cC6clAEcz6isnab4+7sPkpJuw1+O4CE
+	e8hiM3QyK0wdOeMNgv1LimRLTYBiyEpUbduv0CF9M+6dO1Uz6Fc4DAsQWchen+gdVEVs5NxpA+Ka7
+	ZKTMqZ+2S/w6aTJ8rxvNDNjBnb+Lz7jKaWlsIXgARW6sSay0LvMhoI3wPxnI4bTcp7fvW/38/BEa3
+	YVv/XZm2v6fIfT63FOa582+qWyhPgobdvLAxpwlSd0LlMsxQ6+J7UpTWvGQNUcTuGJ02Kv4TX/MS+
+	B4d/VmAnA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jgrfN-0001DQ-Mn; Thu, 04 Jun 2020 15:20:25 +0000
-Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043])
+	id 1jgrxE-00030y-RL; Thu, 04 Jun 2020 15:38:52 +0000
+Received: from mx2.suse.de ([195.135.220.15])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jgrfK-0001B4-Ry
- for linux-nvme@lists.infradead.org; Thu, 04 Jun 2020 15:20:24 +0000
-Received: by mail-pj1-x1043.google.com with SMTP id ga6so1257024pjb.1
- for <linux-nvme@lists.infradead.org>; Thu, 04 Jun 2020 08:20:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=L5y9b1v4A4lBO5NWvkoBLQUmHew2ukXmcq/ClJT1w1w=;
- b=gpos+plQKfEIX7tzDBt/sI1M4cJ64HGjlcagV8I9ZM5vteH+aKUEUFO+edPS0/ec+W
- n5texbDTEFIsJZXY49B4p050y09qfwf2Tr4C+tZV/0UnDjeFumyzyatU66CMmkp++5ED
- 4cdCY2TLNCYSpQvvfik1nroAPCGadhKstu8xo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=L5y9b1v4A4lBO5NWvkoBLQUmHew2ukXmcq/ClJT1w1w=;
- b=YXeQO0a6yaVuv1gEPzrBRKO8dMbQfYu78R/litym2O22yVDJinLQRnfv4hiTmodU7Y
- hIVFSlCNKWIJy4jBheSyF8jWO0wA0Pa2cmUfWitKyKLMxMKcRVOejxa/iLsgi4bSrlQy
- HqTvG2blb1SAJ1GFtVtFHgKejq9ilmMnvJacYHuohzC3XTYXYOIySBV5HFUDM4CWyG0s
- uA0AyfxVp+b/gG/PZcfTqAM7Pyw90Ubla0aHvGPFnFRCPd3+OWRwqCYZV03qP8ZxhgVv
- h+jqGz+yQqO97mc1RifIJ7FagczK8mZ7bf5izeobBdJPqqvQLPo162gFEzdeWynSWjgk
- 0nbQ==
-X-Gm-Message-State: AOAM5320AjOtnsRruJYq4P8iXVXw8tqo00PzjRD/igUOsT9+jzbVGMyc
- ejJVrTJn+e9eWHmB5v/35WAH2Q==
-X-Google-Smtp-Source: ABdhPJw9p8K0tPRXYb3Jjq/wmj3jBKcwtKglo8mpz4juTMEILBuyPkPUJXY3hMAlX2cld8lf4d2muw==
-X-Received: by 2002:a17:90a:4ecb:: with SMTP id
- v11mr6588792pjl.75.1591284021628; 
- Thu, 04 Jun 2020 08:20:21 -0700 (PDT)
-Received: from [10.230.185.151] ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id u7sm5095551pfu.162.2020.06.04.08.20.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Jun 2020 08:20:20 -0700 (PDT)
-Subject: Re: [PATCH 1/1] nvme-fcloop: verify wwnn and wwpn format
-To: Dongli Zhang <dongli.zhang@oracle.com>, linux-nvme@lists.infradead.org
-References: <20200526042118.17836-1-dongli.zhang@oracle.com>
-From: James Smart <james.smart@broadcom.com>
-Message-ID: <60df6752-3512-f7a9-b0df-1096b93b8eda@broadcom.com>
-Date: Thu, 4 Jun 2020 08:20:18 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.1
+ id 1jgrxC-0002zt-9X
+ for linux-nvme@lists.infradead.org; Thu, 04 Jun 2020 15:38:51 +0000
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 884F4AD57;
+ Thu,  4 Jun 2020 15:38:50 +0000 (UTC)
+Subject: Re: [PATCH 1/2] nvme: check for NVME_CTRL_LIVE in nvme_report_ns_ids()
+To: Keith Busch <kbusch@kernel.org>
+References: <20200604115602.78446-1-hare@suse.de>
+ <20200604115602.78446-2-hare@suse.de>
+ <20200604132259.GA146361@dhcp-10-100-145-180.wdl.wdc.com>
+ <79298b5a-857d-60dd-91c7-058182b39b0e@suse.de>
+ <20200604135715.GB146361@dhcp-10-100-145-180.wdl.wdc.com>
+From: Hannes Reinecke <hare@suse.de>
+Message-ID: <dc9ff079-9bd4-09fe-91a6-ebfc45511c3c@suse.de>
+Date: Thu, 4 Jun 2020 17:38:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200526042118.17836-1-dongli.zhang@oracle.com>
+In-Reply-To: <20200604135715.GB146361@dhcp-10-100-145-180.wdl.wdc.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200604_082022_907326_F3161C84 
-X-CRM114-Status: GOOD (  13.64  )
+X-CRM114-CacheID: sfid-20200604_083850_619324_069D3275 
+X-CRM114-Status: GOOD (  22.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,41 +71,73 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, hch@lst.de, chaitanya.kulkarni@wdc.com,
- sagi@grimberg.me
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: Keith Busch <keith.busch@wdc.com>, Daniel Wagner <daniel.wagner@suse.com>,
+ Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
+ Sagi Grimberg <sagi@grimberg.me>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/25/2020 9:21 PM, Dongli Zhang wrote:
-> The nvme host and target verify the wwnn and wwpn format via
-> nvme_fc_parse_traddr(). For instance, it is required that the length of
-> wwnn to be either 21 ("nn-0x") or 19 (nn-).
->
-> Add this verification to nvme-fcloop so that the input should always be in
-> hex and the length of input should always be 18.
->
-> Otherwise, the user may use e.g. 0x2 to create fcloop local port, while
-> 0x0000000000000002 is required for nvme host and target. This makes the
-> requirement of format confusing.
->
-> Signed-off-by: Dongli Zhang <dongli.zhang@oracle.com>
-> ---
->   drivers/nvme/target/fcloop.c | 29 +++++++++++++++++++++++------
->   1 file changed, 23 insertions(+), 6 deletions(-)
->
->
-
-Reviewed-by: James Smart <james.smart@broadcom.com>
-
-Looks good. Sorry for the delay.
-
--- james
-
-
-
-_______________________________________________
-linux-nvme mailing list
-linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+T24gNi80LzIwIDM6NTcgUE0sIEtlaXRoIEJ1c2NoIHdyb3RlOgo+IE9uIFRodSwgSnVuIDA0LCAy
+MDIwIGF0IDAzOjQ4OjAyUE0gKzAyMDAsIEhhbm5lcyBSZWluZWNrZSB3cm90ZToKPj4gT24gNi80
+LzIwIDM6MjIgUE0sIEtlaXRoIEJ1c2NoIHdyb3RlOgo+Pj4gT24gVGh1LCBKdW4gMDQsIDIwMjAg
+YXQgMDE6NTY6MDFQTSArMDIwMCwgSGFubmVzIFJlaW5lY2tlIHdyb3RlOgo+Pj4+IFdoZW4gYSBj
+b250cm9sbGVyIHJlc2V0IGhhcHBlbnMgZHVyaW5nIHNjYW5uaW5nIG52bWVfaWRlbnRpZnlfbnMo
+KQo+Pj4+IHdpbGwgYmUgYWJvcnRlZCwgYnV0IHRoZSBzdWJzZXF1ZW50IGNhbGwgdG8gbnZtZV9p
+ZGVudGlmeV9uc19kZXNjcygpCj4+Pj4gd2lsbCBzdGFsbCBhcyBpdCB3aWxsIG9ubHkgYmUgY29t
+cGxldGVkIG9uY2UgdGhlIGNvbnRyb2xsZXIgcmVjb25uZWN0Cj4+Pj4gaXMgZmluaXNoZWQuCj4+
+Pgo+Pj4gSWYgbnZtZV9pZGVudGlmeV9ucygpIGlzIGFib3J0ZWQsIHNob3VsZG4ndCB3ZSBub3Qg
+cHJvY2VlZCB0byB0aGUgbmV4dAo+Pj4gY29tbWFuZD8gSXQgbG9va3MgbGlrZSB0aGUgY29kZSBh
+bHJlYWR5IGRvZXMgdGhhdCwgZnJvbSBudm1lX2FsbG9jX25zKCk6Cj4+Pgo+Pj4gCXJldCA9IG52
+bWVfaWRlbnRpZnlfbnMoY3RybCwgbnNpZCwgJmlkKTsKPj4+IAlpZiAocmV0KQo+Pj4gCQlnb3Rv
+IG91dF9mcmVlX3F1ZXVlOwo+Pj4KPj4+IEFuZCB0aGVuIGZyb20gbnZtZV9yZXZhbGlkYXRlX2Rp
+c2soKToKPj4+Cj4+PiAJcmV0ID0gbnZtZV9pZGVudGlmeV9ucyhjdHJsLCBucy0+aGVhZC0+bnNf
+aWQsICZpZCk7Cj4+PiAJaWYgKHJldCkKPj4+IAkJZ290byBvdXQ7Cj4+Pgo+Pj4gVGhvc2UgYXJl
+IHRoZSBvbmx5IHR3byBwYXRocyB0byBudm1lX2lkZW50aWZ5X25zX2Rlc2NzKCksIHNvIGl0IGxv
+b2tzCj4+PiBsaWtlIG52bWVfaWRlbnRpZnlfbnMoKSBtdXN0IGJlIHN1Y2Nlc3NmdWwgaW4gb3Jk
+ZXIgdG8gZ2V0IHRoZXJlLgo+Pj4KPj4KPj4gVHJ1ZS4gQnV0IGlmIHRoZSBjb250cm9sbGVyIGlz
+IGVudGVyaW5nIHJlc2V0IGp1YXQgX2FmdGVyXyB0aGUgY2FsbCB0bwo+PiBudm1lX2lkZW50aWZ5
+X25zKCkgdGhlcmUgd29uJ3QgYmUgYW55IEkvTyB0byBhYm9ydCwgYW5kIHRoZSBzY2FubmluZyBj
+b2RlCj4+IHdpbGwgcHJvY2VlZCB0byBjYWxsIG52bWVfcmVwb3J0X25zX2lkcygpIGV4cG9zaW5n
+IHRoaXMgaXNzdWUuCj4+Cj4+Pj4gQnV0IGFzIHRoZSByZWNvbm5lY3Qgd2FpdHMgZm9yIHNjYW5u
+aW5nIHRvIGNvbXBsZXRlIHRoZSBwYXJ0aWN1bGFyCj4+Pj4gbmFtZXNwYWNlIHdpbGwgZGVhZGxv
+Y2sgYW5kIG5ldmVyIHJlY29ubmVjdGVkIGFnYWluLgo+Pj4KPj4+IFRoZSBmaXggbG9va3MgYSBi
+aXQgZnJhZ2lsZS4gV2hhdCBpZiB0aGUgY29udHJvbGxlciBpcyByZXNldCBpbW1lZGlhdGVseQo+
+Pj4gYWZ0ZXIgdGhlIGNoZWNrIGZvciBsaXZlPyBJdCdkIGJlIHNhZmVyIHN1Y2ggdGhhdCByZWNv
+bm5lY3QgZGlkbid0IGhhdmUKPj4+IHRvIHdhaXQgZm9yIHNjYW5fd29yaywgbm8/ICBUaGUgcGNp
+IHRyYW5zcG9ydCBoYXMgbm8gc3VjaCBkZXBlbmRlbmN5LAo+Pj4gZm9yIGV4YW1wbGUuCj4+Pgo+
+PiBPaCwgdGhhdCB3b3VsZG4ndCBtYXR0ZXI7IG9uY2UgdGhlIGNvbnRyb2xsZXIgaXMgcmVzZXQg
+KGllIGVudGVycyBhIG5vbi1MSVZFCj4+IHN0YXRlKSBhbGwgb3V0c3RhbmRpbmcgSS9PIGlzIGFi
+b3J0ZWQuCj4+Cj4+IFRoZSBwb2ludCBoZXJlIGlzIHRoYXQgb25seSBfb3V0c3RhbmRpbmdfIEkv
+TyBpcyBhYm9ydGVkLgo+PiBJZiB0aGUgc2NhbiB0aHJlYWQgY29udGludWVzIHNlbmRpbmcgSS9P
+IGFmdGVyIHRoYXQgdGhpbmdzIHN0YWxsLgo+IAo+IE15IGNvbmNlcm4gaXMgaWYgdGhlIGNvbnRy
+b2xsZXIgaXMgTElWRSBhdCB0aGUgbW9tZW50IG9mIHlvdXIgbmV3IGNoZWNrLAo+IGJ1dCBpcyBy
+ZXNldCBpbW1lZGlhdGVseSBhZnRlciB0aGF0LCBhbmQgYmVmb3JlIHRoZSBpZGVudGlmeSBjb21t
+YW5kIGlzCj4gc2VudC4gVGhlIGlkZW50aWZ5IHdvbid0IGJlIGFib3J0ZWQgc2luY2UgaXQgaGFz
+bid0IGJlZW4gZGlzcGF0Y2hlZCB5ZXQuCj4gV291bGQgdGhhdCBnZXQgZXZlcnl0aGluZyBzdHVj
+ayBhZ2Fpbj8KPiAKWWVzLCBidXQgdGhhdCdzIHF1aXRlIHVubGlrZWx5LgpPciwgdG8gYmUgcHJl
+Y2lzZSwgdGhlIGxpa2VseWhvb2Qgb2YgYW55dGhpbmcgdHJpZ2dlcmluZyB0aGUgc3RhdGUgCmNo
+YW5nZSBhZnRlciB0aGF0IHRlc3QgaXMgaGlnaGx5IHVubGlrZWx5LCBhcyB0aGVyZSBpcyBub3Ro
+aW5nIHdoaWNoIApjb3VsZCBoYXZlIHRyaWdnZXJlZCBpdC4gUmVtZW1iZXIsIHdlIGFyZSBjdXJy
+ZW50bHkgc2Nhbm5pbmcgdGhlIHNhbWUgCm5hbWVzcGFjZSBmb3Igd2hpY2ggYSBmYXVsdCBoYXMg
+YmVlbiBkZXRlY3RlZC4gV2hpY2ggbWVhbnMgdGhhdCB0aGVyZSAKY2Fubm90IGFueSBvdGhlciBJ
+L08gYmVpbmcgc2VudCB0byB0aGlzIG5hbWVzcGFjZSAoYXMgaXQncyBub3QgdmlzaWJsZSAKeWV0
+IHRvIHVzZXJsYW5kKSBidXQgdGhlIEkvTyBnZW5lcmF0ZWQgZHVyaW5nIHNjYW5uaW5nIGl0c2Vs
+Zi4KQW5kIHRoZSBzdGF0ZSBjaGFuZ2Ugd2lsbCBiZSBoYXBwZW5pbmcgZHVyaW5nIGVuZGlvIGhh
+bmRsaW5nLCBzbyBieSB0aGUgCnRpbWUgd2UncmUgY2hlY2tpbmcgdGhlIHN0YXRlIGFueSBzdGF0
+ZSBjaGFuZ2UgaGFzIGFscmVhZHkgaGFwcGVuZWQuCgpXaGlsZSB0aGVyZSBtaWdodCBibyBvdGhl
+ciBuYW1lc3BhY2VzIHVzaW5nIHRoZSBzYW1lIHBoeXNpY2FsIApjb25uZWN0aW9uLCBhbmQgdGhl
+c2UgbmFtZXNwYWNlcyBtaWdodCBkZXZlbG9wIGEgZmF1bHQsIHRvbywgdGhpcyBldmVudCAKd291
+bGQgdGhlbiBzaWduYWxsZWQgdmlhIEFFTnMsIGFuZCB3b3VsZCBoYW5kbGVkIGluIGEgY29tcGxl
+dGVseSAKZGlmZmVyZW50IHRocmVhZC4gU28gdGhpcyBzY2VuYXJpbyBzaG91bGRuJ3QgbWF0dGVy
+IGZvciB0aGlzIHBhcnRpY3VsYXIgCm5hbWVzcGFjZS4KClNvIEkgY2FuJ3Qgc2VlIGhvdyB0aGUg
+c3RhdGUgY2hhbmdlIHNob3VsZCBvY2N1ciBhZnRlciB0aGF0IHRlc3QuCgpDaGVlcnMsCgpIYW5u
+ZXMKLS0gCkRyLiBIYW5uZXMgUmVpbmVja2UgICAgICAgICAgICBUZWFtbGVhZCBTdG9yYWdlICYg
+TmV0d29ya2luZwpoYXJlQHN1c2UuZGUgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKzQ5
+IDkxMSA3NDA1MyA2ODgKU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR21iSCwgTWF4ZmVsZHN0ci4g
+NSwgOTA0MDkgTsO8cm5iZXJnCkhSQiAzNjgwOSAoQUcgTsO8cm5iZXJnKSwgR2VzY2jDpGZ0c2bD
+vGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZlcgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KbGludXgtbnZtZSBtYWlsaW5nIGxpc3QKbGludXgtbnZtZUBsaXN0
+cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGlu
+Zm8vbGludXgtbnZtZQo=
