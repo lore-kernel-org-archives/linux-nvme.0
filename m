@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B426FC433E0
-	for <linux-nvme@archiver.kernel.org>; Mon,  8 Jun 2020 23:21:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D0C2C433E0
+	for <linux-nvme@archiver.kernel.org>; Mon,  8 Jun 2020 23:21:39 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 69D14208A7
-	for <linux-nvme@archiver.kernel.org>; Mon,  8 Jun 2020 23:21:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id F1DCD208A7
+	for <linux-nvme@archiver.kernel.org>; Mon,  8 Jun 2020 23:21:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="E6K2Ui2l";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="UWxslYiK"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 69D14208A7
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="MY67OKk0";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="efOhbxNz"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F1DCD208A7
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,39 +26,39 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=DNV9XVmStkp223OLTQZQuTiFFNUvFQxUz6lNgU+h/3w=; b=E6K2Ui2lbE4OMn
-	/TdI6TYRtwAxjUFHkZv2Jn8C7HtU73Amm4vntDB2AdVNWyWPNkLhNJ1zGhDUiUntOt5PIju/CcKqA
-	n0Ep/rlKQDJMGcJ3Q6PA49JOmTOckdZWOr+FAcrbgogCrEVlL8J6dbL0MOQvXdXz2HM/dk/axc7Up
-	3Ad8xqTQtNFvSk98y02PIY32CWUTaGrqnmarNKeJmak7021TpBqC5AlxCowuoNb38asegwR6g/gAh
-	Zm8ZHUmDysZD1BSa7jgeitp/8tWFvObD3P3lioMIbwrfDqQjRQ6bNjCuGXO4STGU20+MaqLshHQlK
-	9XmcKpwwgQDrnBU9VWQA==;
+	List-Owner; bh=LF2yXkX0ZcH6zeUMB6ibCKLRS2wOJPCF3nh9lg1LSns=; b=MY67OKk0eew2Fk
+	pYubrxXy4l24bMEezxNJVXZQigsk/jnok1xsI52kc3f6hv/ScoDdv0IKBRKyRJ50ikVhnp6ovsFG6
+	3g1o1qgOgqxyw1cHJtU4UvOGIE/bRjGzN066Fde2HDkYe0zqlKPTF9dZENe5Pf5pqnCH6PRnE5eGq
+	Bk8Jxw93o57IM9vBakJx0AZ+WDD+RsunkJmMXUDEbyJT+GKmb/c6bCo8QmX7XAjdh46d/0ysjZLrZ
+	f++2mgennPAW0F3jQ5S0joG7M1jqtfyGANFevpHd2+wopKjbptUSVpVifYAqq8QHw36/qgGSZn8gv
+	KmIsdrTugIpV6W+MlZ/w==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jiR4w-000165-8l; Mon, 08 Jun 2020 23:21:18 +0000
+	id 1jiR5A-0001H6-ID; Mon, 08 Jun 2020 23:21:32 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jiQvI-0004hN-4K
- for linux-nvme@lists.infradead.org; Mon, 08 Jun 2020 23:11:22 +0000
+ id 1jiQvJ-0004ic-D9
+ for linux-nvme@lists.infradead.org; Mon, 08 Jun 2020 23:11:27 +0000
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id B34CD208C3;
- Mon,  8 Jun 2020 23:11:18 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id CEAD920890;
+ Mon,  8 Jun 2020 23:11:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1591657879;
- bh=das6OhBdoFhqMjLDChJE4xhaVUrZDwDw2noq6aBnmqQ=;
+ s=default; t=1591657880;
+ bh=rkbbiQCs8BHaHAQU5zfRpAxLE0KUC9UftSsS8I2Mpe0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=UWxslYiKKuysdJI3DRFU/1/DPVWlOapTXLsjzOjT8QsK/c/Zm8KksVWnePQhjnSh+
- yRyva7P8Sn8WwY9hp7mGBVgABNBYAPLI83uhMJOETY1h4Vgwixgxu8Scn4wFuGcWl3
- UjEWhNOlJrsPD6miQEqB9GcPz5e9cbvwhVqIhBig=
+ b=efOhbxNz2KTF7Q2wV3/g9wSdumlDXPJOtY81+KL+jko7+nhjymMvUNzkFKM0tUIFU
+ op1y1bgDJkIwEwZ2331oChz3VhGYSS50IUYVZTkPy1JG04DfPQ1G/lqBQ5b6PTlSob
+ Mv+3CYnKLMWtvSBvigQjwSZOjIUbMibXmx8IBdPE=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 236/274] nvme-pci: make sure write/poll_queues
- less or equal then cpu count
-Date: Mon,  8 Jun 2020 19:05:29 -0400
-Message-Id: <20200608230607.3361041-236-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.7 237/274] nvmet: fix memory leak when removing
+ namespaces and controllers concurrently
+Date: Mon,  8 Jun 2020 19:05:30 -0400
+Message-Id: <20200608230607.3361041-237-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200608230607.3361041-1-sashal@kernel.org>
 References: <20200608230607.3361041-1-sashal@kernel.org>
@@ -66,8 +66,8 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200608_161120_316116_1DA17F59 
-X-CRM114-Status: GOOD (  13.91  )
+X-CRM114-CacheID: sfid-20200608_161121_574255_AE9DD2E8 
+X-CRM114-Status: GOOD (  13.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,117 +79,99 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-nvme@lists.infradead.org,
- Christoph Hellwig <hch@lst.de>, Weiping Zhang <zhangweiping@didiglobal.com>
+Cc: Sasha Levin <sashal@kernel.org>, David Milburn <dmilburn@redhat.com>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Weiping Zhang <zhangweiping@didiglobal.com>
+From: Sagi Grimberg <sagi@grimberg.me>
 
-[ Upstream commit 9c9e76d5792b121f10c3b8ddbb639617e49197f7 ]
+[ Upstream commit 64f5e9cdd711b030b05062c17b2ecfbce890cf4c ]
 
-Check module parameter write/poll_queues before using it to catch
-too large values.
+When removing a namespace, we add an NS_CHANGE async event, however if
+the controller admin queue is removed after the event was added but not
+yet processed, we won't free the aens, resulting in the below memory
+leak [1].
 
-Reproducer:
+Fix that by moving nvmet_async_event_free to the final controller
+release after it is detached from subsys->ctrls ensuring no async
+events are added, and modify it to simply remove all pending aens.
 
-modprobe -r nvme
-modprobe nvme write_queues=`nproc`
-echo $((`nproc`+1)) > /sys/module/nvme/parameters/write_queues
-echo 1 > /sys/block/nvme0n1/device/reset_controller
+--
+$ cat /sys/kernel/debug/kmemleak
+unreferenced object 0xffff888c1af2c000 (size 32):
+  comm "nvmetcli", pid 5164, jiffies 4295220864 (age 6829.924s)
+  hex dump (first 32 bytes):
+    28 01 82 3b 8b 88 ff ff 28 01 82 3b 8b 88 ff ff  (..;....(..;....
+    02 00 04 65 76 65 6e 74 5f 66 69 6c 65 00 00 00  ...event_file...
+  backtrace:
+    [<00000000217ae580>] nvmet_add_async_event+0x57/0x290 [nvmet]
+    [<0000000012aa2ea9>] nvmet_ns_changed+0x206/0x300 [nvmet]
+    [<00000000bb3fd52e>] nvmet_ns_disable+0x367/0x4f0 [nvmet]
+    [<00000000e91ca9ec>] nvmet_ns_free+0x15/0x180 [nvmet]
+    [<00000000a15deb52>] config_item_release+0xf1/0x1c0
+    [<000000007e148432>] configfs_rmdir+0x555/0x7c0
+    [<00000000f4506ea6>] vfs_rmdir+0x142/0x3c0
+    [<0000000000acaaf0>] do_rmdir+0x2b2/0x340
+    [<0000000034d1aa52>] do_syscall_64+0xa5/0x4d0
+    [<00000000211f13bc>] entry_SYSCALL_64_after_hwframe+0x6a/0xdf
 
-[  657.069000] ------------[ cut here ]------------
-[  657.069022] WARNING: CPU: 10 PID: 1163 at kernel/irq/affinity.c:390 irq_create_affinity_masks+0x47c/0x4a0
-[  657.069056]  dm_region_hash dm_log dm_mod
-[  657.069059] CPU: 10 PID: 1163 Comm: kworker/u193:9 Kdump: loaded Tainted: G        W         5.6.0+ #8
-[  657.069060] Hardware name: Inspur SA5212M5/YZMB-00882-104, BIOS 4.0.9 08/27/2019
-[  657.069064] Workqueue: nvme-reset-wq nvme_reset_work [nvme]
-[  657.069066] RIP: 0010:irq_create_affinity_masks+0x47c/0x4a0
-[  657.069067] Code: fe ff ff 48 c7 c0 b0 89 14 95 48 89 46 20 e9 e9 fb ff ff 31 c0 e9 90 fc ff ff 0f 0b 48 c7 44 24 08 00 00 00 00 e9 e9 fc ff ff <0f> 0b e9 87 fe ff ff 48 8b 7c 24 28 e8 33 a0 80 00 e9 b6 fc ff ff
-[  657.069068] RSP: 0018:ffffb505ce1ffc78 EFLAGS: 00010202
-[  657.069069] RAX: 0000000000000060 RBX: ffff9b97921fe5c0 RCX: 0000000000000000
-[  657.069069] RDX: ffff9b67bad80000 RSI: 00000000ffffffa0 RDI: 0000000000000000
-[  657.069070] RBP: 0000000000000000 R08: 0000000000000000 R09: ffff9b97921fe718
-[  657.069070] R10: ffff9b97921fe710 R11: 0000000000000001 R12: 0000000000000064
-[  657.069070] R13: 0000000000000060 R14: 0000000000000000 R15: 0000000000000001
-[  657.069071] FS:  0000000000000000(0000) GS:ffff9b67c0880000(0000) knlGS:0000000000000000
-[  657.069072] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  657.069072] CR2: 0000559eac6fc238 CR3: 000000057860a002 CR4: 00000000007606e0
-[  657.069073] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-[  657.069073] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-[  657.069073] PKRU: 55555554
-[  657.069074] Call Trace:
-[  657.069080]  __pci_enable_msix_range+0x233/0x5a0
-[  657.069085]  ? kernfs_put+0xec/0x190
-[  657.069086]  pci_alloc_irq_vectors_affinity+0xbb/0x130
-[  657.069089]  nvme_reset_work+0x6e6/0xeab [nvme]
-[  657.069093]  ? __switch_to_asm+0x34/0x70
-[  657.069094]  ? __switch_to_asm+0x40/0x70
-[  657.069095]  ? nvme_irq_check+0x30/0x30 [nvme]
-[  657.069098]  process_one_work+0x1a7/0x370
-[  657.069101]  worker_thread+0x1c9/0x380
-[  657.069102]  ? max_active_store+0x80/0x80
-[  657.069103]  kthread+0x112/0x130
-[  657.069104]  ? __kthread_parkme+0x70/0x70
-[  657.069105]  ret_from_fork+0x35/0x40
-[  657.069106] ---[ end trace f4f06b7d24513d06 ]---
-[  657.077110] nvme nvme0: 95/1/0 default/read/poll queues
-
-Signed-off-by: Weiping Zhang <zhangweiping@didiglobal.com>
+Fixes: a07b4970f464 ("nvmet: add a generic NVMe target")
+Reported-by: David Milburn <dmilburn@redhat.com>
+Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+Tested-by: David Milburn <dmilburn@redhat.com>
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/pci.c | 22 ++++++++++++++++++----
- 1 file changed, 18 insertions(+), 4 deletions(-)
+ drivers/nvme/target/core.c | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index dcf597fbafad..076bdd90c922 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -68,14 +68,30 @@ static int io_queue_depth = 1024;
- module_param_cb(io_queue_depth, &io_queue_depth_ops, &io_queue_depth, 0644);
- MODULE_PARM_DESC(io_queue_depth, "set io queue depth, should >= 2");
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index b685f99d56a1..aa5ca222c6f5 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -157,14 +157,12 @@ static void nvmet_async_events_process(struct nvmet_ctrl *ctrl, u16 status)
  
-+static int io_queue_count_set(const char *val, const struct kernel_param *kp)
-+{
-+	unsigned int n;
-+	int ret;
-+
-+	ret = kstrtouint(val, 10, &n);
-+	if (ret != 0 || n > num_possible_cpus())
-+		return -EINVAL;
-+	return param_set_uint(val, kp);
-+}
-+
-+static const struct kernel_param_ops io_queue_count_ops = {
-+	.set = io_queue_count_set,
-+	.get = param_get_uint,
-+};
-+
- static unsigned int write_queues;
--module_param(write_queues, uint, 0644);
-+module_param_cb(write_queues, &io_queue_count_ops, &write_queues, 0644);
- MODULE_PARM_DESC(write_queues,
- 	"Number of queues to use for writes. If not set, reads and writes "
- 	"will share a queue set.");
+ static void nvmet_async_events_free(struct nvmet_ctrl *ctrl)
+ {
+-	struct nvmet_req *req;
++	struct nvmet_async_event *aen, *tmp;
  
- static unsigned int poll_queues;
--module_param(poll_queues, uint, 0644);
-+module_param_cb(poll_queues, &io_queue_count_ops, &poll_queues, 0644);
- MODULE_PARM_DESC(poll_queues, "Number of queues to use for polled IO.");
- 
- struct nvme_dev;
-@@ -3140,8 +3156,6 @@ static int __init nvme_init(void)
- 	BUILD_BUG_ON(sizeof(struct nvme_delete_queue) != 64);
- 	BUILD_BUG_ON(IRQ_AFFINITY_MAX_SETS < 2);
- 
--	write_queues = min(write_queues, num_possible_cpus());
--	poll_queues = min(poll_queues, num_possible_cpus());
- 	return pci_register_driver(&nvme_driver);
+ 	mutex_lock(&ctrl->lock);
+-	while (ctrl->nr_async_event_cmds) {
+-		req = ctrl->async_event_cmds[--ctrl->nr_async_event_cmds];
+-		mutex_unlock(&ctrl->lock);
+-		nvmet_req_complete(req, NVME_SC_INTERNAL | NVME_SC_DNR);
+-		mutex_lock(&ctrl->lock);
++	list_for_each_entry_safe(aen, tmp, &ctrl->async_events, entry) {
++		list_del(&aen->entry);
++		kfree(aen);
+ 	}
+ 	mutex_unlock(&ctrl->lock);
  }
+@@ -764,10 +762,8 @@ void nvmet_sq_destroy(struct nvmet_sq *sq)
+ 	 * If this is the admin queue, complete all AERs so that our
+ 	 * queue doesn't have outstanding requests on it.
+ 	 */
+-	if (ctrl && ctrl->sqs && ctrl->sqs[0] == sq) {
++	if (ctrl && ctrl->sqs && ctrl->sqs[0] == sq)
+ 		nvmet_async_events_process(ctrl, status);
+-		nvmet_async_events_free(ctrl);
+-	}
+ 	percpu_ref_kill_and_confirm(&sq->ref, nvmet_confirm_sq);
+ 	wait_for_completion(&sq->confirm_done);
+ 	wait_for_completion(&sq->free_done);
+@@ -1357,6 +1353,7 @@ static void nvmet_ctrl_free(struct kref *ref)
  
+ 	ida_simple_remove(&cntlid_ida, ctrl->cntlid);
+ 
++	nvmet_async_events_free(ctrl);
+ 	kfree(ctrl->sqs);
+ 	kfree(ctrl->cqs);
+ 	kfree(ctrl->changed_ns_list);
 -- 
 2.25.1
 
