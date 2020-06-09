@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39FD0C433E0
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Jun 2020 13:45:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ECA9C433E0
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Jun 2020 13:45:26 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0B18C20760
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Jun 2020 13:44:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 2009A20774
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Jun 2020 13:45:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="LcspQw/D"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0B18C20760
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="NL/nnLfP"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2009A20774
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,34 +25,34 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=ctSlRXv9GDTJcXVunKlg+DEWv+P4QEJD/mTdGU7XXDw=; b=LcspQw/DAf2+b8
-	rtv4y7ZthRf8ld6VRsZCC8ZRceVm49E03r+0narD3pgXemH42P39Hee+wTU+c8bO1IS2jKRkBpdR+
-	3Y4LM4wi0iBZpC0Z/YB8PAwQF2iTJU+664hn8Kpl8qzkOxLdB5lfpRFy9tvJpnVev4M3T8Oswc5iL
-	LRBLDYgt3sEHvnhTDxJll6pw9HpNI1tGKUFzYM9cNxAXpOPq+rqhgdyiQj51y+/4ym9j5AI2wopDN
-	Db7eHYI2cG5GYHKxSPzugguA3dqidDSU3hrDRkaUgV56zPRDJSNOwG0odxgznEOZs8eKWLXSQNmVB
-	eNV0dqp7LWyvfVsT9W4A==;
+	List-Owner; bh=ctSlRXv9GDTJcXVunKlg+DEWv+P4QEJD/mTdGU7XXDw=; b=NL/nnLfPzX0ITP
+	kepmW39FlHhcioQ6qNC9PX4JLBTWVtMVrgJ6UqyH2m3l0dJGCpOvBjbjerz8+otu1Tj7aVb4jzpPD
+	MYnqAPHd98K6F1dGhgeR+kj3jE5AaDfDh0jEFqH3j8fzdfsRy+xgkgQ0oH9fbOVbQwptJnVRg1ucJ
+	PNDsVETBPUWyTiqElHmwOcIHf251FGiQzo+Q4PgvpECNnxMkg9f/DXiJ+J1jCT9TyK5cSRk8zBCXP
+	ojKDsvr56q8VivrGZi77tiXDRTH0L4t85fU+94wTqZhOpuq1c7C04xruYUHmqC1egA5tGBSguvMAW
+	w6+WwqPBFWchSwysqy4w==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jieYk-0007PC-I6; Tue, 09 Jun 2020 13:44:58 +0000
+	id 1jieZ8-0001au-KE; Tue, 09 Jun 2020 13:45:22 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jieYh-0007KT-0y
- for linux-nvme@lists.infradead.org; Tue, 09 Jun 2020 13:44:56 +0000
+ id 1jieYp-0007Sw-Dn
+ for linux-nvme@lists.infradead.org; Tue, 09 Jun 2020 13:45:05 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 1915C68B02; Tue,  9 Jun 2020 15:44:53 +0200 (CEST)
-Date: Tue, 9 Jun 2020 15:44:52 +0200
+ id B01FF68B02; Tue,  9 Jun 2020 15:44:59 +0200 (CEST)
+Date: Tue, 9 Jun 2020 15:44:59 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Rikard Falkeborn <rikard.falkeborn@gmail.com>
-Subject: Re: [PATCH] nvme-tcp: constify static struct blk_mq_ops
-Message-ID: <20200609134452.GB10030@lst.de>
-References: <20200528222507.390172-1-rikard.falkeborn@gmail.com>
+To: Max Gurtovoy <maxg@mellanox.com>
+Subject: Re: [PATCH 1/1] nvmet-tcp: constify static struct nvmet_fabrics_ops
+Message-ID: <20200609134459.GC10030@lst.de>
+References: <20200601170520.15207-1-maxg@mellanox.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200528222507.390172-1-rikard.falkeborn@gmail.com>
+In-Reply-To: <20200601170520.15207-1-maxg@mellanox.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200609_064455_223407_C1070A87 
-X-CRM114-Status: UNSURE (   5.27  )
+X-CRM114-CacheID: sfid-20200609_064503_862392_45058BDB 
+X-CRM114-Status: UNSURE (   4.63  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -65,9 +65,8 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sagi Grimberg <sagi@grimberg.me>, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, Jens Axboe <axboe@fb.com>,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
+Cc: sagi@grimberg.me, israelr@mellanox.com, linux-nvme@lists.infradead.org,
+ kbusch@kernel.org, nitzanc@mellanox.com, hch@lst.de
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
