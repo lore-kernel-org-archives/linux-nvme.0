@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF3C0C433DF
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Jun 2020 13:57:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26CB4C433DF
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Jun 2020 13:57:59 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BBFA520737
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Jun 2020 13:57:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E7F9220737
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Jun 2020 13:57:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="cwRBUa/j"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BBFA520737
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="tdyRNtOy"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E7F9220737
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,35 +25,34 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=4Y9xxzcl4JqvIQS+CMdwxEq6nob7HChHfG/T+N1XJAA=; b=cwRBUa/jLiCxQT
-	p7Rbubq58Cy+yYfy8fpUNUrxQJPzf6yEMAIgp5RYVdaG2/zPcsCDKyZl7O/+mecAaxr4No/b9Kat2
-	0kuU/c2rr7BidtUy19HYyyFyrnttDYIuUTDGhOttgq2e46Bv0n7iKsE+O2IZCx5hCKiCwOUFag9Jg
-	7BFFKvvxW/AEHHub3DIcp8CZ0hLNIMQ+9pyMMim+JsleM4RmYzttoG08Im8Sa4TYt3hhmN6uWnx4s
-	zZZFohxcKJ7MwLFF/ATH5iF+FRL6ZmHMd38V3ej/pfjsJgwF8a8J9whBjobF5zYFVygok/vqbxtFx
-	OUbGIEpa0a1Tw/I9fbFQ==;
+	List-Owner; bh=ztN/gkH/QxzYJjjJJq4CmyN0F2vKN8pGFeDAFxfaxws=; b=tdyRNtOy5Ooeq6
+	L+i/fIm5XrLhQFMbaLX52zQG+RbeITQOTz59+rbWiK86avh53YLFIyEnX3LOzpz5cUZP5PfQw6hzE
+	IlmTPBdrNzol+a/h05asu+X668PSncwA3+CCW9LlMK7Owwroi3SY/nzZtCCDhUPU6UGlwZi5zltd4
+	SUOjDli0Nut/xMaFcdiNnOKxKi06nEzbicX9ib5XBVpBIGSYskwNsmLKpIXe78Vlnfi5+YL08Heew
+	ZIxL1vraJtH2vBw2QkZ6NpyaUqGBQtjsAp+2/3g23UTVGvLpphLTHe27A3BhU7OkdF5QaKXLQodgR
+	bPvanKR7Q6rO8bwhSh2w==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jiekr-0002eh-QN; Tue, 09 Jun 2020 13:57:29 +0000
+	id 1jielJ-0002pk-5u; Tue, 09 Jun 2020 13:57:57 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jiekp-0002eQ-Gl
- for linux-nvme@lists.infradead.org; Tue, 09 Jun 2020 13:57:28 +0000
+ id 1jielG-0002pE-8x
+ for linux-nvme@lists.infradead.org; Tue, 09 Jun 2020 13:57:55 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id E4ADC68B02; Tue,  9 Jun 2020 15:57:24 +0200 (CEST)
-Date: Tue, 9 Jun 2020 15:57:24 +0200
+ id 6AEE968B02; Tue,  9 Jun 2020 15:57:52 +0200 (CEST)
+Date: Tue, 9 Jun 2020 15:57:52 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Max Gurtovoy <maxg@mellanox.com>
-Subject: Re: [PATCH 1/5] nvme: introduce nvme-types header file
-Message-ID: <20200609135724.GC10669@lst.de>
+Subject: Re: [PATCH 0/5] NVMe cleanups for 5.8
+Message-ID: <20200609135752.GD10669@lst.de>
 References: <20200602131546.51903-1-maxg@mellanox.com>
- <20200602131546.51903-2-maxg@mellanox.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200602131546.51903-2-maxg@mellanox.com>
+In-Reply-To: <20200602131546.51903-1-maxg@mellanox.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200609_065727_703145_2FEDB89C 
-X-CRM114-Status: UNSURE (   6.56  )
+X-CRM114-CacheID: sfid-20200609_065754_457501_402E716B 
+X-CRM114-Status: UNSURE (   5.07  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -74,14 +73,8 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jun 02, 2020 at 04:15:42PM +0300, Max Gurtovoy wrote:
-> Centralize the mapping between name and type to a common header file
-> instead of duplicating logic in both NVMe host and target drivers.
-
-The idea looks ok to me, but nvme_types suggested a header ala
-<sys/types.h> or <linux/types.h> to me.  Not sure what a good name
-would be, though.  I also suspect that keeping it under drivers/nvme/
-in some fork might make more sense.
+I've applied patches 4 and 5 to nvme-5.9 for now, while the rest is still
+under discussion.
 
 _______________________________________________
 linux-nvme mailing list
