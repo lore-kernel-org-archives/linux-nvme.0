@@ -2,86 +2,104 @@ Return-Path: <SRS0=W9vg=7X=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54553C433DF
-	for <linux-nvme@archiver.kernel.org>; Wed, 10 Jun 2020 07:06:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF01EC433E0
+	for <linux-nvme@archiver.kernel.org>; Wed, 10 Jun 2020 14:56:07 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 18816207ED
-	for <linux-nvme@archiver.kernel.org>; Wed, 10 Jun 2020 07:06:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A52DF2072F
+	for <linux-nvme@archiver.kernel.org>; Wed, 10 Jun 2020 14:56:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="kavDkJbw";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="W4sWQ4OE"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 18816207ED
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="JjvssfdM";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Fh5YU57L"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A52DF2072F
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=373yH18bC9Ip0uXOLvc3yrmE2yERJENivbYNrDBn950=; b=kavDkJbwNJFAmTqnEAHeiiU1r
-	QVJ7DV9by8d6ISRXJ6R9lvDIW0WGx1W2OQgK6Ttx2A4468gp4cwrv2q3YtBCh6mMkpcNQWB14ACUt
-	H/+U+9uAwf52ApZ0ShShNY+4j8dU+SscQBUd3uxi0VxNZwtFD4QC5NaicYF4TZ5xAUCR4D971NC8v
-	+gDTXxL1I4k2OBpshsumdOpaVspOFW6EvYfS2Y2PgRS9TMOtPcMEtk+FEeJxzQ4GLedh0e1qFKhqc
-	/G+fJYsbvy/mHMElKBeinYyuoAIgBz6S5jVYLJAxCceZ11z7TmSuGgOF3a8N1QmRDd6DWfXXhQCGy
-	W1borEeeg==;
+	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:
+	Message-ID:From:References:To:Subject:Reply-To:Content-ID:Content-Description
+	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=7NQBZOfJ5vnSQzQEcrX2Slm+N9nLo1aqJREXfLFjx0s=; b=JjvssfdMbvs1IY
+	OREq5cmC5Nga2xIzYAdhUgeIybK6QpYkF0QS7g/8kS1ozIF/C6xjhTOO+R+gsDzk4+PbnIGM3F8sZ
+	CXmsOevqsQy2gh1o0BDQqTQy1ZvabdoeNMnXB25H9yMFZtdkLmrTzGdHZpcwodQJu/7ip6NREJl9l
+	Y4rAp9dKTrnGibC9387+Ed3kepJjBxBAuJgQVnqMzy5IRX482+LnI+YjWuR55z43vCbJouC0BrjNV
+	hWl4WCvQMDKalOXA8PLB4InYWbRDv96kCVK0yBJUGFjM376PbgKs/gJ6qz1BbfGwe6dwM7GZmjfp/
+	nM72Jzq0+l2nml01aQ5g==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jiuoE-0007lC-NU; Wed, 10 Jun 2020 07:06:02 +0000
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]
- helo=us-smtp-1.mimecast.com)
+	id 1jj294-00086q-9g; Wed, 10 Jun 2020 14:56:02 +0000
+Received: from userp2130.oracle.com ([156.151.31.86])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jiuoC-0007kk-3L
- for linux-nvme@lists.infradead.org; Wed, 10 Jun 2020 07:06:01 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591772757;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=i082/k7X66VpKA4BArVOYwDebI6I8dBAhqufU60X7Yk=;
- b=W4sWQ4OE4G7Ni+yY9LVtOukfm6yfYmPKxNI590kvgC179nPP6bv09ojLimndOlsfelOAES
- o7MII9t4NHiSue25i7W/PP6P69plfBiDOTgzrDqHjnm3dELwaRQWDej9RmvvRZxX3qZL0e
- r+ZlZlQSuIH7oYaNPzTpWhaRxCjLKag=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-191-mxvUOJXUPm2vgless2ibYg-1; Wed, 10 Jun 2020 03:05:55 -0400
-X-MC-Unique: mxvUOJXUPm2vgless2ibYg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE639835B41;
- Wed, 10 Jun 2020 07:05:54 +0000 (UTC)
-Received: from [10.72.12.113] (ovpn-12-113.pek2.redhat.com [10.72.12.113])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CA981891E2;
- Wed, 10 Jun 2020 07:05:53 +0000 (UTC)
-Subject: Re: [PATCH nvme-cli] nvme-print: fix smart log temperature output in
- json mode
-To: Keith Busch <kbusch@kernel.org>
-References: <20200609145422.22386-1-yi.zhang@redhat.com>
- <20200609150331.GA189247@dhcp-10-100-145-180.wdl.wdc.com>
-From: Yi Zhang <yi.zhang@redhat.com>
-Message-ID: <21f86bab-49cf-903d-1b66-ceaf24193d7f@redhat.com>
-Date: Wed, 10 Jun 2020 15:05:50 +0800
+ id 1jj291-00086D-Gr
+ for linux-nvme@lists.infradead.org; Wed, 10 Jun 2020 14:56:01 +0000
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05AEqMPa046210;
+ Wed, 10 Jun 2020 14:53:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=+MkVzWy7hSx4wdwuzJRJZjRevMWLr+97rQSWPuRETeI=;
+ b=Fh5YU57LjGtgILZhyagxCJiKu4+KGIutZ5E9PylZp1Qo5JxWx2sdx1km+teF5HpB/a6Y
+ +v/mQIhiwB70zeeL6scNIb2z8RPcYg5Erj51xoP8eYmicfNMe6rRTMFP8AWdwcFHfWEh
+ zUKNKLZSX6N17fHLjKr1Nd1gbAE/HEbmt2OtJogrNBJb82X7D/quTe7U5//urcAo3qs5
+ 0malmVNVWml0c0tESY9EcRYvcmIGCsKFbMMN0ZrJdWOcD+Zv5Ws+fywrNKaj/F4ubd6G
+ eEmoRBXwje+OuAgP6QfwhPM9kHvClr+5A6DodADS3CcKGBw03E/87H91mpCguJbEIIz4 8Q== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2130.oracle.com with ESMTP id 31g2jravr5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 10 Jun 2020 14:53:37 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05AEi0us135392;
+ Wed, 10 Jun 2020 14:53:37 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by aserp3030.oracle.com with ESMTP id 31gmqqdenw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 10 Jun 2020 14:53:36 +0000
+Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 05AErZYO021813;
+ Wed, 10 Jun 2020 14:53:36 GMT
+Received: from [10.159.156.250] (/10.159.156.250)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 10 Jun 2020 07:53:34 -0700
+Subject: Re: [PATCH 1/1] nvme-fcloop: verify wwnn and wwpn format
+To: James Smart <james.smart@broadcom.com>, linux-nvme@lists.infradead.org,
+ hch@lst.de
+References: <20200526042118.17836-1-dongli.zhang@oracle.com>
+ <60df6752-3512-f7a9-b0df-1096b93b8eda@broadcom.com>
+From: Dongli Zhang <dongli.zhang@oracle.com>
+Message-ID: <f93adee4-ebf0-a229-e507-4ef4e4fe812d@oracle.com>
+Date: Wed, 10 Jun 2020 07:53:33 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200609150331.GA189247@dhcp-10-100-145-180.wdl.wdc.com>
+In-Reply-To: <60df6752-3512-f7a9-b0df-1096b93b8eda@broadcom.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9647
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ bulkscore=0 mlxscore=0
+ mlxlogscore=999 adultscore=0 spamscore=0 suspectscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2006100112
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9647
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ impostorscore=0
+ cotscore=-2147483648 priorityscore=1501 spamscore=0 suspectscore=0
+ lowpriorityscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0 mlxscore=0
+ phishscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2004280000 definitions=main-2006100113
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200610_000600_215925_D312C95E 
-X-CRM114-Status: GOOD (  16.79  )
+X-CRM114-CacheID: sfid-20200610_075559_647439_919A8077 
+X-CRM114-Status: GOOD (  17.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,46 +111,33 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-nvme@lists.infradead.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: sagi@grimberg.me, chaitanya.kulkarni@wdc.com, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 6/9/20 11:03 PM, Keith Busch wrote:
-> On Tue, Jun 09, 2020 at 10:54:22PM +0800, Yi Zhang wrote:
->> Signed-off-by: Yi Zhang <yi.zhang@redhat.com>
->> ---
->>   nvme-print.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/nvme-print.c b/nvme-print.c
->> index 7414280..d63b402 100644
->> --- a/nvme-print.c
->> +++ b/nvme-print.c
->> @@ -593,7 +593,7 @@ static void json_smart_log(struct nvme_smart_log *smart, unsigned int nsid,
->>   	char key[21];
->>   
->>   	unsigned int temperature = ((smart->temperature[1] << 8) |
->> -		smart->temperature[0]);
->> +		smart->temperature[0]) - 273;
-> I usually consider json output as something to be consumed by another
-> program rather than by a human, so we've not done much manipulation from
-> the spec defined units. It's just a serialized representation of the
-> structure.
-I checked this field in the spec, it make sense to keep Kelvin here.
-So drop this patch, thanks.
-
-> If you need a more human friendly output, we can add flags to refine the
-> output, but we can't just change the default reporting from Kelvin to
-> Celsius since that may break existing programs interpreting the current
-> json.
->
-
-
-_______________________________________________
-linux-nvme mailing list
-linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+SGkgQ2hyaXN0b3BoLAoKV291bGQgeW91IG1pbmQgYXBwbHkgdGhpcyBvbmUgd2l0aCB0aGUgUmV2
+aWV3ZWQtYnkgZnJvbSBKYW1lcyBhbmQgU2FnaT8KCmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xp
+bnV4LW52bWUvNjBkZjY3NTItMzUxMi1mN2E5LWIwZGYtMTA5NmI5M2I4ZWRhQGJyb2FkY29tLmNv
+bS8KCmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LW52bWUvYzRlYzJkOWUtYjA4Yy0xOWIy
+LTE2YTUtOTM1MjBjYTEzYzJlQGdyaW1iZXJnLm1lLwoKVGhhbmsgeW91IHZlcnkgbXVjaCEKCkRv
+bmdsaSBaaGFuZwoKT24gNi80LzIwIDg6MjAgQU0sIEphbWVzIFNtYXJ0IHdyb3RlOgo+IE9uIDUv
+MjUvMjAyMCA5OjIxIFBNLCBEb25nbGkgWmhhbmcgd3JvdGU6Cj4+IFRoZSBudm1lIGhvc3QgYW5k
+IHRhcmdldCB2ZXJpZnkgdGhlIHd3bm4gYW5kIHd3cG4gZm9ybWF0IHZpYQo+PiBudm1lX2ZjX3Bh
+cnNlX3RyYWRkcigpLiBGb3IgaW5zdGFuY2UsIGl0IGlzIHJlcXVpcmVkIHRoYXQgdGhlIGxlbmd0
+aCBvZgo+PiB3d25uIHRvIGJlIGVpdGhlciAyMSAoIm5uLTB4Iikgb3IgMTkgKG5uLSkuCj4+Cj4+
+IEFkZCB0aGlzIHZlcmlmaWNhdGlvbiB0byBudm1lLWZjbG9vcCBzbyB0aGF0IHRoZSBpbnB1dCBz
+aG91bGQgYWx3YXlzIGJlIGluCj4+IGhleCBhbmQgdGhlIGxlbmd0aCBvZiBpbnB1dCBzaG91bGQg
+YWx3YXlzIGJlIDE4Lgo+Pgo+PiBPdGhlcndpc2UsIHRoZSB1c2VyIG1heSB1c2UgZS5nLiAweDIg
+dG8gY3JlYXRlIGZjbG9vcCBsb2NhbCBwb3J0LCB3aGlsZQo+PiAweDAwMDAwMDAwMDAwMDAwMDIg
+aXMgcmVxdWlyZWQgZm9yIG52bWUgaG9zdCBhbmQgdGFyZ2V0LiBUaGlzIG1ha2VzIHRoZQo+PiBy
+ZXF1aXJlbWVudCBvZiBmb3JtYXQgY29uZnVzaW5nLgo+Pgo+PiBTaWduZWQtb2ZmLWJ5OiBEb25n
+bGkgWmhhbmcgPGRvbmdsaS56aGFuZ0BvcmFjbGUuY29tPgo+PiAtLS0KPj4gwqAgZHJpdmVycy9u
+dm1lL3RhcmdldC9mY2xvb3AuYyB8IDI5ICsrKysrKysrKysrKysrKysrKysrKysrLS0tLS0tCj4+
+IMKgIDEgZmlsZSBjaGFuZ2VkLCAyMyBpbnNlcnRpb25zKCspLCA2IGRlbGV0aW9ucygtKQo+Pgo+
+Pgo+IAo+IFJldmlld2VkLWJ5OiBKYW1lcyBTbWFydCA8amFtZXMuc21hcnRAYnJvYWRjb20uY29t
+Pgo+IAo+IExvb2tzIGdvb2QuIFNvcnJ5IGZvciB0aGUgZGVsYXkuCj4gCj4gLS0gamFtZXMKPiAK
+PiAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmxpbnV4
+LW52bWUgbWFpbGluZyBsaXN0CmxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8v
+bGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
