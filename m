@@ -2,83 +2,134 @@ Return-Path: <SRS0=c2UW=74=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71B6DC433E0
-	for <linux-nvme@archiver.kernel.org>; Mon, 15 Jun 2020 23:12:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3EC8C433DF
+	for <linux-nvme@archiver.kernel.org>; Mon, 15 Jun 2020 23:19:43 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4527B2068E
-	for <linux-nvme@archiver.kernel.org>; Mon, 15 Jun 2020 23:12:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 947472068E
+	for <linux-nvme@archiver.kernel.org>; Mon, 15 Jun 2020 23:19:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="rRZEMKlp";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EEIrhRJz"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4527B2068E
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="b7zejJyq";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="MSFXzs3B";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="xHcWnvgU"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 947472068E
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Cc:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date
+	:Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	References:List-Owner; bh=jgDbHJmpYA69JU8vs48tZSztEH8XkifzVj7ORT7cEVk=; b=rRZ
-	EMKlp4l9rFM0YM8yfz6DF9gyo8V8c3VshE/Bu42ki1RUeQpLYVd16l8RcSlumXbLUZuC+7vVC09QJ
-	fR8TknyVzsDqNTsTWGWISsXQa6FKAXrOn755Ta/MI/0ZC+wAngFT79/kPQrLJvOQfhc/yZ6wUl8W3
-	lo7k1pF7AxadAU72XemHr8DLL9YvdjvUsDsRy5ri2ouWo3zZwQzqjHBBfVpzpd6yePrk4kyaCzvsh
-	H0jd1NBQYBWf1bEpRqXetq0CipaIddzsiDvXUHXuPpaGQdlIMFoO4Wxy665TVkNkGCHhVlWysfl7Y
-	4tihCYr+xAylrBuUUxQFczIKBiXkD/w==;
+	List-Owner; bh=HuMaf0nSgygD0CgWks524QKGQFfEtOWy+UNORAJy6vk=; b=b7zejJyqip5RvH
+	NSr5MaC+FuaV1KRmzFJl9DtAII9cGNECkCSI7dibDsZl1q67IeQiN1T7v4Zx/75vFsaWIjAymepLn
+	rtIDGmwasoZQAD6E6iAJePBZmw4WzeYaJNtN5EkYjMgw2s39No3PdXS6v28Fk9hyCEmFg3Yu3Dih0
+	PKXxbwKEc4vVGBSImKDpzNiFfLLH7wrRCCpp4fAAH6dGoYXKBGYr/qHdiLowmtvvFtwZvl++INizY
+	xR6ifucsBiXW6fwXIMjYnLLOggZXzCVbhfIdYzvTUZGePJd/0AKZ8+fhiZVptnw4urhaWhXXkLerd
+	wn/SKTLmLa6B9NJLUldQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jkyHM-0007PC-Lz; Mon, 15 Jun 2020 23:12:36 +0000
-Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41])
+	id 1jkyOD-0001vp-6U; Mon, 15 Jun 2020 23:19:41 +0000
+Received: from esa3.hgst.iphmx.com ([216.71.153.141])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jkyHJ-0007O7-Pt
- for linux-nvme@lists.infradead.org; Mon, 15 Jun 2020 23:12:35 +0000
-Received: by mail-io1-xd41.google.com with SMTP id s18so318570ioe.2
- for <linux-nvme@lists.infradead.org>; Mon, 15 Jun 2020 16:12:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=W0m3oFYfEdmQXtbNnJ57bvEwrecGkzyuNTxMF29GlxY=;
- b=EEIrhRJzanXHWvhId0pPtmRA6Hkf7qBxxZJ0xmDrm3n/TGAElDCvZQB7DHF+uuHeX0
- d6jFJPMjyTY0x/8cVarf8FU6O4HdD16l1h4+atPcLKCIS5F3cxT9OO8TVeHZzl4XakyF
- 3VIHwoH0svXl5dsrtE7Z0u2qdgc0X61/Ey8PePlqD3IXidQC430K9dqSTBExaYmWi4GE
- EL8kRKtmQ99eo0TobH5Ez9b6AOp/pLo5EovyE+55vnchBEqD4w9+Q5k8cYy1geI/anYu
- mWMZppZwzfOWlzo+EvRT6MSd+SCTbc0VilbrNdJxmoo8Hr8yyWFs+ToFIW7/IRyQ1NS2
- 0REQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=W0m3oFYfEdmQXtbNnJ57bvEwrecGkzyuNTxMF29GlxY=;
- b=W/sx4/QEEH77w6hQaRkEOIiB0f/DB70x2/O+hgXqHndI57L0B0cFmDETOCCNzvK1eq
- u1UKQBmFQ7tGNDeQXLClHk3z4uQzEj5XyP/gMBDr+rnjOdH9P6iGtWU3KNiWkwmDBezF
- 9OKRUjhiyldu2i7mTrVqgSlbV33o+mohQAfmPl1oOtpGX/R/0od9EDdBtNDlSMR22R3y
- 0agmZpc2APwPFvxXsLJfbhd0GZ6asYmUCi2Bw/cyA5KXIQaJwp/cTyxpji0r5JD6vSCc
- WhlUrAj1Zo5XoNfPJa8/2/cz55WjKSWG7OyS1HcYNEJA0rQMsqkgobKulG9lz/yeFbKu
- 8rJQ==
-X-Gm-Message-State: AOAM530YRDB4reDyhsCGPynb89Eg3VVaT8YVX835l3qQA0W3sXifpwOK
- gtzTEJzDolR7q1w/bUgJNJY=
-X-Google-Smtp-Source: ABdhPJy5wua0gBwdh7y4cxqEsckHqpBfCM8zWi8GCnP+vGYiRsb+2R5qDrDiWtHbTHWiMwwH8lMaIQ==
-X-Received: by 2002:a02:ac01:: with SMTP id a1mr24122656jao.33.1592262748514; 
- Mon, 15 Jun 2020 16:12:28 -0700 (PDT)
-Received: from s-lmo-gaz25a.dev.cray.com ([63.239.150.218])
- by smtp.gmail.com with ESMTPSA id 129sm8616712iou.2.2020.06.15.16.12.27
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 15 Jun 2020 16:12:27 -0700 (PDT)
-From: christopher.walker@gmail.com
-To: 
-Subject: [PATCH] nvme: Quirk for Samsung PM1733 controllers
-Date: Mon, 15 Jun 2020 17:12:22 -0600
-Message-Id: <1592262742-103431-1-git-send-email-christopher.walker@gmail.com>
-X-Mailer: git-send-email 1.8.3.1
+ id 1jkyOA-0001vM-3O
+ for linux-nvme@lists.infradead.org; Mon, 15 Jun 2020 23:19:39 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1592263178; x=1623799178;
+ h=from:to:cc:subject:date:message-id:references:
+ content-transfer-encoding:mime-version;
+ bh=ANo1VfJU7i+HlgDHVB1Vq03pyE6E+hNmLK3k+Pe70Hg=;
+ b=MSFXzs3B/HOPUUcGzbFGq3X/JwGNmyOf3DX34MBiVWM5sv4bgnQRrO95
+ NgQ7E9KAfMzAWbUK5e+CNUpSGSzLvRhX4OeRSU2DC08WOsZm9rFXVAOuA
+ xhjKNkDaoTNgiTbDlKoyPZZPOcNSA/Ehhb0fo+NU4J/P0ZEXUBirlHK+G
+ rJM5dgK9+XNTrf171Hn1W05adnQ+6lXhj8q/IMFYXzXDP1+EUdJE97xf8
+ T9gKnhqvx4Xi5vILGTOJuv0CVUmr7FsVEWkRl5/SOXTp7ifIpNR+Mc297
+ FqXNcErwMmohcVwTyRK6GtgLkcKZGfGMpmOWlJPfbAXTnbKZry7iR1xON g==;
+IronPort-SDR: fzltbaogCyoLtrfO7G18/xC96qwRPgb8eE1mWBoZ0kxBF91k7HKFEKol7PLu0LCAcJKWiy9CUM
+ f5zUMCgzMvUCHF1rzVbcli6+MbrfxJfORJX14p0MQTvbpBjcjV/bpuWS4UCjx3k4iaYXkCZ6Hw
+ Nnb0xRf/BctwmlLAKcNPPPDmmAWcd/eBXaP7xlZMoWOcgITxZo3E9ve3+C0NscMbM2B8ONi1+a
+ dx+KH5dHG4hUS/M7VJ7vr7NqVTnNo1gKslhQTNF745CoOqRehHUeul6fVRrG4IlYx3sgY+PaG9
+ orY=
+X-IronPort-AV: E=Sophos;i="5.73,516,1583164800"; d="scan'208";a="144393785"
+Received: from mail-dm6nam12lp2176.outbound.protection.outlook.com (HELO
+ NAM12-DM6-obe.outbound.protection.outlook.com) ([104.47.59.176])
+ by ob1.hgst.iphmx.com with ESMTP; 16 Jun 2020 07:19:34 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dVpwKMD/vuMBecldRspi0b4qx15blJefRAug/5F12ZPIWDAJI4H4uKQ9C57aVBkD/OCn2ngeys4Xcwr2XvCZ4NttRoLKzIEndmjSUnyC3KYnBJQNIk0KklzYEdhtEXAyLp7sfJDnidNyjkTBKb3EfjZ1/mHp1/VYvDVOQ2owj6FygpBr4+PCkKzTDewy4Ghzkk2CeaV/8yJPrPNYjO5z8rPAGPXUCz8dFkDOSFhsKSzWQkUS2r+9Qgmbty2VPriO3DkQ34U62vUJbvLZjOwL4eh7XPkIfgWMzIxo1dZwScwE5bOij+gzwN+v5JadddmxylEa6EQDOYJOu8xS3sFovw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=j/a6Z7taXClWDoPai6vRIiLlkFUe9nc7JpRKSI6rpBM=;
+ b=MelQi29gakFe/fXYYOjFdtW5LxOM0A5vuYZ+lWGT3+dH5HvTFOC0l7zpGcikv2Ct6v9zjW0ylRJjJUDDgVd2BHqeNQXFyUXnux3I2hQwGUSLhCZdf1b3wVaaj+m3Wh4At8fqhslWm0zt9y8bmwWwbdbR2EdN1HOOEsQCFKNl/uSM+gZPrD+x6OYQJ/ht+p2Ao9rQn5+xsovnbNyaNF1HRIYo32ak0mF4OV1lmL8iXQ6wZTDjmY7kq21C5KyKQUC9yHmSzPDyIMSotaWPNIdnfQt2eX4XPymDu+cSuYSHFEiu8YoO6x0yqtB2tI1RxAJgi3Qumu9xXajp5MC55HdgoA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=j/a6Z7taXClWDoPai6vRIiLlkFUe9nc7JpRKSI6rpBM=;
+ b=xHcWnvgUU0Iqkq0HYCpz9aR+/5N1xRxpOX0yLNV+iYrEnQIT2yvocOJZLCLi0NrzR8gL+s8yWjr9yy+49OVe92lWcAaLv3lVpmxCKNBHEx4l9XofIrcgbhnU3hfbeQW3oA1OE2w0gYD5wqsWVMvxdLuqZ8Nedbbek5frY4rFUAs=
+Received: from BYAPR04MB4965.namprd04.prod.outlook.com (2603:10b6:a03:4d::25)
+ by BYAPR04MB4232.namprd04.prod.outlook.com (2603:10b6:a02:fd::29)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.24; Mon, 15 Jun
+ 2020 23:19:32 +0000
+Received: from BYAPR04MB4965.namprd04.prod.outlook.com
+ ([fe80::4d72:27c:c075:c5e6]) by BYAPR04MB4965.namprd04.prod.outlook.com
+ ([fe80::4d72:27c:c075:c5e6%7]) with mapi id 15.20.3088.029; Mon, 15 Jun 2020
+ 23:19:32 +0000
+From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+To: "christopher.walker@gmail.com" <christopher.walker@gmail.com>
+Subject: Re: [PATCH] nvme: Quirk for Samsung PM1733 controllers
+Thread-Topic: [PATCH] nvme: Quirk for Samsung PM1733 controllers
+Thread-Index: AQHWQ2p8sCwHP6gB1E2gsBixPm/Rvw==
+Date: Mon, 15 Jun 2020 23:19:32 +0000
+Message-ID: <BYAPR04MB4965BF5E04EC1C7EC82A40F8869C0@BYAPR04MB4965.namprd04.prod.outlook.com>
+References: <1592262742-103431-1-git-send-email-christopher.walker@gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=wdc.com;
+x-originating-ip: [199.255.45.62]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 0fc52448-7219-4c5f-2cbc-08d811828fb6
+x-ms-traffictypediagnostic: BYAPR04MB4232:
+x-microsoft-antispam-prvs: <BYAPR04MB423205104B804C92CF619393869C0@BYAPR04MB4232.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-forefront-prvs: 04359FAD81
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: +xw/Fye4Fb/J9iIzo48UIVOl1wfkY1q5clqDqc2PYYJmBWjwfVfXBYvCoLe0sbmLtOhKdUppqVvWp7HLk4ZmIknVZzLWu/UCMNge6DkG1JCLMGxKdJadr8Rfjw8cIR3vNkAdNQHl3mAEB/+5RY3vpvhSMv5p0zDrRRT2hDi5D7V1ok57ZPzSaLJNqewNIGrwORxPq6E6NYN6jc9xZ+de7249YxgKuLjeem8/DbRwAyXI8AmXk08PD6Q5HNtlhYF2PZJW2wTeYFovae1tBFv8nVQY3EQhyO0xD6HWgbTcCUK6m6vRSaPTFiCKpTJitA4IoPFaaMQzUwRavit/OEXyqA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR04MB4965.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(346002)(136003)(396003)(366004)(376002)(39860400002)(66446008)(76116006)(66556008)(66946007)(64756008)(54906003)(66476007)(86362001)(6506007)(186003)(4744005)(7696005)(2906002)(55016002)(52536014)(26005)(5660300002)(33656002)(478600001)(9686003)(6916009)(71200400001)(8676002)(316002)(8936002)(4326008);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: jjR/wzEppBVl5TMJBzYXsDyl7c4dyG925FfUJn8F4R2FO4j6bLth0b42rrRofK+KhWqDqYlc/dEXCZOj+EmNREZ7cNrWkzwDP6d1x04jqQIyG3E0/sMExwy9HiNgeZqp37wJODS6RdW2LqTY8oe9I2Kng9OiHdpY2wg2/NMk6qHrtTiVUOoU2Ns5P9fCvwMiwspbFo3Ao1fb8gO6J63UTIViKkXd5eM2r22I7cO6/oJrPEKaf+xhBuIvK/mdHmKLwN0iQxx3PCuKC5PwFiU2xXMg7fxvTNA+b1J0SJ4jocp8a14b9pVYjqCEWlukiGSGG76Zlsw6ff4uU4rrOQVbvuurN3gwrXNIHKWugx9+VShM+CuPTfUxSEEyjfR0NEH6A8D1fs2KYWj2TBxrNK57qjqmHXKHdo3kH0D3oqNMZ+3VM5bToPgL/yaWBTT7MVeDss7ZYOKBoE75uqAeZLNor3DlwcaXwJ+OOETFZzkfXxs=
+x-ms-exchange-transport-forked: True
+MIME-Version: 1.0
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0fc52448-7219-4c5f-2cbc-08d811828fb6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jun 2020 23:19:32.6437 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: PpuM2gt/FSqWEXu8aOY7PUbgBKKKcU6oi/tZauwRmV6zlsYkMtFafTz06clrOqE/NMomG8ol8Hafc/JrFXrEX+Hctcv8P4zpfqenUZ2U2/Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB4232
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200615_161233_841195_3B158D89 
-X-CRM114-Status: GOOD (  12.13  )
+X-CRM114-CacheID: sfid-20200615_161938_256709_4E35B312 
+X-CRM114-Status: UNSURE (   8.58  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,89 +141,26 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: sagi@grimberg.me, linux-nvme@lists.infradead.org, axboe@fb.com,
- christopher.walker@gmail.com, kbusch@kernel.org, hch@lst.de
-MIME-Version: 1.0
+Cc: "axboe@fb.com" <axboe@fb.com>, "kbusch@kernel.org" <kbusch@kernel.org>,
+ "sagi@grimberg.me" <sagi@grimberg.me>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "hch@lst.de" <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Christopher Walker <christopher.walker@gmail.com>
+> +/* Samsung 1733 drives have long drive ready times.  From the spec:
+> + * 15.36TB: 4s
+> + *  7.68TB: 3s
+> + *  3.84TB: 2s
+> + *  1.92TB: 2s
+> + * The delay below accommodates the 15.36TB drive at the expense of the
+> + * smaller drives.
+> + */
 
-Accommodate the drive-ready times of Samsung 1733 controllers, which
-range from 2s for the 2TB model up to 4s for the 16TB model.
-
-Signed-off-by: Christopher Walker <christopher.walker@gmail.com>
----
- drivers/nvme/host/core.c |  3 +++
- drivers/nvme/host/nvme.h | 16 ++++++++++++++++
- drivers/nvme/host/pci.c  |  2 ++
- 3 files changed, 21 insertions(+)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index c2c5bc4..9a5ebbe 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2234,6 +2234,9 @@ int nvme_disable_ctrl(struct nvme_ctrl *ctrl)
- 	if (ctrl->quirks & NVME_QUIRK_DELAY_BEFORE_CHK_RDY)
- 		msleep(NVME_QUIRK_DELAY_AMOUNT);
- 
-+	if (ctrl->quirks & NVME_QUIRK_LONG_DELAY_BEFORE_CHK_RDY)
-+		msleep(NVME_QUIRK_LONG_DELAY_AMOUNT);
-+
- 	return nvme_wait_ready(ctrl, ctrl->cap, false);
- }
- EXPORT_SYMBOL_GPL(nvme_disable_ctrl);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index c0f4226..8174032 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -129,6 +129,12 @@ enum nvme_quirks {
- 	 * Don't change the value of the temperature threshold feature
- 	 */
- 	NVME_QUIRK_NO_TEMP_THRESH_CHANGE	= (1 << 14),
-+
-+	/*
-+	 * Samsung 1733 controllers need a longer delay before checking device
-+	 * readiness
-+	 */
-+	NVME_QUIRK_LONG_DELAY_BEFORE_CHK_RDY	= (1 << 15),
- };
- 
- /*
-@@ -173,6 +179,16 @@ static inline u16 nvme_req_qid(struct request *req)
-  */
- #define NVME_QUIRK_DELAY_AMOUNT		2300
- 
-+/* Samsung 1733 drives have long drive ready times.  From the spec:
-+ * 15.36TB: 4s
-+ *  7.68TB: 3s
-+ *  3.84TB: 2s
-+ *  1.92TB: 2s
-+ * The delay below accommodates the 15.36TB drive at the expense of the
-+ * smaller drives.
-+ */
-+#define NVME_QUIRK_LONG_DELAY_AMOUNT	4300
-+
- enum nvme_ctrl_state {
- 	NVME_CTRL_NEW,
- 	NVME_CTRL_LIVE,
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index e2bacd3..7ef4867 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -3109,6 +3109,8 @@ static void nvme_error_resume(struct pci_dev *pdev)
- 		.driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY, },
- 	{ PCI_DEVICE(0x144d, 0xa822),   /* Samsung PM1725a */
- 		.driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY, },
-+	{ PCI_DEVICE(0x144d, 0xa824),   /* Samsung PM1733 */
-+		.driver_data = NVME_QUIRK_LONG_DELAY_BEFORE_CHK_RDY, },
- 	{ PCI_DEVICE(0x1d1d, 0x1f1f),	/* LighNVM qemu device */
- 		.driver_data = NVME_QUIRK_LIGHTNVM, },
- 	{ PCI_DEVICE(0x1d1d, 0x2807),	/* CNEX WL */
--- 
-1.8.3.1
+I'm not sure if this is a right way to comment the code, I'll let others 
+decide whether to have spec information duplicated here.
 
 
 _______________________________________________
