@@ -7,57 +7,54 @@ X-Spam-Status: No, score=-9.7 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6F04C433E0
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Jun 2020 09:35:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2593C433DF
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Jun 2020 09:35:41 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 61E9620707
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Jun 2020 09:35:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A49F52074D
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Jun 2020 09:35:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="IQ86w+Ts"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 61E9620707
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Ph/RtAnY"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A49F52074D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=N+i46L5/2KvAmRVB1uR/SxiTRddNwCUYmduGp0QEz0Y=; b=IQ86w+Ts1eQmAI
-	g5/EMTsQAefxhRYWcUA3XaQpYWVBaUb0xi5SwXMDZtJ4/V74VEoatbLBKRzZlt8VgNoS/72lGJqIW
-	CGJAgMuzngdqv1YMxQ0ySNV1E3KhxW52h5sG0ksT9tyIfo3yXUrPNKbstb4tPRoVYNE/qa2itqGIm
-	vVrqMrpvOWB8lojPHWZI4XkqzohCq/hTHl8JfrkmJ1NQlHU3LQJgrC0eZpLsRvobeT94BEoRYdiqm
-	K8HjiAAMhF/EkPH0r31fKbzqIDtZ/JVToeT5uqvYqSp12AV+gqRmrk+BapJOXZbjvAkpZMqlN2cTg
-	osvMT6Zl8ZUVUY3PLwOg==;
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To
+	:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=Gc9Y8v7ZbnfETp0JqL4WAs0ul7afc04FNz2fgMEsKyE=; b=Ph/RtAnYyPLoJ0
+	/Zv2lmJrnnxwlOe1dqefXqYW14X3zRQdsMGZEDUD5eWhKWrb7HrKPxhHPWs8sdM9J0eowpNrUDVqW
+	upVjxVagbtPrv3NRA8Erqz5h6ZhQRKQv86fyD0iZioEKpPXm2ZiQgM2V7JmPhn4Z5MrCACdx5kIKZ
+	yeMutLPqpA9wGoYsLtOEsNYJ8oLNprDqt/HdlvWazXaRbhmXymhALhEKXV7w+E8pRDFIrmDG/X/Pv
+	D8NJZOYTRINek9n21/wFeKsRFaIHp/tRH1Vfy3RVuI9dhaRa2zl6Z1X6Bik9rkHko1TC9FjWwaXbU
+	e6fCliaoUXRb4O9rUU0A==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jl7zk-0006yd-2p; Tue, 16 Jun 2020 09:35:04 +0000
+	id 1jl80G-0001GF-St; Tue, 16 Jun 2020 09:35:36 +0000
 Received: from mail-il-dmz.mellanox.com ([193.47.165.129] helo=mellanox.co.il)
  by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jl7zG-0006YP-PP
- for linux-nvme@lists.infradead.org; Tue, 16 Jun 2020 09:34:40 +0000
+ id 1jl7zG-0006YO-RN
+ for linux-nvme@lists.infradead.org; Tue, 16 Jun 2020 09:34:42 +0000
 Received: from Internal Mail-Server by MTLPINE1 (envelope-from
  maxg@mellanox.com) with SMTP; 16 Jun 2020 12:34:26 +0300
 Received: from mtr-vdi-031.wap.labs.mlnx. (mtr-vdi-031.wap.labs.mlnx
  [10.209.102.136])
- by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 05G9YPqp030330;
- Tue, 16 Jun 2020 12:34:26 +0300
+ by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 05G9YPql030330;
+ Tue, 16 Jun 2020 12:34:25 +0300
 From: Max Gurtovoy <maxg@mellanox.com>
 To: sagi@grimberg.me, linux-nvme@lists.infradead.org, kbusch@kernel.org,
  hch@lst.de, james.smart@broadcom.com
-Subject: [PATCH 5/5 v2] nvme-loop: initialize tagset numa value to the value
- of the ctrl
-Date: Tue, 16 Jun 2020 12:34:25 +0300
-Message-Id: <20200616093425.169309-5-maxg@mellanox.com>
+Subject: [PATCH 1/5 v2] nvme: set initial value for controller's numa node
+Date: Tue, 16 Jun 2020 12:34:21 +0300
+Message-Id: <20200616093425.169309-1-maxg@mellanox.com>
 X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20200616093425.169309-1-maxg@mellanox.com>
-References: <20200616093425.169309-1-maxg@mellanox.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200616_023435_316546_3CF41CEE 
-X-CRM114-Status: UNSURE (   7.30  )
+X-CRM114-CacheID: sfid-20200616_023435_425553_3DC6384E 
+X-CRM114-Status: UNSURE (   6.14  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -77,36 +74,27 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Both admin's and drive's tagsets should be set according the numa
-node of the controller.
+Initialize the node to NUMA_NO_NODE value. Transports that are aware of
+numa node affinity can override it (e.g. RDMA transport set the affinity
+according to the RDMA HCA).
 
 Signed-off-by: Max Gurtovoy <maxg@mellanox.com>
 ---
- drivers/nvme/target/loop.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/nvme/host/core.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index 0d54e73..6344e73 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -340,7 +340,7 @@ static int nvme_loop_configure_admin_queue(struct nvme_loop_ctrl *ctrl)
- 	ctrl->admin_tag_set.ops = &nvme_loop_admin_mq_ops;
- 	ctrl->admin_tag_set.queue_depth = NVME_AQ_MQ_TAG_DEPTH;
- 	ctrl->admin_tag_set.reserved_tags = 2; /* connect + keep-alive */
--	ctrl->admin_tag_set.numa_node = NUMA_NO_NODE;
-+	ctrl->admin_tag_set.numa_node = ctrl->ctrl.numa_node;
- 	ctrl->admin_tag_set.cmd_size = sizeof(struct nvme_loop_iod) +
- 		NVME_INLINE_SG_CNT * sizeof(struct scatterlist);
- 	ctrl->admin_tag_set.driver_data = ctrl;
-@@ -512,7 +512,7 @@ static int nvme_loop_create_io_queues(struct nvme_loop_ctrl *ctrl)
- 	ctrl->tag_set.ops = &nvme_loop_mq_ops;
- 	ctrl->tag_set.queue_depth = ctrl->ctrl.opts->queue_size;
- 	ctrl->tag_set.reserved_tags = 1; /* fabric connect */
--	ctrl->tag_set.numa_node = NUMA_NO_NODE;
-+	ctrl->tag_set.numa_node = ctrl->ctrl.numa_node;
- 	ctrl->tag_set.flags = BLK_MQ_F_SHOULD_MERGE;
- 	ctrl->tag_set.cmd_size = sizeof(struct nvme_loop_iod) +
- 		NVME_INLINE_SG_CNT * sizeof(struct scatterlist);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index c2c5bc4..915fa2e 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4174,6 +4174,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 	ctrl->dev = dev;
+ 	ctrl->ops = ops;
+ 	ctrl->quirks = quirks;
++	ctrl->numa_node = NUMA_NO_NODE;
+ 	INIT_WORK(&ctrl->scan_work, nvme_scan_work);
+ 	INIT_WORK(&ctrl->async_event_work, nvme_async_event_work);
+ 	INIT_WORK(&ctrl->fw_act_work, nvme_fw_act_work);
 -- 
 1.8.3.1
 
