@@ -4,20 +4,20 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1ACFC433DF
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Jun 2020 06:47:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEA45C433E0
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Jun 2020 06:54:39 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B10AA208C3
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Jun 2020 06:47:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 69BBB20739
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Jun 2020 06:54:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Ku3BJT09";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="SuR5vlvX";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="QAkYKp4f"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B10AA208C3
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="MYDYz/gw";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="G+osJcqb";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="rFwW6c/8"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 69BBB20739
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,82 +26,82 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date
 	:Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	List-Owner; bh=t89mZBcv417qgBaxABI3YI4/sbPIrDtEPbiOLeFx9gw=; b=Ku3BJT09xiKOtU
-	9cjrR578mXe/HICyWqzxsHAXWr11xcz9+e+/UugK2mbaVnX5aPqC0UFHuZk37N3rUujC97ZI+9Kk6
-	dx4UCB0A0ikJ7IxclpUVhmV3CDpEPKseeHBrtpkojXn3yL1eUDiiU41JPDwRLTL2KjZB6s+dbwRc3
-	sToKivadZr8jEUjb67xvHtCDkmxRc463ToU9GL4lS2BVoBvjCYkxkGPHOOmMWZ9LxG+ols202uiMy
-	idZk7qm+QKFw4FET8Cg9GQ2F8EThRwTMrzwptFV34EFy6gWGsDZ0G1LuzhdvPu4NT2jg/SVVZQdhk
-	t+q5H61AXfVv94laAgEQ==;
+	List-Owner; bh=DMFLOWJ5RzIOXZscf5Zx6/UzyJNlknQ2fh1UA/2dBPw=; b=MYDYz/gwJ2psQA
+	8QiKo6GGOhclriasmCz7fUkuoCmb7M5MAKvuAIMsFMSUQI9ooO1cClVMSr5aLGD6k9MoR3+GG5etW
+	fTh1oYdn5iohJVbihbehib5rtUYsGU7GU0dmchP8bOOGsv90QI+cnC0MyeZl19Dp1ZXub6xzKmfr+
+	pk6MmR6KDqbp5WV1GcLE1yA20/R2JYT+iCejXb9wdMQPmgZYnrsHameMuFjzsn9WW7fZv6kcEk0F3
+	4F7xxeGDrSDbDE+EOd7Oi+sDpqBxSgK0VjXGf1o9hexBmDoJHJt9vm4N3kwuXCGHDJz14KDalP7OP
+	i12dEWi44S1jTkJY2xpA==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jlRrL-00062n-4D; Wed, 17 Jun 2020 06:47:43 +0000
-Received: from esa6.hgst.iphmx.com ([216.71.154.45])
+	id 1jlRy1-00017j-Dc; Wed, 17 Jun 2020 06:54:37 +0000
+Received: from esa3.hgst.iphmx.com ([216.71.153.141])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jlRrI-00062H-2Y
- for linux-nvme@lists.infradead.org; Wed, 17 Jun 2020 06:47:42 +0000
+ id 1jlRxx-00016z-Uu
+ for linux-nvme@lists.infradead.org; Wed, 17 Jun 2020 06:54:35 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1592376460; x=1623912460;
+ t=1592376875; x=1623912875;
  h=from:to:cc:subject:date:message-id:references:
  content-transfer-encoding:mime-version;
- bh=DiccMsEWLcLrcC5JyIwRe8CqHplD9Y9iLbzyKbaLxgY=;
- b=SuR5vlvXPTOzC2MAUf9ww6h4lNZ3RR4ytwYODRXqENDwiuEUK3DhI0/9
- 4pkyL+lrK3Z5D2BsUKq/8x4b+Zu/hGc3/5JkMZDKZbU6Ot8Z7HleM9phQ
- wdODjivA2EK5Hfp2K1vXa0679/WhTZypXoNc/UTdDiq8x38fghMhrK0xJ
- KERESj3qaLn2dIiA+GLrz+h04owwdxytrOi1dvh4LB9kkLlGjkjPOowi8
- zhqi/kAOwSIg9wEp//3nHdght8j8DE/sEJQDNhWSs82XUz8OF8t+wOvxl
- wfSmwvVBzqqHmVw6rndcKUQO5fj4DUet2bre1zLdSa5A8U/JpNeAHXJKK Q==;
-IronPort-SDR: r8WjqaKHGZ2uucD62jufY8JRSGK9AQTHmuHO5uSnV/RylNTh83y4EUlZcpQniGY8E63Az/5uqU
- VnXA70LmPZP77C2NMPGy+mb4EmU6M9xtmqMx+HOUAIzZ/KoxOO5nH0/iLVT1lZK3v4PU6CVWOm
- ntdtSNWsUsZESCjuF3fuNX051bJmHUsCaihmFCwHLLyRbM3zuehq0FoAuYvFUxGYRuwcTMNgp6
- mNoAxu+f1kzpPi9P7Y4F/Yev/zQy+X9bLnd61bXJAPBA9rwon1NCdErT891tZXnpQ3lCtwy+lw
- ztc=
-X-IronPort-AV: E=Sophos;i="5.73,521,1583164800"; d="scan'208";a="141584792"
-Received: from mail-cys01nam02lp2053.outbound.protection.outlook.com (HELO
- NAM02-CY1-obe.outbound.protection.outlook.com) ([104.47.37.53])
- by ob1.hgst.iphmx.com with ESMTP; 17 Jun 2020 14:47:39 +0800
+ bh=XIqut5heZevk6Dg7Q61DXeD0Jr0FS7FB9wAIsvXqB6I=;
+ b=G+osJcqb9jcokiXpZ7Hpai4vyk/guJrGh2tZE8nuj+p3Kc8CBYEpbvYs
+ w+r2vMaTfMdPPEDgzIeId/WNXHO3gpSCNvlRoAeE3S506KvQtPAAWoqx8
+ ZDym4kVE1WtxXyqKTdwMoflKNu0uNcwxXT7Cv/F0KyhY3y0AhOqf4X9PX
+ Zr/QFWvFHyTiuMJAnzrdedoxWZzvEQXW3BrW7SO8EfMru2jJXH3fEp3ao
+ BADQ2aWI0wcrZrkRePJCde8KjJV3WBObHz2gSF5H5/gwiBGEfV9xJpEgu
+ 9eOJFJdXjmUKV2PqOtxUxYw9hZpEYfRmjEPwptX1Xa8VnBKjWV5+NNBtJ Q==;
+IronPort-SDR: IoHUxdRuYsfhkrwsjs4a5qpUUumwkwIzOPwId3EjujUTa98+sWNxJogX5UmNMGoDQdqb5XkbzH
+ g6FKgm8+yExYYQgw+61WlRC+H/9pXXpkCykYpwUP+jfCsRIYXyfBU+8AU3GVkL1i91Sy6o9gHQ
+ qSglN1GipGgvzm34PbrL7qRnlnAIFObhaj+BRGnNcfpdup/qiAYPwMvqByOzCtWzq266Js2AOh
+ z5fkbghkPeQHSyj21j/PdBNTgPIFN4AQp4aNwzHLhyvmJdCCoRqJbGw0WcTgEFoq4qIGBeJb6J
+ lyo=
+X-IronPort-AV: E=Sophos;i="5.73,521,1583164800"; d="scan'208";a="144516732"
+Received: from mail-cys01nam02lp2052.outbound.protection.outlook.com (HELO
+ NAM02-CY1-obe.outbound.protection.outlook.com) ([104.47.37.52])
+ by ob1.hgst.iphmx.com with ESMTP; 17 Jun 2020 14:54:31 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aP27uHcakV7pw6sji7hlRjFPE7KcLmatyDFYJcoaS1RLb8VQ7hLiFxiMkT7B1+aAhZUtpqaMzvrckkJUrUVlhTwLkq4CGiqkoXwPOFDOceH4I6kJnJngp19K+h87w7nPO8r5wqKvWPVaftuSh6pS8cpLC7TSioSLTE0Cypx/hWVfOkgdi7PP2096IM94koA3Wx2JjGfMrltpd269MtENzb9c6DTG+gxmU2zXanHVaM4tz81Y1qN+l60DRWRqdHw08qucuu0wkRE7GhmF7OWm/00GGof0ZHlFzx5i5WGhHRPryUviSc1XE8iNvPlHyWUbTGobTAbwct2ZWsw897gpaw==
+ b=DYPY3zzIEWfUxx/yGti4nk6zCHwGyMTtdaPCmSZrUoQUhPuQwuhPb1t3AkEgvQthdC+zTFzkB1zGvijGPi8BOciNpabc5rXcCA21VkDJu1DMvdahC5oLHocA2j+RT9mQouNyoqNExmwYQL0PL7+/+5GIafQgmMVnDTsLFJOAZVa770yS+9AxIU0iKaDag4Qp/iZgwjz5awNoeqqmabQXT+lRnjF2+nVilHL7k9gLNa+Vc3XDLZOGU+3I/L5eL9Rf//EDERAIDw3zS2Uj8b7ktK9h95+37PgtOc3GnEdz8lOWkKcO9rdDMS0qIMQmbp0SkzttZcrzVf4JAU+0bMyw0g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kpuc+G8mbJfpFxW9StPA7rYmQpPpOGZFO2cGyVfvqlQ=;
- b=NVWGizEQdyhWnkskZEIZg5iYDTlZIvrN7tktI0GhELlhtWdbXnY+v0KTBQGWfax/Of00m2kC4Dyc+Xz9n9d+IWq3MNbgYzvQI0PGYJ5cNCIi9SUAYZFutX6fGJ1mT0fTE8WmzghWnkmwcAMIUPMeinPP9sYhIb6yDagvZWFq/zEp78Xg8GANBvW+tFk4hNIYPpjTN98aT3hHZTNIp5M/7j29wszlvm6OPAw+GFJljDvv1JcZ9trmMeiVf7au+iN+VhvMsdfAmE0QNP7Am16n7mZGf7cP6TId2CSrrei4GaVUVY2kwHAiNm6/gND/7qoSxBHpNQnV4iEA/OcqrBSlDA==
+ bh=XIqut5heZevk6Dg7Q61DXeD0Jr0FS7FB9wAIsvXqB6I=;
+ b=dVrAMzpWOV7jIHygfabISPdm6uhMKjd00B4l8+cU5nZQRgwLFT5fkuOaBpzueQPpIKHt2S98+YRn0HgWPhLd1p+5NCQ6Mj8WwqLwEtV8wUzi9qA7y6OAXI6sjFfxkvw6Tapwnh9DONOcJWRMen8Sj6eRUlRNv9ATA8pfRG0gPjblHhlCa9c0FXb4pDHqg2nIXEvm/jYN6TFTSkbdHFdeFLcyjMFpueRHPT4kIrpu46oRw+Nhf5JDoZkhKVFbJG+0/3XoW3nnYPm9fQ9WsVTCatpc+F2/10akkVewtB/vqGH3tpDBJ4z27G5j3qrj//2iajmLGCLHnhVwB6aJvJuD6g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
  header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kpuc+G8mbJfpFxW9StPA7rYmQpPpOGZFO2cGyVfvqlQ=;
- b=QAkYKp4fUZ02HTS9A0Dds9GpuJx7DMdeP+lBrUpZXO5lWajgiNGx0YtP0/tqtU2Set0no+EH93QFjql0jHBZ2NbtGVq2NACJunH3BAmTp/6XZJwprd2hGfarLWogfLXyUH7pcetssvHYbyT1bonjJkdAMv+lLOTR28MaQ/NmKCY=
+ bh=XIqut5heZevk6Dg7Q61DXeD0Jr0FS7FB9wAIsvXqB6I=;
+ b=rFwW6c/8Wugbg7Kfr1btVvCXyVfQZqbnwv3nq0wMAaLfuM8qPAbtqJVESqTaAK/ZX3QPjDxIPHeOvNVvgwzJW2ToQ07As6LPxeZMvhSd+zWZdvTyLsx5If3Ssn27u3zLsY2FDNrSAkYzhnJwxbBUw2xPy1+IKpk+lf2eblocUWs=
 Received: from CY4PR04MB3751.namprd04.prod.outlook.com (2603:10b6:903:ec::14)
- by CY4PR04MB0728.namprd04.prod.outlook.com (2603:10b6:903:e4::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.24; Wed, 17 Jun
- 2020 06:47:37 +0000
+ by CY4PR04MB0968.namprd04.prod.outlook.com (2603:10b6:910:51::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.19; Wed, 17 Jun
+ 2020 06:54:29 +0000
 Received: from CY4PR04MB3751.namprd04.prod.outlook.com
  ([fe80::c593:f271:eebe:ac7]) by CY4PR04MB3751.namprd04.prod.outlook.com
  ([fe80::c593:f271:eebe:ac7%9]) with mapi id 15.20.3088.028; Wed, 17 Jun 2020
- 06:47:37 +0000
+ 06:54:29 +0000
 From: Damien Le Moal <Damien.LeMoal@wdc.com>
 To: =?iso-8859-1?Q?Javier_Gonz=E1lez?= <javier@javigon.com>
 Subject: Re: [PATCH 5/5] nvme: support for zoned namespaces
 Thread-Topic: [PATCH 5/5] nvme: support for zoned namespaces
 Thread-Index: AQHWQ22ncHPAnMo9ZkarXHo4UNlnAg==
-Date: Wed, 17 Jun 2020 06:47:37 +0000
-Message-ID: <CY4PR04MB375154B897296A3A4C82503DE79A0@CY4PR04MB3751.namprd04.prod.outlook.com>
-References: <20200616104142.zxw25txhsg2eyhsb@mpHalley.local>
- <d433450a-6e18-217c-d133-ea367d8936be@lightnvm.io>
- <20200616120018.en337lcs5y2jh5ne@mpHalley.local>
- <cf899cd9-c3de-7436-84d4-744c0988a6c9@lightnvm.io>
- <20200616122448.4e3slfghv4cojafq@mpHalley.local>
+Date: Wed, 17 Jun 2020 06:54:29 +0000
+Message-ID: <CY4PR04MB3751808DFE9AF00EF172DFCCE79A0@CY4PR04MB3751.namprd04.prod.outlook.com>
+References: <20200616122448.4e3slfghv4cojafq@mpHalley.local>
  <CY4PR04MB3751CC8FE4BDFC256F9E9CD1E79D0@CY4PR04MB3751.namprd04.prod.outlook.com>
  <20200616141620.omqf64up523of35t@MacBook-Pro.localdomain>
  <CY4PR04MB37512BCDD74996057697F5CAE79D0@CY4PR04MB3751.namprd04.prod.outlook.com>
  <20200616150217.inezhntsehtcbjsw@MacBook-Pro.localdomain>
- <CY4PR04MB37513B2D2B7AAE343ABF14C1E79A0@CY4PR04MB3751.namprd04.prod.outlook.com>
- <20200617060953.ypviiz75cua4bt25@mpHalley.localdomain>
+ <20200616154812.GA521206@dhcp-10-100-145-180.wdl.wdc.com>
+ <20200616155526.wxjoufhhxkwet5ya@MacBook-Pro.localdomain>
+ <20200616160712.GB521206@dhcp-10-100-145-180.wdl.wdc.com>
+ <20200616161354.q3p2vy2go6tszs67@mpHalley.localdomain>
+ <CY4PR04MB37518F1A34F92049EE8FAF94E79A0@CY4PR04MB3751.namprd04.prod.outlook.com>
+ <20200617061814.7syifpwn5sqg5a4w@mpHalley.localdomain>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -111,34 +111,34 @@ authentication-results: javigon.com; dkim=none (message not signed)
 x-originating-ip: [60.117.181.124]
 x-ms-publictraffictype: Email
 x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 6718ce5e-97fa-4668-be57-08d8128a52ed
-x-ms-traffictypediagnostic: CY4PR04MB0728:
+x-ms-office365-filtering-correlation-id: e16e900b-2d81-4913-26c0-08d8128b4866
+x-ms-traffictypediagnostic: CY4PR04MB0968:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <CY4PR04MB072847FA534E7EC7ACD9943EE79A0@CY4PR04MB0728.namprd04.prod.outlook.com>
+x-microsoft-antispam-prvs: <CY4PR04MB0968E3171600091DA74C26CFE79A0@CY4PR04MB0968.namprd04.prod.outlook.com>
 wdcipoutbound: EOP-TRUE
 x-ms-oob-tlc-oobclassifiers: OLM:10000;
 x-forefront-prvs: 04371797A5
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: sMbT2bX2Yw977ZnjFCdMgHm9ID1DJ8ewvGVX3nqFHJ6Fph891mupTihX2jfKADQKEtHISeYqUpiJ4GjoE1ZxQzRc7fLfoecNpAkqvpg8NuzEokZBrcnZksg5s2kqDGpgn0k4T45RGB3hA6nwJlqXgUCGieCOXYlXuQU8+psAl7AzemIrz/zqFuvF1L9NiTwBjinv3t3SEGwg19fnlvogxY5KAmTza6CLn/lQ5ebDXyUzrDvr8JBxZYfW2TZ1jMG42WE5/moxTI2hnYSG/U3XSsmnzGgWbOzMbq4lLS1q4MLp/wfAc8yjOyZWNwn7grDdpso+zfZ2G1FJlxSkuQTvJ4F5+goONo8kCqGfs3kKsCKpnTlcRyXd+MsRPH3CoxMtmrP6Ebu8hSnxUxeg3msFdg==
+x-microsoft-antispam-message-info: mkAM3Eet+I0lRGb/N2JSAEhRg+qYQq1ekLYpZtW/kjqtbR704JecihPfbO/oPG7tYKPDaS4aWZ3/MmoCimUX6KVrq4/sfn9NFz9GjZlDEWpz3aTB3khgVnz3I20H+MUzU77AuDPOfoFQ9qkJnUmaaCekiD8GjIm5rtPU/dx80NIOv7IVnNyjNVXWm9o2q2634Mdm8+iP1hwCknPwE8FIEoy1rRsj4ZtNxDrsNlQLQ8H4QlgbXAPpAtP0LW+jTZa6ScEizux368MwGO4ZxZKTcR6Or8QN9PtXesGnViSA+OXkFKPo70D6GE8rIKKrRUJgjrcuEfAxKYfu2hdGormajfBToB84wHB6DnzGcKtcLMhf9/hbkG/VHDZLmh6eG2jgv0RfijwlFFU9IxfC6oI0tA==
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CY4PR04MB3751.namprd04.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(376002)(346002)(39860400002)(396003)(366004)(136003)(66556008)(64756008)(66446008)(86362001)(26005)(9686003)(5660300002)(186003)(76116006)(966005)(71200400001)(8936002)(66476007)(4326008)(2906002)(478600001)(66946007)(52536014)(55016002)(91956017)(33656002)(316002)(54906003)(8676002)(6506007)(53546011)(6916009)(83380400001)(66574015)(7696005);
+ SFS:(4636009)(396003)(366004)(39860400002)(346002)(376002)(136003)(5660300002)(64756008)(6916009)(186003)(66476007)(76116006)(8936002)(66946007)(66556008)(54906003)(8676002)(26005)(66446008)(66574015)(4326008)(33656002)(316002)(966005)(91956017)(478600001)(2906002)(71200400001)(9686003)(7696005)(52536014)(86362001)(83380400001)(6506007)(53546011)(55016002);
  DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: uOG+uhTw+stELk6CpihxoJ6OquAtFCYaFYZeSYRBVfmQjoWwjXpU9jnUMbqPNI1i36SF4Kwoi5obNVYSRNNrtwLEKNhA8nHQvPfFiRup9fGDZuhXPHYG8X5pG5t5oQ7ehOFI1Zd0UQJ5h0XsARN2grDICeQ2d7Si1XDehg1AUHwHTW7fwwdURyARpY6+0t8px5fn0kNpgZ2MhXKqfoTJqMo5QDayruKb9f+UKPzEhdVtgXnOU9mdXWLMq1QPqBHkRnPniQsp+8A+KesuBmOW3pz5A1O6d8+BUgl037XJb2ORcMWg6qsN30H5lvJl1Tbicea5Ewejy6tUQA02StA+uCbqU1/tvsNvKCNCop//OIyrxGjV3/MLADExt4ukmfvrcBZD/oUqUX/Y1+sfT949su24WYd93NBDuXUTzkDY6ywib8QD9o6HV6QOyger0QHEb6GAhNkKymzMXfE5rxlcEuoIuBTMXrvHiFz2VgooqFEmJPBZvvMLD4D2pqJ3ymxd
+x-ms-exchange-antispam-messagedata: /VW4wuxyl/EZvZvkhJegTBPcdiqHxlYUDHTI/lRbuCExcMjSMMdlBecITyDzHNQlO6QASArZ+3ZdE1fL1n/3ce2wBg5d3rR+SNAhjACdUKuhNL/U8Ckh7NHeGNGQIrI4BKV5OM0wsUiMPwRtssci22huf3lvRlUCuIrY5/7HhN+6xSJBpnL8MhBLtuRXVqAWT/59XXQ+dV6uhc0xG4pYPEvJG3vjNSBWsaHkqbPQ0C0W+3lBGmyl4XfTsOTXRWUoM75cPqnS7HOm7E2SmRn+vnOxg3nHZ7D6JbypEiC64qx2HJXSZFdgE4+54VpYxAlHC7fdiLTiKMWgQjZFtv4bPoJAaDPDdQWedcSkecp0L3oT/Jb9//hwaCx3ZBH/s+NNv27lpO6Hh9KwSu6PWGrHRn+wkxuKjizwYjgewHnngeyTgui223Qx4LCWdU0spE2FUrHwc1Ae6jatUXAPFuotc5ly6Sjpwmi2M8cVlAyJRZgSROKQ8z0a2B7MX3gfzmKY
 MIME-Version: 1.0
 X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6718ce5e-97fa-4668-be57-08d8128a52ed
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jun 2020 06:47:37.7725 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e16e900b-2d81-4913-26c0-08d8128b4866
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jun 2020 06:54:29.6423 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 1FdM2guLYPLXnZmxOauBLMK+dKU1eOInW0cl90ir1SOCgwIGlRB5q7K4iU8JQsw5K8xIC1H2EvQiRzCj0EZ2QQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR04MB0728
+X-MS-Exchange-CrossTenant-userprincipalname: /300dF3PdUWHE6xA2b4UK0PAeo6YJHbINJpWk8Gjfy2kJGx6HSm3nPSJ+BXPmE9wqeK0rVKgqNaWnJCdAPwHsA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR04MB0968
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200616_234740_266193_0D52FC01 
-X-CRM114-Status: GOOD (  21.36  )
+X-CRM114-CacheID: sfid-20200616_235434_006596_88A66796 
+X-CRM114-Status: GOOD (  18.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,7 +156,7 @@ Cc: Jens Axboe <axboe@kernel.dk>, Niklas Cassel <Niklas.Cassel@wdc.com>,
  Aravind Ramesh <Aravind.Ramesh@wdc.com>,
  "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
  "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- Hans Holmberg <Hans.Holmberg@wdc.com>,
+ Hans Holmberg <Hans.Holmberg@wdc.com>, Keith Busch <kbusch@kernel.org>,
  =?iso-8859-1?Q?Matias_Bj=F8rling?= <mb@lightnvm.io>,
  Christoph Hellwig <hch@lst.de>, Matias Bjorling <Matias.Bjorling@wdc.com>
 Content-Type: text/plain; charset="iso-8859-1"
@@ -164,223 +164,92 @@ Content-Transfer-Encoding: quoted-printable
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2020/06/17 15:10, Javier Gonz=E1lez wrote:
-> On 17.06.2020 00:14, Damien Le Moal wrote:
->> On 2020/06/17 0:02, Javier Gonz=E1lez wrote:
->>> On 16.06.2020 14:42, Damien Le Moal wrote:
->>>> On 2020/06/16 23:16, Javier Gonz=E1lez wrote:
->>>>> On 16.06.2020 12:35, Damien Le Moal wrote:
->>>>>> On 2020/06/16 21:24, Javier Gonz=E1lez wrote:
->>>>>>> On 16.06.2020 14:06, Matias Bj=F8rling wrote:
->>>>>>>> On 16/06/2020 14.00, Javier Gonz=E1lez wrote:
->>>>>>>>> On 16.06.2020 13:18, Matias Bj=F8rling wrote:
->>>>>>>>>> On 16/06/2020 12.41, Javier Gonz=E1lez wrote:
->>>>>>>>>>> On 16.06.2020 08:34, Keith Busch wrote:
->>>>>>>>>>>> Add support for NVM Express Zoned Namespaces (ZNS) Command Set=
- defined
->>>>>>>>>>>> in NVM Express TP4053. Zoned namespaces are discovered based o=
-n their
->>>>>>>>>>>> Command Set Identifier reported in the namespaces Namespace
->>>>>>>>>>>> Identification Descriptor list. A successfully discovered Zoned
->>>>>>>>>>>> Namespace will be registered with the block layer as a host ma=
-naged
->>>>>>>>>>>> zoned block device with Zone Append command support. A namespa=
-ce that
->>>>>>>>>>>> does not support append is not supported by the driver.
->>>>>>>>>>>
->>>>>>>>>>> Why are we enforcing the append command? Append is optional on =
-the
->>>>>>>>>>> current ZNS specification, so we should not make this mandatory=
- in the
->>>>>>>>>>> implementation. See specifics below.
->>>>>>>>>
->>>>>>>>>>
->>>>>>>>>> There is already general support in the kernel for the zone appe=
-nd
->>>>>>>>>> command. Feel free to submit patches to emulate the support. It =
-is
->>>>>>>>>> outside the scope of this patchset.
->>>>>>>>>>
->>>>>>>>>
->>>>>>>>> It is fine that the kernel supports append, but the ZNS specifica=
-tion
->>>>>>>>> does not impose the implementation for append, so the driver shou=
-ld not
->>>>>>>>> do that either.
->>>>>>>>>
->>>>>>>>> ZNS SSDs that choose to leave append as a non-implemented optional
->>>>>>>>> command should not rely on emulated SW support, specially when
->>>>>>>>> traditional writes work very fine for a large part of current ZNS=
- use
->>>>>>>>> cases.
->>>>>>>>>
->>>>>>>>> Please, remove this virtual constraint.
->>>>>>>>
->>>>>>>> The Zone Append command is mandatory for zoned block devices. Plea=
-se
->>>>>>>> see https://lwn.net/Articles/818709/ for the background.
+On 2020/06/17 15:18, Javier Gonz=E1lez wrote:
+> On 17.06.2020 00:38, Damien Le Moal wrote:
+>> On 2020/06/17 1:13, Javier Gonz=E1lez wrote:
+>>> On 16.06.2020 09:07, Keith Busch wrote:
+>>>> On Tue, Jun 16, 2020 at 05:55:26PM +0200, Javier Gonz=E1lez wrote:
+>>>>> On 16.06.2020 08:48, Keith Busch wrote:
+>>>>>> On Tue, Jun 16, 2020 at 05:02:17PM +0200, Javier Gonz=E1lez wrote:
+>>>>>>> This depends very much on how the FS / application is managing
+>>>>>>> stripping. At the moment our main use case is enabling user-space
+>>>>>>> applications submitting I/Os to raw ZNS devices through the kernel.
 >>>>>>>
->>>>>>> I do not see anywhere in the block layer that append is mandatory f=
-or
->>>>>>> zoned devices. Append is emulated on ZBC, but beyond that there is =
-no
->>>>>>> mandatory bits. Please explain.
+>>>>>>> Can we enable this use case to start with?
 >>>>>>
->>>>>> This is to allow a single write IO path for all types of zoned block=
- device for
->>>>>> higher layers, e.g file systems. The on-going re-work of btrfs zone =
-support for
->>>>>> instance now relies 100% on zone append being supported. That signif=
-icantly
->>>>>> simplifies the file system support and more importantly remove the n=
-eed for
->>>>>> locking around block allocation and BIO issuing, allowing to preserv=
-e a fully
->>>>>> asynchronous write path that can include workqueues for efficient CP=
-U usage of
->>>>>> things like encryption and compression. Without zone append, file sy=
-stem would
->>>>>> either (1) have to reject these drives that do not support zone appe=
-nd, or (2)
->>>>>> implement 2 different write IO path (slower regular write and zone a=
-ppend). None
->>>>>> of these options are ideal, to say the least.
->>>>>>
->>>>>> So the approach is: mandate zone append support for ZNS devices. To =
-allow other
->>>>>> ZNS drives, an emulation similar to SCSI can be implemented, with th=
-at emulation
->>>>>> ideally combined to work for both types of drives if possible.
+>>>>>> I think this already provides that. You can set the nsid value to
+>>>>>> whatever you want in the passthrough interface, so a namespace block
+>>>>>> device is not required to issue I/O to a ZNS namespace from user spa=
+ce.
 >>>>>
->>>>> Enforcing QD=3D1 becomes a problem on devices with large zones. In
->>>>> a ZNS device that has smaller zones this should not be a problem.
+>>>>> Mmmmm. Problem now is that the check on the nvme driver prevents the =
+ZNS
+>>>>> namespace from being initialized. Am I missing something?
 >>>>
->>>> Let's be precise: this is not running the drive at QD=3D1, it is "at m=
-ost one
->>>> write *request* per zone". If the FS is simultaneously using multiple =
-block
->>>> groups mapped to different zones, you will get a total write QD > 1, a=
-nd as many
->>>> reads as you want.
->>>>
->>>>> Would you agree that it is possible to have a write path that relies =
-on
->>>>> QD=3D1, where the FS / application has the responsibility for enforci=
-ng
->>>>> this? Down the road this QD can be increased if the device is able to
->>>>> buffer the writes.
->>>>
->>>> Doing QD=3D1 per zone for writes at the FS layer, that is, at the BIO =
-layer does
->>>> not work. This is because BIOs can be as large as the FS wants them to=
- be. Such
->>>> large BIO will be split into multiple requests in the block layer, res=
-ulting in
->>>> more than one write per zone. That is why the zone write locking is at=
- the
->>>> scheduler level, between BIO split and request dispatch. That avoids t=
-he
->>>> multiple requests fragments of a large BIO to be reordered and fail. T=
-hat is
->>>> mandatory as the block layer itself can occasionally reorder requests =
-and lower
->>>> levels such as AHCI HW is also notoriously good at reversing sequential
->>>> requests. For NVMe with multi-queue, the IO issuing process getting re=
-scheduled
->>>> on a different CPU can result in sequential IOs being in different que=
-ues, with
->>>> the likely result of an out-of-order execution. All cases are avoided =
-with zone
->>>> write locking and at most one write request dispatch per zone as recom=
-mended by
->>>> the ZNS specifications (ZBC and ZAC standards for SMR HDDs are silent =
-on this).
->>>>
+>>>> Hm, okay, it may not work for you. We need the driver to create at lea=
+st
+>>>> one namespace so that we have tags and request_queue. If you have that,
+>>>> you can issue IO to any other attached namespace through the passthrou=
+gh
+>>>> interface, but we can't assume there is an available namespace.
 >>>
->>> I understand. I agree that the current FSs supporting ZNS follow this
->>> approach and it makes sense that there is a common interface that
->>> simplifies the FS implementation. See the comment below on the part I
->>> believe we see things differently.
+>>> That makes sense for now.
 >>>
->>>
->>>>> I would be OK with some FS implementations to rely on append and impo=
-se
->>>>> the constraint that append has to be supported (and it would be our j=
-ob
->>>>> to change that), but I would like to avoid the driver rejecting
->>>>> initializing the device because current FS implementations have
->>>>> implemented this logic.
->>>>
->>>> What is the difference between the driver rejecting drives and the FS =
-rejecting
->>>> the same drives ? That has the same end result to me: an entire class =
-of devices
->>>> cannot be used as desired by the user. Implementing zone append emulat=
-ion avoids
->>>> the rejection entirely while still allowing the FS to have a single wr=
-ite IO
->>>> path, thus simplifying the code.
->>>
->>> The difference is that users that use a raw ZNS device submitting I/O
->>> through the kernel would still be able to use these devices. The result
->>> would be that the ZNS SSD is recognized and initialized, but the FS
->>> format fails.
+>>> The next step for us is to enable a passthrough on uring, making sure
+>>> that I/Os do not split.
 >>
->> I understand your point of view. Raw ZNS block device access by an appli=
-cation
->> is of course a fine use case. SMR also has plenty of these.
+>> Passthrough as in "application issues directly NVMe commands" like for S=
+G_IO
+>> with SCSI ? Or do you mean raw block device file accesses by the applica=
+tion,
+>> meaning that the IO goes through the block IO stack as opposed to direct=
+ly going
+>> to the driver ?
 >>
->> My point is that enabling this regular write/raw device use case should =
-not
->> prevent using btrfs or other kernel components that require zone append.
->> Implementing zone append emulation in the NVMe/ZNS driver for devices wi=
-thout
->> native support for the command enables *all* use cases without impacting=
- the use
->> case you are interested in.
+>> For the latter case, I do not think it is possible to guarantee that an =
+IO will
+>> not get split unless we are talking about single page IOs (e.g. 4K on X8=
+6). See
+>> a somewhat similar request here and comments about it.
 >>
->> This approach is, in my opinion, far better. No one is left out and the =
-user
->> gains a flexible system with different setup capabilities. The user wins=
- here.
+>> https://www.spinics.net/lists/linux-block/msg55079.html
 > =
 
-> So, do you see a path where we enable the following:
+> At the moment we are doing the former, but it looks like a hack to me to
+> go directly to the NVMe driver.
+
+That is what the nvme driver ioctl() is for no ? An application can send an=
+ NVMe
+command directly to the driver with it. That is not a hack, but the regular=
+ way
+of doing passthrough for NVMe, isn't it ?
+
+> I was thinking that we could enable the second path by making use of
+> chunk_sectors and limit the I/O size just as the append_max_io_size
+> does. Is this the complete wrong way of looking at it?
+
+The block layer cannot limit the size of a passthrough command since the co=
+mmand
+is protocol specific and the block layer is a protocol independent interfac=
+e.
+SCSI SG does not split passthrough requests, it cannot. For passthrough
+commands, the command buffer can be dma-mapped or it cannot. If mapping
+succeeds, the command is issued. If it cannot, the command is failed. At le=
+ast,
+that is my understanding of how the stack is working.
+
 > =
 
->     1. We add the emulation layer to the NVMe driver for enabling FSs
->        that currently support zoned devices
->     2. We add a path from user-space (e.g., uring) to enable passthru
->        commands to the NVMe driver to enable a raw ZNS path from the
->        application. This path does not require the device to support
->        append. An initial limitation is that I/Os must be of < 127 bio
->        segments (same as append) to avod bio splits
->     3. As per above, the NVMe driver allows ZNS drives without append
->        support to be initialized and the check moves to the FS
->        formatting.
+> Thanks,
+> Javier
 > =
 
-> 2 and 3. is something we have on our end. We need to rebase on top of
-> the patches you guys submitted. 1. is something we can help with after
-> that.
+> _______________________________________________
+> linux-nvme mailing list
+> linux-nvme@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
 > =
 
-> Does the above make sense to you?
-
-Doing (1) first will give you a regular nvme namespace block device that yo=
-u can
-use to send passthrough commands with ioctl(). So (1) gives you (2).
-
-However, I do not understand what io-uring has to do with passthrough. io-u=
-ring
-being a block layer functionality, I do not think you can use it to send
-passthrough commands to the driver. I amy be wrong though, but my understan=
-ding
-is that for NVMe, passthrough is either ioctl() to device file or the entire
-driver in user space with SPDK.
-
-As for (3), I do not understand your point. If you have (1), then an FS
-requiring zone append will work.
 
 
 -- =
