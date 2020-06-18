@@ -4,19 +4,20 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65100C433DF
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jun 2020 14:54:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0593C433DF
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jun 2020 14:54:40 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2BDE6208C3
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jun 2020 14:54:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id B02C520890
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jun 2020 14:54:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="TWPprnRD";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="xRfnBuPc"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2BDE6208C3
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="H8+67Sui";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="yGyIEyzv"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B02C520890
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,44 +26,44 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=cYtvsL6tArj3dSH69HDgmLhnnhDjLPqyfps8EBJVO38=; b=TWPprnRDuvsnMJ
-	bR+POAFCHkB77wUS0IpwqAd+iO/NwHNQRzbyNQqdQL2QtC0klCA6VoavHCt0CMHBAhbnwIsX1EMtr
-	V0ytYLHvKw2TUwZTMyAfW71DnKFLSHKQt3FUa/UPCriYxvSTet849OGWbsAm+d32Tu8jL7vfuiwr+
-	ieKzf/2BTOsNEN/fQHZWw5+GflC4toXzB4RMMwUL3aXTkT8z5DsHCzXC6Q0AkJG3w/Auhsb/9r2y8
-	DV9wG1vlnAA6Lcwreym8xz7Qsv+h5EjlGlZ968oSxAvVPHj8AFNS4QJUeBCjrfMQAU+KBwXIkS0oa
-	8Bc+BihVaJu/8ZBIGhzQ==;
+	List-Owner; bh=s4vMccccAcsx7EQCIVIVAgooyrl0wOiNsEbQk0oQXpE=; b=H8+67SuiAoDLSy
+	zMmZeqXt6+u/eYGV9AVIKV7TgCu2JOvHBAPrJGEcNCBTgn5Ce3Q8+rJdmI2KWHkzdHaF+1eKtpjE0
+	VzA83HpItHB5uur74SkIFkfgD3unNGS8w4cBP4OSN+lvbd3dvdt1EkN4axa2bCIXUyMlqLdr/4lVN
+	WI0iciZOvM875jOmeS+V/SxBPWo9l5nS0IA1e/y/WuGc8YFtAV83UrAx8JQDs+/1cJjQgbXXKFG8k
+	+fzk6f4NXTEK2ia3E2C5WEVevVX4LvlJyAYN52FEWhjMBsTmYaciudfl0DtcoSwxQx+OnZGz9qmQc
+	BcKGn4OehkIWwXIUVipQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jlvvs-0003k0-RU; Thu, 18 Jun 2020 14:54:24 +0000
+	id 1jlvw4-0003uR-Ul; Thu, 18 Jun 2020 14:54:37 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jlvvb-0003Qs-02
- for linux-nvme@lists.infradead.org; Thu, 18 Jun 2020 14:54:08 +0000
+ id 1jlvvb-0003RB-PM
+ for linux-nvme@lists.infradead.org; Thu, 18 Jun 2020 14:54:09 +0000
 Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 18D0D2075E;
+ by mail.kernel.org (Postfix) with ESMTPSA id E2F0320885;
  Thu, 18 Jun 2020 14:54:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1592492046;
- bh=YV+tl9i0l4hpz3Vlmv2brq9JsiltvYjbkzuQET+6SlY=;
+ s=default; t=1592492047;
+ bh=Dd1gsICS/ZMoYWrmK3dpO/j+7w9K4YS1gPxMuBdnqmw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=xRfnBuPcVruSDXZD+YPhFjncSQA1QpaoCCguynPDDTe4O9+x/AuY0e07ntMqONqj7
- MdWRHHx85PzeslD0/ForSbThXvPxA6nJtF1qvvk2HI3rCh7IH2DiyJhtkrqmipbJPb
- CDC0ZnMGFGa5DTZ3aW8fEkcWOfJIe7HT7toeDxKc=
+ b=yGyIEyzvm3/wU/KABs9hKTzoTKSRZ7GkinA/rfb9PCDPfNqzkpJWbHFc5JBKU/Vnw
+ 28oVas2wMciRAxMrDA7ae9Tt1exgyhawyBIRgikcR9Zf5hidbuV0XZHtpfseVoyDVz
+ VGYxpoUqS+FAC1CwezyRsYTzrH0VdcaLU36X07N0=
 From: Keith Busch <kbusch@kernel.org>
 To: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, hch@lst.de,
  sagi@grimberg.me
-Subject: [PATCHv2 2/5] null_blk: introduce zone capacity for zoned device
-Date: Thu, 18 Jun 2020 07:53:51 -0700
-Message-Id: <20200618145354.1139350-3-kbusch@kernel.org>
+Subject: [PATCHv2 3/5] nvme: implement I/O Command Sets Command Set support
+Date: Thu, 18 Jun 2020 07:53:52 -0700
+Message-Id: <20200618145354.1139350-4-kbusch@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200618145354.1139350-1-kbusch@kernel.org>
 References: <20200618145354.1139350-1-kbusch@kernel.org>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200618_075407_072289_6702A46C 
-X-CRM114-Status: GOOD (  14.72  )
+X-CRM114-CacheID: sfid-20200618_075407_859638_9050BEA0 
+X-CRM114-Status: GOOD (  15.87  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,146 +75,143 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: axboe@kernel.dk, Aravind Ramesh <aravind.ramesh@wdc.com>,
- Daniel Wagner <dwagner@suse.de>,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
- "Martin K . Petersen" <martin.petersen@oracle.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: axboe@kernel.dk, Niklas Cassel <niklas.cassel@wdc.com>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ =?UTF-8?q?Javier=20Gonz=C3=A1lez?= <javier.gonz@samsung.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Aravind Ramesh <aravind.ramesh@wdc.com>
-
-Allow emulation of a zoned device with a per zone capacity smaller than
-the zone size as as defined in the Zoned Namespace (ZNS) Command Set
-specification. The zone capacity defaults to the zone size if not
-specified and must be smaller than the zone size otherwise.
-
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Reviewed-by: Daniel Wagner <dwagner@suse.de>
-Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
-Signed-off-by: Aravind Ramesh <aravind.ramesh@wdc.com>
----
- drivers/block/null_blk.h       |  1 +
- drivers/block/null_blk_main.c  | 10 +++++++++-
- drivers/block/null_blk_zoned.c | 16 ++++++++++++++--
- 3 files changed, 24 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/block/null_blk.h b/drivers/block/null_blk.h
-index 81b311c9d781..daed4a9c3436 100644
---- a/drivers/block/null_blk.h
-+++ b/drivers/block/null_blk.h
-@@ -49,6 +49,7 @@ struct nullb_device {
- 	unsigned long completion_nsec; /* time in ns to complete a request */
- 	unsigned long cache_size; /* disk cache size in MB */
- 	unsigned long zone_size; /* zone size in MB if device is zoned */
-+	unsigned long zone_capacity; /* zone capacity in MB if device is zoned */
- 	unsigned int zone_nr_conv; /* number of conventional zones */
- 	unsigned int submit_queues; /* number of submission queues */
- 	unsigned int home_node; /* home node for the device */
-diff --git a/drivers/block/null_blk_main.c b/drivers/block/null_blk_main.c
-index 87b31f9ca362..a2a0e199215b 100644
---- a/drivers/block/null_blk_main.c
-+++ b/drivers/block/null_blk_main.c
-@@ -200,6 +200,10 @@ static unsigned long g_zone_size = 256;
- module_param_named(zone_size, g_zone_size, ulong, S_IRUGO);
- MODULE_PARM_DESC(zone_size, "Zone size in MB when block device is zoned. Must be power-of-two: Default: 256");
- 
-+static unsigned long g_zone_capacity;
-+module_param_named(zone_capacity, g_zone_capacity, ulong, 0444);
-+MODULE_PARM_DESC(zone_capacity, "Zone capacity in MB when block device is zoned. Can be less than or equal to zone size. Default: Zone size");
-+
- static unsigned int g_zone_nr_conv;
- module_param_named(zone_nr_conv, g_zone_nr_conv, uint, 0444);
- MODULE_PARM_DESC(zone_nr_conv, "Number of conventional zones when block device is zoned. Default: 0");
-@@ -341,6 +345,7 @@ NULLB_DEVICE_ATTR(mbps, uint, NULL);
- NULLB_DEVICE_ATTR(cache_size, ulong, NULL);
- NULLB_DEVICE_ATTR(zoned, bool, NULL);
- NULLB_DEVICE_ATTR(zone_size, ulong, NULL);
-+NULLB_DEVICE_ATTR(zone_capacity, ulong, NULL);
- NULLB_DEVICE_ATTR(zone_nr_conv, uint, NULL);
- 
- static ssize_t nullb_device_power_show(struct config_item *item, char *page)
-@@ -457,6 +462,7 @@ static struct configfs_attribute *nullb_device_attrs[] = {
- 	&nullb_device_attr_badblocks,
- 	&nullb_device_attr_zoned,
- 	&nullb_device_attr_zone_size,
-+	&nullb_device_attr_zone_capacity,
- 	&nullb_device_attr_zone_nr_conv,
- 	NULL,
- };
-@@ -510,7 +516,8 @@ nullb_group_drop_item(struct config_group *group, struct config_item *item)
- 
- static ssize_t memb_group_features_show(struct config_item *item, char *page)
- {
--	return snprintf(page, PAGE_SIZE, "memory_backed,discard,bandwidth,cache,badblocks,zoned,zone_size,zone_nr_conv\n");
-+	return snprintf(page, PAGE_SIZE,
-+			"memory_backed,discard,bandwidth,cache,badblocks,zoned,zone_size,zone_capacity,zone_nr_conv\n");
- }
- 
- CONFIGFS_ATTR_RO(memb_group_, features);
-@@ -571,6 +578,7 @@ static struct nullb_device *null_alloc_dev(void)
- 	dev->use_per_node_hctx = g_use_per_node_hctx;
- 	dev->zoned = g_zoned;
- 	dev->zone_size = g_zone_size;
-+	dev->zone_capacity = g_zone_capacity;
- 	dev->zone_nr_conv = g_zone_nr_conv;
- 	return dev;
- }
-diff --git a/drivers/block/null_blk_zoned.c b/drivers/block/null_blk_zoned.c
-index 624aac09b005..3d25c9ad2383 100644
---- a/drivers/block/null_blk_zoned.c
-+++ b/drivers/block/null_blk_zoned.c
-@@ -28,6 +28,15 @@ int null_init_zoned_dev(struct nullb_device *dev, struct request_queue *q)
- 		return -EINVAL;
- 	}
- 
-+	if (!dev->zone_capacity)
-+		dev->zone_capacity = dev->zone_size;
-+
-+	if (dev->zone_capacity > dev->zone_size) {
-+		pr_err("null_blk: zone capacity (%lu MB) larger than zone size (%lu MB)\n",
-+					dev->zone_capacity, dev->zone_size);
-+		return -EINVAL;
-+	}
-+
- 	dev->zone_size_sects = dev->zone_size << ZONE_SIZE_SHIFT;
- 	dev->nr_zones = dev_size >>
- 				(SECTOR_SHIFT + ilog2(dev->zone_size_sects));
-@@ -60,7 +69,7 @@ int null_init_zoned_dev(struct nullb_device *dev, struct request_queue *q)
- 
- 		zone->start = zone->wp = sector;
- 		zone->len = dev->zone_size_sects;
--		zone->capacity = zone->len;
-+		zone->capacity = dev->zone_capacity << ZONE_SIZE_SHIFT;
- 		zone->type = BLK_ZONE_TYPE_SEQWRITE_REQ;
- 		zone->cond = BLK_ZONE_COND_EMPTY;
- 
-@@ -187,6 +196,9 @@ static blk_status_t null_zone_write(struct nullb_cmd *cmd, sector_t sector,
- 			return BLK_STS_IOERR;
- 		}
- 
-+		if (zone->wp + nr_sectors > zone->start + zone->capacity)
-+			return BLK_STS_IOERR;
-+
- 		if (zone->cond != BLK_ZONE_COND_EXP_OPEN)
- 			zone->cond = BLK_ZONE_COND_IMP_OPEN;
- 
-@@ -195,7 +207,7 @@ static blk_status_t null_zone_write(struct nullb_cmd *cmd, sector_t sector,
- 			return ret;
- 
- 		zone->wp += nr_sectors;
--		if (zone->wp == zone->start + zone->len)
-+		if (zone->wp == zone->start + zone->capacity)
- 			zone->cond = BLK_ZONE_COND_FULL;
- 		return BLK_STS_OK;
- 	default:
--- 
-2.24.1
-
-
-_______________________________________________
-linux-nvme mailing list
-linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+RnJvbTogTmlrbGFzIENhc3NlbCA8bmlrbGFzLmNhc3NlbEB3ZGMuY29tPgoKSW1wbGVtZW50cyBz
+dXBwb3J0IGZvciB0aGUgSS9PIENvbW1hbmQgU2V0cyBjb21tYW5kIHNldC4gVGhlIGNvbW1hbmQg
+c2V0CmludHJvZHVjZXMgYSBtZXRob2QgdG8gZW51bWVyYXRlIG11bHRpcGxlIGNvbW1hbmQgc2V0
+cyBwZXIgbmFtZXNwYWNlLiBJZgp0aGUgY29tbWFuZCBzZXQgaXMgZXhwb3NlZCwgdGhpcyBtZXRo
+b2QgZm9yIGVudW1lcmF0aW9uIHdpbGwgYmUgdXNlZAppbnN0ZWFkIG9mIHRoZSB0cmFkaXRpb25h
+bCBtZXRob2QgdGhhdCB1c2VzIHRoZSBDQy5DU1MgcmVnaXN0ZXIgY29tbWFuZApzZXQgcmVnaXN0
+ZXIgZm9yIGNvbW1hbmQgc2V0IGlkZW50aWZpY2F0aW9uLgoKRm9yIG5hbWVzcGFjZXMgd2hlcmUg
+dGhlIENvbW1hbmQgU2V0IElkZW50aWZpZXIgaXMgbm90IHN1cHBvcnRlZCBvcgpyZWNvZ25pemVk
+LCB0aGUgc3BlY2lmaWMgbmFtZXNwYWNlIHdpbGwgbm90IGJlIGNyZWF0ZWQuCgpSZXZpZXdlZC1i
+eTogSmF2aWVyIEdvbnrDoWxleiA8amF2aWVyLmdvbnpAc2Ftc3VuZy5jb20+ClJldmlld2VkLWJ5
+OiBNYXJ0aW4gSy4gUGV0ZXJzZW4gPG1hcnRpbi5wZXRlcnNlbkBvcmFjbGUuY29tPgpTaWduZWQt
+b2ZmLWJ5OiBOaWtsYXMgQ2Fzc2VsIDxuaWtsYXMuY2Fzc2VsQHdkYy5jb20+Ci0tLQogZHJpdmVy
+cy9udm1lL2hvc3QvY29yZS5jIHwgNDggKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
+LS0tLS0tLQogZHJpdmVycy9udm1lL2hvc3QvbnZtZS5oIHwgIDEgKwogaW5jbHVkZS9saW51eC9u
+dm1lLmggICAgIHwgMTkgKysrKysrKysrKysrKystLQogMyBmaWxlcyBjaGFuZ2VkLCA1OCBpbnNl
+cnRpb25zKCspLCAxMCBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL252bWUvaG9z
+dC9jb3JlLmMgYi9kcml2ZXJzL252bWUvaG9zdC9jb3JlLmMKaW5kZXggOTQ5MWRiY2ZlODFhLi40
+NWEzY2I1YTM1YmQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvbnZtZS9ob3N0L2NvcmUuYworKysgYi9k
+cml2ZXJzL252bWUvaG9zdC9jb3JlLmMKQEAgLTEwNTYsOCArMTA1NiwxMyBAQCBzdGF0aWMgaW50
+IG52bWVfaWRlbnRpZnlfY3RybChzdHJ1Y3QgbnZtZV9jdHJsICpkZXYsIHN0cnVjdCBudm1lX2lk
+X2N0cmwgKippZCkKIAlyZXR1cm4gZXJyb3I7CiB9CiAKK3N0YXRpYyBib29sIG52bWVfbXVsdGlf
+Y3NzKHN0cnVjdCBudm1lX2N0cmwgKmN0cmwpCit7CisJcmV0dXJuIChjdHJsLT5jdHJsX2NvbmZp
+ZyAmIE5WTUVfQ0NfQ1NTX01BU0spID09IE5WTUVfQ0NfQ1NTX0NTSTsKK30KKwogc3RhdGljIGlu
+dCBudm1lX3Byb2Nlc3NfbnNfZGVzYyhzdHJ1Y3QgbnZtZV9jdHJsICpjdHJsLCBzdHJ1Y3QgbnZt
+ZV9uc19pZHMgKmlkcywKLQkJc3RydWN0IG52bWVfbnNfaWRfZGVzYyAqY3VyKQorCQlzdHJ1Y3Qg
+bnZtZV9uc19pZF9kZXNjICpjdXIsIGJvb2wgKmNzaV9zZWVuKQogewogCWNvbnN0IGNoYXIgKndh
+cm5fc3RyID0gImN0cmwgcmV0dXJuZWQgYm9ndXMgbGVuZ3RoOiI7CiAJdm9pZCAqZGF0YSA9IGN1
+cjsKQEAgLTEwODcsNiArMTA5MiwxNSBAQCBzdGF0aWMgaW50IG52bWVfcHJvY2Vzc19uc19kZXNj
+KHN0cnVjdCBudm1lX2N0cmwgKmN0cmwsIHN0cnVjdCBudm1lX25zX2lkcyAqaWRzLAogCQl9CiAJ
+CXV1aWRfY29weSgmaWRzLT51dWlkLCBkYXRhICsgc2l6ZW9mKCpjdXIpKTsKIAkJcmV0dXJuIE5W
+TUVfTklEVF9VVUlEX0xFTjsKKwljYXNlIE5WTUVfTklEVF9DU0k6CisJCWlmIChjdXItPm5pZGwg
+IT0gTlZNRV9OSURUX0NTSV9MRU4pIHsKKwkJCWRldl93YXJuKGN0cmwtPmRldmljZSwgIiVzICVk
+IGZvciBOVk1FX05JRFRfQ1NJXG4iLAorCQkJCSB3YXJuX3N0ciwgY3VyLT5uaWRsKTsKKwkJCXJl
+dHVybiAtMTsKKwkJfQorCQltZW1jcHkoJmlkcy0+Y3NpLCBkYXRhICsgc2l6ZW9mKCpjdXIpLCBO
+Vk1FX05JRFRfQ1NJX0xFTik7CisJCSpjc2lfc2VlbiA9IHRydWU7CisJCXJldHVybiBOVk1FX05J
+RFRfQ1NJX0xFTjsKIAlkZWZhdWx0OgogCQkvKiBTa2lwIHVua25vd24gdHlwZXMgKi8KIAkJcmV0
+dXJuIGN1ci0+bmlkbDsKQEAgLTEwOTcsMTAgKzExMTEsOSBAQCBzdGF0aWMgaW50IG52bWVfaWRl
+bnRpZnlfbnNfZGVzY3Moc3RydWN0IG52bWVfY3RybCAqY3RybCwgdW5zaWduZWQgbnNpZCwKIAkJ
+c3RydWN0IG52bWVfbnNfaWRzICppZHMpCiB7CiAJc3RydWN0IG52bWVfY29tbWFuZCBjID0geyB9
+OwotCWludCBzdGF0dXM7CisJYm9vbCBjc2lfc2VlbiA9IGZhbHNlOworCWludCBzdGF0dXMsIHBv
+cywgbGVuOwogCXZvaWQgKmRhdGE7Ci0JaW50IHBvczsKLQlpbnQgbGVuOwogCiAJYy5pZGVudGlm
+eS5vcGNvZGUgPSBudm1lX2FkbWluX2lkZW50aWZ5OwogCWMuaWRlbnRpZnkubnNpZCA9IGNwdV90
+b19sZTMyKG5zaWQpOwpAQCAtMTEzMCwxMyArMTE0MywxOSBAQCBzdGF0aWMgaW50IG52bWVfaWRl
+bnRpZnlfbnNfZGVzY3Moc3RydWN0IG52bWVfY3RybCAqY3RybCwgdW5zaWduZWQgbnNpZCwKIAkJ
+aWYgKGN1ci0+bmlkbCA9PSAwKQogCQkJYnJlYWs7CiAKLQkJbGVuID0gbnZtZV9wcm9jZXNzX25z
+X2Rlc2MoY3RybCwgaWRzLCBjdXIpOworCQlsZW4gPSBudm1lX3Byb2Nlc3NfbnNfZGVzYyhjdHJs
+LCBpZHMsIGN1ciwgJmNzaV9zZWVuKTsKIAkJaWYgKGxlbiA8IDApCiAJCQlnb3RvIGZyZWVfZGF0
+YTsKIAogCQlsZW4gKz0gc2l6ZW9mKCpjdXIpOwogCX0KIGZyZWVfZGF0YToKKwlpZiAoIXN0YXR1
+cyAmJiBudm1lX211bHRpX2NzcyhjdHJsKSAmJiAhY3NpX3NlZW4pIHsKKwkJZGV2X3dhcm4oY3Ry
+bC0+ZGV2aWNlLCAiQ29tbWFuZCBzZXQgbm90IHJlcG9ydGVkIGZvciBuc2lkOiVkXG4iLAorCQkJ
+IG5zaWQpOworCQlzdGF0dXMgPSAtRUlOVkFMOworCX0KKwogCWtmcmVlKGRhdGEpOwogCXJldHVy
+biBzdGF0dXM7CiB9CkBAIC0xNzkyLDcgKzE4MTEsNyBAQCBzdGF0aWMgaW50IG52bWVfcmVwb3J0
+X25zX2lkcyhzdHJ1Y3QgbnZtZV9jdHJsICpjdHJsLCB1bnNpZ25lZCBpbnQgbnNpZCwKIAkJbWVt
+Y3B5KGlkcy0+ZXVpNjQsIGlkLT5ldWk2NCwgc2l6ZW9mKGlkLT5ldWk2NCkpOwogCWlmIChjdHJs
+LT52cyA+PSBOVk1FX1ZTKDEsIDIsIDApKQogCQltZW1jcHkoaWRzLT5uZ3VpZCwgaWQtPm5ndWlk
+LCBzaXplb2YoaWQtPm5ndWlkKSk7Ci0JaWYgKGN0cmwtPnZzID49IE5WTUVfVlMoMSwgMywgMCkp
+CisJaWYgKGN0cmwtPnZzID49IE5WTUVfVlMoMSwgMywgMCkgfHwgbnZtZV9tdWx0aV9jc3MoY3Ry
+bCkpCiAJCXJldHVybiBudm1lX2lkZW50aWZ5X25zX2Rlc2NzKGN0cmwsIG5zaWQsIGlkcyk7CiAJ
+cmV0dXJuIDA7CiB9CkBAIC0xODA4LDcgKzE4MjcsOCBAQCBzdGF0aWMgYm9vbCBudm1lX25zX2lk
+c19lcXVhbChzdHJ1Y3QgbnZtZV9uc19pZHMgKmEsIHN0cnVjdCBudm1lX25zX2lkcyAqYikKIHsK
+IAlyZXR1cm4gdXVpZF9lcXVhbCgmYS0+dXVpZCwgJmItPnV1aWQpICYmCiAJCW1lbWNtcCgmYS0+
+bmd1aWQsICZiLT5uZ3VpZCwgc2l6ZW9mKGEtPm5ndWlkKSkgPT0gMCAmJgotCQltZW1jbXAoJmEt
+PmV1aTY0LCAmYi0+ZXVpNjQsIHNpemVvZihhLT5ldWk2NCkpID09IDA7CisJCW1lbWNtcCgmYS0+
+ZXVpNjQsICZiLT5ldWk2NCwgc2l6ZW9mKGEtPmV1aTY0KSkgPT0gMCAmJgorCQlhLT5jc2kgPT0g
+Yi0+Y3NpOwogfQogCiBzdGF0aWMgaW50IG52bWVfc2V0dXBfc3RyZWFtc19ucyhzdHJ1Y3QgbnZt
+ZV9jdHJsICpjdHJsLCBzdHJ1Y3QgbnZtZV9ucyAqbnMsCkBAIC0xOTMwLDYgKzE5NTAsMTUgQEAg
+c3RhdGljIGludCBfX252bWVfcmV2YWxpZGF0ZV9kaXNrKHN0cnVjdCBnZW5kaXNrICpkaXNrLCBz
+dHJ1Y3QgbnZtZV9pZF9ucyAqaWQpCiAJaWYgKG5zLT5sYmFfc2hpZnQgPT0gMCkKIAkJbnMtPmxi
+YV9zaGlmdCA9IDk7CiAKKwlzd2l0Y2ggKG5zLT5oZWFkLT5pZHMuY3NpKSB7CisJY2FzZSBOVk1F
+X0NTSV9OVk06CisJCWJyZWFrOworCWRlZmF1bHQ6CisJCWRldl93YXJuKGN0cmwtPmRldmljZSwg
+InVua25vd24gY3NpOiVkIG5zOiVkXG4iLAorCQkJbnMtPmhlYWQtPmlkcy5jc2ksIG5zLT5oZWFk
+LT5uc19pZCk7CisJCXJldHVybiAtRU5PREVWOworCX0KKwogCWlmICgoY3RybC0+cXVpcmtzICYg
+TlZNRV9RVUlSS19TVFJJUEVfU0laRSkgJiYKIAkgICAgaXNfcG93ZXJfb2ZfMihjdHJsLT5tYXhf
+aHdfc2VjdG9ycykpCiAJCWlvYiA9IGN0cmwtPm1heF9od19zZWN0b3JzOwpAQCAtMjI2NCw3ICsy
+MjkzLDEwIEBAIGludCBudm1lX2VuYWJsZV9jdHJsKHN0cnVjdCBudm1lX2N0cmwgKmN0cmwpCiAK
+IAljdHJsLT5wYWdlX3NpemUgPSAxIDw8IHBhZ2Vfc2hpZnQ7CiAKLQljdHJsLT5jdHJsX2NvbmZp
+ZyA9IE5WTUVfQ0NfQ1NTX05WTTsKKwlpZiAoTlZNRV9DQVBfQ1NTKGN0cmwtPmNhcCkgJiBOVk1F
+X0NBUF9DU1NfQ1NJKQorCQljdHJsLT5jdHJsX2NvbmZpZyA9IE5WTUVfQ0NfQ1NTX0NTSTsKKwll
+bHNlCisJCWN0cmwtPmN0cmxfY29uZmlnID0gTlZNRV9DQ19DU1NfTlZNOwogCWN0cmwtPmN0cmxf
+Y29uZmlnIHw9IChwYWdlX3NoaWZ0IC0gMTIpIDw8IE5WTUVfQ0NfTVBTX1NISUZUOwogCWN0cmwt
+PmN0cmxfY29uZmlnIHw9IE5WTUVfQ0NfQU1TX1JSIHwgTlZNRV9DQ19TSE5fTk9ORTsKIAljdHJs
+LT5jdHJsX2NvbmZpZyB8PSBOVk1FX0NDX0lPU1FFUyB8IE5WTUVfQ0NfSU9DUUVTOwpkaWZmIC0t
+Z2l0IGEvZHJpdmVycy9udm1lL2hvc3QvbnZtZS5oIGIvZHJpdmVycy9udm1lL2hvc3QvbnZtZS5o
+CmluZGV4IGMwZjQyMjZkMzI5OS4uYTg0ZjcxNDU5Y2FhIDEwMDY0NAotLS0gYS9kcml2ZXJzL252
+bWUvaG9zdC9udm1lLmgKKysrIGIvZHJpdmVycy9udm1lL2hvc3QvbnZtZS5oCkBAIC0zMzksNiAr
+MzM5LDcgQEAgc3RydWN0IG52bWVfbnNfaWRzIHsKIAl1OAlldWk2NFs4XTsKIAl1OAluZ3VpZFsx
+Nl07CiAJdXVpZF90CXV1aWQ7CisJdTgJY3NpOwogfTsKIAogLyoKZGlmZiAtLWdpdCBhL2luY2x1
+ZGUvbGludXgvbnZtZS5oIGIvaW5jbHVkZS9saW51eC9udm1lLmgKaW5kZXggNWNlNTFhYjRjNTBl
+Li44MWZmZTUyNDc1MDUgMTAwNjQ0Ci0tLSBhL2luY2x1ZGUvbGludXgvbnZtZS5oCisrKyBiL2lu
+Y2x1ZGUvbGludXgvbnZtZS5oCkBAIC0xMzIsNiArMTMyLDcgQEAgZW51bSB7CiAjZGVmaW5lIE5W
+TUVfQ0FQX1RJTUVPVVQoY2FwKQkoKChjYXApID4+IDI0KSAmIDB4ZmYpCiAjZGVmaW5lIE5WTUVf
+Q0FQX1NUUklERShjYXApCSgoKGNhcCkgPj4gMzIpICYgMHhmKQogI2RlZmluZSBOVk1FX0NBUF9O
+U1NSQyhjYXApCSgoKGNhcCkgPj4gMzYpICYgMHgxKQorI2RlZmluZSBOVk1FX0NBUF9DU1MoY2Fw
+KQkoKChjYXApID4+IDM3KSAmIDB4ZmYpCiAjZGVmaW5lIE5WTUVfQ0FQX01QU01JTihjYXApCSgo
+KGNhcCkgPj4gNDgpICYgMHhmKQogI2RlZmluZSBOVk1FX0NBUF9NUFNNQVgoY2FwKQkoKChjYXAp
+ID4+IDUyKSAmIDB4ZikKIApAQCAtMTYyLDcgKzE2Myw2IEBAIGVudW0gewogCiBlbnVtIHsKIAlO
+Vk1FX0NDX0VOQUJMRQkJPSAxIDw8IDAsCi0JTlZNRV9DQ19DU1NfTlZNCQk9IDAgPDwgNCwKIAlO
+Vk1FX0NDX0VOX1NISUZUCT0gMCwKIAlOVk1FX0NDX0NTU19TSElGVAk9IDQsCiAJTlZNRV9DQ19N
+UFNfU0hJRlQJPSA3LApAQCAtMTcwLDYgKzE3MCw5IEBAIGVudW0gewogCU5WTUVfQ0NfU0hOX1NI
+SUZUCT0gMTQsCiAJTlZNRV9DQ19JT1NRRVNfU0hJRlQJPSAxNiwKIAlOVk1FX0NDX0lPQ1FFU19T
+SElGVAk9IDIwLAorCU5WTUVfQ0NfQ1NTX05WTQkJPSAwIDw8IE5WTUVfQ0NfQ1NTX1NISUZULAor
+CU5WTUVfQ0NfQ1NTX0NTSQkJPSA2IDw8IE5WTUVfQ0NfQ1NTX1NISUZULAorCU5WTUVfQ0NfQ1NT
+X01BU0sJPSA3IDw8IE5WTUVfQ0NfQ1NTX1NISUZULAogCU5WTUVfQ0NfQU1TX1JSCQk9IDAgPDwg
+TlZNRV9DQ19BTVNfU0hJRlQsCiAJTlZNRV9DQ19BTVNfV1JSVQk9IDEgPDwgTlZNRV9DQ19BTVNf
+U0hJRlQsCiAJTlZNRV9DQ19BTVNfVlMJCT0gNyA8PCBOVk1FX0NDX0FNU19TSElGVCwKQEAgLTE3
+OSw2ICsxODIsOCBAQCBlbnVtIHsKIAlOVk1FX0NDX1NITl9NQVNLCT0gMyA8PCBOVk1FX0NDX1NI
+Tl9TSElGVCwKIAlOVk1FX0NDX0lPU1FFUwkJPSBOVk1FX05WTV9JT1NRRVMgPDwgTlZNRV9DQ19J
+T1NRRVNfU0hJRlQsCiAJTlZNRV9DQ19JT0NRRVMJCT0gTlZNRV9OVk1fSU9DUUVTIDw8IE5WTUVf
+Q0NfSU9DUUVTX1NISUZULAorCU5WTUVfQ0FQX0NTU19OVk0JPSAxIDw8IDAsCisJTlZNRV9DQVBf
+Q1NTX0NTSQk9IDEgPDwgNiwKIAlOVk1FX0NTVFNfUkRZCQk9IDEgPDwgMCwKIAlOVk1FX0NTVFNf
+Q0ZTCQk9IDEgPDwgMSwKIAlOVk1FX0NTVFNfTlNTUk8JCT0gMSA8PCA0LApAQCAtMzc0LDYgKzM3
+OSw4IEBAIGVudW0gewogCU5WTUVfSURfQ05TX0NUUkwJCT0gMHgwMSwKIAlOVk1FX0lEX0NOU19O
+U19BQ1RJVkVfTElTVAk9IDB4MDIsCiAJTlZNRV9JRF9DTlNfTlNfREVTQ19MSVNUCT0gMHgwMywK
+KwlOVk1FX0lEX0NOU19DU19OUwkJPSAweDA1LAorCU5WTUVfSURfQ05TX0NTX0NUUkwJCT0gMHgw
+NiwKIAlOVk1FX0lEX0NOU19OU19QUkVTRU5UX0xJU1QJPSAweDEwLAogCU5WTUVfSURfQ05TX05T
+X1BSRVNFTlQJCT0gMHgxMSwKIAlOVk1FX0lEX0NOU19DVFJMX05TX0xJU1QJPSAweDEyLApAQCAt
+MzgzLDYgKzM5MCwxMCBAQCBlbnVtIHsKIAlOVk1FX0lEX0NOU19VVUlEX0xJU1QJCT0gMHgxNywK
+IH07CiAKK2VudW0geworCU5WTUVfQ1NJX05WTQkJCT0gMCwKK307CisKIGVudW0gewogCU5WTUVf
+RElSX0lERU5USUZZCQk9IDB4MDAsCiAJTlZNRV9ESVJfU1RSRUFNUwkJPSAweDAxLApAQCAtNDM1
+LDExICs0NDYsMTMgQEAgc3RydWN0IG52bWVfbnNfaWRfZGVzYyB7CiAjZGVmaW5lIE5WTUVfTklE
+VF9FVUk2NF9MRU4JOAogI2RlZmluZSBOVk1FX05JRFRfTkdVSURfTEVOCTE2CiAjZGVmaW5lIE5W
+TUVfTklEVF9VVUlEX0xFTgkxNgorI2RlZmluZSBOVk1FX05JRFRfQ1NJX0xFTgkxCiAKIGVudW0g
+ewogCU5WTUVfTklEVF9FVUk2NAkJPSAweDAxLAogCU5WTUVfTklEVF9OR1VJRAkJPSAweDAyLAog
+CU5WTUVfTklEVF9VVUlECQk9IDB4MDMsCisJTlZNRV9OSURUX0NTSQkJPSAweDA0LAogfTsKIAog
+c3RydWN0IG52bWVfc21hcnRfbG9nIHsKQEAgLTk3Miw3ICs5ODUsOSBAQCBzdHJ1Y3QgbnZtZV9p
+ZGVudGlmeSB7CiAJX191OAkJCWNuczsKIAlfX3U4CQkJcnN2ZDM7CiAJX19sZTE2CQkJY3RybGlk
+OwotCV9fdTMyCQkJcnN2ZDExWzVdOworCV9fdTgJCQlyc3ZkMTFbM107CisJX191OAkJCWNzaTsK
+KwlfX3UzMgkJCXJzdmQxMls0XTsKIH07CiAKICNkZWZpbmUgTlZNRV9JREVOVElGWV9EQVRBX1NJ
+WkUgNDA5NgotLSAKMi4yNC4xCgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KbGludXgtbnZtZSBtYWlsaW5nIGxpc3QKbGludXgtbnZtZUBsaXN0cy5pbmZy
+YWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGlu
+dXgtbnZtZQo=
