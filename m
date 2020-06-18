@@ -2,88 +2,137 @@ Return-Path: <SRS0=0To6=77=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 000C8C433E1
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jun 2020 20:02:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01E40C433DF
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jun 2020 20:22:25 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9FD1620890
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jun 2020 20:02:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id BCA18207DD
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jun 2020 20:22:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="tNoqVtrU";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="CDUSTer3"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9FD1620890
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="knStlSJQ";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="PwrrvNiL";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="FR3+kKLh"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BCA18207DD
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:
+	Message-ID:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=kG9gBUzBK6pGyXJ/mnNs9TKvMbQKitpZa7MvFzvvGcE=; b=tNoqVtrUkRJN+q
-	inYhwCQRRvoz0n+WOmrNj3+vF23k0KSUozwnNno3YKEFowEEljPvBQrKlaxRsQIgkv5tESPiPxs7y
-	koxZT1vfr54e+XK16mNdz8XpzR8wvFxhCWl7xURkckNJuZtNzKTISmb2oPOyylRmf2hNnBQS2Fa4a
-	6TLr35TSBAh3sTxm56vsIsKicAaOXshT3UxLRe7BSdl6qvo7aWeVfX7QOgBodUTBOBgeWtaXK6CCK
-	OtFYaRjZF8flR9Fa+it9Ryht6vEfWylpKeVFdrzXTZ2ECX7or257yP55jj3Fqg1UKScJwdcJVDYiT
-	Ehq/MiEEO0exJKOH6dSw==;
+	List-Owner; bh=bZtBwGSMz7SvkEeVZFIxnrKpGfXvuMA12ZmUOalVsOI=; b=knStlSJQ1z939j
+	x3p+fCHqFObDIflD/lNa653ENoTHNdYBUgE83PqQVIFQIvJ5BfiJRWbwmWnKl2o0TOgJ390lhQDnb
+	pVVZjZ9eolGEkdzmpQW11ygxB015KOujL141E6ZrIsj6CEbhzT8JX+rt66f105fHOrfdN8XDSm+je
+	WJJUaSGkcvbU/lbeNSiCXr7K917/Fd3+oxGoDpFNOL3+LxGfChD9gHRq4msTOai4hu0TAVRp677w7
+	KrzhyNoiASEShSKOziCLsPN8oK560vKunDuhpW2Loy6EnsDPrlCGxN2CAqSbJJUnF48U1LVDPlNJq
+	ECb+01zb7J0RV/UNE7DQ==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jm0kO-0001sv-Bo; Thu, 18 Jun 2020 20:02:52 +0000
-Received: from esa3.hgst.iphmx.com ([216.71.153.141])
+	id 1jm13E-0005h6-U5; Thu, 18 Jun 2020 20:22:20 +0000
+Received: from esa4.hgst.iphmx.com ([216.71.154.42])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jm0kG-0001i3-5h
- for linux-nvme@lists.infradead.org; Thu, 18 Jun 2020 20:02:46 +0000
+ id 1jm13C-0005gf-1e
+ for linux-nvme@lists.infradead.org; Thu, 18 Jun 2020 20:22:19 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1592510565; x=1624046565;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=oRhNE6LF+Ol5c6kifMfhgOm0NbAMgQ5Kcq2Fnw0fqy0=;
- b=CDUSTer34f/F+QP14tua1urHv6BnQnsvTRs/zygtryJhPOI+/u1QSjU5
- CYwCs4LuT+EkPorHFRsjwXf/VQoz4bM18Lo5/aQvr/SdgOdDSKOVeALSF
- bp4TubYiiKhJEB8yQJmDPm1nDaUC8KHEz1P3xBfTHBIyBA+hkf03VzLjE
- TXSrWHf2HrnBRTqoyT4xRN8IRPTn8yXmt+akfWQfmB7nY/fsw5CyUMeRl
- Nqh8V7mVNcpdRnZPgeIAxZPSYqLaGOa6SqkvlZeBSDx+cbrtpBrvrOMYP
- Dv75/QeBFFYUABmAw0hJbnklpNeZ74EVaA2hhPg6yvjoipd61vHaM4k/r A==;
-IronPort-SDR: dKWGrxXCG/DsSF9e9r72yUJA8hL9x5QUBXT2ROxV2cwWXTgpXny1p0e5EA/LDfvfiQMHcTlCwK
- 76Gzj6zVOHO00JxIhaqijLUin7JpRHHZLlFvvHc8KUYGlWKR2Q9xI42fRlquKS7GLNXFNxLzLk
- by1qCkTq2gD7dHiC+AlBz6Pl2HnAviPIzKKHLc/rgDlZ5QMn2LJSk6NJ15xrY25XdJ7I8U05jt
- xolXCUDP0YzR5i2TLavPUJFyvHwBylePTQRwjeRj3jusxi3mBKt6nuiafTocwOPfr4y40L4QgX
- yBE=
-X-IronPort-AV: E=Sophos;i="5.75,252,1589212800"; d="scan'208";a="144673247"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 19 Jun 2020 04:02:45 +0800
-IronPort-SDR: kpXbLMa8n5CUMwet6Ohfy8ZH8Srjf+NwISn3UQm/sQjPDys3UW0nNl/ln6pvsLtC/Z+3Lu5n/y
- +A3Nav7nBf4y11mwp+uNVYSCZ1N8FRvJ4=
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jun 2020 12:51:56 -0700
-IronPort-SDR: m/EwzBuzmAOY+Au+wzDFCR/ECZCikB10Kky22FrTnFOlyX9L4MzxyRiYK5RkCCirhO6+7IpPho
- eR0cMnbbpRsw==
-WDCIronportException: Internal
-Received: from usa001298.ad.shared (HELO localhost.hgst.com) ([10.86.58.149])
- by uls-op-cesaip02.wdc.com with ESMTP; 18 Jun 2020 13:02:42 -0700
-From: Niklas Cassel <niklas.cassel@wdc.com>
-To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
-Subject: [PATCH v2 1/2] nvme: remove workarounds for gcc bug wrt unnamed
- fields in initializers
-Date: Thu, 18 Jun 2020 22:02:33 +0200
-Message-Id: <20200618200235.1104587-2-niklas.cassel@wdc.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200618200235.1104587-1-niklas.cassel@wdc.com>
-References: <20200618200235.1104587-1-niklas.cassel@wdc.com>
+ t=1592511737; x=1624047737;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=FhaY5ERAO0hboIg5hoL0wnfFKNclRMP8Euk9Dltnmuk=;
+ b=PwrrvNiLe9Oi0rDzBCd2enoDGsC7oAyg/rI+R1gckBkNmK6THQ0wgAhX
+ shGSp1XV/5j0YkgUCa9egdfatX1y7WFTKvN0RN7F/O/+tuc2rLLtKTZpI
+ 8ERNbRxDHG7duvhqFOLlOsBj2Tkq55rvIxGzM/Vx3JiznYrs3NpvJgVbD
+ VQ96wXJZ/5OG5GBPwvzD5d75095atPfe8mZSUlFEI1ZE5YaueARnRGJWl
+ Y9ab/ZRu79QzMADMCSbd1SPL2agG5ueU4cQ3qrCgum1kPWqqvrlLem/Lh
+ ZtE77/kTUYgMlsQEo6yP70W4vIdbBC4H7QbobyV0i3XG2UJOEsL6napy+ w==;
+IronPort-SDR: 2FW2dneHJ9r7yhCm8onP6k5gkfyHSOYSqJkdm1zgotC6cnfYHEPu8yz1W+PhFTNPioPY6PvdG0
+ bgmroU5BGwA0HFlHiYnQ3tX+QnzTMtGxFPnVJzqAh/NwNz7RDuLGif4VsRM2DU3wfbcc+9J5+J
+ QtQ3HhzJd7l9imyaLXTyTKTdGSTfAF3e6h+K66EnbGfnaSXreYMa8LdS92peR2gOqWb9KO8q30
+ sf6o8KRv0CzSXihIqQ/xm7EALgTmhGAJAqcjbiNmKO/AaGDakfM2w6RPoKeuvW/X5AmuyA0dea
+ voA=
+X-IronPort-AV: E=Sophos;i="5.75,252,1589212800"; d="scan'208";a="140353968"
+Received: from mail-sn1nam04lp2055.outbound.protection.outlook.com (HELO
+ NAM04-SN1-obe.outbound.protection.outlook.com) ([104.47.44.55])
+ by ob1.hgst.iphmx.com with ESMTP; 19 Jun 2020 04:22:13 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mUXHevfCiB2CxcOo+g5K4XVhWfWkW13U2GW8TAmoDZbEq3UokNOB16j9lZDMdOzd5kcc6pRqa0mCZmWbYjEK84RvxsqTKBbbshoYytPocKqPyNfeIypiql3B9fKA1oNHzfCFd7cuDv++1Pvh/csGbE11KLstJqKKjYP03UpxEDMZ8cyqQXAhxQu+Wi+FsorWfP+pqGDmG5oVSuilAWvCjIHufouUV6oodlNU/lmUz3r7chNwVKHS92q02//Swh0XYmimBEzxK95bd6u0kB4O7MZ5gYGUsf1aUZdrC+Wxbw5gWo0DmGaj2TdF7VW2Vy2sra0RIBvsy6n8htW1JN2S3w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FhaY5ERAO0hboIg5hoL0wnfFKNclRMP8Euk9Dltnmuk=;
+ b=XM9rR0HgVlyxfSYD3hglOLBaM/P540JNktoWyYFEPwcBOduA4bm+8hSUfw08IsEuC/0Docx5X4+rLjas44/gw+e9UbmTujOoWzLK+tsOLx4ptbG77jWM5YtLu1imigNdI8b/q0xMyp0vV+3/XHeoZanyMryUI7yS2OhR4bD4njmkNgcNd6C2wvD89/ThmvwBTV0BXlKZHX/5KXEiblKhPa7ZR/mV0RssKB9LzlGKam7UjbQhT1FlRV0kM800aOdby735L2MBlKOlgoW11w1z/2LHjv695EltFoZbo32oexpi/zMpzDaG3Sz2UoWn7IeqietBvu85Mc3RQMg6H59wdw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FhaY5ERAO0hboIg5hoL0wnfFKNclRMP8Euk9Dltnmuk=;
+ b=FR3+kKLheyLdpn3AMRa0hWMMoI1t9CZYpE6ufC2tgcrR7i1No7odpo0SlmblCMZWM+iAXmDUMSpVj7Occ95MBzrAX0pROHIm34/pehzDbAWVH7hguPLKZYBIc4rVMTPRvAzsHhtTFgVvPvo5bGH1rFrGYY2WTMZQIRMuphMWHVI=
+Received: from MN2PR04MB6223.namprd04.prod.outlook.com (2603:10b6:208:db::14)
+ by MN2PR04MB5630.namprd04.prod.outlook.com (2603:10b6:208:ff::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.22; Thu, 18 Jun
+ 2020 20:22:10 +0000
+Received: from MN2PR04MB6223.namprd04.prod.outlook.com
+ ([fe80::899f:1d14:ad80:400e]) by MN2PR04MB6223.namprd04.prod.outlook.com
+ ([fe80::899f:1d14:ad80:400e%4]) with mapi id 15.20.3109.021; Thu, 18 Jun 2020
+ 20:22:10 +0000
+From: Matias Bjorling <Matias.Bjorling@wdc.com>
+To: Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>
+Subject: RE: [PATCHv2 5/5] nvme: support for zoned namespaces
+Thread-Topic: [PATCHv2 5/5] nvme: support for zoned namespaces
+Thread-Index: AQHWRYBVI7ILHVLNRE6vcred1EbgZ6jexF4AgAAC7NA=
+Date: Thu, 18 Jun 2020 20:22:09 +0000
+Message-ID: <MN2PR04MB6223341068C204A8A48C3ECFF19B0@MN2PR04MB6223.namprd04.prod.outlook.com>
+References: <20200618145354.1139350-1-kbusch@kernel.org>
+ <20200618145354.1139350-6-kbusch@kernel.org>
+ <20200618193556.3s2gbkjsfotomot7@apples.localdomain>
+In-Reply-To: <20200618193556.3s2gbkjsfotomot7@apples.localdomain>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: irrelevant.dk; dkim=none (message not signed)
+ header.d=none;irrelevant.dk; dmarc=none action=none header.from=wdc.com;
+x-originating-ip: [185.50.194.70]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 89f731d9-bf34-47a9-60c3-08d813c54766
+x-ms-traffictypediagnostic: MN2PR04MB5630:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MN2PR04MB563098DFD3EDEE4E73278A99F19B0@MN2PR04MB5630.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-forefront-prvs: 0438F90F17
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: DfnA/G+YX0NRntLJ5OnsLpInGysD2rVFkLoaXBumga4Aibvq4Mj5/5BRjUo8vuyAMZLkGfAiPesAqljibnIUFwy00uOWftVrjtlc62PWMXJhGvXHav2Cy3MhTQuBtR55IslfyV6UBuWxVtmw6smyV/yXn3Ozjv5xxEZrGosR4pjo0vmRbhnseyFnK+DlOnAjfwGybsxjpY6OVxXGTv2/hpr+ocroAwyfAw/NlIDUBiKtBT4e+4AI/hICz5LUopvH0mHaJd0w//xStZSzzMBv7dGQVZOBXK1a5bMW51ErMNGe3e+sqIMAB0Dxo2lqj42x
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR04MB6223.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(39860400002)(396003)(346002)(366004)(376002)(136003)(186003)(83380400001)(86362001)(66556008)(66446008)(2906002)(26005)(478600001)(8676002)(64756008)(66476007)(66946007)(8936002)(5660300002)(33656002)(7696005)(52536014)(54906003)(110136005)(71200400001)(9686003)(4326008)(55016002)(76116006)(316002)(6506007);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: Dzi+A6ykmMDDAgX/Gxt6RLbGbe3Xlvf3mra8vcmx4Si3S27TYH4tBPQ26PM179E0FY2PYsgpdH9p7ND6tfOf3n8YTZsPlLXCLArNUS5/+ZGnmFFOc3Pzb4+oNuRd/m0ZwBBhzmRgunhLCfoWky6XELaDVIylrFSZ1Pyw6uCs72gg1NSwjNYOjThgaAFo1vehSjGskknVPCwQIzjh60bPRB0H5njeNQBkFe94jki1OLoUwzBsTM/pjoDeVRTDhWlLkiieL9802MlhxDZb0/HirfDGK08kBQ46pJUrj0+FtWZ4jREHD7toOW1kXKBPxVz/9GBWLBEtfkGrql/koKqkFY4d9w/7IlG/HeN82lenDFbtMvIuAB6/dF8Er31AgefPaB6TSXRgSG8Dcy1Xw/MJeKoQnKmfA5b5lhimUxWztBI4RoDELr2fsc4cTwRYDx/0JulZ9b7OE8e4/j/7AZi11Ie5Z4PebbN5WlLZbd24d+OGYCfJ9jqwjYsvxUYqdGyc
 MIME-Version: 1.0
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 89f731d9-bf34-47a9-60c3-08d813c54766
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jun 2020 20:22:09.9372 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: oZN8MDiLDpuuHcjR0KWvoedc3My3TFDJ490oBh4ZqRF9VNRxnYVu9RC2+S9EnjdtVc1Tk3D2Z7uD/ZtZ5m3WJA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR04MB5630
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200618_130244_230609_8ECEAC5D 
-X-CRM114-Status: GOOD (  15.81  )
+X-CRM114-CacheID: sfid-20200618_132218_177223_F00E48CF 
+X-CRM114-Status: GOOD (  18.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,258 +144,123 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Niklas Cassel <niklas.cassel@wdc.com>, linux-nvme@lists.infradead.org,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>, linux-kernel@vger.kernel.org
+Cc: "axboe@kernel.dk" <axboe@kernel.dk>, Niklas Cassel <Niklas.Cassel@wdc.com>,
+ Damien Le Moal <Damien.LeMoal@wdc.com>, Ajay Joshi <Ajay.Joshi@wdc.com>,
+ "sagi@grimberg.me" <sagi@grimberg.me>, Keith Busch <Keith.Busch@wdc.com>,
+ Dmitry Fomichev <Dmitry.Fomichev@wdc.com>,
+ Aravind Ramesh <Aravind.Ramesh@wdc.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ Hans Holmberg <Hans.Holmberg@wdc.com>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>, "hch@lst.de" <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Workarounds for gcc issues with initializers and anon unions was first
-introduced in commit e44ac588cd61 ("drivers/block/nvme-core.c: fix build
-with gcc-4.4.4").
-
-The gcc bug in question has been fixed since gcc 4.6.0:
-https://gcc.gnu.org/bugzilla/show_bug.cgi?id=10676
-
-The minimum gcc version for building the kernel has been 4.6.0 since
-commit cafa0010cd51 ("Raise the minimum required gcc version to 4.6"),
-and has since been updated to gcc 4.8.0 in
-commit 5429ef62bcf3 ("compiler/gcc: Raise minimum GCC version for
-kernel builds to 4.8").
-
-For that reason, it should now be safe to remove these workarounds
-and make the code look like it did before
-commit e44ac588cd61 ("drivers/block/nvme-core.c: fix build with gcc-4.4.4")
-was introduced.
-
-Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
----
- drivers/nvme/host/core.c     | 59 ++++++++++++++++++------------------
- drivers/nvme/host/lightnvm.c | 32 +++++++++----------
- drivers/nvme/host/rdma.c     | 28 ++++++++---------
- 3 files changed, 59 insertions(+), 60 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 9491dbcfe81a..99059340d723 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1038,13 +1038,12 @@ static bool nvme_ctrl_limited_cns(struct nvme_ctrl *ctrl)
- 
- static int nvme_identify_ctrl(struct nvme_ctrl *dev, struct nvme_id_ctrl **id)
- {
--	struct nvme_command c = { };
-+	struct nvme_command c = {
-+		.identify.opcode = nvme_admin_identify,
-+		.identify.cns = NVME_ID_CNS_CTRL,
-+	};
- 	int error;
- 
--	/* gcc-4.4.4 (at least) has issues with initializers and anon unions */
--	c.identify.opcode = nvme_admin_identify;
--	c.identify.cns = NVME_ID_CNS_CTRL;
--
- 	*id = kmalloc(sizeof(struct nvme_id_ctrl), GFP_KERNEL);
- 	if (!*id)
- 		return -ENOMEM;
-@@ -1096,16 +1095,16 @@ static int nvme_process_ns_desc(struct nvme_ctrl *ctrl, struct nvme_ns_ids *ids,
- static int nvme_identify_ns_descs(struct nvme_ctrl *ctrl, unsigned nsid,
- 		struct nvme_ns_ids *ids)
- {
--	struct nvme_command c = { };
-+	struct nvme_command c = {
-+		.identify.opcode = nvme_admin_identify,
-+		.identify.nsid = cpu_to_le32(nsid),
-+		.identify.cns = NVME_ID_CNS_NS_DESC_LIST,
-+	};
- 	int status;
- 	void *data;
- 	int pos;
- 	int len;
- 
--	c.identify.opcode = nvme_admin_identify;
--	c.identify.nsid = cpu_to_le32(nsid);
--	c.identify.cns = NVME_ID_CNS_NS_DESC_LIST;
--
- 	data = kzalloc(NVME_IDENTIFY_DATA_SIZE, GFP_KERNEL);
- 	if (!data)
- 		return -ENOMEM;
-@@ -1143,11 +1142,12 @@ static int nvme_identify_ns_descs(struct nvme_ctrl *ctrl, unsigned nsid,
- 
- static int nvme_identify_ns_list(struct nvme_ctrl *dev, unsigned nsid, __le32 *ns_list)
- {
--	struct nvme_command c = { };
-+	struct nvme_command c = {
-+		.identify.opcode = nvme_admin_identify,
-+		.identify.cns = NVME_ID_CNS_NS_ACTIVE_LIST,
-+		.identify.nsid = cpu_to_le32(nsid),
-+	};
- 
--	c.identify.opcode = nvme_admin_identify;
--	c.identify.cns = NVME_ID_CNS_NS_ACTIVE_LIST;
--	c.identify.nsid = cpu_to_le32(nsid);
- 	return nvme_submit_sync_cmd(dev->admin_q, &c, ns_list,
- 				    NVME_IDENTIFY_DATA_SIZE);
- }
-@@ -1155,14 +1155,13 @@ static int nvme_identify_ns_list(struct nvme_ctrl *dev, unsigned nsid, __le32 *n
- static int nvme_identify_ns(struct nvme_ctrl *ctrl,
- 		unsigned nsid, struct nvme_id_ns **id)
- {
--	struct nvme_command c = { };
-+	struct nvme_command c = {
-+		.identify.opcode = nvme_admin_identify,
-+		.identify.nsid = cpu_to_le32(nsid),
-+		.identify.cns = NVME_ID_CNS_NS,
-+	};
- 	int error;
- 
--	/* gcc-4.4.4 (at least) has issues with initializers and anon unions */
--	c.identify.opcode = nvme_admin_identify;
--	c.identify.nsid = cpu_to_le32(nsid);
--	c.identify.cns = NVME_ID_CNS_NS;
--
- 	*id = kmalloc(sizeof(**id), GFP_KERNEL);
- 	if (!*id)
- 		return -ENOMEM;
-@@ -2815,17 +2814,17 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
- int nvme_get_log(struct nvme_ctrl *ctrl, u32 nsid, u8 log_page, u8 lsp,
- 		void *log, size_t size, u64 offset)
- {
--	struct nvme_command c = { };
- 	u32 dwlen = nvme_bytes_to_numd(size);
--
--	c.get_log_page.opcode = nvme_admin_get_log_page;
--	c.get_log_page.nsid = cpu_to_le32(nsid);
--	c.get_log_page.lid = log_page;
--	c.get_log_page.lsp = lsp;
--	c.get_log_page.numdl = cpu_to_le16(dwlen & ((1 << 16) - 1));
--	c.get_log_page.numdu = cpu_to_le16(dwlen >> 16);
--	c.get_log_page.lpol = cpu_to_le32(lower_32_bits(offset));
--	c.get_log_page.lpou = cpu_to_le32(upper_32_bits(offset));
-+	struct nvme_command c = {
-+		.get_log_page.opcode = nvme_admin_get_log_page,
-+		.get_log_page.nsid = cpu_to_le32(nsid),
-+		.get_log_page.lid = log_page,
-+		.get_log_page.lsp = lsp,
-+		.get_log_page.numdl = cpu_to_le16(dwlen & ((1 << 16) - 1)),
-+		.get_log_page.numdu = cpu_to_le16(dwlen >> 16),
-+		.get_log_page.lpol = cpu_to_le32(lower_32_bits(offset)),
-+		.get_log_page.lpou = cpu_to_le32(upper_32_bits(offset)),
-+	};
- 
- 	return nvme_submit_sync_cmd(ctrl->admin_q, &c, log, size);
- }
-diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
-index 69608755d415..7c44eca78f0d 100644
---- a/drivers/nvme/host/lightnvm.c
-+++ b/drivers/nvme/host/lightnvm.c
-@@ -432,12 +432,12 @@ static int nvme_nvm_identity(struct nvm_dev *nvmdev)
- {
- 	struct nvme_ns *ns = nvmdev->q->queuedata;
- 	struct nvme_nvm_id12 *id;
--	struct nvme_nvm_command c = {};
-+	struct nvme_nvm_command c = {
-+		.identity.opcode = nvme_nvm_admin_identity,
-+		.identity.nsid = cpu_to_le32(ns->head->ns_id),
-+	};
- 	int ret;
- 
--	c.identity.opcode = nvme_nvm_admin_identity;
--	c.identity.nsid = cpu_to_le32(ns->head->ns_id);
--
- 	id = kmalloc(sizeof(struct nvme_nvm_id12), GFP_KERNEL);
- 	if (!id)
- 		return -ENOMEM;
-@@ -479,16 +479,16 @@ static int nvme_nvm_get_bb_tbl(struct nvm_dev *nvmdev, struct ppa_addr ppa,
- 	struct nvm_geo *geo = &nvmdev->geo;
- 	struct nvme_ns *ns = q->queuedata;
- 	struct nvme_ctrl *ctrl = ns->ctrl;
--	struct nvme_nvm_command c = {};
-+	struct nvme_nvm_command c = {
-+		.get_bb.opcode = nvme_nvm_admin_get_bb_tbl,
-+		.get_bb.nsid = cpu_to_le32(ns->head->ns_id),
-+		.get_bb.spba = cpu_to_le64(ppa.ppa),
-+	};
- 	struct nvme_nvm_bb_tbl *bb_tbl;
- 	int nr_blks = geo->num_chk * geo->num_pln;
- 	int tblsz = sizeof(struct nvme_nvm_bb_tbl) + nr_blks;
- 	int ret = 0;
- 
--	c.get_bb.opcode = nvme_nvm_admin_get_bb_tbl;
--	c.get_bb.nsid = cpu_to_le32(ns->head->ns_id);
--	c.get_bb.spba = cpu_to_le64(ppa.ppa);
--
- 	bb_tbl = kzalloc(tblsz, GFP_KERNEL);
- 	if (!bb_tbl)
- 		return -ENOMEM;
-@@ -532,15 +532,15 @@ static int nvme_nvm_set_bb_tbl(struct nvm_dev *nvmdev, struct ppa_addr *ppas,
- 							int nr_ppas, int type)
- {
- 	struct nvme_ns *ns = nvmdev->q->queuedata;
--	struct nvme_nvm_command c = {};
-+	struct nvme_nvm_command c = {
-+		.set_bb.opcode = nvme_nvm_admin_set_bb_tbl,
-+		.set_bb.nsid = cpu_to_le32(ns->head->ns_id),
-+		.set_bb.spba = cpu_to_le64(ppas->ppa),
-+		.set_bb.nlb = cpu_to_le16(nr_ppas - 1),
-+		.set_bb.value = type,
-+	};
- 	int ret = 0;
- 
--	c.set_bb.opcode = nvme_nvm_admin_set_bb_tbl;
--	c.set_bb.nsid = cpu_to_le32(ns->head->ns_id);
--	c.set_bb.spba = cpu_to_le64(ppas->ppa);
--	c.set_bb.nlb = cpu_to_le16(nr_ppas - 1);
--	c.set_bb.value = type;
--
- 	ret = nvme_submit_sync_cmd(ns->ctrl->admin_q, (struct nvme_command *)&c,
- 								NULL, 0);
- 	if (ret)
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index f8f856dc0c67..bdf2ecaddbb6 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1804,22 +1804,22 @@ static int nvme_rdma_addr_resolved(struct nvme_rdma_queue *queue)
- static int nvme_rdma_route_resolved(struct nvme_rdma_queue *queue)
- {
- 	struct nvme_rdma_ctrl *ctrl = queue->ctrl;
--	struct rdma_conn_param param = { };
--	struct nvme_rdma_cm_req priv = { };
-+	struct nvme_rdma_cm_req priv = {
-+		.recfmt = cpu_to_le16(NVME_RDMA_CM_FMT_1_0),
-+		.qid = cpu_to_le16(nvme_rdma_queue_idx(queue)),
-+	};
-+	struct rdma_conn_param param = {
-+		.qp_num = queue->qp->qp_num,
-+		.flow_control = 1,
-+		.responder_resources = queue->device->dev->attrs.max_qp_rd_atom,
-+		/* maximum retry count */
-+		.retry_count = 7,
-+		.rnr_retry_count = 7,
-+		.private_data = &priv,
-+		.private_data_len = sizeof(priv),
-+	};
- 	int ret;
- 
--	param.qp_num = queue->qp->qp_num;
--	param.flow_control = 1;
--
--	param.responder_resources = queue->device->dev->attrs.max_qp_rd_atom;
--	/* maximum retry count */
--	param.retry_count = 7;
--	param.rnr_retry_count = 7;
--	param.private_data = &priv;
--	param.private_data_len = sizeof(priv);
--
--	priv.recfmt = cpu_to_le16(NVME_RDMA_CM_FMT_1_0);
--	priv.qid = cpu_to_le16(nvme_rdma_queue_idx(queue));
- 	/*
- 	 * set the admin queue depth to the minimum size
- 	 * specified by the Fabrics standard.
--- 
-2.26.2
 
 
+> -----Original Message-----
+> From: Klaus Jensen <its@irrelevant.dk>
+> Sent: Thursday, 18 June 2020 21.36
+> To: Keith Busch <kbusch@kernel.org>
+> Cc: linux-nvme@lists.infradead.org; linux-block@vger.kernel.org; hch@lst.de;
+> sagi@grimberg.me; axboe@kernel.dk; Niklas Cassel <Niklas.Cassel@wdc.com>;
+> Damien Le Moal <Damien.LeMoal@wdc.com>; Ajay Joshi
+> <Ajay.Joshi@wdc.com>; Keith Busch <Keith.Busch@wdc.com>; Martin K .
+> Petersen <martin.petersen@oracle.com>; Dmitry Fomichev
+> <Dmitry.Fomichev@wdc.com>; Aravind Ramesh <Aravind.Ramesh@wdc.com>;
+> Hans Holmberg <Hans.Holmberg@wdc.com>; Matias Bjorling
+> <Matias.Bjorling@wdc.com>
+> Subject: Re: [PATCHv2 5/5] nvme: support for zoned namespaces
+> 
+> On Jun 18 07:53, Keith Busch wrote:
+> > diff --git a/drivers/nvme/host/zns.c b/drivers/nvme/host/zns.c new
+> > file mode 100644 index 000000000000..d57fbbfe15e8
+> > --- /dev/null
+> > +++ b/drivers/nvme/host/zns.c
+> > @@ -0,0 +1,238 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright (C) 2020 Western Digital Corporation or its affiliates.
+> > + */
+> > +
+> > +#include <linux/blkdev.h>
+> > +#include <linux/vmalloc.h>
+> > +#include "nvme.h"
+> > +
+> > +static int nvme_set_max_append(struct nvme_ctrl *ctrl) {
+> > +	struct nvme_command c = { };
+> > +	struct nvme_id_ctrl_zns *id;
+> > +	int status;
+> > +
+> > +	id = kzalloc(sizeof(*id), GFP_KERNEL);
+> > +	if (!id)
+> > +		return -ENOMEM;
+> > +
+> > +	c.identify.opcode = nvme_admin_identify;
+> > +	c.identify.cns = NVME_ID_CNS_CS_CTRL;
+> > +	c.identify.csi = NVME_CSI_ZNS;
+> > +
+> > +	status = nvme_submit_sync_cmd(ctrl->admin_q, &c, id, sizeof(*id));
+> > +	if (status) {
+> > +		kfree(id);
+> > +		return status;
+> > +	}
+> > +
+> > +	ctrl->max_zone_append = 1 << (id->zamds + 3);
+> > +	kfree(id);
+> > +	return 0;
+> > +}
+> > +
+> > +int nvme_update_zone_info(struct gendisk *disk, struct nvme_ns *ns,
+> > +			  unsigned lbaf)
+> > +{
+> > +	struct nvme_effects_log *log = ns->head->effects;
+> > +	struct request_queue *q = disk->queue;
+> > +	struct nvme_command c = { };
+> > +	struct nvme_id_ns_zns *id;
+> > +	int status;
+> > +
+> > +	/* Driver requires zone append support */
+> > +	if (!(log->iocs[nvme_cmd_zone_append] &
+> NVME_CMD_EFFECTS_CSUPP))
+> > +		return -ENODEV;
+> > +
+> > +	/* Lazily query controller append limit for the first zoned namespace */
+> > +	if (!ns->ctrl->max_zone_append) {
+> > +		status = nvme_set_max_append(ns->ctrl);
+> > +		if (status)
+> > +			return status;
+> > +	}
+> > +
+> > +	id = kzalloc(sizeof(*id), GFP_KERNEL);
+> > +	if (!id)
+> > +		return -ENOMEM;
+> > +
+> > +	c.identify.opcode = nvme_admin_identify;
+> > +	c.identify.nsid = cpu_to_le32(ns->head->ns_id);
+> > +	c.identify.cns = NVME_ID_CNS_CS_NS;
+> > +	c.identify.csi = NVME_CSI_ZNS;
+> > +
+> > +	status = nvme_submit_sync_cmd(ns->ctrl->admin_q, &c, id,
+> sizeof(*id));
+> > +	if (status)
+> > +		goto free_data;
+> > +
+> > +	/*
+> > +	 * We currently do not handle devices requiring any of the zoned
+> > +	 * operation characteristics.
+> > +	 */
+> > +	if (id->zoc) {
+> > +		status = -EINVAL;
+> > +		goto free_data;
+> > +	}
+> 
+> A dev_err() here would be nice. I had to dig a bit to track down why my
+> emulated device didn't show up ;)
+
+I've stumpled upon this a couple of times where namespaces did not show up for some reason. Instead of adding it here, would it make sense to write an error higher up the chain? For example around the nvme_revalidate_disk function.
 _______________________________________________
 linux-nvme mailing list
 linux-nvme@lists.infradead.org
