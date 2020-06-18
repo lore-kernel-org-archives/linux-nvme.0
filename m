@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-7.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59514C433E0
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jun 2020 17:49:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A94FDC433DF
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jun 2020 18:43:44 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 28BDC207E8
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jun 2020 17:49:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6CD2920890
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jun 2020 18:43:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="T59GKFl0"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 28BDC207E8
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="fO2iCm3e"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6CD2920890
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,57 +25,57 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Type:MIME-Version:References:Message-ID:Subject:To:From:Date:Reply-To
 	:Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=bZ4EnWiXuwKzBphQeYY/79kDGL3UiIIxGRLCJ86hDkQ=; b=T59GKFl0zlJQS/rRpiqDB1ssi
-	Q1FSu3rIYUPU6/9upBnTRG8UfJzVaJw4wVx8dI6JT5u9E8QktRofgwa0JUh/9rcHbR+HENLoWedx9
-	WXdCq4M7lNRM+VJnS2AqdphQSlqOk1Dkx9X8je8ce+cRgapMQx+VlyR1n/Tmj+3E7cTnMalkmDS93
-	LTg0GBPwHYwxTybGYt6bP0sqCqBleJtcp1g48YKxjPBwF6JqPdAEzovudASOhKYLq2GOI0IgJHp0j
-	eLqyuWI21/5ic2R/me3Va9kUII4O9IQp6mBt9MCKSAsMVIuQCrshs9SJkzwJfmrpD0G/XWSvZH9dI
-	BfyZrIgzQ==;
+	 bh=CHQKczky3QiKgdB78lU6coYcTNpW9IROjv66hIn9by8=; b=fO2iCm3eRpKBzKxBj9wneRGJ3
+	HqMmPoPTlK/1bjzNOXihzls6Ua7wkfW4bvl6bokMod4HxsbdT1DWj+yxX47xuqOjKGC/OSk7BG3rE
+	FCO9bf2CcBiHXAYP7hO8YbwU2wf0hNFGHhIaSMA9C+635lqfsOHUQmeLkuc7FU/NQde0WiC3L3Pzh
+	ztLkQKPrewD4m88GOnmHnO6B8Tl4onMDtmgCuqrigtMqR9oftllguNPjMcmq11K8Avf/fpW5DUPXG
+	vK72lzrdLc8lPdm5tnq+xhqSsYJJicaDd5jZghZXlaoxe0szw0A4c0971GbXwpmdaT8wpbe4DgVyq
+	i9Ch1GqRw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jlyf1-0004mi-Qr; Thu, 18 Jun 2020 17:49:11 +0000
-Received: from mga03.intel.com ([134.134.136.65])
+	id 1jlzVk-0003gU-E7; Thu, 18 Jun 2020 18:43:40 +0000
+Received: from mga17.intel.com ([192.55.52.151])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jlyey-0004m1-Hb
- for linux-nvme@lists.infradead.org; Thu, 18 Jun 2020 17:49:10 +0000
-IronPort-SDR: XiGJ6joIM8h2Ep05Nz+WWhI4v+YCUNI/V0P8ObFH1gWTFQw/SDIzit3cUQlWDJWhJkjVAemech
- O8r+bjNBH68w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9656"; a="142613846"
+ id 1jlzVh-0003fp-9L
+ for linux-nvme@lists.infradead.org; Thu, 18 Jun 2020 18:43:39 +0000
+IronPort-SDR: b4Nv61mflNMSX6BJB9TWhKcWM//AWbswDLgDeanYnSGO8Y0+26BRKzs0Fvcz8peTOntq4t2xql
+ +E1P4axaeGCw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9656"; a="122917582"
 X-IronPort-AV: E=Sophos;i="5.75,252,1589266800"; 
- d="gz'50?scan'50,208,50";a="142613846"
+ d="gz'50?scan'50,208,50";a="122917582"
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jun 2020 10:49:06 -0700
-IronPort-SDR: H6J+SqzMPYMwChc3FgKvGdWXxCE53K9wmEw7DeXXRsE76Z9r+jI3FPFRBXiYJVEza8e8z5tGmO
- K1182wYPAjSg==
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jun 2020 11:43:34 -0700
+IronPort-SDR: dTRLoIJUF3hrwfh5heiXWVAltzyIJpizGzCxSv4YUhN3sDTFErJm3A9dm5mbD9mrcWAIof2uE7
+ TKroCWMh2uHQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.75,252,1589266800"; 
- d="gz'50?scan'50,208,50";a="309188273"
+ d="gz'50?scan'50,208,50";a="263008913"
 Received: from lkp-server02.sh.intel.com (HELO 5ce11009e457) ([10.239.97.151])
- by orsmga008.jf.intel.com with ESMTP; 18 Jun 2020 10:49:03 -0700
+ by orsmga007.jf.intel.com with ESMTP; 18 Jun 2020 11:43:30 -0700
 Received: from kbuild by 5ce11009e457 with local (Exim 4.92)
  (envelope-from <lkp@intel.com>)
- id 1jlyes-0000Lw-ON; Thu, 18 Jun 2020 17:49:02 +0000
-Date: Fri, 19 Jun 2020 01:48:55 +0800
+ id 1jlzVZ-0000N3-WC; Thu, 18 Jun 2020 18:43:30 +0000
+Date: Fri, 19 Jun 2020 02:42:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Niklas Cassel <niklas.cassel@wdc.com>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH 1/2] nvme: remove workarounds for gcc bug wrt unnamed
+To: Niklas Cassel <niklas.cassel@wdc.com>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Subject: Re: [PATCH 2/2] nvmet: remove workarounds for gcc bug wrt unnamed
  fields in initializers
-Message-ID: <202006190125.Mkv7J4VR%lkp@intel.com>
-References: <20200618143241.1056800-1-niklas.cassel@wdc.com>
+Message-ID: <202006190239.2z3VAIfB%lkp@intel.com>
+References: <20200618143241.1056800-2-niklas.cassel@wdc.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="rwEMma7ioTxnRzrJ"
+Content-Type: multipart/mixed; boundary="MGYHOYXEY6WxJCY8"
 Content-Disposition: inline
-In-Reply-To: <20200618143241.1056800-1-niklas.cassel@wdc.com>
+In-Reply-To: <20200618143241.1056800-2-niklas.cassel@wdc.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200618_104908_781255_825266CE 
-X-CRM114-Status: UNSURE (   9.63  )
+X-CRM114-CacheID: sfid-20200618_114337_423455_29645D93 
+X-CRM114-Status: UNSURE (   6.01  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -94,7 +94,7 @@ Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
---rwEMma7ioTxnRzrJ
+--MGYHOYXEY6WxJCY8
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
@@ -128,9 +128,10 @@ All errors (new ones prefixed by >>):
                     from arch/m68k/include/asm/io.h:8,
                     from include/linux/scatterlist.h:9,
                     from include/linux/dma-mapping.h:11,
-                    from include/rdma/ib_verbs.h:44,
-                    from include/rdma/mr_pool.h:8,
-                    from drivers/nvme/host/rdma.c:10:
+                    from include/linux/skbuff.h:31,
+                    from include/net/net_namespace.h:39,
+                    from include/linux/inet.h:42,
+                    from drivers/nvme/target/rdma.c:17:
    arch/m68k/include/asm/raw_io.h: In function 'raw_rom_outsb':
    arch/m68k/include/asm/raw_io.h:83:7: warning: variable '__w' set but not used [-Wunused-but-set-variable]
       83 |  ({u8 __w, __v = (b);  u32 _addr = ((u32) (addr)); \
@@ -154,8 +155,12 @@ All errors (new ones prefixed by >>):
          |   ^~~~~~~~~~~~
    In file included from include/linux/kernel.h:11,
                     from include/linux/list.h:9,
-                    from include/linux/module.h:12,
-                    from drivers/nvme/host/rdma.c:7:
+                    from include/linux/preempt.h:11,
+                    from arch/m68k/include/asm/irqflags.h:6,
+                    from include/linux/irqflags.h:16,
+                    from arch/m68k/include/asm/atomic.h:6,
+                    from include/linux/atomic.h:7,
+                    from drivers/nvme/target/rdma.c:7:
    include/linux/scatterlist.h: In function 'sg_set_buf':
    arch/m68k/include/asm/page_mm.h:169:49: warning: ordered comparison of pointer with null pointer [-Wextra]
      169 | #define virt_addr_valid(kaddr) ((void *)(kaddr) >= (void *)PAGE_OFFSET && (void *)(kaddr) < high_memory)
@@ -175,12 +180,11 @@ All errors (new ones prefixed by >>):
                     from include/asm-generic/preempt.h:5,
                     from ./arch/m68k/include/generated/asm/preempt.h:1,
                     from include/linux/preempt.h:78,
-                    from include/linux/spinlock.h:51,
-                    from include/linux/seqlock.h:36,
-                    from include/linux/time.h:6,
-                    from include/linux/stat.h:19,
-                    from include/linux/module.h:13,
-                    from drivers/nvme/host/rdma.c:7:
+                    from arch/m68k/include/asm/irqflags.h:6,
+                    from include/linux/irqflags.h:16,
+                    from arch/m68k/include/asm/atomic.h:6,
+                    from include/linux/atomic.h:7,
+                    from drivers/nvme/target/rdma.c:7:
    include/linux/dma-mapping.h: In function 'dma_map_resource':
    arch/m68k/include/asm/page_mm.h:169:49: warning: ordered comparison of pointer with null pointer [-Wextra]
      169 | #define virt_addr_valid(kaddr) ((void *)(kaddr) >= (void *)PAGE_OFFSET && (void *)(kaddr) < high_memory)
@@ -194,76 +198,54 @@ All errors (new ones prefixed by >>):
    include/linux/dma-mapping.h:352:19: note: in expansion of macro 'pfn_valid'
      352 |  if (WARN_ON_ONCE(pfn_valid(PHYS_PFN(phys_addr))))
          |                   ^~~~~~~~~
-   drivers/nvme/host/rdma.c: In function 'nvme_rdma_route_resolved':
->> drivers/nvme/host/rdma.c:1814:20: error: 'priv' undeclared (first use in this function)
-    1814 |   .private_data = &priv,
+   drivers/nvme/target/rdma.c: In function 'nvmet_rdma_cm_accept':
+>> drivers/nvme/target/rdma.c:1543:20: error: 'priv' undeclared (first use in this function)
+    1543 |   .private_data = &priv,
          |                    ^~~~
-   drivers/nvme/host/rdma.c:1814:20: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/nvme/target/rdma.c:1543:20: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/nvme/target/rdma.c:1546:26: warning: unused variable 'priv' [-Wunused-variable]
+    1546 |  struct nvme_rdma_cm_rep priv = {
+         |                          ^~~~
 
-vim +/priv +1814 drivers/nvme/host/rdma.c
+vim +/priv +1543 drivers/nvme/target/rdma.c
 
-  1803	
-  1804	static int nvme_rdma_route_resolved(struct nvme_rdma_queue *queue)
-  1805	{
-  1806		struct nvme_rdma_ctrl *ctrl = queue->ctrl;
-  1807		struct rdma_conn_param param = {
-  1808			.qp_num = queue->qp->qp_num,
-  1809			.flow_control = 1,
-  1810			.responder_resources = queue->device->dev->attrs.max_qp_rd_atom,
-  1811			/* maximum retry count */
-  1812			.retry_count = 7,
-  1813			.rnr_retry_count = 7,
-> 1814			.private_data = &priv,
-  1815			.private_data_len = sizeof(priv),
-  1816		};
-  1817		struct nvme_rdma_cm_req priv = {
-  1818			.recfmt = cpu_to_le16(NVME_RDMA_CM_FMT_1_0),
-  1819			.qid = cpu_to_le16(nvme_rdma_queue_idx(queue)),
-  1820		};
-  1821		int ret;
-  1822	
-  1823		/*
-  1824		 * set the admin queue depth to the minimum size
-  1825		 * specified by the Fabrics standard.
-  1826		 */
-  1827		if (priv.qid == 0) {
-  1828			priv.hrqsize = cpu_to_le16(NVME_AQ_DEPTH);
-  1829			priv.hsqsize = cpu_to_le16(NVME_AQ_DEPTH - 1);
-  1830		} else {
-  1831			/*
-  1832			 * current interpretation of the fabrics spec
-  1833			 * is at minimum you make hrqsize sqsize+1, or a
-  1834			 * 1's based representation of sqsize.
-  1835			 */
-  1836			priv.hrqsize = cpu_to_le16(queue->queue_size);
-  1837			priv.hsqsize = cpu_to_le16(queue->ctrl->ctrl.sqsize);
-  1838		}
-  1839	
-  1840		ret = rdma_connect(queue->cm_id, &param);
-  1841		if (ret) {
-  1842			dev_err(ctrl->ctrl.device,
-  1843				"rdma_connect failed (%d).\n", ret);
-  1844			goto out_destroy_queue_ib;
-  1845		}
-  1846	
-  1847		return 0;
-  1848	
-  1849	out_destroy_queue_ib:
-  1850		nvme_rdma_destroy_queue_ib(queue);
-  1851		return ret;
-  1852	}
-  1853	
+  1533	
+  1534	static int nvmet_rdma_cm_accept(struct rdma_cm_id *cm_id,
+  1535			struct nvmet_rdma_queue *queue,
+  1536			struct rdma_conn_param *p)
+  1537	{
+  1538		struct rdma_conn_param  param = {
+  1539			.rnr_retry_count = 7,
+  1540			.flow_control = 1,
+  1541			.initiator_depth = min_t(u8, p->initiator_depth,
+  1542				queue->dev->device->attrs.max_qp_init_rd_atom),
+> 1543			.private_data = &priv,
+  1544			.private_data_len = sizeof(priv),
+  1545		};
+  1546		struct nvme_rdma_cm_rep priv = {
+  1547			.recfmt = cpu_to_le16(NVME_RDMA_CM_FMT_1_0),
+  1548			.crqsize = cpu_to_le16(queue->recv_queue_size),
+  1549		};
+  1550		int ret = -ENOMEM;
+  1551	
+  1552		ret = rdma_accept(cm_id, &param);
+  1553		if (ret)
+  1554			pr_err("rdma_accept failed (error code = %d)\n", ret);
+  1555	
+  1556		return ret;
+  1557	}
+  1558	
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
---rwEMma7ioTxnRzrJ
+--MGYHOYXEY6WxJCY8
 Content-Type: application/gzip
 Content-Disposition: attachment; filename=".config.gz"
 Content-Transfer-Encoding: base64
 
-H4sICL2h614AAy5jb25maWcAlFxJc9w4sr7Pr6hwX2YO3aPNNe73QgeQBKswRRIUAVZJujDK
+H4sICL6t614AAy5jb25maWcAlFxJc9w4sr7Pr6hwX2YO3aPNNe73QgeQBKswRRIUAVZJujDK
 ctlWtBaHJPdrz69/meCWWMjy+CLzywSIJXeA9cvfflmw72/Pj/u3+7v9w8OPxZfD0+Fl/3b4
 tPh8/3D430UiF4XUC54I/RswZ/dP3//65+Pywx+L9799+O3k15e708Xm8PJ0eFjEz0+f7798
 h9b3z09/++VvsSxSsWriuNnySglZNJpf68t32PrXB+zo1y93d4u/r+L4H4vffzv/7eQdaSNU
@@ -1324,7 +1306,7 @@ oNlSkDmtt8idRsLrznVmNgrEQHkZpRjvqyIXkjxd9zJMdpr1rzucS5nfXklmb2G9BHLh6RtM
 tT3okcPFvP/mLgDskEky2bf4IERBw8veFadqXcaoXkXOfNUJRwGQIdEOLgbOM5j28piqUsah
 Or6GyIIa/XahzPr/d/6AuReZAwA=
 
---rwEMma7ioTxnRzrJ
+--MGYHOYXEY6WxJCY8
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -1335,5 +1317,5 @@ linux-nvme mailing list
 linux-nvme@lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
 
---rwEMma7ioTxnRzrJ--
+--MGYHOYXEY6WxJCY8--
 
