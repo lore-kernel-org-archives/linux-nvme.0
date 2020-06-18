@@ -4,19 +4,20 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FC97C433E0
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jun 2020 01:36:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C92CC433E0
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jun 2020 01:52:14 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 608AC221E8
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jun 2020 01:36:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D6E2822226
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jun 2020 01:52:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="VpWXE9r3";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="hqfP47B9"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 608AC221E8
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="pLDoR4Ea";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="DSbE8PuX"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D6E2822226
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,47 +26,47 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=RzQ8vZBpyDeTtK10IHSrjdD8TvSFILbsuaHSM7rvRYc=; b=VpWXE9r3EtgYMQ
-	zFsdMnmM9z8JtS2eIMX+f9A39nNLZhAeaMhTcwQd4Ufb0F/GDv0pVyNfx9XpfcloaGs8oS2TxTdix
-	iGm0o/SatI1zy9cD6M0J6G4vb5tuMK9Soes88JJudbWrqOXwqAXDF5EoscdDToQQF/EGrbhaiCROM
-	lxRIBakm1RQdC14N1nZ1jyD4ZgeFwr0mKXS0IinXR7DkbJ3MyVT/xzXHsmmFlA9nubwDRZW34BCSW
-	ZgFZRugSNOQvGkozPnK+veWgYs8PJJrQFlYhzoJYCZ+yxvZuhhTg63NS+Er3RFLi8OEwKngBO9/bc
-	Lj0c11sZGDmC8WqS8rAw==;
+	List-Owner; bh=PxiIOEbLQHjtvO3cwU7E8C4hx9gpILA7CWMFyz/PeqY=; b=pLDoR4Ean9Ha5D
+	aZVQewZRUPX2ZuV6P2xVoyLlL+fAbC30uY4rk9ReS8wxOsORTT4toSwwwCQlevq7JBmr8sQs7/EIu
+	4Ulp0ptnilSkny4XkIJubSWiPgF/j3rpsugDdUx8eDn1N7n2dwuQSOQNNVRWhRB/GlNSrq+VsVCcc
+	MPy9nHB77WlmNlkYL0FerdTrOchRGiYrHqZMM7CBu+xJWgpFihg3VJ6dIGkusSD8anAGPrQZ3YBBW
+	cPLm3DKjs8fZBf4eSacYxTDJgIjX2AC6QP16qST/v0qWuwzHHTD9s5opQndQ0K1Srs0vUzSGYnrxC
+	wWS7c93HpwJ89s4nJ28g==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jljTp-00081R-V1; Thu, 18 Jun 2020 01:36:37 +0000
+	id 1jljip-0003vs-8L; Thu, 18 Jun 2020 01:52:07 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jljAA-0007ON-5A
- for linux-nvme@lists.infradead.org; Thu, 18 Jun 2020 01:16:20 +0000
+ id 1jljFq-0005h6-EO
+ for linux-nvme@lists.infradead.org; Thu, 18 Jun 2020 01:22:12 +0000
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 0C78F21D7D;
- Thu, 18 Jun 2020 01:16:15 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 3BD8121D79;
+ Thu, 18 Jun 2020 01:22:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1592442976;
- bh=S683/qufa5CQUuVgcuYcQAqplJwbPg8tguzW1wjfo7U=;
+ s=default; t=1592443330;
+ bh=EYH7/kEgNRJTHJX5SU2E60AicyWDr58tlgaXuyLRoIg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=hqfP47B930cHLrM5S4uLhZcNq69Ufxr++C02bunepshebtmCmvIknugnQ2FBrl2lh
- rDtgLCyOxATaF49qcH2DvzhSDvVpTXb9R1hNxqtJpqykalNhZKwcOrWJ3mfUFM2gDx
- V5GV22LkfDFp7KnA0JJR/0gatcQm8deu51GZqjIs=
+ b=DSbE8PuXex5GKGlqP87wkxayRc6iDZhTG15uSsNgHAOD71+2OdyNCRgYkdZBK1ER9
+ +8gKRfscZNQxXozSlW5rZ4Dt02cGis4GSyMJUEhGZsb8dwbjYEiwQ0YYDdYGcZD7ue
+ PMO+b3hfDyD44tXGb16sHEdv40hqhaSKz+QGGuqo=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 379/388] nvme-pci: use simple suspend when a HMB
+Subject: [PATCH AUTOSEL 5.4 262/266] nvme-pci: use simple suspend when a HMB
  is enabled
-Date: Wed, 17 Jun 2020 21:07:56 -0400
-Message-Id: <20200618010805.600873-379-sashal@kernel.org>
+Date: Wed, 17 Jun 2020 21:16:27 -0400
+Message-Id: <20200618011631.604574-262-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200618010805.600873-1-sashal@kernel.org>
-References: <20200618010805.600873-1-sashal@kernel.org>
+In-Reply-To: <20200618011631.604574-1-sashal@kernel.org>
+References: <20200618011631.604574-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200617_181618_549332_CC5C563F 
+X-CRM114-CacheID: sfid-20200617_182210_607257_8D695EBD 
 X-CRM114-Status: GOOD (  13.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -105,10 +106,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 6 insertions(+)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index cc46e250fcac..340bb9c8995e 100644
+index cd64ddb129e5..acbdf21b76ed 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -2933,9 +2933,15 @@ static int nvme_suspend(struct device *dev)
+@@ -2962,9 +2962,15 @@ static int nvme_suspend(struct device *dev)
  	 * the PCI bus layer to put it into D3 in order to take the PCIe link
  	 * down, so as to allow the platform to achieve its minimum low-power
  	 * state (which may not be possible if the link is up).
