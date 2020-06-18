@@ -2,88 +2,76 @@ Return-Path: <SRS0=0To6=77=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D0CAC433DF
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jun 2020 21:16:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 010F4C433E0
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jun 2020 21:19:54 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 557B5206B7
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jun 2020 21:16:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C842D208B8
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jun 2020 21:19:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Qk5rwod9";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="UCkLZZdc"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 557B5206B7
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="tZb7mGaW";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="B8v11+M3"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C842D208B8
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20170209; h=Sender:
 	Content-Transfer-Encoding:Content-Type:Cc:List-Subscribe:List-Help:List-Post:
-	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
+	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
+	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=Hj7MGCoM2dRg4xCk0YLOLlYkdVF/tSDJlPZ4io2VsNo=; b=Qk5rwod93ItT72
-	pK5RDxZpAMflfLgX8/aMwIjKEXwf508UfdDDlN7JKcLkjjSiq2aGWgJvlKnwtVbwXbhIApoAZGZOa
-	ROhEyQgi3C9YcyCsxhv9ioMMiaszomGlybvK0pDsL6G9aLqjuBOujKQ+Pbq66OLFl3D79C4emgx6Y
-	7yp65Q1IrulnmbGvQoI84JcLCdqOSdr7RQI/p5zEVMN/ucL7Ku/UpDcLDLegLpO8rs7aHHyD6Ktcr
-	wVjcbLwOWnUpo5pYcKTH+bXfZoH3Ung/9kD1bzdR7n7uUk7cVsdEwwC/dwh2QiVyIK42ojvdgu31W
-	kaiHunL31nr199YDlEfg==;
+	List-Owner; bh=6MgbVBkY9jWo+8kHSVDKsphDONSl4Ht8D/Pp1G5CfGE=; b=tZb7mGaWEYe10K
+	uq8L9FOMPTMcvP9/VNb0KwStjk2nm/nhIIPVMKHFRdsPPZpedhxgcl0HVFtmfm7NyC0L5FLtjKmRb
+	qLFBF1Sla785qI9X5GzNZSU1jg3UDiF044uILv9n8yG5aDgXofNkB8ce7BpXwuy6kONChgoQUIkD5
+	LIz20+LgLF0TmemReZ5mcV1WJtSO+xknHjjzDtFDoglYE64IGC4Y35n6F7cQaufnjtgdtBLomLqi/
+	1GVm04D9+P6M2E9P6WGI3yCH5m02QED0Wz3vyFblsrb0kOQ+RgbtS9nXYorYMWG8PSsN90zlcubEf
+	pPCVv71/Pj0DIY78u6Lg==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jm1tF-0007hy-6v; Thu, 18 Jun 2020 21:16:05 +0000
-Received: from esa3.hgst.iphmx.com ([216.71.153.141])
+	id 1jm1wt-0007z1-M2; Thu, 18 Jun 2020 21:19:51 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jm0kI-0001i3-83
- for linux-nvme@lists.infradead.org; Thu, 18 Jun 2020 20:02:47 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1592510567; x=1624046567;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=gJuYaqcKR+OMZ7sPr5EK6CTqXx7WnxJVT3V/UoaoUYA=;
- b=UCkLZZdcDTo5oXLXKzeJk1GOYlrTgqkchBcrKP2JClc9xOKkMO2iNMf8
- Bb83lyoW5P6uu62ozDd1lkyjymmCtJ+jpYXAfjGgEqIVfooEZA2ZYSC3m
- ciSJEejkjxeBCOHbj9AcgCiZH0mWPVpy+3DCuRDiRy2xRkHdAlMiAcGTO
- OQiOaLHaexSB5+viK3fLsFtfD39Bre0Wjb5+vk/ccSXAOOPksvRL2pIVP
- +N0ACGQiUfSAOtzx8mcXeJM4vGYfLCzmerj4cfSyJS9kR9TiUZc8/akYq
- lPRlDYU+Rk1Qu1gYR7KZM9/Wj5jpp+FF6qMZ4qPE22rci27fs/Vuiq5+K g==;
-IronPort-SDR: lEwgQH3dLC7jkqo7/FK0ZPBFEgQLx3lIazQSjfRhKmWdUbFkdUjOvTBT8sS4mexjXpUGBGPCHd
- w+vLg81lglGtzHcMDeZz1N3Qg5o855WEcILl6PMYacYmfkMNp2fKdupBdGLnPfoRQeA+ehZnk4
- JO7rKcP/WiPmZiiJXS0wlinFhsETzrYBH9GuUXp5QS5gdjmkelSdNzZI4IKqLzBZr4dLAjy5q2
- OilWREEBpj6w847UPDBC1C1fcGjGlkh+Axn0VmFWYmu5qqwdVAe6y25e0uywyoXUbfnyPD/aRE
- 3As=
-X-IronPort-AV: E=Sophos;i="5.75,252,1589212800"; d="scan'208";a="144673250"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 19 Jun 2020 04:02:47 +0800
-IronPort-SDR: U4msZcAiqoBdv712b/EyZGMOz4/DE6Fpw70xaErhTHFukkpmzTa+sc84OS6JE9L9VbGJ6nvuDk
- g4umL7y1tLhrwW/NNpY7flDxeFglhydrc=
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jun 2020 12:51:58 -0700
-IronPort-SDR: 4x42ejM9hx1A2RKaVuLbvcjCLRTdokmVOWyuf781LTlTNCDoj7DmNk3s2yEx6lMKSh8/mr630K
- RoEuSZq6Pohw==
-WDCIronportException: Internal
-Received: from usa001298.ad.shared (HELO localhost.hgst.com) ([10.86.58.149])
- by uls-op-cesaip02.wdc.com with ESMTP; 18 Jun 2020 13:02:44 -0700
-From: Niklas Cassel <niklas.cassel@wdc.com>
-To: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Subject: [PATCH v2 2/2] nvmet: remove workarounds for gcc bug wrt unnamed
- fields in initializers
-Date: Thu, 18 Jun 2020 22:02:34 +0200
-Message-Id: <20200618200235.1104587-3-niklas.cassel@wdc.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200618200235.1104587-1-niklas.cassel@wdc.com>
-References: <20200618200235.1104587-1-niklas.cassel@wdc.com>
+ id 1jm1wq-0007yT-Vo
+ for linux-nvme@lists.infradead.org; Thu, 18 Jun 2020 21:19:50 +0000
+Received: from C02WT3WMHTD6 (unknown [8.36.226.102])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 85FC1206B7;
+ Thu, 18 Jun 2020 21:19:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1592515188;
+ bh=euvryYw2Su0+ZqEYxrZpDt2JMdrm52zn+shG4NDenjQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=B8v11+M3nOCnCsVka3QDOITEDFPLK3/EkPgZXAGsuyLbszTOL51zY9RJzfNv36B3d
+ V8gSb7Gte5yyz4w2O3iSEPtlHFiUlcYohQdeByeYJtREZ3Q6MoLncUZXMAeIG2nYAu
+ wmdVY8ZaI5eE1Ow/hcTG771yZ5XwFohtBFYfg0uo=
+Date: Thu, 18 Jun 2020 15:19:45 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Heiner Litz <hlitz@ucsc.edu>
+Subject: Re: [PATCH 5/5] nvme: support for zoned namespaces
+Message-ID: <20200618211945.GA2347@C02WT3WMHTD6>
+References: <20200617182841.jnbxgshi7bawfzls@mpHalley.localdomain>
+ <MN2PR04MB62236DC26A04A65A242A80D2F19A0@MN2PR04MB6223.namprd04.prod.outlook.com>
+ <20200617190901.zpss2lsh6qsu5zuf@mpHalley.local>
+ <1ab101ef-7b74-060f-c2bc-d4c36dec91f0@lightnvm.io>
+ <20200617194013.3wlz2ajnb6iopd4k@mpHalley.local>
+ <CAJbgVnVo53vLYHRixfQmukqFKKgzP5iPDwz87yanqKvSsYBvCg@mail.gmail.com>
+ <20200618015526.GA1138429@dhcp-10-100-145-180.wdl.wdc.com>
+ <CAJbgVnVKqDobpX8iwqRVeDqvmfdEd-uRzNFC2z5U03X9E3Pi_w@mail.gmail.com>
+ <CY4PR04MB3751E6A6D6F04285CAB18514E79B0@CY4PR04MB3751.namprd04.prod.outlook.com>
+ <CAJbgVnVnqGQiLx1PctDhAKkjLXRKFwr00tdTPJjkaXZDc+V6Bg@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAJbgVnVnqGQiLx1PctDhAKkjLXRKFwr00tdTPJjkaXZDc+V6Bg@mail.gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200618_130246_302832_AA526C24 
-X-CRM114-Status: GOOD (  12.92  )
+X-CRM114-CacheID: sfid-20200618_141949_046830_344EE1C9 
+X-CRM114-Status: GOOD (  10.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,75 +83,42 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Niklas Cassel <niklas.cassel@wdc.com>, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org
+Cc: Jens Axboe <axboe@kernel.dk>, Niklas Cassel <Niklas.Cassel@wdc.com>,
+ Damien Le Moal <Damien.LeMoal@wdc.com>, Ajay Joshi <Ajay.Joshi@wdc.com>,
+ Sagi Grimberg <sagi@grimberg.me>, Keith Busch <Keith.Busch@wdc.com>,
+ Dmitry Fomichev <Dmitry.Fomichev@wdc.com>,
+ Aravind Ramesh <Aravind.Ramesh@wdc.com>,
+ Javier =?iso-8859-1?Q?Gonz=E1lez?= <javier@javigon.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ Hans Holmberg <Hans.Holmberg@wdc.com>,
+ Matias =?iso-8859-1?Q?Bj=F8rling?= <mb@lightnvm.io>,
+ Judy Brock <judy.brock@samsung.com>, Christoph Hellwig <hch@lst.de>,
+ Matias Bjorling <Matias.Bjorling@wdc.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Workarounds for gcc issues with initializers and anon unions was first
-introduced in commit e44ac588cd61 ("drivers/block/nvme-core.c: fix build
-with gcc-4.4.4").
+On Thu, Jun 18, 2020 at 01:47:20PM -0700, Heiner Litz wrote:
+> the striping explanation makes sense. In this case will rephase to: It
+> is sufficient to support large enough un-splittable writes to achieve
+> full per-zone bandwidth with a single writer/single QD.
 
-The gcc bug in question has been fixed since gcc 4.6.0:
-https://gcc.gnu.org/bugzilla/show_bug.cgi?id=10676
+This is subject to the capabilities of the device and software's memory
+constraints. The maximum DMA size for a single request an nvme device can
+handle often range anywhere from 64k to 4MB. The pci nvme driver maxes out at
+4MB anyway because that's the most we can guarantee forward progress right now,
+otherwise the scatter lists become to big to ensure we'll be able to allocate
+one to dispatch a write command.
 
-The minimum gcc version for building the kernel has been 4.6.0 since
-commit cafa0010cd51 ("Raise the minimum required gcc version to 4.6"),
-and has since been updated to gcc 4.8.0 in
-commit 5429ef62bcf3 ("compiler/gcc: Raise minimum GCC version for
-kernel builds to 4.8").
-
-For that reason, it should now be safe to remove these workarounds
-and make the code look like it did before
-commit e44ac588cd61 ("drivers/block/nvme-core.c: fix build with gcc-4.4.4")
-was introduced.
-
-Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
----
- drivers/nvme/target/rdma.c | 23 ++++++++++++-----------
- 1 file changed, 12 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 6731e0349480..238bc55de561 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -1535,19 +1535,20 @@ static int nvmet_rdma_cm_accept(struct rdma_cm_id *cm_id,
- 		struct nvmet_rdma_queue *queue,
- 		struct rdma_conn_param *p)
- {
--	struct rdma_conn_param  param = { };
--	struct nvme_rdma_cm_rep priv = { };
-+	struct nvme_rdma_cm_rep priv = {
-+		.recfmt = cpu_to_le16(NVME_RDMA_CM_FMT_1_0),
-+		.crqsize = cpu_to_le16(queue->recv_queue_size),
-+	};
-+	struct rdma_conn_param  param = {
-+		.rnr_retry_count = 7,
-+		.flow_control = 1,
-+		.initiator_depth = min_t(u8, p->initiator_depth,
-+			queue->dev->device->attrs.max_qp_init_rd_atom),
-+		.private_data = &priv,
-+		.private_data_len = sizeof(priv),
-+	};
- 	int ret = -ENOMEM;
+We do report the size and the alignment constraints so that it won't get split,
+but we still have to work with applications that don't abide by those
+constraints.
  
--	param.rnr_retry_count = 7;
--	param.flow_control = 1;
--	param.initiator_depth = min_t(u8, p->initiator_depth,
--		queue->dev->device->attrs.max_qp_init_rd_atom);
--	param.private_data = &priv;
--	param.private_data_len = sizeof(priv);
--	priv.recfmt = cpu_to_le16(NVME_RDMA_CM_FMT_1_0);
--	priv.crqsize = cpu_to_le16(queue->recv_queue_size);
--
- 	ret = rdma_accept(cm_id, &param);
- 	if (ret)
- 		pr_err("rdma_accept failed (error code = %d)\n", ret);
--- 
-2.26.2
-
+> My main point is: There is no fundamental reason for splitting up
+> requests intermittently just to re-assemble them in the same form
+> later.
 
 _______________________________________________
 linux-nvme mailing list
