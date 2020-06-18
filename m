@@ -4,20 +4,19 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A905C433DF
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jun 2020 01:36:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FC97C433E0
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jun 2020 01:36:40 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 39DBE2192A
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jun 2020 01:36:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 608AC221E8
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jun 2020 01:36:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="dq9Vqx28";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="iKeEmc4Q"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 39DBE2192A
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="VpWXE9r3";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="hqfP47B9"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 608AC221E8
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,39 +25,39 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:
 	Message-Id:Date:Subject:To:From:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=GaxNeJOZHrvV4YiuaJpeZMpjp4ZmllRzd0CvR0qeh5o=; b=dq9Vqx284e2jN4
-	b9i3HaoFEUNEyMw7wQTNz0FJT4NqKVG3PZzciXMjJggevgQaOz7afA+/YPltSSo/OWicajLNlmUzE
-	M9YQwSfL7zQ3J5e6y2fSNoFJMU7xiTY9rltEOoB+objIh4CkOJnmf7QSUbgp0vYg9NzQkVSq5jWuq
-	rykfb2pxOPJ3vff1jcTi1xH2xa5ZybEjWTGmQKKIZ7wTfjHIZLoLsBWVm+zdL0H3OsyidEbcyGr8o
-	6Vy5U+HjY0/0S+cFCQzmXBfYUZEwdMVcpaPZ69nZB2VeePhP+7fRMu+7p0pREtVaeg7/7QP6j07XI
-	p888kJATz43JODXZiVFQ==;
+	List-Owner; bh=RzQ8vZBpyDeTtK10IHSrjdD8TvSFILbsuaHSM7rvRYc=; b=VpWXE9r3EtgYMQ
+	zFsdMnmM9z8JtS2eIMX+f9A39nNLZhAeaMhTcwQd4Ufb0F/GDv0pVyNfx9XpfcloaGs8oS2TxTdix
+	iGm0o/SatI1zy9cD6M0J6G4vb5tuMK9Soes88JJudbWrqOXwqAXDF5EoscdDToQQF/EGrbhaiCROM
+	lxRIBakm1RQdC14N1nZ1jyD4ZgeFwr0mKXS0IinXR7DkbJ3MyVT/xzXHsmmFlA9nubwDRZW34BCSW
+	ZgFZRugSNOQvGkozPnK+veWgYs8PJJrQFlYhzoJYCZ+yxvZuhhTg63NS+Er3RFLi8OEwKngBO9/bc
+	Lj0c11sZGDmC8WqS8rAw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jljTM-0007cf-BR; Thu, 18 Jun 2020 01:36:08 +0000
+	id 1jljTp-00081R-V1; Thu, 18 Jun 2020 01:36:37 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jljA8-0007NJ-UR
+ id 1jljAA-0007ON-5A
  for linux-nvme@lists.infradead.org; Thu, 18 Jun 2020 01:16:20 +0000
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 8322721D7E;
- Thu, 18 Jun 2020 01:16:14 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 0C78F21D7D;
+ Thu, 18 Jun 2020 01:16:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1592442975;
- bh=qgq4d/Tb4LxpgEzazG5SGHErDPeALQop0gAuqh4jUw0=;
+ s=default; t=1592442976;
+ bh=S683/qufa5CQUuVgcuYcQAqplJwbPg8tguzW1wjfo7U=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=iKeEmc4Qx0EUOed81J6Oj6RSQZgGnntUw326yAT/OKZJN18UVgdJ+g6obV/wKWnyp
- xgsCvszjTsFY+bT9OoyJpiGF45viFPvc9IHefDfs2OtMZcqkC07Uz9r/fm00ca4+AM
- xRwNUDkVoTpdH7vP9yIitCleZLitPXDzBDp3+r18=
+ b=hqfP47B930cHLrM5S4uLhZcNq69Ufxr++C02bunepshebtmCmvIknugnQ2FBrl2lh
+ rDtgLCyOxATaF49qcH2DvzhSDvVpTXb9R1hNxqtJpqykalNhZKwcOrWJ3mfUFM2gDx
+ V5GV22LkfDFp7KnA0JJR/0gatcQm8deu51GZqjIs=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 378/388] nvme-fc: don't call nvme_cleanup_cmd()
- for AENs
-Date: Wed, 17 Jun 2020 21:07:55 -0400
-Message-Id: <20200618010805.600873-378-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.7 379/388] nvme-pci: use simple suspend when a HMB
+ is enabled
+Date: Wed, 17 Jun 2020 21:07:56 -0400
+Message-Id: <20200618010805.600873-379-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200618010805.600873-1-sashal@kernel.org>
 References: <20200618010805.600873-1-sashal@kernel.org>
@@ -66,8 +65,8 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200617_181617_351308_03E5C33D 
-X-CRM114-Status: GOOD (  12.05  )
+X-CRM114-CacheID: sfid-20200617_181618_549332_CC5C563F 
+X-CRM114-Status: GOOD (  13.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,52 +79,51 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Cc: Jens Axboe <axboe@kernel.dk>, Sasha Levin <sashal@kernel.org>,
- Daniel Wagner <dwagner@suse.de>, James Smart <james.smart@broadcom.com>,
- linux-nvme@lists.infradead.org, Himanshu Madhani <hmadhani2024@gmail.com>,
- Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Daniel Wagner <dwagner@suse.de>
+From: Christoph Hellwig <hch@lst.de>
 
-[ Upstream commit c9c12e51b82b2bd0c59ac4e27ee5427f382a503f ]
+[ Upstream commit b97120b15ebd3de51325084136d3b9c3cce656d6 ]
 
-Asynchronous event notifications do not have an associated request.
-When fcp_io() fails we unconditionally call nvme_cleanup_cmd() which
-leads to a crash.
+While the NVMe specification allows the device to access the host memory
+buffer in host DRAM from all power states, hosts will fail access to
+DRAM during S3 and similar power states.
 
-Fixes: 16686f3a6c3c ("nvme: move common call to nvme_cleanup_cmd to core layer")
-Signed-off-by: Daniel Wagner <dwagner@suse.de>
-Reviewed-by: Himanshu Madhani <hmadhani2024@gmail.com>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
-Reviewed-by: James Smart <james.smart@broadcom.com>
+Fixes: d916b1be94b6 ("nvme-pci: use host managed power state for suspend")
 Signed-off-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 Signed-off-by: Jens Axboe <axboe@kernel.dk>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/fc.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/nvme/host/pci.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 7dfc4a2ecf1e..287a3e8ea317 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2300,10 +2300,11 @@ nvme_fc_start_fcp_op(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
- 		opstate = atomic_xchg(&op->state, FCPOP_STATE_COMPLETE);
- 		__nvme_fc_fcpop_chk_teardowns(ctrl, op, opstate);
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index cc46e250fcac..340bb9c8995e 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2933,9 +2933,15 @@ static int nvme_suspend(struct device *dev)
+ 	 * the PCI bus layer to put it into D3 in order to take the PCIe link
+ 	 * down, so as to allow the platform to achieve its minimum low-power
+ 	 * state (which may not be possible if the link is up).
++	 *
++	 * If a host memory buffer is enabled, shut down the device as the NVMe
++	 * specification allows the device to access the host memory buffer in
++	 * host DRAM from all power states, but hosts will fail access to DRAM
++	 * during S3.
+ 	 */
+ 	if (pm_suspend_via_firmware() || !ctrl->npss ||
+ 	    !pcie_aspm_enabled(pdev) ||
++	    ndev->nr_host_mem_descs ||
+ 	    (ndev->ctrl.quirks & NVME_QUIRK_SIMPLE_SUSPEND))
+ 		return nvme_disable_prepare_reset(ndev, true);
  
--		if (!(op->flags & FCOP_FLAGS_AEN))
-+		if (!(op->flags & FCOP_FLAGS_AEN)) {
- 			nvme_fc_unmap_data(ctrl, op->rq, op);
-+			nvme_cleanup_cmd(op->rq);
-+		}
- 
--		nvme_cleanup_cmd(op->rq);
- 		nvme_fc_ctrl_put(ctrl);
- 
- 		if (ctrl->rport->remoteport.port_state == FC_OBJSTATE_ONLINE &&
 -- 
 2.25.1
 
