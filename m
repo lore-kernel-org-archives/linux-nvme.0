@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF046C433DF
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jun 2020 16:33:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88E23C433DF
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jun 2020 16:39:13 +0000 (UTC)
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 90FCE2080D
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jun 2020 16:33:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 5862E208C7
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jun 2020 16:39:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Yu7bDYCb"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 90FCE2080D
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Z4b9cMIH"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5862E208C7
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,37 +25,36 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Archive:List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:
 	Message-ID:Subject:To:From:Date:Reply-To:Content-ID:Content-Description:
 	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=+m7LQ2zwtPyjdiMQ+uMPKcnsQBRthBkWX/3peuZU+50=; b=Yu7bDYCbYQaxtJ
-	ub1QeXU/o9jLxXC6rEAZYNhckrc9UiKwHFteNXDMByUT/zL67i2uBNnjdJH6/tFiVtvDHYmW2axlC
-	vOeaF5nCoxrVGKV0SUPJISFsRpUVDsMvvtjGKxz6mO/DgycYzsvn9oSgunWJc6D+d0z81r164dTVI
-	6Ig1GuEpc/1I7ZCf2rWk5d9ETTWjL2eiX/lxI4WKwN3zGK95/CotPpmA6vxWsu7zlLjdElufy/p6T
-	OtL28cl7AB7aJskv2dhZGkZb4NC5U0gU7ZisAsA3uGJfPERaV/5YrFJqi1hQClG1e1JNkZfLUEybF
-	I+zr6VnW2mWXpbf4Ncfw==;
+	List-Owner; bh=LCInm7UVWxwJCquAuBpMGhMQVfUPIfD/l8T45x++YMc=; b=Z4b9cMIHsrqH6l
+	VP30ZUF7VHcKJYj5fVvWA1B8VcCEdMW3+3vUfXGOYCv9Lvuj/ZhvG5QmFIy68MGRNcgLR5A6Y234Q
+	ITj9myZdfsqjcByf77lZsLa7Cm+qoDr6HCqx1o8k2Xwd9Gc9JkDqSG60hUAoJgpCDpe2qZh8y1n9P
+	e4M6YQA61h64uXxiccqWG5Vfu6/SIAkdPYALEIVLC+yYR10omnLj3CWBqpv71JgafSosN4qu6IkDx
+	0rNaE26NGQKnTdJ7zNGR7qeJ+m5a9BS+4WjQ/fhTR/hkppaa4MwkpgeKULt5xR68I5PCr6e0B+/k5
+	moVnjfsADgzKb+iPz3Aw==;
 Received: from localhost ([127.0.0.1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jlxU9-0000Gp-J8; Thu, 18 Jun 2020 16:33:53 +0000
+	id 1jlxZH-0003kv-U2; Thu, 18 Jun 2020 16:39:11 +0000
 Received: from mx2.suse.de ([195.135.220.15])
  by bombadil.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jlxU7-0000GG-3g
- for linux-nvme@lists.infradead.org; Thu, 18 Jun 2020 16:33:52 +0000
+ id 1jlxZF-0003h3-K3
+ for linux-nvme@lists.infradead.org; Thu, 18 Jun 2020 16:39:10 +0000
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 0DF38AC22;
- Thu, 18 Jun 2020 16:33:49 +0000 (UTC)
-Date: Thu, 18 Jun 2020 18:33:48 +0200
+ by mx2.suse.de (Postfix) with ESMTP id 98088ABCE;
+ Thu, 18 Jun 2020 16:39:07 +0000 (UTC)
+Date: Thu, 18 Jun 2020 18:39:07 +0200
 From: Daniel Wagner <dwagner@suse.de>
 To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 09/12] blk-mq: factor out a blk_mq_complete_need_ipi helper
-Message-ID: <20200618163348.pjcn4ehi2tbg7okq@beryllium.lan>
+Subject: Re: [PATCH 10/12] blk-mq: add a new blk_mq_complete_request_remote API
+Message-ID: <20200618163907.e43oml4dvvix6eko@beryllium.lan>
 References: <20200611064452.12353-1-hch@lst.de>
- <20200611064452.12353-10-hch@lst.de>
+ <20200611064452.12353-11-hch@lst.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200611064452.12353-10-hch@lst.de>
+In-Reply-To: <20200611064452.12353-11-hch@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200618_093351_290973_EE4B7D03 
-X-CRM114-Status: UNSURE (   9.14  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200618_093909_805373_17C14A2B 
+X-CRM114-Status: GOOD (  11.48  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,8 +73,15 @@ Content-Transfer-Encoding: 7bit
 Sender: "linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jun 11, 2020 at 08:44:49AM +0200, Christoph Hellwig wrote:
-> Add a helper to decide if we can complete locally or need an IPI.
+On Thu, Jun 11, 2020 at 08:44:50AM +0200, Christoph Hellwig wrote:
+> This is a variant of blk_mq_complete_request_remote that only completes
+> the request if it needs to be bounced to another CPU or a softirq.  If
+> the request can be completed locally the function returns false and lets
+> the driver complete it without requring and indirect function call.
+
+s/requring/requiring/
+
+> Suggestions for a better name welcome.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 
