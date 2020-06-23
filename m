@@ -6,17 +6,17 @@ X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4ED55C433E0
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jun 2020 18:01:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8726C433E0
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jun 2020 22:10:46 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1989C20781
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jun 2020 18:01:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3C12020724
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jun 2020 22:10:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="c7MyEgXV";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="GbrtIjQN"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1989C20781
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="vFQl8AXI";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="d1i5VqjU"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3C12020724
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,43 +25,43 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=EpdlVAtFPerAdnbvHF8AIcKuAD+0gM2dmPAsi9PiQsE=; b=c7MyEgXVeTL7Naj7pe/c1uB+c
-	PagP8rANRdYIAjrsg4/N0XrucSfbeEFa1VyqqNnzOjAVv86JJag2O59VP2DUt9EvXVC2Fr7fH7sGg
-	C8iauI6ch3VK1hiFIq2QmTQ35XRcD5qST6uUH9gyTCZqALx5BHrOMz1YX0AkzDur7NHgOsL40FUgF
-	l+21kcTUczXUx8D3+q9EjqKaGRQxsTlEkPLLq3VbcJYOhx/vBhTLtYxqE1I9cpe4bCJVG503v8uki
-	zBG6q6JHH4ylQ+JV3Tdad+BxEvTcxCi/8dPkTLe7z1K6fbwKCykfINrNREOXTJpnt6L3N1bzJv0v/
-	hHc0MVhUQ==;
+	 bh=fn7vCeHPDG9lIxExqBpOhNUiTQEKXpfBlJMx+aFNik4=; b=vFQl8AXIdDJgUI0zbrV8fTU+e
+	14YbetTUT46JRrPW5J9KCnWQ1GS3uDF8B5e/sUkaf4dpFpwjB1NbQY+F1+2p8aExr0lshUKgHU9NY
+	73SC18fetHDc+e1noyELsO/kJ5qvry1AtkhFe4smKDaiYu3kjuw3TouzXF1qEmuEr6XW8f8HtpYrq
+	lmwrOMr4HeoUPDeSV76qeO4TS8WUoeh1enOO5u5qKeGIehEQJ+zvALlQ4s28lBfE2a9/E6LQfhu+k
+	T08c5J2Vp3RpUGgU91ObR4K5lHa9TlYLrDrj0IX9Td9bsJOPgTWcGQdDSOVkvQc1YQX8bpTG8OmIx
+	tGNUw9Ybw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jnnEQ-00032S-Fd; Tue, 23 Jun 2020 18:01:14 +0000
+	id 1jnr7l-0007lY-Qk; Tue, 23 Jun 2020 22:10:37 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jnnEN-000310-Ku
- for linux-nvme@lists.infradead.org; Tue, 23 Jun 2020 18:01:12 +0000
+ id 1jnr7P-0007lH-WA
+ for linux-nvme@lists.infradead.org; Tue, 23 Jun 2020 22:10:16 +0000
 Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id DD85020781;
- Tue, 23 Jun 2020 18:01:09 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 8DE1420724;
+ Tue, 23 Jun 2020 22:10:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1592935270;
- bh=+jfly5Ngdrj48jWGMhf0AWiq7rzl82cAMECyjRrpm7U=;
+ s=default; t=1592950215;
+ bh=zmKL1sjxL6w9xqVyEnstEuOeJaEEQeG/0MzpssNKxKI=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=GbrtIjQNnqzJ0vx63NM4QAOL+qYwxJVWynHFyEuShC/rZ+ieqmI4ZTS75fDGdb522
- TSBwCa5HDHkz//wbdzXSovuFgwf3Og/v++jtLNIqgzJ87H5HU4joqKN9gOFIZUpgAv
- +Lw3pblMKbDwl3D/v6iJM9ScJ5O1x+ccF+ch82Qg=
-Date: Tue, 23 Jun 2020 11:01:08 -0700
+ b=d1i5VqjUObKdWggQ5UPbobcahz/U8OwwaX9IA3aUeoax52//HJpaFGaqB6azcQQiq
+ qjjpG3IEhFMjUIyaDXjPa8qkA2W/7V55h7ED3kPN3Zm3NYey6QTy8iFHF654Tf16gE
+ C/ecVNccfzh2VYPuF0I+cRSXgGAR46T4Veraza8Y=
+Date: Tue, 23 Jun 2020 15:10:12 -0700
 From: Keith Busch <kbusch@kernel.org>
-To: Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH 1/3] nvme: Add Arbitration Burst support
-Message-ID: <20200623180108.GA1291100@dhcp-10-100-145-180.wdl.wdc.com>
-References: <cover.1592916850.git.baolin.wang@linux.alibaba.com>
- <bf3f47ba50f72d0b775ca4bd098f183056d964ba.1592916850.git.baolin.wang@linux.alibaba.com>
- <20200623144014.GB1288900@dhcp-10-100-145-180.wdl.wdc.com>
- <38482b1b-b1c7-bb41-b086-6ce00f6a9d1d@grimberg.me>
+To: Niklas Cassel <Niklas.Cassel@wdc.com>
+Subject: Re: [PATCHv3 3/5] nvme: implement I/O Command Sets Command Set support
+Message-ID: <20200623221012.GA1291643@dhcp-10-100-145-180.wdl.wdc.com>
+References: <20200622162530.1287650-1-kbusch@kernel.org>
+ <20200622162530.1287650-4-kbusch@kernel.org>
+ <69e8e88c-097b-368d-58f4-85d11110386d@grimberg.me>
+ <20200623112551.GB117742@localhost.localdomain>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <38482b1b-b1c7-bb41-b086-6ce00f6a9d1d@grimberg.me>
+In-Reply-To: <20200623112551.GB117742@localhost.localdomain>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,36 +73,51 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, axboe@fb.com,
- Baolin Wang <baolin.wang@linux.alibaba.com>, baolin.wang7@gmail.com,
- hch@lst.de
+Cc: "axboe@kernel.dk" <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
+ Daniel Wagner <dwagner@suse.de>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ Javier =?iso-8859-1?Q?Gonz=E1lez?= <javier.gonz@samsung.com>,
+ "hch@lst.de" <hch@lst.de>, Matias Bjorling <Matias.Bjorling@wdc.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jun 23, 2020 at 10:39:01AM -0700, Sagi Grimberg wrote:
-> 
-> > >  From the NVMe spec, "In order to make efficient use of the non-volatile
-> > > memory, it is often advantageous to execute multiple commands from a
-> > > Submission Queue in parallel. For Submission Queues that are using
-> > > weighted round robin with urgent priority class or round robin
-> > > arbitration, host software may configure an Arbitration Burst setting".
-> > > Thus add Arbitration Burst setting support.
+On Tue, Jun 23, 2020 at 11:25:53AM +0000, Niklas Cassel wrote:
+> On Tue, Jun 23, 2020 at 01:53:47AM -0700, Sagi Grimberg wrote:
+> > On 6/22/20 9:25 AM, Keith Busch wrote:
+> > > -		len = nvme_process_ns_desc(ctrl, ids, cur);
+> > > +		len = nvme_process_ns_desc(ctrl, ids, cur, &csi_seen);
+> > >   		if (len < 0)
+> > >   			goto free_data;
+> > >   		len += sizeof(*cur);
+> > >   	}
+> > >   free_data:
+> > > +	if (!status && nvme_multi_css(ctrl) && !csi_seen) {
 > > 
-> > But if the user changed it to something else that better matches how
-> > they want to use queues, the driver is just going to undo that setting
-> > on the next reset.
+> > We will clear the status if we detect a path error, that is to
+> > avoid needlessly removing the ns for path failures, so you should
+> > check at the goto site.
 > 
-> Where do we do priority class arbitration? no one sets it
+> The problem is that this check has to be done after checking all the ns descs,
+> so this check to be done as the final thing, at least after processing all the
+> ns descs. No matter if nvme_process_ns_desc() returned an error, or if
+> simply NVME_NIDT_CSI wasn't part of the ns desc list, so the loop reached the
+> end without error.
+> 
+> Even if the nvme command failed and the status was cleared:
+> 
+>                 if (status > 0 && !(status & NVME_SC_DNR))
+>                         status = 0;
 
-Not the priority class, we don't use WRR in this driver. The RR
-arbitration can be set from user space and saved across controller
-resets, like:
-
-  # nvme set-feature -f 1 -v 3 --save
-
-This patch would undo the saved feature value.
+This check is so weird. What has DNR got to do with whether or not we
+want to continue with this namespace? The commit that adds this says
+it's to check for a host failed IO, but a controller can just as validly
+set DNR in its error status, in which case we'd still want clear the
+status.
 
 _______________________________________________
 Linux-nvme mailing list
