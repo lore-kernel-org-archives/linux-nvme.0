@@ -2,58 +2,66 @@ Return-Path: <SRS0=DDko=AE=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83630C433E0
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jun 2020 14:55:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 115FBC433E0
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jun 2020 14:59:42 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4F8CB20723
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jun 2020 14:55:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D285B20723
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jun 2020 14:59:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="QoULpJFa"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4F8CB20723
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="BLEQs4Ap";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="1e47alOJ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D285B20723
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=UbN0wdjNaCCCDtjGgNlnBfVrSZwZS9NK470CFbv5Log=; b=QoULpJFac9YKBmghWEoFgrG3x
-	IY3QPE2W2zaK74uKsPx6rSLXlaw6n0ojtLfAM2uuI/CG06abAAPbQe+cmo3/K/OTgyKFftN6H6aOH
-	sp7kcVJd0SMKrS7BEx0as4kwVjLujKOO216xwyHsIoESp6hu9gaILc5CLsy8hQ16TEqgeiFz2PfoE
-	i/Qz7rcvzpeYUHoHcpecwlDe/ADYpKhwzCcRj5PJdaedJPRNCVeadpUU23GfyVtBjgBr/HcEOHlQL
-	BvbIXxFkrg3Hxo9c9ky6PofGQt2wwFvnJMJlQDmdbUR+/WkO7/qEmy6Oe+oum0CC63qXenOPsh1sk
-	SNDz2PxmQ==;
+	 bh=XvU4yM12ETn7o47DQvklPEbSepa1zzp2oiKhDfVJA+c=; b=BLEQs4ApvWmHt8z2L7omJ3rb4
+	vjA1BtTxcXrH/YhZcTehMoqWa4XwfhjzSWaMeHHz6z/AD5/tY6rzfylUDLSrG2cRzULsZa5cX8KCu
+	QPtAK56MABC+PYppd6PwnO07iEeDF3EE+FE28rpxqfvVadmS2dTr5Nm0K9lbhgfDb5EE9tHzTYJTv
+	GybXcSR9AQElA/YseEnwQXDmeHcJfz7WJCbVhzPEeaOGNL9ykCqU7uRWGMnlta+nASGw0/pb/AL70
+	INnqFYszdY/Ka7JGu7uM83UQPZbzZuLAc4mVyTbWtgq3l2yKS44BpHPL0LBnIpV85woNujXeJJq8N
+	I7XKt0qeA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jnkL5-00034o-Si; Tue, 23 Jun 2020 14:55:55 +0000
-Received: from mail-il-dmz.mellanox.com ([193.47.165.129] helo=mellanox.co.il)
- by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jnkKk-0002z1-OU
- for linux-nvme@lists.infradead.org; Tue, 23 Jun 2020 14:55:37 +0000
-Received: from Internal Mail-Server by MTLPINE1 (envelope-from
- maxg@mellanox.com) with SMTP; 23 Jun 2020 17:55:26 +0300
-Received: from mtr-vdi-031.wap.labs.mlnx. (mtr-vdi-031.wap.labs.mlnx
- [10.209.102.136])
- by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 05NEtP7h026949;
- Tue, 23 Jun 2020 17:55:25 +0300
-From: Max Gurtovoy <maxg@mellanox.com>
-To: sagi@grimberg.me, linux-nvme@lists.infradead.org, kbusch@kernel.org,
- hch@lst.de
-Subject: [PATCH 1/3] nvme-rdma: use new shared CQ mechanism
-Date: Tue, 23 Jun 2020 17:55:23 +0300
-Message-Id: <20200623145525.1586-2-maxg@mellanox.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20200623145525.1586-1-maxg@mellanox.com>
-References: <20200623145525.1586-1-maxg@mellanox.com>
+	id 1jnkOi-000465-4I; Tue, 23 Jun 2020 14:59:40 +0000
+Received: from mail.kernel.org ([198.145.29.99])
+ by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jnkOf-00045D-OP
+ for linux-nvme@lists.infradead.org; Tue, 23 Jun 2020 14:59:38 +0000
+Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 4D12920723;
+ Tue, 23 Jun 2020 14:59:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1592924377;
+ bh=/Qkci1EEnMCWNpzEwR13xM7o3TscwH9pyJgzBww5lv0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=1e47alOJYPzSlqwRXo9pkqSlo+vYqR5JzNXKOTIptcly8djVuf7hlRw9DHD/zIkjI
+ 8DVDrzswRdL7os0bUJTD/MtBbt5wC1fUTuYJx2IjUtofnGwF6g/LxSH8qFZzMY7/4P
+ 8I+QvPwFym98s5b2clUJ9vVBFASKmTrKUz/gc1Lw=
+Date: Tue, 23 Jun 2020 07:59:34 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Niklas Cassel <Niklas.Cassel@wdc.com>
+Subject: Re: [PATCHv3 3/5] nvme: implement I/O Command Sets Command Set support
+Message-ID: <20200623145934.GC1288900@dhcp-10-100-145-180.wdl.wdc.com>
+References: <20200622162530.1287650-1-kbusch@kernel.org>
+ <20200622162530.1287650-4-kbusch@kernel.org>
+ <69e8e88c-097b-368d-58f4-85d11110386d@grimberg.me>
+ <20200623112551.GB117742@localhost.localdomain>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200623112551.GB117742@localhost.localdomain>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,198 +73,51 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: yaminf@mellanox.com, idanb@mellanox.com, israelr@mellanox.com,
- shlomin@mellanox.com, jgg@nvidia.com, Max Gurtovoy <maxg@mellanox.com>,
- ogerlitz@mellanox.com
+Cc: "axboe@kernel.dk" <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
+ Daniel Wagner <dwagner@suse.de>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ Javier =?iso-8859-1?Q?Gonz=E1lez?= <javier.gonz@samsung.com>,
+ "hch@lst.de" <hch@lst.de>, Matias Bjorling <Matias.Bjorling@wdc.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Yamin Friedman <yaminf@mellanox.com>
+On Tue, Jun 23, 2020 at 11:25:53AM +0000, Niklas Cassel wrote:
+> On Tue, Jun 23, 2020 at 01:53:47AM -0700, Sagi Grimberg wrote:
+> > >   static int nvme_setup_streams_ns(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+> > > @@ -1930,6 +1950,15 @@ static int __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
+> > >   	if (ns->lba_shift == 0)
+> > >   		ns->lba_shift = 9;
+> > > +	switch (ns->head->ids.csi) {
+> > > +	case NVME_CSI_NVM:
+> > > +		break;
+> > > +	default:
+> > > +		dev_warn(ctrl->device, "unknown csi:%d ns:%d\n",
+> > > +			ns->head->ids.csi, ns->head->ns_id);
+> > > +		return -ENODEV;
+> > > +	}
+> > 
+> > Not sure we need a switch-case statement for a single case target...
+> 
+> I would consider it two cases. A supported CSI or a non-supported CSI
+> (which means any CSI value != NVME_CSI_NVM).
+> 
+> However, a follow up patch (patch 5/5 in this series) adds another case
+> to this switch-case statement (NVME_CSI_ZNS).
+> 
+> I guess this patch could have used an if-else statement, and patch 5/5
+> replaced the if-statement with a switch-case.
+> However, since a patch in the same series actually adds another case,
+> I think that it is more clear this way.
+> (A switch-case with only two cases added, in a patch that is not the last
+> one in the series, suggests (at least to me), that it will most likely be
+> extended in a following patch.)
 
-Has the driver use shared CQs providing ~10%-20% improvement as seen in
-the patch introducing shared CQs. Instead of opening a CQ for each QP
-per controller connected, a CQ for each QP will be provided by the RDMA
-core driver that will be shared between the QPs on that core reducing
-interrupt overhead.
-
-Signed-off-by: Yamin Friedman <yaminf@mellanox.com>
-Signed-off-by: Max Gurtovoy <maxg@mellanox.com>
-Reviewed-by: Or Gerlitz <ogerlitz@mellanox.com>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
----
- drivers/nvme/host/rdma.c | 77 ++++++++++++++++++++++++++++++++----------------
- 1 file changed, 51 insertions(+), 26 deletions(-)
-
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index f8f856d..f5d6a57 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -96,6 +96,7 @@ struct nvme_rdma_queue {
- 	int			cm_error;
- 	struct completion	cm_done;
- 	bool			pi_support;
-+	int			cq_size;
- };
- 
- struct nvme_rdma_ctrl {
-@@ -274,6 +275,7 @@ static int nvme_rdma_create_qp(struct nvme_rdma_queue *queue, const int factor)
- 	init_attr.recv_cq = queue->ib_cq;
- 	if (queue->pi_support)
- 		init_attr.create_flags |= IB_QP_CREATE_INTEGRITY_EN;
-+	init_attr.qp_context = queue;
- 
- 	ret = rdma_create_qp(queue->cm_id, dev->pd, &init_attr);
- 
-@@ -408,6 +410,14 @@ static int nvme_rdma_dev_get(struct nvme_rdma_device *dev)
- 	return NULL;
- }
- 
-+static void nvme_rdma_free_cq(struct nvme_rdma_queue *queue)
-+{
-+	if (nvme_rdma_poll_queue(queue))
-+		ib_free_cq(queue->ib_cq);
-+	else
-+		ib_cq_pool_put(queue->ib_cq, queue->cq_size);
-+}
-+
- static void nvme_rdma_destroy_queue_ib(struct nvme_rdma_queue *queue)
- {
- 	struct nvme_rdma_device *dev;
-@@ -429,7 +439,7 @@ static void nvme_rdma_destroy_queue_ib(struct nvme_rdma_queue *queue)
- 	 * the destruction of the QP shouldn't use rdma_cm API.
- 	 */
- 	ib_destroy_qp(queue->qp);
--	ib_free_cq(queue->ib_cq);
-+	nvme_rdma_free_cq(queue);
- 
- 	nvme_rdma_free_ring(ibdev, queue->rsp_ring, queue->queue_size,
- 			sizeof(struct nvme_completion), DMA_FROM_DEVICE);
-@@ -449,13 +459,42 @@ static int nvme_rdma_get_max_fr_pages(struct ib_device *ibdev, bool pi_support)
- 	return min_t(u32, NVME_RDMA_MAX_SEGMENTS, max_page_list_len - 1);
- }
- 
-+static int nvme_rdma_create_cq(struct ib_device *ibdev,
-+				struct nvme_rdma_queue *queue)
-+{
-+	int ret, comp_vector, idx = nvme_rdma_queue_idx(queue);
-+	enum ib_poll_context poll_ctx;
-+
-+	/*
-+	 * Spread I/O queues completion vectors according their queue index.
-+	 * Admin queues can always go on completion vector 0.
-+	 */
-+	comp_vector = idx == 0 ? idx : idx - 1;
-+
-+	/* Polling queues need direct cq polling context */
-+	if (nvme_rdma_poll_queue(queue)) {
-+		poll_ctx = IB_POLL_DIRECT;
-+		queue->ib_cq = ib_alloc_cq(ibdev, queue, queue->cq_size,
-+					   comp_vector, poll_ctx);
-+	} else {
-+		poll_ctx = IB_POLL_SOFTIRQ;
-+		queue->ib_cq = ib_cq_pool_get(ibdev, queue->cq_size,
-+					      comp_vector, poll_ctx);
-+	}
-+
-+	if (IS_ERR(queue->ib_cq)) {
-+		ret = PTR_ERR(queue->ib_cq);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
- static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue)
- {
- 	struct ib_device *ibdev;
- 	const int send_wr_factor = 3;			/* MR, SEND, INV */
- 	const int cq_factor = send_wr_factor + 1;	/* + RECV */
--	int comp_vector, idx = nvme_rdma_queue_idx(queue);
--	enum ib_poll_context poll_ctx;
- 	int ret, pages_per_mr;
- 
- 	queue->device = nvme_rdma_find_get_device(queue->cm_id);
-@@ -466,26 +505,12 @@ static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue)
- 	}
- 	ibdev = queue->device->dev;
- 
--	/*
--	 * Spread I/O queues completion vectors according their queue index.
--	 * Admin queues can always go on completion vector 0.
--	 */
--	comp_vector = idx == 0 ? idx : idx - 1;
--
--	/* Polling queues need direct cq polling context */
--	if (nvme_rdma_poll_queue(queue))
--		poll_ctx = IB_POLL_DIRECT;
--	else
--		poll_ctx = IB_POLL_SOFTIRQ;
--
- 	/* +1 for ib_stop_cq */
--	queue->ib_cq = ib_alloc_cq(ibdev, queue,
--				cq_factor * queue->queue_size + 1,
--				comp_vector, poll_ctx);
--	if (IS_ERR(queue->ib_cq)) {
--		ret = PTR_ERR(queue->ib_cq);
-+	queue->cq_size = cq_factor * queue->queue_size + 1;
-+
-+	ret = nvme_rdma_create_cq(ibdev, queue);
-+	if (ret)
- 		goto out_put_dev;
--	}
- 
- 	ret = nvme_rdma_create_qp(queue, send_wr_factor);
- 	if (ret)
-@@ -511,7 +536,7 @@ static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue)
- 	if (ret) {
- 		dev_err(queue->ctrl->ctrl.device,
- 			"failed to initialize MR pool sized %d for QID %d\n",
--			queue->queue_size, idx);
-+			queue->queue_size, nvme_rdma_queue_idx(queue));
- 		goto out_destroy_ring;
- 	}
- 
-@@ -522,7 +547,7 @@ static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue)
- 		if (ret) {
- 			dev_err(queue->ctrl->ctrl.device,
- 				"failed to initialize PI MR pool sized %d for QID %d\n",
--				queue->queue_size, idx);
-+				queue->queue_size, nvme_rdma_queue_idx(queue));
- 			goto out_destroy_mr_pool;
- 		}
- 	}
-@@ -539,7 +564,7 @@ static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue)
- out_destroy_qp:
- 	rdma_destroy_qp(queue->cm_id);
- out_destroy_ib_cq:
--	ib_free_cq(queue->ib_cq);
-+	nvme_rdma_free_cq(queue);
- out_put_dev:
- 	nvme_rdma_dev_put(queue->device);
- 	return ret;
-@@ -1152,7 +1177,7 @@ static void nvme_rdma_error_recovery(struct nvme_rdma_ctrl *ctrl)
- static void nvme_rdma_wr_error(struct ib_cq *cq, struct ib_wc *wc,
- 		const char *op)
- {
--	struct nvme_rdma_queue *queue = cq->cq_context;
-+	struct nvme_rdma_queue *queue = wc->qp->qp_context;
- 	struct nvme_rdma_ctrl *ctrl = queue->ctrl;
- 
- 	if (ctrl->ctrl.state == NVME_CTRL_LIVE)
-@@ -1705,7 +1730,7 @@ static void nvme_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc)
- {
- 	struct nvme_rdma_qe *qe =
- 		container_of(wc->wr_cqe, struct nvme_rdma_qe, cqe);
--	struct nvme_rdma_queue *queue = cq->cq_context;
-+	struct nvme_rdma_queue *queue = wc->qp->qp_context;
- 	struct ib_device *ibdev = queue->device->dev;
- 	struct nvme_completion *cqe = qe->data;
- 	const size_t len = sizeof(struct nvme_completion);
--- 
-1.8.3.1
-
+Yeah, this patch is laying the foundation for future command sets.
 
 _______________________________________________
 Linux-nvme mailing list
