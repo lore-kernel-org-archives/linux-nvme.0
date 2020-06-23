@@ -2,64 +2,58 @@ Return-Path: <SRS0=DDko=AE=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFECEC433E1
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jun 2020 14:40:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B47DBC433E0
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jun 2020 14:55:52 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C18AB2053B
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jun 2020 14:40:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8274220723
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jun 2020 14:55:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="qlR57uy4";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="IOJxywei"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C18AB2053B
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="fI+8W34s"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8274220723
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=M91dvBf4bJjWCgbsSpNMamrFqaQPko7jsDEOsYPntB8=; b=qlR57uy4tqBGJC5OzwQiCnABj
-	bluQHlUEs3uT7ZHEt+BwRxvCZbaXJYwXPTQ0uWJMQhVX4rtYA73HkXNYerDN18dTfdfxvELI1XnP2
-	pTgdYll37hD3pgi7MKQ1akl+K/q+RBsQSvWShJuqzL2NDU6ezVwXBwwlHuglnIvvQP+FAgoL525L1
-	WqXocbf9LHq267GJGus6m1rJQuGkXFlRxVQTsPE//t47QGLxO5Qr7Dfg8N1dxyCtJU/6nqExygWJd
-	ahBt07JtPvhopffZhc6HqtYiCakR999nFknd60wVRDh2J/Ac7ocXYUUgkYlt9YbrlPm4ZnIa9xXmC
-	d7JC31+9w==;
+	 bh=7kXrMsKiTvMiC8JeLdOJ0LkxCXRC0MwdevSKVfvEQNY=; b=fI+8W34snIAsbt4tBsBDVDLhv
+	2MZYZdv/Gre2Xy+oQxCK1yGaOJH2XadyKXQKRX85PW/z76U4bfup+JNiA6cvcovlj4WD5yY/0KxfV
+	719qLP3xub0+0N/KuMTVB6QNIWBtuWT0QeiEjc6S/zG9zLkoGy5KZ413LGnYESHk94QhDa/OTnNPy
+	jNcv48aF9hQa8pSA/NqfR+LcjXSmtDP+KUGox6AZRKE/lxa44KWwzx65ZOmzdCCfM1qVQQYHrFS4y
+	N/iKL6ABrsyILbY3EsfRSjZz9y1NKnyRgVTl3xSH/lm1VzYprzh5SwLsgx4TaHEaCiBri6RSX4s1U
+	EJvK6su6w==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jnk6J-0007NH-Nc; Tue, 23 Jun 2020 14:40:39 +0000
-Received: from mail.kernel.org ([198.145.29.99])
- by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jnk5x-0007MW-72
- for linux-nvme@lists.infradead.org; Tue, 23 Jun 2020 14:40:17 +0000
-Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 0CE362053B;
- Tue, 23 Jun 2020 14:40:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1592923216;
- bh=2gzWQlrlUbt8yYSj3sO6iIOtsSAOWbEMJh9zFKnUe2Q=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=IOJxyweiOt7o/Z2CRcui4ao8o1ebr70thXezTE5YZXPjHqEztwWy49qsTzyrhoG+B
- YkAp6n7KmAJDAEKAdAPxGcN+xCraiaZ4KPRSR1oxLFclIX87YCfokQEO2Thhdfr4G1
- mtl5M8jX9U99IMl3/tsVByW80AomcjrO2Essh3Ss=
-Date: Tue, 23 Jun 2020 07:40:14 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Baolin Wang <baolin.wang@linux.alibaba.com>
-Subject: Re: [PATCH 1/3] nvme: Add Arbitration Burst support
-Message-ID: <20200623144014.GB1288900@dhcp-10-100-145-180.wdl.wdc.com>
-References: <cover.1592916850.git.baolin.wang@linux.alibaba.com>
- <bf3f47ba50f72d0b775ca4bd098f183056d964ba.1592916850.git.baolin.wang@linux.alibaba.com>
+	id 1jnkKw-00031D-JH; Tue, 23 Jun 2020 14:55:46 +0000
+Received: from mail-il-dmz.mellanox.com ([193.47.165.129] helo=mellanox.co.il)
+ by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jnkKk-0002z6-Lb
+ for linux-nvme@lists.infradead.org; Tue, 23 Jun 2020 14:55:36 +0000
+Received: from Internal Mail-Server by MTLPINE1 (envelope-from
+ maxg@mellanox.com) with SMTP; 23 Jun 2020 17:55:26 +0300
+Received: from mtr-vdi-031.wap.labs.mlnx. (mtr-vdi-031.wap.labs.mlnx
+ [10.209.102.136])
+ by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 05NEtP7j026949;
+ Tue, 23 Jun 2020 17:55:26 +0300
+From: Max Gurtovoy <maxg@mellanox.com>
+To: sagi@grimberg.me, linux-nvme@lists.infradead.org, kbusch@kernel.org,
+ hch@lst.de
+Subject: [PATCH 3/3] nvme-rdma: assign completion vector correctly
+Date: Tue, 23 Jun 2020 17:55:25 +0300
+Message-Id: <20200623145525.1586-4-maxg@mellanox.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20200623145525.1586-1-maxg@mellanox.com>
+References: <20200623145525.1586-1-maxg@mellanox.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <bf3f47ba50f72d0b775ca4bd098f183056d964ba.1592916850.git.baolin.wang@linux.alibaba.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,25 +65,43 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: sagi@grimberg.me, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, axboe@fb.com, baolin.wang7@gmail.com,
- hch@lst.de
+Cc: yaminf@mellanox.com, idanb@mellanox.com, israelr@mellanox.com,
+ shlomin@mellanox.com, jgg@nvidia.com, Max Gurtovoy <maxg@mellanox.com>,
+ ogerlitz@mellanox.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jun 23, 2020 at 09:24:32PM +0800, Baolin Wang wrote:
-> From the NVMe spec, "In order to make efficient use of the non-volatile
-> memory, it is often advantageous to execute multiple commands from a
-> Submission Queue in parallel. For Submission Queues that are using
-> weighted round robin with urgent priority class or round robin
-> arbitration, host software may configure an Arbitration Burst setting".
-> Thus add Arbitration Burst setting support.
+The completion vector index that is given during CQ creation can't
+exceed the number of support vectors by the underlying RDMA device. This
+violation currently can accure, for example, in case one will try to
+connect with N regular read/write queues and M poll queues and the sum
+of N + M > num_supported_vectors. This will lead to failure in establish
+a connection to remote target. Instead, in that case, share a completion
+vector between queues.
 
-But if the user changed it to something else that better matches how
-they want to use queues, the driver is just going to undo that setting
-on the next reset.
+Signed-off-by: Max Gurtovoy <maxg@mellanox.com>
+---
+ drivers/nvme/host/rdma.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index f5d6a57..981adbd 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -469,7 +469,7 @@ static int nvme_rdma_create_cq(struct ib_device *ibdev,
+ 	 * Spread I/O queues completion vectors according their queue index.
+ 	 * Admin queues can always go on completion vector 0.
+ 	 */
+-	comp_vector = idx == 0 ? idx : idx - 1;
++	comp_vector = (idx == 0 ? idx : idx - 1) % ibdev->num_comp_vectors;
+ 
+ 	/* Polling queues need direct cq polling context */
+ 	if (nvme_rdma_poll_queue(queue)) {
+-- 
+1.8.3.1
+
 
 _______________________________________________
 Linux-nvme mailing list
