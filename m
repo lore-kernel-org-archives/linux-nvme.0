@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40810C433E2
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jun 2020 17:39:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A5D2C433E0
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jun 2020 17:40:05 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1003920781
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jun 2020 17:39:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 3DADD20774
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jun 2020 17:40:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="16VbOmEB"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1003920781
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="mY24mJdq"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3DADD20774
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,56 +25,56 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=wLODI66SmA8aaI4uvixKc1jAmeAkJGmzlFyl3gaVHCI=; b=16VbOmEBWob26py8dwrCF1BXW
-	eSzaVcbZ7RsWhJRY9i+Kwxt1r+1caaU2rT66uxYcZYpfWQqbcn2hjSVxjiXWhtMscVHNsFa+jVHLq
-	8LMvlmJgLXf8cXlxmAzirlwhN3xY6ZgPxYeVGlH4aZCW4JjbDdxEY1PvulQIaJ8Xd5lm6/fC/TO5y
-	uTAJOw/IxgwjFvZsdNbAcLxWiJo4bqyfM2dPwOtaKBa9SwuX1Kvt2QNldwpZAfYOTQjhKgnOfcYma
-	utMaPXQwS9XvIaXG31fMx3Odb4MUgskNLJylUzeFfKC0K7xnrvvpv7VV0p45Pyjq3xQUgOjJ/bUol
-	W4uOrZuIw==;
+	 bh=EnlpFBr4ldsEYdTWBNvHAUFVmiRjTr9fPn7cEHVgDLQ=; b=mY24mJdqa4QgDeaMVPQ9G8pzp
+	wKXWHdPmlnGWlrKMd5hojltDJF2s9Fwy5nMB94sfEJFJjnNgIjx8DHl6EvPQ+Q2kEt/xkq1f2IDaW
+	JtCCQ5b7+AwetoazbeRdM/iFGGTpZlrjyrM9mHARAdcnYoqNUteJ5/ADABdA9Is57ZfQ63SKIvGHL
+	wtK4/olBQdtVg8Gf2AObLD/dXnwStADMeRCylaLoL1Kqq6mAQjtWZqGg8gVyjwj2+g++8fNxNhkBA
+	V67yfUZt1xUJXs8ggfvyNsFPXa7Mn+fKifhKNL91qJ4c+YCS3SbSZ26vy1jgqjH90ZAohNUwrJ6Bc
+	yQXrL1s7w==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jnmtK-0004yt-Ne; Tue, 23 Jun 2020 17:39:26 +0000
-Received: from mail-pg1-f193.google.com ([209.85.215.193])
+	id 1jnmtu-0005Lz-Oa; Tue, 23 Jun 2020 17:40:02 +0000
+Received: from mail-pj1-f49.google.com ([209.85.216.49])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jnmsy-0004y9-9M
- for linux-nvme@lists.infradead.org; Tue, 23 Jun 2020 17:39:04 +0000
-Received: by mail-pg1-f193.google.com with SMTP id z5so1697309pgb.6
- for <linux-nvme@lists.infradead.org>; Tue, 23 Jun 2020 10:39:04 -0700 (PDT)
+ id 1jnmtp-0005K7-QS
+ for linux-nvme@lists.infradead.org; Tue, 23 Jun 2020 17:39:58 +0000
+Received: by mail-pj1-f49.google.com with SMTP id h22so1875637pjf.1
+ for <linux-nvme@lists.infradead.org>; Tue, 23 Jun 2020 10:39:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=kAIQAxiLnbAZ5BAFIcJMeyR0JdJvLnsFgfO/0/AmLPA=;
- b=BGF7ZJdild9yAHZEeZGSsdinHBybSDjCtICmZEw2K8HiZ2Ppe9yNUIXT69hXA1a2AJ
- zV+ofVG0t+k6CL7Oe75KDT+FRluWb9/AsbUgl5fNMNfT5iVnZtOcuzKZS2i9WQUB2EHY
- sA/1WUHfLePa/8v7XoR2+X+rQ7G0XzX/7loWm8+dN3Ma7W9wxEZaSEqmg8uvPradeN4O
- wpiI0OycSNsjTyoIVm/Q8fRijkW2B3WOifcvevGrXzciUDL5quYEug0XGEK1VTt30LSF
- TTQIJTRt/ATFSQ6F6UksOOASquG0gQmuEE00ZtUApR4J3Vggb43dFJDheJhJetkJMzfU
- UsbA==
-X-Gm-Message-State: AOAM532a9wSUL2JQx/fPKTqouvTgGD4vQ/ajmgDvNprGPu3cgUVWpRZ1
- pay6Z3t2fI6GXz+a9WRFZZQA4mAK
-X-Google-Smtp-Source: ABdhPJwP+kfIPptinn90SJZmapQDZ/xaZKvE4G/xUSfG1p1yiK8fszEV/rJ0jnK8F52BozCNCteXDg==
-X-Received: by 2002:a62:31c6:: with SMTP id x189mr27591959pfx.79.1592933943273; 
- Tue, 23 Jun 2020 10:39:03 -0700 (PDT)
+ bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
+ b=qi8GYh2ekqa6IxJ+Iplu7sI1Q/cGfa+tlFxfkYrd8W9hLZYhDXTAKYz4XFxYh4FYMd
+ XvNkOR/0ECH3I2tqPeHmQXDB9tLh/zYdwUvs+Pv8ENC4bbF4HQvMywQ6G87m9s+wwWN0
+ 76joKgXAFHFPXaex2dYa1gq//+L4fxYV0jctvqDrKbixrF+siXSObpseZwYG0ccQ6x86
+ lxUx377AkTUBp1BE2RhaFeCdBXzMctZoOp5YJ8y2Csuq7hZ78d6r0bt7Ow9XTLO98Iyn
+ RVrpRZARnk9BDd4/o8oT0jvBgDA0BJKRJQWbmPH1EwJsRbqPq9CCR23CSsFluwMOCk9E
+ 3YgQ==
+X-Gm-Message-State: AOAM530a7M/flGPKMwrUjSdO4KFbPB7m3S4ysBpO+b0jnMkVYmswLm7g
+ TMvx4GdNQq5dZcOlT/zA1hI=
+X-Google-Smtp-Source: ABdhPJy5yNa9YCh5UqfALz8PSpQpHx/uLWc0fOou3IMn1j8a8eVkY6oZe4ui356rmDdzLOrCbq0HBQ==
+X-Received: by 2002:a17:90b:1a86:: with SMTP id
+ ng6mr9447871pjb.88.1592933996847; 
+ Tue, 23 Jun 2020 10:39:56 -0700 (PDT)
 Received: from ?IPv6:2601:647:4802:9070:acd7:a900:b9f:8b8b?
  ([2601:647:4802:9070:acd7:a900:b9f:8b8b])
- by smtp.gmail.com with ESMTPSA id m1sm2880457pjr.56.2020.06.23.10.39.01
+ by smtp.gmail.com with ESMTPSA id b24sm17087560pfo.112.2020.06.23.10.39.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Jun 2020 10:39:02 -0700 (PDT)
-Subject: Re: [PATCH 1/3] nvme: Add Arbitration Burst support
-To: Keith Busch <kbusch@kernel.org>,
- Baolin Wang <baolin.wang@linux.alibaba.com>
+ Tue, 23 Jun 2020 10:39:56 -0700 (PDT)
+Subject: Re: [PATCH 3/3] nvme: Use USEC_PER_SEC instead of magic numbers
+To: Baolin Wang <baolin.wang@linux.alibaba.com>, kbusch@kernel.org,
+ axboe@fb.com, hch@lst.de
 References: <cover.1592916850.git.baolin.wang@linux.alibaba.com>
- <bf3f47ba50f72d0b775ca4bd098f183056d964ba.1592916850.git.baolin.wang@linux.alibaba.com>
- <20200623144014.GB1288900@dhcp-10-100-145-180.wdl.wdc.com>
+ <a64d35465b8d91ab11f37d814ac10003da7804b8.1592916850.git.baolin.wang@linux.alibaba.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <38482b1b-b1c7-bb41-b086-6ce00f6a9d1d@grimberg.me>
-Date: Tue, 23 Jun 2020 10:39:01 -0700
+Message-ID: <c2b796ae-a00e-7368-e60d-1fea473cbee9@grimberg.me>
+Date: Tue, 23 Jun 2020 10:39:55 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200623144014.GB1288900@dhcp-10-100-145-180.wdl.wdc.com>
+In-Reply-To: <a64d35465b8d91ab11f37d814ac10003da7804b8.1592916850.git.baolin.wang@linux.alibaba.com>
 Content-Language: en-US
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -87,26 +87,14 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: axboe@fb.com, baolin.wang7@gmail.com, hch@lst.de,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: baolin.wang7@gmail.com, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
->>  From the NVMe spec, "In order to make efficient use of the non-volatile
->> memory, it is often advantageous to execute multiple commands from a
->> Submission Queue in parallel. For Submission Queues that are using
->> weighted round robin with urgent priority class or round robin
->> arbitration, host software may configure an Arbitration Burst setting".
->> Thus add Arbitration Burst setting support.
-> 
-> But if the user changed it to something else that better matches how
-> they want to use queues, the driver is just going to undo that setting
-> on the next reset.
-
-Where do we do priority class arbitration? no one sets it
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
 _______________________________________________
 Linux-nvme mailing list
