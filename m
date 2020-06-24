@@ -2,64 +2,72 @@ Return-Path: <SRS0=WpAz=AF=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42C4AC433E0
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 19:27:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33DA8C433E0
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 19:39:18 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 10B5820823
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 19:27:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 08B5B2081A
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 19:39:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="beyLLmQg";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="deTz69g3"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 10B5820823
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Z4HMaRxO"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 08B5B2081A
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe
-	:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:Reply-To:Cc:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=zstfKTXpndjA0k5cQc7qkNAidxEfpFnKOzfwoP8g7oU=; b=beyLLmQgn4a24CuaL87dyRtTFJ
-	W8BCL6KVyGO6ZXPuS0Yf2OLlhI5R/jczJcPjFulejBM1jtmBYIGdgSP2sKlO0skPXal6diIBu8eG4
-	VWbaV4tgDTyYvgAG5vfEaz3N4RmzhslqpFYxTKYHZbeJ/nFaBXxqV1ZbFV0IVRDBTguu+TezoyZbZ
-	n0yP1Pu3jyUbGqUVsdNU6GzD+gGzs1GJOkhVlKFyPdhlyO1wsjNEERJfMm+xNBJeU5jTvwpU42f9u
-	Ffi7u1pF0asByZ6um+t3PnwtydF0yxzeHCOq5P/wjPw7x+Hf80OZZR0+Piw/FiJtn9m29m5tHNy+u
-	yZ+jtjGw==;
+	Content-Type:Cc:Reply-To:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Date:To:From:
+	Subject:Message-ID:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=mUu8N6MzP/ZYAv4KisgxrjW8o+MKTaKcLeUpI3R5EYc=; b=Z4HMaRxO1EXPM9YUErZFGE0+se
+	bAmHm2i1I1oRFGo0ckrR9xfCsM7tyFT7TmiJjJyXE07iMDTpDomR8aqsIldo1IQoxPz6u8PZ0d9jC
+	xZoOzDPf9ncdhiAxDm0xwx5cF6yD1RedjiAGwKG4+8fmUf2AMpnjMMpK+i8tubxJ/JyStiSQwIMXB
+	uP1YKAV5De7CYCLJCprJEperthJE/mNbHb5v0Zc8gQ5EFixxVn8VIZheuvB3TLuQ3S6iUeMwNw244
+	H51VMwmzkRGkKOQ+EMgLzPU4rfglzpfBTopcr9oJAptS7TK6NOwUDvyCiudz9cpwuJ1OAj0MiCdEW
+	Zb9RQRMA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1joB3K-0001DD-Ft; Wed, 24 Jun 2020 19:27:22 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1joBEo-0005C7-3W; Wed, 24 Jun 2020 19:39:14 +0000
+Received: from mga01.intel.com ([192.55.52.88])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1joB3J-0001B7-8L
- for linux-nvme@merlin.infradead.org; Wed, 24 Jun 2020 19:27:21 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
- Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
- Content-Description:In-Reply-To:References;
- bh=7S2py2EPsvC5vemOc/aki/sUY3cfl+JInca9oR5KjQY=; b=deTz69g3ZCWqvbOtuu4A/fvPxg
- K9aUZ7jHgvS5N1g+TaTrdEfPQV0/as93c8OTVvKGgGxQUfQIxe2O5B1QPI0UqJUiWl4rE6GDDbLio
- e15GAvwZLiGYDIFoYZjEBnD8i6inZqRJiw3RcgJUmY2FLSVjcuW2abH3JD3D5//bREDGvUOwwidGz
- pxvmusqYgMwgtKTKHiqSpSnRU5ZKvLrRFMdZhs3JhDUrZ9lkW7/sevU8a6JNqsYB/BVbasl9lqz9p
- O+xXRKWJrvxSscAeNHemtLwWyGRssQcxd4S8pZxXWdtpB5y/0xa6JX1hGWQ0L8ngkzQ7a0YsLE9or
- k6/HR9/A==;
-Received: from [2601:647:4802:9070:4c08:474f:e61d:6947]
- (helo=sagi-Latitude-7490.hsd1.ca.comcast.net)
- by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1joB3H-0006o6-Gb; Wed, 24 Jun 2020 19:27:20 +0000
-From: Sagi Grimberg <sagi@grimberg.me>
-To: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
- Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-Subject: [PATCH] nvmet-tcp: simplify nvmet_process_resp_list
-Date: Wed, 24 Jun 2020 12:27:16 -0700
-Message-Id: <20200624192716.14819-1-sagi@grimberg.me>
-X-Mailer: git-send-email 2.25.1
+ id 1joBEk-0005AE-I6
+ for linux-nvme@lists.infradead.org; Wed, 24 Jun 2020 19:39:11 +0000
+IronPort-SDR: VUyvZNENan1PBa9y2gg69p1DDsFPJVuJGVk61C/2ApgmO9diqj3KWWqt/u/VfNmpb5wjL7qGu3
+ cd0miXg+QKjw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9662"; a="162691943"
+X-IronPort-AV: E=Sophos;i="5.75,276,1589266800"; d="scan'208";a="162691943"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jun 2020 12:39:08 -0700
+IronPort-SDR: z6nfZQhPv6nuVQFeUgr2r64l76Au49sOAqbkao9966p02ZnG72vHFKXI02Sr/mMBU5QJql8KRS
+ zGLWFpgHM0XA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,276,1589266800"; d="scan'208";a="275798065"
+Received: from linux.intel.com ([10.54.29.200])
+ by orsmga003.jf.intel.com with ESMTP; 24 Jun 2020 12:39:08 -0700
+Received: from debox1-desk1.jf.intel.com (debox1-desk1.jf.intel.com
+ [10.7.201.137])
+ by linux.intel.com (Postfix) with ESMTP id 0257D5804D6;
+ Wed, 24 Jun 2020 12:39:08 -0700 (PDT)
+Message-ID: <06eff8e884b7bddd155fcaad5ef25b9db80a12d5.camel@linux.intel.com>
+Subject: Re: [PATCH V2 0/2] nvme: Add support for ACPI StorageD3Enable property
+From: "David E. Box" <david.e.box@linux.intel.com>
+To: Dan Williams <dan.j.williams@intel.com>
+Date: Wed, 24 Jun 2020 12:39:07 -0700
+In-Reply-To: <CAPcyv4iYGgjmAUiKUgFBF+nm=axamYFueCkN5Jyu7yQ6w1HxLg@mail.gmail.com>
+References: <20200428003214.3764-1-david.e.box@linux.intel.com>
+ <20200612204820.20111-1-david.e.box@linux.intel.com>
+ <12d36fdcdbcf438dd3aac7769e8366afd9d5aa1a.camel@linux.intel.com>
+ <CAPcyv4iYGgjmAUiKUgFBF+nm=axamYFueCkN5Jyu7yQ6w1HxLg@mail.gmail.com>
+Organization: David E. Box
+User-Agent: Evolution 3.34.3 (3.34.3-1.fc31) 
 MIME-Version: 1.0
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -72,49 +80,29 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: david.e.box@linux.intel.com
+Cc: Jens Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>,
+ Linux ACPI <linux-acpi@vger.kernel.org>, linux-pci@vger.kernel.org,
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-nvme@lists.infradead.org, "N, Shyjumon" <shyjumon.n@intel.com>,
+ Keith Busch <kbusch@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Christoph Hellwig <hch@lst.de>, Len Brown <lenb@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-We can make it shorter and simpler without some
-redundant checks.
+On Wed, 2020-06-24 at 12:10 -0700, Dan Williams wrote:
+> On Wed, Jun 24, 2020 at 11:55 AM David E. Box
+> <david.e.box@linux.intel.com> wrote:
+> > Friendly reminder. Thanks.
+> 
+> Are you looking for this to be merged by ACPI with an NVMe ack, or
+> merged by NVMe with an ACPI ack? It sometimes helps to be explicit to
+> break the log jam.
 
-Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
----
-Christoph, your version looks so good that I want to
-take it to the target code as well.
-
- drivers/nvme/target/tcp.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 38eb8797b3c0..dfcbc6522aba 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -463,17 +463,11 @@ static void nvmet_setup_response_pdu(struct nvmet_tcp_cmd *cmd)
- static void nvmet_tcp_process_resp_list(struct nvmet_tcp_queue *queue)
- {
- 	struct llist_node *node;
-+	struct nvmet_tcp_cmd *cmd;
- 
--	node = llist_del_all(&queue->resp_list);
--	if (!node)
--		return;
--
--	while (node) {
--		struct nvmet_tcp_cmd *cmd = llist_entry(node,
--					struct nvmet_tcp_cmd, lentry);
--
-+	for (node = llist_del_all(&queue->resp_list); node; node = node->next) {
-+		cmd = llist_entry(node, struct nvmet_tcp_cmd, lentry);
- 		list_add(&cmd->entry, &queue->resp_send_list);
--		node = node->next;
- 		queue->send_list_len++;
- 	}
- }
--- 
-2.25.1
+Ah. NVMe merge with ACPI ack. Thanks.
 
 
 _______________________________________________
