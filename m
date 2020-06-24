@@ -7,16 +7,16 @@ X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E99D5C433E0
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 16:42:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EF8CC433DF
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 16:42:09 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B4A662073E
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 16:42:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 006322073E
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 16:42:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="tSQqeXdZ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B4A662073E
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Obmq3epi"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 006322073E
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,31 +25,31 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=LPglHn0xhc709qR5l3F/y/lopdHK1gLjg1cS8Ke2kdI=; b=tSQqeXdZtTe3pnPIUXdMDDZmu
-	Oj2KuEL5NsnNWHae0ccnLT3jhY5MYglt2k4jmCIWGfrwuzSSzGpCTWQs7bv5sMEdRObU3e+jrLEqm
-	pOMYS9fm1fFAJVzFFYHcQDlSE3U8qzccvmRLLIIO1jzKXrTduR8n54lPpHADeERi8Ujqnj1JeaeiK
-	cMGIj6BDqSBptft5+JM511UELlKEDwPxBX2DiJ9Fi5jSK7caIXMuxfL5ewHkuUb0rIJ/N0NbAfoqh
-	U6FjN3xg6wd63+FRvkK3kz1qMRX+C1sCQPpZceZ+5BAsMBdZ5zUUKGAiI20V+qJrDtguwrvWOvQtT
-	bsK9DtpnQ==;
+	 bh=b2tm7I/N200oseqvetFEl7fV3mfKyAdrxHNI1at1Qnw=; b=Obmq3epivQMj0igs4OeMEfek8
+	4+VKcavC3dwjWGlillY6ciKYfkPGWiBwFT+4TGn3MPcB9jRkc1kw4Tr+ng3qcqgiKaY4jocbKzKFl
+	/TGmSBJdIYSjTB6/8aFXH+gIjdSHLQRujUzsh4KuGaxsh5o0UHK7IczOXVRgO8duWWWGThskagFLf
+	cnodyb0TTO9S4luSPb8zNktJmGHY7l/1HKA8PjFxt2wBIuWMffCtJZl6jI/o2bNVU7ncjJgpLRbmK
+	xaqGg4kSyc598M1axvS7qMS2WmeHB+GieyRngUcb8NqdSNRUhru3Z4uAlOlffp9PkYtZgiAMf8fdl
+	QWG//KA3Q==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jo8TH-0006g4-3i; Wed, 24 Jun 2020 16:41:59 +0000
+	id 1jo8TP-0006jI-5h; Wed, 24 Jun 2020 16:42:07 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jo8TC-0006eX-Pl
- for linux-nvme@lists.infradead.org; Wed, 24 Jun 2020 16:41:56 +0000
+ id 1jo8TL-0006iB-WA
+ for linux-nvme@lists.infradead.org; Wed, 24 Jun 2020 16:42:04 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 5347768B02; Wed, 24 Jun 2020 18:41:49 +0200 (CEST)
-Date: Wed, 24 Jun 2020 18:41:49 +0200
+ id 5943068B02; Wed, 24 Jun 2020 18:42:02 +0200 (CEST)
+Date: Wed, 24 Jun 2020 18:42:02 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Max Gurtovoy <maxg@mellanox.com>
-Subject: Re: [PATCH 3/3] nvme-rdma: assign completion vector correctly
-Message-ID: <20200624164149.GA24788@lst.de>
-References: <20200623145525.1586-1-maxg@mellanox.com>
- <20200623145525.1586-4-maxg@mellanox.com>
+To: Sagi Grimberg <sagi@grimberg.me>
+Subject: Re: [PATCH v3 for-5.8-rc 0/5] address deadlocks in high stress ns
+ scanning and ana updates
+Message-ID: <20200624164202.GB24788@lst.de>
+References: <20200624085312.35967-1-sagi@grimberg.me>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200623145525.1586-4-maxg@mellanox.com>
+In-Reply-To: <20200624085312.35967-1-sagi@grimberg.me>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -62,15 +62,14 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: yaminf@mellanox.com, sagi@grimberg.me, shlomin@mellanox.com,
- israelr@mellanox.com, linux-nvme@lists.infradead.org, idanb@mellanox.com,
- jgg@nvidia.com, kbusch@kernel.org, ogerlitz@mellanox.com, hch@lst.de
+Cc: Keith Busch <kbusch@kernel.org>, Anton Eidelman <anton@lightbitslabs.com>,
+ Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Applied patch 3 to nvme-5.8.
+Applied to nvme-5.8.
 
 _______________________________________________
 Linux-nvme mailing list
