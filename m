@@ -4,78 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69DA4C433DF
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 07:13:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63919C433E0
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 07:59:10 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3026E20823
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 07:13:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 31C1F2088E
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 07:59:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="d2RmknDx"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3026E20823
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="yPIRxu3H"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 31C1F2088E
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.alibaba.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=pShmxh9aENY7S8A5Ph9kHNgm/fsTJqC3nLnKXf6ABXE=; b=d2RmknDxHpKNENl1TDX+fKsJv
-	c5yR9zd5R6uzXiEWzGEyoU8s/xip4gOl+ITVWWgYXOd0vpBdeEH0yX/M0lkH4XUmjO1fKPZfozaF5
-	VB5PzL63ZB/jOyF69v/Ok59ncvDDDNy8FBIAB6G94mCHnob202TDr3uQJBW4f2dHwJUW4D0WK43Ek
-	GPPBUsjAR3nzEgtWd23ZrWCwSs9R/MNN8vUMRZSDphduQgQfDQNYxs8MG82cCnSZJtXP9eOVgLJSO
-	BwWmgzyFHh6uwlIwHwO9FCLu7wLvkhQCRctJeOl2lk44hEjT2ZChYnPZq18IqcoWBOTx7uZ46iPoW
-	EyLjur4Og==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:Reply-To:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=rNV6P76o4i/QRlmKpCL4WT0BFLNEXnMbb1XO8yzkAtM=; b=yPIRxu3Hzl1kS0p6Jvje+Zal0J
+	Fvfkogm1O8g8w6QcuEM0zpaKDe1QvaWj7UaK8k7rJQ3ytuOeIpdDywEM54BFNSPCvI2pyeUTQkLML
+	IuNWwSRSLv+XylmsBn0mxjAPUA84O+oUPbaWu2by3RiFO7sI46yIbdGdcCOHPPur2PwspaANwaKRS
+	+am4qbh3k/Mf/KAVQ2VS8MD2Hsd8L02JARLp8HkoczTNA/O3TjRBMTIh3OtIsCUhAGanAKDy61wxA
+	XpzdM9PpjpSSe6VNZigx5IQBe8XDBWRER20WFyFUgPvsZcIWpml4Fh2j6tDKTNHZTMEe10t7YirMk
+	EhuWI0yQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jnzay-00080a-9Z; Wed, 24 Jun 2020 07:13:20 +0000
-Received: from mail-pl1-f195.google.com ([209.85.214.195])
+	id 1jo0JE-00086j-VQ; Wed, 24 Jun 2020 07:59:05 +0000
+Received: from out30-57.freemail.mail.aliyun.com ([115.124.30.57])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jnzat-0007zZ-BI
- for linux-nvme@lists.infradead.org; Wed, 24 Jun 2020 07:13:16 +0000
-Received: by mail-pl1-f195.google.com with SMTP id k1so698982pls.2
- for <linux-nvme@lists.infradead.org>; Wed, 24 Jun 2020 00:13:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=J9Hg64tjr7RLdz4MhQu3s8StRBe5reKB4vR48AzSL4U=;
- b=YMbRPVi4gYN3SjXiOaTTGvhZ+CQf4hBu3PaRqpVCUQE8MuQgKr/j5eYc7L17Z5+U1F
- L1iXAsCk6AUZcU+wd9AamP22ygZG1yo/lTLEsP+5xWQ17LoSClHQqH4rsexf2EoC2f4n
- IPsvOCHynrH+7kwXAv6XqbqychE+ngdgZPOr2RwlrpCilNAbr/JHQ663JQbbjtN7ENe8
- x0HMoDWy2uOeaKn4laVSsl034YhOHEcWIVGN3f5/rKPIUOvRKb27Ffh8oZ2iBe36ZzhX
- IBe67QXoYNi7F+clDEw/CHIKigwegrsUi7xVKvchJT9Y2jeAAltEJB0/Cm1cZLYSh9HH
- ErKw==
-X-Gm-Message-State: AOAM530YChWlivC2rGKELg/aX7dZAKeTNLfAlY9ilMtadKLmEd9KpnAu
- 6/CxS+1bk3Q2Hc1yNCNBaGU=
-X-Google-Smtp-Source: ABdhPJzZzZlAIQhoXG0qTnrMOm0kCLmcG/LsunCj0qPsju9gYHEIiiIUB6mNLbA9fTxtlH2XSE4URA==
-X-Received: by 2002:a17:90a:5218:: with SMTP id
- v24mr24336029pjh.223.1592982794374; 
- Wed, 24 Jun 2020 00:13:14 -0700 (PDT)
-Received: from ?IPv6:2601:647:4802:9070:9915:87a9:9728:63e?
- ([2601:647:4802:9070:9915:87a9:9728:63e])
- by smtp.gmail.com with ESMTPSA id z14sm19041653pfj.64.2020.06.24.00.13.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Jun 2020 00:13:13 -0700 (PDT)
-Subject: Re: [PATCH v2 RFC 6/6] nvme-core: fix deadlock in disconnect during
- scan_work and/or ana_work
+ id 1jo0JB-000845-IU
+ for linux-nvme@lists.infradead.org; Wed, 24 Jun 2020 07:59:02 +0000
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R671e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e01355;
+ MF=baolin.wang@linux.alibaba.com; NM=1; PH=DS; RN=7; SR=0;
+ TI=SMTPD_---0U0aLOJ8_1592985534; 
+Received: from localhost(mailfrom:baolin.wang@linux.alibaba.com
+ fp:SMTPD_---0U0aLOJ8_1592985534) by smtp.aliyun-inc.com(127.0.0.1);
+ Wed, 24 Jun 2020 15:58:54 +0800
+Date: Wed, 24 Jun 2020 15:58:54 +0800
+From: Baolin Wang <baolin.wang@linux.alibaba.com>
 To: Christoph Hellwig <hch@lst.de>
-References: <20200624001853.5408-1-sagi@grimberg.me>
- <20200624001853.5408-7-sagi@grimberg.me> <20200624064309.GG17594@lst.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <5511c107-6e75-32e3-4660-fa9705c1e7c6@grimberg.me>
-Date: Wed, 24 Jun 2020 00:13:12 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+Subject: Re: [PATCH v2 1/2] nvme: Add Arbitration Burst support
+Message-ID: <20200624075854.GA37292@VM20190228-100.tbsite.net>
+References: <cover.1592980985.git.baolin.wang@linux.alibaba.com>
+ <32d99c016d23d660f5be4a9754b5b9aafe81ab6c.1592980985.git.baolin.wang@linux.alibaba.com>
+ <20200624065258.GA18130@lst.de>
 MIME-Version: 1.0
-In-Reply-To: <20200624064309.GG17594@lst.de>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20200624065258.GA18130@lst.de>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,37 +68,33 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Anton Eidelman <anton@lightbitslabs.com>,
- linux-nvme@lists.infradead.org
+Reply-To: Baolin Wang <baolin.wang@linux.alibaba.com>
+Cc: sagi@grimberg.me, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, axboe@fb.com, baolin.wang7@gmail.com,
+ kbusch@kernel.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
->> From: Anton Eidelman <anton@lightbitslabs.com>
->>
->> A deadlock happens in the following scenario with multipath:
->> 1) scan_work(nvme0) detects a new nsid while nvme0
->>      is an optimized path to it, path nvme1 happens to be
->>      inaccessible.
->>
->> 2) Before scan_work is complete nvme0 disconnect is initiated
->>      nvme_delete_ctrl_sync() sets nvme0 state to NVME_CTRL_DELETING
->>
->> 3) scan_work(1) attempts to submit IO,
->>      but nvme_path_is_optimized() observes nvme0 is not LIVE.
->>      Since nvme1 is a possible path IO is requeued and scan_work hangs.
+On Wed, Jun 24, 2020 at 08:52:58AM +0200, Christoph Hellwig wrote:
+> On Wed, Jun 24, 2020 at 02:49:57PM +0800, Baolin Wang wrote:
+> > >From the NVMe spec, "In order to make efficient use of the non-volatile
+> > memory, it is often advantageous to execute multiple commands from a
+> > Submission Queue in parallel. For Submission Queues that are using
+> > weighted round robin with urgent priority class or round robin
+> > arbitration, host software may configure an Arbitration Burst setting".
+> > Thus add Arbitration Burst setting support.
 > 
-> I'm really worried about another flag outside the state machine.  If
-> we really need a multi-step deletion we should have
-> NVME_CTRL_DELETE_START, NVME_CTRL_DELETE_CONT or so states and run
-> this via the state machine.
+> What is the value add of doing this in the kernel?  Wouldn't a nvme-cli
+> subcommand to just set the arbitration burst to the recommended value,
+> either as a saved or current value be both more useful and also cause
+> less kernel bloat?
 
-Let me look into this, I'll send out v3 of the other 5 patches, and
-will follow up with this as a follow on series. Going via the state
-machine is slightly more delicate, but I agree that its a better
-approach.
+Yes, that's another way to configure the RAB, but for some simple and
+frequently-used usage cases, we just want to use the recommanded arbitration
+burst as default without bothering the nvme-cli tool every reset time.
+
 
 _______________________________________________
 Linux-nvme mailing list
