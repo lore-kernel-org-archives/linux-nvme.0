@@ -2,21 +2,21 @@ Return-Path: <SRS0=WpAz=AF=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-5.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4901C433DF
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 06:43:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD932C433DF
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 06:48:44 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 810ED20706
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 06:43:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 79521206EB
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 06:48:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="bAUKOCyt"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 810ED20706
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="pTSe1Qv6"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 79521206EB
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,32 +25,30 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=/tmrdjnRh6u7bLOidWg2AedlU7+0weTXXEuADS8bXMk=; b=bAUKOCyt9ogt1bwDPG63jYcTf
-	7Du/tl0SZQgimLFN2in2zwF0eOvu/StnTQ1Q2AhzMqjz2850zU3r2AkiSP03g0OGhP/aSTVZ+oHCY
-	bcjEipqSalR6x+pJeuGuWTBdxjtZOeFyTCqxO/f+CcLThMGezc5t/7Lh+hut/qjRnAfrCp+W4Ky7m
-	e/Y1lOmhm4PwU7T/6C1oZywaoRjKZNciIgDA1j8nuWYDEvnt0q/w4d224kQQOe4bAr2NjpSqV1pDK
-	NPGONOTPMAmw9zTjx8Dx38l64gTCLeZ92t39gcQCJ/e5Co8OzHSiVTwxa3PRI7F2OBp9mghIvpNy+
-	2SacpAtDA==;
+	 bh=LsG/IFdZn5ZTyDS3HYxa5kQuIcK3mKHduGfqJH2HN5Q=; b=pTSe1Qv6RZKDJBB1HLmdeKHyd
+	/9EuLNVkT6ekYa+vFQhzbHFtNDuuBS4cpncy1sb19nEIXPDAc+es65NgQiCK8QDnvD0AlUsfHQ9+q
+	IXfK++jcICMz2oc9xICTNCWPdElFZbuEbhwquaRk0xRTPOlqRiRKDTol3iYMu0/3ePiOAoCcr+J8a
+	AlqTdUsEJa60OCR+FIU+1GDifyjcL2mOlwMIS4CND2F5qg0tmWYw2iqbAOXBjC0Tdf31VbO5U88Is
+	/fGctdK3nNn7md6Hubmim8bAh5HJQOe3aYPHSez9cRSG9HnBmxhC48cq4OcwVoykDfbkN6HiyyWfy
+	1RdcWbZaw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jnz7s-0003Vk-2v; Wed, 24 Jun 2020 06:43:16 +0000
+	id 1jnzD7-0005d8-Mh; Wed, 24 Jun 2020 06:48:41 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jnz7o-0003U9-J1
- for linux-nvme@lists.infradead.org; Wed, 24 Jun 2020 06:43:13 +0000
+ id 1jnzCo-0005cT-Sd
+ for linux-nvme@lists.infradead.org; Wed, 24 Jun 2020 06:48:23 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id AF64768AEF; Wed, 24 Jun 2020 08:43:09 +0200 (CEST)
-Date: Wed, 24 Jun 2020 08:43:09 +0200
+ id 4BA7568AEF; Wed, 24 Jun 2020 08:48:20 +0200 (CEST)
+Date: Wed, 24 Jun 2020 08:48:20 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH v2 RFC 6/6] nvme-core: fix deadlock in disconnect
- during scan_work and/or ana_work
-Message-ID: <20200624064309.GG17594@lst.de>
-References: <20200624001853.5408-1-sagi@grimberg.me>
- <20200624001853.5408-7-sagi@grimberg.me>
+To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Subject: Re: [PATCH RFC] block: blktrace framework cleanup
+Message-ID: <20200624064820.GA17964@lst.de>
+References: <20200624032752.4177-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200624001853.5408-7-sagi@grimberg.me>
+In-Reply-To: <20200624032752.4177-1-chaitanya.kulkarni@wdc.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -63,32 +61,64 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Anton Eidelman <anton@lightbitslabs.com>,
- Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org
+Cc: axboe@kernel.dk, snitzer@redhat.com, rdunlap@infradead.org,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ dm-devel@redhat.com, mingo@redhat.com, rostedt@goodmis.org, kbusch@kernel.org,
+ hch@lst.de, agk@redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jun 23, 2020 at 05:18:53PM -0700, Sagi Grimberg wrote:
-> From: Anton Eidelman <anton@lightbitslabs.com>
-> 
-> A deadlock happens in the following scenario with multipath:
-> 1) scan_work(nvme0) detects a new nsid while nvme0
->     is an optimized path to it, path nvme1 happens to be
->     inaccessible.
-> 
-> 2) Before scan_work is complete nvme0 disconnect is initiated
->     nvme_delete_ctrl_sync() sets nvme0 state to NVME_CTRL_DELETING
-> 
-> 3) scan_work(1) attempts to submit IO,
->     but nvme_path_is_optimized() observes nvme0 is not LIVE.
->     Since nvme1 is a possible path IO is requeued and scan_work hangs.
 
-I'm really worried about another flag outside the state machine.  If
-we really need a multi-step deletion we should have
-NVME_CTRL_DELETE_START, NVME_CTRL_DELETE_CONT or so states and run
-this via the state machine.
+
+On Tue, Jun 23, 2020 at 08:27:52PM -0700, Chaitanya Kulkarni wrote:
+> There are many places where trace API accepts the struct request_queue*
+> parameter which can be derived from other function parameters.
+> 
+> This patch removes the struct request queue parameter from the
+> blktrace framework and adjusts the tracepoints definition and usage
+> along with the tracing API itself.
+
+Good idea, and I had a half-ready patch for this already as well.
+
+One issue, and two extra requests below:
+
+
+>  	if (bio->bi_disk && bio_flagged(bio, BIO_TRACE_COMPLETION)) {
+> -		trace_block_bio_complete(bio->bi_disk->queue, bio);
+> +		trace_block_bio_complete(bio);
+
+This one can also be called for a different queue than
+bio->bi_disk->queue, so for this one particular tracepoint we'll need
+to keep the request_queue argument.
+
+> diff --git a/block/blk-mq-sched.c b/block/blk-mq-sched.c
+> index fdcc2c1dd178..a3cade16ef80 100644
+> --- a/block/blk-mq-sched.c
+> +++ b/block/blk-mq-sched.c
+> @@ -409,7 +409,7 @@ EXPORT_SYMBOL_GPL(blk_mq_sched_try_insert_merge);
+>  
+>  void blk_mq_sched_request_inserted(struct request *rq)
+>  {
+> -	trace_block_rq_insert(rq->q, rq);
+> +	trace_block_rq_insert(rq);
+>  }
+>  EXPORT_SYMBOL_GPL(blk_mq_sched_request_inserted);
+
+As a follow on patch we should also remove this function.
+
+>  	}
+>  
+>  	spin_lock(&ctx->lock);
+> @@ -2111,7 +2111,7 @@ blk_qc_t blk_mq_make_request(struct request_queue *q, struct bio *bio)
+>  		goto queue_exit;
+>  	}
+>  
+> -	trace_block_getrq(q, bio, bio->bi_opf);
+> +	trace_block_getrq(bio, bio->bi_opf);
+
+The second argument can be removed as well.  Maybe as another patch.
 
 _______________________________________________
 Linux-nvme mailing list
