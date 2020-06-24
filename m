@@ -7,16 +7,17 @@ X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D119C433DF
-	for <linux-nvme@archiver.kernel.org>; Thu, 25 Jun 2020 00:03:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C736C433DF
+	for <linux-nvme@archiver.kernel.org>; Thu, 25 Jun 2020 00:19:22 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3A476207DD
-	for <linux-nvme@archiver.kernel.org>; Thu, 25 Jun 2020 00:03:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 22B672078D
+	for <linux-nvme@archiver.kernel.org>; Thu, 25 Jun 2020 00:19:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ZieykZXi"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3A476207DD
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="S368xNWp";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Kpag0y4P"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 22B672078D
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,47 +26,39 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:Reply-To:Cc:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=RKRFTnleR+NxtTc+6s77Du0ST60bK75wB96NVHIr1P0=; b=ZieykZXi9J3QJCSqdp1HEYYTsO
-	+Ccytv9fQw/GsZ1PLVmLEsx7FIY1IJxSdDev0aZY1CG2WLiJoB4Eb6Sof7XX6oScoOIzUIP3VjAa7
-	t9VIGrxT+aI99d+pbfYZjWHP+eijx2p0RWj3iLW6cLbmKi3D0Zv848aj9599mT97DA89VCiARuLFq
-	giCZkwF4BZUg9usdeyVqCLp1ODiflQvmk3TWHXvd45SjW3BO74ZslX7NbVpgwEVd7OMnNmlw+pR7J
-	gYC6Y+MT9WSKKIcRO2u/hx+LCLrRpnBXEkeFMAoWOB78POrylSrDbFUfizGHEZn11DpkHWKEzOg4l
-	DJCzPvfw==;
+	bh=RKRFTnleR+NxtTc+6s77Du0ST60bK75wB96NVHIr1P0=; b=S368xNWpuT+vrWT5PnvIjBObfl
+	MEe9YeEiCcR/X9nKf3u8ziZ6EoNUJyRMB7aE4Dble4GDqHA4CzU1Kw9U8mZq6MtjoD9BEhfHp/wBh
+	Rlyfclyi6/pxmnzRTs+1oe6RH/wG6mOmVksUClv1yjZyIqmLxbskupAd01v/KrKsd6prDsnonWTfE
+	hwSC75CavxhKakH9qSZb5DItgpyjqxkeFTA9h3YlUYCZDIxCIPzRLNjYiz+dJCybY2sJroYEHkwUL
+	pRg1BNay/CI5q0kZ/NhlOZCdgtH+lZNgkVP330cYYM1uP+bWrstLUxsNLNrbUZeAQF7LSKbpjRZ8G
+	1zjNMT8A==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1joFML-0005Mm-UP; Thu, 25 Jun 2020 00:03:17 +0000
-Received: from mail-wr1-f67.google.com ([209.85.221.67])
+	id 1joFbo-0003fj-I0; Thu, 25 Jun 2020 00:19:16 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1joFM8-0005IG-60
- for linux-nvme@lists.infradead.org; Thu, 25 Jun 2020 00:03:15 +0000
-Received: by mail-wr1-f67.google.com with SMTP id a6so4002436wrm.4
- for <linux-nvme@lists.infradead.org>; Wed, 24 Jun 2020 17:03:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=wywlvmRu1mfUIVJ41TRmrfAx3KPPFw8gsPRSshHGf0A=;
- b=ky9wAJWABzUgjx5HE05mtNVz1+DYkMxqSzP2vCzHjJSkEIo8mua0g1qLlDRJSIP1zj
- auZZZOxv8sc08xAfpMZjVxwU/XFZQ3mFcwITXeHybRXOIMnxFJfvuZzsA9vm4uvDGlft
- aSJBeCAquPOaEU3bA+MQyWxDKKDdJbm8qMSQDtxC/S5ElkuSU4sycAVXin16q4v2vi1j
- EmA55L+POTKyztPhk1Y2cL1YbTvJh871Hlad8yicOM5/LPz0ofzpav3MlHSNnWzW3Vm9
- kj08eOPSIaS0srOjJR2gKeeaPJJhc2BKfSkYw2UwEwo9cMGrdgkcHes0oSingvPJD/eN
- JKjw==
-X-Gm-Message-State: AOAM5303xCT+74zmBc+qMthbbQtg9tUjKtnh5fBrGXZU5cdi35XZ9pEu
- QOjWXYdiY51ZUzC8ltuwglRiSkRb
-X-Google-Smtp-Source: ABdhPJznB+o2kBVo1Nu2SIcZcVnkOM8GIMgAsZI5ffz2CaI84Kienc5NRIeVisO8eBBc1grNzTs6zQ==
-X-Received: by 2002:adf:ecc8:: with SMTP id s8mr34208356wro.317.1593043382715; 
- Wed, 24 Jun 2020 17:03:02 -0700 (PDT)
-Received: from localhost.localdomain ([2601:647:4802:9070:4c08:474f:e61d:6947])
- by smtp.gmail.com with ESMTPSA id d24sm9519866wmb.45.2020.06.24.17.03.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Jun 2020 17:03:02 -0700 (PDT)
+ id 1joFbm-0003Ap-7u
+ for linux-nvme@merlin.infradead.org; Thu, 25 Jun 2020 00:19:14 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+ Message-Id:Date:Subject:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=wywlvmRu1mfUIVJ41TRmrfAx3KPPFw8gsPRSshHGf0A=; b=Kpag0y4PlQWagh1xdifQNA4MJq
+ ex0hIh88s2ZdBMsXkojlAntAce732jCgSFnmSI5UeXWjH/i1cKwqhW+i1z8VmTp8Rsb7+LdzB2Mvn
+ dTZe8pRkoznEqYCNYHrjXwX33c0H+nofLcI6xco5LpMN9ddGdNDJDP87UBWo9ASPtITPkcI3gKPha
+ 534WHdVvIHlxGgkzBAH2V8qNM3X80JefKbiFBXeuJnQUm5RaxlADjp4WI4MjEln6R5zK+0i1PiMgj
+ Km/87EyobYczacIypAMCpoX24Jv2+PPC9THLex7zs84OqL/2gj3s49u8OhMsWjmmxhzhnem2Lz03q
+ swsm5pNQ==;
+Received: from [2601:647:4802:9070:4c08:474f:e61d:6947]
+ (helo=localhost.localdomain)
+ by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1joFGK-0003RJ-EG; Wed, 24 Jun 2020 23:57:04 +0000
 From: Sagi Grimberg <sagi@grimberg.me>
 To: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
  Keith Busch <kbusch@kernel.org>
 Subject: [PATCH] nvme: fix identify error status silent ignore
-Date: Wed, 24 Jun 2020 17:02:57 -0700
-Message-Id: <20200625000257.29981-1-sagi@grimberg.me>
+Date: Wed, 24 Jun 2020 16:56:59 -0700
+Message-Id: <20200624235659.28722-1-sagi@grimberg.me>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 X-BeenThere: linux-nvme@lists.infradead.org
