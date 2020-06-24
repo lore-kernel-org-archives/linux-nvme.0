@@ -3,71 +3,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=no autolearn_force=no version=3.4.0
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA9C6C433E0
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 21:49:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA332C433E0
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 22:09:43 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 786FA207E8
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 21:49:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id BAE032084D
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 22:09:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="MkRDmNQO";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="I9wN7G5Z"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 786FA207E8
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="TNpdlixz"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BAE032084D
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=w9uZ43Dc2sxi3ZlYhs3XwiPbqxQYb1loAJ+MXE8/+I8=; b=MkRDmNQO7dLEaHgOg7IIUdH6/
-	ZeNgfTzEA+7/KXE9mo4EOG7hQBpXiWsCz3Y+qqp3OzwG0RvWJZSW1Tjfhhj/Dedx9BFofYmNTcwgb
-	rCq3ladVs4fP8eOZ432fSS7fSJ90PvwjqnMeJnz9wjKxAQgO+yX5yQh+xaoDqc851/shV/jw6mGl6
-	oT2wLT8f6RPxaEfP2aTcr/X75Q2gDF8R/atrYD9O5n5YwEjZ1tdQLiShYp9JxASL0f+WsTeWk3i5q
-	PWQ/3lVSeePuuJpmgDlRYdE8uDFqpP4xlv2dOFgy8NmdgxiAMliXTGwxBTx0HEBBxLREahZaQw59s
-	OMDLi75eQ==;
+	Content-Type:Cc:Reply-To:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Date:To:From:
+	Subject:Message-ID:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=J0WrJTZrJ/jap/t4gyIMGNCjqavvjgKxiXGrCAJRSgk=; b=TNpdlixzpDsAPPL1PpjQ48UKJf
+	nlQ5MimEnXkbFxRNLTK5RZhPMNyidn+E1K8ch/EDdc+G48bCTb/CpALurIc0oP1jAz/SfYWXhdgo3
+	TaMkHUiLJaVBNQvjrTRFXjikKTeRY4n9HcA498nSp+OX6OkpuKay2PCrzEcMBQztvtwV/APE1++tW
+	KCR2Fc/C57dp2+NDrNATERuTSGaqrNKBpO6BjkcwqC59ig9Yb8lMhOIb0vFY939weCHcPGwTUJ9NJ
+	Jqw0U4uXTykbTYjTwXGNRc2uCpmgBI1kyN5bgbrNOz/q96i/qJU4fgnu2T1hs8Z1A9666onahrsLX
+	R/IN5zEA==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1joDGk-00055L-D9; Wed, 24 Jun 2020 21:49:22 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1joDaN-0002rO-PV; Wed, 24 Jun 2020 22:09:39 +0000
+Received: from mga07.intel.com ([134.134.136.100])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1joDGi-00054c-85
- for linux-nvme@lists.infradead.org; Wed, 24 Jun 2020 21:49:21 +0000
-Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id CD864207E8;
- Wed, 24 Jun 2020 21:49:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1593035359;
- bh=VpmbtELydXZc3a6i1+KX2Op5vIZHkJl1heXqRXN7uqg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=I9wN7G5ZQIjHSGWgwgEeEHUa6Oi8nVzi1c4P81FHcBHtypR1ibmVqkrW86Xozpupq
- mz0eb7qX12xIPrNGLlG+o+wFdPl4q5y6E8WO3aqP84/5tjmJaqxCoRmQm5zgYpnlMX
- bDgk2eP6R66mXkZLVW7zpqq94096L/xgkuwyRS3E=
-Date: Wed, 24 Jun 2020 14:49:16 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCHv3 3/5] nvme: implement I/O Command Sets Command Set support
-Message-ID: <20200624214916.GG1291930@dhcp-10-100-145-180.wdl.wdc.com>
-References: <20200623112551.GB117742@localhost.localdomain>
- <20200623221012.GA1291643@dhcp-10-100-145-180.wdl.wdc.com>
- <b5b7f6bc-22d4-0601-1749-2a631fb7d055@grimberg.me>
- <20200624172509.GD1291930@dhcp-10-100-145-180.wdl.wdc.com>
- <e59e402b-de74-e670-59d1-a6c51680a31d@grimberg.me>
- <20200624180323.GE1291930@dhcp-10-100-145-180.wdl.wdc.com>
- <1ddbf614-f5a7-a265-b1a2-7c5ed0922f18@grimberg.me>
- <76966a48-0588-3f3c-0ec1-842cd2ac413d@grimberg.me>
- <20200624184016.GF1291930@dhcp-10-100-145-180.wdl.wdc.com>
- <06623bef-7269-f45b-9f43-8c854ddf812d@grimberg.me>
+ id 1joDaJ-0002pC-NL
+ for linux-nvme@lists.infradead.org; Wed, 24 Jun 2020 22:09:36 +0000
+IronPort-SDR: p7PA9WZWA+JWFJ/whq6oHo9uiJhbJyztMR9fgb7KhfDl7bcHyzqxCUh9B4A7giN7crKw0K/bj7
+ 7FjmmQoJYMQA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9662"; a="209788106"
+X-IronPort-AV: E=Sophos;i="5.75,276,1589266800"; d="scan'208";a="209788106"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jun 2020 15:09:33 -0700
+IronPort-SDR: 2SVh1mImTky8qw5v7uYe5jrIaRPakYHkCi8Im1bR39HTfEeR3VgDSbz4g1c+CN5zo5qWIASHQL
+ HnQ1YZlUUXvA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,276,1589266800"; d="scan'208";a="275836573"
+Received: from linux.intel.com ([10.54.29.200])
+ by orsmga003.jf.intel.com with ESMTP; 24 Jun 2020 15:09:33 -0700
+Received: from debox1-desk1.jf.intel.com (debox1-desk1.jf.intel.com
+ [10.7.201.137])
+ by linux.intel.com (Postfix) with ESMTP id 8C58C5804D6;
+ Wed, 24 Jun 2020 15:09:33 -0700 (PDT)
+Message-ID: <e980bc2959b5a959bddfa63adb35aeae8261ab06.camel@linux.intel.com>
+Subject: Re: [PATCH V2 1/2] PCI: Add ACPI StorageD3Enable _DSD support
+From: "David E. Box" <david.e.box@linux.intel.com>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Date: Wed, 24 Jun 2020 15:09:33 -0700
+In-Reply-To: <20200624213757.GA2591059@bjorn-Precision-5520>
+References: <20200624213757.GA2591059@bjorn-Precision-5520>
+Organization: David E. Box
+User-Agent: Evolution 3.34.3 (3.34.3-1.fc31) 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <06623bef-7269-f45b-9f43-8c854ddf812d@grimberg.me>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,94 +77,55 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "axboe@kernel.dk" <axboe@kernel.dk>, Niklas Cassel <Niklas.Cassel@wdc.com>,
- Daniel Wagner <dwagner@suse.de>,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- Javier =?iso-8859-1?Q?Gonz=E1lez?= <javier.gonz@samsung.com>,
- "hch@lst.de" <hch@lst.de>, Matias Bjorling <Matias.Bjorling@wdc.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Reply-To: david.e.box@linux.intel.com
+Cc: axboe@fb.com, sagi@grimberg.me, linux-acpi@vger.kernel.org,
+ linux-pci@vger.kernel.org, rjw@rjwysocki.net, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, shyjumon.n@intel.com, kbusch@kernel.org,
+ bhelgaas@google.com, dan.j.williams@intel.com, hch@lst.de, lenb@kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jun 24, 2020 at 12:03:41PM -0700, Sagi Grimberg wrote:
-> =
+On Wed, 2020-06-24 at 16:37 -0500, Bjorn Helgaas wrote:
+> On Fri, Jun 12, 2020 at 01:48:19PM -0700, David E. Box wrote:
+> > StorageD3Enable is a boolean property that indicates that the
+> > platform
+> > wants to use D3 for PCIe storage drives during suspend-to-idle. 
+> 
+> Is this something that should apply to plug-in drives, or does this
+> only apply to soldered-in things?
+> 
+> > It is a
+> > BIOS work around that is currently in use on shipping systems like
+> > some
+> > Intel Comet Lake platforms. 
+> 
+> What is this BIOS work around?  Is there a defect here that's being
+> worked around?  What's the defect?
 
-> > > > > If the controller does not support the CNS value, it may return I=
-nvalid
-> > > > > Field with DNR set. That error currently gets propogated back to
-> > > > > nvme_init_ns_head(), which then abandons the namespace. Just as t=
-he code
-> > > > > coments say, we had been historically been clearing such errors b=
-ecause
-> > > > > we have other ways to identify the namespace, but now we're not c=
-learing
-> > > > > that error.
-> > > > =
+> 
+> > It is meant to change default driver policy for
+> > suspend that may cause higher power consumption.
+> 
+> I guess this means that by changing the driver policy from the
+> default, we can save some power?
 
-> > > > I don't understand what you are saying Keith.
-> > > > =
+Yes. Maybe 'work around' was a poor choice of words. 'Getting around
+default driver policy' is the issue. There is no hardware defect. One
+of the uses of the suspend-to-idle flow is to support compliance with
+increasingly tighter energy regulations. One of the ways to do this on
+desktop systems is to power off the ATX power supply during s2idle and
+use the 5V standby rail for self refresh and other low power needs. But
+the platforms that support this can't shutdown the PS unless PCI ports
+are placed in D3. On Linux this won't happen with NVMe drives because
+the default driver policy is to use ASPM (NVMe APST) during s2idle.
+Windows has a related concern. So to 'get around' the driver choosing a
+policy that will result in higher power consumption, they implemented
+this _DSD to inform the OS of its preference for D3 on the PCI port.
 
-> > > > My comment was for this block:
-> > > > -- =
+David
 
-> > > >   =A0=A0=A0=A0if (!status && nvme_multi_css(ctrl) && !csi_seen) {
-> > > >   =A0=A0=A0=A0=A0=A0=A0 dev_warn(ctrl->device, "Command set not rep=
-orted for nsid:%d\n",
-> > > >   =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 nsid);
-> > > >   =A0=A0=A0=A0=A0=A0=A0 status =3D -EINVAL;
-> > > >   =A0=A0=A0=A0}
-> > > > -- =
-
-> > > > =
-
-> > > > I was saying that !status doesn't necessarily mean success, but it =
-can
-> > > > also mean that its an retry-able error status (due to transport or
-> > > > controller). If we see a retry-able error we should still clear the
-> > > > status so we don't abandon the namespace.
-> > > > =
-
-> > > > This for example would achieve that:
-> > =
-
-> > We're not talking about the same thing. I am only talking about what
-> > introduced the DNR check, from commit 59c7c3caaaf87.
-> > =
-
-> > I know you added it because you want to abort comparing identifiers on a
-> > rescan when retrieving the identifiers failed. That's fine, but I am
-> > saying this fails namespace creation in the first place for some types
-> > of devices that used to succeed.
-> =
-
-> OK, now I think I understand (thanks for clarifying that the discussion
-> is not on patch 3/5, but rather on 59c7c3caaaf87).
-> =
-
-> So the original proposal was to check NVME_SC_HOST_PATH_ERROR (and now
-> we have NVME_SC_HOST_ABORTED_CMD) but with the review Christoph gave
-> it seemed to make more sense that we generalize and check the DNR bit.
-
-Okay, I didn't question this approach when it first went through, so
-sorry about this digression, but I really don't get how this DNR check
-helps at all.
-
-The code currently returns an error if DNR is set. Based on the commit
-messages, it sounds like you need that error to skip comparing
-identifiers through nvme's scan_work calling revalidate_disk():
-suppressing the error has revalidate_disk() fail with -ENODEV when
-comparing identifiers fails.
-
-Since we do return the error when DNR is set, we skip comparing
-identifiers and return blk_status_to_errno(nvme_error_status(ret))
-instead. How is that errno an improvement?
-
-And then if DNR is not set, we suppress the error and proceed with
-comparing identifiers??
 
 _______________________________________________
 Linux-nvme mailing list
