@@ -2,80 +2,78 @@ Return-Path: <SRS0=WpAz=AF=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AB2AC433E0
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 19:11:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C390C433DF
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 19:25:30 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0BA9120702
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 19:11:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D328E20578
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 19:25:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="OtZ4SG05";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=intel-com.20150623.gappssmtp.com header.i=@intel-com.20150623.gappssmtp.com header.b="in62/pK4"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0BA9120702
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=intel.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="jG32CjNY"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D328E20578
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
-	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=8M+tc3quZLorWpB9ZbzYBo/aVGexQYExG0LscAq1odo=; b=OtZ4SG053v+oGqKundoVB4pzG
-	ZlJ5SK3glxwUdVbyz5iXjO6GWqDgJXvL7oEkaA/loxv3z/ALxQno7wcsHyZK7HqPGfhOzRVuDC5mE
-	qXGAN953k8sJ43nHKD26t4vdJ+8iIbvrSmvh7UlsoPzElSJ0JsMUYA13VtJd2pLkb7New/QO+nXFG
-	GcRyQgE1dFu+FEtT3JAXo6D2514VfBA8Yq+f/7vPU2Qk/T0LJk9izn2SHsWehLOmlHhoqiFVvlsBQ
-	jRRZFN9sJlubaaWQTpg+Ul8vA4lUKUNVh7b4zEfN2vLwCNcW2QagtPMHdExOv6GUWrEYAjgf6TdBm
-	oR8Iw0qQA==;
+	 bh=1gsrBNIKd6exh5bbyl4RIc0LRCGGf70nDDRtqqkqivM=; b=jG32CjNYYI41+cLkh9MwPyKKl
+	Mjw2M/4U+nfAsz6fbLAB13QrR9ky9Zj/Rj7UFQyQvJWXYpDi7vvF2qLWKH+tfI9Y0fk6l2CvCFRgn
+	hMMtb+sMEOnjBFKhTwSt2yhQ84c8aMYPljAtlTwTfIsWTa0yrl1+WOxG2VxMwc95WJW7kL1PXHXZd
+	K8Ry+JKbpHQ8F/ZlV9XdmKZriwQPDC8HcMWdZku7iDKUixrFhOkLTD431/SvTKjpxGnVnTdc0EHSv
+	AWTc03Atm+UTuERnW7/ogl4cFi5k/AO0yzGiITIpTGyE/nMone/IjaCeZMtcLTBlrGIrsr5qYuU8I
+	6IpgK97gg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1joAna-0003w7-GN; Wed, 24 Jun 2020 19:11:06 +0000
-Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542])
+	id 1joB1R-0000Iw-5f; Wed, 24 Jun 2020 19:25:25 +0000
+Received: from mail-pl1-f173.google.com ([209.85.214.173])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1joAnX-0003vJ-So
- for linux-nvme@lists.infradead.org; Wed, 24 Jun 2020 19:11:04 +0000
-Received: by mail-ed1-x542.google.com with SMTP id s28so2299994edw.11
- for <linux-nvme@lists.infradead.org>; Wed, 24 Jun 2020 12:11:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=intel-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HUy3SYLieHUYRrbu7ksz+DDx5NoSGhvtwAWM7BS+NcQ=;
- b=in62/pK4305qlruXOrme3JoGaFZsG+ngmdYPd6qQJVPMZU8zi45J/cdtrR/1S2nDpG
- osC789ZrUhTlXbnv7LgWIfcNPZ+ugiqfFG98EnA6GebisxGlzNr6DE/YYjikoTyjpTr6
- dzESw5Tk70JPsArLMfUSCMZmv4fCVRQauL8U50UEeeTPu7ml5UcziaUxfOow1iLRtOE9
- g3KIkUWDlvL4VHx0ultb5v4HHmoFF5GBabUMOWbywjy9cYRAsAWsYMhAumd5XKngyrLj
- x1ScTaJ71iWX60kuFWHkQlJK56tNx/8L3F9ZHkDXvkYZVgaBDVCDP3QzFahIOfXx7tbl
- dc1Q==
+ id 1joB1O-0000E2-Ge
+ for linux-nvme@lists.infradead.org; Wed, 24 Jun 2020 19:25:24 +0000
+Received: by mail-pl1-f173.google.com with SMTP id n2so1443368pld.13
+ for <linux-nvme@lists.infradead.org>; Wed, 24 Jun 2020 12:25:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HUy3SYLieHUYRrbu7ksz+DDx5NoSGhvtwAWM7BS+NcQ=;
- b=inNaW0+DUVA/naN/GQah+QRuJOAz2NC9x9Xl9gALqiqfn0Kp0quXcrdd20cM71jpCM
- 5j7O2/FZMMQN6/jvmi6U0mJQpaARd0o3+MKS6fX0AlpT/QQsXY4O6aXw6xApKRstIo2g
- xW9UkX1IOcc5eyTpfqIRB430mmpgLxG0/PL4NsZfxikbf5h8k4BmrOsJx0hlOLRU74Sv
- Q8Qj29ynusv8XVv8lv37U1N3KgLiqNIe/DBcgOAvNXy7TmB5lvFiERcllXRVzj/qTwUH
- noofIZ8s6P67Fv2quxhtThNtiUUHgU8Qp846xtzzvNalRlOBNZTDvW2gj0JB8+6SSTuV
- F9yg==
-X-Gm-Message-State: AOAM532N1lyK0RU14E4U4Q1ybDJwCAjAMETv1ehuzpOQ4PIb9+FhnoO9
- QG/71ArrDTptNMS45FlIKggQoHEFiRXf7hvaxqiWx4VX
-X-Google-Smtp-Source: ABdhPJwTc+VdGxK7PxA2A2Hb2Q/oOwneukaqMN+TiIWLM8FMg1nGLcl6/OQXIozSlGxncNmyGtKZ6GK3+EL+fh+R4Sw=
-X-Received: by 2002:aa7:d6c1:: with SMTP id x1mr27574990edr.154.1593025862677; 
- Wed, 24 Jun 2020 12:11:02 -0700 (PDT)
+ h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=wqxHv6EUt/1Hjs69yPTwlNlJVhX8A0LwzLNhS3AQIck=;
+ b=HG0dCCYYoD/1XEc4qpKz5jh3TWi2qZlLkU2yfb1oWrMViLT0KxiFUHr9UvZ4CXwUwB
+ yWwB3RryBKvBQP722RPx9hL8ac1gMu5Aq/d1QjQiASy7WZ53vGXS0hxQwobHasMDOIXO
+ FMueNgAnmecTEjHsgKXeoKdbKC0kIBU7197pb3T80iaTcLhzH/t1kFY1xYpebGVyUGvL
+ SA4bI64L48/GdkHYZv2YLsjTl3qyL1R48IBN1ecnu053TUzXpMtD+9Fs6SE2DoeAG8RR
+ /y6Hd3NyneRkUaN2pIUrMOzhykVf4dMs8JNDv0Su1d7T17/BuWBMP4WSlyqGnrudh0t3
+ T5yQ==
+X-Gm-Message-State: AOAM530SqLVJIbrUWauIGAYo1v3D2qHjO/qjGmUfwKUiNc3+bbxT72ue
+ +dpyk2jq+/FUKepAI5Q99Cocm6+C
+X-Google-Smtp-Source: ABdhPJz7TfqQBo6YAgmauAMDPfB36SYG/mrb5654tr/PORKyIf+dwIfeGHtk3hnKsQLVoYk1ZzTcHw==
+X-Received: by 2002:a17:90b:1495:: with SMTP id
+ js21mr29933580pjb.48.1593026721315; 
+ Wed, 24 Jun 2020 12:25:21 -0700 (PDT)
+Received: from ?IPv6:2601:647:4802:9070:4c08:474f:e61d:6947?
+ ([2601:647:4802:9070:4c08:474f:e61d:6947])
+ by smtp.gmail.com with ESMTPSA id p19sm20764184pff.116.2020.06.24.12.25.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 24 Jun 2020 12:25:19 -0700 (PDT)
+Subject: Re: NVMe over Fabrics transport requirements support
+To: Alex Talker <alextalker@yandex.ru>, linux-nvme@lists.infradead.org
+References: <eaceb06a-79d3-2b97-c975-6f2f641e90c7@yandex.ru>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <71232e85-054b-638a-c168-4829e97f917f@grimberg.me>
+Date: Wed, 24 Jun 2020 12:25:18 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-References: <20200428003214.3764-1-david.e.box@linux.intel.com>
- <20200612204820.20111-1-david.e.box@linux.intel.com>
- <12d36fdcdbcf438dd3aac7769e8366afd9d5aa1a.camel@linux.intel.com>
-In-Reply-To: <12d36fdcdbcf438dd3aac7769e8366afd9d5aa1a.camel@linux.intel.com>
-From: Dan Williams <dan.j.williams@intel.com>
-Date: Wed, 24 Jun 2020 12:10:50 -0700
-Message-ID: <CAPcyv4iYGgjmAUiKUgFBF+nm=axamYFueCkN5Jyu7yQ6w1HxLg@mail.gmail.com>
-Subject: Re: [PATCH V2 0/2] nvme: Add support for ACPI StorageD3Enable property
-To: David Box <david.e.box@linux.intel.com>
+In-Reply-To: <eaceb06a-79d3-2b97-c975-6f2f641e90c7@yandex.ru>
+Content-Language: en-US
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,79 +85,37 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Jens Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>,
- Linux ACPI <linux-acpi@vger.kernel.org>, linux-pci@vger.kernel.org,
- "Rafael J. Wysocki" <rjw@rjwysocki.net>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-nvme@lists.infradead.org, "N, Shyjumon" <shyjumon.n@intel.com>,
- Keith Busch <kbusch@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Christoph Hellwig <hch@lst.de>, Len Brown <lenb@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Cc: Or Gerlitz <ogerlitz@mellanox.com>, Boris Pismenny <borisp@mellanox.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jun 24, 2020 at 11:55 AM David E. Box
-<david.e.box@linux.intel.com> wrote:
->
-> Friendly reminder. Thanks.
+Hey Alex,
 
-Are you looking for this to be merged by ACPI with an NVMe ack, or
-merged by NVMe with an ACPI ack? It sometimes helps to be explicit to
-break the log jam.
+> Is it true that setting any value in addr_treq attribute of port in via 
+> configfs
+> 
+> only affects displaying TREQ on discovery page and doesn't anyhow inflicts
+> 
+> "whether connections shall be made over a fabric secure channel"?
+> 
+> 
+> I can't find much about whether RDMA(RoCE in particular) is secure
+> 
+> but for TCP TLS is must-do these days I think.
+> 
+> 
+> Is this functionality planned to be implemented in near future?
 
->
-> David
->
-> On Fri, 2020-06-12 at 13:48 -0700, David E. Box wrote:
-> > This patch set implements a solution for a BIOS hack used on some
-> > currently
-> > shipping Intel systems to address issues with power management policy
-> > decisions concerning PCIe NVMe drives. Some newer Intel platforms,
-> > like
-> > some Comet Lake systems, require that PCIe devices use D3 when doing
-> > suspend-to-idle in order to allow the platform to realize maximum
-> > power
-> > savings. This is particularly needed to support ATX power supply
-> > shutdown
-> > on desktop systems. In order to ensure this happens for root ports
-> > with
-> > storage devices, Microsoft apparently created this ACPI _DSD property
-> > as a
-> > way to override their driver policy. To my knowledge this property
-> > has not
-> > been discussed with the NVME specification body.
-> >
-> > Though the solution is not ideal, it addresses a problem that also
-> > affects
-> > Linux since the NVMe driver's default policy of using NVMe APST
-> > during
-> > suspend-to-idle would lead to higher power consumption for these
-> > platforms.
-> >
-> > Patch 1 provides a symbol in the PCI/ACPI layer to read the property.
-> > Patch 2 uses the symbol in the NVMe driver to select D3 as a quirk if
-> > set.
-> >
-> > Changes from V2:
-> >       - Export the pci_acpi_storage_d3 function for use by drivers as
-> >         needed instead of modifying the pci header.
-> >       - Add missing put on acpi device handle.
-> >       - Add 'noacpi' module parameter to allow undoing this change.
-> >       - Add info message that this is a platform quirk.
-> >
-> > David E. Box (2):
-> >   PCI: Add ACPI StorageD3Enable _DSD support
-> >   drivers/nvme: Add support for ACPI StorageD3Enable property
-> >
-> >  drivers/acpi/property.c |  3 +++
-> >  drivers/nvme/host/pci.c | 14 ++++++++++
-> >  drivers/pci/pci-acpi.c  | 59
-> > +++++++++++++++++++++++++++++++++++++++++
-> >  include/linux/pci.h     |  2 ++
-> >  4 files changed, 78 insertions(+)
-> >
->
+There were some discussions around adding this. Currently there is
+some infrastructure work that we need to do first to have a kernel
+consumer utilize ktls (mostly revolves around the fact that both
+ktls and nvme-tcp are socket consumers and implement sk upcalls).
+
+I'm CC'ing Boris and Or who were very much involved with the
+ktls implementation in Linux, they can maybe provide some more
+input.
 
 _______________________________________________
 Linux-nvme mailing list
