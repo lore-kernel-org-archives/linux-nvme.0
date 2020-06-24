@@ -3,136 +3,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 969F9C433DF
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 17:08:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E36EC433DF
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 17:25:22 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5CCD32082F
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 17:08:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 6F01320836
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 17:25:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ulODEvl/";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="JXGgb5o3";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="dK2l0s41"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5CCD32082F
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Tn3h2fYP";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="JrmwJ7Do"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6F01320836
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:References:
-	Message-ID:Date:Subject:To:From:Reply-To:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=eyJVvGjNfCGiEMOZ7imQFCBehY1H6+Ht1r1ONHM9KJQ=; b=ulODEvl/kcF0gzyqC2yJlkwpc
-	Y6JehXPi3NY2ZDTkM5b51joCuLJuk3fVSKeORPafN2oki2mYk11rnJ4YP5kMxyjBCL4UL0jyTDWG3
-	QHcm9dYWApjcI2MQGC0TFVxDJO/vyOi07lr9j13Ki5bMcI13zxaFm5lUwzMjlEB1vUI29HgycSBKz
-	ushztUOz0xpOgKo/frWLvWuyCeU99Y1jm4RdbnEtVuplIx32mJUwLnb/Vqckc00Ih1MPyKDbIa0G2
-	srOPDwpmWHe2GGCdKxPdcYCVS+CmG/MBGiOe/UcBZTwjEDfENDDzPLnMdxSqTYaP6lAJVib8f2gZV
-	WUUsUKIew==;
+	 bh=1Rn/hYMrZcIgRh9PL6rrCKf0egrIwSZURkbH/81/YJE=; b=Tn3h2fYP13b0eNmTvFutDOcbg
+	TXU9+H0aAXNfD7zk9NxuOPcAdZP47OXkc6WNccwn2G9vbVyzn2NlVWK+sWD+SrnY1mOx6vsrLk967
+	SFhUobAs/wEc4ZIAq+z+UfpprCHlf+Sa6KlN/igHuYwMXr4Iz1agSKKW7K6J2fTVA5yCU+Bj53Cvz
+	Xl3uMYtWFk/Vm+f40XvuFbt0b986c0icfMv5InCf22AXYpm7+5Atnd6YaZQr9gNiBnGOKfqRPb2YZ
+	w4LTr7aEHH+pYbkbValONUuPv+0MBEvVsXGu5dzJj1tRAUHxnbe6LfZyoHkrBHPR6uaJXceqLKkFg
+	hwQWDoxcQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jo8sk-00026z-BY; Wed, 24 Jun 2020 17:08:18 +0000
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
+	id 1jo99A-0000LE-SL; Wed, 24 Jun 2020 17:25:16 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jo8sh-00025F-A1
- for linux-nvme@lists.infradead.org; Wed, 24 Jun 2020 17:08:16 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1593018495; x=1624554495;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=ZdoE6HWHyiZS5pwDcu5Bc17Yeu68tY/gmcwI90LrXqc=;
- b=JXGgb5o3YV2IH7X0DGGQqMU1mfdofqQ0v441TXd+lqi20WnS3XtQJ7Yr
- YKcHxyvDsdBek4t3u+VpdNC1W09yoTnz4KRDkgQ6N0N6fx/jEbUjZWYbt
- hSbS6xk96VLz1C0FOF8uMwOe9ZjN9YIKln6RURkDAPmihuOJy1NGb1jn6
- Us2JBwYwtQRe3yFlWodSC5ev2ziRbyhjm4Ha6bxiqfM+K+JJz8N0pzIoo
- F9L0i0PS4ea36OqymmL1x8e3WQtbBVmVERwryk83rzHEN4WroToUxb4f/
- Yx4uYmFq3UlGuB1NoYIjiw3nI96hnx7h6BzbDs/NKgbDDv8jnPMGWHYSk w==;
-IronPort-SDR: Oak6ppXbc/Do1BcjmbaM4QK62RB2d7OPfb//1eyyECHXeHoQC5s3zNN/vmlTY2NOLlS1jif4lW
- fnrwmdOaCrfOZ4rZ+7h/WRxPF5qEICQZ9/wyo4XsIOBcK2lMdh+6nM4CS8jGJ/R2TDL4ABpmIJ
- JcrabA4ri9Qa3Ws8g9e5PMc2pJ0hGW+SEqsJvWv/uHui39R0XVODOZn3ks4eEnCKcS8bhQ1GkZ
- cnSJCRAw4Qg0TEXL8gqZWc5eigh80zLMMN3B8gxgrgDyNBlMA/Cdj+umzBV2eYa7TfffuIwiSD
- 4GE=
-X-IronPort-AV: E=Sophos;i="5.75,276,1589212800"; d="scan'208";a="250032999"
-Received: from mail-co1nam04lp2050.outbound.protection.outlook.com (HELO
- NAM04-CO1-obe.outbound.protection.outlook.com) ([104.47.45.50])
- by ob1.hgst.iphmx.com with ESMTP; 25 Jun 2020 01:08:13 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cxreHGdIoR6Uyv5h7BrULZz9hsGktQ8loID7qxNBWl2vwlK7T8S+IjayFujmHXR6XH4dw3xl/SCkESQ1ALklp/MuFQZ0EA74JO3NNXWWpBKwZYbhDnv6agMCZs/2Uxn9+a3C1nHX6FsaRhLXlDjSWRfCnvcVj1j9wmChAoHOrnL+YFRUOMLd/EdwwOimuDlG2y+wGvf0VpcWiiNIWSOqAmMNJ2dW2XYzz2kItOJph0cYgOsdqPQ2kX7BxfXvIfI+GU8RSNm3XKdDfM722RnaOHL11g35w0yS2KXsNmS4nobRr/PqPotpqJNKVeO6Lm6IuKH5naPAVCi10U9SBb0YHg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ac6lA1l6PPjvTZ5uUAjRXbh32bqh22we/OQArxrb7oo=;
- b=T7aedc0CwQPz2539jHHI1ch5ViyH0jMXDIDsC21mTBgiRNOCWP4Oo0N2zsmzPimOm+6qlIH9e4oqIZmZIFWAfobay6ry/+dyHHndQBFF3YEtARvo7PNz+buu/trf+RAOnjHoqA8ihe54rqf2JvGwtYo5oYiiXi4EJJxUtEuyQGwc019H68cC9b5e4pIMH3fMBi3CZEU+OUximHN/gnH7LMhrnq94IzuefXOBHGG/epKQmaa0ha2AFm79yvCjrhwA//rQnhZEq7mxrG0/0/qUKLTm7VT6pi38eX4gTIrZ16Uu88ZxVmbMkoFk6lMnzVgBcuZG6gFLnWneuw3+G/b5yA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ac6lA1l6PPjvTZ5uUAjRXbh32bqh22we/OQArxrb7oo=;
- b=dK2l0s418eb1wXGzZ1UZ+UnzwpQp81IS0PICm4VuEBuIai4gJlX+jvhyHsXRa+VUuUIV++frIiMUC0KtJ7HbLniigSvJ+CUVHVKgDrYHKH/2yegQo12RHlJ+vOnZk6ljEAgTpw1PP0EDNZ8z6MPjR6J9Vh8wPMTvlcYIavq0/GQ=
-Received: from BYAPR04MB5112.namprd04.prod.outlook.com (2603:10b6:a03:45::10)
- by BYAPR04MB3976.namprd04.prod.outlook.com (2603:10b6:a02:b0::25)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.23; Wed, 24 Jun
- 2020 17:08:13 +0000
-Received: from BYAPR04MB5112.namprd04.prod.outlook.com
- ([fe80::a442:4836:baba:c84b]) by BYAPR04MB5112.namprd04.prod.outlook.com
- ([fe80::a442:4836:baba:c84b%6]) with mapi id 15.20.3131.020; Wed, 24 Jun 2020
- 17:08:12 +0000
-From: Niklas Cassel <Niklas.Cassel@wdc.com>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v2 0/2] remove workarounds for gcc bug wrt unnamed fields
- in initializers
-Thread-Topic: [PATCH v2 0/2] remove workarounds for gcc bug wrt unnamed fields
- in initializers
-Thread-Index: AQHWRatsK9pqpN/HlEmT0NtnEgioaqjoAiyAgAADqACAAAE8gIAAAa2A
-Date: Wed, 24 Jun 2020 17:08:12 +0000
-Message-ID: <20200624170811.GA396203@localhost.localdomain>
-References: <20200618200235.1104587-1-niklas.cassel@wdc.com>
- <20200624164441.GA24816@lst.de>
- <20200624165746.GA394355@localhost.localdomain>
- <20200624170211.GA25230@lst.de>
-In-Reply-To: <20200624170211.GA25230@lst.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: lst.de; dkim=none (message not signed)
- header.d=none;lst.de; dmarc=none action=none header.from=wdc.com;
-x-originating-ip: [85.224.200.150]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: b4d48fc2-081f-4b4e-87d8-08d818612da4
-x-ms-traffictypediagnostic: BYAPR04MB3976:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR04MB3976A974C8AB2A801EB62B0FF2950@BYAPR04MB3976.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 0444EB1997
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: XV/vTjMx0J06/LRMlkXCQCAD3jtY3ufsUjD8AfsPykMejXwv+x7iEk+j9p9fy8WEDbhM6+9nBTanCXgJrg3AWv5jIiuSN40s+1UF2karz/YjYDGL2lS3SqIERa+saqMJRExf8/ffbaiZzJhNrh4cOaDSzkfRhRtrLdVx6+5uvo8wSEbTaVLjaRc/mH4AP6pP7KnqetvJ72c7Lh9ZB729XsmUHmF74BLLRqsd6/u7KqBY2NtTVRB9JvlahXW0Vwe5pKN6ugDvse0gPGxWPgjW98t1JtImNGF+ZqA6txX/GjGoGJOVAFSN5SDa46DzSZSGu1JtvF2BPyVp0vv+qpALkg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR04MB5112.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(376002)(366004)(136003)(39860400002)(346002)(396003)(316002)(26005)(4326008)(54906003)(1076003)(186003)(6486002)(2906002)(478600001)(66946007)(66556008)(76116006)(91956017)(64756008)(66476007)(9686003)(66446008)(6506007)(6916009)(6512007)(71200400001)(86362001)(33656002)(8936002)(5660300002)(8676002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: M1/fkUo3TCjronDEg9z4dWqpRb7lgIMsszBHeSgR3+/94XtBoZAESO7sdJiK2Zo6HL2S1yd9YoNHSJyFQEck4w2qssoVscfkOnX2Ef4x73WuYv/g9FJIaMg7vlaerXENCug6SvLU0u1y+tlmftSPUXDsTovU6S0/uBOGXWhwTf8jHclvrbOXz/FH3Ehkj0JdJdne2NJri4NII+JCzhuh6XLirVcX9GdtZb6soOAiSBSZS8hgcvujXQPs3Rr9githAQIGICm5dmm4ID79RT6Rw1vPiqdsZnoxbLMVbQGBMY3idpsHxFjFgGCB7ubIPhxRzr+Ww3EnpEiAFMTXBKpVceGlIIen/sMoJbnHENpOAaCY6mQYncH2lff/kE60cGIwPTKSuOuYKHPcYFCaUbpKwadCNdhl8edsIBng7O0dvV3MGw9pcv6q3ijIBuWQI+0ff+b3vE9bHuKG9Sr4PAUsbUd0HCh12MndE1GrYu8A8aXQfMXawDsB1TOrR91/uK7L
-Content-ID: <C2A3B0F50ADC18448F8995778D7268AE@namprd04.prod.outlook.com>
+ id 1jo997-0000Jv-6g
+ for linux-nvme@lists.infradead.org; Wed, 24 Jun 2020 17:25:14 +0000
+Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id C69022078D;
+ Wed, 24 Jun 2020 17:25:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1593019512;
+ bh=HhO/sOQOOLLB8Ih6Q75GWOsi4UoMPxjoZ4C46ch4QRA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=JrmwJ7Do1aY4hFozWLENjwf9W6i8yfDP71mPxKRPaI6w0QMYl8CRQTFXCuIfLoaeJ
+ B3TPbMDgwnc+ANYi3ihXau8KiLP7UKojw6Y+RXUr+ik/+4mGFy7M/WIlnYAQw+Ci2V
+ 5zVSqMb9Lzj3snQaVFfRU2LI9GdaBtrbc+EvhE0M=
+Date: Wed, 24 Jun 2020 10:25:09 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Sagi Grimberg <sagi@grimberg.me>
+Subject: Re: [PATCHv3 3/5] nvme: implement I/O Command Sets Command Set support
+Message-ID: <20200624172509.GD1291930@dhcp-10-100-145-180.wdl.wdc.com>
+References: <20200622162530.1287650-1-kbusch@kernel.org>
+ <20200622162530.1287650-4-kbusch@kernel.org>
+ <69e8e88c-097b-368d-58f4-85d11110386d@grimberg.me>
+ <20200623112551.GB117742@localhost.localdomain>
+ <20200623221012.GA1291643@dhcp-10-100-145-180.wdl.wdc.com>
+ <b5b7f6bc-22d4-0601-1749-2a631fb7d055@grimberg.me>
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b4d48fc2-081f-4b4e-87d8-08d818612da4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jun 2020 17:08:12.7897 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vExUhjQGYgqJcisu60sEuBgkmjNzGnSnH+P2IpClEs9Qbwy7WNbD4Y9QemQfprnCZ5e4Coqplg1cgVWSszLB2A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB3976
+Content-Disposition: inline
+In-Reply-To: <b5b7f6bc-22d4-0601-1749-2a631fb7d055@grimberg.me>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,50 +75,68 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+Cc: "axboe@kernel.dk" <axboe@kernel.dk>, Niklas Cassel <Niklas.Cassel@wdc.com>,
+ Daniel Wagner <dwagner@suse.de>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
  "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Jens Axboe <axboe@fb.com>, Keith Busch <kbusch@kernel.org>
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ Javier =?iso-8859-1?Q?Gonz=E1lez?= <javier.gonz@samsung.com>,
+ "hch@lst.de" <hch@lst.de>, Matias Bjorling <Matias.Bjorling@wdc.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jun 24, 2020 at 07:02:11PM +0200, Christoph Hellwig wrote:
-> On Wed, Jun 24, 2020 at 04:57:48PM +0000, Niklas Cassel wrote:
-> > On Wed, Jun 24, 2020 at 06:44:41PM +0200, Christoph Hellwig wrote:
-> > > This looks good to me, but I'd rather wait a few releases to
-> > > avoid too mush backporting pain.
-> > 
-> > Chaitanya made me realize that about half of the nvme functions
-> > are using "struct nvme_command c" on the stack, and then memsets
-> > it, and half of the nvme functions are using an initializer.
-> > 
-> > IMHO, using an initializer is more clear.
-> > 
-> > memset has to be used if the function needs to reset an
-> > existing struct, but in none of the functions that I've seen,
-> > are we given an existing nvme_command that we need to reset.
-> > All the functions that I've seen declares a new nvme_command
-> > on the stack (so an initializer makes more sense).
-> > 
-> > What do you think about me unifying this later on?
+On Tue, Jun 23, 2020 at 04:17:30PM -0700, Sagi Grimberg wrote:
 > 
-> I like the initializers a lot.  But as I said I'd rather wait a
-> bit for now.
+> > > > > -		len = nvme_process_ns_desc(ctrl, ids, cur);
+> > > > > +		len = nvme_process_ns_desc(ctrl, ids, cur, &csi_seen);
+> > > > >    		if (len < 0)
+> > > > >    			goto free_data;
+> > > > >    		len += sizeof(*cur);
+> > > > >    	}
+> > > > >    free_data:
+> > > > > +	if (!status && nvme_multi_css(ctrl) && !csi_seen) {
+> > > > 
+> > > > We will clear the status if we detect a path error, that is to
+> > > > avoid needlessly removing the ns for path failures, so you should
+> > > > check at the goto site.
+> > > 
+> > > The problem is that this check has to be done after checking all the ns descs,
+> > > so this check to be done as the final thing, at least after processing all the
+> > > ns descs. No matter if nvme_process_ns_desc() returned an error, or if
+> > > simply NVME_NIDT_CSI wasn't part of the ns desc list, so the loop reached the
+> > > end without error.
+> > > 
+> > > Even if the nvme command failed and the status was cleared:
+> > > 
+> > >                  if (status > 0 && !(status & NVME_SC_DNR))
+> > >                          status = 0;
+> > 
+> > This check is so weird. What has DNR got to do with whether or not we
+> > want to continue with this namespace? The commit that adds this says
+> > it's to check for a host failed IO, but a controller can just as validly
+> > set DNR in its error status, in which case we'd still want clear the
+> > status.
+> 
+> The reason is that if this error is not a DNR error, it means that we
+> should retry and succeed, we don't want to remove the namespace.
 
-Just to be clear:
-Even with these patches, about half of the nvme functions are using
-memset rather than initializers.
+And what if it is a DNR error? For example, the controller simply
+doesn't support this CNS value. While the controller should support it,
+we definitely don't need it for NVM command set namespaces.
+ 
+> The problem that this solves is the fact that we have various error
+> recovery conditions (interconnect issues, failures, resets) and the
+> async works are designed to continue to run, issue I/O and fail. The
+> scan work, will revalidate namespaces and remove them if it fails to
+> do so, which is inherently wrong if these are simply inaccessible by
+> the host at this time.
 
-But sure, I'll wait a couple of releases, and then rebase this,
-and additionally convert the "struct nvme_command c" memset users
-to use initializers.
+Relying on a specific bit in the status code seems a bit indirect for
+this kind of condition.
 
-
-Kind regards,
-Niklas
 _______________________________________________
 Linux-nvme mailing list
 Linux-nvme@lists.infradead.org
