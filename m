@@ -2,22 +2,22 @@ Return-Path: <SRS0=WpAz=AF=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1D9CC433E1
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 22:40:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD84EC433DF
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 22:45:12 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id AD5DE2065D
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 22:40:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9F08D2065D
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 22:45:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="eFdTo/ZN";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="AHZpEl/W";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="YG2ulwZ/"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AD5DE2065D
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="vAmejqBG";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="o8LNP4Ge";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="E0Avt7uG"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9F08D2065D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,76 +26,73 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:To:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	 bh=8LNM7YROU5Vq5jkfdjOWsXrELSbiVLVqCZcM7gxLMoQ=; b=eFdTo/ZNpPm7m+emgS/n3MOIA
-	a9Owc9Alv0bwYWRWQEw7a0JRTTS82dKRMYWCrI/2OXMQwec2aglc9GlLLYKtM63yN9fQC2kOPQq4J
-	w/2KwFkB0Qe6T7ks1dhL4nfUBtVKB15G9hXJ3BovqGK441jbJrNbbz7LJ45Tr7KB4DOTleYdOQc1y
-	yQnUzrnsJoQfxLPrz5pi54J0z22foyN+sOkfwfZltCfSbDJ4QWyjiGY8vM08Jpae02WGj/0AHqemg
-	Xv6EwGA5rdACQyvu7HMxm2RVDorLReskaj1541ytwv5lRfTnyqAH7fB5lI0Dr68oj/MMaMoFxjsN1
-	ere0Ufu6w==;
+	 bh=Q+uY9YYk4z+Fg687R8VeFeO/QsqXZFrx9twgsbC0DMY=; b=vAmejqBGPc4gnVXnH7tBl2FSL
+	D2tt4gVPGAFN7DVYPEKZZHgSAP/9SRraSsu+S4M3ecMy9Paay6XmsirmFxTeKK7A55qgM/sIqtbqa
+	bnCjfA3Jfn4guq7DYWvUExyFbGGiWdDw1Utreb9cm/B6breDd0eqbELHZ2oHmxFIDBVmb++lYSBES
+	U1XmrLkqawOhrSztAavRq4US7eP/7Xep8ODbF57iBSWvJVOq+J0Lw41dmkXTx2aROx2pWKv9m0AmC
+	xOx8X9LFp5xURccJxLfzvVJy0lVv9PQom1hx/hbYn+PFHbSQWJHXOYNzPL1pEcvF9Hju9Uq5NPC6G
+	9y1RC3lxQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1joE4F-0003HD-Tw; Wed, 24 Jun 2020 22:40:31 +0000
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
+	id 1joE8j-00057m-LG; Wed, 24 Jun 2020 22:45:09 +0000
+Received: from esa5.hgst.iphmx.com ([216.71.153.144])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1joE4B-0003EU-OP
- for linux-nvme@lists.infradead.org; Wed, 24 Jun 2020 22:40:30 +0000
+ id 1joE8g-00054y-Tj
+ for linux-nvme@lists.infradead.org; Wed, 24 Jun 2020 22:45:07 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1593038427; x=1624574427;
+ t=1593038707; x=1624574707;
  h=from:to:cc:subject:date:message-id:references:
  content-transfer-encoding:mime-version;
- bh=5euSSVb1mYmYe+gpDOG9ErBSVRQxh074Zs/+PDR0fps=;
- b=AHZpEl/W6pVfhOh76AGRioJP7Aw1yCldySOh0vKPyv9Qv/1XCMHvi4Yv
- kpxGBY/MSnBRR3aTqFqUKfqdz2xbbsjFixphA3bH8y4dTuhY4vMWFvGZA
- iKeqSPViwMFP6TIHmz/RmuHHhttLo0Q8JNegaDNhzoQLOTRKBY8q2klaT
- 9EYE708LOnM0WNbA9ffE851eTP2jz2MjnRNOzsA1z5np7tmg2h4ltIkZt
- rjS0GkBn1WfL6XgrorNLf2bBv6RNIscfBdaw82eFUHbKHsvqgRNlAYllc
- fdAZbchV32lN5G8cQDJxB1OJ28NH9S3f4cMTWzu4whLJZ4c7UiFbMO3U1 w==;
-IronPort-SDR: PlH3to+mgPMB90mU68GfXX9DSoH//O5JsuW1V2muoWcGChxlj31tfc6HkQg3oXhIJWG5eeBEGT
- rpo/lBPLsTxd37Hhw1fxm7jdr2BxLgBMTkLJSr4GeTWIMnoIoSGDTOtaRbt5PxDU2p/Ox5LBRt
- biSJ635ahtsYcPkay411pl/0i5vcTLnB0tWeRSn6oVrlpZ/dVlw/Aq20DcZbpYvo9VWV9tZxb2
- ctBaJgcDJ0KSyC9PQg5l33TaNTbS4s2KAbiAXCGDFOlPAcbWScIL2eaYFBvrrZuvc0SxzpSVPM
- TYg=
-X-IronPort-AV: E=Sophos;i="5.75,276,1589212800"; d="scan'208";a="250058055"
-Received: from mail-sn1nam04lp2052.outbound.protection.outlook.com (HELO
- NAM04-SN1-obe.outbound.protection.outlook.com) ([104.47.44.52])
- by ob1.hgst.iphmx.com with ESMTP; 25 Jun 2020 06:40:21 +0800
+ bh=kR1zPCtvRTb8QwSRy3RVvMLbXTiVpAC8xFH9Gjvkdec=;
+ b=o8LNP4GeObpmr5/agYqdZkPxTGK4yps65WV2sryZ+WH0PYTjX6G8KrRR
+ JggBHxdp7JWliV/zC0e5SD3QYbfOzaCq2VStYUCBrMhmdaH+KOt6SQjBW
+ L4J+aYm5+t1yTu0VysSmn/BOofyWq5aouxpCtwM9rZ7f3wlV5jgqvIBZc
+ CPoVb2DUGBMgRjKjcAwZpkfIMAbXXiwunenSSjrGzpi86Z8ZTcm6+ONlv
+ n5bbShtAO/iliN/jJ6UMsHub/8khBkQbYk76SrKlfzf1bze2rTJuDez40
+ QIC6cbsAufWoG6eNQUhxZyQy++FpsSZDW6supwo1fbw+K1G/+MJA/5K3V w==;
+IronPort-SDR: 74PQLI+uqz1xA0twDFY5nrzAQSFh8pJUpSNUYaLI6cuJFaneeG55E6nljBHR9vqsRx9ZT+jdX8
+ uzbgplUjnEl1e2cXlwWtZ4L9OnsV4VSwY2wP8zYobDuAwfmNeSddwKPTZ6w4FlhxkofgYP/36e
+ 361Jzw5DcIQ83l2Nm/vNzN9mivm8uqvBfxDY6QeL3RmxOGGuefm0Ug/n0IssmqggBfXoQRJKA7
+ /weN1UwQVueUkvz3FPq1WLzghC3gv3wXbMKFmlNMiIOLIUwgapsmPrRPxKmWsZoROGpIXLaqps
+ Qx4=
+X-IronPort-AV: E=Sophos;i="5.75,276,1589212800"; d="scan'208";a="141083698"
+Received: from mail-dm6nam10lp2106.outbound.protection.outlook.com (HELO
+ NAM10-DM6-obe.outbound.protection.outlook.com) ([104.47.58.106])
+ by ob1.hgst.iphmx.com with ESMTP; 25 Jun 2020 06:45:04 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=N96VLPK9oszIpIMbKo1O4jyhC7OTGcldyzOUUChI5xV4Yw+49NGViJDBtOAGXMapyngzLkcw9gjJ88YsMgK1c46WFxwcrwDwN0LL9dNX2TFqG/2jyvA2/JsizBHJH3fI8zBDLxcCLP2CTSrKUq9ItZw3NFsvkk7ehRH7w5uPl8oB62Y45MxNC9zbzad4a7hGAFomnIyT3LPSFqeds6rSUvJfHV52tjOVuxGk9q6HmrObO8mfsVAqRpa7NoOMTdNbFjcnO0PWmla+XzPNptk+6KHeyaW2jX2LC6XRfqXoHbSIZS2VLUcOTC0/rmJVh6bp5pJPOnYTKuGfPg3tBhUODQ==
+ b=gY+XQ45Hg62+HfK1ysy9is925KGVdwvQG/c3gMrM06Drg19LvJ0rQwBZsRUbAof4Kd2AQQLc3qVejANZ257ux6mcND8K0nitw3CSNGXt0OQJS71pqzAlp4ZzPLNyS3qNNBy1O1Je6zpiqKHnVrpysCLr6y7oHrl1Vwaim9DqngnwKal0FBwhaHiGBjDfmA4MebyCoGSF6No7uDdAz8OPsI8Zfg+UqSoQtcwy7bl0qggspklwfQBcE9lRHE2z75pgRPfoCZu1kY2uPTsa5nR5+SfiY9Wyo6ReB/f0hjP55ikKyiInNudpHmcnxNSZA2jPE4+7AZTi9sqQMTHnimi5FQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oR9cU4ON1j/uGGIdtSJImB1uBtXvEm/p7e9YwnhH1Mg=;
- b=ifUwIJvoJhx/VT3s3WpzZzbwoWl3lEvRPqpxUV9fMVCvorlajyB3kUiyDy8ZTttyXb35qgvsEmlPdn4TxBZ4CfYRipHukpq7Kg7qqAIpTca4Vk8fFqiR2/fcCc3dzaLGEmA6Br+G09j0gp0k7G0HRlzYIlomHRAp95Pw1XOPG3x7Kb9AhDDbp9KdGP+3iTLs3IROwda3zBbJt+4VzEBR8zmM44tNKAyU68lIjWZu0v3FNXDhwTuOn8bh+deB+XvtNEcgZ/ZVaZ97z1r7KEYFTnpCkpdMlBFok0HtW3nZhr87lXJTdIJn+O41Vvm2ltf9SDqidrbTLbJWpsgbu250RA==
+ bh=V7Vv79/MNCgxDNDUWoUZZfSGk6/yKOjKVwNM85htwdM=;
+ b=bZb36d9fj7Un3/9Rmv5ZFUJw+ANh012Xnv7NA+tqQg+E9XXW4DW2e6sWQo0aMCNO52AlHCjLeOOTtCubxSX4GMEUDThwr4g0BTNf5U3m/w5r/8qz1mDC/AJi6B+GAWJn2Hq+lu2Og4RAmkjJBd4tkkDFy+n/JdoFvf9pc5VfbgOYSk+E9QaoTjuR9KT/BmjYkw/NuPT16MiNkMYj24eM+IE72xedif3xILD5jGm4Sk2W80CJWWn4Voj6dTHPIFfgqN+SJ70+L9qDJQWTeZLyZm59w8cYZivOffP9HYGOBETwPt9xCKM/QRooWQJ/HL3oFrtXiVd2y6X6vF0YK/L0FQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
  header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oR9cU4ON1j/uGGIdtSJImB1uBtXvEm/p7e9YwnhH1Mg=;
- b=YG2ulwZ/hxY04liKUwVAEdHKMUiGKEyGWsAlyi9AXuJp9t68FOrVCIgOLtSH69L+QFelrsliWN9xtjD4xZuWkc7nqm97RA9KySZhT7cgwB6YzJoxooaxWSmYxxszB8wPFCO3b52YM/3qWi+vulDjsDoSqGjP252xP8vVnnlTgWE=
+ bh=V7Vv79/MNCgxDNDUWoUZZfSGk6/yKOjKVwNM85htwdM=;
+ b=E0Avt7uGBTBW68pun5R1JmyF0SCeaoShvbYCeYFxzP4qwlc20QPcaVnORKN0KXXgaHblfv/hc4i7dI1BNIqoBhubpI7HEnGPeslOlNskRtLvf9AKhDCXFIaw7u/KaVzPrrKRxQ2qWULWat1RXBaLB+cjUCZw6hLgdgWs3drXong=
 Received: from BYAPR04MB4965.namprd04.prod.outlook.com (2603:10b6:a03:4d::25)
- by BYAPR04MB4664.namprd04.prod.outlook.com (2603:10b6:a03:11::27)
+ by BYAPR04MB5688.namprd04.prod.outlook.com (2603:10b6:a03:104::33)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.21; Wed, 24 Jun
- 2020 22:40:21 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.22; Wed, 24 Jun
+ 2020 22:45:02 +0000
 Received: from BYAPR04MB4965.namprd04.prod.outlook.com
  ([fe80::4d72:27c:c075:c5e6]) by BYAPR04MB4965.namprd04.prod.outlook.com
  ([fe80::4d72:27c:c075:c5e6%7]) with mapi id 15.20.3131.020; Wed, 24 Jun 2020
- 22:40:21 +0000
+ 22:45:02 +0000
 From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-To: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, Sagi
- Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH v2 0/2] remove workarounds for gcc bug wrt unnamed fields
- in initializers
-Thread-Topic: [PATCH v2 0/2] remove workarounds for gcc bug wrt unnamed fields
- in initializers
-Thread-Index: AQHWRats4KkNpfsaUkiEB9dxdlImtA==
-Date: Wed, 24 Jun 2020 22:40:21 +0000
-Message-ID: <BYAPR04MB49655BD99E428B66EBB831E486950@BYAPR04MB4965.namprd04.prod.outlook.com>
-References: <20200618200235.1104587-1-niklas.cassel@wdc.com>
- <20200624164441.GA24816@lst.de>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH RFC] block: blktrace framework cleanup
+Thread-Topic: [PATCH RFC] block: blktrace framework cleanup
+Thread-Index: AQHWSdd4UnyRRkLaf0OG0GWCqlwTUQ==
+Date: Wed, 24 Jun 2020 22:45:02 +0000
+Message-ID: <BYAPR04MB49653212CE32249C65C0A7F486950@BYAPR04MB4965.namprd04.prod.outlook.com>
+References: <20200624032752.4177-1-chaitanya.kulkarni@wdc.com>
+ <20200624064820.GA17964@lst.de>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -105,33 +102,31 @@ authentication-results: lst.de; dkim=none (message not signed)
 x-originating-ip: [199.255.45.62]
 x-ms-publictraffictype: Email
 x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 7cb668ee-b530-46ac-617a-08d8188f93ce
-x-ms-traffictypediagnostic: BYAPR04MB4664:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR04MB4664C4D8C06024838653B87486950@BYAPR04MB4664.namprd04.prod.outlook.com>
+x-ms-office365-filtering-correlation-id: 2da5678c-a5a1-4c07-896a-08d818903bbc
+x-ms-traffictypediagnostic: BYAPR04MB5688:
+x-microsoft-antispam-prvs: <BYAPR04MB5688F1049F95C98C268A176A86950@BYAPR04MB5688.namprd04.prod.outlook.com>
 wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:4502;
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
 x-forefront-prvs: 0444EB1997
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 517OF7IjKHQHwPpX3092bqykpnsn1S+C7u2TUvJwaw6sIku/8nTJB9QKIkwi58W4uXzdhs3BfQ4BcfA48agf+ulAlFWicpeQXWz7HHX3wf3IXqPn/+txvyNivuWWMyPdmko+gwD39jcz60Ve4ZJzIggO0AszvEEIN7muTI2ucGWsG5dIVOJ2Pjqbne9dMVl5vFUuvM9ADUuF0B5dVgu1XXxfh+39Cat9zI8nhIyekCqkL2CuuGTf6Su5RxE3NOglBgCnWZVyHAWjQvvVi3oqeoRICj4PqZd1wnoOpqWY01YV9LKZBdiDQx7mJCIwjIF6xYmlkg7/0pP/qecYu/fuGxxbdz5qcZb+FpYeDIy8JEK7EP1vaqG5xdSHtqidnGc5
+x-microsoft-antispam-message-info: j+4MxcY8WnjKsKUmBlapaUWawqEinfy/gEFO/vNGPDPwD/kP7uu14AqUgbWYf2eX31WSRDF/EO+6+7uKn0pjGWX8LhR+0x92EgWlborF8GUtsi7A4oaN0MCE8Ql4H1wfhPUrnTodW1B5LDkUPh8YxzVzKwS13C85bMDLKq/3I/ErLL8txTEBAJiKwlsZdI6mQ/hU619q2gHsqWmQzNZc7JeNyv5X4Wk3Vva4ANCI1UZbc4iKuLjjfrtlegt9ofM4vMOQhe3/byglQSqFv5+eOqeVZ/mQu6ED0ioRmdeEmapEuElrK75C72PFNuQNeCLyzQ4+SDwg1qi0r8akcSD7aw==
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR04MB4965.namprd04.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(376002)(136003)(366004)(346002)(39860400002)(396003)(8676002)(71200400001)(478600001)(33656002)(76116006)(55016002)(8936002)(66946007)(9686003)(86362001)(110136005)(66476007)(2906002)(64756008)(66446008)(4326008)(66556008)(186003)(5660300002)(83380400001)(54906003)(316002)(53546011)(52536014)(7696005)(6506007)(26005)(21314003);
+ SFS:(4636009)(136003)(396003)(39860400002)(346002)(366004)(376002)(52536014)(6506007)(53546011)(6916009)(186003)(86362001)(76116006)(5660300002)(66946007)(83380400001)(26005)(7416002)(66476007)(66556008)(2906002)(33656002)(64756008)(478600001)(66446008)(4326008)(8936002)(8676002)(9686003)(54906003)(55016002)(7696005)(71200400001)(316002);
  DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: eJIFVcZ1vvskxMQhLTs9yjWPzujziVMskVRtCe96Qy5RB03XE7kTzWW8nl/6a3kufKrsic45xPusfjDXre0UCBxfr1ilXPekLf8yEY6FHrK5sEXTlQ8nV8+HygU5QabkW3Uea/MxmwkbuHIAGCvwouo/jj4t38UU/M+ONxMvYQFP9mKtK/G5gz5cbhK1RtPrejBxbWs0mUS1xFxjtS0lJQHgWufgVJqnFmOxYRjWxE7M5VN9NZzK2MrUjp2O3BcLr4TpcZdLHEwA4pbl+9qBeKJFbCgmgY5W5ejDKArjbQiNC/Sx+fWpdandAhRu3hXqk4gtJJwgLNqvBLz66MAM5vcmhS/xNv+T/98+Yv8g1/Ugkes9nN/mr0j/Fy6VvhRHwe/28CqGcXObzkaODf3ZwfqhzPLYgQ/x7xD6qsAr6XmrId2WY8Rs+CvJ/3aZrI898qGhlJ3t0XWIxUXzhUEMBB9zzJOQRi6sGRoRQ24Z1pk=
+x-ms-exchange-antispam-messagedata: xRH6Hl8/x2ZZfWilyMV6N26FwonUzrqzknUQKEb3Roqkv7brqIg05UlRFM+Aqq8WSECPQJz00mbEBBEq8ZEDMvX0m42WlqgEIRgvmQ5mTT3MNrOa/DEoo2kcY8LrPdRCswFsMoZsoKYXv3gW/4noY7dhqNLodxGHpx/bN1+MRCcqoNWKvoRPaPICZbMxtBG8TPxf1H8HEn4XuZeDu5C6uddcghlTn3kLjHE6z4VZuOGuq1YolmCPcyowiC2+cmm4h0hidOTtZwlkWYFv8xHZPcP8KYzJmUcQ2t+xEgVkic3/Ew6SEC1uOshqTemDUEFy5MUqPHevbI+7SHQYkuY58frr/2bJXIgHvcIXN9YOir4U+oSmezCxozPCtRLC9ycxyEdNdgRwFcaOJnJudihbcTEl0GX4ola+HVZjA9gPl4eHRBpJjZ9fe4rXTNgb3BWs3lseHhaoyN5nrO3lWHZJDd4usYGiT3NvBp+980PrjHA=
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
 X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR04MB4965.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7cb668ee-b530-46ac-617a-08d8188f93ce
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jun 2020 22:40:21.1151 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2da5678c-a5a1-4c07-896a-08d818903bbc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jun 2020 22:45:02.7545 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: JpiZ9a+jmfs5U121em5eTRILP6ciEQde6pgPPtkvzfzzOC6mVZY9D38xROC+dgTVsx+2n2dbdVjY77UaWDBTp3OjTA99K0vPaduV9ZzRrcs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB4664
+X-MS-Exchange-CrossTenant-userprincipalname: tTyo8GSALl26+0AKJVSJs4rKDBoz9rSaWieJTbPZS39R8+uKq/9ivDr1ObZk+HasXQP/YByN3KaH9i9zwiABF9nJBi2ZNzrAHZXP+4jrA+0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB5688
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,89 +138,77 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Jens Axboe <axboe@fb.com>, Niklas Cassel <Niklas.Cassel@wdc.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Cc: "axboe@kernel.dk" <axboe@kernel.dk>,
+ "snitzer@redhat.com" <snitzer@redhat.com>,
+ "rdunlap@infradead.org" <rdunlap@infradead.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "dm-devel@redhat.com" <dm-devel@redhat.com>,
+ "mingo@redhat.com" <mingo@redhat.com>,
+ "rostedt@goodmis.org" <rostedt@goodmis.org>,
+ "kbusch@kernel.org" <kbusch@kernel.org>, "agk@redhat.com" <agk@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Christoph, Sagi and Keith,
-
-On 6/24/20 9:44 AM, Christoph Hellwig wrote:
-> This looks good to me, but I'd rather wait a few releases to
-> avoid too mush backporting pain.
+On 6/23/20 11:48 PM, Christoph Hellwig wrote:
 > 
-
-Here is a summary, for longer explanation please have a look at the
-end [1] :-
-
-Pros:
-1. Code looks uniform and follows strict policy.
-
-Cons:
-1. Adds a tab + more char [1] which can lead to line breaks and that can
-    be avoided without following declare-init pattern, less bugs and
-    no pressure to fit the initializer in ~72 char given that we do have
-    some long names and who knows what is in the future.
-2. Issue with older version can lead to adding additional braces which
-    does not look good.
-3. Writing a new code becomes inflexible and pressure to fit initializer
-    will not allow users to use meaningful names in the nested structures
-    and anon unions.
-4. Future patches will be needed for backward compatibility.
-
-Also code is perfectly readable as it is so why change ?
-
-If everyone is okay with above cons I'm fine adding this.
-
-Regards,
-Chaitanya
-
-[1] Explanation :-
-
-I'm not against unifying the code. This will enforce struct 
-initialization to be done at the time of declaration and is inflexible 
-given that we have different transports and meaningful structure names.
-Also, no one knows how many new structures will be coming since protocol 
-still has a room for improvement.
-
-Consider following :-
-
-e.g. 1
-
-static void nvme_xxx_func()
-{
-	struct nvme_XXX_YYY_ZZZ abcde {
-		.member1  = line of the initializer calculation = X,
-		.member2  = AAAAAAAAAAAAA + BBBBBBBBB + CCCCCC + DDDD +
-			    EEEEE,
-		.member3  = AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa,
-	}
-}
-
-e.g. 2
-
- From code :-
-+	struct rdma_conn_param  param = {
-+		.rnr_retry_count = 7,
-+		.flow_control = 1,
-+		.initiator_depth = min_t(u8, p->initiator_depth,
-+	here ->>>queue->dev->device->attrs.max_qp_init_rd_atom),
-+		.private_data = &priv,
-+		.private_data_len = sizeof(priv),
-+	};
-
-In above case (e.g.1, e.g.2) we loose 8 character = 1 tab for every 
-declaration-initialization, now if we have a member to be initialized 
-with complex calculations then it comes down to the next line and again 
-we loose 8 char of tab + (number of characters = name) of the member 
-(member2 in nvme_xx_func()) and whole things looks ugly, in contrast if 
-we do it outside of the declaration we still get 8 more characters 
-before we reach line limit. With 80 char limit we should avoid line 
-breaks and tabs as and when possible, this policy goes against it.
-
+> 
+> On Tue, Jun 23, 2020 at 08:27:52PM -0700, Chaitanya Kulkarni wrote:
+>> There are many places where trace API accepts the struct request_queue*
+>> parameter which can be derived from other function parameters.
+>>
+>> This patch removes the struct request queue parameter from the
+>> blktrace framework and adjusts the tracepoints definition and usage
+>> along with the tracing API itself.
+> 
+> Good idea, and I had a half-ready patch for this already as well.
+> 
+Well, I sent out the reply to your suggestion didn't get any response so 
+I decided to send a patch, if you want we can merge it I'll keep you as 
+an author for the right reasons.
+> One issue, and two extra requests below:
+> 
+> 
+>>   	if (bio->bi_disk && bio_flagged(bio, BIO_TRACE_COMPLETION)) {
+>> -		trace_block_bio_complete(bio->bi_disk->queue, bio);
+>> +		trace_block_bio_complete(bio);
+> 
+> This one can also be called for a different queue than
+> bio->bi_disk->queue, so for this one particular tracepoint we'll need
+> to keep the request_queue argument.
+> 
+Yes, we should.
+>> diff --git a/block/blk-mq-sched.c b/block/blk-mq-sched.c
+>> index fdcc2c1dd178..a3cade16ef80 100644
+>> --- a/block/blk-mq-sched.c
+>> +++ b/block/blk-mq-sched.c
+>> @@ -409,7 +409,7 @@ EXPORT_SYMBOL_GPL(blk_mq_sched_try_insert_merge);
+>>   
+>>   void blk_mq_sched_request_inserted(struct request *rq)
+>>   {
+>> -	trace_block_rq_insert(rq->q, rq);
+>> +	trace_block_rq_insert(rq);
+>>   }
+>>   EXPORT_SYMBOL_GPL(blk_mq_sched_request_inserted);
+> 
+> As a follow on patch we should also remove this function.
+> 
+Okay will make it is a 2nd patch.
+>>   	}
+>>   
+>>   	spin_lock(&ctx->lock);
+>> @@ -2111,7 +2111,7 @@ blk_qc_t blk_mq_make_request(struct request_queue *q, struct bio *bio)
+>>   		goto queue_exit;
+>>   	}
+>>   
+>> -	trace_block_getrq(q, bio, bio->bi_opf);
+>> +	trace_block_getrq(bio, bio->bi_opf);
+> 
+> The second argument can be removed as well.  Maybe as another patch.
+Okay I'll make it in a 3rd patch.
+> 
 
 
 _______________________________________________
