@@ -4,19 +4,18 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EF8CC433DF
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 16:42:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6836BC433DF
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 16:44:50 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 006322073E
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 16:42:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1AD8A2073E
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 16:44:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Obmq3epi"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 006322073E
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="d+KWY8W3"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1AD8A2073E
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -25,31 +24,31 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
 	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=b2tm7I/N200oseqvetFEl7fV3mfKyAdrxHNI1at1Qnw=; b=Obmq3epivQMj0igs4OeMEfek8
-	4+VKcavC3dwjWGlillY6ciKYfkPGWiBwFT+4TGn3MPcB9jRkc1kw4Tr+ng3qcqgiKaY4jocbKzKFl
-	/TGmSBJdIYSjTB6/8aFXH+gIjdSHLQRujUzsh4KuGaxsh5o0UHK7IczOXVRgO8duWWWGThskagFLf
-	cnodyb0TTO9S4luSPb8zNktJmGHY7l/1HKA8PjFxt2wBIuWMffCtJZl6jI/o2bNVU7ncjJgpLRbmK
-	xaqGg4kSyc598M1axvS7qMS2WmeHB+GieyRngUcb8NqdSNRUhru3Z4uAlOlffp9PkYtZgiAMf8fdl
-	QWG//KA3Q==;
+	 bh=FLbOXEINQC1GH2q1qLoI/jyzgch+t70wTQUyApiQ36Q=; b=d+KWY8W3C+9kW0vHekudVgFQn
+	W+8CrHxriuHXYkm2A1K5Xd52S7qjOIhngrVHPvg1+g0h5McgHL/6+khwmX5NeIgIy75jS2vRdyTKu
+	3TlohfVP+AQLwEJWiAreeiO9c+BotoazqqhXo3w5CNu74EcHx+Bua+vQMRztKX6p4oTo0QGaSnYBl
+	fThSTYnNV0QnyE4AtQZmbPt+W4ioZD4RSdKiIprLog53EGR19KQM4LggMnKsxJ4D2dvxusu4SNh5F
+	43IPADzZc3/EYu4rSm4fb8Ayb+IrhQBA7W0UEWnuoguVTg0/DUhVSj5jBcP5rJesQ2VgZlc975UyU
+	aK9+JZqhw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jo8TP-0006jI-5h; Wed, 24 Jun 2020 16:42:07 +0000
+	id 1jo8Vz-0007oT-KR; Wed, 24 Jun 2020 16:44:47 +0000
 Received: from verein.lst.de ([213.95.11.211])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jo8TL-0006iB-WA
- for linux-nvme@lists.infradead.org; Wed, 24 Jun 2020 16:42:04 +0000
+ id 1jo8Vw-0007mH-IK
+ for linux-nvme@lists.infradead.org; Wed, 24 Jun 2020 16:44:45 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 5943068B02; Wed, 24 Jun 2020 18:42:02 +0200 (CEST)
-Date: Wed, 24 Jun 2020 18:42:02 +0200
+ id 729D968B02; Wed, 24 Jun 2020 18:44:41 +0200 (CEST)
+Date: Wed, 24 Jun 2020 18:44:41 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH v3 for-5.8-rc 0/5] address deadlocks in high stress ns
- scanning and ana updates
-Message-ID: <20200624164202.GB24788@lst.de>
-References: <20200624085312.35967-1-sagi@grimberg.me>
+To: Niklas Cassel <niklas.cassel@wdc.com>
+Subject: Re: [PATCH v2 0/2] remove workarounds for gcc bug wrt unnamed
+ fields in initializers
+Message-ID: <20200624164441.GA24816@lst.de>
+References: <20200618200235.1104587-1-niklas.cassel@wdc.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200624085312.35967-1-sagi@grimberg.me>
+In-Reply-To: <20200618200235.1104587-1-niklas.cassel@wdc.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
@@ -62,14 +61,17 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Anton Eidelman <anton@lightbitslabs.com>,
- Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, Jens Axboe <axboe@fb.com>,
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Applied to nvme-5.8.
+This looks good to me, but I'd rather wait a few releases to
+avoid too mush backporting pain.
 
 _______________________________________________
 Linux-nvme mailing list
