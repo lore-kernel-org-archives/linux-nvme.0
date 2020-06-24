@@ -2,65 +2,61 @@ Return-Path: <SRS0=WpAz=AF=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C36BC433DF
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 02:58:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 473D2C433E0
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 03:07:03 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1C75320874
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 02:58:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 139E520CC7
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jun 2020 03:07:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="1xUT/1p6";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="2wQWPkcj"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1C75320874
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Q1O58gkV"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 139E520CC7
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.alibaba.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	Content-Type:Cc:Reply-To:List-Subscribe:List-Help:List-Post:List-Archive:
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=F7ULbeTbX0mjayAbZP1CWdCh96Nk0ifMF+IZJQJBHtM=; b=1xUT/1p6aDBw15Q8Uuv4zbU/e
-	5qfNMNJAkTDXNGYzrN7BaR7b9/2Aqi1Y/PWROyPTNwb5EIGkqqbU6eoZG4M90rVRigKGUM14JapDJ
-	elpL/Pkv0Ypf0/qMI0ayWoW2pyrOUfwAB58OyDiOraSzJOoIL9p5bfX6ih9hIMlHtlqbXyvyGMvZR
-	UfHZCXTTFLePSR+M2ITsdneKOm8SOQxLlerp7G/RkZ9y1E/dqJ42TtePflwG8PKUL26cmA4TFMLlD
-	5ztkb9R+f37ahWQgzk4g724poITksQkxfxUY5/wct4eKlb82cPDsCKqbuFJhUCyVIe9GInDVT3Rdk
-	IHuG7OF8Q==;
+	Subject:To:From:Date:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Cw5Ob5VeM7jApSV8aFd5dKwkpT01mYwThDj5wo0Z1sQ=; b=Q1O58gkVWLrhuppCT3q2u7+Fbn
+	dwW9TD00ShvHnYAHw4HV9ldd4iQtTFbmTD3r2CEl5/VnhV6Q+RHvWAUDl52Cv/tja5LjzBm2sUBlx
+	3/Tf92XkKEIVANqFWxYTCDT5MvIRLAouNaWzq+Ozbb8amg3O/D2dl4GxlET7SuxFQOWZq/gi/IAw+
+	+gDPoodcL+GVnwbDWq/Dyh+QTILqDTeMzV/YNAaJ8On0bvHdOmm24FXJWyUuSO2j3KEO2b2DXOpwy
+	pMoiSGcZI+HoJpXpdDIU4uiJQjydVNAFT09pomw2ay82sR1kuiZpvp7DZK9Yt7B6maeOH8vMuqn6C
+	rW+TZhCg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jnvcZ-0004z4-Fh; Wed, 24 Jun 2020 02:58:43 +0000
-Received: from mail.kernel.org ([198.145.29.99])
+	id 1jnvkY-00012H-TR; Wed, 24 Jun 2020 03:06:58 +0000
+Received: from out4436.biz.mail.alibaba.com ([47.88.44.36])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jnvcD-0004xX-DE
- for linux-nvme@lists.infradead.org; Wed, 24 Jun 2020 02:58:22 +0000
-Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 45DC320874;
- Wed, 24 Jun 2020 02:58:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1592967499;
- bh=mCGxMz5JRutifyW8eb22QKPlYT5lYUCRi0U6QOFPEo8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=2wQWPkcjjQnenLVYjOK70XdZ/+IoYk9ARNizFA0WZrpofzP+mwQyrS/9CAM4kUc7H
- /wT3DwcPFHr84HhyLjAsRV6Ji2p9LVirxsNMvXNAXTkspK1+cG5STeu/SIFVPFrXer
- IubGHumJLVBBNe0fhjOJoLUYW/9wVuO4FJT4Nm9E=
-Date: Tue, 23 Jun 2020 19:58:17 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 2/3] nvme-pci: Add controller memory buffer supported macro
-Message-ID: <20200624025817.GC1291930@dhcp-10-100-145-180.wdl.wdc.com>
+ id 1jnvkT-0000xN-F8
+ for linux-nvme@lists.infradead.org; Wed, 24 Jun 2020 03:06:54 +0000
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R811e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04426;
+ MF=baolin.wang@linux.alibaba.com; NM=1; PH=DS; RN=7; SR=0;
+ TI=SMTPD_---0U0Yj-gp_1592967997; 
+Received: from localhost(mailfrom:baolin.wang@linux.alibaba.com
+ fp:SMTPD_---0U0Yj-gp_1592967997) by smtp.aliyun-inc.com(127.0.0.1);
+ Wed, 24 Jun 2020 11:06:38 +0800
+Date: Wed, 24 Jun 2020 11:06:37 +0800
+From: Baolin Wang <baolin.wang@linux.alibaba.com>
+To: Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH 1/3] nvme: Add Arbitration Burst support
+Message-ID: <20200624030637.GA66445@VM20190228-100.tbsite.net>
 References: <cover.1592916850.git.baolin.wang@linux.alibaba.com>
- <eab18c7696ea0e34a6ab0371d7d17ad45d1566ce.1592916850.git.baolin.wang@linux.alibaba.com>
- <20200623162751.GA4846@lst.de>
+ <bf3f47ba50f72d0b775ca4bd098f183056d964ba.1592916850.git.baolin.wang@linux.alibaba.com>
+ <20200624025715.GB1291930@dhcp-10-100-145-180.wdl.wdc.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200623162751.GA4846@lst.de>
+In-Reply-To: <20200624025715.GB1291930@dhcp-10-100-145-180.wdl.wdc.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,31 +68,49 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: Baolin Wang <baolin.wang@linux.alibaba.com>
 Cc: sagi@grimberg.me, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, axboe@fb.com,
- Baolin Wang <baolin.wang@linux.alibaba.com>, baolin.wang7@gmail.com
+ linux-nvme@lists.infradead.org, axboe@fb.com, baolin.wang7@gmail.com,
+ hch@lst.de
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jun 23, 2020 at 06:27:51PM +0200, Christoph Hellwig wrote:
-> On Tue, Jun 23, 2020 at 09:24:33PM +0800, Baolin Wang wrote:
-> > Introduce a new capability macro to indicate if the controller
-> > supports the memory buffer or not, instead of reading the
-> > NVME_REG_CMBSZ register.
+On Tue, Jun 23, 2020 at 07:57:15PM -0700, Keith Busch wrote:
+> On Tue, Jun 23, 2020 at 09:24:32PM +0800, Baolin Wang wrote:
+> > +void nvme_set_arbitration_burst(struct nvme_ctrl *ctrl)
+> > +{
+> > +	u32 result;
+> > +	int status;
+> > +
+> > +	if (!ctrl->rab)
+> > +		return;
+> > +
+> > +	/*
+> > +	 * The Arbitration Burst setting indicates the maximum number of
+> > +	 * commands that the controller may launch at one time from a
+> > +	 * particular Submission Queue. It is recommended that host software
+> > +	 * configure the Arbitration Burst setting as close to the recommended
+> > +	 * value by the controller as possible.
+> > +	 */
+> > +	status = nvme_set_features(ctrl, NVME_FEAT_ARBITRATION, ctrl->rab,
 > 
-> This is a complex issue.  The CMBS bit was only added in NVMe 1.4 as
-> a backwards incompatible change, as the CMB addressing scheme can lead
-> to data corruption.  The CMBS was added as part of the horribe hack
-> that also involves the CBA field, which we'll need to see before
-> using it to work around the addressing issue.  At the same time we
-> should also continue supporting the legacy pre-1.4 CMB with a warning
-> (and may reject it if we know we run in a VM).
+> Since 'rab' is an 8-bit field, but the feature's AB value is only 3
+> bits, we should add a validity check.
 
-Well, a CMB from an emulated controller (like qemu's) can be used within
-a VM. It's only if you direct assign a PCI function that CMB usage
-breaks.
+Sure.
+
+> 
+> > +}
+> > +EXPORT_SYMBOL_GPL(nvme_set_arbitration_burst);
+> 
+> I don't see any particular reason to export this function just for the
+> pci transport to use. Just make it a local static function an call it
+> from nvme_init_identify().
+
+OK. Thanks.
+
 
 _______________________________________________
 Linux-nvme mailing list
