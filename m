@@ -2,94 +2,138 @@ Return-Path: <SRS0=morU=AH=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=3.0 tests=DATE_IN_PAST_03_06,
-	DKIMWL_WL_HIGH,DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F23C3C433E0
-	for <linux-nvme@archiver.kernel.org>; Fri, 26 Jun 2020 12:06:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB7DBC433E0
+	for <linux-nvme@archiver.kernel.org>; Fri, 26 Jun 2020 12:07:14 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B90AA206A1
-	for <linux-nvme@archiver.kernel.org>; Fri, 26 Jun 2020 12:06:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8FF3F206A1
+	for <linux-nvme@archiver.kernel.org>; Fri, 26 Jun 2020 12:07:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="bFj6D50H";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=javigon-com.20150623.gappssmtp.com header.i=@javigon-com.20150623.gappssmtp.com header.b="FhAvyIgF"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B90AA206A1
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=javigon.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Wt/UDELa";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="ka5HV7Ba";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="MRoFJuDt"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8FF3F206A1
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=UOCwjCJggn7Vh0E9P0qvmnykgMRrEbB09dCsO0QotM0=; b=bFj6D50HxJpuLPwYbR9Q1gwiE
-	TGx34CMA08Hf07esSO6loRXwmKIQt/4myakSHztlWbYmdweLFDW75FaImgCP3riimb4IGomlG32gq
-	k82X3IJOHXya9dXH8frC7xKNzp662sJKZGkLyyo9CHJR5RSNjNLt4+MPefb+jTdpgUyD80ElnaUpH
-	/HfqvvepV4GeEoIBpD52cSIGd7etpLwvvn+/aMG3JuUgp/URRIAG0shN407HEvuQ6MIq5mXSq5WmH
-	ir7AesGktsoIrvnDllDT3ghVKFy54jTpiAB237fcvzVZj/U1SNJJ2/G4gl46iGYpir2IGwTsiy+xG
-	84KnRUhEg==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:To:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	 bh=Nt66WVeprOrLP5GgHWYFDabFWwu/x6eyA4K8ZgmNWWg=; b=Wt/UDELaLT2n/5tPAqIjJ+o2l
+	acwgkzueuyq2Pu2M3s4Gvhyr/Dr082qkGQWZjR2nTZiUC3MAmnH9Sp/FsCfH3Vg4QRrXdFF9pGMbY
+	0tnN33LkG47W8SNog747Mf5iQjVZidSwjAd6b09QOnR8MuU9/vtTQwMT7TrzUkpJjrTQz3pHyznOm
+	ecHut1Xkwm/s1vllBs6s3Y/Gs4z0rkCEjk2qlr97uHJL3LqILRAdn+GQ8FiiOB+wS7Hqpw8tvF7ly
+	aSAV2D5NPnbnzvc2h5MG4kxXLxJkXysCfv7LU8yVnEUhwZ63zz77jcQ7SOX0rkGb5aRhvzc7KfJYn
+	3aOd/YOoQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jon7o-0004SM-J8; Fri, 26 Jun 2020 12:06:32 +0000
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443])
+	id 1jon8E-0004f6-Hq; Fri, 26 Jun 2020 12:06:58 +0000
+Received: from esa6.hgst.iphmx.com ([216.71.154.45])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jolhZ-0007AB-M8
- for linux-nvme@lists.infradead.org; Fri, 26 Jun 2020 10:35:24 +0000
-Received: by mail-wr1-x443.google.com with SMTP id a6so9002582wrm.4
- for <linux-nvme@lists.infradead.org>; Fri, 26 Jun 2020 03:35:21 -0700 (PDT)
+ id 1jolqd-0003OM-90
+ for linux-nvme@lists.infradead.org; Fri, 26 Jun 2020 10:44:51 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1593168284; x=1624704284;
+ h=from:to:cc:subject:date:message-id:references:
+ content-transfer-encoding:mime-version;
+ bh=WtUCQLdCc0YoYIjCwpZBvx9WVU5egPmEdYqrZwLqeR4=;
+ b=ka5HV7Ba+UdKxxvTQo73RoDOBcsnNI+A0irGTBQwHv9ZGgYqrQ9n8lLG
+ wB4GgCodIlvUaOQNLD+6NdFdl4eAQTEwmNQH7OP9e/+PQQj7kWrXCBYVl
+ uojo9r+YYcmBuDv2NO5Gm2r6PphftvQ0CD4Dd0GF+3SSKu2DDldb/C8GC
+ qQLycOg5Qo+XkG/szEsfDapO25cJfviNr8cJTz3kcoLjvZW8WwYVwFnEJ
+ PaTFruDmPhMPqa4cVKsDOYQId+brlwwVHnf6Ni8zN/ddqnXM3X4UnBCEv
+ cffwT72Hk0TXA574YsDEzPWnkCK3uDTQdo0VoY3LNQNe8F3u3+kQghTzS Q==;
+IronPort-SDR: YiWkyi/QHKBu54JWpccxdip3Vv5Ys7yPh38gcYSNLBtmSLhTp8D/Ai1+VKMY3kizFcvRFLwVIk
+ FR47XtsoRs1vjaXHOe459DNphx++h6qoCcp2YhUXbK8ziiD9ucKEeS/oPFwPGjgapvGXs2Xi1Y
+ 3TrhA5GPwKVBh+mCNQcB/PkYiQn3r/+hn5iNUauGqvjw+bQSFB71dhsQz9PMkeq+DgrepvyzSs
+ znaLUhukRQlURJ+O3Dasp6itOu97T0n2M4zrdrO2iJ+zogSSJX30mK6QJl+EkgluSdjXNIjc1P
+ hQg=
+X-IronPort-AV: E=Sophos;i="5.75,282,1589212800"; d="scan'208";a="142347555"
+Received: from mail-bl2nam02lp2058.outbound.protection.outlook.com (HELO
+ NAM02-BL2-obe.outbound.protection.outlook.com) ([104.47.38.58])
+ by ob1.hgst.iphmx.com with ESMTP; 26 Jun 2020 15:17:06 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=R3rrzA/YKPLqXeOAB1mshVV+fKoJ46GN9C3lbYssG02OQ1iDU4CMjX02PVBshnIDOAvLrB4JwTQ5ueQt9sv4CwivJGRbs/TV0IEJgN3HGlVd8uUx/a6RRayHhgwqj+2BB7JKgYE9W1tLNAbrEvTu0bNk4GC5SM9T3kY97a9PyDlqalD98+PjgZ2rcjlLL+7N8cF2S7t6rI7vy9hEDJqgkOaxqUG/QNd8g6RAjMFoEFO7nXYhzKcUVawgZz+zZXqGxaRWztzhTrDB93PSBxoiHIFMKeorOV6RCk1rUnmct1ksKh8AVuuecCTpiZrvyXflo7ybenfgbGXCLBgTwoAHRw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4C/ozukjZSsbfWeL8ovQYYN+y9TLTI+66BbEFhOzM9Q=;
+ b=TYtzMHpQcBvsuiD0wykbgYACZgqFGnO8/kFJNX2QdBJu0itkhQsJfwK2F/r4zpYfPx9PkdtlWxiK1fRG3DMfDXPOLz4OVxR8L2tl7SstE0n+fSHuBAodPx4a+2J4VfZ+bT0RJKzobc1zT5/hivOWhGX6qO4aC9tLu54sP/VBRyjs2eTvCilCN3E9fBHsAEa6AyPeuXTUdJ5d8kgKiubQVO/44vq0zK8c4VSJEha21Ta1gpezbFUbk1Bsis1NX90j/Y7mOTcbvHXVD8H4CiU8ZMNrja6urUp7deRGdLlBlK1FzPhkhIlnqRPdonVJWBI3UFgsaFf3rmsT7/DwUzRq5g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=javigon-com.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=eMRZSEPILJ/VgixGAVUR+OM7H5tl0QETRHZF7IXIBss=;
- b=FhAvyIgFjRuPlJkiK3zynyy98TyIiLkieNPIzKLj6sVRVCaIkK1GqSqNL4ONLMUyjW
- IYl5UNBe0qk4FT/pPZzopEy9FlUBS52cNShrn3piFyYmXfW3nqhHRm32D/RGvR7lweCj
- xBafkwtXaCVSfrEviUap6gjET/WgHp7aHJbNK+uGuMFQ5jAoo1bVpcZ7EK/0WOd8RU11
- WLuqb5af44g5sR8d/A64GcvxD4T9Vr6GCEV+Nnri8AGSkDs3HfLR4WLNRVH14h28zDKD
- C59IJ0/2H3xccbSrDTAYUydoXOe5jjl15FS39Hymo/UDDgcOXURsOwGpW3dfvMyu13P6
- g/IA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=eMRZSEPILJ/VgixGAVUR+OM7H5tl0QETRHZF7IXIBss=;
- b=G+4Z84wdcAoLtzVT6QCAgT9brFnBUqrQ3sVIHGMsyYrW0GDOCGWqUL1sR0nQh16AAv
- VVQszUCfuHHYm4Kcr6plBjCfbDdRhaEMmDlXg8jwZOy7vTYXKijJ33yNeV/LnuOir3v4
- TAF/l9zoJtb+Km7OTjXbiDxWt0nuwe6BX6ywWjQC5ngFidPvjplZK2owf4mn4HEmpzI/
- DiecsyQrKbYpz6swyTmTbTJgFoF7gQ/zVjMi6dZJjmRzHjnh8z7yZUVv/irGEBpnyNU2
- do9OXk3rCEaCkA4jAf1Ntv4z6np/SSMdl5hlQRVKG5+4WxhmVMH2HLdJqd6MHrgEE1hW
- KKqw==
-X-Gm-Message-State: AOAM530/VqgQc7/fKkkCaURCB9V2z/33CDdRUkLqQ++pgRx7a09f1ExS
- TEAUBGg9ui7iULJcFcPTeDVi8zqmawytLZPkJZo=
-X-Google-Smtp-Source: ABdhPJy3fzGC9HvPjjRE+CSI1d1tpFMlrZVKYRIKUdR5Rb9H0Uv7AiDxCUL1l9DjRsN3Hw1Yn8lyaQ==
-X-Received: by 2002:a17:906:6d15:: with SMTP id
- m21mr1344598ejr.209.1593156541214; 
- Fri, 26 Jun 2020 00:29:01 -0700 (PDT)
-Received: from localhost (ip-5-186-127-235.cgn.fibianet.dk. [5.186.127.235])
- by smtp.gmail.com with ESMTPSA id gu15sm2074049ejb.111.2020.06.26.00.29.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Jun 2020 00:29:00 -0700 (PDT)
-Date: Fri, 26 Jun 2020 09:29:00 +0200
-From: Javier =?utf-8?B?R29uesOhbGV6?= <javier@javigon.com>
-To: Damien Le Moal <Damien.LeMoal@wdc.com>
-Subject: Re: [PATCH 6/6] nvme: Add consistency check for zone count
-Message-ID: <20200626072900.rjigm3wiya4sdufv@mpHalley.localdomain>
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4C/ozukjZSsbfWeL8ovQYYN+y9TLTI+66BbEFhOzM9Q=;
+ b=MRoFJuDtPjU5r+XhiFmkLaFJ4h5nYe9EoGQP0hywYZ0EG9PnshaJYkhtUkBR0XRZGEW2VQEAjIyhEEx+1jkB5eiazA2FF+6mk3vVhZIV0LA3F4o8WiBQbbBZEgEDNq0pKki41s/t8VUyz9xGr7rtyOu5V0ex6wefQSN8QintJs8=
+Received: from CY4PR04MB3751.namprd04.prod.outlook.com (2603:10b6:903:ec::14)
+ by CY4PR04MB1048.namprd04.prod.outlook.com (2603:10b6:910:54::26)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.20; Fri, 26 Jun
+ 2020 07:17:02 +0000
+Received: from CY4PR04MB3751.namprd04.prod.outlook.com
+ ([fe80::c593:f271:eebe:ac7]) by CY4PR04MB3751.namprd04.prod.outlook.com
+ ([fe80::c593:f271:eebe:ac7%9]) with mapi id 15.20.3131.024; Fri, 26 Jun 2020
+ 07:17:02 +0000
+From: Damien Le Moal <Damien.LeMoal@wdc.com>
+To: =?iso-8859-1?Q?Javier_Gonz=E1lez?= <javier@javigon.com>
+Subject: Re: [PATCH 3/6] block: add support for zone offline transition
+Thread-Topic: [PATCH 3/6] block: add support for zone offline transition
+Thread-Index: AQHWSutT3xCQHGem9k+D54mKrpOEQg==
+Date: Fri, 26 Jun 2020 07:17:01 +0000
+Message-ID: <CY4PR04MB3751D6B0FFCA3A8C0278A194E7930@CY4PR04MB3751.namprd04.prod.outlook.com>
 References: <20200625122152.17359-1-javier@javigon.com>
- <20200625122152.17359-7-javier@javigon.com>
- <20200625214921.GA1773527@dhcp-10-100-145-180.wdl.wdc.com>
- <MWHPR04MB3758829D20916B73DDB5581EE7930@MWHPR04MB3758.namprd04.prod.outlook.com>
- <20200626061310.6invpvs2tzxfbida@mpHalley.localdomain>
- <CY4PR04MB375167CFC4E3CF22324C71B5E7930@CY4PR04MB3751.namprd04.prod.outlook.com>
- <20200626065546.v266c3zjv2gjoycs@mpHalley.localdomain>
- <CY4PR04MB3751A7165FC7F068C1ECBB5EE7930@CY4PR04MB3751.namprd04.prod.outlook.com>
+ <20200625122152.17359-4-javier@javigon.com>
+ <CY4PR04MB375111445246B570FAF4EE58E7930@CY4PR04MB3751.namprd04.prod.outlook.com>
+ <20200626060858.uo56xe57l4tzepnc@mpHalley.localdomain>
+ <CY4PR04MB37515EAB61CDB458DE5AFCA3E7930@CY4PR04MB3751.namprd04.prod.outlook.com>
+ <20200626065822.6psy3tp6vqmjwppa@mpHalley.localdomain>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: javigon.com; dkim=none (message not signed)
+ header.d=none;javigon.com; dmarc=none action=none header.from=wdc.com;
+x-originating-ip: [129.253.182.57]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 97a7c9f3-243e-4a2b-6607-08d819a0ec2e
+x-ms-traffictypediagnostic: CY4PR04MB1048:
+x-microsoft-antispam-prvs: <CY4PR04MB10484826FB0F99508C6FB081E7930@CY4PR04MB1048.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 0446F0FCE1
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: NF/c5i/MQ7AdOoKXlDP7M3KEY35FaNv3LogSz1b7bpbweZoIWi+GKhaQux85oX8AKgahFou7Yc5eTMAnG1NRB6Cft6gKqX2ZN2MhMkCayhIcwKfJLVKXJf3jRnr/IyHRGEePMyZReSjUdxliZL2iegfzT0mVKNeGvO48ApPFO+ngf9K7/brGNQEHll83NsuFIralmbcSmmuEyB80HBlxHd3ODyt+pjWosLWKJxQ04UDgC2LBS9avZa7GN4qlQXrl3eHPEXBTJB0m0T3GrhvQ2KLJD+rzN+rqHVv+wBUnN6/CgIewf1VIVAdolUV76WiF
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY4PR04MB3751.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(136003)(39860400002)(366004)(396003)(346002)(376002)(5660300002)(66476007)(7416002)(8936002)(8676002)(66556008)(66946007)(64756008)(86362001)(7696005)(54906003)(66446008)(478600001)(52536014)(71200400001)(316002)(4326008)(76116006)(53546011)(91956017)(26005)(55016002)(33656002)(66574015)(83380400001)(186003)(2906002)(9686003)(6506007)(6916009);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: 3zwgFRsfr0Mz0pxQIzt+VTlfca5B7xlkJ4IMqgw9XC1yTkOs3GyjZEtwo8lk7DneY1PyqneuMYNEwp17bvVpAqGxWeEtMGjw+CPyxAWyZXErwXTN+rrMw8+gpcVq7H3Q5MlMqVLX+Fb38W/X+uYIilI6REB6ng58vPQlJTdgGa6q1PWiJrAcW6PRNauBFBviX76ki96ktWDVbj0J8XxmbpUroBJMJETaI+E+vU1aNHe85wrPjzZe1tlOFmCn2KWJHdrL3zCs0Sg3ZEvblr90fp+XhO69uRvBoMGtwaoKxEo/gLfk3WPC5KxkROKXZGrW5IbYumvbphRahIGoraRaV/bofKFSN8obAiObokq2QsY2IiIXePJQsL1QP7E+fAJVnhVwjCehaaX2UQYtNxbKDgxEuK/uENwPiyN0ZvJUVCiGT0GFvwsM4hWrhLe+UR4cxPbPqyr/ImKoUKXmsGMKhNJSbI9d4cdgGT2dfrr85DM+2hUYXKP5QQ7rIOnRZqTC
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CY4PR04MB3751A7165FC7F068C1ECBB5EE7930@CY4PR04MB3751.namprd04.prod.outlook.com>
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CY4PR04MB3751.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 97a7c9f3-243e-4a2b-6607-08d819a0ec2e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jun 2020 07:17:01.9721 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 12huu60bAxjQngYPueakvaK75TIaWGoeWLtveCa2qe1H5i9K14R9tcdfsgXNYKhf/vKQ9NZxV86efPqvVzDMAg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR04MB1048
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,97 +151,228 @@ Cc: "axboe@kernel.dk" <axboe@kernel.dk>,
  "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
  Nitesh Shetty <nj.shetty@samsung.com>,
  "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- Keith Busch <kbusch@kernel.org>, "hch@lst.de" <hch@lst.de>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+ "kbusch@kernel.org" <kbusch@kernel.org>, "hch@lst.de" <hch@lst.de>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMjYuMDYuMjAyMCAwNzowOSwgRGFtaWVuIExlIE1vYWwgd3JvdGU6Cj5PbiAyMDIwLzA2LzI2
-IDE1OjU1LCBKYXZpZXIgR29uesOhbGV6IHdyb3RlOgo+PiBPbiAyNi4wNi4yMDIwIDA2OjQ5LCBE
-YW1pZW4gTGUgTW9hbCB3cm90ZToKPj4+IE9uIDIwMjAvMDYvMjYgMTU6MTMsIEphdmllciBHb256
-w6FsZXogd3JvdGU6Cj4+Pj4gT24gMjYuMDYuMjAyMCAwMDowNCwgRGFtaWVuIExlIE1vYWwgd3Jv
-dGU6Cj4+Pj4+IE9uIDIwMjAvMDYvMjYgNjo0OSwgS2VpdGggQnVzY2ggd3JvdGU6Cj4+Pj4+PiBP
-biBUaHUsIEp1biAyNSwgMjAyMCBhdCAwMjoyMTo1MlBNICswMjAwLCBKYXZpZXIgR29uesOhbGV6
-IHdyb3RlOgo+Pj4+Pj4+ICBkcml2ZXJzL252bWUvaG9zdC96bnMuYyB8IDcgKysrKysrKwo+Pj4+
-Pj4+ICAxIGZpbGUgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspCj4+Pj4+Pj4KPj4+Pj4+PiBkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9udm1lL2hvc3Qvem5zLmMgYi9kcml2ZXJzL252bWUvaG9zdC96bnMu
-Ywo+Pj4+Pj4+IGluZGV4IDdkODM4MWZlNzY2NS4uZGU4MDY3ODhhMTg0IDEwMDY0NAo+Pj4+Pj4+
-IC0tLSBhL2RyaXZlcnMvbnZtZS9ob3N0L3pucy5jCj4+Pj4+Pj4gKysrIGIvZHJpdmVycy9udm1l
-L2hvc3Qvem5zLmMKPj4+Pj4+PiBAQCAtMjM0LDYgKzIzNCwxMyBAQCBzdGF0aWMgaW50IG52bWVf
-bnNfcmVwb3J0X3pvbmVzKHN0cnVjdCBudm1lX25zICpucywgc2VjdG9yX3Qgc2VjdG9yLAo+Pj4+
-Pj4+ICAJCXNlY3RvciArPSBucy0+enN6ZSAqIG56Owo+Pj4+Pj4+ICAJfQo+Pj4+Pj4+Cj4+Pj4+
-Pj4gKwlpZiAobnJfem9uZXMgPCAwICYmIHpvbmVfaWR4ICE9IG5zLT5ucl96b25lcykgewo+Pj4+
-Pj4+ICsJCWRldl9lcnIobnMtPmN0cmwtPmRldmljZSwgImluY29uc2lzdGVudCB6b25lIGNvdW50
-ICV1LyV1XG4iLAo+Pj4+Pj4+ICsJCQkJem9uZV9pZHgsIG5zLT5ucl96b25lcyk7Cj4+Pj4+Pj4g
-KwkJcmV0ID0gLUVJTlZBTDsKPj4+Pj4+PiArCQlnb3RvIG91dF9mcmVlOwo+Pj4+Pj4+ICsJfQo+
-Pj4+Pj4+ICsKPj4+Pj4+PiAgCXJldCA9IHpvbmVfaWR4Owo+Pj4+Pj4KPj4+Pj4+IG5yX3pvbmVz
-IGlzIHVuc2lnbmVkLCBzbyBpdCdzIG5ldmVyIDwgMC4KPj4+Pj4+Cj4+Pj4+PiBUaGUgQVBJIHdl
-J3JlIHByb3ZpZGluZyBkb2Vzbid0IHJlcXVpcmUgem9uZV9pZHggZXF1YWwgdGhlIG5hbWVzcGFj
-ZSdzCj4+Pj4+PiBucl96b25lcyBhdCB0aGUgZW5kLCB0aG91Z2guIEEgc3Vic2V0IG9mIHRoZSB0
-b3RhbCBudW1iZXIgb2Ygem9uZXMgY2FuCj4+Pj4+PiBiZSByZXF1ZXN0ZWQgaGVyZS4KPj4+Pj4+
-Cj4+Pj4KPj4+PiBJIGRpZCBzZWUgbnJfem9uZXMgY29taW5nIHdpdGggLTE7IGd1ZXNzIGl0IGlz
-IG15IGNvbXBpbGVyLgo+Pj4KPj4+IFNlZSBpbmNsdWRlL2xpbnV4L2Jsa2Rldi5oLiAtMSBpczoK
-Pj4+Cj4+PiAjZGVmaW5lIEJMS19BTExfWk9ORVMgICgodW5zaWduZWQgaW50KS0xKQo+Pj4KPj4+
-IFdoaWNoIGlzIGRvY3VtZW50ZWQgaW4gYmxvY2svYmxrLXpvbmVkLmM6Cj4+Pgo+Pj4gLyoqCj4+
-PiAqIGJsa2Rldl9yZXBvcnRfem9uZXMgLSBHZXQgem9uZXMgaW5mb3JtYXRpb24KPj4+ICogQGJk
-ZXY6ICAgICAgIFRhcmdldCBibG9jayBkZXZpY2UKPj4+ICogQHNlY3RvcjogICAgIFNlY3RvciBm
-cm9tIHdoaWNoIHRvIHJlcG9ydCB6b25lcwo+Pj4gKiBAbnJfem9uZXM6ICAgTWF4aW11bSBudW1i
-ZXIgb2Ygem9uZXMgdG8gcmVwb3J0Cj4+PiAqIEBjYjogICAgICAgICBDYWxsYmFjayBmdW5jdGlv
-biBjYWxsZWQgZm9yIGVhY2ggcmVwb3J0ZWQgem9uZQo+Pj4gKiBAZGF0YTogICAgICAgUHJpdmF0
-ZSBkYXRhIGZvciB0aGUgY2FsbGJhY2sKPj4+ICoKPj4+ICogRGVzY3JpcHRpb246Cj4+PiAqICAg
-IEdldCB6b25lIGluZm9ybWF0aW9uIHN0YXJ0aW5nIGZyb20gdGhlIHpvbmUgY29udGFpbmluZyBA
-c2VjdG9yIGZvciBhdCBtb3N0Cj4+PiAqICAgIEBucl96b25lcywgYW5kIGNhbGwgQGNiIGZvciBl
-YWNoIHpvbmUgcmVwb3J0ZWQgYnkgdGhlIGRldmljZS4KPj4+ICogICAgVG8gcmVwb3J0IGFsbCB6
-b25lcyBpbiBhIGRldmljZSBzdGFydGluZyBmcm9tIEBzZWN0b3IsIHRoZSBCTEtfQUxMX1pPTkVT
-Cj4+PiAqICAgIGNvbnN0YW50IGNhbiBiZSBwYXNzZWQgdG8gQG5yX3pvbmVzLgo+Pj4gKiAgICBS
-ZXR1cm5zIHRoZSBudW1iZXIgb2Ygem9uZXMgcmVwb3J0ZWQgYnkgdGhlIGRldmljZSwgb3IgYSBu
-ZWdhdGl2ZSBlcnJubwo+Pj4gKiAgICB2YWx1ZSBpbiBjYXNlIG9mIGZhaWx1cmUuCj4+PiAqCj4+
-PiAqICAgIE5vdGU6IFRoZSBjYWxsZXIgbXVzdCB1c2UgbWVtYWxsb2Nfbm9YWF9zYXZlL3Jlc3Rv
-cmUoKSBjYWxscyB0byBjb250cm9sCj4+PiAqICAgIG1lbW9yeSBhbGxvY2F0aW9ucyBkb25lIHdp
-dGhpbiB0aGlzIGZ1bmN0aW9uLgo+Pj4gKi8KPj4+IGludCBibGtkZXZfcmVwb3J0X3pvbmVzKHN0
-cnVjdCBibG9ja19kZXZpY2UgKmJkZXYsIHNlY3Rvcl90IHNlY3RvciwKPj4+ICAgICAgICAgICAg
-ICAgICAgICAgICAgdW5zaWduZWQgaW50IG5yX3pvbmVzLCByZXBvcnRfem9uZXNfY2IgY2IsIHZv
-aWQgKmRhdGEpCj4+Pgo+Pj4+Cj4+Pj4+Cj4+Pj4+IFllcywgYWJzb2x1dGVseS4gem9uZV9pZHgg
-aXMgbm90IGFuIGFic29sdXRlIHpvbmUgbnVtYmVyLiBJdCBpcyB0aGUgaW5kZXggb2YgdGhlCj4+
-Pj4+IHJlcG9ydGVkIHpvbmUgZGVzY3JpcHRvciBpbiB0aGUgY3VycmVudCByZXBvcnQgcmFuZ2Ug
-cmVxdWVzdGVkIGJ5IHRoZSB1c2VyLAo+Pj4+PiB3aGljaCBpcyBub3QgbmVjZXNzYXJpbHkgZm9y
-IHRoZSBlbnRpcmUgZHJpdmUgKGkuZS4sIHByb3ZpZGVkIG5yIHpvbmVzIGlzIGxlc3MKPj4+Pj4g
-dGhhbiB0aGUgdG90YWwgbnVtYmVyIG9mIHpvbmVzIG9mIHRoZSBkaXNrIGFuZC9vciBzdGFydCBz
-ZWN0b3IgaXMgPiAwKS4gU28KPj4+Pj4gem9uZV9pZHggaW5kaWNhdGVzIHRoZSBhY3R1YWwgbnVt
-YmVyIG9mIHpvbmVzIHJlcG9ydGVkLCBpdCBpcyBub3QgdGhlIHRvdGFsCj4+Pj4KPj4+PiBJIHNl
-ZS4gQXMgSSBjYW4gc2VlLCB3aGVuIG5yX3pvbmVzIGNvbWVzIHVuZGVmaW5lZCBJIGJlbGlldmVk
-IHdlIGNvdWxkCj4+Pj4gYXNzdW1lIHRoYXQgem9uZV9pZHggaXMgYWJzb2x1dGUsIGJ1dCBJIGNh
-biBiZSB3cm9uZy4KPj4+Cj4+PiBOby4gem9uZV9pZHggaXMgKmFsd2F5cyogdGhlIGluZGV4IG9m
-IHRoZSB6b25lIGluIHRoZSBjdXJyZW50IHJlcG9ydC4gV2hhdGV2ZXIKPj4+IHRoYXQgcmVwb3J0
-IGlzLCByZWdhcmRsZXNzIG9mIHRoZSByZXBvcnQgc3RhcnRpbmcgcG9pbnQgYW5kIG51bWJlciBv
-ZiB6b25lcwo+Pj4gcmVxdWVzdGVkLiBFLmcuIEZvciBhIHNpbmdsZSB6b25lIHJlcG9ydCAobnJf
-em9uZXMgPSAxKSwgeW91IHdpbGwgYWx3YXlzIHNlZQo+Pj4gem9uZV9pZHggPSAwLiBGb3IgYSBm
-dWxsIHJlcG9ydCwgem9uZV9pZHggd2lsbCBjb3JyZXNwb25kIHRvIHRoZSB6b25lIG51bWJlci4K
-Pj4+IFRoaXMgaXMgdXNlZCBmb3IgZXhhbXBsZSBpbiBibGtfcmV2YWxpZGF0ZV9kaXNrX3pvbmVz
-KCkgdG8gaW5pdGlhbGl6ZSB0aGUgem9uZQo+Pj4gYml0bWFwcy4KPj4+Cj4+Pj4gRG9lcyBpdCBt
-YWtlIHNlbnNlIHRvIHN1cHBvcnQgdGhpcyBjaGVjayB3aXRoIGFuIGFkZGl0aW9uYWwgY291bnRl
-ciBhbmQKPj4+PiBhIGV4cGxpY2l0IG5yX3pvbmVzIGluaXRpYWxpemF0aW9uIHdoZW4gdW5kZWZp
-bmVkIG9yIHlvdQo+Pj4+IHByZWZlciB0byBqdXN0IHJlbW92ZSBpdCBhcyBNYXRpYXMgc3VnZ2Vz
-dGVkPwo+Pj4KPj4+IFRoZSBjaGVjayBpcyBub3QgbmVlZGVkIGF0IGFsbC4KPj4+Cj4+PiBJZiB0
-aGUgZGV2aWNlIGlzIGJ1Z2d5IGFuZCByZXBvcnRzIG1vcmUgem9uZXMgdGhhbiB0aGUgZGV2aWNl
-IGNhcGFjaXR5IG9yIGFueQo+Pj4gb3RoZXIgYnVncywgdGhlIGRyaXZlciBjYW4gY2F0Y2ggdGhh
-dCB3aGVuIGl0IHByb2Nlc3NlcyB0aGUgcmVwb3J0Lgo+Pj4gYmxrX3JldmFsaWRhdGVfZGlza196
-b25lcygpIGFsc28gaGFzIG1hbnkgY2hlY2tzLgo+Pgo+PiBJIGhhdmUgbWFuYWdlZCB0byBjcmVh
-dGUgYSBRRU1VIFpOUyBkZXZpY2UgdGhhdCBnYXZlIG1lIGEgaGVhZGFjaGUgd2l0aAo+PiBhIGxp
-dHRsZSBiaXQgb2YgZXh0cmEgY2FwYWNpdHkgdGhhdCB0cmlnZ2VyZWQgYW4gYWRkaXRpb25hbCB6
-b25lIHJlcG9ydC4KPj4gVGhpcyB3YXMgdGhlIG1vdGl2YXRpb24gZm9yIHRoZSBwYXRjaC4KPgo+
-VGhlIGRldmljZSBlbXVsYXRpb24gc291bmQgYnVnZ3kuLi4gSWYgdGhlIGNhcGFjaXR5IGlzIHdy
-b25nLCB0aGVuIHRoZSByZXBvcnQKPndpbGwgYmUgdG9vIHNpbmNlIHpvbmVzIGFyZSBhbGwgc3Vw
-cG9zZWQgdG8gYmUgc2VxdWVudGlhbCAobm8gaG9sZXMgYmV0d2Vlbgo+em9uZXMpIGFuZCB1cCB0
-byB0aGUgZGlzayBjYXBhY2l0eSBvbmx5IChsYXN0IHpvbmUgc3RhcnQgKyBsZW4gPSBjYXBhY2l0
-eSArIDEpCj4KPklmIG9uZSBvciB0aGUgb3RoZXIgaXMgd3JvbmcsIHRoaXMgc2hvdWxkIGJlIGVh
-c3kgdG8gZGV0ZWN0LiBOb3JtYWxseSwKPmJsa19yZXZhbGlkYXRlX2Rpc2tfem9uZXMoKSBzaG91
-bGQgYmUgYWJsZSB0byBjYXRjaCB0aGF0LgoKV2UgaGF2ZSB0aGUgY2FwYWJpbGl0eSB0byBzZWxl
-Y3QgdGhlIHJlcG9ydGVkIGRldmljZSBjYXBhY2l0eSBtYW51YWxseQpmb3IgYSBudW1iZXIgb2Yg
-cmVhc29ucy4gT25lIG9mIHRoZSBkaWZmZXJlbnQgdGVzdCBjb25maWd1cmF0aW9ucyBpbiBvdXIK
-Q0kgZGlkIGdvIHRocm91Z2guCgpCdXQgaXQgaXMgT0ssIEkgd2lsbCByZW1vdmUgdGhlIGNoZWNr
-IG9uIFYyLgoKSmF2aWVyCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpMaW51eC1udm1lIG1haWxpbmcgbGlzdApMaW51eC1udm1lQGxpc3RzLmluZnJhZGVh
-ZC5vcmcKaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1u
-dm1lCg==
+On 2020/06/26 15:58, Javier Gonz=E1lez wrote:
+> On 26.06.2020 06:42, Damien Le Moal wrote:
+>> On 2020/06/26 15:09, Javier Gonz=E1lez wrote:
+>>> On 26.06.2020 01:34, Damien Le Moal wrote:
+>>>> On 2020/06/25 21:22, Javier Gonz=E1lez wrote:
+>>>>> From: Javier Gonz=E1lez <javier.gonz@samsung.com>
+>>>>>
+>>>>> Add support for offline transition on the zoned block device using the
+>>>>> new zone management IOCTL
+>>>>>
+>>>>> Signed-off-by: Javier Gonz=E1lez <javier.gonz@samsung.com>
+>>>>> Signed-off-by: SelvaKumar S <selvakuma.s1@samsung.com>
+>>>>> Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+>>>>> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+>>>>> ---
+>>>>>  block/blk-core.c              | 2 ++
+>>>>>  block/blk-zoned.c             | 3 +++
+>>>>>  drivers/nvme/host/core.c      | 3 +++
+>>>>>  include/linux/blk_types.h     | 3 +++
+>>>>>  include/linux/blkdev.h        | 1 -
+>>>>>  include/uapi/linux/blkzoned.h | 1 +
+>>>>>  6 files changed, 12 insertions(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/block/blk-core.c b/block/blk-core.c
+>>>>> index 03252af8c82c..589cbdacc5ec 100644
+>>>>> --- a/block/blk-core.c
+>>>>> +++ b/block/blk-core.c
+>>>>> @@ -140,6 +140,7 @@ static const char *const blk_op_name[] =3D {
+>>>>>  	REQ_OP_NAME(ZONE_CLOSE),
+>>>>>  	REQ_OP_NAME(ZONE_FINISH),
+>>>>>  	REQ_OP_NAME(ZONE_APPEND),
+>>>>> +	REQ_OP_NAME(ZONE_OFFLINE),
+>>>>>  	REQ_OP_NAME(WRITE_SAME),
+>>>>>  	REQ_OP_NAME(WRITE_ZEROES),
+>>>>>  	REQ_OP_NAME(SCSI_IN),
+>>>>> @@ -1030,6 +1031,7 @@ generic_make_request_checks(struct bio *bio)
+>>>>>  	case REQ_OP_ZONE_OPEN:
+>>>>>  	case REQ_OP_ZONE_CLOSE:
+>>>>>  	case REQ_OP_ZONE_FINISH:
+>>>>> +	case REQ_OP_ZONE_OFFLINE:
+>>>>>  		if (!blk_queue_is_zoned(q))
+>>>>>  			goto not_supported;
+>>>>>  		break;
+>>>>> diff --git a/block/blk-zoned.c b/block/blk-zoned.c
+>>>>> index 29194388a1bb..704fc15813d1 100644
+>>>>> --- a/block/blk-zoned.c
+>>>>> +++ b/block/blk-zoned.c
+>>>>> @@ -416,6 +416,9 @@ int blkdev_zone_mgmt_ioctl(struct block_device *b=
+dev, fmode_t mode,
+>>>>>  	case BLK_ZONE_MGMT_RESET:
+>>>>>  		op =3D REQ_OP_ZONE_RESET;
+>>>>>  		break;
+>>>>> +	case BLK_ZONE_MGMT_OFFLINE:
+>>>>> +		op =3D REQ_OP_ZONE_OFFLINE;
+>>>>> +		break;
+>>>>>  	default:
+>>>>>  		return -ENOTTY;
+>>>>>  	}
+>>>>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+>>>>> index f1215523792b..5b95c81d2a2d 100644
+>>>>> --- a/drivers/nvme/host/core.c
+>>>>> +++ b/drivers/nvme/host/core.c
+>>>>> @@ -776,6 +776,9 @@ blk_status_t nvme_setup_cmd(struct nvme_ns *ns, s=
+truct request *req,
+>>>>>  	case REQ_OP_ZONE_FINISH:
+>>>>>  		ret =3D nvme_setup_zone_mgmt_send(ns, req, cmd, NVME_ZONE_FINISH);
+>>>>>  		break;
+>>>>> +	case REQ_OP_ZONE_OFFLINE:
+>>>>> +		ret =3D nvme_setup_zone_mgmt_send(ns, req, cmd, NVME_ZONE_OFFLINE);
+>>>>> +		break;
+>>>>>  	case REQ_OP_WRITE_ZEROES:
+>>>>>  		ret =3D nvme_setup_write_zeroes(ns, req, cmd);
+>>>>>  		break;
+>>>>> diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
+>>>>> index 16b57fb2b99c..b3921263c3dd 100644
+>>>>> --- a/include/linux/blk_types.h
+>>>>> +++ b/include/linux/blk_types.h
+>>>>> @@ -316,6 +316,8 @@ enum req_opf {
+>>>>>  	REQ_OP_ZONE_FINISH	=3D 12,
+>>>>>  	/* write data at the current zone write pointer */
+>>>>>  	REQ_OP_ZONE_APPEND	=3D 13,
+>>>>> +	/* Transition a zone to offline */
+>>>>> +	REQ_OP_ZONE_OFFLINE	=3D 14,
+>>>>>
+>>>>>  	/* SCSI passthrough using struct scsi_request */
+>>>>>  	REQ_OP_SCSI_IN		=3D 32,
+>>>>> @@ -456,6 +458,7 @@ static inline bool op_is_zone_mgmt(enum req_opf o=
+p)
+>>>>>  	case REQ_OP_ZONE_OPEN:
+>>>>>  	case REQ_OP_ZONE_CLOSE:
+>>>>>  	case REQ_OP_ZONE_FINISH:
+>>>>> +	case REQ_OP_ZONE_OFFLINE:
+>>>>>  		return true;
+>>>>>  	default:
+>>>>>  		return false;
+>>>>> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+>>>>> index bd8521f94dc4..8308d8a3720b 100644
+>>>>> --- a/include/linux/blkdev.h
+>>>>> +++ b/include/linux/blkdev.h
+>>>>> @@ -372,7 +372,6 @@ extern int blkdev_zone_ops_ioctl(struct block_dev=
+ice *bdev, fmode_t mode,
+>>>>>  				  unsigned int cmd, unsigned long arg);
+>>>>>  extern int blkdev_zone_mgmt_ioctl(struct block_device *bdev, fmode_t=
+ mode,
+>>>>>  				  unsigned int cmd, unsigned long arg);
+>>>>> -
+>>>>>  #else /* CONFIG_BLK_DEV_ZONED */
+>>>>>
+>>>>>  static inline unsigned int blkdev_nr_zones(struct gendisk *disk)
+>>>>> diff --git a/include/uapi/linux/blkzoned.h b/include/uapi/linux/blkzo=
+ned.h
+>>>>> index a8c89fe58f97..d0978ee10fc7 100644
+>>>>> --- a/include/uapi/linux/blkzoned.h
+>>>>> +++ b/include/uapi/linux/blkzoned.h
+>>>>> @@ -155,6 +155,7 @@ enum blk_zone_action {
+>>>>>  	BLK_ZONE_MGMT_FINISH	=3D 0x2,
+>>>>>  	BLK_ZONE_MGMT_OPEN	=3D 0x3,
+>>>>>  	BLK_ZONE_MGMT_RESET	=3D 0x4,
+>>>>> +	BLK_ZONE_MGMT_OFFLINE	=3D 0x5,
+>>>>>  };
+>>>>>
+>>>>>  /**
+>>>>>
+>>>>
+>>>> As mentioned in previous email, the usefulness of this is dubious. Ple=
+ase
+>>>> elaborate in the commit message. Sure NVMe ZNS defines this and we can=
+ support
+>>>> it. But without a good use case, what is the point ?
+>>>
+>>> Use case is to transition zones in read-only state to offline when we
+>>> are done moving valid data. It is easier to explicitly managing zones
+>>> that are not usable by having all under the offline state.
+>>
+>> Then adding a simple BLKZONEOFFLINE ioctl, similar to open, close, finis=
+h and
+>> reset, would be enough. No need for all the new zone management ioctl wi=
+th flags
+>> plumbing.
+> =
+
+> Ok. We can add that then.
+> =
+
+> Note that zone management is not motivated by this use case at all, but
+> it made sense to implement it here instead of as a new BLKZONEOFFLINE
+> IOCTL as ZAC/ZBC users will not be able to use it either way.
+
+Sure, that is fine. We could actually add that to sd_zbc.c since we have zo=
+ne
+tracking there. A read-only zone can be reported as offline to sync-up with=
+ zns.
+The value of it is dubious though as most applications will treat read-only=
+ and
+offline zones the same way: as unusable. That is what zonefs does.
+
+> =
+
+>>
+>>>
+>>>>
+>>>> scsi SD driver will return BLK_STS_NOTSUPP if this offlining is sent t=
+o a
+>>>> ZBC/ZAC drive. Not nice. Having a sysfs attribute "max_offline_zone_se=
+ctors" or
+>>>> the like to indicate support by the device or not would be nicer.
+>>>
+>>> We can do that.
+>>>
+>>>>
+>>>> Does offling ALL zones make any sense ? Because this patch does not pr=
+event the
+>>>> use of the REQ_ZONE_ALL flags introduced in patch 2. Probably not a go=
+od idea to
+>>>> allow offlining all zones, no ?
+>>>
+>>> AFAIK the transition to offline is only valid when coming from a
+>>> read-only state. I did think of adding a check, but I can see that other
+>>> transitions go directly to the driver and then the device, so I decided
+>>> to follow the same model. If you think it is better, we can add the
+>>> check.
+>>
+>> My point was that the REQ_ZONE_ALL flag would make no sense for offlinin=
+g zones
+>> but this patch does not have anything checking that. There is no point in
+>> sending a command that is known to be incorrect to the drive...
+> =
+
+> I will add some extra checks then to fail early. I assume these should
+> be in the NVMe driver as it is NVMe-specific, right?
+
+If it is a simple BLKZONEOFFLINE ioctl, it can be processed exactly like op=
+en,
+close and finish, using blkdev_zone_mgmt(). Calling that one for a range of
+sectors of more than one zone will likely not make any sense most of the ti=
+me,
+but that is allowed for all other ops, so I guess you can keep it as is for
+offline too. blkdev_zone_mgmt() will actually not need any change. You will=
+ only
+need to wire the ioctl path and update op_is_zone_mgmt(). That's it. Simple=
+ that
+way.
+
+> =
+
+> Javier
+> =
+
+
+
+-- =
+
+Damien Le Moal
+Western Digital Research
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
