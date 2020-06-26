@@ -2,89 +2,86 @@ Return-Path: <SRS0=morU=AH=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AC22C433DF
-	for <linux-nvme@archiver.kernel.org>; Fri, 26 Jun 2020 12:27:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 555B8C433DF
+	for <linux-nvme@archiver.kernel.org>; Fri, 26 Jun 2020 12:29:01 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CB13A207E8
-	for <linux-nvme@archiver.kernel.org>; Fri, 26 Jun 2020 12:27:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id F35F0207E8
+	for <linux-nvme@archiver.kernel.org>; Fri, 26 Jun 2020 12:29:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="2z9Zzq+r";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel-dk.20150623.gappssmtp.com header.i=@kernel-dk.20150623.gappssmtp.com header.b="mP1S9u/Z"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CB13A207E8
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="kaCfUDpD";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=javigon-com.20150623.gappssmtp.com header.i=@javigon-com.20150623.gappssmtp.com header.b="w0WxvLqZ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F35F0207E8
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=javigon.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:References:
-	To:Subject:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=uu99J8wFkL8kJtSFLIaXY2meZxCqfvY3+hSR9be+aKM=; b=2z9Zzq+rRcSr+7yJNZYJEatQK
-	eCN7TikP6RePDpKUs1ZLs0RKtgkwoinYnbfAvSn6nFffsEXhHK6XjLLBzQ1k6SUFu525wXhK0wSty
-	FLy0+ufucNsiAfb+k14y5Zzcr5GO7pjLJFAjFTdPKFXqp7LBiFhuBjQbAv6efP5EBB6Mn9rFZlTFE
-	NBK+G0zLKLEar72AUsXzKDskJ16TaRFl3rGQuqvxoN5MA8/ZZfj8fjiYE6kr6kxOIMMVtNIOX6nnf
-	tHEnzmnBASkuJY8xoIR+weZCHVNjBFz1yB4k7xcm1XcS50eZPJZ6NryEvSF6X6xfP9qWwU3l/HvPW
-	If7mnxE5w==;
+	 bh=7sW8nGclaTkjggMOvaLY+QB6xY8UKDxAfmc1hk+JT8s=; b=kaCfUDpDFw89pRAnikPz5Mq7U
+	HovtBDMpHOU4CWMDUsCpkZe/H30yXrRSdAVAKYvKtE4M0rwBCNWd/hCoDUcjrrEFNsJ6++FSnC4GT
+	6vsvbup8bffXOkhtUNaj0/tv/Wq6KRMQvU7v1MlwGUO6NE9feTZS0qKqlhQlw6kGbn+uGq9EKDSqh
+	Yf34ejlmSrxt4KgpsZArTuN/NRb9lpr0AAazBO6WIszOVJY3FUL1z3FpwvWj/M9Svp6xMssKo7h/Z
+	UPjjmyKVW11eumQvEtXzFxe/hP61iwCNfmjN8susZ7B3rLjkm0AiPkYmSDLrMVyKmgJ8AKZVQnb7/
+	WJ676t7Jg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jonSP-00067R-WF; Fri, 26 Jun 2020 12:27:50 +0000
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+	id 1jonTG-0006bD-PA; Fri, 26 Jun 2020 12:28:42 +0000
+Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jonIc-000139-78
- for linux-nvme@lists.infradead.org; Fri, 26 Jun 2020 12:17:44 +0000
-Received: by mail-pj1-x102b.google.com with SMTP id i4so4884209pjd.0
- for <linux-nvme@lists.infradead.org>; Fri, 26 Jun 2020 05:17:39 -0700 (PDT)
+ id 1jolAN-0007o7-A6
+ for linux-nvme@lists.infradead.org; Fri, 26 Jun 2020 10:01:19 +0000
+Received: by mail-ed1-x543.google.com with SMTP id cy7so6449327edb.5
+ for <linux-nvme@lists.infradead.org>; Fri, 26 Jun 2020 03:01:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20150623.gappssmtp.com; s=20150623;
- h=from:subject:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=978wLGVs1UC0lJ8/UvI6dYC0JDFg86w7Psh56SEUsW4=;
- b=mP1S9u/ZP5t6Z5fMrN3Ihm2rY4U6g4Q26beF94BXeqc8ZJwRS+ddvwFowrq8K9mTyw
- qhS2Wlgq9pWgcAXLYgEF4EgVYV148MF3JpO9fcvczi/2drR00Ua0LEKV7Dyz472qCJuC
- xu7pEg7dMqW+xDdMP5FoSb6H/SAe6gYw34gWpjRoVFMR1HAmL92sSj7IUjP+pX817TY+
- oTByj/mz+mnUz1ZmRiSGOCiOZo9zeoFynymOkbhKLKErVe4MyfaHltJZrHuiKjDRYQ69
- 65vUQtHiYkBLUKDz7UQ0tg07MK5nhgdiJg11JacdKZyZxvn8cVxaSArgzoHQN59ArS7X
- Ip/w==
+ d=javigon-com.20150623.gappssmtp.com; s=20150623;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=qUl1b6ZKOKu+8M/8iIs9MV6jOq39RM7yd/5UXrQhPBg=;
+ b=w0WxvLqZGuf7NzsEdBXumLQ4Dq0bASQTtoSlE2yk+jztzvPZukgMaGjduN8Kzm/cET
+ xYYHn80gxOlrs+uIRaJhaRa6D6waGxvec1mpxEMnKyxbCswaggT0JGYQLLcEvSNUTAvo
+ j8Vxr2Tkuv5yqCNFgDx4vWaj5FcVl0yVq5ZIEdgiGYPHSz8UinpTzGX4HvMulT0QbaRT
+ NMWveSYkx35tdCw6eRZPtF/JZy0qciGwWTBgaAbmeE0s0vXT6fSSxcXJTnT1SXEhvLpX
+ LhhdvX2W+utTQ9W8+K6s1oEIp0KxH8tVPcA53GuW+6Tq8WrJcZauPXpGtLtNTVRLAENY
+ P2kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:subject:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=978wLGVs1UC0lJ8/UvI6dYC0JDFg86w7Psh56SEUsW4=;
- b=UZGt/ft9xcMcDr+r8D4V12krzw5ame+m/68xMIiUhMM062f4yGj1Cr9sk4bfTCVYPc
- 7Hbu92SRhUts924JxmqLQHSypSXITrLoSD5YA4pI0vyBgCyEB4lwOsoOPNfMiS19OOyG
- BcrBvhH46jDm7nByYVU8w2F4pUEkuV/zDMQ/4uTMoLUSyXE+i6k0tBq/XOZOmLBxad9Q
- OHPOEnm/wPsfmWTCVY/zgjNJzdzN+wkpRlLYpIsdSDtES3I/0/BjxhHu7bsI3bzkqfZa
- KTMC9lwaNCDVOcycbTQPZSpNghMsOv5N0eIBUU+fcb8grjLFa2rozeXjc/TCwvmEzx99
- pSkA==
-X-Gm-Message-State: AOAM533F4ig/g7uBvl8yALiXX35y/eSCWUNzbuGzuZCA7RpbnbCToe2l
- IxSJ4x68M5PGL2ig6WswwEnTZw==
-X-Google-Smtp-Source: ABdhPJyAmSzV3UZfOD2Vf6pE6gjQKxRa7NlRNPAajR7KgCaVgF0iQhcU2RM6EorPKlaqFNy8cRcMjw==
-X-Received: by 2002:a17:90a:c84:: with SMTP id v4mr2944021pja.7.1593173857993; 
- Fri, 26 Jun 2020 05:17:37 -0700 (PDT)
-Received: from [192.168.1.182] ([66.219.217.173])
- by smtp.gmail.com with ESMTPSA id j21sm4858445pfa.133.2020.06.26.05.17.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Jun 2020 05:17:37 -0700 (PDT)
-From: Jens Axboe <axboe@kernel.dk>
-Subject: Re: [PATCHv3 1/5] block: add capacity field to zone descriptors
-To: Keith Busch <kbusch@kernel.org>
-References: <20200622162530.1287650-1-kbusch@kernel.org>
- <20200622162530.1287650-2-kbusch@kernel.org>
-Message-ID: <1a272c03-050c-8a59-f767-cc2170f4c377@kernel.dk>
-Date: Fri, 26 Jun 2020 06:17:35 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=qUl1b6ZKOKu+8M/8iIs9MV6jOq39RM7yd/5UXrQhPBg=;
+ b=mf+/dXYmgd/Gbd7hEATkk5LbVZkAmQfVzzxvXdarYgDup/KfsVyGsGgi30mDX48RZN
+ InI/MTcvHKuPLl2wjdvZ+11MNBhcdaS4VTqyqeX6wxqblSAVFRMdcuqxR6OBzXsfl0a8
+ E4F701vRR2ghBO5EYFOtnzMUKDpkUzWtBiCntwSTK8/3P0NX+yuv57DKlXznUBteRXyt
+ rNU62d/f7m7a3K3Z3XfvLvs4oNt8NtQzeZtMgVCGHt3XwDw28Se3rMCUrPzsFYBKBFdm
+ YHh/hBxN1N/N5uDlYn12l4H0S/y19ewm0McmkDcluXleJaZAiIj1VAjB2KY/F38HlqqA
+ KG5Q==
+X-Gm-Message-State: AOAM530x0clU5TyTw61NUDCp4oRTEzTbMwmJ6b3bKxn7CJPtKSFZRpfN
+ j8Ys/9/DZKfAl1FecgegYHZu7g==
+X-Google-Smtp-Source: ABdhPJyX6ZGJUOZGR+giWfiEzv594FPvMsFiqAPf1gxFoZ4PsqFMv1gWz5Lx85XAqx/Mk5z895sgGQ==
+X-Received: by 2002:aa7:c609:: with SMTP id h9mr2548655edq.43.1593165661688;
+ Fri, 26 Jun 2020 03:01:01 -0700 (PDT)
+Received: from localhost (ip-5-186-127-235.cgn.fibianet.dk. [5.186.127.235])
+ by smtp.gmail.com with ESMTPSA id w18sm1030748ejc.62.2020.06.26.03.01.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 26 Jun 2020 03:01:01 -0700 (PDT)
+Date: Fri, 26 Jun 2020 12:01:00 +0200
+From: Javier =?utf-8?B?R29uesOhbGV6?= <javier@javigon.com>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH 5/6] block: add zone attr. to zone mgmt IOCTL struct
+Message-ID: <20200626100100.gxwdmww7h4kmfxsq@mpHalley.localdomain>
+References: <20200625122152.17359-1-javier@javigon.com>
+ <20200625122152.17359-6-javier@javigon.com>
+ <20200626091427.GC26616@lst.de>
 MIME-Version: 1.0
-In-Reply-To: <20200622162530.1287650-2-kbusch@kernel.org>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20200626091427.GC26616@lst.de>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,33 +93,33 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: sagig <sagi@grimberg.me>, Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
- Johannes Thumshirn <johannes.thumshirn@wdc.com>,
- Daniel Wagner <dwagner@suse.de>, Linux NVMe <linux-nvme@lists.infradead.org>,
- linux-block <linux-block@vger.kernel.org>,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- =?UTF-8?Q?Javier_Gonz=c3=a1lez?= <javier.gonz@samsung.com>,
- Christoph Hellwig <hch@lst.de>,
- =?UTF-8?Q?Matias_Bj=c3=b8rling?= <matias.bjorling@wdc.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: axboe@kernel.dk, SelvaKumar S <selvakuma.s1@samsung.com>, sagi@grimberg.me,
+ Kanchan Joshi <joshi.k@samsung.com>, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org, kbusch@kernel.org,
+ Nitesh Shetty <nj.shetty@samsung.com>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gTW9uLCBKdW4gMjIsIDIwMjAgYXQgMTA6MjUgQU0gS2VpdGggQnVzY2ggPGtidXNjaEBrZXJu
-ZWwub3JnPiB3cm90ZToKPgo+IEZyb206IE1hdGlhcyBCasO4cmxpbmcgPG1hdGlhcy5iam9ybGlu
-Z0B3ZGMuY29tPgo+Cj4gSW4gdGhlIHpvbmVkIHN0b3JhZ2UgbW9kZWwsIHRoZSBzZWN0b3JzIHdp
-dGhpbiBhIHpvbmUgYXJlIHR5cGljYWxseSBhbGwKPiB3cml0ZWFibGUuIFdpdGggdGhlIGludHJv
-ZHVjdGlvbiBvZiB0aGUgWm9uZWQgTmFtZXNwYWNlIChaTlMpIENvbW1hbmQKPiBTZXQgaW4gdGhl
-IE5WTSBFeHByZXNzIG9yZ2FuaXphdGlvbiwgdGhlIG1vZGVsIHdhcyBleHRlbmRlZCB0byBoYXZl
-IGEKPiBzcGVjaWZpYyB3cml0ZWFibGUgY2FwYWNpdHkuCj4KPiBFeHRlbmQgdGhlIHpvbmUgZGVz
-Y3JpcHRvciBkYXRhIHN0cnVjdHVyZSB3aXRoIGEgem9uZSBjYXBhY2l0eSBmaWVsZCB0bwo+IGlu
-ZGljYXRlIHRvIHRoZSB1c2VyIGhvdyBtYW55IHNlY3RvcnMgaW4gYSB6b25lIGFyZSB3cml0ZWFi
-bGUuCj4KPiBJbnRyb2R1Y2UgYmFja3dhcmQgY29tcGF0aWJpbGl0eSBpbiB0aGUgem9uZSByZXBv
-cnQgaW9jdGwgYnkgZXh0ZW5kaW5nCj4gdGhlIHpvbmUgcmVwb3J0IGhlYWRlciBkYXRhIHN0cnVj
-dHVyZSB3aXRoIGEgZmxhZ3MgZmllbGQgdG8gaW5kaWNhdGUgaWYKPiB0aGUgY2FwYWNpdHkgZmll
-bGQgaXMgYXZhaWxhYmxlLgoKUmV2aWV3ZWQtYnk6IEplbnMgQXhib2UgPGF4Ym9lQGtlcm5lbC5k
-az4KCi0tIApKZW5zIEF4Ym9lCgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KTGludXgtbnZtZSBtYWlsaW5nIGxpc3QKTGludXgtbnZtZUBsaXN0cy5pbmZy
-YWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGlu
-dXgtbnZtZQo=
+On 26.06.2020 11:14, Christoph Hellwig wrote:
+>> + * Zone Attributes
+>> + */
+>> +enum blk_zone_attr {
+>> +	BLK_ZONE_ATTR_ZFC	= 1 << 0,
+>> +	BLK_ZONE_ATTR_FZR	= 1 << 1,
+>> +	BLK_ZONE_ATTR_RZR	= 1 << 2,
+>> +	BLK_ZONE_ATTR_ZDEV	= 1 << 7,
+>> +};
+>
+>I have no ^$^$#$%#% idea what this is supposed to be.  If you add
+>userspace ABIs you need to document them in detail.  Until I've seen
+>that documentation I can't even comment if they make sense.
+
+Understood. I'll add the ZAC/ZBC attributes and document this properly
+on V2.
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
