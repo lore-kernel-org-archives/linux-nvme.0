@@ -7,18 +7,18 @@ X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C87E8C433DF
-	for <linux-nvme@archiver.kernel.org>; Fri, 26 Jun 2020 09:51:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1FB8C433DF
+	for <linux-nvme@archiver.kernel.org>; Fri, 26 Jun 2020 09:51:50 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 854DB21531
-	for <linux-nvme@archiver.kernel.org>; Fri, 26 Jun 2020 09:51:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 90E8B21531
+	for <linux-nvme@archiver.kernel.org>; Fri, 26 Jun 2020 09:51:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="gBWKAkke";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="F4pj54dN";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="VLS54hFI"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 854DB21531
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="x9SJ6Jw0";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="lZlr+2Qh";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="ar/BQfI1"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 90E8B21531
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -27,75 +27,76 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:To:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	 bh=cg2sZcgn+G25Kf6Fkk22Bl+ZCANW3IQ6FHfC5zWj2OQ=; b=gBWKAkke0HPLl1BuVgWVQ+eue
-	3srjWGKaB/SMowvg2PiJIVy1glH8RbGB2sPci6RSwYvdeFfQoykH8yrBYO/3hL21Ayu9mWhzGl7AK
-	o0fB/FngULbWk9P5JwN1HyLyEofNwbRyfF47jViw1KjK1xmW4Rr9gBpUEAAVla+2IrMIsKhGrUHh6
-	DZ/9O3MbhVaLOIvN1mKQcOrJW+l6mimFd6sIRniIUW5gDfco55gY3iiqrXkHRrOZcsoDWTCz6aHe2
-	KDv44K8Qq1GnD8+nA1hUryFgpxq5MZjy4o/RtlCNynxn62EbY4HsUafqLxu0hkBjpS6gVe2yXvZVp
-	sf9jEDCSA==;
+	 bh=NN0rJvEIyqD5UxzIln99VXMFb9H78mgy47eCKDAlpqU=; b=x9SJ6Jw0Q3xIKIfA5NaVev/El
+	10o48WZs/HFHCbAqHIVf6nNkP4DEVcFPhqfC+xQfhQcX5gLpBrbKX6PzdSZDe08GDrahCSppi+bwG
+	Uaf0sEyNorEDsVIvtmp9cE26YZ1ok+f4APenD7eN1Znis34ZSKBDy4sTXIAI7Bhj/tDZ9PK0OOyoi
+	q7DKnIEPiJSlw/ycB8S5vb8H8MkR0bKe+MZJzVCsE2za1USM6XjlikkQx5/tILKFXPmEuEJ6AUaDI
+	XhsEUkYorH3rtzjBr061NBj3Wnfl+yNrRKaxS7LTEy+SQHQaKE7fytA4kgJ/HpIws8ymQIGH6t/aE
+	B7qUO3Y8A==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jol12-00035k-5b; Fri, 26 Jun 2020 09:51:24 +0000
+	id 1jol1O-0003Ff-2S; Fri, 26 Jun 2020 09:51:46 +0000
 Received: from esa5.hgst.iphmx.com ([216.71.153.144])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jokQ6-00024O-Qx
- for linux-nvme@lists.infradead.org; Fri, 26 Jun 2020 09:13:38 +0000
+ id 1jokXq-0005UR-QC
+ for linux-nvme@lists.infradead.org; Fri, 26 Jun 2020 09:21:38 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1593162795; x=1624698795;
+ t=1593163275; x=1624699275;
  h=from:to:cc:subject:date:message-id:references:
  content-transfer-encoding:mime-version;
- bh=NHpBSsJbEkotRKvhqvpfdJDLD9wPiSMMT+xhWyFy+tY=;
- b=F4pj54dNaS0y9XAmG8ipMWzCoqcFwFhlAkssU2bSZijr4kMlRLjGvGIS
- 1SIBXjbGrzuL0Q0+W15iMcQ5HXY5rv/46Ge3+h3qVCwWaPiZYPIGzG0mZ
- KpT9aCc2P391CaCkPFMgquHkhbYr6gewYpTqIOMIvWlg3Hz+MqK4zm168
- vr2nHvgGE68e3DWuADRZ3VZOp+naCPtr4dAQ/qlKTnI8gNL4ld9gO51mj
- Y/gV3FRBaHwurZJ0J7zzFs3rfjo9+5ECziKCtrcAbhVdhaaeIpYje+I24
- STOEvhTS7d3zSo3OU8kXtFFyHVtB9PtzOcYHSr3I+5Yx9Acv7gYBYGElJ g==;
-IronPort-SDR: gkg+3nSxL4R8NBP5GX7nZVvUz0rClA35Uf/MpaKnc9tda8zU8shr9cqJlYjs/W6FeMjHl+C6xk
- Sdt6XGb8UjEeWRfNwAWGoJsHbMCPgStjagV835BvP2HlufKkc8IdsPy2/qt3OSu2CrynlAhmzI
- XGjG3EImStU+iB2f1RvWVsxXn4rzS/s1W3eA0m/4oEXrxnKffJ1sOqLACdo5ndiLERheihwyLe
- MbNF0tB+/lBpSA7qyISI8yhMOZ7AxPcHiQ0pshQQaO3OhBjPTo49NEmFnCYo4mWDvfBhpAPSzh
- /cs=
-X-IronPort-AV: E=Sophos;i="5.75,282,1589212800"; d="scan'208";a="141211955"
-Received: from mail-mw2nam10lp2109.outbound.protection.outlook.com (HELO
- NAM10-MW2-obe.outbound.protection.outlook.com) ([104.47.55.109])
- by ob1.hgst.iphmx.com with ESMTP; 26 Jun 2020 14:42:27 +0800
+ bh=UhkcfXJAjB1uCDx7CpV+tD4xYaIb/7aE0GU6iWYREmc=;
+ b=lZlr+2Qhnqi+mqb7nxBobQtH1bHM6PwUCR/0Wzq7JfkvbDyyi5BSYN88
+ +3LDbqa/qmEDd5gtedV4I4aBuzJIBa4I5Wj/oFV+mxvYanzWDPiudRKz+
+ sQRsy9E8z4Kkzx4x2FBmVqidmh+vmkc35xLrxioIhbgCbtuH1tl+xbEEF
+ HK4GT8hrLCl/F5q/RbFEeijFQ8O4gthcPyGgFhLuR0C554kbBherUHYNs
+ 42RKFetXqIZh+8Rja1X0WpPLEJ+bgBg7KbX8WerXo1qsnZtuFQzyeTVi8
+ 4JSia/4Ro+qfJMpDqyNeBG9XKN2Q1A6CVyyr77bR/63fLZB3zxSS9t9VC w==;
+IronPort-SDR: 2CwLU7Ixzn5/nrMMHDPtpM2lYSTmni6lWC7N/4MeQjqr0z4grqRKrYAS9sNgAkfHOmycCoqXEx
+ sEKWMp2GUfDpwSEdT1w/o6bUgNpKQDTC8drzLRYJoE4R9pij+2PjJ/LA6zvqp2RzadNkZNF310
+ ft/m2YYOVTuA9WNpy+O5P+QZkzCQ7Lp0uSujNnTzm8HpyRD0LKcx54FGGnu93tM2Rbmqq1NLc2
+ 6swWsGcHAUitUoX5HVLkTv69k0fKbjrkaGlOm4m6+fPrxKVKL9NeDFk0Bh8g3ZCLaYdmB1+AXC
+ uw4=
+X-IronPort-AV: E=Sophos;i="5.75,281,1589212800"; d="scan'208";a="141196190"
+Received: from mail-bn8nam11lp2174.outbound.protection.outlook.com (HELO
+ NAM11-BN8-obe.outbound.protection.outlook.com) ([104.47.58.174])
+ by ob1.hgst.iphmx.com with ESMTP; 26 Jun 2020 09:14:34 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GhX2UmJoK83rDbuRv+EbHnJFbMbb7dszgMNdJM5DatB+IgsU8VhLjFimKks/hpL2lct5jDPph9u77hklDZ6FSnoptPD4/ytxPuaqGBZ+7kdsUP+iuCZn467cARr3lfiiQ+yV/0bflqyF4sexKhV+3z876YTM/TiCZ1WEDo0/opM+GeUtFPVv8sx1FRaI3lhQDapVTEM+/FDC9ujSHnwM8OSREUcBPo6ID4MKmTqHP/5xQOmFmDUB7/uY/xq9ibwkNdKZMvavN4Unbu9W0w847jIWu8LV/DzYHHbo3YAeszI6TpcRmYWH2UJBrd3Ye3OmGE8sx8S+8fuEK5XeNB17Ww==
+ b=VMqUgBjnGY29Aidu1EaFyW6AYcO7+NvNGAARcEbawaVA1AHEOi1iJv2cVSL8/YvDpwE2P3nNPCn+/f5IXu+O5Qx1IIKiRJWHLtKFK8ZCz3rhiznmZxXAkyabKmhPRz3+sCnyGU1LrbMbsrtp/rmk5al9bzae2YsG5N89ILAEE5A2mY5c/dswrsul7w0AcJdU2eX2wp9FTqiQNv6Hof5isYvkzDC/iBNilSUlXoV4RyhKPYyhZgS8qu6bAPnCpOUQGE4mUkfNY762qVOjAgcDaA4J143+6Zh/VbCSxDLAjwVuM6wqjrQA6is8cjYXECW8TBByHz9oHJz0yqgJgnzKBw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AKcv8vLdqn4SdoWiZ45ao1EwbFjIOk1IxpJ9zNuBrp0=;
- b=Y+wEkbq00t9pMR6eJIDGQfVMpLoWDyZq8IAgbMjTBIrSIZw+oaihJuyZVr7LURiLtUWezbS5mI+rJ5sObBjyiCNR0wwFNHa7vGn+HtNZtZYQLxeQRDCC0bV44JPzsCJ0E3Y8h1/8uK5vtTuP88WWerIDj34ICSkT0eh+vs7+KHSP9zxb3nzcS3TmR2Om0UvlvTiLuXpogQPObB8+ThZf5l2kLu9su4FA5iCHn19AgnaOr1OHre4lzZgumjYe7TuCoVpf/HAwVF+e4XjeByFVczDR168viIQc9USZDzdM1q+OWF/OWtyHnCE6hNOaqA7OmsY0XlbTlAVaYHE5ll0W9g==
+ bh=ZX/Rov5Yniivb5Ca5b86G5bq/pKzYkDJXFdPJp/GtfI=;
+ b=UWr2LfItbXuFXTt8bI06zXDVuQGGeM9vBUJTqO/+R8qrX2d3pqgJyoDUzm2kAQLUGlJ89RcmtjeSIp1Vnnq0Y0BEkKc2qBfz+dlFWh8d8On1H5zqxBEXYNMnopxd0M3VRb5Y2nTOxJLJiACc2q5ingvdkJwaF6no4U0G9/pBXFdsJhL08iJiak5CwKVZPiTSenakMHtFVLOZn0Yaymh67JwevpWU0zjWc57VrasFpvhnCECTHXcmiy0q6NS+nBoe95eXoVL7Cw3ElgzURAGX7VXIlQIeTkDngnxaNhA5ovKNI5xsKIuhhfLFkE7r8lAx49w+cTfNXRrkfdqMUlUOYg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
  header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AKcv8vLdqn4SdoWiZ45ao1EwbFjIOk1IxpJ9zNuBrp0=;
- b=VLS54hFI+DjRfjelhEkrjEb8R6+PONxewTS5kFWcQUAl8MdGwgMiAxF01htD5jXfMjDmt1kLUxoOW/ad/6zV3PLdgy3zCRmoxrH8UzCGxTWAZzZwwfeO7fg/9dEwXDmfWWyCryOBbmtY+Tg7a70dE3O9w/oUkGjIgyhwCsxmxko=
+ bh=ZX/Rov5Yniivb5Ca5b86G5bq/pKzYkDJXFdPJp/GtfI=;
+ b=ar/BQfI13ZBftZ5+zUt/bLrP+ovIrA+dugTQbGFu3drDkQS5ImByZVjJeMATYcCB3vRqsraG85YEXS5A9aH71n7q99v4QFAFeRCSNRtJ651Ysk6Ff2UsTqbNTFmYGOS4P7oBADZqV+zTZBV28pxly5u63LCAWKItR/W7PtpSqQk=
 Received: from CY4PR04MB3751.namprd04.prod.outlook.com (2603:10b6:903:ec::14)
- by CY4PR0401MB3586.namprd04.prod.outlook.com (2603:10b6:910:8e::29)
- with Microsoft SMTP Server (version=TLS1_2,
+ by CY4PR04MB0726.namprd04.prod.outlook.com (2603:10b6:903:e3::7) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.23; Fri, 26 Jun
- 2020 06:42:26 +0000
+ 2020 01:14:31 +0000
 Received: from CY4PR04MB3751.namprd04.prod.outlook.com
  ([fe80::c593:f271:eebe:ac7]) by CY4PR04MB3751.namprd04.prod.outlook.com
  ([fe80::c593:f271:eebe:ac7%9]) with mapi id 15.20.3131.024; Fri, 26 Jun 2020
- 06:42:24 +0000
+ 01:14:31 +0000
 From: Damien Le Moal <Damien.LeMoal@wdc.com>
-To: =?iso-8859-1?Q?Javier_Gonz=E1lez?= <javier@javigon.com>
+To: =?iso-8859-1?Q?Javier_Gonz=E1lez?= <javier@javigon.com>,
+ =?iso-8859-1?Q?Matias_Bj=F8rling?= <mb@lightnvm.io>
 Subject: Re: [PATCH 3/6] block: add support for zone offline transition
 Thread-Topic: [PATCH 3/6] block: add support for zone offline transition
 Thread-Index: AQHWSutT3xCQHGem9k+D54mKrpOEQg==
-Date: Fri, 26 Jun 2020 06:42:24 +0000
-Message-ID: <CY4PR04MB37515EAB61CDB458DE5AFCA3E7930@CY4PR04MB3751.namprd04.prod.outlook.com>
+Date: Fri, 26 Jun 2020 01:14:30 +0000
+Message-ID: <CY4PR04MB3751E7721E5D5E15065B0ED2E7930@CY4PR04MB3751.namprd04.prod.outlook.com>
 References: <20200625122152.17359-1-javier@javigon.com>
  <20200625122152.17359-4-javier@javigon.com>
- <CY4PR04MB375111445246B570FAF4EE58E7930@CY4PR04MB3751.namprd04.prod.outlook.com>
- <20200626060858.uo56xe57l4tzepnc@mpHalley.localdomain>
+ <b3429226-16ae-df3c-38aa-50e3a8716e71@lightnvm.io>
+ <20200625194835.5hojuvdwtjxtso2l@MacBook-Pro.localdomain>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -105,31 +106,31 @@ authentication-results: javigon.com; dkim=none (message not signed)
 x-originating-ip: [129.253.182.57]
 x-ms-publictraffictype: Email
 x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 78cf473b-5148-4dbb-c7cf-08d8199c1601
-x-ms-traffictypediagnostic: CY4PR0401MB3586:
-x-microsoft-antispam-prvs: <CY4PR0401MB3586D5A409E2FD32DF7C9ED5E7930@CY4PR0401MB3586.namprd04.prod.outlook.com>
+x-ms-office365-filtering-correlation-id: 9ffcdf2f-b9c5-4c63-b5a9-08d8196e4792
+x-ms-traffictypediagnostic: CY4PR04MB0726:
+x-microsoft-antispam-prvs: <CY4PR04MB072662A5073BD8EBAEDC08FCE7930@CY4PR04MB0726.namprd04.prod.outlook.com>
 wdcipoutbound: EOP-TRUE
 x-ms-oob-tlc-oobclassifiers: OLM:10000;
 x-forefront-prvs: 0446F0FCE1
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: CDJS652uPVOsRrN8koZwkaXVZYKoXpwf+xU2S99A94NEVWiJLX5342J5V9+uKql1TvYHT9snOz01sBySvxNXdZ82+rrr0uJLco4O+/0gIRxL0Ppsc0HKQPlyixd6i5PyVrwU4BiRMhlwz2o9w6dVAduzBV3/Oqw3OugZ4pgs6h/IY9D4uHiYi03605NRTEmgbMqa4nQwsf+CeVWaMbbQzwc3jLz8njknXOwyaBb9g4AhAjbn+rQKeF1cUA2G/UTvWIvnuHbNRgwPffJCQVtXuCWTmt1qkp8K/5Y7nAVip5jTRbVMEsn4AkOD6S2Irdcg
+x-microsoft-antispam-message-info: 9SUs4eGm45AGQXtk+bCgei8iiZyxSR9wNL8nFG/0qML1wUAgAfFwitxNfLUlhbdPP0gdQcnscL0BdODKmCVaeSFCJseBKXUXfz2fItD3OcmDgi9JVisUUb+5qTUVc5tJRlBoToPiYHGL3VjFERvGGh3wcbQbzEsnF5vkCA5iqonXEEs8m9IaQPOYriwdL0tbls60rw6JTNZ+qA0uHtrHtFVuYUpDgFbsZ1BIU7Cyw6iz/gVMcRLLGkIzboNpTQf17XvOXa+nardQM1xqqi05xOBWQM7fOP0YM32FMCCAU86bXCIOfvH/o86vn2GXlS43
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CY4PR04MB3751.namprd04.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(136003)(376002)(346002)(366004)(396003)(39860400002)(86362001)(5660300002)(8936002)(6916009)(52536014)(8676002)(66446008)(66476007)(33656002)(64756008)(66556008)(66946007)(76116006)(71200400001)(83380400001)(91956017)(4326008)(26005)(186003)(53546011)(55016002)(9686003)(2906002)(6506007)(7416002)(66574015)(316002)(478600001)(54906003)(7696005);
+ SFS:(4636009)(396003)(366004)(376002)(136003)(346002)(39860400002)(53546011)(52536014)(33656002)(83380400001)(54906003)(110136005)(71200400001)(316002)(478600001)(66446008)(8936002)(66946007)(26005)(86362001)(64756008)(7416002)(66556008)(9686003)(6506007)(5660300002)(8676002)(186003)(66476007)(91956017)(7696005)(66574015)(76116006)(4326008)(2906002)(55016002);
  DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: WT2c8lS1oZGk6Rskq9z73cDJ/YdyCHtuJ0e8h35slk12CLZin1nMTzoQdoHs0ywtppeawjVzTh9+vqCZ4wyIX5+lwT97A8Jhxk6cIG0NVRTzUFwhvBv+Q7Iwk9iM/Uii9smFX70Li5EZPyXX6TfaWXFCnaZ7Y+VCdjQlACb2BHG89TAFLeo0UdrbHzTDK7Cx80zbD51mqzSJYWw455lih+FX7Tim0NurnA0mye2cKVEmZ4XkiJsrK+EGnkCceov9l1451Kma7dZpaMWyttL/Cbtt/InaKHWo+ejjs1yv4hkip1b7G9ERl/brGbjxZqbEDzVRLjG+v5bvPx1nNPcylLQb5mK3iPW10faKHQ2AGhSzFA1o2zCKvPUyWu/hx1PEECJL+tG2ONORH6lrKejlS3oDWch6ZaPaMogpNVKBe6Z1gxGmYpP5ZvapFEzJXe5YwM4GkrSKKGmdsS7w2D86swBYLT/C4I+tLm01bb93PRLdXa01aJ7Prju/W3AcgA8+
+x-ms-exchange-antispam-messagedata: ZUSzMntiBVwnTfg4TKD3xcxoFTKxkNKyHI3jCwTUdqDDdkvQRW9XUvehyJ87Uzr9K8vZBu6P39b0K7S0kkuXnUSm3RX8iQ2ltqTc8Gsof/y/1hdXxAVpg+h69pQ/gorpkNjnGZydy2iTeW53cZSr4jw67oZEFKqX5b+9n02U+ZLVAe0/TZOm4iCtVQMHeQ+9u1rDQw8QK+4jbFhuNEU1ZwbvSuOQ15QjgqVpZpG5EiGlRRnpG6xdesst3jTPHRAADBGlGT/djKcTFJrQD8S8QGzibMZ84mtjR2ldPcn6D4/VCgD6gV3mQuFfaFvY5BsaaMg2LcsAl2YaNdEAn/z+jVLoJKwCsnz/yk32lkkL1mKpd8bNUPJhM8SymEl0fU/WSVR0EoWF1SnS90LzIuFPApTAOGnkrV0FZJx+tZfgFAldr8besrhyQQCUA5Kl6D6UXZHRcCICWTavS5xNsDMlSchXbDdxCSUuOeLa20LQ9RXM3sgCk7IHqInUCkkn8J3A
 x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
 X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 78cf473b-5148-4dbb-c7cf-08d8199c1601
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jun 2020 06:42:24.5914 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9ffcdf2f-b9c5-4c63-b5a9-08d8196e4792
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jun 2020 01:14:30.9100 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 5OaSbbo2dLcMUX9y/Is0IY0AlpaiVk0DjuZYAqkPjnHlrHMRsI8oVChhWUjwe5Ml29QlGO3AHDeSgYvl9e0iLg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR0401MB3586
+X-MS-Exchange-CrossTenant-userprincipalname: oBH9RG24flRytJYFEaMC83t2x40Pk79mcnNiFdKGOjNA5STkz9ShE2q2d8NAeKhwIlfji3G+yt8Ti8CBEG+m8w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR04MB0726
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -153,9 +154,9 @@ Content-Transfer-Encoding: quoted-printable
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2020/06/26 15:09, Javier Gonz=E1lez wrote:
-> On 26.06.2020 01:34, Damien Le Moal wrote:
->> On 2020/06/25 21:22, Javier Gonz=E1lez wrote:
+On 2020/06/26 4:48, Javier Gonz=E1lez wrote:
+> On 25.06.2020 16:12, Matias Bj=F8rling wrote:
+>> On 25/06/2020 14.21, Javier Gonz=E1lez wrote:
 >>> From: Javier Gonz=E1lez <javier.gonz@samsung.com>
 >>>
 >>> Add support for offline transition on the zoned block device using the
@@ -234,7 +235,6 @@ uct request *req,
 >>>  	REQ_OP_ZONE_APPEND	=3D 13,
 >>> +	/* Transition a zone to offline */
 >>> +	REQ_OP_ZONE_OFFLINE	=3D 14,
->>>
 >>>  	/* SCSI passthrough using struct scsi_request */
 >>>  	REQ_OP_SCSI_IN		=3D 32,
 >>> @@ -456,6 +458,7 @@ static inline bool op_is_zone_mgmt(enum req_opf op)
@@ -257,7 +257,6 @@ ode,
 >>>  				  unsigned int cmd, unsigned long arg);
 >>> -
 >>>  #else /* CONFIG_BLK_DEV_ZONED */
->>>
 >>>  static inline unsigned int blkdev_nr_zones(struct gendisk *disk)
 >>> diff --git a/include/uapi/linux/blkzoned.h b/include/uapi/linux/blkzone=
 d.h
@@ -270,56 +269,80 @@ d.h
 >>>  	BLK_ZONE_MGMT_RESET	=3D 0x4,
 >>> +	BLK_ZONE_MGMT_OFFLINE	=3D 0x5,
 >>>  };
->>>
 >>>  /**
->>>
 >>
->> As mentioned in previous email, the usefulness of this is dubious. Please
->> elaborate in the commit message. Sure NVMe ZNS defines this and we can s=
-upport
->> it. But without a good use case, what is the point ?
-> =
+>> I am not sure this makes sense to expose through the kernel zone api. =
 
-> Use case is to transition zones in read-only state to offline when we
-> are done moving valid data. It is easier to explicitly managing zones
-> that are not usable by having all under the offline state.
+>> One of the goals of the kernel zone API is to be a layer that provides =
 
-Then adding a simple BLKZONEOFFLINE ioctl, similar to open, close, finish a=
-nd
-reset, would be enough. No need for all the new zone management ioctl with =
-flags
-plumbing.
+>> an unified zone model across SMR HDDs and ZNS SSDs. The offline zone =
 
-> =
+>> operation, as defined in the ZNS specification, does not have an =
 
+>> equivalent in SMR HDDs (ZAC/ZBC).
 >>
->> scsi SD driver will return BLK_STS_NOTSUPP if this offlining is sent to a
->> ZBC/ZAC drive. Not nice. Having a sysfs attribute "max_offline_zone_sect=
-ors" or
->> the like to indicate support by the device or not would be nicer.
+>> This is different from the Zone Capacity change, where the zone =
+
+>> capacity simply was zone size for SMR HDDs. Making it easy to support. =
+
+>> That is not the same for ZAC/ZBC, that does not offer the offline =
+
+>> operation to transition zones in read only state to offline state.
 > =
 
-> We can do that.
+> I agree that an unified interface is desirable. However, the truth is
+> that ZAC/ZBC are different, and will differ more and more and time goes
+> by. We can deal with the differences at the driver level or with checks
+> at the API level, but limiting ZNS with ZAC/ZBC is a hard constraint.
+
+As long as you keep ZNS namespace report itself as being "host-managed" like
+ZBC/ZAC disks, we need the consistency and common interface. If you break t=
+hat,
+the meaning of the zoned model queue attribute disappears and an applicatio=
+n or
+in-kernel user cannot rely on this model anymore to know how the drive will=
+ behave.
+
+> Note too that I chose to only support this particular transition on the
+> new management IOCTL to avoid confusion for existing ZAC/ZBC users.
 > =
 
->>
->> Does offling ALL zones make any sense ? Because this patch does not prev=
-ent the
->> use of the REQ_ZONE_ALL flags introduced in patch 2. Probably not a good=
- idea to
->> allow offlining all zones, no ?
-> =
+> It would be good to clarify what is the plan for kernel APIs moving
+> forward, as I believe there is a general desire to support new ZNS
+> features, which will not necessarily be replicated in SMR drives.
 
-> AFAIK the transition to offline is only valid when coming from a
-> read-only state. I did think of adding a check, but I can see that other
-> transitions go directly to the driver and then the device, so I decided
-> to follow the same model. If you think it is better, we can add the
-> check.
+What the drive is supposed to support and its behavior is determined by the
+zoned model. ZNS standard was written so that most things have an equivalent
+with ZBC/ZAC, e.g. the zone state machine is nearly identical. Differences =
+are
+either emulated (e.g. zone append scsi emulation), or not supported (e.g. z=
+one
+capacity change) so that the kernel follows the same pattern and maintains a
+coherent behavior between device protocols for the host-managed model.
 
-My point was that the REQ_ZONE_ALL flag would make no sense for offlining z=
-ones
-but this patch does not have anything checking that. There is no point in
-sending a command that is known to be incorrect to the drive...
+Think of a file system, or any other in-kernel user. If they have to change
+their code based on the device type (NVMe vs SCSI), then the zoned block de=
+vice
+interface is broken. Right now, that is not the case, everything works equa=
+lly
+well on ZNS and SCSI, modulo the need by a user for conventional zones that=
+ ZNS
+do not define. But that is still consistent with the host-managed model sin=
+ce
+conventional zones are optional.
+
+For this particular patch, there is currently no in-kernel user, and it is =
+not
+clear how this will be useful to applications. At least please clarify this=
+. And
+most likely, similarly to discard etc operations that are optional, having a
+sysfs attribute and in-kernel API indicating if the drive supports offlining
+zones will be needed. Otherwise, the caller will have to play with error co=
+des
+to understand if the drive does not support the command or if it is support=
+ed
+but the command failed. Not nice. Better to know before issuing the command.
+
 
 > =
 
