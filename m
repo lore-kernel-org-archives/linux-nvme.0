@@ -7,133 +7,86 @@ X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB7DBC433E0
-	for <linux-nvme@archiver.kernel.org>; Fri, 26 Jun 2020 12:07:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F771C433DF
+	for <linux-nvme@archiver.kernel.org>; Fri, 26 Jun 2020 12:07:30 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8FF3F206A1
-	for <linux-nvme@archiver.kernel.org>; Fri, 26 Jun 2020 12:07:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C7302206A1
+	for <linux-nvme@archiver.kernel.org>; Fri, 26 Jun 2020 12:07:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Wt/UDELa";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="ka5HV7Ba";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="MRoFJuDt"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8FF3F206A1
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="GRFncJ0D";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=javigon-com.20150623.gappssmtp.com header.i=@javigon-com.20150623.gappssmtp.com header.b="KJMnMCh1"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C7302206A1
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=javigon.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:To:
-	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	 bh=Nt66WVeprOrLP5GgHWYFDabFWwu/x6eyA4K8ZgmNWWg=; b=Wt/UDELaLT2n/5tPAqIjJ+o2l
-	acwgkzueuyq2Pu2M3s4Gvhyr/Dr082qkGQWZjR2nTZiUC3MAmnH9Sp/FsCfH3Vg4QRrXdFF9pGMbY
-	0tnN33LkG47W8SNog747Mf5iQjVZidSwjAd6b09QOnR8MuU9/vtTQwMT7TrzUkpJjrTQz3pHyznOm
-	ecHut1Xkwm/s1vllBs6s3Y/Gs4z0rkCEjk2qlr97uHJL3LqILRAdn+GQ8FiiOB+wS7Hqpw8tvF7ly
-	aSAV2D5NPnbnzvc2h5MG4kxXLxJkXysCfv7LU8yVnEUhwZ63zz77jcQ7SOX0rkGb5aRhvzc7KfJYn
-	3aOd/YOoQ==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=JBlAqCDWDpkbwtvUnn/6OB/sn35kGG/h9H8862yJx4U=; b=GRFncJ0D10hdy/xeEZrkJNpSD
+	fw4LGg/e34PugeUac/yk5vSV5B3M0matqQlxrj3Q+9E4b/VNliFVY/rg7Vu5scQuqnrOG6XPuAISL
+	sk1YzNHx/GjOOqBoJ04Z5hgSn8cNaXcULOzMhWNporgayiD5RkCK9Hf64tiX8FxV9p0IuP9VApXoM
+	eeRcsSJ2SBzcw/DGDIRn4mgd8PTOXCtWX72qAboZNY4SQJ9rS4W72Qf4pbA6F6MkkDoNEyvVa+5TR
+	WZmEK4DeHzOvSp6upuUzmpxmUsytKve1phQmgIaB+WcNtDTQV1NYF5bBl3+fEci9kUo4FeT6GQ4+9
+	28sJPbpEw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jon8E-0004f6-Hq; Fri, 26 Jun 2020 12:06:58 +0000
-Received: from esa6.hgst.iphmx.com ([216.71.154.45])
+	id 1jon8U-0004n6-C6; Fri, 26 Jun 2020 12:07:14 +0000
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jolqd-0003OM-90
- for linux-nvme@lists.infradead.org; Fri, 26 Jun 2020 10:44:51 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1593168284; x=1624704284;
- h=from:to:cc:subject:date:message-id:references:
- content-transfer-encoding:mime-version;
- bh=WtUCQLdCc0YoYIjCwpZBvx9WVU5egPmEdYqrZwLqeR4=;
- b=ka5HV7Ba+UdKxxvTQo73RoDOBcsnNI+A0irGTBQwHv9ZGgYqrQ9n8lLG
- wB4GgCodIlvUaOQNLD+6NdFdl4eAQTEwmNQH7OP9e/+PQQj7kWrXCBYVl
- uojo9r+YYcmBuDv2NO5Gm2r6PphftvQ0CD4Dd0GF+3SSKu2DDldb/C8GC
- qQLycOg5Qo+XkG/szEsfDapO25cJfviNr8cJTz3kcoLjvZW8WwYVwFnEJ
- PaTFruDmPhMPqa4cVKsDOYQId+brlwwVHnf6Ni8zN/ddqnXM3X4UnBCEv
- cffwT72Hk0TXA574YsDEzPWnkCK3uDTQdo0VoY3LNQNe8F3u3+kQghTzS Q==;
-IronPort-SDR: YiWkyi/QHKBu54JWpccxdip3Vv5Ys7yPh38gcYSNLBtmSLhTp8D/Ai1+VKMY3kizFcvRFLwVIk
- FR47XtsoRs1vjaXHOe459DNphx++h6qoCcp2YhUXbK8ziiD9ucKEeS/oPFwPGjgapvGXs2Xi1Y
- 3TrhA5GPwKVBh+mCNQcB/PkYiQn3r/+hn5iNUauGqvjw+bQSFB71dhsQz9PMkeq+DgrepvyzSs
- znaLUhukRQlURJ+O3Dasp6itOu97T0n2M4zrdrO2iJ+zogSSJX30mK6QJl+EkgluSdjXNIjc1P
- hQg=
-X-IronPort-AV: E=Sophos;i="5.75,282,1589212800"; d="scan'208";a="142347555"
-Received: from mail-bl2nam02lp2058.outbound.protection.outlook.com (HELO
- NAM02-BL2-obe.outbound.protection.outlook.com) ([104.47.38.58])
- by ob1.hgst.iphmx.com with ESMTP; 26 Jun 2020 15:17:06 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=R3rrzA/YKPLqXeOAB1mshVV+fKoJ46GN9C3lbYssG02OQ1iDU4CMjX02PVBshnIDOAvLrB4JwTQ5ueQt9sv4CwivJGRbs/TV0IEJgN3HGlVd8uUx/a6RRayHhgwqj+2BB7JKgYE9W1tLNAbrEvTu0bNk4GC5SM9T3kY97a9PyDlqalD98+PjgZ2rcjlLL+7N8cF2S7t6rI7vy9hEDJqgkOaxqUG/QNd8g6RAjMFoEFO7nXYhzKcUVawgZz+zZXqGxaRWztzhTrDB93PSBxoiHIFMKeorOV6RCk1rUnmct1ksKh8AVuuecCTpiZrvyXflo7ybenfgbGXCLBgTwoAHRw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4C/ozukjZSsbfWeL8ovQYYN+y9TLTI+66BbEFhOzM9Q=;
- b=TYtzMHpQcBvsuiD0wykbgYACZgqFGnO8/kFJNX2QdBJu0itkhQsJfwK2F/r4zpYfPx9PkdtlWxiK1fRG3DMfDXPOLz4OVxR8L2tl7SstE0n+fSHuBAodPx4a+2J4VfZ+bT0RJKzobc1zT5/hivOWhGX6qO4aC9tLu54sP/VBRyjs2eTvCilCN3E9fBHsAEa6AyPeuXTUdJ5d8kgKiubQVO/44vq0zK8c4VSJEha21Ta1gpezbFUbk1Bsis1NX90j/Y7mOTcbvHXVD8H4CiU8ZMNrja6urUp7deRGdLlBlK1FzPhkhIlnqRPdonVJWBI3UFgsaFf3rmsT7/DwUzRq5g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
+ id 1jolsW-0004Fq-4i
+ for linux-nvme@lists.infradead.org; Fri, 26 Jun 2020 10:46:52 +0000
+Received: by mail-ej1-x643.google.com with SMTP id w16so8910393ejj.5
+ for <linux-nvme@lists.infradead.org>; Fri, 26 Jun 2020 03:46:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4C/ozukjZSsbfWeL8ovQYYN+y9TLTI+66BbEFhOzM9Q=;
- b=MRoFJuDtPjU5r+XhiFmkLaFJ4h5nYe9EoGQP0hywYZ0EG9PnshaJYkhtUkBR0XRZGEW2VQEAjIyhEEx+1jkB5eiazA2FF+6mk3vVhZIV0LA3F4o8WiBQbbBZEgEDNq0pKki41s/t8VUyz9xGr7rtyOu5V0ex6wefQSN8QintJs8=
-Received: from CY4PR04MB3751.namprd04.prod.outlook.com (2603:10b6:903:ec::14)
- by CY4PR04MB1048.namprd04.prod.outlook.com (2603:10b6:910:54::26)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.20; Fri, 26 Jun
- 2020 07:17:02 +0000
-Received: from CY4PR04MB3751.namprd04.prod.outlook.com
- ([fe80::c593:f271:eebe:ac7]) by CY4PR04MB3751.namprd04.prod.outlook.com
- ([fe80::c593:f271:eebe:ac7%9]) with mapi id 15.20.3131.024; Fri, 26 Jun 2020
- 07:17:02 +0000
-From: Damien Le Moal <Damien.LeMoal@wdc.com>
-To: =?iso-8859-1?Q?Javier_Gonz=E1lez?= <javier@javigon.com>
-Subject: Re: [PATCH 3/6] block: add support for zone offline transition
-Thread-Topic: [PATCH 3/6] block: add support for zone offline transition
-Thread-Index: AQHWSutT3xCQHGem9k+D54mKrpOEQg==
-Date: Fri, 26 Jun 2020 07:17:01 +0000
-Message-ID: <CY4PR04MB3751D6B0FFCA3A8C0278A194E7930@CY4PR04MB3751.namprd04.prod.outlook.com>
+ d=javigon-com.20150623.gappssmtp.com; s=20150623;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=Et+VAqvDJVyHvdBb1yBL4wQPb0K/y9nrJ4WxIjaII2k=;
+ b=KJMnMCh1misEe18gl77yr7f+nIE1Bz1zp4Gs/72uowRJIU7wrc/eAonCjetNdgIp1x
+ Fh5t9H/KFqbDvCMimXxS22p4jBHA0fotz9HXWpq8mnsZMwMuiXxAE8H9dFWyq8kvIpB5
+ lHSArG1CNJQQ49V7haP7lve2J4ByH/eyIXQQqa4NRWq6kWVujJNUxKnlHnPcrUHYeGcL
+ JxLOmJydkEm3rIE7aVTG8+GTfKVjaIq2agz1I4qx6+8JODk8L6lzlvPLmBOi6ogvF2gW
+ pYjm2l4sDaBJyIQp82Dp2S6ZrV8+qpypSZ6npjNz5PFSxzLBNV7kWzarZbnOQFLndvp7
+ pwZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=Et+VAqvDJVyHvdBb1yBL4wQPb0K/y9nrJ4WxIjaII2k=;
+ b=KDnxeyD7Gsrgoqd/ukBL5JeHHitDyC9F+aUc0XLgpTosCNI4HA9sd0B4caBtwSNVrp
+ i83Roi992WmzWv04H9iAdbadkIJF+W4Rd1HBCx5XeYyVSgbd2bXJAl7V/a9FE5k5T+7Z
+ Mgml7RCImXwpDFwYwqRzZYDkrlgrjb/VvoNoyzUNDAYVY8pBsa/pfQ/Bnq+3hx41bUa7
+ LGzj65FgeOmOOuY2QSRTDcmLBWr3kJoKQTMXY6rrntUkyavRfXgvtsMEwaEA/KVplvBC
+ NhDYHisdlx3GjiEpAvZnUrLCs1+pkXK43tdXMkrkt0cuw/EeFwtucgmA3X+gOq+AzJnH
+ NfEw==
+X-Gm-Message-State: AOAM5305M+vO5H+Y9wsQenhPyV4pULYQ5BxqXEGkV3Nq2Mqe1wZ8aVcb
+ JG3rLGx0onLaGNrYi1pHSHSkrrdSaxLks2nzgrM=
+X-Google-Smtp-Source: ABdhPJzxmapN8gDBegwOGLSdGaqLAjMF19h1IxOiKEzE5/yvjtMeT0xaVM9lmcWDpHzk5iJWBHunZA==
+X-Received: by 2002:a05:6402:1c8f:: with SMTP id
+ cy15mr1825400edb.308.1593152850829; 
+ Thu, 25 Jun 2020 23:27:30 -0700 (PDT)
+Received: from localhost (ip-5-186-127-235.cgn.fibianet.dk. [5.186.127.235])
+ by smtp.gmail.com with ESMTPSA id m23sm1987409ejc.38.2020.06.25.23.27.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 25 Jun 2020 23:27:30 -0700 (PDT)
+Date: Fri, 26 Jun 2020 08:27:29 +0200
+From: Javier =?utf-8?B?R29uesOhbGV6?= <javier@javigon.com>
+To: Damien Le Moal <Damien.LeMoal@wdc.com>
+Subject: Re: [PATCH 4/6] block: introduce IOCTL to report dev properties
+Message-ID: <20200626062729.igkw4uf4zxn6yled@mpHalley.localdomain>
 References: <20200625122152.17359-1-javier@javigon.com>
- <20200625122152.17359-4-javier@javigon.com>
- <CY4PR04MB375111445246B570FAF4EE58E7930@CY4PR04MB3751.namprd04.prod.outlook.com>
- <20200626060858.uo56xe57l4tzepnc@mpHalley.localdomain>
- <CY4PR04MB37515EAB61CDB458DE5AFCA3E7930@CY4PR04MB3751.namprd04.prod.outlook.com>
- <20200626065822.6psy3tp6vqmjwppa@mpHalley.localdomain>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: javigon.com; dkim=none (message not signed)
- header.d=none;javigon.com; dmarc=none action=none header.from=wdc.com;
-x-originating-ip: [129.253.182.57]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 97a7c9f3-243e-4a2b-6607-08d819a0ec2e
-x-ms-traffictypediagnostic: CY4PR04MB1048:
-x-microsoft-antispam-prvs: <CY4PR04MB10484826FB0F99508C6FB081E7930@CY4PR04MB1048.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 0446F0FCE1
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: NF/c5i/MQ7AdOoKXlDP7M3KEY35FaNv3LogSz1b7bpbweZoIWi+GKhaQux85oX8AKgahFou7Yc5eTMAnG1NRB6Cft6gKqX2ZN2MhMkCayhIcwKfJLVKXJf3jRnr/IyHRGEePMyZReSjUdxliZL2iegfzT0mVKNeGvO48ApPFO+ngf9K7/brGNQEHll83NsuFIralmbcSmmuEyB80HBlxHd3ODyt+pjWosLWKJxQ04UDgC2LBS9avZa7GN4qlQXrl3eHPEXBTJB0m0T3GrhvQ2KLJD+rzN+rqHVv+wBUnN6/CgIewf1VIVAdolUV76WiF
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY4PR04MB3751.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(136003)(39860400002)(366004)(396003)(346002)(376002)(5660300002)(66476007)(7416002)(8936002)(8676002)(66556008)(66946007)(64756008)(86362001)(7696005)(54906003)(66446008)(478600001)(52536014)(71200400001)(316002)(4326008)(76116006)(53546011)(91956017)(26005)(55016002)(33656002)(66574015)(83380400001)(186003)(2906002)(9686003)(6506007)(6916009);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: 3zwgFRsfr0Mz0pxQIzt+VTlfca5B7xlkJ4IMqgw9XC1yTkOs3GyjZEtwo8lk7DneY1PyqneuMYNEwp17bvVpAqGxWeEtMGjw+CPyxAWyZXErwXTN+rrMw8+gpcVq7H3Q5MlMqVLX+Fb38W/X+uYIilI6REB6ng58vPQlJTdgGa6q1PWiJrAcW6PRNauBFBviX76ki96ktWDVbj0J8XxmbpUroBJMJETaI+E+vU1aNHe85wrPjzZe1tlOFmCn2KWJHdrL3zCs0Sg3ZEvblr90fp+XhO69uRvBoMGtwaoKxEo/gLfk3WPC5KxkROKXZGrW5IbYumvbphRahIGoraRaV/bofKFSN8obAiObokq2QsY2IiIXePJQsL1QP7E+fAJVnhVwjCehaaX2UQYtNxbKDgxEuK/uENwPiyN0ZvJUVCiGT0GFvwsM4hWrhLe+UR4cxPbPqyr/ImKoUKXmsGMKhNJSbI9d4cdgGT2dfrr85DM+2hUYXKP5QQ7rIOnRZqTC
-x-ms-exchange-transport-forked: True
+ <20200625122152.17359-5-javier@javigon.com>
+ <6333b2f1-a4f1-166f-5e0d-03f47389458a@lightnvm.io>
+ <20200625194248.44rwwestffgz4jks@MacBook-Pro.localdomain>
+ <CY4PR04MB3751C079C5906D9F0D93F961E7930@CY4PR04MB3751.namprd04.prod.outlook.com>
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR04MB3751.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 97a7c9f3-243e-4a2b-6607-08d819a0ec2e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jun 2020 07:17:01.9721 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 12huu60bAxjQngYPueakvaK75TIaWGoeWLtveCa2qe1H5i9K14R9tcdfsgXNYKhf/vKQ9NZxV86efPqvVzDMAg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR04MB1048
+Content-Disposition: inline
+In-Reply-To: <CY4PR04MB3751C079C5906D9F0D93F961E7930@CY4PR04MB3751.namprd04.prod.outlook.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,228 +104,216 @@ Cc: "axboe@kernel.dk" <axboe@kernel.dk>,
  "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
  Nitesh Shetty <nj.shetty@samsung.com>,
  "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "kbusch@kernel.org" <kbusch@kernel.org>, "hch@lst.de" <hch@lst.de>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ "kbusch@kernel.org" <kbusch@kernel.org>,
+ Matias =?utf-8?B?QmrDuHJsaW5n?= <mb@lightnvm.io>, "hch@lst.de" <hch@lst.de>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2020/06/26 15:58, Javier Gonz=E1lez wrote:
-> On 26.06.2020 06:42, Damien Le Moal wrote:
->> On 2020/06/26 15:09, Javier Gonz=E1lez wrote:
->>> On 26.06.2020 01:34, Damien Le Moal wrote:
->>>> On 2020/06/25 21:22, Javier Gonz=E1lez wrote:
->>>>> From: Javier Gonz=E1lez <javier.gonz@samsung.com>
->>>>>
->>>>> Add support for offline transition on the zoned block device using the
->>>>> new zone management IOCTL
->>>>>
->>>>> Signed-off-by: Javier Gonz=E1lez <javier.gonz@samsung.com>
->>>>> Signed-off-by: SelvaKumar S <selvakuma.s1@samsung.com>
->>>>> Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
->>>>> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
->>>>> ---
->>>>>  block/blk-core.c              | 2 ++
->>>>>  block/blk-zoned.c             | 3 +++
->>>>>  drivers/nvme/host/core.c      | 3 +++
->>>>>  include/linux/blk_types.h     | 3 +++
->>>>>  include/linux/blkdev.h        | 1 -
->>>>>  include/uapi/linux/blkzoned.h | 1 +
->>>>>  6 files changed, 12 insertions(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/block/blk-core.c b/block/blk-core.c
->>>>> index 03252af8c82c..589cbdacc5ec 100644
->>>>> --- a/block/blk-core.c
->>>>> +++ b/block/blk-core.c
->>>>> @@ -140,6 +140,7 @@ static const char *const blk_op_name[] =3D {
->>>>>  	REQ_OP_NAME(ZONE_CLOSE),
->>>>>  	REQ_OP_NAME(ZONE_FINISH),
->>>>>  	REQ_OP_NAME(ZONE_APPEND),
->>>>> +	REQ_OP_NAME(ZONE_OFFLINE),
->>>>>  	REQ_OP_NAME(WRITE_SAME),
->>>>>  	REQ_OP_NAME(WRITE_ZEROES),
->>>>>  	REQ_OP_NAME(SCSI_IN),
->>>>> @@ -1030,6 +1031,7 @@ generic_make_request_checks(struct bio *bio)
->>>>>  	case REQ_OP_ZONE_OPEN:
->>>>>  	case REQ_OP_ZONE_CLOSE:
->>>>>  	case REQ_OP_ZONE_FINISH:
->>>>> +	case REQ_OP_ZONE_OFFLINE:
->>>>>  		if (!blk_queue_is_zoned(q))
->>>>>  			goto not_supported;
->>>>>  		break;
->>>>> diff --git a/block/blk-zoned.c b/block/blk-zoned.c
->>>>> index 29194388a1bb..704fc15813d1 100644
->>>>> --- a/block/blk-zoned.c
->>>>> +++ b/block/blk-zoned.c
->>>>> @@ -416,6 +416,9 @@ int blkdev_zone_mgmt_ioctl(struct block_device *b=
-dev, fmode_t mode,
->>>>>  	case BLK_ZONE_MGMT_RESET:
->>>>>  		op =3D REQ_OP_ZONE_RESET;
->>>>>  		break;
->>>>> +	case BLK_ZONE_MGMT_OFFLINE:
->>>>> +		op =3D REQ_OP_ZONE_OFFLINE;
->>>>> +		break;
->>>>>  	default:
->>>>>  		return -ENOTTY;
->>>>>  	}
->>>>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->>>>> index f1215523792b..5b95c81d2a2d 100644
->>>>> --- a/drivers/nvme/host/core.c
->>>>> +++ b/drivers/nvme/host/core.c
->>>>> @@ -776,6 +776,9 @@ blk_status_t nvme_setup_cmd(struct nvme_ns *ns, s=
-truct request *req,
->>>>>  	case REQ_OP_ZONE_FINISH:
->>>>>  		ret =3D nvme_setup_zone_mgmt_send(ns, req, cmd, NVME_ZONE_FINISH);
->>>>>  		break;
->>>>> +	case REQ_OP_ZONE_OFFLINE:
->>>>> +		ret =3D nvme_setup_zone_mgmt_send(ns, req, cmd, NVME_ZONE_OFFLINE);
->>>>> +		break;
->>>>>  	case REQ_OP_WRITE_ZEROES:
->>>>>  		ret =3D nvme_setup_write_zeroes(ns, req, cmd);
->>>>>  		break;
->>>>> diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
->>>>> index 16b57fb2b99c..b3921263c3dd 100644
->>>>> --- a/include/linux/blk_types.h
->>>>> +++ b/include/linux/blk_types.h
->>>>> @@ -316,6 +316,8 @@ enum req_opf {
->>>>>  	REQ_OP_ZONE_FINISH	=3D 12,
->>>>>  	/* write data at the current zone write pointer */
->>>>>  	REQ_OP_ZONE_APPEND	=3D 13,
->>>>> +	/* Transition a zone to offline */
->>>>> +	REQ_OP_ZONE_OFFLINE	=3D 14,
->>>>>
->>>>>  	/* SCSI passthrough using struct scsi_request */
->>>>>  	REQ_OP_SCSI_IN		=3D 32,
->>>>> @@ -456,6 +458,7 @@ static inline bool op_is_zone_mgmt(enum req_opf o=
-p)
->>>>>  	case REQ_OP_ZONE_OPEN:
->>>>>  	case REQ_OP_ZONE_CLOSE:
->>>>>  	case REQ_OP_ZONE_FINISH:
->>>>> +	case REQ_OP_ZONE_OFFLINE:
->>>>>  		return true;
->>>>>  	default:
->>>>>  		return false;
->>>>> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
->>>>> index bd8521f94dc4..8308d8a3720b 100644
->>>>> --- a/include/linux/blkdev.h
->>>>> +++ b/include/linux/blkdev.h
->>>>> @@ -372,7 +372,6 @@ extern int blkdev_zone_ops_ioctl(struct block_dev=
-ice *bdev, fmode_t mode,
->>>>>  				  unsigned int cmd, unsigned long arg);
->>>>>  extern int blkdev_zone_mgmt_ioctl(struct block_device *bdev, fmode_t=
- mode,
->>>>>  				  unsigned int cmd, unsigned long arg);
->>>>> -
->>>>>  #else /* CONFIG_BLK_DEV_ZONED */
->>>>>
->>>>>  static inline unsigned int blkdev_nr_zones(struct gendisk *disk)
->>>>> diff --git a/include/uapi/linux/blkzoned.h b/include/uapi/linux/blkzo=
-ned.h
->>>>> index a8c89fe58f97..d0978ee10fc7 100644
->>>>> --- a/include/uapi/linux/blkzoned.h
->>>>> +++ b/include/uapi/linux/blkzoned.h
->>>>> @@ -155,6 +155,7 @@ enum blk_zone_action {
->>>>>  	BLK_ZONE_MGMT_FINISH	=3D 0x2,
->>>>>  	BLK_ZONE_MGMT_OPEN	=3D 0x3,
->>>>>  	BLK_ZONE_MGMT_RESET	=3D 0x4,
->>>>> +	BLK_ZONE_MGMT_OFFLINE	=3D 0x5,
->>>>>  };
->>>>>
->>>>>  /**
->>>>>
->>>>
->>>> As mentioned in previous email, the usefulness of this is dubious. Ple=
-ase
->>>> elaborate in the commit message. Sure NVMe ZNS defines this and we can=
- support
->>>> it. But without a good use case, what is the point ?
->>>
->>> Use case is to transition zones in read-only state to offline when we
->>> are done moving valid data. It is easier to explicitly managing zones
->>> that are not usable by having all under the offline state.
->>
->> Then adding a simple BLKZONEOFFLINE ioctl, similar to open, close, finis=
-h and
->> reset, would be enough. No need for all the new zone management ioctl wi=
-th flags
->> plumbing.
-> =
-
-> Ok. We can add that then.
-> =
-
-> Note that zone management is not motivated by this use case at all, but
-> it made sense to implement it here instead of as a new BLKZONEOFFLINE
-> IOCTL as ZAC/ZBC users will not be able to use it either way.
-
-Sure, that is fine. We could actually add that to sd_zbc.c since we have zo=
-ne
-tracking there. A read-only zone can be reported as offline to sync-up with=
- zns.
-The value of it is dubious though as most applications will treat read-only=
- and
-offline zones the same way: as unusable. That is what zonefs does.
-
-> =
-
->>
->>>
->>>>
->>>> scsi SD driver will return BLK_STS_NOTSUPP if this offlining is sent t=
-o a
->>>> ZBC/ZAC drive. Not nice. Having a sysfs attribute "max_offline_zone_se=
-ctors" or
->>>> the like to indicate support by the device or not would be nicer.
->>>
->>> We can do that.
->>>
->>>>
->>>> Does offling ALL zones make any sense ? Because this patch does not pr=
-event the
->>>> use of the REQ_ZONE_ALL flags introduced in patch 2. Probably not a go=
-od idea to
->>>> allow offlining all zones, no ?
->>>
->>> AFAIK the transition to offline is only valid when coming from a
->>> read-only state. I did think of adding a check, but I can see that other
->>> transitions go directly to the driver and then the device, so I decided
->>> to follow the same model. If you think it is better, we can add the
->>> check.
->>
->> My point was that the REQ_ZONE_ALL flag would make no sense for offlinin=
-g zones
->> but this patch does not have anything checking that. There is no point in
->> sending a command that is known to be incorrect to the drive...
-> =
-
-> I will add some extra checks then to fail early. I assume these should
-> be in the NVMe driver as it is NVMe-specific, right?
-
-If it is a simple BLKZONEOFFLINE ioctl, it can be processed exactly like op=
-en,
-close and finish, using blkdev_zone_mgmt(). Calling that one for a range of
-sectors of more than one zone will likely not make any sense most of the ti=
-me,
-but that is allowed for all other ops, so I guess you can keep it as is for
-offline too. blkdev_zone_mgmt() will actually not need any change. You will=
- only
-need to wire the ioctl path and update op_is_zone_mgmt(). That's it. Simple=
- that
-way.
-
-> =
-
-> Javier
-> =
-
-
-
--- =
-
-Damien Le Moal
-Western Digital Research
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+T24gMjYuMDYuMjAyMCAwMDo1NywgRGFtaWVuIExlIE1vYWwgd3JvdGU6Cj5PbiAyMDIwLzA2LzI2
+IDQ6NDIsIEphdmllciBHb256w6FsZXogd3JvdGU6Cj4+IE9uIDI1LjA2LjIwMjAgMTU6MTAsIE1h
+dGlhcyBCasO4cmxpbmcgd3JvdGU6Cj4+PiBPbiAyNS8wNi8yMDIwIDE0LjIxLCBKYXZpZXIgR29u
+esOhbGV6IHdyb3RlOgo+Pj4+IEZyb206IEphdmllciBHb256w6FsZXogPGphdmllci5nb256QHNh
+bXN1bmcuY29tPgo+Pj4+Cj4+Pj4gV2l0aCB0aGUgYWRkaXRpb24gb2YgWk5TLCBhIG5ldyBzZXQg
+b2YgcHJvcGVydGllcyBoYXZlIGJlZW4gYWRkZWQgdG8gdGhlCj4+Pj4gem9uZWQgYmxvY2sgZGV2
+aWNlLiBUaGlzIHBhdGNoIGludHJvZHVjZXMgYSBuZXcgSU9DVEwgdG8gZXhwb3NlIHRoZXNlCj4+
+Pj4gcnJvcGVydGllcyB0byB1c2VyIHNwYWNlLgo+Pj4+Cj4+Pj4gU2lnbmVkLW9mZi1ieTogSmF2
+aWVyIEdvbnrDoWxleiA8amF2aWVyLmdvbnpAc2Ftc3VuZy5jb20+Cj4+Pj4gU2lnbmVkLW9mZi1i
+eTogU2VsdmFLdW1hciBTIDxzZWx2YWt1bWEuczFAc2Ftc3VuZy5jb20+Cj4+Pj4gU2lnbmVkLW9m
+Zi1ieTogS2FuY2hhbiBKb3NoaSA8am9zaGkua0BzYW1zdW5nLmNvbT4KPj4+PiBTaWduZWQtb2Zm
+LWJ5OiBOaXRlc2ggU2hldHR5IDxuai5zaGV0dHlAc2Ftc3VuZy5jb20+Cj4+Pj4gLS0tCj4+Pj4g
+IGJsb2NrL2Jsay16b25lZC5jICAgICAgICAgICAgIHwgNDYgKysrKysrKysrKysrKysrKysrKysr
+KysrKysKPj4+PiAgYmxvY2svaW9jdGwuYyAgICAgICAgICAgICAgICAgfCAgMiArKwo+Pj4+ICBk
+cml2ZXJzL252bWUvaG9zdC9jb3JlLmMgICAgICB8ICAyICsrCj4+Pj4gIGRyaXZlcnMvbnZtZS9o
+b3N0L252bWUuaCAgICAgIHwgMTEgKysrKysrKwo+Pj4+ICBkcml2ZXJzL252bWUvaG9zdC96bnMu
+YyAgICAgICB8IDYxICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrCj4+Pj4gIGlu
+Y2x1ZGUvbGludXgvYmxrZGV2LmggICAgICAgIHwgIDkgKysrKysrCj4+Pj4gIGluY2x1ZGUvdWFw
+aS9saW51eC9ibGt6b25lZC5oIHwgMTMgKysrKysrKysKPj4+PiAgNyBmaWxlcyBjaGFuZ2VkLCAx
+NDQgaW5zZXJ0aW9ucygrKQo+Pj4+Cj4+Pj4gZGlmZiAtLWdpdCBhL2Jsb2NrL2Jsay16b25lZC5j
+IGIvYmxvY2svYmxrLXpvbmVkLmMKPj4+PiBpbmRleCA3MDRmYzE1ODEzZDEuLjM5ZWM3MmFmOTUz
+NyAxMDA2NDQKPj4+PiAtLS0gYS9ibG9jay9ibGstem9uZWQuYwo+Pj4+ICsrKyBiL2Jsb2NrL2Js
+ay16b25lZC5jCj4+Pj4gQEAgLTE2OSw2ICsxNjksMTcgQEAgaW50IGJsa2Rldl9yZXBvcnRfem9u
+ZXMoc3RydWN0IGJsb2NrX2RldmljZSAqYmRldiwgc2VjdG9yX3Qgc2VjdG9yLAo+Pj4+ICB9Cj4+
+Pj4gIEVYUE9SVF9TWU1CT0xfR1BMKGJsa2Rldl9yZXBvcnRfem9uZXMpOwo+Pj4+ICtzdGF0aWMg
+aW50IGJsa2Rldl9yZXBvcnRfem9uZWRldl9wcm9wKHN0cnVjdCBibG9ja19kZXZpY2UgKmJkZXYs
+Cj4+Pj4gKwkJCQkgICAgICBzdHJ1Y3QgYmxrX3pvbmVfZGV2ICp6cHJvcCkKPj4+PiArewo+Pj4+
+ICsJc3RydWN0IGdlbmRpc2sgKmRpc2sgPSBiZGV2LT5iZF9kaXNrOwo+Pj4+ICsKPj4+PiArCWlm
+IChXQVJOX09OX09OQ0UoIWJkZXYtPmJkX2Rpc2stPmZvcHMtPnJlcG9ydF96b25lX3ApKQo+Pj4+
+ICsJCXJldHVybiAtRU9QTk9UU1VQUDsKPj4+PiArCj4+Pj4gKwlyZXR1cm4gZGlzay0+Zm9wcy0+
+cmVwb3J0X3pvbmVfcChkaXNrLCB6cHJvcCk7Cj4+Pj4gK30KPj4+PiArCj4+Pj4gIHN0YXRpYyBp
+bmxpbmUgYm9vbCBibGtkZXZfYWxsb3dfcmVzZXRfYWxsX3pvbmVzKHN0cnVjdCBibG9ja19kZXZp
+Y2UgKmJkZXYsCj4+Pj4gIAkJCQkJCXNlY3Rvcl90IHNlY3RvciwKPj4+PiAgCQkJCQkJc2VjdG9y
+X3QgbnJfc2VjdG9ycykKPj4+PiBAQCAtNDMwLDYgKzQ0MSw0MSBAQCBpbnQgYmxrZGV2X3pvbmVf
+bWdtdF9pb2N0bChzdHJ1Y3QgYmxvY2tfZGV2aWNlICpiZGV2LCBmbW9kZV90IG1vZGUsCj4+Pj4g
+IAkJCQlHRlBfS0VSTkVMKTsKPj4+PiAgfQo+Pj4+ICtpbnQgYmxrZGV2X3pvbmVkZXZfcHJvcChz
+dHJ1Y3QgYmxvY2tfZGV2aWNlICpiZGV2LCBmbW9kZV90IG1vZGUsCj4+Pj4gKwkJCXVuc2lnbmVk
+IGludCBjbWQsIHVuc2lnbmVkIGxvbmcgYXJnKQo+Pj4+ICt7Cj4+Pj4gKwl2b2lkIF9fdXNlciAq
+YXJncCA9ICh2b2lkIF9fdXNlciAqKWFyZzsKPj4+PiArCXN0cnVjdCByZXF1ZXN0X3F1ZXVlICpx
+Owo+Pj4+ICsJc3RydWN0IGJsa196b25lX2RldiB6cHJvcDsKPj4+PiArCWludCByZXQ7Cj4+Pj4g
+Kwo+Pj4+ICsJaWYgKCFhcmdwKQo+Pj4+ICsJCXJldHVybiAtRUlOVkFMOwo+Pj4+ICsKPj4+PiAr
+CXEgPSBiZGV2X2dldF9xdWV1ZShiZGV2KTsKPj4+PiArCWlmICghcSkKPj4+PiArCQlyZXR1cm4g
+LUVOWElPOwo+Pj4+ICsKPj4+PiArCWlmICghYmxrX3F1ZXVlX2lzX3pvbmVkKHEpKQo+Pj4+ICsJ
+CXJldHVybiAtRU5PVFRZOwo+Pj4+ICsKPj4+PiArCWlmICghY2FwYWJsZShDQVBfU1lTX0FETUlO
+KSkKPj4+PiArCQlyZXR1cm4gLUVBQ0NFUzsKPj4+PiArCj4+Pj4gKwlpZiAoIShtb2RlICYgRk1P
+REVfV1JJVEUpKQo+Pj4+ICsJCXJldHVybiAtRUJBREY7Cj4+Pj4gKwo+Pj4+ICsJcmV0ID0gYmxr
+ZGV2X3JlcG9ydF96b25lZGV2X3Byb3AoYmRldiwgJnpwcm9wKTsKPj4+PiArCWlmIChyZXQpCj4+
+Pj4gKwkJZ290byBvdXQ7Cj4+Pj4gKwo+Pj4+ICsJaWYgKGNvcHlfdG9fdXNlcihhcmdwLCAmenBy
+b3AsIHNpemVvZihzdHJ1Y3QgYmxrX3pvbmVfZGV2KSkpCj4+Pj4gKwkJcmV0dXJuIC1FRkFVTFQ7
+Cj4+Pj4gKwo+Pj4+ICtvdXQ6Cj4+Pj4gKwlyZXR1cm4gcmV0Owo+Pj4+ICt9Cj4+Pj4gKwo+Pj4+
+ICBzdGF0aWMgaW5saW5lIHVuc2lnbmVkIGxvbmcgKmJsa19hbGxvY196b25lX2JpdG1hcChpbnQg
+bm9kZSwKPj4+PiAgCQkJCQkJICAgdW5zaWduZWQgaW50IG5yX3pvbmVzKQo+Pj4+ICB7Cj4+Pj4g
+ZGlmZiAtLWdpdCBhL2Jsb2NrL2lvY3RsLmMgYi9ibG9jay9pb2N0bC5jCj4+Pj4gaW5kZXggMGVh
+Mjk3NTRlN2RkLi5mN2I0ZTBmMmRkNGMgMTAwNjQ0Cj4+Pj4gLS0tIGEvYmxvY2svaW9jdGwuYwo+
+Pj4+ICsrKyBiL2Jsb2NrL2lvY3RsLmMKPj4+PiBAQCAtNTE3LDYgKzUxNyw4IEBAIHN0YXRpYyBp
+bnQgYmxrZGV2X2NvbW1vbl9pb2N0bChzdHJ1Y3QgYmxvY2tfZGV2aWNlICpiZGV2LCBmbW9kZV90
+IG1vZGUsCj4+Pj4gIAkJcmV0dXJuIGJsa2Rldl96b25lX29wc19pb2N0bChiZGV2LCBtb2RlLCBj
+bWQsIGFyZyk7Cj4+Pj4gIAljYXNlIEJMS01HTVRaT05FOgo+Pj4+ICAJCXJldHVybiBibGtkZXZf
+em9uZV9tZ210X2lvY3RsKGJkZXYsIG1vZGUsIGNtZCwgYXJnKTsKPj4+PiArCWNhc2UgQkxLWk9O
+RURFVlBST1A6Cj4+Pj4gKwkJcmV0dXJuIGJsa2Rldl96b25lZGV2X3Byb3AoYmRldiwgbW9kZSwg
+Y21kLCBhcmcpOwo+Pj4+ICAJY2FzZSBCTEtHRVRaT05FU1o6Cj4+Pj4gIAkJcmV0dXJuIHB1dF91
+aW50KGFyZ3AsIGJkZXZfem9uZV9zZWN0b3JzKGJkZXYpKTsKPj4+PiAgCWNhc2UgQkxLR0VUTlJa
+T05FUzoKPj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9udm1lL2hvc3QvY29yZS5jIGIvZHJpdmVy
+cy9udm1lL2hvc3QvY29yZS5jCj4+Pj4gaW5kZXggNWI5NWM4MWQyYTJkLi5hMzJjOTA5YTkxNWYg
+MTAwNjQ0Cj4+Pj4gLS0tIGEvZHJpdmVycy9udm1lL2hvc3QvY29yZS5jCj4+Pj4gKysrIGIvZHJp
+dmVycy9udm1lL2hvc3QvY29yZS5jCj4+Pj4gQEAgLTIyNTQsNiArMjI1NCw3IEBAIHN0YXRpYyBj
+b25zdCBzdHJ1Y3QgYmxvY2tfZGV2aWNlX29wZXJhdGlvbnMgbnZtZV9mb3BzID0gewo+Pj4+ICAJ
+LmdldGdlbwkJPSBudm1lX2dldGdlbywKPj4+PiAgCS5yZXZhbGlkYXRlX2Rpc2s9IG52bWVfcmV2
+YWxpZGF0ZV9kaXNrLAo+Pj4+ICAJLnJlcG9ydF96b25lcwk9IG52bWVfcmVwb3J0X3pvbmVzLAo+
+Pj4+ICsJLnJlcG9ydF96b25lX3AJPSBudm1lX3JlcG9ydF96b25lX3Byb3AsCj4+Pj4gIAkucHJf
+b3BzCQk9ICZudm1lX3ByX29wcywKPj4+PiAgfTsKPj4+PiBAQCAtMjI4MCw2ICsyMjgxLDcgQEAg
+Y29uc3Qgc3RydWN0IGJsb2NrX2RldmljZV9vcGVyYXRpb25zIG52bWVfbnNfaGVhZF9vcHMgPSB7
+Cj4+Pj4gIAkuY29tcGF0X2lvY3RsCT0gbnZtZV9jb21wYXRfaW9jdGwsCj4+Pj4gIAkuZ2V0Z2Vv
+CQk9IG52bWVfZ2V0Z2VvLAo+Pj4+ICAJLnJlcG9ydF96b25lcwk9IG52bWVfcmVwb3J0X3pvbmVz
+LAo+Pj4+ICsJLnJlcG9ydF96b25lX3AJPSBudm1lX3JlcG9ydF96b25lX3Byb3AsCj4+Pj4gIAku
+cHJfb3BzCQk9ICZudm1lX3ByX29wcywKPj4+PiAgfTsKPj4+PiAgI2VuZGlmIC8qIENPTkZJR19O
+Vk1FX01VTFRJUEFUSCAqLwo+Pj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL252bWUvaG9zdC9udm1l
+LmggYi9kcml2ZXJzL252bWUvaG9zdC9udm1lLmgKPj4+PiBpbmRleCBlY2Y0NDNlZmRmOTEuLjE3
+MmUwNTMxZjM3ZiAxMDA2NDQKPj4+PiAtLS0gYS9kcml2ZXJzL252bWUvaG9zdC9udm1lLmgKPj4+
+PiArKysgYi9kcml2ZXJzL252bWUvaG9zdC9udm1lLmgKPj4+PiBAQCAtNDA3LDYgKzQwNywxNCBA
+QCBzdHJ1Y3QgbnZtZV9ucyB7Cj4+Pj4gIAl1OCBwaV90eXBlOwo+Pj4+ICAjaWZkZWYgQ09ORklH
+X0JMS19ERVZfWk9ORUQKPj4+PiAgCXU2NCB6c3plOwo+Pj4+ICsKPj4+PiArCXUzMiBucl96b25l
+czsKPj4+PiArCXUzMiBtYXI7Cj4+Pj4gKwl1MzIgbW9yOwo+Pj4+ICsJdTMyIHJybDsKPj4+PiAr
+CXUzMiBmcmw7Cj4+Pj4gKwl1MTYgem9jOwo+Pj4+ICsJdTE2IG96Y3M7Cj4+Pj4gICNlbmRpZgo+
+Pj4+ICAJdW5zaWduZWQgbG9uZyBmZWF0dXJlczsKPj4+PiAgCXVuc2lnbmVkIGxvbmcgZmxhZ3M7
+Cj4+Pj4gQEAgLTcwNCwxMSArNzEyLDE0IEBAIGludCBudm1lX3VwZGF0ZV96b25lX2luZm8oc3Ry
+dWN0IGdlbmRpc2sgKmRpc2ssIHN0cnVjdCBudm1lX25zICpucywKPj4+PiAgaW50IG52bWVfcmVw
+b3J0X3pvbmVzKHN0cnVjdCBnZW5kaXNrICpkaXNrLCBzZWN0b3JfdCBzZWN0b3IsCj4+Pj4gIAkJ
+ICAgICAgdW5zaWduZWQgaW50IG5yX3pvbmVzLCByZXBvcnRfem9uZXNfY2IgY2IsIHZvaWQgKmRh
+dGEpOwo+Pj4+ICtpbnQgbnZtZV9yZXBvcnRfem9uZV9wcm9wKHN0cnVjdCBnZW5kaXNrICpkaXNr
+LCBzdHJ1Y3QgYmxrX3pvbmVfZGV2ICp6cHJvcCk7Cj4+Pj4gKwo+Pj4+ICBibGtfc3RhdHVzX3Qg
+bnZtZV9zZXR1cF96b25lX21nbXRfc2VuZChzdHJ1Y3QgbnZtZV9ucyAqbnMsIHN0cnVjdCByZXF1
+ZXN0ICpyZXEsCj4+Pj4gIAkJCQkgICAgICAgc3RydWN0IG52bWVfY29tbWFuZCAqY21uZCwKPj4+
+PiAgCQkJCSAgICAgICBlbnVtIG52bWVfem9uZV9tZ210X2FjdGlvbiBhY3Rpb24pOwo+Pj4+ICAj
+ZWxzZQo+Pj4+ICAjZGVmaW5lIG52bWVfcmVwb3J0X3pvbmVzIE5VTEwKPj4+PiArI2RlZmluZSBu
+dm1lX3JlcG9ydF96b25lX3Byb3AgTlVMTAo+Pj4+ICBzdGF0aWMgaW5saW5lIGJsa19zdGF0dXNf
+dCBudm1lX3NldHVwX3pvbmVfbWdtdF9zZW5kKHN0cnVjdCBudm1lX25zICpucywKPj4+PiAgCQlz
+dHJ1Y3QgcmVxdWVzdCAqcmVxLCBzdHJ1Y3QgbnZtZV9jb21tYW5kICpjbW5kLAo+Pj4+IGRpZmYg
+LS1naXQgYS9kcml2ZXJzL252bWUvaG9zdC96bnMuYyBiL2RyaXZlcnMvbnZtZS9ob3N0L3pucy5j
+Cj4+Pj4gaW5kZXggMmU2NTEyYWM2ZjAxLi4yNThkMDM2MTBjYzAgMTAwNjQ0Cj4+Pj4gLS0tIGEv
+ZHJpdmVycy9udm1lL2hvc3Qvem5zLmMKPj4+PiArKysgYi9kcml2ZXJzL252bWUvaG9zdC96bnMu
+Ywo+Pj4+IEBAIC0zMiw2ICszMiwyOCBAQCBzdGF0aWMgaW50IG52bWVfc2V0X21heF9hcHBlbmQo
+c3RydWN0IG52bWVfY3RybCAqY3RybCkKPj4+PiAgCXJldHVybiAwOwo+Pj4+ICB9Cj4+Pj4gK3N0
+YXRpYyB1NjQgbnZtZV96bnNfbnJfem9uZXMoc3RydWN0IG52bWVfbnMgKm5zKQo+Pj4+ICt7Cj4+
+Pj4gKwlzdHJ1Y3QgbnZtZV9jb21tYW5kIGMgPSB7IH07Cj4+Pj4gKwlzdHJ1Y3QgbnZtZV96b25l
+X3JlcG9ydCByZXBvcnQ7Cj4+Pj4gKwlpbnQgYnVmbGVuID0gc2l6ZW9mKHN0cnVjdCBudm1lX3pv
+bmVfcmVwb3J0KTsKPj4+PiArCWludCByZXQ7Cj4+Pj4gKwo+Pj4+ICsJYy56bXIub3Bjb2RlID0g
+bnZtZV9jbWRfem9uZV9tZ210X3JlY3Y7Cj4+Pj4gKwljLnptci5uc2lkID0gY3B1X3RvX2xlMzIo
+bnMtPmhlYWQtPm5zX2lkKTsKPj4+PiArCWMuem1yLnNsYmEgPSBjcHVfdG9fbGU2NCgwKTsKPj4+
+PiArCWMuem1yLm51bWQgPSBjcHVfdG9fbGUzMihudm1lX2J5dGVzX3RvX251bWQoYnVmbGVuKSk7
+Cj4+Pj4gKwljLnptci56cmEgPSBOVk1FX1pSQV9aT05FX1JFUE9SVDsKPj4+PiArCWMuem1yLnpy
+YXNmID0gTlZNRV9aUkFTRl9aT05FX1JFUE9SVF9BTEw7Cj4+Pj4gKwljLnptci5wciA9IDA7Cj4+
+Pj4gKwo+Pj4+ICsJcmV0ID0gbnZtZV9zdWJtaXRfc3luY19jbWQobnMtPnF1ZXVlLCAmYywgJnJl
+cG9ydCwgYnVmbGVuKTsKPj4+PiArCWlmIChyZXQpCj4+Pj4gKwkJcmV0dXJuIHJldDsKPj4+PiAr
+Cj4+Pj4gKwlyZXR1cm4gbGU2NF90b19jcHUocmVwb3J0Lm5yX3pvbmVzKTsKPj4+PiArfQo+Pj4+
+ICsKPj4+PiAgaW50IG52bWVfdXBkYXRlX3pvbmVfaW5mbyhzdHJ1Y3QgZ2VuZGlzayAqZGlzaywg
+c3RydWN0IG52bWVfbnMgKm5zLAo+Pj4+ICAJCQkgIHVuc2lnbmVkIGxiYWYpCj4+Pj4gIHsKPj4+
+PiBAQCAtODcsNiArMTA5LDEzIEBAIGludCBudm1lX3VwZGF0ZV96b25lX2luZm8oc3RydWN0IGdl
+bmRpc2sgKmRpc2ssIHN0cnVjdCBudm1lX25zICpucywKPj4+PiAgCQlnb3RvIGZyZWVfZGF0YTsK
+Pj4+PiAgCX0KPj4+PiArCW5zLT5ucl96b25lcyA9IG52bWVfem5zX25yX3pvbmVzKG5zKTsKPj4+
+PiArCW5zLT5tYXIgPSBsZTMyX3RvX2NwdShpZC0+bWFyKTsKPj4+PiArCW5zLT5tb3IgPSBsZTMy
+X3RvX2NwdShpZC0+bW9yKTsKPj4+PiArCW5zLT5ycmwgPSBsZTMyX3RvX2NwdShpZC0+cnJsKTsK
+Pj4+PiArCW5zLT5mcmwgPSBsZTMyX3RvX2NwdShpZC0+ZnJsKTsKPj4+PiArCW5zLT56b2MgPSBs
+ZTE2X3RvX2NwdShpZC0+em9jKTsKPj4+PiArCj4+Pj4gIAlxLT5saW1pdHMuem9uZWQgPSBCTEtf
+Wk9ORURfSE07Cj4+Pj4gIAlibGtfcXVldWVfZmxhZ19zZXQoUVVFVUVfRkxBR19aT05FX1JFU0VU
+QUxMLCBxKTsKPj4+PiAgZnJlZV9kYXRhOgo+Pj4+IEBAIC0yMzAsNiArMjU5LDM4IEBAIGludCBu
+dm1lX3JlcG9ydF96b25lcyhzdHJ1Y3QgZ2VuZGlzayAqZGlzaywgc2VjdG9yX3Qgc2VjdG9yLAo+
+Pj4+ICAJcmV0dXJuIHJldDsKPj4+PiAgfQo+Pj4+ICtzdGF0aWMgaW50IG52bWVfbnNfcmVwb3J0
+X3pvbmVfcHJvcChzdHJ1Y3QgbnZtZV9ucyAqbnMsIHN0cnVjdCBibGtfem9uZV9kZXYgKnpwcm9w
+KQo+Pj4+ICt7Cj4+Pj4gKwl6cHJvcC0+bnJfem9uZXMgPSBucy0+bnJfem9uZXM7Cj4+Pj4gKwl6
+cHJvcC0+em9jID0gbnMtPnpvYzsKPj4+PiArCXpwcm9wLT5vemNzID0gbnMtPm96Y3M7Cj4+Pj4g
+Kwl6cHJvcC0+bWFyID0gbnMtPm1hcjsKPj4+PiArCXpwcm9wLT5tb3IgPSBucy0+bW9yOwo+Pj4+
+ICsJenByb3AtPnJybCA9IG5zLT5ycmw7Cj4+Pj4gKwl6cHJvcC0+ZnJsID0gbnMtPmZybDsKPj4+
+PiArCj4+Pj4gKwlyZXR1cm4gMDsKPj4+PiArfQo+Pj4+ICsKPj4+PiAraW50IG52bWVfcmVwb3J0
+X3pvbmVfcHJvcChzdHJ1Y3QgZ2VuZGlzayAqZGlzaywgc3RydWN0IGJsa196b25lX2RldiAqenBy
+b3ApCj4+Pj4gK3sKPj4+PiArCXN0cnVjdCBudm1lX25zX2hlYWQgKmhlYWQgPSBOVUxMOwo+Pj4+
+ICsJc3RydWN0IG52bWVfbnMgKm5zOwo+Pj4+ICsJaW50IHNyY3VfaWR4LCByZXQ7Cj4+Pj4gKwo+
+Pj4+ICsJbnMgPSBudm1lX2dldF9uc19mcm9tX2Rpc2soZGlzaywgJmhlYWQsICZzcmN1X2lkeCk7
+Cj4+Pj4gKwlpZiAodW5saWtlbHkoIW5zKSkKPj4+PiArCQlyZXR1cm4gLUVXT1VMREJMT0NLOwo+
+Pj4+ICsKPj4+PiArCWlmIChucy0+aGVhZC0+aWRzLmNzaSA9PSBOVk1FX0NTSV9aTlMpCj4+Pj4g
+KwkJcmV0ID0gbnZtZV9uc19yZXBvcnRfem9uZV9wcm9wKG5zLCB6cHJvcCk7Cj4+Pj4gKwllbHNl
+Cj4+Pj4gKwkJcmV0ID0gLUVJTlZBTDsKPj4+PiArCW52bWVfcHV0X25zX2Zyb21fZGlzayhoZWFk
+LCBzcmN1X2lkeCk7Cj4+Pj4gKwo+Pj4+ICsJcmV0dXJuIHJldDsKPj4+PiArfQo+Pj4+ICsKPj4+
+PiAgYmxrX3N0YXR1c190IG52bWVfc2V0dXBfem9uZV9tZ210X3NlbmQoc3RydWN0IG52bWVfbnMg
+Km5zLCBzdHJ1Y3QgcmVxdWVzdCAqcmVxLAo+Pj4+ICAJCXN0cnVjdCBudm1lX2NvbW1hbmQgKmMs
+IGVudW0gbnZtZV96b25lX21nbXRfYWN0aW9uIGFjdGlvbikKPj4+PiAgewo+Pj4+IGRpZmYgLS1n
+aXQgYS9pbmNsdWRlL2xpbnV4L2Jsa2Rldi5oIGIvaW5jbHVkZS9saW51eC9ibGtkZXYuaAo+Pj4+
+IGluZGV4IDgzMDhkOGEzNzIwYi4uMGMwZmFhNThiN2Y0IDEwMDY0NAo+Pj4+IC0tLSBhL2luY2x1
+ZGUvbGludXgvYmxrZGV2LmgKPj4+PiArKysgYi9pbmNsdWRlL2xpbnV4L2Jsa2Rldi5oCj4+Pj4g
+QEAgLTM3Miw2ICszNzIsOCBAQCBleHRlcm4gaW50IGJsa2Rldl96b25lX29wc19pb2N0bChzdHJ1
+Y3QgYmxvY2tfZGV2aWNlICpiZGV2LCBmbW9kZV90IG1vZGUsCj4+Pj4gIAkJCQkgIHVuc2lnbmVk
+IGludCBjbWQsIHVuc2lnbmVkIGxvbmcgYXJnKTsKPj4+PiAgZXh0ZXJuIGludCBibGtkZXZfem9u
+ZV9tZ210X2lvY3RsKHN0cnVjdCBibG9ja19kZXZpY2UgKmJkZXYsIGZtb2RlX3QgbW9kZSwKPj4+
+PiAgCQkJCSAgdW5zaWduZWQgaW50IGNtZCwgdW5zaWduZWQgbG9uZyBhcmcpOwo+Pj4+ICtleHRl
+cm4gaW50IGJsa2Rldl96b25lZGV2X3Byb3Aoc3RydWN0IGJsb2NrX2RldmljZSAqYmRldiwgZm1v
+ZGVfdCBtb2RlLAo+Pj4+ICsJCQl1bnNpZ25lZCBpbnQgY21kLCB1bnNpZ25lZCBsb25nIGFyZyk7
+Cj4+Pj4gICNlbHNlIC8qIENPTkZJR19CTEtfREVWX1pPTkVEICovCj4+Pj4gIHN0YXRpYyBpbmxp
+bmUgdW5zaWduZWQgaW50IGJsa2Rldl9ucl96b25lcyhzdHJ1Y3QgZ2VuZGlzayAqZGlzaykKPj4+
+PiBAQCAtNDAwLDYgKzQwMiwxMiBAQCBzdGF0aWMgaW5saW5lIGludCBibGtkZXZfem9uZV9tZ210
+X2lvY3RsKHN0cnVjdCBibG9ja19kZXZpY2UgKmJkZXYsCj4+Pj4gIAlyZXR1cm4gLUVOT1RUWTsK
+Pj4+PiAgfQo+Pj4+ICtzdGF0aWMgaW5saW5lIGludCBibGtkZXZfem9uZWRldl9wcm9wKHN0cnVj
+dCBibG9ja19kZXZpY2UgKmJkZXYsIGZtb2RlX3QgbW9kZSwKPj4+PiArCQkJCSAgICAgIHVuc2ln
+bmVkIGludCBjbWQsIHVuc2lnbmVkIGxvbmcgYXJnKQo+Pj4+ICt7Cj4+Pj4gKwlyZXR1cm4gLUVO
+T1RUWTsKPj4+PiArfQo+Pj4+ICsKPj4+PiAgI2VuZGlmIC8qIENPTkZJR19CTEtfREVWX1pPTkVE
+ICovCj4+Pj4gIHN0cnVjdCByZXF1ZXN0X3F1ZXVlIHsKPj4+PiBAQCAtMTc3MCw2ICsxNzc4LDcg
+QEAgc3RydWN0IGJsb2NrX2RldmljZV9vcGVyYXRpb25zIHsKPj4+PiAgCWludCAoKnJlcG9ydF96
+b25lcykoc3RydWN0IGdlbmRpc2sgKiwgc2VjdG9yX3Qgc2VjdG9yLAo+Pj4+ICAJCQl1bnNpZ25l
+ZCBpbnQgbnJfem9uZXMsIHJlcG9ydF96b25lc19jYiBjYiwgdm9pZCAqZGF0YSk7Cj4+Pj4gIAlj
+aGFyICooKmRldm5vZGUpKHN0cnVjdCBnZW5kaXNrICpkaXNrLCB1bW9kZV90ICptb2RlKTsKPj4+
+PiArCWludCAoKnJlcG9ydF96b25lX3ApKHN0cnVjdCBnZW5kaXNrICpkaXNrLCBzdHJ1Y3QgYmxr
+X3pvbmVfZGV2ICp6cHJvcCk7Cj4+Pj4gIAlzdHJ1Y3QgbW9kdWxlICpvd25lcjsKPj4+PiAgCWNv
+bnN0IHN0cnVjdCBwcl9vcHMgKnByX29wczsKPj4+PiAgfTsKPj4+PiBkaWZmIC0tZ2l0IGEvaW5j
+bHVkZS91YXBpL2xpbnV4L2Jsa3pvbmVkLmggYi9pbmNsdWRlL3VhcGkvbGludXgvYmxrem9uZWQu
+aAo+Pj4+IGluZGV4IGQwOTc4ZWUxMGZjNy4uMGM0OWE0YjJjZTVkIDEwMDY0NAo+Pj4+IC0tLSBh
+L2luY2x1ZGUvdWFwaS9saW51eC9ibGt6b25lZC5oCj4+Pj4gKysrIGIvaW5jbHVkZS91YXBpL2xp
+bnV4L2Jsa3pvbmVkLmgKPj4+PiBAQCAtMTQyLDYgKzE0MiwxOCBAQCBzdHJ1Y3QgYmxrX3pvbmVf
+cmFuZ2Ugewo+Pj4+ICAJX191NjQJCW5yX3NlY3RvcnM7Cj4+Pj4gIH07Cj4+Pj4gK3N0cnVjdCBi
+bGtfem9uZV9kZXYgewo+Pj4+ICsJX191MzIJbnJfem9uZXM7Cj4+Pj4gKwlfX3UzMgltYXI7Cj4+
+Pj4gKwlfX3UzMgltb3I7Cj4+Pj4gKwlfX3UzMglycmw7Cj4+Pj4gKwlfX3UzMglmcmw7Cj4+Pj4g
+KwlfX3UxNgl6b2M7Cj4+Pj4gKwlfX3UxNglvemNzOwo+Pj4+ICsJX191MzIJcnN2MzFbMl07Cj4+
+Pj4gKwlfX3U2NAlyc3Y2M1s0XTsKPj4+PiArfTsKPj4+PiArCj4+Pj4gIC8qKgo+Pj4+ICAgKiBl
+bnVtIGJsa196b25lX2FjdGlvbiAtIFpvbmUgc3RhdGUgdHJhbnNpdGlvbnMgbWFuYWdlZCBmcm9t
+IHVzZXItc3BhY2UKPj4+PiAgICoKPj4+PiBAQCAtMjA5LDUgKzIyMSw2IEBAIHN0cnVjdCBibGtf
+em9uZV9tZ210IHsKPj4+PiAgI2RlZmluZSBCTEtDTE9TRVpPTkUJX0lPVygweDEyLCAxMzUsIHN0
+cnVjdCBibGtfem9uZV9yYW5nZSkKPj4+PiAgI2RlZmluZSBCTEtGSU5JU0haT05FCV9JT1coMHgx
+MiwgMTM2LCBzdHJ1Y3QgYmxrX3pvbmVfcmFuZ2UpCj4+Pj4gICNkZWZpbmUgQkxLTUdNVFpPTkUJ
+X0lPUigweDEyLCAxMzcsIHN0cnVjdCBibGtfem9uZV9tZ210KQo+Pj4+ICsjZGVmaW5lIEJMS1pP
+TkVERVZQUk9QCV9JT1IoMHgxMiwgMTM4LCBzdHJ1Y3QgYmxrX3pvbmVfZGV2KQo+Pj4+ICAjZW5k
+aWYgLyogX1VBUElfQkxLWk9ORURfSCAqLwo+Pj4KPj4+IE5hay4gVGhlc2UgcHJvcGVydGllcyBj
+YW4gYWxyZWFkeSBiZSByZXRyaWV2ZWQgdXNpbmcgdGhlIG52bWUgaW9jdGwKPj4+IHBhc3N0aHJ1
+IGNvbW1hbmQgYW5kIHN1cHBvcnQgaGF2ZSBhbHNvIGJlZW4gYWRkZWQgdG8gbnZtZS1jbGkuCj4+
+Pgo+Pgo+PiBUaGVzZSBwcm9wZXJ0aWVzIGFyZSBpbnRlbmRlZCB0byBiZSBjb25zdW1lZCBieSBh
+biBhcHBsaWNhdGlvbiwgc28KPj4gbnZtZS1jbGkgaXMgb2Ygbm90IG11Y2ggdXNlLiBJIHdvdWxk
+IGFsc28gbGlrZSB0byBhdm9pZCBzeXNmcyB2YXJpYWJsZXMuCj4KPldoeSBub3Qgc3lzZnMgPyBU
+aGVzZSBhcmUgZGV2aWNlIHByb3BlcnRpZXMsIHRoZXkgY2FuIGJlIGRlZmluZWQgYXMgc3lzZnMg
+ZGV2aWNlCj5hdHRyaWJ1dGVzLiBJZiB0aGVyZSBpcyBhbiBlcXVpdmFsZW50IGZvciBaQkMvWkFD
+IGRyaXZlcywgeW91IGNvdWxkIGV2ZW4KPmNvbnNpZGVyIGRlZmluaW5nIHRoZW0gYXMgcXVldWUg
+YXR0cmlidXRlcyBhcyBsb25nIGFzIHlvdSBhbHNvIHBhdGNoIHNkLmMsIGJ1dAo+dGhhdCBtYXkg
+YmUgcHVzaGluZyB0aGluZ3MgdG9vIGZhci4KPgo+SW4gYW55IGNhc2UsIHN5c2ZzIHNlZW1zIGEg
+bXVjaCBiZXR0ZXIgYXBwcm9hY2ggdG8gbWUgYXMgdGhhdCB3b3VsZCBiZSBsaW1pdGVkCj50byB0
+aGUgTlZNZSBkcml2ZXIgcmF0aGVyIHRoYW4gYWxsIHRoaXMgYWRkaXRpb25hbCBjb2RlIGluIHRo
+ZSBibG9jayBsYXllci4KCk9rLiBXaWxsIHNlbmQgYSBWMiBtb3ZpbmcgaXQgdG8gc3lzZnMuCgpU
+aGFua3MhCkphdmllcgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KTGludXgtbnZtZSBtYWlsaW5nIGxpc3QKTGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQu
+b3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbnZt
+ZQo=
