@@ -1,67 +1,78 @@
-Return-Path: <SRS0=uo1w=AI=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=+Irc=AJ=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4AE0C433DF
-	for <linux-nvme@archiver.kernel.org>; Sat, 27 Jun 2020 06:52:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8699C433E0
+	for <linux-nvme@archiver.kernel.org>; Sun, 28 Jun 2020 05:29:03 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B035C20857
-	for <linux-nvme@archiver.kernel.org>; Sat, 27 Jun 2020 06:52:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7365920760
+	for <linux-nvme@archiver.kernel.org>; Sun, 28 Jun 2020 05:29:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="sg6f2isr";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="SpRd1Lqt"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B035C20857
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="whKE2AFc"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7365920760
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=5wFYyv3/FR05fIbA4JYXL0JYPPliatwz/bvR7Zzrzko=; b=sg6f2isrfG0vXM10ryxpeFpK6
-	QsQsCKd2GF31y8N+8WahvblT3htU/nr1LYjqciV5bRXgwuIMwQcpfOGzmGW+saXuG3L/dEe2U1koY
-	0HhTmfCePMW9ee9pwDjJ4Hyt25sovzcS7vlw51o5TiepodwJOYAb8NQFBqr/M1RGAxeecq08QaY3E
-	0FGsTvGw2ZaCTbSTyrWd1MCChu745tt964jlBjWOLwDRUL6kKEt3dArn3ije8IMGih2rjWjxKH3kZ
-	OKniJw3tfxg/mH8/L7SCqWLGUlw8hFJ9K3H5cZdiWQXMOQUsf6Fm9JNh/Om0P1NaVzhSQpLGY/yf2
-	a4l2mPzhQ==;
+	 bh=wTAhy3D48D6FXCAftLd0lAXJUPoqw7aM8MjKMsXliMo=; b=whKE2AFchOuH3NuvUmtCwzG0h
+	MOAKdlGA1K+qhwpqXDvFXmOacRGQW3+O1XBFxC8itLw539LQOYazW9oH6rd0OwXYb9TBDo/g+qqoB
+	F8szes/L4yZ+NRWHPOzF6C/XZCyRrF8eqI2Q8y8izADRAXOEprOLhL/sEDJcZSxf7gEX4ynDA7+4c
+	umiFHNVvDi9z38rkyUxNE1oSvIJprjgzD8o9Rh0ipGk8R9FGfWcT9reTsVZMhdpogqq3ySydDQyoq
+	dVz/QuHAWuMz7sQQne2sbrcR+bge+LgUSNDRr38Dn87a2pKRT00r5ImT8Uoq0AiYjQTnP4UX2SOvy
+	qiJ8oxgHw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jp4hJ-0006g8-6X; Sat, 27 Jun 2020 06:52:21 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1jpPs4-0003Jd-OF; Sun, 28 Jun 2020 05:28:52 +0000
+Received: from mail-wr1-f65.google.com ([209.85.221.65])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jp4hH-0006fz-B5
- for linux-nvme@merlin.infradead.org; Sat, 27 Jun 2020 06:52:19 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=OLtu7ANhBiJnYoq5E3o6Tu2T061iZ8kZq0TbYKm2NJs=; b=SpRd1LqtSD6q2I6R408rgPMgmC
- nEQg5iQTF4jNEgTFc9nVdSFfZzpB7g+dOrPFtSpDdgu6UvzZrDYPsIm3jqdDrHN/OkuqQvCuU75KX
- ID/HdOozih+4XZiVmoxJossAVzi8SxVuDOpirFCakgf6Q2eXdoyxBP1Rdorve7BmuX3Ze75D0qsPI
- uT1MSzG3cJYodcGhqfuhFkBv23Ux3x6RZThQy8iUb266AKC9uwLp4q0O4yA+AlYzJ3CKl3qOHBDGF
- 09aZgZoD8sOFgVzI2f8gcW66JcRbyDvW2zqrW8q/VGkALCAcocs3UvlRpxG6N6YLVfQM+6MZb6BVo
- bz1bMHkg==;
-Received: from hch by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat
- Linux)) id 1jp4hD-0005Kg-1v; Sat, 27 Jun 2020 06:52:15 +0000
-Date: Sat, 27 Jun 2020 07:52:15 +0100
-From: Christoph Hellwig <hch@infradead.org>
-To: Yi Zhang <yi.zhang@redhat.com>
-Subject: Re: blktests nvme/004 failed on linux-stable 5.7.y
-Message-ID: <20200627065215.GB20157@infradead.org>
-References: <1517012281.32343351.1593228195746.JavaMail.zimbra@redhat.com>
- <1528690896.32343478.1593229315244.JavaMail.zimbra@redhat.com>
+ id 1jpPrr-0003JQ-9V
+ for linux-nvme@lists.infradead.org; Sun, 28 Jun 2020 05:28:40 +0000
+Received: by mail-wr1-f65.google.com with SMTP id b6so13186239wrs.11
+ for <linux-nvme@lists.infradead.org>; Sat, 27 Jun 2020 22:28:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=LVwqGt5n0vzuAiiJuNDZJ1sylWRVy9JrfRr72gHiSCo=;
+ b=YIzRDqCcWsIacwsKIQUF1jOOB7xdHAelyNhelT0UI6NPjNOtYyzEjHQVHonRQkA7pi
+ SCFkPy3NUwvoIuIdNZNc9kJ99vI0mSZL5ZsylnRaprPNBx4At3IZgaWDmUjoLA8fOxPo
+ 6JMzvGglMTuhtZ0IMSjsXhE65CYbAJ7gu0h42ljoogYutcnwUqOcVPK8taMp3R/V19mf
+ M+brV79ysAVzCa5nJvKV1zSAyQkzlm5gYdVo6ssY4JpuqzTuhRpU4AtfkM04IMHbZ2Mj
+ sto9bJyXCPq2WZ4QfPP7afRpl1+vSBFmjdTPiJlcydrzxXtZy1Evsd98w14KCUe2MLCd
+ 7iPQ==
+X-Gm-Message-State: AOAM533zSAebXxe8oqoCvUKYWx3DFeGxiLAUxXrcVhY37RuN2ek3LDf/
+ 66ktVNaxM8WOud102Pz3my4QlbQI
+X-Google-Smtp-Source: ABdhPJxV+lW9REtq67xvixSedEuiOg/MsBDKCLq8FHaZd7LfrmrcsOEsOvybih7ULAeonhwDNzY9qg==
+X-Received: by 2002:a5d:51ce:: with SMTP id n14mr11342964wrv.155.1593322114475; 
+ Sat, 27 Jun 2020 22:28:34 -0700 (PDT)
+Received: from ?IPv6:2601:647:4802:9070:3175:2622:5902:20dd?
+ ([2601:647:4802:9070:3175:2622:5902:20dd])
+ by smtp.gmail.com with ESMTPSA id u20sm22957427wmc.44.2020.06.27.22.28.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 27 Jun 2020 22:28:33 -0700 (PDT)
+Subject: Re: [PATCH] nvme: fix identify error status silent ignore
+To: Christoph Hellwig <hch@lst.de>
+References: <20200625000257.29981-1-sagi@grimberg.me>
+ <20200626082437.GA23888@lst.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <bfb855e7-3f87-b16a-c23c-449bf847586b@grimberg.me>
+Date: Sat, 27 Jun 2020 22:28:30 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1528690896.32343478.1593229315244.JavaMail.zimbra@redhat.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20200626082437.GA23888@lst.de>
+Content-Language: en-US
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,28 +84,27 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: hch@infradead.org, dmilburn@redhat.com, chaitanya.kulkarni@wdc.com,
- linux-nvme@lists.infradead.org, sagi@grimberg.me
-Content-Type: text/plain; charset="us-ascii"
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jun 26, 2020 at 11:41:55PM -0400, Yi Zhang wrote:
-> Hello
-> 
-> commit [1] introduced regression that will lead blktest nvme/004 failed, and commits [2] fixed this issue on latest linux tree.
-> linux-stable 5.7.y has [1] but still not pick up[2], does anyone know how to start the process to include [2] to linux-stable tree, thanks. 
-> 
-> 
-> [1]
-> 64f5e9cdd711 nvmet: fix memory leak when removing namespaces and controllers concurrently
-> 
-> [2]
-> 819f7b88b48f nvmet: fail outstanding host posted AEN req
-> 1cdf9f7670a7 nvmet: cleanups the loop in nvmet_async_events_process
 
-You can always send backpors to the stable maintainer..
+>> Patch 59c7c3caaaf8 intended to only silently ignore
+>> non retry-able errors (DNR bit set) such that we can still
+>> identify misbehaving controllers, and in the other hand
+>> propagate retry-able errors (DNR bit cleared) so we don't
+>> wrongly abandon a namespace just because it happens to be
+>> temporarily inaccessible.
+>>
+>> The goal remains the same as the original commit where this
+>> was introduced but unfortunately had the logic backwards.
+> 
+> This probably also needs to be added to the comment to explain WTF is
+> going on here..
+
+Sent v3
 
 _______________________________________________
 Linux-nvme mailing list
