@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16FDDC433E0
-	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2020 14:32:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25643C433DF
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2020 14:34:29 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DA21D23DC3
-	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2020 14:32:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id EB1B223B32
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2020 14:34:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="JndlQUVK";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="GVQmRWlE"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DA21D23DC3
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="dPN8i+us";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="CNRiyn8A"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EB1B223B32
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,38 +26,38 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
 	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=Hj3QPvXY6dFGsOuyQU1z6IoF//f30dnIAQD9uvkBmPs=; b=JndlQUVK66K9BM2Z+P+wSNqvQz
-	1OfGh8Nm+LHstM2FD/6yqjRYLq/oNQLlOSHzN7sgVh8XvSETfLXklRITO82lmB5qHAZL6iFJTKc0E
-	X3POu3Y7/8bRrGt1saibrX8C9ZKE1NTfR0gvLKJ5b8RhyHdLBHPMEctT+wxpOnNVvklhWc9dYQGQt
-	iLwFDvC0XAD9YM5HRRQS07YaOFdWdNlUfj8o+0cIPVcInpDeCTjAcoB3J2lWZdQRWahNI+s0xEpFP
-	9Uj867QlhE3GdzbUyHpdgNiJ+PkuhNy0FCeIgfJ96J0QOiDfHEBZ9zVMPMSUEiuCXm1ayuQObJOlX
-	DdyVbfzQ==;
+	bh=oG8lt3vmxkx0WBOzyoSRpc2rov1Onbel86Ulk//vMIY=; b=dPN8i+uskcUl8CpUbEqtuljBMv
+	ZoiyrDfLAOgOV4cAccUszufwkhAaCNelv7oSh+60r3kc9/TvDpv+o4xVOvKjo1u83VJZdGOPsH7SG
+	7Zo2uGS/u8rXO14FqcKLsdTmq5DAjtLYZuJvFoiJdmG220NXhGNsD4L874YeHHjv/JqMO7aYNNyna
+	8NlCfE0b8M85AP9JDlXxqM2vgChXGmwpG86aCYVR19JrHjWfGrzUBwRAIBhCQ2ML3rQ4AdcsEIDMA
+	lqDexPcYr67nJulGEuSVNfFJ696+rxSCO5hgOb9hOC6IyRNA2p61pfoqbPmk0y5XH8Qu/Zn31vgo6
+	1qjrqHnQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jpupd-000444-L3; Mon, 29 Jun 2020 14:32:25 +0000
+	id 1jpura-0004TQ-9p; Mon, 29 Jun 2020 14:34:26 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jpupb-00043v-6W
- for linux-nvme@merlin.infradead.org; Mon, 29 Jun 2020 14:32:23 +0000
+ id 1jpurY-0004T7-TL
+ for linux-nvme@merlin.infradead.org; Mon, 29 Jun 2020 14:34:24 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
  Content-Description:In-Reply-To:References;
- bh=oEhyFzKTobxNdsT8qVm+tfi5iTPKHSszr9mRFz99B5k=; b=GVQmRWlEJ5SWgbftdzqfswnukV
- RMsgaNGIPfxUNMwVC5uik2cj1rOacgIpasqWIG/PfrULWSehwYS89VKOPh+96SKcUi8MxothrPpq1
- gqaut2Fv4O+zcOwpAT/3bvdiSELGjOuOkI+hOFPxbprbGssKjwKekqmx0W4g0oSjqwYMEKdKKb73/
- 900lCxwKqpoRVtpBHKrSsguOnWdZVTOMB4RqBwjjQ5gny2TQuZUVzyE+cfQDji2RkHqqqlGXj6uGJ
- VYQw1i1Ey1YPii3zFozYXHQhneH2PjUUkP50Jl7R7ZH2n3pbwHPZZYZQtas+qpvl/l/0QJ0ChSa0E
- rjjP8ZzQ==;
+ bh=lm3zcLY1y9kwd3Xy4E3/scdNOhY3tR7sjcctzGwGwGQ=; b=CNRiyn8ALYPYd+8cFT0yBTEUKI
+ YJGwqyOqVdsgIk8M3zAL5oRCRGPg1+5CxmOrCSSg2BKnPrsp0CWuoIarGali0WFt6kKylJNm031/0
+ sOzj3uLJl1Dqke1EYQYrvHXIy9YZSF1tfXQ2uSY8Ommadf2K3gVBPNtrnm1XdBbnUG7lkH4CSoLTQ
+ W8pFI+KwpPM6nJYlQCxA5w55B5rwk8/D6xbWukXML8iuqrzz1f/FuWK2AqxlUg3zHuTEiodo8I0+o
+ 7ijgnYo1PFZPYDbvOZ6MD17/Afe4s/K5o1HULntntqJk7ltlP+674o5ZoCwLU+ckSfcrEHxHUudIl
+ yrZ5jbDQ==;
 Received: from [2001:4bb8:184:76e3:6bff:e1fc:8865:1ab0] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jpupY-00014g-0z; Mon, 29 Jun 2020 14:32:20 +0000
+ id 1jpurX-0001Bc-Le; Mon, 29 Jun 2020 14:34:24 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: sagi@grimberg.me,
 	kbusch@kernel.org
-Subject: [PATCH] nvme: fix a crash in nvme_mpath_add_disk
-Date: Mon, 29 Jun 2020 16:32:19 +0200
-Message-Id: <20200629143219.2693520-1-hch@lst.de>
+Subject: [PATCH v2] nvme: fix a crash in nvme_mpath_add_disk
+Date: Mon, 29 Jun 2020 16:34:22 +0200
+Message-Id: <20200629143422.2695541-1-hch@lst.de>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
@@ -86,14 +86,17 @@ Fixes: b2ce4d90690b ("nvme-multipath: set bdi capabilities once")
 Reported-by: Avinash M N <Avinash.M.N@wdc.com>
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/host/multipath.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+
+And now with the compile fix actually picked up in the git commit as well..
+
+ drivers/nvme/host/multipath.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 18d084ed497ef3..e3eaff10444f00 100644
+index 18d084ed497ef3..66509472fe06ae 100644
 --- a/drivers/nvme/host/multipath.c
 +++ b/drivers/nvme/host/multipath.c
-@@ -672,10 +672,10 @@ void nvme_mpath_add_disk(struct nvme_ns *ns, struct nvme_id_ns *id)
+@@ -672,10 +672,11 @@ void nvme_mpath_add_disk(struct nvme_ns *ns, struct nvme_id_ns *id)
  	}
  
  	if (bdi_cap_stable_pages_required(ns->queue->backing_dev_info)) {
@@ -103,7 +106,8 @@ index 18d084ed497ef3..e3eaff10444f00 100644
  
 -		info->capabilities |= BDI_CAP_STABLE_WRITES;
 +		if (disk)
-+			disk->queue->backing_dev_info |= BDI_CAP_STABLE_WRITES;
++			disk->queue->backing_dev_info->capabilities |=
++					BDI_CAP_STABLE_WRITES;
  	}
  }
  
