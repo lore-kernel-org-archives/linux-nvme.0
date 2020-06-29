@@ -2,138 +2,56 @@ Return-Path: <SRS0=U6YU=AK=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BE60C433E0
-	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2020 09:07:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF9EFC433E0
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2020 09:39:17 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 263CD23142
-	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2020 09:07:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 8988923403
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2020 09:39:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="XlTEY3cY";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="REhyrRCf";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="WNrt4J48"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 263CD23142
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="dYWGcKE6"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8988923403
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:References:Message-ID:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=RLAYTm/uZe30R2HOJMDgti6QXPjHUair3xa3492i1Ks=; b=XlTEY3cYhpiYyaOfAtzyWaO0y
-	Z3Z/JXop5F8UKk8cqlni7qoF3v+SxJIiIHdGDztFQN3z62QCvOwR2bxC8XDeD6xLyps1ap0Z4kkJc
-	kb3Cdy7kB1KJt0fOaNWpgHvmcUwNlhT6cDmCEPea+vPNd3gaw6+qJaIJP+QcPMx5p0h6vYwLv2HA5
-	tG9g45P0uIk5Jjcx6SrxHobKgsJsIXk8BvS0JBmTH086LM48BqrH2cSRYuJDplCOy3Hmf3b2CwVqj
-	OZ4Q6Ke5CSufckdz7M2s5WW8OXL0BEkWmyTtI76wcpdCVuidf+R7KPYGstynINoMDgjugqaGCAzYL
-	h7T6qfwEA==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=W1fNsRRu8x5gVtz0v1HGGRFY0EknN9wnPzx+hStLmnc=; b=dYWGcKE6GS74I3rdKLAdt5LuU/
+	E+X+FpNlm8of2XKNl1eqvH1amPvaLDwrZOL7rXOQFuZgEfULCLxDFlC8BvhmlW2r5o0JPbpMNe8vu
+	r4p9mNA9a8mqrfW2aO2nBEIKKZZRclO5IwZMGMqaub5ByldU4bzbKkyrqW0YRhq2KH3sWQFXMIv+D
+	8qDvN2UtqIBVMh7QeY96Ytm/NSHwE+CbcuS+MYr1Q4O/Je1l+vFRyRVW8vLuz41xEeA/2C6MH1hyV
+	5ZhgP1lwfEzOVJvaUnA/2ft3nEEpNGstOya36Qka/PKl33leSYMcPTvo2aRKt3r35CUsGbffFasQC
+	MUwRbdRg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jpplD-0004As-14; Mon, 29 Jun 2020 09:07:31 +0000
-Received: from esa2.hgst.iphmx.com ([68.232.143.124])
- by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jpplA-0004AW-Vd
- for linux-nvme@lists.infradead.org; Mon, 29 Jun 2020 09:07:29 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1593421655; x=1624957655;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=Yu4huEp55scw/8uKXHlX4eox41kySvoBMiL3C8Je7Pg=;
- b=REhyrRCfG/x+hYa4OGCZ+QKyD2sy1rbmlMwHw12tPkDOiFvYjSsb8FTF
- znSC5KYtkpSEAwaPjY+GQlIgaAYD+OqixtFzpQ5gT4Kx2pLi/sjEQzURx
- RuLqexs3nKrpSZ3MuVqEpQUymoOR6YZ4HFb6M03W8GbXDeBdgPzvHAstf
- aeWKuYuWVYuZfttr9TLNocWwdPIzW9NWiTgZIvEw0ipx8nsTkf/bCy9v2
- IsqfTiyn1jOFyYN54NnAaY3M0cARPPJwAxXTadbJ1JSNy+g3cxTDxRmGZ
- fQ7bUtfx/4jQDpXsvDEWrKoVhxG7PJdIkUHV4XqyZE0YrrqMwNgA6HZIJ g==;
-IronPort-SDR: TGSsAO0QifWNbSlhVttjdXOmDKeFeN8Y0yRg+FbTMrfEJJz6xO0nEvQNk1Cl9aJcpAPPqahxxH
- 9OKqu3U9u04T8FFl+HpCzDywCoBCueaQXlqd48LA7tRTlAOKojlt8zJBLjezezURko2VUCX3+p
- EzPNidm1vrhIzH9V+b1CAdIOzA5ME91hlitbCFb2SxhGVWnBvnL5z0K8hrzJogoLB8/WFEyWYU
- nffpmHmgL/xqAU+t+o+YRJtHFTLeu112YGk0SFStjhtstSBFLfyRxL/LckxIPJ4oyxNgZzAgNc
- Na4=
-X-IronPort-AV: E=Sophos;i="5.75,294,1589212800"; d="scan'208";a="244187755"
-Received: from mail-mw2nam10lp2109.outbound.protection.outlook.com (HELO
- NAM10-MW2-obe.outbound.protection.outlook.com) ([104.47.55.109])
- by ob1.hgst.iphmx.com with ESMTP; 29 Jun 2020 17:07:31 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oaaAD9NLdDbdwiH9JNAohbs+xOd+NCEqies0bkqZtOS/oC5HGbdxd+ZB8Jj8x4U7z3wldHQzRBUvoR4GjVvjUNkXJMd1YkGyzY//z6yHMbsDVDFnK7UBq12Ujind5XX318kCB7+QTICzpWppbo8Z/9m/Y8rChNEWwzxd4kbziQ5eitETOFOtyRopSyGa3Crc0mT61CqR98NU8rls1k6vV9n48Ok9KVnSK27kdm70zMnwnxCVq23lEAP+I9qRq/dwLbREo7LaNWQ0jHQ1ipvhJ5LhpkGw3b/WhKUQHDWgvLq3x1nznDIEQw67JbbLXGBkXx4o+6MpDT+B/hq09aQ68g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0VUAnK9OH9BhI/nrF3tJ6RRdDBblXYPZR1ANsb3YIkk=;
- b=P68amSpoXJvqof4HNwMnT55w/rP4jbpthU9fgOAkxTFlGD9Kv84oDOx8OSapbDNhi9Yw3N1h1ZCwxDSwh67bZCkT2CDU2FlmQjm6YOLcpSq1cMwNh/hu9R4wf51SPo93OwAkZ+mW3DYgEB0Bl53g9NmT3Cx3WIVlNdTgDnBxESdjdLYE+z3KQVutNsUaK7cE3Pqhzml0gzXMNtwPDioHzde2frwUZo1nvRJVzdM56rzrh5YnbJe35q1iG7WAyiSL769R3bSAjo54b8r1r86D0BWTWXjsbJwvDCaV+5+846PFlJFwfdfdpltCg49gvwnqPJgopbfm4vpocGcd0usfxw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0VUAnK9OH9BhI/nrF3tJ6RRdDBblXYPZR1ANsb3YIkk=;
- b=WNrt4J481jcF4qj6OiHgMKUXvoqIFcUBCvb1/T+Y7+sPjoyUzv+tQLefZe/5cKvpJHkVWcOvAWlBNMddWqfQw1Df5353B7N7r+CH4tIaQvkP5FXlTjy2YEa0b9Sb4lP2IuBCW218WrAXX4/OhoYNa1ogAWKemwwWUBKyLcCy7y8=
-Received: from MN2PR04MB6223.namprd04.prod.outlook.com (2603:10b6:208:db::14)
- by MN2PR04MB6047.namprd04.prod.outlook.com (2603:10b6:208:dc::29)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.25; Mon, 29 Jun
- 2020 09:07:24 +0000
-Received: from MN2PR04MB6223.namprd04.prod.outlook.com
- ([fe80::899f:1d14:ad80:400e]) by MN2PR04MB6223.namprd04.prod.outlook.com
- ([fe80::899f:1d14:ad80:400e%4]) with mapi id 15.20.3131.026; Mon, 29 Jun 2020
- 09:07:24 +0000
-From: Matias Bjorling <Matias.Bjorling@wdc.com>
-To: Niklas Cassel <Niklas.Cassel@wdc.com>, Damien Le Moal
- <Damien.LeMoal@wdc.com>
-Subject: RE: [PATCH 1/2] block: add zone_desc_ext_bytes to sysfs
-Thread-Topic: [PATCH 1/2] block: add zone_desc_ext_bytes to sysfs
-Thread-Index: AQHWTaAe7EphdXOt6kSWMdnkQNI/YajvTTIAgAAAmzA=
-Date: Mon, 29 Jun 2020 09:07:24 +0000
-Message-ID: <MN2PR04MB6223CBCEA07D63E53B3AD244F16E0@MN2PR04MB6223.namprd04.prod.outlook.com>
-References: <20200628230102.26990-1-matias.bjorling@wdc.com>
- <20200628230102.26990-2-matias.bjorling@wdc.com>
- <CY4PR04MB375197387D94CE4E60E836F4E76E0@CY4PR04MB3751.namprd04.prod.outlook.com>
- <20200629090356.GA521026@localhost.localdomain>
-In-Reply-To: <20200629090356.GA521026@localhost.localdomain>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: wdc.com; dkim=none (message not signed)
- header.d=none;wdc.com; dmarc=none action=none header.from=wdc.com;
-x-originating-ip: [185.50.194.70]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: bc8c23c9-018b-4b60-b6bd-08d81c0bd68a
-x-ms-traffictypediagnostic: MN2PR04MB6047:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MN2PR04MB6047EA7A03EAFCB0C704883AF16E0@MN2PR04MB6047.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
-x-forefront-prvs: 044968D9E1
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: KkPv1apo0czYDr+mVzLmL59m/23di+HkxyivFDwLu2HmUUuN6QT2w87KLh2XU0i3FD0MGNnxyymySd5a/oYHSbqVtjj2qSyCYb5Rk/Amg9OBF/yLQ24HwKRkr4qjV0Hkp022eOGrddzUgB/0rxOtkXrusdR9t/sBwPrq3YMVI7UsZYDXEOny9nRh/ntdON77e8hrkug8Xr9opZAauY3H5AU3xMcSg1JOuNBv0GS9HWk2MKfD6nmKjYGNE86orJzMZFjqVmjKgSLEUrbd4yaZ8NNO5cd026W3M+idA7aaeo3TTuC1E4opln3ED6yWFnIF5kp62mxhBP9TCHARG5yoUL43bWpwD+Ai52qtjm4Zrz566yM65kjFMiHB0d7JsdoT7H5zi4x2c0V6hj6ECrZi7w==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR04MB6223.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(136003)(346002)(376002)(366004)(396003)(39860400002)(186003)(54906003)(110136005)(26005)(66946007)(4326008)(66476007)(86362001)(316002)(66446008)(64756008)(66556008)(6636002)(33656002)(8936002)(83380400001)(71200400001)(76116006)(6506007)(53546011)(478600001)(966005)(55016002)(2906002)(5660300002)(52536014)(7696005)(66574015)(8676002)(9686003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: aEJr4chKw98DGlaYsxZpe99z9y7iGXiJO6YdVHpwxg+KitXsow5k5RPezkLzTlq+4ITJOiYuqrvjW45/FSKeyP17Pwr+6wZvjj9yFf7Y1T7lD8MUG8BnXn3NjJ4TdDOHFWBADLrX+09kqhYUNgzobYlSBVCSsmBi2x7rkEjPKlr/IbQEg4j9jo8Q11FZIJIJ4bLhwMC3+WXboqC2E+CoMSOl7agP0QmXkURXG2mgt13oHeQBNY80Cag46ii/WYRZel0mE+2DdoiWkd35QisX7VlAOG9KuK7VRXDYIZ7tvzuPjq6dkoc+x74gNUN49LhLcdiPel9ZLomPULgFhtqCN20GV2xHUpyQmvN71Gocv9YH4Gy6muiGUoly5tm2QZzKZN9XgUCJ/rWuY47Cvd+ZjsNkZEbbwVym3/JEtmskm7/iRgk9FSnNtbZWm08FFJ631Ivq1ncurfB6Tz5IvsAvPngCQPGyJMZvzV4lj7lFnpHW8LBcjaVH8lz4FSLo6IIM
+	id 1jpqFs-0000Uy-4t; Mon, 29 Jun 2020 09:39:12 +0000
+Received: from mail-il-dmz.mellanox.com ([193.47.165.129] helo=mellanox.co.il)
+ by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jpqFl-0000SO-Ht
+ for linux-nvme@lists.infradead.org; Mon, 29 Jun 2020 09:39:07 +0000
+Received: from Internal Mail-Server by MTLPINE1 (envelope-from
+ maxg@mellanox.com) with SMTP; 29 Jun 2020 12:38:53 +0300
+Received: from mtr-vdi-031.wap.labs.mlnx. (mtr-vdi-031.wap.labs.mlnx
+ [10.209.102.136])
+ by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 05T9crld008962;
+ Mon, 29 Jun 2020 12:38:53 +0300
+From: Max Gurtovoy <maxg@mellanox.com>
+To: sagi@grimberg.me, linux-nvme@lists.infradead.org, kbusch@kernel.org,
+ hch@lst.de
+Subject: [PATCH 1/1] nvme: initialize CMB only if supported
+Date: Mon, 29 Jun 2020 12:38:53 +0300
+Message-Id: <20200629093853.6078-1-maxg@mellanox.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR04MB6223.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bc8c23c9-018b-4b60-b6bd-08d81c0bd68a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jun 2020 09:07:24.1178 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: O3maUdE2f9GKlEBzkUuLZWehuVX8yb6T3MvC24yJRSb0dm4rlv+ghhvhsW7njbmFW0zsCaIyPebUfNGyebbgAw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR04MB6047
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,95 +63,58 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "axboe@kernel.dk" <axboe@kernel.dk>, "sagi@grimberg.me" <sagi@grimberg.me>,
- "martin.petersen@oracle.com" <martin.petersen@oracle.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- Hans Holmberg <Hans.Holmberg@wdc.com>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "kbusch@kernel.org" <kbusch@kernel.org>, "hch@lst.de" <hch@lst.de>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: israelr@mellanox.com, logang@deltatee.com, Max Gurtovoy <maxg@mellanox.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> -----Original Message-----
-> From: Niklas Cassel <Niklas.Cassel@wdc.com>
-> Sent: Monday, 29 June 2020 11.04
-> To: Damien Le Moal <Damien.LeMoal@wdc.com>
-> Cc: Matias Bjorling <Matias.Bjorling@wdc.com>; axboe@kernel.dk;
-> kbusch@kernel.org; hch@lst.de; sagi@grimberg.me;
-> martin.petersen@oracle.com; Hans Holmberg <Hans.Holmberg@wdc.com>;
-> linux-scsi@vger.kernel.org; linux-kernel@vger.kernel.org; linux-
-> block@vger.kernel.org; linux-nvme@lists.infradead.org
-> Subject: Re: [PATCH 1/2] block: add zone_desc_ext_bytes to sysfs
-> =
-
-> On Mon, Jun 29, 2020 at 12:52:46AM +0000, Damien Le Moal wrote:
-> > On 2020/06/29 8:01, Matias Bjorling wrote:
-> > > The NVMe Zoned Namespace Command Set adds support for associating
-> > > data to a zone through the Zone Descriptor Extension feature.
-> > >
-> > > The Zone Descriptor Extension size is fixed to a multiple of 64
-> > > bytes. A value of zero communicates the feature is not available.
-> > > A value larger than zero communites the feature is available, and
-> > > the specified Zone Descriptor Extension size in bytes.
-> > >
-> > > The Zone Descriptor Extension feature is only available in the NVMe
-> > > Zoned Namespaces Command Set. Devices that supports ZAC/ZBC
-> > > therefore reports this value as zero, where as the NVMe device
-> > > driver reports the Zone Descriptor Extension size from the specific
-> > > device.
-> > >
-> > > Signed-off-by: Matias Bj=F8rling <matias.bjorling@wdc.com>
-> > > ---
-> > >  Documentation/block/queue-sysfs.rst |  6 ++++++
-> > >  block/blk-sysfs.c                   | 15 ++++++++++++++-
-> > >  drivers/nvme/host/zns.c             |  1 +
-> > >  drivers/scsi/sd_zbc.c               |  1 +
-> > >  include/linux/blkdev.h              | 22 ++++++++++++++++++++++
-> > >  5 files changed, 44 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/Documentation/block/queue-sysfs.rst
-> > > b/Documentation/block/queue-sysfs.rst
-> > > index f261a5c84170..c4fa195c87b4 100644
-> =
-
-> (snip)
-> =
-
-> > >  static struct queue_sysfs_entry queue_nomerges_entry =3D {
-> > >  	.attr =3D {.name =3D "nomerges", .mode =3D 0644 },
-> > >  	.show =3D queue_nomerges_show,
-> > > @@ -787,6 +798,7 @@ static struct attribute *queue_attrs[] =3D {
-> > >  	&queue_nr_zones_entry.attr,
-> > >  	&queue_max_open_zones_entry.attr,
-> > >  	&queue_max_active_zones_entry.attr,
-> >
-> > Which tree is this patch based on ? Not I have seen any patch
-> > introducing max active zones.
-> =
-
-> The cover letter forgot to mention this patch series' dependencies.
-> I assume that it is based on the following patch series:
-> https://lore.kernel.org/linux-block/20200622162530.1287650-1-
-> kbusch@kernel.org/
-> https://lore.kernel.org/linux-block/20200616102546.491961-1-
-> niklas.cassel@wdc.com/
-> =
-
-
-Very true. Thanks, Niklas.
-
-I'll rebase this work when the above patchsets have been picked up.
-
-> =
-
-> Kind regards,
-> Niklas
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+QWNjb3JkaW5nIHRvIHRoZSBOVk1lIHNwZWNpZmljYXRpb24gcmV2aXNpb24gMS40IChDTUJTKToK
+IklmIHNldCB0byDigJgx4oCZLCB0aGlzIGJpdCBpbmRpY2F0ZXMgdGhhdCB0aGUgY29udHJvbGxl
+ciBzdXBwb3J0cyB0aGUKQ29udHJvbGxlciBNZW1vcnkgQnVmZmVyLCBhbmQgdGhhdCBhZGRyZXNz
+ZXMgc3VwcGxpZWQgYnkgdGhlIGhvc3QgYXJlCnBlcm1pdHRlZCB0byByZWZlcmVuY2UgdGhlIENv
+bnRyb2xsZXIgTWVtb3J5IEJ1ZmZlciBvbmx5IGlmIHRoZSBob3N0IGhhcwplbmFibGVkIHRoZSBD
+b250cm9sbGVyIE1lbW9yeSBCdWZmZXLigJlzIGNvbnRyb2xsZXIgbWVtb3J5IHNwYWNlLiBJZiB0
+aGUKY29udHJvbGxlciBzdXBwb3J0cyB0aGUgQ29udHJvbGxlciBNZW1vcnkgQnVmZmVyLCB0aGlz
+IGJpdCBzaGFsbCBiZSBzZXQKdG8g4oCYMeKAmS4iCgpBbHNvLCB3aGlsZSB3ZSdyZSBoZXJlLCBh
+ZGQgbW9yZSBtYWNybyBkZWZpbml0aW9ucyByZWxhdGVkIHRvIENNQgpyZWdpc3RlcnMgYWRkZWQg
+dG8gcmV2aXNpb24gMS40IG9mIHRoZSBzcGVjLgoKU2lnbmVkLW9mZi1ieTogTWF4IEd1cnRvdm95
+IDxtYXhnQG1lbGxhbm94LmNvbT4KLS0tCiBkcml2ZXJzL252bWUvaG9zdC9wY2kuYyB8ICA1ICsr
+KystCiBpbmNsdWRlL2xpbnV4L252bWUuaCAgICB8IDExICsrKysrKysrKysrCiAyIGZpbGVzIGNo
+YW5nZWQsIDE1IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2
+ZXJzL252bWUvaG9zdC9wY2kuYyBiL2RyaXZlcnMvbnZtZS9ob3N0L3BjaS5jCmluZGV4IGIxZDE4
+ZjAuLjE2OThiNWYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvbnZtZS9ob3N0L3BjaS5jCisrKyBiL2Ry
+aXZlcnMvbnZtZS9ob3N0L3BjaS5jCkBAIC0xNzYyLDYgKzE3NjIsMTAgQEAgc3RhdGljIHZvaWQg
+bnZtZV9tYXBfY21iKHN0cnVjdCBudm1lX2RldiAqZGV2KQogCXN0cnVjdCBwY2lfZGV2ICpwZGV2
+ID0gdG9fcGNpX2RldihkZXYtPmRldik7CiAJaW50IGJhcjsKIAorCWlmIChyZWFkbChkZXYtPmJh
+ciArIE5WTUVfUkVHX1ZTKSA+PSBOVk1FX1ZTKDEsIDQsIDApICYmCisJICAgICFOVk1FX0NBUF9D
+TUJTKGRldi0+Y3RybC5jYXApKQorCQlyZXR1cm47CisKIAlpZiAoZGV2LT5jbWJfc2l6ZSkKIAkJ
+cmV0dXJuOwogCkBAIC0yMzY0LDcgKzIzNjgsNiBAQCBzdGF0aWMgaW50IG52bWVfcGNpX2VuYWJs
+ZShzdHJ1Y3QgbnZtZV9kZXYgKmRldikKIAkJCSBkZXYtPnFfZGVwdGgpOwogCX0KIAotCiAJbnZt
+ZV9tYXBfY21iKGRldik7CiAKIAlwY2lfZW5hYmxlX3BjaWVfZXJyb3JfcmVwb3J0aW5nKHBkZXYp
+OwpkaWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51eC9udm1lLmggYi9pbmNsdWRlL2xpbnV4L252bWUu
+aAppbmRleCA1Y2U1MWFiLi4zYWZkNDkwIDEwMDY0NAotLS0gYS9pbmNsdWRlL2xpbnV4L252bWUu
+aAorKysgYi9pbmNsdWRlL2xpbnV4L252bWUuaApAQCAtMTE2LDYgKzExNiwxMCBAQCBlbnVtIHsK
+IAlOVk1FX1JFR19CUE1CTAk9IDB4MDA0OCwJLyogQm9vdCBQYXJ0aXRpb24gTWVtb3J5IEJ1ZmZl
+cgogCQkJCQkgKiBMb2NhdGlvbgogCQkJCQkgKi8KKwlOVk1FX1JFR19DTUJNU0MJPSAweDAwNTAs
+CS8qIENvbnRyb2xsZXIgTWVtb3J5IEJ1ZmZlciBNZW1vcnkKKwkJCQkJICogU3BhY2UgQ29udHJv
+bAorCQkJCQkgKi8KKwlOVk1FX1JFR19DTUJTVFMJPSAweDAwNTgsCS8qIENvbnRyb2xsZXIgTWVt
+b3J5IEJ1ZmZlciBTdGF0dXMgKi8KIAlOVk1FX1JFR19QTVJDQVAJPSAweDBlMDAsCS8qIFBlcnNp
+c3RlbnQgTWVtb3J5IENhcGFiaWxpdGllcyAqLwogCU5WTUVfUkVHX1BNUkNUTAk9IDB4MGUwNCwJ
+LyogUGVyc2lzdGVudCBNZW1vcnkgUmVnaW9uIENvbnRyb2wgKi8KIAlOVk1FX1JFR19QTVJTVFMJ
+PSAweDBlMDgsCS8qIFBlcnNpc3RlbnQgTWVtb3J5IFJlZ2lvbiBTdGF0dXMgKi8KQEAgLTEzNCw4
+ICsxMzgsMTUgQEAgZW51bSB7CiAjZGVmaW5lIE5WTUVfQ0FQX05TU1JDKGNhcCkJKCgoY2FwKSA+
+PiAzNikgJiAweDEpCiAjZGVmaW5lIE5WTUVfQ0FQX01QU01JTihjYXApCSgoKGNhcCkgPj4gNDgp
+ICYgMHhmKQogI2RlZmluZSBOVk1FX0NBUF9NUFNNQVgoY2FwKQkoKChjYXApID4+IDUyKSAmIDB4
+ZikKKyNkZWZpbmUgTlZNRV9DQVBfQ01CUyhjYXApCSgoKGNhcCkgPj4gNTcpICYgMHgxKQogCiAj
+ZGVmaW5lIE5WTUVfQ01CX0JJUihjbWJsb2MpCSgoY21ibG9jKSAmIDB4NykKKyNkZWZpbmUgTlZN
+RV9DTUJfUU1NUyhjbWJsb2MpCSgoKGNtYmxvYykgPj4gMykgJiAweDEpCisjZGVmaW5lIE5WTUVf
+Q01CX1FQRFMoY21ibG9jKQkoKChjbWJsb2MpID4+IDQpICYgMHgxKQorI2RlZmluZSBOVk1FX0NN
+Ql9EUE1MUyhjbWJsb2MpCSgoKGNtYmxvYykgPj4gNSkgJiAweDEpCisjZGVmaW5lIE5WTUVfQ01C
+X0RQQ0lMUyhjbWJsb2MpCSgoKGNtYmxvYykgPj4gNikgJiAweDEpCisjZGVmaW5lIE5WTUVfQ01C
+X0RNTU1TKGNtYmxvYykJKCgoY21ibG9jKSA+PiA3KSAmIDB4MSkKKyNkZWZpbmUgTlZNRV9DTUJf
+UURBKGNtYmxvYykJKCgoY21ibG9jKSA+PiA4KSAmIDB4MSkKICNkZWZpbmUgTlZNRV9DTUJfT0ZT
+VChjbWJsb2MpCSgoKGNtYmxvYykgPj4gMTIpICYgMHhmZmZmZikKIAogZW51bSB7Ci0tIAoxLjgu
+My4xCgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGlu
+dXgtbnZtZSBtYWlsaW5nIGxpc3QKTGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6
+Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
