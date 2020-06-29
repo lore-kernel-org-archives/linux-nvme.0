@@ -2,62 +2,64 @@ Return-Path: <SRS0=U6YU=AK=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A161C433DF
-	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2020 19:40:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B0E7C433DF
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2020 19:40:03 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 149AF20672
-	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2020 19:40:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1B84420672
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2020 19:40:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="KYlyFnil";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="izI9va37"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 149AF20672
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="gj+WAhP5";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="nX6H72rw"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1B84420672
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=i0BryOrXJd8ySASraScXg68z+2dxLOoz7qhOCu8itZs=; b=KYlyFnilxB5JreXQFYkUx5k/6z
-	7KO8kIowZ/FkDhYCq9R3wTSVWHs1tIME0ki1D9Zp1SpwojmGVC0K8oYgMiTpGtiQwNn6yAZZDWOzd
-	3XmTDgnXm7J6HjyCWPHmhySfxDd0wo7E7enF1IjaOKGLslrSRWyjh99D3GBBBPUBrrcge1jZIiOeh
-	R7R4EC2cf0hBlj4+cadfcOg+feD5Gj0yohN/nJl1oRUeWx9AgN1GGTsB6Oh/Y9wQgio+gbjqiEjra
-	ww9NV6wETV28XjPdES5MMC63IhG+gj7gG8Mi9ib+zraSaYykMsi1E0ejnwHnPilfbwuyV+Nq9YN3Z
-	rXuvzl6A==;
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=wPNouyREAiNrxj87QPnUq1FOt1pSETf1SZgGlQ91HcM=; b=gj+WAhP5jkCzofKxAxHH0wj4s
+	YiztjaMHueVsU4+GVN101JWlZH+ClhiHahEY3oWdj8iCszOUJODScay18s0bwgA7qMBUQuM8wHkIK
+	e1Cj+cIAxAsQNtyTBhs0wm87qfbIoznRPLHTXwlHh5HlcZ/gbul1SHiKGgOS1PtI9Syne8VP5YJ4a
+	MUp4xzQxUz53bwp/L7qk8RM94pSEnZ8wNq8nunGzucqDsGS7R7hWgl8TaaCOysu3YIfHnWvMMoISa
+	oT8QtgiQocTxENhjf3tmAosWj0SWmmPlD2F4DX6Ytt0kKPaqbHdS6arvP/jBLRkALaIFfwt0NN9Mh
+	s7AnWNVOw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jpzdF-0003ur-7d; Mon, 29 Jun 2020 19:39:57 +0000
+	id 1jpzdI-0003vp-CY; Mon, 29 Jun 2020 19:40:00 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jpzdB-0003tw-5M
- for linux-nvme@merlin.infradead.org; Mon, 29 Jun 2020 19:39:53 +0000
+ id 1jpzdB-0003u8-NH
+ for linux-nvme@merlin.infradead.org; Mon, 29 Jun 2020 19:39:55 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
- Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:In-Reply-To:References;
- bh=jMtXd3+IgH5FKAFW7B3krAloHxKDCKtZ6481a42mweE=; b=izI9va37od/l74eLDK6Qd4n5+c
- DRE5tLWFd6z0dh7FN+++zwj3vqA9hBSqXjItC+dGo1jQTiNXlNCOwNeuynBDUj4O0vv4wEvXD9xkA
- 1Lqve212q1u8S5/IjqOxXPzxIxXWaadH1PkDW/wrhUOY/mACP+lHeZT85YM/CigG5JmG82gX4yswL
- RfDgh8pbd/ZyjWgGdAg7148oGPLMXP5IlWqnDTyMyVw/N0D30hWunCXzjPMCUTonoLYB3XTq2F8xe
- dBLSroWnj5XPAyKyIbXf1d7S5LahAvykKyuFF6hWFRR+hZoSGHVSAwslOJwhs0F/6uveQ9FNxwMDD
- ErEDmz7A==;
+ References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-Type:Content-ID:Content-Description;
+ bh=U8tCb4h17a0rL+ZZdq18PAV+yDbvWsH96GC5gLr1vuc=; b=nX6H72rwNYY0Uodz17aYP0bvqk
+ 9gSPPIErWrLN9tgBHhvIIJkOaKgVsJo4ToReNXQeJGEcFnMtOneeM9lvCktfvClRYHDtNElRZj2F6
+ 8v+5TR40P7wF9sVI6FNZgxu5kOa2TO9rd1Tk/CVbrQpxDd6MTudpLktSUdh658nMTs0t6pbT8L0DU
+ oLPd3ny9KNPaRYcpjp5BKqZJvHEO/AQA8V3gJ3oEvuI02EACAolGm1l5wddF6nve0W3P8jOwehhxt
+ HUK/Vlvd1nnX1ZKXj4mHlQgYSZ/JMOLFPBM2+5fH9Dc8Y+nLWvs6b4VA5Ugvca4/Jx5cC4ko7Xilx
+ 7KEB9k7g==;
 Received: from [2001:4bb8:184:76e3:fcca:c8dc:a4bf:12fa] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jpzd6-0004EQ-9J; Mon, 29 Jun 2020 19:39:50 +0000
+ id 1jpzd9-0004Eg-CR; Mon, 29 Jun 2020 19:39:52 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Subject: rename ->make_request_fn and move it to the block_device_operations
-Date: Mon, 29 Jun 2020 21:39:27 +0200
-Message-Id: <20200629193947.2705954-1-hch@lst.de>
+Subject: [PATCH 01/20] nfblock: stop using ->queuedata
+Date: Mon, 29 Jun 2020 21:39:28 +0200
+Message-Id: <20200629193947.2705954-2-hch@lst.de>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200629193947.2705954-1-hch@lst.de>
+References: <20200629193947.2705954-1-hch@lst.de>
 MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
  casper.infradead.org. See http://www.infradead.org/rpr.html
@@ -82,87 +84,38 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Jens,
+Instead of setting up the queuedata as well just use one private data
+field.
 
-this series moves the make_request_fn method into block_device_operations
-with the much more descriptive ->submit_bio name.  It then also gives
-generic_make_request a more descriptive name, and further optimize the
-path to issue to blk-mq, removing the need for the direct_make_request
-bypass.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ arch/m68k/emu/nfblock.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Diffstat:
- Documentation/block/biodoc.rst                    |    2 
- Documentation/block/writeback_cache_control.rst   |    2 
- Documentation/fault-injection/fault-injection.rst |    2 
- Documentation/trace/ftrace.rst                    |    4 
- arch/m68k/emu/nfblock.c                           |    8 
- arch/xtensa/platforms/iss/simdisk.c               |    9 
- block/bio.c                                       |   14 -
- block/blk-cgroup.c                                |    2 
- block/blk-core.c                                  |  255 +++++++++-------------
- block/blk-crypto-fallback.c                       |    2 
- block/blk-crypto.c                                |    2 
- block/blk-merge.c                                 |   23 -
- block/blk-mq.c                                    |   12 -
- block/blk-throttle.c                              |    4 
- block/blk.h                                       |    5 
- block/bounce.c                                    |    2 
- drivers/block/brd.c                               |    5 
- drivers/block/drbd/drbd_int.h                     |    8 
- drivers/block/drbd/drbd_main.c                    |   12 -
- drivers/block/drbd/drbd_receiver.c                |    2 
- drivers/block/drbd/drbd_req.c                     |    8 
- drivers/block/drbd/drbd_worker.c                  |    2 
- drivers/block/null_blk_main.c                     |   19 +
- drivers/block/pktcdvd.c                           |   15 -
- drivers/block/ps3vram.c                           |   20 -
- drivers/block/rsxx/dev.c                          |   14 -
- drivers/block/umem.c                              |   11 
- drivers/block/zram/zram_drv.c                     |   14 -
- drivers/lightnvm/core.c                           |    8 
- drivers/lightnvm/pblk-init.c                      |   16 -
- drivers/lightnvm/pblk-read.c                      |    2 
- drivers/md/bcache/bcache.h                        |    2 
- drivers/md/bcache/btree.c                         |    2 
- drivers/md/bcache/request.c                       |   11 
- drivers/md/bcache/request.h                       |    4 
- drivers/md/bcache/super.c                         |   24 +-
- drivers/md/dm-cache-target.c                      |    6 
- drivers/md/dm-clone-target.c                      |   10 
- drivers/md/dm-crypt.c                             |    6 
- drivers/md/dm-delay.c                             |    2 
- drivers/md/dm-era-target.c                        |    2 
- drivers/md/dm-integrity.c                         |    4 
- drivers/md/dm-mpath.c                             |    2 
- drivers/md/dm-raid1.c                             |    2 
- drivers/md/dm-snap-persistent.c                   |    2 
- drivers/md/dm-snap.c                              |    6 
- drivers/md/dm-thin.c                              |    4 
- drivers/md/dm-verity-target.c                     |    2 
- drivers/md/dm-writecache.c                        |    2 
- drivers/md/dm-zoned-target.c                      |    2 
- drivers/md/dm.c                                   |   41 +--
- drivers/md/md-faulty.c                            |    4 
- drivers/md/md-linear.c                            |    4 
- drivers/md/md-multipath.c                         |    4 
- drivers/md/md.c                                   |    7 
- drivers/md/raid0.c                                |    8 
- drivers/md/raid1.c                                |   14 -
- drivers/md/raid10.c                               |   28 +-
- drivers/md/raid5.c                                |   10 
- drivers/nvdimm/blk.c                              |    5 
- drivers/nvdimm/btt.c                              |    5 
- drivers/nvdimm/pmem.c                             |    5 
- drivers/nvme/host/core.c                          |    1 
- drivers/nvme/host/multipath.c                     |   18 -
- drivers/nvme/host/nvme.h                          |    1 
- drivers/s390/block/dcssblk.c                      |   11 
- drivers/s390/block/xpram.c                        |    8 
- fs/buffer.c                                       |    5 
- include/linux/blk-mq.h                            |    2 
- include/linux/blkdev.h                            |   12 -
- include/linux/lightnvm.h                          |    3 
- 71 files changed, 387 insertions(+), 408 deletions(-)
+diff --git a/arch/m68k/emu/nfblock.c b/arch/m68k/emu/nfblock.c
+index c3a630440512e9..87e8b1700acd28 100644
+--- a/arch/m68k/emu/nfblock.c
++++ b/arch/m68k/emu/nfblock.c
+@@ -61,7 +61,7 @@ struct nfhd_device {
+ 
+ static blk_qc_t nfhd_make_request(struct request_queue *queue, struct bio *bio)
+ {
+-	struct nfhd_device *dev = queue->queuedata;
++	struct nfhd_device *dev = bio->bi_disk->private_data;
+ 	struct bio_vec bvec;
+ 	struct bvec_iter iter;
+ 	int dir, len, shift;
+@@ -122,7 +122,6 @@ static int __init nfhd_init_one(int id, u32 blocks, u32 bsize)
+ 	if (dev->queue == NULL)
+ 		goto free_dev;
+ 
+-	dev->queue->queuedata = dev;
+ 	blk_queue_logical_block_size(dev->queue, bsize);
+ 
+ 	dev->disk = alloc_disk(16);
+-- 
+2.26.2
+
 
 _______________________________________________
 Linux-nvme mailing list
