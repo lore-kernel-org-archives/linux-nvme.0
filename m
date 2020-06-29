@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28530C433E0
-	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2020 19:40:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22856C433E1
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2020 19:40:44 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F044A206A1
-	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2020 19:40:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E8563206A1
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2020 19:40:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="KcoUdO+I";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="q7gNkxTF"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F044A206A1
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="LCp/n5Lg";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="oq4DxXRy"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E8563206A1
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,37 +26,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=R+70xzXYyZIPXmOiB8uG4WDwsuV3Qbvd2fSsLb8k0o8=; b=KcoUdO+IY6boOyufd/7Q8g9xZ
-	dBhg6O0QIpxjMlKcI+R4WOvnPV6ejUhrRQXKMidYLq2D3KitM+3LRWYKNKVlpFLu/y0c8tJWAd3W8
-	biFMvCgpIgbEiCeRzor/yqdgTjmNcj8waZ21sgEmKl//Z4M3pUWvLQ7Haw7EX7P6EKDlQbcKoOrmr
-	E9EV58qNPJ9E6F4aCTpAJxOJdyndE94DV0ipAzJfkZ2kEbzCX/1xM/whsUsJpspaYnXxU1uMeGwI8
-	4quotqQIesqcwEpXJh/LBRW02gjsBe45bedJPZ79uH1ebEVjW6zdazWu6cnWwragDzcQb95S44uqX
-	OSZd5pABg==;
+	 bh=tKHAkfb/eBhhQ/oMIk24RuR1YidwW3SfrPlzlDMHz+c=; b=LCp/n5Lg6v2kOYCKmK8MiCWXB
+	IaAOhH49983t3BMsiO/9XwTxQehWtLwD8cHCAA46Mfjd8XWEEqhOUMjMSq/a5hiRf33fJwZpHPeOQ
+	AP7OO/9lfU4u1TxA0cKjKQj0d0ydSRfjP4hq8FTDDQZPRtP37OHcckeNkxyFkXYVDrzs9XyjmnrSA
+	mnIV3wNUl04gaG6cj90ms2P33Na/7piVmVeyLfdS9pNoeMZZ4iXp4Mh3adMHN2DG0Kn0JDuEom5+4
+	26m5r5NpFZcYSxrXJEcx351zBxsn4VJi/yfg85ztBsX61XJrCqetpbGNDniZhgOYpQ+E92dq1rXry
+	iv55xy74g==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jpzdm-00048j-HA; Mon, 29 Jun 2020 19:40:30 +0000
+	id 1jpzdv-0004Ds-IX; Mon, 29 Jun 2020 19:40:39 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jpzdO-0003xh-4I
- for linux-nvme@merlin.infradead.org; Mon, 29 Jun 2020 19:40:06 +0000
+ id 1jpzdP-0003y8-Kv
+ for linux-nvme@merlin.infradead.org; Mon, 29 Jun 2020 19:40:07 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=L49detOHIFMZBv2u/yvsEnOxSRyecAx0WO9o6Vj19Gg=; b=q7gNkxTFXcVg1yAszGSmCkxQn7
- lXicqScm59nuMxQ/ket+RyBDVPYFZwPUBL8QbJkzYRiKnTqCC6BuV1tUIU5COa5jmZiGdCUCWXpMp
- qsOeAUK20gnONWIkR6FbtECLvtbiacCGqWKlW84S5AP+AwyjFIMCGWsymdUi0+5ChWpPvdQiwJjIZ
- 3oh0r0bodWKyzTs51cS64yOUl9zpt0qof+j90crbOMYxdemomtLNgY1GUbSTiVxcX/42cdOE83NWn
- qav4MIBz4IJSXFI5QrsdFWfKh+4UTQlX3RxOZNnXKcq0hLgWeKZauyWbFPRzhIZm8VTafcbr2+SfT
- wcM8i5Wg==;
+ bh=KKN2Rzx949H+NoG0kbydbtU4p/7MhBgkwEQu/fGRZVo=; b=oq4DxXRygnkoBpVqu4ShnFx67a
+ pJSZTPl/8bQB6t5SbLzEq7GEtk7yVppnDQoMDkwlIASlkU5Gv3TVvPrB44rfw3eqnI/6/46THwVdz
+ bpj2LW1dF9GjmaqLsSZnWCGOiWCgne+0b3/wk5CW3PxduJhQZcvYQZkZnB44cjXI3RV8EqpdASKu/
+ RkLdLy683AjRfxZt01zPKBwDhf+S1bMB3O91CxDduFf+rpctsL9V3FYWiqw0E6KmkpHgdogcoq/bv
+ FM6mYXGlxSu8Yj3wFLmkB7cMQ6vzzc2fkWPIa1S/y8ELqgdqrW/IuX4PrQsWtaDG8vRqd88y0uRuj
+ 7Jl9LgYQ==;
 Received: from [2001:4bb8:184:76e3:fcca:c8dc:a4bf:12fa] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jpzdM-0004Ji-Pl; Mon, 29 Jun 2020 19:40:05 +0000
+ id 1jpzdN-0004Ju-WF; Mon, 29 Jun 2020 19:40:06 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH 09/20] bcache: stop setting ->queuedata
-Date: Mon, 29 Jun 2020 21:39:36 +0200
-Message-Id: <20200629193947.2705954-10-hch@lst.de>
+Subject: [PATCH 10/20] dm: stop using ->queuedata
+Date: Mon, 29 Jun 2020 21:39:37 +0200
+Message-Id: <20200629193947.2705954-11-hch@lst.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200629193947.2705954-1-hch@lst.de>
 References: <20200629193947.2705954-1-hch@lst.de>
@@ -84,25 +84,35 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Nothing in bcache actually uses the ->queuedata field.
+Instead of setting up the queuedata as well just use one private data
+field.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/md/bcache/super.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/md/dm.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/md/bcache/super.c b/drivers/md/bcache/super.c
-index 2014016f9a60d3..21aa168113d30b 100644
---- a/drivers/md/bcache/super.c
-+++ b/drivers/md/bcache/super.c
-@@ -876,7 +876,6 @@ static int bcache_device_init(struct bcache_device *d, unsigned int block_size,
- 		return -ENOMEM;
+diff --git a/drivers/md/dm.c b/drivers/md/dm.c
+index e44473fe0f4873..c8d91f271c272e 100644
+--- a/drivers/md/dm.c
++++ b/drivers/md/dm.c
+@@ -1789,7 +1789,7 @@ static blk_qc_t dm_process_bio(struct mapped_device *md,
  
- 	d->disk->queue			= q;
--	q->queuedata			= d;
- 	q->backing_dev_info->congested_data = d;
- 	q->limits.max_hw_sectors	= UINT_MAX;
- 	q->limits.max_sectors		= UINT_MAX;
+ static blk_qc_t dm_make_request(struct request_queue *q, struct bio *bio)
+ {
+-	struct mapped_device *md = q->queuedata;
++	struct mapped_device *md = bio->bi_disk->private_data;
+ 	blk_qc_t ret = BLK_QC_T_NONE;
+ 	int srcu_idx;
+ 	struct dm_table *map;
+@@ -1995,7 +1995,6 @@ static struct mapped_device *alloc_dev(int minor)
+ 	md->queue = blk_alloc_queue(dm_make_request, numa_node_id);
+ 	if (!md->queue)
+ 		goto bad;
+-	md->queue->queuedata = md;
+ 
+ 	md->disk = alloc_disk_node(1, md->numa_node_id);
+ 	if (!md->disk)
 -- 
 2.26.2
 
