@@ -2,83 +2,65 @@ Return-Path: <SRS0=U6YU=AK=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 816DEC433E0
-	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2020 10:00:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6EEEC433E0
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2020 10:59:57 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4FE9D23750
-	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2020 10:00:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A046223A02
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2020 10:59:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="FBtaEDFA";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VM8Qxvoy"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4FE9D23750
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="bAct1W/4";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="VRN5i4Wd"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A046223A02
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=lMZDvI5rkkh8L/1tSwxxCSSWO9RtLv1wDM8zjSRvF0Y=; b=FBtaEDFAi/K0TgDPk8Db5ASf9
-	OZLHdT4G3OoyjI0Qr0EFIcNFAElcHPhXnDr0127D9N4OsON2kiN/liyidfI1lTAeedCG/8L2LPZKv
-	Dn0YU1g0BrbgQCNPL3HAlxJUIanqWnGJ2a/b/cxwy5P1dBLpNfp9Zx3bcjxv6hUwNdhNCstH+uTKC
-	y85qdqHvq1PkPqYaq0jnoos8ARHub6ILXl19DOi4w18nW8xgcsUXioQIs/xPy17TSdpXPDeICYmD6
-	uzc0rSNZIDFMBPR9OE3iqEd26+uH7eZFd14rnAq2+020g0W5y69hc1/v3KZiaGx4j9KLnVGdTlrph
-	CUlWMmQAA==;
+	 bh=/ZvXE/6v6+RN4sdw1mzx6GkiiMP6hYewNvxzMzv28bM=; b=bAct1W/4qRRhPp24b4RMrl9eG
+	UlA+G+85j9dbkqM1H+B7hIx1URbSFTquoBbtxUGKJUnQhaqZ72EebM6oPAyLCH+1SJRLPTO+4VKYH
+	wsZrK9lxyjHUAkVUpi/4ANW4sXmqHwvUvWB5GtbCsi0OqO/eKWXvMjo51+kf95EUVGdda92lK5hPm
+	pd5YgIBGDED2sqQvILQWgmdIeuW0DKdnnpmrup/cUwfshhfUBVMJeKrpVKFBMU0DlVMdaKGcWKw6Q
+	ZiAclI4TgIQyRg6iQzWd+7PUkFkbreL51a/Wl3npW8FEDU0nMtx6DcTciZipGamuQx78LlaYtZLSR
+	KPg6bMXqg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jpqaG-0003GT-47; Mon, 29 Jun 2020 10:00:16 +0000
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]
- helo=us-smtp-delivery-1.mimecast.com)
+	id 1jprVw-0002MK-H8; Mon, 29 Jun 2020 10:59:52 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jpqaD-0003Ft-86
- for linux-nvme@lists.infradead.org; Mon, 29 Jun 2020 10:00:14 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593424812;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mGr8qTtPXpxdp/5ZRpAT+8RS+gHomXGsYG9BIMlD7DQ=;
- b=VM8QxvoyMs4CnFqxVERV+KvwPS4LzI5ZgZqfGDwLRpkaAITZb0US+tuc8Z+uukj3R9m3FF
- VMtKqK6PZXOpCpnGkZG3dvfMk1m/OokcAsO9azj1YwaNBwjzSepdUCbBs1D2pAjEgfomJv
- lI0sTEeuE9hFXZe3BsWc3QdrAy3qMX8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-404-1VEmKfAjPDWRVoDO8o1MdQ-1; Mon, 29 Jun 2020 06:00:07 -0400
-X-MC-Unique: 1VEmKfAjPDWRVoDO8o1MdQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ id 1jprVt-0002Lv-QA
+ for linux-nvme@lists.infradead.org; Mon, 29 Jun 2020 10:59:50 +0000
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+ [83.86.89.107])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD68F1005512;
- Mon, 29 Jun 2020 10:00:06 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-12-123.pek2.redhat.com
- [10.72.12.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9321510013DB;
- Mon, 29 Jun 2020 10:00:05 +0000 (UTC)
-Subject: Re: blktests nvme/004 failed on linux-stable 5.7.y
-To: Christoph Hellwig <hch@infradead.org>
-References: <1517012281.32343351.1593228195746.JavaMail.zimbra@redhat.com>
- <1528690896.32343478.1593229315244.JavaMail.zimbra@redhat.com>
- <20200627065215.GB20157@infradead.org>
-From: Yi Zhang <yi.zhang@redhat.com>
-Message-ID: <eb521be2-6007-dc69-cb73-62106040fe05@redhat.com>
-Date: Mon, 29 Jun 2020 18:00:01 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ by mail.kernel.org (Postfix) with ESMTPSA id 51CAA239EE;
+ Mon, 29 Jun 2020 10:59:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1593428388;
+ bh=HCf1PDcazJNTYh4cWiI0TA+wRLYx2zOnUVW+p6mgCwo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=VRN5i4WdBKUaSMoop/hlajMSmJgAJZNr/jl3HvwBcyBg9DilCEaQdh9fZmgU2+CPK
+ hKEIeoFT87RepeBJHlzvRrmxd/da6nWSNaQtg0ktUCqN/g8iNMjzdZE5xsXhwp/Yxn
+ NpPupo37Hyu1L6DqLfAUhWr18L+3kX4TKdSOPcsI=
+Date: Mon, 29 Jun 2020 12:59:39 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Yi Zhang <yi.zhang@redhat.com>
+Subject: Re: regression: blktests nvme/004 failed on linux-stable 5.7.y
+Message-ID: <20200629105939.GA3362395@kroah.com>
+References: <1528690896.32343478.1593229315244.JavaMail.zimbra@redhat.com>
+ <1015661434.32401219.1593424943236.JavaMail.zimbra@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200627065215.GB20157@infradead.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
+In-Reply-To: <1015661434.32401219.1593424943236.JavaMail.zimbra@redhat.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,37 +72,35 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-nvme@lists.infradead.org
+Cc: stable@vger.kernel.org, chaitanya.kulkarni@wdc.com,
+ linux-nvme@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-There are other dependency patch for it, will cc stable maintainer to 
-figure out the backport, thanks Christoph.
+On Mon, Jun 29, 2020 at 06:02:23AM -0400, Yi Zhang wrote:
+> Hello
+> 
+> commit[1] introduced regression that will lead blktest nvme/004 failed on v5.7.5, and commits [2] fixed this issue on latest linux tree.
+> But commit[2] cannot be directly applied to stable tree due to dependceny[3], could you help backport the fix and dependency to stable tree, thanks.
+> 
+> 
+> [1]
+> 64f5e9cdd711 nvmet: fix memory leak when removing namespaces and controllers concurrently
+> 
+> [2]
+> 819f7b88b48f nvmet: fail outstanding host posted AEN req
+> 
+> [3]
+> 1cdf9f7670a7 nvmet: cleanups the loop in nvmet_async_events_process
+> 696ece751366 nvmet: add async event tracing support
 
-On 6/27/20 2:52 PM, Christoph Hellwig wrote:
-> On Fri, Jun 26, 2020 at 11:41:55PM -0400, Yi Zhang wrote:
->> Hello
->>
->> commit [1] introduced regression that will lead blktest nvme/004 failed, and commits [2] fixed this issue on latest linux tree.
->> linux-stable 5.7.y has [1] but still not pick up[2], does anyone know how to start the process to include [2] to linux-stable tree, thanks.
->>
->>
->> [1]
->> 64f5e9cdd711 nvmet: fix memory leak when removing namespaces and controllers concurrently
->>
->> [2]
->> 819f7b88b48f nvmet: fail outstanding host posted AEN req
->> 1cdf9f7670a7 nvmet: cleanups the loop in nvmet_async_events_process
-> You can always send backpors to the stable maintainer..
->
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
->
+Why is this last commit needed?
 
+The other ones are already queued up in the current queue, thanks.
+
+greg k-h
 
 _______________________________________________
 Linux-nvme mailing list
