@@ -4,20 +4,20 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA510C433DF
-	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2020 19:42:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 424E6C433DF
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2020 19:42:32 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6864420842
-	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2020 19:42:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D6ECF2082F
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2020 19:42:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="H5PUcblf";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="iqCpFcUP"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6864420842
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="avG6hex2";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ClUIhM5P"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D6ECF2082F
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,37 +26,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=AIaQ8Q1TruraGarXxkwqi4uodxcZbUO1NlA6gtKqCXI=; b=H5PUcblfDXVB9r/ktQy6+1PKl
-	Q6PTlSCoqnXRrcPjFGEDoTnVjTH79B7Zwp1ddHZdytYrPoM+fQkCeDlO2oGbYSFrXzRC7AzPR0r2z
-	+Wbb5goDwzDDZXSbf7GyDOqHFH9xSjWj4WuKRusGA9b0xZNOlKUSC/pC+aDKiDhIucbsBweddI6Ya
-	nocyjMvVIlZxqCHiQKIK0HehYhXy3lCDEMRSvxRF/OMQis/Q7VXJhzpKj69KQfdlyCao68POp34K+
-	eIpbLvpF7pgS3rIPViTfmXgXg+ERCB+wD8pP3fxws2lxhJ/pSz52TbuTEAQmHFoM9B3nSFKWXAeIo
-	lCTnFMAww==;
+	 bh=gQhryVvgpc+caOXRbK/K7nAXZhu1ubcb1PQhbMvRqHs=; b=avG6hex2/SyTlKqHIPecPVa8q
+	iG31FSpe9k/n0NTZfgfyLfN4v5VUqeuvOJptYmi6ZCdBBCXCLrrb1+Nesi25by1h4f7kkHTrcJ5iM
+	fMOajXHBBGJtt9Cdasm1fZK8hiJkAM7nDf/6fFdAe8u3SC4LjE5vdxnQQFXEmFHl6oCpYo1FnVjbY
+	QDXWWtTnkL/Iuq0kQ9oAksit+ppn5iGvt2yiQv1QWMALpUYE/ZbIBElHR9WFZTS45m03dlUqwnJpr
+	zbBTLlIKRv/xpHtOiql7tPrQtBZ90d4vv1QgKfTYsNr2KmgSh9PXasOt7Uf64bud1eqCEvvIOOELF
+	oe5hpi4Ww==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jpzfa-0004zY-Em; Mon, 29 Jun 2020 19:42:22 +0000
+	id 1jpzfg-00051t-Ks; Mon, 29 Jun 2020 19:42:28 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jpzdn-000490-4j
- for linux-nvme@merlin.infradead.org; Mon, 29 Jun 2020 19:40:31 +0000
+ id 1jpzdp-0004A7-7Q
+ for linux-nvme@merlin.infradead.org; Mon, 29 Jun 2020 19:40:33 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=k0UqCYguWovFmFEFba5t9PR/0pWK66pXhP3lJia2sr8=; b=iqCpFcUPe8uei0OvFPbjhSxNTT
- c1T6pmYkN8tfj+ZDdjMEXdvIQY7vFCt5slbgsQaKXdo4Kd1gyEg5KFiod7RzsTbOUDePryBejrS+b
- XXFEFR2tyS//dL6Q+58ug6ZB4kvQM0tpJCgXZE/b4COS7LM1KdTQtkcs47fw/V5vIcOdi8w3PIFn6
- izjNKAU43WkDRSoTNfw9en7oWoxgTehMQFpejfnf1wYGPTm70qVHrpZDu9/oE/tePQHfByzG2Fs7z
- mEAYLXz11QRgrumVZmGDa4vtwloca46yusBAa9FT9yxLk6mDaGC/rhZk+gxIjbtgIQ6ZlpbqB1mfC
- lQc4VBXQ==;
+ bh=+VUsfxrjDzYG99zFj0wkRp/eNVFFwqpSgTudJApaDRc=; b=ClUIhM5P87fWnhwG77qgv4ShjY
+ DPdnO0m4b9MJ04nN4PqcbgI0z5SMxykwgpOVMEcT/XLrgTjSoYwjFRVP06FH1yuM/uIfExa6QQWwY
+ TQT6gkp11h03zqvfmWXNVCto7YurF9/Uh2Hd2KxOXwdmmM+i9XbPkIyYkUkRYpkL3ZAN8ZpsQyn/C
+ I4zB805yEcbYIgxQtYH5hZNqLK7OYOBdn+9jy+pDoAUgHxN3V4miNikHoirBFpOL5dCLn6nb/+L+G
+ 2Pjw4B+QypXWc4s9A5PbOHPIJwjWWl86mWmyIDuqSxeKvB8P01EbSaLvMNZf10ps9jlCd1W7PjTRN
+ hzGI6NLg==;
 Received: from [2001:4bb8:184:76e3:fcca:c8dc:a4bf:12fa] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jpzdk-0004P4-3Q; Mon, 29 Jun 2020 19:40:28 +0000
+ id 1jpzdm-0004Pf-Ph; Mon, 29 Jun 2020 19:40:31 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH 19/20] block: shortcut __submit_bio_noacct for blk-mq drivers
-Date: Mon, 29 Jun 2020 21:39:46 +0200
-Message-Id: <20200629193947.2705954-20-hch@lst.de>
+Subject: [PATCH 20/20] block: remove direct_make_request
+Date: Mon, 29 Jun 2020 21:39:47 +0200
+Message-Id: <20200629193947.2705954-21-hch@lst.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200629193947.2705954-1-hch@lst.de>
 References: <20200629193947.2705954-1-hch@lst.de>
@@ -84,97 +84,97 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-For blk-mq drivers bios can only be inserted for the same queue.  So
-bypass the complicated sorting logic in __submit_bio_noacct with
-a blk-mq simpler submission helper.
+Now that submit_bio_noacct has a decent blk-mq fast path there is no
+more need for this bypass.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- block/blk-core.c | 50 +++++++++++++++++++++++++++++++++---------------
- 1 file changed, 35 insertions(+), 15 deletions(-)
+ block/blk-core.c              | 28 ----------------------------
+ drivers/md/dm.c               |  5 +----
+ drivers/nvme/host/multipath.c |  2 +-
+ include/linux/blkdev.h        |  1 -
+ 4 files changed, 2 insertions(+), 34 deletions(-)
 
 diff --git a/block/blk-core.c b/block/blk-core.c
-index b82f48c86e6f7a..46e3c0a37cc377 100644
+index 46e3c0a37cc377..f127d83c4fafa5 100644
 --- a/block/blk-core.c
 +++ b/block/blk-core.c
-@@ -1071,20 +1071,6 @@ static noinline_for_stack bool submit_bio_checks(struct bio *bio)
- 	return false;
- }
- 
--static blk_qc_t do_make_request(struct bio *bio)
--{
--	struct gendisk *disk = bio->bi_disk;
--	blk_qc_t ret = BLK_QC_T_NONE;
--
--	if (blk_crypto_bio_prep(&bio)) {
--		if (!disk->fops->submit_bio)
--			return blk_mq_submit_bio(bio);
--		ret = disk->fops->submit_bio(bio);
--	}
--	blk_queue_exit(disk->queue);
--	return ret;
--}
--
- /*
-  * The loop in this function may be a bit non-obvious, and so deserves some
-  * explanation:
-@@ -1127,7 +1113,11 @@ static blk_qc_t __submit_bio_noacct(struct bio *bio)
- 		bio_list_on_stack[1] = bio_list_on_stack[0];
- 		bio_list_init(&bio_list_on_stack[0]);
- 
--		ret = do_make_request(bio);
-+		if (blk_crypto_bio_prep(&bio))
-+			ret = bio->bi_disk->fops->submit_bio(bio);
-+		else
-+			ret = BLK_QC_T_NONE;
-+		blk_queue_exit(q);
- 
- 		/*
- 		 * Sort new bios into those for a lower level and those for the
-@@ -1153,6 +1143,34 @@ static blk_qc_t __submit_bio_noacct(struct bio *bio)
- 	return ret;
- }
- 
-+static blk_qc_t __submit_bio_noacct_mq(struct bio *bio)
-+{
-+	struct gendisk *disk = bio->bi_disk;
-+	struct bio_list bio_list;
-+	blk_qc_t ret = BLK_QC_T_NONE;
-+
-+	bio_list_init(&bio_list);
-+	current->bio_list = &bio_list;
-+
-+	do {
-+		WARN_ON_ONCE(bio->bi_disk != disk);
-+
-+		if (unlikely(bio_queue_enter(bio) != 0))
-+			continue;
-+
-+		if (!blk_crypto_bio_prep(&bio)) {
-+			blk_queue_exit(disk->queue);
-+			ret = BLK_QC_T_NONE;
-+			continue;
-+		}
-+
-+		ret = blk_mq_submit_bio(bio);
-+	} while ((bio = bio_list_pop(&bio_list)));
-+
-+	current->bio_list = NULL;
-+	return ret;
-+}
-+
- /**
-  * submit_bio_noacct - re-submit a bio to the block device layer for I/O
-  * @bio:  The bio describing the location in memory and on the device.
-@@ -1182,6 +1200,8 @@ blk_qc_t submit_bio_noacct(struct bio *bio)
- 		return BLK_QC_T_NONE;
- 	}
- 
-+	if (bio->bi_disk->queue->mq_ops)
-+		return __submit_bio_noacct_mq(bio);
- 	return __submit_bio_noacct(bio);
+@@ -1206,34 +1206,6 @@ blk_qc_t submit_bio_noacct(struct bio *bio)
  }
  EXPORT_SYMBOL(submit_bio_noacct);
+ 
+-/**
+- * direct_make_request - hand a buffer directly to its device driver for I/O
+- * @bio:  The bio describing the location in memory and on the device.
+- *
+- * This function behaves like submit_bio_noacct(), but does not protect
+- * against recursion.  Must only be used if the called driver is known
+- * to be blk-mq based.
+- */
+-blk_qc_t direct_make_request(struct bio *bio)
+-{
+-	struct gendisk *disk = bio->bi_disk;
+-
+-	if (WARN_ON_ONCE(!disk->queue->mq_ops)) {
+-		bio_io_error(bio);
+-		return BLK_QC_T_NONE;
+-	}
+-	if (!submit_bio_checks(bio))
+-		return BLK_QC_T_NONE;
+-	if (unlikely(bio_queue_enter(bio)))
+-		return BLK_QC_T_NONE;
+-	if (!blk_crypto_bio_prep(&bio)) {
+-		blk_queue_exit(disk->queue);
+-		return BLK_QC_T_NONE;
+-	}
+-	return blk_mq_submit_bio(bio);
+-}
+-EXPORT_SYMBOL_GPL(direct_make_request);
+-
+ /**
+  * submit_bio - submit a bio to the block device layer for I/O
+  * @bio: The &struct bio which describes the I/O
+diff --git a/drivers/md/dm.c b/drivers/md/dm.c
+index b32b539dbace56..2cb33896198c4c 100644
+--- a/drivers/md/dm.c
++++ b/drivers/md/dm.c
+@@ -1302,10 +1302,7 @@ static blk_qc_t __map_bio(struct dm_target_io *tio)
+ 		/* the bio has been remapped so dispatch it */
+ 		trace_block_bio_remap(clone->bi_disk->queue, clone,
+ 				      bio_dev(io->orig_bio), sector);
+-		if (md->type == DM_TYPE_NVME_BIO_BASED)
+-			ret = direct_make_request(clone);
+-		else
+-			ret = submit_bio_noacct(clone);
++		ret = submit_bio_noacct(clone);
+ 		break;
+ 	case DM_MAPIO_KILL:
+ 		free_tio(tio);
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index f07fa47c251d9d..a986ac52c4cc7f 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -314,7 +314,7 @@ blk_qc_t nvme_ns_head_submit_bio(struct bio *bio)
+ 		trace_block_bio_remap(bio->bi_disk->queue, bio,
+ 				      disk_devt(ns->head->disk),
+ 				      bio->bi_iter.bi_sector);
+-		ret = direct_make_request(bio);
++		ret = submit_bio_noacct(bio);
+ 	} else if (nvme_available_path(head)) {
+ 		dev_warn_ratelimited(dev, "no usable path - requeuing I/O\n");
+ 
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index b73cfa6a5141df..1cc913ffdbe21e 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -853,7 +853,6 @@ static inline void rq_flush_dcache_pages(struct request *rq)
+ extern int blk_register_queue(struct gendisk *disk);
+ extern void blk_unregister_queue(struct gendisk *disk);
+ blk_qc_t submit_bio_noacct(struct bio *bio);
+-extern blk_qc_t direct_make_request(struct bio *bio);
+ extern void blk_rq_init(struct request_queue *q, struct request *rq);
+ extern void blk_put_request(struct request *);
+ extern struct request *blk_get_request(struct request_queue *, unsigned int op,
 -- 
 2.26.2
 
