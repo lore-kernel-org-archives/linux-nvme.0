@@ -2,61 +2,136 @@ Return-Path: <SRS0=U6YU=AK=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74B33C433E0
-	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2020 12:50:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14EDFC433DF
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2020 13:53:39 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4007823B23
-	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2020 12:50:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id D54342333F
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jun 2020 13:53:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="UIe9sURl"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4007823B23
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.alibaba.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="eipoA5R7";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="F3NPVGnE";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="YVFSgIO/"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D54342333F
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:Reply-To:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=e7LwwPQB1oO02U+3XSMUy+e/4v7J5b/d5fuDlf6sd28=; b=UIe9sURlnGJP28rzMoJLUTksG3
-	5jN/fL9pbOvv8VD2ovBFIZMqblzmBEzqXaKA/LZtdiUSmaykEs4vW/E+jzErnxQGKebFZdJMZjX0X
-	loHMLZK5mfrtPXhRP9LIEp64MhoZPgNYCAYW7mXdyd/vt45Vm8X56+4lFEg9bJBbBPITV7DVTcLGw
-	FSXumYiQ1UzbbrcMVv0w4NT134Rqb6ihZVu4/+CWXrEIuvJtEurPxddbdIcfgfO4o/0aFj9Ohe9Y7
-	Kj+igyNlqAncRMRRlY8tDXD22/uOTzvXFO39pIsMtIawrur5FwO8XItruB2VasG8JusWKjs78DrHh
-	LhYaEu2g==;
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:To:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	 bh=gmh1P+w6KfXeuP0s4V0Iax897JDdYgqYXpvr0zTatcU=; b=eipoA5R7BAAwCJjL4Dlh6sN0S
+	CuWiF56BVsFCrXsoFu/bCekoCCkYqkVYhJaCilbIm7fWsqCo7tAN0X50NIFnQSz6BAmpkts2BHU97
+	yh6Dvk+Wf0Cfy+4O4HP0kx4p4SoQMMCMbWNxu/BpqCjSJpsBBptX3ffSVRoSPoYACGNCYd5OFeH7e
+	GdOf2m61KPoaoybeBKtIJTQLZlnTuFdcewSYR1C3Z1KS4AkXGYLXaTyA/HJaI5bdBdqCeL7mqT05L
+	nGX8LvpTOPr9w4fnmIdLeMt/8t6DPMNZac8OBb43wDutVbBYwqJUxrQP+zZmtFQyMs4JPTs3J1rsp
+	70ZpzTUKw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jptEY-0002fI-Op; Mon, 29 Jun 2020 12:50:02 +0000
-Received: from out30-45.freemail.mail.aliyun.com ([115.124.30.45])
+	id 1jpuDz-00039N-Rd; Mon, 29 Jun 2020 13:53:31 +0000
+Received: from esa1.hgst.iphmx.com ([68.232.141.245])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jptEV-0002bi-Ax
- for linux-nvme@lists.infradead.org; Mon, 29 Jun 2020 12:50:00 +0000
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R301e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e01419;
- MF=baolin.wang@linux.alibaba.com; NM=1; PH=DS; RN=8; SR=0;
- TI=SMTPD_---0U126K8P_1593434992; 
-Received: from localhost(mailfrom:baolin.wang@linux.alibaba.com
- fp:SMTPD_---0U126K8P_1593434992) by smtp.aliyun-inc.com(127.0.0.1);
- Mon, 29 Jun 2020 20:49:52 +0800
-Date: Mon, 29 Jun 2020 20:49:52 +0800
-From: Baolin Wang <baolin.wang@linux.alibaba.com>
-To: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-Subject: Re: [RFC PATCH] nvme-pci: Move the sg table allocation/free into
- init/exit_request
-Message-ID: <20200629124952.GB31739@VM20190228-100.tbsite.net>
-References: <4eedad1efab91f4529de19e14ba374da405aea3f.1593340208.git.baolin.wang@linux.alibaba.com>
- <BYAPR04MB4965FD429BA4203694CB37DA86910@BYAPR04MB4965.namprd04.prod.outlook.com>
+ id 1jpuDv-00038x-5T
+ for linux-nvme@lists.infradead.org; Mon, 29 Jun 2020 13:53:28 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1593438807; x=1624974807;
+ h=from:to:cc:subject:date:message-id:references:
+ content-transfer-encoding:mime-version;
+ bh=IZpp5SvBxjixfkqcxgtpfz3adyziXKNwktTFRUBNZCo=;
+ b=F3NPVGnEyPjwQtUn2H1w4+sTtlBYkJ2uPY3llyJgjV7X8xIkBQYMBqOO
+ Nm7u+uN5aXEIfAPBymyPqq2E3kLxhIb62Z93tPDYoBSm/NqEj1rZgOpSB
+ ZGlqxBy8z3c0MIe9evhlia9jOW5ULyBvPEn2hZ/pQFLnTU/GX25xhLnNd
+ XNdhEunT/M1kI9U3zznVoYk3ZCWY+rv/yr6hIty1QmprLXZGWgj1A1kVd
+ VDBRxSqmari1O7ZJrn8N1/heJqapoVDEF78EEsqF8uabpzfrcpC2vEBrs
+ uJllcic7nSzJ23icuyNn4Yaq9qfn6uVAnTtItYlv1XMkhDOYO7tD5cx5x A==;
+IronPort-SDR: V31vVx+PxZOun4BdBqtANHXyE3W/ZR5sCh3obq6Mo7QKqjLwgRc07mxDbTf7qmVqr0KzUJkEXy
+ +VKigpUSekqd/RK5KMHwAN7q68xBxMQNfgWD6LNyI/v4EPT/2gNB63NYlHDWYMrPTAKf/4gD4B
+ oRC0ts+rWodNtdYfWm6GLE/4ONMGksUTlpD3wUCE86LkfQizAYhuixY5mPe4qV5KhgGElR8RlX
+ DPNEepJTxkPb+U1IPrxKxTHMJ4x3eqW45BZt8TxIqDS94oVYDTje+S+J2AFQGUX+7T1+lc7y3b
+ bqo=
+X-IronPort-AV: E=Sophos;i="5.75,294,1589212800"; d="scan'208";a="250415607"
+Received: from mail-mw2nam10lp2106.outbound.protection.outlook.com (HELO
+ NAM10-MW2-obe.outbound.protection.outlook.com) ([104.47.55.106])
+ by ob1.hgst.iphmx.com with ESMTP; 29 Jun 2020 21:53:23 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=c7W5r4yvCVMLHqvyx0wDJrH6eqjQBt2id+erS87KVuBZJes+Rwoos3h1nLJH/KceKh2OxwmVZoh52RJq/abeBy3u0MD5IoOFYDaN2pbhiie3XHd1CmkQxPPZ09lXkzMiroUruYFak5zrZzZOWDbJfp2XBfWkdgyV1Mo87rr8HaK7GUqGR903Ats6AcdAFNqyCtrdDJdp0P563xK1oINoJ7Cq3z+ErQazlg7Pf2AR0OGkPnFEkkjeQHZKv0Opvg/uJMgmPgMn6grPjFNEr+GSt0kMTT06V8kkzw+STNYsgL/e0mnxS5gn8GQeJ3Vcv9SLsZcvgs5AYkKtaDZiSsyutA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7erN7Uiqh60fF9za3HCuyaiDfcCoeDkuPpqMMjw9Mo0=;
+ b=c9ilmHHqzwD16TfhAEpPyTkr+x31ZaNZAwS+wjbbpAfUP69SrfT+4agdWE5SfGEfrd1L+sJboZX6QhjyLtuvK5QrWLH1TCZS7lNjwic66a+dsI6KAXRN1hJg9+TPAqwBj8oxpfbG6Co/fbyjIvhoCNKyvGptdMgvsWhzgGXOXISeFd0mvVyw0Qodch2+6rhP4DUayP4QbxeygkJzggLYeSkwqt4VgBtvTpjwel6+WwBH67GJAW6QPGEp4FV3Z/Kn7Eq4BhCvUGFgipGo1ly4B0Vz6VdiclVbFrkCzjgwpHpim57aoa48vvdOFJRoMZs3d9dW27whMOmAX237BYHnfw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7erN7Uiqh60fF9za3HCuyaiDfcCoeDkuPpqMMjw9Mo0=;
+ b=YVFSgIO/pFUSbx8nyazObQpoO94xPYr2JZtlj/7sy1XErOGkExouh/kKFW93jo0sMRZxuFvByOJB+uC8KXSmDmI38WOp8i8lPXVf6xoszw0TwqcCZG1QzViBFuM8u2EBKO3rd622reHz1AC3n3JYmd9x1oG/iEvb29tJd4sS+JY=
+Received: from SN4PR0401MB3598.namprd04.prod.outlook.com
+ (2603:10b6:803:47::21) by SN6PR04MB5117.namprd04.prod.outlook.com
+ (2603:10b6:805:93::31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.20; Mon, 29 Jun
+ 2020 13:53:21 +0000
+Received: from SN4PR0401MB3598.namprd04.prod.outlook.com
+ ([fe80::1447:186c:326e:30b2]) by SN4PR0401MB3598.namprd04.prod.outlook.com
+ ([fe80::1447:186c:326e:30b2%7]) with mapi id 15.20.3131.026; Mon, 29 Jun 2020
+ 13:53:21 +0000
+From: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
+To: Keith Busch <kbusch@kernel.org>, "linux-nvme@lists.infradead.org"
+ <linux-nvme@lists.infradead.org>, "hch@lst.de" <hch@lst.de>,
+ "sagi@grimberg.me" <sagi@grimberg.me>, "linux-block@vger.kernel.org"
+ <linux-block@vger.kernel.org>, "axboe@kernel.dk" <axboe@kernel.dk>
+Subject: Re: [PATCHv3 5/5] nvme: support for zoned namespaces
+Thread-Topic: [PATCHv3 5/5] nvme: support for zoned namespaces
+Thread-Index: AQHWSLHIJgF9UbkqjUq8YxPc9nylHA==
+Date: Mon, 29 Jun 2020 13:53:21 +0000
+Message-ID: <SN4PR0401MB3598D1D59478B8AEE270653F9B6E0@SN4PR0401MB3598.namprd04.prod.outlook.com>
+References: <20200622162530.1287650-1-kbusch@kernel.org>
+ <20200622162530.1287650-6-kbusch@kernel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=wdc.com;
+x-originating-ip: [2001:a62:1515:bd01:5d2:80d1:159b:260e]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: b40c9cf1-c610-4a47-3d09-08d81c33c908
+x-ms-traffictypediagnostic: SN6PR04MB5117:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <SN6PR04MB511774EBDAE2318F3D90452C9B6E0@SN6PR04MB5117.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:1227;
+x-forefront-prvs: 044968D9E1
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 1CllscQujVl+lkiuhUYyU5jV/Gw9J5c5v2o0rWhVHtC+tPTK/VXZ3JPXYShzwVoXqTV4JtMdMn3x0GG+E8rGqz2oDtfosxzmAkAcUVAz+Ft0oX4ORYEG+Qep2/sH7nKwI98q8SkEEiTjAOU9JN5mFo1l9cthBvd8lfqoJ7iwRAug4G0+UEw53Sk4qcJqnETAl7aqjGzXe/fEZh+eYCKUrZS7+JYBdWpqXYe045uJc4aRP820dqucoPROko/MKv7+s2bz/zwNcdSUe4l5wU+xTATOfU9YtB46ivBhRIiARHHzVAI32o7rNx+lnKiuD8Oz
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN4PR0401MB3598.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(136003)(396003)(39860400002)(366004)(376002)(346002)(66556008)(5660300002)(91956017)(558084003)(86362001)(71200400001)(55016002)(9686003)(186003)(4326008)(64756008)(2906002)(8676002)(316002)(478600001)(7696005)(52536014)(6506007)(66446008)(33656002)(66476007)(54906003)(8936002)(76116006)(53546011)(110136005)(66946007);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: VLmVEpX/h6qz4bUhbdkSmUgRWg2APZPc2quzBCskWAgyGg1DSuh+wAZtlyCx1iBlewL/xRAWyF72NIp/uNWvu7vHjxQ0uTKfU4HFxEypGUcp8A0YmM5vA/gcsLBa2br8dwF6q99BS1mA2CWZec/00BQg91LsX/RV5yTp0JLTWOcjZzZ8mx99f1D1JMVnXK0O9o7Z+uVRJ4hctfi/PncwxA9+U0CqwW2NocUaF/V0gN0xG+WofNIR79f/lrVRhxJmy57TXi+AkHHBtZm4uQhbTzI6zNUn1/+TFYnrq57xLWfx25oVD+9Cxw8o36U06vzhmGGMdRvdW1PBxbU7AM3JxtyhjIzO141VkhXzyiy8dowQG1YI9BNFpg7u1fyjpYMT8WNvO2SWacshvWRFjtWPUn4+7YTlfeMI4vfPnsH8z7ZZr6G9fW7udtRLrSYjySaxk98yueJeqHVRM79Wcwz/QcHCghs7Rq7jjKM4Out9DWJmR0NsAUhXn9yE+eowgv7Qrt8kazuXXyjpCuX8rPimzqwcvftKQLtODxTPqty5GmOuw2I+/6p7wljvZAER9rcJ
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <BYAPR04MB4965FD429BA4203694CB37DA86910@BYAPR04MB4965.namprd04.prod.outlook.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN4PR0401MB3598.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b40c9cf1-c610-4a47-3d09-08d81c33c908
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jun 2020 13:53:21.3765 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: k1Y0HbfzW5xyBZf3npdk17+XYFuuSyeq0+z7VuLLmUc3KMImZfKmu5llY4tID34uk0DQzAuqiRf/vAc1SZu75U0rL+6JpQKmbVQ2Ij5SCXQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR04MB5117
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,48 +143,22 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: Baolin Wang <baolin.wang@linux.alibaba.com>
-Cc: "sagi@grimberg.me" <sagi@grimberg.me>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "axboe@fb.com" <axboe@fb.com>,
- "baolin.wang7@gmail.com" <baolin.wang7@gmail.com>,
- "kbusch@kernel.org" <kbusch@kernel.org>, "hch@lst.de" <hch@lst.de>
+Cc: Niklas Cassel <Niklas.Cassel@wdc.com>,
+ Damien Le Moal <Damien.LeMoal@wdc.com>, Ajay Joshi <Ajay.Joshi@wdc.com>,
+ Keith Busch <Keith.Busch@wdc.com>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ Dmitry Fomichev <Dmitry.Fomichev@wdc.com>,
+ Aravind Ramesh <Aravind.Ramesh@wdc.com>, Hans Holmberg <Hans.Holmberg@wdc.com>,
+ Matias Bjorling <Matias.Bjorling@wdc.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Jun 28, 2020 at 09:55:12PM +0000, Chaitanya Kulkarni wrote:
-> On 6/28/20 3:44 AM, Baolin Wang wrote:
-> > Move the sg table allocation and free into the init_request() and
-> > exit_request(), instead of allocating sg table when queuing requests,
-> > which can benefit the IO performance.
-> > 
-> > Signed-off-by: Baolin Wang<baolin.wang@linux.alibaba.com>
-> 
-> The call to sg_init_table() uses blk_rq_nr_phys_segments in 
-> nvme_map_data() with this patch we are blindly allocating SG table with
-> NVME_MAX_SEGS, without any performance numbers it is hard to measure the 
-> impact.
+On 22/06/2020 18:25, Keith Busch wrote:
+> +			le_to_cpu16(id->zoc), ns->head->ns_id);
 
-Not true, the original code also will allocate sg table with NVME_MAX_SEGS
-if the request contains multiple segments, I just move the sg table allocation
-to pre-allocate for each request, instead of allocating sg table when queuing
-requests. Obviously it will save some memory allocation time when the request
-contains seveval segments.
-
-> 
-> Can you share performance numbers ?
-> 
-> I'm particularly interested in for IOPS/BW/CPU/USAGE/Submission latency 
-> and completion latency and perf numbers for the respective function in 
-> to determine the overall impact.
-
-From my previous tests, I did not see obvious improvements, I think my
-test case always create one segment for each request though I set bs >
-4K. I can try to create special case to test multiple segments.
-But as Keith commented, he did not like this patch, so...
+That should probably be le16_to_cpu()
 
 _______________________________________________
 Linux-nvme mailing list
