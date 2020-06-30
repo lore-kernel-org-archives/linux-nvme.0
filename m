@@ -2,101 +2,93 @@ Return-Path: <SRS0=73dC=AL=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79AE2C433DF
-	for <linux-nvme@archiver.kernel.org>; Tue, 30 Jun 2020 15:37:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2842C433E0
+	for <linux-nvme@archiver.kernel.org>; Tue, 30 Jun 2020 15:43:46 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3825420675
-	for <linux-nvme@archiver.kernel.org>; Tue, 30 Jun 2020 15:37:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7EC2D2074F
+	for <linux-nvme@archiver.kernel.org>; Tue, 30 Jun 2020 15:43:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="O/+jyoar";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="cQcGYOV7"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3825420675
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="WhdHj1gF";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel-dk.20150623.gappssmtp.com header.i=@kernel-dk.20150623.gappssmtp.com header.b="GFGPy40K"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7EC2D2074F
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:To:References:Message-Id:Date:In-Reply-To:From:
-	Subject:Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:References:
+	To:From:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=yCeRpVVAJampl7X1cnDtshZOJwRDj0e/aH5vqm5n1ys=; b=O/+jyoaruRCGIP4T0diSIinzS
-	I811OKru4X5GSbYZD8OSh9PNvBrvqdTSyjcXFzmxZZeZlBVym9kusZ7dAERxVrA4usSCzhfvntHM5
-	l9JIap2Nrl+ps3QcEaVc4CjYO1hOVJ3uZF0ktiT6/bCMdfVhgan+ubQbzyHVkFuUyqEcW2HpPeOC6
-	rdBMXVMmoYC4262Djoz69TAFL5LbwWOiQWVDAQgiyfFzZsytpCDVgicUh8cUpmygpPIfoRRgmpXDy
-	wItUw9lI2faQuTcvDtszj+wMx/pVTIpU8hPFGDbKGWewnIeSk6l2+DPcyaW3jxRZDRNXHDiDvTVD7
-	8pSoHbvYA==;
+	 bh=VnvWGYmfFmvYGprH++IdJxLAAhPguKtyhY/7rV0YLq4=; b=WhdHj1gFCvW5yvN1sMgVy8sQb
+	iID5jie6xmOk/pDK7TDlktcnOS24geieV+7dmWALGqjvTFIkJVALmDG0HyekBhjPgceBmpsmn/cuO
+	J8AKyDwzBZa8UPxmCSBJh6A2piwQ+sRoKJqw+TerxCtgAytGTn5q8JyTMuP8GT9FlfS5mM860dNBQ
+	7t2giyHaaqGiHE8Vfw3S/FGtlWMjhVqixwGtjiOX7dub7aejr+4N7EQhRprT9pFxohD50SktZS+yM
+	mlVjtL+tnlpX0l/5NUYmhOL42XZuGRhlfaRQ+uwzFAbsjpwRVhcg0YW3indcM82+PztQsiU8UGUUK
+	tnZilISpg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jqIJk-0002kX-DX; Tue, 30 Jun 2020 15:37:04 +0000
-Received: from aserp2120.oracle.com ([141.146.126.78])
+	id 1jqIQC-0003yT-0G; Tue, 30 Jun 2020 15:43:44 +0000
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jqIJc-0002j4-L1
- for linux-nvme@lists.infradead.org; Tue, 30 Jun 2020 15:37:02 +0000
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05UFRH79011561;
- Tue, 30 Jun 2020 15:36:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=content-type :
- mime-version : subject : from : in-reply-to : date : cc :
- content-transfer-encoding : message-id : references : to;
- s=corp-2020-01-29; bh=WFrx2Ivk6GmRcmtEBd0GAKfNJC3MPi3NAx49ZLQn9kc=;
- b=cQcGYOV754m3QcdOVjp5z7XkyLgHdJ+bDGb/PP76Ves4+R4ZuU7Dki4PXpWdxckjefzH
- /CNhRfitGQHY5MajPx8cOjK0v2Vh9O6r4PJu3soSON5dDOLIlzEucvQpnxePfhfVWf1I
- pxjFO3BdS/hISDWTg9fApvxhG7VwcPB3RGqJgPqNAu42e8+kaoGCync843e03ujZhtWU
- B2zN8V+QGkD8DUoAqLhko0VpRxgqG0XTr3lbVl5wf1HFWZMhRHlcooADaAUZJkOYccT4
- VXcACvU+U3sjV/gng8NegQtvHVQR1azu2LoxnnWUqQDj3G4cWjd7/GOB7ntQbTEQGsEJ mQ== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by aserp2120.oracle.com with ESMTP id 31xx1dt50d-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 30 Jun 2020 15:36:51 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05UFNkw7051090;
- Tue, 30 Jun 2020 15:34:50 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3030.oracle.com with ESMTP id 31xg1wxurh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 30 Jun 2020 15:34:50 +0000
-Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 05UFYlab013120;
- Tue, 30 Jun 2020 15:34:48 GMT
-Received: from dhcp-10-154-182-99.vpn.oracle.com (/10.154.182.99)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 30 Jun 2020 15:34:47 +0000
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
-Subject: Re: [PATCHv4 2/5] null_blk: introduce zone capacity for zoned device
-From: Himanshu Madhani <himanshu.madhani@oracle.com>
-In-Reply-To: <20200629190641.1986462-3-kbusch@kernel.org>
-Date: Tue, 30 Jun 2020 10:34:46 -0500
-Message-Id: <B5094B73-43A2-491E-9DE9-931EFA3854B3@oracle.com>
-References: <20200629190641.1986462-1-kbusch@kernel.org>
- <20200629190641.1986462-3-kbusch@kernel.org>
-To: Keith Busch <kbusch@kernel.org>
-X-Mailer: Apple Mail (2.3608.80.23.2.2)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9667
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- spamscore=0 phishscore=0
- malwarescore=0 mlxlogscore=999 adultscore=0 mlxscore=0 suspectscore=3
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2006300112
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9667
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- clxscore=1011 adultscore=0
- suspectscore=3 mlxlogscore=999 cotscore=-2147483648 lowpriorityscore=0
- malwarescore=0 phishscore=0 impostorscore=0 mlxscore=0 spamscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2004280000 definitions=main-2006300112
+ id 1jqIQ3-0003vM-UH
+ for linux-nvme@lists.infradead.org; Tue, 30 Jun 2020 15:43:42 +0000
+Received: by mail-pg1-x542.google.com with SMTP id p3so10133054pgh.3
+ for <linux-nvme@lists.infradead.org>; Tue, 30 Jun 2020 08:43:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+ h=subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Czyj7qztvQ/ET90pA6Cgm802J9mg/c4CrHX1EyYszQQ=;
+ b=GFGPy40KuPsHkZUJdbeyZcQSvGfgs5FvnkigPPk9SV7CG59Zt39VKpM1zlVSVXoRDt
+ yCeVdinmT/3C3Jtmhrs/ytEmj7Wsnn2qAcbIAA0lgRJAkDSMH3qtVX2x5ups9P63e9d7
+ P9x2xILnsZVnyM3LolHHJ5MFrhP7fYB+ZvvgJsDeODXoJ2PGrPKhFRUVpy4BweeZ7T88
+ 7TInXYSLaUF36rQyQh/ug2yeZtWjhx06VQWrVd2dOvf947KJmX/LErgbh6FwQ3ULFM07
+ +NsZiEDxchja6NsLMdoWiv7fTvOttuxXSfOyaHVhHUidelj6tLF2XevCAgd1imXsny29
+ D7Hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Czyj7qztvQ/ET90pA6Cgm802J9mg/c4CrHX1EyYszQQ=;
+ b=jVLEhLYQ01B/UU6y16m2AnsBnuatzNPofrgpsy98OfEItDt0WAot6ecbIuarmDhqiH
+ qfmoRNTmITpAwikoeQ6GVZgR4I570hdDCVT4wrhs14o6G0jeWZZB9dQJnAEKKkfxGStk
+ ClWvlVSS4lGiAR4mVwZTcXnwGKiGdTYwEKILSH9LubZO/LWwhDip+SvN8a5HNNVfsfvD
+ B7Ja1T6WU6yzPab2xC56N6Or1U3oRrfZG3ah20MFa8YzDYyUtr6h1avTjdydcLnj9k8P
+ sno/j4i+WDLdHhDEPGaHkIUzTkPnRob6JGTpkxPLOUIBfFsRR6AYqZ5lW9ZLr3tkjhV6
+ Kowg==
+X-Gm-Message-State: AOAM5316Mx6n9zUwRBN8WDg9S+OIlc73JxbB5D7PuiK0JaTybN668y+R
+ bc+dxGFKrb2uGxCZ/xt7+HZWGw==
+X-Google-Smtp-Source: ABdhPJx6lEIGGyQAAazhh6sEGODM0EvGn2wcc8uAkFeSAVS9hqQhG93iUqi0nvo2CJcI+RwKQRfdOw==
+X-Received: by 2002:a65:5a0f:: with SMTP id y15mr15197406pgs.6.1593531813542; 
+ Tue, 30 Jun 2020 08:43:33 -0700 (PDT)
+Received: from ?IPv6:2605:e000:100e:8c61:4113:50ea:3eb3:a39b?
+ ([2605:e000:100e:8c61:4113:50ea:3eb3:a39b])
+ by smtp.gmail.com with ESMTPSA id w68sm3185027pff.191.2020.06.30.08.43.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 30 Jun 2020 08:43:32 -0700 (PDT)
+Subject: Re: rename ->make_request_fn and move it to the
+ block_device_operations
+From: Jens Axboe <axboe@kernel.dk>
+To: Christoph Hellwig <hch@lst.de>
+References: <20200629193947.2705954-1-hch@lst.de>
+ <bd1443c0-be37-115b-1110-df6f0e661a50@kernel.dk>
+Message-ID: <6ddbe343-0fc2-58c8-3726-c4ba9952994f@kernel.dk>
+Date: Tue, 30 Jun 2020 09:43:31 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+MIME-Version: 1.0
+In-Reply-To: <bd1443c0-be37-115b-1110-df6f0e661a50@kernel.dk>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200630_113656_873316_6F6459F6 
-X-CRM114-Status: GOOD (  27.40  )
+X-CRM114-CacheID: sfid-20200630_114336_057370_C15B93B6 
+X-CRM114-Status: GOOD (  13.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,122 +100,83 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: axboe@kernel.dk, sagi@grimberg.me,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
- Johannes Thumshirn <johannes.thumshirn@wdc.com>,
- Daniel Wagner <dwagner@suse.de>, Aravind Ramesh <aravind.ramesh@wdc.com>,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- Hannes Reinecke <hare@suse.de>,
- "Martin K . Petersen" <martin.petersen@oracle.com>, hch@lst.de,
- =?utf-8?Q?Matias_Bj=C3=B8rling?= <matias.bjorling@wdc.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-bcache@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+ linux-nvdimm@lists.01.org, linux-s390@vger.kernel.org, dm-devel@redhat.com,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-raid@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+ linuxppc-dev@lists.ozlabs.org, drbd-dev@lists.linbit.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Cgo+IE9uIEp1biAyOSwgMjAyMCwgYXQgMjowNiBQTSwgS2VpdGggQnVzY2ggPGtidXNjaEBrZXJu
-ZWwub3JnPiB3cm90ZToKPiAKPiBGcm9tOiBBcmF2aW5kIFJhbWVzaCA8YXJhdmluZC5yYW1lc2hA
-d2RjLmNvbT4KPiAKPiBBbGxvdyBlbXVsYXRpb24gb2YgYSB6b25lZCBkZXZpY2Ugd2l0aCBhIHBl
-ciB6b25lIGNhcGFjaXR5IHNtYWxsZXIgdGhhbgo+IHRoZSB6b25lIHNpemUgYXMgYXMgZGVmaW5l
-ZCBpbiB0aGUgWm9uZWQgTmFtZXNwYWNlIChaTlMpIENvbW1hbmQgU2V0Cj4gc3BlY2lmaWNhdGlv
-bi4gVGhlIHpvbmUgY2FwYWNpdHkgZGVmYXVsdHMgdG8gdGhlIHpvbmUgc2l6ZSBpZiBub3QKPiBz
-cGVjaWZpZWQgYW5kIG11c3QgYmUgc21hbGxlciB0aGFuIHRoZSB6b25lIHNpemUgb3RoZXJ3aXNl
-Lgo+IAo+IFJldmlld2VkLWJ5OiBDaGFpdGFueWEgS3Vsa2FybmkgPGNoYWl0YW55YS5rdWxrYXJu
-aUB3ZGMuY29tPgo+IFJldmlld2VkLWJ5OiBNYXRpYXMgQmrDuHJsaW5nIDxtYXRpYXMuYmpvcmxp
-bmdAd2RjLmNvbT4KPiBSZXZpZXdlZC1ieTogRGFuaWVsIFdhZ25lciA8ZHdhZ25lckBzdXNlLmRl
-Pgo+IFJldmlld2VkLWJ5OiBNYXJ0aW4gSy4gUGV0ZXJzZW4gPG1hcnRpbi5wZXRlcnNlbkBvcmFj
-bGUuY29tPgo+IFJldmlld2VkLWJ5OiBKb2hhbm5lcyBUaHVtc2hpcm4gPGpvaGFubmVzLnRodW1z
-aGlybkB3ZGMuY29tPgo+IFJldmlld2VkLWJ5OiBIYW5uZXMgUmVpbmVja2UgPGhhcmVAc3VzZS5k
-ZT4KPiBTaWduZWQtb2ZmLWJ5OiBBcmF2aW5kIFJhbWVzaCA8YXJhdmluZC5yYW1lc2hAd2RjLmNv
-bT4KPiAtLS0KPiBkcml2ZXJzL2Jsb2NrL251bGxfYmxrLmggICAgICAgfCAgMSArCj4gZHJpdmVy
-cy9ibG9jay9udWxsX2Jsa19tYWluLmMgIHwgMTAgKysrKysrKysrLQo+IGRyaXZlcnMvYmxvY2sv
-bnVsbF9ibGtfem9uZWQuYyB8IDE2ICsrKysrKysrKysrKysrLS0KPiAzIGZpbGVzIGNoYW5nZWQs
-IDI0IGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvYmxvY2svbnVsbF9ibGsuaCBiL2RyaXZlcnMvYmxvY2svbnVsbF9ibGsuaAo+IGluZGV4IDgx
-YjMxMWM5ZDc4MS4uZGFlZDRhOWMzNDM2IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvYmxvY2svbnVs
-bF9ibGsuaAo+ICsrKyBiL2RyaXZlcnMvYmxvY2svbnVsbF9ibGsuaAo+IEBAIC00OSw2ICs0OSw3
-IEBAIHN0cnVjdCBudWxsYl9kZXZpY2Ugewo+IAl1bnNpZ25lZCBsb25nIGNvbXBsZXRpb25fbnNl
-YzsgLyogdGltZSBpbiBucyB0byBjb21wbGV0ZSBhIHJlcXVlc3QgKi8KPiAJdW5zaWduZWQgbG9u
-ZyBjYWNoZV9zaXplOyAvKiBkaXNrIGNhY2hlIHNpemUgaW4gTUIgKi8KPiAJdW5zaWduZWQgbG9u
-ZyB6b25lX3NpemU7IC8qIHpvbmUgc2l6ZSBpbiBNQiBpZiBkZXZpY2UgaXMgem9uZWQgKi8KPiAr
-CXVuc2lnbmVkIGxvbmcgem9uZV9jYXBhY2l0eTsgLyogem9uZSBjYXBhY2l0eSBpbiBNQiBpZiBk
-ZXZpY2UgaXMgem9uZWQgKi8KPiAJdW5zaWduZWQgaW50IHpvbmVfbnJfY29udjsgLyogbnVtYmVy
-IG9mIGNvbnZlbnRpb25hbCB6b25lcyAqLwo+IAl1bnNpZ25lZCBpbnQgc3VibWl0X3F1ZXVlczsg
-LyogbnVtYmVyIG9mIHN1Ym1pc3Npb24gcXVldWVzICovCj4gCXVuc2lnbmVkIGludCBob21lX25v
-ZGU7IC8qIGhvbWUgbm9kZSBmb3IgdGhlIGRldmljZSAqLwo+IGRpZmYgLS1naXQgYS9kcml2ZXJz
-L2Jsb2NrL251bGxfYmxrX21haW4uYyBiL2RyaXZlcnMvYmxvY2svbnVsbF9ibGtfbWFpbi5jCj4g
-aW5kZXggODIyNTkyNDJiOWI1Li45NmQxYWRmNmI4MTggMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9i
-bG9jay9udWxsX2Jsa19tYWluLmMKPiArKysgYi9kcml2ZXJzL2Jsb2NrL251bGxfYmxrX21haW4u
-Ywo+IEBAIC0yMDAsNiArMjAwLDEwIEBAIHN0YXRpYyB1bnNpZ25lZCBsb25nIGdfem9uZV9zaXpl
-ID0gMjU2Owo+IG1vZHVsZV9wYXJhbV9uYW1lZCh6b25lX3NpemUsIGdfem9uZV9zaXplLCB1bG9u
-ZywgU19JUlVHTyk7Cj4gTU9EVUxFX1BBUk1fREVTQyh6b25lX3NpemUsICJab25lIHNpemUgaW4g
-TUIgd2hlbiBibG9jayBkZXZpY2UgaXMgem9uZWQuIE11c3QgYmUgcG93ZXItb2YtdHdvOiBEZWZh
-dWx0OiAyNTYiKTsKPiAKPiArc3RhdGljIHVuc2lnbmVkIGxvbmcgZ196b25lX2NhcGFjaXR5Owo+
-ICttb2R1bGVfcGFyYW1fbmFtZWQoem9uZV9jYXBhY2l0eSwgZ196b25lX2NhcGFjaXR5LCB1bG9u
-ZywgMDQ0NCk7Cj4gK01PRFVMRV9QQVJNX0RFU0Moem9uZV9jYXBhY2l0eSwgIlpvbmUgY2FwYWNp
-dHkgaW4gTUIgd2hlbiBibG9jayBkZXZpY2UgaXMgem9uZWQuIENhbiBiZSBsZXNzIHRoYW4gb3Ig
-ZXF1YWwgdG8gem9uZSBzaXplLiBEZWZhdWx0OiBab25lIHNpemUiKTsKPiArCj4gc3RhdGljIHVu
-c2lnbmVkIGludCBnX3pvbmVfbnJfY29udjsKPiBtb2R1bGVfcGFyYW1fbmFtZWQoem9uZV9ucl9j
-b252LCBnX3pvbmVfbnJfY29udiwgdWludCwgMDQ0NCk7Cj4gTU9EVUxFX1BBUk1fREVTQyh6b25l
-X25yX2NvbnYsICJOdW1iZXIgb2YgY29udmVudGlvbmFsIHpvbmVzIHdoZW4gYmxvY2sgZGV2aWNl
-IGlzIHpvbmVkLiBEZWZhdWx0OiAwIik7Cj4gQEAgLTM0MSw2ICszNDUsNyBAQCBOVUxMQl9ERVZJ
-Q0VfQVRUUihtYnBzLCB1aW50LCBOVUxMKTsKPiBOVUxMQl9ERVZJQ0VfQVRUUihjYWNoZV9zaXpl
-LCB1bG9uZywgTlVMTCk7Cj4gTlVMTEJfREVWSUNFX0FUVFIoem9uZWQsIGJvb2wsIE5VTEwpOwo+
-IE5VTExCX0RFVklDRV9BVFRSKHpvbmVfc2l6ZSwgdWxvbmcsIE5VTEwpOwo+ICtOVUxMQl9ERVZJ
-Q0VfQVRUUih6b25lX2NhcGFjaXR5LCB1bG9uZywgTlVMTCk7Cj4gTlVMTEJfREVWSUNFX0FUVFIo
-em9uZV9ucl9jb252LCB1aW50LCBOVUxMKTsKPiAKPiBzdGF0aWMgc3NpemVfdCBudWxsYl9kZXZp
-Y2VfcG93ZXJfc2hvdyhzdHJ1Y3QgY29uZmlnX2l0ZW0gKml0ZW0sIGNoYXIgKnBhZ2UpCj4gQEAg
-LTQ1Nyw2ICs0NjIsNyBAQCBzdGF0aWMgc3RydWN0IGNvbmZpZ2ZzX2F0dHJpYnV0ZSAqbnVsbGJf
-ZGV2aWNlX2F0dHJzW10gPSB7Cj4gCSZudWxsYl9kZXZpY2VfYXR0cl9iYWRibG9ja3MsCj4gCSZu
-dWxsYl9kZXZpY2VfYXR0cl96b25lZCwKPiAJJm51bGxiX2RldmljZV9hdHRyX3pvbmVfc2l6ZSwK
-PiArCSZudWxsYl9kZXZpY2VfYXR0cl96b25lX2NhcGFjaXR5LAo+IAkmbnVsbGJfZGV2aWNlX2F0
-dHJfem9uZV9ucl9jb252LAo+IAlOVUxMLAo+IH07Cj4gQEAgLTUxMCw3ICs1MTYsOCBAQCBudWxs
-Yl9ncm91cF9kcm9wX2l0ZW0oc3RydWN0IGNvbmZpZ19ncm91cCAqZ3JvdXAsIHN0cnVjdCBjb25m
-aWdfaXRlbSAqaXRlbSkKPiAKPiBzdGF0aWMgc3NpemVfdCBtZW1iX2dyb3VwX2ZlYXR1cmVzX3No
-b3coc3RydWN0IGNvbmZpZ19pdGVtICppdGVtLCBjaGFyICpwYWdlKQo+IHsKPiAtCXJldHVybiBz
-bnByaW50ZihwYWdlLCBQQUdFX1NJWkUsICJtZW1vcnlfYmFja2VkLGRpc2NhcmQsYmFuZHdpZHRo
-LGNhY2hlLGJhZGJsb2Nrcyx6b25lZCx6b25lX3NpemUsem9uZV9ucl9jb252XG4iKTsKPiArCXJl
-dHVybiBzbnByaW50ZihwYWdlLCBQQUdFX1NJWkUsCj4gKwkJCSJtZW1vcnlfYmFja2VkLGRpc2Nh
-cmQsYmFuZHdpZHRoLGNhY2hlLGJhZGJsb2Nrcyx6b25lZCx6b25lX3NpemUsem9uZV9jYXBhY2l0
-eSx6b25lX25yX2NvbnZcbiIpOwo+IH0KPiAKPiBDT05GSUdGU19BVFRSX1JPKG1lbWJfZ3JvdXBf
-LCBmZWF0dXJlcyk7Cj4gQEAgLTU3MSw2ICs1NzgsNyBAQCBzdGF0aWMgc3RydWN0IG51bGxiX2Rl
-dmljZSAqbnVsbF9hbGxvY19kZXYodm9pZCkKPiAJZGV2LT51c2VfcGVyX25vZGVfaGN0eCA9IGdf
-dXNlX3Blcl9ub2RlX2hjdHg7Cj4gCWRldi0+em9uZWQgPSBnX3pvbmVkOwo+IAlkZXYtPnpvbmVf
-c2l6ZSA9IGdfem9uZV9zaXplOwo+ICsJZGV2LT56b25lX2NhcGFjaXR5ID0gZ196b25lX2NhcGFj
-aXR5Owo+IAlkZXYtPnpvbmVfbnJfY29udiA9IGdfem9uZV9ucl9jb252Owo+IAlyZXR1cm4gZGV2
-Owo+IH0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ibG9jay9udWxsX2Jsa196b25lZC5jIGIvZHJp
-dmVycy9ibG9jay9udWxsX2Jsa196b25lZC5jCj4gaW5kZXggNjI0YWFjMDliMDA1Li4zZDI1Yzlh
-ZDIzODMgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ibG9jay9udWxsX2Jsa196b25lZC5jCj4gKysr
-IGIvZHJpdmVycy9ibG9jay9udWxsX2Jsa196b25lZC5jCj4gQEAgLTI4LDYgKzI4LDE1IEBAIGlu
-dCBudWxsX2luaXRfem9uZWRfZGV2KHN0cnVjdCBudWxsYl9kZXZpY2UgKmRldiwgc3RydWN0IHJl
-cXVlc3RfcXVldWUgKnEpCj4gCQlyZXR1cm4gLUVJTlZBTDsKPiAJfQo+IAo+ICsJaWYgKCFkZXYt
-PnpvbmVfY2FwYWNpdHkpCj4gKwkJZGV2LT56b25lX2NhcGFjaXR5ID0gZGV2LT56b25lX3NpemU7
-Cj4gKwo+ICsJaWYgKGRldi0+em9uZV9jYXBhY2l0eSA+IGRldi0+em9uZV9zaXplKSB7Cj4gKwkJ
-cHJfZXJyKCJudWxsX2Jsazogem9uZSBjYXBhY2l0eSAoJWx1IE1CKSBsYXJnZXIgdGhhbiB6b25l
-IHNpemUgKCVsdSBNQilcbiIsCj4gKwkJCQkJZGV2LT56b25lX2NhcGFjaXR5LCBkZXYtPnpvbmVf
-c2l6ZSk7Cj4gKwkJcmV0dXJuIC1FSU5WQUw7Cj4gKwl9Cj4gKwo+IAlkZXYtPnpvbmVfc2l6ZV9z
-ZWN0cyA9IGRldi0+em9uZV9zaXplIDw8IFpPTkVfU0laRV9TSElGVDsKPiAJZGV2LT5ucl96b25l
-cyA9IGRldl9zaXplID4+Cj4gCQkJCShTRUNUT1JfU0hJRlQgKyBpbG9nMihkZXYtPnpvbmVfc2l6
-ZV9zZWN0cykpOwo+IEBAIC02MCw3ICs2OSw3IEBAIGludCBudWxsX2luaXRfem9uZWRfZGV2KHN0
-cnVjdCBudWxsYl9kZXZpY2UgKmRldiwgc3RydWN0IHJlcXVlc3RfcXVldWUgKnEpCj4gCj4gCQl6
-b25lLT5zdGFydCA9IHpvbmUtPndwID0gc2VjdG9yOwo+IAkJem9uZS0+bGVuID0gZGV2LT56b25l
-X3NpemVfc2VjdHM7Cj4gLQkJem9uZS0+Y2FwYWNpdHkgPSB6b25lLT5sZW47Cj4gKwkJem9uZS0+
-Y2FwYWNpdHkgPSBkZXYtPnpvbmVfY2FwYWNpdHkgPDwgWk9ORV9TSVpFX1NISUZUOwo+IAkJem9u
-ZS0+dHlwZSA9IEJMS19aT05FX1RZUEVfU0VRV1JJVEVfUkVROwo+IAkJem9uZS0+Y29uZCA9IEJM
-S19aT05FX0NPTkRfRU1QVFk7Cj4gCj4gQEAgLTE4Nyw2ICsxOTYsOSBAQCBzdGF0aWMgYmxrX3N0
-YXR1c190IG51bGxfem9uZV93cml0ZShzdHJ1Y3QgbnVsbGJfY21kICpjbWQsIHNlY3Rvcl90IHNl
-Y3RvciwKPiAJCQlyZXR1cm4gQkxLX1NUU19JT0VSUjsKPiAJCX0KPiAKPiArCQlpZiAoem9uZS0+
-d3AgKyBucl9zZWN0b3JzID4gem9uZS0+c3RhcnQgKyB6b25lLT5jYXBhY2l0eSkKPiArCQkJcmV0
-dXJuIEJMS19TVFNfSU9FUlI7Cj4gKwo+IAkJaWYgKHpvbmUtPmNvbmQgIT0gQkxLX1pPTkVfQ09O
-RF9FWFBfT1BFTikKPiAJCQl6b25lLT5jb25kID0gQkxLX1pPTkVfQ09ORF9JTVBfT1BFTjsKPiAK
-PiBAQCAtMTk1LDcgKzIwNyw3IEBAIHN0YXRpYyBibGtfc3RhdHVzX3QgbnVsbF96b25lX3dyaXRl
-KHN0cnVjdCBudWxsYl9jbWQgKmNtZCwgc2VjdG9yX3Qgc2VjdG9yLAo+IAkJCXJldHVybiByZXQ7
-Cj4gCj4gCQl6b25lLT53cCArPSBucl9zZWN0b3JzOwo+IC0JCWlmICh6b25lLT53cCA9PSB6b25l
-LT5zdGFydCArIHpvbmUtPmxlbikKPiArCQlpZiAoem9uZS0+d3AgPT0gem9uZS0+c3RhcnQgKyB6
-b25lLT5jYXBhY2l0eSkKPiAJCQl6b25lLT5jb25kID0gQkxLX1pPTkVfQ09ORF9GVUxMOwo+IAkJ
-cmV0dXJuIEJMS19TVFNfT0s7Cj4gCWRlZmF1bHQ6Cj4g4oCUCj4gMi4yNC4xCj4gCgpSZXZpZXdl
-ZC1ieTogSGltYW5zaHUgTWFkaGFuaSA8aGltYW5zaHUubWFkaGFuaUBvcmFjbGUuY29tPgoKLS0K
-SGltYW5zaHUgTWFkaGFuaQlPcmFjbGUgTGludXggRW5naW5lZXJpbmcKCgoKCgoKX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgtbnZtZSBtYWlsaW5n
-IGxpc3QKTGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRl
-YWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
+On 6/30/20 7:57 AM, Jens Axboe wrote:
+> On 6/29/20 1:39 PM, Christoph Hellwig wrote:
+>> Hi Jens,
+>>
+>> this series moves the make_request_fn method into block_device_operations
+>> with the much more descriptive ->submit_bio name.  It then also gives
+>> generic_make_request a more descriptive name, and further optimize the
+>> path to issue to blk-mq, removing the need for the direct_make_request
+>> bypass.
+> 
+> Looks good to me, and it's a nice cleanup as well. Applied.
+
+Dropped, insta-crashes with dm:
+
+[   10.240134] BUG: kernel NULL pointer dereference, address: 0000000000000000
+[   10.241000] #PF: supervisor instruction fetch in kernel mode
+[   10.241666] #PF: error_code(0x0010) - not-present page
+[   10.242280] PGD 0 P4D 0 
+[   10.242600] Oops: 0010 [#1] PREEMPT SMP
+[   10.243073] CPU: 1 PID: 2110 Comm: systemd-udevd Not tainted 5.8.0-rc3+ #6655
+[   10.243939] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1ubuntu1 04/01/2014
+[   10.245012] RIP: 0010:0x0
+[   10.245322] Code: Bad RIP value.
+[   10.245695] RSP: 0018:ffffc900002f7af8 EFLAGS: 00010246
+[   10.246333] RAX: ffffffff81c83520 RBX: ffff8881b805dea8 RCX: ffff88819e844070
+[   10.247227] RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffff88819e844070
+[   10.248112] RBP: ffffc900002f7b48 R08: ffff8881b6f38800 R09: ffff88818ff0ea58
+[   10.248994] R10: 0000000000000000 R11: ffff88818ff0ea58 R12: ffff88819e844070
+[   10.250077] R13: 00000000ffffffff R14: 0000000000000000 R15: ffff888107812948
+[   10.251168] FS:  00007f5c3ed66a80(0000) GS:ffff8881b9c80000(0000) knlGS:0000000000000000
+[   10.252161] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   10.253189] CR2: ffffffffffffffd6 CR3: 00000001b2953003 CR4: 00000000001606e0
+[   10.254157] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[   10.255279] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+[   10.256365] Call Trace:
+[   10.256781]  submit_bio_noacct+0x1f6/0x3d0
+[   10.257297]  submit_bio+0x37/0x130
+[   10.257780]  ? guard_bio_eod+0x2e/0x70
+[   10.258418]  mpage_readahead+0x13c/0x180
+[   10.259096]  ? blkdev_direct_IO+0x490/0x490
+[   10.259654]  read_pages+0x68/0x2d0
+[   10.260051]  page_cache_readahead_unbounded+0x1b7/0x220
+[   10.260818]  generic_file_buffered_read+0x865/0xc80
+[   10.261587]  ? _copy_to_user+0x6d/0x80
+[   10.262171]  ? cp_new_stat+0x119/0x130
+[   10.262680]  new_sync_read+0xfe/0x170
+[   10.263155]  vfs_read+0xc8/0x180
+[   10.263647]  ksys_read+0x53/0xc0
+[   10.264209]  do_syscall_64+0x3c/0x70
+[   10.264759]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+[   10.265200] RIP: 0033:0x7f5c3fcc9ab2
+[   10.265510] Code: Bad RIP value.
+[   10.265775] RSP: 002b:00007ffc8e0cf9c8 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
+[   10.266426] RAX: ffffffffffffffda RBX: 000055d5eca76c68 RCX: 00007f5c3fcc9ab2
+[   10.267012] RDX: 0000000000000040 RSI: 000055d5eca76c78 RDI: 0000000000000006
+[   10.267591] RBP: 000055d5eca44890 R08: 000055d5eca76c50 R09: 00007f5c3fd99a40
+[   10.268168] R10: 0000000000000008 R11: 0000000000000246 R12: 000000003bd90000
+[   10.268744] R13: 0000000000000040 R14: 000055d5eca76c50 R15: 000055d5eca448e0
+[   10.269319] Modules linked in:
+[   10.269562] CR2: 0000000000000000
+[   10.269845] ---[ end trace f09b8963e5a3593b ]---
+
+-- 
+Jens Axboe
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
