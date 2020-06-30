@@ -4,61 +4,99 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6EC4C433DF
-	for <linux-nvme@archiver.kernel.org>; Tue, 30 Jun 2020 14:25:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A087C433DF
+	for <linux-nvme@archiver.kernel.org>; Tue, 30 Jun 2020 15:34:57 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 547A920672
-	for <linux-nvme@archiver.kernel.org>; Tue, 30 Jun 2020 14:25:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id EB7AB2074F
+	for <linux-nvme@archiver.kernel.org>; Tue, 30 Jun 2020 15:34:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="0XVt8GFS"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 547A920672
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kioxia.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="sp44OcKh";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Wypfa8AL"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EB7AB2074F
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=rj7Qhpbt2t2qpXTsFNhQplJRCC90hNWqVTa/9lM/5Z0=; b=0XVt8GFStnszwQ6Sg3MQuf8Z2i
-	q2+p1gX8X/8/i4A1hURqywVvtup7eB5y6FbggcP6oGX5uQCk6zjHqv7bhkRDVmu9fOhWExvVMWJrc
-	P/VM8sr+X6T5NylO6uLp+8qJCYDrQfbwkypaSqKl1duFuuezyDCqvTKRiD1EBmc/2oIPWt0TmyEWW
-	080syG//LHZys/5/EZvvhJ6ait5sXtLuws5Qubu9gNsWi4VX4V5plsrOYqykArCpQoFmggZrVtgw2
-	BHIwuadS7WedBV2YaY3dBJkjoPZS4dVKJrHsks8Cv43B9iHtVTU03PXh7l2EU7bnoodLrnuiUACuG
-	dbzwiwIA==;
+	List-Unsubscribe:List-Id:To:References:Message-Id:Date:In-Reply-To:From:
+	Subject:Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=7YA/r6QnSI8CX8kaqRSs/8XVsR8XyVcwsFADRR6SmDI=; b=sp44OcKhpg9fz0upIo7081pd6
+	c72RYgwPCeuXiwuD4jpGDULjZjbvgyM1fEALoSYo+BB97nqNQXjDyLi04eVNEsbT9WvcLnhfwRcAE
+	mH2Qp5fp3j/CMeAXLuU3P3ggmZs9UCskFPWOyxBM5HBLwLtbMZ/ESEdXkPX0joJM9COGgCiphjGCk
+	hD0KBsU2YtHi55OLBIFK/4+xXXbkAyhPVOf/oom3dyayXDMulrp2yAdEjRhvaj3o0QuCClcVI9qM+
+	67NEF9dinHGJYy90YK3e9Iq8m6dhlSpuPFdB72canXtc0R5sCuV2vZLibWO4w7rWwOtCdu92GEFBi
+	sWfwJ+7Qw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jqHC0-0003AU-U7; Tue, 30 Jun 2020 14:25:01 +0000
-Received: from usmailhost21.kioxia.com ([12.0.68.226]
- helo=SJSMAIL01.us.kioxia.com)
+	id 1jqIHY-0002SF-UM; Tue, 30 Jun 2020 15:34:48 +0000
+Received: from userp2130.oracle.com ([156.151.31.86])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jqHBv-00038R-PI
- for linux-nvme@lists.infradead.org; Tue, 30 Jun 2020 14:24:59 +0000
-Received: from SJSMAIL01.us.kioxia.com (10.90.133.90) by
- SJSMAIL01.us.kioxia.com (10.90.133.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1779.2; Tue, 30 Jun 2020 07:24:52 -0700
-Received: from SJSMAIL01.us.kioxia.com ([fe80::39f9:a76d:ffe7:907a]) by
- SJSMAIL01.us.kioxia.com ([fe80::39f9:a76d:ffe7:907a%3]) with mapi id
- 15.01.1779.004; Tue, 30 Jun 2020 07:24:52 -0700
-From: Victor Gladkov <Victor.Gladkov@kioxia.com>
-To: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: [PATCH v5] nvme-fabrics: reject I/O to offline device
-Thread-Topic: [PATCH v5] nvme-fabrics: reject I/O to offline device
-Thread-Index: AdZO51QUZ1UzrwgRQOiNPNcL4QrT+A==
-Date: Tue, 30 Jun 2020 14:24:52 +0000
-Message-ID: <cde32cd53001412889cea1e1fe28e7f7@kioxia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.93.66.127]
-MIME-Version: 1.0
+ id 1jqIHQ-0002R1-H1
+ for linux-nvme@lists.infradead.org; Tue, 30 Jun 2020 15:34:46 +0000
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05UFRIbx109591;
+ Tue, 30 Jun 2020 15:34:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=content-type :
+ mime-version : subject : from : in-reply-to : date : cc :
+ content-transfer-encoding : message-id : references : to;
+ s=corp-2020-01-29; bh=vd6uNjLFbYhcZn1EIjYn4Jt+bsag5IRWJKCrY9Q25BY=;
+ b=Wypfa8ALEiyFM/UodorZWPL6wt2hD9ysfy2PPhHYbp6nfvRCj5qc5BPUD3Fwa4jAEjDF
+ NgyMYX7Hh+8CYk63tJ8RmdbgreXYDzedNH+7lHtoSUAYnxV7obYR5GkJL5S5JtxYSdNg
+ 2nc83Okqs/+ormmAPEAZCe0MJExvB+FP2RnWiOjWt74ENZq8wbUhhkhJcTAny49d+QeJ
+ GcvYzfCzjI7c7AdXu/hNKznXfkBp9O5pqRXLW7VBWW5EltzJEU5/dFAgbA0yVAhBQK4A
+ p+OGdQqBCqiGp/LpTkfpoVD6KovqODa+JALW6j+PsMpjrjmHPP64I9hHUOtRhYLA18IG XA== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2130.oracle.com with ESMTP id 31ywrbkgyd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 30 Jun 2020 15:34:27 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05UFMfZY098421;
+ Tue, 30 Jun 2020 15:34:26 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by aserp3020.oracle.com with ESMTP id 31xg13pw3m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 30 Jun 2020 15:34:25 +0000
+Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 05UFYLG6009162;
+ Tue, 30 Jun 2020 15:34:21 GMT
+Received: from dhcp-10-154-182-99.vpn.oracle.com (/10.154.182.99)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 30 Jun 2020 15:34:20 +0000
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
+Subject: Re: [PATCHv4 1/5] block: add capacity field to zone descriptors
+From: Himanshu Madhani <himanshu.madhani@oracle.com>
+In-Reply-To: <20200629190641.1986462-2-kbusch@kernel.org>
+Date: Tue, 30 Jun 2020 10:34:18 -0500
+Message-Id: <3598CF55-095F-477C-BEE2-93F11FAF44BD@oracle.com>
+References: <20200629190641.1986462-1-kbusch@kernel.org>
+ <20200629190641.1986462-2-kbusch@kernel.org>
+To: Keith Busch <kbusch@kernel.org>
+X-Mailer: Apple Mail (2.3608.80.23.2.2)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9667
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ malwarescore=0
+ mlxlogscore=999 suspectscore=3 bulkscore=0 mlxscore=0 adultscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2004280000 definitions=main-2006300112
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9667
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ spamscore=0 mlxlogscore=999
+ clxscore=1011 cotscore=-2147483648 priorityscore=1501 lowpriorityscore=0
+ malwarescore=0 mlxscore=0 adultscore=0 suspectscore=3 impostorscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2004280000 definitions=main-2006300112
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20200630_113440_741199_BACCBD28 
+X-CRM114-Status: GOOD (  26.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,367 +108,97 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sagi Grimberg <sagi@grimberg.me>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: axboe@kernel.dk, sagi@grimberg.me,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
+ Johannes Thumshirn <johannes.thumshirn@wdc.com>,
+ Daniel Wagner <dwagner@suse.de>, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org, Hannes Reinecke <hare@suse.de>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ =?utf-8?Q?Javier_Gonz=C3=A1lez?= <javier.gonz@samsung.com>, hch@lst.de,
+ =?utf-8?Q?Matias_Bj=C3=B8rling?= <matias.bjorling@wdc.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Commands get stuck while Host NVMe controller (TCP or RDMA) is in
-reconnect state. NVMe controller enters into reconnect state when it
-loses connection with the target. It tries to reconnect every 10
-seconds (default) until successful reconnection or until reconnect
-time-out is reached. The default reconnect time out is 10 minutes.
-
-To fix this long delay due to the default timeout we introduce new
-session parameter "fast_io_fail_tmo". The timeout is measured in
-seconds from the controller reconnect, any command beyond that
-timeout is rejected. The new parameter value may be passed during
-'connect'.
-The default value of 0 means no timeout (similar to current behavior).
-
-We add a new controller NVME_CTRL_FAILFAST_EXPIRED and respective
-delayed work that updates the NVME_CTRL_FAILFAST_EXPIRED flag.
-
-When the controller is entering the CONNECTING state, we schedule
-the delayed_work based on failfast timeout value. If the transition
-is out of CONNECTING, terminate delayed work item and ensure
-failfast_expired is false. If delayed work item expires then set
-"NVME_CTRL_FAILFAST_EXPIRED" flag to true.
-
-We also update nvmf_fail_nonready_command() and
-nvme_available_path() functions with check the
-"NVME_CTRL_FAILFAST_EXPIRED" controller flag.
-
-Signed-off-by: Victor Gladkov <victor.gladkov at kioxia.com>
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-
----
-Changes From V4:
-
-1. Remove subsysnqn from dev_info just keep "failfast expired" 
-    in nvme_failfast_work().
-2. Remove excess lock in nvme_failfast_work().
-3. Change "timeout disabled" value to -1, '0' is to fail I/O right away now.
-4. Add "off" string for fast_io_fail_tmo option as a -1 equivalent.
-
-Changes From V3:
-
-1. BUG_FIX: Fix a bug in nvme_start_failfast_work() amd
-    nvme_stop_failfast_work() when accessing ctrl->opts as it will fail
-    for PCIe transport when is called nvme_change_ctrl_state()
-    from nvme_reset_work(), since we don't set the ctrl->opts for
-    PCIe transport.
-2. Line wrap in nvme_start_failfast_work(), nvme_parse_option() and
-    for macro NVMF_ALLOWED_OPTS definition.
-3. Just like all the state change code add a switch for newly
-    added state handling outside of the state machine in
-    nvme_state_change().
-4. nvme_available_path() add /* fallthru */ after if..break inside
-    switch which is under list_for_each_entry_rcu().
-5. Align newly added member nvmf_ctrl_options fast_io_fail_tmp.
-6. Fix the tabs before if in nvme_available_path() and line wrap
-    for the same.
-7. In nvme_failfast_work() use state != NVME_CTRL_CONNECTING
-    instead of == to get rid of the parentheses and avoid char > 80.
-8. Get rid of the ";" at the end of the comment for @fast_io_fail_tmp.
-9. Change the commit log style to match the one we have in the NVMe
-    repo.
-
-Changes from V2:
-
-1. Several coding style and small fixes.
-2. Fix the comment for NVMF_DEF_FAIL_FAST_TMO.
-3. Don't call functionality from the state machine.
-4. Rename fast_fail_tmo -> fast_io_fail_tmo to match SCSI
-    semantics.
-
-Changes from V1:
-
-1. Add a new session parameter called "fast_fail_tmo". The timeout
-    is measured in seconds from the controller reconnect, any command
-    beyond that timeout is rejected. The new parameter value may be
-    passed during 'connect', and its default value is 30 seconds.
-    A value of 0 means no timeout (similar to current behavior).
-2. Add a controller flag of "failfast_expired".
-3. Add dedicated delayed_work that update the "failfast_expired"
-    controller flag.
-4. When entering CONNECTING, schedule the delayed_work based on
-    failfast timeout value. If transition out of CONNECTING, terminate
-    delayed work item and ensure failfast_expired is false.
-    If delayed work item expires: set "failfast_expired" flag to true.
-5. Update nvmf_fail_nonready_command() with check the
-    "failfast_expired" controller flag.
-
-
----
- drivers/nvme/host/core.c      | 53 ++++++++++++++++++++++++++++++++++++++++++-
- drivers/nvme/host/fabrics.c   | 37 +++++++++++++++++++++++++++---
- drivers/nvme/host/fabrics.h   |  5 ++++
- drivers/nvme/host/multipath.c |  5 +++-
- drivers/nvme/host/nvme.h      |  3 +++
- 5 files changed, 98 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index f3c037f..5627f76 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -137,6 +137,41 @@ int nvme_try_sched_reset(struct nvme_ctrl *ctrl)
- }
- EXPORT_SYMBOL_GPL(nvme_try_sched_reset);
-
-+static void nvme_failfast_work(struct work_struct *work)
-+{
-+	struct nvme_ctrl *ctrl = container_of(to_delayed_work(work),
-+			struct nvme_ctrl, failfast_work);
-+
-+	if (ctrl->state != NVME_CTRL_CONNECTING)
-+		return;
-+
-+	set_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags);
-+	dev_info(ctrl->device, "failfast expired\n");
-+	nvme_kick_requeue_lists(ctrl);
-+}
-+
-+static inline void nvme_start_failfast_work(struct nvme_ctrl *ctrl)
-+{
-+	if (!ctrl->opts || ctrl->opts->fast_io_fail_tmo == -1)
-+		return;
-+
-+	if (ctrl->opts->fast_io_fail_tmo == 0) {
-+		nvme_failfast_work(&ctrl->failfast_work.work);
-+		return;
-+	}
-+
-+	schedule_delayed_work(&ctrl->failfast_work,
-+			      ctrl->opts->fast_io_fail_tmo * HZ);
-+}
-+
-+static inline void nvme_stop_failfast_work(struct nvme_ctrl *ctrl)
-+{
-+	if (!ctrl->opts || ctrl->opts->fast_io_fail_tmo == -1)
-+		return;
-+	cancel_delayed_work_sync(&ctrl->failfast_work);
-+	clear_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags);
-+}
-+
- int nvme_reset_ctrl(struct nvme_ctrl *ctrl)
- {
- 	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
-@@ -387,8 +422,21 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- 	}
-
- 	spin_unlock_irqrestore(&ctrl->lock, flags);
--	if (changed && ctrl->state == NVME_CTRL_LIVE)
-+	if (changed) {
-+		switch (ctrl->state) {
-+			case NVME_CTRL_LIVE:
-+				if (old_state == NVME_CTRL_CONNECTING)
-+					nvme_stop_failfast_work(ctrl);
- 				nvme_kick_requeue_lists(ctrl);
-+				break;
-+			case NVME_CTRL_CONNECTING:
-+				if (old_state == NVME_CTRL_RESETTING)
-+					nvme_start_failfast_work(ctrl);
-+				break;
-+			default:
-+				break;
-+		}
-+	}
- 	return changed;
- }
- EXPORT_SYMBOL_GPL(nvme_change_ctrl_state);
-@@ -4045,6 +4093,7 @@ void nvme_stop_ctrl(struct nvme_ctrl *ctrl)
- {
- 	nvme_mpath_stop(ctrl);
- 	nvme_stop_keep_alive(ctrl);
-+	nvme_stop_failfast_work(ctrl);
- 	flush_work(&ctrl->async_event_work);
- 	cancel_work_sync(&ctrl->fw_act_work);
- }
-@@ -4111,6 +4160,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	int ret;
-
- 	ctrl->state = NVME_CTRL_NEW;
-+	clear_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags);
- 	spin_lock_init(&ctrl->lock);
- 	mutex_init(&ctrl->scan_lock);
- 	INIT_LIST_HEAD(&ctrl->namespaces);
-@@ -4125,6 +4175,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	init_waitqueue_head(&ctrl->state_wq);
-
- 	INIT_DELAYED_WORK(&ctrl->ka_work, nvme_keep_alive_work);
-+	INIT_DELAYED_WORK(&ctrl->failfast_work, nvme_failfast_work);
- 	memset(&ctrl->ka_cmd, 0, sizeof(ctrl->ka_cmd));
- 	ctrl->ka_cmd.common.opcode = nvme_admin_keep_alive;
-
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 2a6c819..e44fdc4 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -549,6 +549,7 @@ blk_status_t nvmf_fail_nonready_command(struct nvme_ctrl *ctrl,
- {
- 	if (ctrl->state != NVME_CTRL_DELETING &&
- 	    ctrl->state != NVME_CTRL_DEAD &&
-+	    !test_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags) &&
- 	    !blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
- 		return BLK_STS_RESOURCE;
-
-@@ -612,6 +613,8 @@ bool __nvmf_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
- 	{ NVMF_OPT_NR_WRITE_QUEUES,	"nr_write_queues=%d"	},
- 	{ NVMF_OPT_NR_POLL_QUEUES,	"nr_poll_queues=%d"	},
- 	{ NVMF_OPT_TOS,			"tos=%d"		},
-+	{ NVMF_OPT_FAIL_FAST_TMO,	"fast_io_fail_tmo=%d"	},
-+	{ NVMF_OPT_FAIL_FAST_TMO,	"fast_io_fail_tmo=%s"	},
- 	{ NVMF_OPT_ERR,			NULL			}
- };
-
-@@ -631,6 +634,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 	opts->reconnect_delay = NVMF_DEF_RECONNECT_DELAY;
- 	opts->kato = NVME_DEFAULT_KATO;
- 	opts->duplicate_connect = false;
-+	opts->fast_io_fail_tmo = NVMF_DEF_FAIL_FAST_TMO;
- 	opts->hdr_digest = false;
- 	opts->data_digest = false;
- 	opts->tos = -1; /* < 0 == use transport default */
-@@ -751,6 +755,28 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 				pr_warn("ctrl_loss_tmo < 0 will reconnect forever\n");
- 			ctrl_loss_tmo = token;
- 			break;
-+		case NVMF_OPT_FAIL_FAST_TMO:
-+			if (match_int(args, &token)) {
-+				p = match_strdup(args);
-+				if (!p) {
-+					ret = -EINVAL;
-+					goto out;
-+				}
-+
-+				token = strcasecmp(p, "off") ? 0 : -1;
-+				kfree(p);
-+
-+				if (!token) {
-+					ret = -EINVAL;
-+					goto out;
-+				}
-+			}
-+
-+			if (token >= 0)
-+				pr_warn("I/O will fail on reconnect controller after"
-+					" %d sec\n", token);
-+			opts->fast_io_fail_tmo = token;
-+			break;
- 		case NVMF_OPT_HOSTNQN:
- 			if (opts->host) {
- 				pr_err("hostnqn already user-assigned: %s\n",
-@@ -881,11 +907,16 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 		opts->nr_poll_queues = 0;
- 		opts->duplicate_connect = true;
- 	}
--	if (ctrl_loss_tmo < 0)
-+	if (ctrl_loss_tmo < 0) {
- 		opts->max_reconnects = -1;
--	else
-+	} else {
- 		opts->max_reconnects = DIV_ROUND_UP(ctrl_loss_tmo,
- 						opts->reconnect_delay);
-+		if (ctrl_loss_tmo < opts->fast_io_fail_tmo)
-+			pr_warn("failfast tmo (%d) larger than controller "
-+				"loss tmo (%d)\n",
-+				opts->fast_io_fail_tmo, ctrl_loss_tmo);
-+	}
-
- 	if (!opts->host) {
- 		kref_get(&nvmf_default_host->ref);
-@@ -985,7 +1016,7 @@ void nvmf_free_options(struct nvmf_ctrl_options *opts)
- #define NVMF_ALLOWED_OPTS	(NVMF_OPT_QUEUE_SIZE | NVMF_OPT_NR_IO_QUEUES | \
- 				 NVMF_OPT_KATO | NVMF_OPT_HOSTNQN | \
- 				 NVMF_OPT_HOST_ID | NVMF_OPT_DUP_CONNECT |\
--				 NVMF_OPT_DISABLE_SQFLOW)
-+				 NVMF_OPT_DISABLE_SQFLOW | NVMF_OPT_FAIL_FAST_TMO)
-
- static struct nvme_ctrl *
- nvmf_create_ctrl(struct device *dev, const char *buf)
-diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-index a0ec40a..05a1158 100644
---- a/drivers/nvme/host/fabrics.h
-+++ b/drivers/nvme/host/fabrics.h
-@@ -15,6 +15,8 @@
- #define NVMF_DEF_RECONNECT_DELAY	10
- /* default to 600 seconds of reconnect attempts before giving up */
- #define NVMF_DEF_CTRL_LOSS_TMO		600
-+/* default is -1: the fail fast mechanism is disable  */
-+#define NVMF_DEF_FAIL_FAST_TMO		-1
-
- /*
-  * Define a host as seen by the target.  We allocate one at boot, but also
-@@ -56,6 +58,7 @@ enum {
- 	NVMF_OPT_NR_WRITE_QUEUES = 1 << 17,
- 	NVMF_OPT_NR_POLL_QUEUES = 1 << 18,
- 	NVMF_OPT_TOS		= 1 << 19,
-+	NVMF_OPT_FAIL_FAST_TMO	= 1 << 20,
- };
-
- /**
-@@ -89,6 +92,7 @@ enum {
-  * @nr_write_queues: number of queues for write I/O
-  * @nr_poll_queues: number of queues for polling I/O
-  * @tos: type of service
-+ * @fast_io_fail_tmo: Fast I/O fail timeout in seconds
-  */
- struct nvmf_ctrl_options {
- 	unsigned		mask;
-@@ -111,6 +115,7 @@ struct nvmf_ctrl_options {
- 	unsigned int		nr_write_queues;
- 	unsigned int		nr_poll_queues;
- 	int			tos;
-+	int			fast_io_fail_tmo;
- };
-
- /*
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 54603bd..d8b7f45 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -278,9 +278,12 @@ static bool nvme_available_path(struct nvme_ns_head *head)
-
- 	list_for_each_entry_rcu(ns, &head->list, siblings) {
- 		switch (ns->ctrl->state) {
-+		case NVME_CTRL_CONNECTING:
-+			if (test_bit(NVME_CTRL_FAILFAST_EXPIRED,
-+				     &ns->ctrl->flags))
-+				break;
- 		case NVME_CTRL_LIVE:
- 		case NVME_CTRL_RESETTING:
--		case NVME_CTRL_CONNECTING:
- 			/* fallthru */
- 			return true;
- 		default:
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 2e04a36..9112886 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -256,6 +256,7 @@ struct nvme_ctrl {
- 	struct work_struct scan_work;
- 	struct work_struct async_event_work;
- 	struct delayed_work ka_work;
-+	struct delayed_work failfast_work;
- 	struct nvme_command ka_cmd;
- 	struct work_struct fw_act_work;
- 	unsigned long events;
-@@ -290,6 +291,8 @@ struct nvme_ctrl {
- 	u16 icdoff;
- 	u16 maxcmd;
- 	int nr_reconnects;
-+	unsigned long flags;
-+#define NVME_CTRL_FAILFAST_EXPIRED	0
- 	struct nvmf_ctrl_options *opts;
-
- 	struct page *discard_page;
---
-1.8.3.1
-
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+Cgo+IE9uIEp1biAyOSwgMjAyMCwgYXQgMjowNiBQTSwgS2VpdGggQnVzY2ggPGtidXNjaEBrZXJu
+ZWwub3JnPiB3cm90ZToKPiAKPiBGcm9tOiBNYXRpYXMgQmrDuHJsaW5nIDxtYXRpYXMuYmpvcmxp
+bmdAd2RjLmNvbT4KPiAKPiBJbiB0aGUgem9uZWQgc3RvcmFnZSBtb2RlbCwgdGhlIHNlY3RvcnMg
+d2l0aGluIGEgem9uZSBhcmUgdHlwaWNhbGx5IGFsbAo+IHdyaXRlYWJsZS4gV2l0aCB0aGUgaW50
+cm9kdWN0aW9uIG9mIHRoZSBab25lZCBOYW1lc3BhY2UgKFpOUykgQ29tbWFuZAo+IFNldCBpbiB0
+aGUgTlZNIEV4cHJlc3Mgb3JnYW5pemF0aW9uLCB0aGUgbW9kZWwgd2FzIGV4dGVuZGVkIHRvIGhh
+dmUgYQo+IHNwZWNpZmljIHdyaXRlYWJsZSBjYXBhY2l0eS4KPiAKPiBFeHRlbmQgdGhlIHpvbmUg
+ZGVzY3JpcHRvciBkYXRhIHN0cnVjdHVyZSB3aXRoIGEgem9uZSBjYXBhY2l0eSBmaWVsZCB0bwo+
+IGluZGljYXRlIHRvIHRoZSB1c2VyIGhvdyBtYW55IHNlY3RvcnMgaW4gYSB6b25lIGFyZSB3cml0
+ZWFibGUuCj4gCj4gSW50cm9kdWNlIGJhY2t3YXJkIGNvbXBhdGliaWxpdHkgaW4gdGhlIHpvbmUg
+cmVwb3J0IGlvY3RsIGJ5IGV4dGVuZGluZwo+IHRoZSB6b25lIHJlcG9ydCBoZWFkZXIgZGF0YSBz
+dHJ1Y3R1cmUgd2l0aCBhIGZsYWdzIGZpZWxkIHRvIGluZGljYXRlIGlmCj4gdGhlIGNhcGFjaXR5
+IGZpZWxkIGlzIGF2YWlsYWJsZS4KPiAKPiBSZXZpZXdlZC1ieTogSmVucyBBeGJvZSA8YXhib2VA
+a2VybmVsLmRrPgo+IFJldmlld2VkLWJ5OiBDaGFpdGFueWEgS3Vsa2FybmkgPGNoYWl0YW55YS5r
+dWxrYXJuaUB3ZGMuY29tPgo+IFJldmlld2VkLWJ5OiBKYXZpZXIgR29uesOhbGV6IDxqYXZpZXIu
+Z29uekBzYW1zdW5nLmNvbT4KPiBSZXZpZXdlZC1ieTogRGFuaWVsIFdhZ25lciA8ZHdhZ25lckBz
+dXNlLmRlPgo+IFJldmlld2VkLWJ5OiBKb2hhbm5lcyBUaHVtc2hpcm4gPGpvaGFubmVzLnRodW1z
+aGlybkB3ZGMuY29tPgo+IFJldmlld2VkLWJ5OiBNYXJ0aW4gSy4gUGV0ZXJzZW4gPG1hcnRpbi5w
+ZXRlcnNlbkBvcmFjbGUuY29tPgo+IFJldmlld2VkLWJ5OiBIYW5uZXMgUmVpbmVja2UgPGhhcmVA
+c3VzZS5kZT4KPiBTaWduZWQtb2ZmLWJ5OiBNYXRpYXMgQmrDuHJsaW5nIDxtYXRpYXMuYmpvcmxp
+bmdAd2RjLmNvbT4KPiAtLS0KPiBibG9jay9ibGstem9uZWQuYyAgICAgICAgICAgICAgfCAgMSAr
+Cj4gZHJpdmVycy9ibG9jay9udWxsX2Jsa196b25lZC5jIHwgIDIgKysKPiBkcml2ZXJzL3Njc2kv
+c2RfemJjLmMgICAgICAgICAgfCAgMSArCj4gaW5jbHVkZS91YXBpL2xpbnV4L2Jsa3pvbmVkLmgg
+IHwgMTUgKysrKysrKysrKysrKy0tCj4gNCBmaWxlcyBjaGFuZ2VkLCAxNyBpbnNlcnRpb25zKCsp
+LCAyIGRlbGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQgYS9ibG9jay9ibGstem9uZWQuYyBiL2Js
+b2NrL2Jsay16b25lZC5jCj4gaW5kZXggMjM4MzFmYTg3MDFkLi44MTE1MmEyNjAzNTQgMTAwNjQ0
+Cj4gLS0tIGEvYmxvY2svYmxrLXpvbmVkLmMKPiArKysgYi9ibG9jay9ibGstem9uZWQuYwo+IEBA
+IC0zMTIsNiArMzEyLDcgQEAgaW50IGJsa2Rldl9yZXBvcnRfem9uZXNfaW9jdGwoc3RydWN0IGJs
+b2NrX2RldmljZSAqYmRldiwgZm1vZGVfdCBtb2RlLAo+IAkJcmV0dXJuIHJldDsKPiAKPiAJcmVw
+Lm5yX3pvbmVzID0gcmV0Owo+ICsJcmVwLmZsYWdzID0gQkxLX1pPTkVfUkVQX0NBUEFDSVRZOwo+
+IAlpZiAoY29weV90b191c2VyKGFyZ3AsICZyZXAsIHNpemVvZihzdHJ1Y3QgYmxrX3pvbmVfcmVw
+b3J0KSkpCj4gCQlyZXR1cm4gLUVGQVVMVDsKPiAJcmV0dXJuIDA7Cj4gZGlmZiAtLWdpdCBhL2Ry
+aXZlcnMvYmxvY2svbnVsbF9ibGtfem9uZWQuYyBiL2RyaXZlcnMvYmxvY2svbnVsbF9ibGtfem9u
+ZWQuYwo+IGluZGV4IGNjNDc2MDZkOGZmZS4uNjI0YWFjMDliMDA1IDEwMDY0NAo+IC0tLSBhL2Ry
+aXZlcnMvYmxvY2svbnVsbF9ibGtfem9uZWQuYwo+ICsrKyBiL2RyaXZlcnMvYmxvY2svbnVsbF9i
+bGtfem9uZWQuYwo+IEBAIC00Nyw2ICs0Nyw3IEBAIGludCBudWxsX2luaXRfem9uZWRfZGV2KHN0
+cnVjdCBudWxsYl9kZXZpY2UgKmRldiwgc3RydWN0IHJlcXVlc3RfcXVldWUgKnEpCj4gCj4gCQl6
+b25lLT5zdGFydCA9IHNlY3RvcjsKPiAJCXpvbmUtPmxlbiA9IGRldi0+em9uZV9zaXplX3NlY3Rz
+Owo+ICsJCXpvbmUtPmNhcGFjaXR5ID0gem9uZS0+bGVuOwo+IAkJem9uZS0+d3AgPSB6b25lLT5z
+dGFydCArIHpvbmUtPmxlbjsKPiAJCXpvbmUtPnR5cGUgPSBCTEtfWk9ORV9UWVBFX0NPTlZFTlRJ
+T05BTDsKPiAJCXpvbmUtPmNvbmQgPSBCTEtfWk9ORV9DT05EX05PVF9XUDsKPiBAQCAtNTksNiAr
+NjAsNyBAQCBpbnQgbnVsbF9pbml0X3pvbmVkX2RldihzdHJ1Y3QgbnVsbGJfZGV2aWNlICpkZXYs
+IHN0cnVjdCByZXF1ZXN0X3F1ZXVlICpxKQo+IAo+IAkJem9uZS0+c3RhcnQgPSB6b25lLT53cCA9
+IHNlY3RvcjsKPiAJCXpvbmUtPmxlbiA9IGRldi0+em9uZV9zaXplX3NlY3RzOwo+ICsJCXpvbmUt
+PmNhcGFjaXR5ID0gem9uZS0+bGVuOwo+IAkJem9uZS0+dHlwZSA9IEJMS19aT05FX1RZUEVfU0VR
+V1JJVEVfUkVROwo+IAkJem9uZS0+Y29uZCA9IEJMS19aT05FX0NPTkRfRU1QVFk7Cj4gCj4gZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvc2NzaS9zZF96YmMuYyBiL2RyaXZlcnMvc2NzaS9zZF96YmMuYwo+
+IGluZGV4IDZmN2ViYTY2Njg3ZS4uMTgzYTIwNzIwZGE5IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMv
+c2NzaS9zZF96YmMuYwo+ICsrKyBiL2RyaXZlcnMvc2NzaS9zZF96YmMuYwo+IEBAIC01OSw2ICs1
+OSw3IEBAIHN0YXRpYyBpbnQgc2RfemJjX3BhcnNlX3JlcG9ydChzdHJ1Y3Qgc2NzaV9kaXNrICpz
+ZGtwLCB1OCAqYnVmLAo+IAkJem9uZS5ub25fc2VxID0gMTsKPiAKPiAJem9uZS5sZW4gPSBsb2dp
+Y2FsX3RvX3NlY3RvcnMoc2RwLCBnZXRfdW5hbGlnbmVkX2JlNjQoJmJ1Zls4XSkpOwo+ICsJem9u
+ZS5jYXBhY2l0eSA9IHpvbmUubGVuOwo+IAl6b25lLnN0YXJ0ID0gbG9naWNhbF90b19zZWN0b3Jz
+KHNkcCwgZ2V0X3VuYWxpZ25lZF9iZTY0KCZidWZbMTZdKSk7Cj4gCXpvbmUud3AgPSBsb2dpY2Fs
+X3RvX3NlY3RvcnMoc2RwLCBnZXRfdW5hbGlnbmVkX2JlNjQoJmJ1ZlsyNF0pKTsKPiAJaWYgKHpv
+bmUudHlwZSAhPSBaQkNfWk9ORV9UWVBFX0NPTlYgJiYKPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS91
+YXBpL2xpbnV4L2Jsa3pvbmVkLmggYi9pbmNsdWRlL3VhcGkvbGludXgvYmxrem9uZWQuaAo+IGlu
+ZGV4IDBjZGVmNjcxMzVmMC4uNDJjMzM2NmNjMjVmIDEwMDY0NAo+IC0tLSBhL2luY2x1ZGUvdWFw
+aS9saW51eC9ibGt6b25lZC5oCj4gKysrIGIvaW5jbHVkZS91YXBpL2xpbnV4L2Jsa3pvbmVkLmgK
+PiBAQCAtNzMsNiArNzMsMTUgQEAgZW51bSBibGtfem9uZV9jb25kIHsKPiAJQkxLX1pPTkVfQ09O
+RF9PRkZMSU5FCT0gMHhGLAo+IH07Cj4gCj4gKy8qKgo+ICsgKiBlbnVtIGJsa196b25lX3JlcG9y
+dF9mbGFncyAtIEZlYXR1cmUgZmxhZ3Mgb2YgcmVwb3J0ZWQgem9uZSBkZXNjcmlwdG9ycy4KPiAr
+ICoKPiArICogQEJMS19aT05FX1JFUF9DQVBBQ0lUWTogWm9uZSBkZXNjcmlwdG9yIGhhcyBjYXBh
+Y2l0eSBmaWVsZC4KPiArICovCj4gK2VudW0gYmxrX3pvbmVfcmVwb3J0X2ZsYWdzIHsKPiArCUJM
+S19aT05FX1JFUF9DQVBBQ0lUWQk9ICgxIDw8IDApLAo+ICt9Owo+ICsKPiAvKioKPiAgKiBzdHJ1
+Y3QgYmxrX3pvbmUgLSBab25lIGRlc2NyaXB0b3IgZm9yIEJMS1JFUE9SVFpPTkUgaW9jdGwuCj4g
+ICoKPiBAQCAtOTksNyArMTA4LDkgQEAgc3RydWN0IGJsa196b25lIHsKPiAJX191OAljb25kOwkJ
+LyogWm9uZSBjb25kaXRpb24gKi8KPiAJX191OAlub25fc2VxOwkvKiBOb24tc2VxdWVudGlhbCB3
+cml0ZSByZXNvdXJjZXMgYWN0aXZlICovCj4gCV9fdTgJcmVzZXQ7CQkvKiBSZXNldCB3cml0ZSBw
+b2ludGVyIHJlY29tbWVuZGVkICovCj4gLQlfX3U4CXJlc2VydmVkWzM2XTsKPiArCV9fdTgJcmVz
+dls0XTsKPiArCV9fdTY0CWNhcGFjaXR5OwkvKiBab25lIGNhcGFjaXR5IGluIG51bWJlciBvZiBz
+ZWN0b3JzICovCj4gKwlfX3U4CXJlc2VydmVkWzI0XTsKPiB9Owo+IAo+IC8qKgo+IEBAIC0xMTUs
+NyArMTI2LDcgQEAgc3RydWN0IGJsa196b25lIHsKPiBzdHJ1Y3QgYmxrX3pvbmVfcmVwb3J0IHsK
+PiAJX191NjQJCXNlY3RvcjsKPiAJX191MzIJCW5yX3pvbmVzOwo+IC0JX191OAkJcmVzZXJ2ZWRb
+NF07Cj4gKwlfX3UzMgkJZmxhZ3M7Cj4gCXN0cnVjdCBibGtfem9uZSB6b25lc1swXTsKPiB9Owo+
+IAo+IC0tIAo+IDIuMjQuMQo+IAoKUmV2aWV3ZWQtYnk6IEhpbWFuc2h1IE1hZGhhbmkgPGhpbWFu
+c2h1Lm1hZGhhbmlAb3JhY2xlLmNvbT4KCi0tCkhpbWFuc2h1IE1hZGhhbmkJT3JhY2xlIExpbnV4
+IEVuZ2luZWVyaW5nCgoKCgoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCkxpbnV4LW52bWUgbWFpbGluZyBsaXN0CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFk
+ZWFkLm9yZwpodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4
+LW52bWUK
