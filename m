@@ -2,23 +2,22 @@ Return-Path: <SRS0=8PNV=AM=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90270C433E0
-	for <linux-nvme@archiver.kernel.org>; Wed,  1 Jul 2020 18:37:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9836C433DF
+	for <linux-nvme@archiver.kernel.org>; Wed,  1 Jul 2020 18:40:17 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 60AC520853
-	for <linux-nvme@archiver.kernel.org>; Wed,  1 Jul 2020 18:37:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7FF6920853
+	for <linux-nvme@archiver.kernel.org>; Wed,  1 Jul 2020 18:40:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="mTsHtXp3";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="ArwuUxtW";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="EMklsgnu"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 60AC520853
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="rV5uDnDs";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="UCvlP02T";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="R5yOUAgu"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7FF6920853
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -27,113 +26,115 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:To:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	 bh=kzKbHzmVFRX9cimujr9q0V23ZRU67s+cK0LcuukPIYA=; b=mTsHtXp3z+j6vqClj6+gKE5GX
-	O30/L603Jj2X8Sm8ywbIasytEeiMjkU4bXznSqmTH+GAivasq/WlMCW8FNadpG2szEWMz6/7M04T9
-	UVfSDyrodv+LME9U3iyL3vulWgrcXuYcRqm49mj9zyI17Z+fTYDNlA1WCqEBoKnC+YDvIxZhU5cSW
-	aswv49VMmIgS+SRuz27ARc+jTk49u+uBTFC6WUrYN6GlONmBi9GP+bsFM2AXwXYWNRI9JTc0/Dfgk
-	vUrpShss1YLcSsVZQJZp7N8JSRB+Tv3tfnzGb07Vf8VlHkh1M8uvIz2ia8z8KginBHQIrM414lcGZ
-	Hw06cXCAw==;
+	 bh=/TEAOnpcmbGM3c0dNlPAWp5GVKU834E2tYyoQlNiyZQ=; b=rV5uDnDsu/FwGPr+zLnaRxrnD
+	rNSF2M72gaMfjIBAPz+tAvCvDhG0NbpFapo46vjG4LaqTk4bj6arPbXa6tTW/vNDLThU4E2YyuLQL
+	d9g/mrqMG4Q7ukA2watFgPWSm5GNWEYpfYfejgKgk07Lqp3AM0Sw37qJfzcR2CYqboKqRAuVf0SEa
+	mYvBWwBz6BbXKXDwVEofJM4cKcaOX7ruWWN3tDdeu+XLERJ1Yl7lIEYGQGtD9boPSk0DuLIRyRJtz
+	iUZEe2I5YucH89wvH5hZDq2DkmTXr2ciFQIRBX136GiqOBu6k891bGai6kvpYMibWzmL63Ls86X/8
+	Lwr/C+J0Q==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jqhbR-0008Jn-R6; Wed, 01 Jul 2020 18:37:01 +0000
-Received: from esa4.hgst.iphmx.com ([216.71.154.42])
+	id 1jqheZ-00005Q-B4; Wed, 01 Jul 2020 18:40:15 +0000
+Received: from esa3.hgst.iphmx.com ([216.71.153.141])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jqhbN-0008JC-Nt
- for linux-nvme@lists.infradead.org; Wed, 01 Jul 2020 18:36:59 +0000
+ id 1jqheW-0008WK-8r
+ for linux-nvme@lists.infradead.org; Wed, 01 Jul 2020 18:40:13 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1593628617; x=1625164617;
+ t=1593628813; x=1625164813;
  h=from:to:cc:subject:date:message-id:references:
  content-transfer-encoding:mime-version;
- bh=DeZnhjXzfy9I55CQgut93a/Di3RN7DfYKJnTZ50+ShA=;
- b=ArwuUxtWQCbOq3C29xexg7KvuF0oUtoFQxVyPRtoVjSHuGNzMYy/NGK3
- 9Vl0b43jEjaLe91Jr1youjN/3fyB9OsOWCCLZapIk1u44+LWVrmkIyTGu
- er3jXoxnHfANoreNGIv5CzzXNjjQ2gy4C9Y5NXWIu1Qu30uxEyxBcfFMZ
- oB4p70vr7rpkGXucr19WHLeO8JeLqt0yh+ampNgMRJjZ8H4vcPian/HuU
- SEi++SA3LQFqekTociIlb9YW2cdKx/rKkO+JIsA8Rj2PN8QAQqB/xKwh/
- mEewUtDIUC89QZqk2zTbIXZD0ozcGKYHRDWNiNwk+pBByB3M9AGRgNXXF g==;
-IronPort-SDR: mloR5o14tY0MfAjJMQ/CIQ7pyHuw1kNzyY7uY7FffpiaVPPBPVIkQbXNVl/QMfMxP0hhi/I1Tn
- UDVJnZxRnYkZDzwCJMYpRGaZOGREmwYDb6zwUIjuedW1Ej9foSu6lZ/RmllnWdyClLk/dRSZnh
- +I2ut6su8AUFQqmzw0nFtdTpkqC2RWIfR28nwLsBPI3HdjZBWgO8RBmhHv3V++B30eEhQdAreh
- OwP0OBmhDxwJ39/tkMZizL0xa7GpDTQSewO8uhM6h4/CyAfA2DjXw6YKxipCEewhtJpwfzAjuj
- e5M=
-X-IronPort-AV: E=Sophos;i="5.75,301,1589212800"; d="scan'208";a="141405127"
+ bh=PImDHpFAcTZlsO3zn2FAgK4S5urGdVTqCx1YkcLaraY=;
+ b=UCvlP02TEKXLlfmaBRlya9u2kgzulmYgtutSEzmnKilw6ks+XlrjenyQ
+ zqBw+pWmWcCTijC4uMcHonSZK4Nl+t31P9NJB3gnw5GG4h0AkvsxFN88v
+ y99neud277Y7zxZEiRJhbapHsPL/peiKp33Q03ibh3TrxYdpB54yB9hmy
+ gCUCnMeJNghEXBDLMI9TrDJ+pyxKEha9Cf73MbHTLuwtqWsed75zYCCqE
+ WsKHJ6ABjPsD64y66Lc7kdlCWdGhXQSXCw1PHkEjmRu8a+e/Cb9/IVGoL
+ uKVesbJKtQJ/v5jVm4F3znybDpTlqUu2/1s0bbAMHjscwndSVox2izNcn g==;
+IronPort-SDR: hvqwZq9CgGQDiDWGw06zPvL4jg+Mb/vU28COY9whhSQ8kDRY3AxlCZ/WhCHjBGuEie7Jrqh5Oz
+ UUM0JJWqvTWEGZ0xIZy5uuqiK/zwjVlGTep4afMYJngAy0iufOidr9MYn55J7ACVXacEuSgEA6
+ rTdcEowN3MmB3dmGrVJBsuVcTulyAuk3IBnrWD0v99X98xr7p4M+Bor5yjbxWShkHBRwqrjNJD
+ Sduyio4AI/7Quv3exkmKP+AnjThjhKwS1aItPsYWK1TTN/0ntKwd/JMaGd+yh3UYtkRQBRxt0D
+ ORA=
+X-IronPort-AV: E=Sophos;i="5.75,301,1589212800"; d="scan'208";a="145732438"
 Received: from mail-dm6nam12lp2174.outbound.protection.outlook.com (HELO
  NAM12-DM6-obe.outbound.protection.outlook.com) ([104.47.59.174])
- by ob1.hgst.iphmx.com with ESMTP; 02 Jul 2020 02:36:54 +0800
+ by ob1.hgst.iphmx.com with ESMTP; 02 Jul 2020 02:40:10 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Eeu2J6WWmnITXClIOi1BnMb1twR7hoCFQVcu9ybLZjay/FpFSyWOb3UcRrPO9cbqR+35RyshskYFRXO0s4U4m1WbVHsaU3EHvp2kosPFmLQqZyPKHtRE3jZMY7CxzclHRC8SO8QvtGQ0sCwoHBv8V8+FQKtNDW5111dQCqCpa+3jQFe8GX//mr65C+RvoygbpfJ/gyTqWxo1aOorGVGlHE52ebwngMqPBxbQRnM0OC83d0i5MCYJJs8jZJm3SKVg7mlv/1LfbTRbiZGY/PG1QemS1O02Wx8mjG3MgZc3EAeRzrIZ3M1pY8umGLPi/Bf6sHU8UwDyb9OrWxUbWDtavg==
+ b=B4VRIJKqAwlFqaT+DJj8EpPXbqV0grrXq9lBTYrV2UUeRT8CvgqfTlS5Z7ldIvP2P5Lw/dy+pM2tDYvBYctOvpCLvsHbuAAeg4v/viePC/hEHk3QIR6q5wPEXDmX4AvpD+msrhYv00GWUdugIip2LDL87rJrksrGKuyteHIlBQQmB6Uow9kgFUQKQ4kj/QnXWIVHbe6YfL1LtSGWq+CBUSQo7n3RxUmgnmUqPZ5iHqA3JWEuoVR6oeO8OeY64XShTBwPSfOrZpzAXNMw6XCIclV6K7DnFSNilzuGT1gU4AAMBrW7uE2/2aAYDGFR+Pa+YK4WJSFokNCmAMrw2Gxn+A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Zd3YtBcSb/VnUL3RoygMqkXNudgRcJ9ugUo979RRT5Y=;
- b=hwa0zjw/gdRKG4H3TvUVxCQzt+AH3FeEt4OSb3zeCm64Kc/1+Nx23PlbQrpD/KBWmO8NS2wQI74CRzGZnp3hwPmhYtVcoZrKG8LtQQXC21yLYa5sm60abT8uCvxN7PVm/ZgIs9eOqkCwXSlZkjx2qcD0OsLhZMyZGZcPY95hp2BDrJQzSqwSyqyZosCEkpto0Y8wy3Q3oh2DVriWNvxk1hLQk3YiT25gfkYBDwNSRUoEpIoj/AIJ3y/DsdCyXOeuQ8mBkUmHv3FY/sRj6j4T3FMHZ+Bhds62DnuxfiglGLXjyS1vDFxGI3mXlOEv8b5ou8Qji6zGrFyABXY9J111XQ==
+ bh=zJy6X5gbkBZ7oGFNXQmuekb2vyegakyD63iI78B15mY=;
+ b=jjeZY4RTj+CArjoZ7ViSULvsYQdMBU4RcSrwZK5dY0T0DP8u1JqCThi5tuP+DA+H7wRV1/amDBVBJIUE/u7uveFeLeutLsQOu8KxoCH3NrvKFy+zMbNpBB0AO7lWBBMlx9OmSQi6JzSqBO17093bSl91Vj7qsoKDUj42KwXZoPTVr65/71fnkt2pAtImEz0oHT8Ux1lUUpDyfT5JmZjLsLBgQU/HFRmpfUiw+kSYgisFPJp5qzxdXXvSXE263aJcsZPSuaGt+SqR/MDZ++WHSWo99znmEieYkF6Ij7uP6UeQt0zcrV0/We/j0DZDsHApajy4P+kK+SadvvQT7Y3h8g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
  header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Zd3YtBcSb/VnUL3RoygMqkXNudgRcJ9ugUo979RRT5Y=;
- b=EMklsgnuy9wKslq1tmNpdX292jH6qbPYQa/SdjpmNMBhm9tIO37xMAMb/pwcJ+A1upLGXFsivHmsqzougKlDJRODC50frcIUZ8jwtZ12chduFWh8KwfafBdM1Tc5xb5hWFhpAT1MY2begTKujuni0/sf8kaNNN5SOUJ4+lZJxDQ=
+ bh=zJy6X5gbkBZ7oGFNXQmuekb2vyegakyD63iI78B15mY=;
+ b=R5yOUAguLgcSKU3w9S46ozZ6sG07YEdKRmtLJqG6n0Apr6ySokisxmfB26Q6s/gXKaXHka+R08T5HSb/8cQsefbVmEsXzkiyx9tctdDNA3vWcfzmyjqZaV4tl08coLrjAJKb9IFNAuRNn3Mjz1dIqaJOqzaF6/pUjh+YxnQgiLg=
 Received: from BYAPR04MB4965.namprd04.prod.outlook.com (2603:10b6:a03:4d::25)
  by BY5PR04MB6280.namprd04.prod.outlook.com (2603:10b6:a03:1e2::18)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.21; Wed, 1 Jul
- 2020 18:36:53 +0000
+ 2020 18:40:08 +0000
 Received: from BYAPR04MB4965.namprd04.prod.outlook.com
  ([fe80::4d72:27c:c075:c5e6]) by BYAPR04MB4965.namprd04.prod.outlook.com
  ([fe80::4d72:27c:c075:c5e6%7]) with mapi id 15.20.3131.027; Wed, 1 Jul 2020
- 18:36:53 +0000
+ 18:40:08 +0000
 From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-To: Christoph Hellwig <hch@lst.de>, Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH V2 2/2] nvmet: use xarray for ctrl ns storing
-Thread-Topic: [PATCH V2 2/2] nvmet: use xarray for ctrl ns storing
-Thread-Index: AQHWT07oE7jzyHhyIU6/NKDqm5Jekw==
-Date: Wed, 1 Jul 2020 18:36:53 +0000
-Message-ID: <BYAPR04MB4965DA55152F9ACE3C3AC93A866C0@BYAPR04MB4965.namprd04.prod.outlook.com>
+To: Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH V2 1/2] nvme-core: use xarray for ctrl ns tracking
+Thread-Topic: [PATCH V2 1/2] nvme-core: use xarray for ctrl ns tracking
+Thread-Index: AQHWT07jIAP57v+mRkK34TwenoMqsw==
+Date: Wed, 1 Jul 2020 18:40:08 +0000
+Message-ID: <BYAPR04MB49656E94C4AC8B600D03843B866C0@BYAPR04MB4965.namprd04.prod.outlook.com>
 References: <20200701022517.6738-1-chaitanya.kulkarni@wdc.com>
- <20200701022517.6738-3-chaitanya.kulkarni@wdc.com>
- <20200701060820.GA28214@lst.de>
+ <20200701022517.6738-2-chaitanya.kulkarni@wdc.com>
+ <20200701131235.GA17919@lst.de>
+ <BYAPR04MB4965B6A3EE4591E8A05A2982866C0@BYAPR04MB4965.namprd04.prod.outlook.com>
+ <20200701182926.GD1988944@dhcp-10-100-145-180.wdl.wdc.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-authentication-results: lst.de; dkim=none (message not signed)
- header.d=none;lst.de; dmarc=none action=none header.from=wdc.com;
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=wdc.com;
 x-originating-ip: [199.255.45.62]
 x-ms-publictraffictype: Email
 x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 3bbdf987-6a3d-4d7e-3723-08d81dedb9dc
+x-ms-office365-filtering-correlation-id: 1f0d7047-0547-424e-5099-08d81dee2e35
 x-ms-traffictypediagnostic: BY5PR04MB6280:
-x-microsoft-antispam-prvs: <BY5PR04MB628033DEFED61FE4BF270355866C0@BY5PR04MB6280.namprd04.prod.outlook.com>
+x-microsoft-antispam-prvs: <BY5PR04MB6280A72A6CD9B02F4B135ED4866C0@BY5PR04MB6280.namprd04.prod.outlook.com>
 wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-oob-tlc-oobclassifiers: OLM:6790;
 x-forefront-prvs: 04519BA941
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 4R1JGCu7KY+6ZwEYbkhR+2YtyxvdVxXiYQtmDAlQBUqN7uYy7XbhwFEYgOKHDyXUW4YGKSpz+SW7WMR7OKrEAJ8Z7mom3kVy6/l5ZMcZed+S7cliYEyODHM+ZRlvZsX4l1X1/QDnK/B7w60AHLcW12YrAvbYa9iQvox66KhlebXUGmzhFcTZxvN9e0JJULQtc1kVf7sNmkVCDBJBhOsBw6Pv0DOoM96UZtkNkuk+JYnziZLNXIGI+fAPpec6zhgujJLhAtViVLL6EulDvwakh7EYAnyvhD0Y30KrV+MNyRRg1FO9+b02pO7zivNbHeJCAOnPKRkyneaalU4EAp+kbA==
+x-microsoft-antispam-message-info: qy2Czy3hC9mY7ka5Jqp9aVXWQSa8mtmx1Ld3zR88pOUMHlFJINdfYCfjNtLJbYXc80Sh+U7+trPyfWoMi2kg3fKEREHBvND2pFJK6P9BAugConUweP3q0hcjm/FB5TxYKDdXvIuSxsI8Ex1YTtWAnqzodqE9w14URJK8vRveil5nQNsNjC3jZ5k2qPx9h1g8wWnDqR7WKJq3nnUzzCJ3fVT8f7J2WWFa7gdhTm3Ow8vSxgsqG4Ot5YW7nstJnRgy3VgagZHL4ZB3Vr50J1OC6CUEyCXBKgkPVFzMelldRaEztNOjk/CJlk3QZaZlbRE4c280LQjNPJ83sVOCYOXPaw==
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR04MB4965.namprd04.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(366004)(8936002)(52536014)(110136005)(83380400001)(54906003)(33656002)(86362001)(71200400001)(5660300002)(8676002)(9686003)(55016002)(66946007)(7696005)(66476007)(26005)(76116006)(4326008)(498600001)(186003)(66556008)(64756008)(66446008)(6506007)(53546011)(2906002);
+ SFS:(4636009)(366004)(55016002)(66946007)(7696005)(66476007)(26005)(8676002)(9686003)(6506007)(53546011)(2906002)(64756008)(66446008)(76116006)(186003)(66556008)(498600001)(4326008)(6916009)(54906003)(52536014)(8936002)(83380400001)(5660300002)(33656002)(86362001)(71200400001);
  DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: mkBt77gZQ8l1krZEaLXPzOEymyvP8xHfsmODKq3Yk0z2eYph3pgyst5Ai4kJTbaYind6luC8SwGfEJjpeDBWE4ypQTWCoa0pkLQG5TxmQpQYUAGgpd+HG9WuRKi6G36taY8nVdOiRQj9mExZlj8roW/oODjiozDhOPD1fXQJ8kXPuyEL+6mbW0lyws4on0LZqWzELnULiSiFKV2TMl+nT56AQZ/5iWMourWp6yBvyy74N7ZZq03SPb+glysNkTAqjdlIAnwvib7YBI3BwbSitEQR0NTVf64xUFXkCvHX4JgLi3lmuLZdX2C5EGLTSRFT9y458LQkTm3jh+xBFskZHsGOGk0IBa8PErhYr01otgxTRL0cZKwO5Agpn7NaPCGEdpuwyHxEVb5YKqXzCcasejs3AnWYhOvUtLMYuTI6LAjEvR7zwFYGVmUbVb3Maj6UkYH2KkCu8qdh6Z6W0tAQOIi2ZgkcN0KDtMIhJtbGR8A=
+x-ms-exchange-antispam-messagedata: wm14HdPIRU8nNdrt5RF52p4abLXZQtlUi7/ag1mRr4Nj5inNR5JMKtkxQ2sdIItgJUqTyvJ5b5Td+Il2tVvZipY0vt4ERa9If+ibxBhsuIdE/lN8371Dop33siO2B1J2oZt2VKqHYWckv2prGh4jJenw0hcDqX+sjHPql9V7NobPCsgI8G1c3ekEw7KImJI6WrD7ix00yeABOa/No2zmPMM9tZkH089d48i8JXXrAZ+to4tZhKpXEHrBcWFnaJHWKXX8gVkWxAtLWfsjaNBQdAjobT9wsyo4R8sxe6PwcqDpZU3QhQ81SRD1vdJ84gIv0fXusxGPURU5l6QCkoq/q+iVnNcPW2q327HN0J43avuEN2yPrXFxTfBqIrcSxUHVMyep97vW6UllEWfr2q427rwkLG7dUGZEGbsJDo9hisV1bV4Z3WCaFkdi7CYzDJQmQDDZLPcTTKrG9A3KQCbus0JDXJ2A569J006vSt80pbY=
 x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
 X-OriginatorOrg: wdc.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR04MB4965.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3bbdf987-6a3d-4d7e-3723-08d81dedb9dc
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Jul 2020 18:36:53.4557 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1f0d7047-0547-424e-5099-08d81dee2e35
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Jul 2020 18:40:08.6123 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: mMIfLpo80D80PdfIuWEon45qm+7r7PqieIqYVZewPMYkTrMSCxWDvvBJBHPyRPWKWx4+29DSc7FNuSmYf1W2W+xrKgbzFnyDLrwfEYjBOMM=
+X-MS-Exchange-CrossTenant-userprincipalname: Z9wANkgpcVsFUCw6aNGlb4oT01z3DLfcdO3APFyoKFaQIkptXgkUmZoFqzCFQpxQLglZ7Xlc7CmuQqsWz90puZMBQayCOf9Bp9BItKkfNqk=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR04MB6280
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200701_143658_891719_B0556029 
-X-CRM114-Status: GOOD (  22.49  )
+X-CRM114-CacheID: sfid-20200701_144012_503419_85DC7C46 
+X-CRM114-Status: GOOD (  17.34  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,126 +146,63 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "kbusch@kernel.org" <kbusch@kernel.org>,
- "sagi@grimberg.me" <sagi@grimberg.me>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ Christoph Hellwig <hch@lst.de>, Matthew Wilcox <willy@infradead.org>,
+ "sagi@grimberg.me" <sagi@grimberg.me>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-(+Matthew)
+On 7/1/20 11:29 AM, Keith Busch wrote:
+> On Wed, Jul 01, 2020 at 06:19:50PM +0000, Chaitanya Kulkarni wrote:
+>> On 7/1/20 6:12 AM, Christoph Hellwig wrote:
+>>> [willy: a comment/request on the xa_load API below]
+>>> On Tue, Jun 30, 2020 at 07:25:16PM -0700, Chaitanya Kulkarni wrote:
+>>>> +	if (le32_to_cpu(id->nn) > 1) {
+>>>> +		dev_warn(ctrl->device,
+>>>> +		"NVME_IOCTL_IO_CMD not supported when multiple namespaces present!\n");
+>>>> +		goto out;
+>>>>    	}
+>>> This code doesn't make any sense at all.  Why does a patch changing
+>>> data structures add new calls that go out on the wire?
+>>>
+>> Yes, this should not be here, I'll remove that and only keep the code to
+>> check multiple namespaces and if needed this needs to be a separate
+>> patch.
+> This isn't actually checking for multiple namespaces, though. It's just
+> getting the highest nsid, which doesn't tell us how many namespaces the
+> driver is bound to.
+> 
+hmmm, I'll try and fix it in a next version.
+>>>> -	down_write(&ns->ctrl->namespaces_rwsem);
+>>>> -	list_del_init(&ns->list);
+>>>> -	up_write(&ns->ctrl->namespaces_rwsem);
+>>>> +	xa_lock(xa);
+>>>> +	__xa_erase(xa, ns->head->ns_id);
+>>>> +	free = refcount_dec_and_test(&ns->kref.refcount) ? true : false;
+>>>> +	xa_unlock(xa);
+>>>>    
+>>>>    	nvme_mpath_check_last_path(ns);
+>>>> -	nvme_put_ns(ns);
+>>>> +	if (free)
+>>>> +		__nvme_free_ns(ns);
+>>> This looks very strange to me.  Shoudn't this be a normal xa_erase
+>>> followed by a normal nvme_put_ns?  For certain the driver code has
+>>> no business poking into the kref internals.
+>>>
+>> There is a race when kref is manipulated in nvme_find_get_ns() and
+>> nvme _ns_remove() pointed by Keith which needs ns->kref to be guarded
+>> with locks. Let me know I'll share a detail scenario.
 
-On 6/30/20 11:08 PM, Christoph Hellwig wrote:
-> Ok, for the target I can see how this makes sense unlike the host.
-Host side is for passthru code which is not merged yet.
-> Comments below:
-> 
->> -	u64 host_reads = 0, host_writes = 0;
->>   	u64 data_units_read = 0, data_units_written = 0;
->> -	struct nvmet_ns *ns;
->> +	u64 host_reads = 0, host_writes = 0;
->>   	struct nvmet_ctrl *ctrl;
->> +	struct nvmet_ns *ns;
->> +	unsigned long idx;
-> 
-> Please don't randomly reorder the variable declarations.  Same for
-> later function.
-Okay since I was touching these functions can we cleanup ?
-> 
->> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
->> index cea7c3834021..d14edaa22ad5 100644
->> --- a/drivers/nvme/target/core.c
->> +++ b/drivers/nvme/target/core.c
->> @@ -10,6 +10,9 @@
->>   #include <linux/pci-p2pdma.h>
->>   #include <linux/scatterlist.h>
->>   
->> +#include "../host/nvme.h"
->> +#undef CREATE_TRACE_POINTS
-> 
-> We really shoud not include the host nvme.h in the target code.  What
-> are you trying to get from it?
-> 
-Yes we this needs to be removed. I've added nvme_xa_insert() wrapper for 
-xa_insert() and didn't post that series. I'd really want us to use 
-wrapper to minimize the code and help debugging with pr_debug.
-
-If we do the prototype will go in ../host/nvme.h ? instead of new header
-nvme-common.h, please confirm.
-
->>   static unsigned int nvmet_max_nsid(struct nvmet_subsys *subsys)
->>   {
->> -	struct nvmet_ns *ns;
->> +	struct nvmet_ns *cur;
->> +	unsigned long idx;
->> +	unsigned long nsid;
->>   
->> -	if (list_empty(&subsys->namespaces))
->> +	if (xa_empty(&subsys->namespaces))
->>   		return 0;
->>   
->> -	ns = list_last_entry(&subsys->namespaces, struct nvmet_ns, dev_link);
->> -	return ns->nsid;
->> +	xa_for_each(&subsys->namespaces, idx, cur)
->> +		nsid = cur->nsid;
->> +
->> +	return nsid;
-> 
-> No need for the xa_empty here.  I also forwarded a question to Matthew
-> if there is a better way to find the highest index.
+> That wasn't the race I was pointing out. In your earlier internal
+> implementation, you had the xa_erase done after the final put, and I was
+> warning against that. The erase needs to happen where you have it, but I
+> don't see a need for protecting the kref like this.
 > 
 
-I did look into this and I'm still to add possibly in next V3.
-Meanwhile if Matthew has any suggestions that will be great.
-
-I'm not an XArray expert but if it is some flavor of search tree then 
-largest index will be on the right most leaf we can either cache it at 
-each insertion which will add cost for each insert (not ideal) or just
-traverse the tree with an API (ideal).
-
->>   struct nvmet_ns *nvmet_find_namespace(struct nvmet_ctrl *ctrl, __le32 nsid)
->>   {
->> +	XA_STATE(xas, &ctrl->subsys->namespaces, le32_to_cpu(nsid));
->> +	struct nvmet_ns *ns = NULL;
->>   
->>   	rcu_read_lock();
->> +	do {
->> +		ns = xas_load(&xas);
->> +		if (xa_is_zero(ns))
->> +			ns = NULL;
->> +	} while (xas_retry(&xas, ns));
->>   	if (ns)
->>   		percpu_ref_get(&ns->ref);
->>   	rcu_read_unlock();
-> 
-> Why doesn't this use xa_load?
-
-I tried to keep load code similar to what we have in the host-core
-so that we can add wrapper and not duplicate code which also follows the 
-pattern of taking ref count under rcu lock.
-
-> 
->> +	ret = xa_insert(&subsys->namespaces, ns->nsid, ns, GFP_KERNEL);
->> +	if (ret) {
->> +		switch (ret) {
->> +		case -ENOMEM:
->> +			pr_err("xa insert memory allocation\n");
->> +			goto out_unlock;
->> +		case -EBUSY:
->> +			pr_err("xa insert entry already present\n");
->> +			goto out_unlock;
->> +		default:
->> +			goto out_unlock;
->>   		}
->>   	}
->> +
-> 
-> I don't think we need the switch statement, just return any error
-> encountered.
-okay.
-> 
-
+Okay I've misunderstood it and follow the same pattern here due to my 
+previous implementation. Maybe we can get rid of it, let me see.
 
 _______________________________________________
 Linux-nvme mailing list
