@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20821C433E2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9ECFEC433E0
 	for <linux-nvme@archiver.kernel.org>; Wed,  1 Jul 2020 08:59:59 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CAA202074D
-	for <linux-nvme@archiver.kernel.org>; Wed,  1 Jul 2020 08:59:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 72E1020775
+	for <linux-nvme@archiver.kernel.org>; Wed,  1 Jul 2020 08:59:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Hh2E65iy";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="vfpo6dKX"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CAA202074D
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="MzKsbMiT";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="cG9uWeax"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 72E1020775
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,37 +26,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=3er5K+lCfKHgVV3Rm4JyBbBXKL4Rf5PHT0ovY4EOXKs=; b=Hh2E65iyD62WrfrR+GRsH8j+Y
-	0HrOPltqLSaEr6srO/r8JX97qzFn74TVwmnADwtzkSVHV/0ZVH2ZJajptp/JsKKlqlPYzKGtz/koc
-	rT9VxRyS5cEti39Iz5G0M+GfnEHT8Cp+J8AQ2eQH0HiRDH8wIQD5RaaIDvbNXiO8f+GC4StrvdgNO
-	JpVkn4+NsvDNN64XPyH7ggIh8l0BATweOneSx5Q3uK/oGmAM13q7PwRjySnRTP/eK7T0hBKs9bcMY
-	Zwbgln6vqCsx6RveBQmI4fhAwBSbnJF122HS4f6kQcRsWEa+qw91wWvxLVn/TX/jElHj4sLKH+DQl
-	HU9fujALg==;
+	 bh=Tt7Z4JfC0Jrcaw8n3+onANjXb4EiQTR6Uxx/zG/0AtI=; b=MzKsbMiT1e15/qBSLxPy9L+I8
+	UR8fs76/RiRtNoymPv3poTFsx2usN7NKDXnTGnAmWaIW6ysaRjZMM7KA1fMpY5uv2XBYXReIuClJr
+	uNJK8UprsaOd+PsuSKSMH30+cdmYllQzCx/LMjbB1vHSuKWEMHaXIP3RV1gCDfpRU4edt/flfKbhZ
+	gUn4+NmJGDJ3lRtWyVS1WLDG8mJTYL2nwKzI2/4pCmEkrEJmTGzjB0PXWpxxdbl08mCnhXdfAqfR5
+	cMk6vVZCZUhEZbJDcS3UV2taXm4xskuDJMchr6z6IatNmHmVJ15IbJ/+62KRihr/vJwz/yXYiv/1g
+	ASsQrZJng==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jqYay-0004uW-If; Wed, 01 Jul 2020 08:59:56 +0000
+	id 1jqYaz-0004uz-Kx; Wed, 01 Jul 2020 08:59:57 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jqYav-0004tE-8s
- for linux-nvme@merlin.infradead.org; Wed, 01 Jul 2020 08:59:53 +0000
+ id 1jqYaw-0004tX-IB
+ for linux-nvme@merlin.infradead.org; Wed, 01 Jul 2020 08:59:54 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=mXzFKc+c1347jb3Dn9ppL+M5YgGcOuGfnfqDijAsZ3Y=; b=vfpo6dKX6pcfkXojO7MEBdP8I+
- 86AaePADZXUJsTBKwuUgnpCIP5Z0XAZQGW6c/Kb9F/JPuY9WyJ3Rl/BaIzYlOubo09Ei7FzSnqQI0
- gfCEMoloEjs6P3LEQnwVlzRHhUGadgcFRuv65T0aKFTLTXDZaxWyzGyBQkhXiSfyB+vRqn/1Jc5k2
- zTH1Kh5OVuZJjkBVSpDk9P2/NeNvS/14c0tl9qqr7KZlHRN3w6sOvy5/jKp8AvIrsjxMcqV3gxYja
- FugjR0mjktszsGn1XDTbj9LDx0mg0iBf25yLxb9OisE3KCivktdJc3E9LZFZgcvuzMqVbMum3MmEs
- upxKYJvw==;
+ bh=nyRpegl2g2GPLIzpDQmlwzdY5HJ2Dd3E7fu8tgbKXsw=; b=cG9uWeaxaNO/1MVPIWmhvQXLAG
+ iSkoMG+mDqCp5Fas05hxeEwDFJzbgUVjvM+qHyRdAModBVUY6niFiW0rnnavhFRNyz1pykeOhxkhZ
+ NZVGVYHrmpq04hvVgiUtI5yX1wM+7igRvEMydnCoRQeuacqPuZqBQw3s5pqynfJWw1cXYywN0/bxi
+ 7SwIJoZIPt4nm/r/GiOvJKRN2dJAAkG6ZSJj5j6m8j6Tra0NHETrtGEustOMES2x9BE2MEDdvPFxf
+ /+IEWPO5yHD5avrdkfbZhwAa30i/liOzJ70LhshoWEaD5sgYOPmU7O855Wq//djMSdTtULqhfhiaU
+ 2SXkVv7Q==;
 Received: from [2001:4bb8:184:76e3:ea38:596b:3e9e:422a] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jqYau-00087W-24; Wed, 01 Jul 2020 08:59:52 +0000
+ id 1jqYav-00087h-DT; Wed, 01 Jul 2020 08:59:53 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH 02/20] simdisk: stop using ->queuedata
-Date: Wed,  1 Jul 2020 10:59:29 +0200
-Message-Id: <20200701085947.3354405-3-hch@lst.de>
+Subject: [PATCH 03/20] drbd: stop using ->queuedata
+Date: Wed,  1 Jul 2020 10:59:30 +0200
+Message-Id: <20200701085947.3354405-4-hch@lst.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200701085947.3354405-1-hch@lst.de>
 References: <20200701085947.3354405-1-hch@lst.de>
@@ -89,31 +89,35 @@ field.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- arch/xtensa/platforms/iss/simdisk.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/block/drbd/drbd_main.c | 1 -
+ drivers/block/drbd/drbd_req.c  | 2 +-
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/arch/xtensa/platforms/iss/simdisk.c b/arch/xtensa/platforms/iss/simdisk.c
-index 49322b66cda931..31b5020077a059 100644
---- a/arch/xtensa/platforms/iss/simdisk.c
-+++ b/arch/xtensa/platforms/iss/simdisk.c
-@@ -103,7 +103,7 @@ static void simdisk_transfer(struct simdisk *dev, unsigned long sector,
+diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
+index 45fbd526c453bc..26f4e0aa7393b4 100644
+--- a/drivers/block/drbd/drbd_main.c
++++ b/drivers/block/drbd/drbd_main.c
+@@ -2805,7 +2805,6 @@ enum drbd_ret_code drbd_create_device(struct drbd_config_context *adm_ctx, unsig
+ 	if (!q)
+ 		goto out_no_q;
+ 	device->rq_queue = q;
+-	q->queuedata   = device;
  
- static blk_qc_t simdisk_make_request(struct request_queue *q, struct bio *bio)
+ 	disk = alloc_disk(1);
+ 	if (!disk)
+diff --git a/drivers/block/drbd/drbd_req.c b/drivers/block/drbd/drbd_req.c
+index c80a2f1c3c2a73..3f09b2ab977822 100644
+--- a/drivers/block/drbd/drbd_req.c
++++ b/drivers/block/drbd/drbd_req.c
+@@ -1595,7 +1595,7 @@ void do_submit(struct work_struct *ws)
+ 
+ blk_qc_t drbd_make_request(struct request_queue *q, struct bio *bio)
  {
--	struct simdisk *dev = q->queuedata;
-+	struct simdisk *dev = bio->bi_disk->private_data;
- 	struct bio_vec bvec;
- 	struct bvec_iter iter;
- 	sector_t sector = bio->bi_iter.bi_sector;
-@@ -273,8 +273,6 @@ static int __init simdisk_setup(struct simdisk *dev, int which,
- 		goto out_alloc_queue;
- 	}
+-	struct drbd_device *device = (struct drbd_device *) q->queuedata;
++	struct drbd_device *device = bio->bi_disk->private_data;
+ 	unsigned long start_jif;
  
--	dev->queue->queuedata = dev;
--
- 	dev->gd = alloc_disk(SIMDISK_MINORS);
- 	if (dev->gd == NULL) {
- 		pr_err("alloc_disk failed\n");
+ 	blk_queue_split(q, &bio);
 -- 
 2.26.2
 
