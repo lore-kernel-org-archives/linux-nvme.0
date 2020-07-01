@@ -7,78 +7,73 @@ X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86439C433DF
-	for <linux-nvme@archiver.kernel.org>; Wed,  1 Jul 2020 16:50:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA67DC433DF
+	for <linux-nvme@archiver.kernel.org>; Wed,  1 Jul 2020 17:42:50 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 513D82082F
-	for <linux-nvme@archiver.kernel.org>; Wed,  1 Jul 2020 16:50:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 7A6B4207CD
+	for <linux-nvme@archiver.kernel.org>; Wed,  1 Jul 2020 17:42:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="2JPwqMPJ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 513D82082F
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="0OjoVRLY";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="O5kOYeqt"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7A6B4207CD
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=klg7GJkrFaMjhUXRd+GKYmmGC2B1VktsSUbvyQTJWq8=; b=2JPwqMPJ3fGT7HeZ4IeCNfYME
-	fLz9BIdbbaAyqQ/RzkPR1RYrurSPB9p8AK3MQI/jDWm4a01qW7pdpBbhUhSxrsXgU7eS4pN5X4QOO
-	w5fgNHCs4C8OdlQ50dwr1mPIeje2QxsN4yoAGM7P4vJh/3rTYx3a4Sfx5Fu1dlpFIaRnMA+FVFDSL
-	lUCyoVKiqgVBukUH4hM7W5hwBEI/XBOsik6kCuV8592FDuhdiJKoTKQsT8ZgYcnXBBdFZ9b5Xr53l
-	bbfprUERl4DG+7ATFnkzreOF9bDRolj+a8enCI0+cNCs0Umh+tb2T9ZjJL3jMIAXTvp2EGqDg9FWT
-	cYtf0LpAg==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Subject:To:From:Date:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=kgzWI9V3i/Tax2CA1qTx1eanhkBZZN0pcJWGFie3b8k=; b=0OjoVRLYonnUhp2XYyabASBXQt
+	3FWnKrZ671jGLGwR0R3oImRzI0uH08gekhFTJIqyNbZCdor67Rppl4AcvtelPvdLkGWHXhAZQrU0n
+	rYGMMh2X6RQu3qV5l1kyN9+R7pqAhpdYKO+m4/NwLpRx1iDjYlvoVmRC7GUq4QTZ3KdlZ1DyWYM+o
+	p6jNS4lDVy8mDpJ+ifUaFelSVq5u7sD0tdEPivd6aFdlfNeUrhq/RPFb9ZhOGtkeyDKIXwKkQJtyO
+	xBOw98NYXLdAwQ/3QEd9d8waD46x4ffvTfBbFOIrlz67R/nOcoNaYEjd09sTG7x72itRpzr7bhrEj
+	HNUxYrdg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jqfvr-0004Sz-Dk; Wed, 01 Jul 2020 16:49:59 +0000
-Received: from mail-wr1-f67.google.com ([209.85.221.67])
+	id 1jqgkv-0002ov-P8; Wed, 01 Jul 2020 17:42:45 +0000
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]
+ helo=us-smtp-1.mimecast.com)
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jqfvo-0004S5-Cu
- for linux-nvme@lists.infradead.org; Wed, 01 Jul 2020 16:49:57 +0000
-Received: by mail-wr1-f67.google.com with SMTP id a6so24809257wrm.4
- for <linux-nvme@lists.infradead.org>; Wed, 01 Jul 2020 09:49:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=1Il8M7piKZsLviUVc3qCtREK33rpPZK4ZrImpXyBCk4=;
- b=msFnW1FyaU4w1MiQ636dAWxPGCGNxvJjaBNfkYJ+WBejN1CUYcNRaEi4YfQyJx84fU
- DZGOtaNpyugBPxjUbfIplLVVKUpCaHvLqlr1CkWqtbw9gGKOtqyHx08nUBaOR3YkQkl2
- ei8k6rayTGgniujlN4oM4/Z7bGRQA94L1lemqW3G4B5bcsO3zHEKgOcvhFcmo4hwmR9T
- yXlVe2iznv/OyrdXmCyOlxwYP8pHLWBFKao52pBQsmjoICCT+nHFU8WmKCyzZIMevSc4
- lnzz9eYn4Qt2IOvVLYeBUdUrVlOPrUuaYgjVP4VdbwzuhQQgfAkwV04NHaYFR4SxH3wa
- 2pLw==
-X-Gm-Message-State: AOAM530iWEGieiNwIQ2KP+k1hPoaiD/SZFwf3hgZfQaWJt8TE7VcpQfh
- lvbdaFyuhN1C7Z1X/mnWoQE=
-X-Google-Smtp-Source: ABdhPJzvavBWOE2uovtMKq9sH5CacZ7WjOpmtIOUr3wK8Kc+yY9aTByk3tVkOagY2t6R8GbSNpHVDA==
-X-Received: by 2002:adf:8104:: with SMTP id 4mr28014812wrm.18.1593622194957;
- Wed, 01 Jul 2020 09:49:54 -0700 (PDT)
-Received: from ?IPv6:2601:647:4802:9070:18f8:9053:b0e3:60d4?
- ([2601:647:4802:9070:18f8:9053:b0e3:60d4])
- by smtp.gmail.com with ESMTPSA id x11sm7417062wmc.26.2020.07.01.09.49.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Jul 2020 09:49:54 -0700 (PDT)
-Subject: Re: [PATCH V2 0/2] nvme: replace linked list with xarray for ns
- tracking
+ id 1jqgku-0002oT-26
+ for linux-nvme@lists.infradead.org; Wed, 01 Jul 2020 17:42:44 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593625363;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=tXKGxpnc5BMs3iDgwihQRstOyMb/SsOmJWMhA/a2H4Q=;
+ b=O5kOYeqtjRxM2zg/VclOHx86KUoM4NCpckR3W/C+EgMnCAYV208AMD4NQJsq5n/on3zqtk
+ vvVYtkKRUmZLV9WxNhKPO8HFlqLsKz8SAVL1B7U+9/rXAZ4RCMvaXU7S4/0e3ohS2K5UXQ
+ 1oXRo1rLNiJ5ks1GMxGkHrqliehPz90=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-74-Jk4wup8QPmylhlXZ_xTslg-1; Wed, 01 Jul 2020 13:41:07 -0400
+X-MC-Unique: Jk4wup8QPmylhlXZ_xTslg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB355107ACCD;
+ Wed,  1 Jul 2020 17:41:05 +0000 (UTC)
+Received: from localhost (unknown [10.18.25.174])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 93E7D5C6C0;
+ Wed,  1 Jul 2020 17:41:02 +0000 (UTC)
+Date: Wed, 1 Jul 2020 12:39:42 -0400
+From: Mike Snitzer <snitzer@redhat.com>
 To: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
-References: <20200701022517.6738-1-chaitanya.kulkarni@wdc.com>
- <20200701053609.GA28056@lst.de>
- <20200701132137.GA1988944@dhcp-10-100-145-180.wdl.wdc.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <d6d2853f-3600-514b-148c-3943338827d0@grimberg.me>
-Date: Wed, 1 Jul 2020 09:49:49 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+Subject: NVMe regression, NVMe no longer uses blk_path_error()
+Message-ID: <20200701163942.GB27063@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200701132137.GA1988944@dhcp-10-100-145-180.wdl.wdc.com>
-Content-Language: en-US
+Content-Disposition: inline
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200701_124956_466765_02F12EE0 
-X-CRM114-Status: GOOD (  13.37  )
+X-CRM114-CacheID: sfid-20200701_134244_294576_E77EDCED 
+X-CRM114-Status: UNSURE (   9.08  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,35 +85,37 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
- linux-nvme@lists.infradead.org
+Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ dm-devel@redhat.com, Hannes Reinecke <hare@suse.de>,
+ John Meneghini <johnm@netapp.com>, Ewan Milne <emilne@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+IF NVMe's isn't a primary user of blk_path_error() it largely kills
+the entire point of blk_path_error(). (And no the response to this must
+not be: "that's fine")
 
->>> Hi,
->>>
->>> This is a small patch-series which replaces ctrl->namespaces with
->>> xarray for host-core and target-core. We can see following
->>> performance improvement when running fio with 32 parallel jobs where
->>> first 16 namespaces and last 16 namespaces are used for I/O. See [1] for
->>> detailed performance numbers.
->>
->> Why would that make any difference given that we don't look up namespaces
->> in the I/O path?
-> 
-> Not in host side. Target does a lookup on each IO through:
-> 
->    nvmet_req_init()
->      nvmet_parse_io_cmrd()
->        nvmet_find_namespaces()
-> 
-> And this detail should be mentioned in the test setup for the cover
-> letter, or in patch 2.
+This commit shows NVMe's previous continued use of blk_path_error():
 
-Maybe ns scanning performance will improve :)
+  8decf5d5b9f3f7 ("nvme: remove nvme_req_needs_failover")
+
+but then nvme_failover_req() was relatively recently refactored with:
+
+  764e9332098c0 ("nvme-multipath: do not reset on unknown status")
+
+NVMe should've continued to use blk_path_error().  If there was some gap
+in error classification that should've been fixed in NVMe.
+
+Instead, with commit 764e9332098c0 NVMe is no longer using retryable
+error classifications commonly maintained within block core.  As such it
+introduces serious potential for regression with DM multipath no longer
+having a shared understanding for what _really_ constitutes a retryable
+blk_status_t from NVMe.
+
+Mike
+
 
 _______________________________________________
 Linux-nvme mailing list
