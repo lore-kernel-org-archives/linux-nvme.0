@@ -5,58 +5,102 @@ X-Spam-Level:
 X-Spam-Status: No, score=-8.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD8C6C433DF
-	for <linux-nvme@archiver.kernel.org>; Thu,  2 Jul 2020 15:00:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 344D5C433DF
+	for <linux-nvme@archiver.kernel.org>; Thu,  2 Jul 2020 15:00:34 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7986820675
-	for <linux-nvme@archiver.kernel.org>; Thu,  2 Jul 2020 15:00:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id EA2182075D
+	for <linux-nvme@archiver.kernel.org>; Thu,  2 Jul 2020 15:00:33 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Qc5gpjI1"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7986820675
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="QjVZx3CJ"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EA2182075D
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=VWzDsfvl/fTg6ASVJ1MgM3bWw9h7PPJTZoVBCitIoV4=; b=Qc5gpjI1sYx6u5oaqBYWGIjGN
-	f8Blh7ST+i/KI1Ze6SREoglVso5lE8ID3/vEf0iz6oz9zlDfy9Zbn026b17wL3F5rOn2Cf+B92bSv
-	f1sdNuBt8fPBkIxWFhXEoXck2fTD/J0zGpRtVhkMza+G9+r5caImbGCJngFFOADnJ1yxbW04fKhXr
-	uxIjg+Oy1+TJ527M58g7TV6SASzNSDd7PLGIBY0HptbIzsjQrZ2evkpzCo25XY13EiTOi9sv1e5Xj
-	TDEYTtOYRylaIwikhLoYiuumRjIfy1g0+/MZgGz+VykuXCz7CMsdOdXftCgMNool11erQJCY+9StJ
-	RuKoCQk+A==;
+	 bh=rLHjEMxGukhwvXTrqldRoWcNCXJBR31jgMfk509WNhE=; b=QjVZx3CJKia/klETQHRqFyY7P
+	DLjw0s5BUx7RcyU8uqPNkkEeWl57XIzV/SiL+5Tt0Q6mLXnEUD0RpjbXjEOEIUBHhN8f8rnyabUAE
+	38swnfNbRkj3MrGvSpL1srYlAFkUU/aN5bCq6moXTPu7NcDcJdcWnKp5xdpg/aH1egoKVlrNi7Q3T
+	xHKjBkAUkCucbW3HK0oCO5MIq//T6rbtX/G96HDg9ai2/scVrD1o9JiTK6W/aWQRFzvdb7I0KKbtQ
+	g5Fweb2NFk7BddIxLYkjEOoPWEz4fZ6NmKitUhaChM7s7g8RnSbCj1pe+nOX+iULB0dIS7xuk8Ogs
+	PPoEAu5YQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jr0h7-0004U5-34; Thu, 02 Jul 2020 15:00:09 +0000
+	id 1jr0hO-0004de-Ja; Thu, 02 Jul 2020 15:00:26 +0000
 Received: from mx2.suse.de ([195.135.220.15])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jr0VW-00063N-Jk
- for linux-nvme@lists.infradead.org; Thu, 02 Jul 2020 14:48:12 +0000
+ id 1jr0WM-0006bz-KO
+ for linux-nvme@lists.infradead.org; Thu, 02 Jul 2020 14:49:03 +0000
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id D1BB8ADE3;
- Thu,  2 Jul 2020 14:48:09 +0000 (UTC)
-Subject: Re: [PATCH v6] nvme-fabrics: reject I/O to offline device
-To: Victor Gladkov <Victor.Gladkov@kioxia.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <31ae459d8d2f498ca8f4bfe2e09576f1@kioxia.com>
-From: Hannes Reinecke <hare@suse.de>
-Message-ID: <cf1b336e-ca40-6517-23f1-6c51e47e218a@suse.de>
-Date: Thu, 2 Jul 2020 16:48:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ by mx2.suse.de (Postfix) with ESMTP id BD5A1ADFF;
+ Thu,  2 Jul 2020 14:49:01 +0000 (UTC)
+Subject: Re: [PATCH 16/20] block: move ->make_request_fn to struct
+ block_device_operations
+To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
+References: <20200701085947.3354405-1-hch@lst.de>
+ <20200701085947.3354405-17-hch@lst.de>
+From: Coly Li <colyli@suse.de>
+Autocrypt: addr=colyli@suse.de; keydata=
+ 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
+Message-ID: <ded333a3-c6d9-2a4d-b427-b06aaa1e925c@suse.de>
+Date: Thu, 2 Jul 2020 22:48:54 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <31ae459d8d2f498ca8f4bfe2e09576f1@kioxia.com>
+In-Reply-To: <20200701085947.3354405-17-hch@lst.de>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200702_104810_888022_0A3ED3BE 
-X-CRM114-Status: GOOD (  40.58  )
+X-CRM114-CacheID: sfid-20200702_104902_917020_2DC40590 
+X-CRM114-Status: GOOD (  24.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,126 +112,177 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sagi Grimberg <sagi@grimberg.me>, "Ewan D. Milne" <emilne@redhat.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: linux-bcache@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+ linux-nvdimm@lists.01.org, linux-s390@vger.kernel.org, dm-devel@redhat.com,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-raid@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+ linuxppc-dev@lists.ozlabs.org, drbd-dev@lists.linbit.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gNy8yLzIwIDM6MTMgUE0sIFZpY3RvciBHbGFka292IHdyb3RlOgo+IENvbW1hbmRzIGdldCBz
-dHVjayB3aGlsZSBIb3N0IE5WTWUgY29udHJvbGxlciAoVENQIG9yIFJETUEpIGlzIGluCj4gcmVj
-b25uZWN0IHN0YXRlLiBOVk1lIGNvbnRyb2xsZXIgZW50ZXJzIGludG8gcmVjb25uZWN0IHN0YXRl
-IHdoZW4gaXQKPiBsb3NlcyBjb25uZWN0aW9uIHdpdGggdGhlIHRhcmdldC4gSXQgdHJpZXMgdG8g
-cmVjb25uZWN0IGV2ZXJ5IDEwCj4gc2Vjb25kcyAoZGVmYXVsdCkgdW50aWwgc3VjY2Vzc2Z1bCBy
-ZWNvbm5lY3Rpb24gb3IgdW50aWwgcmVjb25uZWN0Cj4gdGltZS1vdXQgaXMgcmVhY2hlZC4gVGhl
-IGRlZmF1bHQgcmVjb25uZWN0IHRpbWUgb3V0IGlzIDEwIG1pbnV0ZXMuCj4gCj4gVG8gZml4IHRo
-aXMgbG9uZyBkZWxheSBkdWUgdG8gdGhlIGRlZmF1bHQgdGltZW91dCB3ZSBpbnRyb2R1Y2UgbmV3
-Cj4gc2Vzc2lvbiBwYXJhbWV0ZXIgImZhc3RfaW9fZmFpbF90bW8iLiBUaGUgdGltZW91dCBpcyBt
-ZWFzdXJlZCBpbgo+IHNlY29uZHMgZnJvbSB0aGUgY29udHJvbGxlciByZWNvbm5lY3QsIGFueSBj
-b21tYW5kIGJleW9uZCB0aGF0Cj4gdGltZW91dCBpcyByZWplY3RlZC4gVGhlIG5ldyBwYXJhbWV0
-ZXIgdmFsdWUgbWF5IGJlIHBhc3NlZCBkdXJpbmcKPiAnY29ubmVjdCcuCj4gVGhlIGRlZmF1bHQg
-dmFsdWUgb2YgMCBtZWFucyBubyB0aW1lb3V0IChzaW1pbGFyIHRvIGN1cnJlbnQgYmVoYXZpb3Ip
-Lgo+IAo+IFdlIGFkZCBhIG5ldyBjb250cm9sbGVyIE5WTUVfQ1RSTF9GQUlMRkFTVF9FWFBJUkVE
-IGFuZCByZXNwZWN0aXZlCj4gZGVsYXllZCB3b3JrIHRoYXQgdXBkYXRlcyB0aGUgTlZNRV9DVFJM
-X0ZBSUxGQVNUX0VYUElSRUQgZmxhZy4KPiAKPiBXaGVuIHRoZSBjb250cm9sbGVyIGlzIGVudGVy
-aW5nIHRoZSBDT05ORUNUSU5HIHN0YXRlLCB3ZSBzY2hlZHVsZQo+IHRoZSBkZWxheWVkX3dvcmsg
-YmFzZWQgb24gZmFpbGZhc3QgdGltZW91dCB2YWx1ZS4gSWYgdGhlIHRyYW5zaXRpb24KPiBpcyBv
-dXQgb2YgQ09OTkVDVElORywgdGVybWluYXRlIGRlbGF5ZWQgd29yayBpdGVtIGFuZCBlbnN1cmUK
-PiBmYWlsZmFzdF9leHBpcmVkIGlzIGZhbHNlLiBJZiBkZWxheWVkIHdvcmsgaXRlbSBleHBpcmVz
-IHRoZW4gc2V0Cj4gIk5WTUVfQ1RSTF9GQUlMRkFTVF9FWFBJUkVEIiBmbGFnIHRvIHRydWUuCj4g
-Cj4gV2UgYWxzbyB1cGRhdGUgbnZtZl9mYWlsX25vbnJlYWR5X2NvbW1hbmQoKSBhbmQKPiBudm1l
-X2F2YWlsYWJsZV9wYXRoKCkgZnVuY3Rpb25zIHdpdGggY2hlY2sgdGhlCj4gIk5WTUVfQ1RSTF9G
-QUlMRkFTVF9FWFBJUkVEIiBjb250cm9sbGVyIGZsYWcuCj4gCj4gU2lnbmVkLW9mZi1ieTogVmlj
-dG9yIEdsYWRrb3YgPHZpY3Rvci5nbGFka292IGF0IGtpb3hpYS5jb20+Cj4gU2lnbmVkLW9mZi1i
-eTogQ2hhaXRhbnlhIEt1bGthcm5pIDxjaGFpdGFueWEua3Vsa2FybmkgYXQgd2RjLmNvbT4KPiAK
-PiAtLS0KPiBDaGFuZ2VzIEZyb20gVjU6Cj4gCj4gMS4gRHJvcCB0aGUgIm9mZiIgc3RyaW5nIG9w
-dGlvbiBmb3IgZmFzdF9pb19mYWlsX3Rtby4KPiAKPiBDaGFuZ2VzIEZyb20gVjQ6Cj4gCj4gMS4g
-UmVtb3ZlIHN1YnN5c25xbiBmcm9tIGRldl9pbmZvIGp1c3Qga2VlcCAiZmFpbGZhc3QgZXhwaXJl
-ZCIKPiAgICAgIGluIG52bWVfZmFpbGZhc3Rfd29yaygpLgo+IDIuIFJlbW92ZSBleGNlc3MgbG9j
-ayBpbiBudm1lX2ZhaWxmYXN0X3dvcmsoKS4KPiAzLiBDaGFuZ2UgInRpbWVvdXQgZGlzYWJsZWQi
-IHZhbHVlIHRvIC0xLCAnMCcgaXMgdG8gZmFpbCBJL08gcmlnaHQgYXdheSBub3cuCj4gNC4gQWRk
-ICJvZmYiIHN0cmluZyBmb3IgZmFzdF9pb19mYWlsX3RtbyBvcHRpb24gYXMgYSAtMSBlcXVpdmFs
-ZW50Lgo+IAo+IENoYW5nZXMgRnJvbSBWMzoKPiAKPiAxLiBCVUdfRklYOiBGaXggYSBidWcgaW4g
-bnZtZV9zdGFydF9mYWlsZmFzdF93b3JrKCkgYW1kCj4gICAgICBudm1lX3N0b3BfZmFpbGZhc3Rf
-d29yaygpIHdoZW4gYWNjZXNzaW5nIGN0cmwtPm9wdHMgYXMgaXQgd2lsbCBmYWlsCj4gICAgICBm
-b3IgUENJZSB0cmFuc3BvcnQgd2hlbiBpcyBjYWxsZWQgbnZtZV9jaGFuZ2VfY3RybF9zdGF0ZSgp
-Cj4gICAgICBmcm9tIG52bWVfcmVzZXRfd29yaygpLCBzaW5jZSB3ZSBkb24ndCBzZXQgdGhlIGN0
-cmwtPm9wdHMgZm9yCj4gICAgICBQQ0llIHRyYW5zcG9ydC4KPiAyLiBMaW5lIHdyYXAgaW4gbnZt
-ZV9zdGFydF9mYWlsZmFzdF93b3JrKCksIG52bWVfcGFyc2Vfb3B0aW9uKCkgYW5kCj4gICAgICBm
-b3IgbWFjcm8gTlZNRl9BTExPV0VEX09QVFMgZGVmaW5pdGlvbi4KPiAzLiBKdXN0IGxpa2UgYWxs
-IHRoZSBzdGF0ZSBjaGFuZ2UgY29kZSBhZGQgYSBzd2l0Y2ggZm9yIG5ld2x5Cj4gICAgICBhZGRl
-ZCBzdGF0ZSBoYW5kbGluZyBvdXRzaWRlIG9mIHRoZSBzdGF0ZSBtYWNoaW5lIGluCj4gICAgICBu
-dm1lX3N0YXRlX2NoYW5nZSgpLgo+IDQuIG52bWVfYXZhaWxhYmxlX3BhdGgoKSBhZGQgLyogZmFs
-bHRocnUgKi8gYWZ0ZXIgaWYuLmJyZWFrIGluc2lkZQo+ICAgICAgc3dpdGNoIHdoaWNoIGlzIHVu
-ZGVyIGxpc3RfZm9yX2VhY2hfZW50cnlfcmN1KCkuCj4gNS4gQWxpZ24gbmV3bHkgYWRkZWQgbWVt
-YmVyIG52bWZfY3RybF9vcHRpb25zIGZhc3RfaW9fZmFpbF90bXAuCj4gNi4gRml4IHRoZSB0YWJz
-IGJlZm9yZSBpZiBpbiBudm1lX2F2YWlsYWJsZV9wYXRoKCkgYW5kIGxpbmUgd3JhcAo+ICAgICAg
-Zm9yIHRoZSBzYW1lLgo+IDcuIEluIG52bWVfZmFpbGZhc3Rfd29yaygpIHVzZSBzdGF0ZSAhPSBO
-Vk1FX0NUUkxfQ09OTkVDVElORwo+ICAgICAgaW5zdGVhZCBvZiA9PSB0byBnZXQgcmlkIG9mIHRo
-ZSBwYXJlbnRoZXNlcyBhbmQgYXZvaWQgY2hhciA+IDgwLgo+IDguIEdldCByaWQgb2YgdGhlICI7
-IiBhdCB0aGUgZW5kIG9mIHRoZSBjb21tZW50IGZvciBAZmFzdF9pb19mYWlsX3RtcC4KPiA5LiBD
-aGFuZ2UgdGhlIGNvbW1pdCBsb2cgc3R5bGUgdG8gbWF0Y2ggdGhlIG9uZSB3ZSBoYXZlIGluIHRo
-ZSBOVk1lCj4gICAgICByZXBvLgo+IAo+IENoYW5nZXMgZnJvbSBWMjoKPiAKPiAxLiBTZXZlcmFs
-IGNvZGluZyBzdHlsZSBhbmQgc21hbGwgZml4ZXMuCj4gMi4gRml4IHRoZSBjb21tZW50IGZvciBO
-Vk1GX0RFRl9GQUlMX0ZBU1RfVE1PLgo+IDMuIERvbid0IGNhbGwgZnVuY3Rpb25hbGl0eSBmcm9t
-IHRoZSBzdGF0ZSBtYWNoaW5lLgo+IDQuIFJlbmFtZSBmYXN0X2ZhaWxfdG1vIC0+IGZhc3RfaW9f
-ZmFpbF90bW8gdG8gbWF0Y2ggU0NTSQo+ICAgICAgc2VtYW50aWNzLgo+IAo+IENoYW5nZXMgZnJv
-bSBWMToKPiAKPiAxLiBBZGQgYSBuZXcgc2Vzc2lvbiBwYXJhbWV0ZXIgY2FsbGVkICJmYXN0X2Zh
-aWxfdG1vIi4gVGhlIHRpbWVvdXQKPiAgICAgIGlzIG1lYXN1cmVkIGluIHNlY29uZHMgZnJvbSB0
-aGUgY29udHJvbGxlciByZWNvbm5lY3QsIGFueSBjb21tYW5kCj4gICAgICBiZXlvbmQgdGhhdCB0
-aW1lb3V0IGlzIHJlamVjdGVkLiBUaGUgbmV3IHBhcmFtZXRlciB2YWx1ZSBtYXkgYmUKPiAgICAg
-IHBhc3NlZCBkdXJpbmcgJ2Nvbm5lY3QnLCBhbmQgaXRzIGRlZmF1bHQgdmFsdWUgaXMgMzAgc2Vj
-b25kcy4KPiAgICAgIEEgdmFsdWUgb2YgMCBtZWFucyBubyB0aW1lb3V0IChzaW1pbGFyIHRvIGN1
-cnJlbnQgYmVoYXZpb3IpLgo+IDIuIEFkZCBhIGNvbnRyb2xsZXIgZmxhZyBvZiAiZmFpbGZhc3Rf
-ZXhwaXJlZCIuCj4gMy4gQWRkIGRlZGljYXRlZCBkZWxheWVkX3dvcmsgdGhhdCB1cGRhdGUgdGhl
-ICJmYWlsZmFzdF9leHBpcmVkIgo+ICAgICAgY29udHJvbGxlciBmbGFnLgo+IDQuIFdoZW4gZW50
-ZXJpbmcgQ09OTkVDVElORywgc2NoZWR1bGUgdGhlIGRlbGF5ZWRfd29yayBiYXNlZCBvbgo+ICAg
-ICAgZmFpbGZhc3QgdGltZW91dCB2YWx1ZS4gSWYgdHJhbnNpdGlvbiBvdXQgb2YgQ09OTkVDVElO
-RywgdGVybWluYXRlCj4gICAgICBkZWxheWVkIHdvcmsgaXRlbSBhbmQgZW5zdXJlIGZhaWxmYXN0
-X2V4cGlyZWQgaXMgZmFsc2UuCj4gICAgICBJZiBkZWxheWVkIHdvcmsgaXRlbSBleHBpcmVzOiBz
-ZXQgImZhaWxmYXN0X2V4cGlyZWQiIGZsYWcgdG8gdHJ1ZS4KPiA1LiBVcGRhdGUgbnZtZl9mYWls
-X25vbnJlYWR5X2NvbW1hbmQoKSB3aXRoIGNoZWNrIHRoZQo+ICAgICAgImZhaWxmYXN0X2V4cGly
-ZWQiIGNvbnRyb2xsZXIgZmxhZy4KPiAKPiAtLS0KPiAgIGRyaXZlcnMvbnZtZS9ob3N0L2NvcmUu
-YyAgICAgIHwgNTMgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrLQo+
-ICAgZHJpdmVycy9udm1lL2hvc3QvZmFicmljcy5jICAgfCAyNSArKysrKysrKysrKysrKysrKy0t
-LQo+ICAgZHJpdmVycy9udm1lL2hvc3QvZmFicmljcy5oICAgfCAgNSArKysrCj4gICBkcml2ZXJz
-L252bWUvaG9zdC9tdWx0aXBhdGguYyB8ICA1ICsrKy0KPiAgIGRyaXZlcnMvbnZtZS9ob3N0L252
-bWUuaCAgICAgIHwgIDMgKysrCj4gICA1IGZpbGVzIGNoYW5nZWQsIDg2IGluc2VydGlvbnMoKyks
-IDUgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbnZtZS9ob3N0L2NvcmUu
-YyBiL2RyaXZlcnMvbnZtZS9ob3N0L2NvcmUuYwo+IGluZGV4IGYzYzAzN2YuLmY3MDRiMjAgMTAw
-NjQ0Cj4gLS0tIGEvZHJpdmVycy9udm1lL2hvc3QvY29yZS5jCj4gKysrIGIvZHJpdmVycy9udm1l
-L2hvc3QvY29yZS5jCj4gQEAgLTEzNyw2ICsxMzcsNDEgQEAgaW50IG52bWVfdHJ5X3NjaGVkX3Jl
-c2V0KHN0cnVjdCBudm1lX2N0cmwgKmN0cmwpCj4gICB9Cj4gICBFWFBPUlRfU1lNQk9MX0dQTChu
-dm1lX3RyeV9zY2hlZF9yZXNldCk7Cj4gCj4gK3N0YXRpYyB2b2lkIG52bWVfZmFpbGZhc3Rfd29y
-ayhzdHJ1Y3Qgd29ya19zdHJ1Y3QgKndvcmspCj4gK3sKPiArCXN0cnVjdCBudm1lX2N0cmwgKmN0
-cmwgPSBjb250YWluZXJfb2YodG9fZGVsYXllZF93b3JrKHdvcmspLAo+ICsJCQlzdHJ1Y3QgbnZt
-ZV9jdHJsLCBmYWlsZmFzdF93b3JrKTsKPiArCj4gKwlpZiAoY3RybC0+c3RhdGUgIT0gTlZNRV9D
-VFJMX0NPTk5FQ1RJTkcpCj4gKwkJcmV0dXJuOwo+ICsKPiArCXNldF9iaXQoTlZNRV9DVFJMX0ZB
-SUxGQVNUX0VYUElSRUQsICZjdHJsLT5mbGFncyk7Cj4gKwlkZXZfaW5mbyhjdHJsLT5kZXZpY2Us
-ICJmYWlsZmFzdCBleHBpcmVkXG4iKTsKPiArCW52bWVfa2lja19yZXF1ZXVlX2xpc3RzKGN0cmwp
-Owo+ICt9Cj4gKwo+ICtzdGF0aWMgaW5saW5lIHZvaWQgbnZtZV9zdGFydF9mYWlsZmFzdF93b3Jr
-KHN0cnVjdCBudm1lX2N0cmwgKmN0cmwpCj4gK3sKPiArCWlmICghY3RybC0+b3B0cyB8fCBjdHJs
-LT5vcHRzLT5mYXN0X2lvX2ZhaWxfdG1vID09IC0xKQo+ICsJCXJldHVybjsKPiArCj4gKwlpZiAo
-Y3RybC0+b3B0cy0+ZmFzdF9pb19mYWlsX3RtbyA9PSAwKSB7Cj4gKwkJbnZtZV9mYWlsZmFzdF93
-b3JrKCZjdHJsLT5mYWlsZmFzdF93b3JrLndvcmspOwo+ICsJCXJldHVybjsKPiArCX0KPiArCj4g
-KwlzY2hlZHVsZV9kZWxheWVkX3dvcmsoJmN0cmwtPmZhaWxmYXN0X3dvcmssCj4gKwkJCSAgICAg
-IGN0cmwtPm9wdHMtPmZhc3RfaW9fZmFpbF90bW8gKiBIWik7Cj4gK30KPiArCgpObyBuZWVkIGZv
-ciB0aGUgJ2lmJyBjbGF1c2UgaGVyZSwgc2NoZWR1bGVfZGVsYXllZF93b3JrKCkgd2lsbCBzdGFy
-dCB0aGUgCmZ1bmN0aW9uIGltbWVkaWF0ZWx5IGlmIHRoZSB0aW1lb3V0IGlzIDAuCgo+ICtzdGF0
-aWMgaW5saW5lIHZvaWQgbnZtZV9zdG9wX2ZhaWxmYXN0X3dvcmsoc3RydWN0IG52bWVfY3RybCAq
-Y3RybCkKPiArewo+ICsJaWYgKCFjdHJsLT5vcHRzIHx8IGN0cmwtPm9wdHMtPmZhc3RfaW9fZmFp
-bF90bW8gPT0gLTEpCj4gKwkJcmV0dXJuOwo+ICsJY2FuY2VsX2RlbGF5ZWRfd29ya19zeW5jKCZj
-dHJsLT5mYWlsZmFzdF93b3JrKTsKPiArCWNsZWFyX2JpdChOVk1FX0NUUkxfRkFJTEZBU1RfRVhQ
-SVJFRCwgJmN0cmwtPmZsYWdzKTsKPiArfQo+ICsKCkknZCByYXRoZXIgY2FsbCAnY2FuY2VsX2Rl
-bGF5ZWRfd29ya19zeW5jKCknIHByaW9yIHRvIHRoZSBjaGVjayBmb3IKZmFzdF9pb19mYWlsX3Rt
-bywgYXMgb3RoZXJ3aXNlIHdlJ3JlIG5vdCBzdG9wcGluZyB0aGUgd29ya3F1ZXVlCmlmIGZhc3Rf
-aW9fZmFpbF90bW8gY2hhbmdlZCB3aGlsZSBhIHdvcmtxdWV1ZSBlbGVtZW50IGlzIHBlbmRpbmcu
-CihVbmxpa2VseSB0byBoYXBwZW4gbm93LCBJIGtub3cuIEJ1dCBzdGlsbC4pCgpDaGVlcnMsCgpI
-YW5uZXMKLS0gCkRyLiBIYW5uZXMgUmVpbmVja2UgICAgICAgICAgICBUZWFtbGVhZCBTdG9yYWdl
-ICYgTmV0d29ya2luZwpoYXJlQHN1c2UuZGUgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-KzQ5IDkxMSA3NDA1MyA2ODgKU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR21iSCwgTWF4ZmVsZHN0
-ci4gNSwgOTA0MDkgTsO8cm5iZXJnCkhSQiAzNjgwOSAoQUcgTsO8cm5iZXJnKSwgR2VzY2jDpGZ0
-c2bDvGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZlcgoKX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KTGludXgtbnZtZSBtYWlsaW5nIGxpc3QKTGludXgtbnZtZUBs
-aXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlz
-dGluZm8vbGludXgtbnZtZQo=
+On 2020/7/1 16:59, Christoph Hellwig wrote:
+> The make_request_fn is a little weird in that it sits directly in
+> struct request_queue instead of an operation vector.  Replace it with
+> a block_device_operations method called submit_bio (which describes much
+> better what it does).  Also remove the request_queue argument to it, as
+> the queue can be derived pretty trivially from the bio.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+
+For the bcache part,
+
+Acked-by: Coly Li <colyli@suse.de>
+
+> ---
+>  Documentation/block/biodoc.rst                |  2 +-
+>  .../block/writeback_cache_control.rst         |  2 +-
+>  arch/m68k/emu/nfblock.c                       |  5 +-
+>  arch/xtensa/platforms/iss/simdisk.c           |  5 +-
+>  block/blk-cgroup.c                            |  2 +-
+>  block/blk-core.c                              | 53 +++++++------------
+>  block/blk-mq.c                                | 10 ++--
+>  block/blk.h                                   |  2 -
+>  drivers/block/brd.c                           |  5 +-
+>  drivers/block/drbd/drbd_int.h                 |  2 +-
+>  drivers/block/drbd/drbd_main.c                |  9 ++--
+>  drivers/block/drbd/drbd_req.c                 |  2 +-
+>  drivers/block/null_blk_main.c                 | 17 ++++--
+>  drivers/block/pktcdvd.c                       | 11 ++--
+>  drivers/block/ps3vram.c                       | 15 +++---
+>  drivers/block/rsxx/dev.c                      |  7 ++-
+>  drivers/block/umem.c                          |  5 +-
+>  drivers/block/zram/zram_drv.c                 | 11 ++--
+>  drivers/lightnvm/core.c                       |  8 +--
+>  drivers/lightnvm/pblk-init.c                  | 12 +++--
+>  drivers/md/bcache/request.c                   |  4 +-
+>  drivers/md/bcache/request.h                   |  4 +-
+>  drivers/md/bcache/super.c                     | 23 +++++---
+>  drivers/md/dm.c                               | 23 ++++----
+>  drivers/md/md.c                               |  5 +-
+>  drivers/nvdimm/blk.c                          |  5 +-
+>  drivers/nvdimm/btt.c                          |  5 +-
+>  drivers/nvdimm/pmem.c                         |  5 +-
+>  drivers/nvme/host/core.c                      |  1 +
+>  drivers/nvme/host/multipath.c                 |  5 +-
+>  drivers/nvme/host/nvme.h                      |  1 +
+>  drivers/s390/block/dcssblk.c                  |  9 ++--
+>  drivers/s390/block/xpram.c                    |  6 +--
+>  include/linux/blk-mq.h                        |  2 +-
+>  include/linux/blkdev.h                        |  7 +--
+>  include/linux/lightnvm.h                      |  3 +-
+>  36 files changed, 153 insertions(+), 140 deletions(-)
+> 
+[snipped]
+
+> diff --git a/drivers/md/bcache/request.c b/drivers/md/bcache/request.c
+> index 7acf024e99f351..fc5702b10074d6 100644
+> --- a/drivers/md/bcache/request.c
+> +++ b/drivers/md/bcache/request.c
+> @@ -1158,7 +1158,7 @@ static void quit_max_writeback_rate(struct cache_set *c,
+>  
+>  /* Cached devices - read & write stuff */
+>  
+> -blk_qc_t cached_dev_make_request(struct request_queue *q, struct bio *bio)
+> +blk_qc_t cached_dev_submit_bio(struct bio *bio)
+>  {
+>  	struct search *s;
+>  	struct bcache_device *d = bio->bi_disk->private_data;
+> @@ -1291,7 +1291,7 @@ static void flash_dev_nodata(struct closure *cl)
+>  	continue_at(cl, search_free, NULL);
+>  }
+>  
+> -blk_qc_t flash_dev_make_request(struct request_queue *q, struct bio *bio)
+> +blk_qc_t flash_dev_submit_bio(struct bio *bio)
+>  {
+>  	struct search *s;
+>  	struct closure *cl;
+> diff --git a/drivers/md/bcache/request.h b/drivers/md/bcache/request.h
+> index bb005c93dd7218..82b38366a95deb 100644
+> --- a/drivers/md/bcache/request.h
+> +++ b/drivers/md/bcache/request.h
+> @@ -37,10 +37,10 @@ unsigned int bch_get_congested(const struct cache_set *c);
+>  void bch_data_insert(struct closure *cl);
+>  
+>  void bch_cached_dev_request_init(struct cached_dev *dc);
+> -blk_qc_t cached_dev_make_request(struct request_queue *q, struct bio *bio);
+> +blk_qc_t cached_dev_submit_bio(struct bio *bio);
+>  
+>  void bch_flash_dev_request_init(struct bcache_device *d);
+> -blk_qc_t flash_dev_make_request(struct request_queue *q, struct bio *bio);
+> +blk_qc_t flash_dev_submit_bio(struct bio *bio);
+>  
+>  extern struct kmem_cache *bch_search_cache;
+>  
+> diff --git a/drivers/md/bcache/super.c b/drivers/md/bcache/super.c
+> index 21aa168113d30b..de13f6e916966d 100644
+> --- a/drivers/md/bcache/super.c
+> +++ b/drivers/md/bcache/super.c
+> @@ -680,7 +680,16 @@ static int ioctl_dev(struct block_device *b, fmode_t mode,
+>  	return d->ioctl(d, mode, cmd, arg);
+>  }
+>  
+> -static const struct block_device_operations bcache_ops = {
+> +static const struct block_device_operations bcache_cached_ops = {
+> +	.submit_bio	= cached_dev_submit_bio,
+> +	.open		= open_dev,
+> +	.release	= release_dev,
+> +	.ioctl		= ioctl_dev,
+> +	.owner		= THIS_MODULE,
+> +};
+> +
+> +static const struct block_device_operations bcache_flash_ops = {
+> +	.submit_bio	= flash_dev_submit_bio,
+>  	.open		= open_dev,
+>  	.release	= release_dev,
+>  	.ioctl		= ioctl_dev,
+> @@ -820,8 +829,8 @@ static void bcache_device_free(struct bcache_device *d)
+>  }
+>  
+>  static int bcache_device_init(struct bcache_device *d, unsigned int block_size,
+> -			      sector_t sectors, make_request_fn make_request_fn,
+> -			      struct block_device *cached_bdev)
+> +		sector_t sectors, struct block_device *cached_bdev,
+> +		const struct block_device_operations *ops)
+>  {
+>  	struct request_queue *q;
+>  	const size_t max_stripes = min_t(size_t, INT_MAX,
+> @@ -868,10 +877,10 @@ static int bcache_device_init(struct bcache_device *d, unsigned int block_size,
+>  
+>  	d->disk->major		= bcache_major;
+>  	d->disk->first_minor	= idx_to_first_minor(idx);
+> -	d->disk->fops		= &bcache_ops;
+> +	d->disk->fops		= ops;
+>  	d->disk->private_data	= d;
+>  
+> -	q = blk_alloc_queue(make_request_fn, NUMA_NO_NODE);
+> +	q = blk_alloc_queue(NUMA_NO_NODE);
+>  	if (!q)
+>  		return -ENOMEM;
+>  
+> @@ -1355,7 +1364,7 @@ static int cached_dev_init(struct cached_dev *dc, unsigned int block_size)
+>  
+>  	ret = bcache_device_init(&dc->disk, block_size,
+>  			 dc->bdev->bd_part->nr_sects - dc->sb.data_offset,
+> -			 cached_dev_make_request, dc->bdev);
+> +			 dc->bdev, &bcache_cached_ops);
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -1468,7 +1477,7 @@ static int flash_dev_run(struct cache_set *c, struct uuid_entry *u)
+>  	kobject_init(&d->kobj, &bch_flash_dev_ktype);
+>  
+>  	if (bcache_device_init(d, block_bytes(c), u->sectors,
+> -			flash_dev_make_request, NULL))
+> +			NULL, &bcache_flash_ops))
+>  		goto err;
+>  
+>  	bcache_device_attach(d, c, u - c->uuids);
+
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
