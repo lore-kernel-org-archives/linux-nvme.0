@@ -4,64 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F20F5C433E0
-	for <linux-nvme@archiver.kernel.org>; Thu,  2 Jul 2020 13:13:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 936C7C433DF
+	for <linux-nvme@archiver.kernel.org>; Thu,  2 Jul 2020 14:10:29 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B1A2020772
-	for <linux-nvme@archiver.kernel.org>; Thu,  2 Jul 2020 13:13:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 53AA920772
+	for <linux-nvme@archiver.kernel.org>; Thu,  2 Jul 2020 14:10:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="suNWo6DE"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B1A2020772
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kioxia.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Rt5RiGGS";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=lca.pw header.i=@lca.pw header.b="erCtxijI"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 53AA920772
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lca.pw
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-ID:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=I8tREhTOV4fkPZNNO5RSGsYHNnuwbs9YC4HwHKF9JWA=; b=suNWo6DESA6lcRt/K2LaauGOx2
-	aL1X1vklpY6kZ0uln7K8ikyFqU4rnvdzO1PLa7xFSIztsx7PppKTMl0RJ/T0WoKd0rc+Ey05AAv+B
-	p2l5iZcyBJksVB6E+UwKx8Nvq4inovMiG6IQlIIMV6FuFsHGmg5MSUg4cRXeUOj6uiu8cMAclI8GX
-	BhX9JtbCsbY81krc3nBAfosxFQL4tjKi/SUI2L3v7QxBTem/4Jt4jzpqggzToNRLpRIqYbWPgv7Tp
-	ZiXgj1jwsA8am+M2XBhAqfAEvaA55UxjMt6lzhLTt8M2inWgdDyI+hg//r278TloBLlM+msWYwHz4
-	5x3J4t2w==;
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=Uf9nxsR1/Sgq4NfoXt1UNXght5KqODOK7tnM1bM3vZo=; b=Rt5RiGGSzUGCFkZznUvw29MPq
+	CLTqpNEnLsvkFObo6/Gp+CFfr9tnaT8yLIGTHA1l5T9oohXUqkb/tDijrVtsQFBZ+1z69WO5bw8hG
+	I3CedrU1VFRGSR82Qmbr0LiKvhiYQ3y/1IvB+h3yE+JD3H7BLKTb2ktIIYydTGVouR59ZuNAInZf9
+	FBUKKlp/kWeOHM3Tdxd2rr0GMN9wRTH8Lpuq7QhPj8wAquc/FCMJspF4JmdtBnSSrd3EE5UwGvc9C
+	ptBnrs475oIZCKhM/e46ErpPip58F21DWkiWMSjdEAWBWiJIyU2ROecITIOpjrUDEEhrpf5TA8FtT
+	kJISkaZ4g==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jqz1f-0002Op-R5; Thu, 02 Jul 2020 13:13:15 +0000
-Received: from usmailhost21.kioxia.com ([12.0.68.226]
- helo=SJSMAIL01.us.kioxia.com)
+	id 1jqzux-0005ak-BS; Thu, 02 Jul 2020 14:10:23 +0000
+Received: from mail-qt1-x841.google.com ([2607:f8b0:4864:20::841])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jqz1Z-0002NK-5q
- for linux-nvme@lists.infradead.org; Thu, 02 Jul 2020 13:13:12 +0000
-Received: from SJSMAIL01.us.kioxia.com (10.90.133.90) by
- SJSMAIL01.us.kioxia.com (10.90.133.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1779.2; Thu, 2 Jul 2020 06:13:02 -0700
-Received: from SJSMAIL01.us.kioxia.com ([fe80::39f9:a76d:ffe7:907a]) by
- SJSMAIL01.us.kioxia.com ([fe80::39f9:a76d:ffe7:907a%3]) with mapi id
- 15.01.1779.004; Thu, 2 Jul 2020 06:13:02 -0700
-From: Victor Gladkov <Victor.Gladkov@kioxia.com>
-To: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: [PATCH v6] nvme-fabrics: reject I/O to offline device
-Thread-Topic: [PATCH v6] nvme-fabrics: reject I/O to offline device
-Thread-Index: AdZQciq9ztUL3SkORi+bnQZXeZ9bkA==
-Date: Thu, 2 Jul 2020 13:13:02 +0000
-Message-ID: <31ae459d8d2f498ca8f4bfe2e09576f1@kioxia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.93.66.127]
+ id 1jqzuu-0005ZE-5u
+ for linux-nvme@lists.infradead.org; Thu, 02 Jul 2020 14:10:21 +0000
+Received: by mail-qt1-x841.google.com with SMTP id o38so21299491qtf.6
+ for <linux-nvme@lists.infradead.org>; Thu, 02 Jul 2020 07:10:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lca.pw; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=udayY5ABJDLOO0RvBXlK3pa4/Sym6FnknXTrvHcRBkc=;
+ b=erCtxijIO8+63UgJpAZXzEgrcb2Xn2KMHK5IxHSpdhPhUSVkcXgzTP3pMUWFinsTTv
+ iS56z/APXOChW7vFwwyHGs+SXNNto575Cjyat5MsE3KGJvCN5Cn696hFtqL8d+bdoCEP
+ Z6PHmG/0MlAI3eWz/iyVU98zHL1wxvKjffit919phkZoBa5beuvNHpV5n9uz62ZT9z0Z
+ nUWmDWim5fViFP6upMl1dAagQLrvjJQuGTpiK+ktufrL/M94KdqitLX+6mmWa6O6PxgV
+ DF2wgWmzPiDL4LJkZ/EvBnVzn45qAWZKhBHVvShP0MIqsFtWKWlid8n8Kdq50+x1QLG5
+ rTog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=udayY5ABJDLOO0RvBXlK3pa4/Sym6FnknXTrvHcRBkc=;
+ b=NAfMVLo7RD32/FEnteov1qsUFnCWoAayQx3YB+XJLmcw10RRn2e3PHjwNJ2NrbMyUz
+ yLyTD35IIF7X8DsPogIzH84yAZgcakokhw09sYMDGYKR9wn8p/JCkhr4m94FFuC58trT
+ uZ895SPkGyuV+56lMFAd0AnjweCsCa6F72NWYr4kTIoeuxljV6lxnyx8KO1q3rZy0klf
+ XFtFplrJJD2tJMuXBuFkomqQYWMgP9K52wWTdQ0tWh8IOg/rYV7JvIzdP8ExdZFVh0g3
+ 0U6sCWyiUIFAqq4PUVxy+XL98Qv4i+RjiS3/+Nvx3xv7Kfzz+zpfQ52zKvsjdX/2wMgE
+ xDLg==
+X-Gm-Message-State: AOAM530lXqj5Eo88racJUoW2iVwKXrEj3PJNIffcBZ7bzkBmj2dS+JOg
+ 3O9INC11x1sCpk3AbbYsE3C3Ag==
+X-Google-Smtp-Source: ABdhPJyYCx8azMcUjuKq46aiD9c0/KurabVnlR+I6wfBrTFRxqOWJ6W4gtKFfBfKPUQVFD93F4GhoQ==
+X-Received: by 2002:ac8:6d24:: with SMTP id r4mr6709054qtu.43.1593699017486;
+ Thu, 02 Jul 2020 07:10:17 -0700 (PDT)
+Received: from lca.pw (pool-71-184-117-43.bstnma.fios.verizon.net.
+ [71.184.117.43])
+ by smtp.gmail.com with ESMTPSA id i28sm8412840qkh.1.2020.07.02.07.10.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Jul 2020 07:10:16 -0700 (PDT)
+Date: Thu, 2 Jul 2020 10:10:10 -0400
+From: Qian Cai <cai@lca.pw>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH 18/20] block: refator submit_bio_noacct
+Message-ID: <20200702141001.GA3834@lca.pw>
+References: <20200629193947.2705954-1-hch@lst.de>
+ <20200629193947.2705954-19-hch@lst.de>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200629193947.2705954-19-hch@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200702_091309_242041_47E1FACD 
-X-CRM114-Status: GOOD (  26.59  )
+X-CRM114-CacheID: sfid-20200702_101020_340642_6CF279DA 
+X-CRM114-Status: GOOD (  30.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,356 +96,335 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Sagi Grimberg <sagi@grimberg.me>, "Ewan D. Milne" <emilne@redhat.com>
+Cc: Jens Axboe <axboe@kernel.dk>, linux-xtensa@linux-xtensa.org,
+ linux-nvdimm@lists.01.org, linux-s390@vger.kernel.org,
+ linux-m68k@lists.linux-m68k.org, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org, dm-devel@redhat.com,
+ linux-bcache@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ drbd-dev@lists.linbit.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Commands get stuck while Host NVMe controller (TCP or RDMA) is in
-reconnect state. NVMe controller enters into reconnect state when it
-loses connection with the target. It tries to reconnect every 10
-seconds (default) until successful reconnection or until reconnect
-time-out is reached. The default reconnect time out is 10 minutes.
+On Mon, Jun 29, 2020 at 09:39:45PM +0200, Christoph Hellwig wrote:
+> Split out a __submit_bio_noacct helper for the actual de-recursion
+> algorithm, and simplify the loop by using a continue when we can't
+> enter the queue for a bio.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-To fix this long delay due to the default timeout we introduce new
-session parameter "fast_io_fail_tmo". The timeout is measured in
-seconds from the controller reconnect, any command beyond that
-timeout is rejected. The new parameter value may be passed during
-'connect'.
-The default value of 0 means no timeout (similar to current behavior).
+Reverting this commit and its dependencies,
 
-We add a new controller NVME_CTRL_FAILFAST_EXPIRED and respective
-delayed work that updates the NVME_CTRL_FAILFAST_EXPIRED flag.
+5a6c35f9af41 block: remove direct_make_request
+ff93ea0ce763 block: shortcut __submit_bio_noacct for blk-mq drivers
 
-When the controller is entering the CONNECTING state, we schedule
-the delayed_work based on failfast timeout value. If the transition
-is out of CONNECTING, terminate delayed work item and ensure
-failfast_expired is false. If delayed work item expires then set
-"NVME_CTRL_FAILFAST_EXPIRED" flag to true.
+fixed the stack-out-of-bounds during boot,
 
-We also update nvmf_fail_nonready_command() and
-nvme_available_path() functions with check the
-"NVME_CTRL_FAILFAST_EXPIRED" controller flag.
+https://lore.kernel.org/linux-block/000000000000bcdeaa05a97280e4@google.com/
 
-Signed-off-by: Victor Gladkov <victor.gladkov at kioxia.com>
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+[   55.573431][ T1373] BUG: KASAN: stack-out-of-bounds in bio_alloc_bioset+0x493/0x4a0
+bio_alloc_bioset+0x493/0x4a0:
+bio_list_empty at include/linux/bio.h:561
+(inlined by) bio_alloc_bioset at block/bio.c:482
+[   55.581140][ T1373] Read of size 8 at addr ffffc9000a7df1e0 by task mount/1373
+[   55.588409][ T1373]
+[   55.590615][ T1373] CPU: 2 PID: 1373 Comm: mount Not tainted 5.8.0-rc3-next-20200702 #2
+[   55.598672][ T1373] Hardware name: HPE ProLiant DL385 Gen10/ProLiant DL385 Gen10, BIOS A40 07/10/2019
+[   55.607972][ T1373] Call Trace:
+[   55.607980][ T1373]  dump_stack+0x9d/0xe0
+[   55.607984][ T1373]  ? bio_alloc_bioset+0x493/0x4a0
+[   55.607992][ T1373]  ? bio_alloc_bioset+0x493/0x4a0
+[   55.625007][ T1373]  print_address_description.constprop.8.cold.10+0x56/0x44e
+[   55.632191][ T1373]  ? bio_alloc_bioset+0x493/0x4a0
+[   55.637100][ T1373]  ? bio_alloc_bioset+0x493/0x4a0
+[   55.642011][ T1373]  kasan_report.cold.11+0x37/0x7c
+[   55.646923][ T1373]  ? bio_alloc_bioset+0x493/0x4a0
+[   55.651968][ T1373]  bio_alloc_bioset+0x493/0x4a0
+[   55.651971][ T1373]  ? bvec_alloc+0x290/0x290
+[   55.651975][ T1373]  ? mark_lock+0x147/0x1800
+[   55.651978][ T1373]  ? mark_lock+0x147/0x1800
+[   55.651981][ T1373]  bio_clone_fast+0xe/0x30
+[   55.651983][ T1373]  bio_split+0x8a/0x4c0
+[   55.651986][ T1373]  ? print_irqtrace_events+0x270/0x270
+[   55.651990][ T1373]  __blk_queue_split+0xc42/0x13e0
+[   55.651998][ T1373]  ? __lock_acquire+0xc57/0x4da0
+         Startin[   55.693322][ T1373]  ? __blk_rq_map_sg+0x14c0/0x14c0
+[   55.699711][ T1373]  ? lockdep_hardirqs_on_prepare+0x550/0x550
+[   55.705602][ T1373]  ? mark_held_locks+0xb0/0x110
+[   55.705605][ T1373]  ? lockdep_hardirqs_on_prepare+0x550/0x550
+[   55.705608][ T1373]  ? lockdep_hardirqs_on_prepare+0x550/0x550
+[   55.705611][ T1373]  ? find_held_lock+0x33/0x1c0
+[   55.705614][ T1373]  ? find_held_lock+0x33/0x1c0
+[   55.705618][ T1373]  blk_mq_submit_bio+0x19e/0x1e20
+[   55.705621][ T1373]  ? lock_downgrade+0x720/0x720
+[   55.705624][ T1373]  ? blk_mq_try_issue_directly+0x140/0x140
+[   55.705628][ T1373]  ? rcu_read_lock_sched_held+0xaa/0xd0
+[   55.705631][ T1373]  ? rcu_read_lock_bh_held+0xc0/0xc0
+[   55.705635][ T1373]  ? blk_queue_enter+0x83c/0x9a0
+[   55.705647][ T1373]  ? submit_bio_checks+0x1cc0/0x1cc0
+[   55.767384][ T1373]  submit_bio_noacct+0x9c0/0xeb0
+[   55.772212][ T1373]  ? blk_queue_enter+0x9a0/0x9a0
+[   55.777038][ T1373]  ? lockdep_hardirqs_on_prepare+0x550/0x550
+[   55.782913][ T1373]  ? trace_hardirqs_on+0x20/0x1b5
+[   55.787825][ T1373]  ? submit_bio+0xe7/0x480
+[   55.792125][ T1373]  submit_bio+0xe7/0x480
+[   55.796252][ T1373]  ? bio_associate_blkg_from_css+0x4a3/0xd30
+[   55.802124][ T1373]  ? submit_bio_noacct+0xeb0/0xeb0
+[   55.807124][ T1373]  ? lock_downgrade+0x720/0x720
+[   55.811862][ T1373]  ? rcu_read_unlock+0x50/0x50
+[   55.816512][ T1373]  ? lockdep_init_map_waits+0x267/0x7b0
+[   55.821948][ T1373]  ? lockdep_init_map_waits+0x267/0x7b0
+g LVM event acti[   55.827386][ T1373]  ? __raw_spin_lock_init+0x34/0x100
+[   55.833957][ T1373]  submit_bio_wait+0xf9/0x200
+vation on device[   55.838521][ T1373]  ? submit_bio_wait_endio+0x30/0x30
+[   55.845091][ T1373]  xfs_rw_bdev+0x3ca/0x4d0
+[   55.849396][ T1373]  xlog_do_io+0x149/0x320
+[   55.853611][ T1373]  xlog_bread+0x1e/0xb0
+[   55.857651][ T1373]  xlog_find_verify_log_record+0xba/0x4c0
+[   55.863264][ T1373]  ? xlog_header_check_mount+0xb0/0xb0
+[   55.868615][ T1373]  xlog_find_zeroed+0x2bc/0x4c0
+ 8:3...
+[   55.873356][ T1373]  ? print_irqtrace_events+0x270/0x270
+[   55.880093][ T1373]  ? xlog_find_verify_log_record+0x4c0/0x4c0
+[   55.885966][ T1373]  ? __lock_acquire+0x1920/0x4da0
+[   55.890881][ T1373]  xlog_find_head+0xd4/0x790
+[   55.895355][ T1373]  ? xlog_find_zeroed+0x4c0/0x4c0
+[   55.900269][ T1373]  ? rcu_read_lock_sched_held+0xaa/0xd0
+[   55.905708][ T1373]  ? rcu_read_lock_bh_held+0xc0/0xc0
+[   55.910885][ T1373]  ? sugov_update_single+0x18d/0x4f0
+[   55.916058][ T1373]  xlog_find_tail+0xc2/0x810
+[   55.920534][ T1373]  ? mark_lock+0x147/0x1800
+[   55.924921][ T1373]  ? xlog_verify_head+0x4c0/0x4c0
+[   55.929834][ T1373]  ? debug_show_held_locks+0x30/0x50
+[   55.935007][ T1373]  ? print_irqtrace_events+0x270/0x270
+[   55.940358][ T1373]  ? try_to_wake_up+0x6d1/0xf40
+[   55.945094][ T1373]  ? mark_held_locks+0xb0/0x110
+[   55.949835][ T1373]  ? lockdep_hardirqs_on_prepare+0x38c/0x550
+[   55.955708][ T1373]  ? _raw_spin_unlock_irqrestore+0x39/0x40
+[   55.961410][ T1373]  ? trace_hardirqs_on+0x20/0x1b5
+[   55.966324][ T1373]  xlog_recover+0x7c/0x480
+[   55.970627][ T1373]  ? xlog_buf_readahead+0x110/0x110
+[   55.975715][ T1373]  ? migrate_swap_stop+0xbf0/0xbf0
+[   55.980718][ T1373]  ? lockdep_init_map_waits+0x267/0x7b0
+[   55.986156][ T1373]  ? __raw_spin_lock_init+0x34/0x100
+[   55.991333][ T1373]  xfs_log_mount+0x541/0x660
+[   55.995809][ T1373]  xfs_mountfs+0xccd/0x1a00
+[   56.000202][ T1373]  ? queue_work_node+0x190/0x190
+[   56.005028][ T1373]  ? rcu_read_lock_sched_held+0xaa/0xd0
+[   56.010466][ T1373]  ? xfs_default_resblks+0x50/0x50
+[   56.015464][ T1373]  ? xfs_filestream_get_parent+0xa0/0xa0
+[   56.020989][ T1373]  ? init_timer_key+0x285/0x320
+[   56.025727][ T1373]  ? lockdep_init_map_waits+0x267/0x7b0
+[   56.031165][ T1373]  ? xfs_filestream_get_parent+0xa0/0xa0
+[   56.036689][ T1373]  ? xfs_mru_cache_create+0x358/0x560
+[   56.041951][ T1373]  xfs_fc_fill_super+0x6d3/0xd50
+[   56.046777][ T1373]  get_tree_bdev+0x40a/0x690
+[   56.051257][ T1373]  ? xfs_fs_inode_init_once+0xc0/0xc0
+[   56.056523][ T1373]  vfs_get_tree+0x84/0x2c0
+[   56.060827][ T1373]  do_mount+0xf93/0x1630
+[   56.064953][ T1373]  ? rcu_read_lock_bh_held+0xc0/0xc0
+[   56.070129][ T1373]  ? copy_mount_string+0x20/0x20
+[   56.074956][ T1373]  ? _copy_from_user+0xbe/0x100
+[   56.079696][ T1373]  ? memdup_user+0x4f/0x80
+[   56.083999][ T1373]  __x64_sys_mount+0x15d/0x1b0
+2m  OK  ] St[   56.088654][ T1373]  do_syscall_64+0x5f/0x310
+[   56.094437][ T1373]  ? trace_hardirqs_off+0x12/0x1a0
+[   56.099439][ T1373]  ? asm_exc_page_fault+0x8/0x30
+[   56.104267][ T1373]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+[   56.110055][ T1373] RIP: 0033:0x7f3bc2c8a9ee
+[   56.114357][ T1373] Code: Bad RIP value.
+[   56.118309][ T1373] RSP: 002b:00007fffd4675718 EFLAGS: 00000246 ORIG_RAX: 00000000000000a5
+arted File Syste[   56.126629][ T1373] RAX: ffffffffffffffda RBX: 000055a59d34c9c0 RCX: 00007f3bc2c8a9ee
+[   56.135900][ T1373] RDX: 000055a59d34cba0 RSI: 000055a59d34cc00 RDI: 000055a59d34e900
+[   56.143779][ T1373] RBP: 00007f3bc3a36184 R08: 0000000000000000 R09: 0000000000000003
+[   56.151661][ T1373] R10: 00000000c0ed0000 R11: 0000000000000246 R12: 0000000000000000
+[   56.159541][ T1373] R13: 00000000c0ed0000 R14: 000055a59d34e900 R15: 000055a59d34cba0
+[   56.167422][ T1373]
+[   56.169626][ T1373]
+[   56.171831][ T1373] addr ffffc9000a7df1e0 is located in stack of task mount/1373 at offset 48 in frame:
+[   56.181287][ T1373]  submit_bio_noacct+0x0/0xeb0
+submit_bio_noacct at block/blk-core.c:1198
+[   56.185939][ T1373]
+[   56.188144][ T1373] this frame has 2 objects:
+m Check on /dev/[   56.192532][ T1373]  [32, 48) 'bio_list'
+[   56.192534][ T1373]  [96, 128) 'bio_list_on_stack'
+[   56.197872][ T1373]
+[   56.204894][ T1373] Memory state around the buggy address:
+[   56.210420][ T1373]  ffffc9000a7df080: f2 f2 f2 f2 f2 00 f2 f2 f2 f2 f2 f2 f2 00 00 00
+[   56.218389][ T1373]  ffffc9000a7df100: 00 00 f2 f2 f2 00 00 00 00 00 00 00 00 00 00 00
+disk/by-uuid/D10[   56.226359][ T1373] >ffffc9000a7df180: 00 00 00 00 00 00 f1 f1 f1 f1 00 00 f2 f2 f2 f2
+[   56.235718][ T1373]                                                        ^
+[   56.242817][ T1373]  ffffc9000a7df200: f2 f2 00 00 00 00 f3 f3 f3 f3 00 00 00 00 00 00
+[   56.250790][ T1373]  ffffc9000a7df280: 00 00 00 00 00 00 00 00 00 00 f1 f1 f1 f1 00 f2
+[   56.258757][ T1373] ==================================================================
 
----
-Changes From V5:
-
-1. Drop the "off" string option for fast_io_fail_tmo.
-
-Changes From V4:
-
-1. Remove subsysnqn from dev_info just keep "failfast expired" 
-    in nvme_failfast_work().
-2. Remove excess lock in nvme_failfast_work().
-3. Change "timeout disabled" value to -1, '0' is to fail I/O right away now.
-4. Add "off" string for fast_io_fail_tmo option as a -1 equivalent.
-
-Changes From V3:
-
-1. BUG_FIX: Fix a bug in nvme_start_failfast_work() amd
-    nvme_stop_failfast_work() when accessing ctrl->opts as it will fail
-    for PCIe transport when is called nvme_change_ctrl_state()
-    from nvme_reset_work(), since we don't set the ctrl->opts for
-    PCIe transport.
-2. Line wrap in nvme_start_failfast_work(), nvme_parse_option() and
-    for macro NVMF_ALLOWED_OPTS definition.
-3. Just like all the state change code add a switch for newly
-    added state handling outside of the state machine in
-    nvme_state_change().
-4. nvme_available_path() add /* fallthru */ after if..break inside
-    switch which is under list_for_each_entry_rcu().
-5. Align newly added member nvmf_ctrl_options fast_io_fail_tmp.
-6. Fix the tabs before if in nvme_available_path() and line wrap
-    for the same.
-7. In nvme_failfast_work() use state != NVME_CTRL_CONNECTING
-    instead of == to get rid of the parentheses and avoid char > 80.
-8. Get rid of the ";" at the end of the comment for @fast_io_fail_tmp.
-9. Change the commit log style to match the one we have in the NVMe
-    repo.
-
-Changes from V2:
-
-1. Several coding style and small fixes.
-2. Fix the comment for NVMF_DEF_FAIL_FAST_TMO.
-3. Don't call functionality from the state machine.
-4. Rename fast_fail_tmo -> fast_io_fail_tmo to match SCSI
-    semantics.
-
-Changes from V1:
-
-1. Add a new session parameter called "fast_fail_tmo". The timeout
-    is measured in seconds from the controller reconnect, any command
-    beyond that timeout is rejected. The new parameter value may be
-    passed during 'connect', and its default value is 30 seconds.
-    A value of 0 means no timeout (similar to current behavior).
-2. Add a controller flag of "failfast_expired".
-3. Add dedicated delayed_work that update the "failfast_expired"
-    controller flag.
-4. When entering CONNECTING, schedule the delayed_work based on
-    failfast timeout value. If transition out of CONNECTING, terminate
-    delayed work item and ensure failfast_expired is false.
-    If delayed work item expires: set "failfast_expired" flag to true.
-5. Update nvmf_fail_nonready_command() with check the
-    "failfast_expired" controller flag.
-
----
- drivers/nvme/host/core.c      | 53 ++++++++++++++++++++++++++++++++++++++++++-
- drivers/nvme/host/fabrics.c   | 25 +++++++++++++++++---
- drivers/nvme/host/fabrics.h   |  5 ++++
- drivers/nvme/host/multipath.c |  5 +++-
- drivers/nvme/host/nvme.h      |  3 +++
- 5 files changed, 86 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index f3c037f..f704b20 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -137,6 +137,41 @@ int nvme_try_sched_reset(struct nvme_ctrl *ctrl)
- }
- EXPORT_SYMBOL_GPL(nvme_try_sched_reset);
-
-+static void nvme_failfast_work(struct work_struct *work)
-+{
-+	struct nvme_ctrl *ctrl = container_of(to_delayed_work(work),
-+			struct nvme_ctrl, failfast_work);
-+
-+	if (ctrl->state != NVME_CTRL_CONNECTING)
-+		return;
-+
-+	set_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags);
-+	dev_info(ctrl->device, "failfast expired\n");
-+	nvme_kick_requeue_lists(ctrl);
-+}
-+
-+static inline void nvme_start_failfast_work(struct nvme_ctrl *ctrl)
-+{
-+	if (!ctrl->opts || ctrl->opts->fast_io_fail_tmo == -1)
-+		return;
-+
-+	if (ctrl->opts->fast_io_fail_tmo == 0) {
-+		nvme_failfast_work(&ctrl->failfast_work.work);
-+		return;
-+	}
-+
-+	schedule_delayed_work(&ctrl->failfast_work,
-+			      ctrl->opts->fast_io_fail_tmo * HZ);
-+}
-+
-+static inline void nvme_stop_failfast_work(struct nvme_ctrl *ctrl)
-+{
-+	if (!ctrl->opts || ctrl->opts->fast_io_fail_tmo == -1)
-+		return;
-+	cancel_delayed_work_sync(&ctrl->failfast_work);
-+	clear_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags);
-+}
-+
- int nvme_reset_ctrl(struct nvme_ctrl *ctrl)
- {
- 	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
-@@ -387,8 +422,21 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- 	}
-
- 	spin_unlock_irqrestore(&ctrl->lock, flags);
--	if (changed && ctrl->state == NVME_CTRL_LIVE)
-+	if (changed) {
-+		switch (ctrl->state) {
-+			case NVME_CTRL_LIVE:
-+				if (old_state == NVME_CTRL_CONNECTING)
-+					nvme_stop_failfast_work(ctrl);
-  				nvme_kick_requeue_lists(ctrl);
-+				break;
-+			case NVME_CTRL_CONNECTING:
-+				if (old_state == NVME_CTRL_RESETTING)
-+					nvme_start_failfast_work(ctrl);
-+				break;
-+			default:
-+				break;
-+		}
-+	}
- 	return changed;
- }
- EXPORT_SYMBOL_GPL(nvme_change_ctrl_state);
-@@ -4045,6 +4093,7 @@ void nvme_stop_ctrl(struct nvme_ctrl *ctrl)
- {
- 	nvme_mpath_stop(ctrl);
- 	nvme_stop_keep_alive(ctrl);
-+	nvme_stop_failfast_work(ctrl);
- 	flush_work(&ctrl->async_event_work);
- 	cancel_work_sync(&ctrl->fw_act_work);
- }
-@@ -4111,6 +4160,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	int ret;
-
- 	ctrl->state = NVME_CTRL_NEW;
-+	clear_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags);
- 	spin_lock_init(&ctrl->lock);
- 	mutex_init(&ctrl->scan_lock);
- 	INIT_LIST_HEAD(&ctrl->namespaces);
-@@ -4125,6 +4175,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	init_waitqueue_head(&ctrl->state_wq);
-
- 	INIT_DELAYED_WORK(&ctrl->ka_work, nvme_keep_alive_work);
-+	INIT_DELAYED_WORK(&ctrl->failfast_work, nvme_failfast_work);
- 	memset(&ctrl->ka_cmd, 0, sizeof(ctrl->ka_cmd));
- 	ctrl->ka_cmd.common.opcode = nvme_admin_keep_alive;
-
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 2a6c819..4afe173 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -549,6 +549,7 @@ blk_status_t nvmf_fail_nonready_command(struct nvme_ctrl *ctrl,
- {
- 	if (ctrl->state != NVME_CTRL_DELETING &&
- 	    ctrl->state != NVME_CTRL_DEAD &&
-+	    !test_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags) &&
- 	    !blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
- 		return BLK_STS_RESOURCE;
-
-@@ -612,6 +613,7 @@ bool __nvmf_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
- 	{ NVMF_OPT_NR_WRITE_QUEUES,	"nr_write_queues=%d"	},
- 	{ NVMF_OPT_NR_POLL_QUEUES,	"nr_poll_queues=%d"	},
- 	{ NVMF_OPT_TOS,			"tos=%d"		},
-+	{ NVMF_OPT_FAIL_FAST_TMO,	"fast_io_fail_tmo=%d"	},
- 	{ NVMF_OPT_ERR,			NULL			}
- };
-
-@@ -631,6 +633,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 	opts->reconnect_delay = NVMF_DEF_RECONNECT_DELAY;
- 	opts->kato = NVME_DEFAULT_KATO;
- 	opts->duplicate_connect = false;
-+	opts->fast_io_fail_tmo = NVMF_DEF_FAIL_FAST_TMO;
- 	opts->hdr_digest = false;
- 	opts->data_digest = false;
- 	opts->tos = -1; /* < 0 == use transport default */
-@@ -751,6 +754,17 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 				pr_warn("ctrl_loss_tmo < 0 will reconnect forever\n");
- 			ctrl_loss_tmo = token;
- 			break;
-+		case NVMF_OPT_FAIL_FAST_TMO:
-+			if (match_int(args, &token)) {
-+				ret = -EINVAL;
-+				goto out;
-+			}
-+
-+			if (token >= 0)
-+				pr_warn("I/O will fail on reconnect controller after"
-+					" %d sec\n", token);
-+			opts->fast_io_fail_tmo = token;
-+			break;
- 		case NVMF_OPT_HOSTNQN:
- 			if (opts->host) {
- 				pr_err("hostnqn already user-assigned: %s\n",
-@@ -881,11 +895,16 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 		opts->nr_poll_queues = 0;
- 		opts->duplicate_connect = true;
- 	}
--	if (ctrl_loss_tmo < 0)
-+	if (ctrl_loss_tmo < 0) {
- 		opts->max_reconnects = -1;
--	else
-+	} else {
- 		opts->max_reconnects = DIV_ROUND_UP(ctrl_loss_tmo,
- 						opts->reconnect_delay);
-+		if (ctrl_loss_tmo < opts->fast_io_fail_tmo)
-+			pr_warn("failfast tmo (%d) larger than controller "
-+				"loss tmo (%d)\n",
-+				opts->fast_io_fail_tmo, ctrl_loss_tmo);
-+	}
-
- 	if (!opts->host) {
- 		kref_get(&nvmf_default_host->ref);
-@@ -985,7 +1004,7 @@ void nvmf_free_options(struct nvmf_ctrl_options *opts)
- #define NVMF_ALLOWED_OPTS	(NVMF_OPT_QUEUE_SIZE | NVMF_OPT_NR_IO_QUEUES | \
- 				 NVMF_OPT_KATO | NVMF_OPT_HOSTNQN | \
- 				 NVMF_OPT_HOST_ID | NVMF_OPT_DUP_CONNECT |\
--				 NVMF_OPT_DISABLE_SQFLOW)
-+				 NVMF_OPT_DISABLE_SQFLOW | NVMF_OPT_FAIL_FAST_TMO)
-
- static struct nvme_ctrl *
- nvmf_create_ctrl(struct device *dev, const char *buf)
-diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-index a0ec40a..05a1158 100644
---- a/drivers/nvme/host/fabrics.h
-+++ b/drivers/nvme/host/fabrics.h
-@@ -15,6 +15,8 @@
- #define NVMF_DEF_RECONNECT_DELAY	10
- /* default to 600 seconds of reconnect attempts before giving up */
- #define NVMF_DEF_CTRL_LOSS_TMO		600
-+/* default is -1: the fail fast mechanism is disable  */
-+#define NVMF_DEF_FAIL_FAST_TMO		-1
-
- /*
-  * Define a host as seen by the target.  We allocate one at boot, but also
-@@ -56,6 +58,7 @@ enum {
- 	NVMF_OPT_NR_WRITE_QUEUES = 1 << 17,
- 	NVMF_OPT_NR_POLL_QUEUES = 1 << 18,
- 	NVMF_OPT_TOS		= 1 << 19,
-+	NVMF_OPT_FAIL_FAST_TMO	= 1 << 20,
- };
-
- /**
-@@ -89,6 +92,7 @@ enum {
-  * @nr_write_queues: number of queues for write I/O
-  * @nr_poll_queues: number of queues for polling I/O
-  * @tos: type of service
-+ * @fast_io_fail_tmo: Fast I/O fail timeout in seconds
-  */
- struct nvmf_ctrl_options {
- 	unsigned		mask;
-@@ -111,6 +115,7 @@ struct nvmf_ctrl_options {
- 	unsigned int		nr_write_queues;
- 	unsigned int		nr_poll_queues;
- 	int			tos;
-+	int			fast_io_fail_tmo;
- };
-
- /*
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 54603bd..d8b7f45 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -278,9 +278,12 @@ static bool nvme_available_path(struct nvme_ns_head *head)
-
- 	list_for_each_entry_rcu(ns, &head->list, siblings) {
- 		switch (ns->ctrl->state) {
-+		case NVME_CTRL_CONNECTING:
-+			if (test_bit(NVME_CTRL_FAILFAST_EXPIRED,
-+				     &ns->ctrl->flags))
-+				break;
- 		case NVME_CTRL_LIVE:
- 		case NVME_CTRL_RESETTING:
--		case NVME_CTRL_CONNECTING:
- 			/* fallthru */
- 			return true;
- 		default:
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 2e04a36..9112886 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -256,6 +256,7 @@ struct nvme_ctrl {
- 	struct work_struct scan_work;
- 	struct work_struct async_event_work;
- 	struct delayed_work ka_work;
-+	struct delayed_work failfast_work;
- 	struct nvme_command ka_cmd;
- 	struct work_struct fw_act_work;
- 	unsigned long events;
-@@ -290,6 +291,8 @@ struct nvme_ctrl {
- 	u16 icdoff;
- 	u16 maxcmd;
- 	int nr_reconnects;
-+	unsigned long flags;
-+#define NVME_CTRL_FAILFAST_EXPIRED	0
- 	struct nvmf_ctrl_options *opts;
-
- 	struct page *discard_page;
---
-1.8.3.1
-
+> ---
+>  block/blk-core.c | 131 +++++++++++++++++++++++++----------------------
+>  1 file changed, 71 insertions(+), 60 deletions(-)
+> 
+> diff --git a/block/blk-core.c b/block/blk-core.c
+> index 1caeb01e127768..b82f48c86e6f7a 100644
+> --- a/block/blk-core.c
+> +++ b/block/blk-core.c
+> @@ -1085,6 +1085,74 @@ static blk_qc_t do_make_request(struct bio *bio)
+>  	return ret;
+>  }
+>  
+> +/*
+> + * The loop in this function may be a bit non-obvious, and so deserves some
+> + * explanation:
+> + *
+> + *  - Before entering the loop, bio->bi_next is NULL (as all callers ensure
+> + *    that), so we have a list with a single bio.
+> + *  - We pretend that we have just taken it off a longer list, so we assign
+> + *    bio_list to a pointer to the bio_list_on_stack, thus initialising the
+> + *    bio_list of new bios to be added.  ->submit_bio() may indeed add some more
+> + *    bios through a recursive call to submit_bio_noacct.  If it did, we find a
+> + *    non-NULL value in bio_list and re-enter the loop from the top.
+> + *  - In this case we really did just take the bio of the top of the list (no
+> + *    pretending) and so remove it from bio_list, and call into ->submit_bio()
+> + *    again.
+> + *
+> + * bio_list_on_stack[0] contains bios submitted by the current ->submit_bio.
+> + * bio_list_on_stack[1] contains bios that were submitted before the current
+> + *	->submit_bio_bio, but that haven't been processed yet.
+> + */
+> +static blk_qc_t __submit_bio_noacct(struct bio *bio)
+> +{
+> +	struct bio_list bio_list_on_stack[2];
+> +	blk_qc_t ret = BLK_QC_T_NONE;
+> +
+> +	BUG_ON(bio->bi_next);
+> +
+> +	bio_list_init(&bio_list_on_stack[0]);
+> +	current->bio_list = bio_list_on_stack;
+> +
+> +	do {
+> +		struct request_queue *q = bio->bi_disk->queue;
+> +		struct bio_list lower, same;
+> +
+> +		if (unlikely(bio_queue_enter(bio) != 0))
+> +			continue;
+> +
+> +		/*
+> +		 * Create a fresh bio_list for all subordinate requests.
+> +		 */
+> +		bio_list_on_stack[1] = bio_list_on_stack[0];
+> +		bio_list_init(&bio_list_on_stack[0]);
+> +
+> +		ret = do_make_request(bio);
+> +
+> +		/*
+> +		 * Sort new bios into those for a lower level and those for the
+> +		 * same level.
+> +		 */
+> +		bio_list_init(&lower);
+> +		bio_list_init(&same);
+> +		while ((bio = bio_list_pop(&bio_list_on_stack[0])) != NULL)
+> +			if (q == bio->bi_disk->queue)
+> +				bio_list_add(&same, bio);
+> +			else
+> +				bio_list_add(&lower, bio);
+> +
+> +		/*
+> +		 * Now assemble so we handle the lowest level first.
+> +		 */
+> +		bio_list_merge(&bio_list_on_stack[0], &lower);
+> +		bio_list_merge(&bio_list_on_stack[0], &same);
+> +		bio_list_merge(&bio_list_on_stack[0], &bio_list_on_stack[1]);
+> +	} while ((bio = bio_list_pop(&bio_list_on_stack[0])));
+> +
+> +	current->bio_list = NULL;
+> +	return ret;
+> +}
+> +
+>  /**
+>   * submit_bio_noacct - re-submit a bio to the block device layer for I/O
+>   * @bio:  The bio describing the location in memory and on the device.
+> @@ -1096,17 +1164,8 @@ static blk_qc_t do_make_request(struct bio *bio)
+>   */
+>  blk_qc_t submit_bio_noacct(struct bio *bio)
+>  {
+> -	/*
+> -	 * bio_list_on_stack[0] contains bios submitted by the current
+> -	 * ->submit_bio.
+> -	 * bio_list_on_stack[1] contains bios that were submitted before the
+> -	 * current ->submit_bio_bio, but that haven't been processed yet.
+> -	 */
+> -	struct bio_list bio_list_on_stack[2];
+> -	blk_qc_t ret = BLK_QC_T_NONE;
+> -
+>  	if (!submit_bio_checks(bio))
+> -		goto out;
+> +		return BLK_QC_T_NONE;
+>  
+>  	/*
+>  	 * We only want one ->submit_bio to be active at a time, else
+> @@ -1120,58 +1179,10 @@ blk_qc_t submit_bio_noacct(struct bio *bio)
+>  	 */
+>  	if (current->bio_list) {
+>  		bio_list_add(&current->bio_list[0], bio);
+> -		goto out;
+> +		return BLK_QC_T_NONE;
+>  	}
+>  
+> -	/* following loop may be a bit non-obvious, and so deserves some
+> -	 * explanation.
+> -	 * Before entering the loop, bio->bi_next is NULL (as all callers
+> -	 * ensure that) so we have a list with a single bio.
+> -	 * We pretend that we have just taken it off a longer list, so
+> -	 * we assign bio_list to a pointer to the bio_list_on_stack,
+> -	 * thus initialising the bio_list of new bios to be
+> -	 * added.  ->submit_bio() may indeed add some more bios
+> -	 * through a recursive call to submit_bio_noacct.  If it
+> -	 * did, we find a non-NULL value in bio_list and re-enter the loop
+> -	 * from the top.  In this case we really did just take the bio
+> -	 * of the top of the list (no pretending) and so remove it from
+> -	 * bio_list, and call into ->submit_bio() again.
+> -	 */
+> -	BUG_ON(bio->bi_next);
+> -	bio_list_init(&bio_list_on_stack[0]);
+> -	current->bio_list = bio_list_on_stack;
+> -	do {
+> -		struct request_queue *q = bio->bi_disk->queue;
+> -
+> -		if (likely(bio_queue_enter(bio) == 0)) {
+> -			struct bio_list lower, same;
+> -
+> -			/* Create a fresh bio_list for all subordinate requests */
+> -			bio_list_on_stack[1] = bio_list_on_stack[0];
+> -			bio_list_init(&bio_list_on_stack[0]);
+> -			ret = do_make_request(bio);
+> -
+> -			/* sort new bios into those for a lower level
+> -			 * and those for the same level
+> -			 */
+> -			bio_list_init(&lower);
+> -			bio_list_init(&same);
+> -			while ((bio = bio_list_pop(&bio_list_on_stack[0])) != NULL)
+> -				if (q == bio->bi_disk->queue)
+> -					bio_list_add(&same, bio);
+> -				else
+> -					bio_list_add(&lower, bio);
+> -			/* now assemble so we handle the lowest level first */
+> -			bio_list_merge(&bio_list_on_stack[0], &lower);
+> -			bio_list_merge(&bio_list_on_stack[0], &same);
+> -			bio_list_merge(&bio_list_on_stack[0], &bio_list_on_stack[1]);
+> -		}
+> -		bio = bio_list_pop(&bio_list_on_stack[0]);
+> -	} while (bio);
+> -	current->bio_list = NULL; /* deactivate */
+> -
+> -out:
+> -	return ret;
+> +	return __submit_bio_noacct(bio);
+>  }
+>  EXPORT_SYMBOL(submit_bio_noacct);
+>  
+> -- 
+> 2.26.2
+> 
 
 _______________________________________________
 Linux-nvme mailing list
