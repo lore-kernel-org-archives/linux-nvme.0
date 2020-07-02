@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB36BC433DF
-	for <linux-nvme@archiver.kernel.org>; Thu,  2 Jul 2020 01:24:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB6D3C433DF
+	for <linux-nvme@archiver.kernel.org>; Thu,  2 Jul 2020 01:26:16 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9B55E21531
-	for <linux-nvme@archiver.kernel.org>; Thu,  2 Jul 2020 01:24:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 9BEBC20C56
+	for <linux-nvme@archiver.kernel.org>; Thu,  2 Jul 2020 01:26:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="NMHCZ3yP";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="F5ZHT+iQ"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9B55E21531
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="zQ0aWNy1";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="hC6ME8wu"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9BEBC20C56
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,48 +26,48 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=iyM3AGxk/FJFLY02LRVUd99h4GTE2lF6GK9kpWeVPyU=; b=NMHCZ3yPlIzEV91KFe1NOm4n/
-	rBYyoO0BnnlQUIlKQuFHqOzQ+LjabU7MEFDQnRmu1mgDQKOcfcP4lGHjgbYg1H+F6HMFFpQ/XJ2SK
-	cxFeQANmZnjm1OsKjfl/bisNWInAiw4Pm8neYdqaGTqHvTHRhfZlLC3qQk5T+fFZ+sTfMOST+f3ic
-	fKHAy9n0XCx6Efp8tTX4LGeUdcGuZkdbYYeq4Vm0GBW5kx7NeDDdiQtwNgYoZx6H+R3bVCWxc097X
-	qbpFsdrQSplpUaO+UL+DhUdPm31aK1bHVasp3jro/Lfu4lTKd2QiH1XJMk/T8rgFc50quhq+mDQPg
-	KblwPrNag==;
+	 bh=edzV9LE/eAn5NdmviKtI2TTLCdgWgb3r2v9ZAU8D1YY=; b=zQ0aWNy1clUHRZrKBeyxsU7Sp
+	urwmOSrnS9RDvcn2j3R89qvqCscbhHImOyO411CjaWeSA9fQXaZt6vEwYeqU/p3uuSr8T7Qpfbb+/
+	FlNEWyuTlXaGYPztfddIS0UDoNDY2Ei3E5WOEajjK9nuWJ/ceOSMZH6oLWz0uyG2gBUz/TDlIlOa6
+	bVcIKqchamQ2nEUAVGnj+t5VdSk7TrMjspUFqSOecO9DD33sWHI5yMF3VCGGbcdtmslg3YcR770KT
+	mkcTVy2GVH14fPdmffL0Z+eufdufM6C9u95d79ikInilbJQeZfN//rzHNeqLcnErpdp9l5WLUAP6t
+	I9etuMiuw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jqnxI-0007BC-OG; Thu, 02 Jul 2020 01:24:00 +0000
+	id 1jqnzS-0008F1-IB; Thu, 02 Jul 2020 01:26:14 +0000
 Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jqnxC-00070n-8a
- for linux-nvme@lists.infradead.org; Thu, 02 Jul 2020 01:23:55 +0000
+ id 1jqnzP-0008DL-8D
+ for linux-nvme@lists.infradead.org; Thu, 02 Jul 2020 01:26:12 +0000
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 0C8272082F;
- Thu,  2 Jul 2020 01:23:52 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 016E220899;
+ Thu,  2 Jul 2020 01:26:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1593653033;
- bh=gYrUy+2BPIkfxEAcimiUvhDES1CyrM816VquNjMev6s=;
+ s=default; t=1593653170;
+ bh=LfinL+qf+xYekFkB6evl9bPpa9Gp5TmB/+oAhC/yJoM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=F5ZHT+iQ2wRGiCYcw/IkRiVnhCkVmv/YEzZ5bH4EWsRTMyW5pJrLDTBGCn6lIpFSu
- Y184QWXHgBsIYa7zzZgtqQkrbHge2wbvJl1OYl4hQ25KnA6Yc97jHW1mmjmZgjD9wZ
- tgzdW4xc9IogIot0cYmR+H8ionQBmUSN5x9kG8hY=
+ b=hC6ME8wuCUkKLPbJST8PhuufIZa42oVH4M6mmCm/7ItLUr83ipB3OS/6/TFapQ9sD
+ U4XyvQ2NxKbbMNjBzRn4bWaBNUazdJT4FJwWTOdpA76CqzbrjsHTRjpDQwcWCBlJL5
+ LRgD8qhxITrn84ToBm38X7y4bBJRDxSrvPwa12aM=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 47/53] nvme-rdma: assign completion vector
+Subject: [PATCH AUTOSEL 5.4 37/40] nvme-rdma: assign completion vector
  correctly
-Date: Wed,  1 Jul 2020 21:21:56 -0400
-Message-Id: <20200702012202.2700645-47-sashal@kernel.org>
+Date: Wed,  1 Jul 2020 21:23:58 -0400
+Message-Id: <20200702012402.2701121-37-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200702012202.2700645-1-sashal@kernel.org>
-References: <20200702012202.2700645-1-sashal@kernel.org>
+In-Reply-To: <20200702012402.2701121-1-sashal@kernel.org>
+References: <20200702012402.2701121-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200701_212354_795740_BE389891 
-X-CRM114-Status: GOOD (  11.67  )
+X-CRM114-CacheID: sfid-20200701_212611_391146_89B3F20F 
+X-CRM114-Status: GOOD (  11.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,10 +106,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index cac8a930396a0..1f9a45145d0d3 100644
+index 73e8475ddc8ab..cd0d499781908 100644
 --- a/drivers/nvme/host/rdma.c
 +++ b/drivers/nvme/host/rdma.c
-@@ -443,7 +443,7 @@ static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue)
+@@ -451,7 +451,7 @@ static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue)
  	 * Spread I/O queues completion vectors according their queue index.
  	 * Admin queues can always go on completion vector 0.
  	 */
