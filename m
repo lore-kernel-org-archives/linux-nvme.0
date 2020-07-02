@@ -2,93 +2,140 @@ Return-Path: <SRS0=dOZ+=AN=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-9.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AF71C433E3
-	for <linux-nvme@archiver.kernel.org>; Thu,  2 Jul 2020 10:27:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40260C433DF
+	for <linux-nvme@archiver.kernel.org>; Thu,  2 Jul 2020 12:38:12 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C1CA32073E
-	for <linux-nvme@archiver.kernel.org>; Thu,  2 Jul 2020 10:27:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id F36CB20885
+	for <linux-nvme@archiver.kernel.org>; Thu,  2 Jul 2020 12:38:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Fj3y830j";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=javigon-com.20150623.gappssmtp.com header.i=@javigon-com.20150623.gappssmtp.com header.b="O/woc96R"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C1CA32073E
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=javigon.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ZdSLrZ00";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="LExxHVXx";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="Fh5MTprj"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F36CB20885
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
-	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:MIME-Version:Content-ID:In-Reply-To:References:
+	Message-ID:Date:Subject:To:From:Reply-To:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=fkenno32Qa1SG/lO9A65UqRuMYG6PWd50bpbrivs9BY=; b=Fj3y830jBGB1wLJoh7D7bgC/I
-	GNb0S/Pg2wwwlWRlGG6ozxJ/jLRoj1vtqI5Jyk+eED8Oq9ATumGokxgqbTnBrpXRZmyVYmCiyKyJ5
-	1U8TlMn0ZoUtEV6FVv19ZRte169FYmkuj/eexi3YMkJ+deyOIRnuvRCM2D2bda70O1jkptV54DUNX
-	bZrMfv9wrab4Opz8fZBk/FXRq4oGvknEBXmF5BPVZLxbddNEt7cZcZ1YAFOlQ3l5csKLo/6c1dAcu
-	iLUFSjY48QVncyaqb6Nu27/87lnkSyPzbJk36V6q5Gj/wp+1r27ZVvTL9cPLW00+Q7qz/XaNrhbS0
-	Wrk+VEVOg==;
+	 bh=z/RmXeCor5SKxoXgMQLMVPMMIzZXPK1bTJRuB7T8LQE=; b=ZdSLrZ00jq55secGrbjqgQTyH
+	jDk1ZlwFKatnlKtL2Pf0rSZBR/euScVF6BXBx2/10RnZ8Vn13yIjt2Ba9H/gXskzrNIB/sXHLVuJL
+	vLZScg4MHEvAwr2S+RRKscIhKk2+NlP/ONx+Jh8HCo/rvB1NKq3VT5HIbljm1PMoGlRhVV79TmgrT
+	Nm6X8jL6pLu8XLsmZFnqmLurbvBeyIejcQjC+4YDSJHDarKmA68kvhNYR6ziqfkRuy6U5n5zZIwrF
+	8TYFya3a+yDU41f5z7U/ZQwZkiZ7T9vvPjvQCaAwbmDXqui/x56pIovtrmIcvuZQWIMv4v+pgKBbP
+	vsnISAODw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jqwR6-0002qm-4j; Thu, 02 Jul 2020 10:27:20 +0000
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543])
+	id 1jqyTe-0005q6-Rw; Thu, 02 Jul 2020 12:38:06 +0000
+Received: from esa6.hgst.iphmx.com ([216.71.154.45])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jqwR3-0002qH-FQ
- for linux-nvme@lists.infradead.org; Thu, 02 Jul 2020 10:27:18 +0000
-Received: by mail-ed1-x543.google.com with SMTP id e15so23075326edr.2
- for <linux-nvme@lists.infradead.org>; Thu, 02 Jul 2020 03:27:16 -0700 (PDT)
+ id 1jqyTc-0005oU-1w
+ for linux-nvme@lists.infradead.org; Thu, 02 Jul 2020 12:38:05 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1593693484; x=1625229484;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=JCI54Bdej8DlAhUNBSA1OAoClLY+QCJsRGXtDxXSAhg=;
+ b=LExxHVXxkH3CyaqVaI4VizoCfpHbjBIHm92cWIvbak3fbPd0ROskNslj
+ 0VE4iIgoZUjrgzf/YiwqhyeCjmXM4zHHpjmaG8pVJCF1FkWFoTo+EvdA3
+ cEeu/aO2xDP7Rip6T6khN+dJ0xZ0u8NxyN0zBgeZ7vx+bTfsfrLDp49EQ
+ J3zzsETAO9zDrAPcnINR+HDDxA3vsfbKBUYS3d+Nh+EmcZNECHjolTEHY
+ PY0LvF1pWz8oHLJof/N6UM6TTYYEFOnvry2CyrEXvE7oXw3Sy33gfZdKa
+ DT0aB6lljtYlHTY4k6sqkheOc3DrrrL/Cp+xUvwKwRCJNYscQeesZAlXv Q==;
+IronPort-SDR: sAs2j1i6hKoOjq5sp0EzGtUbv9VQyCXY+mFwrLvMx2qu0rQuh8QL+7iY+VTcJBsjiT2r1/iVoO
+ +d8ZZtlzX7CYKl6r7SPTBQw4X94XcQaBnzhEjqJ1r0TxGr9w28o1hyiuTCn/OvQz+StjBgFJq3
+ mOKHxdvHSNy6jRSAGqAAEgCwQ07T3B42gCu/RLU4KYjNUhw6/7lruQTFbuVNTw9LrQikIZQzTd
+ JkOiNd8Bu3hkXRDWkt8vWUq4d3x55siJY5Tveey4B4htjrPTUM3+HirXbpAHqKK48gkM9V1LOi
+ Wf8=
+X-IronPort-AV: E=Sophos;i="5.75,304,1589212800"; d="scan'208";a="142826912"
+Received: from mail-dm6nam12lp2172.outbound.protection.outlook.com (HELO
+ NAM12-DM6-obe.outbound.protection.outlook.com) ([104.47.59.172])
+ by ob1.hgst.iphmx.com with ESMTP; 02 Jul 2020 20:38:00 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QO4iN7vC9lniEcsWrwbnkMA/cg6olsWsNrSEooPHXHJJPhmvc4x4HC4nwl89DSjpnGF/+wX3J28+EK0awhc8HLZqSaiIpKdMd62KNtZacEb0ioOpdxWdWZnPrvQI2G3EWnEuhOH6LejGMBOVSVpZO24IDkqUYTxjZDLuSAMyNguoa9B1YIAlU3lhQ0if6+ViC6yqx6Jc88KgzHcNCJ0mRdX4rx5nsEQlqToljg1hsOKnjsGHu5hYXd48Pi+EeJrdLwXy7IJ08eQ7S7fpkzgOTGqTbX+jgHqJ4M1Y96z4+EQldHO4cnFUED3bMGu3ktQr5BvjSj5qTDddRUfFcavEDQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gQpgfT6tBMrrPBVx103zmYnEnWq8urPCkbHAz1qBzx4=;
+ b=HWP0b46Gqzcbn0t4dbPz5pHpns1cZyDkcYq5+WNIdmzKFJGUXQpIMB6oXsE1GmnvCqLmKJhCsSjZvMgCBKL/4Cqw/qtGr7XomzQ4bQgtKVTXWu6gqCH0MeVPXfyfQPGhLZocatBiBU3WuZlQkqqxDsNjVQPENELbxBJ399YnRNK7I+NKBogilUMwPjXBOC3JLJvRGTFgbyW0J2/1mjlyiDKNJGXekeT5QWzsXKpUyUeZQ8U/ACD/OlaEv2txEyr3Xe//wdvCF+mH1KElo4JBxcnBHRXHBLOz2HL92qm8DRU6SclIbK+3X9p7NSf0RIX1xSP+MdiIpvuzc9Ofyx686w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=javigon-com.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=RKtpCLKD8JFl0ONPvNNuzySImdGGwxONv81jtJordPA=;
- b=O/woc96RFrhRk8kRZrJLfTC5SRSXG8vRiknu/V5+eXZK3by6Bjk9L3N9KbG2fDih2K
- D1weFlA7O5EKDkVJPDxOHVP5GqqsMzud9JQ5gFQWeYjZ6zC1mYUQCDumoDlcNk8AkkBA
- S/97EHwpHDvP1ectKWIOhDalmfcoYrkDUzH4u/E6WEjgL8z//GHkhjlKsFphLdJCOekr
- /cgq+7gxrlPXyNu0WIlR36VOFKyZ+IwM/3D7xKOJ+BvnxOXzmwciKEVM6XRv4GsbadTT
- cHZHq2mvnAJhR7LcKEz1clIVf7NuJxK+Gw7KB3Vb+fbjz/edrISTkFn1aCeM0n+NQhfx
- cM7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=RKtpCLKD8JFl0ONPvNNuzySImdGGwxONv81jtJordPA=;
- b=ShF3a3J0pDbJ97tnbxkInwfizx1Ctl0ZxSqGGCNUkWJ575tireUpwyMHZl3HfmX1zu
- MX6OgDYjsNN9lMpy2K0VfGI+5YZi2r4FqNk8qeYAfY4AsGJNWQllRfa7TpeFejzC7cwr
- bPqVy9n4K1apC0pUMCvway4vTtQsrQAaDTk3SJ5Op24G8+8wToCrVLohnalyf/rR3NdF
- WmhJmuxgdoHDZyTu9bAuYr14cSgyJxYPqYirLCwfXfey+XMW3l8Jt4PtVOfl8Bv/kEO2
- AbbH07atz/JnPpPat9+qmg8rVLNxyrQVVPKWw3Th+/yt5YuXA3m/uiidJpalELrD1/Dm
- u1jA==
-X-Gm-Message-State: AOAM530WFhRxwuDbTGcqCnXY5L9l2VIPKArSb/UXfHu72LLgqYaMa3Np
- aSukkFJwL3uiyIVWThgFCsfW/w==
-X-Google-Smtp-Source: ABdhPJwT+S3etbkG7eq79LAUMOhccTkHrjopFrr5Ntz9unrrvJjhBQj4aQBHw6hPiXowL/7AiZYkdA==
-X-Received: by 2002:aa7:d802:: with SMTP id v2mr26685708edq.77.1593685635824; 
- Thu, 02 Jul 2020 03:27:15 -0700 (PDT)
-Received: from localhost ([194.62.217.57])
- by smtp.gmail.com with ESMTPSA id bm21sm6385616ejb.13.2020.07.02.03.27.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Jul 2020 03:27:15 -0700 (PDT)
-Date: Thu, 2 Jul 2020 12:27:14 +0200
-From: Javier =?utf-8?B?R29uesOhbGV6?= <javier@javigon.com>
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gQpgfT6tBMrrPBVx103zmYnEnWq8urPCkbHAz1qBzx4=;
+ b=Fh5MTprjZ1SoJMZMJoKx+xFsj4whO+BDVYkokuxZmvO1wJHu9lN6zMjzPDXW+EIGUhe928eWnUGEkSFlxMmebqhRTO9sI7JTuj9KxI6PnoosUZSXJEHMA7Yhmvv7wTdSQRm9mj4nvPGlB2zQNHShIq4MROTA13evd9a0emUxtMU=
+Received: from BYAPR04MB5112.namprd04.prod.outlook.com (2603:10b6:a03:45::10)
+ by BYAPR04MB4677.namprd04.prod.outlook.com (2603:10b6:a03:14::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.20; Thu, 2 Jul
+ 2020 12:37:57 +0000
+Received: from BYAPR04MB5112.namprd04.prod.outlook.com
+ ([fe80::a442:4836:baba:c84b]) by BYAPR04MB5112.namprd04.prod.outlook.com
+ ([fe80::a442:4836:baba:c84b%6]) with mapi id 15.20.3131.036; Thu, 2 Jul 2020
+ 12:37:57 +0000
+From: Niklas Cassel <Niklas.Cassel@wdc.com>
 To: Damien Le Moal <Damien.LeMoal@wdc.com>
-Subject: Re: [PATCH 1/4] block: Add zone flags to queue zone prop.
-Message-ID: <20200702102714.d5igoqcvcavlunmv@mpHalley.local>
-References: <20200702065438.46350-1-javier@javigon.com>
- <20200702065438.46350-2-javier@javigon.com>
- <CY4PR04MB37511008EEBF1A77DB4F423BE76D0@CY4PR04MB3751.namprd04.prod.outlook.com>
- <20200702083430.miax2cd44mkhc5fb@mpHalley.local>
- <CY4PR04MB375100663B25D1E1D8490758E76D0@CY4PR04MB3751.namprd04.prod.outlook.com>
+Subject: Re: [PATCH 1/2] block: add max_open_zones to blk-sysfs
+Thread-Topic: [PATCH 1/2] block: add max_open_zones to blk-sysfs
+Thread-Index: AQHWQ8iO/B03U39S+Uih8dmO//K+66j0U6aA
+Date: Thu, 2 Jul 2020 12:37:57 +0000
+Message-ID: <20200702123755.GA609677@localhost.localdomain>
+References: <20200616102546.491961-1-niklas.cassel@wdc.com>
+ <20200616102546.491961-2-niklas.cassel@wdc.com>
+ <CY4PR04MB3751C2C03ACCA263541DA348E76F0@CY4PR04MB3751.namprd04.prod.outlook.com>
+In-Reply-To: <CY4PR04MB3751C2C03ACCA263541DA348E76F0@CY4PR04MB3751.namprd04.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: wdc.com; dkim=none (message not signed)
+ header.d=none;wdc.com; dmarc=none action=none header.from=wdc.com;
+x-originating-ip: [85.224.200.150]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 89a1fe45-8594-4606-b1a3-08d81e84bf92
+x-ms-traffictypediagnostic: BYAPR04MB4677:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BYAPR04MB4677C9DC1F9369FD2F3F6858F26D0@BYAPR04MB4677.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:5516;
+x-forefront-prvs: 0452022BE1
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 1AnAPR4mS1PPUvEMSGnA+XMWmyQ0J1d3+O+HSc14Vp94aOy1pO65T/Vl/8d/+e33RYv0A7U0fqtF/gwJ28kWnax6rkq1cVm94GmU5gZJfY7k1ZIFakWw3sfgmpgTYMDPVM7SGzuEdjjUpBpBxDyzAoUcR29ex4qV1QSXJM82kNmVIu3UnloVfWxQ7T8KY+BmWNOSzKqLbuulWajVsRNh1DNJB3g6cSi53wRgi8NrqkwNUNU1fkK8Tp0esu3hv32gqo7iKtAxjNmHX1KoPchD+vk+ZpgdBG0S3PrfG5IjAK+W1tM0qnrrxQI1aDNtUDR7yugVkiHMN/YJPH4xGfsAQMeGwIb2vDZt8DoL2utiQ6/Ij4snKnyJ6pZkTic3gQktOte+iYmp1DOc0iUzOjyraw==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR04MB5112.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(366004)(66946007)(66476007)(66556008)(91956017)(76116006)(64756008)(66446008)(5660300002)(71200400001)(1076003)(6506007)(53546011)(186003)(33656002)(26005)(83380400001)(6486002)(86362001)(498600001)(966005)(7416002)(6636002)(6862004)(8676002)(4326008)(6512007)(9686003)(8936002)(54906003)(2906002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: NKZTHbqYLri73P18MfGgfqnJDLw00/h8DDYJIhX78HrgrLyxZaS8+R79pWdi1KR2AktgETE+h/mrqZvF2lpgQfFK5noAbocmfo6W9WoQErQhhxNl/u1cIdjqcYXnagQDbBWSzgCZgyTwuDswv2LGxEwNbsnPnZUZ3fUAHQHcqDGbRdzT8RODbIEeQQOUecruMA5dbRdVrJf0oIKxdMlMoKsTvderb4BcjktgQ/36ePO5zKfHAgT1/0z5zjyNpc8JfaI+7SjZRcO6MdCmzcrPKNgsjkEfKVXvfD3xUzKCj9/0DqUcb8csYee2byGu+ZE0ZVr+Jbh+Xsbv7hzDkjJn0xpO6EX4nAM5pVK92vD6M8oBQjo3O4mb6VqRQaNdGn86aul1IIB4CxakuhyMyyviYokzzav3pFdcxiSOR0HxHOybZsy5+FDqOZXXsKkXufgZH0LPrHrS73ra+uMcUNQIerWBZ4FANq7jhv9aREyy/v84qe6abqaXsafiLW5xG7Pn
+Content-ID: <22FC15E947CE2648B994A6E81934AA5F@namprd04.prod.outlook.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CY4PR04MB375100663B25D1E1D8490758E76D0@CY4PR04MB3751.namprd04.prod.outlook.com>
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR04MB5112.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 89a1fe45-8594-4606-b1a3-08d81e84bf92
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jul 2020 12:37:57.0514 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: vYVYXf+Pe468K8HyOI66baYyl2rX65IsUdoREgUzMF1oNvxbMTtEM0N33EeQO7w9Lw1bmb7T/ngpvaY2aRvloQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB4677
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200702_062717_568607_477B191E 
-X-CRM114-Status: GOOD (  31.52  )
+X-CRM114-CacheID: sfid-20200702_083804_514781_CBD7926F 
+X-CRM114-Status: GOOD (  25.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,155 +147,130 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "axboe@kernel.dk" <axboe@kernel.dk>,
- SelvaKumar S <selvakuma.s1@samsung.com>, "sagi@grimberg.me" <sagi@grimberg.me>,
- Kanchan Joshi <joshi.k@samsung.com>,
+Cc: Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>, "Martin K.
+ Petersen" <martin.petersen@oracle.com>, Jonathan Corbet <corbet@lwn.net>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Nitesh Shetty <nj.shetty@samsung.com>,
  "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "kbusch@kernel.org" <kbusch@kernel.org>, "mb@lightnvm.io" <mb@lightnvm.io>,
- "hch@lst.de" <hch@lst.de>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMDIuMDcuMjAyMCAwODo0OSwgRGFtaWVuIExlIE1vYWwgd3JvdGU6Cj5PbiAyMDIwLzA3LzAy
-IDE3OjM0LCBKYXZpZXIgR29uesOhbGV6IHdyb3RlOgo+PiBPbiAwMi4wNy4yMDIwIDA3OjU0LCBE
-YW1pZW4gTGUgTW9hbCB3cm90ZToKPj4+IE9uIDIwMjAvMDcvMDIgMTU6NTUsIEphdmllciBHb256
-w6FsZXogd3JvdGU6Cj4+Pj4gRnJvbTogSmF2aWVyIEdvbnrDoWxleiA8amF2aWVyLmdvbnpAc2Ft
-c3VuZy5jb20+Cj4+Pj4KPj4+PiBBcyB0aGUgem9uZWQgYmxvY2sgZGV2aWNlIHdpbGwgaGF2ZSB0
-byBkZWFsIHdpdGggZmVhdHVyZXMgdGhhdCBhcmUKPj4+PiBvcHRpb25hbCBmb3IgdGhlIGJhY2tl
-bmQgZGV2aWNlLCBhZGQgYSBmbGFnIGZpZWxkIHRvIGluZm9ybSB0aGUgYmxvY2sKPj4+PiBsYXll
-ciBhYm91dCBzdXBwb3J0ZWQgZmVhdHVyZXMuIFRoaXMgYnVpbGRzIG9uIHRvcCBvZgo+Pj4+IGJs
-a196b25lX3JlcG9ydF9mbGFncyBhbmQgZXh0ZW5kZXMgdG8gdGhlIHpvbmUgcmVwb3J0IGNvZGUu
-Cj4+Pj4KPj4+PiBTaWduZWQtb2ZmLWJ5OiBKYXZpZXIgR29uesOhbGV6IDxqYXZpZXIuZ29uekBz
-YW1zdW5nLmNvbT4KPj4+PiBTaWduZWQtb2ZmLWJ5OiBTZWx2YUt1bWFyIFMgPHNlbHZha3VtYS5z
-MUBzYW1zdW5nLmNvbT4KPj4+PiBTaWduZWQtb2ZmLWJ5OiBLYW5jaGFuIEpvc2hpIDxqb3NoaS5r
-QHNhbXN1bmcuY29tPgo+Pj4+IFNpZ25lZC1vZmYtYnk6IE5pdGVzaCBTaGV0dHkgPG5qLnNoZXR0
-eUBzYW1zdW5nLmNvbT4KPj4+PiAtLS0KPj4+PiAgYmxvY2svYmxrLXpvbmVkLmMgICAgICAgICAg
-ICAgIHwgMyArKy0KPj4+PiAgZHJpdmVycy9ibG9jay9udWxsX2Jsa196b25lZC5jIHwgMiArKwo+
-Pj4+ICBkcml2ZXJzL252bWUvaG9zdC96bnMuYyAgICAgICAgfCAxICsKPj4+PiAgZHJpdmVycy9z
-Y3NpL3NkLmMgICAgICAgICAgICAgIHwgMiArKwo+Pj4+ICBpbmNsdWRlL2xpbnV4L2Jsa2Rldi5o
-ICAgICAgICAgfCAzICsrKwo+Pj4+ICA1IGZpbGVzIGNoYW5nZWQsIDEwIGluc2VydGlvbnMoKyks
-IDEgZGVsZXRpb24oLSkKPj4+Pgo+Pj4+IGRpZmYgLS1naXQgYS9ibG9jay9ibGstem9uZWQuYyBi
-L2Jsb2NrL2Jsay16b25lZC5jCj4+Pj4gaW5kZXggODExNTJhMjYwMzU0Li4wZjE1NmU5NmU0OGYg
-MTAwNjQ0Cj4+Pj4gLS0tIGEvYmxvY2svYmxrLXpvbmVkLmMKPj4+PiArKysgYi9ibG9jay9ibGst
-em9uZWQuYwo+Pj4+IEBAIC0zMTIsNyArMzEyLDggQEAgaW50IGJsa2Rldl9yZXBvcnRfem9uZXNf
-aW9jdGwoc3RydWN0IGJsb2NrX2RldmljZSAqYmRldiwgZm1vZGVfdCBtb2RlLAo+Pj4+ICAJCXJl
-dHVybiByZXQ7Cj4+Pj4KPj4+PiAgCXJlcC5ucl96b25lcyA9IHJldDsKPj4+PiAtCXJlcC5mbGFn
-cyA9IEJMS19aT05FX1JFUF9DQVBBQ0lUWTsKPj4+PiArCXJlcC5mbGFncyA9IHEtPnpvbmVfZmxh
-Z3M7Cj4+Pgo+Pj4gem9uZV9mbGFncyBzZWVtIHRvIGJlIGEgZmFpcmx5IGdlbmVyaWMgZmxhZ3Mg
-ZmllbGQgd2hpbGUgcmVwLmZsYWdzIGlzIG9ubHkgYWJvdXQKPj4+IHRoZSByZXBvcnRlZCBkZXNj
-cmlwdG9ycyBzdHJ1Y3R1cmUuIFNvIHlvdSBtYXkgd2FudCB0byBkZWZpbmUgYQo+Pj4gQkxLX1pP
-TkVfUkVQX0ZMQUdTX01BU0sgYW5kIGhhdmU6Cj4+Pgo+Pj4gCXJlcC5mbGFncyA9IHEtPnpvbmVf
-ZmxhZ3MgJiBCTEtfWk9ORV9SRVBfRkxBR1NfTUFTSzsKPj4+Cj4+PiB0byBhdm9pZCBmbGFncyBt
-ZWFuaW5nbGVzcyBmb3IgdGhlIHVzZXIgYmVpbmcgc2V0Lgo+Pj4KPj4+IEluIGFueSBjYXNlLCBz
-aW5jZSAqYWxsKiB6b25lZCBibG9jayBkZXZpY2VzIG5vdyByZXBvcnQgY2FwYWNpdHksIEkgZG8g
-bm90Cj4+PiByZWFsbHkgc2VlIHRoZSBwb2ludCB0byBhZGQgQkxLX1pPTkVfUkVQX0ZMQUdTX01B
-U0sgdG8gcS0+em9uZV9mbGFncywgZXNwZWNpYWxseQo+Pj4gY29uc2lkZXJpbmcgdGhhdCB5b3Ug
-c2V0IHRoZSBmbGFnIGZvciBhbGwgem9uZWQgZGV2aWNlIHR5cGVzLCBpbmNsdWRpbmcgc2NzaQo+
-Pj4gd2hpY2ggZG9lcyBub3QgaGF2ZSB6b25lIGNhcGFjaXR5LiBUaGlzIG1ha2VzIHEtPnpvbmVf
-ZmxhZ3MgcmF0aGVyIGNvbmZ1c2luZwo+Pj4gaW5zdGVhZCBvZiBjbGVhcmx5IGRlZmluaW5nIHRo
-ZSBkZXZpY2UgZmVhdHVyZXMgYXMgeW91IG1lbnRpb25lZCBpbiB0aGUgY29tbWl0Cj4+PiBtZXNz
-YWdlLgo+Pj4KPj4+IEkgdGhpbmsgaXQgbWF5IGJlIGJldHRlciB0byBqdXN0IGRyb3AgdGhpcyBw
-YXRjaCwgYW5kIGlmIG5lZWRlZCwgaW50cm9kdWNlIHRoZQo+Pj4gem9uZV9mbGFncyBmaWVsZCB3
-aGVyZSBpdCBtYXkgYmUgbmVlZGVkIChlLmcuIE9GRkxJTkUgem9uZSBpb2N0bCBzdXBwb3J0KS4K
-Pj4KPj4gSSBhbSB1c2luZyB0aGlzIGFzIGEgd2F5IHRvIHBhc3MgdGhlIE9GRkxJTkUgc3VwcG9y
-dCBmbGFnIHRvIHRoZSBibG9jawo+PiBsYXllci4gSSB1c2VkIHRoaXMgdG9vIGZvciB0aGUgYXR0
-cmlidXRlcy4gQXJlIHlvdSB0aGlua2luZyBvZiBhCj4+IGRpZmZlcmVudCB3YXkgdG8gc2VuZCB0
-aGlzPwo+Pgo+PiBJIGJlbGlldmUgdGhpcyBmaXRzIHRvbyBmb3IgY2FwYWNpdHksIGJ1dCB3ZSBj
-YW4ganVzdCBwYXNzIGl0IGluCj4+IGFsbCByZXBvcnQgYXMgYmVmb3JlIGlmIHlvdSBwcmVmZXIu
-Cj4KPlRoZSBwb2ludCBpcyB0aGF0IHRoaXMgcGF0Y2ggYXMgaXMgZG9lcyBub3RoaW5nIGFuZCBp
-cyBuZWVkZWQgYXMgYSBwcmVwYXJhdG9yeQo+cGF0Y2ggaWYgd2Ugd2FudCB0byBoYXZlIHRoZSBv
-ZmZsaW5lIGZsYWcgc2V0IGluIHRoZSByZXBvcnQuIEJ1dDoKPjEpIEFzIGNvbW1lbnRlZCBpbiB0
-aGUgb2ZmbGluZSBpb2N0bCBwYXRjaCwgSSBhbSBub3Qgc3VyZSB0aGUgZmxhZyBtYWtlcyBhIGxv
-dAo+b2Ygc2Vuc2UuIHN5c2ZzIG9yIG5vdGhpbmcgYXQgYWxsIG1heSBiZSBPSyBhcyB3ZWxsLiBX
-aGVuIHdlIGludHJvZHVjZWQgdGhlIG5ldwo+b3Blbi9jbG9zZS9maW5pc2ggaW9jdGxzLCB3ZSBk
-aWQgbm90IGFkZCBmbGFncyB0byBzaWduYWwgdGhhdCB0aGUgZGV2aWNlCj5zdXBwb3J0cyB0aGVt
-LiBHcmFudGVkLCBpdCB3YXMgZm9yIG51bGxibGsgYW5kIHNjc2ksIGFuZCBib3RoIGhhZCB0aGUg
-c3VwcG9ydC4KPkJ1dCBydW5uaW5nIGFuIGFwcGxpY2F0aW9uIHVzaW5nIHRoZXNlIG9uIGFuIG9s
-ZCBrZXJuZWwsIGFuZCB5b3Ugd2lsbCBnZXQKPi1FTk9UVFksIG1lYW5pbmcsIG5vdCBzdXBwb3J0
-ZWQuIFNvIHNpbXBseSBpbnRyb2R1Y2luZyB0aGUgb2ZmbGluZSBpb2N0bCB3aXRob3V0Cj5hbnkg
-ZmxhZyB3b3VsZCBiZSBPSyBJIHRoaW5rLgoKSSBzZWUuIE15IHVuZGVyc3RhbmRpbmcgYWZ0ZXIg
-c29tZSBjb21tZW50cyBmcm9tIENocmlzdG9waCB3YXMgdGhhdCB3ZQpzaG91bGQgdXNlIHRoZXNl
-IGJpdHMgdG8gc2lnbmFsIGFueSBvcHRpb25hbCBmZWF0dXJlcyAvIGNhcGFiaWxpdGllcwp0aGF0
-IHdvdWxkIGRlcGVuZCBvbiB0aGUgdW5kZXJseWluZyBkcml2ZXIsIGp1c3QgYXMgaXQgaXMgZG9u
-ZSB3aXRoIHRoZQpjYXBhY2l0eSBmbGFnIHRvZGF5LgoKSWYgbm90IGZvciB0aGUgb2ZmbGluZSB0
-cmFuc2l0aW9uLCBmb3IgdGhlIGF0dHJpYnV0ZXMsIEkgc2VlIGl0IGV4YWN0bHkKYXMgdGhlIHNh
-bWUgdXNlIGNhc2UgYXMgY2FwYWNpdHksIHdoZXJlIHdlIHNpZ25hbCB0aGF0IGEgbmV3IGZpZWxk
-IGlzCnJlcG9ydGVkIGluIHRoZSByZXBvcnQgc3RydWN0dXJlLgoKQW0gSSBtaXNzaW5nIHNvbWV0
-aGluZyBoZXJlPwoKPgo+U2luY2UgRE0gc3VwcG9ydCBmb3IgdGhpcyB3b3VsZCBiZSBuaWNlIHRv
-byBhbmQgd2Ugbm93IGFyZSBpbiBhIHNpdHVhdGlvbiB3aGVyZQo+bm90IGFsbCBkZXZpY2VzIHN1
-cHBvcnQgdGhlICBpb2N0bCwgaW5zdGVhZCBvZiBhIHJlcG9ydCBmbGFnIChhIGxpdHRsZSBvdXQg
-b2YKPnBsYWNlKSwgYSBxdWV1ZSBsaW1pdCBleHBvcnRlZCB0aHJvdWdoIHN5c2ZzIG1heSBiZSBh
-IGNsZWFuZXIgd2F5IHRvIGJvdGgKPnN1cHBvcnQgRE0gY29ycmVjdGx5IChzdGFja2VkIGxpbWl0
-cykgYW5kIHNpZ25hbCB0aGUgc3VwcG9ydCB0byB0aGUgdXNlci4gSWYgeW91Cj5jaG9vc2UgdGhp
-cyBhcHByb2FjaCwgdGhlbiB0aGlzIHBhdGNoIGlzIG5vdCBuZWVkZWQuIFRoZSB6b25lZF9mbGFn
-cywgb3IgYQo+cmVndWxhciBxdWV1ZSBmbGFnIGxpa2UgZm9yIFJFU0VUX0FMTCBjYW4gYmUgYWRk
-ZWQgaW4gdGhlIG9mZmxpbmUgaW9jdGwgcGF0Y2guCgpJIHNlZS4gSWYgd2UgY2FuIHJlYWNoIGFu
-IGFncmVlbWVudCB0aGF0IHRoZSBhYm92ZSBpcyBhIGJhZAp1bmRlcnN0YW5kaW5nIG9uIG15IHNp
-ZGUsIEkgd2lsbCBiZSBoYXBweSB0byB0cmFuc2xhdGUgdGhpcyBpbnRvIGEgc3lzZnMKZW50cnku
-IElmIGl0IGlzIE9LLCBJJ2xsIGdpdmUgaXQgdGhpcyB3ZWVrIGluIHRoZSBtYWlsaW5nIGxpc3Qg
-YW5kIHNlbmQKYSBWNCBuZXh0IHdlZWsuCgo+Cj4+Cj4+Pgo+Pj4+ICsKPj4+PiAgCWlmIChjb3B5
-X3RvX3VzZXIoYXJncCwgJnJlcCwgc2l6ZW9mKHN0cnVjdCBibGtfem9uZV9yZXBvcnQpKSkKPj4+
-PiAgCQlyZXR1cm4gLUVGQVVMVDsKPj4+PiAgCXJldHVybiAwOwo+Pj4+IGRpZmYgLS1naXQgYS9k
-cml2ZXJzL2Jsb2NrL251bGxfYmxrX3pvbmVkLmMgYi9kcml2ZXJzL2Jsb2NrL251bGxfYmxrX3pv
-bmVkLmMKPj4+PiBpbmRleCBiMDU4MzJlYjIxYjIuLjk1N2MyMTAzZjI0MCAxMDA2NDQKPj4+PiAt
-LS0gYS9kcml2ZXJzL2Jsb2NrL251bGxfYmxrX3pvbmVkLmMKPj4+PiArKysgYi9kcml2ZXJzL2Js
-b2NrL251bGxfYmxrX3pvbmVkLmMKPj4+PiBAQCAtNzgsNiArNzgsOCBAQCBpbnQgbnVsbF9pbml0
-X3pvbmVkX2RldihzdHJ1Y3QgbnVsbGJfZGV2aWNlICpkZXYsIHN0cnVjdCByZXF1ZXN0X3F1ZXVl
-ICpxKQo+Pj4+ICAJfQo+Pj4+Cj4+Pj4gIAlxLT5saW1pdHMuem9uZWQgPSBCTEtfWk9ORURfSE07
-Cj4+Pj4gKwlxLT56b25lX2ZsYWdzID0gQkxLX1pPTkVfUkVQX0NBUEFDSVRZOwo+Pj4+ICsKPj4+
-PiAgCWJsa19xdWV1ZV9mbGFnX3NldChRVUVVRV9GTEFHX1pPTkVfUkVTRVRBTEwsIHEpOwo+Pj4+
-ICAJYmxrX3F1ZXVlX3JlcXVpcmVkX2VsZXZhdG9yX2ZlYXR1cmVzKHEsIEVMRVZBVE9SX0ZfWkJE
-X1NFUV9XUklURSk7Cj4+Pj4KPj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9udm1lL2hvc3Qvem5z
-LmMgYi9kcml2ZXJzL252bWUvaG9zdC96bnMuYwo+Pj4+IGluZGV4IDA2NDJkM2M1NGU4Zi4uODg4
-MjY0MjYxYmEzIDEwMDY0NAo+Pj4+IC0tLSBhL2RyaXZlcnMvbnZtZS9ob3N0L3pucy5jCj4+Pj4g
-KysrIGIvZHJpdmVycy9udm1lL2hvc3Qvem5zLmMKPj4+PiBAQCAtODEsNiArODEsNyBAQCBpbnQg
-bnZtZV91cGRhdGVfem9uZV9pbmZvKHN0cnVjdCBnZW5kaXNrICpkaXNrLCBzdHJ1Y3QgbnZtZV9u
-cyAqbnMsCj4+Pj4gIAl9Cj4+Pj4KPj4+PiAgCXEtPmxpbWl0cy56b25lZCA9IEJMS19aT05FRF9I
-TTsKPj4+PiArCXEtPnpvbmVfZmxhZ3MgPSBCTEtfWk9ORV9SRVBfQ0FQQUNJVFk7Cj4+Pj4gIAli
-bGtfcXVldWVfZmxhZ19zZXQoUVVFVUVfRkxBR19aT05FX1JFU0VUQUxMLCBxKTsKPj4+PiAgZnJl
-ZV9kYXRhOgo+Pj4+ICAJa2ZyZWUoaWQpOwo+Pj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3Njc2kv
-c2QuYyBiL2RyaXZlcnMvc2NzaS9zZC5jCj4+Pj4gaW5kZXggZDkwZmVmZmZlMzFiLi5iOWM5MjBi
-YWNlMjggMTAwNjQ0Cj4+Pj4gLS0tIGEvZHJpdmVycy9zY3NpL3NkLmMKPj4+PiArKysgYi9kcml2
-ZXJzL3Njc2kvc2QuYwo+Pj4+IEBAIC0yOTY3LDYgKzI5NjcsNyBAQCBzdGF0aWMgdm9pZCBzZF9y
-ZWFkX2Jsb2NrX2NoYXJhY3RlcmlzdGljcyhzdHJ1Y3Qgc2NzaV9kaXNrICpzZGtwKQo+Pj4+ICAJ
-aWYgKHNka3AtPmRldmljZS0+dHlwZSA9PSBUWVBFX1pCQykgewo+Pj4+ICAJCS8qIEhvc3QtbWFu
-YWdlZCAqLwo+Pj4+ICAJCXEtPmxpbWl0cy56b25lZCA9IEJMS19aT05FRF9ITTsKPj4+PiArCQlx
-LT56b25lX2ZsYWdzID0gQkxLX1pPTkVfUkVQX0NBUEFDSVRZOwo+Pj4+ICAJfSBlbHNlIHsKPj4+
-PiAgCQlzZGtwLT56b25lZCA9IChidWZmZXJbOF0gPj4gNCkgJiAzOwo+Pj4+ICAJCWlmIChzZGtw
-LT56b25lZCA9PSAxICYmICFkaXNrX2hhc19wYXJ0aXRpb25zKHNka3AtPmRpc2spKSB7Cj4+Pj4g
-QEAgLTI5ODMsNiArMjk4NCw3IEBAIHN0YXRpYyB2b2lkIHNkX3JlYWRfYmxvY2tfY2hhcmFjdGVy
-aXN0aWNzKHN0cnVjdCBzY3NpX2Rpc2sgKnNka3ApCj4+Pj4gIAkJCQkJICAiRHJpdmUtbWFuYWdl
-ZCBTTVIgZGlza1xuIik7Cj4+Pj4gIAkJfQo+Pj4+ICAJfQo+Pj4+ICsKPj4+PiAgCWlmIChibGtf
-cXVldWVfaXNfem9uZWQocSkgJiYgc2RrcC0+Zmlyc3Rfc2NhbikKPj4+PiAgCQlzZF9wcmludGso
-S0VSTl9OT1RJQ0UsIHNka3AsICJIb3N0LSVzIHpvbmVkIGJsb2NrIGRldmljZVxuIiwKPj4+PiAg
-CQkgICAgICBxLT5saW1pdHMuem9uZWQgPT0gQkxLX1pPTkVEX0hNID8gIm1hbmFnZWQiIDogImF3
-YXJlIik7Cj4+Pj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvYmxrZGV2LmggYi9pbmNsdWRl
-L2xpbnV4L2Jsa2Rldi5oCj4+Pj4gaW5kZXggOGZkOTAwOTk4YjRlLi4zZjJlMzQyNWZhNTMgMTAw
-NjQ0Cj4+Pj4gLS0tIGEvaW5jbHVkZS9saW51eC9ibGtkZXYuaAo+Pj4+ICsrKyBiL2luY2x1ZGUv
-bGludXgvYmxrZGV2LmgKPj4+PiBAQCAtNTEyLDEyICs1MTIsMTUgQEAgc3RydWN0IHJlcXVlc3Rf
-cXVldWUgewo+Pj4+ICAJICogU3RhY2tpbmcgZHJpdmVycyAoZGV2aWNlIG1hcHBlcnMpIG1heSBv
-ciBtYXkgbm90IGluaXRpYWxpemUKPj4+PiAgCSAqIHRoZXNlIGZpZWxkcy4KPj4+PiAgCSAqCj4+
-Pj4gKwkgKiBGbGFncyByZXByZXNlbnQgZmVhdHVyZXMgYXMgZGVzY3JpYmVkIGJ5IGJsa196b25l
-X3JlcG9ydF9mbGFncyBpbiBibGt6b25lZC5oCj4+Pj4gKwkgKgo+Pj4+ICAJICogUmVhZHMgb2Yg
-dGhpcyBpbmZvcm1hdGlvbiBtdXN0IGJlIHByb3RlY3RlZCB3aXRoIGJsa19xdWV1ZV9lbnRlcigp
-IC8KPj4+PiAgCSAqIGJsa19xdWV1ZV9leGl0KCkuIE1vZGlmeWluZyB0aGlzIGluZm9ybWF0aW9u
-IGlzIG9ubHkgYWxsb3dlZCB3aGlsZQo+Pj4+ICAJICogbm8gcmVxdWVzdHMgYXJlIGJlaW5nIHBy
-b2Nlc3NlZC4gU2VlIGFsc28gYmxrX21xX2ZyZWV6ZV9xdWV1ZSgpIGFuZAo+Pj4+ICAJICogYmxr
-X21xX3VuZnJlZXplX3F1ZXVlKCkuCj4+Pj4gIAkgKi8KPj4+PiAgCXVuc2lnbmVkIGludAkJbnJf
-em9uZXM7Cj4+Pj4gKwl1bnNpZ25lZCBpbnQJCXpvbmVfZmxhZ3M7Cj4+Pj4gIAl1bnNpZ25lZCBs
-b25nCQkqY29udl96b25lc19iaXRtYXA7Cj4+Pj4gIAl1bnNpZ25lZCBsb25nCQkqc2VxX3pvbmVz
-X3dsb2NrOwo+Pj4+ICAjZW5kaWYgLyogQ09ORklHX0JMS19ERVZfWk9ORUQgKi8KPj4+Pgo+Pj4K
-Pj4+IEFuZCB5b3UgYXJlIG1pc3NpbmcgZGV2aWNlLW1hcHBlciBzdXBwb3J0LiBETSB0YXJnZXQg
-ZGV2aWNlcyBoYXZlIGEgcmVxdWVzdAo+Pj4gcXVldWUgdGhhdCB3b3VsZCBuZWVkIHRvIHNldCB0
-aGUgem9uZV9mbGFncyB0b28uCgpZZXMuIEFzIG1lbnRpb25lZCwgSSBkaWQgbm90IHdhbnQgdG8g
-aW50cm9kdWNlIG1vcmUgY2hhbmdlcyB0byB0aGlzCnNlcmllcywganVzdCBmaXggdGhlIG1pc3Rh
-a2UgSSBtYWRlIHdpdGggc29tZSBhZGRlZCBkZWJ1ZyBjb2RlLgoKPj4KPj4gT2suIEkgbG9va2Vk
-IGF0IGl0IGFuZCBJIHRob3VnaHQgdGhhdCB0aGlzIHdvdWxkIGJlIGluaGVyaXRlZCBieSB0aGUK
-Pj4gdW5kZXJseWluZyBkZXZpY2UuIEkgd2lsbCBhZGQgaXQgaW4gVjMuCj4+Cj4+IEphdmllcgo+
-Pgo+PgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGlu
-dXgtbnZtZSBtYWlsaW5nIGxpc3QKTGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3JnCmh0dHA6
-Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
+On Tue, Jun 30, 2020 at 01:49:41AM +0000, Damien Le Moal wrote:
+> On 2020/06/16 19:28, Niklas Cassel wrote:
+> > diff --git a/drivers/nvme/host/zns.c b/drivers/nvme/host/zns.c
+> > index c08f6281b614..af156529f3b6 100644
+> > --- a/drivers/nvme/host/zns.c
+> > +++ b/drivers/nvme/host/zns.c
+> > @@ -82,6 +82,7 @@ int nvme_update_zone_info(struct gendisk *disk, struct nvme_ns *ns,
+> >  
+> >  	q->limits.zoned = BLK_ZONED_HM;
+> >  	blk_queue_flag_set(QUEUE_FLAG_ZONE_RESETALL, q);
+> > +	blk_queue_max_open_zones(q, le32_to_cpu(id->mor) + 1);
+> >  free_data:
+> >  	kfree(id);
+> >  	return status;
+> > diff --git a/drivers/scsi/sd_zbc.c b/drivers/scsi/sd_zbc.c
+> > index 183a20720da9..aa3564139b40 100644
+> > --- a/drivers/scsi/sd_zbc.c
+> > +++ b/drivers/scsi/sd_zbc.c
+> > @@ -717,6 +717,10 @@ int sd_zbc_read_zones(struct scsi_disk *sdkp, unsigned char *buf)
+> >  	/* The drive satisfies the kernel restrictions: set it up */
+> >  	blk_queue_flag_set(QUEUE_FLAG_ZONE_RESETALL, q);
+> >  	blk_queue_required_elevator_features(q, ELEVATOR_F_ZBD_SEQ_WRITE);
+> > +	if (sdkp->zones_max_open == U32_MAX)
+> > +		blk_queue_max_open_zones(q, 0);
+> > +	else
+> > +		blk_queue_max_open_zones(q, sdkp->zones_max_open);
+> 
+> This is correct only for host-managed drives. Host-aware models define the
+> "OPTIMAL NUMBER OF OPEN SEQUENTIAL WRITE PREFERRED ZONES" instead of a maximum
+> number of open sequential write required zones.
+> 
+> Since the standard does not actually explicitly define what the value of the
+> maximum number of open sequential write required zones should be for a
+> host-aware drive, I would suggest to always have the max_open_zones value set to
+> 0 for host-aware disks.
+
+Isn't this already the case?
+
+At least according to the comments:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/scsi/sd_zbc.c?h=v5.8-rc3#n555
+
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/scsi/sd_zbc.c?h=v5.8-rc3#n561
+
+We seem to set
+
+sdkp->zones_max_open = 0;
+
+for host-aware, and
+
+sdkp->zones_max_open = get_unaligned_be32(&buf[16]);
+
+for host-managed.
+
+So the blk_queue_max_open_zones(q, sdkp->zones_max_open) call in
+sd_zbc_read_zones() should already export this new sysfs property
+as 0 for host-aware disks.
+
+
+Kind regards,
+Niklas
+
+> 
+> >  	nr_zones = round_up(sdkp->capacity, zone_blocks) >> ilog2(zone_blocks);
+> >  
+> >  	/* READ16/WRITE16 is mandatory for ZBC disks */
+> > diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+> > index 8fd900998b4e..2f332f00501d 100644
+> > --- a/include/linux/blkdev.h
+> > +++ b/include/linux/blkdev.h
+> > @@ -520,6 +520,7 @@ struct request_queue {
+> >  	unsigned int		nr_zones;
+> >  	unsigned long		*conv_zones_bitmap;
+> >  	unsigned long		*seq_zones_wlock;
+> > +	unsigned int		max_open_zones;
+> >  #endif /* CONFIG_BLK_DEV_ZONED */
+> >  
+> >  	/*
+> > @@ -729,6 +730,17 @@ static inline bool blk_queue_zone_is_seq(struct request_queue *q,
+> >  		return true;
+> >  	return !test_bit(blk_queue_zone_no(q, sector), q->conv_zones_bitmap);
+> >  }
+> > +
+> > +static inline void blk_queue_max_open_zones(struct request_queue *q,
+> > +		unsigned int max_open_zones)
+> > +{
+> > +	q->max_open_zones = max_open_zones;
+> > +}
+> > +
+> > +static inline unsigned int queue_max_open_zones(const struct request_queue *q)
+> > +{
+> > +	return q->max_open_zones;
+> > +}
+> >  #else /* CONFIG_BLK_DEV_ZONED */
+> >  static inline unsigned int blk_queue_nr_zones(struct request_queue *q)
+> >  {
+> > @@ -744,6 +756,14 @@ static inline unsigned int blk_queue_zone_no(struct request_queue *q,
+> >  {
+> >  	return 0;
+> >  }
+> > +static inline void blk_queue_max_open_zones(struct request_queue *q,
+> > +		unsigned int max_open_zones)
+> > +{
+> > +}
+> 
+> Why is this one necessary ? For the !CONFIG_BLK_DEV_ZONED case, no driver should
+> ever call this function.
+
+Will remove in v2.
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme@lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
