@@ -4,21 +4,21 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14682C433E2
-	for <linux-nvme@archiver.kernel.org>; Fri,  3 Jul 2020 05:04:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74B3AC433DF
+	for <linux-nvme@archiver.kernel.org>; Fri,  3 Jul 2020 05:20:58 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C2ED520771
-	for <linux-nvme@archiver.kernel.org>; Fri,  3 Jul 2020 05:04:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 306CC206BE
+	for <linux-nvme@archiver.kernel.org>; Fri,  3 Jul 2020 05:20:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="vMF1yvJb";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="dxY0zCfe";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="TC8JTSvg"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C2ED520771
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ikRQMQ3F";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="RHycYGFH";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="n6wsD4h3"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 306CC206BE
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -27,116 +27,115 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:To:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	 bh=Uy+14lNqpZRCSA9YfxRYuVNTp4+Nuwy4QquYCyeSqW0=; b=vMF1yvJbvuERL1ZxjkjR9Eynb
-	8rnpx8bQ6Dp3l/zoT+46ZFCdPWouHShOwOwIceUs28v6QGASR06WykBnCD8fWXOWHhHCT3KXuFiFs
-	mtcSHS2rHk3kFDjDcbBtfNtKTYMx/4sMdUxvxTSwTwQC8mqj6X1PaWINmI96rkfOXPhTIbFKGoXQs
-	F+HuoeW+/ZXfEmj9gwqBf05ACEPEHWaZRZGFmcLHAPSb3AjzODRW6JNxf9oak60WfIJab9aFvNdNo
-	gxcMha/chGfpwSTq7dmLkdCQN48YpuDSxKy8y6YCp39IAW5+NWdwf7He1QsZ7IRMZ2inwm+0ggyzK
-	C3baW8UMA==;
+	 bh=+90LfAr+0jEzB12tTajbU1vByFn2pHRxKurxHjO+gHU=; b=ikRQMQ3FA9S4twa1lM63gv7/B
+	AbdIvd8bw7ZZUd8j7Orhg+KCKMJPzwed2+MPTIY00BW0dXLBYVtUkIdZbb+azLXd2Px025ZVH5HRu
+	uQHNFhT/jTnc28jUHCfkHSfoUXKMUwSRLlKXdypUvPJbOXzq9zfoGkeThRNgPHmQJJmMqMgrsA9By
+	p16f49aI6ptFgZzv4ikZJRtw7duBeXbqQQnKy5TtjyPCS1z6Bpb7rug9IZYGsKANswpcFXP82us74
+	ctDrSbtYPX38SWLK8+8p6205SFv5K03a5uQXnzieEKAJPy6fUIhpYA/1wir/X3oWXjA2/+u5wKPRh
+	BQCn3m7yQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jrDsI-0007GU-NQ; Fri, 03 Jul 2020 05:04:34 +0000
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
+	id 1jrE84-0000jG-Ne; Fri, 03 Jul 2020 05:20:52 +0000
+Received: from esa5.hgst.iphmx.com ([216.71.153.144])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jrDsG-0007Fr-46
- for linux-nvme@lists.infradead.org; Fri, 03 Jul 2020 05:04:33 +0000
+ id 1jrE82-0000ir-6S
+ for linux-nvme@lists.infradead.org; Fri, 03 Jul 2020 05:20:51 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1593752672; x=1625288672;
+ t=1593753651; x=1625289651;
  h=from:to:cc:subject:date:message-id:references:
  content-transfer-encoding:mime-version;
- bh=V7q6loCXsqhfXIfP198rwYP5h6IYjGU9hlyYaKVtoQY=;
- b=dxY0zCfe3VSLcruhhN1wy8WK6sp9fcNd//rCd3zL6EBxs7hSgNgshrWv
- KLyLm2FtdpsB/rOvCR6gaPuJ07bpgI4eKV8uXU+6RhLROGT58J++kFi3z
- l1caDVqp7RxsckS2LrCXP9HUDWTJQD90eDscu9c7J0ai7yB/1jMJMkOBG
- eiwF6O/K5lEDGF3EE32FLync6PS2tr/UK4ECXJQQel6Pt89lBoi4EO3pF
- DdfCtApG2P+X0qS/toWipVYjVWakM4cNj9uBjOk0J/x4cgv6wZbgLMfnN
- HkoIDrAnAfYyhmFKgsLABf8MHEKnkqO3bOGUITXvV9J6rZqBVcNzVaznq A==;
-IronPort-SDR: 6hXlHYEYvw/KqpryjBunBcTQKkWwtw8A11wfeUpMa6GgXHQc2spCUoc7Qzsmguq/IXx3st9ljl
- U/xZ25L+ptNDaERr+qm1G1Gfput45/9g9p4DIRjsGOt+4zJm/V3JlQEqBTkbYJxEmDcOY79ilh
- arO3bF59u1PQ+2d9d6ds1OuTCAsuFxjkyY2NjxCOO6RPha1GVu1EIJLWcgyDVrZs3oSG075lJe
- 6+hlWyhTEet1Jih19pLdTCp2yrngdtWH/UiDlRd9rCnpX2MoCIPgH70f1pUY/OYni3OE8/SNBN
- Epk=
-X-IronPort-AV: E=Sophos;i="5.75,307,1589212800"; d="scan'208";a="250783622"
-Received: from mail-cys01nam02lp2056.outbound.protection.outlook.com (HELO
- NAM02-CY1-obe.outbound.protection.outlook.com) ([104.47.37.56])
- by ob1.hgst.iphmx.com with ESMTP; 03 Jul 2020 13:04:30 +0800
+ bh=IH2Q4/471OJ53S022secirMIUArKbh/PfBE1+cfUt8k=;
+ b=RHycYGFHJ78k18b7pk78ccP+uUiN50UTYj88VSe1Bg0+sXHjCIn/kfkX
+ OalCHmNqs20kH3a1zhE70jAQczzqDeJL6iERm0555Cpt9M4PTkFPjS7Wn
+ KW2c9KEET9MW5yLvCCc2D0sev/aUAvlauWrAzXr1b+9pPNxykjqji7vVv
+ DzvrJuQNaxdzqTgkUjmybw+dEkKGyo1ZP507+ShEnJ8XLXkICz4EXFaPH
+ ge/swAtPHGCm261Ss0eanwldgDdn+0p2ArHkog1EpK/cBsdgRdcTi7tHa
+ 8eYLaOoVwtFgkQppO7ZYc0HagCTPFKuWo5loTscAHSqxf1oYss2oNIbwm w==;
+IronPort-SDR: uwuKW/kWYRxA518xUICVcYWzG0UQfLMPrNhAej8qckWl+elc9fvzrfFxN9ZxUqJvRILZRVEJ/n
+ BZyWirqq7nK8UWaofYhT850jFGWYgyI0nPm2HPULoYEUn/nQdBiAzDHwSSGyD726MGrkn3ULXx
+ 7PbVpbVLMZ7sniUVS+eBv1KY2UnWsnKpBzc2lg4ZQfwRRQundmho82ARJ2B2GQ1oXj8jKUq16U
+ 7C/yWz82xiKDyVb7KQhKjC5I6x3EQeejnAfAXQvB5yS0E0d/84LV4l98aUgzgwu+F4iVP3JOSw
+ ryQ=
+X-IronPort-AV: E=Sophos;i="5.75,307,1589212800"; d="scan'208";a="141744755"
+Received: from mail-co1nam11lp2174.outbound.protection.outlook.com (HELO
+ NAM11-CO1-obe.outbound.protection.outlook.com) ([104.47.56.174])
+ by ob1.hgst.iphmx.com with ESMTP; 03 Jul 2020 13:20:48 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Si6I8Wo7DyuPx2TA6Nipni2wJx1LP3PlY42Rq10iFAKUnro1QH8WD/NOw/+FJP7zy7jNCq/teK866UmY6y5QysUMER8AyQuok139nh3InMlV10qRsP93ekvKI3VqDpuLcj0XB8Qx6K0NIXkNsqd/e9J5nvaf9VF2m6JtHXmKtXma7nPRmuoBZMf7kbFw/ImDpdDFixdcNh+7CytXAAdK5C6QofazEScu8SlO1VDybPhqMDOXZJmNFTLbsWv5n0TvAz6xA1KNDlD6yHrZNBfyBDSvnXTBkHbvNzWK4oD+lCi5VC4D2vxX0I75AQnuP9fh8OciWptMkIcgGjf4SZB7Tg==
+ b=JRCgdf/r0dSQUthsazrzunFfGtBAoecbN79fwXGO9pvTQugHq8BA/JaDNvTA1CMd1joA1UJEIJnojnbsyLx5OTKu/Luwpdk/VP4Ul+rvvHfa/BUGer7v9xn1Eq/u3DAW4T8VhO+TQOCORlDfSEh2FEFG5+laAL+COPpPt6+fOMDAGwbeVXIKckKnpjc9QDC65Q1wBFxWQ1S8xV+FgJlN0h18+Wyvthsumq0GZ8geY9GxOt3u7eiYVpORLsONTh6uLIbX4q7s5N11m7IbPWdGCVdL56ihVsZ2T1IBvU3qj29SS1XU+9QFgx51ikuCTUq06oCp/j7gqkVIYNSnBeIXlg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=70am78hERB52pFinT74h8uB0Uh68Tkwtnwz6PiSF5c0=;
- b=FanRBCMhJFL657LNaIXVKsWEj0VsCEjKn8ykTa0quCe9w0h+QtAEG53B5kNLSu7S5+EYfoFMKlWS93zOBSFtyAQfTFEk/Czs30B18R3b+rpm6di/fpCYtH4mNq7roBMPAUI6S1K+MhS9eRqT0kEMTrZFgnRVm1G9lr2kZWLynQmC34ksDpqh3M2D9xaPKfJQ/JGw3EbSRKDe2OMUZNo+pkSPq0rmJRe+SLbRv348jv1mkmc+T/T30q6noQ37PGTkSYlPwE9uceHcZNLAvWJ33QEFTTc/74kNe2JHwXcqfLWCfquRMy2SC4YOKqch2aqGdIg5mzWAjPOKz1W98PhSnQ==
+ bh=utOg4SIMtVhMpoXaDsVGktL4hxGEqy1uwXPI44XDS2k=;
+ b=k+OTRCl3lELPbiGbcsjwUor47RSMs5LDzxGzMADGwj5lmvBCKlGd8uPQrDatT/xjZDrO//BrD5DcHzzzLgV2a2YKSSj+i2H5aj0wFlMr4f6Nibi1gFLMw3wLVfocBUopJMxhbvpjKuVo25o3PIAdpEXBgFYnb3HQwoW7sOq5DKn4QMfJ53vvwD6WL8Zt5178lRxNcz/HvfIDDanUMqc1Vd54inB6HjU+oXNL1NQ3IyEJr2WhbTYG04NZQju3RujKnpT1Q9FrXyZmjUBWhWD0I3OWCGEPEZ0NRkJFRuZEIA4WsCGyOXQxqJQp9jkTq0XdhW9vRbZwB4Y4g9WfwUY0ng==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
  header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=70am78hERB52pFinT74h8uB0Uh68Tkwtnwz6PiSF5c0=;
- b=TC8JTSvgtk+NAxq7ZNsdUu57KxNP0QmhAK62MFPBf/cHMNFRzR83Ban4Cf+G6LmhwpXsgNKWcGUCTMeQ/azqAKmmU9/Ok4118hkhj+7jpwSaPUqF2WxeuO33JlhaaNitD6ziqWb3CXGIaUY2UNWEHMAEdIUgZWhXKt9yoFgRC/w=
-Received: from CY4PR04MB3751.namprd04.prod.outlook.com (2603:10b6:903:ec::14)
- by CY4PR04MB1256.namprd04.prod.outlook.com (2603:10b6:910:52::29)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.27; Fri, 3 Jul
- 2020 05:04:29 +0000
+ bh=utOg4SIMtVhMpoXaDsVGktL4hxGEqy1uwXPI44XDS2k=;
+ b=n6wsD4h32d4P9/Qg8oqDLcO6lEHEiGvXIJhsnSc841AvDhHUo6tyAbxe9Hc1UOq/LnuTHTK+8EF/OdAwc2At8bSGkyJ1DP54G0sPRvNS/VWQyAv5XLXvoWFVsC3taBiFzSiidRFGu3JYxTDLErOTk0108u76HiP6lY7kGGutpWA=
+Received: from CY4PR04MB3751.namprd04.prod.outlook.com (10.172.142.14) by
+ CY4PR0401MB3586.namprd04.prod.outlook.com (52.132.99.157) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3131.25; Fri, 3 Jul 2020 05:20:45 +0000
 Received: from CY4PR04MB3751.namprd04.prod.outlook.com
  ([fe80::c593:f271:eebe:ac7]) by CY4PR04MB3751.namprd04.prod.outlook.com
  ([fe80::c593:f271:eebe:ac7%9]) with mapi id 15.20.3153.022; Fri, 3 Jul 2020
- 05:04:29 +0000
+ 05:20:45 +0000
 From: Damien Le Moal <Damien.LeMoal@wdc.com>
-To: Niklas Cassel <Niklas.Cassel@wdc.com>, Jonathan Corbet <corbet@lwn.net>,
- Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, Christoph
- Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, "James E.J.
- Bottomley" <jejb@linux.ibm.com>, "Martin K. Petersen"
- <martin.petersen@oracle.com>
-Subject: Re: [PATCH v2 2/2] block: add max_active_zones to blk-sysfs
-Thread-Topic: [PATCH v2 2/2] block: add max_active_zones to blk-sysfs
-Thread-Index: AQHWUJ1p06hnAS8BF0W4ErHH9Q9yUQ==
-Date: Fri, 3 Jul 2020 05:04:29 +0000
-Message-ID: <CY4PR04MB37511CA70FD74491827DF025E76A0@CY4PR04MB3751.namprd04.prod.outlook.com>
-References: <20200702181922.24190-1-niklas.cassel@wdc.com>
- <20200702181922.24190-3-niklas.cassel@wdc.com>
+To: =?iso-8859-1?Q?Javier_Gonz=E1lez?= <javier@javigon.com>
+Subject: Re: [PATCH 1/4] block: Add zone flags to queue zone prop.
+Thread-Topic: [PATCH 1/4] block: Add zone flags to queue zone prop.
+Thread-Index: AQHWUD25/vKGWWSejEep48tajSAGnw==
+Date: Fri, 3 Jul 2020 05:20:45 +0000
+Message-ID: <CY4PR04MB3751F621B2D32B5A47332644E76A0@CY4PR04MB3751.namprd04.prod.outlook.com>
+References: <20200702065438.46350-1-javier@javigon.com>
+ <20200702065438.46350-2-javier@javigon.com>
+ <CY4PR04MB37511008EEBF1A77DB4F423BE76D0@CY4PR04MB3751.namprd04.prod.outlook.com>
+ <20200702083430.miax2cd44mkhc5fb@mpHalley.local>
+ <CY4PR04MB375100663B25D1E1D8490758E76D0@CY4PR04MB3751.namprd04.prod.outlook.com>
+ <20200702102714.d5igoqcvcavlunmv@mpHalley.local>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-authentication-results: wdc.com; dkim=none (message not signed)
- header.d=none;wdc.com; dmarc=none action=none header.from=wdc.com;
+authentication-results: javigon.com; dkim=none (message not signed)
+ header.d=none;javigon.com; dmarc=none action=none header.from=wdc.com;
 x-originating-ip: [129.253.182.57]
 x-ms-publictraffictype: Email
 x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 1510ffdd-193f-457d-e014-08d81f0e90e1
-x-ms-traffictypediagnostic: CY4PR04MB1256:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <CY4PR04MB12567517D1B306A162C417C6E76A0@CY4PR04MB1256.namprd04.prod.outlook.com>
+x-ms-office365-filtering-correlation-id: b763f177-60b7-4f0e-e7c9-08d81f10d6c8
+x-ms-traffictypediagnostic: CY4PR0401MB3586:
+x-microsoft-antispam-prvs: <CY4PR0401MB35865BA27C40FD724DE8EF9EE76A0@CY4PR0401MB3586.namprd04.prod.outlook.com>
 wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
 x-forefront-prvs: 045315E1EE
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ZWSiHgih0vOzG04T92znhDuGdicaBdGPlkVIicmxGmXFbk3HSPIVySgQdBg75Aa2E/Kum8WplPEUu1EflCE7w3fuvocrOYamMkJ51SQLKdv9ORouqWn3eDb8nEPEH1muDv/3Mic0sPX+sXmi2TGx5gPODQ34RWd8qIy/1Wpln09LtL4mdxz0zQeEOb8LoXpbOOTi7yPEka9Akz8VGgZetDeJFXl3bNdJonKeiwZUJ/TgJ/KEuaLM6/+uequ0Dk7W7yxz8Z6Kj9Q/yhDpnKYKtQPVMbgEg3X1HepTzB94rQGSEYow96rBl0iSA+x2zpmEk+HMIOb/etmGA5zf+yF+FQ==
+x-microsoft-antispam-message-info: MDhQFUAziOahTw9N/JzeG0z0yxYomh6KX0KIFq7niStA26bHFRGLz/OBseJz3cLLFP3ERixP+QkURKxmqUC2oiFdVS1Xli+OkDARwLacgDC8+eAkuoEV1H2cLdLOhLYHqjS8qAjIPGAFQ2OYx24oPsIknPoDE4RO7kzef3cdiVcey7SlFGw+mfogmaTg+10CK8hSzH5P7GbgR5ruIuLWKpwVn8jwWNqxtt3yW4v30Np6lgFyc6Im6+6vZ5A9IS5Kaf02ZnQrz1uZn3eVBMveef7WCmVuoLnCWKdC4VBj2UsulUitHSrYDjPRsZrUbKBLmqv5c2ySsv1WxCBL/VRIiw==
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CY4PR04MB3751.namprd04.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(396003)(136003)(366004)(39860400002)(346002)(376002)(66574015)(83380400001)(5660300002)(86362001)(2906002)(66946007)(8936002)(8676002)(66476007)(66556008)(64756008)(66446008)(76116006)(91956017)(478600001)(7696005)(186003)(26005)(6506007)(53546011)(54906003)(71200400001)(4326008)(110136005)(55016002)(52536014)(9686003)(33656002)(316002)(7416002);
+ SFS:(4636009)(366004)(136003)(376002)(396003)(346002)(39860400002)(66946007)(53546011)(86362001)(33656002)(8676002)(8936002)(55016002)(6916009)(9686003)(5660300002)(7416002)(478600001)(2906002)(4326008)(7696005)(83380400001)(52536014)(64756008)(66476007)(91956017)(66446008)(66556008)(76116006)(6506007)(186003)(26005)(66574015)(316002)(54906003)(71200400001);
  DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: zqQnBzRpRDNQaxkD9l2VEUNFdyKLRGS2TZLe6oWX4ZiGngnETNoQKjpKa9Q+ByqSJuJVFS57wekjj8RfOueBm6RbHrgbvgBxLLCPtaZdDsMwWJ8iXGnqgO1YSxl7t/MD+etb05dXt5XRDS+Scb8TRlYJUwDCa6hZ1IRIaU+N381Qo/HbnHChPf2/GZU52VgpXeV38bBLLucKLrd3P8bKG9vvsmgzwdqc0txKEe/8zEl5G4pmXnItnpJ2gJoU++KNf+JZl4EwEf+g0cgl14187SV4q76HNdcoPCPMkOaUT8SUZ0PYiMg15edrjjJ8GNMfJhzFFVXVyYZI21yQ/3inmP1KpqvvpUv8dn/Nee00gQjsH+aHt4GbKtznr2BGWqJyPpVYMeB8mMoEPHlI8+VW4E9Z1r4Wug8Kaq3LiCk+m/awRagAXrbnCvl5cAdycY93eVe13oA8DG2H/Y7eB/LGtbAGDWucUHXZyXfrPN9BKaBuAKysfbZs+6oJMbiqhOIn
+x-ms-exchange-antispam-messagedata: aSTfz6F9U6X0/7WmT+TBGYAq3MvVif6Tyj/knQ/9x5NauJT1A1ODh/9Rau9KNmteA2qnyZXN5GbyGvssZOFFioKSNucMCdN0SxObbvv34rEFagx4zR9Y3cd5mR2Xi5yi+iIOICINsHLufSxwtPqyKCWiDbcIP0fQuwmXRrR4wf8JhIlbjY4/3Z4AOKXntXteKa9ifZl7YpnDcEJiuROf9hRT4kh7EH/eWj9Pu90eh5p4FMhcJDup27XVHWoZdwijOqjCa52Fmx34XXE55e7WQrHKtupeB2jwQ6mNLrt7/GugCKwQnmdEvkE8YvH+34rMQCtL0JhPPIzAV/BQcZtMFDKF4TCgU2uX35bE6By8ePTEwoF0g2gwmZrDuwvwaVeN3CfJRVmHojh1j7xA2T2th1psBpk26YK4FkTXGnacMNGmlPk/Sl5rdgEwNJ1dfFqvqztwj51anLJWudQnHrDcRtTa4zwiaeu0BZpz8FFEIFaOrG/nspVo/TGT0qFbmaxB
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
 X-OriginatorOrg: wdc.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: CY4PR04MB3751.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1510ffdd-193f-457d-e014-08d81f0e90e1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jul 2020 05:04:29.2650 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b763f177-60b7-4f0e-e7c9-08d81f10d6c8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jul 2020 05:20:45.5444 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: JxcbarzDMxyjULR98RJV8BUnYF+vbtpGZxkS09LVkOh6KPW6E2q6fccc1mFvBEiyR+jR8JvELxCeFPAvgCns+g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR04MB1256
+X-MS-Exchange-CrossTenant-userprincipalname: tRuF5GZLsLhVJ5IYkRrfCkAfB9OmED3x8ZUBtYxDOWi7tduUPrc4l5Hj9SOdaGgsN+AJKUcQniDEdW6wxuOUeg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR0401MB3586
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200703_010432_454526_BD10D090 
-X-CRM114-Status: GOOD (  22.31  )
+X-CRM114-CacheID: sfid-20200703_012050_521507_F363B798 
+X-CRM114-Status: GOOD (  29.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,205 +147,159 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: =?iso-8859-1?Q?Javier_Gonz=E1lez?= <javier@javigon.com>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+Cc: "axboe@kernel.dk" <axboe@kernel.dk>,
+ SelvaKumar S <selvakuma.s1@samsung.com>, "sagi@grimberg.me" <sagi@grimberg.me>,
+ Kanchan Joshi <joshi.k@samsung.com>,
  "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>
+ Nitesh Shetty <nj.shetty@samsung.com>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "kbusch@kernel.org" <kbusch@kernel.org>, "mb@lightnvm.io" <mb@lightnvm.io>,
+ "hch@lst.de" <hch@lst.de>
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2020/07/03 3:20, Niklas Cassel wrote:
-> Add a new max_active zones definition in the sysfs documentation.
-> This definition will be common for all devices utilizing the zoned block
-> device support in the kernel.
+On 2020/07/02 19:27, Javier Gonz=E1lez wrote:
+> On 02.07.2020 08:49, Damien Le Moal wrote:
+>> On 2020/07/02 17:34, Javier Gonz=E1lez wrote:
+>>> On 02.07.2020 07:54, Damien Le Moal wrote:
+>>>> On 2020/07/02 15:55, Javier Gonz=E1lez wrote:
+>>>>> From: Javier Gonz=E1lez <javier.gonz@samsung.com>
+>>>>>
+>>>>> As the zoned block device will have to deal with features that are
+>>>>> optional for the backend device, add a flag field to inform the block
+>>>>> layer about supported features. This builds on top of
+>>>>> blk_zone_report_flags and extendes to the zone report code.
+>>>>>
+>>>>> Signed-off-by: Javier Gonz=E1lez <javier.gonz@samsung.com>
+>>>>> Signed-off-by: SelvaKumar S <selvakuma.s1@samsung.com>
+>>>>> Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+>>>>> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+>>>>> ---
+>>>>>  block/blk-zoned.c              | 3 ++-
+>>>>>  drivers/block/null_blk_zoned.c | 2 ++
+>>>>>  drivers/nvme/host/zns.c        | 1 +
+>>>>>  drivers/scsi/sd.c              | 2 ++
+>>>>>  include/linux/blkdev.h         | 3 +++
+>>>>>  5 files changed, 10 insertions(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/block/blk-zoned.c b/block/blk-zoned.c
+>>>>> index 81152a260354..0f156e96e48f 100644
+>>>>> --- a/block/blk-zoned.c
+>>>>> +++ b/block/blk-zoned.c
+>>>>> @@ -312,7 +312,8 @@ int blkdev_report_zones_ioctl(struct block_device=
+ *bdev, fmode_t mode,
+>>>>>  		return ret;
+>>>>>
+>>>>>  	rep.nr_zones =3D ret;
+>>>>> -	rep.flags =3D BLK_ZONE_REP_CAPACITY;
+>>>>> +	rep.flags =3D q->zone_flags;
+>>>>
+>>>> zone_flags seem to be a fairly generic flags field while rep.flags is =
+only about
+>>>> the reported descriptors structure. So you may want to define a
+>>>> BLK_ZONE_REP_FLAGS_MASK and have:
+>>>>
+>>>> 	rep.flags =3D q->zone_flags & BLK_ZONE_REP_FLAGS_MASK;
+>>>>
+>>>> to avoid flags meaningless for the user being set.
+>>>>
+>>>> In any case, since *all* zoned block devices now report capacity, I do=
+ not
+>>>> really see the point to add BLK_ZONE_REP_FLAGS_MASK to q->zone_flags, =
+especially
+>>>> considering that you set the flag for all zoned device types, includin=
+g scsi
+>>>> which does not have zone capacity. This makes q->zone_flags rather con=
+fusing
+>>>> instead of clearly defining the device features as you mentioned in th=
+e commit
+>>>> message.
+>>>>
+>>>> I think it may be better to just drop this patch, and if needed, intro=
+duce the
+>>>> zone_flags field where it may be needed (e.g. OFFLINE zone ioctl suppo=
+rt).
+>>>
+>>> I am using this as a way to pass the OFFLINE support flag to the block
+>>> layer. I used this too for the attributes. Are you thinking of a
+>>> different way to send this?
+>>>
+>>> I believe this fits too for capacity, but we can just pass it in
+>>> all report as before if you prefer.
+>>
+>> The point is that this patch as is does nothing and is needed as a prepa=
+ratory
+>> patch if we want to have the offline flag set in the report. But:
+>> 1) As commented in the offline ioctl patch, I am not sure the flag makes=
+ a lot
+>> of sense. sysfs or nothing at all may be OK as well. When we introduced =
+the new
+>> open/close/finish ioctls, we did not add flags to signal that the device
+>> supports them. Granted, it was for nullblk and scsi, and both had the su=
+pport.
+>> But running an application using these on an old kernel, and you will get
+>> -ENOTTY, meaning, not supported. So simply introducing the offline ioctl=
+ without
+>> any flag would be OK I think.
 > =
 
-> Export max_active_zones according to this new definition for NVMe Zoned
-> Namespace devices, ZAC ATA devices (which are treated as SCSI devices by
-> the kernel), and ZBC SCSI devices.
+> I see. My understanding after some comments from Christoph was that we
+> should use these bits to signal any optional features / capabilities
+> that would depend on the underlying driver, just as it is done with the
+> capacity flag today.
 > =
 
-> Add the new max_active_zones member to struct request_queue, rather
-> than as a queue limit, since this property cannot be split across stacking
-> drivers.
+> If not for the offline transition, for the attributes, I see it exactly
+> as the same use case as capacity, where we signal that a new field is
+> reported in the report structure.
 > =
 
-> For SCSI devices, even though max active zones is not part of the ZBC/ZAC
-> spec, export max_active_zones as 0, signifying "no limit".
+> Am I missing something here?
+
+Using the report flags for reporting supported operations/features is fine,=
+ but
+as already mentioned, then document that by changing the description of enum
+blk_zone_report_flags. Right now, it still says:
+
+ * enum blk_zone_report_flags - Feature flags of reported zone descriptors.
+
+Which kind of really point to things the zone descriptor itself has compare=
+d to
+earlier versions of the descriptor rather than what the device can do or no=
+t.
+
+And as I argued already, using a flag is fine only for letting a user know =
+about
+a supported feature, but that is far from ideal to have device-mapper easily
+discover what a target can support or not. For that, stacked queue limits a=
+re
+much simpler. Which leads to exporting that limit in sysfs rather than usin=
+g a
+flag for the user interface.
+
+>> Since DM support for this would be nice too and we now are in a situatio=
+n where
+>> not all devices support the  ioctl, instead of a report flag (a little o=
+ut of
+>> place), a queue limit exported through sysfs may be a cleaner way to both
+>> support DM correctly (stacked limits) and signal the support to the user=
+. If you
+>> choose this approach, then this patch is not needed. The zoned_flags, or=
+ a
+>> regular queue flag like for RESET_ALL can be added in the offline ioctl =
+patch.
 > =
 
-> Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
-> Reviewed-by: Javier Gonz=E1lez <javier@javigon.com>
-> ---
->  Documentation/block/queue-sysfs.rst |  7 +++++++
->  block/blk-sysfs.c                   | 14 +++++++++++++-
->  drivers/nvme/host/zns.c             |  1 +
->  drivers/scsi/sd_zbc.c               |  1 +
->  include/linux/blkdev.h              | 16 ++++++++++++++++
->  5 files changed, 38 insertions(+), 1 deletion(-)
-> =
+> I see. If we can reach an agreement that the above is a bad
+> understanding on my side, I will be happy to translate this into a sysfs
+> entry. If it is OK, I'll give it this week in the mailing list and send
+> a V4 next week.
 
-> diff --git a/Documentation/block/queue-sysfs.rst b/Documentation/block/qu=
-eue-sysfs.rst
-> index f01cf8530ae4..f261a5c84170 100644
-> --- a/Documentation/block/queue-sysfs.rst
-> +++ b/Documentation/block/queue-sysfs.rst
-> @@ -117,6 +117,13 @@ Maximum number of elements in a DMA scatter/gather l=
-ist with integrity
->  data that will be submitted by the block layer core to the associated
->  block driver.
->  =
-
-> +max_active_zones (RO)
-> +---------------------
-> +For zoned block devices (zoned attribute indicating "host-managed" or
-> +"host-aware"), the sum of zones belonging to any of the zone states:
-> +EXPLICIT OPEN, IMPLICIT OPEN or CLOSED, is limited by this value.
-> +If this value is 0, there is no limit.
-> +
->  max_open_zones (RO)
->  -------------------
->  For zoned block devices (zoned attribute indicating "host-managed" or
-> diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
-> index fa42961e9678..624bb4d85fc7 100644
-> --- a/block/blk-sysfs.c
-> +++ b/block/blk-sysfs.c
-> @@ -310,6 +310,11 @@ static ssize_t queue_max_open_zones_show(struct requ=
-est_queue *q, char *page)
->  	return queue_var_show(queue_max_open_zones(q), page);
->  }
->  =
-
-> +static ssize_t queue_max_active_zones_show(struct request_queue *q, char=
- *page)
-> +{
-> +	return queue_var_show(queue_max_active_zones(q), page);
-> +}
-> +
->  static ssize_t queue_nomerges_show(struct request_queue *q, char *page)
->  {
->  	return queue_var_show((blk_queue_nomerges(q) << 1) |
-> @@ -677,6 +682,11 @@ static struct queue_sysfs_entry queue_max_open_zones=
-_entry =3D {
->  	.show =3D queue_max_open_zones_show,
->  };
->  =
-
-> +static struct queue_sysfs_entry queue_max_active_zones_entry =3D {
-> +	.attr =3D {.name =3D "max_active_zones", .mode =3D 0444 },
-> +	.show =3D queue_max_active_zones_show,
-> +};
-> +
->  static struct queue_sysfs_entry queue_nomerges_entry =3D {
->  	.attr =3D {.name =3D "nomerges", .mode =3D 0644 },
->  	.show =3D queue_nomerges_show,
-> @@ -776,6 +786,7 @@ static struct attribute *queue_attrs[] =3D {
->  	&queue_zoned_entry.attr,
->  	&queue_nr_zones_entry.attr,
->  	&queue_max_open_zones_entry.attr,
-> +	&queue_max_active_zones_entry.attr,
->  	&queue_nomerges_entry.attr,
->  	&queue_rq_affinity_entry.attr,
->  	&queue_iostats_entry.attr,
-> @@ -803,7 +814,8 @@ static umode_t queue_attr_visible(struct kobject *kob=
-j, struct attribute *attr,
->  		(!q->mq_ops || !q->mq_ops->timeout))
->  			return 0;
->  =
-
-> -	if (attr =3D=3D &queue_max_open_zones_entry.attr &&
-> +	if ((attr =3D=3D &queue_max_open_zones_entry.attr ||
-> +	     attr =3D=3D &queue_max_active_zones_entry.attr) &&
->  	    !blk_queue_is_zoned(q))
->  		return 0;
->  =
-
-> diff --git a/drivers/nvme/host/zns.c b/drivers/nvme/host/zns.c
-> index 3d80b9cf6bfc..57cfd78731fb 100644
-> --- a/drivers/nvme/host/zns.c
-> +++ b/drivers/nvme/host/zns.c
-> @@ -97,6 +97,7 @@ int nvme_update_zone_info(struct gendisk *disk, struct =
-nvme_ns *ns,
->  	q->limits.zoned =3D BLK_ZONED_HM;
->  	blk_queue_flag_set(QUEUE_FLAG_ZONE_RESETALL, q);
->  	blk_queue_max_open_zones(q, le32_to_cpu(id->mor) + 1);
-> +	blk_queue_max_active_zones(q, le32_to_cpu(id->mar) + 1);
->  free_data:
->  	kfree(id);
->  	return status;
-> diff --git a/drivers/scsi/sd_zbc.c b/drivers/scsi/sd_zbc.c
-> index aa3564139b40..d8b2c49d645b 100644
-> --- a/drivers/scsi/sd_zbc.c
-> +++ b/drivers/scsi/sd_zbc.c
-> @@ -721,6 +721,7 @@ int sd_zbc_read_zones(struct scsi_disk *sdkp, unsigne=
-d char *buf)
->  		blk_queue_max_open_zones(q, 0);
->  	else
->  		blk_queue_max_open_zones(q, sdkp->zones_max_open);
-> +	blk_queue_max_active_zones(q, 0);
->  	nr_zones =3D round_up(sdkp->capacity, zone_blocks) >> ilog2(zone_blocks=
-);
->  =
-
->  	/* READ16/WRITE16 is mandatory for ZBC disks */
-> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-> index fe168abcfdda..bb9e6eb6a7e6 100644
-> --- a/include/linux/blkdev.h
-> +++ b/include/linux/blkdev.h
-> @@ -521,6 +521,7 @@ struct request_queue {
->  	unsigned long		*conv_zones_bitmap;
->  	unsigned long		*seq_zones_wlock;
->  	unsigned int		max_open_zones;
-> +	unsigned int		max_active_zones;
->  #endif /* CONFIG_BLK_DEV_ZONED */
->  =
-
->  	/*
-> @@ -741,6 +742,17 @@ static inline unsigned int queue_max_open_zones(cons=
-t struct request_queue *q)
->  {
->  	return q->max_open_zones;
->  }
-> +
-> +static inline void blk_queue_max_active_zones(struct request_queue *q,
-> +		unsigned int max_active_zones)
-> +{
-> +	q->max_active_zones =3D max_active_zones;
-> +}
-> +
-> +static inline unsigned int queue_max_active_zones(const struct request_q=
-ueue *q)
-> +{
-> +	return q->max_active_zones;
-> +}
->  #else /* CONFIG_BLK_DEV_ZONED */
->  static inline unsigned int blk_queue_nr_zones(struct request_queue *q)
->  {
-> @@ -760,6 +772,10 @@ static inline unsigned int queue_max_open_zones(cons=
-t struct request_queue *q)
->  {
->  	return 0;
->  }
-> +static inline unsigned int queue_max_active_zones(const struct request_q=
-ueue *q)
-> +{
-> +	return 0;
-> +}
->  #endif /* CONFIG_BLK_DEV_ZONED */
->  =
-
->  static inline bool rq_is_sync(struct request *rq)
-> =
-
-
-Looks good to me.
-
-Reviewed-by: Damien Le Moal <damien.lemoal@wdc.com>
-
+It is all about device mapper support... How are you planning to do it usin=
+g a
+queue flag without said flags being stackable as queue limits ?
 
 -- =
 
