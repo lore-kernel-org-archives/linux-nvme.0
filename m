@@ -7,135 +7,90 @@ X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74B3AC433DF
-	for <linux-nvme@archiver.kernel.org>; Fri,  3 Jul 2020 05:20:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BAF69C433E0
+	for <linux-nvme@archiver.kernel.org>; Fri,  3 Jul 2020 06:28:33 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 306CC206BE
-	for <linux-nvme@archiver.kernel.org>; Fri,  3 Jul 2020 05:20:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 72C7B204EA
+	for <linux-nvme@archiver.kernel.org>; Fri,  3 Jul 2020 06:28:33 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ikRQMQ3F";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="RHycYGFH";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="n6wsD4h3"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 306CC206BE
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="u3Ksvbo7";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=javigon-com.20150623.gappssmtp.com header.i=@javigon-com.20150623.gappssmtp.com header.b="UgefPym9"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 72C7B204EA
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=javigon.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:To:
-	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	 bh=+90LfAr+0jEzB12tTajbU1vByFn2pHRxKurxHjO+gHU=; b=ikRQMQ3FA9S4twa1lM63gv7/B
-	AbdIvd8bw7ZZUd8j7Orhg+KCKMJPzwed2+MPTIY00BW0dXLBYVtUkIdZbb+azLXd2Px025ZVH5HRu
-	uQHNFhT/jTnc28jUHCfkHSfoUXKMUwSRLlKXdypUvPJbOXzq9zfoGkeThRNgPHmQJJmMqMgrsA9By
-	p16f49aI6ptFgZzv4ikZJRtw7duBeXbqQQnKy5TtjyPCS1z6Bpb7rug9IZYGsKANswpcFXP82us74
-	ctDrSbtYPX38SWLK8+8p6205SFv5K03a5uQXnzieEKAJPy6fUIhpYA/1wir/X3oWXjA2/+u5wKPRh
-	BQCn3m7yQ==;
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=7dKc4tCKIv64fu8u4YiRVcLgmmL23nmkfgngiV+vk9c=; b=u3Ksvbo7YAmbVGCHpxjJr45SW
+	Bm6we7RWUlU2pbtqturT/xunstuwyoC3tw12LFGwFlDBjeOpP4g/YkJlTo5+caQiQzc4TExiS5PX7
+	hoGqKJQN3UcOijfr38H4fg0MZpcncHfQ+wqZvzsjFSIHGVZVNbz5FVsBQqpgWvlBAlwEu5SPeI9yu
+	4FFQYikuJleDZEfqCoYT6X9ikH4w1Z+USzEPOaRGSmW+yoMbijL6NpeMmOY/RVOBVvE6j2RKKJz1M
+	cF0Pp1V9t6joaDhrHODoMbnX04qBZk15kfoQ/3Kyof2M+RtFxX2gYMTrVDmgOUGl/JTmt9H7Of762
+	P9/DOT4zw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jrE84-0000jG-Ne; Fri, 03 Jul 2020 05:20:52 +0000
-Received: from esa5.hgst.iphmx.com ([216.71.153.144])
+	id 1jrFBR-0005eo-AC; Fri, 03 Jul 2020 06:28:25 +0000
+Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jrE82-0000ir-6S
- for linux-nvme@lists.infradead.org; Fri, 03 Jul 2020 05:20:51 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1593753651; x=1625289651;
- h=from:to:cc:subject:date:message-id:references:
- content-transfer-encoding:mime-version;
- bh=IH2Q4/471OJ53S022secirMIUArKbh/PfBE1+cfUt8k=;
- b=RHycYGFHJ78k18b7pk78ccP+uUiN50UTYj88VSe1Bg0+sXHjCIn/kfkX
- OalCHmNqs20kH3a1zhE70jAQczzqDeJL6iERm0555Cpt9M4PTkFPjS7Wn
- KW2c9KEET9MW5yLvCCc2D0sev/aUAvlauWrAzXr1b+9pPNxykjqji7vVv
- DzvrJuQNaxdzqTgkUjmybw+dEkKGyo1ZP507+ShEnJ8XLXkICz4EXFaPH
- ge/swAtPHGCm261Ss0eanwldgDdn+0p2ArHkog1EpK/cBsdgRdcTi7tHa
- 8eYLaOoVwtFgkQppO7ZYc0HagCTPFKuWo5loTscAHSqxf1oYss2oNIbwm w==;
-IronPort-SDR: uwuKW/kWYRxA518xUICVcYWzG0UQfLMPrNhAej8qckWl+elc9fvzrfFxN9ZxUqJvRILZRVEJ/n
- BZyWirqq7nK8UWaofYhT850jFGWYgyI0nPm2HPULoYEUn/nQdBiAzDHwSSGyD726MGrkn3ULXx
- 7PbVpbVLMZ7sniUVS+eBv1KY2UnWsnKpBzc2lg4ZQfwRRQundmho82ARJ2B2GQ1oXj8jKUq16U
- 7C/yWz82xiKDyVb7KQhKjC5I6x3EQeejnAfAXQvB5yS0E0d/84LV4l98aUgzgwu+F4iVP3JOSw
- ryQ=
-X-IronPort-AV: E=Sophos;i="5.75,307,1589212800"; d="scan'208";a="141744755"
-Received: from mail-co1nam11lp2174.outbound.protection.outlook.com (HELO
- NAM11-CO1-obe.outbound.protection.outlook.com) ([104.47.56.174])
- by ob1.hgst.iphmx.com with ESMTP; 03 Jul 2020 13:20:48 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JRCgdf/r0dSQUthsazrzunFfGtBAoecbN79fwXGO9pvTQugHq8BA/JaDNvTA1CMd1joA1UJEIJnojnbsyLx5OTKu/Luwpdk/VP4Ul+rvvHfa/BUGer7v9xn1Eq/u3DAW4T8VhO+TQOCORlDfSEh2FEFG5+laAL+COPpPt6+fOMDAGwbeVXIKckKnpjc9QDC65Q1wBFxWQ1S8xV+FgJlN0h18+Wyvthsumq0GZ8geY9GxOt3u7eiYVpORLsONTh6uLIbX4q7s5N11m7IbPWdGCVdL56ihVsZ2T1IBvU3qj29SS1XU+9QFgx51ikuCTUq06oCp/j7gqkVIYNSnBeIXlg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=utOg4SIMtVhMpoXaDsVGktL4hxGEqy1uwXPI44XDS2k=;
- b=k+OTRCl3lELPbiGbcsjwUor47RSMs5LDzxGzMADGwj5lmvBCKlGd8uPQrDatT/xjZDrO//BrD5DcHzzzLgV2a2YKSSj+i2H5aj0wFlMr4f6Nibi1gFLMw3wLVfocBUopJMxhbvpjKuVo25o3PIAdpEXBgFYnb3HQwoW7sOq5DKn4QMfJ53vvwD6WL8Zt5178lRxNcz/HvfIDDanUMqc1Vd54inB6HjU+oXNL1NQ3IyEJr2WhbTYG04NZQju3RujKnpT1Q9FrXyZmjUBWhWD0I3OWCGEPEZ0NRkJFRuZEIA4WsCGyOXQxqJQp9jkTq0XdhW9vRbZwB4Y4g9WfwUY0ng==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
+ id 1jrFBO-0005eK-98
+ for linux-nvme@lists.infradead.org; Fri, 03 Jul 2020 06:28:23 +0000
+Received: by mail-lj1-x243.google.com with SMTP id f5so19735480ljj.10
+ for <linux-nvme@lists.infradead.org>; Thu, 02 Jul 2020 23:28:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=utOg4SIMtVhMpoXaDsVGktL4hxGEqy1uwXPI44XDS2k=;
- b=n6wsD4h32d4P9/Qg8oqDLcO6lEHEiGvXIJhsnSc841AvDhHUo6tyAbxe9Hc1UOq/LnuTHTK+8EF/OdAwc2At8bSGkyJ1DP54G0sPRvNS/VWQyAv5XLXvoWFVsC3taBiFzSiidRFGu3JYxTDLErOTk0108u76HiP6lY7kGGutpWA=
-Received: from CY4PR04MB3751.namprd04.prod.outlook.com (10.172.142.14) by
- CY4PR0401MB3586.namprd04.prod.outlook.com (52.132.99.157) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3131.25; Fri, 3 Jul 2020 05:20:45 +0000
-Received: from CY4PR04MB3751.namprd04.prod.outlook.com
- ([fe80::c593:f271:eebe:ac7]) by CY4PR04MB3751.namprd04.prod.outlook.com
- ([fe80::c593:f271:eebe:ac7%9]) with mapi id 15.20.3153.022; Fri, 3 Jul 2020
- 05:20:45 +0000
-From: Damien Le Moal <Damien.LeMoal@wdc.com>
-To: =?iso-8859-1?Q?Javier_Gonz=E1lez?= <javier@javigon.com>
+ d=javigon-com.20150623.gappssmtp.com; s=20150623;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=uK3mwKv/yp0t2DwgOrfs5kiC68mQubJ/L1AM6RTod8k=;
+ b=UgefPym9ErHK2/aVRTeJ6mCcjG0m5OQF5GXsp9tamHJiSsLAsDLNgeX4OxHyxOiD1l
+ +CwFrtxE6I1OtPZn13QYNmMHF9T8hm3hDRpPgYWPYbzT29WDmd3AfADGciQ2ca2BnkFW
+ vSgCIFzQb1dbvWso6u94elYIgOhKCL0uabHLmAO52tWpuqmGJr9B+OZAmKltpBzPBUzD
+ 2VjaLGKXCr4LNHcIJE/u98W6bBhbxvaGP2wia8vj7eGgAgC/mbQ0m0UjcDLKxQ+jy++v
+ ylXIA+jFscgwFbA2Mbb46OYctwKH5Al2/XxG5hTAngHC4ebMAn1puM7f+2pIc25nNUX6
+ cxRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=uK3mwKv/yp0t2DwgOrfs5kiC68mQubJ/L1AM6RTod8k=;
+ b=PR7xUIkSfrVLMPTt+sOjEPCfvTdaTYR0GwuYLZh6o6KpXnhbSZ7jRMC9ECnxzMXISX
+ CF4gBTTRDVUBDj8PFQiqIA03bM7cWzRIAysuU9jdYpYvz6HqIYgMhBxYoaYZFWeTGwuh
+ zif2m1MiNSjkGS58n97Pf2WlEIjQZLk+msvb1LlB3Tk0wuP3mOWrpQq7aB3l0zAWZCac
+ 71s3iybVkGuiTmLG7soGR4emjxu5gnNCaZUZa062CaOYemZVj1P1Z3hAr/0TaZ+ZAXvX
+ rmbaXAJozK6UGIepRKr6orWwO4sKjt4dEh7Mn+llYrrW1yYXvt8UzbkyZi4qsq2NBikN
+ ie+A==
+X-Gm-Message-State: AOAM532Ky+HpG3HqDIsDAXBYVCFDP83zJxw1Y/ZORC3hFg3sOCNqa4TA
+ eKP6U038Cw/78LUCd9Hb8TsqSg==
+X-Google-Smtp-Source: ABdhPJyr6khFUU5UhSD5RiGyq9MsGTkzGBvcTm6AWEj3nl8eYfu9gVGhiF6KtCMNbd0Ffdki3nv0Qw==
+X-Received: by 2002:a2e:9d87:: with SMTP id c7mr11327552ljj.168.1593757699071; 
+ Thu, 02 Jul 2020 23:28:19 -0700 (PDT)
+Received: from localhost ([2a02:aa7:4606:7611:70c8:f018:3365:d1d6])
+ by smtp.gmail.com with ESMTPSA id f13sm4293876lfs.29.2020.07.02.23.28.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Jul 2020 23:28:18 -0700 (PDT)
+Date: Fri, 3 Jul 2020 08:28:15 +0200
+From: Javier =?utf-8?B?R29uesOhbGV6?= <javier@javigon.com>
+To: Damien Le Moal <Damien.LeMoal@wdc.com>
 Subject: Re: [PATCH 1/4] block: Add zone flags to queue zone prop.
-Thread-Topic: [PATCH 1/4] block: Add zone flags to queue zone prop.
-Thread-Index: AQHWUD25/vKGWWSejEep48tajSAGnw==
-Date: Fri, 3 Jul 2020 05:20:45 +0000
-Message-ID: <CY4PR04MB3751F621B2D32B5A47332644E76A0@CY4PR04MB3751.namprd04.prod.outlook.com>
+Message-ID: <20200703062815.qfo7tvonmgqqfcha@mpHalley.local>
 References: <20200702065438.46350-1-javier@javigon.com>
  <20200702065438.46350-2-javier@javigon.com>
  <CY4PR04MB37511008EEBF1A77DB4F423BE76D0@CY4PR04MB3751.namprd04.prod.outlook.com>
  <20200702083430.miax2cd44mkhc5fb@mpHalley.local>
  <CY4PR04MB375100663B25D1E1D8490758E76D0@CY4PR04MB3751.namprd04.prod.outlook.com>
  <20200702102714.d5igoqcvcavlunmv@mpHalley.local>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: javigon.com; dkim=none (message not signed)
- header.d=none;javigon.com; dmarc=none action=none header.from=wdc.com;
-x-originating-ip: [129.253.182.57]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: b763f177-60b7-4f0e-e7c9-08d81f10d6c8
-x-ms-traffictypediagnostic: CY4PR0401MB3586:
-x-microsoft-antispam-prvs: <CY4PR0401MB35865BA27C40FD724DE8EF9EE76A0@CY4PR0401MB3586.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 045315E1EE
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: MDhQFUAziOahTw9N/JzeG0z0yxYomh6KX0KIFq7niStA26bHFRGLz/OBseJz3cLLFP3ERixP+QkURKxmqUC2oiFdVS1Xli+OkDARwLacgDC8+eAkuoEV1H2cLdLOhLYHqjS8qAjIPGAFQ2OYx24oPsIknPoDE4RO7kzef3cdiVcey7SlFGw+mfogmaTg+10CK8hSzH5P7GbgR5ruIuLWKpwVn8jwWNqxtt3yW4v30Np6lgFyc6Im6+6vZ5A9IS5Kaf02ZnQrz1uZn3eVBMveef7WCmVuoLnCWKdC4VBj2UsulUitHSrYDjPRsZrUbKBLmqv5c2ySsv1WxCBL/VRIiw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY4PR04MB3751.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(366004)(136003)(376002)(396003)(346002)(39860400002)(66946007)(53546011)(86362001)(33656002)(8676002)(8936002)(55016002)(6916009)(9686003)(5660300002)(7416002)(478600001)(2906002)(4326008)(7696005)(83380400001)(52536014)(64756008)(66476007)(91956017)(66446008)(66556008)(76116006)(6506007)(186003)(26005)(66574015)(316002)(54906003)(71200400001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: aSTfz6F9U6X0/7WmT+TBGYAq3MvVif6Tyj/knQ/9x5NauJT1A1ODh/9Rau9KNmteA2qnyZXN5GbyGvssZOFFioKSNucMCdN0SxObbvv34rEFagx4zR9Y3cd5mR2Xi5yi+iIOICINsHLufSxwtPqyKCWiDbcIP0fQuwmXRrR4wf8JhIlbjY4/3Z4AOKXntXteKa9ifZl7YpnDcEJiuROf9hRT4kh7EH/eWj9Pu90eh5p4FMhcJDup27XVHWoZdwijOqjCa52Fmx34XXE55e7WQrHKtupeB2jwQ6mNLrt7/GugCKwQnmdEvkE8YvH+34rMQCtL0JhPPIzAV/BQcZtMFDKF4TCgU2uX35bE6By8ePTEwoF0g2gwmZrDuwvwaVeN3CfJRVmHojh1j7xA2T2th1psBpk26YK4FkTXGnacMNGmlPk/Sl5rdgEwNJ1dfFqvqztwj51anLJWudQnHrDcRtTa4zwiaeu0BZpz8FFEIFaOrG/nspVo/TGT0qFbmaxB
-x-ms-exchange-transport-forked: True
+ <CY4PR04MB3751F621B2D32B5A47332644E76A0@CY4PR04MB3751.namprd04.prod.outlook.com>
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR04MB3751.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b763f177-60b7-4f0e-e7c9-08d81f10d6c8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jul 2020 05:20:45.5444 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: tRuF5GZLsLhVJ5IYkRrfCkAfB9OmED3x8ZUBtYxDOWi7tduUPrc4l5Hj9SOdaGgsN+AJKUcQniDEdW6wxuOUeg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR0401MB3586
+Content-Disposition: inline
+In-Reply-To: <CY4PR04MB3751F621B2D32B5A47332644E76A0@CY4PR04MB3751.namprd04.prod.outlook.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200703_012050_521507_F363B798 
-X-CRM114-Status: GOOD (  29.39  )
+X-CRM114-CacheID: sfid-20200703_022822_334652_B562B050 
+X-CRM114-Status: GOOD (  38.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,158 +110,136 @@ Cc: "axboe@kernel.dk" <axboe@kernel.dk>,
  "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
  "kbusch@kernel.org" <kbusch@kernel.org>, "mb@lightnvm.io" <mb@lightnvm.io>,
  "hch@lst.de" <hch@lst.de>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2020/07/02 19:27, Javier Gonz=E1lez wrote:
-> On 02.07.2020 08:49, Damien Le Moal wrote:
->> On 2020/07/02 17:34, Javier Gonz=E1lez wrote:
->>> On 02.07.2020 07:54, Damien Le Moal wrote:
->>>> On 2020/07/02 15:55, Javier Gonz=E1lez wrote:
->>>>> From: Javier Gonz=E1lez <javier.gonz@samsung.com>
->>>>>
->>>>> As the zoned block device will have to deal with features that are
->>>>> optional for the backend device, add a flag field to inform the block
->>>>> layer about supported features. This builds on top of
->>>>> blk_zone_report_flags and extendes to the zone report code.
->>>>>
->>>>> Signed-off-by: Javier Gonz=E1lez <javier.gonz@samsung.com>
->>>>> Signed-off-by: SelvaKumar S <selvakuma.s1@samsung.com>
->>>>> Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
->>>>> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
->>>>> ---
->>>>>  block/blk-zoned.c              | 3 ++-
->>>>>  drivers/block/null_blk_zoned.c | 2 ++
->>>>>  drivers/nvme/host/zns.c        | 1 +
->>>>>  drivers/scsi/sd.c              | 2 ++
->>>>>  include/linux/blkdev.h         | 3 +++
->>>>>  5 files changed, 10 insertions(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/block/blk-zoned.c b/block/blk-zoned.c
->>>>> index 81152a260354..0f156e96e48f 100644
->>>>> --- a/block/blk-zoned.c
->>>>> +++ b/block/blk-zoned.c
->>>>> @@ -312,7 +312,8 @@ int blkdev_report_zones_ioctl(struct block_device=
- *bdev, fmode_t mode,
->>>>>  		return ret;
->>>>>
->>>>>  	rep.nr_zones =3D ret;
->>>>> -	rep.flags =3D BLK_ZONE_REP_CAPACITY;
->>>>> +	rep.flags =3D q->zone_flags;
->>>>
->>>> zone_flags seem to be a fairly generic flags field while rep.flags is =
-only about
->>>> the reported descriptors structure. So you may want to define a
->>>> BLK_ZONE_REP_FLAGS_MASK and have:
->>>>
->>>> 	rep.flags =3D q->zone_flags & BLK_ZONE_REP_FLAGS_MASK;
->>>>
->>>> to avoid flags meaningless for the user being set.
->>>>
->>>> In any case, since *all* zoned block devices now report capacity, I do=
- not
->>>> really see the point to add BLK_ZONE_REP_FLAGS_MASK to q->zone_flags, =
-especially
->>>> considering that you set the flag for all zoned device types, includin=
-g scsi
->>>> which does not have zone capacity. This makes q->zone_flags rather con=
-fusing
->>>> instead of clearly defining the device features as you mentioned in th=
-e commit
->>>> message.
->>>>
->>>> I think it may be better to just drop this patch, and if needed, intro=
-duce the
->>>> zone_flags field where it may be needed (e.g. OFFLINE zone ioctl suppo=
-rt).
->>>
->>> I am using this as a way to pass the OFFLINE support flag to the block
->>> layer. I used this too for the attributes. Are you thinking of a
->>> different way to send this?
->>>
->>> I believe this fits too for capacity, but we can just pass it in
->>> all report as before if you prefer.
->>
->> The point is that this patch as is does nothing and is needed as a prepa=
-ratory
->> patch if we want to have the offline flag set in the report. But:
->> 1) As commented in the offline ioctl patch, I am not sure the flag makes=
- a lot
->> of sense. sysfs or nothing at all may be OK as well. When we introduced =
-the new
->> open/close/finish ioctls, we did not add flags to signal that the device
->> supports them. Granted, it was for nullblk and scsi, and both had the su=
-pport.
->> But running an application using these on an old kernel, and you will get
->> -ENOTTY, meaning, not supported. So simply introducing the offline ioctl=
- without
->> any flag would be OK I think.
-> =
-
-> I see. My understanding after some comments from Christoph was that we
-> should use these bits to signal any optional features / capabilities
-> that would depend on the underlying driver, just as it is done with the
-> capacity flag today.
-> =
-
-> If not for the offline transition, for the attributes, I see it exactly
-> as the same use case as capacity, where we signal that a new field is
-> reported in the report structure.
-> =
-
-> Am I missing something here?
-
-Using the report flags for reporting supported operations/features is fine,=
- but
-as already mentioned, then document that by changing the description of enum
-blk_zone_report_flags. Right now, it still says:
-
- * enum blk_zone_report_flags - Feature flags of reported zone descriptors.
-
-Which kind of really point to things the zone descriptor itself has compare=
-d to
-earlier versions of the descriptor rather than what the device can do or no=
-t.
-
-And as I argued already, using a flag is fine only for letting a user know =
-about
-a supported feature, but that is far from ideal to have device-mapper easily
-discover what a target can support or not. For that, stacked queue limits a=
-re
-much simpler. Which leads to exporting that limit in sysfs rather than usin=
-g a
-flag for the user interface.
-
->> Since DM support for this would be nice too and we now are in a situatio=
-n where
->> not all devices support the  ioctl, instead of a report flag (a little o=
-ut of
->> place), a queue limit exported through sysfs may be a cleaner way to both
->> support DM correctly (stacked limits) and signal the support to the user=
-. If you
->> choose this approach, then this patch is not needed. The zoned_flags, or=
- a
->> regular queue flag like for RESET_ALL can be added in the offline ioctl =
-patch.
-> =
-
-> I see. If we can reach an agreement that the above is a bad
-> understanding on my side, I will be happy to translate this into a sysfs
-> entry. If it is OK, I'll give it this week in the mailing list and send
-> a V4 next week.
-
-It is all about device mapper support... How are you planning to do it usin=
-g a
-queue flag without said flags being stackable as queue limits ?
-
--- =
-
-Damien Le Moal
-Western Digital Research
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+T24gMDMuMDcuMjAyMCAwNToyMCwgRGFtaWVuIExlIE1vYWwgd3JvdGU6Cj5PbiAyMDIwLzA3LzAy
+IDE5OjI3LCBKYXZpZXIgR29uesOhbGV6IHdyb3RlOgo+PiBPbiAwMi4wNy4yMDIwIDA4OjQ5LCBE
+YW1pZW4gTGUgTW9hbCB3cm90ZToKPj4+IE9uIDIwMjAvMDcvMDIgMTc6MzQsIEphdmllciBHb256
+w6FsZXogd3JvdGU6Cj4+Pj4gT24gMDIuMDcuMjAyMCAwNzo1NCwgRGFtaWVuIExlIE1vYWwgd3Jv
+dGU6Cj4+Pj4+IE9uIDIwMjAvMDcvMDIgMTU6NTUsIEphdmllciBHb256w6FsZXogd3JvdGU6Cj4+
+Pj4+PiBGcm9tOiBKYXZpZXIgR29uesOhbGV6IDxqYXZpZXIuZ29uekBzYW1zdW5nLmNvbT4KPj4+
+Pj4+Cj4+Pj4+PiBBcyB0aGUgem9uZWQgYmxvY2sgZGV2aWNlIHdpbGwgaGF2ZSB0byBkZWFsIHdp
+dGggZmVhdHVyZXMgdGhhdCBhcmUKPj4+Pj4+IG9wdGlvbmFsIGZvciB0aGUgYmFja2VuZCBkZXZp
+Y2UsIGFkZCBhIGZsYWcgZmllbGQgdG8gaW5mb3JtIHRoZSBibG9jawo+Pj4+Pj4gbGF5ZXIgYWJv
+dXQgc3VwcG9ydGVkIGZlYXR1cmVzLiBUaGlzIGJ1aWxkcyBvbiB0b3Agb2YKPj4+Pj4+IGJsa196
+b25lX3JlcG9ydF9mbGFncyBhbmQgZXh0ZW5kZXMgdG8gdGhlIHpvbmUgcmVwb3J0IGNvZGUuCj4+
+Pj4+Pgo+Pj4+Pj4gU2lnbmVkLW9mZi1ieTogSmF2aWVyIEdvbnrDoWxleiA8amF2aWVyLmdvbnpA
+c2Ftc3VuZy5jb20+Cj4+Pj4+PiBTaWduZWQtb2ZmLWJ5OiBTZWx2YUt1bWFyIFMgPHNlbHZha3Vt
+YS5zMUBzYW1zdW5nLmNvbT4KPj4+Pj4+IFNpZ25lZC1vZmYtYnk6IEthbmNoYW4gSm9zaGkgPGpv
+c2hpLmtAc2Ftc3VuZy5jb20+Cj4+Pj4+PiBTaWduZWQtb2ZmLWJ5OiBOaXRlc2ggU2hldHR5IDxu
+ai5zaGV0dHlAc2Ftc3VuZy5jb20+Cj4+Pj4+PiAtLS0KPj4+Pj4+ICBibG9jay9ibGstem9uZWQu
+YyAgICAgICAgICAgICAgfCAzICsrLQo+Pj4+Pj4gIGRyaXZlcnMvYmxvY2svbnVsbF9ibGtfem9u
+ZWQuYyB8IDIgKysKPj4+Pj4+ICBkcml2ZXJzL252bWUvaG9zdC96bnMuYyAgICAgICAgfCAxICsK
+Pj4+Pj4+ICBkcml2ZXJzL3Njc2kvc2QuYyAgICAgICAgICAgICAgfCAyICsrCj4+Pj4+PiAgaW5j
+bHVkZS9saW51eC9ibGtkZXYuaCAgICAgICAgIHwgMyArKysKPj4+Pj4+ICA1IGZpbGVzIGNoYW5n
+ZWQsIDEwIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKPj4+Pj4+Cj4+Pj4+PiBkaWZmIC0t
+Z2l0IGEvYmxvY2svYmxrLXpvbmVkLmMgYi9ibG9jay9ibGstem9uZWQuYwo+Pj4+Pj4gaW5kZXgg
+ODExNTJhMjYwMzU0Li4wZjE1NmU5NmU0OGYgMTAwNjQ0Cj4+Pj4+PiAtLS0gYS9ibG9jay9ibGst
+em9uZWQuYwo+Pj4+Pj4gKysrIGIvYmxvY2svYmxrLXpvbmVkLmMKPj4+Pj4+IEBAIC0zMTIsNyAr
+MzEyLDggQEAgaW50IGJsa2Rldl9yZXBvcnRfem9uZXNfaW9jdGwoc3RydWN0IGJsb2NrX2Rldmlj
+ZSAqYmRldiwgZm1vZGVfdCBtb2RlLAo+Pj4+Pj4gIAkJcmV0dXJuIHJldDsKPj4+Pj4+Cj4+Pj4+
+PiAgCXJlcC5ucl96b25lcyA9IHJldDsKPj4+Pj4+IC0JcmVwLmZsYWdzID0gQkxLX1pPTkVfUkVQ
+X0NBUEFDSVRZOwo+Pj4+Pj4gKwlyZXAuZmxhZ3MgPSBxLT56b25lX2ZsYWdzOwo+Pj4+Pgo+Pj4+
+PiB6b25lX2ZsYWdzIHNlZW0gdG8gYmUgYSBmYWlybHkgZ2VuZXJpYyBmbGFncyBmaWVsZCB3aGls
+ZSByZXAuZmxhZ3MgaXMgb25seSBhYm91dAo+Pj4+PiB0aGUgcmVwb3J0ZWQgZGVzY3JpcHRvcnMg
+c3RydWN0dXJlLiBTbyB5b3UgbWF5IHdhbnQgdG8gZGVmaW5lIGEKPj4+Pj4gQkxLX1pPTkVfUkVQ
+X0ZMQUdTX01BU0sgYW5kIGhhdmU6Cj4+Pj4+Cj4+Pj4+IAlyZXAuZmxhZ3MgPSBxLT56b25lX2Zs
+YWdzICYgQkxLX1pPTkVfUkVQX0ZMQUdTX01BU0s7Cj4+Pj4+Cj4+Pj4+IHRvIGF2b2lkIGZsYWdz
+IG1lYW5pbmdsZXNzIGZvciB0aGUgdXNlciBiZWluZyBzZXQuCj4+Pj4+Cj4+Pj4+IEluIGFueSBj
+YXNlLCBzaW5jZSAqYWxsKiB6b25lZCBibG9jayBkZXZpY2VzIG5vdyByZXBvcnQgY2FwYWNpdHks
+IEkgZG8gbm90Cj4+Pj4+IHJlYWxseSBzZWUgdGhlIHBvaW50IHRvIGFkZCBCTEtfWk9ORV9SRVBf
+RkxBR1NfTUFTSyB0byBxLT56b25lX2ZsYWdzLCBlc3BlY2lhbGx5Cj4+Pj4+IGNvbnNpZGVyaW5n
+IHRoYXQgeW91IHNldCB0aGUgZmxhZyBmb3IgYWxsIHpvbmVkIGRldmljZSB0eXBlcywgaW5jbHVk
+aW5nIHNjc2kKPj4+Pj4gd2hpY2ggZG9lcyBub3QgaGF2ZSB6b25lIGNhcGFjaXR5LiBUaGlzIG1h
+a2VzIHEtPnpvbmVfZmxhZ3MgcmF0aGVyIGNvbmZ1c2luZwo+Pj4+PiBpbnN0ZWFkIG9mIGNsZWFy
+bHkgZGVmaW5pbmcgdGhlIGRldmljZSBmZWF0dXJlcyBhcyB5b3UgbWVudGlvbmVkIGluIHRoZSBj
+b21taXQKPj4+Pj4gbWVzc2FnZS4KPj4+Pj4KPj4+Pj4gSSB0aGluayBpdCBtYXkgYmUgYmV0dGVy
+IHRvIGp1c3QgZHJvcCB0aGlzIHBhdGNoLCBhbmQgaWYgbmVlZGVkLCBpbnRyb2R1Y2UgdGhlCj4+
+Pj4+IHpvbmVfZmxhZ3MgZmllbGQgd2hlcmUgaXQgbWF5IGJlIG5lZWRlZCAoZS5nLiBPRkZMSU5F
+IHpvbmUgaW9jdGwgc3VwcG9ydCkuCj4+Pj4KPj4+PiBJIGFtIHVzaW5nIHRoaXMgYXMgYSB3YXkg
+dG8gcGFzcyB0aGUgT0ZGTElORSBzdXBwb3J0IGZsYWcgdG8gdGhlIGJsb2NrCj4+Pj4gbGF5ZXIu
+IEkgdXNlZCB0aGlzIHRvbyBmb3IgdGhlIGF0dHJpYnV0ZXMuIEFyZSB5b3UgdGhpbmtpbmcgb2Yg
+YQo+Pj4+IGRpZmZlcmVudCB3YXkgdG8gc2VuZCB0aGlzPwo+Pj4+Cj4+Pj4gSSBiZWxpZXZlIHRo
+aXMgZml0cyB0b28gZm9yIGNhcGFjaXR5LCBidXQgd2UgY2FuIGp1c3QgcGFzcyBpdCBpbgo+Pj4+
+IGFsbCByZXBvcnQgYXMgYmVmb3JlIGlmIHlvdSBwcmVmZXIuCj4+Pgo+Pj4gVGhlIHBvaW50IGlz
+IHRoYXQgdGhpcyBwYXRjaCBhcyBpcyBkb2VzIG5vdGhpbmcgYW5kIGlzIG5lZWRlZCBhcyBhIHBy
+ZXBhcmF0b3J5Cj4+PiBwYXRjaCBpZiB3ZSB3YW50IHRvIGhhdmUgdGhlIG9mZmxpbmUgZmxhZyBz
+ZXQgaW4gdGhlIHJlcG9ydC4gQnV0Ogo+Pj4gMSkgQXMgY29tbWVudGVkIGluIHRoZSBvZmZsaW5l
+IGlvY3RsIHBhdGNoLCBJIGFtIG5vdCBzdXJlIHRoZSBmbGFnIG1ha2VzIGEgbG90Cj4+PiBvZiBz
+ZW5zZS4gc3lzZnMgb3Igbm90aGluZyBhdCBhbGwgbWF5IGJlIE9LIGFzIHdlbGwuIFdoZW4gd2Ug
+aW50cm9kdWNlZCB0aGUgbmV3Cj4+PiBvcGVuL2Nsb3NlL2ZpbmlzaCBpb2N0bHMsIHdlIGRpZCBu
+b3QgYWRkIGZsYWdzIHRvIHNpZ25hbCB0aGF0IHRoZSBkZXZpY2UKPj4+IHN1cHBvcnRzIHRoZW0u
+IEdyYW50ZWQsIGl0IHdhcyBmb3IgbnVsbGJsayBhbmQgc2NzaSwgYW5kIGJvdGggaGFkIHRoZSBz
+dXBwb3J0Lgo+Pj4gQnV0IHJ1bm5pbmcgYW4gYXBwbGljYXRpb24gdXNpbmcgdGhlc2Ugb24gYW4g
+b2xkIGtlcm5lbCwgYW5kIHlvdSB3aWxsIGdldAo+Pj4gLUVOT1RUWSwgbWVhbmluZywgbm90IHN1
+cHBvcnRlZC4gU28gc2ltcGx5IGludHJvZHVjaW5nIHRoZSBvZmZsaW5lIGlvY3RsIHdpdGhvdXQK
+Pj4+IGFueSBmbGFnIHdvdWxkIGJlIE9LIEkgdGhpbmsuCj4+Cj4+IEkgc2VlLiBNeSB1bmRlcnN0
+YW5kaW5nIGFmdGVyIHNvbWUgY29tbWVudHMgZnJvbSBDaHJpc3RvcGggd2FzIHRoYXQgd2UKPj4g
+c2hvdWxkIHVzZSB0aGVzZSBiaXRzIHRvIHNpZ25hbCBhbnkgb3B0aW9uYWwgZmVhdHVyZXMgLyBj
+YXBhYmlsaXRpZXMKPj4gdGhhdCB3b3VsZCBkZXBlbmQgb24gdGhlIHVuZGVybHlpbmcgZHJpdmVy
+LCBqdXN0IGFzIGl0IGlzIGRvbmUgd2l0aCB0aGUKPj4gY2FwYWNpdHkgZmxhZyB0b2RheS4KPj4K
+Pj4gSWYgbm90IGZvciB0aGUgb2ZmbGluZSB0cmFuc2l0aW9uLCBmb3IgdGhlIGF0dHJpYnV0ZXMs
+IEkgc2VlIGl0IGV4YWN0bHkKPj4gYXMgdGhlIHNhbWUgdXNlIGNhc2UgYXMgY2FwYWNpdHksIHdo
+ZXJlIHdlIHNpZ25hbCB0aGF0IGEgbmV3IGZpZWxkIGlzCj4+IHJlcG9ydGVkIGluIHRoZSByZXBv
+cnQgc3RydWN0dXJlLgo+Pgo+PiBBbSBJIG1pc3Npbmcgc29tZXRoaW5nIGhlcmU/Cj4KPlVzaW5n
+IHRoZSByZXBvcnQgZmxhZ3MgZm9yIHJlcG9ydGluZyBzdXBwb3J0ZWQgb3BlcmF0aW9ucy9mZWF0
+dXJlcyBpcyBmaW5lLCBidXQKPmFzIGFscmVhZHkgbWVudGlvbmVkLCB0aGVuIGRvY3VtZW50IHRo
+YXQgYnkgY2hhbmdpbmcgdGhlIGRlc2NyaXB0aW9uIG9mIGVudW0KPmJsa196b25lX3JlcG9ydF9m
+bGFncy4gUmlnaHQgbm93LCBpdCBzdGlsbCBzYXlzOgo+Cj4gKiBlbnVtIGJsa196b25lX3JlcG9y
+dF9mbGFncyAtIEZlYXR1cmUgZmxhZ3Mgb2YgcmVwb3J0ZWQgem9uZSBkZXNjcmlwdG9ycy4KPgo+
+V2hpY2gga2luZCBvZiByZWFsbHkgcG9pbnQgdG8gdGhpbmdzIHRoZSB6b25lIGRlc2NyaXB0b3Ig
+aXRzZWxmIGhhcyBjb21wYXJlZCB0bwo+ZWFybGllciB2ZXJzaW9ucyBvZiB0aGUgZGVzY3JpcHRv
+ciByYXRoZXIgdGhhbiB3aGF0IHRoZSBkZXZpY2UgY2FuIGRvIG9yIG5vdC4KCkkgc2VlIGhvdyB0
+aGUgb2ZmbGluZSB0cmFuc2l0aW9uIGNvbGxpZGVzIHdpdGggdGhpcyBtb2RlbC4gQnV0IGNhbiB3
+ZQphZ3JlZSB0aGF0IHRoZSB6b25lIGF0dHJpYnV0ZXMgaXMgc29tZXRoaW5nIHRoYXQgZml0cyBo
+ZXJlPwoKPgo+QW5kIGFzIEkgYXJndWVkIGFscmVhZHksIHVzaW5nIGEgZmxhZyBpcyBmaW5lIG9u
+bHkgZm9yIGxldHRpbmcgYSB1c2VyIGtub3cgYWJvdXQKPmEgc3VwcG9ydGVkIGZlYXR1cmUsIGJ1
+dCB0aGF0IGlzIGZhciBmcm9tIGlkZWFsIHRvIGhhdmUgZGV2aWNlLW1hcHBlciBlYXNpbHkKPmRp
+c2NvdmVyIHdoYXQgYSB0YXJnZXQgY2FuIHN1cHBvcnQgb3Igbm90LiBGb3IgdGhhdCwgc3RhY2tl
+ZCBxdWV1ZSBsaW1pdHMgYXJlCj5tdWNoIHNpbXBsZXIuIFdoaWNoIGxlYWRzIHRvIGV4cG9ydGlu
+ZyB0aGF0IGxpbWl0IGluIHN5c2ZzIHJhdGhlciB0aGFuIHVzaW5nIGEKPmZsYWcgZm9yIHRoZSB1
+c2VyIGludGVyZmFjZS4KClNlZSBiZWxvdwoKPgo+Pj4gU2luY2UgRE0gc3VwcG9ydCBmb3IgdGhp
+cyB3b3VsZCBiZSBuaWNlIHRvbyBhbmQgd2Ugbm93IGFyZSBpbiBhIHNpdHVhdGlvbiB3aGVyZQo+
+Pj4gbm90IGFsbCBkZXZpY2VzIHN1cHBvcnQgdGhlICBpb2N0bCwgaW5zdGVhZCBvZiBhIHJlcG9y
+dCBmbGFnIChhIGxpdHRsZSBvdXQgb2YKPj4+IHBsYWNlKSwgYSBxdWV1ZSBsaW1pdCBleHBvcnRl
+ZCB0aHJvdWdoIHN5c2ZzIG1heSBiZSBhIGNsZWFuZXIgd2F5IHRvIGJvdGgKPj4+IHN1cHBvcnQg
+RE0gY29ycmVjdGx5IChzdGFja2VkIGxpbWl0cykgYW5kIHNpZ25hbCB0aGUgc3VwcG9ydCB0byB0
+aGUgdXNlci4gSWYgeW91Cj4+PiBjaG9vc2UgdGhpcyBhcHByb2FjaCwgdGhlbiB0aGlzIHBhdGNo
+IGlzIG5vdCBuZWVkZWQuIFRoZSB6b25lZF9mbGFncywgb3IgYQo+Pj4gcmVndWxhciBxdWV1ZSBm
+bGFnIGxpa2UgZm9yIFJFU0VUX0FMTCBjYW4gYmUgYWRkZWQgaW4gdGhlIG9mZmxpbmUgaW9jdGwg
+cGF0Y2guCj4+Cj4+IEkgc2VlLiBJZiB3ZSBjYW4gcmVhY2ggYW4gYWdyZWVtZW50IHRoYXQgdGhl
+IGFib3ZlIGlzIGEgYmFkCj4+IHVuZGVyc3RhbmRpbmcgb24gbXkgc2lkZSwgSSB3aWxsIGJlIGhh
+cHB5IHRvIHRyYW5zbGF0ZSB0aGlzIGludG8gYSBzeXNmcwo+PiBlbnRyeS4gSWYgaXQgaXMgT0ss
+IEknbGwgZ2l2ZSBpdCB0aGlzIHdlZWsgaW4gdGhlIG1haWxpbmcgbGlzdCBhbmQgc2VuZAo+PiBh
+IFY0IG5leHQgd2Vlay4KPgo+SXQgaXMgYWxsIGFib3V0IGRldmljZSBtYXBwZXIgc3VwcG9ydC4u
+LiBIb3cgYXJlIHlvdSBwbGFubmluZyB0byBkbyBpdCB1c2luZyBhCj5xdWV1ZSBmbGFnIHdpdGhv
+dXQgc2FpZCBmbGFncyBiZWluZyBzdGFja2FibGUgYXMgcXVldWUgbGltaXRzID8KCkkgZ3Vlc3Mg
+d2hhdCBJIGFtIHN0cnVnZ2xlIHdpdGggaGVyZSBpcyB0aGF0IHlvdSBzZWUgdGhlIGNhcGFjaXR5
+CmZlYXR1cmUgYXMgYSBkaWZmZXJlbnQgZXh0ZW5zaW9uIHRoYW4gdGhlIGF0dHJpYnV0ZXMgYW5k
+IHRoZSBvZmZsaW5lCnRyYW5zaXRpb24uCgpUaGUgd2F5IEkgc2VlIGl0LCB0aGVyZSBhcmUgdGhp
+bmdzIHRoZSBkZXZpY2Ugc3VwcG9ydHMgYW5kIHRoaW5ncyB0aGF0CnRoZSBkcml2ZXIgc3VwcG9y
+dHMuIFpBQy9aQkMgZG9lcyBub3Qgc3VwcG9ydCBhIHNpemUgIT0gY2FwYWNpdHksIGJ1dAp0aGUg
+ZHJpdmVyIHNldHMgdGhlc2UgdmFsdWVzIHRvIGJlIHRoZSBzYW1lLiBPbmUgdGhpbmcgSSBzdHJ1
+Z2dsZSB3aXRoCmlzIHRoYXQgc2F5aW5nIHRoYXQgd2Ugc3VwcG9ydCBjYXBhY2l0eSBhbmQgc2V0
+dGluZyBzaXplID0gY2FwYWNpdHkgcHV0cwp0aGUgYnVyZGVuIGluIHRoZSB1c2VyIHRvIGNoZWNr
+IHRoZXNlIHZhbHVlcyBhY3Jvc3MgYWxsIHpvbmVzIHRvCmRldGVybWluZSBpZiB0aGV5IGNhbiBz
+dXBwb3J0IHRoZSBkcml2ZXIgb3Igbm90LiBJIHRoaW5rIGl0IHdvdWxkIGJlCmNsZWFyIHRvIGhh
+dmUgYSBmZWF0dXJlIGV4cGxpY2l0bHkgc3RhdGluZyB0aGF0IGNhcGFjaXR5ICE9IHNpemUuCgpG
+b3IgdGhlIGF0dHJpYnV0ZXMsIHRoaXMgaXMgdmVyeSBzaW1pbGFyIC0gc29tZSBhcHBseSwgc29t
+ZSBkb24ndCwgYW5kCndlIG9ubHkgcmVwb3J0IHRoZSBvbmVzIHRoYXQgbWFrZSBzZW5zZSBmb3Ig
+ZWFjaCBkcml2ZXIuIEkgZG8gbm90IHNlZQpob3cgZGV2aWNlIG1hcHBlcnMgYXJlIHRyZWF0ZWQg
+ZGlmZmVyZW50bHkgaGVyZSB0aGFuIGluIHRoZSBleGlzdGluZwpjYXBhY2l0eSBmZWF0dXJlcy4K
+CkZvciB0aGUgb2ZmbGluZSB0cmFuc2l0aW9uLCBJIHNlZSB0aGF0IHRoZSBjdXJyZW50IHBhdGNo
+ZXMgZG8gbm90IHNldApmbGFncyBwcm9wZXJseSBhbmQgd2Ugd291bGQgbmVlZCB0byBpbmhlcml0
+IHRoZSB1bmRlcmx5aW5nIGRldmljZSBpZiB3ZQp3YW50IHRvIGRvIGl0IHRoaXMgd2F5LiBJIGNh
+biB1bmRlcnN0YW5kIGZyb20geW91ciBjb21tZW50cyB0aGF0IHRoaXMgaXMKbm90IGEgZ29vZCB3
+YXkgb2YgZG9pbmcgaXQuIEkgc2VlIGluIG9uZSBvZiB5b3VyIGNvbW1lbnRzIGZyb20gVjEgdGhh
+dAp3ZSBjb3VsZCBkZWFsIHdpdGggdGhpcyB0cmFuc2l0aW9uIGluIHRoZSBzY3NpIGRyaXZlciBh
+bmQga2VlcCBpdCBpbgptZW1vcnkgKGkuZS4sIGRldmljZSBpcyBzdGlsbCByZWFkLW9ubHksIGJ1
+dCBkcml2ZXIgdHJhbnNpdGlvbnMgdG8Kb2ZmbGluZSkgLSBjYW4geW91IGNvbW1lbnQgb24gdGhp
+cz8KCkphdmllcgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X18KTGludXgtbnZtZSBtYWlsaW5nIGxpc3QKTGludXgtbnZtZUBsaXN0cy5pbmZyYWRlYWQub3Jn
+Cmh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbnZtZQo=
