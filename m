@@ -6,16 +6,16 @@ X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43562C433E0
-	for <linux-nvme@archiver.kernel.org>; Sun,  5 Jul 2020 06:58:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A811C433DF
+	for <linux-nvme@archiver.kernel.org>; Sun,  5 Jul 2020 06:59:58 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1400E20786
-	for <linux-nvme@archiver.kernel.org>; Sun,  5 Jul 2020 06:58:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 0BF3B20786
+	for <linux-nvme@archiver.kernel.org>; Sun,  5 Jul 2020 06:59:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="KbX+vt/l"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1400E20786
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Rp62Fmaa"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0BF3B20786
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -24,60 +24,60 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
 	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=EnlpFBr4ldsEYdTWBNvHAUFVmiRjTr9fPn7cEHVgDLQ=; b=KbX+vt/lTOfsFAT0siWHo27ZV
-	ctjtotJMY5m2bScK88XNFHAW8k5xGILa+Jo4FU9G8sRewdAr6gzQJSkUUQ40Gl8T8KIHIuoLYm2i0
-	MTmGQ1J98/ok6koHI+U2qBv7tg9ZSXbVE48SKRRLOPx4SorYXLoz2zoXozH7/9bT8rhmWZ3a+CTrv
-	umb6w/kJxwi2SRgD47McvtlUX035sUxS6AGFA8k18+imYfBd3Ees+SzB+O9Sky72cW44laBgFJsKm
-	r1nPTbiCHUGf1AOfALyOAxwLr3L5RIKUEP6//lTn1Epgj9P5oYwuxL5SLSuv/wFVEd035CR7WLHYq
-	M3y+0v7VA==;
+	 bh=EnlpFBr4ldsEYdTWBNvHAUFVmiRjTr9fPn7cEHVgDLQ=; b=Rp62FmaaZq6Uj3hiQMUlRid73
+	6L51h9WRowEsy6cheBuvZbaq85t9w/IJegNt6Xc4ONhaEJxkR1eOA03P5wKg3t/HoynP/dfcp++iw
+	XSXOwdkV8u2TIwAXCyX7cjSYXg8eIZ0lrI34XwaaDIetXJgCQhknJjW5aqGJL0NnqgXZ5e8Z8LpFU
+	JvGbN504tr8chZxps9kUm08L7T7DFfiCbQjz8w5m5lHa/ITKghcpFKCYFIRGXtSRYS/IQsesCNbgp
+	XpuKTETo5BMKQkzX95u6RN8e9qBBumtLV7ErDMKdCfRf4BA3yct3fWSkQ6du9v02FsXLLQaOLeDFo
+	j1PxiiOGQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jryb3-0001s8-Sz; Sun, 05 Jul 2020 06:57:53 +0000
-Received: from mail-pg1-f194.google.com ([209.85.215.194])
+	id 1jryd1-0002LJ-7B; Sun, 05 Jul 2020 06:59:55 +0000
+Received: from mail-pf1-f194.google.com ([209.85.210.194])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jryax-0001rW-KI
- for linux-nvme@lists.infradead.org; Sun, 05 Jul 2020 06:57:48 +0000
-Received: by mail-pg1-f194.google.com with SMTP id w2so16155233pgg.10
- for <linux-nvme@lists.infradead.org>; Sat, 04 Jul 2020 23:57:45 -0700 (PDT)
+ id 1jrycz-0002KR-Fy
+ for linux-nvme@lists.infradead.org; Sun, 05 Jul 2020 06:59:54 +0000
+Received: by mail-pf1-f194.google.com with SMTP id u185so13635432pfu.1
+ for <linux-nvme@lists.infradead.org>; Sat, 04 Jul 2020 23:59:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
  bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
- b=PhcSXZzKDln5G4OxdIFKDpG6d5ApeXiFTXcgxUvp4fm9NMlBGvOMTYOIILtFbAUdiW
- VC9Q+vTs1b9c/cTAjRBJUoIF0FpMdfw5+VEfy62s9xFNndbW8yeKkZDoa4MiE3FGbt0T
- cz27J2ENFH9ZumETrtO+OPpmnnTX8l2Yg88Ivudf8voLKSd+Tz2nLURtsnDyKJyJHOP2
- 0P9TyaJ2ddbzNr/zx1MFYEGXWGp55n2uPdSfHUUqpMSY7KGVGvPLi/5WDBFz8CCFMn4n
- cOboNzzmzkrGVCV1UJlR4LrzptSG2u+V+2JlbhAYEAQbGy8c1MN4lv18IdfW55P2fViU
- byTw==
-X-Gm-Message-State: AOAM532rbpm1tNohmvdfX21ofjaZK2a3JoZer1QmoK4GVO1vYOMJHDvp
- YvWSju8kljN5kuPgTqq0W7k=
-X-Google-Smtp-Source: ABdhPJySiIKdxUgJ5KvNkSJIlMB6oJcFhp/aQflJgSvhdfl1UVB4puezU51EnI++76D74RV4ZWqE9Q==
-X-Received: by 2002:a63:29c8:: with SMTP id
- p191mr36769320pgp.333.1593932264458; 
- Sat, 04 Jul 2020 23:57:44 -0700 (PDT)
+ b=NN3W0Y8XCYtAWN08lr3pwRDt4spdjsrMWbIrS6YSDAYncxtFb6T9lanyff1ARG+d4v
+ /gylwq4ZVLPg53SLrR/6iWRi/gOZloeP9zygBEbE8XhMO853tVG/xplwscaQoC5FAvM1
+ F9T3xZ4jnbWH0RYcw1fCV/4hTaM2JVLpkS4uxvtAGCOyzFRP1UR/eoj8NJVOsqspz7LY
+ 6cl3SPqpWCInULpJARDJWjSUC9zn6Llre/OpEp49q7zfaiZq2q6LLh2smOiLUio2kvkR
+ vRfFpouay4Ss+ejy/XihgeAIeOAxRWKvunNnOUPJSpcE+7xfimkxEfTaF9LZnL4yBVX3
+ 8rMQ==
+X-Gm-Message-State: AOAM530hHDe2xnFO8XviMu8mJ2jfhKGgYX/t6sfViF2kWDuqJdeY7Z6e
+ Wrl7giIoLbhsnFoHMKr1oqQ=
+X-Google-Smtp-Source: ABdhPJxerZHDIQpxkJPD4FNIhC3VUSKnjSLgmPdtqKF28AyDdyJ0p81t54OkjGPoWQoQo3UbR5srGA==
+X-Received: by 2002:a63:5b55:: with SMTP id l21mr28506198pgm.348.1593932392462; 
+ Sat, 04 Jul 2020 23:59:52 -0700 (PDT)
 Received: from [10.10.10.239] (068-186-033-250.biz.spectrum.com.
  [68.186.33.250])
- by smtp.gmail.com with ESMTPSA id y12sm15886090pfm.158.2020.07.04.23.57.42
+ by smtp.gmail.com with ESMTPSA id b21sm6421045pfb.45.2020.07.04.23.59.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 04 Jul 2020 23:57:43 -0700 (PDT)
-Subject: Re: [PATCH 1/5] nvme-pci: Fix some comments issues
+ Sat, 04 Jul 2020 23:59:51 -0700 (PDT)
+Subject: Re: [PATCH 4/5] nvme-pci: Use the consistent return type of
+ nvme_pci_iod_alloc_size()
 To: Baolin Wang <baolin.wang@linux.alibaba.com>, kbusch@kernel.org,
  axboe@fb.com, hch@lst.de
 References: <cover.1593743937.git.baolin.wang@linux.alibaba.com>
- <3820a0fc3c74f9a70a8856172d499de4dee3c2b7.1593743937.git.baolin.wang@linux.alibaba.com>
+ <f6a3c779f68ae170076ea37a721c9c06a9dc70f3.1593743937.git.baolin.wang@linux.alibaba.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-Message-ID: <3c46f453-f215-0478-2acb-87d73ee477ae@grimberg.me>
-Date: Sat, 4 Jul 2020 23:57:42 -0700
+Message-ID: <c97e7fec-8602-ef3d-b841-f6e90baf7251@grimberg.me>
+Date: Sat, 4 Jul 2020 23:59:51 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <3820a0fc3c74f9a70a8856172d499de4dee3c2b7.1593743937.git.baolin.wang@linux.alibaba.com>
+In-Reply-To: <f6a3c779f68ae170076ea37a721c9c06a9dc70f3.1593743937.git.baolin.wang@linux.alibaba.com>
 Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200705_025747_690693_0728BD2A 
-X-CRM114-Status: UNSURE (   7.94  )
+X-CRM114-CacheID: sfid-20200705_025953_537491_E9C252C8 
+X-CRM114-Status: UNSURE (   8.20  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
