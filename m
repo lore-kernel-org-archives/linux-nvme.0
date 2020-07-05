@@ -2,77 +2,78 @@ Return-Path: <SRS0=sPWJ=AQ=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5392BC433E0
-	for <linux-nvme@archiver.kernel.org>; Sun,  5 Jul 2020 07:59:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 443B4C433E0
+	for <linux-nvme@archiver.kernel.org>; Sun,  5 Jul 2020 07:59:45 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 20C9920737
-	for <linux-nvme@archiver.kernel.org>; Sun,  5 Jul 2020 07:59:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 1536F20737
+	for <linux-nvme@archiver.kernel.org>; Sun,  5 Jul 2020 07:59:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="sYnvg8+P"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 20C9920737
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="q0h5+BXd"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1536F20737
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=wmWpGR5a5QFht4AkuXatvXPxmnoPsdShuwnxOY7ICr4=; b=sYnvg8+PXwISCpQ1WrsK/gTkVb
-	MtqsL8mIRV8E2kiUy3qp/9QWLcCIGK7+D22PowL/MbVTQPZSbQ7bfkBGMXXHGaZTQc9CMn0VJxDpf
-	CgrI22sVomiO9fifxrEQHIV9InLToFb7PsJIa2FbCGU8LftjuCZZSGkDcq8op0zh/N5NPpejF65Hb
-	oMSMeq7Y+XgU/vu01SFQS/Nvvz3WNA6GfkflCCx4lC4gP4I/Mn9Odtia8LBXWB6EshsDVXVH33ZsT
-	9feHxP360H/fzmdi3Eegmk+LEZG7nyR1So1z+JVi3dFe6sHZ8RYe/P39svkznt2mdNkvnlinUwnSo
-	XrC5VTzg==;
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=OSeLZt6IhdbyRR1O6cwt9v9iMY2lfzJa4NRypDpP6H0=; b=q0h5+BXd9U65Pt9uvv/m0q09o
+	aQ5yd/zCgAOQGS7yLOZWPrLk/vBn7tOiadoWmRJrOS4ZjBlh/mvOY5ch+9+Xxa3NlvhFQnpPF2ehy
+	B8HNKIZZar5niUbDA9jfOnTa1izGDzT006z9uqocU6y7NMvdwG08CWMMqI/iYFs0pdFVNQmGcPYRj
+	NPfEwvYOgqYTR99+/0YTAcU2VSvlTnXV15QHOKhP/YTxlfdWKBzgmCDtlOkpk7ZhsJR9DPsNsQnz6
+	vxc+rR5ww6e9zmzhm0B/O0Z03fg5ur2qQBlLRVb0YHcofaKnKR335hq3WaSSb9S1HP9VZgkTRqkhb
+	frUdsvQjQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jrzYr-0006RF-27; Sun, 05 Jul 2020 07:59:41 +0000
-Received: from mail-pl1-f194.google.com ([209.85.214.194])
+	id 1jrzYt-0006Rz-33; Sun, 05 Jul 2020 07:59:43 +0000
+Received: from mail-pf1-f195.google.com ([209.85.210.195])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jrzYo-0006Qb-9V
- for linux-nvme@lists.infradead.org; Sun, 05 Jul 2020 07:59:38 +0000
-Received: by mail-pl1-f194.google.com with SMTP id o1so7582297plk.1
- for <linux-nvme@lists.infradead.org>; Sun, 05 Jul 2020 00:59:38 -0700 (PDT)
+ id 1jrzYq-0006Qx-2K
+ for linux-nvme@lists.infradead.org; Sun, 05 Jul 2020 07:59:40 +0000
+Received: by mail-pf1-f195.google.com with SMTP id x72so6272464pfc.6
+ for <linux-nvme@lists.infradead.org>; Sun, 05 Jul 2020 00:59:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=mu9CxNGVPoaPob0uHoq3t/xToPh1GlGlVKZUwZhG+DM=;
- b=GxP2XIO+hNHId35sJJ9RS/UytEQUsVwAUIcyW09aJeKR8KVVPVP55bdS/2jcAMzWkp
- 03celR0T36pguoyXDqnJuKjzaUUfRmm18A5jWFTvi0/LbznX3DWpDhzOycSGMT09XMLJ
- siH4fzErkUoTf4//kQ1O0ki5tuX0VPeUnG6vZSeqHXhCy6idfVBqNDDS5P2ejkj+GnOW
- 2c/pPF3ogN1PAIYC+ePBVE9awPRsH2ZR81ATZcox6FMF3gA2iRvOI+G3LGPnT7RbiV/D
- egBpIiyJg9BcYS7vs7qxMhYtq7Ay5LXTXMO1ze47083zp4wukrv2ihQg+jEspjIoedWk
- urXg==
-X-Gm-Message-State: AOAM530q9lAslULSdmATs5kRz56r1rZcWhwxA/psp7WAWqSN8DWrfvCC
- bnVzqeHE4FIGin84jChyCyAoL8Vv
-X-Google-Smtp-Source: ABdhPJyr8Hkdl8bUMKe++D1iOOaO8bVF+qfJ+xC4OkCjhK+Wi5n/HZKasbrTCEpU2Dz9JN8jTes2kw==
-X-Received: by 2002:a17:902:9a81:: with SMTP id
- w1mr35204256plp.50.1593935977156; 
- Sun, 05 Jul 2020 00:59:37 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Vl8owt2ml+c3d2mWNfIzzh1Ey0nvoPqMTlB1aSQySFw=;
+ b=TKhXuyhwoVDKUDTcPUD2iCEl4DNXiY2SJHZ5hUfZNqxTIbecTH9kfzU0w5KJRP9L8o
+ kPEKo2XPWw7PpOh6w6/2UypFXDQ7BzxJ/VmgCXE9GNUW267wzlEhLjgEVQ18gU37OrOG
+ tBnx/mLc5qqL4DRDkqzdlF8exN6QYRIykJkftfnxHhNETgqqz9TpMmd5BNldOqaGxiXL
+ d/520NE6SH5L9SYMPOBMBG87Cr5KaFcOOQ6w7xlG+CPRMpedpNDrSeMICWkZZy/54hXn
+ T15+YD4Y3I8VB3YtPti9627lL1sa9GoaefoBHGimkMpEsSUwABWjRAdGGhHxbokSlEX7
+ lM2g==
+X-Gm-Message-State: AOAM533RwyTV978j0CYYOXRgrW5ycr4dtNs4qwaHatQCiFrrho1O3fcN
+ NoV4pupROD+OLEiv5nFqrE4kpD57
+X-Google-Smtp-Source: ABdhPJw4HqUnT7l2jJIkkIQqCYrQkNSOrGBzLtBOkb4F4Ry5CNzg6YdA7MSA0NwTS+N5gkB+5/mnDg==
+X-Received: by 2002:a62:27c4:: with SMTP id n187mr6073027pfn.208.1593935978489; 
+ Sun, 05 Jul 2020 00:59:38 -0700 (PDT)
 Received: from localhost.localdomain (068-186-033-250.biz.spectrum.com.
  [68.186.33.250])
- by smtp.gmail.com with ESMTPSA id k26sm16133228pgt.90.2020.07.05.00.59.35
+ by smtp.gmail.com with ESMTPSA id k26sm16133228pgt.90.2020.07.05.00.59.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Jul 2020 00:59:36 -0700 (PDT)
+ Sun, 05 Jul 2020 00:59:37 -0700 (PDT)
 From: Sagi Grimberg <sagi@grimberg.me>
 To: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
  Keith Busch <kbusch@kernel.org>
-Subject: [PATCH v2 rfc 0/3] resolve controller delete hang due to ongoing
- mpath I/O
-Date: Sun,  5 Jul 2020 00:59:32 -0700
-Message-Id: <20200705075935.506535-1-sagi@grimberg.me>
+Subject: [PATCH v2 rfc 1/3] nvme: split nvme_remove_namespaces
+Date: Sun,  5 Jul 2020 00:59:33 -0700
+Message-Id: <20200705075935.506535-2-sagi@grimberg.me>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200705075935.506535-1-sagi@grimberg.me>
+References: <20200705075935.506535-1-sagi@grimberg.me>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200705_035938_368576_82098B77 
-X-CRM114-Status: GOOD (  10.93  )
+X-CRM114-CacheID: sfid-20200705_035940_173919_33C1362F 
+X-CRM114-Status: GOOD (  14.87  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,52 +91,87 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Changes from v1:
-- Rename states to NVME_CTRL_DELETING and NVME_CTRL_DELETING_NOIO to better
-  describe the states
-- Added prep patch to split nvme_remove_namespaces to _prep_ and _do_
-- Added prep patch to provide some documentation about the states
+In controller deletion we will need to add a state transition
+after we flush the namespace scanning, and continue to the
+namespace removal afterwards. Hence, split nvme_remove_namespaces
+so that we can add this change only in the nvme_do_delete_ctrl
+call site.
 
-A deadlock happens in the following scenario with multipath:
-1) scan_work(nvme0) detects a new nsid while nvme0
-    is an optimized path to it, path nvme1 happens to be
-    inaccessible.
+Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+---
+ drivers/nvme/host/core.c | 29 ++++++++++++++++++++---------
+ drivers/nvme/host/nvme.h |  3 ++-
+ 2 files changed, 22 insertions(+), 10 deletions(-)
 
-2) Before scan_work is complete nvme0 disconnect is initiated
-    nvme_delete_ctrl_sync() sets nvme0 state to NVME_CTRL_DELETING
-
-3) scan_work(1) attempts to submit IO,
-    but nvme_path_is_optimized() observes nvme0 is not LIVE.
-    Since nvme1 is a possible path IO is requeued and scan_work hangs.
-
-4) Delete also hangs in flush_work(ctrl->scan_work)
-    from nvme_remove_namespaces().
-
-Similiarly a deadlock with ana_work may happen: if ana_work has started
-and calls nvme_mpath_set_live and device_add_disk, it will
-trigger I/O. When we trigger disconnect I/O will block because
-our accessible (optimized) path is disconnecting, but the alternate
-path is inaccessible, so I/O blocks. Then disconnect tries to flush
-the ana_work and hangs.
-
-This patchset alters the nvme states to address this deadlock condition.
-
-Feedback is welcome.
-
-Sagi Grimberg (3):
-  nvme: split nvme_remove_namespaces
-  nvme: document nvme controller states
-  nvme-core: fix deadlock in disconnect during scan_work and/or ana_work
-
- drivers/nvme/host/core.c      | 45 +++++++++++++++++++++++++++--------
- drivers/nvme/host/fc.c        |  1 +
- drivers/nvme/host/multipath.c | 13 +++++++++-
- drivers/nvme/host/nvme.h      | 23 +++++++++++++++++-
- drivers/nvme/host/pci.c       |  4 +++-
- drivers/nvme/host/rdma.c      | 10 ++++----
- drivers/nvme/host/tcp.c       | 15 +++++++-----
- 7 files changed, 88 insertions(+), 23 deletions(-)
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 509bf4e1d423..f1bb2a522cf0 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4091,16 +4091,8 @@ static void nvme_scan_work(struct work_struct *work)
+ 	up_write(&ctrl->namespaces_rwsem);
+ }
+ 
+-/*
+- * This function iterates the namespace list unlocked to allow recovery from
+- * controller failure. It is up to the caller to ensure the namespace list is
+- * not modified by scan work while this function is executing.
+- */
+-void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
++void nvme_prep_remove_namespaces(struct nvme_ctrl *ctrl)
+ {
+-	struct nvme_ns *ns, *next;
+-	LIST_HEAD(ns_list);
+-
+ 	/*
+ 	 * make sure to requeue I/O to all namespaces as these
+ 	 * might result from the scan itself and must complete
+@@ -4119,6 +4111,13 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
+ 	 */
+ 	if (ctrl->state == NVME_CTRL_DEAD)
+ 		nvme_kill_queues(ctrl);
++}
++EXPORT_SYMBOL_GPL(nvme_prep_remove_namespaces);
++
++void nvme_do_remove_namespaces(struct nvme_ctrl *ctrl)
++{
++	struct nvme_ns *ns, *next;
++	LIST_HEAD(ns_list);
+ 
+ 	down_write(&ctrl->namespaces_rwsem);
+ 	list_splice_init(&ctrl->namespaces, &ns_list);
+@@ -4127,6 +4126,18 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
+ 	list_for_each_entry_safe(ns, next, &ns_list, list)
+ 		nvme_ns_remove(ns);
+ }
++EXPORT_SYMBOL_GPL(nvme_do_remove_namespaces);
++
++/*
++ * This function iterates the namespace list unlocked to allow recovery from
++ * controller failure. It is up to the caller to ensure the namespace list is
++ * not modified by scan work while this function is executing.
++ */
++void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
++{
++	nvme_prep_remove_namespaces(ctrl);
++	nvme_do_remove_namespaces(ctrl);
++}
+ EXPORT_SYMBOL_GPL(nvme_remove_namespaces);
+ 
+ static int nvme_class_uevent(struct device *dev, struct kobj_uevent_env *env)
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 85d76981b66e..f184ae623f12 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -530,7 +530,8 @@ void nvme_uninit_ctrl(struct nvme_ctrl *ctrl);
+ void nvme_start_ctrl(struct nvme_ctrl *ctrl);
+ void nvme_stop_ctrl(struct nvme_ctrl *ctrl);
+ int nvme_init_identify(struct nvme_ctrl *ctrl);
+-
++void nvme_prep_remove_namespaces(struct nvme_ctrl *ctrl);
++void nvme_do_remove_namespaces(struct nvme_ctrl *ctrl);
+ void nvme_remove_namespaces(struct nvme_ctrl *ctrl);
+ 
+ int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
 -- 
 2.25.1
 
