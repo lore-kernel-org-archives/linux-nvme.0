@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C062C433DF
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Jul 2020 19:46:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07A8AC433DF
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Jul 2020 23:59:43 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 07D2820675
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Jul 2020 19:46:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id C72F020823
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Jul 2020 23:59:42 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Zsd9kXvG";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="ASjIGw/d"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 07D2820675
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="0Fb9qLbK";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="Lfytxwj1"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C72F020823
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,61 +26,61 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
 	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=FMKBaKtkhop6bYOtSia57AEAv2JKSWYQzkB+wCqCinw=; b=Zsd9kXvGQF1ykebv1lO5H3B5xW
-	p//gQfOncMgK06hOLOwZPXfnzhDjCPcnT3d6j4CYEIgK5YV+Z3hcWTCSslQWFlxydcW5Ms4JcY4ko
-	mWSm6+fulZhFE2P2SPavWYrB/sTiZEKMOwY0GAkEpILjtw7fes21RRA+hdsoV1JUa0ab1hZAEJb4H
-	Y4zoYwX9hKqKqqX+X82LNvPjxH8CEii9BuJ4YyYswGSm0RIBRvWl8L5pxzYofYuV9LXtalrJxP9aH
-	34XYzf4Vx7DUs3NDcKRt9LqkyEMNa5Chq+EJ5CEEKqemaGfIEhQm21Szh8U9pHToXsPvmwj+uMiwp
-	RjfaT9QA==;
+	bh=1JZvLxZx91zEWB6d9BFEgKDA/p5RdsLv25DIOX/UeQ8=; b=0Fb9qLbKNn73q2UZG7e6ClYY2E
+	MQ/+VKS4VjICY4VqSNw6kfJq2mh25FkvZR4alGe5vqnHnUIsAzgkEOuycGGW3Og0c24CXNITNH7+V
+	f5exnoouVV/RSclGdTKxuYCEpwjk+E80K8OfDaTiDsYG3QeB6eJBOseyUalKmCuv/wykv2jW3Hlyt
+	FG8wzfXALGKSGfvYRNtkzCVNF4M6dZiRK2TV62g1YUme73l/I//XIK0uactz/EojVk0HwPnfLNX3H
+	rmjNL60MNnzQQUL2NiwJ87f/SNOkoD4C0Jgi9RZXTAZrzoVhuSkykQozFMDI6uQfd8ElnwlNTNQDf
+	1fKZtzBg==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jsX43-0003Ey-IR; Mon, 06 Jul 2020 19:46:07 +0000
-Received: from esa4.hgst.iphmx.com ([216.71.154.42])
+	id 1jsb1L-0000Yu-EN; Mon, 06 Jul 2020 23:59:35 +0000
+Received: from esa2.hgst.iphmx.com ([68.232.143.124])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jsX41-0003EH-2y
- for linux-nvme@lists.infradead.org; Mon, 06 Jul 2020 19:46:06 +0000
+ id 1jsb1H-0000YU-Vz
+ for linux-nvme@lists.infradead.org; Mon, 06 Jul 2020 23:59:33 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1594064765; x=1625600765;
+ t=1594079973; x=1625615973;
  h=from:to:cc:subject:date:message-id:mime-version:
  content-transfer-encoding;
- bh=ZEWUfupanu+KdQUX0auYHN21KAatHobTxZox7QwvJ0Y=;
- b=ASjIGw/dBowbkLvctzaTHFHqMzLi94ohTl8Z3tpuS0iQvWI6BiYICQKH
- aGs1EHmEWDOAL03DaspH5mfNb3f7ucayjNdr33aumba5H55FRgNTjmywh
- XWD8rrCd852ZF1vINyhYbiRnYntnvBFpqYGPBNK0ZKBo4PYGsaQhLK4dg
- 7Z2JbFd9ERasxwwDvXi0ahgLLcYj1krKtF9ofts/jT8i9FO+3nkodfY4x
- 3LXD2pIqce6U70AnGnWHne206ISn1QF0LlwibGLHMl9g3k7eYFExOQ7V/
- Pmrps6cJj6gLkyf8jEgmXXC41p7zWRIYen8WFRCdpcFErvPhI2g7ORklC A==;
-IronPort-SDR: A+xhP/lJ7b7YJ+I59Ln1+CUgOQ6tSFG3pkqEbpgv5lYRNfQgzHeWfw5nbQKXwkTDcFUnXXmiwY
- KzgDgSkWFBgsiihrh85SopBrypGZQCJgoCBFsrgX+2yj0MR0W5RlVpZnqU0ETPvhcHpzbwHfGx
- D6+txQ0UctpuBkmM1fRurNhdX+IRPjvWwGvMlgDrnkIm38EFjP7uLW+TGpnszHgrWxo0mcY7EX
- NKZ72aRTGmw/6ZSabJ3Q0rjGqX4YSQYFHqQzMtIKtbWj2ZJ7rFJx9dm+r/cjy03qm9+haAmdvJ
- TU4=
-X-IronPort-AV: E=Sophos;i="5.75,320,1589212800"; d="scan'208";a="141758353"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ bh=rxtULAXllvYwscNa+gyNSPAEm9SX2NfLgHrOoJBHlSU=;
+ b=Lfytxwj1qsRJqAf3t1Dwdjn1fU6E/65vi/GfvnjgyAeY5CK5CGXxbsbR
+ gtOpLb+roleL8SajLMj8b4x0dePaoNJ9Y4/OBJdz1ebDkvaoWFocNeSre
+ 5VuPCGVihkuQWRN5hJwrg5W2g3ITSEyitWdvg0jujiQPjfbaLy5ORYe1p
+ IYvl57zRIy2WEIn4YnEn9knrso0Eyc6GpHaS1tz9k34g1xxqKNS/EUydI
+ mULx6Iho5fBkbduIQIvnhm9OtFSb+lkuYdWB4yGTKOQ2teVbuFvPfPM3r
+ fktdoVD+eEt91YjY6Ik9p/Erp2b5bYwqnH9An2epXqGM0OlnA3f+v7nK2 Q==;
+IronPort-SDR: PtpLt+ZgcvZTSeANoINxF63WASq4p7uDSCR3kBdSNBhH/zypMtTM48H/qdHUvBIvWmM/pON1Jv
+ o+rlSlYCkZSHb7LVeQ7gkLm/lamkxu8LQwtO8AdagjANv8oT65uF5qjTRVxe8j/Wl8hQggGQI4
+ 79b7XwBdUpAI8lGb6Dqo0hI34ZMObyzhxf1pnHXWOwh9pz+6Vml90CYmPVEEeWGnrUUGI+uDN0
+ kVMYiOGlNm7a7MWhYq2rGTf47NWx8+KdP7IiwZOLN9mWXX60YVCfFpQMcnpKjyFc0f1Dx43FhW
+ mFs=
+X-IronPort-AV: E=Sophos;i="5.75,321,1589212800"; 
+ d="scan'208,223";a="244790329"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 07 Jul 2020 03:46:02 +0800
-IronPort-SDR: ERDcEY0m9e+U+4JM3wzz5RDapyKQPcfSXP0haxXTBV4ilxAb7637BinBLY8CLg0ic0oMxyZSc5
- RQvH2LWHrtV1nEw4wklVQhI+jVN1XZQ+U=
+ by ob1.hgst.iphmx.com with ESMTP; 07 Jul 2020 07:59:48 +0800
+IronPort-SDR: V9QhLwL74aRNNz9nA+Fvo8kZ1jIAFGtiMRdpblOFAvCHJNv8S/V26c4T0x1B3g+8dAdRuc0Tz1
+ hRPKuBEfZaro6Sx9nL7zC0Hh/evShbgdo=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jul 2020 12:34:11 -0700
-IronPort-SDR: J10XpwGof1Xhaa+7Wb2jR6pZK9V1YhfXyNi4an63iHOYc4eb2a5+Gk2bQeSdffI84rUD36E8rc
- VKdm4xyTdjsA==
+ 06 Jul 2020 16:47:33 -0700
+IronPort-SDR: sgD9+0IAXfn3o5ZlU/s5MyBwkkYqFFr0auERCgyuSk4uKI4pmCzoMC/ooWCtj6+l8PwlPdGC2H
+ WFaRP3Ffpy7A==
 WDCIronportException: Internal
-Received: from iouring.labspan.wdc.com (HELO iouring.sc.wdc.com)
- ([10.6.138.107])
- by uls-op-cesaip01.wdc.com with ESMTP; 06 Jul 2020 12:46:03 -0700
+Received: from ioprio.labspan.wdc.com (HELO ioprio.sc.wdc.com) ([10.6.139.89])
+ by uls-op-cesaip01.wdc.com with ESMTP; 06 Jul 2020 16:59:27 -0700
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-To: sagi@grimberg.me
-Subject: [PATCH] nvme-tcp: remove dead code in map data
-Date: Mon,  6 Jul 2020 12:46:02 -0700
-Message-Id: <20200706194602.51112-1-chaitanya.kulkarni@wdc.com>
-X-Mailer: git-send-email 2.26.0
+To: linux-nvme@lists.infradead.org
+Subject: [PATCH RFC] nvme-pci: remove the unsed code in alloc_size
+Date: Mon,  6 Jul 2020 15:53:05 -0700
+Message-Id: <20200706225305.14892-1-chaitanya.kulkarni@wdc.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200706_154605_332825_82F246F0 
-X-CRM114-Status: GOOD (  11.35  )
+X-CRM114-CacheID: sfid-20200706_195932_238959_741680B5 
+X-CRM114-Status: GOOD (  14.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,72 +92,98 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
- linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org, hch@lst.de,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>, sagi@grimberg.me
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The function nvme_tcp_map_data() only returns value 0. The caller
-nvme_tcp_setup_cmd_pdu() checks for the non-zero return value.
-Get rid of the error checking done for non-zero return value
-and adjust the code.
+From the initial implementation of NVMe SGL kernel support
+commit a7a7cbe353a5 ("nvme-pci: add SGL support") with addition of the
+commit 943e942e6266 ("nvme-pci: limit max IO size and segments to avoid
+high order allocations") now there is only caller left for
+nvme_pci_iod_alloc_size() which statically passes true for last
+parameter that calculates allocation size based on SGL since we need
+size of biggest command supported for mempool allocation.
+
+This patch removes the helper functions nvme_pci_iod_alloc_size() and
+nvme_npages() used for allocation size calculation and open codes it
+into nvme_probe().
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 ---
-Hi Sagi,
+Hi,
 
-I've not tested this patch, if you are okay I'll send a tested version.
+We can get rid of unused code with this patch, would like to get some
+feedback, Tagging it as an RFC since I've only tested fio verification
+and did not test all the cases with sgl and prp.
+
+If we decided to get it I can put more effort on this.
 
 Regards,
 Chaitanya
 ---
- drivers/nvme/host/tcp.c | 15 +++------------
- 1 file changed, 3 insertions(+), 12 deletions(-)
+ drivers/nvme/host/pci.c | 30 +++---------------------------
+ 1 file changed, 3 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 860d7ddc2eee..7d8385e10768 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -2172,7 +2172,7 @@ nvme_tcp_timeout(struct request *rq, bool reserved)
- 	return BLK_EH_RESET_TIMER;
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 07ac28d7d66c..aad8cc176219 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -341,18 +341,6 @@ static bool nvme_dbbuf_update_and_check_event(u16 value, u32 *dbbuf_db,
+ 	return true;
  }
  
--static blk_status_t nvme_tcp_map_data(struct nvme_tcp_queue *queue,
-+static void nvme_tcp_map_data(struct nvme_tcp_queue *queue,
- 			struct request *rq)
+-/*
+- * Will slightly overestimate the number of pages needed.  This is OK
+- * as it only leads to a small amount of wasted memory for the lifetime of
+- * the I/O.
+- */
+-static int nvme_npages(unsigned size, struct nvme_dev *dev)
+-{
+-	unsigned nprps = DIV_ROUND_UP(size + dev->ctrl.page_size,
+-				      dev->ctrl.page_size);
+-	return DIV_ROUND_UP(8 * nprps, PAGE_SIZE - 8);
+-}
+-
+ /*
+  * Calculates the number of pages needed for the SGL segments. For example a 4k
+  * page can accommodate 256 SGL descriptors.
+@@ -362,19 +350,6 @@ static int nvme_pci_npages_sgl(unsigned int num_seg)
+ 	return DIV_ROUND_UP(num_seg * sizeof(struct nvme_sgl_desc), PAGE_SIZE);
+ }
+ 
+-static unsigned int nvme_pci_iod_alloc_size(struct nvme_dev *dev,
+-		unsigned int size, unsigned int nseg, bool use_sgl)
+-{
+-	size_t alloc_size;
+-
+-	if (use_sgl)
+-		alloc_size = sizeof(__le64 *) * nvme_pci_npages_sgl(nseg);
+-	else
+-		alloc_size = sizeof(__le64 *) * nvme_npages(size, dev);
+-
+-	return alloc_size + sizeof(struct scatterlist) * nseg;
+-}
+-
+ static int nvme_admin_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
+ 				unsigned int hctx_idx)
  {
- 	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
-@@ -2188,8 +2188,6 @@ static blk_status_t nvme_tcp_map_data(struct nvme_tcp_queue *queue,
- 		nvme_tcp_set_sg_inline(queue, c, req->data_len);
- 	else
- 		nvme_tcp_set_sg_host_data(c, req->data_len);
--
--	return 0;
- }
+@@ -2814,8 +2789,9 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	 * Double check that our mempool alloc size will cover the biggest
+ 	 * command we support.
+ 	 */
+-	alloc_size = nvme_pci_iod_alloc_size(dev, NVME_MAX_KB_SZ,
+-						NVME_MAX_SEGS, true);
++	alloc_size = sizeof(__le64 *) * nvme_pci_npages_sgl(NVME_MAX_SEGS) +
++		sizeof(struct scatterlist) * NVME_MAX_SEGS;
++
+ 	WARN_ON_ONCE(alloc_size > PAGE_SIZE);
  
- static blk_status_t nvme_tcp_setup_cmd_pdu(struct nvme_ns *ns,
-@@ -2233,15 +2231,8 @@ static blk_status_t nvme_tcp_setup_cmd_pdu(struct nvme_ns *ns,
- 	pdu->hdr.plen =
- 		cpu_to_le32(pdu->hdr.hlen + hdgst + req->pdu_len + ddgst);
- 
--	ret = nvme_tcp_map_data(queue, rq);
--	if (unlikely(ret)) {
--		nvme_cleanup_cmd(rq);
--		dev_err(queue->ctrl->ctrl.device,
--			"Failed to map data (%d)\n", ret);
--		return ret;
--	}
--
--	return 0;
-+	nvme_tcp_map_data(queue, rq);
-+	return BLK_STS_OK;
- }
- 
- static void nvme_tcp_commit_rqs(struct blk_mq_hw_ctx *hctx)
+ 	dev->iod_mempool = mempool_create_node(1, mempool_kmalloc,
 -- 
-2.26.0
+2.22.0
 
 
 _______________________________________________
