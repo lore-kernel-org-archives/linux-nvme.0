@@ -2,86 +2,89 @@ Return-Path: <SRS0=+1uq=AT=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D99DC433E1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39E47C433DF
 	for <linux-nvme@archiver.kernel.org>; Wed,  8 Jul 2020 00:59:00 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B834520708
+	by mail.kernel.org (Postfix) with ESMTPS id B8321206DF
 	for <linux-nvme@archiver.kernel.org>; Wed,  8 Jul 2020 00:58:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="zOeEDeK/";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="mOt57Kd8"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B834520708
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="aTGt9xHo";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="VcNCb5bt"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B8321206DF
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=4gPDxqq+tcExGmMkk0y3okVpvcqg2xSU/8dgY+FKEpw=; b=zOeEDeK/+6f4A+UQcpWHTu9k7C
-	3qPrne0pPrjc25CuZ4e15+mpMAE0uCuewA/mcriPrPl2+KOW1Cp8vTBTbRh7Vw4PZy/lLmCiYUXdz
-	dj9OC0qXarhJ1dSvWYdlfW7o/b+E3lZ5Y+aB8hYDmapYBnHvTXOpeKOGuueN9Z7df3NhX5fRMtVy6
-	RWP4tV3dGrMafsZafc0ap3q4MLz91Dcp6i4lMKVn62/BI0w0pLsrx5wrodTlB+2cMbXNfAurmwMK3
-	QbL3Le51dgskmHONNys4mBPKPrCd+rJAWaZkxA4oXI4UuvWpuNTj0jSRIzdmatzt3YhFyUngW9f/b
-	cG7jtuHA==;
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=Gswysu67fj7nS6kCdV1qCgIKU4rZW1BbPM7vk9NMzPg=; b=aTGt9xHoVRQ7b9jhMAHughBBp
+	tZ3l1Ry/wMVDwVy4mHzib1fbPyf8CzOwUyBrRvco+w3qoV10RVhH3LLGsl1vLxzirbKH5Kr6jlnph
+	JXziSIpX5MgO44l6DmgL5FLK08ho+My4v3PEeYfpnoylnfU5QXgPbEKNDxdFt3bifiM7GXx4fvpzM
+	rXsoNIUAXe6rfujmBy1S2xBQeiHIiqrqB16jCttO09VBZuYm8fkAR+3iMDoP2eHPDYIfnds5roWHH
+	tm6LTvScbd912VrGneQ6SSsMT+sISxsvkzuRjGHMMMb1iBwoNJTDkgB/JQVSYfZWQbnQI6LB2Uhyy
+	3Nn7HJ/4w==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jsyQE-0007OC-04; Wed, 08 Jul 2020 00:58:50 +0000
+	id 1jsyQJ-0007Q7-W0; Wed, 08 Jul 2020 00:58:56 +0000
 Received: from esa6.hgst.iphmx.com ([216.71.154.45])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jsyQ9-0007N5-LU
- for linux-nvme@lists.infradead.org; Wed, 08 Jul 2020 00:58:47 +0000
+ id 1jsyQH-0007Ne-IW
+ for linux-nvme@lists.infradead.org; Wed, 08 Jul 2020 00:58:54 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1594169925; x=1625705925;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=l6Cy6dWfU9gfEk4kvtUZrJOBbggfhrqDa/UKRT63zWw=;
- b=mOt57Kd8qP8RCAkuLaGgWaKkNJMtAdLqXhzxMxBU+JF99eu04rTJrcMj
- Qz2dCvWTO8Xw+RErlYJzLu/Hdw9o/5LURZXWqsuWe4ZszAage1TkNtFlD
- yY8PYnk6NTowSyo8kzHTLHrsl/5nNAJWPiUagoo9lZHsASl5R8S8NO4kf
- lZm4PWfYloP43TzQkuUi9S4zbCukOsUG9xqLLvfIDhFA3Rjk+oUV6Qhbe
- Ktqr2LBgsmx49nVfFuD4wH6uuE3cG3enipQeih8f1ldCYEEHsbG3Huu22
- oZxCgzAub2JsFm9F6kVKYO2pFTUqccTQ8Es6peYDvQtskrrYhNoBTE3ZQ Q==;
-IronPort-SDR: iufs1FlBxsfNfyVSe3vGRCc9sk5lfmbFiMvpzxiD4qJT4lGhv/yyzkMuJxAmE2ju25Sq+shxW8
- r39iioCKF2lxTr2kF5GGgxPk6HjzTN6NXZP092G51gcN4OXm9fa+un7ROvr635bQh7WxqR1wCt
- vmqWLJT8FokKUiwxj/3pJIDaA5KIU1ap1eNcqsHBrdbKMPK1YTbwnirqZRzGpkjE8yTECxByn5
- 5e7wS7Ev3sihIOX8kOzrZwcVkVdZjys1xPrVgKqd040og8kb3Y8WSTS5N00Js+D2+LfRPtqmej
- oBc=
-X-IronPort-AV: E=Sophos;i="5.75,325,1589212800"; d="scan'208";a="143204229"
+ t=1594169933; x=1625705933;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=mRMt369gK0mFyfNEROtMueLAEIfA2xaPK64/2X1sT0U=;
+ b=VcNCb5btcuy18BxWDPefJca/Z9fMMlxXM1poKvkJykUiPvbLocSLIAtp
+ FwcxPOz/KyZRc0LtYOzMDmIGnG3Ew/C7HDuIKVg8ZpVU9JcWtOX1ocOrq
+ btWwykMkkBXGvXDUX6KYv+uonxyqgdhKi3+zHva9+J9OiX4jC1o95/1PP
+ 7mn/qfXt246ULzUbqCrNsO7l0eyoGt4kVrZb8ORhwaV7yow2ndCG3XRop
+ Eiw0WuvIuCMz5rOh9ZYAG7I5hh/7Py2TCNnnOYEq1dvQ2oWdBh00Q2VrM
+ 8EZnqB0ED4DLlEx99cvpWnDmWzEHputFPodvlqH0hs9Pgh0AprZG3Uoub A==;
+IronPort-SDR: HRUGSrt28KyKl2szlOJ11q6F4k1mUTDVJxvk/hh1IQHf1BaoKXz6mqARX1yHWIsim0f77bvi1a
+ ztHI+k39klXSdS2FAl+nZAO1lG7YB2vlvwJP+Xu5FVOFxwpydrPpWg7riR87cAc+YonuwL9hRe
+ EAVythtG8+ccGdWa722xcttfEyKrnS0kPPpMTAuX290U7GTZY+T8QKn+UPEykCJc1V44vVWwG+
+ Q3WWVoZHq12j5f/7gr2dUk8F/8H+iCOzoS8/3nPSW2/1OnVfXaI9dUzZBLFAVuAr1AnbVIdKLy
+ Okc=
+X-IronPort-AV: E=Sophos;i="5.75,325,1589212800"; d="scan'208";a="143204247"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 08 Jul 2020 08:58:40 +0800
-IronPort-SDR: 6AjhgeQBj4zK+YpyshQVqAXfJElil6nO01/4SjrH0QwCQ050FdKw/QnIYI3lGuc5BWS2XaKXtq
- jchDGmSVZSIFB0dGdDCJT79qTnGhBYj3Y=
+ by ob1.hgst.iphmx.com with ESMTP; 08 Jul 2020 08:58:53 +0800
+IronPort-SDR: 5KYdpn5dOXNXCl4llJzPfQgrpfUGpf4GgOFCj7oPNNP6TIJD0EPqjKJMGeJ4THnR/5njyUBM1T
+ 3t5GpSxFOPp4HGCr+anvG3lHCFKBhhf2U=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jul 2020 17:47:19 -0700
-IronPort-SDR: cbd63F+laYAxdQqLo2SJOotaRU9x+BBDKmrRBie2+4mI620mW+arTZjNuQeiWkk9y+tOp3bpia
- qVSMj/tuz1UQ==
+ 07 Jul 2020 17:47:32 -0700
+IronPort-SDR: dw7G1JVCY1XK80fVVkQv20BTnbAHWgDpjD+BYGXUw+G+m8WqY+reHygIVK/uJNP1bKUReLJqCY
+ p5jJAxxcQsCw==
 WDCIronportException: Internal
 Received: from iouring.labspan.wdc.com (HELO iouring.sc.wdc.com)
  ([10.6.138.107])
- by uls-op-cesaip02.wdc.com with ESMTP; 07 Jul 2020 17:58:40 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 07 Jul 2020 17:58:53 -0700
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: hch@lst.de,
 	kbusch@kernel.org,
 	sagi@grimberg.me
-Subject: [PATCH 0/4] nvme: fix iod size calculation in nvme_probe()
-Date: Tue,  7 Jul 2020 17:58:27 -0700
-Message-Id: <20200708005831.10013-1-chaitanya.kulkarni@wdc.com>
+Subject: [PATCH 4/4] nvme-core: fix checkpatch warnings
+Date: Tue,  7 Jul 2020 17:58:31 -0700
+Message-Id: <20200708005831.10013-5-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.26.0
+In-Reply-To: <20200708005831.10013-1-chaitanya.kulkarni@wdc.com>
+References: <20200708005831.10013-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200707_205845_861705_3E8FDFD2 
-X-CRM114-Status: GOOD (  11.64  )
+X-CRM114-CacheID: sfid-20200707_205853_822294_CB64F33E 
+X-CRM114-Status: GOOD (  14.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,35 +103,42 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+This patch fixes couple of warnings (comment fix and
+unsigned-> unsigned int) reported by the checkpatch.pl which
+were present in the original code.
 
-This is a small patch series which fixes the IO size calulation in the
-nvme_probe. First two patches are prep patches needed to get the right
-value so that we can avoid oops in nvme_npages.
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+---
+ drivers/nvme/host/core.c | 2 +-
+ drivers/nvme/host/nvme.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-The third patch calculates the maximum value based on NVMe PRP and SGL
-size.
-
-The last patch has a fix for checkpatch reported warnings which were
-present in the existing code prior to this patch-series.
-
-I've tested this patch with different block sizes 4k-128k on NVMe QEMU
-and NVMe PCIe (non-SGL) controller.
-
-Regards,
-Chaitanya
-
-Chaitanya Kulkarni (4):
-  nvme-core: use macro for ctrl page size default value
-  nvme-pci: don't use ctrl page size value in probe
-  nvme-pci: use max of PRP or SGL for iod size
-  nvme-core: fix checkpatch warnings
-
- drivers/nvme/host/core.c | 15 +++++----------
- drivers/nvme/host/nvme.h |  7 +++++++
- drivers/nvme/host/pci.c  | 24 +++++++++++++++---------
- 3 files changed, 27 insertions(+), 19 deletions(-)
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index e0b47e77cbca..a35725aa6144 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2344,7 +2344,7 @@ EXPORT_SYMBOL_GPL(nvme_disable_ctrl);
+ 
+ int nvme_enable_ctrl(struct nvme_ctrl *ctrl)
+ {
+-	unsigned dev_page_min;
++	unsigned int dev_page_min;
+ 	int ret;
+ 
+ 	ret = ctrl->ops->reg_read64(ctrl, NVME_REG_CAP, &ctrl->cap);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 4a56897e9081..9aa1d17f06e8 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -39,7 +39,7 @@ extern unsigned int admin_timeout;
+ 
+ /*
+  * Default to a 4K page size, with the intention to update this
+- * path in the future to accomodate architectures with differing
++ * path in the future to accommodate architectures with differing
+  * kernel and IO page sizes.
+  */
+ #define NVME_CTRL_PAGE_SHIFT	12
 -- 
 2.26.0
 
