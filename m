@@ -7,17 +7,17 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ABCFC433DF
-	for <linux-nvme@archiver.kernel.org>; Wed,  8 Jul 2020 00:59:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E3EEC433DF
+	for <linux-nvme@archiver.kernel.org>; Wed,  8 Jul 2020 00:59:08 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3BB28206DF
-	for <linux-nvme@archiver.kernel.org>; Wed,  8 Jul 2020 00:59:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 4B9A6206DF
+	for <linux-nvme@archiver.kernel.org>; Wed,  8 Jul 2020 00:59:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="BG/GoGVd";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="B6haV5Uc"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3BB28206DF
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="aESv/KCq";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="mNN9ne2j"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4B9A6206DF
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,66 +26,65 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=gq++i47BVIvMQKLMuXdWBZp+vjqtS9AbUtYsZrH6ut8=; b=BG/GoGVd5wg3ZKFf2cfpClb9P
-	Vz+DwQ5As/MqfBkd3riMQfeft6lDMUqnLpPk72eGQoWtconTNgmBAS/osoJqNIYDwlnephWJEJ3qi
-	uuX5lB4euDV6BKc30+jYI29KU8xlbw2t/WNz8JIvUEaILPc1fP/u8UX1oEMz/KC1dI98sfvJUuqgW
-	oSwxd0WVtf8zgT8APqekuARMMKRSLLXng9eGJrCzbj0zgGL6MyGXASSIAzMVIXh7l+Y3+bVyE7+aE
-	LyH9DSSpFzLSIvfDa/oh562M/D3eJ13vfStinWYLM50nPSJaQ2dhHHzFDt+LbQ5PUDTtaKdT6fmRY
-	qWY7Nwhjg==;
+	 bh=jg0vWzuGWpP8lblfTWHiHtxv3uWa0FoHNJGdWE6bUIY=; b=aESv/KCqYjr00W5hwZh4qkvZf
+	3Fn0VWCKEG8qbTsC6H4vp/rIsHyOfaTTAZJHdUXirpiDYSuKOjiErZgQC08A8eITF+RlniYeE03FM
+	rtqC5Ris5enmT8YZN1QLvEAQ+hptP0PeHe/JWv3vuMF/9Jer4zOFzlFWYCW90ZOqkw/lgwsZChnHg
+	jI71o8KKO2bD1KFIca2RaZJcfLd04DgsznWKkWii9s6mx3gmFbOR9V5uEUfM0kZdOTObUDBlTTjFt
+	FLLcbsJW6CGZGKPAEIfo7PuD4sc+WRRo17nhjaKyG9uugXRSTEUsAmOcHA9ZDJH80vNtJgZXiVkLg
+	lbkm//N5A==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jsyQI-0007Pf-2b; Wed, 08 Jul 2020 00:58:54 +0000
+	id 1jsyQF-0007Oi-C4; Wed, 08 Jul 2020 00:58:51 +0000
 Received: from esa6.hgst.iphmx.com ([216.71.154.45])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jsyQD-0007Ne-C9
- for linux-nvme@lists.infradead.org; Wed, 08 Jul 2020 00:58:50 +0000
+ id 1jsyQ9-0007N8-3p
+ for linux-nvme@lists.infradead.org; Wed, 08 Jul 2020 00:58:47 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1594169929; x=1625705929;
+ t=1594169925; x=1625705925;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=5nh9xHm3vtTgkAV4CTG1HbuHNEBgV2rQpEJNqHo4m4Q=;
- b=B6haV5UcrmZqgvxv6a9KKDpOZrPwE3YogRbx2R9IppVDLXwuh67CWkr2
- 35K3Hp6wzraG2XnI2crO3Xw6zehfM3xVMHn+U1nN1u61bOzSBopNM7G+C
- wb4XKyLJtgAWIxneROsQyQrHgle6HyvhHK/JPTH5fgl+dIQ4aR4YHOOkF
- LeN+Gsipp1uxYuDZlKC/DEkfAf7y8M7XD5EiCRDjxoMOTz2KgANv4XpON
- cE40Ui/uaa5Ac5LDQmOWUW0Of+x6/IYrDLWTgym3eQuWzlUTRq9saSbHq
- xsk2+JpepzFfQtpoybsixEaP7O2z/bOnO/8tsnLwalhYKWL3/aJuaZQ/z g==;
-IronPort-SDR: EHoTBMIRmeDav3lbIy/p+IOSooAzup/L87nf8hT/biR9NzWvv1deA8vOo08adTXnytI5gq2RUM
- xwpTdcgv/xDO8dZalizmdgt9PYHsm/zmWLvUdeSO1vWQn2g6agmxnTKLgHHrUopyHtes+nDeuB
- saMM+aAhLCN4LKkpVlCfPHjeohTTmeYlmE/M7YX4nIzSfqO2zhRxz5bBaQR3fyba2/oQcIOp2A
- 6KOw2ug6EdnmotxJiWuWKSAC3eWnMaQYUqdcuL/kdRIny+cf4Xzf2flW/S9F5ftuLQHjU4PDin
- Hnk=
-X-IronPort-AV: E=Sophos;i="5.75,325,1589212800"; 
- d="scan'208,223";a="143204241"
+ bh=vjlHpkEnjiynaz3H+nElqO/MjCCd4DrS1CeVTP65/40=;
+ b=mNN9ne2jIrCHrwSrxtsa1edZnMJKJAmogCHuxwPTXwYNP2wI/66h1vQp
+ 2Y71EkYgJpLbFz0K27Q7AlLYC6PTaEld9/GsAz2xFmsiFmfsfkO7C+3ci
+ Q+cWcoT1iW8IqZ3j47wZAixR5uNdUyYCFxMI9KnVG6FPyIJVyJWuViFwm
+ 7nR5FSKIALYibRY2Bbfzp2iW+lRTmFq8Qc3v2zyr2/EI2gJj3touDfq2o
+ ts4N+UCKF7g6/sDic5xF5vXtrq4aK5ppA6ifXqcYZeeasbXuKzffCc9fg
+ PULIkUtDDKI+sJxYsj5pzM2j20DyVs5fIgLiEh/SRGciX623gpQ6o8Rlc A==;
+IronPort-SDR: RS9u18/c9B7AtxTWWV/w8TtI7E+T3FmzskcVqgH9wmuyV5T3TznYQBB0dTnp7/E3SQMOgIPdds
+ ptUl1wJX92OJHkvx2/M6p/dftM5Ea8rWkP2tEsG3DR+88YD5l8Es5I1r484KIIy+1WMcoOF3tJ
+ +shAw4FTf4goVhXPH80mmVK1esNXL5dx6wEvf7ow7dJZPHG7UwGLgDLmCJkL5FevNB94ICo6Wx
+ iBTHF5OqIFonBXnZS2dakrWKsadT5DYJNZ0fWlrek5bFS4GrNFwt7n8f39NO03YiI1tbvOLc9X
+ jqM=
+X-IronPort-AV: E=Sophos;i="5.75,325,1589212800"; d="scan'208";a="143204232"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 08 Jul 2020 08:58:49 +0800
-IronPort-SDR: eJ2ldhXIyJgx0Ego/IAcL1vsj4ey0hnD6lW63wQ9R3B4FxfTvKwWzHOXj1UAPvjAW4qtkm4gcc
- O8/gpRenl6pGuQiAYmDmCOfzOXIXFALY8=
+ by ob1.hgst.iphmx.com with ESMTP; 08 Jul 2020 08:58:43 +0800
+IronPort-SDR: XogYf7QxWDWyPk8lSWAd/iHy2eTcldc236jOjSF2MXdoWlifEsjrmKCZuMYerEgQ3jCDGNKRld
+ DjL7ZASDDwi2oRvPsLohrCXVxkq6lLsoQ=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jul 2020 17:47:28 -0700
-IronPort-SDR: EZkeZGRZLGAAU8QLo5gtWxzsjkCUSLIp21YjWyLFcyHUd3NqNoCLKxTHx8lUOWp2BGFc/+MNnW
- kp8hU7+DtG5g==
+ 07 Jul 2020 17:47:22 -0700
+IronPort-SDR: IZOTo6RLFHr//BvlpXXy5PXRBeR7D2+n/whibgTalCmG/lduQ8lo+R40FoJK9GGs7sU9tj1mBF
+ vOVcxtWYCjCg==
 WDCIronportException: Internal
 Received: from iouring.labspan.wdc.com (HELO iouring.sc.wdc.com)
  ([10.6.138.107])
- by uls-op-cesaip02.wdc.com with ESMTP; 07 Jul 2020 17:58:49 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 07 Jul 2020 17:58:44 -0700
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: hch@lst.de,
 	kbusch@kernel.org,
 	sagi@grimberg.me
-Subject: [PATCH 3/4] nvme-pci: use max of PRP or SGL for iod size
-Date: Tue,  7 Jul 2020 17:58:30 -0700
-Message-Id: <20200708005831.10013-4-chaitanya.kulkarni@wdc.com>
+Subject: [PATCH 1/4] nvme-core: use macro for ctrl page size default value
+Date: Tue,  7 Jul 2020 17:58:28 -0700
+Message-Id: <20200708005831.10013-2-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200708005831.10013-1-chaitanya.kulkarni@wdc.com>
 References: <20200708005831.10013-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200707_205849_558903_628ECA2F 
-X-CRM114-Status: GOOD (  13.72  )
+X-CRM114-CacheID: sfid-20200707_205845_292734_B0C094A4 
+X-CRM114-Status: GOOD (  15.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,56 +103,76 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From the initial implementation of NVMe SGL kernel support
-commit a7a7cbe353a5 ("nvme-pci: add SGL support") with addition of the
-commit 943e942e6266 ("nvme-pci: limit max IO size and segments to avoid
-high order allocations") now there is only caller left for
-nvme_pci_iod_alloc_size() which statically passes true for last
-parameter that calculates allocation size based on SGL since we need
-size of biggest command supported for mempool allocation.
-
-This patch modifies the helper functions nvme_pci_iod_alloc_size() such
-that it is now uses maximum of PRP and SGL size for iod allocation size
-calculation.
+This is a preparation patch which is needed to centralize the page shift
+value for the have ctrl->page_size.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 ---
- drivers/nvme/host/pci.c | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+ drivers/nvme/host/core.c | 15 +++++----------
+ drivers/nvme/host/nvme.h |  7 +++++++
+ 2 files changed, 12 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index cef87ad2323f..0588bd053a2a 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -370,14 +370,13 @@ static int nvme_pci_npages_sgl(unsigned int num_seg)
- }
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 898885630ad8..e0b47e77cbca 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2344,12 +2344,7 @@ EXPORT_SYMBOL_GPL(nvme_disable_ctrl);
  
- static size_t nvme_pci_iod_alloc_size(struct nvme_dev *dev,
--		unsigned int size, unsigned int nseg, bool use_sgl)
-+		unsigned int size, unsigned int nseg)
+ int nvme_enable_ctrl(struct nvme_ctrl *ctrl)
  {
--	size_t alloc_size;
-+	size_t npages_sgl = nvme_pci_npages_sgl(nseg);
-+	size_t npages = nvme_npages(size, dev);
-+	size_t alloc_size = sizeof(__le64 *);
+-	/*
+-	 * Default to a 4K page size, with the intention to update this
+-	 * path in the future to accomodate architectures with differing
+-	 * kernel and IO page sizes.
+-	 */
+-	unsigned dev_page_min, page_shift = 12;
++	unsigned dev_page_min;
+ 	int ret;
  
--	if (use_sgl)
--		alloc_size = sizeof(__le64 *) * nvme_pci_npages_sgl(nseg);
--	else
--		alloc_size = sizeof(__le64 *) * nvme_npages(size, dev);
-+	alloc_size *= (npages_sgl > npages ? npages_sgl : npages);
+ 	ret = ctrl->ops->reg_read64(ctrl, NVME_REG_CAP, &ctrl->cap);
+@@ -2359,20 +2354,20 @@ int nvme_enable_ctrl(struct nvme_ctrl *ctrl)
+ 	}
+ 	dev_page_min = NVME_CAP_MPSMIN(ctrl->cap) + 12;
  
- 	return alloc_size + sizeof(struct scatterlist) * nseg;
- }
-@@ -2819,7 +2818,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	 * command we support.
- 	 */
- 	alloc_size = nvme_pci_iod_alloc_size(dev, NVME_MAX_KB_SZ,
--						NVME_MAX_SEGS, true);
-+						NVME_MAX_SEGS);
- 	WARN_ON_ONCE(alloc_size > PAGE_SIZE);
+-	if (page_shift < dev_page_min) {
++	if (NVME_CTRL_PAGE_SHIFT < dev_page_min) {
+ 		dev_err(ctrl->device,
+ 			"Minimum device page size %u too large for host (%u)\n",
+-			1 << dev_page_min, 1 << page_shift);
++			1 << dev_page_min, 1 << NVME_CTRL_PAGE_SHIFT);
+ 		return -ENODEV;
+ 	}
  
- 	dev->iod_mempool = mempool_create_node(1, mempool_kmalloc,
+-	ctrl->page_size = 1 << page_shift;
++	ctrl->page_size = 1 << NVME_CTRL_PAGE_SHIFT;
+ 
+ 	if (NVME_CAP_CSS(ctrl->cap) & NVME_CAP_CSS_CSI)
+ 		ctrl->ctrl_config = NVME_CC_CSS_CSI;
+ 	else
+ 		ctrl->ctrl_config = NVME_CC_CSS_NVM;
+-	ctrl->ctrl_config |= (page_shift - 12) << NVME_CC_MPS_SHIFT;
++	ctrl->ctrl_config |= (NVME_CTRL_PAGE_SHIFT - 12) << NVME_CC_MPS_SHIFT;
+ 	ctrl->ctrl_config |= NVME_CC_AMS_RR | NVME_CC_SHN_NONE;
+ 	ctrl->ctrl_config |= NVME_CC_IOSQES | NVME_CC_IOCQES;
+ 	ctrl->ctrl_config |= NVME_CC_ENABLE;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 85d76981b66e..4a56897e9081 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -37,6 +37,13 @@ extern unsigned int admin_timeout;
+ #define  NVME_INLINE_METADATA_SG_CNT  1
+ #endif
+ 
++/*
++ * Default to a 4K page size, with the intention to update this
++ * path in the future to accomodate architectures with differing
++ * kernel and IO page sizes.
++ */
++#define NVME_CTRL_PAGE_SHIFT	12
++
+ extern struct workqueue_struct *nvme_wq;
+ extern struct workqueue_struct *nvme_reset_wq;
+ extern struct workqueue_struct *nvme_delete_wq;
 -- 
 2.26.0
 
