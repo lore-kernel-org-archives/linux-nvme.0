@@ -1,138 +1,76 @@
-Return-Path: <SRS0=+1uq=AT=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
+Return-Path: <SRS0=NJ67=AU=lists.infradead.org=linux-nvme-bounces+linux-nvme=archiver.kernel.org@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D092EC433E0
-	for <linux-nvme@archiver.kernel.org>; Wed,  8 Jul 2020 23:28:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7034C433DF
+	for <linux-nvme@archiver.kernel.org>; Thu,  9 Jul 2020 18:43:25 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 99FD3206F6
-	for <linux-nvme@archiver.kernel.org>; Wed,  8 Jul 2020 23:28:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A887D20775
+	for <linux-nvme@archiver.kernel.org>; Thu,  9 Jul 2020 18:43:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="A/GX+Qrt";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="gIG9WMbB";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="Np9yT07l"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 99FD3206F6
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="nWlXy/1u"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A887D20775
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:Message-ID:Date:Subject:To:
-	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	 bh=CGKFuEoA9emjBK8X8ri1D4D7G4IPU9s+Y6Naakq3XtE=; b=A/GX+Qrtfe2Rp8bDSF8FjJN/Q
-	dRfZDt8SQAURwVQiIF4CPinzv3ZjPKowOD+UtsPeuSQdRx76NFTI/3spmdGipXi5A0yXbdrzyOOQ/
-	jG0L9+RmHthPKhl6skwtTf7S493Jpgd61GK9f1Ltt02/UMukboPkjJulqNBICQswA0PGN27s/mQan
-	I0Ss8LttdO2q83UQRI9gG+CHrSHi8Gg579c8vENUZnVILEch5l66NEhKYbAa8iSaGooEIXHCxfjIn
-	Moh2pIQVU21FBAT3aoxjoPEzD8ugPn5hdRB/2DArD/3OOLdK9vBgkD1ZekH2pBLt3BOjOUXUJvHOp
-	orsDE6eoA==;
+	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
+	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	 bh=b+Yupo7DBYQBRNnzgIcOG1F4cONZkaJBTcAn/xhN/jw=; b=nWlXy/1uHnjjbOUA2s9fDCgYa
+	QV7gvoimSgk+mWxRH3usPRnvhbZRIl0lBmvkuKqHbiyFjAhfaXSbtTRbf81jvf5jH/9McUjtPeXLp
+	AQIhLuCbeaKvpjzIdOFRMBN47YXKzU8gj3UeyIZLfNDhr0bhWhHifIE9yG8VACqsBWzAgxOTm0io7
+	PrnMqx27NOpMXabdlUDUSFrySLYrMUcK/4haDAVc2rnoLwClfObmegXZ+njUWHCVkzj5JUGU3at21
+	ebspObP9a0FJh/IBlczQIEbtVLCiIPit3c+jocENkgO3VPO3BeA39GVLKybuzyHI6gH30ddZ6mhWQ
+	mmUeqtXCQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jtJUd-0006O0-OC; Wed, 08 Jul 2020 23:28:47 +0000
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
+	id 1jtbVu-0003D5-27; Thu, 09 Jul 2020 18:43:18 +0000
+Received: from mga05.intel.com ([192.55.52.43])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jtJUa-0006ND-U6
- for linux-nvme@lists.infradead.org; Wed, 08 Jul 2020 23:28:46 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1594250924; x=1625786924;
- h=from:to:cc:subject:date:message-id:references:
- content-transfer-encoding:mime-version;
- bh=SfCVzJqwPT2xd2FeMJ8PQEqQxZ2S5yqaUGcCp2Rf8Tk=;
- b=gIG9WMbB4hbl9bVKDE3YZ6RIfRtGPXOR/i9zc6nUQxOx6jAA30wynZy1
- QVMBi8II/hPbJm2SUzvVEFIn6uzke9RfgQ/s+fddjX3Wc3guDbcy/qIvT
- W0+rJfFl+9k/AsscGoDPd/gSoNsHZnklqr5SXxJc6rMNyA3H6hRbNwjxW
- yDJ/9uicva+G83IkZNM/bVp7aNnY5El1bUzIakFQFKoKrQQYIOZbg2M3W
- 4EFB+qAvUWF5yPPm3YAnghZL8r/dWPsV84V6bexoIHtRUAtkGzMUssuRF
- RVLj28WBA3L4zChbEX9IsDvYt96NI0Vrw/7sQ2kVgpzM6CP2heBYl1hrK A==;
-IronPort-SDR: mV8oFlqpM1cFwZThcIGAGUlBkvg671CUxaVLpd7bKsVIrA3YMEDL1l+0aKwyjUb7nrzG1IOFP8
- BkdX4DKW130l6HyEyNkMDlsMV/NQ6WW0CqBVDmLbMeAB/R4YL3M+VafouUhuu9lcURQSxaoUoG
- UdYHZHmTYybXrIk2sNjdphfYcA4e24wW3K85/o5jLmB84Z1TjtT/xtGkiSLVJ7X3CGNdSb/pJE
- UeZV6DYZQR4EJQG7O5d2vKvFJGaSm86mlyN3ib8OP/kcIJFybVgh97An8D+HfayR9hjrCvhTc/
- B2Q=
-X-IronPort-AV: E=Sophos;i="5.75,329,1589212800"; d="scan'208";a="251209375"
-Received: from mail-co1nam11lp2175.outbound.protection.outlook.com (HELO
- NAM11-CO1-obe.outbound.protection.outlook.com) ([104.47.56.175])
- by ob1.hgst.iphmx.com with ESMTP; 09 Jul 2020 07:28:41 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nvJdqTWJ2RhS8Txum0XeMnr0r0qXOwGEMIlemc/7ePeW9B9aeNmKifgrzU17XWei1t8Zz9+I1c3nl3PA7E+v6oYttLT5e2PkXEz4vFO6nu0bqGxDMg6egnkxD8dAwO/4fjma1unq/ME32xZk8GzbXA6DxzLljseMTF/IcT9273Pv6IDhwAh/n20YkmjZsi6RqeEUEIJB6mAZKEKKzYmByq/dsjWM/Wm5FW9JedYj1d+g8Xua4cHgy95z4tYoYPl//hvLvTAFHpFWGTj9DzfEO6Ukp02qcLmR5k0HPpo/ZDv5UFkHkGCoDKmKeHukcpbFvTpAlHGiVBQs6uhFQ5hDmw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1Uy+GcQx3crZQ6jyP9Gk+OXGn5gPv+V4sLmnow6HZmg=;
- b=aXO25fdID8pTOvKkxyiSre0Q7+tawcv15SoWpDZKeCnjxwOLs7cqzS+W0ttG6MEO4mMiXLlCEp9znZDrUv2hpuLE+8P4GDnRekBbUfqNnGYmTODzeE3isMUfy1Jw8SJRj1EYjgr8KlzO8Ma1GpVl5CGNIka1h+gQLLimJIlaU59fp4VX8K7DtvCebS9q4K1ess/S6FhtnIm1OGuU1xYKs1mvixtMnHwATHKxVHkPyM0DT9Qe/JrDbZZ0za+2syOekGa6hPTMWHV1id1Fd+XLokBE6M+fK5SWe5sLrI9QEMdSZ8XrWo8AkQOfHHLkfLhB66NBIXHwTmQfq9gTphdT+g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1Uy+GcQx3crZQ6jyP9Gk+OXGn5gPv+V4sLmnow6HZmg=;
- b=Np9yT07lR2/kw/SUi2aH9+uWV0TNBH2NsU6QWUvDaAW9V4RntOo8Vh7y+Ss1diLaVLTu7TVTOypPw9psBpatrZBL3gJL3yX43C5tBqloRg9mv1mAGKHU0WnahZ+q+Pb7DFvdqccF5aM4WZnGiBV3UFSATlfMlfzcei0+y84/oYY=
-Received: from BYAPR04MB4965.namprd04.prod.outlook.com (2603:10b6:a03:4d::25)
- by BY5PR04MB6898.namprd04.prod.outlook.com (2603:10b6:a03:22a::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.21; Wed, 8 Jul
- 2020 23:28:41 +0000
-Received: from BYAPR04MB4965.namprd04.prod.outlook.com
- ([fe80::4d72:27c:c075:c5e6]) by BYAPR04MB4965.namprd04.prod.outlook.com
- ([fe80::4d72:27c:c075:c5e6%7]) with mapi id 15.20.3174.022; Wed, 8 Jul 2020
- 23:28:41 +0000
-From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH 3/4] nvme-pci: use max of PRP or SGL for iod size
-Thread-Topic: [PATCH 3/4] nvme-pci: use max of PRP or SGL for iod size
-Thread-Index: AQHWVMLxjjTSDZ5shE2HuSa4ge//2Q==
-Date: Wed, 8 Jul 2020 23:28:40 +0000
-Message-ID: <BYAPR04MB496538E23029D7B7B99DA46D86670@BYAPR04MB4965.namprd04.prod.outlook.com>
-References: <20200708005831.10013-1-chaitanya.kulkarni@wdc.com>
- <20200708005831.10013-4-chaitanya.kulkarni@wdc.com>
- <20200708222649.GB2288916@dhcp-10-100-145-180.wdl.wdc.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=wdc.com;
-x-originating-ip: [199.255.45.62]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 26e28869-6a4e-45b7-5a72-08d82396a62a
-x-ms-traffictypediagnostic: BY5PR04MB6898:
-x-microsoft-antispam-prvs: <BY5PR04MB68987CDD49A45DEA279EDB5586670@BY5PR04MB6898.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:3044;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: nV6guBsnglBYafFZd8QesmtbbCzxZH5mx5y4z+VxWhRlEgeKPfT0Wh6UcTXopNifIVcofgE6BKzV/RlWm3uVIYcodhIqQHxSjDwdV0+vvTwYlWtUdopzSHaoZh1wT6N/gr5G5ZViua8r8Soo7/aWq72+FVlSyPUe3H8UwLjaxwKXFzZcFwxj8LBhcQJsqp2fvDDJ7eBIjEgdrXAMXnnp1UdTOO/lOyR2GYfSXowXyWSIQ26L7q4ZdYaWFqftbNmtu054YLohxWfCCZM3651m0o6pbXTKWyeiJzNU8Xko7KEXRZ8vvrOFEuzT3AfwhmWQg0cmwWlFmOKHuEAKURhK8Q==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR04MB4965.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(376002)(366004)(136003)(396003)(346002)(39860400002)(478600001)(8676002)(66556008)(5660300002)(558084003)(186003)(26005)(9686003)(52536014)(2906002)(4326008)(33656002)(53546011)(6506007)(55016002)(71200400001)(86362001)(54906003)(7696005)(66446008)(64756008)(6916009)(66476007)(76116006)(66946007)(8936002)(316002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: UQQ4n9qwlKb79XcS5NB6yZxdn15fGaZbeh32GysJ4X6ZkcHLewiiHP5MA9kzhNHCpwUnVlkc7CrqcCxq0rPqO1EUJCaZqteFh3+evlQf8ImpmDcPMI6a+rTjw+qHDgsN1YiSanBfYQjCz5u6/iZfow5rOhQPepLE3WXBARZ3Z4c569GJld1NvK4KATYWBGAABctEniNvI4ExGZyBjGdVie20MLwo+/C36pmW3tQtE7KJ7TkaKMBXbQb8Zbu1q1a22DR2KgBfwG0VLWwfVTwdZgEG6mBWLQh0+RQ9+dK4hp6VuCUQ12y5dW5t4hIv6P9xrvvAPwOwSRzYjXEy8fSemnexO687eWbYmKydYaiW8HrkIy5Lz12f3KdQGdc2Xt3/ppGVisQvoy+9W+/uUiCyKJYUHvck8EDnzIDQWaELGq507Rxl+LIWD8XvrmqRgpNHECFGtyueRYJwXWrWPYiIduc7/tE80isoPxFpgHMGoEE=
-x-ms-exchange-transport-forked: True
+ id 1jtbVo-0003Cf-Ba
+ for linux-nvme@lists.infradead.org; Thu, 09 Jul 2020 18:43:13 +0000
+IronPort-SDR: EdVd9Waza+rtGKwSimjlJ66HHTv8IMKk9Rx0Y2t+F4jpVckDHf269JzDWNSKtVDnvEQdqGdCmp
+ P2dm6eUZIg1w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9677"; a="232946688"
+X-IronPort-AV: E=Sophos;i="5.75,332,1589266800"; d="scan'208";a="232946688"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jul 2020 11:43:08 -0700
+IronPort-SDR: aLVUxwbumtA0VDDj/erIBDT5YZPyZBbKLx0K3hbgaaBMz8ZtTcansNhxrgbQWPFtcrHRqcknJa
+ //SYQoCFvWqw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,332,1589266800"; d="scan'208";a="280391549"
+Received: from linux.intel.com ([10.54.29.200])
+ by orsmga003.jf.intel.com with ESMTP; 09 Jul 2020 11:43:07 -0700
+Received: from debox1-desk2.jf.intel.com (debox1-desk2.jf.intel.com
+ [10.54.75.16])
+ by linux.intel.com (Postfix) with ESMTP id 6703A580801;
+ Thu,  9 Jul 2020 11:43:07 -0700 (PDT)
+From: "David E. Box" <david.e.box@linux.intel.com>
+To: rjw@rjwysocki.net, lenb@kernel.org, kbusch@kernel.org, axboe@fb.com,
+ hch@lst.de, sagi@grimberg.me, dan.j.williams@intel.com,
+ shyjumon.n@intel.com
+Subject: [PATCH V5] drivers/nvme: Add support for ACPI StorageD3Enable property
+Date: Thu,  9 Jul 2020 11:43:33 -0700
+Message-Id: <20200709184333.6241-1-david.e.box@linux.intel.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200702225011.10932-1-david.e.box@linux.intel.com>
+References: <20200702225011.10932-1-david.e.box@linux.intel.com>
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR04MB4965.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 26e28869-6a4e-45b7-5a72-08d82396a62a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jul 2020 23:28:41.0306 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Cpnl6Y2d3D5l1WW/Hzhz6vylv4wCv24cttestcuwBTAinUHJYUdpFfW5QARYLTG6PYDWNf2NoHpZyOj59K6EUvSot2G3plNsPwY7QEVJxvM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR04MB6898
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200708_192845_669581_E7CDA33C 
-X-CRM114-Status: UNSURE (   8.59  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20200709_144312_531402_FDE8F84C 
+X-CRM114-Status: GOOD (  25.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,24 +82,187 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: "hch@lst.de" <hch@lst.de>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "sagi@grimberg.me" <sagi@grimberg.me>
+Cc: linux-acpi@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org, "David E. Box" <david.e.box@linux.intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/8/20 15:27, Keith Busch wrote:
->> -	else
->> -		alloc_size = sizeof(__le64 *) * nvme_npages(size, dev);
->> +	alloc_size *= (npages_sgl > npages ? npages_sgl : npages);
-> This would look better as:
-> 
-> 	alloc_size *= max(npages, npages_sgl);
-> 
+This patch implements a solution for a BIOS hack used on some currently
+shipping Intel systems to change driver power management policy for PCIe
+NVMe drives. Some newer Intel platforms, like some Comet Lake systems,
+require that PCIe devices use D3 when doing suspend-to-idle in order to
+allow the platform to realize maximum power savings. This is particularly
+needed to support ATX power supply shutdown on desktop systems. In order to
+ensure this happens for root ports with storage devices, Microsoft
+apparently created this ACPI _DSD property as a way to influence their
+driver policy. To my knowledge this property has not been discussed with
+the NVME specification body.
 
-Okay, I'll fix it.
+Though the solution is not ideal, it addresses a problem that also affects
+Linux since the NVMe driver's default policy of using NVMe APST during
+suspend-to-idle prevents the PCI root port from going to D3 and leads to
+higher power consumption for these platforms. The power consumption
+difference may be negligible on laptop systems, but many watts on desktop
+systems when the ATX power supply is blocked from powering down.
+
+The patch creates a new nvme_acpi_storage_d3 function to check for the
+StorageD3Enable property during probe and enables D3 as a quirk if set.  It
+also provides a 'noacpi' module parameter to allow skipping the quirk if
+needed.
+
+Tested on:
+PM961 NVMe SED Samsung 512GB
+INTEL SSDPEKKF512G8
+
+Link: https://docs.microsoft.com/en-us/windows-hardware/design/component-guidelines/power-management-for-storage-hardware-devices-intro
+Signed-off-by: David E. Box <david.e.box@linux.intel.com>
+---
+Changes from V4:
+ 	- Add support for North complex PCI root ports.
+	- Use acpi_bus_get_device instead of acpi_bus_get_acpi_device.
+	  Also fixes compiler error on V4 reported by lkp@intel.com.
+	- Place CONFIG_ACPI around function since acpi_bus_get_device
+	  is not stubbed out.
+
+Changes from V3:
+ 	- Use pcie_find_root_port() instead of pci_find_pcie_root_port(),
+ 	  changed in 5.8.
+ 	- Remove "Cc:" emails that ended up at top of V3 commit message.
+ 	- Fix changelog numbering.
+ 
+Changes from V2:
+	- Remove check for "not yet bound" ACPI companion device since
+	  this will not be a concern at driver probe time per Rafael.
+	- Move storage_d3 function out of PCI core and into NVMe driver
+	  since there's nothing the PCI core can do with this code as
+	  noted by Bjorn.
+ 
+Changes from V1:
+	- Export the pci_acpi_storage_d3 function for use by drivers as
+	  needed instead of modifying the pci header.
+	- Add missing put on acpi device handle.
+	- Add 'noacpi' module parameter to allow undoing this change.
+	- Add info message that this is a platform quirk.
+
+
+ drivers/acpi/property.c |  3 ++
+ drivers/nvme/host/pci.c | 64 +++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 67 insertions(+)
+
+diff --git a/drivers/acpi/property.c b/drivers/acpi/property.c
+index e601c4511a8b..c2e2ae774a19 100644
+--- a/drivers/acpi/property.c
++++ b/drivers/acpi/property.c
+@@ -45,6 +45,9 @@ static const guid_t prp_guids[] = {
+ 	/* Thunderbolt GUID for WAKE_SUPPORTED: 6c501103-c189-4296-ba72-9bf5a26ebe5d */
+ 	GUID_INIT(0x6c501103, 0xc189, 0x4296,
+ 		  0xba, 0x72, 0x9b, 0xf5, 0xa2, 0x6e, 0xbe, 0x5d),
++	/* Storage device needs D3 GUID: 5025030f-842f-4ab4-a561-99a5189762d0 */
++	GUID_INIT(0x5025030f, 0x842f, 0x4ab4,
++		  0xa5, 0x61, 0x99, 0xa5, 0x18, 0x97, 0x62, 0xd0),
+ };
+ 
+ /* ACPI _DSD data subnodes GUID: dbb8e3e6-5886-4ba6-8795-1319f52a966b */
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index b1d18f0633c7..7c0be363eb22 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -4,6 +4,7 @@
+  * Copyright (c) 2011-2014, Intel Corporation.
+  */
+ 
++#include <linux/acpi.h>
+ #include <linux/aer.h>
+ #include <linux/async.h>
+ #include <linux/blkdev.h>
+@@ -94,6 +95,10 @@ static unsigned int poll_queues;
+ module_param_cb(poll_queues, &io_queue_count_ops, &poll_queues, 0644);
+ MODULE_PARM_DESC(poll_queues, "Number of queues to use for polled IO.");
+ 
++static bool noacpi;
++module_param(noacpi, bool, 0444);
++MODULE_PARM_DESC(noacpi, "disable acpi bios quirks");
++
+ struct nvme_dev;
+ struct nvme_queue;
+ 
+@@ -2759,6 +2764,55 @@ static unsigned long check_vendor_combination_bug(struct pci_dev *pdev)
+ 	return 0;
+ }
+ 
++#ifdef CONFIG_ACPI
++static bool nvme_acpi_storage_d3(struct pci_dev *dev)
++{
++	const struct fwnode_handle *fwnode;
++	struct acpi_device *adev;
++	struct pci_dev *root;
++	acpi_handle handle;
++	acpi_status status;
++	u8 val;
++
++	/*
++	 * Look for _DSD property specifying that the storage device on
++	 * the port must use D3 to support deep platform power savings during
++	 * suspend-to-idle
++	 */
++	root = pcie_find_root_port(dev);
++	if (!root)
++		return false;
++
++	adev = ACPI_COMPANION(&root->dev);
++	if (!adev)
++		return false;
++
++	/*
++	 * The property is defined in the PXSX device for South complex ports
++	 * and in the PEGP device for North complex ports.
++	 */
++	status = acpi_get_handle(adev->handle, "PXSX", &handle);
++	if (ACPI_FAILURE(status)) {
++		status = acpi_get_handle(adev->handle, "PEGP", &handle);
++		if (ACPI_FAILURE(status))
++			return false;
++	}
++
++	if (acpi_bus_get_device(handle, &adev))
++		return false;
++
++	fwnode = acpi_fwnode_handle(adev);
++
++	return fwnode_property_read_u8(fwnode, "StorageD3Enable", &val) ?
++		false : val == 1;
++}
++#else
++static inline bool nvme_acpi_storage_d3(struct pci_dev *dev)
++{
++	return false;
++}
++#endif
++
+ static void nvme_async_probe(void *data, async_cookie_t cookie)
+ {
+ 	struct nvme_dev *dev = data;
+@@ -2808,6 +2862,16 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 
+ 	quirks |= check_vendor_combination_bug(pdev);
+ 
++	if (!noacpi && nvme_acpi_storage_d3(pdev)) {
++		/*
++		 * Some systems use a bios work around to ask for D3 on
++		 * platforms that support kernel managed suspend.
++		 */
++		dev_info(&pdev->dev,
++			 "platform quirk: setting simple suspend\n");
++		quirks |= NVME_QUIRK_SIMPLE_SUSPEND;
++	}
++
+ 	/*
+ 	 * Double check that our mempool alloc size will cover the biggest
+ 	 * command we support.
+-- 
+2.20.1
 
 
 _______________________________________________
