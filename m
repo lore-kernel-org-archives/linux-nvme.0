@@ -2,75 +2,88 @@ Return-Path: <SRS0=NJ67=AU=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-8.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7034C433DF
-	for <linux-nvme@archiver.kernel.org>; Thu,  9 Jul 2020 18:43:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C13EC433DF
+	for <linux-nvme@archiver.kernel.org>; Thu,  9 Jul 2020 20:34:47 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A887D20775
-	for <linux-nvme@archiver.kernel.org>; Thu,  9 Jul 2020 18:43:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id A520F206DF
+	for <linux-nvme@archiver.kernel.org>; Thu,  9 Jul 2020 20:34:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="nWlXy/1u"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A887D20775
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.intel.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Yw493SSh";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="LJJgAYho"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A520F206DF
+Authentication-Results: mail.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
-	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Type:
+	Content-Transfer-Encoding:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=b+Yupo7DBYQBRNnzgIcOG1F4cONZkaJBTcAn/xhN/jw=; b=nWlXy/1uHnjjbOUA2s9fDCgYa
-	QV7gvoimSgk+mWxRH3usPRnvhbZRIl0lBmvkuKqHbiyFjAhfaXSbtTRbf81jvf5jH/9McUjtPeXLp
-	AQIhLuCbeaKvpjzIdOFRMBN47YXKzU8gj3UeyIZLfNDhr0bhWhHifIE9yG8VACqsBWzAgxOTm0io7
-	PrnMqx27NOpMXabdlUDUSFrySLYrMUcK/4haDAVc2rnoLwClfObmegXZ+njUWHCVkzj5JUGU3at21
-	ebspObP9a0FJh/IBlczQIEbtVLCiIPit3c+jocENkgO3VPO3BeA39GVLKybuzyHI6gH30ddZ6mhWQ
-	mmUeqtXCQ==;
+	 bh=x0aHPR6Y+tRe+QO8haKRUJgBZrX4GyH3la0EAK8d6/I=; b=Yw493SShnpMAheZBGoONljES0
+	rQlRrrEHthlHbqqeVEBUvzVAB//4c4jIIeY8wLkhRgvrLWkbnq+14NymQi05IMzRxNFu8oIRX6uJp
+	qIHj4CNDafmePeSKdK5LyBTmTVpNZBZuGT8ffBd5f7AhdlM1Jg3cWwyOyn/ypyq0ohcyaz+ZPjAuW
+	G1jwUFq+4GFKfmZIwSMbT7B+M6OU/xzJqbzweYY2ZurktsjXAJqQ8bgQBvkbx2Vb3mm16q5g6gFkr
+	1P8VCHL9D6XyBXaXqLGV710NmLq8Fu2lCygdiZN/6PaTRbykYMI6/mnDBPmWnA/KwJMack2orte3T
+	dJthUqMUw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jtbVu-0003D5-27; Thu, 09 Jul 2020 18:43:18 +0000
-Received: from mga05.intel.com ([192.55.52.43])
+	id 1jtdFd-0006bc-AA; Thu, 09 Jul 2020 20:34:37 +0000
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jtbVo-0003Cf-Ba
- for linux-nvme@lists.infradead.org; Thu, 09 Jul 2020 18:43:13 +0000
-IronPort-SDR: EdVd9Waza+rtGKwSimjlJ66HHTv8IMKk9Rx0Y2t+F4jpVckDHf269JzDWNSKtVDnvEQdqGdCmp
- P2dm6eUZIg1w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9677"; a="232946688"
-X-IronPort-AV: E=Sophos;i="5.75,332,1589266800"; d="scan'208";a="232946688"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jul 2020 11:43:08 -0700
-IronPort-SDR: aLVUxwbumtA0VDDj/erIBDT5YZPyZBbKLx0K3hbgaaBMz8ZtTcansNhxrgbQWPFtcrHRqcknJa
- //SYQoCFvWqw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,332,1589266800"; d="scan'208";a="280391549"
-Received: from linux.intel.com ([10.54.29.200])
- by orsmga003.jf.intel.com with ESMTP; 09 Jul 2020 11:43:07 -0700
-Received: from debox1-desk2.jf.intel.com (debox1-desk2.jf.intel.com
- [10.54.75.16])
- by linux.intel.com (Postfix) with ESMTP id 6703A580801;
- Thu,  9 Jul 2020 11:43:07 -0700 (PDT)
-From: "David E. Box" <david.e.box@linux.intel.com>
-To: rjw@rjwysocki.net, lenb@kernel.org, kbusch@kernel.org, axboe@fb.com,
- hch@lst.de, sagi@grimberg.me, dan.j.williams@intel.com,
- shyjumon.n@intel.com
-Subject: [PATCH V5] drivers/nvme: Add support for ACPI StorageD3Enable property
-Date: Thu,  9 Jul 2020 11:43:33 -0700
-Message-Id: <20200709184333.6241-1-david.e.box@linux.intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200702225011.10932-1-david.e.box@linux.intel.com>
-References: <20200702225011.10932-1-david.e.box@linux.intel.com>
+ id 1jtdFX-0006b1-HJ
+ for linux-nvme@lists.infradead.org; Thu, 09 Jul 2020 20:34:33 +0000
+Received: by mail-wm1-x341.google.com with SMTP id f18so3260488wml.3
+ for <linux-nvme@lists.infradead.org>; Thu, 09 Jul 2020 13:34:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=e2LXCRGefu/zB2LeBTKqUAduXfhoUjkbKu2jbM0vNX0=;
+ b=LJJgAYhoelMrx9f9gjsFwsUwN6PbBns2436E9U7LxLYxLZ5SbODuhSo9yhwCVinDtb
+ 8mjlU9XRSwuOteNTqkwUrEpzCp2TxXalxK3eR18onRE2cQ38MjwyqjUgbaU2MX2W3QwH
+ 6qrwDksLwXSneecA+eHoN8gXPoSvlbm3e0DeA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=e2LXCRGefu/zB2LeBTKqUAduXfhoUjkbKu2jbM0vNX0=;
+ b=W39kblF8l8mnn47Yl6fi2bSQ7lSZ2mFeZR0mT2QPcF1noWgiHVkwGoYZkLohc/UhDf
+ 15VUTda4/5uF3bI8D3thT4w8SHhKmwvfBP9l+MzWlFJXHadvf70id2R9WOIHrMexLSfQ
+ uPT0LqRrjOg9Bh0A2WW1/M7C919ojz/CFy0KN2yN36d4Vnn8+eLBfKgZ8QE4dLt/fWkX
+ TnjUNm3Ng8xltD4cE/SNLhwQxnfiY79C/kbLSZ2HQimmMNbDSBhMzros0NKwzh1j7bi6
+ nZNYexCLIVl8Ca46fi5FvsF6Hoqlv2LYF8QLvRUgYqyJjWjtNzWqm4f6fKh34W/lINvz
+ fgAw==
+X-Gm-Message-State: AOAM533i73iNvWLWa/KEj+kl9Nh5uLqtZdGuI3eegY8kUFr4qot/4nD9
+ sjMQ430OffsVNCDHjGN12B0zIA==
+X-Google-Smtp-Source: ABdhPJwP+92Hk5j3P941jo7GueFupRCbdhsJzxS5Wa5GKQKlhxqS+hmLi1NyjgMDvOYrmZQFZri73w==
+X-Received: by 2002:a1c:48e:: with SMTP id 136mr1603367wme.164.1594326867913; 
+ Thu, 09 Jul 2020 13:34:27 -0700 (PDT)
+Received: from [10.230.185.151] ([192.19.223.252])
+ by smtp.gmail.com with ESMTPSA id u84sm6280732wmg.7.2020.07.09.13.34.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Jul 2020 13:34:26 -0700 (PDT)
+Subject: Re: [PATCH v7] nvme-fabrics: reject I/O to offline device
+To: Victor Gladkov <Victor.Gladkov@kioxia.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+References: <168ed5d66eae49ac8b445478b1bb362d@kioxia.com>
+From: James Smart <james.smart@broadcom.com>
+Message-ID: <ca82af03-0cf7-bb71-cf55-caf88c278dfa@broadcom.com>
+Date: Thu, 9 Jul 2020 13:34:23 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <168ed5d66eae49ac8b445478b1bb362d@kioxia.com>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200709_144312_531402_FDE8F84C 
-X-CRM114-Status: GOOD (  25.13  )
+X-CRM114-CacheID: sfid-20200709_163431_845017_314ED3E4 
+X-CRM114-Status: GOOD (  26.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,190 +95,74 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: linux-acpi@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org, "David E. Box" <david.e.box@linux.intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Sagi Grimberg <sagi@grimberg.me>, "Ewan D. Milne" <emilne@redhat.com>,
+ Hannes Reinecke <hare@suse.de>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This patch implements a solution for a BIOS hack used on some currently
-shipping Intel systems to change driver power management policy for PCIe
-NVMe drives. Some newer Intel platforms, like some Comet Lake systems,
-require that PCIe devices use D3 when doing suspend-to-idle in order to
-allow the platform to realize maximum power savings. This is particularly
-needed to support ATX power supply shutdown on desktop systems. In order to
-ensure this happens for root ports with storage devices, Microsoft
-apparently created this ACPI _DSD property as a way to influence their
-driver policy. To my knowledge this property has not been discussed with
-the NVME specification body.
-
-Though the solution is not ideal, it addresses a problem that also affects
-Linux since the NVMe driver's default policy of using NVMe APST during
-suspend-to-idle prevents the PCI root port from going to D3 and leads to
-higher power consumption for these platforms. The power consumption
-difference may be negligible on laptop systems, but many watts on desktop
-systems when the ATX power supply is blocked from powering down.
-
-The patch creates a new nvme_acpi_storage_d3 function to check for the
-StorageD3Enable property during probe and enables D3 as a quirk if set.  It
-also provides a 'noacpi' module parameter to allow skipping the quirk if
-needed.
-
-Tested on:
-PM961 NVMe SED Samsung 512GB
-INTEL SSDPEKKF512G8
-
-Link: https://docs.microsoft.com/en-us/windows-hardware/design/component-guidelines/power-management-for-storage-hardware-devices-intro
-Signed-off-by: David E. Box <david.e.box@linux.intel.com>
----
-Changes from V4:
- 	- Add support for North complex PCI root ports.
-	- Use acpi_bus_get_device instead of acpi_bus_get_acpi_device.
-	  Also fixes compiler error on V4 reported by lkp@intel.com.
-	- Place CONFIG_ACPI around function since acpi_bus_get_device
-	  is not stubbed out.
-
-Changes from V3:
- 	- Use pcie_find_root_port() instead of pci_find_pcie_root_port(),
- 	  changed in 5.8.
- 	- Remove "Cc:" emails that ended up at top of V3 commit message.
- 	- Fix changelog numbering.
- 
-Changes from V2:
-	- Remove check for "not yet bound" ACPI companion device since
-	  this will not be a concern at driver probe time per Rafael.
-	- Move storage_d3 function out of PCI core and into NVMe driver
-	  since there's nothing the PCI core can do with this code as
-	  noted by Bjorn.
- 
-Changes from V1:
-	- Export the pci_acpi_storage_d3 function for use by drivers as
-	  needed instead of modifying the pci header.
-	- Add missing put on acpi device handle.
-	- Add 'noacpi' module parameter to allow undoing this change.
-	- Add info message that this is a platform quirk.
-
-
- drivers/acpi/property.c |  3 ++
- drivers/nvme/host/pci.c | 64 +++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 67 insertions(+)
-
-diff --git a/drivers/acpi/property.c b/drivers/acpi/property.c
-index e601c4511a8b..c2e2ae774a19 100644
---- a/drivers/acpi/property.c
-+++ b/drivers/acpi/property.c
-@@ -45,6 +45,9 @@ static const guid_t prp_guids[] = {
- 	/* Thunderbolt GUID for WAKE_SUPPORTED: 6c501103-c189-4296-ba72-9bf5a26ebe5d */
- 	GUID_INIT(0x6c501103, 0xc189, 0x4296,
- 		  0xba, 0x72, 0x9b, 0xf5, 0xa2, 0x6e, 0xbe, 0x5d),
-+	/* Storage device needs D3 GUID: 5025030f-842f-4ab4-a561-99a5189762d0 */
-+	GUID_INIT(0x5025030f, 0x842f, 0x4ab4,
-+		  0xa5, 0x61, 0x99, 0xa5, 0x18, 0x97, 0x62, 0xd0),
- };
- 
- /* ACPI _DSD data subnodes GUID: dbb8e3e6-5886-4ba6-8795-1319f52a966b */
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index b1d18f0633c7..7c0be363eb22 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -4,6 +4,7 @@
-  * Copyright (c) 2011-2014, Intel Corporation.
-  */
- 
-+#include <linux/acpi.h>
- #include <linux/aer.h>
- #include <linux/async.h>
- #include <linux/blkdev.h>
-@@ -94,6 +95,10 @@ static unsigned int poll_queues;
- module_param_cb(poll_queues, &io_queue_count_ops, &poll_queues, 0644);
- MODULE_PARM_DESC(poll_queues, "Number of queues to use for polled IO.");
- 
-+static bool noacpi;
-+module_param(noacpi, bool, 0444);
-+MODULE_PARM_DESC(noacpi, "disable acpi bios quirks");
-+
- struct nvme_dev;
- struct nvme_queue;
- 
-@@ -2759,6 +2764,55 @@ static unsigned long check_vendor_combination_bug(struct pci_dev *pdev)
- 	return 0;
- }
- 
-+#ifdef CONFIG_ACPI
-+static bool nvme_acpi_storage_d3(struct pci_dev *dev)
-+{
-+	const struct fwnode_handle *fwnode;
-+	struct acpi_device *adev;
-+	struct pci_dev *root;
-+	acpi_handle handle;
-+	acpi_status status;
-+	u8 val;
-+
-+	/*
-+	 * Look for _DSD property specifying that the storage device on
-+	 * the port must use D3 to support deep platform power savings during
-+	 * suspend-to-idle
-+	 */
-+	root = pcie_find_root_port(dev);
-+	if (!root)
-+		return false;
-+
-+	adev = ACPI_COMPANION(&root->dev);
-+	if (!adev)
-+		return false;
-+
-+	/*
-+	 * The property is defined in the PXSX device for South complex ports
-+	 * and in the PEGP device for North complex ports.
-+	 */
-+	status = acpi_get_handle(adev->handle, "PXSX", &handle);
-+	if (ACPI_FAILURE(status)) {
-+		status = acpi_get_handle(adev->handle, "PEGP", &handle);
-+		if (ACPI_FAILURE(status))
-+			return false;
-+	}
-+
-+	if (acpi_bus_get_device(handle, &adev))
-+		return false;
-+
-+	fwnode = acpi_fwnode_handle(adev);
-+
-+	return fwnode_property_read_u8(fwnode, "StorageD3Enable", &val) ?
-+		false : val == 1;
-+}
-+#else
-+static inline bool nvme_acpi_storage_d3(struct pci_dev *dev)
-+{
-+	return false;
-+}
-+#endif
-+
- static void nvme_async_probe(void *data, async_cookie_t cookie)
- {
- 	struct nvme_dev *dev = data;
-@@ -2808,6 +2862,16 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 
- 	quirks |= check_vendor_combination_bug(pdev);
- 
-+	if (!noacpi && nvme_acpi_storage_d3(pdev)) {
-+		/*
-+		 * Some systems use a bios work around to ask for D3 on
-+		 * platforms that support kernel managed suspend.
-+		 */
-+		dev_info(&pdev->dev,
-+			 "platform quirk: setting simple suspend\n");
-+		quirks |= NVME_QUIRK_SIMPLE_SUSPEND;
-+	}
-+
- 	/*
- 	 * Double check that our mempool alloc size will cover the biggest
- 	 * command we support.
--- 
-2.20.1
-
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme@lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+CgpPbiA3LzgvMjAyMCA4OjA3IEFNLCBWaWN0b3IgR2xhZGtvdiB3cm90ZToKPiBDb21tYW5kcyBn
+ZXQgc3R1Y2sgd2hpbGUgSG9zdCBOVk1lIGNvbnRyb2xsZXIgKFRDUCBvciBSRE1BKSBpcyBpbgo+
+IHJlY29ubmVjdCBzdGF0ZS4gTlZNZSBjb250cm9sbGVyIGVudGVycyBpbnRvIHJlY29ubmVjdCBz
+dGF0ZSB3aGVuIGl0Cj4gbG9zZXMgY29ubmVjdGlvbiB3aXRoIHRoZSB0YXJnZXQuIEl0IHRyaWVz
+IHRvIHJlY29ubmVjdCBldmVyeSAxMAo+IHNlY29uZHMgKGRlZmF1bHQpIHVudGlsIHN1Y2Nlc3Nm
+dWwgcmVjb25uZWN0aW9uIG9yIHVudGlsIHJlY29ubmVjdAo+IHRpbWUtb3V0IGlzIHJlYWNoZWQu
+IFRoZSBkZWZhdWx0IHJlY29ubmVjdCB0aW1lIG91dCBpcyAxMCBtaW51dGVzLgo+Cj4gVG8gZml4
+IHRoaXMgbG9uZyBkZWxheSBkdWUgdG8gdGhlIGRlZmF1bHQgdGltZW91dCB3ZSBpbnRyb2R1Y2Ug
+bmV3Cj4gc2Vzc2lvbiBwYXJhbWV0ZXIgImZhc3RfaW9fZmFpbF90bW8iLiBUaGUgdGltZW91dCBp
+cyBtZWFzdXJlZCBpbgo+IHNlY29uZHMgZnJvbSB0aGUgY29udHJvbGxlciByZWNvbm5lY3QsIGFu
+eSBjb21tYW5kIGJleW9uZCB0aGF0Cj4gdGltZW91dCBpcyByZWplY3RlZC4gVGhlIG5ldyBwYXJh
+bWV0ZXIgdmFsdWUgbWF5IGJlIHBhc3NlZCBkdXJpbmcKPiAnY29ubmVjdCcuCj4gVGhlIGRlZmF1
+bHQgdmFsdWUgb2YgMCBtZWFucyBubyB0aW1lb3V0IChzaW1pbGFyIHRvIGN1cnJlbnQgYmVoYXZp
+b3IpLgo+Cj4gV2UgYWRkIGEgbmV3IGNvbnRyb2xsZXIgTlZNRV9DVFJMX0ZBSUxGQVNUX0VYUElS
+RUQgYW5kIHJlc3BlY3RpdmUKPiBkZWxheWVkIHdvcmsgdGhhdCB1cGRhdGVzIHRoZSBOVk1FX0NU
+UkxfRkFJTEZBU1RfRVhQSVJFRCBmbGFnLgo+Cj4gV2hlbiB0aGUgY29udHJvbGxlciBpcyBlbnRl
+cmluZyB0aGUgQ09OTkVDVElORyBzdGF0ZSwgd2Ugc2NoZWR1bGUKPiB0aGUgZGVsYXllZF93b3Jr
+IGJhc2VkIG9uIGZhaWxmYXN0IHRpbWVvdXQgdmFsdWUuIElmIHRoZSB0cmFuc2l0aW9uCj4gaXMg
+b3V0IG9mIENPTk5FQ1RJTkcsIHRlcm1pbmF0ZSBkZWxheWVkIHdvcmsgaXRlbSBhbmQgZW5zdXJl
+Cj4gZmFpbGZhc3RfZXhwaXJlZCBpcyBmYWxzZS4gSWYgZGVsYXllZCB3b3JrIGl0ZW0gZXhwaXJl
+cyB0aGVuIHNldAo+ICJOVk1FX0NUUkxfRkFJTEZBU1RfRVhQSVJFRCIgZmxhZyB0byB0cnVlLgo+
+Cj4gV2UgYWxzbyB1cGRhdGUgbnZtZl9mYWlsX25vbnJlYWR5X2NvbW1hbmQoKSBhbmQKPiBudm1l
+X2F2YWlsYWJsZV9wYXRoKCkgZnVuY3Rpb25zIHdpdGggY2hlY2sgdGhlCj4gIk5WTUVfQ1RSTF9G
+QUlMRkFTVF9FWFBJUkVEIiBjb250cm9sbGVyIGZsYWcuCj4KPiBTaWduZWQtb2ZmLWJ5OiBWaWN0
+b3IgR2xhZGtvdiA8dmljdG9yLmdsYWRrb3YgYXQga2lveGlhLmNvbT4KPiBTaWduZWQtb2ZmLWJ5
+OiBDaGFpdGFueWEgS3Vsa2FybmkgPGNoYWl0YW55YS5rdWxrYXJuaSBhdCB3ZGMuY29tPgo+IFJl
+dmlld2VkLWJ5OiBIYW5uZXMgUmVpbmVja2UgPGhhcmVAc3VzZS5kZT4KPgo+IC4uLgo+IC0tLQo+
+ICAgZHJpdmVycy9udm1lL2hvc3QvY29yZS5jICAgICAgfCA0OSArKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrKysrKystCj4gICBkcml2ZXJzL252bWUvaG9zdC9mYWJyaWNzLmMg
+ICB8IDI1ICsrKysrKysrKysrKysrKysrKystLS0KPiAgIGRyaXZlcnMvbnZtZS9ob3N0L2ZhYnJp
+Y3MuaCAgIHwgIDUgKysrKysKPiAgIGRyaXZlcnMvbnZtZS9ob3N0L211bHRpcGF0aC5jIHwgIDUg
+KysrKy0KPiAgIGRyaXZlcnMvbnZtZS9ob3N0L252bWUuaCAgICAgIHwgIDMgKysrCj4gICA1IGZp
+bGVzIGNoYW5nZWQsIDgyIGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pCj4KPiBkaWZmIC0t
+Z2l0IGEvZHJpdmVycy9udm1lL2hvc3QvY29yZS5jIGIvZHJpdmVycy9udm1lL2hvc3QvY29yZS5j
+Cj4gaW5kZXggZjNjMDM3Zi4uY2E5OTBiYiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL252bWUvaG9z
+dC9jb3JlLmMKPiArKysgYi9kcml2ZXJzL252bWUvaG9zdC9jb3JlLmMKPiBAQCAtMTM3LDYgKzEz
+NywzNyBAQCBpbnQgbnZtZV90cnlfc2NoZWRfcmVzZXQoc3RydWN0IG52bWVfY3RybCAqY3RybCkK
+PiAgIH0KPiAgIEVYUE9SVF9TWU1CT0xfR1BMKG52bWVfdHJ5X3NjaGVkX3Jlc2V0KTsKPgo+ICtz
+dGF0aWMgdm9pZCBudm1lX2ZhaWxmYXN0X3dvcmsoc3RydWN0IHdvcmtfc3RydWN0ICp3b3JrKQo+
+ICt7Cj4gKwlzdHJ1Y3QgbnZtZV9jdHJsICpjdHJsID0gY29udGFpbmVyX29mKHRvX2RlbGF5ZWRf
+d29yayh3b3JrKSwKPiArCQkJc3RydWN0IG52bWVfY3RybCwgZmFpbGZhc3Rfd29yayk7Cj4gKwo+
+ICsJaWYgKGN0cmwtPnN0YXRlICE9IE5WTUVfQ1RSTF9DT05ORUNUSU5HKQo+ICsJCXJldHVybjsK
+PiArCj4gKwlzZXRfYml0KE5WTUVfQ1RSTF9GQUlMRkFTVF9FWFBJUkVELCAmY3RybC0+ZmxhZ3Mp
+Owo+ICsJZGV2X2luZm8oY3RybC0+ZGV2aWNlLCAiZmFpbGZhc3QgZXhwaXJlZFxuIik7Cj4gKwlu
+dm1lX2tpY2tfcmVxdWV1ZV9saXN0cyhjdHJsKTsKPiArfQo+ICsKPiArc3RhdGljIGlubGluZSB2
+b2lkIG52bWVfc3RhcnRfZmFpbGZhc3Rfd29yayhzdHJ1Y3QgbnZtZV9jdHJsICpjdHJsKQo+ICt7
+Cj4gKwlpZiAoIWN0cmwtPm9wdHMgfHwgY3RybC0+b3B0cy0+ZmFzdF9pb19mYWlsX3RtbyA9PSAt
+MSkKPiArCQlyZXR1cm47Cj4gKwo+ICsJc2NoZWR1bGVfZGVsYXllZF93b3JrKCZjdHJsLT5mYWls
+ZmFzdF93b3JrLAo+ICsJCQkgICAgICBjdHJsLT5vcHRzLT5mYXN0X2lvX2ZhaWxfdG1vICogSFop
+Owo+ICt9Cj4gKwo+ICtzdGF0aWMgaW5saW5lIHZvaWQgbnZtZV9zdG9wX2ZhaWxmYXN0X3dvcmso
+c3RydWN0IG52bWVfY3RybCAqY3RybCkKPiArewo+ICsJaWYgKCFjdHJsLT5vcHRzKQo+ICsJCXJl
+dHVybjsKPiArCj4gKwljYW5jZWxfZGVsYXllZF93b3JrX3N5bmMoJmN0cmwtPmZhaWxmYXN0X3dv
+cmspOwo+ICsJY2xlYXJfYml0KE5WTUVfQ1RSTF9GQUlMRkFTVF9FWFBJUkVELCAmY3RybC0+Zmxh
+Z3MpOwo+ICt9Cj4gKwo+ICAgaW50IG52bWVfcmVzZXRfY3RybChzdHJ1Y3QgbnZtZV9jdHJsICpj
+dHJsKQo+ICAgewo+CgpMb29rcyBnb29kIHRvIG1lLsKgIE9ubHkgbml0IEkgc2VlIGlzIC0gd2h5
+IGFyZSB3ZSBjaGVja2luZyBjdHJsLT5vcHRzIGluIAp0aGUgeHh4X2ZhaWxmYXN0X3dvcmsoKSBy
+b3V0aW5lcyA/wqAgSWYgdGhhdCdzIGFjdHVhbGx5IG51bGwgdGhhdCdzIHZlcnkgCmJhZCBuZXdz
+LiBJdCBzaG91bGQgb25seSBiZSBudWxsIG9mIHRoZSBjb250cm9sbGVyIGlzIGluIHRoZSBwcm9j
+ZXNzIG9mIApiZWluZyBkZWxldGVkLCB3aGljaCBzaG91bGQgaGF2ZSB0ZXJtaW5hdGVkIGFsbCB0
+aGVzZSByb3V0aW5lIHNlcXVlbmNlcyAKYmVmb3JlIHRoZW4uCgpPdGhlcndpc2UuLi4KUmV2aWV3
+ZWQtYnk6IEphbWVzIFNtYXJ0IDxqYW1lcy5zbWFydEBicm9hZGNvbS5jb20+CgotLSBqYW1lcwoK
+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LW52
+bWUgbWFpbGluZyBsaXN0CkxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZwpodHRwOi8vbGlz
+dHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW52bWUK
