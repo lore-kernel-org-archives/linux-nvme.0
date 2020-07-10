@@ -2,91 +2,67 @@ Return-Path: <SRS0=f2/u=AV=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D8FFC433E1
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 Jul 2020 14:02:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B39CC433DF
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 Jul 2020 14:57:56 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5B7802082E
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 Jul 2020 14:02:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id EC2EB20767
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 Jul 2020 14:57:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="ADoHShW9";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel-dk.20150623.gappssmtp.com header.i=@kernel-dk.20150623.gappssmtp.com header.b="qHhvmYUq"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5B7802082E
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="EZI0jJBH";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="vC/fgaoT"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EC2EB20767
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
-	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=hi8ZBjC3vp2JarJqIAuSVmmy3t9OsyevCXeN3dJe4Ow=; b=ADoHShW9PXbS24ULqEHC/FL3E
-	u4KDTqAfWV+HzceLk+ZZd9ArLHQZnmiYdBr1EPyWhKitU7M9rBLXhOtE6fhuS/+JCVbBoxNHpewyh
-	GD5yGs1YAg8r4mg/Ukhy1lYKkCi9dKPh4G7b/oHFXFRuwRo374ftBxHC7RCEIJPo6nFSsRTSDR1wS
-	w5PBYV7Seo1DUJFknspp3ZjYPvLXmzegqZmzuw9XJk+L9z78FZHcpiiRyeKao4cbTHGJ3AbwnIVWf
-	+Uz2WhsQ8j6MaqoeJC9AbIYJrLqqAwJIKoE38kOPBHTHkEzU4XtOHyPZtysLLPbT5tJt4M9n7xVzm
-	5CrDX6t+A==;
+	 bh=tGXLiSW76S/2geUDQRdECVbT58rxXt1q7hhLCJ3Mgq8=; b=EZI0jJBHePm6xO63uXU1LizAM
+	S+6BxM/NDqFmounIWAZ2ysR7cFEpsiR9qJCVPLvc/UYYrpNARTiGRMJoZFVKCUlQTvxUi8u8xRfo6
+	nMjGBvDtlG9P6PjdqlEPeBX9B7eJ+83V76HU1/MTLzjCW+IGcj0SDWf8KkjUQf9yMbk92FWwu88WX
+	dKyrCCKlTAFz1FxDJfjeN5QbK+1KhAxmndCQx8qwl/bUt1xoIJIvVhk44G7gkdk5xd9xFoPCzfm3W
+	pAPHjQX2qQ9SCy/Qn7nCj53BNwBmOyHe/i+D3a2FLkZ1PS2sfwrk9j0pl04rEh0Rz9kmOdot+b8KP
+	iouyycozQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jttbc-0004yc-Gr; Fri, 10 Jul 2020 14:02:24 +0000
-Received: from mail-il1-x12e.google.com ([2607:f8b0:4864:20::12e])
+	id 1jtuTG-0005ft-Ev; Fri, 10 Jul 2020 14:57:50 +0000
+Received: from mail.kernel.org ([198.145.29.99])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jttbW-0004uY-FZ
- for linux-nvme@lists.infradead.org; Fri, 10 Jul 2020 14:02:21 +0000
-Received: by mail-il1-x12e.google.com with SMTP id a6so5103925ilq.13
- for <linux-nvme@lists.infradead.org>; Fri, 10 Jul 2020 07:02:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=feSplbdpMN3GL73AIVEFNJv5/fgFSu0hAgIYhS6v32Q=;
- b=qHhvmYUqJQM477rO/uq9GuC/S6vQrrzy6XK8a73LAmgRPIL2w0x+N4M7SawSrMLj4l
- 5MdUuruSqxG3HAF4ayP13MkBqojz6gUgqbbK+fpcczM/Bii3qZdyVztQvqIZXQnFrTkP
- fTRHtxWgTtjMFP5seQU7T97BCMjYT75IOm52If4Hz34GCs88vnqrKo+/651sdVsgyP8l
- QGpKfakdfkEB/E7al4li1UReHxEDylfAT7ynW04GZvDhs5d/7ahZdIroybT4fNI1tW9Z
- fJQoR+9SyRqIfvTGX3TOWQQxnpG0V419sbU7NcUs2b8WC5KRaLCnQsYKcKqgYttFTwrR
- +lzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=feSplbdpMN3GL73AIVEFNJv5/fgFSu0hAgIYhS6v32Q=;
- b=V4er3O/plNf++RHdC39ap2tgxPRebNr23pSDaYYMxRgHP/mMwiReJAAj1Q/O4CKabb
- 2baN7kGo86yzYz+9Pajd+iFUn4dZAJYY8gMtiurXkOl55bvLSMSEnIvBkTgEEeJbMqhQ
- t0cbyOnyDJEOLXnl8NkgD9IQ880CfvfAS9/ihjqGLIsZ1rcMySJLQx+WQdGX6TWMOjWs
- pr0DSs6xc2ON1vpyIk0x9cpkr63+2ZFNLfxQrJOWJE+erIbNwv9fXBFdbjqIHPhstBMw
- mQupe6Y5yuLa+I6H4iNAR4EzdfT0wsWDjSxZ0Lpwqi7Z6MEtfRkDSACGtE5a9uvh2HEb
- L+zQ==
-X-Gm-Message-State: AOAM531j3ym0RrCHoD57wjagm7owDJRh6dljsssDEAVLhCrXdasXrGbQ
- mL70TLheJfiyi6bEPrI1R6t/NNFGL2ICQw==
-X-Google-Smtp-Source: ABdhPJyEG+rPLTvIhTU4mi92nYP+7MDu609t4g1jTerr2y82OCJ0b777KUBjLgTuN4pkX3yCOR0VIA==
-X-Received: by 2002:a92:bb55:: with SMTP id w82mr53553900ili.146.1594389736045; 
- Fri, 10 Jul 2020 07:02:16 -0700 (PDT)
-Received: from [192.168.1.58] ([65.144.74.34])
- by smtp.gmail.com with ESMTPSA id x1sm3430633ilh.29.2020.07.10.07.02.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Jul 2020 07:02:15 -0700 (PDT)
-Subject: Re: [GIT PULL] first round of nvme updates for 5.9
-To: Christoph Hellwig <hch@infradead.org>
-References: <20200710134826.GA537445@infradead.org>
-From: Jens Axboe <axboe@kernel.dk>
-Message-ID: <b7f32ad5-c3e0-61a6-18c1-b37ad81f90e5@kernel.dk>
-Date: Fri, 10 Jul 2020 08:02:14 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ id 1jtuTC-0005fN-7N
+ for linux-nvme@lists.infradead.org; Fri, 10 Jul 2020 14:57:47 +0000
+Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id BA6F620767;
+ Fri, 10 Jul 2020 14:57:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1594393065;
+ bh=FPetiydX/TWBllUX1wS/BF9HSjRKqjU1WjbYksIhO+U=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=vC/fgaoTqUPgMpp0DI7WgKW9Szvzd3xZyNikgppbP7ccP/82+UkN2xrZPTC7BLJV7
+ +pk1OuVxGppdhobWiZP3XFcxdzR7aRTwRbYTRGY2vbOvpwpmmBr98Yr3ktbRoXS2OF
+ HqmR/YdHeODGDXVvRdv20qR77Ansd0SVBFu6ecOo=
+Date: Fri, 10 Jul 2020 07:57:42 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Subject: Re: [PATCH V2 1/2] nvme-core: replace ctrl page size with a macro
+Message-ID: <20200710145742.GA2424089@dhcp-10-100-145-180.wdl.wdc.com>
+References: <20200709234025.10673-1-chaitanya.kulkarni@wdc.com>
+ <20200709234025.10673-2-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
-In-Reply-To: <20200710134826.GA537445@infradead.org>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20200709234025.10673-2-chaitanya.kulkarni@wdc.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200710_100218_592333_A2CA9756 
-X-CRM114-Status: GOOD (  12.22  )
+X-CRM114-CacheID: sfid-20200710_105746_370999_86A3B0AB 
+X-CRM114-Status: GOOD (  16.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,27 +74,68 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+Cc: hch@lst.de, linux-nvme@lists.infradead.org, sagi@grimberg.me
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/10/20 7:48 AM, Christoph Hellwig wrote:
-> Hi Jens,
+On Thu, Jul 09, 2020 at 04:40:24PM -0700, Chaitanya Kulkarni wrote:
+> When nvme_pci_iod_alloc_size() is called with false as last argument it
+> results in following oops since dev->ctrl.page_size used before we set
+> it in the nvme_enable_ctrl() in above path :-
 > 
-> below is the current large chunk we have in the nvme tree for 5.9:
+> Entering kdb (current=0xffff88881fc0c980, pid 339) on processor 0 Oops: (null)
+> due to oops @ 0xffffffffa05f1723
+> CPU: 0 PID: 339 Comm: kworker/0:2 Tainted: G        W  OE     5.8.0-rc1nvme-5.9+ #20
+> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.4Workqueue: events work_for_cpu_fn
+> RIP: 0010:nvme_probe+0x263/0x502 [nvme]
+> Code: 00 00 66 41 81 7c 24 3c 4d 14 0f 84 98 01 00 00 3d 0f 1e 01 00 0f 84 aa 01 00 00 8b 8b a0 0c 00 2
+> RSP: 0018:ffffc90000d9bdd8 EFLAGS: 00010246
+> RAX: 0000000000000fff RBX: ffff8887da128000 RCX: 0000000000000000
+> RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000246
+> RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+> R10: 0000000000000000 R11: ffff8887c29f5570 R12: ffff888813c37000
+> R13: 0000000000000202 R14: 0000000fffffffe0 R15: ffff888813c370b0
+> FS:  0000000000000000(0000) GS:ffff88880fe00000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 00007f23185131a0 CR3: 0000000811c54000 CR4: 00000000003406f0
+> Call Trace:
+>  local_pci_probe+0x42/0x80
+>  work_for_cpu_fn+0x16/0x20
+>  process_one_work+0x24e/0x5a0
+>  ? __schedule+0x353/0x840
+>  worker_thread+0x1d5/0x380
+>  ? process_one_work+0x5a0/0x5a0
+>  kthread+0x135/0x150
+>  ? kthread_create_on_node+0x60/0x60
+>  ret_from_fork+0x22/0x30
 > 
->  - ZNS support (Aravind, Keith, Matias, Niklas)
->  - misc cleanups and optimizations
->    (Baolin, Chaitanya, David, Dongli, Max, Sagi)
+> This patch removes the dev->ctrl.page_size variable and replaces with
+> the macro which avoids above oops
 
-Pulled, thanks.
+This makes it sound like we'd actually trigger this bug, but we
+currently don't do that. I think the changelog should be more about why
+we can remove of 'ctrl->page_size', something like:
 
--- 
-Jens Axboe
+  Saving the nvme controller's page size was from a time when the driver
+  tried to use different sized pages, but this value is always set to
+  a constant, and has been this way for some time. Remove the
+  'page_size' field and replace its usage with the constant value.
 
+This also lets the compiler make some micro-optimizations in the io
+path, and that's always a good thing.
+
+
+> @@ -1825,7 +1824,7 @@ static int nvme_set_host_mem(struct nvme_dev *dev, u32 bits)
+>  	c.features.fid		= cpu_to_le32(NVME_FEAT_HOST_MEM_BUF);
+>  	c.features.dword11	= cpu_to_le32(bits);
+>  	c.features.dword12	= cpu_to_le32(dev->host_mem_size >>
+> -					      ilog2(dev->ctrl.page_size));
+> +					      ilog2(NVME_CTRL_PAGE_SIZE));
+
+You could replace the ilog2() with NVME_CTRL_PAGE_SHIFT. Both compile to
+the same result, though.
 
 _______________________________________________
 Linux-nvme mailing list
