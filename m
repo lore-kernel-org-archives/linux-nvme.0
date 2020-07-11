@@ -5,19 +5,19 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1517CC433E4
-	for <linux-nvme@archiver.kernel.org>; Sat, 11 Jul 2020 20:35:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F2A6C433E0
+	for <linux-nvme@archiver.kernel.org>; Sat, 11 Jul 2020 20:35:24 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D5E4220720
-	for <linux-nvme@archiver.kernel.org>; Sat, 11 Jul 2020 20:35:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 166E620720
+	for <linux-nvme@archiver.kernel.org>; Sat, 11 Jul 2020 20:35:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="TzQBxCz9";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="CxlleSzj"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D5E4220720
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="TWBpg/eb";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="I5KLEddB"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 166E620720
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=wdc.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
@@ -26,66 +26,65 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
 	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=VuSMMb1Ibl3v0RwppNzLHZPAkr/dzPU65Nl35tzDxDE=; b=TzQBxCz9R9V9KdipZ/+gf7RCE
-	rFW/uQmyaJCc9nSiq+fAAf5AHXExp0/V+L3OQrbq7SS4iYbaR8DU3IauOkSi1XQoy3VmCWMJrn9eI
-	2PNeWRKbYS6Q4KGvIGGklr9EBe2u04ttZz/+YhWj0q7nV6FEtKRDqihk5Sd2vaP00sayDpoUWSugr
-	wHI2YtnMFNrqzNSl4hiO4v2QDthToBARw1zYBg3mLSvCbc17Ow4gaI6F4WpSrXeMbnvPPn6A7eQT8
-	hE7rPOBVL730ZUEK+l7KKk2IdGFeulqepdkSx56I3LixuZUNg1OqQvBvKHTGVFfhMAo1nfIFp0/rC
-	jWeRGYhsQ==;
+	 bh=GOPzlqFc94yiznbW+ujrjb/XwXD+yFqEOJ4e119jKys=; b=TWBpg/ebSWrHNNmeHxwvx0Tdr
+	3iubNKtlQo0CQDJCz5nUZ5C+2LILCP2gECmoBc67Jn0WPPNqPTq5bJuyum+LEAaUfTND95iTtanJs
+	w94bpnmrTdK9r9g38MdvXJw9qLdSySLMYLjnPtckFjlyu4TO40o5DBklgt72OT0ve5kD2+48NsdwN
+	gNdPz/dmRixw275aUap82nGmZqDuG5NNH3fl9NumBQ/Ss1Tcip3xXkOs0UefEWy7bOvpwY9oOqgDR
+	CDQ1EowXYXObId1VP8lDg7l8abEJ4FaiO+MDCjGT7Oi7wa4TCoyp/5sDaX4gGjZrVHuW5wPDspQzm
+	TMTlGOJHw==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1juMDQ-00080a-1L; Sat, 11 Jul 2020 20:35:20 +0000
+	id 1juMDO-00080N-O6; Sat, 11 Jul 2020 20:35:18 +0000
 Received: from esa6.hgst.iphmx.com ([216.71.154.45])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1juMDL-0007yq-Ag
- for linux-nvme@lists.infradead.org; Sat, 11 Jul 2020 20:35:16 +0000
+ id 1juMDJ-0007yw-Dr
+ for linux-nvme@lists.infradead.org; Sat, 11 Jul 2020 20:35:15 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1594499715; x=1626035715;
+ t=1594499714; x=1626035714;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=vugoLfM44c3n1nMUFImmIAherFC2ReUuXXO9jJjlt/M=;
- b=CxlleSzjCIoVJU2wvA1yKM6H1w8O0PtpUFZB1118R/kTB49+MreP1EaG
- loWR4AU3FEEAVF8ktpeZoyghPVn/v37XMUy5E2rT6CrzDI4gu093I42aQ
- msNLTYfvW5hcGLWtsU341YEF8Uh1UZPKUUIINv09179w8pHYtR1aXLBM1
- KrwsI2Q0Qnrnq9/H40nJWxf5XDQ6M2eD/z1MAWFdIgEQCoEVy38ydpEt6
- gWQyTNBx3od7LP5VtMbJ4asFXm0qZCpEk7e7lZyMdeiOyqKzKYFXUrMBL
- eGvMWguskeDsuNfjR1+IAE/R5QVu1lQjzOUzo0TQ2+lfEVI8VZOoRX9Cv Q==;
-IronPort-SDR: VMtYPh1jKFDWNIQXbTVe+7SsE5wT/0+a6AfIz//dGjO8p9O+o8bZemxeK3ngSdV51zWGcfXKvm
- gFb/+I+J2oGRl5DXPfF22q/fQc1bCCMVHjVaJsl0AnG8F55ndyKOlvhy930g25fP1EOv/7LAZC
- cj/1RxEs/ItPx60f2KVLCqVWbUFyLy3DepMJtEyr6zbQf++Co3q5VsipduNNCc/cso2WjoIu10
- Tk3aZ7OuywK4hP6BIqPgrw/qfsrrsZE6RKROdCYiYk2CG9E7ljwinS0cj24ZyIozJuzPeI3mDd
- l1w=
-X-IronPort-AV: E=Sophos;i="5.75,340,1589212800"; 
- d="scan'208,223";a="143528829"
+ bh=vF2VPMel5MBUZExTxnvRnqhJRiM6y/xdj84ApFqKEPY=;
+ b=I5KLEddB4THEjBmucmx0biu+u7LwPSkboi/PrmwQmf0reXaQIf+egaDK
+ 97rXcn/g/JOwgCDIuYsLHZADN0vyNqZ+bAhKM9xsNCYrpZtku2WrIlvjP
+ z+hUY/QzffXG6doiPTrEpZt3RL9dxYx5H1RsYhogt8kGdHt9bavoWveyU
+ cUSeRRjMDuL9mm84rVT7r8XpasNk0yOMS5H4NGsmAhegCwTTGb4joQFJ1
+ gBlHYyYwnSlgzja1DlD+9MfufyxXeOS6f/dwZWsYU/mOPt5853mYzQc84
+ M0m3ByiiCWmHGO9WYPKG78Y/zs34dNlcp15di2+uvZK2CffjGgztXPhEq w==;
+IronPort-SDR: VfY4og+c0C2+RGCpPxiFHxqDjgvWMX5PZehCxUAQ7fkZVof3DrzcjnzLJSUEVpg6QSvFwyugiF
+ 122Diw++J43JoqX4gk176H6HRAX7io5OB35F9DuRm9g6FI6K0kaQ4fmGQvkWC4ZyL2THPGiKR3
+ ObIEA3LAiIPHFdFB+9uemZuawP+N3S7B+0/MPRezMqvXpWwHDBWUBoMtWzW4APgcBYH7M/1BDA
+ dKZqS+vF6QLZpENpOSrQy4YTK1TP/7qlIfwg1E0wsFCYYioSeEltgbXiDaz6AJeDrTVbldMxii
+ pEU=
+X-IronPort-AV: E=Sophos;i="5.75,340,1589212800"; d="scan'208";a="143528828"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 12 Jul 2020 04:35:15 +0800
-IronPort-SDR: b4Kj3BSYeWT28B1wHV7nordSZSKCcTHeQLQkho8EpbcBNyqu1ZmjFNZAQwJ+pmSgZCLFjzl7lm
- fYijzVdkas3aAidT4d4+kq8lhQK1luccU=
+ by ob1.hgst.iphmx.com with ESMTP; 12 Jul 2020 04:35:10 +0800
+IronPort-SDR: ZVl5AOMw+yIenuku/DzzYUV/dyAgxey2Kr5O8AdtmH1T2P4MW9WrbnYFj1ty30pzZylMBycnIx
+ +dcDYvQQU/mKuQGtGw5Vn7B+Su27ykCtw=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jul 2020 13:23:14 -0700
-IronPort-SDR: 4fsk8lUAHG7eLD9X4YGkLHBVuCF+YB1XfbcuRmzGiE7DLtr8IUcjx5Tk6VaPKvAGCrGcP2knnW
- WdrJTlmecrpg==
+ 11 Jul 2020 13:23:09 -0700
+IronPort-SDR: AbDZXzkvTsyUxPZ1/EreT3hHOtqBU02MiqJJ40oJ5Xou/ZvOY7wnNRCJpMb9T3ULWg+WIMRD22
+ 0yHTqCpOmMKg==
 WDCIronportException: Internal
 Received: from iouring.labspan.wdc.com (HELO iouring.sc.wdc.com)
  ([10.6.138.107])
- by uls-op-cesaip02.wdc.com with ESMTP; 11 Jul 2020 13:35:15 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 11 Jul 2020 13:35:09 -0700
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: hch@ls.de,
 	kbusch@kernel.org,
 	sagi@grimberg.me
-Subject: [PATCH V3 2/2] nvme-pci: use max of PRP or SGL for iod size
-Date: Sat, 11 Jul 2020 13:34:54 -0700
-Message-Id: <20200711203454.9091-3-chaitanya.kulkarni@wdc.com>
+Subject: [PATCH V3 1/2] nvme-core: replace ctrl page size with a macro
+Date: Sat, 11 Jul 2020 13:34:53 -0700
+Message-Id: <20200711203454.9091-2-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200711203454.9091-1-chaitanya.kulkarni@wdc.com>
 References: <20200711203454.9091-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200711_163515_550430_F9135E11 
-X-CRM114-Status: GOOD (  13.52  )
+X-CRM114-CacheID: sfid-20200711_163513_736389_3C1C2E14 
+X-CRM114-Status: GOOD (  22.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,56 +103,273 @@ Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From the initial implementation of NVMe SGL kernel support
-commit a7a7cbe353a5 ("nvme-pci: add SGL support") with addition of the
-commit 943e942e6266 ("nvme-pci: limit max IO size and segments to avoid
-high order allocations") now there is only caller left for
-nvme_pci_iod_alloc_size() which statically passes true for last
-parameter that calculates allocation size based on SGL since we need
-size of biggest command supported for mempool allocation.
+Saving the nvme controller's page size was from a time when the driver
+tried to use different sized pages, but this value is always set to
+a constant, and has been this way for some time. Remove the 'page_size'
+field and replace its usage with the constant value.
 
-This patch modifies the helper functions nvme_pci_iod_alloc_size() such
-that it is now uses maximum of PRP and SGL size for iod allocation size
-calculation.
+This also lets the compiler make some micro-optimizations in the io
+path, and that's always a good thing.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 ---
- drivers/nvme/host/pci.c | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+ drivers/nvme/host/core.c | 19 +++++-----------
+ drivers/nvme/host/nvme.h |  9 +++++++-
+ drivers/nvme/host/pci.c  | 47 ++++++++++++++++++++--------------------
+ 3 files changed, 37 insertions(+), 38 deletions(-)
 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 3d00ea4e7146..b9b4aa7b53ce 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2345,12 +2345,7 @@ EXPORT_SYMBOL_GPL(nvme_disable_ctrl);
+ 
+ int nvme_enable_ctrl(struct nvme_ctrl *ctrl)
+ {
+-	/*
+-	 * Default to a 4K page size, with the intention to update this
+-	 * path in the future to accomodate architectures with differing
+-	 * kernel and IO page sizes.
+-	 */
+-	unsigned dev_page_min, page_shift = 12;
++	unsigned dev_page_min;
+ 	int ret;
+ 
+ 	ret = ctrl->ops->reg_read64(ctrl, NVME_REG_CAP, &ctrl->cap);
+@@ -2360,20 +2355,18 @@ int nvme_enable_ctrl(struct nvme_ctrl *ctrl)
+ 	}
+ 	dev_page_min = NVME_CAP_MPSMIN(ctrl->cap) + 12;
+ 
+-	if (page_shift < dev_page_min) {
++	if (NVME_CTRL_PAGE_SHIFT < dev_page_min) {
+ 		dev_err(ctrl->device,
+ 			"Minimum device page size %u too large for host (%u)\n",
+-			1 << dev_page_min, 1 << page_shift);
++			1 << dev_page_min, 1 << NVME_CTRL_PAGE_SHIFT);
+ 		return -ENODEV;
+ 	}
+ 
+-	ctrl->page_size = 1 << page_shift;
+-
+ 	if (NVME_CAP_CSS(ctrl->cap) & NVME_CAP_CSS_CSI)
+ 		ctrl->ctrl_config = NVME_CC_CSS_CSI;
+ 	else
+ 		ctrl->ctrl_config = NVME_CC_CSS_NVM;
+-	ctrl->ctrl_config |= (page_shift - 12) << NVME_CC_MPS_SHIFT;
++	ctrl->ctrl_config |= (NVME_CTRL_PAGE_SHIFT - 12) << NVME_CC_MPS_SHIFT;
+ 	ctrl->ctrl_config |= NVME_CC_AMS_RR | NVME_CC_SHN_NONE;
+ 	ctrl->ctrl_config |= NVME_CC_IOSQES | NVME_CC_IOCQES;
+ 	ctrl->ctrl_config |= NVME_CC_ENABLE;
+@@ -2423,13 +2416,13 @@ static void nvme_set_queue_limits(struct nvme_ctrl *ctrl,
+ 
+ 	if (ctrl->max_hw_sectors) {
+ 		u32 max_segments =
+-			(ctrl->max_hw_sectors / (ctrl->page_size >> 9)) + 1;
++			(ctrl->max_hw_sectors / (NVME_CTRL_PAGE_SIZE >> 9)) + 1;
+ 
+ 		max_segments = min_not_zero(max_segments, ctrl->max_segments);
+ 		blk_queue_max_hw_sectors(q, ctrl->max_hw_sectors);
+ 		blk_queue_max_segments(q, min_t(u32, max_segments, USHRT_MAX));
+ 	}
+-	blk_queue_virt_boundary(q, ctrl->page_size - 1);
++	blk_queue_virt_boundary(q, NVME_CTRL_PAGE_SIZE - 1);
+ 	blk_queue_dma_alignment(q, 7);
+ 	if (ctrl->vwc & NVME_CTRL_VWC_PRESENT)
+ 		vwc = true;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 13ca90bcd352..25dae702e0a2 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -37,6 +37,14 @@ extern unsigned int admin_timeout;
+ #define  NVME_INLINE_METADATA_SG_CNT  1
+ #endif
+ 
++/*
++ * Default to a 4K page size, with the intention to update this
++ * path in the future to accommodate architectures with differing
++ * kernel and IO page sizes.
++ */
++#define NVME_CTRL_PAGE_SHIFT	12
++#define NVME_CTRL_PAGE_SIZE	4096
++
+ extern struct workqueue_struct *nvme_wq;
+ extern struct workqueue_struct *nvme_reset_wq;
+ extern struct workqueue_struct *nvme_delete_wq;
+@@ -234,7 +242,6 @@ struct nvme_ctrl {
+ 	u32 queue_count;
+ 
+ 	u64 cap;
+-	u32 page_size;
+ 	u32 max_hw_sectors;
+ 	u32 max_segments;
+ 	u32 max_integrity_segments;
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index b092df266501..19e27dd17108 100644
+index 45e94f016ec2..b092df266501 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -363,14 +363,13 @@ static int nvme_pci_npages_sgl(unsigned int num_seg)
- }
- 
- static size_t nvme_pci_iod_alloc_size(struct nvme_dev *dev,
--		unsigned int size, unsigned int nseg, bool use_sgl)
-+		unsigned int size, unsigned int nseg)
+@@ -348,8 +348,8 @@ static bool nvme_dbbuf_update_and_check_event(u16 value, u32 *dbbuf_db,
+  */
+ static int nvme_npages(unsigned size, struct nvme_dev *dev)
  {
--	size_t alloc_size;
-+	size_t npages_sgl = nvme_pci_npages_sgl(nseg);
-+	size_t npages = nvme_npages(size, dev);
-+	size_t alloc_size = sizeof(__le64 *);
- 
--	if (use_sgl)
--		alloc_size = sizeof(__le64 *) * nvme_pci_npages_sgl(nseg);
--	else
--		alloc_size = sizeof(__le64 *) * nvme_npages(size, dev);
-+	alloc_size *= max_t(size_t, npages_sgl, npages);
- 
- 	return alloc_size + sizeof(struct scatterlist) * nseg;
+-	unsigned nprps = DIV_ROUND_UP(size + dev->ctrl.page_size,
+-				      dev->ctrl.page_size);
++	unsigned nprps = DIV_ROUND_UP(size + NVME_CTRL_PAGE_SIZE,
++						NVME_CTRL_PAGE_SIZE);
+ 	return DIV_ROUND_UP(8 * nprps, PAGE_SIZE - 8);
  }
-@@ -2812,7 +2811,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	 * command we support.
- 	 */
- 	alloc_size = nvme_pci_iod_alloc_size(dev, NVME_MAX_KB_SZ,
--						NVME_MAX_SEGS, true);
-+						NVME_MAX_SEGS);
- 	WARN_ON_ONCE(alloc_size > PAGE_SIZE);
  
- 	dev->iod_mempool = mempool_create_node(1, mempool_kmalloc,
+@@ -515,7 +515,7 @@ static inline bool nvme_pci_use_sgls(struct nvme_dev *dev, struct request *req)
+ static void nvme_unmap_data(struct nvme_dev *dev, struct request *req)
+ {
+ 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+-	const int last_prp = dev->ctrl.page_size / sizeof(__le64) - 1;
++	const int last_prp = NVME_CTRL_PAGE_SIZE / sizeof(__le64) - 1;
+ 	dma_addr_t dma_addr = iod->first_dma, next_dma_addr;
+ 	int i;
+ 
+@@ -582,34 +582,33 @@ static blk_status_t nvme_pci_setup_prps(struct nvme_dev *dev,
+ 	struct scatterlist *sg = iod->sg;
+ 	int dma_len = sg_dma_len(sg);
+ 	u64 dma_addr = sg_dma_address(sg);
+-	u32 page_size = dev->ctrl.page_size;
+-	int offset = dma_addr & (page_size - 1);
++	int offset = dma_addr & (NVME_CTRL_PAGE_SIZE - 1);
+ 	__le64 *prp_list;
+ 	void **list = nvme_pci_iod_list(req);
+ 	dma_addr_t prp_dma;
+ 	int nprps, i;
+ 
+-	length -= (page_size - offset);
++	length -= (NVME_CTRL_PAGE_SIZE - offset);
+ 	if (length <= 0) {
+ 		iod->first_dma = 0;
+ 		goto done;
+ 	}
+ 
+-	dma_len -= (page_size - offset);
++	dma_len -= (NVME_CTRL_PAGE_SIZE - offset);
+ 	if (dma_len) {
+-		dma_addr += (page_size - offset);
++		dma_addr += (NVME_CTRL_PAGE_SIZE - offset);
+ 	} else {
+ 		sg = sg_next(sg);
+ 		dma_addr = sg_dma_address(sg);
+ 		dma_len = sg_dma_len(sg);
+ 	}
+ 
+-	if (length <= page_size) {
++	if (length <= NVME_CTRL_PAGE_SIZE) {
+ 		iod->first_dma = dma_addr;
+ 		goto done;
+ 	}
+ 
+-	nprps = DIV_ROUND_UP(length, page_size);
++	nprps = DIV_ROUND_UP(length, NVME_CTRL_PAGE_SIZE);
+ 	if (nprps <= (256 / 8)) {
+ 		pool = dev->prp_small_pool;
+ 		iod->npages = 0;
+@@ -628,7 +627,7 @@ static blk_status_t nvme_pci_setup_prps(struct nvme_dev *dev,
+ 	iod->first_dma = prp_dma;
+ 	i = 0;
+ 	for (;;) {
+-		if (i == page_size >> 3) {
++		if (i == NVME_CTRL_PAGE_SIZE >> 3) {
+ 			__le64 *old_prp_list = prp_list;
+ 			prp_list = dma_pool_alloc(pool, GFP_ATOMIC, &prp_dma);
+ 			if (!prp_list)
+@@ -639,9 +638,9 @@ static blk_status_t nvme_pci_setup_prps(struct nvme_dev *dev,
+ 			i = 1;
+ 		}
+ 		prp_list[i++] = cpu_to_le64(dma_addr);
+-		dma_len -= page_size;
+-		dma_addr += page_size;
+-		length -= page_size;
++		dma_len -= NVME_CTRL_PAGE_SIZE;
++		dma_addr += NVME_CTRL_PAGE_SIZE;
++		length -= NVME_CTRL_PAGE_SIZE;
+ 		if (length <= 0)
+ 			break;
+ 		if (dma_len > 0)
+@@ -751,8 +750,8 @@ static blk_status_t nvme_setup_prp_simple(struct nvme_dev *dev,
+ 		struct bio_vec *bv)
+ {
+ 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+-	unsigned int offset = bv->bv_offset & (dev->ctrl.page_size - 1);
+-	unsigned int first_prp_len = dev->ctrl.page_size - offset;
++	unsigned int offset = bv->bv_offset & (NVME_CTRL_PAGE_SIZE - 1);
++	unsigned int first_prp_len = NVME_CTRL_PAGE_SIZE - offset;
+ 
+ 	iod->first_dma = dma_map_bvec(dev->dev, bv, rq_dma_dir(req), 0);
+ 	if (dma_mapping_error(dev->dev, iod->first_dma))
+@@ -794,7 +793,7 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
+ 		struct bio_vec bv = req_bvec(req);
+ 
+ 		if (!is_pci_p2pdma_page(bv.bv_page)) {
+-			if (bv.bv_offset + bv.bv_len <= dev->ctrl.page_size * 2)
++			if (bv.bv_offset + bv.bv_len <= NVME_CTRL_PAGE_SIZE * 2)
+ 				return nvme_setup_prp_simple(dev, req,
+ 							     &cmnd->rw, &bv);
+ 
+@@ -1396,12 +1395,12 @@ static int nvme_cmb_qdepth(struct nvme_dev *dev, int nr_io_queues,
+ {
+ 	int q_depth = dev->q_depth;
+ 	unsigned q_size_aligned = roundup(q_depth * entry_size,
+-					  dev->ctrl.page_size);
++					  NVME_CTRL_PAGE_SIZE);
+ 
+ 	if (q_size_aligned * nr_io_queues > dev->cmb_size) {
+ 		u64 mem_per_q = div_u64(dev->cmb_size, nr_io_queues);
+ 
+-		mem_per_q = round_down(mem_per_q, dev->ctrl.page_size);
++		mem_per_q = round_down(mem_per_q, NVME_CTRL_PAGE_SIZE);
+ 		q_depth = div_u64(mem_per_q, entry_size);
+ 
+ 		/*
+@@ -1816,6 +1815,7 @@ static inline void nvme_release_cmb(struct nvme_dev *dev)
+ 
+ static int nvme_set_host_mem(struct nvme_dev *dev, u32 bits)
+ {
++	u32 host_mem_size = dev->host_mem_size >> NVME_CTRL_PAGE_SHIFT;
+ 	u64 dma_addr = dev->host_mem_descs_dma;
+ 	struct nvme_command c;
+ 	int ret;
+@@ -1824,8 +1824,7 @@ static int nvme_set_host_mem(struct nvme_dev *dev, u32 bits)
+ 	c.features.opcode	= nvme_admin_set_features;
+ 	c.features.fid		= cpu_to_le32(NVME_FEAT_HOST_MEM_BUF);
+ 	c.features.dword11	= cpu_to_le32(bits);
+-	c.features.dword12	= cpu_to_le32(dev->host_mem_size >>
+-					      ilog2(dev->ctrl.page_size));
++	c.features.dword12	= cpu_to_le32(host_mem_size);
+ 	c.features.dword13	= cpu_to_le32(lower_32_bits(dma_addr));
+ 	c.features.dword14	= cpu_to_le32(upper_32_bits(dma_addr));
+ 	c.features.dword15	= cpu_to_le32(dev->nr_host_mem_descs);
+@@ -1845,7 +1844,7 @@ static void nvme_free_host_mem(struct nvme_dev *dev)
+ 
+ 	for (i = 0; i < dev->nr_host_mem_descs; i++) {
+ 		struct nvme_host_mem_buf_desc *desc = &dev->host_mem_descs[i];
+-		size_t size = le32_to_cpu(desc->size) * dev->ctrl.page_size;
++		size_t size = le32_to_cpu(desc->size) * NVME_CTRL_PAGE_SIZE;
+ 
+ 		dma_free_attrs(dev->dev, size, dev->host_mem_desc_bufs[i],
+ 			       le64_to_cpu(desc->addr),
+@@ -1897,7 +1896,7 @@ static int __nvme_alloc_host_mem(struct nvme_dev *dev, u64 preferred,
+ 			break;
+ 
+ 		descs[i].addr = cpu_to_le64(dma_addr);
+-		descs[i].size = cpu_to_le32(len / dev->ctrl.page_size);
++		descs[i].size = cpu_to_le32(len / NVME_CTRL_PAGE_SIZE);
+ 		i++;
+ 	}
+ 
+@@ -1913,7 +1912,7 @@ static int __nvme_alloc_host_mem(struct nvme_dev *dev, u64 preferred,
+ 
+ out_free_bufs:
+ 	while (--i >= 0) {
+-		size_t size = le32_to_cpu(descs[i].size) * dev->ctrl.page_size;
++		size_t size = le32_to_cpu(descs[i].size) * NVME_CTRL_PAGE_SIZE;
+ 
+ 		dma_free_attrs(dev->dev, size, bufs[i],
+ 			       le64_to_cpu(descs[i].addr),
 -- 
 2.26.0
 
