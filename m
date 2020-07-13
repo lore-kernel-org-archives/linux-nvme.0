@@ -2,73 +2,106 @@ Return-Path: <SRS0=Gozd=AY=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBB93C433E5
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jul 2020 11:12:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 252E2C433E0
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jul 2020 12:30:57 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BCB68206F0
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jul 2020 11:12:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id E718020738
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jul 2020 12:30:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Rh0UhDN6"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BCB68206F0
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="it36Zc/B"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E718020738
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
-	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:Date:Message-ID:From:
+	References:To:Subject:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=zBhK4l4yxyOnk5kfMoZBzaLBVCx56Px3bINtWg/zqlI=; b=Rh0UhDN6glPdnCoRyDC+kL7RA
-	0c9rLw7lwD4fE49aabVx3wF/SZdfojBz/3gYsteeKjCzXtkadrVs1zt5Lq3be+PohYII8wHS0ioof
-	tUAsxpz+4TWmaMtXwxQAxOjtInlBnQrlk6HcZ1qEQc3ZslcOTm6JZlSpe7uiznOJzMA9tBuVZ8UbI
-	xxGHTkuCgpCcUaEIgadj2Ein9tb2yAJWzU6xvHB60/+JIJYozJGTakTscHGm5EgZ+2QhP2jij8S4X
-	3/7FU/YHnLJCYwPVsEvHCVp3OwBrVm6weEgQQTOYX2Bn9bH9I0P7ad7WA4lSlCXM5Y2HBNuXilubR
-	nCzd8Pp+Q==;
+	 bh=tFINRL2WujTLfJxFoRz3r+WV2TFXo6tTKzSY0R9t/Qg=; b=it36Zc/Bo4ez8L2HfAY4ySCPh
+	OO3AELiZj1YrQuVOKhudL64+k1LxcBND5A5x5KhqbSZ2YJ+TnYgH9SKnFoG5IkNRnSRH2cAYcYbi1
+	QLxqiikco2T1wH8lqO+zeK2ZBbGbGqAIL6Nf0R0JwLMDXpPLPuCjJ1wKLYNM2UnJCaMBgzjJ11B7B
+	ASjgGS1/UeoXyhit28AAqAmiiukjmGgVVAk4GnJ2f9qEM/vEPZ4L845GNGxnozxls75tBygruvMx0
+	IYqm/vzZ+Kj8yW2kojeT0ajyFXu1tpKqyLTB0LiBxmtxNmxncUmweB+WQxJKShvDe3DEDtWFjhXHk
+	DbD0XGFow==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1juwO8-0007VU-Fi; Mon, 13 Jul 2020 11:12:48 +0000
-Received: from mail-oo1-f67.google.com ([209.85.161.67])
+	id 1juxbd-0008SO-CV; Mon, 13 Jul 2020 12:30:49 +0000
+Received: from mx2.suse.de ([195.135.220.15])
  by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1juwO5-0007U5-FD
- for linux-nvme@lists.infradead.org; Mon, 13 Jul 2020 11:12:46 +0000
-Received: by mail-oo1-f67.google.com with SMTP id c4so2266536oou.6
- for <linux-nvme@lists.infradead.org>; Mon, 13 Jul 2020 04:12:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Z4UpwgfORrj3oigw0RrvSnmt+2ICp2THbIeB0EXtjQs=;
- b=ZC7t7IJJo8sNRs4/u5G9TOURWt+JG1oOnKVbtqKZQjajYkGSWLzxD7tJiQCNbRilpb
- SUqs3XctTr6ukm6s85TqRk0UWpghC4v2PY74gL6iPfudH4AHz9rTBZcbV5tJzFSj0zFM
- 3Rs4z5fNqaG29rbryyMXEBfW+X+NNAoZsDDOA3KjeC+0dpKYBdI9OnxyZSShMbi1JLwd
- Myi68JFJkwOlUcsFf2Q8GUA97lk3zKKIGwwaPOdTZkww7F1nnKZU06wXUzpl+2Ih53Mg
- 7pZtgZp+RL7ALzzCnVrZFvmdE4vFJjn8slPtsi7mC4Wv52S3SVmF5+YEtodwAzbZKHxX
- Rgaw==
-X-Gm-Message-State: AOAM533CXj3PEsCTRFNX7UKThu2Cs6tbum7Y/cKktq8cGw9x+OAFttt0
- MsIh+VKGET36i01ZQegjbRDNWVxu9zla4Ji6DP4=
-X-Google-Smtp-Source: ABdhPJyYp3FcOLd+Hr8loSactjFLqisWoV+Mzkbr+S0itAT4vKkHKQiebuqigXUPu/zupCCVoHSY7aYZh1+0xYdK224=
-X-Received: by 2002:a4a:2459:: with SMTP id v25mr70607424oov.75.1594638762903; 
- Mon, 13 Jul 2020 04:12:42 -0700 (PDT)
+ id 1juxba-0008RY-9I
+ for linux-nvme@lists.infradead.org; Mon, 13 Jul 2020 12:30:47 +0000
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 3B302AC85;
+ Mon, 13 Jul 2020 12:30:46 +0000 (UTC)
+Subject: Re: [PATCH 1/2] nvme-tpc: don't use sendpage for pages not taking
+ reference counter
+To: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-bcache@vger.kernel.org, Christoph Hellwig <hch@lst.de>
+References: <20200710132610.11756-1-colyli@suse.de>
+From: Coly Li <colyli@suse.de>
+Autocrypt: addr=colyli@suse.de; keydata=
+ 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
+Message-ID: <35048818-d28d-a32c-0cb0-5bb3c147dee2@suse.de>
+Date: Mon, 13 Jul 2020 20:30:36 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200702225011.10932-1-david.e.box@linux.intel.com>
- <20200709184333.6241-1-david.e.box@linux.intel.com>
-In-Reply-To: <20200709184333.6241-1-david.e.box@linux.intel.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 13 Jul 2020 13:12:26 +0200
-Message-ID: <CAJZ5v0iJeyf+eMsDd37GdBdQq4e_JkJwcCm9VdQNgaxcf_RrEg@mail.gmail.com>
-Subject: Re: [PATCH V5] drivers/nvme: Add support for ACPI StorageD3Enable
- property
-To: "David E. Box" <david.e.box@linux.intel.com>
+In-Reply-To: <20200710132610.11756-1-colyli@suse.de>
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200713_071245_528163_304E40DC 
-X-CRM114-Status: GOOD (  39.88  )
+X-CRM114-CacheID: sfid-20200713_083046_545660_BADDA582 
+X-CRM114-Status: GOOD (  30.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,215 +113,87 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: shyjumon.n@intel.com, Sagi Grimberg <sagi@grimberg.me>,
- "Rafael J. Wysocki" <rjw@rjwysocki.net>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-nvme <linux-nvme@lists.infradead.org>, Jens Axboe <axboe@fb.com>,
- ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
- Keith Busch <kbusch@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
- Christoph Hellwig <hch@lst.de>, Len Brown <lenb@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
+ Philipp Reisner <philipp.reisner@linbit.com>, stable@vger.kernel.org,
+ Vlastimil Babka <vbabka@suse.com>, Hannes Reinecke <hare@suse.de>,
+ Jan Kara <jack@suse.com>, Mikhail Skorzhinskii <mskorzhinskiy@solarflare.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jul 9, 2020 at 8:43 PM David E. Box <david.e.box@linux.intel.com> wrote:
->
-> This patch implements a solution for a BIOS hack used on some currently
-> shipping Intel systems to change driver power management policy for PCIe
-> NVMe drives. Some newer Intel platforms, like some Comet Lake systems,
-> require that PCIe devices use D3 when doing suspend-to-idle in order to
-> allow the platform to realize maximum power savings. This is particularly
-> needed to support ATX power supply shutdown on desktop systems. In order to
-> ensure this happens for root ports with storage devices, Microsoft
-> apparently created this ACPI _DSD property as a way to influence their
-> driver policy. To my knowledge this property has not been discussed with
-> the NVME specification body.
->
-> Though the solution is not ideal, it addresses a problem that also affects
-> Linux since the NVMe driver's default policy of using NVMe APST during
-> suspend-to-idle prevents the PCI root port from going to D3 and leads to
-> higher power consumption for these platforms. The power consumption
-> difference may be negligible on laptop systems, but many watts on desktop
-> systems when the ATX power supply is blocked from powering down.
->
-> The patch creates a new nvme_acpi_storage_d3 function to check for the
-> StorageD3Enable property during probe and enables D3 as a quirk if set.  It
-> also provides a 'noacpi' module parameter to allow skipping the quirk if
-> needed.
->
-> Tested on:
-> PM961 NVMe SED Samsung 512GB
-> INTEL SSDPEKKF512G8
->
-> Link: https://docs.microsoft.com/en-us/windows-hardware/design/component-guidelines/power-management-for-storage-hardware-devices-intro
-> Signed-off-by: David E. Box <david.e.box@linux.intel.com>
+Hi Christoph,
+
+Could you please take a look at this patch ? I will post a v3 patch soon
+for your review.
+
+Thanks in advance.
+
+Coly Li
+
+On 2020/7/10 21:26, Coly Li wrote:
+> Currently nvme_tcp_try_send_data() doesn't use kernel_sendpage() to
+> send slab pages. But for pages allocated by __get_free_pages() without
+> __GFP_COMP, which also have refcount as 0, they are still sent by
+> kernel_sendpage() to remote end, this is problematic.
+> 
+> When bcache uses a remote NVMe SSD via nvme-over-tcp as its cache
+> device, writing meta data e.g. cache_set->disk_buckets to remote SSD may
+> trigger a kernel panic due to the above problem. Bcause the meta data
+> pages for cache_set->disk_buckets are allocated by __get_free_pages()
+> without __GFP_COMP.
+> 
+> This problem should be fixed both in upper layer driver (bcache) and
+> nvme-over-tcp code. This patch fixes the nvme-over-tcp code by checking
+> whether the page refcount is 0, if yes then don't use kernel_sendpage()
+> and call sock_no_sendpage() to send the page into network stack.
+> 
+> The code comments in this patch is copied and modified from drbd where
+> the similar problem already gets solved by Philipp Reisner. This is the
+> best code comment including my own version. 
+> 
+> Signed-off-by: Coly Li <colyli@suse.de>
+> Cc: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+> Cc: Christoph Hellwig <hch@lst.de>
+> Cc: Hannes Reinecke <hare@suse.de>
+> Cc: Jan Kara <jack@suse.com>
+> Cc: Jens Axboe <axboe@kernel.dk>
+> Cc: Mikhail Skorzhinskii <mskorzhinskiy@solarflare.com>
+> Cc: Philipp Reisner <philipp.reisner@linbit.com>
+> Cc: Sagi Grimberg <sagi@grimberg.me>
+> Cc: Vlastimil Babka <vbabka@suse.com>
+> Cc: stable@vger.kernel.org
 > ---
-> Changes from V4:
->         - Add support for North complex PCI root ports.
->         - Use acpi_bus_get_device instead of acpi_bus_get_acpi_device.
->           Also fixes compiler error on V4 reported by lkp@intel.com.
->         - Place CONFIG_ACPI around function since acpi_bus_get_device
->           is not stubbed out.
->
-> Changes from V3:
->         - Use pcie_find_root_port() instead of pci_find_pcie_root_port(),
->           changed in 5.8.
->         - Remove "Cc:" emails that ended up at top of V3 commit message.
->         - Fix changelog numbering.
->
-> Changes from V2:
->         - Remove check for "not yet bound" ACPI companion device since
->           this will not be a concern at driver probe time per Rafael.
->         - Move storage_d3 function out of PCI core and into NVMe driver
->           since there's nothing the PCI core can do with this code as
->           noted by Bjorn.
->
-> Changes from V1:
->         - Export the pci_acpi_storage_d3 function for use by drivers as
->           needed instead of modifying the pci header.
->         - Add missing put on acpi device handle.
->         - Add 'noacpi' module parameter to allow undoing this change.
->         - Add info message that this is a platform quirk.
->
->
->  drivers/acpi/property.c |  3 ++
->  drivers/nvme/host/pci.c | 64 +++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 67 insertions(+)
->
-> diff --git a/drivers/acpi/property.c b/drivers/acpi/property.c
-> index e601c4511a8b..c2e2ae774a19 100644
-> --- a/drivers/acpi/property.c
-> +++ b/drivers/acpi/property.c
-> @@ -45,6 +45,9 @@ static const guid_t prp_guids[] = {
->         /* Thunderbolt GUID for WAKE_SUPPORTED: 6c501103-c189-4296-ba72-9bf5a26ebe5d */
->         GUID_INIT(0x6c501103, 0xc189, 0x4296,
->                   0xba, 0x72, 0x9b, 0xf5, 0xa2, 0x6e, 0xbe, 0x5d),
-> +       /* Storage device needs D3 GUID: 5025030f-842f-4ab4-a561-99a5189762d0 */
-> +       GUID_INIT(0x5025030f, 0x842f, 0x4ab4,
-> +                 0xa5, 0x61, 0x99, 0xa5, 0x18, 0x97, 0x62, 0xd0),
->  };
->
->  /* ACPI _DSD data subnodes GUID: dbb8e3e6-5886-4ba6-8795-1319f52a966b */
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index b1d18f0633c7..7c0be363eb22 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -4,6 +4,7 @@
->   * Copyright (c) 2011-2014, Intel Corporation.
->   */
->
-> +#include <linux/acpi.h>
->  #include <linux/aer.h>
->  #include <linux/async.h>
->  #include <linux/blkdev.h>
-> @@ -94,6 +95,10 @@ static unsigned int poll_queues;
->  module_param_cb(poll_queues, &io_queue_count_ops, &poll_queues, 0644);
->  MODULE_PARM_DESC(poll_queues, "Number of queues to use for polled IO.");
->
-> +static bool noacpi;
-> +module_param(noacpi, bool, 0444);
-> +MODULE_PARM_DESC(noacpi, "disable acpi bios quirks");
-> +
->  struct nvme_dev;
->  struct nvme_queue;
->
-> @@ -2759,6 +2764,55 @@ static unsigned long check_vendor_combination_bug(struct pci_dev *pdev)
->         return 0;
->  }
->
-> +#ifdef CONFIG_ACPI
-> +static bool nvme_acpi_storage_d3(struct pci_dev *dev)
-> +{
-> +       const struct fwnode_handle *fwnode;
-> +       struct acpi_device *adev;
-> +       struct pci_dev *root;
-> +       acpi_handle handle;
-> +       acpi_status status;
-> +       u8 val;
-> +
-> +       /*
-> +        * Look for _DSD property specifying that the storage device on
-> +        * the port must use D3 to support deep platform power savings during
-> +        * suspend-to-idle
-> +        */
-> +       root = pcie_find_root_port(dev);
-> +       if (!root)
-> +               return false;
-> +
-> +       adev = ACPI_COMPANION(&root->dev);
-> +       if (!adev)
-> +               return false;
-> +
-> +       /*
-> +        * The property is defined in the PXSX device for South complex ports
-> +        * and in the PEGP device for North complex ports.
-> +        */
-> +       status = acpi_get_handle(adev->handle, "PXSX", &handle);
-> +       if (ACPI_FAILURE(status)) {
-> +               status = acpi_get_handle(adev->handle, "PEGP", &handle);
-> +               if (ACPI_FAILURE(status))
-> +                       return false;
-> +       }
-> +
-> +       if (acpi_bus_get_device(handle, &adev))
-> +               return false;
-> +
-> +       fwnode = acpi_fwnode_handle(adev);
-> +
-> +       return fwnode_property_read_u8(fwnode, "StorageD3Enable", &val) ?
-> +               false : val == 1;
+>  drivers/nvme/host/tcp.c | 13 +++++++++++--
+>  1 file changed, 11 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index 79ef2b8e2b3c..faa71db7522a 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -887,8 +887,17 @@ static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
+>  		else
+>  			flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
+>  
+> -		/* can't zcopy slab pages */
+> -		if (unlikely(PageSlab(page))) {
+> +		/*
+> +		 * e.g. XFS meta- & log-data is in slab pages, or bcache meta
+> +		 * data pages, or other high order pages allocated by
+> +		 * __get_free_pages() without __GFP_COMP, which have a page_count
+> +		 * of 0 and/or have PageSlab() set. We cannot use send_page for
+> +		 * those, as that does get_page(); put_page(); and would cause
+> +		 * either a VM_BUG directly, or __page_cache_release a page that
+> +		 * would actually still be referenced by someone, leading to some
+> +		 * obscure delayed Oops somewhere else.
+> +		 */
+> +		if (unlikely(PageSlab(page) || page_count(page) < 1)) {
+>  			ret = sock_no_sendpage(queue->sock, page, offset, len,
+>  					flags);
+>  		} else {
+> 
 
-I would write this as
-
-if (fwnode_property_read_u8(acpi_fwnode_handle(adev),
-                            "StorageD3Enable", &val))
-        return false;
-
-return val == 1;
-
-to eliminate the redundant fwnode variable and untangle the last
-checks somewhat.
-
-With that changed please feel free to add
-
-Reviewed-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-
-to the patch.
-
-Thanks!
-
-> +}
-> +#else
-> +static inline bool nvme_acpi_storage_d3(struct pci_dev *dev)
-> +{
-> +       return false;
-> +}
-> +#endif
-> +
->  static void nvme_async_probe(void *data, async_cookie_t cookie)
->  {
->         struct nvme_dev *dev = data;
-> @@ -2808,6 +2862,16 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->
->         quirks |= check_vendor_combination_bug(pdev);
->
-> +       if (!noacpi && nvme_acpi_storage_d3(pdev)) {
-> +               /*
-> +                * Some systems use a bios work around to ask for D3 on
-> +                * platforms that support kernel managed suspend.
-> +                */
-> +               dev_info(&pdev->dev,
-> +                        "platform quirk: setting simple suspend\n");
-> +               quirks |= NVME_QUIRK_SIMPLE_SUSPEND;
-> +       }
-> +
->         /*
->          * Double check that our mempool alloc size will cover the biggest
->          * command we support.
-> --
-> 2.20.1
->
 
 _______________________________________________
 Linux-nvme mailing list
