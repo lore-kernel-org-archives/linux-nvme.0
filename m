@@ -2,58 +2,60 @@ Return-Path: <SRS0=Gozd=AY=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6AA7C433E6
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jul 2020 07:43:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A94E1C433DF
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jul 2020 08:53:48 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 99A3120674
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jul 2020 07:43:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id 772B72068F
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jul 2020 08:53:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="wXOKpAfu"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 99A3120674
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="HzLUTZiL"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 772B72068F
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:In-Reply-To:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=/6f0tGc70y2zRQMPgNnFiOnGSUR2LV698mY+mJOe6yY=; b=wXOKpAfuDEumxXe9xVZEMCM2J
-	3DWOwi6Dc0DxHEcX4vnissdO/1Waqva36jRcKEhu4v/YnUrw0l78tkDU2ri/8LeBfdxpLr6BcB8aI
-	6aIKbuu1hgWDQlMV3pjRkRPUQg4VL4xwvPq3R5lM1k8Hi1D4OCNuhePKjhc0a1HajwFQJVbEG2+S1
-	k1nNTSJvbkhsZW+3pnX5q4ZRcUC2TKcarj9s5Bd7z2BFgNlcDIngjkGI0rSW+//uNnNdfsenjj+y4
-	VyCHYouf9MSmfMmTsAQI0rmWIPQwMEvyAgz3817ZBB1QWvGkYIkQ+adiUrm98sLZJDus/G6Kcl/uM
-	vTThxJAlw==;
+	List-Unsubscribe:List-Id:MIME-Version:Message-Id:Date:Subject:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=geVsvfvzFwzaM+G/ME7xoFfWHNFo3oeyOn9TOmMhuug=; b=HzLUTZiLW71JfBfDl6esjrNnvY
+	FOHm/43FLoDQ5rFgfA+ReZQsOmyA1rE5QfatfIIcc+w/ZJXK+uYahe/TPFWSQNy4Qnk/874+z7Z1g
+	L7bmtdGpOgj6FVMBP9lO0fBG8iUB1oQZucmh5vGTp7zW7TmPq7dYpehrTXaC7T6tqM5VN6nB6KeCi
+	SpKZSg6j7pEBPyyX6xZ28kzunVGFFxjGdY1KZUPh7aTqjvJTgHyt9ZOmnOzJyCY5pmxkCtrejtd7q
+	pBf2OCHWR6lv4x4GpTYMwn5CQxydpbYw+1K2uz+pDpMXFPoXdPnf+CN0UdLx+I0FqkNathx1rxu5Q
+	YNXOnyHQ==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jut76-0007bG-W2; Mon, 13 Jul 2020 07:43:01 +0000
-Received: from verein.lst.de ([213.95.11.211])
- by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jut73-0007Zz-0G
- for linux-nvme@lists.infradead.org; Mon, 13 Jul 2020 07:42:57 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 4DC5E68BEB; Mon, 13 Jul 2020 09:42:55 +0200 (CEST)
-Date: Mon, 13 Jul 2020 09:42:55 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Subject: Re: [PATCH V2 2/2] nvme-pci: use max of PRP or SGL for iod size
-Message-ID: <20200713074254.GC14676@lst.de>
-References: <20200709234025.10673-1-chaitanya.kulkarni@wdc.com>
- <20200709234025.10673-3-chaitanya.kulkarni@wdc.com>
+	id 1juuDX-0002BU-Tj; Mon, 13 Jul 2020 08:53:43 +0000
+Received: from mail-il-dmz.mellanox.com ([193.47.165.129] helo=mellanox.co.il)
+ by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1juuDT-0002AP-Nh
+ for linux-nvme@lists.infradead.org; Mon, 13 Jul 2020 08:53:40 +0000
+Received: from Internal Mail-Server by MTLPINE1 (envelope-from
+ maxg@mellanox.com) with SMTP; 13 Jul 2020 11:53:30 +0300
+Received: from mtr-vdi-031.wap.labs.mlnx. (mtr-vdi-031.wap.labs.mlnx
+ [10.209.102.136])
+ by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 06D8rUVu026435;
+ Mon, 13 Jul 2020 11:53:30 +0300
+From: Max Gurtovoy <maxg@mellanox.com>
+To: sagi@grimberg.me, hch@infradead.org, kbusch@kernel.org,
+ yaminf@mellanox.com, linux-nvme@lists.infradead.org
+Subject: [PATCH 0/2] NVMe/RDMA CQ pool patches for 5.9
+Date: Mon, 13 Jul 2020 11:53:28 +0300
+Message-Id: <20200713085330.133842-1-maxg@mellanox.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200709234025.10673-3-chaitanya.kulkarni@wdc.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200713_034257_227491_807D1179 
-X-CRM114-Status: GOOD (  19.81  )
+X-CRM114-CacheID: sfid-20200713_045340_095293_26BFCD58 
+X-CRM114-Status: UNSURE (   4.75  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,64 +67,29 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: kbusch@kernel.org, hch@lst.de, linux-nvme@lists.infradead.org,
- sagi@grimberg.me
+Cc: Max Gurtovoy <maxg@mellanox.com>, israelr@mellanox.com, jgg@mellanox.com,
+ oren@mellanox.com, idanb@mellanox.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jul 09, 2020 at 04:40:25PM -0700, Chaitanya Kulkarni wrote:
-> >From the initial implementation of NVMe SGL kernel support
-> commit a7a7cbe353a5 ("nvme-pci: add SGL support") with addition of the
-> commit 943e942e6266 ("nvme-pci: limit max IO size and segments to avoid
-> high order allocations") now there is only caller left for
-> nvme_pci_iod_alloc_size() which statically passes true for last
-> parameter that calculates allocation size based on SGL since we need
-> size of biggest command supported for mempool allocation.
-> 
-> This patch modifies the helper functions nvme_pci_iod_alloc_size() such
-> that it is now uses maximum of PRP and SGL size for iod allocation size
-> calculation.
-> 
-> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-> ---
->  drivers/nvme/host/pci.c | 13 ++++++-------
->  1 file changed, 6 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 68f7c090cf51..8b6792005360 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -363,14 +363,13 @@ static int nvme_pci_npages_sgl(unsigned int num_seg)
->  }
->  
->  static size_t nvme_pci_iod_alloc_size(struct nvme_dev *dev,
-> -		unsigned int size, unsigned int nseg, bool use_sgl)
-> +		unsigned int size, unsigned int nseg)
->  {
-> -	size_t alloc_size;
-> +	size_t npages_sgl = nvme_pci_npages_sgl(nseg);
-> +	size_t npages = nvme_npages(size, dev);
-> +	size_t alloc_size = sizeof(__le64 *);
->  
-> -	if (use_sgl)
-> -		alloc_size = sizeof(__le64 *) * nvme_pci_npages_sgl(nseg);
-> -	else
-> -		alloc_size = sizeof(__le64 *) * nvme_npages(size, dev);
-> +	alloc_size *= max_t(size_t, npages_sgl, npages);
->  
->  	return alloc_size + sizeof(struct scatterlist) * nseg;
->  }
-> @@ -2812,7 +2811,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->  	 * command we support.
->  	 */
->  	alloc_size = nvme_pci_iod_alloc_size(dev, NVME_MAX_KB_SZ,
-> -						NVME_MAX_SEGS, true);
-> +						NVME_MAX_SEGS);
+This series include 2 patches from Yamin that were removed from the
+merge window of 5.8 since it caused conflicts between RDMA and Block
+trees. It uses a shared CQ API that was merged to RDMA core layer to
+improve performance and reduce resource allocation.
 
-I think we can just remove the size and nseg arguments and hard code them
-in the function itself.
+Yamin Friedman (2):
+  nvme-rdma: use new shared CQ mechanism
+  nvmet-rdma: use new shared CQ mechanism
+
+ drivers/nvme/host/rdma.c   | 77 ++++++++++++++++++++++++++++++----------------
+ drivers/nvme/target/rdma.c | 14 ++++-----
+ 2 files changed, 58 insertions(+), 33 deletions(-)
+
+-- 
+1.8.3.1
+
 
 _______________________________________________
 Linux-nvme mailing list
