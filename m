@@ -2,62 +2,73 @@ Return-Path: <SRS0=Gozd=AY=lists.infradead.org=linux-nvme-bounces+linux-nvme=arc
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12E1DC433E5
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jul 2020 08:53:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBB93C433E5
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jul 2020 11:12:54 +0000 (UTC)
 Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D8C502068F
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jul 2020 08:53:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPS id BCB68206F0
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Jul 2020 11:12:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="K2e+Fcgq"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D8C502068F
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=mellanox.com
+	dkim=pass (2048-bit key) header.d=lists.infradead.org header.i=@lists.infradead.org header.b="Rh0UhDN6"
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BCB68206F0
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:Cc:List-Subscribe:List-Help:List-Post:List-Archive:
-	List-Unsubscribe:List-Id:MIME-Version:References:In-Reply-To:Message-Id:Date:
-	Subject:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	List-Unsubscribe:List-Id:To:Subject:Message-ID:Date:From:In-Reply-To:
+	References:MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	 bh=7rbkrhpKyu3HiRP1DM3k3SjCp1X7jYwUGRgyZMbWNGI=; b=K2e+Fcgq3Mba1Vuok6SSQxlT0
-	H0aQa4xWHmCdpVgwfD/9vwGS12bZqfXDtEuFwZ9+4Mc35tKOarKJVQlfu+tgkUj8EjvCg601QL09Y
-	bhg2NfVsTt1cI2lgumSpjsmuSy6K9doqabPqxlIAXZYeQ9kFB4Zsryp+6sRjtc4UfYLugTN2o59gV
-	K32/Cgd1z8J/0AUC2qbZngJoYcKzxrfwnBqxgq/JFQ8LmZrimsbhFlPBmdt7KZqcWb07M41OtGQXc
-	iCel5CM0bvHWBhQbDe8hCWCMBYztROkGF42ywTLciDdRpkZSiOS+cLkvS5sCrJ42xxQDX54Js00Ei
-	voWS+mU0g==;
+	 bh=zBhK4l4yxyOnk5kfMoZBzaLBVCx56Px3bINtWg/zqlI=; b=Rh0UhDN6glPdnCoRyDC+kL7RA
+	0c9rLw7lwD4fE49aabVx3wF/SZdfojBz/3gYsteeKjCzXtkadrVs1zt5Lq3be+PohYII8wHS0ioof
+	tUAsxpz+4TWmaMtXwxQAxOjtInlBnQrlk6HcZ1qEQc3ZslcOTm6JZlSpe7uiznOJzMA9tBuVZ8UbI
+	xxGHTkuCgpCcUaEIgadj2Ein9tb2yAJWzU6xvHB60/+JIJYozJGTakTscHGm5EgZ+2QhP2jij8S4X
+	3/7FU/YHnLJCYwPVsEvHCVp3OwBrVm6weEgQQTOYX2Bn9bH9I0P7ad7WA4lSlCXM5Y2HBNuXilubR
+	nCzd8Pp+Q==;
 Received: from localhost ([::1] helo=merlin.infradead.org)
 	by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1juuDW-0002BE-EU; Mon, 13 Jul 2020 08:53:42 +0000
-Received: from mail-il-dmz.mellanox.com ([193.47.165.129] helo=mellanox.co.il)
- by merlin.infradead.org with esmtp (Exim 4.92.3 #3 (Red Hat Linux))
- id 1juuDQ-000293-QP
- for linux-nvme@lists.infradead.org; Mon, 13 Jul 2020 08:53:38 +0000
-Received: from Internal Mail-Server by MTLPINE1 (envelope-from
- maxg@mellanox.com) with SMTP; 13 Jul 2020 11:53:30 +0300
-Received: from mtr-vdi-031.wap.labs.mlnx. (mtr-vdi-031.wap.labs.mlnx
- [10.209.102.136])
- by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 06D8rUVv026435;
- Mon, 13 Jul 2020 11:53:30 +0300
-From: Max Gurtovoy <maxg@mellanox.com>
-To: sagi@grimberg.me, hch@infradead.org, kbusch@kernel.org,
- yaminf@mellanox.com, linux-nvme@lists.infradead.org
-Subject: [PATCH 1/2] nvme-rdma: use new shared CQ mechanism
-Date: Mon, 13 Jul 2020 11:53:29 +0300
-Message-Id: <20200713085330.133842-2-maxg@mellanox.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20200713085330.133842-1-maxg@mellanox.com>
-References: <20200713085330.133842-1-maxg@mellanox.com>
+	id 1juwO8-0007VU-Fi; Mon, 13 Jul 2020 11:12:48 +0000
+Received: from mail-oo1-f67.google.com ([209.85.161.67])
+ by merlin.infradead.org with esmtps (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1juwO5-0007U5-FD
+ for linux-nvme@lists.infradead.org; Mon, 13 Jul 2020 11:12:46 +0000
+Received: by mail-oo1-f67.google.com with SMTP id c4so2266536oou.6
+ for <linux-nvme@lists.infradead.org>; Mon, 13 Jul 2020 04:12:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Z4UpwgfORrj3oigw0RrvSnmt+2ICp2THbIeB0EXtjQs=;
+ b=ZC7t7IJJo8sNRs4/u5G9TOURWt+JG1oOnKVbtqKZQjajYkGSWLzxD7tJiQCNbRilpb
+ SUqs3XctTr6ukm6s85TqRk0UWpghC4v2PY74gL6iPfudH4AHz9rTBZcbV5tJzFSj0zFM
+ 3Rs4z5fNqaG29rbryyMXEBfW+X+NNAoZsDDOA3KjeC+0dpKYBdI9OnxyZSShMbi1JLwd
+ Myi68JFJkwOlUcsFf2Q8GUA97lk3zKKIGwwaPOdTZkww7F1nnKZU06wXUzpl+2Ih53Mg
+ 7pZtgZp+RL7ALzzCnVrZFvmdE4vFJjn8slPtsi7mC4Wv52S3SVmF5+YEtodwAzbZKHxX
+ Rgaw==
+X-Gm-Message-State: AOAM533CXj3PEsCTRFNX7UKThu2Cs6tbum7Y/cKktq8cGw9x+OAFttt0
+ MsIh+VKGET36i01ZQegjbRDNWVxu9zla4Ji6DP4=
+X-Google-Smtp-Source: ABdhPJyYp3FcOLd+Hr8loSactjFLqisWoV+Mzkbr+S0itAT4vKkHKQiebuqigXUPu/zupCCVoHSY7aYZh1+0xYdK224=
+X-Received: by 2002:a4a:2459:: with SMTP id v25mr70607424oov.75.1594638762903; 
+ Mon, 13 Jul 2020 04:12:42 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200702225011.10932-1-david.e.box@linux.intel.com>
+ <20200709184333.6241-1-david.e.box@linux.intel.com>
+In-Reply-To: <20200709184333.6241-1-david.e.box@linux.intel.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Mon, 13 Jul 2020 13:12:26 +0200
+Message-ID: <CAJZ5v0iJeyf+eMsDd37GdBdQq4e_JkJwcCm9VdQNgaxcf_RrEg@mail.gmail.com>
+Subject: Re: [PATCH V5] drivers/nvme: Add support for ACPI StorageD3Enable
+ property
+To: "David E. Box" <david.e.box@linux.intel.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20200713_045337_189015_7EFDDBC4 
-X-CRM114-Status: GOOD (  16.68  )
+X-CRM114-CacheID: sfid-20200713_071245_528163_304E40DC 
+X-CRM114-Status: GOOD (  39.88  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,198 +80,215 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Cc: israelr@mellanox.com, idanb@mellanox.com, jgg@mellanox.com,
- oren@mellanox.com, Max Gurtovoy <maxg@mellanox.com>,
- Or Gerlitz <ogerlitz@mellanox.com>
+Cc: shyjumon.n@intel.com, Sagi Grimberg <sagi@grimberg.me>,
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-nvme <linux-nvme@lists.infradead.org>, Jens Axboe <axboe@fb.com>,
+ ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+ Keith Busch <kbusch@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
+ Christoph Hellwig <hch@lst.de>, Len Brown <lenb@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Yamin Friedman <yaminf@mellanox.com>
+On Thu, Jul 9, 2020 at 8:43 PM David E. Box <david.e.box@linux.intel.com> wrote:
+>
+> This patch implements a solution for a BIOS hack used on some currently
+> shipping Intel systems to change driver power management policy for PCIe
+> NVMe drives. Some newer Intel platforms, like some Comet Lake systems,
+> require that PCIe devices use D3 when doing suspend-to-idle in order to
+> allow the platform to realize maximum power savings. This is particularly
+> needed to support ATX power supply shutdown on desktop systems. In order to
+> ensure this happens for root ports with storage devices, Microsoft
+> apparently created this ACPI _DSD property as a way to influence their
+> driver policy. To my knowledge this property has not been discussed with
+> the NVME specification body.
+>
+> Though the solution is not ideal, it addresses a problem that also affects
+> Linux since the NVMe driver's default policy of using NVMe APST during
+> suspend-to-idle prevents the PCI root port from going to D3 and leads to
+> higher power consumption for these platforms. The power consumption
+> difference may be negligible on laptop systems, but many watts on desktop
+> systems when the ATX power supply is blocked from powering down.
+>
+> The patch creates a new nvme_acpi_storage_d3 function to check for the
+> StorageD3Enable property during probe and enables D3 as a quirk if set.  It
+> also provides a 'noacpi' module parameter to allow skipping the quirk if
+> needed.
+>
+> Tested on:
+> PM961 NVMe SED Samsung 512GB
+> INTEL SSDPEKKF512G8
+>
+> Link: https://docs.microsoft.com/en-us/windows-hardware/design/component-guidelines/power-management-for-storage-hardware-devices-intro
+> Signed-off-by: David E. Box <david.e.box@linux.intel.com>
+> ---
+> Changes from V4:
+>         - Add support for North complex PCI root ports.
+>         - Use acpi_bus_get_device instead of acpi_bus_get_acpi_device.
+>           Also fixes compiler error on V4 reported by lkp@intel.com.
+>         - Place CONFIG_ACPI around function since acpi_bus_get_device
+>           is not stubbed out.
+>
+> Changes from V3:
+>         - Use pcie_find_root_port() instead of pci_find_pcie_root_port(),
+>           changed in 5.8.
+>         - Remove "Cc:" emails that ended up at top of V3 commit message.
+>         - Fix changelog numbering.
+>
+> Changes from V2:
+>         - Remove check for "not yet bound" ACPI companion device since
+>           this will not be a concern at driver probe time per Rafael.
+>         - Move storage_d3 function out of PCI core and into NVMe driver
+>           since there's nothing the PCI core can do with this code as
+>           noted by Bjorn.
+>
+> Changes from V1:
+>         - Export the pci_acpi_storage_d3 function for use by drivers as
+>           needed instead of modifying the pci header.
+>         - Add missing put on acpi device handle.
+>         - Add 'noacpi' module parameter to allow undoing this change.
+>         - Add info message that this is a platform quirk.
+>
+>
+>  drivers/acpi/property.c |  3 ++
+>  drivers/nvme/host/pci.c | 64 +++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 67 insertions(+)
+>
+> diff --git a/drivers/acpi/property.c b/drivers/acpi/property.c
+> index e601c4511a8b..c2e2ae774a19 100644
+> --- a/drivers/acpi/property.c
+> +++ b/drivers/acpi/property.c
+> @@ -45,6 +45,9 @@ static const guid_t prp_guids[] = {
+>         /* Thunderbolt GUID for WAKE_SUPPORTED: 6c501103-c189-4296-ba72-9bf5a26ebe5d */
+>         GUID_INIT(0x6c501103, 0xc189, 0x4296,
+>                   0xba, 0x72, 0x9b, 0xf5, 0xa2, 0x6e, 0xbe, 0x5d),
+> +       /* Storage device needs D3 GUID: 5025030f-842f-4ab4-a561-99a5189762d0 */
+> +       GUID_INIT(0x5025030f, 0x842f, 0x4ab4,
+> +                 0xa5, 0x61, 0x99, 0xa5, 0x18, 0x97, 0x62, 0xd0),
+>  };
+>
+>  /* ACPI _DSD data subnodes GUID: dbb8e3e6-5886-4ba6-8795-1319f52a966b */
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index b1d18f0633c7..7c0be363eb22 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -4,6 +4,7 @@
+>   * Copyright (c) 2011-2014, Intel Corporation.
+>   */
+>
+> +#include <linux/acpi.h>
+>  #include <linux/aer.h>
+>  #include <linux/async.h>
+>  #include <linux/blkdev.h>
+> @@ -94,6 +95,10 @@ static unsigned int poll_queues;
+>  module_param_cb(poll_queues, &io_queue_count_ops, &poll_queues, 0644);
+>  MODULE_PARM_DESC(poll_queues, "Number of queues to use for polled IO.");
+>
+> +static bool noacpi;
+> +module_param(noacpi, bool, 0444);
+> +MODULE_PARM_DESC(noacpi, "disable acpi bios quirks");
+> +
+>  struct nvme_dev;
+>  struct nvme_queue;
+>
+> @@ -2759,6 +2764,55 @@ static unsigned long check_vendor_combination_bug(struct pci_dev *pdev)
+>         return 0;
+>  }
+>
+> +#ifdef CONFIG_ACPI
+> +static bool nvme_acpi_storage_d3(struct pci_dev *dev)
+> +{
+> +       const struct fwnode_handle *fwnode;
+> +       struct acpi_device *adev;
+> +       struct pci_dev *root;
+> +       acpi_handle handle;
+> +       acpi_status status;
+> +       u8 val;
+> +
+> +       /*
+> +        * Look for _DSD property specifying that the storage device on
+> +        * the port must use D3 to support deep platform power savings during
+> +        * suspend-to-idle
+> +        */
+> +       root = pcie_find_root_port(dev);
+> +       if (!root)
+> +               return false;
+> +
+> +       adev = ACPI_COMPANION(&root->dev);
+> +       if (!adev)
+> +               return false;
+> +
+> +       /*
+> +        * The property is defined in the PXSX device for South complex ports
+> +        * and in the PEGP device for North complex ports.
+> +        */
+> +       status = acpi_get_handle(adev->handle, "PXSX", &handle);
+> +       if (ACPI_FAILURE(status)) {
+> +               status = acpi_get_handle(adev->handle, "PEGP", &handle);
+> +               if (ACPI_FAILURE(status))
+> +                       return false;
+> +       }
+> +
+> +       if (acpi_bus_get_device(handle, &adev))
+> +               return false;
+> +
+> +       fwnode = acpi_fwnode_handle(adev);
+> +
+> +       return fwnode_property_read_u8(fwnode, "StorageD3Enable", &val) ?
+> +               false : val == 1;
 
-Has the driver use shared CQs providing ~10%-20% improvement as seen in
-the patch introducing shared CQs. Instead of opening a CQ for each QP
-per controller connected, a CQ for each QP will be provided by the RDMA
-core driver that will be shared between the QPs on that core reducing
-interrupt overhead.
+I would write this as
 
-Signed-off-by: Yamin Friedman <yaminf@mellanox.com>
-Signed-off-by: Max Gurtovoy <maxg@mellanox.com>
-Reviewed-by: Or Gerlitz <ogerlitz@mellanox.com>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
----
- drivers/nvme/host/rdma.c | 77 ++++++++++++++++++++++++++++++++----------------
- 1 file changed, 51 insertions(+), 26 deletions(-)
+if (fwnode_property_read_u8(acpi_fwnode_handle(adev),
+                            "StorageD3Enable", &val))
+        return false;
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index e881f87..467da08 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -96,6 +96,7 @@ struct nvme_rdma_queue {
- 	int			cm_error;
- 	struct completion	cm_done;
- 	bool			pi_support;
-+	int			cq_size;
- };
- 
- struct nvme_rdma_ctrl {
-@@ -275,6 +276,7 @@ static int nvme_rdma_create_qp(struct nvme_rdma_queue *queue, const int factor)
- 	init_attr.recv_cq = queue->ib_cq;
- 	if (queue->pi_support)
- 		init_attr.create_flags |= IB_QP_CREATE_INTEGRITY_EN;
-+	init_attr.qp_context = queue;
- 
- 	ret = rdma_create_qp(queue->cm_id, dev->pd, &init_attr);
- 
-@@ -409,6 +411,14 @@ static int nvme_rdma_dev_get(struct nvme_rdma_device *dev)
- 	return NULL;
- }
- 
-+static void nvme_rdma_free_cq(struct nvme_rdma_queue *queue)
-+{
-+	if (nvme_rdma_poll_queue(queue))
-+		ib_free_cq(queue->ib_cq);
-+	else
-+		ib_cq_pool_put(queue->ib_cq, queue->cq_size);
-+}
-+
- static void nvme_rdma_destroy_queue_ib(struct nvme_rdma_queue *queue)
- {
- 	struct nvme_rdma_device *dev;
-@@ -430,7 +440,7 @@ static void nvme_rdma_destroy_queue_ib(struct nvme_rdma_queue *queue)
- 	 * the destruction of the QP shouldn't use rdma_cm API.
- 	 */
- 	ib_destroy_qp(queue->qp);
--	ib_free_cq(queue->ib_cq);
-+	nvme_rdma_free_cq(queue);
- 
- 	nvme_rdma_free_ring(ibdev, queue->rsp_ring, queue->queue_size,
- 			sizeof(struct nvme_completion), DMA_FROM_DEVICE);
-@@ -450,13 +460,42 @@ static int nvme_rdma_get_max_fr_pages(struct ib_device *ibdev, bool pi_support)
- 	return min_t(u32, NVME_RDMA_MAX_SEGMENTS, max_page_list_len - 1);
- }
- 
-+static int nvme_rdma_create_cq(struct ib_device *ibdev,
-+		struct nvme_rdma_queue *queue)
-+{
-+	int ret, comp_vector, idx = nvme_rdma_queue_idx(queue);
-+	enum ib_poll_context poll_ctx;
-+
-+	/*
-+	 * Spread I/O queues completion vectors according their queue index.
-+	 * Admin queues can always go on completion vector 0.
-+	 */
-+	comp_vector = (idx == 0 ? idx : idx - 1) % ibdev->num_comp_vectors;
-+
-+	/* Polling queues need direct cq polling context */
-+	if (nvme_rdma_poll_queue(queue)) {
-+		poll_ctx = IB_POLL_DIRECT;
-+		queue->ib_cq = ib_alloc_cq(ibdev, queue, queue->cq_size,
-+					   comp_vector, poll_ctx);
-+	} else {
-+		poll_ctx = IB_POLL_SOFTIRQ;
-+		queue->ib_cq = ib_cq_pool_get(ibdev, queue->cq_size,
-+					      comp_vector, poll_ctx);
-+	}
-+
-+	if (IS_ERR(queue->ib_cq)) {
-+		ret = PTR_ERR(queue->ib_cq);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
- static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue)
- {
- 	struct ib_device *ibdev;
- 	const int send_wr_factor = 3;			/* MR, SEND, INV */
- 	const int cq_factor = send_wr_factor + 1;	/* + RECV */
--	int comp_vector, idx = nvme_rdma_queue_idx(queue);
--	enum ib_poll_context poll_ctx;
- 	int ret, pages_per_mr;
- 
- 	queue->device = nvme_rdma_find_get_device(queue->cm_id);
-@@ -467,26 +506,12 @@ static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue)
- 	}
- 	ibdev = queue->device->dev;
- 
--	/*
--	 * Spread I/O queues completion vectors according their queue index.
--	 * Admin queues can always go on completion vector 0.
--	 */
--	comp_vector = (idx == 0 ? idx : idx - 1) % ibdev->num_comp_vectors;
--
--	/* Polling queues need direct cq polling context */
--	if (nvme_rdma_poll_queue(queue))
--		poll_ctx = IB_POLL_DIRECT;
--	else
--		poll_ctx = IB_POLL_SOFTIRQ;
--
- 	/* +1 for ib_stop_cq */
--	queue->ib_cq = ib_alloc_cq(ibdev, queue,
--				cq_factor * queue->queue_size + 1,
--				comp_vector, poll_ctx);
--	if (IS_ERR(queue->ib_cq)) {
--		ret = PTR_ERR(queue->ib_cq);
-+	queue->cq_size = cq_factor * queue->queue_size + 1;
-+
-+	ret = nvme_rdma_create_cq(ibdev, queue);
-+	if (ret)
- 		goto out_put_dev;
--	}
- 
- 	ret = nvme_rdma_create_qp(queue, send_wr_factor);
- 	if (ret)
-@@ -512,7 +537,7 @@ static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue)
- 	if (ret) {
- 		dev_err(queue->ctrl->ctrl.device,
- 			"failed to initialize MR pool sized %d for QID %d\n",
--			queue->queue_size, idx);
-+			queue->queue_size, nvme_rdma_queue_idx(queue));
- 		goto out_destroy_ring;
- 	}
- 
-@@ -523,7 +548,7 @@ static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue)
- 		if (ret) {
- 			dev_err(queue->ctrl->ctrl.device,
- 				"failed to initialize PI MR pool sized %d for QID %d\n",
--				queue->queue_size, idx);
-+				queue->queue_size, nvme_rdma_queue_idx(queue));
- 			goto out_destroy_mr_pool;
- 		}
- 	}
-@@ -540,7 +565,7 @@ static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue)
- out_destroy_qp:
- 	rdma_destroy_qp(queue->cm_id);
- out_destroy_ib_cq:
--	ib_free_cq(queue->ib_cq);
-+	nvme_rdma_free_cq(queue);
- out_put_dev:
- 	nvme_rdma_dev_put(queue->device);
- 	return ret;
-@@ -1163,7 +1188,7 @@ static void nvme_rdma_end_request(struct nvme_rdma_request *req)
- static void nvme_rdma_wr_error(struct ib_cq *cq, struct ib_wc *wc,
- 		const char *op)
- {
--	struct nvme_rdma_queue *queue = cq->cq_context;
-+	struct nvme_rdma_queue *queue = wc->qp->qp_context;
- 	struct nvme_rdma_ctrl *ctrl = queue->ctrl;
- 
- 	if (ctrl->ctrl.state == NVME_CTRL_LIVE)
-@@ -1706,7 +1731,7 @@ static void nvme_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc)
- {
- 	struct nvme_rdma_qe *qe =
- 		container_of(wc->wr_cqe, struct nvme_rdma_qe, cqe);
--	struct nvme_rdma_queue *queue = cq->cq_context;
-+	struct nvme_rdma_queue *queue = wc->qp->qp_context;
- 	struct ib_device *ibdev = queue->device->dev;
- 	struct nvme_completion *cqe = qe->data;
- 	const size_t len = sizeof(struct nvme_completion);
--- 
-1.8.3.1
+return val == 1;
 
+to eliminate the redundant fwnode variable and untangle the last
+checks somewhat.
+
+With that changed please feel free to add
+
+Reviewed-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+
+to the patch.
+
+Thanks!
+
+> +}
+> +#else
+> +static inline bool nvme_acpi_storage_d3(struct pci_dev *dev)
+> +{
+> +       return false;
+> +}
+> +#endif
+> +
+>  static void nvme_async_probe(void *data, async_cookie_t cookie)
+>  {
+>         struct nvme_dev *dev = data;
+> @@ -2808,6 +2862,16 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>
+>         quirks |= check_vendor_combination_bug(pdev);
+>
+> +       if (!noacpi && nvme_acpi_storage_d3(pdev)) {
+> +               /*
+> +                * Some systems use a bios work around to ask for D3 on
+> +                * platforms that support kernel managed suspend.
+> +                */
+> +               dev_info(&pdev->dev,
+> +                        "platform quirk: setting simple suspend\n");
+> +               quirks |= NVME_QUIRK_SIMPLE_SUSPEND;
+> +       }
+> +
+>         /*
+>          * Double check that our mempool alloc size will cover the biggest
+>          * command we support.
+> --
+> 2.20.1
+>
 
 _______________________________________________
 Linux-nvme mailing list
